@@ -1,0 +1,24 @@
+/*
+See LICENSE file in root folder
+*/
+#ifndef ___AST_ExprModuloAssign_H___
+#define ___AST_ExprModuloAssign_H___
+#pragma once
+
+#include "ExprAssign.hpp"
+
+namespace ast
+{
+	class ExprModuloAssign
+		: public ExprAssign
+	{
+	public:
+		ExprModuloAssign( Type type
+			, ExprPtr lhs
+			, ExprPtr rhs );
+
+		void accept( ExprVisitorPtr vis )override;
+	};
+}
+
+#endif

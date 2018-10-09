@@ -1,0 +1,44 @@
+/*
+See LICENSE file in root folder
+*/
+#ifndef ___AST_Stmt_H___
+#define ___AST_Stmt_H___
+#pragma once
+
+#include "ASTGenerator/ASTGeneratorPrerequisites.hpp"
+
+namespace ast
+{
+	class Stmt
+	{
+	public:
+		enum class Kind
+			: uint8_t
+		{
+			eSimple,
+			eCompound,
+			eVariableDecl,
+			eFunctionDecl,
+			eStructureDecl,
+			eIf,
+			eElse,
+			eWhile,
+			eFor,
+			eDoWhile,
+		};
+
+	public:
+		Stmt( Kind kind );
+		virtual ~Stmt();
+
+		inline Kind getKind()const
+		{
+			return m_kind;
+		}
+
+	private:
+		Kind m_kind;
+	};
+}
+
+#endif
