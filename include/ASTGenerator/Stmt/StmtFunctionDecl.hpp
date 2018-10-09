@@ -1,8 +1,8 @@
 /*
 See LICENSE file in root folder
 */
-#ifndef ___AST_StmtElse_H___
-#define ___AST_StmtElse_H___
+#ifndef ___AST_StmtFunctionDecl_H___
+#define ___AST_StmtFunctionDecl_H___
 #pragma once
 
 #include "StmtCompound.hpp"
@@ -17,6 +17,8 @@ namespace ast
 		StmtFunctionDecl( Type retType
 			, std::string name
 			, VariableList parameters );
+
+		void accept( StmtVisitorPtr vis )override;
 
 		inline Type getRetType()const
 		{

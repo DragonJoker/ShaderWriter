@@ -9,7 +9,7 @@ namespace ast
 {
 	ExprFnCall::ExprFnCall( Type type
 		, ExprIdentifierPtr fn
-		, ExprList argList )
+		, ExprList && argList )
 		: Expr{ type, Kind::eFnCall }
 		, m_fn{ std::move( fn ) }
 		, m_argList{ std::move( argList ) }

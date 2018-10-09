@@ -13,8 +13,7 @@ namespace ast
 		: public ExprUnary
 	{
 	public:
-		ExprUnaryMinus( Type type
-			, ExprPtr operand );
+		ExprUnaryMinus( ExprPtr operand );
 
 		void accept( ExprVisitorPtr vis )override;
 	};

@@ -17,6 +17,8 @@ namespace ast
 	public:
 		StmtDoWhile( ExprPtr ctrlExpr );
 
+		void accept( StmtVisitorPtr vis )override;
+
 		inline Expr const & getCtrlExpr()const
 		{
 			return *m_ctrlExpr.get();

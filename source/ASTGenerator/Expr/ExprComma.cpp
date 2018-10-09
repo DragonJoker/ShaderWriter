@@ -7,10 +7,9 @@ See LICENSE file in root folder
 
 namespace ast
 {
-	ExprComma::ExprComma( Type type
-		, ExprPtr lhs
+	ExprComma::ExprComma( ExprPtr lhs
 		, ExprPtr rhs )
-		: ExprBinary{ type
+		: ExprBinary{ rhs->getType()
 			, std::move( lhs )
 			, std::move( rhs )
 			, Expr::Kind::eComma }

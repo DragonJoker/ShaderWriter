@@ -3,6 +3,8 @@ See LICENSE file in root folder
 */
 #include "ASTGenerator/Stmt/StmtFor.hpp"
 
+#include "ASTGenerator/Stmt/StmtVisitor.hpp"
+
 namespace ast
 {
 	StmtFor::StmtFor( ExprPtr initExpr
@@ -13,5 +15,10 @@ namespace ast
 		, m_ctrlExpr{ std::move( ctrlExpr ) }
 		, m_incrExpr{ std::move( incrExpr ) }
 	{
+	}
+
+	void StmtFor::accept( StmtVisitorPtr vis )
+	{
+		vis->visitForStmt( this );
 	}
 }

@@ -7,28 +7,29 @@ See LICENSE file in root folder
 
 #include <cassert>
 #include <cstdint>
-#include <map>
 #include <memory>
-#include <sstream>
 #include <string>
 #include <vector>
 
 namespace ast
 {
 	class Expr;
-	class ExprVisitor;
 	class Stmt;
 	class Variable;
+	class ExprVisitor;
+	class StmtVisitor;
 
-	using ExprVisitorPtr = ExprVisitor *;
 	using ExprPtr = std::unique_ptr< Expr >;
 	using StmtPtr = std::unique_ptr< Stmt >;
 	using VariablePtr = std::shared_ptr< Variable >;
+	using ExprVisitorPtr = ExprVisitor *;
+	using StmtVisitorPtr = StmtVisitor *;
 
 	enum class Type
 		: uint8_t
 	{
 		eUndefined,
+		eFunction,
 		eBoolean,
 		eInt,
 		eUInt,

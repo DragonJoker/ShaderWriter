@@ -31,6 +31,8 @@ namespace ast
 		Stmt( Kind kind );
 		virtual ~Stmt();
 
+		virtual void accept( StmtVisitorPtr ) = 0;
+
 		inline Kind getKind()const
 		{
 			return m_kind;

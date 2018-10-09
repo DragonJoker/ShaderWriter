@@ -20,6 +20,21 @@ namespace ast
 
 		void accept( ExprVisitorPtr vis )override;
 
+		inline Expr const & getCtrlExpr()const
+		{
+			return *m_ctrlExpr;
+		}
+
+		inline Expr const & getTrueExpr()const
+		{
+			return *m_trueExpr;
+		}
+
+		inline Expr const & getFalseExpr()const
+		{
+			return *m_falseExpr;
+		}
+
 	private:
 		ExprPtr m_ctrlExpr;
 		ExprPtr m_trueExpr;

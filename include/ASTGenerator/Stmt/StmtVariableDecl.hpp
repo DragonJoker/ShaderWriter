@@ -15,6 +15,8 @@ namespace ast
 	public:
 		StmtVariableDecl( VariablePtr variable );
 
+		void accept( StmtVisitorPtr vis )override;
+
 		inline Variable const & getVariable()const
 		{
 			return *m_variable;

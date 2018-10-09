@@ -19,6 +19,8 @@ namespace ast
 			, ExprPtr ctrlExpr
 			, ExprPtr incrExpr );
 
+		void accept( StmtVisitorPtr vis )override;
+
 		inline Expr const & getInitExpr()const
 		{
 			return *m_initExpr.get();

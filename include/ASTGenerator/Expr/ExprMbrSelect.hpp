@@ -19,6 +19,11 @@ namespace ast
 
 		void accept( ExprVisitorPtr vis )override;
 
+		inline Variable const & getOuterVar()const
+		{
+			return *m_variable;
+		}
+
 	private:
 		VariablePtr m_variable;
 	};

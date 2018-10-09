@@ -16,7 +16,7 @@ namespace ast
 	public:
 		ExprFnCall( Type type
 			, ExprIdentifierPtr fn
-			, ExprList argList );
+			, ExprList && argList );
 
 		void accept( ExprVisitorPtr vis )override;
 

@@ -17,6 +17,11 @@ namespace ast
 
 		void accept( ExprVisitorPtr vis )override;
 
+		inline Expr const & getValue()const
+		{
+			return *m_value;
+		}
+
 	private:
 		ExprPtr m_value;
 	};

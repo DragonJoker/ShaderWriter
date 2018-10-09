@@ -7,9 +7,8 @@ See LICENSE file in root folder
 
 namespace ast
 {
-	ExprUnaryMinus::ExprUnaryMinus( Type type
-		, ExprPtr operand )
-		: ExprUnary{ type, std::move( operand ), Kind::eUnaryMinus }
+	ExprUnaryMinus::ExprUnaryMinus( ExprPtr operand )
+		: ExprUnary{ operand->getType(), std::move( operand ), Kind::eUnaryMinus }
 	{
 	}
 

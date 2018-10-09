@@ -17,6 +17,8 @@ namespace ast
 		StmtStructureDecl( std::string const & name );
 		void add( StmtVariableDeclPtr decl );
 
+		void accept( StmtVisitorPtr vis )override;
+
 		inline std::string const & getName()const
 		{
 			return m_name;

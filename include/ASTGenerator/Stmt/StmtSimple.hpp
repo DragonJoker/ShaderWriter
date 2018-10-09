@@ -17,6 +17,8 @@ namespace ast
 	public:
 		StmtSimple( ExprPtr expr );
 
+		void accept( StmtVisitorPtr vis )override;
+
 		inline Expr const & getExpr()const
 		{
 			return *m_expr;

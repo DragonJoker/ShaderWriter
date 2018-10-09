@@ -17,6 +17,11 @@ namespace ast
 
 		void accept( ExprVisitorPtr vis )override;
 
+		inline ExprLiteral const & getLabel()const
+		{
+			return *m_label;
+		}
+
 	private:
 		ExprLiteralPtr m_label;
 	};

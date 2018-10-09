@@ -15,6 +15,8 @@ namespace ast
 	public:
 		StmtElse( StmtIf const & ifStmt );
 
+		void accept( StmtVisitorPtr vis )override;
+
 		inline StmtIf const & getIfStmt()const
 		{
 			return m_ifStmt;

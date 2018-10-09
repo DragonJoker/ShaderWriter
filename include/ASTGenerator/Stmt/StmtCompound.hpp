@@ -16,6 +16,8 @@ namespace ast
 		StmtCompound( Stmt::Kind kind = Stmt::Kind::eCompound );
 		void addStmt( StmtPtr stmt );
 
+		void accept( StmtVisitorPtr vis )override;
+
 		inline StmtList const & getStatements()const
 		{
 			return m_statements;

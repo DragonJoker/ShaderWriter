@@ -13,8 +13,7 @@ namespace ast
 		: public ExprBinary
 	{
 	public:
-		ExprComma( Type type
-			, ExprPtr lhs
+		ExprComma( ExprPtr lhs
 			, ExprPtr rhs );
 
 		void accept( ExprVisitorPtr vis )override;
