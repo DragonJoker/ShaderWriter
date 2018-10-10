@@ -13,14 +13,14 @@ namespace ast
 		: public ExprAssign
 	{
 	public:
-		ExprModuloAssign( Type type
+		ExprModuloAssign( TypePtr type
 			, ExprPtr lhs
 			, ExprPtr rhs );
 
 		void accept( ExprVisitorPtr vis )override;
 	};
 
-	inline std::unique_ptr< ExprModuloAssign > makeModuloAssignExpr( Type type
+	inline std::unique_ptr< ExprModuloAssign > makeModuloAssignExpr( TypePtr type
 		, ExprPtr lhs
 		, ExprPtr rhs )
 	{

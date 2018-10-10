@@ -13,6 +13,7 @@ See LICENSE file in root folder
 #include "PreprocIf.hpp"
 #include "PreprocIfDef.hpp"
 #include "PreprocVersion.hpp"
+#include "StmtBoundVariableDecl.hpp"
 #include "StmtCompound.hpp"
 #include "StmtDoWhile.hpp"
 #include "StmtElse.hpp"
@@ -20,6 +21,7 @@ See LICENSE file in root folder
 #include "StmtFor.hpp"
 #include "StmtFunctionDecl.hpp"
 #include "StmtIf.hpp"
+#include "StmtInOutVariableDecl.hpp"
 #include "StmtReturn.hpp"
 #include "StmtSimple.hpp"
 #include "StmtStructureDecl.hpp"
@@ -42,6 +44,7 @@ namespace ast
 		{
 		};
 
+		virtual void visitBoundVariableDeclStmt( StmtBoundVariableDecl * ) = 0;
 		virtual void visitCompoundStmt( StmtCompound * ) = 0;
 		virtual void visitDoWhileStmt( StmtDoWhile * ) = 0;
 		virtual void visitElseIfStmt( StmtElseIf * ) = 0;
@@ -49,6 +52,7 @@ namespace ast
 		virtual void visitForStmt( StmtFor * ) = 0;
 		virtual void visitFunctionDeclStmt( StmtFunctionDecl * ) = 0;
 		virtual void visitIfStmt( StmtIf * ) = 0;
+		virtual void visitInOutVariableDeclStmt( StmtInOutVariableDecl * ) = 0;
 		virtual void visitReturnStmt( StmtReturn * ) = 0;
 		virtual void visitSimpleStmt( StmtSimple * ) = 0;
 		virtual void visitStructureDeclStmt( StmtStructureDecl * ) = 0;

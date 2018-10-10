@@ -21,6 +21,7 @@ namespace ast
 			, std::string indent = std::string{} );
 
 	private:
+		void visitBoundVariableDeclStmt( StmtBoundVariableDecl * stmt )override;
 		void visitCompoundStmt( StmtCompound * stmt )override;
 		void visitDoWhileStmt( StmtDoWhile * stmt )override;
 		void visitElseIfStmt( StmtElseIf * stmt )override;
@@ -28,6 +29,7 @@ namespace ast
 		void visitForStmt( StmtFor * stmt )override;
 		void visitFunctionDeclStmt( StmtFunctionDecl * stmt )override;
 		void visitIfStmt( StmtIf * stmt )override;
+		void visitInOutVariableDeclStmt( StmtInOutVariableDecl * stmt )override;
 		void visitReturnStmt( StmtReturn * stmt )override;
 		void visitSimpleStmt( StmtSimple * stmt )override;
 		void visitStructureDeclStmt( StmtStructureDecl * stmt )override;

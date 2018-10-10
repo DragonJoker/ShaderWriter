@@ -13,7 +13,7 @@ namespace ast
 		: public ExprBinary
 	{
 	public:
-		ExprAssign( Type type
+		ExprAssign( TypePtr type
 			, ExprPtr lhs
 			, ExprPtr rhs
 			, Expr::Kind kind = Expr::Kind::eAssign );
@@ -21,7 +21,7 @@ namespace ast
 		void accept( ExprVisitorPtr vis )override;
 	};
 
-	inline std::unique_ptr< ExprAssign > makeAssignExpr( Type type
+	inline std::unique_ptr< ExprAssign > makeAssignExpr( TypePtr type
 		, ExprPtr lhs
 		, ExprPtr rhs )
 	{

@@ -14,7 +14,7 @@ namespace ast
 		: public Expr
 	{
 	public:
-		ExprFnCall( Type type
+		ExprFnCall( TypePtr type
 			, ExprIdentifierPtr fn
 			, ExprList && argList );
 
@@ -35,7 +35,7 @@ namespace ast
 		ExprList m_argList;
 	};
 
-	inline std::unique_ptr< ExprFnCall > makeFnCallExpr( Type type
+	inline std::unique_ptr< ExprFnCall > makeFnCallExpr( TypePtr type
 		, ExprIdentifierPtr fn
 		, ExprList && argList )
 	{

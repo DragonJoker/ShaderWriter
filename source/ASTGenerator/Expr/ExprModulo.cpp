@@ -7,7 +7,7 @@ See LICENSE file in root folder
 
 namespace ast
 {
-	ExprModulo::ExprModulo( Type type
+	ExprModulo::ExprModulo( TypePtr type
 		, ExprPtr lhs
 		, ExprPtr rhs )
 		: ExprBinary{ type

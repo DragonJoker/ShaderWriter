@@ -7,7 +7,7 @@ See LICENSE file in root folder
 
 namespace ast
 {
-	ExprRShiftAssign::ExprRShiftAssign( Type type
+	ExprRShiftAssign::ExprRShiftAssign( TypePtr type
 		, ExprPtr lhs
 		, ExprPtr rhs )
 		: ExprAssign{ type

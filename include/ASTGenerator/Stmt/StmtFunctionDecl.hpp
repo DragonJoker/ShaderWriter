@@ -14,13 +14,13 @@ namespace ast
 		: public StmtCompound
 	{
 	public:
-		StmtFunctionDecl( Type retType
+		StmtFunctionDecl( TypePtr retType
 			, std::string name
 			, VariableList parameters );
 
 		void accept( StmtVisitorPtr vis )override;
 
-		inline Type getRetType()const
+		inline TypePtr getRetType()const
 		{
 			return m_retType;
 		}
@@ -36,16 +36,16 @@ namespace ast
 		}
 
 	private:
-		Type m_retType;
+		TypePtr m_retType;
 		std::string m_name;
 		VariableList m_parameters;
 	};
 
-	inline std::unique_ptr< StmtFunctionDecl > makeFunctionDeclStmt( Type retType
+	inline std::unique_ptr< StmtFunctionDecl > makeFunctionDeclStmt( TypePtr retType
 		, std::string name
 		, VariableList parameters )
 	{
-		return std::make_unique< StmtFunctionDecl >( retType
+		return std::make_unique< StmtFunctionDecl >( std::move( retType )
 			, std::move( name )
 			, std::move( parameters ) );
 	}

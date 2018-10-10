@@ -13,7 +13,7 @@ namespace ast
 		: public Expr
 	{
 	public:
-		ExprUnary( Type type
+		ExprUnary( TypePtr type
 			, ExprPtr operand
 			, Expr::Kind kind );
 

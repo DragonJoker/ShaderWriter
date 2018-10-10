@@ -2,6 +2,7 @@
 See LICENSE file in root folder
 */
 #include "ASTGenerator/Expr/ExprGreater.hpp"
+#include "ASTGenerator/Type/Type.hpp"
 
 #include "ASTGenerator/Expr/ExprVisitor.hpp"
 
@@ -9,7 +10,7 @@ namespace ast
 {
 	ExprGreater::ExprGreater( ExprPtr lhs
 		, ExprPtr rhs )
-		: ExprBinary{ Type::eBoolean
+		: ExprBinary{ getBoolType()
 			, std::move( lhs )
 			, std::move( rhs )
 			, Expr::Kind::eGreater }

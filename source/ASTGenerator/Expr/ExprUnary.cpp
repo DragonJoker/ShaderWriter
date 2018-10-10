@@ -5,7 +5,7 @@ See LICENSE file in root folder
 
 namespace ast
 {
-	ExprUnary::ExprUnary( Type type
+	ExprUnary::ExprUnary( TypePtr type
 		, ExprPtr operand
 		, Expr::Kind kind )
 		: Expr{ type, kind }

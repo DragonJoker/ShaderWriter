@@ -9,7 +9,7 @@ namespace ast
 {
 	ExprLogOr::ExprLogOr( ExprPtr lhs
 		, ExprPtr rhs )
-		: ExprBinary{ Type::eBoolean
+		: ExprBinary{ getBoolType()
 			, std::move( lhs )
 			, std::move( rhs )
 			, Expr::Kind::eLogOr }

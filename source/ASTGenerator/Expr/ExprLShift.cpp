@@ -7,7 +7,7 @@ See LICENSE file in root folder
 
 namespace ast
 {
-	ExprLShift::ExprLShift( Type type
+	ExprLShift::ExprLShift( TypePtr type
 		, ExprPtr lhs
 		, ExprPtr rhs )
 		: ExprBinary{ type

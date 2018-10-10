@@ -7,7 +7,7 @@ See LICENSE file in root folder
 
 namespace ast
 {
-	ExprBitNot::ExprBitNot( Type type
+	ExprBitNot::ExprBitNot( TypePtr type
 		, ExprPtr operand )
 		: ExprUnary{ type
 			, std::move( operand )

@@ -7,7 +7,7 @@ See LICENSE file in root folder
 
 namespace ast
 {
-	ExprBitOr::ExprBitOr( Type type
+	ExprBitOr::ExprBitOr( TypePtr type
 		, ExprPtr lhs
 		, ExprPtr rhs )
 		: ExprBinary{ type

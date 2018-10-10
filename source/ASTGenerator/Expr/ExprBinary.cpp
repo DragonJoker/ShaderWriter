@@ -5,7 +5,7 @@ See LICENSE file in root folder
 
 namespace ast
 {
-	ExprBinary::ExprBinary( Type type
+	ExprBinary::ExprBinary( TypePtr type
 		, ExprPtr lhs
 		, ExprPtr rhs
 		, Expr::Kind kind )

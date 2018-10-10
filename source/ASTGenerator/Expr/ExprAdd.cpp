@@ -6,7 +6,7 @@ See LICENSE file in root folder
 
 namespace ast
 {
-	ExprAdd::ExprAdd( Type type
+	ExprAdd::ExprAdd( TypePtr type
 		, ExprPtr lhs
 		, ExprPtr rhs )
 		: ExprBinary{ type

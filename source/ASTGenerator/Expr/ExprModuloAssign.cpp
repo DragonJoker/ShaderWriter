@@ -7,7 +7,7 @@ See LICENSE file in root folder
 
 namespace ast
 {
-	ExprModuloAssign::ExprModuloAssign( Type type
+	ExprModuloAssign::ExprModuloAssign( TypePtr type
 		, ExprPtr lhs
 		, ExprPtr rhs )
 		: ExprAssign{ type

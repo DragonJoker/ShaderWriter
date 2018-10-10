@@ -7,7 +7,7 @@ See LICENSE file in root folder
 
 namespace ast
 {
-	ExprCast::ExprCast( Type dstType
+	ExprCast::ExprCast( TypePtr dstType
 		, ExprPtr operand )
 		: ExprUnary{ dstType
 			, std::move( operand )

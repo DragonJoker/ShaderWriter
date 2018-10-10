@@ -13,14 +13,14 @@ namespace ast
 		: public ExprBinary
 	{
 	public:
-		ExprRShift( Type type
+		ExprRShift( TypePtr type
 			, ExprPtr lhs
 			, ExprPtr rhs );
 
 		void accept( ExprVisitorPtr vis )override;
 	};
 
-	inline std::unique_ptr< ExprRShift > makeRShiftExpr( Type type
+	inline std::unique_ptr< ExprRShift > makeRShiftExpr( TypePtr type
 		, ExprPtr lhs
 		, ExprPtr rhs )
 	{

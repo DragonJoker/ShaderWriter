@@ -137,11 +137,11 @@ if ( MSVC OR NOT "${CMAKE_BUILD_TYPE}" STREQUAL "" )
 		source/${PROJECT_NAME}/*.c
 		source/${PROJECT_NAME}/*.cpp
 	)
+	parse_subdir_files( ${PROJECT_NAME}/Debug "Debug" )
 	parse_subdir_files( ${PROJECT_NAME}/Expr "Expr" )
 	parse_subdir_files( ${PROJECT_NAME}/Stmt "Stmt" )
+	parse_subdir_files( ${PROJECT_NAME}/Type "Type" )
 	parse_subdir_files( ${PROJECT_NAME}/Var "Var" )
-	parse_subdir_files( ${PROJECT_NAME}/Debug "Debug" )
-	parse_subdir_files( ${PROJECT_NAME}/Preproc "Preproc" )
 	add_library( ${PROJECT_NAME}
 		STATIC
 		${${PROJECT_NAME}_FOLDER_HEADER_FILES}

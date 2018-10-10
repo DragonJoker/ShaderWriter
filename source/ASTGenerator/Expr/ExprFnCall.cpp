@@ -7,7 +7,7 @@ See LICENSE file in root folder
 
 namespace ast
 {
-	ExprFnCall::ExprFnCall( Type type
+	ExprFnCall::ExprFnCall( TypePtr type
 		, ExprIdentifierPtr fn
 		, ExprList && argList )
 		: Expr{ type, Kind::eFnCall }

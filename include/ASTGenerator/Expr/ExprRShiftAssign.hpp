@@ -13,14 +13,14 @@ namespace ast
 		: public ExprAssign
 	{
 	public:
-		ExprRShiftAssign( Type type
+		ExprRShiftAssign( TypePtr type
 			, ExprPtr lhs
 			, ExprPtr rhs );
 
 		void accept( ExprVisitorPtr vis )override;
 	};
 
-	inline std::unique_ptr< ExprRShiftAssign > makeRShiftAssignExpr( Type type
+	inline std::unique_ptr< ExprRShiftAssign > makeRShiftAssignExpr( TypePtr type
 		, ExprPtr lhs
 		, ExprPtr rhs )
 	{

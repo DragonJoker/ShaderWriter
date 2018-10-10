@@ -5,7 +5,7 @@ See LICENSE file in root folder
 
 namespace ast
 {
-	Variable::Variable( Type type
+	Variable::Variable( TypePtr type
 		, std::string name )
 		: m_type{ type }
 		, m_name{ std::move( name ) }
@@ -13,7 +13,7 @@ namespace ast
 	{
 	}
 
-	Variable::Variable( Type type
+	Variable::Variable( TypePtr type
 		, std::string name
 		, uint32_t flags )
 		: m_type{ type }
@@ -22,7 +22,7 @@ namespace ast
 	{
 	}
 	
-	Variable::Variable( Type type
+	Variable::Variable( TypePtr type
 		, std::string name
 		, Flag flag )
 		: m_type{ type }

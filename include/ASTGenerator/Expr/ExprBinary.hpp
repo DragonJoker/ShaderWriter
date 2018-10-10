@@ -13,7 +13,7 @@ namespace ast
 		: public Expr
 	{
 	public:
-		ExprBinary( Type type
+		ExprBinary( TypePtr type
 			, ExprPtr lhs
 			, ExprPtr rhs
 			, Expr::Kind kind );

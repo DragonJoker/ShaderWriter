@@ -5,7 +5,7 @@ See LICENSE file in root folder
 #define ___AST_Expr_H___
 #pragma once
 
-#include "ASTGenerator/ASTGeneratorPrerequisites.hpp"
+#include "ASTGenerator/Type/Type.hpp"
 
 namespace ast
 {
@@ -66,7 +66,7 @@ namespace ast
 		};
 
 	public:
-		Expr( Type type, Kind kind );
+		Expr( TypePtr type, Kind kind );
 		virtual ~Expr();
 
 		virtual void accept( ExprVisitorPtr ) = 0;
@@ -76,14 +76,14 @@ namespace ast
 			return m_kind;
 		}
 
-		inline Type getType()const
+		inline TypePtr getType()const
 		{
 			return m_type;
 		}
 
 	private:
 		Kind m_kind;
-		Type m_type;
+		TypePtr m_type;
 	};
 }
 

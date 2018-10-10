@@ -5,7 +5,7 @@ See LICENSE file in root folder
 
 namespace ast
 {
-	Expr::Expr( Type type, Kind kind )
+	Expr::Expr( TypePtr type, Kind kind )
 		: m_kind{ kind }
 		, m_type{ type }
 	{

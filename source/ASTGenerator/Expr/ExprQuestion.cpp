@@ -7,7 +7,7 @@ See LICENSE file in root folder
 
 namespace ast
 {
-	ExprQuestion::ExprQuestion( Type type
+	ExprQuestion::ExprQuestion( TypePtr type
 		, ExprPtr ctrlExpr
 		, ExprPtr trueExpr
 		, ExprPtr falseExpr )

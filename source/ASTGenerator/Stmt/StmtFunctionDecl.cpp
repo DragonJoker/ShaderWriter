@@ -7,11 +7,11 @@ See LICENSE file in root folder
 
 namespace ast
 {
-	StmtFunctionDecl::StmtFunctionDecl( Type retType
+	StmtFunctionDecl::StmtFunctionDecl( TypePtr retType
 		, std::string name
 		, VariableList parameters )
 		: StmtCompound{ Kind::eFunctionDecl }
-		, m_retType{ retType }
+		, m_retType{ std::move( retType ) }
 		, m_name{ std::move( name ) }
 		, m_parameters{ std::move( parameters ) }
 	{

@@ -8,28 +8,28 @@ See LICENSE file in root folder
 namespace ast
 {
 	ExprLiteral::ExprLiteral( bool value )
-		: Expr{ Type::eBoolean, Kind::eLiteral }
+		: Expr{ getBoolType(), Kind::eLiteral }
 		, m_valueType{ ValueType::eBool }
 	{
 		m_value.boolv = value;
 	}
 
 	ExprLiteral::ExprLiteral( int32_t value )
-		: Expr{ Type::eInt, Kind::eLiteral }
+		: Expr{ getIntType(), Kind::eLiteral }
 		, m_valueType{ ValueType::eInt }
 	{
 		m_value.intv = value;
 	}
 
 	ExprLiteral::ExprLiteral( uint32_t value )
-		: Expr{ Type::eUInt, Kind::eLiteral }
+		: Expr{ getUIntType(), Kind::eLiteral }
 		, m_valueType{ ValueType::eUInt }
 	{
 		m_value.uintv = value;
 	}
 
 	ExprLiteral::ExprLiteral( float value )
-		: Expr{ Type::eFloat, Kind::eLiteral }
+		: Expr{ getFloatType(), Kind::eLiteral }
 		, m_valueType{ ValueType::eFloat }
 	{
 		m_value.floatv = value;

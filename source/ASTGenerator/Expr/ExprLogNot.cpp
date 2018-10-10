@@ -8,7 +8,7 @@ See LICENSE file in root folder
 namespace ast
 {
 	ExprLogNot::ExprLogNot( ExprPtr operand )
-		: ExprUnary{ Type::eBoolean
+		: ExprUnary{ getBoolType()
 			, std::move( operand )
 			, Expr::Kind::eLogNot }
 	{

@@ -8,7 +8,7 @@ See LICENSE file in root folder
 namespace ast
 {
 	ExprSwitchTest::ExprSwitchTest( ExprPtr value )
-		: Expr{ Type::eUndefined, Kind::eSwitchTest }
+		: Expr{ getUndefinedType(), Kind::eSwitchTest }
 		, m_value{ std::move( value ) }
 	{
 	}

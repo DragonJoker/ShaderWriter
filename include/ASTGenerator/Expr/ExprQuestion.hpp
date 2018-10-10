@@ -13,7 +13,7 @@ namespace ast
 		: public Expr
 	{
 	public:
-		ExprQuestion( Type type
+		ExprQuestion( TypePtr type
 			, ExprPtr ctrlExpr
 			, ExprPtr trueExpr
 			, ExprPtr falseExpr );
@@ -41,7 +41,7 @@ namespace ast
 		ExprPtr m_falseExpr;
 	};
 
-	inline std::unique_ptr< ExprQuestion > makeQuestionExpr( Type type
+	inline std::unique_ptr< ExprQuestion > makeQuestionExpr( TypePtr type
 		, ExprPtr ctrlExpr
 		, ExprPtr trueExpr
 		, ExprPtr falseExpr )

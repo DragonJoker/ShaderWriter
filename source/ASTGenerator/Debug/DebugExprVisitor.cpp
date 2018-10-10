@@ -11,154 +11,154 @@ namespace ast
 {
 	namespace
 	{
-		std::string getTypeName( Type type )
+		std::string getTypeName( TypePtr type )
 		{
 			std::string result;
 
-			switch ( type )
+			switch ( type->getKind() )
 			{
-			case Type::eUndefined:
+			case Type::Kind::eUndefined:
 				result = "undefined";
 				break;
-			case Type::eFunction:
+			case Type::Kind::eFunction:
 				result = "function";
 				break;
-			case Type::eBoolean:
+			case Type::Kind::eBoolean:
 				result = "bool";
 				break;
-			case Type::eInt:
+			case Type::Kind::eInt:
 				result = "int";
 				break;
-			case Type::eUInt:
+			case Type::Kind::eUInt:
 				result = "uint";
 				break;
-			case Type::eFloat:
+			case Type::Kind::eFloat:
 				result = "float";
 				break;
-			case Type::eVec2B:
+			case Type::Kind::eVec2B:
 				result = "bvec2";
 				break;
-			case Type::eVec3B:
+			case Type::Kind::eVec3B:
 				result = "bvec3";
 				break;
-			case Type::eVec4B:
+			case Type::Kind::eVec4B:
 				result = "bvec4";
 				break;
-			case Type::eVec2I:
+			case Type::Kind::eVec2I:
 				result = "ivec2";
 				break;
-			case Type::eVec3I:
+			case Type::Kind::eVec3I:
 				result = "ivec3";
 				break;
-			case Type::eVec4I:
+			case Type::Kind::eVec4I:
 				result = "ivec4";
 				break;
-			case Type::eVec2UI:
+			case Type::Kind::eVec2UI:
 				result = "uivec2";
 				break;
-			case Type::eVec3UI:
+			case Type::Kind::eVec3UI:
 				result = "uivec3";
 				break;
-			case Type::eVec4UI:
+			case Type::Kind::eVec4UI:
 				result = "uivec4";
 				break;
-			case Type::eVec2F:
+			case Type::Kind::eVec2F:
 				result = "vec2";
 				break;
-			case Type::eVec3F:
+			case Type::Kind::eVec3F:
 				result = "vec3";
 				break;
-			case Type::eVec4F:
+			case Type::Kind::eVec4F:
 				result = "vec4";
 				break;
-			case Type::eMat2x2B:
+			case Type::Kind::eMat2x2B:
 				result = "bmat2";
 				break;
-			case Type::eMat3x3B:
+			case Type::Kind::eMat3x3B:
 				result = "bmat3";
 				break;
-			case Type::eMat4x4B:
+			case Type::Kind::eMat4x4B:
 				result = "bmat4";
 				break;
-			case Type::eMat2x2I:
+			case Type::Kind::eMat2x2I:
 				result = "imat2";
 				break;
-			case Type::eMat3x3I:
+			case Type::Kind::eMat3x3I:
 				result = "imat3";
 				break;
-			case Type::eMat4x4I:
+			case Type::Kind::eMat4x4I:
 				result = "imat4";
 				break;
-			case Type::eMat2x2UI:
+			case Type::Kind::eMat2x2UI:
 				result = "uimat2";
 				break;
-			case Type::eMat3x3UI:
+			case Type::Kind::eMat3x3UI:
 				result = "uimat3";
 				break;
-			case Type::eMat4x4UI:
+			case Type::Kind::eMat4x4UI:
 				result = "uimat4";
 				break;
-			case Type::eMat2x2F:
+			case Type::Kind::eMat2x2F:
 				result = "mat2";
 				break;
-			case Type::eMat3x3F:
+			case Type::Kind::eMat3x3F:
 				result = "mat3";
 				break;
-			case Type::eMat4x4F:
+			case Type::Kind::eMat4x4F:
 				result = "mat4";
 				break;
-			case Type::eConstantsBuffer:
+			case Type::Kind::eConstantsBuffer:
 				result = "uniform";
 				break;
-			case Type::eShaderBuffer:
+			case Type::Kind::eShaderBuffer:
 				result = "buffer";
 				break;
-			case Type::eSamplerBuffer:
+			case Type::Kind::eSamplerBuffer:
 				result = "samplerBuffer";
 				break;
-			case Type::eSampler1D:
+			case Type::Kind::eSampler1D:
 				result = "sampler1D";
 				break;
-			case Type::eSampler2D:
+			case Type::Kind::eSampler2D:
 				result = "sampler2D";
 				break;
-			case Type::eSampler3D:
+			case Type::Kind::eSampler3D:
 				result = "sampler3D";
 				break;
-			case Type::eSamplerCube:
+			case Type::Kind::eSamplerCube:
 				result = "samplerCube";
 				break;
-			case Type::eSampler2DRect:
+			case Type::Kind::eSampler2DRect:
 				result = "sampler2DRect";
 				break;
-			case Type::eSampler1DArray:
+			case Type::Kind::eSampler1DArray:
 				result = "sampler1DArray";
 				break;
-			case Type::eSampler2DArray:
+			case Type::Kind::eSampler2DArray:
 				result = "sampler2DArray";
 				break;
-			case Type::eSamplerCubeArray:
+			case Type::Kind::eSamplerCubeArray:
 				result = "samplerCubeArray";
 				break;
-			case Type::eSampler1DShadow:
+			case Type::Kind::eSampler1DShadow:
 				result = "sampler1DShadow";
 				break;
-			case Type::eSampler2DShadow:
+			case Type::Kind::eSampler2DShadow:
 				result = "sampler2DShadow";
 				break;
-			case Type::eSamplerCubeShadow:
+			case Type::Kind::eSamplerCubeShadow:
 				result = "samplerCubeShadow";
 				break;
-			case Type::eSampler2DRectShadow:
+			case Type::Kind::eSampler2DRectShadow:
 				result = "sampler2DRectArrayShadow";
 				break;
-			case Type::eSampler1DArrayShadow:
+			case Type::Kind::eSampler1DArrayShadow:
 				result = "sampler1DArrayShadow";
 				break;
-			case Type::eSampler2DArrayShadow:
+			case Type::Kind::eSampler2DArrayShadow:
 				result = "sampler2DArrayShadow";
 				break;
-			case Type::eSamplerCubeArrayShadow:
+			case Type::Kind::eSamplerCubeArrayShadow:
 				result = "samplerCubeArrayShadow";
 				break;
 			}
@@ -406,6 +406,20 @@ namespace ast
 	{
 		m_result += getTypeName( expr->getType() ) + " ";
 		expr->getIdentifier()->accept( this );
+		auto arraySize = expr->getIdentifier()->getType()->getArraySize();
+
+		if ( arraySize != ast::Type::NotArray )
+		{
+			if ( arraySize == ast::Type::UnknownArraySize )
+			{
+				m_result += "[]";
+			}
+			else
+			{
+				m_result += "[" + std::to_string( arraySize ) + "]";
+			}
+		}
+
 		m_result += " = ";
 		expr->getInitialiser()->accept( this );
 	}

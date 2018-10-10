@@ -5,7 +5,7 @@ See LICENSE file in root folder
 #define ___AST_Variable_H___
 #pragma once
 
-#include "ASTGenerator/ASTGeneratorPrerequisites.hpp"
+#include "ASTGenerator/Type/Type.hpp"
 
 namespace ast
 {
@@ -22,17 +22,17 @@ namespace ast
 		};
 
 	public:
-		Variable( Type type
+		Variable( TypePtr type
 			, std::string name );
-		Variable( Type type
+		Variable( TypePtr type
 			, std::string name
 			, uint32_t flags );
-		Variable( Type type
+		Variable( TypePtr type
 			, std::string name
 			, Flag flag );
 		virtual ~Variable();
 
-		inline Type getType()const
+		inline TypePtr getType()const
 		{
 			return m_type;
 		}
@@ -76,25 +76,25 @@ namespace ast
 		}
 
 	private:
-		Type m_type;
+		TypePtr m_type;
 		std::string m_name;
 		uint32_t m_flags;
 	};
 
-	inline VariablePtr makeVariable( Type type
+	inline VariablePtr makeVariable( TypePtr type
 		, std::string name )
 	{
 		return std::make_shared< Variable >( type, name );
 	}
 
-	inline VariablePtr makeVariable( Type type
+	inline VariablePtr makeVariable( TypePtr type
 		, std::string name
 		, uint32_t flags )
 	{
 		return std::make_shared< Variable >( type, name, flags );
 	}
 
-	inline VariablePtr makeVariable( Type type
+	inline VariablePtr makeVariable( TypePtr type
 		, std::string name
 		, Variable::Flag flag )
 	{

@@ -13,13 +13,13 @@ namespace ast
 		: public ExprUnary
 	{
 	public:
-		ExprBitNot( Type type
+		ExprBitNot( TypePtr type
 			, ExprPtr operand );
 
 		void accept( ExprVisitorPtr vis )override;
 	};
 
-	inline std::unique_ptr< ExprBitNot > makeBitNotExpr( Type type
+	inline std::unique_ptr< ExprBitNot > makeBitNotExpr( TypePtr type
 		, ExprPtr operand )
 	{
 		return std::make_unique< ExprBitNot >( type

@@ -9,36 +9,36 @@ namespace
 	void testPreprocIf()
 	{
 		testBegin( "testPreprocIf" );
-		auto stmt = ast::makePreprocIf( ast::makeIdentifierExpr( ast::makeVariable( ast::Type::eBoolean, "ItIsDefined" ) ) );
+		auto stmt = ast::makePreprocIf( ast::makeIdentifierExpr( ast::makeVariable( ast::getBoolType(), "ItIsDefined" ) ) );
 		std::cout << "PreprocIf:\n" << ast::DebugStmtVisitor::submit( stmt.get() ) << std::endl;
 
 		check( stmt->getKind() == ast::Stmt::Kind::ePreprocIf );
 		check( stmt->getCtrlExpr()->getKind() == ast::Expr::Kind::eIdentifier );
-		check( stmt->getCtrlExpr()->getType() == ast::Type::eBoolean );
+		check( stmt->getCtrlExpr()->getType()->getKind() == ast::Type::Kind::eBoolean );
 		testEnd();
 	}
 	
 	void testPreprocIfDef()
 	{
 		testBegin( "testPreprocIfDef" );
-		auto stmt = ast::makePreprocIfDef( ast::makeIdentifierExpr( ast::makeVariable( ast::Type::eBoolean, "IsItDefined" ) ) );
+		auto stmt = ast::makePreprocIfDef( ast::makeIdentifierExpr( ast::makeVariable( ast::getBoolType(), "IsItDefined" ) ) );
 		std::cout << "PreprocIfDef:\n" << ast::DebugStmtVisitor::submit( stmt.get() ) << std::endl;
 
 		check( stmt->getKind() == ast::Stmt::Kind::ePreprocIfDef );
 		check( stmt->getIdentExpr()->getKind() == ast::Expr::Kind::eIdentifier );
-		check( stmt->getIdentExpr()->getType() == ast::Type::eBoolean );
+		check( stmt->getIdentExpr()->getType()->getKind() == ast::Type::Kind::eBoolean );
 		testEnd();
 	}
 
 	void testPreprocElif()
 	{
 		testBegin( "testPreprocElif" );
-		auto stmt = ast::makePreprocElif( ast::makeIdentifierExpr( ast::makeVariable( ast::Type::eBoolean, "ItIsDefined" ) ) );
+		auto stmt = ast::makePreprocElif( ast::makeIdentifierExpr( ast::makeVariable( ast::getBoolType(), "ItIsDefined" ) ) );
 		std::cout << "PreprocElif:\n" << ast::DebugStmtVisitor::submit( stmt.get() ) << std::endl;
 
 		check( stmt->getKind() == ast::Stmt::Kind::ePreprocElif );
 		check( stmt->getCtrlExpr()->getKind() == ast::Expr::Kind::eIdentifier );
-		check( stmt->getCtrlExpr()->getType() == ast::Type::eBoolean );
+		check( stmt->getCtrlExpr()->getType()->getKind() == ast::Type::Kind::eBoolean );
 		testEnd();
 	}
 
@@ -70,7 +70,7 @@ namespace
 
 		check( stmt->getKind() == ast::Stmt::Kind::ePreprocDefine );
 		check( stmt->getExpr()->getKind() == ast::Expr::Kind::eLiteral );
-		check( stmt->getExpr()->getType() == ast::Type::eInt );
+		check( stmt->getExpr()->getType()->getKind() == ast::Type::Kind::eInt );
 		testEnd();
 	}
 
@@ -100,7 +100,7 @@ namespace
 	void testSimpleStatement()
 	{
 		testBegin( "testSimpleStatement" );
-		auto lhs = ast::makeIdentifierExpr( ast::makeVariable( ast::Type::eInt, "lhs" ) );
+		auto lhs = ast::makeIdentifierExpr( ast::makeVariable( ast::getIntType(), "lhs" ) );
 		auto rhs = ast::makeLiteralExpr( 10 );
 		auto stmt = ast::makeSimpleStmt( ast::makeInitExpr( std::move( lhs ), std::move( rhs ) ) );
 		std::cout << "StmtSimple:\n" << ast::DebugStmtVisitor::submit( stmt.get() ) << std::endl;
@@ -113,11 +113,39 @@ namespace
 	void testVariableDeclStatement()
 	{
 		testBegin( "testVariableDeclStatement" );
-		auto stmt = ast::makeVariableDeclStmt( ast::makeVariable( ast::Type::eInt, "lhs" ) );
+		auto stmt = ast::makeVariableDeclStmt( ast::makeVariable( ast::getIntType(), "lhs" ) );
 		std::cout << "StmtVariableDecl:\n" << ast::DebugStmtVisitor::submit( stmt.get() ) << std::endl;
 
 		check( stmt->getKind() == ast::Stmt::Kind::eVariableDecl );
-		check( stmt->getVariable().getType() == ast::Type::eInt );
+		check( stmt->getVariable().getType()->getKind() == ast::Type::Kind::eInt );
+		check( stmt->getVariable().getName() == "lhs" );
+		testEnd();
+	}
+	
+	void testBoundVariableDeclStatement()
+	{
+		testBegin( "testBoundVariableDeclStatement" );
+		auto stmt = ast::makeBoundVariableDeclStmt( ast::makeVariable( ast::getSampler2DType(), "lhs" ), 1u, 2u );
+		std::cout << "StmtBoundVariableDecl:\n" << ast::DebugStmtVisitor::submit( stmt.get() ) << std::endl;
+
+		check( stmt->getKind() == ast::Stmt::Kind::eBoundVariableDecl );
+		check( stmt->getBindingPoint() == 1u );
+		check( stmt->getBindingSet() == 2u );
+		check( stmt->getVariable().getType()->getKind() == ast::Type::Kind::eSampler2D );
+		check( stmt->getVariable().getName() == "lhs" );
+		testEnd();
+	}
+	
+	void testInOutVariableDeclStatement()
+	{
+		testBegin( "testInOutVariableDeclStatement" );
+		auto stmt = ast::makeInOutVariableDeclStmt( ast::makeVariable( ast::getIntType(), "lhs" ), 1u, ast::StmtInOutVariableDecl::Direction::eIn );
+		std::cout << "StmtInOutVariableDecl:\n" << ast::DebugStmtVisitor::submit( stmt.get() ) << std::endl;
+
+		check( stmt->getKind() == ast::Stmt::Kind::eInOutVariableDecl );
+		check( stmt->getLocation() == 1u );
+		check( stmt->getDirection() == ast::StmtInOutVariableDecl::Direction::eIn );
+		check( stmt->getVariable().getType()->getKind() == ast::Type::Kind::eInt );
 		check( stmt->getVariable().getName() == "lhs" );
 		testEnd();
 	}
@@ -133,8 +161,8 @@ namespace
 			check( stmt->getStatements().empty() );
 		}
 		{
-			auto i = ast::makeIdentifierExpr( ast::makeVariable( ast::Type::eInt, "i" ) );
-			auto j = ast::makeIdentifierExpr( ast::makeVariable( ast::Type::eInt, "j" ) );
+			auto i = ast::makeIdentifierExpr( ast::makeVariable( ast::getIntType(), "i" ) );
+			auto j = ast::makeIdentifierExpr( ast::makeVariable( ast::getIntType(), "j" ) );
 			auto stmt = ast::makeCompoundStmt();
 			stmt->addStmt( ast::makeSimpleStmt( ast::makeInitExpr( std::move( i ), ast::makeLiteralExpr( 10 ) ) ) );
 			stmt->addStmt( ast::makeSimpleStmt( ast::makeInitExpr( std::move( j ), ast::makeLiteralExpr( 20 ) ) ) );
@@ -150,25 +178,25 @@ namespace
 	{
 		testBegin( "testIfStatement" );
 		{
-			auto stmt = ast::makeIfStmt( ast::makeIdentifierExpr( ast::makeVariable( ast::Type::eBoolean, "k" ) ) );
+			auto stmt = ast::makeIfStmt( ast::makeIdentifierExpr( ast::makeVariable( ast::getBoolType(), "k" ) ) );
 			std::cout << "StmtIf:\n" << ast::DebugStmtVisitor::submit( stmt.get() ) << std::endl;
 
 			check( stmt->getKind() == ast::Stmt::Kind::eIf );
 			check( stmt->getCtrlExpr()->getKind() == ast::Expr::Kind::eIdentifier );
-			check( stmt->getCtrlExpr()->getType() == ast::Type::eBoolean );
+			check( stmt->getCtrlExpr()->getType()->getKind() == ast::Type::Kind::eBoolean );
 			check( stmt->getStatements().empty() );
 		}
 		{
-			auto i = ast::makeIdentifierExpr( ast::makeVariable( ast::Type::eInt, "i" ) );
-			auto j = ast::makeIdentifierExpr( ast::makeVariable( ast::Type::eInt, "j" ) );
-			auto stmt = ast::makeIfStmt( ast::makeIdentifierExpr( ast::makeVariable( ast::Type::eBoolean, "k" ) ) );
+			auto i = ast::makeIdentifierExpr( ast::makeVariable( ast::getIntType(), "i" ) );
+			auto j = ast::makeIdentifierExpr( ast::makeVariable( ast::getIntType(), "j" ) );
+			auto stmt = ast::makeIfStmt( ast::makeIdentifierExpr( ast::makeVariable( ast::getBoolType(), "k" ) ) );
 			stmt->addStmt( ast::makeSimpleStmt( ast::makeInitExpr( std::move( i ), ast::makeLiteralExpr( 10 ) ) ) );
 			stmt->addStmt( ast::makeSimpleStmt( ast::makeInitExpr( std::move( j ), ast::makeLiteralExpr( 20 ) ) ) );
 			std::cout << "StmtIf:\n" << ast::DebugStmtVisitor::submit( stmt.get() ) << std::endl;
 
 			check( stmt->getKind() == ast::Stmt::Kind::eIf );
 			check( stmt->getCtrlExpr()->getKind() == ast::Expr::Kind::eIdentifier );
-			check( stmt->getCtrlExpr()->getType() == ast::Type::eBoolean );
+			check( stmt->getCtrlExpr()->getType()->getKind() == ast::Type::Kind::eBoolean );
 			check( stmt->getStatements().size() == 2u );
 		}
 		testEnd();
@@ -178,9 +206,9 @@ namespace
 	{
 		testBegin( "testElseStatement" );
 		{
-			auto i = ast::makeVariable( ast::Type::eInt, "i" );
-			auto j = ast::makeVariable( ast::Type::eInt, "j" );
-			auto stmt = ast::makeIfStmt( ast::makeIdentifierExpr( ast::makeVariable( ast::Type::eBoolean, "k" ) ) );
+			auto i = ast::makeVariable( ast::getIntType(), "i" );
+			auto j = ast::makeVariable( ast::getIntType(), "j" );
+			auto stmt = ast::makeIfStmt( ast::makeIdentifierExpr( ast::makeVariable( ast::getBoolType(), "k" ) ) );
 			auto elseStmt = stmt->createElse();
 			std::cout << "StmtElse:\n" << ast::DebugStmtVisitor::submit( stmt.get() ) << std::endl;
 
@@ -188,9 +216,9 @@ namespace
 			check( elseStmt->getStatements().empty() );
 		}
 		{
-			auto i = ast::makeVariable( ast::Type::eInt, "i" );
-			auto j = ast::makeVariable( ast::Type::eInt, "j" );
-			auto stmt = ast::makeIfStmt( ast::makeIdentifierExpr( ast::makeVariable( ast::Type::eBoolean, "k" ) ) );
+			auto i = ast::makeVariable( ast::getIntType(), "i" );
+			auto j = ast::makeVariable( ast::getIntType(), "j" );
+			auto stmt = ast::makeIfStmt( ast::makeIdentifierExpr( ast::makeVariable( ast::getBoolType(), "k" ) ) );
 			stmt->addStmt( ast::makeSimpleStmt( ast::makeInitExpr( ast::makeIdentifierExpr( i ), ast::makeLiteralExpr( 10 ) ) ) );
 			stmt->addStmt( ast::makeSimpleStmt( ast::makeInitExpr( ast::makeIdentifierExpr( j ), ast::makeLiteralExpr( 20 ) ) ) );
 			auto elseStmt = stmt->createElse();
@@ -208,22 +236,22 @@ namespace
 	{
 		testBegin( "testElseIfStatement" );
 		{
-			auto i = ast::makeVariable( ast::Type::eInt, "i" );
-			auto j = ast::makeVariable( ast::Type::eInt, "j" );
-			auto stmt = ast::makeIfStmt( ast::makeIdentifierExpr( ast::makeVariable( ast::Type::eBoolean, "k" ) ) );
-			auto elseIfStmt = stmt->createElseIf( ast::makeIdentifierExpr( ast::makeVariable( ast::Type::eBoolean, "l" ) ) );
+			auto i = ast::makeVariable( ast::getIntType(), "i" );
+			auto j = ast::makeVariable( ast::getIntType(), "j" );
+			auto stmt = ast::makeIfStmt( ast::makeIdentifierExpr( ast::makeVariable( ast::getBoolType(), "k" ) ) );
+			auto elseIfStmt = stmt->createElseIf( ast::makeIdentifierExpr( ast::makeVariable( ast::getBoolType(), "l" ) ) );
 			std::cout << "StmtElseIf:\n" << ast::DebugStmtVisitor::submit( stmt.get() ) << std::endl;
 
 			check( elseIfStmt->getKind() == ast::Stmt::Kind::eElseIf );
 			check( elseIfStmt->getStatements().empty() );
 		}
 		{
-			auto i = ast::makeVariable( ast::Type::eInt, "i" );
-			auto j = ast::makeVariable( ast::Type::eInt, "j" );
-			auto stmt = ast::makeIfStmt( ast::makeIdentifierExpr( ast::makeVariable( ast::Type::eBoolean, "k" ) ) );
+			auto i = ast::makeVariable( ast::getIntType(), "i" );
+			auto j = ast::makeVariable( ast::getIntType(), "j" );
+			auto stmt = ast::makeIfStmt( ast::makeIdentifierExpr( ast::makeVariable( ast::getBoolType(), "k" ) ) );
 			stmt->addStmt( ast::makeSimpleStmt( ast::makeInitExpr( ast::makeIdentifierExpr( i ), ast::makeLiteralExpr( 10 ) ) ) );
 			stmt->addStmt( ast::makeSimpleStmt( ast::makeInitExpr( ast::makeIdentifierExpr( j ), ast::makeLiteralExpr( 20 ) ) ) );
-			auto elseIfStmt = stmt->createElseIf( ast::makeIdentifierExpr( ast::makeVariable( ast::Type::eBoolean, "l" ) ) );
+			auto elseIfStmt = stmt->createElseIf( ast::makeIdentifierExpr( ast::makeVariable( ast::getBoolType(), "l" ) ) );
 			elseIfStmt->addStmt( ast::makeSimpleStmt( ast::makeInitExpr( ast::makeIdentifierExpr( i ), ast::makeLiteralExpr( 20 ) ) ) );
 			elseIfStmt->addStmt( ast::makeSimpleStmt( ast::makeInitExpr( ast::makeIdentifierExpr( j ), ast::makeLiteralExpr( 10 ) ) ) );
 			std::cout << "StmtElseIf:\n" << ast::DebugStmtVisitor::submit( stmt.get() ) << std::endl;
@@ -238,20 +266,20 @@ namespace
 	{
 		testBegin( "testElseIfStatement" );
 		{
-			auto i = ast::makeVariable( ast::Type::eInt, "i" );
-			auto j = ast::makeVariable( ast::Type::eInt, "j" );
-			auto stmt = ast::makeIfStmt( ast::makeIdentifierExpr( ast::makeVariable( ast::Type::eBoolean, "k" ) ) );
-			auto elseIfStmt = stmt->createElseIf( ast::makeIdentifierExpr( ast::makeVariable( ast::Type::eBoolean, "l" ) ) );
+			auto i = ast::makeVariable( ast::getIntType(), "i" );
+			auto j = ast::makeVariable( ast::getIntType(), "j" );
+			auto stmt = ast::makeIfStmt( ast::makeIdentifierExpr( ast::makeVariable( ast::getBoolType(), "k" ) ) );
+			auto elseIfStmt = stmt->createElseIf( ast::makeIdentifierExpr( ast::makeVariable( ast::getBoolType(), "l" ) ) );
 			auto elseStmt = stmt->createElse();
 			std::cout << "StmtElse:\n" << ast::DebugStmtVisitor::submit( stmt.get() ) << std::endl;
 		}
 		{
-			auto i = ast::makeVariable( ast::Type::eInt, "i" );
-			auto j = ast::makeVariable( ast::Type::eInt, "j" );
-			auto stmt = ast::makeIfStmt( ast::makeIdentifierExpr( ast::makeVariable( ast::Type::eBoolean, "k" ) ) );
+			auto i = ast::makeVariable( ast::getIntType(), "i" );
+			auto j = ast::makeVariable( ast::getIntType(), "j" );
+			auto stmt = ast::makeIfStmt( ast::makeIdentifierExpr( ast::makeVariable( ast::getBoolType(), "k" ) ) );
 			stmt->addStmt( ast::makeSimpleStmt( ast::makeInitExpr( ast::makeIdentifierExpr( i ), ast::makeLiteralExpr( 10 ) ) ) );
 			stmt->addStmt( ast::makeSimpleStmt( ast::makeInitExpr( ast::makeIdentifierExpr( j ), ast::makeLiteralExpr( 20 ) ) ) );
-			auto elseIfStmt = stmt->createElseIf( ast::makeIdentifierExpr( ast::makeVariable( ast::Type::eBoolean, "l" ) ) );
+			auto elseIfStmt = stmt->createElseIf( ast::makeIdentifierExpr( ast::makeVariable( ast::getBoolType(), "l" ) ) );
 			elseIfStmt->addStmt( ast::makeSimpleStmt( ast::makeInitExpr( ast::makeIdentifierExpr( i ), ast::makeLiteralExpr( 20 ) ) ) );
 			elseIfStmt->addStmt( ast::makeSimpleStmt( ast::makeInitExpr( ast::makeIdentifierExpr( j ), ast::makeLiteralExpr( 10 ) ) ) );
 			auto elseStmt = stmt->createElse();
@@ -266,25 +294,25 @@ namespace
 	{
 		testBegin( "testWhileStatement" );
 		{
-			auto stmt = ast::makeWhileStmt( ast::makeIdentifierExpr( ast::makeVariable( ast::Type::eBoolean, "k" ) ) );
+			auto stmt = ast::makeWhileStmt( ast::makeIdentifierExpr( ast::makeVariable( ast::getBoolType(), "k" ) ) );
 			std::cout << "StmtWhile:\n" << ast::DebugStmtVisitor::submit( stmt.get() ) << std::endl;
 
 			check( stmt->getKind() == ast::Stmt::Kind::eWhile );
 			check( stmt->getCtrlExpr()->getKind() == ast::Expr::Kind::eIdentifier );
-			check( stmt->getCtrlExpr()->getType() == ast::Type::eBoolean );
+			check( stmt->getCtrlExpr()->getType()->getKind() == ast::Type::Kind::eBoolean );
 			check( stmt->getStatements().empty() );
 		}
 		{
-			auto i = ast::makeIdentifierExpr( ast::makeVariable( ast::Type::eInt, "i" ) );
-			auto j = ast::makeIdentifierExpr( ast::makeVariable( ast::Type::eInt, "j" ) );
-			auto stmt = ast::makeWhileStmt( ast::makeIdentifierExpr( ast::makeVariable( ast::Type::eBoolean, "k" ) ) );
+			auto i = ast::makeIdentifierExpr( ast::makeVariable( ast::getIntType(), "i" ) );
+			auto j = ast::makeIdentifierExpr( ast::makeVariable( ast::getIntType(), "j" ) );
+			auto stmt = ast::makeWhileStmt( ast::makeIdentifierExpr( ast::makeVariable( ast::getBoolType(), "k" ) ) );
 			stmt->addStmt( ast::makeSimpleStmt( ast::makeInitExpr( std::move( i ), ast::makeLiteralExpr( 10 ) ) ) );
 			stmt->addStmt( ast::makeSimpleStmt( ast::makeInitExpr( std::move( j ), ast::makeLiteralExpr( 20 ) ) ) );
 			std::cout << "StmtWhile:\n" << ast::DebugStmtVisitor::submit( stmt.get() ) << std::endl;
 
 			check( stmt->getKind() == ast::Stmt::Kind::eWhile );
 			check( stmt->getCtrlExpr()->getKind() == ast::Expr::Kind::eIdentifier );
-			check( stmt->getCtrlExpr()->getType() == ast::Type::eBoolean );
+			check( stmt->getCtrlExpr()->getType()->getKind() == ast::Type::Kind::eBoolean );
 			check( stmt->getStatements().size() == 2u );
 		}
 		testEnd();
@@ -294,25 +322,25 @@ namespace
 	{
 		testBegin( "testDoWhileStatement" );
 		{
-			auto stmt = ast::makeDoWhileStmt( ast::makeIdentifierExpr( ast::makeVariable( ast::Type::eBoolean, "k" ) ) );
+			auto stmt = ast::makeDoWhileStmt( ast::makeIdentifierExpr( ast::makeVariable( ast::getBoolType(), "k" ) ) );
 			std::cout << "StmtWhile:\n" << ast::DebugStmtVisitor::submit( stmt.get() ) << std::endl;
 
 			check( stmt->getKind() == ast::Stmt::Kind::eDoWhile );
 			check( stmt->getCtrlExpr()->getKind() == ast::Expr::Kind::eIdentifier );
-			check( stmt->getCtrlExpr()->getType() == ast::Type::eBoolean );
+			check( stmt->getCtrlExpr()->getType()->getKind() == ast::Type::Kind::eBoolean );
 			check( stmt->getStatements().empty() );
 		}
 		{
-			auto i = ast::makeIdentifierExpr( ast::makeVariable( ast::Type::eInt, "i" ) );
-			auto j = ast::makeIdentifierExpr( ast::makeVariable( ast::Type::eInt, "j" ) );
-			auto stmt = ast::makeDoWhileStmt( ast::makeIdentifierExpr( ast::makeVariable( ast::Type::eBoolean, "k" ) ) );
+			auto i = ast::makeIdentifierExpr( ast::makeVariable( ast::getIntType(), "i" ) );
+			auto j = ast::makeIdentifierExpr( ast::makeVariable( ast::getIntType(), "j" ) );
+			auto stmt = ast::makeDoWhileStmt( ast::makeIdentifierExpr( ast::makeVariable( ast::getBoolType(), "k" ) ) );
 			stmt->addStmt( ast::makeSimpleStmt( ast::makeInitExpr( std::move( i ), ast::makeLiteralExpr( 10 ) ) ) );
 			stmt->addStmt( ast::makeSimpleStmt( ast::makeInitExpr( std::move( j ), ast::makeLiteralExpr( 20 ) ) ) );
 			std::cout << "StmtWhile:\n" << ast::DebugStmtVisitor::submit( stmt.get() ) << std::endl;
 
 			check( stmt->getKind() == ast::Stmt::Kind::eDoWhile );
 			check( stmt->getCtrlExpr()->getKind() == ast::Expr::Kind::eIdentifier );
-			check( stmt->getCtrlExpr()->getType() == ast::Type::eBoolean );
+			check( stmt->getCtrlExpr()->getType()->getKind() == ast::Type::Kind::eBoolean );
 			check( stmt->getStatements().size() == 2u );
 		}
 		testEnd();
@@ -322,7 +350,7 @@ namespace
 	{
 		testBegin( "testForStatement" );
 		{
-			auto k = ast::makeVariable( ast::Type::eInt, "k" );
+			auto k = ast::makeVariable( ast::getIntType(), "k" );
 			auto stmt = ast::makeForStmt( ast::makeInitExpr( ast::makeIdentifierExpr( k ), ast::makeLiteralExpr( 0 ) )
 				, ast::makeLessEqualExpr( ast::makeIdentifierExpr( k ), ast::makeLiteralExpr( 10 ) )
 				, ast::makePreIncrementExpr( ast::makeIdentifierExpr( k ) ) );
@@ -330,17 +358,17 @@ namespace
 
 			check( stmt->getKind() == ast::Stmt::Kind::eFor );
 			check( stmt->getInitExpr()->getKind() == ast::Expr::Kind::eInit );
-			check( stmt->getInitExpr()->getType() == ast::Type::eInt );
+			check( stmt->getInitExpr()->getType()->getKind() == ast::Type::Kind::eInt );
 			check( stmt->getCtrlExpr()->getKind() == ast::Expr::Kind::eLessEqual );
-			check( stmt->getCtrlExpr()->getType() == ast::Type::eBoolean );
+			check( stmt->getCtrlExpr()->getType()->getKind() == ast::Type::Kind::eBoolean );
 			check( stmt->getIncrExpr()->getKind() == ast::Expr::Kind::ePreIncrement );
-			check( stmt->getIncrExpr()->getType() == ast::Type::eInt );
+			check( stmt->getIncrExpr()->getType()->getKind() == ast::Type::Kind::eInt );
 			check( stmt->getStatements().empty() );
 		}
 		{
-			auto i = ast::makeIdentifierExpr( ast::makeVariable( ast::Type::eInt, "i" ) );
-			auto j = ast::makeIdentifierExpr( ast::makeVariable( ast::Type::eInt, "j" ) );
-			auto k = ast::makeVariable( ast::Type::eInt, "k" );
+			auto i = ast::makeIdentifierExpr( ast::makeVariable( ast::getIntType(), "i" ) );
+			auto j = ast::makeIdentifierExpr( ast::makeVariable( ast::getIntType(), "j" ) );
+			auto k = ast::makeVariable( ast::getIntType(), "k" );
 			auto stmt = ast::makeForStmt( ast::makeInitExpr( ast::makeIdentifierExpr( k ), ast::makeLiteralExpr( 0 ) )
 				, ast::makeLessEqualExpr( ast::makeIdentifierExpr( k ), ast::makeLiteralExpr( 10 ) )
 				, ast::makePreIncrementExpr( ast::makeIdentifierExpr( k ) ) );
@@ -350,11 +378,11 @@ namespace
 
 			check( stmt->getKind() == ast::Stmt::Kind::eFor );
 			check( stmt->getInitExpr()->getKind() == ast::Expr::Kind::eInit );
-			check( stmt->getInitExpr()->getType() == ast::Type::eInt );
+			check( stmt->getInitExpr()->getType()->getKind() == ast::Type::Kind::eInt );
 			check( stmt->getCtrlExpr()->getKind() == ast::Expr::Kind::eLessEqual );
-			check( stmt->getCtrlExpr()->getType() == ast::Type::eBoolean );
+			check( stmt->getCtrlExpr()->getType()->getKind() == ast::Type::Kind::eBoolean );
 			check( stmt->getIncrExpr()->getKind() == ast::Expr::Kind::ePreIncrement );
-			check( stmt->getIncrExpr()->getType() == ast::Type::eInt );
+			check( stmt->getIncrExpr()->getType()->getKind() == ast::Type::Kind::eInt );
 			check( stmt->getStatements().size() == 2u );
 		}
 		testEnd();
@@ -372,8 +400,8 @@ namespace
 			check( stmt->getStatements().empty() );
 		}
 		{
-			auto i = ast::makeVariable( ast::Type::eInt, "i" );
-			auto j = ast::makeVariable( ast::Type::eInt, "j" );
+			auto i = ast::makeVariable( ast::getIntType(), "i" );
+			auto j = ast::makeVariable( ast::getIntType(), "j" );
 			auto stmt = ast::makeStructureDeclStmt( "MyStruct" );
 			stmt->add( ast::makeVariableDeclStmt( i ) );
 			stmt->add( ast::makeVariableDeclStmt( j ) );
@@ -399,8 +427,8 @@ namespace
 			check( stmt->getStatements().empty() );
 		}
 		{
-			auto i = ast::makeIdentifierExpr( ast::makeVariable( ast::Type::eInt, "i" ) );
-			auto j = ast::makeIdentifierExpr( ast::makeVariable( ast::Type::eInt, "j" ) );
+			auto i = ast::makeIdentifierExpr( ast::makeVariable( ast::getIntType(), "i" ) );
+			auto j = ast::makeIdentifierExpr( ast::makeVariable( ast::getIntType(), "j" ) );
 			auto stmt = ast::makeSwitchCaseStmt( ast::makeSwitchCaseExpr( ast::makeLiteralExpr( 10 ) ) );
 			stmt->addStmt( ast::makeSimpleStmt( ast::makeInitExpr( std::move( i ), ast::makeLiteralExpr( 10 ) ) ) );
 			stmt->addStmt( ast::makeSimpleStmt( ast::makeInitExpr( std::move( j ), ast::makeLiteralExpr( 20 ) ) ) );
@@ -426,8 +454,8 @@ namespace
 			check( stmt->getStatements().empty() );
 		}
 		{
-			auto i = ast::makeIdentifierExpr( ast::makeVariable( ast::Type::eInt, "i" ) );
-			auto j = ast::makeIdentifierExpr( ast::makeVariable( ast::Type::eInt, "j" ) );
+			auto i = ast::makeIdentifierExpr( ast::makeVariable( ast::getIntType(), "i" ) );
+			auto j = ast::makeIdentifierExpr( ast::makeVariable( ast::getIntType(), "j" ) );
 			auto stmt = ast::makeSwitchDefaultStmt();
 			stmt->addStmt( ast::makeSimpleStmt( ast::makeInitExpr( std::move( i ), ast::makeLiteralExpr( 10 ) ) ) );
 			stmt->addStmt( ast::makeSimpleStmt( ast::makeInitExpr( std::move( j ), ast::makeLiteralExpr( 20 ) ) ) );
@@ -444,7 +472,7 @@ namespace
 	{
 		testBegin( "testSwitchStatement" );
 		{
-			auto i = ast::makeVariable( ast::Type::eInt, "i" );
+			auto i = ast::makeVariable( ast::getIntType(), "i" );
 			auto stmt = ast::makeSwitchStmt( ast::makeSwitchTestExpr( ast::makeIdentifierExpr( i ) ) );
 			std::cout << "StmtSwitch:\n" << ast::DebugStmtVisitor::submit( stmt.get() ) << std::endl;
 
@@ -453,7 +481,7 @@ namespace
 			check( stmt->getStatements().empty() );
 		}
 		{
-			auto i = ast::makeVariable( ast::Type::eInt, "i" );
+			auto i = ast::makeVariable( ast::getIntType(), "i" );
 			auto stmt = ast::makeSwitchStmt( ast::makeSwitchTestExpr( ast::makeIdentifierExpr( i ) ) );
 			stmt->addCase( ast::makeSwitchCaseStmt( ast::makeSwitchCaseExpr( ast::makeLiteralExpr( 10 ) ) ) );
 			stmt->addDefault( ast::makeSwitchDefaultStmt() );
@@ -464,9 +492,9 @@ namespace
 			check( stmt->getStatements().size() == 2u );
 		}
 		{
-			auto i = ast::makeVariable( ast::Type::eInt, "i" );
-			auto j = ast::makeVariable( ast::Type::eInt, "j" );
-			auto k = ast::makeVariable( ast::Type::eInt, "k" );
+			auto i = ast::makeVariable( ast::getIntType(), "i" );
+			auto j = ast::makeVariable( ast::getIntType(), "j" );
+			auto k = ast::makeVariable( ast::getIntType(), "k" );
 			auto stmt = ast::makeSwitchStmt( ast::makeSwitchTestExpr( ast::makeIdentifierExpr( i ) ) );
 			auto caseStmt = ast::makeSwitchCaseStmt( ast::makeSwitchCaseExpr( ast::makeLiteralExpr( 10 ) ) );
 			caseStmt->addStmt( ast::makeSimpleStmt( ast::makeInitExpr( ast::makeIdentifierExpr( j ), ast::makeLiteralExpr( 10 ) ) ) );
@@ -500,7 +528,7 @@ namespace
 	{
 		testBegin( "testFunctionDeclStatement" );
 		{
-			auto stmt = ast::makeFunctionDeclStmt( ast::Type::eInt, "foo", {} );
+			auto stmt = ast::makeFunctionDeclStmt( ast::getIntType(), "foo", {} );
 			std::cout << "StmtFunctionDecl:\n" << ast::DebugStmtVisitor::submit( stmt.get() ) << std::endl;
 
 			check( stmt->getKind() == ast::Stmt::Kind::eFunctionDecl );
@@ -509,7 +537,7 @@ namespace
 			check( stmt->getStatements().empty() );
 		}
 		{
-			auto stmt = ast::makeFunctionDeclStmt( ast::Type::eInt, "foo", { ast::makeVariable( ast::Type::eInt, "i" ) } );
+			auto stmt = ast::makeFunctionDeclStmt( ast::getIntType(), "foo", { ast::makeVariable( ast::getIntType(), "i" ) } );
 			std::cout << "StmtFunctionDecl:\n" << ast::DebugStmtVisitor::submit( stmt.get() ) << std::endl;
 
 			check( stmt->getKind() == ast::Stmt::Kind::eFunctionDecl );
@@ -518,7 +546,7 @@ namespace
 			check( stmt->getStatements().empty() );
 		}
 		{
-			auto stmt = ast::makeFunctionDeclStmt( ast::Type::eInt, "foo", { ast::makeVariable( ast::Type::eInt, "i" ), ast::makeVariable( ast::Type::eInt, "j" ) } );
+			auto stmt = ast::makeFunctionDeclStmt( ast::getIntType(), "foo", { ast::makeVariable( ast::getIntType(), "i" ), ast::makeVariable( ast::getIntType(), "j" ) } );
 			std::cout << "StmtFunctionDecl:\n" << ast::DebugStmtVisitor::submit( stmt.get() ) << std::endl;
 
 			check( stmt->getKind() == ast::Stmt::Kind::eFunctionDecl );
@@ -527,7 +555,7 @@ namespace
 			check( stmt->getStatements().empty() );
 		}
 		{
-			auto stmt = ast::makeFunctionDeclStmt( ast::Type::eInt, "foo", {} );
+			auto stmt = ast::makeFunctionDeclStmt( ast::getIntType(), "foo", {} );
 			stmt->addStmt( ast::makeReturnStmt( ast::makeLiteralExpr( 10 ) ) );
 			std::cout << "StmtFunctionDecl:\n" << ast::DebugStmtVisitor::submit( stmt.get() ) << std::endl;
 
@@ -537,9 +565,9 @@ namespace
 			check( stmt->getStatements().size() == 1u );
 		}
 		{
-			auto stmt = ast::makeFunctionDeclStmt( ast::Type::eInt, "foo", { ast::makeVariable( ast::Type::eInt, "i" ) } );
+			auto stmt = ast::makeFunctionDeclStmt( ast::getIntType(), "foo", { ast::makeVariable( ast::getIntType(), "i" ) } );
 			stmt->addStmt( ast::makeReturnStmt(
-				ast::makeAddExpr( ast::Type::eInt,
+				ast::makeAddExpr( ast::getIntType(),
 					ast::makeIdentifierExpr( stmt->getParameters()[0] ),
 					ast::makeLiteralExpr( 10 ) ) ) );
 			std::cout << "StmtFunctionDecl:\n" << ast::DebugStmtVisitor::submit( stmt.get() ) << std::endl;
@@ -550,9 +578,9 @@ namespace
 			check( stmt->getStatements().size() == 1u );
 		}
 		{
-			auto stmt = ast::makeFunctionDeclStmt( ast::Type::eInt, "foo", { ast::makeVariable( ast::Type::eInt, "i" ), ast::makeVariable( ast::Type::eInt, "j" ) } );
+			auto stmt = ast::makeFunctionDeclStmt( ast::getIntType(), "foo", { ast::makeVariable( ast::getIntType(), "i" ), ast::makeVariable( ast::getIntType(), "j" ) } );
 			stmt->addStmt( ast::makeReturnStmt( 
-				ast::makeAddExpr( ast::Type::eInt, 
+				ast::makeAddExpr( ast::getIntType(), 
 					ast::makeIdentifierExpr( stmt->getParameters()[0] ),
 					ast::makeIdentifierExpr( stmt->getParameters()[1] ) ) ) );
 			std::cout << "StmtFunctionDecl:\n" << ast::DebugStmtVisitor::submit( stmt.get() ) << std::endl;
@@ -579,6 +607,8 @@ int main( int argc, char ** argv )
 	testPreprocVersion();
 	testSimpleStatement();
 	testVariableDeclStatement();
+	testBoundVariableDeclStatement();
+	testInOutVariableDeclStatement();
 	testCompoundStatement();
 	testIfStatement();
 	testElseStatement();

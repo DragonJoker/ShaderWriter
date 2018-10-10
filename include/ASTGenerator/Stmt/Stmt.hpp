@@ -18,6 +18,8 @@ namespace ast
 			eSimple,
 			eCompound,
 			eVariableDecl,
+			eInOutVariableDecl,
+			eBoundVariableDecl,
 			eFunctionDecl,
 			eStructureDecl,
 			eIf,
