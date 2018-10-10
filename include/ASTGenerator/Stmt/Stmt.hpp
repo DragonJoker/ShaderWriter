@@ -29,6 +29,14 @@ namespace ast
 			eSwitch,
 			eSwitchCase,
 			eReturn,
+			ePreprocDefine,
+			ePreprocIf,
+			ePreprocElif,
+			ePreprocElse,
+			ePreprocIfDef,
+			ePreprocEndif,
+			ePreprocExtension,
+			ePreprocVersion,
 		};
 
 	public:

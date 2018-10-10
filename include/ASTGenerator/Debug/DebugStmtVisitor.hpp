@@ -35,6 +35,14 @@ namespace ast
 		void visitSwitchStmt( StmtSwitch * stmt )override;
 		void visitVariableDeclStmt( StmtVariableDecl * stmt )override;
 		void visitWhileStmt( StmtWhile * stmt )override;
+		void visitPreprocDefine( PreprocDefine * preproc )override;
+		void visitPreprocElif( PreprocElif * preproc )override;
+		void visitPreprocElse( PreprocElse * preproc )override;
+		void visitPreprocEndif( PreprocEndif * preproc )override;
+		void visitPreprocExtension( PreprocExtension * preproc )override;
+		void visitPreprocIf( PreprocIf * preproc )override;
+		void visitPreprocIfDef( PreprocIfDef * preproc )override;
+		void visitPreprocVersion( PreprocVersion * preproc )override;
 
 	private:
 		std::string m_indent;

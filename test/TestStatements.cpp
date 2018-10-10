@@ -6,6 +6,97 @@
 
 namespace
 {
+	void testPreprocIf()
+	{
+		testBegin( "testPreprocIf" );
+		auto stmt = ast::makePreprocIf( ast::makeIdentifierExpr( ast::makeVariable( ast::Type::eBoolean, "ItIsDefined" ) ) );
+		std::cout << "PreprocIf:\n" << ast::DebugStmtVisitor::submit( stmt.get() ) << std::endl;
+
+		check( stmt->getKind() == ast::Stmt::Kind::ePreprocIf );
+		check( stmt->getCtrlExpr()->getKind() == ast::Expr::Kind::eIdentifier );
+		check( stmt->getCtrlExpr()->getType() == ast::Type::eBoolean );
+		testEnd();
+	}
+	
+	void testPreprocIfDef()
+	{
+		testBegin( "testPreprocIfDef" );
+		auto stmt = ast::makePreprocIfDef( ast::makeIdentifierExpr( ast::makeVariable( ast::Type::eBoolean, "IsItDefined" ) ) );
+		std::cout << "PreprocIfDef:\n" << ast::DebugStmtVisitor::submit( stmt.get() ) << std::endl;
+
+		check( stmt->getKind() == ast::Stmt::Kind::ePreprocIfDef );
+		check( stmt->getIdentExpr()->getKind() == ast::Expr::Kind::eIdentifier );
+		check( stmt->getIdentExpr()->getType() == ast::Type::eBoolean );
+		testEnd();
+	}
+
+	void testPreprocElif()
+	{
+		testBegin( "testPreprocElif" );
+		auto stmt = ast::makePreprocElif( ast::makeIdentifierExpr( ast::makeVariable( ast::Type::eBoolean, "ItIsDefined" ) ) );
+		std::cout << "PreprocElif:\n" << ast::DebugStmtVisitor::submit( stmt.get() ) << std::endl;
+
+		check( stmt->getKind() == ast::Stmt::Kind::ePreprocElif );
+		check( stmt->getCtrlExpr()->getKind() == ast::Expr::Kind::eIdentifier );
+		check( stmt->getCtrlExpr()->getType() == ast::Type::eBoolean );
+		testEnd();
+	}
+
+	void testPreprocElse()
+	{
+		testBegin( "testPreprocElse" );
+		auto stmt = ast::makePreprocElse();
+		std::cout << "PreprocElse:\n" << ast::DebugStmtVisitor::submit( stmt.get() ) << std::endl;
+
+		check( stmt->getKind() == ast::Stmt::Kind::ePreprocElse );
+		testEnd();
+	}
+
+	void testPreprocEndif()
+	{
+		testBegin( "testPreprocEndif" );
+		auto stmt = ast::makePreprocEndif();
+		std::cout << "PreprocEndif:\n" << ast::DebugStmtVisitor::submit( stmt.get() ) << std::endl;
+
+		check( stmt->getKind() == ast::Stmt::Kind::ePreprocEndif );
+		testEnd();
+	}
+
+	void testPreprocDefine()
+	{
+		testBegin( "testPreprocDefine" );
+		auto stmt = ast::makePreprocDefine( "DefineIt", ast::makeLiteralExpr( 1 ) );
+		std::cout << "PreprocDefine:\n" << ast::DebugStmtVisitor::submit( stmt.get() ) << std::endl;
+
+		check( stmt->getKind() == ast::Stmt::Kind::ePreprocDefine );
+		check( stmt->getExpr()->getKind() == ast::Expr::Kind::eLiteral );
+		check( stmt->getExpr()->getType() == ast::Type::eInt );
+		testEnd();
+	}
+
+	void testPreprocExtension()
+	{
+		testBegin( "testPreprocExtension" );
+		auto stmt = ast::makePreprocExtension( "GL_arb_coin", ast::PreprocExtension::Status::eEnabled );
+		std::cout << "PreprocExtension:\n" << ast::DebugStmtVisitor::submit( stmt.get() ) << std::endl;
+
+		check( stmt->getKind() == ast::Stmt::Kind::ePreprocExtension );
+		check( stmt->getName() == "GL_arb_coin" );
+		check( stmt->getStatus() == ast::PreprocExtension::Status::eEnabled );
+		testEnd();
+	}
+
+	void testPreprocVersion()
+	{
+		testBegin( "testPreprocVersion" );
+		auto stmt = ast::makePreprocVersion( "430 core" );
+		std::cout << "PreprocVersion:\n" << ast::DebugStmtVisitor::submit( stmt.get() ) << std::endl;
+
+		check( stmt->getKind() == ast::Stmt::Kind::ePreprocVersion );
+		check( stmt->getName() == "430 core" );
+		testEnd();
+	}
+
 	void testSimpleStatement()
 	{
 		testBegin( "testSimpleStatement" );
@@ -478,6 +569,14 @@ namespace
 int main( int argc, char ** argv )
 {
 	testSuiteBegin( "TestStatements" );
+	testPreprocIf();
+	testPreprocIfDef();
+	testPreprocElif();
+	testPreprocElse();
+	testPreprocEndif();
+	testPreprocDefine();
+	testPreprocExtension();
+	testPreprocVersion();
 	testSimpleStatement();
 	testVariableDeclStatement();
 	testCompoundStatement();

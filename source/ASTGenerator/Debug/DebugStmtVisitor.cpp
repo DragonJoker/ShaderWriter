@@ -163,6 +163,29 @@ namespace ast
 
 			return result;
 		}
+
+		std::string getStatusName( PreprocExtension::Status status )
+		{
+			std::string result;
+
+			switch ( status )
+			{
+			case ast::PreprocExtension::Status::eDisabled:
+				result = "disable";
+				break;
+
+			case ast::PreprocExtension::Status::eEnabled:
+				result = "enable";
+				break;
+
+			case ast::PreprocExtension::Status::eRequired:
+				result = "required";
+				break;
+
+			}
+
+			return result;
+		}
 	}
 
 	DebugStmtVisitor::DebugStmtVisitor( std::string & result
@@ -335,5 +358,45 @@ namespace ast
 		m_result += m_indent + "while (" + DebugExprVisitor::submit( stmt->getCtrlExpr() ) + ")";
 		m_appendSemiColon = false;
 		visitCompoundStmt( stmt );
+	}
+
+	void DebugStmtVisitor::visitPreprocDefine( PreprocDefine * preproc )
+	{
+		m_result += "#define " + preproc->getName() + " " + DebugExprVisitor::submit( preproc->getExpr() ) + "\n";
+	}
+
+	void DebugStmtVisitor::visitPreprocElif( PreprocElif * preproc )
+	{
+		m_result += "#elif " + DebugExprVisitor::submit( preproc->getCtrlExpr() ) + "\n";
+	}
+
+	void DebugStmtVisitor::visitPreprocElse( PreprocElse * preproc )
+	{
+		m_result += "#else\n";
+	}
+
+	void DebugStmtVisitor::visitPreprocEndif( PreprocEndif * preproc )
+	{
+		m_result += "#endif\n";
+	}
+
+	void DebugStmtVisitor::visitPreprocExtension( PreprocExtension * preproc )
+	{
+		m_result += "#extension " + preproc->getName() + ": " + getStatusName( preproc->getStatus() ) + "\n";
+	}
+
+	void DebugStmtVisitor::visitPreprocIf( PreprocIf * preproc )
+	{
+		m_result += "#if " + DebugExprVisitor::submit( preproc->getCtrlExpr() ) + "\n";
+	}
+
+	void DebugStmtVisitor::visitPreprocIfDef( PreprocIfDef * preproc )
+	{
+		m_result += "#ifdef " + DebugExprVisitor::submit( preproc->getIdentExpr() ) + "\n";
+	}
+
+	void DebugStmtVisitor::visitPreprocVersion( PreprocVersion * preproc )
+	{
+		m_result += "#version " + preproc->getName() + "\n";
 	}
 }
