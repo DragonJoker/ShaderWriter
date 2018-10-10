@@ -18,6 +18,13 @@ namespace ast
 
 		void accept( ExprVisitorPtr vis )override;
 	};
+
+	inline std::unique_ptr< ExprLogOr > makeLogOrExpr( ExprPtr lhs
+		, ExprPtr rhs )
+	{
+		return std::make_unique< ExprLogOr >( std::move( lhs )
+			, std::move( rhs ) );
+	}
 }
 
 #endif

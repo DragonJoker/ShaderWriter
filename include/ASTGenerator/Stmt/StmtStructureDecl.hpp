@@ -14,7 +14,7 @@ namespace ast
 		: public StmtCompound
 	{
 	public:
-		StmtStructureDecl( std::string const & name );
+		StmtStructureDecl( std::string name );
 		void add( StmtVariableDeclPtr decl );
 
 		void accept( StmtVisitorPtr vis )override;
@@ -30,6 +30,11 @@ namespace ast
 	private:
 		std::string m_name;
 	};
+
+	inline std::unique_ptr< StmtStructureDecl > makeStructureDeclStmt( std::string name )
+	{
+		return std::make_unique< StmtStructureDecl >( std::move( name ) );
+	}
 }
 
 #endif

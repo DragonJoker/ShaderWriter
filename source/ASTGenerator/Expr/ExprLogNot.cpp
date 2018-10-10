@@ -7,11 +7,9 @@ See LICENSE file in root folder
 
 namespace ast
 {
-	ExprLogNot::ExprLogNot( ExprPtr lhs
-		, ExprPtr rhs )
-		: ExprBinary{ Type::eBoolean
-			, std::move( lhs )
-			, std::move( rhs )
+	ExprLogNot::ExprLogNot( ExprPtr operand )
+		: ExprUnary{ Type::eBoolean
+			, std::move( operand )
 			, Expr::Kind::eLogNot }
 	{
 	}

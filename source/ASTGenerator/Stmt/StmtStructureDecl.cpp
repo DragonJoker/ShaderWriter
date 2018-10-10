@@ -7,8 +7,9 @@ See LICENSE file in root folder
 
 namespace ast
 {
-	StmtStructureDecl::StmtStructureDecl( std::string const & name )
+	StmtStructureDecl::StmtStructureDecl( std::string name )
 		: StmtCompound{ Kind::eStructureDecl }
+		, m_name{ std::move( name ) }
 	{
 	}
 

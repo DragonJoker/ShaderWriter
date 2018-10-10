@@ -17,14 +17,20 @@ namespace ast
 
 		void accept( ExprVisitorPtr vis )override;
 
-		inline Expr const & getValue()const
+		inline Expr * getValue()const
 		{
-			return *m_value;
+			return m_value.get();
 		}
 
 	private:
 		ExprPtr m_value;
 	};
+	using ExprSwitchTestPtr = std::unique_ptr< ExprSwitchTest >;
+
+	inline std::unique_ptr< ExprSwitchTest > makeSwitchTestExpr( ExprPtr value )
+	{
+		return std::make_unique< ExprSwitchTest >( std::move( value ) );
+	}
 }
 
 #endif

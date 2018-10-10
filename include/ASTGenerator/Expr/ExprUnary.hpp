@@ -17,9 +17,9 @@ namespace ast
 			, ExprPtr operand
 			, Expr::Kind kind );
 
-		inline Expr const & getOperand()const
+		inline Expr * getOperand()const
 		{
-			return *m_operand;
+			return m_operand.get();
 		}
 
 	private:

@@ -5,7 +5,7 @@ See LICENSE file in root folder
 
 #include "ASTGenerator/Expr/ExprVisitor.hpp"
 
-#include "ASTGenerator/Variable.hpp"
+#include "ASTGenerator/Var/Variable.hpp"
 
 namespace ast
 {

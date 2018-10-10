@@ -17,6 +17,11 @@ namespace ast
 
 		void accept( ExprVisitorPtr vis )override;
 	};
+
+	inline std::unique_ptr< ExprUnaryMinus > makeUnaryMinusExpr( ExprPtr operand )
+	{
+		return std::make_unique< ExprUnaryMinus >( std::move( operand ) );
+	}
 }
 
 #endif

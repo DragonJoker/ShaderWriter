@@ -27,6 +27,13 @@ namespace ast
 	private:
 		VariablePtr m_variable;
 	};
+
+	inline std::unique_ptr< ExprMbrSelect > makeMbrSelectExpr( VariablePtr variable
+		, ExprIdentifierPtr member )
+	{
+		return std::make_unique< ExprMbrSelect >( std::move( variable )
+			, std::move( member ) );
+	}
 }
 
 #endif

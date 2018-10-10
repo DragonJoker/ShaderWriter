@@ -22,9 +22,13 @@ namespace ast
 			eStructureDecl,
 			eIf,
 			eElse,
+			eElseIf,
 			eWhile,
 			eFor,
 			eDoWhile,
+			eSwitch,
+			eSwitchCase,
+			eReturn,
 		};
 
 	public:

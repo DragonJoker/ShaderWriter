@@ -58,6 +58,8 @@ namespace ast
 		eMat2x2F,
 		eMat3x3F,
 		eMat4x4F,
+		eConstantsBuffer,
+		eShaderBuffer,
 		eSamplerBuffer,
 		eSampler1D,
 		eSampler2D,

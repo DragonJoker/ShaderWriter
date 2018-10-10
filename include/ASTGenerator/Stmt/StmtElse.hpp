@@ -5,10 +5,11 @@ See LICENSE file in root folder
 #define ___AST_StmtElse_H___
 #pragma once
 
-#include "StmtIf.hpp"
+#include "StmtCompound.hpp"
 
 namespace ast
 {
+	class StmtIf;
 	class StmtElse
 		: public StmtCompound
 	{
@@ -25,6 +26,11 @@ namespace ast
 	private:
 		StmtIf const & m_ifStmt;
 	};
+
+	inline std::unique_ptr< StmtElse > makeElseStmt( StmtIf const & ifStmt )
+	{
+		return std::make_unique< StmtElse >( ifStmt );
+	}
 }
 
 #endif

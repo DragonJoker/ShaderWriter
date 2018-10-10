@@ -20,6 +20,15 @@ namespace ast
 
 		void accept( ExprVisitorPtr vis )override;
 	};
+
+	inline std::unique_ptr< ExprAssign > makeAssignExpr( Type type
+		, ExprPtr lhs
+		, ExprPtr rhs )
+	{
+		return std::make_unique< ExprAssign >( type
+			, std::move( lhs )
+			, std::move( rhs ) );
+	}
 }
 
 #endif

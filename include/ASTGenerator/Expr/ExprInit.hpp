@@ -18,20 +18,28 @@ namespace ast
 
 		void accept( ExprVisitorPtr vis )override;
 
-		inline ExprIdentifier const & getIdentifier()const
+		inline ExprIdentifier * getIdentifier()const
 		{
-			return *m_identifier;
+			return m_identifier.get();
 		}
 
-		inline Expr const & getInitialiser()const
+		inline Expr * getInitialiser()const
 		{
-			return *m_initialiser;
+			return m_initialiser.get();
 		}
 
 	private:
 		ExprIdentifierPtr m_identifier;
 		ExprPtr m_initialiser;
 	};
+	using ExprInitPtr = std::unique_ptr< ExprInit >;
+
+	inline ExprInitPtr makeInitExpr( ExprIdentifierPtr identifier
+		, ExprPtr initialiser )
+	{
+		return std::make_unique< ExprInit >( std::move( identifier )
+			, std::move( initialiser ) );
+	}
 }
 
 #endif

@@ -31,7 +31,6 @@ See LICENSE file in root folder
 #include "ExprLogAnd.hpp"
 #include "ExprLogNot.hpp"
 #include "ExprLogOr.hpp"
-#include "ExprLogXor.hpp"
 #include "ExprMbrSelect.hpp"
 #include "ExprMinus.hpp"
 #include "ExprMinusAssign.hpp"
@@ -92,7 +91,6 @@ namespace ast
 		virtual void visitLogAndExpr( ExprLogAnd * ) = 0;
 		virtual void visitLogNotExpr( ExprLogNot * ) = 0;
 		virtual void visitLogOrExpr( ExprLogOr * ) = 0;
-		virtual void visitLogXorExpr( ExprLogXor * ) = 0;
 		virtual void visitLShiftExpr( ExprLShift * ) = 0;
 		virtual void visitLShiftAssignExpr( ExprLShiftAssign * ) = 0;
 		virtual void visitMbrSelectExpr( ExprMbrSelect * ) = 0;
@@ -156,7 +154,7 @@ namespace ast
 		}
 		void visitBitNotExpr( ExprBitNot * expr )override
 		{
-			visitBinaryExpr( expr );
+			visitUnaryExpr( expr );
 		}
 		void visitBitOrExpr( ExprBitOr * expr )override
 		{
@@ -208,13 +206,9 @@ namespace ast
 		}
 		void visitLogNotExpr( ExprLogNot * expr )override
 		{
-			visitBinaryExpr( expr );
+			visitUnaryExpr( expr );
 		}
 		void visitLogOrExpr( ExprLogOr * expr )override
-		{
-			visitBinaryExpr( expr );
-		}
-		void visitLogXorExpr( ExprLogXor * expr )override
 		{
 			visitBinaryExpr( expr );
 		}

@@ -26,6 +26,11 @@ namespace ast
 		VariablePtr m_var;
 	};
 	using ExprIdentifierPtr = std::unique_ptr< ExprIdentifier >;
+
+	inline ExprIdentifierPtr makeIdentifierExpr( VariablePtr var )
+	{
+		return std::make_unique< ExprIdentifier >( std::move( var ) );
+	}
 }
 
 #endif

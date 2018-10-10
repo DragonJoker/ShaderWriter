@@ -5,20 +5,26 @@ See LICENSE file in root folder
 #define ___AST_ExprBitNot_H___
 #pragma once
 
-#include "ExprBinary.hpp"
+#include "ExprUnary.hpp"
 
 namespace ast
 {
 	class ExprBitNot
-		: public ExprBinary
+		: public ExprUnary
 	{
 	public:
 		ExprBitNot( Type type
-			, ExprPtr lhs
-			, ExprPtr rhs );
+			, ExprPtr operand );
 
 		void accept( ExprVisitorPtr vis )override;
 	};
+
+	inline std::unique_ptr< ExprBitNot > makeBitNotExpr( Type type
+		, ExprPtr operand )
+	{
+		return std::make_unique< ExprBitNot >( type
+			, std::move( operand ) );
+	}
 }
 
 #endif

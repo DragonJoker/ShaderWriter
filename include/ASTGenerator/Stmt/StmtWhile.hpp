@@ -19,14 +19,19 @@ namespace ast
 
 		void accept( StmtVisitorPtr vis )override;
 
-		inline Expr const & getCtrlExpr()const
+		inline Expr * getCtrlExpr()const
 		{
-			return *m_ctrlExpr.get();
+			return m_ctrlExpr.get();
 		}
 
 	private:
 		ExprPtr m_ctrlExpr;
 	};
+
+	inline std::unique_ptr< StmtWhile > makeWhileStmt( ExprPtr ctrlExpr )
+	{
+		return std::make_unique< StmtWhile >( std::move( ctrlExpr ) );
+	}
 }
 
 #endif

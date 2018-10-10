@@ -7,7 +7,7 @@ See LICENSE file in root folder
 
 #include "StmtCompound.hpp"
 
-#include "ASTGenerator/Expr/Expr.hpp"
+#include "ASTGenerator/Expr/ExprInit.hpp"
 
 namespace ast
 {
@@ -21,19 +21,19 @@ namespace ast
 
 		void accept( StmtVisitorPtr vis )override;
 
-		inline Expr const & getInitExpr()const
+		inline Expr * getInitExpr()const
 		{
-			return *m_initExpr.get();
+			return m_initExpr.get();
 		}
 
-		inline Expr const & getCtrlExpr()const
+		inline Expr * getCtrlExpr()const
 		{
-			return *m_ctrlExpr.get();
+			return m_ctrlExpr.get();
 		}
 
-		inline Expr const & getIncrExpr()const
+		inline Expr * getIncrExpr()const
 		{
-			return *m_incrExpr.get();
+			return m_incrExpr.get();
 		}
 
 	private:
@@ -41,6 +41,15 @@ namespace ast
 		ExprPtr m_ctrlExpr;
 		ExprPtr m_incrExpr;
 	};
+
+	inline std::unique_ptr< StmtFor > makeForStmt( ExprPtr initExpr
+		, ExprPtr ctrlExpr
+		, ExprPtr incrExpr )
+	{
+		return std::make_unique< StmtFor >( std::move( initExpr )
+			, std::move( ctrlExpr ) 
+			, std::move( incrExpr ) );
+	}
 }
 
 #endif

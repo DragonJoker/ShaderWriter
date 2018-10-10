@@ -139,6 +139,8 @@ if ( MSVC OR NOT "${CMAKE_BUILD_TYPE}" STREQUAL "" )
 	)
 	parse_subdir_files( ${PROJECT_NAME}/Expr "Expr" )
 	parse_subdir_files( ${PROJECT_NAME}/Stmt "Stmt" )
+	parse_subdir_files( ${PROJECT_NAME}/Var "Var" )
+	parse_subdir_files( ${PROJECT_NAME}/Debug "Debug" )
 	add_library( ${PROJECT_NAME}
 		STATIC
 		${${PROJECT_NAME}_FOLDER_HEADER_FILES}

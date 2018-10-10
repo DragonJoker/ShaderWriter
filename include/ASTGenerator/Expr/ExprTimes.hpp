@@ -19,6 +19,15 @@ namespace ast
 
 		void accept( ExprVisitorPtr vis )override;
 	};
+
+	inline std::unique_ptr< ExprTimes > makeTimesExpr( Type type
+		, ExprPtr lhs
+		, ExprPtr rhs )
+	{
+		return std::make_unique< ExprTimes >( type
+			, std::move( lhs )
+			, std::move( rhs ) );
+	}
 }
 
 #endif

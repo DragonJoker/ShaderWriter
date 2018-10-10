@@ -18,6 +18,13 @@ namespace ast
 
 		void accept( ExprVisitorPtr vis )override;
 	};
+
+	inline std::unique_ptr< ExprCast > makeCastExpr( Type dstType
+		, ExprPtr operand )
+	{
+		return std::make_unique< ExprCast >( dstType
+			, std::move( operand ) );
+	}
 }
 
 #endif

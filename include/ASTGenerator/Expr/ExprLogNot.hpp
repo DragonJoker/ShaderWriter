@@ -5,19 +5,23 @@ See LICENSE file in root folder
 #define ___AST_ExprLogNot_H___
 #pragma once
 
-#include "ExprBinary.hpp"
+#include "ExprUnary.hpp"
 
 namespace ast
 {
 	class ExprLogNot
-		: public ExprBinary
+		: public ExprUnary
 	{
 	public:
-		ExprLogNot( ExprPtr lhs
-			, ExprPtr rhs );
+		ExprLogNot( ExprPtr operand );
 
 		void accept( ExprVisitorPtr vis )override;
 	};
+
+	inline std::unique_ptr< ExprLogNot > makeLogNotExpr( ExprPtr operand )
+	{
+		return std::make_unique< ExprLogNot >( std::move( operand ) );
+	}
 }
 
 #endif

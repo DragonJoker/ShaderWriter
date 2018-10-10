@@ -6,7 +6,7 @@ See LICENSE file in root folder
 #pragma once
 
 #include "StmtCompound.hpp"
-#include "ASTGenerator/VariableList.hpp"
+#include "ASTGenerator/Var/VariableList.hpp"
 
 namespace ast
 {
@@ -30,7 +30,7 @@ namespace ast
 			return m_name;
 		}
 
-		inline VariableList const & getVariable()const
+		inline VariableList const & getParameters()const
 		{
 			return m_parameters;
 		}
@@ -40,6 +40,15 @@ namespace ast
 		std::string m_name;
 		VariableList m_parameters;
 	};
+
+	inline std::unique_ptr< StmtFunctionDecl > makeFunctionDeclStmt( Type retType
+		, std::string name
+		, VariableList parameters )
+	{
+		return std::make_unique< StmtFunctionDecl >( retType
+			, std::move( name )
+			, std::move( parameters ) );
+	}
 }
 
 #endif

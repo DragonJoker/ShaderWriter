@@ -9,6 +9,7 @@ namespace ast
 {
 	StmtVariableDecl::StmtVariableDecl( VariablePtr variable )
 		: Stmt{ Kind::eVariableDecl }
+		, m_variable{ std::move( variable ) }
 	{
 	}
 

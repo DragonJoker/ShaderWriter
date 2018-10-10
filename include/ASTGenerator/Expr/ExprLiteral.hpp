@@ -99,6 +99,12 @@ namespace ast
 		} m_value;
 	};
 	using ExprLiteralPtr = std::unique_ptr< ExprLiteral >;
+
+	template< typename T >
+	inline ExprLiteralPtr makeLiteralExpr( T value )
+	{
+		return std::make_unique< ExprLiteral >( value );
+	}
 }
 
 #endif

@@ -5,7 +5,7 @@ See LICENSE file in root folder
 #define ___AST_StmtVariableDecl_H___
 #pragma once
 
-#include "StmtIf.hpp"
+#include "Stmt.hpp"
 
 namespace ast
 {
@@ -26,6 +26,11 @@ namespace ast
 		VariablePtr m_variable;
 	};
 	using StmtVariableDeclPtr = std::unique_ptr< StmtVariableDecl >;
+
+	inline std::unique_ptr< StmtVariableDecl > makeVariableDeclStmt( VariablePtr variable )
+	{
+		return std::make_unique< StmtVariableDecl >( std::move( variable ) );
+	}
 }
 
 #endif

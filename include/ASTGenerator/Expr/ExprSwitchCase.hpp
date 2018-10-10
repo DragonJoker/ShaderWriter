@@ -17,14 +17,21 @@ namespace ast
 
 		void accept( ExprVisitorPtr vis )override;
 
-		inline ExprLiteral const & getLabel()const
+		inline ExprLiteral * getLabel()const
 		{
-			return *m_label;
+			return m_label.get();
 		}
 
 	private:
 		ExprLiteralPtr m_label;
 	};
+	using ExprSwitchCasePtr = std::unique_ptr< ExprSwitchCase >;
+	using ExprSwitchCaseList = std::vector< ExprSwitchCasePtr >;
+
+	inline std::unique_ptr< ExprSwitchCase > makeSwitchCaseExpr( ExprLiteralPtr label )
+	{
+		return std::make_unique< ExprSwitchCase >( std::move( label ) );
+	}
 }
 
 #endif

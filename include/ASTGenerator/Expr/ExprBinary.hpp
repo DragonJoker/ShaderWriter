@@ -18,14 +18,14 @@ namespace ast
 			, ExprPtr rhs
 			, Expr::Kind kind );
 
-		inline Expr const & getLHS()const
+		inline Expr * getLHS()const
 		{
-			return *m_lhs;
+			return m_lhs.get();
 		}
 
-		inline Expr const & getRHS()const
+		inline Expr * getRHS()const
 		{
-			return *m_rhs;
+			return m_rhs.get();
 		}
 
 	private:

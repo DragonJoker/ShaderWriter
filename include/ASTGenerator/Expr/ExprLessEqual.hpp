@@ -18,6 +18,13 @@ namespace ast
 
 		void accept( ExprVisitorPtr vis )override;
 	};
+
+	inline std::unique_ptr< ExprLessEqual > makeLessEqualExpr( ExprPtr lhs
+		, ExprPtr rhs )
+	{
+		return std::make_unique< ExprLessEqual >( std::move( lhs )
+			, std::move( rhs ) );
+	}
 }
 
 #endif

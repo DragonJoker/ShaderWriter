@@ -19,14 +19,19 @@ namespace ast
 
 		void accept( StmtVisitorPtr vis )override;
 
-		inline Expr const & getExpr()const
+		inline Expr * getExpr()const
 		{
-			return *m_expr;
+			return m_expr.get();
 		}
 
 	private:
 		ExprPtr m_expr;
 	};
+
+	inline std::unique_ptr< StmtSimple > makeSimpleStmt( ExprPtr expr )
+	{
+		return std::make_unique< StmtSimple >( std::move( expr ) );
+	}
 }
 
 #endif

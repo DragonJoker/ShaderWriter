@@ -8,11 +8,9 @@ See LICENSE file in root folder
 namespace ast
 {
 	ExprBitNot::ExprBitNot( Type type
-		, ExprPtr lhs
-		, ExprPtr rhs )
-		: ExprBinary{ type
-			, std::move( lhs )
-			, std::move( rhs )
+		, ExprPtr operand )
+		: ExprUnary{ type
+			, std::move( operand )
 			, Expr::Kind::eBitNot }
 	{
 	}

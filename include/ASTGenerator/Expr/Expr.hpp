@@ -29,7 +29,6 @@ namespace ast
 			eLogAnd,
 			eLogNot,
 			eLogOr,
-			eLogXor,
 			eCast,
 			eInit,
 			eFnCall,

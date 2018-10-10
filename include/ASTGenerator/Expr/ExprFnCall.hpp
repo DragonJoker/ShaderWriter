@@ -25,15 +25,24 @@ namespace ast
 			return m_argList;
 		}
 
-		inline ExprIdentifier const & getFn()const
+		inline ExprIdentifier * getFn()const
 		{
-			return *m_fn;
+			return m_fn.get();
 		}
 
 	private:
 		ExprIdentifierPtr m_fn;
 		ExprList m_argList;
 	};
+
+	inline std::unique_ptr< ExprFnCall > makeFnCallExpr( Type type
+		, ExprIdentifierPtr fn
+		, ExprList && argList )
+	{
+		return std::make_unique< ExprFnCall >( type
+			, std::move( fn )
+			, std::move( argList ) );
+	}
 }
 
 #endif
