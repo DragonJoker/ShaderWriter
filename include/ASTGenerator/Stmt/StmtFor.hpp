@@ -9,44 +9,45 @@ See LICENSE file in root folder
 
 #include "ASTGenerator/Expr/ExprInit.hpp"
 
-namespace ast
+namespace ast::stmt
 {
-	class StmtFor
-		: public StmtCompound
+	class For
+		: public Compound
 	{
 	public:
-		StmtFor( ExprPtr initExpr
-			, ExprPtr ctrlExpr
-			, ExprPtr incrExpr );
+		For( expr::ExprPtr initExpr
+			, expr::ExprPtr ctrlExpr
+			, expr::ExprPtr incrExpr );
 
-		void accept( StmtVisitorPtr vis )override;
+		void accept( VisitorPtr vis )override;
 
-		inline Expr * getInitExpr()const
+		inline expr::Expr * getInitExpr()const
 		{
 			return m_initExpr.get();
 		}
 
-		inline Expr * getCtrlExpr()const
+		inline expr::Expr * getCtrlExpr()const
 		{
 			return m_ctrlExpr.get();
 		}
 
-		inline Expr * getIncrExpr()const
+		inline expr::Expr * getIncrExpr()const
 		{
 			return m_incrExpr.get();
 		}
 
 	private:
-		ExprPtr m_initExpr;
-		ExprPtr m_ctrlExpr;
-		ExprPtr m_incrExpr;
+		expr::ExprPtr m_initExpr;
+		expr::ExprPtr m_ctrlExpr;
+		expr::ExprPtr m_incrExpr;
 	};
+	using ForPtr = std::unique_ptr< For >;
 
-	inline std::unique_ptr< StmtFor > makeForStmt( ExprPtr initExpr
-		, ExprPtr ctrlExpr
-		, ExprPtr incrExpr )
+	inline ForPtr makeFor( expr::ExprPtr initExpr
+		, expr::ExprPtr ctrlExpr
+		, expr::ExprPtr incrExpr )
 	{
-		return std::make_unique< StmtFor >( std::move( initExpr )
+		return std::make_unique< For >( std::move( initExpr )
 			, std::move( ctrlExpr ) 
 			, std::move( incrExpr ) );
 	}

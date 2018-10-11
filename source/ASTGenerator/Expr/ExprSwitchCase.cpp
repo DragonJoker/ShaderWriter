@@ -5,15 +5,15 @@ See LICENSE file in root folder
 
 #include "ASTGenerator/Expr/ExprVisitor.hpp"
 
-namespace ast
+namespace ast::expr
 {
-	ExprSwitchCase::ExprSwitchCase( ExprLiteralPtr label )
-		: Expr{ label->getType(), Kind::eSwitchCase }
+	SwitchCase::SwitchCase( LiteralPtr label )
+		: Expr{ std::move( label->get() ), Kind::eSwitchCase }
 		, m_label{ std::move( label ) }
 	{
 	}
 
-	void ExprSwitchCase::accept( ExprVisitorPtr vis )
+	void SwitchCase::accept( VisitorPtr vis )
 	{
 		vis->visitSwitchCaseExpr( this );
 	}

@@ -7,24 +7,25 @@ See LICENSE file in root folder
 
 #include "ExprBinary.hpp"
 
-namespace ast
+namespace ast::expr
 {
-	class ExprBitAnd
-		: public ExprBinary
+	class BitAnd
+		: public Binary
 	{
 	public:
-		ExprBitAnd( TypePtr type
+		BitAnd( type::TypePtr type
 			, ExprPtr lhs
 			, ExprPtr rhs );
 
-		void accept( ExprVisitorPtr vis )override;
+		void accept( VisitorPtr vis )override;
 	};
+	using BitAndPtr = std::unique_ptr< BitAnd >;
 
-	inline std::unique_ptr< ExprBitAnd > makeBitAndExpr( TypePtr type
+	inline BitAndPtr makeBitAnd( type::TypePtr type
 		, ExprPtr lhs
 		, ExprPtr rhs )
 	{
-		return std::make_unique< ExprBitAnd >( type
+		return std::make_unique< BitAnd >( std::move( type )
 			, std::move( lhs )
 			, std::move( rhs ) );
 	}

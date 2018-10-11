@@ -9,28 +9,29 @@ See LICENSE file in root folder
 
 #include "ASTGenerator/Expr/Expr.hpp"
 
-namespace ast
+namespace ast::stmt
 {
-	class StmtSimple
+	class Simple
 		: public Stmt
 	{
 	public:
-		StmtSimple( ExprPtr expr );
+		Simple( expr::ExprPtr expr );
 
-		void accept( StmtVisitorPtr vis )override;
+		void accept( VisitorPtr vis )override;
 
-		inline Expr * getExpr()const
+		inline expr::Expr * getExpr()const
 		{
 			return m_expr.get();
 		}
 
 	private:
-		ExprPtr m_expr;
+		expr::ExprPtr m_expr;
 	};
+	using SimplePtr = std::unique_ptr< Simple >;
 
-	inline std::unique_ptr< StmtSimple > makeSimpleStmt( ExprPtr expr )
+	inline SimplePtr makeSimple( expr::ExprPtr expr )
 	{
-		return std::make_unique< StmtSimple >( std::move( expr ) );
+		return std::make_unique< Simple >( std::move( expr ) );
 	}
 }
 

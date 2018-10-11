@@ -8,32 +8,31 @@ See LICENSE file in root folder
 #include "StmtCompound.hpp"
 #include "StmtVariableDecl.hpp"
 
-namespace ast
+#include "ASTGenerator/Type/TypeStruct.hpp"
+
+namespace ast::stmt
 {
-	class StmtStructureDecl
-		: public StmtCompound
+	class StructureDecl
+		: public Stmt
 	{
 	public:
-		StmtStructureDecl( std::string name );
-		void add( StmtVariableDeclPtr decl );
+		StructureDecl( type::StructPtr type );
 
-		void accept( StmtVisitorPtr vis )override;
+		void accept( VisitorPtr vis )override;
 
-		inline std::string const & getName()const
+		inline type::Struct const & get()const
 		{
-			return m_name;
+			return *m_type;
 		}
 
 	private:
-		using StmtCompound::addStmt;
-
-	private:
-		std::string m_name;
+		type::StructPtr m_type;
 	};
+	using StructureDeclPtr = std::unique_ptr< StructureDecl >;
 
-	inline std::unique_ptr< StmtStructureDecl > makeStructureDeclStmt( std::string name )
+	inline StructureDeclPtr makeStructureDecl( type::StructPtr type )
 	{
-		return std::make_unique< StmtStructureDecl >( std::move( name ) );
+		return std::make_unique< StructureDecl >( std::move( type ) );
 	}
 }
 

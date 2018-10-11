@@ -8,19 +8,19 @@ See LICENSE file in root folder
 #include "StmtCompound.hpp"
 #include "ASTGenerator/Var/VariableList.hpp"
 
-namespace ast
+namespace ast::stmt
 {
-	class StmtFunctionDecl
-		: public StmtCompound
+	class FunctionDecl
+		: public Compound
 	{
 	public:
-		StmtFunctionDecl( TypePtr retType
+		FunctionDecl( type::TypePtr retType
 			, std::string name
-			, VariableList parameters );
+			, var::VariableList parameters );
 
-		void accept( StmtVisitorPtr vis )override;
+		void accept( VisitorPtr vis )override;
 
-		inline TypePtr getRetType()const
+		inline type::TypePtr getRet()const
 		{
 			return m_retType;
 		}
@@ -30,22 +30,23 @@ namespace ast
 			return m_name;
 		}
 
-		inline VariableList const & getParameters()const
+		inline var::VariableList const & getParameters()const
 		{
 			return m_parameters;
 		}
 
 	private:
-		TypePtr m_retType;
+		type::TypePtr m_retType;
 		std::string m_name;
-		VariableList m_parameters;
+		var::VariableList m_parameters;
 	};
+	using FunctionDeclPtr = std::unique_ptr< FunctionDecl >;
 
-	inline std::unique_ptr< StmtFunctionDecl > makeFunctionDeclStmt( TypePtr retType
+	inline FunctionDeclPtr makeFunctionDecl( type::TypePtr retType
 		, std::string name
-		, VariableList parameters )
+		, var::VariableList parameters )
 	{
-		return std::make_unique< StmtFunctionDecl >( std::move( retType )
+		return std::make_unique< FunctionDecl >( std::move( retType )
 			, std::move( name )
 			, std::move( parameters ) );
 	}

@@ -7,22 +7,23 @@ See LICENSE file in root folder
 
 #include "ExprBinary.hpp"
 
-namespace ast
+namespace ast::expr
 {
-	class ExprLogAnd
-		: public ExprBinary
+	class LogAnd
+		: public Binary
 	{
 	public:
-		ExprLogAnd( ExprPtr lhs
+		LogAnd( ExprPtr lhs
 			, ExprPtr rhs );
 
-		void accept( ExprVisitorPtr vis )override;
+		void accept( VisitorPtr vis )override;
 	};
+	using LogAndPtr = std::unique_ptr< LogAnd >;
 
-	inline std::unique_ptr< ExprLogAnd > makeLogAndExpr( ExprPtr lhs
+	inline LogAndPtr makeLogAnd( ExprPtr lhs
 		, ExprPtr rhs )
 	{
-		return std::make_unique< ExprLogAnd >( std::move( lhs )
+		return std::make_unique< LogAnd >( std::move( lhs )
 			, std::move( rhs ) );
 	}
 }

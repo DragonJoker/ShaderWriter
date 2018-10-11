@@ -5,18 +5,18 @@ See LICENSE file in root folder
 
 #include "ASTGenerator/Expr/ExprVisitor.hpp"
 
-namespace ast
+namespace ast::expr
 {
-	ExprFnCall::ExprFnCall( TypePtr type
-		, ExprIdentifierPtr fn
+	FnCall::FnCall( type::TypePtr type
+		, IdentifierPtr fn
 		, ExprList && argList )
-		: Expr{ type, Kind::eFnCall }
+		: Expr{ std::move( type ), Kind::eFnCall }
 		, m_fn{ std::move( fn ) }
 		, m_argList{ std::move( argList ) }
 	{
 	}
 
-	void ExprFnCall::accept( ExprVisitorPtr vis )
+	void FnCall::accept( VisitorPtr vis )
 	{
 		vis->visitFnCallExpr( this );
 	}

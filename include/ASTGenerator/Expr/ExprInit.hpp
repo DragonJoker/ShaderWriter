@@ -7,18 +7,18 @@ See LICENSE file in root folder
 
 #include "ExprIdentifier.hpp"
 
-namespace ast
+namespace ast::expr
 {
-	class ExprInit
+	class Init
 		: public Expr
 	{
 	public:
-		ExprInit( ExprIdentifierPtr identifier
+		Init( IdentifierPtr identifier
 			, ExprPtr initialiser );
 
-		void accept( ExprVisitorPtr vis )override;
+		void accept( VisitorPtr vis )override;
 
-		inline ExprIdentifier * getIdentifier()const
+		inline Identifier * getIdentifier()const
 		{
 			return m_identifier.get();
 		}
@@ -29,15 +29,15 @@ namespace ast
 		}
 
 	private:
-		ExprIdentifierPtr m_identifier;
+		IdentifierPtr m_identifier;
 		ExprPtr m_initialiser;
 	};
-	using ExprInitPtr = std::unique_ptr< ExprInit >;
+	using InitPtr = std::unique_ptr< Init >;
 
-	inline ExprInitPtr makeInitExpr( ExprIdentifierPtr identifier
+	inline InitPtr makeInit( IdentifierPtr identifier
 		, ExprPtr initialiser )
 	{
-		return std::make_unique< ExprInit >( std::move( identifier )
+		return std::make_unique< Init >( std::move( identifier )
 			, std::move( initialiser ) );
 	}
 }

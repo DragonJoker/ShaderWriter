@@ -7,22 +7,23 @@ See LICENSE file in root folder
 
 #include "ExprBinary.hpp"
 
-namespace ast
+namespace ast::expr
 {
-	class ExprLess
-		: public ExprBinary
+	class Less
+		: public Binary
 	{
 	public:
-		ExprLess( ExprPtr lhs
+		Less( ExprPtr lhs
 			, ExprPtr rhs );
 
-		void accept( ExprVisitorPtr vis )override;
+		void accept( VisitorPtr vis )override;
 	};
+	using LessPtr = std::unique_ptr< Less >;
 
-	inline std::unique_ptr< ExprLess > makeLessExpr( ExprPtr lhs
+	inline LessPtr makeLess( ExprPtr lhs
 		, ExprPtr rhs )
 	{
-		return std::make_unique< ExprLess >( std::move( lhs )
+		return std::make_unique< Less >( std::move( lhs )
 			, std::move( rhs ) );
 	}
 }

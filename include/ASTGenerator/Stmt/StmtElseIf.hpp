@@ -9,32 +9,33 @@ See LICENSE file in root folder
 
 #include "ASTGenerator/Expr/Expr.hpp"
 
-namespace ast
+namespace ast::stmt
 {
-	class StmtIf;
-	class StmtElseIf
-		: public StmtCompound
+	class If;
+	class ElseIf
+		: public Compound
 	{
 	public:
-		StmtElseIf( StmtIf const & ifStmt
-			, ExprPtr ctrlExpr );
+		ElseIf( If const & ifStmt
+			, expr::ExprPtr ctrlExpr );
 
-		void accept( StmtVisitorPtr vis )override;
+		void accept( VisitorPtr vis )override;
 
-		inline Expr * getCtrlExpr()const
+		inline expr::Expr * getCtrlExpr()const
 		{
 			return m_ctrlExpr.get();
 		}
 
 	private:
-		StmtIf const & m_ifStmt;
-		ExprPtr m_ctrlExpr;
+		If const & m_ifStmt;
+		expr::ExprPtr m_ctrlExpr;
 	};
+	using ElseIfPtr = std::unique_ptr< ElseIf >;
 
-	inline std::unique_ptr< StmtElseIf > makeElseIfStmt( StmtIf const & ifStmt
-		, ExprPtr ctrlExpr )
+	inline ElseIfPtr makeElseIf( If const & ifStmt
+		, expr::ExprPtr ctrlExpr )
 	{
-		return std::make_unique< StmtElseIf >( ifStmt
+		return std::make_unique< ElseIf >( ifStmt
 			, std::move( ctrlExpr ) );
 	}
 }

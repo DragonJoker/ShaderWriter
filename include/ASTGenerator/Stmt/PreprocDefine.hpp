@@ -7,34 +7,35 @@ See LICENSE file in root folder
 
 #include "Stmt.hpp"
 
-namespace ast
+namespace ast::stmt
 {
 	class PreprocDefine
 		: public Stmt
 	{
 	public:
 		PreprocDefine( std::string name
-			, ExprPtr expr );
+			, expr::ExprPtr expr );
 
-		void accept( StmtVisitorPtr vis )override;
+		void accept( VisitorPtr vis )override;
 
 		inline std::string const & getName()const
 		{
 			return m_name;
 		}
 
-		inline Expr * getExpr()const
+		inline expr::Expr * getExpr()const
 		{
 			return m_expr.get();
 		}
 
 	private:
 		std::string m_name;
-		ExprPtr m_expr;
+		expr::ExprPtr m_expr;
 	};
+	using PreprocDefinePtr = std::unique_ptr< PreprocDefine >;
 
-	inline std::unique_ptr< PreprocDefine > makePreprocDefine( std::string name
-		, ExprPtr expr )
+	inline PreprocDefinePtr makePreprocDefine( std::string name
+		, expr::ExprPtr expr )
 	{
 		return std::make_unique< PreprocDefine >( std::move( name )
 			, std::move( expr ) );

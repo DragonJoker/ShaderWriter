@@ -5,19 +5,19 @@ See LICENSE file in root folder
 
 #include "ASTGenerator/Expr/ExprVisitor.hpp"
 
-namespace ast
+namespace ast::expr
 {
-	ExprRShift::ExprRShift( TypePtr type
+	RShift::RShift( type::TypePtr type
 		, ExprPtr lhs
 		, ExprPtr rhs )
-		: ExprBinary{ type
+		: Binary{ std::move( type )
 			, std::move( lhs )
 			, std::move( rhs )
-			, Expr::Kind::eRShift }
+			, Kind::eRShift }
 	{
 	}
 
-	void ExprRShift::accept( ExprVisitorPtr vis )
+	void RShift::accept( VisitorPtr vis )
 	{
 		vis->visitRShiftExpr( this );
 	}

@@ -7,24 +7,25 @@ See LICENSE file in root folder
 
 #include "ExprAssign.hpp"
 
-namespace ast
+namespace ast::expr
 {
-	class ExprTimesAssign
-		: public ExprAssign
+	class TimesAssign
+		: public Assign
 	{
 	public:
-		ExprTimesAssign( TypePtr type
+		TimesAssign( type::TypePtr type
 			, ExprPtr lhs
 			, ExprPtr rhs );
 
-		void accept( ExprVisitorPtr vis )override;
+		void accept( VisitorPtr vis )override;
 	};
+	using TimesAssignPtr = std::unique_ptr< TimesAssign >;
 
-	inline std::unique_ptr< ExprTimesAssign > makeTimesAssignExpr( TypePtr type
+	inline TimesAssignPtr makeTimesAssign( type::TypePtr type
 		, ExprPtr lhs
 		, ExprPtr rhs )
 	{
-		return std::make_unique< ExprTimesAssign >( type
+		return std::make_unique< TimesAssign >( std::move( type )
 			, std::move( lhs )
 			, std::move( rhs ) );
 	}

@@ -7,7 +7,7 @@ See LICENSE file in root folder
 
 #include "Variable.hpp"
 
-namespace ast
+namespace ast::var
 {
 	using VariableList = std::vector< VariablePtr >;
 }

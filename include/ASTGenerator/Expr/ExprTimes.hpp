@@ -7,24 +7,25 @@ See LICENSE file in root folder
 
 #include "ExprBinary.hpp"
 
-namespace ast
+namespace ast::expr
 {
-	class ExprTimes
-		: public ExprBinary
+	class Times
+		: public Binary
 	{
 	public:
-		ExprTimes( TypePtr type
+		Times( type::TypePtr type
 			, ExprPtr lhs
 			, ExprPtr rhs );
 
-		void accept( ExprVisitorPtr vis )override;
+		void accept( VisitorPtr vis )override;
 	};
+	using TimesPtr = std::unique_ptr< Times >;
 
-	inline std::unique_ptr< ExprTimes > makeTimesExpr( TypePtr type
+	inline TimesPtr makeTimes( type::TypePtr type
 		, ExprPtr lhs
 		, ExprPtr rhs )
 	{
-		return std::make_unique< ExprTimes >( type
+		return std::make_unique< Times >( std::move( type )
 			, std::move( lhs )
 			, std::move( rhs ) );
 	}

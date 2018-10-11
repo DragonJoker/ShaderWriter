@@ -3,9 +3,9 @@ See LICENSE file in root folder
 */
 #include "ASTGenerator/Var/Variable.hpp"
 
-namespace ast
+namespace ast::var
 {
-	Variable::Variable( TypePtr type
+	Variable::Variable( type::TypePtr type
 		, std::string name )
 		: m_type{ type }
 		, m_name{ std::move( name ) }
@@ -13,7 +13,7 @@ namespace ast
 	{
 	}
 
-	Variable::Variable( TypePtr type
+	Variable::Variable( type::TypePtr type
 		, std::string name
 		, uint32_t flags )
 		: m_type{ type }
@@ -22,7 +22,7 @@ namespace ast
 	{
 	}
 	
-	Variable::Variable( TypePtr type
+	Variable::Variable( type::TypePtr type
 		, std::string name
 		, Flag flag )
 		: m_type{ type }

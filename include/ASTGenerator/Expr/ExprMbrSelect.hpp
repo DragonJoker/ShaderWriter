@@ -8,30 +8,31 @@ See LICENSE file in root folder
 #include "ExprIdentifier.hpp"
 #include "ExprUnary.hpp"
 
-namespace ast
+namespace ast::expr
 {
-	class ExprMbrSelect
-		: public ExprUnary
+	class MbrSelect
+		: public Unary
 	{
 	public:
-		ExprMbrSelect( VariablePtr variable
-			, ExprIdentifierPtr member );
+		MbrSelect( ExprPtr outer
+			, IdentifierPtr member );
 
-		void accept( ExprVisitorPtr vis )override;
+		void accept( VisitorPtr vis )override;
 
-		inline Variable const & getOuterVar()const
+		inline Expr * getOuterExpr()const
 		{
-			return *m_variable;
+			return m_outer.get();
 		}
 
 	private:
-		VariablePtr m_variable;
+		ExprPtr m_outer;
 	};
+	using MbrSelectPtr = std::unique_ptr< MbrSelect >;
 
-	inline std::unique_ptr< ExprMbrSelect > makeMbrSelectExpr( VariablePtr variable
-		, ExprIdentifierPtr member )
+	inline MbrSelectPtr makeMbrSelect( ExprPtr outer
+		, IdentifierPtr member )
 	{
-		return std::make_unique< ExprMbrSelect >( std::move( variable )
+		return std::make_unique< MbrSelect >( std::move( outer )
 			, std::move( member ) );
 	}
 }

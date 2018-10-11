@@ -7,29 +7,30 @@ See LICENSE file in root folder
 
 #include "StmtCompound.hpp"
 
-namespace ast
+namespace ast::stmt
 {
-	class StmtIf;
-	class StmtElse
-		: public StmtCompound
+	class If;
+	class Else
+		: public Compound
 	{
 	public:
-		StmtElse( StmtIf const & ifStmt );
+		Else( If const & ifStmt );
 
-		void accept( StmtVisitorPtr vis )override;
+		void accept( VisitorPtr vis )override;
 
-		inline StmtIf const & getIfStmt()const
+		inline If const & getIfStmt()const
 		{
 			return m_ifStmt;
 		}
 
 	private:
-		StmtIf const & m_ifStmt;
+		If const & m_ifStmt;
 	};
+	using ElsePtr = std::unique_ptr< Else >;
 
-	inline std::unique_ptr< StmtElse > makeElseStmt( StmtIf const & ifStmt )
+	inline std::unique_ptr< Else > makeElse( If const & ifStmt )
 	{
-		return std::make_unique< StmtElse >( ifStmt );
+		return std::make_unique< Else >( ifStmt );
 	}
 }
 

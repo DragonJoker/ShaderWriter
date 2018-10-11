@@ -7,7 +7,7 @@ See LICENSE file in root folder
 
 #include "Stmt.hpp"
 
-namespace ast
+namespace ast::stmt
 {
 	using StmtList = std::vector< StmtPtr >;
 }

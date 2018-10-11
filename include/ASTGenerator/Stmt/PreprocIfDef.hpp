@@ -9,26 +9,27 @@ See LICENSE file in root folder
 
 #include "ASTGenerator/Expr/ExprIdentifier.hpp"
 
-namespace ast
+namespace ast::stmt
 {
 	class PreprocIfDef
 		: public Stmt
 	{
 	public:
-		PreprocIfDef( ExprIdentifierPtr identExpr );
+		PreprocIfDef( expr::IdentifierPtr identExpr );
 
-		void accept( StmtVisitorPtr vis )override;
+		void accept( VisitorPtr vis )override;
 
-		inline ExprIdentifier * getIdentExpr()const
+		inline expr::Identifier * getIdentExpr()const
 		{
 			return m_identExpr.get();
 		}
 
 	private:
-		ExprIdentifierPtr m_identExpr;
+		expr::IdentifierPtr m_identExpr;
 	};
+	using PreprocIfDefPtr = std::unique_ptr< PreprocIfDef >;
 
-	inline std::unique_ptr< PreprocIfDef > makePreprocIfDef( ExprIdentifierPtr identExpr )
+	inline PreprocIfDefPtr makePreprocIfDef( expr::IdentifierPtr identExpr )
 	{
 		return std::make_unique< PreprocIfDef >( std::move( identExpr ) );
 	}

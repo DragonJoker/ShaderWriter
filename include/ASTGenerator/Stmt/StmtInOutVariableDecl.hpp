@@ -7,27 +7,18 @@ See LICENSE file in root folder
 
 #include "Stmt.hpp"
 
-namespace ast
+namespace ast::stmt
 {
-	class StmtInOutVariableDecl
+	class InOutVariableDecl
 		: public Stmt
 	{
 	public:
-		enum class Direction
-		{
-			eIn = 1,
-			eOut = 2,
-			eInOut = 3,
-		};
+		InOutVariableDecl( var::VariablePtr variable
+			, uint32_t location );
 
-	public:
-		StmtInOutVariableDecl( VariablePtr variable
-			, uint32_t location
-			, Direction direction );
+		void accept( VisitorPtr vis )override;
 
-		void accept( StmtVisitorPtr vis )override;
-
-		inline Variable const & getVariable()const
+		inline var::Variable const & getVariable()const
 		{
 			return *m_variable;
 		}
@@ -37,24 +28,17 @@ namespace ast
 			return m_location;
 		}
 
-		inline Direction getDirection()const
-		{
-			return m_direction;
-		}
-
 	private:
-		VariablePtr m_variable;
+		var::VariablePtr m_variable;
 		uint32_t m_location;
-		Direction m_direction;
 	};
+	using InOutVariableDeclPtr = std::unique_ptr< InOutVariableDecl >;
 
-	inline std::unique_ptr< StmtInOutVariableDecl > makeInOutVariableDeclStmt( VariablePtr variable
-		, uint32_t location
-		, StmtInOutVariableDecl::Direction direction )
+	inline InOutVariableDeclPtr makeInOutVariableDecl( var::VariablePtr variable
+		, uint32_t location )
 	{
-		return std::make_unique< StmtInOutVariableDecl >( std::move( variable )
-			, location
-			, direction );
+		return std::make_unique< InOutVariableDecl >( std::move( variable )
+			, location );
 	}
 }
 

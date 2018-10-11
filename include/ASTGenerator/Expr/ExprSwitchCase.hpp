@@ -7,30 +7,30 @@ See LICENSE file in root folder
 
 #include "ExprLiteral.hpp"
 
-namespace ast
+namespace ast::expr
 {
-	class ExprSwitchCase
+	class SwitchCase
 		: public Expr
 	{
 	public:
-		ExprSwitchCase( ExprLiteralPtr label );
+		SwitchCase( LiteralPtr label );
 
-		void accept( ExprVisitorPtr vis )override;
+		void accept( VisitorPtr vis )override;
 
-		inline ExprLiteral * getLabel()const
+		inline Literal * getLabel()const
 		{
 			return m_label.get();
 		}
 
 	private:
-		ExprLiteralPtr m_label;
+		LiteralPtr m_label;
 	};
-	using ExprSwitchCasePtr = std::unique_ptr< ExprSwitchCase >;
-	using ExprSwitchCaseList = std::vector< ExprSwitchCasePtr >;
+	using SwitchCasePtr = std::unique_ptr< SwitchCase >;
+	using SwitchCaseList = std::vector< SwitchCasePtr >;
 
-	inline std::unique_ptr< ExprSwitchCase > makeSwitchCaseExpr( ExprLiteralPtr label )
+	inline SwitchCasePtr makeSwitchCase( LiteralPtr label )
 	{
-		return std::make_unique< ExprSwitchCase >( std::move( label ) );
+		return std::make_unique< SwitchCase >( std::move( label ) );
 	}
 }
 

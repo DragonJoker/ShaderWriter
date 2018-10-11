@@ -7,30 +7,31 @@ See LICENSE file in root folder
 
 #include "ASTGenerator/Expr/ExprVisitor.hpp"
 
-namespace ast
+namespace ast::debug
 {
-	class DebugExprVisitor
-		: public ExprSimpleVisitor
+	class ExprVisitor
+		: public expr::SimpleVisitor
 	{
 	protected:
-		DebugExprVisitor( std::string & result );
+		ExprVisitor( std::string & result );
 
 	public:
-		static std::string submit( Expr * expr );
+		static std::string submit( expr::Expr * expr );
 
 	private:
-		void visitUnaryExpr( ExprUnary * expr );
-		void visitBinaryExpr( ExprBinary * expr );
+		void visitUnaryExpr( expr::Unary * expr )override;
+		void visitBinaryExpr( expr::Binary * expr )override;
 
-		void visitCastExpr( ExprCast * expr )override;
-		void visitMbrSelectExpr( ExprMbrSelect * expr )override;
-		void visitFnCallExpr( ExprFnCall * expr )override;
-		void visitIdentifierExpr( ExprIdentifier * expr )override;
-		void visitInitExpr( ExprInit * expr )override;
-		void visitLiteralExpr( ExprLiteral * expr )override;
-		void visitQuestionExpr( ExprQuestion * expr )override;
-		void visitSwitchCaseExpr( ExprSwitchCase * expr )override;
-		void visitSwitchTestExpr( ExprSwitchTest * expr )override;
+		void visitArrayAccessExpr( expr::ArrayAccess * expr )override;
+		void visitCastExpr( expr::Cast * expr )override;
+		void visitMbrSelectExpr( expr::MbrSelect * expr )override;
+		void visitFnCallExpr( expr::FnCall * expr )override;
+		void visitIdentifierExpr( expr::Identifier * expr )override;
+		void visitInitExpr( expr::Init * expr )override;
+		void visitLiteralExpr( expr::Literal * expr )override;
+		void visitQuestionExpr( expr::Question * expr )override;
+		void visitSwitchCaseExpr( expr::SwitchCase * expr )override;
+		void visitSwitchTestExpr( expr::SwitchTest * expr )override;
 
 	private:
 		std::string & m_result;

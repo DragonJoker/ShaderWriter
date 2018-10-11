@@ -7,45 +7,47 @@ See LICENSE file in root folder
 
 #include "ASTGenerator/ASTGeneratorPrerequisites.hpp"
 
-namespace ast
+namespace ast::stmt
 {
+	enum class Kind
+		: uint8_t
+	{
+		eSimple,
+		eContainer,
+		eCompound,
+		eVariableDecl,
+		eInOutVariableDecl,
+		eConstantBufferDecl,
+		eShaderBufferDecl,
+		eSamplerDecl,
+		eFunctionDecl,
+		eStructureDecl,
+		eIf,
+		eElse,
+		eElseIf,
+		eWhile,
+		eFor,
+		eDoWhile,
+		eSwitch,
+		eSwitchCase,
+		eReturn,
+		ePreprocDefine,
+		ePreprocIf,
+		ePreprocElif,
+		ePreprocElse,
+		ePreprocIfDef,
+		ePreprocEndif,
+		ePreprocExtension,
+		ePreprocVersion,
+	};
+
 	class Stmt
 	{
-	public:
-		enum class Kind
-			: uint8_t
-		{
-			eSimple,
-			eCompound,
-			eVariableDecl,
-			eInOutVariableDecl,
-			eBoundVariableDecl,
-			eFunctionDecl,
-			eStructureDecl,
-			eIf,
-			eElse,
-			eElseIf,
-			eWhile,
-			eFor,
-			eDoWhile,
-			eSwitch,
-			eSwitchCase,
-			eReturn,
-			ePreprocDefine,
-			ePreprocIf,
-			ePreprocElif,
-			ePreprocElse,
-			ePreprocIfDef,
-			ePreprocEndif,
-			ePreprocExtension,
-			ePreprocVersion,
-		};
-
 	public:
 		Stmt( Kind kind );
 		virtual ~Stmt();
 
-		virtual void accept( StmtVisitorPtr ) = 0;
+		virtual void accept( VisitorPtr ) = 0;
 
 		inline Kind getKind()const
 		{

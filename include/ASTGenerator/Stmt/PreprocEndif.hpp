@@ -7,7 +7,7 @@ See LICENSE file in root folder
 
 #include "Stmt.hpp"
 
-namespace ast
+namespace ast::stmt
 {
 	class PreprocEndif
 		: public Stmt
@@ -15,10 +15,11 @@ namespace ast
 	public:
 		PreprocEndif();
 
-		void accept( StmtVisitorPtr vis )override;
+		void accept( VisitorPtr vis )override;
 	};
+	using PreprocEndifPtr = std::unique_ptr< PreprocEndif >;
 
-	inline std::unique_ptr< PreprocEndif > makePreprocEndif()
+	inline PreprocEndifPtr makePreprocEndif()
 	{
 		return std::make_unique< PreprocEndif >();
 	}

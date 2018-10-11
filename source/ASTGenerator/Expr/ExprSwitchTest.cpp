@@ -5,15 +5,15 @@ See LICENSE file in root folder
 
 #include "ASTGenerator/Expr/ExprVisitor.hpp"
 
-namespace ast
+namespace ast::expr
 {
-	ExprSwitchTest::ExprSwitchTest( ExprPtr value )
-		: Expr{ getUndefinedType(), Kind::eSwitchTest }
+	SwitchTest::SwitchTest( ExprPtr value )
+		: Expr{ std::move( type::getUndefined() ), Kind::eSwitchTest }
 		, m_value{ std::move( value ) }
 	{
 	}
 
-	void ExprSwitchTest::accept( ExprVisitorPtr vis )
+	void SwitchTest::accept( VisitorPtr vis )
 	{
 		vis->visitSwitchTestExpr( this );
 	}

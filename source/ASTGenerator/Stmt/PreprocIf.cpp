@@ -5,15 +5,15 @@ See LICENSE file in root folder
 
 #include "ASTGenerator/Stmt/StmtVisitor.hpp"
 
-namespace ast
+namespace ast::stmt
 {
-	PreprocIf::PreprocIf( ExprPtr ctrlExpr )
+	PreprocIf::PreprocIf( expr::ExprPtr ctrlExpr )
 		: Stmt{ Kind::ePreprocIf }
 		, m_ctrlExpr{ std::move( ctrlExpr ) }
 	{
 	}
 
-	void PreprocIf::accept( StmtVisitorPtr vis )
+	void PreprocIf::accept( VisitorPtr vis )
 	{
 		vis->visitPreprocIf( this );
 	}

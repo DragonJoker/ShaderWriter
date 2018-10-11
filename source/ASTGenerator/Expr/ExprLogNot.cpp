@@ -5,16 +5,16 @@ See LICENSE file in root folder
 
 #include "ASTGenerator/Expr/ExprVisitor.hpp"
 
-namespace ast
+namespace ast::expr
 {
-	ExprLogNot::ExprLogNot( ExprPtr operand )
-		: ExprUnary{ getBoolType()
+	LogNot::LogNot( ExprPtr operand )
+		: Unary{ std::move( type::getBool() )
 			, std::move( operand )
-			, Expr::Kind::eLogNot }
+			, Kind::eLogNot }
 	{
 	}
 
-	void ExprLogNot::accept( ExprVisitorPtr vis )
+	void LogNot::accept( VisitorPtr vis )
 	{
 		vis->visitLogNotExpr( this );
 	}

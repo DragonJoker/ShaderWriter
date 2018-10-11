@@ -7,44 +7,47 @@ See LICENSE file in root folder
 
 #include "ASTGenerator/Stmt/StmtVisitor.hpp"
 
-namespace ast
+namespace ast::debug
 {
-	class DebugStmtVisitor
-		: public StmtVisitor
+	class StmtVisitor
+		: public stmt::Visitor
 	{
 	protected:
-		DebugStmtVisitor( std::string & result
+		StmtVisitor( std::string & result
 			, std::string indent );
 
 	public:
-		static std::string submit( Stmt * stmt
+		static std::string submit( stmt::Stmt * stmt
 			, std::string indent = std::string{} );
 
 	private:
-		void visitBoundVariableDeclStmt( StmtBoundVariableDecl * stmt )override;
-		void visitCompoundStmt( StmtCompound * stmt )override;
-		void visitDoWhileStmt( StmtDoWhile * stmt )override;
-		void visitElseIfStmt( StmtElseIf * stmt )override;
-		void visitElseStmt( StmtElse * stmt )override;
-		void visitForStmt( StmtFor * stmt )override;
-		void visitFunctionDeclStmt( StmtFunctionDecl * stmt )override;
-		void visitIfStmt( StmtIf * stmt )override;
-		void visitInOutVariableDeclStmt( StmtInOutVariableDecl * stmt )override;
-		void visitReturnStmt( StmtReturn * stmt )override;
-		void visitSimpleStmt( StmtSimple * stmt )override;
-		void visitStructureDeclStmt( StmtStructureDecl * stmt )override;
-		void visitSwitchCaseStmt( StmtSwitchCase * stmt )override;
-		void visitSwitchStmt( StmtSwitch * stmt )override;
-		void visitVariableDeclStmt( StmtVariableDecl * stmt )override;
-		void visitWhileStmt( StmtWhile * stmt )override;
-		void visitPreprocDefine( PreprocDefine * preproc )override;
-		void visitPreprocElif( PreprocElif * preproc )override;
-		void visitPreprocElse( PreprocElse * preproc )override;
-		void visitPreprocEndif( PreprocEndif * preproc )override;
-		void visitPreprocExtension( PreprocExtension * preproc )override;
-		void visitPreprocIf( PreprocIf * preproc )override;
-		void visitPreprocIfDef( PreprocIfDef * preproc )override;
-		void visitPreprocVersion( PreprocVersion * preproc )override;
+		void visitCompoundStmt( stmt::Compound * stmt )override;
+		void visitContainerStmt( stmt::Container * stmt )override;
+		void visitConstantBufferDeclStmt( stmt::ConstantBufferDecl * stmt )override;
+		void visitDoWhileStmt( stmt::DoWhile * stmt )override;
+		void visitElseIfStmt( stmt::ElseIf * stmt )override;
+		void visitElseStmt( stmt::Else * stmt )override;
+		void visitForStmt( stmt::For * stmt )override;
+		void visitFunctionDeclStmt( stmt::FunctionDecl * stmt )override;
+		void visitIfStmt( stmt::If * stmt )override;
+		void visitInOutVariableDeclStmt( stmt::InOutVariableDecl * stmt )override;
+		void visitReturnStmt( stmt::Return * stmt )override;
+		void visitSamplerDeclStmt( stmt::SamplerDecl * stmt )override;
+		void visitShaderBufferDeclStmt( stmt::ShaderBufferDecl * stmt )override;
+		void visitSimpleStmt( stmt::Simple * stmt )override;
+		void visitStructureDeclStmt( stmt::StructureDecl * stmt )override;
+		void visitSwitchCaseStmt( stmt::SwitchCase * stmt )override;
+		void visitSwitchStmt( stmt::Switch * stmt )override;
+		void visitVariableDeclStmt( stmt::VariableDecl * stmt )override;
+		void visitWhileStmt( stmt::While * stmt )override;
+		void visitPreprocDefine( stmt::PreprocDefine * preproc )override;
+		void visitPreprocElif( stmt::PreprocElif * preproc )override;
+		void visitPreprocElse( stmt::PreprocElse * preproc )override;
+		void visitPreprocEndif( stmt::PreprocEndif * preproc )override;
+		void visitPreprocExtension( stmt::PreprocExtension * preproc )override;
+		void visitPreprocIf( stmt::PreprocIf * preproc )override;
+		void visitPreprocIfDef( stmt::PreprocIfDef * preproc )override;
+		void visitPreprocVersion( stmt::PreprocVersion * preproc )override;
 
 	private:
 		std::string m_indent;

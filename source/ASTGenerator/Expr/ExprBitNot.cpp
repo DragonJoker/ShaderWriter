@@ -5,17 +5,17 @@ See LICENSE file in root folder
 
 #include "ASTGenerator/Expr/ExprVisitor.hpp"
 
-namespace ast
+namespace ast::expr
 {
-	ExprBitNot::ExprBitNot( TypePtr type
+	BitNot::BitNot( type::TypePtr type
 		, ExprPtr operand )
-		: ExprUnary{ type
+		: Unary{ std::move( type )
 			, std::move( operand )
-			, Expr::Kind::eBitNot }
+			, Kind::eBitNot }
 	{
 	}
 
-	void ExprBitNot::accept( ExprVisitorPtr vis )
+	void BitNot::accept( VisitorPtr vis )
 	{
 		vis->visitBitNotExpr( this );
 	}

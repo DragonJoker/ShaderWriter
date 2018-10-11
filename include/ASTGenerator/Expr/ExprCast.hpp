@@ -7,22 +7,23 @@ See LICENSE file in root folder
 
 #include "ExprUnary.hpp"
 
-namespace ast
+namespace ast::expr
 {
-	class ExprCast
-		: public ExprUnary
+	class Cast
+		: public Unary
 	{
 	public:
-		ExprCast( TypePtr dstType
+		Cast( type::TypePtr dstType
 			, ExprPtr operand );
 
-		void accept( ExprVisitorPtr vis )override;
+		void accept( VisitorPtr vis )override;
 	};
+	using CastPtr = std::unique_ptr< Cast >;
 
-	inline std::unique_ptr< ExprCast > makeCastExpr( TypePtr dstType
+	inline CastPtr makeCast( type::TypePtr dstType
 		, ExprPtr operand )
 	{
-		return std::make_unique< ExprCast >( std::move( dstType )
+		return std::make_unique< Cast >( std::move( dstType )
 			, std::move( operand ) );
 	}
 }

@@ -5,17 +5,17 @@ See LICENSE file in root folder
 
 #include "ASTGenerator/Stmt/StmtVisitor.hpp"
 
-namespace ast
+namespace ast::stmt
 {
-	StmtElseIf::StmtElseIf( StmtIf const & ifStmt
-		, ExprPtr ctrlExpr )
-		: StmtCompound{ Kind::eElseIf }
+	ElseIf::ElseIf( If const & ifStmt
+		, expr::ExprPtr ctrlExpr )
+		: Compound{ Kind::eElseIf }
 		, m_ifStmt{ ifStmt }
 		, m_ctrlExpr{ std::move( ctrlExpr ) }
 	{
 	}
 
-	void StmtElseIf::accept( StmtVisitorPtr vis )
+	void ElseIf::accept( VisitorPtr vis )
 	{
 		vis->visitElseIfStmt( this );
 	}

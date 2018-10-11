@@ -7,15 +7,15 @@ See LICENSE file in root folder
 
 #include "Expr.hpp"
 
-namespace ast
+namespace ast::expr
 {
-	class ExprSwitchTest
+	class SwitchTest
 		: public Expr
 	{
 	public:
-		ExprSwitchTest( ExprPtr value );
+		SwitchTest( ExprPtr value );
 
-		void accept( ExprVisitorPtr vis )override;
+		void accept( VisitorPtr vis )override;
 
 		inline Expr * getValue()const
 		{
@@ -25,11 +25,11 @@ namespace ast
 	private:
 		ExprPtr m_value;
 	};
-	using ExprSwitchTestPtr = std::unique_ptr< ExprSwitchTest >;
+	using SwitchTestPtr = std::unique_ptr< SwitchTest >;
 
-	inline std::unique_ptr< ExprSwitchTest > makeSwitchTestExpr( ExprPtr value )
+	inline SwitchTestPtr makeSwitchTest( ExprPtr value )
 	{
-		return std::make_unique< ExprSwitchTest >( std::move( value ) );
+		return std::make_unique< SwitchTest >( std::move( value ) );
 	}
 }
 

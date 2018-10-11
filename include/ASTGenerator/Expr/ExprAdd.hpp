@@ -7,24 +7,25 @@ See LICENSE file in root folder
 
 #include "ExprBinary.hpp"
 
-namespace ast
+namespace ast::expr
 {
-	class ExprAdd
-		: public ExprBinary
+	class Add
+		: public Binary
 	{
 	public:
-		ExprAdd( TypePtr type
+		Add( type::TypePtr type
 			, ExprPtr lhs
 			, ExprPtr rhs );
 
-		void accept( ExprVisitorPtr vis )override;
+		void accept( VisitorPtr vis )override;
 	};
+	using AddPtr = std::unique_ptr< Add >;
 
-	inline std::unique_ptr< ExprAdd > makeAddExpr( TypePtr type
+	inline AddPtr makeAdd( type::TypePtr type
 		, ExprPtr lhs
 		, ExprPtr rhs )
 	{
-		return std::make_unique< ExprAdd >( type
+		return std::make_unique< Add >( std::move( type )
 			, std::move( lhs )
 			, std::move( rhs ) );
 	}

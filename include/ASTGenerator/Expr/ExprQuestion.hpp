@@ -7,18 +7,18 @@ See LICENSE file in root folder
 
 #include "Expr.hpp"
 
-namespace ast
+namespace ast::expr
 {
-	class ExprQuestion
+	class Question
 		: public Expr
 	{
 	public:
-		ExprQuestion( TypePtr type
+		Question( type::TypePtr type
 			, ExprPtr ctrlExpr
 			, ExprPtr trueExpr
 			, ExprPtr falseExpr );
 
-		void accept( ExprVisitorPtr vis )override;
+		void accept( VisitorPtr vis )override;
 
 		inline Expr * getCtrlExpr()const
 		{
@@ -40,13 +40,14 @@ namespace ast
 		ExprPtr m_trueExpr;
 		ExprPtr m_falseExpr;
 	};
+	using QuestionPtr = std::unique_ptr< Question >;
 
-	inline std::unique_ptr< ExprQuestion > makeQuestionExpr( TypePtr type
+	inline QuestionPtr makeQuestion( type::TypePtr type
 		, ExprPtr ctrlExpr
 		, ExprPtr trueExpr
 		, ExprPtr falseExpr )
 	{
-		return std::make_unique< ExprQuestion >( type
+		return std::make_unique< Question >( std::move( type )
 			, std::move( ctrlExpr )
 			, std::move( trueExpr )
 			, std::move( falseExpr ) );

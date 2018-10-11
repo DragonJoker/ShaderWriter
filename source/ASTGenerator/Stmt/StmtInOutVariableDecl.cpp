@@ -5,19 +5,17 @@ See LICENSE file in root folder
 
 #include "ASTGenerator/Stmt/StmtVisitor.hpp"
 
-namespace ast
+namespace ast::stmt
 {
-	StmtInOutVariableDecl::StmtInOutVariableDecl( VariablePtr variable
-		, uint32_t location
-		, Direction direction )
+	InOutVariableDecl::InOutVariableDecl( var::VariablePtr variable
+		, uint32_t location )
 		: Stmt{ Kind::eInOutVariableDecl }
 		, m_variable{ std::move( variable ) }
 		, m_location{ location }
-		, m_direction{ direction }
 	{
 	}
 
-	void StmtInOutVariableDecl::accept( StmtVisitorPtr vis )
+	void InOutVariableDecl::accept( VisitorPtr vis )
 	{
 		vis->visitInOutVariableDeclStmt( this );
 	}

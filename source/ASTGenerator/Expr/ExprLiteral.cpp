@@ -5,37 +5,37 @@ See LICENSE file in root folder
 
 #include "ASTGenerator/Expr/ExprVisitor.hpp"
 
-namespace ast
+namespace ast::expr
 {
-	ExprLiteral::ExprLiteral( bool value )
-		: Expr{ getBoolType(), Kind::eLiteral }
+	Literal::Literal( bool value )
+		: Expr{ std::move( type::getBool() ), Kind::eLiteral }
 		, m_valueType{ ValueType::eBool }
 	{
 		m_value.boolv = value;
 	}
 
-	ExprLiteral::ExprLiteral( int32_t value )
-		: Expr{ getIntType(), Kind::eLiteral }
+	Literal::Literal( int32_t value )
+		: Expr{ std::move( type::getInt() ), Kind::eLiteral }
 		, m_valueType{ ValueType::eInt }
 	{
 		m_value.intv = value;
 	}
 
-	ExprLiteral::ExprLiteral( uint32_t value )
-		: Expr{ getUIntType(), Kind::eLiteral }
+	Literal::Literal( uint32_t value )
+		: Expr{ std::move( type::getUInt() ), Kind::eLiteral }
 		, m_valueType{ ValueType::eUInt }
 	{
 		m_value.uintv = value;
 	}
 
-	ExprLiteral::ExprLiteral( float value )
-		: Expr{ getFloatType(), Kind::eLiteral }
+	Literal::Literal( float value )
+		: Expr{ std::move( type::getFloat() ), Kind::eLiteral }
 		, m_valueType{ ValueType::eFloat }
 	{
 		m_value.floatv = value;
 	}
 
-	void ExprLiteral::accept( ExprVisitorPtr vis )
+	void Literal::accept( VisitorPtr vis )
 	{
 		vis->visitLiteralExpr( this );
 	}

@@ -5,14 +5,16 @@ See LICENSE file in root folder
 
 #include "ASTGenerator/Expr/ExprVisitor.hpp"
 
-namespace ast
+namespace ast::expr
 {
-	ExprPreDecrement::ExprPreDecrement( ExprPtr operand )
-		: ExprUnary{ operand->getType(), std::move( operand ), Kind::ePreDecrement }
+	PreDecrement::PreDecrement( ExprPtr operand )
+		: Unary{ std::move( operand->get() )
+			, std::move( operand )
+			, Kind::ePreDecrement }
 	{
 	}
 
-	void ExprPreDecrement::accept( ExprVisitorPtr vis )
+	void PreDecrement::accept( VisitorPtr vis )
 	{
 		vis->visitPreDecrementExpr( this );
 	}

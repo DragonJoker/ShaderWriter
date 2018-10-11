@@ -7,24 +7,25 @@ See LICENSE file in root folder
 
 #include "ExprAssign.hpp"
 
-namespace ast
+namespace ast::expr
 {
-	class ExprXorAssign
-		: public ExprAssign
+	class XorAssign
+		: public Assign
 	{
 	public:
-		ExprXorAssign( TypePtr type
+		XorAssign( type::TypePtr type
 			, ExprPtr lhs
 			, ExprPtr rhs );
 
-		void accept( ExprVisitorPtr vis )override;
+		void accept( VisitorPtr vis )override;
 	};
+	using XorAssignPtr = std::unique_ptr< XorAssign >;
 
-	inline std::unique_ptr< ExprXorAssign > makeXorAssignExpr( TypePtr type
+	inline XorAssignPtr makeXorAssign( type::TypePtr type
 		, ExprPtr lhs
 		, ExprPtr rhs )
 	{
-		return std::make_unique< ExprXorAssign >( type
+		return std::make_unique< XorAssign >( std::move( type )
 			, std::move( lhs )
 			, std::move( rhs ) );
 	}

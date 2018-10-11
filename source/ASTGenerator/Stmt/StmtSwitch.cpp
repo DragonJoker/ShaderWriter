@@ -5,25 +5,25 @@ See LICENSE file in root folder
 
 #include "ASTGenerator/Stmt/StmtVisitor.hpp"
 
-namespace ast
+namespace ast::stmt
 {
-	StmtSwitch::StmtSwitch( ExprSwitchTestPtr testExpr )
-		: StmtCompound{ Kind::eSwitch }
+	Switch::Switch( expr::SwitchTestPtr testExpr )
+		: Compound{ Kind::eSwitch }
 		, m_testExpr{ std::move( testExpr ) }
 	{
 	}
 
-	void StmtSwitch::addCase( StmtSwitchCasePtr caseStmt )
+	void Switch::addCase( SwitchCasePtr caseStmt )
 	{
 		addStmt( std::move( caseStmt ) );
 	}
 
-	void StmtSwitch::addDefault( StmtSwitchCasePtr caseStmt )
+	void Switch::addDefault( SwitchCasePtr caseStmt )
 	{
 		addStmt( std::move( caseStmt ) );
 	}
 
-	void StmtSwitch::accept( StmtVisitorPtr vis )
+	void Switch::accept( VisitorPtr vis )
 	{
 		vis->visitSwitchStmt( this );
 	}

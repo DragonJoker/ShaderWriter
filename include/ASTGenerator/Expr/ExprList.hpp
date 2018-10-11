@@ -9,7 +9,7 @@ See LICENSE file in root folder
 
 #include <vector>
 
-namespace ast
+namespace ast::expr
 {
 	using ExprList = std::vector< ExprPtr >;
 }

@@ -5,19 +5,19 @@ See LICENSE file in root folder
 
 #include "ASTGenerator/Expr/ExprVisitor.hpp"
 
-namespace ast
+namespace ast::expr
 {
-	ExprModulo::ExprModulo( TypePtr type
+	Modulo::Modulo( type::TypePtr type
 		, ExprPtr lhs
 		, ExprPtr rhs )
-		: ExprBinary{ type
+		: Binary{ std::move( type )
 			, std::move( lhs )
 			, std::move( rhs )
 			, Kind::eModulo }
 	{
 	}
 
-	void ExprModulo::accept( ExprVisitorPtr vis )
+	void Modulo::accept( VisitorPtr vis )
 	{
 		vis->visitModuloExpr( this );
 	}

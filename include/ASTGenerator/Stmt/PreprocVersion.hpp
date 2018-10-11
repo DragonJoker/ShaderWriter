@@ -7,7 +7,7 @@ See LICENSE file in root folder
 
 #include "Stmt.hpp"
 
-namespace ast
+namespace ast::stmt
 {
 	class PreprocVersion
 		: public Stmt
@@ -15,7 +15,7 @@ namespace ast
 	public:
 		PreprocVersion( std::string name );
 
-		void accept( StmtVisitorPtr vis )override;
+		void accept( VisitorPtr vis )override;
 
 		inline std::string const & getName()const
 		{
@@ -25,8 +25,9 @@ namespace ast
 	private:
 		std::string m_name;
 	};
+	using PreprocVersionPtr = std::unique_ptr< PreprocVersion >;
 
-	inline std::unique_ptr< PreprocVersion > makePreprocVersion( std::string name )
+	inline PreprocVersionPtr makePreprocVersion( std::string name )
 	{
 		return std::make_unique< PreprocVersion >( std::move( name ) );
 	}

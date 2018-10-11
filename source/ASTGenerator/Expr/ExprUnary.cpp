@@ -3,12 +3,12 @@ See LICENSE file in root folder
 */
 #include "ASTGenerator/Expr/ExprUnary.hpp"
 
-namespace ast
+namespace ast::expr
 {
-	ExprUnary::ExprUnary( TypePtr type
+	Unary::Unary( type::TypePtr type
 		, ExprPtr operand
-		, Expr::Kind kind )
-		: Expr{ type, kind }
+		, Kind kind )
+		: Expr{ std::move( type ), kind }
 		, m_operand{ std::move( operand ) }
 	{
 	}

@@ -7,24 +7,25 @@ See LICENSE file in root folder
 
 #include "ExprAssign.hpp"
 
-namespace ast
+namespace ast::expr
 {
-	class ExprModuloAssign
-		: public ExprAssign
+	class ModuloAssign
+		: public Assign
 	{
 	public:
-		ExprModuloAssign( TypePtr type
+		ModuloAssign( type::TypePtr type
 			, ExprPtr lhs
 			, ExprPtr rhs );
 
-		void accept( ExprVisitorPtr vis )override;
+		void accept( VisitorPtr vis )override;
 	};
+	using ModuloAssignPtr = std::unique_ptr< ModuloAssign >;
 
-	inline std::unique_ptr< ExprModuloAssign > makeModuloAssignExpr( TypePtr type
+	inline ModuloAssignPtr makeModuloAssign( type::TypePtr type
 		, ExprPtr lhs
 		, ExprPtr rhs )
 	{
-		return std::make_unique< ExprModuloAssign >( type
+		return std::make_unique< ModuloAssign >( std::move( type )
 			, std::move( lhs )
 			, std::move( rhs ) );
 	}

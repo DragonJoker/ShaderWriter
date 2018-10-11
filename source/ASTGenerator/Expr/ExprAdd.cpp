@@ -4,19 +4,19 @@ See LICENSE file in root folder
 #include "ASTGenerator/Expr/ExprAdd.hpp"
 #include "ASTGenerator/Expr/ExprVisitor.hpp"
 
-namespace ast
+namespace ast::expr
 {
-	ExprAdd::ExprAdd( TypePtr type
+	Add::Add( type::TypePtr type
 		, ExprPtr lhs
 		, ExprPtr rhs )
-		: ExprBinary{ type
+		: Binary{ std::move( type )
 			, std::move( lhs )
 			, std::move( rhs )
-			, Expr::Kind::eAdd }
+			, Kind::eAdd }
 	{
 	}
 
-	void ExprAdd::accept( ExprVisitorPtr vis )
+	void Add::accept( VisitorPtr vis )
 	{
 		vis->visitAddExpr( this );
 	}

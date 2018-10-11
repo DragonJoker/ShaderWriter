@@ -5,7 +5,7 @@ See LICENSE file in root folder
 
 #include "ASTGenerator/Stmt/StmtVisitor.hpp"
 
-namespace ast
+namespace ast::stmt
 {
 	PreprocVersion::PreprocVersion( std::string name )
 		: Stmt{ Kind::ePreprocVersion }
@@ -13,7 +13,7 @@ namespace ast
 	{
 	}
 
-	void PreprocVersion::accept( StmtVisitorPtr vis )
+	void PreprocVersion::accept( VisitorPtr vis )
 	{
 		vis->visitPreprocVersion( this );
 	}

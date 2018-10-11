@@ -7,7 +7,7 @@ See LICENSE file in root folder
 
 #include "Stmt.hpp"
 
-namespace ast
+namespace ast::stmt
 {
 	class PreprocElse
 		: public Stmt
@@ -15,10 +15,11 @@ namespace ast
 	public:
 		PreprocElse();
 
-		void accept( StmtVisitorPtr vis )override;
+		void accept( VisitorPtr vis )override;
 	};
+	using PreprocElsePtr = std::unique_ptr< PreprocElse >;
 
-	inline std::unique_ptr< PreprocElse > makePreprocElse()
+	inline PreprocElsePtr makePreprocElse()
 	{
 		return std::make_unique< PreprocElse >();
 	}

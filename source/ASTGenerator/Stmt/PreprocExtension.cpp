@@ -5,7 +5,7 @@ See LICENSE file in root folder
 
 #include "ASTGenerator/Stmt/StmtVisitor.hpp"
 
-namespace ast
+namespace ast::stmt
 {
 	PreprocExtension::PreprocExtension( std::string name
 		, Status status )
@@ -15,7 +15,7 @@ namespace ast
 	{
 	}
 
-	void PreprocExtension::accept( StmtVisitorPtr vis )
+	void PreprocExtension::accept( VisitorPtr vis )
 	{
 		vis->visitPreprocExtension( this );
 	}

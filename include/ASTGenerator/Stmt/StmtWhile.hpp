@@ -9,28 +9,29 @@ See LICENSE file in root folder
 
 #include "ASTGenerator/Expr/Expr.hpp"
 
-namespace ast
+namespace ast::stmt
 {
-	class StmtWhile
-		: public StmtCompound
+	class While
+		: public Compound
 	{
 	public:
-		StmtWhile( ExprPtr ctrlExpr );
+		While( expr::ExprPtr ctrlExpr );
 
-		void accept( StmtVisitorPtr vis )override;
+		void accept( VisitorPtr vis )override;
 
-		inline Expr * getCtrlExpr()const
+		inline expr::Expr * getCtrlExpr()const
 		{
 			return m_ctrlExpr.get();
 		}
 
 	private:
-		ExprPtr m_ctrlExpr;
+		expr::ExprPtr m_ctrlExpr;
 	};
+	using WhilePtr = std::unique_ptr< While >;
 
-	inline std::unique_ptr< StmtWhile > makeWhileStmt( ExprPtr ctrlExpr )
+	inline WhilePtr makeWhile( expr::ExprPtr ctrlExpr )
 	{
-		return std::make_unique< StmtWhile >( std::move( ctrlExpr ) );
+		return std::make_unique< While >( std::move( ctrlExpr ) );
 	}
 }
 

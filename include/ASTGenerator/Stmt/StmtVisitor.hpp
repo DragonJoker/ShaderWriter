@@ -13,8 +13,9 @@ See LICENSE file in root folder
 #include "PreprocIf.hpp"
 #include "PreprocIfDef.hpp"
 #include "PreprocVersion.hpp"
-#include "StmtBoundVariableDecl.hpp"
 #include "StmtCompound.hpp"
+#include "StmtContainer.hpp"
+#include "StmtConstantBufferDecl.hpp"
 #include "StmtDoWhile.hpp"
 #include "StmtElse.hpp"
 #include "StmtElseIf.hpp"
@@ -23,6 +24,8 @@ See LICENSE file in root folder
 #include "StmtIf.hpp"
 #include "StmtInOutVariableDecl.hpp"
 #include "StmtReturn.hpp"
+#include "StmtSamplerDecl.hpp"
+#include "StmtShaderBufferDecl.hpp"
 #include "StmtSimple.hpp"
 #include "StmtStructureDecl.hpp"
 #include "StmtSwitchCase.hpp"
@@ -30,36 +33,39 @@ See LICENSE file in root folder
 #include "StmtVariableDecl.hpp"
 #include "StmtWhile.hpp"
 
-namespace ast
+namespace ast::stmt
 {
-	class StmtVisitor
+	class Visitor
 	{
 	protected:
-		StmtVisitor()
+		Visitor()
 		{
 		};
 
 	public:
-		virtual ~StmtVisitor()
+		virtual ~Visitor()
 		{
 		};
 
-		virtual void visitBoundVariableDeclStmt( StmtBoundVariableDecl * ) = 0;
-		virtual void visitCompoundStmt( StmtCompound * ) = 0;
-		virtual void visitDoWhileStmt( StmtDoWhile * ) = 0;
-		virtual void visitElseIfStmt( StmtElseIf * ) = 0;
-		virtual void visitElseStmt( StmtElse * ) = 0;
-		virtual void visitForStmt( StmtFor * ) = 0;
-		virtual void visitFunctionDeclStmt( StmtFunctionDecl * ) = 0;
-		virtual void visitIfStmt( StmtIf * ) = 0;
-		virtual void visitInOutVariableDeclStmt( StmtInOutVariableDecl * ) = 0;
-		virtual void visitReturnStmt( StmtReturn * ) = 0;
-		virtual void visitSimpleStmt( StmtSimple * ) = 0;
-		virtual void visitStructureDeclStmt( StmtStructureDecl * ) = 0;
-		virtual void visitSwitchCaseStmt( StmtSwitchCase * ) = 0;
-		virtual void visitSwitchStmt( StmtSwitch * ) = 0;
-		virtual void visitVariableDeclStmt( StmtVariableDecl * ) = 0;
-		virtual void visitWhileStmt( StmtWhile * ) = 0;
+		virtual void visitCompoundStmt( Compound * ) = 0;
+		virtual void visitContainerStmt( Container * ) = 0;
+		virtual void visitConstantBufferDeclStmt( ConstantBufferDecl * ) = 0;
+		virtual void visitDoWhileStmt( DoWhile * ) = 0;
+		virtual void visitElseIfStmt( ElseIf * ) = 0;
+		virtual void visitElseStmt( Else * ) = 0;
+		virtual void visitForStmt( For * ) = 0;
+		virtual void visitFunctionDeclStmt( FunctionDecl * ) = 0;
+		virtual void visitIfStmt( If * ) = 0;
+		virtual void visitInOutVariableDeclStmt( InOutVariableDecl * ) = 0;
+		virtual void visitReturnStmt( Return * ) = 0;
+		virtual void visitSamplerDeclStmt( SamplerDecl * ) = 0;
+		virtual void visitShaderBufferDeclStmt( ShaderBufferDecl * ) = 0;
+		virtual void visitSimpleStmt( Simple * ) = 0;
+		virtual void visitStructureDeclStmt( StructureDecl * ) = 0;
+		virtual void visitSwitchCaseStmt( SwitchCase * ) = 0;
+		virtual void visitSwitchStmt( Switch * ) = 0;
+		virtual void visitVariableDeclStmt( VariableDecl * ) = 0;
+		virtual void visitWhileStmt( While * ) = 0;
 		virtual void visitPreprocDefine( PreprocDefine * ) = 0;
 		virtual void visitPreprocElif( PreprocElif * ) = 0;
 		virtual void visitPreprocElse( PreprocElse * ) = 0;

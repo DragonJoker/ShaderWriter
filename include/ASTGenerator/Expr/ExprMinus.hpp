@@ -7,24 +7,25 @@ See LICENSE file in root folder
 
 #include "ExprBinary.hpp"
 
-namespace ast
+namespace ast::expr
 {
-	class ExprMinus
-		: public ExprBinary
+	class Minus
+		: public Binary
 	{
 	public:
-		ExprMinus( TypePtr type
+		Minus( type::TypePtr type
 			, ExprPtr lhs
 			, ExprPtr rhs );
 
-		void accept( ExprVisitorPtr vis )override;
+		void accept( VisitorPtr vis )override;
 	};
+	using MinusPtr = std::unique_ptr< Minus >;
 
-	inline std::unique_ptr< ExprMinus > makeMinusExpr( TypePtr type
+	inline MinusPtr makeMinus( type::TypePtr type
 		, ExprPtr lhs
 		, ExprPtr rhs )
 	{
-		return std::make_unique< ExprMinus >( type
+		return std::make_unique< Minus >( std::move( type )
 			, std::move( lhs )
 			, std::move( rhs ) );
 	}

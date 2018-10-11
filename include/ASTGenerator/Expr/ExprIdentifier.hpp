@@ -7,29 +7,29 @@ See LICENSE file in root folder
 
 #include "Expr.hpp"
 
-namespace ast
+namespace ast::expr
 {
-	class ExprIdentifier
+	class Identifier
 		: public Expr
 	{
 	public:
-		ExprIdentifier( VariablePtr var );
+		Identifier( var::VariablePtr var );
 
-		void accept( ExprVisitorPtr vis )override;
+		void accept( VisitorPtr vis )override;
 
-		inline VariablePtr getVariable()const
+		inline var::VariablePtr getVariable()const
 		{
 			return m_var;
 		}
 
 	private:
-		VariablePtr m_var;
+		var::VariablePtr m_var;
 	};
-	using ExprIdentifierPtr = std::unique_ptr< ExprIdentifier >;
+	using IdentifierPtr = std::unique_ptr< Identifier >;
 
-	inline ExprIdentifierPtr makeIdentifierExpr( VariablePtr var )
+	inline IdentifierPtr makeIdentifier( var::VariablePtr var )
 	{
-		return std::make_unique< ExprIdentifier >( std::move( var ) );
+		return std::make_unique< Identifier >( std::move( var ) );
 	}
 }
 

@@ -6,18 +6,18 @@ See LICENSE file in root folder
 
 #include "ASTGenerator/Expr/ExprVisitor.hpp"
 
-namespace ast
+namespace ast::expr
 {
-	ExprLessEqual::ExprLessEqual( ExprPtr lhs
+	LessEqual::LessEqual( ExprPtr lhs
 		, ExprPtr rhs )
-		: ExprBinary{ getBoolType()
+		: Binary{ std::move( type::getBool() )
 			, std::move( lhs )
 			, std::move( rhs )
-			, Expr::Kind::eLessEqual }
+			, Kind::eLessEqual }
 	{
 	}
 
-	void ExprLessEqual::accept( ExprVisitorPtr vis )
+	void LessEqual::accept( VisitorPtr vis )
 	{
 		vis->visitLessEqualExpr( this );
 	}

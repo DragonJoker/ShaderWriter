@@ -7,83 +7,83 @@ See LICENSE file in root folder
 
 #include "ASTGenerator/Type/Type.hpp"
 
-namespace ast
+namespace ast::expr
 {
+	enum class Kind
+		: uint8_t
+	{
+		eAdd,
+		eMinus,
+		eTimes,
+		eDivide,
+		eModulo,
+		eLShift,
+		eRShift,
+		eBitAnd,
+		eBitNot,
+		eBitOr,
+		eBitXor,
+		eLogAnd,
+		eLogNot,
+		eLogOr,
+		eCast,
+		eInit,
+		eFnCall,
+		eEqual,
+		eGreater,
+		eGreaterEqual,
+		eLess,
+		eLessEqual,
+		eNotEqual,
+		eComma,
+		eIdentifier,
+		eLiteral,
+		eMbrSelect,
+		eSwitchTest,
+		eSwitchCase,
+		eQuestion,
+		ePreIncrement,
+		ePreDecrement,
+		ePostIncrement,
+		ePostDecrement,
+		eUnaryMinus,
+		eUnaryPlus,
+		eAssign,
+		eAddAssign,
+		eMinusAssign,
+		eTimesAssign,
+		eDivideAssign,
+		eModuloAssign,
+		eLShiftAssign,
+		eRShiftAssign,
+		eAndAssign,
+		eNotAssign,
+		eOrAssign,
+		eXorAssign,
+		eArrayAccess,
+	};
+
 	class Expr
 	{
 	public:
-		enum class Kind
-			: uint8_t
-		{
-			eAdd,
-			eMinus,
-			eTimes,
-			eDivide,
-			eModulo,
-			eLShift,
-			eRShift,
-			eBitAnd,
-			eBitNot,
-			eBitOr,
-			eBitXor,
-			eLogAnd,
-			eLogNot,
-			eLogOr,
-			eCast,
-			eInit,
-			eFnCall,
-			eEqual,
-			eGreater,
-			eGreaterEqual,
-			eLess,
-			eLessEqual,
-			eNotEqual,
-			eComma,
-			eIdentifier,
-			eLiteral,
-			eMbrSelect,
-			eSwitchTest,
-			eSwitchCase,
-			eQuestion,
-			ePreIncrement,
-			ePreDecrement,
-			ePostIncrement,
-			ePostDecrement,
-			eUnaryMinus,
-			eUnaryPlus,
-			eAssign,
-			eAddAssign,
-			eMinusAssign,
-			eTimesAssign,
-			eDivideAssign,
-			eModuloAssign,
-			eLShiftAssign,
-			eRShiftAssign,
-			eAndAssign,
-			eNotAssign,
-			eOrAssign,
-			eXorAssign,
-		};
-
-	public:
-		Expr( TypePtr type, Kind kind );
+		Expr( type::TypePtr type, Kind kind );
 		virtual ~Expr();
 
-		virtual void accept( ExprVisitorPtr ) = 0;
+		virtual void accept( VisitorPtr ) = 0;
 
 		inline Kind getKind()const
 		{
 			return m_kind;
 		}
 
-		inline TypePtr getType()const
+		inline type::TypePtr get()const
 		{
 			return m_type;
 		}
 
 	private:
 		Kind m_kind;
-		TypePtr m_type;
+		type::TypePtr m_type;
 	};
 }
 

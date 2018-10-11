@@ -5,15 +5,15 @@ See LICENSE file in root folder
 
 #include "ASTGenerator/Stmt/StmtVisitor.hpp"
 
-namespace ast
+namespace ast::stmt
 {
-	StmtDoWhile::StmtDoWhile( ExprPtr ctrlExpr )
-		: StmtCompound{ Kind::eDoWhile }
+	DoWhile::DoWhile( expr::ExprPtr ctrlExpr )
+		: Compound{ Kind::eDoWhile }
 		, m_ctrlExpr{ std::move( ctrlExpr ) }
 	{
 	}
 
-	void StmtDoWhile::accept( StmtVisitorPtr vis )
+	void DoWhile::accept( VisitorPtr vis )
 	{
 		vis->visitDoWhileStmt( this );
 	}

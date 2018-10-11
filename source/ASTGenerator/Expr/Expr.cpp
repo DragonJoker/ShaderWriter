@@ -3,11 +3,11 @@ See LICENSE file in root folder
 */
 #include "ASTGenerator/Expr/Expr.hpp"
 
-namespace ast
+namespace ast::expr
 {
-	Expr::Expr( TypePtr type, Kind kind )
+	Expr::Expr( type::TypePtr type, Kind kind )
 		: m_kind{ kind }
-		, m_type{ type }
+		, m_type{ std::move( type ) }
 	{
 	}
 

@@ -7,29 +7,29 @@ See LICENSE file in root folder
 
 #include "Stmt.hpp"
 
-namespace ast
+namespace ast::stmt
 {
-	class StmtVariableDecl
+	class VariableDecl
 		: public Stmt
 	{
 	public:
-		StmtVariableDecl( VariablePtr variable );
+		VariableDecl( var::VariablePtr variable );
 
-		void accept( StmtVisitorPtr vis )override;
+		void accept( VisitorPtr vis )override;
 
-		inline Variable const & getVariable()const
+		inline var::Variable const & getVariable()const
 		{
 			return *m_variable;
 		}
 
 	private:
-		VariablePtr m_variable;
+		var::VariablePtr m_variable;
 	};
-	using StmtVariableDeclPtr = std::unique_ptr< StmtVariableDecl >;
+	using VariableDeclPtr = std::unique_ptr< VariableDecl >;
 
-	inline std::unique_ptr< StmtVariableDecl > makeVariableDeclStmt( VariablePtr variable )
+	inline std::unique_ptr< VariableDecl > makeVariableDecl( var::VariablePtr variable )
 	{
-		return std::make_unique< StmtVariableDecl >( std::move( variable ) );
+		return std::make_unique< VariableDecl >( std::move( variable ) );
 	}
 }
 

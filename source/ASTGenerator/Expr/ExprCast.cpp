@@ -5,17 +5,17 @@ See LICENSE file in root folder
 
 #include "ASTGenerator/Expr/ExprVisitor.hpp"
 
-namespace ast
+namespace ast::expr
 {
-	ExprCast::ExprCast( TypePtr dstType
+	Cast::Cast( type::TypePtr dstType
 		, ExprPtr operand )
-		: ExprUnary{ dstType
+		: Unary{ std::move( dstType )
 			, std::move( operand )
-			, Expr::Kind::eCast }
+			, Kind::eCast }
 	{
 	}
 
-	void ExprCast::accept( ExprVisitorPtr vis )
+	void Cast::accept( VisitorPtr vis )
 	{
 		vis->visitCastExpr( this );
 	}

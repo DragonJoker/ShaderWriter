@@ -5,15 +5,15 @@ See LICENSE file in root folder
 
 #include "ASTGenerator/Stmt/StmtVisitor.hpp"
 
-namespace ast
+namespace ast::stmt
 {
-	StmtElse::StmtElse( StmtIf const & ifStmt )
-		: StmtCompound{ Kind::eElse }
+	Else::Else( If const & ifStmt )
+		: Compound{ Kind::eElse }
 		, m_ifStmt{ ifStmt }
 	{
 	}
 
-	void StmtElse::accept( StmtVisitorPtr vis )
+	void Else::accept( VisitorPtr vis )
 	{
 		vis->visitElseStmt( this );
 	}

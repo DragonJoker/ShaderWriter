@@ -1,25 +1,25 @@
 /*
 See LICENSE file in root folder
 */
-#ifndef ___AST_StmtBoundVariableDecl_H___
-#define ___AST_StmtBoundVariableDecl_H___
+#ifndef ___AST_StmtSamplerDecl_H___
+#define ___AST_StmtSamplerDecl_H___
 #pragma once
 
 #include "Stmt.hpp"
 
-namespace ast
+namespace ast::stmt
 {
-	class StmtBoundVariableDecl
+	class SamplerDecl
 		: public Stmt
 	{
 	public:
-		StmtBoundVariableDecl( VariablePtr variable
+		SamplerDecl( var::VariablePtr variable
 			, uint32_t bindingPoint
 			, uint32_t bindingSet );
 
-		void accept( StmtVisitorPtr vis )override;
+		void accept( VisitorPtr vis )override;
 
-		inline Variable const & getVariable()const
+		inline var::Variable const & getVariable()const
 		{
 			return *m_variable;
 		}
@@ -35,16 +35,17 @@ namespace ast
 		}
 
 	private:
-		VariablePtr m_variable;
+		var::VariablePtr m_variable;
 		uint32_t m_bindingPoint;
 		uint32_t m_bindingSet;
 	};
+	using SamplerDeclPtr = std::unique_ptr< SamplerDecl >;
 
-	inline std::unique_ptr< StmtBoundVariableDecl > makeBoundVariableDeclStmt( VariablePtr variable
+	inline SamplerDeclPtr makeSamplerDecl( var::VariablePtr variable
 		, uint32_t bindingPoint
 		, uint32_t bindingSet )
 	{
-		return std::make_unique< StmtBoundVariableDecl >( std::move( variable )
+		return std::make_unique< SamplerDecl >( std::move( variable )
 			, bindingPoint
 			, bindingSet );
 	}

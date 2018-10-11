@@ -5,18 +5,18 @@ See LICENSE file in root folder
 
 #include "ASTGenerator/Expr/ExprVisitor.hpp"
 
-namespace ast
+namespace ast::expr
 {
-	ExprComma::ExprComma( ExprPtr lhs
+	Comma::Comma( ExprPtr lhs
 		, ExprPtr rhs )
-		: ExprBinary{ rhs->getType()
+		: Binary{ std::move( rhs->get() )
 			, std::move( lhs )
 			, std::move( rhs )
-			, Expr::Kind::eComma }
+			, Kind::eComma }
 	{
 	}
 
-	void ExprComma::accept( ExprVisitorPtr vis )
+	void Comma::accept( VisitorPtr vis )
 	{
 		vis->visitCommaExpr( this );
 	}

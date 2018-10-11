@@ -5,18 +5,18 @@ See LICENSE file in root folder
 
 #include "ASTGenerator/Expr/ExprVisitor.hpp"
 
-namespace ast
+namespace ast::expr
 {
-	ExprNotEqual::ExprNotEqual( ExprPtr lhs
+	NotEqual::NotEqual( ExprPtr lhs
 		, ExprPtr rhs )
-		: ExprBinary{ getBoolType()
+		: Binary{ std::move( type::getBool() )
 			, std::move( lhs )
 			, std::move( rhs )
-			, Expr::Kind::eNotEqual }
+			, Kind::eNotEqual }
 	{
 	}
 
-	void ExprNotEqual::accept( ExprVisitorPtr vis )
+	void NotEqual::accept( VisitorPtr vis )
 	{
 		vis->visitNotEqualExpr( this );
 	}

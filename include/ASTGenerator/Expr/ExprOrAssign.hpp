@@ -7,24 +7,25 @@ See LICENSE file in root folder
 
 #include "ExprAssign.hpp"
 
-namespace ast
+namespace ast::expr
 {
-	class ExprOrAssign
-		: public ExprAssign
+	class OrAssign
+		: public Assign
 	{
 	public:
-		ExprOrAssign( TypePtr type
+		OrAssign( type::TypePtr type
 			, ExprPtr lhs
 			, ExprPtr rhs );
 
-		void accept( ExprVisitorPtr vis )override;
+		void accept( VisitorPtr vis )override;
 	};
+	using OrAssignPtr = std::unique_ptr< OrAssign >;
 
-	inline std::unique_ptr< ExprOrAssign > makeOrAssignExpr( TypePtr type
+	inline OrAssignPtr makeOrAssign( type::TypePtr type
 		, ExprPtr lhs
 		, ExprPtr rhs )
 	{
-		return std::make_unique< ExprOrAssign >( type
+		return std::make_unique< OrAssign >( std::move( type )
 			, std::move( lhs )
 			, std::move( rhs ) );
 	}

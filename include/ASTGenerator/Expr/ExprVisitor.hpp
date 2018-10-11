@@ -8,6 +8,7 @@ See LICENSE file in root folder
 #include "ExprAdd.hpp"
 #include "ExprAddAssign.hpp"
 #include "ExprAndAssign.hpp"
+#include "ExprArrayAccess.hpp"
 #include "ExprAssign.hpp"
 #include "ExprBitAnd.hpp"
 #include "ExprBitNot.hpp"
@@ -53,242 +54,247 @@ See LICENSE file in root folder
 #include "ExprUnaryPlus.hpp"
 #include "ExprXorAssign.hpp"
 
-namespace ast
+namespace ast::expr
 {
-	class ExprVisitor
+	class Visitor
 	{
 	protected:
-		ExprVisitor()
+		Visitor()
 		{
 		};
 
 	public:
-		virtual ~ExprVisitor()
+		virtual ~Visitor()
 		{
 		};
 
-		virtual void visitAddExpr( ExprAdd * ) = 0;
-		virtual void visitAddAssignExpr( ExprAddAssign * ) = 0;
-		virtual void visitAndAssignExpr( ExprAndAssign * ) = 0;
-		virtual void visitAssignExpr( ExprAssign * ) = 0;
-		virtual void visitBitAndExpr( ExprBitAnd * ) = 0;
-		virtual void visitBitNotExpr( ExprBitNot * ) = 0;
-		virtual void visitBitOrExpr( ExprBitOr * ) = 0;
-		virtual void visitBitXorExpr( ExprBitXor * ) = 0;
-		virtual void visitCastExpr( ExprCast * ) = 0;
-		virtual void visitCommaExpr( ExprComma * ) = 0;
-		virtual void visitDivideExpr( ExprDivide * ) = 0;
-		virtual void visitDivideAssignExpr( ExprDivideAssign * ) = 0;
-		virtual void visitEqualExpr( ExprEqual * ) = 0;
-		virtual void visitFnCallExpr( ExprFnCall * ) = 0;
-		virtual void visitGreaterExpr( ExprGreater * ) = 0;
-		virtual void visitGreaterEqualExpr( ExprGreaterEqual * ) = 0;
-		virtual void visitIdentifierExpr( ExprIdentifier * ) = 0;
-		virtual void visitInitExpr( ExprInit * ) = 0;
-		virtual void visitLessExpr( ExprLess * ) = 0;
-		virtual void visitLessEqualExpr( ExprLessEqual * ) = 0;
-		virtual void visitLiteralExpr( ExprLiteral * ) = 0;
-		virtual void visitLogAndExpr( ExprLogAnd * ) = 0;
-		virtual void visitLogNotExpr( ExprLogNot * ) = 0;
-		virtual void visitLogOrExpr( ExprLogOr * ) = 0;
-		virtual void visitLShiftExpr( ExprLShift * ) = 0;
-		virtual void visitLShiftAssignExpr( ExprLShiftAssign * ) = 0;
-		virtual void visitMbrSelectExpr( ExprMbrSelect * ) = 0;
-		virtual void visitMinusExpr( ExprMinus * ) = 0;
-		virtual void visitMinusAssignExpr( ExprMinusAssign * ) = 0;
-		virtual void visitModuloExpr( ExprModulo * ) = 0;
-		virtual void visitModuloAssignExpr( ExprModuloAssign * ) = 0;
-		virtual void visitNotEqualExpr( ExprNotEqual * ) = 0;
-		virtual void visitOrAssignExpr( ExprOrAssign * ) = 0;
-		virtual void visitPostDecrementExpr( ExprPostDecrement * ) = 0;
-		virtual void visitPostIncrementExpr( ExprPostIncrement * ) = 0;
-		virtual void visitPreDecrementExpr( ExprPreDecrement * ) = 0;
-		virtual void visitPreIncrementExpr( ExprPreIncrement * ) = 0;
-		virtual void visitQuestionExpr( ExprQuestion * ) = 0;
-		virtual void visitRShiftExpr( ExprRShift * ) = 0;
-		virtual void visitRShiftAssignExpr( ExprRShiftAssign * ) = 0;
-		virtual void visitSwitchCaseExpr( ExprSwitchCase * ) = 0;
-		virtual void visitSwitchTestExpr( ExprSwitchTest * ) = 0;
-		virtual void visitTimesExpr( ExprTimes * ) = 0;
-		virtual void visitTimesAssignExpr( ExprTimesAssign * ) = 0;
-		virtual void visitUnaryMinusExpr( ExprUnaryMinus * ) = 0;
-		virtual void visitUnaryPlusExpr( ExprUnaryPlus * ) = 0;
-		virtual void visitXorAssignExpr( ExprXorAssign * ) = 0;
+		virtual void visitAddExpr( Add * ) = 0;
+		virtual void visitAddAssignExpr( AddAssign * ) = 0;
+		virtual void visitAndAssignExpr( AndAssign * ) = 0;
+		virtual void visitArrayAccessExpr( ArrayAccess * ) = 0;
+		virtual void visitAssignExpr( Assign * ) = 0;
+		virtual void visitBitAndExpr( BitAnd * ) = 0;
+		virtual void visitBitNotExpr( BitNot * ) = 0;
+		virtual void visitBitOrExpr( BitOr * ) = 0;
+		virtual void visitBitXorExpr( BitXor * ) = 0;
+		virtual void visitCastExpr( Cast * ) = 0;
+		virtual void visitCommaExpr( Comma * ) = 0;
+		virtual void visitDivideExpr( Divide * ) = 0;
+		virtual void visitDivideAssignExpr( DivideAssign * ) = 0;
+		virtual void visitEqualExpr( Equal * ) = 0;
+		virtual void visitFnCallExpr( FnCall * ) = 0;
+		virtual void visitGreaterExpr( Greater * ) = 0;
+		virtual void visitGreaterEqualExpr( GreaterEqual * ) = 0;
+		virtual void visitIdentifierExpr( Identifier * ) = 0;
+		virtual void visitInitExpr( Init * ) = 0;
+		virtual void visitLessExpr( Less * ) = 0;
+		virtual void visitLessEqualExpr( LessEqual * ) = 0;
+		virtual void visitLiteralExpr( Literal * ) = 0;
+		virtual void visitLogAndExpr( LogAnd * ) = 0;
+		virtual void visitLogNotExpr( LogNot * ) = 0;
+		virtual void visitLogOrExpr( LogOr * ) = 0;
+		virtual void visitLShiftExpr( LShift * ) = 0;
+		virtual void visitLShiftAssignExpr( LShiftAssign * ) = 0;
+		virtual void visitMbrSelectExpr( MbrSelect * ) = 0;
+		virtual void visitMinusExpr( Minus * ) = 0;
+		virtual void visitMinusAssignExpr( MinusAssign * ) = 0;
+		virtual void visitModuloExpr( Modulo * ) = 0;
+		virtual void visitModuloAssignExpr( ModuloAssign * ) = 0;
+		virtual void visitNotEqualExpr( NotEqual * ) = 0;
+		virtual void visitOrAssignExpr( OrAssign * ) = 0;
+		virtual void visitPostDecrementExpr( PostDecrement * ) = 0;
+		virtual void visitPostIncrementExpr( PostIncrement * ) = 0;
+		virtual void visitPreDecrementExpr( PreDecrement * ) = 0;
+		virtual void visitPreIncrementExpr( PreIncrement * ) = 0;
+		virtual void visitQuestionExpr( Question * ) = 0;
+		virtual void visitRShiftExpr( RShift * ) = 0;
+		virtual void visitRShiftAssignExpr( RShiftAssign * ) = 0;
+		virtual void visitSwitchCaseExpr( SwitchCase * ) = 0;
+		virtual void visitSwitchTestExpr( SwitchTest * ) = 0;
+		virtual void visitTimesExpr( Times * ) = 0;
+		virtual void visitTimesAssignExpr( TimesAssign * ) = 0;
+		virtual void visitUnaryMinusExpr( UnaryMinus * ) = 0;
+		virtual void visitUnaryPlusExpr( UnaryPlus * ) = 0;
+		virtual void visitXorAssignExpr( XorAssign * ) = 0;
 	};
 
-	class ExprSimpleVisitor
-		: public ExprVisitor
+	class SimpleVisitor
+		: public Visitor
 	{
 	protected:
-		ExprSimpleVisitor()
+		SimpleVisitor()
 		{
 		}
 
 	public:
-		virtual ~ExprSimpleVisitor()
+		virtual ~SimpleVisitor()
 		{
 		}
 
-		virtual void visitUnaryExpr( ExprUnary * expr ) = 0;
-		virtual void visitBinaryExpr( ExprBinary * expr ) = 0;
+		virtual void visitUnaryExpr( Unary * expr ) = 0;
+		virtual void visitBinaryExpr( Binary * expr ) = 0;
 
-		void visitAddExpr( ExprAdd * expr )override
+		void visitAddExpr( Add * expr )override
 		{
 			visitBinaryExpr( expr );
 		}
-		void visitAddAssignExpr( ExprAddAssign * expr )override
+		void visitAddAssignExpr( AddAssign * expr )override
 		{
 			visitBinaryExpr( expr );
 		}
-		void visitAndAssignExpr( ExprAndAssign * expr )override
+		void visitAndAssignExpr( AndAssign * expr )override
 		{
 			visitBinaryExpr( expr );
 		}
-		void visitAssignExpr( ExprAssign * expr )override
+		void visitArrayAccessExpr( ArrayAccess * expr )override
 		{
 			visitBinaryExpr( expr );
 		}
-		void visitBitAndExpr( ExprBitAnd * expr )override
+		void visitAssignExpr( Assign * expr )override
 		{
 			visitBinaryExpr( expr );
 		}
-		void visitBitNotExpr( ExprBitNot * expr )override
+		void visitBitAndExpr( BitAnd * expr )override
+		{
+			visitBinaryExpr( expr );
+		}
+		void visitBitNotExpr( BitNot * expr )override
 		{
 			visitUnaryExpr( expr );
 		}
-		void visitBitOrExpr( ExprBitOr * expr )override
+		void visitBitOrExpr( BitOr * expr )override
 		{
 			visitBinaryExpr( expr );
 		}
-		void visitBitXorExpr( ExprBitXor * expr )override
+		void visitBitXorExpr( BitXor * expr )override
 		{
 			visitBinaryExpr( expr );
 		}
-		void visitCastExpr( ExprCast * expr )override
+		void visitCastExpr( Cast * expr )override
 		{
 			visitUnaryExpr( expr );
 		}
-		void visitCommaExpr( ExprComma * expr )override
+		void visitCommaExpr( Comma * expr )override
 		{
 			visitBinaryExpr( expr );
 		}
-		void visitDivideExpr( ExprDivide * expr )override
+		void visitDivideExpr( Divide * expr )override
 		{
 			visitBinaryExpr( expr );
 		}
-		void visitDivideAssignExpr( ExprDivideAssign * expr )override
+		void visitDivideAssignExpr( DivideAssign * expr )override
 		{
 			visitBinaryExpr( expr );
 		}
-		void visitEqualExpr( ExprEqual * expr )override
+		void visitEqualExpr( Equal * expr )override
 		{
 			visitBinaryExpr( expr );
 		}
-		void visitGreaterExpr( ExprGreater * expr )override
+		void visitGreaterExpr( Greater * expr )override
 		{
 			visitBinaryExpr( expr );
 		}
-		void visitGreaterEqualExpr( ExprGreaterEqual * expr )override
+		void visitGreaterEqualExpr( GreaterEqual * expr )override
 		{
 			visitBinaryExpr( expr );
 		}
-		void visitLessExpr( ExprLess * expr )override
+		void visitLessExpr( Less * expr )override
 		{
 			visitBinaryExpr( expr );
 		}
-		void visitLessEqualExpr( ExprLessEqual * expr )override
+		void visitLessEqualExpr( LessEqual * expr )override
 		{
 			visitBinaryExpr( expr );
 		}
-		void visitLogAndExpr( ExprLogAnd * expr )override
+		void visitLogAndExpr( LogAnd * expr )override
 		{
 			visitBinaryExpr( expr );
 		}
-		void visitLogNotExpr( ExprLogNot * expr )override
+		void visitLogNotExpr( LogNot * expr )override
 		{
 			visitUnaryExpr( expr );
 		}
-		void visitLogOrExpr( ExprLogOr * expr )override
+		void visitLogOrExpr( LogOr * expr )override
 		{
 			visitBinaryExpr( expr );
 		}
-		void visitLShiftExpr( ExprLShift * expr )override
+		void visitLShiftExpr( LShift * expr )override
 		{
 			visitBinaryExpr( expr );
 		}
-		void visitLShiftAssignExpr( ExprLShiftAssign * expr )override
+		void visitLShiftAssignExpr( LShiftAssign * expr )override
 		{
 			visitBinaryExpr( expr );
 		}
-		void visitMbrSelectExpr( ExprMbrSelect * expr )override
+		void visitMbrSelectExpr( MbrSelect * expr )override
 		{
 			visitUnaryExpr( expr );
 		}
-		void visitMinusExpr( ExprMinus * expr )override
+		void visitMinusExpr( Minus * expr )override
 		{
 			visitBinaryExpr( expr );
 		}
-		void visitMinusAssignExpr( ExprMinusAssign * expr )override
+		void visitMinusAssignExpr( MinusAssign * expr )override
 		{
 			visitBinaryExpr( expr );
 		}
-		void visitModuloExpr( ExprModulo * expr )override
+		void visitModuloExpr( Modulo * expr )override
 		{
 			visitBinaryExpr( expr );
 		}
-		void visitModuloAssignExpr( ExprModuloAssign * expr )override
+		void visitModuloAssignExpr( ModuloAssign * expr )override
 		{
 			visitBinaryExpr( expr );
 		}
-		void visitNotEqualExpr( ExprNotEqual * expr )override
+		void visitNotEqualExpr( NotEqual * expr )override
 		{
 			visitBinaryExpr( expr );
 		}
-		void visitOrAssignExpr( ExprOrAssign * expr )override
+		void visitOrAssignExpr( OrAssign * expr )override
 		{
 			visitBinaryExpr( expr );
 		}
-		void visitPostDecrementExpr( ExprPostDecrement * expr )override
+		void visitPostDecrementExpr( PostDecrement * expr )override
 		{
 			visitUnaryExpr( expr );
 		}
-		void visitPostIncrementExpr( ExprPostIncrement * expr )override
+		void visitPostIncrementExpr( PostIncrement * expr )override
 		{
 			visitUnaryExpr( expr );
 		}
-		void visitPreDecrementExpr( ExprPreDecrement * expr )override
+		void visitPreDecrementExpr( PreDecrement * expr )override
 		{
 			visitUnaryExpr( expr );
 		}
-		void visitPreIncrementExpr( ExprPreIncrement * expr )override
+		void visitPreIncrementExpr( PreIncrement * expr )override
 		{
 			visitUnaryExpr( expr );
 		}
-		void visitRShiftExpr( ExprRShift * expr )override
+		void visitRShiftExpr( RShift * expr )override
 		{
 			visitBinaryExpr( expr );
 		}
-		void visitRShiftAssignExpr( ExprRShiftAssign * expr )override
+		void visitRShiftAssignExpr( RShiftAssign * expr )override
 		{
 			visitBinaryExpr( expr );
 		}
-		void visitTimesExpr( ExprTimes * expr )override
+		void visitTimesExpr( Times * expr )override
 		{
 			visitBinaryExpr( expr );
 		}
-		void visitTimesAssignExpr( ExprTimesAssign * expr )override
+		void visitTimesAssignExpr( TimesAssign * expr )override
 		{
 			visitBinaryExpr( expr );
 		}
-		void visitUnaryMinusExpr( ExprUnaryMinus * expr )override
+		void visitUnaryMinusExpr( UnaryMinus * expr )override
 		{
 			visitUnaryExpr( expr );
 		}
-		void visitUnaryPlusExpr( ExprUnaryPlus * expr )override
+		void visitUnaryPlusExpr( UnaryPlus * expr )override
 		{
 			visitUnaryExpr( expr );
 		}
-		void visitXorAssignExpr( ExprXorAssign * expr )override
+		void visitXorAssignExpr( XorAssign * expr )override
 		{
 			visitBinaryExpr( expr );
 		}

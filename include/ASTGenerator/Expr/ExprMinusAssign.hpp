@@ -7,24 +7,25 @@ See LICENSE file in root folder
 
 #include "ExprAssign.hpp"
 
-namespace ast
+namespace ast::expr
 {
-	class ExprMinusAssign
-		: public ExprAssign
+	class MinusAssign
+		: public Assign
 	{
 	public:
-		ExprMinusAssign( TypePtr type
+		MinusAssign( type::TypePtr type
 			, ExprPtr lhs
 			, ExprPtr rhs );
 
-		void accept( ExprVisitorPtr vis )override;
+		void accept( VisitorPtr vis )override;
 	};
+	using MinusAssignPtr = std::unique_ptr< MinusAssign >;
 
-	inline std::unique_ptr< ExprMinusAssign > makeMinusAssignExpr( TypePtr type
+	inline MinusAssignPtr makeMinusAssign( type::TypePtr type
 		, ExprPtr lhs
 		, ExprPtr rhs )
 	{
-		return std::make_unique< ExprMinusAssign >( type
+		return std::make_unique< MinusAssign >( std::move( type )
 			, std::move( lhs )
 			, std::move( rhs ) );
 	}

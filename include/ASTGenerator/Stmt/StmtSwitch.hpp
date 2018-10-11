@@ -10,33 +10,34 @@ See LICENSE file in root folder
 #include "StmtSwitchCase.hpp"
 #include "ASTGenerator/Expr/ExprSwitchTest.hpp"
 
-namespace ast
+namespace ast::stmt
 {
-	class StmtSwitch
-		: public StmtCompound
+	class Switch
+		: public Compound
 	{
 	public:
-		StmtSwitch( ExprSwitchTestPtr testExpr );
-		void addCase( StmtSwitchCasePtr caseStmt );
-		void addDefault( StmtSwitchCasePtr caseStmt );
+		Switch( expr::SwitchTestPtr testExpr );
+		void addCase( SwitchCasePtr caseStmt );
+		void addDefault( SwitchCasePtr caseStmt );
 
-		void accept( StmtVisitorPtr vis )override;
+		void accept( VisitorPtr vis )override;
 
-		inline Expr * getTestExpr()const
+		inline expr::Expr * getTestExpr()const
 		{
 			return m_testExpr.get();
 		}
 
 	private:
-		StmtCompound::addStmt;
+		Compound::addStmt;
 
 	private:
-		ExprSwitchTestPtr m_testExpr;
+		expr::SwitchTestPtr m_testExpr;
 	};
+	using SwitchPtr = std::unique_ptr< Switch >;
 
-	inline std::unique_ptr< StmtSwitch > makeSwitchStmt( ExprSwitchTestPtr testExpr )
+	inline SwitchPtr makeSwitch( expr::SwitchTestPtr testExpr )
 	{
-		return std::make_unique< StmtSwitch >( std::move( testExpr ) );
+		return std::make_unique< Switch >( std::move( testExpr ) );
 	}
 }
 

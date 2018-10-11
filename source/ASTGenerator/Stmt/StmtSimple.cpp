@@ -5,15 +5,15 @@ See LICENSE file in root folder
 
 #include "ASTGenerator/Stmt/StmtVisitor.hpp"
 
-namespace ast
+namespace ast::stmt
 {
-	StmtSimple::StmtSimple( ExprPtr expr )
+	Simple::Simple( expr::ExprPtr expr )
 		: Stmt{ Kind::eSimple }
 		, m_expr{ std::move( expr ) }
 	{
 	}
 
-	void StmtSimple::accept( StmtVisitorPtr vis )
+	void Simple::accept( VisitorPtr vis )
 	{
 		vis->visitSimpleStmt( this );
 	}

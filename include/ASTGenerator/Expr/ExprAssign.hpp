@@ -7,25 +7,26 @@ See LICENSE file in root folder
 
 #include "ExprBinary.hpp"
 
-namespace ast
+namespace ast::expr
 {
-	class ExprAssign
-		: public ExprBinary
+	class Assign
+		: public Binary
 	{
 	public:
-		ExprAssign( TypePtr type
+		Assign( type::TypePtr type
 			, ExprPtr lhs
 			, ExprPtr rhs
-			, Expr::Kind kind = Expr::Kind::eAssign );
+			, Kind kind = Kind::eAssign );
 
-		void accept( ExprVisitorPtr vis )override;
+		void accept( VisitorPtr vis )override;
 	};
+	using AssignPtr = std::unique_ptr< Assign >;
 
-	inline std::unique_ptr< ExprAssign > makeAssignExpr( TypePtr type
+	inline AssignPtr makeAssign( type::TypePtr type
 		, ExprPtr lhs
 		, ExprPtr rhs )
 	{
-		return std::make_unique< ExprAssign >( type
+		return std::make_unique< Assign >( std::move( type )
 			, std::move( lhs )
 			, std::move( rhs ) );
 	}

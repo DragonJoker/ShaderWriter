@@ -5,32 +5,32 @@ See LICENSE file in root folder
 
 #include "ASTGenerator/Stmt/StmtVisitor.hpp"
 
-namespace ast
+namespace ast::stmt
 {
-	StmtIf::StmtIf( ExprPtr ctrlExpr )
-		: StmtCompound{ Kind::eIf }
+	If::If( expr::ExprPtr ctrlExpr )
+		: Compound{ Kind::eIf }
 		, m_ctrlExpr{ std::move( ctrlExpr ) }
 	{
 	}
 
-	StmtElse * StmtIf::createElse()
+	Else * If::createElse()
 	{
 		if ( m_else )
 		{
-			throw std::runtime_error{ "StmtElse is already defined for this StmtIf." };
+			throw std::runtime_error{ "Else is already defined for this If." };
 		}
 
-		m_else = makeElseStmt( *this );
+		m_else = makeElse( *this );
 		return m_else.get();
 	}
 
-	StmtElseIf * StmtIf::createElseIf( ExprPtr ctrlExpr )
+	ElseIf * If::createElseIf( expr::ExprPtr ctrlExpr )
 	{
-		m_elseIfs.emplace_back( makeElseIfStmt( *this, std::move( ctrlExpr ) ) );
-		return static_cast< StmtElseIf * >( m_elseIfs.back().get() );
+		m_elseIfs.emplace_back( makeElseIf( *this, std::move( ctrlExpr ) ) );
+		return static_cast< ElseIf * >( m_elseIfs.back().get() );
 	}
 
-	void StmtIf::accept( StmtVisitorPtr vis )
+	void If::accept( VisitorPtr vis )
 	{
 		vis->visitIfStmt( this );
 	}

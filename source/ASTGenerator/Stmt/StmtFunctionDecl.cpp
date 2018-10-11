@@ -5,19 +5,19 @@ See LICENSE file in root folder
 
 #include "ASTGenerator/Stmt/StmtVisitor.hpp"
 
-namespace ast
+namespace ast::stmt
 {
-	StmtFunctionDecl::StmtFunctionDecl( TypePtr retType
+	FunctionDecl::FunctionDecl( type::TypePtr retType
 		, std::string name
-		, VariableList parameters )
-		: StmtCompound{ Kind::eFunctionDecl }
+		, var::VariableList parameters )
+		: Compound{ Kind::eFunctionDecl }
 		, m_retType{ std::move( retType ) }
 		, m_name{ std::move( name ) }
 		, m_parameters{ std::move( parameters ) }
 	{
 	}
 
-	void StmtFunctionDecl::accept( StmtVisitorPtr vis )
+	void FunctionDecl::accept( VisitorPtr vis )
 	{
 		vis->visitFunctionDeclStmt( this );
 	}

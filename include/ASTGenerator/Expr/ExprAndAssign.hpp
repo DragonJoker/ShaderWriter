@@ -7,24 +7,25 @@ See LICENSE file in root folder
 
 #include "ExprAssign.hpp"
 
-namespace ast
+namespace ast::expr
 {
-	class ExprAndAssign
-		: public ExprAssign
+	class AndAssign
+		: public Assign
 	{
 	public:
-		ExprAndAssign( TypePtr type
+		AndAssign( type::TypePtr type
 			, ExprPtr lhs
 			, ExprPtr rhs );
 
-		void accept( ExprVisitorPtr vis )override;
+		void accept( VisitorPtr vis )override;
 	};
+	using AndAssignPtr = std::unique_ptr< AndAssign >;
 
-	inline std::unique_ptr< ExprAndAssign > makeAndAssignExpr( TypePtr type
+	inline AndAssignPtr makeAndAssign( type::TypePtr type
 		, ExprPtr lhs
 		, ExprPtr rhs )
 	{
-		return std::make_unique< ExprAndAssign >( type
+		return std::make_unique< AndAssign >( std::move( type )
 			, std::move( lhs )
 			, std::move( rhs ) );
 	}

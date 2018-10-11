@@ -5,19 +5,19 @@ See LICENSE file in root folder
 
 #include "ASTGenerator/Expr/ExprVisitor.hpp"
 
-namespace ast
+namespace ast::expr
 {
-	ExprOrAssign::ExprOrAssign( TypePtr type
+	OrAssign::OrAssign( type::TypePtr type
 		, ExprPtr lhs
 		, ExprPtr rhs )
-		: ExprAssign{ type
+		: Assign{ std::move( type )
 			, std::move( lhs )
 			, std::move( rhs )
-			, Expr::Kind::eOrAssign }
+			, Kind::eOrAssign }
 	{
 	}
 
-	void ExprOrAssign::accept( ExprVisitorPtr vis )
+	void OrAssign::accept( VisitorPtr vis )
 	{
 		vis->visitOrAssignExpr( this );
 	}

@@ -7,20 +7,21 @@ See LICENSE file in root folder
 
 #include "ExprUnary.hpp"
 
-namespace ast
+namespace ast::expr
 {
-	class ExprPostIncrement
-		: public ExprUnary
+	class PostIncrement
+		: public Unary
 	{
 	public:
-		ExprPostIncrement( ExprPtr operand );
+		PostIncrement( ExprPtr operand );
 
-		void accept( ExprVisitorPtr vis )override;
+		void accept( VisitorPtr vis )override;
 	};
+	using PostIncrementPtr = std::unique_ptr< PostIncrement >;
 
-	inline std::unique_ptr< ExprPostIncrement > makePostIncrementExpr( ExprPtr operand )
+	inline PostIncrementPtr makePostIncrement( ExprPtr operand )
 	{
-		return std::make_unique< ExprPostIncrement >( std::move( operand ) );
+		return std::make_unique< PostIncrement >( std::move( operand ) );
 	}
 }
 

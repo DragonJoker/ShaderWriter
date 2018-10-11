@@ -5,14 +5,16 @@ See LICENSE file in root folder
 
 #include "ASTGenerator/Expr/ExprVisitor.hpp"
 
-namespace ast
+namespace ast::expr
 {
-	ExprUnaryMinus::ExprUnaryMinus( ExprPtr operand )
-		: ExprUnary{ operand->getType(), std::move( operand ), Kind::eUnaryMinus }
+	UnaryMinus::UnaryMinus( ExprPtr operand )
+		: Unary{ std::move( operand->get() )
+			, std::move( operand )
+			, Kind::eUnaryMinus }
 	{
 	}
 
-	void ExprUnaryMinus::accept( ExprVisitorPtr vis )
+	void UnaryMinus::accept( VisitorPtr vis )
 	{
 		vis->visitUnaryMinusExpr( this );
 	}

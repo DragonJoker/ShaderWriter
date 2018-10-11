@@ -7,16 +7,16 @@ See LICENSE file in root folder
 
 #include "Expr.hpp"
 
-namespace ast
+namespace ast::expr
 {
-	class ExprBinary
+	class Binary
 		: public Expr
 	{
 	public:
-		ExprBinary( TypePtr type
+		Binary( type::TypePtr type
 			, ExprPtr lhs
 			, ExprPtr rhs
-			, Expr::Kind kind );
+			, Kind kind );
 
 		inline Expr * getLHS()const
 		{

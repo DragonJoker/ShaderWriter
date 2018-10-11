@@ -5,19 +5,19 @@ See LICENSE file in root folder
 
 #include "ASTGenerator/Expr/ExprVisitor.hpp"
 
-namespace ast
+namespace ast::expr
 {
-	ExprBitAnd::ExprBitAnd( TypePtr type
+	BitAnd::BitAnd( type::TypePtr type
 		, ExprPtr lhs
 		, ExprPtr rhs )
-		: ExprBinary{ type
+		: Binary{ std::move( type )
 			, std::move( lhs )
 			, std::move( rhs )
-			, Expr::Kind::eBitAnd }
+			, Kind::eBitAnd }
 	{
 	}
 
-	void ExprBitAnd::accept( ExprVisitorPtr vis )
+	void BitAnd::accept( VisitorPtr vis )
 	{
 		vis->visitBitAndExpr( this );
 	}

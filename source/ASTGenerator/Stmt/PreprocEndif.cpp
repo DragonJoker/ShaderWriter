@@ -5,14 +5,14 @@ See LICENSE file in root folder
 
 #include "ASTGenerator/Stmt/StmtVisitor.hpp"
 
-namespace ast
+namespace ast::stmt
 {
 	PreprocEndif::PreprocEndif()
 		: Stmt{ Kind::ePreprocEndif }
 	{
 	}
 
-	void PreprocEndif::accept( StmtVisitorPtr vis )
+	void PreprocEndif::accept( VisitorPtr vis )
 	{
 		vis->visitPreprocEndif( this );
 	}

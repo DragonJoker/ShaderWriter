@@ -7,22 +7,23 @@ See LICENSE file in root folder
 
 #include "ExprBinary.hpp"
 
-namespace ast
+namespace ast::expr
 {
-	class ExprGreater
-		: public ExprBinary
+	class Greater
+		: public Binary
 	{
 	public:
-		ExprGreater( ExprPtr lhs
+		Greater( ExprPtr lhs
 			, ExprPtr rhs );
 
-		void accept( ExprVisitorPtr vis )override;
+		void accept( VisitorPtr vis )override;
 	};
+	using GreaterPtr = std::unique_ptr< Greater >;
 
-	inline std::unique_ptr< ExprGreater > makeGreaterExpr( ExprPtr lhs
+	inline GreaterPtr makeGreater( ExprPtr lhs
 		, ExprPtr rhs )
 	{
-		return std::make_unique< ExprGreater >( std::move( lhs )
+		return std::make_unique< Greater >( std::move( lhs )
 			, std::move( rhs ) );
 	}
 }

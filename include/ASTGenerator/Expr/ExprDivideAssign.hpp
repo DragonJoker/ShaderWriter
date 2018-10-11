@@ -7,24 +7,25 @@ See LICENSE file in root folder
 
 #include "ExprAssign.hpp"
 
-namespace ast
+namespace ast::expr
 {
-	class ExprDivideAssign
-		: public ExprAssign
+	class DivideAssign
+		: public Assign
 	{
 	public:
-		ExprDivideAssign( TypePtr type
+		DivideAssign( type::TypePtr type
 			, ExprPtr lhs
 			, ExprPtr rhs );
 
-		void accept( ExprVisitorPtr vis )override;
+		void accept( VisitorPtr vis )override;
 	};
+	using DivideAssignPtr = std::unique_ptr< DivideAssign >;
 
-	inline std::unique_ptr< ExprDivideAssign > makeDivideAssignExpr( TypePtr type
+	inline DivideAssignPtr makeDivideAssign( type::TypePtr type
 		, ExprPtr lhs
 		, ExprPtr rhs )
 	{
-		return std::make_unique< ExprDivideAssign >( type
+		return std::make_unique< DivideAssign >( std::move( type )
 			, std::move( lhs )
 			, std::move( rhs ) );
 	}

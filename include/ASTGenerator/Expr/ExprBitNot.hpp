@@ -7,22 +7,23 @@ See LICENSE file in root folder
 
 #include "ExprUnary.hpp"
 
-namespace ast
+namespace ast::expr
 {
-	class ExprBitNot
-		: public ExprUnary
+	class BitNot
+		: public Unary
 	{
 	public:
-		ExprBitNot( TypePtr type
+		BitNot( type::TypePtr type
 			, ExprPtr operand );
 
-		void accept( ExprVisitorPtr vis )override;
+		void accept( VisitorPtr vis )override;
 	};
+	using BitNotPtr = std::unique_ptr< BitNot >;
 
-	inline std::unique_ptr< ExprBitNot > makeBitNotExpr( TypePtr type
+	inline BitNotPtr makeBitNot( type::TypePtr type
 		, ExprPtr operand )
 	{
-		return std::make_unique< ExprBitNot >( type
+		return std::make_unique< BitNot >( std::move( type )
 			, std::move( operand ) );
 	}
 }

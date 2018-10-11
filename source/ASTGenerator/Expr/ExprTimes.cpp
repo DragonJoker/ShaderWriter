@@ -5,19 +5,19 @@ See LICENSE file in root folder
 
 #include "ASTGenerator/Expr/ExprVisitor.hpp"
 
-namespace ast
+namespace ast::expr
 {
-	ExprTimes::ExprTimes( TypePtr type
+	Times::Times( type::TypePtr type
 		, ExprPtr lhs
 		, ExprPtr rhs )
-		: ExprBinary{ type
+		: Binary{ std::move( type )
 			, std::move( lhs )
 			, std::move( rhs )
-			, Expr::Kind::eTimes }
+			, Kind::eTimes }
 	{
 	}
 
-	void ExprTimes::accept( ExprVisitorPtr vis )
+	void Times::accept( VisitorPtr vis )
 	{
 		vis->visitTimesExpr( this );
 	}

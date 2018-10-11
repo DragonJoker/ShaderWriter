@@ -5,17 +5,17 @@ See LICENSE file in root folder
 
 #include "ASTGenerator/Stmt/StmtVisitor.hpp"
 
-namespace ast
+namespace ast::stmt
 {
 	PreprocDefine::PreprocDefine( std::string name
-		, ExprPtr expr )
+		, expr::ExprPtr expr )
 		: Stmt{ Kind::ePreprocDefine }
 		, m_name{ std::move( name ) }
 		, m_expr{ std::move( expr ) }
 	{
 	}
 
-	void PreprocDefine::accept( StmtVisitorPtr vis )
+	void PreprocDefine::accept( VisitorPtr vis )
 	{
 		vis->visitPreprocDefine( this );
 	}

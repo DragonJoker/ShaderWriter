@@ -5,19 +5,19 @@ See LICENSE file in root folder
 
 #include "ASTGenerator/Stmt/StmtVisitor.hpp"
 
-namespace ast
+namespace ast::stmt
 {
-	StmtCompound::StmtCompound( Stmt::Kind kind )
-		: Stmt{ kind }
+	Compound::Compound( Kind kind )
+		: Container{ kind }
+	{
+	}
+	
+	Compound::Compound()
+		: Compound{ Kind::eCompound }
 	{
 	}
 
-	void StmtCompound::addStmt( StmtPtr stmt )
-	{
-		m_statements.emplace_back( std::move( stmt ) );
-	}
-
-	void StmtCompound::accept( StmtVisitorPtr vis )
+	void Compound::accept( VisitorPtr vis )
 	{
 		vis->visitCompoundStmt( this );
 	}

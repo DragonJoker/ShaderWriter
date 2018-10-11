@@ -13,21 +13,30 @@ See LICENSE file in root folder
 
 namespace ast
 {
-	class Expr;
-	class Stmt;
-	class Variable;
-	class Type;
-	class ExprVisitor;
-	class StmtVisitor;
-	class TypeVisitor;
-
-	using ExprPtr = std::unique_ptr< Expr >;
-	using StmtPtr = std::unique_ptr< Stmt >;
-	using TypePtr = std::shared_ptr< Type >;
-	using VariablePtr = std::shared_ptr< Variable >;
-	using ExprVisitorPtr = ExprVisitor *;
-	using StmtVisitorPtr = StmtVisitor *;
-	using TypeVisitorPtr = TypeVisitor *;
+	namespace expr
+	{
+		class Expr;
+		class Visitor;
+		using ExprPtr = std::unique_ptr< Expr >;
+		using VisitorPtr = Visitor * ;
+	}
+	namespace stmt
+	{
+		class Stmt;
+		class Visitor;
+		using StmtPtr = std::unique_ptr< Stmt >;
+		using VisitorPtr = Visitor * ;
+	}
+	namespace var
+	{
+		class Variable;
+		using VariablePtr = std::shared_ptr< Variable >;
+	}
+	namespace type
+	{
+		class Type;
+		using TypePtr = std::shared_ptr< Type >;
+	}
 }
 
 #endif

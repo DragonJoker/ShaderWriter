@@ -7,22 +7,23 @@ See LICENSE file in root folder
 
 #include "ExprBinary.hpp"
 
-namespace ast
+namespace ast::expr
 {
-	class ExprComma
-		: public ExprBinary
+	class Comma
+		: public Binary
 	{
 	public:
-		ExprComma( ExprPtr lhs
+		Comma( ExprPtr lhs
 			, ExprPtr rhs );
 
-		void accept( ExprVisitorPtr vis )override;
+		void accept( VisitorPtr vis )override;
 	};
+	using CommaPtr = std::unique_ptr< Comma >;
 
-	inline std::unique_ptr< ExprComma > makeCommaExpr( ExprPtr lhs
+	inline CommaPtr makeComma( ExprPtr lhs
 		, ExprPtr rhs )
 	{
-		return std::make_unique< ExprComma >( std::move( lhs )
+		return std::make_unique< Comma >( std::move( lhs )
 			, std::move( rhs ) );
 	}
 }

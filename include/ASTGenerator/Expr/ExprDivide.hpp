@@ -7,24 +7,25 @@ See LICENSE file in root folder
 
 #include "ExprBinary.hpp"
 
-namespace ast
+namespace ast::expr
 {
-	class ExprDivide
-		: public ExprBinary
+	class Divide
+		: public Binary
 	{
 	public:
-		ExprDivide( TypePtr type
+		Divide( type::TypePtr type
 			, ExprPtr lhs
 			, ExprPtr rhs );
 
-		void accept( ExprVisitorPtr vis )override;
+		void accept( VisitorPtr vis )override;
 	};
+	using DividePtr = std::unique_ptr< Divide >;
 
-	inline std::unique_ptr< ExprDivide > makeDivideExpr( TypePtr type
+	inline DividePtr makeDivide( type::TypePtr type
 		, ExprPtr lhs
 		, ExprPtr rhs )
 	{
-		return std::make_unique< ExprDivide >( type
+		return std::make_unique< Divide >( std::move( type )
 			, std::move( lhs )
 			, std::move( rhs ) );
 	}

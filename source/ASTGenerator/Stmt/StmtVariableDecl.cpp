@@ -5,15 +5,15 @@ See LICENSE file in root folder
 
 #include "ASTGenerator/Stmt/StmtVisitor.hpp"
 
-namespace ast
+namespace ast::stmt
 {
-	StmtVariableDecl::StmtVariableDecl( VariablePtr variable )
+	VariableDecl::VariableDecl( var::VariablePtr variable )
 		: Stmt{ Kind::eVariableDecl }
 		, m_variable{ std::move( variable ) }
 	{
 	}
 
-	void StmtVariableDecl::accept( StmtVisitorPtr vis )
+	void VariableDecl::accept( VisitorPtr vis )
 	{
 		vis->visitVariableDeclStmt( this );
 	}

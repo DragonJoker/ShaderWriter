@@ -7,26 +7,27 @@ See LICENSE file in root folder
 
 #include "Stmt.hpp"
 
-namespace ast
+namespace ast::stmt
 {
 	class PreprocIf
 		: public Stmt
 	{
 	public:
-		PreprocIf( ExprPtr ctrlExpr );
+		PreprocIf( expr::ExprPtr ctrlExpr );
 
-		void accept( StmtVisitorPtr vis )override;
+		void accept( VisitorPtr vis )override;
 
-		inline Expr * getCtrlExpr()const
+		inline expr::Expr * getCtrlExpr()const
 		{
 			return m_ctrlExpr.get();
 		}
 
 	private:
-		ExprPtr m_ctrlExpr;
+		expr::ExprPtr m_ctrlExpr;
 	};
+	using PreprocIfPtr = std::unique_ptr< PreprocIf >;
 
-	inline std::unique_ptr< PreprocIf > makePreprocIf( ExprPtr ctrlExpr )
+	inline PreprocIfPtr makePreprocIf( expr::ExprPtr ctrlExpr )
 	{
 		return std::make_unique< PreprocIf >( std::move( ctrlExpr ) );
 	}

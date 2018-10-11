@@ -5,16 +5,18 @@ See LICENSE file in root folder
 
 #include "ASTGenerator/Expr/ExprVisitor.hpp"
 
-namespace ast
+namespace ast::expr
 {
-	ExprMbrSelect::ExprMbrSelect( VariablePtr variable
-		, ExprIdentifierPtr member )
-		: ExprUnary{ member->getType(), std::move( member ), Kind::eMbrSelect }
-		, m_variable{ std::move( variable ) }
+	MbrSelect::MbrSelect( ExprPtr outer
+		, IdentifierPtr member )
+		: Unary{ std::move( member->get() )
+			, std::move( member )
+			, Kind::eMbrSelect }
+		, m_outer{ std::move( outer ) }
 	{
 	}
 
-	void ExprMbrSelect::accept( ExprVisitorPtr vis )
+	void MbrSelect::accept( VisitorPtr vis )
 	{
 		vis->visitMbrSelectExpr( this );
 	}

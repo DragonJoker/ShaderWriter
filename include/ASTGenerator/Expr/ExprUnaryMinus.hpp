@@ -7,20 +7,21 @@ See LICENSE file in root folder
 
 #include "ExprUnary.hpp"
 
-namespace ast
+namespace ast::expr
 {
-	class ExprUnaryMinus
-		: public ExprUnary
+	class UnaryMinus
+		: public Unary
 	{
 	public:
-		ExprUnaryMinus( ExprPtr operand );
+		UnaryMinus( ExprPtr operand );
 
-		void accept( ExprVisitorPtr vis )override;
+		void accept( VisitorPtr vis )override;
 	};
+	using UnaryMinusPtr = std::unique_ptr< UnaryMinus >;
 
-	inline std::unique_ptr< ExprUnaryMinus > makeUnaryMinusExpr( ExprPtr operand )
+	inline UnaryMinusPtr makeUnaryMinus( ExprPtr operand )
 	{
-		return std::make_unique< ExprUnaryMinus >( std::move( operand ) );
+		return std::make_unique< UnaryMinus >( std::move( operand ) );
 	}
 }
 

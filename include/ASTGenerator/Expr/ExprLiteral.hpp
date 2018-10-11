@@ -7,9 +7,9 @@ See LICENSE file in root folder
 
 #include "Expr.hpp"
 
-namespace ast
+namespace ast::expr
 {
-	class ExprLiteral
+	class Literal
 		: public Expr
 	{
 	public:
@@ -48,14 +48,14 @@ namespace ast
 		};
 
 	public:
-		ExprLiteral( bool value );
-		ExprLiteral( int32_t value );
-		ExprLiteral( uint32_t value );
-		ExprLiteral( float value );
+		Literal( bool value );
+		Literal( int32_t value );
+		Literal( uint32_t value );
+		Literal( float value );
 
-		void accept( ExprVisitorPtr vis )override;
+		void accept( VisitorPtr vis )override;
 
-		inline ValueType getValueType()const
+		inline ValueType getValue()const
 		{
 			return m_valueType;
 		}
@@ -98,12 +98,12 @@ namespace ast
 			float floatv;
 		} m_value;
 	};
-	using ExprLiteralPtr = std::unique_ptr< ExprLiteral >;
+	using LiteralPtr = std::unique_ptr< Literal >;
 
 	template< typename T >
-	inline ExprLiteralPtr makeLiteralExpr( T value )
+	inline LiteralPtr makeLiteral( T value )
 	{
-		return std::make_unique< ExprLiteral >( value );
+		return std::make_unique< Literal >( value );
 	}
 }
 

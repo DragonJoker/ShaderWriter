@@ -5,17 +5,17 @@ See LICENSE file in root folder
 
 #include "ASTGenerator/Expr/ExprVisitor.hpp"
 
-namespace ast
+namespace ast::expr
 {
-	ExprInit::ExprInit( ExprIdentifierPtr identifier
+	Init::Init( IdentifierPtr identifier
 		, ExprPtr initialiser )
-		: Expr{ identifier->getType(), Expr::Kind::eInit }
+		: Expr{ std::move( identifier->get() ), Kind::eInit }
 		, m_identifier{ std::move( identifier ) }
 		, m_initialiser{ std::move( initialiser ) }
 	{
 	}
 
-	void ExprInit::accept( ExprVisitorPtr vis )
+	void Init::accept( VisitorPtr vis )
 	{
 		vis->visitInitExpr( this );
 	}

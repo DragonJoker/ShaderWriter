@@ -7,15 +7,15 @@ See LICENSE file in root folder
 
 #include "ASTGenerator/Var/Variable.hpp"
 
-namespace ast
+namespace ast::expr
 {
-	ExprIdentifier::ExprIdentifier( VariablePtr var )
-		: Expr{ var->getType(), Expr::Kind::eIdentifier }
+	Identifier::Identifier( var::VariablePtr var )
+		: Expr{ std::move( var->get() ), Kind::eIdentifier }
 		, m_var{ std::move( var ) }
 	{
 	}
 
-	void ExprIdentifier::accept( ExprVisitorPtr vis )
+	void Identifier::accept( VisitorPtr vis )
 	{
 		vis->visitIdentifierExpr( this );
 	}

@@ -8,38 +8,39 @@ See LICENSE file in root folder
 #include "ExprIdentifier.hpp"
 #include "ExprList.hpp"
 
-namespace ast
+namespace ast::expr
 {
-	class ExprFnCall
+	class FnCall
 		: public Expr
 	{
 	public:
-		ExprFnCall( TypePtr type
-			, ExprIdentifierPtr fn
+		FnCall( type::TypePtr type
+			, IdentifierPtr fn
 			, ExprList && argList );
 
-		void accept( ExprVisitorPtr vis )override;
+		void accept( VisitorPtr vis )override;
 
 		inline ExprList const & getArgList()const
 		{
 			return m_argList;
 		}
 
-		inline ExprIdentifier * getFn()const
+		inline Identifier * getFn()const
 		{
 			return m_fn.get();
 		}
 
 	private:
-		ExprIdentifierPtr m_fn;
+		IdentifierPtr m_fn;
 		ExprList m_argList;
 	};
+	using FnCallPtr = std::unique_ptr< FnCall >;
 
-	inline std::unique_ptr< ExprFnCall > makeFnCallExpr( TypePtr type
-		, ExprIdentifierPtr fn
+	inline FnCallPtr makeFnCall( type::TypePtr type
+		, IdentifierPtr fn
 		, ExprList && argList )
 	{
-		return std::make_unique< ExprFnCall >( type
+		return std::make_unique< FnCall >( std::move( type )
 			, std::move( fn )
 			, std::move( argList ) );
 	}

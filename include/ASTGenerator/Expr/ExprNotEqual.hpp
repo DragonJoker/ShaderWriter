@@ -7,22 +7,23 @@ See LICENSE file in root folder
 
 #include "ExprBinary.hpp"
 
-namespace ast
+namespace ast::expr
 {
-	class ExprNotEqual
-		: public ExprBinary
+	class NotEqual
+		: public Binary
 	{
 	public:
-		ExprNotEqual( ExprPtr lhs
+		NotEqual( ExprPtr lhs
 			, ExprPtr rhs );
 
-		void accept( ExprVisitorPtr vis )override;
+		void accept( VisitorPtr vis )override;
 	};
+	using NotEqualPtr = std::unique_ptr< NotEqual >;
 
-	inline std::unique_ptr< ExprNotEqual > makeNotEqualExpr( ExprPtr lhs
+	inline NotEqualPtr makeNotEqual( ExprPtr lhs
 		, ExprPtr rhs )
 	{
-		return std::make_unique< ExprNotEqual >( std::move( lhs )
+		return std::make_unique< NotEqual >( std::move( lhs )
 			, std::move( rhs ) );
 	}
 }

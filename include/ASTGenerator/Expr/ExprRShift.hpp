@@ -7,24 +7,25 @@ See LICENSE file in root folder
 
 #include "ExprBinary.hpp"
 
-namespace ast
+namespace ast::expr
 {
-	class ExprRShift
-		: public ExprBinary
+	class RShift
+		: public Binary
 	{
 	public:
-		ExprRShift( TypePtr type
+		RShift( type::TypePtr type
 			, ExprPtr lhs
 			, ExprPtr rhs );
 
-		void accept( ExprVisitorPtr vis )override;
+		void accept( VisitorPtr vis )override;
 	};
+	using RShiftPtr = std::unique_ptr< RShift >;
 
-	inline std::unique_ptr< ExprRShift > makeRShiftExpr( TypePtr type
+	inline RShiftPtr makeRShift( type::TypePtr type
 		, ExprPtr lhs
 		, ExprPtr rhs )
 	{
-		return std::make_unique< ExprRShift >( type
+		return std::make_unique< RShift >( std::move( type )
 			, std::move( lhs )
 			, std::move( rhs ) );
 	}

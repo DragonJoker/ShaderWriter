@@ -5,19 +5,19 @@ See LICENSE file in root folder
 
 #include "ASTGenerator/Expr/ExprVisitor.hpp"
 
-namespace ast
+namespace ast::expr
 {
-	ExprDivide::ExprDivide( TypePtr type
+	Divide::Divide( type::TypePtr type
 		, ExprPtr lhs
 		, ExprPtr rhs )
-		: ExprBinary{ type
+		: Binary{ std::move( type )
 			, std::move( lhs )
 			, std::move( rhs )
-			, Expr::Kind::eDivide }
+			, Kind::eDivide }
 	{
 	}
 
-	void ExprDivide::accept( ExprVisitorPtr vis )
+	void Divide::accept( VisitorPtr vis )
 	{
 		vis->visitDivideExpr( this );
 	}

@@ -7,20 +7,21 @@ See LICENSE file in root folder
 
 #include "ExprUnary.hpp"
 
-namespace ast
+namespace ast::expr
 {
-	class ExprLogNot
-		: public ExprUnary
+	class LogNot
+		: public Unary
 	{
 	public:
-		ExprLogNot( ExprPtr operand );
+		LogNot( ExprPtr operand );
 
-		void accept( ExprVisitorPtr vis )override;
+		void accept( VisitorPtr vis )override;
 	};
+	using LogNotPtr = std::unique_ptr< LogNot >;
 
-	inline std::unique_ptr< ExprLogNot > makeLogNotExpr( ExprPtr operand )
+	inline LogNotPtr makeLogNot( ExprPtr operand )
 	{
-		return std::make_unique< ExprLogNot >( std::move( operand ) );
+		return std::make_unique< LogNot >( std::move( operand ) );
 	}
 }
 

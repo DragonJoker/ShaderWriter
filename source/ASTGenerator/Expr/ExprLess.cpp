@@ -5,18 +5,18 @@ See LICENSE file in root folder
 
 #include "ASTGenerator/Expr/ExprVisitor.hpp"
 
-namespace ast
+namespace ast::expr
 {
-	ExprLess::ExprLess( ExprPtr lhs
+	Less::Less( ExprPtr lhs
 		, ExprPtr rhs )
-		: ExprBinary{ getBoolType()
+		: Binary{ std::move( type::getBool() )
 			, std::move( lhs )
 			, std::move( rhs )
-			, Expr::Kind::eLess }
+			, Kind::eLess }
 	{
 	}
 
-	void ExprLess::accept( ExprVisitorPtr vis )
+	void Less::accept( VisitorPtr vis )
 	{
 		vis->visitLessExpr( this );
 	}

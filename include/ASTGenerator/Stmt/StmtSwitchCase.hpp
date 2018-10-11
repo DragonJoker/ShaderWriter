@@ -9,35 +9,35 @@ See LICENSE file in root folder
 
 #include "ASTGenerator/Expr/ExprSwitchCase.hpp"
 
-namespace ast
+namespace ast::stmt
 {
-	class StmtSwitchCase
-		: public StmtCompound
+	class SwitchCase
+		: public Compound
 	{
 	public:
-		StmtSwitchCase( ExprSwitchCasePtr caseExpr );
-		StmtSwitchCase();
+		SwitchCase( expr::SwitchCasePtr caseExpr );
+		SwitchCase();
 
-		void accept( StmtVisitorPtr vis )override;
+		void accept( VisitorPtr vis )override;
 
-		inline ExprSwitchCase * getCaseExpr()const
+		inline expr::SwitchCase * getCaseExpr()const
 		{
 			return m_caseExpr.get();
 		}
 
 	private:
-		ExprSwitchCasePtr m_caseExpr;
+		expr::SwitchCasePtr m_caseExpr;
 	};
-	using StmtSwitchCasePtr = std::unique_ptr< StmtSwitchCase >;
+	using SwitchCasePtr = std::unique_ptr< SwitchCase >;
 
-	inline std::unique_ptr< StmtSwitchCase > makeSwitchCaseStmt( ExprSwitchCasePtr caseExpr )
+	inline std::unique_ptr< SwitchCase > makeSwitchCase( expr::SwitchCasePtr caseExpr )
 	{
-		return std::make_unique< StmtSwitchCase >( std::move( caseExpr ) );
+		return std::make_unique< SwitchCase >( std::move( caseExpr ) );
 	}
 
-	inline std::unique_ptr< StmtSwitchCase > makeSwitchDefaultStmt()
+	inline std::unique_ptr< SwitchCase > makeSwitchDefault()
 	{
-		return std::make_unique< StmtSwitchCase >();
+		return std::make_unique< SwitchCase >();
 	}
 }
 

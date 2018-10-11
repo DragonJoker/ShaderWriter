@@ -5,18 +5,18 @@ See LICENSE file in root folder
 
 #include "ASTGenerator/Expr/ExprVisitor.hpp"
 
-namespace ast
+namespace ast::expr
 {
-	ExprLogAnd::ExprLogAnd( ExprPtr lhs
+	LogAnd::LogAnd( ExprPtr lhs
 		, ExprPtr rhs )
-		: ExprBinary{ getBoolType()
+		: Binary{ std::move( type::getBool() )
 			, std::move( lhs )
 			, std::move( rhs )
-			, Expr::Kind::eLogAnd }
+			, Kind::eLogAnd }
 	{
 	}
 
-	void ExprLogAnd::accept( ExprVisitorPtr vis )
+	void LogAnd::accept( VisitorPtr vis )
 	{
 		vis->visitLogAndExpr( this );
 	}

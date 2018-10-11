@@ -7,24 +7,25 @@ See LICENSE file in root folder
 
 #include "ExprBinary.hpp"
 
-namespace ast
+namespace ast::expr
 {
-	class ExprBitOr
-		: public ExprBinary
+	class BitOr
+		: public Binary
 	{
 	public:
-		ExprBitOr( TypePtr type
+		BitOr( type::TypePtr type
 			, ExprPtr lhs
 			, ExprPtr rhs );
 
-		void accept( ExprVisitorPtr vis )override;
+		void accept( VisitorPtr vis )override;
 	};
+	using BitOrPtr = std::unique_ptr< BitOr >;
 
-	inline std::unique_ptr< ExprBitOr > makeBitOrExpr( TypePtr type
+	inline BitOrPtr makeBitOr( type::TypePtr type
 		, ExprPtr lhs
 		, ExprPtr rhs )
 	{
-		return std::make_unique< ExprBitOr >( type
+		return std::make_unique< BitOr >( std::move( type )
 			, std::move( lhs )
 			, std::move( rhs ) );
 	}

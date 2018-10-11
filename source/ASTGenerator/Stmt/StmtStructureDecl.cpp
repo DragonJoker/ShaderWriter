@@ -5,20 +5,15 @@ See LICENSE file in root folder
 
 #include "ASTGenerator/Stmt/StmtVisitor.hpp"
 
-namespace ast
+namespace ast::stmt
 {
-	StmtStructureDecl::StmtStructureDecl( std::string name )
-		: StmtCompound{ Kind::eStructureDecl }
-		, m_name{ std::move( name ) }
+	StructureDecl::StructureDecl( type::StructPtr type )
+		: Stmt{ Kind::eStructureDecl }
+		, m_type{ std::move( type ) }
 	{
 	}
 
-	void StmtStructureDecl::add( StmtVariableDeclPtr decl )
-	{
-		addStmt( std::move( decl ) );
-	}
-
-	void StmtStructureDecl::accept( StmtVisitorPtr vis )
+	void StructureDecl::accept( VisitorPtr vis )
 	{
 		vis->visitStructureDeclStmt( this );
 	}

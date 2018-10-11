@@ -5,32 +5,29 @@ See LICENSE file in root folder
 #define ___AST_StmtCompound_H___
 #pragma once
 
-#include "StmtList.hpp"
+#include "StmtContainer.hpp"
 
-namespace ast
+namespace ast::stmt
 {
-	class StmtCompound
-		: public Stmt
+	class Compound
+		: public Container
 	{
+	protected:
+		Compound( Kind kind );
+
 	public:
-		StmtCompound( Stmt::Kind kind = Stmt::Kind::eCompound );
-		void addStmt( StmtPtr stmt );
+		Compound();
 
-		void accept( StmtVisitorPtr vis )override;
-
-		inline StmtList const & getStatements()const
-		{
-			return m_statements;
-		}
+		void accept( VisitorPtr vis )override;
 
 	private:
 		StmtList m_statements;
 	};
-	using StmtCompoundPtr = std::unique_ptr< StmtCompound >;
+	using CompoundPtr = std::unique_ptr< Compound >;
 
-	inline std::unique_ptr< StmtCompound > makeCompoundStmt( Stmt::Kind kind = Stmt::Kind::eCompound )
+	inline std::unique_ptr< Compound > makeCompound()
 	{
-		return std::make_unique< StmtCompound >( kind );
+		return std::make_unique< Compound >();
 	}
 }
 

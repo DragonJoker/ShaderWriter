@@ -7,15 +7,15 @@ See LICENSE file in root folder
 
 #include "Expr.hpp"
 
-namespace ast
+namespace ast::expr
 {
-	class ExprUnary
+	class Unary
 		: public Expr
 	{
 	public:
-		ExprUnary( TypePtr type
+		Unary( type::TypePtr type
 			, ExprPtr operand
-			, Expr::Kind kind );
+			, Kind kind );
 
 		inline Expr * getOperand()const
 		{

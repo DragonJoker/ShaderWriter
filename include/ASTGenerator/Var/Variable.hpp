@@ -7,32 +7,38 @@ See LICENSE file in root folder
 
 #include "ASTGenerator/Type/Type.hpp"
 
-namespace ast
+namespace ast::var
 {
+	enum class Flag
+		: uint32_t
+	{
+		eNone = 0,
+		eInputParam = 1 << 0,
+		eOutputParam = 1 << 1,
+		eBound = 1 << 2,
+		eShaderInput = 1 << 3,
+		eShaderOutput = 1 << 4,
+		eShaderConstant = 1 << 5,
+		eUniform = 1 << 6,
+		eLocale = 1 << 7,
+		eBuiltIn = 1 << 8,
+	};
+
 	class Variable
 	{
 	public:
-		enum class Flag
-			: uint32_t
-		{
-			eNone = 0,
-			eInput = 1 << 0,
-			eOutput = 1 << 1,
-			eBound = 1 << 2,
-		};
-
 	public:
-		Variable( TypePtr type
+		Variable( type::TypePtr type
 			, std::string name );
-		Variable( TypePtr type
+		Variable( type::TypePtr type
 			, std::string name
 			, uint32_t flags );
-		Variable( TypePtr type
+		Variable( type::TypePtr type
 			, std::string name
 			, Flag flag );
 		virtual ~Variable();
 
-		inline TypePtr getType()const
+		inline type::TypePtr get()const
 		{
 			return m_type;
 		}
@@ -54,14 +60,34 @@ namespace ast
 			}
 		}
 
-		inline bool isInput()const
+		inline bool isInputParam()const
 		{
-			return hasFlag( Flag::eInput );
+			return hasFlag( Flag::eInputParam );
 		}
 
-		inline bool isOutput()const
+		inline bool isOutputParam()const
 		{
-			return hasFlag( Flag::eOutput );
+			return hasFlag( Flag::eOutputParam );
+		}
+
+		inline bool isShaderInput()const
+		{
+			return hasFlag( Flag::eShaderInput );
+		}
+
+		inline bool isShaderOutput()const
+		{
+			return hasFlag( Flag::eShaderOutput );
+		}
+
+		inline bool isShaderConstant()const
+		{
+			return hasFlag( Flag::eShaderConstant );
+		}
+
+		inline bool isLocale()const
+		{
+			return hasFlag( Flag::eLocale );
 		}
 
 		inline bool isBound()const
@@ -76,27 +102,27 @@ namespace ast
 		}
 
 	private:
-		TypePtr m_type;
+		type::TypePtr m_type;
 		std::string m_name;
 		uint32_t m_flags;
 	};
 
-	inline VariablePtr makeVariable( TypePtr type
+	inline VariablePtr makeVariable( type::TypePtr type
 		, std::string name )
 	{
 		return std::make_shared< Variable >( type, name );
 	}
 
-	inline VariablePtr makeVariable( TypePtr type
+	inline VariablePtr makeVariable( type::TypePtr type
 		, std::string name
 		, uint32_t flags )
 	{
 		return std::make_shared< Variable >( type, name, flags );
 	}
 
-	inline VariablePtr makeVariable( TypePtr type
+	inline VariablePtr makeVariable( type::TypePtr type
 		, std::string name
-		, Variable::Flag flag )
+		, Flag flag )
 	{
 		return std::make_shared< Variable >( type, name, flag );
 	}

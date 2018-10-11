@@ -7,24 +7,25 @@ See LICENSE file in root folder
 
 #include "ExprAssign.hpp"
 
-namespace ast
+namespace ast::expr
 {
-	class ExprLShiftAssign
-		: public ExprAssign
+	class LShiftAssign
+		: public Assign
 	{
 	public:
-		ExprLShiftAssign( TypePtr type
+		LShiftAssign( type::TypePtr type
 			, ExprPtr lhs
 			, ExprPtr rhs );
 
-		void accept( ExprVisitorPtr vis )override;
+		void accept( VisitorPtr vis )override;
 	};
+	using LShiftAssignPtr = std::unique_ptr< LShiftAssign >;
 
-	inline std::unique_ptr< ExprLShiftAssign > makeLShiftAssignExpr( TypePtr type
+	inline LShiftAssignPtr makeLShiftAssign( type::TypePtr type
 		, ExprPtr lhs
 		, ExprPtr rhs )
 	{
-		return std::make_unique< ExprLShiftAssign >( type
+		return std::make_unique< LShiftAssign >( std::move( type )
 			, std::move( lhs )
 			, std::move( rhs ) );
 	}

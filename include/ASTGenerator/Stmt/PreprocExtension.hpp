@@ -7,7 +7,7 @@ See LICENSE file in root folder
 
 #include "Stmt.hpp"
 
-namespace ast
+namespace ast::stmt
 {
 	class PreprocExtension
 		: public Stmt
@@ -24,7 +24,7 @@ namespace ast
 		PreprocExtension( std::string name
 			, Status status );
 
-		void accept( StmtVisitorPtr vis )override;
+		void accept( VisitorPtr vis )override;
 
 		inline std::string const & getName()const
 		{
@@ -40,8 +40,9 @@ namespace ast
 		std::string m_name;
 		Status m_status;
 	};
+	using PreprocExtensionPtr = std::unique_ptr< PreprocExtension >;
 
-	inline std::unique_ptr< PreprocExtension > makePreprocExtension( std::string name
+	inline PreprocExtensionPtr makePreprocExtension( std::string name
 		, PreprocExtension::Status status )
 	{
 		return std::make_unique< PreprocExtension >( std::move( name )

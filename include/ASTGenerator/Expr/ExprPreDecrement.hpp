@@ -7,20 +7,21 @@ See LICENSE file in root folder
 
 #include "ExprUnary.hpp"
 
-namespace ast
+namespace ast::expr
 {
-	class ExprPreDecrement
-		: public ExprUnary
+	class PreDecrement
+		: public Unary
 	{
 	public:
-		ExprPreDecrement( ExprPtr operand );
+		PreDecrement( ExprPtr operand );
 
-		void accept( ExprVisitorPtr vis )override;
+		void accept( VisitorPtr vis )override;
 	};
+	using PreDecrementPtr = std::unique_ptr< PreDecrement >;
 
-	inline std::unique_ptr< ExprPreDecrement > makePreDecrementExpr( ExprPtr operand )
+	inline PreDecrementPtr makePreDecrement( ExprPtr operand )
 	{
-		return std::make_unique< ExprPreDecrement >( std::move( operand ) );
+		return std::make_unique< PreDecrement >( std::move( operand ) );
 	}
 }
 
