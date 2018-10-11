@@ -10,6 +10,7 @@ foreach ( TEST_FILE ${TEST_FILES} )
 	)
 	target_link_libraries( ${TEST_NAME}
 		ASTGenerator
+		ShaderWriter
 		${BinLibraries}
 	)
 	set_property( TARGET ${TEST_NAME} PROPERTY CXX_STANDARD 17 )

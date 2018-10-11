@@ -155,6 +155,34 @@ if ( MSVC OR NOT "${CMAKE_BUILD_TYPE}" STREQUAL "" )
 	)
 	set_property( TARGET ${PROJECT_NAME} PROPERTY CXX_STANDARD 17 )
 	set_property( TARGET ${PROJECT_NAME} PROPERTY FOLDER "Core" )
+	
+	# ShaderWriter library
+	project( ShaderWriter )
+	file( GLOB_RECURSE ${PROJECT_NAME}_FOLDER_HEADER_FILES
+		include/${PROJECT_NAME}/*.h
+		include/${PROJECT_NAME}/*.hpp
+		include/${PROJECT_NAME}/*.inl
+	)
+	file( GLOB_RECURSE ${PROJECT_NAME}_FOLDER_SOURCE_FILES
+		source/${PROJECT_NAME}/*.c
+		source/${PROJECT_NAME}/*.cpp
+	)
+	add_library( ${PROJECT_NAME}
+		STATIC
+		${${PROJECT_NAME}_FOLDER_HEADER_FILES}
+		${${PROJECT_NAME}_FOLDER_SOURCE_FILES}
+	)
+	add_target_precompiled_header( ${PROJECT_NAME}
+		${PROJECT_NAME}/ShaderWriterPch.hpp
+		${CMAKE_SOURCE_DIR}/source/${PROJECT_NAME}/ShaderWriterPch.cpp
+		${CMAKE_CXX_FLAGS}
+		${${PROJECT_NAME}_FOLDER_SOURCE_FILES}
+	)
+	target_link_libraries( ${PROJECT_NAME}
+		ASTGenerator
+	)
+	set_property( TARGET ${PROJECT_NAME} PROPERTY CXX_STANDARD 17 )
+	set_property( TARGET ${PROJECT_NAME} PROPERTY FOLDER "Core" )
 
 	if ( SDW_BUILD_TESTS )
 		add_subdirectory( test )
