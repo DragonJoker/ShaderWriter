@@ -47,8 +47,8 @@ namespace sdw
 		{
 			addStmt( *m_container
 				, stmt::makeSimple( expr::makeAssign( type::getInt()
-					, make( m_expr )
-					, make( rhs ) ) ) );
+					, makeExpr( m_expr )
+					, makeExpr( rhs ) ) ) );
 		}
 		else
 		{
@@ -63,8 +63,8 @@ namespace sdw
 	{
 		addStmt( *m_container
 			, stmt::makeSimple( expr::makeAssign( type::getInt()
-				, make( m_expr )
-				, make( rhs ) ) ) );
+				, makeExpr( m_expr )
+				, makeExpr( rhs ) ) ) );
 		return *this;
 	}
 
@@ -72,8 +72,8 @@ namespace sdw
 	{
 		addStmt( *m_container
 			, stmt::makeSimple( expr::makeAssign( type::getInt()
-				, make( m_expr )
-				, make( rhs ) ) ) );
+				, makeExpr( m_expr )
+				, makeExpr( rhs ) ) ) );
 		return *this;
 	}
 
@@ -81,8 +81,8 @@ namespace sdw
 	{
 		addStmt( *m_container
 			, stmt::makeSimple( expr::makeAssign( type::getInt()
-				, make( m_expr )
-				, make( int32_t( rhs ) ) ) ) );
+				, makeExpr( m_expr )
+				, makeExpr( int32_t( rhs ) ) ) ) );
 		return *this;
 	}
 
@@ -90,8 +90,8 @@ namespace sdw
 	{
 		addStmt( *m_container
 			, stmt::makeSimple( expr::makeAssign( type::getInt()
-				, make( m_expr )
-				, make( int64_t( rhs ) ) ) ) );
+				, makeExpr( m_expr )
+				, makeExpr( int64_t( rhs ) ) ) ) );
 		return *this;
 	}
 
@@ -126,8 +126,8 @@ namespace sdw
 	{
 		addStmt( *m_container
 			, stmt::makeSimple( expr::makeLShiftAssign( type::getInt()
-				, make( m_expr )
-				, make( rhs ) ) ) );
+				, makeExpr( m_expr )
+				, makeExpr( rhs ) ) ) );
 		return *this;
 	}
 
@@ -135,8 +135,8 @@ namespace sdw
 	{
 		addStmt( *m_container
 			, stmt::makeSimple( expr::makeRShiftAssign( type::getInt()
-				, make( m_expr )
-				, make( rhs ) ) ) );
+				, makeExpr( m_expr )
+				, makeExpr( rhs ) ) ) );
 		return *this;
 	}
 
@@ -144,8 +144,8 @@ namespace sdw
 	{
 		addStmt( *m_container
 			, stmt::makeSimple( expr::makeLShiftAssign( type::getInt()
-				, make( m_expr )
-				, make( rhs ) ) ) );
+				, makeExpr( m_expr )
+				, makeExpr( rhs ) ) ) );
 		return *this;
 	}
 
@@ -153,8 +153,8 @@ namespace sdw
 	{
 		addStmt( *m_container
 			, stmt::makeSimple( expr::makeRShiftAssign( type::getInt()
-				, make( m_expr )
-				, make( rhs ) ) ) );
+				, makeExpr( m_expr )
+				, makeExpr( rhs ) ) ) );
 		return *this;
 	}
 
@@ -162,8 +162,8 @@ namespace sdw
 	{
 		addStmt( *m_container
 			, stmt::makeSimple( expr::makeLShiftAssign( type::getInt()
-				, make( m_expr )
-				, make( rhs ) ) ) );
+				, makeExpr( m_expr )
+				, makeExpr( rhs ) ) ) );
 		return *this;
 	}
 
@@ -171,8 +171,8 @@ namespace sdw
 	{
 		addStmt( *m_container
 			, stmt::makeSimple( expr::makeRShiftAssign( type::getInt()
-				, make( m_expr )
-				, make( rhs ) ) ) );
+				, makeExpr( m_expr )
+				, makeExpr( rhs ) ) ) );
 		return *this;
 	}
 
@@ -180,8 +180,8 @@ namespace sdw
 	{
 		addStmt( *m_container
 			, stmt::makeSimple( expr::makeAndAssign( type::getInt()
-				, make( m_expr )
-				, make( rhs ) ) ) );
+				, makeExpr( m_expr )
+				, makeExpr( rhs ) ) ) );
 		return *this;
 	}
 
@@ -189,8 +189,8 @@ namespace sdw
 	{
 		addStmt( *m_container
 			, stmt::makeSimple( expr::makeOrAssign( type::getInt()
-				, make( m_expr )
-				, make( rhs ) ) ) );
+				, makeExpr( m_expr )
+				, makeExpr( rhs ) ) ) );
 		return *this;
 	}
 
@@ -198,8 +198,8 @@ namespace sdw
 	{
 		addStmt( *m_container
 			, stmt::makeSimple( expr::makeAndAssign( type::getInt()
-				, make( m_expr )
-				, make( rhs ) ) ) );
+				, makeExpr( m_expr )
+				, makeExpr( rhs ) ) ) );
 		return *this;
 	}
 
@@ -207,8 +207,8 @@ namespace sdw
 	{
 		addStmt( *m_container
 			, stmt::makeSimple( expr::makeOrAssign( type::getInt()
-				, make( m_expr )
-				, make( rhs ) ) ) );
+				, makeExpr( m_expr )
+				, makeExpr( rhs ) ) ) );
 		return *this;
 	}
 
@@ -216,8 +216,8 @@ namespace sdw
 	{
 		addStmt( *m_container
 			, stmt::makeSimple( expr::makeAndAssign( type::getInt()
-				, make( m_expr )
-				, make( rhs ) ) ) );
+				, makeExpr( m_expr )
+				, makeExpr( rhs ) ) ) );
 		return *this;
 	}
 
@@ -225,8 +225,8 @@ namespace sdw
 	{
 		addStmt( *m_container
 			, stmt::makeSimple( expr::makeOrAssign( type::getInt()
-				, make( m_expr )
-				, make( rhs ) ) ) );
+				, makeExpr( m_expr )
+				, makeExpr( rhs ) ) ) );
 		return *this;
 	}
 
@@ -234,102 +234,102 @@ namespace sdw
 	{
 		return Int{ lhs.m_container
 			, expr::makeLShift( type::getInt()
-				, make( lhs )
-				, make( rhs ) ) };
+				, makeExpr( lhs )
+				, makeExpr( rhs ) ) };
 	}
 
 	inline Int operator>>( Int const & lhs, int rhs )
 	{
 		return Int{ lhs.m_container
 			, expr::makeRShift( type::getInt()
-				, make( lhs )
-				, make( rhs ) ) };
+				, makeExpr( lhs )
+				, makeExpr( rhs ) ) };
 	}
 
 	inline Int operator<<( Int const & lhs, Int const & rhs )
 	{
 		return Int{ lhs.m_container
 			, expr::makeLShift( type::getInt()
-				, make( lhs )
-				, make( rhs ) ) };
+				, makeExpr( lhs )
+				, makeExpr( rhs ) ) };
 	}
 
 	inline Int operator>>( Int const & lhs, Int const & rhs )
 	{
 		return Int{ lhs.m_container
 			, expr::makeRShift( type::getInt()
-				, make( lhs )
-				, make( rhs ) ) };
+				, makeExpr( lhs )
+				, makeExpr( rhs ) ) };
 	}
 
 	inline Int operator<<( Int const & lhs, UInt const & rhs )
 	{
 		return Int{ lhs.m_container
 			, expr::makeLShift( type::getInt()
-				, make( lhs )
-				, make( rhs ) ) };
+				, makeExpr( lhs )
+				, makeExpr( rhs ) ) };
 	}
 
 	inline Int operator>>( Int const & lhs, UInt const & rhs )
 	{
 		return Int{ lhs.m_container
 			, expr::makeRShift( type::getInt()
-				, make( lhs )
-				, make( rhs ) ) };
+				, makeExpr( lhs )
+				, makeExpr( rhs ) ) };
 	}
 
 	inline Int operator&( Int const & lhs, int rhs )
 	{
 		return Int{ lhs.m_container
 			, expr::makeBitAnd( type::getInt()
-				, make( lhs )
-				, make( rhs ) ) };
+				, makeExpr( lhs )
+				, makeExpr( rhs ) ) };
 	}
 
 	inline Int operator|( Int const & lhs, int rhs )
 	{
 		return Int{ lhs.m_container
 			, expr::makeBitOr( type::getInt()
-				, make( lhs )
-				, make( rhs ) ) };
+				, makeExpr( lhs )
+				, makeExpr( rhs ) ) };
 	}
 
 	inline Int operator&( Int const & lhs, Int const & rhs )
 	{
 		return Int{ lhs.m_container
 			, expr::makeBitAnd( type::getInt()
-				, make( lhs )
-				, make( rhs ) ) };
+				, makeExpr( lhs )
+				, makeExpr( rhs ) ) };
 	}
 
 	inline Int operator|( Int const & lhs, Int const & rhs )
 	{
 		return Int{ lhs.m_container
 			, expr::makeBitOr( type::getInt()
-				, make( lhs )
-				, make( rhs ) ) };
+				, makeExpr( lhs )
+				, makeExpr( rhs ) ) };
 	}
 
 	inline Int operator&( Int const & lhs, UInt const & rhs )
 	{
 		return Int{ lhs.m_container
 			, expr::makeBitAnd( type::getInt()
-				, make( lhs )
-				, make( rhs ) ) };
+				, makeExpr( lhs )
+				, makeExpr( rhs ) ) };
 	}
 
 	inline Int operator|( Int const & lhs, UInt const & rhs )
 	{
 		return Int{ lhs.m_container
 			, expr::makeBitOr( type::getInt()
-				, make( lhs )
-				, make( rhs ) ) };
+				, makeExpr( lhs )
+				, makeExpr( rhs ) ) };
 	}
 
 	inline Int operator~( Int const & expr )
 	{
 		return Int{ expr.m_container
 			, expr::makeBitNot( type::getInt()
-				, make( expr ) ) };
+				, makeExpr( expr ) ) };
 	}
 }

@@ -3,6 +3,7 @@ See LICENSE file in root folder
 */
 #include "Shader.hpp"
 
+#include <ASTGenerator/Expr/ExprAggrInit.hpp>
 #include <ASTGenerator/Expr/ExprInit.hpp>
 #include <ASTGenerator/Stmt/PreprocDefine.hpp>
 #include <ASTGenerator/Stmt/StmtInOutVariableDecl.hpp>
@@ -26,9 +27,9 @@ namespace sdw
 			, TypeTraits< Type >::TypeEnum );
 		auto type = type::makeType( TypeTraits< Type >::TypeEnum );
 		addStmt( stmt::makePreprocDefine( name
-			, make( rhs ) ) );
+			, makeExpr( rhs ) ) );
 		return T{ &m_container
-			, make( rhs ) };
+			, makeExpr( rhs ) };
 	}
 
 	template< typename T >
@@ -43,12 +44,12 @@ namespace sdw
 		if ( enabled )
 		{
 			addStmt( stmt::makePreprocDefine( name
-				, make( rhs ) ) );
+				, makeExpr( rhs ) ) );
 		}
 
 		auto type = type::makeType( TypeTraits< Type >::TypeEnum );
 		return Optional< T >{ &m_container
-			, make( rhs )
+			, makeExpr( rhs )
 			, enabled };
 	}
 	/**@}*/
@@ -65,24 +66,16 @@ namespace sdw
 		, T const & rhs )
 	{
 		using Type = typename TypeOf< T >::Type;
-		registerConstant( name, TypeTraits< Type >::TypeEnum );
-
-		//if ( m_config.m_hasSpecialisationConstants )
-		//{
-		//	*&m_container << "layout( constant_id = " << location << " ) const " << TypeTraits< Type >::Name << " " << name << " = ";
-		//}
-		//else
-		//{
-		//	*&m_container << "layout( location = " << location << " ) uniform " << TypeTraits< Type >::Name << " " << name << " = ";
-		//}
-
-		//m_stream << std::string( rhs ) << ";\n";
+		registerConstant( name
+			, TypeTraits< Type >::TypeEnum );
 		auto type = type::makeType( TypeTraits< Type >::TypeEnum );
 		auto var = var::makeVariable( type
 			, name
 			, var::Flag::eShaderConstant );
+		addStmt( stmt::makeInOutVariableDecl( var
+			, location ) );
 		return T{ &m_container
-			, make( var ) };
+			, makeExpr( var ) };
 	}
 
 	template< typename T >
@@ -92,28 +85,21 @@ namespace sdw
 		, bool enabled )
 	{
 		using Type = typename TypeOf< T >::Type;
-		registerConstant( name, TypeTraits< Type >::TypeEnum );
-
-		if ( enabled )
-		{
-			//if ( m_config.m_hasSpecialisationConstants )
-			//{
-			//	*&m_container << "layout( constant_id = " << location << " ) const " << TypeTraits< Type >::Name << " " << name << " = ";
-			//}
-			//else
-			//{
-			//	*&m_container << "layout( location = " << location << " ) uniform " << TypeTraits< Type >::Name << " " << name << " = ";
-			//}
-
-			//m_stream << std::string( rhs ) << ";\n";
-		}
-
+		registerConstant( name
+			, TypeTraits< Type >::TypeEnum );
 		auto type = type::makeType( TypeTraits< Type >::TypeEnum );
 		auto var = var::makeVariable( type
 			, name
 			, var::Flag::eShaderConstant );
+
+		if ( enabled )
+		{
+			addStmt( stmt::makeInOutVariableDecl( var
+				, location ) );
+		}
+
 		return Optional< T >{ &m_container
-			, make( var )
+			, makeExpr( var )
 			, enabled };
 	}
 	/**@}*/
@@ -138,12 +124,13 @@ namespace sdw
 			, type::NotArray );
 		auto type = type::makeType( TypeTraits< Type >::TypeEnum );
 		auto var = var::makeVariable( type
-			, name );
+			, name
+			, var::Flag::eSampler );
 		addStmt( stmt::makeSamplerDecl( var
 			, binding
 			, set ) );
 		return T{ &m_container
-			, make( var ) };
+			, makeExpr( var ) };
 	}
 
 	template< SamplerType SamplerT >
@@ -163,17 +150,17 @@ namespace sdw
 		auto type = type::makeType( TypeTraits< Type >::TypeEnum );
 		auto var = var::makeVariable( type
 			, name
-			, var::Flag::eUniform );
+			, var::Flag::eSampler );
 
 		if ( enabled )
 		{
 			addStmt( stmt::makeSamplerDecl( var
 				, binding
-				, set ) ); *
+				, set ) );
 		}
 
 		return Optional< T >{ &m_container
-			, make( var )
+			, makeExpr( var )
 			, enabled };
 	}
 
@@ -194,12 +181,12 @@ namespace sdw
 			, dimension );
 		auto var = var::makeVariable( type
 			, name
-			, var::Flag::eUniform );
+			, var::Flag::eSampler );
 		addStmt( stmt::makeSamplerDecl( var
 			, binding
 			, set ) );
 		return Array< T >{ &m_container
-			, make( var ) };
+			, makeExpr( var ) };
 	}
 
 	template< SamplerType SamplerT >
@@ -221,17 +208,17 @@ namespace sdw
 			, dimension );
 		auto var = var::makeVariable( type
 			, name
-			, var::Flag::eUniform );
+			, var::Flag::eSampler );
 
 		if ( enabled )
 		{
 			addStmt( stmt::makeSamplerDecl( var
 				, binding
-				, set ) ); *
+				, set ) );
 		}
 
 		return Optional< Array< T > >{ &m_container
-			, make( var )
+			, makeExpr( var )
 			, enabled };
 	}
 	/**@}*/
@@ -257,7 +244,7 @@ namespace sdw
 		addStmt( stmt::makeInOutVariableDecl( var
 			, location ) );
 		return T{ &m_container
-			, make( var ) };
+			, makeExpr( var ) };
 	}
 
 	template< typename T >
@@ -281,7 +268,7 @@ namespace sdw
 		}
 
 		return Optional< T >{ &m_container
-			, make( var )
+			, makeExpr( var )
 			, enabled };
 	}
 
@@ -302,7 +289,7 @@ namespace sdw
 		addStmt( stmt::makeInOutVariableDecl( var
 			, location ) );
 		return Array< T >{ &m_container
-			, make( var ) };
+			, makeExpr( var ) };
 	}
 
 	template< typename T >
@@ -321,7 +308,7 @@ namespace sdw
 		addStmt( stmt::makeInOutVariableDecl( var
 			, location ) );
 		return Array< T >{ &m_container
-			, make( var ) };
+			, makeExpr( var ) };
 	}
 
 	template< typename T >
@@ -347,7 +334,7 @@ namespace sdw
 		}
 
 		return Optional< Array< T > >{ &m_container
-			, make( var )
+			, makeExpr( var )
 			, enabled };
 	}
 
@@ -373,7 +360,7 @@ namespace sdw
 		}
 
 		return Optional< Array< T > >{ &m_container
-			, make( var )
+			, makeExpr( var )
 			, enabled };
 	}
 	/**@}*/
@@ -399,7 +386,7 @@ namespace sdw
 		addStmt( stmt::makeInOutVariableDecl( var
 			, location ) );
 		return T{ &m_container
-			, make( var ) };
+			, makeExpr( var ) };
 	}
 
 	template< typename T >
@@ -423,7 +410,7 @@ namespace sdw
 		}
 
 		return Optional< T >{ &m_container
-			, make( var )
+			, makeExpr( var )
 			, enabled };
 	}
 
@@ -444,7 +431,7 @@ namespace sdw
 		addStmt( stmt::makeInOutVariableDecl( var
 			, location ) );
 		return Array< T >{ &m_container
-			, make( var ) };
+			, makeExpr( var ) };
 	}
 
 	template< typename T >
@@ -463,7 +450,7 @@ namespace sdw
 		addStmt( stmt::makeInOutVariableDecl( var
 			, location ) );
 		return Array< T >{ &m_container
-			, make( var ) };
+			, makeExpr( var ) };
 	}
 
 	template< typename T >
@@ -489,7 +476,7 @@ namespace sdw
 		}
 
 		return Optional< Array< T > >{ &m_container
-			, make( var )
+			, makeExpr( var )
 			, enabled };
 	}
 
@@ -515,7 +502,7 @@ namespace sdw
 		}
 
 		return Optional< Array< T > >{ &m_container
-			, make( var )
+			, makeExpr( var )
 			, enabled };
 	}
 	/**@}*/
@@ -538,7 +525,7 @@ namespace sdw
 			, var::Flag::eLocale );
 		addStmt( stmt::makeVariableDecl( var ) );
 		return T{ &m_container
-			, make( var ) };
+			, makeExpr( var ) };
 	}
 
 	template< typename T >
@@ -553,8 +540,8 @@ namespace sdw
 			, name
 			, var::Flag::eLocale );
 		auto expr = expr::makeInit( expr::makeIdentifier( var )
-			, make( rhs ) );
-		addStmt( stmt::makeSimple( make( expr ) ) );
+			, makeExpr( rhs ) );
+		addStmt( stmt::makeSimple( makeExpr( expr.get() ) ) );
 		return T{ &m_container
 			, std::move( expr ) };
 	}
@@ -577,7 +564,7 @@ namespace sdw
 		}
 
 		return Optional< T >{ &m_container
-			, make( var )
+			, makeExpr( var )
 			, enabled };
 	}
 
@@ -593,11 +580,11 @@ namespace sdw
 			, name
 			, var::Flag::eLocale );
 		auto expr = expr::makeInit( expr::makeIdentifier( var )
-			, make( rhs ) );
+			, makeExpr( rhs ) );
 
 		if ( rhs.isEnabled() )
 		{
-			addStmt( stmt::makeSimple( make( expr ) ) );
+			addStmt( stmt::makeSimple( makeExpr( expr.get() ) ) );
 		}
 
 		return Optional< T >{ &m_container
@@ -607,8 +594,8 @@ namespace sdw
 
 	template< typename T >
 	inline Optional< T > Shader::declLocale( std::string const & name
-		, bool enabled
-		, T const & rhs )
+		, T const & rhs
+		, bool enabled )
 	{
 		using Type = typename TypeOf< T >::Type;
 		registerName( name
@@ -618,11 +605,11 @@ namespace sdw
 			, name
 			, var::Flag::eLocale );
 		auto expr = expr::makeInit( expr::makeIdentifier( var )
-			, make( rhs ) );
+			, makeExpr( rhs ) );
 
 		if ( enabled )
 		{
-			addStmt( stmt::makeSimple( make( expr ) ) );
+			addStmt( stmt::makeSimple( makeExpr( expr.get() ) ) );
 		}
 
 		return Optional< T >{ &m_container
@@ -644,7 +631,7 @@ namespace sdw
 			, var::Flag::eLocale );
 		addStmt( stmt::makeVariableDecl( var ) );
 		return Array< T >{ &m_container
-			, make( var ) };
+			, makeExpr( var ) };
 	}
 
 	template< typename T >
@@ -660,9 +647,9 @@ namespace sdw
 		auto var = var::makeVariable( type
 			, name
 			, var::Flag::eLocale );
-		auto expr = expr::makeInit( expr::makeIdentifier( var )
-			, make( rhs ) );
-		addStmt( stmt::makeSimple( make( expr ) ) );
+		auto expr = expr::makeAggrInit( expr::makeIdentifier( var )
+			, makeExpr( rhs ) );
+		addStmt( stmt::makeSimple( makeExpr( expr.get() ) ) );
 		return Array< T >{ &m_container
 			, std::move( expr ) };
 	}
@@ -687,15 +674,15 @@ namespace sdw
 		}
 
 		return Optional< Array< T > >{ &m_container
-			, make( var )
+			, makeExpr( var )
 			, enabled };
 	}
 
 	template< typename T >
 	inline Optional< Array< T > > Shader::declLocaleArray( std::string const & name
 		, uint32_t dimension
-		, bool enabled
-		, std::vector< T > const & rhs )
+		, std::vector< T > const & rhs
+		, bool enabled )
 	{
 		using Type = typename TypeOf< T >::Type;
 		registerName( name
@@ -705,12 +692,12 @@ namespace sdw
 		auto var = var::makeVariable( type
 			, name
 			, var::Flag::eLocale );
-		auto expr = expr::makeInit( expr::makeIdentifier( var )
-			, make( rhs ) );
+		auto expr = expr::makeAggrInit( expr::makeIdentifier( var )
+			, makeExpr( rhs ) );
 
 		if ( enabled )
 		{
-			addStmt( stmt::makeSimple( make( expr ) ) );
+			addStmt( stmt::makeSimple( makeExpr( expr.get() ) ) );
 		}
 
 		return Optional< Array< T > >{ &m_container
@@ -734,9 +721,9 @@ namespace sdw
 		auto type = type::makeType( TypeTraits< Type >::TypeEnum );
 		auto var = var::makeVariable( type
 			, name
-			, var::Flag::eBuiltIn );
+			, var::Flag::eBuiltin );
 		return T{ &m_container
-			, make( var ) };
+			, makeExpr( var ) };
 	}
 
 	template< typename T >
@@ -749,9 +736,9 @@ namespace sdw
 		auto type = type::makeType( TypeTraits< Type >::TypeEnum );
 		auto var = var::makeVariable( type
 			, name
-			, var::Flag::eBuiltIn );
+			, var::Flag::eBuiltin );
 		return Optional< T >{ &m_container
-			, make( var )
+			, makeExpr( var )
 			, enabled };
 	}
 
@@ -766,9 +753,9 @@ namespace sdw
 			, dimension );
 		auto var = var::makeVariable( type
 			, name
-			, var::Flag::eBuiltIn );
-		return T{ &m_container
-			, make( var ) };
+			, var::Flag::eBuiltin );
+		return Array< T >{ &m_container
+			, makeExpr( var ) };
 	}
 
 	template< typename T >
@@ -781,9 +768,9 @@ namespace sdw
 			, type::UnknownArraySize );
 		auto var = var::makeVariable( type
 			, name
-			, var::Flag::eBuiltIn );
-		return T{ &m_container
-			, make( var ) };
+			, var::Flag::eBuiltin );
+		return Array< T >{ &m_container
+			, makeExpr( var ) };
 	}
 
 	template< typename T >
@@ -798,9 +785,9 @@ namespace sdw
 			, dimension );
 		auto var = var::makeVariable( type
 			, name
-			, var::Flag::eBuiltIn );
+			, var::Flag::eBuiltin );
 		return Optional< Array< T > >{ &m_container
-			, make( var )
+			, makeExpr( var )
 			, enabled };
 	}
 
@@ -815,9 +802,9 @@ namespace sdw
 			, type::UnknownArraySize );
 		auto var = var::makeVariable( type
 			, name
-			, var::Flag::eBuiltIn );
+			, var::Flag::eBuiltin );
 		return Optional< Array< T > >{ &m_container
-			, make( var )
+			, makeExpr( var )
 			, enabled };
 	}
 
@@ -830,9 +817,9 @@ namespace sdw
 		auto type = type::makeType( TypeTraits< Type >::TypeEnum );
 		auto var = var::makeVariable( type
 			, name
-			, var::Flag::eBuiltIn );
+			, var::Flag::eBuiltin );
 		return T{ &m_container
-			, make( var ) };
+			, makeExpr( var ) };
 	}
 
 	template< typename T >
@@ -845,9 +832,9 @@ namespace sdw
 		auto type = type::makeType( TypeTraits< Type >::TypeEnum );
 		auto var = var::makeVariable( type
 			, name
-			, var::Flag::eBuiltIn );
+			, var::Flag::eBuiltin );
 		return Optional< T >{ &m_container
-			, make( var )
+			, makeExpr( var )
 			, enabled };
 	}
 
@@ -861,9 +848,9 @@ namespace sdw
 			, type::UnknownArraySize );
 		auto var = var::makeVariable( type
 			, name
-			, var::Flag::eBuiltIn );
+			, var::Flag::eBuiltin );
 		return Array< T >{ &m_container
-			, make( var ) };
+			, makeExpr( var ) };
 	}
 
 	template< typename T >
@@ -877,9 +864,9 @@ namespace sdw
 			, type::UnknownArraySize );
 		auto var = var::makeVariable( type
 			, name
-			, var::Flag::eBuiltIn );
+			, var::Flag::eBuiltin );
 		return Optional< Array< T > >{ &m_container
-			, make( var )
+			, makeExpr( var )
 			, enabled };
 	}
 
@@ -894,9 +881,9 @@ namespace sdw
 			, dimension );
 		auto var = var::makeVariable( type
 			, name
-			, var::Flag::eBuiltIn );
+			, var::Flag::eBuiltin );
 		return Array< T >{ &m_container
-			, make( var ) };
+			, makeExpr( var ) };
 	}
 
 	template< typename T >
@@ -911,9 +898,9 @@ namespace sdw
 			, dimension );
 		auto var = var::makeVariable( type
 			, name
-			, var::Flag::eBuiltIn );
+			, var::Flag::eBuiltin );
 		return Optional< Array< T > >{ &m_container
-			, make( var )
+			, makeExpr( var )
 			, enabled };
 	}
 	/**@}*/

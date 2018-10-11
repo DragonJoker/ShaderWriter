@@ -43,7 +43,7 @@ namespace sdw
 	};
 
 	template< typename T >
-	expr::ExprPtr make( Optional< T > const & value );
+	expr::ExprPtr makeExpr( Optional< T > const & value );
 }
 
 #include "Optional.inl"

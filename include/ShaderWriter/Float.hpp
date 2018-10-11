@@ -28,7 +28,7 @@ namespace sdw
 
 	inline Float operator "" _f( long double value )
 	{
-		return Float{ nullptr, make( float( value ) ) };
+		return Float{ nullptr, makeExpr( float( value ) ) };
 	}
 }
 

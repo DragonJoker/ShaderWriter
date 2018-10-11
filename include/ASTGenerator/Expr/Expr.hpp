@@ -28,6 +28,7 @@ namespace ast::expr
 		eLogOr,
 		eCast,
 		eInit,
+		eAggrInit,
 		eFnCall,
 		eEqual,
 		eGreater,
@@ -76,7 +77,7 @@ namespace ast::expr
 			return m_kind;
 		}
 
-		inline type::TypePtr get()const
+		inline type::TypePtr getType()const
 		{
 			return m_type;
 		}

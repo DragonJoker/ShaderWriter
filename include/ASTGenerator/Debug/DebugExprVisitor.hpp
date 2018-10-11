@@ -22,6 +22,7 @@ namespace ast::debug
 		void visitUnaryExpr( expr::Unary * expr )override;
 		void visitBinaryExpr( expr::Binary * expr )override;
 
+		void visitAggrInitExpr( expr::AggrInit * expr )override;
 		void visitArrayAccessExpr( expr::ArrayAccess * expr )override;
 		void visitCastExpr( expr::Cast * expr )override;
 		void visitMbrSelectExpr( expr::MbrSelect * expr )override;

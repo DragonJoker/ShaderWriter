@@ -9,7 +9,7 @@ namespace ast::expr
 {
 	Comma::Comma( ExprPtr lhs
 		, ExprPtr rhs )
-		: Binary{ std::move( rhs->get() )
+		: Binary{ std::move( rhs->getType() )
 			, std::move( lhs )
 			, std::move( rhs )
 			, Kind::eComma }

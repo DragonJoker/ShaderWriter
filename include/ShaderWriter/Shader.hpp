@@ -54,6 +54,7 @@ namespace sdw
 			, Ssbo::Info const & info );
 		void registerUbo( std::string const & name
 			, Ubo::Info const & info );
+#pragma region Constant declaration
 		/**
 		*name
 		*	Constant declaration (#define name value).
@@ -65,6 +66,9 @@ namespace sdw
 		template< typename T >
 		inline Optional< T > declConstant( std::string const & name
 			, T const & rhs, bool enabled );
+		/**@}*/
+#pragma endregion
+#pragma region Specialisation constant declaration
 		/**
 		*name
 		*	Specialisation constant declaration.
@@ -80,6 +84,8 @@ namespace sdw
 			, T const & rhs
 			, bool enabled );
 		/**@}*/
+#pragma endregion
+#pragma region Sampler declaration
 		/**
 		*name
 		*	Sampler declaration.
@@ -106,6 +112,8 @@ namespace sdw
 			, uint32_t dimension
 			, bool enabled );
 		/**@}*/
+#pragma endregion
+#pragma region Input declaration
 		/**
 		*name
 		*	Input declaration.
@@ -135,6 +143,8 @@ namespace sdw
 			, uint32_t location
 			, bool enabled );
 		/**@}*/
+#pragma endregion
+#pragma region Output declaration
 		/**
 		*name
 		*	Output declaration.
@@ -164,6 +174,8 @@ namespace sdw
 			, uint32_t location
 			, bool enabled );
 		/**@}*/
+#pragma endregion
+#pragma region Locale declaration
 		/**
 		*name
 		*	Locale variable declaration.
@@ -182,8 +194,8 @@ namespace sdw
 			, Optional< T > const & rhs );
 		template< typename T >
 		inline Optional< T > declLocale( std::string const & name
-			, bool enabled
-			, T const & rhs );
+			, T const & rhs
+			, bool enabled );
 		template< typename T >
 		inline Array< T > declLocaleArray( std::string const & name
 			, uint32_t dimension );
@@ -198,9 +210,11 @@ namespace sdw
 		template< typename T >
 		inline Optional< Array< T > > declLocaleArray( std::string const & name
 			, uint32_t dimension
-			, bool enabled
-			, std::vector< T > const & rhs );
+			, std::vector< T > const & rhs
+			, bool enabled );
 		/**@}*/
+#pragma endregion
+#pragma region Built-in declaration
 		/**
 		*name
 		*	Built-in variable declaration.
@@ -242,6 +256,7 @@ namespace sdw
 			, uint32_t dimension
 			, bool enabled );
 		/**@}*/
+#pragma endregion
 
 		inline Ssbo::Info const & getSsboInfo( std::string const & name )const
 		{

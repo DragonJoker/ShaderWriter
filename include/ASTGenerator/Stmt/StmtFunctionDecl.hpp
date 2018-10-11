@@ -25,7 +25,7 @@ namespace ast::stmt
 			return m_retType;
 		}
 
-		inline std::string const & getName()const
+		inline std::string const & getTypeName()const
 		{
 			return m_name;
 		}

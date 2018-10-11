@@ -45,8 +45,8 @@ namespace sdw
 		{
 			addStmt( *m_container
 				, stmt::makeSimple( expr::makeAssign( type::getFloat()
-					, make( m_expr )
-					, make( rhs ) ) ) );
+					, makeExpr( m_expr )
+					, makeExpr( rhs ) ) ) );
 		}
 		else
 		{
@@ -61,8 +61,8 @@ namespace sdw
 	{
 		addStmt( *m_container
 			, stmt::makeSimple( expr::makeAssign( type::getFloat()
-				, make( m_expr )
-				, make( rhs ) ) ) );
+				, makeExpr( m_expr )
+				, makeExpr( rhs ) ) ) );
 		return *this;
 	}
 
@@ -70,8 +70,8 @@ namespace sdw
 	{
 		addStmt( *m_container
 			, stmt::makeSimple( expr::makeAssign( type::getFloat()
-				, make( m_expr )
-				, make( rhs ) ) ) );
+				, makeExpr( m_expr )
+				, makeExpr( rhs ) ) ) );
 		return *this;
 	}
 
@@ -79,8 +79,8 @@ namespace sdw
 	{
 		addStmt( *m_container
 			, stmt::makeSimple( expr::makeAssign( type::getFloat()
-				, make( m_expr )
-				, make( rhs ) ) ) );
+				, makeExpr( m_expr )
+				, makeExpr( rhs ) ) ) );
 		return *this;
 	}
 

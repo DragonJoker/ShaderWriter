@@ -16,9 +16,9 @@ namespace sdw
 		if ( m_container )
 		{
 			addStmt( *m_container
-				, stmt::makeSimple( expr::makeAssign( makeType( m_expr->get()->getKind() )
-					, make( m_expr )
-					, make( rhs ) ) ) );
+				, stmt::makeSimple( expr::makeAssign( makeType( m_expr->getType()->getKind() )
+					, makeExpr( m_expr )
+					, makeExpr( rhs ) ) ) );
 		}
 		else
 		{
@@ -35,9 +35,9 @@ namespace sdw
 	{
 		updateContainer( rhs );
 		addStmt( *m_container
-			, stmt::makeSimple( expr::makeAssign( makeType( m_expr->get()->getKind() )
-				, make( m_expr )
-				, make( rhs ) ) ) );
+			, stmt::makeSimple( expr::makeAssign( makeType( m_expr->getType()->getKind() )
+				, makeExpr( m_expr )
+				, makeExpr( rhs ) ) ) );
 		return *this;
 	}
 
@@ -48,6 +48,6 @@ namespace sdw
 		return Vec2T< ValueT >{ m_container
 			, expr::makeArrayAccess( makeType( TypeTraits< Vec2T< ValueT > >::TypeEnum )
 				, m_expr
-				, make( rhs ) ) };
+				, makeExpr( rhs ) ) };
 	}
 }

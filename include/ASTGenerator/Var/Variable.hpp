@@ -19,9 +19,9 @@ namespace ast::var
 		eShaderInput = 1 << 3,
 		eShaderOutput = 1 << 4,
 		eShaderConstant = 1 << 5,
-		eUniform = 1 << 6,
+		eSampler = 1 << 6,
 		eLocale = 1 << 7,
-		eBuiltIn = 1 << 8,
+		eBuiltin = 1 << 8,
 	};
 
 	class Variable
@@ -38,12 +38,12 @@ namespace ast::var
 			, Flag flag );
 		virtual ~Variable();
 
-		inline type::TypePtr get()const
+		inline type::TypePtr getType()const
 		{
 			return m_type;
 		}
 
-		inline std::string const & getName()const
+		inline std::string const & getTypeName()const
 		{
 			return m_name;
 		}
@@ -88,6 +88,16 @@ namespace ast::var
 		inline bool isLocale()const
 		{
 			return hasFlag( Flag::eLocale );
+		}
+
+		inline bool isBuiltin()const
+		{
+			return hasFlag( Flag::eBuiltin );
+		}
+
+		inline bool isSampler()const
+		{
+			return hasFlag( Flag::eSampler );
 		}
 
 		inline bool isBound()const

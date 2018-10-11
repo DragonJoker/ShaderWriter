@@ -207,7 +207,7 @@ namespace sdw
 	{\
 		auto type = type::makeType( TypeTraits< Output >::TypeEnum );\
 		return Output{ m_container\
-			, expr::makeMbrSelect( make( m_expr )\
+			, expr::makeMbrSelect( makeExpr( m_expr )\
 				, expr::makeIdentifier( var::makeVariable( type, #Name ) ) ) };\
 	}
 

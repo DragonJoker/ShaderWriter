@@ -54,6 +54,14 @@ namespace sdw
 				}
 			}
 
+			void visitAggrInitExpr( expr::AggrInit * expr )override
+			{
+				if ( m_result.empty() )
+				{
+					expr->getIdentifier()->accept( this );
+				}
+			}
+
 			void visitMbrSelectExpr( expr::MbrSelect * expr )override
 			{
 				if ( m_result.empty() )
@@ -74,7 +82,7 @@ namespace sdw
 			{
 				if ( m_result.empty() )
 				{
-					m_result = expr->getVariable()->getName();
+					m_result = expr->getVariable()->getTypeName();
 				}
 			}
 
@@ -133,7 +141,12 @@ namespace sdw
 
 			static expr::ExprPtr submit( expr::ExprPtr const & expr )
 			{
-				return submit( expr.get() );
+				if ( expr )
+				{
+					return submit( expr.get() );
+				}
+
+				return nullptr;
 			}
 
 		private:
@@ -144,69 +157,82 @@ namespace sdw
 
 			void visitAddExpr( expr::Add * expr )override
 			{
-				m_result = expr::makeAdd( expr->get()
+				m_result = expr::makeAdd( expr->getType()
 					, submit( expr->getLHS() )
 					, submit( expr->getRHS() ) );
 			}
 
 			void visitAddAssignExpr( expr::AddAssign * expr )override
 			{
-				m_result = expr::makeAddAssign( expr->get()
+				m_result = expr::makeAddAssign( expr->getType()
 					, submit( expr->getLHS() )
 					, submit( expr->getRHS() ) );
 			}
 
+			void visitAggrInitExpr( expr::AggrInit * expr )override
+			{
+				expr::ExprList initialisers;
+
+				for ( auto & init : expr->getInitialisers() )
+				{
+					initialisers.emplace_back( submit( init ) );
+				}
+
+				m_result = expr::makeAggrInit( std::make_unique< expr::Identifier >( *expr->getIdentifier() )
+					, std::move( initialisers ) );
+			}
+
 			void visitAndAssignExpr( expr::AndAssign * expr )override
 			{
-				m_result = expr::makeAndAssign( expr->get()
+				m_result = expr::makeAndAssign( expr->getType()
 					, submit( expr->getLHS() )
 					, submit( expr->getRHS() ) );
 			}
 
 			void visitArrayAccessExpr( expr::ArrayAccess * expr )override
 			{
-				m_result = expr::makeArrayAccess( expr->get()
+				m_result = expr::makeArrayAccess( expr->getType()
 					, submit( expr->getLHS() )
 					, submit( expr->getRHS() ) );
 			}
 
 			void visitAssignExpr( expr::Assign * expr )override
 			{
-				m_result = expr::makeAssign( expr->get()
+				m_result = expr::makeAssign( expr->getType()
 					, submit( expr->getLHS() )
 					, submit( expr->getRHS() ) );
 			}
 
 			void visitBitAndExpr( expr::BitAnd * expr )override
 			{
-				m_result = expr::makeBitAnd( expr->get()
+				m_result = expr::makeBitAnd( expr->getType()
 					, submit( expr->getLHS() )
 					, submit( expr->getRHS() ) );
 			}
 
 			void visitBitNotExpr( expr::BitNot * expr )override
 			{
-				m_result = expr::makeBitNot( expr->get()
+				m_result = expr::makeBitNot( expr->getType()
 					, submit( expr->getOperand() ) );
 			}
 
 			void visitBitOrExpr( expr::BitOr * expr )override
 			{
-				m_result = expr::makeBitOr( expr->get()
+				m_result = expr::makeBitOr( expr->getType()
 					, submit( expr->getLHS() )
 					, submit( expr->getRHS() ) );
 			}
 
 			void visitBitXorExpr( expr::BitXor * expr )override
 			{
-				m_result = expr::makeBitXor( expr->get()
+				m_result = expr::makeBitXor( expr->getType()
 					, submit( expr->getLHS() )
 					, submit( expr->getRHS() ) );
 			}
 
 			void visitCastExpr( expr::Cast * expr )override
 			{
-				m_result = expr::makeCast( expr->get()
+				m_result = expr::makeCast( expr->getType()
 					, submit( expr->getOperand() ) );
 			}
 
@@ -218,14 +244,14 @@ namespace sdw
 
 			void visitDivideExpr( expr::Divide * expr )override
 			{
-				m_result = expr::makeDivide( expr->get()
+				m_result = expr::makeDivide( expr->getType()
 					, submit( expr->getLHS() )
 					, submit( expr->getRHS() ) );
 			}
 
 			void visitDivideAssignExpr( expr::DivideAssign * expr )override
 			{
-				m_result = expr::makeDivideAssign( expr->get()
+				m_result = expr::makeDivideAssign( expr->getType()
 					, submit( expr->getLHS() )
 					, submit( expr->getRHS() ) );
 			}
@@ -245,7 +271,7 @@ namespace sdw
 					args.emplace_back( submit( arg ) );
 				}
 
-				m_result = expr::makeFnCall( expr->get()
+				m_result = expr::makeFnCall( expr->getType()
 					, std::make_unique< expr::Identifier >( *expr->getFn() )
 					, std::move( args ) );
 			}
@@ -309,14 +335,14 @@ namespace sdw
 
 			void visitLShiftExpr( expr::LShift * expr )override
 			{
-				m_result = expr::makeLShift( expr->get()
+				m_result = expr::makeLShift( expr->getType()
 					, submit( expr->getLHS() )
 					, submit( expr->getRHS() ) );
 			}
 
 			void visitLShiftAssignExpr( expr::LShiftAssign * expr )override
 			{
-				m_result = expr::makeLShiftAssign( expr->get()
+				m_result = expr::makeLShiftAssign( expr->getType()
 					, submit( expr->getLHS() )
 					, submit( expr->getRHS() ) );
 			}
@@ -329,28 +355,28 @@ namespace sdw
 
 			void visitMinusExpr( expr::Minus * expr )override
 			{
-				m_result = expr::makeMinus( expr->get()
+				m_result = expr::makeMinus( expr->getType()
 					, submit( expr->getLHS() )
 					, submit( expr->getRHS() ) );
 			}
 
 			void visitMinusAssignExpr( expr::MinusAssign * expr )override
 			{
-				m_result = expr::makeMinusAssign( expr->get()
+				m_result = expr::makeMinusAssign( expr->getType()
 					, submit( expr->getLHS() )
 					, submit( expr->getRHS() ) );
 			}
 
 			void visitModuloExpr( expr::Modulo * expr )override
 			{
-				m_result = expr::makeModulo( expr->get()
+				m_result = expr::makeModulo( expr->getType()
 					, submit( expr->getLHS() )
 					, submit( expr->getRHS() ) );
 			}
 
 			void visitModuloAssignExpr( expr::ModuloAssign * expr )override
 			{
-				m_result = expr::makeModuloAssign( expr->get()
+				m_result = expr::makeModuloAssign( expr->getType()
 					, submit( expr->getLHS() )
 					, submit( expr->getRHS() ) );
 			}
@@ -363,7 +389,7 @@ namespace sdw
 
 			void visitOrAssignExpr( expr::OrAssign * expr )override
 			{
-				m_result = expr::makeOrAssign( expr->get()
+				m_result = expr::makeOrAssign( expr->getType()
 					, submit( expr->getLHS() )
 					, submit( expr->getRHS() ) );
 			}
@@ -390,7 +416,7 @@ namespace sdw
 
 			void visitQuestionExpr( expr::Question * expr )override
 			{
-				m_result = expr::makeQuestion( expr->get()
+				m_result = expr::makeQuestion( expr->getType()
 					, submit( expr->getCtrlExpr() )
 					, submit( expr->getTrueExpr() )
 					, submit( expr->getFalseExpr() ) );
@@ -398,14 +424,14 @@ namespace sdw
 
 			void visitRShiftExpr( expr::RShift * expr )override
 			{
-				m_result = expr::makeRShift( expr->get()
+				m_result = expr::makeRShift( expr->getType()
 					, submit( expr->getLHS() )
 					, submit( expr->getRHS() ) );
 			}
 
 			void visitRShiftAssignExpr( expr::RShiftAssign * expr )override
 			{
-				m_result = expr::makeRShiftAssign( expr->get()
+				m_result = expr::makeRShiftAssign( expr->getType()
 					, submit( expr->getLHS() )
 					, submit( expr->getRHS() ) );
 			}
@@ -422,14 +448,14 @@ namespace sdw
 
 			void visitTimesExpr( expr::Times * expr )override
 			{
-				m_result = expr::makeTimes( expr->get()
+				m_result = expr::makeTimes( expr->getType()
 					, submit( expr->getLHS() )
 					, submit( expr->getRHS() ) );
 			}
 
 			void visitTimesAssignExpr( expr::TimesAssign * expr )override
 			{
-				m_result = expr::makeTimesAssign( expr->get()
+				m_result = expr::makeTimesAssign( expr->getType()
 					, submit( expr->getLHS() )
 					, submit( expr->getRHS() ) );
 			}
@@ -446,7 +472,7 @@ namespace sdw
 
 			void visitXorAssignExpr( expr::XorAssign * expr )override
 			{
-				m_result = expr::makeXorAssign( expr->get()
+				m_result = expr::makeXorAssign( expr->getType()
 					, submit( expr->getLHS() )
 					, submit( expr->getRHS() ) );
 			}
@@ -457,57 +483,62 @@ namespace sdw
 		};
 	}
 
-	std::string getName( expr::ExprPtr const & expr )
+	std::string getTypeName( expr::ExprPtr const & expr )
 	{
 		return ExprNamer::submit( expr );
 	}
 
-	expr::ExprPtr make( expr::ExprPtr const & expr )
+	expr::ExprPtr makeExpr( expr::ExprPtr const & expr )
 	{
 		return ExprCloner::submit( expr );
 	}
 
-	expr::ExprPtr make( var::VariablePtr const & var )
+	expr::ExprPtr makeExpr( expr::Expr * expr )
+	{
+		return ExprCloner::submit( expr );
+	}
+
+	expr::ExprPtr makeExpr( var::VariablePtr const & var )
 	{
 		return expr::makeIdentifier( var );
 	}
 
-	expr::ExprPtr make( bool value )
+	expr::ExprPtr makeExpr( bool value )
 	{
 		return expr::makeLiteral( value );
 	}
 
-	expr::ExprPtr make( int32_t value )
+	expr::ExprPtr makeExpr( int32_t value )
 	{
 		return expr::makeLiteral( value );
 	}
 
-	expr::ExprPtr make( int64_t value )
+	expr::ExprPtr makeExpr( int64_t value )
 	{
 		return expr::makeLiteral( int32_t( value ) );
 	}
 
-	expr::ExprPtr make( uint32_t value )
+	expr::ExprPtr makeExpr( uint32_t value )
 	{
 		return expr::makeLiteral( value );
 	}
 
-	expr::ExprPtr make( uint64_t value )
+	expr::ExprPtr makeExpr( uint64_t value )
 	{
 		return expr::makeLiteral( uint32_t( value ) );
 	}
 
-	expr::ExprPtr make( float value )
+	expr::ExprPtr makeExpr( float value )
 	{
 		return expr::makeLiteral( value );
 	}
 
-	expr::ExprPtr make( double value )
+	expr::ExprPtr makeExpr( double value )
 	{
 		return expr::makeLiteral( float( value ) );
 	}
 
-	expr::ExprPtr make( long double value )
+	expr::ExprPtr makeExpr( long double value )
 	{
 		return expr::makeLiteral( float( value ) );
 	}

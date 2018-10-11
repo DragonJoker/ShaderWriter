@@ -29,9 +29,9 @@ namespace sdw
 		if ( m_enabled )
 		{
 			addStmt( *m_container
-				, stmt::makeSimple( expr::makeAssign( m_expr->get()
-					, make( m_expr )
-					, make( rhs ) ) ) );
+				, stmt::makeSimple( expr::makeAssign( m_expr->getType()
+					, makeExpr( m_expr )
+					, makeExpr( rhs ) ) ) );
 		}
 
 		return *this;
@@ -44,9 +44,9 @@ namespace sdw
 		if ( m_enabled )
 		{
 			addStmt( *m_container
-				, stmt::makeSimple( expr::makeAssign( m_expr->get()
-					, make( m_expr )
-					, make( rhs ) ) ) );
+				, stmt::makeSimple( expr::makeAssign( m_expr->getType()
+					, makeExpr( m_expr )
+					, makeExpr( rhs ) ) ) );
 		}
 
 		return *this;
@@ -65,11 +65,11 @@ namespace sdw
 	}
 
 	template< typename T >
-	expr::ExprPtr make( Optional< T > const & value )
+	expr::ExprPtr makeExpr( Optional< T > const & value )
 	{
 		if ( value.isEnabled() )
 		{
-			return make( value.m_expr );
+			return makeExpr( value.m_expr );
 		}
 
 		return nullptr;

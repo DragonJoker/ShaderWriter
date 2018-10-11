@@ -59,7 +59,7 @@ namespace sdw
 
 	inline UInt operator "" _u( unsigned long long value )
 	{
-		return UInt{ nullptr, make( uint32_t( value ) ) };
+		return UInt{ nullptr, makeExpr( uint32_t( value ) ) };
 	}
 }
 

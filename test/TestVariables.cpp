@@ -8,8 +8,8 @@ namespace
 	std::string printVariable( ast::var::Variable const & var )
 	{
 		std::string result;
-		result += ast::debug::getName( var.get() ) + " " + var.getName();
-		auto arraySize = var.get()->getArraySize();
+		result += ast::debug::getTypeName( var.getType() ) + " " + var.getTypeName();
+		auto arraySize = var.getType()->getArraySize();
 
 		if ( arraySize != ast::type::NotArray )
 		{
@@ -33,27 +33,27 @@ namespace
 		{
 			ast::var::Variable dummyVar{ ast::type::makeType( ast::type::Kind( i ) ), "dummyVar" };
 			std::cout << printVariable( dummyVar ) << std::endl;
-			check( dummyVar.get()->getKind() == ast::type::Kind( i ) );
-			check( dummyVar.get()->getArraySize() == ast::type::NotArray );
-			check( dummyVar.getName() == "dummyVar" );
+			check( dummyVar.getType()->getKind() == ast::type::Kind( i ) );
+			check( dummyVar.getType()->getArraySize() == ast::type::NotArray );
+			check( dummyVar.getTypeName() == "dummyVar" );
 		}
 
 		for ( uint8_t i = uint8_t( ast::type::Kind::eMin ); i < uint8_t( ast::type::Kind::eCount ); ++i )
 		{
 			ast::var::Variable dummyVar{ ast::type::makeType( ast::type::Kind( i ), ast::type::UnknownArraySize ), "dummyVar" };
 			std::cout << printVariable( dummyVar ) << std::endl;
-			check( dummyVar.get()->getKind() == ast::type::Kind( i ) );
-			check( dummyVar.get()->getArraySize() == ast::type::UnknownArraySize );
-			check( dummyVar.getName() == "dummyVar" );
+			check( dummyVar.getType()->getKind() == ast::type::Kind( i ) );
+			check( dummyVar.getType()->getArraySize() == ast::type::UnknownArraySize );
+			check( dummyVar.getTypeName() == "dummyVar" );
 		}
 
 		for ( uint8_t i = uint8_t( ast::type::Kind::eMin ); i < uint8_t( ast::type::Kind::eCount ); ++i )
 		{
 			ast::var::Variable dummyVar{ ast::type::makeType( ast::type::Kind( i ), 3u ), "dummyVar" };
 			std::cout << printVariable( dummyVar ) << std::endl;
-			check( dummyVar.get()->getKind() == ast::type::Kind( i ) );
-			check( dummyVar.get()->getArraySize() == 3u );
-			check( dummyVar.getName() == "dummyVar" );
+			check( dummyVar.getType()->getKind() == ast::type::Kind( i ) );
+			check( dummyVar.getType()->getArraySize() == 3u );
+			check( dummyVar.getTypeName() == "dummyVar" );
 		}
 		testEnd();
 	}

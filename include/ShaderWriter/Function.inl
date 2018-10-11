@@ -22,7 +22,7 @@ namespace sdw
 	inline void getFunctionCallParamsRec( expr::ExprList & args
 		, Param const & last )
 	{
-		args.emplace_back( make( last ) );
+		args.emplace_back( makeExpr( last ) );
 	}
 
 	template< typename Param
@@ -31,7 +31,7 @@ namespace sdw
 		, Param const & current
 		, Params const & ... params )
 	{
-		args.emplace_back( make( last ) );
+		args.emplace_back( makeExpr( current ) );
 		getFunctionCallParamsRec( args, params... );
 	}
 
@@ -42,9 +42,9 @@ namespace sdw
 	{
 		expr::ExprList args;
 		getFunctionCallParamsRec( args, params... );
-		return expr::makeFnCall( makeType( TypeTraits< Return >::TypeEnum )
-			, expr::makeIdentifier( var::makeVariable( getFunction(), name ) )
-			, args );
+		return expr::makeFnCall( type::makeType( TypeTraits< Return >::TypeEnum )
+			, expr::makeIdentifier( var::makeVariable( type::getFunction(), name ) )
+			, std::move( args ) );
 	}
 
 	template< typename Return
@@ -80,7 +80,7 @@ namespace sdw
 	inline void getFunctionHeaderArgsRec( var::VariableList & args
 		, Param && last )
 	{
-		args.emplace_back( makeVarDecl( last ) );
+		args.emplace_back( stmt::makeVarDecl( last ) );
 	}
 
 	template< typename Param
@@ -89,18 +89,18 @@ namespace sdw
 		, Param && current
 		, Params && ... params )
 	{
-		args.emplace_back( makeVarDecl( current ) );
+		args.emplace_back( stmt::makeVarDecl( current ) );
 		getFunctionHeaderArgsRec( args, std::forward< Params >( params )... );
 	}
 
 	template< typename Return
 		, typename ... Params >
-	inline void getFunctionHeader( std::string const & name
+	inline stmt::FunctionDeclPtr getFunctionHeader( std::string const & name
 		, Params && ... params )
 	{
 		var::VariableList args;
 		getFunctionHeaderArgsRec( args, std::forward< Params >( params )... );
-		return makeFunctionDecl( makeType( TypeTraits< Return >::TypeEnum )
+		return stmt::makeFunctionDecl( type::makeType( TypeTraits< Return >::TypeEnum )
 			, name
 			, args );
 	}

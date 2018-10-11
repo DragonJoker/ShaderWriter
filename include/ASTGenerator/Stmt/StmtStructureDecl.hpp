@@ -20,7 +20,7 @@ namespace ast::stmt
 
 		void accept( VisitorPtr vis )override;
 
-		inline type::Struct const & get()const
+		inline type::Struct const & getType()const
 		{
 			return *m_type;
 		}

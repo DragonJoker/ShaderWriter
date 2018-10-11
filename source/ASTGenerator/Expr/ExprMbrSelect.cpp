@@ -9,7 +9,7 @@ namespace ast::expr
 {
 	MbrSelect::MbrSelect( ExprPtr outer
 		, IdentifierPtr member )
-		: Unary{ std::move( member->get() )
+		: Unary{ std::move( member->getType() )
 			, std::move( member )
 			, Kind::eMbrSelect }
 		, m_outer{ std::move( outer ) }

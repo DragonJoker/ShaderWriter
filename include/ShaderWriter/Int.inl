@@ -12,8 +12,8 @@ namespace sdw
 		updateContainer( rhs );
 		addStmt( *m_container
 			, stmt::makeSimple( expr::makeAssign( type::getInt()
-				, make( m_expr )
-				, make( rhs ) ) ) );
+				, makeExpr( m_expr )
+				, makeExpr( rhs ) ) ) );
 		return *this;
 	}
 }

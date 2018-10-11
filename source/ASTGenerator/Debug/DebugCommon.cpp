@@ -13,7 +13,7 @@ See LICENSE file in root folder
 
 namespace ast::debug
 {
-	std::string getName( type::Kind kind )
+	std::string getTypeName( type::Kind kind )
 	{
 		std::string result;
 
@@ -174,7 +174,7 @@ namespace ast::debug
 		return result;
 	}
 
-	std::string getName( type::TypePtr type )
+	std::string getTypeName( type::TypePtr type )
 	{
 		std::string result;
 
@@ -187,7 +187,7 @@ namespace ast::debug
 			result = "void";
 			break;
 		case type::Kind::eStruct:
-			static_cast< type::Struct const & >( *type ).getName();
+			static_cast< type::Struct const & >( *type ).getTypeName();
 			break;
 		case type::Kind::eFunction:
 			result = "function";
@@ -335,6 +335,23 @@ namespace ast::debug
 		return result;
 	}
 
+	std::string getLocationName( var::Variable const & var )
+	{
+		std::string result;
+
+		if ( var.isShaderConstant() )
+		{
+			result = "constant_id";
+		}
+		else if ( var.isShaderInput()
+			|| var.isShaderOutput() )
+		{
+			result = "location";
+		}
+
+		return result;
+	}
+
 	std::string getDirectionName( var::Variable const & var )
 	{
 		std::string result;
@@ -353,6 +370,10 @@ namespace ast::debug
 			|| var.isShaderOutput() )
 		{
 			result = "out";
+		}
+		else if ( var.isShaderConstant() )
+		{
+			result = "const";
 		}
 
 		return result;

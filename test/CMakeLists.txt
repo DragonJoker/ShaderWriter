@@ -13,6 +13,7 @@ foreach ( TEST_FILE ${TEST_FILES} )
 		ShaderWriter
 		${BinLibraries}
 	)
+	add_compile_options( -bigobj )
 	set_property( TARGET ${TEST_NAME} PROPERTY CXX_STANDARD 17 )
 	set_property( TARGET ${TEST_NAME} PROPERTY FOLDER "Tests" )
 	add_test(

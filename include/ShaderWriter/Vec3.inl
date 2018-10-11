@@ -18,9 +18,9 @@ namespace sdw
 		if ( m_container )
 		{
 			addStmt( *m_container
-				, stmt::makeSimple( expr::makeAssign( makeType( m_expr->get()->getKind() )
-					, make( m_expr )
-					, make( rhs ) ) ) );
+				, stmt::makeSimple( expr::makeAssign( makeType( m_expr->getType()->getKind() )
+					, makeExpr( m_expr )
+					, makeExpr( rhs ) ) ) );
 		}
 		else
 		{
@@ -37,34 +37,34 @@ namespace sdw
 	{
 		return ValueT{ m_container
 			, expr::makeArrayAccess( makeType( TypeTraits< ValueT >::TypeEnum )
-				, make( m_expr )
-				, make( rhs ) ) };
+				, makeExpr( m_expr )
+				, makeExpr( rhs ) ) };
 	}
 
 	template< typename ValueT >
 	Vec3T< ValueT > & Vec3T< ValueT >::operator+=( Vec3T< ValueT > const & rhs )
 	{
-		addStmt( *m_container, stmt::makeSimple( expr::makeAddAssign( m_expr->get()
-			, make( m_expr )
-			, make( rhs ) ) ) );
+		addStmt( *m_container, stmt::makeSimple( expr::makeAddAssign( m_expr->getType()
+			, makeExpr( m_expr )
+			, makeExpr( rhs ) ) ) );
 		return *this;
 	}
 
 	template< typename ValueT >
 	Vec3T< ValueT > & Vec3T< ValueT >::operator-=( Vec3T< ValueT > const & rhs )
 	{
-		addStmt( *m_container, stmt::makeSimple( expr::makeMinusAssign( m_expr->get()
-			, make( m_expr )
-			, make( rhs ) ) ) );
+		addStmt( *m_container, stmt::makeSimple( expr::makeMinusAssign( m_expr->getType()
+			, makeExpr( m_expr )
+			, makeExpr( rhs ) ) ) );
 		return *this;
 	}
 
 	template< typename ValueT >
 	Vec3T< ValueT > & Vec3T< ValueT >::operator*=( Vec3T< ValueT > const & rhs )
 	{
-		addStmt( *m_container, stmt::makeSimple( expr::makeTimesAssign( m_expr->get()
-			, make( m_expr )
-			, make( rhs ) ) ) );
+		addStmt( *m_container, stmt::makeSimple( expr::makeTimesAssign( m_expr->getType()
+			, makeExpr( m_expr )
+			, makeExpr( rhs ) ) ) );
 		return *this;
 	}
 
@@ -73,9 +73,9 @@ namespace sdw
 	{
 		if ( rhs.isEnabled() )
 		{
-			addStmt( *m_container, stmt::makeSimple( expr::makeAddAssign( m_expr->get()
-				, make( m_expr )
-				, make( rhs ) ) ) );
+			addStmt( *m_container, stmt::makeSimple( expr::makeAddAssign( m_expr->getType()
+				, makeExpr( m_expr )
+				, makeExpr( rhs ) ) ) );
 		}
 		return *this;
 	}
@@ -85,9 +85,9 @@ namespace sdw
 	{
 		if ( rhs.isEnabled() )
 		{
-			addStmt( *m_container, stmt::makeSimple( expr::makeMinusAssign( m_expr->get()
-				, make( m_expr )
-				, make( rhs ) ) ) );
+			addStmt( *m_container, stmt::makeSimple( expr::makeMinusAssign( m_expr->getType()
+				, makeExpr( m_expr )
+				, makeExpr( rhs ) ) ) );
 		}
 		return *this;
 	}
@@ -97,9 +97,9 @@ namespace sdw
 	{
 		if ( rhs.isEnabled() )
 		{
-			addStmt( *m_container, stmt::makeSimple( expr::makeTimesAssign( m_expr->get()
-				, make( m_expr )
-				, make( rhs ) ) ) );
+			addStmt( *m_container, stmt::makeSimple( expr::makeTimesAssign( m_expr->getType()
+				, makeExpr( m_expr )
+				, makeExpr( rhs ) ) ) );
 		}
 		return *this;
 	}
@@ -107,36 +107,36 @@ namespace sdw
 	template< typename ValueT >
 	Vec3T< ValueT > & Vec3T< ValueT >::operator+=( ValueT rhs )
 	{
-		addStmt( *m_container, stmt::makeSimple( expr::makeAddAssign( m_expr->get()
-			, make( m_expr )
-			, make( rhs ) ) ) );
+		addStmt( *m_container, stmt::makeSimple( expr::makeAddAssign( m_expr->getType()
+			, makeExpr( m_expr )
+			, makeExpr( rhs ) ) ) );
 		return *this;
 	}
 
 	template< typename ValueT >
 	Vec3T< ValueT > & Vec3T< ValueT >::operator-=( ValueT rhs )
 	{
-		addStmt( *m_container, stmt::makeSimple( expr::makeMinusAssign( m_expr->get()
-			, make( m_expr )
-			, make( rhs ) ) ) );
+		addStmt( *m_container, stmt::makeSimple( expr::makeMinusAssign( m_expr->getType()
+			, makeExpr( m_expr )
+			, makeExpr( rhs ) ) ) );
 		return *this;
 	}
 
 	template< typename ValueT >
 	Vec3T< ValueT > & Vec3T< ValueT >::operator*=( ValueT rhs )
 	{
-		addStmt( *m_container, stmt::makeSimple( expr::makeTimesAssign( m_expr->get()
-			, make( m_expr )
-			, make( rhs ) ) ) );
+		addStmt( *m_container, stmt::makeSimple( expr::makeTimesAssign( m_expr->getType()
+			, makeExpr( m_expr )
+			, makeExpr( rhs ) ) ) );
 		return *this;
 	}
 
 	template< typename ValueT >
 	Vec3T< ValueT > & Vec3T< ValueT >::operator/=( ValueT rhs )
 	{
-		addStmt( *m_container, stmt::makeSimple( expr::makeDivideAssign( m_expr->get()
-			, make( m_expr )
-			, make( rhs ) ) ) );
+		addStmt( *m_container, stmt::makeSimple( expr::makeDivideAssign( m_expr->getType()
+			, makeExpr( m_expr )
+			, makeExpr( rhs ) ) ) );
 		return *this;
 	}
 
@@ -148,8 +148,8 @@ namespace sdw
 	{
 		return Vec3T< ValueT >{ findContainer( lhs, rhs )
 			, expr::makeAdd( makeType( TypeTraits< Vec3T< ValueT > >::TypeEnum )
-				, make( lhs )
-				, make( rhs ) ) };
+				, makeExpr( lhs )
+				, makeExpr( rhs ) ) };
 	}
 
 	template< typename ValueT >
@@ -158,8 +158,8 @@ namespace sdw
 	{
 		return Vec3T< ValueT >{ findContainer( lhs, rhs )
 			, expr::makeAdd( makeType( TypeTraits< Vec3T< ValueT > >::TypeEnum )
-				, make( lhs )
-				, make( rhs ) ) };
+				, makeExpr( lhs )
+				, makeExpr( rhs ) ) };
 	}
 
 	template< typename ValueT >
@@ -168,8 +168,8 @@ namespace sdw
 	{
 		return Vec3T< ValueT >{ findContainer( lhs, rhs )
 			, expr::makeAdd( makeType( TypeTraits< Vec3T< ValueT > >::TypeEnum )
-				, make( lhs )
-				, make( rhs ) ) };
+				, makeExpr( lhs )
+				, makeExpr( rhs ) ) };
 	}
 
 	template< typename ValueT >
@@ -178,8 +178,8 @@ namespace sdw
 	{
 		return Optional< Vec3T< ValueT > >{ findContainer( lhs, rhs )
 			, expr::makeAdd( makeType( TypeTraits< Vec3T< ValueT > >::TypeEnum )
-				, make( lhs )
-				, make( rhs ) )
+				, makeExpr( lhs )
+				, makeExpr( rhs ) )
 			, lhs.isEnabled() };
 	}
 
@@ -189,8 +189,8 @@ namespace sdw
 	{
 		return Optional< Vec3T< ValueT > >{ findContainer( lhs, rhs )
 			, expr::makeAdd( makeType( TypeTraits< Vec3T< ValueT > >::TypeEnum )
-				, make( lhs )
-				, make( rhs ) )
+				, makeExpr( lhs )
+				, makeExpr( rhs ) )
 			, lhs.isEnabled() };
 	}
 
@@ -200,8 +200,8 @@ namespace sdw
 	{
 		return Optional< Vec3T< ValueT > >{ findContainer( lhs, rhs )
 			, expr::makeAdd( makeType( TypeTraits< Vec3T< ValueT > >::TypeEnum )
-				, make( lhs )
-				, make( rhs ) )
+				, makeExpr( lhs )
+				, makeExpr( rhs ) )
 			, lhs.isEnabled() };
 	}
 
@@ -211,8 +211,8 @@ namespace sdw
 	{
 		return Optional< Vec3T< ValueT > >{ findContainer( lhs, rhs )
 			, expr::makeAdd( makeType( TypeTraits< Vec3T< ValueT > >::TypeEnum )
-				, make( lhs )
-				, make( rhs ) )
+				, makeExpr( lhs )
+				, makeExpr( rhs ) )
 			, rhs.isEnabled() };
 	}
 
@@ -222,8 +222,8 @@ namespace sdw
 	{
 		return Optional< Vec3T< ValueT > >{ findContainer( lhs, rhs )
 			, expr::makeAdd( makeType( TypeTraits< Vec3T< ValueT > >::TypeEnum )
-				, make( lhs )
-				, make( rhs ) )
+				, makeExpr( lhs )
+				, makeExpr( rhs ) )
 			, rhs.isEnabled() };
 	}
 
@@ -233,8 +233,8 @@ namespace sdw
 	{
 		return Optional< Vec3T< ValueT > >{ findContainer( lhs, rhs )
 			, expr::makeAdd( makeType( TypeTraits< Vec3T< ValueT > >::TypeEnum )
-				, make( lhs )
-				, make( rhs ) )
+				, makeExpr( lhs )
+				, makeExpr( rhs ) )
 			, rhs.isEnabled() };
 	}
 
@@ -244,8 +244,8 @@ namespace sdw
 	{
 		return Optional< Vec3T< ValueT > >{ findContainer( lhs, rhs )
 			, expr::makeAdd( makeType( TypeTraits< Vec3T< ValueT > >::TypeEnum )
-				, make( lhs )
-				, make( rhs ) )
+				, makeExpr( lhs )
+				, makeExpr( rhs ) )
 			, lhs.isEnabled() && rhs.isEnabled() };
 	}
 
@@ -255,8 +255,8 @@ namespace sdw
 	{
 		return Optional< Vec3T< ValueT > >{ findContainer( lhs, rhs )
 			, expr::makeAdd( makeType( TypeTraits< Vec3T< ValueT > >::TypeEnum )
-				, make( lhs )
-				, make( rhs ) )
+				, makeExpr( lhs )
+				, makeExpr( rhs ) )
 			, lhs.isEnabled() && rhs.isEnabled() };
 	}
 
@@ -266,8 +266,8 @@ namespace sdw
 	{
 		return Optional< Vec3T< ValueT > >{ findContainer( lhs, rhs )
 			, expr::makeAdd( makeType( TypeTraits< Vec3T< ValueT > >::TypeEnum )
-				, make( lhs )
-				, make( rhs ) )
+				, makeExpr( lhs )
+				, makeExpr( rhs ) )
 			, lhs.isEnabled() && rhs.isEnabled() };
 	}
 
@@ -277,8 +277,8 @@ namespace sdw
 	{
 		return Vec3T< ValueT >{ findContainer( lhs, rhs )
 			, expr::makeMinus( makeType( TypeTraits< Vec3T< ValueT > >::TypeEnum )
-				, make( lhs )
-				, make( rhs ) ) };
+				, makeExpr( lhs )
+				, makeExpr( rhs ) ) };
 	}
 
 	template< typename ValueT >
@@ -287,8 +287,8 @@ namespace sdw
 	{
 		return Vec3T< ValueT >{ findContainer( lhs, rhs )
 			, expr::makeMinus( makeType( TypeTraits< Vec3T< ValueT > >::TypeEnum )
-				, make( lhs )
-				, make( rhs ) ) };
+				, makeExpr( lhs )
+				, makeExpr( rhs ) ) };
 	}
 
 	template< typename ValueT >
@@ -297,8 +297,8 @@ namespace sdw
 	{
 		return Vec3T< ValueT >{ findContainer( lhs, rhs )
 			, expr::makeMinus( makeType( TypeTraits< Vec3T< ValueT > >::TypeEnum )
-				, make( lhs )
-				, make( rhs ) ) };
+				, makeExpr( lhs )
+				, makeExpr( rhs ) ) };
 	}
 
 	template< typename ValueT >
@@ -307,8 +307,8 @@ namespace sdw
 	{
 		return Optional< Vec3T< ValueT > >{ findContainer( lhs, rhs )
 			, expr::makeMinus( makeType( TypeTraits< Vec3T< ValueT > >::TypeEnum )
-				, make( lhs )
-				, make( rhs ) )
+				, makeExpr( lhs )
+				, makeExpr( rhs ) )
 			, lhs.isEnabled() };
 	}
 
@@ -318,8 +318,8 @@ namespace sdw
 	{
 		return Optional< Vec3T< ValueT > >{ findContainer( lhs, rhs )
 			, expr::makeMinus( makeType( TypeTraits< Vec3T< ValueT > >::TypeEnum )
-				, make( lhs )
-				, make( rhs ) )
+				, makeExpr( lhs )
+				, makeExpr( rhs ) )
 			, lhs.isEnabled() };
 	}
 
@@ -329,8 +329,8 @@ namespace sdw
 	{
 		return Optional< Vec3T< ValueT > >{ findContainer( lhs, rhs )
 			, expr::makeMinus( makeType( TypeTraits< Vec3T< ValueT > >::TypeEnum )
-				, make( lhs )
-				, make( rhs ) )
+				, makeExpr( lhs )
+				, makeExpr( rhs ) )
 			, lhs.isEnabled() };
 	}
 
@@ -340,8 +340,8 @@ namespace sdw
 	{
 		return Optional< Vec3T< ValueT > >{ findContainer( lhs, rhs )
 			, expr::makeMinus( makeType( TypeTraits< Vec3T< ValueT > >::TypeEnum )
-				, make( lhs )
-				, make( rhs ) )
+				, makeExpr( lhs )
+				, makeExpr( rhs ) )
 			, rhs.isEnabled() };
 	}
 
@@ -351,8 +351,8 @@ namespace sdw
 	{
 		return Optional< Vec3T< ValueT > >{ findContainer( lhs, rhs )
 			, expr::makeMinus( makeType( TypeTraits< Vec3T< ValueT > >::TypeEnum )
-				, make( lhs )
-				, make( rhs ) )
+				, makeExpr( lhs )
+				, makeExpr( rhs ) )
 			, rhs.isEnabled() };
 	}
 
@@ -362,8 +362,8 @@ namespace sdw
 	{
 		return Optional< Vec3T< ValueT > >{ findContainer( lhs, rhs )
 			, expr::makeMinus( makeType( TypeTraits< Vec3T< ValueT > >::TypeEnum )
-				, make( lhs )
-				, make( rhs ) )
+				, makeExpr( lhs )
+				, makeExpr( rhs ) )
 			, rhs.isEnabled() };
 	}
 
@@ -373,8 +373,8 @@ namespace sdw
 	{
 		return Optional< Vec3T< ValueT > >{ findContainer( lhs, rhs )
 			, expr::makeMinus( makeType( TypeTraits< Vec3T< ValueT > >::TypeEnum )
-				, make( lhs )
-				, make( rhs ) )
+				, makeExpr( lhs )
+				, makeExpr( rhs ) )
 			, lhs.isEnabled() && rhs.isEnabled() };
 	}
 
@@ -384,8 +384,8 @@ namespace sdw
 	{
 		return Optional< Vec3T< ValueT > >{ findContainer( lhs, rhs )
 			, expr::makeMinus( makeType( TypeTraits< Vec3T< ValueT > >::TypeEnum )
-				, make( lhs )
-				, make( rhs ) )
+				, makeExpr( lhs )
+				, makeExpr( rhs ) )
 			, lhs.isEnabled() && rhs.isEnabled() };
 	}
 
@@ -395,8 +395,8 @@ namespace sdw
 	{
 		return Optional< Vec3T< ValueT > >{ findContainer( lhs, rhs )
 			, expr::makeMinus( makeType( TypeTraits< Vec3T< ValueT > >::TypeEnum )
-				, make( lhs )
-				, make( rhs ) )
+				, makeExpr( lhs )
+				, makeExpr( rhs ) )
 			, lhs.isEnabled() && rhs.isEnabled() };
 	}
 
@@ -406,8 +406,8 @@ namespace sdw
 	{
 		return Vec3T< ValueT >{ findContainer( lhs, rhs )
 			, expr::makeTimes( makeType( TypeTraits< Vec3T< ValueT > >::TypeEnum )
-				, make( lhs )
-				, make( rhs ) ) };
+				, makeExpr( lhs )
+				, makeExpr( rhs ) ) };
 	}
 
 	template< typename ValueT >
@@ -416,8 +416,8 @@ namespace sdw
 	{
 		return Vec3T< ValueT >{ findContainer( lhs, rhs )
 			, expr::makeTimes( makeType( TypeTraits< Vec3T< ValueT > >::TypeEnum )
-				, make( lhs )
-				, make( rhs ) ) };
+				, makeExpr( lhs )
+				, makeExpr( rhs ) ) };
 	}
 
 	template< typename ValueT >
@@ -426,8 +426,8 @@ namespace sdw
 	{
 		return Vec3T< ValueT >{ findContainer( lhs, rhs )
 			, expr::makeTimes( makeType( TypeTraits< Vec3T< ValueT > >::TypeEnum )
-				, make( lhs )
-				, make( rhs ) ) };
+				, makeExpr( lhs )
+				, makeExpr( rhs ) ) };
 	}
 
 	template< typename ValueT >
@@ -436,8 +436,8 @@ namespace sdw
 	{
 		return Optional< Vec3T< ValueT > >{ findContainer( lhs, rhs )
 			, expr::makeTimes( makeType( TypeTraits< Vec3T< ValueT > >::TypeEnum )
-				, make( lhs )
-				, make( rhs ) )
+				, makeExpr( lhs )
+				, makeExpr( rhs ) )
 			, lhs.isEnabled() };
 	}
 
@@ -447,8 +447,8 @@ namespace sdw
 	{
 		return Optional< Vec3T< ValueT > >{ findContainer( lhs, rhs )
 			, expr::makeTimes( makeType( TypeTraits< Vec3T< ValueT > >::TypeEnum )
-				, make( lhs )
-				, make( rhs ) )
+				, makeExpr( lhs )
+				, makeExpr( rhs ) )
 			, lhs.isEnabled() };
 	}
 
@@ -458,8 +458,8 @@ namespace sdw
 	{
 		return Optional< Vec3T< ValueT > >{ findContainer( lhs, rhs )
 			, expr::makeTimes( makeType( TypeTraits< Vec3T< ValueT > >::TypeEnum )
-				, make( lhs )
-				, make( rhs ) )
+				, makeExpr( lhs )
+				, makeExpr( rhs ) )
 			, lhs.isEnabled() };
 	}
 
@@ -469,8 +469,8 @@ namespace sdw
 	{
 		return Optional< Vec3T< ValueT > >{ findContainer( lhs, rhs )
 			, expr::makeTimes( makeType( TypeTraits< Vec3T< ValueT > >::TypeEnum )
-				, make( lhs )
-				, make( rhs ) )
+				, makeExpr( lhs )
+				, makeExpr( rhs ) )
 			, rhs.isEnabled() };
 	}
 
@@ -480,8 +480,8 @@ namespace sdw
 	{
 		return Optional< Vec3T< ValueT > >{ findContainer( lhs, rhs )
 			, expr::makeTimes( makeType( TypeTraits< Vec3T< ValueT > >::TypeEnum )
-				, make( lhs )
-				, make( rhs ) )
+				, makeExpr( lhs )
+				, makeExpr( rhs ) )
 			, rhs.isEnabled() };
 	}
 
@@ -491,8 +491,8 @@ namespace sdw
 	{
 		return Optional< Vec3T< ValueT > >{ findContainer( lhs, rhs )
 			, expr::makeTimes( makeType( TypeTraits< Vec3T< ValueT > >::TypeEnum )
-				, make( lhs )
-				, make( rhs ) )
+				, makeExpr( lhs )
+				, makeExpr( rhs ) )
 			, rhs.isEnabled() };
 	}
 
@@ -502,8 +502,8 @@ namespace sdw
 	{
 		return Optional< Vec3T< ValueT > >{ findContainer( lhs, rhs )
 			, expr::makeTimes( makeType( TypeTraits< Vec3T< ValueT > >::TypeEnum )
-				, make( lhs )
-				, make( rhs ) )
+				, makeExpr( lhs )
+				, makeExpr( rhs ) )
 			, lhs.isEnabled() && rhs.isEnabled() };
 	}
 
@@ -513,8 +513,8 @@ namespace sdw
 	{
 		return Optional< Vec3T< ValueT > >{ findContainer( lhs, rhs )
 			, expr::makeTimes( makeType( TypeTraits< Vec3T< ValueT > >::TypeEnum )
-				, make( lhs )
-				, make( rhs ) )
+				, makeExpr( lhs )
+				, makeExpr( rhs ) )
 			, lhs.isEnabled() && rhs.isEnabled() };
 	}
 
@@ -524,8 +524,8 @@ namespace sdw
 	{
 		return Optional< Vec3T< ValueT > >{ findContainer( lhs, rhs )
 			, expr::makeTimes( makeType( TypeTraits< Vec3T< ValueT > >::TypeEnum )
-				, make( lhs )
-				, make( rhs ) )
+				, makeExpr( lhs )
+				, makeExpr( rhs ) )
 			, lhs.isEnabled() && rhs.isEnabled() };
 	}
 
@@ -535,8 +535,8 @@ namespace sdw
 	{
 		return Vec3T< ValueT >{ findContainer( lhs, rhs )
 			, expr::makeDivide( makeType( TypeTraits< Vec3T< ValueT > >::TypeEnum )
-				, make( lhs )
-				, make( rhs ) ) };
+				, makeExpr( lhs )
+				, makeExpr( rhs ) ) };
 	}
 
 	template< typename ValueT >
@@ -545,8 +545,8 @@ namespace sdw
 	{
 		return Optional< Vec3T< ValueT > >{ findContainer( lhs, rhs )
 			, expr::makeDivide( makeType( TypeTraits< Vec3T< ValueT > >::TypeEnum )
-				, make( lhs )
-				, make( rhs ) )
+				, makeExpr( lhs )
+				, makeExpr( rhs ) )
 			, lhs.isEnabled() };
 	}
 
@@ -556,8 +556,8 @@ namespace sdw
 	{
 		return Optional< Vec3T< ValueT > >{ findContainer( lhs, rhs )
 			, expr::makeDivide( makeType( TypeTraits< Vec3T< ValueT > >::TypeEnum )
-				, make( lhs )
-				, make( rhs ) )
+				, makeExpr( lhs )
+				, makeExpr( rhs ) )
 			, rhs.isEnabled() };
 	}
 
@@ -567,8 +567,8 @@ namespace sdw
 	{
 		return Optional< Vec3T< ValueT > >{ findContainer( lhs, rhs )
 			, expr::makeDivide( makeType( TypeTraits< Vec3T< ValueT > >::TypeEnum )
-				, make( lhs )
-				, make( rhs ) )
+				, makeExpr( lhs )
+				, makeExpr( rhs ) )
 			, lhs.isEnabled() && rhs.isEnabled() };
 	}
 

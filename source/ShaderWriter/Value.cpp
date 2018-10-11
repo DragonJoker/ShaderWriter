@@ -25,7 +25,7 @@ namespace sdw
 
 	Value::Value( Value const & rhs )
 		: m_container{ rhs.m_container }
-		, m_expr{ make( rhs ) }
+		, m_expr{ makeExpr( rhs ) }
 	{
 	}
 
@@ -57,15 +57,15 @@ namespace sdw
 		}
 	}
 
-	expr::ExprPtr make( Value const & variable )
+	expr::ExprPtr makeExpr( Value const & variable )
 	{
-		return make( variable.m_expr );
+		return makeExpr( variable.m_expr );
 	}
 
 	var::VariablePtr makeVar( Value const & variable )
 	{
-		return var::makeVariable( variable.m_expr->get()
-			, getName( variable.m_expr ) );
+		return var::makeVariable( variable.m_expr->getType()
+			, getTypeName( variable.m_expr ) );
 	}
 
 	//*****************************************************************************************

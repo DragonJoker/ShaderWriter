@@ -4,7 +4,7 @@ See LICENSE file in root folder
 #ifndef ___Writer_Prerequisites_H___
 #define ___Writer_Prerequisites_H___
 
-#include <ASTGenerator/Expr/Expr.hpp>
+#include <ASTGenerator/Expr/ExprList.hpp>
 #include <ASTGenerator/Type/Type.hpp>
 #include <ASTGenerator/Stmt/Stmt.hpp>
 #include <ASTGenerator/Stmt/StmtContainer.hpp>
@@ -203,17 +203,20 @@ namespace sdw
 	static Endi endi;
 	static Endl endl;
 
-	std::string getName( expr::ExprPtr const & expr );
-	expr::ExprPtr make( expr::ExprPtr const & expr );
-	expr::ExprPtr make( var::VariablePtr const & var );
-	expr::ExprPtr make( bool value );
-	expr::ExprPtr make( int32_t value );
-	expr::ExprPtr make( int64_t value );
-	expr::ExprPtr make( uint32_t value );
-	expr::ExprPtr make( uint64_t value );
-	expr::ExprPtr make( float value );
-	expr::ExprPtr make( double value );
-	expr::ExprPtr make( long double value );
+	std::string getTypeName( expr::ExprPtr const & expr );
+	expr::ExprPtr makeExpr( expr::Expr * expr );
+	expr::ExprPtr makeExpr( expr::ExprPtr const & expr );
+	expr::ExprPtr makeExpr( var::VariablePtr const & var );
+	expr::ExprPtr makeExpr( bool value );
+	expr::ExprPtr makeExpr( int32_t value );
+	expr::ExprPtr makeExpr( int64_t value );
+	expr::ExprPtr makeExpr( uint32_t value );
+	expr::ExprPtr makeExpr( uint64_t value );
+	expr::ExprPtr makeExpr( float value );
+	expr::ExprPtr makeExpr( double value );
+	expr::ExprPtr makeExpr( long double value );
+	template< typename T >
+	expr::ExprList makeExpr( std::vector< T > const & values );
 	void addStmt( Shader & shader
 		, stmt::StmtPtr stmt );
 	void addStmt( stmt::Container & container

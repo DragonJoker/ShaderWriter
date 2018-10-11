@@ -59,7 +59,7 @@ namespace sdw
 
 	inline Int operator "" _i( unsigned long long value )
 	{
-		return Int{ nullptr, make( int( value ) ) };
+		return Int{ nullptr, makeExpr( int( value ) ) };
 	}
 }
 

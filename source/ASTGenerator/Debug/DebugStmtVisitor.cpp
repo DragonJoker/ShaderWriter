@@ -36,7 +36,7 @@ namespace ast::debug
 	{
 		m_result += m_indent;
 		m_result += "layout(binding=" + std::to_string( stmt->getBindingPoint() ) + ", set=" + std::to_string( stmt->getBindingSet() ) + ") ";
-		m_result += "uniform " + stmt->getName();
+		m_result += "uniform " + stmt->getTypeName();
 		visitCompoundStmt( stmt );
 	}
 
@@ -98,13 +98,13 @@ namespace ast::debug
 
 	void StmtVisitor::visitFunctionDeclStmt( stmt::FunctionDecl * stmt )
 	{
-		m_result += m_indent + getName( stmt->getRet() ) + " ";
-		m_result += stmt->getName() + "(";
+		m_result += m_indent + getTypeName( stmt->getRet() ) + " ";
+		m_result += stmt->getTypeName() + "(";
 		std::string sep;
 
 		for ( auto & param : stmt->getParameters() )
 		{
-			m_result += sep + getName( param->get() ) + " " + param->getName();
+			m_result += sep + getTypeName( param->getType() ) + " " + param->getTypeName();
 			sep = ", ";
 		}
 
@@ -133,9 +133,10 @@ namespace ast::debug
 	void StmtVisitor::visitInOutVariableDeclStmt( stmt::InOutVariableDecl * stmt )
 	{
 		m_result += m_indent;
-		m_result += "layout(location=" + std::to_string( stmt->getLocation() ) + ") " + getDirectionName( stmt->getVariable() ) + " ";
-		m_result += getName( stmt->getVariable().get() ) + " " + stmt->getVariable().getName();
-		auto arraySize = stmt->getVariable().get()->getArraySize();
+		m_result += "layout(" + getLocationName( stmt->getVariable() ) + "=" + std::to_string( stmt->getLocation() ) + ") ";
+		m_result += getDirectionName( stmt->getVariable() ) + " ";
+		m_result += getTypeName( stmt->getVariable().getType() ) + " " + stmt->getVariable().getTypeName();
+		auto arraySize = stmt->getVariable().getType()->getArraySize();
 
 		if ( arraySize != ast::type::NotArray )
 		{
@@ -161,8 +162,8 @@ namespace ast::debug
 	{
 		m_result += m_indent;
 		m_result += "layout(binding=" + std::to_string( stmt->getBindingPoint() ) + ", set=" + std::to_string( stmt->getBindingSet() ) + ") ";
-		m_result += getName( stmt->getVariable().get() ) + " " + stmt->getVariable().getName();
-		auto arraySize = stmt->getVariable().get()->getArraySize();
+		m_result += getTypeName( stmt->getVariable().getType() ) + " " + stmt->getVariable().getTypeName();
+		auto arraySize = stmt->getVariable().getType()->getArraySize();
 
 		if ( arraySize != ast::type::NotArray )
 		{
@@ -183,7 +184,7 @@ namespace ast::debug
 	{
 		m_result += m_indent;
 		m_result += "layout(binding=" + std::to_string( stmt->getBindingPoint() ) + ", set=" + std::to_string( stmt->getBindingSet() ) + ") ";
-		m_result += "buffer " + stmt->getName();
+		m_result += "buffer " + stmt->getTypeName();
 		visitCompoundStmt( stmt );
 	}
 
@@ -194,14 +195,14 @@ namespace ast::debug
 
 	void StmtVisitor::visitStructureDeclStmt( stmt::StructureDecl * stmt )
 	{
-		m_result += m_indent + "struct " + stmt->get().getName() + "\n";
+		m_result += m_indent + "struct " + stmt->getType().getTypeName() + "\n";
 		m_result += m_indent + "{\n";
 		auto save = m_indent;
 		m_indent += "\t";
 
-		for ( auto & member : stmt->get() )
+		for ( auto & member : stmt->getType() )
 		{
-			m_result += m_indent + getName( member.type ) + " " + member.name + ";\n";
+			m_result += m_indent + getTypeName( member.type ) + " " + member.name + ";\n";
 		}
 
 		m_indent = save;
@@ -242,8 +243,8 @@ namespace ast::debug
 
 	void StmtVisitor::visitVariableDeclStmt( stmt::VariableDecl * stmt )
 	{
-		m_result += m_indent + getName( stmt->getVariable().get() ) + " " + stmt->getVariable().getName();
-		auto arraySize = stmt->getVariable().get()->getArraySize();
+		m_result += m_indent + getTypeName( stmt->getVariable().getType() ) + " " + stmt->getVariable().getTypeName();
+		auto arraySize = stmt->getVariable().getType()->getArraySize();
 
 		if ( arraySize != ast::type::NotArray )
 		{
@@ -269,7 +270,7 @@ namespace ast::debug
 
 	void StmtVisitor::visitPreprocDefine( stmt::PreprocDefine * preproc )
 	{
-		m_result += "#define " + preproc->getName() + " " + ExprVisitor::submit( preproc->getExpr() ) + "\n";
+		m_result += "#define " + preproc->getTypeName() + " " + ExprVisitor::submit( preproc->getExpr() ) + "\n";
 	}
 
 	void StmtVisitor::visitPreprocElif( stmt::PreprocElif * preproc )
@@ -289,7 +290,7 @@ namespace ast::debug
 
 	void StmtVisitor::visitPreprocExtension( stmt::PreprocExtension * preproc )
 	{
-		m_result += "#extension " + preproc->getName() + ": " + getStatusName( preproc->getStatus() ) + "\n";
+		m_result += "#extension " + preproc->getTypeName() + ": " + getStatusName( preproc->getStatus() ) + "\n";
 	}
 
 	void StmtVisitor::visitPreprocIf( stmt::PreprocIf * preproc )
@@ -304,6 +305,6 @@ namespace ast::debug
 
 	void StmtVisitor::visitPreprocVersion( stmt::PreprocVersion * preproc )
 	{
-		m_result += "#version " + preproc->getName() + "\n";
+		m_result += "#version " + preproc->getTypeName() + "\n";
 	}
 }

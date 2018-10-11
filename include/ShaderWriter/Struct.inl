@@ -29,7 +29,7 @@ namespace sdw
 	{
 		auto member = m_type->getMember( name );
 		return T{ &m_container
-			, expr::makeMbrSelect( make( m_expr )
+			, expr::makeMbrSelect( makeExpr( m_expr )
 				, expr::makeIdentifier( var::makeVariable( member.type, member.name ) ) ) };
 	}
 
@@ -38,7 +38,7 @@ namespace sdw
 	{
 		auto member = m_type->getMember( name );
 		return Array< T >{ &m_container
-			, expr::makeMbrSelect( make( m_expr )
+			, expr::makeMbrSelect( makeExpr( m_expr )
 				, expr::makeIdentifier( var::makeVariable( member.type, member.name ) ) ) };
 	}
 
@@ -47,7 +47,7 @@ namespace sdw
 	{
 		auto member = m_type->getMember( name );
 		return Array< T >{ &m_container
-			, expr::makeMbrSelect( make( m_expr )
+			, expr::makeMbrSelect( makeExpr( m_expr )
 				, expr::makeIdentifier( var::makeVariable( member.type, member.name ) ) ) };
 	}
 }

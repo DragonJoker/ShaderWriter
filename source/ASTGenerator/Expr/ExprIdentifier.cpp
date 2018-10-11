@@ -10,7 +10,7 @@ See LICENSE file in root folder
 namespace ast::expr
 {
 	Identifier::Identifier( var::VariablePtr var )
-		: Expr{ std::move( var->get() ), Kind::eIdentifier }
+		: Expr{ std::move( var->getType() ), Kind::eIdentifier }
 		, m_var{ std::move( var ) }
 	{
 	}

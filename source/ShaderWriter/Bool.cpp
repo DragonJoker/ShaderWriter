@@ -34,8 +34,8 @@ namespace sdw
 	{
 		addStmt( *m_container
 			, stmt::makeSimple( expr::makeAssign( type::getBool()
-				, make( m_expr )
-				, make( rhs ) ) ) );
+				, makeExpr( m_expr )
+				, makeExpr( rhs ) ) ) );
 		return *this;
 	}
 
@@ -47,28 +47,28 @@ namespace sdw
 	Boolean operator==( Value const & lhs, Value const & rhs )
 	{
 		return Boolean{ lhs.m_container
-			, expr::makeEqual( make( lhs )
-				, make( rhs ) ) };
+			, expr::makeEqual( makeExpr( lhs )
+				, makeExpr( rhs ) ) };
 	}
 
 	Boolean operator!=( Value const & lhs, Value const & rhs )
 	{
 		return Boolean{ lhs.m_container
-			, expr::makeNotEqual( make( lhs )
-				, make( rhs ) ) };
+			, expr::makeNotEqual( makeExpr( lhs )
+				, makeExpr( rhs ) ) };
 	}
 
 	Boolean operator||( Boolean const & lhs, Boolean const & rhs )
 	{
 		return Boolean{ lhs.m_container
-			, expr::makeLogOr( make( lhs )
-				, make( rhs ) ) };
+			, expr::makeLogOr( makeExpr( lhs )
+				, makeExpr( rhs ) ) };
 	}
 
 	Boolean operator&&( Boolean const & lhs, Boolean const & rhs )
 	{
 		return Boolean{ lhs.m_container
-			, expr::makeLogAnd( make( lhs )
-				, make( rhs ) ) };
+			, expr::makeLogAnd( makeExpr( lhs )
+				, makeExpr( rhs ) ) };
 	}
 }

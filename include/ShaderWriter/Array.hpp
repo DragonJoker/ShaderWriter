@@ -20,7 +20,7 @@ namespace sdw
 	};
 
 	template< typename TypeT >
-	expr::ExprPtr make( Array< TypeT > const & value );
+	expr::ExprPtr makeExpr( Array< TypeT > const & value );
 }
 
 #include "Array.inl"

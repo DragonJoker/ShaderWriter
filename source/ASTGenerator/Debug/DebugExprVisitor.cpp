@@ -48,6 +48,36 @@ namespace ast::debug
 		m_result += ")";
 	}
 
+	void ExprVisitor::visitAggrInitExpr( expr::AggrInit * expr )
+	{
+		m_result += getTypeName( expr->getType() ) + " ";
+		expr->getIdentifier()->accept( this );
+		auto arraySize = expr->getIdentifier()->getType()->getArraySize();
+
+		if ( arraySize != ast::type::NotArray )
+		{
+			if ( arraySize == ast::type::UnknownArraySize )
+			{
+				m_result += "[]";
+			}
+			else
+			{
+				m_result += "[" + std::to_string( arraySize ) + "]";
+			}
+		}
+
+		m_result += " = " + getTypeName( expr->getType() ) + "[](";
+		std::string sep;
+
+		for ( auto & init : expr->getInitialisers() )
+		{
+			m_result += sep + submit( init.get() );
+			sep = ", ";
+		}
+
+		m_result += ")";
+	}
+
 	void ExprVisitor::visitArrayAccessExpr( expr::ArrayAccess * expr )
 	{
 		m_result += "(";
@@ -59,7 +89,7 @@ namespace ast::debug
 
 	void ExprVisitor::visitCastExpr( expr::Cast * expr )
 	{
-		m_result += getName( expr->get() ) + "(";
+		m_result += getTypeName( expr->getType() ) + "(";
 		expr->getOperand()->accept( this );
 		m_result += ")";
 	}
@@ -90,14 +120,14 @@ namespace ast::debug
 
 	void ExprVisitor::visitIdentifierExpr( expr::Identifier * expr )
 	{
-		m_result += expr->getVariable()->getName();
+		m_result += expr->getVariable()->getTypeName();
 	}
 
 	void ExprVisitor::visitInitExpr( expr::Init * expr )
 	{
-		m_result += getName( expr->get() ) + " ";
+		m_result += getTypeName( expr->getType() ) + " ";
 		expr->getIdentifier()->accept( this );
-		auto arraySize = expr->getIdentifier()->get()->getArraySize();
+		auto arraySize = expr->getIdentifier()->getType()->getArraySize();
 
 		if ( arraySize != ast::type::NotArray )
 		{

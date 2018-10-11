@@ -37,7 +37,7 @@ namespace sdw
 	template< typename ... ValuesT >
 	inline stmt::Container * findContainer( ValuesT const & ... values );
 
-	expr::ExprPtr make( Value const & variable );
+	expr::ExprPtr makeExpr( Value const & variable );
 	var::VariablePtr makeVar( Value const & variable );
 }
 

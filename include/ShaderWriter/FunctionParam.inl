@@ -14,7 +14,7 @@ namespace sdw
 
 	template< typename TypeT >
 	InParam< TypeT >::InParam( TypeT const & other )
-		: TypeT{ other.m_container, make( other ) }
+		: TypeT{ other.m_container, makeExpr( other ) }
 	{
 	}
 
@@ -23,9 +23,9 @@ namespace sdw
 	InParam< TypeT > InParam< TypeT >::operator=( T const & rhs )
 	{
 		addStmt( *m_container
-			, stmt::makeSimple( expr::makeAssign( m_expr->get()
-				, make( m_expr )
-				, make( rhs ) ) ) );
+			, stmt::makeSimple( expr::makeAssign( m_expr->getType()
+				, makeExpr( m_expr )
+				, makeExpr( rhs ) ) ) );
 		return *this;
 	}
 
@@ -40,7 +40,7 @@ namespace sdw
 
 	template< typename TypeT >
 	OutParam< TypeT >::OutParam( TypeT const & other )
-		: TypeT{ other.m_container, make( other ) }
+		: TypeT{ other.m_container, makeExpr( other ) }
 	{
 	}
 
@@ -49,9 +49,9 @@ namespace sdw
 	OutParam< TypeT > OutParam< TypeT >::operator=( T const & rhs )
 	{
 		addStmt( *m_container
-			, stmt::makeSimple( expr::makeAssign( m_expr->get()
-				, make( m_expr )
-				, make( rhs ) ) ) );
+			, stmt::makeSimple( expr::makeAssign( m_expr->getType()
+				, makeExpr( m_expr )
+				, makeExpr( rhs ) ) ) );
 		return *this;
 	}
 
@@ -66,7 +66,7 @@ namespace sdw
 
 	template< typename TypeT >
 	InOutParam< TypeT >::InOutParam( TypeT const & other )
-		: TypeT{ other.m_container, make( other ) }
+		: TypeT{ other.m_container, makeExpr( other ) }
 	{
 	}
 
@@ -75,9 +75,9 @@ namespace sdw
 	InOutParam< TypeT > InOutParam< TypeT >::operator=( T const & rhs )
 	{
 		addStmt( *m_container
-			, stmt::makeSimple( expr::makeAssign( m_expr->get()
-				, make( m_expr )
-				, make( rhs ) ) ) );
+			, stmt::makeSimple( expr::makeAssign( m_expr->getType()
+				, makeExpr( m_expr )
+				, makeExpr( rhs ) ) ) );
 		return *this;
 	}
 
