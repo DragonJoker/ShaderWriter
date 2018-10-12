@@ -7,8 +7,9 @@ See LICENSE file in root folder
 
 namespace ast::expr
 {
-	PreIncrement::PreIncrement( ExprPtr operand )
-		: Unary{ std::move( operand->getType() )
+	PreIncrement::PreIncrement( type::TypePtr type
+		, ExprPtr operand )
+		: Unary{ std::move( type )
 			, std::move( operand )
 			, Kind::ePreIncrement }
 	{

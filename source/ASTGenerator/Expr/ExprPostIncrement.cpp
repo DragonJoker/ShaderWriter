@@ -7,8 +7,9 @@ See LICENSE file in root folder
 
 namespace ast::expr
 {
-	PostIncrement::PostIncrement( ExprPtr operand )
-		: Unary{ std::move( operand->getType() )
+	PostIncrement::PostIncrement( type::TypePtr type
+		, ExprPtr operand )
+		: Unary{ std::move( type )
 			, std::move( operand )
 			, Kind::ePostIncrement }
 	{

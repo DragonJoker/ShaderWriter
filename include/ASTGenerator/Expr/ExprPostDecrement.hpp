@@ -13,7 +13,8 @@ namespace ast::expr
 		: public Unary
 	{
 	public:
-		PostDecrement( ExprPtr operand );
+		PostDecrement( type::TypePtr type
+			, ExprPtr operand );
 
 		void accept( VisitorPtr vis )override;
 	};
@@ -21,7 +22,9 @@ namespace ast::expr
 
 	inline PostDecrementPtr makePostDecrement( ExprPtr operand )
 	{
-		return std::make_unique< PostDecrement >( std::move( operand ) );
+		auto type = operand->getType();
+		return std::make_unique< PostDecrement >( std::move( type )
+			, std::move( operand ) );
 	}
 }
 

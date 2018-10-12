@@ -7,9 +7,10 @@ See LICENSE file in root folder
 
 namespace ast::expr
 {
-	MbrSelect::MbrSelect( ExprPtr outer
+	MbrSelect::MbrSelect( type::TypePtr type
+		, ExprPtr outer
 		, IdentifierPtr member )
-		: Unary{ std::move( member->getType() )
+		: Unary{ std::move( type )
 			, std::move( member )
 			, Kind::eMbrSelect }
 		, m_outer{ std::move( outer ) }

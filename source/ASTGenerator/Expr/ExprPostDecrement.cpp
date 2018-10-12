@@ -7,8 +7,9 @@ See LICENSE file in root folder
 
 namespace ast::expr
 {
-	PostDecrement::PostDecrement( ExprPtr operand )
-		: Unary{ std::move( operand->getType() )
+	PostDecrement::PostDecrement( type::TypePtr type
+		, ExprPtr operand )
+		: Unary{ std::move( type )
 			, std::move( operand )
 			, Kind::ePostDecrement }
 	{

@@ -13,7 +13,8 @@ namespace ast::expr
 		: public Binary
 	{
 	public:
-		Comma( ExprPtr lhs
+		Comma(type::TypePtr type
+			, ExprPtr lhs
 			, ExprPtr rhs );
 
 		void accept( VisitorPtr vis )override;
@@ -23,7 +24,9 @@ namespace ast::expr
 	inline CommaPtr makeComma( ExprPtr lhs
 		, ExprPtr rhs )
 	{
-		return std::make_unique< Comma >( std::move( lhs )
+		auto type = rhs->getType();
+		return std::make_unique< Comma >( type
+			, std::move( lhs )
 			, std::move( rhs ) );
 	}
 }

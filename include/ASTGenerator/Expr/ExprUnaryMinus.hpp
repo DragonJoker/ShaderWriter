@@ -13,7 +13,8 @@ namespace ast::expr
 		: public Unary
 	{
 	public:
-		UnaryMinus( ExprPtr operand );
+		UnaryMinus( type::TypePtr type
+			, ExprPtr operand );
 
 		void accept( VisitorPtr vis )override;
 	};
@@ -21,7 +22,9 @@ namespace ast::expr
 
 	inline UnaryMinusPtr makeUnaryMinus( ExprPtr operand )
 	{
-		return std::make_unique< UnaryMinus >( std::move( operand ) );
+		auto type = operand->getType();
+		return std::make_unique< UnaryMinus >( std::move( type )
+			, std::move( operand ) );
 	}
 }
 

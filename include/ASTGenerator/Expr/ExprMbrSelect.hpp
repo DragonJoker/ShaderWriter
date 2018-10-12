@@ -14,7 +14,8 @@ namespace ast::expr
 		: public Unary
 	{
 	public:
-		MbrSelect( ExprPtr outer
+		MbrSelect( type::TypePtr type
+			, ExprPtr outer
 			, IdentifierPtr member );
 
 		void accept( VisitorPtr vis )override;
@@ -32,7 +33,9 @@ namespace ast::expr
 	inline MbrSelectPtr makeMbrSelect( ExprPtr outer
 		, IdentifierPtr member )
 	{
-		return std::make_unique< MbrSelect >( std::move( outer )
+		auto type = outer->getType();
+		return std::make_unique< MbrSelect >( std::move( type )
+			, std::move( outer )
 			, std::move( member ) );
 	}
 }
