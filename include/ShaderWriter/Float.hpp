@@ -24,7 +24,24 @@ namespace sdw
 		Float & operator=( double rhs );
 		Float & operator=( long double rhs );
 		explicit operator float();
+		Float & operator+=( Float const & rhs );
+		Float & operator-=( Float const & rhs );
+		Float & operator*=( Float const & rhs );
+		Float & operator/=( Float const & rhs );
+		Float & operator+=( float rhs );
+		Float & operator-=( float rhs );
+		Float & operator*=( float rhs );
+		Float & operator/=( float rhs );
 	};
+
+	Float operator+( Float const & rhs, float lhs );
+	Float operator-( Float const & rhs, float lhs );
+	Float operator*( Float const & rhs, float lhs );
+	Float operator/( Float const & rhs, float lhs );
+	Float operator+( float lhs, Float const & rhs );
+	Float operator-( float lhs, Float const & rhs );
+	Float operator*( float lhs, Float const & rhs );
+	Float operator/( float lhs, Float const & rhs );
 
 	inline Float operator "" _f( long double value )
 	{

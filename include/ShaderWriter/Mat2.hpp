@@ -1,4 +1,4 @@
-﻿/*
+/*
 See LICENSE file in root folder
 */
 #ifndef ___Writer_Mat2_H___
@@ -25,6 +25,12 @@ namespace sdw
 		template< typename IndexT >
 		inline Vec2T< ValueT > operator[]( IndexT const & rhs )const;
 	};
+	template< typename ValueT >
+	Vec2T< ValueT > operator*( Vec2T< ValueT > const & lhs,
+		Mat2T< ValueT > const & rhs );
+	template< typename ValueT >
+	Vec2T< ValueT > operator*( Mat2T< ValueT > const & lhs
+		, Vec2T< ValueT > const & rhs );
 }
 
 #include "Mat2.inl"

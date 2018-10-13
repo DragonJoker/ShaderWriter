@@ -6,6 +6,7 @@ See LICENSE file in root folder
 #pragma once
 
 #include "Array.hpp"
+#include "Optional.hpp"
 
 #include <ASTGenerator/Stmt/StmtFunctionDecl.hpp>
 
@@ -39,10 +40,15 @@ namespace sdw
 
 	//***********************************************************************************************
 
-	template< typename Return
-		, typename ... Params >
-	inline expr::ExprPtr getFunctionCall( std::string const & name
-		, Params const & ... params );
+	template< typename ReturnT
+		, typename ... ParamsT >
+	ReturnT getFunctionCall( std::string const & name
+		, ParamsT const & ... params );
+
+	template< typename ReturnT
+		, typename ... ParamsT >
+	Optional< ReturnT > getOptFunctionCall( std::string const & name
+		, ParamsT const & ... params );
 
 	template< typename Return
 		, typename ... Params >

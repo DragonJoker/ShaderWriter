@@ -74,4 +74,16 @@ namespace sdw
 
 		return nullptr;
 	}
+
+	template< typename T >
+	bool isOptionalEnabled( T const & value )
+	{
+		return true;
+	}
+
+	template< typename T >
+	bool isOptionalEnabled( Optional< T > const & value )
+	{
+		return value.isEnabled();
+	}
 }

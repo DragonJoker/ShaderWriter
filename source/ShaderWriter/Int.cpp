@@ -2,14 +2,19 @@
 
 #include "ShaderWriter/UInt.hpp"
 
+#include <ASTGenerator/Expr/ExprAddAssign.hpp>
 #include <ASTGenerator/Expr/ExprAndAssign.hpp>
 #include <ASTGenerator/Expr/ExprBitAnd.hpp>
 #include <ASTGenerator/Expr/ExprBitNot.hpp>
 #include <ASTGenerator/Expr/ExprBitOr.hpp>
+#include <ASTGenerator/Expr/ExprDivideAssign.hpp>
 #include <ASTGenerator/Expr/ExprIdentifier.hpp>
 #include <ASTGenerator/Expr/ExprLiteral.hpp>
 #include <ASTGenerator/Expr/ExprLShift.hpp>
 #include <ASTGenerator/Expr/ExprLShiftAssign.hpp>
+#include <ASTGenerator/Expr/ExprMinusAssign.hpp>
+#include <ASTGenerator/Expr/ExprModulo.hpp>
+#include <ASTGenerator/Expr/ExprModuloAssign.hpp>
 #include <ASTGenerator/Expr/ExprOrAssign.hpp>
 #include <ASTGenerator/Expr/ExprPostDecrement.hpp>
 #include <ASTGenerator/Expr/ExprPostIncrement.hpp>
@@ -17,6 +22,7 @@
 #include <ASTGenerator/Expr/ExprPreIncrement.hpp>
 #include <ASTGenerator/Expr/ExprRShift.hpp>
 #include <ASTGenerator/Expr/ExprRShiftAssign.hpp>
+#include <ASTGenerator/Expr/ExprTimesAssign.hpp>
 
 namespace sdw
 {
@@ -120,6 +126,168 @@ namespace sdw
 	Int Int::operator--( int )
 	{
 		return Int{ m_container, expr::makePostDecrement( std::move( m_expr ) ) };
+	}
+
+	Int & Int::operator+=( UInt const & rhs )
+	{
+		addStmt( *m_container
+			, stmt::makeSimple( expr::makeAddAssign( type::getInt()
+				, makeExpr( m_expr )
+				, makeExpr( rhs ) ) ) );
+		return *this;
+	}
+
+	Int & Int::operator-=( UInt const & rhs )
+	{
+		addStmt( *m_container
+			, stmt::makeSimple( expr::makeMinusAssign( type::getInt()
+				, makeExpr( m_expr )
+				, makeExpr( rhs ) ) ) );
+		return *this;
+	}
+
+	Int & Int::operator*=( UInt const & rhs )
+	{
+		addStmt( *m_container
+			, stmt::makeSimple( expr::makeTimesAssign( type::getInt()
+				, makeExpr( m_expr )
+				, makeExpr( rhs ) ) ) );
+		return *this;
+	}
+
+	Int & Int::operator/=( UInt const & rhs )
+	{
+		addStmt( *m_container
+			, stmt::makeSimple( expr::makeDivideAssign( type::getInt()
+				, makeExpr( m_expr )
+				, makeExpr( rhs ) ) ) );
+		return *this;
+	}
+
+	Int & Int::operator+=( Int const & rhs )
+	{
+		addStmt( *m_container
+			, stmt::makeSimple( expr::makeAddAssign( type::getInt()
+				, makeExpr( m_expr )
+				, makeExpr( rhs ) ) ) );
+		return *this;
+	}
+
+	Int & Int::operator-=( Int const & rhs )
+	{
+		addStmt( *m_container
+			, stmt::makeSimple( expr::makeMinusAssign( type::getInt()
+				, makeExpr( m_expr )
+				, makeExpr( rhs ) ) ) );
+		return *this;
+	}
+
+	Int & Int::operator*=( Int const & rhs )
+	{
+		addStmt( *m_container
+			, stmt::makeSimple( expr::makeTimesAssign( type::getInt()
+				, makeExpr( m_expr )
+				, makeExpr( rhs ) ) ) );
+		return *this;
+	}
+
+	Int & Int::operator/=( Int const & rhs )
+	{
+		addStmt( *m_container
+			, stmt::makeSimple( expr::makeDivideAssign( type::getInt()
+				, makeExpr( m_expr )
+				, makeExpr( rhs ) ) ) );
+		return *this;
+	}
+
+	Int & Int::operator+=( uint32_t rhs )
+	{
+		addStmt( *m_container
+			, stmt::makeSimple( expr::makeAddAssign( type::getInt()
+				, makeExpr( m_expr )
+				, makeExpr( rhs ) ) ) );
+		return *this;
+	}
+
+	Int & Int::operator-=( uint32_t rhs )
+	{
+		addStmt( *m_container
+			, stmt::makeSimple( expr::makeMinusAssign( type::getInt()
+				, makeExpr( m_expr )
+				, makeExpr( rhs ) ) ) );
+		return *this;
+	}
+
+	Int & Int::operator*=( uint32_t rhs )
+	{
+		addStmt( *m_container
+			, stmt::makeSimple( expr::makeTimesAssign( type::getInt()
+				, makeExpr( m_expr )
+				, makeExpr( rhs ) ) ) );
+		return *this;
+	}
+
+	Int & Int::operator/=( uint32_t rhs )
+	{
+		addStmt( *m_container
+			, stmt::makeSimple( expr::makeDivideAssign( type::getInt()
+				, makeExpr( m_expr )
+				, makeExpr( rhs ) ) ) );
+		return *this;
+	}
+
+	Int & Int::operator+=( int32_t rhs )
+	{
+		addStmt( *m_container
+			, stmt::makeSimple( expr::makeAddAssign( type::getInt()
+				, makeExpr( m_expr )
+				, makeExpr( rhs ) ) ) );
+		return *this;
+	}
+
+	Int & Int::operator-=( int32_t rhs )
+	{
+		addStmt( *m_container
+			, stmt::makeSimple( expr::makeMinusAssign( type::getInt()
+				, makeExpr( m_expr )
+				, makeExpr( rhs ) ) ) );
+		return *this;
+	}
+
+	Int & Int::operator*=( int32_t rhs )
+	{
+		addStmt( *m_container
+			, stmt::makeSimple( expr::makeTimesAssign( type::getInt()
+				, makeExpr( m_expr )
+				, makeExpr( rhs ) ) ) );
+		return *this;
+	}
+
+	Int & Int::operator/=( int32_t rhs )
+	{
+		addStmt( *m_container
+			, stmt::makeSimple( expr::makeDivideAssign( type::getInt()
+				, makeExpr( m_expr )
+				, makeExpr( rhs ) ) ) );
+		return *this;
+	}
+
+	Int & Int::operator%=( int32_t rhs )
+	{
+		addStmt( *m_container
+			, stmt::makeSimple( expr::makeModuloAssign( type::getInt()
+				, makeExpr( m_expr )
+				, makeExpr( rhs ) ) ) );
+		return *this;
+	}
+
+	Int & Int::operator%=( Int const & rhs )
+	{
+		addStmt( *m_container
+			, stmt::makeSimple( expr::makeModuloAssign( type::getInt()
+				, makeExpr( m_expr )
+				, makeExpr( rhs ) ) ) );
+		return *this;
 	}
 
 	inline Int & Int::operator<<=( int rhs )
@@ -228,6 +396,158 @@ namespace sdw
 				, makeExpr( m_expr )
 				, makeExpr( rhs ) ) ) );
 		return *this;
+	}
+
+	Int operator+( Int const & lhs, uint32_t rhs )
+	{
+		return Int{ findContainer( lhs, rhs )
+			, expr::makeAdd( type::getInt()
+				, makeExpr( lhs )
+				, makeExpr( rhs ) ) };
+	}
+
+	Int operator-( Int const & lhs, uint32_t rhs )
+	{
+		return Int{ findContainer( lhs, rhs )
+			, expr::makeMinus( type::getInt()
+				, makeExpr( lhs )
+				, makeExpr( rhs ) ) };
+	}
+
+	Int operator*( Int const & lhs, uint32_t rhs )
+	{
+		return Int{ findContainer( lhs, rhs )
+			, expr::makeTimes( type::getInt()
+				, makeExpr( lhs )
+				, makeExpr( rhs ) ) };
+	}
+
+	Int operator/( Int const & lhs, uint32_t rhs )
+	{
+		return Int{ findContainer( lhs, rhs )
+			, expr::makeDivide( type::getInt()
+				, makeExpr( lhs )
+				, makeExpr( rhs ) ) };
+	}
+
+	Int operator+( Int const & lhs, int32_t rhs )
+	{
+		return Int{ findContainer( lhs, rhs )
+			, expr::makeAdd( type::getInt()
+				, makeExpr( lhs )
+				, makeExpr( rhs ) ) };
+	}
+
+	Int operator-( Int const & lhs, int32_t rhs )
+	{
+		return Int{ findContainer( lhs, rhs )
+			, expr::makeMinus( type::getInt()
+				, makeExpr( lhs )
+				, makeExpr( rhs ) ) };
+	}
+
+	Int operator*( Int const & lhs, int32_t rhs )
+	{
+		return Int{ findContainer( lhs, rhs )
+			, expr::makeTimes( type::getInt()
+				, makeExpr( lhs )
+				, makeExpr( rhs ) ) };
+	}
+
+	Int operator/( Int const & lhs, int32_t rhs )
+	{
+		return Int{ findContainer( lhs, rhs )
+			, expr::makeDivide( type::getInt()
+				, makeExpr( lhs )
+				, makeExpr( rhs ) ) };
+	}
+
+	Int operator+( int32_t lhs, Int const & rhs )
+	{
+		return Int{ findContainer( rhs )
+			, expr::makeAdd( type::getInt()
+				, makeExpr( lhs )
+				, makeExpr( rhs ) ) };
+	}
+
+	Int operator-( int32_t lhs, Int const & rhs )
+	{
+		return Int{ findContainer( rhs )
+			, expr::makeMinus( type::getInt()
+				, makeExpr( lhs )
+				, makeExpr( rhs ) ) };
+	}
+
+	Int operator*( int32_t lhs, Int const & rhs )
+	{
+		return Int{ findContainer( rhs )
+			, expr::makeTimes( type::getInt()
+				, makeExpr( lhs )
+				, makeExpr( rhs ) ) };
+	}
+
+	Int operator/( int32_t lhs, Int const & rhs )
+	{
+		return Int{ findContainer( rhs )
+			, expr::makeDivide( type::getInt()
+				, makeExpr( lhs )
+				, makeExpr( rhs ) ) };
+	}
+
+	Int operator+( uint32_t lhs, Int const & rhs )
+	{
+		return Int{ findContainer( rhs )
+			, expr::makeAdd( type::getInt()
+				, makeExpr( lhs )
+				, makeExpr( rhs ) ) };
+	}
+
+	Int operator-( uint32_t lhs, Int const & rhs )
+	{
+		return Int{ findContainer( rhs )
+			, expr::makeMinus( type::getInt()
+				, makeExpr( lhs )
+				, makeExpr( rhs ) ) };
+	}
+
+	Int operator*( uint32_t lhs, Int const & rhs )
+	{
+		return Int{ findContainer( rhs )
+			, expr::makeTimes( type::getInt()
+				, makeExpr( lhs )
+				, makeExpr( rhs ) ) };
+	}
+
+	Int operator/( uint32_t lhs, Int const & rhs )
+	{
+		return Int{ findContainer( rhs )
+			, expr::makeDivide( type::getInt()
+				, makeExpr( lhs )
+				, makeExpr( rhs ) ) };
+	}
+
+	Int operator%( Int const & lhs, int rhs )
+	{
+		return Int{ findContainer( lhs )
+			, expr::makeModulo( type::getInt()
+				, makeExpr( lhs )
+				, makeExpr( rhs ) ) };
+	}
+
+	Int operator%( int lhs, Int const & rhs )
+	{
+		return Int{ findContainer( rhs )
+			, expr::makeModulo( type::getInt()
+				, makeExpr( lhs )
+				, makeExpr( rhs ) ) };
+	}
+
+	Int operator%( Int const & lhs, Int const & rhs )
+	{
+		return Int{ findContainer( lhs, rhs )
+			, expr::makeModulo( type::getInt()
+				, makeExpr( lhs )
+				, makeExpr( rhs ) ) };
 	}
 
 	inline Int operator<<( Int const & lhs, int rhs )

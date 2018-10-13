@@ -11,57 +11,90 @@ namespace sdw
 	template< typename Param
 		, typename ... Params >
 	inline void getFunctionCallParamsRec( expr::ExprList & args
+		, bool isEnabled
 		, Param const & current
 		, Params const & ... params );
 
-	inline void getFunctionCallParamsRec( expr::ExprList & args )
+	inline void getFunctionCallParamsRec( expr::ExprList & args
+		, bool isEnabled )
 	{
 	}
 
 	template< typename Param >
 	inline void getFunctionCallParamsRec( expr::ExprList & args
+		, bool isEnabled
 		, Param const & last )
 	{
+		isEnabled = isEnabled && isOptionalEnabled( last );
 		args.emplace_back( makeExpr( last ) );
 	}
 
 	template< typename Param
 		, typename ... Params >
 	inline void getFunctionCallParamsRec( expr::ExprList & args
+		, bool isEnabled
 		, Param const & current
 		, Params const & ... params )
 	{
+		isEnabled = isEnabled && isOptionalEnabled( current );
 		args.emplace_back( makeExpr( current ) );
-		getFunctionCallParamsRec( args, params... );
+		getFunctionCallParamsRec( args, isEnabled, params... );
 	}
 
-	template< typename Return
-		, typename ... Params >
-	inline expr::ExprPtr getFunctionCall( std::string const & name
-		, Params const & ... params )
+	namespace details
 	{
-		expr::ExprList args;
-		getFunctionCallParamsRec( args, params... );
-		return expr::makeFnCall( type::makeType( TypeTraits< Return >::TypeEnum )
-			, expr::makeIdentifier( var::makeVariable( type::getFunction(), name ) )
-			, std::move( args ) );
-	}
-
-	template< typename Return
-		, typename OptType
-		, typename ... Params >
-	inline expr::ExprPtr getFunctionCall( std::string const & name
-		, Optional< OptType > const & param
-		, Params const & ... params )
-	{
-		if ( param.isEnabled() )
+		template< typename ReturnT >
+		struct FunctionCallGetter
 		{
-			return getFunctionCall< Return >( name
-				, static_cast< OptType const & >( param )
-				, params... );
-		}
+			template< typename ... ParamsT >
+			static ReturnT submit( std::string const & name
+				, ParamsT const & ... params )
+			{
+				expr::ExprList args;
+				bool isEnabled = true;
+				getFunctionCallParamsRec( args, isEnabled, params... );
+				auto container = findContainer( params... );
+				return ReturnT{ container
+					, expr::makeFnCall( type::makeType( TypeTraits< ReturnT >::TypeEnum )
+						, expr::makeIdentifier( var::makeFunction( name ) )
+						, std::move( args ) ) };
+			}
+		};
 
-		return nullptr;
+		template< typename ReturnT >
+		struct FunctionCallGetter< Optional< ReturnT > >
+		{
+			template< typename ... ParamsT >
+			static Optional< ReturnT > submit( std::string const & name
+				, ParamsT const & ... params )
+			{
+				expr::ExprList args;
+				bool isEnabled = true;
+				getFunctionCallParamsRec( args, isEnabled, params... );
+				auto container = findContainer( params... );
+				return Optional< ReturnT >{ container
+					, expr::makeFnCall( type::makeType( TypeTraits< ReturnT >::TypeEnum )
+						, expr::makeIdentifier( var::makeFunction( name ) )
+						, std::move( args ) )
+					, isEnabled };
+			}
+		};
+	}
+	
+	template< typename ReturnT
+		, typename ... ParamsT >
+	inline ReturnT getFunctionCall( std::string const & name
+		, ParamsT const & ... params )
+	{
+		return details::FunctionCallGetter< ReturnT >::submit( name, params... );
+	}
+
+	template< typename ReturnT
+		, typename ... ParamsT >
+	inline Optional< ReturnT > getOptFunctionCall( std::string const & name
+		, ParamsT const & ... params )
+	{
+		return details::FunctionCallGetter< Optional< ReturnT > >::submit( name, params... );
 	}
 
 	//***********************************************************************************************

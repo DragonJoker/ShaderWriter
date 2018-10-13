@@ -1,4 +1,4 @@
-﻿/*
+/*
 See LICENSE file in root folder
 */
 #ifndef ___Writer_Mat3_H___
@@ -25,6 +25,12 @@ namespace sdw
 		template< typename IndexT >
 		inline Vec3T< ValueT > operator[]( IndexT const & rhs )const;
 	};
+	template< typename ValueT >
+	Vec3T< ValueT > operator*( Vec3T< ValueT > const & lhs,
+		Mat3T< ValueT > const & rhs );
+	template< typename ValueT >
+	Vec3T< ValueT > operator*( Mat3T< ValueT > const & lhs
+		, Vec3T< ValueT > const & rhs );
 }
 
 #include "Mat3.inl"

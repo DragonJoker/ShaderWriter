@@ -47,7 +47,27 @@ namespace sdw
 	{
 		return Vec4T< ValueT >{ m_container
 			, expr::makeArrayAccess( makeType( TypeTraits< Vec4T< ValueT > >::TypeEnum )
-				, m_expr
+				, makeExpr( m_expr )
+				, makeExpr( rhs ) ) };
+	}
+
+	template< typename ValueT >
+	Vec4T< ValueT > operator*( Vec4T< ValueT > const & lhs,
+		Mat4T< ValueT > const & rhs )
+	{
+		return Vec4T< ValueT >{ m_container
+			, expr::makeTimes( makeType( TypeTraits< Vec4T< ValueT > >::TypeEnum )
+				, makeExpr( lhs )
+				, makeExpr( rhs ) ) };
+	}
+
+	template< typename ValueT >
+	Vec4T< ValueT > operator*( Mat4T< ValueT > const & lhs
+		, Vec4T< ValueT > const & rhs )
+	{
+		return Vec4T< ValueT >{ m_container
+			, expr::makeTimes( makeType( TypeTraits< Vec4T< ValueT > >::TypeEnum )
+				, makeExpr( lhs )
 				, makeExpr( rhs ) ) };
 	}
 }

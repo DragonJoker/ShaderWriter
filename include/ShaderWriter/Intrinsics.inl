@@ -5,746 +5,705 @@ namespace sdw
 {
 	//***********************************************************************************************
 
+	namespace details
+	{
+		template< typename ValueT >
+		struct Fma
+		{
+			static inline ValueT submit( ValueT const & a
+				, ValueT const & b
+				, ValueT const & c )
+			{
+				return ValueT{ findContainer( a, b, c )
+					, expr::makeAdd(
+						expr::makeTimes(
+							makeExpr( a ),
+							makeExpr( b ) ),
+						makeExpr( c ) ) };
+			}
+
+			static inline Optional< ValueT > submitOpt( Optional< ValueT > const & a
+				, ValueT const & b
+				, ValueT const & c )
+			{
+				return Optional< ValueT >{ findContainer( a, b, c )
+					, expr::makeAdd(
+						expr::makeTimes(
+							makeExpr( a ),
+							makeExpr( b ) ),
+						makeExpr( c ) )
+					, a.isEnabled() };
+			}
+
+			static inline Optional< ValueT > submitOpt( ValueT const & a
+				, Optional< ValueT > const & b
+				, ValueT const & c )
+			{
+				return Optional< ValueT >{ findContainer( a, b, c )
+					, expr::makeAdd(
+						expr::makeTimes(
+							makeExpr( a ),
+							makeExpr( b ) ),
+						makeExpr( c ) )
+					, b.isEnabled() };
+			}
+
+			static inline Optional< ValueT > submitOpt( ValueT const & a
+				, ValueT const & b
+				, Optional< ValueT > const & c )
+			{
+				return Optional< ValueT >{ findContainer( a, b, c )
+					, expr::makeAdd(
+						expr::makeTimes(
+							makeExpr( a ),
+							makeExpr( b ) ),
+						makeExpr( c ) )
+					, c.isEnabled() };
+			}
+
+			static inline Optional< ValueT > submitOpt( Optional< ValueT > const & a
+				, Optional< ValueT > const & b
+				, ValueT const & c )
+			{
+				return Optional< ValueT >{ findContainer( a, b, c )
+					, expr::makeAdd(
+						expr::makeTimes(
+							makeExpr( a ),
+							makeExpr( b ) ),
+						makeExpr( c ) )
+					, a.isEnabled() || b.isEnabled() };
+			}
+
+			static inline Optional< ValueT > submitOpt( Optional< ValueT > const & a
+				, Optional< ValueT > const & b
+				, Optional< ValueT > const & c )
+			{
+				return Optional< ValueT >{ findContainer( a, b, c )
+					, expr::makeAdd(
+						expr::makeTimes(
+							makeExpr( a ),
+							makeExpr( b ) ),
+						makeExpr( c ) )
+					, a.isEnabled() || b.isEnabled() || c.isEnabled() };
+			}
+		};
+	}
+
+	//***********************************************************************************************
+
 	template< typename ... ValuesT >
 	inline Vec2 vec2( Value const & value, ValuesT const & ... values )
 	{
-		return Vec2{ findContainer( value, values... )
-			, getFunctionCall< Vec2, Value, ValuesT... >( "vec2", value, values... ) };
+		return getFunctionCall< Vec2 >( "vec2", value, values... ) ;
 	}
 
 	template< typename ... ValuesT >
 	inline Vec3 vec3( Value const & value, ValuesT const & ... values )
 	{
-		return Vec3{ findContainer( value, values... )
-			, getFunctionCall< Vec3, Value, ValuesT... >( "vec3", value, values... ) };
+		return getFunctionCall< Vec3 >( "vec3", value, values... ) ;
 	}
 
 	template< typename ... ValuesT >
 	inline Vec4 vec4( Value const & value, ValuesT const & ... values )
 	{
-		return Vec4{ findContainer( value, values... )
-			, getFunctionCall< Vec4, Value, ValuesT... >( "vec4", value, values... ) };
+		return getFunctionCall< Vec4 >( "vec4", value, values... ) ;
 	}
 
 	template< typename ... ValuesT >
 	inline IVec2 ivec2( Value const & value, ValuesT const & ... values )
 	{
-		return IVec2{ findContainer( value, values... )
-			, getFunctionCall< IVec2, Value, ValuesT... >( "ivec2", value, values... ) };
+		return getFunctionCall< IVec2 >( "ivec2", value, values... ) ;
 	}
 
 	template< typename ... ValuesT >
 	inline IVec3 ivec3( Value const & value, ValuesT const & ... values )
 	{
-		return IVec3{ findContainer( value, values... )
-			, getFunctionCall< IVec3, Value, ValuesT... >( "ivec3", value, values... ) };
+		return getFunctionCall< IVec3 >( "ivec3", value, values... ) ;
 	}
 
 	template< typename ... ValuesT >
 	inline IVec4 ivec4( Value const & value, ValuesT const & ... values )
 	{
-		return IVec4{ findContainer( value, values... )
-			, getFunctionCall< IVec4, Value, ValuesT... >( "ivec4", value, values... ) };
+		return getFunctionCall< IVec4 >( "ivec4", value, values... ) ;
 	}
 
 	template< typename ... ValuesT >
 	inline UVec2 uvec2( Value const & value, ValuesT const & ... values )
 	{
-		return UVec2{ findContainer( value, values... )
-			, getFunctionCall< UVec2, Value, ValuesT... >( "uvec2", value, values... ) };
+		return getFunctionCall< UVec2 >( "uvec2", value, values... ) ;
 	}
 
 	template< typename ... ValuesT >
 	inline UVec3 uvec3( Value const & value, ValuesT const & ... values )
 	{
-		return UVec3{ findContainer( value, values... )
-			, getFunctionCall< UVec3, Value, ValuesT... >( "uvec3", value, values... ) };
+		return getFunctionCall< UVec3 >( "uvec3", value, values... ) ;
 	}
 
 	template< typename ... ValuesT >
 	inline UVec4 uvec4( Value const & value, ValuesT const & ... values )
 	{
-		return UVec4{ findContainer( value, values... )
-			, getFunctionCall< UVec4, Value, ValuesT... >( "uvec4", value, values... ) };
+		return getFunctionCall< UVec4 >( "uvec4", value, values... ) ;
 	}
 
 	template< typename ... ValuesT >
 	inline BVec2 bvec2( Value const & value, ValuesT const & ... values )
 	{
-		return BVec2{ findContainer( value, values... )
-			, getFunctionCall< BVec2, Value, ValuesT... >( "bvec2", value, values... ) };
+		return getFunctionCall< BVec2 >( "bvec2", value, values... ) ;
 	}
 
 	template< typename ... ValuesT >
 	inline BVec3 bvec3( Value const & value, ValuesT const & ... values )
 	{
-		return BVec3{ findContainer( value, values... )
-			, getFunctionCall< BVec3, Value, ValuesT... >( "bvec3", value, values... ) };
+		return getFunctionCall< BVec3 >( "bvec3", value, values... ) ;
 	}
 
 	template< typename ... ValuesT >
 	inline BVec4 bvec4( Value const & value, ValuesT const & ... values )
 	{
-		return BVec4{ findContainer( value, values... )
-			, getFunctionCall< BVec4, Value, ValuesT... >( "bvec4", value, values... ) };
+		return getFunctionCall< BVec4 >( "bvec4", value, values... ) ;
 	}
 
 	template< typename ... ValuesT >
 	inline Mat2 mat2( Value const & value, ValuesT const & ... values )
 	{
-		return Mat2{ findContainer( value, values... )
-			, getFunctionCall< Mat2, Value, ValuesT... >( "mat2", value, values... ) };
+		return getFunctionCall< Mat2 >( "mat2", value, values... ) ;
 	}
 
 	template< typename ... ValuesT >
 	inline Mat3 mat3( Value const & value, ValuesT const & ... values )
 	{
-		return Mat3{ findContainer( value, values... )
-			, getFunctionCall< Mat3, Value, ValuesT... >( "mat3", value, values... ) };
+		return getFunctionCall< Mat3 >( "mat3", value, values... ) ;
 	}
 
 	template< typename ... ValuesT >
 	inline Mat4 mat4( Value const & value, ValuesT const & ... values )
 	{
-		return Mat4{ findContainer( value, values... )
-			, getFunctionCall< Mat4, Value, ValuesT... >( "mat4", value, values... ) };
+		return getFunctionCall< Mat4 >( "mat4", value, values... ) ;
 	}
 
 	template< typename ... ValuesT >
 	inline IMat2 imat2( Value const & value, ValuesT const & ... values )
 	{
-		return IMat2{ findContainer( value, values... )
-			, getFunctionCall< IMat2, Value, ValuesT... >( "imat2", value, values... ) };
+		return getFunctionCall< IMat2 >( "imat2", value, values... ) ;
 	}
 
 	template< typename ... ValuesT >
 	inline IMat3 imat3( Value const & value, ValuesT const & ... values )
 	{
-		return IMat3{ findContainer( value, values... )
-			, getFunctionCall< IMat3, Value, ValuesT... >( "imat3", value, values... ) };
+		return getFunctionCall< IMat3 >( "imat3", value, values... ) ;
 	}
 
 	template< typename ... ValuesT >
 	inline IMat4 imat4( Value const & value, ValuesT const & ... values )
 	{
-		return IMat4{ findContainer( value, values... )
-			, getFunctionCall< IMat4, Value, ValuesT... >( "imat4", value, values... ) };
+		return getFunctionCall< IMat4 >( "imat4", value, values... ) ;
 	}
 
 	template< typename ... ValuesT >
 	inline UMat2 umat2( Value const & value, ValuesT const & ... values )
 	{
-		return UMat2{ findContainer( value, values... )
-			, getFunctionCall< UMat2, Value, ValuesT... >( "umat2", value, values... ) };
+		return getFunctionCall< UMat2 >( "umat2", value, values... ) ;
 	}
 
 	template< typename ... ValuesT >
 	inline UMat3 umat3( Value const & value, ValuesT const & ... values )
 	{
-		return UMat3{ findContainer( value, values... )
-			, getFunctionCall< UMat3, Value, ValuesT... >( "umat3", value, values... ) };
+		return getFunctionCall< UMat3 >( "umat3", value, values... ) ;
 	}
 
 	template< typename ... ValuesT >
 	inline UMat4 umat4( Value const & value, ValuesT const & ... values )
 	{
-		return UMat4{ findContainer( value, values... )
-			, getFunctionCall< UMat4, Value, ValuesT... >( "umat4", value, values... ) };
+		return getFunctionCall< UMat4 >( "umat4", value, values... ) ;
 	}
 
 	template< typename ... ValuesT >
 	inline BMat2 bmat2( Value const & value, ValuesT const & ... values )
 	{
-		return BMat2{ findContainer( value, values... )
-			, getFunctionCall< BMat2, Value, ValuesT... >( "bmat2", value, values... ) };
+		return getFunctionCall< BMat2 >( "bmat2", value, values... ) ;
 	}
 
 	template< typename ... ValuesT >
 	inline BMat3 bmat3( Value const & value, ValuesT const & ... values )
 	{
-		return BMat3{ findContainer( value, values... )
-			, getFunctionCall< BMat3, Value, ValuesT... >( "bmat3", value, values... ) };
+		return getFunctionCall< BMat3 >( "bmat3", value, values... ) ;
 	}
 
 	template< typename ... ValuesT >
 	inline BMat4 bmat4( Value const & value, ValuesT const & ... values )
 	{
-		return BMat4{ findContainer( value, values... )
-			, getFunctionCall< BMat4, Value, ValuesT... >( "bmat4", value, values... ) };
+		return getFunctionCall< BMat4 >( "bmat4", value, values... ) ;
 	}
-#if 0
+
 	//***********************************************************************************************
 
 	template< typename ... ValuesT >
 	inline Float dot( Value const & value, ValuesT const & ... values )
 	{
-		return getFunctionCall< Float, Value, ValuesT... >( findContainer( value, values... ), "dot", value, values... );
+		return getFunctionCall< Float >( "dot", value, values... );
 	}
 
 	template< typename ... ValuesT >
 	inline Float inversesqrt( Value const & value, ValuesT const & ... values )
 	{
-		return getFunctionCall< Float, Value, ValuesT... >( findContainer( value, values... ), "inversesqrt", value, values... );
+		return getFunctionCall< Float >( "inversesqrt", value, values... );
 	}
 
 	template< typename ValueT, typename ... ValuesT >
 	inline ValueT cross( ValueT const & value, ValuesT const & ... values )
 	{
-		return getFunctionCall< ValueT, Value, ValuesT... >( findContainer( value, values... ), "cross", value, values... );
+		return getFunctionCall< ValueT >( "cross", value, values... );
 	}
 
 	template< typename ValueT, typename ... ValuesT >
 	inline ValueT clamp( ValueT const & value, ValuesT const & ... values )
 	{
-		return getFunctionCall< ValueT, Value, ValuesT... >( findContainer( value, values... ), "clamp", value, values... );
+		return getFunctionCall< ValueT >( "clamp", value, values... );
 	}
 
 	template< typename ValueT, typename ... ValuesT >
 	inline ValueT min( ValueT const & value, ValuesT const & ... values )
 	{
-		return getFunctionCall< ValueT, Value, ValuesT... >( findContainer( value, values... ), "min", value, values... );
+		return getFunctionCall< ValueT >( "min", value, values... );
 	}
 
 	template< typename ValueT, typename ... ValuesT >
 	inline ValueT max( ValueT const & value, ValuesT const & ... values )
 	{
-		return getFunctionCall< ValueT, Value, ValuesT... >( findContainer( value, values... ), "max", value, values... );
+		return getFunctionCall< ValueT >( "max", value, values... );
 	}
 
 	template< typename ValueT, typename ... ValuesT >
 	inline ValueT mix( ValueT const & value, ValuesT const & ... values )
 	{
-		return getFunctionCall< ValueT, Value, ValuesT... >( findContainer( value, values... ), "mix", value, values... );
+		return getFunctionCall< ValueT >( "mix", value, values... );
 	}
 
 	template< typename ValueT, typename ... ValuesT >
 	inline ValueT reflect( Value const & value, ValuesT const & ... values )
 	{
-		return getFunctionCall< ValueT, Value, ValuesT... >( findContainer( value, values... ), "reflect", value, values... );
+		return getFunctionCall< ValueT >( "reflect", value, values... );
 	}
 
 	template< typename ValueT >
 	inline ValueT sqrt( ValueT const & value )
 	{
-		return getFunctionCall< ValueT, ValueT >( findContainer( value ), "sqrt", value );
+		return getFunctionCall< ValueT, ValueT >( "sqrt", value );
 	}
 
 	template< typename ValueT >
 	inline ValueT pow( ValueT const & x, ValueT const & y )
 	{
-		return getFunctionCall< ValueT >( x.m_container, "pow", x, y );
+		return getFunctionCall< ValueT >( "pow", x, y );
 	}
 
 	template< typename ValueT >
 	inline ValueT pow( ValueT const & x, Optional< ValueT > const & y )
 	{
-		return getFunctionCall< ValueT >( x.m_container, "pow", x, y );
+		return getFunctionCall< ValueT >( "pow", x, y );
 	}
 
 	template< typename ValueT >
 	inline ValueT pow2( ValueT const & p )
 	{
-		return getFunctionCall< ValueT >( p.m_container, "pow2", p );
+		return getFunctionCall< ValueT >( "pow2", p );
 	}
 
 	template< typename ValueT >
 	ValueT normalize( ValueT const & value )
 	{
-		return getFunctionCall< ValueT >( findContainer( value ), "normalize", value );
+		return getFunctionCall< ValueT >( "normalize", value );
 	}
+
+#if Writer_UseSwizzle
 
 	template< typename Input, typename Output >
 	inline Output normalize( Swizzle< Input, Output > const & value )
 	{
-		return getFunctionCall< Output >( findContainer( value ), "normalize", static_cast< Output const >( value ) );
-	}
-
-	template< typename ValueT >
-	inline ValueT transpose( ValueT const & value )
-	{
-		return getFunctionCall< ValueT >( findContainer( value ), "transpose", value );
-	}
-
-	template< typename ValueT >
-	inline ValueT inverse( ValueT const & value )
-	{
-		return getFunctionCall< ValueT >( findContainer( value ), "inverse", value );
-	}
-
-	template< typename ValueT >
-	inline ValueT abs( ValueT const & value )
-	{
-		return getFunctionCall< ValueT >( findContainer( value ), "abs", value );
-	}
-
-	template< typename ValueT >
-	inline ValueT isinf( ValueT const & value )
-	{
-		return getFunctionCall< ValueT >( findContainer( value ), "isinf", value );
-	}
-
-	template< typename ValueA, typename ValueB >
-	ValueB smoothstep( ValueA const & edge0, ValueA const & edge1, ValueB const & x )
-	{
-		return getFunctionCall< ValueB >( findContainer( edge0, edge1, x ), "smoothstep", edge0, edge1,x );
-	}
-
-	template< typename ValueT >
-	inline ValueT dFdx( ValueT const & value )
-	{
-		return getFunctionCall< ValueT >( findContainer( value ), "dFdx", value );
-	}
-
-	template< typename ValueT >
-	inline ValueT dFdy( ValueT const & value )
-	{
-		return getFunctionCall< ValueT >( findContainer( value ), "dFdy", value );
-	}
-
-	template< typename ValueT >
-	inline ValueT dFdxCoarse( ValueT const & value )
-	{
-		return getFunctionCall< ValueT >( findContainer( value ), "dFdyCoarse", value );
-	}
-
-	template< typename ValueT >
-	inline ValueT dFdyCoarse( ValueT const & value )
-	{
-		return getFunctionCall< ValueT >( findContainer( value ), "dFdyCoarse", value );
-	}
-
-	template< typename ValueT >
-	inline ValueT dFdxFine( ValueT const & value )
-	{
-		return getFunctionCall< ValueT >( findContainer( value ), "dFdxFine", value );
-	}
-
-	template< typename ValueT >
-	inline ValueT dFdyFine( ValueT const & value )
-	{
-		return getFunctionCall< ValueT >( findContainer( value ), "dFdyFine", value );
-	}
-
-	template< typename ValueT >
-	inline ValueT sign( ValueT const & value )
-	{
-		return getFunctionCall< ValueT >( findContainer( value ), "sign", value );
-	}
-
-	template< typename ValueT >
-	inline ValueT mod( ValueT const & x, ValueT const & y )
-	{
-		return getFunctionCall< ValueT >( x.m_container, "mod", x, y );
-	}
-
-	template< typename ValueT >
-	inline ValueT mod( ValueT const & x, Float const & y )
-	{
-		return getFunctionCall< ValueT >( findContainer( x, y ), "mod", x, y );
-	}
-
-	template< typename ValueT >
-	inline ValueT fract( ValueT const & value )
-	{
-		return getFunctionCall< ValueT >( findContainer( value ), "fract", value );
-	}
-
-	template< typename ValueT >
-	inline ValueT floor( ValueT const & value )
-	{
-		return getFunctionCall< ValueT >( findContainer( value ), "floor", value );
-	}
-
-	template< typename ValueT >
-	inline ValueT trunc( ValueT const & value )
-	{
-		return getFunctionCall< ValueT >( findContainer( value ), "trunc", value );
-	}
-
-	template< typename ValueT >
-	inline ValueT round( ValueT const & value )
-	{
-		return getFunctionCall< ValueT >( findContainer( value ), "round", value );
-	}
-
-	template< typename ValueE, typename ValueX >
-	inline ValueE step( ValueE const & edge, ValueX const & x )
-	{
-		return details::Step< ValueE, ValueX >::step( edge, x );
-	}
-
-	template< typename ValueT >
-	inline ValueT step( ValueT const & edge, Float const & x )
-	{
-		return getFunctionCall< ValueT >( findContainer( edge, x ), "step", edge, x );
-	}
-
-	template< typename ValueT >
-	inline ValueT neg( ValueT const & value )
-	{
-		return getFunctionCall< ValueT >( findContainer( value ), "-", value );
+		return getFunctionCall< Output >( "normalize", static_cast< Output const >( value ) );
 	}
 
 	template< typename Input, typename Output >
 	inline Output neg( Swizzle< Input, Output > const & value )
 	{
-		return getFunctionCall< Output >( findContainer( value ), "-", static_cast< Output >( value ) );
+		return getFunctionCall< Output >( "-", static_cast< Output >( value ) );
+	}
+
+#endif
+
+	template< typename ValueT >
+	inline ValueT transpose( ValueT const & value )
+	{
+		return getFunctionCall< ValueT >( "transpose", value );
+	}
+
+	template< typename ValueT >
+	inline ValueT inverse( ValueT const & value )
+	{
+		return getFunctionCall< ValueT >( "inverse", value );
+	}
+
+	template< typename ValueT >
+	inline ValueT abs( ValueT const & value )
+	{
+		return getFunctionCall< ValueT >( "abs", value );
+	}
+
+	template< typename ValueT >
+	inline ValueT isinf( ValueT const & value )
+	{
+		return getFunctionCall< ValueT >( "isinf", value );
+	}
+
+	template< typename ValueA, typename ValueB >
+	ValueB smoothstep( ValueA const & edge0, ValueA const & edge1, ValueB const & x )
+	{
+		return getFunctionCall< ValueB >( "smoothstep", edge0, edge1,x );
+	}
+
+	template< typename ValueT >
+	inline ValueT dFdx( ValueT const & value )
+	{
+		return getFunctionCall< ValueT >( "dFdx", value );
+	}
+
+	template< typename ValueT >
+	inline ValueT dFdy( ValueT const & value )
+	{
+		return getFunctionCall< ValueT >( "dFdy", value );
+	}
+
+	template< typename ValueT >
+	inline ValueT dFdxCoarse( ValueT const & value )
+	{
+		return getFunctionCall< ValueT >( "dFdyCoarse", value );
+	}
+
+	template< typename ValueT >
+	inline ValueT dFdyCoarse( ValueT const & value )
+	{
+		return getFunctionCall< ValueT >( "dFdyCoarse", value );
+	}
+
+	template< typename ValueT >
+	inline ValueT dFdxFine( ValueT const & value )
+	{
+		return getFunctionCall< ValueT >( "dFdxFine", value );
+	}
+
+	template< typename ValueT >
+	inline ValueT dFdyFine( ValueT const & value )
+	{
+		return getFunctionCall< ValueT >( "dFdyFine", value );
+	}
+
+	template< typename ValueT >
+	inline ValueT sign( ValueT const & value )
+	{
+		return getFunctionCall< ValueT >( "sign", value );
+	}
+
+	template< typename ValueT >
+	inline ValueT mod( ValueT const & x, ValueT const & y )
+	{
+		return getFunctionCall< ValueT >( "mod", x, y );
+	}
+
+	template< typename ValueT >
+	inline ValueT mod( ValueT const & x, Float const & y )
+	{
+		return getFunctionCall< ValueT >( "mod", x, y );
+	}
+
+	template< typename ValueT >
+	inline ValueT fract( ValueT const & value )
+	{
+		return getFunctionCall< ValueT >( "fract", value );
+	}
+
+	template< typename ValueT >
+	inline ValueT floor( ValueT const & value )
+	{
+		return getFunctionCall< ValueT >( "floor", value );
+	}
+
+	template< typename ValueT >
+	inline ValueT trunc( ValueT const & value )
+	{
+		return getFunctionCall< ValueT >( "trunc", value );
+	}
+
+	template< typename ValueT >
+	inline ValueT round( ValueT const & value )
+	{
+		return getFunctionCall< ValueT >( "round", value );
+	}
+
+	template< typename ValueE, typename ValueX >
+	inline ValueE step( ValueE const & edge, ValueX const & x )
+	{
+		return getFunctionCall< ValueE >( "sterp", edge, x );
+	}
+
+	template< typename ValueT >
+	inline ValueT step( ValueT const & edge, Float const & x )
+	{
+		return getFunctionCall< ValueT >( "step", edge, x );
+	}
+
+	template< typename ValueT >
+	inline ValueT neg( ValueT const & value )
+	{
+		return getFunctionCall< ValueT >( "-", value );
 	}
 
 	template< typename ValueT >
 	inline ValueT log( ValueT const & value )
 	{
-		return getFunctionCall< ValueT >( findContainer( value ), "log", value );
+		return getFunctionCall< ValueT >( "log", value );
 	}
 
 	template< typename ValueT >
 	inline ValueT exp( ValueT const & value )
 	{
-		return getFunctionCall< ValueT >( findContainer( value ), "exp", value );
+		return getFunctionCall< ValueT >( "exp", value );
 	}
 
 	template< typename ValueT >
 	inline ValueT log2( ValueT const & value )
 	{
-		return getFunctionCall< ValueT >( findContainer( value ), "log2", value );
+		return getFunctionCall< ValueT >( "log2", value );
 	}
 
 	template< typename ValueT >
 	inline ValueT exp2( ValueT const & value )
 	{
-		return getFunctionCall< ValueT >( findContainer( value ), "exp2", value );
+		return getFunctionCall< ValueT >( "exp2", value );
 	}
 
 	template< typename ValueT >
 	inline ValueT tan( ValueT const & value )
 	{
-		return getFunctionCall< ValueT >( findContainer( value ), "tan", value );
+		return getFunctionCall< ValueT >( "tan", value );
 	}
 
 	template< typename ValueT >
 	inline ValueT sin( ValueT const & value )
 	{
-		return getFunctionCall< ValueT >( findContainer( value ), "sin", value );
+		return getFunctionCall< ValueT >( "sin", value );
 	}
 
 	template< typename ValueT >
 	inline ValueT cos( ValueT const & value )
 	{
-		return getFunctionCall< ValueT >( findContainer( value ), "cos", value );
+		return getFunctionCall< ValueT >( "cos", value );
 	}
 
 	template< typename ValueT >
 	inline ValueT atan( ValueT const & value )
 	{
-		return getFunctionCall< ValueT >( findContainer( value ), "atan", value );
+		return getFunctionCall< ValueT >( "atan", value );
 	}
 
 	template< typename ValueT >
 	inline ValueT atan( ValueT const & y, ValueT const & x )
 	{
-		return getFunctionCall< ValueT >( findContainer( y, x ), "atan", y, x );
+		return getFunctionCall< ValueT >( "atan", y, x );
 	}
 
 	template< typename ValueT >
 	inline ValueT asin( ValueT const & value )
 	{
-		return getFunctionCall< ValueT >( findContainer( value ), "asin", value );
+		return getFunctionCall< ValueT >( "asin", value );
 	}
 
 	template< typename ValueT >
 	inline ValueT acos( ValueT const & value )
 	{
-		return getFunctionCall< ValueT >( findContainer( value ), "acos", value );
+		return getFunctionCall< ValueT >( "acos", value );
+	}
+
+	template< typename ValueT >
+	inline ValueT fma( ValueT const & a
+		, ValueT const & b
+		, ValueT const & c )
+	{
+		return details::Fma< ValueT >::submit( a, b, c );
 	}
 
 	template< typename ValueT >
 	inline ValueT fma( ValueT const & a, ValueT const & b, ValueT const & c )
 	{
-		auto writer = findContainer( a, b, c );
-		ValueT result{ writer };
-		result.m_value << "((" << toString( a ) << ") * (" << toString( b ) << ") + (" << toString( c ) << "))";
-		return result;
+		return details::Fma< ValueT >::submit( a, b, c );
 	}
 
 	template< typename ValueT >
 	inline ValueT fma( Optional< ValueT > const & a, ValueT const & b, ValueT const & c )
 	{
-		auto writer = findContainer( a, b, c );
-
-		if ( a.isEnabled() )
-		{
-			ValueT result{ writer };
-			result.m_value << "((" << toString( a ) << ") * (" << toString( b ) << ") + (" << toString( c ) << "))";
-			return result;
-		}
+		return details::Fma< ValueT >::submitOpt( a, b, c );
 	}
 
 	template< typename ValueT >
 	inline ValueT fma( ValueT const & a, Optional< ValueT > const & b, ValueT const & c )
 	{
-		auto writer = findContainer( a, b, c );
-
-		if ( b.isEnabled() )
-		{
-			ValueT result{ writer };
-			result.m_value << "((" << toString( a ) << ") * (" << toString( b ) << ") + (" << toString( c ) << "))";
-			return result;
-		}
+		return details::Fma< ValueT >::submitOpt( a, b, c );
 	}
 
 	template< typename ValueT >
 	inline ValueT fma( ValueT const & a, ValueT const & b, Optional< ValueT > const & c )
 	{
-		auto writer = findContainer( a, b, c );
-
-		if ( c.isEnabled() )
-		{
-			ValueT result{ writer };
-			result.m_value << "((" << toString( a ) << ") * (" << toString( b ) << ") + (" << toString( c ) << "))";
-			return result;
-		}
+		return details::Fma< ValueT >::submitOpt( a, b, c );
 	}
 
 	template< typename ValueT >
 	inline ValueT fma( Optional< ValueT > const & a, Optional< ValueT > const & b, ValueT const & c )
 	{
-		auto writer = findContainer( a, b, c );
-
-		if ( a.isEnabled() && b.isEnabled() )
-		{
-			ValueT result{ writer };
-			result.m_value << "((" << toString( a ) << ") * (" << toString( b ) << ") + (" << toString( c ) << "))";
-			return result;
-		}
+		return details::Fma< ValueT >::submitOpt( a, b, c );
 	}
 
 	template< typename ValueT >
 	inline ValueT fma( Optional< ValueT > const & a, ValueT const & b, Optional< ValueT > const & c )
 	{
-		auto writer = findContainer( a, b, c );
-
-		if ( a.isEnabled() && c.isEnabled() )
-		{
-			ValueT result{ writer };
-			result.m_value << "((" << toString( a ) << ") * (" << toString( b ) << ") + (" << toString( c ) << "))";
-			return result;
-		}
+		return details::Fma< ValueT >::submitOpt( a, b, c );
 	}
 
 	template< typename ValueT >
 	inline ValueT fma( ValueT const & a, Optional< ValueT > const & b, Optional< ValueT > const & c )
 	{
-		auto writer = findContainer( a, b, c );
-
-		if ( b.isEnabled() && c.isEnabled() )
-		{
-			ValueT result{ writer };
-			result.m_value << "((" << toString( a ) << ") * (" << toString( b ) << ") + (" << toString( c ) << "))";
-			return result;
-		}
+		return details::Fma< ValueT >::submitOpt( a, b, c );
 	}
 
 	template< typename ValueT >
 	inline ValueT fma( Optional< ValueT > const & a, Optional< ValueT > const & b, Optional< ValueT > const & c )
 	{
-		auto writer = findContainer( a, b, c );
-
-		if ( a.isEnabled() && b.isEnabled() && c.isEnabled() )
-		{
-			ValueT result{ writer };
-			result.m_value << "((" << toString( a ) << ") * (" << toString( b ) << ") + (" << toString( c ) << "))";
-			return result;
-		}
+		return details::Fma< ValueT >::submitOpt( a, b, c );
 	}
 
 	template< typename ValueT >
 	inline ValueT fma( InParam< ValueT > const & a, ValueT const & b, ValueT const & c )
 	{
-		auto writer = findContainer( a, b, c );
-		ValueT result{ writer };
-		result.m_value << "((" << toString( a ) << ") * (" << toString( b ) << ") + (" << toString( c ) << "))";
-		return result;
+		return details::Fma< ValueT >::submit( a, b, c );
 	}
 
 	template< typename ValueT >
 	inline ValueT fma( ValueT const & a, InParam< ValueT > const & b, ValueT const & c )
 	{
-		auto writer = findContainer( a, b, c );
-		ValueT result{ writer };
-		result.m_value << "((" << toString( a ) << ") * (" << toString( b ) << ") + (" << toString( c ) << "))";
-		return result;
+		return details::Fma< ValueT >::submit( a, b, c );
 	}
 
 	template< typename ValueT >
 	inline ValueT fma( ValueT const & a, ValueT const & b, InParam< ValueT > const & c )
 	{
-		auto writer = findContainer( a, b, c );
-		ValueT result{ writer };
-		result.m_value << "((" << toString( a ) << ") * (" << toString( b ) << ") + (" << toString( c ) << "))";
-		return result;
+		return details::Fma< ValueT >::submit( a, b, c );
 	}
 
 	template< typename ValueT >
 	inline ValueT fma( InParam< ValueT > const & a, InParam< ValueT > const & b, ValueT const & c )
 	{
-		auto writer = findContainer( a, b, c );
-		ValueT result{ writer };
-		result.m_value << "((" << toString( a ) << ") * (" << toString( b ) << ") + (" << toString( c ) << "))";
-		return result;
+		return details::Fma< ValueT >::submit( a, b, c );
 	}
 
 	template< typename ValueT >
 	inline ValueT fma( InParam< ValueT > const & a, ValueT const & b, InParam< ValueT > const & c )
 	{
-		auto writer = findContainer( a, b, c );
-		ValueT result{ writer };
-		result.m_value << "((" << toString( a ) << ") * (" << toString( b ) << ") + (" << toString( c ) << "))";
-		return result;
+		return details::Fma< ValueT >::submit( a, b, c );
 	}
 
 	template< typename ValueT >
 	inline ValueT fma( ValueT const & a, InParam< ValueT > const & b, InParam< ValueT > const & c )
 	{
-		auto writer = findContainer( a, b, c );
-		ValueT result{ writer };
-		result.m_value << "((" << toString( a ) << ") * (" << toString( b ) << ") + (" << toString( c ) << "))";
-		return result;
+		return details::Fma< ValueT >::submit( a, b, c );
 	}
 
 	template< typename ValueT >
 	inline ValueT fma( InParam< ValueT > const & a, InParam< ValueT > const & b, InParam< ValueT > const & c )
 	{
-		auto writer = findContainer( a, b, c );
-		ValueT result{ writer };
-		result.m_value << "((" << toString( a ) << ") * (" << toString( b ) << ") + (" << toString( c ) << "))";
-		return result;
+		return details::Fma< ValueT >::submit( a, b, c );
 	}
 
 	template< typename ValueT >
 	inline ValueT fma( OutParam< ValueT > const & a, ValueT const & b, ValueT const & c )
 	{
-		auto writer = findContainer( a, b, c );
-		ValueT result{ writer };
-		result.m_value << "((" << toString( a ) << ") * (" << toString( b ) << ") + (" << toString( c ) << "))";
-		return result;
+		return details::Fma< ValueT >::submit( a, b, c );
 	}
 
 	template< typename ValueT >
 	inline ValueT fma( ValueT const & a, OutParam< ValueT > const & b, ValueT const & c )
 	{
-		auto writer = findContainer( a, b, c );
-		ValueT result{ writer };
-		result.m_value << "((" << toString( a ) << ") * (" << toString( b ) << ") + (" << toString( c ) << "))";
-		return result;
+		return details::Fma< ValueT >::submit( a, b, c );
 	}
 
 	template< typename ValueT >
 	inline ValueT fma( ValueT const & a, ValueT const & b, OutParam< ValueT > const & c )
 	{
-		auto writer = findContainer( a, b, c );
-		ValueT result{ writer };
-		result.m_value << "((" << toString( a ) << ") * (" << toString( b ) << ") + (" << toString( c ) << "))";
-		return result;
+		return details::Fma< ValueT >::submit( a, b, c );
 	}
 
 	template< typename ValueT >
 	inline ValueT fma( OutParam< ValueT > const & a, OutParam< ValueT > const & b, ValueT const & c )
 	{
-		auto writer = findContainer( a, b, c );
-		ValueT result{ writer };
-		result.m_value << "((" << toString( a ) << ") * (" << toString( b ) << ") + (" << toString( c ) << "))";
-		return result;
+		return details::Fma< ValueT >::submit( a, b, c );
 	}
 
 	template< typename ValueT >
 	inline ValueT fma( OutParam< ValueT > const & a, ValueT const & b, OutParam< ValueT > const & c )
 	{
-		auto writer = findContainer( a, b, c );
-		ValueT result{ writer };
-		result.m_value << "((" << toString( a ) << ") * (" << toString( b ) << ") + (" << toString( c ) << "))";
-		return result;
+		return details::Fma< ValueT >::submit( a, b, c );
 	}
 
 	template< typename ValueT >
 	inline ValueT fma( ValueT const & a, OutParam< ValueT > const & b, OutParam< ValueT > const & c )
 	{
-		auto writer = findContainer( a, b, c );
-		ValueT result{ writer };
-		result.m_value << "((" << toString( a ) << ") * (" << toString( b ) << ") + (" << toString( c ) << "))";
-		return result;
+		return details::Fma< ValueT >::submit( a, b, c );
 	}
 
 	template< typename ValueT >
 	inline ValueT fma( OutParam< ValueT > const & a, OutParam< ValueT > const & b, OutParam< ValueT > const & c )
 	{
-		auto writer = findContainer( a, b, c );
-		ValueT result{ writer };
-		result.m_value << "((" << toString( a ) << ") * (" << toString( b ) << ") + (" << toString( c ) << "))";
-		return result;
+		return details::Fma< ValueT >::submit( a, b, c );
 	}
 
 	template< typename ValueT >
 	inline ValueT fma( InOutParam< ValueT > const & a, ValueT const & b, ValueT const & c )
 	{
-		auto writer = findContainer( a, b, c );
-		ValueT result{ writer };
-		result.m_value << "((" << toString( a ) << ") * (" << toString( b ) << ") + (" << toString( c ) << "))";
-		return result;
+		return details::Fma< ValueT >::submit( a, b, c );
 	}
 
 	template< typename ValueT >
 	inline ValueT fma( ValueT const & a, InOutParam< ValueT > const & b, ValueT const & c )
 	{
-		auto writer = findContainer( a, b, c );
-		ValueT result{ writer };
-		result.m_value << "((" << toString( a ) << ") * (" << toString( b ) << ") + (" << toString( c ) << "))";
-		return result;
+		return details::Fma< ValueT >::submit( a, b, c );
 	}
 
 	template< typename ValueT >
 	inline ValueT fma( ValueT const & a, ValueT const & b, InOutParam< ValueT > const & c )
 	{
-		auto writer = findContainer( a, b, c );
-		ValueT result{ writer };
-		result.m_value << "((" << toString( a ) << ") * (" << toString( b ) << ") + (" << toString( c ) << "))";
-		return result;
+		return details::Fma< ValueT >::submit( a, b, c );
 	}
 
 	template< typename ValueT >
 	inline ValueT fma( InOutParam< ValueT > const & a, InOutParam< ValueT > const & b, ValueT const & c )
 	{
-		auto writer = findContainer( a, b, c );
-		ValueT result{ writer };
-		result.m_value << "((" << toString( a ) << ") * (" << toString( b ) << ") + (" << toString( c ) << "))";
-		return result;
+		return details::Fma< ValueT >::submit( a, b, c );
 	}
 
 	template< typename ValueT >
 	inline ValueT fma( InOutParam< ValueT > const & a, ValueT const & b, InOutParam< ValueT > const & c )
 	{
-		auto writer = findContainer( a, b, c );
-		ValueT result{ writer };
-		result.m_value << "((" << toString( a ) << ") * (" << toString( b ) << ") + (" << toString( c ) << "))";
-		return result;
+		return details::Fma< ValueT >::submit( a, b, c );
 	}
 
 	template< typename ValueT >
 	inline ValueT fma( ValueT const & a, InOutParam< ValueT > const & b, InOutParam< ValueT > const & c )
 	{
-		auto writer = findContainer( a, b, c );
-		ValueT result{ writer };
-		result.m_value << "((" << toString( a ) << ") * (" << toString( b ) << ") + (" << toString( c ) << "))";
-		return result;
+		return details::Fma< ValueT >::submit( a, b, c );
 	}
 
 	template< typename ValueT >
 	inline ValueT fma( InOutParam< ValueT > const & a, InOutParam< ValueT > const & b, InOutParam< ValueT > const & c )
 	{
-		auto writer = findContainer( a, b, c );
-		ValueT result{ writer };
-		result.m_value << "((" << toString( a ) << ") * (" << toString( b ) << ") + (" << toString( c ) << "))";
-		return result;
+		return details::Fma< ValueT >::submit( a, b, c );
 	}
-#endif
+
 	//***********************************************************************************************
 }

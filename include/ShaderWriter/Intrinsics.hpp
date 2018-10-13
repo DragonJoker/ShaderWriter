@@ -5,6 +5,7 @@ See LICENSE file in root folder
 #define ___Writer_Intrinsics_H___
 #pragma once
 
+#include "Function.hpp"
 #include "FunctionParam.hpp"
 #include "Bool.hpp"
 #include "Int.hpp"
@@ -13,6 +14,8 @@ See LICENSE file in root folder
 #include "Mat2.hpp"
 #include "Mat3.hpp"
 #include "Mat4.hpp"
+#include "Optional.hpp"
+#include "Sampler.hpp"
 
 namespace sdw
 {
@@ -88,12 +91,12 @@ namespace sdw
 	template< typename ... ValuesT >
 	inline BMat4 bmat4( Value const & value
 		, ValuesT const & ... values );
-#if 0
+
 	template< typename ... ValuesT >
 	inline Float dot( Value const & value
 		, ValuesT const & ... values );
 	template< typename ... ValuesT >
-	inline Float inversesqrt( Expr const & value
+	inline Float inversesqrt( Value const & value
 		, ValuesT const & ... values );
 	template< typename ValueT
 		, typename ... ValuesT >
@@ -159,18 +162,14 @@ namespace sdw
 	inline ValueT fma( ValueT const & a
 		, ValueT const & b
 		, ValueT const & c );
-	template< typename Input
-		, typename Output >
-	inline Output neg( Swizzle< Input
-		, Output >
-	const & value );
 	template< typename ValueT >
 	inline ValueT normalize( ValueT const & value );
-	template< typename Input
-		, typename Output >
-	inline Output normalize( Swizzle< Input
-		, Output >
-	const & value );
+#if Writer_UseSwizzle
+	template< typename Input, typename Output >
+	inline Output neg( Swizzle< Input, Output > const & value );
+	template< typename Input, typename Output >
+	inline Output normalize( Swizzle< Input, Output > const & value );
+#endif
 	template< typename ValueT >
 	inline ValueT transpose( ValueT const & value );
 	template< typename ValueT >
@@ -216,6 +215,7 @@ namespace sdw
 		, typename ValueX >
 	inline ValueE step( ValueE const & edge
 		, ValueX const & x );
+
 	Int bitfieldReverse( Int const & value );
 	UInt bitfieldReverse( UInt const & value );
 	Int findMSB( Int value );
@@ -299,10 +299,10 @@ namespace sdw
 		, Vec3 const & value
 		, Float const & lod );
 	Vec4 textureOffset( Sampler1D const & sampler
-		, Vec2 const & value
+		, Float const & value
 		, Int const offset );
 	Vec4 textureOffset( Sampler1D const & sampler
-		, Vec2 const & value
+		, Float const & value
 		, Int const offset
 		, Float const & lod );
 	Vec4 textureOffset( Sampler2D const & sampler
@@ -320,7 +320,7 @@ namespace sdw
 		, IVec3 const offset
 		, Float const & lod );
 	Vec4 textureLodOffset( Sampler1D const & sampler
-		, Vec2 const & value
+		, Float const & value
 		, Float const & lod
 		, Int const offset );
 	Vec4 textureLodOffset( Sampler2D const & sampler
@@ -477,377 +477,224 @@ namespace sdw
 	Float cos( Value const & value );
 	Float sin( Value const & value );
 	Float tan( Value const & value );
-	Optional< Int >
-	textureSize( Optional< Sampler1D >
-	const & sampler
+	Optional< Int > textureSize( Optional< Sampler1D > const & sampler
 		, Int const lod );
-	Optional< IVec2 >
-	textureSize( Optional< Sampler2D >
-	const & sampler
+	Optional< IVec2 > textureSize( Optional< Sampler2D > const & sampler
 		, Int const & lod );
-	Optional< IVec3 >
-	textureSize( Optional< Sampler3D >
-	const & sampler
+	Optional< IVec3 > textureSize( Optional< Sampler3D > const & sampler
 		, Int const & lod );
-	Optional< IVec2 >
-	textureSize( Optional< SamplerCube >
-	const & sampler
+	Optional< IVec2 > textureSize( Optional< SamplerCube > const & sampler
 		, Int const & lod );
-	Optional< IVec2 >
-	textureSize( Optional< Sampler1DArray >
-	const & sampler
+	Optional< IVec2 > textureSize( Optional< Sampler1DArray > const & sampler
 		, Int const lod );
-	Optional< IVec3 >
-	textureSize( Optional< Sampler2DArray >
-	const & sampler
+	Optional< IVec3 > textureSize( Optional< Sampler2DArray > const & sampler
 		, Int const & lod );
-	Optional< IVec3 >
-	textureSize( Optional< SamplerCubeArray >
-	const & sampler
+	Optional< IVec3 > textureSize( Optional< SamplerCubeArray > const & sampler
 		, Int const & lod );
-	Optional< Int >
-	textureSize( Optional< Sampler1DShadow >
-	const & sampler
+	Optional< Int > textureSize( Optional< Sampler1DShadow > const & sampler
 		, Int const lod );
-	Optional< IVec2 >
-	textureSize( Optional< Sampler2DShadow >
-	const & sampler
+	Optional< IVec2 > textureSize( Optional< Sampler2DShadow > const & sampler
 		, Int const & lod );
-	Optional< IVec2 >
-	textureSize( Optional< SamplerCubeShadow >
-	const & sampler
+	Optional< IVec2 > textureSize( Optional< SamplerCubeShadow > const & sampler
 		, Int const & lod );
-	Optional< IVec2 >
-	textureSize( Optional< Sampler1DArrayShadow >
-	const & sampler
+	Optional< IVec2 > textureSize( Optional< Sampler1DArrayShadow > const & sampler
 		, Int const lod );
-	Optional< IVec3 >
-	textureSize( Optional< Sampler2DArrayShadow >
-	const & sampler
+	Optional< IVec3 > textureSize( Optional< Sampler2DArrayShadow > const & sampler
 		, Int const & lod );
-	Optional< IVec3 >
-	textureSize( Optional< SamplerCubeArrayShadow >
-	const & sampler
+	Optional< IVec3 > textureSize( Optional< SamplerCubeArrayShadow > const & sampler
 		, Int const & lod );
-	Optional< Vec4 >
-	texture( Optional< Sampler1D >
-	const & sampler
+	Optional< Vec4 > texture( Optional< Sampler1D > const & sampler
 		, Float const & value );
-	Optional< Vec4 >
-	texture( Optional< Sampler1D >
-	const & sampler
+	Optional< Vec4 > texture( Optional< Sampler1D > const & sampler
 		, Float const & value
 		, Float const & lod );
-	Optional< Vec4 >
-	texture( Optional< Sampler2D >
-	const & sampler
+	Optional< Vec4 > texture( Optional< Sampler2D > const & sampler
 		, Vec2 const & value );
-	Optional< Vec4 >
-	texture( Optional< Sampler2D >
-	const & sampler
+	Optional< Vec4 > texture( Optional< Sampler2D > const & sampler
 		, Vec2 const & value
 		, Float const & lod );
-	Optional< Vec4 >
-	texture( Optional< Sampler3D >
-	const & sampler
+	Optional< Vec4 > texture( Optional< Sampler3D > const & sampler
 		, Vec3 const & value );
-	Optional< Vec4 >
-	texture( Optional< Sampler3D >
-	const & sampler
+	Optional< Vec4 > texture( Optional< Sampler3D > const & sampler
 		, Vec3 const & value
 		, Float const & lod );
-	Optional< Vec4 >
-	texture( Optional< SamplerCube >
-	const & sampler
+	Optional< Vec4 > texture( Optional< SamplerCube > const & sampler
 		, Vec3 const & value );
-	Optional< Vec4 >
-	texture( Optional< SamplerCube >
-	const & sampler
+	Optional< Vec4 > texture( Optional< SamplerCube > const & sampler
 		, Vec3 const & value
 		, Float const & lod );
-	Optional< Vec4 >
-	textureOffset( Optional< Sampler1D >
-	const & sampler
+	Optional< Vec4 > textureOffset( Optional< Sampler1D > const & sampler
 		, Float const & value
 		, Int const offset );
-	Optional< Vec4 >
-	textureOffset( Optional< Sampler1D >
-	const & sampler
+	Optional< Vec4 > textureOffset( Optional< Sampler1D > const & sampler
 		, Float const & value
 		, Int const offset
 		, Float const & lod );
-	Optional< Vec4 >
-	textureOffset( Optional< Sampler2D >
-	const & sampler
+	Optional< Vec4 > textureOffset( Optional< Sampler2D > const & sampler
 		, Vec2 const & value
 		, IVec2 const offset );
-	Optional< Vec4 >
-	textureOffset( Optional< Sampler2D >
-	const & sampler
+	Optional< Vec4 > textureOffset( Optional< Sampler2D > const & sampler
 		, Vec2 const & value
 		, IVec2 const offset
 		, Float const & lod );
-	Optional< Vec4 >
-	textureOffset( Optional< Sampler3D >
-	const & sampler
+	Optional< Vec4 > textureOffset( Optional< Sampler3D > const & sampler
 		, Vec3 const & value
 		, IVec3 const offset );
-	Optional< Vec4 >
-	textureOffset( Optional< Sampler3D >
-	const & sampler
+	Optional< Vec4 > textureOffset( Optional< Sampler3D > const & sampler
 		, Vec3 const & value
 		, IVec3 const offset
 		, Float const & lod );
-	Optional< Vec4 >
-	textureLodOffset( Optional< Sampler1D >
-	const & sampler
+	Optional< Vec4 > textureLodOffset( Optional< Sampler1D > const & sampler
 		, Vec2 const & value
 		, Float const & lod
 		, Int const offset );
-	Optional< Vec4 >
-	textureLodOffset( Optional< Sampler2D >
-	const & sampler
+	Optional< Vec4 > textureLodOffset( Optional< Sampler2D > const & sampler
 		, Vec2 const & value
 		, Float const & lod
 		, IVec2 const offset );
-	Optional< Vec4 >
-	textureLodOffset( Optional< Sampler3D >
-	const & sampler
+	Optional< Vec4 > textureLodOffset( Optional< Sampler3D > const & sampler
 		, Vec3 const & value
 		, Float const & lod
 		, IVec3 const offset );
-	Optional< Vec4 >
-	texelFetch( Optional< SamplerBuffer >
-	const & sampler
+	Optional< Vec4 > texelFetch( Optional< SamplerBuffer > const & sampler
 		, Value const & value );
-	Optional< Vec4 >
-	texelFetch( Optional< Sampler1D >
-	const & sampler
+	Optional< Vec4 > texelFetch( Optional< Sampler1D > const & sampler
 		, Value const & value
 		, Int const & modif );
-	Optional< Vec4 >
-	texelFetch( Optional< Sampler2D >
-	const & sampler
+	Optional< Vec4 > texelFetch( Optional< Sampler2D > const & sampler
 		, Value const & value
 		, Int const & modif );
-	Optional< Vec4 >
-	texelFetch( Optional< Sampler3D >
-	const & sampler
+	Optional< Vec4 > texelFetch( Optional< Sampler3D > const & sampler
 		, Value const & value
 		, Int const & modif );
-	Optional< Vec4 >
-	texture( Optional< Sampler1DArray >
-	const & sampler
+	Optional< Vec4 > texture( Optional< Sampler1DArray > const & sampler
 		, Vec2 const & value );
-	Optional< Vec4 >
-	texture( Optional< Sampler1DArray >
-	const & sampler
+	Optional< Vec4 > texture( Optional< Sampler1DArray > const & sampler
 		, Vec2 const & value
 		, Float const & lod );
-	Optional< Vec4 >
-	texture( Optional< Sampler2DArray >
-	const & sampler
+	Optional< Vec4 > texture( Optional< Sampler2DArray > const & sampler
 		, Vec3 const & value );
-	Optional< Vec4 >
-	texture( Optional< Sampler2DArray >
-	const & sampler
+	Optional< Vec4 > texture( Optional< Sampler2DArray > const & sampler
 		, Vec3 const & value
 		, Float const & lod );
-	Optional< Vec4 >
-	texture( Optional< SamplerCubeArray >
-	const & sampler
+	Optional< Vec4 > texture( Optional< SamplerCubeArray > const & sampler
 		, Vec4 const & value );
-	Optional< Vec4 >
-	texture( Optional< SamplerCubeArray >
-	const & sampler
+	Optional< Vec4 >texture( Optional< SamplerCubeArray > const & sampler
 		, Vec4 const & value
 		, Float const & lod );
-	Optional< Vec4 >
-	textureOffset( Optional< Sampler1DArray >
-	const & sampler
+	Optional< Vec4 > textureOffset( Optional< Sampler1DArray > const & sampler
 		, Vec2 const & value
 		, Int const offset );
-	Optional< Vec4 >
-	textureOffset( Optional< Sampler1DArray >
-	const & sampler
+	Optional< Vec4 > textureOffset( Optional< Sampler1DArray > const & sampler
 		, Vec2 const & value
 		, Int const offset
 		, Float const & lod );
-	Optional< Vec4 >
-	textureOffset( Optional< Sampler2DArray >
-	const & sampler
+	Optional< Vec4 > textureOffset( Optional< Sampler2DArray > const & sampler
 		, Vec3 const & value
 		, IVec2 const offset );
-	Optional< Vec4 >
-	textureOffset( Optional< Sampler2DArray >
-	const & sampler
+	Optional< Vec4 > textureOffset( Optional< Sampler2DArray > const & sampler
 		, Vec3 const & value
 		, IVec2 const offset
 		, Float const & lod );
-	Optional< Vec4 >
-	textureLodOffset( Optional< Sampler1DArray >
-	const & sampler
+	Optional< Vec4 > textureLodOffset( Optional< Sampler1DArray > const & sampler
 		, Vec2 const & value
 		, Float const & lod
 		, Int const offset );
-	Optional< Vec4 >
-	textureLodOffset( Optional< Sampler2DArray >
-	const & sampler
+	Optional< Vec4 > textureLodOffset( Optional< Sampler2DArray > const & sampler
 		, Vec3 const & value
 		, Float const & lod
 		, IVec2 const offset );
-	Optional< Float >
-	texture( Optional< Sampler1DShadow >
-	const & sampler
+	Optional< Float > texture( Optional< Sampler1DShadow > const & sampler
 		, Vec2 const & value );
-	Optional< Float >
-	texture( Optional< Sampler1DShadow >
-	const & sampler
+	Optional< Float > texture( Optional< Sampler1DShadow > const & sampler
 		, Vec2 const & value
 		, Float const & lod );
-	Optional< Float >
-	texture( Optional< Sampler2DShadow >
-	const & sampler
+	Optional< Float > texture( Optional< Sampler2DShadow > const & sampler
 		, Vec3 const & value );
-	Optional< Float >
-	texture( Optional< Sampler2DShadow >
-	const & sampler
+	Optional< Float > texture( Optional< Sampler2DShadow > const & sampler
 		, Vec3 const & value
 		, Float const & lod );
-	Optional< Float >
-	texture( Optional< SamplerCubeShadow >
-	const & sampler
+	Optional< Float > texture( Optional< SamplerCubeShadow > const & sampler
 		, Vec4 const & value );
-	Optional< Float >
-	texture( Optional< SamplerCubeShadow >
-	const & sampler
+	Optional< Float > texture( Optional< SamplerCubeShadow > const & sampler
 		, Vec4 const & value
 		, Float const & lod );
-	Optional< Float >
-	textureOffset( Optional< Sampler1DShadow >
-	const & sampler
+	Optional< Float > textureOffset( Optional< Sampler1DShadow > const & sampler
 		, Vec2 const & value
 		, Int const offset );
-	Optional< Float >
-	textureOffset( Optional< Sampler1DShadow >
-	const & sampler
+	Optional< Float > textureOffset( Optional< Sampler1DShadow > const & sampler
 		, Vec2 const & value
 		, Int const offset
 		, Float const & lod );
-	Optional< Float >
-	textureOffset( Optional< Sampler2DShadow >
-	const & sampler
+	Optional< Float > textureOffset( Optional< Sampler2DShadow > const & sampler
 		, Vec3 const & value
 		, IVec2 const offset );
-	Optional< Float >
-	textureOffset( Optional< Sampler2DShadow >
-	const & sampler
+	Optional< Float > textureOffset( Optional< Sampler2DShadow > const & sampler
 		, Vec3 const & value
 		, IVec2 const offset
 		, Float const & lod );
-	Optional< Float >
-	textureLodOffset( Optional< Sampler1DShadow >
-	const & sampler
+	Optional< Float > textureLodOffset( Optional< Sampler1DShadow > const & sampler
 		, Vec2 const & value
 		, Float const & lod
 		, Int const offset );
-	Optional< Float >
-	textureLodOffset( Optional< Sampler2DShadow >
-	const & sampler
+	Optional< Float > textureLodOffset( Optional< Sampler2DShadow > const & sampler
 		, Vec3 const & value
 		, Float const & lod
 		, IVec2 const offset );
-	Optional< Float >
-	texture( Optional< Sampler1DArrayShadow >
-	const & sampler
+	Optional< Float > texture( Optional< Sampler1DArrayShadow > const & sampler
 		, Vec3 const & value );
-	Optional< Float >
-	texture( Optional< Sampler1DArrayShadow >
-	const & sampler
+	Optional< Float > texture( Optional< Sampler1DArrayShadow > const & sampler
 		, Vec3 const & value
 		, Float const & lod );
-	Optional< Float >
-	texture( Optional< Sampler2DArrayShadow >
-	const & sampler
+	Optional< Float > texture( Optional< Sampler2DArrayShadow > const & sampler
 		, Vec4 const & value );
-	Optional< Float >
-	texture( Optional< Sampler2DArrayShadow >
-	const & sampler
+	Optional< Float > texture( Optional< Sampler2DArrayShadow > const & sampler
 		, Vec4 const & value
 		, Float const & lod );
-	Optional< Float >
-	texture( Optional< SamplerCubeArrayShadow >
-	const & sampler
+	Optional< Float > texture( Optional< SamplerCubeArrayShadow > const & sampler
 		, Vec4 const & value
 		, Float const & layer );
-	Optional< Float >
-	texture( Optional< SamplerCubeArrayShadow >
-	const & sampler
+	Optional< Float > texture( Optional< SamplerCubeArrayShadow > const & sampler
 		, Vec4 const & value
 		, Float const & layer
 		, Float const & lod );
-	Optional< Float >
-	textureOffset( Optional< Sampler1DArrayShadow >
-	const & sampler
+	Optional< Float > textureOffset( Optional< Sampler1DArrayShadow > const & sampler
 		, Vec3 const & value
 		, Int const offset );
-	Optional< Float >
-	textureOffset( Optional< Sampler1DArrayShadow >
-	const & sampler
+	Optional< Float > textureOffset( Optional< Sampler1DArrayShadow > const & sampler
 		, Vec3 const & value
 		, Int const offset
 		, Float const & lod );
-	Optional< Float >
-	textureOffset( Optional< Sampler2DArrayShadow >
-	const & sampler
+	Optional< Float > textureOffset( Optional< Sampler2DArrayShadow > const & sampler
 		, Vec4 const & value
 		, IVec2 const offset );
-	Optional< Float >
-	textureOffset( Optional< Sampler2DArrayShadow >
-	const & sampler
+	Optional< Float > textureOffset( Optional< Sampler2DArrayShadow > const & sampler
 		, Vec4 const & value
 		, IVec2 const offset
 		, Float const & lod );
-	Optional< Float >
-	textureLodOffset( Optional< Sampler1DArrayShadow >
-	const & sampler
+	Optional< Float > textureLodOffset( Optional< Sampler1DArrayShadow > const & sampler
 		, Vec3 const & value
 		, Float const & lod
 		, Int const offset );
-	Optional< Float >
-	textureLodOffset( Optional< Sampler2DArrayShadow >
-	const & sampler
+	Optional< Float > textureLodOffset( Optional< Sampler2DArrayShadow > const & sampler
 		, Vec4 const & value
 		, Float const & lod
 		, IVec2 const offset );
-	Optional< Vec2 >
-	reflect( Optional< Vec2 >
-	const & a
+	Optional< Vec2 > reflect( Optional< Vec2 > const & a, Value const & b );
+	Optional< Vec3 > reflect( Optional< Vec3 > const & a
 		, Value const & b );
-	Optional< Vec3 >
-	reflect( Optional< Vec3 >
-	const & a
+	Optional< Vec4 > reflect( Optional< Vec4 > const & a
 		, Value const & b );
-	Optional< Vec4 >
-	reflect( Optional< Vec4 >
-	const & a
-		, Value const & b );
-	Optional< Float >
-	length( Optional< Value >
+	Optional< Float > length( Optional< Value >
 	const & value );
-	Optional< Float >
-	radians( Optional< Value >
+	Optional< Float > radians( Optional< Value >
 	const & value );
-	Optional< Float >
-	cos( Optional< Value >
+	Optional< Float > cos( Optional< Value >
 	const & value );
-	Optional< Float >
-	sin( Optional< Value >
+	Optional< Float > sin( Optional< Value >
 	const & value );
-	Optional< Float >
-	tan( Optional< Value >
+	Optional< Float > tan( Optional< Value >
 	const & value );
-#endif
 }
 
 #include "Intrinsics.inl"

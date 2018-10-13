@@ -123,6 +123,12 @@ namespace ast::var
 		return std::make_shared< Variable >( type, name );
 	}
 
+	inline VariablePtr makeFunction( std::string name )
+	{
+		return std::make_shared< Variable >( type::getFunction()
+			, name );
+	}
+
 	inline VariablePtr makeVariable( type::TypePtr type
 		, std::string name
 		, uint32_t flags )

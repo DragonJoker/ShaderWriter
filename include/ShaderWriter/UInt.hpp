@@ -9,6 +9,7 @@ See LICENSE file in root folder
 
 namespace sdw
 {
+	struct Int;
 	struct UInt
 		: public Value
 	{
@@ -29,12 +30,28 @@ namespace sdw
 		UInt operator++( int );
 		UInt & operator--();
 		UInt operator--( int );
+		UInt & operator+=( UInt const & rhs );
+		UInt & operator-=( UInt const & rhs );
+		UInt & operator*=( UInt const & rhs );
+		UInt & operator/=( UInt const & rhs );
+		UInt & operator+=( Int const & rhs );
+		UInt & operator-=( Int const & rhs );
+		UInt & operator*=( Int const & rhs );
+		UInt & operator/=( Int const & rhs );
+		UInt & operator+=( uint32_t rhs );
+		UInt & operator-=( uint32_t rhs );
+		UInt & operator*=( uint32_t rhs );
+		UInt & operator/=( uint32_t rhs );
+		UInt & operator+=( int32_t rhs );
+		UInt & operator-=( int32_t rhs );
+		UInt & operator*=( int32_t rhs );
+		UInt & operator/=( int32_t rhs );
+		UInt & operator%=( int32_t rhs );
+		UInt & operator%=( Int const & rhs );
 		UInt & operator<<=( int rhs );
 		UInt & operator>>=( int rhs );
 		UInt & operator<<=( Int const & rhs );
 		UInt & operator>>=( Int const & rhs );
-		UInt & operator<<=( UInt const & rhs );
-		UInt & operator>>=( UInt const & rhs );
 		UInt & operator&=( int rhs );
 		UInt & operator|=( int rhs );
 		UInt & operator&=( Int const & rhs );
@@ -43,18 +60,33 @@ namespace sdw
 		UInt & operator|=( UInt const & rhs );
 	};
 
+	UInt operator+( UInt const & rhs, uint32_t lhs );
+	UInt operator-( UInt const & rhs, uint32_t lhs );
+	UInt operator*( UInt const & rhs, uint32_t lhs );
+	UInt operator/( UInt const & rhs, uint32_t lhs );
+	UInt operator+( UInt const & rhs, int32_t lhs );
+	UInt operator-( UInt const & rhs, int32_t lhs );
+	UInt operator*( UInt const & rhs, int32_t lhs );
+	UInt operator/( UInt const & rhs, int32_t lhs );
+	UInt operator+( int32_t lhs, UInt const & rhs );
+	UInt operator-( int32_t lhs, UInt const & rhs );
+	UInt operator*( int32_t lhs, UInt const & rhs );
+	UInt operator/( int32_t lhs, UInt const & rhs );
+	UInt operator+( uint32_t lhs, UInt const & rhs );
+	UInt operator-( uint32_t lhs, UInt const & rhs );
+	UInt operator*( uint32_t lhs, UInt const & rhs );
+	UInt operator/( uint32_t lhs, UInt const & rhs );
+	UInt operator%( UInt const & lhs, int rhs );
+	UInt operator%( UInt const & lhs, Int const & rhs );
+
 	UInt operator<<( UInt const & lhs, int rhs );
 	UInt operator>>( UInt const & lhs, int rhs );
 	UInt operator<<( UInt const & lhs, Int const & rhs );
 	UInt operator>>( UInt const & lhs, Int const & rhs );
-	UInt operator<<( UInt const & lhs, UInt const & rhs );
-	UInt operator>>( UInt const & lhs, UInt const & rhs );
 	UInt operator&( UInt const & lhs, int rhs );
 	UInt operator|( UInt const & lhs, int rhs );
 	UInt operator&( UInt const & lhs, Int const & rhs );
 	UInt operator|( UInt const & lhs, Int const & rhs );
-	UInt operator&( UInt const & lhs, UInt const & rhs );
-	UInt operator|( UInt const & lhs, UInt const & rhs );
 	UInt operator~( UInt const & value );
 
 	inline UInt operator "" _u( unsigned long long value )

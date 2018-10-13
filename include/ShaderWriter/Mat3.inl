@@ -50,4 +50,24 @@ namespace sdw
 				, m_expr
 				, makeExpr( rhs ) ) };
 	}
+
+	template< typename ValueT >
+	Vec3T< ValueT > operator*( Vec3T< ValueT > const & lhs,
+		Mat3T< ValueT > const & rhs )
+	{
+		return Vec3T< ValueT >{ m_container
+			, expr::makeTimes( makeType( TypeTraits< Vec3T< ValueT > >::TypeEnum )
+				, makeExpr( lhs )
+				, makeExpr( rhs ) ) };
+	}
+
+	template< typename ValueT >
+	Vec3T< ValueT > operator*( Mat3T< ValueT > const & lhs
+		, Vec3T< ValueT > const & rhs )
+	{
+		return Vec3T< ValueT >{ m_container
+			, expr::makeTimes( makeType( TypeTraits< Vec3T< ValueT > >::TypeEnum )
+				, makeExpr( lhs )
+				, makeExpr( rhs ) ) };
+	}
 }
