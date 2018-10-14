@@ -11,6 +11,11 @@ See LICENSE file in root folder
 #include "UInt.hpp"
 #include "Swizzle.hpp"
 
+#include <ASTGenerator/Expr/ExprAddAssign.hpp>
+#include <ASTGenerator/Expr/ExprDivideAssign.hpp>
+#include <ASTGenerator/Expr/ExprMinusAssign.hpp>
+#include <ASTGenerator/Expr/ExprTimesAssign.hpp>
+
 namespace sdw
 {
 	template< typename ValueT >
@@ -20,7 +25,7 @@ namespace sdw
 		using ValueType = ValueT;
 		using Vec2Type = Vec2T< ValueT >;
 
-		inline Vec2T( stmt::Container * container
+		inline Vec2T( Shader * shader
 			, expr::ExprPtr expr );
 		inline Vec2T< ValueT > & operator=( Vec2T< ValueT > const & rhs );
 		template< typename IndexT >
@@ -32,14 +37,14 @@ namespace sdw
 		inline Vec2T< ValueT > & operator+=( Optional< Vec2T< ValueT > > const & rhs );
 		inline Vec2T< ValueT > & operator-=( Optional< Vec2T< ValueT > > const & rhs );
 		inline Vec2T< ValueT > & operator*=( Optional< Vec2T< ValueT > > const & rhs );
-		inline Vec2T< ValueT > & operator+=( ValueT rhs );
-		inline Vec2T< ValueT > & operator-=( ValueT rhs );
-		inline Vec2T< ValueT > & operator*=( ValueT rhs );
-		inline Vec2T< ValueT > & operator/=( ValueT rhs );
-		inline Vec2T< ValueT > & operator+=( Optional< ValueT > rhs );
-		inline Vec2T< ValueT > & operator-=( Optional< ValueT > rhs );
-		inline Vec2T< ValueT > & operator*=( Optional< ValueT > rhs );
-		inline Vec2T< ValueT > & operator/=( Optional< ValueT > rhs );
+		inline Vec2T< ValueT > & operator+=( ValueT const & rhs );
+		inline Vec2T< ValueT > & operator-=( ValueT const & rhs );
+		inline Vec2T< ValueT > & operator*=( ValueT const & rhs );
+		inline Vec2T< ValueT > & operator/=( ValueT const & rhs );
+		inline Vec2T< ValueT > & operator+=( Optional< ValueT > const & rhs );
+		inline Vec2T< ValueT > & operator-=( Optional< ValueT > const & rhs );
+		inline Vec2T< ValueT > & operator*=( Optional< ValueT > const & rhs );
+		inline Vec2T< ValueT > & operator/=( Optional< ValueT > const & rhs );
 
 		Writer_FirstSwizzle( Vec2Type, ValueType, x );
 		Writer_Swizzle( Vec2Type, ValueType, y );

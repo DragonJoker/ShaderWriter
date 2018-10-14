@@ -203,7 +203,9 @@ namespace sdw
 	static Endi endi;
 	static Endl endl;
 
-	std::string getTypeName( expr::ExprPtr const & expr );
+	stmt::Container * getContainer( Shader & shader );
+	std::string findName( expr::ExprPtr const & expr );
+	std::string findName( expr::Expr * expr );
 	expr::ExprPtr makeExpr( expr::Expr * expr );
 	expr::ExprPtr makeExpr( expr::ExprPtr const & expr );
 	expr::ExprPtr makeExpr( var::VariablePtr const & var );

@@ -5,6 +5,11 @@ See LICENSE file in root folder
 
 namespace sdw
 {
+	Shader::Shader()
+	{
+		m_currentContainer = &m_container;
+	}
+
 	void Shader::registerName( std::string const & name, type::Kind type )
 	{
 		auto it = m_registered.find( name );

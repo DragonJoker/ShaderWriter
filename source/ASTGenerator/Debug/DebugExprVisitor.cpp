@@ -23,29 +23,96 @@ namespace ast::debug
 		return result;
 	}
 
-	void ExprVisitor::visitUnaryExpr( expr::Unary * expr )
+	void ExprVisitor::wrap( expr::Expr * expr )
 	{
-		if ( isUnaryPre( expr->getKind() ) )
+		bool noParen = expr->getKind() == expr::Kind::eFnCall
+			|| expr->getKind() == expr::Kind::eIdentifier
+			|| expr->getKind() == expr::Kind::eLiteral
+			|| expr->getKind() == expr::Kind::eMbrSelect;
+
+		if ( noParen )
 		{
-			m_result += getOperatorName( expr->getKind() ) + "(";
-			expr->getOperand()->accept( this );
-			m_result += ")";
+			expr->accept( this );
 		}
 		else
 		{
 			m_result += "(";
-			expr->getOperand()->accept( this );
-			m_result += ")" + getOperatorName( expr->getKind() );
+			expr->accept( this );
+			m_result += ")";
+		}
+	}
+
+	void ExprVisitor::visitUnaryExpr( expr::Unary * expr )
+	{
+		if ( isUnaryPre( expr->getKind() ) )
+		{
+			m_result += getOperatorName( expr->getKind() );
+			wrap( expr->getOperand() );
+		}
+		else
+		{
+			wrap( expr->getOperand() );
+			m_result += getOperatorName( expr->getKind() );
 		}
 	}
 
 	void ExprVisitor::visitBinaryExpr( expr::Binary * expr )
 	{
-		m_result += "(";
-		expr->getLHS()->accept( this );
-		m_result += ") " + getOperatorName( expr->getKind() ) + " (";
+		wrap( expr->getLHS() );
+		m_result += " " + getOperatorName( expr->getKind() ) + " ";
+		wrap( expr->getRHS() );
+	}
+
+	void ExprVisitor::visitAssignmentExpr( expr::Binary * expr )
+	{
+		wrap( expr->getLHS() );
+		m_result += " " + getOperatorName( expr->getKind() ) + " ";
 		expr->getRHS()->accept( this );
-		m_result += ")";
+	}
+
+	void ExprVisitor::visitAddAssignExpr( expr::AddAssign * expr )
+	{
+		visitAssignmentExpr( expr );
+	}
+	void ExprVisitor::visitAndAssignExpr( expr::AndAssign * expr )
+	{
+		visitAssignmentExpr( expr );
+	}
+	void ExprVisitor::visitAssignExpr( expr::Assign * expr )
+	{
+		visitAssignmentExpr( expr );
+	}
+	void ExprVisitor::visitDivideAssignExpr( expr::DivideAssign * expr )
+	{
+		visitAssignmentExpr( expr );
+	}
+	void ExprVisitor::visitLShiftAssignExpr( expr::LShiftAssign * expr )
+	{
+		visitAssignmentExpr( expr );
+	}
+	void ExprVisitor::visitMinusAssignExpr( expr::MinusAssign * expr )
+	{
+		visitAssignmentExpr( expr );
+	}
+	void ExprVisitor::visitModuloAssignExpr( expr::ModuloAssign * expr )
+	{
+		visitAssignmentExpr( expr );
+	}
+	void ExprVisitor::visitOrAssignExpr( expr::OrAssign * expr )
+	{
+		visitAssignmentExpr( expr );
+	}
+	void ExprVisitor::visitRShiftAssignExpr( expr::RShiftAssign * expr )
+	{
+		visitAssignmentExpr( expr );
+	}
+	void ExprVisitor::visitTimesAssignExpr( expr::TimesAssign * expr )
+	{
+		visitAssignmentExpr( expr );
+	}
+	void ExprVisitor::visitXorAssignExpr( expr::XorAssign * expr )
+	{
+		visitAssignmentExpr( expr );
 	}
 
 	void ExprVisitor::visitAggrInitExpr( expr::AggrInit * expr )
@@ -80,10 +147,9 @@ namespace ast::debug
 
 	void ExprVisitor::visitArrayAccessExpr( expr::ArrayAccess * expr )
 	{
-		m_result += "(";
-		expr->getLHS()->accept( this );
-		m_result += ") [";
-		expr->getRHS()->accept( this );
+		wrap( expr->getLHS() );
+		m_result += "[";
+		wrap( expr->getRHS() );
 		m_result += "]";
 	}
 
@@ -96,9 +162,8 @@ namespace ast::debug
 
 	void ExprVisitor::visitMbrSelectExpr( expr::MbrSelect * expr )
 	{
-		m_result += "(";
-		expr->getOuterExpr()->accept( this );
-		m_result += ").";
+		wrap( expr->getOuterExpr() );
+		m_result += ".";
 		expr->getOperand()->accept( this );
 	}
 
@@ -162,10 +227,18 @@ namespace ast::debug
 			stream << expr->getValue< expr::Literal::ValueType::eInt >();
 			break;
 		case expr::Literal::ValueType::eUInt:
-			stream << expr->getValue< expr::Literal::ValueType::eUInt >();
+			stream << expr->getValue< expr::Literal::ValueType::eUInt >() << "u";
 			break;
 		case expr::Literal::ValueType::eFloat:
-			stream << expr->getValue< expr::Literal::ValueType::eFloat >();
+			{
+				float f = expr->getValue< expr::Literal::ValueType::eFloat >();
+				stream << f;
+
+				if ( f == int64_t( f ) )
+				{
+					stream << ".0";
+				}
+			}
 			break;
 		}
 
@@ -174,13 +247,13 @@ namespace ast::debug
 
 	void ExprVisitor::visitQuestionExpr( expr::Question *expr )
 	{
-		m_result += "((";
-		expr->getCtrlExpr()->accept( this );
-		m_result += ") ? (";
-		expr->getTrueExpr()->accept( this );
-		m_result += ") : (";
-		expr->getFalseExpr()->accept( this ); 
-		m_result += "))";
+		m_result += "(";
+		wrap( expr->getCtrlExpr() );
+		m_result += " ? ";
+		wrap( expr->getTrueExpr() );
+		m_result += " : ";
+		wrap( expr->getFalseExpr() );
+		m_result += ")";
 	}
 
 	void ExprVisitor::visitSwitchCaseExpr( expr::SwitchCase *expr )

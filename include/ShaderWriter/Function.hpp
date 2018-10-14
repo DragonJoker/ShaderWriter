@@ -62,7 +62,7 @@ namespace sdw
 	{
 	public:
 		Function() = default;
-		Function( stmt::Container * container
+		Function( Shader * shader
 			, std::string const & name );
 		expr::ExprPtr operator()( ParamsT && ... params )const;
 

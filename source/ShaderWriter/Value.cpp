@@ -1,6 +1,6 @@
 #include "ShaderWriter/Value.hpp"
 
-//#include "ShaderWriter/Shader.hpp"
+#include "ShaderWriter/Shader.hpp"
 #include "ShaderWriter/Optional.hpp"
 
 #include <ASTGenerator/Expr/ExprAddAssign.hpp>
@@ -16,21 +16,24 @@ namespace sdw
 {
 	//*****************************************************************************************
 
-	Value::Value( stmt::Container * container
+	Value::Value( Shader * shader
 		, expr::ExprPtr expr )
-		: m_container{ container }
+		: m_shader{ shader }
+		, m_container{ m_shader ? m_shader->getContainer() : nullptr }
 		, m_expr{ std::move( expr ) }
 	{
 	}
 
 	Value::Value( Value const & rhs )
-		: m_container{ rhs.m_container }
+		: m_shader{ rhs.m_shader }
+		, m_container{ m_shader ? m_shader->getContainer() : nullptr }
 		, m_expr{ makeExpr( rhs ) }
 	{
 	}
 
 	Value::Value( Value && rhs )
-		: m_container{ rhs.m_container }
+		: m_shader{ rhs.m_shader }
+		, m_container{ m_shader ? m_shader->getContainer() : nullptr }
 		, m_expr( std::move( rhs.m_expr ) )
 	{
 	}
@@ -41,31 +44,42 @@ namespace sdw
 
 	Value & Value::operator=( Value const & rhs )
 	{
-		if ( !m_container )
-		{
-			m_container = rhs.m_container;
-		}
-
+		updateContainer( rhs );
 		return *this;
 	}
 
-	void Value::updateContainer( Value const & variable )
+	void Value::updateContainer( Value const & value )
 	{
 		if ( !m_container )
 		{
-			m_container = variable.m_container;
+			m_container = findContainer( value );
 		}
+	}
+
+	stmt::Container * Value::getContainer()const
+	{
+		if ( m_shader )
+		{
+			return m_shader->getContainer();
+		}
+
+		return nullptr;
+	}
+
+	void Value::updateExpr( expr::ExprPtr expr )
+	{
+		m_expr = std::move( expr );
 	}
 
 	expr::ExprPtr makeExpr( Value const & variable )
 	{
-		return makeExpr( variable.m_expr );
+		return makeExpr( variable.getExpr() );
 	}
 
 	var::VariablePtr makeVar( Value const & variable )
 	{
-		return var::makeVariable( variable.m_expr->getType()
-			, getTypeName( variable.m_expr ) );
+		return var::makeVariable( variable.getType()
+			, findName( variable.getExpr() ) );
 	}
 
 	//*****************************************************************************************

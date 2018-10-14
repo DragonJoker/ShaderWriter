@@ -195,18 +195,26 @@ namespace ast::debug
 
 	void StmtVisitor::visitStructureDeclStmt( stmt::StructureDecl * stmt )
 	{
-		m_result += m_indent + "struct " + stmt->getType().getTypeName() + "\n";
-		m_result += m_indent + "{\n";
-		auto save = m_indent;
-		m_indent += "\t";
+		m_result += m_indent + "struct " + stmt->getType().getTypeName();
 
-		for ( auto & member : stmt->getType() )
+		if ( !stmt->getType().empty() )
 		{
-			m_result += m_indent + getTypeName( member.type ) + " " + member.name + ";\n";
-		}
+			m_result += "\n" + m_indent + "{\n";
+			auto save = m_indent;
+			m_indent += "\t";
 
-		m_indent = save;
-		m_result += m_indent + "};\n";
+			for ( auto & member : stmt->getType() )
+			{
+				m_result += m_indent + getTypeName( member.type ) + " " + member.name + ";\n";
+			}
+
+			m_indent = save;
+			m_result += m_indent + "};\n";
+		}
+		else
+		{
+			m_result += ";\n";
+		}
 	}
 
 	void StmtVisitor::visitSwitchCaseStmt( stmt::SwitchCase * stmt )

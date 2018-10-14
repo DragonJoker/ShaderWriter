@@ -4,9 +4,9 @@ See LICENSE file in root folder
 namespace sdw
 {
 	template< typename ValueT >
-	Mat4T< ValueT >::Mat4T( stmt::Container * container
+	Mat4T< ValueT >::Mat4T( Shader * shader
 		, expr::ExprPtr expr )
-		: Value{ container, std::move( expr ) }
+		: Value{ shader, std::move( expr ) }
 	{
 	}
 
@@ -15,15 +15,14 @@ namespace sdw
 	{
 		if ( m_container )
 		{
-			addStmt( *m_container
-				, stmt::makeSimple( expr::makeAssign( makeType( m_expr->getType()->getKind() )
-					, makeExpr( m_expr )
+			addStmt( *findContainer( *this, rhs )
+				, stmt::makeSimple( expr::makeAssign( makeType( getType()->getKind() )
+					, makeExpr( *this )
 					, makeExpr( rhs ) ) ) );
 		}
 		else
 		{
-			Type::operator=( rhs );
-			m_container = rhs.m_container;
+			Value::operator=( rhs );
 		}
 
 		return *this;
@@ -34,9 +33,9 @@ namespace sdw
 	Mat4T< ValueT > & Mat4T< ValueT >::operator=( RhsT const & rhs )
 	{
 		updateContainer( rhs );
-		addStmt( *m_container
-			, stmt::makeSimple( expr::makeAssign( makeType( m_expr->getType()->getKind() )
-				, makeExpr( m_expr )
+		addStmt( *findContainer( *this, rhs )
+			, stmt::makeSimple( expr::makeAssign( makeType( getType()->getKind() )
+				, makeExpr( *this )
 				, makeExpr( rhs ) ) ) );
 		return *this;
 	}
@@ -45,9 +44,9 @@ namespace sdw
 	template< typename IndexT >
 	Vec4T< ValueT > Mat4T< ValueT >::operator[]( IndexT const & rhs )const
 	{
-		return Vec4T< ValueT >{ m_container
+		return Vec4T< ValueT >{ findShader( *this, rhs )
 			, expr::makeArrayAccess( makeType( TypeTraits< Vec4T< ValueT > >::TypeEnum )
-				, makeExpr( m_expr )
+				, makeExpr( *this )
 				, makeExpr( rhs ) ) };
 	}
 
@@ -55,7 +54,7 @@ namespace sdw
 	Vec4T< ValueT > operator*( Vec4T< ValueT > const & lhs,
 		Mat4T< ValueT > const & rhs )
 	{
-		return Vec4T< ValueT >{ m_container
+		return Vec4T< ValueT >{ findShader( lhs, rhs )
 			, expr::makeTimes( makeType( TypeTraits< Vec4T< ValueT > >::TypeEnum )
 				, makeExpr( lhs )
 				, makeExpr( rhs ) ) };
@@ -65,7 +64,7 @@ namespace sdw
 	Vec4T< ValueT > operator*( Mat4T< ValueT > const & lhs
 		, Vec4T< ValueT > const & rhs )
 	{
-		return Vec4T< ValueT >{ m_container
+		return Vec4T< ValueT >{ findShader( lhs, rhs )
 			, expr::makeTimes( makeType( TypeTraits< Vec4T< ValueT > >::TypeEnum )
 				, makeExpr( lhs )
 				, makeExpr( rhs ) ) };

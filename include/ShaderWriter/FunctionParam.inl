@@ -6,7 +6,7 @@ namespace sdw
 	//*****************************************************************************************
 
 	template< typename TypeT >
-	InParam< TypeT >::InParam( stmt::Container * container
+	InParam< TypeT >::InParam( Shader * shader
 		, expr::ExprPtr expr )
 		: TypeT{ container, std::move( expr ) }
 	{
@@ -22,7 +22,7 @@ namespace sdw
 	template< typename T >
 	InParam< TypeT > InParam< TypeT >::operator=( T const & rhs )
 	{
-		addStmt( *m_container
+		addStmt( *findContainer( *this, rhs )
 			, stmt::makeSimple( expr::makeAssign( m_expr->getType()
 				, makeExpr( m_expr )
 				, makeExpr( rhs ) ) ) );
@@ -32,7 +32,7 @@ namespace sdw
 	//*****************************************************************************************
 
 	template< typename TypeT >
-	OutParam< TypeT >::OutParam( stmt::Container * container
+	OutParam< TypeT >::OutParam( Shader * shader
 		, expr::ExprPtr expr )
 		: TypeT{ container, std::move( expr ) }
 	{
@@ -48,7 +48,7 @@ namespace sdw
 	template< typename T >
 	OutParam< TypeT > OutParam< TypeT >::operator=( T const & rhs )
 	{
-		addStmt( *m_container
+		addStmt( *findContainer( *this, rhs )
 			, stmt::makeSimple( expr::makeAssign( m_expr->getType()
 				, makeExpr( m_expr )
 				, makeExpr( rhs ) ) ) );
@@ -58,7 +58,7 @@ namespace sdw
 	//*****************************************************************************************
 
 	template< typename TypeT >
-	InOutParam< TypeT >::InOutParam( stmt::Container * container
+	InOutParam< TypeT >::InOutParam( Shader * shader
 		, expr::ExprPtr expr )
 		: TypeT{ container, std::move( expr ) }
 	{
@@ -74,7 +74,7 @@ namespace sdw
 	template< typename T >
 	InOutParam< TypeT > InOutParam< TypeT >::operator=( T const & rhs )
 	{
-		addStmt( *m_container
+		addStmt( *findContainer( *this, rhs )
 			, stmt::makeSimple( expr::makeAssign( m_expr->getType()
 				, makeExpr( m_expr )
 				, makeExpr( rhs ) ) ) );

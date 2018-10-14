@@ -10,9 +10,9 @@ namespace sdw
 	UInt & UInt::operator=( T const & rhs )
 	{
 		updateContainer( rhs );
-		addStmt( *m_container
+		addStmt( *findContainer( *this, rhs )
 			, stmt::makeSimple( expr::makeAssign( type::getUInt()
-				, makeExpr( m_expr )
+				, makeExpr( *this )
 				, makeExpr( rhs ) ) ) );
 		return *this;
 	}

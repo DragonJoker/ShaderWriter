@@ -10,7 +10,7 @@ namespace sdw
 	inline Boolean & Boolean::operator=( T const & rhs )
 	{
 		updateContainer( rhs );
-		addStmt( *m_container
+		addStmt( *findContainer( *this, rhs )
 			, stmt::makeSimple( expr::makeAssign( type::getBool()
 				, makeExpr( m_expr )
 				, makeExpr( rhs ) ) ) );

@@ -8,9 +8,9 @@ namespace sdw
 	//*********************************************************************************************
 
 	template< typename T >
-	Array< T >::Array( stmt::Container * container
+	Array< T >::Array( Shader * shader
 		, expr::ExprPtr expr )
-		: T{ container, std::move( expr ) }
+		: T{ shader, std::move( expr ) }
 	{
 	}
 
@@ -18,7 +18,7 @@ namespace sdw
 	template< typename U >
 	T Array< T >::operator[]( U const & offset )
 	{
-		return T{ T::m_container
+		return T{ findShader( *this, offset )
 			, expr::makeArrayAccess( makeType( m_expr->getType()->getKind() )
 				, makeExpr( m_expr )
 				, makeExpr( offset ) ) };
@@ -28,7 +28,7 @@ namespace sdw
 	template< typename U >
 	T Array< T >::operator[]( U const & offset )const
 	{
-		return T{ T::m_container
+		return T{ findShader( *this, offset )
 			, expr::makeArrayAccess( makeType( m_expr->getType()->getKind() )
 				, makeExpr( m_expr )
 				, makeExpr( offset ) ) };

@@ -1,4 +1,5 @@
 #include "Common.hpp"
+#include "TestWriterCommon.hpp"
 
 #include <ASTGenerator/Debug/DebugCommon.hpp>
 #include <ASTGenerator/Debug/DebugStmtVisitor.hpp>
@@ -10,238 +11,30 @@
 namespace
 {
 	template< typename T >
-	T getDefault( sdw::Shader & shader );
-
-	template<>
-	sdw::Boolean getDefault< sdw::Boolean >( sdw::Shader & shader )
-	{
-		return sdw::Boolean{ shader.getStatements(), sdw::expr::makeLiteral( true ) };
-	}
-
-	template<>
-	sdw::Int getDefault< sdw::Int >( sdw::Shader & shader )
-	{
-		return sdw::Boolean{ shader.getStatements(), sdw::expr::makeLiteral( 1 ) };
-	}
-
-	template<>
-	sdw::UInt getDefault< sdw::UInt >( sdw::Shader & shader )
-	{
-		return sdw::Boolean{ shader.getStatements(), sdw::expr::makeLiteral( 1u ) };
-	}
-	template<>
-	sdw::Float getDefault< sdw::Float >( sdw::Shader & shader )
-	{
-		return sdw::Boolean{ shader.getStatements(), sdw::expr::makeLiteral( 1.0f ) };
-	}
-
-	template<>
-	sdw::Vec2 getDefault< sdw::Vec2 >( sdw::Shader & shader )
-	{
-		return sdw::vec2( getDefault< sdw::Float >( shader ), 0.0 );
-	}
-
-	template<>
-	sdw::Vec3 getDefault< sdw::Vec3 >( sdw::Shader & shader )
-	{
-		return sdw::vec3( getDefault< sdw::Float >( shader ), 0.0, 0.0 );
-	}
-
-	template<>
-	sdw::Vec4 getDefault< sdw::Vec4 >( sdw::Shader & shader )
-	{
-		return sdw::vec4( getDefault< sdw::Float >( shader ), 0.0, 0.0, 0.0 );
-	}
-
-	template<>
-	sdw::BVec2 getDefault< sdw::BVec2 >( sdw::Shader & shader )
-	{
-		return sdw::bvec2( getDefault< sdw::Boolean >( shader ), 0.0 );
-	}
-
-	template<>
-	sdw::BVec3 getDefault< sdw::BVec3 >( sdw::Shader & shader )
-	{
-		return sdw::bvec3( getDefault< sdw::Boolean >( shader ), 0.0, 0.0 );
-	}
-
-	template<>
-	sdw::BVec4 getDefault< sdw::BVec4 >( sdw::Shader & shader )
-	{
-		return sdw::bvec4( getDefault< sdw::Boolean >( shader ), 0.0, 0.0, 0.0 );
-	}
-
-	template<>
-	sdw::IVec2 getDefault< sdw::IVec2 >( sdw::Shader & shader )
-	{
-		return sdw::ivec2( getDefault< sdw::Int >( shader ), 0 );
-	}
-
-	template<>
-	sdw::IVec3 getDefault< sdw::IVec3 >( sdw::Shader & shader )
-	{
-		return sdw::ivec3( getDefault< sdw::Int >( shader ), 0, 0 );
-	}
-
-	template<>
-	sdw::IVec4 getDefault< sdw::IVec4 >( sdw::Shader & shader )
-	{
-		return sdw::ivec4( getDefault< sdw::Int >( shader ), 0, 0, 0 );
-	}
-
-	template<>
-	sdw::UVec2 getDefault< sdw::UVec2 >( sdw::Shader & shader )
-	{
-		return sdw::uvec2( getDefault< sdw::UInt >( shader ), 0u );
-	}
-
-	template<>
-	sdw::UVec3 getDefault< sdw::UVec3 >( sdw::Shader & shader )
-	{
-		return sdw::uvec3( getDefault< sdw::UInt >( shader ), 0u, 0u );
-	}
-
-	template<>
-	sdw::UVec4 getDefault< sdw::UVec4 >( sdw::Shader & shader )
-	{
-		return sdw::uvec4( getDefault< sdw::UInt >( shader ), 0u, 0u, 0u );
-	}
-
-	template<>
-	sdw::Mat2 getDefault< sdw::Mat2 >( sdw::Shader & shader )
-	{
-		return sdw::mat2( getDefault< sdw::Vec2 >( shader )
-			, getDefault< sdw::Vec2 >( shader ) );
-	}
-
-	template<>
-	sdw::Mat3 getDefault< sdw::Mat3 >( sdw::Shader & shader )
-	{
-		return sdw::mat3( getDefault< sdw::Vec3 >( shader )
-			, getDefault< sdw::Vec3 >( shader )
-			, getDefault< sdw::Vec3 >( shader ) );
-	}
-
-	template<>
-	sdw::Mat4 getDefault< sdw::Mat4 >( sdw::Shader & shader )
-	{
-		return sdw::mat4( getDefault< sdw::Vec4 >( shader )
-			, getDefault< sdw::Vec4 >( shader )
-			, getDefault< sdw::Vec4 >( shader )
-			, getDefault< sdw::Vec4 >( shader ) );
-	}
-
-	template<>
-	sdw::BMat2 getDefault< sdw::BMat2 >( sdw::Shader & shader )
-	{
-		return sdw::bmat2( getDefault< sdw::BVec2 >( shader )
-			, getDefault< sdw::BVec2 >( shader ) );
-	}
-
-	template<>
-	sdw::BMat3 getDefault< sdw::BMat3 >( sdw::Shader & shader )
-	{
-		return sdw::bmat3( getDefault< sdw::BVec3 >( shader )
-			, getDefault< sdw::BVec3 >( shader )
-			, getDefault< sdw::BVec3 >( shader ) );
-	}
-
-	template<>
-	sdw::BMat4 getDefault< sdw::BMat4 >( sdw::Shader & shader )
-	{
-		return sdw::bmat4( getDefault< sdw::BVec4 >( shader )
-			, getDefault< sdw::BVec4 >( shader )
-			, getDefault< sdw::BVec4 >( shader )
-			, getDefault< sdw::BVec4 >( shader ) );
-	}
-
-	template<>
-	sdw::IMat2 getDefault< sdw::IMat2 >( sdw::Shader & shader )
-	{
-		return sdw::imat2( getDefault< sdw::IVec2 >( shader )
-			, getDefault< sdw::IVec2 >( shader ) );
-	}
-
-	template<>
-	sdw::IMat3 getDefault< sdw::IMat3 >( sdw::Shader & shader )
-	{
-		return sdw::imat3( getDefault< sdw::IVec3 >( shader )
-			, getDefault< sdw::IVec3 >( shader )
-			, getDefault< sdw::IVec3 >( shader ) );
-	}
-
-	template<>
-	sdw::IMat4 getDefault< sdw::IMat4 >( sdw::Shader & shader )
-	{
-		return sdw::imat4( getDefault< sdw::IVec4 >( shader )
-			, getDefault< sdw::IVec4 >( shader )
-			, getDefault< sdw::IVec4 >( shader )
-			, getDefault< sdw::IVec4 >( shader ) );
-	}
-
-	template<>
-	sdw::UMat2 getDefault< sdw::UMat2 >( sdw::Shader & shader )
-	{
-		return sdw::umat2( getDefault< sdw::UVec2 >( shader )
-			, getDefault< sdw::UVec2 >( shader ) );
-	}
-
-	template<>
-	sdw::UMat3 getDefault< sdw::UMat3 >( sdw::Shader & shader )
-	{
-		return sdw::umat3( getDefault< sdw::UVec3 >( shader )
-			, getDefault< sdw::UVec3 >( shader )
-			, getDefault< sdw::UVec3 >( shader ) );
-	}
-
-	template<>
-	sdw::UMat4 getDefault< sdw::UMat4 >( sdw::Shader & shader )
-	{
-		return sdw::umat4( getDefault< sdw::UVec4 >( shader )
-			, getDefault< sdw::UVec4 >( shader )
-			, getDefault< sdw::UVec4 >( shader )
-			, getDefault< sdw::UVec4 >( shader ) );
-	}
-
-	template< typename T >
-	std::vector< T > getDefaultArray( sdw::Shader & shader
-		, uint32_t dimension )
-	{
-		std::vector< T > result;
-
-		for ( auto i = 0u; i < dimension; ++i )
-		{
-			result.emplace_back( getDefault< T >( shader ) );
-		}
-
-		return result;
-	}
-
-	template< typename T >
 	void testConstant( sdw::Shader & shader )
 	{
 		{
 			auto name = sdw::debug::getTypeName( sdw::TypeTraits< T >::TypeEnum ) + "ConstantValue";
-			auto value = shader.declConstant< T >( name, getDefault< T >( shader ) );
-			check( value.m_expr->getType()->getKind() == sdw::TypeTraits< T >::TypeEnum );
-			check( value.m_expr->getType()->getArraySize() == sdw::type::NotArray );
+			auto value = shader.declConstant< T >( name, test::getDefault< T >( shader ) );
+			check( value.getType()->getKind() == sdw::TypeTraits< T >::TypeEnum );
+			check( value.getType()->getArraySize() == sdw::type::NotArray );
 			auto & stmt = *shader.getStatements()->getStatements().back();
 			check( stmt.getKind() == sdw::stmt::Kind::ePreprocDefine );
 		}
 		{
 			sdw::Shader shader;
-			auto value = shader.declConstant< T >( "value", getDefault< T >( shader ), false );
+			auto value = shader.declConstant< T >( "value", test::getDefault< T >( shader ), false );
 			check( !value.isEnabled() );
-			check( value.m_expr->getType()->getKind() == sdw::TypeTraits< T >::TypeEnum );
-			check( value.m_expr->getType()->getArraySize() == sdw::type::NotArray );
+			check( value.getType()->getKind() == sdw::TypeTraits< T >::TypeEnum );
+			check( value.getType()->getArraySize() == sdw::type::NotArray );
 			check( shader.getStatements()->getStatements().empty() );
 		}
 		{
 			auto name = sdw::debug::getTypeName( sdw::TypeTraits< T >::TypeEnum ) + "ConstantValue_opt";
-			auto value = shader.declConstant< T >( name, getDefault< T >( shader ), true );
+			auto value = shader.declConstant< T >( name, test::getDefault< T >( shader ), true );
 			check( value.isEnabled() );
-			check( value.m_expr->getType()->getKind() == sdw::TypeTraits< T >::TypeEnum );
-			check( value.m_expr->getType()->getArraySize() == sdw::type::NotArray );
+			check( value.getType()->getKind() == sdw::TypeTraits< T >::TypeEnum );
+			check( value.getType()->getArraySize() == sdw::type::NotArray );
 			auto & stmt = *shader.getStatements()->getStatements().back();
 			check( stmt.getKind() == sdw::stmt::Kind::ePreprocDefine );
 		}
@@ -252,36 +45,36 @@ namespace
 	{
 		{
 			auto name = sdw::debug::getTypeName( sdw::TypeTraits< T >::TypeEnum ) + "SpecConstantValue_0";
-			auto value = shader.declSpecConstant< T >( name, 0u, getDefault< T >( shader ) );
-			check( value.m_expr->getType()->getKind() == sdw::TypeTraits< T >::TypeEnum );
-			check( value.m_expr->getType()->getArraySize() == sdw::type::NotArray );
-			check( value.m_expr->getKind() == sdw::expr::Kind::eIdentifier );
-			check( static_cast< sdw::expr::Identifier const & >( *value.m_expr ).getVariable()->getTypeName() == name );
-			check( static_cast< sdw::expr::Identifier const & >( *value.m_expr ).getVariable()->isShaderConstant() );
+			auto value = shader.declSpecConstant< T >( name, 0u, test::getDefault< T >( shader ) );
+			check( value.getType()->getKind() == sdw::TypeTraits< T >::TypeEnum );
+			check( value.getType()->getArraySize() == sdw::type::NotArray );
+			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getTypeName() == name );
+			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isShaderConstant() );
 			auto & stmt = *shader.getStatements()->getStatements().back();
 			check( stmt.getKind() == sdw::stmt::Kind::eInOutVariableDecl );
 			check( static_cast< sdw::stmt::InOutVariableDecl const & >( stmt ).getLocation() == 0u );
 		}
 		{
 			sdw::Shader shader;
-			auto value = shader.declSpecConstant< T >( "value", 1u, getDefault< T >( shader ), false );
+			auto value = shader.declSpecConstant< T >( "value", 1u, test::getDefault< T >( shader ), false );
 			check( !value.isEnabled() );
-			check( value.m_expr->getType()->getKind() == sdw::TypeTraits< T >::TypeEnum );
-			check( value.m_expr->getType()->getArraySize() == sdw::type::NotArray );
-			check( value.m_expr->getKind() == sdw::expr::Kind::eIdentifier );
-			check( static_cast< sdw::expr::Identifier const & >( *value.m_expr ).getVariable()->getTypeName() == "value" );
-			check( static_cast< sdw::expr::Identifier const & >( *value.m_expr ).getVariable()->isShaderConstant() );
+			check( value.getType()->getKind() == sdw::TypeTraits< T >::TypeEnum );
+			check( value.getType()->getArraySize() == sdw::type::NotArray );
+			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getTypeName() == "value" );
+			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isShaderConstant() );
 			check( shader.getStatements()->getStatements().empty() );
 		}
 		{
 			auto name = sdw::debug::getTypeName( sdw::TypeTraits< T >::TypeEnum ) + "SpecConstantValue_2_opt";
-			auto value = shader.declSpecConstant< T >( name, 2u, getDefault< T >( shader ), true );
+			auto value = shader.declSpecConstant< T >( name, 2u, test::getDefault< T >( shader ), true );
 			check( value.isEnabled() );
-			check( value.m_expr->getType()->getKind() == sdw::TypeTraits< T >::TypeEnum );
-			check( value.m_expr->getType()->getArraySize() == sdw::type::NotArray );
-			check( value.m_expr->getKind() == sdw::expr::Kind::eIdentifier );
-			check( static_cast< sdw::expr::Identifier const & >( *value.m_expr ).getVariable()->getTypeName() == name );
-			check( static_cast< sdw::expr::Identifier const & >( *value.m_expr ).getVariable()->isShaderConstant() );
+			check( value.getType()->getKind() == sdw::TypeTraits< T >::TypeEnum );
+			check( value.getType()->getArraySize() == sdw::type::NotArray );
+			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getTypeName() == name );
+			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isShaderConstant() );
 			auto & stmt = *shader.getStatements()->getStatements().back();
 			check( stmt.getKind() == sdw::stmt::Kind::eInOutVariableDecl );
 			check( static_cast< sdw::stmt::InOutVariableDecl const & >( stmt ).getLocation() == 2u );
@@ -294,11 +87,11 @@ namespace
 		{
 			auto name = sdw::debug::getTypeName( sdw::TypeTraits< T >::TypeEnum ) + "InputValue_0";
 			auto value = shader.declInput< T >( name, 0u );
-			check( value.m_expr->getType()->getKind() == sdw::TypeTraits< T >::TypeEnum );
-			check( value.m_expr->getType()->getArraySize() == sdw::type::NotArray );
-			check( value.m_expr->getKind() == sdw::expr::Kind::eIdentifier );
-			check( static_cast< sdw::expr::Identifier const & >( *value.m_expr ).getVariable()->getTypeName() == name );
-			check( static_cast< sdw::expr::Identifier const & >( *value.m_expr ).getVariable()->isShaderInput() );
+			check( value.getType()->getKind() == sdw::TypeTraits< T >::TypeEnum );
+			check( value.getType()->getArraySize() == sdw::type::NotArray );
+			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getTypeName() == name );
+			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isShaderInput() );
 			auto & stmt = *shader.getStatements()->getStatements().back();
 			check( stmt.getKind() == sdw::stmt::Kind::eInOutVariableDecl );
 			check( static_cast< sdw::stmt::InOutVariableDecl const & >( stmt ).getLocation() == 0u );
@@ -306,11 +99,11 @@ namespace
 		{
 			auto name = sdw::debug::getTypeName( sdw::TypeTraits< T >::TypeEnum ) + "InputValue_1";
 			auto value = shader.declInputArray< T >( name, 1u, 12u );
-			check( value.m_expr->getType()->getKind() == sdw::TypeTraits< T >::TypeEnum );
-			check( value.m_expr->getType()->getArraySize() == 12u );
-			check( value.m_expr->getKind() == sdw::expr::Kind::eIdentifier );
-			check( static_cast< sdw::expr::Identifier const & >( *value.m_expr ).getVariable()->getTypeName() == name );
-			check( static_cast< sdw::expr::Identifier const & >( *value.m_expr ).getVariable()->isShaderInput() );
+			check( value.getType()->getKind() == sdw::TypeTraits< T >::TypeEnum );
+			check( value.getType()->getArraySize() == 12u );
+			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getTypeName() == name );
+			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isShaderInput() );
 			auto & stmt = *shader.getStatements()->getStatements().back();
 			check( stmt.getKind() == sdw::stmt::Kind::eInOutVariableDecl );
 			check( static_cast< sdw::stmt::InOutVariableDecl const & >( stmt ).getLocation() == 1u );
@@ -318,11 +111,11 @@ namespace
 		{
 			auto name = sdw::debug::getTypeName( sdw::TypeTraits< T >::TypeEnum ) + "InputValue_2";
 			auto value = shader.declInputArray< T >( name, 2u );
-			check( value.m_expr->getType()->getKind() == sdw::TypeTraits< T >::TypeEnum );
-			check( value.m_expr->getType()->getArraySize() == sdw::type::UnknownArraySize );
-			check( value.m_expr->getKind() == sdw::expr::Kind::eIdentifier );
-			check( static_cast< sdw::expr::Identifier const & >( *value.m_expr ).getVariable()->getTypeName() == name );
-			check( static_cast< sdw::expr::Identifier const & >( *value.m_expr ).getVariable()->isShaderInput() );
+			check( value.getType()->getKind() == sdw::TypeTraits< T >::TypeEnum );
+			check( value.getType()->getArraySize() == sdw::type::UnknownArraySize );
+			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getTypeName() == name );
+			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isShaderInput() );
 			auto & stmt = *shader.getStatements()->getStatements().back();
 			check( stmt.getKind() == sdw::stmt::Kind::eInOutVariableDecl );
 			check( static_cast< sdw::stmt::InOutVariableDecl const & >( stmt ).getLocation() == 2u );
@@ -331,44 +124,44 @@ namespace
 			sdw::Shader shader;
 			auto value = shader.declInput< T >( "value", 0u, false );
 			check( !value.isEnabled() );
-			check( value.m_expr->getType()->getKind() == sdw::TypeTraits< T >::TypeEnum );
-			check( value.m_expr->getType()->getArraySize() == sdw::type::NotArray );
-			check( value.m_expr->getKind() == sdw::expr::Kind::eIdentifier );
-			check( static_cast< sdw::expr::Identifier const & >( *value.m_expr ).getVariable()->getTypeName() == "value" );
-			check( static_cast< sdw::expr::Identifier const & >( *value.m_expr ).getVariable()->isShaderInput() );
+			check( value.getType()->getKind() == sdw::TypeTraits< T >::TypeEnum );
+			check( value.getType()->getArraySize() == sdw::type::NotArray );
+			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getTypeName() == "value" );
+			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isShaderInput() );
 			check( shader.getStatements()->getStatements().empty() );
 		}
 		{
 			sdw::Shader shader;
 			auto value = shader.declInputArray< T >( "value", 1u, 12u, false );
 			check( !value.isEnabled() );
-			check( value.m_expr->getType()->getKind() == sdw::TypeTraits< T >::TypeEnum );
-			check( value.m_expr->getType()->getArraySize() == 12u );
-			check( value.m_expr->getKind() == sdw::expr::Kind::eIdentifier );
-			check( static_cast< sdw::expr::Identifier const & >( *value.m_expr ).getVariable()->getTypeName() == "value" );
-			check( static_cast< sdw::expr::Identifier const & >( *value.m_expr ).getVariable()->isShaderInput() );
+			check( value.getType()->getKind() == sdw::TypeTraits< T >::TypeEnum );
+			check( value.getType()->getArraySize() == 12u );
+			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getTypeName() == "value" );
+			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isShaderInput() );
 			check( shader.getStatements()->getStatements().empty() );
 		}
 		{
 			sdw::Shader shader;
 			auto value = shader.declInputArray< T >( "value", 2u, false );
 			check( !value.isEnabled() );
-			check( value.m_expr->getType()->getKind() == sdw::TypeTraits< T >::TypeEnum );
-			check( value.m_expr->getType()->getArraySize() == sdw::type::UnknownArraySize );
-			check( value.m_expr->getKind() == sdw::expr::Kind::eIdentifier );
-			check( static_cast< sdw::expr::Identifier const & >( *value.m_expr ).getVariable()->getTypeName() == "value" );
-			check( static_cast< sdw::expr::Identifier const & >( *value.m_expr ).getVariable()->isShaderInput() );
+			check( value.getType()->getKind() == sdw::TypeTraits< T >::TypeEnum );
+			check( value.getType()->getArraySize() == sdw::type::UnknownArraySize );
+			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getTypeName() == "value" );
+			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isShaderInput() );
 			check( shader.getStatements()->getStatements().empty() );
 		}
 		{
 			auto name = sdw::debug::getTypeName( sdw::TypeTraits< T >::TypeEnum ) + "InputValue_0_opt";
 			auto value = shader.declInput< T >( name, 0u, true );
 			check( value.isEnabled() );
-			check( value.m_expr->getType()->getKind() == sdw::TypeTraits< T >::TypeEnum );
-			check( value.m_expr->getType()->getArraySize() == sdw::type::NotArray );
-			check( value.m_expr->getKind() == sdw::expr::Kind::eIdentifier );
-			check( static_cast< sdw::expr::Identifier const & >( *value.m_expr ).getVariable()->getTypeName() == name );
-			check( static_cast< sdw::expr::Identifier const & >( *value.m_expr ).getVariable()->isShaderInput() );
+			check( value.getType()->getKind() == sdw::TypeTraits< T >::TypeEnum );
+			check( value.getType()->getArraySize() == sdw::type::NotArray );
+			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getTypeName() == name );
+			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isShaderInput() );
 			auto & stmt = *shader.getStatements()->getStatements().back();
 			check( stmt.getKind() == sdw::stmt::Kind::eInOutVariableDecl );
 			check( static_cast< sdw::stmt::InOutVariableDecl const & >( stmt ).getLocation() == 0u );
@@ -377,11 +170,11 @@ namespace
 			auto name = sdw::debug::getTypeName( sdw::TypeTraits< T >::TypeEnum ) + "InputValue_1_opt";
 			auto value = shader.declInputArray< T >( name, 1u, 12u, true );
 			check( value.isEnabled() );
-			check( value.m_expr->getType()->getKind() == sdw::TypeTraits< T >::TypeEnum );
-			check( value.m_expr->getType()->getArraySize() == 12u );
-			check( value.m_expr->getKind() == sdw::expr::Kind::eIdentifier );
-			check( static_cast< sdw::expr::Identifier const & >( *value.m_expr ).getVariable()->getTypeName() == name );
-			check( static_cast< sdw::expr::Identifier const & >( *value.m_expr ).getVariable()->isShaderInput() );
+			check( value.getType()->getKind() == sdw::TypeTraits< T >::TypeEnum );
+			check( value.getType()->getArraySize() == 12u );
+			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getTypeName() == name );
+			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isShaderInput() );
 			auto & stmt = *shader.getStatements()->getStatements().back();
 			check( stmt.getKind() == sdw::stmt::Kind::eInOutVariableDecl );
 			check( static_cast< sdw::stmt::InOutVariableDecl const & >( stmt ).getLocation() == 1u );
@@ -390,11 +183,11 @@ namespace
 			auto name = sdw::debug::getTypeName( sdw::TypeTraits< T >::TypeEnum ) + "InputValue_2_opt";
 			auto value = shader.declInputArray< T >( name, 2u, true );
 			check( value.isEnabled() );
-			check( value.m_expr->getType()->getKind() == sdw::TypeTraits< T >::TypeEnum );
-			check( value.m_expr->getType()->getArraySize() == sdw::type::UnknownArraySize );
-			check( value.m_expr->getKind() == sdw::expr::Kind::eIdentifier );
-			check( static_cast< sdw::expr::Identifier const & >( *value.m_expr ).getVariable()->getTypeName() == name );
-			check( static_cast< sdw::expr::Identifier const & >( *value.m_expr ).getVariable()->isShaderInput() );
+			check( value.getType()->getKind() == sdw::TypeTraits< T >::TypeEnum );
+			check( value.getType()->getArraySize() == sdw::type::UnknownArraySize );
+			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getTypeName() == name );
+			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isShaderInput() );
 			auto & stmt = *shader.getStatements()->getStatements().back();
 			check( stmt.getKind() == sdw::stmt::Kind::eInOutVariableDecl );
 			check( static_cast< sdw::stmt::InOutVariableDecl const & >( stmt ).getLocation() == 2u );
@@ -407,11 +200,11 @@ namespace
 		{
 			auto name = sdw::debug::getTypeName( sdw::TypeTraits< T >::TypeEnum ) + "OutputValue_0";
 			auto value = shader.declOutput< T >( name, 0u );
-			check( value.m_expr->getType()->getKind() == sdw::TypeTraits< T >::TypeEnum );
-			check( value.m_expr->getType()->getArraySize() == sdw::type::NotArray );
-			check( value.m_expr->getKind() == sdw::expr::Kind::eIdentifier );
-			check( static_cast< sdw::expr::Identifier const & >( *value.m_expr ).getVariable()->getTypeName() == name );
-			check( static_cast< sdw::expr::Identifier const & >( *value.m_expr ).getVariable()->isShaderOutput() );
+			check( value.getType()->getKind() == sdw::TypeTraits< T >::TypeEnum );
+			check( value.getType()->getArraySize() == sdw::type::NotArray );
+			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getTypeName() == name );
+			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isShaderOutput() );
 			auto & stmt = *shader.getStatements()->getStatements().back();
 			check( stmt.getKind() == sdw::stmt::Kind::eInOutVariableDecl );
 			check( static_cast< sdw::stmt::InOutVariableDecl const & >( stmt ).getLocation() == 0u );
@@ -419,11 +212,11 @@ namespace
 		{
 			auto name = sdw::debug::getTypeName( sdw::TypeTraits< T >::TypeEnum ) + "OutputValue_1";
 			auto value = shader.declOutputArray< T >( name, 1u, 12u );
-			check( value.m_expr->getType()->getKind() == sdw::TypeTraits< T >::TypeEnum );
-			check( value.m_expr->getType()->getArraySize() == 12u );
-			check( value.m_expr->getKind() == sdw::expr::Kind::eIdentifier );
-			check( static_cast< sdw::expr::Identifier const & >( *value.m_expr ).getVariable()->getTypeName() == name );
-			check( static_cast< sdw::expr::Identifier const & >( *value.m_expr ).getVariable()->isShaderOutput() );
+			check( value.getType()->getKind() == sdw::TypeTraits< T >::TypeEnum );
+			check( value.getType()->getArraySize() == 12u );
+			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getTypeName() == name );
+			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isShaderOutput() );
 			auto & stmt = *shader.getStatements()->getStatements().back();
 			check( stmt.getKind() == sdw::stmt::Kind::eInOutVariableDecl );
 			check( static_cast< sdw::stmt::InOutVariableDecl const & >( stmt ).getLocation() == 1u );
@@ -431,11 +224,11 @@ namespace
 		{
 			auto name = sdw::debug::getTypeName( sdw::TypeTraits< T >::TypeEnum ) + "OutputValue_2";
 			auto value = shader.declOutputArray< T >( name, 2u );
-			check( value.m_expr->getType()->getKind() == sdw::TypeTraits< T >::TypeEnum );
-			check( value.m_expr->getType()->getArraySize() == sdw::type::UnknownArraySize );
-			check( value.m_expr->getKind() == sdw::expr::Kind::eIdentifier );
-			check( static_cast< sdw::expr::Identifier const & >( *value.m_expr ).getVariable()->getTypeName() == name );
-			check( static_cast< sdw::expr::Identifier const & >( *value.m_expr ).getVariable()->isShaderOutput() );
+			check( value.getType()->getKind() == sdw::TypeTraits< T >::TypeEnum );
+			check( value.getType()->getArraySize() == sdw::type::UnknownArraySize );
+			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getTypeName() == name );
+			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isShaderOutput() );
 			auto & stmt = *shader.getStatements()->getStatements().back();
 			check( stmt.getKind() == sdw::stmt::Kind::eInOutVariableDecl );
 			check( static_cast< sdw::stmt::InOutVariableDecl const & >( stmt ).getLocation() == 2u );
@@ -444,44 +237,44 @@ namespace
 			sdw::Shader shader;
 			auto value = shader.declOutput< T >( "value", 0u, false );
 			check( !value.isEnabled() );
-			check( value.m_expr->getType()->getKind() == sdw::TypeTraits< T >::TypeEnum );
-			check( value.m_expr->getType()->getArraySize() == sdw::type::NotArray );
-			check( value.m_expr->getKind() == sdw::expr::Kind::eIdentifier );
-			check( static_cast< sdw::expr::Identifier const & >( *value.m_expr ).getVariable()->getTypeName() == "value" );
-			check( static_cast< sdw::expr::Identifier const & >( *value.m_expr ).getVariable()->isShaderOutput() );
+			check( value.getType()->getKind() == sdw::TypeTraits< T >::TypeEnum );
+			check( value.getType()->getArraySize() == sdw::type::NotArray );
+			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getTypeName() == "value" );
+			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isShaderOutput() );
 			check( shader.getStatements()->getStatements().empty() );
 		}
 		{
 			sdw::Shader shader;
 			auto value = shader.declOutputArray< T >( "value", 1u, 12u, false );
 			check( !value.isEnabled() );
-			check( value.m_expr->getType()->getKind() == sdw::TypeTraits< T >::TypeEnum );
-			check( value.m_expr->getType()->getArraySize() == 12u );
-			check( value.m_expr->getKind() == sdw::expr::Kind::eIdentifier );
-			check( static_cast< sdw::expr::Identifier const & >( *value.m_expr ).getVariable()->getTypeName() == "value" );
-			check( static_cast< sdw::expr::Identifier const & >( *value.m_expr ).getVariable()->isShaderOutput() );
+			check( value.getType()->getKind() == sdw::TypeTraits< T >::TypeEnum );
+			check( value.getType()->getArraySize() == 12u );
+			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getTypeName() == "value" );
+			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isShaderOutput() );
 			check( shader.getStatements()->getStatements().empty() );
 		}
 		{
 			sdw::Shader shader;
 			auto value = shader.declOutputArray< T >( "value", 2u, false );
 			check( !value.isEnabled() );
-			check( value.m_expr->getType()->getKind() == sdw::TypeTraits< T >::TypeEnum );
-			check( value.m_expr->getType()->getArraySize() == sdw::type::UnknownArraySize );
-			check( value.m_expr->getKind() == sdw::expr::Kind::eIdentifier );
-			check( static_cast< sdw::expr::Identifier const & >( *value.m_expr ).getVariable()->getTypeName() == "value" );
-			check( static_cast< sdw::expr::Identifier const & >( *value.m_expr ).getVariable()->isShaderOutput() );
+			check( value.getType()->getKind() == sdw::TypeTraits< T >::TypeEnum );
+			check( value.getType()->getArraySize() == sdw::type::UnknownArraySize );
+			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getTypeName() == "value" );
+			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isShaderOutput() );
 			check( shader.getStatements()->getStatements().empty() );
 		}
 		{
 			auto name = sdw::debug::getTypeName( sdw::TypeTraits< T >::TypeEnum ) + "OutputValue_0_opt";
 			auto value = shader.declOutput< T >( name, 0u, true );
 			check( value.isEnabled() );
-			check( value.m_expr->getType()->getKind() == sdw::TypeTraits< T >::TypeEnum );
-			check( value.m_expr->getType()->getArraySize() == sdw::type::NotArray );
-			check( value.m_expr->getKind() == sdw::expr::Kind::eIdentifier );
-			check( static_cast< sdw::expr::Identifier const & >( *value.m_expr ).getVariable()->getTypeName() == name );
-			check( static_cast< sdw::expr::Identifier const & >( *value.m_expr ).getVariable()->isShaderOutput() );
+			check( value.getType()->getKind() == sdw::TypeTraits< T >::TypeEnum );
+			check( value.getType()->getArraySize() == sdw::type::NotArray );
+			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getTypeName() == name );
+			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isShaderOutput() );
 			auto & stmt = *shader.getStatements()->getStatements().back();
 			check( stmt.getKind() == sdw::stmt::Kind::eInOutVariableDecl );
 			check( static_cast< sdw::stmt::InOutVariableDecl const & >( stmt ).getLocation() == 0u );
@@ -490,11 +283,11 @@ namespace
 			auto name = sdw::debug::getTypeName( sdw::TypeTraits< T >::TypeEnum ) + "OutputValue_1_opt";
 			auto value = shader.declOutputArray< T >( name, 1u, 12u, true );
 			check( value.isEnabled() );
-			check( value.m_expr->getType()->getKind() == sdw::TypeTraits< T >::TypeEnum );
-			check( value.m_expr->getType()->getArraySize() == 12u );
-			check( value.m_expr->getKind() == sdw::expr::Kind::eIdentifier );
-			check( static_cast< sdw::expr::Identifier const & >( *value.m_expr ).getVariable()->getTypeName() == name );
-			check( static_cast< sdw::expr::Identifier const & >( *value.m_expr ).getVariable()->isShaderOutput() );
+			check( value.getType()->getKind() == sdw::TypeTraits< T >::TypeEnum );
+			check( value.getType()->getArraySize() == 12u );
+			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getTypeName() == name );
+			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isShaderOutput() );
 			auto & stmt = *shader.getStatements()->getStatements().back();
 			check( stmt.getKind() == sdw::stmt::Kind::eInOutVariableDecl );
 			check( static_cast< sdw::stmt::InOutVariableDecl const & >( stmt ).getLocation() == 1u );
@@ -503,11 +296,11 @@ namespace
 			auto name = sdw::debug::getTypeName( sdw::TypeTraits< T >::TypeEnum ) + "OutputValue_2_opt";
 			auto value = shader.declOutputArray< T >( name, 2u, true );
 			check( value.isEnabled() );
-			check( value.m_expr->getType()->getKind() == sdw::TypeTraits< T >::TypeEnum );
-			check( value.m_expr->getType()->getArraySize() == sdw::type::UnknownArraySize );
-			check( value.m_expr->getKind() == sdw::expr::Kind::eIdentifier );
-			check( static_cast< sdw::expr::Identifier const & >( *value.m_expr ).getVariable()->getTypeName() == name );
-			check( static_cast< sdw::expr::Identifier const & >( *value.m_expr ).getVariable()->isShaderOutput() );
+			check( value.getType()->getKind() == sdw::TypeTraits< T >::TypeEnum );
+			check( value.getType()->getArraySize() == sdw::type::UnknownArraySize );
+			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getTypeName() == name );
+			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isShaderOutput() );
 			auto & stmt = *shader.getStatements()->getStatements().back();
 			check( stmt.getKind() == sdw::stmt::Kind::eInOutVariableDecl );
 			check( static_cast< sdw::stmt::InOutVariableDecl const & >( stmt ).getLocation() == 2u );
@@ -520,44 +313,44 @@ namespace
 		{
 			auto name = sdw::debug::getTypeName( sdw::TypeTraits< T >::TypeEnum ) + "LocaleValue";
 			auto value = shader.declLocale< T >( name );
-			check( value.m_expr->getType()->getKind() == sdw::TypeTraits< T >::TypeEnum );
-			check( value.m_expr->getType()->getArraySize() == sdw::type::NotArray );
-			check( value.m_expr->getKind() == sdw::expr::Kind::eIdentifier );
-			check( static_cast< sdw::expr::Identifier const & >( *value.m_expr ).getVariable()->getTypeName() == name );
-			check( static_cast< sdw::expr::Identifier const & >( *value.m_expr ).getVariable()->isLocale() );
+			check( value.getType()->getKind() == sdw::TypeTraits< T >::TypeEnum );
+			check( value.getType()->getArraySize() == sdw::type::NotArray );
+			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getTypeName() == name );
+			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isLocale() );
 			auto & stmt = *shader.getStatements()->getStatements().back();
 			check( stmt.getKind() == sdw::stmt::Kind::eVariableDecl );
 		}
 		{
 			auto name = sdw::debug::getTypeName( sdw::TypeTraits< T >::TypeEnum ) + "LocaleValueAssigned";
-			auto value = shader.declLocale< T >( name, getDefault< T >( shader ) );
-			check( value.m_expr->getType()->getKind() == sdw::TypeTraits< T >::TypeEnum );
-			check( value.m_expr->getType()->getArraySize() == sdw::type::NotArray );
-			check( value.m_expr->getKind() == sdw::expr::Kind::eInit );
-			check( static_cast< sdw::expr::Init const & >( *value.m_expr ).getIdentifier()->getVariable()->getTypeName() == name );
-			check( static_cast< sdw::expr::Init const & >( *value.m_expr ).getIdentifier()->getVariable()->isLocale() );
+			auto value = shader.declLocale< T >( name, test::getDefault< T >( shader ) );
+			check( value.getType()->getKind() == sdw::TypeTraits< T >::TypeEnum );
+			check( value.getType()->getArraySize() == sdw::type::NotArray );
+			check( value.getExpr()->getKind() == sdw::expr::Kind::eInit );
+			check( static_cast< sdw::expr::Init const & >( *value.getExpr() ).getIdentifier()->getVariable()->getTypeName() == name );
+			check( static_cast< sdw::expr::Init const & >( *value.getExpr() ).getIdentifier()->getVariable()->isLocale() );
 			auto & stmt = *shader.getStatements()->getStatements().back();
 			check( stmt.getKind() == sdw::stmt::Kind::eSimple );
 		}
 		{
 			auto name = sdw::debug::getTypeName( sdw::TypeTraits< T >::TypeEnum ) + "LocaleValue";
 			auto value = shader.declLocaleArray< T >( name, 12u );
-			check( value.m_expr->getType()->getKind() == sdw::TypeTraits< T >::TypeEnum );
-			check( value.m_expr->getType()->getArraySize() == 12u );
-			check( value.m_expr->getKind() == sdw::expr::Kind::eIdentifier );
-			check( static_cast< sdw::expr::Identifier const & >( *value.m_expr ).getVariable()->getTypeName() == name );
-			check( static_cast< sdw::expr::Identifier const & >( *value.m_expr ).getVariable()->isLocale() );
+			check( value.getType()->getKind() == sdw::TypeTraits< T >::TypeEnum );
+			check( value.getType()->getArraySize() == 12u );
+			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getTypeName() == name );
+			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isLocale() );
 			auto & stmt = *shader.getStatements()->getStatements().back();
 			check( stmt.getKind() == sdw::stmt::Kind::eVariableDecl );
 		}
 		{
 			auto name = sdw::debug::getTypeName( sdw::TypeTraits< T >::TypeEnum ) + "LocaleValue";
-			auto value = shader.declLocaleArray< T >( name, 3u, getDefaultArray< T >( shader, 3u ) );
-			check( value.m_expr->getType()->getKind() == sdw::TypeTraits< T >::TypeEnum );
-			check( value.m_expr->getType()->getArraySize() == 3u );
-			check( value.m_expr->getKind() == sdw::expr::Kind::eAggrInit );
-			check( static_cast< sdw::expr::AggrInit const & >( *value.m_expr ).getIdentifier()->getVariable()->getTypeName() == name );
-			check( static_cast< sdw::expr::AggrInit const & >( *value.m_expr ).getIdentifier()->getVariable()->isLocale() );
+			auto value = shader.declLocaleArray< T >( name, 3u, test::getDefaultArray< T >( shader, 3u ) );
+			check( value.getType()->getKind() == sdw::TypeTraits< T >::TypeEnum );
+			check( value.getType()->getArraySize() == 3u );
+			check( value.getExpr()->getKind() == sdw::expr::Kind::eAggrInit );
+			check( static_cast< sdw::expr::AggrInit const & >( *value.getExpr() ).getIdentifier()->getVariable()->getTypeName() == name );
+			check( static_cast< sdw::expr::AggrInit const & >( *value.getExpr() ).getIdentifier()->getVariable()->isLocale() );
 			auto & stmt = *shader.getStatements()->getStatements().back();
 			check( stmt.getKind() == sdw::stmt::Kind::eSimple );
 		}
@@ -565,90 +358,90 @@ namespace
 			sdw::Shader shader;
 			auto value = shader.declLocale< T >( "value", false );
 			check( !value.isEnabled() );
-			check( value.m_expr->getType()->getKind() == sdw::TypeTraits< T >::TypeEnum );
-			check( value.m_expr->getType()->getArraySize() == sdw::type::NotArray );
-			check( value.m_expr->getKind() == sdw::expr::Kind::eIdentifier );
-			check( static_cast< sdw::expr::Identifier const & >( *value.m_expr ).getVariable()->getTypeName() == "value" );
-			check( static_cast< sdw::expr::Identifier const & >( *value.m_expr ).getVariable()->isLocale() );
+			check( value.getType()->getKind() == sdw::TypeTraits< T >::TypeEnum );
+			check( value.getType()->getArraySize() == sdw::type::NotArray );
+			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getTypeName() == "value" );
+			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isLocale() );
 			check( shader.getStatements()->getStatements().empty() );
 		}
 		{
 			sdw::Shader shader;
-			auto value = shader.declLocale< T >( "value", sdw::Optional< T >{ getDefault< T >( shader ), false } );
+			auto value = shader.declLocale< T >( "value", sdw::Optional< T >{ test::getDefault< T >( shader ), false } );
 			check( !value.isEnabled() );
-			check( value.m_expr->getType()->getKind() == sdw::TypeTraits< T >::TypeEnum );
-			check( value.m_expr->getType()->getArraySize() == sdw::type::NotArray );
-			check( value.m_expr->getKind() == sdw::expr::Kind::eInit );
-			check( static_cast< sdw::expr::Init const & >( *value.m_expr ).getIdentifier()->getVariable()->getTypeName() == "value" );
-			check( static_cast< sdw::expr::Init const & >( *value.m_expr ).getIdentifier()->getVariable()->isLocale() );
+			check( value.getType()->getKind() == sdw::TypeTraits< T >::TypeEnum );
+			check( value.getType()->getArraySize() == sdw::type::NotArray );
+			check( value.getExpr()->getKind() == sdw::expr::Kind::eInit );
+			check( static_cast< sdw::expr::Init const & >( *value.getExpr() ).getIdentifier()->getVariable()->getTypeName() == "value" );
+			check( static_cast< sdw::expr::Init const & >( *value.getExpr() ).getIdentifier()->getVariable()->isLocale() );
 			check( shader.getStatements()->getStatements().empty() );
 		}
 		{
 			sdw::Shader shader;
-			auto value = shader.declLocale< T >( "value", getDefault< T >( shader ), false );
+			auto value = shader.declLocale< T >( "value", test::getDefault< T >( shader ), false );
 			check( !value.isEnabled() );
-			check( value.m_expr->getType()->getKind() == sdw::TypeTraits< T >::TypeEnum );
-			check( value.m_expr->getType()->getArraySize() == sdw::type::NotArray );
-			check( value.m_expr->getKind() == sdw::expr::Kind::eInit );
-			check( static_cast< sdw::expr::Init const & >( *value.m_expr ).getIdentifier()->getVariable()->getTypeName() == "value" );
-			check( static_cast< sdw::expr::Init const & >( *value.m_expr ).getIdentifier()->getVariable()->isLocale() );
+			check( value.getType()->getKind() == sdw::TypeTraits< T >::TypeEnum );
+			check( value.getType()->getArraySize() == sdw::type::NotArray );
+			check( value.getExpr()->getKind() == sdw::expr::Kind::eInit );
+			check( static_cast< sdw::expr::Init const & >( *value.getExpr() ).getIdentifier()->getVariable()->getTypeName() == "value" );
+			check( static_cast< sdw::expr::Init const & >( *value.getExpr() ).getIdentifier()->getVariable()->isLocale() );
 			check( shader.getStatements()->getStatements().empty() );
 		}
 		{
 			sdw::Shader shader;
 			auto value = shader.declLocaleArray< T >( "value", 12u, false );
 			check( !value.isEnabled() );
-			check( value.m_expr->getType()->getKind() == sdw::TypeTraits< T >::TypeEnum );
-			check( value.m_expr->getType()->getArraySize() == 12u );
-			check( value.m_expr->getKind() == sdw::expr::Kind::eIdentifier );
-			check( static_cast< sdw::expr::Identifier const & >( *value.m_expr ).getVariable()->getTypeName() == "value" );
-			check( static_cast< sdw::expr::Identifier const & >( *value.m_expr ).getVariable()->isLocale() );
+			check( value.getType()->getKind() == sdw::TypeTraits< T >::TypeEnum );
+			check( value.getType()->getArraySize() == 12u );
+			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getTypeName() == "value" );
+			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isLocale() );
 			check( shader.getStatements()->getStatements().empty() );
 		}
 		{
 			sdw::Shader shader;
-			auto value = shader.declLocaleArray< T >( "value", 3u, getDefaultArray< T >( shader, 3u ), false );
+			auto value = shader.declLocaleArray< T >( "value", 3u, test::getDefaultArray< T >( shader, 3u ), false );
 			check( !value.isEnabled() );
-			check( value.m_expr->getType()->getKind() == sdw::TypeTraits< T >::TypeEnum );
-			check( value.m_expr->getType()->getArraySize() == 3u );
-			check( value.m_expr->getKind() == sdw::expr::Kind::eAggrInit );
-			check( static_cast< sdw::expr::AggrInit const & >( *value.m_expr ).getIdentifier()->getVariable()->getTypeName() == "value" );
-			check( static_cast< sdw::expr::AggrInit const & >( *value.m_expr ).getIdentifier()->getVariable()->isLocale() );
+			check( value.getType()->getKind() == sdw::TypeTraits< T >::TypeEnum );
+			check( value.getType()->getArraySize() == 3u );
+			check( value.getExpr()->getKind() == sdw::expr::Kind::eAggrInit );
+			check( static_cast< sdw::expr::AggrInit const & >( *value.getExpr() ).getIdentifier()->getVariable()->getTypeName() == "value" );
+			check( static_cast< sdw::expr::AggrInit const & >( *value.getExpr() ).getIdentifier()->getVariable()->isLocale() );
 			check( shader.getStatements()->getStatements().empty() );
 		}
 		{
 			auto name = sdw::debug::getTypeName( sdw::TypeTraits< T >::TypeEnum ) + "LocaleValue_opt";
 			auto value = shader.declLocale< T >( name, true );
 			check( value.isEnabled() );
-			check( value.m_expr->getType()->getKind() == sdw::TypeTraits< T >::TypeEnum );
-			check( value.m_expr->getType()->getArraySize() == sdw::type::NotArray );
-			check( value.m_expr->getKind() == sdw::expr::Kind::eIdentifier );
-			check( static_cast< sdw::expr::Identifier const & >( *value.m_expr ).getVariable()->getTypeName() == name );
-			check( static_cast< sdw::expr::Identifier const & >( *value.m_expr ).getVariable()->isLocale() );
+			check( value.getType()->getKind() == sdw::TypeTraits< T >::TypeEnum );
+			check( value.getType()->getArraySize() == sdw::type::NotArray );
+			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getTypeName() == name );
+			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isLocale() );
 			auto & stmt = *shader.getStatements()->getStatements().back();
 			check( stmt.getKind() == sdw::stmt::Kind::eVariableDecl );
 		}
 		{
 			auto name = sdw::debug::getTypeName( sdw::TypeTraits< T >::TypeEnum ) + "LocaleValueAssigned_opt";
-			auto value = shader.declLocale< T >( name, sdw::Optional< T >{ getDefault< T >( shader ), true } );
+			auto value = shader.declLocale< T >( name, sdw::Optional< T >{ test::getDefault< T >( shader ), true } );
 			check( value.isEnabled() );
-			check( value.m_expr->getType()->getKind() == sdw::TypeTraits< T >::TypeEnum );
-			check( value.m_expr->getType()->getArraySize() == sdw::type::NotArray );
-			check( value.m_expr->getKind() == sdw::expr::Kind::eInit );
-			check( static_cast< sdw::expr::Init const & >( *value.m_expr ).getIdentifier()->getVariable()->getTypeName() == name );
-			check( static_cast< sdw::expr::Init const & >( *value.m_expr ).getIdentifier()->getVariable()->isLocale() );
+			check( value.getType()->getKind() == sdw::TypeTraits< T >::TypeEnum );
+			check( value.getType()->getArraySize() == sdw::type::NotArray );
+			check( value.getExpr()->getKind() == sdw::expr::Kind::eInit );
+			check( static_cast< sdw::expr::Init const & >( *value.getExpr() ).getIdentifier()->getVariable()->getTypeName() == name );
+			check( static_cast< sdw::expr::Init const & >( *value.getExpr() ).getIdentifier()->getVariable()->isLocale() );
 			auto & stmt = *shader.getStatements()->getStatements().back();
 			check( stmt.getKind() == sdw::stmt::Kind::eSimple );
 		}
 		{
 			auto name = sdw::debug::getTypeName( sdw::TypeTraits< T >::TypeEnum ) + "LocaleValueAssigned_opt";
-			auto value = shader.declLocale< T >( name, getDefault< T >( shader ), true );
+			auto value = shader.declLocale< T >( name, test::getDefault< T >( shader ), true );
 			check( value.isEnabled() );
-			check( value.m_expr->getType()->getKind() == sdw::TypeTraits< T >::TypeEnum );
-			check( value.m_expr->getType()->getArraySize() == sdw::type::NotArray );
-			check( value.m_expr->getKind() == sdw::expr::Kind::eInit );
-			check( static_cast< sdw::expr::Init const & >( *value.m_expr ).getIdentifier()->getVariable()->getTypeName() == name );
-			check( static_cast< sdw::expr::Init const & >( *value.m_expr ).getIdentifier()->getVariable()->isLocale() );
+			check( value.getType()->getKind() == sdw::TypeTraits< T >::TypeEnum );
+			check( value.getType()->getArraySize() == sdw::type::NotArray );
+			check( value.getExpr()->getKind() == sdw::expr::Kind::eInit );
+			check( static_cast< sdw::expr::Init const & >( *value.getExpr() ).getIdentifier()->getVariable()->getTypeName() == name );
+			check( static_cast< sdw::expr::Init const & >( *value.getExpr() ).getIdentifier()->getVariable()->isLocale() );
 			auto & stmt = *shader.getStatements()->getStatements().back();
 			check( stmt.getKind() == sdw::stmt::Kind::eSimple );
 		}
@@ -656,23 +449,23 @@ namespace
 			auto name = sdw::debug::getTypeName( sdw::TypeTraits< T >::TypeEnum ) + "LocaleValue_opt";
 			auto value = shader.declLocaleArray< T >( name, 12u, true );
 			check( value.isEnabled() );
-			check( value.m_expr->getType()->getKind() == sdw::TypeTraits< T >::TypeEnum );
-			check( value.m_expr->getType()->getArraySize() == 12u );
-			check( value.m_expr->getKind() == sdw::expr::Kind::eIdentifier );
-			check( static_cast< sdw::expr::Identifier const & >( *value.m_expr ).getVariable()->getTypeName() == name );
-			check( static_cast< sdw::expr::Identifier const & >( *value.m_expr ).getVariable()->isLocale() );
+			check( value.getType()->getKind() == sdw::TypeTraits< T >::TypeEnum );
+			check( value.getType()->getArraySize() == 12u );
+			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getTypeName() == name );
+			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isLocale() );
 			auto & stmt = *shader.getStatements()->getStatements().back();
 			check( stmt.getKind() == sdw::stmt::Kind::eVariableDecl );
 		}
 		{
 			auto name = sdw::debug::getTypeName( sdw::TypeTraits< T >::TypeEnum ) + "LocaleValue_opt";
-			auto value = shader.declLocaleArray< T >( name, 3u, getDefaultArray< T >( shader, 3u ), true );
+			auto value = shader.declLocaleArray< T >( name, 3u, test::getDefaultArray< T >( shader, 3u ), true );
 			check( value.isEnabled() );
-			check( value.m_expr->getType()->getKind() == sdw::TypeTraits< T >::TypeEnum );
-			check( value.m_expr->getType()->getArraySize() == 3u );
-			check( value.m_expr->getKind() == sdw::expr::Kind::eAggrInit );
-			check( static_cast< sdw::expr::AggrInit const & >( *value.m_expr ).getIdentifier()->getVariable()->getTypeName() == name );
-			check( static_cast< sdw::expr::AggrInit const & >( *value.m_expr ).getIdentifier()->getVariable()->isLocale() );
+			check( value.getType()->getKind() == sdw::TypeTraits< T >::TypeEnum );
+			check( value.getType()->getArraySize() == 3u );
+			check( value.getExpr()->getKind() == sdw::expr::Kind::eAggrInit );
+			check( static_cast< sdw::expr::AggrInit const & >( *value.getExpr() ).getIdentifier()->getVariable()->getTypeName() == name );
+			check( static_cast< sdw::expr::AggrInit const & >( *value.getExpr() ).getIdentifier()->getVariable()->isLocale() );
 			auto & stmt = *shader.getStatements()->getStatements().back();
 			check( stmt.getKind() == sdw::stmt::Kind::eSimple );
 		}
@@ -684,94 +477,94 @@ namespace
 		{
 			auto name = sdw::debug::getTypeName( sdw::TypeTraits< T >::TypeEnum ) + "BuiltinValue";
 			auto value = shader.declBuiltin< T >( name );
-			check( value.m_expr->getType()->getKind() == sdw::TypeTraits< T >::TypeEnum );
-			check( value.m_expr->getType()->getArraySize() == sdw::type::NotArray );
-			check( value.m_expr->getKind() == sdw::expr::Kind::eIdentifier );
-			check( static_cast< sdw::expr::Identifier const & >( *value.m_expr ).getVariable()->getTypeName() == name );
-			check( static_cast< sdw::expr::Identifier const & >( *value.m_expr ).getVariable()->isBuiltin() );
+			check( value.getType()->getKind() == sdw::TypeTraits< T >::TypeEnum );
+			check( value.getType()->getArraySize() == sdw::type::NotArray );
+			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getTypeName() == name );
+			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isBuiltin() );
 			check( shader.getStatements()->getStatements().empty() );
 		}
 		{
 			auto name = sdw::debug::getTypeName( sdw::TypeTraits< T >::TypeEnum ) + "BuiltinValue";
 			auto value = shader.declBuiltinArray< T >( name, 12u );
-			check( value.m_expr->getType()->getKind() == sdw::TypeTraits< T >::TypeEnum );
-			check( value.m_expr->getType()->getArraySize() == 12u );
-			check( value.m_expr->getKind() == sdw::expr::Kind::eIdentifier );
-			check( static_cast< sdw::expr::Identifier const & >( *value.m_expr ).getVariable()->getTypeName() == name );
-			check( static_cast< sdw::expr::Identifier const & >( *value.m_expr ).getVariable()->isBuiltin() );
+			check( value.getType()->getKind() == sdw::TypeTraits< T >::TypeEnum );
+			check( value.getType()->getArraySize() == 12u );
+			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getTypeName() == name );
+			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isBuiltin() );
 			check( shader.getStatements()->getStatements().empty() );
 		}
 		{
 			auto name = sdw::debug::getTypeName( sdw::TypeTraits< T >::TypeEnum ) + "BuiltinValue";
 			auto value = shader.declBuiltinArray< T >( name );
-			check( value.m_expr->getType()->getKind() == sdw::TypeTraits< T >::TypeEnum );
-			check( value.m_expr->getType()->getArraySize() == sdw::type::UnknownArraySize );
-			check( value.m_expr->getKind() == sdw::expr::Kind::eIdentifier );
-			check( static_cast< sdw::expr::Identifier const & >( *value.m_expr ).getVariable()->getTypeName() == name );
-			check( static_cast< sdw::expr::Identifier const & >( *value.m_expr ).getVariable()->isBuiltin() );
+			check( value.getType()->getKind() == sdw::TypeTraits< T >::TypeEnum );
+			check( value.getType()->getArraySize() == sdw::type::UnknownArraySize );
+			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getTypeName() == name );
+			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isBuiltin() );
 			check( shader.getStatements()->getStatements().empty() );
 		}
 		{
 			auto value = shader.declBuiltin< T >( "value", false );
 			check( !value.isEnabled() );
-			check( value.m_expr->getType()->getKind() == sdw::TypeTraits< T >::TypeEnum );
-			check( value.m_expr->getType()->getArraySize() == sdw::type::NotArray );
-			check( value.m_expr->getKind() == sdw::expr::Kind::eIdentifier );
-			check( static_cast< sdw::expr::Identifier const & >( *value.m_expr ).getVariable()->getTypeName() == "value" );
-			check( static_cast< sdw::expr::Identifier const & >( *value.m_expr ).getVariable()->isBuiltin() );
+			check( value.getType()->getKind() == sdw::TypeTraits< T >::TypeEnum );
+			check( value.getType()->getArraySize() == sdw::type::NotArray );
+			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getTypeName() == "value" );
+			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isBuiltin() );
 			check( shader.getStatements()->getStatements().empty() );
 		}
 		{
 			auto value = shader.declBuiltinArray< T >( "value", 12u, false );
 			check( !value.isEnabled() );
-			check( value.m_expr->getType()->getKind() == sdw::TypeTraits< T >::TypeEnum );
-			check( value.m_expr->getType()->getArraySize() == 12u );
-			check( value.m_expr->getKind() == sdw::expr::Kind::eIdentifier );
-			check( static_cast< sdw::expr::Identifier const & >( *value.m_expr ).getVariable()->getTypeName() == "value" );
-			check( static_cast< sdw::expr::Identifier const & >( *value.m_expr ).getVariable()->isBuiltin() );
+			check( value.getType()->getKind() == sdw::TypeTraits< T >::TypeEnum );
+			check( value.getType()->getArraySize() == 12u );
+			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getTypeName() == "value" );
+			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isBuiltin() );
 			check( shader.getStatements()->getStatements().empty() );
 		}
 		{
 			auto value = shader.declBuiltinArray< T >( "value", false );
 			check( !value.isEnabled() );
-			check( value.m_expr->getType()->getKind() == sdw::TypeTraits< T >::TypeEnum );
-			check( value.m_expr->getType()->getArraySize() == sdw::type::UnknownArraySize );
-			check( value.m_expr->getKind() == sdw::expr::Kind::eIdentifier );
-			check( static_cast< sdw::expr::Identifier const & >( *value.m_expr ).getVariable()->getTypeName() == "value" );
-			check( static_cast< sdw::expr::Identifier const & >( *value.m_expr ).getVariable()->isBuiltin() );
+			check( value.getType()->getKind() == sdw::TypeTraits< T >::TypeEnum );
+			check( value.getType()->getArraySize() == sdw::type::UnknownArraySize );
+			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getTypeName() == "value" );
+			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isBuiltin() );
 			check( shader.getStatements()->getStatements().empty() );
 		}
 		{
 			auto name = sdw::debug::getTypeName( sdw::TypeTraits< T >::TypeEnum ) + "BuiltinValue_opt";
 			auto value = shader.declBuiltin< T >( name, true );
 			check( value.isEnabled() );
-			check( value.m_expr->getType()->getKind() == sdw::TypeTraits< T >::TypeEnum );
-			check( value.m_expr->getType()->getArraySize() == sdw::type::NotArray );
-			check( value.m_expr->getKind() == sdw::expr::Kind::eIdentifier );
-			check( static_cast< sdw::expr::Identifier const & >( *value.m_expr ).getVariable()->getTypeName() == name );
-			check( static_cast< sdw::expr::Identifier const & >( *value.m_expr ).getVariable()->isBuiltin() );
+			check( value.getType()->getKind() == sdw::TypeTraits< T >::TypeEnum );
+			check( value.getType()->getArraySize() == sdw::type::NotArray );
+			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getTypeName() == name );
+			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isBuiltin() );
 			check( shader.getStatements()->getStatements().empty() );
 		}
 		{
 			auto name = sdw::debug::getTypeName( sdw::TypeTraits< T >::TypeEnum ) + "BuiltinValue_opt";
 			auto value = shader.declBuiltinArray< T >( name, 12u, true );
 			check( value.isEnabled() );
-			check( value.m_expr->getType()->getKind() == sdw::TypeTraits< T >::TypeEnum );
-			check( value.m_expr->getType()->getArraySize() == 12u );
-			check( value.m_expr->getKind() == sdw::expr::Kind::eIdentifier );
-			check( static_cast< sdw::expr::Identifier const & >( *value.m_expr ).getVariable()->getTypeName() == name );
-			check( static_cast< sdw::expr::Identifier const & >( *value.m_expr ).getVariable()->isBuiltin() );
+			check( value.getType()->getKind() == sdw::TypeTraits< T >::TypeEnum );
+			check( value.getType()->getArraySize() == 12u );
+			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getTypeName() == name );
+			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isBuiltin() );
 			check( shader.getStatements()->getStatements().empty() );
 		}
 		{
 			auto name = sdw::debug::getTypeName( sdw::TypeTraits< T >::TypeEnum ) + "BuiltinValue_opt";
 			auto value = shader.declBuiltinArray< T >( name, true );
 			check( value.isEnabled() );
-			check( value.m_expr->getType()->getKind() == sdw::TypeTraits< T >::TypeEnum );
-			check( value.m_expr->getType()->getArraySize() == sdw::type::UnknownArraySize );
-			check( value.m_expr->getKind() == sdw::expr::Kind::eIdentifier );
-			check( static_cast< sdw::expr::Identifier const & >( *value.m_expr ).getVariable()->getTypeName() == name );
-			check( static_cast< sdw::expr::Identifier const & >( *value.m_expr ).getVariable()->isBuiltin() );
+			check( value.getType()->getKind() == sdw::TypeTraits< T >::TypeEnum );
+			check( value.getType()->getArraySize() == sdw::type::UnknownArraySize );
+			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getTypeName() == name );
+			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isBuiltin() );
 			check( shader.getStatements()->getStatements().empty() );
 		}
 	}
@@ -782,24 +575,24 @@ namespace
 		{
 			auto name = sdw::debug::getTypeName( sdw::SamplerTypeTraits< ST >::TypeEnum ) + "SamplerValue_1_1";
 			auto value = shader.declSampler< ST >( name, 1u, 1u );
-			check( value.m_expr->getType()->getKind() == sdw::SamplerTypeTraits< ST >::TypeEnum );
-			check( value.m_expr->getType()->getArraySize() == sdw::type::NotArray );
-			check( value.m_expr->getKind() == sdw::expr::Kind::eIdentifier );
-			check( static_cast< sdw::expr::Identifier const & >( *value.m_expr ).getVariable()->getTypeName() == name );
-			check( static_cast< sdw::expr::Identifier const & >( *value.m_expr ).getVariable()->isSampler() );
+			check( value.getType()->getKind() == sdw::SamplerTypeTraits< ST >::TypeEnum );
+			check( value.getType()->getArraySize() == sdw::type::NotArray );
+			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getTypeName() == name );
+			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isSampler() );
 			auto & stmt = *shader.getStatements()->getStatements().back();
 			check( stmt.getKind() == sdw::stmt::Kind::eSamplerDecl );
- 			check( static_cast< sdw::stmt::SamplerDecl const & >( stmt ).getBindingPoint() == 1u );
+			check( static_cast< sdw::stmt::SamplerDecl const & >( stmt ).getBindingPoint() == 1u );
 			check( static_cast< sdw::stmt::SamplerDecl const & >( stmt ).getBindingSet() == 1u );
 		}
 		{
 			auto name = sdw::debug::getTypeName( sdw::SamplerTypeTraits< ST >::TypeEnum ) + "SamplerValue_2_2";
 			auto value = shader.declSamplerArray< ST >( name, 2u, 2u, 12u );
-			check( value.m_expr->getType()->getKind() == sdw::SamplerTypeTraits< ST >::TypeEnum );
-			check( value.m_expr->getType()->getArraySize() == 12u );
-			check( value.m_expr->getKind() == sdw::expr::Kind::eIdentifier );
-			check( static_cast< sdw::expr::Identifier const & >( *value.m_expr ).getVariable()->getTypeName() == name );
-			check( static_cast< sdw::expr::Identifier const & >( *value.m_expr ).getVariable()->isSampler() );
+			check( value.getType()->getKind() == sdw::SamplerTypeTraits< ST >::TypeEnum );
+			check( value.getType()->getArraySize() == 12u );
+			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getTypeName() == name );
+			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isSampler() );
 			auto & stmt = *shader.getStatements()->getStatements().back();
 			check( stmt.getKind() == sdw::stmt::Kind::eSamplerDecl );
 			check( static_cast< sdw::stmt::SamplerDecl const & >( stmt ).getBindingPoint() == 2u );
@@ -809,33 +602,33 @@ namespace
 			sdw::Shader shader;
 			auto value = shader.declSampler< ST >( "value", 1u, 1u, false );
 			check( !value.isEnabled() );
-			check( value.m_expr->getType()->getKind() == sdw::SamplerTypeTraits< ST >::TypeEnum );
-			check( value.m_expr->getType()->getArraySize() == sdw::type::NotArray );
-			check( value.m_expr->getKind() == sdw::expr::Kind::eIdentifier );
-			check( static_cast< sdw::expr::Identifier const & >( *value.m_expr ).getVariable()->getTypeName() == "value" );
-			check( static_cast< sdw::expr::Identifier const & >( *value.m_expr ).getVariable()->isSampler() );
+			check( value.getType()->getKind() == sdw::SamplerTypeTraits< ST >::TypeEnum );
+			check( value.getType()->getArraySize() == sdw::type::NotArray );
+			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getTypeName() == "value" );
+			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isSampler() );
 			check( shader.getStatements()->getStatements().empty() );
 		}
 		{
 			sdw::Shader shader;
 			auto value = shader.declSamplerArray< ST >( "value", 1u, 1u, 12u, false );
 			check( !value.isEnabled() );
-			check( value.m_expr->getType()->getKind() == sdw::SamplerTypeTraits< ST >::TypeEnum );
-			check( value.m_expr->getType()->getArraySize() == 12u );
-			check( value.m_expr->getKind() == sdw::expr::Kind::eIdentifier );
-			check( static_cast< sdw::expr::Identifier const & >( *value.m_expr ).getVariable()->getTypeName() == "value" );
-			check( static_cast< sdw::expr::Identifier const & >( *value.m_expr ).getVariable()->isSampler() );
+			check( value.getType()->getKind() == sdw::SamplerTypeTraits< ST >::TypeEnum );
+			check( value.getType()->getArraySize() == 12u );
+			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getTypeName() == "value" );
+			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isSampler() );
 			check( shader.getStatements()->getStatements().empty() );
 		}
 		{
 			auto name = sdw::debug::getTypeName( sdw::SamplerTypeTraits< ST >::TypeEnum ) + "SamplerValue_1_1_opt";
 			auto value = shader.declSampler< ST >( name, 1u, 1u, true );
 			check( value.isEnabled() );
-			check( value.m_expr->getType()->getKind() == sdw::SamplerTypeTraits< ST >::TypeEnum );
-			check( value.m_expr->getType()->getArraySize() == sdw::type::NotArray );
-			check( value.m_expr->getKind() == sdw::expr::Kind::eIdentifier );
-			check( static_cast< sdw::expr::Identifier const & >( *value.m_expr ).getVariable()->getTypeName() == name );
-			check( static_cast< sdw::expr::Identifier const & >( *value.m_expr ).getVariable()->isSampler() );
+			check( value.getType()->getKind() == sdw::SamplerTypeTraits< ST >::TypeEnum );
+			check( value.getType()->getArraySize() == sdw::type::NotArray );
+			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getTypeName() == name );
+			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isSampler() );
 			auto & stmt = *shader.getStatements()->getStatements().back();
 			check( stmt.getKind() == sdw::stmt::Kind::eSamplerDecl );
 			check( static_cast< sdw::stmt::SamplerDecl const & >( stmt ).getBindingPoint() == 1u );
@@ -845,11 +638,11 @@ namespace
 			auto name = sdw::debug::getTypeName( sdw::SamplerTypeTraits< ST >::TypeEnum ) + "SamplerValue_2_2_opt";
 			auto value = shader.declSamplerArray< ST >( name, 2u, 2u, 12u, true );
 			check( value.isEnabled() );
-			check( value.m_expr->getType()->getKind() == sdw::SamplerTypeTraits< ST >::TypeEnum );
-			check( value.m_expr->getType()->getArraySize() == 12u );
-			check( value.m_expr->getKind() == sdw::expr::Kind::eIdentifier );
-			check( static_cast< sdw::expr::Identifier const & >( *value.m_expr ).getVariable()->getTypeName() == name );
-			check( static_cast< sdw::expr::Identifier const & >( *value.m_expr ).getVariable()->isSampler() );
+			check( value.getType()->getKind() == sdw::SamplerTypeTraits< ST >::TypeEnum );
+			check( value.getType()->getArraySize() == 12u );
+			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getTypeName() == name );
+			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isSampler() );
 			auto & stmt = *shader.getStatements()->getStatements().back();
 			check( stmt.getKind() == sdw::stmt::Kind::eSamplerDecl );
 			check( static_cast< sdw::stmt::SamplerDecl const & >( stmt ).getBindingPoint() == 2u );

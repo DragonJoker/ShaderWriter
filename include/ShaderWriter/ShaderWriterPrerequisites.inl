@@ -439,7 +439,7 @@ namespace sdw
 
 		for ( auto & value : values )
 		{
-			result.emplace_back( makeExpr( value.m_expr ) );
+			result.emplace_back( makeExpr( value ) );
 		}
 
 		return result;

@@ -10,7 +10,7 @@ namespace sdw
 	Float & Float::operator=( T const & rhs )
 	{
 		updateContainer( rhs );
-		addStmt( *m_container
+		addStmt( *findContainer( *this, rhs )
 			, stmt::makeSimple( expr::makeAssign( type::getFloat()
 				, makeExpr( m_expr )
 				, makeExpr( rhs ) ) ) );

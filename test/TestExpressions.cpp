@@ -1012,7 +1012,7 @@ namespace
 			check( expr->getIdentifier()->getVariable()->getType()->getKind() == ast::type::Kind::eInt );
 
 			check( expr->getInitialisers().empty() );
-			std::cout << "ExprInit (empty): " << ast::debug::ExprVisitor::submit( expr.get() ) << std::endl;
+			std::cout << "ExprAggrInit (empty): " << ast::debug::ExprVisitor::submit( expr.get() ) << std::endl;
 		}
 		{
 			auto lhs = ast::expr::makeIdentifier( ast::var::makeVariable( ast::type::makeType( ast::type::Kind::eInt, 4u ), "lhs" ) );
@@ -1042,7 +1042,7 @@ namespace
 				v += 10;
 			}
 
-			std::cout << "ExprInit: " << ast::debug::ExprVisitor::submit( expr.get() ) << std::endl;
+			std::cout << "ExprAggrInit: " << ast::debug::ExprVisitor::submit( expr.get() ) << std::endl;
 		}
 		testEnd();
 	}

@@ -45,6 +45,7 @@ namespace sdw
 	class Shader
 	{
 	public:
+		Shader();
 		void registerName( std::string const & name
 			, type::Kind type );
 		void checkNameExists( std::string const & name
@@ -303,6 +304,11 @@ namespace sdw
 			return &m_container;
 		}
 
+		inline stmt::Container * getContainer()
+		{
+			return m_currentContainer;
+		}
+
 	private:
 		void registerConstant( std::string const & name
 			, type::Kind type );
@@ -321,6 +327,7 @@ namespace sdw
 
 	private:
 		stmt::Container m_container;
+		stmt::Container * m_currentContainer;
 		std::map< std::string, type::Kind > m_registered;
 		std::map< std::string, Ssbo::Info > m_ssbos;
 		std::map< std::string, Ubo::Info > m_ubos;

@@ -17,16 +17,37 @@ namespace sdw
 
 	struct Value
 	{
-		Value( stmt::Container * container
+		Value( Shader * shader
 			, expr::ExprPtr expr );
 		Value( Value && rhs );
 		Value( Value const & rhs );
 		virtual ~Value();
 		Value & operator=( Value const & rhs );
 		void updateContainer( Value const & variable );
+		stmt::Container * getContainer()const;
 
-		stmt::Container * m_container;
+		inline type::TypePtr getType()const
+		{
+			return m_expr->getType();
+		}
+
+		inline expr::Expr * getExpr()const
+		{
+			return m_expr.get();
+		}
+
+		inline Shader * getShader()const
+		{
+			return m_shader;
+		}
+
+	protected:
+		void updateExpr( expr::ExprPtr expr );
+
+	private:
 		expr::ExprPtr m_expr;
+		Shader * m_shader;
+		stmt::Container * m_container;
 	};
 
 	template< typename T >
@@ -36,6 +57,8 @@ namespace sdw
 
 	template< typename ... ValuesT >
 	inline stmt::Container * findContainer( ValuesT const & ... values );
+	template< typename ... ValuesT >
+	inline Shader * findShader( ValuesT const & ... values );
 
 	expr::ExprPtr makeExpr( Value const & variable );
 	var::VariablePtr makeVar( Value const & variable );

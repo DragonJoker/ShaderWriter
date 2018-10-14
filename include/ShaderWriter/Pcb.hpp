@@ -70,7 +70,7 @@ namespace sdw
 			, bool enabled );
 
 	private:
-		Shader & m_container;
+		Shader & m_shader;
 		std::string m_name;
 		std::string m_instance;
 		uint32_t m_count{ 0u };

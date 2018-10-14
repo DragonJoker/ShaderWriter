@@ -56,21 +56,6 @@ namespace sdw
 		return stream;
 	}
 
-
-	//***********************************************************************************************
-
-	template< typename T >
-	void writeAssign( stmt::Container * container, Type const & lhs, T const & rhs )
-	{
-		writer->writeAssign( lhs, rhs );
-	}
-
-	template< typename T1, typename T2 >
-	void writeAssign( stmt::Container * container, Optional< T1 > const & lhs, T2 const & rhs )
-	{
-		writer->writeAssign( lhs, rhs );
-	}
-
 	//***********************************************************************************************
 
 	template< typename T >

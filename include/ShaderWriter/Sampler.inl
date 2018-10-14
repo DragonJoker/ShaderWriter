@@ -3,9 +3,9 @@ namespace sdw
 	//*****************************************************************************************
 
 	template< SamplerType ST >
-	SamplerT< ST >::SamplerT( stmt::Container * container
+	SamplerT< ST >::SamplerT( Shader * shader
 		, expr::ExprPtr expr )
-		: Value{ container, std::move( expr ) }
+		: Value{ shader, std::move( expr ) }
 	{
 	}
 
@@ -14,7 +14,7 @@ namespace sdw
 	SamplerT< ST > & SamplerT< ST >::operator=( T const & rhs )
 	{
 		this->updateContainer( rhs );
-		addStmt( *m_container
+		addStmt( *findContainer( *this, rhs )
 			, stmt::makeSimple( expr::makeAssign( m_expr->getType()
 				, makeExpr( m_expr )
 				, makeExpr( rhs ) ) ) );

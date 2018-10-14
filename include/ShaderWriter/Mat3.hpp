@@ -17,7 +17,7 @@ namespace sdw
 		using my_vec = Vec3T< ValueT >;
 		using my_mat = Mat3T< ValueT >;
 
-		inline Mat3T( stmt::Container * container
+		inline Mat3T( Shader * shader
 			, expr::ExprPtr expr );
 		inline Mat3T< ValueT > & operator=( Mat3T< ValueT > const & rhs );
 		template< typename RhsT >

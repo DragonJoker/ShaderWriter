@@ -28,7 +28,7 @@ namespace sdw
 		auto type = type::makeType( TypeTraits< Type >::TypeEnum );
 		addStmt( stmt::makePreprocDefine( name
 			, makeExpr( rhs ) ) );
-		return T{ &m_container
+		return T{ this
 			, makeExpr( rhs ) };
 	}
 
@@ -48,7 +48,7 @@ namespace sdw
 		}
 
 		auto type = type::makeType( TypeTraits< Type >::TypeEnum );
-		return Optional< T >{ &m_container
+		return Optional< T >{ this
 			, makeExpr( rhs )
 			, enabled };
 	}
@@ -74,7 +74,7 @@ namespace sdw
 			, var::Flag::eShaderConstant );
 		addStmt( stmt::makeInOutVariableDecl( var
 			, location ) );
-		return T{ &m_container
+		return T{ this
 			, makeExpr( var ) };
 	}
 
@@ -98,7 +98,7 @@ namespace sdw
 				, location ) );
 		}
 
-		return Optional< T >{ &m_container
+		return Optional< T >{ this
 			, makeExpr( var )
 			, enabled };
 	}
@@ -129,7 +129,7 @@ namespace sdw
 		addStmt( stmt::makeSamplerDecl( var
 			, binding
 			, set ) );
-		return T{ &m_container
+		return T{ this
 			, makeExpr( var ) };
 	}
 
@@ -159,7 +159,7 @@ namespace sdw
 				, set ) );
 		}
 
-		return Optional< T >{ &m_container
+		return Optional< T >{ this
 			, makeExpr( var )
 			, enabled };
 	}
@@ -185,7 +185,7 @@ namespace sdw
 		addStmt( stmt::makeSamplerDecl( var
 			, binding
 			, set ) );
-		return Array< T >{ &m_container
+		return Array< T >{ this
 			, makeExpr( var ) };
 	}
 
@@ -217,7 +217,7 @@ namespace sdw
 				, set ) );
 		}
 
-		return Optional< Array< T > >{ &m_container
+		return Optional< Array< T > >{ this
 			, makeExpr( var )
 			, enabled };
 	}
@@ -243,7 +243,7 @@ namespace sdw
 			, var::Flag::eShaderInput );
 		addStmt( stmt::makeInOutVariableDecl( var
 			, location ) );
-		return T{ &m_container
+		return T{ this
 			, makeExpr( var ) };
 	}
 
@@ -267,7 +267,7 @@ namespace sdw
 				, location ) );
 		}
 
-		return Optional< T >{ &m_container
+		return Optional< T >{ this
 			, makeExpr( var )
 			, enabled };
 	}
@@ -288,7 +288,7 @@ namespace sdw
 			, var::Flag::eShaderInput );
 		addStmt( stmt::makeInOutVariableDecl( var
 			, location ) );
-		return Array< T >{ &m_container
+		return Array< T >{ this
 			, makeExpr( var ) };
 	}
 
@@ -307,7 +307,7 @@ namespace sdw
 			, var::Flag::eShaderInput );
 		addStmt( stmt::makeInOutVariableDecl( var
 			, location ) );
-		return Array< T >{ &m_container
+		return Array< T >{ this
 			, makeExpr( var ) };
 	}
 
@@ -333,7 +333,7 @@ namespace sdw
 				, location ) );
 		}
 
-		return Optional< Array< T > >{ &m_container
+		return Optional< Array< T > >{ this
 			, makeExpr( var )
 			, enabled };
 	}
@@ -359,7 +359,7 @@ namespace sdw
 				, location ) );
 		}
 
-		return Optional< Array< T > >{ &m_container
+		return Optional< Array< T > >{ this
 			, makeExpr( var )
 			, enabled };
 	}
@@ -385,7 +385,7 @@ namespace sdw
 			, var::Flag::eShaderOutput );
 		addStmt( stmt::makeInOutVariableDecl( var
 			, location ) );
-		return T{ &m_container
+		return T{ this
 			, makeExpr( var ) };
 	}
 
@@ -409,7 +409,7 @@ namespace sdw
 				, location ) );
 		}
 
-		return Optional< T >{ &m_container
+		return Optional< T >{ this
 			, makeExpr( var )
 			, enabled };
 	}
@@ -430,7 +430,7 @@ namespace sdw
 			, var::Flag::eShaderOutput );
 		addStmt( stmt::makeInOutVariableDecl( var
 			, location ) );
-		return Array< T >{ &m_container
+		return Array< T >{ this
 			, makeExpr( var ) };
 	}
 
@@ -449,7 +449,7 @@ namespace sdw
 			, var::Flag::eShaderOutput );
 		addStmt( stmt::makeInOutVariableDecl( var
 			, location ) );
-		return Array< T >{ &m_container
+		return Array< T >{ this
 			, makeExpr( var ) };
 	}
 
@@ -475,7 +475,7 @@ namespace sdw
 				, location ) );
 		}
 
-		return Optional< Array< T > >{ &m_container
+		return Optional< Array< T > >{ this
 			, makeExpr( var )
 			, enabled };
 	}
@@ -501,7 +501,7 @@ namespace sdw
 				, location ) );
 		}
 
-		return Optional< Array< T > >{ &m_container
+		return Optional< Array< T > >{ this
 			, makeExpr( var )
 			, enabled };
 	}
@@ -524,7 +524,7 @@ namespace sdw
 			, name
 			, var::Flag::eLocale );
 		addStmt( stmt::makeVariableDecl( var ) );
-		return T{ &m_container
+		return T{ this
 			, makeExpr( var ) };
 	}
 
@@ -542,7 +542,7 @@ namespace sdw
 		auto expr = expr::makeInit( expr::makeIdentifier( var )
 			, makeExpr( rhs ) );
 		addStmt( stmt::makeSimple( makeExpr( expr.get() ) ) );
-		return T{ &m_container
+		return T{ this
 			, std::move( expr ) };
 	}
 
@@ -563,7 +563,7 @@ namespace sdw
 			addStmt( stmt::makeVariableDecl( var ) );
 		}
 
-		return Optional< T >{ &m_container
+		return Optional< T >{ this
 			, makeExpr( var )
 			, enabled };
 	}
@@ -587,7 +587,7 @@ namespace sdw
 			addStmt( stmt::makeSimple( makeExpr( expr.get() ) ) );
 		}
 
-		return Optional< T >{ &m_container
+		return Optional< T >{ this
 			, std::move( expr )
 			, rhs.isEnabled() };
 	}
@@ -612,7 +612,7 @@ namespace sdw
 			addStmt( stmt::makeSimple( makeExpr( expr.get() ) ) );
 		}
 
-		return Optional< T >{ &m_container
+		return Optional< T >{ this
 			, std::move( expr )
 			, enabled };
 	}
@@ -630,7 +630,7 @@ namespace sdw
 			, name
 			, var::Flag::eLocale );
 		addStmt( stmt::makeVariableDecl( var ) );
-		return Array< T >{ &m_container
+		return Array< T >{ this
 			, makeExpr( var ) };
 	}
 
@@ -650,7 +650,7 @@ namespace sdw
 		auto expr = expr::makeAggrInit( expr::makeIdentifier( var )
 			, makeExpr( rhs ) );
 		addStmt( stmt::makeSimple( makeExpr( expr.get() ) ) );
-		return Array< T >{ &m_container
+		return Array< T >{ this
 			, std::move( expr ) };
 	}
 
@@ -673,7 +673,7 @@ namespace sdw
 			addStmt( stmt::makeVariableDecl( var ) );
 		}
 
-		return Optional< Array< T > >{ &m_container
+		return Optional< Array< T > >{ this
 			, makeExpr( var )
 			, enabled };
 	}
@@ -700,7 +700,7 @@ namespace sdw
 			addStmt( stmt::makeSimple( makeExpr( expr.get() ) ) );
 		}
 
-		return Optional< Array< T > >{ &m_container
+		return Optional< Array< T > >{ this
 			, std::move( expr )
 			, enabled };
 	}
@@ -722,7 +722,7 @@ namespace sdw
 		auto var = var::makeVariable( type
 			, name
 			, var::Flag::eBuiltin );
-		return T{ &m_container
+		return T{ this
 			, makeExpr( var ) };
 	}
 
@@ -737,7 +737,7 @@ namespace sdw
 		auto var = var::makeVariable( type
 			, name
 			, var::Flag::eBuiltin );
-		return Optional< T >{ &m_container
+		return Optional< T >{ this
 			, makeExpr( var )
 			, enabled };
 	}
@@ -754,7 +754,7 @@ namespace sdw
 		auto var = var::makeVariable( type
 			, name
 			, var::Flag::eBuiltin );
-		return Array< T >{ &m_container
+		return Array< T >{ this
 			, makeExpr( var ) };
 	}
 
@@ -769,7 +769,7 @@ namespace sdw
 		auto var = var::makeVariable( type
 			, name
 			, var::Flag::eBuiltin );
-		return Array< T >{ &m_container
+		return Array< T >{ this
 			, makeExpr( var ) };
 	}
 
@@ -786,7 +786,7 @@ namespace sdw
 		auto var = var::makeVariable( type
 			, name
 			, var::Flag::eBuiltin );
-		return Optional< Array< T > >{ &m_container
+		return Optional< Array< T > >{ this
 			, makeExpr( var )
 			, enabled };
 	}
@@ -803,7 +803,7 @@ namespace sdw
 		auto var = var::makeVariable( type
 			, name
 			, var::Flag::eBuiltin );
-		return Optional< Array< T > >{ &m_container
+		return Optional< Array< T > >{ this
 			, makeExpr( var )
 			, enabled };
 	}
@@ -818,7 +818,7 @@ namespace sdw
 		auto var = var::makeVariable( type
 			, name
 			, var::Flag::eBuiltin );
-		return T{ &m_container
+		return T{ this
 			, makeExpr( var ) };
 	}
 
@@ -833,7 +833,7 @@ namespace sdw
 		auto var = var::makeVariable( type
 			, name
 			, var::Flag::eBuiltin );
-		return Optional< T >{ &m_container
+		return Optional< T >{ this
 			, makeExpr( var )
 			, enabled };
 	}
@@ -849,7 +849,7 @@ namespace sdw
 		auto var = var::makeVariable( type
 			, name
 			, var::Flag::eBuiltin );
-		return Array< T >{ &m_container
+		return Array< T >{ this
 			, makeExpr( var ) };
 	}
 
@@ -865,7 +865,7 @@ namespace sdw
 		auto var = var::makeVariable( type
 			, name
 			, var::Flag::eBuiltin );
-		return Optional< Array< T > >{ &m_container
+		return Optional< Array< T > >{ this
 			, makeExpr( var )
 			, enabled };
 	}
@@ -882,7 +882,7 @@ namespace sdw
 		auto var = var::makeVariable( type
 			, name
 			, var::Flag::eBuiltin );
-		return Array< T >{ &m_container
+		return Array< T >{ this
 			, makeExpr( var ) };
 	}
 
@@ -899,7 +899,7 @@ namespace sdw
 		auto var = var::makeVariable( type
 			, name
 			, var::Flag::eBuiltin );
-		return Optional< Array< T > >{ &m_container
+		return Optional< Array< T > >{ this
 			, makeExpr( var )
 			, enabled };
 	}

@@ -13,7 +13,7 @@ namespace sdw
 	struct Array
 		: public T
 	{
-		Array( stmt::Container * container
+		Array( Shader * shader
 			, expr::ExprPtr expr );
 		template< typename U > T operator[]( U const & offset );
 		template< typename U > T operator[]( U const & offset )const;

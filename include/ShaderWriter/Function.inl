@@ -53,8 +53,7 @@ namespace sdw
 				expr::ExprList args;
 				bool isEnabled = true;
 				getFunctionCallParamsRec( args, isEnabled, params... );
-				auto container = findContainer( params... );
-				return ReturnT{ container
+				return ReturnT{ findShader( params... )
 					, expr::makeFnCall( type::makeType( TypeTraits< ReturnT >::TypeEnum )
 						, expr::makeIdentifier( var::makeFunction( name ) )
 						, std::move( args ) ) };
@@ -71,8 +70,7 @@ namespace sdw
 				expr::ExprList args;
 				bool isEnabled = true;
 				getFunctionCallParamsRec( args, isEnabled, params... );
-				auto container = findContainer( params... );
-				return Optional< ReturnT >{ container
+				return Optional< ReturnT >{ findShader( params... )
 					, expr::makeFnCall( type::makeType( TypeTraits< ReturnT >::TypeEnum )
 						, expr::makeIdentifier( var::makeFunction( name ) )
 						, std::move( args ) )
@@ -150,9 +148,9 @@ namespace sdw
 	//***********************************************************************************************
 
 	template< typename RetT, typename ... ParamsT >
-	Function< RetT, ParamsT... >::Function( stmt::Container * container
+	Function< RetT, ParamsT... >::Function( Shader * shader
 		, std::string const & name )
-		: m_container{ writer }
+		: m_container{ container }
 		, m_name{ name }
 	{
 	}

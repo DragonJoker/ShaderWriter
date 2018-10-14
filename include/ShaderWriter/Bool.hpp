@@ -12,7 +12,7 @@ namespace sdw
 	struct Boolean
 		: public Value
 	{
-		Boolean( stmt::Container * container
+		Boolean( Shader * shader
 			, expr::ExprPtr expr );
 		Boolean( Boolean && rhs );
 		Boolean( Boolean const & rhs );

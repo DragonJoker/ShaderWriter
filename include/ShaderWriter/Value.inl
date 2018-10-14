@@ -7,47 +7,47 @@ namespace sdw
 
 	namespace details
 	{
-		inline stmt::Container * getContainer( Value const & value )
+		inline Shader * getShader( Value const & value )
 		{
-			return value.m_container;
+			return value.getShader();
 		}
 
-		inline stmt::Container * getContainer( bool const & value )
-		{
-			return nullptr;
-		}
-
-		inline stmt::Container * getContainer( int32_t const & value )
+		inline Shader * getShader( bool const & value )
 		{
 			return nullptr;
 		}
 
-		inline stmt::Container * getContainer( int64_t const & value )
+		inline Shader * getShader( int32_t const & value )
 		{
 			return nullptr;
 		}
 
-		inline stmt::Container * getContainer( uint32_t const & value )
+		inline Shader * getShader( int64_t const & value )
 		{
 			return nullptr;
 		}
 
-		inline stmt::Container * getContainer( uint64_t const & value )
+		inline Shader * getShader( uint32_t const & value )
 		{
 			return nullptr;
 		}
 
-		inline stmt::Container * getContainer( float const & value )
+		inline Shader * getShader( uint64_t const & value )
 		{
 			return nullptr;
 		}
 
-		inline stmt::Container * getContainer( double const & value )
+		inline Shader * getShader( float const & value )
 		{
 			return nullptr;
 		}
 
-		inline stmt::Container * getContainer( long double const & value )
+		inline Shader * getShader( double const & value )
+		{
+			return nullptr;
+		}
+
+		inline Shader * getShader( long double const & value )
 		{
 			return nullptr;
 		}
@@ -56,37 +56,51 @@ namespace sdw
 	//***********************************************************************************************
 
 	template< typename Value, typename ... Values >
-	inline void findContainerRec( stmt::Container *& result
+	inline void findShaderRec( Shader *& result
 		, Value const & current
 		, Values const & ... values );
 
 	template< typename Value >
-	inline void findContainerRec( stmt::Container *& result
+	inline void findShaderRec( Shader *& result
 		, Value const & last )
 	{
 		if ( !result )
 		{
-			result = details::getContainer( last );
+			result = details::getShader( last );
 		}
 	}
 
 	template< typename Value, typename ... Values >
-	inline void findContainerRec( stmt::Container *& result
+	inline void findShaderRec( Shader *& result
 		, Value const & current
 		, Values const & ... values )
 	{
 		if ( !result )
 		{
-			result = details::getContainer( current );
-			findContainerRec( result, values... );
+			result = details::getShader( current );
+			findShaderRec( result, values... );
 		}
+	}
+
+	template< typename ... ValuesT >
+	inline Shader * findShader( ValuesT const & ... values )
+	{
+		Shader * result{ nullptr };
+		findShaderRec( result, values... );
+		return result;
 	}
 
 	template< typename ... ValuesT >
 	inline stmt::Container * findContainer( ValuesT const & ... values )
 	{
+		auto shader = findShader( values... );
 		stmt::Container * result{ nullptr };
-		findContainerRec( result, values... );
+
+		if ( shader )
+		{
+			result = getContainer( *shader );
+		}
+
 		return result;
 	}
 
@@ -95,7 +109,8 @@ namespace sdw
 	template< typename T >
 	T const & operator-( T const & value )
 	{
-		addStmt( *value.m_container, expr::makeUnaryMinus( clone( value.m_expr ) ) );
+		addStmt( *findContainer( value )
+			, expr::makeUnaryMinus( clone( value.m_expr ) ) );
 		return value;
 	}
 

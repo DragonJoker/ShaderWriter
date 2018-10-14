@@ -5,10 +5,10 @@ namespace sdw
 		, uint32_t location )
 	{
 		using type = typename TypeOf< T >::Type;
-		registerName( m_container, name, TypeTraits< T >::TypeEnum );
-		registerUniform( m_container, name, location, TypeTraits< T >::TypeEnum, 1u );
+		registerName( m_shader, name, TypeTraits< T >::TypeEnum );
+		registerUniform( m_shader, name, location, TypeTraits< T >::TypeEnum, 1u );
 
-		if ( hasPushConstants( m_container ) )
+		if ( hasPushConstants( m_shader ) )
 		{
 			m_stream << type().m_type << name << cuT( ";" ) << std::endl;
 		}
@@ -18,7 +18,7 @@ namespace sdw
 		}
 
 		m_count++;
-		return T( &m_container, name );
+		return T( &m_shader, name );
 	}
 
 	template< typename T >
@@ -27,10 +27,10 @@ namespace sdw
 		, uint32_t location )
 	{
 		using type = typename TypeOf< T >::Type;
-		registerName( m_container, name, TypeTraits< T >::TypeEnum );
-		registerUniform( m_container, name, location, TypeTraits< T >::TypeEnum, dimension );
+		registerName( m_shader, name, TypeTraits< T >::TypeEnum );
+		registerUniform( m_shader, name, location, TypeTraits< T >::TypeEnum, dimension );
 
-		if ( hasPushConstants( m_container ) )
+		if ( hasPushConstants( m_shader ) )
 		{
 			m_stream << type().m_type << name << cuT( "[" ) << dimension << cuT( "];" ) << std::endl;
 		}
@@ -40,7 +40,7 @@ namespace sdw
 		}
 
 		m_count++;
-		return Array< T >( &m_container, name, dimension );
+		return Array< T >( &m_shader, name, dimension );
 	}
 
 	template< typename T >
@@ -48,10 +48,10 @@ namespace sdw
 		, uint32_t location )
 	{
 		using type = typename TypeOf< T >::Type;
-		registerName( m_container, name, TypeTraits< T >::TypeEnum );
-		registerUniform( m_container, name, location, TypeTraits< T >::TypeEnum, 1u );
+		registerName( m_shader, name, TypeTraits< T >::TypeEnum );
+		registerUniform( m_shader, name, location, TypeTraits< T >::TypeEnum, 1u );
 
-		if ( hasPushConstants( m_container ) )
+		if ( hasPushConstants( m_shader ) )
 		{
 			m_stream << type().m_type << name << cuT( "[];" ) << std::endl;
 		}
@@ -61,7 +61,7 @@ namespace sdw
 		}
 
 		m_count++;
-		return Array< T >( &m_container, name, 0xFFFFFFFF );
+		return Array< T >( &m_shader, name, 0xFFFFFFFF );
 	}
 
 	template< typename T >
@@ -70,12 +70,12 @@ namespace sdw
 		, bool enabled )
 	{
 		using type = typename TypeOf< T >::Type;
-		registerName( m_container, name, TypeTraits< T >::TypeEnum );
-		registerUniform( m_container, name, location, TypeTraits< T >::TypeEnum, 1u, enabled );
+		registerName( m_shader, name, TypeTraits< T >::TypeEnum );
+		registerUniform( m_shader, name, location, TypeTraits< T >::TypeEnum, 1u, enabled );
 
 		if ( enabled )
 		{
-			if ( hasPushConstants( m_container ) )
+			if ( hasPushConstants( m_shader ) )
 			{
 				m_stream << type().m_type << name << cuT( ";" ) << std::endl;
 			}
@@ -87,7 +87,7 @@ namespace sdw
 			m_count++;
 		}
 
-		return Optional< T >( &m_container, name, enabled );
+		return Optional< T >( &m_shader, name, enabled );
 	}
 
 	template< typename T >
@@ -97,12 +97,12 @@ namespace sdw
 		, bool enabled )
 	{
 		using type = typename TypeOf< T >::Type;
-		registerName( m_container, name, TypeTraits< T >::TypeEnum );
-		registerUniform( m_container, name, location, TypeTraits< T >::TypeEnum, dimension, enabled );
+		registerName( m_shader, name, TypeTraits< T >::TypeEnum );
+		registerUniform( m_shader, name, location, TypeTraits< T >::TypeEnum, dimension, enabled );
 
 		if ( enabled )
 		{
-			if ( hasPushConstants( m_container ) )
+			if ( hasPushConstants( m_shader ) )
 			{
 				m_stream << type().m_type << name << cuT( "[" ) << dimension << cuT( "]" ) << cuT( ";" ) << std::endl;
 			}
@@ -114,7 +114,7 @@ namespace sdw
 			m_count++;
 		}
 
-		return Optional< Array< T > >( &m_container, name, dimension, enabled );
+		return Optional< Array< T > >( &m_shader, name, dimension, enabled );
 	}
 
 	template< typename T >
@@ -123,12 +123,12 @@ namespace sdw
 		, bool enabled )
 	{
 		using type = typename TypeOf< T >::Type;
-		registerName( m_container, name, TypeTraits< T >::TypeEnum );
-		registerUniform( m_container, name, location, TypeTraits< T >::TypeEnum, 1u, enabled );
+		registerName( m_shader, name, TypeTraits< T >::TypeEnum );
+		registerUniform( m_shader, name, location, TypeTraits< T >::TypeEnum, 1u, enabled );
 
 		if ( enabled )
 		{
-			if ( hasPushConstants( m_container ) )
+			if ( hasPushConstants( m_shader ) )
 			{
 				m_stream << type().m_type << name << cuT( "[]" ) << cuT( ";" ) << std::endl;
 			}
@@ -140,15 +140,15 @@ namespace sdw
 			m_count++;
 		}
 
-		return Optional< Array< T > >( &m_container, name, 0xFFFFFFFF, enabled );
+		return Optional< Array< T > >( &m_shader, name, 0xFFFFFFFF, enabled );
 	}
 
 	template< typename T >
 	inline T Pcb::getMember( std::string const & name
 		, uint32_t location )
 	{
-		checkNameExists( m_container, name, TypeTraits< T >::TypeEnum );
-		return T( &m_container, name );
+		checkNameExists( m_shader, name, TypeTraits< T >::TypeEnum );
+		return T( &m_shader, name );
 	}
 
 	template< typename T >
@@ -156,16 +156,16 @@ namespace sdw
 		, uint32_t dimension
 		, uint32_t location )
 	{
-		checkNameExists( m_container, name, TypeTraits< T >::TypeEnum );
-		return Array< T >( &m_container, name, dimension );
+		checkNameExists( m_shader, name, TypeTraits< T >::TypeEnum );
+		return Array< T >( &m_shader, name, dimension );
 	}
 
 	template< typename T >
 	inline Array< T > Pcb::getMemberArray( std::string const & name
 		, uint32_t location )
 	{
-		checkNameExists( m_container, name, TypeTraits< T >::TypeEnum );
-		return Array< T >( &m_container, name, 0xFFFFFFFF );
+		checkNameExists( m_shader, name, TypeTraits< T >::TypeEnum );
+		return Array< T >( &m_shader, name, 0xFFFFFFFF );
 	}
 
 	template< typename T >
@@ -173,8 +173,8 @@ namespace sdw
 		, uint32_t location
 		, bool enabled )
 	{
-		checkNameExists( m_container, name, TypeTraits< T >::TypeEnum );
-		return Optional< T >( &m_container, name, enabled );
+		checkNameExists( m_shader, name, TypeTraits< T >::TypeEnum );
+		return Optional< T >( &m_shader, name, enabled );
 	}
 
 	template< typename T >
@@ -183,8 +183,8 @@ namespace sdw
 		, uint32_t location
 		, bool enabled )
 	{
-		checkNameExists( m_container, name, TypeTraits< T >::TypeEnum );
-		return Optional< Array< T > >( &m_container, name, dimension, enabled );
+		checkNameExists( m_shader, name, TypeTraits< T >::TypeEnum );
+		return Optional< Array< T > >( &m_shader, name, dimension, enabled );
 	}
 
 	template< typename T >
@@ -192,7 +192,7 @@ namespace sdw
 		, uint32_t location
 		, bool enabled )
 	{
-		checkNameExists( m_container, name, TypeTraits< T >::TypeEnum );
-		return Optional< Array< T > >( &m_container, name, 0xFFFFFFFF, enabled );
+		checkNameExists( m_shader, name, TypeTraits< T >::TypeEnum );
+		return Optional< Array< T > >( &m_shader, name, 0xFFFFFFFF, enabled );
 	}
 }

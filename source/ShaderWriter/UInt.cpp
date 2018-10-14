@@ -26,9 +26,11 @@
 
 namespace sdw
 {
-	UInt::UInt( stmt::Container * container
+	//*************************************************************************
+
+	UInt::UInt( Shader * shader
 		, expr::ExprPtr expr )
-		: Value{ container, std::move( expr ) }
+		: Value{ shader, std::move( expr ) }
 	{
 	}
 
@@ -49,54 +51,53 @@ namespace sdw
 
 	UInt & UInt::operator=( UInt const & rhs )
 	{
-		if ( m_container )
+		if ( getContainer() )
 		{
-			addStmt( *m_container
+			addStmt( *findContainer( *this, rhs )
 				, stmt::makeSimple( expr::makeAssign( type::getUInt()
-					, makeExpr( m_expr )
+					, makeExpr( *this )
 					, makeExpr( rhs ) ) ) );
 		}
 		else
 		{
 			Value::operator=( rhs );
-			m_container = rhs.m_container;
 		}
 
 		return *this;
 	}
 
-	UInt & UInt::operator=( int32_t rhs )
+	UInt & UInt::operator=( int32_t const & rhs )
 	{
-		addStmt( *m_container
+		addStmt( *findContainer( *this, rhs )
 			, stmt::makeSimple( expr::makeAssign( type::getUInt()
-				, makeExpr( m_expr )
+				, makeExpr( *this )
 				, makeExpr( uint32_t( rhs ) ) ) ) );
 		return *this;
 	}
 
-	UInt & UInt::operator=( int64_t rhs )
+	UInt & UInt::operator=( int64_t const & rhs )
 	{
-		addStmt( *m_container
+		addStmt( *findContainer( *this, rhs )
 			, stmt::makeSimple( expr::makeAssign( type::getUInt()
-				, makeExpr( m_expr )
+				, makeExpr( *this )
 				, makeExpr( uint64_t( rhs ) ) ) ) );
 		return *this;
 	}
 
-	UInt & UInt::operator=( uint32_t rhs )
+	UInt & UInt::operator=( uint32_t const & rhs )
 	{
-		addStmt( *m_container
+		addStmt( *findContainer( *this, rhs )
 			, stmt::makeSimple( expr::makeAssign( type::getUInt()
-				, makeExpr( m_expr )
+				, makeExpr( *this )
 				, makeExpr( rhs ) ) ) );
 		return *this;
 	}
 
-	UInt & UInt::operator=( uint64_t rhs )
+	UInt & UInt::operator=( uint64_t const & rhs )
 	{
-		addStmt( *m_container
+		addStmt( *findContainer( *this, rhs )
 			, stmt::makeSimple( expr::makeAssign( type::getUInt()
-				, makeExpr( m_expr )
+				, makeExpr( *this )
 				, makeExpr( rhs ) ) ) );
 		return *this;
 	}
@@ -108,409 +109,716 @@ namespace sdw
 
 	UInt & UInt::operator++()
 	{
-		m_expr = expr::makePreIncrement( std::move( m_expr ) );
+		updateExpr( expr::makePreIncrement( makeExpr( *this ) ) );
 		return *this;
 	}
 
 	UInt UInt::operator++( int )
 	{
-		return UInt{ m_container, expr::makePostIncrement( std::move( m_expr ) ) };
+		return UInt{ findShader( *this ), expr::makePostIncrement( makeExpr( *this ) ) };
 	}
 
 	UInt & UInt::operator--()
 	{
-		m_expr = expr::makePreDecrement( std::move( m_expr ) );
+		updateExpr( expr::makePreDecrement( makeExpr( *this ) ) );
 		return *this;
 	}
 
 	UInt UInt::operator--( int )
 	{
-		return UInt{ m_container, expr::makePostDecrement( std::move( m_expr ) ) };
+		return UInt{ findShader( *this ), expr::makePostDecrement( makeExpr( *this ) ) };
 	}
 
 	UInt & UInt::operator+=( UInt const & rhs )
 	{
-		addStmt( *m_container
+		addStmt( *findContainer( *this, rhs )
 			, stmt::makeSimple( expr::makeAddAssign( type::getUInt()
-				, makeExpr( m_expr )
+				, makeExpr( *this )
 				, makeExpr( rhs ) ) ) );
 		return *this;
 	}
 
 	UInt & UInt::operator-=( UInt const & rhs )
 	{
-		addStmt( *m_container
+		addStmt( *findContainer( *this, rhs )
 			, stmt::makeSimple( expr::makeMinusAssign( type::getUInt()
-				, makeExpr( m_expr )
+				, makeExpr( *this )
 				, makeExpr( rhs ) ) ) );
 		return *this;
 	}
 
 	UInt & UInt::operator*=( UInt const & rhs )
 	{
-		addStmt( *m_container
+		addStmt( *findContainer( *this, rhs )
 			, stmt::makeSimple( expr::makeTimesAssign( type::getUInt()
-				, makeExpr( m_expr )
+				, makeExpr( *this )
 				, makeExpr( rhs ) ) ) );
 		return *this;
 	}
 
 	UInt & UInt::operator/=( UInt const & rhs )
 	{
-		addStmt( *m_container
+		addStmt( *findContainer( *this, rhs )
 			, stmt::makeSimple( expr::makeDivideAssign( type::getUInt()
-				, makeExpr( m_expr )
+				, makeExpr( *this )
 				, makeExpr( rhs ) ) ) );
+		return *this;
+	}
+
+	UInt & UInt::operator+=( Optional< UInt > const & rhs )
+	{
+		if ( rhs.isEnabled() )
+		{
+			addStmt( *findContainer( *this, rhs )
+				, stmt::makeSimple( expr::makeAddAssign( type::getUInt()
+					, makeExpr( *this )
+					, makeExpr( rhs ) ) ) );
+		}
+
+		return *this;
+	}
+
+	UInt & UInt::operator-=( Optional< UInt > const & rhs )
+	{
+		if ( rhs.isEnabled() )
+		{
+			addStmt( *findContainer( *this, rhs )
+				, stmt::makeSimple( expr::makeMinusAssign( type::getUInt()
+					, makeExpr( *this )
+					, makeExpr( rhs ) ) ) );
+		}
+
+		return *this;
+	}
+
+	UInt & UInt::operator*=( Optional< UInt > const & rhs )
+	{
+		if ( rhs.isEnabled() )
+		{
+			addStmt( *findContainer( *this, rhs )
+				, stmt::makeSimple( expr::makeTimesAssign( type::getUInt()
+					, makeExpr( *this )
+					, makeExpr( rhs ) ) ) );
+		}
+
+		return *this;
+	}
+
+	UInt & UInt::operator/=( Optional< UInt > const & rhs )
+	{
+		if ( rhs.isEnabled() )
+		{
+			addStmt( *findContainer( *this, rhs )
+				, stmt::makeSimple( expr::makeDivideAssign( type::getUInt()
+					, makeExpr( *this )
+					, makeExpr( rhs ) ) ) );
+		}
+
 		return *this;
 	}
 
 	UInt & UInt::operator+=( Int const & rhs )
 	{
-		addStmt( *m_container
+		addStmt( *findContainer( *this, rhs )
 			, stmt::makeSimple( expr::makeAddAssign( type::getUInt()
-				, makeExpr( m_expr )
+				, makeExpr( *this )
 				, makeExpr( rhs ) ) ) );
 		return *this;
 	}
 
 	UInt & UInt::operator-=( Int const & rhs )
 	{
-		addStmt( *m_container
+		addStmt( *findContainer( *this, rhs )
 			, stmt::makeSimple( expr::makeMinusAssign( type::getUInt()
-				, makeExpr( m_expr )
+				, makeExpr( *this )
 				, makeExpr( rhs ) ) ) );
 		return *this;
 	}
 
 	UInt & UInt::operator*=( Int const & rhs )
 	{
-		addStmt( *m_container
+		addStmt( *findContainer( *this, rhs )
 			, stmt::makeSimple( expr::makeTimesAssign( type::getUInt()
-				, makeExpr( m_expr )
+				, makeExpr( *this )
 				, makeExpr( rhs ) ) ) );
 		return *this;
 	}
 
 	UInt & UInt::operator/=( Int const & rhs )
 	{
-		addStmt( *m_container
+		addStmt( *findContainer( *this, rhs )
 			, stmt::makeSimple( expr::makeDivideAssign( type::getUInt()
-				, makeExpr( m_expr )
+				, makeExpr( *this )
 				, makeExpr( rhs ) ) ) );
 		return *this;
 	}
 
-	UInt & UInt::operator+=( uint32_t rhs )
+	UInt & UInt::operator+=( Optional< Int > const & rhs )
 	{
-		addStmt( *m_container
+		if ( rhs.isEnabled() )
+		{
+			addStmt( *findContainer( *this, rhs )
+				, stmt::makeSimple( expr::makeAddAssign( type::getUInt()
+					, makeExpr( *this )
+					, makeExpr( rhs ) ) ) );
+		}
+
+		return *this;
+	}
+
+	UInt & UInt::operator-=( Optional< Int > const & rhs )
+	{
+		if ( rhs.isEnabled() )
+		{
+			addStmt( *findContainer( *this, rhs )
+				, stmt::makeSimple( expr::makeMinusAssign( type::getUInt()
+					, makeExpr( *this )
+					, makeExpr( rhs ) ) ) );
+		}
+
+		return *this;
+	}
+
+	UInt & UInt::operator*=( Optional< Int > const & rhs )
+	{
+		if ( rhs.isEnabled() )
+		{
+			addStmt( *findContainer( *this, rhs )
+				, stmt::makeSimple( expr::makeTimesAssign( type::getUInt()
+					, makeExpr( *this )
+					, makeExpr( rhs ) ) ) );
+		}
+
+		return *this;
+	}
+
+	UInt & UInt::operator/=( Optional< Int > const & rhs )
+	{
+		if ( rhs.isEnabled() )
+		{
+			addStmt( *findContainer( *this, rhs )
+				, stmt::makeSimple( expr::makeDivideAssign( type::getUInt()
+					, makeExpr( *this )
+					, makeExpr( rhs ) ) ) );
+		}
+
+		return *this;
+	}
+
+	UInt & UInt::operator+=( uint32_t const & rhs )
+	{
+		addStmt( *findContainer( *this, rhs )
 			, stmt::makeSimple( expr::makeAddAssign( type::getUInt()
-				, makeExpr( m_expr )
+				, makeExpr( *this )
 				, makeExpr( rhs ) ) ) );
 		return *this;
 	}
 
-	UInt & UInt::operator-=( uint32_t rhs )
+	UInt & UInt::operator-=( uint32_t const & rhs )
 	{
-		addStmt( *m_container
+		addStmt( *findContainer( *this, rhs )
 			, stmt::makeSimple( expr::makeMinusAssign( type::getUInt()
-				, makeExpr( m_expr )
+				, makeExpr( *this )
 				, makeExpr( rhs ) ) ) );
 		return *this;
 	}
 
-	UInt & UInt::operator*=( uint32_t rhs )
+	UInt & UInt::operator*=( uint32_t const & rhs )
 	{
-		addStmt( *m_container
+		addStmt( *findContainer( *this, rhs )
 			, stmt::makeSimple( expr::makeTimesAssign( type::getUInt()
-				, makeExpr( m_expr )
+				, makeExpr( *this )
 				, makeExpr( rhs ) ) ) );
 		return *this;
 	}
 
-	UInt & UInt::operator/=( uint32_t rhs )
+	UInt & UInt::operator/=( uint32_t const & rhs )
 	{
-		addStmt( *m_container
+		addStmt( *findContainer( *this, rhs )
 			, stmt::makeSimple( expr::makeDivideAssign( type::getUInt()
-				, makeExpr( m_expr )
+				, makeExpr( *this )
 				, makeExpr( rhs ) ) ) );
 		return *this;
 	}
 
-	UInt & UInt::operator+=( int32_t rhs )
+	UInt & UInt::operator+=( int32_t const & rhs )
 	{
-		addStmt( *m_container
+		addStmt( *findContainer( *this, rhs )
 			, stmt::makeSimple( expr::makeAddAssign( type::getUInt()
-				, makeExpr( m_expr )
+				, makeExpr( *this )
 				, makeExpr( rhs ) ) ) );
 		return *this;
 	}
 
-	UInt & UInt::operator-=( int32_t rhs )
+	UInt & UInt::operator-=( int32_t const & rhs )
 	{
-		addStmt( *m_container
+		addStmt( *findContainer( *this, rhs )
 			, stmt::makeSimple( expr::makeMinusAssign( type::getUInt()
-				, makeExpr( m_expr )
+				, makeExpr( *this )
 				, makeExpr( rhs ) ) ) );
 		return *this;
 	}
 
-	UInt & UInt::operator*=( int32_t rhs )
+	UInt & UInt::operator*=( int32_t const & rhs )
 	{
-		addStmt( *m_container
+		addStmt( *findContainer( *this, rhs )
 			, stmt::makeSimple( expr::makeTimesAssign( type::getUInt()
-				, makeExpr( m_expr )
+				, makeExpr( *this )
 				, makeExpr( rhs ) ) ) );
 		return *this;
 	}
 
-	UInt & UInt::operator/=( int32_t rhs )
+	UInt & UInt::operator/=( int32_t const & rhs )
 	{
-		addStmt( *m_container
+		addStmt( *findContainer( *this, rhs )
 			, stmt::makeSimple( expr::makeDivideAssign( type::getUInt()
-				, makeExpr( m_expr )
+				, makeExpr( *this )
 				, makeExpr( rhs ) ) ) );
 		return *this;
 	}
 
-	UInt & UInt::operator%=( int32_t rhs )
+	UInt & UInt::operator%=( int32_t const & rhs )
 	{
-		addStmt( *m_container
+		addStmt( *findContainer( *this, rhs )
 			, stmt::makeSimple( expr::makeModuloAssign( type::getUInt()
-				, makeExpr( m_expr )
+				, makeExpr( *this )
 				, makeExpr( rhs ) ) ) );
 		return *this;
 	}
 
 	UInt & UInt::operator%=( Int const & rhs )
 	{
-		addStmt( *m_container
+		addStmt( *findContainer( *this, rhs )
 			, stmt::makeSimple( expr::makeModuloAssign( type::getUInt()
-				, makeExpr( m_expr )
+				, makeExpr( *this )
 				, makeExpr( rhs ) ) ) );
 		return *this;
 	}
 
-	inline UInt & UInt::operator<<=( int rhs )
+	UInt & UInt::operator%=( Optional< Int > const & rhs )
 	{
-		addStmt( *m_container
+		if ( rhs.isEnabled() )
+		{
+			addStmt( *findContainer( *this, rhs )
+				, stmt::makeSimple( expr::makeModuloAssign( type::getUInt()
+					, makeExpr( *this )
+					, makeExpr( rhs ) ) ) );
+		}
+
+		return *this;
+	}
+
+	UInt & UInt::operator%=( UInt const & rhs )
+	{
+		addStmt( *findContainer( *this, rhs )
+			, stmt::makeSimple( expr::makeModuloAssign( type::getUInt()
+				, makeExpr( *this )
+				, makeExpr( rhs ) ) ) );
+		return *this;
+	}
+
+	UInt & UInt::operator%=( Optional< UInt > const & rhs )
+	{
+		if ( rhs.isEnabled() )
+		{
+			addStmt( *findContainer( *this, rhs )
+				, stmt::makeSimple( expr::makeModuloAssign( type::getUInt()
+					, makeExpr( *this )
+					, makeExpr( rhs ) ) ) );
+		}
+
+		return *this;
+	}
+
+	UInt & UInt::operator<<=( int32_t const & rhs )
+	{
+		addStmt( *findContainer( *this, rhs )
 			, stmt::makeSimple( expr::makeLShiftAssign( type::getUInt()
-				, makeExpr( m_expr )
+				, makeExpr( *this )
 				, makeExpr( rhs ) ) ) );
 		return *this;
 	}
 
-	inline UInt & UInt::operator>>=( int rhs )
+	UInt & UInt::operator>>=( int32_t const & rhs )
 	{
-		addStmt( *m_container
+		addStmt( *findContainer( *this, rhs )
 			, stmt::makeSimple( expr::makeRShiftAssign( type::getUInt()
-				, makeExpr( m_expr )
+				, makeExpr( *this )
 				, makeExpr( rhs ) ) ) );
 		return *this;
 	}
 
-	inline UInt & UInt::operator<<=( Int const & rhs )
+	UInt & UInt::operator<<=( uint32_t const & rhs )
 	{
-		addStmt( *m_container
+		addStmt( *findContainer( *this, rhs )
 			, stmt::makeSimple( expr::makeLShiftAssign( type::getUInt()
-				, makeExpr( m_expr )
+				, makeExpr( *this )
 				, makeExpr( rhs ) ) ) );
 		return *this;
 	}
 
-	inline UInt & UInt::operator>>=( Int const & rhs )
+	UInt & UInt::operator>>=( uint32_t const & rhs )
 	{
-		addStmt( *m_container
+		addStmt( *findContainer( *this, rhs )
 			, stmt::makeSimple( expr::makeRShiftAssign( type::getUInt()
-				, makeExpr( m_expr )
+				, makeExpr( *this )
 				, makeExpr( rhs ) ) ) );
 		return *this;
 	}
 
-	inline UInt & UInt::operator&=( int rhs )
+	UInt & UInt::operator<<=( Int const & rhs )
 	{
-		addStmt( *m_container
+		addStmt( *findContainer( *this, rhs )
+			, stmt::makeSimple( expr::makeLShiftAssign( type::getUInt()
+				, makeExpr( *this )
+				, makeExpr( rhs ) ) ) );
+		return *this;
+	}
+
+	UInt & UInt::operator>>=( Int const & rhs )
+	{
+		addStmt( *findContainer( *this, rhs )
+			, stmt::makeSimple( expr::makeRShiftAssign( type::getUInt()
+				, makeExpr( *this )
+				, makeExpr( rhs ) ) ) );
+		return *this;
+	}
+
+	UInt & UInt::operator<<=( Optional< Int > const & rhs )
+	{
+		if ( rhs.isEnabled() )
+		{
+			addStmt( *findContainer( *this, rhs )
+				, stmt::makeSimple( expr::makeLShiftAssign( type::getUInt()
+					, makeExpr( *this )
+					, makeExpr( rhs ) ) ) );
+		}
+
+		return *this;
+	}
+
+	UInt & UInt::operator>>=( Optional< Int > const & rhs )
+	{
+		if ( rhs.isEnabled() )
+		{
+			addStmt( *findContainer( *this, rhs )
+				, stmt::makeSimple( expr::makeRShiftAssign( type::getUInt()
+					, makeExpr( *this )
+					, makeExpr( rhs ) ) ) );
+		}
+
+		return *this;
+	}
+
+	UInt & UInt::operator<<=( UInt const & rhs )
+	{
+		addStmt( *findContainer( *this, rhs )
+			, stmt::makeSimple( expr::makeLShiftAssign( type::getUInt()
+				, makeExpr( *this )
+				, makeExpr( rhs ) ) ) );
+		return *this;
+	}
+
+	UInt & UInt::operator>>=( UInt const & rhs )
+	{
+		addStmt( *findContainer( *this, rhs )
+			, stmt::makeSimple( expr::makeRShiftAssign( type::getUInt()
+				, makeExpr( *this )
+				, makeExpr( rhs ) ) ) );
+		return *this;
+	}
+
+	UInt & UInt::operator<<=( Optional< UInt > const & rhs )
+	{
+		if ( rhs.isEnabled() )
+		{
+			addStmt( *findContainer( *this, rhs )
+				, stmt::makeSimple( expr::makeLShiftAssign( type::getUInt()
+					, makeExpr( *this )
+					, makeExpr( rhs ) ) ) );
+		}
+
+		return *this;
+	}
+
+	UInt & UInt::operator>>=( Optional< UInt > const & rhs )
+	{
+		if ( rhs.isEnabled() )
+		{
+			addStmt( *findContainer( *this, rhs )
+				, stmt::makeSimple( expr::makeRShiftAssign( type::getUInt()
+					, makeExpr( *this )
+					, makeExpr( rhs ) ) ) );
+		}
+
+		return *this;
+	}
+
+	UInt & UInt::operator&=( int32_t const & rhs )
+	{
+		addStmt( *findContainer( *this, rhs )
 			, stmt::makeSimple( expr::makeAndAssign( type::getUInt()
-				, makeExpr( m_expr )
+				, makeExpr( *this )
 				, makeExpr( rhs ) ) ) );
 		return *this;
 	}
 
-	inline UInt & UInt::operator|=( int rhs )
+	UInt & UInt::operator|=( int32_t const & rhs )
 	{
-		addStmt( *m_container
+		addStmt( *findContainer( *this, rhs )
 			, stmt::makeSimple( expr::makeOrAssign( type::getUInt()
-				, makeExpr( m_expr )
+				, makeExpr( *this )
 				, makeExpr( rhs ) ) ) );
 		return *this;
 	}
 
-	inline UInt & UInt::operator&=( Int const & rhs )
+	UInt & UInt::operator&=( uint32_t const & rhs )
 	{
-		addStmt( *m_container
+		addStmt( *findContainer( *this, rhs )
 			, stmt::makeSimple( expr::makeAndAssign( type::getUInt()
-				, makeExpr( m_expr )
+				, makeExpr( *this )
 				, makeExpr( rhs ) ) ) );
 		return *this;
 	}
 
-	inline UInt & UInt::operator|=( Int const & rhs )
+	UInt & UInt::operator|=( uint32_t const & rhs )
 	{
-		addStmt( *m_container
+		addStmt( *findContainer( *this, rhs )
 			, stmt::makeSimple( expr::makeOrAssign( type::getUInt()
-				, makeExpr( m_expr )
+				, makeExpr( *this )
 				, makeExpr( rhs ) ) ) );
 		return *this;
 	}
 
-	inline UInt & UInt::operator&=( UInt const & rhs )
+	UInt & UInt::operator&=( Int const & rhs )
 	{
-		addStmt( *m_container
+		addStmt( *findContainer( *this, rhs )
 			, stmt::makeSimple( expr::makeAndAssign( type::getUInt()
-				, makeExpr( m_expr )
+				, makeExpr( *this )
 				, makeExpr( rhs ) ) ) );
 		return *this;
 	}
 
-	inline UInt & UInt::operator|=( UInt const & rhs )
+	UInt & UInt::operator|=( Int const & rhs )
 	{
-		addStmt( *m_container
+		addStmt( *findContainer( *this, rhs )
 			, stmt::makeSimple( expr::makeOrAssign( type::getUInt()
-				, makeExpr( m_expr )
+				, makeExpr( *this )
 				, makeExpr( rhs ) ) ) );
 		return *this;
 	}
 
-	UInt operator+( UInt const & lhs, uint32_t rhs )
+	UInt & UInt::operator&=( Optional< Int > const & rhs )
 	{
-		return UInt{ findContainer( lhs, rhs )
+		if ( rhs.isEnabled() )
+		{
+			addStmt( *findContainer( *this, rhs )
+				, stmt::makeSimple( expr::makeAndAssign( type::getUInt()
+					, makeExpr( *this )
+					, makeExpr( rhs ) ) ) );
+		}
+
+		return *this;
+	}
+
+	UInt & UInt::operator|=( Optional< Int > const & rhs )
+	{
+		if ( rhs.isEnabled() )
+		{
+			addStmt( *findContainer( *this, rhs )
+				, stmt::makeSimple( expr::makeOrAssign( type::getUInt()
+					, makeExpr( *this )
+					, makeExpr( rhs ) ) ) );
+		}
+
+		return *this;
+	}
+
+	UInt & UInt::operator&=( UInt const & rhs )
+	{
+		addStmt( *findContainer( *this, rhs )
+			, stmt::makeSimple( expr::makeAndAssign( type::getUInt()
+				, makeExpr( *this )
+				, makeExpr( rhs ) ) ) );
+		return *this;
+	}
+
+	UInt & UInt::operator|=( UInt const & rhs )
+	{
+		addStmt( *findContainer( *this, rhs )
+			, stmt::makeSimple( expr::makeOrAssign( type::getUInt()
+				, makeExpr( *this )
+				, makeExpr( rhs ) ) ) );
+		return *this;
+	}
+
+	UInt & UInt::operator&=( Optional< UInt > const & rhs )
+	{
+		if ( rhs.isEnabled() )
+		{
+			addStmt( *findContainer( *this, rhs )
+				, stmt::makeSimple( expr::makeAndAssign( type::getUInt()
+					, makeExpr( *this )
+					, makeExpr( rhs ) ) ) );
+		}
+
+		return *this;
+	}
+
+	UInt & UInt::operator|=( Optional< UInt > const & rhs )
+	{
+		if ( rhs.isEnabled() )
+		{
+			addStmt( *findContainer( *this, rhs )
+				, stmt::makeSimple( expr::makeOrAssign( type::getUInt()
+					, makeExpr( *this )
+					, makeExpr( rhs ) ) ) );
+		}
+
+		return *this;
+	}
+
+	//*************************************************************************
+
+	UInt operator+( UInt const & lhs, uint32_t const & rhs )
+	{
+		return UInt{ findShader( lhs, rhs )
 			, expr::makeAdd( type::getUInt()
 				, makeExpr( lhs )
 				, makeExpr( rhs ) ) };
 	}
 
-	UInt operator-( UInt const & lhs, uint32_t rhs )
+	UInt operator-( UInt const & lhs, uint32_t const & rhs )
 	{
-		return UInt{ findContainer( lhs, rhs )
+		return UInt{ findShader( lhs, rhs )
 			, expr::makeMinus( type::getUInt()
 				, makeExpr( lhs )
 				, makeExpr( rhs ) ) };
 	}
 
-	UInt operator*( UInt const & lhs, uint32_t rhs )
+	UInt operator*( UInt const & lhs, uint32_t const & rhs )
 	{
-		return UInt{ findContainer( lhs, rhs )
+		return UInt{ findShader( lhs, rhs )
 			, expr::makeTimes( type::getUInt()
 				, makeExpr( lhs )
 				, makeExpr( rhs ) ) };
 	}
 
-	UInt operator/( UInt const & lhs, uint32_t rhs )
+	UInt operator/( UInt const & lhs, uint32_t const & rhs )
 	{
-		return UInt{ findContainer( lhs, rhs )
+		return UInt{ findShader( lhs, rhs )
 			, expr::makeDivide( type::getUInt()
 				, makeExpr( lhs )
 				, makeExpr( rhs ) ) };
 	}
 
-	UInt operator+( UInt const & lhs, int32_t rhs )
+	UInt operator+( UInt const & lhs, int32_t const & rhs )
 	{
-		return UInt{ findContainer( lhs, rhs )
+		return UInt{ findShader( lhs, rhs )
 			, expr::makeAdd( type::getUInt()
 				, makeExpr( lhs )
 				, makeExpr( rhs ) ) };
 	}
 
-	UInt operator-( UInt const & lhs, int32_t rhs )
+	UInt operator-( UInt const & lhs, int32_t const & rhs )
 	{
-		return UInt{ findContainer( lhs, rhs )
+		return UInt{ findShader( lhs, rhs )
 			, expr::makeMinus( type::getUInt()
 				, makeExpr( lhs )
 				, makeExpr( rhs ) ) };
 	}
 
-	UInt operator*( UInt const & lhs, int32_t rhs )
+	UInt operator*( UInt const & lhs, int32_t const & rhs )
 	{
-		return UInt{ findContainer( lhs, rhs )
+		return UInt{ findShader( lhs, rhs )
 			, expr::makeTimes( type::getUInt()
 				, makeExpr( lhs )
 				, makeExpr( rhs ) ) };
 	}
 
-	UInt operator/( UInt const & lhs, int32_t rhs )
+	UInt operator/( UInt const & lhs, int32_t const & rhs )
 	{
-		return UInt{ findContainer( lhs, rhs )
+		return UInt{ findShader( lhs, rhs )
 			, expr::makeDivide( type::getUInt()
 				, makeExpr( lhs )
 				, makeExpr( rhs ) ) };
 	}
 
-	UInt operator+( int32_t lhs, UInt const & rhs )
+	UInt operator+( int32_t const & lhs, UInt const & rhs )
 	{
-		return UInt{ findContainer( lhs, rhs )
+		return UInt{ findShader( lhs, rhs )
 			, expr::makeAdd( type::getUInt()
 				, makeExpr( lhs )
 				, makeExpr( rhs ) ) };
 	}
 
-	UInt operator-( int32_t lhs, UInt const & rhs )
+	UInt operator-( int32_t const & lhs, UInt const & rhs )
 	{
-		return UInt{ findContainer( lhs, rhs )
+		return UInt{ findShader( lhs, rhs )
 			, expr::makeMinus( type::getUInt()
 				, makeExpr( lhs )
 				, makeExpr( rhs ) ) };
 	}
 
-	UInt operator*( int32_t lhs, UInt const & rhs )
+	UInt operator*( int32_t const & lhs, UInt const & rhs )
 	{
-		return UInt{ findContainer( lhs, rhs )
+		return UInt{ findShader( lhs, rhs )
 			, expr::makeTimes( type::getUInt()
 				, makeExpr( lhs )
 				, makeExpr( rhs ) ) };
 	}
 
-	UInt operator/( int32_t lhs, UInt const & rhs )
+	UInt operator/( int32_t const & lhs, UInt const & rhs )
 	{
-		return UInt{ findContainer( lhs, rhs )
+		return UInt{ findShader( lhs, rhs )
 			, expr::makeDivide( type::getUInt()
 				, makeExpr( lhs )
 				, makeExpr( rhs ) ) };
 	}
 
-	UInt operator+( uint32_t lhs, UInt const & rhs )
+	UInt operator+( uint32_t const & lhs, UInt const & rhs )
 	{
-		return UInt{ findContainer( lhs, rhs )
+		return UInt{ findShader( lhs, rhs )
 			, expr::makeAdd( type::getUInt()
 				, makeExpr( lhs )
 				, makeExpr( rhs ) ) };
 	}
 
-	UInt operator-( uint32_t lhs, UInt const & rhs )
+	UInt operator-( uint32_t const & lhs, UInt const & rhs )
 	{
-		return UInt{ findContainer( lhs, rhs )
+		return UInt{ findShader( lhs, rhs )
 			, expr::makeMinus( type::getUInt()
 				, makeExpr( lhs )
 				, makeExpr( rhs ) ) };
 	}
 
-	UInt operator*( uint32_t lhs, UInt const & rhs )
+	UInt operator*( uint32_t const & lhs, UInt const & rhs )
 	{
-		return UInt{ findContainer( lhs, rhs )
+		return UInt{ findShader( lhs, rhs )
 			, expr::makeTimes( type::getUInt()
 				, makeExpr( lhs )
 				, makeExpr( rhs ) ) };
 	}
 
-	UInt operator/( uint32_t lhs, UInt const & rhs )
+	UInt operator/( uint32_t const & lhs, UInt const & rhs )
 	{
-		return UInt{ findContainer( lhs, rhs )
+		return UInt{ findShader( lhs, rhs )
 			, expr::makeDivide( type::getUInt()
 				, makeExpr( lhs )
 				, makeExpr( rhs ) ) };
 	}
 
-	UInt operator%( UInt const & lhs, int rhs )
+	UInt operator%( UInt const & lhs, int32_t const & rhs )
 	{
-		return UInt{ findContainer( lhs, rhs )
+		return UInt{ findShader( lhs, rhs )
+			, expr::makeModulo( type::getUInt()
+				, makeExpr( lhs )
+				, makeExpr( rhs ) ) };
+	}
+
+	UInt operator%( UInt const & lhs, uint32_t const & rhs )
+	{
+		return UInt{ findShader( lhs, rhs )
 			, expr::makeModulo( type::getUInt()
 				, makeExpr( lhs )
 				, makeExpr( rhs ) ) };
@@ -518,112 +826,776 @@ namespace sdw
 
 	UInt operator%( UInt const & lhs, Int const & rhs )
 	{
-		return UInt{ findContainer( lhs, rhs )
+		return UInt{ findShader( lhs, rhs )
 			, expr::makeModulo( type::getUInt()
 				, makeExpr( lhs )
 				, makeExpr( rhs ) ) };
 	}
 
-	inline UInt operator<<( UInt const & lhs, int rhs )
+	UInt operator%( UInt const & lhs, UInt const & rhs )
 	{
-		return Int{ findContainer( lhs, rhs )
+		return UInt{ findShader( lhs, rhs )
+			, expr::makeModulo( type::getUInt()
+				, makeExpr( lhs )
+				, makeExpr( rhs ) ) };
+	}
+
+	UInt operator<<( UInt const & lhs, int32_t const & rhs )
+	{
+		return Int{ findShader( lhs, rhs )
 			, expr::makeLShift( type::getUInt()
 				, makeExpr( lhs )
 				, makeExpr( rhs ) ) };
 	}
 
-	inline UInt operator>>( UInt const & lhs, int rhs )
+	UInt operator>>( UInt const & lhs, int32_t const & rhs )
 	{
-		return Int{ findContainer( lhs, rhs )
+		return Int{ findShader( lhs, rhs )
 			, expr::makeRShift( type::getUInt()
 				, makeExpr( lhs )
 				, makeExpr( rhs ) ) };
 	}
 
-	inline UInt operator<<( UInt const & lhs, Int const & rhs )
+	UInt operator<<( UInt const & lhs, uint32_t const & rhs )
 	{
-		return Int{ findContainer( lhs, rhs )
+		return Int{ findShader( lhs, rhs )
 			, expr::makeLShift( type::getUInt()
 				, makeExpr( lhs )
 				, makeExpr( rhs ) ) };
 	}
 
-	inline UInt operator>>( UInt const & lhs, Int const & rhs )
+	UInt operator>>( UInt const & lhs, uint32_t const & rhs )
 	{
-		return Int{ findContainer( lhs, rhs )
+		return Int{ findShader( lhs, rhs )
 			, expr::makeRShift( type::getUInt()
 				, makeExpr( lhs )
 				, makeExpr( rhs ) ) };
 	}
 
-	inline UInt operator<<( UInt const & lhs, UInt const & rhs )
+	UInt operator<<( UInt const & lhs, Int const & rhs )
 	{
-		return Int{ findContainer( lhs, rhs )
+		return Int{ findShader( lhs, rhs )
 			, expr::makeLShift( type::getUInt()
 				, makeExpr( lhs )
 				, makeExpr( rhs ) ) };
 	}
 
-	inline UInt operator>>( UInt const & lhs, UInt const & rhs )
+	UInt operator>>( UInt const & lhs, Int const & rhs )
 	{
-		return Int{ findContainer( lhs, rhs )
+		return Int{ findShader( lhs, rhs )
 			, expr::makeRShift( type::getUInt()
 				, makeExpr( lhs )
 				, makeExpr( rhs ) ) };
 	}
 
-	inline UInt operator&( UInt const & lhs, int rhs )
+	UInt operator<<( UInt const & lhs, UInt const & rhs )
 	{
-		return Int{ findContainer( lhs, rhs )
+		return Int{ findShader( lhs, rhs )
+			, expr::makeLShift( type::getUInt()
+				, makeExpr( lhs )
+				, makeExpr( rhs ) ) };
+	}
+
+	UInt operator>>( UInt const & lhs, UInt const & rhs )
+	{
+		return Int{ findShader( lhs, rhs )
+			, expr::makeRShift( type::getUInt()
+				, makeExpr( lhs )
+				, makeExpr( rhs ) ) };
+	}
+
+	UInt operator&( UInt const & lhs, int32_t const & rhs )
+	{
+		return Int{ findShader( lhs, rhs )
 			, expr::makeBitAnd( type::getUInt()
 				, makeExpr( lhs )
 				, makeExpr( rhs ) ) };
 	}
 
-	inline UInt operator|( UInt const & lhs, int rhs )
+	UInt operator|( UInt const & lhs, int32_t const & rhs )
 	{
-		return Int{ findContainer( lhs, rhs )
+		return Int{ findShader( lhs, rhs )
 			, expr::makeBitOr( type::getUInt()
 				, makeExpr( lhs )
 				, makeExpr( rhs ) ) };
 	}
 
-	inline UInt operator&( UInt const & lhs, Int const & rhs )
+	UInt operator&( UInt const & lhs, uint32_t const & rhs )
 	{
-		return Int{ findContainer( lhs, rhs )
+		return Int{ findShader( lhs, rhs )
 			, expr::makeBitAnd( type::getUInt()
 				, makeExpr( lhs )
 				, makeExpr( rhs ) ) };
 	}
 
-	inline UInt operator|( UInt const & lhs, Int const & rhs )
+	UInt operator|( UInt const & lhs, uint32_t const & rhs )
 	{
-		return Int{ findContainer( lhs, rhs )
+		return Int{ findShader( lhs, rhs )
 			, expr::makeBitOr( type::getUInt()
 				, makeExpr( lhs )
 				, makeExpr( rhs ) ) };
 	}
 
-	inline UInt operator&( UInt const & lhs, UInt const & rhs )
+	UInt operator&( UInt const & lhs, Int const & rhs )
 	{
-		return Int{ findContainer( lhs, rhs )
+		return Int{ findShader( lhs, rhs )
 			, expr::makeBitAnd( type::getUInt()
 				, makeExpr( lhs )
 				, makeExpr( rhs ) ) };
 	}
 
-	inline UInt operator|( UInt const & lhs, UInt const & rhs )
+	UInt operator|( UInt const & lhs, Int const & rhs )
 	{
-		return Int{ findContainer( lhs, rhs )
+		return Int{ findShader( lhs, rhs )
 			, expr::makeBitOr( type::getUInt()
 				, makeExpr( lhs )
 				, makeExpr( rhs ) ) };
 	}
 
-	inline UInt operator~( UInt const & expr )
+	UInt operator&( UInt const & lhs, UInt const & rhs )
 	{
-		return Int{ expr.m_container
+		return Int{ findShader( lhs, rhs )
+			, expr::makeBitAnd( type::getUInt()
+				, makeExpr( lhs )
+				, makeExpr( rhs ) ) };
+	}
+
+	UInt operator|( UInt const & lhs, UInt const & rhs )
+	{
+		return Int{ findShader( lhs, rhs )
+			, expr::makeBitOr( type::getUInt()
+				, makeExpr( lhs )
+				, makeExpr( rhs ) ) };
+	}
+
+	UInt operator~( UInt const & expr )
+	{
+		return Int{ findShader( expr )
 			, expr::makeBitNot( type::getUInt()
 				, makeExpr( expr ) ) };
 	}
+
+	//*************************************************************************
+
+	Optional< UInt > operator+( UInt const & lhs, Optional< UInt > const & rhs )
+	{
+		return Optional< UInt >{ findShader( rhs )
+			, expr::makeAdd( type::getUInt()
+				, makeExpr( lhs )
+				, makeExpr( rhs ) )
+			, areOptionalEnabled( lhs, rhs ) };
+	}
+
+	Optional< UInt > operator-( UInt const & lhs, Optional< UInt > const & rhs )
+	{
+		return Optional< UInt >{ findShader( rhs )
+			, expr::makeMinus( type::getUInt()
+				, makeExpr( lhs )
+				, makeExpr( rhs ) )
+			, areOptionalEnabled( lhs, rhs ) };
+	}
+
+	Optional< UInt > operator*( UInt const & lhs, Optional< UInt > const & rhs )
+	{
+		return Optional< UInt >{ findShader( rhs )
+			, expr::makeTimes( type::getUInt()
+				, makeExpr( lhs )
+				, makeExpr( rhs ) )
+			, areOptionalEnabled( lhs, rhs ) };
+	}
+
+	Optional< UInt > operator/( UInt const & lhs, Optional< UInt > const & rhs )
+	{
+		return Optional< UInt >{ findShader( rhs )
+			, expr::makeDivide( type::getUInt()
+				, makeExpr( lhs )
+				, makeExpr( rhs ) )
+			, areOptionalEnabled( lhs, rhs ) };
+	}
+
+	Optional< UInt > operator+( Optional< UInt > const & lhs, UInt const & rhs )
+	{
+		return Optional< UInt >{ findShader( lhs, rhs )
+			, expr::makeAdd( type::getUInt()
+				, makeExpr( lhs )
+				, makeExpr( rhs ) )
+			, areOptionalEnabled( lhs, rhs ) };
+	}
+
+	Optional< UInt > operator-( Optional< UInt > const & lhs, UInt const & rhs )
+	{
+		return Optional< UInt >{ findShader( lhs, rhs )
+			, expr::makeMinus( type::getUInt()
+				, makeExpr( lhs )
+				, makeExpr( rhs ) )
+			, areOptionalEnabled( lhs, rhs ) };
+	}
+
+	Optional< UInt > operator*( Optional< UInt > const & lhs, UInt const & rhs )
+	{
+		return Optional< UInt >{ findShader( lhs, rhs )
+			, expr::makeTimes( type::getUInt()
+				, makeExpr( lhs )
+				, makeExpr( rhs ) )
+			, areOptionalEnabled( lhs, rhs ) };
+	}
+
+	Optional< UInt > operator/( Optional< UInt > const & lhs, UInt const & rhs )
+	{
+		return Optional< UInt >{ findShader( lhs, rhs )
+			, expr::makeDivide( type::getUInt()
+				, makeExpr( lhs )
+				, makeExpr( rhs ) )
+			, areOptionalEnabled( lhs, rhs ) };
+	}
+
+	Optional< UInt > operator+( Optional< UInt > const & lhs, Optional< UInt > const & rhs )
+	{
+		return Optional< UInt >{ findShader( lhs, rhs )
+			, expr::makeAdd( type::getUInt()
+				, makeExpr( lhs )
+				, makeExpr( rhs ) )
+			, areOptionalEnabled( lhs, rhs ) };
+	}
+
+	Optional< UInt > operator-( Optional< UInt > const & lhs, Optional< UInt > const & rhs )
+	{
+		return Optional< UInt >{ findShader( lhs, rhs )
+			, expr::makeMinus( type::getUInt()
+				, makeExpr( lhs )
+				, makeExpr( rhs ) )
+			, areOptionalEnabled( lhs, rhs ) };
+	}
+
+	Optional< UInt > operator*( Optional< UInt > const & lhs, Optional< UInt > const & rhs )
+	{
+		return Optional< UInt >{ findShader( lhs, rhs )
+			, expr::makeTimes( type::getUInt()
+				, makeExpr( lhs )
+				, makeExpr( rhs ) )
+			, areOptionalEnabled( lhs, rhs ) };
+	}
+
+	Optional< UInt > operator/( Optional< UInt > const & lhs, Optional< UInt > const & rhs )
+	{
+		return Optional< UInt >{ findShader( lhs, rhs )
+			, expr::makeDivide( type::getUInt()
+				, makeExpr( lhs )
+				, makeExpr( rhs ) )
+			, areOptionalEnabled( lhs, rhs ) };
+	}
+
+	Optional< UInt > operator+( Optional< UInt > const & lhs, uint32_t const & rhs )
+	{
+		return Optional< UInt >{ findShader( lhs, rhs )
+			, expr::makeAdd( type::getUInt()
+				, makeExpr( lhs )
+				, makeExpr( rhs ) )
+			, areOptionalEnabled( lhs, rhs ) };
+	}
+
+	Optional< UInt > operator-( Optional< UInt > const & lhs, uint32_t const & rhs )
+	{
+		return Optional< UInt >{ findShader( lhs, rhs )
+			, expr::makeMinus( type::getUInt()
+				, makeExpr( lhs )
+				, makeExpr( rhs ) )
+			, areOptionalEnabled( lhs, rhs ) };
+	}
+
+	Optional< UInt > operator*( Optional< UInt > const & lhs, uint32_t const & rhs )
+	{
+		return Optional< UInt >{ findShader( lhs, rhs )
+			, expr::makeTimes( type::getUInt()
+				, makeExpr( lhs )
+				, makeExpr( rhs ) )
+			, areOptionalEnabled( lhs, rhs ) };
+	}
+
+	Optional< UInt > operator/( Optional< UInt > const & lhs, uint32_t const & rhs )
+	{
+		return Optional< UInt >{ findShader( lhs, rhs )
+			, expr::makeDivide( type::getUInt()
+				, makeExpr( lhs )
+				, makeExpr( rhs ) )
+			, areOptionalEnabled( lhs, rhs ) };
+	}
+
+	Optional< UInt > operator+( Optional< UInt > const & lhs, int32_t const & rhs )
+	{
+		return Optional< UInt >{ findShader( lhs, rhs )
+			, expr::makeAdd( type::getUInt()
+				, makeExpr( lhs )
+				, makeExpr( rhs ) )
+			, areOptionalEnabled( lhs, rhs ) };
+	}
+
+	Optional< UInt > operator-( Optional< UInt > const & lhs, int32_t const & rhs )
+	{
+		return Optional< UInt >{ findShader( lhs, rhs )
+			, expr::makeMinus( type::getUInt()
+				, makeExpr( lhs )
+				, makeExpr( rhs ) )
+			, areOptionalEnabled( lhs, rhs ) };
+	}
+
+	Optional< UInt > operator*( Optional< UInt > const & lhs, int32_t const & rhs )
+	{
+		return Optional< UInt >{ findShader( lhs, rhs )
+			, expr::makeTimes( type::getUInt()
+				, makeExpr( lhs )
+				, makeExpr( rhs ) )
+			, areOptionalEnabled( lhs, rhs ) };
+	}
+
+	Optional< UInt > operator/( Optional< UInt > const & lhs, int32_t const & rhs )
+	{
+		return Optional< UInt >{ findShader( lhs, rhs )
+			, expr::makeDivide( type::getUInt()
+				, makeExpr( lhs )
+				, makeExpr( rhs ) )
+			, areOptionalEnabled( lhs, rhs ) };
+	}
+
+	Optional< UInt > operator+( int32_t const & lhs, Optional< UInt > const & rhs )
+	{
+		return Optional< UInt >{ findShader( rhs )
+			, expr::makeAdd( type::getUInt()
+				, makeExpr( lhs )
+				, makeExpr( rhs ) )
+			, areOptionalEnabled( lhs, rhs ) };
+	}
+
+	Optional< UInt > operator-( int32_t const & lhs, Optional< UInt > const & rhs )
+	{
+		return Optional< UInt >{ findShader( rhs )
+			, expr::makeMinus( type::getUInt()
+				, makeExpr( lhs )
+				, makeExpr( rhs ) )
+			, areOptionalEnabled( lhs, rhs ) };
+	}
+
+	Optional< UInt > operator*( int32_t const & lhs, Optional< UInt > const & rhs )
+	{
+		return Optional< UInt >{ findShader( rhs )
+			, expr::makeTimes( type::getUInt()
+				, makeExpr( lhs )
+				, makeExpr( rhs ) )
+			, areOptionalEnabled( lhs, rhs ) };
+	}
+
+	Optional< UInt > operator/( int32_t const & lhs, Optional< UInt > const & rhs )
+	{
+		return Optional< UInt >{ findShader( rhs )
+			, expr::makeDivide( type::getUInt()
+				, makeExpr( lhs )
+				, makeExpr( rhs ) )
+			, areOptionalEnabled( lhs, rhs ) };
+	}
+
+	Optional< UInt > operator+( uint32_t const & lhs, Optional< UInt > const & rhs )
+	{
+		return Optional< UInt >{ findShader( rhs )
+			, expr::makeAdd( type::getUInt()
+				, makeExpr( lhs )
+				, makeExpr( rhs ) )
+			, areOptionalEnabled( lhs, rhs ) };
+	}
+
+	Optional< UInt > operator-( uint32_t const & lhs, Optional< UInt > const & rhs )
+	{
+		return Optional< UInt >{ findShader( rhs )
+			, expr::makeMinus( type::getUInt()
+				, makeExpr( lhs )
+				, makeExpr( rhs ) )
+			, areOptionalEnabled( lhs, rhs ) };
+	}
+
+	Optional< UInt > operator*( uint32_t const & lhs, Optional< UInt > const & rhs )
+	{
+		return Optional< UInt >{ findShader( rhs )
+			, expr::makeTimes( type::getUInt()
+				, makeExpr( lhs )
+				, makeExpr( rhs ) )
+			, areOptionalEnabled( lhs, rhs ) };
+	}
+
+	Optional< UInt > operator/( uint32_t const & lhs, Optional< UInt > const & rhs )
+	{
+		return Optional< UInt >{ findShader( rhs )
+			, expr::makeDivide( type::getUInt()
+				, makeExpr( lhs )
+				, makeExpr( rhs ) )
+			, areOptionalEnabled( lhs, rhs ) };
+	}
+
+	Optional< UInt > operator%( Optional< UInt > const & lhs, int32_t const & rhs )
+	{
+		return Optional< UInt >{ findShader( lhs )
+			, expr::makeModulo( type::getUInt()
+				, makeExpr( lhs )
+				, makeExpr( rhs ) )
+			, areOptionalEnabled( lhs, rhs ) };
+	}
+
+	Optional< UInt > operator%( Optional< UInt > const & lhs, uint32_t const & rhs )
+	{
+		return Optional< UInt >{ findShader( lhs )
+			, expr::makeModulo( type::getUInt()
+				, makeExpr( lhs )
+				, makeExpr( rhs ) )
+			, areOptionalEnabled( lhs, rhs ) };
+	}
+
+	Optional< UInt > operator%( Optional< UInt > const & lhs, Int const & rhs )
+	{
+		return Optional< UInt >{ findShader( lhs, rhs )
+			, expr::makeModulo( type::getUInt()
+				, makeExpr( lhs )
+				, makeExpr( rhs ) )
+			, areOptionalEnabled( lhs, rhs ) };
+	}
+
+	Optional< UInt > operator%( UInt const & lhs, Optional< Int > const & rhs )
+	{
+		return Optional< UInt >{ findShader( lhs, rhs )
+			, expr::makeModulo( type::getUInt()
+				, makeExpr( lhs )
+				, makeExpr( rhs ) )
+			, areOptionalEnabled( lhs, rhs ) };
+	}
+
+	Optional< UInt > operator%( Optional< UInt > const & lhs, Optional< Int > const & rhs )
+	{
+		return Optional< UInt >{ findShader( lhs, rhs )
+			, expr::makeModulo( type::getUInt()
+				, makeExpr( lhs )
+				, makeExpr( rhs ) )
+			, areOptionalEnabled( lhs, rhs ) };
+	}
+
+	Optional< UInt > operator%( Optional< UInt > const & lhs, UInt const & rhs )
+	{
+		return Optional< UInt >{ findShader( lhs, rhs )
+			, expr::makeModulo( type::getUInt()
+				, makeExpr( lhs )
+				, makeExpr( rhs ) )
+			, areOptionalEnabled( lhs, rhs ) };
+	}
+
+	Optional< UInt > operator%( UInt const & lhs, Optional< UInt > const & rhs )
+	{
+		return Optional< UInt >{ findShader( lhs, rhs )
+			, expr::makeModulo( type::getUInt()
+				, makeExpr( lhs )
+				, makeExpr( rhs ) )
+			, areOptionalEnabled( lhs, rhs ) };
+	}
+
+	Optional< UInt > operator%( Optional< UInt > const & lhs, Optional< UInt > const & rhs )
+	{
+		return Optional< UInt >{ findShader( lhs, rhs )
+			, expr::makeModulo( type::getUInt()
+				, makeExpr( lhs )
+				, makeExpr( rhs ) )
+			, areOptionalEnabled( lhs, rhs ) };
+	}
+
+	Optional< UInt > operator<<( Optional< UInt > const & lhs, int32_t const & rhs )
+	{
+		return Optional< UInt >{ findShader( lhs, rhs )
+			, expr::makeLShift( type::getUInt()
+				, makeExpr( lhs )
+				, makeExpr( rhs ) )
+			, areOptionalEnabled( lhs, rhs ) };
+	}
+
+	Optional< UInt > operator>>( Optional< UInt > const & lhs, int32_t const & rhs )
+	{
+		return Optional< UInt >{ findShader( lhs, rhs )
+			, expr::makeRShift( type::getUInt()
+				, makeExpr( lhs )
+				, makeExpr( rhs ) )
+			, areOptionalEnabled( lhs, rhs ) };
+	}
+
+	Optional< UInt > operator<<( Optional< UInt > const & lhs, uint32_t const & rhs )
+	{
+		return Optional< UInt >{ findShader( lhs, rhs )
+			, expr::makeLShift( type::getUInt()
+				, makeExpr( lhs )
+				, makeExpr( rhs ) )
+			, areOptionalEnabled( lhs, rhs ) };
+	}
+
+	Optional< UInt > operator>>( Optional< UInt > const & lhs, uint32_t const & rhs )
+	{
+		return Optional< UInt >{ findShader( lhs, rhs )
+			, expr::makeRShift( type::getUInt()
+				, makeExpr( lhs )
+				, makeExpr( rhs ) )
+			, areOptionalEnabled( lhs, rhs ) };
+	}
+
+	Optional< UInt > operator<<( Optional< UInt > const & lhs, Int const & rhs )
+	{
+		return Optional< UInt >{ findShader( lhs, rhs )
+			, expr::makeLShift( type::getUInt()
+				, makeExpr( lhs )
+				, makeExpr( rhs ) )
+			, areOptionalEnabled( lhs, rhs ) };
+	}
+
+	Optional< UInt > operator>>( Optional< UInt > const & lhs, Int const & rhs )
+	{
+		return Optional< UInt >{ findShader( lhs, rhs )
+			, expr::makeRShift( type::getUInt()
+				, makeExpr( lhs )
+				, makeExpr( rhs ) )
+			, areOptionalEnabled( lhs, rhs ) };
+	}
+
+	Optional< UInt > operator<<( UInt const & lhs, Optional< Int > const & rhs )
+	{
+		return Optional< UInt >{ findShader( lhs, rhs )
+			, expr::makeLShift( type::getUInt()
+				, makeExpr( lhs )
+				, makeExpr( rhs ) )
+			, areOptionalEnabled( lhs, rhs ) };
+	}
+
+	Optional< UInt > operator>>( UInt const & lhs, Optional< Int > const & rhs )
+	{
+		return Optional< UInt >{ findShader( lhs, rhs )
+			, expr::makeRShift( type::getUInt()
+				, makeExpr( lhs )
+				, makeExpr( rhs ) )
+			, areOptionalEnabled( lhs, rhs ) };
+	}
+
+	Optional< UInt > operator<<( Optional< UInt > const & lhs, Optional< Int > const & rhs )
+	{
+		return Optional< UInt >{ findShader( lhs, rhs )
+			, expr::makeLShift( type::getUInt()
+				, makeExpr( lhs )
+				, makeExpr( rhs ) )
+			, areOptionalEnabled( lhs, rhs ) };
+	}
+
+	Optional< UInt > operator>>( Optional< UInt > const & lhs, Optional< Int > const & rhs )
+	{
+		return Optional< UInt >{ findShader( lhs, rhs )
+			, expr::makeRShift( type::getUInt()
+				, makeExpr( lhs )
+				, makeExpr( rhs ) )
+			, areOptionalEnabled( lhs, rhs ) };
+	}
+
+	Optional< UInt > operator<<( Optional< UInt > const & lhs, UInt const & rhs )
+	{
+		return Optional< UInt >{ findShader( lhs, rhs )
+			, expr::makeLShift( type::getUInt()
+				, makeExpr( lhs )
+				, makeExpr( rhs ) )
+			, areOptionalEnabled( lhs, rhs ) };
+	}
+
+	Optional< UInt > operator>>( Optional< UInt > const & lhs, UInt const & rhs )
+	{
+		return Optional< UInt >{ findShader( lhs, rhs )
+			, expr::makeRShift( type::getUInt()
+				, makeExpr( lhs )
+				, makeExpr( rhs ) )
+			, areOptionalEnabled( lhs, rhs ) };
+	}
+
+	Optional< UInt > operator<<( UInt const & lhs, Optional< UInt > const & rhs )
+	{
+		return Optional< UInt >{ findShader( lhs, rhs )
+			, expr::makeLShift( type::getUInt()
+				, makeExpr( lhs )
+				, makeExpr( rhs ) )
+			, areOptionalEnabled( lhs, rhs ) };
+	}
+
+	Optional< UInt > operator>>( UInt const & lhs, Optional< UInt > const & rhs )
+	{
+		return Optional< UInt >{ findShader( lhs, rhs )
+			, expr::makeRShift( type::getUInt()
+				, makeExpr( lhs )
+				, makeExpr( rhs ) )
+			, areOptionalEnabled( lhs, rhs ) };
+	}
+
+	Optional< UInt > operator<<( Optional< UInt > const & lhs, Optional< UInt > const & rhs )
+	{
+		return Optional< UInt >{ findShader( lhs, rhs )
+			, expr::makeLShift( type::getUInt()
+				, makeExpr( lhs )
+				, makeExpr( rhs ) )
+			, areOptionalEnabled( lhs, rhs ) };
+	}
+
+	Optional< UInt > operator>>( Optional< UInt > const & lhs, Optional< UInt > const & rhs )
+	{
+		return Optional< UInt >{ findShader( lhs, rhs )
+			, expr::makeRShift( type::getUInt()
+				, makeExpr( lhs )
+				, makeExpr( rhs ) )
+			, areOptionalEnabled( lhs, rhs ) };
+	}
+
+	Optional< UInt > operator&( Optional< UInt > const & lhs, int32_t const & rhs )
+	{
+		return Optional< UInt >{ findShader( lhs, rhs )
+			, expr::makeBitAnd( type::getUInt()
+				, makeExpr( lhs )
+				, makeExpr( rhs ) )
+			, areOptionalEnabled( lhs, rhs ) };
+	}
+
+	Optional< UInt > operator|( Optional< UInt > const & lhs, int32_t const & rhs )
+	{
+		return Optional< UInt >{ findShader( lhs, rhs )
+			, expr::makeBitOr( type::getUInt()
+				, makeExpr( lhs )
+				, makeExpr( rhs ) )
+			, areOptionalEnabled( lhs, rhs ) };
+	}
+
+	Optional< UInt > operator&( Optional< UInt > const & lhs, uint32_t const & rhs )
+	{
+		return Optional< UInt >{ findShader( lhs, rhs )
+			, expr::makeBitAnd( type::getUInt()
+				, makeExpr( lhs )
+				, makeExpr( rhs ) )
+			, areOptionalEnabled( lhs, rhs ) };
+	}
+
+	Optional< UInt > operator|( Optional< UInt > const & lhs, uint32_t const & rhs )
+	{
+		return Optional< UInt >{ findShader( lhs, rhs )
+			, expr::makeBitOr( type::getUInt()
+				, makeExpr( lhs )
+				, makeExpr( rhs ) )
+			, areOptionalEnabled( lhs, rhs ) };
+	}
+
+	Optional< UInt > operator&( Optional< UInt > const & lhs, Int const & rhs )
+	{
+		return Optional< UInt >{ findShader( lhs, rhs )
+			, expr::makeBitAnd( type::getUInt()
+				, makeExpr( lhs )
+				, makeExpr( rhs ) )
+			, areOptionalEnabled( lhs, rhs ) };
+	}
+
+	Optional< UInt > operator|( Optional< UInt > const & lhs, Int const & rhs )
+	{
+		return Optional< UInt >{ findShader( lhs, rhs )
+			, expr::makeBitOr( type::getUInt()
+				, makeExpr( lhs )
+				, makeExpr( rhs ) )
+			, areOptionalEnabled( lhs, rhs ) };
+	}
+
+	Optional< UInt > operator&( UInt const & lhs, Optional< Int > const & rhs )
+	{
+		return Optional< UInt >{ findShader( lhs, rhs )
+			, expr::makeBitAnd( type::getUInt()
+				, makeExpr( lhs )
+				, makeExpr( rhs ) )
+			, areOptionalEnabled( lhs, rhs ) };
+	}
+
+	Optional< UInt > operator|( UInt const & lhs, Optional< Int > const & rhs )
+	{
+		return Optional< UInt >{ findShader( lhs, rhs )
+			, expr::makeBitOr( type::getUInt()
+				, makeExpr( lhs )
+				, makeExpr( rhs ) )
+			, areOptionalEnabled( lhs, rhs ) };
+	}
+
+	Optional< UInt > operator&( Optional< UInt > const & lhs, Optional< Int > const & rhs )
+	{
+		return Optional< UInt >{ findShader( lhs, rhs )
+			, expr::makeBitAnd( type::getUInt()
+				, makeExpr( lhs )
+				, makeExpr( rhs ) )
+			, areOptionalEnabled( lhs, rhs ) };
+	}
+
+	Optional< UInt > operator|( Optional< UInt > const & lhs, Optional< Int > const & rhs )
+	{
+		return Optional< UInt >{ findShader( lhs, rhs )
+			, expr::makeBitOr( type::getUInt()
+				, makeExpr( lhs )
+				, makeExpr( rhs ) )
+			, areOptionalEnabled( lhs, rhs ) };
+	}
+
+	Optional< UInt > operator&( Optional< UInt > const & lhs, UInt const & rhs )
+	{
+		return Optional< UInt >{ findShader( lhs, rhs )
+			, expr::makeBitAnd( type::getUInt()
+				, makeExpr( lhs )
+				, makeExpr( rhs ) )
+			, areOptionalEnabled( lhs, rhs ) };
+	}
+
+	Optional< UInt > operator|( Optional< UInt > const & lhs, UInt const & rhs )
+	{
+		return Optional< UInt >{ findShader( lhs, rhs )
+			, expr::makeBitOr( type::getUInt()
+				, makeExpr( lhs )
+				, makeExpr( rhs ) )
+			, areOptionalEnabled( lhs, rhs ) };
+	}
+
+	Optional< UInt > operator&( UInt const & lhs, Optional< UInt > const & rhs )
+	{
+		return Optional< UInt >{ findShader( lhs, rhs )
+			, expr::makeBitAnd( type::getUInt()
+				, makeExpr( lhs )
+				, makeExpr( rhs ) )
+			, areOptionalEnabled( lhs, rhs ) };
+	}
+
+	Optional< UInt > operator|( UInt const & lhs, Optional< UInt > const & rhs )
+	{
+		return Optional< UInt >{ findShader( lhs, rhs )
+			, expr::makeBitOr( type::getUInt()
+				, makeExpr( lhs )
+				, makeExpr( rhs ) )
+			, areOptionalEnabled( lhs, rhs ) };
+	}
+
+	Optional< UInt > operator&( Optional< UInt > const & lhs, Optional< UInt > const & rhs )
+	{
+		return Optional< UInt >{ findShader( lhs, rhs )
+			, expr::makeBitAnd( type::getUInt()
+				, makeExpr( lhs )
+				, makeExpr( rhs ) )
+			, areOptionalEnabled( lhs, rhs ) };
+	}
+
+	Optional< UInt > operator|( Optional< UInt > const & lhs, Optional< UInt > const & rhs )
+	{
+		return Optional< UInt >{ findShader( lhs, rhs )
+			, expr::makeBitOr( type::getUInt()
+				, makeExpr( lhs )
+				, makeExpr( rhs ) )
+			, areOptionalEnabled( lhs, rhs ) };
+	}
+
+	Optional< UInt > operator~( Optional< UInt > const & expr )
+	{
+		return Optional< UInt >{ findShader( expr )
+			, expr::makeBitNot( type::getUInt()
+				, makeExpr( expr ) )
+			, areOptionalEnabled( expr ) };
+	}
+
+	//*************************************************************************
 }

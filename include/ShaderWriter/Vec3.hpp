@@ -18,7 +18,7 @@ namespace sdw
 		using Vec3Type = Vec3T< ValueT >;
 
 		inline Vec3T();
-		inline Vec3T( stmt::Container * container
+		inline Vec3T( Shader * shader
 			, expr::ExprPtr expr );
 		inline Vec3T< ValueT > & operator=( Vec3T< ValueT > const & rhs );
 		template< typename IndexT >

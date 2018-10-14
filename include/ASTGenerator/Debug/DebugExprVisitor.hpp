@@ -19,8 +19,22 @@ namespace ast::debug
 		static std::string submit( expr::Expr * expr );
 
 	private:
+		void wrap( expr::Expr * expr );
 		void visitUnaryExpr( expr::Unary * expr )override;
 		void visitBinaryExpr( expr::Binary * expr )override;
+		void visitAssignmentExpr( expr::Binary * expr );
+
+		void visitAddAssignExpr( expr::AddAssign * expr )override;
+		void visitAndAssignExpr( expr::AndAssign * expr )override;
+		void visitAssignExpr( expr::Assign * expr )override;
+		void visitDivideAssignExpr( expr::DivideAssign * expr )override;
+		void visitLShiftAssignExpr( expr::LShiftAssign * expr )override;
+		void visitMinusAssignExpr( expr::MinusAssign * expr )override;
+		void visitModuloAssignExpr( expr::ModuloAssign * expr )override;
+		void visitOrAssignExpr( expr::OrAssign * expr )override;
+		void visitRShiftAssignExpr( expr::RShiftAssign * expr )override;
+		void visitTimesAssignExpr( expr::TimesAssign * expr )override;
+		void visitXorAssignExpr( expr::XorAssign * expr )override;
 
 		void visitAggrInitExpr( expr::AggrInit * expr )override;
 		void visitArrayAccessExpr( expr::ArrayAccess * expr )override;

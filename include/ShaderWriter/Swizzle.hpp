@@ -205,10 +205,10 @@ namespace sdw
 #	define Writer_Swizzle( Input, Output, Name )\
 	inline Output Name()const\
 	{\
-		auto type = type::makeType( TypeTraits< Output >::TypeEnum );\
-		return Output{ m_container\
-			, expr::makeMbrSelect( makeExpr( m_expr )\
-				, expr::makeIdentifier( var::makeVariable( type, #Name ) ) ) };\
+		return Output{ findShader( *this )\
+			, expr::makeMbrSelect( makeExpr( *this )\
+				, expr::makeIdentifier( var::makeVariable( type::makeType( TypeTraits< Output >::TypeEnum )\
+					, #Name ) ) ) };\
 	}
 
 #	define Writer_FirstSwizzle( Input, Output, Name )\

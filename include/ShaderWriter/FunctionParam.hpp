@@ -15,7 +15,7 @@ namespace sdw
 	struct InParam
 		: public TypeT
 	{
-		InParam( stmt::Container * container
+		InParam( Shader * shader
 			, expr::ExprPtr expr );
 		InParam( TypeT const & other );
 		template< typename T >
@@ -26,7 +26,7 @@ namespace sdw
 	struct OutParam
 		: public TypeT
 	{
-		OutParam( stmt::Container * container
+		OutParam( Shader * shader
 			, expr::ExprPtr expr );
 		OutParam( TypeT const & other );
 		template< typename T >
@@ -37,7 +37,7 @@ namespace sdw
 	struct InOutParam
 		: public TypeT
 	{
-		InOutParam( stmt::Container * container
+		InOutParam( Shader * shader
 			, expr::ExprPtr expr );
 		InOutParam( TypeT const & other );
 		template< typename T >

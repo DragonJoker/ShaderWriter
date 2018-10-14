@@ -7,7 +7,7 @@ namespace sdw
 	Pcb::Pcb( Shader & shader
 		, std::string const & name
 		, std::string const & instance )
-		: m_container{ shader }
+		: m_shader{ shader }
 		, m_name{ name }
 	{
 	}

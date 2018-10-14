@@ -483,7 +483,17 @@ namespace sdw
 		};
 	}
 
-	std::string getTypeName( expr::ExprPtr const & expr )
+	stmt::Container * getContainer( Shader & shader )
+	{
+		return shader.getContainer();
+	}
+
+	std::string findName( expr::ExprPtr const & expr )
+	{
+		return ExprNamer::submit( expr );
+	}
+
+	std::string findName( expr::Expr * expr )
 	{
 		return ExprNamer::submit( expr );
 	}

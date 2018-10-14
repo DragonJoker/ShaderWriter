@@ -22,9 +22,11 @@
 
 namespace sdw
 {
-	Float::Float( stmt::Container * container
+	//*************************************************************************
+
+	Float::Float( Shader * shader
 		, expr::ExprPtr expr )
-		: Value{ container, std::move( expr ) }
+		: Value{ shader, std::move( expr ) }
 	{
 	}
 
@@ -45,45 +47,44 @@ namespace sdw
 
 	Float & Float::operator=( Float const & rhs )
 	{
-		if ( m_container )
+		if ( getContainer() )
 		{
-			addStmt( *m_container
+			addStmt( *findContainer( *this, rhs )
 				, stmt::makeSimple( expr::makeAssign( type::getFloat()
-					, makeExpr( m_expr )
+					, makeExpr( *this )
 					, makeExpr( rhs ) ) ) );
 		}
 		else
 		{
 			Value::operator=( rhs );
-			m_container = rhs.m_container;
 		}
 
 		return *this;
 	}
 
-	Float & Float::operator=( float rhs )
+	Float & Float::operator=( float const & rhs )
 	{
-		addStmt( *m_container
+		addStmt( *findContainer( *this, rhs )
 			, stmt::makeSimple( expr::makeAssign( type::getFloat()
-				, makeExpr( m_expr )
+				, makeExpr( *this )
 				, makeExpr( rhs ) ) ) );
 		return *this;
 	}
 
-	Float & Float::operator=( double rhs )
+	Float & Float::operator=( double const & rhs )
 	{
-		addStmt( *m_container
+		addStmt( *findContainer( *this, rhs )
 			, stmt::makeSimple( expr::makeAssign( type::getFloat()
-				, makeExpr( m_expr )
+				, makeExpr( *this )
 				, makeExpr( rhs ) ) ) );
 		return *this;
 	}
 
-	Float & Float::operator=( long double rhs )
+	Float & Float::operator=( long double const & rhs )
 	{
-		addStmt( *m_container
+		addStmt( *findContainer( *this, rhs )
 			, stmt::makeSimple( expr::makeAssign( type::getFloat()
-				, makeExpr( m_expr )
+				, makeExpr( *this )
 				, makeExpr( rhs ) ) ) );
 		return *this;
 	}
@@ -95,137 +96,407 @@ namespace sdw
 
 	Float & Float::operator+=( Float const & rhs )
 	{
-		addStmt( *m_container
+		addStmt( *findContainer( *this, rhs )
 			, stmt::makeSimple( expr::makeAddAssign( type::getFloat()
-				, makeExpr( m_expr )
+				, makeExpr( *this )
 				, makeExpr( rhs ) ) ) );
 		return *this;
 	}
 
 	Float & Float::operator-=( Float const & rhs )
 	{
-		addStmt( *m_container
+		addStmt( *findContainer( *this, rhs )
 			, stmt::makeSimple( expr::makeMinusAssign( type::getFloat()
-				, makeExpr( m_expr )
+				, makeExpr( *this )
 				, makeExpr( rhs ) ) ) );
 		return *this;
 	}
 
 	Float & Float::operator*=( Float const & rhs )
 	{
-		addStmt( *m_container
+		addStmt( *findContainer( *this, rhs )
 			, stmt::makeSimple( expr::makeTimesAssign( type::getFloat()
-				, makeExpr( m_expr )
+				, makeExpr( *this )
 				, makeExpr( rhs ) ) ) );
 		return *this;
 	}
 
 	Float & Float::operator/=( Float const & rhs )
 	{
-		addStmt( *m_container
+		addStmt( *findContainer( *this, rhs )
 			, stmt::makeSimple( expr::makeDivideAssign( type::getFloat()
-				, makeExpr( m_expr )
+				, makeExpr( *this )
 				, makeExpr( rhs ) ) ) );
 		return *this;
 	}
 
-	Float & Float::operator+=( float rhs )
+	Float & Float::operator+=( float const & rhs )
 	{
-		addStmt( *m_container
+		addStmt( *findContainer( *this, rhs )
 			, stmt::makeSimple( expr::makeAddAssign( type::getFloat()
-				, makeExpr( m_expr )
+				, makeExpr( *this )
 				, makeExpr( rhs ) ) ) );
 		return *this;
 	}
 
-	Float & Float::operator-=( float rhs )
+	Float & Float::operator-=( float const & rhs )
 	{
-		addStmt( *m_container
+		addStmt( *findContainer( *this, rhs )
 			, stmt::makeSimple( expr::makeMinusAssign( type::getFloat()
-				, makeExpr( m_expr )
+				, makeExpr( *this )
 				, makeExpr( rhs ) ) ) );
 		return *this;
 	}
 
-	Float & Float::operator*=( float rhs )
+	Float & Float::operator*=( float const & rhs )
 	{
-		addStmt( *m_container
+		addStmt( *findContainer( *this, rhs )
 			, stmt::makeSimple( expr::makeTimesAssign( type::getFloat()
-				, makeExpr( m_expr )
+				, makeExpr( *this )
 				, makeExpr( rhs ) ) ) );
 		return *this;
 	}
 
-	Float & Float::operator/=( float rhs )
+	Float & Float::operator/=( float const & rhs )
 	{
-		addStmt( *m_container
+		addStmt( *findContainer( *this, rhs )
 			, stmt::makeSimple( expr::makeDivideAssign( type::getFloat()
-				, makeExpr( m_expr )
+				, makeExpr( *this )
 				, makeExpr( rhs ) ) ) );
 		return *this;
 	}
 
-	Float operator+( Float const & lhs, float rhs )
+	Float & Float::operator+=( Optional< Float > const & rhs )
 	{
-		return Float{ findContainer( lhs, rhs )
+		if ( rhs.isEnabled() )
+		{
+			addStmt( *findContainer( *this, rhs )
+				, stmt::makeSimple( expr::makeAddAssign( type::getFloat()
+					, makeExpr( *this )
+					, makeExpr( rhs ) ) ) );
+		}
+
+		return *this;
+	}
+
+	Float & Float::operator-=( Optional< Float > const & rhs )
+	{
+		if ( rhs.isEnabled() )
+		{
+			addStmt( *findContainer( *this, rhs )
+				, stmt::makeSimple( expr::makeMinusAssign( type::getFloat()
+					, makeExpr( *this )
+					, makeExpr( rhs ) ) ) );
+		}
+
+		return *this;
+	}
+
+	Float & Float::operator*=( Optional< Float > const & rhs )
+	{
+		if ( rhs.isEnabled() )
+		{
+			addStmt( *findContainer( *this, rhs )
+				, stmt::makeSimple( expr::makeTimesAssign( type::getFloat()
+					, makeExpr( *this )
+					, makeExpr( rhs ) ) ) );
+		}
+
+		return *this;
+	}
+
+	Float & Float::operator/=( Optional< Float > const & rhs )
+	{
+		if ( rhs.isEnabled() )
+		{
+			addStmt( *findContainer( *this, rhs )
+				, stmt::makeSimple( expr::makeDivideAssign( type::getFloat()
+					, makeExpr( *this )
+					, makeExpr( rhs ) ) ) );
+		}
+
+		return *this;
+	}
+
+	//*************************************************************************
+
+	Float operator+( Float const & lhs, Float const & rhs )
+	{
+		return Float{ findShader( lhs, rhs )
 			, expr::makeAdd( type::getFloat()
 				, makeExpr( lhs )
 				, makeExpr( rhs ) ) };
 	}
 
-	Float operator-( Float const & lhs, float rhs )
+	Float operator-( Float const & lhs, Float const & rhs )
 	{
-		return Float{ findContainer( lhs, rhs )
+		return Float{ findShader( lhs, rhs )
 			, expr::makeMinus( type::getFloat()
 				, makeExpr( lhs )
 				, makeExpr( rhs ) ) };
 	}
 
-	Float operator*( Float const & lhs, float rhs )
+	Float operator*( Float const & lhs, Float const & rhs )
 	{
-		return Float{ findContainer( lhs, rhs )
+		return Float{ findShader( lhs, rhs )
 			, expr::makeTimes( type::getFloat()
 				, makeExpr( lhs )
 				, makeExpr( rhs ) ) };
 	}
 
-	Float operator/( Float const & lhs, float rhs )
+	Float operator/( Float const & lhs, Float const & rhs )
 	{
-		return Float{ findContainer( lhs, rhs )
+		return Float{ findShader( lhs, rhs )
 			, expr::makeDivide( type::getFloat()
 				, makeExpr( lhs )
 				, makeExpr( rhs ) ) };
 	}
 
-	Float operator+( float lhs, Float const & rhs )
+	Float operator+( Float const & lhs, float const & rhs )
 	{
-		return Float{ findContainer( rhs )
+		return Float{ findShader( lhs, rhs )
 			, expr::makeAdd( type::getFloat()
 				, makeExpr( lhs )
 				, makeExpr( rhs ) ) };
 	}
 
-	Float operator-( float lhs, Float const & rhs )
+	Float operator-( Float const & lhs, float const & rhs )
 	{
-		return Float{ findContainer( rhs )
+		return Float{ findShader( lhs, rhs )
 			, expr::makeMinus( type::getFloat()
 				, makeExpr( lhs )
 				, makeExpr( rhs ) ) };
 	}
 
-	Float operator*( float lhs, Float const & rhs )
+	Float operator*( Float const & lhs, float const & rhs )
 	{
-		return Float{ findContainer( rhs )
+		return Float{ findShader( lhs, rhs )
 			, expr::makeTimes( type::getFloat()
 				, makeExpr( lhs )
 				, makeExpr( rhs ) ) };
 	}
 
-	Float operator/( float lhs, Float const & rhs )
+	Float operator/( Float const & lhs, float const & rhs )
 	{
-		return Float{ findContainer( rhs )
+		return Float{ findShader( lhs, rhs )
 			, expr::makeDivide( type::getFloat()
 				, makeExpr( lhs )
 				, makeExpr( rhs ) ) };
 	}
+
+	Float operator+( float const & lhs, Float const & rhs )
+	{
+		return Float{ findShader( rhs )
+			, expr::makeAdd( type::getFloat()
+				, makeExpr( lhs )
+				, makeExpr( rhs ) ) };
+	}
+
+	Float operator-( float const & lhs, Float const & rhs )
+	{
+		return Float{ findShader( rhs )
+			, expr::makeMinus( type::getFloat()
+				, makeExpr( lhs )
+				, makeExpr( rhs ) ) };
+	}
+
+	Float operator*( float const & lhs, Float const & rhs )
+	{
+		return Float{ findShader( rhs )
+			, expr::makeTimes( type::getFloat()
+				, makeExpr( lhs )
+				, makeExpr( rhs ) ) };
+	}
+
+	Float operator/( float const & lhs, Float const & rhs )
+	{
+		return Float{ findShader( rhs )
+			, expr::makeDivide( type::getFloat()
+				, makeExpr( lhs )
+				, makeExpr( rhs ) ) };
+	}
+
+	//*************************************************************************
+
+	Optional< Float > operator+( Float const & lhs, Optional< Float > const & rhs )
+	{
+		return Optional< Float >{ findShader( rhs )
+			, expr::makeAdd( type::getFloat()
+				, makeExpr( lhs )
+				, makeExpr( rhs ) )
+			, areOptionalEnabled( lhs, rhs ) };
+	}
+
+	Optional< Float > operator-( Float const & lhs, Optional< Float > const & rhs )
+	{
+		return Optional< Float >{ findShader( rhs )
+			, expr::makeMinus( type::getFloat()
+				, makeExpr( lhs )
+				, makeExpr( rhs ) )
+			, areOptionalEnabled( lhs, rhs ) };
+	}
+
+	Optional< Float > operator*( Float const & lhs, Optional< Float > const & rhs )
+	{
+		return Optional< Float >{ findShader( rhs )
+			, expr::makeTimes( type::getFloat()
+				, makeExpr( lhs )
+				, makeExpr( rhs ) )
+			, areOptionalEnabled( lhs, rhs ) };
+	}
+
+	Optional< Float > operator/( Float const & lhs, Optional< Float > const & rhs )
+	{
+		return Optional< Float >{ findShader( rhs )
+			, expr::makeDivide( type::getFloat()
+				, makeExpr( lhs )
+				, makeExpr( rhs ) )
+			, areOptionalEnabled( lhs, rhs ) };
+	}
+
+	Optional< Float > operator+( Optional< Float > const & lhs, Float const & rhs )
+	{
+		return Optional< Float >{ findShader( lhs, rhs )
+			, expr::makeAdd( type::getFloat()
+				, makeExpr( lhs )
+				, makeExpr( rhs ) )
+			, areOptionalEnabled( lhs, rhs ) };
+	}
+
+	Optional< Float > operator-( Optional< Float > const & lhs, Float const & rhs )
+	{
+		return Optional< Float >{ findShader( lhs, rhs )
+			, expr::makeMinus( type::getFloat()
+				, makeExpr( lhs )
+				, makeExpr( rhs ) )
+			, areOptionalEnabled( lhs, rhs ) };
+	}
+
+	Optional< Float > operator*( Optional< Float > const & lhs, Float const & rhs )
+	{
+		return Optional< Float >{ findShader( lhs, rhs )
+			, expr::makeTimes( type::getFloat()
+				, makeExpr( lhs )
+				, makeExpr( rhs ) )
+			, areOptionalEnabled( lhs, rhs ) };
+	}
+
+	Optional< Float > operator/( Optional< Float > const & lhs, Float const & rhs )
+	{
+		return Optional< Float >{ findShader( lhs, rhs )
+			, expr::makeDivide( type::getFloat()
+				, makeExpr( lhs )
+				, makeExpr( rhs ) )
+			, areOptionalEnabled( lhs, rhs ) };
+	}
+
+	Optional< Float > operator+( Optional< Float > const & lhs, Optional< Float > const & rhs )
+	{
+		return Optional< Float >{ findShader( lhs, rhs )
+			, expr::makeAdd( type::getFloat()
+				, makeExpr( lhs )
+				, makeExpr( rhs ) )
+			, areOptionalEnabled( lhs, rhs ) };
+	}
+
+	Optional< Float > operator-( Optional< Float > const & lhs, Optional< Float > const & rhs )
+	{
+		return Optional< Float >{ findShader( lhs, rhs )
+			, expr::makeMinus( type::getFloat()
+				, makeExpr( lhs )
+				, makeExpr( rhs ) )
+			, areOptionalEnabled( lhs, rhs ) };
+	}
+
+	Optional< Float > operator*( Optional< Float > const & lhs, Optional< Float > const & rhs )
+	{
+		return Optional< Float >{ findShader( lhs, rhs )
+			, expr::makeTimes( type::getFloat()
+				, makeExpr( lhs )
+				, makeExpr( rhs ) )
+			, areOptionalEnabled( lhs, rhs ) };
+	}
+
+	Optional< Float > operator/( Optional< Float > const & lhs, Optional< Float > const & rhs )
+	{
+		return Optional< Float >{ findShader( lhs, rhs )
+			, expr::makeDivide( type::getFloat()
+				, makeExpr( lhs )
+				, makeExpr( rhs ) )
+			, areOptionalEnabled( lhs, rhs ) };
+	}
+
+	Optional< Float > operator+( float const & lhs, Optional< Float > const & rhs )
+	{
+		return Optional< Float >{ findShader( rhs )
+			, expr::makeAdd( type::getFloat()
+				, makeExpr( lhs )
+				, makeExpr( rhs ) )
+			, areOptionalEnabled( lhs, rhs ) };
+	}
+
+	Optional< Float > operator-( float const & lhs, Optional< Float > const & rhs )
+	{
+		return Optional< Float >{ findShader( rhs )
+			, expr::makeMinus( type::getFloat()
+				, makeExpr( lhs )
+				, makeExpr( rhs ) )
+			, areOptionalEnabled( lhs, rhs ) };
+	}
+
+	Optional< Float > operator*( float const & lhs, Optional< Float > const & rhs )
+	{
+		return Optional< Float >{ findShader( rhs )
+			, expr::makeTimes( type::getFloat()
+				, makeExpr( lhs )
+				, makeExpr( rhs ) )
+			, areOptionalEnabled( lhs, rhs ) };
+	}
+
+	Optional< Float > operator/( float const & lhs, Optional< Float > const & rhs )
+	{
+		return Optional< Float >{ findShader( rhs )
+			, expr::makeDivide( type::getFloat()
+				, makeExpr( lhs )
+				, makeExpr( rhs ) )
+			, areOptionalEnabled( lhs, rhs ) };
+	}
+
+	Optional< Float > operator+( Optional< Float > const & lhs, float const & rhs )
+	{
+		return Optional< Float >{ findShader( lhs, rhs )
+			, expr::makeAdd( type::getFloat()
+				, makeExpr( lhs )
+				, makeExpr( rhs ) )
+			, areOptionalEnabled( lhs, rhs ) };
+	}
+
+	Optional< Float > operator-( Optional< Float > const & lhs, float const & rhs )
+	{
+		return Optional< Float >{ findShader( lhs, rhs )
+			, expr::makeMinus( type::getFloat()
+				, makeExpr( lhs )
+				, makeExpr( rhs ) )
+			, areOptionalEnabled( lhs, rhs ) };
+	}
+
+	Optional< Float > operator*( Optional< Float > const & lhs, float const & rhs )
+	{
+		return Optional< Float >{ findShader( lhs, rhs )
+			, expr::makeTimes( type::getFloat()
+				, makeExpr( lhs )
+				, makeExpr( rhs ) )
+			, areOptionalEnabled( lhs, rhs ) };
+	}
+
+	Optional< Float > operator/( Optional< Float > const & lhs, float const & rhs )
+	{
+		return Optional< Float >{ findShader( lhs, rhs )
+			, expr::makeDivide( type::getFloat()
+				, makeExpr( lhs )
+				, makeExpr( rhs ) )
+			, areOptionalEnabled( lhs, rhs ) };
+	}
+
+	//*************************************************************************
 }

@@ -6,6 +6,7 @@ foreach ( TEST_FILE ${TEST_FILES} )
 	get_filename_component( TEST_NAME ${TEST_FILE} NAME_WE )
 	add_executable( ${TEST_NAME}
 		${CMAKE_CURRENT_SOURCE_DIR}/Common.hpp
+		${CMAKE_CURRENT_SOURCE_DIR}/TestWriterCommon.hpp
 		${TEST_FILE}
 	)
 	target_link_libraries( ${TEST_NAME}

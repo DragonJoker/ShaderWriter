@@ -5,7 +5,7 @@ See LICENSE file in root folder
 #define ___Writer_UInt_H___
 #pragma once
 
-#include "Value.hpp"
+#include "Optional.hpp"
 
 namespace sdw
 {
@@ -13,18 +13,18 @@ namespace sdw
 	struct UInt
 		: public Value
 	{
-		UInt( stmt::Container * container
+		UInt( Shader * shader
 			, expr::ExprPtr expr );
 		UInt( UInt && value );
 		UInt( UInt const & value );
 		UInt( Value const & value );
-		inline UInt & operator=( UInt const & rhs );
+		UInt & operator=( UInt const & rhs );
 		template< typename T >
 		inline UInt & operator=( T const & rhs );
-		UInt & operator=( int32_t rhs );
-		UInt & operator=( int64_t rhs );
-		UInt & operator=( uint32_t rhs );
-		UInt & operator=( uint64_t rhs );
+		UInt & operator=( int32_t const & rhs );
+		UInt & operator=( int64_t const & rhs );
+		UInt & operator=( uint32_t const & rhs );
+		UInt & operator=( uint64_t const & rhs );
 		explicit operator uint32_t();
 		UInt & operator++();
 		UInt operator++( int );
@@ -34,65 +34,171 @@ namespace sdw
 		UInt & operator-=( UInt const & rhs );
 		UInt & operator*=( UInt const & rhs );
 		UInt & operator/=( UInt const & rhs );
+		UInt & operator+=( Optional< UInt > const & rhs );
+		UInt & operator-=( Optional< UInt > const & rhs );
+		UInt & operator*=( Optional< UInt > const & rhs );
+		UInt & operator/=( Optional< UInt > const & rhs );
 		UInt & operator+=( Int const & rhs );
 		UInt & operator-=( Int const & rhs );
 		UInt & operator*=( Int const & rhs );
 		UInt & operator/=( Int const & rhs );
-		UInt & operator+=( uint32_t rhs );
-		UInt & operator-=( uint32_t rhs );
-		UInt & operator*=( uint32_t rhs );
-		UInt & operator/=( uint32_t rhs );
-		UInt & operator+=( int32_t rhs );
-		UInt & operator-=( int32_t rhs );
-		UInt & operator*=( int32_t rhs );
-		UInt & operator/=( int32_t rhs );
-		UInt & operator%=( int32_t rhs );
+		UInt & operator+=( Optional< Int > const & rhs );
+		UInt & operator-=( Optional< Int > const & rhs );
+		UInt & operator*=( Optional< Int > const & rhs );
+		UInt & operator/=( Optional< Int > const & rhs );
+		UInt & operator+=( uint32_t const & rhs );
+		UInt & operator-=( uint32_t const & rhs );
+		UInt & operator*=( uint32_t const & rhs );
+		UInt & operator/=( uint32_t const & rhs );
+		UInt & operator+=( int32_t const & rhs );
+		UInt & operator-=( int32_t const & rhs );
+		UInt & operator*=( int32_t const & rhs );
+		UInt & operator/=( int32_t const & rhs );
+		UInt & operator%=( int32_t const & rhs );
 		UInt & operator%=( Int const & rhs );
-		UInt & operator<<=( int rhs );
-		UInt & operator>>=( int rhs );
+		UInt & operator%=( Optional< Int > const & rhs );
+		UInt & operator%=( UInt const & rhs );
+		UInt & operator%=( Optional< UInt > const & rhs );
+		UInt & operator<<=( int32_t const & rhs );
+		UInt & operator>>=( int32_t const & rhs );
+		UInt & operator<<=( uint32_t const & rhs );
+		UInt & operator>>=( uint32_t const & rhs );
 		UInt & operator<<=( Int const & rhs );
 		UInt & operator>>=( Int const & rhs );
-		UInt & operator&=( int rhs );
-		UInt & operator|=( int rhs );
+		UInt & operator<<=( Optional< Int > const & rhs );
+		UInt & operator>>=( Optional< Int > const & rhs );
+		UInt & operator<<=( UInt const & rhs );
+		UInt & operator>>=( UInt const & rhs );
+		UInt & operator<<=( Optional< UInt > const & rhs );
+		UInt & operator>>=( Optional< UInt > const & rhs );
+		UInt & operator&=( int32_t const & rhs );
+		UInt & operator|=( int32_t const & rhs );
+		UInt & operator&=( uint32_t const & rhs );
+		UInt & operator|=( uint32_t const & rhs );
 		UInt & operator&=( Int const & rhs );
 		UInt & operator|=( Int const & rhs );
+		UInt & operator&=( Optional< Int > const & rhs );
+		UInt & operator|=( Optional< Int > const & rhs );
 		UInt & operator&=( UInt const & rhs );
 		UInt & operator|=( UInt const & rhs );
+		UInt & operator&=( Optional< UInt > const & rhs );
+		UInt & operator|=( Optional< UInt > const & rhs );
 	};
 
-	UInt operator+( UInt const & rhs, uint32_t lhs );
-	UInt operator-( UInt const & rhs, uint32_t lhs );
-	UInt operator*( UInt const & rhs, uint32_t lhs );
-	UInt operator/( UInt const & rhs, uint32_t lhs );
-	UInt operator+( UInt const & rhs, int32_t lhs );
-	UInt operator-( UInt const & rhs, int32_t lhs );
-	UInt operator*( UInt const & rhs, int32_t lhs );
-	UInt operator/( UInt const & rhs, int32_t lhs );
-	UInt operator+( int32_t lhs, UInt const & rhs );
-	UInt operator-( int32_t lhs, UInt const & rhs );
-	UInt operator*( int32_t lhs, UInt const & rhs );
-	UInt operator/( int32_t lhs, UInt const & rhs );
-	UInt operator+( uint32_t lhs, UInt const & rhs );
-	UInt operator-( uint32_t lhs, UInt const & rhs );
-	UInt operator*( uint32_t lhs, UInt const & rhs );
-	UInt operator/( uint32_t lhs, UInt const & rhs );
-	UInt operator%( UInt const & lhs, int rhs );
+	UInt operator+( UInt const & rhs, uint32_t const & lhs );
+	UInt operator-( UInt const & rhs, uint32_t const & lhs );
+	UInt operator*( UInt const & rhs, uint32_t const & lhs );
+	UInt operator/( UInt const & rhs, uint32_t const & lhs );
+	UInt operator+( UInt const & rhs, int32_t const & lhs );
+	UInt operator-( UInt const & rhs, int32_t const & lhs );
+	UInt operator*( UInt const & rhs, int32_t const & lhs );
+	UInt operator/( UInt const & rhs, int32_t const & lhs );
+	UInt operator+( int32_t const & lhs, UInt const & rhs );
+	UInt operator-( int32_t const & lhs, UInt const & rhs );
+	UInt operator*( int32_t const & lhs, UInt const & rhs );
+	UInt operator/( int32_t const & lhs, UInt const & rhs );
+	UInt operator+( uint32_t const & lhs, UInt const & rhs );
+	UInt operator-( uint32_t const & lhs, UInt const & rhs );
+	UInt operator*( uint32_t const & lhs, UInt const & rhs );
+	UInt operator/( uint32_t const & lhs, UInt const & rhs );
+	UInt operator%( UInt const & lhs, int32_t const & rhs );
+	UInt operator%( UInt const & lhs, uint32_t const & rhs );
 	UInt operator%( UInt const & lhs, Int const & rhs );
+	UInt operator%( UInt const & lhs, UInt const & rhs );
 
-	UInt operator<<( UInt const & lhs, int rhs );
-	UInt operator>>( UInt const & lhs, int rhs );
+	UInt operator<<( UInt const & lhs, int32_t const & rhs );
+	UInt operator>>( UInt const & lhs, int32_t const & rhs );
+	UInt operator<<( UInt const & lhs, uint32_t const & rhs );
+	UInt operator>>( UInt const & lhs, uint32_t const & rhs );
 	UInt operator<<( UInt const & lhs, Int const & rhs );
 	UInt operator>>( UInt const & lhs, Int const & rhs );
-	UInt operator&( UInt const & lhs, int rhs );
-	UInt operator|( UInt const & lhs, int rhs );
+	UInt operator<<( UInt const & lhs, UInt const & rhs );
+	UInt operator>>( UInt const & lhs, UInt const & rhs );
+	UInt operator&( UInt const & lhs, int32_t const & rhs );
+	UInt operator|( UInt const & lhs, int32_t const & rhs );
+	UInt operator&( UInt const & lhs, uint32_t const & rhs );
+	UInt operator|( UInt const & lhs, uint32_t const & rhs );
 	UInt operator&( UInt const & lhs, Int const & rhs );
 	UInt operator|( UInt const & lhs, Int const & rhs );
+	UInt operator&( UInt const & lhs, UInt const & rhs );
+	UInt operator|( UInt const & lhs, UInt const & rhs );
 	UInt operator~( UInt const & value );
 
-	inline UInt operator "" _u( unsigned long long value )
-	{
-		return UInt{ nullptr, makeExpr( uint32_t( value ) ) };
-	}
+	Optional< UInt > operator+( Optional< UInt > const & lhs, UInt const & rhs );
+	Optional< UInt > operator-( Optional< UInt > const & lhs, UInt const & rhs );
+	Optional< UInt > operator*( Optional< UInt > const & lhs, UInt const & rhs );
+	Optional< UInt > operator/( Optional< UInt > const & lhs, UInt const & rhs );
+	Optional< UInt > operator+( UInt const & lhs, Optional< UInt > const & rhs );
+	Optional< UInt > operator-( UInt const & lhs, Optional< UInt > const & rhs );
+	Optional< UInt > operator*( UInt const & lhs, Optional< UInt > const & rhs );
+	Optional< UInt > operator/( UInt const & lhs, Optional< UInt > const & rhs );
+	Optional< UInt > operator+( Optional< UInt > const & lhs, Optional< UInt > const & rhs );
+	Optional< UInt > operator-( Optional< UInt > const & lhs, Optional< UInt > const & rhs );
+	Optional< UInt > operator*( Optional< UInt > const & lhs, Optional< UInt > const & rhs );
+	Optional< UInt > operator/( Optional< UInt > const & lhs, Optional< UInt > const & rhs );
+	Optional< UInt > operator+( Optional< UInt > const & lhs, uint32_t const & rhs );
+	Optional< UInt > operator-( Optional< UInt > const & lhs, uint32_t const & rhs );
+	Optional< UInt > operator*( Optional< UInt > const & lhs, uint32_t const & rhs );
+	Optional< UInt > operator/( Optional< UInt > const & lhs, uint32_t const & rhs );
+	Optional< UInt > operator+( Optional< UInt > const & lhs, int32_t const & rhs );
+	Optional< UInt > operator-( Optional< UInt > const & lhs, int32_t const & rhs );
+	Optional< UInt > operator*( Optional< UInt > const & lhs, int32_t const & rhs );
+	Optional< UInt > operator/( Optional< UInt > const & lhs, int32_t const & rhs );
+	Optional< UInt > operator+( int32_t const & lhs, Optional< UInt > const & rhs );
+	Optional< UInt > operator-( int32_t const & lhs, Optional< UInt > const & rhs );
+	Optional< UInt > operator*( int32_t const & lhs, Optional< UInt > const & rhs );
+	Optional< UInt > operator/( int32_t const & lhs, Optional< UInt > const & rhs );
+	Optional< UInt > operator+( uint32_t const & lhs, Optional< UInt > const & rhs );
+	Optional< UInt > operator-( uint32_t const & lhs, Optional< UInt > const & rhs );
+	Optional< UInt > operator*( uint32_t const & lhs, Optional< UInt > const & rhs );
+	Optional< UInt > operator/( uint32_t const & lhs, Optional< UInt > const & rhs );
+	Optional< UInt > operator%( Optional< UInt > const & lhs, int32_t const & rhs );
+	Optional< UInt > operator%( Optional< UInt > const & lhs, uint32_t const & rhs );
+	Optional< UInt > operator%( Optional< UInt > const & lhs, Int const & rhs );
+	Optional< UInt > operator%( UInt const & lhs, Optional< Int > const & rhs );
+	Optional< UInt > operator%( Optional< UInt > const & lhs, Optional< Int > const & rhs );
+	Optional< UInt > operator%( Optional< UInt > const & lhs, UInt const & rhs );
+	Optional< UInt > operator%( UInt const & lhs, Optional< UInt > const & rhs );
+	Optional< UInt > operator%( Optional< UInt > const & lhs, Optional< UInt > const & rhs );
+
+	Optional< UInt > operator<<( Optional< UInt > const & lhs, int32_t const & rhs );
+	Optional< UInt > operator>>( Optional< UInt > const & lhs, int32_t const & rhs );
+	Optional< UInt > operator<<( Optional< UInt > const & lhs, uint32_t const & rhs );
+	Optional< UInt > operator>>( Optional< UInt > const & lhs, uint32_t const & rhs );
+	Optional< UInt > operator<<( Optional< UInt > const & lhs, Int const & rhs );
+	Optional< UInt > operator>>( Optional< UInt > const & lhs, Int const & rhs );
+	Optional< UInt > operator<<( UInt const & lhs, Optional< Int > const & rhs );
+	Optional< UInt > operator>>( UInt const & lhs, Optional< Int > const & rhs );
+	Optional< UInt > operator<<( Optional< UInt > const & lhs, Optional< Int > const & rhs );
+	Optional< UInt > operator>>( Optional< UInt > const & lhs, Optional< Int > const & rhs );
+	Optional< UInt > operator<<( Optional< UInt > const & lhs, UInt const & rhs );
+	Optional< UInt > operator>>( Optional< UInt > const & lhs, UInt const & rhs );
+	Optional< UInt > operator<<( UInt const & lhs, Optional< UInt > const & rhs );
+	Optional< UInt > operator>>( UInt const & lhs, Optional< UInt > const & rhs );
+	Optional< UInt > operator<<( Optional< UInt > const & lhs, Optional< UInt > const & rhs );
+	Optional< UInt > operator>>( Optional< UInt > const & lhs, Optional< UInt > const & rhs );
+	Optional< UInt > operator&( Optional< UInt > const & lhs, int32_t const & rhs );
+	Optional< UInt > operator|( Optional< UInt > const & lhs, int32_t const & rhs );
+	Optional< UInt > operator&( Optional< UInt > const & lhs, uint32_t const & rhs );
+	Optional< UInt > operator|( Optional< UInt > const & lhs, uint32_t const & rhs );
+	Optional< UInt > operator&( Optional< UInt > const & lhs, Int const & rhs );
+	Optional< UInt > operator|( Optional< UInt > const & lhs, Int const & rhs );
+	Optional< UInt > operator&( UInt const & lhs, Optional< Int > const & rhs );
+	Optional< UInt > operator|( UInt const & lhs, Optional< Int > const & rhs );
+	Optional< UInt > operator&( Optional< UInt > const & lhs, Optional< Int > const & rhs );
+	Optional< UInt > operator|( Optional< UInt > const & lhs, Optional< Int > const & rhs );
+	Optional< UInt > operator&( Optional< UInt > const & lhs, UInt const & rhs );
+	Optional< UInt > operator|( Optional< UInt > const & lhs, UInt const & rhs );
+	Optional< UInt > operator&( UInt const & lhs, Optional< UInt > const & rhs );
+	Optional< UInt > operator|( UInt const & lhs, Optional< UInt > const & rhs );
+	Optional< UInt > operator&( Optional< UInt > const & lhs, Optional< UInt > const & rhs );
+	Optional< UInt > operator|( Optional< UInt > const & lhs, Optional< UInt > const & rhs );
+	Optional< UInt > operator~( Optional< UInt > const & value );
+}
+
+inline sdw::UInt operator "" _u( unsigned long long value )
+{
+	return sdw::UInt{ nullptr, sdw::makeExpr( uint32_t( value ) ) };
 }
 
 #include "UInt.inl"

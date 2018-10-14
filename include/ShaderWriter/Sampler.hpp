@@ -12,7 +12,7 @@ namespace sdw
 	struct SamplerT
 		: public Value
 	{
-		inline SamplerT( stmt::Container * container
+		inline SamplerT( Shader * shader
 			, expr::ExprPtr expr );
 		template< typename T > inline SamplerT & operator=( T const & rhs );
 		inline operator uint32_t();

@@ -6,11 +6,29 @@ See LICENSE file in root folder
 
 namespace sdw
 {
+	namespace details
+	{
+		template< typename ParamT >
+		bool areOptionalEnabledRec( ParamT const & value )
+		{
+			return isOptionalEnabled( value );
+		}
+
+		template< typename ParamT
+			, typename ... ParamsT >
+			bool areOptionalEnabledRec( ParamT const & value
+				, ParamsT const & ... values )
+		{
+			return isOptionalEnabled( value )
+				&& areOptionalEnabledRec( values... );
+		}
+	}
+
 	template< typename TypeT >
-	Optional< TypeT >::Optional( stmt::Container * container
+	Optional< TypeT >::Optional( Shader * shader
 		, expr::ExprPtr expr
 		, bool enabled )
-		: TypeT{ container, std::move( expr ) }
+		: TypeT{ shader, std::move( expr ) }
 		, m_enabled{ enabled }
 	{
 	}
@@ -28,7 +46,7 @@ namespace sdw
 	{
 		if ( m_enabled )
 		{
-			addStmt( *m_container
+			addStmt( *findContainer( *this, rhs )
 				, stmt::makeSimple( expr::makeAssign( m_expr->getType()
 					, makeExpr( m_expr )
 					, makeExpr( rhs ) ) ) );
@@ -43,7 +61,7 @@ namespace sdw
 	{
 		if ( m_enabled )
 		{
-			addStmt( *m_container
+			addStmt( *findContainer( *this, rhs )
 				, stmt::makeSimple( expr::makeAssign( m_expr->getType()
 					, makeExpr( m_expr )
 					, makeExpr( rhs ) ) ) );
@@ -69,7 +87,7 @@ namespace sdw
 	{
 		if ( value.isEnabled() )
 		{
-			return makeExpr( value.m_expr );
+			return makeExpr( static_cast< T const & >( value ) );
 		}
 
 		return nullptr;
@@ -85,5 +103,11 @@ namespace sdw
 	bool isOptionalEnabled( Optional< T > const & value )
 	{
 		return value.isEnabled();
+	}
+
+	template< typename ... ParamsT >
+	bool areOptionalEnabled( ParamsT const & ... values )
+	{
+		return details::areOptionalEnabledRec( values... );
 	}
 }
