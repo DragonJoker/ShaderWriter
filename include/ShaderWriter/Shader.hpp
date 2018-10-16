@@ -12,10 +12,27 @@ See LICENSE file in root folder
 #include "Pcb.hpp"
 #include "Optional.hpp"
 
+#include <ASTGenerator/Stmt/StmtInputGeometryLayout.hpp>
+#include <ASTGenerator/Stmt/StmtOutputGeometryLayout.hpp>
+
 #include <stack>
 
 namespace sdw
 {
+	struct ShaderConfig
+	{
+		uint32_t shaderLanguageVersion{ 430 };
+		bool hasConstantsBuffers{ true };
+		bool hasTextureBuffers{ true };
+		bool hasShaderStorageBuffers{ true };
+		bool hasPushConstants{ true };
+		bool zeroToOneDepth{ true };
+		bool isTopDown{ true };
+		bool hasInstanceIndex{ true };
+		bool hasVertexIndex{ true };
+		bool hasSpecialisationConstants{ true };
+	};
+
 	struct UniformInfo
 	{
 		type::Kind m_type;
@@ -46,7 +63,7 @@ namespace sdw
 	class Shader
 	{
 	public:
-		Shader();
+		Shader( ShaderConfig config = ShaderConfig{} );
 #pragma region Variables registration
 		/**
 		*name
@@ -64,6 +81,19 @@ namespace sdw
 			, Ubo::Info const & info );
 		/**@}*/
 #pragma endregion
+		void inlineComment( std::string const & comment );
+		void multilineComment( std::string const & comment );
+		void enableExtension( std::string const & name, uint32_t inCoreVersion );
+		void emitVertex();
+		void endPrimitive();
+		void discard();
+		void inputComputeLayout( uint32_t localSizeX, uint32_t localSizeY, uint32_t localSizeZ );
+		void inputGeometryLayout( stmt::InputLayout layout );
+		void outputGeometryLayout( stmt::OutputLayout layout, uint32_t count );
+		sdw::Vec2 bottomUpToTopDown( sdw::Vec2 const & texCoord );
+		sdw::Vec2 topDownToBottomUp( sdw::Vec2 const & texCoord );
+		sdw::Vec3 bottomUpToTopDown( sdw::Vec3 const & texCoord );
+		sdw::Vec3 topDownToBottomUp( sdw::Vec3 const & texCoord );
 		template< typename ReturnT, typename ... ParamsT >
 		inline Function< ReturnT, ParamsT... > implementFunction( std::string const & name
 				, std::function< void( ParamTranslaterT< ParamsT >... ) > const & function
@@ -304,6 +334,41 @@ namespace sdw
 		/**@}*/
 #pragma endregion
 
+		inline uint32_t getShaderLanguageVersion()const
+		{
+			return m_config.shaderLanguageVersion;
+		}
+
+		inline bool hasConstantsBuffers()const
+		{
+			return m_config.hasConstantsBuffers;
+		}
+
+		inline bool hasTextureBuffers()const
+		{
+			return m_config.hasTextureBuffers;
+		}
+
+		inline bool hasShaderStorageBuffers()const
+		{
+			return m_config.hasShaderStorageBuffers;
+		}
+
+		inline bool hasPushConstants()const
+		{
+			return m_config.hasPushConstants;
+		}
+
+		inline bool isZeroToOneDepth()const
+		{
+			return m_config.zeroToOneDepth;
+		}
+
+		inline bool isTopDown()const
+		{
+			return m_config.isTopDown;
+		}
+
 		inline Ssbo::Info const & getSsboInfo( std::string const & name )const
 		{
 			return m_ssbos.at( name );
@@ -355,6 +420,8 @@ namespace sdw
 		}
 
 	private:
+		void declareInvertVec2Y();
+		void declareInvertVec3Y();
 		void registerConstant( std::string const & name
 			, type::Kind type );
 		void registerSampler( std::string const & name
@@ -376,6 +443,7 @@ namespace sdw
 			std::map< std::string, type::Kind > registered;
 			stmt::Container * container;
 		};
+		ShaderConfig m_config;
 		std::stack< Block > m_blocks;
 		stmt::Container m_container;
 		std::map< std::string, Ssbo::Info > m_ssbos;
@@ -384,6 +452,8 @@ namespace sdw
 		std::map< std::string, SamplerInfo > m_samplers;
 		std::map< std::string, InputInfo > m_inputs;
 		std::map< std::string, OutputInfo > m_outputs;
+		Function< Vec2, InVec2 > m_invertVec2Y;
+		Function< Vec3, InVec3 > m_invertVec3Y;
 	};
 }
 

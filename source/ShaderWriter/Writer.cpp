@@ -17,58 +17,6 @@ namespace sdw
 		*this << "#pragma optimize(off)" << endl;
 		*this << "#pragma debug(on)" << endl;
 #endif
-
-		if ( m_config.m_shaderLanguageVersion < 430 )
-		{
-			*this << "#extension GL_ARB_explicit_attrib_location : enable" << endl;
-			*this << "#extension GL_ARB_explicit_uniform_location : enable" << endl;
-			*this << "#extension GL_ARB_separate_shader_objects : enable" << endl;
-			*this << "#extension GL_ARB_shading_language_420pack : enable" << endl;
-			*this << "#extension GL_ARB_texture_cube_map_array : enable" << endl;
-		}
-	}
-
-	void GlslWriter::inlineComment( std::string const & comment )
-	{
-		m_stream << cuT( "// " ) << comment << std::endl;
-	}
-
-	void GlslWriter::multilineComment( std::string const & comment )
-	{
-		m_stream << cuT( "/*" ) << comment << "*/" << std::endl;
-	}
-
-	void GlslWriter::enableExtension( std::string const & name, uint32_t inCoreVersion )
-	{
-		if ( getShaderLanguageVersion() < inCoreVersion
-			|| !inCoreVersion )
-		{
-			m_stream << "#extension " << name << ": enable" << std::endl;
-		}
-	}
-
-	std::string GlslWriter::getInstanceID()
-	{
-		if ( m_config.m_hasInstanceIndex )
-		{
-			return cuT( "gl_InstanceIndex" );
-		}
-		else
-		{
-			return cuT( "gl_InstanceID" );
-		}
-	}
-
-	std::string GlslWriter::getVertexID()
-	{
-		if ( m_config.m_hasVertexIndex )
-		{
-			return cuT( "gl_VertexIndex" );
-		}
-		else
-		{
-			return cuT( "gl_VertexID" );
-		}
 	}
 
 	Vec2 GlslWriter::ashesBottomUpToTopDown( Vec2 const & texCoord )

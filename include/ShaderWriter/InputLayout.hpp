@@ -11,20 +11,6 @@ namespace sdw
 {
 	struct InputLayout
 	{
-		enum class Kind
-		{
-			ePointList,
-			eLineList,
-			eLineStrip,
-			eTriangleList,
-			eTriangleStrip,
-			eTriangleFan,
-			eLineListWithAdjacency,
-			eLineStripWithAdjacency,
-			eTriangleListWithAdjacency,
-			eTriangleStripWithAdjacency,
-		};
-
 		explicit InputLayout( Kind p_kind )
 			: m_kind{ p_kind }
 		{

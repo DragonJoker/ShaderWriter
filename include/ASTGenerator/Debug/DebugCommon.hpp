@@ -8,6 +8,8 @@ See LICENSE file in root folder
 #include "ASTGenerator/Expr/Expr.hpp"
 #include "ASTGenerator/Stmt/PreprocExtension.hpp"
 #include "ASTGenerator/Stmt/StmtInOutVariableDecl.hpp"
+#include "ASTGenerator/Stmt/StmtInputGeometryLayout.hpp"
+#include "ASTGenerator/Stmt/StmtOutputGeometryLayout.hpp"
 #include "ASTGenerator/Type/Type.hpp"
 
 namespace ast::debug
@@ -18,6 +20,8 @@ namespace ast::debug
 	std::string getDirectionName( var::Variable const & var );
 	std::string getStatusName( stmt::PreprocExtension::Status status );
 	std::string getOperatorName( expr::Kind kind );
+	std::string getLayoutName( stmt::InputLayout layout );
+	std::string getLayoutName( stmt::OutputLayout layout );
 	bool isUnaryPre( expr::Kind kind );
 }
 

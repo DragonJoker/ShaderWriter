@@ -23,11 +23,12 @@ namespace
 		}
 		{
 			sdw::Shader shader;
+			auto count = shader.getStatements()->getStatements().size();
 			auto value = shader.declConstant< T >( "value", test::getDefault< T >( shader ), false );
 			check( !value.isEnabled() );
 			check( value.getType()->getKind() == sdw::typeEnum< T > );
 			check( value.getType()->getArraySize() == sdw::type::NotArray );
-			check( shader.getStatements()->getStatements().empty() );
+			check( shader.getStatements()->getStatements().size() == count );
 		}
 		{
 			auto name = sdw::debug::getTypeName( sdw::typeEnum< T > ) + "ConstantValue_opt";
@@ -57,6 +58,7 @@ namespace
 		}
 		{
 			sdw::Shader shader;
+			auto count = shader.getStatements()->getStatements().size();
 			auto value = shader.declSpecConstant< T >( "value", 1u, test::getDefault< T >( shader ), false );
 			check( !value.isEnabled() );
 			check( value.getType()->getKind() == sdw::typeEnum< T > );
@@ -64,7 +66,7 @@ namespace
 			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == "value" );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isShaderConstant() );
-			check( shader.getStatements()->getStatements().empty() );
+			check( shader.getStatements()->getStatements().size() == count );
 		}
 		{
 			auto name = sdw::debug::getTypeName( sdw::typeEnum< T > ) + "SpecConstantValue_2_opt";
@@ -122,6 +124,7 @@ namespace
 		}
 		{
 			sdw::Shader shader;
+			auto count = shader.getStatements()->getStatements().size();
 			auto value = shader.declInput< T >( "value", 0u, false );
 			check( !value.isEnabled() );
 			check( value.getType()->getKind() == sdw::typeEnum< T > );
@@ -129,10 +132,11 @@ namespace
 			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == "value" );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isShaderInput() );
-			check( shader.getStatements()->getStatements().empty() );
+			check( shader.getStatements()->getStatements().size() == count );
 		}
 		{
 			sdw::Shader shader;
+			auto count = shader.getStatements()->getStatements().size();
 			auto value = shader.declInputArray< T >( "value", 1u, 12u, false );
 			check( !value.isEnabled() );
 			check( !value[0].isEnabled() );
@@ -141,10 +145,11 @@ namespace
 			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == "value" );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isShaderInput() );
-			check( shader.getStatements()->getStatements().empty() );
+			check( shader.getStatements()->getStatements().size() == count );
 		}
 		{
 			sdw::Shader shader;
+			auto count = shader.getStatements()->getStatements().size();
 			auto value = shader.declInputArray< T >( "value", 2u, false );
 			check( !value.isEnabled() );
 			check( !value[0].isEnabled() );
@@ -153,7 +158,7 @@ namespace
 			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == "value" );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isShaderInput() );
-			check( shader.getStatements()->getStatements().empty() );
+			check( shader.getStatements()->getStatements().size() == count );
 		}
 		{
 			auto name = sdw::debug::getTypeName( sdw::typeEnum< T > ) + "InputValue_0_opt";
@@ -239,6 +244,7 @@ namespace
 		}
 		{
 			sdw::Shader shader;
+			auto count = shader.getStatements()->getStatements().size();
 			auto value = shader.declOutput< T >( "value", 0u, false );
 			check( !value.isEnabled() );
 			check( value.getType()->getKind() == sdw::typeEnum< T > );
@@ -246,10 +252,11 @@ namespace
 			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == "value" );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isShaderOutput() );
-			check( shader.getStatements()->getStatements().empty() );
+			check( shader.getStatements()->getStatements().size() == count );
 		}
 		{
 			sdw::Shader shader;
+			auto count = shader.getStatements()->getStatements().size();
 			auto value = shader.declOutputArray< T >( "value", 1u, 12u, false );
 			check( !value.isEnabled() );
 			check( !value[0].isEnabled() );
@@ -258,10 +265,11 @@ namespace
 			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == "value" );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isShaderOutput() );
-			check( shader.getStatements()->getStatements().empty() );
+			check( shader.getStatements()->getStatements().size() == count );
 		}
 		{
 			sdw::Shader shader;
+			auto count = shader.getStatements()->getStatements().size();
 			auto value = shader.declOutputArray< T >( "value", 2u, false );
 			check( !value.isEnabled() );
 			check( !value[0].isEnabled() );
@@ -270,7 +278,7 @@ namespace
 			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == "value" );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isShaderOutput() );
-			check( shader.getStatements()->getStatements().empty() );
+			check( shader.getStatements()->getStatements().size() == count );
 		}
 		{
 			auto name = sdw::debug::getTypeName( sdw::typeEnum< T > ) + "OutputValue_0_opt";
@@ -364,6 +372,7 @@ namespace
 		}
 		{
 			sdw::Shader shader;
+			auto count = shader.getStatements()->getStatements().size();
 			auto value = shader.declLocale< T >( "value", false );
 			check( !value.isEnabled() );
 			check( value.getType()->getKind() == sdw::typeEnum< T > );
@@ -371,10 +380,11 @@ namespace
 			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == "value" );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isLocale() );
-			check( shader.getStatements()->getStatements().empty() );
+			check( shader.getStatements()->getStatements().size() == count );
 		}
 		{
 			sdw::Shader shader;
+			auto count = shader.getStatements()->getStatements().size();
 			auto value = shader.declLocale< T >( "value", sdw::Optional< T >{ test::getDefault< T >( shader ), false } );
 			check( !value.isEnabled() );
 			check( value.getType()->getKind() == sdw::typeEnum< T > );
@@ -382,10 +392,11 @@ namespace
 			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == "value" );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isLocale() );
-			check( shader.getStatements()->getStatements().empty() );
+			check( shader.getStatements()->getStatements().size() == count );
 		}
 		{
 			sdw::Shader shader;
+			auto count = shader.getStatements()->getStatements().size();
 			auto value = shader.declLocale< T >( "value", test::getDefault< T >( shader ), false );
 			check( !value.isEnabled() );
 			check( value.getType()->getKind() == sdw::typeEnum< T > );
@@ -393,10 +404,11 @@ namespace
 			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == "value" );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isLocale() );
-			check( shader.getStatements()->getStatements().empty() );
+			check( shader.getStatements()->getStatements().size() == count );
 		}
 		{
 			sdw::Shader shader;
+			auto count = shader.getStatements()->getStatements().size();
 			auto value = shader.declLocaleArray< T >( "value", 12u, false );
 			check( !value.isEnabled() );
 			check( !value[0].isEnabled() );
@@ -405,10 +417,11 @@ namespace
 			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == "value" );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isLocale() );
-			check( shader.getStatements()->getStatements().empty() );
+			check( shader.getStatements()->getStatements().size() == count );
 		}
 		{
 			sdw::Shader shader;
+			auto count = shader.getStatements()->getStatements().size();
 			auto value = shader.declLocaleArray< T >( "value", 3u, test::getDefaultArray< T >( shader, 3u ), false );
 			check( !value.isEnabled() );
 			check( !value[0].isEnabled() );
@@ -417,7 +430,7 @@ namespace
 			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == "value" );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isLocale() );
-			check( shader.getStatements()->getStatements().empty() );
+			check( shader.getStatements()->getStatements().size() == count );
 		}
 		{
 			auto name = sdw::debug::getTypeName( sdw::typeEnum< T > ) + "LocaleValue_opt";
@@ -486,6 +499,7 @@ namespace
 	template< typename T >
 	void testBuiltin( sdw::Shader & shader )
 	{
+		auto count = shader.getStatements()->getStatements().size();
 		{
 			auto name = sdw::debug::getTypeName( sdw::typeEnum< T > ) + "BuiltinValue";
 			auto value = shader.declBuiltin< T >( name );
@@ -494,7 +508,7 @@ namespace
 			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isBuiltin() );
-			check( shader.getStatements()->getStatements().empty() );
+			check( shader.getStatements()->getStatements().size() == count );
 		}
 		{
 			auto name = sdw::debug::getTypeName( sdw::typeEnum< T > ) + "BuiltinValue";
@@ -504,7 +518,7 @@ namespace
 			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isBuiltin() );
-			check( shader.getStatements()->getStatements().empty() );
+			check( shader.getStatements()->getStatements().size() == count );
 		}
 		{
 			auto name = sdw::debug::getTypeName( sdw::typeEnum< T > ) + "BuiltinValue";
@@ -514,7 +528,7 @@ namespace
 			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isBuiltin() );
-			check( shader.getStatements()->getStatements().empty() );
+			check( shader.getStatements()->getStatements().size() == count );
 		}
 		{
 			auto value = shader.declBuiltin< T >( "value", false );
@@ -524,7 +538,7 @@ namespace
 			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == "value" );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isBuiltin() );
-			check( shader.getStatements()->getStatements().empty() );
+			check( shader.getStatements()->getStatements().size() == count );
 		}
 		{
 			auto value = shader.declBuiltinArray< T >( "value", 12u, false );
@@ -535,7 +549,7 @@ namespace
 			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == "value" );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isBuiltin() );
-			check( shader.getStatements()->getStatements().empty() );
+			check( shader.getStatements()->getStatements().size() == count );
 		}
 		{
 			auto value = shader.declBuiltinArray< T >( "value", false );
@@ -546,7 +560,7 @@ namespace
 			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == "value" );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isBuiltin() );
-			check( shader.getStatements()->getStatements().empty() );
+			check( shader.getStatements()->getStatements().size() == count );
 		}
 		{
 			auto name = sdw::debug::getTypeName( sdw::typeEnum< T > ) + "BuiltinValue_opt";
@@ -557,7 +571,7 @@ namespace
 			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isBuiltin() );
-			check( shader.getStatements()->getStatements().empty() );
+			check( shader.getStatements()->getStatements().size() == count );
 		}
 		{
 			auto name = sdw::debug::getTypeName( sdw::typeEnum< T > ) + "BuiltinValue_opt";
@@ -569,7 +583,7 @@ namespace
 			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isBuiltin() );
-			check( shader.getStatements()->getStatements().empty() );
+			check( shader.getStatements()->getStatements().size() == count );
 		}
 		{
 			auto name = sdw::debug::getTypeName( sdw::typeEnum< T > ) + "BuiltinValue_opt";
@@ -581,7 +595,7 @@ namespace
 			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isBuiltin() );
-			check( shader.getStatements()->getStatements().empty() );
+			check( shader.getStatements()->getStatements().size() == count );
 		}
 	}
 
@@ -616,6 +630,7 @@ namespace
 		}
 		{
 			sdw::Shader shader;
+			auto count = shader.getStatements()->getStatements().size();
 			auto value = shader.declSampler< ST >( "value", 1u, 1u, false );
 			check( !value.isEnabled() );
 			check( value.getType()->getKind() == sdw::SamplerTypeTraits< ST >::TypeEnum );
@@ -623,10 +638,11 @@ namespace
 			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == "value" );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isSampler() );
-			check( shader.getStatements()->getStatements().empty() );
+			check( shader.getStatements()->getStatements().size() == count );
 		}
 		{
 			sdw::Shader shader;
+			auto count = shader.getStatements()->getStatements().size();
 			auto value = shader.declSamplerArray< ST >( "value", 1u, 1u, 12u, false );
 			check( !value.isEnabled() );
 			check( !value[0].isEnabled() );
@@ -635,7 +651,7 @@ namespace
 			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == "value" );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isSampler() );
-			check( shader.getStatements()->getStatements().empty() );
+			check( shader.getStatements()->getStatements().size() == count );
 		}
 		{
 			auto name = sdw::debug::getTypeName( sdw::SamplerTypeTraits< ST >::TypeEnum ) + "SamplerValue_1_1_opt";

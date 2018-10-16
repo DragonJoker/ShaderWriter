@@ -16,13 +16,19 @@ See LICENSE file in root folder
 #include "StmtCompound.hpp"
 #include "StmtContainer.hpp"
 #include "StmtConstantBufferDecl.hpp"
+#include "StmtDiscard.hpp"
 #include "StmtDoWhile.hpp"
+#include "StmtEmitPrimitive.hpp"
+#include "StmtEmitVertex.hpp"
 #include "StmtElse.hpp"
 #include "StmtElseIf.hpp"
 #include "StmtFor.hpp"
 #include "StmtFunctionDecl.hpp"
 #include "StmtIf.hpp"
 #include "StmtInOutVariableDecl.hpp"
+#include "StmtInputComputeLayout.hpp"
+#include "StmtInputGeometryLayout.hpp"
+#include "StmtOutputGeometryLayout.hpp"
 #include "StmtPerVertexDecl.hpp"
 #include "StmtPushConstantsBufferDecl.hpp"
 #include "StmtReturn.hpp"
@@ -52,13 +58,19 @@ namespace ast::stmt
 		virtual void visitCompoundStmt( Compound * ) = 0;
 		virtual void visitContainerStmt( Container * ) = 0;
 		virtual void visitConstantBufferDeclStmt( ConstantBufferDecl * ) = 0;
+		virtual void visitDiscardStmt( Discard * ) = 0;
 		virtual void visitDoWhileStmt( DoWhile * ) = 0;
+		virtual void visitEmitPrimitiveStmt( EmitPrimitive * ) = 0;
+		virtual void visitEmitVertexStmt( EmitVertex * ) = 0;
 		virtual void visitElseIfStmt( ElseIf * ) = 0;
 		virtual void visitElseStmt( Else * ) = 0;
 		virtual void visitForStmt( For * ) = 0;
 		virtual void visitFunctionDeclStmt( FunctionDecl * ) = 0;
 		virtual void visitIfStmt( If * ) = 0;
 		virtual void visitInOutVariableDeclStmt( InOutVariableDecl * ) = 0;
+		virtual void visitInputComputeLayoutStmt( InputComputeLayout * ) = 0;
+		virtual void visitInputGeometryLayoutStmt( InputGeometryLayout * ) = 0;
+		virtual void visitOutputGeometryLayoutStmt( OutputGeometryLayout * ) = 0;
 		virtual void visitPerVertexDeclStmt( PerVertexDecl * ) = 0;
 		virtual void visitPushConstantsBufferDeclStmt( PushConstantsBufferDecl * ) = 0;
 		virtual void visitReturnStmt( Return * ) = 0;

@@ -8,7 +8,7 @@ namespace sdw
 	template< typename TypeT >
 	InParam< TypeT >::InParam( Shader * shader
 		, std::string name )
-		: TypeT{ shader, expr::makeIdentifier( var::makeVariable( type::makeType( typeEnum< TypeT > ), std::move( name ) ) ) }
+		: TypeT{ shader, expr::makeIdentifier( var::makeVariable( type::makeType( typeEnum< TypeT > ), std::move( name ), var::Flag::eInputParam ) ) }
 	{
 	}
 
@@ -34,7 +34,7 @@ namespace sdw
 	template< typename TypeT >
 	OutParam< TypeT >::OutParam( Shader * shader
 		, std::string name )
-		: TypeT{ shader, expr::makeIdentifier( var::makeVariable( type::makeType( typeEnum< TypeT > ), std::move( name ) ) ) }
+		: TypeT{ shader, expr::makeIdentifier( var::makeVariable( type::makeType( typeEnum< TypeT > ), std::move( name ), var::Flag::eOutputParam ) ) }
 	{
 	}
 
@@ -60,7 +60,7 @@ namespace sdw
 	template< typename TypeT >
 	InOutParam< TypeT >::InOutParam( Shader * shader
 		, std::string name )
-		: TypeT{ shader, expr::makeIdentifier( var::makeVariable( type::makeType( typeEnum< TypeT > ), std::move( name ) ) ) }
+		: TypeT{ shader, expr::makeIdentifier( var::makeVariable( type::makeType( typeEnum< TypeT > ), std::move( name ), uint32_t( var::Flag::eInputParam ) | uint32_t( var::Flag::eOutputParam ) ) ) }
 	{
 	}
 
@@ -79,29 +79,6 @@ namespace sdw
 				, makeExpr( *this )
 				, makeExpr( rhs ) ) ) );
 		return *this;
-	}
-
-	//*****************************************************************************************
-
-	template< typename TypeT >
-	stmt::VariableDeclPtr makeVarDecl( InParam< TypeT > const & value )
-	{
-		return stmt::makeVariableDecl( makeVar( value
-			, var::Flag::eInputParam ) );
-	}
-
-	template< typename TypeT >
-	stmt::VariableDeclPtr makeVarDecl( OutParam< TypeT > const & value )
-	{
-		return stmt::makeVariableDecl( makeVar( value
-			, var::Flag::eOutputParam ) );
-	}
-
-	template< typename TypeT >
-	stmt::VariableDeclPtr makeVarDecl( InOutParam< TypeT > const & value )
-	{
-		return stmt::makeVariableDecl( makeVar( value
-			, uint32_t( var::Flag::eInputParam ) | uint32_t( var::Flag::eOutputParam ) ) );
 	}
 
 	//*****************************************************************************************

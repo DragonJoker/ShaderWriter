@@ -43,13 +43,6 @@ namespace sdw
 		template< typename T >
 		inline InOutParam< TypeT > operator=( T const & rhs );
 	};
-
-	template< typename TypeT >
-	stmt::VariableDeclPtr makeVarDecl( InParam< TypeT > const & value );
-	template< typename TypeT >
-	stmt::VariableDeclPtr makeVarDecl( OutParam< TypeT > const & value );
-	template< typename TypeT >
-	stmt::VariableDeclPtr makeVarDecl( InOutParam< TypeT > const & value );
 }
 
 #include "FunctionParam.inl"

@@ -532,7 +532,72 @@ namespace ast::debug
 			result = "^=";
 			break;
 		default:
-			throw std::runtime_error{ "Non operatin expression" };
+			throw std::runtime_error{ "Non operation expression" };
+		}
+
+		return result;
+	}
+
+	std::string getLayoutName( stmt::InputLayout layout )
+	{
+		std::string result;
+
+		switch ( layout )
+		{
+		case ast::stmt::InputLayout::ePointList:
+			result = "points";
+			break;
+		case ast::stmt::InputLayout::eLineList:
+			result = "lines";
+			break;
+		case ast::stmt::InputLayout::eLineStrip:
+			result = "lines";
+			break;
+		case ast::stmt::InputLayout::eTriangleList:
+			result = "triangles";
+			break;
+		case ast::stmt::InputLayout::eTriangleStrip:
+			result = "triangles";
+			break;
+		case ast::stmt::InputLayout::eTriangleFan:
+			result = "triangles";
+			break;
+		case ast::stmt::InputLayout::eLineListWithAdjacency:
+			result = "lines_adjacency";
+			break;
+		case ast::stmt::InputLayout::eLineStripWithAdjacency:
+			result = "lines_adjacency";
+			break;
+		case ast::stmt::InputLayout::eTriangleListWithAdjacency:
+			result = "triangles_adjacency";
+			break;
+		case ast::stmt::InputLayout::eTriangleStripWithAdjacency:
+			result = "triangles_adjacency";
+			break;
+		default:
+			throw std::runtime_error{ "Unsupported input layout." };
+		}
+
+		return result;
+	}
+
+	std::string getLayoutName( stmt::OutputLayout layout )
+	{
+		std::string result;
+
+		switch ( layout )
+		{
+		case ast::stmt::OutputLayout::ePointList:
+			result = "points";
+			break;
+		case ast::stmt::OutputLayout::eLineStrip:
+			result = "line_strip";
+			break;
+		case ast::stmt::OutputLayout::eTriangleStrip:
+			result = "triangle_strip";
+			break;
+		default:
+			throw std::runtime_error{ "Unsupported output layout." };
 		}
 
 		return result;

@@ -12,25 +12,25 @@ namespace sdw
 
 	namespace
 	{
-		class ExprNamer
+		class IdentifierExtractor
 			: public expr::SimpleVisitor
 		{
 		public:
-			static std::string submit( expr::Expr * expr )
+			static expr::Identifier * submit( expr::Expr * expr )
 			{
-				std::string result;
-				ExprNamer vis{ result };
+				expr::Identifier * result{ nullptr };
+				IdentifierExtractor vis{ result };
 				expr->accept( &vis );
 				return result;
 			}
 
-			static std::string submit( expr::ExprPtr const & expr )
+			static expr::Identifier * submit( expr::ExprPtr const & expr )
 			{
 				return submit( expr.get() );
 			}
 
 		private:
-			ExprNamer( std::string & result )
+			IdentifierExtractor( expr::Identifier *& result )
 				: m_result{ result }
 			{
 			}
@@ -39,7 +39,7 @@ namespace sdw
 		private:
 			void visitUnaryExpr( expr::Unary * expr )override
 			{
-				if ( m_result.empty() )
+				if ( !m_result )
 				{
 					expr->getOperand()->accept( this );
 				}
@@ -47,12 +47,12 @@ namespace sdw
 
 			void visitBinaryExpr( expr::Binary * expr )override
 			{
-				if ( m_result.empty() )
+				if ( !m_result )
 				{
 					expr->getLHS()->accept( this );
 				}
 
-				if ( m_result.empty() )
+				if ( !m_result )
 				{
 					expr->getRHS()->accept( this );
 				}
@@ -60,7 +60,7 @@ namespace sdw
 
 			void visitAggrInitExpr( expr::AggrInit * expr )override
 			{
-				if ( m_result.empty() )
+				if ( !m_result )
 				{
 					expr->getIdentifier()->accept( this );
 				}
@@ -68,7 +68,7 @@ namespace sdw
 
 			void visitMbrSelectExpr( expr::MbrSelect * expr )override
 			{
-				if ( m_result.empty() )
+				if ( !m_result )
 				{
 					expr->getOuterExpr()->accept( this );
 				}
@@ -76,7 +76,7 @@ namespace sdw
 
 			void visitFnCallExpr( expr::FnCall * expr )override
 			{
-				if ( m_result.empty() )
+				if ( !m_result )
 				{
 					expr->getFn()->accept( this );
 				}
@@ -84,15 +84,15 @@ namespace sdw
 
 			void visitIdentifierExpr( expr::Identifier * expr )override
 			{
-				if ( m_result.empty() )
+				if ( !m_result )
 				{
-					m_result = expr->getVariable()->getName();
+					m_result = expr;
 				}
 			}
 
 			void visitInitExpr( expr::Init * expr )override
 			{
-				if ( m_result.empty() )
+				if ( !m_result )
 				{
 					expr->getIdentifier()->accept( this );
 				}
@@ -104,7 +104,7 @@ namespace sdw
 
 			void visitQuestionExpr( expr::Question * expr )override
 			{
-				if ( m_result.empty() )
+				if ( !m_result )
 				{
 					expr->getCtrlExpr()->accept( this );
 				}
@@ -112,7 +112,7 @@ namespace sdw
 
 			void visitSwitchCaseExpr( expr::SwitchCase * expr )override
 			{
-				if ( m_result.empty() )
+				if ( !m_result )
 				{
 					expr->getLabel()->accept( this );
 				}
@@ -120,7 +120,7 @@ namespace sdw
 
 			void visitSwitchTestExpr( expr::SwitchTest * expr )override
 			{
-				if ( m_result.empty() )
+				if ( !m_result )
 				{
 					expr->getValue()->accept( this );
 				}
@@ -128,17 +128,43 @@ namespace sdw
 
 
 		private:
-			std::string & m_result;
+			expr::Identifier *& m_result;
 		};
+	}
+
+	expr::Identifier * findIdentifier( ast::expr::Expr * expr )
+	{
+		return IdentifierExtractor::submit( expr );
+	}
+
+	expr::Identifier * findIdentifier( ast::expr::ExprPtr const & expr )
+	{
+		return IdentifierExtractor::submit( expr );
 	}
 
 	std::string findName( ast::expr::Expr * expr )
 	{
-		return ExprNamer::submit( expr );
+		auto ident = findIdentifier( expr );
+		std::string result;
+
+		if ( ident )
+		{
+			result = ident->getVariable()->getName();
+		}
+
+		return result;
 	}
 
 	std::string findName( ast::expr::ExprPtr const & expr )
 	{
-		return ExprNamer::submit( expr );
+		auto ident = findIdentifier( expr );
+		std::string result;
+
+		if ( ident )
+		{
+			result = ident->getVariable()->getName();
+		}
+
+		return result;
 	}
 }

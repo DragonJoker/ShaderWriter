@@ -111,7 +111,9 @@ namespace sdw
 	inline void getFunctionHeaderArgsRec( var::VariableList & args
 		, ParamT && last )
 	{
-		args.emplace_back( makeVar( last ) );
+		auto ident = findIdentifier( last.getExpr() );
+		assert( ident != nullptr );
+		args.emplace_back( ident->getVariable() );
 	}
 
 	template< typename ParamT
@@ -120,7 +122,9 @@ namespace sdw
 		, ParamT && current
 		, ParamsT && ... params )
 	{
-		args.emplace_back( makeVar( current ) );
+		auto ident = findIdentifier( current.getExpr() );
+		assert( ident != nullptr );
+		args.emplace_back( ident->getVariable() );
 		getFunctionHeaderArgsRec( args, std::forward< ParamsT >( params )... );
 	}
 

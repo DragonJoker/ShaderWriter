@@ -11,13 +11,6 @@ namespace sdw
 {
 	struct OutputLayout
 	{
-		enum class Kind
-		{
-			ePoints,
-			eLineStrip,
-			eTriangleStrip,
-		};
-
 		OutputLayout( Kind p_kind, uint32_t p_count )
 			: m_kind{ p_kind }
 			, m_count{ p_count }

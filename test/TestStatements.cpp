@@ -591,11 +591,85 @@ namespace
 	void testReturnStatement()
 	{
 		testBegin( "testReturnStatement" );
-		auto stmt = ast::stmt::makeReturn( ast::expr::makeLiteral( 10 ) );
-		std::cout << "StmtReturn:\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
+		{
+			auto stmt = ast::stmt::makeReturn();
+			std::cout << "StmtReturn:\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
 
-		check( stmt->getKind() == ast::stmt::Kind::eReturn );
-		check( stmt->getExpr()->getKind() == ast::expr::Kind::eLiteral );
+			check( stmt->getKind() == ast::stmt::Kind::eReturn );
+		}
+		{
+			auto stmt = ast::stmt::makeReturn( ast::expr::makeLiteral( 10 ) );
+			std::cout << "StmtReturn:\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
+
+			check( stmt->getKind() == ast::stmt::Kind::eReturn );
+			check( stmt->getExpr()->getKind() == ast::expr::Kind::eLiteral );
+		}
+		testEnd();
+	}
+
+	void testDiscardStatement()
+	{
+		testBegin( "testDiscardStatement" );
+		auto stmt = ast::stmt::makeDiscard();
+		std::cout << "StmtDiscard:\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
+
+		check( stmt->getKind() == ast::stmt::Kind::eDiscard );
+		testEnd();
+	}
+
+	void testEmitPrimitive()
+	{
+		testBegin( "testEmitPrimitive" );
+		auto stmt = ast::stmt::makeEmitPrimitive();
+		std::cout << "StmtEmitPrimitive:\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
+
+		check( stmt->getKind() == ast::stmt::Kind::eEmitPrimitive );
+		testEnd();
+	}
+
+	void testEmitVertex()
+	{
+		testBegin( "testEmitVertex" );
+		auto stmt = ast::stmt::makeEmitVertex();
+		std::cout << "StmtEmitVertex:\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
+
+		check( stmt->getKind() == ast::stmt::Kind::eEmitVertex );
+		testEnd();
+	}
+
+	void testInputComputeLayout()
+	{
+		testBegin( "testInputComputeLayout" );
+		auto stmt = ast::stmt::makeInputComputeLayout( 16, 32, 64 );
+		std::cout << "StmtInputComputeLayout:\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
+
+		check( stmt->getKind() == ast::stmt::Kind::eInputComputeLayout );
+		check( stmt->getWorkGroupsX() == 16u );
+		check( stmt->getWorkGroupsY() == 32u );
+		check( stmt->getWorkGroupsZ() == 64u );
+		testEnd();
+	}
+
+	void testInputGeometryLayout()
+	{
+		testBegin( "testInputGeometryLayout" );
+		auto stmt = ast::stmt::makeInputGeometryLayout( ast::stmt::InputLayout::eLineStripWithAdjacency );
+		std::cout << "StmtInputGeometryLayout:\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
+
+		check( stmt->getKind() == ast::stmt::Kind::eInputGeometryLayout );
+		check( stmt->getLayout() == ast::stmt::InputLayout::eLineStripWithAdjacency );
+		testEnd();
+	}
+
+	void testOutputGeometryLayout()
+	{
+		testBegin( "testOutputGeometryLayout" );
+		auto stmt = ast::stmt::makeOutputGeometryLayout( ast::stmt::OutputLayout::eTriangleStrip, 15u );
+		std::cout << "StmtOutputGeometryLayout:\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
+
+		check( stmt->getKind() == ast::stmt::Kind::eOutputGeometryLayout );
+		check( stmt->getLayout() == ast::stmt::OutputLayout::eTriangleStrip );
+		check( stmt->getPrimCount() == 15u );
 		testEnd();
 	}
 
@@ -700,6 +774,12 @@ int main( int argc, char ** argv )
 	testSwitchDefaultStatement();
 	testSwitchStatement();
 	testReturnStatement();
+	testDiscardStatement();
+	testEmitPrimitive();
+	testEmitVertex();
+	testInputComputeLayout();
+	testInputGeometryLayout();
+	testOutputGeometryLayout();
 	testFunctionDeclStatement();
 	testSuiteEnd();
 }

@@ -54,6 +54,12 @@ namespace ast::debug
 		m_appendLineEnd = true;
 	}
 
+	void StmtVisitor::visitDiscardStmt( stmt::Discard * stmt )
+	{
+		doAppendLineEnd();
+		m_result += m_indent + "discard;\n";
+	}
+
 	void StmtVisitor::visitPushConstantsBufferDeclStmt( stmt::PushConstantsBufferDecl * stmt )
 	{
 		m_appendLineEnd = true;
@@ -122,6 +128,18 @@ namespace ast::debug
 		m_appendLineEnd = true;
 	}
 
+	void StmtVisitor::visitEmitPrimitiveStmt( stmt::EmitPrimitive * stmt )
+	{
+		doAppendLineEnd();
+		m_result += m_indent + "EmitPrimitive();\n";
+	}
+
+	void StmtVisitor::visitEmitVertexStmt( stmt::EmitVertex * stmt )
+	{
+		doAppendLineEnd();
+		m_result += m_indent + "EmitVertex();\n";
+	}
+
 	void StmtVisitor::visitForStmt( stmt::For * stmt )
 	{
 		m_appendLineEnd = true;
@@ -138,13 +156,15 @@ namespace ast::debug
 	{
 		m_appendLineEnd = true;
 		doAppendLineEnd();
-		m_result += m_indent + getTypeName( stmt->getRet() ) + " ";
-		m_result += stmt->getName() + "(";
+		m_result += m_indent + getTypeName( stmt->getRet() );
+		m_result += " " + stmt->getName() + "(";
 		std::string sep;
 
 		for ( auto & param : stmt->getParameters() )
 		{
-			m_result += sep + getTypeName( param->getType() ) + " " + param->getName();
+			m_result += sep + getDirectionName( *param )
+				+ " " + getTypeName( param->getType() )
+				+ " " + param->getName();
 			sep = ", ";
 		}
 
@@ -197,6 +217,26 @@ namespace ast::debug
 		}
 
 		m_result += ";\n";
+	}
+
+	void StmtVisitor::visitInputComputeLayoutStmt( stmt::InputComputeLayout * stmt )
+	{
+		doAppendLineEnd();
+		m_result += m_indent + "layout(local_size_x=" + std::to_string( stmt->getWorkGroupsX() )
+			+ ", local_size_y=" + std::to_string( stmt->getWorkGroupsY() )
+			+ ", local_size_z=" + std::to_string( stmt->getWorkGroupsZ() ) + ") in;\n";
+	}
+
+	void StmtVisitor::visitInputGeometryLayoutStmt( stmt::InputGeometryLayout * stmt )
+	{
+		doAppendLineEnd();
+		m_result += m_indent + "layout(" + getLayoutName( stmt->getLayout() ) + ") in;\n";
+	}
+
+	void StmtVisitor::visitOutputGeometryLayoutStmt( stmt::OutputGeometryLayout * stmt )
+	{
+		doAppendLineEnd();
+		m_result += m_indent + "layout(" + getLayoutName( stmt->getLayout() ) + ", max_vertices = " + std::to_string( stmt->getPrimCount() ) + ") out;\n";
 	}
 
 	void StmtVisitor::visitPerVertexDeclStmt( stmt::PerVertexDecl * stmt )
