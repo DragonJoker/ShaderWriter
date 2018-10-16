@@ -23,7 +23,7 @@ namespace sdw
 	template< typename ValueT >
 	Optional< Mat2T< ValueT > > & Optional< Mat2T< ValueT > >::operator=( Optional< Mat2T< ValueT > > const & rhs )
 	{
-		if ( getContainer() )
+		if ( this->getContainer() )
 		{
 			addStmt( *findContainer( *this, rhs )
 				, stmt::makeSimple( expr::makeAssign( makeType( this->getType()->getKind() )
