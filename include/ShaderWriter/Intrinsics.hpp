@@ -8,13 +8,9 @@ See LICENSE file in root folder
 #include "Function.hpp"
 #include "FunctionParam.hpp"
 #include "Bool.hpp"
-#include "Int.hpp"
-#include "UInt.hpp"
-#include "Float.hpp"
-#include "Mat2.hpp"
-#include "Mat3.hpp"
-#include "Mat4.hpp"
-#include "Optional.hpp"
+#include "OptionalMat2.hpp"
+#include "OptionalMat3.hpp"
+#include "OptionalMat4.hpp"
 #include "Sampler.hpp"
 
 namespace sdw

@@ -8,26 +8,29 @@ namespace sdw
 	//*********************************************************************************************
 
 	template< typename ValueT >
-	Array< ValueT >::Array( Shader * shader
-		, expr::ExprPtr expr )
-		: Value{ shader, std::move( expr ) }
+	Optional< Array< ValueT > >::Optional( Shader * shader
+		, expr::ExprPtr expr
+		, bool enabled )
+		: Array< ValueT >{ shader, std::move( expr ) }
+		, m_enabled{ enabled }
 	{
 	}
 
 	template< typename ValueT >
 	template< typename IndexT >
-	ValueT Array< ValueT >::operator[]( IndexT const & offset )const
+	Optional< ValueT > Optional< Array< ValueT > >::operator[]( IndexT const & offset )const
 	{
-		return ValueT{ findShader( *this, offset )
+		return Optional< ValueT >{ findShader( *this, offset )
 			, expr::makeArrayAccess( makeType( this->getType()->getKind() )
 				, makeExpr( *this )
-				, makeExpr( offset ) ) };
+				, makeExpr( offset ) )
+			, areOptionalEnabled( *this, offset ) };
 	}
 
 	template< typename ValueT >
-	expr::ExprPtr makeExpr( Array< ValueT > const & value )
+	bool Optional< Array< ValueT > >::isEnabled()const
 	{
-		return makeExpr( value.getExpr() );
+		return m_enabled;
 	}
 
 	//*********************************************************************************************

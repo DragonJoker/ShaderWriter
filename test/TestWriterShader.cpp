@@ -16,7 +16,7 @@ namespace
 		auto vtx_texture = shader.declOutput< sdw::Vec2 >( "vtx_texture", 0u );
 		auto out = sdw::gl_PerVertex{ shader };
 
-		shader.implFunction< void >( "main", [&]()
+		shader.implementFunction< void >( "main", [&]()
 			{
 				vtx_texture = texcoord;
 				out.gl_Position() = vec4( position.x(), position.y(), 0.0, 1.0 );
@@ -44,7 +44,7 @@ namespace
 		// Shader outputs
 		auto pxl_rgb = shader.declOutput< Vec4 >( "pxl_rgb", 0 );
 
-		auto applyGamma = shader.implFunction< Vec3 >( "applyGamma"
+		auto applyGamma = shader.implementFunction< Vec3 >( "applyGamma"
 			, [&]( Float const & gamma
 				, Vec3 const & hdr )
 			{
@@ -62,7 +62,7 @@ namespace
 		auto linearWhitePointValue = shader.declConstant< Float >( "LinearWhitePointValue", 11.2_f );
 		auto exposureBias = shader.declConstant< Float >( "ExposureBias", 2.0_f );
 
-		auto uncharted2ToneMap = shader.implFunction< Vec3 >( "uncharted2ToneMap"
+		auto uncharted2ToneMap = shader.implementFunction< Vec3 >( "uncharted2ToneMap"
 			, [&]( Vec3 const & x )
 			{
 				shader.returnStmt( shader.paren(
@@ -78,7 +78,7 @@ namespace
 			}
 			, InVec3{ &shader, "x" } );
 
-		shader.implFunction< void >( "main"
+		shader.implementFunction< void >( "main"
 			, [&]()
 			{
 				auto hdrColor = shader.declLocale( "hdrColor"

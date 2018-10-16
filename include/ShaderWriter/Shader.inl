@@ -16,8 +16,8 @@ See LICENSE file in root folder
 namespace sdw
 {
 	template< typename ReturnT, typename ... ParamsT >
-	inline Function< ReturnT, ParamsT... > Shader::implFunction( std::string const & name
-		, std::function< void( typename ParamTranslater< ParamsT >::Type... ) > const & function
+	inline Function< ReturnT, ParamsT... > Shader::implementFunction( std::string const & name
+		, std::function< void( ParamTranslaterT< ParamsT >... ) > const & function
 		, ParamsT && ... params )
 	{
 		auto decl = getFunctionHeader< ReturnT >( name, params... );

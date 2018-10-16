@@ -135,6 +135,7 @@ namespace
 			sdw::Shader shader;
 			auto value = shader.declInputArray< T >( "value", 1u, 12u, false );
 			check( !value.isEnabled() );
+			check( !value[0].isEnabled() );
 			check( value.getType()->getKind() == sdw::typeEnum< T > );
 			check( value.getType()->getArraySize() == 12u );
 			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
@@ -146,6 +147,7 @@ namespace
 			sdw::Shader shader;
 			auto value = shader.declInputArray< T >( "value", 2u, false );
 			check( !value.isEnabled() );
+			check( !value[0].isEnabled() );
 			check( value.getType()->getKind() == sdw::typeEnum< T > );
 			check( value.getType()->getArraySize() == sdw::type::UnknownArraySize );
 			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
@@ -170,6 +172,7 @@ namespace
 			auto name = sdw::debug::getTypeName( sdw::typeEnum< T > ) + "InputValue_1_opt";
 			auto value = shader.declInputArray< T >( name, 1u, 12u, true );
 			check( value.isEnabled() );
+			check( value[0].isEnabled() );
 			check( value.getType()->getKind() == sdw::typeEnum< T > );
 			check( value.getType()->getArraySize() == 12u );
 			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
@@ -183,6 +186,7 @@ namespace
 			auto name = sdw::debug::getTypeName( sdw::typeEnum< T > ) + "InputValue_2_opt";
 			auto value = shader.declInputArray< T >( name, 2u, true );
 			check( value.isEnabled() );
+			check( value[0].isEnabled() );
 			check( value.getType()->getKind() == sdw::typeEnum< T > );
 			check( value.getType()->getArraySize() == sdw::type::UnknownArraySize );
 			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
@@ -248,6 +252,7 @@ namespace
 			sdw::Shader shader;
 			auto value = shader.declOutputArray< T >( "value", 1u, 12u, false );
 			check( !value.isEnabled() );
+			check( !value[0].isEnabled() );
 			check( value.getType()->getKind() == sdw::typeEnum< T > );
 			check( value.getType()->getArraySize() == 12u );
 			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
@@ -259,6 +264,7 @@ namespace
 			sdw::Shader shader;
 			auto value = shader.declOutputArray< T >( "value", 2u, false );
 			check( !value.isEnabled() );
+			check( !value[0].isEnabled() );
 			check( value.getType()->getKind() == sdw::typeEnum< T > );
 			check( value.getType()->getArraySize() == sdw::type::UnknownArraySize );
 			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
@@ -283,6 +289,7 @@ namespace
 			auto name = sdw::debug::getTypeName( sdw::typeEnum< T > ) + "OutputValue_1_opt";
 			auto value = shader.declOutputArray< T >( name, 1u, 12u, true );
 			check( value.isEnabled() );
+			check( value[0].isEnabled() );
 			check( value.getType()->getKind() == sdw::typeEnum< T > );
 			check( value.getType()->getArraySize() == 12u );
 			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
@@ -296,6 +303,7 @@ namespace
 			auto name = sdw::debug::getTypeName( sdw::typeEnum< T > ) + "OutputValue_2_opt";
 			auto value = shader.declOutputArray< T >( name, 2u, true );
 			check( value.isEnabled() );
+			check( value[0].isEnabled() );
 			check( value.getType()->getKind() == sdw::typeEnum< T > );
 			check( value.getType()->getArraySize() == sdw::type::UnknownArraySize );
 			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
@@ -391,6 +399,7 @@ namespace
 			sdw::Shader shader;
 			auto value = shader.declLocaleArray< T >( "value", 12u, false );
 			check( !value.isEnabled() );
+			check( !value[0].isEnabled() );
 			check( value.getType()->getKind() == sdw::typeEnum< T > );
 			check( value.getType()->getArraySize() == 12u );
 			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
@@ -402,6 +411,7 @@ namespace
 			sdw::Shader shader;
 			auto value = shader.declLocaleArray< T >( "value", 3u, test::getDefaultArray< T >( shader, 3u ), false );
 			check( !value.isEnabled() );
+			check( !value[0].isEnabled() );
 			check( value.getType()->getKind() == sdw::typeEnum< T > );
 			check( value.getType()->getArraySize() == 3u );
 			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
@@ -449,6 +459,7 @@ namespace
 			auto name = sdw::debug::getTypeName( sdw::typeEnum< T > ) + "LocaleValue_opt";
 			auto value = shader.declLocaleArray< T >( name, 12u, true );
 			check( value.isEnabled() );
+			check( value[0].isEnabled() );
 			check( value.getType()->getKind() == sdw::typeEnum< T > );
 			check( value.getType()->getArraySize() == 12u );
 			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
@@ -461,6 +472,7 @@ namespace
 			auto name = sdw::debug::getTypeName( sdw::typeEnum< T > ) + "LocaleValue_opt";
 			auto value = shader.declLocaleArray< T >( name, 3u, test::getDefaultArray< T >( shader, 3u ), true );
 			check( value.isEnabled() );
+			check( value[0].isEnabled() );
 			check( value.getType()->getKind() == sdw::typeEnum< T > );
 			check( value.getType()->getArraySize() == 3u );
 			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
@@ -517,6 +529,7 @@ namespace
 		{
 			auto value = shader.declBuiltinArray< T >( "value", 12u, false );
 			check( !value.isEnabled() );
+			check( !value[0].isEnabled() );
 			check( value.getType()->getKind() == sdw::typeEnum< T > );
 			check( value.getType()->getArraySize() == 12u );
 			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
@@ -527,6 +540,7 @@ namespace
 		{
 			auto value = shader.declBuiltinArray< T >( "value", false );
 			check( !value.isEnabled() );
+			check( !value[0].isEnabled() );
 			check( value.getType()->getKind() == sdw::typeEnum< T > );
 			check( value.getType()->getArraySize() == sdw::type::UnknownArraySize );
 			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
@@ -549,6 +563,7 @@ namespace
 			auto name = sdw::debug::getTypeName( sdw::typeEnum< T > ) + "BuiltinValue_opt";
 			auto value = shader.declBuiltinArray< T >( name, 12u, true );
 			check( value.isEnabled() );
+			check( value[0].isEnabled() );
 			check( value.getType()->getKind() == sdw::typeEnum< T > );
 			check( value.getType()->getArraySize() == 12u );
 			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
@@ -560,6 +575,7 @@ namespace
 			auto name = sdw::debug::getTypeName( sdw::typeEnum< T > ) + "BuiltinValue_opt";
 			auto value = shader.declBuiltinArray< T >( name, true );
 			check( value.isEnabled() );
+			check( value[0].isEnabled() );
 			check( value.getType()->getKind() == sdw::typeEnum< T > );
 			check( value.getType()->getArraySize() == sdw::type::UnknownArraySize );
 			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
@@ -613,6 +629,7 @@ namespace
 			sdw::Shader shader;
 			auto value = shader.declSamplerArray< ST >( "value", 1u, 1u, 12u, false );
 			check( !value.isEnabled() );
+			check( !value[0].isEnabled() );
 			check( value.getType()->getKind() == sdw::SamplerTypeTraits< ST >::TypeEnum );
 			check( value.getType()->getArraySize() == 12u );
 			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
@@ -638,6 +655,7 @@ namespace
 			auto name = sdw::debug::getTypeName( sdw::SamplerTypeTraits< ST >::TypeEnum ) + "SamplerValue_2_2_opt";
 			auto value = shader.declSamplerArray< ST >( name, 2u, 2u, 12u, true );
 			check( value.isEnabled() );
+			check( value[0].isEnabled() );
 			check( value.getType()->getKind() == sdw::SamplerTypeTraits< ST >::TypeEnum );
 			check( value.getType()->getArraySize() == 12u );
 			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
@@ -741,12 +759,12 @@ namespace
 			BOType bo{ createBo< BOType >( shader ) };
 			auto value = bo.template declMember< T >( name, false );
 			bo.end();
-			check( value.isEnabled() == false );
+			check( !value.isEnabled() );
 			check( value.getType()->getKind() == sdw::typeEnum< T > );
 			check( value.getType()->getArraySize() == sdw::type::NotArray );
 			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			auto retrieved = bo.template getMember< T >( name, false );
-			check( retrieved.isEnabled() == false );
+			check( !retrieved.isEnabled() );
 			check( retrieved.getType()->getKind() == sdw::typeEnum< T > );
 			check( retrieved.getType()->getArraySize() == sdw::type::NotArray );
 			check( retrieved.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
@@ -760,12 +778,14 @@ namespace
 			BOType bo{ createBo< BOType >( shader ) };
 			auto value = bo.template declMember< T >( name, 4u, false );
 			bo.end();
-			check( value.isEnabled() == false );
+			check( !value.isEnabled() );
+			check( !value[0].isEnabled() );
 			check( value.getType()->getKind() == sdw::typeEnum< T > );
 			check( value.getType()->getArraySize() == 4u );
 			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			auto retrieved = bo.template getMember< T >( name, 4u, false );
-			check( retrieved.isEnabled() == false );
+			check( !retrieved.isEnabled() );
+			check( !retrieved[0].isEnabled() );
 			check( retrieved.getType()->getKind() == sdw::typeEnum< T > );
 			check( retrieved.getType()->getArraySize() == 4u );
 			check( retrieved.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
@@ -779,12 +799,14 @@ namespace
 			BOType bo{ createBo< BOType >( shader ) };
 			auto value = bo.template declMemberArray< T >( name, false );
 			bo.end();
-			check( value.isEnabled() == false );
+			check( !value.isEnabled() );
+			check( !value[0].isEnabled() );
 			check( value.getType()->getKind() == sdw::typeEnum< T > );
 			check( value.getType()->getArraySize() == sdw::type::UnknownArraySize );
 			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			auto retrieved = bo.template getMemberArray< T >( name, false );
-			check( retrieved.isEnabled() == false );
+			check( !retrieved.isEnabled() );
+			check( !retrieved[0].isEnabled() );
 			check( retrieved.getType()->getKind() == sdw::typeEnum< T > );
 			check( retrieved.getType()->getArraySize() == sdw::type::UnknownArraySize );
 			check( retrieved.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
@@ -798,12 +820,12 @@ namespace
 			BOType bo{ createBo< BOType >( shader ) };
 			auto value = bo.template declMember< T >( name, true );
 			bo.end();
-			check( value.isEnabled() == true );
+			check( value.isEnabled() );
 			check( value.getType()->getKind() == sdw::typeEnum< T > );
 			check( value.getType()->getArraySize() == sdw::type::NotArray );
 			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			auto retrieved = bo.template getMember< T >( name, true );
-			check( retrieved.isEnabled() == true );
+			check( retrieved.isEnabled() );
 			check( retrieved.getType()->getKind() == sdw::typeEnum< T > );
 			check( retrieved.getType()->getArraySize() == sdw::type::NotArray );
 			check( retrieved.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
@@ -817,12 +839,14 @@ namespace
 			BOType bo{ createBo< BOType >( shader ) };
 			auto value = bo.template declMember< T >( name, 4u, true );
 			bo.end();
-			check( value.isEnabled() == true );
+			check( value.isEnabled() );
+			check( value[0].isEnabled() );
 			check( value.getType()->getKind() == sdw::typeEnum< T > );
 			check( value.getType()->getArraySize() == 4u );
 			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			auto retrieved = bo.template getMember< T >( name, 4u, true );
-			check( retrieved.isEnabled() == true );
+			check( retrieved.isEnabled() );
+			check( retrieved[0].isEnabled() );
 			check( retrieved.getType()->getKind() == sdw::typeEnum< T > );
 			check( retrieved.getType()->getArraySize() == 4u );
 			check( retrieved.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
@@ -836,12 +860,14 @@ namespace
 			BOType bo{ createBo< BOType >( shader ) };
 			auto value = bo.template declMemberArray< T >( name, true );
 			bo.end();
-			check( value.isEnabled() == true );
+			check( value.isEnabled() );
+			check( value[0].isEnabled() );
 			check( value.getType()->getKind() == sdw::typeEnum< T > );
 			check( value.getType()->getArraySize() == sdw::type::UnknownArraySize );
 			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			auto retrieved = bo.template getMemberArray< T >( name, true );
-			check( retrieved.isEnabled() == true );
+			check( retrieved.isEnabled() );
+			check( retrieved[0].isEnabled() );
 			check( retrieved.getType()->getKind() == sdw::typeEnum< T > );
 			check( retrieved.getType()->getArraySize() == sdw::type::UnknownArraySize );
 			check( retrieved.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );

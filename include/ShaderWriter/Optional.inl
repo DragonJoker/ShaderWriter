@@ -76,14 +76,6 @@ namespace sdw
 		return m_enabled;
 	}
 
-	template< typename TypeT >
-	Optional< TypeT >::operator Optional< Value >()const
-	{
-		return Optional< Value >{ *this
-			, makeExpr( this->getExpr() )
-			, isEnabled() };
-	}
-
 	template< typename T >
 	expr::ExprPtr makeExpr( Optional< T > const & value )
 	{

@@ -14,7 +14,7 @@ namespace sdw
 
 	void Utils::declareCalcTexCoord()
 	{
-		m_calcTexCoord = m_shader.implFunction< Vec2 >( "calcTexCoord"
+		m_calcTexCoord = m_shader.implementFunction< Vec2 >( "calcTexCoord"
 			, [&]( Vec2 const & renderSize )
 			{
 				auto gl_FragCoord = m_shader.declBuiltin< Vec4 >( "gl_FragCoord" );
@@ -25,7 +25,7 @@ namespace sdw
 
 	void Utils::declareCalcVSPosition()
 	{
-		m_calcVSPosition = m_shader.implFunction< Vec3 >( "calcVSPosition"
+		m_calcVSPosition = m_shader.implementFunction< Vec3 >( "calcVSPosition"
 			, [&]( Vec2 const & uv
 				, Float const & depth
 				, Mat4 const & invProj )
@@ -44,7 +44,7 @@ namespace sdw
 
 	void Utils::declareCalcWSPosition()
 	{
-		m_calcWSPosition = m_shader.implFunction< Vec3 >( "calcWSPosition"
+		m_calcWSPosition = m_shader.implementFunction< Vec3 >( "calcWSPosition"
 			, [&]( Vec2 const & uv
 				, Float const & depth
 				, Mat4 const & invViewProj )
@@ -63,7 +63,7 @@ namespace sdw
 
 	void Utils::declareApplyGamma()
 	{
-		m_applyGamma = m_shader.implFunction< Vec3 >( "applyGamma"
+		m_applyGamma = m_shader.implementFunction< Vec3 >( "applyGamma"
 			, [&]( Float const & gamma
 				, Vec3 const & hdr )
 			{
@@ -75,7 +75,7 @@ namespace sdw
 
 	void Utils::declareRemoveGamma()
 	{
-		m_removeGamma = m_shader.implFunction< Vec3 >( "removeGamma"
+		m_removeGamma = m_shader.implementFunction< Vec3 >( "removeGamma"
 			, [&]( Float const & gamma
 				, Vec3 const & srgb )
 			{
@@ -87,7 +87,7 @@ namespace sdw
 
 	void Utils::declareLineariseDepth()
 	{
-		m_lineariseDepth = m_shader.implFunction< Float >( "lineariseDepth"
+		m_lineariseDepth = m_shader.implementFunction< Float >( "lineariseDepth"
 			, [&]( Float const & depth
 				, Float const & nearPlane
 				, Float const & farPlane )
@@ -104,7 +104,7 @@ namespace sdw
 
 	void Utils::declareComputeAccumulation()
 	{
-		m_computeAccumulation = m_shader.implFunction< Vec4 >( "computeAccumulation"
+		m_computeAccumulation = m_shader.implementFunction< Vec4 >( "computeAccumulation"
 			, [&]( Float const & depth
 				, Vec3 const & colour
 				, Float const & alpha
@@ -158,7 +158,7 @@ namespace sdw
 
 	void Utils::declareGetMapNormal()
 	{
-		m_getMapNormal = m_shader.implFunction< Vec3 >( "getMapNormal"
+		m_getMapNormal = m_shader.implementFunction< Vec3 >( "getMapNormal"
 			, [&]( Vec2 const & uv
 				, Vec3 const & normal
 				, Vec3 const & position )
@@ -195,7 +195,7 @@ namespace sdw
 
 	void Utils::declareFresnelSchlick()
 	{
-		m_fresnelSchlick = m_shader.implFunction< Vec3 >( "fresnelSchlick"
+		m_fresnelSchlick = m_shader.implementFunction< Vec3 >( "fresnelSchlick"
 			, [&]( Float const & product
 				, Vec3 const & f0
 				, Float const & roughness )
@@ -211,7 +211,7 @@ namespace sdw
 
 	void Utils::declareComputeIBL()
 	{
-		m_computeIBL = m_shader.implFunction< Vec3 >( "computeIBL"
+		m_computeIBL = m_shader.implementFunction< Vec3 >( "computeIBL"
 			, [&]( Vec3 const & normal
 				, Vec3 const & position
 				, Vec3 const & baseColour

@@ -47,6 +47,12 @@ namespace sdw
 	{
 	public:
 		Shader();
+#pragma region Variables registration
+		/**
+		*name
+		*	Control statements.
+		*/
+		/**@{*/
 		void registerName( std::string const & name
 			, type::Kind type );
 		void checkNameExists( std::string const & name
@@ -56,11 +62,13 @@ namespace sdw
 			, Ssbo::Info const & info );
 		void registerUbo( std::string const & name
 			, Ubo::Info const & info );
-		void returnStmt();
+		/**@}*/
+#pragma endregion
 		template< typename ReturnT, typename ... ParamsT >
-		inline Function< ReturnT, ParamsT... > implFunction( std::string const & name
-				, std::function< void( typename ParamTranslater< ParamsT >::Type... ) > const & function
+		inline Function< ReturnT, ParamsT... > implementFunction( std::string const & name
+				, std::function< void( ParamTranslaterT< ParamsT >... ) > const & function
 				, ParamsT && ... params );
+		void returnStmt();
 		template< typename RetType >
 		void returnStmt( RetType const & value );
 		template< typename DestT >

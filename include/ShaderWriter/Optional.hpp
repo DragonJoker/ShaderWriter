@@ -24,8 +24,6 @@ namespace sdw
 		inline Optional< TypeT > operator=( T const & rhs );
 		inline bool isEnabled()const;
 
-		inline operator Optional< Value >()const;
-
 	private:
 		bool m_enabled;
 	};
