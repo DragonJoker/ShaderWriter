@@ -3,6 +3,7 @@ See LICENSE file in root folder
 */
 #ifndef ___Writer_Shader_H___
 #define ___Writer_Shader_H___
+#pragma once
 
 #include "Function.hpp"
 #include "Struct.hpp"
@@ -11,7 +12,7 @@ See LICENSE file in root folder
 #include "Pcb.hpp"
 #include "Optional.hpp"
 
-#include <ASTGenerator/Stmt/StmtContainer.hpp>
+#include <stack>
 
 namespace sdw
 {
@@ -46,6 +47,12 @@ namespace sdw
 	{
 	public:
 		Shader();
+#pragma region Variables registration
+		/**
+		*name
+		*	Control statements.
+		*/
+		/**@{*/
 		void registerName( std::string const & name
 			, type::Kind type );
 		void checkNameExists( std::string const & name
@@ -55,6 +62,44 @@ namespace sdw
 			, Ssbo::Info const & info );
 		void registerUbo( std::string const & name
 			, Ubo::Info const & info );
+		/**@}*/
+#pragma endregion
+		template< typename ReturnT, typename ... ParamsT >
+		inline Function< ReturnT, ParamsT... > implementFunction( std::string const & name
+				, std::function< void( ParamTranslaterT< ParamsT >... ) > const & function
+				, ParamsT && ... params );
+		void returnStmt();
+		template< typename RetType >
+		void returnStmt( RetType const & value );
+		template< typename DestT >
+		inline DestT cast( Value const & from );
+		template< typename ValueT >
+		inline ValueT paren( ValueT const & content );
+#pragma region Control statements
+		/**
+		*name
+		*	Control statements.
+		*/
+		/**@{*/
+		template< typename ExprType >
+		ExprType ternary( expr::ExprPtr condition
+			, expr::ExprPtr left
+			, expr::ExprPtr right );
+		void forStmt( expr::ExprPtr init
+			, expr::ExprPtr condition
+			, expr::ExprPtr increment
+			, std::function< void() > function );
+		void doWhileStmt( expr::ExprPtr condition
+			, std::function< void() > function );
+		void whileStmt( expr::ExprPtr condition
+			, std::function< void() > function );
+		Shader & ifStmt( expr::ExprPtr condition
+			, std::function< void() > function );
+		Shader & elseIfStmt( expr::ExprPtr condition
+			, std::function< void() > function );
+		void elseStmt( std::function< void() > function );
+		/**@}*/
+#pragma endregion
 #pragma region Constant declaration
 		/**
 		*name
@@ -306,7 +351,7 @@ namespace sdw
 
 		inline stmt::Container * getContainer()
 		{
-			return m_currentContainer;
+			return m_blocks.top().container;
 		}
 
 	private:
@@ -326,9 +371,13 @@ namespace sdw
 			, type::Kind type );
 
 	private:
+		struct Block
+		{
+			std::map< std::string, type::Kind > registered;
+			stmt::Container * container;
+		};
+		std::stack< Block > m_blocks;
 		stmt::Container m_container;
-		stmt::Container * m_currentContainer;
-		std::map< std::string, type::Kind > m_registered;
 		std::map< std::string, Ssbo::Info > m_ssbos;
 		std::map< std::string, Ubo::Info > m_ubos;
 		std::map< std::string, type::Kind > m_constants;
@@ -337,6 +386,55 @@ namespace sdw
 		std::map< std::string, OutputInfo > m_outputs;
 	};
 }
+
+#define FOR( Shader, Type, Name, Init, Cond, Incr )\
+	{\
+		Type Name{ &( Shader )\
+			, sdw::makeExpr( sdw::var::makeVariable( sdw::type::makeType( sdw::typeEnum<Type> ), #Name ) ) };\
+		Type incr##Name{ &( Shader ), sdw::makeExpr( Incr ) };\
+		Name.updateExpr( sdw::makeExpr( sdw::var::makeVariable( sdw::type::makeType( sdw::typeEnum<Type> ), #Name ) ) );\
+		Type cond##Name{ &( Shader ), sdw::makeExpr( Cond ) };\
+		( Shader ).forStmt( sdw::makeInit( sdw::typeEnum<Type>\
+				, #Name\
+				, sdw::makeExpr( Init ) )\
+			, sdw::makeExpr( cond##Name )\
+			, sdw::makeExpr( incr##Name )\
+			, [&]()
+
+#define ROF\
+ );\
+	}
+
+#define WHILE( Shader, Condition )\
+	( Shader ).whileStmt( sdw::makeExpr( Condition )\
+		, [&]()
+
+#define ELIHW\
+ );
+
+#define DOWHILE( Shader, Condition )\
+	( Shader ).doWhileStmt( sdw::makeExpr( Condition )\
+		, [&]()
+
+#define ELIHWOD\
+ );
+
+#define IF( Shader, Condition )\
+	( Shader ).ifStmt( sdw::makeExpr( Condition )\
+		, [&]()
+
+#define ELSE\
+ ).elseStmt( [&]()
+
+#define ELSEIF( Condition )\
+ ).elseIfStmt( sdw::makeExpr( Condition )\
+		, [&]()
+
+#define FI\
+ );
+
+#define TERNARY( Shader, ExprType, Condition, Left, Right )\
+	( Shader ).ternary< ExprType >( Condition, Left, Right )
 
 #include "Shader.inl"
 

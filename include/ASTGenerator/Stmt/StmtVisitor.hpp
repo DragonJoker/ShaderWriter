@@ -23,6 +23,8 @@ See LICENSE file in root folder
 #include "StmtFunctionDecl.hpp"
 #include "StmtIf.hpp"
 #include "StmtInOutVariableDecl.hpp"
+#include "StmtPerVertexDecl.hpp"
+#include "StmtPushConstantsBufferDecl.hpp"
 #include "StmtReturn.hpp"
 #include "StmtSamplerDecl.hpp"
 #include "StmtShaderBufferDecl.hpp"
@@ -57,6 +59,8 @@ namespace ast::stmt
 		virtual void visitFunctionDeclStmt( FunctionDecl * ) = 0;
 		virtual void visitIfStmt( If * ) = 0;
 		virtual void visitInOutVariableDeclStmt( InOutVariableDecl * ) = 0;
+		virtual void visitPerVertexDeclStmt( PerVertexDecl * ) = 0;
+		virtual void visitPushConstantsBufferDeclStmt( PushConstantsBufferDecl * ) = 0;
 		virtual void visitReturnStmt( Return * ) = 0;
 		virtual void visitSamplerDeclStmt( SamplerDecl * ) = 0;
 		virtual void visitShaderBufferDeclStmt( ShaderBufferDecl * ) = 0;

@@ -81,7 +81,7 @@ namespace
 		std::cout << "PreprocExtension:\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
 
 		check( stmt->getKind() == ast::stmt::Kind::ePreprocExtension );
-		check( stmt->getTypeName() == "GL_arb_coin" );
+		check( stmt->getName() == "GL_arb_coin" );
 		check( stmt->getStatus() == ast::stmt::PreprocExtension::Status::eEnabled );
 		testEnd();
 	}
@@ -93,7 +93,7 @@ namespace
 		std::cout << "PreprocVersion:\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
 
 		check( stmt->getKind() == ast::stmt::Kind::ePreprocVersion );
-		check( stmt->getTypeName() == "430 core" );
+		check( stmt->getName() == "430 core" );
 		testEnd();
 	}
 
@@ -118,7 +118,7 @@ namespace
 
 		check( stmt->getKind() == ast::stmt::Kind::eVariableDecl );
 		check( stmt->getVariable().getType()->getKind() == ast::type::Kind::eInt );
-		check( stmt->getVariable().getTypeName() == "lhs" );
+		check( stmt->getVariable().getName() == "lhs" );
 		testEnd();
 	}
 
@@ -132,7 +132,7 @@ namespace
 		check( stmt->getBindingPoint() == 1u );
 		check( stmt->getBindingSet() == 2u );
 		check( stmt->getVariable().getType()->getKind() == ast::type::Kind::eSampler2D );
-		check( stmt->getVariable().getTypeName() == "lhs" );
+		check( stmt->getVariable().getName() == "lhs" );
 		testEnd();
 	}
 
@@ -197,7 +197,7 @@ namespace
 		check( stmt->getKind() == ast::stmt::Kind::eInOutVariableDecl );
 		check( stmt->getLocation() == 1u );
 		check( stmt->getVariable().getType()->getKind() == ast::type::Kind::eInt );
-		check( stmt->getVariable().getTypeName() == "lhs" );
+		check( stmt->getVariable().getName() == "lhs" );
 		testEnd();
 	}
 
@@ -472,7 +472,7 @@ namespace
 			std::cout << "StmtStructureDecl (empty):\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
 
 			check( stmt->getKind() == ast::stmt::Kind::eStructureDecl );
-			check( stmt->getType().getTypeName() == "MyStruct" );
+			check( stmt->getType().getName() == "MyStruct" );
 			check( stmt->getType().empty() );
 		}
 		{
@@ -483,7 +483,7 @@ namespace
 			std::cout << "StmtStructureDecl:\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
 
 			check( stmt->getKind() == ast::stmt::Kind::eStructureDecl );
-			check( stmt->getType().getTypeName() == "MyStruct" );
+			check( stmt->getType().getName() == "MyStruct" );
 			check( stmt->getType().size() == 2u );
 		}
 		testEnd();
@@ -497,8 +497,8 @@ namespace
 			std::cout << "StmtSwitchCase (empty):\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
 
 			check( stmt->getKind() == ast::stmt::Kind::eSwitchCase );
-			check( stmt->getCaseExpr()->getLabel()->getValue() == ast::expr::Literal::ValueType::eInt );
-			check( stmt->getCaseExpr()->getLabel()->getValue< ast::expr::Literal::ValueType::eInt >() == 10 );
+			check( stmt->getCaseExpr()->getLabel()->getLiteralType() == ast::expr::LiteralType::eInt );
+			check( stmt->getCaseExpr()->getLabel()->getValue< ast::expr::LiteralType::eInt >() == 10 );
 			check( stmt->getStatements().empty() );
 		}
 		{
@@ -510,8 +510,8 @@ namespace
 			std::cout << "StmtSwitchCase:\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
 
 			check( stmt->getKind() == ast::stmt::Kind::eSwitchCase );
-			check( stmt->getCaseExpr()->getLabel()->getValue() == ast::expr::Literal::ValueType::eInt );
-			check( stmt->getCaseExpr()->getLabel()->getValue< ast::expr::Literal::ValueType::eInt >() == 10 );
+			check( stmt->getCaseExpr()->getLabel()->getLiteralType() == ast::expr::LiteralType::eInt );
+			check( stmt->getCaseExpr()->getLabel()->getValue< ast::expr::LiteralType::eInt >() == 10 );
 			check( stmt->getStatements().size() == 2u );
 		}
 		testEnd();
@@ -607,7 +607,7 @@ namespace
 			std::cout << "StmtFunctionDecl (empty):\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
 
 			check( stmt->getKind() == ast::stmt::Kind::eFunctionDecl );
-			check( stmt->getTypeName() == "foo" );
+			check( stmt->getName() == "foo" );
 			check( stmt->getParameters().empty() );
 			check( stmt->getStatements().empty() );
 		}
@@ -616,7 +616,7 @@ namespace
 			std::cout << "StmtFunctionDecl (empty body):\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
 
 			check( stmt->getKind() == ast::stmt::Kind::eFunctionDecl );
-			check( stmt->getTypeName() == "foo" );
+			check( stmt->getName() == "foo" );
 			check( stmt->getParameters().size() == 1u );
 			check( stmt->getStatements().empty() );
 		}
@@ -625,7 +625,7 @@ namespace
 			std::cout << "StmtFunctionDecl (empty body):\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
 
 			check( stmt->getKind() == ast::stmt::Kind::eFunctionDecl );
-			check( stmt->getTypeName() == "foo" );
+			check( stmt->getName() == "foo" );
 			check( stmt->getParameters().size() == 2u );
 			check( stmt->getStatements().empty() );
 		}
@@ -635,7 +635,7 @@ namespace
 			std::cout << "StmtFunctionDecl (empty parameters list):\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
 
 			check( stmt->getKind() == ast::stmt::Kind::eFunctionDecl );
-			check( stmt->getTypeName() == "foo" );
+			check( stmt->getName() == "foo" );
 			check( stmt->getParameters().empty() );
 			check( stmt->getStatements().size() == 1u );
 		}
@@ -648,7 +648,7 @@ namespace
 			std::cout << "StmtFunctionDecl:\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
 
 			check( stmt->getKind() == ast::stmt::Kind::eFunctionDecl );
-			check( stmt->getTypeName() == "foo" );
+			check( stmt->getName() == "foo" );
 			check( stmt->getParameters().size() == 1u );
 			check( stmt->getStatements().size() == 1u );
 		}
@@ -661,7 +661,7 @@ namespace
 			std::cout << "StmtFunctionDecl:\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
 
 			check( stmt->getKind() == ast::stmt::Kind::eFunctionDecl );
-			check( stmt->getTypeName() == "foo" );
+			check( stmt->getName() == "foo" );
 			check( stmt->getParameters().size() == 2u );
 			check( stmt->getStatements().size() == 1u );
 		}

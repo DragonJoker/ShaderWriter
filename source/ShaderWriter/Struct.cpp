@@ -7,15 +7,21 @@ See LICENSE file in root folder
 
 namespace sdw
 {
-	Struct::Struct( stmt::Container & container
+	Struct::Struct( Shader & shader
 		, std::string name )
-		: m_container{ container }
+		: m_shader{ &shader }
 		, m_type{ type::makeStructType( std::move( name ) ) }
 	{
 	}
 
 	void Struct::end()
 	{
-		addStmt( m_container, stmt::makeStructureDecl( m_type ) );
+		addStmt( *m_shader, stmt::makeStructureDecl( m_type ) );
+	}
+
+	StructInstance Struct::getInstance( std::string const & name )
+	{
+		return StructInstance{ m_shader
+			, makeExpr( var::makeVariable( m_type, name ) ) };
 	}
 }

@@ -7,10 +7,8 @@ See LICENSE file in root folder
 
 namespace ast::stmt
 {
-	ElseIf::ElseIf( If const & ifStmt
-		, expr::ExprPtr ctrlExpr )
+	ElseIf::ElseIf( expr::ExprPtr ctrlExpr )
 		: Compound{ Kind::eElseIf }
-		, m_ifStmt{ ifStmt }
 		, m_ctrlExpr{ std::move( ctrlExpr ) }
 	{
 	}

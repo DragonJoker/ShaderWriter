@@ -185,7 +185,7 @@ namespace ast::debug
 
 	void ExprVisitor::visitIdentifierExpr( expr::Identifier * expr )
 	{
-		m_result += expr->getVariable()->getTypeName();
+		m_result += expr->getVariable()->getName();
 	}
 
 	void ExprVisitor::visitInitExpr( expr::Init * expr )
@@ -216,22 +216,22 @@ namespace ast::debug
 		std::stringstream stream;
 		stream.imbue( loc );
 
-		switch ( expr->getValue() )
+		switch ( expr->getLiteralType() )
 		{
-		case expr::Literal::ValueType::eBool:
-			stream << ( expr->getValue< expr::Literal::ValueType::eBool >()
+		case expr::LiteralType::eBool:
+			stream << ( expr->getValue< expr::LiteralType::eBool >()
 				? std::string{ "true" }
 				: std::string{ "false" } );
 			break;
-		case expr::Literal::ValueType::eInt:
-			stream << expr->getValue< expr::Literal::ValueType::eInt >();
+		case expr::LiteralType::eInt:
+			stream << expr->getValue< expr::LiteralType::eInt >();
 			break;
-		case expr::Literal::ValueType::eUInt:
-			stream << expr->getValue< expr::Literal::ValueType::eUInt >() << "u";
+		case expr::LiteralType::eUInt:
+			stream << expr->getValue< expr::LiteralType::eUInt >() << "u";
 			break;
-		case expr::Literal::ValueType::eFloat:
+		case expr::LiteralType::eFloat:
 			{
-				float f = expr->getValue< expr::Literal::ValueType::eFloat >();
+				float f = expr->getValue< expr::LiteralType::eFloat >();
 				stream << f;
 
 				if ( f == int64_t( f ) )

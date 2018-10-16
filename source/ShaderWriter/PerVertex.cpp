@@ -1,84 +1,53 @@
-#if 0
 #include "ShaderWriter/PerVertex.hpp"
+
+#include <ASTGenerator/Expr/ExprIdentifier.hpp>
+#include <ASTGenerator/Expr/ExprMbrSelect.hpp>
+#include <ASTGenerator/Stmt/StmtInOutVariableDecl.hpp>
+#include <ASTGenerator/Type/TypeStruct.hpp>
 
 namespace sdw
 {
+	namespace
+	{
+		type::TypePtr doGetType()
+		{
+			auto result = type::makeStructType( "gl_PerVertex" );
+			result->addMember( type::getVec4F(), "gl_Position" );
+			result->addMember( type::getFloat(), "gl_PointSize" );
+			result->addMember( type::makeType( type::Kind::eFloat, type::UnknownArraySize ), "gl_ClipDistance" );
+			return result;
+		}
+	}
+
 	gl_PerVertex::gl_PerVertex()
-		: Value{ nullptr, "gl_PerVertex " }
+		: Value{ nullptr, expr::makeIdentifier( var::makeVariable( doGetType(), "" ) ) }
+		, m_source{ stmt::PerVertexDecl::Source::eVertexOutput }
 	{
 	}
 
-	gl_PerVertex::gl_PerVertex( Shader & shader, Source source )
-		: Value( &shader, "gl_PerVertex " ) )
+	gl_PerVertex::gl_PerVertex( Shader & shader, stmt::PerVertexDecl::Source source )
+		: Value{ &shader, expr::makeIdentifier( var::makeVariable( doGetType(), "" ) ) }
+		, m_source{ source }
 	{
-		switch ( source )
-		{
-		case eVertexOutput:
-			writer << cuT( "out gl_PerVertex\n" )
-				<< cuT( "{\n" )
-				<< cuT( "    vec4 gl_Position;\n" )
-				<< cuT( "    float gl_PointSize;\n" )
-				<< cuT( "    float gl_ClipDistance[];\n" )
-				<< cuT( "};\n" );
-			break;
-		case eTessellationControlInput:
-		case eTessellationEvaluationInput:
-			writer << cuT( "in gl_PerVertex\n" )
-				<< cuT( "{\n" )
-				<< cuT( "    vec4 gl_Position;\n" )
-				<< cuT( "    float gl_PointSize;\n" )
-				<< cuT( "    float gl_ClipDistance[];\n" )
-				<< cuT( "} gl_in[gl_MaxPatchVertices];\n" );
-			break;
-		case eTessellationControlOutput:
-			writer << cuT( "out gl_PerVertex\n" )
-				<< cuT( "{\n" )
-				<< cuT( "    vec4 gl_Position;\n" )
-				<< cuT( "    float gl_PointSize;\n" )
-				<< cuT( "    float gl_ClipDistance[];\n" )
-				<< cuT( "} gl_out[];\n" );
-			break;
-		case eTessellationEvaluationOutput:
-			writer << cuT( "out gl_PerVertex\n" )
-				<< cuT( "{\n" )
-				<< cuT( "    vec4 gl_Position;\n" )
-				<< cuT( "    float gl_PointSize;\n" )
-				<< cuT( "    float gl_ClipDistance[];\n" )
-				<< cuT( "};\n" );
-			break;
-		case eGeometryInput:
-			writer << cuT( "in gl_PerVertex\n" )
-				<< cuT( "{\n" )
-				<< cuT( "    vec4 gl_Position;\n" )
-				<< cuT( "    float gl_PointSize;\n" )
-				<< cuT( "    float gl_ClipDistance[];\n" )
-				<< cuT( "} gl_in[];\n" );
-			break;
-		case eGeometryOutput:
-			writer << cuT( "out gl_PerVertex\n" )
-				<< cuT( "{\n" )
-				<< cuT( "    vec4 gl_Position;\n" )
-				<< cuT( "    float gl_PointSize;\n" )
-				<< cuT( "    float gl_ClipDistance[];\n" )
-				<< cuT( "};\n" );
-			break;
-		}
-
+		addStmt( *findContainer( *this )
+			, stmt::makePerVertexDecl( source ) );
 	}
 
 	Vec4 gl_PerVertex::gl_Position()const
 	{
-		return Vec4( m_container, m_name + cuT( "gl_Position" ) );
+		return Vec4{ findShader( *this )
+			, expr::makeIdentifier( var::makeVariable( type::getVec4F(), "gl_Position" ) ) };
 	}
 
 	Float gl_PerVertex::gl_PointSize()const
 	{
-		return Float( m_container, m_name + cuT( "gl_PointSize" ) );
+		return Float{ findShader( *this )
+			, expr::makeIdentifier( var::makeVariable( type::getFloat(), "gl_PointSize" ) ) };
 	}
 
 	Float gl_PerVertex::gl_ClipDistance()const
 	{
-		return Array< Float >( m_container, m_name + cuT( "gl_ClipDistance" ), 8 );
+		return Float{ findShader( *this )
+			, expr::makeIdentifier( var::makeVariable( type::makeType( type::Kind::eFloat, type::UnknownArraySize ), "gl_ClipDistance" ) ) };
 	}
 }
-#endif

@@ -5,10 +5,11 @@ See LICENSE file in root folder
 #define ___Writer_Function_H___
 #pragma once
 
-#include "Array.hpp"
-#include "Optional.hpp"
+#include "OptionalArray.hpp"
 
 #include <ASTGenerator/Stmt/StmtFunctionDecl.hpp>
+
+#include <functional>
 
 namespace sdw
 {
@@ -38,6 +39,9 @@ namespace sdw
 		using Type = T;
 	};
 
+	template< typename T >
+	using ParamTranslaterT = typename ParamTranslater< T >::Type;
+
 	//***********************************************************************************************
 
 	template< typename ReturnT
@@ -50,24 +54,25 @@ namespace sdw
 	Optional< ReturnT > getOptFunctionCall( std::string const & name
 		, ParamsT const & ... params );
 
-	template< typename Return
-		, typename ... Params >
+	template< typename ReturnT
+		, typename ... ParamsT >
 	inline stmt::FunctionDeclPtr getFunctionHeader( std::string const & name
-		, Params && ... params );
+		, ParamsT && ... params );
 
 	//***********************************************************************************************
 
-	template< typename RetT, typename ... ParamsT >
+	template< typename ReturnT
+		, typename ... ParamsT >
 	struct Function
 	{
 	public:
 		Function() = default;
 		Function( Shader * shader
 			, std::string const & name );
-		expr::ExprPtr operator()( ParamsT && ... params )const;
+		ReturnT operator()( ParamsT && ... params )const;
 
 	private:
-		stmt::Container * m_container{ nullptr };
+		Shader * m_shader{ nullptr };
 		std::string m_name;
 	};
 

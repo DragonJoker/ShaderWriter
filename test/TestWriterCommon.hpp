@@ -21,18 +21,18 @@ namespace test
 	template<>
 	sdw::Int getDefault< sdw::Int >( sdw::Shader & shader )
 	{
-		return sdw::Boolean{ &shader, sdw::expr::makeLiteral( 1 ) };
+		return sdw::Int{ &shader, sdw::expr::makeLiteral( 1 ) };
 	}
 
 	template<>
 	sdw::UInt getDefault< sdw::UInt >( sdw::Shader & shader )
 	{
-		return sdw::Boolean{ &shader, sdw::expr::makeLiteral( 1u ) };
+		return sdw::UInt{ &shader, sdw::expr::makeLiteral( 1u ) };
 	}
 	template<>
 	sdw::Float getDefault< sdw::Float >( sdw::Shader & shader )
 	{
-		return sdw::Boolean{ &shader, sdw::expr::makeLiteral( 1.0f ) };
+		return sdw::Float{ &shader, sdw::expr::makeLiteral( 1.0f ) };
 	}
 
 	template<>

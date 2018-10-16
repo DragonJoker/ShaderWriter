@@ -13,18 +13,16 @@ namespace sdw
 	struct Optional
 		: public TypeT
 	{
-		Optional( Shader * shader
+		inline Optional( Shader * shader
 			, expr::ExprPtr expr
 			, bool enabled );
-		Optional( TypeT const & other
+		inline Optional( TypeT const & other
 			, bool enabled );
 
 		inline Optional< TypeT > operator=( Optional< TypeT > const & rhs );
 		template< typename T >
 		inline Optional< TypeT > operator=( T const & rhs );
 		inline bool isEnabled()const;
-
-		inline operator Optional< Value >()const;
 
 	private:
 		bool m_enabled;
@@ -41,6 +39,9 @@ namespace sdw
 		: public std::true_type
 	{
 	};
+
+	template< typename T >
+	static bool constexpr isOptional = IsOptional< T >::value;
 
 	template< typename T >
 	expr::ExprPtr makeExpr( Optional< T > const & value );

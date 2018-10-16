@@ -7,26 +7,22 @@ See LICENSE file in root folder
 
 #include "Vec4.hpp"
 
+#include <ASTGenerator/Stmt/StmtPerVertexDecl.hpp>
+
 namespace sdw
 {
 	struct gl_PerVertex
 		: public Value
 	{
-		enum Source
-		{
-			eVertexOutput,
-			eTessellationControlInput,
-			eTessellationControlOutput,
-			eTessellationEvaluationInput,
-			eTessellationEvaluationOutput,
-			eGeometryInput,
-			eGeometryOutput,
-		};
 		gl_PerVertex();
-		gl_PerVertex( Shader & shader, Source source = eVertexOutput );
+		gl_PerVertex( Shader & shader
+			, stmt::PerVertexDecl::Source source = stmt::PerVertexDecl::eVertexOutput );
 		Vec4 gl_Position()const;
 		Float gl_PointSize()const;
 		Float gl_ClipDistance()const;
+
+	private:
+		stmt::PerVertexDecl::Source m_source;
 	};
 }
 

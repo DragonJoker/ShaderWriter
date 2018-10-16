@@ -21,6 +21,8 @@ namespace ast::debug
 			, std::string indent = std::string{} );
 
 	private:
+		void doAppendLineEnd();
+
 		void visitCompoundStmt( stmt::Compound * stmt )override;
 		void visitContainerStmt( stmt::Container * stmt )override;
 		void visitConstantBufferDeclStmt( stmt::ConstantBufferDecl * stmt )override;
@@ -31,6 +33,8 @@ namespace ast::debug
 		void visitFunctionDeclStmt( stmt::FunctionDecl * stmt )override;
 		void visitIfStmt( stmt::If * stmt )override;
 		void visitInOutVariableDeclStmt( stmt::InOutVariableDecl * stmt )override;
+		void visitPerVertexDeclStmt( stmt::PerVertexDecl * stmt )override;
+		void visitPushConstantsBufferDeclStmt( stmt::PushConstantsBufferDecl * stmt )override;
 		void visitReturnStmt( stmt::Return * stmt )override;
 		void visitSamplerDeclStmt( stmt::SamplerDecl * stmt )override;
 		void visitShaderBufferDeclStmt( stmt::ShaderBufferDecl * stmt )override;
@@ -52,6 +56,7 @@ namespace ast::debug
 	private:
 		std::string m_indent;
 		bool m_appendSemiColon{ false };
+		bool m_appendLineEnd{ false };
 		std::string & m_result;
 	};
 };

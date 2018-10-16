@@ -9,18 +9,18 @@ See LICENSE file in root folder
 
 namespace sdw
 {
-	template< typename T >
+	template< typename ValueT >
 	struct Array
-		: public T
+		: public Value
 	{
 		Array( Shader * shader
 			, expr::ExprPtr expr );
-		template< typename U > T operator[]( U const & offset );
-		template< typename U > T operator[]( U const & offset )const;
+		template< typename IndexT >
+		ValueT operator[]( IndexT const & offset )const;
 	};
 
-	template< typename TypeT >
-	expr::ExprPtr makeExpr( Array< TypeT > const & value );
+	template< typename ValueT >
+	expr::ExprPtr makeExpr( Array< ValueT > const & value );
 }
 
 #include "Array.inl"

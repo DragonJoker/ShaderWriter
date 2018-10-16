@@ -26,7 +26,7 @@ namespace ast::stmt
 
 		void accept( VisitorPtr vis )override;
 
-		inline std::string const & getTypeName()const
+		inline std::string const & getName()const
 		{
 			return m_name;
 		}

@@ -40,6 +40,21 @@ namespace sdw
 	{
 	}
 
+	Float::Float( float rhs )
+		: Value{ nullptr, makeExpr( rhs ) }
+	{
+	}
+
+	Float::Float( double rhs )
+		: Value{ nullptr, makeExpr( rhs ) }
+	{
+	}
+
+	Float::Float( long double rhs )
+		: Value{ nullptr, makeExpr( rhs ) }
+	{
+	}
+
 	Float::Float( Value const & rhs )
 		: Value{ rhs }
 	{

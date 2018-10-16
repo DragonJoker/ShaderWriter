@@ -1,10 +1,10 @@
 /*
 See LICENSE file in root folder
 */
+#include <ASTGenerator/Expr/ExprArrayAccess.hpp>
+
 namespace sdw
 {
-	//*************************************************************************
-
 	template< typename ValueT >
 	inline Vec2T< ValueT >::Vec2T( Shader * shader
 		, expr::ExprPtr expr )
@@ -35,7 +35,7 @@ namespace sdw
 	inline ValueT Vec2T< ValueT >::operator[]( IndexT const & rhs )const
 	{
 		return ValueT{ findShader( *this, rhs )
-			, expr::makeArrayAccess( makeType( TypeTraits< ValueT >::TypeEnum )
+			, expr::makeArrayAccess( makeType( typeEnum< ValueT > )
 				, makeExpr( *this )
 				, makeExpr( rhs ) ) };
 	}
@@ -65,6 +65,16 @@ namespace sdw
 	{
 		addStmt( *findContainer( *this, rhs )
 			, stmt::makeSimple( expr::makeTimesAssign( getType()
+				, makeExpr( *this )
+				, makeExpr( rhs ) ) ) );
+		return *this;
+	}
+
+	template< typename ValueT >
+	Vec2T< ValueT > & Vec2T< ValueT >::operator/=( Vec2T< ValueT > const & rhs )
+	{
+		addStmt( *findContainer( *this, rhs )
+			, stmt::makeSimple( expr::makeDivideAssign( getType()
 				, makeExpr( *this )
 				, makeExpr( rhs ) ) ) );
 		return *this;
@@ -103,6 +113,19 @@ namespace sdw
 		{
 			addStmt( *findContainer( *this, rhs )
 				, stmt::makeSimple( expr::makeTimesAssign( getType()
+					, makeExpr( *this )
+					, makeExpr( rhs ) ) ) );
+		}
+		return *this;
+	}
+
+	template< typename ValueT >
+	Vec2T< ValueT > & Vec2T< ValueT >::operator/=( Optional< Vec2T< ValueT > > const & rhs )
+	{
+		if ( rhs.isEnabled() )
+		{
+			addStmt( *findContainer( *this, rhs )
+				, stmt::makeSimple( expr::makeDivideAssign( getType()
 					, makeExpr( *this )
 					, makeExpr( rhs ) ) ) );
 		}
@@ -197,438 +220,4 @@ namespace sdw
 		}
 		return *this;
 	}
-
-	//*************************************************************************
-
-	template< typename ValueT >
-	inline Vec2T< ValueT > operator+( ValueT const & lhs
-		, Vec2T< ValueT > const & rhs )
-	{
-		return Vec2T< ValueT >{ findShader( lhs, rhs )
-			, expr::makeAdd( makeType( TypeTraits< Vec2T< ValueT > >::TypeEnum )
-				, makeExpr( lhs )
-				, makeExpr( rhs ) ) };
-	}
-
-	template< typename ValueT >
-	inline Vec2T< ValueT > operator+( Vec2T< ValueT > const & lhs
-		, ValueT const & rhs )
-	{
-		return Vec2T< ValueT >{ findShader( lhs, rhs )
-			, expr::makeAdd( makeType( TypeTraits< Vec2T< ValueT > >::TypeEnum )
-				, makeExpr( lhs )
-				, makeExpr( rhs ) ) };
-	}
-
-	template< typename ValueT >
-	inline Vec2T< ValueT > operator+( Vec2T< ValueT > const & lhs
-		, Vec2T< ValueT > const & rhs )
-	{
-		return Vec2T< ValueT >{ findShader( lhs, rhs )
-			, expr::makeAdd( makeType( TypeTraits< Vec2T< ValueT > >::TypeEnum )
-				, makeExpr( lhs )
-				, makeExpr( rhs ) ) };
-	}
-
-	template< typename ValueT >
-	inline Optional< Vec2T< ValueT > > operator+( Optional< ValueT > const & lhs
-		, Vec2T< ValueT > const & rhs )
-	{
-		return Optional< Vec2T< ValueT > >{ findShader( lhs, rhs )
-			, expr::makeAdd( makeType( TypeTraits< Vec2T< ValueT > >::TypeEnum )
-				, makeExpr( lhs )
-				, makeExpr( rhs ) )
-			, areOptionalEnabled( lhs, rhs ) };
-	}
-
-	template< typename ValueT >
-	inline Optional< Vec2T< ValueT > > operator+( Optional< Vec2T< ValueT > > const & lhs
-		, ValueT const & rhs )
-	{
-		return Optional< Vec2T< ValueT > >{ findShader( lhs, rhs )
-			, expr::makeAdd( makeType( TypeTraits< Vec2T< ValueT > >::TypeEnum )
-				, makeExpr( lhs )
-				, makeExpr( rhs ) )
-			, areOptionalEnabled( lhs, rhs ) };
-	}
-
-	template< typename ValueT >
-	inline Optional< Vec2T< ValueT > > operator+( Optional< Vec2T< ValueT > > const & lhs
-		, Vec2T< ValueT > const & rhs )
-	{
-		return Optional< Vec2T< ValueT > >{ findShader( lhs, rhs )
-			, expr::makeAdd( makeType( TypeTraits< Vec2T< ValueT > >::TypeEnum )
-				, makeExpr( lhs )
-				, makeExpr( rhs ) )
-			, areOptionalEnabled( lhs, rhs ) };
-	}
-
-	template< typename ValueT >
-	inline Optional< Vec2T< ValueT > > operator+( ValueT const & lhs
-		, Optional< Vec2T< ValueT > > const & rhs )
-	{
-		return Optional< Vec2T< ValueT > >{ findShader( lhs, rhs )
-			, expr::makeAdd( makeType( TypeTraits< Vec2T< ValueT > >::TypeEnum )
-				, makeExpr( lhs )
-				, makeExpr( rhs ) )
-			, areOptionalEnabled( lhs, rhs ) };
-	}
-
-	template< typename ValueT >
-	inline Optional< Vec2T< ValueT > > operator+( Vec2T< ValueT > const & lhs
-		, Optional< ValueT > const & rhs )
-	{
-		return Optional< Vec2T< ValueT > >{ findShader( lhs, rhs )
-			, expr::makeAdd( makeType( TypeTraits< Vec2T< ValueT > >::TypeEnum )
-				, makeExpr( lhs )
-				, makeExpr( rhs ) )
-			, areOptionalEnabled( lhs, rhs ) };
-	}
-
-	template< typename ValueT >
-	inline Optional< Vec2T< ValueT > > operator+( Vec2T< ValueT > const & lhs
-		, Optional< Vec2T< ValueT > > const & rhs )
-	{
-		return Optional< Vec2T< ValueT > >{ findShader( lhs, rhs )
-			, expr::makeAdd( makeType( TypeTraits< Vec2T< ValueT > >::TypeEnum )
-				, makeExpr( lhs )
-				, makeExpr( rhs ) )
-			, areOptionalEnabled( lhs, rhs ) };
-	}
-
-	template< typename ValueT >
-	inline Optional< Vec2T< ValueT > > operator+( Optional< ValueT > const & lhs
-		, Optional< Vec2T< ValueT > > const & rhs )
-	{
-		return Optional< Vec2T< ValueT > >{ findShader( lhs, rhs )
-			, expr::makeAdd( makeType( TypeTraits< Vec2T< ValueT > >::TypeEnum )
-				, makeExpr( lhs )
-				, makeExpr( rhs ) )
-			, areOptionalEnabled( lhs, rhs ) };
-	}
-
-	template< typename ValueT >
-	inline Optional< Vec2T< ValueT > > operator+( Optional< Vec2T< ValueT > > const & lhs
-		, Optional< ValueT > const & rhs )
-	{
-		return Optional< Vec2T< ValueT > >{ findShader( lhs, rhs )
-			, expr::makeAdd( makeType( TypeTraits< Vec2T< ValueT > >::TypeEnum )
-				, makeExpr( lhs )
-				, makeExpr( rhs ) )
-			, areOptionalEnabled( lhs, rhs ) };
-	}
-
-	template< typename ValueT >
-	inline Optional< Vec2T< ValueT > > operator+( Optional< Vec2T< ValueT > > const & lhs
-		, Optional< Vec2T< ValueT > > const & rhs )
-	{
-		return Optional< Vec2T< ValueT > >{ findShader( lhs, rhs )
-			, expr::makeAdd( makeType( TypeTraits< Vec2T< ValueT > >::TypeEnum )
-				, makeExpr( lhs )
-				, makeExpr( rhs ) )
-			, areOptionalEnabled( lhs, rhs ) };
-	}
-
-	template< typename ValueT >
-	inline Vec2T< ValueT > operator-( ValueT const & lhs
-		, Vec2T< ValueT > const & rhs )
-	{
-		return Vec2T< ValueT >{ findShader( lhs, rhs )
-			, expr::makeMinus( makeType( TypeTraits< Vec2T< ValueT > >::TypeEnum )
-				, makeExpr( lhs )
-				, makeExpr( rhs ) ) };
-	}
-
-	template< typename ValueT >
-	inline Vec2T< ValueT > operator-( Vec2T< ValueT > const & lhs
-		, ValueT const & rhs )
-	{
-		return Vec2T< ValueT >{ findShader( lhs, rhs )
-			, expr::makeMinus( makeType( TypeTraits< Vec2T< ValueT > >::TypeEnum )
-				, makeExpr( lhs )
-				, makeExpr( rhs ) ) };
-	}
-
-	template< typename ValueT >
-	inline Vec2T< ValueT > operator-( Vec2T< ValueT > const & lhs
-		, Vec2T< ValueT > const & rhs )
-	{
-		return Vec2T< ValueT >{ findShader( lhs, rhs )
-			, expr::makeMinus( makeType( TypeTraits< Vec2T< ValueT > >::TypeEnum )
-				, makeExpr( lhs )
-				, makeExpr( rhs ) ) };
-	}
-
-	template< typename ValueT >
-	inline Optional< Vec2T< ValueT > > operator-( Optional< ValueT > const & lhs
-		, Vec2T< ValueT > const & rhs )
-	{
-		return Optional< Vec2T< ValueT > >{ findShader( lhs, rhs )
-			, expr::makeMinus( makeType( TypeTraits< Vec2T< ValueT > >::TypeEnum )
-				, makeExpr( lhs )
-				, makeExpr( rhs ) )
-			, areOptionalEnabled( lhs, rhs ) };
-	}
-
-	template< typename ValueT >
-	inline Optional< Vec2T< ValueT > > operator-( Optional< Vec2T< ValueT > > const & lhs
-		, ValueT const & rhs )
-	{
-		return Optional< Vec2T< ValueT > >{ findShader( lhs, rhs )
-			, expr::makeMinus( makeType( TypeTraits< Vec2T< ValueT > >::TypeEnum )
-				, makeExpr( lhs )
-				, makeExpr( rhs ) )
-			, areOptionalEnabled( lhs, rhs ) };
-	}
-
-	template< typename ValueT >
-	inline Optional< Vec2T< ValueT > > operator-( Optional< Vec2T< ValueT > > const & lhs
-		, Vec2T< ValueT > const & rhs )
-	{
-		return Optional< Vec2T< ValueT > >{ findShader( lhs, rhs )
-			, expr::makeMinus( makeType( TypeTraits< Vec2T< ValueT > >::TypeEnum )
-				, makeExpr( lhs )
-				, makeExpr( rhs ) )
-			, areOptionalEnabled( lhs, rhs ) };
-	}
-
-	template< typename ValueT >
-	inline Optional< Vec2T< ValueT > > operator-( ValueT const & lhs
-		, Optional< Vec2T< ValueT > > const & rhs )
-	{
-		return Optional< Vec2T< ValueT > >{ findShader( lhs, rhs )
-			, expr::makeMinus( makeType( TypeTraits< Vec2T< ValueT > >::TypeEnum )
-				, makeExpr( lhs )
-				, makeExpr( rhs ) )
-			, areOptionalEnabled( lhs, rhs ) };
-	}
-
-	template< typename ValueT >
-	inline Optional< Vec2T< ValueT > > operator-( Vec2T< ValueT > const & lhs
-		, Optional< ValueT > const & rhs )
-	{
-		return Optional< Vec2T< ValueT > >{ findShader( lhs, rhs )
-			, expr::makeMinus( makeType( TypeTraits< Vec2T< ValueT > >::TypeEnum )
-				, makeExpr( lhs )
-				, makeExpr( rhs ) )
-			, areOptionalEnabled( lhs, rhs ) };
-	}
-
-	template< typename ValueT >
-	inline Optional< Vec2T< ValueT > > operator-( Vec2T< ValueT > const & lhs
-		, Optional< Vec2T< ValueT > > const & rhs )
-	{
-		return Optional< Vec2T< ValueT > >{ findShader( lhs, rhs )
-			, expr::makeMinus( makeType( TypeTraits< Vec2T< ValueT > >::TypeEnum )
-				, makeExpr( lhs )
-				, makeExpr( rhs ) )
-			, areOptionalEnabled( lhs, rhs ) };
-	}
-
-	template< typename ValueT >
-	inline Optional< Vec2T< ValueT > > operator-( Optional< ValueT > const & lhs
-		, Optional< Vec2T< ValueT > > const & rhs )
-	{
-		return Optional< Vec2T< ValueT > >{ findShader( lhs, rhs )
-			, expr::makeMinus( makeType( TypeTraits< Vec2T< ValueT > >::TypeEnum )
-				, makeExpr( lhs )
-				, makeExpr( rhs ) )
-			, areOptionalEnabled( lhs, rhs ) };
-	}
-
-	template< typename ValueT >
-	inline Optional< Vec2T< ValueT > > operator-( Optional< Vec2T< ValueT > > const & lhs
-		, Optional< ValueT > const & rhs )
-	{
-		return Optional< Vec2T< ValueT > >{ findShader( lhs, rhs )
-			, expr::makeMinus( makeType( TypeTraits< Vec2T< ValueT > >::TypeEnum )
-				, makeExpr( lhs )
-				, makeExpr( rhs ) )
-			, areOptionalEnabled( lhs, rhs ) };
-	}
-
-	template< typename ValueT >
-	inline Optional< Vec2T< ValueT > > operator-( Optional< Vec2T< ValueT > > const & lhs
-		, Optional< Vec2T< ValueT > > const & rhs )
-	{
-		return Optional< Vec2T< ValueT > >{ findShader( lhs, rhs )
-			, expr::makeMinus( makeType( TypeTraits< Vec2T< ValueT > >::TypeEnum )
-				, makeExpr( lhs )
-				, makeExpr( rhs ) )
-			, areOptionalEnabled( lhs, rhs ) };
-	}
-	
-	template< typename ValueT >
-	inline Vec2T< ValueT > operator*( ValueT const & lhs
-		, Vec2T< ValueT > const & rhs )
-	{
-		return Vec2T< ValueT >{ findShader( lhs, rhs )
-			, expr::makeTimes( makeType( TypeTraits< Vec2T< ValueT > >::TypeEnum )
-				, makeExpr( lhs )
-				, makeExpr( rhs ) ) };
-	}
-
-	template< typename ValueT >
-	inline Vec2T< ValueT > operator*( Vec2T< ValueT > const & lhs
-		, ValueT const & rhs )
-	{
-		return Vec2T< ValueT >{ findShader( lhs, rhs )
-			, expr::makeTimes( makeType( TypeTraits< Vec2T< ValueT > >::TypeEnum )
-				, makeExpr( lhs )
-				, makeExpr( rhs ) ) };
-	}
-
-	template< typename ValueT >
-	inline Vec2T< ValueT > operator*( Vec2T< ValueT > const & lhs
-		, Vec2T< ValueT > const & rhs )
-	{
-		return Vec2T< ValueT >{ findShader( lhs, rhs )
-			, expr::makeTimes( makeType( TypeTraits< Vec2T< ValueT > >::TypeEnum )
-				, makeExpr( lhs )
-				, makeExpr( rhs ) ) };
-	}
-
-	template< typename ValueT >
-	inline Optional< Vec2T< ValueT > > operator*( Optional< ValueT > const & lhs
-		, Vec2T< ValueT > const & rhs )
-	{
-		return Optional< Vec2T< ValueT > >{ findShader( lhs, rhs )
-			, expr::makeTimes( makeType( TypeTraits< Vec2T< ValueT > >::TypeEnum )
-				, makeExpr( lhs )
-				, makeExpr( rhs ) )
-			, areOptionalEnabled( lhs, rhs ) };
-	}
-
-	template< typename ValueT >
-	inline Optional< Vec2T< ValueT > > operator*( Optional< Vec2T< ValueT > > const & lhs
-		, ValueT const & rhs )
-	{
-		return Optional< Vec2T< ValueT > >{ findShader( lhs, rhs )
-			, expr::makeTimes( makeType( TypeTraits< Vec2T< ValueT > >::TypeEnum )
-				, makeExpr( lhs )
-				, makeExpr( rhs ) )
-			, areOptionalEnabled( lhs, rhs ) };
-	}
-
-	template< typename ValueT >
-	inline Optional< Vec2T< ValueT > > operator*( Optional< Vec2T< ValueT > > const & lhs
-		, Vec2T< ValueT > const & rhs )
-	{
-		return Optional< Vec2T< ValueT > >{ findShader( lhs, rhs )
-			, expr::makeTimes( makeType( TypeTraits< Vec2T< ValueT > >::TypeEnum )
-				, makeExpr( lhs )
-				, makeExpr( rhs ) )
-			, areOptionalEnabled( lhs, rhs ) };
-	}
-
-	template< typename ValueT >
-	inline Optional< Vec2T< ValueT > > operator*( ValueT const & lhs
-		, Optional< Vec2T< ValueT > > const & rhs )
-	{
-		return Optional< Vec2T< ValueT > >{ findShader( lhs, rhs )
-			, expr::makeTimes( makeType( TypeTraits< Vec2T< ValueT > >::TypeEnum )
-				, makeExpr( lhs )
-				, makeExpr( rhs ) )
-			, areOptionalEnabled( lhs, rhs ) };
-	}
-
-	template< typename ValueT >
-	inline Optional< Vec2T< ValueT > > operator*( Vec2T< ValueT > const & lhs
-		, Optional< ValueT > const & rhs )
-	{
-		return Optional< Vec2T< ValueT > >{ findShader( lhs, rhs )
-			, expr::makeTimes( makeType( TypeTraits< Vec2T< ValueT > >::TypeEnum )
-				, makeExpr( lhs )
-				, makeExpr( rhs ) )
-			, areOptionalEnabled( lhs, rhs ) };
-	}
-
-	template< typename ValueT >
-	inline Optional< Vec2T< ValueT > > operator*( Vec2T< ValueT > const & lhs
-		, Optional< Vec2T< ValueT > > const & rhs )
-	{
-		return Optional< Vec2T< ValueT > >{ findShader( lhs, rhs )
-			, expr::makeTimes( makeType( TypeTraits< Vec2T< ValueT > >::TypeEnum )
-				, makeExpr( lhs )
-				, makeExpr( rhs ) )
-			, areOptionalEnabled( lhs, rhs ) };
-	}
-
-	template< typename ValueT >
-	inline Optional< Vec2T< ValueT > > operator*( Optional< ValueT > const & lhs
-		, Optional< Vec2T< ValueT > > const & rhs )
-	{
-		return Optional< Vec2T< ValueT > >{ findShader( lhs, rhs )
-			, expr::makeTimes( makeType( TypeTraits< Vec2T< ValueT > >::TypeEnum )
-				, makeExpr( lhs )
-				, makeExpr( rhs ) )
-			, areOptionalEnabled( lhs, rhs ) };
-	}
-
-	template< typename ValueT >
-	inline Optional< Vec2T< ValueT > > operator*( Optional< Vec2T< ValueT > > const & lhs
-		, Optional< ValueT > const & rhs )
-	{
-		return Optional< Vec2T< ValueT > >{ findShader( lhs, rhs )
-			, expr::makeTimes( makeType( TypeTraits< Vec2T< ValueT > >::TypeEnum )
-				, makeExpr( lhs )
-				, makeExpr( rhs ) )
-			, areOptionalEnabled( lhs, rhs ) };
-	}
-
-	template< typename ValueT >
-	inline Optional< Vec2T< ValueT > > operator*( Optional< Vec2T< ValueT > > const & lhs
-		, Optional< Vec2T< ValueT > > const & rhs )
-	{
-		return Optional< Vec2T< ValueT > >{ findShader( lhs, rhs )
-			, expr::makeTimes( makeType( TypeTraits< Vec2T< ValueT > >::TypeEnum )
-				, makeExpr( lhs )
-				, makeExpr( rhs ) )
-			, areOptionalEnabled( lhs, rhs ) };
-	}
-
-	template< typename ValueT >
-	inline Vec2T< ValueT > operator/( Vec2T< ValueT > const & lhs
-		, ValueT const & rhs )
-	{
-		return Vec2T< ValueT >{ findShader( lhs, rhs )
-			, expr::makeDivide( makeType( TypeTraits< Vec2T< ValueT > >::TypeEnum )
-				, makeExpr( lhs )
-				, makeExpr( rhs ) ) };
-	}
-
-	template< typename ValueT >
-	inline Optional< Vec2T< ValueT > > operator/( Optional< Vec2T< ValueT > > const & lhs
-		, ValueT const & rhs )
-	{
-		return Optional< Vec2T< ValueT > >{ findShader( lhs, rhs )
-			, expr::makeDivide( makeType( TypeTraits< Vec2T< ValueT > >::TypeEnum )
-				, makeExpr( lhs )
-				, makeExpr( rhs ) )
-			, areOptionalEnabled( lhs, rhs ) };
-	}
-
-	template< typename ValueT >
-	inline Optional< Vec2T< ValueT > > operator/( Vec2T< ValueT > const & lhs
-		, Optional< ValueT > const & rhs )
-	{
-		return Optional< Vec2T< ValueT > >{ findShader( lhs, rhs )
-			, expr::makeDivide( makeType( TypeTraits< Vec2T< ValueT > >::TypeEnum )
-				, makeExpr( lhs )
-				, makeExpr( rhs ) )
-			, areOptionalEnabled( lhs, rhs ) };
-	}
-
-	template< typename ValueT >
-	inline Optional< Vec2T< ValueT > > operator/( Optional< Vec2T< ValueT > > const & lhs
-		, Optional< ValueT > const & rhs )
-	{
-		return Optional< Vec2T< ValueT > >{ findShader( lhs, rhs )
-			, expr::makeDivide( makeType( TypeTraits< Vec2T< ValueT > >::TypeEnum )
-				, makeExpr( lhs )
-				, makeExpr( rhs ) )
-			, areOptionalEnabled( lhs, rhs ) };
-	}
-
-	//*************************************************************************
 }

@@ -16,8 +16,7 @@ namespace ast::stmt
 		: public Compound
 	{
 	public:
-		ElseIf( If const & ifStmt
-			, expr::ExprPtr ctrlExpr );
+		ElseIf( expr::ExprPtr ctrlExpr );
 
 		void accept( VisitorPtr vis )override;
 
@@ -27,16 +26,13 @@ namespace ast::stmt
 		}
 
 	private:
-		If const & m_ifStmt;
 		expr::ExprPtr m_ctrlExpr;
 	};
 	using ElseIfPtr = std::unique_ptr< ElseIf >;
 
-	inline ElseIfPtr makeElseIf( If const & ifStmt
-		, expr::ExprPtr ctrlExpr )
+	inline ElseIfPtr makeElseIf( expr::ExprPtr ctrlExpr )
 	{
-		return std::make_unique< ElseIf >( ifStmt
-			, std::move( ctrlExpr ) );
+		return std::make_unique< ElseIf >( std::move( ctrlExpr ) );
 	}
 }
 

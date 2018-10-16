@@ -20,13 +20,13 @@ namespace ast::stmt
 			throw std::runtime_error{ "Else is already defined for this If." };
 		}
 
-		m_else = makeElse( *this );
+		m_else = makeElse();
 		return m_else.get();
 	}
 
 	ElseIf * If::createElseIf( expr::ExprPtr ctrlExpr )
 	{
-		m_elseIfs.emplace_back( makeElseIf( *this, std::move( ctrlExpr ) ) );
+		m_elseIfs.emplace_back( makeElseIf( std::move( ctrlExpr ) ) );
 		return static_cast< ElseIf * >( m_elseIfs.back().get() );
 	}
 

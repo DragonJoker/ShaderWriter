@@ -4,22 +4,15 @@ See LICENSE file in root folder
 #ifndef ___Writer_Prerequisites_H___
 #define ___Writer_Prerequisites_H___
 
-#include <ASTGenerator/Expr/ExprList.hpp>
-#include <ASTGenerator/Type/Type.hpp>
-#include <ASTGenerator/Stmt/Stmt.hpp>
-#include <ASTGenerator/Stmt/StmtContainer.hpp>
-#include <ASTGenerator/Var/Variable.hpp>
-
 #include <map>
 
 #define Writer_Parameter( TypeName )\
-	using In##TypeName = sdw::InParam< TypeName >;\
-	using Out##TypeName = sdw::OutParam< TypeName >;\
-	using InOut##TypeName = sdw::InOutParam< TypeName >\
+	using In##TypeName = InParam< TypeName >;\
+	using Out##TypeName = OutParam< TypeName >;\
+	using InOut##TypeName = InOutParam< TypeName >
 
 namespace sdw
 {
-	using namespace ast;
 	class Shader;
 
 	enum class SamplerType
@@ -64,7 +57,7 @@ namespace sdw
 	struct Mat3T;
 	template< typename TypeT >
 	struct Mat4T;
-	template< SamplerType T >
+	template< SamplerType ST >
 	struct SamplerT;
 
 	struct Value;
@@ -116,6 +109,15 @@ namespace sdw
 	using Sampler2DArrayShadow = SamplerT< SamplerType::e2DArrayShadow >;
 	using SamplerCubeArrayShadow = SamplerT< SamplerType::eCubeArrayShadow >;
 
+	template< typename RetT, typename ... ParamsT >
+	struct Function;
+	template< typename TypeT >
+	struct InParam;
+	template< typename TypeT >
+	struct OutParam;
+	template< typename TypeT >
+	struct InOutParam;
+
 	Writer_Parameter( Float );
 	Writer_Parameter( Int );
 	Writer_Parameter( UInt );
@@ -161,76 +163,15 @@ namespace sdw
 	Writer_Parameter( Sampler2DArrayShadow );
 	Writer_Parameter( SamplerCubeArrayShadow );
 
-	template< typename RetT, typename ... ParamsT >
-	struct Function;
-
 	template< typename T >
 	struct TypeTraits;
 	template< SamplerType ST >
 	struct SamplerTypeTraits;
-	template< typename T >
-	struct TypeOf
-	{
-		using Type = T;
-	};
-
-	struct Endl
-	{
-	};
-	struct Endi
-	{
-	};
-	struct Version
-	{
-	};
-	struct Attribute
-	{
-	};
-	struct In
-	{
-	};
-	struct Out
-	{
-	};
-	struct Layout
-	{
-		int m_location;
-	};
-	struct Uniform
-	{
-	};
-
-	static Endi endi;
-	static Endl endl;
-
-	stmt::Container * getContainer( Shader & shader );
-	std::string findName( expr::ExprPtr const & expr );
-	std::string findName( expr::Expr * expr );
-	expr::ExprPtr makeExpr( expr::Expr * expr );
-	expr::ExprPtr makeExpr( expr::ExprPtr const & expr );
-	expr::ExprPtr makeExpr( var::VariablePtr const & var );
-	expr::ExprPtr makeExpr( bool value );
-	expr::ExprPtr makeExpr( int32_t value );
-	expr::ExprPtr makeExpr( int64_t value );
-	expr::ExprPtr makeExpr( uint32_t value );
-	expr::ExprPtr makeExpr( uint64_t value );
-	expr::ExprPtr makeExpr( float value );
-	expr::ExprPtr makeExpr( double value );
-	expr::ExprPtr makeExpr( long double value );
-	template< typename T >
-	expr::ExprList makeExpr( std::vector< T > const & values );
-	void addStmt( Shader & shader
-		, stmt::StmtPtr stmt );
-	void addStmt( stmt::Container & container
-		, stmt::StmtPtr stmt );
-	void registerName( Shader & shader
-		, std::string const & name
-		, type::Kind type );
-	void checkNameExists( Shader & shader
-		, std::string const & name
-		, type::Kind type );
 }
 
+#undef Writer_Parameter
+
 #include "ShaderWriterPrerequisites.inl"
+#include "Helpers.hpp"
 
 #endif

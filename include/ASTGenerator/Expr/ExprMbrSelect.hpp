@@ -33,7 +33,7 @@ namespace ast::expr
 	inline MbrSelectPtr makeMbrSelect( ExprPtr outer
 		, IdentifierPtr member )
 	{
-		auto type = outer->getType();
+		auto type = member->getType();
 		return std::make_unique< MbrSelect >( std::move( type )
 			, std::move( outer )
 			, std::move( member ) );

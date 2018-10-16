@@ -16,7 +16,10 @@ namespace sdw
 			, expr::ExprPtr expr );
 		Float( Float && rhs );
 		Float( Float const & rhs );
-		Float( Value const & value );
+		explicit Float( float rhs );
+		explicit Float( double rhs );
+		explicit Float( long double rhs );
+		explicit Float( Value const & value );
 		Float & operator=( Float const & rhs );
 		template< typename T >
 		inline Float & operator=( T const & rhs );

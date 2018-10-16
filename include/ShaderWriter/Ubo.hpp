@@ -25,42 +25,41 @@ namespace sdw
 		inline T declMember( std::string const & name );
 		template< typename T >
 		inline Array< T > declMember( std::string const & name
-			, uint32_t p_dimension );
+			, uint32_t dimension );
 		template< typename T >
 		inline Array< T > declMemberArray( std::string const & name );
 		template< typename T >
 		inline Optional< T > declMember( std::string const & name
-			, bool p_enabled );
+			, bool enabled );
 		template< typename T >
 		inline Optional< Array< T > > declMember( std::string const & name
-			, uint32_t p_dimension
-			, bool p_enabled );
+			, uint32_t dimension
+			, bool enabled );
 		template< typename T >
 		inline Optional< Array< T > > declMemberArray( std::string const & name
-			, bool p_enabled );
+			, bool enabled );
 		template< typename T >
 		inline T getMember( std::string const & name );
 		template< typename T >
 		inline Array< T > getMember( std::string const & name
-			, uint32_t p_dimension );
+			, uint32_t dimension );
 		template< typename T >
 		inline Array< T > getMemberArray( std::string const & name );
 		template< typename T >
 		inline Optional< T > getMember( std::string const & name
-			, bool p_enabled );
+			, bool enabled );
 		template< typename T >
 		inline Optional< Array< T > > getMember( std::string const & name
-			, uint32_t p_dimension
-			, bool p_enabled );
+			, uint32_t dimension
+			, bool enabled );
 		template< typename T >
 		inline Optional< Array< T > > getMemberArray( std::string const & name
-			, bool p_enabled );
+			, bool enabled );
 
 	private:
 		Shader & m_shader;
 		stmt::ConstantBufferDeclPtr m_stmt;
 		std::string m_name;
-		uint32_t m_count{ 0u };
 		Info m_info;
 	};
 }

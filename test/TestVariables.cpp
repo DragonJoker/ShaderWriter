@@ -8,7 +8,7 @@ namespace
 	std::string printVariable( ast::var::Variable const & var )
 	{
 		std::string result;
-		result += ast::debug::getTypeName( var.getType() ) + " " + var.getTypeName();
+		result += ast::debug::getTypeName( var.getType()->getKind() ) + " " + var.getName();
 		auto arraySize = var.getType()->getArraySize();
 
 		if ( arraySize != ast::type::NotArray )
@@ -35,7 +35,7 @@ namespace
 			std::cout << printVariable( dummyVar ) << std::endl;
 			check( dummyVar.getType()->getKind() == ast::type::Kind( i ) );
 			check( dummyVar.getType()->getArraySize() == ast::type::NotArray );
-			check( dummyVar.getTypeName() == "dummyVar" );
+			check( dummyVar.getName() == "dummyVar" );
 		}
 
 		for ( uint8_t i = uint8_t( ast::type::Kind::eMin ); i < uint8_t( ast::type::Kind::eCount ); ++i )
@@ -44,7 +44,7 @@ namespace
 			std::cout << printVariable( dummyVar ) << std::endl;
 			check( dummyVar.getType()->getKind() == ast::type::Kind( i ) );
 			check( dummyVar.getType()->getArraySize() == ast::type::UnknownArraySize );
-			check( dummyVar.getTypeName() == "dummyVar" );
+			check( dummyVar.getName() == "dummyVar" );
 		}
 
 		for ( uint8_t i = uint8_t( ast::type::Kind::eMin ); i < uint8_t( ast::type::Kind::eCount ); ++i )
@@ -53,7 +53,7 @@ namespace
 			std::cout << printVariable( dummyVar ) << std::endl;
 			check( dummyVar.getType()->getKind() == ast::type::Kind( i ) );
 			check( dummyVar.getType()->getArraySize() == 3u );
-			check( dummyVar.getTypeName() == "dummyVar" );
+			check( dummyVar.getName() == "dummyVar" );
 		}
 		testEnd();
 	}

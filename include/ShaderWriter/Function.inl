@@ -54,7 +54,7 @@ namespace sdw
 				bool isEnabled = true;
 				getFunctionCallParamsRec( args, isEnabled, params... );
 				return ReturnT{ findShader( params... )
-					, expr::makeFnCall( type::makeType( TypeTraits< ReturnT >::TypeEnum )
+					, expr::makeFnCall( type::makeType( typeEnum< ReturnT > )
 						, expr::makeIdentifier( var::makeFunction( name ) )
 						, std::move( args ) ) };
 			}
@@ -71,7 +71,7 @@ namespace sdw
 				bool isEnabled = true;
 				getFunctionCallParamsRec( args, isEnabled, params... );
 				return Optional< ReturnT >{ findShader( params... )
-					, expr::makeFnCall( type::makeType( TypeTraits< ReturnT >::TypeEnum )
+					, expr::makeFnCall( type::makeType( typeEnum< ReturnT > )
 						, expr::makeIdentifier( var::makeFunction( name ) )
 						, std::move( args ) )
 					, isEnabled };
@@ -97,41 +97,41 @@ namespace sdw
 
 	//***********************************************************************************************
 
-	template< typename Param
-		, typename ... Params >
+	template< typename ParamT
+		, typename ... ParamsT >
 	inline void getFunctionHeaderArgsRec( var::VariableList & args
-		, Param && current
-		, Params && ... params );
+		, ParamT && current
+		, ParamsT && ... params );
 
 	inline void getFunctionHeaderArgsRec( var::VariableList & args )
 	{
 	}
 
-	template< typename Param >
+	template< typename ParamT >
 	inline void getFunctionHeaderArgsRec( var::VariableList & args
-		, Param && last )
+		, ParamT && last )
 	{
-		args.emplace_back( stmt::makeVarDecl( last ) );
+		args.emplace_back( makeVar( last ) );
 	}
 
-	template< typename Param
-		, typename ... Params >
+	template< typename ParamT
+		, typename ... ParamsT >
 	inline void getFunctionHeaderArgsRec( var::VariableList & args
-		, Param && current
-		, Params && ... params )
+		, ParamT && current
+		, ParamsT && ... params )
 	{
-		args.emplace_back( stmt::makeVarDecl( current ) );
-		getFunctionHeaderArgsRec( args, std::forward< Params >( params )... );
+		args.emplace_back( makeVar( current ) );
+		getFunctionHeaderArgsRec( args, std::forward< ParamsT >( params )... );
 	}
 
-	template< typename Return
-		, typename ... Params >
+	template< typename ReturnT
+		, typename ... ParamsT >
 	inline stmt::FunctionDeclPtr getFunctionHeader( std::string const & name
-		, Params && ... params )
+		, ParamsT && ... params )
 	{
 		var::VariableList args;
-		getFunctionHeaderArgsRec( args, std::forward< Params >( params )... );
-		return stmt::makeFunctionDecl( type::makeType( TypeTraits< Return >::TypeEnum )
+		getFunctionHeaderArgsRec( args, std::forward< ParamsT >( params )... );
+		return stmt::makeFunctionDecl( type::makeType( typeEnum< ReturnT > )
 			, name
 			, args );
 	}
@@ -147,19 +147,22 @@ namespace sdw
 
 	//***********************************************************************************************
 
-	template< typename RetT, typename ... ParamsT >
-	Function< RetT, ParamsT... >::Function( Shader * shader
+	template< typename ReturnT
+		, typename ... ParamsT >
+	Function< ReturnT, ParamsT... >::Function( Shader * shader
 		, std::string const & name )
-		: m_container{ container }
+		: m_shader{ shader }
 		, m_name{ name }
 	{
 	}
 
-	template< typename RetT, typename ... ParamsT >
-	expr::ExprPtr Function< RetT, ParamsT... >::operator()( ParamsT && ... params )const
+	template< typename ReturnT
+		, typename ... ParamsT >
+		ReturnT Function< ReturnT, ParamsT... >::operator()( ParamsT && ... params )const
 	{
 		assert( !m_name.empty() );
-		return getFunctionCall< RetT >( m_name, std::forward< ParamsT >( params )... );
+		return getFunctionCall< ReturnT >( m_name
+				, std::forward< ParamsT >( params )... );
 	}
 
 	//***********************************************************************************************

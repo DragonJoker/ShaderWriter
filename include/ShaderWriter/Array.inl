@@ -7,37 +7,27 @@ namespace sdw
 {
 	//*********************************************************************************************
 
-	template< typename T >
-	Array< T >::Array( Shader * shader
+	template< typename ValueT >
+	Array< ValueT >::Array( Shader * shader
 		, expr::ExprPtr expr )
-		: T{ shader, std::move( expr ) }
+		: Value{ shader, std::move( expr ) }
 	{
 	}
 
-	template< typename T >
-	template< typename U >
-	T Array< T >::operator[]( U const & offset )
+	template< typename ValueT >
+	template< typename IndexT >
+	ValueT Array< ValueT >::operator[]( IndexT const & offset )const
 	{
-		return T{ findShader( *this, offset )
-			, expr::makeArrayAccess( makeType( m_expr->getType()->getKind() )
-				, makeExpr( m_expr )
+		return ValueT{ findShader( *this, offset )
+			, expr::makeArrayAccess( makeType( this->getType()->getKind() )
+				, makeExpr( *this )
 				, makeExpr( offset ) ) };
 	}
 
-	template< typename T >
-	template< typename U >
-	T Array< T >::operator[]( U const & offset )const
+	template< typename ValueT >
+	expr::ExprPtr makeExpr( Array< ValueT > const & value )
 	{
-		return T{ findShader( *this, offset )
-			, expr::makeArrayAccess( makeType( m_expr->getType()->getKind() )
-				, makeExpr( m_expr )
-				, makeExpr( offset ) ) };
-	}
-
-	template< typename TypeT >
-	expr::ExprPtr makeExpr( Array< TypeT > const & value )
-	{
-		return makeExpr( value.m_expr );
+		return makeExpr( value.getExpr() );
 	}
 
 	//*********************************************************************************************
