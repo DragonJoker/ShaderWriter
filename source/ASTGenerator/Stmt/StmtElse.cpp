@@ -7,9 +7,8 @@ See LICENSE file in root folder
 
 namespace ast::stmt
 {
-	Else::Else( If const & ifStmt )
+	Else::Else()
 		: Compound{ Kind::eElse }
-		, m_ifStmt{ ifStmt }
 	{
 	}
 

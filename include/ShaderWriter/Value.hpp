@@ -26,6 +26,7 @@ namespace sdw
 		Value & operator=( Value const & rhs );
 		void updateContainer( Value const & variable );
 		stmt::Container * getContainer()const;
+		void updateExpr( expr::ExprPtr expr );
 
 		inline type::TypePtr getType()const
 		{
@@ -41,9 +42,6 @@ namespace sdw
 		{
 			return m_shader;
 		}
-
-	protected:
-		void updateExpr( expr::ExprPtr expr );
 
 	private:
 		expr::ExprPtr m_expr;

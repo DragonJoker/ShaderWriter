@@ -9,44 +9,55 @@ See LICENSE file in root folder
 
 namespace ast::expr
 {
+	enum class LiteralType
+	{
+		eBool,
+		eInt,
+		eUInt,
+		eFloat,
+	};
+
+	template< LiteralType T >
+	struct LiteralValueTraits;
+
+	template<>
+	struct LiteralValueTraits< LiteralType::eBool >
+	{
+		using type = bool;
+	};
+
+	template<>
+	struct LiteralValueTraits< LiteralType::eInt >
+	{
+		using type = int32_t;
+	};
+
+	template<>
+	struct LiteralValueTraits< LiteralType::eUInt >
+	{
+		using type = uint32_t;
+	};
+
+	template<>
+	struct LiteralValueTraits< LiteralType::eFloat >
+	{
+		using type = float;
+	};
+
+	template< LiteralType T >
+	using LiteralValueType = typename LiteralValueTraits< T >::type;
+
+	union LiteralValue
+	{
+		bool boolv;
+		int32_t intv;
+		uint32_t uintv;
+		float floatv;
+	};
+
 	class Literal
 		: public Expr
 	{
-	public:
-		enum class ValueType
-		{
-			eBool,
-			eInt,
-			eUInt,
-			eFloat,
-		};
-		template< ValueType T >
-		struct ValueTraits;
-
-		template<>
-		struct ValueTraits< ValueType::eBool >
-		{
-			using type = bool;
-		};
-
-		template<>
-		struct ValueTraits< ValueType::eInt >
-		{
-			using type = int32_t;
-		};
-
-		template<>
-		struct ValueTraits< ValueType::eUInt >
-		{
-			using type = uint32_t;
-		};
-
-		template<>
-		struct ValueTraits< ValueType::eFloat >
-		{
-			using type = float;
-		};
-
 	public:
 		Literal( bool value );
 		Literal( int32_t value );
@@ -55,48 +66,17 @@ namespace ast::expr
 
 		void accept( VisitorPtr vis )override;
 
-		inline ValueType getValue()const
+		inline LiteralType getLiteralType()const
 		{
 			return m_valueType;
 		}
 
-		template< ValueType T >
-		inline typename ValueTraits< T >::type getValue()const
-		{
-			if constexpr ( T == ValueType::eBool )
-			{
-				assert( m_valueType == ValueType::eBool );
-				return m_value.boolv;
-			}
-
-			if constexpr ( T == ValueType::eInt )
-			{
-				assert( m_valueType == ValueType::eInt );
-				return m_value.intv;
-			}
-
-			if constexpr ( T == ValueType::eUInt )
-			{
-				assert( m_valueType == ValueType::eUInt );
-				return m_value.uintv;
-			}
-
-			if constexpr ( T == ValueType::eFloat )
-			{
-				assert( m_valueType == ValueType::eFloat );
-				return m_value.floatv;
-			}
-		}
+		template< LiteralType T >
+		inline LiteralValueType< T > getValue()const;
 
 	private:
-		ValueType m_valueType;
-		union
-		{
-			bool boolv;
-			int32_t intv;
-			uint32_t uintv;
-			float floatv;
-		} m_value;
+		LiteralType m_valueType;
+		LiteralValue m_value;
 	};
 	using LiteralPtr = std::unique_ptr< Literal >;
 
@@ -106,5 +86,7 @@ namespace ast::expr
 		return std::make_unique< Literal >( value );
 	}
 }
+
+#include "ExprLiteral.inl"
 
 #endif

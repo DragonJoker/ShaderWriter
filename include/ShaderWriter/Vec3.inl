@@ -33,7 +33,7 @@ namespace sdw
 	inline ValueT Vec3T< ValueT >::operator[]( IndexT const & rhs )const
 	{
 		return ValueT{ findShader( *this, rhs )
-			, expr::makeArrayAccess( makeType( TypeTraits< ValueT >::TypeEnum )
+			, expr::makeArrayAccess( makeType( typeEnum< ValueT > )
 				, makeExpr( *this )
 				, makeExpr( rhs ) ) };
 	}

@@ -8,7 +8,7 @@ namespace sdw
 	template< typename TypeT >
 	InParam< TypeT >::InParam( Shader * shader
 		, std::string name )
-		: TypeT{ shader, expr::makeIdentifier( var::makeVariable( type::makeType( TypeTraits< TypeT >::TypeEnum ), std::move( name ) ) ) }
+		: TypeT{ shader, expr::makeIdentifier( var::makeVariable( type::makeType( typeEnum< TypeT > ), std::move( name ) ) ) }
 	{
 	}
 
@@ -23,8 +23,8 @@ namespace sdw
 	InParam< TypeT > InParam< TypeT >::operator=( T const & rhs )
 	{
 		addStmt( *findContainer( *this, rhs )
-			, stmt::makeSimple( expr::makeAssign( m_expr->getType()
-				, makeExpr( m_expr )
+			, stmt::makeSimple( expr::makeAssign( this->getType()
+				, makeExpr( *this )
 				, makeExpr( rhs ) ) ) );
 		return *this;
 	}
@@ -34,7 +34,7 @@ namespace sdw
 	template< typename TypeT >
 	OutParam< TypeT >::OutParam( Shader * shader
 		, std::string name )
-		: TypeT{ shader, expr::makeIdentifier( var::makeVariable( type::makeType( TypeTraits< TypeT >::TypeEnum ), std::move( name ) ) ) }
+		: TypeT{ shader, expr::makeIdentifier( var::makeVariable( type::makeType( typeEnum< TypeT > ), std::move( name ) ) ) }
 	{
 	}
 
@@ -49,8 +49,8 @@ namespace sdw
 	OutParam< TypeT > OutParam< TypeT >::operator=( T const & rhs )
 	{
 		addStmt( *findContainer( *this, rhs )
-			, stmt::makeSimple( expr::makeAssign( m_expr->getType()
-				, makeExpr( m_expr )
+			, stmt::makeSimple( expr::makeAssign( this->getType()
+				, makeExpr( *this )
 				, makeExpr( rhs ) ) ) );
 		return *this;
 	}
@@ -60,7 +60,7 @@ namespace sdw
 	template< typename TypeT >
 	InOutParam< TypeT >::InOutParam( Shader * shader
 		, std::string name )
-		: TypeT{ shader, expr::makeIdentifier( var::makeVariable( type::makeType( TypeTraits< TypeT >::TypeEnum ), std::move( name ) ) ) }
+		: TypeT{ shader, expr::makeIdentifier( var::makeVariable( type::makeType( typeEnum< TypeT > ), std::move( name ) ) ) }
 	{
 	}
 
@@ -75,8 +75,8 @@ namespace sdw
 	InOutParam< TypeT > InOutParam< TypeT >::operator=( T const & rhs )
 	{
 		addStmt( *findContainer( *this, rhs )
-			, stmt::makeSimple( expr::makeAssign( m_expr->getType()
-				, makeExpr( m_expr )
+			, stmt::makeSimple( expr::makeAssign( this->getType()
+				, makeExpr( *this )
 				, makeExpr( rhs ) ) ) );
 		return *this;
 	}
@@ -101,7 +101,7 @@ namespace sdw
 	stmt::VariableDeclPtr makeVarDecl( InOutParam< TypeT > const & value )
 	{
 		return stmt::makeVariableDecl( makeVar( value
-			, var::Flag::eInputParam | var::Flag::eOutputParam ) );
+			, uint32_t( var::Flag::eInputParam ) | uint32_t( var::Flag::eOutputParam ) ) );
 	}
 
 	//*****************************************************************************************

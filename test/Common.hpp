@@ -8,6 +8,8 @@
 
 namespace test
 {
+	std::string getExecutableDirectory();
+
 	template< typename LogStreambufTraits >
 	class LogStreambuf
 		: public std::streambuf
@@ -22,7 +24,7 @@ namespace test
 		explicit inline LogStreambuf( std::string const & name
 			, std::ostream & stream )
 			: m_stream{ stream }
-			, m_fstream{ name + ".log" }
+			, m_fstream{ getExecutableDirectory() + name + ".log" }
 		{
 			m_old = m_stream.rdbuf( this );
 		}
@@ -154,12 +156,12 @@ namespace test
 	{\
 		if ( !( x ) )\
 		{\
-			throw std::runtime_error{ #x##" failed" };\
+			throw std::runtime_error{ std::string{ #x } + " failed" };\
 		}\
 	}\
 	catch ( ... )\
 	{\
-		throw std::runtime_error{ #x##" failed" };\
+		throw std::runtime_error{ std::string{ #x } + " failed" };\
 	}
 
 #define checkEqual( x, y )\
@@ -167,12 +169,12 @@ namespace test
 	{\
 		if ( ( x ) != ( y ) )\
 		{\
-			throw std::runtime_error{ #x##" == "##y##" failed" };\
+			throw std::runtime_error{ std::string{ #x } + " == " + std::string{ #y } + " failed" };\
 		}\
 	}\
 	catch ( ... )\
 	{\
-		throw std::runtime_error{ #x##" == "##y##" failed" };\
+		throw std::runtime_error{ std::string{ #x } + " == " + std::string{ #y } + " failed" };\
 	}
 
 #define checkNotEqual( x, y )\
@@ -180,19 +182,19 @@ namespace test
 	{\
 		if ( ( x ) == ( y ) )\
 		{\
-			throw std::runtime_error{ #x##" != "##y##" failed" };\
+			throw std::runtime_error{ std::string{ #x } + " != " + std::string{ #y } + " failed" };\
 		}\
 	}\
 	catch ( ... )\
 	{\
-		throw std::runtime_error{ #x##" != "##y##" failed" };\
+		throw std::runtime_error{ std::string{ #x } + " != " + std::string{ #y } + " failed" };\
 	}
 
 #define checkThrow( x )\
 	try\
 	{\
 		( x ); \
-		throw std::runtime_error{ #x##" failed" };\
+		throw std::runtime_error{ std::string{ #x } + " failed" };\
 	}\
 	catch ( ... )\
 	{\
@@ -205,6 +207,6 @@ namespace test
 	}\
 	catch ( ... )\
 	{\
-		throw std::runtime_error{ #x##" failed" };\
+		throw std::runtime_error{ std::string{ #x } + " failed" };\
 	}
 }

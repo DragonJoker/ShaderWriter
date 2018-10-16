@@ -86,6 +86,64 @@ namespace
 	}
 
 	template< typename RET, typename LHS, typename RHS >
+	void testComparators( sdw::Shader & shader
+		, RET & ret
+		, LHS const & lhs
+		, RHS const & rhs )
+	{
+		auto & statements = shader.getStatements()->getStatements();
+		sdw::expr::Expr * expr;
+		ret = lhs == rhs;
+		if ( sdw::isOptionalEnabled( ret ) )
+		{
+			check( statements.back()->getKind() == sdw::stmt::Kind::eSimple );
+			expr = static_cast< sdw::stmt::Simple const & >( *statements.back() ).getExpr();
+			check( expr->getKind() == sdw::expr::Kind::eAssign );
+			check( static_cast< sdw::expr::Assign const & >( *expr ).getRHS()->getKind() == sdw::expr::Kind::eEqual );
+		}
+		ret = lhs != rhs;
+		if ( sdw::isOptionalEnabled( ret ) )
+		{
+			check( statements.back()->getKind() == sdw::stmt::Kind::eSimple );
+			expr = static_cast< sdw::stmt::Simple const & >( *statements.back() ).getExpr();
+			check( expr->getKind() == sdw::expr::Kind::eAssign );
+			check( static_cast< sdw::expr::Assign const & >( *expr ).getRHS()->getKind() == sdw::expr::Kind::eNotEqual );
+		}
+		ret = lhs < rhs;
+		if ( sdw::isOptionalEnabled( ret ) )
+		{
+			check( statements.back()->getKind() == sdw::stmt::Kind::eSimple );
+			expr = static_cast< sdw::stmt::Simple const & >( *statements.back() ).getExpr();
+			check( expr->getKind() == sdw::expr::Kind::eAssign );
+			check( static_cast< sdw::expr::Assign const & >( *expr ).getRHS()->getKind() == sdw::expr::Kind::eLess );
+		}
+		ret = lhs <= rhs;
+		if ( sdw::isOptionalEnabled( ret ) )
+		{
+			check( statements.back()->getKind() == sdw::stmt::Kind::eSimple );
+			expr = static_cast< sdw::stmt::Simple const & >( *statements.back() ).getExpr();
+			check( expr->getKind() == sdw::expr::Kind::eAssign );
+			check( static_cast< sdw::expr::Assign const & >( *expr ).getRHS()->getKind() == sdw::expr::Kind::eLessEqual );
+		}
+		ret = lhs > rhs;
+		if ( sdw::isOptionalEnabled( ret ) )
+		{
+			check( statements.back()->getKind() == sdw::stmt::Kind::eSimple );
+			expr = static_cast< sdw::stmt::Simple const & >( *statements.back() ).getExpr();
+			check( expr->getKind() == sdw::expr::Kind::eAssign );
+			check( static_cast< sdw::expr::Assign const & >( *expr ).getRHS()->getKind() == sdw::expr::Kind::eGreater );
+		}
+		ret = lhs >= rhs;
+		if ( sdw::isOptionalEnabled( ret ) )
+		{
+			check( statements.back()->getKind() == sdw::stmt::Kind::eSimple );
+			expr = static_cast< sdw::stmt::Simple const & >( *statements.back() ).getExpr();
+			check( expr->getKind() == sdw::expr::Kind::eAssign );
+			check( static_cast< sdw::expr::Assign const & >( *expr ).getRHS()->getKind() == sdw::expr::Kind::eGreaterEqual );
+		}
+	}
+
+	template< typename RET, typename LHS, typename RHS >
 	void testBaseOperators( sdw::Shader & shader
 		, RET & ret
 		, LHS const & lhs
@@ -446,6 +504,20 @@ namespace
 			testBaseOperators( shader, c, 2.0f, a );
 			testBaseOperators( shader, c, 2.0_f, a );
 			testBaseOperators( shader, c, a, b );
+			auto d = shader.declLocale< sdw::Boolean >( "d" );
+			testComparators( shader, d, c, 2.0f );
+			testComparators( shader, d, c, 2.0_f );
+			testComparators( shader, d, c, 2 );
+			testComparators( shader, d, c, 2_i );
+			testComparators( shader, d, c, 2u );
+			testComparators( shader, d, c, 2_u );
+			testComparators( shader, d, 2.0f, c );
+			testComparators( shader, d, 2.0_f, c );
+			testComparators( shader, d, 2, c );
+			testComparators( shader, d, 2_i, c );
+			testComparators( shader, d, 2u, c );
+			testComparators( shader, d, 2_u, c );
+			testComparators( shader, d, c, b );
 			std::cout << sdw::debug::StmtVisitor::submit( shader.getStatements() ) << std::endl;
 			testEnd();
 		}
@@ -461,6 +533,20 @@ namespace
 			testBaseOperators( shader, c, 2.0f, a );
 			testBaseOperators( shader, c, 2.0_f, a );
 			testBaseOperators( shader, c, a, b );
+			auto d = shader.declLocale< sdw::Boolean >( "d", true );
+			testComparators( shader, d, c, 2.0f );
+			testComparators( shader, d, c, 2.0_f );
+			testComparators( shader, d, c, 2 );
+			testComparators( shader, d, c, 2_i );
+			testComparators( shader, d, c, 2u );
+			testComparators( shader, d, c, 2_u );
+			testComparators( shader, d, 2.0f, c );
+			testComparators( shader, d, 2.0_f, c );
+			testComparators( shader, d, 2, c );
+			testComparators( shader, d, 2_i, c );
+			testComparators( shader, d, 2u, c );
+			testComparators( shader, d, 2_u, c );
+			testComparators( shader, d, c, b );
 			std::cout << sdw::debug::StmtVisitor::submit( shader.getStatements() ) << std::endl;
 			testEnd();
 		}
@@ -476,6 +562,20 @@ namespace
 			testBaseOperators( shader, c, 2.0f, a );
 			testBaseOperators( shader, c, 2.0_f, a );
 			testBaseOperators( shader, c, a, b );
+			auto d = shader.declLocale< sdw::Boolean >( "d", false );
+			testComparators( shader, d, c, 2.0f );
+			testComparators( shader, d, c, 2.0_f );
+			testComparators( shader, d, c, 2 );
+			testComparators( shader, d, c, 2_i );
+			testComparators( shader, d, c, 2u );
+			testComparators( shader, d, c, 2_u );
+			testComparators( shader, d, 2.0f, c );
+			testComparators( shader, d, 2.0_f, c );
+			testComparators( shader, d, 2, c );
+			testComparators( shader, d, 2_i, c );
+			testComparators( shader, d, 2u, c );
+			testComparators( shader, d, 2_u, c );
+			testComparators( shader, d, c, b );
 			std::cout << sdw::debug::StmtVisitor::submit( shader.getStatements() ) << std::endl;
 			testEnd();
 		}
@@ -502,6 +602,20 @@ namespace
 			testBaseOperators( shader, c, 2u, a );
 			testIntOperators( shader, c, 2_i, a );
 			testIntOperators( shader, c, a, b );
+			auto d = shader.declLocale< sdw::Boolean >( "d" );
+			testComparators( shader, d, c, 2.0f );
+			testComparators( shader, d, c, 2.0_f );
+			testComparators( shader, d, c, 2 );
+			testComparators( shader, d, c, 2_i );
+			testComparators( shader, d, c, 2u );
+			testComparators( shader, d, c, 2_u );
+			testComparators( shader, d, 2.0f, c );
+			testComparators( shader, d, 2.0_f, c );
+			testComparators( shader, d, 2, c );
+			testComparators( shader, d, 2_i, c );
+			testComparators( shader, d, 2u, c );
+			testComparators( shader, d, 2_u, c );
+			testComparators( shader, d, c, b );
 			std::cout << sdw::debug::StmtVisitor::submit( shader.getStatements() ) << std::endl;
 			testEnd();
 		}
@@ -520,6 +634,20 @@ namespace
 			testBaseOperators( shader, c, 2u, a );
 			testIntOperators( shader, c, 2_i, a );
 			testIntOperators( shader, c, a, b );
+			auto d = shader.declLocale< sdw::Boolean >( "d", true );
+			testComparators( shader, d, c, 2.0f );
+			testComparators( shader, d, c, 2.0_f );
+			testComparators( shader, d, c, 2 );
+			testComparators( shader, d, c, 2_i );
+			testComparators( shader, d, c, 2u );
+			testComparators( shader, d, c, 2_u );
+			testComparators( shader, d, 2.0f, c );
+			testComparators( shader, d, 2.0_f, c );
+			testComparators( shader, d, 2, c );
+			testComparators( shader, d, 2_i, c );
+			testComparators( shader, d, 2u, c );
+			testComparators( shader, d, 2_u, c );
+			testComparators( shader, d, c, b );
 			std::cout << sdw::debug::StmtVisitor::submit( shader.getStatements() ) << std::endl;
 			testEnd();
 		}
@@ -538,6 +666,20 @@ namespace
 			testBaseOperators( shader, c, 2u, a );
 			testIntOperators( shader, c, 2_i, a );
 			testIntOperators( shader, c, a, b );
+			auto d = shader.declLocale< sdw::Boolean >( "d", false );
+			testComparators( shader, d, c, 2.0f );
+			testComparators( shader, d, c, 2.0_f );
+			testComparators( shader, d, c, 2 );
+			testComparators( shader, d, c, 2_i );
+			testComparators( shader, d, c, 2u );
+			testComparators( shader, d, c, 2_u );
+			testComparators( shader, d, 2.0f, c );
+			testComparators( shader, d, 2.0_f, c );
+			testComparators( shader, d, 2, c );
+			testComparators( shader, d, 2_i, c );
+			testComparators( shader, d, 2u, c );
+			testComparators( shader, d, 2_u, c );
+			testComparators( shader, d, c, b );
 			std::cout << sdw::debug::StmtVisitor::submit( shader.getStatements() ) << std::endl;
 			testEnd();
 		}
@@ -564,6 +706,20 @@ namespace
 			testBaseOperators( shader, c, 2u, a );
 			testIntOperators( shader, c, 2_u, a );
 			testIntOperators( shader, c, a, b );
+			auto d = shader.declLocale< sdw::Boolean >( "d" );
+			testComparators( shader, d, c, 2.0f );
+			testComparators( shader, d, c, 2.0_f );
+			testComparators( shader, d, c, 2 );
+			testComparators( shader, d, c, 2_i );
+			testComparators( shader, d, c, 2u );
+			testComparators( shader, d, c, 2_u );
+			testComparators( shader, d, 2.0f, c );
+			testComparators( shader, d, 2.0_f, c );
+			testComparators( shader, d, 2, c );
+			testComparators( shader, d, 2_i, c );
+			testComparators( shader, d, 2u, c );
+			testComparators( shader, d, 2_u, c );
+			testComparators( shader, d, c, b );
 			std::cout << sdw::debug::StmtVisitor::submit( shader.getStatements() ) << std::endl;
 			testEnd();
 		}
@@ -582,6 +738,20 @@ namespace
 			testBaseOperators( shader, c, 2u, a );
 			testIntOperators( shader, c, 2_u, a );
 			testIntOperators( shader, c, a, b );
+			auto d = shader.declLocale< sdw::Boolean >( "d", true );
+			testComparators( shader, d, c, 2.0f );
+			testComparators( shader, d, c, 2.0_f );
+			testComparators( shader, d, c, 2 );
+			testComparators( shader, d, c, 2_i );
+			testComparators( shader, d, c, 2u );
+			testComparators( shader, d, c, 2_u );
+			testComparators( shader, d, 2.0f, c );
+			testComparators( shader, d, 2.0_f, c );
+			testComparators( shader, d, 2, c );
+			testComparators( shader, d, 2_i, c );
+			testComparators( shader, d, 2u, c );
+			testComparators( shader, d, 2_u, c );
+			testComparators( shader, d, c, b );
 			std::cout << sdw::debug::StmtVisitor::submit( shader.getStatements() ) << std::endl;
 			testEnd();
 		}
@@ -600,6 +770,20 @@ namespace
 			testBaseOperators( shader, c, 2u, a );
 			testIntOperators( shader, c, 2_u, a );
 			testIntOperators( shader, c, a, b );
+			auto d = shader.declLocale< sdw::Boolean >( "d", false );
+			testComparators( shader, d, c, 2.0f );
+			testComparators( shader, d, c, 2.0_f );
+			testComparators( shader, d, c, 2 );
+			testComparators( shader, d, c, 2_i );
+			testComparators( shader, d, c, 2u );
+			testComparators( shader, d, c, 2_u );
+			testComparators( shader, d, 2.0f, c );
+			testComparators( shader, d, 2.0_f, c );
+			testComparators( shader, d, 2, c );
+			testComparators( shader, d, 2_i, c );
+			testComparators( shader, d, 2u, c );
+			testComparators( shader, d, 2_u, c );
+			testComparators( shader, d, c, b );
 			std::cout << sdw::debug::StmtVisitor::submit( shader.getStatements() ) << std::endl;
 			testEnd();
 		}

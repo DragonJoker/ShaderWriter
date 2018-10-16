@@ -35,21 +35,30 @@ namespace sdw
 	}
 
 	template< typename ExprType >
-	ExprType Shader::ternary( Value const & condition
-		, ExprType const & left
-		, ExprType const & right )
+	ExprType Shader::ternary( expr::ExprPtr condition
+		, expr::ExprPtr left
+		, expr::ExprPtr right )
 	{
 		return ExprType{ this
-			, expr::makeQuestion( makeExpr( condition )
-				, makeExpr( left )
-				, makeExpr( right ) ) };
+			, expr::makeQuestion( left->getType()
+				, std::move( condition )
+				, std::move( left )
+				, std::move( right ) ) };
 	}
 
 	template< typename DestT >
 	inline DestT Shader::cast( Value const & from )
 	{
-		getContainer()->addStmt( stmt::makeCast( type::makeType( TypeTraits< DestT >::TypeEnum )
-			, makeExpr( from ) ) );
+		return DestT{ this
+			, expr::makeCast( makeType( typeEnum< DestT > )
+				, makeExpr( from ) ) };
+	}
+
+	template< typename ValueT >
+	inline ValueT Shader::paren( ValueT const & content )
+	{
+		return ValueT{ this
+			, makeExpr( content ) };
 	}
 
 #pragma region Constant declaration
@@ -103,10 +112,9 @@ namespace sdw
 		, uint32_t location
 		, T const & rhs )
 	{
-		using Type = typename TypeOf< T >::Type;
 		registerConstant( name
-			, TypeTraits< Type >::TypeEnum );
-		auto type = type::makeType( TypeTraits< Type >::TypeEnum );
+			, typeEnum< T > );
+		auto type = type::makeType( typeEnum< T > );
 		auto var = var::makeVariable( type
 			, name
 			, var::Flag::eShaderConstant );
@@ -122,10 +130,9 @@ namespace sdw
 		, T const & rhs
 		, bool enabled )
 	{
-		using Type = typename TypeOf< T >::Type;
 		registerConstant( name
-			, TypeTraits< Type >::TypeEnum );
-		auto type = type::makeType( TypeTraits< Type >::TypeEnum );
+			, typeEnum< T > );
+		auto type = type::makeType( typeEnum< T > );
 		auto var = var::makeVariable( type
 			, name
 			, var::Flag::eShaderConstant );
@@ -154,13 +161,12 @@ namespace sdw
 		, uint32_t set )
 	{
 		using T = typename SamplerTypeTraits< SamplerT >::Type;
-		using Type = typename TypeOf< T >::Type;
 		registerSampler( name
-			, TypeTraits< Type >::TypeEnum
+			, typeEnum< T >
 			, binding
 			, set
 			, type::NotArray );
-		auto type = type::makeType( TypeTraits< Type >::TypeEnum );
+		auto type = type::makeType( typeEnum< T > );
 		auto var = var::makeVariable( type
 			, name
 			, var::Flag::eSampler );
@@ -178,14 +184,13 @@ namespace sdw
 		, bool enabled )
 	{
 		using T = typename SamplerTypeTraits< SamplerT >::Type;
-		using Type = typename TypeOf< T >::Type;
 		registerSampler( name
-			, TypeTraits< Type >::TypeEnum
+			, typeEnum< T >
 			, binding
 			, set
 			, type::NotArray
 			, enabled );
-		auto type = type::makeType( TypeTraits< Type >::TypeEnum );
+		auto type = type::makeType( typeEnum< T > );
 		auto var = var::makeVariable( type
 			, name
 			, var::Flag::eSampler );
@@ -209,13 +214,12 @@ namespace sdw
 		, uint32_t dimension )
 	{
 		using T = typename SamplerTypeTraits< SamplerT >::Type;
-		using Type = typename TypeOf< T >::Type;
 		registerSampler( name
-			, TypeTraits< Type >::TypeEnum
+			, typeEnum< T >
 			, binding
 			, set
 			, dimension );
-		auto type = type::makeType( TypeTraits< Type >::TypeEnum
+		auto type = type::makeType( typeEnum< T >
 			, dimension );
 		auto var = var::makeVariable( type
 			, name
@@ -235,14 +239,13 @@ namespace sdw
 		, bool enabled )
 	{
 		using T = typename SamplerTypeTraits< SamplerT >::Type;
-		using Type = typename TypeOf< T >::Type;
 		registerSampler( name
-			, TypeTraits< Type >::TypeEnum
+			, typeEnum< T >
 			, binding
 			, set
 			, dimension
 			, enabled );
-		auto type = type::makeType( TypeTraits< Type >::TypeEnum
+		auto type = type::makeType( typeEnum< T >
 			, dimension );
 		auto var = var::makeVariable( type
 			, name
@@ -271,11 +274,10 @@ namespace sdw
 	inline T Shader::declInput( std::string const & name
 		, uint32_t location )
 	{
-		using Type = typename TypeOf< T >::Type;
 		registerInput( name
 			, location
-			, TypeTraits< Type >::TypeEnum );
-		auto type = type::makeType( TypeTraits< Type >::TypeEnum );
+			, typeEnum< T > );
+		auto type = type::makeType( typeEnum< T > );
 		auto var = var::makeVariable( type
 			, name
 			, var::Flag::eShaderInput );
@@ -290,11 +292,10 @@ namespace sdw
 		, uint32_t location
 		, bool enabled )
 	{
-		using Type = typename TypeOf< T >::Type;
 		registerInput( name
 			, location
-			, TypeTraits< Type >::TypeEnum );
-		auto type = type::makeType( TypeTraits< Type >::TypeEnum );
+			, typeEnum< T > );
+		auto type = type::makeType( typeEnum< T > );
 		auto var = var::makeVariable( type
 			, name
 			, var::Flag::eShaderInput );
@@ -315,11 +316,10 @@ namespace sdw
 		, uint32_t location
 		, uint32_t dimension )
 	{
-		using Type = typename TypeOf< T >::Type;
 		registerInput( name
 			, location
-			, TypeTraits< Type >::TypeEnum );
-		auto type = type::makeType( TypeTraits< Type >::TypeEnum
+			, typeEnum< T > );
+		auto type = type::makeType( typeEnum< T >
 			, dimension );
 		auto var = var::makeVariable( type
 			, name
@@ -334,11 +334,10 @@ namespace sdw
 	inline Array< T > Shader::declInputArray( std::string const & name
 		, uint32_t location )
 	{
-		using Type = typename TypeOf< T >::Type;
 		registerInput( name
 			, location
-			, TypeTraits< Type >::TypeEnum );
-		auto type = type::makeType( TypeTraits< Type >::TypeEnum
+			, typeEnum< T > );
+		auto type = type::makeType( typeEnum< T >
 			, type::UnknownArraySize );
 		auto var = var::makeVariable( type
 			, name
@@ -355,11 +354,10 @@ namespace sdw
 		, uint32_t dimension
 		, bool enabled )
 	{
-		using Type = typename TypeOf< T >::Type;
 		registerInput( name
 			, location
-			, TypeTraits< Type >::TypeEnum );
-		auto type = type::makeType( TypeTraits< Type >::TypeEnum
+			, typeEnum< T > );
+		auto type = type::makeType( typeEnum< T >
 			, dimension );
 		auto var = var::makeVariable( type
 			, name
@@ -381,11 +379,10 @@ namespace sdw
 		, uint32_t location
 		, bool enabled )
 	{
-		using Type = typename TypeOf< T >::Type;
 		registerInput( name
 			, location
-			, TypeTraits< Type >::TypeEnum );
-		auto type = type::makeType( TypeTraits< Type >::TypeEnum
+			, typeEnum< T > );
+		auto type = type::makeType( typeEnum< T >
 			, type::UnknownArraySize );
 		auto var = var::makeVariable( type
 			, name
@@ -413,11 +410,10 @@ namespace sdw
 	inline T Shader::declOutput( std::string const & name
 		, uint32_t location )
 	{
-		using Type = typename TypeOf< T >::Type;
 		registerOutput( name
 			, location
-			, TypeTraits< Type >::TypeEnum );
-		auto type = type::makeType( TypeTraits< Type >::TypeEnum );
+			, typeEnum< T > );
+		auto type = type::makeType( typeEnum< T > );
 		auto var = var::makeVariable( type
 			, name
 			, var::Flag::eShaderOutput );
@@ -432,11 +428,10 @@ namespace sdw
 		, uint32_t location
 		, bool enabled )
 	{
-		using Type = typename TypeOf< T >::Type;
 		registerOutput( name
 			, location
-			, TypeTraits< Type >::TypeEnum );
-		auto type = type::makeType( TypeTraits< Type >::TypeEnum );
+			, typeEnum< T > );
+		auto type = type::makeType( typeEnum< T > );
 		auto var = var::makeVariable( type
 			, name
 			, var::Flag::eShaderOutput );
@@ -457,11 +452,10 @@ namespace sdw
 		, uint32_t location
 		, uint32_t dimension )
 	{
-		using Type = typename TypeOf< T >::Type;
 		registerOutput( name
 			, location
-			, TypeTraits< Type >::TypeEnum );
-		auto type = type::makeType( TypeTraits< Type >::TypeEnum
+			, typeEnum< T > );
+		auto type = type::makeType( typeEnum< T >
 			, dimension );
 		auto var = var::makeVariable( type
 			, name
@@ -476,11 +470,10 @@ namespace sdw
 	inline Array< T > Shader::declOutputArray( std::string const & name
 		, uint32_t location )
 	{
-		using Type = typename TypeOf< T >::Type;
 		registerOutput( name
 			, location
-			, TypeTraits< Type >::TypeEnum );
-		auto type = type::makeType( TypeTraits< Type >::TypeEnum
+			, typeEnum< T > );
+		auto type = type::makeType( typeEnum< T >
 			, type::UnknownArraySize );
 		auto var = var::makeVariable( type
 			, name
@@ -497,11 +490,10 @@ namespace sdw
 		, uint32_t dimension
 		, bool enabled )
 	{
-		using Type = typename TypeOf< T >::Type;
 		registerOutput( name
 			, location
-			, TypeTraits< Type >::TypeEnum );
-		auto type = type::makeType( TypeTraits< Type >::TypeEnum
+			, typeEnum< T > );
+		auto type = type::makeType( typeEnum< T >
 			, dimension );
 		auto var = var::makeVariable( type
 			, name
@@ -523,11 +515,10 @@ namespace sdw
 		, uint32_t location
 		, bool enabled )
 	{
-		using Type = typename TypeOf< T >::Type;
 		registerOutput( name
 			, location
-			, TypeTraits< Type >::TypeEnum );
-		auto type = type::makeType( TypeTraits< Type >::TypeEnum
+			, typeEnum< T > );
+		auto type = type::makeType( typeEnum< T >
 			, type::UnknownArraySize );
 		auto var = var::makeVariable( type
 			, name
@@ -554,10 +545,9 @@ namespace sdw
 	template< typename T >
 	inline T Shader::declLocale( std::string const & name )
 	{
-		using Type = typename TypeOf< T >::Type;
 		registerName( name
-			, TypeTraits< Type >::TypeEnum );
-		auto type = type::makeType( TypeTraits< Type >::TypeEnum );
+			, typeEnum< T > );
+		auto type = type::makeType( typeEnum< T > );
 		auto var = var::makeVariable( type
 			, name
 			, var::Flag::eLocale );
@@ -570,10 +560,9 @@ namespace sdw
 	inline T Shader::declLocale( std::string const & name
 		, T const & rhs )
 	{
-		using Type = typename TypeOf< T >::Type;
 		registerName( name
-			, TypeTraits< Type >::TypeEnum );
-		auto type = type::makeType( TypeTraits< Type >::TypeEnum );
+			, typeEnum< T > );
+		auto type = type::makeType( typeEnum< T > );
 		auto var = var::makeVariable( type
 			, name
 			, var::Flag::eLocale );
@@ -587,10 +576,9 @@ namespace sdw
 	inline Optional< T > Shader::declLocale( std::string const & name
 		, bool enabled )
 	{
-		using Type = typename TypeOf< T >::Type;
 		registerName( name
-			, TypeTraits< Type >::TypeEnum );
-		auto type = type::makeType( TypeTraits< Type >::TypeEnum );
+			, typeEnum< T > );
+		auto type = type::makeType( typeEnum< T > );
 		auto var = var::makeVariable( type
 			, name
 			, var::Flag::eLocale );
@@ -609,10 +597,9 @@ namespace sdw
 	inline Optional< T > Shader::declLocale( std::string const & name
 		, Optional< T > const & rhs )
 	{
-		using Type = typename TypeOf< T >::Type;
 		registerName( name
-			, TypeTraits< Type >::TypeEnum );
-		auto type = type::makeType( TypeTraits< Type >::TypeEnum );
+			, typeEnum< T > );
+		auto type = type::makeType( typeEnum< T > );
 		auto var = var::makeVariable( type
 			, name
 			, var::Flag::eLocale );
@@ -633,10 +620,9 @@ namespace sdw
 		, T const & rhs
 		, bool enabled )
 	{
-		using Type = typename TypeOf< T >::Type;
 		registerName( name
-			, TypeTraits< Type >::TypeEnum );
-		auto type = type::makeType( TypeTraits< Type >::TypeEnum );
+			, typeEnum< T > );
+		auto type = type::makeType( typeEnum< T > );
 		auto var = var::makeVariable( type
 			, name
 			, var::Flag::eLocale );
@@ -656,10 +642,9 @@ namespace sdw
 	inline Array< T > Shader::declLocaleArray( std::string const & name
 		, uint32_t dimension )
 	{
-		using Type = typename TypeOf< T >::Type;
 		registerName( name
-			, TypeTraits< Type >::TypeEnum );
-		auto type = type::makeType( TypeTraits< Type >::TypeEnum
+			, typeEnum< T > );
+		auto type = type::makeType( typeEnum< T >
 			, dimension );
 		auto var = var::makeVariable( type
 			, name
@@ -674,10 +659,9 @@ namespace sdw
 		, uint32_t dimension
 		, std::vector< T > const & rhs )
 	{
-		using Type = typename TypeOf< T >::Type;
 		registerName( name
-			, TypeTraits< Type >::TypeEnum );
-		auto type = type::makeType( TypeTraits< Type >::TypeEnum
+			, typeEnum< T > );
+		auto type = type::makeType( typeEnum< T >
 			, dimension );
 		auto var = var::makeVariable( type
 			, name
@@ -693,10 +677,9 @@ namespace sdw
 		, uint32_t dimension
 		, bool enabled )
 	{
-		using Type = typename TypeOf< T >::Type;
 		registerName( name
-			, TypeTraits< Type >::TypeEnum );
-		auto type = type::makeType( TypeTraits< Type >::TypeEnum
+			, typeEnum< T > );
+		auto type = type::makeType( typeEnum< T >
 			, dimension );
 		auto var = var::makeVariable( type
 			, name
@@ -718,10 +701,9 @@ namespace sdw
 		, std::vector< T > const & rhs
 		, bool enabled )
 	{
-		using Type = typename TypeOf< T >::Type;
 		registerName( name
-			, TypeTraits< Type >::TypeEnum );
-		auto type = type::makeType( TypeTraits< Type >::TypeEnum
+			, typeEnum< T > );
+		auto type = type::makeType( typeEnum< T >
 			, dimension );
 		auto var = var::makeVariable( type
 			, name
@@ -748,10 +730,9 @@ namespace sdw
 	template< typename T >
 	inline T Shader::declBuiltin( std::string const & name )
 	{
-		using Type = typename TypeOf< T >::Type;
 		registerName( name
-			, TypeTraits< Type >::TypeEnum );
-		auto type = type::makeType( TypeTraits< Type >::TypeEnum );
+			, typeEnum< T > );
+		auto type = type::makeType( typeEnum< T > );
 		auto var = var::makeVariable( type
 			, name
 			, var::Flag::eBuiltin );
@@ -763,10 +744,9 @@ namespace sdw
 	inline Optional< T > Shader::declBuiltin( std::string const & name
 		, bool enabled )
 	{
-		using Type = typename TypeOf< T >::Type;
 		registerName( name
-			, TypeTraits< Type >::TypeEnum );
-		auto type = type::makeType( TypeTraits< Type >::TypeEnum );
+			, typeEnum< T > );
+		auto type = type::makeType( typeEnum< T > );
 		auto var = var::makeVariable( type
 			, name
 			, var::Flag::eBuiltin );
@@ -779,10 +759,9 @@ namespace sdw
 	inline Array< T > Shader::declBuiltinArray( std::string const & name
 		, uint32_t dimension )
 	{
-		using Type = typename TypeOf< T >::Type;
 		registerName( name
-			, TypeTraits< Type >::TypeEnum );
-		auto type = type::makeType( TypeTraits< Type >::TypeEnum
+			, typeEnum< T > );
+		auto type = type::makeType( typeEnum< T >
 			, dimension );
 		auto var = var::makeVariable( type
 			, name
@@ -794,10 +773,9 @@ namespace sdw
 	template< typename T >
 	inline Array< T > Shader::declBuiltinArray( std::string const & name )
 	{
-		using Type = typename TypeOf< T >::Type;
 		registerName( name
-			, TypeTraits< Type >::TypeEnum );
-		auto type = type::makeType( TypeTraits< Type >::TypeEnum
+			, typeEnum< T > );
+		auto type = type::makeType( typeEnum< T >
 			, type::UnknownArraySize );
 		auto var = var::makeVariable( type
 			, name
@@ -811,10 +789,9 @@ namespace sdw
 		, uint32_t dimension
 		, bool enabled )
 	{
-		using Type = typename TypeOf< T >::Type;
 		registerName( name
-			, TypeTraits< Type >::TypeEnum );
-		auto type = type::makeType( TypeTraits< Type >::TypeEnum
+			, typeEnum< T > );
+		auto type = type::makeType( typeEnum< T >
 			, dimension );
 		auto var = var::makeVariable( type
 			, name
@@ -828,10 +805,9 @@ namespace sdw
 	inline Optional< Array< T > > Shader::declBuiltinArray( std::string const & name
 		, bool enabled )
 	{
-		using Type = typename TypeOf< T >::Type;
 		registerName( name
-			, TypeTraits< Type >::TypeEnum );
-		auto type = type::makeType( TypeTraits< Type >::TypeEnum
+			, typeEnum< T > );
+		auto type = type::makeType( typeEnum< T >
 			, type::UnknownArraySize );
 		auto var = var::makeVariable( type
 			, name
@@ -844,10 +820,9 @@ namespace sdw
 	template< typename T >
 	inline T Shader::getBuiltin( std::string const & name )
 	{
-		using Type = typename TypeOf< T >::Type;
 		checkNameExists( name
-			, TypeTraits< Type >::TypeEnum );
-		auto type = type::makeType( TypeTraits< Type >::TypeEnum );
+			, typeEnum< T > );
+		auto type = type::makeType( typeEnum< T > );
 		auto var = var::makeVariable( type
 			, name
 			, var::Flag::eBuiltin );
@@ -859,10 +834,9 @@ namespace sdw
 	inline Optional< T > Shader::getBuiltin( std::string const & name
 		, bool enabled )
 	{
-		using Type = typename TypeOf< T >::Type;
 		checkNameExists( name
-			, TypeTraits< Type >::TypeEnum );
-		auto type = type::makeType( TypeTraits< Type >::TypeEnum );
+			, typeEnum< T > );
+		auto type = type::makeType( typeEnum< T > );
 		auto var = var::makeVariable( type
 			, name
 			, var::Flag::eBuiltin );
@@ -874,10 +848,9 @@ namespace sdw
 	template< typename T >
 	inline Array< T > Shader::getBuiltinArray( std::string const & name )
 	{
-		using Type = typename TypeOf< T >::Type;
 		checkNameExists( name
-			, TypeTraits< Type >::TypeEnum );
-		auto type = type::makeType( TypeTraits< Type >::TypeEnum
+			, typeEnum< T > );
+		auto type = type::makeType( typeEnum< T >
 			, type::UnknownArraySize );
 		auto var = var::makeVariable( type
 			, name
@@ -890,10 +863,9 @@ namespace sdw
 	inline Optional< Array< T > > Shader::getBuiltinArray( std::string const & name
 		, bool enabled )
 	{
-		using Type = typename TypeOf< T >::Type;
 		checkNameExists( name
-			, TypeTraits< Type >::TypeEnum );
-		auto type = type::makeType( TypeTraits< Type >::TypeEnum
+			, typeEnum< T > );
+		auto type = type::makeType( typeEnum< T >
 			, type::UnknownArraySize );
 		auto var = var::makeVariable( type
 			, name
@@ -907,10 +879,9 @@ namespace sdw
 	inline Array< T > Shader::getBuiltinArray( std::string const & name
 		, uint32_t dimension )
 	{
-		using Type = typename TypeOf< T >::Type;
 		checkNameExists( name
-			, TypeTraits< Type >::TypeEnum );
-		auto type = type::makeType( TypeTraits< Type >::TypeEnum
+			, typeEnum< T > );
+		auto type = type::makeType( typeEnum< T >
 			, dimension );
 		auto var = var::makeVariable( type
 			, name
@@ -924,10 +895,9 @@ namespace sdw
 		, uint32_t dimension
 		, bool enabled )
 	{
-		using Type = typename TypeOf< T >::Type;
 		checkNameExists( name
-			, TypeTraits< Type >::TypeEnum );
-		auto type = type::makeType( TypeTraits< Type >::TypeEnum
+			, typeEnum< T > );
+		auto type = type::makeType( typeEnum< T >
 			, dimension );
 		auto var = var::makeVariable( type
 			, name

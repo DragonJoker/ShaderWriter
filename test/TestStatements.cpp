@@ -497,8 +497,8 @@ namespace
 			std::cout << "StmtSwitchCase (empty):\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
 
 			check( stmt->getKind() == ast::stmt::Kind::eSwitchCase );
-			check( stmt->getCaseExpr()->getLabel()->getValue() == ast::expr::Literal::ValueType::eInt );
-			check( stmt->getCaseExpr()->getLabel()->getValue< ast::expr::Literal::ValueType::eInt >() == 10 );
+			check( stmt->getCaseExpr()->getLabel()->getLiteralType() == ast::expr::LiteralType::eInt );
+			check( stmt->getCaseExpr()->getLabel()->getValue< ast::expr::LiteralType::eInt >() == 10 );
 			check( stmt->getStatements().empty() );
 		}
 		{
@@ -510,8 +510,8 @@ namespace
 			std::cout << "StmtSwitchCase:\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
 
 			check( stmt->getKind() == ast::stmt::Kind::eSwitchCase );
-			check( stmt->getCaseExpr()->getLabel()->getValue() == ast::expr::Literal::ValueType::eInt );
-			check( stmt->getCaseExpr()->getLabel()->getValue< ast::expr::Literal::ValueType::eInt >() == 10 );
+			check( stmt->getCaseExpr()->getLabel()->getLiteralType() == ast::expr::LiteralType::eInt );
+			check( stmt->getCaseExpr()->getLabel()->getValue< ast::expr::LiteralType::eInt >() == 10 );
 			check( stmt->getStatements().size() == 2u );
 		}
 		testEnd();

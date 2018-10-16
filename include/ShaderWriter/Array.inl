@@ -19,8 +19,8 @@ namespace sdw
 	T Array< T >::operator[]( U const & offset )
 	{
 		return T{ findShader( *this, offset )
-			, expr::makeArrayAccess( makeType( m_expr->getType()->getKind() )
-				, makeExpr( m_expr )
+			, expr::makeArrayAccess( makeType( this->getType()->getKind() )
+				, makeExpr( *this )
 				, makeExpr( offset ) ) };
 	}
 
@@ -29,15 +29,15 @@ namespace sdw
 	T Array< T >::operator[]( U const & offset )const
 	{
 		return T{ findShader( *this, offset )
-			, expr::makeArrayAccess( makeType( m_expr->getType()->getKind() )
-				, makeExpr( m_expr )
+			, expr::makeArrayAccess( makeType( this->getType()->getKind() )
+				, makeExpr( *this )
 				, makeExpr( offset ) ) };
 	}
 
 	template< typename TypeT >
 	expr::ExprPtr makeExpr( Array< TypeT > const & value )
 	{
-		return makeExpr( value.m_expr );
+		return makeExpr( value.getExpr() );
 	}
 
 	//*********************************************************************************************

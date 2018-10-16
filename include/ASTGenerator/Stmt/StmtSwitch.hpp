@@ -28,7 +28,7 @@ namespace ast::stmt
 		}
 
 	private:
-		Compound::addStmt;
+		using Compound::addStmt;
 
 	private:
 		expr::SwitchTestPtr m_testExpr;

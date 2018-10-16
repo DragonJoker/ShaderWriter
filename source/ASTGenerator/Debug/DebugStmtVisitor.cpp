@@ -108,6 +108,7 @@ namespace ast::debug
 	{
 		m_result += m_indent + "else if (" + ExprVisitor::submit( stmt->getCtrlExpr() ) + ")";
 		m_appendSemiColon = false;
+		m_appendLineEnd = false;
 		visitCompoundStmt( stmt );
 		m_appendLineEnd = true;
 	}
@@ -116,6 +117,7 @@ namespace ast::debug
 	{
 		m_result += m_indent + "else";
 		m_appendSemiColon = false;
+		m_appendLineEnd = false;
 		visitCompoundStmt( stmt );
 		m_appendLineEnd = true;
 	}
@@ -124,8 +126,8 @@ namespace ast::debug
 	{
 		m_appendLineEnd = true;
 		doAppendLineEnd();
-		m_result += m_indent + "for (" + ExprVisitor::submit( stmt->getInitExpr() ) + ";";
-		m_result += ExprVisitor::submit( stmt->getCtrlExpr() ) + ";";
+		m_result += m_indent + "for (" + ExprVisitor::submit( stmt->getInitExpr() ) + "; ";
+		m_result += ExprVisitor::submit( stmt->getCtrlExpr() ) + "; ";
 		m_result += ExprVisitor::submit( stmt->getIncrExpr() ) + ")";
 		m_appendSemiColon = false;
 		visitCompoundStmt( stmt );
@@ -235,7 +237,15 @@ namespace ast::debug
 	void StmtVisitor::visitReturnStmt( stmt::Return * stmt )
 	{
 		doAppendLineEnd();
-		m_result += m_indent + "return " + ExprVisitor::submit( stmt->getExpr() ) + ";\n";
+
+		if ( stmt->getExpr() )
+		{
+			m_result += m_indent + "return " + ExprVisitor::submit( stmt->getExpr() ) + ";\n";
+		}
+		else
+		{
+			m_result += m_indent + "return;\n";
+		}
 	}
 
 	void StmtVisitor::visitSamplerDeclStmt( stmt::SamplerDecl * stmt )

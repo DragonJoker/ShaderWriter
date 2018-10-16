@@ -12,7 +12,6 @@ namespace sdw
 		, m_config( config )
 	{
 		m_stream.imbue( Expr::getLocale() );
-		*this << sdw::Version() << endl;
 
 #if !defined( NDEBUG )
 		*this << "#pragma optimize(off)" << endl;
@@ -100,61 +99,6 @@ namespace sdw
 			, texCoord );
 	}
 
-	void GlslWriter::forStmt( Type && init, Expr const & cond, Expr const & incr, std::function< void() > function )
-	{
-		m_stream << std::endl;
-		m_stream << cuT( "for ( " ) << std::string( init ) << cuT( "; " ) << cond.m_value.rdbuf() << cuT( "; " ) << incr.m_value.rdbuf() << cuT( " )" ) << std::endl;
-		{
-			IndentBlock block( *this );
-			function();
-		}
-		m_stream << std::endl;
-	}
-
-	void GlslWriter::whileStmt( Expr const & cond, std::function< void() > function )
-	{
-		m_stream << std::endl;
-		m_stream << cuT( "while ( " ) << cond.m_value.rdbuf() << cuT( " )" ) << std::endl;
-		{
-			IndentBlock block( *this );
-			function();
-		}
-		m_stream << std::endl;
-	}
-
-	GlslWriter & GlslWriter::ifStmt( Expr const & cond, std::function< void() > function )
-	{
-		m_stream << std::endl;
-		m_stream << cuT( "if ( " ) << cond.m_value.rdbuf() << cuT( " )" ) << std::endl;
-		{
-			IndentBlock block( *this );
-			function();
-		}
-		m_stream << std::endl;
-		return *this;
-	}
-
-	GlslWriter & GlslWriter::elseIfStmt( Expr const & cond, std::function< void() > function )
-	{
-		m_stream << cuT( "else if ( " ) << cond.m_value.rdbuf() << cuT( " )" ) << std::endl;
-		{
-			IndentBlock block( *this );
-			function();
-		}
-		m_stream << std::endl;
-		return *this;
-	}
-
-	void GlslWriter::elseStmt( std::function< void() > function )
-	{
-		m_stream << cuT( "else" ) << std::endl;
-		{
-			IndentBlock block( *this );
-			function();
-		}
-		m_stream << std::endl;
-	}
-
 	void GlslWriter::emitVertex()
 	{
 		m_stream << cuT( "emitVertex();" ) << std::endl;
@@ -188,12 +132,6 @@ namespace sdw
 	void GlslWriter::outputVertexCount( uint32_t count )
 	{
 		m_stream << cuT( "layout( max_vertices = " ) << count << cuT( " ) out;" ) << std::endl;
-	}
-
-	GlslWriter & GlslWriter::operator<<( Version const & rhs )
-	{
-		m_stream << m_keywords->getVersion();
-		return *this;
 	}
 
 	GlslWriter & GlslWriter::operator<<( InputLayout const & rhs )

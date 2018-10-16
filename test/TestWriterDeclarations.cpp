@@ -688,12 +688,12 @@ namespace
 		{
 			std::string const name = "m_member";
 			BOType bo{ createBo< BOType >( shader ) };
-			auto value = bo.declMember< T >( name );
+			auto value = bo.template declMember< T >( name );
 			bo.end();
 			check( value.getType()->getKind() == sdw::typeEnum< T > );
 			check( value.getType()->getArraySize() == sdw::type::NotArray );
 			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
-			auto retrieved = bo.getMember< T >( name );
+			auto retrieved = bo.template getMember< T >( name );
 			check( retrieved.getType()->getKind() == sdw::typeEnum< T > );
 			check( retrieved.getType()->getArraySize() == sdw::type::NotArray );
 			check( retrieved.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
@@ -705,12 +705,12 @@ namespace
 		{
 			std::string const name = "m_memberArray";
 			BOType bo{ createBo< BOType >( shader ) };
-			auto value = bo.declMember< T >( name, 4u );
+			auto value = bo.template declMember< T >( name, 4u );
 			bo.end();
 			check( value.getType()->getKind() == sdw::typeEnum< T > );
 			check( value.getType()->getArraySize() == 4u );
 			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
-			auto retrieved = bo.getMember< T >( name, 4u );
+			auto retrieved = bo.template getMember< T >( name, 4u );
 			check( retrieved.getType()->getKind() == sdw::typeEnum< T > );
 			check( retrieved.getType()->getArraySize() == 4u );
 			check( retrieved.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
@@ -722,12 +722,12 @@ namespace
 		{
 			std::string const name = "m_memberArrayUnknown";
 			BOType bo{ createBo< BOType >( shader ) };
-			auto value = bo.declMemberArray< T >( name );
+			auto value = bo.template declMemberArray< T >( name );
 			bo.end();
 			check( value.getType()->getKind() == sdw::typeEnum< T > );
 			check( value.getType()->getArraySize() == sdw::type::UnknownArraySize );
 			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
-			auto retrieved = bo.getMemberArray< T >( name );
+			auto retrieved = bo.template getMemberArray< T >( name );
 			check( retrieved.getType()->getKind() == sdw::typeEnum< T > );
 			check( retrieved.getType()->getArraySize() == sdw::type::UnknownArraySize );
 			check( retrieved.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
@@ -739,13 +739,13 @@ namespace
 		{
 			std::string const name = "m_memberOptDis";
 			BOType bo{ createBo< BOType >( shader ) };
-			auto value = bo.declMember< T >( name, false );
+			auto value = bo.template declMember< T >( name, false );
 			bo.end();
 			check( value.isEnabled() == false );
 			check( value.getType()->getKind() == sdw::typeEnum< T > );
 			check( value.getType()->getArraySize() == sdw::type::NotArray );
 			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
-			auto retrieved = bo.getMember< T >( name, false );
+			auto retrieved = bo.template getMember< T >( name, false );
 			check( retrieved.isEnabled() == false );
 			check( retrieved.getType()->getKind() == sdw::typeEnum< T > );
 			check( retrieved.getType()->getArraySize() == sdw::type::NotArray );
@@ -758,13 +758,13 @@ namespace
 		{
 			std::string const name = "m_memberOptDisArray";
 			BOType bo{ createBo< BOType >( shader ) };
-			auto value = bo.declMember< T >( name, 4u, false );
+			auto value = bo.template declMember< T >( name, 4u, false );
 			bo.end();
 			check( value.isEnabled() == false );
 			check( value.getType()->getKind() == sdw::typeEnum< T > );
 			check( value.getType()->getArraySize() == 4u );
 			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
-			auto retrieved = bo.getMember< T >( name, 4u, false );
+			auto retrieved = bo.template getMember< T >( name, 4u, false );
 			check( retrieved.isEnabled() == false );
 			check( retrieved.getType()->getKind() == sdw::typeEnum< T > );
 			check( retrieved.getType()->getArraySize() == 4u );
@@ -777,13 +777,13 @@ namespace
 		{
 			std::string const name = "m_memberOptDisArrayUnknown";
 			BOType bo{ createBo< BOType >( shader ) };
-			auto value = bo.declMemberArray< T >( name, false );
+			auto value = bo.template declMemberArray< T >( name, false );
 			bo.end();
 			check( value.isEnabled() == false );
 			check( value.getType()->getKind() == sdw::typeEnum< T > );
 			check( value.getType()->getArraySize() == sdw::type::UnknownArraySize );
 			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
-			auto retrieved = bo.getMemberArray< T >( name, false );
+			auto retrieved = bo.template getMemberArray< T >( name, false );
 			check( retrieved.isEnabled() == false );
 			check( retrieved.getType()->getKind() == sdw::typeEnum< T > );
 			check( retrieved.getType()->getArraySize() == sdw::type::UnknownArraySize );
@@ -796,13 +796,13 @@ namespace
 		{
 			std::string const name = "m_memberOptEn";
 			BOType bo{ createBo< BOType >( shader ) };
-			auto value = bo.declMember< T >( name, true );
+			auto value = bo.template declMember< T >( name, true );
 			bo.end();
 			check( value.isEnabled() == true );
 			check( value.getType()->getKind() == sdw::typeEnum< T > );
 			check( value.getType()->getArraySize() == sdw::type::NotArray );
 			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
-			auto retrieved = bo.getMember< T >( name, true );
+			auto retrieved = bo.template getMember< T >( name, true );
 			check( retrieved.isEnabled() == true );
 			check( retrieved.getType()->getKind() == sdw::typeEnum< T > );
 			check( retrieved.getType()->getArraySize() == sdw::type::NotArray );
@@ -815,13 +815,13 @@ namespace
 		{
 			std::string const name = "m_memberOptEnArray";
 			BOType bo{ createBo< BOType >( shader ) };
-			auto value = bo.declMember< T >( name, 4u, true );
+			auto value = bo.template declMember< T >( name, 4u, true );
 			bo.end();
 			check( value.isEnabled() == true );
 			check( value.getType()->getKind() == sdw::typeEnum< T > );
 			check( value.getType()->getArraySize() == 4u );
 			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
-			auto retrieved = bo.getMember< T >( name, 4u, true );
+			auto retrieved = bo.template getMember< T >( name, 4u, true );
 			check( retrieved.isEnabled() == true );
 			check( retrieved.getType()->getKind() == sdw::typeEnum< T > );
 			check( retrieved.getType()->getArraySize() == 4u );
@@ -834,13 +834,13 @@ namespace
 		{
 			std::string const name = "m_memberOptEnArrayUnknown";
 			BOType bo{ createBo< BOType >( shader ) };
-			auto value = bo.declMemberArray< T >( name, true );
+			auto value = bo.template declMemberArray< T >( name, true );
 			bo.end();
 			check( value.isEnabled() == true );
 			check( value.getType()->getKind() == sdw::typeEnum< T > );
 			check( value.getType()->getArraySize() == sdw::type::UnknownArraySize );
 			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
-			auto retrieved = bo.getMemberArray< T >( name, true );
+			auto retrieved = bo.template getMemberArray< T >( name, true );
 			check( retrieved.isEnabled() == true );
 			check( retrieved.getType()->getKind() == sdw::typeEnum< T > );
 			check( retrieved.getType()->getArraySize() == sdw::type::UnknownArraySize );

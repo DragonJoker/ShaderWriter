@@ -48,7 +48,7 @@ namespace sdw
 		}
 
 		return Optional< T >{ &m_shader
-			, expr::makeIdentifier( var )
+			, makeExpr( var )
 			, enabled };
 	}
 
@@ -67,7 +67,7 @@ namespace sdw
 		}
 
 		return Optional< Array< T > >{ &m_shader
-			, expr::makeIdentifier( var )
+			, makeExpr( var )
 			, enabled };
 	}
 
@@ -85,7 +85,7 @@ namespace sdw
 		}
 
 		return Optional< Array< T > >{ &m_shader
-			, expr::makeIdentifier( var )
+			, makeExpr( var )
 			, enabled };
 	}
 

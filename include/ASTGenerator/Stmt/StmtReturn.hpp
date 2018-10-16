@@ -29,6 +29,11 @@ namespace ast::stmt
 	};
 	using ReturnPtr = std::unique_ptr< Return >;
 
+	inline ReturnPtr makeReturn()
+	{
+		return std::make_unique< Return >( nullptr );
+	}
+
 	inline ReturnPtr makeReturn( expr::ExprPtr expr )
 	{
 		return std::make_unique< Return >( std::move( expr ) );

@@ -47,7 +47,7 @@ namespace sdw
 		if ( m_enabled )
 		{
 			addStmt( *findContainer( *this, rhs )
-				, stmt::makeSimple( expr::makeAssign( getType()
+				, stmt::makeSimple( expr::makeAssign( this->getType()
 					, makeExpr( *this )
 					, makeExpr( rhs ) ) ) );
 		}
@@ -62,7 +62,7 @@ namespace sdw
 		if ( m_enabled )
 		{
 			addStmt( *findContainer( *this, rhs )
-				, stmt::makeSimple( expr::makeAssign( getType()
+				, stmt::makeSimple( expr::makeAssign( this->getType()
 					, makeExpr( *this )
 					, makeExpr( rhs ) ) ) );
 		}
@@ -80,7 +80,7 @@ namespace sdw
 	Optional< TypeT >::operator Optional< Value >()const
 	{
 		return Optional< Value >{ *this
-			, makeExpr( getExpr() )
+			, makeExpr( this->getExpr() )
 			, isEnabled() };
 	}
 

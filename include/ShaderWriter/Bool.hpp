@@ -5,7 +5,9 @@ See LICENSE file in root folder
 #define ___Writer_Boolean_H___
 #pragma once
 
-#include "Value.hpp"
+#include "Int.hpp"
+#include "UInt.hpp"
+#include "Float.hpp"
 
 namespace sdw
 {
@@ -24,10 +26,128 @@ namespace sdw
 		operator bool();
 	};
 
-	Boolean operator==( Value const & lhs, Value const & rhs );
-	Boolean operator!=( Value const & lhs, Value const & rhs );
-	Boolean operator||( Boolean const & lhs, Boolean const & rhs );
-	Boolean operator&&( Boolean const & lhs, Boolean const & rhs );
+	Boolean operator==( Boolean const & lhs
+		, Boolean const & rhs );
+	Boolean operator!=( Boolean const & lhs
+		, Boolean const & rhs );
+	Boolean operator||( Boolean const & lhs
+		, Boolean const & rhs );
+	Boolean operator&&( Boolean const & lhs
+		, Boolean const & rhs );
+	Optional< Boolean > operator||( Optional< Boolean > const & lhs
+		, Boolean const & rhs );
+	Optional< Boolean > operator&&( Optional< Boolean > const & lhs
+		, Boolean const & rhs );
+	Optional< Boolean > operator||( Boolean const & lhs
+		, Optional< Boolean > const & rhs );
+	Optional< Boolean > operator&&( Boolean const & lhs
+		, Optional< Boolean > const & rhs );
+	Optional< Boolean > operator||( Optional< Boolean > const & lhs
+		, Optional< Boolean > const & rhs );
+	Optional< Boolean > operator&&( Optional< Boolean > const & lhs
+		, Optional< Boolean > const & rhs );
+
+	template< typename ValueT >
+	Optional< Boolean > operator==( Optional< ValueT >  const & lhs
+		, ValueT const & rhs );
+	template< typename ValueT >
+	Optional< Boolean > operator!=( Optional< ValueT >  const & lhs
+		, ValueT const & rhs );
+	template< typename ValueT >
+	Optional< Boolean > operator<( Optional< ValueT >  const & lhs
+		, ValueT const & rhs );
+	template< typename ValueT >
+	Optional< Boolean > operator<=( Optional< ValueT >  const & lhs
+		, ValueT const & rhs );
+	template< typename ValueT >
+	Optional< Boolean > operator>( Optional< ValueT >  const & lhs
+		, ValueT const & rhs );
+	template< typename ValueT >
+	Optional< Boolean > operator>=( Optional< ValueT > const & lhs
+		, ValueT const & rhs );
+
+	template< typename ValueT >
+	Optional< Boolean > operator==( ValueT const & lhs
+		, Optional< ValueT > const & rhs );
+	template< typename ValueT >
+	Optional< Boolean > operator!=( ValueT const & lhs
+		, Optional< ValueT > const & rhs );
+	template< typename ValueT >
+	Optional< Boolean > operator<( ValueT const & lhs
+		, Optional< ValueT > const & rhs );
+	template< typename ValueT >
+	Optional< Boolean > operator<=( ValueT const & lhs
+		, Optional< ValueT > const & rhs );
+	template< typename ValueT >
+	Optional< Boolean > operator>( ValueT const & lhs
+		, Optional< ValueT > const & rhs );
+	template< typename ValueT >
+	Optional< Boolean > operator>=( ValueT const & lhs
+		, Optional< ValueT > const & rhs );
+
+	template< typename ValueT >
+	Optional< Boolean > operator==( Optional< ValueT > const & lhs
+		, Optional< ValueT > const & rhs );
+	template< typename ValueT >
+	Optional< Boolean > operator!=( Optional< ValueT > const & lhs
+		, Optional< ValueT > const & rhs );
+	template< typename ValueT >
+	Optional< Boolean > operator<( Optional< ValueT > const & lhs
+		, Optional< ValueT > const & rhs );
+	template< typename ValueT >
+	Optional< Boolean > operator<=( Optional< ValueT > const & lhs
+		, Optional< ValueT > const & rhs );
+	template< typename ValueT >
+	Optional< Boolean > operator>( Optional< ValueT > const & lhs
+		, Optional< ValueT > const & rhs );
+	template< typename ValueT >
+	Optional< Boolean > operator>=( Optional< ValueT > const & lhs
+		, Optional< ValueT > const & rhs );
+
+#define Writer_DeclareComparisonLHS( Operator, LhsTypeT, RhsTypeT )\
+	Boolean operator Operator( LhsTypeT const & lhs, RhsTypeT const & rhs );\
+	Optional< Boolean > operator Operator( Optional< LhsTypeT > const & lhs, RhsTypeT const & rhs )
+
+#define Writer_DeclareComparisonRHS( Operator, LhsTypeT, RhsTypeT )\
+	Boolean operator Operator( LhsTypeT const & lhs, RhsTypeT const & rhs );\
+	Optional< Boolean > operator Operator( LhsTypeT const & lhs, Optional< RhsTypeT > const & rhs )
+
+#define Writer_DeclareComparison( Operator, LhsTypeT, RhsTypeT )\
+	Boolean operator Operator( LhsTypeT const & lhs, RhsTypeT const & rhs );\
+	Optional< Boolean > operator Operator( Optional< LhsTypeT > const & lhs, RhsTypeT const & rhs );\
+	Optional< Boolean > operator Operator( LhsTypeT const & lhs, Optional< RhsTypeT > const & rhs );\
+	Optional< Boolean > operator Operator( Optional< LhsTypeT > const & lhs, Optional< RhsTypeT > const & rhs )
+
+#define Writer_DeclareComparisonTypes( Operator, TypeT )\
+	Writer_DeclareComparison( Operator, TypeT, Int );\
+	Writer_DeclareComparison( Operator, TypeT, UInt );\
+	Writer_DeclareComparison( Operator, TypeT, Float );\
+	Writer_DeclareComparisonLHS( Operator, TypeT, int32_t );\
+	Writer_DeclareComparisonLHS( Operator, TypeT, uint32_t );\
+	Writer_DeclareComparisonLHS( Operator, TypeT, float );\
+	Writer_DeclareComparisonLHS( Operator, TypeT, double );\
+	Writer_DeclareComparisonRHS( Operator, int32_t, TypeT );\
+	Writer_DeclareComparisonRHS( Operator, uint32_t, TypeT );\
+	Writer_DeclareComparisonRHS( Operator, float, TypeT );\
+	Writer_DeclareComparisonRHS( Operator, double, TypeT )
+
+#define Writer_DeclareComparisons( TypeT )\
+	Writer_DeclareComparisonTypes( ==, TypeT );\
+	Writer_DeclareComparisonTypes( !=, TypeT );\
+	Writer_DeclareComparisonTypes( <, TypeT );\
+	Writer_DeclareComparisonTypes( <=, TypeT );\
+	Writer_DeclareComparisonTypes( >, TypeT );\
+	Writer_DeclareComparisonTypes( >=, TypeT )
+
+	Writer_DeclareComparisons( Int );
+	Writer_DeclareComparisons( UInt );
+	Writer_DeclareComparisons( Float );
+
+#undef Writer_DeclareComparisons
+#undef Writer_DeclareComparisonTypes
+#undef Writer_DeclareComparison
+#undef Writer_DeclareComparisonLHS
+#undef Writer_DeclareComparisonRHS
 }
 
 #include "Bool.inl"

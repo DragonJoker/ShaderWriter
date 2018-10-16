@@ -13,8 +13,8 @@ namespace
 
 			check( expr->getKind() == ast::expr::Kind::eLiteral );
 			check( expr->getType()->getKind() == ast::type::Kind::eBoolean );
-			check( expr->getValue() == ast::expr::Literal::ValueType::eBool );
-			check( expr->getValue< ast::expr::Literal::ValueType::eBool >() == false );
+			check( expr->getLiteralType() == ast::expr::LiteralType::eBool );
+			check( expr->getValue< ast::expr::LiteralType::eBool >() == false );
 			std::cout << "ExprLiteral: " << ast::debug::ExprVisitor::submit( expr.get() ) << std::endl;
 		}
 		{
@@ -22,8 +22,8 @@ namespace
 
 			check( expr->getKind() == ast::expr::Kind::eLiteral );
 			check( expr->getType()->getKind() == ast::type::Kind::eFloat );
-			check( expr->getValue() == ast::expr::Literal::ValueType::eFloat );
-			check( expr->getValue< ast::expr::Literal::ValueType::eFloat >() == 1.0f );
+			check( expr->getLiteralType() == ast::expr::LiteralType::eFloat );
+			check( expr->getValue< ast::expr::LiteralType::eFloat >() == 1.0f );
 			std::cout << "ExprLiteral: " << ast::debug::ExprVisitor::submit( expr.get() ) << std::endl;
 		}
 		{
@@ -31,8 +31,8 @@ namespace
 
 			check( expr->getKind() == ast::expr::Kind::eLiteral );
 			check( expr->getType()->getKind() == ast::type::Kind::eInt );
-			check( expr->getValue() == ast::expr::Literal::ValueType::eInt );
-			check( expr->getValue< ast::expr::Literal::ValueType::eInt >() == 10 );
+			check( expr->getLiteralType() == ast::expr::LiteralType::eInt );
+			check( expr->getValue< ast::expr::LiteralType::eInt >() == 10 );
 			std::cout << "ExprLiteral: " << ast::debug::ExprVisitor::submit( expr.get() ) << std::endl;
 		}
 		{
@@ -40,8 +40,8 @@ namespace
 
 			check( expr->getKind() == ast::expr::Kind::eLiteral );
 			check( expr->getType()->getKind() == ast::type::Kind::eUInt );
-			check( expr->getValue() == ast::expr::Literal::ValueType::eUInt );
-			check( expr->getValue< ast::expr::Literal::ValueType::eUInt >() == 10u );
+			check( expr->getLiteralType() == ast::expr::LiteralType::eUInt );
+			check( expr->getValue< ast::expr::LiteralType::eUInt >() == 10u );
 			std::cout << "ExprLiteral: " << ast::debug::ExprVisitor::submit( expr.get() ) << std::endl;
 		}
 		testEnd();
@@ -77,8 +77,8 @@ namespace
 
 		check( expr->getRHS()->getKind() == ast::expr::Kind::eLiteral );
 		check( expr->getRHS()->getType()->getKind() == ast::type::Kind::eInt );
-		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue() == ast::expr::Literal::ValueType::eInt );
-		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::Literal::ValueType::eInt >() == 10 );
+		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getLiteralType() == ast::expr::LiteralType::eInt );
+		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::LiteralType::eInt >() == 10 );
 		std::cout << "ExprAdd: " << ast::debug::ExprVisitor::submit( expr.get() ) << std::endl;
 		testEnd();
 	}
@@ -100,8 +100,8 @@ namespace
 
 		check( expr->getRHS()->getKind() == ast::expr::Kind::eLiteral );
 		check( expr->getRHS()->getType()->getKind() == ast::type::Kind::eInt );
-		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue() == ast::expr::Literal::ValueType::eInt );
-		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::Literal::ValueType::eInt >() == 10 );
+		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getLiteralType() == ast::expr::LiteralType::eInt );
+		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::LiteralType::eInt >() == 10 );
 		std::cout << "ExprMinus: " << ast::debug::ExprVisitor::submit( expr.get() ) << std::endl;
 		testEnd();
 	}
@@ -123,8 +123,8 @@ namespace
 
 		check( expr->getRHS()->getKind() == ast::expr::Kind::eLiteral );
 		check( expr->getRHS()->getType()->getKind() == ast::type::Kind::eInt );
-		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue() == ast::expr::Literal::ValueType::eInt );
-		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::Literal::ValueType::eInt >() == 10 );
+		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getLiteralType() == ast::expr::LiteralType::eInt );
+		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::LiteralType::eInt >() == 10 );
 		std::cout << "ExprTimes: " << ast::debug::ExprVisitor::submit( expr.get() ) << std::endl;
 		testEnd();
 	}
@@ -146,8 +146,8 @@ namespace
 
 		check( expr->getRHS()->getKind() == ast::expr::Kind::eLiteral );
 		check( expr->getRHS()->getType()->getKind() == ast::type::Kind::eInt );
-		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue() == ast::expr::Literal::ValueType::eInt );
-		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::Literal::ValueType::eInt >() == 10 );
+		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getLiteralType() == ast::expr::LiteralType::eInt );
+		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::LiteralType::eInt >() == 10 );
 		std::cout << "ExprDivide: " << ast::debug::ExprVisitor::submit( expr.get() ) << std::endl;
 		testEnd();
 	}
@@ -169,8 +169,8 @@ namespace
 
 		check( expr->getRHS()->getKind() == ast::expr::Kind::eLiteral );
 		check( expr->getRHS()->getType()->getKind() == ast::type::Kind::eInt );
-		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue() == ast::expr::Literal::ValueType::eInt );
-		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::Literal::ValueType::eInt >() == 10 );
+		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getLiteralType() == ast::expr::LiteralType::eInt );
+		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::LiteralType::eInt >() == 10 );
 		std::cout << "ExprBitAnd: " << ast::debug::ExprVisitor::submit( expr.get() ) << std::endl;
 		testEnd();
 	}
@@ -209,8 +209,8 @@ namespace
 
 		check( expr->getRHS()->getKind() == ast::expr::Kind::eLiteral );
 		check( expr->getRHS()->getType()->getKind() == ast::type::Kind::eInt );
-		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue() == ast::expr::Literal::ValueType::eInt );
-		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::Literal::ValueType::eInt >() == 10 );
+		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getLiteralType() == ast::expr::LiteralType::eInt );
+		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::LiteralType::eInt >() == 10 );
 		std::cout << "ExprBitOr: " << ast::debug::ExprVisitor::submit( expr.get() ) << std::endl;
 		testEnd();
 	}
@@ -232,8 +232,8 @@ namespace
 
 		check( expr->getRHS()->getKind() == ast::expr::Kind::eLiteral );
 		check( expr->getRHS()->getType()->getKind() == ast::type::Kind::eInt );
-		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue() == ast::expr::Literal::ValueType::eInt );
-		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::Literal::ValueType::eInt >() == 10 );
+		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getLiteralType() == ast::expr::LiteralType::eInt );
+		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::LiteralType::eInt >() == 10 );
 		std::cout << "ExprBitXor: " << ast::debug::ExprVisitor::submit( expr.get() ) << std::endl;
 		testEnd();
 	}
@@ -255,8 +255,8 @@ namespace
 
 		check( expr->getRHS()->getKind() == ast::expr::Kind::eLiteral );
 		check( expr->getRHS()->getType()->getKind() == ast::type::Kind::eInt );
-		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue() == ast::expr::Literal::ValueType::eInt );
-		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::Literal::ValueType::eInt >() == 10 );
+		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getLiteralType() == ast::expr::LiteralType::eInt );
+		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::LiteralType::eInt >() == 10 );
 		std::cout << "ExprLogAnd: " << ast::debug::ExprVisitor::submit( expr.get() ) << std::endl;
 		testEnd();
 	}
@@ -296,8 +296,8 @@ namespace
 
 		check( expr->getRHS()->getKind() == ast::expr::Kind::eLiteral );
 		check( expr->getRHS()->getType()->getKind() == ast::type::Kind::eInt );
-		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue() == ast::expr::Literal::ValueType::eInt );
-		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::Literal::ValueType::eInt >() == 10 );
+		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getLiteralType() == ast::expr::LiteralType::eInt );
+		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::LiteralType::eInt >() == 10 );
 		std::cout << "ExprLogOr: " << ast::debug::ExprVisitor::submit( expr.get() ) << std::endl;
 		testEnd();
 	}
@@ -319,8 +319,8 @@ namespace
 
 		check( expr->getRHS()->getKind() == ast::expr::Kind::eLiteral );
 		check( expr->getRHS()->getType()->getKind() == ast::type::Kind::eInt );
-		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue() == ast::expr::Literal::ValueType::eInt );
-		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::Literal::ValueType::eInt >() == 10 );
+		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getLiteralType() == ast::expr::LiteralType::eInt );
+		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::LiteralType::eInt >() == 10 );
 		std::cout << "ExprModulo: " << ast::debug::ExprVisitor::submit( expr.get() ) << std::endl;
 		testEnd();
 	}
@@ -342,8 +342,8 @@ namespace
 
 		check( expr->getRHS()->getKind() == ast::expr::Kind::eLiteral );
 		check( expr->getRHS()->getType()->getKind() == ast::type::Kind::eInt );
-		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue() == ast::expr::Literal::ValueType::eInt );
-		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::Literal::ValueType::eInt >() == 10 );
+		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getLiteralType() == ast::expr::LiteralType::eInt );
+		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::LiteralType::eInt >() == 10 );
 		std::cout << "ExprLShift: " << ast::debug::ExprVisitor::submit( expr.get() ) << std::endl;
 		testEnd();
 	}
@@ -365,8 +365,8 @@ namespace
 
 		check( expr->getRHS()->getKind() == ast::expr::Kind::eLiteral );
 		check( expr->getRHS()->getType()->getKind() == ast::type::Kind::eInt );
-		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue() == ast::expr::Literal::ValueType::eInt );
-		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::Literal::ValueType::eInt >() == 10 );
+		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getLiteralType() == ast::expr::LiteralType::eInt );
+		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::LiteralType::eInt >() == 10 );
 		std::cout << "ExprRShift: " << ast::debug::ExprVisitor::submit( expr.get() ) << std::endl;
 		testEnd();
 	}
@@ -388,8 +388,8 @@ namespace
 
 		check( expr->getRHS()->getKind() == ast::expr::Kind::eLiteral );
 		check( expr->getRHS()->getType()->getKind() == ast::type::Kind::eInt );
-		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue() == ast::expr::Literal::ValueType::eInt );
-		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::Literal::ValueType::eInt >() == 10 );
+		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getLiteralType() == ast::expr::LiteralType::eInt );
+		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::LiteralType::eInt >() == 10 );
 		std::cout << "ExprComma: " << ast::debug::ExprVisitor::submit( expr.get() ) << std::endl;
 		testEnd();
 	}
@@ -411,8 +411,8 @@ namespace
 
 		check( expr->getRHS()->getKind() == ast::expr::Kind::eLiteral );
 		check( expr->getRHS()->getType()->getKind() == ast::type::Kind::eInt );
-		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue() == ast::expr::Literal::ValueType::eInt );
-		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::Literal::ValueType::eInt >() == 10 );
+		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getLiteralType() == ast::expr::LiteralType::eInt );
+		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::LiteralType::eInt >() == 10 );
 		std::cout << "ExprArrayAccess: " << ast::debug::ExprVisitor::submit( expr.get() ) << std::endl;
 		testEnd();
 	}
@@ -434,8 +434,8 @@ namespace
 
 		check( expr->getRHS()->getKind() == ast::expr::Kind::eLiteral );
 		check( expr->getRHS()->getType()->getKind() == ast::type::Kind::eInt );
-		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue() == ast::expr::Literal::ValueType::eInt );
-		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::Literal::ValueType::eInt >() == 10 );
+		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getLiteralType() == ast::expr::LiteralType::eInt );
+		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::LiteralType::eInt >() == 10 );
 		std::cout << "ExprAssign: " << ast::debug::ExprVisitor::submit( expr.get() ) << std::endl;
 		testEnd();
 	}
@@ -457,8 +457,8 @@ namespace
 
 		check( expr->getRHS()->getKind() == ast::expr::Kind::eLiteral );
 		check( expr->getRHS()->getType()->getKind() == ast::type::Kind::eInt );
-		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue() == ast::expr::Literal::ValueType::eInt );
-		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::Literal::ValueType::eInt >() == 10 );
+		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getLiteralType() == ast::expr::LiteralType::eInt );
+		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::LiteralType::eInt >() == 10 );
 		std::cout << "ExprAddAssign: " << ast::debug::ExprVisitor::submit( expr.get() ) << std::endl;
 		testEnd();
 	}
@@ -480,8 +480,8 @@ namespace
 
 		check( expr->getRHS()->getKind() == ast::expr::Kind::eLiteral );
 		check( expr->getRHS()->getType()->getKind() == ast::type::Kind::eInt );
-		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue() == ast::expr::Literal::ValueType::eInt );
-		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::Literal::ValueType::eInt >() == 10 );
+		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getLiteralType() == ast::expr::LiteralType::eInt );
+		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::LiteralType::eInt >() == 10 );
 		std::cout << "ExprDivideAssign: " << ast::debug::ExprVisitor::submit( expr.get() ) << std::endl;
 		testEnd();
 	}
@@ -503,8 +503,8 @@ namespace
 
 		check( expr->getRHS()->getKind() == ast::expr::Kind::eLiteral );
 		check( expr->getRHS()->getType()->getKind() == ast::type::Kind::eInt );
-		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue() == ast::expr::Literal::ValueType::eInt );
-		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::Literal::ValueType::eInt >() == 10 );
+		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getLiteralType() == ast::expr::LiteralType::eInt );
+		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::LiteralType::eInt >() == 10 );
 		std::cout << "ExprMinusAssign: " << ast::debug::ExprVisitor::submit( expr.get() ) << std::endl;
 		testEnd();
 	}
@@ -526,8 +526,8 @@ namespace
 
 		check( expr->getRHS()->getKind() == ast::expr::Kind::eLiteral );
 		check( expr->getRHS()->getType()->getKind() == ast::type::Kind::eInt );
-		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue() == ast::expr::Literal::ValueType::eInt );
-		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::Literal::ValueType::eInt >() == 10 );
+		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getLiteralType() == ast::expr::LiteralType::eInt );
+		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::LiteralType::eInt >() == 10 );
 		std::cout << "ExprTimesAssign: " << ast::debug::ExprVisitor::submit( expr.get() ) << std::endl;
 		testEnd();
 	}
@@ -549,8 +549,8 @@ namespace
 
 		check( expr->getRHS()->getKind() == ast::expr::Kind::eLiteral );
 		check( expr->getRHS()->getType()->getKind() == ast::type::Kind::eInt );
-		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue() == ast::expr::Literal::ValueType::eInt );
-		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::Literal::ValueType::eInt >() == 10 );
+		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getLiteralType() == ast::expr::LiteralType::eInt );
+		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::LiteralType::eInt >() == 10 );
 		std::cout << "ExprModuloAssign: " << ast::debug::ExprVisitor::submit( expr.get() ) << std::endl;
 		testEnd();
 	}
@@ -572,8 +572,8 @@ namespace
 
 		check( expr->getRHS()->getKind() == ast::expr::Kind::eLiteral );
 		check( expr->getRHS()->getType()->getKind() == ast::type::Kind::eInt );
-		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue() == ast::expr::Literal::ValueType::eInt );
-		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::Literal::ValueType::eInt >() == 10 );
+		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getLiteralType() == ast::expr::LiteralType::eInt );
+		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::LiteralType::eInt >() == 10 );
 		std::cout << "ExprLShiftAssign: " << ast::debug::ExprVisitor::submit( expr.get() ) << std::endl;
 		testEnd();
 	}
@@ -595,8 +595,8 @@ namespace
 
 		check( expr->getRHS()->getKind() == ast::expr::Kind::eLiteral );
 		check( expr->getRHS()->getType()->getKind() == ast::type::Kind::eInt );
-		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue() == ast::expr::Literal::ValueType::eInt );
-		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::Literal::ValueType::eInt >() == 10 );
+		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getLiteralType() == ast::expr::LiteralType::eInt );
+		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::LiteralType::eInt >() == 10 );
 		std::cout << "ExprRShiftAssign: " << ast::debug::ExprVisitor::submit( expr.get() ) << std::endl;
 		testEnd();
 	}
@@ -618,8 +618,8 @@ namespace
 
 		check( expr->getRHS()->getKind() == ast::expr::Kind::eLiteral );
 		check( expr->getRHS()->getType()->getKind() == ast::type::Kind::eInt );
-		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue() == ast::expr::Literal::ValueType::eInt );
-		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::Literal::ValueType::eInt >() == 10 );
+		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getLiteralType() == ast::expr::LiteralType::eInt );
+		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::LiteralType::eInt >() == 10 );
 		std::cout << "ExprAndAssign: " << ast::debug::ExprVisitor::submit( expr.get() ) << std::endl;
 		testEnd();
 	}
@@ -641,8 +641,8 @@ namespace
 
 		check( expr->getRHS()->getKind() == ast::expr::Kind::eLiteral );
 		check( expr->getRHS()->getType()->getKind() == ast::type::Kind::eInt );
-		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue() == ast::expr::Literal::ValueType::eInt );
-		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::Literal::ValueType::eInt >() == 10 );
+		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getLiteralType() == ast::expr::LiteralType::eInt );
+		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::LiteralType::eInt >() == 10 );
 		std::cout << "ExprOrAssign: " << ast::debug::ExprVisitor::submit( expr.get() ) << std::endl;
 		testEnd();
 	}
@@ -664,8 +664,8 @@ namespace
 
 		check( expr->getRHS()->getKind() == ast::expr::Kind::eLiteral );
 		check( expr->getRHS()->getType()->getKind() == ast::type::Kind::eInt );
-		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue() == ast::expr::Literal::ValueType::eInt );
-		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::Literal::ValueType::eInt >() == 10 );
+		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getLiteralType() == ast::expr::LiteralType::eInt );
+		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::LiteralType::eInt >() == 10 );
 		std::cout << "ExprXorAssign: " << ast::debug::ExprVisitor::submit( expr.get() ) << std::endl;
 		testEnd();
 	}
@@ -687,8 +687,8 @@ namespace
 
 		check( expr->getRHS()->getKind() == ast::expr::Kind::eLiteral );
 		check( expr->getRHS()->getType()->getKind() == ast::type::Kind::eInt );
-		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue() == ast::expr::Literal::ValueType::eInt );
-		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::Literal::ValueType::eInt >() == 10 );
+		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getLiteralType() == ast::expr::LiteralType::eInt );
+		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::LiteralType::eInt >() == 10 );
 		std::cout << "ExprEqual: " << ast::debug::ExprVisitor::submit( expr.get() ) << std::endl;
 		testEnd();
 	}
@@ -710,8 +710,8 @@ namespace
 
 		check( expr->getRHS()->getKind() == ast::expr::Kind::eLiteral );
 		check( expr->getRHS()->getType()->getKind() == ast::type::Kind::eInt );
-		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue() == ast::expr::Literal::ValueType::eInt );
-		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::Literal::ValueType::eInt >() == 10 );
+		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getLiteralType() == ast::expr::LiteralType::eInt );
+		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::LiteralType::eInt >() == 10 );
 		std::cout << "ExprGreater: " << ast::debug::ExprVisitor::submit( expr.get() ) << std::endl;
 		testEnd();
 	}
@@ -733,8 +733,8 @@ namespace
 
 		check( expr->getRHS()->getKind() == ast::expr::Kind::eLiteral );
 		check( expr->getRHS()->getType()->getKind() == ast::type::Kind::eInt );
-		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue() == ast::expr::Literal::ValueType::eInt );
-		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::Literal::ValueType::eInt >() == 10 );
+		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getLiteralType() == ast::expr::LiteralType::eInt );
+		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::LiteralType::eInt >() == 10 );
 		std::cout << "ExprGreaterEqual: " << ast::debug::ExprVisitor::submit( expr.get() ) << std::endl;
 		testEnd();
 	}
@@ -756,8 +756,8 @@ namespace
 
 		check( expr->getRHS()->getKind() == ast::expr::Kind::eLiteral );
 		check( expr->getRHS()->getType()->getKind() == ast::type::Kind::eInt );
-		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue() == ast::expr::Literal::ValueType::eInt );
-		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::Literal::ValueType::eInt >() == 10 );
+		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getLiteralType() == ast::expr::LiteralType::eInt );
+		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::LiteralType::eInt >() == 10 );
 		std::cout << "ExprLess: " << ast::debug::ExprVisitor::submit( expr.get() ) << std::endl;
 		testEnd();
 	}
@@ -779,8 +779,8 @@ namespace
 
 		check( expr->getRHS()->getKind() == ast::expr::Kind::eLiteral );
 		check( expr->getRHS()->getType()->getKind() == ast::type::Kind::eInt );
-		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue() == ast::expr::Literal::ValueType::eInt );
-		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::Literal::ValueType::eInt >() == 10 );
+		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getLiteralType() == ast::expr::LiteralType::eInt );
+		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::LiteralType::eInt >() == 10 );
 		std::cout << "ExprLessEqual: " << ast::debug::ExprVisitor::submit( expr.get() ) << std::endl;
 		testEnd();
 	}
@@ -802,8 +802,8 @@ namespace
 
 		check( expr->getRHS()->getKind() == ast::expr::Kind::eLiteral );
 		check( expr->getRHS()->getType()->getKind() == ast::type::Kind::eInt );
-		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue() == ast::expr::Literal::ValueType::eInt );
-		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::Literal::ValueType::eInt >() == 10 );
+		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getLiteralType() == ast::expr::LiteralType::eInt );
+		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::LiteralType::eInt >() == 10 );
 		std::cout << "ExprNotEqual: " << ast::debug::ExprVisitor::submit( expr.get() ) << std::endl;
 		testEnd();
 	}
@@ -962,8 +962,8 @@ namespace
 
 			check( expr->getArgList()[0]->getKind() == ast::expr::Kind::eLiteral );
 			check( expr->getArgList()[0]->getType()->getKind() == ast::type::Kind::eInt );
-			check( static_cast< ast::expr::Literal const & >( *expr->getArgList()[0] ).getValue() == ast::expr::Literal::ValueType::eInt );
-			check( static_cast< ast::expr::Literal const & >( *expr->getArgList()[0] ).getValue< ast::expr::Literal::ValueType::eInt >() == 10 );
+			check( static_cast< ast::expr::Literal const & >( *expr->getArgList()[0] ).getLiteralType() == ast::expr::LiteralType::eInt );
+			check( static_cast< ast::expr::Literal const & >( *expr->getArgList()[0] ).getValue< ast::expr::LiteralType::eInt >() == 10 );
 			std::cout << "ExprFnCall: " << ast::debug::ExprVisitor::submit( expr.get() ) << std::endl;
 		}
 		{
@@ -984,13 +984,13 @@ namespace
 
 			check( expr->getArgList()[0]->getKind() == ast::expr::Kind::eLiteral );
 			check( expr->getArgList()[0]->getType()->getKind() == ast::type::Kind::eInt );
-			check( static_cast< ast::expr::Literal const & >( *expr->getArgList()[0] ).getValue() == ast::expr::Literal::ValueType::eInt );
-			check( static_cast< ast::expr::Literal const & >( *expr->getArgList()[0] ).getValue< ast::expr::Literal::ValueType::eInt >() == 10 );
+			check( static_cast< ast::expr::Literal const & >( *expr->getArgList()[0] ).getLiteralType() == ast::expr::LiteralType::eInt );
+			check( static_cast< ast::expr::Literal const & >( *expr->getArgList()[0] ).getValue< ast::expr::LiteralType::eInt >() == 10 );
 
 			check( expr->getArgList()[1]->getKind() == ast::expr::Kind::eLiteral );
 			check( expr->getArgList()[1]->getType()->getKind() == ast::type::Kind::eFloat );
-			check( static_cast< ast::expr::Literal const & >( *expr->getArgList()[1] ).getValue() == ast::expr::Literal::ValueType::eFloat );
-			check( static_cast< ast::expr::Literal const & >( *expr->getArgList()[1] ).getValue< ast::expr::Literal::ValueType::eFloat >() == 1.0f );
+			check( static_cast< ast::expr::Literal const & >( *expr->getArgList()[1] ).getLiteralType() == ast::expr::LiteralType::eFloat );
+			check( static_cast< ast::expr::Literal const & >( *expr->getArgList()[1] ).getValue< ast::expr::LiteralType::eFloat >() == 1.0f );
 			std::cout << "ExprFnCall: " << ast::debug::ExprVisitor::submit( expr.get() ) << std::endl;
 		}
 		testEnd();
@@ -1037,8 +1037,8 @@ namespace
 			{
 				check( init->getKind() == ast::expr::Kind::eLiteral );
 				check( init->getType()->getKind() == ast::type::Kind::eInt );
-				check( static_cast< ast::expr::Literal const & >( *init ).getValue() == ast::expr::Literal::ValueType::eInt );
-				check( static_cast< ast::expr::Literal const & >( *init ).getValue< ast::expr::Literal::ValueType::eInt >() == v );
+				check( static_cast< ast::expr::Literal const & >( *init ).getLiteralType() == ast::expr::LiteralType::eInt );
+				check( static_cast< ast::expr::Literal const & >( *init ).getValue< ast::expr::LiteralType::eInt >() == v );
 				v += 10;
 			}
 
@@ -1063,8 +1063,8 @@ namespace
 
 		check( expr->getInitialiser()->getKind() == ast::expr::Kind::eLiteral );
 		check( expr->getInitialiser()->getType()->getKind() == ast::type::Kind::eInt );
-		check( static_cast< ast::expr::Literal const & >( *expr->getInitialiser() ).getValue() == ast::expr::Literal::ValueType::eInt );
-		check( static_cast< ast::expr::Literal const & >( *expr->getInitialiser() ).getValue< ast::expr::Literal::ValueType::eInt >() == 10 );
+		check( static_cast< ast::expr::Literal const & >( *expr->getInitialiser() ).getLiteralType() == ast::expr::LiteralType::eInt );
+		check( static_cast< ast::expr::Literal const & >( *expr->getInitialiser() ).getValue< ast::expr::LiteralType::eInt >() == 10 );
 		std::cout << "ExprInit: " << ast::debug::ExprVisitor::submit( expr.get() ) << std::endl;
 		testEnd();
 	}
@@ -1114,8 +1114,8 @@ namespace
 
 		check( expr->getFalseExpr()->getKind() == ast::expr::Kind::eLiteral );
 		check( expr->getFalseExpr()->getType()->getKind() == ast::type::Kind::eInt );
-		check( static_cast< ast::expr::Literal const & >( *expr->getFalseExpr() ).getValue() == ast::expr::Literal::ValueType::eInt );
-		check( static_cast< ast::expr::Literal const & >( *expr->getFalseExpr() ).getValue< ast::expr::Literal::ValueType::eInt >() == 10 );
+		check( static_cast< ast::expr::Literal const & >( *expr->getFalseExpr() ).getLiteralType() == ast::expr::LiteralType::eInt );
+		check( static_cast< ast::expr::Literal const & >( *expr->getFalseExpr() ).getValue< ast::expr::LiteralType::eInt >() == 10 );
 		std::cout << "ExprQuestion: " << ast::debug::ExprVisitor::submit( expr.get() ) << std::endl;
 		testEnd();
 	}
@@ -1131,8 +1131,8 @@ namespace
 
 		check( expr->getLabel()->getKind() == ast::expr::Kind::eLiteral );
 		check( expr->getLabel()->getType()->getKind() == ast::type::Kind::eInt );
-		check( static_cast< ast::expr::Literal const & >( *expr->getLabel() ).getValue() == ast::expr::Literal::ValueType::eInt );
-		check( static_cast< ast::expr::Literal const & >( *expr->getLabel() ).getValue< ast::expr::Literal::ValueType::eInt >() == 10 );
+		check( static_cast< ast::expr::Literal const & >( *expr->getLabel() ).getLiteralType() == ast::expr::LiteralType::eInt );
+		check( static_cast< ast::expr::Literal const & >( *expr->getLabel() ).getValue< ast::expr::LiteralType::eInt >() == 10 );
 		std::cout << "ExprSwitchCase: " << ast::debug::ExprVisitor::submit( expr.get() ) << std::endl;
 		testEnd();
 	}
