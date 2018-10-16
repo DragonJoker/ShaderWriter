@@ -187,7 +187,7 @@ namespace ast::debug
 			result = "void";
 			break;
 		case type::Kind::eStruct:
-			static_cast< type::Struct const & >( *type ).getTypeName();
+			static_cast< type::Struct const & >( *type ).getName();
 			break;
 		case type::Kind::eFunction:
 			result = "function";

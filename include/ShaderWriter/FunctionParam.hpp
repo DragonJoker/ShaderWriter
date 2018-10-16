@@ -16,7 +16,7 @@ namespace sdw
 		: public TypeT
 	{
 		InParam( Shader * shader
-			, expr::ExprPtr expr );
+			, std::string name );
 		InParam( TypeT const & other );
 		template< typename T >
 		inline InParam< TypeT > operator=( T const & rhs );
@@ -27,7 +27,7 @@ namespace sdw
 		: public TypeT
 	{
 		OutParam( Shader * shader
-			, expr::ExprPtr expr );
+			, std::string name );
 		OutParam( TypeT const & other );
 		template< typename T >
 		inline OutParam< TypeT > operator=( T const & rhs );
@@ -38,7 +38,7 @@ namespace sdw
 		: public TypeT
 	{
 		InOutParam( Shader * shader
-			, expr::ExprPtr expr );
+			, std::string name );
 		InOutParam( TypeT const & other );
 		template< typename T >
 		inline InOutParam< TypeT > operator=( T const & rhs );

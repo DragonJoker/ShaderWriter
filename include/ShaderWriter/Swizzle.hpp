@@ -206,7 +206,7 @@ namespace sdw
 	inline Output Name()const\
 	{\
 		return Output{ findShader( *this )\
-			, expr::makeMbrSelect( makeExpr( *this )\
+			, expr::makeMbrSelect( makeExpr( getExpr() )\
 				, expr::makeIdentifier( var::makeVariable( type::makeType( TypeTraits< Output >::TypeEnum )\
 					, #Name ) ) ) };\
 	}
@@ -216,6 +216,22 @@ namespace sdw
 
 #	define Writer_LastSwizzle( Input, Output, Name )\
 	Writer_Swizzle( Input, Output, Name )
+
+#	define Writer_OptSwizzle( Input, Output, Name )\
+	inline Output Name()const\
+	{\
+		return Output{ findShader( *this )\
+			, expr::makeMbrSelect( makeExpr( getExpr() )\
+				, expr::makeIdentifier( var::makeVariable( type::makeType( TypeTraits< Output >::TypeEnum )\
+					, #Name ) ) )\
+			, isEnabled() };\
+	}
+
+#	define Writer_FirstOptSwizzle( Input, Output, Name )\
+	Writer_OptSwizzle( Input, Output, Name )
+
+#	define Writer_LastOptSwizzle( Input, Output, Name )\
+	Writer_OptSwizzle( Input, Output, Name )
 
 
 #	define Swizzle_X x()

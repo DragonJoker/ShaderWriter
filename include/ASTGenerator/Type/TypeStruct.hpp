@@ -27,7 +27,7 @@ namespace ast::type
 		void addMember( type::TypePtr type, std::string name );
 		Member getMember( std::string const & name );
 
-		std::string const & getTypeName()const
+		std::string const & getName()const
 		{
 			return m_name;
 		}

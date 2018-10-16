@@ -404,6 +404,9 @@ namespace sdw
 		static type::Kind const TypeEnum = TypeTraits< T >::TypeEnum;
 	};
 
+	template< typename T >
+	static type::Kind constexpr typeEnum = TypeTraits< T >::TypeEnum;
+
 	//***********************************************************************************************
 
 	template< typename T >

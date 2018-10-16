@@ -10,6 +10,8 @@ See LICENSE file in root folder
 
 #include <ASTGenerator/Stmt/StmtFunctionDecl.hpp>
 
+#include <functional>
+
 namespace sdw
 {
 	//***********************************************************************************************
@@ -64,10 +66,10 @@ namespace sdw
 		Function() = default;
 		Function( Shader * shader
 			, std::string const & name );
-		expr::ExprPtr operator()( ParamsT && ... params )const;
+		RetT operator()( ParamsT && ... params )const;
 
 	private:
-		stmt::Container * m_container{ nullptr };
+		Shader * m_shader{ nullptr };
 		std::string m_name;
 	};
 

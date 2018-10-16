@@ -7,14 +7,14 @@ namespace sdw
 
 	template< typename TypeT >
 	InParam< TypeT >::InParam( Shader * shader
-		, expr::ExprPtr expr )
-		: TypeT{ container, std::move( expr ) }
+		, std::string name )
+		: TypeT{ shader, expr::makeIdentifier( var::makeVariable( type::makeType( TypeTraits< TypeT >::TypeEnum ), std::move( name ) ) ) }
 	{
 	}
 
 	template< typename TypeT >
 	InParam< TypeT >::InParam( TypeT const & other )
-		: TypeT{ other.m_container, makeExpr( other ) }
+		: TypeT{ other.getShader(), makeExpr( other ) }
 	{
 	}
 
@@ -33,14 +33,14 @@ namespace sdw
 
 	template< typename TypeT >
 	OutParam< TypeT >::OutParam( Shader * shader
-		, expr::ExprPtr expr )
-		: TypeT{ container, std::move( expr ) }
+		, std::string name )
+		: TypeT{ shader, expr::makeIdentifier( var::makeVariable( type::makeType( TypeTraits< TypeT >::TypeEnum ), std::move( name ) ) ) }
 	{
 	}
 
 	template< typename TypeT >
 	OutParam< TypeT >::OutParam( TypeT const & other )
-		: TypeT{ other.m_container, makeExpr( other ) }
+		: TypeT{ other.getShader(), makeExpr( other ) }
 	{
 	}
 
@@ -59,14 +59,14 @@ namespace sdw
 
 	template< typename TypeT >
 	InOutParam< TypeT >::InOutParam( Shader * shader
-		, expr::ExprPtr expr )
-		: TypeT{ container, std::move( expr ) }
+		, std::string name )
+		: TypeT{ shader, expr::makeIdentifier( var::makeVariable( type::makeType( TypeTraits< TypeT >::TypeEnum ), std::move( name ) ) ) }
 	{
 	}
 
 	template< typename TypeT >
 	InOutParam< TypeT >::InOutParam( TypeT const & other )
-		: TypeT{ other.m_container, makeExpr( other ) }
+		: TypeT{ other.getShader(), makeExpr( other ) }
 	{
 	}
 
@@ -86,22 +86,22 @@ namespace sdw
 	template< typename TypeT >
 	stmt::VariableDeclPtr makeVarDecl( InParam< TypeT > const & value )
 	{
-		return stmt::makeVariableDecl( makeVar( value )
-			, stmt::VariableDecl::Flag::eIn );
+		return stmt::makeVariableDecl( makeVar( value
+			, var::Flag::eInputParam ) );
 	}
 
 	template< typename TypeT >
 	stmt::VariableDeclPtr makeVarDecl( OutParam< TypeT > const & value )
 	{
-		return stmt::makeVariableDecl( makeVar( value )
-			, stmt::VariableDecl::Flag::eOut );
+		return stmt::makeVariableDecl( makeVar( value
+			, var::Flag::eOutputParam ) );
 	}
 
 	template< typename TypeT >
 	stmt::VariableDeclPtr makeVarDecl( InOutParam< TypeT > const & value )
 	{
-		return stmt::makeVariableDecl( makeVar( value )
-			, stmt::VariableDecl::Flag::eIn | stmt::VariableDecl::Flag::eOut );
+		return stmt::makeVariableDecl( makeVar( value
+			, var::Flag::eInputParam | var::Flag::eOutputParam ) );
 	}
 
 	//*****************************************************************************************

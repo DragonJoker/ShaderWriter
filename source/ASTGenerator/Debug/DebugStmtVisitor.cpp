@@ -24,24 +24,52 @@ namespace ast::debug
 		return result;
 	}
 
+	void StmtVisitor::doAppendLineEnd()
+	{
+		if ( m_appendLineEnd && !m_result.empty() )
+		{
+			m_result += "\n";
+		}
+
+		m_appendLineEnd = false;
+	}
+
 	void StmtVisitor::visitContainerStmt( stmt::Container * stmt )
 	{
 		for ( auto & stmt : stmt->getStatements() )
 		{
-			m_result += submit( stmt.get(), m_indent );
+			stmt->accept( this );
 		}
 	}
 
 	void StmtVisitor::visitConstantBufferDeclStmt( stmt::ConstantBufferDecl * stmt )
 	{
+		m_appendLineEnd = true;
+		doAppendLineEnd();
 		m_result += m_indent;
 		m_result += "layout(binding=" + std::to_string( stmt->getBindingPoint() ) + ", set=" + std::to_string( stmt->getBindingSet() ) + ") ";
-		m_result += "uniform " + stmt->getTypeName();
+		m_result += "uniform " + stmt->getName();
+		m_appendSemiColon = true;
 		visitCompoundStmt( stmt );
+		m_appendLineEnd = true;
+	}
+
+	void StmtVisitor::visitPushConstantsBufferDeclStmt( stmt::PushConstantsBufferDecl * stmt )
+	{
+		m_appendLineEnd = true;
+		doAppendLineEnd();
+		m_result += m_indent;
+		m_result += "layout(push_constant) ";
+		m_result += "uniform " + stmt->getName();
+		m_appendSemiColon = true;
+		visitCompoundStmt( stmt );
+		m_appendLineEnd = true;
 	}
 
 	void StmtVisitor::visitCompoundStmt( stmt::Compound * stmt )
 	{
+		doAppendLineEnd();
+
 		if ( stmt->getStatements().empty() )
 		{
 			m_result += ";\n";
@@ -67,10 +95,13 @@ namespace ast::debug
 
 	void StmtVisitor::visitDoWhileStmt( stmt::DoWhile * stmt )
 	{
+		m_appendLineEnd = true;
+		doAppendLineEnd();
 		m_result += m_indent + "do";
 		m_appendSemiColon = false;
 		visitCompoundStmt( stmt );
 		m_result += m_indent + "while (" + ExprVisitor::submit( stmt->getCtrlExpr() ) + ");\n";
+		m_appendLineEnd = true;
 	}
 
 	void StmtVisitor::visitElseIfStmt( stmt::ElseIf * stmt )
@@ -78,6 +109,7 @@ namespace ast::debug
 		m_result += m_indent + "else if (" + ExprVisitor::submit( stmt->getCtrlExpr() ) + ")";
 		m_appendSemiColon = false;
 		visitCompoundStmt( stmt );
+		m_appendLineEnd = true;
 	}
 
 	void StmtVisitor::visitElseStmt( stmt::Else * stmt )
@@ -85,36 +117,45 @@ namespace ast::debug
 		m_result += m_indent + "else";
 		m_appendSemiColon = false;
 		visitCompoundStmt( stmt );
+		m_appendLineEnd = true;
 	}
 
 	void StmtVisitor::visitForStmt( stmt::For * stmt )
 	{
+		m_appendLineEnd = true;
+		doAppendLineEnd();
 		m_result += m_indent + "for (" + ExprVisitor::submit( stmt->getInitExpr() ) + ";";
 		m_result += ExprVisitor::submit( stmt->getCtrlExpr() ) + ";";
 		m_result += ExprVisitor::submit( stmt->getIncrExpr() ) + ")";
 		m_appendSemiColon = false;
 		visitCompoundStmt( stmt );
+		m_appendLineEnd = true;
 	}
 
 	void StmtVisitor::visitFunctionDeclStmt( stmt::FunctionDecl * stmt )
 	{
+		m_appendLineEnd = true;
+		doAppendLineEnd();
 		m_result += m_indent + getTypeName( stmt->getRet() ) + " ";
-		m_result += stmt->getTypeName() + "(";
+		m_result += stmt->getName() + "(";
 		std::string sep;
 
 		for ( auto & param : stmt->getParameters() )
 		{
-			m_result += sep + getTypeName( param->getType() ) + " " + param->getTypeName();
+			m_result += sep + getTypeName( param->getType() ) + " " + param->getName();
 			sep = ", ";
 		}
 
 		m_result += ")";
 		m_appendSemiColon = false;
 		visitCompoundStmt( stmt );
+		m_appendLineEnd = true;
 	}
 
 	void StmtVisitor::visitIfStmt( stmt::If * stmt )
 	{
+		m_appendLineEnd = true;
+		doAppendLineEnd();
 		m_result += m_indent + "if (" + ExprVisitor::submit( stmt->getCtrlExpr() ) + ")";
 		m_appendSemiColon = false;
 		visitCompoundStmt( stmt );
@@ -128,14 +169,17 @@ namespace ast::debug
 		{
 			stmt->getElse()->accept( this );
 		}
+
+		m_appendLineEnd = true;
 	}
 
 	void StmtVisitor::visitInOutVariableDeclStmt( stmt::InOutVariableDecl * stmt )
 	{
+		doAppendLineEnd();
 		m_result += m_indent;
 		m_result += "layout(" + getLocationName( stmt->getVariable() ) + "=" + std::to_string( stmt->getLocation() ) + ") ";
 		m_result += getDirectionName( stmt->getVariable() ) + " ";
-		m_result += getTypeName( stmt->getVariable().getType() ) + " " + stmt->getVariable().getTypeName();
+		m_result += getTypeName( stmt->getVariable().getType() ) + " " + stmt->getVariable().getName();
 		auto arraySize = stmt->getVariable().getType()->getArraySize();
 
 		if ( arraySize != ast::type::NotArray )
@@ -153,16 +197,53 @@ namespace ast::debug
 		m_result += ";\n";
 	}
 
+	void StmtVisitor::visitPerVertexDeclStmt( stmt::PerVertexDecl * stmt )
+	{
+		m_appendLineEnd = true;
+		doAppendLineEnd();
+		std::string decl;
+		decl += "gl_PerVertex\n";
+		decl += m_indent + "{\n";
+		decl += m_indent + "	vec4 gl_Position;\n";
+		decl += m_indent + "	float gl_PointSize;\n";
+		decl += m_indent + "	float gl_ClipDistance[];\n";
+		decl += m_indent + "}";
+		switch ( stmt->getSource() )
+		{
+		case stmt::PerVertexDecl::Source::eVertexOutput:
+			m_result += m_indent + "out " + decl + ";\n";
+			break;
+		case stmt::PerVertexDecl::Source::eTessellationControlInput:
+		case stmt::PerVertexDecl::Source::eTessellationEvaluationInput:
+			m_result += m_indent + "in " + decl + " gl_in[gl_MaxPatchVertices];\n";
+			break;
+		case stmt::PerVertexDecl::Source::eTessellationControlOutput:
+			m_result += m_indent + "out " + decl + " gl_out[];\n";
+			break;
+		case stmt::PerVertexDecl::Source::eTessellationEvaluationOutput:
+			m_result += m_indent + "out " + decl + ";\n";
+			break;
+		case stmt::PerVertexDecl::Source::eGeometryInput:
+			m_result += m_indent + "in " + decl + " gl_in[];\n";
+			break;
+		case stmt::PerVertexDecl::Source::eGeometryOutput:
+			m_result += m_indent + "out " + decl + ";\n";
+			break;
+		}
+	}
+
 	void StmtVisitor::visitReturnStmt( stmt::Return * stmt )
 	{
+		doAppendLineEnd();
 		m_result += m_indent + "return " + ExprVisitor::submit( stmt->getExpr() ) + ";\n";
 	}
 
 	void StmtVisitor::visitSamplerDeclStmt( stmt::SamplerDecl * stmt )
 	{
+		doAppendLineEnd();
 		m_result += m_indent;
 		m_result += "layout(binding=" + std::to_string( stmt->getBindingPoint() ) + ", set=" + std::to_string( stmt->getBindingSet() ) + ") ";
-		m_result += getTypeName( stmt->getVariable().getType() ) + " " + stmt->getVariable().getTypeName();
+		m_result += getTypeName( stmt->getVariable().getType() ) + " " + stmt->getVariable().getName();
 		auto arraySize = stmt->getVariable().getType()->getArraySize();
 
 		if ( arraySize != ast::type::NotArray )
@@ -182,20 +263,27 @@ namespace ast::debug
 
 	void StmtVisitor::visitShaderBufferDeclStmt( stmt::ShaderBufferDecl * stmt )
 	{
+		m_appendLineEnd = true;
+		doAppendLineEnd();
 		m_result += m_indent;
 		m_result += "layout(binding=" + std::to_string( stmt->getBindingPoint() ) + ", set=" + std::to_string( stmt->getBindingSet() ) + ") ";
-		m_result += "buffer " + stmt->getTypeName();
+		m_result += "buffer " + stmt->getName();
+		m_appendSemiColon = true;
 		visitCompoundStmt( stmt );
+		m_appendLineEnd = true;
 	}
 
 	void StmtVisitor::visitSimpleStmt( stmt::Simple * stmt )
 	{
+		doAppendLineEnd();
 		m_result += m_indent + ExprVisitor::submit( stmt->getExpr() ) + ";\n";
 	}
 
 	void StmtVisitor::visitStructureDeclStmt( stmt::StructureDecl * stmt )
 	{
-		m_result += m_indent + "struct " + stmt->getType().getTypeName();
+		m_appendLineEnd = true;
+		doAppendLineEnd();
+		m_result += m_indent + "struct " + stmt->getType().getName();
 
 		if ( !stmt->getType().empty() )
 		{
@@ -205,7 +293,22 @@ namespace ast::debug
 
 			for ( auto & member : stmt->getType() )
 			{
-				m_result += m_indent + getTypeName( member.type ) + " " + member.name + ";\n";
+				m_result += m_indent + getTypeName( member.type ) + " " + member.name;
+				auto arraySize = member.type->getArraySize();
+
+				if ( arraySize != ast::type::NotArray )
+				{
+					if ( arraySize == ast::type::UnknownArraySize )
+					{
+						m_result += "[]";
+					}
+					else
+					{
+						m_result += "[" + std::to_string( arraySize ) + "]";
+					}
+				}
+
+				m_result += ";\n";
 			}
 
 			m_indent = save;
@@ -219,6 +322,8 @@ namespace ast::debug
 
 	void StmtVisitor::visitSwitchCaseStmt( stmt::SwitchCase * stmt )
 	{
+		doAppendLineEnd();
+
 		if ( stmt->getCaseExpr() )
 		{
 			m_result += m_indent + "case " + ExprVisitor::submit( stmt->getCaseExpr() ) + ":";
@@ -240,18 +345,23 @@ namespace ast::debug
 		}
 
 		m_result += m_indent + "break;\n";
+		m_appendLineEnd = true;
 	}
 
 	void StmtVisitor::visitSwitchStmt( stmt::Switch * stmt )
 	{
+		m_appendLineEnd = true;
+		doAppendLineEnd();
 		m_result += m_indent + "switch (" + ExprVisitor::submit( stmt->getTestExpr() ) + ")";
 		m_appendSemiColon = false;
 		visitCompoundStmt( stmt );
+		m_appendLineEnd = true;
 	}
 
 	void StmtVisitor::visitVariableDeclStmt( stmt::VariableDecl * stmt )
 	{
-		m_result += m_indent + getTypeName( stmt->getVariable().getType() ) + " " + stmt->getVariable().getTypeName();
+		doAppendLineEnd();
+		m_result += m_indent + getTypeName( stmt->getVariable().getType() ) + " " + stmt->getVariable().getName();
 		auto arraySize = stmt->getVariable().getType()->getArraySize();
 
 		if ( arraySize != ast::type::NotArray )
@@ -271,48 +381,59 @@ namespace ast::debug
 
 	void StmtVisitor::visitWhileStmt( stmt::While * stmt )
 	{
+		m_appendLineEnd = true;
+		doAppendLineEnd();
 		m_result += m_indent + "while (" + ExprVisitor::submit( stmt->getCtrlExpr() ) + ")";
 		m_appendSemiColon = false;
 		visitCompoundStmt( stmt );
+		m_appendLineEnd = true;
 	}
 
 	void StmtVisitor::visitPreprocDefine( stmt::PreprocDefine * preproc )
 	{
-		m_result += "#define " + preproc->getTypeName() + " " + ExprVisitor::submit( preproc->getExpr() ) + "\n";
+		doAppendLineEnd();
+		m_result += "#define " + preproc->getName() + " " + ExprVisitor::submit( preproc->getExpr() ) + "\n";
 	}
 
 	void StmtVisitor::visitPreprocElif( stmt::PreprocElif * preproc )
 	{
+		doAppendLineEnd();
 		m_result += "#elif " + ExprVisitor::submit( preproc->getCtrlExpr() ) + "\n";
 	}
 
 	void StmtVisitor::visitPreprocElse( stmt::PreprocElse * preproc )
 	{
+		doAppendLineEnd();
 		m_result += "#else\n";
 	}
 
 	void StmtVisitor::visitPreprocEndif( stmt::PreprocEndif * preproc )
 	{
+		doAppendLineEnd();
 		m_result += "#endif\n";
 	}
 
 	void StmtVisitor::visitPreprocExtension( stmt::PreprocExtension * preproc )
 	{
-		m_result += "#extension " + preproc->getTypeName() + ": " + getStatusName( preproc->getStatus() ) + "\n";
+		doAppendLineEnd();
+		m_result += "#extension " + preproc->getName() + ": " + getStatusName( preproc->getStatus() ) + "\n";
 	}
 
 	void StmtVisitor::visitPreprocIf( stmt::PreprocIf * preproc )
 	{
+		doAppendLineEnd();
 		m_result += "#if " + ExprVisitor::submit( preproc->getCtrlExpr() ) + "\n";
 	}
 
 	void StmtVisitor::visitPreprocIfDef( stmt::PreprocIfDef * preproc )
 	{
+		doAppendLineEnd();
 		m_result += "#ifdef " + ExprVisitor::submit( preproc->getIdentExpr() ) + "\n";
 	}
 
 	void StmtVisitor::visitPreprocVersion( stmt::PreprocVersion * preproc )
 	{
-		m_result += "#version " + preproc->getTypeName() + "\n";
+		doAppendLineEnd();
+		m_result += "#version " + preproc->getName() + "\n";
 	}
 }

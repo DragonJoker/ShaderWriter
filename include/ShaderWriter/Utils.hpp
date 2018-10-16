@@ -69,7 +69,7 @@ namespace sdw
 		static uint32_t const MaxIblReflectionLod;
 
 	private:
-		Shader & m_container;
+		Shader & m_shader;
 		Function< Vec2
 			, InVec2 > m_calcTexCoord;
 		Function< Vec3

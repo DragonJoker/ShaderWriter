@@ -43,7 +43,7 @@ namespace ast::var
 			return m_type;
 		}
 
-		inline std::string const & getTypeName()const
+		inline std::string const & getName()const
 		{
 			return m_name;
 		}

@@ -107,15 +107,14 @@ namespace sdw
 	//***********************************************************************************************
 
 	template< typename T >
-	T const & operator-( T const & value )
+	T operator-( T const & value )
 	{
-		addStmt( *findContainer( value )
-			, expr::makeUnaryMinus( clone( value.m_expr ) ) );
-		return value;
+		return T{ findShader( value )
+			, expr::makeUnaryMinus( makeExpr( value ) ) };
 	}
 
 	template< typename T >
-	T const & operator+( T const & value )
+	T operator+( T const & value )
 	{
 		return value;
 	}

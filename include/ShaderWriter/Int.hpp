@@ -16,7 +16,10 @@ namespace sdw
 			, expr::ExprPtr expr );
 		Int( Int && rhs );
 		Int( Int const & rhs );
-		Int( Value const & rhs );
+		explicit Int( int16_t rhs );
+		explicit Int( int32_t rhs );
+		explicit Int( int64_t rhs );
+		explicit Int( Value const & rhs );
 		Int & operator=( Int const & rhs );
 		template< typename T >
 		inline Int & operator=( T const & rhs );
@@ -85,6 +88,14 @@ namespace sdw
 		Int & operator|=( Optional< UInt > const & rhs );
 	};
 
+	Int operator+( Int const & lhs, Int const & rhs );
+	Int operator-( Int const & lhs, Int const & rhs );
+	Int operator*( Int const & lhs, Int const & rhs );
+	Int operator/( Int const & lhs, Int const & rhs );
+	Int operator+( Int const & lhs, UInt const & rhs );
+	Int operator-( Int const & lhs, UInt const & rhs );
+	Int operator*( Int const & lhs, UInt const & rhs );
+	Int operator/( Int const & lhs, UInt const & rhs );
 	Int operator+( Int const & lhs, uint32_t const & rhs );
 	Int operator-( Int const & lhs, uint32_t const & rhs );
 	Int operator*( Int const & lhs, uint32_t const & rhs );
@@ -136,6 +147,18 @@ namespace sdw
 	Optional< Int > operator-( Optional< Int > const & lhs, Optional< Int > const & rhs );
 	Optional< Int > operator*( Optional< Int > const & lhs, Optional< Int > const & rhs );
 	Optional< Int > operator/( Optional< Int > const & lhs, Optional< Int > const & rhs );
+	Optional< Int > operator+( Optional< Int > const & lhs, UInt const & rhs );
+	Optional< Int > operator-( Optional< Int > const & lhs, UInt const & rhs );
+	Optional< Int > operator*( Optional< Int > const & lhs, UInt const & rhs );
+	Optional< Int > operator/( Optional< Int > const & lhs, UInt const & rhs );
+	Optional< Int > operator+( Int const & lhs, Optional< UInt > const & rhs );
+	Optional< Int > operator-( Int const & lhs, Optional< UInt > const & rhs );
+	Optional< Int > operator*( Int const & lhs, Optional< UInt > const & rhs );
+	Optional< Int > operator/( Int const & lhs, Optional< UInt > const & rhs );
+	Optional< Int > operator+( Optional< Int > const & lhs, Optional< UInt > const & rhs );
+	Optional< Int > operator-( Optional< Int > const & lhs, Optional< UInt > const & rhs );
+	Optional< Int > operator*( Optional< Int > const & lhs, Optional< UInt > const & rhs );
+	Optional< Int > operator/( Optional< Int > const & lhs, Optional< UInt > const & rhs );
 	Optional< Int > operator+( Optional< Int > const & lhs, uint32_t const & rhs );
 	Optional< Int > operator-( Optional< Int > const & lhs, uint32_t const & rhs );
 	Optional< Int > operator*( Optional< Int > const & lhs, uint32_t const & rhs );

@@ -82,7 +82,7 @@ namespace sdw
 			{
 				if ( m_result.empty() )
 				{
-					m_result = expr->getVariable()->getTypeName();
+					m_result = expr->getVariable()->getName();
 				}
 			}
 

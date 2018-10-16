@@ -4,14 +4,54 @@ See LICENSE file in root folder
 #include "Shader.hpp"
 
 #include <ASTGenerator/Expr/ExprAggrInit.hpp>
+#include <ASTGenerator/Expr/ExprCast.hpp>
 #include <ASTGenerator/Expr/ExprInit.hpp>
+#include <ASTGenerator/Expr/ExprQuestion.hpp>
 #include <ASTGenerator/Stmt/PreprocDefine.hpp>
 #include <ASTGenerator/Stmt/StmtInOutVariableDecl.hpp>
+#include <ASTGenerator/Stmt/StmtReturn.hpp>
 #include <ASTGenerator/Stmt/StmtSamplerDecl.hpp>
 #include <ASTGenerator/Stmt/StmtVariableDecl.hpp>
 
 namespace sdw
 {
+	template< typename ReturnT, typename ... ParamsT >
+	inline Function< ReturnT, ParamsT... > Shader::implFunction( std::string const & name
+		, std::function< void( typename ParamTranslater< ParamsT >::Type... ) > const & function
+		, ParamsT && ... params )
+	{
+		auto decl = getFunctionHeader< ReturnT >( name, params... );
+		m_blocks.push( { {}, decl.get() } );
+		function( std::forward< ParamsT && >( params )... );
+		m_blocks.pop();
+		m_container.addStmt( std::move( decl ) );
+		return Function< ReturnT, ParamsT... >{ this, name };
+	}
+
+	template< typename RetType >
+	void Shader::returnStmt( RetType const & value )
+	{
+		getContainer()->addStmt( stmt::makeReturn( makeExpr( value ) ) );
+	}
+
+	template< typename ExprType >
+	ExprType Shader::ternary( Value const & condition
+		, ExprType const & left
+		, ExprType const & right )
+	{
+		return ExprType{ this
+			, expr::makeQuestion( makeExpr( condition )
+				, makeExpr( left )
+				, makeExpr( right ) ) };
+	}
+
+	template< typename DestT >
+	inline DestT Shader::cast( Value const & from )
+	{
+		getContainer()->addStmt( stmt::makeCast( type::makeType( TypeTraits< DestT >::TypeEnum )
+			, makeExpr( from ) ) );
+	}
+
 #pragma region Constant declaration
 	/**
 	*name
@@ -22,14 +62,13 @@ namespace sdw
 	inline T Shader::declConstant( std::string const & name
 		, T const & rhs )
 	{
-		using Type = typename TypeOf< T >::Type;
 		registerConstant( name
-			, TypeTraits< Type >::TypeEnum );
-		auto type = type::makeType( TypeTraits< Type >::TypeEnum );
+			, typeEnum< T > );
 		addStmt( stmt::makePreprocDefine( name
 			, makeExpr( rhs ) ) );
+		auto type = type::makeType( typeEnum< T > );
 		return T{ this
-			, makeExpr( rhs ) };
+			, makeExpr( var::makeVariable( type, name ) ) };
 	}
 
 	template< typename T >
@@ -37,9 +76,8 @@ namespace sdw
 		, T const & rhs
 		, bool enabled )
 	{
-		using Type = typename TypeOf< T >::Type;
 		registerConstant( name
-			, TypeTraits< Type >::TypeEnum );
+			, typeEnum< T > );
 
 		if ( enabled )
 		{
@@ -47,9 +85,9 @@ namespace sdw
 				, makeExpr( rhs ) ) );
 		}
 
-		auto type = type::makeType( TypeTraits< Type >::TypeEnum );
+		auto type = type::makeType( typeEnum< T > );
 		return Optional< T >{ this
-			, makeExpr( rhs )
+			, makeExpr( var::makeVariable( type, name ) )
 			, enabled };
 	}
 	/**@}*/
@@ -539,11 +577,10 @@ namespace sdw
 		auto var = var::makeVariable( type
 			, name
 			, var::Flag::eLocale );
-		auto expr = expr::makeInit( expr::makeIdentifier( var )
-			, makeExpr( rhs ) );
-		addStmt( stmt::makeSimple( makeExpr( expr.get() ) ) );
+		addStmt( stmt::makeSimple( expr::makeInit( expr::makeIdentifier( var )
+			, makeExpr( rhs ) ) ) );
 		return T{ this
-			, std::move( expr ) };
+			, makeExpr( var ) };
 	}
 
 	template< typename T >
@@ -579,16 +616,15 @@ namespace sdw
 		auto var = var::makeVariable( type
 			, name
 			, var::Flag::eLocale );
-		auto expr = expr::makeInit( expr::makeIdentifier( var )
-			, makeExpr( rhs ) );
 
 		if ( rhs.isEnabled() )
 		{
-			addStmt( stmt::makeSimple( makeExpr( expr.get() ) ) );
+			addStmt( stmt::makeSimple( expr::makeInit( expr::makeIdentifier( var )
+				, makeExpr( rhs ) ) ) );
 		}
 
 		return Optional< T >{ this
-			, std::move( expr )
+			, makeExpr( var )
 			, rhs.isEnabled() };
 	}
 
@@ -604,16 +640,15 @@ namespace sdw
 		auto var = var::makeVariable( type
 			, name
 			, var::Flag::eLocale );
-		auto expr = expr::makeInit( expr::makeIdentifier( var )
-			, makeExpr( rhs ) );
 
 		if ( enabled )
 		{
-			addStmt( stmt::makeSimple( makeExpr( expr.get() ) ) );
+			addStmt( stmt::makeSimple( expr::makeInit( expr::makeIdentifier( var )
+				, makeExpr( rhs ) ) ) );
 		}
 
 		return Optional< T >{ this
-			, std::move( expr )
+			, makeExpr( var )
 			, enabled };
 	}
 
@@ -647,11 +682,10 @@ namespace sdw
 		auto var = var::makeVariable( type
 			, name
 			, var::Flag::eLocale );
-		auto expr = expr::makeAggrInit( expr::makeIdentifier( var )
-			, makeExpr( rhs ) );
-		addStmt( stmt::makeSimple( makeExpr( expr.get() ) ) );
+		addStmt( stmt::makeSimple( expr::makeAggrInit( expr::makeIdentifier( var )
+			, makeExpr( rhs ) ) ) );
 		return Array< T >{ this
-			, std::move( expr ) };
+			, makeExpr( var ) };
 	}
 
 	template< typename T >
@@ -692,16 +726,15 @@ namespace sdw
 		auto var = var::makeVariable( type
 			, name
 			, var::Flag::eLocale );
-		auto expr = expr::makeAggrInit( expr::makeIdentifier( var )
-			, makeExpr( rhs ) );
 
 		if ( enabled )
 		{
-			addStmt( stmt::makeSimple( makeExpr( expr.get() ) ) );
+			addStmt( stmt::makeSimple( expr::makeAggrInit( expr::makeIdentifier( var )
+				, makeExpr( rhs ) ) ) );
 		}
 
 		return Optional< Array< T > >{ this
-			, std::move( expr )
+			, makeExpr( var )
 			, enabled };
 	}
 	/**@}*/

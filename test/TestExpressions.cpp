@@ -54,7 +54,7 @@ namespace
 
 		check( expr->getKind() == ast::expr::Kind::eIdentifier );
 		check( expr->getType()->getKind() == ast::type::Kind::eInt );
-		check( expr->getVariable()->getTypeName() == "var0" );
+		check( expr->getVariable()->getName() == "var0" );
 		check( expr->getVariable()->getType()->getKind() == ast::type::Kind::eInt );
 		std::cout << "ExprIdentifier: " << ast::debug::ExprVisitor::submit( expr.get() ) << std::endl;
 		testEnd();
@@ -72,7 +72,7 @@ namespace
 
 		check( expr->getLHS()->getKind() == ast::expr::Kind::eIdentifier );
 		check( expr->getLHS()->getType()->getKind() == ast::type::Kind::eInt );
-		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getTypeName() == "lhs" );
+		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getName() == "lhs" );
 		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getType()->getKind() == ast::type::Kind::eInt );
 
 		check( expr->getRHS()->getKind() == ast::expr::Kind::eLiteral );
@@ -95,7 +95,7 @@ namespace
 
 		check( expr->getLHS()->getKind() == ast::expr::Kind::eIdentifier );
 		check( expr->getLHS()->getType()->getKind() == ast::type::Kind::eInt );
-		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getTypeName() == "lhs" );
+		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getName() == "lhs" );
 		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getType()->getKind() == ast::type::Kind::eInt );
 
 		check( expr->getRHS()->getKind() == ast::expr::Kind::eLiteral );
@@ -118,7 +118,7 @@ namespace
 
 		check( expr->getLHS()->getKind() == ast::expr::Kind::eIdentifier );
 		check( expr->getLHS()->getType()->getKind() == ast::type::Kind::eInt );
-		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getTypeName() == "lhs" );
+		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getName() == "lhs" );
 		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getType()->getKind() == ast::type::Kind::eInt );
 
 		check( expr->getRHS()->getKind() == ast::expr::Kind::eLiteral );
@@ -141,7 +141,7 @@ namespace
 
 		check( expr->getLHS()->getKind() == ast::expr::Kind::eIdentifier );
 		check( expr->getLHS()->getType()->getKind() == ast::type::Kind::eInt );
-		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getTypeName() == "lhs" );
+		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getName() == "lhs" );
 		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getType()->getKind() == ast::type::Kind::eInt );
 
 		check( expr->getRHS()->getKind() == ast::expr::Kind::eLiteral );
@@ -164,7 +164,7 @@ namespace
 
 		check( expr->getLHS()->getKind() == ast::expr::Kind::eIdentifier );
 		check( expr->getLHS()->getType()->getKind() == ast::type::Kind::eInt );
-		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getTypeName() == "lhs" );
+		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getName() == "lhs" );
 		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getType()->getKind() == ast::type::Kind::eInt );
 
 		check( expr->getRHS()->getKind() == ast::expr::Kind::eLiteral );
@@ -186,7 +186,7 @@ namespace
 
 		check( expr->getOperand()->getKind() == ast::expr::Kind::eIdentifier );
 		check( expr->getOperand()->getType()->getKind() == ast::type::Kind::eInt );
-		check( static_cast< ast::expr::Identifier const & >( *expr->getOperand() ).getVariable()->getTypeName() == "op" );
+		check( static_cast< ast::expr::Identifier const & >( *expr->getOperand() ).getVariable()->getName() == "op" );
 		check( static_cast< ast::expr::Identifier const & >( *expr->getOperand() ).getVariable()->getType()->getKind() == ast::type::Kind::eInt );
 		std::cout << "ExprBitNot: " << ast::debug::ExprVisitor::submit( expr.get() ) << std::endl;
 		testEnd();
@@ -204,7 +204,7 @@ namespace
 
 		check( expr->getLHS()->getKind() == ast::expr::Kind::eIdentifier );
 		check( expr->getLHS()->getType()->getKind() == ast::type::Kind::eInt );
-		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getTypeName() == "lhs" );
+		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getName() == "lhs" );
 		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getType()->getKind() == ast::type::Kind::eInt );
 
 		check( expr->getRHS()->getKind() == ast::expr::Kind::eLiteral );
@@ -227,7 +227,7 @@ namespace
 
 		check( expr->getLHS()->getKind() == ast::expr::Kind::eIdentifier );
 		check( expr->getLHS()->getType()->getKind() == ast::type::Kind::eInt );
-		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getTypeName() == "lhs" );
+		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getName() == "lhs" );
 		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getType()->getKind() == ast::type::Kind::eInt );
 
 		check( expr->getRHS()->getKind() == ast::expr::Kind::eLiteral );
@@ -250,7 +250,7 @@ namespace
 
 		check( expr->getLHS()->getKind() == ast::expr::Kind::eIdentifier );
 		check( expr->getLHS()->getType()->getKind() == ast::type::Kind::eInt );
-		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getTypeName() == "lhs" );
+		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getName() == "lhs" );
 		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getType()->getKind() == ast::type::Kind::eInt );
 
 		check( expr->getRHS()->getKind() == ast::expr::Kind::eLiteral );
@@ -273,7 +273,7 @@ namespace
 
 		check( expr->getOperand()->getKind() == ast::expr::Kind::eIdentifier );
 		check( expr->getOperand()->getType()->getKind() == ast::type::Kind::eInt );
-		check( static_cast< ast::expr::Identifier const & >( *expr->getOperand() ).getVariable()->getTypeName() == "op" );
+		check( static_cast< ast::expr::Identifier const & >( *expr->getOperand() ).getVariable()->getName() == "op" );
 		check( static_cast< ast::expr::Identifier const & >( *expr->getOperand() ).getVariable()->getType()->getKind() == ast::type::Kind::eInt );
 		std::cout << "ExprLogNot: " << ast::debug::ExprVisitor::submit( expr.get() ) << std::endl;
 		testEnd();
@@ -291,7 +291,7 @@ namespace
 
 		check( expr->getLHS()->getKind() == ast::expr::Kind::eIdentifier );
 		check( expr->getLHS()->getType()->getKind() == ast::type::Kind::eInt );
-		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getTypeName() == "lhs" );
+		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getName() == "lhs" );
 		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getType()->getKind() == ast::type::Kind::eInt );
 
 		check( expr->getRHS()->getKind() == ast::expr::Kind::eLiteral );
@@ -314,7 +314,7 @@ namespace
 
 		check( expr->getLHS()->getKind() == ast::expr::Kind::eIdentifier );
 		check( expr->getLHS()->getType()->getKind() == ast::type::Kind::eInt );
-		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getTypeName() == "lhs" );
+		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getName() == "lhs" );
 		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getType()->getKind() == ast::type::Kind::eInt );
 
 		check( expr->getRHS()->getKind() == ast::expr::Kind::eLiteral );
@@ -337,7 +337,7 @@ namespace
 
 		check( expr->getLHS()->getKind() == ast::expr::Kind::eIdentifier );
 		check( expr->getLHS()->getType()->getKind() == ast::type::Kind::eInt );
-		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getTypeName() == "lhs" );
+		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getName() == "lhs" );
 		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getType()->getKind() == ast::type::Kind::eInt );
 
 		check( expr->getRHS()->getKind() == ast::expr::Kind::eLiteral );
@@ -360,7 +360,7 @@ namespace
 
 		check( expr->getLHS()->getKind() == ast::expr::Kind::eIdentifier );
 		check( expr->getLHS()->getType()->getKind() == ast::type::Kind::eInt );
-		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getTypeName() == "lhs" );
+		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getName() == "lhs" );
 		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getType()->getKind() == ast::type::Kind::eInt );
 
 		check( expr->getRHS()->getKind() == ast::expr::Kind::eLiteral );
@@ -383,7 +383,7 @@ namespace
 
 		check( expr->getLHS()->getKind() == ast::expr::Kind::eIdentifier );
 		check( expr->getLHS()->getType()->getKind() == ast::type::Kind::eInt );
-		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getTypeName() == "lhs" );
+		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getName() == "lhs" );
 		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getType()->getKind() == ast::type::Kind::eInt );
 
 		check( expr->getRHS()->getKind() == ast::expr::Kind::eLiteral );
@@ -406,7 +406,7 @@ namespace
 
 		check( expr->getLHS()->getKind() == ast::expr::Kind::eIdentifier );
 		check( expr->getLHS()->getType()->getKind() == ast::type::Kind::eInt );
-		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getTypeName() == "lhs" );
+		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getName() == "lhs" );
 		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getType()->getKind() == ast::type::Kind::eInt );
 
 		check( expr->getRHS()->getKind() == ast::expr::Kind::eLiteral );
@@ -429,7 +429,7 @@ namespace
 
 		check( expr->getLHS()->getKind() == ast::expr::Kind::eIdentifier );
 		check( expr->getLHS()->getType()->getKind() == ast::type::Kind::eInt );
-		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getTypeName() == "lhs" );
+		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getName() == "lhs" );
 		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getType()->getKind() == ast::type::Kind::eInt );
 
 		check( expr->getRHS()->getKind() == ast::expr::Kind::eLiteral );
@@ -452,7 +452,7 @@ namespace
 
 		check( expr->getLHS()->getKind() == ast::expr::Kind::eIdentifier );
 		check( expr->getLHS()->getType()->getKind() == ast::type::Kind::eInt );
-		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getTypeName() == "lhs" );
+		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getName() == "lhs" );
 		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getType()->getKind() == ast::type::Kind::eInt );
 
 		check( expr->getRHS()->getKind() == ast::expr::Kind::eLiteral );
@@ -475,7 +475,7 @@ namespace
 
 		check( expr->getLHS()->getKind() == ast::expr::Kind::eIdentifier );
 		check( expr->getLHS()->getType()->getKind() == ast::type::Kind::eInt );
-		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getTypeName() == "lhs" );
+		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getName() == "lhs" );
 		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getType()->getKind() == ast::type::Kind::eInt );
 
 		check( expr->getRHS()->getKind() == ast::expr::Kind::eLiteral );
@@ -498,7 +498,7 @@ namespace
 
 		check( expr->getLHS()->getKind() == ast::expr::Kind::eIdentifier );
 		check( expr->getLHS()->getType()->getKind() == ast::type::Kind::eInt );
-		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getTypeName() == "lhs" );
+		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getName() == "lhs" );
 		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getType()->getKind() == ast::type::Kind::eInt );
 
 		check( expr->getRHS()->getKind() == ast::expr::Kind::eLiteral );
@@ -521,7 +521,7 @@ namespace
 
 		check( expr->getLHS()->getKind() == ast::expr::Kind::eIdentifier );
 		check( expr->getLHS()->getType()->getKind() == ast::type::Kind::eInt );
-		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getTypeName() == "lhs" );
+		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getName() == "lhs" );
 		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getType()->getKind() == ast::type::Kind::eInt );
 
 		check( expr->getRHS()->getKind() == ast::expr::Kind::eLiteral );
@@ -544,7 +544,7 @@ namespace
 
 		check( expr->getLHS()->getKind() == ast::expr::Kind::eIdentifier );
 		check( expr->getLHS()->getType()->getKind() == ast::type::Kind::eInt );
-		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getTypeName() == "lhs" );
+		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getName() == "lhs" );
 		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getType()->getKind() == ast::type::Kind::eInt );
 
 		check( expr->getRHS()->getKind() == ast::expr::Kind::eLiteral );
@@ -567,7 +567,7 @@ namespace
 
 		check( expr->getLHS()->getKind() == ast::expr::Kind::eIdentifier );
 		check( expr->getLHS()->getType()->getKind() == ast::type::Kind::eInt );
-		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getTypeName() == "lhs" );
+		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getName() == "lhs" );
 		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getType()->getKind() == ast::type::Kind::eInt );
 
 		check( expr->getRHS()->getKind() == ast::expr::Kind::eLiteral );
@@ -590,7 +590,7 @@ namespace
 
 		check( expr->getLHS()->getKind() == ast::expr::Kind::eIdentifier );
 		check( expr->getLHS()->getType()->getKind() == ast::type::Kind::eInt );
-		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getTypeName() == "lhs" );
+		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getName() == "lhs" );
 		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getType()->getKind() == ast::type::Kind::eInt );
 
 		check( expr->getRHS()->getKind() == ast::expr::Kind::eLiteral );
@@ -613,7 +613,7 @@ namespace
 
 		check( expr->getLHS()->getKind() == ast::expr::Kind::eIdentifier );
 		check( expr->getLHS()->getType()->getKind() == ast::type::Kind::eInt );
-		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getTypeName() == "lhs" );
+		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getName() == "lhs" );
 		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getType()->getKind() == ast::type::Kind::eInt );
 
 		check( expr->getRHS()->getKind() == ast::expr::Kind::eLiteral );
@@ -636,7 +636,7 @@ namespace
 
 		check( expr->getLHS()->getKind() == ast::expr::Kind::eIdentifier );
 		check( expr->getLHS()->getType()->getKind() == ast::type::Kind::eInt );
-		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getTypeName() == "lhs" );
+		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getName() == "lhs" );
 		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getType()->getKind() == ast::type::Kind::eInt );
 
 		check( expr->getRHS()->getKind() == ast::expr::Kind::eLiteral );
@@ -659,7 +659,7 @@ namespace
 
 		check( expr->getLHS()->getKind() == ast::expr::Kind::eIdentifier );
 		check( expr->getLHS()->getType()->getKind() == ast::type::Kind::eInt );
-		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getTypeName() == "lhs" );
+		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getName() == "lhs" );
 		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getType()->getKind() == ast::type::Kind::eInt );
 
 		check( expr->getRHS()->getKind() == ast::expr::Kind::eLiteral );
@@ -682,7 +682,7 @@ namespace
 
 		check( expr->getLHS()->getKind() == ast::expr::Kind::eIdentifier );
 		check( expr->getLHS()->getType()->getKind() == ast::type::Kind::eInt );
-		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getTypeName() == "lhs" );
+		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getName() == "lhs" );
 		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getType()->getKind() == ast::type::Kind::eInt );
 
 		check( expr->getRHS()->getKind() == ast::expr::Kind::eLiteral );
@@ -705,7 +705,7 @@ namespace
 
 		check( expr->getLHS()->getKind() == ast::expr::Kind::eIdentifier );
 		check( expr->getLHS()->getType()->getKind() == ast::type::Kind::eInt );
-		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getTypeName() == "lhs" );
+		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getName() == "lhs" );
 		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getType()->getKind() == ast::type::Kind::eInt );
 
 		check( expr->getRHS()->getKind() == ast::expr::Kind::eLiteral );
@@ -728,7 +728,7 @@ namespace
 
 		check( expr->getLHS()->getKind() == ast::expr::Kind::eIdentifier );
 		check( expr->getLHS()->getType()->getKind() == ast::type::Kind::eInt );
-		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getTypeName() == "lhs" );
+		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getName() == "lhs" );
 		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getType()->getKind() == ast::type::Kind::eInt );
 
 		check( expr->getRHS()->getKind() == ast::expr::Kind::eLiteral );
@@ -751,7 +751,7 @@ namespace
 
 		check( expr->getLHS()->getKind() == ast::expr::Kind::eIdentifier );
 		check( expr->getLHS()->getType()->getKind() == ast::type::Kind::eInt );
-		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getTypeName() == "lhs" );
+		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getName() == "lhs" );
 		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getType()->getKind() == ast::type::Kind::eInt );
 
 		check( expr->getRHS()->getKind() == ast::expr::Kind::eLiteral );
@@ -774,7 +774,7 @@ namespace
 
 		check( expr->getLHS()->getKind() == ast::expr::Kind::eIdentifier );
 		check( expr->getLHS()->getType()->getKind() == ast::type::Kind::eInt );
-		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getTypeName() == "lhs" );
+		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getName() == "lhs" );
 		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getType()->getKind() == ast::type::Kind::eInt );
 
 		check( expr->getRHS()->getKind() == ast::expr::Kind::eLiteral );
@@ -797,7 +797,7 @@ namespace
 
 		check( expr->getLHS()->getKind() == ast::expr::Kind::eIdentifier );
 		check( expr->getLHS()->getType()->getKind() == ast::type::Kind::eInt );
-		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getTypeName() == "lhs" );
+		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getName() == "lhs" );
 		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getType()->getKind() == ast::type::Kind::eInt );
 
 		check( expr->getRHS()->getKind() == ast::expr::Kind::eLiteral );
@@ -819,7 +819,7 @@ namespace
 
 		check( expr->getOperand()->getKind() == ast::expr::Kind::eIdentifier );
 		check( expr->getOperand()->getType()->getKind() == ast::type::Kind::eInt );
-		check( static_cast< ast::expr::Identifier const & >( *expr->getOperand() ).getVariable()->getTypeName() == "op" );
+		check( static_cast< ast::expr::Identifier const & >( *expr->getOperand() ).getVariable()->getName() == "op" );
 		check( static_cast< ast::expr::Identifier const & >( *expr->getOperand() ).getVariable()->getType()->getKind() == ast::type::Kind::eInt );
 		std::cout << "ExprPostDecrement: " << ast::debug::ExprVisitor::submit( expr.get() ) << std::endl;
 		testEnd();
@@ -836,7 +836,7 @@ namespace
 
 		check( expr->getOperand()->getKind() == ast::expr::Kind::eIdentifier );
 		check( expr->getOperand()->getType()->getKind() == ast::type::Kind::eInt );
-		check( static_cast< ast::expr::Identifier const & >( *expr->getOperand() ).getVariable()->getTypeName() == "op" );
+		check( static_cast< ast::expr::Identifier const & >( *expr->getOperand() ).getVariable()->getName() == "op" );
 		check( static_cast< ast::expr::Identifier const & >( *expr->getOperand() ).getVariable()->getType()->getKind() == ast::type::Kind::eInt );
 		std::cout << "ExprPostIncrement: " << ast::debug::ExprVisitor::submit( expr.get() ) << std::endl;
 		testEnd();
@@ -853,7 +853,7 @@ namespace
 
 		check( expr->getOperand()->getKind() == ast::expr::Kind::eIdentifier );
 		check( expr->getOperand()->getType()->getKind() == ast::type::Kind::eInt );
-		check( static_cast< ast::expr::Identifier const & >( *expr->getOperand() ).getVariable()->getTypeName() == "op" );
+		check( static_cast< ast::expr::Identifier const & >( *expr->getOperand() ).getVariable()->getName() == "op" );
 		check( static_cast< ast::expr::Identifier const & >( *expr->getOperand() ).getVariable()->getType()->getKind() == ast::type::Kind::eInt );
 		std::cout << "ExprPreDecrement: " << ast::debug::ExprVisitor::submit( expr.get() ) << std::endl;
 		testEnd();
@@ -870,7 +870,7 @@ namespace
 
 		check( expr->getOperand()->getKind() == ast::expr::Kind::eIdentifier );
 		check( expr->getOperand()->getType()->getKind() == ast::type::Kind::eInt );
-		check( static_cast< ast::expr::Identifier const & >( *expr->getOperand() ).getVariable()->getTypeName() == "op" );
+		check( static_cast< ast::expr::Identifier const & >( *expr->getOperand() ).getVariable()->getName() == "op" );
 		check( static_cast< ast::expr::Identifier const & >( *expr->getOperand() ).getVariable()->getType()->getKind() == ast::type::Kind::eInt );
 		std::cout << "ExprPreIncrement: " << ast::debug::ExprVisitor::submit( expr.get() ) << std::endl;
 		testEnd();
@@ -887,7 +887,7 @@ namespace
 
 		check( expr->getOperand()->getKind() == ast::expr::Kind::eIdentifier );
 		check( expr->getOperand()->getType()->getKind() == ast::type::Kind::eInt );
-		check( static_cast< ast::expr::Identifier const & >( *expr->getOperand() ).getVariable()->getTypeName() == "op" );
+		check( static_cast< ast::expr::Identifier const & >( *expr->getOperand() ).getVariable()->getName() == "op" );
 		check( static_cast< ast::expr::Identifier const & >( *expr->getOperand() ).getVariable()->getType()->getKind() == ast::type::Kind::eInt );
 		std::cout << "ExprUnaryMinus: " << ast::debug::ExprVisitor::submit( expr.get() ) << std::endl;
 		testEnd();
@@ -904,7 +904,7 @@ namespace
 
 		check( expr->getOperand()->getKind() == ast::expr::Kind::eIdentifier );
 		check( expr->getOperand()->getType()->getKind() == ast::type::Kind::eInt );
-		check( static_cast< ast::expr::Identifier const & >( *expr->getOperand() ).getVariable()->getTypeName() == "op" );
+		check( static_cast< ast::expr::Identifier const & >( *expr->getOperand() ).getVariable()->getName() == "op" );
 		check( static_cast< ast::expr::Identifier const & >( *expr->getOperand() ).getVariable()->getType()->getKind() == ast::type::Kind::eInt );
 		std::cout << "ExprUnaryPlus: " << ast::debug::ExprVisitor::submit( expr.get() ) << std::endl;
 		testEnd();
@@ -921,7 +921,7 @@ namespace
 
 		check( expr->getOperand()->getKind() == ast::expr::Kind::eIdentifier );
 		check( expr->getOperand()->getType()->getKind() == ast::type::Kind::eInt );
-		check( static_cast< ast::expr::Identifier const & >( *expr->getOperand() ).getVariable()->getTypeName() == "op" );
+		check( static_cast< ast::expr::Identifier const & >( *expr->getOperand() ).getVariable()->getName() == "op" );
 		check( static_cast< ast::expr::Identifier const & >( *expr->getOperand() ).getVariable()->getType()->getKind() == ast::type::Kind::eInt );
 		std::cout << "ExprCast: " << ast::debug::ExprVisitor::submit( expr.get() ) << std::endl;
 		testEnd();
@@ -940,7 +940,7 @@ namespace
 
 			check( expr->getFn()->getType()->getKind() == ast::type::Kind::eFunction );
 			check( expr->getFn()->getVariable()->getType()->getKind() == ast::type::Kind::eFunction );
-			check( expr->getFn()->getVariable()->getTypeName() == "func" );
+			check( expr->getFn()->getVariable()->getName() == "func" );
 
 			check( expr->getArgList().empty() );
 			std::cout << "ExprFnCall: " << ast::debug::ExprVisitor::submit( expr.get() ) << std::endl;
@@ -956,7 +956,7 @@ namespace
 
 			check( expr->getFn()->getType()->getKind() == ast::type::Kind::eFunction );
 			check( expr->getFn()->getVariable()->getType()->getKind() == ast::type::Kind::eFunction );
-			check( expr->getFn()->getVariable()->getTypeName() == "func" );
+			check( expr->getFn()->getVariable()->getName() == "func" );
 
 			check( expr->getArgList().size() == 1u );
 
@@ -978,7 +978,7 @@ namespace
 
 			check( expr->getFn()->getType()->getKind() == ast::type::Kind::eFunction );
 			check( expr->getFn()->getVariable()->getType()->getKind() == ast::type::Kind::eFunction );
-			check( expr->getFn()->getVariable()->getTypeName() == "func" );
+			check( expr->getFn()->getVariable()->getName() == "func" );
 
 			check( expr->getArgList().size() == 2u );
 
@@ -1008,7 +1008,7 @@ namespace
 			check( expr->getType()->getKind() == ast::type::Kind::eInt );
 
 			check( expr->getIdentifier()->getType()->getKind() == ast::type::Kind::eInt );
-			check( expr->getIdentifier()->getVariable()->getTypeName() == "lhs" );
+			check( expr->getIdentifier()->getVariable()->getName() == "lhs" );
 			check( expr->getIdentifier()->getVariable()->getType()->getKind() == ast::type::Kind::eInt );
 
 			check( expr->getInitialisers().empty() );
@@ -1027,7 +1027,7 @@ namespace
 			check( expr->getType()->getKind() == ast::type::Kind::eInt );
 
 			check( expr->getIdentifier()->getType()->getKind() == ast::type::Kind::eInt );
-			check( expr->getIdentifier()->getVariable()->getTypeName() == "lhs" );
+			check( expr->getIdentifier()->getVariable()->getName() == "lhs" );
 			check( expr->getIdentifier()->getVariable()->getType()->getKind() == ast::type::Kind::eInt );
 
 			check( expr->getInitialisers().size() == 4u );
@@ -1058,7 +1058,7 @@ namespace
 		check( expr->getType()->getKind() == ast::type::Kind::eInt );
 
 		check( expr->getIdentifier()->getType()->getKind() == ast::type::Kind::eInt );
-		check( expr->getIdentifier()->getVariable()->getTypeName() == "lhs" );
+		check( expr->getIdentifier()->getVariable()->getName() == "lhs" );
 		check( expr->getIdentifier()->getVariable()->getType()->getKind() == ast::type::Kind::eInt );
 
 		check( expr->getInitialiser()->getKind() == ast::expr::Kind::eLiteral );
@@ -1081,12 +1081,12 @@ namespace
 
 		check( expr->getOuterExpr()->getType()->getKind() == ast::type::Kind::eInt );
 		check( expr->getOuterExpr()->getKind() == ast::expr::Kind::eIdentifier );
-		check( static_cast< ast::expr::Identifier const & >( *expr->getOuterExpr() ).getVariable()->getTypeName() == "outerVar" );
+		check( static_cast< ast::expr::Identifier const & >( *expr->getOuterExpr() ).getVariable()->getName() == "outerVar" );
 
 		check( expr->getOperand()->getKind() == ast::expr::Kind::eIdentifier );
 		check( expr->getOperand()->getType()->getKind() == ast::type::Kind::eInt );
 		check( static_cast< ast::expr::Identifier const & >( *expr->getOperand() ).getVariable()->getType()->getKind() == ast::type::Kind::eInt );
-		check( static_cast< ast::expr::Identifier const & >( *expr->getOperand() ).getVariable()->getTypeName() == "innerVar" );
+		check( static_cast< ast::expr::Identifier const & >( *expr->getOperand() ).getVariable()->getName() == "innerVar" );
 		std::cout << "ExprMbrSelect: " << ast::debug::ExprVisitor::submit( expr.get() ) << std::endl;
 		testEnd();
 	}
@@ -1105,12 +1105,12 @@ namespace
 		check( expr->getCtrlExpr()->getKind() == ast::expr::Kind::eIdentifier );
 		check( expr->getCtrlExpr()->getType()->getKind() == ast::type::Kind::eBoolean );
 		check( static_cast< ast::expr::Identifier const & >( *expr->getCtrlExpr() ).getVariable()->getType()->getKind() == ast::type::Kind::eBoolean );
-		check( static_cast< ast::expr::Identifier const & >( *expr->getCtrlExpr() ).getVariable()->getTypeName() == "ctrl" );
+		check( static_cast< ast::expr::Identifier const & >( *expr->getCtrlExpr() ).getVariable()->getName() == "ctrl" );
 
 		check( expr->getTrueExpr()->getKind() == ast::expr::Kind::eIdentifier );
 		check( expr->getTrueExpr()->getType()->getKind() == ast::type::Kind::eInt );
 		check( static_cast< ast::expr::Identifier const & >( *expr->getTrueExpr() ).getVariable()->getType()->getKind() == ast::type::Kind::eInt );
-		check( static_cast< ast::expr::Identifier const & >( *expr->getTrueExpr() ).getVariable()->getTypeName() == "lhs" );
+		check( static_cast< ast::expr::Identifier const & >( *expr->getTrueExpr() ).getVariable()->getName() == "lhs" );
 
 		check( expr->getFalseExpr()->getKind() == ast::expr::Kind::eLiteral );
 		check( expr->getFalseExpr()->getType()->getKind() == ast::type::Kind::eInt );
@@ -1149,7 +1149,7 @@ namespace
 		check( expr->getValue()->getKind() == ast::expr::Kind::eIdentifier );
 		check( expr->getValue()->getType()->getKind() == ast::type::Kind::eInt );
 		check( static_cast< ast::expr::Identifier const & >( *expr->getValue() ).getVariable()->getType()->getKind() == ast::type::Kind::eInt );
-		check( static_cast< ast::expr::Identifier const & >( *expr->getValue() ).getVariable()->getTypeName() == "lhs" );
+		check( static_cast< ast::expr::Identifier const & >( *expr->getValue() ).getVariable()->getName() == "lhs" );
 		std::cout << "ExprSwitchTest: " << ast::debug::ExprVisitor::submit( expr.get() ) << std::endl;
 		testEnd();
 	}

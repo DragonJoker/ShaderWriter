@@ -44,6 +44,21 @@ namespace sdw
 	{
 	}
 
+	Int::Int( int16_t rhs )
+		: Value{ nullptr, makeExpr( rhs ) }
+	{
+	}
+
+	Int::Int( int32_t rhs )
+		: Value{ nullptr, makeExpr( rhs ) }
+	{
+	}
+
+	Int::Int( int64_t rhs )
+		: Value{ nullptr, makeExpr( rhs ) }
+	{
+	}
+
 	Int::Int( Value const & rhs )
 		: Value{ rhs }
 	{
@@ -687,6 +702,70 @@ namespace sdw
 
 	//*************************************************************************
 
+	Int operator+( Int const & lhs, Int const & rhs )
+	{
+		return Int{ findShader( lhs, rhs )
+			, expr::makeAdd( type::getInt()
+				, makeExpr( lhs )
+				, makeExpr( rhs ) ) };
+	}
+
+	Int operator-( Int const & lhs, Int const & rhs )
+	{
+		return Int{ findShader( lhs, rhs )
+			, expr::makeMinus( type::getInt()
+				, makeExpr( lhs )
+				, makeExpr( rhs ) ) };
+	}
+
+	Int operator*( Int const & lhs, Int const & rhs )
+	{
+		return Int{ findShader( lhs, rhs )
+			, expr::makeTimes( type::getInt()
+				, makeExpr( lhs )
+				, makeExpr( rhs ) ) };
+	}
+
+	Int operator/( Int const & lhs, Int const & rhs )
+	{
+		return Int{ findShader( lhs, rhs )
+			, expr::makeDivide( type::getInt()
+				, makeExpr( lhs )
+				, makeExpr( rhs ) ) };
+	}
+
+	Int operator+( Int const & lhs, UInt const & rhs )
+	{
+		return Int{ findShader( lhs, rhs )
+			, expr::makeAdd( type::getInt()
+				, makeExpr( lhs )
+				, makeExpr( rhs ) ) };
+	}
+
+	Int operator-( Int const & lhs, UInt const & rhs )
+	{
+		return Int{ findShader( lhs, rhs )
+			, expr::makeMinus( type::getInt()
+				, makeExpr( lhs )
+				, makeExpr( rhs ) ) };
+	}
+
+	Int operator*( Int const & lhs, UInt const & rhs )
+	{
+		return Int{ findShader( lhs, rhs )
+			, expr::makeTimes( type::getInt()
+				, makeExpr( lhs )
+				, makeExpr( rhs ) ) };
+	}
+
+	Int operator/( Int const & lhs, UInt const & rhs )
+	{
+		return Int{ findShader( lhs, rhs )
+			, expr::makeDivide( type::getInt()
+				, makeExpr( lhs )
+				, makeExpr( rhs ) ) };
+	}
+
 	Int operator+( Int const & lhs, uint32_t const & rhs )
 	{
 		return Int{ findShader( lhs, rhs )
@@ -1084,6 +1163,114 @@ namespace sdw
 	}
 
 	Optional< Int > operator/( Optional< Int > const & lhs, Optional< Int > const & rhs )
+	{
+		return Optional< Int >{ findShader( lhs, rhs )
+			, expr::makeDivide( type::getInt()
+				, makeExpr( lhs )
+				, makeExpr( rhs ) )
+			, areOptionalEnabled( lhs, rhs ) };
+	}
+
+	Optional< Int > operator+( Int const & lhs, Optional< UInt > const & rhs )
+	{
+		return Optional< Int >{ findShader( rhs )
+			, expr::makeAdd( type::getInt()
+				, makeExpr( lhs )
+				, makeExpr( rhs ) )
+			, areOptionalEnabled( lhs, rhs ) };
+	}
+
+	Optional< Int > operator-( Int const & lhs, Optional< UInt > const & rhs )
+	{
+		return Optional< Int >{ findShader( rhs )
+			, expr::makeMinus( type::getInt()
+				, makeExpr( lhs )
+				, makeExpr( rhs ) )
+			, areOptionalEnabled( lhs, rhs ) };
+	}
+
+	Optional< Int > operator*( Int const & lhs, Optional< UInt > const & rhs )
+	{
+		return Optional< Int >{ findShader( rhs )
+			, expr::makeTimes( type::getInt()
+				, makeExpr( lhs )
+				, makeExpr( rhs ) )
+			, areOptionalEnabled( lhs, rhs ) };
+	}
+
+	Optional< Int > operator/( Int const & lhs, Optional< UInt > const & rhs )
+	{
+		return Optional< Int >{ findShader( rhs )
+			, expr::makeDivide( type::getInt()
+				, makeExpr( lhs )
+				, makeExpr( rhs ) )
+			, areOptionalEnabled( lhs, rhs ) };
+	}
+
+	Optional< Int > operator+( Optional< Int > const & lhs, UInt const & rhs )
+	{
+		return Optional< Int >{ findShader( lhs, rhs )
+			, expr::makeAdd( type::getInt()
+				, makeExpr( lhs )
+				, makeExpr( rhs ) )
+			, areOptionalEnabled( lhs, rhs ) };
+	}
+
+	Optional< Int > operator-( Optional< Int > const & lhs, UInt const & rhs )
+	{
+		return Optional< Int >{ findShader( lhs, rhs )
+			, expr::makeMinus( type::getInt()
+				, makeExpr( lhs )
+				, makeExpr( rhs ) )
+			, areOptionalEnabled( lhs, rhs ) };
+	}
+
+	Optional< Int > operator*( Optional< Int > const & lhs, UInt const & rhs )
+	{
+		return Optional< Int >{ findShader( lhs, rhs )
+			, expr::makeTimes( type::getInt()
+				, makeExpr( lhs )
+				, makeExpr( rhs ) )
+			, areOptionalEnabled( lhs, rhs ) };
+	}
+
+	Optional< Int > operator/( Optional< Int > const & lhs, UInt const & rhs )
+	{
+		return Optional< Int >{ findShader( lhs, rhs )
+			, expr::makeDivide( type::getInt()
+				, makeExpr( lhs )
+				, makeExpr( rhs ) )
+			, areOptionalEnabled( lhs, rhs ) };
+	}
+
+	Optional< Int > operator+( Optional< Int > const & lhs, Optional< UInt > const & rhs )
+	{
+		return Optional< Int >{ findShader( lhs, rhs )
+			, expr::makeAdd( type::getInt()
+				, makeExpr( lhs )
+				, makeExpr( rhs ) )
+			, areOptionalEnabled( lhs, rhs ) };
+	}
+
+	Optional< Int > operator-( Optional< Int > const & lhs, Optional< UInt > const & rhs )
+	{
+		return Optional< Int >{ findShader( lhs, rhs )
+			, expr::makeMinus( type::getInt()
+				, makeExpr( lhs )
+				, makeExpr( rhs ) )
+			, areOptionalEnabled( lhs, rhs ) };
+	}
+
+	Optional< Int > operator*( Optional< Int > const & lhs, Optional< UInt > const & rhs )
+	{
+		return Optional< Int >{ findShader( lhs, rhs )
+			, expr::makeTimes( type::getInt()
+				, makeExpr( lhs )
+				, makeExpr( rhs ) )
+			, areOptionalEnabled( lhs, rhs ) };
+	}
+
+	Optional< Int > operator/( Optional< Int > const & lhs, Optional< UInt > const & rhs )
 	{
 		return Optional< Int >{ findShader( lhs, rhs )
 			, expr::makeDivide( type::getInt()

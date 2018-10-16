@@ -111,7 +111,7 @@ namespace sdw
 	inline void getFunctionHeaderArgsRec( var::VariableList & args
 		, Param && last )
 	{
-		args.emplace_back( stmt::makeVarDecl( last ) );
+		args.emplace_back( makeVar( last ) );
 	}
 
 	template< typename Param
@@ -120,7 +120,7 @@ namespace sdw
 		, Param && current
 		, Params && ... params )
 	{
-		args.emplace_back( stmt::makeVarDecl( current ) );
+		args.emplace_back( makeVar( current ) );
 		getFunctionHeaderArgsRec( args, std::forward< Params >( params )... );
 	}
 
@@ -150,16 +150,17 @@ namespace sdw
 	template< typename RetT, typename ... ParamsT >
 	Function< RetT, ParamsT... >::Function( Shader * shader
 		, std::string const & name )
-		: m_container{ container }
+		: m_shader{ shader }
 		, m_name{ name }
 	{
 	}
 
 	template< typename RetT, typename ... ParamsT >
-	expr::ExprPtr Function< RetT, ParamsT... >::operator()( ParamsT && ... params )const
+	RetT Function< RetT, ParamsT... >::operator()( ParamsT && ... params )const
 	{
 		assert( !m_name.empty() );
-		return getFunctionCall< RetT >( m_name, std::forward< ParamsT >( params )... );
+		return getFunctionCall< RetT >( m_name
+				, std::forward< ParamsT >( params )... );
 	}
 
 	//***********************************************************************************************

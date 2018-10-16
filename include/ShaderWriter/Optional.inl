@@ -47,8 +47,8 @@ namespace sdw
 		if ( m_enabled )
 		{
 			addStmt( *findContainer( *this, rhs )
-				, stmt::makeSimple( expr::makeAssign( m_expr->getType()
-					, makeExpr( m_expr )
+				, stmt::makeSimple( expr::makeAssign( getType()
+					, makeExpr( *this )
 					, makeExpr( rhs ) ) ) );
 		}
 
@@ -62,8 +62,8 @@ namespace sdw
 		if ( m_enabled )
 		{
 			addStmt( *findContainer( *this, rhs )
-				, stmt::makeSimple( expr::makeAssign( m_expr->getType()
-					, makeExpr( m_expr )
+				, stmt::makeSimple( expr::makeAssign( getType()
+					, makeExpr( *this )
 					, makeExpr( rhs ) ) ) );
 		}
 
@@ -79,7 +79,9 @@ namespace sdw
 	template< typename TypeT >
 	Optional< TypeT >::operator Optional< Value >()const
 	{
-		return Optional< Value >{ *this, isEnabled() };
+		return Optional< Value >{ *this
+			, makeExpr( getExpr() )
+			, isEnabled() };
 	}
 
 	template< typename T >

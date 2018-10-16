@@ -7,21 +7,23 @@ namespace sdw
 {
 	Shader::Shader()
 	{
-		m_currentContainer = &m_container;
+		m_blocks.push( { {}, &m_container } );
 	}
 
 	void Shader::registerName( std::string const & name, type::Kind type )
 	{
-		auto it = m_registered.find( name );
-		m_registered.emplace( name, type );
+		auto & block = m_blocks.top();
+		auto it = block.registered.find( name );
+		block.registered.emplace( name, type );
 	}
 
 	void Shader::checkNameExists( std::string const & name
 		, type::Kind type )
 	{
-		auto it = m_registered.find( name );
+		auto & block = m_blocks.top();
+		auto it = block.registered.find( name );
 
-		if ( it == m_registered.end() )
+		if ( it == block.registered.end() )
 		{
 			std::string text;
 			text += "No registered variable with the name [" + name + "].";
@@ -31,7 +33,7 @@ namespace sdw
 
 	void Shader::addStmt( stmt::StmtPtr stmt )
 	{
-		m_container.addStmt( std::move( stmt ) );
+		getContainer()->addStmt( std::move( stmt ) );
 	}
 
 	void Shader::registerSsbo( std::string const & name

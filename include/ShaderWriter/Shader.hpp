@@ -13,6 +13,8 @@ See LICENSE file in root folder
 
 #include <ASTGenerator/Stmt/StmtContainer.hpp>
 
+#include <stack>
+
 namespace sdw
 {
 	struct UniformInfo
@@ -55,6 +57,19 @@ namespace sdw
 			, Ssbo::Info const & info );
 		void registerUbo( std::string const & name
 			, Ubo::Info const & info );
+		void returnStmt();
+		template< typename ReturnT, typename ... ParamsT >
+		inline Function< ReturnT, ParamsT... > implFunction( std::string const & name
+				, std::function< void( typename ParamTranslater< ParamsT >::Type... ) > const & function
+				, ParamsT && ... params );
+		template< typename RetType >
+		void returnStmt( RetType const & value );
+		template< typename ExprType >
+		ExprType ternary( Value const & condition
+			, ExprType const & left
+			, ExprType const & right );
+		template< typename DestT >
+		inline DestT cast( Value const & from );
 #pragma region Constant declaration
 		/**
 		*name
@@ -306,7 +321,7 @@ namespace sdw
 
 		inline stmt::Container * getContainer()
 		{
-			return m_currentContainer;
+			return m_blocks.top().container;
 		}
 
 	private:
@@ -326,9 +341,13 @@ namespace sdw
 			, type::Kind type );
 
 	private:
+		struct Block
+		{
+			std::map< std::string, type::Kind > registered;
+			stmt::Container * container;
+		};
+		std::stack< Block > m_blocks;
 		stmt::Container m_container;
-		stmt::Container * m_currentContainer;
-		std::map< std::string, type::Kind > m_registered;
 		std::map< std::string, Ssbo::Info > m_ssbos;
 		std::map< std::string, Ubo::Info > m_ubos;
 		std::map< std::string, type::Kind > m_constants;

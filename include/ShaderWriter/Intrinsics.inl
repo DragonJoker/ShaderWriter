@@ -14,9 +14,9 @@ namespace sdw
 				, ValueT const & b
 				, ValueT const & c )
 			{
-				return ValueT{ findContainer( a, b, c )
-					, expr::makeAdd(
-						expr::makeTimes(
+				return ValueT{ findShader( a, b, c )
+					, expr::makeAdd( a.getType(),
+						expr::makeTimes( a.getType(),
 							makeExpr( a ),
 							makeExpr( b ) ),
 						makeExpr( c ) ) };
@@ -26,9 +26,9 @@ namespace sdw
 				, ValueT const & b
 				, ValueT const & c )
 			{
-				return Optional< ValueT >{ findContainer( a, b, c )
-					, expr::makeAdd(
-						expr::makeTimes(
+				return Optional< ValueT >{ findShader( a, b, c )
+					, expr::makeAdd( a.getType(),
+						expr::makeTimes( a.getType(),
 							makeExpr( a ),
 							makeExpr( b ) ),
 						makeExpr( c ) )
@@ -39,9 +39,9 @@ namespace sdw
 				, Optional< ValueT > const & b
 				, ValueT const & c )
 			{
-				return Optional< ValueT >{ findContainer( a, b, c )
-					, expr::makeAdd(
-						expr::makeTimes(
+				return Optional< ValueT >{ findShader( a, b, c )
+					, expr::makeAdd( a.getType(),
+						expr::makeTimes( a.getType(),
 							makeExpr( a ),
 							makeExpr( b ) ),
 						makeExpr( c ) )
@@ -52,9 +52,9 @@ namespace sdw
 				, ValueT const & b
 				, Optional< ValueT > const & c )
 			{
-				return Optional< ValueT >{ findContainer( a, b, c )
-					, expr::makeAdd(
-						expr::makeTimes(
+				return Optional< ValueT >{ findShader( a, b, c )
+					, expr::makeAdd( a.getType(),
+						expr::makeTimes( a.getType(),
 							makeExpr( a ),
 							makeExpr( b ) ),
 						makeExpr( c ) )
@@ -65,9 +65,9 @@ namespace sdw
 				, Optional< ValueT > const & b
 				, ValueT const & c )
 			{
-				return Optional< ValueT >{ findContainer( a, b, c )
-					, expr::makeAdd(
-						expr::makeTimes(
+				return Optional< ValueT >{ findShader( a, b, c )
+					, expr::makeAdd( a.getType(),
+						expr::makeTimes( a.getType(),
 							makeExpr( a ),
 							makeExpr( b ) ),
 						makeExpr( c ) )
@@ -78,9 +78,9 @@ namespace sdw
 				, ValueT const & b
 				, Optional< ValueT > const & c )
 			{
-				return Optional< ValueT >{ findContainer( a, b, c )
-					, expr::makeAdd(
-						expr::makeTimes(
+				return Optional< ValueT >{ findShader( a, b, c )
+					, expr::makeAdd( a.getType(),
+						expr::makeTimes( a.getType(),
 							makeExpr( a ),
 							makeExpr( b ) ),
 						makeExpr( c ) )
@@ -91,9 +91,9 @@ namespace sdw
 				, Optional< ValueT > const & b
 				, Optional< ValueT > const & c )
 			{
-				return Optional< ValueT >{ findContainer( a, b, c )
-					, expr::makeAdd(
-						expr::makeTimes(
+				return Optional< ValueT >{ findShader( a, b, c )
+					, expr::makeAdd( a.getType(),
+						expr::makeTimes( a.getType(),
 							makeExpr( a ),
 							makeExpr( b ) ),
 						makeExpr( c ) )
@@ -104,9 +104,9 @@ namespace sdw
 				, Optional< ValueT > const & b
 				, Optional< ValueT > const & c )
 			{
-				return Optional< ValueT >{ findContainer( a, b, c )
-					, expr::makeAdd(
-						expr::makeTimes(
+				return Optional< ValueT >{ findShader( a, b, c )
+					, expr::makeAdd( a.getType(),
+						expr::makeTimes( a.getType(),
 							makeExpr( a ),
 							makeExpr( b ) ),
 						makeExpr( c ) )

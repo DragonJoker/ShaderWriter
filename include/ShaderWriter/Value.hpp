@@ -10,6 +10,7 @@ See LICENSE file in root folder
 #include <ASTGenerator/Expr/ExprDivide.hpp>
 #include <ASTGenerator/Expr/ExprMinus.hpp>
 #include <ASTGenerator/Expr/ExprTimes.hpp>
+#include <ASTGenerator/Expr/ExprUnaryMinus.hpp>
 
 namespace sdw
 {
@@ -51,9 +52,9 @@ namespace sdw
 	};
 
 	template< typename T >
-	T const & operator-( T const & value );
+	T operator-( T const & value );
 	template< typename T >
-	T const & operator+( T const & value );
+	T operator+( T const & value );
 
 	template< typename ... ValuesT >
 	inline stmt::Container * findContainer( ValuesT const & ... values );
@@ -61,7 +62,10 @@ namespace sdw
 	inline Shader * findShader( ValuesT const & ... values );
 
 	expr::ExprPtr makeExpr( Value const & variable );
-	var::VariablePtr makeVar( Value const & variable );
+	var::VariablePtr makeVar( Value const & variable
+		, var::Flag flag );
+	var::VariablePtr makeVar( Value const & variable
+		, uint32_t flags = 0u );
 }
 
 #include "Value.inl"

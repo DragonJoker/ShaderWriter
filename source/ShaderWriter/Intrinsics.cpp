@@ -25,7 +25,7 @@ namespace sdw
 
 	Int findMSB( UInt value )
 	{
-		return getFunctionCall< UInt >( "findMSB"
+		return getFunctionCall< Int >( "findMSB"
 			, value );
 	}
 

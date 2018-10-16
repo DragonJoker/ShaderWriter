@@ -1,198 +1,147 @@
 namespace sdw
 {
 	template< typename T >
-	inline T Pcb::declMember( std::string const & name
-		, uint32_t location )
+	inline T Pcb::declMember( std::string const & name )
 	{
-		using type = typename TypeOf< T >::Type;
-		registerName( m_shader, name, TypeTraits< T >::TypeEnum );
-		registerUniform( m_shader, name, location, TypeTraits< T >::TypeEnum, 1u );
-
-		if ( hasPushConstants( m_shader ) )
-		{
-			m_stream << type().m_type << name << cuT( ";" ) << std::endl;
-		}
-		else
-		{
-			m_stream << cuT( "layout( location = " ) << location << cuT( " ) uniform " ) << type().m_type << name << cuT( ";" ) << std::endl;
-		}
-
-		m_count++;
-		return T( &m_shader, name );
+		registerName( m_shader, name, typeEnum< T > );
+		m_info.registerMember( name, typeEnum< T > );
+		auto var = var::makeVariable( type::makeType( typeEnum< T > ), name );
+		m_stmt->add( stmt::makeVariableDecl( var ) );
+		return T{ &m_shader
+			, makeExpr( var ) };
 	}
 
 	template< typename T >
 	inline Array< T > Pcb::declMember( std::string const & name
-		, uint32_t dimension
-		, uint32_t location )
+		, uint32_t dimension )
 	{
-		using type = typename TypeOf< T >::Type;
-		registerName( m_shader, name, TypeTraits< T >::TypeEnum );
-		registerUniform( m_shader, name, location, TypeTraits< T >::TypeEnum, dimension );
-
-		if ( hasPushConstants( m_shader ) )
-		{
-			m_stream << type().m_type << name << cuT( "[" ) << dimension << cuT( "];" ) << std::endl;
-		}
-		else
-		{
-			m_stream << cuT( "layout( location = " ) << location << cuT( " ) uniform " ) << type().m_type << name << cuT( "[" ) << dimension << cuT( "];" ) << std::endl;
-		}
-
-		m_count++;
-		return Array< T >( &m_shader, name, dimension );
+		registerName( m_shader, name, typeEnum< T > );
+		m_info.registerMember( name, typeEnum< T > );
+		auto var = var::makeVariable( type::makeType( typeEnum< T >, dimension ), name );
+		m_stmt->add( stmt::makeVariableDecl( var ) );
+		return Array< T >{ &m_shader
+			, makeExpr( var ) };
 	}
 
 	template< typename T >
-	inline Array< T > Pcb::declMemberArray( std::string const & name
-		, uint32_t location )
+	inline Array< T > Pcb::declMemberArray( std::string const & name )
 	{
-		using type = typename TypeOf< T >::Type;
-		registerName( m_shader, name, TypeTraits< T >::TypeEnum );
-		registerUniform( m_shader, name, location, TypeTraits< T >::TypeEnum, 1u );
-
-		if ( hasPushConstants( m_shader ) )
-		{
-			m_stream << type().m_type << name << cuT( "[];" ) << std::endl;
-		}
-		else
-		{
-			m_stream << cuT( "layout( location = " ) << location << cuT( " ) uniform " ) << type().m_type << name << cuT( "[];" ) << std::endl;
-		}
-
-		m_count++;
-		return Array< T >( &m_shader, name, 0xFFFFFFFF );
+		registerName( m_shader, name, typeEnum< T > );
+		m_info.registerMember( name, typeEnum< T > );
+		auto var = var::makeVariable( type::makeType( typeEnum< T >, type::UnknownArraySize ), name );
+		m_stmt->add( stmt::makeVariableDecl( var ) );
+		return Array< T >{ &m_shader
+			, makeExpr( var ) };
 	}
 
 	template< typename T >
 	inline Optional< T > Pcb::declMember( std::string const & name
-		, uint32_t location
 		, bool enabled )
 	{
-		using type = typename TypeOf< T >::Type;
-		registerName( m_shader, name, TypeTraits< T >::TypeEnum );
-		registerUniform( m_shader, name, location, TypeTraits< T >::TypeEnum, 1u, enabled );
+		registerName( m_shader, name, typeEnum< T > );
+		m_info.registerMember( name, typeEnum< T > );
+		auto var = var::makeVariable( type::makeType( typeEnum< T > ), name );
 
 		if ( enabled )
 		{
-			if ( hasPushConstants( m_shader ) )
-			{
-				m_stream << type().m_type << name << cuT( ";" ) << std::endl;
-			}
-			else
-			{
-				m_stream << cuT( "layout( location = " ) << location << cuT( " ) uniform " ) << type().m_type << name << cuT( ";" ) << std::endl;
-			}
-
-			m_count++;
+			m_stmt->add( stmt::makeVariableDecl( var ) );
 		}
 
-		return Optional< T >( &m_shader, name, enabled );
+		return Optional< T >{ &m_shader
+			, expr::makeIdentifier( var )
+			, enabled };
 	}
 
 	template< typename T >
 	inline Optional< Array< T > > Pcb::declMember( std::string const & name
 		, uint32_t dimension
-		, uint32_t location
 		, bool enabled )
 	{
-		using type = typename TypeOf< T >::Type;
-		registerName( m_shader, name, TypeTraits< T >::TypeEnum );
-		registerUniform( m_shader, name, location, TypeTraits< T >::TypeEnum, dimension, enabled );
+		registerName( m_shader, name, typeEnum< T > );
+		m_info.registerMember( name, typeEnum< T > );
+		auto var = var::makeVariable( type::makeType( typeEnum< T >, dimension ), name );
 
 		if ( enabled )
 		{
-			if ( hasPushConstants( m_shader ) )
-			{
-				m_stream << type().m_type << name << cuT( "[" ) << dimension << cuT( "]" ) << cuT( ";" ) << std::endl;
-			}
-			else
-			{
-				m_stream << cuT( "layout( location = " ) << location << cuT( " ) uniform " ) << type().m_type << name << cuT( "[" ) << dimension << cuT( "]" ) << cuT( ";" ) << std::endl;
-			}
-
-			m_count++;
+			m_stmt->add( stmt::makeVariableDecl( var ) );
 		}
 
-		return Optional< Array< T > >( &m_shader, name, dimension, enabled );
+		return Optional< Array< T > >{ &m_shader
+			, expr::makeIdentifier( var )
+			, enabled };
 	}
 
 	template< typename T >
 	inline Optional< Array< T > > Pcb::declMemberArray( std::string const & name
-		, uint32_t location
 		, bool enabled )
 	{
-		using type = typename TypeOf< T >::Type;
-		registerName( m_shader, name, TypeTraits< T >::TypeEnum );
-		registerUniform( m_shader, name, location, TypeTraits< T >::TypeEnum, 1u, enabled );
+		registerName( m_shader, name, typeEnum< T > );
+		m_info.registerMember( name, typeEnum< T > );
+		auto var = var::makeVariable( type::makeType( typeEnum< T >, type::UnknownArraySize ), name );
 
 		if ( enabled )
 		{
-			if ( hasPushConstants( m_shader ) )
-			{
-				m_stream << type().m_type << name << cuT( "[]" ) << cuT( ";" ) << std::endl;
-			}
-			else
-			{
-				m_stream << cuT( "layout( location = " ) << location << cuT( " ) uniform " ) << type().m_type << name << cuT( "[]" ) << cuT( ";" ) << std::endl;
-			}
-
-			m_count++;
+			m_stmt->add( stmt::makeVariableDecl( var ) );
 		}
 
-		return Optional< Array< T > >( &m_shader, name, 0xFFFFFFFF, enabled );
+		return Optional< Array< T > >{ &m_shader
+			, expr::makeIdentifier( var )
+			, enabled };
 	}
 
 	template< typename T >
-	inline T Pcb::getMember( std::string const & name
-		, uint32_t location )
+	inline T Pcb::getMember( std::string const & name )
 	{
-		checkNameExists( m_shader, name, TypeTraits< T >::TypeEnum );
-		return T( &m_shader, name );
+		checkNameExists( m_shader, name, typeEnum< T > );
+		return T{ &m_shader
+			, makeExpr( var::makeVariable( type::makeType( typeEnum< T > ), name ) ) };
 	}
 
 	template< typename T >
 	inline Array< T > Pcb::getMember( std::string const & name
-		, uint32_t dimension
-		, uint32_t location )
+		, uint32_t dimension )
 	{
-		checkNameExists( m_shader, name, TypeTraits< T >::TypeEnum );
-		return Array< T >( &m_shader, name, dimension );
+		checkNameExists( m_shader, name, typeEnum< T > );
+		return Array< T >{ &m_shader
+			, makeExpr( var::makeVariable( type::makeType( typeEnum< T >, dimension ), name ) ) };
 	}
 
 	template< typename T >
-	inline Array< T > Pcb::getMemberArray( std::string const & name
-		, uint32_t location )
+	inline Array< T > Pcb::getMemberArray( std::string const & name )
 	{
-		checkNameExists( m_shader, name, TypeTraits< T >::TypeEnum );
-		return Array< T >( &m_shader, name, 0xFFFFFFFF );
+		checkNameExists( m_shader, name, typeEnum< T > );
+		return Array< T >{ &m_shader
+			, makeExpr( var::makeVariable( type::makeType( typeEnum< T >, type::UnknownArraySize ), name ) ) };
 	}
 
 	template< typename T >
 	inline Optional< T > Pcb::getMember( std::string const & name
-		, uint32_t location
 		, bool enabled )
 	{
-		checkNameExists( m_shader, name, TypeTraits< T >::TypeEnum );
-		return Optional< T >( &m_shader, name, enabled );
+		checkNameExists( m_shader, name, typeEnum< T > );
+		return Optional< T >{ &m_shader
+			, makeExpr( var::makeVariable( type::makeType( typeEnum< T > ), name ) )
+			, enabled };
 	}
 
 	template< typename T >
 	inline Optional< Array< T > > Pcb::getMember( std::string const & name
 		, uint32_t dimension
-		, uint32_t location
 		, bool enabled )
 	{
-		checkNameExists( m_shader, name, TypeTraits< T >::TypeEnum );
-		return Optional< Array< T > >( &m_shader, name, dimension, enabled );
+		checkNameExists( m_shader, name, typeEnum< T > );
+		return Optional< Array< T > >{ &m_shader
+			, makeExpr( var::makeVariable( type::makeType( typeEnum< T >, dimension ), name ) )
+			, enabled };
 	}
 
 	template< typename T >
 	inline Optional< Array< T > > Pcb::getMemberArray( std::string const & name
-		, uint32_t location
 		, bool enabled )
 	{
-		checkNameExists( m_shader, name, TypeTraits< T >::TypeEnum );
-		return Optional< Array< T > >( &m_shader, name, 0xFFFFFFFF, enabled );
+		checkNameExists( m_shader, name, typeEnum< T > );
+		return Optional< Array< T > >{ &m_shader
+			, makeExpr( var::makeVariable( type::makeType( typeEnum< T >, type::UnknownArraySize ), name ) )
+			, enabled };
 	}
 }
