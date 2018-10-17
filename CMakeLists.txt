@@ -148,9 +148,9 @@ if ( MSVC OR NOT "${CMAKE_BUILD_TYPE}" STREQUAL "" )
 		${${PROJECT_NAME}_FOLDER_SOURCE_FILES}
 	)
 	add_target_precompiled_header( ${PROJECT_NAME}
-		${PROJECT_NAME}/ASTGeneratorPch.hpp
+		${CMAKE_SOURCE_DIR}/include/${PROJECT_NAME}/ASTGeneratorPch.hpp
 		${CMAKE_SOURCE_DIR}/source/${PROJECT_NAME}/ASTGeneratorPch.cpp
-		${CMAKE_CXX_FLAGS}
+		"${CMAKE_CXX_FLAGS}"
 		${${PROJECT_NAME}_FOLDER_SOURCE_FILES}
 	)
 	set_property( TARGET ${PROJECT_NAME} PROPERTY CXX_STANDARD 17 )
@@ -173,9 +173,9 @@ if ( MSVC OR NOT "${CMAKE_BUILD_TYPE}" STREQUAL "" )
 		${${PROJECT_NAME}_FOLDER_SOURCE_FILES}
 	)
 	add_target_precompiled_header( ${PROJECT_NAME}
-		${PROJECT_NAME}/ShaderWriterPch.hpp
+		${CMAKE_SOURCE_DIR}/include/${PROJECT_NAME}/ShaderWriterPch.hpp
 		${CMAKE_SOURCE_DIR}/source/${PROJECT_NAME}/ShaderWriterPch.cpp
-		${CMAKE_CXX_FLAGS}
+		"${CMAKE_CXX_FLAGS}"
 		${${PROJECT_NAME}_FOLDER_SOURCE_FILES}
 	)
 	target_link_libraries( ${PROJECT_NAME}

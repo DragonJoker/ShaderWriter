@@ -1,5 +1,3 @@
-#pragma once
-
 #include "Common.hpp"
 
 #if defined( _WIN32 )
