@@ -1,12 +1,4 @@
-namespace sdw
-{
-	Void::Void()
-		: Type( cuT( "void " ) )
-	{
-	}
+/*
+See LICENSE file in root folder
+*/
 
-	Void::Void( Shader * shader )
-		: Type( cuT( "void " ), writer, std::string() )
-	{
-	}
-}

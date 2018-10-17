@@ -1,3 +1,6 @@
+/*
+See LICENSE file in root folder
+*/
 #include "ShaderWriter/Value.hpp"
 
 #include "ShaderWriter/Shader.hpp"

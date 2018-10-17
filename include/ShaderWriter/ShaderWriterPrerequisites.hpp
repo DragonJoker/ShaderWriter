@@ -6,6 +6,8 @@ See LICENSE file in root folder
 
 #include <map>
 
+#include <ASTGenerator/Type/Type.hpp>
+
 #define Writer_Parameter( TypeName )\
 	using In##TypeName = InParam< TypeName >;\
 	using Out##TypeName = OutParam< TypeName >;\
@@ -14,6 +16,7 @@ See LICENSE file in root folder
 namespace sdw
 {
 	class Shader;
+	class ShaderWriter;
 
 	enum class SamplerType
 	{

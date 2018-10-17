@@ -11,11 +11,6 @@ See LICENSE file in root folder
 #include "UInt.hpp"
 #include "Swizzle.hpp"
 
-#include <ASTGenerator/Expr/ExprAddAssign.hpp>
-#include <ASTGenerator/Expr/ExprDivideAssign.hpp>
-#include <ASTGenerator/Expr/ExprMinusAssign.hpp>
-#include <ASTGenerator/Expr/ExprTimesAssign.hpp>
-
 namespace sdw
 {
 	template< typename ValueT >

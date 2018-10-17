@@ -13,7 +13,7 @@ namespace sdw
 	class Struct
 	{
 	public:
-		Struct( Shader & shader
+		Struct( ShaderWriter & writer
 			, std::string name );
 		void end();
 		StructInstance getInstance( std::string const & name );

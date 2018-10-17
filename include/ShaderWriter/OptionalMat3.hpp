@@ -6,7 +6,6 @@ See LICENSE file in root folder
 #pragma once
 
 #include "Mat3.hpp"
-#include "Optional.hpp"
 
 namespace sdw
 {

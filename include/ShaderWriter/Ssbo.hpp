@@ -23,7 +23,7 @@ namespace sdw
 
 		using Info = BoInfo;
 
-		Ssbo( Shader & shader
+		Ssbo( ShaderWriter & writer
 			, std::string const & name
 			, uint32_t bind
 			, uint32_t set = 0u

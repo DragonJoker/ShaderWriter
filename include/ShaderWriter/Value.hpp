@@ -6,12 +6,6 @@ See LICENSE file in root folder
 
 #include "ShaderWriterPrerequisites.hpp"
 
-#include <ASTGenerator/Expr/ExprAdd.hpp>
-#include <ASTGenerator/Expr/ExprDivide.hpp>
-#include <ASTGenerator/Expr/ExprMinus.hpp>
-#include <ASTGenerator/Expr/ExprTimes.hpp>
-#include <ASTGenerator/Expr/ExprUnaryMinus.hpp>
-
 namespace sdw
 {
 	template< typename T > struct is_type : public std::false_type {};

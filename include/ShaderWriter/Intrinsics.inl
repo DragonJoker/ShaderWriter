@@ -15,8 +15,8 @@ namespace sdw
 				, ValueT const & c )
 			{
 				return ValueT{ findShader( a, b, c )
-					, expr::makeAdd( a.getType(),
-						expr::makeTimes( a.getType(),
+					, sdw::makeAdd( a.getType(),
+						sdw::makeTimes( a.getType(),
 							makeExpr( a ),
 							makeExpr( b ) ),
 						makeExpr( c ) ) };
@@ -27,8 +27,8 @@ namespace sdw
 				, ValueT const & c )
 			{
 				return Optional< ValueT >{ findShader( a, b, c )
-					, expr::makeAdd( a.getType(),
-						expr::makeTimes( a.getType(),
+					, sdw::makeAdd( a.getType(),
+						sdw::makeTimes( a.getType(),
 							makeExpr( a ),
 							makeExpr( b ) ),
 						makeExpr( c ) )
@@ -40,8 +40,8 @@ namespace sdw
 				, ValueT const & c )
 			{
 				return Optional< ValueT >{ findShader( a, b, c )
-					, expr::makeAdd( a.getType(),
-						expr::makeTimes( a.getType(),
+					, sdw::makeAdd( a.getType(),
+						sdw::makeTimes( a.getType(),
 							makeExpr( a ),
 							makeExpr( b ) ),
 						makeExpr( c ) )
@@ -53,8 +53,8 @@ namespace sdw
 				, Optional< ValueT > const & c )
 			{
 				return Optional< ValueT >{ findShader( a, b, c )
-					, expr::makeAdd( a.getType(),
-						expr::makeTimes( a.getType(),
+					, sdw::makeAdd( a.getType(),
+						sdw::makeTimes( a.getType(),
 							makeExpr( a ),
 							makeExpr( b ) ),
 						makeExpr( c ) )
@@ -66,8 +66,8 @@ namespace sdw
 				, ValueT const & c )
 			{
 				return Optional< ValueT >{ findShader( a, b, c )
-					, expr::makeAdd( a.getType(),
-						expr::makeTimes( a.getType(),
+					, sdw::makeAdd( a.getType(),
+						sdw::makeTimes( a.getType(),
 							makeExpr( a ),
 							makeExpr( b ) ),
 						makeExpr( c ) )
@@ -79,8 +79,8 @@ namespace sdw
 				, Optional< ValueT > const & c )
 			{
 				return Optional< ValueT >{ findShader( a, b, c )
-					, expr::makeAdd( a.getType(),
-						expr::makeTimes( a.getType(),
+					, sdw::makeAdd( a.getType(),
+						sdw::makeTimes( a.getType(),
 							makeExpr( a ),
 							makeExpr( b ) ),
 						makeExpr( c ) )
@@ -92,8 +92,8 @@ namespace sdw
 				, Optional< ValueT > const & c )
 			{
 				return Optional< ValueT >{ findShader( a, b, c )
-					, expr::makeAdd( a.getType(),
-						expr::makeTimes( a.getType(),
+					, sdw::makeAdd( a.getType(),
+						sdw::makeTimes( a.getType(),
 							makeExpr( a ),
 							makeExpr( b ) ),
 						makeExpr( c ) )
@@ -105,8 +105,8 @@ namespace sdw
 				, Optional< ValueT > const & c )
 			{
 				return Optional< ValueT >{ findShader( a, b, c )
-					, expr::makeAdd( a.getType(),
-						expr::makeTimes( a.getType(),
+					, sdw::makeAdd( a.getType(),
+						sdw::makeTimes( a.getType(),
 							makeExpr( a ),
 							makeExpr( b ) ),
 						makeExpr( c ) )

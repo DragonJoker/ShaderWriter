@@ -110,7 +110,7 @@ namespace sdw
 	T operator-( T const & value )
 	{
 		return T{ findShader( value )
-			, expr::makeUnaryMinus( makeExpr( value ) ) };
+			, sdw::makeUnMinus( makeExpr( value ) ) };
 	}
 
 	template< typename T >

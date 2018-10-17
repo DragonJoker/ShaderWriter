@@ -1,9 +1,9 @@
+/*
+See LICENSE file in root folder
+*/
 #include "ShaderWriter/PerVertex.hpp"
 
-#include <ASTGenerator/Expr/ExprIdentifier.hpp>
-#include <ASTGenerator/Expr/ExprMbrSelect.hpp>
-#include <ASTGenerator/Stmt/StmtInOutVariableDecl.hpp>
-#include <ASTGenerator/Type/TypeStruct.hpp>
+#include "ShaderWriter/Writer.hpp"
 
 namespace sdw
 {
@@ -20,34 +20,34 @@ namespace sdw
 	}
 
 	gl_PerVertex::gl_PerVertex()
-		: Value{ nullptr, expr::makeIdentifier( var::makeVariable( doGetType(), "" ) ) }
+		: Value{ nullptr, makeExpr( var::makeVariable( doGetType(), "" ) ) }
 		, m_source{ stmt::PerVertexDecl::Source::eVertexOutput }
 	{
 	}
 
-	gl_PerVertex::gl_PerVertex( Shader & shader, stmt::PerVertexDecl::Source source )
-		: Value{ &shader, expr::makeIdentifier( var::makeVariable( doGetType(), "" ) ) }
+	gl_PerVertex::gl_PerVertex( ShaderWriter & writer, stmt::PerVertexDecl::Source source )
+		: Value{ &writer.getShader(), makeExpr( var::makeVariable( doGetType(), "" ) ) }
 		, m_source{ source }
 	{
 		addStmt( *findContainer( *this )
-			, stmt::makePerVertexDecl( source ) );
+			, sdw::makePerVertexDecl( source ) );
 	}
 
 	Vec4 gl_PerVertex::gl_Position()const
 	{
 		return Vec4{ findShader( *this )
-			, expr::makeIdentifier( var::makeVariable( type::getVec4F(), "gl_Position" ) ) };
+			, makeExpr( var::makeVariable( type::getVec4F(), "gl_Position" ) ) };
 	}
 
 	Float gl_PerVertex::gl_PointSize()const
 	{
 		return Float{ findShader( *this )
-			, expr::makeIdentifier( var::makeVariable( type::getFloat(), "gl_PointSize" ) ) };
+			, makeExpr( var::makeVariable( type::getFloat(), "gl_PointSize" ) ) };
 	}
 
 	Float gl_PerVertex::gl_ClipDistance()const
 	{
 		return Float{ findShader( *this )
-			, expr::makeIdentifier( var::makeVariable( type::makeType( type::Kind::eFloat, type::UnknownArraySize ), "gl_ClipDistance" ) ) };
+			, makeExpr( var::makeVariable( type::makeType( type::Kind::eFloat, type::UnknownArraySize ), "gl_ClipDistance" ) ) };
 	}
 }

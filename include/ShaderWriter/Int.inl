@@ -1,9 +1,6 @@
 /*
 See LICENSE file in root folder
 */
-#include <ASTGenerator/Expr/ExprAssign.hpp>
-#include <ASTGenerator/Stmt/StmtSimple.hpp>
-
 namespace sdw
 {
 	template< typename T >
@@ -11,7 +8,7 @@ namespace sdw
 	{
 		updateContainer( rhs );
 		addStmt( *findContainer( *this, rhs )
-			, stmt::makeSimple( expr::makeAssign( type::getInt()
+			, sdw::makeSimple( makeAssign( type::getInt()
 				, makeExpr( *this )
 				, makeExpr( rhs ) ) ) );
 		return *this;

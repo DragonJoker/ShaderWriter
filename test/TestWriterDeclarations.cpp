@@ -11,28 +11,31 @@
 namespace
 {
 	template< typename T >
-	void testConstant( sdw::Shader & shader )
+	void testConstant( sdw::ShaderWriter & writer )
 	{
 		{
-			auto name = sdw::debug::getTypeName( sdw::typeEnum< T > ) + "ConstantValue";
-			auto value = shader.declConstant< T >( name, test::getDefault< T >( shader ) );
+			auto & shader = writer.getShader();
+			auto name = sdw::debug::getName( sdw::typeEnum< T > ) + "ConstantValue";
+			auto value = writer.declConstant< T >( name, test::getDefault< T >( shader ) );
 			check( value.getType()->getKind() == sdw::typeEnum< T > );
 			check( value.getType()->getArraySize() == sdw::type::NotArray );
 			auto & stmt = *shader.getStatements()->getStatements().back();
 			check( stmt.getKind() == sdw::stmt::Kind::ePreprocDefine );
 		}
 		{
-			sdw::Shader shader;
+			sdw::ShaderWriter writer{ false };
+			auto & shader = writer.getShader();
 			auto count = shader.getStatements()->getStatements().size();
-			auto value = shader.declConstant< T >( "value", test::getDefault< T >( shader ), false );
+			auto value = writer.declConstant< T >( "value", test::getDefault< T >( shader ), false );
 			check( !value.isEnabled() );
 			check( value.getType()->getKind() == sdw::typeEnum< T > );
 			check( value.getType()->getArraySize() == sdw::type::NotArray );
 			check( shader.getStatements()->getStatements().size() == count );
 		}
 		{
-			auto name = sdw::debug::getTypeName( sdw::typeEnum< T > ) + "ConstantValue_opt";
-			auto value = shader.declConstant< T >( name, test::getDefault< T >( shader ), true );
+			auto & shader = writer.getShader();
+			auto name = sdw::debug::getName( sdw::typeEnum< T > ) + "ConstantValue_opt";
+			auto value = writer.declConstant< T >( name, test::getDefault< T >( shader ), true );
 			check( value.isEnabled() );
 			check( value.getType()->getKind() == sdw::typeEnum< T > );
 			check( value.getType()->getArraySize() == sdw::type::NotArray );
@@ -42,11 +45,12 @@ namespace
 	}
 
 	template< typename T >
-	void testSpecConstant( sdw::Shader & shader )
+	void testSpecConstant( sdw::ShaderWriter & writer )
 	{
 		{
-			auto name = sdw::debug::getTypeName( sdw::typeEnum< T > ) + "SpecConstantValue_0";
-			auto value = shader.declSpecConstant< T >( name, 0u, test::getDefault< T >( shader ) );
+			auto & shader = writer.getShader();
+			auto name = sdw::debug::getName( sdw::typeEnum< T > ) + "SpecConstantValue_0";
+			auto value = writer.declSpecConstant< T >( name, 0u, test::getDefault< T >( shader ) );
 			check( value.getType()->getKind() == sdw::typeEnum< T > );
 			check( value.getType()->getArraySize() == sdw::type::NotArray );
 			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
@@ -57,9 +61,10 @@ namespace
 			check( static_cast< sdw::stmt::InOutVariableDecl const & >( stmt ).getLocation() == 0u );
 		}
 		{
-			sdw::Shader shader;
+			sdw::ShaderWriter writer{ false };
+			auto & shader = writer.getShader();
 			auto count = shader.getStatements()->getStatements().size();
-			auto value = shader.declSpecConstant< T >( "value", 1u, test::getDefault< T >( shader ), false );
+			auto value = writer.declSpecConstant< T >( "value", 1u, test::getDefault< T >( shader ), false );
 			check( !value.isEnabled() );
 			check( value.getType()->getKind() == sdw::typeEnum< T > );
 			check( value.getType()->getArraySize() == sdw::type::NotArray );
@@ -69,8 +74,9 @@ namespace
 			check( shader.getStatements()->getStatements().size() == count );
 		}
 		{
-			auto name = sdw::debug::getTypeName( sdw::typeEnum< T > ) + "SpecConstantValue_2_opt";
-			auto value = shader.declSpecConstant< T >( name, 2u, test::getDefault< T >( shader ), true );
+			auto & shader = writer.getShader();
+			auto name = sdw::debug::getName( sdw::typeEnum< T > ) + "SpecConstantValue_2_opt";
+			auto value = writer.declSpecConstant< T >( name, 2u, test::getDefault< T >( shader ), true );
 			check( value.isEnabled() );
 			check( value.getType()->getKind() == sdw::typeEnum< T > );
 			check( value.getType()->getArraySize() == sdw::type::NotArray );
@@ -84,11 +90,12 @@ namespace
 	}
 
 	template< typename T >
-	void testShaderInput( sdw::Shader & shader )
+	void testShaderInput( sdw::ShaderWriter & writer )
 	{
 		{
-			auto name = sdw::debug::getTypeName( sdw::typeEnum< T > ) + "InputValue_0";
-			auto value = shader.declInput< T >( name, 0u );
+			auto & shader = writer.getShader();
+			auto name = sdw::debug::getName( sdw::typeEnum< T > ) + "InputValue_0";
+			auto value = writer.declInput< T >( name, 0u );
 			check( value.getType()->getKind() == sdw::typeEnum< T > );
 			check( value.getType()->getArraySize() == sdw::type::NotArray );
 			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
@@ -99,8 +106,9 @@ namespace
 			check( static_cast< sdw::stmt::InOutVariableDecl const & >( stmt ).getLocation() == 0u );
 		}
 		{
-			auto name = sdw::debug::getTypeName( sdw::typeEnum< T > ) + "InputValue_1";
-			auto value = shader.declInputArray< T >( name, 1u, 12u );
+			auto & shader = writer.getShader();
+			auto name = sdw::debug::getName( sdw::typeEnum< T > ) + "InputValue_1";
+			auto value = writer.declInputArray< T >( name, 1u, 12u );
 			check( value.getType()->getKind() == sdw::typeEnum< T > );
 			check( value.getType()->getArraySize() == 12u );
 			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
@@ -111,8 +119,9 @@ namespace
 			check( static_cast< sdw::stmt::InOutVariableDecl const & >( stmt ).getLocation() == 1u );
 		}
 		{
-			auto name = sdw::debug::getTypeName( sdw::typeEnum< T > ) + "InputValue_2";
-			auto value = shader.declInputArray< T >( name, 2u );
+			auto & shader = writer.getShader();
+			auto name = sdw::debug::getName( sdw::typeEnum< T > ) + "InputValue_2";
+			auto value = writer.declInputArray< T >( name, 2u );
 			check( value.getType()->getKind() == sdw::typeEnum< T > );
 			check( value.getType()->getArraySize() == sdw::type::UnknownArraySize );
 			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
@@ -123,9 +132,10 @@ namespace
 			check( static_cast< sdw::stmt::InOutVariableDecl const & >( stmt ).getLocation() == 2u );
 		}
 		{
-			sdw::Shader shader;
+			sdw::ShaderWriter writer{ false };
+			auto & shader = writer.getShader();
 			auto count = shader.getStatements()->getStatements().size();
-			auto value = shader.declInput< T >( "value", 0u, false );
+			auto value = writer.declInput< T >( "value", 0u, false );
 			check( !value.isEnabled() );
 			check( value.getType()->getKind() == sdw::typeEnum< T > );
 			check( value.getType()->getArraySize() == sdw::type::NotArray );
@@ -135,9 +145,10 @@ namespace
 			check( shader.getStatements()->getStatements().size() == count );
 		}
 		{
-			sdw::Shader shader;
+			sdw::ShaderWriter writer{ false };
+			auto & shader = writer.getShader();
 			auto count = shader.getStatements()->getStatements().size();
-			auto value = shader.declInputArray< T >( "value", 1u, 12u, false );
+			auto value = writer.declInputArray< T >( "value", 1u, 12u, false );
 			check( !value.isEnabled() );
 			check( !value[0].isEnabled() );
 			check( value.getType()->getKind() == sdw::typeEnum< T > );
@@ -148,9 +159,10 @@ namespace
 			check( shader.getStatements()->getStatements().size() == count );
 		}
 		{
-			sdw::Shader shader;
+			sdw::ShaderWriter writer{ false };
+			auto & shader = writer.getShader();
 			auto count = shader.getStatements()->getStatements().size();
-			auto value = shader.declInputArray< T >( "value", 2u, false );
+			auto value = writer.declInputArray< T >( "value", 2u, false );
 			check( !value.isEnabled() );
 			check( !value[0].isEnabled() );
 			check( value.getType()->getKind() == sdw::typeEnum< T > );
@@ -161,8 +173,9 @@ namespace
 			check( shader.getStatements()->getStatements().size() == count );
 		}
 		{
-			auto name = sdw::debug::getTypeName( sdw::typeEnum< T > ) + "InputValue_0_opt";
-			auto value = shader.declInput< T >( name, 0u, true );
+			auto & shader = writer.getShader();
+			auto name = sdw::debug::getName( sdw::typeEnum< T > ) + "InputValue_0_opt";
+			auto value = writer.declInput< T >( name, 0u, true );
 			check( value.isEnabled() );
 			check( value.getType()->getKind() == sdw::typeEnum< T > );
 			check( value.getType()->getArraySize() == sdw::type::NotArray );
@@ -174,8 +187,9 @@ namespace
 			check( static_cast< sdw::stmt::InOutVariableDecl const & >( stmt ).getLocation() == 0u );
 		}
 		{
-			auto name = sdw::debug::getTypeName( sdw::typeEnum< T > ) + "InputValue_1_opt";
-			auto value = shader.declInputArray< T >( name, 1u, 12u, true );
+			auto & shader = writer.getShader();
+			auto name = sdw::debug::getName( sdw::typeEnum< T > ) + "InputValue_1_opt";
+			auto value = writer.declInputArray< T >( name, 1u, 12u, true );
 			check( value.isEnabled() );
 			check( value[0].isEnabled() );
 			check( value.getType()->getKind() == sdw::typeEnum< T > );
@@ -188,8 +202,9 @@ namespace
 			check( static_cast< sdw::stmt::InOutVariableDecl const & >( stmt ).getLocation() == 1u );
 		}
 		{
-			auto name = sdw::debug::getTypeName( sdw::typeEnum< T > ) + "InputValue_2_opt";
-			auto value = shader.declInputArray< T >( name, 2u, true );
+			auto & shader = writer.getShader();
+			auto name = sdw::debug::getName( sdw::typeEnum< T > ) + "InputValue_2_opt";
+			auto value = writer.declInputArray< T >( name, 2u, true );
 			check( value.isEnabled() );
 			check( value[0].isEnabled() );
 			check( value.getType()->getKind() == sdw::typeEnum< T > );
@@ -204,11 +219,12 @@ namespace
 	}
 
 	template< typename T >
-	void testShaderOutput( sdw::Shader & shader )
+	void testShaderOutput( sdw::ShaderWriter & writer )
 	{
 		{
-			auto name = sdw::debug::getTypeName( sdw::typeEnum< T > ) + "OutputValue_0";
-			auto value = shader.declOutput< T >( name, 0u );
+			auto & shader = writer.getShader();
+			auto name = sdw::debug::getName( sdw::typeEnum< T > ) + "OutputValue_0";
+			auto value = writer.declOutput< T >( name, 0u );
 			check( value.getType()->getKind() == sdw::typeEnum< T > );
 			check( value.getType()->getArraySize() == sdw::type::NotArray );
 			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
@@ -219,8 +235,9 @@ namespace
 			check( static_cast< sdw::stmt::InOutVariableDecl const & >( stmt ).getLocation() == 0u );
 		}
 		{
-			auto name = sdw::debug::getTypeName( sdw::typeEnum< T > ) + "OutputValue_1";
-			auto value = shader.declOutputArray< T >( name, 1u, 12u );
+			auto & shader = writer.getShader();
+			auto name = sdw::debug::getName( sdw::typeEnum< T > ) + "OutputValue_1";
+			auto value = writer.declOutputArray< T >( name, 1u, 12u );
 			check( value.getType()->getKind() == sdw::typeEnum< T > );
 			check( value.getType()->getArraySize() == 12u );
 			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
@@ -231,8 +248,9 @@ namespace
 			check( static_cast< sdw::stmt::InOutVariableDecl const & >( stmt ).getLocation() == 1u );
 		}
 		{
-			auto name = sdw::debug::getTypeName( sdw::typeEnum< T > ) + "OutputValue_2";
-			auto value = shader.declOutputArray< T >( name, 2u );
+			auto & shader = writer.getShader();
+			auto name = sdw::debug::getName( sdw::typeEnum< T > ) + "OutputValue_2";
+			auto value = writer.declOutputArray< T >( name, 2u );
 			check( value.getType()->getKind() == sdw::typeEnum< T > );
 			check( value.getType()->getArraySize() == sdw::type::UnknownArraySize );
 			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
@@ -243,9 +261,10 @@ namespace
 			check( static_cast< sdw::stmt::InOutVariableDecl const & >( stmt ).getLocation() == 2u );
 		}
 		{
-			sdw::Shader shader;
+			sdw::ShaderWriter writer{ false };
+			auto & shader = writer.getShader();
 			auto count = shader.getStatements()->getStatements().size();
-			auto value = shader.declOutput< T >( "value", 0u, false );
+			auto value = writer.declOutput< T >( "value", 0u, false );
 			check( !value.isEnabled() );
 			check( value.getType()->getKind() == sdw::typeEnum< T > );
 			check( value.getType()->getArraySize() == sdw::type::NotArray );
@@ -255,9 +274,10 @@ namespace
 			check( shader.getStatements()->getStatements().size() == count );
 		}
 		{
-			sdw::Shader shader;
+			sdw::ShaderWriter writer{ false };
+			auto & shader = writer.getShader();
 			auto count = shader.getStatements()->getStatements().size();
-			auto value = shader.declOutputArray< T >( "value", 1u, 12u, false );
+			auto value = writer.declOutputArray< T >( "value", 1u, 12u, false );
 			check( !value.isEnabled() );
 			check( !value[0].isEnabled() );
 			check( value.getType()->getKind() == sdw::typeEnum< T > );
@@ -268,9 +288,10 @@ namespace
 			check( shader.getStatements()->getStatements().size() == count );
 		}
 		{
-			sdw::Shader shader;
+			sdw::ShaderWriter writer{ false };
+			auto & shader = writer.getShader();
 			auto count = shader.getStatements()->getStatements().size();
-			auto value = shader.declOutputArray< T >( "value", 2u, false );
+			auto value = writer.declOutputArray< T >( "value", 2u, false );
 			check( !value.isEnabled() );
 			check( !value[0].isEnabled() );
 			check( value.getType()->getKind() == sdw::typeEnum< T > );
@@ -281,8 +302,9 @@ namespace
 			check( shader.getStatements()->getStatements().size() == count );
 		}
 		{
-			auto name = sdw::debug::getTypeName( sdw::typeEnum< T > ) + "OutputValue_0_opt";
-			auto value = shader.declOutput< T >( name, 0u, true );
+			auto & shader = writer.getShader();
+			auto name = sdw::debug::getName( sdw::typeEnum< T > ) + "OutputValue_0_opt";
+			auto value = writer.declOutput< T >( name, 0u, true );
 			check( value.isEnabled() );
 			check( value.getType()->getKind() == sdw::typeEnum< T > );
 			check( value.getType()->getArraySize() == sdw::type::NotArray );
@@ -294,8 +316,9 @@ namespace
 			check( static_cast< sdw::stmt::InOutVariableDecl const & >( stmt ).getLocation() == 0u );
 		}
 		{
-			auto name = sdw::debug::getTypeName( sdw::typeEnum< T > ) + "OutputValue_1_opt";
-			auto value = shader.declOutputArray< T >( name, 1u, 12u, true );
+			auto & shader = writer.getShader();
+			auto name = sdw::debug::getName( sdw::typeEnum< T > ) + "OutputValue_1_opt";
+			auto value = writer.declOutputArray< T >( name, 1u, 12u, true );
 			check( value.isEnabled() );
 			check( value[0].isEnabled() );
 			check( value.getType()->getKind() == sdw::typeEnum< T > );
@@ -308,8 +331,9 @@ namespace
 			check( static_cast< sdw::stmt::InOutVariableDecl const & >( stmt ).getLocation() == 1u );
 		}
 		{
-			auto name = sdw::debug::getTypeName( sdw::typeEnum< T > ) + "OutputValue_2_opt";
-			auto value = shader.declOutputArray< T >( name, 2u, true );
+			auto & shader = writer.getShader();
+			auto name = sdw::debug::getName( sdw::typeEnum< T > ) + "OutputValue_2_opt";
+			auto value = writer.declOutputArray< T >( name, 2u, true );
 			check( value.isEnabled() );
 			check( value[0].isEnabled() );
 			check( value.getType()->getKind() == sdw::typeEnum< T > );
@@ -324,11 +348,12 @@ namespace
 	}
 
 	template< typename T >
-	void testLocale( sdw::Shader & shader )
+	void testLocale( sdw::ShaderWriter & writer )
 	{
 		{
-			auto name = sdw::debug::getTypeName( sdw::typeEnum< T > ) + "LocaleValue";
-			auto value = shader.declLocale< T >( name );
+			auto & shader = writer.getShader();
+			auto name = sdw::debug::getName( sdw::typeEnum< T > ) + "LocaleValue";
+			auto value = writer.declLocale< T >( name );
 			check( value.getType()->getKind() == sdw::typeEnum< T > );
 			check( value.getType()->getArraySize() == sdw::type::NotArray );
 			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
@@ -338,8 +363,9 @@ namespace
 			check( stmt.getKind() == sdw::stmt::Kind::eVariableDecl );
 		}
 		{
-			auto name = sdw::debug::getTypeName( sdw::typeEnum< T > ) + "LocaleValueAssigned";
-			auto value = shader.declLocale< T >( name, test::getDefault< T >( shader ) );
+			auto & shader = writer.getShader();
+			auto name = sdw::debug::getName( sdw::typeEnum< T > ) + "LocaleValueAssigned";
+			auto value = writer.declLocale< T >( name, test::getDefault< T >( shader ) );
 			check( value.getType()->getKind() == sdw::typeEnum< T > );
 			check( value.getType()->getArraySize() == sdw::type::NotArray );
 			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
@@ -349,8 +375,9 @@ namespace
 			check( stmt.getKind() == sdw::stmt::Kind::eSimple );
 		}
 		{
-			auto name = sdw::debug::getTypeName( sdw::typeEnum< T > ) + "LocaleValue";
-			auto value = shader.declLocaleArray< T >( name, 12u );
+			auto & shader = writer.getShader();
+			auto name = sdw::debug::getName( sdw::typeEnum< T > ) + "LocaleValue";
+			auto value = writer.declLocaleArray< T >( name, 12u );
 			check( value.getType()->getKind() == sdw::typeEnum< T > );
 			check( value.getType()->getArraySize() == 12u );
 			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
@@ -360,8 +387,9 @@ namespace
 			check( stmt.getKind() == sdw::stmt::Kind::eVariableDecl );
 		}
 		{
-			auto name = sdw::debug::getTypeName( sdw::typeEnum< T > ) + "LocaleValue";
-			auto value = shader.declLocaleArray< T >( name, 3u, test::getDefaultArray< T >( shader, 3u ) );
+			auto & shader = writer.getShader();
+			auto name = sdw::debug::getName( sdw::typeEnum< T > ) + "LocaleValue";
+			auto value = writer.declLocaleArray< T >( name, 3u, test::getDefaultArray< T >( shader, 3u ) );
 			check( value.getType()->getKind() == sdw::typeEnum< T > );
 			check( value.getType()->getArraySize() == 3u );
 			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
@@ -371,9 +399,10 @@ namespace
 			check( stmt.getKind() == sdw::stmt::Kind::eSimple );
 		}
 		{
-			sdw::Shader shader;
+			sdw::ShaderWriter writer{ false };
+			auto & shader = writer.getShader();
 			auto count = shader.getStatements()->getStatements().size();
-			auto value = shader.declLocale< T >( "value", false );
+			auto value = writer.declLocale< T >( "value", false );
 			check( !value.isEnabled() );
 			check( value.getType()->getKind() == sdw::typeEnum< T > );
 			check( value.getType()->getArraySize() == sdw::type::NotArray );
@@ -383,9 +412,10 @@ namespace
 			check( shader.getStatements()->getStatements().size() == count );
 		}
 		{
-			sdw::Shader shader;
+			sdw::ShaderWriter writer{ false };
+			auto & shader = writer.getShader();
 			auto count = shader.getStatements()->getStatements().size();
-			auto value = shader.declLocale< T >( "value", sdw::Optional< T >{ test::getDefault< T >( shader ), false } );
+			auto value = writer.declLocale< T >( "value", sdw::Optional< T >{ test::getDefault< T >( shader ), false } );
 			check( !value.isEnabled() );
 			check( value.getType()->getKind() == sdw::typeEnum< T > );
 			check( value.getType()->getArraySize() == sdw::type::NotArray );
@@ -395,9 +425,10 @@ namespace
 			check( shader.getStatements()->getStatements().size() == count );
 		}
 		{
-			sdw::Shader shader;
+			sdw::ShaderWriter writer{ false };
+			auto & shader = writer.getShader();
 			auto count = shader.getStatements()->getStatements().size();
-			auto value = shader.declLocale< T >( "value", test::getDefault< T >( shader ), false );
+			auto value = writer.declLocale< T >( "value", test::getDefault< T >( shader ), false );
 			check( !value.isEnabled() );
 			check( value.getType()->getKind() == sdw::typeEnum< T > );
 			check( value.getType()->getArraySize() == sdw::type::NotArray );
@@ -407,9 +438,10 @@ namespace
 			check( shader.getStatements()->getStatements().size() == count );
 		}
 		{
-			sdw::Shader shader;
+			sdw::ShaderWriter writer{ false };
+			auto & shader = writer.getShader();
 			auto count = shader.getStatements()->getStatements().size();
-			auto value = shader.declLocaleArray< T >( "value", 12u, false );
+			auto value = writer.declLocaleArray< T >( "value", 12u, false );
 			check( !value.isEnabled() );
 			check( !value[0].isEnabled() );
 			check( value.getType()->getKind() == sdw::typeEnum< T > );
@@ -420,9 +452,10 @@ namespace
 			check( shader.getStatements()->getStatements().size() == count );
 		}
 		{
-			sdw::Shader shader;
+			sdw::ShaderWriter writer{ false };
+			auto & shader = writer.getShader();
 			auto count = shader.getStatements()->getStatements().size();
-			auto value = shader.declLocaleArray< T >( "value", 3u, test::getDefaultArray< T >( shader, 3u ), false );
+			auto value = writer.declLocaleArray< T >( "value", 3u, test::getDefaultArray< T >( shader, 3u ), false );
 			check( !value.isEnabled() );
 			check( !value[0].isEnabled() );
 			check( value.getType()->getKind() == sdw::typeEnum< T > );
@@ -433,8 +466,9 @@ namespace
 			check( shader.getStatements()->getStatements().size() == count );
 		}
 		{
-			auto name = sdw::debug::getTypeName( sdw::typeEnum< T > ) + "LocaleValue_opt";
-			auto value = shader.declLocale< T >( name, true );
+			auto & shader = writer.getShader();
+			auto name = sdw::debug::getName( sdw::typeEnum< T > ) + "LocaleValue_opt";
+			auto value = writer.declLocale< T >( name, true );
 			check( value.isEnabled() );
 			check( value.getType()->getKind() == sdw::typeEnum< T > );
 			check( value.getType()->getArraySize() == sdw::type::NotArray );
@@ -445,8 +479,9 @@ namespace
 			check( stmt.getKind() == sdw::stmt::Kind::eVariableDecl );
 		}
 		{
-			auto name = sdw::debug::getTypeName( sdw::typeEnum< T > ) + "LocaleValueAssigned_opt";
-			auto value = shader.declLocale< T >( name, sdw::Optional< T >{ test::getDefault< T >( shader ), true } );
+			auto & shader = writer.getShader();
+			auto name = sdw::debug::getName( sdw::typeEnum< T > ) + "LocaleValueAssigned_opt";
+			auto value = writer.declLocale< T >( name, sdw::Optional< T >{ test::getDefault< T >( shader ), true } );
 			check( value.isEnabled() );
 			check( value.getType()->getKind() == sdw::typeEnum< T > );
 			check( value.getType()->getArraySize() == sdw::type::NotArray );
@@ -457,8 +492,9 @@ namespace
 			check( stmt.getKind() == sdw::stmt::Kind::eSimple );
 		}
 		{
-			auto name = sdw::debug::getTypeName( sdw::typeEnum< T > ) + "LocaleValueAssigned_opt";
-			auto value = shader.declLocale< T >( name, test::getDefault< T >( shader ), true );
+			auto & shader = writer.getShader();
+			auto name = sdw::debug::getName( sdw::typeEnum< T > ) + "LocaleValueAssigned_opt";
+			auto value = writer.declLocale< T >( name, test::getDefault< T >( shader ), true );
 			check( value.isEnabled() );
 			check( value.getType()->getKind() == sdw::typeEnum< T > );
 			check( value.getType()->getArraySize() == sdw::type::NotArray );
@@ -469,8 +505,9 @@ namespace
 			check( stmt.getKind() == sdw::stmt::Kind::eSimple );
 		}
 		{
-			auto name = sdw::debug::getTypeName( sdw::typeEnum< T > ) + "LocaleValue_opt";
-			auto value = shader.declLocaleArray< T >( name, 12u, true );
+			auto & shader = writer.getShader();
+			auto name = sdw::debug::getName( sdw::typeEnum< T > ) + "LocaleValue_opt";
+			auto value = writer.declLocaleArray< T >( name, 12u, true );
 			check( value.isEnabled() );
 			check( value[0].isEnabled() );
 			check( value.getType()->getKind() == sdw::typeEnum< T > );
@@ -482,8 +519,9 @@ namespace
 			check( stmt.getKind() == sdw::stmt::Kind::eVariableDecl );
 		}
 		{
-			auto name = sdw::debug::getTypeName( sdw::typeEnum< T > ) + "LocaleValue_opt";
-			auto value = shader.declLocaleArray< T >( name, 3u, test::getDefaultArray< T >( shader, 3u ), true );
+			auto & shader = writer.getShader();
+			auto name = sdw::debug::getName( sdw::typeEnum< T > ) + "LocaleValue_opt";
+			auto value = writer.declLocaleArray< T >( name, 3u, test::getDefaultArray< T >( shader, 3u ), true );
 			check( value.isEnabled() );
 			check( value[0].isEnabled() );
 			check( value.getType()->getKind() == sdw::typeEnum< T > );
@@ -497,12 +535,13 @@ namespace
 	}
 
 	template< typename T >
-	void testBuiltin( sdw::Shader & shader )
+	void testBuiltin( sdw::ShaderWriter & writer )
 	{
+		auto & shader = writer.getShader();
 		auto count = shader.getStatements()->getStatements().size();
 		{
-			auto name = sdw::debug::getTypeName( sdw::typeEnum< T > ) + "BuiltinValue";
-			auto value = shader.declBuiltin< T >( name );
+			auto name = sdw::debug::getName( sdw::typeEnum< T > ) + "BuiltinValue";
+			auto value = writer.declBuiltin< T >( name );
 			check( value.getType()->getKind() == sdw::typeEnum< T > );
 			check( value.getType()->getArraySize() == sdw::type::NotArray );
 			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
@@ -511,8 +550,8 @@ namespace
 			check( shader.getStatements()->getStatements().size() == count );
 		}
 		{
-			auto name = sdw::debug::getTypeName( sdw::typeEnum< T > ) + "BuiltinValue";
-			auto value = shader.declBuiltinArray< T >( name, 12u );
+			auto name = sdw::debug::getName( sdw::typeEnum< T > ) + "BuiltinValue";
+			auto value = writer.declBuiltinArray< T >( name, 12u );
 			check( value.getType()->getKind() == sdw::typeEnum< T > );
 			check( value.getType()->getArraySize() == 12u );
 			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
@@ -521,8 +560,8 @@ namespace
 			check( shader.getStatements()->getStatements().size() == count );
 		}
 		{
-			auto name = sdw::debug::getTypeName( sdw::typeEnum< T > ) + "BuiltinValue";
-			auto value = shader.declBuiltinArray< T >( name );
+			auto name = sdw::debug::getName( sdw::typeEnum< T > ) + "BuiltinValue";
+			auto value = writer.declBuiltinArray< T >( name );
 			check( value.getType()->getKind() == sdw::typeEnum< T > );
 			check( value.getType()->getArraySize() == sdw::type::UnknownArraySize );
 			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
@@ -531,7 +570,7 @@ namespace
 			check( shader.getStatements()->getStatements().size() == count );
 		}
 		{
-			auto value = shader.declBuiltin< T >( "value", false );
+			auto value = writer.declBuiltin< T >( "value", false );
 			check( !value.isEnabled() );
 			check( value.getType()->getKind() == sdw::typeEnum< T > );
 			check( value.getType()->getArraySize() == sdw::type::NotArray );
@@ -541,7 +580,7 @@ namespace
 			check( shader.getStatements()->getStatements().size() == count );
 		}
 		{
-			auto value = shader.declBuiltinArray< T >( "value", 12u, false );
+			auto value = writer.declBuiltinArray< T >( "value", 12u, false );
 			check( !value.isEnabled() );
 			check( !value[0].isEnabled() );
 			check( value.getType()->getKind() == sdw::typeEnum< T > );
@@ -552,7 +591,7 @@ namespace
 			check( shader.getStatements()->getStatements().size() == count );
 		}
 		{
-			auto value = shader.declBuiltinArray< T >( "value", false );
+			auto value = writer.declBuiltinArray< T >( "value", false );
 			check( !value.isEnabled() );
 			check( !value[0].isEnabled() );
 			check( value.getType()->getKind() == sdw::typeEnum< T > );
@@ -563,8 +602,8 @@ namespace
 			check( shader.getStatements()->getStatements().size() == count );
 		}
 		{
-			auto name = sdw::debug::getTypeName( sdw::typeEnum< T > ) + "BuiltinValue_opt";
-			auto value = shader.declBuiltin< T >( name, true );
+			auto name = sdw::debug::getName( sdw::typeEnum< T > ) + "BuiltinValue_opt";
+			auto value = writer.declBuiltin< T >( name, true );
 			check( value.isEnabled() );
 			check( value.getType()->getKind() == sdw::typeEnum< T > );
 			check( value.getType()->getArraySize() == sdw::type::NotArray );
@@ -574,8 +613,8 @@ namespace
 			check( shader.getStatements()->getStatements().size() == count );
 		}
 		{
-			auto name = sdw::debug::getTypeName( sdw::typeEnum< T > ) + "BuiltinValue_opt";
-			auto value = shader.declBuiltinArray< T >( name, 12u, true );
+			auto name = sdw::debug::getName( sdw::typeEnum< T > ) + "BuiltinValue_opt";
+			auto value = writer.declBuiltinArray< T >( name, 12u, true );
 			check( value.isEnabled() );
 			check( value[0].isEnabled() );
 			check( value.getType()->getKind() == sdw::typeEnum< T > );
@@ -586,8 +625,8 @@ namespace
 			check( shader.getStatements()->getStatements().size() == count );
 		}
 		{
-			auto name = sdw::debug::getTypeName( sdw::typeEnum< T > ) + "BuiltinValue_opt";
-			auto value = shader.declBuiltinArray< T >( name, true );
+			auto name = sdw::debug::getName( sdw::typeEnum< T > ) + "BuiltinValue_opt";
+			auto value = writer.declBuiltinArray< T >( name, true );
 			check( value.isEnabled() );
 			check( value[0].isEnabled() );
 			check( value.getType()->getKind() == sdw::typeEnum< T > );
@@ -600,11 +639,12 @@ namespace
 	}
 
 	template< sdw::SamplerType ST >
-	void testSampler( sdw::Shader & shader )
+	void testSampler( sdw::ShaderWriter & writer )
 	{
 		{
-			auto name = sdw::debug::getTypeName( sdw::SamplerTypeTraits< ST >::TypeEnum ) + "SamplerValue_1_1";
-			auto value = shader.declSampler< ST >( name, 1u, 1u );
+			auto & shader = writer.getShader();
+			auto name = sdw::debug::getName( sdw::SamplerTypeTraits< ST >::TypeEnum ) + "SamplerValue_1_1";
+			auto value = writer.declSampler< ST >( name, 1u, 1u );
 			check( value.getType()->getKind() == sdw::SamplerTypeTraits< ST >::TypeEnum );
 			check( value.getType()->getArraySize() == sdw::type::NotArray );
 			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
@@ -616,8 +656,9 @@ namespace
 			check( static_cast< sdw::stmt::SamplerDecl const & >( stmt ).getBindingSet() == 1u );
 		}
 		{
-			auto name = sdw::debug::getTypeName( sdw::SamplerTypeTraits< ST >::TypeEnum ) + "SamplerValue_2_2";
-			auto value = shader.declSamplerArray< ST >( name, 2u, 2u, 12u );
+			auto & shader = writer.getShader();
+			auto name = sdw::debug::getName( sdw::SamplerTypeTraits< ST >::TypeEnum ) + "SamplerValue_2_2";
+			auto value = writer.declSamplerArray< ST >( name, 2u, 2u, 12u );
 			check( value.getType()->getKind() == sdw::SamplerTypeTraits< ST >::TypeEnum );
 			check( value.getType()->getArraySize() == 12u );
 			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
@@ -629,9 +670,10 @@ namespace
 			check( static_cast< sdw::stmt::SamplerDecl const & >( stmt ).getBindingSet() == 2u );
 		}
 		{
-			sdw::Shader shader;
+			sdw::ShaderWriter writer{ false };
+			auto & shader = writer.getShader();
 			auto count = shader.getStatements()->getStatements().size();
-			auto value = shader.declSampler< ST >( "value", 1u, 1u, false );
+			auto value = writer.declSampler< ST >( "value", 1u, 1u, false );
 			check( !value.isEnabled() );
 			check( value.getType()->getKind() == sdw::SamplerTypeTraits< ST >::TypeEnum );
 			check( value.getType()->getArraySize() == sdw::type::NotArray );
@@ -641,9 +683,10 @@ namespace
 			check( shader.getStatements()->getStatements().size() == count );
 		}
 		{
-			sdw::Shader shader;
+			sdw::ShaderWriter writer{ false };
+			auto & shader = writer.getShader();
 			auto count = shader.getStatements()->getStatements().size();
-			auto value = shader.declSamplerArray< ST >( "value", 1u, 1u, 12u, false );
+			auto value = writer.declSamplerArray< ST >( "value", 1u, 1u, 12u, false );
 			check( !value.isEnabled() );
 			check( !value[0].isEnabled() );
 			check( value.getType()->getKind() == sdw::SamplerTypeTraits< ST >::TypeEnum );
@@ -654,8 +697,9 @@ namespace
 			check( shader.getStatements()->getStatements().size() == count );
 		}
 		{
-			auto name = sdw::debug::getTypeName( sdw::SamplerTypeTraits< ST >::TypeEnum ) + "SamplerValue_1_1_opt";
-			auto value = shader.declSampler< ST >( name, 1u, 1u, true );
+			auto & shader = writer.getShader();
+			auto name = sdw::debug::getName( sdw::SamplerTypeTraits< ST >::TypeEnum ) + "SamplerValue_1_1_opt";
+			auto value = writer.declSampler< ST >( name, 1u, 1u, true );
 			check( value.isEnabled() );
 			check( value.getType()->getKind() == sdw::SamplerTypeTraits< ST >::TypeEnum );
 			check( value.getType()->getArraySize() == sdw::type::NotArray );
@@ -668,8 +712,9 @@ namespace
 			check( static_cast< sdw::stmt::SamplerDecl const & >( stmt ).getBindingSet() == 1u );
 		}
 		{
-			auto name = sdw::debug::getTypeName( sdw::SamplerTypeTraits< ST >::TypeEnum ) + "SamplerValue_2_2_opt";
-			auto value = shader.declSamplerArray< ST >( name, 2u, 2u, 12u, true );
+			auto & shader = writer.getShader();
+			auto name = sdw::debug::getName( sdw::SamplerTypeTraits< ST >::TypeEnum ) + "SamplerValue_2_2_opt";
+			auto value = writer.declSamplerArray< ST >( name, 2u, 2u, 12u, true );
 			check( value.isEnabled() );
 			check( value[0].isEnabled() );
 			check( value.getType()->getKind() == sdw::SamplerTypeTraits< ST >::TypeEnum );
@@ -685,22 +730,22 @@ namespace
 	}
 
 	template< typename BOType >
-	BOType createBo( sdw::Shader & shader );
+	BOType createBo( sdw::ShaderWriter & writer );
 	template<>
-	sdw::Ubo createBo< sdw::Ubo >( sdw::Shader & shader )
+	sdw::Ubo createBo< sdw::Ubo >( sdw::ShaderWriter & writer )
 	{
-		return sdw::Ubo{ shader, "UBO", 1u, 1u };
+		return sdw::Ubo{ writer, "UBO", 1u, 1u };
 
 	}
 	template<>
-	sdw::Ssbo createBo< sdw::Ssbo >( sdw::Shader & shader )
+	sdw::Ssbo createBo< sdw::Ssbo >( sdw::ShaderWriter & writer )
 	{
-		return sdw::Ssbo{ shader, "SSBO", 1u, 1u };
+		return sdw::Ssbo{ writer, "SSBO", 1u, 1u };
 	}
 	template<>
-	sdw::Pcb createBo< sdw::Pcb >( sdw::Shader & shader )
+	sdw::Pcb createBo< sdw::Pcb >( sdw::ShaderWriter & writer )
 	{
-		return sdw::Pcb{ shader, "PCB" };
+		return sdw::Pcb{ writer, "PCB" };
 	}
 	void checkBoStmt( sdw::stmt::ShaderBufferDecl const & stmt )
 	{
@@ -717,11 +762,12 @@ namespace
 	}
 
 	template< typename BOType, typename StmtType, sdw::stmt::Kind StmtKind, typename T >
-	void testBo( sdw::Shader & shader )
+	void testBo( sdw::ShaderWriter & writer )
 	{
+		auto & shader = writer.getShader();
 		{
 			std::string const name = "m_member";
-			BOType bo{ createBo< BOType >( shader ) };
+			BOType bo{ createBo< BOType >( writer ) };
 			auto value = bo.template declMember< T >( name );
 			bo.end();
 			check( value.getType()->getKind() == sdw::typeEnum< T > );
@@ -738,7 +784,7 @@ namespace
 		}
 		{
 			std::string const name = "m_memberArray";
-			BOType bo{ createBo< BOType >( shader ) };
+			BOType bo{ createBo< BOType >( writer ) };
 			auto value = bo.template declMember< T >( name, 4u );
 			bo.end();
 			check( value.getType()->getKind() == sdw::typeEnum< T > );
@@ -755,7 +801,7 @@ namespace
 		}
 		{
 			std::string const name = "m_memberArrayUnknown";
-			BOType bo{ createBo< BOType >( shader ) };
+			BOType bo{ createBo< BOType >( writer ) };
 			auto value = bo.template declMemberArray< T >( name );
 			bo.end();
 			check( value.getType()->getKind() == sdw::typeEnum< T > );
@@ -772,7 +818,7 @@ namespace
 		}
 		{
 			std::string const name = "m_memberOptDis";
-			BOType bo{ createBo< BOType >( shader ) };
+			BOType bo{ createBo< BOType >( writer ) };
 			auto value = bo.template declMember< T >( name, false );
 			bo.end();
 			check( !value.isEnabled() );
@@ -791,7 +837,7 @@ namespace
 		}
 		{
 			std::string const name = "m_memberOptDisArray";
-			BOType bo{ createBo< BOType >( shader ) };
+			BOType bo{ createBo< BOType >( writer ) };
 			auto value = bo.template declMember< T >( name, 4u, false );
 			bo.end();
 			check( !value.isEnabled() );
@@ -812,7 +858,7 @@ namespace
 		}
 		{
 			std::string const name = "m_memberOptDisArrayUnknown";
-			BOType bo{ createBo< BOType >( shader ) };
+			BOType bo{ createBo< BOType >( writer ) };
 			auto value = bo.template declMemberArray< T >( name, false );
 			bo.end();
 			check( !value.isEnabled() );
@@ -833,7 +879,7 @@ namespace
 		}
 		{
 			std::string const name = "m_memberOptEn";
-			BOType bo{ createBo< BOType >( shader ) };
+			BOType bo{ createBo< BOType >( writer ) };
 			auto value = bo.template declMember< T >( name, true );
 			bo.end();
 			check( value.isEnabled() );
@@ -852,7 +898,7 @@ namespace
 		}
 		{
 			std::string const name = "m_memberOptEnArray";
-			BOType bo{ createBo< BOType >( shader ) };
+			BOType bo{ createBo< BOType >( writer ) };
 			auto value = bo.template declMember< T >( name, 4u, true );
 			bo.end();
 			check( value.isEnabled() );
@@ -873,7 +919,7 @@ namespace
 		}
 		{
 			std::string const name = "m_memberOptEnArrayUnknown";
-			BOType bo{ createBo< BOType >( shader ) };
+			BOType bo{ createBo< BOType >( writer ) };
 			auto value = bo.template declMemberArray< T >( name, true );
 			bo.end();
 			check( value.isEnabled() );
@@ -895,29 +941,30 @@ namespace
 	}
 
 	template< typename T >
-	void testUbo( sdw::Shader & shader )
+	void testUbo( sdw::ShaderWriter & writer )
 	{
-		testBo< sdw::Ubo, sdw::stmt::ConstantBufferDecl, sdw::stmt::Kind::eConstantBufferDecl, T >( shader );
+		testBo< sdw::Ubo, sdw::stmt::ConstantBufferDecl, sdw::stmt::Kind::eConstantBufferDecl, T >( writer );
 	}
 
 	template< typename T >
-	void testSsbo( sdw::Shader & shader )
+	void testSsbo( sdw::ShaderWriter & writer )
 	{
-		testBo< sdw::Ssbo, sdw::stmt::ShaderBufferDecl, sdw::stmt::Kind::eShaderBufferDecl, T >( shader );
+		testBo< sdw::Ssbo, sdw::stmt::ShaderBufferDecl, sdw::stmt::Kind::eShaderBufferDecl, T >( writer );
 	}
 
 	template< typename T >
-	void testPcb( sdw::Shader & shader )
+	void testPcb( sdw::ShaderWriter & writer )
 	{
-		testBo< sdw::Pcb, sdw::stmt::PushConstantsBufferDecl, sdw::stmt::Kind::ePushConstantsBufferDecl, T >( shader );
+		testBo< sdw::Pcb, sdw::stmt::PushConstantsBufferDecl, sdw::stmt::Kind::ePushConstantsBufferDecl, T >( writer );
 	}
 
 	template< typename T >
-	void testStruct( sdw::Shader & shader )
+	void testStruct( sdw::ShaderWriter & writer )
 	{
+		auto & shader = writer.getShader();
 		{
 			std::string const name = "m_member";
-			sdw::Struct st{ shader, "ST" };
+			sdw::Struct st{ writer, "ST" };
 			st.declMember< T >( name );
 			st.end();
 			auto instance = st.getInstance( "st" );
@@ -930,7 +977,7 @@ namespace
 		}
 		{
 			std::string const name = "m_memberArray";
-			sdw::Struct st{ shader, "ST" };
+			sdw::Struct st{ writer, "ST" };
 			st.declMember< T >( name, 4u );
 			st.end();
 			auto instance = st.getInstance( "st" );
@@ -943,7 +990,7 @@ namespace
 		}
 		{
 			std::string const name = "m_memberArrayUnknown";
-			sdw::Struct st{ shader, "ST" };
+			sdw::Struct st{ writer, "ST" };
 			st.declMemberArray< T >( name );
 			st.end();
 			auto instance = st.getInstance( "st" );
@@ -958,384 +1005,384 @@ namespace
 	void testConstants()
 	{
 		testBegin( "testConstants" );
-		sdw::Shader shader;
-		testConstant< sdw::Boolean >( shader );
-		testConstant< sdw::Int >( shader );
-		testConstant< sdw::UInt >( shader );
-		testConstant< sdw::Float >( shader );
-		testConstant< sdw::Vec2 >( shader );
-		testConstant< sdw::Vec3 >( shader );
-		testConstant< sdw::Vec4 >( shader );
-		testConstant< sdw::BVec2 >( shader );
-		testConstant< sdw::BVec3 >( shader );
-		testConstant< sdw::BVec4 >( shader );
-		testConstant< sdw::IVec2 >( shader );
-		testConstant< sdw::IVec3 >( shader );
-		testConstant< sdw::IVec4 >( shader );
-		testConstant< sdw::UVec2 >( shader );
-		testConstant< sdw::UVec3 >( shader );
-		testConstant< sdw::UVec4 >( shader );
-		testConstant< sdw::Mat2 >( shader );
-		testConstant< sdw::Mat3 >( shader );
-		testConstant< sdw::Mat4 >( shader );
-		testConstant< sdw::BMat2 >( shader );
-		testConstant< sdw::BMat3 >( shader );
-		testConstant< sdw::BMat4 >( shader );
-		testConstant< sdw::IMat2 >( shader );
-		testConstant< sdw::IMat3 >( shader );
-		testConstant< sdw::IMat4 >( shader );
-		testConstant< sdw::UMat2 >( shader );
-		testConstant< sdw::UMat3 >( shader );
-		testConstant< sdw::UMat4 >( shader );
-		std::cout << sdw::debug::StmtVisitor::submit( shader.getStatements() ) << std::endl;
+		sdw::ShaderWriter writer{ false };
+		testConstant< sdw::Boolean >( writer );
+		testConstant< sdw::Int >( writer );
+		testConstant< sdw::UInt >( writer );
+		testConstant< sdw::Float >( writer );
+		testConstant< sdw::Vec2 >( writer );
+		testConstant< sdw::Vec3 >( writer );
+		testConstant< sdw::Vec4 >( writer );
+		testConstant< sdw::BVec2 >( writer );
+		testConstant< sdw::BVec3 >( writer );
+		testConstant< sdw::BVec4 >( writer );
+		testConstant< sdw::IVec2 >( writer );
+		testConstant< sdw::IVec3 >( writer );
+		testConstant< sdw::IVec4 >( writer );
+		testConstant< sdw::UVec2 >( writer );
+		testConstant< sdw::UVec3 >( writer );
+		testConstant< sdw::UVec4 >( writer );
+		testConstant< sdw::Mat2 >( writer );
+		testConstant< sdw::Mat3 >( writer );
+		testConstant< sdw::Mat4 >( writer );
+		testConstant< sdw::BMat2 >( writer );
+		testConstant< sdw::BMat3 >( writer );
+		testConstant< sdw::BMat4 >( writer );
+		testConstant< sdw::IMat2 >( writer );
+		testConstant< sdw::IMat3 >( writer );
+		testConstant< sdw::IMat4 >( writer );
+		testConstant< sdw::UMat2 >( writer );
+		testConstant< sdw::UMat3 >( writer );
+		testConstant< sdw::UMat4 >( writer );
+		std::cout << sdw::writeDebug( writer.getShader() ) << std::endl;
 		testEnd();
 	}
 
 	void testSpecConstants()
 	{
 		testBegin( "testSpecConstants" );
-		sdw::Shader shader;
-		testSpecConstant< sdw::Boolean >( shader );
-		testSpecConstant< sdw::Int >( shader );
-		testSpecConstant< sdw::UInt >( shader );
-		testSpecConstant< sdw::Float >( shader );
-		testSpecConstant< sdw::Vec2 >( shader );
-		testSpecConstant< sdw::Vec3 >( shader );
-		testSpecConstant< sdw::Vec4 >( shader );
-		testSpecConstant< sdw::BVec2 >( shader );
-		testSpecConstant< sdw::BVec3 >( shader );
-		testSpecConstant< sdw::BVec4 >( shader );
-		testSpecConstant< sdw::IVec2 >( shader );
-		testSpecConstant< sdw::IVec3 >( shader );
-		testSpecConstant< sdw::IVec4 >( shader );
-		testSpecConstant< sdw::UVec2 >( shader );
-		testSpecConstant< sdw::UVec3 >( shader );
-		testSpecConstant< sdw::UVec4 >( shader );
-		testSpecConstant< sdw::Mat2 >( shader );
-		testSpecConstant< sdw::Mat3 >( shader );
-		testSpecConstant< sdw::Mat4 >( shader );
-		testSpecConstant< sdw::BMat2 >( shader );
-		testSpecConstant< sdw::BMat3 >( shader );
-		testSpecConstant< sdw::BMat4 >( shader );
-		testSpecConstant< sdw::IMat2 >( shader );
-		testSpecConstant< sdw::IMat3 >( shader );
-		testSpecConstant< sdw::IMat4 >( shader );
-		testSpecConstant< sdw::UMat2 >( shader );
-		testSpecConstant< sdw::UMat3 >( shader );
-		testSpecConstant< sdw::UMat4 >( shader );
-		std::cout << sdw::debug::StmtVisitor::submit( shader.getStatements() ) << std::endl;
+		sdw::ShaderWriter writer{ false };
+		testSpecConstant< sdw::Boolean >( writer );
+		testSpecConstant< sdw::Int >( writer );
+		testSpecConstant< sdw::UInt >( writer );
+		testSpecConstant< sdw::Float >( writer );
+		testSpecConstant< sdw::Vec2 >( writer );
+		testSpecConstant< sdw::Vec3 >( writer );
+		testSpecConstant< sdw::Vec4 >( writer );
+		testSpecConstant< sdw::BVec2 >( writer );
+		testSpecConstant< sdw::BVec3 >( writer );
+		testSpecConstant< sdw::BVec4 >( writer );
+		testSpecConstant< sdw::IVec2 >( writer );
+		testSpecConstant< sdw::IVec3 >( writer );
+		testSpecConstant< sdw::IVec4 >( writer );
+		testSpecConstant< sdw::UVec2 >( writer );
+		testSpecConstant< sdw::UVec3 >( writer );
+		testSpecConstant< sdw::UVec4 >( writer );
+		testSpecConstant< sdw::Mat2 >( writer );
+		testSpecConstant< sdw::Mat3 >( writer );
+		testSpecConstant< sdw::Mat4 >( writer );
+		testSpecConstant< sdw::BMat2 >( writer );
+		testSpecConstant< sdw::BMat3 >( writer );
+		testSpecConstant< sdw::BMat4 >( writer );
+		testSpecConstant< sdw::IMat2 >( writer );
+		testSpecConstant< sdw::IMat3 >( writer );
+		testSpecConstant< sdw::IMat4 >( writer );
+		testSpecConstant< sdw::UMat2 >( writer );
+		testSpecConstant< sdw::UMat3 >( writer );
+		testSpecConstant< sdw::UMat4 >( writer );
+		std::cout << sdw::writeDebug( writer.getShader() ) << std::endl;
 		testEnd();
 	}
 
 	void testShaderInputs()
 	{
 		testBegin( "testShaderInputs" );
-		sdw::Shader shader;
-		testShaderInput< sdw::Boolean >( shader );
-		testShaderInput< sdw::Int >( shader );
-		testShaderInput< sdw::UInt >( shader );
-		testShaderInput< sdw::Float >( shader );
-		testShaderInput< sdw::Vec2 >( shader );
-		testShaderInput< sdw::Vec3 >( shader );
-		testShaderInput< sdw::Vec4 >( shader );
-		testShaderInput< sdw::BVec2 >( shader );
-		testShaderInput< sdw::BVec3 >( shader );
-		testShaderInput< sdw::BVec4 >( shader );
-		testShaderInput< sdw::IVec2 >( shader );
-		testShaderInput< sdw::IVec3 >( shader );
-		testShaderInput< sdw::IVec4 >( shader );
-		testShaderInput< sdw::UVec2 >( shader );
-		testShaderInput< sdw::UVec3 >( shader );
-		testShaderInput< sdw::UVec4 >( shader );
-		testShaderInput< sdw::Mat2 >( shader );
-		testShaderInput< sdw::Mat3 >( shader );
-		testShaderInput< sdw::Mat4 >( shader );
-		testShaderInput< sdw::BMat2 >( shader );
-		testShaderInput< sdw::BMat3 >( shader );
-		testShaderInput< sdw::BMat4 >( shader );
-		testShaderInput< sdw::IMat2 >( shader );
-		testShaderInput< sdw::IMat3 >( shader );
-		testShaderInput< sdw::IMat4 >( shader );
-		testShaderInput< sdw::UMat2 >( shader );
-		testShaderInput< sdw::UMat3 >( shader );
-		testShaderInput< sdw::UMat4 >( shader );
-		std::cout << sdw::debug::StmtVisitor::submit( shader.getStatements() ) << std::endl;
+		sdw::ShaderWriter writer{ false };
+		testShaderInput< sdw::Boolean >( writer );
+		testShaderInput< sdw::Int >( writer );
+		testShaderInput< sdw::UInt >( writer );
+		testShaderInput< sdw::Float >( writer );
+		testShaderInput< sdw::Vec2 >( writer );
+		testShaderInput< sdw::Vec3 >( writer );
+		testShaderInput< sdw::Vec4 >( writer );
+		testShaderInput< sdw::BVec2 >( writer );
+		testShaderInput< sdw::BVec3 >( writer );
+		testShaderInput< sdw::BVec4 >( writer );
+		testShaderInput< sdw::IVec2 >( writer );
+		testShaderInput< sdw::IVec3 >( writer );
+		testShaderInput< sdw::IVec4 >( writer );
+		testShaderInput< sdw::UVec2 >( writer );
+		testShaderInput< sdw::UVec3 >( writer );
+		testShaderInput< sdw::UVec4 >( writer );
+		testShaderInput< sdw::Mat2 >( writer );
+		testShaderInput< sdw::Mat3 >( writer );
+		testShaderInput< sdw::Mat4 >( writer );
+		testShaderInput< sdw::BMat2 >( writer );
+		testShaderInput< sdw::BMat3 >( writer );
+		testShaderInput< sdw::BMat4 >( writer );
+		testShaderInput< sdw::IMat2 >( writer );
+		testShaderInput< sdw::IMat3 >( writer );
+		testShaderInput< sdw::IMat4 >( writer );
+		testShaderInput< sdw::UMat2 >( writer );
+		testShaderInput< sdw::UMat3 >( writer );
+		testShaderInput< sdw::UMat4 >( writer );
+		std::cout << sdw::writeDebug( writer.getShader() ) << std::endl;
 		testEnd();
 	}
 
 	void testShaderOutputs()
 	{
 		testBegin( "testShaderOutputs" );
-		sdw::Shader shader;
-		testShaderOutput< sdw::Boolean >( shader );
-		testShaderOutput< sdw::Int >( shader );
-		testShaderOutput< sdw::UInt >( shader );
-		testShaderOutput< sdw::Float >( shader );
-		testShaderOutput< sdw::Vec2 >( shader );
-		testShaderOutput< sdw::Vec3 >( shader );
-		testShaderOutput< sdw::Vec4 >( shader );
-		testShaderOutput< sdw::BVec2 >( shader );
-		testShaderOutput< sdw::BVec3 >( shader );
-		testShaderOutput< sdw::BVec4 >( shader );
-		testShaderOutput< sdw::IVec2 >( shader );
-		testShaderOutput< sdw::IVec3 >( shader );
-		testShaderOutput< sdw::IVec4 >( shader );
-		testShaderOutput< sdw::UVec2 >( shader );
-		testShaderOutput< sdw::UVec3 >( shader );
-		testShaderOutput< sdw::UVec4 >( shader );
-		testShaderOutput< sdw::Mat2 >( shader );
-		testShaderOutput< sdw::Mat3 >( shader );
-		testShaderOutput< sdw::Mat4 >( shader );
-		testShaderOutput< sdw::BMat2 >( shader );
-		testShaderOutput< sdw::BMat3 >( shader );
-		testShaderOutput< sdw::BMat4 >( shader );
-		testShaderOutput< sdw::IMat2 >( shader );
-		testShaderOutput< sdw::IMat3 >( shader );
-		testShaderOutput< sdw::IMat4 >( shader );
-		testShaderOutput< sdw::UMat2 >( shader );
-		testShaderOutput< sdw::UMat3 >( shader );
-		testShaderOutput< sdw::UMat4 >( shader );
-		std::cout << sdw::debug::StmtVisitor::submit( shader.getStatements() ) << std::endl;
+		sdw::ShaderWriter writer{ false };
+		testShaderOutput< sdw::Boolean >( writer );
+		testShaderOutput< sdw::Int >( writer );
+		testShaderOutput< sdw::UInt >( writer );
+		testShaderOutput< sdw::Float >( writer );
+		testShaderOutput< sdw::Vec2 >( writer );
+		testShaderOutput< sdw::Vec3 >( writer );
+		testShaderOutput< sdw::Vec4 >( writer );
+		testShaderOutput< sdw::BVec2 >( writer );
+		testShaderOutput< sdw::BVec3 >( writer );
+		testShaderOutput< sdw::BVec4 >( writer );
+		testShaderOutput< sdw::IVec2 >( writer );
+		testShaderOutput< sdw::IVec3 >( writer );
+		testShaderOutput< sdw::IVec4 >( writer );
+		testShaderOutput< sdw::UVec2 >( writer );
+		testShaderOutput< sdw::UVec3 >( writer );
+		testShaderOutput< sdw::UVec4 >( writer );
+		testShaderOutput< sdw::Mat2 >( writer );
+		testShaderOutput< sdw::Mat3 >( writer );
+		testShaderOutput< sdw::Mat4 >( writer );
+		testShaderOutput< sdw::BMat2 >( writer );
+		testShaderOutput< sdw::BMat3 >( writer );
+		testShaderOutput< sdw::BMat4 >( writer );
+		testShaderOutput< sdw::IMat2 >( writer );
+		testShaderOutput< sdw::IMat3 >( writer );
+		testShaderOutput< sdw::IMat4 >( writer );
+		testShaderOutput< sdw::UMat2 >( writer );
+		testShaderOutput< sdw::UMat3 >( writer );
+		testShaderOutput< sdw::UMat4 >( writer );
+		std::cout << sdw::writeDebug( writer.getShader() ) << std::endl;
 		testEnd();
 	}
 
 	void testLocales()
 	{
 		testBegin( "testLocales" );
-		sdw::Shader shader;
-		testLocale< sdw::Boolean >( shader );
-		testLocale< sdw::Int >( shader );
-		testLocale< sdw::UInt >( shader );
-		testLocale< sdw::Float >( shader );
-		testLocale< sdw::Vec2 >( shader );
-		testLocale< sdw::Vec3 >( shader );
-		testLocale< sdw::Vec4 >( shader );
-		testLocale< sdw::BVec2 >( shader );
-		testLocale< sdw::BVec3 >( shader );
-		testLocale< sdw::BVec4 >( shader );
-		testLocale< sdw::IVec2 >( shader );
-		testLocale< sdw::IVec3 >( shader );
-		testLocale< sdw::IVec4 >( shader );
-		testLocale< sdw::UVec2 >( shader );
-		testLocale< sdw::UVec3 >( shader );
-		testLocale< sdw::UVec4 >( shader );
-		testLocale< sdw::Mat2 >( shader );
-		testLocale< sdw::Mat3 >( shader );
-		testLocale< sdw::Mat4 >( shader );
-		testLocale< sdw::BMat2 >( shader );
-		testLocale< sdw::BMat3 >( shader );
-		testLocale< sdw::BMat4 >( shader );
-		testLocale< sdw::IMat2 >( shader );
-		testLocale< sdw::IMat3 >( shader );
-		testLocale< sdw::IMat4 >( shader );
-		testLocale< sdw::UMat2 >( shader );
-		testLocale< sdw::UMat3 >( shader );
-		testLocale< sdw::UMat4 >( shader );
-		std::cout << sdw::debug::StmtVisitor::submit( shader.getStatements() ) << std::endl;
+		sdw::ShaderWriter writer{ false };
+		testLocale< sdw::Boolean >( writer );
+		testLocale< sdw::Int >( writer );
+		testLocale< sdw::UInt >( writer );
+		testLocale< sdw::Float >( writer );
+		testLocale< sdw::Vec2 >( writer );
+		testLocale< sdw::Vec3 >( writer );
+		testLocale< sdw::Vec4 >( writer );
+		testLocale< sdw::BVec2 >( writer );
+		testLocale< sdw::BVec3 >( writer );
+		testLocale< sdw::BVec4 >( writer );
+		testLocale< sdw::IVec2 >( writer );
+		testLocale< sdw::IVec3 >( writer );
+		testLocale< sdw::IVec4 >( writer );
+		testLocale< sdw::UVec2 >( writer );
+		testLocale< sdw::UVec3 >( writer );
+		testLocale< sdw::UVec4 >( writer );
+		testLocale< sdw::Mat2 >( writer );
+		testLocale< sdw::Mat3 >( writer );
+		testLocale< sdw::Mat4 >( writer );
+		testLocale< sdw::BMat2 >( writer );
+		testLocale< sdw::BMat3 >( writer );
+		testLocale< sdw::BMat4 >( writer );
+		testLocale< sdw::IMat2 >( writer );
+		testLocale< sdw::IMat3 >( writer );
+		testLocale< sdw::IMat4 >( writer );
+		testLocale< sdw::UMat2 >( writer );
+		testLocale< sdw::UMat3 >( writer );
+		testLocale< sdw::UMat4 >( writer );
+		std::cout << sdw::writeDebug( writer.getShader() ) << std::endl;
 		testEnd();
 	}
 
 	void testBuiltins()
 	{
 		testBegin( "testBuiltins" );
-		sdw::Shader shader;
-		testBuiltin< sdw::Boolean >( shader );
-		testBuiltin< sdw::Int >( shader );
-		testBuiltin< sdw::UInt >( shader );
-		testBuiltin< sdw::Float >( shader );
-		testBuiltin< sdw::Vec2 >( shader );
-		testBuiltin< sdw::Vec3 >( shader );
-		testBuiltin< sdw::Vec4 >( shader );
-		testBuiltin< sdw::BVec2 >( shader );
-		testBuiltin< sdw::BVec3 >( shader );
-		testBuiltin< sdw::BVec4 >( shader );
-		testBuiltin< sdw::IVec2 >( shader );
-		testBuiltin< sdw::IVec3 >( shader );
-		testBuiltin< sdw::IVec4 >( shader );
-		testBuiltin< sdw::UVec2 >( shader );
-		testBuiltin< sdw::UVec3 >( shader );
-		testBuiltin< sdw::UVec4 >( shader );
-		testBuiltin< sdw::Mat2 >( shader );
-		testBuiltin< sdw::Mat3 >( shader );
-		testBuiltin< sdw::Mat4 >( shader );
-		testBuiltin< sdw::BMat2 >( shader );
-		testBuiltin< sdw::BMat3 >( shader );
-		testBuiltin< sdw::BMat4 >( shader );
-		testBuiltin< sdw::IMat2 >( shader );
-		testBuiltin< sdw::IMat3 >( shader );
-		testBuiltin< sdw::IMat4 >( shader );
-		testBuiltin< sdw::UMat2 >( shader );
-		testBuiltin< sdw::UMat3 >( shader );
-		testBuiltin< sdw::UMat4 >( shader );
-		std::cout << sdw::debug::StmtVisitor::submit( shader.getStatements() ) << std::endl;
+		sdw::ShaderWriter writer{ false };
+		testBuiltin< sdw::Boolean >( writer );
+		testBuiltin< sdw::Int >( writer );
+		testBuiltin< sdw::UInt >( writer );
+		testBuiltin< sdw::Float >( writer );
+		testBuiltin< sdw::Vec2 >( writer );
+		testBuiltin< sdw::Vec3 >( writer );
+		testBuiltin< sdw::Vec4 >( writer );
+		testBuiltin< sdw::BVec2 >( writer );
+		testBuiltin< sdw::BVec3 >( writer );
+		testBuiltin< sdw::BVec4 >( writer );
+		testBuiltin< sdw::IVec2 >( writer );
+		testBuiltin< sdw::IVec3 >( writer );
+		testBuiltin< sdw::IVec4 >( writer );
+		testBuiltin< sdw::UVec2 >( writer );
+		testBuiltin< sdw::UVec3 >( writer );
+		testBuiltin< sdw::UVec4 >( writer );
+		testBuiltin< sdw::Mat2 >( writer );
+		testBuiltin< sdw::Mat3 >( writer );
+		testBuiltin< sdw::Mat4 >( writer );
+		testBuiltin< sdw::BMat2 >( writer );
+		testBuiltin< sdw::BMat3 >( writer );
+		testBuiltin< sdw::BMat4 >( writer );
+		testBuiltin< sdw::IMat2 >( writer );
+		testBuiltin< sdw::IMat3 >( writer );
+		testBuiltin< sdw::IMat4 >( writer );
+		testBuiltin< sdw::UMat2 >( writer );
+		testBuiltin< sdw::UMat3 >( writer );
+		testBuiltin< sdw::UMat4 >( writer );
+		std::cout << sdw::writeDebug( writer.getShader() ) << std::endl;
 		testEnd();
 	}
 
 	void testSamplers()
 	{
 		testBegin( "testSamplers" );
-		sdw::Shader shader;
-		testSampler< sdw::SamplerType::eBuffer >( shader );
-		testSampler< sdw::SamplerType::e1D >( shader );
-		testSampler< sdw::SamplerType::e2D >( shader );
-		testSampler< sdw::SamplerType::e3D >( shader );
-		testSampler< sdw::SamplerType::eCube >( shader );
-		testSampler< sdw::SamplerType::e2DRect >( shader );
-		testSampler< sdw::SamplerType::e1DArray >( shader );
-		testSampler< sdw::SamplerType::e2DArray >( shader );
-		testSampler< sdw::SamplerType::eCubeArray >( shader );
-		testSampler< sdw::SamplerType::e1DShadow >( shader );
-		testSampler< sdw::SamplerType::e2DShadow >( shader );
-		testSampler< sdw::SamplerType::eCubeShadow >( shader );
-		testSampler< sdw::SamplerType::e2DRectShadow >( shader );
-		testSampler< sdw::SamplerType::e1DArrayShadow >( shader );
-		testSampler< sdw::SamplerType::e2DArrayShadow >( shader );
-		testSampler< sdw::SamplerType::eCubeArrayShadow >( shader );
-		std::cout << sdw::debug::StmtVisitor::submit( shader.getStatements() ) << std::endl;
+		sdw::ShaderWriter writer{ false };
+		testSampler< sdw::SamplerType::eBuffer >( writer );
+		testSampler< sdw::SamplerType::e1D >( writer );
+		testSampler< sdw::SamplerType::e2D >( writer );
+		testSampler< sdw::SamplerType::e3D >( writer );
+		testSampler< sdw::SamplerType::eCube >( writer );
+		testSampler< sdw::SamplerType::e2DRect >( writer );
+		testSampler< sdw::SamplerType::e1DArray >( writer );
+		testSampler< sdw::SamplerType::e2DArray >( writer );
+		testSampler< sdw::SamplerType::eCubeArray >( writer );
+		testSampler< sdw::SamplerType::e1DShadow >( writer );
+		testSampler< sdw::SamplerType::e2DShadow >( writer );
+		testSampler< sdw::SamplerType::eCubeShadow >( writer );
+		testSampler< sdw::SamplerType::e2DRectShadow >( writer );
+		testSampler< sdw::SamplerType::e1DArrayShadow >( writer );
+		testSampler< sdw::SamplerType::e2DArrayShadow >( writer );
+		testSampler< sdw::SamplerType::eCubeArrayShadow >( writer );
+		std::cout << sdw::writeDebug( writer.getShader() ) << std::endl;
 		testEnd();
 	}
 
 	void testUbos()
 	{
 		testBegin( "testUbos" );
-		sdw::Shader shader;
-		testUbo< sdw::Boolean >( shader );
-		testUbo< sdw::Int >( shader );
-		testUbo< sdw::UInt >( shader );
-		testUbo< sdw::Float >( shader );
-		testUbo< sdw::Vec2 >( shader );
-		testUbo< sdw::Vec3 >( shader );
-		testUbo< sdw::Vec4 >( shader );
-		testUbo< sdw::BVec2 >( shader );
-		testUbo< sdw::BVec3 >( shader );
-		testUbo< sdw::BVec4 >( shader );
-		testUbo< sdw::IVec2 >( shader );
-		testUbo< sdw::IVec3 >( shader );
-		testUbo< sdw::IVec4 >( shader );
-		testUbo< sdw::UVec2 >( shader );
-		testUbo< sdw::UVec3 >( shader );
-		testUbo< sdw::UVec4 >( shader );
-		testUbo< sdw::Mat2 >( shader );
-		testUbo< sdw::Mat3 >( shader );
-		testUbo< sdw::Mat4 >( shader );
-		testUbo< sdw::BMat2 >( shader );
-		testUbo< sdw::BMat3 >( shader );
-		testUbo< sdw::BMat4 >( shader );
-		testUbo< sdw::IMat2 >( shader );
-		testUbo< sdw::IMat3 >( shader );
-		testUbo< sdw::IMat4 >( shader );
-		testUbo< sdw::UMat2 >( shader );
-		testUbo< sdw::UMat3 >( shader );
-		testUbo< sdw::UMat4 >( shader );
-		std::cout << sdw::debug::StmtVisitor::submit( shader.getStatements() ) << std::endl;
+		sdw::ShaderWriter writer{ false };
+		testUbo< sdw::Boolean >( writer );
+		testUbo< sdw::Int >( writer );
+		testUbo< sdw::UInt >( writer );
+		testUbo< sdw::Float >( writer );
+		testUbo< sdw::Vec2 >( writer );
+		testUbo< sdw::Vec3 >( writer );
+		testUbo< sdw::Vec4 >( writer );
+		testUbo< sdw::BVec2 >( writer );
+		testUbo< sdw::BVec3 >( writer );
+		testUbo< sdw::BVec4 >( writer );
+		testUbo< sdw::IVec2 >( writer );
+		testUbo< sdw::IVec3 >( writer );
+		testUbo< sdw::IVec4 >( writer );
+		testUbo< sdw::UVec2 >( writer );
+		testUbo< sdw::UVec3 >( writer );
+		testUbo< sdw::UVec4 >( writer );
+		testUbo< sdw::Mat2 >( writer );
+		testUbo< sdw::Mat3 >( writer );
+		testUbo< sdw::Mat4 >( writer );
+		testUbo< sdw::BMat2 >( writer );
+		testUbo< sdw::BMat3 >( writer );
+		testUbo< sdw::BMat4 >( writer );
+		testUbo< sdw::IMat2 >( writer );
+		testUbo< sdw::IMat3 >( writer );
+		testUbo< sdw::IMat4 >( writer );
+		testUbo< sdw::UMat2 >( writer );
+		testUbo< sdw::UMat3 >( writer );
+		testUbo< sdw::UMat4 >( writer );
+		std::cout << sdw::writeDebug( writer.getShader() ) << std::endl;
 		testEnd();
 	}
 
 	void testSsbos()
 	{
 		testBegin( "testSsbos" );
-		sdw::Shader shader;
-		testSsbo< sdw::Boolean >( shader );
-		testSsbo< sdw::Int >( shader );
-		testSsbo< sdw::UInt >( shader );
-		testSsbo< sdw::Float >( shader );
-		testSsbo< sdw::Vec2 >( shader );
-		testSsbo< sdw::Vec3 >( shader );
-		testSsbo< sdw::Vec4 >( shader );
-		testSsbo< sdw::BVec2 >( shader );
-		testSsbo< sdw::BVec3 >( shader );
-		testSsbo< sdw::BVec4 >( shader );
-		testSsbo< sdw::IVec2 >( shader );
-		testSsbo< sdw::IVec3 >( shader );
-		testSsbo< sdw::IVec4 >( shader );
-		testSsbo< sdw::UVec2 >( shader );
-		testSsbo< sdw::UVec3 >( shader );
-		testSsbo< sdw::UVec4 >( shader );
-		testSsbo< sdw::Mat2 >( shader );
-		testSsbo< sdw::Mat3 >( shader );
-		testSsbo< sdw::Mat4 >( shader );
-		testSsbo< sdw::BMat2 >( shader );
-		testSsbo< sdw::BMat3 >( shader );
-		testSsbo< sdw::BMat4 >( shader );
-		testSsbo< sdw::IMat2 >( shader );
-		testSsbo< sdw::IMat3 >( shader );
-		testSsbo< sdw::IMat4 >( shader );
-		testSsbo< sdw::UMat2 >( shader );
-		testSsbo< sdw::UMat3 >( shader );
-		testSsbo< sdw::UMat4 >( shader );
-		std::cout << sdw::debug::StmtVisitor::submit( shader.getStatements() ) << std::endl;
+		sdw::ShaderWriter writer{ false };
+		testSsbo< sdw::Boolean >( writer );
+		testSsbo< sdw::Int >( writer );
+		testSsbo< sdw::UInt >( writer );
+		testSsbo< sdw::Float >( writer );
+		testSsbo< sdw::Vec2 >( writer );
+		testSsbo< sdw::Vec3 >( writer );
+		testSsbo< sdw::Vec4 >( writer );
+		testSsbo< sdw::BVec2 >( writer );
+		testSsbo< sdw::BVec3 >( writer );
+		testSsbo< sdw::BVec4 >( writer );
+		testSsbo< sdw::IVec2 >( writer );
+		testSsbo< sdw::IVec3 >( writer );
+		testSsbo< sdw::IVec4 >( writer );
+		testSsbo< sdw::UVec2 >( writer );
+		testSsbo< sdw::UVec3 >( writer );
+		testSsbo< sdw::UVec4 >( writer );
+		testSsbo< sdw::Mat2 >( writer );
+		testSsbo< sdw::Mat3 >( writer );
+		testSsbo< sdw::Mat4 >( writer );
+		testSsbo< sdw::BMat2 >( writer );
+		testSsbo< sdw::BMat3 >( writer );
+		testSsbo< sdw::BMat4 >( writer );
+		testSsbo< sdw::IMat2 >( writer );
+		testSsbo< sdw::IMat3 >( writer );
+		testSsbo< sdw::IMat4 >( writer );
+		testSsbo< sdw::UMat2 >( writer );
+		testSsbo< sdw::UMat3 >( writer );
+		testSsbo< sdw::UMat4 >( writer );
+		std::cout << sdw::writeDebug( writer.getShader() ) << std::endl;
 		testEnd();
 	}
 
 	void testPcbs()
 	{
 		testBegin( "testPcbs" );
-		sdw::Shader shader;
-		testPcb< sdw::Boolean >( shader );
-		testPcb< sdw::Int >( shader );
-		testPcb< sdw::UInt >( shader );
-		testPcb< sdw::Float >( shader );
-		testPcb< sdw::Vec2 >( shader );
-		testPcb< sdw::Vec3 >( shader );
-		testPcb< sdw::Vec4 >( shader );
-		testPcb< sdw::BVec2 >( shader );
-		testPcb< sdw::BVec3 >( shader );
-		testPcb< sdw::BVec4 >( shader );
-		testPcb< sdw::IVec2 >( shader );
-		testPcb< sdw::IVec3 >( shader );
-		testPcb< sdw::IVec4 >( shader );
-		testPcb< sdw::UVec2 >( shader );
-		testPcb< sdw::UVec3 >( shader );
-		testPcb< sdw::UVec4 >( shader );
-		testPcb< sdw::Mat2 >( shader );
-		testPcb< sdw::Mat3 >( shader );
-		testPcb< sdw::Mat4 >( shader );
-		testPcb< sdw::BMat2 >( shader );
-		testPcb< sdw::BMat3 >( shader );
-		testPcb< sdw::BMat4 >( shader );
-		testPcb< sdw::IMat2 >( shader );
-		testPcb< sdw::IMat3 >( shader );
-		testPcb< sdw::IMat4 >( shader );
-		testPcb< sdw::UMat2 >( shader );
-		testPcb< sdw::UMat3 >( shader );
-		testPcb< sdw::UMat4 >( shader );
-		std::cout << sdw::debug::StmtVisitor::submit( shader.getStatements() ) << std::endl;
+		sdw::ShaderWriter writer{ false };
+		testPcb< sdw::Boolean >( writer );
+		testPcb< sdw::Int >( writer );
+		testPcb< sdw::UInt >( writer );
+		testPcb< sdw::Float >( writer );
+		testPcb< sdw::Vec2 >( writer );
+		testPcb< sdw::Vec3 >( writer );
+		testPcb< sdw::Vec4 >( writer );
+		testPcb< sdw::BVec2 >( writer );
+		testPcb< sdw::BVec3 >( writer );
+		testPcb< sdw::BVec4 >( writer );
+		testPcb< sdw::IVec2 >( writer );
+		testPcb< sdw::IVec3 >( writer );
+		testPcb< sdw::IVec4 >( writer );
+		testPcb< sdw::UVec2 >( writer );
+		testPcb< sdw::UVec3 >( writer );
+		testPcb< sdw::UVec4 >( writer );
+		testPcb< sdw::Mat2 >( writer );
+		testPcb< sdw::Mat3 >( writer );
+		testPcb< sdw::Mat4 >( writer );
+		testPcb< sdw::BMat2 >( writer );
+		testPcb< sdw::BMat3 >( writer );
+		testPcb< sdw::BMat4 >( writer );
+		testPcb< sdw::IMat2 >( writer );
+		testPcb< sdw::IMat3 >( writer );
+		testPcb< sdw::IMat4 >( writer );
+		testPcb< sdw::UMat2 >( writer );
+		testPcb< sdw::UMat3 >( writer );
+		testPcb< sdw::UMat4 >( writer );
+		std::cout << sdw::writeDebug( writer.getShader() ) << std::endl;
 		testEnd();
 	}
 
 	void testStructs()
 	{
 		testBegin( "testStructs" );
-		sdw::Shader shader;
-		testStruct< sdw::Boolean >( shader );
-		testStruct< sdw::Int >( shader );
-		testStruct< sdw::UInt >( shader );
-		testStruct< sdw::Float >( shader );
-		testStruct< sdw::Vec2 >( shader );
-		testStruct< sdw::Vec3 >( shader );
-		testStruct< sdw::Vec4 >( shader );
-		testStruct< sdw::BVec2 >( shader );
-		testStruct< sdw::BVec3 >( shader );
-		testStruct< sdw::BVec4 >( shader );
-		testStruct< sdw::IVec2 >( shader );
-		testStruct< sdw::IVec3 >( shader );
-		testStruct< sdw::IVec4 >( shader );
-		testStruct< sdw::UVec2 >( shader );
-		testStruct< sdw::UVec3 >( shader );
-		testStruct< sdw::UVec4 >( shader );
-		testStruct< sdw::Mat2 >( shader );
-		testStruct< sdw::Mat3 >( shader );
-		testStruct< sdw::Mat4 >( shader );
-		testStruct< sdw::BMat2 >( shader );
-		testStruct< sdw::BMat3 >( shader );
-		testStruct< sdw::BMat4 >( shader );
-		testStruct< sdw::IMat2 >( shader );
-		testStruct< sdw::IMat3 >( shader );
-		testStruct< sdw::IMat4 >( shader );
-		testStruct< sdw::UMat2 >( shader );
-		testStruct< sdw::UMat3 >( shader );
-		testStruct< sdw::UMat4 >( shader );
-		std::cout << sdw::debug::StmtVisitor::submit( shader.getStatements() ) << std::endl;
+		sdw::ShaderWriter writer{ false };
+		testStruct< sdw::Boolean >( writer );
+		testStruct< sdw::Int >( writer );
+		testStruct< sdw::UInt >( writer );
+		testStruct< sdw::Float >( writer );
+		testStruct< sdw::Vec2 >( writer );
+		testStruct< sdw::Vec3 >( writer );
+		testStruct< sdw::Vec4 >( writer );
+		testStruct< sdw::BVec2 >( writer );
+		testStruct< sdw::BVec3 >( writer );
+		testStruct< sdw::BVec4 >( writer );
+		testStruct< sdw::IVec2 >( writer );
+		testStruct< sdw::IVec3 >( writer );
+		testStruct< sdw::IVec4 >( writer );
+		testStruct< sdw::UVec2 >( writer );
+		testStruct< sdw::UVec3 >( writer );
+		testStruct< sdw::UVec4 >( writer );
+		testStruct< sdw::Mat2 >( writer );
+		testStruct< sdw::Mat3 >( writer );
+		testStruct< sdw::Mat4 >( writer );
+		testStruct< sdw::BMat2 >( writer );
+		testStruct< sdw::BMat3 >( writer );
+		testStruct< sdw::BMat4 >( writer );
+		testStruct< sdw::IMat2 >( writer );
+		testStruct< sdw::IMat3 >( writer );
+		testStruct< sdw::IMat4 >( writer );
+		testStruct< sdw::UMat2 >( writer );
+		testStruct< sdw::UMat3 >( writer );
+		testStruct< sdw::UMat4 >( writer );
+		std::cout << sdw::writeDebug( writer.getShader() ) << std::endl;
 		testEnd();
 	}
 }

@@ -21,8 +21,8 @@ namespace ast::debug
 			, std::string indent = std::string{} );
 
 	private:
-		void doAppendLineEnd();
-
+		std::string & displayStmtName( stmt::Stmt * stmt, bool newLine );
+		void displayVariable( var::Variable const & var );
 		void visitCompoundStmt( stmt::Compound * stmt )override;
 		void visitContainerStmt( stmt::Container * stmt )override;
 		void visitConstantBufferDeclStmt( stmt::ConstantBufferDecl * stmt )override;
@@ -61,8 +61,7 @@ namespace ast::debug
 
 	private:
 		std::string m_indent;
-		bool m_appendSemiColon{ false };
-		bool m_appendLineEnd{ false };
+		bool m_compoundName{ false };
 		std::string & m_result;
 	};
 };

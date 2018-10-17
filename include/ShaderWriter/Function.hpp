@@ -7,8 +7,6 @@ See LICENSE file in root folder
 
 #include "OptionalArray.hpp"
 
-#include <ASTGenerator/Stmt/StmtFunctionDecl.hpp>
-
 #include <functional>
 
 namespace sdw
@@ -56,7 +54,7 @@ namespace sdw
 
 	template< typename ReturnT
 		, typename ... ParamsT >
-	inline stmt::FunctionDeclPtr getFunctionHeader( std::string const & name
+	inline stmt::ContainerPtr getFunctionHeader( std::string const & name
 		, ParamsT && ... params );
 
 	//***********************************************************************************************

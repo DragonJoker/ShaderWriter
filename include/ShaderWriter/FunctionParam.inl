@@ -5,25 +5,25 @@ namespace sdw
 {
 	//*****************************************************************************************
 
-	template< typename TypeT >
-	InParam< TypeT >::InParam( Shader * shader
+	template< typename ValueT >
+	InParam< ValueT >::InParam( ShaderWriter & writer
 		, std::string name )
-		: TypeT{ shader, expr::makeIdentifier( var::makeVariable( type::makeType( typeEnum< TypeT > ), std::move( name ), var::Flag::eInputParam ) ) }
+		: ValueT{ &writer.getShader(), makeExpr( var::makeVariable( type::makeType( typeEnum< ValueT > ), std::move( name ), var::Flag::eInputParam ) ) }
 	{
 	}
 
-	template< typename TypeT >
-	InParam< TypeT >::InParam( TypeT const & other )
-		: TypeT{ other.getShader(), makeExpr( other ) }
+	template< typename ValueT >
+	InParam< ValueT >::InParam( ValueT const & other )
+		: ValueT{ other.getShader(), makeExpr( other ) }
 	{
 	}
 
-	template< typename TypeT >
+	template< typename ValueT >
 	template< typename T >
-	InParam< TypeT > InParam< TypeT >::operator=( T const & rhs )
+	InParam< ValueT > InParam< ValueT >::operator=( T const & rhs )
 	{
 		addStmt( *findContainer( *this, rhs )
-			, stmt::makeSimple( expr::makeAssign( this->getType()
+			, sdw::makeSimple( sdw::makeAssign( this->getType()
 				, makeExpr( *this )
 				, makeExpr( rhs ) ) ) );
 		return *this;
@@ -31,25 +31,25 @@ namespace sdw
 
 	//*****************************************************************************************
 
-	template< typename TypeT >
-	OutParam< TypeT >::OutParam( Shader * shader
+	template< typename ValueT >
+	OutParam< ValueT >::OutParam( ShaderWriter & writer
 		, std::string name )
-		: TypeT{ shader, expr::makeIdentifier( var::makeVariable( type::makeType( typeEnum< TypeT > ), std::move( name ), var::Flag::eOutputParam ) ) }
+		: ValueT{ &writer.getShader(), makeExpr( var::makeVariable( type::makeType( typeEnum< ValueT > ), std::move( name ), var::Flag::eOutputParam ) ) }
 	{
 	}
 
-	template< typename TypeT >
-	OutParam< TypeT >::OutParam( TypeT const & other )
-		: TypeT{ other.getShader(), makeExpr( other ) }
+	template< typename ValueT >
+	OutParam< ValueT >::OutParam( ValueT const & other )
+		: ValueT{ other.getShader(), makeExpr( other ) }
 	{
 	}
 
-	template< typename TypeT >
+	template< typename ValueT >
 	template< typename T >
-	OutParam< TypeT > OutParam< TypeT >::operator=( T const & rhs )
+	OutParam< ValueT > OutParam< ValueT >::operator=( T const & rhs )
 	{
 		addStmt( *findContainer( *this, rhs )
-			, stmt::makeSimple( expr::makeAssign( this->getType()
+			, sdw::makeSimple( sdw::makeAssign( this->getType()
 				, makeExpr( *this )
 				, makeExpr( rhs ) ) ) );
 		return *this;
@@ -57,25 +57,25 @@ namespace sdw
 
 	//*****************************************************************************************
 
-	template< typename TypeT >
-	InOutParam< TypeT >::InOutParam( Shader * shader
+	template< typename ValueT >
+	InOutParam< ValueT >::InOutParam( ShaderWriter & writer
 		, std::string name )
-		: TypeT{ shader, expr::makeIdentifier( var::makeVariable( type::makeType( typeEnum< TypeT > ), std::move( name ), uint32_t( var::Flag::eInputParam ) | uint32_t( var::Flag::eOutputParam ) ) ) }
+		: ValueT{ &writer.getShader(), makeExpr( var::makeVariable( type::makeType( typeEnum< ValueT > ), std::move( name ), uint32_t( var::Flag::eInputParam ) | uint32_t( var::Flag::eOutputParam ) ) ) }
 	{
 	}
 
-	template< typename TypeT >
-	InOutParam< TypeT >::InOutParam( TypeT const & other )
-		: TypeT{ other.getShader(), makeExpr( other ) }
+	template< typename ValueT >
+	InOutParam< ValueT >::InOutParam( ValueT const & other )
+		: ValueT{ other.getShader(), makeExpr( other ) }
 	{
 	}
 
-	template< typename TypeT >
+	template< typename ValueT >
 	template< typename T >
-	InOutParam< TypeT > InOutParam< TypeT >::operator=( T const & rhs )
+	InOutParam< ValueT > InOutParam< ValueT >::operator=( T const & rhs )
 	{
 		addStmt( *findContainer( *this, rhs )
-			, stmt::makeSimple( expr::makeAssign( this->getType()
+			, sdw::makeSimple( sdw::makeAssign( this->getType()
 				, makeExpr( *this )
 				, makeExpr( rhs ) ) ) );
 		return *this;

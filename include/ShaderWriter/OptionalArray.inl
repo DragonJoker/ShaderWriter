@@ -1,8 +1,6 @@
 /*
 See LICENSE file in root folder
 */
-#include <ASTGenerator/Expr/ExprArrayAccess.hpp>
-
 namespace sdw
 {
 	//*********************************************************************************************
@@ -21,7 +19,7 @@ namespace sdw
 	Optional< ValueT > Optional< Array< ValueT > >::operator[]( IndexT const & offset )const
 	{
 		return Optional< ValueT >{ findShader( *this, offset )
-			, expr::makeArrayAccess( makeType( this->getType()->getKind() )
+			, sdw::makeArrayAccess( makeType( this->getType()->getKind() )
 				, makeExpr( *this )
 				, makeExpr( offset ) )
 			, areOptionalEnabled( *this, offset ) };

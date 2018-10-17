@@ -1,8 +1,6 @@
 /*
 See LICENSE file in root folder
 */
-#include <ASTGenerator/Expr/ExprArrayAccess.hpp>
-
 namespace sdw
 {
 	//*********************************************************************************************
@@ -19,7 +17,7 @@ namespace sdw
 	ValueT Array< ValueT >::operator[]( IndexT const & offset )const
 	{
 		return ValueT{ findShader( *this, offset )
-			, expr::makeArrayAccess( makeType( this->getType()->getKind() )
+			, makeArrayAccess( makeType( this->getType()->getKind() )
 				, makeExpr( *this )
 				, makeExpr( offset ) ) };
 	}

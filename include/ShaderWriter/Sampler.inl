@@ -1,3 +1,6 @@
+/*
+See LICENSE file in root folder
+*/
 namespace sdw
 {
 	//*****************************************************************************************
@@ -15,7 +18,7 @@ namespace sdw
 	{
 		this->updateContainer( rhs );
 		addStmt( *findContainer( *this, rhs )
-			, stmt::makeSimple( expr::makeAssign( m_expr->getType()
+			, sdw::makeSimple( sdw::makeAssign( m_expr->getType()
 				, makeExpr( m_expr )
 				, makeExpr( rhs ) ) ) );
 		return *this;

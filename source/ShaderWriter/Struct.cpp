@@ -3,20 +3,20 @@ See LICENSE file in root folder
 */
 #include "ShaderWriter/Struct.hpp"
 
-#include "ShaderWriter/Shader.hpp"
+#include "ShaderWriter/Writer.hpp"
 
 namespace sdw
 {
-	Struct::Struct( Shader & shader
+	Struct::Struct( ShaderWriter & writer
 		, std::string name )
-		: m_shader{ &shader }
+		: m_shader{ &writer.getShader() }
 		, m_type{ type::makeStructType( std::move( name ) ) }
 	{
 	}
 
 	void Struct::end()
 	{
-		addStmt( *m_shader, stmt::makeStructureDecl( m_type ) );
+		addStmt( *m_shader, sdw::makeStructDecl( m_type ) );
 	}
 
 	StructInstance Struct::getInstance( std::string const & name )

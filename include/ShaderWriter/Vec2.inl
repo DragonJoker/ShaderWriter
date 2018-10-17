@@ -1,8 +1,6 @@
 /*
 See LICENSE file in root folder
 */
-#include <ASTGenerator/Expr/ExprArrayAccess.hpp>
-
 namespace sdw
 {
 	template< typename ValueT >
@@ -18,7 +16,7 @@ namespace sdw
 		if ( getContainer() )
 		{
 			addStmt( *findContainer( *this, rhs )
-				, stmt::makeSimple( expr::makeAssign( getType()
+				, sdw::makeSimple( sdw::makeAssign( getType()
 					, makeExpr( *this )
 					, makeExpr( rhs ) ) ) );
 		}
@@ -35,7 +33,7 @@ namespace sdw
 	inline ValueT Vec2T< ValueT >::operator[]( IndexT const & rhs )const
 	{
 		return ValueT{ findShader( *this, rhs )
-			, expr::makeArrayAccess( makeType( typeEnum< ValueT > )
+			, sdw::makeArrayAccess( makeType( typeEnum< ValueT > )
 				, makeExpr( *this )
 				, makeExpr( rhs ) ) };
 	}
@@ -44,7 +42,7 @@ namespace sdw
 	Vec2T< ValueT > & Vec2T< ValueT >::operator+=( Vec2T< ValueT > const & rhs )
 	{
 		addStmt( *findContainer( *this, rhs )
-			, stmt::makeSimple( expr::makeAddAssign( getType()
+			, sdw::makeSimple( sdw::makeAddAssign( getType()
 				, makeExpr( *this )
 				, makeExpr( rhs ) ) ) );
 		return *this;
@@ -54,7 +52,7 @@ namespace sdw
 	Vec2T< ValueT > & Vec2T< ValueT >::operator-=( Vec2T< ValueT > const & rhs )
 	{
 		addStmt( *findContainer( *this, rhs )
-			, stmt::makeSimple( expr::makeMinusAssign( getType()
+			, sdw::makeSimple( sdw::makeMinusAssign( getType()
 				, makeExpr( *this )
 				, makeExpr( rhs ) ) ) );
 		return *this;
@@ -64,7 +62,7 @@ namespace sdw
 	Vec2T< ValueT > & Vec2T< ValueT >::operator*=( Vec2T< ValueT > const & rhs )
 	{
 		addStmt( *findContainer( *this, rhs )
-			, stmt::makeSimple( expr::makeTimesAssign( getType()
+			, sdw::makeSimple( sdw::makeTimesAssign( getType()
 				, makeExpr( *this )
 				, makeExpr( rhs ) ) ) );
 		return *this;
@@ -74,7 +72,7 @@ namespace sdw
 	Vec2T< ValueT > & Vec2T< ValueT >::operator/=( Vec2T< ValueT > const & rhs )
 	{
 		addStmt( *findContainer( *this, rhs )
-			, stmt::makeSimple( expr::makeDivideAssign( getType()
+			, sdw::makeSimple( sdw::makeDivideAssign( getType()
 				, makeExpr( *this )
 				, makeExpr( rhs ) ) ) );
 		return *this;
@@ -86,7 +84,7 @@ namespace sdw
 		if ( rhs.isEnabled() )
 		{
 			addStmt( *findContainer( *this, rhs )
-				, stmt::makeSimple( expr::makeAddAssign( getType()
+				, sdw::makeSimple( sdw::makeAddAssign( getType()
 					, makeExpr( *this )
 					, makeExpr( rhs ) ) ) );
 		}
@@ -99,7 +97,7 @@ namespace sdw
 		if ( rhs.isEnabled() )
 		{
 			addStmt( *findContainer( *this, rhs )
-				, stmt::makeSimple( expr::makeMinusAssign( getType()
+				, sdw::makeSimple( sdw::makeMinusAssign( getType()
 					, makeExpr( *this )
 					, makeExpr( rhs ) ) ) );
 		}
@@ -112,7 +110,7 @@ namespace sdw
 		if ( rhs.isEnabled() )
 		{
 			addStmt( *findContainer( *this, rhs )
-				, stmt::makeSimple( expr::makeTimesAssign( getType()
+				, sdw::makeSimple( sdw::makeTimesAssign( getType()
 					, makeExpr( *this )
 					, makeExpr( rhs ) ) ) );
 		}
@@ -125,7 +123,7 @@ namespace sdw
 		if ( rhs.isEnabled() )
 		{
 			addStmt( *findContainer( *this, rhs )
-				, stmt::makeSimple( expr::makeDivideAssign( getType()
+				, sdw::makeSimple( sdw::makeDivideAssign( getType()
 					, makeExpr( *this )
 					, makeExpr( rhs ) ) ) );
 		}
@@ -136,7 +134,7 @@ namespace sdw
 	Vec2T< ValueT > & Vec2T< ValueT >::operator+=( ValueT const & rhs )
 	{
 		addStmt( *findContainer( *this, rhs )
-			, stmt::makeSimple( expr::makeAddAssign( getType()
+			, sdw::makeSimple( sdw::makeAddAssign( getType()
 				, makeExpr( *this )
 				, makeExpr( rhs ) ) ) );
 		return *this;
@@ -146,7 +144,7 @@ namespace sdw
 	Vec2T< ValueT > & Vec2T< ValueT >::operator-=( ValueT const & rhs )
 	{
 		addStmt( *findContainer( *this, rhs )
-			, stmt::makeSimple( expr::makeMinusAssign( getType()
+			, sdw::makeSimple( sdw::makeMinusAssign( getType()
 				, makeExpr( *this )
 				, makeExpr( rhs ) ) ) );
 		return *this;
@@ -156,7 +154,7 @@ namespace sdw
 	Vec2T< ValueT > & Vec2T< ValueT >::operator*=( ValueT const & rhs )
 	{
 		addStmt( *findContainer( *this, rhs )
-			, stmt::makeSimple( expr::makeTimesAssign( getType()
+			, sdw::makeSimple( sdw::makeTimesAssign( getType()
 				, makeExpr( *this )
 				, makeExpr( rhs ) ) ) );
 		return *this;
@@ -166,7 +164,7 @@ namespace sdw
 	Vec2T< ValueT > & Vec2T< ValueT >::operator/=( ValueT const & rhs )
 	{
 		addStmt( *findContainer( *this, rhs )
-			, stmt::makeSimple( expr::makeDivideAssign( getType()
+			, sdw::makeSimple( sdw::makeDivideAssign( getType()
 				, makeExpr( *this )
 				, makeExpr( rhs ) ) ) );
 		return *this;
@@ -176,7 +174,7 @@ namespace sdw
 	Vec2T< ValueT > & Vec2T< ValueT >::operator+=( Optional< ValueT > const & rhs )
 	{
 		addStmt( *findContainer( *this, rhs )
-			, stmt::makeSimple( expr::makeAddAssign( getType()
+			, sdw::makeSimple( sdw::makeAddAssign( getType()
 				, makeExpr( *this )
 				, makeExpr( rhs ) ) ) );
 		return *this;
@@ -188,7 +186,7 @@ namespace sdw
 		if ( rhs.isEnabled() )
 		{
 			addStmt( *findContainer( *this, rhs )
-				, stmt::makeSimple( expr::makeMinusAssign( getType()
+				, sdw::makeSimple( sdw::makeMinusAssign( getType()
 					, makeExpr( *this )
 					, makeExpr( rhs ) ) ) );
 		}
@@ -201,7 +199,7 @@ namespace sdw
 		if ( rhs.isEnabled() )
 		{
 			addStmt( *findContainer( *this, rhs )
-				, stmt::makeSimple( expr::makeTimesAssign( getType()
+				, sdw::makeSimple( sdw::makeTimesAssign( getType()
 					, makeExpr( *this )
 					, makeExpr( rhs ) ) ) );
 		}
@@ -214,7 +212,7 @@ namespace sdw
 		if ( rhs.isEnabled() )
 		{
 			addStmt( *findContainer( *this, rhs )
-				, stmt::makeSimple( expr::makeDivideAssign( getType()
+				, sdw::makeSimple( sdw::makeDivideAssign( getType()
 					, makeExpr( *this )
 					, makeExpr( rhs ) ) ) );
 		}

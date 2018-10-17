@@ -1,5 +1,6 @@
-#include <ASTGenerator/Var/Variable.hpp>
-
+/*
+See LICENSE file in root folder
+*/
 namespace sdw
 {
 	template< typename T >

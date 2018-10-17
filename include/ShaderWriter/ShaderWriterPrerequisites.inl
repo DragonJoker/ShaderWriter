@@ -1,8 +1,6 @@
 /*
 See LICENSE file in root folder
 */
-#include <ASTGenerator/Type/Type.hpp>
-
 namespace sdw
 {
 	//***********************************************************************************************

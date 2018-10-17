@@ -11,7 +11,7 @@ namespace sdw
 	class Utils
 	{
 	public:
-		Utils( Shader & shader );
+		Utils( ShaderWriter & writer );
 		void declareCalcTexCoord();
 		void declareCalcVSPosition();
 		void declareCalcWSPosition();
@@ -69,7 +69,7 @@ namespace sdw
 		static uint32_t const MaxIblReflectionLod;
 
 	private:
-		Shader & m_shader;
+		ShaderWriter & m_writer;
 		Function< Vec2
 			, InVec2 > m_calcTexCoord;
 		Function< Vec3

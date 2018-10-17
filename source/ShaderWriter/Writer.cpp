@@ -1,113 +1,277 @@
-#if 0
+/*
+See LICENSE file in root folder
+*/
 #include "ShaderWriter/Writer.hpp"
 
-#include "ShaderWriter/Vec.hpp"
 #include "ShaderWriter/Intrinsics.hpp"
+#include "ShaderWriter/Vec2.hpp"
+
+#include <ASTGenerator/Stmt/PreprocExtension.hpp>
+#include <ASTGenerator/Stmt/PreprocVersion.hpp>
+#include <ASTGenerator/Stmt/StmtDiscard.hpp>
+#include <ASTGenerator/Stmt/StmtDoWhile.hpp>
+#include <ASTGenerator/Stmt/StmtElse.hpp>
+#include <ASTGenerator/Stmt/StmtElseIf.hpp>
+#include <ASTGenerator/Stmt/StmtEmitPrimitive.hpp>
+#include <ASTGenerator/Stmt/StmtEmitVertex.hpp>
+#include <ASTGenerator/Stmt/StmtFor.hpp>
+#include <ASTGenerator/Stmt/StmtIf.hpp>
+#include <ASTGenerator/Stmt/StmtInputComputeLayout.hpp>
+#include <ASTGenerator/Stmt/StmtInputGeometryLayout.hpp>
+#include <ASTGenerator/Stmt/StmtOutputGeometryLayout.hpp>
+#include <ASTGenerator/Stmt/StmtWhile.hpp>
 
 namespace sdw
 {
-	GlslWriter::GlslWriter( GlslWriterConfig const & config )
-		: m_keywords( sdw::KeywordsBase::get( config ) )
-		, m_uniform( cuT( "uniform " ) )
-		, m_config( config )
+	ShaderWriter::ShaderWriter( bool writeInvertFuncs
+		, Config config )
+		: m_config{ std::move( config ) }
 	{
-		m_stream.imbue( Expr::getLocale() );
+		addStmt( stmt::makePreprocVersion( std::to_string( config.shaderLanguageVersion ) ) );
+		enableExtension( "GL_ARB_explicit_attrib_location", 330u );
+		enableExtension( "GL_ARB_explicit_uniform_location", 430u );
+		enableExtension( "GL_ARB_separate_shader_objects", 410u );
+		enableExtension( "GL_ARB_shading_language_420pack", 420u );
+		enableExtension( "GL_ARB_texture_cube_map_array", 400u );
 
-#if !defined( NDEBUG )
-		*this << "#pragma optimize(off)" << endl;
-		*this << "#pragma debug(on)" << endl;
-#endif
-	}
-
-	Vec2 GlslWriter::ashesBottomUpToTopDown( Vec2 const & texCoord )
-	{
-		return writeFunctionCall< Vec2 >( this
-			, cuT( "ashesBottomUpToTopDown" )
-			, texCoord );
-	}
-
-	Vec2 GlslWriter::ashesTopDownToBottomUp( Vec2 const & texCoord )
-	{
-		return writeFunctionCall< Vec2 >( this
-			, cuT( "ashesTopDownToBottomUp" )
-			, texCoord );
-	}
-
-	Vec3 GlslWriter::ashesBottomUpToTopDown( Vec3 const & texCoord )
-	{
-		return writeFunctionCall< Vec3 >( this
-			, cuT( "ashesBottomUpToTopDown" )
-			, texCoord );
-	}
-
-	Vec3 GlslWriter::ashesTopDownToBottomUp( Vec3 const & texCoord )
-	{
-		return writeFunctionCall< Vec3 >( this
-			, cuT( "ashesTopDownToBottomUp" )
-			, texCoord );
-	}
-
-	void GlslWriter::emitVertex()
-	{
-		m_stream << cuT( "emitVertex();" ) << std::endl;
-	}
-
-	void GlslWriter::endPrimitive()
-	{
-		m_stream << cuT( "endPrimitive();" ) << std::endl;
-	}
-
-	void GlslWriter::discard()
-	{
-		m_stream << cuT( "discard;" ) << std::endl;
-	}
-
-	void GlslWriter::inputGeometryLayout( std::string const & layout )
-	{
-		m_stream << cuT( "layout( " ) << layout << cuT( " ) in;" ) << std::endl;
-	}
-
-	void GlslWriter::outputGeometryLayout( std::string const & layout )
-	{
-		m_stream << cuT( "layout( " ) << layout << cuT( " ) out;" ) << std::endl;
-	}
-
-	void GlslWriter::outputGeometryLayout( std::string const & layout, uint32_t count )
-	{
-		m_stream << cuT( "layout( " ) << layout << cuT( ", max_vertices = " ) << count << cuT( " ) out;" ) << std::endl;
-	}
-
-	void GlslWriter::outputVertexCount( uint32_t count )
-	{
-		m_stream << cuT( "layout( max_vertices = " ) << count << cuT( " ) out;" ) << std::endl;
-	}
-
-	GlslWriter & GlslWriter::operator<<( InputLayout const & rhs )
-	{
-		static std::map< InputLayout::Kind, std::string > const Names
+		if ( writeInvertFuncs )
 		{
-			{ InputLayout::Kind::ePoints, cuT( "points" ) },
-			{ InputLayout::Kind::eLines, cuT( "lines" ) },
-			{ InputLayout::Kind::eLinesAdjacency, cuT( "lines_adjacency" ) },
-			{ InputLayout::Kind::eTriangles, cuT( "triangles" ) },
-			{ InputLayout::Kind::eTrianglesAdjacency, cuT( "triangles_adjacency" ) },
-		};
-		REQUIRE( rhs.m_kind >= InputLayout::Kind::ePoints && rhs.m_kind <= InputLayout::Kind::eTrianglesAdjacency );
-		m_stream << cuT( "layout( " ) << Names.at( rhs.m_kind ) << cuT( " ) in;" ) << std::endl;
+			declareInvertVec2Y();
+			declareInvertVec3Y();
+		}
+	}
+
+	void ShaderWriter::registerName( std::string const & name, type::Kind type )
+	{
+		m_shader.registerName( name, type );
+	}
+
+	void ShaderWriter::checkNameExists( std::string const & name
+		, type::Kind type )
+	{
+		m_shader.checkNameExists( name, type );
+	}
+
+	void ShaderWriter::registerSsbo( std::string const & name
+		, Ssbo::Info const & info )
+	{
+		m_shader.registerSsbo( name, info );
+	}
+
+	void ShaderWriter::registerUbo( std::string const & name
+		, Ubo::Info const & info )
+	{
+		m_shader.registerUbo( name, info );
+	}
+
+	void ShaderWriter::addStmt( stmt::StmtPtr stmt )
+	{
+		m_shader.addStmt( std::move( stmt ) );
+	}
+
+	void ShaderWriter::inlineComment( std::string const & comment )
+	{
+	}
+
+	void ShaderWriter::multilineComment( std::string const & comment )
+	{
+	}
+
+	void ShaderWriter::enableExtension( std::string const & name, uint32_t inCoreVersion )
+	{
+		if ( getShaderLanguageVersion() < inCoreVersion )
+		{
+			addStmt( stmt::makePreprocExtension( name, stmt::PreprocExtension::Status::eEnabled ) );
+		}
+	}
+
+	void ShaderWriter::emitVertex()
+	{
+		addStmt( stmt::makeEmitVertex() );
+	}
+
+	void ShaderWriter::endPrimitive()
+	{
+		addStmt( stmt::makeEmitPrimitive() );
+	}
+
+	void ShaderWriter::discard()
+	{
+		addStmt( stmt::makeDiscard() );
+	}
+
+	void ShaderWriter::inputComputeLayout( uint32_t localSizeX, uint32_t localSizeY, uint32_t localSizeZ )
+	{
+		addStmt( stmt::makeInputComputeLayout( localSizeX, localSizeY, localSizeZ ) );
+	}
+
+	void ShaderWriter::inputGeometryLayout( stmt::InputLayout layout )
+	{
+		addStmt( stmt::makeInputGeometryLayout( layout ) );
+	}
+
+	void ShaderWriter::outputGeometryLayout( stmt::OutputLayout layout, uint32_t count )
+	{
+		addStmt( stmt::makeOutputGeometryLayout( layout, count ) );
+	}
+
+	sdw::Vec2 ShaderWriter::bottomUpToTopDown( sdw::Vec2 const & texCoord )
+	{
+		if ( !isTopDown() )
+		{
+			return m_invertVec2Y( texCoord );
+		}
+
+		return texCoord;
+	}
+
+	sdw::Vec2 ShaderWriter::topDownToBottomUp( sdw::Vec2 const & texCoord )
+	{
+		if ( isTopDown() )
+		{
+			return m_invertVec2Y( texCoord );
+		}
+
+		return texCoord;
+	}
+
+	sdw::Vec3 ShaderWriter::bottomUpToTopDown( sdw::Vec3 const & texCoord )
+	{
+		if ( !isTopDown() )
+		{
+			return m_invertVec3Y( texCoord );
+		}
+
+		return texCoord;
+	}
+
+	sdw::Vec3 ShaderWriter::topDownToBottomUp( sdw::Vec3 const & texCoord )
+	{
+		if ( isTopDown() )
+		{
+			return m_invertVec3Y( texCoord );
+		}
+
+		return texCoord;
+	}
+
+	void ShaderWriter::returnStmt()
+	{
+		addStmt( stmt::makeReturn() );
+	}
+
+	void ShaderWriter::forStmt( expr::ExprPtr init
+		, expr::ExprPtr cond
+		, expr::ExprPtr incr
+		, std::function< void() > function )
+	{
+		auto stmt = stmt::makeFor( makeExpr( init )
+			, makeExpr( cond )
+			, makeExpr( incr ) );
+		m_shader.push( stmt.get() );
+		function();
+		m_shader.pop();
+		addStmt( std::move( stmt ) );
+	}
+
+	void ShaderWriter::doWhileStmt( expr::ExprPtr condition
+		, std::function< void() > function )
+	{
+		auto stmt = stmt::makeDoWhile( std::move( condition ) );
+		m_shader.push( stmt.get() );
+		function();
+		m_shader.pop();
+		addStmt( std::move( stmt ) );
+	}
+
+	void ShaderWriter::whileStmt( expr::ExprPtr condition
+		, std::function< void() > function )
+	{
+		auto stmt = stmt::makeWhile( std::move( condition ) );
+		m_shader.push( stmt.get() );
+		function();
+		m_shader.pop();
+		addStmt( std::move( stmt ) );
+	}
+
+	ShaderWriter & ShaderWriter::ifStmt( expr::ExprPtr condition
+		, std::function< void() > function )
+	{
+		auto stmt = stmt::makeIf( std::move( condition ) );
+		m_shader.push( stmt.get() );
+		function();
+		m_shader.pop();
+		addStmt( std::move( stmt ) );
 		return *this;
 	}
 
-	GlslWriter & GlslWriter::operator<<( OutputLayout const & rhs )
+	ShaderWriter & ShaderWriter::elseIfStmt( expr::ExprPtr condition
+		, std::function< void() > function )
 	{
-		static std::map< OutputLayout::Kind, std::string > const Names
-		{
-			{ OutputLayout::Kind::ePoints, cuT( "points" ) },
-			{ OutputLayout::Kind::eLineStrip, cuT( "line_strip" ) },
-			{ OutputLayout::Kind::eTriangleStrip, cuT( "triangle_strip" ) },
-		};
-		REQUIRE( rhs.m_kind >= OutputLayout::Kind::ePoints && rhs.m_kind <= OutputLayout::Kind::eTriangleStrip );
-		m_stream << cuT( "layout( " ) << Names.at( rhs.m_kind ) << cuT( ", max_vertices = " ) << rhs.m_count << cuT( " ) out;" ) << std::endl;
+		auto stmt = stmt::makeElseIf( std::move( condition ) );
+		m_shader.push( stmt.get() );
+		function();
+		m_shader.pop();
+		addStmt( std::move( stmt ) );
 		return *this;
+	}
+
+	void ShaderWriter::elseStmt( std::function< void() > function )
+	{
+		auto stmt = stmt::makeElse();
+		m_shader.push( stmt.get() );
+		function();
+		m_shader.pop();
+		addStmt( std::move( stmt ) );
+	}
+
+	void ShaderWriter::declareInvertVec2Y()
+	{
+		m_invertVec2Y = implementFunction< Vec2 >( "invertVec2Y"
+			, [this]( Vec2 const & v )
+			{
+				returnStmt( vec2( v.x(), 1.0_f - v.y() ) );
+			}
+		, InVec2{ *this, "v" } );
+	}
+
+	void ShaderWriter::declareInvertVec3Y()
+	{
+		m_invertVec3Y = implementFunction< Vec3 >( "invertVec3Y"
+			, [this]( Vec3 const & v )
+			{
+				returnStmt( vec2( v.x(), 1.0_f - v.y(), v.z() ) );
+			}
+		, InVec3{ *this, "v" } );
+	}
+
+	void ShaderWriter::registerConstant( std::string const & name
+		, type::Kind type )
+	{
+		m_shader.registerConstant( name, type );
+	}
+
+	void ShaderWriter::registerSampler( std::string const & name
+		, type::Kind type
+		, uint32_t binding
+		, uint32_t set
+		, uint32_t count
+		, bool enabled )
+	{
+		m_shader.registerSampler( name, type, binding, set, count, enabled );
+	}
+
+	void ShaderWriter::registerInput( std::string const & name
+		, uint32_t location
+		, type::Kind type )
+	{
+		m_shader.registerInput( name, location, type );
+	}
+
+	void ShaderWriter::registerOutput( std::string const & name
+		, uint32_t location
+		, type::Kind type )
+	{
+		m_shader.registerOutput( name, location, type );
 	}
 }
-#endif

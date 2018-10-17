@@ -5,7 +5,7 @@ See LICENSE file in root folder
 #define ___Writer_Mat2_H___
 #pragma once
 
-#include "Vec2.hpp"
+#include "OptionalVec2.hpp"
 
 namespace sdw
 {

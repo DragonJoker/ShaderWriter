@@ -3,15 +3,15 @@ See LICENSE file in root folder
 */
 #include "ShaderWriter/Ubo.hpp"
 
-#include "ShaderWriter/Shader.hpp"
+#include "ShaderWriter/Writer.hpp"
 
 namespace sdw
 {
-	Ubo::Ubo( Shader & shader
+	Ubo::Ubo( ShaderWriter & writer
 		, std::string const & name
 		, uint32_t bind
 		, uint32_t set )
-		: m_shader{ shader }
+		: m_shader{ writer.getShader() }
 		, m_stmt{ stmt::makeConstantBufferDecl( name, bind, set ) }
 		, m_name{ name }
 		, m_info{ bind, set }

@@ -1,9 +1,6 @@
 /*
 See LICENSE file in root folder
 */
-#include <ASTGenerator/Expr/ExprAssign.hpp>
-#include <ASTGenerator/Stmt/StmtSimple.hpp>
-
 namespace sdw
 {
 	namespace details
@@ -47,7 +44,7 @@ namespace sdw
 		if ( m_enabled )
 		{
 			addStmt( *findContainer( *this, rhs )
-				, stmt::makeSimple( expr::makeAssign( this->getType()
+				, sdw::makeSimple( sdw::makeAssign( this->getType()
 					, makeExpr( *this )
 					, makeExpr( rhs ) ) ) );
 		}
@@ -62,7 +59,7 @@ namespace sdw
 		if ( m_enabled )
 		{
 			addStmt( *findContainer( *this, rhs )
-				, stmt::makeSimple( expr::makeAssign( this->getType()
+				, sdw::makeSimple( sdw::makeAssign( this->getType()
 					, makeExpr( *this )
 					, makeExpr( rhs ) ) ) );
 		}

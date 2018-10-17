@@ -1,8 +1,6 @@
 /*
 See LICENSE file in root folder
 */
-#include <ASTGenerator/Expr/ExprMbrSelect.hpp>
-
 namespace sdw
 {
 	template< typename T >

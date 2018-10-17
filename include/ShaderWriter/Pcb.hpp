@@ -16,7 +16,7 @@ namespace sdw
 	public:
 		using Info = BoInfo;
 
-		Pcb( Shader & shader
+		Pcb( ShaderWriter & writer
 			, std::string const & name );
 		void end();
 

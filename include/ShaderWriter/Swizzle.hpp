@@ -6,8 +6,6 @@ See LICENSE file in root folder
 
 #include "Value.hpp"
 
-#include <ASTGenerator/Expr/ExprMbrSelect.hpp>
-
 #define Writer_UseSwizzle 0
 
 #if defined( RGB )
@@ -208,8 +206,8 @@ namespace sdw
 	inline Output Name()const\
 	{\
 		return Output{ findShader( *this )\
-			, expr::makeMbrSelect( makeExpr( this->getExpr() )\
-				, expr::makeIdentifier( var::makeVariable( type::makeType( typeEnum< Output > )\
+			, sdw::makeMbrSelect( makeExpr( this->getExpr() )\
+				, sdw::makeIdent( var::makeVariable( type::makeType( typeEnum< Output > )\
 					, #Name ) ) ) };\
 	}
 
@@ -223,8 +221,8 @@ namespace sdw
 	inline Output Name()const\
 	{\
 		return Output{ findShader( *this )\
-			, expr::makeMbrSelect( makeExpr( this->getExpr() )\
-				, expr::makeIdentifier( var::makeVariable( type::makeType( typeEnum< Output > )\
+			, sdw::makeMbrSelect( makeExpr( this->getExpr() )\
+				, sdw::makeIdent( var::makeVariable( type::makeType( typeEnum< Output > )\
 					, #Name ) ) )\
 			, this->isEnabled() };\
 	}

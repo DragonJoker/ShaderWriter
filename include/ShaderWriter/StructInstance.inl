@@ -1,8 +1,6 @@
 /*
 See LICENSE file in root folder
 */
-#include <ASTGenerator/Expr/ExprMbrSelect.hpp>
-
 namespace sdw
 {
 	template< typename T >
@@ -10,8 +8,8 @@ namespace sdw
 	{
 		auto member = m_type->getMember( name );
 		return T{ findShader( *this )
-			, expr::makeMbrSelect( makeExpr( *this )
-				, expr::makeIdentifier( var::makeVariable( member.type, member.name ) ) ) };
+			, sdw::makeMbrSelect( makeExpr( *this )
+				, sdw::makeIdent( var::makeVariable( member.type, member.name ) ) ) };
 	}
 
 	template< typename T >
@@ -19,8 +17,8 @@ namespace sdw
 	{
 		auto member = m_type->getMember( name );
 		return Array< T >{ findShader( *this )
-			, expr::makeMbrSelect( makeExpr( *this )
-				, expr::makeIdentifier( var::makeVariable( member.type, member.name ) ) ) };
+			, sdw::makeMbrSelect( makeExpr( *this )
+				, sdw::makeIdent( var::makeVariable( member.type, member.name ) ) ) };
 	}
 
 	template< typename T >
@@ -28,7 +26,7 @@ namespace sdw
 	{
 		auto member = m_type->getMember( name );
 		return Array< T >{ findShader( *this )
-			, expr::makeMbrSelect( makeExpr( *this )
-				, expr::makeIdentifier( var::makeVariable( member.type, member.name ) ) ) };
+			, sdw::makeMbrSelect( makeExpr( *this )
+				, sdw::makeIdent( var::makeVariable( member.type, member.name ) ) ) };
 	}
 }

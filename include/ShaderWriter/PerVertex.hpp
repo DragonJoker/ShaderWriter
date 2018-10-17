@@ -15,7 +15,7 @@ namespace sdw
 		: public Value
 	{
 		gl_PerVertex();
-		gl_PerVertex( Shader & shader
+		gl_PerVertex( ShaderWriter & writer
 			, stmt::PerVertexDecl::Source source = stmt::PerVertexDecl::eVertexOutput );
 		Vec4 gl_Position()const;
 		Float gl_PointSize()const;

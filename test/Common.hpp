@@ -1,6 +1,7 @@
 #pragma once
 
-#include <ASTGenerator/ASTGeneratorPrerequisites.hpp>
+#include <ASTGenerator/Expr/ExprVisitor.hpp>
+#include <ASTGenerator/Stmt/StmtVisitor.hpp>
 
 #include <iostream>
 #include <stdexcept>

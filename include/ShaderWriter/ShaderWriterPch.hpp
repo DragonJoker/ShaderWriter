@@ -6,4 +6,7 @@ See LICENSE file in root folder
 
 #include "ShaderWriterPrerequisites.hpp"
 
+#include <ASTGenerator/Expr/ExprVisitor.hpp>
+#include <ASTGenerator/Stmt/StmtVisitor.hpp>
+
 #endif

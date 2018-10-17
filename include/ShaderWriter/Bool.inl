@@ -1,15 +1,6 @@
 /*
 See LICENSE file in root folder
 */
-#include <ASTGenerator/Expr/ExprAssign.hpp>
-#include <ASTGenerator/Expr/ExprEqual.hpp>
-#include <ASTGenerator/Expr/ExprLess.hpp>
-#include <ASTGenerator/Expr/ExprLessEqual.hpp>
-#include <ASTGenerator/Expr/ExprGreater.hpp>
-#include <ASTGenerator/Expr/ExprGreaterEqual.hpp>
-#include <ASTGenerator/Expr/ExprNotEqual.hpp>
-#include <ASTGenerator/Stmt/StmtSimple.hpp>
-
 namespace sdw
 {
 	//*************************************************************************
@@ -19,8 +10,8 @@ namespace sdw
 	{
 		updateContainer( rhs );
 		addStmt( *findContainer( *this, rhs )
-			, stmt::makeSimple( expr::makeAssign( type::getBool()
-				, makeExpr( m_expr )
+			, sdw::makeSimple( sdw::makeAssign( type::getBool()
+				, makeExpr( *this )
 				, makeExpr( rhs ) ) ) );
 		return *this;
 	}
@@ -31,7 +22,7 @@ namespace sdw
 	Optional< Boolean > operator==( Optional< ValueT > const & lhs, ValueT const & rhs )
 	{
 		return Optional< Boolean >{ findShader( lhs, rhs )
-			, expr::makeEqual( makeExpr( lhs )
+			, sdw::makeEqual( makeExpr( lhs )
 				, makeExpr( rhs ) )
 			, areOptionalEnabled( lhs, rhs ) };
 	}
@@ -40,7 +31,7 @@ namespace sdw
 	Optional< Boolean > operator!=( Optional< ValueT > const & lhs, ValueT const & rhs )
 	{
 		return Optional< Boolean >{ findShader( lhs, rhs )
-			, expr::makeNotEqual( makeExpr( lhs )
+			, sdw::makeNEqual( makeExpr( lhs )
 				, makeExpr( rhs ) )
 			, areOptionalEnabled( lhs, rhs ) };
 	}
@@ -49,7 +40,7 @@ namespace sdw
 	Optional< Boolean > operator<( Optional< ValueT > const & lhs, ValueT const & rhs )
 	{
 		return Optional< Boolean >{ findShader( lhs, rhs )
-			, expr::makeLess( makeExpr( lhs )
+			, sdw::makeLess( makeExpr( lhs )
 				, makeExpr( rhs ) )
 			, areOptionalEnabled( lhs, rhs ) };
 	}
@@ -58,7 +49,7 @@ namespace sdw
 	Optional< Boolean > operator<=( Optional< ValueT > const & lhs, ValueT const & rhs )
 	{
 		return Optional< Boolean >{ findShader( lhs, rhs )
-			, expr::makeLessEqual( makeExpr( lhs )
+			, sdw::makeLEqual( makeExpr( lhs )
 				, makeExpr( rhs ) )
 			, areOptionalEnabled( lhs, rhs ) };
 	}
@@ -67,7 +58,7 @@ namespace sdw
 	Optional< Boolean > operator>( Optional< ValueT > const & lhs, ValueT const & rhs )
 	{
 		return Optional< Boolean >{ findShader( lhs, rhs )
-			, expr::makeGreater( makeExpr( lhs )
+			, sdw::makeGreater( makeExpr( lhs )
 				, makeExpr( rhs ) )
 			, areOptionalEnabled( lhs, rhs ) };
 	}
@@ -76,7 +67,7 @@ namespace sdw
 	Optional< Boolean > operator>=( Optional< ValueT > const & lhs, ValueT const & rhs )
 	{
 		return Optional< Boolean >{ findShader( lhs, rhs )
-			, expr::makeGreaterEqual( makeExpr( lhs )
+			, sdw::makeGEqual( makeExpr( lhs )
 				, makeExpr( rhs ) )
 			, areOptionalEnabled( lhs, rhs ) };
 	}
@@ -85,7 +76,7 @@ namespace sdw
 	Optional< Boolean > operator==( ValueT const & lhs, Optional< ValueT > const & rhs )
 	{
 		return Optional< Boolean >{ findShader( lhs, rhs )
-			, expr::makeEqual( makeExpr( lhs )
+			, sdw::makeEqual( makeExpr( lhs )
 				, makeExpr( rhs ) )
 			, areOptionalEnabled( lhs, rhs ) };
 	}
@@ -94,7 +85,7 @@ namespace sdw
 	Optional< Boolean > operator!=( ValueT const & lhs, Optional< ValueT > const & rhs )
 	{
 		return Optional< Boolean >{ findShader( lhs, rhs )
-			, expr::makeNotEqual( makeExpr( lhs )
+			, sdw::makeNEqual( makeExpr( lhs )
 				, makeExpr( rhs ) )
 			, areOptionalEnabled( lhs, rhs ) };
 	}
@@ -103,7 +94,7 @@ namespace sdw
 	Optional< Boolean > operator<( ValueT const & lhs, Optional< ValueT > const & rhs )
 	{
 		return Optional< Boolean >{ findShader( lhs, rhs )
-			, expr::makeLess( makeExpr( lhs )
+			, sdw::makeLess( makeExpr( lhs )
 				, makeExpr( rhs ) )
 			, areOptionalEnabled( lhs, rhs ) };
 	}
@@ -112,7 +103,7 @@ namespace sdw
 	Optional< Boolean > operator<=( ValueT const & lhs, Optional< ValueT > const & rhs )
 	{
 		return Optional< Boolean >{ findShader( lhs, rhs )
-			, expr::makeLessEqual( makeExpr( lhs )
+			, sdw::makeLEqual( makeExpr( lhs )
 				, makeExpr( rhs ) )
 			, areOptionalEnabled( lhs, rhs ) };
 	}
@@ -121,7 +112,7 @@ namespace sdw
 	Optional< Boolean > operator>( ValueT const & lhs, Optional< ValueT > const & rhs )
 	{
 		return Optional< Boolean >{ findShader( lhs, rhs )
-			, expr::makeGreater( makeExpr( lhs )
+			, sdw::makeGreater( makeExpr( lhs )
 				, makeExpr( rhs ) )
 			, areOptionalEnabled( lhs, rhs ) };
 	}
@@ -130,7 +121,7 @@ namespace sdw
 	Optional< Boolean > operator>=( ValueT const & lhs, Optional< ValueT > const & rhs )
 	{
 		return Optional< Boolean >{ findShader( lhs, rhs )
-			, expr::makeGreaterEqual( makeExpr( lhs )
+			, sdw::makeGEqual( makeExpr( lhs )
 				, makeExpr( rhs ) )
 			, areOptionalEnabled( lhs, rhs ) };
 	}
@@ -139,7 +130,7 @@ namespace sdw
 	Optional< Boolean > operator==( Optional< ValueT > const & lhs, Optional< ValueT > const & rhs )
 	{
 		return Optional< Boolean >{ findShader( lhs, rhs )
-			, expr::makeEqual( makeExpr( lhs )
+			, sdw::makeEqual( makeExpr( lhs )
 				, makeExpr( rhs ) )
 			, areOptionalEnabled( lhs, rhs ) };
 	}
@@ -148,7 +139,7 @@ namespace sdw
 	Optional< Boolean > operator!=( Optional< ValueT > const & lhs, Optional< ValueT > const & rhs )
 	{
 		return Optional< Boolean >{ findShader( lhs, rhs )
-			, expr::makeNotEqual( makeExpr( lhs )
+			, sdw::makeNEqual( makeExpr( lhs )
 				, makeExpr( rhs ) )
 			, areOptionalEnabled( lhs, rhs ) };
 	}
@@ -157,7 +148,7 @@ namespace sdw
 	Optional< Boolean > operator<( Optional< ValueT > const & lhs, Optional< ValueT > const & rhs )
 	{
 		return Optional< Boolean >{ findShader( lhs, rhs )
-			, expr::makeLess( makeExpr( lhs )
+			, sdw::makeLess( makeExpr( lhs )
 				, makeExpr( rhs ) )
 			, areOptionalEnabled( lhs, rhs ) };
 	}
@@ -166,7 +157,7 @@ namespace sdw
 	Optional< Boolean > operator<=( Optional< ValueT > const & lhs, Optional< ValueT > const & rhs )
 	{
 		return Optional< Boolean >{ findShader( lhs, rhs )
-			, expr::makeLessEqual( makeExpr( lhs )
+			, sdw::makeLEqual( makeExpr( lhs )
 				, makeExpr( rhs ) )
 			, areOptionalEnabled( lhs, rhs ) };
 	}
@@ -175,7 +166,7 @@ namespace sdw
 	Optional< Boolean > operator>( Optional< ValueT > const & lhs, Optional< ValueT > const & rhs )
 	{
 		return Optional< Boolean >{ findShader( lhs, rhs )
-			, expr::makeGreater( makeExpr( lhs )
+			, sdw::makeGreater( makeExpr( lhs )
 				, makeExpr( rhs ) )
 			, areOptionalEnabled( lhs, rhs ) };
 	}
@@ -184,7 +175,7 @@ namespace sdw
 	Optional< Boolean > operator>=( Optional< ValueT > const & lhs, Optional< ValueT > const & rhs )
 	{
 		return Optional< Boolean >{ findShader( lhs, rhs )
-			, expr::makeGreaterEqual( makeExpr( lhs )
+			, sdw::makeGEqual( makeExpr( lhs )
 				, makeExpr( rhs ) )
 			, areOptionalEnabled( lhs, rhs ) };
 	}

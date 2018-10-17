@@ -1,9 +1,6 @@
 /*
 See LICENSE file in root folder
 */
-#include <ASTGenerator/Expr/ExprFnCall.hpp>
-#include <ASTGenerator/Expr/ExprList.hpp>
-
 namespace sdw
 {
 	//***********************************************************************************************
@@ -54,8 +51,8 @@ namespace sdw
 				bool isEnabled = true;
 				getFunctionCallParamsRec( args, isEnabled, params... );
 				return ReturnT{ findShader( params... )
-					, expr::makeFnCall( type::makeType( typeEnum< ReturnT > )
-						, expr::makeIdentifier( var::makeFunction( name ) )
+					, sdw::makeFnCall( type::makeType( typeEnum< ReturnT > )
+						, sdw::makeIdent( var::makeFunction( name ) )
 						, std::move( args ) ) };
 			}
 		};
@@ -71,8 +68,8 @@ namespace sdw
 				bool isEnabled = true;
 				getFunctionCallParamsRec( args, isEnabled, params... );
 				return Optional< ReturnT >{ findShader( params... )
-					, expr::makeFnCall( type::makeType( typeEnum< ReturnT > )
-						, expr::makeIdentifier( var::makeFunction( name ) )
+					, sdw::makeFnCall( type::makeType( typeEnum< ReturnT > )
+						, sdw::makeIdent( var::makeFunction( name ) )
 						, std::move( args ) )
 					, isEnabled };
 			}
@@ -130,21 +127,21 @@ namespace sdw
 
 	template< typename ReturnT
 		, typename ... ParamsT >
-	inline stmt::FunctionDeclPtr getFunctionHeader( std::string const & name
+	inline stmt::ContainerPtr getFunctionHeader( std::string const & name
 		, ParamsT && ... params )
 	{
 		var::VariableList args;
 		getFunctionHeaderArgsRec( args, std::forward< ParamsT >( params )... );
-		return stmt::makeFunctionDecl( type::makeType( typeEnum< ReturnT > )
+		return sdw::makeFuncDecl( type::makeType( typeEnum< ReturnT > )
 			, name
 			, args );
 	}
 
 	template<>
-	inline stmt::FunctionDeclPtr getFunctionHeader< void >( std::string const & name )
+	inline stmt::ContainerPtr getFunctionHeader< void >( std::string const & name )
 	{
 		var::VariableList args;
-		return stmt::makeFunctionDecl( type::getVoid()
+		return sdw::makeFuncDecl( type::getVoid()
 			, name
 			, args );
 	}

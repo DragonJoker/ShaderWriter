@@ -15,7 +15,7 @@ namespace sdw
 	public:
 		using Info = BoInfo;
 
-		Ubo( Shader & shader
+		Ubo( ShaderWriter & writer
 			, std::string const & name
 			, uint32_t bind
 			, uint32_t set = 0u );

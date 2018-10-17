@@ -8,21 +8,7 @@ namespace
 	std::string printVariable( ast::var::Variable const & var )
 	{
 		std::string result;
-		result += ast::debug::getTypeName( var.getType()->getKind() ) + " " + var.getName();
-		auto arraySize = var.getType()->getArraySize();
-
-		if ( arraySize != ast::type::NotArray )
-		{
-			if ( arraySize == ast::type::UnknownArraySize )
-			{
-				result += "[]";
-			}
-			else
-			{
-				result += "[" + std::to_string( arraySize ) + "]";
-			}
-		}
-
+		result += ast::debug::getName( var.getType() ) + " " + var.getName();
 		return result;
 	}
 

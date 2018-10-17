@@ -8,6 +8,127 @@ See LICENSE file in root folder
 
 namespace ast::debug
 {
+	namespace
+	{
+		std::string getName( stmt::Kind kind )
+		{
+			std::string result;
+
+			switch ( kind )
+			{
+			case ast::stmt::Kind::eSimple:
+				result = "STSIMPLE";
+				break;
+			case ast::stmt::Kind::eContainer:
+				result = "STCONTAINER";
+				break;
+			case ast::stmt::Kind::eCompound:
+				result = "STCOMPOUNT";
+				break;
+			case ast::stmt::Kind::eVariableDecl:
+				result = "STVARDECL";
+				break;
+			case ast::stmt::Kind::ePerVertexDecl:
+				result = "STPERVERTEXDECL";
+				break;
+			case ast::stmt::Kind::eInOutVariableDecl:
+				result = "STINOUTVARDECL";
+				break;
+			case ast::stmt::Kind::eConstantBufferDecl:
+				result = "STCBUFFDECL";
+				break;
+			case ast::stmt::Kind::ePushConstantsBufferDecl:
+				result = "STPCBUFFDECL";
+				break;
+			case ast::stmt::Kind::eShaderBufferDecl:
+				result = "STSBUFFDECL";
+				break;
+			case ast::stmt::Kind::eSamplerDecl:
+				result = "STSAMPLERDECL";
+				break;
+			case ast::stmt::Kind::eFunctionDecl:
+				result = "STFUNCDECL";
+				break;
+			case ast::stmt::Kind::eStructureDecl:
+				result = "STSTRUECTDECL";
+				break;
+			case ast::stmt::Kind::eIf:
+				result = "STIF";
+				break;
+			case ast::stmt::Kind::eElse:
+				result = "STELSE";
+				break;
+			case ast::stmt::Kind::eElseIf:
+				result = "STELSEIF";
+				break;
+			case ast::stmt::Kind::eWhile:
+				result = "STWHILE";
+				break;
+			case ast::stmt::Kind::eFor:
+				result = "STFOR";
+				break;
+			case ast::stmt::Kind::eDoWhile:
+				result = "STDOWHILE";
+				break;
+			case ast::stmt::Kind::eSwitch:
+				result = "STSWITCH";
+				break;
+			case ast::stmt::Kind::eSwitchCase:
+				result = "STSWCASE";
+				break;
+			case ast::stmt::Kind::eReturn:
+				result = "STRETURN";
+				break;
+			case ast::stmt::Kind::eDiscard:
+				result = "STDISCARD";
+				break;
+			case ast::stmt::Kind::eEmitVertex:
+				result = "STEMITVTX";
+				break;
+			case ast::stmt::Kind::eEmitPrimitive:
+				result = "STEMITPRIM";
+				break;
+			case ast::stmt::Kind::eInputGeometryLayout:
+				result = "STINGEOMLAYOUT";
+				break;
+			case ast::stmt::Kind::eOutputGeometryLayout:
+				result = "STOUTGEOMLAYOUT";
+				break;
+			case ast::stmt::Kind::eInputComputeLayout:
+				result = "STINCOMPLAYOUT";
+				break;
+			case ast::stmt::Kind::ePreprocDefine:
+				result = "STPRDEFINE";
+				break;
+			case ast::stmt::Kind::ePreprocIf:
+				result = "STPRIF";
+				break;
+			case ast::stmt::Kind::ePreprocElif:
+				result = "STPRELIF";
+				break;
+			case ast::stmt::Kind::ePreprocElse:
+				result = "STPRELSE";
+				break;
+			case ast::stmt::Kind::ePreprocIfDef:
+				result = "STPRIFDEF";
+				break;
+			case ast::stmt::Kind::ePreprocEndif:
+				result = "STPRENDIF";
+				break;
+			case ast::stmt::Kind::ePreprocExtension:
+				result = "STPREXTENSION";
+				break;
+			case ast::stmt::Kind::ePreprocVersion:
+				result = "STPRVERSION";
+				break;
+			default:
+				break;
+			}
+
+			return result;
+		}
+	}
+
 	StmtVisitor::StmtVisitor( std::string & result
 		, std::string indent )
 		: m_result{ result }
@@ -24,14 +145,36 @@ namespace ast::debug
 		return result;
 	}
 
-	void StmtVisitor::doAppendLineEnd()
+	std::string & StmtVisitor::displayStmtName( stmt::Stmt * stmt, bool newLine )
 	{
-		if ( m_appendLineEnd && !m_result.empty() )
+		m_result += m_indent + getName( stmt->getKind() ) + ( newLine ? "\n" : " " );
+		return m_result;
+	}
+
+	void StmtVisitor::displayVariable( var::Variable const & var )
+	{
+		if ( var.isInputParam()
+			&& var.isOutputParam() )
 		{
-			m_result += "\n";
+			m_result += "INOUT ";
+		}
+		else if ( var.isInputParam()
+			|| var.isShaderInput() )
+		{
+			m_result += "IN ";
+		}
+		else if ( var.isOutputParam()
+			|| var.isShaderOutput() )
+		{
+			m_result += "OUT ";
+		}
+		else if ( var.isShaderConstant() )
+		{
+			m_result += "CONST ";
 		}
 
-		m_appendLineEnd = false;
+		m_result += getName( *var.getType() );
+		m_result += " " + var.getName();
 	}
 
 	void StmtVisitor::visitContainerStmt( stmt::Container * stmt )
@@ -44,142 +187,108 @@ namespace ast::debug
 
 	void StmtVisitor::visitConstantBufferDeclStmt( stmt::ConstantBufferDecl * stmt )
 	{
-		m_appendLineEnd = true;
-		doAppendLineEnd();
-		m_result += m_indent;
-		m_result += "layout(binding=" + std::to_string( stmt->getBindingPoint() ) + ", set=" + std::to_string( stmt->getBindingSet() ) + ") ";
-		m_result += "uniform " + stmt->getName();
-		m_appendSemiColon = true;
+		displayStmtName( stmt, false );
+		m_result += stmt->getName() + " B(";
+		m_result += std::to_string( stmt->getBindingPoint() ) + ") S(";
+		m_result += std::to_string( stmt->getBindingSet() ) + ")\n";
+		m_compoundName = false;
 		visitCompoundStmt( stmt );
-		m_appendLineEnd = true;
 	}
 
 	void StmtVisitor::visitDiscardStmt( stmt::Discard * stmt )
 	{
-		doAppendLineEnd();
-		m_result += m_indent + "discard;\n";
+		displayStmtName( stmt, true );
 	}
 
 	void StmtVisitor::visitPushConstantsBufferDeclStmt( stmt::PushConstantsBufferDecl * stmt )
 	{
-		m_appendLineEnd = true;
-		doAppendLineEnd();
-		m_result += m_indent;
-		m_result += "layout(push_constant) ";
-		m_result += "uniform " + stmt->getName();
-		m_appendSemiColon = true;
+		displayStmtName( stmt, false );
+		m_result += stmt->getName() + "\n";
+		m_compoundName = false;
 		visitCompoundStmt( stmt );
-		m_appendLineEnd = true;
 	}
 
 	void StmtVisitor::visitCompoundStmt( stmt::Compound * stmt )
 	{
-		doAppendLineEnd();
-
-		if ( stmt->getStatements().empty() )
+		if ( m_compoundName )
 		{
-			m_result += ";\n";
+			displayStmtName( stmt, true );
 		}
-		else
-		{
-			m_result += "\n" + m_indent + "{\n";
-			auto save = m_indent;
-			m_indent += "\t";
-			visitContainerStmt( stmt );
-			m_indent = save;
 
-			if ( m_appendSemiColon )
-			{
-				m_result += m_indent + "};\n";
-			}
-			else
-			{
-				m_result += m_indent + "}\n";
-			}
-		}
+		auto save = m_indent;
+		m_indent += "\t";
+		visitContainerStmt( stmt );
+		m_indent = save;
+		m_compoundName = true;
 	}
 
 	void StmtVisitor::visitDoWhileStmt( stmt::DoWhile * stmt )
 	{
-		m_appendLineEnd = true;
-		doAppendLineEnd();
-		m_result += m_indent + "do";
-		m_appendSemiColon = false;
+		displayStmtName( stmt, false );
+		m_result += ExprVisitor::submit( stmt->getCtrlExpr() ) + "\n";
+		m_compoundName = false;
 		visitCompoundStmt( stmt );
-		m_result += m_indent + "while (" + ExprVisitor::submit( stmt->getCtrlExpr() ) + ");\n";
-		m_appendLineEnd = true;
 	}
 
 	void StmtVisitor::visitElseIfStmt( stmt::ElseIf * stmt )
 	{
-		m_result += m_indent + "else if (" + ExprVisitor::submit( stmt->getCtrlExpr() ) + ")";
-		m_appendSemiColon = false;
-		m_appendLineEnd = false;
+		displayStmtName( stmt, false );
+		m_result += ExprVisitor::submit( stmt->getCtrlExpr() ) + "\n";
+		m_compoundName = false;
 		visitCompoundStmt( stmt );
-		m_appendLineEnd = true;
 	}
 
 	void StmtVisitor::visitElseStmt( stmt::Else * stmt )
 	{
-		m_result += m_indent + "else";
-		m_appendSemiColon = false;
-		m_appendLineEnd = false;
+		displayStmtName( stmt, true );
+		m_compoundName = false;
 		visitCompoundStmt( stmt );
-		m_appendLineEnd = true;
 	}
 
 	void StmtVisitor::visitEmitPrimitiveStmt( stmt::EmitPrimitive * stmt )
 	{
-		doAppendLineEnd();
-		m_result += m_indent + "EmitPrimitive();\n";
+		displayStmtName( stmt, true );
 	}
 
 	void StmtVisitor::visitEmitVertexStmt( stmt::EmitVertex * stmt )
 	{
-		doAppendLineEnd();
-		m_result += m_indent + "EmitVertex();\n";
+		displayStmtName( stmt, true );
 	}
 
 	void StmtVisitor::visitForStmt( stmt::For * stmt )
 	{
-		m_appendLineEnd = true;
-		doAppendLineEnd();
-		m_result += m_indent + "for (" + ExprVisitor::submit( stmt->getInitExpr() ) + "; ";
-		m_result += ExprVisitor::submit( stmt->getCtrlExpr() ) + "; ";
-		m_result += ExprVisitor::submit( stmt->getIncrExpr() ) + ")";
-		m_appendSemiColon = false;
+		displayStmtName( stmt, false );
+		m_result += ExprVisitor::submit( stmt->getInitExpr() ) + ", ";
+		m_result += ExprVisitor::submit( stmt->getCtrlExpr() ) + ", ";
+		m_result += ExprVisitor::submit( stmt->getIncrExpr() ) + "\n";
+		m_compoundName = false;
 		visitCompoundStmt( stmt );
-		m_appendLineEnd = true;
 	}
 
 	void StmtVisitor::visitFunctionDeclStmt( stmt::FunctionDecl * stmt )
 	{
-		m_appendLineEnd = true;
-		doAppendLineEnd();
-		m_result += m_indent + getTypeName( stmt->getRet() );
+		displayStmtName( stmt, false );
+		m_result += getName( *stmt->getRet() );
 		m_result += " " + stmt->getName() + "(";
 		std::string sep;
 
 		for ( auto & param : stmt->getParameters() )
 		{
-			m_result += sep + getDirectionName( *param )
-				+ " " + getTypeName( param->getType() )
-				+ " " + param->getName();
+			m_result += sep;
+			displayVariable( *param );
 			sep = ", ";
 		}
 
-		m_result += ")";
-		m_appendSemiColon = false;
+		m_result += ")\n";
+		m_compoundName = false;
 		visitCompoundStmt( stmt );
-		m_appendLineEnd = true;
 	}
 
 	void StmtVisitor::visitIfStmt( stmt::If * stmt )
 	{
-		m_appendLineEnd = true;
-		doAppendLineEnd();
-		m_result += m_indent + "if (" + ExprVisitor::submit( stmt->getCtrlExpr() ) + ")";
-		m_appendSemiColon = false;
+		displayStmtName( stmt, false );
+		m_result += ExprVisitor::submit( stmt->getCtrlExpr() ) + "\n";
+		m_compoundName = false;
 		visitCompoundStmt( stmt );
 
 		for ( auto & elseIf : stmt->getElseIfList() )
@@ -191,299 +300,291 @@ namespace ast::debug
 		{
 			stmt->getElse()->accept( this );
 		}
-
-		m_appendLineEnd = true;
 	}
 
 	void StmtVisitor::visitInOutVariableDeclStmt( stmt::InOutVariableDecl * stmt )
 	{
-		doAppendLineEnd();
-		m_result += m_indent;
-		m_result += "layout(" + getLocationName( stmt->getVariable() ) + "=" + std::to_string( stmt->getLocation() ) + ") ";
-		m_result += getDirectionName( stmt->getVariable() ) + " ";
-		m_result += getTypeName( stmt->getVariable().getType() ) + " " + stmt->getVariable().getName();
-		auto arraySize = stmt->getVariable().getType()->getArraySize();
+		displayStmtName( stmt, false );
 
-		if ( arraySize != ast::type::NotArray )
+		if ( stmt->getVariable().isShaderConstant() )
 		{
-			if ( arraySize == ast::type::UnknownArraySize )
-			{
-				m_result += "[]";
-			}
-			else
-			{
-				m_result += "[" + std::to_string( arraySize ) + "]";
-			}
+			m_result += "CONST";
+		}
+		else if ( stmt->getVariable().isShaderInput()
+			|| stmt->getVariable().isShaderOutput() )
+		{
+			m_result += "LOC";
 		}
 
-		m_result += ";\n";
+		m_result += "(" + std::to_string( stmt->getLocation() ) + ") ";
+		displayVariable( stmt->getVariable() );
+		m_result += "\n";
 	}
 
 	void StmtVisitor::visitInputComputeLayoutStmt( stmt::InputComputeLayout * stmt )
 	{
-		doAppendLineEnd();
-		m_result += m_indent + "layout(local_size_x=" + std::to_string( stmt->getWorkGroupsX() )
-			+ ", local_size_y=" + std::to_string( stmt->getWorkGroupsY() )
-			+ ", local_size_z=" + std::to_string( stmt->getWorkGroupsZ() ) + ") in;\n";
+		displayStmtName( stmt, false );
+		m_result += "X(" + std::to_string( stmt->getWorkGroupsX() ) + ")"
+			+ " Y(" + std::to_string( stmt->getWorkGroupsY() ) + ")"
+			+ " Z(" + std::to_string( stmt->getWorkGroupsZ() ) + ")\n";
 	}
 
 	void StmtVisitor::visitInputGeometryLayoutStmt( stmt::InputGeometryLayout * stmt )
 	{
-		doAppendLineEnd();
-		m_result += m_indent + "layout(" + getLayoutName( stmt->getLayout() ) + ") in;\n";
+		displayStmtName( stmt, false );
+		m_result += "L(";
+
+		switch ( stmt->getLayout() )
+		{
+		case stmt::InputLayout::ePointList:
+			m_result += "POINTLIST";
+			break;
+		case stmt::InputLayout::eLineList:
+			m_result += "LINELIST";
+			break;
+		case stmt::InputLayout::eLineStrip:
+			m_result += "LINESTRIP";
+			break;
+		case stmt::InputLayout::eTriangleList:
+			m_result += "TRIANGLELIST";
+			break;
+		case stmt::InputLayout::eTriangleStrip:
+			m_result += "TRIANGLESTRIP";
+			break;
+		case stmt::InputLayout::eTriangleFan:
+			m_result += "TRIANGLEFAN";
+			break;
+		case stmt::InputLayout::eLineListWithAdjacency:
+			m_result += "LINELISTWA";
+			break;
+		case stmt::InputLayout::eLineStripWithAdjacency:
+			m_result += "LINESTRIPWA";
+			break;
+		case stmt::InputLayout::eTriangleListWithAdjacency:
+			m_result += "TRIANGLELISTWA";
+			break;
+		case stmt::InputLayout::eTriangleStripWithAdjacency:
+			m_result += "TRIANGLESTRIPWA";
+			break;
+		default:
+			throw std::runtime_error{ "Unsupported input layout." };
+		}
+
+		m_result += ")\n";
 	}
 
 	void StmtVisitor::visitOutputGeometryLayoutStmt( stmt::OutputGeometryLayout * stmt )
 	{
-		doAppendLineEnd();
-		m_result += m_indent + "layout(" + getLayoutName( stmt->getLayout() ) + ", max_vertices = " + std::to_string( stmt->getPrimCount() ) + ") out;\n";
+		displayStmtName( stmt, false );
+		m_result += "L(";
+
+		switch ( stmt->getLayout() )
+		{
+		case ast::stmt::OutputLayout::ePointList:
+			m_result += "POINTLIST";
+			break;
+		case ast::stmt::OutputLayout::eLineStrip:
+			m_result += "LINESTRIP";
+			break;
+		case ast::stmt::OutputLayout::eTriangleStrip:
+			m_result += "TRIANGLESTRIP";
+			break;
+		default:
+			throw std::runtime_error{ "Unsupported output layout." };
+		}
+
+		m_result += ") C(" + std::to_string( stmt->getPrimCount() ) + ")\n";
 	}
 
 	void StmtVisitor::visitPerVertexDeclStmt( stmt::PerVertexDecl * stmt )
 	{
-		m_appendLineEnd = true;
-		doAppendLineEnd();
-		std::string decl;
-		decl += "gl_PerVertex\n";
-		decl += m_indent + "{\n";
-		decl += m_indent + "	vec4 gl_Position;\n";
-		decl += m_indent + "	float gl_PointSize;\n";
-		decl += m_indent + "	float gl_ClipDistance[];\n";
-		decl += m_indent + "}";
+		displayStmtName( stmt, false );
+
 		switch ( stmt->getSource() )
 		{
 		case stmt::PerVertexDecl::Source::eVertexOutput:
-			m_result += m_indent + "out " + decl + ";\n";
+			m_result += "VERTOUT";
 			break;
 		case stmt::PerVertexDecl::Source::eTessellationControlInput:
+			m_result += "TESSCIN";
+			break;
 		case stmt::PerVertexDecl::Source::eTessellationEvaluationInput:
-			m_result += m_indent + "in " + decl + " gl_in[gl_MaxPatchVertices];\n";
+			m_result += "TESSEIN";
 			break;
 		case stmt::PerVertexDecl::Source::eTessellationControlOutput:
-			m_result += m_indent + "out " + decl + " gl_out[];\n";
+			m_result += "TESSCOUT";
 			break;
 		case stmt::PerVertexDecl::Source::eTessellationEvaluationOutput:
-			m_result += m_indent + "out " + decl + ";\n";
+			m_result += "TESSEOUT";
 			break;
 		case stmt::PerVertexDecl::Source::eGeometryInput:
-			m_result += m_indent + "in " + decl + " gl_in[];\n";
+			m_result += "GEOMIN";
 			break;
 		case stmt::PerVertexDecl::Source::eGeometryOutput:
-			m_result += m_indent + "out " + decl + ";\n";
+			m_result += "GEOMOUT";
 			break;
 		}
+		m_result += "\n";
 	}
 
 	void StmtVisitor::visitReturnStmt( stmt::Return * stmt )
 	{
-		doAppendLineEnd();
+		displayStmtName( stmt, false );
 
 		if ( stmt->getExpr() )
 		{
-			m_result += m_indent + "return " + ExprVisitor::submit( stmt->getExpr() ) + ";\n";
+			m_result += ExprVisitor::submit( stmt->getExpr() ) + " ";
 		}
-		else
-		{
-			m_result += m_indent + "return;\n";
-		}
+
+		m_result += "\n";
 	}
 
 	void StmtVisitor::visitSamplerDeclStmt( stmt::SamplerDecl * stmt )
 	{
-		doAppendLineEnd();
-		m_result += m_indent;
-		m_result += "layout(binding=" + std::to_string( stmt->getBindingPoint() ) + ", set=" + std::to_string( stmt->getBindingSet() ) + ") ";
-		m_result += getTypeName( stmt->getVariable().getType() ) + " " + stmt->getVariable().getName();
-		auto arraySize = stmt->getVariable().getType()->getArraySize();
-
-		if ( arraySize != ast::type::NotArray )
-		{
-			if ( arraySize == ast::type::UnknownArraySize )
-			{
-				m_result += "[]";
-			}
-			else
-			{
-				m_result += "[" + std::to_string( arraySize ) + "]";
-			}
-		}
-
-		m_result += ";\n";
+		displayStmtName( stmt, false );
+		m_result += "B(" + std::to_string( stmt->getBindingPoint() ) + ") S(" + std::to_string( stmt->getBindingSet() ) + ") ";
+		displayVariable( stmt->getVariable() );
+		m_result += "\n";
 	}
 
 	void StmtVisitor::visitShaderBufferDeclStmt( stmt::ShaderBufferDecl * stmt )
 	{
-		m_appendLineEnd = true;
-		doAppendLineEnd();
-		m_result += m_indent;
-		m_result += "layout(binding=" + std::to_string( stmt->getBindingPoint() ) + ", set=" + std::to_string( stmt->getBindingSet() ) + ") ";
-		m_result += "buffer " + stmt->getName();
-		m_appendSemiColon = true;
+		displayStmtName( stmt, false );
+		m_result += "B(" + std::to_string( stmt->getBindingPoint() ) + ") S(" + std::to_string( stmt->getBindingSet() ) + ") " + stmt->getName() + "\n";
+		m_compoundName = false;
 		visitCompoundStmt( stmt );
-		m_appendLineEnd = true;
 	}
 
 	void StmtVisitor::visitSimpleStmt( stmt::Simple * stmt )
 	{
-		doAppendLineEnd();
-		m_result += m_indent + ExprVisitor::submit( stmt->getExpr() ) + ";\n";
+		displayStmtName( stmt, false );
+		m_result += ExprVisitor::submit( stmt->getExpr() ) + "\n";
 	}
 
 	void StmtVisitor::visitStructureDeclStmt( stmt::StructureDecl * stmt )
 	{
-		m_appendLineEnd = true;
-		doAppendLineEnd();
-		m_result += m_indent + "struct " + stmt->getType().getName();
+		displayStmtName( stmt, false );
+		m_result += stmt->getType().getName() + "\n";
 
 		if ( !stmt->getType().empty() )
 		{
-			m_result += "\n" + m_indent + "{\n";
 			auto save = m_indent;
 			m_indent += "\t";
 
 			for ( auto & member : stmt->getType() )
 			{
-				m_result += m_indent + getTypeName( member.type ) + " " + member.name;
-				auto arraySize = member.type->getArraySize();
-
-				if ( arraySize != ast::type::NotArray )
-				{
-					if ( arraySize == ast::type::UnknownArraySize )
-					{
-						m_result += "[]";
-					}
-					else
-					{
-						m_result += "[" + std::to_string( arraySize ) + "]";
-					}
-				}
-
-				m_result += ";\n";
+				m_result += m_indent;
+				m_result += getName( *member.type );
+				m_result += " " + member.name + "\n";
 			}
 
 			m_indent = save;
-			m_result += m_indent + "};\n";
-		}
-		else
-		{
-			m_result += ";\n";
 		}
 	}
 
 	void StmtVisitor::visitSwitchCaseStmt( stmt::SwitchCase * stmt )
 	{
-		doAppendLineEnd();
+		displayStmtName( stmt, false );
 
 		if ( stmt->getCaseExpr() )
 		{
-			m_result += m_indent + "case " + ExprVisitor::submit( stmt->getCaseExpr() ) + ":";
+			m_result += ExprVisitor::submit( stmt->getCaseExpr() ) + "\n";
 		}
 		else
 		{
-			m_result += m_indent + "default:";
+			m_result += "DEFAULT\n";
 		}
-
-		m_appendSemiColon = false;
 
 		if ( !stmt->getStatements().empty() )
 		{
+			m_compoundName = false;
 			visitCompoundStmt( stmt );
 		}
-		else
-		{
-			m_result += "\n";
-		}
-
-		m_result += m_indent + "break;\n";
-		m_appendLineEnd = true;
 	}
 
 	void StmtVisitor::visitSwitchStmt( stmt::Switch * stmt )
 	{
-		m_appendLineEnd = true;
-		doAppendLineEnd();
-		m_result += m_indent + "switch (" + ExprVisitor::submit( stmt->getTestExpr() ) + ")";
-		m_appendSemiColon = false;
+		displayStmtName( stmt, false );
+		m_result += ExprVisitor::submit( stmt->getTestExpr() ) + "\n";
+		m_compoundName = false;
 		visitCompoundStmt( stmt );
-		m_appendLineEnd = true;
 	}
 
 	void StmtVisitor::visitVariableDeclStmt( stmt::VariableDecl * stmt )
 	{
-		doAppendLineEnd();
-		m_result += m_indent + getTypeName( stmt->getVariable().getType() ) + " " + stmt->getVariable().getName();
-		auto arraySize = stmt->getVariable().getType()->getArraySize();
-
-		if ( arraySize != ast::type::NotArray )
-		{
-			if ( arraySize == ast::type::UnknownArraySize )
-			{
-				m_result += "[]";
-			}
-			else
-			{
-				m_result += "[" + std::to_string( arraySize ) + "]";
-			}
-		}
-
-		m_result += ";\n";
+		displayStmtName( stmt, false );
+		displayVariable( stmt->getVariable() );
+		m_result += "\n";
 	}
 
 	void StmtVisitor::visitWhileStmt( stmt::While * stmt )
 	{
-		m_appendLineEnd = true;
-		doAppendLineEnd();
-		m_result += m_indent + "while (" + ExprVisitor::submit( stmt->getCtrlExpr() ) + ")";
-		m_appendSemiColon = false;
+		displayStmtName( stmt, false );
+		m_result += ExprVisitor::submit( stmt->getCtrlExpr() ) + "\n";
+		m_compoundName = false;
 		visitCompoundStmt( stmt );
-		m_appendLineEnd = true;
 	}
 
 	void StmtVisitor::visitPreprocDefine( stmt::PreprocDefine * preproc )
 	{
-		doAppendLineEnd();
-		m_result += "#define " + preproc->getName() + " " + ExprVisitor::submit( preproc->getExpr() ) + "\n";
+		displayStmtName( preproc, false );
+		m_result += preproc->getName() + " " + ExprVisitor::submit( preproc->getExpr() ) + "\n";
 	}
 
 	void StmtVisitor::visitPreprocElif( stmt::PreprocElif * preproc )
 	{
-		doAppendLineEnd();
-		m_result += "#elif " + ExprVisitor::submit( preproc->getCtrlExpr() ) + "\n";
+		displayStmtName( preproc, false );
+		m_result += ExprVisitor::submit( preproc->getCtrlExpr() ) + "\n";
 	}
 
 	void StmtVisitor::visitPreprocElse( stmt::PreprocElse * preproc )
 	{
-		doAppendLineEnd();
-		m_result += "#else\n";
+		displayStmtName( preproc, true );
 	}
 
 	void StmtVisitor::visitPreprocEndif( stmt::PreprocEndif * preproc )
 	{
-		doAppendLineEnd();
-		m_result += "#endif\n";
+		displayStmtName( preproc, true );
 	}
 
 	void StmtVisitor::visitPreprocExtension( stmt::PreprocExtension * preproc )
 	{
-		doAppendLineEnd();
-		m_result += "#extension " + preproc->getName() + ": " + getStatusName( preproc->getStatus() ) + "\n";
+		displayStmtName( preproc, false );
+		m_result += preproc->getName();
+
+		switch ( preproc->getStatus() )
+		{
+		case stmt::PreprocExtension::Status::eDisabled:
+			m_result += " DISABLE";
+			break;
+
+		case stmt::PreprocExtension::Status::eEnabled:
+			m_result += " ENABLE";
+			break;
+
+		case stmt::PreprocExtension::Status::eRequired:
+			m_result += " REQUIRE";
+			break;
+
+		}
+		m_result += "\n";
 	}
 
 	void StmtVisitor::visitPreprocIf( stmt::PreprocIf * preproc )
 	{
-		doAppendLineEnd();
-		m_result += "#if " + ExprVisitor::submit( preproc->getCtrlExpr() ) + "\n";
+		displayStmtName( preproc, false );
+		m_result += ExprVisitor::submit( preproc->getCtrlExpr() ) + "\n";
 	}
 
 	void StmtVisitor::visitPreprocIfDef( stmt::PreprocIfDef * preproc )
 	{
-		doAppendLineEnd();
-		m_result += "#ifdef " + ExprVisitor::submit( preproc->getIdentExpr() ) + "\n";
+		displayStmtName( preproc, false );
+		m_result += ExprVisitor::submit( preproc->getIdentExpr() ) + "\n";
 	}
 
 	void StmtVisitor::visitPreprocVersion( stmt::PreprocVersion * preproc )
 	{
-		doAppendLineEnd();
-		m_result += "#version " + preproc->getName() + "\n";
+		displayStmtName( preproc, false );
+		m_result += preproc->getName() + "\n";
 	}
 }

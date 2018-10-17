@@ -1,15 +1,18 @@
+/*
+See LICENSE file in root folder
+*/
 #include "ShaderWriter/Ssbo.hpp"
 
-#include "ShaderWriter/Shader.hpp"
+#include "ShaderWriter/Writer.hpp"
 
 namespace sdw
 {
-	Ssbo::Ssbo( Shader & shader
+	Ssbo::Ssbo( ShaderWriter & writer
 		, std::string const & name
 		, uint32_t bind
 		, uint32_t set
 		, Ssbo::Layout layout )
-		: m_shader{ shader }
+		: m_shader{ writer.getShader() }
 		, m_stmt{ stmt::makeShaderBufferDecl( name, bind, set ) }
 		, m_name{ name }
 		, m_info{ bind, set }

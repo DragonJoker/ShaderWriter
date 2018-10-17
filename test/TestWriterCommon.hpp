@@ -5,7 +5,8 @@
 #include <ASTGenerator/Var/Variable.hpp>
 #include <ShaderWriter/Intrinsics.hpp>
 #include <ShaderWriter/Sampler.hpp>
-#include <ShaderWriter/Shader.hpp>
+#include <ShaderWriter/Writer.hpp>
+#include <ShaderWriter/WriterDebug.hpp>
 
 namespace test
 {

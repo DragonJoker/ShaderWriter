@@ -7,41 +7,39 @@ See LICENSE file in root folder
 
 #include "Value.hpp"
 
-#include <ASTGenerator/Stmt/StmtVariableDecl.hpp>
-
 namespace sdw
 {
-	template< typename TypeT >
+	template< typename ValueT >
 	struct InParam
-		: public TypeT
+		: public ValueT
 	{
-		InParam( Shader * shader
+		InParam( ShaderWriter & writer
 			, std::string name );
-		InParam( TypeT const & other );
+		InParam( ValueT const & other );
 		template< typename T >
-		inline InParam< TypeT > operator=( T const & rhs );
+		inline InParam< ValueT > operator=( T const & rhs );
 	};
 
-	template< typename TypeT >
+	template< typename ValueT >
 	struct OutParam
-		: public TypeT
+		: public ValueT
 	{
-		OutParam( Shader * shader
+		OutParam( ShaderWriter & writer
 			, std::string name );
-		OutParam( TypeT const & other );
+		OutParam( ValueT const & other );
 		template< typename T >
-		inline OutParam< TypeT > operator=( T const & rhs );
+		inline OutParam< ValueT > operator=( T const & rhs );
 	};
 
-	template< typename TypeT >
+	template< typename ValueT >
 	struct InOutParam
-		: public TypeT
+		: public ValueT
 	{
-		InOutParam( Shader * shader
+		InOutParam( ShaderWriter & writer
 			, std::string name );
-		InOutParam( TypeT const & other );
+		InOutParam( ValueT const & other );
 		template< typename T >
-		inline InOutParam< TypeT > operator=( T const & rhs );
+		inline InOutParam< ValueT > operator=( T const & rhs );
 	};
 }
 

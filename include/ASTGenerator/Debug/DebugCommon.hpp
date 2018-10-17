@@ -14,15 +14,9 @@ See LICENSE file in root folder
 
 namespace ast::debug
 {
-	std::string getTypeName( type::TypePtr type );
-	std::string getTypeName( type::Kind type );
-	std::string getLocationName( var::Variable const & var );
-	std::string getDirectionName( var::Variable const & var );
-	std::string getStatusName( stmt::PreprocExtension::Status status );
-	std::string getOperatorName( expr::Kind kind );
-	std::string getLayoutName( stmt::InputLayout layout );
-	std::string getLayoutName( stmt::OutputLayout layout );
-	bool isUnaryPre( expr::Kind kind );
+	std::string getName( type::Type const & type );
+	std::string getName( type::TypePtr type );
+	std::string getName( type::Kind type );
 }
 
 #endif

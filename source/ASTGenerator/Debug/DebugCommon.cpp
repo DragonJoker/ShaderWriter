@@ -13,618 +13,198 @@ See LICENSE file in root folder
 
 namespace ast::debug
 {
-	std::string getTypeName( type::Kind kind )
+	std::string getName( type::Kind kind )
 	{
 		std::string result;
 
 		switch ( kind )
 		{
 		case type::Kind::eUndefined:
-			result = "undefined";
+			result = "UNDEF";
 			break;
 		case type::Kind::eVoid:
-			result = "void";
+			result = "VOID";
 			break;
 		case type::Kind::eStruct:
-			result = "struct";
+			result = "STRUCT";
 			break;
 		case type::Kind::eFunction:
-			result = "function";
+			result = "FUNC";
 			break;
 		case type::Kind::eBoolean:
-			result = "bool";
+			result = "BOOL";
 			break;
 		case type::Kind::eInt:
-			result = "int";
+			result = "INT";
 			break;
 		case type::Kind::eUInt:
-			result = "uint";
+			result = "UINT";
 			break;
 		case type::Kind::eFloat:
-			result = "float";
+			result = "FLOAT";
 			break;
 		case type::Kind::eVec2B:
-			result = "bvec2";
+			result = "BVEC2";
 			break;
 		case type::Kind::eVec3B:
-			result = "bvec3";
+			result = "BVEC3";
 			break;
 		case type::Kind::eVec4B:
-			result = "bvec4";
+			result = "BVEC4";
 			break;
 		case type::Kind::eVec2I:
-			result = "ivec2";
+			result = "IVEC2";
 			break;
 		case type::Kind::eVec3I:
-			result = "ivec3";
+			result = "IVEC3";
 			break;
 		case type::Kind::eVec4I:
-			result = "ivec4";
+			result = "IVEC4";
 			break;
 		case type::Kind::eVec2UI:
-			result = "uvec2";
+			result = "UVEC2";
 			break;
 		case type::Kind::eVec3UI:
-			result = "uvec3";
+			result = "UVEC3";
 			break;
 		case type::Kind::eVec4UI:
-			result = "uvec4";
+			result = "UVEC4";
 			break;
 		case type::Kind::eVec2F:
-			result = "vec2";
+			result = "FVEC2";
 			break;
 		case type::Kind::eVec3F:
-			result = "vec3";
+			result = "FVEC3";
 			break;
 		case type::Kind::eVec4F:
-			result = "vec4";
+			result = "FVEC4";
 			break;
 		case type::Kind::eMat2x2B:
-			result = "bmat2";
+			result = "BMAT2";
 			break;
 		case type::Kind::eMat3x3B:
-			result = "bmat3";
+			result = "BMAT3";
 			break;
 		case type::Kind::eMat4x4B:
-			result = "bmat4";
+			result = "BMAT4";
 			break;
 		case type::Kind::eMat2x2I:
-			result = "imat2";
+			result = "IMAT2";
 			break;
 		case type::Kind::eMat3x3I:
-			result = "imat3";
+			result = "IMAT3";
 			break;
 		case type::Kind::eMat4x4I:
-			result = "imat4";
+			result = "IMAT4";
 			break;
 		case type::Kind::eMat2x2UI:
-			result = "umat2";
+			result = "UMAT2";
 			break;
 		case type::Kind::eMat3x3UI:
-			result = "umat3";
+			result = "UMAT3";
 			break;
 		case type::Kind::eMat4x4UI:
-			result = "umat4";
+			result = "UMAT4";
 			break;
 		case type::Kind::eMat2x2F:
-			result = "mat2";
+			result = "FMAT2";
 			break;
 		case type::Kind::eMat3x3F:
-			result = "mat3";
+			result = "FMAT3";
 			break;
 		case type::Kind::eMat4x4F:
-			result = "mat4";
+			result = "FMAT4";
 			break;
 		case type::Kind::eConstantsBuffer:
-			result = "uniform";
+			result = "CBUFF";
 			break;
 		case type::Kind::eShaderBuffer:
-			result = "buffer";
+			result = "SBUFF";
 			break;
 		case type::Kind::eSamplerBuffer:
-			result = "samplerBuffer";
+			result = "TBUFF";
 			break;
 		case type::Kind::eSampler1D:
-			result = "sampler1D";
+			result = "TEX1D";
 			break;
 		case type::Kind::eSampler2D:
-			result = "sampler2D";
+			result = "TEX2D";
 			break;
 		case type::Kind::eSampler3D:
-			result = "sampler3D";
+			result = "TEX3D";
 			break;
 		case type::Kind::eSamplerCube:
-			result = "samplerCube";
+			result = "TEXCUBE";
 			break;
 		case type::Kind::eSampler2DRect:
-			result = "sampler2DRect";
+			result = "TEX2DRECT";
 			break;
 		case type::Kind::eSampler1DArray:
-			result = "sampler1DArray";
+			result = "TEX1DARRAY";
 			break;
 		case type::Kind::eSampler2DArray:
-			result = "sampler2DArray";
+			result = "TEX2DARRAY";
 			break;
 		case type::Kind::eSamplerCubeArray:
-			result = "samplerCubeArray";
+			result = "TEXCUBEARRAY";
 			break;
 		case type::Kind::eSampler1DShadow:
-			result = "sampler1DShadow";
+			result = "TEX1DSHADOW";
 			break;
 		case type::Kind::eSampler2DShadow:
-			result = "sampler2DShadow";
+			result = "TEX2DSHADOW";
 			break;
 		case type::Kind::eSamplerCubeShadow:
-			result = "samplerCubeShadow";
+			result = "TEXCUBESHADOW";
 			break;
 		case type::Kind::eSampler2DRectShadow:
-			result = "sampler2DRectArrayShadow";
+			result = "TEX2DRECTARRAYSHADOW";
 			break;
 		case type::Kind::eSampler1DArrayShadow:
-			result = "sampler1DArrayShadow";
+			result = "TEX1DARRAYSHADOW";
 			break;
 		case type::Kind::eSampler2DArrayShadow:
-			result = "sampler2DArrayShadow";
+			result = "TEX2DARRAYSHADOW";
 			break;
 		case type::Kind::eSamplerCubeArrayShadow:
-			result = "samplerCubeArrayShadow";
+			result = "TEXCUBEARRAYSHADOW";
 			break;
 		}
 
 		return result;
 	}
 
-	std::string getTypeName( type::TypePtr type )
+	std::string getName( type::TypePtr type )
+	{
+		return getName( *type );
+	}
+
+	std::string getName( type::Type const & type )
 	{
 		std::string result;
 
-		switch ( type->getKind() )
+		switch ( type.getKind() )
 		{
-		case type::Kind::eUndefined:
-			result = "undefined";
-			break;
-		case type::Kind::eVoid:
-			result = "void";
-			break;
 		case type::Kind::eStruct:
-			static_cast< type::Struct const & >( *type ).getName();
-			break;
-		case type::Kind::eFunction:
-			result = "function";
-			break;
-		case type::Kind::eBoolean:
-			result = "bool";
-			break;
-		case type::Kind::eInt:
-			result = "int";
-			break;
-		case type::Kind::eUInt:
-			result = "uint";
-			break;
-		case type::Kind::eFloat:
-			result = "float";
-			break;
-		case type::Kind::eVec2B:
-			result = "bvec2";
-			break;
-		case type::Kind::eVec3B:
-			result = "bvec3";
-			break;
-		case type::Kind::eVec4B:
-			result = "bvec4";
-			break;
-		case type::Kind::eVec2I:
-			result = "ivec2";
-			break;
-		case type::Kind::eVec3I:
-			result = "ivec3";
-			break;
-		case type::Kind::eVec4I:
-			result = "ivec4";
-			break;
-		case type::Kind::eVec2UI:
-			result = "uvec2";
-			break;
-		case type::Kind::eVec3UI:
-			result = "uvec3";
-			break;
-		case type::Kind::eVec4UI:
-			result = "uvec4";
-			break;
-		case type::Kind::eVec2F:
-			result = "vec2";
-			break;
-		case type::Kind::eVec3F:
-			result = "vec3";
-			break;
-		case type::Kind::eVec4F:
-			result = "vec4";
-			break;
-		case type::Kind::eMat2x2B:
-			result = "bmat2";
-			break;
-		case type::Kind::eMat3x3B:
-			result = "bmat3";
-			break;
-		case type::Kind::eMat4x4B:
-			result = "bmat4";
-			break;
-		case type::Kind::eMat2x2I:
-			result = "imat2";
-			break;
-		case type::Kind::eMat3x3I:
-			result = "imat3";
-			break;
-		case type::Kind::eMat4x4I:
-			result = "imat4";
-			break;
-		case type::Kind::eMat2x2UI:
-			result = "umat2";
-			break;
-		case type::Kind::eMat3x3UI:
-			result = "umat3";
-			break;
-		case type::Kind::eMat4x4UI:
-			result = "umat4";
-			break;
-		case type::Kind::eMat2x2F:
-			result = "mat2";
-			break;
-		case type::Kind::eMat3x3F:
-			result = "mat3";
-			break;
-		case type::Kind::eMat4x4F:
-			result = "mat4";
-			break;
-		case type::Kind::eConstantsBuffer:
-			result = "uniform";
-			break;
-		case type::Kind::eShaderBuffer:
-			result = "buffer";
-			break;
-		case type::Kind::eSamplerBuffer:
-			result = "samplerBuffer";
-			break;
-		case type::Kind::eSampler1D:
-			result = "sampler1D";
-			break;
-		case type::Kind::eSampler2D:
-			result = "sampler2D";
-			break;
-		case type::Kind::eSampler3D:
-			result = "sampler3D";
-			break;
-		case type::Kind::eSamplerCube:
-			result = "samplerCube";
-			break;
-		case type::Kind::eSampler2DRect:
-			result = "sampler2DRect";
-			break;
-		case type::Kind::eSampler1DArray:
-			result = "sampler1DArray";
-			break;
-		case type::Kind::eSampler2DArray:
-			result = "sampler2DArray";
-			break;
-		case type::Kind::eSamplerCubeArray:
-			result = "samplerCubeArray";
-			break;
-		case type::Kind::eSampler1DShadow:
-			result = "sampler1DShadow";
-			break;
-		case type::Kind::eSampler2DShadow:
-			result = "sampler2DShadow";
-			break;
-		case type::Kind::eSamplerCubeShadow:
-			result = "samplerCubeShadow";
-			break;
-		case type::Kind::eSampler2DRectShadow:
-			result = "sampler2DRectArrayShadow";
-			break;
-		case type::Kind::eSampler1DArrayShadow:
-			result = "sampler1DArrayShadow";
-			break;
-		case type::Kind::eSampler2DArrayShadow:
-			result = "sampler2DArrayShadow";
-			break;
-		case type::Kind::eSamplerCubeArrayShadow:
-			result = "samplerCubeArrayShadow";
-			break;
-		}
-
-		return result;
-	}
-
-	std::string getLocationName( var::Variable const & var )
-	{
-		std::string result;
-
-		if ( var.isShaderConstant() )
-		{
-			result = "constant_id";
-		}
-		else if ( var.isShaderInput()
-			|| var.isShaderOutput() )
-		{
-			result = "location";
-		}
-
-		return result;
-	}
-
-	std::string getDirectionName( var::Variable const & var )
-	{
-		std::string result;
-
-		if ( var.isInputParam()
-			&& var.isOutputParam() )
-		{
-			result = "inout";
-		}
-		else if ( var.isInputParam()
-			|| var.isShaderInput() )
-		{
-			result = "in";
-		}
-		else if ( var.isOutputParam()
-			|| var.isShaderOutput() )
-		{
-			result = "out";
-		}
-		else if ( var.isShaderConstant() )
-		{
-			result = "const";
-		}
-
-		return result;
-	}
-
-	std::string getStatusName( stmt::PreprocExtension::Status status )
-	{
-		std::string result;
-
-		switch ( status )
-		{
-		case stmt::PreprocExtension::Status::eDisabled:
-			result = "disable";
-			break;
-
-		case stmt::PreprocExtension::Status::eEnabled:
-			result = "enable";
-			break;
-
-		case stmt::PreprocExtension::Status::eRequired:
-			result = "required";
-			break;
-
-		}
-
-		return result;
-	}
-
-	std::string getOperatorName( expr::Kind kind )
-	{
-		std::string result;
-
-		switch ( kind )
-		{
-		case expr::Kind::eAdd:
-			result = "+";
-			break;
-		case expr::Kind::eMinus:
-			result = "-";
-			break;
-		case expr::Kind::eTimes:
-			result = "*";
-			break;
-		case expr::Kind::eDivide:
-			result = "/";
-			break;
-		case expr::Kind::eModulo:
-			result = "%";
-			break;
-		case expr::Kind::eLShift:
-			result = "<<";
-			break;
-		case expr::Kind::eRShift:
-			result = ">>";
-			break;
-		case expr::Kind::eBitAnd:
-			result = "&";
-			break;
-		case expr::Kind::eBitNot:
-			result = "~";
-			break;
-		case expr::Kind::eBitOr:
-			result = "|";
-			break;
-		case expr::Kind::eBitXor:
-			result = "^";
-			break;
-		case expr::Kind::eLogAnd:
-			result = "&&";
-			break;
-		case expr::Kind::eLogNot:
-			result = "!";
-			break;
-		case expr::Kind::eLogOr:
-			result = "||";
-			break;
-		case expr::Kind::eCast:
-			result = "cast";
-			break;
-		case expr::Kind::eEqual:
-			result = "==";
-			break;
-		case expr::Kind::eGreater:
-			result = ">";
-			break;
-		case expr::Kind::eGreaterEqual:
-			result = ">=";
-			break;
-		case expr::Kind::eLess:
-			result = "<";
-			break;
-		case expr::Kind::eLessEqual:
-			result = "<=";
-			break;
-		case expr::Kind::eNotEqual:
-			result = "!=";
-			break;
-		case expr::Kind::eComma:
-			result = ",";
-			break;
-		case expr::Kind::eMbrSelect:
-			result = ".";
-			break;
-		case expr::Kind::ePreIncrement:
-			result = "++";
-			break;
-		case expr::Kind::ePreDecrement:
-			result = "--";
-			break;
-		case expr::Kind::ePostIncrement:
-			result = "++";
-			break;
-		case expr::Kind::ePostDecrement:
-			result = "--";
-			break;
-		case expr::Kind::eUnaryMinus:
-			result = "-";
-			break;
-		case expr::Kind::eUnaryPlus:
-			result = "+";
-			break;
-		case expr::Kind::eAssign:
-			result = "=";
-			break;
-		case expr::Kind::eAddAssign:
-			result = "+=";
-			break;
-		case expr::Kind::eMinusAssign:
-			result = "-=";
-			break;
-		case expr::Kind::eTimesAssign:
-			result = "*=";
-			break;
-		case expr::Kind::eDivideAssign:
-			result = "/=";
-			break;
-		case expr::Kind::eModuloAssign:
-			result = "%=";
-			break;
-		case expr::Kind::eLShiftAssign:
-			result = "<<=";
-			break;
-		case expr::Kind::eRShiftAssign:
-			result = ">>=";
-			break;
-		case expr::Kind::eAndAssign:
-			result = "&=";
-			break;
-		case expr::Kind::eNotAssign:
-			result = "!=";
-			break;
-		case expr::Kind::eOrAssign:
-			result = "|=";
-			break;
-		case expr::Kind::eXorAssign:
-			result = "^=";
+			static_cast< type::Struct const & >( type ).getName();
 			break;
 		default:
-			throw std::runtime_error{ "Non operation expression" };
+			result = getName( type.getKind() );
+			break;
 		}
 
-		return result;
-	}
+		auto arraySize = type.getArraySize();
 
-	std::string getLayoutName( stmt::InputLayout layout )
-	{
-		std::string result;
-
-		switch ( layout )
+		if ( arraySize != type::NotArray )
 		{
-		case ast::stmt::InputLayout::ePointList:
-			result = "points";
-			break;
-		case ast::stmt::InputLayout::eLineList:
-			result = "lines";
-			break;
-		case ast::stmt::InputLayout::eLineStrip:
-			result = "lines";
-			break;
-		case ast::stmt::InputLayout::eTriangleList:
-			result = "triangles";
-			break;
-		case ast::stmt::InputLayout::eTriangleStrip:
-			result = "triangles";
-			break;
-		case ast::stmt::InputLayout::eTriangleFan:
-			result = "triangles";
-			break;
-		case ast::stmt::InputLayout::eLineListWithAdjacency:
-			result = "lines_adjacency";
-			break;
-		case ast::stmt::InputLayout::eLineStripWithAdjacency:
-			result = "lines_adjacency";
-			break;
-		case ast::stmt::InputLayout::eTriangleListWithAdjacency:
-			result = "triangles_adjacency";
-			break;
-		case ast::stmt::InputLayout::eTriangleStripWithAdjacency:
-			result = "triangles_adjacency";
-			break;
-		default:
-			throw std::runtime_error{ "Unsupported input layout." };
-		}
+			result += "[";
 
-		return result;
-	}
+			if ( arraySize != type::UnknownArraySize )
+			{
+				result += std::to_string( arraySize );
+			}
 
-	std::string getLayoutName( stmt::OutputLayout layout )
-	{
-		std::string result;
-
-		switch ( layout )
-		{
-		case ast::stmt::OutputLayout::ePointList:
-			result = "points";
-			break;
-		case ast::stmt::OutputLayout::eLineStrip:
-			result = "line_strip";
-			break;
-		case ast::stmt::OutputLayout::eTriangleStrip:
-			result = "triangle_strip";
-			break;
-		default:
-			throw std::runtime_error{ "Unsupported output layout." };
-		}
-
-		return result;
-	}
-
-	bool isUnaryPre( expr::Kind kind )
-	{
-		bool result;
-
-		switch ( kind )
-		{
-		case expr::Kind::eMbrSelect:
-		case expr::Kind::ePostIncrement:
-		case expr::Kind::ePostDecrement:
-			result = false;
-			break;
-		case expr::Kind::eBitNot:
-		case expr::Kind::eLogNot:
-		case expr::Kind::eCast:
-		case expr::Kind::ePreIncrement:
-		case expr::Kind::ePreDecrement:
-		case expr::Kind::eUnaryMinus:
-		case expr::Kind::eUnaryPlus:
-			result = true;
-			break;
-		default:
-			throw std::runtime_error{ "Non unary expression" };
+			result += "]";
 		}
 
 		return result;
