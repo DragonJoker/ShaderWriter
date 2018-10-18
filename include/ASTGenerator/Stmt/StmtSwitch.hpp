@@ -22,7 +22,7 @@ namespace ast::stmt
 
 		void accept( VisitorPtr vis )override;
 
-		inline expr::Expr * getTestExpr()const
+		inline expr::SwitchTest * getTestExpr()const
 		{
 			return m_testExpr.get();
 		}

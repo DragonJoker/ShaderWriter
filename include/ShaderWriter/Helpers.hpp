@@ -35,9 +35,6 @@ namespace sdw
 	expr::ExprPtr makeExpr( double value );
 	expr::ExprPtr makeExpr( long double value );
 
-	expr::ExprPtr makeInit( type::Kind type
-		, std::string name
-		, expr::ExprPtr init );
 	expr::ExprPtr makeInit( var::VariablePtr var
 		, expr::ExprPtr init );
 	expr::ExprPtr makeAggrInit( var::VariablePtr var
@@ -162,12 +159,12 @@ namespace sdw
 		, stmt::StmtPtr stmt );
 	void addStmt( stmt::Container & container
 		, stmt::StmtPtr stmt );
-	void registerName( Shader & shader
+	var::VariablePtr registerName( Shader & shader
 		, std::string const & name
-		, type::Kind type );
-	void checkNameExists( Shader & shader
+		, type::TypePtr type );
+	var::VariablePtr getVar( Shader & shader
 		, std::string const & name
-		, type::Kind type );
+		, type::TypePtr type );
 }
 
 #include "Helpers.inl"

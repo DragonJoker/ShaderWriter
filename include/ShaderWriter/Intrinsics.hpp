@@ -300,21 +300,21 @@ namespace sdw
 	Vec4 textureOffset( Sampler1D const & sampler
 		, Float const & value
 		, Int const offset
-		, Float const & lod );
+		, Float const & bias );
 	Vec4 textureOffset( Sampler2D const & sampler
 		, Vec2 const & value
 		, IVec2 const offset );
 	Vec4 textureOffset( Sampler2D const & sampler
 		, Vec2 const & value
 		, IVec2 const offset
-		, Float const & lod );
+		, Float const & bias );
 	Vec4 textureOffset( Sampler3D const & sampler
 		, Vec3 const & value
 		, IVec3 const offset );
 	Vec4 textureOffset( Sampler3D const & sampler
 		, Vec3 const & value
 		, IVec3 const offset
-		, Float const & lod );
+		, Float const & bias );
 	Vec4 textureLodOffset( Sampler1D const & sampler
 		, Float const & value
 		, Float const & lod
@@ -359,14 +359,14 @@ namespace sdw
 	Vec4 textureOffset( Sampler1DArray const & sampler
 		, Vec2 const & value
 		, Int const offset
-		, Float const & lod );
+		, Float const & bias );
 	Vec4 textureOffset( Sampler2DArray const & sampler
 		, Vec3 const & value
 		, IVec2 const offset );
 	Vec4 textureOffset( Sampler2DArray const & sampler
 		, Vec3 const & value
 		, IVec2 const offset
-		, Float const & lod );
+		, Float const & bias );
 	Vec4 textureLodOffset( Sampler1DArray const & sampler
 		, Vec2 const & value
 		, Float const & lod
@@ -396,7 +396,7 @@ namespace sdw
 	Float textureOffset( Sampler1DShadow const & sampler
 		, Vec2 const & value
 		, Int const offset
-		, Float const & lod );
+		, Float const & bias );
 	Float textureOffset( Sampler2DShadow const & sampler
 		, Vec3 const & value
 		, IVec2 const offset );
@@ -435,14 +435,14 @@ namespace sdw
 	Float textureOffset( Sampler1DArrayShadow const & sampler
 		, Vec3 const & value
 		, Int const offset
-		, Float const & lod );
+		, Float const & bias );
 	Float textureOffset( Sampler2DArrayShadow const & sampler
 		, Vec4 const & value
 		, IVec2 const offset );
 	Float textureOffset( Sampler2DArrayShadow const & sampler
 		, Vec4 const & value
 		, IVec2 const offset
-		, Float const & lod );
+		, Float const & bias );
 	Float textureLodOffset( Sampler1DArrayShadow const & sampler
 		, Vec3 const & value
 		, Float const & lod
@@ -525,21 +525,21 @@ namespace sdw
 	Optional< Vec4 > textureOffset( Optional< Sampler1D > const & sampler
 		, Float const & value
 		, Int const offset
-		, Float const & lod );
+		, Float const & bias );
 	Optional< Vec4 > textureOffset( Optional< Sampler2D > const & sampler
 		, Vec2 const & value
 		, IVec2 const offset );
 	Optional< Vec4 > textureOffset( Optional< Sampler2D > const & sampler
 		, Vec2 const & value
 		, IVec2 const offset
-		, Float const & lod );
+		, Float const & bias );
 	Optional< Vec4 > textureOffset( Optional< Sampler3D > const & sampler
 		, Vec3 const & value
 		, IVec3 const offset );
 	Optional< Vec4 > textureOffset( Optional< Sampler3D > const & sampler
 		, Vec3 const & value
 		, IVec3 const offset
-		, Float const & lod );
+		, Float const & bias );
 	Optional< Vec4 > textureLodOffset( Optional< Sampler1D > const & sampler
 		, Vec2 const & value
 		, Float const & lod
@@ -584,14 +584,14 @@ namespace sdw
 	Optional< Vec4 > textureOffset( Optional< Sampler1DArray > const & sampler
 		, Vec2 const & value
 		, Int const offset
-		, Float const & lod );
+		, Float const & bias );
 	Optional< Vec4 > textureOffset( Optional< Sampler2DArray > const & sampler
 		, Vec3 const & value
 		, IVec2 const offset );
 	Optional< Vec4 > textureOffset( Optional< Sampler2DArray > const & sampler
 		, Vec3 const & value
 		, IVec2 const offset
-		, Float const & lod );
+		, Float const & bias );
 	Optional< Vec4 > textureLodOffset( Optional< Sampler1DArray > const & sampler
 		, Vec2 const & value
 		, Float const & lod
@@ -621,14 +621,14 @@ namespace sdw
 	Optional< Float > textureOffset( Optional< Sampler1DShadow > const & sampler
 		, Vec2 const & value
 		, Int const offset
-		, Float const & lod );
+		, Float const & bias );
 	Optional< Float > textureOffset( Optional< Sampler2DShadow > const & sampler
 		, Vec3 const & value
 		, IVec2 const offset );
 	Optional< Float > textureOffset( Optional< Sampler2DShadow > const & sampler
 		, Vec3 const & value
 		, IVec2 const offset
-		, Float const & lod );
+		, Float const & bias );
 	Optional< Float > textureLodOffset( Optional< Sampler1DShadow > const & sampler
 		, Vec2 const & value
 		, Float const & lod
@@ -660,14 +660,14 @@ namespace sdw
 	Optional< Float > textureOffset( Optional< Sampler1DArrayShadow > const & sampler
 		, Vec3 const & value
 		, Int const offset
-		, Float const & lod );
+		, Float const & bias );
 	Optional< Float > textureOffset( Optional< Sampler2DArrayShadow > const & sampler
 		, Vec4 const & value
 		, IVec2 const offset );
 	Optional< Float > textureOffset( Optional< Sampler2DArrayShadow > const & sampler
 		, Vec4 const & value
 		, IVec2 const offset
-		, Float const & lod );
+		, Float const & bias );
 	Optional< Float > textureLodOffset( Optional< Sampler1DArrayShadow > const & sampler
 		, Vec3 const & value
 		, Float const & lod

@@ -8,7 +8,7 @@ namespace sdw
 	template< typename ValueT >
 	InParam< ValueT >::InParam( ShaderWriter & writer
 		, std::string name )
-		: ValueT{ &writer.getShader(), makeExpr( var::makeVariable( type::makeType( typeEnum< ValueT > ), std::move( name ), var::Flag::eInputParam ) ) }
+		: ValueT{ &writer.getShader(), makeExpr( writer.registerInParam( std::move( name ), type::makeType( typeEnum< ValueT > ) ) ) }
 	{
 	}
 
@@ -34,7 +34,7 @@ namespace sdw
 	template< typename ValueT >
 	OutParam< ValueT >::OutParam( ShaderWriter & writer
 		, std::string name )
-		: ValueT{ &writer.getShader(), makeExpr( var::makeVariable( type::makeType( typeEnum< ValueT > ), std::move( name ), var::Flag::eOutputParam ) ) }
+		: ValueT{ &writer.getShader(), makeExpr( writer.registerOutParam( std::move( name ), type::makeType( typeEnum< ValueT > ) ) ) }
 	{
 	}
 
@@ -60,7 +60,7 @@ namespace sdw
 	template< typename ValueT >
 	InOutParam< ValueT >::InOutParam( ShaderWriter & writer
 		, std::string name )
-		: ValueT{ &writer.getShader(), makeExpr( var::makeVariable( type::makeType( typeEnum< ValueT > ), std::move( name ), uint32_t( var::Flag::eInputParam ) | uint32_t( var::Flag::eOutputParam ) ) ) }
+		: ValueT{ &writer.getShader(), makeExpr( writer.registerInOutParam( std::move( name ), type::makeType( typeEnum< ValueT > ) ) ) }
 	{
 	}
 

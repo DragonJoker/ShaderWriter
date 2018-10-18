@@ -19,9 +19,6 @@ namespace ast::stmt
 		Compound();
 
 		void accept( VisitorPtr vis )override;
-
-	private:
-		StmtList m_statements;
 	};
 	using CompoundPtr = std::unique_ptr< Compound >;
 

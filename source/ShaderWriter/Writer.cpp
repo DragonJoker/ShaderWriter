@@ -41,15 +41,41 @@ namespace sdw
 		}
 	}
 
-	void ShaderWriter::registerName( std::string const & name, type::Kind type )
+	var::VariablePtr ShaderWriter::registerName( std::string const & name
+		, type::TypePtr type
+		, uint32_t flags )
 	{
-		m_shader.registerName( name, type );
+		return m_shader.registerName( name, type, flags );
 	}
 
-	void ShaderWriter::checkNameExists( std::string const & name
-		, type::Kind type )
+	var::VariablePtr ShaderWriter::registerLocale( std::string const & name
+		, type::TypePtr type )
 	{
-		m_shader.checkNameExists( name, type );
+		return m_shader.registerLocale( name, type );
+	}
+
+	var::VariablePtr ShaderWriter::registerInParam( std::string const & name
+		, type::TypePtr type )
+	{
+		return m_shader.registerInParam( name, type );
+	}
+
+	var::VariablePtr ShaderWriter::registerOutParam( std::string const & name
+		, type::TypePtr type )
+	{
+		return m_shader.registerOutParam( name, type );
+	}
+
+	var::VariablePtr ShaderWriter::registerInOutParam( std::string const & name
+		, type::TypePtr type )
+	{
+		return m_shader.registerInOutParam( name, type );
+	}
+
+	var::VariablePtr ShaderWriter::getVar( std::string const & name
+		, type::TypePtr type )
+	{
+		return m_shader.getVar( name, type );
 	}
 
 	void ShaderWriter::registerSsbo( std::string const & name
@@ -245,33 +271,38 @@ namespace sdw
 		, InVec3{ *this, "v" } );
 	}
 
-	void ShaderWriter::registerConstant( std::string const & name
-		, type::Kind type )
+	var::VariablePtr ShaderWriter::registerConstant( std::string const & name
+		, type::TypePtr type )
 	{
-		m_shader.registerConstant( name, type );
+		return m_shader.registerConstant( name, type );
 	}
 
-	void ShaderWriter::registerSampler( std::string const & name
-		, type::Kind type
+	var::VariablePtr ShaderWriter::registerSampler( std::string const & name
+		, type::TypePtr type
 		, uint32_t binding
 		, uint32_t set
-		, uint32_t count
 		, bool enabled )
 	{
-		m_shader.registerSampler( name, type, binding, set, count, enabled );
+		return m_shader.registerSampler( name, type, binding, set, enabled );
 	}
 
-	void ShaderWriter::registerInput( std::string const & name
+	var::VariablePtr ShaderWriter::registerInput( std::string const & name
 		, uint32_t location
-		, type::Kind type )
+		, type::TypePtr type )
 	{
-		m_shader.registerInput( name, location, type );
+		return m_shader.registerInput( name, location, type );
 	}
 
-	void ShaderWriter::registerOutput( std::string const & name
+	var::VariablePtr ShaderWriter::registerOutput( std::string const & name
 		, uint32_t location
-		, type::Kind type )
+		, type::TypePtr type )
 	{
-		m_shader.registerOutput( name, location, type );
+		return m_shader.registerOutput( name, location, type );
+	}
+
+	var::VariablePtr ShaderWriter::registerBuiltin( std::string const & name
+		, type::TypePtr type )
+	{
+		return m_shader.registerBuiltin( name, type );
 	}
 }

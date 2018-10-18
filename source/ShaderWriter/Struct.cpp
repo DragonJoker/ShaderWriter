@@ -22,6 +22,6 @@ namespace sdw
 	StructInstance Struct::getInstance( std::string const & name )
 	{
 		return StructInstance{ m_shader
-			, makeExpr( var::makeVariable( m_type, name ) ) };
+			, makeExpr( m_shader->registerLocale( name, m_type ) ) };
 	}
 }

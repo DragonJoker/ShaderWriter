@@ -146,7 +146,7 @@ namespace
 			check( stmt->getKind() == ast::stmt::Kind::eConstantBufferDecl );
 			check( stmt->getBindingPoint() == 1u );
 			check( stmt->getBindingSet() == 2u );
-			check( stmt->getStatements().empty() );
+			check( stmt->empty() );
 		}
 		{
 			auto stmt = ast::stmt::makeConstantBufferDecl( "Buffer", 1u, 2u );
@@ -157,7 +157,7 @@ namespace
 			check( stmt->getKind() == ast::stmt::Kind::eConstantBufferDecl );
 			check( stmt->getBindingPoint() == 1u );
 			check( stmt->getBindingSet() == 2u );
-			check( stmt->getStatements().size() == 2u );
+			check( stmt->size() == 2u );
 		}
 		testEnd();
 	}
@@ -172,7 +172,7 @@ namespace
 			check( stmt->getKind() == ast::stmt::Kind::eShaderBufferDecl );
 			check( stmt->getBindingPoint() == 1u );
 			check( stmt->getBindingSet() == 2u );
-			check( stmt->getStatements().empty() );
+			check( stmt->empty() );
 		}
 		{
 			auto stmt = ast::stmt::makeShaderBufferDecl( "Buffer", 1u, 2u );
@@ -183,7 +183,7 @@ namespace
 			check( stmt->getKind() == ast::stmt::Kind::eShaderBufferDecl );
 			check( stmt->getBindingPoint() == 1u );
 			check( stmt->getBindingSet() == 2u );
-			check( stmt->getStatements().size() == 2u );
+			check( stmt->size() == 2u );
 		}
 		testEnd();
 	}
@@ -209,7 +209,7 @@ namespace
 			std::cout << "StmtContainer (empty):\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
 
 			check( stmt->getKind() == ast::stmt::Kind::eContainer );
-			check( stmt->getStatements().empty() );
+			check( stmt->empty() );
 		}
 		{
 			auto i = ast::expr::makeIdentifier( ast::var::makeVariable( ast::type::getInt(), "i" ) );
@@ -220,7 +220,7 @@ namespace
 			std::cout << "StmtContainer:\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
 
 			check( stmt->getKind() == ast::stmt::Kind::eContainer );
-			check( stmt->getStatements().size() == 2u );
+			check( stmt->size() == 2u );
 		}
 		testEnd();
 	}
@@ -233,7 +233,7 @@ namespace
 			std::cout << "StmtCompound (empty):\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
 
 			check( stmt->getKind() == ast::stmt::Kind::eCompound );
-			check( stmt->getStatements().empty() );
+			check( stmt->empty() );
 		}
 		{
 			auto i = ast::expr::makeIdentifier( ast::var::makeVariable( ast::type::getInt(), "i" ) );
@@ -244,7 +244,7 @@ namespace
 			std::cout << "StmtCompound:" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
 
 			check( stmt->getKind() == ast::stmt::Kind::eCompound );
-			check( stmt->getStatements().size() == 2u );
+			check( stmt->size() == 2u );
 		}
 		testEnd();
 	}
@@ -259,7 +259,7 @@ namespace
 			check( stmt->getKind() == ast::stmt::Kind::eIf );
 			check( stmt->getCtrlExpr()->getKind() == ast::expr::Kind::eIdentifier );
 			check( stmt->getCtrlExpr()->getType()->getKind() == ast::type::Kind::eBoolean );
-			check( stmt->getStatements().empty() );
+			check( stmt->empty() );
 		}
 		{
 			auto i = ast::expr::makeIdentifier( ast::var::makeVariable( ast::type::getInt(), "i" ) );
@@ -272,7 +272,7 @@ namespace
 			check( stmt->getKind() == ast::stmt::Kind::eIf );
 			check( stmt->getCtrlExpr()->getKind() == ast::expr::Kind::eIdentifier );
 			check( stmt->getCtrlExpr()->getType()->getKind() == ast::type::Kind::eBoolean );
-			check( stmt->getStatements().size() == 2u );
+			check( stmt->size() == 2u );
 		}
 		testEnd();
 	}
@@ -288,7 +288,7 @@ namespace
 			std::cout << "StmtElse (empty):\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
 
 			check( elseStmt->getKind() == ast::stmt::Kind::eElse );
-			check( elseStmt->getStatements().empty() );
+			check( elseStmt->empty() );
 		}
 		{
 			auto i = ast::var::makeVariable( ast::type::getInt(), "i" );
@@ -302,7 +302,7 @@ namespace
 			std::cout << "StmtElse:\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
 
 			check( elseStmt->getKind() == ast::stmt::Kind::eElse );
-			check( elseStmt->getStatements().size() == 2u );
+			check( elseStmt->size() == 2u );
 		}
 		testEnd();
 	}
@@ -318,7 +318,7 @@ namespace
 			std::cout << "StmtElseIf (empty):\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
 
 			check( elseIfStmt->getKind() == ast::stmt::Kind::eElseIf );
-			check( elseIfStmt->getStatements().empty() );
+			check( elseIfStmt->empty() );
 		}
 		{
 			auto i = ast::var::makeVariable( ast::type::getInt(), "i" );
@@ -332,7 +332,7 @@ namespace
 			std::cout << "StmtElseIf:\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
 
 			check( elseIfStmt->getKind() == ast::stmt::Kind::eElseIf );
-			check( elseIfStmt->getStatements().size() == 2u );
+			check( elseIfStmt->size() == 2u );
 		}
 		testEnd();
 	}
@@ -375,7 +375,7 @@ namespace
 			check( stmt->getKind() == ast::stmt::Kind::eWhile );
 			check( stmt->getCtrlExpr()->getKind() == ast::expr::Kind::eIdentifier );
 			check( stmt->getCtrlExpr()->getType()->getKind() == ast::type::Kind::eBoolean );
-			check( stmt->getStatements().empty() );
+			check( stmt->empty() );
 		}
 		{
 			auto i = ast::expr::makeIdentifier( ast::var::makeVariable( ast::type::getInt(), "i" ) );
@@ -388,7 +388,7 @@ namespace
 			check( stmt->getKind() == ast::stmt::Kind::eWhile );
 			check( stmt->getCtrlExpr()->getKind() == ast::expr::Kind::eIdentifier );
 			check( stmt->getCtrlExpr()->getType()->getKind() == ast::type::Kind::eBoolean );
-			check( stmt->getStatements().size() == 2u );
+			check( stmt->size() == 2u );
 		}
 		testEnd();
 	}
@@ -403,7 +403,7 @@ namespace
 			check( stmt->getKind() == ast::stmt::Kind::eDoWhile );
 			check( stmt->getCtrlExpr()->getKind() == ast::expr::Kind::eIdentifier );
 			check( stmt->getCtrlExpr()->getType()->getKind() == ast::type::Kind::eBoolean );
-			check( stmt->getStatements().empty() );
+			check( stmt->empty() );
 		}
 		{
 			auto i = ast::expr::makeIdentifier( ast::var::makeVariable( ast::type::getInt(), "i" ) );
@@ -416,7 +416,7 @@ namespace
 			check( stmt->getKind() == ast::stmt::Kind::eDoWhile );
 			check( stmt->getCtrlExpr()->getKind() == ast::expr::Kind::eIdentifier );
 			check( stmt->getCtrlExpr()->getType()->getKind() == ast::type::Kind::eBoolean );
-			check( stmt->getStatements().size() == 2u );
+			check( stmt->size() == 2u );
 		}
 		testEnd();
 	}
@@ -438,7 +438,7 @@ namespace
 			check( stmt->getCtrlExpr()->getType()->getKind() == ast::type::Kind::eBoolean );
 			check( stmt->getIncrExpr()->getKind() == ast::expr::Kind::ePreIncrement );
 			check( stmt->getIncrExpr()->getType()->getKind() == ast::type::Kind::eInt );
-			check( stmt->getStatements().empty() );
+			check( stmt->empty() );
 		}
 		{
 			auto i = ast::expr::makeIdentifier( ast::var::makeVariable( ast::type::getInt(), "i" ) );
@@ -458,7 +458,7 @@ namespace
 			check( stmt->getCtrlExpr()->getType()->getKind() == ast::type::Kind::eBoolean );
 			check( stmt->getIncrExpr()->getKind() == ast::expr::Kind::ePreIncrement );
 			check( stmt->getIncrExpr()->getType()->getKind() == ast::type::Kind::eInt );
-			check( stmt->getStatements().size() == 2u );
+			check( stmt->size() == 2u );
 		}
 		testEnd();
 	}
@@ -499,7 +499,7 @@ namespace
 			check( stmt->getKind() == ast::stmt::Kind::eSwitchCase );
 			check( stmt->getCaseExpr()->getLabel()->getLiteralType() == ast::expr::LiteralType::eInt );
 			check( stmt->getCaseExpr()->getLabel()->getValue< ast::expr::LiteralType::eInt >() == 10 );
-			check( stmt->getStatements().empty() );
+			check( stmt->empty() );
 		}
 		{
 			auto i = ast::expr::makeIdentifier( ast::var::makeVariable( ast::type::getInt(), "i" ) );
@@ -512,7 +512,7 @@ namespace
 			check( stmt->getKind() == ast::stmt::Kind::eSwitchCase );
 			check( stmt->getCaseExpr()->getLabel()->getLiteralType() == ast::expr::LiteralType::eInt );
 			check( stmt->getCaseExpr()->getLabel()->getValue< ast::expr::LiteralType::eInt >() == 10 );
-			check( stmt->getStatements().size() == 2u );
+			check( stmt->size() == 2u );
 		}
 		testEnd();
 	}
@@ -526,7 +526,7 @@ namespace
 
 			check( stmt->getKind() == ast::stmt::Kind::eSwitchCase );
 			check( stmt->getCaseExpr() == nullptr );
-			check( stmt->getStatements().empty() );
+			check( stmt->empty() );
 		}
 		{
 			auto i = ast::expr::makeIdentifier( ast::var::makeVariable( ast::type::getInt(), "i" ) );
@@ -538,7 +538,7 @@ namespace
 
 			check( stmt->getKind() == ast::stmt::Kind::eSwitchCase );
 			check( stmt->getCaseExpr() == nullptr );
-			check( stmt->getStatements().size() == 2u );
+			check( stmt->size() == 2u );
 		}
 		testEnd();
 	}
@@ -553,7 +553,7 @@ namespace
 
 			check( stmt->getKind() == ast::stmt::Kind::eSwitch );
 			check( stmt->getTestExpr()->getKind() == ast::expr::Kind::eSwitchTest );
-			check( stmt->getStatements().empty() );
+			check( stmt->empty() );
 		}
 		{
 			auto i = ast::var::makeVariable( ast::type::getInt(), "i" );
@@ -564,7 +564,7 @@ namespace
 
 			check( stmt->getKind() == ast::stmt::Kind::eSwitch );
 			check( stmt->getTestExpr()->getKind() == ast::expr::Kind::eSwitchTest );
-			check( stmt->getStatements().size() == 2u );
+			check( stmt->size() == 2u );
 		}
 		{
 			auto i = ast::var::makeVariable( ast::type::getInt(), "i" );
@@ -583,7 +583,7 @@ namespace
 
 			check( stmt->getKind() == ast::stmt::Kind::eSwitch );
 			check( stmt->getTestExpr()->getKind() == ast::expr::Kind::eSwitchTest );
-			check( stmt->getStatements().size() == 2u );
+			check( stmt->size() == 2u );
 		}
 		testEnd();
 	}
@@ -683,7 +683,7 @@ namespace
 			check( stmt->getKind() == ast::stmt::Kind::eFunctionDecl );
 			check( stmt->getName() == "foo" );
 			check( stmt->getParameters().empty() );
-			check( stmt->getStatements().empty() );
+			check( stmt->empty() );
 		}
 		{
 			auto stmt = ast::stmt::makeFunctionDecl( ast::type::getInt(), "foo", { ast::var::makeVariable( ast::type::getInt(), "i" ) } );
@@ -692,7 +692,7 @@ namespace
 			check( stmt->getKind() == ast::stmt::Kind::eFunctionDecl );
 			check( stmt->getName() == "foo" );
 			check( stmt->getParameters().size() == 1u );
-			check( stmt->getStatements().empty() );
+			check( stmt->empty() );
 		}
 		{
 			auto stmt = ast::stmt::makeFunctionDecl( ast::type::getInt(), "foo", { ast::var::makeVariable( ast::type::getInt(), "i" ), ast::var::makeVariable( ast::type::getInt(), "j" ) } );
@@ -701,7 +701,7 @@ namespace
 			check( stmt->getKind() == ast::stmt::Kind::eFunctionDecl );
 			check( stmt->getName() == "foo" );
 			check( stmt->getParameters().size() == 2u );
-			check( stmt->getStatements().empty() );
+			check( stmt->empty() );
 		}
 		{
 			auto stmt = ast::stmt::makeFunctionDecl( ast::type::getInt(), "foo", {} );
@@ -711,7 +711,7 @@ namespace
 			check( stmt->getKind() == ast::stmt::Kind::eFunctionDecl );
 			check( stmt->getName() == "foo" );
 			check( stmt->getParameters().empty() );
-			check( stmt->getStatements().size() == 1u );
+			check( stmt->size() == 1u );
 		}
 		{
 			auto stmt = ast::stmt::makeFunctionDecl( ast::type::getInt(), "foo", { ast::var::makeVariable( ast::type::getInt(), "i" ) } );
@@ -724,7 +724,7 @@ namespace
 			check( stmt->getKind() == ast::stmt::Kind::eFunctionDecl );
 			check( stmt->getName() == "foo" );
 			check( stmt->getParameters().size() == 1u );
-			check( stmt->getStatements().size() == 1u );
+			check( stmt->size() == 1u );
 		}
 		{
 			auto stmt = ast::stmt::makeFunctionDecl( ast::type::getInt(), "foo", { ast::var::makeVariable( ast::type::getInt(), "i" ), ast::var::makeVariable( ast::type::getInt(), "j" ) } );
@@ -737,7 +737,7 @@ namespace
 			check( stmt->getKind() == ast::stmt::Kind::eFunctionDecl );
 			check( stmt->getName() == "foo" );
 			check( stmt->getParameters().size() == 2u );
-			check( stmt->getStatements().size() == 1u );
+			check( stmt->size() == 1u );
 		}
 		testEnd();
 	}

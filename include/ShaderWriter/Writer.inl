@@ -61,13 +61,13 @@ namespace sdw
 	inline T ShaderWriter::declConstant( std::string const & name
 		, T const & rhs )
 	{
-		registerConstant( name
-			, typeEnum< T > );
+		auto type = type::makeType( typeEnum< T > );
+		auto var = registerConstant( name
+			, type );
 		addStmt( sdw::makePreprocDefine( name
 			, makeExpr( rhs ) ) );
-		auto type = type::makeType( typeEnum< T > );
 		return T{ &m_shader
-			, makeExpr( var::makeVariable( type, name ) ) };
+			, makeExpr( var ) };
 	}
 
 	template< typename T >
@@ -75,8 +75,9 @@ namespace sdw
 		, T const & rhs
 		, bool enabled )
 	{
-		registerConstant( name
-			, typeEnum< T > );
+		auto type = type::makeType( typeEnum< T > );
+		auto var = registerConstant( name
+			, type );
 
 		if ( enabled )
 		{
@@ -84,9 +85,8 @@ namespace sdw
 				, makeExpr( rhs ) ) );
 		}
 
-		auto type = type::makeType( typeEnum< T > );
 		return Optional< T >{ &m_shader
-			, makeExpr( var::makeVariable( type, name ) )
+			, makeExpr( var )
 			, enabled };
 	}
 	/**@}*/
@@ -102,12 +102,9 @@ namespace sdw
 		, uint32_t location
 		, T const & rhs )
 	{
-		registerConstant( name
-			, typeEnum< T > );
 		auto type = type::makeType( typeEnum< T > );
-		auto var = var::makeVariable( type
-			, name
-			, var::Flag::eShaderConstant );
+		auto var = registerConstant( name
+			, type );
 		addStmt( sdw::makeInOutVariableDecl( var
 			, location ) );
 		return T{ &m_shader
@@ -120,12 +117,9 @@ namespace sdw
 		, T const & rhs
 		, bool enabled )
 	{
-		registerConstant( name
-			, typeEnum< T > );
 		auto type = type::makeType( typeEnum< T > );
-		auto var = var::makeVariable( type
-			, name
-			, var::Flag::eShaderConstant );
+		auto var = registerConstant( name
+			, type );
 
 		if ( enabled )
 		{
@@ -151,15 +145,11 @@ namespace sdw
 		, uint32_t set )
 	{
 		using T = typename SamplerTypeTraits< SamplerT >::Type;
-		registerSampler( name
-			, typeEnum< T >
-			, binding
-			, set
-			, type::NotArray );
 		auto type = type::makeType( typeEnum< T > );
-		auto var = var::makeVariable( type
-			, name
-			, var::Flag::eSampler );
+		auto var = registerSampler( name
+			, type
+			, binding
+			, set );
 		addStmt( sdw::makeSamplerDecl( var
 			, binding
 			, set ) );
@@ -174,16 +164,12 @@ namespace sdw
 		, bool enabled )
 	{
 		using T = typename SamplerTypeTraits< SamplerT >::Type;
-		registerSampler( name
-			, typeEnum< T >
+		auto type = type::makeType( typeEnum< T > );
+		auto var = registerSampler( name
+			, type
 			, binding
 			, set
-			, type::NotArray
 			, enabled );
-		auto type = type::makeType( typeEnum< T > );
-		auto var = var::makeVariable( type
-			, name
-			, var::Flag::eSampler );
 
 		if ( enabled )
 		{
@@ -204,16 +190,12 @@ namespace sdw
 		, uint32_t dimension )
 	{
 		using T = typename SamplerTypeTraits< SamplerT >::Type;
-		registerSampler( name
-			, typeEnum< T >
-			, binding
-			, set
-			, dimension );
 		auto type = type::makeType( typeEnum< T >
 			, dimension );
-		auto var = var::makeVariable( type
-			, name
-			, var::Flag::eSampler );
+		auto var = registerSampler( name
+			, type
+			, binding
+			, set );
 		addStmt( sdw::makeSamplerDecl( var
 			, binding
 			, set ) );
@@ -229,17 +211,13 @@ namespace sdw
 		, bool enabled )
 	{
 		using T = typename SamplerTypeTraits< SamplerT >::Type;
-		registerSampler( name
-			, typeEnum< T >
-			, binding
-			, set
-			, dimension
-			, enabled );
 		auto type = type::makeType( typeEnum< T >
 			, dimension );
-		auto var = var::makeVariable( type
-			, name
-			, var::Flag::eSampler );
+		auto var = registerSampler( name
+			, type
+			, binding
+			, set
+			, enabled );
 
 		if ( enabled )
 		{
@@ -264,13 +242,10 @@ namespace sdw
 	inline T ShaderWriter::declInput( std::string const & name
 		, uint32_t location )
 	{
-		registerInput( name
-			, location
-			, typeEnum< T > );
 		auto type = type::makeType( typeEnum< T > );
-		auto var = var::makeVariable( type
-			, name
-			, var::Flag::eShaderInput );
+		auto var = registerInput( name
+			, location
+			, type );
 		addStmt( sdw::makeInOutVariableDecl( var
 			, location ) );
 		return T{ &m_shader
@@ -282,13 +257,10 @@ namespace sdw
 		, uint32_t location
 		, bool enabled )
 	{
-		registerInput( name
-			, location
-			, typeEnum< T > );
 		auto type = type::makeType( typeEnum< T > );
-		auto var = var::makeVariable( type
-			, name
-			, var::Flag::eShaderInput );
+		auto var = registerInput( name
+			, location
+			, type );
 
 		if ( enabled )
 		{
@@ -306,14 +278,11 @@ namespace sdw
 		, uint32_t location
 		, uint32_t dimension )
 	{
-		registerInput( name
-			, location
-			, typeEnum< T > );
 		auto type = type::makeType( typeEnum< T >
 			, dimension );
-		auto var = var::makeVariable( type
-			, name
-			, var::Flag::eShaderInput );
+		auto var = registerInput( name
+			, location
+			, type );
 		addStmt( sdw::makeInOutVariableDecl( var
 			, location ) );
 		return Array< T >{ &m_shader
@@ -324,14 +293,11 @@ namespace sdw
 	inline Array< T > ShaderWriter::declInputArray( std::string const & name
 		, uint32_t location )
 	{
-		registerInput( name
-			, location
-			, typeEnum< T > );
 		auto type = type::makeType( typeEnum< T >
 			, type::UnknownArraySize );
-		auto var = var::makeVariable( type
-			, name
-			, var::Flag::eShaderInput );
+		auto var = registerInput( name
+			, location
+			, type );
 		addStmt( sdw::makeInOutVariableDecl( var
 			, location ) );
 		return Array< T >{ &m_shader
@@ -344,14 +310,11 @@ namespace sdw
 		, uint32_t dimension
 		, bool enabled )
 	{
-		registerInput( name
-			, location
-			, typeEnum< T > );
 		auto type = type::makeType( typeEnum< T >
 			, dimension );
-		auto var = var::makeVariable( type
-			, name
-			, var::Flag::eShaderInput );
+		auto var = registerInput( name
+			, location
+			, type );
 
 		if ( enabled )
 		{
@@ -369,14 +332,11 @@ namespace sdw
 		, uint32_t location
 		, bool enabled )
 	{
-		registerInput( name
-			, location
-			, typeEnum< T > );
 		auto type = type::makeType( typeEnum< T >
 			, type::UnknownArraySize );
-		auto var = var::makeVariable( type
-			, name
-			, var::Flag::eShaderInput );
+		auto var = registerInput( name
+			, location
+			, type );
 
 		if ( enabled )
 		{
@@ -400,13 +360,10 @@ namespace sdw
 	inline T ShaderWriter::declOutput( std::string const & name
 		, uint32_t location )
 	{
-		registerOutput( name
-			, location
-			, typeEnum< T > );
 		auto type = type::makeType( typeEnum< T > );
-		auto var = var::makeVariable( type
-			, name
-			, var::Flag::eShaderOutput );
+		auto var = registerOutput( name
+			, location
+			, type );
 		addStmt( sdw::makeInOutVariableDecl( var
 			, location ) );
 		return T{ &m_shader
@@ -418,13 +375,10 @@ namespace sdw
 		, uint32_t location
 		, bool enabled )
 	{
-		registerOutput( name
-			, location
-			, typeEnum< T > );
 		auto type = type::makeType( typeEnum< T > );
-		auto var = var::makeVariable( type
-			, name
-			, var::Flag::eShaderOutput );
+		auto var = registerOutput( name
+			, location
+			, type );
 
 		if ( enabled )
 		{
@@ -442,14 +396,11 @@ namespace sdw
 		, uint32_t location
 		, uint32_t dimension )
 	{
-		registerOutput( name
-			, location
-			, typeEnum< T > );
 		auto type = type::makeType( typeEnum< T >
 			, dimension );
-		auto var = var::makeVariable( type
-			, name
-			, var::Flag::eShaderOutput );
+		auto var = registerOutput( name
+			, location
+			, type );
 		addStmt( sdw::makeInOutVariableDecl( var
 			, location ) );
 		return Array< T >{ &m_shader
@@ -460,14 +411,11 @@ namespace sdw
 	inline Array< T > ShaderWriter::declOutputArray( std::string const & name
 		, uint32_t location )
 	{
-		registerOutput( name
-			, location
-			, typeEnum< T > );
 		auto type = type::makeType( typeEnum< T >
 			, type::UnknownArraySize );
-		auto var = var::makeVariable( type
-			, name
-			, var::Flag::eShaderOutput );
+		auto var = registerOutput( name
+			, location
+			, type );
 		addStmt( sdw::makeInOutVariableDecl( var
 			, location ) );
 		return Array< T >{ &m_shader
@@ -480,14 +428,11 @@ namespace sdw
 		, uint32_t dimension
 		, bool enabled )
 	{
-		registerOutput( name
-			, location
-			, typeEnum< T > );
 		auto type = type::makeType( typeEnum< T >
 			, dimension );
-		auto var = var::makeVariable( type
-			, name
-			, var::Flag::eShaderOutput );
+		auto var = registerOutput( name
+			, location
+			, type );
 
 		if ( enabled )
 		{
@@ -505,14 +450,11 @@ namespace sdw
 		, uint32_t location
 		, bool enabled )
 	{
-		registerOutput( name
-			, location
-			, typeEnum< T > );
 		auto type = type::makeType( typeEnum< T >
 			, type::UnknownArraySize );
-		auto var = var::makeVariable( type
-			, name
-			, var::Flag::eShaderOutput );
+		auto var = registerOutput( name
+			, location
+			, type );
 
 		if ( enabled )
 		{
@@ -535,12 +477,9 @@ namespace sdw
 	template< typename T >
 	inline T ShaderWriter::declLocale( std::string const & name )
 	{
-		registerName( name
-			, typeEnum< T > );
 		auto type = type::makeType( typeEnum< T > );
-		auto var = var::makeVariable( type
-			, name
-			, var::Flag::eLocale );
+		auto var = registerLocale( name
+			, type );
 		addStmt( sdw::makeVariableDecl( var ) );
 		return T{ &m_shader
 			, makeExpr( var ) };
@@ -550,12 +489,9 @@ namespace sdw
 	inline T ShaderWriter::declLocale( std::string const & name
 		, T const & rhs )
 	{
-		registerName( name
-			, typeEnum< T > );
 		auto type = type::makeType( typeEnum< T > );
-		auto var = var::makeVariable( type
-			, name
-			, var::Flag::eLocale );
+		auto var = registerLocale( name
+			, type );
 		addStmt( sdw::makeSimple( sdw::makeInit( var
 			, makeExpr( rhs ) ) ) );
 		return T{ &m_shader
@@ -566,12 +502,9 @@ namespace sdw
 	inline Optional< T > ShaderWriter::declLocale( std::string const & name
 		, bool enabled )
 	{
-		registerName( name
-			, typeEnum< T > );
 		auto type = type::makeType( typeEnum< T > );
-		auto var = var::makeVariable( type
-			, name
-			, var::Flag::eLocale );
+		auto var = registerLocale( name
+			, type );
 
 		if ( enabled )
 		{
@@ -587,12 +520,9 @@ namespace sdw
 	inline Optional< T > ShaderWriter::declLocale( std::string const & name
 		, Optional< T > const & rhs )
 	{
-		registerName( name
-			, typeEnum< T > );
 		auto type = type::makeType( typeEnum< T > );
-		auto var = var::makeVariable( type
-			, name
-			, var::Flag::eLocale );
+		auto var = registerLocale( name
+			, type );
 
 		if ( rhs.isEnabled() )
 		{
@@ -610,12 +540,9 @@ namespace sdw
 		, T const & rhs
 		, bool enabled )
 	{
-		registerName( name
-			, typeEnum< T > );
 		auto type = type::makeType( typeEnum< T > );
-		auto var = var::makeVariable( type
-			, name
-			, var::Flag::eLocale );
+		auto var = registerLocale( name
+			, type );
 
 		if ( enabled )
 		{
@@ -632,13 +559,10 @@ namespace sdw
 	inline Array< T > ShaderWriter::declLocaleArray( std::string const & name
 		, uint32_t dimension )
 	{
-		registerName( name
-			, typeEnum< T > );
 		auto type = type::makeType( typeEnum< T >
 			, dimension );
-		auto var = var::makeVariable( type
-			, name
-			, var::Flag::eLocale );
+		auto var = registerLocale( name
+			, type );
 		addStmt( sdw::makeVariableDecl( var ) );
 		return Array< T >{ &m_shader
 			, makeExpr( var ) };
@@ -649,13 +573,10 @@ namespace sdw
 		, uint32_t dimension
 		, std::vector< T > const & rhs )
 	{
-		registerName( name
-			, typeEnum< T > );
 		auto type = type::makeType( typeEnum< T >
 			, dimension );
-		auto var = var::makeVariable( type
-			, name
-			, var::Flag::eLocale );
+		auto var = registerLocale( name
+			, type );
 		addStmt( sdw::makeSimple( sdw::makeAggrInit( var
 			, makeExpr( rhs ) ) ) );
 		return Array< T >{ &m_shader
@@ -667,13 +588,10 @@ namespace sdw
 		, uint32_t dimension
 		, bool enabled )
 	{
-		registerName( name
-			, typeEnum< T > );
 		auto type = type::makeType( typeEnum< T >
 			, dimension );
-		auto var = var::makeVariable( type
-			, name
-			, var::Flag::eLocale );
+		auto var = registerLocale( name
+			, type );
 
 		if ( enabled )
 		{
@@ -691,13 +609,10 @@ namespace sdw
 		, std::vector< T > const & rhs
 		, bool enabled )
 	{
-		registerName( name
-			, typeEnum< T > );
 		auto type = type::makeType( typeEnum< T >
 			, dimension );
-		auto var = var::makeVariable( type
-			, name
-			, var::Flag::eLocale );
+		auto var = registerLocale( name
+			, type );
 
 		if ( enabled )
 		{
@@ -720,12 +635,9 @@ namespace sdw
 	template< typename T >
 	inline T ShaderWriter::declBuiltin( std::string const & name )
 	{
-		registerName( name
-			, typeEnum< T > );
 		auto type = type::makeType( typeEnum< T > );
-		auto var = var::makeVariable( type
-			, name
-			, var::Flag::eBuiltin );
+		auto var = registerBuiltin( name
+			, type );
 		return T{ &m_shader
 			, makeExpr( var ) };
 	}
@@ -734,12 +646,9 @@ namespace sdw
 	inline Optional< T > ShaderWriter::declBuiltin( std::string const & name
 		, bool enabled )
 	{
-		registerName( name
-			, typeEnum< T > );
 		auto type = type::makeType( typeEnum< T > );
-		auto var = var::makeVariable( type
-			, name
-			, var::Flag::eBuiltin );
+		auto var = registerBuiltin( name
+			, type );
 		return Optional< T >{ &m_shader
 			, makeExpr( var )
 			, enabled };
@@ -749,13 +658,10 @@ namespace sdw
 	inline Array< T > ShaderWriter::declBuiltinArray( std::string const & name
 		, uint32_t dimension )
 	{
-		registerName( name
-			, typeEnum< T > );
 		auto type = type::makeType( typeEnum< T >
 			, dimension );
-		auto var = var::makeVariable( type
-			, name
-			, var::Flag::eBuiltin );
+		auto var = registerBuiltin( name
+			, type );
 		return Array< T >{ &m_shader
 			, makeExpr( var ) };
 	}
@@ -763,13 +669,10 @@ namespace sdw
 	template< typename T >
 	inline Array< T > ShaderWriter::declBuiltinArray( std::string const & name )
 	{
-		registerName( name
-			, typeEnum< T > );
 		auto type = type::makeType( typeEnum< T >
 			, type::UnknownArraySize );
-		auto var = var::makeVariable( type
-			, name
-			, var::Flag::eBuiltin );
+		auto var = registerBuiltin( name
+			, type );
 		return Array< T >{ &m_shader
 			, makeExpr( var ) };
 	}
@@ -779,13 +682,10 @@ namespace sdw
 		, uint32_t dimension
 		, bool enabled )
 	{
-		registerName( name
-			, typeEnum< T > );
 		auto type = type::makeType( typeEnum< T >
 			, dimension );
-		auto var = var::makeVariable( type
-			, name
-			, var::Flag::eBuiltin );
+		auto var = registerBuiltin( name
+			, type );
 		return Optional< Array< T > >{ &m_shader
 			, makeExpr( var )
 			, enabled };
@@ -795,13 +695,10 @@ namespace sdw
 	inline Optional< Array< T > > ShaderWriter::declBuiltinArray( std::string const & name
 		, bool enabled )
 	{
-		registerName( name
-			, typeEnum< T > );
 		auto type = type::makeType( typeEnum< T >
 			, type::UnknownArraySize );
-		auto var = var::makeVariable( type
-			, name
-			, var::Flag::eBuiltin );
+		auto var = registerBuiltin( name
+			, type );
 		return Optional< Array< T > >{ &m_shader
 			, makeExpr( var )
 			, enabled };
@@ -810,12 +707,9 @@ namespace sdw
 	template< typename T >
 	inline T ShaderWriter::getBuiltin( std::string const & name )
 	{
-		checkNameExists( name
-			, typeEnum< T > );
 		auto type = type::makeType( typeEnum< T > );
-		auto var = var::makeVariable( type
-			, name
-			, var::Flag::eBuiltin );
+		auto var = getVar( name
+			, type );
 		return T{ &m_shader
 			, makeExpr( var ) };
 	}
@@ -824,12 +718,9 @@ namespace sdw
 	inline Optional< T > ShaderWriter::getBuiltin( std::string const & name
 		, bool enabled )
 	{
-		checkNameExists( name
-			, typeEnum< T > );
 		auto type = type::makeType( typeEnum< T > );
-		auto var = var::makeVariable( type
-			, name
-			, var::Flag::eBuiltin );
+		auto var = getVar( name
+			, type );
 		return Optional< T >{ &m_shader
 			, makeExpr( var )
 			, enabled };
@@ -838,13 +729,10 @@ namespace sdw
 	template< typename T >
 	inline Array< T > ShaderWriter::getBuiltinArray( std::string const & name )
 	{
-		checkNameExists( name
-			, typeEnum< T > );
 		auto type = type::makeType( typeEnum< T >
 			, type::UnknownArraySize );
-		auto var = var::makeVariable( type
-			, name
-			, var::Flag::eBuiltin );
+		auto var = getVar( name
+			, type );
 		return Array< T >{ &m_shader
 			, makeExpr( var ) };
 	}
@@ -853,13 +741,10 @@ namespace sdw
 	inline Optional< Array< T > > ShaderWriter::getBuiltinArray( std::string const & name
 		, bool enabled )
 	{
-		checkNameExists( name
-			, typeEnum< T > );
 		auto type = type::makeType( typeEnum< T >
 			, type::UnknownArraySize );
-		auto var = var::makeVariable( type
-			, name
-			, var::Flag::eBuiltin );
+		auto var = getVar( name
+			, type );
 		return Optional< Array< T > >{ &m_shader
 			, makeExpr( var )
 			, enabled };
@@ -869,13 +754,10 @@ namespace sdw
 	inline Array< T > ShaderWriter::getBuiltinArray( std::string const & name
 		, uint32_t dimension )
 	{
-		checkNameExists( name
-			, typeEnum< T > );
 		auto type = type::makeType( typeEnum< T >
 			, dimension );
-		auto var = var::makeVariable( type
-			, name
-			, var::Flag::eBuiltin );
+		auto var = getVar( name
+			, type );
 		return Array< T >{ &m_shader
 			, makeExpr( var ) };
 	}
@@ -885,13 +767,10 @@ namespace sdw
 		, uint32_t dimension
 		, bool enabled )
 	{
-		checkNameExists( name
-			, typeEnum< T > );
 		auto type = type::makeType( typeEnum< T >
 			, dimension );
-		auto var = var::makeVariable( type
-			, name
-			, var::Flag::eBuiltin );
+		auto var = getVar( name
+			, type );
 		return Optional< Array< T > >{ &m_shader
 			, makeExpr( var )
 			, enabled };

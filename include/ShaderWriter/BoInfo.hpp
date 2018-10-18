@@ -18,12 +18,12 @@ namespace sdw
 		{
 		}
 
-		inline void registerMember( std::string const & name, type::Kind type )
+		inline void registerMember( std::string const & name, type::TypePtr type )
 		{
 			m_members.emplace( name, type );
 		}
 		
-		inline type::Kind getMember( std::string const & name )const
+		inline type::TypePtr getMember( std::string const & name )const
 		{
 			return m_members.at( name );
 		}
@@ -41,7 +41,7 @@ namespace sdw
 	private:
 		uint32_t m_bind;
 		uint32_t m_set;
-		std::map< std::string, type::Kind > m_members;
+		std::map< std::string, type::TypePtr > m_members;
 	};
 }
 

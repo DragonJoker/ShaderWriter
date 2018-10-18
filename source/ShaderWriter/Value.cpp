@@ -79,21 +79,5 @@ namespace sdw
 		return makeExpr( variable.getExpr() );
 	}
 
-	var::VariablePtr makeVar( Value const & variable
-		, var::Flag flag )
-	{
-		return var::makeVariable( variable.getType()
-			, findName( variable.getExpr() )
-			, flag );
-	}
-
-	var::VariablePtr makeVar( Value const & variable
-		, uint32_t flags )
-	{
-		return var::makeVariable( variable.getType()
-			, findName( variable.getExpr() )
-			, flags );
-	}
-
 	//*****************************************************************************************
 }

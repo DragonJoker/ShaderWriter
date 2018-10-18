@@ -785,7 +785,7 @@ namespace sdw
 
 			void visitContainerStmt( stmt::Container * stmt )
 			{
-				for ( auto & stmt : stmt->getStatements() )
+				for ( auto & stmt : *stmt )
 				{
 					stmt->accept( this );
 				}
@@ -825,7 +825,7 @@ namespace sdw
 			{
 				doAppendLineEnd();
 
-				if ( stmt->getStatements().empty() )
+				if ( stmt->empty() )
 				{
 					m_result += ";\n";
 				}
@@ -1134,7 +1134,7 @@ namespace sdw
 
 				m_appendSemiColon = false;
 
-				if ( !stmt->getStatements().empty() )
+				if ( !stmt->empty() )
 				{
 					visitCompoundStmt( stmt );
 				}

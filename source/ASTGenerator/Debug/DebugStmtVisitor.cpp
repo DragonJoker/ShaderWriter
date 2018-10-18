@@ -179,7 +179,7 @@ namespace ast::debug
 
 	void StmtVisitor::visitContainerStmt( stmt::Container * stmt )
 	{
-		for ( auto & stmt : stmt->getStatements() )
+		for ( auto & stmt : *stmt )
 		{
 			stmt->accept( this );
 		}
@@ -495,7 +495,7 @@ namespace ast::debug
 			m_result += "DEFAULT\n";
 		}
 
-		if ( !stmt->getStatements().empty() )
+		if ( !stmt->empty() )
 		{
 			m_compoundName = false;
 			visitCompoundStmt( stmt );

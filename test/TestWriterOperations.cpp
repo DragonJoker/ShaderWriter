@@ -8,7 +8,7 @@ namespace
 		, RET & ret
 		, RHS const & rhs )
 	{
-		auto & statements = shader.getStatements()->getStatements();
+		auto & statements = *shader.getStatements();
 		sdw::expr::Expr * expr;
 		ret += rhs;
 		if ( sdw::isOptionalEnabled( ret ) )
@@ -46,7 +46,7 @@ namespace
 		, RHS const & rhs )
 	{
 		testBaseAssignOperators( shader, ret, rhs );
-		auto & statements = shader.getStatements()->getStatements();
+		auto & statements = *shader.getStatements();
 		sdw::expr::Expr * expr;
 		ret %= rhs;
 		if ( sdw::isOptionalEnabled( ret ) )
@@ -91,7 +91,7 @@ namespace
 		, LHS const & lhs
 		, RHS const & rhs )
 	{
-		auto & statements = shader.getStatements()->getStatements();
+		auto & statements = *shader.getStatements();
 		sdw::expr::Expr * expr;
 		ret = lhs == rhs;
 		if ( sdw::isOptionalEnabled( ret ) )
@@ -149,7 +149,7 @@ namespace
 		, LHS const & lhs
 		, RHS const & rhs )
 	{
-		auto & statements = shader.getStatements()->getStatements();
+		auto & statements = *shader.getStatements();
 		sdw::expr::Expr * expr;
 		ret = lhs + rhs;
 		if ( sdw::isOptionalEnabled( ret ) )
@@ -196,7 +196,7 @@ namespace
 		, RHS const & rhs )
 	{
 		testBaseOperators( shader, ret, lhs, rhs );
-		auto & statements = shader.getStatements()->getStatements();
+		auto & statements = *shader.getStatements();
 		sdw::expr::Expr * expr;
 		ret = lhs % rhs;
 		if ( sdw::isOptionalEnabled( ret ) )
@@ -259,7 +259,7 @@ namespace
 		, RET & ret
 		, RHS const & rhs )
 	{
-		auto & statements = shader.getStatements()->getStatements();
+		auto & statements = *shader.getStatements();
 		sdw::expr::Expr * expr;
 		ret += rhs;
 		if ( sdw::isOptionalEnabled( ret ) )
@@ -325,7 +325,7 @@ namespace
 		, LHS const & lhs
 		, RHS const & rhs )
 	{
-		auto & statements = shader.getStatements()->getStatements();
+		auto & statements = *shader.getStatements();
 		sdw::expr::Expr * expr;
 		ret = lhs + rhs;
 		if ( sdw::isOptionalEnabled( ret ) )
@@ -407,7 +407,7 @@ namespace
 		{
 			testBegin( "testBool" );
 			sdw::ShaderWriter writer{ false };
-			auto & statements = writer.getShader().getStatements()->getStatements();
+			auto & statements = *writer.getShader().getStatements();
 			auto a = writer.declLocale< sdw::Boolean >( "a" );
 			auto b = writer.declLocale< sdw::Boolean >( "b" );
 			auto c = writer.declLocale< sdw::Boolean >( "c" );
@@ -441,7 +441,7 @@ namespace
 		{
 			testBegin( "testBoolOptEnabled" );
 			sdw::ShaderWriter writer{ false };
-			auto & statements = writer.getShader().getStatements()->getStatements();
+			auto & statements = *writer.getShader().getStatements();
 			auto a = writer.declLocale< sdw::Boolean >( "a", true );
 			auto b = writer.declLocale< sdw::Boolean >( "b", true );
 			auto c = writer.declLocale< sdw::Boolean >( "c", true );

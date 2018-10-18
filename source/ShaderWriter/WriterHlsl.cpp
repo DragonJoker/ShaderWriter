@@ -123,52 +123,52 @@ namespace sdw
 				result = "buffer";
 				break;
 			case type::Kind::eSamplerBuffer:
-				result = "tbuffer";
+				result = "Buffer<float4>";
 				break;
 			case type::Kind::eSampler1D:
-				result = "sampler1D";
+				result = "Texture1D<float4>";
 				break;
 			case type::Kind::eSampler2D:
-				result = "sampler2D";
+				result = "Texture2D<float4>";
 				break;
 			case type::Kind::eSampler3D:
-				result = "sampler3D";
+				result = "Texture3D<float4>";
 				break;
 			case type::Kind::eSamplerCube:
-				result = "samplerCube";
+				result = "TextureCube<float4>";
 				break;
 			case type::Kind::eSampler2DRect:
-				result = "sampler2DRect";
+				result = "Texture2D<float4>";
 				break;
 			case type::Kind::eSampler1DArray:
-				result = "sampler1DArray";
+				result = "Texture1DArray<float4>";
 				break;
 			case type::Kind::eSampler2DArray:
-				result = "sampler2DArray";
+				result = "Texture2DArray<float4>";
 				break;
 			case type::Kind::eSamplerCubeArray:
-				result = "samplerCubeArray";
+				result = "TextureCubeArray<float4>";
 				break;
 			case type::Kind::eSampler1DShadow:
-				result = "sampler1DShadow";
+				result = "Texture1D<float4>";
 				break;
 			case type::Kind::eSampler2DShadow:
-				result = "sampler2DShadow";
+				result = "Texture2D<float4>";
 				break;
 			case type::Kind::eSamplerCubeShadow:
-				result = "samplerCubeShadow";
+				result = "TextureCube<float4>";
 				break;
 			case type::Kind::eSampler2DRectShadow:
-				result = "sampler2DRectArrayShadow";
+				result = "Texture2DArray<float4>";
 				break;
 			case type::Kind::eSampler1DArrayShadow:
-				result = "sampler1DArrayShadow";
+				result = "Texture1DArray<float4>";
 				break;
 			case type::Kind::eSampler2DArrayShadow:
-				result = "sampler2DArrayShadow";
+				result = "Texture2DArray<float4>";
 				break;
 			case type::Kind::eSamplerCubeArrayShadow:
-				result = "samplerCubeArrayShadow";
+				result = "TextureCubeArray<float4>";
 				break;
 			}
 
@@ -182,7 +182,7 @@ namespace sdw
 			switch ( type->getKind() )
 			{
 			case type::Kind::eStruct:
-				static_cast< type::Struct const & >( *type ).getName();
+				result = static_cast< type::Struct const & >( *type ).getName();
 				break;
 			default:
 				result = getTypeName( type->getKind() );
@@ -231,29 +231,6 @@ namespace sdw
 			else if ( var.isShaderConstant() )
 			{
 				result = "const";
-			}
-
-			return result;
-		}
-
-		std::string getStatusName( stmt::PreprocExtension::Status status )
-		{
-			std::string result;
-
-			switch ( status )
-			{
-			case stmt::PreprocExtension::Status::eDisabled:
-				result = "disable";
-				break;
-
-			case stmt::PreprocExtension::Status::eEnabled:
-				result = "enable";
-				break;
-
-			case stmt::PreprocExtension::Status::eRequired:
-				result = "required";
-				break;
-
 			}
 
 			return result;
@@ -308,7 +285,7 @@ namespace sdw
 				result = "||";
 				break;
 			case expr::Kind::eCast:
-				result = "cast";
+				result = "";
 				break;
 			case expr::Kind::eEqual:
 				result = "==";
@@ -402,34 +379,24 @@ namespace sdw
 			switch ( layout )
 			{
 			case ast::stmt::InputLayout::ePointList:
-				result = "points";
+				result = "point";
 				break;
 			case ast::stmt::InputLayout::eLineList:
-				result = "lines";
-				break;
 			case ast::stmt::InputLayout::eLineStrip:
-				result = "lines";
+				result = "line";
 				break;
 			case ast::stmt::InputLayout::eTriangleList:
-				result = "triangles";
-				break;
 			case ast::stmt::InputLayout::eTriangleStrip:
-				result = "triangles";
-				break;
 			case ast::stmt::InputLayout::eTriangleFan:
-				result = "triangles";
+				result = "triangle";
 				break;
 			case ast::stmt::InputLayout::eLineListWithAdjacency:
-				result = "lines_adjacency";
-				break;
 			case ast::stmt::InputLayout::eLineStripWithAdjacency:
-				result = "lines_adjacency";
+				result = "lineadj";
 				break;
 			case ast::stmt::InputLayout::eTriangleListWithAdjacency:
-				result = "triangles_adjacency";
-				break;
 			case ast::stmt::InputLayout::eTriangleStripWithAdjacency:
-				result = "triangles_adjacency";
+				result = "triangleadj";
 				break;
 			default:
 				throw std::runtime_error{ "Unsupported input layout." };
@@ -445,13 +412,13 @@ namespace sdw
 			switch ( layout )
 			{
 			case ast::stmt::OutputLayout::ePointList:
-				result = "points";
+				result = "PointStream";
 				break;
 			case ast::stmt::OutputLayout::eLineStrip:
-				result = "line_strip";
+				result = "LineStream";
 				break;
 			case ast::stmt::OutputLayout::eTriangleStrip:
-				result = "triangle_strip";
+				result = "TriangleStream";
 				break;
 			default:
 				throw std::runtime_error{ "Unsupported output layout." };
@@ -615,7 +582,7 @@ namespace sdw
 					}
 				}
 
-				m_result += " = " + getTypeName( expr->getType() ) + "[](";
+				m_result += " = {";
 				std::string sep;
 
 				for ( auto & init : expr->getInitialisers() )
@@ -624,7 +591,7 @@ namespace sdw
 					sep = ", ";
 				}
 
-				m_result += ")";
+				m_result += "}";
 			}
 
 			void visitArrayAccessExpr( expr::ArrayAccess * expr )override
@@ -651,18 +618,50 @@ namespace sdw
 
 			void visitFnCallExpr( expr::FnCall * expr )override
 			{
-				expr->getFn()->accept( this );
-				m_result += "(";
-				std::string sep;
+				auto name = expr->getFn()->getVariable()->getName();
 
-				for ( auto & arg : expr->getArgList() )
+				if ( name.find( "texture" ) != std::string::npos )
 				{
-					m_result += sep;
-					arg->accept( this );
-					sep = ", ";
-				}
+					static std::map< std::string, std::vector< std::string > > const replacements
+					{
+						{ "texture", { "Sample", "SampleCmp", "SampleLevel" } },
+						{ "textureOffset", { "Sample", "SampleCmp" } },
+						{ "textureLodOffset", { "SampleLevel" } },
+						{ "textureGather", { "Gather", "GatherCmp", "GatherRed", "GatherGreen", "GatherBlue", "GatherAlpha", "GatherCmpRed", "GatherCmpGreen", "GatherCmpBlue", "GatherCmpAlpha" } },
+						{ "texelFetch", { "Load", "mips" } },
+						{ "textureSize", { "GetDimensions" } },
+					};
 
-				m_result += ")";
+					if ( name == "textureSize" )
+					{
+					}
+					else if ( name == "texture" )
+					{
+						if ( expr->getArgList().size() == 2u )
+						{
+
+						}
+						else
+						{
+							assert( expr->getArgList().size() == 3u );
+						}
+					}
+				}
+				else
+				{
+					expr->getFn()->accept( this );
+					m_result += "(";
+					std::string sep;
+
+					for ( auto & arg : expr->getArgList() )
+					{
+						m_result += sep;
+						arg->accept( this );
+						sep = ", ";
+					}
+
+					m_result += ")";
+				}
 			}
 
 			void visitIdentifierExpr( expr::Identifier * expr )override
@@ -785,7 +784,7 @@ namespace sdw
 
 			void visitContainerStmt( stmt::Container * stmt )
 			{
-				for ( auto & stmt : stmt->getStatements() )
+				for ( auto & stmt : *stmt )
 				{
 					stmt->accept( this );
 				}
@@ -795,9 +794,7 @@ namespace sdw
 			{
 				m_appendLineEnd = true;
 				doAppendLineEnd();
-				m_result += m_indent;
-				m_result += "layout(binding=" + std::to_string( stmt->getBindingPoint() ) + ", set=" + std::to_string( stmt->getBindingSet() ) + ") ";
-				m_result += "uniform " + stmt->getName();
+				m_result += m_indent + "cbuffer " + stmt->getName() + ": register(b" + std::to_string( stmt->getBindingPoint() ) + ")";
 				m_appendSemiColon = true;
 				visitCompoundStmt( stmt );
 				m_appendLineEnd = true;
@@ -825,7 +822,7 @@ namespace sdw
 			{
 				doAppendLineEnd();
 
-				if ( stmt->getStatements().empty() )
+				if ( stmt->empty() )
 				{
 					m_result += ";\n";
 				}
@@ -1041,8 +1038,17 @@ namespace sdw
 			{
 				doAppendLineEnd();
 				m_result += m_indent;
-				m_result += "layout(binding=" + std::to_string( stmt->getBindingPoint() ) + ", set=" + std::to_string( stmt->getBindingSet() ) + ") ";
-				m_result += getTypeName( stmt->getVariable().getType() ) + " " + stmt->getVariable().getName();
+				m_result += getTypeName( stmt->getVariable().getType() ) + " ";
+
+				if ( stmt->getVariable().getType()->getKind() == type::Kind::eSamplerBuffer )
+				{
+					m_result += stmt->getVariable().getName() + ": register(b" + std::to_string( stmt->getBindingPoint() ) + ")";
+				}
+				else
+				{
+					m_result += stmt->getVariable().getName() + "_texture: register(t" + std::to_string( stmt->getBindingPoint() ) + ")";
+				}
+
 				auto arraySize = stmt->getVariable().getType()->getArraySize();
 
 				if ( arraySize != ast::type::NotArray )
@@ -1058,18 +1064,21 @@ namespace sdw
 				}
 
 				m_result += ";\n";
+
+				if ( stmt->getVariable().getType()->getKind() != type::Kind::eSamplerBuffer )
+				{
+					m_result += m_indent + "SamplerState " + stmt->getVariable().getName() + "_sampler: register(s" + std::to_string( stmt->getBindingPoint() ) + ");\n";
+				}
 			}
 
 			void visitShaderBufferDeclStmt( stmt::ShaderBufferDecl * stmt )
 			{
 				m_appendLineEnd = true;
 				doAppendLineEnd();
-				m_result += m_indent;
-				m_result += "layout(binding=" + std::to_string( stmt->getBindingPoint() ) + ", set=" + std::to_string( stmt->getBindingSet() ) + ") ";
-				m_result += "buffer " + stmt->getName();
+				m_result += m_indent + "struct " + stmt->getName() + "Struct";
 				m_appendSemiColon = true;
 				visitCompoundStmt( stmt );
-				m_appendLineEnd = true;
+				m_result += m_indent + "StructuredBuffer<" + stmt->getName() + "Struct> " + stmt->getName() + ": register(u" + std::to_string( stmt->getBindingPoint() ) + ");\n";
 			}
 
 			void visitSimpleStmt( stmt::Simple * stmt )
@@ -1134,7 +1143,7 @@ namespace sdw
 
 				m_appendSemiColon = false;
 
-				if ( !stmt->getStatements().empty() )
+				if ( !stmt->empty() )
 				{
 					visitCompoundStmt( stmt );
 				}
@@ -1214,8 +1223,6 @@ namespace sdw
 
 			void visitPreprocExtension( stmt::PreprocExtension * preproc )
 			{
-				doAppendLineEnd();
-				m_result += "#extension " + preproc->getName() + ": " + getStatusName( preproc->getStatus() ) + "\n";
 			}
 
 			void visitPreprocIf( stmt::PreprocIf * preproc )
@@ -1233,16 +1240,379 @@ namespace sdw
 			void visitPreprocVersion( stmt::PreprocVersion * preproc )
 			{
 			}
+
 		private:
 			std::string m_indent;
 			bool m_appendSemiColon{ false };
 			bool m_appendLineEnd{ false };
 			std::string & m_result;
 		};
+
+		class StmtAdapter
+			: public stmt::Visitor
+		{
+		public:
+			static stmt::ContainerPtr submit( stmt::Container * stmts )
+			{
+				auto result = stmt::makeContainer();
+				StmtAdapter vis{ result.get() };
+				stmts->accept( &vis );
+				return result;
+			}
+
+		private:
+			StmtAdapter( stmt::Container * result )
+				: m_result{ result }
+			{
+				m_inputStruct = type::makeStructType( "HLSL_SDW_Input" );
+				m_outputStruct = type::makeStructType( "HLSL_SDW_Output" );
+				m_result->addStmt( stmt::makeStructureDecl( m_inputStruct ) );
+				m_result->addStmt( stmt::makeStructureDecl( m_outputStruct ) );
+			}
+
+			void visitContainerStmt( stmt::Container * stmt )
+			{
+				for ( auto & stmt : *stmt )
+				{
+					stmt->accept( this );
+				}
+			}
+
+			void visitConstantBufferDeclStmt( stmt::ConstantBufferDecl * stmt )
+			{
+				auto save = m_result;
+				auto cont = stmt::makeConstantBufferDecl( stmt->getName()
+					, stmt->getBindingPoint()
+					, stmt->getBindingSet() );
+				m_result = cont.get();
+				visitContainerStmt( stmt );
+				m_result = save;
+				m_result->addStmt( std::move( cont ) );
+			}
+
+			void visitDiscardStmt( stmt::Discard * stmt )
+			{
+				m_result->addStmt( stmt::makeDiscard() );
+			}
+
+			void visitPushConstantsBufferDeclStmt( stmt::PushConstantsBufferDecl * stmt )
+			{
+				auto save = m_result;
+				auto cont = stmt::makePushConstantsBufferDecl( stmt->getName() );
+				m_result = cont.get();
+				visitContainerStmt( stmt );
+				m_result = save;
+				m_result->addStmt( std::move( cont ) );
+			}
+
+			void visitCompoundStmt( stmt::Compound * stmt )
+			{
+				auto save = m_result;
+				auto cont = stmt::makeContainer();
+				m_result = cont.get();
+				visitContainerStmt( stmt );
+				m_result = save;
+				m_result->addStmt( std::move( cont ) );
+			}
+
+			void visitDoWhileStmt( stmt::DoWhile * stmt )
+			{
+				auto save = m_result;
+				auto cont = stmt::makeDoWhile( makeExpr( stmt->getCtrlExpr() ) );
+				m_result = cont.get();
+				visitContainerStmt( stmt );
+				m_result = save;
+				m_result->addStmt( std::move( cont ) );
+			}
+
+			void visitElseIfStmt( stmt::ElseIf * stmt )
+			{
+				auto save = m_result;
+				auto cont = stmt::makeElseIf( makeExpr( stmt->getCtrlExpr() ) );
+				m_result = cont.get();
+				visitContainerStmt( stmt );
+				m_result = save;
+				m_result->addStmt( std::move( cont ) );
+			}
+
+			void visitElseStmt( stmt::Else * stmt )
+			{
+				auto save = m_result;
+				auto cont = stmt::makeElse();
+				m_result = cont.get();
+				visitContainerStmt( stmt );
+				m_result = save;
+				m_result->addStmt( std::move( cont ) );
+			}
+
+			void visitEmitPrimitiveStmt( stmt::EmitPrimitive * stmt )
+			{
+				m_result->addStmt( stmt::makeEmitPrimitive() );
+			}
+
+			void visitEmitVertexStmt( stmt::EmitVertex * stmt )
+			{
+				m_result->addStmt( stmt::makeEmitVertex() );
+			}
+
+			void visitForStmt( stmt::For * stmt )
+			{
+				auto save = m_result;
+				auto cont = stmt::makeFor( makeExpr( stmt->getInitExpr() )
+					, makeExpr( stmt->getCtrlExpr() ) 
+					, makeExpr( stmt->getIncrExpr() ) );
+				m_result = cont.get();
+				visitContainerStmt( stmt );
+				m_result = save;
+				m_result->addStmt( std::move( cont ) );
+			}
+
+			void visitFunctionDeclStmt( stmt::FunctionDecl * stmt )
+			{
+				auto save = m_result;
+				stmt::FunctionDeclPtr cont;
+
+				if ( stmt->getName() == "main" )
+				{
+					uint32_t index = 0u;
+
+					for ( auto & input : m_inputVars )
+					{
+						m_inputStruct->addMember( input.second->getType(), input.second->getName() + ": TEXCOORD" + std::to_string( index++ ) );
+					}
+
+					index = 0u;
+
+					for ( auto & output : m_outputVars )
+					{
+						m_outputStruct->addMember( output.second->getType(), output.second->getName() + ": TEXCOORD" + std::to_string( index++ ) );
+					}
+
+					assert( stmt->getParameters().empty() );
+					assert( stmt->getRet()->getKind() == type::Kind::eVoid );
+					var::VariableList parameters;
+					parameters.emplace_back( var::makeVariable( m_inputStruct, "input", var::Flag::eInputParam ) );
+					cont = stmt::makeFunctionDecl( m_outputStruct
+						, stmt->getName()
+						, parameters );
+				}
+				else
+				{
+					cont = stmt::makeFunctionDecl( stmt->getRet()
+						, stmt->getName()
+						, stmt->getParameters() );
+				}
+
+				m_result = cont.get();
+				visitContainerStmt( stmt );
+				m_result = save;
+				m_result->addStmt( std::move( cont ) );
+			}
+
+			void visitIfStmt( stmt::If * stmt )
+			{
+				auto save = m_result;
+				auto cont = stmt::makeElseIf( makeExpr( stmt->getCtrlExpr() ) );
+				m_result = cont.get();
+				visitContainerStmt( stmt );
+				m_result = save;
+				m_result->addStmt( std::move( cont ) );
+
+				for ( auto & elseIf : stmt->getElseIfList() )
+				{
+					elseIf->accept( this );
+				}
+
+				if ( stmt->getElse() )
+				{
+					stmt->getElse()->accept( this );
+				}
+			}
+
+			void visitInOutVariableDeclStmt( stmt::InOutVariableDecl * stmt )
+			{
+				auto & var = stmt->getVariable();
+
+				if ( var.isShaderInput() )
+				{
+					m_inputVars.emplace( stmt->getLocation(), var::makeVariable( var.getType(), var.getName() ) );
+				}
+				else if ( var.isShaderOutput() )
+				{
+					m_outputVars.emplace( stmt->getLocation(), var::makeVariable( var.getType(), var.getName() ) );
+				}
+			}
+
+			void visitInputComputeLayoutStmt( stmt::InputComputeLayout * stmt )
+			{
+				m_inputComputeLayout = stmt;
+			}
+
+			void visitInputGeometryLayoutStmt( stmt::InputGeometryLayout * stmt )
+			{
+				m_inputGeometryLayout = stmt;
+			}
+
+			void visitOutputGeometryLayoutStmt( stmt::OutputGeometryLayout * stmt )
+			{
+				m_outputGeometryLayout = stmt;
+			}
+
+			void visitPerVertexDeclStmt( stmt::PerVertexDecl * stmt )
+			{
+				switch ( stmt->getSource() )
+				{
+				case stmt::PerVertexDecl::Source::eVertexOutput:
+					m_outputVars.emplace( 128u, var::makeVariable( type::getVec4F(), "gl_Position" ) );
+					break;
+				case stmt::PerVertexDecl::Source::eTessellationControlInput:
+				case stmt::PerVertexDecl::Source::eTessellationEvaluationInput:
+					m_inputVars.emplace( 128u, var::makeVariable( type::makeType( type::Kind::eVec4F, type::UnknownArraySize ), "gl_Position" ) );
+					break;
+				case stmt::PerVertexDecl::Source::eTessellationControlOutput:
+					m_outputVars.emplace( 128u, var::makeVariable( type::makeType( type::Kind::eVec4F, type::UnknownArraySize ), "gl_Position" ) );
+					break;
+				case stmt::PerVertexDecl::Source::eTessellationEvaluationOutput:
+					m_outputVars.emplace( 128u, var::makeVariable( type::makeType( type::Kind::eVec4F ), "gl_Position" ) );
+					break;
+				case stmt::PerVertexDecl::Source::eGeometryInput:
+					m_inputVars.emplace( 128u, var::makeVariable( type::makeType( type::Kind::eVec4F, type::UnknownArraySize ), "gl_Position" ) );
+					break;
+				case stmt::PerVertexDecl::Source::eGeometryOutput:
+					m_outputVars.emplace( 128u, var::makeVariable( type::makeType( type::Kind::eVec4F ), "gl_Position" ) );
+					break;
+				}
+			}
+
+			void visitReturnStmt( stmt::Return * stmt )
+			{
+				if ( stmt->getExpr() )
+				{
+					m_result->addStmt( stmt::makeReturn( makeExpr( stmt->getExpr() ) ) );
+				}
+				else
+				{
+					m_result->addStmt( stmt::makeReturn() );
+				}
+			}
+
+			void visitSamplerDeclStmt( stmt::SamplerDecl * stmt )
+			{
+				m_result->addStmt( stmt::makeSamplerDecl( var::makeVariable( stmt->getVariable().getType(), stmt->getVariable().getName() )
+					, stmt->getBindingPoint()
+					, stmt->getBindingSet() ) );
+			}
+
+			void visitShaderBufferDeclStmt( stmt::ShaderBufferDecl * stmt )
+			{
+				auto save = m_result;
+				auto cont = stmt::makeShaderBufferDecl( stmt->getName()
+					, stmt->getBindingPoint()
+					, stmt->getBindingSet() );
+				m_result = cont.get();
+				visitContainerStmt( stmt );
+				m_result = save;
+				m_result->addStmt( std::move( cont ) );
+			}
+
+			void visitSimpleStmt( stmt::Simple * stmt )
+			{
+				m_result->addStmt( stmt::makeSimple( makeExpr( stmt->getExpr() ) ) );
+			}
+
+			void visitStructureDeclStmt( stmt::StructureDecl * stmt )
+			{
+				m_result->addStmt( stmt::makeStructureDecl( std::make_shared< type::Struct >( stmt->getType() ) ) );
+			}
+
+			void visitSwitchCaseStmt( stmt::SwitchCase * stmt )
+			{
+				auto save = m_result;
+				auto cont = stmt::makeSwitchCase( expr::makeSwitchCase( std::make_unique< expr::Literal >( *stmt->getCaseExpr()->getLabel() ) ) );
+				m_result = cont.get();
+				visitContainerStmt( stmt );
+				m_result = save;
+				m_result->addStmt( std::move( cont ) );
+			}
+
+			void visitSwitchStmt( stmt::Switch * stmt )
+			{
+				auto save = m_result;
+				auto cont = stmt::makeSwitch( expr::makeSwitchTest( makeExpr( stmt->getTestExpr()->getValue() ) ) );
+				m_result = cont.get();
+				visitContainerStmt( stmt );
+				m_result = save;
+				m_result->addStmt( std::move( cont ) );
+			}
+
+			void visitVariableDeclStmt( stmt::VariableDecl * stmt )
+			{
+				m_result->addStmt( stmt::makeVariableDecl( var::makeVariable( stmt->getVariable().getType(), stmt->getVariable().getName() ) ) );
+			}
+
+			void visitWhileStmt( stmt::While * stmt )
+			{
+				auto save = m_result;
+				auto cont = stmt::makeWhile( makeExpr( stmt->getCtrlExpr() ) );
+				m_result = cont.get();
+				visitContainerStmt( stmt );
+				m_result = save;
+				m_result->addStmt( std::move( cont ) );
+			}
+
+			void visitPreprocDefine( stmt::PreprocDefine * preproc )
+			{
+				m_result->addStmt( stmt::makePreprocDefine( preproc->getName(), makeExpr( preproc->getExpr() ) ) );
+			}
+
+			void visitPreprocElif( stmt::PreprocElif * preproc )
+			{
+				m_result->addStmt( stmt::makePreprocElif( makeExpr( preproc->getCtrlExpr() ) ) );
+			}
+
+			void visitPreprocElse( stmt::PreprocElse * preproc )
+			{
+				m_result->addStmt( stmt::makePreprocElse() );
+			}
+
+			void visitPreprocEndif( stmt::PreprocEndif * preproc )
+			{
+				m_result->addStmt( stmt::makePreprocEndif() );
+			}
+
+			void visitPreprocExtension( stmt::PreprocExtension * preproc )
+			{
+			}
+
+			void visitPreprocIf( stmt::PreprocIf * preproc )
+			{
+				m_result->addStmt( stmt::makePreprocIf( makeExpr( preproc->getCtrlExpr() ) ) );
+			}
+
+			void visitPreprocIfDef( stmt::PreprocIfDef * preproc )
+			{
+				m_result->addStmt( stmt::makePreprocIfDef( makeIdent( preproc->getIdentExpr()->getVariable() ) ) );
+			}
+
+			void visitPreprocVersion( stmt::PreprocVersion * preproc )
+			{
+			}
+
+		private:
+			stmt::Container * m_result;
+			std::map< uint32_t, var::VariablePtr > m_inputVars;
+			std::map< uint32_t, var::VariablePtr > m_outputVars;
+			stmt::InputComputeLayout * m_inputComputeLayout{ nullptr };
+			stmt::InputGeometryLayout * m_inputGeometryLayout{ nullptr };
+			stmt::OutputGeometryLayout * m_outputGeometryLayout{ nullptr };
+			type::StructPtr m_inputStruct;
+			type::StructPtr m_outputStruct;
+		};
 	}
 
 	std::string writeHlsl( Shader & shader )
 	{
-		return hlsl::StmtVisitor::submit( shader.getStatements() );
+		auto dxStatements = hlsl::StmtAdapter::submit( shader.getStatements() );
+		return hlsl::StmtVisitor::submit( dxStatements.get() );
 	}
 }

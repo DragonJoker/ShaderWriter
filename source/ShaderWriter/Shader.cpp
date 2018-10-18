@@ -12,33 +12,151 @@ namespace sdw
 
 	void Shader::push( stmt::Container * container )
 	{
-		m_blocks.push( { {}, container } );
+		m_blocks.push_back( { {}, container } );
 	}
 
 	void Shader::pop()
 	{
-		m_blocks.pop();
+		m_blocks.erase( m_blocks.begin() + m_blocks.size() - 1u );
 	}
 
-	void Shader::registerName( std::string const & name, type::Kind type )
+	var::VariablePtr Shader::registerName( std::string const & name
+		, type::TypePtr type
+		, uint32_t flags )
 	{
-		auto & block = m_blocks.top();
+		auto & block = m_blocks.back();
 		auto it = block.registered.find( name );
-		block.registered.emplace( name, type );
+		assert( it == block.registered.end() );
+		it = block.registered.emplace( name, var::makeVariable( type, name, flags ) ).first;
+		return it->second;
 	}
 
-	void Shader::checkNameExists( std::string const & name
-		, type::Kind type )
+	var::VariablePtr Shader::registerName( std::string const & name
+		, type::TypePtr type
+		, var::Flag flag )
 	{
-		auto & block = m_blocks.top();
+		return registerName( name
+			, type
+			, uint32_t( flag ) );
+	}
+
+	var::VariablePtr Shader::registerName( std::string const & name
+		, type::TypePtr type )
+	{
+		return registerName( name
+			, type
+			, 0u );
+	}
+
+	var::VariablePtr Shader::registerConstant( std::string const & name
+		, type::TypePtr type )
+	{
+		auto result = registerName( name
+			, type
+			, var::Flag::eShaderConstant );
+		m_constants.emplace( name, type );
+		return result;
+	}
+
+	var::VariablePtr Shader::registerSampler( std::string const & name
+		, type::TypePtr type
+		, uint32_t binding
+		, uint32_t set
+		, bool enabled )
+	{
+		auto result = registerName( name
+			, type
+			, var::Flag::eSampler );
+
+		if ( enabled )
+		{
+			m_samplers.emplace( name, SamplerInfo{ type, binding, set } );
+		}
+
+		return result;
+	}
+
+	var::VariablePtr Shader::registerInput( std::string const & name
+		, uint32_t location
+		, type::TypePtr type )
+	{
+		auto result = registerName( name
+			, type
+			, var::Flag::eShaderInput );
+		m_inputs.emplace( name, InputInfo{ type, location } );
+		return result;
+	}
+
+	var::VariablePtr Shader::registerOutput( std::string const & name
+		, uint32_t location
+		, type::TypePtr type )
+	{
+		auto result = registerName( name
+			, type
+			, var::Flag::eShaderOutput );
+		m_outputs.emplace( name, OutputInfo{ type, location } );
+		return result;
+	}
+
+	var::VariablePtr Shader::registerBuiltin( std::string const & name
+		, type::TypePtr type )
+	{
+		return registerName( name
+			, type
+			, var::Flag::eBuiltin );
+	}
+
+	var::VariablePtr Shader::registerLocale( std::string const & name
+		, type::TypePtr type )
+	{
+		return registerName( name
+			, type
+			, var::Flag::eLocale );
+	}
+
+	var::VariablePtr Shader::registerInParam( std::string const & name
+		, type::TypePtr type )
+	{
+		return registerName( name
+			, type
+			, var::Flag::eInputParam );
+	}
+
+	var::VariablePtr Shader::registerOutParam( std::string const & name
+		, type::TypePtr type )
+	{
+		return registerName( name
+			, type
+			, var::Flag::eOutputParam );
+	}
+
+	var::VariablePtr Shader::registerInOutParam( std::string const & name
+		, type::TypePtr type )
+	{
+		return registerName( name
+			, type
+			, uint32_t( var::Flag::eInputParam ) | uint32_t( var::Flag::eOutputParam ) );
+	}
+
+	var::VariablePtr Shader::getVar( std::string const & name
+		, type::TypePtr type )
+	{
+		auto & block = m_blocks.back();
 		auto it = block.registered.find( name );
 
 		if ( it == block.registered.end() )
 		{
-			std::string text;
-			text += "No registered variable with the name [" + name + "].";
-			throw std::runtime_error{ text };
+			it = m_blocks.front().registered.find( name );
+
+			if ( it == m_blocks.front().registered.end() )
+			{
+				std::string text;
+				text += "No registered variable with the name [" + name + "].";
+				throw std::runtime_error{ text };
+			}
 		}
+
+		return it->second;
 	}
 
 	void Shader::addStmt( stmt::StmtPtr stmt )
@@ -56,43 +174,5 @@ namespace sdw
 		, Ubo::Info const & info )
 	{
 		m_ubos.emplace( name, info );
-	}
-
-	void Shader::registerConstant( std::string const & name
-		, type::Kind type )
-	{
-		registerName( name, type );
-		m_constants.emplace( name, type );
-	}
-
-	void Shader::registerSampler( std::string const & name
-		, type::Kind type
-		, uint32_t binding
-		, uint32_t set
-		, uint32_t count
-		, bool enabled )
-	{
-		registerName( name, type );
-
-		if ( enabled )
-		{
-			m_samplers.emplace( name, SamplerInfo{ type, binding, set, count } );
-		}
-	}
-
-	void Shader::registerInput( std::string const & name
-		, uint32_t location
-		, type::Kind type )
-	{
-		registerName( name, type );
-		m_inputs.emplace( name, InputInfo{ type, location } );
-	}
-
-	void Shader::registerOutput( std::string const & name
-		, uint32_t location
-		, type::Kind type )
-	{
-		registerName( name, type );
-		m_outputs.emplace( name, OutputInfo{ type, location } );
 	}
 }

@@ -33,10 +33,19 @@ namespace sdw
 		*	Control statements.
 		*/
 		/**@{*/
-		void registerName( std::string const & name
-			, type::Kind type );
-		void checkNameExists( std::string const & name
-			, type::Kind type );
+		var::VariablePtr registerName( std::string const & name
+			, type::TypePtr type
+			, uint32_t flags );
+		var::VariablePtr registerLocale( std::string const & name
+			, type::TypePtr type );
+		var::VariablePtr registerInParam( std::string const & name
+			, type::TypePtr type );
+		var::VariablePtr registerOutParam( std::string const & name
+			, type::TypePtr type );
+		var::VariablePtr registerInOutParam( std::string const & name
+			, type::TypePtr type );
+		var::VariablePtr getVar( std::string const & name
+			, type::TypePtr type );
 		void addStmt( stmt::StmtPtr stmt );
 		void registerSsbo( std::string const & name
 			, Ssbo::Info const & info );
@@ -296,7 +305,12 @@ namespace sdw
 			, bool enabled );
 		/**@}*/
 #pragma endregion
-
+#pragma region Getters
+		/**
+		*name
+		*	Getters.
+		*/
+		/**@{*/
 		inline uint32_t getShaderLanguageVersion()const
 		{
 			return m_config.shaderLanguageVersion;
@@ -341,24 +355,27 @@ namespace sdw
 		{
 			return m_shader;
 		}
+		/**@}*/
+#pragma endregion
 
 	private:
 		void declareInvertVec2Y();
 		void declareInvertVec3Y();
-		void registerConstant( std::string const & name
-			, type::Kind type );
-		void registerSampler( std::string const & name
-			, type::Kind type
+		var::VariablePtr registerConstant( std::string const & name
+			, type::TypePtr type );
+		var::VariablePtr registerSampler( std::string const & name
+			, type::TypePtr type
 			, uint32_t binding
 			, uint32_t set
-			, uint32_t count
 			, bool enabled = true );
-		void registerInput( std::string const & name
+		var::VariablePtr registerInput( std::string const & name
 			, uint32_t location
-			, type::Kind type );
-		void registerOutput( std::string const & name
+			, type::TypePtr type );
+		var::VariablePtr registerOutput( std::string const & name
 			, uint32_t location
-			, type::Kind type );
+			, type::TypePtr type );
+		var::VariablePtr registerBuiltin( std::string const & name
+			, type::TypePtr type );
 
 	private:
 		Config m_config;
@@ -370,13 +387,13 @@ namespace sdw
 
 #define FOR( Writer, Type, Name, Init, Cond, Incr )\
 	{\
+		auto ctrlVar##Name = ( Writer ).registerLocale( #Name, sdw::type::makeType( sdw::typeEnum<Type> ) );\
 		Type Name{ &( Writer ).getShader()\
-			, sdw::makeExpr( sdw::var::makeVariable( sdw::type::makeType( sdw::typeEnum<Type> ), #Name ) ) };\
+			, sdw::makeExpr( ctrlVar##Name ) };\
 		Type incr##Name{ &( Writer ).getShader(), sdw::makeExpr( Incr ) };\
-		Name.updateExpr( sdw::makeExpr( sdw::var::makeVariable( sdw::type::makeType( sdw::typeEnum<Type> ), #Name ) ) );\
+		Name.updateExpr( sdw::makeExpr( ctrlVar##Name ) );\
 		Type cond##Name{ &( Writer ).getShader(), sdw::makeExpr( Cond ) };\
-		( Writer ).forStmt( sdw::makeInit( sdw::typeEnum<Type>\
-				, #Name\
+		( Writer ).forStmt( sdw::makeInit( ctrlVar##Name\
 				, sdw::makeExpr( Init ) )\
 			, sdw::makeExpr( cond##Name )\
 			, sdw::makeExpr( incr##Name )\

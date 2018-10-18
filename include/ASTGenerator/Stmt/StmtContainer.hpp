@@ -18,9 +18,29 @@ namespace ast::stmt
 
 		void accept( VisitorPtr vis )override;
 
-		inline StmtList const & getStatements()const
+		inline StmtPtr const & back()const
 		{
-			return m_statements;
+			return m_statements.back();
+		}
+
+		inline bool empty()const
+		{
+			return m_statements.empty();
+		}
+
+		inline size_t size()const
+		{
+			return m_statements.size();
+		}
+
+		inline StmtList::const_iterator begin()const
+		{
+			return m_statements.begin();
+		}
+
+		inline StmtList::const_iterator end()const
+		{
+			return m_statements.end();
 		}
 
 	private:

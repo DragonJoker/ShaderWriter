@@ -330,13 +330,13 @@ namespace sdw
 	Vec4 textureOffset( Sampler1D const & sampler
 		, Float const & value
 		, Int const offset
-		, Float const & lod )
+		, Float const & bias )
 	{
 		return getFunctionCall< Vec4 >( "textureOffset"
 			, sampler
 			, value
 			, offset
-			, lod );
+			, bias );
 	}
 
 	Vec4 textureOffset( Sampler2D const & sampler
@@ -352,13 +352,13 @@ namespace sdw
 	Vec4 textureOffset( Sampler2D const & sampler
 		, Vec2 const & value
 		, IVec2 const offset
-		, Float const & lod )
+		, Float const & bias )
 	{
 		return getFunctionCall< Vec4 >( "textureOffset"
 			, sampler
 			, value
 			, offset
-			, lod );
+			, bias );
 	}
 
 	Vec4 textureOffset( Sampler3D const & sampler
@@ -374,13 +374,13 @@ namespace sdw
 	Vec4 textureOffset( Sampler3D const & sampler
 		, Vec3 const & value
 		, IVec3 const offset
-		, Float const & lod )
+		, Float const & bias )
 	{
 		return getFunctionCall< Vec4 >( "textureOffset"
 			, sampler
 			, value
 			, offset
-			, lod );
+			, bias );
 	}
 
 	Vec4 textureLodOffset( Sampler1D const & sampler
@@ -524,13 +524,13 @@ namespace sdw
 	Vec4 textureOffset( Sampler1DArray const & sampler
 		, Vec2 const & value
 		, Int const offset
-		, Vec4 const & lod )
+		, Vec4 const & bias )
 	{
 		return getFunctionCall< Vec4 >( "textureOffset"
 			, sampler
 			, value
 			, offset
-			, lod );
+			, bias );
 	}
 
 	Vec4 textureOffset( Sampler2DArray const & sampler
@@ -546,13 +546,13 @@ namespace sdw
 	Vec4 textureOffset( Sampler2DArray const & sampler
 		, Vec3 const & value
 		, IVec2 const offset
-		, Vec4 const & lod )
+		, Vec4 const & bias )
 	{
 		return getFunctionCall< Vec4 >( "textureOffset"
 			, sampler
 			, value
 			, offset
-			, lod );
+			, bias );
 	}
 
 	Vec4 textureLodOffset( Sampler1DArray const & sampler
@@ -646,13 +646,13 @@ namespace sdw
 	Float textureOffset( Sampler1DShadow const & sampler
 		, Vec2 const & value
 		, Int const offset
-		, Float const & lod )
+		, Float const & bias )
 	{
 		return getFunctionCall< Float >( "textureOffset"
 			, sampler
 			, value
 			, offset
-			, lod );
+			, bias );
 	}
 
 	Float textureOffset( Sampler2DShadow const & sampler
@@ -668,13 +668,13 @@ namespace sdw
 	Float textureOffset( Sampler2DShadow const & sampler
 		, Vec3 const & value
 		, IVec2 const offset
-		, Float const & lod )
+		, Float const & bias )
 	{
 		return getFunctionCall< Float >( "textureOffset"
 			, sampler
 			, value
 			, offset
-			, lod );
+			, bias );
 	}
 
 	Float textureLodOffset( Sampler1DShadow const & sampler
@@ -772,13 +772,13 @@ namespace sdw
 	Float textureOffset( Sampler1DArrayShadow const & sampler
 		, Vec3 const & value
 		, Int const offset
-		, Float const & lod )
+		, Float const & bias )
 	{
 		return getFunctionCall< Float >( "textureOffset"
 			, sampler
 			, value
 			, offset
-			, lod );
+			, bias );
 	}
 
 	Float textureOffset( Sampler2DArrayShadow const & sampler
@@ -794,13 +794,13 @@ namespace sdw
 	Float textureOffset( Sampler2DArrayShadow const & sampler
 		, Vec4 const & value
 		, IVec2 const offset
-		, Float const & lod )
+		, Float const & bias )
 	{
 		return getFunctionCall< Float >( "textureOffset"
 			, sampler
 			, value
 			, offset
-			, lod );
+			, bias );
 	}
 
 	Float textureLodOffset( Sampler1DArrayShadow const & sampler
@@ -1108,13 +1108,13 @@ namespace sdw
 	Optional< Vec4 > textureOffset( Optional< Sampler1D > const & sampler
 		, Float const & value
 		, Int const & offset
-		, Float const & lod )
+		, Float const & bias )
 	{
 		return getOptFunctionCall< Vec4 >( "textureOffset"
 			, sampler
 			, value
 			, offset
-			, lod );
+			, bias );
 	}
 
 	Optional< Vec4 > textureOffset( Optional< Sampler2D > const & sampler
@@ -1130,13 +1130,13 @@ namespace sdw
 	Optional< Vec4 > textureOffset( Optional< Sampler2D > const & sampler
 		, Vec2 const & value
 		, IVec2 const & offset
-		, Float const & lod )
+		, Float const & bias )
 	{
 		return getOptFunctionCall< Vec4 >( "textureOffset"
 			, sampler
 			, value
 			, offset
-			, lod );
+			, bias );
 	}
 
 	Optional< Vec4 > textureOffset( Optional< Sampler3D > const & sampler
@@ -1152,13 +1152,13 @@ namespace sdw
 	Optional< Vec4 > textureOffset( Optional< Sampler3D > const & sampler
 		, Vec3 const & value
 		, IVec3 const & offset
-		, Float const & lod )
+		, Float const & bias )
 	{
 		return getOptFunctionCall< Vec4 >( "textureOffset"
 			, sampler
 			, value
 			, offset
-			, lod );
+			, bias );
 	}
 
 	Optional< Vec4 > textureLodOffset( Optional< Sampler1D > const & sampler
@@ -1302,13 +1302,13 @@ namespace sdw
 	Optional< Vec4 > textureOffset( Optional< Sampler1DArray > const & sampler
 		, Vec2 const & value
 		, Int const offset
-		, Vec4 const & lod )
+		, Vec4 const & bias )
 	{
 		return getOptFunctionCall< Vec4 >( "textureOffset"
 			, sampler
 			, value
 			, offset
-			, lod );
+			, bias );
 	}
 
 	Optional< Vec4 > textureOffset( Optional< Sampler2DArray > const & sampler
@@ -1324,13 +1324,13 @@ namespace sdw
 	Optional< Vec4 > textureOffset( Optional< Sampler2DArray > const & sampler
 		, Vec3 const & value
 		, IVec2 const offset
-		, Vec4 const & lod )
+		, Vec4 const & bias )
 	{
 		return getOptFunctionCall< Vec4 >( "textureOffset"
 			, sampler
 			, value
 			, offset
-			, lod );
+			, bias );
 	}
 
 	Optional< Vec4 > textureLodOffset( Optional< Sampler1DArray > const & sampler
@@ -1425,13 +1425,13 @@ namespace sdw
 	Optional< Float > textureOffset( Optional< Sampler1DShadow > const & sampler
 		, Vec2 const & value
 		, Int const offset
-		, Float const & lod )
+		, Float const & bias )
 	{
 		return getOptFunctionCall< Float >( "textureOffset"
 			, sampler
 			, value
 			, offset
-			, lod );
+			, bias );
 	}
 
 	Optional< Float > textureOffset( Optional< Sampler2DShadow > const & sampler
@@ -1447,13 +1447,13 @@ namespace sdw
 	Optional< Float > textureOffset( Optional< Sampler2DShadow > const & sampler
 		, Vec3 const & value
 		, IVec2 const offset
-		, Float const & lod )
+		, Float const & bias )
 	{
 		return getOptFunctionCall< Float >( "textureOffset"
 			, sampler
 			, value
 			, offset
-			, lod );
+			, bias );
 	}
 
 	Optional< Float > textureLodOffset( Optional< Sampler1DShadow > const & sampler
@@ -1551,13 +1551,13 @@ namespace sdw
 	Optional< Float > textureOffset( Optional< Sampler1DArrayShadow > const & sampler
 		, Vec3 const & value
 		, Int const offset
-		, Float const & lod )
+		, Float const & bias )
 	{
 		return getOptFunctionCall< Float >( "textureOffset"
 			, sampler
 			, value
 			, offset
-			, lod );
+			, bias );
 	}
 
 	Optional< Float > textureOffset( Optional< Sampler2DArrayShadow > const & sampler
@@ -1573,13 +1573,13 @@ namespace sdw
 	Optional< Float > textureOffset( Optional< Sampler2DArrayShadow > const & sampler
 		, Vec4 const & value
 		, IVec2 const offset
-		, Float const & lod )
+		, Float const & bias )
 	{
 		return getOptFunctionCall< Float >( "textureOffset"
 			, sampler
 			, value
 			, offset
-			, lod );
+			, bias );
 	}
 
 	Optional< Float > textureLodOffset( Optional< Sampler1DArrayShadow > const & sampler

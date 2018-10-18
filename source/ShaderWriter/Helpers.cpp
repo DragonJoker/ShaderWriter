@@ -111,14 +111,6 @@ namespace sdw
 		return expr::makeLiteral( float( value ) );
 	}
 
-	expr::ExprPtr makeInit( type::Kind type
-		, std::string name
-		, expr::ExprPtr init )
-	{
-		return makeInit( var::makeVariable( type::makeType( type ), std::move( name ) )
-			, std::move( init ) );
-	}
-
 	expr::ExprPtr makeInit( var::VariablePtr var
 		, expr::ExprPtr init )
 	{
@@ -519,17 +511,17 @@ namespace sdw
 		container.addStmt( std::move( stmt ) );
 	}
 
-	void registerName( Shader & shader
+	var::VariablePtr registerName( Shader & shader
 		, std::string const & name
-		, type::Kind type )
+		, type::TypePtr type )
 	{
-		shader.registerName( name, type );
+		return shader.registerName( name, type );
 	}
 
-	void checkNameExists( Shader & shader
+	var::VariablePtr getVar( Shader & shader
 		, std::string const & name
-		, type::Kind type )
+		, type::TypePtr type )
 	{
-		shader.checkNameExists( name, type );
+		return shader.getVar( name, type );
 	}
 }

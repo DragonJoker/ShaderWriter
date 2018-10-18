@@ -54,10 +54,6 @@ namespace sdw
 	inline Shader * findShader( ValuesT const & ... values );
 
 	expr::ExprPtr makeExpr( Value const & variable );
-	var::VariablePtr makeVar( Value const & variable
-		, var::Flag flag );
-	var::VariablePtr makeVar( Value const & variable
-		, uint32_t flags = 0u );
 }
 
 #include "Value.inl"
