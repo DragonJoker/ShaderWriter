@@ -56,8 +56,6 @@ namespace sdw
 		void inlineComment( std::string const & comment );
 		void multilineComment( std::string const & comment );
 		void enableExtension( std::string const & name, uint32_t inCoreVersion );
-		void emitVertex();
-		void endPrimitive();
 		void discard();
 		void inputComputeLayout( uint32_t localSizeX, uint32_t localSizeY, uint32_t localSizeZ );
 		void inputGeometryLayout( stmt::InputLayout layout );
@@ -155,6 +153,34 @@ namespace sdw
 			, uint32_t dimension );
 		template< SamplerType SamplerT >
 		inline Optional< Array< typename SamplerTypeTraits< SamplerT >::Type > > declSamplerArray( std::string const & name
+			, uint32_t binding
+			, uint32_t set
+			, uint32_t dimension
+			, bool enabled );
+		/**@}*/
+#pragma endregion
+#pragma region Image declaration
+		/**
+		*name
+		*	Image declaration.
+		*/
+		/**@{*/
+		template< ImageType ImageT >
+		inline typename ImageTypeTraits< ImageT >::Type declImage( std::string const & name
+			, uint32_t binding
+			, uint32_t set );
+		template< ImageType ImageT >
+		inline Optional< typename ImageTypeTraits< ImageT >::Type > declImage( std::string const & name
+			, uint32_t binding
+			, uint32_t set
+			, bool enabled );
+		template< ImageType ImageT >
+		inline Array< typename ImageTypeTraits< ImageT >::Type > declImageArray( std::string const & name
+			, uint32_t binding
+			, uint32_t set
+			, uint32_t dimension );
+		template< ImageType ImageT >
+		inline Optional< Array< typename ImageTypeTraits< ImageT >::Type > > declImageArray( std::string const & name
 			, uint32_t binding
 			, uint32_t set
 			, uint32_t dimension
@@ -364,6 +390,11 @@ namespace sdw
 		var::VariablePtr registerConstant( std::string const & name
 			, type::TypePtr type );
 		var::VariablePtr registerSampler( std::string const & name
+			, type::TypePtr type
+			, uint32_t binding
+			, uint32_t set
+			, bool enabled = true );
+		var::VariablePtr registerImage( std::string const & name
 			, type::TypePtr type
 			, uint32_t binding
 			, uint32_t set

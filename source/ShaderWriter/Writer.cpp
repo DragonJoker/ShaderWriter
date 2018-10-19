@@ -12,8 +12,6 @@ See LICENSE file in root folder
 #include <ASTGenerator/Stmt/StmtDoWhile.hpp>
 #include <ASTGenerator/Stmt/StmtElse.hpp>
 #include <ASTGenerator/Stmt/StmtElseIf.hpp>
-#include <ASTGenerator/Stmt/StmtEmitPrimitive.hpp>
-#include <ASTGenerator/Stmt/StmtEmitVertex.hpp>
 #include <ASTGenerator/Stmt/StmtFor.hpp>
 #include <ASTGenerator/Stmt/StmtIf.hpp>
 #include <ASTGenerator/Stmt/StmtInputComputeLayout.hpp>
@@ -109,16 +107,6 @@ namespace sdw
 		{
 			addStmt( stmt::makePreprocExtension( name, stmt::PreprocExtension::Status::eEnabled ) );
 		}
-	}
-
-	void ShaderWriter::emitVertex()
-	{
-		addStmt( stmt::makeEmitVertex() );
-	}
-
-	void ShaderWriter::endPrimitive()
-	{
-		addStmt( stmt::makeEmitPrimitive() );
 	}
 
 	void ShaderWriter::discard()
@@ -284,6 +272,15 @@ namespace sdw
 		, bool enabled )
 	{
 		return m_shader.registerSampler( name, type, binding, set, enabled );
+	}
+
+	var::VariablePtr ShaderWriter::registerImage( std::string const & name
+		, type::TypePtr type
+		, uint32_t binding
+		, uint32_t set
+		, bool enabled )
+	{
+		return m_shader.registerImage( name, type, binding, set, enabled );
 	}
 
 	var::VariablePtr ShaderWriter::registerInput( std::string const & name

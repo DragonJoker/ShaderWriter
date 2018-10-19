@@ -44,7 +44,7 @@ namespace
 		auto c3d_gamma = hdrConfig.declMember< Float >( "c3d_gamma" );
 		hdrConfig.end();
 
-		auto c3d_mapDiffuse = writer.declSampler< SamplerType::e2D >( "c3d_mapDiffuse", 1u, 0u );
+		auto c3d_mapDiffuse = writer.declSampler< SamplerType::e2DF >( "c3d_mapDiffuse", 1u, 0u );
 		auto vtx_texture = writer.declInput< Vec2 >( "vtx_texture", 0u );
 
 		// Shader outputs

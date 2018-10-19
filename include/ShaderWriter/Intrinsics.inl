@@ -145,6 +145,33 @@ namespace sdw
 	}
 
 	template< typename ... ValuesT >
+	inline DVec2 dvec2( Value const & value
+		, ValuesT const & ... values )
+	{
+		return getFunctionCall< DVec2 >( "dvec2"
+			, value
+			, values... );
+	}
+
+	template< typename ... ValuesT >
+	inline DVec3 dvec3( Value const & value
+		, ValuesT const & ... values )
+	{
+		return getFunctionCall< DVec3 >( "dvec3"
+			, value
+			, values... );
+	}
+
+	template< typename ... ValuesT >
+	inline DVec4 dvec4( Value const & value
+		, ValuesT const & ... values )
+	{
+		return getFunctionCall< DVec4 >( "dvec4"
+			, value
+			, values... );
+	}
+
+	template< typename ... ValuesT >
 	inline IVec2 ivec2( Value const & value
 		, ValuesT const & ... values )
 	{
@@ -235,10 +262,46 @@ namespace sdw
 	}
 
 	template< typename ... ValuesT >
+	inline Mat2x3 mat2x3( Value const & value
+		, ValuesT const & ... values )
+	{
+		return getFunctionCall< Mat2x3 >( "mat2x3"
+			, value
+			, values... );
+	}
+
+	template< typename ... ValuesT >
+	inline Mat2x4 mat2x4( Value const & value
+		, ValuesT const & ... values )
+	{
+		return getFunctionCall< Mat2x4 >( "mat2x4"
+			, value
+			, values... );
+	}
+
+	template< typename ... ValuesT >
 	inline Mat3 mat3( Value const & value
 		, ValuesT const & ... values )
 	{
 		return getFunctionCall< Mat3 >( "mat3"
+			, value
+			, values... );
+	}
+
+	template< typename ... ValuesT >
+	inline Mat3x2 mat3x2( Value const & value
+		, ValuesT const & ... values )
+	{
+		return getFunctionCall< Mat3x2 >( "mat3x2"
+			, value
+			, values... );
+	}
+
+	template< typename ... ValuesT >
+	inline Mat3x4 mat3x4( Value const & value
+		, ValuesT const & ... values )
+	{
+		return getFunctionCall< Mat3x4 >( "mat3x4"
 			, value
 			, values... );
 	}
@@ -253,752 +316,102 @@ namespace sdw
 	}
 
 	template< typename ... ValuesT >
-	inline IMat2 imat2( Value const & value
+	inline Mat4x2 mat4x2( Value const & value
 		, ValuesT const & ... values )
 	{
-		return getFunctionCall< IMat2 >( "imat2"
+		return getFunctionCall< Mat4x2 >( "mat4x2"
 			, value
 			, values... );
 	}
 
 	template< typename ... ValuesT >
-	inline IMat3 imat3( Value const & value
+	inline Mat4x3 mat4x3( Value const & value
 		, ValuesT const & ... values )
 	{
-		return getFunctionCall< IMat3 >( "imat3"
+		return getFunctionCall< Mat4x3 >( "mat4x3"
 			, value
 			, values... );
 	}
 
 	template< typename ... ValuesT >
-	inline IMat4 imat4( Value const & value
+	inline DMat2 dmat2( Value const & value
 		, ValuesT const & ... values )
 	{
-		return getFunctionCall< IMat4 >( "imat4"
+		return getFunctionCall< DMat2 >( "dmat2"
 			, value
 			, values... );
 	}
 
 	template< typename ... ValuesT >
-	inline UMat2 umat2( Value const & value
+	inline DMat2x3 dmat2x3( Value const & value
 		, ValuesT const & ... values )
 	{
-		return getFunctionCall< UMat2 >( "umat2"
+		return getFunctionCall< DMat2x3 >( "dmat2x3"
 			, value
 			, values... );
 	}
 
 	template< typename ... ValuesT >
-	inline UMat3 umat3( Value const & value
+	inline DMat2x4 dmat2x4( Value const & value
 		, ValuesT const & ... values )
 	{
-		return getFunctionCall< UMat3 >( "umat3"
+		return getFunctionCall< DMat2x4 >( "dmat2x4"
 			, value
 			, values... );
 	}
 
 	template< typename ... ValuesT >
-	inline UMat4 umat4( Value const & value
+	inline DMat3 dmat3( Value const & value
 		, ValuesT const & ... values )
 	{
-		return getFunctionCall< UMat4 >( "umat4"
+		return getFunctionCall< DMat3 >( "dmat3"
 			, value
 			, values... );
 	}
 
 	template< typename ... ValuesT >
-	inline BMat2 bmat2( Value const & value
+	inline DMat3x2 dmat3x2( Value const & value
 		, ValuesT const & ... values )
 	{
-		return getFunctionCall< BMat2 >( "bmat2"
+		return getFunctionCall< DMat3x2 >( "dmat3x2"
 			, value
 			, values... );
 	}
 
 	template< typename ... ValuesT >
-	inline BMat3 bmat3( Value const & value
+	inline DMat3x4 dmat3x4( Value const & value
 		, ValuesT const & ... values )
 	{
-		return getFunctionCall< BMat3 >( "bmat3"
+		return getFunctionCall< DMat3x4 >( "dmat3x4"
 			, value
 			, values... );
 	}
 
 	template< typename ... ValuesT >
-	inline BMat4 bmat4( Value const & value
+	inline DMat4 dmat4( Value const & value
 		, ValuesT const & ... values )
 	{
-		return getFunctionCall< BMat4 >( "bmat4"
-			, value
-			, values... );
-	}
-
-	//***********************************************************************************************
-
-	template< typename ... ValuesT >
-	inline Float dot( Value const & value
-		, ValuesT const & ... values )
-	{
-		return getFunctionCall< Float >( "dot"
+		return getFunctionCall< DMat4 >( "dmat4"
 			, value
 			, values... );
 	}
 
 	template< typename ... ValuesT >
-	inline Float inversesqrt( Value const & value
+	inline DMat4x2 dmat4x2( Value const & value
 		, ValuesT const & ... values )
 	{
-		return getFunctionCall< Float >( "inversesqrt"
+		return getFunctionCall< DMat4x2 >( "dmat4x2"
 			, value
 			, values... );
 	}
 
-	template< typename ValueT
-		, typename ... ValuesT >
-		inline ValueT cross( ValueT const & value
-			, ValuesT const & ... values )
+	template< typename ... ValuesT >
+	inline DMat4x3 dmat4x3( Value const & value
+		, ValuesT const & ... values )
 	{
-		return getFunctionCall< ValueT >( "cross"
+		return getFunctionCall< DMat4x3 >( "dmat4x3"
 			, value
 			, values... );
-	}
-
-	template< typename ValueT
-		, typename ... ValuesT >
-		inline ValueT clamp( ValueT const & value
-			, ValuesT const & ... values )
-	{
-		return getFunctionCall< ValueT >( "clamp"
-			, value
-			, values... );
-	}
-
-	template< typename ValueT
-		, typename ... ValuesT >
-		inline ValueT min( ValueT const & value
-			, ValuesT const & ... values )
-	{
-		return getFunctionCall< ValueT >( "min"
-			, value
-			, values... );
-	}
-
-	template< typename ValueT
-		, typename ... ValuesT >
-		inline ValueT max( ValueT const & value
-			, ValuesT const & ... values )
-	{
-		return getFunctionCall< ValueT >( "max"
-			, value
-			, values... );
-	}
-
-	template< typename ValueT
-		, typename ... ValuesT >
-		inline ValueT mix( ValueT const & value
-			, ValuesT const & ... values )
-	{
-		return getFunctionCall< ValueT >( "mix"
-			, value
-			, values... );
-	}
-
-	template< typename ValueT
-		, typename ... ValuesT >
-		inline ValueT reflect( Value const & value
-			, ValuesT const & ... values )
-	{
-		return getFunctionCall< ValueT >( "reflect"
-			, value
-			, values... );
-	}
-
-	template< typename ValueT >
-	inline ValueT sqrt( ValueT const & value )
-	{
-		return getFunctionCall< ValueT >( "sqrt"
-			, value );
-	}
-
-	template< typename ValueT >
-	inline ValueT pow( ValueT const & x
-		, ValueT const & y )
-	{
-		return getFunctionCall< ValueT >( "pow"
-			, x
-			, y );
-	}
-
-	template< typename ValueT >
-	inline ValueT pow( ValueT const & x
-		, Optional< ValueT > const & y )
-	{
-		return getFunctionCall< ValueT >( "pow"
-			, x
-			, y );
-	}
-
-	template< typename ValueT >
-	inline ValueT pow2( ValueT const & p )
-	{
-		return getFunctionCall< ValueT >( "pow2"
-			, p );
-	}
-
-	template< typename ValueT >
-	ValueT normalize( ValueT const & value )
-	{
-		return getFunctionCall< ValueT >( "normalize"
-			, value );
-	}
-
-#if Writer_UseSwizzle
-
-	template< typename InputT
-		, typename OutputT >
-		inline OutputT normalize( Swizzle< InputT, OutputT > const & value )
-	{
-		return getFunctionCall< OutputT >( "normalize"
-			, static_cast< OutputT const & >( value ) );
-	}
-
-	template< typename InputT
-		, typename OutputT >
-		inline OutputT neg( Swizzle< InputT, OutputT > const & value )
-	{
-		return getFunctionCall< OutputT >( "-"
-			, static_cast< OutputT const & >( value ) );
-	}
-
-#endif
-
-	template< typename ValueT >
-	inline ValueT transpose( ValueT const & value )
-	{
-		return getFunctionCall< ValueT >( "transpose"
-			, value );
-	}
-
-	template< typename ValueT >
-	inline ValueT inverse( ValueT const & value )
-	{
-		return getFunctionCall< ValueT >( "inverse"
-			, value );
-	}
-
-	template< typename ValueT >
-	inline ValueT abs( ValueT const & value )
-	{
-		return getFunctionCall< ValueT >( "abs"
-			, value );
-	}
-
-	template< typename ValueT >
-	inline ValueT isinf( ValueT const & value )
-	{
-		return getFunctionCall< ValueT >( "isinf"
-			, value );
-	}
-
-	template< typename ValueA, typename ValueB >
-	ValueB smoothstep( ValueA const & edge0
-		, ValueA const & edge1
-		, ValueB const & x )
-	{
-		return getFunctionCall< ValueB >( "smoothstep"
-			, edge0
-			, edge1
-			, x );
-	}
-
-	template< typename ValueT >
-	inline ValueT dFdx( ValueT const & value )
-	{
-		return getFunctionCall< ValueT >( "dFdx"
-			, value );
-	}
-
-	template< typename ValueT >
-	inline ValueT dFdy( ValueT const & value )
-	{
-		return getFunctionCall< ValueT >( "dFdy"
-			, value );
-	}
-
-	template< typename ValueT >
-	inline ValueT dFdxCoarse( ValueT const & value )
-	{
-		return getFunctionCall< ValueT >( "dFdyCoarse"
-			, value );
-	}
-
-	template< typename ValueT >
-	inline ValueT dFdyCoarse( ValueT const & value )
-	{
-		return getFunctionCall< ValueT >( "dFdyCoarse"
-			, value );
-	}
-
-	template< typename ValueT >
-	inline ValueT dFdxFine( ValueT const & value )
-	{
-		return getFunctionCall< ValueT >( "dFdxFine"
-			, value );
-	}
-
-	template< typename ValueT >
-	inline ValueT dFdyFine( ValueT const & value )
-	{
-		return getFunctionCall< ValueT >( "dFdyFine"
-			, value );
-	}
-
-	template< typename ValueT >
-	inline ValueT sign( ValueT const & value )
-	{
-		return getFunctionCall< ValueT >( "sign"
-			, value );
-	}
-
-	template< typename ValueT >
-	inline ValueT mod( ValueT const & x
-		, ValueT const & y )
-	{
-		return getFunctionCall< ValueT >( "mod"
-			, x
-			, y );
-	}
-
-	template< typename ValueT >
-	inline ValueT mod( ValueT const & x
-		, Float const & y )
-	{
-		return getFunctionCall< ValueT >( "mod"
-			, x
-			, y );
-	}
-
-	template< typename ValueT >
-	inline ValueT fract( ValueT const & value )
-	{
-		return getFunctionCall< ValueT >( "fract"
-			, value );
-	}
-
-	template< typename ValueT >
-	inline ValueT floor( ValueT const & value )
-	{
-		return getFunctionCall< ValueT >( "floor"
-			, value );
-	}
-
-	template< typename ValueT >
-	inline ValueT trunc( ValueT const & value )
-	{
-		return getFunctionCall< ValueT >( "trunc"
-			, value );
-	}
-
-	template< typename ValueT >
-	inline ValueT round( ValueT const & value )
-	{
-		return getFunctionCall< ValueT >( "round"
-			, value );
-	}
-
-	template< typename ValueE
-		, typename ValueX >
-		inline ValueE step( ValueE const & edge
-			, ValueX const & x )
-	{
-		return getFunctionCall< ValueE >( "sterp"
-			, edge
-			, x );
-	}
-
-	template< typename ValueT >
-	inline ValueT step( ValueT const & edge
-		, Float const & x )
-	{
-		return getFunctionCall< ValueT >( "step"
-			, edge
-			, x );
-	}
-
-	template< typename ValueT >
-	inline ValueT neg( ValueT const & value )
-	{
-		return getFunctionCall< ValueT >( "-"
-			, value );
-	}
-
-	template< typename ValueT >
-	inline ValueT log( ValueT const & value )
-	{
-		return getFunctionCall< ValueT >( "log"
-			, value );
-	}
-
-	template< typename ValueT >
-	inline ValueT exp( ValueT const & value )
-	{
-		return getFunctionCall< ValueT >( "exp"
-			, value );
-	}
-
-	template< typename ValueT >
-	inline ValueT log2( ValueT const & value )
-	{
-		return getFunctionCall< ValueT >( "log2"
-			, value );
-	}
-
-	template< typename ValueT >
-	inline ValueT exp2( ValueT const & value )
-	{
-		return getFunctionCall< ValueT >( "exp2"
-			, value );
-	}
-
-	template< typename ValueT >
-	inline ValueT tan( ValueT const & value )
-	{
-		return getFunctionCall< ValueT >( "tan"
-			, value );
-	}
-
-	template< typename ValueT >
-	inline ValueT sin( ValueT const & value )
-	{
-		return getFunctionCall< ValueT >( "sin"
-			, value );
-	}
-
-	template< typename ValueT >
-	inline ValueT cos( ValueT const & value )
-	{
-		return getFunctionCall< ValueT >( "cos"
-			, value );
-	}
-
-	template< typename ValueT >
-	inline ValueT atan( ValueT const & value )
-	{
-		return getFunctionCall< ValueT >( "atan"
-			, value );
-	}
-
-	template< typename ValueT >
-	inline ValueT atan( ValueT const & y
-		, ValueT const & x )
-	{
-		return getFunctionCall< ValueT >( "atan"
-			, y
-			, x );
-	}
-
-	template< typename ValueT >
-	inline ValueT asin( ValueT const & value )
-	{
-		return getFunctionCall< ValueT >( "asin"
-			, value );
-	}
-
-	template< typename ValueT >
-	inline ValueT acos( ValueT const & value )
-	{
-		return getFunctionCall< ValueT >( "acos"
-			, value );
-	}
-
-	template< typename ValueT >
-	inline ValueT fma( ValueT const & a
-		, ValueT const & b
-		, ValueT const & c )
-	{
-		return details::Fma< ValueT >::submit( a
-			, b
-			, c );
-	}
-
-	template< typename ValueT >
-	inline ValueT fma( Optional< ValueT > const & a
-		, ValueT const & b
-		, ValueT const & c )
-	{
-		return details::Fma< ValueT >::submitOpt( a
-			, b
-			, c );
-	}
-
-	template< typename ValueT >
-	inline ValueT fma( ValueT const & a
-		, Optional< ValueT > const & b
-		, ValueT const & c )
-	{
-		return details::Fma< ValueT >::submitOpt( a
-			, b
-			, c );
-	}
-
-	template< typename ValueT >
-	inline ValueT fma( ValueT const & a
-		, ValueT const & b
-		, Optional< ValueT > const & c )
-	{
-		return details::Fma< ValueT >::submitOpt( a
-			, b
-			, c );
-	}
-
-	template< typename ValueT >
-	inline ValueT fma( Optional< ValueT > const & a
-		, Optional< ValueT > const & b
-		, ValueT const & c )
-	{
-		return details::Fma< ValueT >::submitOpt( a
-			, b
-			, c );
-	}
-
-	template< typename ValueT >
-	inline ValueT fma( Optional< ValueT > const & a
-		, ValueT const & b
-		, Optional< ValueT > const & c )
-	{
-		return details::Fma< ValueT >::submitOpt( a
-			, b
-			, c );
-	}
-
-	template< typename ValueT >
-	inline ValueT fma( ValueT const & a
-		, Optional< ValueT > const & b
-		, Optional< ValueT > const & c )
-	{
-		return details::Fma< ValueT >::submitOpt( a
-			, b
-			, c );
-	}
-
-	template< typename ValueT >
-	inline ValueT fma( Optional< ValueT > const & a
-		, Optional< ValueT > const & b
-		, Optional< ValueT > const & c )
-	{
-		return details::Fma< ValueT >::submitOpt( a
-			, b
-			, c );
-	}
-
-	template< typename ValueT >
-	inline ValueT fma( InParam< ValueT > const & a
-		, ValueT const & b
-		, ValueT const & c )
-	{
-		return details::Fma< ValueT >::submit( a
-			, b
-			, c );
-	}
-
-	template< typename ValueT >
-	inline ValueT fma( ValueT const & a
-		, InParam< ValueT > const & b
-		, ValueT const & c )
-	{
-		return details::Fma< ValueT >::submit( a
-			, b
-			, c );
-	}
-
-	template< typename ValueT >
-	inline ValueT fma( ValueT const & a
-		, ValueT const & b
-		, InParam< ValueT > const & c )
-	{
-		return details::Fma< ValueT >::submit( a
-			, b
-			, c );
-	}
-
-	template< typename ValueT >
-	inline ValueT fma( InParam< ValueT > const & a
-		, InParam< ValueT > const & b
-		, ValueT const & c )
-	{
-		return details::Fma< ValueT >::submit( a
-			, b
-			, c );
-	}
-
-	template< typename ValueT >
-	inline ValueT fma( InParam< ValueT > const & a
-		, ValueT const & b
-		, InParam< ValueT > const & c )
-	{
-		return details::Fma< ValueT >::submit( a
-			, b
-			, c );
-	}
-
-	template< typename ValueT >
-	inline ValueT fma( ValueT const & a
-		, InParam< ValueT > const & b
-		, InParam< ValueT > const & c )
-	{
-		return details::Fma< ValueT >::submit( a
-			, b
-			, c );
-	}
-
-	template< typename ValueT >
-	inline ValueT fma( InParam< ValueT > const & a
-		, InParam< ValueT > const & b
-		, InParam< ValueT > const & c )
-	{
-		return details::Fma< ValueT >::submit( a
-			, b
-			, c );
-	}
-
-	template< typename ValueT >
-	inline ValueT fma( OutParam< ValueT > const & a
-		, ValueT const & b
-		, ValueT const & c )
-	{
-		return details::Fma< ValueT >::submit( a
-			, b
-			, c );
-	}
-
-	template< typename ValueT >
-	inline ValueT fma( ValueT const & a
-		, OutParam< ValueT > const & b
-		, ValueT const & c )
-	{
-		return details::Fma< ValueT >::submit( a
-			, b
-			, c );
-	}
-
-	template< typename ValueT >
-	inline ValueT fma( ValueT const & a
-		, ValueT const & b
-		, OutParam< ValueT > const & c )
-	{
-		return details::Fma< ValueT >::submit( a
-			, b
-			, c );
-	}
-
-	template< typename ValueT >
-	inline ValueT fma( OutParam< ValueT > const & a
-		, OutParam< ValueT > const & b
-		, ValueT const & c )
-	{
-		return details::Fma< ValueT >::submit( a
-			, b
-			, c );
-	}
-
-	template< typename ValueT >
-	inline ValueT fma( OutParam< ValueT > const & a
-		, ValueT const & b
-		, OutParam< ValueT > const & c )
-	{
-		return details::Fma< ValueT >::submit( a
-			, b
-			, c );
-	}
-
-	template< typename ValueT >
-	inline ValueT fma( ValueT const & a
-		, OutParam< ValueT > const & b
-		, OutParam< ValueT > const & c )
-	{
-		return details::Fma< ValueT >::submit( a
-			, b
-			, c );
-	}
-
-	template< typename ValueT >
-	inline ValueT fma( OutParam< ValueT > const & a
-		, OutParam< ValueT > const & b
-		, OutParam< ValueT > const & c )
-	{
-		return details::Fma< ValueT >::submit( a
-			, b
-			, c );
-	}
-
-	template< typename ValueT >
-	inline ValueT fma( InOutParam< ValueT > const & a
-		, ValueT const & b
-		, ValueT const & c )
-	{
-		return details::Fma< ValueT >::submit( a
-			, b
-			, c );
-	}
-
-	template< typename ValueT >
-	inline ValueT fma( ValueT const & a
-		, InOutParam< ValueT > const & b
-		, ValueT const & c )
-	{
-		return details::Fma< ValueT >::submit( a
-			, b
-			, c );
-	}
-
-	template< typename ValueT >
-	inline ValueT fma( ValueT const & a
-		, ValueT const & b
-		, InOutParam< ValueT > const & c )
-	{
-		return details::Fma< ValueT >::submit( a
-			, b
-			, c );
-	}
-
-	template< typename ValueT >
-	inline ValueT fma( InOutParam< ValueT > const & a
-		, InOutParam< ValueT > const & b
-		, ValueT const & c )
-	{
-		return details::Fma< ValueT >::submit( a
-			, b
-			, c );
-	}
-
-	template< typename ValueT >
-	inline ValueT fma( InOutParam< ValueT > const & a
-		, ValueT const & b
-		, InOutParam< ValueT > const & c )
-	{
-		return details::Fma< ValueT >::submit( a
-			, b
-			, c );
-	}
-
-	template< typename ValueT >
-	inline ValueT fma( ValueT const & a
-		, InOutParam< ValueT > const & b
-		, InOutParam< ValueT > const & c )
-	{
-		return details::Fma< ValueT >::submit( a
-			, b
-			, c );
-	}
-
-	template< typename ValueT >
-	inline ValueT fma( InOutParam< ValueT > const & a
-		, InOutParam< ValueT > const & b
-		, InOutParam< ValueT > const & c )
-	{
-		return details::Fma< ValueT >::submit( a
-			, b
-			, c );
 	}
 
 	//***********************************************************************************************

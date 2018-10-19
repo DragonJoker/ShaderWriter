@@ -996,6 +996,69 @@ namespace
 		testEnd();
 	}
 
+	void testExprIntrinsicCall()
+	{
+		testBegin( "testExprIntrinsicCall" );
+		{
+			ast::expr::ExprList argList;
+			argList.emplace_back( ast::expr::makeIdentifier( ast::var::makeVariable( ast::type::getInt(), "x" ) ) );
+			auto expr = ast::expr::makeIntrinsicCall( ast::type::getInt(), ast::expr::Intrinsic::eAbs1I, std::move( argList ) );
+
+			check( expr->getKind() == ast::expr::Kind::eIntrinsicCall );
+			check( expr->getType()->getKind() == ast::type::Kind::eInt );
+
+			check( expr->getIntrinsic() == ast::expr::Intrinsic::eAbs1I );
+
+			check( expr->getArgList().size() == 1 );
+			check( expr->getArgList().back()->getKind() == ast::expr::Kind::eIdentifier );
+			check( expr->getArgList().back()->getType() == ast::type::getInt() );
+			std::cout << "ExprIntrinsicCall: " << ast::debug::ExprVisitor::submit( expr.get() ) << std::endl;
+		}
+		testEnd();
+	}
+
+	void testExprImageAccessCall()
+	{
+		testBegin( "testExprImageAccessCall" );
+		{
+			ast::expr::ExprList argList;
+			argList.emplace_back( ast::expr::makeIdentifier( ast::var::makeVariable( ast::type::getImage1DI(), "x" ) ) );
+			auto expr = ast::expr::makeImageAccessCall( ast::type::getInt(), ast::expr::ImageAccess::eImageSize1DI, std::move( argList ) );
+
+			check( expr->getKind() == ast::expr::Kind::eImageAccessCall );
+			check( expr->getType()->getKind() == ast::type::Kind::eInt );
+
+			check( expr->getImageAccess() == ast::expr::ImageAccess::eImageSize1DI );
+
+			check( expr->getArgList().size() == 1 );
+			check( expr->getArgList().back()->getKind() == ast::expr::Kind::eIdentifier );
+			check( expr->getArgList().back()->getType() == ast::type::getImage1DI() );
+			std::cout << "ExprImageAccessCall: " << ast::debug::ExprVisitor::submit( expr.get() ) << std::endl;
+		}
+		testEnd();
+	}
+
+	void testExprTextureAccessCall()
+	{
+		testBegin( "testExprTextureAccessCall" );
+		{
+			ast::expr::ExprList argList;
+			argList.emplace_back( ast::expr::makeIdentifier( ast::var::makeVariable( ast::type::getSampler1DI(), "x" ) ) );
+			auto expr = ast::expr::makeTextureAccessCall( ast::type::getInt(), ast::expr::TextureAccess::eTextureSize1DI, std::move( argList ) );
+
+			check( expr->getKind() == ast::expr::Kind::eTextureAccessCall );
+			check( expr->getType()->getKind() == ast::type::Kind::eInt );
+
+			check( expr->getTextureAccess() == ast::expr::TextureAccess::eTextureSize1DI );
+
+			check( expr->getArgList().size() == 1 );
+			check( expr->getArgList().back()->getKind() == ast::expr::Kind::eIdentifier );
+			check( expr->getArgList().back()->getType() == ast::type::getSampler1DI() );
+			std::cout << "ExprTextureAccessCall: " << ast::debug::ExprVisitor::submit( expr.get() ) << std::endl;
+		}
+		testEnd();
+	}
+
 	void testExprAggrInit()
 	{
 		testBegin( "testExprAggrInit" );
@@ -1201,6 +1264,9 @@ int main( int argc, char ** argv )
 	testExprUnaryPlus();
 	testExprCast();
 	testExprFnCall();
+	testExprIntrinsicCall();
+	testExprTextureAccessCall();
+	testExprImageAccessCall();
 	testExprInit();
 	testExprAggrInit();
 	testExprMbrSelect();

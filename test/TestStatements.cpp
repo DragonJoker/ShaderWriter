@@ -125,13 +125,27 @@ namespace
 	void testSamplerDeclStatement()
 	{
 		testBegin( "testSamplerDeclStatement" );
-		auto stmt = ast::stmt::makeSamplerDecl( ast::var::makeVariable( ast::type::getSampler2D(), "lhs" ), 1u, 2u );
+		auto stmt = ast::stmt::makeSamplerDecl( ast::var::makeVariable( ast::type::getSampler2DF(), "lhs" ), 1u, 2u );
 		std::cout << "StmtSamplerDecl:\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
 
 		check( stmt->getKind() == ast::stmt::Kind::eSamplerDecl );
 		check( stmt->getBindingPoint() == 1u );
 		check( stmt->getBindingSet() == 2u );
-		check( stmt->getVariable().getType()->getKind() == ast::type::Kind::eSampler2D );
+		check( stmt->getVariable().getType()->getKind() == ast::type::Kind::eSampler2DF );
+		check( stmt->getVariable().getName() == "lhs" );
+		testEnd();
+	}
+
+	void testImageDeclStatement()
+	{
+		testBegin( "testImageDeclStatement" );
+		auto stmt = ast::stmt::makeImageDecl( ast::var::makeVariable( ast::type::getImage2DF(), "lhs" ), 1u, 2u );
+		std::cout << "StmtImageDecl:\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
+
+		check( stmt->getKind() == ast::stmt::Kind::eImageDecl );
+		check( stmt->getBindingPoint() == 1u );
+		check( stmt->getBindingSet() == 2u );
+		check( stmt->getVariable().getType()->getKind() == ast::type::Kind::eImage2DF );
 		check( stmt->getVariable().getName() == "lhs" );
 		testEnd();
 	}
@@ -617,26 +631,6 @@ namespace
 		testEnd();
 	}
 
-	void testEmitPrimitive()
-	{
-		testBegin( "testEmitPrimitive" );
-		auto stmt = ast::stmt::makeEmitPrimitive();
-		std::cout << "StmtEmitPrimitive:\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
-
-		check( stmt->getKind() == ast::stmt::Kind::eEmitPrimitive );
-		testEnd();
-	}
-
-	void testEmitVertex()
-	{
-		testBegin( "testEmitVertex" );
-		auto stmt = ast::stmt::makeEmitVertex();
-		std::cout << "StmtEmitVertex:\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
-
-		check( stmt->getKind() == ast::stmt::Kind::eEmitVertex );
-		testEnd();
-	}
-
 	void testInputComputeLayout()
 	{
 		testBegin( "testInputComputeLayout" );
@@ -757,6 +751,7 @@ int main( int argc, char ** argv )
 	testSimpleStatement();
 	testVariableDeclStatement();
 	testSamplerDeclStatement();
+	testImageDeclStatement();
 	testConstantBufferDeclStatement();
 	testShaderBufferDeclStatement();
 	testInOutVariableDeclStatement();
@@ -775,8 +770,6 @@ int main( int argc, char ** argv )
 	testSwitchStatement();
 	testReturnStatement();
 	testDiscardStatement();
-	testEmitPrimitive();
-	testEmitVertex();
 	testInputComputeLayout();
 	testInputGeometryLayout();
 	testOutputGeometryLayout();

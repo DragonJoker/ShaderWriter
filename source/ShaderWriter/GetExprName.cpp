@@ -82,6 +82,18 @@ namespace sdw
 				}
 			}
 
+			void visitIntrinsicCallExpr( expr::IntrinsicCall * expr )override
+			{
+			}
+
+			void visitTextureAccessCallExpr( expr::TextureAccessCall * expr )override
+			{
+			}
+
+			void visitImageAccessCallExpr( expr::ImageAccessCall * expr )override
+			{
+			}
+
 			void visitIdentifierExpr( expr::Identifier * expr )override
 			{
 				if ( !m_result )

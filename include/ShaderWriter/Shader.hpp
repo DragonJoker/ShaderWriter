@@ -42,6 +42,13 @@ namespace sdw
 		uint32_t m_set;
 	};
 
+	struct ImageInfo
+	{
+		type::TypePtr m_type;
+		uint32_t m_binding;
+		uint32_t m_set;
+	};
+
 	class Shader
 	{
 	public:
@@ -65,6 +72,11 @@ namespace sdw
 		var::VariablePtr registerConstant( std::string const & name
 			, type::TypePtr type );
 		var::VariablePtr registerSampler( std::string const & name
+			, type::TypePtr type
+			, uint32_t binding
+			, uint32_t set
+			, bool enabled = true );
+		var::VariablePtr registerImage( std::string const & name
 			, type::TypePtr type
 			, uint32_t binding
 			, uint32_t set
@@ -157,6 +169,7 @@ namespace sdw
 		std::map< std::string, Ubo::Info > m_ubos;
 		std::map< std::string, type::TypePtr > m_constants;
 		std::map< std::string, SamplerInfo > m_samplers;
+		std::map< std::string, ImageInfo > m_images;
 		std::map< std::string, InputInfo > m_inputs;
 		std::map< std::string, OutputInfo > m_outputs;
 	};

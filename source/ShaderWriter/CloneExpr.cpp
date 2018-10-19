@@ -177,10 +177,38 @@ namespace sdw
 				m_result = expr::makeIdentifier( expr->getVariable() );
 			}
 
+			void visitImageAccessCallExpr( expr::ImageAccessCall * expr )override
+			{
+				expr::ExprList args;
+
+				for ( auto & arg : expr->getArgList() )
+				{
+					args.emplace_back( submit( arg ) );
+				}
+
+				m_result = expr::makeImageAccessCall( expr->getType()
+					, expr->getImageAccess()
+					, std::move( args ) );
+			}
+
 			void visitInitExpr( expr::Init * expr )override
 			{
 				m_result = expr::makeInit( std::make_unique< expr::Identifier >( *expr->getIdentifier() )
 					, submit( expr->getInitialiser() ) );
+			}
+
+			void visitIntrinsicCallExpr( expr::IntrinsicCall * expr )override
+			{
+				expr::ExprList args;
+
+				for ( auto & arg : expr->getArgList() )
+				{
+					args.emplace_back( submit( arg ) );
+				}
+
+				m_result = expr::makeIntrinsicCall( expr->getType()
+					, expr->getIntrinsic()
+					, std::move( args ) );
 			}
 
 			void visitLessExpr( expr::Less * expr )override
@@ -328,6 +356,20 @@ namespace sdw
 			void visitSwitchTestExpr( expr::SwitchTest * expr )override
 			{
 				m_result = expr::makeSwitchTest( submit( expr->getValue() ) );
+			}
+
+			void visitTextureAccessCallExpr( expr::TextureAccessCall * expr )override
+			{
+				expr::ExprList args;
+
+				for ( auto & arg : expr->getArgList() )
+				{
+					args.emplace_back( submit( arg ) );
+				}
+
+				m_result = expr::makeTextureAccessCall( expr->getType()
+					, expr->getTextureAccess()
+					, std::move( args ) );
 			}
 
 			void visitTimesExpr( expr::Times * expr )override

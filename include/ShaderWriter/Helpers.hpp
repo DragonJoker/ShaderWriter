@@ -149,6 +149,9 @@ namespace sdw
 	stmt::StmtPtr makeSamplerDecl( var::VariablePtr var
 		, uint32_t bindingPoint
 		, uint32_t bindingSet );
+	stmt::StmtPtr makeImageDecl( var::VariablePtr var
+		, uint32_t bindingPoint
+		, uint32_t bindingSet );
 	stmt::ContainerPtr makeFuncDecl( type::TypePtr type
 		, std::string name
 		, var::VariableList args );

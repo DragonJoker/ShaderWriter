@@ -125,7 +125,7 @@ namespace sdw
 					, nearPlane
 					, farPlane );
 				auto weight = m_writer.declLocale( "weight"
-					, max( pow( clamp( 1.0_f - depth, 0.0, 1.0 ), 3.0_f ) * 3e3, 1e-2 ) );
+					, max( pow( clamp( 1.0_f - depth, 0.0_f, 1.0_f ), 3.0_f ) * 3e3_f, 1e-2_f ) );
 
 				//// (9)
 				//auto weight = m_writer.declLocale( "weight"
@@ -204,7 +204,7 @@ namespace sdw
 				, Float const & roughness )
 			{
 				m_writer.returnStmt( sdw::fma( max( vec3( 1.0_f - roughness ), f0 ) - f0
-					, vec3( pow( clamp( 1.0_f - product, 0.0, 1.0 ), 5.0_f ) )
+					, vec3( pow( clamp( 1.0_f - product, 0.0_f, 1.0_f ), 5.0_f ) )
 					, f0 ) );
 			}
 			, InFloat{ m_writer, "product" }
@@ -229,7 +229,7 @@ namespace sdw
 				auto V = m_writer.declLocale( "V"
 					, normalize( worldEye - position ) );
 				auto NdotV = m_writer.declLocale( "NdotV"
-					, max( dot( normal, V ), 0.0 ) );
+					, max( dot( normal, V ), 0.0_f ) );
 				auto F = m_writer.declLocale( "F"
 					, fresnelSchlick( NdotV, f0, roughness ) );
 				auto kS = m_writer.declLocale( "kS"

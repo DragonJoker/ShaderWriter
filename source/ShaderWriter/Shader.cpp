@@ -76,6 +76,24 @@ namespace sdw
 		return result;
 	}
 
+	var::VariablePtr Shader::registerImage( std::string const & name
+		, type::TypePtr type
+		, uint32_t binding
+		, uint32_t set
+		, bool enabled )
+	{
+		auto result = registerName( name
+			, type
+			, var::Flag::eImage );
+
+		if ( enabled )
+		{
+			m_images.emplace( name, ImageInfo{ type, binding, set } );
+		}
+
+		return result;
+	}
+
 	var::VariablePtr Shader::registerInput( std::string const & name
 		, uint32_t location
 		, type::TypePtr type )

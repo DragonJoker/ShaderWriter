@@ -60,6 +60,10 @@ namespace sdw
 		, Value const & current
 		, Values const & ... values );
 
+	inline void findShaderRec( Shader *& result )
+	{
+	}
+
 	template< typename Value >
 	inline void findShaderRec( Shader *& result
 		, Value const & last )

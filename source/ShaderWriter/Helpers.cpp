@@ -52,6 +52,7 @@ See LICENSE file in root folder
 
 #include <ASTGenerator/Stmt/PreprocDefine.hpp>
 #include <ASTGenerator/Stmt/StmtContainer.hpp>
+#include <ASTGenerator/Stmt/StmtImageDecl.hpp>
 #include <ASTGenerator/Stmt/StmtInOutVariableDecl.hpp>
 #include <ASTGenerator/Stmt/StmtReturn.hpp>
 #include <ASTGenerator/Stmt/StmtSamplerDecl.hpp>
@@ -103,12 +104,12 @@ namespace sdw
 
 	expr::ExprPtr makeExpr( double value )
 	{
-		return expr::makeLiteral( float( value ) );
+		return expr::makeLiteral( value );
 	}
 
 	expr::ExprPtr makeExpr( long double value )
 	{
-		return expr::makeLiteral( float( value ) );
+		return expr::makeLiteral( double( value ) );
 	}
 
 	expr::ExprPtr makeInit( var::VariablePtr var
@@ -486,6 +487,15 @@ namespace sdw
 		, uint32_t bindingSet )
 	{
 		return stmt::makeSamplerDecl( std::move( var )
+			, bindingPoint
+			, bindingSet );
+	}
+
+	stmt::StmtPtr makeImageDecl( var::VariablePtr var
+		, uint32_t bindingPoint
+		, uint32_t bindingSet )
+	{
+		return stmt::makeImageDecl( std::move( var )
 			, bindingPoint
 			, bindingSet );
 	}

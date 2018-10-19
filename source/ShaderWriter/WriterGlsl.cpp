@@ -8,6 +8,10 @@ See LICENSE file in root folder
 #include <ASTGenerator/Expr/ExprVisitor.hpp>
 #include <ASTGenerator/Stmt/StmtVisitor.hpp>
 
+#include "ShaderWriter/GlslImageAccessNames.hpp"
+#include "ShaderWriter/GlslIntrinsicNames.hpp"
+#include "ShaderWriter/GlslTextureAccessNames.hpp"
+
 #include <sstream>
 
 namespace sdw
@@ -44,6 +48,9 @@ namespace sdw
 			case type::Kind::eFloat:
 				result = "float";
 				break;
+			case type::Kind::eDouble:
+				result = "double";
+				break;
 			case type::Kind::eVec2B:
 				result = "bvec2";
 				break;
@@ -62,13 +69,13 @@ namespace sdw
 			case type::Kind::eVec4I:
 				result = "ivec4";
 				break;
-			case type::Kind::eVec2UI:
+			case type::Kind::eVec2U:
 				result = "uvec2";
 				break;
-			case type::Kind::eVec3UI:
+			case type::Kind::eVec3U:
 				result = "uvec3";
 				break;
-			case type::Kind::eVec4UI:
+			case type::Kind::eVec4U:
 				result = "uvec4";
 				break;
 			case type::Kind::eVec2F:
@@ -80,41 +87,68 @@ namespace sdw
 			case type::Kind::eVec4F:
 				result = "vec4";
 				break;
-			case type::Kind::eMat2x2B:
-				result = "bmat2";
+			case type::Kind::eVec2D:
+				result = "dvec2";
 				break;
-			case type::Kind::eMat3x3B:
-				result = "bmat3";
+			case type::Kind::eVec3D:
+				result = "dvec3";
 				break;
-			case type::Kind::eMat4x4B:
-				result = "bmat4";
-				break;
-			case type::Kind::eMat2x2I:
-				result = "imat2";
-				break;
-			case type::Kind::eMat3x3I:
-				result = "imat3";
-				break;
-			case type::Kind::eMat4x4I:
-				result = "imat4";
-				break;
-			case type::Kind::eMat2x2UI:
-				result = "umat2";
-				break;
-			case type::Kind::eMat3x3UI:
-				result = "umat3";
-				break;
-			case type::Kind::eMat4x4UI:
-				result = "umat4";
+			case type::Kind::eVec4D:
+				result = "dvec4";
 				break;
 			case type::Kind::eMat2x2F:
 				result = "mat2";
 				break;
+			case type::Kind::eMat2x3F:
+				result = "mat2x3";
+				break;
+			case type::Kind::eMat2x4F:
+				result = "mat2x4";
+				break;
 			case type::Kind::eMat3x3F:
 				result = "mat3";
 				break;
+			case type::Kind::eMat3x2F:
+				result = "mat3x2";
+				break;
+			case type::Kind::eMat3x4F:
+				result = "mat3x4";
+				break;
 			case type::Kind::eMat4x4F:
 				result = "mat4";
+				break;
+			case type::Kind::eMat4x2F:
+				result = "mat4x2";
+				break;
+			case type::Kind::eMat4x3F:
+				result = "mat4x3";
+				break;
+			case type::Kind::eMat2x2D:
+				result = "dmat2";
+				break;
+			case type::Kind::eMat2x3D:
+				result = "dmat2x3";
+				break;
+			case type::Kind::eMat2x4D:
+				result = "dmat2x4";
+				break;
+			case type::Kind::eMat3x3D:
+				result = "dmat3";
+				break;
+			case type::Kind::eMat3x2D:
+				result = "dmat3x2";
+				break;
+			case type::Kind::eMat3x4D:
+				result = "dmat3x4";
+				break;
+			case type::Kind::eMat4x4D:
+				result = "dmat4";
+				break;
+			case type::Kind::eMat4x2D:
+				result = "dmat4x2";
+				break;
+			case type::Kind::eMat4x3D:
+				result = "dmat4x3";
 				break;
 			case type::Kind::eConstantsBuffer:
 				result = "uniform";
@@ -122,53 +156,206 @@ namespace sdw
 			case type::Kind::eShaderBuffer:
 				result = "buffer";
 				break;
-			case type::Kind::eSamplerBuffer:
+			case type::Kind::eSamplerBufferF:
 				result = "samplerBuffer";
 				break;
-			case type::Kind::eSampler1D:
+			case type::Kind::eSampler1DF:
 				result = "sampler1D";
 				break;
-			case type::Kind::eSampler2D:
+			case type::Kind::eSampler2DF:
 				result = "sampler2D";
 				break;
-			case type::Kind::eSampler3D:
+			case type::Kind::eSampler3DF:
 				result = "sampler3D";
 				break;
-			case type::Kind::eSamplerCube:
+			case type::Kind::eSamplerCubeF:
 				result = "samplerCube";
 				break;
-			case type::Kind::eSampler2DRect:
+			case type::Kind::eSampler2DRectF:
 				result = "sampler2DRect";
 				break;
-			case type::Kind::eSampler1DArray:
+			case type::Kind::eSampler1DArrayF:
 				result = "sampler1DArray";
 				break;
-			case type::Kind::eSampler2DArray:
+			case type::Kind::eSampler2DArrayF:
 				result = "sampler2DArray";
 				break;
-			case type::Kind::eSamplerCubeArray:
+			case type::Kind::eSamplerCubeArrayF:
 				result = "samplerCubeArray";
 				break;
-			case type::Kind::eSampler1DShadow:
+			case type::Kind::eSampler1DShadowF:
 				result = "sampler1DShadow";
 				break;
-			case type::Kind::eSampler2DShadow:
+			case type::Kind::eSampler2DShadowF:
 				result = "sampler2DShadow";
 				break;
-			case type::Kind::eSamplerCubeShadow:
+			case type::Kind::eSamplerCubeShadowF:
 				result = "samplerCubeShadow";
 				break;
-			case type::Kind::eSampler2DRectShadow:
+			case type::Kind::eSampler2DRectShadowF:
 				result = "sampler2DRectArrayShadow";
 				break;
-			case type::Kind::eSampler1DArrayShadow:
+			case type::Kind::eSampler1DArrayShadowF:
 				result = "sampler1DArrayShadow";
 				break;
-			case type::Kind::eSampler2DArrayShadow:
+			case type::Kind::eSampler2DArrayShadowF:
 				result = "sampler2DArrayShadow";
 				break;
-			case type::Kind::eSamplerCubeArrayShadow:
+			case type::Kind::eSamplerCubeArrayShadowF:
 				result = "samplerCubeArrayShadow";
+				break;
+			case type::Kind::eSamplerBufferI:
+				result = "isamplerBuffer";
+				break;
+			case type::Kind::eSampler1DI:
+				result = "isampler1D";
+				break;
+			case type::Kind::eSampler2DI:
+				result = "isampler2D";
+				break;
+			case type::Kind::eSampler3DI:
+				result = "isampler3D";
+				break;
+			case type::Kind::eSamplerCubeI:
+				result = "isamplerCube";
+				break;
+			case type::Kind::eSampler2DRectI:
+				result = "isampler2DRect";
+				break;
+			case type::Kind::eSampler1DArrayI:
+				result = "isampler1DArray";
+				break;
+			case type::Kind::eSampler2DArrayI:
+				result = "isampler2DArray";
+				break;
+			case type::Kind::eSamplerCubeArrayI:
+				result = "isamplerCubeArray";
+				break;
+			case type::Kind::eSamplerBufferU:
+				result = "usamplerBuffer";
+				break;
+			case type::Kind::eSampler1DU:
+				result = "usampler1D";
+				break;
+			case type::Kind::eSampler2DU:
+				result = "usampler2D";
+				break;
+			case type::Kind::eSampler3DU:
+				result = "usampler3D";
+				break;
+			case type::Kind::eSamplerCubeU:
+				result = "usamplerCube";
+				break;
+			case type::Kind::eSampler2DRectU:
+				result = "usampler2DRect";
+				break;
+			case type::Kind::eSampler1DArrayU:
+				result = "usampler1DArray";
+				break;
+			case type::Kind::eSampler2DArrayU:
+				result = "usampler2DArray";
+				break;
+			case type::Kind::eSamplerCubeArrayU:
+				result = "usamplerCubeArray";
+				break;
+			case type::Kind::eImageBufferF:
+				result = "imageBuffer";
+				break;
+			case type::Kind::eImage1DF:
+				result = "image1D";
+				break;
+			case type::Kind::eImage2DF:
+				result = "image2D";
+				break;
+			case type::Kind::eImage3DF:
+				result = "image3D";
+				break;
+			case type::Kind::eImageCubeF:
+				result = "imageCube";
+				break;
+			case type::Kind::eImage2DRectF:
+				result = "image2DRect";
+				break;
+			case type::Kind::eImage1DArrayF:
+				result = "image1DArray";
+				break;
+			case type::Kind::eImage2DArrayF:
+				result = "image2DArray";
+				break;
+			case type::Kind::eImageCubeArrayF:
+				result = "imageCubeArray";
+				break;
+			case type::Kind::eImage2DMSF:
+				result = "image2DMS";
+				break;
+			case type::Kind::eImage2DMSArrayF:
+				result = "image2DMSArray";
+				break;
+			case type::Kind::eImageBufferI:
+				result = "iimageBuffer";
+				break;
+			case type::Kind::eImage1DI:
+				result = "iimage1D";
+				break;
+			case type::Kind::eImage2DI:
+				result = "iimage2D";
+				break;
+			case type::Kind::eImage3DI:
+				result = "iimage3D";
+				break;
+			case type::Kind::eImageCubeI:
+				result = "iimageCube";
+				break;
+			case type::Kind::eImage2DRectI:
+				result = "iimage2DRect";
+				break;
+			case type::Kind::eImage1DArrayI:
+				result = "iimage1DArray";
+				break;
+			case type::Kind::eImage2DArrayI:
+				result = "iimage2DArray";
+				break;
+			case type::Kind::eImageCubeArrayI:
+				result = "iimageCubeArray";
+				break;
+			case type::Kind::eImage2DMSI:
+				result = "iimage2DMS";
+				break;
+			case type::Kind::eImage2DMSArrayI:
+				result = "iimage2DMSArray";
+				break;
+			case type::Kind::eImageBufferU:
+				result = "uimageBuffer";
+				break;
+			case type::Kind::eImage1DU:
+				result = "uimage1D";
+				break;
+			case type::Kind::eImage2DU:
+				result = "uimage2D";
+				break;
+			case type::Kind::eImage3DU:
+				result = "uimage3D";
+				break;
+			case type::Kind::eImageCubeU:
+				result = "uimageCube";
+				break;
+			case type::Kind::eImage2DRectU:
+				result = "uimage2DRect";
+				break;
+			case type::Kind::eImage1DArrayU:
+				result = "uimage1DArray";
+				break;
+			case type::Kind::eImage2DArrayU:
+				result = "uimage2DArray";
+				break;
+			case type::Kind::eImageCubeArrayU:
+				result = "uimageCubeArray";
+				break;
+			case type::Kind::eImage2DMSU:
+				result = "uimage2DMS";
+				break;
+			case type::Kind::eImage2DMSArrayU:
+				result = "uimage2DMSArray";
 				break;
 			}
 
@@ -670,6 +857,21 @@ namespace sdw
 				m_result += expr->getVariable()->getName();
 			}
 
+			void visitImageAccessCallExpr( expr::ImageAccessCall * expr )override
+			{
+				m_result += getGlslName( expr->getImageAccess() ) + "(";
+				std::string sep;
+
+				for ( auto & arg : expr->getArgList() )
+				{
+					m_result += sep;
+					arg->accept( this );
+					sep = ", ";
+				}
+
+				m_result += ")";
+			}
+
 			void visitInitExpr( expr::Init * expr )override
 			{
 				m_result += getTypeName( expr->getType() ) + " ";
@@ -690,6 +892,21 @@ namespace sdw
 
 				m_result += " = ";
 				expr->getInitialiser()->accept( this );
+			}
+
+			void visitIntrinsicCallExpr( expr::IntrinsicCall * expr )override
+			{
+				m_result += getGlslName( expr->getIntrinsic() ) + "(";
+				std::string sep;
+
+				for ( auto & arg : expr->getArgList() )
+				{
+					m_result += sep;
+					arg->accept( this );
+					sep = ", ";
+				}
+
+				m_result += ")";
 			}
 
 			void visitLiteralExpr( expr::Literal * expr )override
@@ -748,6 +965,21 @@ namespace sdw
 				expr->getValue()->accept( this );
 			}
 
+			void visitTextureAccessCallExpr( expr::TextureAccessCall * expr )override
+			{
+				m_result += getGlslName( expr->getTextureAccess() ) + "(";
+				std::string sep;
+
+				for ( auto & arg : expr->getArgList() )
+				{
+					m_result += sep;
+					arg->accept( this );
+					sep = ", ";
+				}
+
+				m_result += ")";
+			}
+
 		private:
 			std::string & m_result;
 		};
@@ -783,7 +1015,7 @@ namespace sdw
 				m_appendLineEnd = false;
 			}
 
-			void visitContainerStmt( stmt::Container * stmt )
+			void visitContainerStmt( stmt::Container * stmt )override
 			{
 				for ( auto & stmt : *stmt )
 				{
@@ -791,7 +1023,7 @@ namespace sdw
 				}
 			}
 
-			void visitConstantBufferDeclStmt( stmt::ConstantBufferDecl * stmt )
+			void visitConstantBufferDeclStmt( stmt::ConstantBufferDecl * stmt )override
 			{
 				m_appendLineEnd = true;
 				doAppendLineEnd();
@@ -803,13 +1035,13 @@ namespace sdw
 				m_appendLineEnd = true;
 			}
 
-			void visitDiscardStmt( stmt::Discard * stmt )
+			void visitDiscardStmt( stmt::Discard * stmt )override
 			{
 				doAppendLineEnd();
 				m_result += m_indent + "discard;\n";
 			}
 
-			void visitPushConstantsBufferDeclStmt( stmt::PushConstantsBufferDecl * stmt )
+			void visitPushConstantsBufferDeclStmt( stmt::PushConstantsBufferDecl * stmt )override
 			{
 				m_appendLineEnd = true;
 				doAppendLineEnd();
@@ -821,7 +1053,7 @@ namespace sdw
 				m_appendLineEnd = true;
 			}
 
-			void visitCompoundStmt( stmt::Compound * stmt )
+			void visitCompoundStmt( stmt::Compound * stmt )override
 			{
 				doAppendLineEnd();
 
@@ -848,7 +1080,7 @@ namespace sdw
 				}
 			}
 
-			void visitDoWhileStmt( stmt::DoWhile * stmt )
+			void visitDoWhileStmt( stmt::DoWhile * stmt )override
 			{
 				m_appendLineEnd = true;
 				doAppendLineEnd();
@@ -859,7 +1091,7 @@ namespace sdw
 				m_appendLineEnd = true;
 			}
 
-			void visitElseIfStmt( stmt::ElseIf * stmt )
+			void visitElseIfStmt( stmt::ElseIf * stmt )override
 			{
 				m_result += m_indent + "else if (" + ExprVisitor::submit( stmt->getCtrlExpr() ) + ")";
 				m_appendSemiColon = false;
@@ -868,7 +1100,7 @@ namespace sdw
 				m_appendLineEnd = true;
 			}
 
-			void visitElseStmt( stmt::Else * stmt )
+			void visitElseStmt( stmt::Else * stmt )override
 			{
 				m_result += m_indent + "else";
 				m_appendSemiColon = false;
@@ -877,19 +1109,7 @@ namespace sdw
 				m_appendLineEnd = true;
 			}
 
-			void visitEmitPrimitiveStmt( stmt::EmitPrimitive * stmt )
-			{
-				doAppendLineEnd();
-				m_result += m_indent + "EmitPrimitive();\n";
-			}
-
-			void visitEmitVertexStmt( stmt::EmitVertex * stmt )
-			{
-				doAppendLineEnd();
-				m_result += m_indent + "EmitVertex();\n";
-			}
-
-			void visitForStmt( stmt::For * stmt )
+			void visitForStmt( stmt::For * stmt )override
 			{
 				m_appendLineEnd = true;
 				doAppendLineEnd();
@@ -901,7 +1121,7 @@ namespace sdw
 				m_appendLineEnd = true;
 			}
 
-			void visitFunctionDeclStmt( stmt::FunctionDecl * stmt )
+			void visitFunctionDeclStmt( stmt::FunctionDecl * stmt )override
 			{
 				m_appendLineEnd = true;
 				doAppendLineEnd();
@@ -923,7 +1143,7 @@ namespace sdw
 				m_appendLineEnd = true;
 			}
 
-			void visitIfStmt( stmt::If * stmt )
+			void visitIfStmt( stmt::If * stmt )override
 			{
 				m_appendLineEnd = true;
 				doAppendLineEnd();
@@ -944,7 +1164,30 @@ namespace sdw
 				m_appendLineEnd = true;
 			}
 
-			void visitInOutVariableDeclStmt( stmt::InOutVariableDecl * stmt )
+			void visitImageDeclStmt( stmt::ImageDecl * stmt )override
+			{
+				doAppendLineEnd();
+				m_result += m_indent;
+				m_result += "layout(binding=" + std::to_string( stmt->getBindingPoint() ) + ", set=" + std::to_string( stmt->getBindingSet() ) + ") ";
+				m_result += getTypeName( stmt->getVariable().getType() ) + " " + stmt->getVariable().getName();
+				auto arraySize = stmt->getVariable().getType()->getArraySize();
+
+				if ( arraySize != ast::type::NotArray )
+				{
+					if ( arraySize == ast::type::UnknownArraySize )
+					{
+						m_result += "[]";
+					}
+					else
+					{
+						m_result += "[" + std::to_string( arraySize ) + "]";
+					}
+				}
+
+				m_result += ";\n";
+			}
+
+			void visitInOutVariableDeclStmt( stmt::InOutVariableDecl * stmt )override
 			{
 				doAppendLineEnd();
 				m_result += m_indent;
@@ -968,7 +1211,7 @@ namespace sdw
 				m_result += ";\n";
 			}
 
-			void visitInputComputeLayoutStmt( stmt::InputComputeLayout * stmt )
+			void visitInputComputeLayoutStmt( stmt::InputComputeLayout * stmt )override
 			{
 				doAppendLineEnd();
 				m_result += m_indent + "layout(local_size_x=" + std::to_string( stmt->getWorkGroupsX() )
@@ -976,19 +1219,19 @@ namespace sdw
 					+ ", local_size_z=" + std::to_string( stmt->getWorkGroupsZ() ) + ") in;\n";
 			}
 
-			void visitInputGeometryLayoutStmt( stmt::InputGeometryLayout * stmt )
+			void visitInputGeometryLayoutStmt( stmt::InputGeometryLayout * stmt )override
 			{
 				doAppendLineEnd();
 				m_result += m_indent + "layout(" + getLayoutName( stmt->getLayout() ) + ") in;\n";
 			}
 
-			void visitOutputGeometryLayoutStmt( stmt::OutputGeometryLayout * stmt )
+			void visitOutputGeometryLayoutStmt( stmt::OutputGeometryLayout * stmt )override
 			{
 				doAppendLineEnd();
 				m_result += m_indent + "layout(" + getLayoutName( stmt->getLayout() ) + ", max_vertices = " + std::to_string( stmt->getPrimCount() ) + ") out;\n";
 			}
 
-			void visitPerVertexDeclStmt( stmt::PerVertexDecl * stmt )
+			void visitPerVertexDeclStmt( stmt::PerVertexDecl * stmt )override
 			{
 				m_appendLineEnd = true;
 				doAppendLineEnd();
@@ -1023,7 +1266,7 @@ namespace sdw
 				}
 			}
 
-			void visitReturnStmt( stmt::Return * stmt )
+			void visitReturnStmt( stmt::Return * stmt )override
 			{
 				doAppendLineEnd();
 
@@ -1037,7 +1280,7 @@ namespace sdw
 				}
 			}
 
-			void visitSamplerDeclStmt( stmt::SamplerDecl * stmt )
+			void visitSamplerDeclStmt( stmt::SamplerDecl * stmt )override
 			{
 				doAppendLineEnd();
 				m_result += m_indent;
@@ -1060,7 +1303,7 @@ namespace sdw
 				m_result += ";\n";
 			}
 
-			void visitShaderBufferDeclStmt( stmt::ShaderBufferDecl * stmt )
+			void visitShaderBufferDeclStmt( stmt::ShaderBufferDecl * stmt )override
 			{
 				m_appendLineEnd = true;
 				doAppendLineEnd();
@@ -1078,7 +1321,7 @@ namespace sdw
 				m_result += m_indent + ExprVisitor::submit( stmt->getExpr() ) + ";\n";
 			}
 
-			void visitStructureDeclStmt( stmt::StructureDecl * stmt )
+			void visitStructureDeclStmt( stmt::StructureDecl * stmt )override
 			{
 				m_appendLineEnd = true;
 				doAppendLineEnd();
@@ -1119,7 +1362,7 @@ namespace sdw
 				}
 			}
 
-			void visitSwitchCaseStmt( stmt::SwitchCase * stmt )
+			void visitSwitchCaseStmt( stmt::SwitchCase * stmt )override
 			{
 				doAppendLineEnd();
 
@@ -1147,7 +1390,7 @@ namespace sdw
 				m_appendLineEnd = true;
 			}
 
-			void visitSwitchStmt( stmt::Switch * stmt )
+			void visitSwitchStmt( stmt::Switch * stmt )override
 			{
 				m_appendLineEnd = true;
 				doAppendLineEnd();
@@ -1157,7 +1400,7 @@ namespace sdw
 				m_appendLineEnd = true;
 			}
 
-			void visitVariableDeclStmt( stmt::VariableDecl * stmt )
+			void visitVariableDeclStmt( stmt::VariableDecl * stmt )override
 			{
 				doAppendLineEnd();
 				m_result += m_indent + getTypeName( stmt->getVariable().getType() ) + " " + stmt->getVariable().getName();
@@ -1178,7 +1421,7 @@ namespace sdw
 				m_result += ";\n";
 			}
 
-			void visitWhileStmt( stmt::While * stmt )
+			void visitWhileStmt( stmt::While * stmt )override
 			{
 				m_appendLineEnd = true;
 				doAppendLineEnd();
@@ -1188,49 +1431,49 @@ namespace sdw
 				m_appendLineEnd = true;
 			}
 
-			void visitPreprocDefine( stmt::PreprocDefine * preproc )
+			void visitPreprocDefine( stmt::PreprocDefine * preproc )override
 			{
 				doAppendLineEnd();
 				m_result += "#define " + preproc->getName() + " " + ExprVisitor::submit( preproc->getExpr() ) + "\n";
 			}
 
-			void visitPreprocElif( stmt::PreprocElif * preproc )
+			void visitPreprocElif( stmt::PreprocElif * preproc )override
 			{
 				doAppendLineEnd();
 				m_result += "#elif " + ExprVisitor::submit( preproc->getCtrlExpr() ) + "\n";
 			}
 
-			void visitPreprocElse( stmt::PreprocElse * preproc )
+			void visitPreprocElse( stmt::PreprocElse * preproc )override
 			{
 				doAppendLineEnd();
 				m_result += "#else\n";
 			}
 
-			void visitPreprocEndif( stmt::PreprocEndif * preproc )
+			void visitPreprocEndif( stmt::PreprocEndif * preproc )override
 			{
 				doAppendLineEnd();
 				m_result += "#endif\n";
 			}
 
-			void visitPreprocExtension( stmt::PreprocExtension * preproc )
+			void visitPreprocExtension( stmt::PreprocExtension * preproc )override
 			{
 				doAppendLineEnd();
 				m_result += "#extension " + preproc->getName() + ": " + getStatusName( preproc->getStatus() ) + "\n";
 			}
 
-			void visitPreprocIf( stmt::PreprocIf * preproc )
+			void visitPreprocIf( stmt::PreprocIf * preproc )override
 			{
 				doAppendLineEnd();
 				m_result += "#if " + ExprVisitor::submit( preproc->getCtrlExpr() ) + "\n";
 			}
 
-			void visitPreprocIfDef( stmt::PreprocIfDef * preproc )
+			void visitPreprocIfDef( stmt::PreprocIfDef * preproc )override
 			{
 				doAppendLineEnd();
 				m_result += "#ifdef " + ExprVisitor::submit( preproc->getIdentExpr() ) + "\n";
 			}
 
-			void visitPreprocVersion( stmt::PreprocVersion * preproc )
+			void visitPreprocVersion( stmt::PreprocVersion * preproc )override
 			{
 				doAppendLineEnd();
 				m_result += "#version " + preproc->getName() + "\n";

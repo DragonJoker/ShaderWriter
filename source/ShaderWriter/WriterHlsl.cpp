@@ -8,6 +8,10 @@ See LICENSE file in root folder
 #include <ASTGenerator/Expr/ExprVisitor.hpp>
 #include <ASTGenerator/Stmt/StmtVisitor.hpp>
 
+#include <ASTGenerator/Expr/GetImageAccessName.hpp>
+#include <ASTGenerator/Expr/GetIntrinsicName.hpp>
+#include <ASTGenerator/Expr/GetTextureAccessName.hpp>
+
 #include <sstream>
 
 namespace sdw
@@ -44,6 +48,9 @@ namespace sdw
 			case type::Kind::eFloat:
 				result = "float";
 				break;
+			case type::Kind::eDouble:
+				result = "double";
+				break;
 			case type::Kind::eVec2B:
 				result = "bool2";
 				break;
@@ -62,13 +69,13 @@ namespace sdw
 			case type::Kind::eVec4I:
 				result = "int4";
 				break;
-			case type::Kind::eVec2UI:
+			case type::Kind::eVec2U:
 				result = "uint2";
 				break;
-			case type::Kind::eVec3UI:
+			case type::Kind::eVec3U:
 				result = "uint3";
 				break;
-			case type::Kind::eVec4UI:
+			case type::Kind::eVec4U:
 				result = "uint4";
 				break;
 			case type::Kind::eVec2F:
@@ -80,41 +87,68 @@ namespace sdw
 			case type::Kind::eVec4F:
 				result = "float4";
 				break;
-			case type::Kind::eMat2x2B:
-				result = "bool2x2";
+			case type::Kind::eVec2D:
+				result = "double2";
 				break;
-			case type::Kind::eMat3x3B:
-				result = "bool3x3";
+			case type::Kind::eVec3D:
+				result = "double3";
 				break;
-			case type::Kind::eMat4x4B:
-				result = "bool4x4";
-				break;
-			case type::Kind::eMat2x2I:
-				result = "int2x2";
-				break;
-			case type::Kind::eMat3x3I:
-				result = "int3x3";
-				break;
-			case type::Kind::eMat4x4I:
-				result = "int4x4";
-				break;
-			case type::Kind::eMat2x2UI:
-				result = "uint2x2";
-				break;
-			case type::Kind::eMat3x3UI:
-				result = "uint3x3";
-				break;
-			case type::Kind::eMat4x4UI:
-				result = "uint4x4";
+			case type::Kind::eVec4D:
+				result = "double4";
 				break;
 			case type::Kind::eMat2x2F:
 				result = "float2x2";
 				break;
+			case type::Kind::eMat2x3F:
+				result = "float2x3";
+				break;
+			case type::Kind::eMat2x4F:
+				result = "float2x4";
+				break;
 			case type::Kind::eMat3x3F:
 				result = "float3x3";
 				break;
+			case type::Kind::eMat3x2F:
+				result = "float3x2";
+				break;
+			case type::Kind::eMat3x4F:
+				result = "float3x4";
+				break;
 			case type::Kind::eMat4x4F:
 				result = "float4x4";
+				break;
+			case type::Kind::eMat4x2F:
+				result = "float4x2";
+				break;
+			case type::Kind::eMat4x3F:
+				result = "float4x3";
+				break;
+			case type::Kind::eMat2x2D:
+				result = "double2x2";
+				break;
+			case type::Kind::eMat2x3D:
+				result = "double2x3";
+				break;
+			case type::Kind::eMat2x4D:
+				result = "double2x4";
+				break;
+			case type::Kind::eMat3x3D:
+				result = "double3x3";
+				break;
+			case type::Kind::eMat3x2D:
+				result = "double3x2";
+				break;
+			case type::Kind::eMat3x4D:
+				result = "double3x4";
+				break;
+			case type::Kind::eMat4x4D:
+				result = "double4x4";
+				break;
+			case type::Kind::eMat4x2D:
+				result = "double4x2";
+				break;
+			case type::Kind::eMat4x3D:
+				result = "double4x3";
 				break;
 			case type::Kind::eConstantsBuffer:
 				result = "cbuffer";
@@ -122,53 +156,206 @@ namespace sdw
 			case type::Kind::eShaderBuffer:
 				result = "buffer";
 				break;
-			case type::Kind::eSamplerBuffer:
+			case type::Kind::eSamplerBufferF:
 				result = "Buffer<float4>";
 				break;
-			case type::Kind::eSampler1D:
+			case type::Kind::eSampler1DF:
 				result = "Texture1D<float4>";
 				break;
-			case type::Kind::eSampler2D:
+			case type::Kind::eSampler2DF:
 				result = "Texture2D<float4>";
 				break;
-			case type::Kind::eSampler3D:
+			case type::Kind::eSampler3DF:
 				result = "Texture3D<float4>";
 				break;
-			case type::Kind::eSamplerCube:
+			case type::Kind::eSamplerCubeF:
 				result = "TextureCube<float4>";
 				break;
-			case type::Kind::eSampler2DRect:
+			case type::Kind::eSampler2DRectF:
 				result = "Texture2D<float4>";
 				break;
-			case type::Kind::eSampler1DArray:
+			case type::Kind::eSampler1DArrayF:
 				result = "Texture1DArray<float4>";
 				break;
-			case type::Kind::eSampler2DArray:
+			case type::Kind::eSampler2DArrayF:
 				result = "Texture2DArray<float4>";
 				break;
-			case type::Kind::eSamplerCubeArray:
+			case type::Kind::eSamplerCubeArrayF:
 				result = "TextureCubeArray<float4>";
 				break;
-			case type::Kind::eSampler1DShadow:
+			case type::Kind::eSampler1DShadowF:
 				result = "Texture1D<float4>";
 				break;
-			case type::Kind::eSampler2DShadow:
+			case type::Kind::eSampler2DShadowF:
 				result = "Texture2D<float4>";
 				break;
-			case type::Kind::eSamplerCubeShadow:
+			case type::Kind::eSamplerCubeShadowF:
 				result = "TextureCube<float4>";
 				break;
-			case type::Kind::eSampler2DRectShadow:
+			case type::Kind::eSampler2DRectShadowF:
 				result = "Texture2DArray<float4>";
 				break;
-			case type::Kind::eSampler1DArrayShadow:
+			case type::Kind::eSampler1DArrayShadowF:
 				result = "Texture1DArray<float4>";
 				break;
-			case type::Kind::eSampler2DArrayShadow:
+			case type::Kind::eSampler2DArrayShadowF:
 				result = "Texture2DArray<float4>";
 				break;
-			case type::Kind::eSamplerCubeArrayShadow:
+			case type::Kind::eSamplerCubeArrayShadowF:
 				result = "TextureCubeArray<float4>";
+				break;
+			case type::Kind::eSamplerBufferI:
+				result = "Buffer<int4>";
+				break;
+			case type::Kind::eSampler1DI:
+				result = "Texture1D<int4>";
+				break;
+			case type::Kind::eSampler2DI:
+				result = "Texture2D<int4>";
+				break;
+			case type::Kind::eSampler3DI:
+				result = "Texture3D<int4>";
+				break;
+			case type::Kind::eSamplerCubeI:
+				result = "TextureCube<int4>";
+				break;
+			case type::Kind::eSampler2DRectI:
+				result = "Texture2D<int4>";
+				break;
+			case type::Kind::eSampler1DArrayI:
+				result = "Texture1DArray<int4>";
+				break;
+			case type::Kind::eSampler2DArrayI:
+				result = "Texture2DArray<int4>";
+				break;
+			case type::Kind::eSamplerCubeArrayI:
+				result = "TextureCubeArray<int4>";
+				break;
+			case type::Kind::eSamplerBufferU:
+				result = "Buffer<uint4>";
+				break;
+			case type::Kind::eSampler1DU:
+				result = "Texture1D<uint4>";
+				break;
+			case type::Kind::eSampler2DU:
+				result = "Texture2D<uint4>";
+				break;
+			case type::Kind::eSampler3DU:
+				result = "Texture3D<uint4>";
+				break;
+			case type::Kind::eSamplerCubeU:
+				result = "TextureCube<uint4>";
+				break;
+			case type::Kind::eSampler2DRectU:
+				result = "Texture2D<uint4>";
+				break;
+			case type::Kind::eSampler1DArrayU:
+				result = "Texture1DArray<uint4>";
+				break;
+			case type::Kind::eSampler2DArrayU:
+				result = "Texture2DArray<uint4>";
+				break;
+			case type::Kind::eSamplerCubeArrayU:
+				result = "TextureCubeArray<uint4>";
+				break;
+			case type::Kind::eImageBufferF:
+				result = "Buffer<float4>";
+				break;
+			case type::Kind::eImage1DF:
+				result = "Texture1D<float4>";
+				break;
+			case type::Kind::eImage2DF:
+				result = "Texture2D<float4>";
+				break;
+			case type::Kind::eImage3DF:
+				result = "Texture3D<float4>";
+				break;
+			case type::Kind::eImageCubeF:
+				result = "TextureCube<float4>";
+				break;
+			case type::Kind::eImage2DRectF:
+				result = "Texture2D<float4>";
+				break;
+			case type::Kind::eImage1DArrayF:
+				result = "Texture1DArray<float4>";
+				break;
+			case type::Kind::eImage2DArrayF:
+				result = "Texture2DArray<float4>";
+				break;
+			case type::Kind::eImageCubeArrayF:
+				result = "TextureCubeArray<float4>";
+				break;
+			case type::Kind::eImage2DMSF:
+				result = "Texture2D<float4>";
+				break;
+			case type::Kind::eImage2DMSArrayF:
+				result = "Texture2DArray<float4>";
+				break;
+			case type::Kind::eImageBufferI:
+				result = "Buffer<int4>";
+				break;
+			case type::Kind::eImage1DI:
+				result = "Texture1D<int4>";
+				break;
+			case type::Kind::eImage2DI:
+				result = "Texture2D<int4>";
+				break;
+			case type::Kind::eImage3DI:
+				result = "Texture3D<int4>";
+				break;
+			case type::Kind::eImageCubeI:
+				result = "TextureCube<int4>";
+				break;
+			case type::Kind::eImage2DRectI:
+				result = "Texture2D<int4>";
+				break;
+			case type::Kind::eImage1DArrayI:
+				result = "Texture1DArray<int4>";
+				break;
+			case type::Kind::eImage2DArrayI:
+				result = "Texture2DArray<int4>";
+				break;
+			case type::Kind::eImageCubeArrayI:
+				result = "TextureCubeArray<int4>";
+				break;
+			case type::Kind::eImage2DMSI:
+				result = "Texture2D<int4>";
+				break;
+			case type::Kind::eImage2DMSArrayI:
+				result = "Texture2DArray<int4>";
+				break;
+			case type::Kind::eImageBufferU:
+				result = "Buffer<uint4>";
+				break;
+			case type::Kind::eImage1DU:
+				result = "Texture1D<uint4>";
+				break;
+			case type::Kind::eImage2DU:
+				result = "Texture2D<uint4>";
+				break;
+			case type::Kind::eImage3DU:
+				result = "Texture3D<uint4>";
+				break;
+			case type::Kind::eImageCubeU:
+				result = "TextureCube<uint4>";
+				break;
+			case type::Kind::eImage2DRectU:
+				result = "Texture2D<uint4>";
+				break;
+			case type::Kind::eImage1DArrayU:
+				result = "Texture1DArray<uint4>";
+				break;
+			case type::Kind::eImage2DArrayU:
+				result = "Texture2DArray<uint4>";
+				break;
+			case type::Kind::eImageCubeArrayU:
+				result = "TextureCubeArray<uint4>";
+				break;
+			case type::Kind::eImage2DMSU:
+				result = "Texture2D<uint4>";
+				break;
+			case type::Kind::eImage2DMSArrayU:
+				result = "Texture2DArray<uint4>";
 				break;
 			}
 
@@ -618,55 +805,38 @@ namespace sdw
 
 			void visitFnCallExpr( expr::FnCall * expr )override
 			{
-				auto name = expr->getFn()->getVariable()->getName();
+				expr->getFn()->accept( this );
+				m_result += "(";
+				std::string sep;
 
-				if ( name.find( "texture" ) != std::string::npos )
+				for ( auto & arg : expr->getArgList() )
 				{
-					static std::map< std::string, std::vector< std::string > > const replacements
-					{
-						{ "texture", { "Sample", "SampleCmp", "SampleLevel" } },
-						{ "textureOffset", { "Sample", "SampleCmp" } },
-						{ "textureLodOffset", { "SampleLevel" } },
-						{ "textureGather", { "Gather", "GatherCmp", "GatherRed", "GatherGreen", "GatherBlue", "GatherAlpha", "GatherCmpRed", "GatherCmpGreen", "GatherCmpBlue", "GatherCmpAlpha" } },
-						{ "texelFetch", { "Load", "mips" } },
-						{ "textureSize", { "GetDimensions" } },
-					};
-
-					if ( name == "textureSize" )
-					{
-					}
-					else if ( name == "texture" )
-					{
-						if ( expr->getArgList().size() == 2u )
-						{
-
-						}
-						else
-						{
-							assert( expr->getArgList().size() == 3u );
-						}
-					}
+					m_result += sep;
+					arg->accept( this );
+					sep = ", ";
 				}
-				else
-				{
-					expr->getFn()->accept( this );
-					m_result += "(";
-					std::string sep;
 
-					for ( auto & arg : expr->getArgList() )
-					{
-						m_result += sep;
-						arg->accept( this );
-						sep = ", ";
-					}
-
-					m_result += ")";
-				}
+				m_result += ")";
 			}
 
 			void visitIdentifierExpr( expr::Identifier * expr )override
 			{
 				m_result += expr->getVariable()->getName();
+			}
+
+			void visitImageAccessCallExpr( expr::ImageAccessCall * expr )override
+			{
+				m_result += getName( expr->getImageAccess() ) + "(";
+				std::string sep;
+
+				for ( auto & arg : expr->getArgList() )
+				{
+					m_result += sep;
+					arg->accept( this );
+					sep = ", ";
+				}
+
+				m_result += ")";
 			}
 
 			void visitInitExpr( expr::Init * expr )override
@@ -689,6 +859,21 @@ namespace sdw
 
 				m_result += " = ";
 				expr->getInitialiser()->accept( this );
+			}
+
+			void visitIntrinsicCallExpr( expr::IntrinsicCall * expr )override
+			{
+				m_result += getName( expr->getIntrinsic() ) + "(";
+				std::string sep;
+
+				for ( auto & arg : expr->getArgList() )
+				{
+					m_result += sep;
+					arg->accept( this );
+					sep = ", ";
+				}
+
+				m_result += ")";
 			}
 
 			void visitLiteralExpr( expr::Literal * expr )override
@@ -747,6 +932,21 @@ namespace sdw
 				expr->getValue()->accept( this );
 			}
 
+			void visitTextureAccessCallExpr( expr::TextureAccessCall * expr )override
+			{
+				m_result += getName( expr->getTextureAccess() ) + "(";
+				std::string sep;
+
+				for ( auto & arg : expr->getArgList() )
+				{
+					m_result += sep;
+					arg->accept( this );
+					sep = ", ";
+				}
+
+				m_result += ")";
+			}
+
 		private:
 			std::string & m_result;
 		};
@@ -782,7 +982,7 @@ namespace sdw
 				m_appendLineEnd = false;
 			}
 
-			void visitContainerStmt( stmt::Container * stmt )
+			void visitContainerStmt( stmt::Container * stmt )override
 			{
 				for ( auto & stmt : *stmt )
 				{
@@ -790,7 +990,7 @@ namespace sdw
 				}
 			}
 
-			void visitConstantBufferDeclStmt( stmt::ConstantBufferDecl * stmt )
+			void visitConstantBufferDeclStmt( stmt::ConstantBufferDecl * stmt )override
 			{
 				m_appendLineEnd = true;
 				doAppendLineEnd();
@@ -800,13 +1000,13 @@ namespace sdw
 				m_appendLineEnd = true;
 			}
 
-			void visitDiscardStmt( stmt::Discard * stmt )
+			void visitDiscardStmt( stmt::Discard * stmt )override
 			{
 				doAppendLineEnd();
 				m_result += m_indent + "discard;\n";
 			}
 
-			void visitPushConstantsBufferDeclStmt( stmt::PushConstantsBufferDecl * stmt )
+			void visitPushConstantsBufferDeclStmt( stmt::PushConstantsBufferDecl * stmt )override
 			{
 				m_appendLineEnd = true;
 				doAppendLineEnd();
@@ -818,7 +1018,7 @@ namespace sdw
 				m_appendLineEnd = true;
 			}
 
-			void visitCompoundStmt( stmt::Compound * stmt )
+			void visitCompoundStmt( stmt::Compound * stmt )override
 			{
 				doAppendLineEnd();
 
@@ -845,7 +1045,7 @@ namespace sdw
 				}
 			}
 
-			void visitDoWhileStmt( stmt::DoWhile * stmt )
+			void visitDoWhileStmt( stmt::DoWhile * stmt )override
 			{
 				m_appendLineEnd = true;
 				doAppendLineEnd();
@@ -856,7 +1056,7 @@ namespace sdw
 				m_appendLineEnd = true;
 			}
 
-			void visitElseIfStmt( stmt::ElseIf * stmt )
+			void visitElseIfStmt( stmt::ElseIf * stmt )override
 			{
 				m_result += m_indent + "else if (" + ExprVisitor::submit( stmt->getCtrlExpr() ) + ")";
 				m_appendSemiColon = false;
@@ -865,7 +1065,7 @@ namespace sdw
 				m_appendLineEnd = true;
 			}
 
-			void visitElseStmt( stmt::Else * stmt )
+			void visitElseStmt( stmt::Else * stmt )override
 			{
 				m_result += m_indent + "else";
 				m_appendSemiColon = false;
@@ -874,19 +1074,7 @@ namespace sdw
 				m_appendLineEnd = true;
 			}
 
-			void visitEmitPrimitiveStmt( stmt::EmitPrimitive * stmt )
-			{
-				doAppendLineEnd();
-				m_result += m_indent + "EmitPrimitive();\n";
-			}
-
-			void visitEmitVertexStmt( stmt::EmitVertex * stmt )
-			{
-				doAppendLineEnd();
-				m_result += m_indent + "EmitVertex();\n";
-			}
-
-			void visitForStmt( stmt::For * stmt )
+			void visitForStmt( stmt::For * stmt )override
 			{
 				m_appendLineEnd = true;
 				doAppendLineEnd();
@@ -898,7 +1086,7 @@ namespace sdw
 				m_appendLineEnd = true;
 			}
 
-			void visitFunctionDeclStmt( stmt::FunctionDecl * stmt )
+			void visitFunctionDeclStmt( stmt::FunctionDecl * stmt )override
 			{
 				m_appendLineEnd = true;
 				doAppendLineEnd();
@@ -920,7 +1108,7 @@ namespace sdw
 				m_appendLineEnd = true;
 			}
 
-			void visitIfStmt( stmt::If * stmt )
+			void visitIfStmt( stmt::If * stmt )override
 			{
 				m_appendLineEnd = true;
 				doAppendLineEnd();
@@ -941,7 +1129,31 @@ namespace sdw
 				m_appendLineEnd = true;
 			}
 
-			void visitInOutVariableDeclStmt( stmt::InOutVariableDecl * stmt )
+			void visitImageDeclStmt( stmt::ImageDecl * stmt )override
+			{
+				doAppendLineEnd();
+				m_result += m_indent;
+				m_result += getTypeName( stmt->getVariable().getType() ) + " ";
+				m_result += stmt->getVariable().getName() + ": register(u" + std::to_string( stmt->getBindingPoint() ) + ")";
+
+				auto arraySize = stmt->getVariable().getType()->getArraySize();
+
+				if ( arraySize != ast::type::NotArray )
+				{
+					if ( arraySize == ast::type::UnknownArraySize )
+					{
+						m_result += "[]";
+					}
+					else
+					{
+						m_result += "[" + std::to_string( arraySize ) + "]";
+					}
+				}
+
+				m_result += ";\n";
+			}
+
+			void visitInOutVariableDeclStmt( stmt::InOutVariableDecl * stmt )override
 			{
 				doAppendLineEnd();
 				m_result += m_indent;
@@ -965,7 +1177,7 @@ namespace sdw
 				m_result += ";\n";
 			}
 
-			void visitInputComputeLayoutStmt( stmt::InputComputeLayout * stmt )
+			void visitInputComputeLayoutStmt( stmt::InputComputeLayout * stmt )override
 			{
 				doAppendLineEnd();
 				m_result += m_indent + "layout(local_size_x=" + std::to_string( stmt->getWorkGroupsX() )
@@ -973,19 +1185,19 @@ namespace sdw
 					+ ", local_size_z=" + std::to_string( stmt->getWorkGroupsZ() ) + ") in;\n";
 			}
 
-			void visitInputGeometryLayoutStmt( stmt::InputGeometryLayout * stmt )
+			void visitInputGeometryLayoutStmt( stmt::InputGeometryLayout * stmt )override
 			{
 				doAppendLineEnd();
 				m_result += m_indent + "layout(" + getLayoutName( stmt->getLayout() ) + ") in;\n";
 			}
 
-			void visitOutputGeometryLayoutStmt( stmt::OutputGeometryLayout * stmt )
+			void visitOutputGeometryLayoutStmt( stmt::OutputGeometryLayout * stmt )override
 			{
 				doAppendLineEnd();
 				m_result += m_indent + "layout(" + getLayoutName( stmt->getLayout() ) + ", max_vertices = " + std::to_string( stmt->getPrimCount() ) + ") out;\n";
 			}
 
-			void visitPerVertexDeclStmt( stmt::PerVertexDecl * stmt )
+			void visitPerVertexDeclStmt( stmt::PerVertexDecl * stmt )override
 			{
 				m_appendLineEnd = true;
 				doAppendLineEnd();
@@ -1020,7 +1232,7 @@ namespace sdw
 				}
 			}
 
-			void visitReturnStmt( stmt::Return * stmt )
+			void visitReturnStmt( stmt::Return * stmt )override
 			{
 				doAppendLineEnd();
 
@@ -1034,13 +1246,15 @@ namespace sdw
 				}
 			}
 
-			void visitSamplerDeclStmt( stmt::SamplerDecl * stmt )
+			void visitSamplerDeclStmt( stmt::SamplerDecl * stmt )override
 			{
 				doAppendLineEnd();
 				m_result += m_indent;
 				m_result += getTypeName( stmt->getVariable().getType() ) + " ";
 
-				if ( stmt->getVariable().getType()->getKind() == type::Kind::eSamplerBuffer )
+				if ( stmt->getVariable().getType()->getKind() == type::Kind::eSamplerBufferF
+					|| stmt->getVariable().getType()->getKind() == type::Kind::eSamplerBufferI
+					|| stmt->getVariable().getType()->getKind() == type::Kind::eSamplerBufferU )
 				{
 					m_result += stmt->getVariable().getName() + ": register(b" + std::to_string( stmt->getBindingPoint() ) + ")";
 				}
@@ -1065,13 +1279,15 @@ namespace sdw
 
 				m_result += ";\n";
 
-				if ( stmt->getVariable().getType()->getKind() != type::Kind::eSamplerBuffer )
+				if ( stmt->getVariable().getType()->getKind() != type::Kind::eSamplerBufferF
+					|| stmt->getVariable().getType()->getKind() != type::Kind::eSamplerBufferI
+					|| stmt->getVariable().getType()->getKind() != type::Kind::eSamplerBufferU )
 				{
 					m_result += m_indent + "SamplerState " + stmt->getVariable().getName() + "_sampler: register(s" + std::to_string( stmt->getBindingPoint() ) + ");\n";
 				}
 			}
 
-			void visitShaderBufferDeclStmt( stmt::ShaderBufferDecl * stmt )
+			void visitShaderBufferDeclStmt( stmt::ShaderBufferDecl * stmt )override
 			{
 				m_appendLineEnd = true;
 				doAppendLineEnd();
@@ -1081,13 +1297,13 @@ namespace sdw
 				m_result += m_indent + "StructuredBuffer<" + stmt->getName() + "Struct> " + stmt->getName() + ": register(u" + std::to_string( stmt->getBindingPoint() ) + ");\n";
 			}
 
-			void visitSimpleStmt( stmt::Simple * stmt )
+			void visitSimpleStmt( stmt::Simple * stmt )override
 			{
 				doAppendLineEnd();
 				m_result += m_indent + ExprVisitor::submit( stmt->getExpr() ) + ";\n";
 			}
 
-			void visitStructureDeclStmt( stmt::StructureDecl * stmt )
+			void visitStructureDeclStmt( stmt::StructureDecl * stmt )override
 			{
 				m_appendLineEnd = true;
 				doAppendLineEnd();
@@ -1128,7 +1344,7 @@ namespace sdw
 				}
 			}
 
-			void visitSwitchCaseStmt( stmt::SwitchCase * stmt )
+			void visitSwitchCaseStmt( stmt::SwitchCase * stmt )override
 			{
 				doAppendLineEnd();
 
@@ -1156,7 +1372,7 @@ namespace sdw
 				m_appendLineEnd = true;
 			}
 
-			void visitSwitchStmt( stmt::Switch * stmt )
+			void visitSwitchStmt( stmt::Switch * stmt )override
 			{
 				m_appendLineEnd = true;
 				doAppendLineEnd();
@@ -1166,7 +1382,7 @@ namespace sdw
 				m_appendLineEnd = true;
 			}
 
-			void visitVariableDeclStmt( stmt::VariableDecl * stmt )
+			void visitVariableDeclStmt( stmt::VariableDecl * stmt )override
 			{
 				doAppendLineEnd();
 				m_result += m_indent + getTypeName( stmt->getVariable().getType() ) + " " + stmt->getVariable().getName();
@@ -1187,7 +1403,7 @@ namespace sdw
 				m_result += ";\n";
 			}
 
-			void visitWhileStmt( stmt::While * stmt )
+			void visitWhileStmt( stmt::While * stmt )override
 			{
 				m_appendLineEnd = true;
 				doAppendLineEnd();
@@ -1197,47 +1413,47 @@ namespace sdw
 				m_appendLineEnd = true;
 			}
 
-			void visitPreprocDefine( stmt::PreprocDefine * preproc )
+			void visitPreprocDefine( stmt::PreprocDefine * preproc )override
 			{
 				doAppendLineEnd();
 				m_result += "#define " + preproc->getName() + " " + ExprVisitor::submit( preproc->getExpr() ) + "\n";
 			}
 
-			void visitPreprocElif( stmt::PreprocElif * preproc )
+			void visitPreprocElif( stmt::PreprocElif * preproc )override
 			{
 				doAppendLineEnd();
 				m_result += "#elif " + ExprVisitor::submit( preproc->getCtrlExpr() ) + "\n";
 			}
 
-			void visitPreprocElse( stmt::PreprocElse * preproc )
+			void visitPreprocElse( stmt::PreprocElse * preproc )override
 			{
 				doAppendLineEnd();
 				m_result += "#else\n";
 			}
 
-			void visitPreprocEndif( stmt::PreprocEndif * preproc )
+			void visitPreprocEndif( stmt::PreprocEndif * preproc )override
 			{
 				doAppendLineEnd();
 				m_result += "#endif\n";
 			}
 
-			void visitPreprocExtension( stmt::PreprocExtension * preproc )
+			void visitPreprocExtension( stmt::PreprocExtension * preproc )override
 			{
 			}
 
-			void visitPreprocIf( stmt::PreprocIf * preproc )
+			void visitPreprocIf( stmt::PreprocIf * preproc )override
 			{
 				doAppendLineEnd();
 				m_result += "#if " + ExprVisitor::submit( preproc->getCtrlExpr() ) + "\n";
 			}
 
-			void visitPreprocIfDef( stmt::PreprocIfDef * preproc )
+			void visitPreprocIfDef( stmt::PreprocIfDef * preproc )override
 			{
 				doAppendLineEnd();
 				m_result += "#ifdef " + ExprVisitor::submit( preproc->getIdentExpr() ) + "\n";
 			}
 
-			void visitPreprocVersion( stmt::PreprocVersion * preproc )
+			void visitPreprocVersion( stmt::PreprocVersion * preproc )override
 			{
 			}
 
@@ -1270,7 +1486,7 @@ namespace sdw
 				m_result->addStmt( stmt::makeStructureDecl( m_outputStruct ) );
 			}
 
-			void visitContainerStmt( stmt::Container * stmt )
+			void visitContainerStmt( stmt::Container * stmt )override
 			{
 				for ( auto & stmt : *stmt )
 				{
@@ -1278,7 +1494,7 @@ namespace sdw
 				}
 			}
 
-			void visitConstantBufferDeclStmt( stmt::ConstantBufferDecl * stmt )
+			void visitConstantBufferDeclStmt( stmt::ConstantBufferDecl * stmt )override
 			{
 				auto save = m_result;
 				auto cont = stmt::makeConstantBufferDecl( stmt->getName()
@@ -1290,12 +1506,12 @@ namespace sdw
 				m_result->addStmt( std::move( cont ) );
 			}
 
-			void visitDiscardStmt( stmt::Discard * stmt )
+			void visitDiscardStmt( stmt::Discard * stmt )override
 			{
 				m_result->addStmt( stmt::makeDiscard() );
 			}
 
-			void visitPushConstantsBufferDeclStmt( stmt::PushConstantsBufferDecl * stmt )
+			void visitPushConstantsBufferDeclStmt( stmt::PushConstantsBufferDecl * stmt )override
 			{
 				auto save = m_result;
 				auto cont = stmt::makePushConstantsBufferDecl( stmt->getName() );
@@ -1305,7 +1521,7 @@ namespace sdw
 				m_result->addStmt( std::move( cont ) );
 			}
 
-			void visitCompoundStmt( stmt::Compound * stmt )
+			void visitCompoundStmt( stmt::Compound * stmt )override
 			{
 				auto save = m_result;
 				auto cont = stmt::makeContainer();
@@ -1315,7 +1531,7 @@ namespace sdw
 				m_result->addStmt( std::move( cont ) );
 			}
 
-			void visitDoWhileStmt( stmt::DoWhile * stmt )
+			void visitDoWhileStmt( stmt::DoWhile * stmt )override
 			{
 				auto save = m_result;
 				auto cont = stmt::makeDoWhile( makeExpr( stmt->getCtrlExpr() ) );
@@ -1325,7 +1541,7 @@ namespace sdw
 				m_result->addStmt( std::move( cont ) );
 			}
 
-			void visitElseIfStmt( stmt::ElseIf * stmt )
+			void visitElseIfStmt( stmt::ElseIf * stmt )override
 			{
 				auto save = m_result;
 				auto cont = stmt::makeElseIf( makeExpr( stmt->getCtrlExpr() ) );
@@ -1335,7 +1551,7 @@ namespace sdw
 				m_result->addStmt( std::move( cont ) );
 			}
 
-			void visitElseStmt( stmt::Else * stmt )
+			void visitElseStmt( stmt::Else * stmt )override
 			{
 				auto save = m_result;
 				auto cont = stmt::makeElse();
@@ -1345,17 +1561,7 @@ namespace sdw
 				m_result->addStmt( std::move( cont ) );
 			}
 
-			void visitEmitPrimitiveStmt( stmt::EmitPrimitive * stmt )
-			{
-				m_result->addStmt( stmt::makeEmitPrimitive() );
-			}
-
-			void visitEmitVertexStmt( stmt::EmitVertex * stmt )
-			{
-				m_result->addStmt( stmt::makeEmitVertex() );
-			}
-
-			void visitForStmt( stmt::For * stmt )
+			void visitForStmt( stmt::For * stmt )override
 			{
 				auto save = m_result;
 				auto cont = stmt::makeFor( makeExpr( stmt->getInitExpr() )
@@ -1367,7 +1573,7 @@ namespace sdw
 				m_result->addStmt( std::move( cont ) );
 			}
 
-			void visitFunctionDeclStmt( stmt::FunctionDecl * stmt )
+			void visitFunctionDeclStmt( stmt::FunctionDecl * stmt )override
 			{
 				auto save = m_result;
 				stmt::FunctionDeclPtr cont;
@@ -1409,7 +1615,7 @@ namespace sdw
 				m_result->addStmt( std::move( cont ) );
 			}
 
-			void visitIfStmt( stmt::If * stmt )
+			void visitIfStmt( stmt::If * stmt )override
 			{
 				auto save = m_result;
 				auto cont = stmt::makeElseIf( makeExpr( stmt->getCtrlExpr() ) );
@@ -1429,7 +1635,14 @@ namespace sdw
 				}
 			}
 
-			void visitInOutVariableDeclStmt( stmt::InOutVariableDecl * stmt )
+			void visitImageDeclStmt( stmt::ImageDecl * stmt )override
+			{
+				m_result->addStmt( stmt::makeImageDecl( var::makeVariable( stmt->getVariable().getType(), stmt->getVariable().getName() )
+					, stmt->getBindingPoint()
+					, stmt->getBindingSet() ) );
+			}
+
+			void visitInOutVariableDeclStmt( stmt::InOutVariableDecl * stmt )override
 			{
 				auto & var = stmt->getVariable();
 
@@ -1443,22 +1656,22 @@ namespace sdw
 				}
 			}
 
-			void visitInputComputeLayoutStmt( stmt::InputComputeLayout * stmt )
+			void visitInputComputeLayoutStmt( stmt::InputComputeLayout * stmt )override
 			{
 				m_inputComputeLayout = stmt;
 			}
 
-			void visitInputGeometryLayoutStmt( stmt::InputGeometryLayout * stmt )
+			void visitInputGeometryLayoutStmt( stmt::InputGeometryLayout * stmt )override
 			{
 				m_inputGeometryLayout = stmt;
 			}
 
-			void visitOutputGeometryLayoutStmt( stmt::OutputGeometryLayout * stmt )
+			void visitOutputGeometryLayoutStmt( stmt::OutputGeometryLayout * stmt )override
 			{
 				m_outputGeometryLayout = stmt;
 			}
 
-			void visitPerVertexDeclStmt( stmt::PerVertexDecl * stmt )
+			void visitPerVertexDeclStmt( stmt::PerVertexDecl * stmt )override
 			{
 				switch ( stmt->getSource() )
 				{
@@ -1484,7 +1697,7 @@ namespace sdw
 				}
 			}
 
-			void visitReturnStmt( stmt::Return * stmt )
+			void visitReturnStmt( stmt::Return * stmt )override
 			{
 				if ( stmt->getExpr() )
 				{
@@ -1496,14 +1709,14 @@ namespace sdw
 				}
 			}
 
-			void visitSamplerDeclStmt( stmt::SamplerDecl * stmt )
+			void visitSamplerDeclStmt( stmt::SamplerDecl * stmt )override
 			{
 				m_result->addStmt( stmt::makeSamplerDecl( var::makeVariable( stmt->getVariable().getType(), stmt->getVariable().getName() )
 					, stmt->getBindingPoint()
 					, stmt->getBindingSet() ) );
 			}
 
-			void visitShaderBufferDeclStmt( stmt::ShaderBufferDecl * stmt )
+			void visitShaderBufferDeclStmt( stmt::ShaderBufferDecl * stmt )override
 			{
 				auto save = m_result;
 				auto cont = stmt::makeShaderBufferDecl( stmt->getName()
@@ -1515,17 +1728,17 @@ namespace sdw
 				m_result->addStmt( std::move( cont ) );
 			}
 
-			void visitSimpleStmt( stmt::Simple * stmt )
+			void visitSimpleStmt( stmt::Simple * stmt )override
 			{
 				m_result->addStmt( stmt::makeSimple( makeExpr( stmt->getExpr() ) ) );
 			}
 
-			void visitStructureDeclStmt( stmt::StructureDecl * stmt )
+			void visitStructureDeclStmt( stmt::StructureDecl * stmt )override
 			{
 				m_result->addStmt( stmt::makeStructureDecl( std::make_shared< type::Struct >( stmt->getType() ) ) );
 			}
 
-			void visitSwitchCaseStmt( stmt::SwitchCase * stmt )
+			void visitSwitchCaseStmt( stmt::SwitchCase * stmt )override
 			{
 				auto save = m_result;
 				auto cont = stmt::makeSwitchCase( expr::makeSwitchCase( std::make_unique< expr::Literal >( *stmt->getCaseExpr()->getLabel() ) ) );
@@ -1535,7 +1748,7 @@ namespace sdw
 				m_result->addStmt( std::move( cont ) );
 			}
 
-			void visitSwitchStmt( stmt::Switch * stmt )
+			void visitSwitchStmt( stmt::Switch * stmt )override
 			{
 				auto save = m_result;
 				auto cont = stmt::makeSwitch( expr::makeSwitchTest( makeExpr( stmt->getTestExpr()->getValue() ) ) );
@@ -1545,12 +1758,12 @@ namespace sdw
 				m_result->addStmt( std::move( cont ) );
 			}
 
-			void visitVariableDeclStmt( stmt::VariableDecl * stmt )
+			void visitVariableDeclStmt( stmt::VariableDecl * stmt )override
 			{
 				m_result->addStmt( stmt::makeVariableDecl( var::makeVariable( stmt->getVariable().getType(), stmt->getVariable().getName() ) ) );
 			}
 
-			void visitWhileStmt( stmt::While * stmt )
+			void visitWhileStmt( stmt::While * stmt )override
 			{
 				auto save = m_result;
 				auto cont = stmt::makeWhile( makeExpr( stmt->getCtrlExpr() ) );
@@ -1560,41 +1773,41 @@ namespace sdw
 				m_result->addStmt( std::move( cont ) );
 			}
 
-			void visitPreprocDefine( stmt::PreprocDefine * preproc )
+			void visitPreprocDefine( stmt::PreprocDefine * preproc )override
 			{
 				m_result->addStmt( stmt::makePreprocDefine( preproc->getName(), makeExpr( preproc->getExpr() ) ) );
 			}
 
-			void visitPreprocElif( stmt::PreprocElif * preproc )
+			void visitPreprocElif( stmt::PreprocElif * preproc )override
 			{
 				m_result->addStmt( stmt::makePreprocElif( makeExpr( preproc->getCtrlExpr() ) ) );
 			}
 
-			void visitPreprocElse( stmt::PreprocElse * preproc )
+			void visitPreprocElse( stmt::PreprocElse * preproc )override
 			{
 				m_result->addStmt( stmt::makePreprocElse() );
 			}
 
-			void visitPreprocEndif( stmt::PreprocEndif * preproc )
+			void visitPreprocEndif( stmt::PreprocEndif * preproc )override
 			{
 				m_result->addStmt( stmt::makePreprocEndif() );
 			}
 
-			void visitPreprocExtension( stmt::PreprocExtension * preproc )
+			void visitPreprocExtension( stmt::PreprocExtension * preproc )override
 			{
 			}
 
-			void visitPreprocIf( stmt::PreprocIf * preproc )
+			void visitPreprocIf( stmt::PreprocIf * preproc )override
 			{
 				m_result->addStmt( stmt::makePreprocIf( makeExpr( preproc->getCtrlExpr() ) ) );
 			}
 
-			void visitPreprocIfDef( stmt::PreprocIfDef * preproc )
+			void visitPreprocIfDef( stmt::PreprocIfDef * preproc )override
 			{
 				m_result->addStmt( stmt::makePreprocIfDef( makeIdent( preproc->getIdentExpr()->getVariable() ) ) );
 			}
 
-			void visitPreprocVersion( stmt::PreprocVersion * preproc )
+			void visitPreprocVersion( stmt::PreprocVersion * preproc )override
 			{
 			}
 

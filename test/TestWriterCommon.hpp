@@ -5,6 +5,7 @@
 #include <ASTGenerator/Var/Variable.hpp>
 #include <ShaderWriter/Intrinsics.hpp>
 #include <ShaderWriter/Sampler.hpp>
+#include <ShaderWriter/Image.hpp>
 #include <ShaderWriter/Writer.hpp>
 #include <ShaderWriter/WriterDebug.hpp>
 
@@ -30,10 +31,17 @@ namespace test
 	{
 		return sdw::UInt{ &shader, sdw::expr::makeLiteral( 1u ) };
 	}
+
 	template<>
 	sdw::Float getDefault< sdw::Float >( sdw::Shader & shader )
 	{
 		return sdw::Float{ &shader, sdw::expr::makeLiteral( 1.0f ) };
+	}
+
+	template<>
+	sdw::Double getDefault< sdw::Double >( sdw::Shader & shader )
+	{
+		return sdw::Double{ &shader, sdw::expr::makeLiteral( 1.0 ) };
 	}
 
 	template<>
@@ -55,6 +63,30 @@ namespace test
 	sdw::Vec4 getDefault< sdw::Vec4 >( sdw::Shader & shader )
 	{
 		return sdw::vec4( getDefault< sdw::Float >( shader )
+			, 0.0
+			, 0.0
+			, 0.0 );
+	}
+
+	template<>
+	sdw::DVec2 getDefault< sdw::DVec2 >( sdw::Shader & shader )
+	{
+		return sdw::dvec2( getDefault< sdw::Double >( shader )
+			, 0.0 );
+	}
+
+	template<>
+	sdw::DVec3 getDefault< sdw::DVec3 >( sdw::Shader & shader )
+	{
+		return sdw::dvec3( getDefault< sdw::Double >( shader )
+			, 0.0
+			, 0.0 );
+	}
+
+	template<>
+	sdw::DVec4 getDefault< sdw::DVec4 >( sdw::Shader & shader )
+	{
+		return sdw::dvec4( getDefault< sdw::Double >( shader )
 			, 0.0
 			, 0.0
 			, 0.0 );
@@ -140,9 +172,42 @@ namespace test
 	}
 
 	template<>
+	sdw::Mat2x3 getDefault< sdw::Mat2x3 >( sdw::Shader & shader )
+	{
+		return sdw::mat2x3( getDefault< sdw::Vec2 >( shader )
+			, getDefault< sdw::Vec2 >( shader )
+			, getDefault< sdw::Vec2 >( shader ) );
+	}
+
+	template<>
+	sdw::Mat2x4 getDefault< sdw::Mat2x4 >( sdw::Shader & shader )
+	{
+		return sdw::mat2x4( getDefault< sdw::Vec2 >( shader )
+			, getDefault< sdw::Vec2 >( shader )
+			, getDefault< sdw::Vec2 >( shader )
+			, getDefault< sdw::Vec2 >( shader ) );
+	}
+
+	template<>
 	sdw::Mat3 getDefault< sdw::Mat3 >( sdw::Shader & shader )
 	{
 		return sdw::mat3( getDefault< sdw::Vec3 >( shader )
+			, getDefault< sdw::Vec3 >( shader )
+			, getDefault< sdw::Vec3 >( shader ) );
+	}
+
+	template<>
+	sdw::Mat3x2 getDefault< sdw::Mat3x2 >( sdw::Shader & shader )
+	{
+		return sdw::mat3x2( getDefault< sdw::Vec3 >( shader )
+			, getDefault< sdw::Vec3 >( shader ) );
+	}
+
+	template<>
+	sdw::Mat3x4 getDefault< sdw::Mat3x4 >( sdw::Shader & shader )
+	{
+		return sdw::mat3x4( getDefault< sdw::Vec3 >( shader )
+			, getDefault< sdw::Vec3 >( shader )
 			, getDefault< sdw::Vec3 >( shader )
 			, getDefault< sdw::Vec3 >( shader ) );
 	}
@@ -157,75 +222,90 @@ namespace test
 	}
 
 	template<>
-	sdw::BMat2 getDefault< sdw::BMat2 >( sdw::Shader & shader )
+	sdw::Mat4x2 getDefault< sdw::Mat4x2 >( sdw::Shader & shader )
 	{
-		return sdw::bmat2( getDefault< sdw::BVec2 >( shader )
-			, getDefault< sdw::BVec2 >( shader ) );
+		return sdw::mat4x2( getDefault< sdw::Vec4 >( shader )
+			, getDefault< sdw::Vec4 >( shader ) );
 	}
 
 	template<>
-	sdw::BMat3 getDefault< sdw::BMat3 >( sdw::Shader & shader )
+	sdw::Mat4x3 getDefault< sdw::Mat4x3 >( sdw::Shader & shader )
 	{
-		return sdw::bmat3( getDefault< sdw::BVec3 >( shader )
-			, getDefault< sdw::BVec3 >( shader )
-			, getDefault< sdw::BVec3 >( shader ) );
+		return sdw::mat4x3( getDefault< sdw::Vec4 >( shader )
+			, getDefault< sdw::Vec4 >( shader )
+			, getDefault< sdw::Vec4 >( shader ) );
 	}
 
 	template<>
-	sdw::BMat4 getDefault< sdw::BMat4 >( sdw::Shader & shader )
+	sdw::DMat2 getDefault< sdw::DMat2 >( sdw::Shader & shader )
 	{
-		return sdw::bmat4( getDefault< sdw::BVec4 >( shader )
-			, getDefault< sdw::BVec4 >( shader )
-			, getDefault< sdw::BVec4 >( shader )
-			, getDefault< sdw::BVec4 >( shader ) );
+		return sdw::dmat2( getDefault< sdw::DVec2 >( shader )
+			, getDefault< sdw::DVec2 >( shader ) );
 	}
 
 	template<>
-	sdw::IMat2 getDefault< sdw::IMat2 >( sdw::Shader & shader )
+	sdw::DMat2x3 getDefault< sdw::DMat2x3 >( sdw::Shader & shader )
 	{
-		return sdw::imat2( getDefault< sdw::IVec2 >( shader )
-			, getDefault< sdw::IVec2 >( shader ) );
+		return sdw::dmat2x3( getDefault< sdw::DVec2 >( shader )
+			, getDefault< sdw::DVec2 >( shader )
+			, getDefault< sdw::DVec2 >( shader ) );
 	}
 
 	template<>
-	sdw::IMat3 getDefault< sdw::IMat3 >( sdw::Shader & shader )
+	sdw::DMat2x4 getDefault< sdw::DMat2x4 >( sdw::Shader & shader )
 	{
-		return sdw::imat3( getDefault< sdw::IVec3 >( shader )
-			, getDefault< sdw::IVec3 >( shader )
-			, getDefault< sdw::IVec3 >( shader ) );
+		return sdw::dmat2x4( getDefault< sdw::DVec2 >( shader )
+			, getDefault< sdw::DVec2 >( shader )
+			, getDefault< sdw::DVec2 >( shader )
+			, getDefault< sdw::DVec2 >( shader ) );
 	}
 
 	template<>
-	sdw::IMat4 getDefault< sdw::IMat4 >( sdw::Shader & shader )
+	sdw::DMat3 getDefault< sdw::DMat3 >( sdw::Shader & shader )
 	{
-		return sdw::imat4( getDefault< sdw::IVec4 >( shader )
-			, getDefault< sdw::IVec4 >( shader )
-			, getDefault< sdw::IVec4 >( shader )
-			, getDefault< sdw::IVec4 >( shader ) );
+		return sdw::dmat3( getDefault< sdw::DVec3 >( shader )
+			, getDefault< sdw::DVec3 >( shader )
+			, getDefault< sdw::DVec3 >( shader ) );
 	}
 
 	template<>
-	sdw::UMat2 getDefault< sdw::UMat2 >( sdw::Shader & shader )
+	sdw::DMat3x2 getDefault< sdw::DMat3x2 >( sdw::Shader & shader )
 	{
-		return sdw::umat2( getDefault< sdw::UVec2 >( shader )
-			, getDefault< sdw::UVec2 >( shader ) );
+		return sdw::dmat3x2( getDefault< sdw::DVec3 >( shader )
+			, getDefault< sdw::DVec3 >( shader ) );
 	}
 
 	template<>
-	sdw::UMat3 getDefault< sdw::UMat3 >( sdw::Shader & shader )
+	sdw::DMat3x4 getDefault< sdw::DMat3x4 >( sdw::Shader & shader )
 	{
-		return sdw::umat3( getDefault< sdw::UVec3 >( shader )
-			, getDefault< sdw::UVec3 >( shader )
-			, getDefault< sdw::UVec3 >( shader ) );
+		return sdw::dmat3x4( getDefault< sdw::DVec3 >( shader )
+			, getDefault< sdw::DVec3 >( shader )
+			, getDefault< sdw::DVec3 >( shader )
+			, getDefault< sdw::DVec3 >( shader ) );
 	}
 
 	template<>
-	sdw::UMat4 getDefault< sdw::UMat4 >( sdw::Shader & shader )
+	sdw::DMat4 getDefault< sdw::DMat4 >( sdw::Shader & shader )
 	{
-		return sdw::umat4( getDefault< sdw::UVec4 >( shader )
-			, getDefault< sdw::UVec4 >( shader )
-			, getDefault< sdw::UVec4 >( shader )
-			, getDefault< sdw::UVec4 >( shader ) );
+		return sdw::dmat4( getDefault< sdw::DVec4 >( shader )
+			, getDefault< sdw::DVec4 >( shader )
+			, getDefault< sdw::DVec4 >( shader )
+			, getDefault< sdw::DVec4 >( shader ) );
+	}
+
+	template<>
+	sdw::DMat4x2 getDefault< sdw::DMat4x2 >( sdw::Shader & shader )
+	{
+		return sdw::dmat4x2( getDefault< sdw::DVec4 >( shader )
+			, getDefault< sdw::DVec4 >( shader ) );
+	}
+
+	template<>
+	sdw::DMat4x3 getDefault< sdw::DMat4x3 >( sdw::Shader & shader )
+	{
+		return sdw::dmat4x3( getDefault< sdw::DVec4 >( shader )
+			, getDefault< sdw::DVec4 >( shader )
+			, getDefault< sdw::DVec4 >( shader ) );
 	}
 
 	template< typename T >

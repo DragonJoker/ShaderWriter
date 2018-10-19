@@ -232,6 +232,105 @@ namespace sdw
 	}
 	/**@}*/
 #pragma endregion
+#pragma region Image declaration
+	/**
+	*name
+	*	Image declaration.
+	*/
+	/**@{*/
+	template< ImageType ImageT >
+	inline typename ImageTypeTraits< ImageT >::Type ShaderWriter::declImage( std::string const & name
+		, uint32_t binding
+		, uint32_t set )
+	{
+		using T = typename ImageTypeTraits< ImageT >::Type;
+		auto type = type::makeType( typeEnum< T > );
+		auto var = registerImage( name
+			, type
+			, binding
+			, set );
+		addStmt( sdw::makeImageDecl( var
+			, binding
+			, set ) );
+		return T{ &m_shader
+			, makeExpr( var ) };
+	}
+
+	template< ImageType ImageT >
+	inline Optional< typename ImageTypeTraits< ImageT >::Type > ShaderWriter::declImage( std::string const & name
+		, uint32_t binding
+		, uint32_t set
+		, bool enabled )
+	{
+		using T = typename ImageTypeTraits< ImageT >::Type;
+		auto type = type::makeType( typeEnum< T > );
+		auto var = registerImage( name
+			, type
+			, binding
+			, set
+			, enabled );
+
+		if ( enabled )
+		{
+			addStmt( sdw::makeImageDecl( var
+				, binding
+				, set ) );
+		}
+
+		return Optional< T >{ &m_shader
+			, makeExpr( var )
+			, enabled };
+	}
+
+	template< ImageType ImageT >
+	inline Array< typename ImageTypeTraits< ImageT >::Type > ShaderWriter::declImageArray( std::string const & name
+		, uint32_t binding
+		, uint32_t set
+		, uint32_t dimension )
+	{
+		using T = typename ImageTypeTraits< ImageT >::Type;
+		auto type = type::makeType( typeEnum< T >
+			, dimension );
+		auto var = registerImage( name
+			, type
+			, binding
+			, set );
+		addStmt( sdw::makeImageDecl( var
+			, binding
+			, set ) );
+		return Array< T >{ &m_shader
+			, makeExpr( var ) };
+	}
+
+	template< ImageType ImageT >
+	inline Optional< Array< typename ImageTypeTraits< ImageT >::Type > > ShaderWriter::declImageArray( std::string const & name
+		, uint32_t binding
+		, uint32_t set
+		, uint32_t dimension
+		, bool enabled )
+	{
+		using T = typename ImageTypeTraits< ImageT >::Type;
+		auto type = type::makeType( typeEnum< T >
+			, dimension );
+		auto var = registerImage( name
+			, type
+			, binding
+			, set
+			, enabled );
+
+		if ( enabled )
+		{
+			addStmt( sdw::makeImageDecl( var
+				, binding
+				, set ) );
+		}
+
+		return Optional< Array< T > >{ &m_shader
+			, makeExpr( var )
+			, enabled };
+	}
+	/**@}*/
+#pragma endregion
 #pragma region Input declaration
 	/**
 	*name

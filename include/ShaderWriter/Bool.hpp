@@ -5,9 +5,11 @@ See LICENSE file in root folder
 #define ___Writer_Boolean_H___
 #pragma once
 
+#include "Void.hpp"
 #include "Int.hpp"
 #include "UInt.hpp"
 #include "Float.hpp"
+#include "Double.hpp"
 
 namespace sdw
 {
@@ -122,6 +124,7 @@ namespace sdw
 	Writer_DeclareComparison( Operator, TypeT, Int );\
 	Writer_DeclareComparison( Operator, TypeT, UInt );\
 	Writer_DeclareComparison( Operator, TypeT, Float );\
+	Writer_DeclareComparison( Operator, TypeT, Double );\
 	Writer_DeclareComparisonLHS( Operator, TypeT, int32_t );\
 	Writer_DeclareComparisonLHS( Operator, TypeT, uint32_t );\
 	Writer_DeclareComparisonLHS( Operator, TypeT, float );\
@@ -142,6 +145,7 @@ namespace sdw
 	Writer_DeclareComparisons( Int );
 	Writer_DeclareComparisons( UInt );
 	Writer_DeclareComparisons( Float );
+	Writer_DeclareComparisons( Double );
 
 #undef Writer_DeclareComparisons
 #undef Writer_DeclareComparisonTypes
