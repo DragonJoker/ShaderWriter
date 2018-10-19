@@ -30,11 +30,10 @@ namespace ast::debug
 		void visitDoWhileStmt( stmt::DoWhile * stmt )override;
 		void visitElseIfStmt( stmt::ElseIf * stmt )override;
 		void visitElseStmt( stmt::Else * stmt )override;
-		void visitEmitPrimitiveStmt( stmt::EmitPrimitive * stmt )override;
-		void visitEmitVertexStmt( stmt::EmitVertex * stmt )override;
 		void visitForStmt( stmt::For * stmt )override;
 		void visitFunctionDeclStmt( stmt::FunctionDecl * stmt )override;
 		void visitIfStmt( stmt::If * stmt )override;
+		void visitImageDeclStmt( stmt::ImageDecl * stmt )override;
 		void visitInOutVariableDeclStmt( stmt::InOutVariableDecl * stmt )override;
 		void visitInputComputeLayoutStmt( stmt::InputComputeLayout * stmt )override;
 		void visitInputGeometryLayoutStmt( stmt::InputGeometryLayout * stmt )override;

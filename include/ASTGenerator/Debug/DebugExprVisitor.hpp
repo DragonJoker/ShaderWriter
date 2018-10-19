@@ -27,6 +27,9 @@ namespace ast::debug
 		void visitCastExpr( expr::Cast * expr )override;
 		void visitMbrSelectExpr( expr::MbrSelect * expr )override;
 		void visitFnCallExpr( expr::FnCall * expr )override;
+		void visitIntrinsicCallExpr( expr::IntrinsicCall * expr )override;
+		void visitTextureAccessCallExpr( expr::TextureAccessCall * expr )override;
+		void visitImageAccessCallExpr( expr::ImageAccessCall * expr )override;
 		void visitIdentifierExpr( expr::Identifier * expr )override;
 		void visitInitExpr( expr::Init * expr )override;
 		void visitLiteralExpr( expr::Literal * expr )override;

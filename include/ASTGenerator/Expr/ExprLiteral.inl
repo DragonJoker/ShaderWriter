@@ -31,6 +31,12 @@ namespace ast::expr
 		{
 			return lit.floatv;
 		}
+
+		template<>
+		inline double valueGetter< LiteralType::eDouble >( LiteralValue const & lit )
+		{
+			return lit.doublev;
+		}
 	}
 
 	template< LiteralType T >

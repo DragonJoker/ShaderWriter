@@ -20,8 +20,9 @@ namespace ast::var
 		eShaderOutput = 1 << 4,
 		eShaderConstant = 1 << 5,
 		eSampler = 1 << 6,
-		eLocale = 1 << 7,
-		eBuiltin = 1 << 8,
+		eImage = 1 << 7,
+		eLocale = 1 << 8,
+		eBuiltin = 1 << 9,
 	};
 
 	class Variable
@@ -98,6 +99,11 @@ namespace ast::var
 		inline bool isSampler()const
 		{
 			return hasFlag( Flag::eSampler );
+		}
+
+		inline bool isImage()const
+		{
+			return hasFlag( Flag::eImage );
 		}
 
 		inline bool isBound()const

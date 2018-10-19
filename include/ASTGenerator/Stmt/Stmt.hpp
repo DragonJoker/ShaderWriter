@@ -22,6 +22,7 @@ namespace ast::stmt
 		ePushConstantsBufferDecl,
 		eShaderBufferDecl,
 		eSamplerDecl,
+		eImageDecl,
 		eFunctionDecl,
 		eStructureDecl,
 		eIf,

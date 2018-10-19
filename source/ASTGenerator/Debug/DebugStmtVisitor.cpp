@@ -46,6 +46,9 @@ namespace ast::debug
 			case ast::stmt::Kind::eSamplerDecl:
 				result = "STSAMPLERDECL";
 				break;
+			case ast::stmt::Kind::eImageDecl:
+				result = "STIMAGEDECL";
+				break;
 			case ast::stmt::Kind::eFunctionDecl:
 				result = "STFUNCDECL";
 				break;
@@ -245,16 +248,6 @@ namespace ast::debug
 		visitCompoundStmt( stmt );
 	}
 
-	void StmtVisitor::visitEmitPrimitiveStmt( stmt::EmitPrimitive * stmt )
-	{
-		displayStmtName( stmt, true );
-	}
-
-	void StmtVisitor::visitEmitVertexStmt( stmt::EmitVertex * stmt )
-	{
-		displayStmtName( stmt, true );
-	}
-
 	void StmtVisitor::visitForStmt( stmt::For * stmt )
 	{
 		displayStmtName( stmt, false );
@@ -300,6 +293,14 @@ namespace ast::debug
 		{
 			stmt->getElse()->accept( this );
 		}
+	}
+
+	void StmtVisitor::visitImageDeclStmt( stmt::ImageDecl * stmt )
+	{
+		displayStmtName( stmt, false );
+		m_result += "B(" + std::to_string( stmt->getBindingPoint() ) + ") S(" + std::to_string( stmt->getBindingSet() ) + ") ";
+		displayVariable( stmt->getVariable() );
+		m_result += "\n";
 	}
 
 	void StmtVisitor::visitInOutVariableDeclStmt( stmt::InOutVariableDecl * stmt )

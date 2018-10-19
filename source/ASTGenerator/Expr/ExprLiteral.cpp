@@ -35,6 +35,13 @@ namespace ast::expr
 		m_value.floatv = value;
 	}
 
+	Literal::Literal( double value )
+		: Expr{ std::move( type::getDouble() ), Kind::eLiteral }
+		, m_valueType{ LiteralType::eDouble }
+	{
+		m_value.doublev = value;
+	}
+
 	void Literal::accept( VisitorPtr vis )
 	{
 		vis->visitLiteralExpr( this );

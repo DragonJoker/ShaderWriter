@@ -15,6 +15,7 @@ namespace ast::expr
 		eInt,
 		eUInt,
 		eFloat,
+		eDouble,
 	};
 
 	template< LiteralType T >
@@ -44,6 +45,12 @@ namespace ast::expr
 		using type = float;
 	};
 
+	template<>
+	struct LiteralValueTraits< LiteralType::eDouble >
+	{
+		using type = double;
+	};
+
 	template< LiteralType T >
 	using LiteralValueType = typename LiteralValueTraits< T >::type;
 
@@ -53,6 +60,7 @@ namespace ast::expr
 		int32_t intv;
 		uint32_t uintv;
 		float floatv;
+		double doublev;
 	};
 
 	class Literal
@@ -63,6 +71,7 @@ namespace ast::expr
 		Literal( int32_t value );
 		Literal( uint32_t value );
 		Literal( float value );
+		Literal( double value );
 
 		void accept( VisitorPtr vis )override;
 

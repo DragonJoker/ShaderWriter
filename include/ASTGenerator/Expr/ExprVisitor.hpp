@@ -24,7 +24,9 @@ See LICENSE file in root folder
 #include "ExprGreater.hpp"
 #include "ExprGreaterEqual.hpp"
 #include "ExprIdentifier.hpp"
+#include "ExprImageAccessCall.hpp"
 #include "ExprInit.hpp"
+#include "ExprIntrinsicCall.hpp"
 #include "ExprLShift.hpp"
 #include "ExprLShiftAssign.hpp"
 #include "ExprLess.hpp"
@@ -49,6 +51,7 @@ See LICENSE file in root folder
 #include "ExprRShiftAssign.hpp"
 #include "ExprSwitchCase.hpp"
 #include "ExprSwitchTest.hpp"
+#include "ExprTextureAccessCall.hpp"
 #include "ExprTimes.hpp"
 #include "ExprTimesAssign.hpp"
 #include "ExprUnaryMinus.hpp"
@@ -88,7 +91,9 @@ namespace ast::expr
 		virtual void visitGreaterExpr( Greater * ) = 0;
 		virtual void visitGreaterEqualExpr( GreaterEqual * ) = 0;
 		virtual void visitIdentifierExpr( Identifier * ) = 0;
+		virtual void visitImageAccessCallExpr( ImageAccessCall * ) = 0;
 		virtual void visitInitExpr( Init * ) = 0;
+		virtual void visitIntrinsicCallExpr( IntrinsicCall * ) = 0;
 		virtual void visitLessExpr( Less * ) = 0;
 		virtual void visitLessEqualExpr( LessEqual * ) = 0;
 		virtual void visitLiteralExpr( Literal * ) = 0;
@@ -113,6 +118,7 @@ namespace ast::expr
 		virtual void visitRShiftAssignExpr( RShiftAssign * ) = 0;
 		virtual void visitSwitchCaseExpr( SwitchCase * ) = 0;
 		virtual void visitSwitchTestExpr( SwitchTest * ) = 0;
+		virtual void visitTextureAccessCallExpr( TextureAccessCall * ) = 0;
 		virtual void visitTimesExpr( Times * ) = 0;
 		virtual void visitTimesAssignExpr( TimesAssign * ) = 0;
 		virtual void visitUnaryMinusExpr( UnaryMinus * ) = 0;

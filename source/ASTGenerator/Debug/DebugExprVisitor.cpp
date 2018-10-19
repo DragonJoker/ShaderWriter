@@ -6,6 +6,10 @@ See LICENSE file in root folder
 #include "ASTGenerator/Debug/DebugCommon.hpp"
 #include "ASTGenerator/Var/Variable.hpp"
 
+#include "ASTGenerator/Expr/GetImageAccessName.hpp"
+#include "ASTGenerator/Expr/GetIntrinsicName.hpp"
+#include "ASTGenerator/Expr/GetTextureAccessName.hpp"
+
 #include <sstream>
 
 namespace ast::debug
@@ -71,6 +75,15 @@ namespace ast::debug
 				break;
 			case expr::Kind::eFnCall:
 				result = "FNCALL";
+				break;
+			case expr::Kind::eIntrinsicCall:
+				result = "INTRCALL";
+				break;
+			case expr::Kind::eTextureAccessCall:
+				result = "TEXINTRCALL";
+				break;
+			case expr::Kind::eImageAccessCall:
+				result = "IMGINTRCALL";
 				break;
 			case expr::Kind::eEqual:
 				result = "EQUAL";
@@ -246,6 +259,54 @@ namespace ast::debug
 		m_result += getName( expr->getKind() ) + " ";
 		wrap( expr->getFn() );
 		m_result += " (";
+		std::string sep;
+
+		for ( auto & arg : expr->getArgList() )
+		{
+			m_result += sep;
+			wrap( arg.get() );
+			sep = ", ";
+		}
+
+		m_result += ")";
+	}
+
+	void ExprVisitor::visitIntrinsicCallExpr( expr::IntrinsicCall * expr )
+	{
+		m_result += getName( expr->getKind() ) + " ";
+		m_result += getName( expr->getIntrinsic() ) + "(";
+		std::string sep;
+
+		for ( auto & arg : expr->getArgList() )
+		{
+			m_result += sep;
+			wrap( arg.get() );
+			sep = ", ";
+		}
+
+		m_result += ")";
+	}
+
+	void ExprVisitor::visitTextureAccessCallExpr( expr::TextureAccessCall * expr )
+	{
+		m_result += getName( expr->getKind() ) + " ";
+		m_result += getName( expr->getTextureAccess() ) + "(";
+		std::string sep;
+
+		for ( auto & arg : expr->getArgList() )
+		{
+			m_result += sep;
+			wrap( arg.get() );
+			sep = ", ";
+		}
+
+		m_result += ")";
+	}
+
+	void ExprVisitor::visitImageAccessCallExpr( expr::ImageAccessCall * expr )
+	{
+		m_result += getName( expr->getKind() ) + " ";
+		m_result += getName( expr->getImageAccess() ) + "(";
 		std::string sep;
 
 		for ( auto & arg : expr->getArgList() )

@@ -18,13 +18,12 @@ See LICENSE file in root folder
 #include "StmtConstantBufferDecl.hpp"
 #include "StmtDiscard.hpp"
 #include "StmtDoWhile.hpp"
-#include "StmtEmitPrimitive.hpp"
-#include "StmtEmitVertex.hpp"
 #include "StmtElse.hpp"
 #include "StmtElseIf.hpp"
 #include "StmtFor.hpp"
 #include "StmtFunctionDecl.hpp"
 #include "StmtIf.hpp"
+#include "StmtImageDecl.hpp"
 #include "StmtInOutVariableDecl.hpp"
 #include "StmtInputComputeLayout.hpp"
 #include "StmtInputGeometryLayout.hpp"
@@ -60,13 +59,12 @@ namespace ast::stmt
 		virtual void visitConstantBufferDeclStmt( ConstantBufferDecl * ) = 0;
 		virtual void visitDiscardStmt( Discard * ) = 0;
 		virtual void visitDoWhileStmt( DoWhile * ) = 0;
-		virtual void visitEmitPrimitiveStmt( EmitPrimitive * ) = 0;
-		virtual void visitEmitVertexStmt( EmitVertex * ) = 0;
 		virtual void visitElseIfStmt( ElseIf * ) = 0;
 		virtual void visitElseStmt( Else * ) = 0;
 		virtual void visitForStmt( For * ) = 0;
 		virtual void visitFunctionDeclStmt( FunctionDecl * ) = 0;
 		virtual void visitIfStmt( If * ) = 0;
+		virtual void visitImageDeclStmt( ImageDecl * ) = 0;
 		virtual void visitInOutVariableDeclStmt( InOutVariableDecl * ) = 0;
 		virtual void visitInputComputeLayoutStmt( InputComputeLayout * ) = 0;
 		virtual void visitInputGeometryLayoutStmt( InputGeometryLayout * ) = 0;
