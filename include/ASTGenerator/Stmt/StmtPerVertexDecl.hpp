@@ -6,6 +6,7 @@ See LICENSE file in root folder
 #pragma once
 
 #include "Stmt.hpp"
+#include "ASTGenerator/Type/TypeStruct.hpp"
 
 namespace ast::stmt
 {
@@ -25,7 +26,8 @@ namespace ast::stmt
 		};
 
 	public:
-		PerVertexDecl( Source source );
+		PerVertexDecl( Source source
+			, type::StructPtr type );
 
 		void accept( VisitorPtr vis )override;
 
@@ -34,14 +36,22 @@ namespace ast::stmt
 			return m_source;
 		}
 
+		inline type::StructPtr getType()const
+		{
+			return m_type;
+		}
+
 	private:
 		Source m_source;
+		type::StructPtr m_type;
 	};
 	using PerVertexDeclPtr = std::unique_ptr< PerVertexDecl >;
 
-	inline PerVertexDeclPtr makePerVertexDecl( PerVertexDecl::Source source )
+	inline PerVertexDeclPtr makePerVertexDecl( PerVertexDecl::Source source
+		, type::StructPtr type )
 	{
-		return std::make_unique< PerVertexDecl >( source );
+		return std::make_unique< PerVertexDecl >( source
+			, std::move( type ) );
 	}
 }
 

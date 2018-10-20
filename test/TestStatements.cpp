@@ -117,8 +117,8 @@ namespace
 		std::cout << "StmtVariableDecl:\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
 
 		check( stmt->getKind() == ast::stmt::Kind::eVariableDecl );
-		check( stmt->getVariable().getType()->getKind() == ast::type::Kind::eInt );
-		check( stmt->getVariable().getName() == "lhs" );
+		check( stmt->getVariable()->getType()->getKind() == ast::type::Kind::eInt );
+		check( stmt->getVariable()->getName() == "lhs" );
 		testEnd();
 	}
 
@@ -131,8 +131,8 @@ namespace
 		check( stmt->getKind() == ast::stmt::Kind::eSamplerDecl );
 		check( stmt->getBindingPoint() == 1u );
 		check( stmt->getBindingSet() == 2u );
-		check( stmt->getVariable().getType()->getKind() == ast::type::Kind::eSampler2DF );
-		check( stmt->getVariable().getName() == "lhs" );
+		check( stmt->getVariable()->getType()->getKind() == ast::type::Kind::eSampler2DF );
+		check( stmt->getVariable()->getName() == "lhs" );
 		testEnd();
 	}
 
@@ -145,8 +145,8 @@ namespace
 		check( stmt->getKind() == ast::stmt::Kind::eImageDecl );
 		check( stmt->getBindingPoint() == 1u );
 		check( stmt->getBindingSet() == 2u );
-		check( stmt->getVariable().getType()->getKind() == ast::type::Kind::eImage2DF );
-		check( stmt->getVariable().getName() == "lhs" );
+		check( stmt->getVariable()->getType()->getKind() == ast::type::Kind::eImage2DF );
+		check( stmt->getVariable()->getName() == "lhs" );
 		testEnd();
 	}
 
@@ -210,8 +210,8 @@ namespace
 
 		check( stmt->getKind() == ast::stmt::Kind::eInOutVariableDecl );
 		check( stmt->getLocation() == 1u );
-		check( stmt->getVariable().getType()->getKind() == ast::type::Kind::eInt );
-		check( stmt->getVariable().getName() == "lhs" );
+		check( stmt->getVariable()->getType()->getKind() == ast::type::Kind::eInt );
+		check( stmt->getVariable()->getName() == "lhs" );
 		testEnd();
 	}
 

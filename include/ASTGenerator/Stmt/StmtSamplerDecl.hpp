@@ -19,9 +19,9 @@ namespace ast::stmt
 
 		void accept( VisitorPtr vis )override;
 
-		inline var::Variable const & getVariable()const
+		inline var::VariablePtr getVariable()const
 		{
-			return *m_variable;
+			return m_variable;
 		}
 
 		inline uint32_t getBindingPoint()const

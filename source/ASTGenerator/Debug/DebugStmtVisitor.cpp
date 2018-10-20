@@ -299,7 +299,7 @@ namespace ast::debug
 	{
 		displayStmtName( stmt, false );
 		m_result += "B(" + std::to_string( stmt->getBindingPoint() ) + ") S(" + std::to_string( stmt->getBindingSet() ) + ") ";
-		displayVariable( stmt->getVariable() );
+		displayVariable( *stmt->getVariable() );
 		m_result += "\n";
 	}
 
@@ -307,18 +307,18 @@ namespace ast::debug
 	{
 		displayStmtName( stmt, false );
 
-		if ( stmt->getVariable().isShaderConstant() )
+		if ( stmt->getVariable()->isShaderConstant() )
 		{
 			m_result += "CONST";
 		}
-		else if ( stmt->getVariable().isShaderInput()
-			|| stmt->getVariable().isShaderOutput() )
+		else if ( stmt->getVariable()->isShaderInput()
+			|| stmt->getVariable()->isShaderOutput() )
 		{
 			m_result += "LOC";
 		}
 
 		m_result += "(" + std::to_string( stmt->getLocation() ) + ") ";
-		displayVariable( stmt->getVariable() );
+		displayVariable( *stmt->getVariable() );
 		m_result += "\n";
 	}
 
@@ -444,7 +444,7 @@ namespace ast::debug
 	{
 		displayStmtName( stmt, false );
 		m_result += "B(" + std::to_string( stmt->getBindingPoint() ) + ") S(" + std::to_string( stmt->getBindingSet() ) + ") ";
-		displayVariable( stmt->getVariable() );
+		displayVariable( *stmt->getVariable() );
 		m_result += "\n";
 	}
 
@@ -514,7 +514,7 @@ namespace ast::debug
 	void StmtVisitor::visitVariableDeclStmt( stmt::VariableDecl * stmt )
 	{
 		displayStmtName( stmt, false );
-		displayVariable( stmt->getVariable() );
+		displayVariable( *stmt->getVariable() );
 		m_result += "\n";
 	}
 

@@ -355,14 +355,28 @@ namespace ast::debug
 			break;
 		case expr::LiteralType::eFloat:
 			{
-				float f = expr->getValue< expr::LiteralType::eFloat >();
-				stream << f;
+				auto v = expr->getValue< expr::LiteralType::eFloat >();
+				stream << v;
 
-				if ( f == int64_t( f ) )
+				if ( v == int64_t( v ) )
 				{
 					stream << ".0";
 				}
 			}
+			break;
+		case expr::LiteralType::eDouble:
+			{
+				auto v = expr->getValue< expr::LiteralType::eDouble >();
+				stream << v;
+
+				if ( v == int64_t( v ) )
+				{
+					stream << ".0";
+				}
+			}
+			break;
+		default:
+			assert( false && "Unsupported literal type" );
 			break;
 		}
 
