@@ -3,6 +3,7 @@ See LICENSE file in root folder
 */
 #include "ShaderWriter/Helpers.hpp"
 
+#include "ShaderWriter/CloneExpr.hpp"
 #include "ShaderWriter/Shader.hpp"
 
 #include <ASTGenerator/Expr/ExprAdd.hpp>
@@ -110,6 +111,16 @@ namespace sdw
 	expr::ExprPtr makeExpr( long double value )
 	{
 		return expr::makeLiteral( double( value ) );
+	}
+
+	expr::ExprPtr makeExpr( expr::ExprPtr const & expr )
+	{
+		return ExprCloner::submit( expr );
+	}
+
+	expr::ExprPtr makeExpr( expr::Expr * expr )
+	{
+		return ExprCloner::submit( expr );
 	}
 
 	expr::ExprPtr makeInit( var::VariablePtr var
@@ -448,9 +459,10 @@ namespace sdw
 		return stmt::makeSimple( std::move( expr ) );
 	}
 
-	stmt::StmtPtr makePerVertexDecl( stmt::PerVertexDecl::Source source )
+	stmt::StmtPtr makePerVertexDecl( stmt::PerVertexDecl::Source source
+		, type::TypePtr type )
 	{
-		return stmt::makePerVertexDecl( source );
+		return stmt::makePerVertexDecl( source, std::static_pointer_cast< type::Struct >( type ) );
 	}
 
 	stmt::StmtPtr makeStructDecl( type::StructPtr type )

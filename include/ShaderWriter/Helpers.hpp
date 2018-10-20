@@ -6,7 +6,6 @@ See LICENSE file in root folder
 
 #include "ShaderWriterPrerequisites.hpp"
 
-#include "CloneExpr.hpp"
 #include "GetExprName.hpp"
 #include <ASTGenerator/Expr/ExprIdentifier.hpp>
 #include <ASTGenerator/Expr/ExprList.hpp>
@@ -34,6 +33,8 @@ namespace sdw
 	expr::ExprPtr makeExpr( float value );
 	expr::ExprPtr makeExpr( double value );
 	expr::ExprPtr makeExpr( long double value );
+	ast::expr::ExprPtr makeExpr( ast::expr::Expr * expr );
+	ast::expr::ExprPtr makeExpr( ast::expr::ExprPtr const & expr );
 
 	expr::ExprPtr makeInit( var::VariablePtr var
 		, expr::ExprPtr init );
@@ -138,7 +139,8 @@ namespace sdw
 	expr::IdentifierPtr makeIdent( var::VariablePtr var );
 
 	stmt::StmtPtr makeSimple( expr::ExprPtr expr );
-	stmt::StmtPtr makePerVertexDecl( stmt::PerVertexDecl::Source source );
+	stmt::StmtPtr makePerVertexDecl( stmt::PerVertexDecl::Source source
+		, type::TypePtr type );
 	stmt::StmtPtr makeStructDecl( type::StructPtr type );
 	stmt::StmtPtr makeReturn( expr::ExprPtr expr );
 	stmt::StmtPtr makePreprocDefine( std::string name

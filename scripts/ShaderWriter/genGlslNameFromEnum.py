@@ -76,12 +76,21 @@ def computeGlslName( name ):
 		result = resName1.group( 1 )
 	return result
 
-def printValue( outs, enumName, match ):
-	name = match.group( 2 )
-	outs.write( "\t\tcase ast::expr::" + enumName + "::e" + computeEnumName( name ) + ":\n" )
-	outs.write( '\t\t\tresult = "' + computeGlslName( name ) + '";\n' )
+def printGlslName( outs, enumName, accumEnumValues, glslName ):
+	for enumValue in accumEnumValues:
+		outs.write( "\t\tcase ast::expr::" + enumName + "::e" + enumValue + ":\n" )
+	outs.write( '\t\t\tresult = "' + glslName + '";\n' )
 	outs.write( '\t\t\tbreak;\n' )
 	outs.write( '\n' )
+
+def printValue( outs, enumName, match, prvGlslName, accumEnumValues ):
+	name = match.group( 2 )
+	glslName = computeGlslName( name )
+	if glslName != prvGlslName and len( accumEnumValues ) > 0:
+		printGlslName( outs, enumName, accumEnumValues, prvGlslName )
+		accumEnumValues.clear()
+	accumEnumValues.append( computeEnumName( name ) )
+	return glslName
 
 def printFooter( outs, enumName ):
 	outs.write( "\t\tdefault:\n" )
@@ -114,6 +123,8 @@ def main( argv ):
 	with open(inEnumFile, "r") as ins:
 		with open(outEnumFile, "w") as outs:
 			array = []
+			glslName = ""
+			accumEnumValues = list()
 			for line in ins:
 				array.append( line )
 				resultDecl = intrDecl.match( line )
@@ -122,8 +133,10 @@ def main( argv ):
 				if resultDecl:
 					enumName = printHeader( outs, resultDecl )
 				elif resultValue:
-					printValue( outs, enumName, resultValue )
+					glslName = printValue( outs, enumName, resultValue, glslName, accumEnumValues )
 				elif resultEnd:
+					if len( accumEnumValues ) > 0:
+						printGlslName( outs, enumName, accumEnumValues, glslName )
 					printFooter( outs, enumName )
 				else:
 					outs.write( line )

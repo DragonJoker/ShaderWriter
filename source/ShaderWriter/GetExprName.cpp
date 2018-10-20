@@ -138,7 +138,6 @@ namespace sdw
 				}
 			}
 
-
 		private:
 			expr::Identifier *& m_result;
 		};

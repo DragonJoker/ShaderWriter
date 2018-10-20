@@ -1,8 +1,8 @@
 /*
 See LICENSE file in root folder
 */
-#ifndef ___AST_GlslIntrinsicNames_H___
-#define ___AST_GlslIntrinsicNames_H___
+#ifndef ___AST_HlslIntrinsicNames_H___
+#define ___AST_HlslIntrinsicNames_H___
 #pragma once
 
 #include <ASTGenerator/Expr/EnumIntrinsic.hpp>
@@ -11,7 +11,7 @@ See LICENSE file in root folder
 
 namespace sdw
 {
-	inline std::string getGlslName( ast::expr::Intrinsic value )
+	inline std::string getHlslName( ast::expr::Intrinsic value )
 	{
 		std::string result;
 

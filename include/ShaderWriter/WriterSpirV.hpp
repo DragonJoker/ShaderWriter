@@ -10,7 +10,7 @@ See LICENSE file in root folder
 
 namespace sdw
 {
-	std::vector< uint32_t > writeSpirV( Shader & shader );
+	std::vector< uint32_t > writeSpirV( Shader & shader, ShaderType type );
 }
 
 #endif

@@ -66,7 +66,7 @@ namespace sdw
 		};
 	}
 
-	std::vector< uint32_t > writeSpirV( Shader & shader )
+	std::vector< uint32_t > writeSpirV( Shader & shader, ShaderType type )
 	{
 		return spirv::StmtVisitor::submit( shader.getStatements() );
 	}

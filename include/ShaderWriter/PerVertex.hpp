@@ -8,6 +8,7 @@ See LICENSE file in root folder
 #include "Vec4.hpp"
 
 #include <ASTGenerator/Stmt/StmtPerVertexDecl.hpp>
+#include <ASTGenerator/Var/VariableList.hpp>
 
 namespace sdw
 {
@@ -23,6 +24,9 @@ namespace sdw
 
 	private:
 		stmt::PerVertexDecl::Source m_source;
+		var::VariablePtr m_glPosition;
+		var::VariablePtr m_glPointSize;
+		var::VariablePtr m_glClipDistance;
 	};
 }
 

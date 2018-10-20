@@ -1,8 +1,8 @@
 /*
 See LICENSE file in root folder
 */
-#ifndef ___AST_GlslTextureAccessNames_H___
-#define ___AST_GlslTextureAccessNames_H___
+#ifndef ___AST_HlslTextureAccessNames_H___
+#define ___AST_HlslTextureAccessNames_H___
 #pragma once
 
 #include <ASTGenerator/Expr/EnumTextureAccess.hpp>
@@ -11,7 +11,7 @@ See LICENSE file in root folder
 
 namespace sdw
 {
-	inline std::string getGlslName( ast::expr::TextureAccess value )
+	inline std::string getHlslName( ast::expr::TextureAccess value )
 	{
 		std::string result;
 

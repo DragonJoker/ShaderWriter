@@ -929,16 +929,30 @@ namespace sdw
 					stream << expr->getValue< expr::LiteralType::eUInt >() << "u";
 					break;
 				case expr::LiteralType::eFloat:
-				{
-					float f = expr->getValue< expr::LiteralType::eFloat >();
-					stream << f;
-
-					if ( f == int64_t( f ) )
 					{
-						stream << ".0";
+						auto v = expr->getValue< expr::LiteralType::eFloat >();
+						stream << v;
+
+						if ( v == int64_t( v ) )
+						{
+							stream << ".0";
+						}
 					}
-				}
-				break;
+					break;
+				case expr::LiteralType::eDouble:
+					{
+						auto v = expr->getValue< expr::LiteralType::eDouble >();
+						stream << v;
+
+						if ( v == int64_t( v ) )
+						{
+							stream << ".0";
+						}
+					}
+					break;
+				default:
+					assert( false && "Unsupported literal type" );
+					break;
 				}
 
 				m_result += stream.str();
@@ -1169,8 +1183,8 @@ namespace sdw
 				doAppendLineEnd();
 				m_result += m_indent;
 				m_result += "layout(binding=" + std::to_string( stmt->getBindingPoint() ) + ", set=" + std::to_string( stmt->getBindingSet() ) + ") ";
-				m_result += getTypeName( stmt->getVariable().getType() ) + " " + stmt->getVariable().getName();
-				auto arraySize = stmt->getVariable().getType()->getArraySize();
+				m_result += getTypeName( stmt->getVariable()->getType() ) + " " + stmt->getVariable()->getName();
+				auto arraySize = stmt->getVariable()->getType()->getArraySize();
 
 				if ( arraySize != ast::type::NotArray )
 				{
@@ -1191,10 +1205,10 @@ namespace sdw
 			{
 				doAppendLineEnd();
 				m_result += m_indent;
-				m_result += "layout(" + getLocationName( stmt->getVariable() ) + "=" + std::to_string( stmt->getLocation() ) + ") ";
-				m_result += getDirectionName( stmt->getVariable() ) + " ";
-				m_result += getTypeName( stmt->getVariable().getType() ) + " " + stmt->getVariable().getName();
-				auto arraySize = stmt->getVariable().getType()->getArraySize();
+				m_result += "layout(" + getLocationName( *stmt->getVariable() ) + "=" + std::to_string( stmt->getLocation() ) + ") ";
+				m_result += getDirectionName( *stmt->getVariable() ) + " ";
+				m_result += getTypeName( stmt->getVariable()->getType() ) + " " + stmt->getVariable()->getName();
+				auto arraySize = stmt->getVariable()->getType()->getArraySize();
 
 				if ( arraySize != ast::type::NotArray )
 				{
@@ -1285,8 +1299,8 @@ namespace sdw
 				doAppendLineEnd();
 				m_result += m_indent;
 				m_result += "layout(binding=" + std::to_string( stmt->getBindingPoint() ) + ", set=" + std::to_string( stmt->getBindingSet() ) + ") ";
-				m_result += getTypeName( stmt->getVariable().getType() ) + " " + stmt->getVariable().getName();
-				auto arraySize = stmt->getVariable().getType()->getArraySize();
+				m_result += getTypeName( stmt->getVariable()->getType() ) + " " + stmt->getVariable()->getName();
+				auto arraySize = stmt->getVariable()->getType()->getArraySize();
 
 				if ( arraySize != ast::type::NotArray )
 				{
@@ -1403,8 +1417,8 @@ namespace sdw
 			void visitVariableDeclStmt( stmt::VariableDecl * stmt )override
 			{
 				doAppendLineEnd();
-				m_result += m_indent + getTypeName( stmt->getVariable().getType() ) + " " + stmt->getVariable().getName();
-				auto arraySize = stmt->getVariable().getType()->getArraySize();
+				m_result += m_indent + getTypeName( stmt->getVariable()->getType() ) + " " + stmt->getVariable()->getName();
+				auto arraySize = stmt->getVariable()->getType()->getArraySize();
 
 				if ( arraySize != ast::type::NotArray )
 				{
@@ -1486,7 +1500,7 @@ namespace sdw
 		};
 	}
 
-	std::string writeGlsl( Shader & shader )
+	std::string writeGlsl( Shader & shader, ShaderType type )
 	{
 		return glsl::StmtVisitor::submit( shader.getStatements() );
 	}

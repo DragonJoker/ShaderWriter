@@ -3,14 +3,15 @@ See LICENSE file in root folder
 */
 #include "ShaderWriter/WriterHlsl.hpp"
 
+#include "ShaderWriter/CloneExpr.hpp"
 #include "ShaderWriter/Shader.hpp"
 
 #include <ASTGenerator/Expr/ExprVisitor.hpp>
 #include <ASTGenerator/Stmt/StmtVisitor.hpp>
 
-#include <ASTGenerator/Expr/GetImageAccessName.hpp>
-#include <ASTGenerator/Expr/GetIntrinsicName.hpp>
-#include <ASTGenerator/Expr/GetTextureAccessName.hpp>
+#include "ShaderWriter/HlslImageAccessNames.hpp"
+#include "ShaderWriter/HlslIntrinsicNames.hpp"
+#include "ShaderWriter/HlslTextureAccessNames.hpp"
 
 #include <sstream>
 
@@ -18,6 +19,49 @@ namespace sdw
 {
 	namespace hlsl
 	{
+		bool isSampler( type::Kind kind )
+		{
+			switch ( kind )
+			{
+			case ast::type::Kind::eSampler1DF:
+			case ast::type::Kind::eSampler2DF:
+			case ast::type::Kind::eSampler3DF:
+			case ast::type::Kind::eSamplerCubeF:
+			case ast::type::Kind::eSampler2DRectF:
+			case ast::type::Kind::eSampler1DArrayF:
+			case ast::type::Kind::eSampler2DArrayF:
+			case ast::type::Kind::eSamplerCubeArrayF:
+			case ast::type::Kind::eSampler1DShadowF:
+			case ast::type::Kind::eSampler2DShadowF:
+			case ast::type::Kind::eSamplerCubeShadowF:
+			case ast::type::Kind::eSampler2DRectShadowF:
+			case ast::type::Kind::eSampler1DArrayShadowF:
+			case ast::type::Kind::eSampler2DArrayShadowF:
+			case ast::type::Kind::eSamplerCubeArrayShadowF:
+			case ast::type::Kind::eSampler1DI:
+			case ast::type::Kind::eSampler2DI:
+			case ast::type::Kind::eSampler3DI:
+			case ast::type::Kind::eSamplerCubeI:
+			case ast::type::Kind::eSampler2DRectI:
+			case ast::type::Kind::eSampler1DArrayI:
+			case ast::type::Kind::eSampler2DArrayI:
+			case ast::type::Kind::eSamplerCubeArrayI:
+			case ast::type::Kind::eSampler1DU:
+			case ast::type::Kind::eSampler2DU:
+			case ast::type::Kind::eSampler3DU:
+			case ast::type::Kind::eSamplerCubeU:
+			case ast::type::Kind::eSampler2DRectU:
+			case ast::type::Kind::eSampler1DArrayU:
+			case ast::type::Kind::eSampler2DArrayU:
+			case ast::type::Kind::eSamplerCubeArrayU:
+			case ast::type::Kind::eCount:
+				return true;
+
+			default:
+				return false;
+			}
+		}
+
 		std::string getTypeName( type::Kind kind )
 		{
 			std::string result;
@@ -259,103 +303,106 @@ namespace sdw
 				result = "TextureCubeArray<uint4>";
 				break;
 			case type::Kind::eImageBufferF:
-				result = "Buffer<float4>";
+				result = "RWBuffer<float4>";
 				break;
 			case type::Kind::eImage1DF:
-				result = "Texture1D<float4>";
+				result = "RWTexture1D<float4>";
 				break;
 			case type::Kind::eImage2DF:
-				result = "Texture2D<float4>";
+				result = "RWTexture2D<float4>";
 				break;
 			case type::Kind::eImage3DF:
-				result = "Texture3D<float4>";
+				result = "RWTexture3D<float4>";
 				break;
 			case type::Kind::eImageCubeF:
-				result = "TextureCube<float4>";
+				result = "RWTexture2DArray<float4>";
 				break;
 			case type::Kind::eImage2DRectF:
-				result = "Texture2D<float4>";
+				result = "RWTexture2D<float4>";
 				break;
 			case type::Kind::eImage1DArrayF:
-				result = "Texture1DArray<float4>";
+				result = "RWTexture1DArray<float4>";
 				break;
 			case type::Kind::eImage2DArrayF:
-				result = "Texture2DArray<float4>";
+				result = "RWTexture2DArray<float4>";
 				break;
 			case type::Kind::eImageCubeArrayF:
-				result = "TextureCubeArray<float4>";
+				result = "RWTexture2DArray<float4>";
 				break;
 			case type::Kind::eImage2DMSF:
-				result = "Texture2D<float4>";
+				result = "Texture2DMS<float4>";
 				break;
 			case type::Kind::eImage2DMSArrayF:
-				result = "Texture2DArray<float4>";
+				result = "Texture2DMSArray<float4>";
 				break;
 			case type::Kind::eImageBufferI:
-				result = "Buffer<int4>";
+				result = "RWBuffer<int4>";
 				break;
 			case type::Kind::eImage1DI:
-				result = "Texture1D<int4>";
+				result = "RWTexture1D<int4>";
 				break;
 			case type::Kind::eImage2DI:
-				result = "Texture2D<int4>";
+				result = "RWTexture2D<int4>";
 				break;
 			case type::Kind::eImage3DI:
-				result = "Texture3D<int4>";
+				result = "RWTexture3D<int4>";
 				break;
 			case type::Kind::eImageCubeI:
-				result = "TextureCube<int4>";
+				result = "RWTexture2DArray<int4>";
 				break;
 			case type::Kind::eImage2DRectI:
-				result = "Texture2D<int4>";
+				result = "RWTexture2D<int4>";
 				break;
 			case type::Kind::eImage1DArrayI:
-				result = "Texture1DArray<int4>";
+				result = "RWTexture1DArray<int4>";
 				break;
 			case type::Kind::eImage2DArrayI:
-				result = "Texture2DArray<int4>";
+				result = "RWTexture2DArray<int4>";
 				break;
 			case type::Kind::eImageCubeArrayI:
-				result = "TextureCubeArray<int4>";
+				result = "RWTexture2DArray<int4>";
 				break;
 			case type::Kind::eImage2DMSI:
-				result = "Texture2D<int4>";
+				result = "Texture2DMS<int4>";
 				break;
 			case type::Kind::eImage2DMSArrayI:
-				result = "Texture2DArray<int4>";
+				result = "Texture2DMSArray<int4>";
 				break;
 			case type::Kind::eImageBufferU:
-				result = "Buffer<uint4>";
+				result = "RWBuffer<uint4>";
 				break;
 			case type::Kind::eImage1DU:
-				result = "Texture1D<uint4>";
+				result = "RWTexture1D<uint4>";
 				break;
 			case type::Kind::eImage2DU:
-				result = "Texture2D<uint4>";
+				result = "RWTexture2D<uint4>";
 				break;
 			case type::Kind::eImage3DU:
-				result = "Texture3D<uint4>";
+				result = "RWTexture3D<uint4>";
 				break;
 			case type::Kind::eImageCubeU:
-				result = "TextureCube<uint4>";
+				result = "RWTexture2DArray<uint4>";
 				break;
 			case type::Kind::eImage2DRectU:
-				result = "Texture2D<uint4>";
+				result = "RWTexture2D<uint4>";
 				break;
 			case type::Kind::eImage1DArrayU:
-				result = "Texture1DArray<uint4>";
+				result = "RWTexture1DArray<uint4>";
 				break;
 			case type::Kind::eImage2DArrayU:
-				result = "Texture2DArray<uint4>";
+				result = "RWTexture2DArray<uint4>";
 				break;
 			case type::Kind::eImageCubeArrayU:
-				result = "TextureCubeArray<uint4>";
+				result = "RWTexture2DArray<uint4>";
 				break;
 			case type::Kind::eImage2DMSU:
-				result = "Texture2D<uint4>";
+				result = "Texture2DMS<uint4>";
 				break;
 			case type::Kind::eImage2DMSArrayU:
-				result = "Texture2DArray<uint4>";
+				result = "Texture2DMSArray<uint4>";
+				break;
+			case type::Kind::eCount:
+				result = "SamplerState";
 				break;
 			}
 
@@ -403,21 +450,21 @@ namespace sdw
 			if ( var.isInputParam()
 				&& var.isOutputParam() )
 			{
-				result = "inout";
+				result = "inout ";
 			}
 			else if ( var.isInputParam()
 				|| var.isShaderInput() )
 			{
-				result = "in";
+				result = "in ";
 			}
 			else if ( var.isOutputParam()
 				|| var.isShaderOutput() )
 			{
-				result = "out";
+				result = "out ";
 			}
 			else if ( var.isShaderConstant() )
 			{
-				result = "const";
+				result = "const ";
 			}
 
 			return result;
@@ -826,7 +873,7 @@ namespace sdw
 
 			void visitImageAccessCallExpr( expr::ImageAccessCall * expr )override
 			{
-				m_result += getName( expr->getImageAccess() ) + "(";
+				m_result += getHlslName( expr->getImageAccess() ) + "(";
 				std::string sep;
 
 				for ( auto & arg : expr->getArgList() )
@@ -863,7 +910,7 @@ namespace sdw
 
 			void visitIntrinsicCallExpr( expr::IntrinsicCall * expr )override
 			{
-				m_result += getName( expr->getIntrinsic() ) + "(";
+				m_result += getHlslName( expr->getIntrinsic() ) + "(";
 				std::string sep;
 
 				for ( auto & arg : expr->getArgList() )
@@ -896,16 +943,30 @@ namespace sdw
 					stream << expr->getValue< expr::LiteralType::eUInt >() << "u";
 					break;
 				case expr::LiteralType::eFloat:
-				{
-					float f = expr->getValue< expr::LiteralType::eFloat >();
-					stream << f;
-
-					if ( f == int64_t( f ) )
 					{
-						stream << ".0";
+						auto v = expr->getValue< expr::LiteralType::eFloat >();
+						stream << v;
+
+						if ( v == int64_t( v ) )
+						{
+							stream << ".0";
+						}
 					}
-				}
-				break;
+					break;
+				case expr::LiteralType::eDouble:
+					{
+						auto v = expr->getValue< expr::LiteralType::eDouble >();
+						stream << v;
+
+						if ( v == int64_t( v ) )
+						{
+							stream << ".0";
+						}
+					}
+					break;
+				default:
+					assert( false && "Unsupported literal type" );
+					break;
 				}
 
 				m_result += stream.str();
@@ -934,14 +995,15 @@ namespace sdw
 
 			void visitTextureAccessCallExpr( expr::TextureAccessCall * expr )override
 			{
-				m_result += getName( expr->getTextureAccess() ) + "(";
-				std::string sep;
+				expr->getArgList()[0]->accept( this );
+				m_result += "." + getHlslName( expr->getTextureAccess() ) + "(";
+				expr->getArgList()[1]->accept( this );
 
-				for ( auto & arg : expr->getArgList() )
+				for ( size_t i = 2; i < expr->getArgList().size(); ++i )
 				{
-					m_result += sep;
+					auto & arg = expr->getArgList()[i];
+					m_result += ", ";
 					arg->accept( this );
-					sep = ", ";
 				}
 
 				m_result += ")";
@@ -956,19 +1018,22 @@ namespace sdw
 		{
 		public:
 			static std::string submit( stmt::Stmt * stmt
+				, ShaderType type
 				, std::string indent = std::string{} )
 			{
 				std::string result;
-				StmtVisitor vis{ result, std::move( indent ) };
+				StmtVisitor vis{ result, type, std::move( indent ) };
 				stmt->accept( &vis );
 				return result;
 			}
 
 		private:
 			StmtVisitor( std::string & result
+				, ShaderType type
 				, std::string indent )
 				: m_result{ result }
 				, m_indent{ std::move( indent ) }
+				, m_type{ type }
 			{
 			}
 
@@ -1097,8 +1162,8 @@ namespace sdw
 				for ( auto & param : stmt->getParameters() )
 				{
 					m_result += sep + getDirectionName( *param )
-						+ " " + getTypeName( param->getType() )
-						+ " " + param->getName();
+						+ getTypeName( param->getType() ) + " "
+						+ param->getName();
 					sep = ", ";
 				}
 
@@ -1133,10 +1198,10 @@ namespace sdw
 			{
 				doAppendLineEnd();
 				m_result += m_indent;
-				m_result += getTypeName( stmt->getVariable().getType() ) + " ";
-				m_result += stmt->getVariable().getName() + ": register(u" + std::to_string( stmt->getBindingPoint() ) + ")";
+				m_result += getTypeName( stmt->getVariable()->getType() ) + " ";
+				m_result += stmt->getVariable()->getName() + ": register(u" + std::to_string( stmt->getBindingPoint() ) + ")";
 
-				auto arraySize = stmt->getVariable().getType()->getArraySize();
+				auto arraySize = stmt->getVariable()->getType()->getArraySize();
 
 				if ( arraySize != ast::type::NotArray )
 				{
@@ -1157,10 +1222,10 @@ namespace sdw
 			{
 				doAppendLineEnd();
 				m_result += m_indent;
-				m_result += "layout(" + getLocationName( stmt->getVariable() ) + "=" + std::to_string( stmt->getLocation() ) + ") ";
-				m_result += getDirectionName( stmt->getVariable() ) + " ";
-				m_result += getTypeName( stmt->getVariable().getType() ) + " " + stmt->getVariable().getName();
-				auto arraySize = stmt->getVariable().getType()->getArraySize();
+				m_result += "layout(" + getLocationName( *stmt->getVariable() ) + "=" + std::to_string( stmt->getLocation() ) + ") ";
+				m_result += getDirectionName( *stmt->getVariable() );
+				m_result += getTypeName( stmt->getVariable()->getType() ) + " " + stmt->getVariable()->getName();
+				auto arraySize = stmt->getVariable()->getType()->getArraySize();
 
 				if ( arraySize != ast::type::NotArray )
 				{
@@ -1249,42 +1314,7 @@ namespace sdw
 			void visitSamplerDeclStmt( stmt::SamplerDecl * stmt )override
 			{
 				doAppendLineEnd();
-				m_result += m_indent;
-				m_result += getTypeName( stmt->getVariable().getType() ) + " ";
-
-				if ( stmt->getVariable().getType()->getKind() == type::Kind::eSamplerBufferF
-					|| stmt->getVariable().getType()->getKind() == type::Kind::eSamplerBufferI
-					|| stmt->getVariable().getType()->getKind() == type::Kind::eSamplerBufferU )
-				{
-					m_result += stmt->getVariable().getName() + ": register(b" + std::to_string( stmt->getBindingPoint() ) + ")";
-				}
-				else
-				{
-					m_result += stmt->getVariable().getName() + "_texture: register(t" + std::to_string( stmt->getBindingPoint() ) + ")";
-				}
-
-				auto arraySize = stmt->getVariable().getType()->getArraySize();
-
-				if ( arraySize != ast::type::NotArray )
-				{
-					if ( arraySize == ast::type::UnknownArraySize )
-					{
-						m_result += "[]";
-					}
-					else
-					{
-						m_result += "[" + std::to_string( arraySize ) + "]";
-					}
-				}
-
-				m_result += ";\n";
-
-				if ( stmt->getVariable().getType()->getKind() != type::Kind::eSamplerBufferF
-					|| stmt->getVariable().getType()->getKind() != type::Kind::eSamplerBufferI
-					|| stmt->getVariable().getType()->getKind() != type::Kind::eSamplerBufferU )
-				{
-					m_result += m_indent + "SamplerState " + stmt->getVariable().getName() + "_sampler: register(s" + std::to_string( stmt->getBindingPoint() ) + ");\n";
-				}
+				m_result += m_indent + "SamplerState " + stmt->getVariable()->getName() + ": register(s" + std::to_string( stmt->getBindingPoint() ) + ");\n";
 			}
 
 			void visitShaderBufferDeclStmt( stmt::ShaderBufferDecl * stmt )override
@@ -1385,8 +1415,8 @@ namespace sdw
 			void visitVariableDeclStmt( stmt::VariableDecl * stmt )override
 			{
 				doAppendLineEnd();
-				m_result += m_indent + getTypeName( stmt->getVariable().getType() ) + " " + stmt->getVariable().getName();
-				auto arraySize = stmt->getVariable().getType()->getArraySize();
+				m_result += m_indent + getTypeName( stmt->getVariable()->getType() ) + " " + stmt->getVariable()->getName();
+				auto arraySize = stmt->getVariable()->getType()->getArraySize();
 
 				if ( arraySize != ast::type::NotArray )
 				{
@@ -1459,36 +1489,253 @@ namespace sdw
 
 		private:
 			std::string m_indent;
+			std::string & m_result;
 			bool m_appendSemiColon{ false };
 			bool m_appendLineEnd{ false };
-			std::string & m_result;
+			ShaderType m_type;
 		};
+
+		using LinkedVars = std::map< var::VariablePtr, std::pair< var::VariablePtr, var::VariablePtr > >;
+		using VariableExprMap = std::map< var::VariablePtr, expr::ExprPtr >;
+
+		class VariableReplacer
+			: public ExprCloner
+		{
+		public:
+			static expr::ExprPtr submit( expr::Expr * expr
+				, var::VariablePtr origin
+				, var::VariablePtr replacement )
+			{
+				expr::ExprPtr result;
+				VariableReplacer vis{ result, origin, replacement };
+				expr->accept( &vis );
+				return result;
+			}
+			
+			static expr::ExprPtr submit( expr::ExprPtr const & expr
+				, var::VariablePtr origin
+				, var::VariablePtr replacement )
+			{
+				return submit( expr.get(), origin, replacement );
+			}
+
+		private:
+			VariableReplacer( expr::ExprPtr & result
+				, var::VariablePtr origin
+				, var::VariablePtr replacement )
+				: ExprCloner{ result }
+				, m_origin{ origin }
+				, m_replacement{ replacement }
+			{
+			}
+
+			ast::expr::ExprPtr doSubmit( ast::expr::Expr * expr )override
+			{
+				expr::ExprPtr result;
+				VariableReplacer vis{ result, m_origin, m_replacement };
+				expr->accept( &vis );
+				return result;
+			}
+
+			void visitIdentifierExpr( expr::Identifier * expr )override
+			{
+				if ( expr->getVariable() == m_origin )
+				{
+					m_result = expr::makeIdentifier( m_replacement );
+				}
+				else
+				{
+					m_result = expr::makeIdentifier( expr->getVariable() );
+				}
+			}
+
+		private:
+			var::VariablePtr m_origin;
+			var::VariablePtr m_replacement;
+		};
+
+		class ExprAdapter
+			: public ExprCloner
+		{
+		public:
+			static expr::ExprPtr submit( expr::Expr * expr
+				, LinkedVars const & linkedVars
+				, VariableExprMap const & inputMembers
+				, VariableExprMap const & outputMembers )
+			{
+				expr::ExprPtr result;
+				ExprAdapter vis{ result, linkedVars, inputMembers, outputMembers };
+				expr->accept( &vis );
+				return result;
+			}
+			
+			static expr::ExprPtr submit( expr::ExprPtr const & expr
+				, LinkedVars const & linkedVars
+				, VariableExprMap const & inputMembers
+				, VariableExprMap const & outputMembers )
+			{
+				return submit( expr.get()
+					, linkedVars
+					, inputMembers
+					, outputMembers );
+			}
+
+		private:
+			ExprAdapter( expr::ExprPtr & result
+				, LinkedVars const & linkedVars
+				, VariableExprMap const & inputMembers
+				, VariableExprMap const & outputMembers )
+				: ExprCloner{ result }
+				, m_linkedVars{ linkedVars }
+				, m_inputMembers{ inputMembers }
+				, m_outputMembers{ outputMembers }
+			{
+			}
+
+			ast::expr::ExprPtr doSubmit( ast::expr::Expr * expr )override
+			{
+				expr::ExprPtr result;
+				ExprAdapter vis{ result, m_linkedVars, m_inputMembers, m_outputMembers };
+				expr->accept( &vis );
+				return result;
+			}
+
+			void visitIdentifierExpr( expr::Identifier * expr )override
+			{
+				auto itInputs = m_inputMembers.find( expr->getVariable() );
+				auto itOutputs = m_outputMembers.find( expr->getVariable() );
+
+				if ( m_inputMembers.end() != itInputs )
+				{
+					m_result = makeExpr( itInputs->second );
+				}
+				else if ( m_outputMembers.end() != itOutputs )
+				{
+					m_result = makeExpr( itOutputs->second );
+				}
+				else
+				{
+					m_result = expr::makeIdentifier( expr->getVariable() );
+				}
+			}
+
+			void visitFnCallExpr( expr::FnCall * expr )override
+			{
+				expr::ExprList args;
+
+				for ( auto & arg : expr->getArgList() )
+				{
+					auto ident = findIdentifier( arg );
+
+					if ( ident )
+					{
+						auto it = m_linkedVars.find( ident->getVariable() );
+
+						if ( m_linkedVars.end() != it )
+						{
+							args.emplace_back( VariableReplacer::submit( arg, ident->getVariable(), it->second.first ) );
+							args.emplace_back( VariableReplacer::submit( arg, ident->getVariable(), it->second.second ) );
+						}
+						else
+						{
+							args.emplace_back( doSubmit( arg.get() ) );
+						}
+					}
+					else
+					{
+						args.emplace_back( doSubmit( arg.get() ) );
+					}
+				}
+
+				m_result = expr::makeFnCall( expr->getType()
+					, std::make_unique< expr::Identifier >( *expr->getFn() )
+					, std::move( args ) );
+			}
+
+			void visitTextureAccessCallExpr( expr::TextureAccessCall * expr )override
+			{
+				expr::ExprList args;
+
+				for ( auto & arg : expr->getArgList() )
+				{
+					if ( arg->getKind() == expr::Kind::eIdentifier )
+					{
+						auto ident = findIdentifier( arg );
+						auto it = m_linkedVars.find( ident->getVariable() );
+
+						if ( m_linkedVars.end() != it )
+						{
+							args.emplace_back( makeIdent( it->second.first ) );
+							args.emplace_back( makeIdent( it->second.second ) );
+						}
+						else
+						{
+							args.emplace_back( doSubmit( arg.get() ) );
+						}
+					}
+					else
+					{
+						args.emplace_back( doSubmit( arg.get() ) );
+					}
+				}
+
+				m_result = expr::makeTextureAccessCall( expr->getType()
+					, expr->getTextureAccess()
+					, std::move( args ) );
+			}
+
+		private:
+			LinkedVars const & m_linkedVars;
+			VariableExprMap const & m_inputMembers;
+			VariableExprMap const & m_outputMembers;
+		};
+
+		class SamplerState
+			: public type::Type
+		{
+		public:
+			SamplerState()
+				: type::Type{ type::Kind::eCount }
+			{
+			}
+		};
+		using SamplerStatePtr = std::shared_ptr< SamplerState >;
+		SamplerStatePtr makeSampler()
+		{
+			return std::make_shared< SamplerState >();
+		}
 
 		class StmtAdapter
 			: public stmt::Visitor
 		{
 		public:
-			static stmt::ContainerPtr submit( stmt::Container * stmts )
+			static stmt::ContainerPtr submit( Shader & shader, ShaderType type )
 			{
 				auto result = stmt::makeContainer();
-				StmtAdapter vis{ result.get() };
-				stmts->accept( &vis );
+				StmtAdapter vis{ shader, type, result.get() };
+				shader.getStatements()->accept( &vis );
 				return result;
 			}
 
 		private:
-			StmtAdapter( stmt::Container * result )
-				: m_result{ result }
+			StmtAdapter( Shader & shader
+				, ShaderType type
+				, stmt::Container * result )
+				: m_shader{ shader }
+				, m_result{ result }
+				, m_type{ type }
 			{
 				m_inputStruct = type::makeStructType( "HLSL_SDW_Input" );
 				m_outputStruct = type::makeStructType( "HLSL_SDW_Output" );
 				m_result->addStmt( stmt::makeStructureDecl( m_inputStruct ) );
 				m_result->addStmt( stmt::makeStructureDecl( m_outputStruct ) );
+				m_inputVar = m_shader.registerName( "sdwInput", m_inputStruct, var::Flag::eInputParam );
+				m_outputVar = m_shader.registerName( "sdwOutput", m_outputStruct );
 			}
 
-			void visitContainerStmt( stmt::Container * stmt )override
+			void visitContainerStmt( stmt::Container * cont )override
 			{
-				for ( auto & stmt : *stmt )
+				for ( auto & stmt : *cont )
 				{
 					stmt->accept( this );
 				}
@@ -1534,7 +1781,10 @@ namespace sdw
 			void visitDoWhileStmt( stmt::DoWhile * stmt )override
 			{
 				auto save = m_result;
-				auto cont = stmt::makeDoWhile( makeExpr( stmt->getCtrlExpr() ) );
+				auto cont = stmt::makeDoWhile( ExprAdapter::submit( stmt->getCtrlExpr()
+					, m_linkedVars
+					, m_inputMembers
+					, m_outputMembers ) );
 				m_result = cont.get();
 				visitContainerStmt( stmt );
 				m_result = save;
@@ -1544,7 +1794,10 @@ namespace sdw
 			void visitElseIfStmt( stmt::ElseIf * stmt )override
 			{
 				auto save = m_result;
-				auto cont = stmt::makeElseIf( makeExpr( stmt->getCtrlExpr() ) );
+				auto cont = stmt::makeElseIf( ExprAdapter::submit( stmt->getCtrlExpr()
+					, m_linkedVars
+					, m_inputMembers
+					, m_outputMembers ) );
 				m_result = cont.get();
 				visitContainerStmt( stmt );
 				m_result = save;
@@ -1564,9 +1817,18 @@ namespace sdw
 			void visitForStmt( stmt::For * stmt )override
 			{
 				auto save = m_result;
-				auto cont = stmt::makeFor( makeExpr( stmt->getInitExpr() )
-					, makeExpr( stmt->getCtrlExpr() ) 
-					, makeExpr( stmt->getIncrExpr() ) );
+				auto cont = stmt::makeFor( ExprAdapter::submit( stmt->getInitExpr()
+						, m_linkedVars
+						, m_inputMembers
+						, m_outputMembers )
+					, ExprAdapter::submit( stmt->getCtrlExpr()
+						, m_linkedVars
+						, m_inputMembers
+						, m_outputMembers )
+					, ExprAdapter::submit( stmt->getIncrExpr()
+						, m_linkedVars
+						, m_inputMembers
+						, m_outputMembers ) );
 				m_result = cont.get();
 				visitContainerStmt( stmt );
 				m_result = save;
@@ -1577,48 +1839,97 @@ namespace sdw
 			{
 				auto save = m_result;
 				stmt::FunctionDeclPtr cont;
+				auto linkedVars = m_linkedVars;
 
 				if ( stmt->getName() == "main" )
 				{
+					std::string outputName = "TEXCOORD";
+					std::string inputName = "TEXCOORD";
 					uint32_t index = 0u;
 
 					for ( auto & input : m_inputVars )
 					{
-						m_inputStruct->addMember( input.second->getType(), input.second->getName() + ": TEXCOORD" + std::to_string( index++ ) );
+						m_inputStruct->addMember( input.second->getType(), input.second->getName() + ": " + inputName + std::to_string( index++ ) );
 					}
 
 					index = 0u;
 
+					if ( m_type == ShaderType::eFragment )
+					{
+						outputName = "SV_TARGET";
+					}
+					else if ( m_type == ShaderType::eCompute )
+					{
+					}
+
 					for ( auto & output : m_outputVars )
 					{
-						m_outputStruct->addMember( output.second->getType(), output.second->getName() + ": TEXCOORD" + std::to_string( index++ ) );
+						if ( output.second->getName() == "gl_Position" )
+						{
+							m_outputStruct->addMember( output.second->getType(), output.second->getName() + ": SV_POSITION" );
+						}
+						else
+						{
+							m_outputStruct->addMember( output.second->getType(), output.second->getName() + ": " + outputName + std::to_string( index++ ) );
+						}
 					}
 
 					assert( stmt->getParameters().empty() );
 					assert( stmt->getRet()->getKind() == type::Kind::eVoid );
 					var::VariableList parameters;
-					parameters.emplace_back( var::makeVariable( m_inputStruct, "input", var::Flag::eInputParam ) );
+					parameters.emplace_back( m_inputVar );
 					cont = stmt::makeFunctionDecl( m_outputStruct
 						, stmt->getName()
 						, parameters );
+					cont->addStmt( stmt::makeVariableDecl( m_outputVar ) );
 				}
 				else
 				{
+					var::VariableList params;
+
+					for ( auto & param : stmt->getParameters() )
+					{
+						if ( isSampler( param->getType()->getKind() ) )
+						{
+							auto texture = var::makeVariable( param->getType()
+								, param->getName() + "_texture" );
+							auto sampler = var::makeVariable( makeSampler()
+								, param->getName() + "_sampler" );
+							m_linkedVars.emplace( param, std::make_pair( texture, sampler ) );
+							params.push_back( texture );
+							params.push_back( sampler );
+						}
+						else
+						{
+							params.push_back( param );
+						}
+					}
+
 					cont = stmt::makeFunctionDecl( stmt->getRet()
 						, stmt->getName()
-						, stmt->getParameters() );
+						, params );
 				}
 
 				m_result = cont.get();
 				visitContainerStmt( stmt );
 				m_result = save;
+
+				if ( stmt->getName() == "main" )
+				{
+					cont->addStmt( stmt::makeReturn( expr::makeIdentifier( m_outputVar ) ) );
+				}
+
 				m_result->addStmt( std::move( cont ) );
+				m_linkedVars = linkedVars;
 			}
 
 			void visitIfStmt( stmt::If * stmt )override
 			{
 				auto save = m_result;
-				auto cont = stmt::makeElseIf( makeExpr( stmt->getCtrlExpr() ) );
+				auto cont = stmt::makeElseIf( ExprAdapter::submit( stmt->getCtrlExpr()
+					, m_linkedVars
+					, m_inputMembers
+					, m_outputMembers ) );
 				m_result = cont.get();
 				visitContainerStmt( stmt );
 				m_result = save;
@@ -1637,7 +1948,7 @@ namespace sdw
 
 			void visitImageDeclStmt( stmt::ImageDecl * stmt )override
 			{
-				m_result->addStmt( stmt::makeImageDecl( var::makeVariable( stmt->getVariable().getType(), stmt->getVariable().getName() )
+				m_result->addStmt( stmt::makeImageDecl( stmt->getVariable()
 					, stmt->getBindingPoint()
 					, stmt->getBindingSet() ) );
 			}
@@ -1646,13 +1957,15 @@ namespace sdw
 			{
 				auto & var = stmt->getVariable();
 
-				if ( var.isShaderInput() )
+				if ( var->isShaderInput() )
 				{
-					m_inputVars.emplace( stmt->getLocation(), var::makeVariable( var.getType(), var.getName() ) );
+					m_inputVars.emplace( stmt->getLocation(), var );
+					m_inputMembers.emplace( var, expr::makeMbrSelect( makeIdent( m_inputVar ), makeIdent( var ) ) );
 				}
-				else if ( var.isShaderOutput() )
+				else if ( var->isShaderOutput() )
 				{
-					m_outputVars.emplace( stmt->getLocation(), var::makeVariable( var.getType(), var.getName() ) );
+					m_outputVars.emplace( stmt->getLocation(), var );
+					m_outputMembers.emplace( var, expr::makeMbrSelect( makeIdent( m_outputVar ), makeIdent( var ) ) );
 				}
 			}
 
@@ -1673,27 +1986,16 @@ namespace sdw
 
 			void visitPerVertexDeclStmt( stmt::PerVertexDecl * stmt )override
 			{
-				switch ( stmt->getSource() )
+				auto index = 128u;
+
+				for ( auto & member : *stmt->getType() )
 				{
-				case stmt::PerVertexDecl::Source::eVertexOutput:
-					m_outputVars.emplace( 128u, var::makeVariable( type::getVec4F(), "gl_Position" ) );
-					break;
-				case stmt::PerVertexDecl::Source::eTessellationControlInput:
-				case stmt::PerVertexDecl::Source::eTessellationEvaluationInput:
-					m_inputVars.emplace( 128u, var::makeVariable( type::makeType( type::Kind::eVec4F, type::UnknownArraySize ), "gl_Position" ) );
-					break;
-				case stmt::PerVertexDecl::Source::eTessellationControlOutput:
-					m_outputVars.emplace( 128u, var::makeVariable( type::makeType( type::Kind::eVec4F, type::UnknownArraySize ), "gl_Position" ) );
-					break;
-				case stmt::PerVertexDecl::Source::eTessellationEvaluationOutput:
-					m_outputVars.emplace( 128u, var::makeVariable( type::makeType( type::Kind::eVec4F ), "gl_Position" ) );
-					break;
-				case stmt::PerVertexDecl::Source::eGeometryInput:
-					m_inputVars.emplace( 128u, var::makeVariable( type::makeType( type::Kind::eVec4F, type::UnknownArraySize ), "gl_Position" ) );
-					break;
-				case stmt::PerVertexDecl::Source::eGeometryOutput:
-					m_outputVars.emplace( 128u, var::makeVariable( type::makeType( type::Kind::eVec4F ), "gl_Position" ) );
-					break;
+					if ( member.name == "gl_Position" )
+					{
+						auto outputVar = m_shader.getVar( member.name, member.type );
+						m_outputMembers.emplace( outputVar, expr::makeMbrSelect( makeIdent( m_outputVar ), makeIdent( outputVar ) ) );
+						m_outputVars.emplace( index++, outputVar );
+					}
 				}
 			}
 
@@ -1701,7 +2003,10 @@ namespace sdw
 			{
 				if ( stmt->getExpr() )
 				{
-					m_result->addStmt( stmt::makeReturn( makeExpr( stmt->getExpr() ) ) );
+					m_result->addStmt( stmt::makeReturn( ExprAdapter::submit( stmt->getExpr()
+						, m_linkedVars
+						, m_inputMembers
+						, m_outputMembers ) ) );
 				}
 				else
 				{
@@ -1711,9 +2016,28 @@ namespace sdw
 
 			void visitSamplerDeclStmt( stmt::SamplerDecl * stmt )override
 			{
-				m_result->addStmt( stmt::makeSamplerDecl( var::makeVariable( stmt->getVariable().getType(), stmt->getVariable().getName() )
+				auto originalVar = stmt->getVariable();
+				auto textureVar = m_shader.registerImage( stmt->getVariable()->getName() + "_texture"
+					, stmt->getVariable()->getType()
+					, stmt->getBindingPoint()
+					, stmt->getBindingSet() );
+				m_result->addStmt( stmt::makeImageDecl( textureVar
 					, stmt->getBindingPoint()
 					, stmt->getBindingSet() ) );
+
+				if ( stmt->getVariable()->getType()->getKind() != type::Kind::eSamplerBufferF
+					&& stmt->getVariable()->getType()->getKind() != type::Kind::eSamplerBufferI
+					&& stmt->getVariable()->getType()->getKind() != type::Kind::eSamplerBufferU )
+				{
+					auto samplerVar = m_shader.registerSampler( stmt->getVariable()->getName() + "_sampler"
+						, makeSampler()
+						, stmt->getBindingPoint()
+						, stmt->getBindingSet() );
+					linkVars( originalVar, textureVar, samplerVar );
+					m_result->addStmt( stmt::makeSamplerDecl( samplerVar
+						, stmt->getBindingPoint()
+						, stmt->getBindingSet() ) );
+				}
 			}
 
 			void visitShaderBufferDeclStmt( stmt::ShaderBufferDecl * stmt )override
@@ -1730,7 +2054,10 @@ namespace sdw
 
 			void visitSimpleStmt( stmt::Simple * stmt )override
 			{
-				m_result->addStmt( stmt::makeSimple( makeExpr( stmt->getExpr() ) ) );
+				m_result->addStmt( stmt::makeSimple( ExprAdapter::submit( stmt->getExpr()
+					, m_linkedVars
+					, m_inputMembers
+					, m_outputMembers ) ) );
 			}
 
 			void visitStructureDeclStmt( stmt::StructureDecl * stmt )override
@@ -1751,7 +2078,10 @@ namespace sdw
 			void visitSwitchStmt( stmt::Switch * stmt )override
 			{
 				auto save = m_result;
-				auto cont = stmt::makeSwitch( expr::makeSwitchTest( makeExpr( stmt->getTestExpr()->getValue() ) ) );
+				auto cont = stmt::makeSwitch( expr::makeSwitchTest( ExprAdapter::submit( stmt->getTestExpr()->getValue()
+					, m_linkedVars
+					, m_inputMembers
+					, m_outputMembers ) ) );
 				m_result = cont.get();
 				visitContainerStmt( stmt );
 				m_result = save;
@@ -1760,13 +2090,16 @@ namespace sdw
 
 			void visitVariableDeclStmt( stmt::VariableDecl * stmt )override
 			{
-				m_result->addStmt( stmt::makeVariableDecl( var::makeVariable( stmt->getVariable().getType(), stmt->getVariable().getName() ) ) );
+				m_result->addStmt( stmt::makeVariableDecl( stmt->getVariable() ) );
 			}
 
 			void visitWhileStmt( stmt::While * stmt )override
 			{
 				auto save = m_result;
-				auto cont = stmt::makeWhile( makeExpr( stmt->getCtrlExpr() ) );
+				auto cont = stmt::makeWhile( ExprAdapter::submit( stmt->getCtrlExpr()
+					, m_linkedVars
+					, m_inputMembers
+					, m_outputMembers ) );
 				m_result = cont.get();
 				visitContainerStmt( stmt );
 				m_result = save;
@@ -1775,12 +2108,18 @@ namespace sdw
 
 			void visitPreprocDefine( stmt::PreprocDefine * preproc )override
 			{
-				m_result->addStmt( stmt::makePreprocDefine( preproc->getName(), makeExpr( preproc->getExpr() ) ) );
+				m_result->addStmt( stmt::makePreprocDefine( preproc->getName(), ExprAdapter::submit( preproc->getExpr()
+					, m_linkedVars
+					, m_inputMembers
+					, m_outputMembers ) ) );
 			}
 
 			void visitPreprocElif( stmt::PreprocElif * preproc )override
 			{
-				m_result->addStmt( stmt::makePreprocElif( makeExpr( preproc->getCtrlExpr() ) ) );
+				m_result->addStmt( stmt::makePreprocElif( ExprAdapter::submit( preproc->getCtrlExpr()
+					, m_linkedVars
+					, m_inputMembers
+					, m_outputMembers ) ) );
 			}
 
 			void visitPreprocElse( stmt::PreprocElse * preproc )override
@@ -1799,7 +2138,10 @@ namespace sdw
 
 			void visitPreprocIf( stmt::PreprocIf * preproc )override
 			{
-				m_result->addStmt( stmt::makePreprocIf( makeExpr( preproc->getCtrlExpr() ) ) );
+				m_result->addStmt( stmt::makePreprocIf( ExprAdapter::submit( preproc->getCtrlExpr()
+					, m_linkedVars
+					, m_inputMembers
+					, m_outputMembers ) ) );
 			}
 
 			void visitPreprocIfDef( stmt::PreprocIfDef * preproc )override
@@ -1811,7 +2153,13 @@ namespace sdw
 			{
 			}
 
+			void linkVars( var::VariablePtr textureSampler, var::VariablePtr texture, var::VariablePtr sampler )
+			{
+				m_linkedVars.emplace( std::move( textureSampler ), std::make_pair( std::move( texture ), std::move( sampler ) ) );
+			}
+
 		private:
+			Shader & m_shader;
 			stmt::Container * m_result;
 			std::map< uint32_t, var::VariablePtr > m_inputVars;
 			std::map< uint32_t, var::VariablePtr > m_outputVars;
@@ -1820,12 +2168,18 @@ namespace sdw
 			stmt::OutputGeometryLayout * m_outputGeometryLayout{ nullptr };
 			type::StructPtr m_inputStruct;
 			type::StructPtr m_outputStruct;
+			var::VariablePtr m_inputVar;
+			var::VariablePtr m_outputVar;
+			VariableExprMap m_inputMembers;
+			VariableExprMap m_outputMembers;
+			LinkedVars m_linkedVars;
+			ShaderType m_type;
 		};
 	}
 
-	std::string writeHlsl( Shader & shader )
+	std::string writeHlsl( Shader & shader, ShaderType type )
 	{
-		auto dxStatements = hlsl::StmtAdapter::submit( shader.getStatements() );
-		return hlsl::StmtVisitor::submit( dxStatements.get() );
+		auto dxStatements = hlsl::StmtAdapter::submit( shader, type );
+		return hlsl::StmtVisitor::submit( dxStatements.get(), type );
 	}
 }

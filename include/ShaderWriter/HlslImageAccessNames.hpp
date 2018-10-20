@@ -1,8 +1,8 @@
 /*
 See LICENSE file in root folder
 */
-#ifndef ___AST_GlslImageAccessNames_H___
-#define ___AST_GlslImageAccessNames_H___
+#ifndef ___AST_HlslImageAccessNames_H___
+#define ___AST_HlslImageAccessNames_H___
 #pragma once
 
 #include <ASTGenerator/Expr/EnumImageAccess.hpp>
@@ -11,7 +11,7 @@ See LICENSE file in root folder
 
 namespace sdw
 {
-	inline std::string getGlslName( ast::expr::ImageAccess value )
+	inline std::string getHlslName( ast::expr::ImageAccess value )
 	{
 		std::string result;
 

@@ -27,8 +27,8 @@ namespace
 			} );
 
 		std::cout << sdw::writeDebug( writer.getShader() ) << std::endl;
-		std::cout << sdw::writeGlsl( writer.getShader() ) << std::endl;
-		std::cout << sdw::writeHlsl( writer.getShader() ) << std::endl;
+		std::cout << sdw::writeGlsl( writer.getShader(), sdw::ShaderType::eVertex ) << std::endl;
+		std::cout << sdw::writeHlsl( writer.getShader(), sdw::ShaderType::eVertex ) << std::endl;
 		testEnd();
 	}
 
@@ -84,11 +84,20 @@ namespace
 			}
 			, InVec3{ writer, "x" } );
 
+		auto sampleTex = writer.implementFunction< Vec3 >( "sampleTex"
+			, [&]( Sampler2D const & tex
+				, Vec2 const & coords )
+			{
+				writer.returnStmt( texture( tex, coords ).rgb() );
+			}
+			, InSampler2D{ writer, "tex" }
+			, InVec2{ writer, "coords" } );
+
 		writer.implementFunction< void >( "main"
 			, [&]()
 			{
 				auto hdrColor = writer.declLocale( "hdrColor"
-					, texture( c3d_mapDiffuse, vtx_texture ).rgb() );
+					, sampleTex( c3d_mapDiffuse, vtx_texture ) );
 				hdrColor *= vec3( exposureBias ); // Hardcoded Exposure Adjustment.
 
 				auto current = writer.declLocale( "current"
@@ -103,8 +112,8 @@ namespace
 			} );
 
 		std::cout << sdw::writeDebug( writer.getShader() ) << std::endl;
-		std::cout << sdw::writeGlsl( writer.getShader() ) << std::endl;
-		std::cout << sdw::writeHlsl( writer.getShader() ) << std::endl;
+		std::cout << sdw::writeGlsl( writer.getShader(), sdw::ShaderType::eFragment ) << std::endl;
+		std::cout << sdw::writeHlsl( writer.getShader(), sdw::ShaderType::eFragment ) << std::endl;
 		testEnd();
 	}
 }

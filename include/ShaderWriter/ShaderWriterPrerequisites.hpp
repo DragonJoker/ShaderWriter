@@ -18,6 +18,16 @@ namespace sdw
 	class Shader;
 	class ShaderWriter;
 
+	enum class ShaderType
+	{
+		eVertex,
+		eTessellationControl,
+		eTessellationEvaluation,
+		eGeometry,
+		eCompute,
+		eFragment,
+	};
+
 	enum class SamplerType
 	{
 		eBufferF,
