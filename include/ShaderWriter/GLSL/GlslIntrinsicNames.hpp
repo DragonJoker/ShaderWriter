@@ -1,8 +1,8 @@
 /*
 See LICENSE file in root folder
 */
-#ifndef ___AST_HlslIntrinsicNames_H___
-#define ___AST_HlslIntrinsicNames_H___
+#ifndef ___AST_GlslIntrinsicNames_H___
+#define ___AST_GlslIntrinsicNames_H___
 #pragma once
 
 #include <ASTGenerator/Expr/EnumIntrinsic.hpp>
@@ -11,7 +11,7 @@ See LICENSE file in root folder
 
 namespace sdw
 {
-	inline std::string getHlslName( ast::expr::Intrinsic value )
+	inline std::string getGlslName( ast::expr::Intrinsic value )
 	{
 		std::string result;
 
@@ -109,8 +109,6 @@ namespace sdw
 			result = "asinh";
 			break;
 
-
-	// Exponential Functions
 		case ast::expr::Intrinsic::eAtanh1:
 		case ast::expr::Intrinsic::eAtanh2:
 		case ast::expr::Intrinsic::eAtanh3:
@@ -118,6 +116,8 @@ namespace sdw
 			result = "atanh";
 			break;
 
+
+	// Exponential Functions
 		case ast::expr::Intrinsic::ePow1:
 		case ast::expr::Intrinsic::ePow2:
 		case ast::expr::Intrinsic::ePow3:
@@ -164,8 +164,6 @@ namespace sdw
 			result = "sqrt";
 			break;
 
-
-	// Common Functions
 		case ast::expr::Intrinsic::eInverseSqrt1F:
 		case ast::expr::Intrinsic::eInverseSqrt2F:
 		case ast::expr::Intrinsic::eInverseSqrt3F:
@@ -177,6 +175,8 @@ namespace sdw
 			result = "inverseSqrt";
 			break;
 
+
+	// Common Functions
 		case ast::expr::Intrinsic::eAbs1F:
 		case ast::expr::Intrinsic::eAbs2F:
 		case ast::expr::Intrinsic::eAbs3F:
@@ -525,8 +525,6 @@ namespace sdw
 			result = "frexp";
 			break;
 
-
-	// Floating-point Pack and Unpack Functions
 		case ast::expr::Intrinsic::eLdexp1F:
 		case ast::expr::Intrinsic::eLdexp2F:
 		case ast::expr::Intrinsic::eLdexp3F:
@@ -538,6 +536,8 @@ namespace sdw
 			result = "ldexp";
 			break;
 
+
+	// Floating-point Pack and Unpack Functions
 		case ast::expr::Intrinsic::ePackDouble2x32:
 			result = "packDouble2x32";
 			break;
@@ -582,12 +582,12 @@ namespace sdw
 			result = "unpackUnorm2x16";
 			break;
 
-
-	// Geometric Functions
 		case ast::expr::Intrinsic::eUnpackUnorm4x8:
 			result = "unpackUnorm4x8";
 			break;
 
+
+	// Geometric Functions
 		case ast::expr::Intrinsic::eLength1F:
 		case ast::expr::Intrinsic::eLength2F:
 		case ast::expr::Intrinsic::eLength3F:
@@ -659,8 +659,6 @@ namespace sdw
 			result = "reflect";
 			break;
 
-
-	// Matrix Functions
 		case ast::expr::Intrinsic::eRefract1F:
 		case ast::expr::Intrinsic::eRefract2F:
 		case ast::expr::Intrinsic::eRefract3F:
@@ -672,6 +670,8 @@ namespace sdw
 			result = "refract";
 			break;
 
+
+	// Matrix Functions
 		case ast::expr::Intrinsic::eMatrixCompMult2x2F:
 		case ast::expr::Intrinsic::eMatrixCompMult2x3F:
 		case ast::expr::Intrinsic::eMatrixCompMult2x4F:
@@ -744,8 +744,6 @@ namespace sdw
 			result = "determinant";
 			break;
 
-
-	// Vector Relational Functions
 		case ast::expr::Intrinsic::eInverse2x2F:
 		case ast::expr::Intrinsic::eInverse3x3F:
 		case ast::expr::Intrinsic::eInverse4x4F:
@@ -755,6 +753,8 @@ namespace sdw
 			result = "inverse";
 			break;
 
+
+	// Vector Relational Functions
 		case ast::expr::Intrinsic::eLessThan2F:
 		case ast::expr::Intrinsic::eLessThan3F:
 		case ast::expr::Intrinsic::eLessThan4F:
@@ -857,14 +857,14 @@ namespace sdw
 			result = "any";
 			break;
 
-
-	// Integer Functions
 		case ast::expr::Intrinsic::eNot2:
 		case ast::expr::Intrinsic::eNot3:
 		case ast::expr::Intrinsic::eNot4:
 			result = "not";
 			break;
 
+
+	// Integer Functions
 		case ast::expr::Intrinsic::eUaddCarry1:
 		case ast::expr::Intrinsic::eUaddCarry2:
 		case ast::expr::Intrinsic::eUaddCarry3:
@@ -904,14 +904,14 @@ namespace sdw
 			result = "bitfieldExtract";
 			break;
 
-		case ast::expr::Intrinsic::eBietfieldInsert1I:
-		case ast::expr::Intrinsic::eBietfieldInsert2I:
-		case ast::expr::Intrinsic::eBietfieldInsert3I:
-		case ast::expr::Intrinsic::eBietfieldInsert4I:
-		case ast::expr::Intrinsic::eBietfieldInsert1U:
-		case ast::expr::Intrinsic::eBietfieldInsert2U:
-		case ast::expr::Intrinsic::eBietfieldInsert3U:
-		case ast::expr::Intrinsic::eBietfieldInsert4U:
+		case ast::expr::Intrinsic::eBitfieldInsert1I:
+		case ast::expr::Intrinsic::eBitfieldInsert2I:
+		case ast::expr::Intrinsic::eBitfieldInsert3I:
+		case ast::expr::Intrinsic::eBitfieldInsert4I:
+		case ast::expr::Intrinsic::eBitfieldInsert1U:
+		case ast::expr::Intrinsic::eBitfieldInsert2U:
+		case ast::expr::Intrinsic::eBitfieldInsert3U:
+		case ast::expr::Intrinsic::eBitfieldInsert4U:
 			result = "bitfieldInsert";
 			break;
 
@@ -948,8 +948,6 @@ namespace sdw
 			result = "findLSB";
 			break;
 
-
-	// Atomic Memory Functions
 		case ast::expr::Intrinsic::eFindMSB1I:
 		case ast::expr::Intrinsic::eFindMSB2I:
 		case ast::expr::Intrinsic::eFindMSB3I:
@@ -961,6 +959,8 @@ namespace sdw
 			result = "findMSB";
 			break;
 
+
+	// Atomic Memory Functions
 		case ast::expr::Intrinsic::eAtomicAddI:
 		case ast::expr::Intrinsic::eAtomicAddU:
 			result = "atomicAdd";
@@ -996,13 +996,13 @@ namespace sdw
 			result = "atomicExchange";
 			break;
 
-
-	// Derivative Functions
 		case ast::expr::Intrinsic::eAtomicCompSwapI:
 		case ast::expr::Intrinsic::eAtomicCompSwapU:
 			result = "atomicCompSwap";
 			break;
 
+
+	// Derivative Functions
 		case ast::expr::Intrinsic::eDFdx1:
 		case ast::expr::Intrinsic::eDFdx2:
 		case ast::expr::Intrinsic::eDFdx3:
@@ -1052,22 +1052,8 @@ namespace sdw
 			result = "fwidth";
 			break;
 
-		case ast::expr::Intrinsic::eFwidthCoarse1:
-		case ast::expr::Intrinsic::eFwidthCoarse2:
-		case ast::expr::Intrinsic::eFwidthCoarse3:
-		case ast::expr::Intrinsic::eFwidthCoarse4:
-			result = "fwidthCoarse";
-			break;
-
 
 	// Interpolation Functions
-		case ast::expr::Intrinsic::eFwidthFine1:
-		case ast::expr::Intrinsic::eFwidthFine2:
-		case ast::expr::Intrinsic::eFwidthFine3:
-		case ast::expr::Intrinsic::eFwidthFine4:
-			result = "fwidthFine";
-			break;
-
 		case ast::expr::Intrinsic::eInterpolateAtCentroid1:
 		case ast::expr::Intrinsic::eInterpolateAtCentroid2:
 		case ast::expr::Intrinsic::eInterpolateAtCentroid3:
@@ -1082,8 +1068,6 @@ namespace sdw
 			result = "interpolateAtSample";
 			break;
 
-
-	// Geometry Shader Functions
 		case ast::expr::Intrinsic::eInterpolateAtOffset1:
 		case ast::expr::Intrinsic::eInterpolateAtOffset2:
 		case ast::expr::Intrinsic::eInterpolateAtOffset3:
@@ -1091,6 +1075,8 @@ namespace sdw
 			result = "interpolateAtOffset";
 			break;
 
+
+	// Geometry Shader Functions
 		case ast::expr::Intrinsic::eEmitStreamVertex:
 			result = "EmitStreamVertex";
 			break;
@@ -1103,18 +1089,18 @@ namespace sdw
 			result = "EmitVertex";
 			break;
 
-
-	// Shader Invocation Control Functions
 		case ast::expr::Intrinsic::eEndPrimitive:
 			result = "EndPrimitive";
 			break;
 
 
-	// Shader Memory Control Functions
+	// Shader Invocation Control Functions
 		case ast::expr::Intrinsic::eBarrier:
 			result = "barrier";
 			break;
 
+
+	// Shader Memory Control Functions
 		case ast::expr::Intrinsic::eMemoryBarrier:
 			result = "memoryBarrier";
 			break;

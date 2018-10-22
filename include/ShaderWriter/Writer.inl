@@ -12,6 +12,12 @@ namespace sdw
 	{
 		auto decl = getFunctionHeader< ReturnT >( name, params... );
 		m_shader.push( decl.get() );
+
+		for ( auto & var : decl->getParameters() )
+		{
+			m_shader.registerVariable( var );
+		}
+
 		function( std::forward< ParamsT && >( params )... );
 		m_shader.pop();
 		addStmt( std::move( decl ) );

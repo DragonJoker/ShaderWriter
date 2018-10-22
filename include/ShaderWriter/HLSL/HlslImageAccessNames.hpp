@@ -9,7 +9,7 @@ See LICENSE file in root folder
 
 #include <string>
 
-namespace sdw
+namespace sdw::hlsl
 {
 	inline std::string getHlslName( ast::expr::ImageAccess value )
 	{

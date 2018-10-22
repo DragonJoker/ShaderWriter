@@ -25,6 +25,9 @@ namespace ast::debug
 			case ast::stmt::Kind::eCompound:
 				result = "STCOMPOUNT";
 				break;
+			case ast::stmt::Kind::eComment:
+				result = "STCOMMENT";
+				break;
 			case ast::stmt::Kind::eVariableDecl:
 				result = "STVARDECL";
 				break;
@@ -209,6 +212,12 @@ namespace ast::debug
 		m_result += stmt->getName() + "\n";
 		m_compoundName = false;
 		visitCompoundStmt( stmt );
+	}
+
+	void StmtVisitor::visitCommentStmt( stmt::Comment * stmt )
+	{
+		displayStmtName( stmt, false );
+		m_result += m_indent + stmt->getText() + "\n";
 	}
 
 	void StmtVisitor::visitCompoundStmt( stmt::Compound * stmt )

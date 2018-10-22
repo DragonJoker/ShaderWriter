@@ -137,8 +137,14 @@ def main( argv ):
 				elif resultEnd:
 					if len( accumEnumValues ) > 0:
 						printGlslName( outs, enumName, accumEnumValues, glslName )
+						accumEnumValues.clear()
+						glslName = ""
 					printFooter( outs, enumName )
 				else:
+					if len( accumEnumValues ) > 0:
+						printGlslName( outs, enumName, accumEnumValues, glslName )
+						accumEnumValues.clear()
+						glslName = ""
 					outs.write( line )
 
 if __name__ == "__main__":

@@ -13,4 +13,9 @@ namespace sdw
 	{
 		return debug::StmtVisitor::submit( shader.getStatements() );
 	}
+
+	std::string writeDebug( stmt::Container * stmt )
+	{
+		return debug::StmtVisitor::submit( stmt );
+	}
 }

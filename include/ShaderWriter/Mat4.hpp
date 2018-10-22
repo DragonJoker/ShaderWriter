@@ -31,6 +31,9 @@ namespace sdw
 	template< typename ValueT >
 	Vec4T< ValueT > operator*( Mat4T< ValueT > const & lhs
 		, Vec4T< ValueT > const & rhs );
+	template< typename ValueT >
+	Mat4T< ValueT > operator*( Mat4T< ValueT > const & lhs
+		, Mat4T< ValueT > const & rhs );
 }
 
 #include "Mat4.inl"

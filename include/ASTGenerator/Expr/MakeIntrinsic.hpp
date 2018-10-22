@@ -3202,9 +3202,9 @@ namespace ast::expr
 			, std::move( v ) );
 	}
 
-	inline IntrinsicCallPtr/*vec4u*/ makeUnpackDouble2x32( ExprPtr/*double*/ d )
+	inline IntrinsicCallPtr/*vec2u*/ makeUnpackDouble2x32( ExprPtr/*double*/ d )
 	{
-		return makeIntrinsicCall( makeType( type::Kind::eVec4U )
+		return makeIntrinsicCall( makeType( type::Kind::eVec2U )
 			, Intrinsic::eUnpackDouble2x32
 			, std::move( d ) );
 	}
@@ -3754,130 +3754,166 @@ namespace ast::expr
 
 	// Matrix Functions
 
-	inline IntrinsicCallPtr/*mat2x2f*/ makeMatrixCompMult2x2F( ExprPtr/*mat2x2f*/ x )
+	inline IntrinsicCallPtr/*mat2x2f*/ makeMatrixCompMult2x2F( ExprPtr/*mat2x2f*/ x
+		, ExprPtr/*mat2x2f*/ y )
 	{
 		return makeIntrinsicCall( makeType( type::Kind::eMat2x2F )
 			, Intrinsic::eMatrixCompMult2x2F
-			, std::move( x ) );
+			, std::move( x )
+			, std::move( y ) );
 	}
 
-	inline IntrinsicCallPtr/*mat2x3f*/ makeMatrixCompMult2x3F( ExprPtr/*mat2x3f*/ x )
+	inline IntrinsicCallPtr/*mat2x3f*/ makeMatrixCompMult2x3F( ExprPtr/*mat2x3f*/ x
+		, ExprPtr/*mat2x3f*/ y )
 	{
 		return makeIntrinsicCall( makeType( type::Kind::eMat2x3F )
 			, Intrinsic::eMatrixCompMult2x3F
-			, std::move( x ) );
+			, std::move( x )
+			, std::move( y ) );
 	}
 
-	inline IntrinsicCallPtr/*mat2x4f*/ makeMatrixCompMult2x4F( ExprPtr/*mat2x4f*/ x )
+	inline IntrinsicCallPtr/*mat2x4f*/ makeMatrixCompMult2x4F( ExprPtr/*mat2x4f*/ x
+		, ExprPtr/*mat2x4f*/ y )
 	{
 		return makeIntrinsicCall( makeType( type::Kind::eMat2x4F )
 			, Intrinsic::eMatrixCompMult2x4F
-			, std::move( x ) );
+			, std::move( x )
+			, std::move( y ) );
 	}
 
-	inline IntrinsicCallPtr/*mat3x2f*/ makeMatrixCompMult3x2F( ExprPtr/*mat3x2f*/ x )
+	inline IntrinsicCallPtr/*mat3x2f*/ makeMatrixCompMult3x2F( ExprPtr/*mat3x2f*/ x
+		, ExprPtr/*mat3x2f*/ y )
 	{
 		return makeIntrinsicCall( makeType( type::Kind::eMat3x2F )
 			, Intrinsic::eMatrixCompMult3x2F
-			, std::move( x ) );
+			, std::move( x )
+			, std::move( y ) );
 	}
 
-	inline IntrinsicCallPtr/*mat3x3f*/ makeMatrixCompMult3x3F( ExprPtr/*mat3x3f*/ x )
+	inline IntrinsicCallPtr/*mat3x3f*/ makeMatrixCompMult3x3F( ExprPtr/*mat3x3f*/ x
+		, ExprPtr/*mat3x3f*/ y )
 	{
 		return makeIntrinsicCall( makeType( type::Kind::eMat3x3F )
 			, Intrinsic::eMatrixCompMult3x3F
-			, std::move( x ) );
+			, std::move( x )
+			, std::move( y ) );
 	}
 
-	inline IntrinsicCallPtr/*mat3x4f*/ makeMatrixCompMult3x4F( ExprPtr/*mat3x4f*/ x )
+	inline IntrinsicCallPtr/*mat3x4f*/ makeMatrixCompMult3x4F( ExprPtr/*mat3x4f*/ x
+		, ExprPtr/*mat3x4f*/ y )
 	{
 		return makeIntrinsicCall( makeType( type::Kind::eMat3x4F )
 			, Intrinsic::eMatrixCompMult3x4F
-			, std::move( x ) );
+			, std::move( x )
+			, std::move( y ) );
 	}
 
-	inline IntrinsicCallPtr/*mat4x2f*/ makeMatrixCompMult4x2F( ExprPtr/*mat4x2f*/ x )
+	inline IntrinsicCallPtr/*mat4x2f*/ makeMatrixCompMult4x2F( ExprPtr/*mat4x2f*/ x
+		, ExprPtr/*mat4x2f*/ y )
 	{
 		return makeIntrinsicCall( makeType( type::Kind::eMat4x2F )
 			, Intrinsic::eMatrixCompMult4x2F
-			, std::move( x ) );
+			, std::move( x )
+			, std::move( y ) );
 	}
 
-	inline IntrinsicCallPtr/*mat4x3f*/ makeMatrixCompMult4x3F( ExprPtr/*mat4x3f*/ x )
+	inline IntrinsicCallPtr/*mat4x3f*/ makeMatrixCompMult4x3F( ExprPtr/*mat4x3f*/ x
+		, ExprPtr/*mat4x3f*/ y )
 	{
 		return makeIntrinsicCall( makeType( type::Kind::eMat4x3F )
 			, Intrinsic::eMatrixCompMult4x3F
-			, std::move( x ) );
+			, std::move( x )
+			, std::move( y ) );
 	}
 
-	inline IntrinsicCallPtr/*mat4x4f*/ makeMatrixCompMult4x4F( ExprPtr/*mat4x4f*/ x )
+	inline IntrinsicCallPtr/*mat4x4f*/ makeMatrixCompMult4x4F( ExprPtr/*mat4x4f*/ x
+		, ExprPtr/*mat4x4f*/ y )
 	{
 		return makeIntrinsicCall( makeType( type::Kind::eMat4x4F )
 			, Intrinsic::eMatrixCompMult4x4F
-			, std::move( x ) );
+			, std::move( x )
+			, std::move( y ) );
 	}
 
-	inline IntrinsicCallPtr/*mat2x2d*/ makeMatrixCompMult2x2D( ExprPtr/*mat2x2d*/ x )
+	inline IntrinsicCallPtr/*mat2x2d*/ makeMatrixCompMult2x2D( ExprPtr/*mat2x2d*/ x
+		, ExprPtr/*mat2x2d*/ y )
 	{
 		return makeIntrinsicCall( makeType( type::Kind::eMat2x2D )
 			, Intrinsic::eMatrixCompMult2x2D
-			, std::move( x ) );
+			, std::move( x )
+			, std::move( y ) );
 	}
 
-	inline IntrinsicCallPtr/*mat2x3d*/ makeMatrixCompMult2x3D( ExprPtr/*mat2x3d*/ x )
+	inline IntrinsicCallPtr/*mat2x3d*/ makeMatrixCompMult2x3D( ExprPtr/*mat2x3d*/ x
+		, ExprPtr/*mat2x3d*/ y )
 	{
 		return makeIntrinsicCall( makeType( type::Kind::eMat2x3D )
 			, Intrinsic::eMatrixCompMult2x3D
-			, std::move( x ) );
+			, std::move( x )
+			, std::move( y ) );
 	}
 
-	inline IntrinsicCallPtr/*mat2x4d*/ makeMatrixCompMult2x4D( ExprPtr/*mat2x4d*/ x )
+	inline IntrinsicCallPtr/*mat2x4d*/ makeMatrixCompMult2x4D( ExprPtr/*mat2x4d*/ x
+		, ExprPtr/*mat2x4d*/ y )
 	{
 		return makeIntrinsicCall( makeType( type::Kind::eMat2x4D )
 			, Intrinsic::eMatrixCompMult2x4D
-			, std::move( x ) );
+			, std::move( x )
+			, std::move( y ) );
 	}
 
-	inline IntrinsicCallPtr/*mat3x2d*/ makeMatrixCompMult3x2D( ExprPtr/*mat3x2d*/ x )
+	inline IntrinsicCallPtr/*mat3x2d*/ makeMatrixCompMult3x2D( ExprPtr/*mat3x2d*/ x
+		, ExprPtr/*mat3x2d*/ y )
 	{
 		return makeIntrinsicCall( makeType( type::Kind::eMat3x2D )
 			, Intrinsic::eMatrixCompMult3x2D
-			, std::move( x ) );
+			, std::move( x )
+			, std::move( y ) );
 	}
 
-	inline IntrinsicCallPtr/*mat3x3d*/ makeMatrixCompMult3x3D( ExprPtr/*mat3x3d*/ x )
+	inline IntrinsicCallPtr/*mat3x3d*/ makeMatrixCompMult3x3D( ExprPtr/*mat3x3d*/ x
+		, ExprPtr/*mat3x3d*/ y )
 	{
 		return makeIntrinsicCall( makeType( type::Kind::eMat3x3D )
 			, Intrinsic::eMatrixCompMult3x3D
-			, std::move( x ) );
+			, std::move( x )
+			, std::move( y ) );
 	}
 
-	inline IntrinsicCallPtr/*mat3x4d*/ makeMatrixCompMult3x4D( ExprPtr/*mat3x4d*/ x )
+	inline IntrinsicCallPtr/*mat3x4d*/ makeMatrixCompMult3x4D( ExprPtr/*mat3x4d*/ x
+		, ExprPtr/*mat3x4d*/ y )
 	{
 		return makeIntrinsicCall( makeType( type::Kind::eMat3x4D )
 			, Intrinsic::eMatrixCompMult3x4D
-			, std::move( x ) );
+			, std::move( x )
+			, std::move( y ) );
 	}
 
-	inline IntrinsicCallPtr/*mat4x2d*/ makeMatrixCompMult4x2D( ExprPtr/*mat4x2d*/ x )
+	inline IntrinsicCallPtr/*mat4x2d*/ makeMatrixCompMult4x2D( ExprPtr/*mat4x2d*/ x
+		, ExprPtr/*mat4x2d*/ y )
 	{
 		return makeIntrinsicCall( makeType( type::Kind::eMat4x2D )
 			, Intrinsic::eMatrixCompMult4x2D
-			, std::move( x ) );
+			, std::move( x )
+			, std::move( y ) );
 	}
 
-	inline IntrinsicCallPtr/*mat4x3d*/ makeMatrixCompMult4x3D( ExprPtr/*mat4x3d*/ x )
+	inline IntrinsicCallPtr/*mat4x3d*/ makeMatrixCompMult4x3D( ExprPtr/*mat4x3d*/ x
+		, ExprPtr/*mat4x3d*/ y )
 	{
 		return makeIntrinsicCall( makeType( type::Kind::eMat4x3D )
 			, Intrinsic::eMatrixCompMult4x3D
-			, std::move( x ) );
+			, std::move( x )
+			, std::move( y ) );
 	}
 
-	inline IntrinsicCallPtr/*mat4x4d*/ makeMatrixCompMult4x4D( ExprPtr/*mat4x4d*/ x )
+	inline IntrinsicCallPtr/*mat4x4d*/ makeMatrixCompMult4x4D( ExprPtr/*mat4x4d*/ x
+		, ExprPtr/*mat4x4d*/ y )
 	{
 		return makeIntrinsicCall( makeType( type::Kind::eMat4x4D )
 			, Intrinsic::eMatrixCompMult4x4D
-			, std::move( x ) );
+			, std::move( x )
+			, std::move( y ) );
 	}
 
 	inline IntrinsicCallPtr/*mat2x2f*/ makeOuterProduct2x2F( ExprPtr/*vec2f*/ c
@@ -5247,104 +5283,104 @@ namespace ast::expr
 			, std::move( bits ) );
 	}
 
-	inline IntrinsicCallPtr/*int*/ makeBietfieldInsert1I( ExprPtr/*int*/ base
+	inline IntrinsicCallPtr/*int*/ makeBitfieldInsert1I( ExprPtr/*int*/ base
 		, ExprPtr/*int*/ insert
 		, ExprPtr/*int*/ offset
 		, ExprPtr/*int*/ bits )
 	{
 		return makeIntrinsicCall( makeType( type::Kind::eInt )
-			, Intrinsic::eBietfieldInsert1I
+			, Intrinsic::eBitfieldInsert1I
 			, std::move( base )
 			, std::move( insert )
 			, std::move( offset )
 			, std::move( bits ) );
 	}
 
-	inline IntrinsicCallPtr/*vec2i*/ makeBietfieldInsert2I( ExprPtr/*vec2i*/ base
+	inline IntrinsicCallPtr/*vec2i*/ makeBitfieldInsert2I( ExprPtr/*vec2i*/ base
 		, ExprPtr/*vec2i*/ insert
 		, ExprPtr/*int*/ offset
 		, ExprPtr/*int*/ bits )
 	{
 		return makeIntrinsicCall( makeType( type::Kind::eVec2I )
-			, Intrinsic::eBietfieldInsert2I
+			, Intrinsic::eBitfieldInsert2I
 			, std::move( base )
 			, std::move( insert )
 			, std::move( offset )
 			, std::move( bits ) );
 	}
 
-	inline IntrinsicCallPtr/*vec3i*/ makeBietfieldInsert3I( ExprPtr/*vec3i*/ base
+	inline IntrinsicCallPtr/*vec3i*/ makeBitfieldInsert3I( ExprPtr/*vec3i*/ base
 		, ExprPtr/*vec3i*/ insert
 		, ExprPtr/*int*/ offset
 		, ExprPtr/*int*/ bits )
 	{
 		return makeIntrinsicCall( makeType( type::Kind::eVec3I )
-			, Intrinsic::eBietfieldInsert3I
+			, Intrinsic::eBitfieldInsert3I
 			, std::move( base )
 			, std::move( insert )
 			, std::move( offset )
 			, std::move( bits ) );
 	}
 
-	inline IntrinsicCallPtr/*vec4i*/ makeBietfieldInsert4I( ExprPtr/*vec4i*/ base
+	inline IntrinsicCallPtr/*vec4i*/ makeBitfieldInsert4I( ExprPtr/*vec4i*/ base
 		, ExprPtr/*vec4i*/ insert
 		, ExprPtr/*int*/ offset
 		, ExprPtr/*int*/ bits )
 	{
 		return makeIntrinsicCall( makeType( type::Kind::eVec4I )
-			, Intrinsic::eBietfieldInsert4I
+			, Intrinsic::eBitfieldInsert4I
 			, std::move( base )
 			, std::move( insert )
 			, std::move( offset )
 			, std::move( bits ) );
 	}
 
-	inline IntrinsicCallPtr/*uint*/ makeBietfieldInsert1U( ExprPtr/*uint*/ base
+	inline IntrinsicCallPtr/*uint*/ makeBitfieldInsert1U( ExprPtr/*uint*/ base
 		, ExprPtr/*uint*/ insert
 		, ExprPtr/*int*/ offset
 		, ExprPtr/*int*/ bits )
 	{
 		return makeIntrinsicCall( makeType( type::Kind::eUInt )
-			, Intrinsic::eBietfieldInsert1U
+			, Intrinsic::eBitfieldInsert1U
 			, std::move( base )
 			, std::move( insert )
 			, std::move( offset )
 			, std::move( bits ) );
 	}
 
-	inline IntrinsicCallPtr/*vec2u*/ makeBietfieldInsert2U( ExprPtr/*vec2u*/ base
+	inline IntrinsicCallPtr/*vec2u*/ makeBitfieldInsert2U( ExprPtr/*vec2u*/ base
 		, ExprPtr/*vec2u*/ insert
 		, ExprPtr/*int*/ offset
 		, ExprPtr/*int*/ bits )
 	{
 		return makeIntrinsicCall( makeType( type::Kind::eVec2U )
-			, Intrinsic::eBietfieldInsert2U
+			, Intrinsic::eBitfieldInsert2U
 			, std::move( base )
 			, std::move( insert )
 			, std::move( offset )
 			, std::move( bits ) );
 	}
 
-	inline IntrinsicCallPtr/*vec3u*/ makeBietfieldInsert3U( ExprPtr/*vec3u*/ base
+	inline IntrinsicCallPtr/*vec3u*/ makeBitfieldInsert3U( ExprPtr/*vec3u*/ base
 		, ExprPtr/*vec3u*/ insert
 		, ExprPtr/*int*/ offset
 		, ExprPtr/*int*/ bits )
 	{
 		return makeIntrinsicCall( makeType( type::Kind::eVec3U )
-			, Intrinsic::eBietfieldInsert3U
+			, Intrinsic::eBitfieldInsert3U
 			, std::move( base )
 			, std::move( insert )
 			, std::move( offset )
 			, std::move( bits ) );
 	}
 
-	inline IntrinsicCallPtr/*vec4u*/ makeBietfieldInsert4U( ExprPtr/*vec4u*/ base
+	inline IntrinsicCallPtr/*vec4u*/ makeBitfieldInsert4U( ExprPtr/*vec4u*/ base
 		, ExprPtr/*vec4u*/ insert
 		, ExprPtr/*int*/ offset
 		, ExprPtr/*int*/ bits )
 	{
 		return makeIntrinsicCall( makeType( type::Kind::eVec4U )
-			, Intrinsic::eBietfieldInsert4U
+			, Intrinsic::eBitfieldInsert4U
 			, std::move( base )
 			, std::move( insert )
 			, std::move( offset )
@@ -5916,62 +5952,6 @@ namespace ast::expr
 	{
 		return makeIntrinsicCall( makeType( type::Kind::eVec4F )
 			, Intrinsic::eFwidth4
-			, std::move( p ) );
-	}
-
-	inline IntrinsicCallPtr/*float*/ makeFwidthCoarse1( ExprPtr/*float*/ p )
-	{
-		return makeIntrinsicCall( makeType( type::Kind::eFloat )
-			, Intrinsic::eFwidthCoarse1
-			, std::move( p ) );
-	}
-
-	inline IntrinsicCallPtr/*vec2f*/ makeFwidthCoarse2( ExprPtr/*vec2f*/ p )
-	{
-		return makeIntrinsicCall( makeType( type::Kind::eVec2F )
-			, Intrinsic::eFwidthCoarse2
-			, std::move( p ) );
-	}
-
-	inline IntrinsicCallPtr/*vec3f*/ makeFwidthCoarse3( ExprPtr/*vec3f*/ p )
-	{
-		return makeIntrinsicCall( makeType( type::Kind::eVec3F )
-			, Intrinsic::eFwidthCoarse3
-			, std::move( p ) );
-	}
-
-	inline IntrinsicCallPtr/*vec4f*/ makeFwidthCoarse4( ExprPtr/*vec4f*/ p )
-	{
-		return makeIntrinsicCall( makeType( type::Kind::eVec4F )
-			, Intrinsic::eFwidthCoarse4
-			, std::move( p ) );
-	}
-
-	inline IntrinsicCallPtr/*float*/ makeFwidthFine1( ExprPtr/*float*/ p )
-	{
-		return makeIntrinsicCall( makeType( type::Kind::eFloat )
-			, Intrinsic::eFwidthFine1
-			, std::move( p ) );
-	}
-
-	inline IntrinsicCallPtr/*vec2f*/ makeFwidthFine2( ExprPtr/*vec2f*/ p )
-	{
-		return makeIntrinsicCall( makeType( type::Kind::eVec2F )
-			, Intrinsic::eFwidthFine2
-			, std::move( p ) );
-	}
-
-	inline IntrinsicCallPtr/*vec3f*/ makeFwidthFine3( ExprPtr/*vec3f*/ p )
-	{
-		return makeIntrinsicCall( makeType( type::Kind::eVec3F )
-			, Intrinsic::eFwidthFine3
-			, std::move( p ) );
-	}
-
-	inline IntrinsicCallPtr/*vec4f*/ makeFwidthFine4( ExprPtr/*vec4f*/ p )
-	{
-		return makeIntrinsicCall( makeType( type::Kind::eVec4F )
-			, Intrinsic::eFwidthFine4
 			, std::move( p ) );
 	}
 

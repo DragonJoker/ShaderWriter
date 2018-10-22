@@ -78,6 +78,17 @@ namespace sdw
 	}
 
 	template< typename ValueT >
+	Optional< Mat4T< ValueT > > operator*( Optional< Mat4T< ValueT > > const & lhs
+		, Mat4T< ValueT > const & rhs )
+	{
+		return Optional< Mat4T< ValueT > >{ findShader( lhs, rhs )
+			, sdw::makeTimes( makeType( typeEnum< Mat4T< ValueT > > )
+				, makeExpr( lhs )
+				, makeExpr( rhs ) )
+			, areOptionalEnabled( lhs, rhs ) };
+	}
+
+	template< typename ValueT >
 	Optional< Vec4T< ValueT > > operator*( Vec4T< ValueT > const & lhs
 		, Optional< Mat4T< ValueT > > const & rhs )
 	{
@@ -100,6 +111,17 @@ namespace sdw
 	}
 
 	template< typename ValueT >
+	Optional< Mat4T< ValueT > > operator*( Mat4T< ValueT > const & lhs
+		, Optional< Mat4T< ValueT > > const & rhs )
+	{
+		return Optional< Mat4T< ValueT > >{ findShader( lhs, rhs )
+			, sdw::makeTimes( makeType( typeEnum< Mat4T< ValueT > > )
+				, makeExpr( lhs )
+				, makeExpr( rhs ) )
+			, areOptionalEnabled( lhs, rhs ) };
+	}
+
+	template< typename ValueT >
 	Optional< Vec4T< ValueT > > operator*( Optional< Vec4T< ValueT > > const & lhs
 		, Optional< Mat4T< ValueT > > const & rhs )
 	{
@@ -116,6 +138,17 @@ namespace sdw
 	{
 		return Optional< Vec4T< ValueT > >{ findShader( lhs, rhs )
 			, sdw::makeTimes( makeType( typeEnum< Vec4T< ValueT > > )
+				, makeExpr( lhs )
+				, makeExpr( rhs ) )
+			, areOptionalEnabled( lhs, rhs ) };
+	}
+
+	template< typename ValueT >
+	Optional< Mat4T< ValueT > > operator*( Optional< Mat4T< ValueT > > const & lhs
+		, Optional< Mat4T< ValueT > > const & rhs )
+	{
+		return Optional< Mat4T< ValueT > >{ findShader( lhs, rhs )
+			, sdw::makeTimes( makeType( typeEnum< Mat4T< ValueT > > )
 				, makeExpr( lhs )
 				, makeExpr( rhs ) )
 			, areOptionalEnabled( lhs, rhs ) };

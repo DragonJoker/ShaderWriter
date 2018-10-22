@@ -246,7 +246,7 @@ namespace sdw
 			{
 				returnStmt( vec2( v.x(), 1.0_f - v.y() ) );
 			}
-		, InVec2{ *this, "v" } );
+			, InVec2{ *this, "v" } );
 	}
 
 	void ShaderWriter::declareInvertVec3Y()
@@ -256,7 +256,7 @@ namespace sdw
 			{
 				returnStmt( vec2( v.x(), 1.0_f - v.y(), v.z() ) );
 			}
-		, InVec3{ *this, "v" } );
+			, InVec3{ *this, "v" } );
 	}
 
 	var::VariablePtr ShaderWriter::registerConstant( std::string const & name

@@ -15,6 +15,7 @@ namespace ast::stmt
 		eSimple,
 		eContainer,
 		eCompound,
+		eComment,
 		eVariableDecl,
 		ePerVertexDecl,
 		eInOutVariableDecl,

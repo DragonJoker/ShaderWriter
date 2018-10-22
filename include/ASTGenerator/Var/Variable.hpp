@@ -23,6 +23,7 @@ namespace ast::var
 		eImage = 1 << 7,
 		eLocale = 1 << 8,
 		eBuiltin = 1 << 9,
+		eImplicit = 1 << 10,
 	};
 
 	class Variable
@@ -111,6 +112,11 @@ namespace ast::var
 			return hasFlag( Flag::eBound );
 		}
 
+		inline bool isImplicit()const
+		{
+			return hasFlag( Flag::eImplicit );
+		}
+
 	private:
 		inline bool hasFlag( Flag flag )const
 		{
@@ -147,6 +153,21 @@ namespace ast::var
 		, Flag flag )
 	{
 		return std::make_shared< Variable >( type, name, flag );
+	}
+
+	inline uint32_t operator|( Flag const lhs, Flag const rhs )
+	{
+		return uint32_t( lhs ) | uint32_t( rhs );
+	}
+
+	inline uint32_t operator|( Flag const lhs, uint32_t const rhs )
+	{
+		return uint32_t( lhs ) | uint32_t( rhs );
+	}
+
+	inline uint32_t operator|( uint32_t const lhs, Flag const rhs )
+	{
+		return uint32_t( lhs ) | uint32_t( rhs );
 	}
 }
 

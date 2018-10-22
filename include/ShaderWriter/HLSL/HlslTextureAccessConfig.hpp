@@ -1,17 +1,20 @@
 /*
 See LICENSE file in root folder
 */
-#ifndef ___AST_HlslTextureAccessNames_H___
-#define ___AST_HlslTextureAccessNames_H___
+#ifndef ___AST_HlslTextureAccessConfig_H___
+#define ___AST_HlslTextureAccessConfig_H___
 #pragma once
+
+#include "HlslHelpers.hpp"
 
 #include <ASTGenerator/Expr/EnumTextureAccess.hpp>
 
 #include <string>
 
-namespace sdw
+namespace sdw::hlsl
 {
-	inline std::string getHlslName( ast::expr::TextureAccess value )
+	inline void getHlslConfig( ast::expr::TextureAccess value
+		, Config & config )
 	{
 		std::string result;
 
@@ -643,8 +646,6 @@ namespace sdw
 		default:
 			throw std::runtime_error{ "Unsupported TextureAccess type." };
 		}
-
-		return result;
 	}
 }
 

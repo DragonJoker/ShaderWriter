@@ -13,7 +13,7 @@ namespace sdw
 	template< typename ValueT >
 	Mat3x4T< ValueT > & Mat3x4T< ValueT >::operator=( Mat3x4T< ValueT > const & rhs )
 	{
-		if ( m_container )
+		if ( this->getContainer() )
 		{
 			addStmt( *findContainer( *this, rhs )
 				, sdw::makeSimple( sdw::makeAssign( makeType( this->getType()->getKind() )

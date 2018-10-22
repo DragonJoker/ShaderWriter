@@ -9,6 +9,7 @@ See LICENSE file in root folder
 namespace sdw
 {
 	std::string writeDebug( Shader & shader );
+	std::string writeDebug( stmt::Container * stmt );
 }
 
 #endif

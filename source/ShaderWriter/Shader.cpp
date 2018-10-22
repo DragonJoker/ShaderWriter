@@ -20,6 +20,14 @@ namespace sdw
 		m_blocks.erase( m_blocks.begin() + m_blocks.size() - 1u );
 	}
 
+	void Shader::registerVariable( var::VariablePtr var )
+	{
+		auto & block = m_blocks.back();
+		auto it = block.registered.find( var->getName() );
+		assert( it == block.registered.end() );
+		block.registered.emplace( var->getName(), var );
+	}
+
 	var::VariablePtr Shader::registerName( std::string const & name
 		, type::TypePtr type
 		, uint32_t flags )

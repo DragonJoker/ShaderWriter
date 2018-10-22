@@ -61,6 +61,7 @@ namespace sdw
 		*	Control statements.
 		*/
 		/**@{*/
+		void registerVariable( var::VariablePtr var );
 		var::VariablePtr registerName( std::string const & name
 			, type::TypePtr type
 			, uint32_t flags );

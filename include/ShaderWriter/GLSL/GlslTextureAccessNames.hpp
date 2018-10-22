@@ -85,8 +85,6 @@ namespace sdw
 			result = "textureQueryLod";
 			break;
 
-
-	// Texel Lookup Functions
 		case ast::expr::TextureAccess::eTextureQueryLevels1DF:
 		case ast::expr::TextureAccess::eTextureQueryLevels2DF:
 		case ast::expr::TextureAccess::eTextureQueryLevels3DF:
@@ -117,6 +115,8 @@ namespace sdw
 			result = "textureQueryLevels";
 			break;
 
+
+	// Texel Lookup Functions
 		case ast::expr::TextureAccess::eTexture1DF:
 		case ast::expr::TextureAccess::eTexture1DFBias:
 		case ast::expr::TextureAccess::eTexture2DF:
@@ -525,8 +525,6 @@ namespace sdw
 			result = "textureProjGrad";
 			break;
 
-
-	// Texture Gather Functions
 		case ast::expr::TextureAccess::eTextureProjGradOffset1DF2:
 		case ast::expr::TextureAccess::eTextureProjGradOffset1DF4:
 		case ast::expr::TextureAccess::eTextureProjGradOffset2DF3:
@@ -554,6 +552,8 @@ namespace sdw
 			result = "textureProjGradOffset";
 			break;
 
+
+	// Texture Gather Functions
 		case ast::expr::TextureAccess::eTextureGather2DF:
 		case ast::expr::TextureAccess::eTextureGather2DFComp:
 		case ast::expr::TextureAccess::eTextureGather2DArrayF:

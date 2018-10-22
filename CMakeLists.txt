@@ -222,6 +222,18 @@ if ( MSVC OR NOT "${CMAKE_BUILD_TYPE}" STREQUAL "" )
 		)
 	endif ()
 
+	source_group( "Header Files\\Expr" FILES
+		${INCLUDE_DIR}/Expr/EnumImageAccess.hpp
+		${INCLUDE_DIR}/Expr/GetImageAccessName.hpp
+		${INCLUDE_DIR}/Expr/MakeImageAccess.hpp
+		${INCLUDE_DIR}/Expr/GetTextureAccessName.hpp
+		${INCLUDE_DIR}/Expr/EnumTextureAccess.hpp
+		${INCLUDE_DIR}/Expr/MakeTextureAccess.hpp
+		${INCLUDE_DIR}/Expr/EnumIntrinsic.hpp
+		${INCLUDE_DIR}/Expr/GetIntrinsicName.hpp
+		${INCLUDE_DIR}/Expr/MakeIntrinsic.hpp
+	)
+
 	add_library( ${PROJECT_NAME}
 		STATIC
 		${INCLUDE_DIR}/Expr/EnumImageAccess.hpp
@@ -257,6 +269,8 @@ if ( MSVC OR NOT "${CMAKE_BUILD_TYPE}" STREQUAL "" )
 		source/${PROJECT_NAME}/*.c
 		source/${PROJECT_NAME}/*.cpp
 	)
+	parse_subdir_files( ${PROJECT_NAME}/HLSL "HLSL" )
+	parse_subdir_files( ${PROJECT_NAME}/GLSL "GLSL" )
 
 	set( INCLUDE_DIR ${CMAKE_SOURCE_DIR}/include/${PROJECT_NAME} )
 
@@ -284,34 +298,40 @@ if ( MSVC OR NOT "${CMAKE_BUILD_TYPE}" STREQUAL "" )
 			COMMENT "Generating IntrinsicFunctions.hpp"
 			DEPENDS ${SCRIPT_DIR}/genFunctionFromEnum.py ${CMAKE_SOURCE_DIR}/include/ASTGenerator/Expr/Intrinsic.enum
 		)
-		add_custom_command( OUTPUT ${INCLUDE_DIR}/GlslImageAccessNames.hpp
+		add_custom_command( OUTPUT ${INCLUDE_DIR}/GLSL/GlslImageAccessNames.hpp
 			COMMAND ${CMAKE_COMMAND} -E make_directory ${GENERATED_DIR}
 			COMMAND ${Python_EXECUTABLE} ${SCRIPT_DIR}/genGlslNameFromEnum.py ${CMAKE_SOURCE_DIR}/include/ASTGenerator/Expr/ImageAccess.enum ${GENERATED_DIR}/GlslImageAccessNames.hpp
-			COMMAND ${CMAKE_COMMAND} -E copy_if_different ${GENERATED_DIR}/GlslImageAccessNames.hpp ${INCLUDE_DIR}/GlslImageAccessNames.hpp
+			COMMAND ${CMAKE_COMMAND} -E copy_if_different ${GENERATED_DIR}/GlslImageAccessNames.hpp ${INCLUDE_DIR}/GLSL/GlslImageAccessNames.hpp
 			COMMENT "Generating GlslImageAccessNames.hpp"
 			DEPENDS ${SCRIPT_DIR}/genGlslNameFromEnum.py ${CMAKE_SOURCE_DIR}/include/ASTGenerator/Expr/ImageAccess.enum
 		)
-		add_custom_command( OUTPUT ${INCLUDE_DIR}/GlslTextureAccessNames.hpp
+		add_custom_command( OUTPUT ${INCLUDE_DIR}/GLSL/GlslTextureAccessNames.hpp
 			COMMAND ${CMAKE_COMMAND} -E make_directory ${GENERATED_DIR}
 			COMMAND ${Python_EXECUTABLE} ${SCRIPT_DIR}/genGlslNameFromEnum.py ${CMAKE_SOURCE_DIR}/include/ASTGenerator/Expr/TextureAccess.enum ${GENERATED_DIR}/GlslTextureAccessNames.hpp
-			COMMAND ${CMAKE_COMMAND} -E copy_if_different ${GENERATED_DIR}/GlslTextureAccessNames.hpp ${INCLUDE_DIR}/GlslTextureAccessNames.hpp
+			COMMAND ${CMAKE_COMMAND} -E copy_if_different ${GENERATED_DIR}/GlslTextureAccessNames.hpp ${INCLUDE_DIR}/GLSL/GlslTextureAccessNames.hpp
 			COMMENT "Generating GlslTextureAccessNames.hpp"
 			DEPENDS ${SCRIPT_DIR}/genGlslNameFromEnum.py ${CMAKE_SOURCE_DIR}/include/ASTGenerator/Expr/TextureAccess.enum
 		)
-		add_custom_command( OUTPUT ${INCLUDE_DIR}/GlslIntrinsicNames.hpp
+		add_custom_command( OUTPUT ${INCLUDE_DIR}/GLSL/GlslIntrinsicNames.hpp
 			COMMAND ${CMAKE_COMMAND} -E make_directory ${GENERATED_DIR}
 			COMMAND ${Python_EXECUTABLE} ${SCRIPT_DIR}/genGlslNameFromEnum.py ${CMAKE_SOURCE_DIR}/include/ASTGenerator/Expr/Intrinsic.enum ${GENERATED_DIR}/GlslIntrinsicNames.hpp
-			COMMAND ${CMAKE_COMMAND} -E copy_if_different ${GENERATED_DIR}/GlslIntrinsicNames.hpp ${INCLUDE_DIR}/GlslIntrinsicNames.hpp
+			COMMAND ${CMAKE_COMMAND} -E copy_if_different ${GENERATED_DIR}/GlslIntrinsicNames.hpp ${INCLUDE_DIR}/GLSL/GlslIntrinsicNames.hpp
 			COMMENT "Generating GlslIntrinsicNames.hpp"
 			DEPENDS ${SCRIPT_DIR}/genGlslNameFromEnum.py ${CMAKE_SOURCE_DIR}/include/ASTGenerator/Expr/Intrinsic.enum
 		)
 	endif ()
 
+	source_group( "Header Files\\GLSL" FILES
+		${INCLUDE_DIR}/GLSL/GlslImageAccessNames.hpp
+		${INCLUDE_DIR}/GLSL/GlslTextureAccessNames.hpp
+		${INCLUDE_DIR}/GLSL/GlslIntrinsicNames.hpp
+	)
+
 	add_library( ${PROJECT_NAME}
 		STATIC
-		${INCLUDE_DIR}/GlslImageAccessNames.hpp
-		${INCLUDE_DIR}/GlslTextureAccessNames.hpp
-		${INCLUDE_DIR}/GlslIntrinsicNames.hpp
+		${INCLUDE_DIR}/GLSL/GlslImageAccessNames.hpp
+		${INCLUDE_DIR}/GLSL/GlslTextureAccessNames.hpp
+		${INCLUDE_DIR}/GLSL/GlslIntrinsicNames.hpp
 		${INCLUDE_DIR}/ImageAccessFunctions.hpp
 		${INCLUDE_DIR}/TextureAccessFunctions.hpp
 		${INCLUDE_DIR}/IntrinsicFunctions.hpp

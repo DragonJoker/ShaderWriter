@@ -54,7 +54,7 @@ namespace sdw
 
 	template< typename ReturnT
 		, typename ... ParamsT >
-	inline stmt::ContainerPtr getFunctionHeader( std::string const & name
+	inline stmt::FunctionDeclPtr getFunctionHeader( std::string const & name
 		, ParamsT && ... params );
 
 	//***********************************************************************************************

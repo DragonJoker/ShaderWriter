@@ -126,8 +126,12 @@ namespace ast::type
 		eImage2DMSU,
 		eImage2DMSArrayU,
 		eCount,
+		eHalf,// Internal only, never use this !!!
+		eVec2H,// Internal only, never use this !!!
+		eVec3H,// Internal only, never use this !!!
+		eVec4H,// Internal only, never use this !!!
 		eMin = eUndefined,
-		eMax = eImageCubeArrayU,
+		eMax = eImage2DMSArrayU,
 	};
 
 	class Type

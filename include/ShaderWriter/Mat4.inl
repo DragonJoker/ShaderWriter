@@ -13,7 +13,7 @@ namespace sdw
 	template< typename ValueT >
 	Mat4T< ValueT > & Mat4T< ValueT >::operator=( Mat4T< ValueT > const & rhs )
 	{
-		if ( m_container )
+		if ( this->getContainer() )
 		{
 			addStmt( *findContainer( *this, rhs )
 				, sdw::makeSimple( sdw::makeAssign( makeType( this->getType()->getKind() )
@@ -66,6 +66,16 @@ namespace sdw
 	{
 		return Vec4T< ValueT >{ findShader( lhs, rhs )
 			, sdw::makeTimes( makeType( typeEnum< Vec4T< ValueT > > )
+				, makeExpr( lhs )
+				, makeExpr( rhs ) ) };
+	}
+
+	template< typename ValueT >
+	Mat4T< ValueT > operator*( Mat4T< ValueT > const & lhs
+		, Mat4T< ValueT > const & rhs )
+	{
+		return Mat4T< ValueT >{ findShader( lhs, rhs )
+			, sdw::makeTimes( makeType( typeEnum< Mat4T< ValueT > > )
 				, makeExpr( lhs )
 				, makeExpr( rhs ) ) };
 	}

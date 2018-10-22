@@ -2500,36 +2500,36 @@ namespace ast::expr
 			result = "BITFIELDEXTRACT4U";
 			break;
 
-		case Intrinsic::eBietfieldInsert1I:
-			result = "BIETFIELDINSERT1I";
+		case Intrinsic::eBitfieldInsert1I:
+			result = "BITFIELDINSERT1I";
 			break;
 
-		case Intrinsic::eBietfieldInsert2I:
-			result = "BIETFIELDINSERT2I";
+		case Intrinsic::eBitfieldInsert2I:
+			result = "BITFIELDINSERT2I";
 			break;
 
-		case Intrinsic::eBietfieldInsert3I:
-			result = "BIETFIELDINSERT3I";
+		case Intrinsic::eBitfieldInsert3I:
+			result = "BITFIELDINSERT3I";
 			break;
 
-		case Intrinsic::eBietfieldInsert4I:
-			result = "BIETFIELDINSERT4I";
+		case Intrinsic::eBitfieldInsert4I:
+			result = "BITFIELDINSERT4I";
 			break;
 
-		case Intrinsic::eBietfieldInsert1U:
-			result = "BIETFIELDINSERT1U";
+		case Intrinsic::eBitfieldInsert1U:
+			result = "BITFIELDINSERT1U";
 			break;
 
-		case Intrinsic::eBietfieldInsert2U:
-			result = "BIETFIELDINSERT2U";
+		case Intrinsic::eBitfieldInsert2U:
+			result = "BITFIELDINSERT2U";
 			break;
 
-		case Intrinsic::eBietfieldInsert3U:
-			result = "BIETFIELDINSERT3U";
+		case Intrinsic::eBitfieldInsert3U:
+			result = "BITFIELDINSERT3U";
 			break;
 
-		case Intrinsic::eBietfieldInsert4U:
-			result = "BIETFIELDINSERT4U";
+		case Intrinsic::eBitfieldInsert4U:
+			result = "BITFIELDINSERT4U";
 			break;
 
 		case Intrinsic::eBitfieldReverse1I:
@@ -2838,38 +2838,6 @@ namespace ast::expr
 
 		case Intrinsic::eFwidth4:
 			result = "FWIDTH4";
-			break;
-
-		case Intrinsic::eFwidthCoarse1:
-			result = "FWIDTHCOARSE1";
-			break;
-
-		case Intrinsic::eFwidthCoarse2:
-			result = "FWIDTHCOARSE2";
-			break;
-
-		case Intrinsic::eFwidthCoarse3:
-			result = "FWIDTHCOARSE3";
-			break;
-
-		case Intrinsic::eFwidthCoarse4:
-			result = "FWIDTHCOARSE4";
-			break;
-
-		case Intrinsic::eFwidthFine1:
-			result = "FWIDTHFINE1";
-			break;
-
-		case Intrinsic::eFwidthFine2:
-			result = "FWIDTHFINE2";
-			break;
-
-		case Intrinsic::eFwidthFine3:
-			result = "FWIDTHFINE3";
-			break;
-
-		case Intrinsic::eFwidthFine4:
-			result = "FWIDTHFINE4";
 			break;
 
 

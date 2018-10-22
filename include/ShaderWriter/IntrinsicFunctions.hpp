@@ -2835,9 +2835,9 @@ namespace sdw
 			, expr::makePackUnorm4x8( makeExpr( v ) ) };
 	}
 
-	inline UVec4 unpackDouble2x32( Double const & d )
+	inline UVec2 unpackDouble2x32( Double const & d )
 	{
-		return UVec4{ findShader( d )
+		return UVec2{ findShader( d )
 			, expr::makeUnpackDouble2x32( makeExpr( d ) ) };
 	}
 
@@ -3323,112 +3323,148 @@ namespace sdw
 
 	// Matrix Functions
 
-	inline Mat2 matrixCompMult( Mat2 const & x )
+	inline Mat2 matrixCompMult( Mat2 const & x
+		, Mat2 const & y )
 	{
-		return Mat2{ findShader( x )
-			, expr::makeMatrixCompMult2x2F( makeExpr( x ) ) };
+		return Mat2{ findShader( x, y )
+			, expr::makeMatrixCompMult2x2F( makeExpr( x )
+				, makeExpr( y ) ) };
 	}
 
-	inline Mat2x3 matrixCompMult( Mat2x3 const & x )
+	inline Mat2x3 matrixCompMult( Mat2x3 const & x
+		, Mat2x3 const & y )
 	{
-		return Mat2x3{ findShader( x )
-			, expr::makeMatrixCompMult2x3F( makeExpr( x ) ) };
+		return Mat2x3{ findShader( x, y )
+			, expr::makeMatrixCompMult2x3F( makeExpr( x )
+				, makeExpr( y ) ) };
 	}
 
-	inline Mat2x4 matrixCompMult( Mat2x4 const & x )
+	inline Mat2x4 matrixCompMult( Mat2x4 const & x
+		, Mat2x4 const & y )
 	{
-		return Mat2x4{ findShader( x )
-			, expr::makeMatrixCompMult2x4F( makeExpr( x ) ) };
+		return Mat2x4{ findShader( x, y )
+			, expr::makeMatrixCompMult2x4F( makeExpr( x )
+				, makeExpr( y ) ) };
 	}
 
-	inline Mat3x2 matrixCompMult( Mat3x2 const & x )
+	inline Mat3x2 matrixCompMult( Mat3x2 const & x
+		, Mat3x2 const & y )
 	{
-		return Mat3x2{ findShader( x )
-			, expr::makeMatrixCompMult3x2F( makeExpr( x ) ) };
+		return Mat3x2{ findShader( x, y )
+			, expr::makeMatrixCompMult3x2F( makeExpr( x )
+				, makeExpr( y ) ) };
 	}
 
-	inline Mat3 matrixCompMult( Mat3 const & x )
+	inline Mat3 matrixCompMult( Mat3 const & x
+		, Mat3 const & y )
 	{
-		return Mat3{ findShader( x )
-			, expr::makeMatrixCompMult3x3F( makeExpr( x ) ) };
+		return Mat3{ findShader( x, y )
+			, expr::makeMatrixCompMult3x3F( makeExpr( x )
+				, makeExpr( y ) ) };
 	}
 
-	inline Mat3x4 matrixCompMult( Mat3x4 const & x )
+	inline Mat3x4 matrixCompMult( Mat3x4 const & x
+		, Mat3x4 const & y )
 	{
-		return Mat3x4{ findShader( x )
-			, expr::makeMatrixCompMult3x4F( makeExpr( x ) ) };
+		return Mat3x4{ findShader( x, y )
+			, expr::makeMatrixCompMult3x4F( makeExpr( x )
+				, makeExpr( y ) ) };
 	}
 
-	inline Mat4x2 matrixCompMult( Mat4x2 const & x )
+	inline Mat4x2 matrixCompMult( Mat4x2 const & x
+		, Mat4x2 const & y )
 	{
-		return Mat4x2{ findShader( x )
-			, expr::makeMatrixCompMult4x2F( makeExpr( x ) ) };
+		return Mat4x2{ findShader( x, y )
+			, expr::makeMatrixCompMult4x2F( makeExpr( x )
+				, makeExpr( y ) ) };
 	}
 
-	inline Mat4x3 matrixCompMult( Mat4x3 const & x )
+	inline Mat4x3 matrixCompMult( Mat4x3 const & x
+		, Mat4x3 const & y )
 	{
-		return Mat4x3{ findShader( x )
-			, expr::makeMatrixCompMult4x3F( makeExpr( x ) ) };
+		return Mat4x3{ findShader( x, y )
+			, expr::makeMatrixCompMult4x3F( makeExpr( x )
+				, makeExpr( y ) ) };
 	}
 
-	inline Mat4 matrixCompMult( Mat4 const & x )
+	inline Mat4 matrixCompMult( Mat4 const & x
+		, Mat4 const & y )
 	{
-		return Mat4{ findShader( x )
-			, expr::makeMatrixCompMult4x4F( makeExpr( x ) ) };
+		return Mat4{ findShader( x, y )
+			, expr::makeMatrixCompMult4x4F( makeExpr( x )
+				, makeExpr( y ) ) };
 	}
 
-	inline DMat2 matrixCompMult( DMat2 const & x )
+	inline DMat2 matrixCompMult( DMat2 const & x
+		, DMat2 const & y )
 	{
-		return DMat2{ findShader( x )
-			, expr::makeMatrixCompMult2x2D( makeExpr( x ) ) };
+		return DMat2{ findShader( x, y )
+			, expr::makeMatrixCompMult2x2D( makeExpr( x )
+				, makeExpr( y ) ) };
 	}
 
-	inline DMat2x3 matrixCompMult( DMat2x3 const & x )
+	inline DMat2x3 matrixCompMult( DMat2x3 const & x
+		, DMat2x3 const & y )
 	{
-		return DMat2x3{ findShader( x )
-			, expr::makeMatrixCompMult2x3D( makeExpr( x ) ) };
+		return DMat2x3{ findShader( x, y )
+			, expr::makeMatrixCompMult2x3D( makeExpr( x )
+				, makeExpr( y ) ) };
 	}
 
-	inline DMat2x4 matrixCompMult( DMat2x4 const & x )
+	inline DMat2x4 matrixCompMult( DMat2x4 const & x
+		, DMat2x4 const & y )
 	{
-		return DMat2x4{ findShader( x )
-			, expr::makeMatrixCompMult2x4D( makeExpr( x ) ) };
+		return DMat2x4{ findShader( x, y )
+			, expr::makeMatrixCompMult2x4D( makeExpr( x )
+				, makeExpr( y ) ) };
 	}
 
-	inline DMat3x2 matrixCompMult( DMat3x2 const & x )
+	inline DMat3x2 matrixCompMult( DMat3x2 const & x
+		, DMat3x2 const & y )
 	{
-		return DMat3x2{ findShader( x )
-			, expr::makeMatrixCompMult3x2D( makeExpr( x ) ) };
+		return DMat3x2{ findShader( x, y )
+			, expr::makeMatrixCompMult3x2D( makeExpr( x )
+				, makeExpr( y ) ) };
 	}
 
-	inline DMat3 matrixCompMult( DMat3 const & x )
+	inline DMat3 matrixCompMult( DMat3 const & x
+		, DMat3 const & y )
 	{
-		return DMat3{ findShader( x )
-			, expr::makeMatrixCompMult3x3D( makeExpr( x ) ) };
+		return DMat3{ findShader( x, y )
+			, expr::makeMatrixCompMult3x3D( makeExpr( x )
+				, makeExpr( y ) ) };
 	}
 
-	inline DMat3x4 matrixCompMult( DMat3x4 const & x )
+	inline DMat3x4 matrixCompMult( DMat3x4 const & x
+		, DMat3x4 const & y )
 	{
-		return DMat3x4{ findShader( x )
-			, expr::makeMatrixCompMult3x4D( makeExpr( x ) ) };
+		return DMat3x4{ findShader( x, y )
+			, expr::makeMatrixCompMult3x4D( makeExpr( x )
+				, makeExpr( y ) ) };
 	}
 
-	inline DMat4x2 matrixCompMult( DMat4x2 const & x )
+	inline DMat4x2 matrixCompMult( DMat4x2 const & x
+		, DMat4x2 const & y )
 	{
-		return DMat4x2{ findShader( x )
-			, expr::makeMatrixCompMult4x2D( makeExpr( x ) ) };
+		return DMat4x2{ findShader( x, y )
+			, expr::makeMatrixCompMult4x2D( makeExpr( x )
+				, makeExpr( y ) ) };
 	}
 
-	inline DMat4x3 matrixCompMult( DMat4x3 const & x )
+	inline DMat4x3 matrixCompMult( DMat4x3 const & x
+		, DMat4x3 const & y )
 	{
-		return DMat4x3{ findShader( x )
-			, expr::makeMatrixCompMult4x3D( makeExpr( x ) ) };
+		return DMat4x3{ findShader( x, y )
+			, expr::makeMatrixCompMult4x3D( makeExpr( x )
+				, makeExpr( y ) ) };
 	}
 
-	inline DMat4 matrixCompMult( DMat4 const & x )
+	inline DMat4 matrixCompMult( DMat4 const & x
+		, DMat4 const & y )
 	{
-		return DMat4{ findShader( x )
-			, expr::makeMatrixCompMult4x4D( makeExpr( x ) ) };
+		return DMat4{ findShader( x, y )
+			, expr::makeMatrixCompMult4x4D( makeExpr( x )
+				, makeExpr( y ) ) };
 	}
 
 	inline Mat2 outerProduct( Vec2 const & c
@@ -4651,7 +4687,7 @@ namespace sdw
 		, Int const & bits )
 	{
 		return Int{ findShader( base, insert, offset, bits )
-			, expr::makeBietfieldInsert1I( makeExpr( base )
+			, expr::makeBitfieldInsert1I( makeExpr( base )
 				, makeExpr( insert )
 				, makeExpr( offset )
 				, makeExpr( bits ) ) };
@@ -4663,7 +4699,7 @@ namespace sdw
 		, Int const & bits )
 	{
 		return IVec2{ findShader( base, insert, offset, bits )
-			, expr::makeBietfieldInsert2I( makeExpr( base )
+			, expr::makeBitfieldInsert2I( makeExpr( base )
 				, makeExpr( insert )
 				, makeExpr( offset )
 				, makeExpr( bits ) ) };
@@ -4675,7 +4711,7 @@ namespace sdw
 		, Int const & bits )
 	{
 		return IVec3{ findShader( base, insert, offset, bits )
-			, expr::makeBietfieldInsert3I( makeExpr( base )
+			, expr::makeBitfieldInsert3I( makeExpr( base )
 				, makeExpr( insert )
 				, makeExpr( offset )
 				, makeExpr( bits ) ) };
@@ -4687,7 +4723,7 @@ namespace sdw
 		, Int const & bits )
 	{
 		return IVec4{ findShader( base, insert, offset, bits )
-			, expr::makeBietfieldInsert4I( makeExpr( base )
+			, expr::makeBitfieldInsert4I( makeExpr( base )
 				, makeExpr( insert )
 				, makeExpr( offset )
 				, makeExpr( bits ) ) };
@@ -4699,7 +4735,7 @@ namespace sdw
 		, Int const & bits )
 	{
 		return UInt{ findShader( base, insert, offset, bits )
-			, expr::makeBietfieldInsert1U( makeExpr( base )
+			, expr::makeBitfieldInsert1U( makeExpr( base )
 				, makeExpr( insert )
 				, makeExpr( offset )
 				, makeExpr( bits ) ) };
@@ -4711,7 +4747,7 @@ namespace sdw
 		, Int const & bits )
 	{
 		return UVec2{ findShader( base, insert, offset, bits )
-			, expr::makeBietfieldInsert2U( makeExpr( base )
+			, expr::makeBitfieldInsert2U( makeExpr( base )
 				, makeExpr( insert )
 				, makeExpr( offset )
 				, makeExpr( bits ) ) };
@@ -4723,7 +4759,7 @@ namespace sdw
 		, Int const & bits )
 	{
 		return UVec3{ findShader( base, insert, offset, bits )
-			, expr::makeBietfieldInsert3U( makeExpr( base )
+			, expr::makeBitfieldInsert3U( makeExpr( base )
 				, makeExpr( insert )
 				, makeExpr( offset )
 				, makeExpr( bits ) ) };
@@ -4735,7 +4771,7 @@ namespace sdw
 		, Int const & bits )
 	{
 		return UVec4{ findShader( base, insert, offset, bits )
-			, expr::makeBietfieldInsert4U( makeExpr( base )
+			, expr::makeBitfieldInsert4U( makeExpr( base )
 				, makeExpr( insert )
 				, makeExpr( offset )
 				, makeExpr( bits ) ) };
@@ -5231,54 +5267,6 @@ namespace sdw
 	{
 		return Vec4{ findShader( p )
 			, expr::makeFwidth4( makeExpr( p ) ) };
-	}
-
-	inline Float fwidthCoarse( Float const & p )
-	{
-		return Float{ findShader( p )
-			, expr::makeFwidthCoarse1( makeExpr( p ) ) };
-	}
-
-	inline Vec2 fwidthCoarse( Vec2 const & p )
-	{
-		return Vec2{ findShader( p )
-			, expr::makeFwidthCoarse2( makeExpr( p ) ) };
-	}
-
-	inline Vec3 fwidthCoarse( Vec3 const & p )
-	{
-		return Vec3{ findShader( p )
-			, expr::makeFwidthCoarse3( makeExpr( p ) ) };
-	}
-
-	inline Vec4 fwidthCoarse( Vec4 const & p )
-	{
-		return Vec4{ findShader( p )
-			, expr::makeFwidthCoarse4( makeExpr( p ) ) };
-	}
-
-	inline Float fwidthFine( Float const & p )
-	{
-		return Float{ findShader( p )
-			, expr::makeFwidthFine1( makeExpr( p ) ) };
-	}
-
-	inline Vec2 fwidthFine( Vec2 const & p )
-	{
-		return Vec2{ findShader( p )
-			, expr::makeFwidthFine2( makeExpr( p ) ) };
-	}
-
-	inline Vec3 fwidthFine( Vec3 const & p )
-	{
-		return Vec3{ findShader( p )
-			, expr::makeFwidthFine3( makeExpr( p ) ) };
-	}
-
-	inline Vec4 fwidthFine( Vec4 const & p )
-	{
-		return Vec4{ findShader( p )
-			, expr::makeFwidthFine4( makeExpr( p ) ) };
 	}
 
 	// Interpolation Functions

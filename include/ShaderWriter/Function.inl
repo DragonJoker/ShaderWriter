@@ -127,21 +127,21 @@ namespace sdw
 
 	template< typename ReturnT
 		, typename ... ParamsT >
-	inline stmt::ContainerPtr getFunctionHeader( std::string const & name
+	inline stmt::FunctionDeclPtr getFunctionHeader( std::string const & name
 		, ParamsT && ... params )
 	{
 		var::VariableList args;
 		getFunctionHeaderArgsRec( args, std::forward< ParamsT >( params )... );
-		return sdw::makeFuncDecl( type::makeType( typeEnum< ReturnT > )
+		return stmt::makeFunctionDecl( type::makeType( typeEnum< ReturnT > )
 			, name
 			, args );
 	}
 
 	template<>
-	inline stmt::ContainerPtr getFunctionHeader< void >( std::string const & name )
+	inline stmt::FunctionDeclPtr getFunctionHeader< void >( std::string const & name )
 	{
 		var::VariableList args;
-		return sdw::makeFuncDecl( type::getVoid()
+		return stmt::makeFunctionDecl( type::getVoid()
 			, name
 			, args );
 	}

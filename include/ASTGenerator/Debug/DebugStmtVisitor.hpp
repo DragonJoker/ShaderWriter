@@ -23,6 +23,7 @@ namespace ast::debug
 	private:
 		std::string & displayStmtName( stmt::Stmt * stmt, bool newLine );
 		void displayVariable( var::Variable const & var );
+		void visitCommentStmt( stmt::Comment * stmt )override;
 		void visitCompoundStmt( stmt::Compound * stmt )override;
 		void visitContainerStmt( stmt::Container * stmt )override;
 		void visitConstantBufferDeclStmt( stmt::ConstantBufferDecl * stmt )override;
