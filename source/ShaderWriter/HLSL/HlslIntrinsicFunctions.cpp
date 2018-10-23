@@ -329,7 +329,7 @@ namespace sdw::hlsl
 		}
 
 		inline void writeInverse4x4F( stmt::Container * container
-			, Config const & config )
+			, IntrinsicsConfig const & config )
 		{
 			auto cont = stmt::makeContainer();
 
@@ -373,7 +373,7 @@ namespace sdw::hlsl
 		}
 
 		inline void writeInverse4x4D( stmt::Container * container
-			, Config const & config )
+			, IntrinsicsConfig const & config )
 		{
 			auto cont = stmt::makeContainer();
 
@@ -817,8 +817,8 @@ namespace sdw::hlsl
 		}
 	}
 
-	void writeHlslFunctions( ast::stmt::Container * container
-		, Config const & config )
+	void writeHlslIntrinsicFunctions( ast::stmt::Container * container
+		, IntrinsicsConfig const & config )
 	{
 		if ( config.requiresRoundEven1F )
 		{
@@ -918,13 +918,11 @@ namespace sdw::hlsl
 		}
 		if ( config.requiresInverse4x4F )
 		{
-			details::writeInverse4x4F( container
-				, config );
+			details::writeInverse4x4F( container, config );
 		}
 		if ( config.requiresInverse4x4D )
 		{
-			details::writeInverse4x4D( container
-				, config );
+			details::writeInverse4x4D( container, config );
 		}
 		if ( config.requiresUaddCarry1 )
 		{

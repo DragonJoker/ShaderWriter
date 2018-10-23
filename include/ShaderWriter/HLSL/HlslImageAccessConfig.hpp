@@ -14,7 +14,7 @@ See LICENSE file in root folder
 namespace sdw::hlsl
 {
 	inline void getHlslConfig( ast::expr::ImageAccess value
-		, Config & config )
+		, IntrinsicsConfig & config )
 	{
 		std::string result;
 

@@ -15,19 +15,19 @@ namespace sdw::hlsl
 	{
 	public:
 		static expr::ExprPtr submit( expr::Expr * expr
-			, Config & config
+			, IntrinsicsConfig & config
 			, LinkedVars const & linkedVars
 			, VariableExprMap const & inputMembers
 			, VariableExprMap const & outputMembers );
 		static expr::ExprPtr submit( expr::ExprPtr const & expr
-			, Config & config
+			, IntrinsicsConfig & config
 			, LinkedVars const & linkedVars
 			, VariableExprMap const & inputMembers
 			, VariableExprMap const & outputMembers );
 
 	private:
 		ExprAdapter( expr::ExprPtr & result
-			, Config & config
+			, IntrinsicsConfig & config
 			, LinkedVars const & linkedVars
 			, VariableExprMap const & inputMembers
 			, VariableExprMap const & outputMembers );
@@ -41,7 +41,7 @@ namespace sdw::hlsl
 		void visitTimesExpr( expr::Times * expr )override;
 
 	private:
-		Config & m_config;
+		IntrinsicsConfig & m_config;
 		LinkedVars const & m_linkedVars;
 		VariableExprMap const & m_inputMembers;
 		VariableExprMap const & m_outputMembers;

@@ -68,10 +68,417 @@ namespace sdw::hlsl
 			return kind >= type::Kind::eMat2x2F
 				&& kind <= type::Kind::eMat4x4D;
 		}
+
+		expr::ExprPtr writeProjectTexCoords2( expr::ExprPtr texcoords )
+		{
+			expr::ExprList args;
+			args.emplace_back( std::move( texcoords ) );
+			return expr::makeFnCall( type::getFloat()
+				, expr::makeIdentifier( var::makeFunction( "SDW_projectTexCoords2" ) )
+				, std::move( args ) );
+		}
+
+		expr::ExprPtr writeProjectTexCoords3( expr::ExprPtr texcoords )
+		{
+			expr::ExprList args;
+			args.emplace_back( std::move( texcoords ) );
+			return expr::makeFnCall( type::getVec2F()
+				, expr::makeIdentifier( var::makeFunction( "SDW_projectTexCoords3" ) )
+				, std::move( args ) );
+		}
+
+		expr::ExprPtr writeProjectTexCoords4To1( expr::ExprPtr texcoords )
+		{
+			expr::ExprList args;
+			args.emplace_back( std::move( texcoords ) );
+			return expr::makeFnCall( type::getFloat()
+				, expr::makeIdentifier( var::makeFunction( "SDW_projectTexCoords4To1" ) )
+				, std::move( args ) );
+		}
+
+		expr::ExprPtr writeProjectTexCoords4To2( expr::ExprPtr texcoords )
+		{
+			expr::ExprList args;
+			args.emplace_back( std::move( texcoords ) );
+			return expr::makeFnCall( type::getVec2F()
+				, expr::makeIdentifier( var::makeFunction( "SDW_projectTexCoords4To2" ) )
+				, std::move( args ) );
+		}
+
+		expr::ExprPtr writeProjectTexCoords4( expr::ExprPtr texcoords )
+		{
+			expr::ExprList args;
+			args.emplace_back( std::move( texcoords ) );
+			return expr::makeFnCall( type::getVec3F()
+				, expr::makeIdentifier( var::makeFunction( "SDW_projectTexCoords4" ) )
+				, std::move( args ) );
+		}
+
+		expr::ExprPtr writeProjTexCoords( expr::TextureAccess access
+			, expr::ExprPtr texcoords )
+		{
+			switch ( access )
+			{
+			case ast::expr::TextureAccess::eTextureProj1DF2:
+			case ast::expr::TextureAccess::eTextureProj1DShadowF:
+			case ast::expr::TextureAccess::eTextureProj1DI2:
+			case ast::expr::TextureAccess::eTextureProj1DU2:
+			case ast::expr::TextureAccess::eTextureProj1DF2Bias:
+			case ast::expr::TextureAccess::eTextureProj1DShadowFBias:
+			case ast::expr::TextureAccess::eTextureProj1DI2Bias:
+			case ast::expr::TextureAccess::eTextureProj1DU2Bias:
+			case ast::expr::TextureAccess::eTextureProjOffset1DF2:
+			case ast::expr::TextureAccess::eTextureProjOffset1DShadowF:
+			case ast::expr::TextureAccess::eTextureProjOffset1DI2:
+			case ast::expr::TextureAccess::eTextureProjOffset1DU2:
+			case ast::expr::TextureAccess::eTextureProjOffset1DF2Bias:
+			case ast::expr::TextureAccess::eTextureProjOffset1DShadowFBias:
+			case ast::expr::TextureAccess::eTextureProjOffset1DI2Bias:
+			case ast::expr::TextureAccess::eTextureProjOffset1DU2Bias:
+			case ast::expr::TextureAccess::eTextureProjLod1DF2:
+			case ast::expr::TextureAccess::eTextureProjLod1DShadowF:
+			case ast::expr::TextureAccess::eTextureProjLod1DI2:
+			case ast::expr::TextureAccess::eTextureProjLod1DU2:
+			case ast::expr::TextureAccess::eTextureProjLodOffset1DF2:
+			case ast::expr::TextureAccess::eTextureProjLodOffset1DShadowF:
+			case ast::expr::TextureAccess::eTextureProjLodOffset1DI2:
+			case ast::expr::TextureAccess::eTextureProjLodOffset1DU2:
+			case ast::expr::TextureAccess::eTextureProjGrad1DF2:
+			case ast::expr::TextureAccess::eTextureProjGrad1DShadowF:
+			case ast::expr::TextureAccess::eTextureProjGrad1DI2:
+			case ast::expr::TextureAccess::eTextureProjGrad1DU2:
+			case ast::expr::TextureAccess::eTextureProjGradOffset1DF2:
+			case ast::expr::TextureAccess::eTextureProjGradOffset1DShadowF:
+			case ast::expr::TextureAccess::eTextureProjGradOffset1DI2:
+			case ast::expr::TextureAccess::eTextureProjGradOffset1DU2:
+				return writeProjectTexCoords2( std::move( texcoords ) );
+
+			case ast::expr::TextureAccess::eTextureProj1DF4:
+			case ast::expr::TextureAccess::eTextureProj1DI4:
+			case ast::expr::TextureAccess::eTextureProj1DU4:
+			case ast::expr::TextureAccess::eTextureProj1DF4Bias:
+			case ast::expr::TextureAccess::eTextureProj1DI4Bias:
+			case ast::expr::TextureAccess::eTextureProj1DU4Bias:
+			case ast::expr::TextureAccess::eTextureProjOffset1DF4:
+			case ast::expr::TextureAccess::eTextureProjOffset1DI4:
+			case ast::expr::TextureAccess::eTextureProjOffset1DU4:
+			case ast::expr::TextureAccess::eTextureProjOffset1DF4Bias:
+			case ast::expr::TextureAccess::eTextureProjOffset1DI4Bias:
+			case ast::expr::TextureAccess::eTextureProjOffset1DU4Bias:
+			case ast::expr::TextureAccess::eTextureProjLod1DF4:
+			case ast::expr::TextureAccess::eTextureProjLod1DI4:
+			case ast::expr::TextureAccess::eTextureProjLod1DU4:
+			case ast::expr::TextureAccess::eTextureProjLodOffset1DF4:
+			case ast::expr::TextureAccess::eTextureProjLodOffset1DI4:
+			case ast::expr::TextureAccess::eTextureProjLodOffset1DU4:
+			case ast::expr::TextureAccess::eTextureProjGrad1DF4:
+			case ast::expr::TextureAccess::eTextureProjGrad1DI4:
+			case ast::expr::TextureAccess::eTextureProjGrad1DU4:
+			case ast::expr::TextureAccess::eTextureProjGradOffset1DF4:
+			case ast::expr::TextureAccess::eTextureProjGradOffset1DI4:
+			case ast::expr::TextureAccess::eTextureProjGradOffset1DU4:
+				return writeProjectTexCoords4To1( std::move( texcoords ) );
+
+			case ast::expr::TextureAccess::eTextureProj2DF3:
+			case ast::expr::TextureAccess::eTextureProj2DShadowF:
+			case ast::expr::TextureAccess::eTextureProj2DRectF3:
+			case ast::expr::TextureAccess::eTextureProj2DRectShadowF:
+			case ast::expr::TextureAccess::eTextureProj2DI3:
+			case ast::expr::TextureAccess::eTextureProj2DRectI3:
+			case ast::expr::TextureAccess::eTextureProj2DU3:
+			case ast::expr::TextureAccess::eTextureProj2DRectU3:
+			case ast::expr::TextureAccess::eTextureProj2DF3Bias:
+			case ast::expr::TextureAccess::eTextureProj2DShadowFBias:
+			case ast::expr::TextureAccess::eTextureProj2DI3Bias:
+			case ast::expr::TextureAccess::eTextureProj2DU3Bias:
+			case ast::expr::TextureAccess::eTextureProjOffset2DF3:
+			case ast::expr::TextureAccess::eTextureProjOffset2DShadowF:
+			case ast::expr::TextureAccess::eTextureProjOffset2DRectF3:
+			case ast::expr::TextureAccess::eTextureProjOffset2DRectShadowF:
+			case ast::expr::TextureAccess::eTextureProjOffset2DI3:
+			case ast::expr::TextureAccess::eTextureProjOffset2DRectI3:
+			case ast::expr::TextureAccess::eTextureProjOffset2DU3:
+			case ast::expr::TextureAccess::eTextureProjOffset2DRectU3:
+			case ast::expr::TextureAccess::eTextureProjOffset2DF3Bias:
+			case ast::expr::TextureAccess::eTextureProjOffset2DShadowFBias:
+			case ast::expr::TextureAccess::eTextureProjOffset2DI3Bias:
+			case ast::expr::TextureAccess::eTextureProjOffset2DU3Bias:
+			case ast::expr::TextureAccess::eTextureProjLod2DF3:
+			case ast::expr::TextureAccess::eTextureProjLod2DShadowF:
+			case ast::expr::TextureAccess::eTextureProjLod2DI3:
+			case ast::expr::TextureAccess::eTextureProjLod2DU3:
+			case ast::expr::TextureAccess::eTextureProjLodOffset2DF3:
+			case ast::expr::TextureAccess::eTextureProjLodOffset2DShadowF:
+			case ast::expr::TextureAccess::eTextureProjLodOffset2DI3:
+			case ast::expr::TextureAccess::eTextureProjLodOffset2DU3:
+			case ast::expr::TextureAccess::eTextureProjGrad2DF3:
+			case ast::expr::TextureAccess::eTextureProjGrad2DShadowF:
+			case ast::expr::TextureAccess::eTextureProjGrad2DRectF3:
+			case ast::expr::TextureAccess::eTextureProjGrad2DRectShadowF:
+			case ast::expr::TextureAccess::eTextureProjGrad2DI3:
+			case ast::expr::TextureAccess::eTextureProjGrad2DRectI3:
+			case ast::expr::TextureAccess::eTextureProjGrad2DU3:
+			case ast::expr::TextureAccess::eTextureProjGrad2DRectU3:
+			case ast::expr::TextureAccess::eTextureProjGradOffset2DF3:
+			case ast::expr::TextureAccess::eTextureProjGradOffset2DShadowF:
+			case ast::expr::TextureAccess::eTextureProjGradOffset2DRectF3:
+			case ast::expr::TextureAccess::eTextureProjGradOffset2DRectShadowF:
+			case ast::expr::TextureAccess::eTextureProjGradOffset2DI3:
+			case ast::expr::TextureAccess::eTextureProjGradOffset2DRectI3:
+			case ast::expr::TextureAccess::eTextureProjGradOffset2DU3:
+			case ast::expr::TextureAccess::eTextureProjGradOffset2DRectU3:
+				return writeProjectTexCoords3( std::move( texcoords ) );
+
+			case ast::expr::TextureAccess::eTextureProj2DF4:
+			case ast::expr::TextureAccess::eTextureProj2DRectF4:
+			case ast::expr::TextureAccess::eTextureProj2DI4:
+			case ast::expr::TextureAccess::eTextureProj2DRectI4:
+			case ast::expr::TextureAccess::eTextureProj2DU4:
+			case ast::expr::TextureAccess::eTextureProj2DRectU4:
+			case ast::expr::TextureAccess::eTextureProj2DF4Bias:
+			case ast::expr::TextureAccess::eTextureProj2DI4Bias:
+			case ast::expr::TextureAccess::eTextureProj2DU4Bias:
+			case ast::expr::TextureAccess::eTextureProjOffset2DF4:
+			case ast::expr::TextureAccess::eTextureProjOffset2DRectF4:
+			case ast::expr::TextureAccess::eTextureProjOffset2DI4:
+			case ast::expr::TextureAccess::eTextureProjOffset2DRectI4:
+			case ast::expr::TextureAccess::eTextureProjOffset2DU4:
+			case ast::expr::TextureAccess::eTextureProjOffset2DRectU4:
+			case ast::expr::TextureAccess::eTextureProjOffset2DF4Bias:
+			case ast::expr::TextureAccess::eTextureProjOffset2DI4Bias:
+			case ast::expr::TextureAccess::eTextureProjOffset2DU4Bias:
+			case ast::expr::TextureAccess::eTextureProjLod2DF4:
+			case ast::expr::TextureAccess::eTextureProjLod2DI4:
+			case ast::expr::TextureAccess::eTextureProjLod2DU4:
+			case ast::expr::TextureAccess::eTextureProjLodOffset2DF4:
+			case ast::expr::TextureAccess::eTextureProjLodOffset2DI4:
+			case ast::expr::TextureAccess::eTextureProjLodOffset2DU4:
+			case ast::expr::TextureAccess::eTextureProjGrad2DF4:
+			case ast::expr::TextureAccess::eTextureProjGrad2DRectF4:
+			case ast::expr::TextureAccess::eTextureProjGrad2DI4:
+			case ast::expr::TextureAccess::eTextureProjGrad2DRectI4:
+			case ast::expr::TextureAccess::eTextureProjGrad2DU4:
+			case ast::expr::TextureAccess::eTextureProjGrad2DRectU4:
+			case ast::expr::TextureAccess::eTextureProjGradOffset2DF4:
+			case ast::expr::TextureAccess::eTextureProjGradOffset2DRectF4:
+			case ast::expr::TextureAccess::eTextureProjGradOffset2DI4:
+			case ast::expr::TextureAccess::eTextureProjGradOffset2DRectI4:
+			case ast::expr::TextureAccess::eTextureProjGradOffset2DU4:
+			case ast::expr::TextureAccess::eTextureProjGradOffset2DRectU4:
+				return writeProjectTexCoords4To2( std::move( texcoords ) );
+
+			case ast::expr::TextureAccess::eTextureProj3DF:
+			case ast::expr::TextureAccess::eTextureProj3DI:
+			case ast::expr::TextureAccess::eTextureProj3DU:
+			case ast::expr::TextureAccess::eTextureProj3DFBias:
+			case ast::expr::TextureAccess::eTextureProj3DIBias:
+			case ast::expr::TextureAccess::eTextureProj3DUBias:
+			case ast::expr::TextureAccess::eTextureProjOffset3DF:
+			case ast::expr::TextureAccess::eTextureProjOffset3DI:
+			case ast::expr::TextureAccess::eTextureProjOffset3DU:
+			case ast::expr::TextureAccess::eTextureProjOffset3DFBias:
+			case ast::expr::TextureAccess::eTextureProjOffset3DIBias:
+			case ast::expr::TextureAccess::eTextureProjOffset3DUBias:
+			case ast::expr::TextureAccess::eTextureProjLod3DF:
+			case ast::expr::TextureAccess::eTextureProjLod3DI:
+			case ast::expr::TextureAccess::eTextureProjLod3DU:
+			case ast::expr::TextureAccess::eTextureProjLodOffset3DF:
+			case ast::expr::TextureAccess::eTextureProjLodOffset3DI:
+			case ast::expr::TextureAccess::eTextureProjLodOffset3DU:
+			case ast::expr::TextureAccess::eTextureProjGrad3DF:
+			case ast::expr::TextureAccess::eTextureProjGrad3DI:
+			case ast::expr::TextureAccess::eTextureProjGrad3DU:
+			case ast::expr::TextureAccess::eTextureProjGradOffset3DF:
+			case ast::expr::TextureAccess::eTextureProjGradOffset3DI:
+			case ast::expr::TextureAccess::eTextureProjGradOffset3DU:
+				return writeProjectTexCoords4( std::move( texcoords ) );
+
+			default:
+				assert( false && "Expected a textureProj access function" );
+				return nullptr;
+			}
+		}
+
+		bool requiresProjTexCoords( expr::TextureAccess access )
+		{
+			bool result = false;
+
+			switch ( access )
+			{
+			case ast::expr::TextureAccess::eTextureProj1DF2:
+			case ast::expr::TextureAccess::eTextureProj1DShadowF:
+			case ast::expr::TextureAccess::eTextureProj1DI2:
+			case ast::expr::TextureAccess::eTextureProj1DU2:
+			case ast::expr::TextureAccess::eTextureProj1DF2Bias:
+			case ast::expr::TextureAccess::eTextureProj1DShadowFBias:
+			case ast::expr::TextureAccess::eTextureProj1DI2Bias:
+			case ast::expr::TextureAccess::eTextureProj1DU2Bias:
+			case ast::expr::TextureAccess::eTextureProjOffset1DF2:
+			case ast::expr::TextureAccess::eTextureProjOffset1DShadowF:
+			case ast::expr::TextureAccess::eTextureProjOffset1DI2:
+			case ast::expr::TextureAccess::eTextureProjOffset1DU2:
+			case ast::expr::TextureAccess::eTextureProjOffset1DF2Bias:
+			case ast::expr::TextureAccess::eTextureProjOffset1DShadowFBias:
+			case ast::expr::TextureAccess::eTextureProjOffset1DI2Bias:
+			case ast::expr::TextureAccess::eTextureProjOffset1DU2Bias:
+			case ast::expr::TextureAccess::eTextureProjLod1DF2:
+			case ast::expr::TextureAccess::eTextureProjLod1DShadowF:
+			case ast::expr::TextureAccess::eTextureProjLod1DI2:
+			case ast::expr::TextureAccess::eTextureProjLod1DU2:
+			case ast::expr::TextureAccess::eTextureProjLodOffset1DF2:
+			case ast::expr::TextureAccess::eTextureProjLodOffset1DShadowF:
+			case ast::expr::TextureAccess::eTextureProjLodOffset1DI2:
+			case ast::expr::TextureAccess::eTextureProjLodOffset1DU2:
+			case ast::expr::TextureAccess::eTextureProjGrad1DF2:
+			case ast::expr::TextureAccess::eTextureProjGrad1DShadowF:
+			case ast::expr::TextureAccess::eTextureProjGrad1DI2:
+			case ast::expr::TextureAccess::eTextureProjGrad1DU2:
+			case ast::expr::TextureAccess::eTextureProjGradOffset1DF2:
+			case ast::expr::TextureAccess::eTextureProjGradOffset1DShadowF:
+			case ast::expr::TextureAccess::eTextureProjGradOffset1DI2:
+			case ast::expr::TextureAccess::eTextureProjGradOffset1DU2:
+			case ast::expr::TextureAccess::eTextureProj1DF4:
+			case ast::expr::TextureAccess::eTextureProj1DI4:
+			case ast::expr::TextureAccess::eTextureProj1DU4:
+			case ast::expr::TextureAccess::eTextureProj1DF4Bias:
+			case ast::expr::TextureAccess::eTextureProj1DI4Bias:
+			case ast::expr::TextureAccess::eTextureProj1DU4Bias:
+			case ast::expr::TextureAccess::eTextureProjOffset1DF4:
+			case ast::expr::TextureAccess::eTextureProjOffset1DI4:
+			case ast::expr::TextureAccess::eTextureProjOffset1DU4:
+			case ast::expr::TextureAccess::eTextureProjOffset1DF4Bias:
+			case ast::expr::TextureAccess::eTextureProjOffset1DI4Bias:
+			case ast::expr::TextureAccess::eTextureProjOffset1DU4Bias:
+			case ast::expr::TextureAccess::eTextureProjLod1DF4:
+			case ast::expr::TextureAccess::eTextureProjLod1DI4:
+			case ast::expr::TextureAccess::eTextureProjLod1DU4:
+			case ast::expr::TextureAccess::eTextureProjLodOffset1DF4:
+			case ast::expr::TextureAccess::eTextureProjLodOffset1DI4:
+			case ast::expr::TextureAccess::eTextureProjLodOffset1DU4:
+			case ast::expr::TextureAccess::eTextureProjGrad1DF4:
+			case ast::expr::TextureAccess::eTextureProjGrad1DI4:
+			case ast::expr::TextureAccess::eTextureProjGrad1DU4:
+			case ast::expr::TextureAccess::eTextureProjGradOffset1DF4:
+			case ast::expr::TextureAccess::eTextureProjGradOffset1DI4:
+			case ast::expr::TextureAccess::eTextureProjGradOffset1DU4:
+			case ast::expr::TextureAccess::eTextureProj2DF3:
+			case ast::expr::TextureAccess::eTextureProj2DShadowF:
+			case ast::expr::TextureAccess::eTextureProj2DRectF3:
+			case ast::expr::TextureAccess::eTextureProj2DRectShadowF:
+			case ast::expr::TextureAccess::eTextureProj2DI3:
+			case ast::expr::TextureAccess::eTextureProj2DRectI3:
+			case ast::expr::TextureAccess::eTextureProj2DU3:
+			case ast::expr::TextureAccess::eTextureProj2DRectU3:
+			case ast::expr::TextureAccess::eTextureProj2DF3Bias:
+			case ast::expr::TextureAccess::eTextureProj2DShadowFBias:
+			case ast::expr::TextureAccess::eTextureProj2DI3Bias:
+			case ast::expr::TextureAccess::eTextureProj2DU3Bias:
+			case ast::expr::TextureAccess::eTextureProjOffset2DF3:
+			case ast::expr::TextureAccess::eTextureProjOffset2DShadowF:
+			case ast::expr::TextureAccess::eTextureProjOffset2DRectF3:
+			case ast::expr::TextureAccess::eTextureProjOffset2DRectShadowF:
+			case ast::expr::TextureAccess::eTextureProjOffset2DI3:
+			case ast::expr::TextureAccess::eTextureProjOffset2DRectI3:
+			case ast::expr::TextureAccess::eTextureProjOffset2DU3:
+			case ast::expr::TextureAccess::eTextureProjOffset2DRectU3:
+			case ast::expr::TextureAccess::eTextureProjOffset2DF3Bias:
+			case ast::expr::TextureAccess::eTextureProjOffset2DShadowFBias:
+			case ast::expr::TextureAccess::eTextureProjOffset2DI3Bias:
+			case ast::expr::TextureAccess::eTextureProjOffset2DU3Bias:
+			case ast::expr::TextureAccess::eTextureProjLod2DF3:
+			case ast::expr::TextureAccess::eTextureProjLod2DShadowF:
+			case ast::expr::TextureAccess::eTextureProjLod2DI3:
+			case ast::expr::TextureAccess::eTextureProjLod2DU3:
+			case ast::expr::TextureAccess::eTextureProjLodOffset2DF3:
+			case ast::expr::TextureAccess::eTextureProjLodOffset2DShadowF:
+			case ast::expr::TextureAccess::eTextureProjLodOffset2DI3:
+			case ast::expr::TextureAccess::eTextureProjLodOffset2DU3:
+			case ast::expr::TextureAccess::eTextureProjGrad2DF3:
+			case ast::expr::TextureAccess::eTextureProjGrad2DShadowF:
+			case ast::expr::TextureAccess::eTextureProjGrad2DRectF3:
+			case ast::expr::TextureAccess::eTextureProjGrad2DRectShadowF:
+			case ast::expr::TextureAccess::eTextureProjGrad2DI3:
+			case ast::expr::TextureAccess::eTextureProjGrad2DRectI3:
+			case ast::expr::TextureAccess::eTextureProjGrad2DU3:
+			case ast::expr::TextureAccess::eTextureProjGrad2DRectU3:
+			case ast::expr::TextureAccess::eTextureProjGradOffset2DF3:
+			case ast::expr::TextureAccess::eTextureProjGradOffset2DShadowF:
+			case ast::expr::TextureAccess::eTextureProjGradOffset2DRectF3:
+			case ast::expr::TextureAccess::eTextureProjGradOffset2DRectShadowF:
+			case ast::expr::TextureAccess::eTextureProjGradOffset2DI3:
+			case ast::expr::TextureAccess::eTextureProjGradOffset2DRectI3:
+			case ast::expr::TextureAccess::eTextureProjGradOffset2DU3:
+			case ast::expr::TextureAccess::eTextureProjGradOffset2DRectU3:
+			case ast::expr::TextureAccess::eTextureProj2DF4:
+			case ast::expr::TextureAccess::eTextureProj2DRectF4:
+			case ast::expr::TextureAccess::eTextureProj2DI4:
+			case ast::expr::TextureAccess::eTextureProj2DRectI4:
+			case ast::expr::TextureAccess::eTextureProj2DU4:
+			case ast::expr::TextureAccess::eTextureProj2DRectU4:
+			case ast::expr::TextureAccess::eTextureProj2DF4Bias:
+			case ast::expr::TextureAccess::eTextureProj2DI4Bias:
+			case ast::expr::TextureAccess::eTextureProj2DU4Bias:
+			case ast::expr::TextureAccess::eTextureProjOffset2DF4:
+			case ast::expr::TextureAccess::eTextureProjOffset2DRectF4:
+			case ast::expr::TextureAccess::eTextureProjOffset2DI4:
+			case ast::expr::TextureAccess::eTextureProjOffset2DRectI4:
+			case ast::expr::TextureAccess::eTextureProjOffset2DU4:
+			case ast::expr::TextureAccess::eTextureProjOffset2DRectU4:
+			case ast::expr::TextureAccess::eTextureProjOffset2DF4Bias:
+			case ast::expr::TextureAccess::eTextureProjOffset2DI4Bias:
+			case ast::expr::TextureAccess::eTextureProjOffset2DU4Bias:
+			case ast::expr::TextureAccess::eTextureProjLod2DF4:
+			case ast::expr::TextureAccess::eTextureProjLod2DI4:
+			case ast::expr::TextureAccess::eTextureProjLod2DU4:
+			case ast::expr::TextureAccess::eTextureProjLodOffset2DF4:
+			case ast::expr::TextureAccess::eTextureProjLodOffset2DI4:
+			case ast::expr::TextureAccess::eTextureProjLodOffset2DU4:
+			case ast::expr::TextureAccess::eTextureProjGrad2DF4:
+			case ast::expr::TextureAccess::eTextureProjGrad2DRectF4:
+			case ast::expr::TextureAccess::eTextureProjGrad2DI4:
+			case ast::expr::TextureAccess::eTextureProjGrad2DRectI4:
+			case ast::expr::TextureAccess::eTextureProjGrad2DU4:
+			case ast::expr::TextureAccess::eTextureProjGrad2DRectU4:
+			case ast::expr::TextureAccess::eTextureProjGradOffset2DF4:
+			case ast::expr::TextureAccess::eTextureProjGradOffset2DRectF4:
+			case ast::expr::TextureAccess::eTextureProjGradOffset2DI4:
+			case ast::expr::TextureAccess::eTextureProjGradOffset2DRectI4:
+			case ast::expr::TextureAccess::eTextureProjGradOffset2DU4:
+			case ast::expr::TextureAccess::eTextureProjGradOffset2DRectU4:
+			case ast::expr::TextureAccess::eTextureProj3DF:
+			case ast::expr::TextureAccess::eTextureProj3DI:
+			case ast::expr::TextureAccess::eTextureProj3DU:
+			case ast::expr::TextureAccess::eTextureProj3DFBias:
+			case ast::expr::TextureAccess::eTextureProj3DIBias:
+			case ast::expr::TextureAccess::eTextureProj3DUBias:
+			case ast::expr::TextureAccess::eTextureProjOffset3DF:
+			case ast::expr::TextureAccess::eTextureProjOffset3DI:
+			case ast::expr::TextureAccess::eTextureProjOffset3DU:
+			case ast::expr::TextureAccess::eTextureProjOffset3DFBias:
+			case ast::expr::TextureAccess::eTextureProjOffset3DIBias:
+			case ast::expr::TextureAccess::eTextureProjOffset3DUBias:
+			case ast::expr::TextureAccess::eTextureProjLod3DF:
+			case ast::expr::TextureAccess::eTextureProjLod3DI:
+			case ast::expr::TextureAccess::eTextureProjLod3DU:
+			case ast::expr::TextureAccess::eTextureProjLodOffset3DF:
+			case ast::expr::TextureAccess::eTextureProjLodOffset3DI:
+			case ast::expr::TextureAccess::eTextureProjLodOffset3DU:
+			case ast::expr::TextureAccess::eTextureProjGrad3DF:
+			case ast::expr::TextureAccess::eTextureProjGrad3DI:
+			case ast::expr::TextureAccess::eTextureProjGrad3DU:
+			case ast::expr::TextureAccess::eTextureProjGradOffset3DF:
+			case ast::expr::TextureAccess::eTextureProjGradOffset3DI:
+			case ast::expr::TextureAccess::eTextureProjGradOffset3DU:
+				result = true;
+				break;
+			}
+
+			return result;
+		}
 	}
 
 	expr::ExprPtr ExprAdapter::submit( expr::Expr * expr
-		, Config & config
+		, IntrinsicsConfig & config
 		, LinkedVars const & linkedVars
 		, VariableExprMap const & inputMembers
 		, VariableExprMap const & outputMembers )
@@ -83,7 +490,7 @@ namespace sdw::hlsl
 	}
 			
 	expr::ExprPtr ExprAdapter::submit( expr::ExprPtr const & expr
-		, Config & config
+		, IntrinsicsConfig & config
 		, LinkedVars const & linkedVars
 		, VariableExprMap const & inputMembers
 		, VariableExprMap const & outputMembers )
@@ -96,7 +503,7 @@ namespace sdw::hlsl
 	}
 
 	ExprAdapter::ExprAdapter( expr::ExprPtr & result
-		, Config & config
+		, IntrinsicsConfig & config
 		, LinkedVars const & linkedVars
 		, VariableExprMap const & inputMembers
 		, VariableExprMap const & outputMembers )
@@ -264,26 +671,68 @@ namespace sdw::hlsl
 		getHlslConfig( expr->getTextureAccess(), m_config );
 		expr::ExprList args;
 
-		for ( auto & arg : expr->getArgList() )
+		if ( ( expr->getTextureAccess() >= expr::TextureAccess::eTextureSize1DF
+				&& expr->getTextureAccess() <= expr::TextureAccess::eTextureSizeBufferU )
+			|| ( expr->getTextureAccess() >= expr::TextureAccess::eTextureQueryLevels1DF
+				&& expr->getTextureAccess() <= expr::TextureAccess::eTextureQueryLevelsCubeArrayU ) )
 		{
-			if ( arg->getKind() == expr::Kind::eIdentifier )
+			for ( auto & arg : expr->getArgList() )
 			{
-				auto ident = findIdentifier( arg );
-				auto it = m_linkedVars.find( ident->getVariable() );
-
-				if ( m_linkedVars.end() != it )
+				if ( arg->getKind() == expr::Kind::eIdentifier )
 				{
-					args.emplace_back( makeIdent( it->second.first ) );
-					args.emplace_back( makeIdent( it->second.second ) );
+					auto ident = findIdentifier( arg );
+					auto it = m_linkedVars.find( ident->getVariable() );
+
+					if ( m_linkedVars.end() != it )
+					{
+						args.emplace_back( makeIdent( it->second.first ) );
+					}
+					else
+					{
+						args.emplace_back( doSubmit( arg.get() ) );
+					}
 				}
 				else
 				{
 					args.emplace_back( doSubmit( arg.get() ) );
 				}
 			}
-			else
+		}
+		else
+		{
+			uint32_t index = 0u;
+			uint32_t sampler = 0u;
+
+			for ( auto & arg : expr->getArgList() )
 			{
-				args.emplace_back( doSubmit( arg.get() ) );
+				if ( arg->getKind() == expr::Kind::eIdentifier )
+				{
+					auto ident = findIdentifier( arg );
+					auto it = m_linkedVars.find( ident->getVariable() );
+
+					if ( m_linkedVars.end() != it )
+					{
+						args.emplace_back( makeIdent( it->second.first ) );
+						args.emplace_back( makeIdent( it->second.second ) );
+					}
+					else
+					{
+						args.emplace_back( doSubmit( arg.get() ) );
+					}
+
+					sampler = index;
+				}
+				else if ( index == sampler + 1
+					&& requiresProjTexCoords( expr->getTextureAccess() ) )
+				{
+					args.emplace_back( writeProjTexCoords( expr->getTextureAccess(), doSubmit( arg.get() ) ) );
+				}
+				else
+				{
+					args.emplace_back( doSubmit( arg.get() ) );
+				}
+
+				++index;
 			}
 		}
 

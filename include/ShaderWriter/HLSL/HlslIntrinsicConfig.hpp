@@ -20,7 +20,7 @@ namespace sdw::hlsl
 	};
 
 	inline InstantChange getHlslConfig( ast::expr::Intrinsic value
-		, Config & config )
+		, IntrinsicsConfig & config )
 	{
 		InstantChange result;
 

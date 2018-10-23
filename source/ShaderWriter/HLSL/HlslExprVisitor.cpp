@@ -313,15 +313,31 @@ namespace sdw::hlsl
 
 	void ExprVisitor::visitTextureAccessCallExpr( expr::TextureAccessCall * expr )
 	{
-		expr->getArgList()[0]->accept( this );
-		m_result += "." + getHlslName( expr->getTextureAccess() ) + "(";
-		expr->getArgList()[1]->accept( this );
-
-		for ( size_t i = 2; i < expr->getArgList().size(); ++i )
+		if ( expr->getTextureAccess() >= expr::TextureAccess::eTextureSize1DF
+			&& expr->getTextureAccess() <= expr::TextureAccess::eTextureQueryLevelsCubeArrayU )
 		{
-			auto & arg = expr->getArgList()[i];
-			m_result += ", ";
-			arg->accept( this );
+			m_result += getHlslName( expr->getTextureAccess() ) + "(";
+			std::string sep;
+
+			for ( auto & arg : expr->getArgList() )
+			{
+				m_result += sep;
+				arg->accept( this );
+				sep = ", ";
+			}
+		}
+		else
+		{
+			expr->getArgList()[0]->accept( this );
+			m_result += "." + getHlslName( expr->getTextureAccess() ) + "(";
+			expr->getArgList()[1]->accept( this );
+
+			for ( size_t i = 2; i < expr->getArgList().size(); ++i )
+			{
+				auto & arg = expr->getArgList()[i];
+				m_result += ", ";
+				arg->accept( this );
+			}
 		}
 
 		m_result += ")";

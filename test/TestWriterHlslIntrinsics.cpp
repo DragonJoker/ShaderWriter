@@ -14,9 +14,9 @@ namespace
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
-			hlsl::Config config;
+			hlsl::IntrinsicsConfig config;
 			config.requiresRoundEven1F = true;
-			writeHlslFunctions( cont.get(), config );
+			writeHlslIntrinsicFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -37,9 +37,9 @@ namespace
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
-			hlsl::Config config;
+			hlsl::IntrinsicsConfig config;
 			config.requiresRoundEven2F = true;
-			writeHlslFunctions( cont.get(), config );
+			writeHlslIntrinsicFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -60,9 +60,9 @@ namespace
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
-			hlsl::Config config;
+			hlsl::IntrinsicsConfig config;
 			config.requiresRoundEven3F = true;
-			writeHlslFunctions( cont.get(), config );
+			writeHlslIntrinsicFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -83,9 +83,9 @@ namespace
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
-			hlsl::Config config;
+			hlsl::IntrinsicsConfig config;
 			config.requiresRoundEven4F = true;
-			writeHlslFunctions( cont.get(), config );
+			writeHlslIntrinsicFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -106,9 +106,9 @@ namespace
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
-			hlsl::Config config;
+			hlsl::IntrinsicsConfig config;
 			config.requiresRoundEven1D = true;
-			writeHlslFunctions( cont.get(), config );
+			writeHlslIntrinsicFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -129,9 +129,9 @@ namespace
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
-			hlsl::Config config;
+			hlsl::IntrinsicsConfig config;
 			config.requiresRoundEven2D = true;
-			writeHlslFunctions( cont.get(), config );
+			writeHlslIntrinsicFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -152,9 +152,9 @@ namespace
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
-			hlsl::Config config;
+			hlsl::IntrinsicsConfig config;
 			config.requiresRoundEven3D = true;
-			writeHlslFunctions( cont.get(), config );
+			writeHlslIntrinsicFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -175,9 +175,9 @@ namespace
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
-			hlsl::Config config;
+			hlsl::IntrinsicsConfig config;
 			config.requiresRoundEven4D = true;
-			writeHlslFunctions( cont.get(), config );
+			writeHlslIntrinsicFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -198,9 +198,9 @@ namespace
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
-			hlsl::Config config;
+			hlsl::IntrinsicsConfig config;
 			config.requiresPackDouble2x32 = true;
-			writeHlslFunctions( cont.get(), config );
+			writeHlslIntrinsicFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -222,9 +222,9 @@ namespace
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
-			hlsl::Config config;
+			hlsl::IntrinsicsConfig config;
 			config.requiresPackHalf2x16 = true;
-			writeHlslFunctions( cont.get(), config );
+			writeHlslIntrinsicFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -246,9 +246,9 @@ namespace
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
-			hlsl::Config config;
+			hlsl::IntrinsicsConfig config;
 			config.requiresPackSnorm2x16 = true;
-			writeHlslFunctions( cont.get(), config );
+			writeHlslIntrinsicFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -270,9 +270,9 @@ namespace
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
-			hlsl::Config config;
+			hlsl::IntrinsicsConfig config;
 			config.requiresPackUnorm2x16 = true;
-			writeHlslFunctions( cont.get(), config );
+			writeHlslIntrinsicFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -294,9 +294,9 @@ namespace
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
-			hlsl::Config config;
+			hlsl::IntrinsicsConfig config;
 			config.requiresPackSnorm4x8 = true;
-			writeHlslFunctions( cont.get(), config );
+			writeHlslIntrinsicFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -318,9 +318,9 @@ namespace
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
-			hlsl::Config config;
+			hlsl::IntrinsicsConfig config;
 			config.requiresPackUnorm4x8 = true;
-			writeHlslFunctions( cont.get(), config );
+			writeHlslIntrinsicFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -342,9 +342,9 @@ namespace
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
-			hlsl::Config config;
+			hlsl::IntrinsicsConfig config;
 			config.requiresUnpackDouble2x32 = true;
-			writeHlslFunctions( cont.get(), config );
+			writeHlslIntrinsicFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -366,9 +366,9 @@ namespace
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
-			hlsl::Config config;
+			hlsl::IntrinsicsConfig config;
 			config.requiresUnpackHalf2x16 = true;
-			writeHlslFunctions( cont.get(), config );
+			writeHlslIntrinsicFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -390,9 +390,9 @@ namespace
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
-			hlsl::Config config;
+			hlsl::IntrinsicsConfig config;
 			config.requiresUnpackSnorm2x16 = true;
-			writeHlslFunctions( cont.get(), config );
+			writeHlslIntrinsicFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -414,9 +414,9 @@ namespace
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
-			hlsl::Config config;
+			hlsl::IntrinsicsConfig config;
 			config.requiresUnpackUnorm2x16 = true;
-			writeHlslFunctions( cont.get(), config );
+			writeHlslIntrinsicFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -438,9 +438,9 @@ namespace
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
-			hlsl::Config config;
+			hlsl::IntrinsicsConfig config;
 			config.requiresUnpackSnorm4x8 = true;
-			writeHlslFunctions( cont.get(), config );
+			writeHlslIntrinsicFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -462,9 +462,9 @@ namespace
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
-			hlsl::Config config;
+			hlsl::IntrinsicsConfig config;
 			config.requiresUnpackUnorm4x8 = true;
-			writeHlslFunctions( cont.get(), config );
+			writeHlslIntrinsicFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -1322,9 +1322,9 @@ namespace
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
-			hlsl::Config config;
+			hlsl::IntrinsicsConfig config;
 			config.requiresInverse2x2F = true;
-			writeHlslFunctions( cont.get(), config );
+			writeHlslIntrinsicFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -1345,9 +1345,9 @@ namespace
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
-			hlsl::Config config;
+			hlsl::IntrinsicsConfig config;
 			config.requiresInverse2x2D = true;
-			writeHlslFunctions( cont.get(), config );
+			writeHlslIntrinsicFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -1368,9 +1368,9 @@ namespace
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
-			hlsl::Config config;
+			hlsl::IntrinsicsConfig config;
 			config.requiresInverse3x3F = true;
-			writeHlslFunctions( cont.get(), config );
+			writeHlslIntrinsicFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -1391,9 +1391,9 @@ namespace
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
-			hlsl::Config config;
+			hlsl::IntrinsicsConfig config;
 			config.requiresInverse3x3D = true;
-			writeHlslFunctions( cont.get(), config );
+			writeHlslIntrinsicFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -1414,9 +1414,9 @@ namespace
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
-			hlsl::Config config;
+			hlsl::IntrinsicsConfig config;
 			config.requiresInverse4x4F = true;
-			writeHlslFunctions( cont.get(), config );
+			writeHlslIntrinsicFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -1437,9 +1437,9 @@ namespace
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
-			hlsl::Config config;
+			hlsl::IntrinsicsConfig config;
 			config.requiresInverse4x4D = true;
-			writeHlslFunctions( cont.get(), config );
+			writeHlslIntrinsicFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -1460,9 +1460,9 @@ namespace
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
-			hlsl::Config config;
+			hlsl::IntrinsicsConfig config;
 			config.requiresUaddCarry1 = true;
-			writeHlslFunctions( cont.get(), config );
+			writeHlslIntrinsicFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -1486,9 +1486,9 @@ namespace
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
-			hlsl::Config config;
+			hlsl::IntrinsicsConfig config;
 			config.requiresUaddCarry2 = true;
-			writeHlslFunctions( cont.get(), config );
+			writeHlslIntrinsicFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -1512,9 +1512,9 @@ namespace
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
-			hlsl::Config config;
+			hlsl::IntrinsicsConfig config;
 			config.requiresUaddCarry3 = true;
-			writeHlslFunctions( cont.get(), config );
+			writeHlslIntrinsicFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -1538,9 +1538,9 @@ namespace
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
-			hlsl::Config config;
+			hlsl::IntrinsicsConfig config;
 			config.requiresUaddCarry4 = true;
-			writeHlslFunctions( cont.get(), config );
+			writeHlslIntrinsicFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -1564,9 +1564,9 @@ namespace
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
-			hlsl::Config config;
+			hlsl::IntrinsicsConfig config;
 			config.requiresUsubBorrow1 = true;
-			writeHlslFunctions( cont.get(), config );
+			writeHlslIntrinsicFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -1590,9 +1590,9 @@ namespace
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
-			hlsl::Config config;
+			hlsl::IntrinsicsConfig config;
 			config.requiresUsubBorrow2 = true;
-			writeHlslFunctions( cont.get(), config );
+			writeHlslIntrinsicFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -1616,9 +1616,9 @@ namespace
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
-			hlsl::Config config;
+			hlsl::IntrinsicsConfig config;
 			config.requiresUsubBorrow3 = true;
-			writeHlslFunctions( cont.get(), config );
+			writeHlslIntrinsicFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -1642,9 +1642,9 @@ namespace
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
-			hlsl::Config config;
+			hlsl::IntrinsicsConfig config;
 			config.requiresUsubBorrow4 = true;
-			writeHlslFunctions( cont.get(), config );
+			writeHlslIntrinsicFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -1668,9 +1668,9 @@ namespace
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
-			hlsl::Config config;
+			hlsl::IntrinsicsConfig config;
 			config.requiresUmulExtended1 = true;
-			writeHlslFunctions( cont.get(), config );
+			writeHlslIntrinsicFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -1694,9 +1694,9 @@ namespace
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
-			hlsl::Config config;
+			hlsl::IntrinsicsConfig config;
 			config.requiresUmulExtended2 = true;
-			writeHlslFunctions( cont.get(), config );
+			writeHlslIntrinsicFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -1720,9 +1720,9 @@ namespace
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
-			hlsl::Config config;
+			hlsl::IntrinsicsConfig config;
 			config.requiresUmulExtended3 = true;
-			writeHlslFunctions( cont.get(), config );
+			writeHlslIntrinsicFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -1746,9 +1746,9 @@ namespace
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
-			hlsl::Config config;
+			hlsl::IntrinsicsConfig config;
 			config.requiresUmulExtended4 = true;
-			writeHlslFunctions( cont.get(), config );
+			writeHlslIntrinsicFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -1772,9 +1772,9 @@ namespace
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
-			hlsl::Config config;
+			hlsl::IntrinsicsConfig config;
 			config.requiresImulExtended1 = true;
-			writeHlslFunctions( cont.get(), config );
+			writeHlslIntrinsicFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -1798,9 +1798,9 @@ namespace
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
-			hlsl::Config config;
+			hlsl::IntrinsicsConfig config;
 			config.requiresImulExtended2 = true;
-			writeHlslFunctions( cont.get(), config );
+			writeHlslIntrinsicFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -1824,9 +1824,9 @@ namespace
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
-			hlsl::Config config;
+			hlsl::IntrinsicsConfig config;
 			config.requiresImulExtended3 = true;
-			writeHlslFunctions( cont.get(), config );
+			writeHlslIntrinsicFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -1850,9 +1850,9 @@ namespace
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
-			hlsl::Config config;
+			hlsl::IntrinsicsConfig config;
 			config.requiresImulExtended4 = true;
-			writeHlslFunctions( cont.get(), config );
+			writeHlslIntrinsicFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -1876,9 +1876,9 @@ namespace
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
-			hlsl::Config config;
+			hlsl::IntrinsicsConfig config;
 			config.requiresBitfieldInsert1I = true;
-			writeHlslFunctions( cont.get(), config );
+			writeHlslIntrinsicFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -1903,9 +1903,9 @@ namespace
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
-			hlsl::Config config;
+			hlsl::IntrinsicsConfig config;
 			config.requiresBitfieldInsert2I = true;
-			writeHlslFunctions( cont.get(), config );
+			writeHlslIntrinsicFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -1930,9 +1930,9 @@ namespace
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
-			hlsl::Config config;
+			hlsl::IntrinsicsConfig config;
 			config.requiresBitfieldInsert3I = true;
-			writeHlslFunctions( cont.get(), config );
+			writeHlslIntrinsicFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -1957,9 +1957,9 @@ namespace
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
-			hlsl::Config config;
+			hlsl::IntrinsicsConfig config;
 			config.requiresBitfieldInsert4I = true;
-			writeHlslFunctions( cont.get(), config );
+			writeHlslIntrinsicFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -1984,9 +1984,9 @@ namespace
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
-			hlsl::Config config;
+			hlsl::IntrinsicsConfig config;
 			config.requiresBitfieldInsert1U = true;
-			writeHlslFunctions( cont.get(), config );
+			writeHlslIntrinsicFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -2011,9 +2011,9 @@ namespace
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
-			hlsl::Config config;
+			hlsl::IntrinsicsConfig config;
 			config.requiresBitfieldInsert2U = true;
-			writeHlslFunctions( cont.get(), config );
+			writeHlslIntrinsicFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -2038,9 +2038,9 @@ namespace
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
-			hlsl::Config config;
+			hlsl::IntrinsicsConfig config;
 			config.requiresBitfieldInsert3U = true;
-			writeHlslFunctions( cont.get(), config );
+			writeHlslIntrinsicFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -2065,9 +2065,9 @@ namespace
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
-			hlsl::Config config;
+			hlsl::IntrinsicsConfig config;
 			config.requiresBitfieldInsert4U = true;
-			writeHlslFunctions( cont.get(), config );
+			writeHlslIntrinsicFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -2092,9 +2092,9 @@ namespace
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
-			hlsl::Config config;
+			hlsl::IntrinsicsConfig config;
 			config.requiresBitfieldExtract1I = true;
-			writeHlslFunctions( cont.get(), config );
+			writeHlslIntrinsicFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -2118,9 +2118,9 @@ namespace
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
-			hlsl::Config config;
+			hlsl::IntrinsicsConfig config;
 			config.requiresBitfieldExtract2I = true;
-			writeHlslFunctions( cont.get(), config );
+			writeHlslIntrinsicFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -2144,9 +2144,9 @@ namespace
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
-			hlsl::Config config;
+			hlsl::IntrinsicsConfig config;
 			config.requiresBitfieldExtract3I = true;
-			writeHlslFunctions( cont.get(), config );
+			writeHlslIntrinsicFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -2170,9 +2170,9 @@ namespace
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
-			hlsl::Config config;
+			hlsl::IntrinsicsConfig config;
 			config.requiresBitfieldExtract4I = true;
-			writeHlslFunctions( cont.get(), config );
+			writeHlslIntrinsicFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -2196,9 +2196,9 @@ namespace
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
-			hlsl::Config config;
+			hlsl::IntrinsicsConfig config;
 			config.requiresBitfieldExtract1U = true;
-			writeHlslFunctions( cont.get(), config );
+			writeHlslIntrinsicFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -2222,9 +2222,9 @@ namespace
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
-			hlsl::Config config;
+			hlsl::IntrinsicsConfig config;
 			config.requiresBitfieldExtract2U = true;
-			writeHlslFunctions( cont.get(), config );
+			writeHlslIntrinsicFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -2248,9 +2248,9 @@ namespace
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
-			hlsl::Config config;
+			hlsl::IntrinsicsConfig config;
 			config.requiresBitfieldExtract3U = true;
-			writeHlslFunctions( cont.get(), config );
+			writeHlslIntrinsicFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -2274,9 +2274,9 @@ namespace
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
-			hlsl::Config config;
+			hlsl::IntrinsicsConfig config;
 			config.requiresBitfieldExtract4U = true;
-			writeHlslFunctions( cont.get(), config );
+			writeHlslIntrinsicFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}

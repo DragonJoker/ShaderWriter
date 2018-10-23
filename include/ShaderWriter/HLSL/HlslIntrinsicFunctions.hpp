@@ -9,8 +9,8 @@ See LICENSE file in root folder
 
 namespace sdw::hlsl
 {
-	void writeHlslFunctions( ast::stmt::Container * container
-		, Config const & config );
+	void writeHlslIntrinsicFunctions( ast::stmt::Container * container
+		, IntrinsicsConfig const & config );
 }
 
 #endif

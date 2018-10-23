@@ -84,7 +84,7 @@ namespace sdw::hlsl
 		VariableExprMap m_outputMembers;
 		LinkedVars m_linkedVars;
 		ShaderType m_type;
-		Config m_config;
+		IntrinsicsConfig m_config;
 	};
 }
 
