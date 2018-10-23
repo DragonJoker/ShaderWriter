@@ -5,6 +5,7 @@ See LICENSE file in root folder
 
 #include "ShaderWriter/HLSL/HlslExprAdapter.hpp"
 #include "ShaderWriter/HLSL/HlslHelpers.hpp"
+#include "ShaderWriter/HLSL/HlslImageAccessFunctions.hpp"
 #include "ShaderWriter/HLSL/HlslIntrinsicFunctions.hpp"
 #include "ShaderWriter/HLSL/HlslTextureAccessFunctions.hpp"
 
@@ -25,6 +26,7 @@ namespace sdw::hlsl
 	{
 		writeHlslIntrinsicFunctions( m_intrinsics, m_config );
 		writeHlslTextureAccessFunctions( m_intrinsics, m_config );
+		writeHlslImageAccessFunctions( m_intrinsics, m_config );
 	}
 
 	StmtAdapter::StmtAdapter( Shader & shader

@@ -240,45 +240,45 @@ namespace ast::expr
 			, std::move( image ) );
 	}
 
-	inline ImageAccessCallPtr/*int*/ makeImageSample2DMSF( ExprPtr/*image2DMS*/ image )
+	inline ImageAccessCallPtr/*int*/ makeImageSamples2DMSF( ExprPtr/*image2DMS*/ image )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageSample2DMSF
+			, ImageAccess::eImageSamples2DMSF
 			, std::move( image ) );
 	}
 
-	inline ImageAccessCallPtr/*int*/ makeImageSample2DMSArrayF( ExprPtr/*image2DMSArray*/ image )
+	inline ImageAccessCallPtr/*int*/ makeImageSamples2DMSArrayF( ExprPtr/*image2DMSArray*/ image )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageSample2DMSArrayF
+			, ImageAccess::eImageSamples2DMSArrayF
 			, std::move( image ) );
 	}
 
-	inline ImageAccessCallPtr/*int*/ makeImageSample2DMSI( ExprPtr/*iimage2DMS*/ image )
+	inline ImageAccessCallPtr/*int*/ makeImageSamples2DMSI( ExprPtr/*iimage2DMS*/ image )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageSample2DMSI
+			, ImageAccess::eImageSamples2DMSI
 			, std::move( image ) );
 	}
 
-	inline ImageAccessCallPtr/*int*/ makeImageSample2DMSArrayI( ExprPtr/*iimage2DMSArray*/ image )
+	inline ImageAccessCallPtr/*int*/ makeImageSamples2DMSArrayI( ExprPtr/*iimage2DMSArray*/ image )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageSample2DMSArrayI
+			, ImageAccess::eImageSamples2DMSArrayI
 			, std::move( image ) );
 	}
 
-	inline ImageAccessCallPtr/*int*/ makeImageSample2DMSU( ExprPtr/*uimage2DMS*/ image )
+	inline ImageAccessCallPtr/*int*/ makeImageSamples2DMSU( ExprPtr/*uimage2DMS*/ image )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageSample2DMSU
+			, ImageAccess::eImageSamples2DMSU
 			, std::move( image ) );
 	}
 
-	inline ImageAccessCallPtr/*int*/ makeImageSample2DMSArrayU( ExprPtr/*uimage2DMSArray*/ image )
+	inline ImageAccessCallPtr/*int*/ makeImageSamples2DMSArrayU( ExprPtr/*uimage2DMSArray*/ image )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageSample2DMSArrayU
+			, ImageAccess::eImageSamples2DMSArrayU
 			, std::move( image ) );
 	}
 

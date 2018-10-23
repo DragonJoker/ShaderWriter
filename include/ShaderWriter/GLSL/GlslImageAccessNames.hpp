@@ -53,13 +53,13 @@ namespace sdw
 			result = "imageSize";
 			break;
 
-		case ast::expr::ImageAccess::eImageSample2DMSF:
-		case ast::expr::ImageAccess::eImageSample2DMSArrayF:
-		case ast::expr::ImageAccess::eImageSample2DMSI:
-		case ast::expr::ImageAccess::eImageSample2DMSArrayI:
-		case ast::expr::ImageAccess::eImageSample2DMSU:
-		case ast::expr::ImageAccess::eImageSample2DMSArrayU:
-			result = "imageSample";
+		case ast::expr::ImageAccess::eImageSamples2DMSF:
+		case ast::expr::ImageAccess::eImageSamples2DMSArrayF:
+		case ast::expr::ImageAccess::eImageSamples2DMSI:
+		case ast::expr::ImageAccess::eImageSamples2DMSArrayI:
+		case ast::expr::ImageAccess::eImageSamples2DMSU:
+		case ast::expr::ImageAccess::eImageSamples2DMSArrayU:
+			result = "imageSamples";
 			break;
 
 		case ast::expr::ImageAccess::eImageLoad1DF:

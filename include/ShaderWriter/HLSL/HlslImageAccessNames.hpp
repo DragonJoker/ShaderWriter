@@ -50,16 +50,16 @@ namespace sdw::hlsl
 		case ast::expr::ImageAccess::eImageSizeBufferU:
 		case ast::expr::ImageAccess::eImageSize2DMSU:
 		case ast::expr::ImageAccess::eImageSize2DMSArrayU:
-			result = "imageSize";
+			result = "SDW_imageSize";
 			break;
 
-		case ast::expr::ImageAccess::eImageSample2DMSF:
-		case ast::expr::ImageAccess::eImageSample2DMSArrayF:
-		case ast::expr::ImageAccess::eImageSample2DMSI:
-		case ast::expr::ImageAccess::eImageSample2DMSArrayI:
-		case ast::expr::ImageAccess::eImageSample2DMSU:
-		case ast::expr::ImageAccess::eImageSample2DMSArrayU:
-			result = "imageSample";
+		case ast::expr::ImageAccess::eImageSamples2DMSF:
+		case ast::expr::ImageAccess::eImageSamples2DMSArrayF:
+		case ast::expr::ImageAccess::eImageSamples2DMSI:
+		case ast::expr::ImageAccess::eImageSamples2DMSArrayI:
+		case ast::expr::ImageAccess::eImageSamples2DMSU:
+		case ast::expr::ImageAccess::eImageSamples2DMSArrayU:
+			result = "SDW_imageSamples";
 			break;
 
 		case ast::expr::ImageAccess::eImageLoad1DF:
@@ -95,7 +95,7 @@ namespace sdw::hlsl
 		case ast::expr::ImageAccess::eImageLoadCubeArrayU:
 		case ast::expr::ImageAccess::eImageLoad2DMSU:
 		case ast::expr::ImageAccess::eImageLoad2DMSArrayU:
-			result = "imageLoad";
+			result = "Load";
 			break;
 
 		case ast::expr::ImageAccess::eImageAtomicAdd1DFU:
@@ -164,7 +164,7 @@ namespace sdw::hlsl
 		case ast::expr::ImageAccess::eImageAtomicAddCubeArrayUI:
 		case ast::expr::ImageAccess::eImageAtomicAdd2DMSUI:
 		case ast::expr::ImageAccess::eImageAtomicAdd2DMSArrayUI:
-			result = "imageAtomicAdd";
+			result = "SDW_imageAtomicAdd";
 			break;
 
 		case ast::expr::ImageAccess::eImageAtomicMin1DFU:
@@ -233,7 +233,7 @@ namespace sdw::hlsl
 		case ast::expr::ImageAccess::eImageAtomicMinCubeArrayUI:
 		case ast::expr::ImageAccess::eImageAtomicMin2DMSUI:
 		case ast::expr::ImageAccess::eImageAtomicMin2DMSArrayUI:
-			result = "imageAtomicMin";
+			result = "SDW_imageAtomicMin";
 			break;
 
 		case ast::expr::ImageAccess::eImageAtomicMax1DFU:
@@ -302,7 +302,7 @@ namespace sdw::hlsl
 		case ast::expr::ImageAccess::eImageAtomicMaxCubeArrayUI:
 		case ast::expr::ImageAccess::eImageAtomicMax2DMSUI:
 		case ast::expr::ImageAccess::eImageAtomicMax2DMSArrayUI:
-			result = "imageAtomicMax";
+			result = "SDW_imageAtomicMax";
 			break;
 
 		case ast::expr::ImageAccess::eImageAtomicAnd1DFU:
@@ -371,7 +371,7 @@ namespace sdw::hlsl
 		case ast::expr::ImageAccess::eImageAtomicAndCubeArrayUI:
 		case ast::expr::ImageAccess::eImageAtomicAnd2DMSUI:
 		case ast::expr::ImageAccess::eImageAtomicAnd2DMSArrayUI:
-			result = "imageAtomicAnd";
+			result = "SDW_imageAtomicAnd";
 			break;
 
 		case ast::expr::ImageAccess::eImageAtomicOr1DFU:
@@ -440,7 +440,7 @@ namespace sdw::hlsl
 		case ast::expr::ImageAccess::eImageAtomicOrCubeArrayUI:
 		case ast::expr::ImageAccess::eImageAtomicOr2DMSUI:
 		case ast::expr::ImageAccess::eImageAtomicOr2DMSArrayUI:
-			result = "imageAtomicOr";
+			result = "SDW_imageAtomicOr";
 			break;
 
 		case ast::expr::ImageAccess::eImageAtomicXor1DFU:
@@ -509,7 +509,7 @@ namespace sdw::hlsl
 		case ast::expr::ImageAccess::eImageAtomicXorCubeArrayUI:
 		case ast::expr::ImageAccess::eImageAtomicXor2DMSUI:
 		case ast::expr::ImageAccess::eImageAtomicXor2DMSArrayUI:
-			result = "imageAtomicXor";
+			result = "SDW_imageAtomicXor";
 			break;
 
 		case ast::expr::ImageAccess::eImageAtomicExchange1DFU:
@@ -578,7 +578,7 @@ namespace sdw::hlsl
 		case ast::expr::ImageAccess::eImageAtomicExchangeCubeArrayUI:
 		case ast::expr::ImageAccess::eImageAtomicExchange2DMSUI:
 		case ast::expr::ImageAccess::eImageAtomicExchange2DMSArrayUI:
-			result = "imageAtomicExchange";
+			result = "SDW_imageAtomicExchange";
 			break;
 
 		case ast::expr::ImageAccess::eImageAtomicCompSwap1DFU:
@@ -647,7 +647,7 @@ namespace sdw::hlsl
 		case ast::expr::ImageAccess::eImageAtomicCompSwapCubeArrayUI:
 		case ast::expr::ImageAccess::eImageAtomicCompSwap2DMSUI:
 		case ast::expr::ImageAccess::eImageAtomicCompSwap2DMSArrayUI:
-			result = "imageAtomicCompSwap";
+			result = "SDW_imageAtomicCompSwap";
 			break;
 
 		default:

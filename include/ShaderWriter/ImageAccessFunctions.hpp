@@ -222,40 +222,40 @@ namespace sdw
 			, expr::makeImageSize2DMSArrayU( makeExpr( image ) ) };
 	}
 
-	inline Int imageSample( Image2DMS const & image )
+	inline Int imageSamples( Image2DMS const & image )
 	{
 		return Int{ findShader( image )
-			, expr::makeImageSample2DMSF( makeExpr( image ) ) };
+			, expr::makeImageSamples2DMSF( makeExpr( image ) ) };
 	}
 
-	inline Int imageSample( Image2DMSArray const & image )
+	inline Int imageSamples( Image2DMSArray const & image )
 	{
 		return Int{ findShader( image )
-			, expr::makeImageSample2DMSArrayF( makeExpr( image ) ) };
+			, expr::makeImageSamples2DMSArrayF( makeExpr( image ) ) };
 	}
 
-	inline Int imageSample( IImage2DMS const & image )
+	inline Int imageSamples( IImage2DMS const & image )
 	{
 		return Int{ findShader( image )
-			, expr::makeImageSample2DMSI( makeExpr( image ) ) };
+			, expr::makeImageSamples2DMSI( makeExpr( image ) ) };
 	}
 
-	inline Int imageSample( IImage2DMSArray const & image )
+	inline Int imageSamples( IImage2DMSArray const & image )
 	{
 		return Int{ findShader( image )
-			, expr::makeImageSample2DMSArrayI( makeExpr( image ) ) };
+			, expr::makeImageSamples2DMSArrayI( makeExpr( image ) ) };
 	}
 
-	inline Int imageSample( UImage2DMS const & image )
+	inline Int imageSamples( UImage2DMS const & image )
 	{
 		return Int{ findShader( image )
-			, expr::makeImageSample2DMSU( makeExpr( image ) ) };
+			, expr::makeImageSamples2DMSU( makeExpr( image ) ) };
 	}
 
-	inline Int imageSample( UImage2DMSArray const & image )
+	inline Int imageSamples( UImage2DMSArray const & image )
 	{
 		return Int{ findShader( image )
-			, expr::makeImageSample2DMSArrayU( makeExpr( image ) ) };
+			, expr::makeImageSamples2DMSArrayU( makeExpr( image ) ) };
 	}
 
 	inline Vec4 imageLoad( Image1D const & image

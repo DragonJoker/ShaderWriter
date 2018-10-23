@@ -149,28 +149,28 @@ namespace ast::expr
 			result = "IMAGESIZE2DMSARRAYU";
 			break;
 
-		case ImageAccess::eImageSample2DMSF:
-			result = "IMAGESAMPLE2DMSF";
+		case ImageAccess::eImageSamples2DMSF:
+			result = "IMAGESAMPLES2DMSF";
 			break;
 
-		case ImageAccess::eImageSample2DMSArrayF:
-			result = "IMAGESAMPLE2DMSARRAYF";
+		case ImageAccess::eImageSamples2DMSArrayF:
+			result = "IMAGESAMPLES2DMSARRAYF";
 			break;
 
-		case ImageAccess::eImageSample2DMSI:
-			result = "IMAGESAMPLE2DMSI";
+		case ImageAccess::eImageSamples2DMSI:
+			result = "IMAGESAMPLES2DMSI";
 			break;
 
-		case ImageAccess::eImageSample2DMSArrayI:
-			result = "IMAGESAMPLE2DMSARRAYI";
+		case ImageAccess::eImageSamples2DMSArrayI:
+			result = "IMAGESAMPLES2DMSARRAYI";
 			break;
 
-		case ImageAccess::eImageSample2DMSU:
-			result = "IMAGESAMPLE2DMSU";
+		case ImageAccess::eImageSamples2DMSU:
+			result = "IMAGESAMPLES2DMSU";
 			break;
 
-		case ImageAccess::eImageSample2DMSArrayU:
-			result = "IMAGESAMPLE2DMSARRAYU";
+		case ImageAccess::eImageSamples2DMSArrayU:
+			result = "IMAGESAMPLES2DMSARRAYU";
 			break;
 
 		case ImageAccess::eImageLoad1DF:

@@ -191,17 +191,36 @@ namespace sdw::hlsl
 
 	void ExprVisitor::visitImageAccessCallExpr( expr::ImageAccessCall * expr )
 	{
-		m_result += getHlslName( expr->getImageAccess() ) + "(";
-		std::string sep;
-
-		for ( auto & arg : expr->getArgList() )
+		if ( expr->getImageAccess() < expr::ImageAccess::eImageLoad1DF
+			|| expr->getImageAccess() > expr::ImageAccess::eImageLoad2DMSArrayU )
 		{
-			m_result += sep;
-			arg->accept( this );
-			sep = ", ";
-		}
+			m_result += getHlslName( expr->getImageAccess() ) + "(";
+			std::string sep;
 
-		m_result += ")";
+			for ( auto & arg : expr->getArgList() )
+			{
+				m_result += sep;
+				arg->accept( this );
+				sep = ", ";
+			}
+
+			m_result += ")";
+		}
+		else
+		{
+			expr->getArgList()[0]->accept( this );
+			m_result += "." + getHlslName( expr->getImageAccess() ) + "(";
+			expr->getArgList()[1]->accept( this );
+
+			for ( size_t i = 2; i < expr->getArgList().size(); ++i )
+			{
+				auto & arg = expr->getArgList()[i];
+				m_result += ", ";
+				arg->accept( this );
+			}
+
+			m_result += ")";
+		}
 	}
 
 	void ExprVisitor::visitInitExpr( expr::Init * expr )
@@ -325,6 +344,8 @@ namespace sdw::hlsl
 				arg->accept( this );
 				sep = ", ";
 			}
+
+			m_result += ")";
 		}
 		else
 		{
@@ -338,8 +359,8 @@ namespace sdw::hlsl
 				m_result += ", ";
 				arg->accept( this );
 			}
-		}
 
-		m_result += ")";
+			m_result += ")";
+		}
 	}
 }
