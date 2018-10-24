@@ -1,8 +1,8 @@
 /*
 See LICENSE file in root folder
 */
-#ifndef ___Writer_Vec2_H___
-#define ___Writer_Vec2_H___
+#ifndef ___SDW_Vec2_H___
+#define ___SDW_Vec2_H___
 #pragma once
 
 #include "Bool.hpp"

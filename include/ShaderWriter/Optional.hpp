@@ -1,8 +1,8 @@
 /*
 See LICENSE file in root folder
 */
-#ifndef ___Writer_Optional_H___
-#define ___Writer_Optional_H___
+#ifndef ___SDW_Optional_H___
+#define ___SDW_Optional_H___
 #pragma once
 
 #include "Value.hpp"

@@ -1,8 +1,8 @@
 /*
 See LICENSE file in root folder
 */
-#ifndef ___Writer_Ubo_H___
-#define ___Writer_Ubo_H___
+#ifndef ___SDW_Ubo_H___
+#define ___SDW_Ubo_H___
 
 #include "BoInfo.hpp"
 

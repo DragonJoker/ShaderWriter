@@ -1,8 +1,8 @@
 /*
 See LICENSE file in root folder
 */
-#ifndef ___Writer_Array_H___
-#define ___Writer_Array_H___
+#ifndef ___SDW_Array_H___
+#define ___SDW_Array_H___
 #pragma once
 
 #include "Bool.hpp"

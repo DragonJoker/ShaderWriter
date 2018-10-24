@@ -1,8 +1,8 @@
 /*
 See LICENSE file in root folder
 */
-#ifndef ___ShaderWriter_GLSLExprVisitor_H___
-#define ___ShaderWriter_GLSLExprVisitor_H___
+#ifndef ___SDW_GLSLExprVisitor_H___
+#define ___SDW_GLSLExprVisitor_H___
 #pragma once
 
 #include "ShaderWriter/ShaderWriterPrerequisites.hpp"

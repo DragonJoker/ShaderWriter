@@ -1,8 +1,8 @@
 /*
 See LICENSE file in root folder
 */
-#ifndef ___ShaderWriter_Void_H___
-#define ___ShaderWriter_Void_H___
+#ifndef ___SDW_Void_H___
+#define ___SDW_Void_H___
 #pragma once
 
 #include "Value.hpp"

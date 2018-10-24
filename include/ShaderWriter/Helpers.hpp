@@ -1,8 +1,8 @@
 /*
 See LICENSE file in root folder
 */
-#ifndef ___Writer_Helpers_H___
-#define ___Writer_Helpers_H___
+#ifndef ___SDW_Helpers_H___
+#define ___SDW_Helpers_H___
 
 #include "ShaderWriterPrerequisites.hpp"
 

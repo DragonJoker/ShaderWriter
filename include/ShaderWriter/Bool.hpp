@@ -1,8 +1,8 @@
 /*
 See LICENSE file in root folder
 */
-#ifndef ___Writer_Boolean_H___
-#define ___Writer_Boolean_H___
+#ifndef ___SDW_Boolean_H___
+#define ___SDW_Boolean_H___
 #pragma once
 
 #include "Void.hpp"

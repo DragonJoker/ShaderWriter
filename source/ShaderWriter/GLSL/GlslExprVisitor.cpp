@@ -1,9 +1,9 @@
 /*
 See LICENSE file in root folder
 */
-#include "ShaderWriter/GLSL/GLSLExprVisitor.hpp"
+#include "ShaderWriter/GLSL/GlslExprVisitor.hpp"
 
-#include "ShaderWriter/GLSL/GLSLHelpers.hpp"
+#include "ShaderWriter/GLSL/GlslHelpers.hpp"
 #include "ShaderWriter/GLSL/GlslImageAccessNames.hpp"
 #include "ShaderWriter/GLSL/GlslIntrinsicNames.hpp"
 #include "ShaderWriter/GLSL/GlslTextureAccessNames.hpp"

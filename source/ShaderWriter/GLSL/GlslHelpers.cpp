@@ -1,7 +1,7 @@
 /*
 See LICENSE file in root folder
 */
-#include "ShaderWriter/GLSL/GLSLHelpers.hpp"
+#include "ShaderWriter/GLSL/GlslHelpers.hpp"
 
 namespace sdw::glsl
 {

@@ -1,8 +1,8 @@
 /*
 See LICENSE file in root folder
 */
-#ifndef ___Writer_PrecompiledHeader___
-#define ___Writer_PrecompiledHeader___
+#ifndef ___SDW_PrecompiledHeader___
+#define ___SDW_PrecompiledHeader___
 
 #include "ShaderWriterPrerequisites.hpp"
 

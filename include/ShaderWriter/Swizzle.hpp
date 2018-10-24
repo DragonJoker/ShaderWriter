@@ -1,8 +1,8 @@
 /*
 See LICENSE file in root folder
 */
-#ifndef ___Writer_SWIZZLE_H___
-#define ___Writer_SWIZZLE_H___
+#ifndef ___SDW_SWIZZLE_H___
+#define ___SDW_SWIZZLE_H___
 
 #include "Value.hpp"
 

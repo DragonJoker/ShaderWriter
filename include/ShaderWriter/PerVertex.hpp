@@ -1,8 +1,8 @@
 /*
 See LICENSE file in root folder
 */
-#ifndef ___Writer_PerVertex_H___
-#define ___Writer_PerVertex_H___
+#ifndef ___SDW_PerVertex_H___
+#define ___SDW_PerVertex_H___
 #pragma once
 
 #include "Vec4.hpp"

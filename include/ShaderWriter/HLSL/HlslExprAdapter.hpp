@@ -1,8 +1,8 @@
 /*
 See LICENSE file in root folder
 */
-#ifndef ___ShaderWriter_HlslExprAdapter_H___
-#define ___ShaderWriter_HlslExprAdapter_H___
+#ifndef ___SDW_HlslExprAdapter_H___
+#define ___SDW_HlslExprAdapter_H___
 #pragma once
 
 #include "ShaderWriter/HLSL/HlslHelpers.hpp"

@@ -1,8 +1,8 @@
 /*
 See LICENSE file in root folder
 */
-#ifndef ___Writer_OptionalVec3_H___
-#define ___Writer_OptionalVec3_H___
+#ifndef ___SDW_OptionalVec3_H___
+#define ___SDW_OptionalVec3_H___
 #pragma once
 
 #include "Vec3.hpp"

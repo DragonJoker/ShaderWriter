@@ -1,8 +1,8 @@
 ﻿/*
 See LICENSE file in root folder
 */
-#ifndef ___Writer_Struct_H___
-#define ___Writer_Struct_H___
+#ifndef ___SDW_Struct_H___
+#define ___SDW_Struct_H___
 
 #include "StructInstance.hpp"
 

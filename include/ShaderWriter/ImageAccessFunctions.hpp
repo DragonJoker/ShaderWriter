@@ -1,8 +1,8 @@
 /*
 See LICENSE file in root folder
 */
-#ifndef ___ShaderWriter_GetImageAccessFunctions_H___
-#define ___ShaderWriter_GetImageAccessFunctions_H___
+#ifndef ___SDW_GetImageAccessFunctions_H___
+#define ___SDW_GetImageAccessFunctions_H___
 #pragma once
 
 #include "Function.hpp"

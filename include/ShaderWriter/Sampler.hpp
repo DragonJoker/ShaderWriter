@@ -1,8 +1,8 @@
 /*
 See LICENSE file in root folder
 */
-#ifndef ___Writer_SAMPLER_H___
-#define ___Writer_SAMPLER_H___
+#ifndef ___SDW_SAMPLER_H___
+#define ___SDW_SAMPLER_H___
 
 #include "Value.hpp"
 

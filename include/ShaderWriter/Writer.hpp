@@ -1,8 +1,8 @@
 /*
 See LICENSE file in root folder
 */
-#ifndef ___Writer_Writer_H___
-#define ___Writer_Writer_H___
+#ifndef ___SDW_Writer_H___
+#define ___SDW_Writer_H___
 
 #include "Shader.hpp"
 

@@ -1,8 +1,8 @@
 /*
 See LICENSE file in root folder
 */
-#ifndef ___Writer_Utils_H___
-#define ___Writer_Utils_H___
+#ifndef ___SDW_Utils_H___
+#define ___SDW_Utils_H___
 
 #include "Function.hpp"
 

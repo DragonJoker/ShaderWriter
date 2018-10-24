@@ -1,8 +1,8 @@
 /*
 See LICENSE file in root folder
 */
-#ifndef ___Writer_Prerequisites_H___
-#define ___Writer_Prerequisites_H___
+#ifndef ___SDW_Prerequisites_H___
+#define ___SDW_Prerequisites_H___
 
 #include <map>
 

@@ -1,8 +1,8 @@
 /*
 See LICENSE file in root folder
 */
-#ifndef ___Writer_CloneExpr_H___
-#define ___Writer_CloneExpr_H___
+#ifndef ___SDW_CloneExpr_H___
+#define ___SDW_CloneExpr_H___
 #pragma once
 
 #include <ASTGenerator/Expr/Expr.hpp>

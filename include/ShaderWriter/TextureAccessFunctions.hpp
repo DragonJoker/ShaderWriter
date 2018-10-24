@@ -1,8 +1,8 @@
 /*
 See LICENSE file in root folder
 */
-#ifndef ___ShaderWriter_GetTextureAccessFunctions_H___
-#define ___ShaderWriter_GetTextureAccessFunctions_H___
+#ifndef ___SDW_GetTextureAccessFunctions_H___
+#define ___SDW_GetTextureAccessFunctions_H___
 #pragma once
 
 #include "Function.hpp"

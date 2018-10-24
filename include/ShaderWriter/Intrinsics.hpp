@@ -1,8 +1,8 @@
 /*
 See LICENSE file in root folder
 */
-#ifndef ___Writer_Intrinsics_H___
-#define ___Writer_Intrinsics_H___
+#ifndef ___SDW_Intrinsics_H___
+#define ___SDW_Intrinsics_H___
 #pragma once
 
 #include "ImageAccessFunctions.hpp"

@@ -1,8 +1,8 @@
 /*
 See LICENSE file in root folder
 */
-#ifndef ___Writer_GetExprName_H___
-#define ___Writer_GetExprName_H___
+#ifndef ___SDW_GetExprName_H___
+#define ___SDW_GetExprName_H___
 #pragma once
 
 #include <ASTGenerator/Expr/ExprIdentifier.hpp>

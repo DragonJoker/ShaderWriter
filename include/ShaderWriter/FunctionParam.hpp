@@ -1,8 +1,8 @@
 /*
 See LICENSE file in root folder
 */
-#ifndef ___Writer_FunctionParam_H___
-#define ___Writer_FunctionParam_H___
+#ifndef ___SDW_FunctionParam_H___
+#define ___SDW_FunctionParam_H___
 #pragma once
 
 #include "Value.hpp"

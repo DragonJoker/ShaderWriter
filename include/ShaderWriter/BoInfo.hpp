@@ -1,8 +1,8 @@
 /*
 See LICENSE file in root folder
 */
-#ifndef ___Writer_BoInfo_H___
-#define ___Writer_BoInfo_H___
+#ifndef ___SDW_BoInfo_H___
+#define ___SDW_BoInfo_H___
 #pragma once
 
 #include "ShaderWriterPrerequisites.hpp"

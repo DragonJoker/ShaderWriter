@@ -1,8 +1,8 @@
 /*
 See LICENSE file in root folder
 */
-#ifndef ___Writer_OptionalMat3x4_H___
-#define ___Writer_OptionalMat3x4_H___
+#ifndef ___SDW_OptionalMat3x4_H___
+#define ___SDW_OptionalMat3x4_H___
 #pragma once
 
 #include "Mat3x4.hpp"

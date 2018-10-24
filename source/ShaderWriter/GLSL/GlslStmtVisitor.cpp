@@ -1,10 +1,10 @@
 /*
 See LICENSE file in root folder
 */
-#include "ShaderWriter/GLSL/GLSLStmtVisitor.hpp"
+#include "ShaderWriter/GLSL/GlslStmtVisitor.hpp"
 
-#include "ShaderWriter/GLSL/GLSLExprVisitor.hpp"
-#include "ShaderWriter/GLSL/GLSLHelpers.hpp"
+#include "ShaderWriter/GLSL/GlslExprVisitor.hpp"
+#include "ShaderWriter/GLSL/GlslHelpers.hpp"
 
 #include <sstream>
 

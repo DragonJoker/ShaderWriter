@@ -1,8 +1,8 @@
 /*
 See LICENSE file in root folder
 */
-#ifndef ___Writer_Function_H___
-#define ___Writer_Function_H___
+#ifndef ___SDW_Function_H___
+#define ___SDW_Function_H___
 #pragma once
 
 #include "OptionalArray.hpp"

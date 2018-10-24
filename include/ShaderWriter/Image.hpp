@@ -1,8 +1,8 @@
 /*
 See LICENSE file in root folder
 */
-#ifndef ___Writer_Image_H___
-#define ___Writer_Image_H___
+#ifndef ___SDW_Image_H___
+#define ___SDW_Image_H___
 
 #include "Value.hpp"
 

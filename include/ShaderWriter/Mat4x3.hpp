@@ -1,8 +1,8 @@
 /*
 See LICENSE file in root folder
 */
-#ifndef ___Writer_Mat4x3_H___
-#define ___Writer_Mat4x3_H___
+#ifndef ___SDW_Mat4x3_H___
+#define ___SDW_Mat4x3_H___
 #pragma once
 
 #include "OptionalVec4.hpp"
