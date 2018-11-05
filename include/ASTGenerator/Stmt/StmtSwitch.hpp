@@ -17,8 +17,8 @@ namespace ast::stmt
 	{
 	public:
 		Switch( expr::SwitchTestPtr testExpr );
-		void addCase( SwitchCasePtr caseStmt );
-		void addDefault( SwitchCasePtr caseStmt );
+		SwitchCase * createCase( expr::SwitchCasePtr label );
+		SwitchCase * createDefault();
 
 		void accept( VisitorPtr vis )override;
 

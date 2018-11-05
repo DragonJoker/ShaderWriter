@@ -8,7 +8,7 @@ See LICENSE file in root folder
 namespace ast::stmt
 {
 	PreprocElse::PreprocElse()
-		: Stmt{ Kind::ePreprocElse }
+		: Container{ Kind::ePreprocElse }
 	{
 	}
 

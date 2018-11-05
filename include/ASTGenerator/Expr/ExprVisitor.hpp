@@ -51,6 +51,7 @@ See LICENSE file in root folder
 #include "ExprRShiftAssign.hpp"
 #include "ExprSwitchCase.hpp"
 #include "ExprSwitchTest.hpp"
+#include "ExprSwizzle.hpp"
 #include "ExprTextureAccessCall.hpp"
 #include "ExprTimes.hpp"
 #include "ExprTimesAssign.hpp"
@@ -118,6 +119,7 @@ namespace ast::expr
 		virtual void visitRShiftAssignExpr( RShiftAssign * ) = 0;
 		virtual void visitSwitchCaseExpr( SwitchCase * ) = 0;
 		virtual void visitSwitchTestExpr( SwitchTest * ) = 0;
+		virtual void visitSwizzleExpr( Swizzle * ) = 0;
 		virtual void visitTextureAccessCallExpr( TextureAccessCall * ) = 0;
 		virtual void visitTimesExpr( Times * ) = 0;
 		virtual void visitTimesAssignExpr( TimesAssign * ) = 0;

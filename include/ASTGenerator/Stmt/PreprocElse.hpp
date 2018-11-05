@@ -5,24 +5,25 @@ See LICENSE file in root folder
 #define ___AST_PreprocElse_H___
 #pragma once
 
-#include "Stmt.hpp"
+#include "StmtContainer.hpp"
 
 namespace ast::stmt
 {
+	class PreprocIf;
+	class PreprocIfDef;
 	class PreprocElse
-		: public Stmt
+		: public Container
 	{
-	public:
+		friend class PreprocIf;
+		friend class PreprocIfDef;
+
+	private:
 		PreprocElse();
 
+	public:
 		void accept( VisitorPtr vis )override;
 	};
 	using PreprocElsePtr = std::unique_ptr< PreprocElse >;
-
-	inline PreprocElsePtr makePreprocElse()
-	{
-		return std::make_unique< PreprocElse >();
-	}
 }
 
 #endif

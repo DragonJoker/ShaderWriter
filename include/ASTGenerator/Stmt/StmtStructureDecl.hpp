@@ -20,9 +20,9 @@ namespace ast::stmt
 
 		void accept( VisitorPtr vis )override;
 
-		inline type::Struct const & getType()const
+		inline type::StructPtr getType()const
 		{
-			return *m_type;
+			return m_type;
 		}
 
 	private:

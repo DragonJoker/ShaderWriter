@@ -33,15 +33,15 @@ namespace ast::stmt
 			return m_else.get();
 		}
 
-		inline StmtList const & getElseIfList()
+		inline ElseIfList const & getElseIfList()
 		{
 			return m_elseIfs;
 		}
 
 	private:
 		expr::ExprPtr m_ctrlExpr;
-		std::unique_ptr< Else > m_else;
-		StmtList m_elseIfs;
+		ElsePtr m_else;
+		ElseIfList m_elseIfs;
 	};
 	using IfPtr = std::unique_ptr< If >;
 

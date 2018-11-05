@@ -15,6 +15,8 @@ namespace ast::stmt
 	public:
 		VariableDecl( var::VariablePtr variable );
 
+		bool isMember()const;
+
 		void accept( VisitorPtr vis )override;
 
 		inline var::VariablePtr getVariable()const

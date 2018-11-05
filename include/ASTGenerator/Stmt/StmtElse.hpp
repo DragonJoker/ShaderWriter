@@ -13,17 +13,15 @@ namespace ast::stmt
 	class Else
 		: public Compound
 	{
-	public:
+		friend class If;
+
+	private:
 		Else();
 
+	public:
 		void accept( VisitorPtr vis )override;
 	};
 	using ElsePtr = std::unique_ptr< Else >;
-
-	inline std::unique_ptr< Else > makeElse()
-	{
-		return std::make_unique< Else >();
-	}
 }
 
 #endif

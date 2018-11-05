@@ -24,20 +24,31 @@ namespace ast::var
 		eLocale = 1 << 8,
 		eBuiltin = 1 << 9,
 		eImplicit = 1 << 10,
+		eMember = 1 << 11,
 	};
 
 	class Variable
 	{
 	public:
-	public:
+		Variable( VariablePtr outer
+			, type::TypePtr type
+			, std::string name );
+		Variable( VariablePtr outer
+			, type::TypePtr type
+			, std::string name
+			, Flag flag );
+		Variable( VariablePtr outer
+			, type::TypePtr type
+			, std::string name
+			, uint32_t flags );
 		Variable( type::TypePtr type
 			, std::string name );
 		Variable( type::TypePtr type
 			, std::string name
-			, uint32_t flags );
+			, Flag flag );
 		Variable( type::TypePtr type
 			, std::string name
-			, Flag flag );
+			, uint32_t flags );
 		virtual ~Variable();
 
 		inline type::TypePtr getType()const
@@ -60,6 +71,21 @@ namespace ast::var
 			{
 				m_flags &= ~uint32_t( flag );
 			}
+		}
+
+		inline VariablePtr getOuter()const
+		{
+			return m_outer;
+		}
+
+		inline VariablePtr getOutermost()const
+		{
+			if ( m_outer->isMember() )
+			{
+				return m_outer->getOuter();
+			}
+
+			return m_outer;
 		}
 
 		inline bool isInputParam()const
@@ -117,6 +143,13 @@ namespace ast::var
 			return hasFlag( Flag::eImplicit );
 		}
 
+		inline bool isMember()const
+		{
+			assert( hasFlag( Flag::eMember ) == bool( m_outer ) );
+			return hasFlag( Flag::eMember )
+				&& m_outer;
+		}
+
 	private:
 		inline bool hasFlag( Flag flag )const
 		{
@@ -124,15 +157,48 @@ namespace ast::var
 		}
 
 	private:
+		VariablePtr m_outer;
 		type::TypePtr m_type;
 		std::string m_name;
 		uint32_t m_flags;
 	};
 
+	inline VariablePtr makeVariable( VariablePtr outer
+		, type::TypePtr type
+		, std::string name )
+	{
+		return std::make_shared< Variable >( outer
+			, type
+			, name );
+	}
+
+	inline VariablePtr makeVariable( VariablePtr outer
+		, type::TypePtr type
+		, std::string name
+		, Flag flag )
+	{
+		return std::make_shared< Variable >( outer
+			, type
+			, name
+			, flag );
+	}
+
+	inline VariablePtr makeVariable( VariablePtr outer
+		, type::TypePtr type
+		, std::string name
+		, uint32_t flags )
+	{
+		return std::make_shared< Variable >( outer
+			, type
+			, name
+			, flags );
+	}
+
 	inline VariablePtr makeVariable( type::TypePtr type
 		, std::string name )
 	{
-		return std::make_shared< Variable >( type, name );
+		return std::make_shared< Variable >( type
+			, name );
 	}
 
 	inline VariablePtr makeFunction( std::string name )
@@ -145,14 +211,28 @@ namespace ast::var
 		, std::string name
 		, uint32_t flags )
 	{
-		return std::make_shared< Variable >( type, name, flags );
+		return std::make_shared< Variable >( type
+			, name
+			, flags );
 	}
 
 	inline VariablePtr makeVariable( type::TypePtr type
 		, std::string name
 		, Flag flag )
 	{
-		return std::make_shared< Variable >( type, name, flag );
+		return std::make_shared< Variable >( type
+			, name
+			, flag );
+	}
+
+	inline VariablePtr getOutermost( VariablePtr var )
+	{
+		if ( var->isMember() )
+		{
+			return getOutermost( var->getOuter() );
+		}
+
+		return var;
 	}
 
 	inline uint32_t operator|( Flag const lhs, Flag const rhs )

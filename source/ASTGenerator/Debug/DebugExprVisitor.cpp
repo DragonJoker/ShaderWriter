@@ -115,6 +115,9 @@ namespace ast::debug
 			case expr::Kind::eMbrSelect:
 				result = "MBRSELECT";
 				break;
+			case expr::Kind::eSwizzle:
+				result = "SWIZZLE";
+				break;
 			case expr::Kind::eSwitchTest:
 				result = "SWTEST";
 				break;
@@ -403,5 +406,11 @@ namespace ast::debug
 	{
 		m_result += getName( expr->getKind() ) + " ";
 		wrap( expr->getValue() );
+	}
+
+	void ExprVisitor::visitSwizzleExpr( expr::Swizzle * expr )
+	{
+		m_result += getName( expr->getKind() ) + " ";
+		m_result += getName( expr->getSwizzle() );
 	}
 }

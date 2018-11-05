@@ -15,9 +15,12 @@ namespace ast::stmt
 	class ElseIf
 		: public Compound
 	{
-	public:
+		friend class If;
+
+	private:
 		ElseIf( expr::ExprPtr ctrlExpr );
 
+	public:
 		void accept( VisitorPtr vis )override;
 
 		inline expr::Expr * getCtrlExpr()const
@@ -29,11 +32,7 @@ namespace ast::stmt
 		expr::ExprPtr m_ctrlExpr;
 	};
 	using ElseIfPtr = std::unique_ptr< ElseIf >;
-
-	inline ElseIfPtr makeElseIf( expr::ExprPtr ctrlExpr )
-	{
-		return std::make_unique< ElseIf >( std::move( ctrlExpr ) );
-	}
+	using ElseIfList = std::vector< ElseIfPtr >;
 }
 
 #endif

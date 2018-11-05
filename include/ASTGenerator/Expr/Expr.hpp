@@ -43,6 +43,7 @@ namespace ast::expr
 		eIdentifier,
 		eLiteral,
 		eMbrSelect,
+		eSwizzle,
 		eSwitchTest,
 		eSwitchCase,
 		eQuestion,

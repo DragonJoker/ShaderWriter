@@ -11,13 +11,17 @@ See LICENSE file in root folder
 
 namespace ast::stmt
 {
+	class Switch;
 	class SwitchCase
 		: public Compound
 	{
-	public:
+		friend class Switch;
+
+	private:
 		SwitchCase( expr::SwitchCasePtr caseExpr );
 		SwitchCase();
 
+	public:
 		void accept( VisitorPtr vis )override;
 
 		inline expr::SwitchCase * getCaseExpr()const
@@ -29,16 +33,6 @@ namespace ast::stmt
 		expr::SwitchCasePtr m_caseExpr;
 	};
 	using SwitchCasePtr = std::unique_ptr< SwitchCase >;
-
-	inline std::unique_ptr< SwitchCase > makeSwitchCase( expr::SwitchCasePtr caseExpr )
-	{
-		return std::make_unique< SwitchCase >( std::move( caseExpr ) );
-	}
-
-	inline std::unique_ptr< SwitchCase > makeSwitchDefault()
-	{
-		return std::make_unique< SwitchCase >();
-	}
 }
 
 #endif

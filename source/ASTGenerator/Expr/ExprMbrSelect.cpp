@@ -9,11 +9,13 @@ namespace ast::expr
 {
 	MbrSelect::MbrSelect( type::TypePtr type
 		, ExprPtr outer
+		, uint32_t memberIndex
 		, IdentifierPtr member )
 		: Unary{ std::move( type )
 			, std::move( member )
 			, Kind::eMbrSelect }
 		, m_outer{ std::move( outer ) }
+		, m_memberIndex{ memberIndex }
 	{
 	}
 

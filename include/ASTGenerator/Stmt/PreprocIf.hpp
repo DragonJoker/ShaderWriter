@@ -5,15 +5,19 @@ See LICENSE file in root folder
 #define ___AST_PreprocIf_H___
 #pragma once
 
-#include "Stmt.hpp"
+#include "PreprocElif.hpp"
+#include "PreprocElse.hpp"
 
 namespace ast::stmt
 {
 	class PreprocIf
-		: public Stmt
+		: public Container
 	{
 	public:
 		PreprocIf( expr::ExprPtr ctrlExpr );
+
+		PreprocElse * createElse();
+		PreprocElif * createElif( expr::ExprPtr ctrlExpr );
 
 		void accept( VisitorPtr vis )override;
 
@@ -22,8 +26,20 @@ namespace ast::stmt
 			return m_ctrlExpr.get();
 		}
 
+		inline PreprocElse * getElse()
+		{
+			return m_else.get();
+		}
+
+		inline StmtList const & getElifList()
+		{
+			return m_elifs;
+		}
+
 	private:
 		expr::ExprPtr m_ctrlExpr;
+		PreprocElsePtr m_else;
+		StmtList m_elifs;
 	};
 	using PreprocIfPtr = std::unique_ptr< PreprocIf >;
 

@@ -13,14 +13,20 @@ namespace ast::stmt
 	{
 	}
 
-	void Switch::addCase( SwitchCasePtr caseStmt )
+	SwitchCase * Switch::createCase( expr::SwitchCasePtr label )
 	{
+		auto caseStmt = std::unique_ptr< SwitchCase >( new SwitchCase{ std::move( label ) } );
+		auto result = caseStmt.get();
 		addStmt( std::move( caseStmt ) );
+		return result;
 	}
 
-	void Switch::addDefault( SwitchCasePtr caseStmt )
+	SwitchCase * Switch::createDefault()
 	{
+		auto caseStmt = std::unique_ptr< SwitchCase >( new SwitchCase{} );
+		auto result = caseStmt.get();
 		addStmt( std::move( caseStmt ) );
+		return result;
 	}
 
 	void Switch::accept( VisitorPtr vis )

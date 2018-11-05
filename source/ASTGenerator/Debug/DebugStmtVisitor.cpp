@@ -474,14 +474,14 @@ namespace ast::debug
 	void StmtVisitor::visitStructureDeclStmt( stmt::StructureDecl * stmt )
 	{
 		displayStmtName( stmt, false );
-		m_result += stmt->getType().getName() + "\n";
+		m_result += stmt->getType()->getName() + "\n";
 
-		if ( !stmt->getType().empty() )
+		if ( !stmt->getType()->empty() )
 		{
 			auto save = m_indent;
 			m_indent += "\t";
 
-			for ( auto & member : stmt->getType() )
+			for ( auto & member : *stmt->getType() )
 			{
 				m_result += m_indent;
 				m_result += getName( *member.type );

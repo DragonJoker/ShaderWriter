@@ -7,6 +7,8 @@ See LICENSE file in root folder
 
 #include "ASTGenerator/ASTGeneratorPrerequisites.hpp"
 
+#include <map>
+
 namespace ast::type
 {
 	static uint32_t constexpr NotArray = 0u;
@@ -134,13 +136,23 @@ namespace ast::type
 		eMax = eImage2DMSArrayU,
 	};
 
+	class TypeCache;
+
 	class Type
 	{
-	public:
+	private:
+		friend class TypeCache;
+		friend class Struct;
 
-	public:
+	protected:
 		Type( Kind kind
 			, uint32_t arraySize = NotArray );
+		Type( Struct * parent
+			, uint32_t index
+			, Kind kind
+			, uint32_t arraySize = NotArray );
+
+	public:
 		virtual ~Type();
 
 		inline Kind getKind()const
@@ -153,676 +165,190 @@ namespace ast::type
 			return m_arraySize;
 		}
 
+		inline bool isMember()const
+		{
+			return m_index != ~( 0u );
+		}
+
+		inline uint32_t getIndex()const
+		{
+			return m_index;
+		}
+
+		inline Struct * getParent()const
+		{
+			return m_parent;
+		}
+
 	private:
 		Kind m_kind;
 		uint32_t m_arraySize;
+		Struct * m_parent;
+		uint32_t m_index;
 	};
 
-	inline TypePtr makeType( Kind kind
-		, uint32_t arraySize = NotArray )
-	{
-		return std::make_shared< Type >( kind, arraySize );
-	}
-
-	inline TypePtr getUndefined()
-	{
-		static TypePtr const result = makeType( Kind::eUndefined );
-		return result;
-	}
-
-	inline TypePtr getVoid()
-	{
-		static TypePtr const result = makeType( Kind::eVoid );
-		return result;
-	}
-
-	inline TypePtr getFunction()
-	{
-		static TypePtr const result = makeType( Kind::eFunction );
-		return result;
-	}
-
-	inline TypePtr getBool()
-	{
-		static TypePtr const result = makeType( Kind::eBoolean );
-		return result;
-	}
-
-	inline TypePtr getInt()
-	{
-		static TypePtr const result = makeType( Kind::eInt );
-		return result;
-	}
-
-	inline TypePtr getUInt()
-	{
-		static TypePtr const result = makeType( Kind::eUInt );
-		return result;
-	}
-
-	inline TypePtr getFloat()
-	{
-		static TypePtr const result = makeType( Kind::eFloat );
-		return result;
-	}
-
-	inline TypePtr getDouble()
-	{
-		static TypePtr const result = makeType( Kind::eDouble );
-		return result;
-	}
-
-	inline TypePtr getVec2B()
-	{
-		static TypePtr const result = makeType( Kind::eVec2B );
-		return result;
-	}
-
-	inline TypePtr getVec3B()
-	{
-		static TypePtr const result = makeType( Kind::eVec3B );
-		return result;
-	}
-
-	inline TypePtr getVec4B()
-	{
-		static TypePtr const result = makeType( Kind::eVec4B );
-		return result;
-	}
-
-	inline TypePtr getVec2I()
-	{
-		static TypePtr const result = makeType( Kind::eVec2I );
-		return result;
-	}
-
-	inline TypePtr getVec3I()
-	{
-		static TypePtr const result = makeType( Kind::eVec3I );
-		return result;
-	}
-
-	inline TypePtr getVec4I()
-	{
-		static TypePtr const result = makeType( Kind::eVec4I );
-		return result;
-	}
-
-	inline TypePtr getVec2U()
-	{
-		static TypePtr const result = makeType( Kind::eVec2U );
-		return result;
-	}
-
-	inline TypePtr getVec3U()
-	{
-		static TypePtr const result = makeType( Kind::eVec3U );
-		return result;
-	}
-
-	inline TypePtr getVec4U()
-	{
-		static TypePtr const result = makeType( Kind::eVec4U );
-		return result;
-	}
-
-	inline TypePtr getVec2F()
-	{
-		static TypePtr const result = makeType( Kind::eVec2F );
-		return result;
-	}
-
-	inline TypePtr getVec3F()
-	{
-		static TypePtr const result = makeType( Kind::eVec3F );
-		return result;
-	}
-
-	inline TypePtr getVec4F()
-	{
-		static TypePtr const result = makeType( Kind::eVec4F );
-		return result;
-	}
-
-	inline TypePtr getVec2D()
-	{
-		static TypePtr const result = makeType( Kind::eVec2D );
-		return result;
-	}
-
-	inline TypePtr getVec3D()
-	{
-		static TypePtr const result = makeType( Kind::eVec3D );
-		return result;
-	}
-
-	inline TypePtr getVec4D()
-	{
-		static TypePtr const result = makeType( Kind::eVec4D );
-		return result;
-	}
-
-	inline TypePtr getMat2x2F()
-	{
-		static TypePtr const result = makeType( Kind::eMat2x2F );
-		return result;
-	}
-
-	inline TypePtr getMat2x3F()
-	{
-		static TypePtr const result = makeType( Kind::eMat2x3F );
-		return result;
-	}
-
-	inline TypePtr getMat2x4F()
-	{
-		static TypePtr const result = makeType( Kind::eMat2x4F );
-		return result;
-	}
-
-	inline TypePtr getMat3x2F()
-	{
-		static TypePtr const result = makeType( Kind::eMat3x2F );
-		return result;
-	}
-
-	inline TypePtr getMat3x3F()
-	{
-		static TypePtr const result = makeType( Kind::eMat3x3F );
-		return result;
-	}
-
-	inline TypePtr getMat3x4F()
-	{
-		static TypePtr const result = makeType( Kind::eMat3x4F );
-		return result;
-	}
-
-	inline TypePtr getMat4x2F()
-	{
-		static TypePtr const result = makeType( Kind::eMat4x2F );
-		return result;
-	}
-
-	inline TypePtr getMat4x3F()
-	{
-		static TypePtr const result = makeType( Kind::eMat4x3F );
-		return result;
-	}
-
-	inline TypePtr getMat4x4F()
-	{
-		static TypePtr const result = makeType( Kind::eMat4x4F );
-		return result;
-	}
-
-	inline TypePtr getMat2x2D()
-	{
-		static TypePtr const result = makeType( Kind::eMat2x2D );
-		return result;
-	}
-
-	inline TypePtr getMat2x3D()
-	{
-		static TypePtr const result = makeType( Kind::eMat2x3D );
-		return result;
-	}
-
-	inline TypePtr getMat2x4D()
-	{
-		static TypePtr const result = makeType( Kind::eMat2x4D );
-		return result;
-	}
-
-	inline TypePtr getMat3x2D()
-	{
-		static TypePtr const result = makeType( Kind::eMat3x2D );
-		return result;
-	}
-
-	inline TypePtr getMat3x3D()
-	{
-		static TypePtr const result = makeType( Kind::eMat3x3D );
-		return result;
-	}
-
-	inline TypePtr getMat3x4D()
-	{
-		static TypePtr const result = makeType( Kind::eMat3x4D );
-		return result;
-	}
-
-	inline TypePtr getMat4x2D()
-	{
-		static TypePtr const result = makeType( Kind::eMat4x2D );
-		return result;
-	}
-
-	inline TypePtr getMat4x3D()
-	{
-		static TypePtr const result = makeType( Kind::eMat4x3D );
-		return result;
-	}
-
-	inline TypePtr getMat4x4D()
-	{
-		static TypePtr const result = makeType( Kind::eMat4x4D );
-		return result;
-	}
-
-	inline TypePtr getConstantsBuffer()
-	{
-		static TypePtr const result = makeType( Kind::eConstantsBuffer );
-		return result;
-	}
-
-	inline TypePtr getShaderBuffer()
-	{
-		static TypePtr const result = makeType( Kind::eShaderBuffer );
-		return result;
-	}
-
-	inline TypePtr getSamplerBufferF()
-	{
-		static TypePtr const result = makeType( Kind::eSamplerBufferF );
-		return result;
-	}
-
-	inline TypePtr getSampler1DF()
-	{
-		static TypePtr const result = makeType( Kind::eSampler1DF );
-		return result;
-	}
-
-	inline TypePtr getSampler2DF()
-	{
-		static TypePtr const result = makeType( Kind::eSampler2DF );
-		return result;
-	}
-
-	inline TypePtr getSampler3DF()
-	{
-		static TypePtr const result = makeType( Kind::eSampler3DF );
-		return result;
-	}
-
-	inline TypePtr getSamplerCubeF()
-	{
-		static TypePtr const result = makeType( Kind::eSamplerCubeF );
-		return result;
-	}
-
-	inline TypePtr getSampler2DRectF()
-	{
-		static TypePtr const result = makeType( Kind::eSampler2DRectF );
-		return result;
-	}
-
-	inline TypePtr getSampler1DArrayF()
-	{
-		static TypePtr const result = makeType( Kind::eSampler1DArrayF );
-		return result;
-	}
-
-	inline TypePtr getSampler2DArrayF()
-	{
-		static TypePtr const result = makeType( Kind::eSampler2DArrayF );
-		return result;
-	}
-
-	inline TypePtr getSamplerCubeArrayF()
-	{
-		static TypePtr const result = makeType( Kind::eSamplerCubeArrayF );
-		return result;
-	}
-
-	inline TypePtr getSampler1DShadowF()
-	{
-		static TypePtr const result = makeType( Kind::eSampler1DShadowF );
-		return result;
-	}
-
-	inline TypePtr getSampler2DShadowF()
-	{
-		static TypePtr const result = makeType( Kind::eSampler2DShadowF );
-		return result;
-	}
-
-	inline TypePtr getSamplerCubeShadowF()
-	{
-		static TypePtr const result = makeType( Kind::eSamplerCubeShadowF );
-		return result;
-	}
-
-	inline TypePtr getSampler2DRectShadowF()
-	{
-		static TypePtr const result = makeType( Kind::eSampler2DRectShadowF );
-		return result;
-	}
-
-	inline TypePtr getSampler1DArrayShadowF()
-	{
-		static TypePtr const result = makeType( Kind::eSampler1DArrayShadowF );
-		return result;
-	}
-
-	inline TypePtr getSampler2DArrayShadowF()
-	{
-		static TypePtr const result = makeType( Kind::eSampler2DArrayShadowF );
-		return result;
-	}
-
-	inline TypePtr getSamplerCubeArrayShadowF()
-	{
-		static TypePtr const result = makeType( Kind::eSamplerCubeArrayShadowF );
-		return result;
-	}
-
-	inline TypePtr getSamplerBufferI()
-	{
-		static TypePtr const result = makeType( Kind::eSamplerBufferI );
-		return result;
-	}
-
-	inline TypePtr getSampler1DI()
-	{
-		static TypePtr const result = makeType( Kind::eSampler1DI );
-		return result;
-	}
-
-	inline TypePtr getSampler2DI()
-	{
-		static TypePtr const result = makeType( Kind::eSampler2DI );
-		return result;
-	}
-
-	inline TypePtr getSampler3DI()
-	{
-		static TypePtr const result = makeType( Kind::eSampler3DI );
-		return result;
-	}
-
-	inline TypePtr getSamplerCubeI()
-	{
-		static TypePtr const result = makeType( Kind::eSamplerCubeI );
-		return result;
-	}
-
-	inline TypePtr getSampler2DRectI()
-	{
-		static TypePtr const result = makeType( Kind::eSampler2DRectI );
-		return result;
-	}
-
-	inline TypePtr getSampler1DArrayI()
-	{
-		static TypePtr const result = makeType( Kind::eSampler1DArrayI );
-		return result;
-	}
-
-	inline TypePtr getSampler2DArrayI()
-	{
-		static TypePtr const result = makeType( Kind::eSampler2DArrayI );
-		return result;
-	}
-
-	inline TypePtr getSamplerCubeArrayI()
-	{
-		static TypePtr const result = makeType( Kind::eSamplerCubeArrayI );
-		return result;
-	}
-
-	inline TypePtr getSamplerBufferU()
-	{
-		static TypePtr const result = makeType( Kind::eSamplerBufferU );
-		return result;
-	}
-
-	inline TypePtr getSampler1DU()
-	{
-		static TypePtr const result = makeType( Kind::eSampler1DU );
-		return result;
-	}
-
-	inline TypePtr getSampler2DU()
-	{
-		static TypePtr const result = makeType( Kind::eSampler2DU );
-		return result;
-	}
-
-	inline TypePtr getSampler3DU()
-	{
-		static TypePtr const result = makeType( Kind::eSampler3DU );
-		return result;
-	}
-
-	inline TypePtr getSamplerCubeU()
-	{
-		static TypePtr const result = makeType( Kind::eSamplerCubeU );
-		return result;
-	}
-
-	inline TypePtr getSampler2DRectU()
-	{
-		static TypePtr const result = makeType( Kind::eSampler2DRectU );
-		return result;
-	}
-
-	inline TypePtr getSampler1DArrayU()
-	{
-		static TypePtr const result = makeType( Kind::eSampler1DArrayU );
-		return result;
-	}
-
-	inline TypePtr getSampler2DArrayU()
-	{
-		static TypePtr const result = makeType( Kind::eSampler2DArrayU );
-		return result;
-	}
-
-	inline TypePtr getSamplerCubeArrayU()
-	{
-		static TypePtr const result = makeType( Kind::eSamplerCubeArrayU );
-		return result;
-	}
-
-	inline TypePtr getImageBufferF()
-	{
-		static TypePtr const result = makeType( Kind::eImageBufferF );
-		return result;
-	}
-
-	inline TypePtr getImage1DF()
-	{
-		static TypePtr const result = makeType( Kind::eImage1DF );
-		return result;
-	}
-
-	inline TypePtr getImage2DF()
-	{
-		static TypePtr const result = makeType( Kind::eImage2DF );
-		return result;
-	}
-
-	inline TypePtr getImage3DF()
-	{
-		static TypePtr const result = makeType( Kind::eImage3DF );
-		return result;
-	}
-
-	inline TypePtr getImageCubeF()
-	{
-		static TypePtr const result = makeType( Kind::eImageCubeF );
-		return result;
-	}
-
-	inline TypePtr getImage2DRectF()
-	{
-		static TypePtr const result = makeType( Kind::eImage2DRectF );
-		return result;
-	}
-
-	inline TypePtr getImage1DArrayF()
-	{
-		static TypePtr const result = makeType( Kind::eImage1DArrayF );
-		return result;
-	}
-
-	inline TypePtr getImage2DArrayF()
-	{
-		static TypePtr const result = makeType( Kind::eImage2DArrayF );
-		return result;
-	}
-
-	inline TypePtr getImageCubeArrayF()
-	{
-		static TypePtr const result = makeType( Kind::eImageCubeArrayF );
-		return result;
-	}
-
-	inline TypePtr getImage2DMSF()
-	{
-		static TypePtr const result = makeType( Kind::eImage2DMSF );
-		return result;
-	}
-
-	inline TypePtr getImage2DMSArrayF()
-	{
-		static TypePtr const result = makeType( Kind::eImage2DMSArrayF );
-		return result;
-	}
-
-	inline TypePtr getImageBufferI()
-	{
-		static TypePtr const result = makeType( Kind::eImageBufferI );
-		return result;
-	}
-
-	inline TypePtr getImage1DI()
-	{
-		static TypePtr const result = makeType( Kind::eImage1DI );
-		return result;
-	}
-
-	inline TypePtr getImage2DI()
-	{
-		static TypePtr const result = makeType( Kind::eImage2DI );
-		return result;
-	}
-
-	inline TypePtr getImage3DI()
-	{
-		static TypePtr const result = makeType( Kind::eImage3DI );
-		return result;
-	}
-
-	inline TypePtr getImageCubeI()
-	{
-		static TypePtr const result = makeType( Kind::eImageCubeI );
-		return result;
-	}
-
-	inline TypePtr getImage2DRectI()
-	{
-		static TypePtr const result = makeType( Kind::eImage2DRectI );
-		return result;
-	}
-
-	inline TypePtr getImage1DArrayI()
-	{
-		static TypePtr const result = makeType( Kind::eImage1DArrayI );
-		return result;
-	}
-
-	inline TypePtr getImage2DArrayI()
-	{
-		static TypePtr const result = makeType( Kind::eImage2DArrayI );
-		return result;
-	}
-
-	inline TypePtr getImageCubeArrayI()
-	{
-		static TypePtr const result = makeType( Kind::eImageCubeArrayI );
-		return result;
-	}
-
-	inline TypePtr getImage2DMSI()
-	{
-		static TypePtr const result = makeType( Kind::eImage2DMSI );
-		return result;
-	}
-
-	inline TypePtr getImage2DMSArrayI()
-	{
-		static TypePtr const result = makeType( Kind::eImage2DMSArrayI );
-		return result;
-	}
-
-	inline TypePtr getImageBufferU()
-	{
-		static TypePtr const result = makeType( Kind::eImageBufferU );
-		return result;
-	}
-
-	inline TypePtr getImage1DU()
-	{
-		static TypePtr const result = makeType( Kind::eImage1DU );
-		return result;
-	}
-
-	inline TypePtr getImage2DU()
-	{
-		static TypePtr const result = makeType( Kind::eImage2DU );
-		return result;
-	}
-
-	inline TypePtr getImage3DU()
-	{
-		static TypePtr const result = makeType( Kind::eImage3DU );
-		return result;
-	}
-
-	inline TypePtr getImageCubeU()
-	{
-		static TypePtr const result = makeType( Kind::eImageCubeU );
-		return result;
-	}
-
-	inline TypePtr getImage2DRectU()
-	{
-		static TypePtr const result = makeType( Kind::eImage2DRectU );
-		return result;
-	}
-
-	inline TypePtr getImage1DArrayU()
-	{
-		static TypePtr const result = makeType( Kind::eImage1DArrayU );
-		return result;
-	}
-
-	inline TypePtr getImage2DArrayU()
-	{
-		static TypePtr const result = makeType( Kind::eImage2DArrayU );
-		return result;
-	}
-
-	inline TypePtr getImageCubeArrayU()
-	{
-		static TypePtr const result = makeType( Kind::eImageCubeArrayU );
-		return result;
-	}
-
-	inline TypePtr getImage2DMSU()
-	{
-		static TypePtr const result = makeType( Kind::eImage2DMSU );
-		return result;
-	}
-
-	inline TypePtr getImage2DMSArrayU()
-	{
-		static TypePtr const result = makeType( Kind::eImage2DMSArrayU );
-		return result;
-	}
+	TypePtr getUndefined( uint32_t arraySize = NotArray );
+	TypePtr getVoid( uint32_t arraySize = NotArray );
+	TypePtr getFunction( uint32_t arraySize = NotArray );
+	TypePtr getBool( uint32_t arraySize = NotArray );
+	TypePtr getInt( uint32_t arraySize = NotArray );
+	TypePtr getUInt( uint32_t arraySize = NotArray );
+	TypePtr getFloat( uint32_t arraySize = NotArray );
+	TypePtr getDouble( uint32_t arraySize = NotArray );
+	TypePtr getVec2Type( Kind kind, uint32_t arraySize = NotArray );
+	TypePtr getVec3Type( Kind kind, uint32_t arraySize = NotArray );
+	TypePtr getVec4Type( Kind kind, uint32_t arraySize = NotArray );
+	TypePtr getVec2B( uint32_t arraySize = NotArray );
+	TypePtr getVec3B( uint32_t arraySize = NotArray );
+	TypePtr getVec4B( uint32_t arraySize = NotArray );
+	TypePtr getVec2I( uint32_t arraySize = NotArray );
+	TypePtr getVec3I( uint32_t arraySize = NotArray );
+	TypePtr getVec4I( uint32_t arraySize = NotArray );
+	TypePtr getVec2U( uint32_t arraySize = NotArray );
+	TypePtr getVec3U( uint32_t arraySize = NotArray );
+	TypePtr getVec4U( uint32_t arraySize = NotArray );
+	TypePtr getVec2F( uint32_t arraySize = NotArray );
+	TypePtr getVec3F( uint32_t arraySize = NotArray );
+	TypePtr getVec4F( uint32_t arraySize = NotArray );
+	TypePtr getVec2D( uint32_t arraySize = NotArray );
+	TypePtr getVec3D( uint32_t arraySize = NotArray );
+	TypePtr getVec4D( uint32_t arraySize = NotArray );
+	TypePtr getMat2x2F( uint32_t arraySize = NotArray );
+	TypePtr getMat2x3F( uint32_t arraySize = NotArray );
+	TypePtr getMat2x4F( uint32_t arraySize = NotArray );
+	TypePtr getMat3x2F( uint32_t arraySize = NotArray );
+	TypePtr getMat3x3F( uint32_t arraySize = NotArray );
+	TypePtr getMat3x4F( uint32_t arraySize = NotArray );
+	TypePtr getMat4x2F( uint32_t arraySize = NotArray );
+	TypePtr getMat4x3F( uint32_t arraySize = NotArray );
+	TypePtr getMat4x4F( uint32_t arraySize = NotArray );
+	TypePtr getMat2x2D( uint32_t arraySize = NotArray );
+	TypePtr getMat2x3D( uint32_t arraySize = NotArray );
+	TypePtr getMat2x4D( uint32_t arraySize = NotArray );
+	TypePtr getMat3x2D( uint32_t arraySize = NotArray );
+	TypePtr getMat3x3D( uint32_t arraySize = NotArray );
+	TypePtr getMat3x4D( uint32_t arraySize = NotArray );
+	TypePtr getMat4x2D( uint32_t arraySize = NotArray );
+	TypePtr getMat4x3D( uint32_t arraySize = NotArray );
+	TypePtr getMat4x4D( uint32_t arraySize = NotArray );
+	TypePtr getConstantsBuffer( uint32_t arraySize = NotArray );
+	TypePtr getShaderBuffer( uint32_t arraySize = NotArray );
+	TypePtr getSamplerBufferF( uint32_t arraySize = NotArray );
+	TypePtr getSampler1DF( uint32_t arraySize = NotArray );
+	TypePtr getSampler2DF( uint32_t arraySize = NotArray );
+	TypePtr getSampler3DF( uint32_t arraySize = NotArray );
+	TypePtr getSamplerCubeF( uint32_t arraySize = NotArray );
+	TypePtr getSampler2DRectF( uint32_t arraySize = NotArray );
+	TypePtr getSampler1DArrayF( uint32_t arraySize = NotArray );
+	TypePtr getSampler2DArrayF( uint32_t arraySize = NotArray );
+	TypePtr getSamplerCubeArrayF( uint32_t arraySize = NotArray );
+	TypePtr getSampler1DShadowF( uint32_t arraySize = NotArray );
+	TypePtr getSampler2DShadowF( uint32_t arraySize = NotArray );
+	TypePtr getSamplerCubeShadowF( uint32_t arraySize = NotArray );
+	TypePtr getSampler2DRectShadowF( uint32_t arraySize = NotArray );
+	TypePtr getSampler1DArrayShadowF( uint32_t arraySize = NotArray );
+	TypePtr getSampler2DArrayShadowF( uint32_t arraySize = NotArray );
+	TypePtr getSamplerCubeArrayShadowF( uint32_t arraySize = NotArray );
+	TypePtr getSamplerBufferI( uint32_t arraySize = NotArray );
+	TypePtr getSampler1DI( uint32_t arraySize = NotArray );
+	TypePtr getSampler2DI( uint32_t arraySize = NotArray );
+	TypePtr getSampler3DI( uint32_t arraySize = NotArray );
+	TypePtr getSamplerCubeI( uint32_t arraySize = NotArray );
+	TypePtr getSampler2DRectI( uint32_t arraySize = NotArray );
+	TypePtr getSampler1DArrayI( uint32_t arraySize = NotArray );
+	TypePtr getSampler2DArrayI( uint32_t arraySize = NotArray );
+	TypePtr getSamplerCubeArrayI( uint32_t arraySize = NotArray );
+	TypePtr getSamplerBufferU( uint32_t arraySize = NotArray );
+	TypePtr getSampler1DU( uint32_t arraySize = NotArray );
+	TypePtr getSampler2DU( uint32_t arraySize = NotArray );
+	TypePtr getSampler3DU( uint32_t arraySize = NotArray );
+	TypePtr getSamplerCubeU( uint32_t arraySize = NotArray );
+	TypePtr getSampler2DRectU( uint32_t arraySize = NotArray );
+	TypePtr getSampler1DArrayU( uint32_t arraySize = NotArray );
+	TypePtr getSampler2DArrayU( uint32_t arraySize = NotArray );
+	TypePtr getSamplerCubeArrayU( uint32_t arraySize = NotArray );
+	TypePtr getImageBufferF( uint32_t arraySize = NotArray );
+	TypePtr getImage1DF( uint32_t arraySize = NotArray );
+	TypePtr getImage2DF( uint32_t arraySize = NotArray );
+	TypePtr getImage3DF( uint32_t arraySize = NotArray );
+	TypePtr getImageCubeF( uint32_t arraySize = NotArray );
+	TypePtr getImage2DRectF( uint32_t arraySize = NotArray );
+	TypePtr getImage1DArrayF( uint32_t arraySize = NotArray );
+	TypePtr getImage2DArrayF( uint32_t arraySize = NotArray );
+	TypePtr getImageCubeArrayF( uint32_t arraySize = NotArray );
+	TypePtr getImage2DMSF( uint32_t arraySize = NotArray );
+	TypePtr getImage2DMSArrayF( uint32_t arraySize = NotArray );
+	TypePtr getImageBufferI( uint32_t arraySize = NotArray );
+	TypePtr getImage1DI( uint32_t arraySize = NotArray );
+	TypePtr getImage2DI( uint32_t arraySize = NotArray );
+	TypePtr getImage3DI( uint32_t arraySize = NotArray );
+	TypePtr getImageCubeI( uint32_t arraySize = NotArray );
+	TypePtr getImage2DRectI( uint32_t arraySize = NotArray );
+	TypePtr getImage1DArrayI( uint32_t arraySize = NotArray );
+	TypePtr getImage2DArrayI( uint32_t arraySize = NotArray );
+	TypePtr getImageCubeArrayI( uint32_t arraySize = NotArray );
+	TypePtr getImage2DMSI( uint32_t arraySize = NotArray );
+	TypePtr getImage2DMSArrayI( uint32_t arraySize = NotArray );
+	TypePtr getImageBufferU( uint32_t arraySize = NotArray );
+	TypePtr getImage1DU( uint32_t arraySize = NotArray );
+	TypePtr getImage2DU( uint32_t arraySize = NotArray );
+	TypePtr getImage3DU( uint32_t arraySize = NotArray );
+	TypePtr getImageCubeU( uint32_t arraySize = NotArray );
+	TypePtr getImage2DRectU( uint32_t arraySize = NotArray );
+	TypePtr getImage1DArrayU( uint32_t arraySize = NotArray );
+	TypePtr getImage2DArrayU( uint32_t arraySize = NotArray );
+	TypePtr getImageCubeArrayU( uint32_t arraySize = NotArray );
+	TypePtr getImage2DMSU( uint32_t arraySize = NotArray );
+	TypePtr getImage2DMSArrayU( uint32_t arraySize = NotArray );
+
+	TypePtr makeType( Kind kind, uint32_t arraySize = NotArray );
+
+	bool isScalarType( Kind kind );
+	bool isVectorType( Kind kind );
+	bool isMatrixType( Kind kind );
+	bool isSamplerType( Kind kind );
+	bool isImageType( Kind kind );
+	uint32_t getComponentCount( Kind kind );
+	Kind getComponentType( Kind kind );
+	Kind getVectorType( Kind kind );
+
+	enum class Ternary
+	{
+		eTrue,
+		eFalse,
+		eDontCare,
+	};
+
+	enum class AccessKind
+	{
+		eRead,
+		eWrite,
+		eReadWrite,
+	};
+
+	enum class ImageDim
+	{
+		e1D,
+		e2D,
+		e3D,
+		eCube,
+		eRect,
+		eBuffer,
+	};
+
+	struct ImageConfig
+	{
+		ImageDim dimension;
+		Ternary isDepth;
+		Ternary isSampled;
+		bool isArrayed;
+		bool isMS;
+		uint32_t componentCount;
+		Kind componentType;
+		AccessKind accessKind;
+	};
+
+	ImageConfig getImageConfig( Kind kind );
 }
 
 #endif

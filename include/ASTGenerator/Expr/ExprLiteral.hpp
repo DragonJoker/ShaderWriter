@@ -94,6 +94,28 @@ namespace ast::expr
 	{
 		return std::make_unique< Literal >( value );
 	}
+
+	LiteralPtr operator~( Literal const & operand );
+	LiteralPtr operator|( Literal const & lhs, Literal const & rhs );
+	LiteralPtr operator&( Literal const & lhs, Literal const & rhs );
+	LiteralPtr operator^( Literal const & lhs, Literal const & rhs );
+	LiteralPtr operator!( Literal const & operand );
+	LiteralPtr operator||( Literal const & lhs, Literal const & rhs );
+	LiteralPtr operator&&( Literal const & lhs, Literal const & rhs );
+	LiteralPtr operator-( Literal const & operand );
+	LiteralPtr operator+( Literal const & lhs, Literal const & rhs );
+	LiteralPtr operator-( Literal const & lhs, Literal const & rhs );
+	LiteralPtr operator*( Literal const & lhs, Literal const & rhs );
+	LiteralPtr operator/( Literal const & lhs, Literal const & rhs );
+	LiteralPtr operator%( Literal const & lhs, Literal const & rhs );
+	LiteralPtr operator<<( Literal const & lhs, Literal const & rhs );
+	LiteralPtr operator>>( Literal const & lhs, Literal const & rhs );
+	LiteralPtr operator==( Literal const & lhs, Literal const & rhs );
+	LiteralPtr operator!=( Literal const & lhs, Literal const & rhs );
+	LiteralPtr operator<( Literal const & lhs, Literal const & rhs );
+	LiteralPtr operator<=( Literal const & lhs, Literal const & rhs );
+	LiteralPtr operator>( Literal const & lhs, Literal const & rhs );
+	LiteralPtr operator>=( Literal const & lhs, Literal const & rhs );
 }
 
 #include "ExprLiteral.inl"
