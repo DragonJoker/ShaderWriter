@@ -425,10 +425,19 @@ namespace sdw
 	}
 
 	expr::ExprPtr makeMbrSelect( expr::ExprPtr outer
+		, uint32_t memberIndex
 		, expr::IdentifierPtr inner )
 	{
 		return expr::makeMbrSelect( std::move( outer )
+			, memberIndex
 			, std::move( inner ) );
+	}
+
+	expr::ExprPtr makeSwizzle( expr::ExprPtr outer
+		, expr::SwizzleKind swizzle )
+	{
+		return expr::makeSwizzle( std::move( outer )
+			, swizzle );
 	}
 
 	expr::ExprPtr makeQuestion( type::TypePtr type
@@ -537,13 +546,25 @@ namespace sdw
 		, std::string const & name
 		, type::TypePtr type )
 	{
-		return shader.registerName( name, type );
+		return shader.registerName( name
+			, type );
+	}
+
+	var::VariablePtr registerMember( Shader & shader
+		, var::VariablePtr outer
+		, std::string const & name
+		, type::TypePtr type )
+	{
+		return shader.registerMember( outer
+			, name
+			, type );
 	}
 
 	var::VariablePtr getVar( Shader & shader
 		, std::string const & name
 		, type::TypePtr type )
 	{
-		return shader.getVar( name, type );
+		return shader.getVar( name
+			, type );
 	}
 }

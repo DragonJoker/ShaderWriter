@@ -884,7 +884,7 @@ namespace
 			check( value.getType()->getKind() == sdw::typeEnum< T > );
 			check( value.getType()->getArraySize() == 4u );
 			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
-			auto retrieved = bo.template getMember< T >( name, 4u );
+			auto retrieved = bo.template getMemberArray< T >( name );
 			check( retrieved.getType()->getKind() == sdw::typeEnum< T > );
 			check( retrieved.getType()->getArraySize() == 4u );
 			check( retrieved.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
@@ -939,7 +939,7 @@ namespace
 			check( value.getType()->getKind() == sdw::typeEnum< T > );
 			check( value.getType()->getArraySize() == 4u );
 			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
-			auto retrieved = bo.template getMember< T >( name, 4u, false );
+			auto retrieved = bo.template getMemberArray< T >( name, false );
 			check( !retrieved.isEnabled() );
 			check( !retrieved[0].isEnabled() );
 			check( retrieved.getType()->getKind() == sdw::typeEnum< T > );
@@ -1000,7 +1000,7 @@ namespace
 			check( value.getType()->getKind() == sdw::typeEnum< T > );
 			check( value.getType()->getArraySize() == 4u );
 			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
-			auto retrieved = bo.template getMember< T >( name, 4u, true );
+			auto retrieved = bo.template getMemberArray< T >( name, true );
 			check( retrieved.isEnabled() );
 			check( retrieved[0].isEnabled() );
 			check( retrieved.getType()->getKind() == sdw::typeEnum< T > );
@@ -1075,7 +1075,7 @@ namespace
 			st.declMember< T >( name, 4u );
 			st.end();
 			auto instance = st.getInstance( "stArray4" + sdw::debug::getName( sdw::typeEnum< T > ) );
-			auto retrieved = instance.getMember< T >( name, 4u );
+			auto retrieved = instance.getMemberArray< T >( name );
 			check( retrieved.getType()->getKind() == sdw::typeEnum< T > );
 			check( retrieved.getType()->getArraySize() == 4u );
 			check( retrieved.getExpr()->getKind() == sdw::expr::Kind::eMbrSelect );

@@ -6,9 +6,8 @@ namespace sdw
 	template< typename T >
 	inline T Ubo::declMember( std::string const & name )
 	{
-		auto type = type::makeType( typeEnum< T > );
-		auto var = registerName( m_shader, name, type );
-		m_info.registerMember( name, type );
+		auto type = m_info.registerMember( name, typeEnum< T > );
+		auto var = registerMember( m_shader, m_var, name, type );
 		m_stmt->add( stmt::makeVariableDecl( var ) );
 		return T{ &m_shader
 			, makeExpr( var ) };
@@ -18,9 +17,8 @@ namespace sdw
 	inline Array< T > Ubo::declMember( std::string const & name
 		, uint32_t dimension )
 	{
-		auto type = type::makeType( typeEnum< T >, dimension );
-		auto var = registerName( m_shader, name, type );
-		m_info.registerMember( name, type );
+		auto type = m_info.registerMember( name, typeEnum< T >, dimension );
+		auto var = registerMember( m_shader, m_var, name, type );
 		m_stmt->add( stmt::makeVariableDecl( var ) );
 		return Array< T >{ &m_shader
 			, makeExpr( var ) };
@@ -29,9 +27,8 @@ namespace sdw
 	template< typename T >
 	inline Array< T > Ubo::declMemberArray( std::string const & name )
 	{
-		auto type = type::makeType( typeEnum< T >, type::UnknownArraySize );
-		auto var = registerName( m_shader, name, type );
-		m_info.registerMember( name, type );
+		auto type = m_info.registerMember( name, typeEnum< T >, type::UnknownArraySize );
+		auto var = registerMember( m_shader, m_var, name, type );
 		m_stmt->add( stmt::makeVariableDecl( var ) );
 		return Array< T >{ &m_shader
 			, makeExpr( var ) };
@@ -41,9 +38,8 @@ namespace sdw
 	inline Optional< T > Ubo::declMember( std::string const & name
 		, bool enabled )
 	{
-		auto type = type::makeType( typeEnum< T > );
-		auto var = registerName( m_shader, name, type );
-		m_info.registerMember( name, type );
+		auto type = m_info.registerMember( name, typeEnum< T > );
+		auto var = registerMember( m_shader, m_var, name, type );
 
 		if ( enabled )
 		{
@@ -60,9 +56,8 @@ namespace sdw
 		, uint32_t dimension
 		, bool enabled )
 	{
-		auto type = type::makeType( typeEnum< T >, dimension );
-		auto var = registerName( m_shader, name, type );
-		m_info.registerMember( name, type );
+		auto type = m_info.registerMember( name, typeEnum< T >, dimension );
+		auto var = registerMember( m_shader, m_var, name, type );
 
 		if ( enabled )
 		{
@@ -78,9 +73,8 @@ namespace sdw
 	inline Optional< Array< T > > Ubo::declMemberArray( std::string const & name
 		, bool enabled )
 	{
-		auto type = type::makeType( typeEnum< T >, type::UnknownArraySize );
-		auto var = registerName( m_shader, name, type );
-		m_info.registerMember( name, type );
+		auto type = m_info.registerMember( name, typeEnum< T >, type::UnknownArraySize );
+		auto var = registerMember( m_shader, m_var, name, type );
 
 		if ( enabled )
 		{
@@ -95,26 +89,16 @@ namespace sdw
 	template< typename T >
 	inline T Ubo::getMember( std::string const & name )
 	{
-		auto type = type::makeType( typeEnum< T > );
+		auto type = m_info.getMember( name );
 		auto var = getVar( m_shader, name, type );
 		return T{ &m_shader
 			, makeExpr( var ) };
 	}
 
 	template< typename T >
-	inline Array< T > Ubo::getMember( std::string const & name
-		, uint32_t dimension )
-	{
-		auto type = type::makeType( typeEnum< T >, dimension );
-		auto var = getVar( m_shader, name, type );
-		return Array< T >{ &m_shader
-			, makeExpr( var ) };
-	}
-
-	template< typename T >
 	inline Array< T > Ubo::getMemberArray( std::string const & name )
 	{
-		auto type = type::makeType( typeEnum< T >, type::UnknownArraySize );
+		auto type = m_info.getMember( name );
 		auto var = getVar( m_shader, name, type );
 		return Array< T >{ &m_shader
 			, makeExpr( var ) };
@@ -124,21 +108,9 @@ namespace sdw
 	inline Optional< T > Ubo::getMember( std::string const & name
 		, bool enabled )
 	{
-		auto type = type::makeType( typeEnum< T > );
+		auto type = m_info.getMember( name );
 		auto var = getVar( m_shader, name, type );
 		return Optional< T >{ &m_shader
-			, makeExpr( var )
-			, enabled };
-	}
-
-	template< typename T >
-	inline Optional< Array< T > > Ubo::getMember( std::string const & name
-		, uint32_t dimension
-		, bool enabled )
-	{
-		auto type = type::makeType( typeEnum< T >, dimension );
-		auto var = getVar( m_shader, name, type );
-		return Optional< Array< T > >{ &m_shader
 			, makeExpr( var )
 			, enabled };
 	}
@@ -147,7 +119,7 @@ namespace sdw
 	inline Optional< Array< T > > Ubo::getMemberArray( std::string const & name
 		, bool enabled )
 	{
-		auto type = type::makeType( typeEnum< T >, type::UnknownArraySize );
+		auto type = m_info.getMember( name );
 		auto var = getVar( m_shader, name, type );
 		return Optional< Array< T > >{ &m_shader
 			, makeExpr( var )

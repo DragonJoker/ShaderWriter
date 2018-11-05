@@ -2322,9 +2322,6 @@ namespace sdw::hlsl
 		case ast::expr::ImageAccess::eImageLoad2DMSU:
 		case ast::expr::ImageAccess::eImageLoad2DMSArrayU:
 			break;
-
-		default:
-			throw std::runtime_error{ "Unsupported ImageAccess type." };
 		}
 	}
 }

@@ -1114,6 +1114,12 @@ namespace sdw
 		static ast::type::Kind const TypeEnum = ast::type::Kind::eImage2DMSArrayU;
 	};
 
+	template<>
+	struct TypeTraits< StructInstance >
+	{
+		static ast::type::Kind const TypeEnum = ast::type::Kind::eStruct;
+	};
+
 	template< typename T >
 	struct TypeTraits< InParam< T > >
 	{

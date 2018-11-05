@@ -20,6 +20,7 @@ namespace sdw
 			, std::string const & name );
 		void end();
 
+		StructInstance declMember( std::string const & name, Struct const & s );
 		template< typename T >
 		inline T declMember( std::string const & name );
 		template< typename T >
@@ -40,16 +41,9 @@ namespace sdw
 		template< typename T >
 		inline T getMember( std::string const & name );
 		template< typename T >
-		inline Array< T > getMember( std::string const & name
-			, uint32_t dimension );
-		template< typename T >
 		inline Array< T > getMemberArray( std::string const & name );
 		template< typename T >
 		inline Optional< T > getMember( std::string const & name
-			, bool enabled );
-		template< typename T >
-		inline Optional< Array< T > > getMember( std::string const & name
-			, uint32_t dimension
 			, bool enabled );
 		template< typename T >
 		inline Optional< Array< T > > getMemberArray( std::string const & name
@@ -60,6 +54,7 @@ namespace sdw
 		stmt::PushConstantsBufferDeclPtr m_stmt;
 		std::string m_name;
 		Info m_info;
+		var::VariablePtr m_var;
 	};
 }
 

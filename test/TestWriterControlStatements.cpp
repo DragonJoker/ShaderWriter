@@ -1,6 +1,8 @@
 #include "Common.hpp"
 #include "TestWriterCommon.hpp"
 
+#include <ShaderWriter/WriterGlsl.hpp>
+
 namespace
 {
 	void testIf()
@@ -14,6 +16,7 @@ namespace
 		}
 		FI;
 		std::cout << sdw::writeDebug( writer.getShader() ) << std::endl;
+		std::cout << sdw::writeGlsl( writer.getShader(), sdw::ShaderType::eVertex ) << std::endl;
 		testEnd();
 	}
 
@@ -32,6 +35,7 @@ namespace
 		}
 		FI;
 		std::cout << sdw::writeDebug( writer.getShader() ) << std::endl;
+		std::cout << sdw::writeGlsl( writer.getShader(), sdw::ShaderType::eVertex ) << std::endl;
 		testEnd();
 	}
 
@@ -51,6 +55,7 @@ namespace
 		}
 		FI;
 		std::cout << sdw::writeDebug( writer.getShader() ) << std::endl;
+		std::cout << sdw::writeGlsl( writer.getShader(), sdw::ShaderType::eVertex ) << std::endl;
 		testEnd();
 	}
 
@@ -74,6 +79,7 @@ namespace
 		}
 		FI;
 		std::cout << sdw::writeDebug( writer.getShader() ) << std::endl;
+		std::cout << sdw::writeGlsl( writer.getShader(), sdw::ShaderType::eVertex ) << std::endl;
 		testEnd();
 	}
 
@@ -87,6 +93,7 @@ namespace
 		}
 		ROF;
 		std::cout << sdw::writeDebug( writer.getShader() ) << std::endl;
+		std::cout << sdw::writeGlsl( writer.getShader(), sdw::ShaderType::eVertex ) << std::endl;
 		testEnd();
 	}
 
@@ -101,6 +108,7 @@ namespace
 		}
 		ELIHW;
 		std::cout << sdw::writeDebug( writer.getShader() ) << std::endl;
+		std::cout << sdw::writeGlsl( writer.getShader(), sdw::ShaderType::eVertex ) << std::endl;
 		testEnd();
 	}
 
@@ -115,6 +123,7 @@ namespace
 		}
 		ELIHWOD;
 		std::cout << sdw::writeDebug( writer.getShader() ) << std::endl;
+		std::cout << sdw::writeGlsl( writer.getShader(), sdw::ShaderType::eVertex ) << std::endl;
 		testEnd();
 	}
 
@@ -134,6 +143,7 @@ namespace
 		}
 		FI;
 		std::cout << sdw::writeDebug( writer.getShader() ) << std::endl;
+		std::cout << sdw::writeGlsl( writer.getShader(), sdw::ShaderType::eVertex ) << std::endl;
 		testEnd();
 	}
 
@@ -170,6 +180,7 @@ namespace
 		}
 		FI;
 		std::cout << sdw::writeDebug( writer.getShader() ) << std::endl;
+		std::cout << sdw::writeGlsl( writer.getShader(), sdw::ShaderType::eVertex ) << std::endl;
 		testEnd();
 	}
 
@@ -209,6 +220,7 @@ namespace
 		}
 		FI;
 		std::cout << sdw::writeDebug( writer.getShader() ) << std::endl;
+		std::cout << sdw::writeGlsl( writer.getShader(), sdw::ShaderType::eVertex ) << std::endl;
 		testEnd();
 	}
 
@@ -274,6 +286,7 @@ namespace
 		}
 		FI;
 		std::cout << sdw::writeDebug( writer.getShader() ) << std::endl;
+		std::cout << sdw::writeGlsl( writer.getShader(), sdw::ShaderType::eVertex ) << std::endl;
 		testEnd();
 	}
 
@@ -291,6 +304,7 @@ namespace
 		}
 		ROF;
 		std::cout << sdw::writeDebug( writer.getShader() ) << std::endl;
+		std::cout << sdw::writeGlsl( writer.getShader(), sdw::ShaderType::eVertex ) << std::endl;
 		testEnd();
 	}
 
@@ -311,6 +325,7 @@ namespace
 		}
 		ELIHW;
 		std::cout << sdw::writeDebug( writer.getShader() ) << std::endl;
+		std::cout << sdw::writeGlsl( writer.getShader(), sdw::ShaderType::eVertex ) << std::endl;
 		testEnd();
 	}
 
@@ -331,6 +346,7 @@ namespace
 		}
 		ELIHWOD;
 		std::cout << sdw::writeDebug( writer.getShader() ) << std::endl;
+		std::cout << sdw::writeGlsl( writer.getShader(), sdw::ShaderType::eVertex ) << std::endl;
 		testEnd();
 	}
 }

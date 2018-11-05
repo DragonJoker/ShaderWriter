@@ -1137,7 +1137,7 @@ namespace
 		testBegin( "testExprMbrSelect" );
 		auto outerVar = ast::var::makeVariable( ast::type::getInt(), "outerVar" );
 		auto member = ast::expr::makeIdentifier( ast::var::makeVariable( ast::type::getInt(), "innerVar" ) );
-		auto expr = ast::expr::makeMbrSelect( ast::expr::makeIdentifier( outerVar ), std::move( member ) );
+		auto expr = ast::expr::makeMbrSelect( ast::expr::makeIdentifier( outerVar ), 0u, std::move( member ) );
 
 		check( expr->getKind() == ast::expr::Kind::eMbrSelect );
 		check( expr->getType()->getKind() == ast::type::Kind::eInt );

@@ -33,8 +33,9 @@ namespace
 	void testPreprocElif()
 	{
 		testBegin( "testPreprocElif" );
-		auto stmt = ast::stmt::makePreprocElif( ast::expr::makeIdentifier( ast::var::makeVariable( ast::type::getBool(), "ItIsDefined" ) ) );
-		std::cout << "PreprocElif:\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
+		auto ifStmt = ast::stmt::makePreprocIf( ast::expr::makeIdentifier( ast::var::makeVariable( ast::type::getBool(), "ItIsNotDefined" ) ) );
+		auto stmt = ifStmt->createElif( ast::expr::makeIdentifier( ast::var::makeVariable( ast::type::getBool(), "ItIsDefined" ) ) );
+		std::cout << "PreprocElif:\n" << ast::debug::StmtVisitor::submit( stmt ) << std::endl;
 
 		check( stmt->getKind() == ast::stmt::Kind::ePreprocElif );
 		check( stmt->getCtrlExpr()->getKind() == ast::expr::Kind::eIdentifier );
@@ -45,8 +46,9 @@ namespace
 	void testPreprocElse()
 	{
 		testBegin( "testPreprocElse" );
-		auto stmt = ast::stmt::makePreprocElse();
-		std::cout << "PreprocElse:\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
+		auto ifStmt = ast::stmt::makePreprocIf( ast::expr::makeIdentifier( ast::var::makeVariable( ast::type::getBool(), "ItIsDefined" ) ) );
+		auto stmt = ifStmt->createElse();
+		std::cout << "PreprocElse:\n" << ast::debug::StmtVisitor::submit( stmt ) << std::endl;
 
 		check( stmt->getKind() == ast::stmt::Kind::ePreprocElse );
 		testEnd();
@@ -481,78 +483,24 @@ namespace
 	{
 		testBegin( "testStructureDeclStatement" );
 		{
-			auto type = ast::type::makeStructType( "MyStruct" );
+			auto type = ast::type::makeStructType( ast::type::MemoryLayout::eStd140, "MyStruct" );
 			auto stmt = ast::stmt::makeStructureDecl( type );
 			std::cout << "StmtStructureDecl (empty):\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
 
 			check( stmt->getKind() == ast::stmt::Kind::eStructureDecl );
-			check( stmt->getType().getName() == "MyStruct" );
-			check( stmt->getType().empty() );
+			check( stmt->getType()->getName() == "MyStruct" );
+			check( stmt->getType()->empty() );
 		}
 		{
-			auto type = ast::type::makeStructType( "MyStruct" );
-			type->addMember( ast::type::getInt(), "i" );
-			type->addMember( ast::type::getInt(), "j" );
+			auto type = ast::type::makeStructType( ast::type::MemoryLayout::eStd140, "MyStruct" );
+			type->declMember( "i", ast::type::Kind::eInt );
+			type->declMember( "j", ast::type::Kind::eInt );
 			auto stmt = ast::stmt::makeStructureDecl( type );
 			std::cout << "StmtStructureDecl:\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
 
 			check( stmt->getKind() == ast::stmt::Kind::eStructureDecl );
-			check( stmt->getType().getName() == "MyStruct" );
-			check( stmt->getType().size() == 2u );
-		}
-		testEnd();
-	}
-
-	void testSwitchCaseStatement()
-	{
-		testBegin( "testSwitchCaseStatement" );
-		{
-			auto stmt = ast::stmt::makeSwitchCase( ast::expr::makeSwitchCase( ast::expr::makeLiteral( 10 ) ) );
-			std::cout << "StmtSwitchCase (empty):\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
-
-			check( stmt->getKind() == ast::stmt::Kind::eSwitchCase );
-			check( stmt->getCaseExpr()->getLabel()->getLiteralType() == ast::expr::LiteralType::eInt );
-			check( stmt->getCaseExpr()->getLabel()->getValue< ast::expr::LiteralType::eInt >() == 10 );
-			check( stmt->empty() );
-		}
-		{
-			auto i = ast::expr::makeIdentifier( ast::var::makeVariable( ast::type::getInt(), "i" ) );
-			auto j = ast::expr::makeIdentifier( ast::var::makeVariable( ast::type::getInt(), "j" ) );
-			auto stmt = ast::stmt::makeSwitchCase( ast::expr::makeSwitchCase( ast::expr::makeLiteral( 10 ) ) );
-			stmt->addStmt( ast::stmt::makeSimple( ast::expr::makeInit( std::move( i ), ast::expr::makeLiteral( 10 ) ) ) );
-			stmt->addStmt( ast::stmt::makeSimple( ast::expr::makeInit( std::move( j ), ast::expr::makeLiteral( 20 ) ) ) );
-			std::cout << "StmtSwitchCase:\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
-
-			check( stmt->getKind() == ast::stmt::Kind::eSwitchCase );
-			check( stmt->getCaseExpr()->getLabel()->getLiteralType() == ast::expr::LiteralType::eInt );
-			check( stmt->getCaseExpr()->getLabel()->getValue< ast::expr::LiteralType::eInt >() == 10 );
-			check( stmt->size() == 2u );
-		}
-		testEnd();
-	}
-
-	void testSwitchDefaultStatement()
-	{
-		testBegin( "testSwitchDefaultStatement" );
-		{
-			auto stmt = ast::stmt::makeSwitchDefault();
-			std::cout << "StmtSwitchCase (empty):\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
-
-			check( stmt->getKind() == ast::stmt::Kind::eSwitchCase );
-			check( stmt->getCaseExpr() == nullptr );
-			check( stmt->empty() );
-		}
-		{
-			auto i = ast::expr::makeIdentifier( ast::var::makeVariable( ast::type::getInt(), "i" ) );
-			auto j = ast::expr::makeIdentifier( ast::var::makeVariable( ast::type::getInt(), "j" ) );
-			auto stmt = ast::stmt::makeSwitchDefault();
-			stmt->addStmt( ast::stmt::makeSimple( ast::expr::makeInit( std::move( i ), ast::expr::makeLiteral( 10 ) ) ) );
-			stmt->addStmt( ast::stmt::makeSimple( ast::expr::makeInit( std::move( j ), ast::expr::makeLiteral( 20 ) ) ) );
-			std::cout << "StmtSwitchCase:\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
-
-			check( stmt->getKind() == ast::stmt::Kind::eSwitchCase );
-			check( stmt->getCaseExpr() == nullptr );
-			check( stmt->size() == 2u );
+			check( stmt->getType()->getName() == "MyStruct" );
+			check( stmt->getType()->size() == 2u );
 		}
 		testEnd();
 	}
@@ -572,8 +520,8 @@ namespace
 		{
 			auto i = ast::var::makeVariable( ast::type::getInt(), "i" );
 			auto stmt = ast::stmt::makeSwitch( ast::expr::makeSwitchTest( ast::expr::makeIdentifier( i ) ) );
-			stmt->addCase( ast::stmt::makeSwitchCase( ast::expr::makeSwitchCase( ast::expr::makeLiteral( 10 ) ) ) );
-			stmt->addDefault( ast::stmt::makeSwitchDefault() );
+			stmt->createCase( ast::expr::makeSwitchCase( ast::expr::makeLiteral( 10 ) ) );
+			stmt->createDefault();
 			std::cout << "StmtSwitch (empty cases):\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
 
 			check( stmt->getKind() == ast::stmt::Kind::eSwitch );
@@ -585,14 +533,12 @@ namespace
 			auto j = ast::var::makeVariable( ast::type::getInt(), "j" );
 			auto k = ast::var::makeVariable( ast::type::getInt(), "k" );
 			auto stmt = ast::stmt::makeSwitch( ast::expr::makeSwitchTest( ast::expr::makeIdentifier( i ) ) );
-			auto caseStmt = ast::stmt::makeSwitchCase( ast::expr::makeSwitchCase( ast::expr::makeLiteral( 10 ) ) );
+			auto caseStmt = stmt->createCase( ast::expr::makeSwitchCase( ast::expr::makeLiteral( 10 ) ) );
 			caseStmt->addStmt( ast::stmt::makeSimple( ast::expr::makeInit( ast::expr::makeIdentifier( j ), ast::expr::makeLiteral( 10 ) ) ) );
 			caseStmt->addStmt( ast::stmt::makeSimple( ast::expr::makeInit( ast::expr::makeIdentifier( k ), ast::expr::makeLiteral( 20 ) ) ) );
-			stmt->addCase( std::move( caseStmt ) );
-			auto defaultStmt = ast::stmt::makeSwitchDefault();
+			auto defaultStmt = stmt->createDefault();
 			defaultStmt->addStmt( ast::stmt::makeSimple( ast::expr::makeInit( ast::expr::makeIdentifier( k ), ast::expr::makeLiteral( 10 ) ) ) );
 			defaultStmt->addStmt( ast::stmt::makeSimple( ast::expr::makeInit( ast::expr::makeIdentifier( j ), ast::expr::makeLiteral( 20 ) ) ) );
-			stmt->addDefault( std::move( defaultStmt ) );
 			std::cout << "StmtSwitch:\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
 
 			check( stmt->getKind() == ast::stmt::Kind::eSwitch );
@@ -765,8 +711,6 @@ int main( int argc, char ** argv )
 	testDoWhileStatement();
 	testForStatement();
 	testStructureDeclStatement();
-	testSwitchCaseStatement();
-	testSwitchDefaultStatement();
 	testSwitchStatement();
 	testReturnStatement();
 	testDiscardStatement();

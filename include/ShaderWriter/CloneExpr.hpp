@@ -71,6 +71,7 @@ namespace sdw
 		void visitRShiftAssignExpr( ast::expr::RShiftAssign * expr )override;
 		void visitSwitchCaseExpr( ast::expr::SwitchCase * expr )override;
 		void visitSwitchTestExpr( ast::expr::SwitchTest * expr )override;
+		void visitSwizzleExpr( expr::Swizzle * expr )override;
 		void visitTextureAccessCallExpr( ast::expr::TextureAccessCall * expr )override;
 		void visitTimesExpr( ast::expr::Times * expr )override;
 		void visitTimesAssignExpr( ast::expr::TimesAssign * expr )override;

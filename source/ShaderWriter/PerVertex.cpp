@@ -9,25 +9,19 @@ namespace sdw
 {
 	namespace
 	{
-		type::TypePtr doGetType()
+		InterfaceBlock doGetInfo()
 		{
-			auto result = type::makeStructType( "gl_PerVertex" );
-			result->addMember( type::getVec4F(), "gl_Position" );
-			result->addMember( type::getFloat(), "gl_PointSize" );
-			result->addMember( type::makeType( type::Kind::eFloat, type::UnknownArraySize ), "gl_ClipDistance" );
+			InterfaceBlock result{ type::MemoryLayout::eStd430, "gl_PerVertex" };
+			result.registerMember( "gl_Position", type::Kind::eVec4F );
+			result.registerMember( "gl_PointSize", type::Kind::eFloat );
+			result.registerMember( "gl_ClipDistance", type::Kind::eFloat, type::UnknownArraySize );
 			return result;
 		}
 	}
 
-	gl_PerVertex::gl_PerVertex()
-		: Value{ nullptr, makeExpr( var::makeVariable( doGetType(), "" ) ) }
-		, m_source{ stmt::PerVertexDecl::Source::eVertexOutput }
-	{
-	}
-
 	gl_PerVertex::gl_PerVertex( ShaderWriter & writer
 		, stmt::PerVertexDecl::Source source )
-		: Value{ &writer.getShader(), makeExpr( var::makeVariable( doGetType(), "" ) ) }
+		: Value{ &writer.getShader(), makeExpr( var::makeVariable( doGetInfo().getType(), "" ) ) }
 		, m_source{ source }
 	{
 		addStmt( *findContainer( *this )

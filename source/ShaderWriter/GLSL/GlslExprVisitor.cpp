@@ -312,6 +312,12 @@ namespace sdw::glsl
 		expr->getValue()->accept( this );
 	}
 
+	void ExprVisitor::visitSwizzleExpr( expr::Swizzle * expr )
+	{
+		wrap( expr->getOuterExpr() );
+		m_result += "." + getName( expr->getSwizzle() );
+	}
+
 	void ExprVisitor::visitTextureAccessCallExpr( expr::TextureAccessCall * expr )
 	{
 		m_result += getGlslName( expr->getTextureAccess() ) + "(";

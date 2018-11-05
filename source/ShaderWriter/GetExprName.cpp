@@ -138,6 +138,14 @@ namespace sdw
 				}
 			}
 
+			void visitSwizzleExpr( expr::Swizzle * expr )override
+			{
+				if ( !m_result )
+				{
+					expr->getOuterExpr()->accept( this );
+				}
+			}
+
 		private:
 			expr::Identifier *& m_result;
 		};

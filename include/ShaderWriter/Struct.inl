@@ -6,19 +6,19 @@ namespace sdw
 	template< typename T >
 	inline void Struct::declMember( std::string const & name )
 	{
-		m_type->addMember( type::makeType( typeEnum< T > ), name );
+		m_type->declMember( name, typeEnum< T > );
 	}
 
 	template< typename T >
 	inline void Struct::declMember( std::string const & name
 		, uint32_t dimension )
 	{
-		m_type->addMember( type::makeType( typeEnum< T >, dimension ), name );
+		m_type->declMember( name, typeEnum< T >, dimension );
 	}
 
 	template< typename T >
 	inline void Struct::declMemberArray( std::string const & name )
 	{
-		m_type->addMember( type::makeType( typeEnum< T >, type::UnknownArraySize ), name );
+		m_type->declMember( name, typeEnum< T >, type::UnknownArraySize );
 	}
 }

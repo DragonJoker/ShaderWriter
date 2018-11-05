@@ -66,10 +66,21 @@ namespace sdw
 			, type::TypePtr type
 			, uint32_t flags );
 		var::VariablePtr registerName( std::string const & name
-			, type::TypePtr type );
-		var::VariablePtr registerName( std::string const & name
 			, type::TypePtr type
 			, var::Flag flag );
+		var::VariablePtr registerName( std::string const & name
+			, type::TypePtr type );
+		var::VariablePtr registerMember( var::VariablePtr outer
+			, std::string const & name
+			, type::TypePtr type
+			, uint32_t flags );
+		var::VariablePtr registerMember( var::VariablePtr outer
+			, std::string const & name
+			, type::TypePtr type
+			, var::Flag flag );
+		var::VariablePtr registerMember( var::VariablePtr outer
+			, std::string const & name
+			, type::TypePtr type );
 		var::VariablePtr registerConstant( std::string const & name
 			, type::TypePtr type );
 		var::VariablePtr registerSampler( std::string const & name
@@ -99,7 +110,7 @@ namespace sdw
 		var::VariablePtr registerInOutParam( std::string const & name
 			, type::TypePtr type );
 		var::VariablePtr getVar( std::string const & name
-			, type::TypePtr type );
+			, type::TypePtr type )const;
 		void addStmt( stmt::StmtPtr stmt );
 		void registerSsbo( std::string const & name
 			, Ssbo::Info const & info );
@@ -148,9 +159,9 @@ namespace sdw
 			return m_outputs;
 		}
 
-		inline stmt::Container * getStatements()
+		inline stmt::Container * getStatements()const
 		{
-			return &m_container;
+			return m_container.get();
 		}
 
 		inline stmt::Container * getContainer()
@@ -165,7 +176,7 @@ namespace sdw
 			stmt::Container * container;
 		};
 		std::vector< Block > m_blocks;
-		stmt::Container m_container;
+		stmt::ContainerPtr m_container;
 		std::map< std::string, Ssbo::Info > m_ssbos;
 		std::map< std::string, Ubo::Info > m_ubos;
 		std::map< std::string, type::TypePtr > m_constants;
@@ -175,7 +186,5 @@ namespace sdw
 		std::map< std::string, OutputInfo > m_outputs;
 	};
 }
-
-#include "Shader.inl"
 
 #endif

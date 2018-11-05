@@ -48,6 +48,7 @@ namespace sdw::hlsl
 		void visitQuestionExpr( expr::Question *expr )override;
 		void visitSwitchCaseExpr( expr::SwitchCase *expr )override;
 		void visitSwitchTestExpr( expr::SwitchTest *expr )override;
+		void visitSwizzleExpr( expr::Swizzle * expr )override;
 		void visitTextureAccessCallExpr( expr::TextureAccessCall * expr )override;
 
 	private:

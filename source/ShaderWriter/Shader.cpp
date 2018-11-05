@@ -6,8 +6,9 @@ See LICENSE file in root folder
 namespace sdw
 {
 	Shader::Shader()
+		: m_container{ stmt::makeContainer() }
 	{
-		push( &m_container );
+		push( m_container.get() );
 	}
 
 	void Shader::push( stmt::Container * container )
@@ -52,6 +53,39 @@ namespace sdw
 		, type::TypePtr type )
 	{
 		return registerName( name
+			, type
+			, 0u );
+	}
+
+	var::VariablePtr Shader::registerMember( var::VariablePtr outer
+		, std::string const & name
+		, type::TypePtr type
+		, uint32_t flags )
+	{
+		auto & block = m_blocks.back();
+		auto it = block.registered.find( name );
+		assert( it == block.registered.end() );
+		it = block.registered.emplace( name, var::makeVariable( outer, type, name, flags | var::Flag::eMember ) ).first;
+		return it->second;
+	}
+
+	var::VariablePtr Shader::registerMember( var::VariablePtr outer
+		, std::string const & name
+		, type::TypePtr type
+		, var::Flag flag )
+	{
+		return registerMember( std::move( outer )
+			, name
+			, type
+			, uint32_t( flag ) );
+	}
+
+	var::VariablePtr Shader::registerMember( var::VariablePtr outer
+		, std::string const & name
+		, type::TypePtr type )
+	{
+		return registerMember( std::move( outer )
+			, name
 			, type
 			, 0u );
 	}
@@ -127,9 +161,11 @@ namespace sdw
 	var::VariablePtr Shader::registerBuiltin( std::string const & name
 		, type::TypePtr type )
 	{
-		return registerName( name
+		var::VariablePtr result = registerName( name
 			, type
 			, var::Flag::eBuiltin );
+		addStmt( sdw::makeVariableDecl( result ) );
+		return result;
 	}
 
 	var::VariablePtr Shader::registerLocale( std::string const & name
@@ -165,7 +201,7 @@ namespace sdw
 	}
 
 	var::VariablePtr Shader::getVar( std::string const & name
-		, type::TypePtr type )
+		, type::TypePtr type )const
 	{
 		auto & block = m_blocks.back();
 		auto it = block.registered.find( name );

@@ -223,81 +223,47 @@ namespace sdw::hlsl
 
 	void StmtVisitor::visitInOutVariableDeclStmt( stmt::InOutVariableDecl * stmt )
 	{
-		doAppendLineEnd();
-		m_result += m_indent;
-		m_result += "layout(" + getLocationName( *stmt->getVariable() ) + "=" + std::to_string( stmt->getLocation() ) + ") ";
-		m_result += getDirectionName( *stmt->getVariable() );
-		m_result += getTypeName( stmt->getVariable()->getType() ) + " " + stmt->getVariable()->getName();
-		auto arraySize = stmt->getVariable()->getType()->getArraySize();
-
-		if ( arraySize != ast::type::NotArray )
-		{
-			if ( arraySize == ast::type::UnknownArraySize )
-			{
-				m_result += "[]";
-			}
-			else
-			{
-				m_result += "[" + std::to_string( arraySize ) + "]";
-			}
-		}
-
-		m_result += ";\n";
+		assert( false && "stmt::InOutVariableDecl unexpected at that point" );
 	}
 
 	void StmtVisitor::visitInputComputeLayoutStmt( stmt::InputComputeLayout * stmt )
 	{
 		doAppendLineEnd();
-		m_result += m_indent + "layout(local_size_x=" + std::to_string( stmt->getWorkGroupsX() )
-			+ ", local_size_y=" + std::to_string( stmt->getWorkGroupsY() )
-			+ ", local_size_z=" + std::to_string( stmt->getWorkGroupsZ() ) + ") in;\n";
+		m_result += "\n";
+
+		if ( stmt->getWorkGroupsZ() == -1 )
+		{
+			if ( stmt->getWorkGroupsY() == -1 )
+			{
+				m_result += m_indent + "[numthreads( " + std::to_string( stmt->getWorkGroupsX() ) + " )]";
+			}
+			else
+			{
+				m_result += m_indent + "[numthreads( " + std::to_string( stmt->getWorkGroupsX() )
+					+ ", " + std::to_string( stmt->getWorkGroupsY() ) + " )]";
+			}
+		}
+		else
+		{
+			m_result += m_indent + "[numthreads( " + std::to_string( stmt->getWorkGroupsX() )
+				+ ", " + std::to_string( stmt->getWorkGroupsY() )
+				+ ", " + std::to_string( stmt->getWorkGroupsZ() ) + " )]";
+		}
 	}
 
 	void StmtVisitor::visitInputGeometryLayoutStmt( stmt::InputGeometryLayout * stmt )
 	{
-		doAppendLineEnd();
-		m_result += m_indent + "layout(" + getLayoutName( stmt->getLayout() ) + ") in;\n";
+		assert( false && "stmt::InputGeometryLayout unexpected at that point" );
 	}
 
 	void StmtVisitor::visitOutputGeometryLayoutStmt( stmt::OutputGeometryLayout * stmt )
 	{
-		doAppendLineEnd();
-		m_result += m_indent + "layout(" + getLayoutName( stmt->getLayout() ) + ", max_vertices = " + std::to_string( stmt->getPrimCount() ) + ") out;\n";
+		assert( false && "stmt::OutputGeometryLayout unexpected at that point" );
 	}
 
 	void StmtVisitor::visitPerVertexDeclStmt( stmt::PerVertexDecl * stmt )
 	{
-		m_appendLineEnd = true;
-		doAppendLineEnd();
-		std::string decl;
-		decl += "gl_PerVertex\n";
-		decl += m_indent + "{\n";
-		decl += m_indent + "	vec4 gl_Position;\n";
-		decl += m_indent + "	float gl_PointSize;\n";
-		decl += m_indent + "	float gl_ClipDistance[];\n";
-		decl += m_indent + "}";
-		switch ( stmt->getSource() )
-		{
-		case stmt::PerVertexDecl::Source::eVertexOutput:
-			m_result += m_indent + "out " + decl + ";\n";
-			break;
-		case stmt::PerVertexDecl::Source::eTessellationControlInput:
-		case stmt::PerVertexDecl::Source::eTessellationEvaluationInput:
-			m_result += m_indent + "in " + decl + " gl_in[gl_MaxPatchVertices];\n";
-			break;
-		case stmt::PerVertexDecl::Source::eTessellationControlOutput:
-			m_result += m_indent + "out " + decl + " gl_out[];\n";
-			break;
-		case stmt::PerVertexDecl::Source::eTessellationEvaluationOutput:
-			m_result += m_indent + "out " + decl + ";\n";
-			break;
-		case stmt::PerVertexDecl::Source::eGeometryInput:
-			m_result += m_indent + "in " + decl + " gl_in[];\n";
-			break;
-		case stmt::PerVertexDecl::Source::eGeometryOutput:
-			m_result += m_indent + "out " + decl + ";\n";
-			break;
-		}
+		assert( false && "stmt::PerVertexDecl unexpected at that point" );
 	}
 
 	void StmtVisitor::visitReturnStmt( stmt::Return * stmt )
@@ -327,7 +293,7 @@ namespace sdw::hlsl
 		m_result += m_indent + "struct " + stmt->getName() + "Struct";
 		m_appendSemiColon = true;
 		visitCompoundStmt( stmt );
-		m_result += m_indent + "StructuredBuffer<" + stmt->getName() + "Struct> " + stmt->getName() + ": register(u" + std::to_string( stmt->getBindingPoint() ) + ");\n";
+		m_result += m_indent + "RWStructuredBuffer<" + stmt->getName() + "Struct> " + stmt->getName() + ": register(u" + std::to_string( stmt->getBindingPoint() ) + ");\n";
 	}
 
 	void StmtVisitor::visitSimpleStmt( stmt::Simple * stmt )
@@ -338,17 +304,17 @@ namespace sdw::hlsl
 
 	void StmtVisitor::visitStructureDeclStmt( stmt::StructureDecl * stmt )
 	{
-		m_appendLineEnd = true;
-		doAppendLineEnd();
-		m_result += m_indent + "struct " + stmt->getType().getName();
-
-		if ( !stmt->getType().empty() )
+		if ( !stmt->getType()->empty() )
 		{
+			m_appendLineEnd = true;
+			doAppendLineEnd();
+			m_result += m_indent + "struct " + stmt->getType()->getName();
+
 			m_result += "\n" + m_indent + "{\n";
 			auto save = m_indent;
 			m_indent += "\t";
 
-			for ( auto & member : stmt->getType() )
+			for ( auto & member : *stmt->getType() )
 			{
 				m_result += m_indent + getTypeName( member.type ) + " " + member.name;
 				auto arraySize = member.type->getArraySize();
@@ -370,10 +336,6 @@ namespace sdw::hlsl
 
 			m_indent = save;
 			m_result += m_indent + "};\n";
-		}
-		else
-		{
-			m_result += ";\n";
 		}
 	}
 
@@ -472,6 +434,7 @@ namespace sdw::hlsl
 
 	void StmtVisitor::visitPreprocExtension( stmt::PreprocExtension * preproc )
 	{
+		assert( false && "stmt::PreprocExtension unexpected at that point" );
 	}
 
 	void StmtVisitor::visitPreprocIf( stmt::PreprocIf * preproc )
@@ -488,5 +451,6 @@ namespace sdw::hlsl
 
 	void StmtVisitor::visitPreprocVersion( stmt::PreprocVersion * preproc )
 	{
+		assert( false && "stmt::PreprocVersion unexpected at that point" );
 	}
 }

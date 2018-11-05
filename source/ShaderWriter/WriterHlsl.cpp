@@ -8,7 +8,7 @@ See LICENSE file in root folder
 
 namespace sdw
 {
-	std::string writeHlsl( Shader & shader, ShaderType type )
+	std::string writeHlsl( Shader const & shader, ShaderType type )
 	{
 		auto dxStatements = hlsl::StmtAdapter::submit( shader, type );
 		return hlsl::StmtVisitor::submit( dxStatements.get(), type );

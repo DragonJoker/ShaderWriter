@@ -17,7 +17,7 @@ namespace sdw
 	ValueT Array< ValueT >::operator[]( IndexT const & offset )const
 	{
 		return ValueT{ findShader( *this, offset )
-			, makeArrayAccess( makeType( this->getType()->getKind() )
+			, sdw::makeArrayAccess( makeType( this->getType()->getKind() )
 				, makeExpr( *this )
 				, makeExpr( offset ) ) };
 	}

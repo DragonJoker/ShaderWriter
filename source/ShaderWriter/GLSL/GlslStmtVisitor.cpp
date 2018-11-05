@@ -241,9 +241,25 @@ namespace sdw::glsl
 	void StmtVisitor::visitInputComputeLayoutStmt( stmt::InputComputeLayout * stmt )
 	{
 		doAppendLineEnd();
-		m_result += m_indent + "layout(local_size_x=" + std::to_string( stmt->getWorkGroupsX() )
-			+ ", local_size_y=" + std::to_string( stmt->getWorkGroupsY() )
-			+ ", local_size_z=" + std::to_string( stmt->getWorkGroupsZ() ) + ") in;\n";
+
+		if ( stmt->getWorkGroupsZ() == -1 )
+		{
+			if ( stmt->getWorkGroupsY() == -1 )
+			{
+				m_result += m_indent + "layout(local_size_x=" + std::to_string( stmt->getWorkGroupsX() ) + ") in;\n";
+			}
+			else
+			{
+				m_result += m_indent + "layout(local_size_x=" + std::to_string( stmt->getWorkGroupsX() )
+					+ ", local_size_y=" + std::to_string( stmt->getWorkGroupsY() ) + ") in;\n";
+			}
+		}
+		else
+		{
+			m_result += m_indent + "layout(local_size_x=" + std::to_string( stmt->getWorkGroupsX() )
+				+ ", local_size_y=" + std::to_string( stmt->getWorkGroupsY() )
+				+ ", local_size_z=" + std::to_string( stmt->getWorkGroupsZ() ) + ") in;\n";
+		}
 	}
 
 	void StmtVisitor::visitInputGeometryLayoutStmt( stmt::InputGeometryLayout * stmt )
@@ -352,15 +368,15 @@ namespace sdw::glsl
 	{
 		m_appendLineEnd = true;
 		doAppendLineEnd();
-		m_result += m_indent + "struct " + stmt->getType().getName();
+		m_result += m_indent + "struct " + stmt->getType()->getName();
 
-		if ( !stmt->getType().empty() )
+		if ( !stmt->getType()->empty() )
 		{
 			m_result += "\n" + m_indent + "{\n";
 			auto save = m_indent;
 			m_indent += "\t";
 
-			for ( auto & member : stmt->getType() )
+			for ( auto & member : *stmt->getType() )
 			{
 				m_result += m_indent + getTypeName( member.type ) + " " + member.name;
 				auto arraySize = member.type->getArraySize();
@@ -429,23 +445,26 @@ namespace sdw::glsl
 
 	void StmtVisitor::visitVariableDeclStmt( stmt::VariableDecl * stmt )
 	{
-		doAppendLineEnd();
-		m_result += m_indent + getTypeName( stmt->getVariable()->getType() ) + " " + stmt->getVariable()->getName();
-		auto arraySize = stmt->getVariable()->getType()->getArraySize();
-
-		if ( arraySize != ast::type::NotArray )
+		if ( !stmt->getVariable()->isBuiltin() )
 		{
-			if ( arraySize == ast::type::UnknownArraySize )
-			{
-				m_result += "[]";
-			}
-			else
-			{
-				m_result += "[" + std::to_string( arraySize ) + "]";
-			}
-		}
+			doAppendLineEnd();
+			m_result += m_indent + getTypeName( stmt->getVariable()->getType() ) + " " + stmt->getVariable()->getName();
+			auto arraySize = stmt->getVariable()->getType()->getArraySize();
 
-		m_result += ";\n";
+			if ( arraySize != ast::type::NotArray )
+			{
+				if ( arraySize == ast::type::UnknownArraySize )
+				{
+					m_result += "[]";
+				}
+				else
+				{
+					m_result += "[" + std::to_string( arraySize ) + "]";
+				}
+			}
+
+			m_result += ";\n";
+		}
 	}
 
 	void StmtVisitor::visitWhileStmt( stmt::While * stmt )

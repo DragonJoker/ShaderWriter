@@ -6,6 +6,7 @@ See LICENSE file in root folder
 #pragma once
 
 #include "ShaderWriter/HLSL/HlslHelpers.hpp"
+#include "ShaderWriter/HLSL/HlslShader.hpp"
 
 #include <ASTGenerator/Stmt/StmtVisitor.hpp>
 
@@ -17,13 +18,13 @@ namespace sdw::hlsl
 		: public stmt::Visitor
 	{
 	public:
-		static stmt::ContainerPtr submit( Shader & shader
+		static stmt::ContainerPtr submit( Shader const & shader
 			, ShaderType type );
 
 		void end();
 
 	private:
-		StmtAdapter( Shader & shader
+		StmtAdapter( Shader const & shader
 			, ShaderType type
 			, stmt::Container * result );
 
@@ -68,7 +69,13 @@ namespace sdw::hlsl
 		void visitPreprocVersion( stmt::PreprocVersion * preproc )override;
 
 	private:
-		Shader & m_shader;
+		void rewriteShaderIOVars();
+		stmt::FunctionDeclPtr rewriteMainHeader( stmt::FunctionDecl * stmt );
+		stmt::FunctionDeclPtr rewriteFuncHeader( stmt::FunctionDecl * stmt );
+		void rewriteMainFooter( stmt::FunctionDecl * stmt );
+
+	private:
+		HlslShader m_shader;
 		stmt::Container * m_result;
 		stmt::Container * m_intrinsics;
 		std::map< uint32_t, var::VariablePtr > m_inputVars;
@@ -85,6 +92,10 @@ namespace sdw::hlsl
 		LinkedVars m_linkedVars;
 		ShaderType m_type;
 		IntrinsicsConfig m_config;
+		stmt::If * m_ifStmt{ nullptr };
+		stmt::Switch * m_switchStmt{ nullptr };
+		stmt::PreprocIf * m_preprocIfStmt{ nullptr };
+		stmt::PreprocIfDef * m_preprocIfDefStmt{ nullptr };
 	};
 }
 

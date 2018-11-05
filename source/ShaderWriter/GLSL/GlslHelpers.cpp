@@ -356,7 +356,7 @@ namespace sdw::glsl
 		switch ( type->getKind() )
 		{
 		case type::Kind::eStruct:
-			static_cast< type::Struct const & >( *type ).getName();
+			result = static_cast< type::Struct const & >( *type ).getName();
 			break;
 		default:
 			result = getTypeName( type->getKind() );

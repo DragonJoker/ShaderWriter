@@ -271,6 +271,8 @@ if ( MSVC OR NOT "${CMAKE_BUILD_TYPE}" STREQUAL "" )
 	)
 	parse_subdir_files( ${PROJECT_NAME}/HLSL "HLSL" )
 	parse_subdir_files( ${PROJECT_NAME}/GLSL "GLSL" )
+	parse_subdir_files( ${PROJECT_NAME}/SPIRV "SPIRV" )
+	parse_subdir_files( ${PROJECT_NAME}/SPIRV/spirv "SPIRV\\\\spirv" )
 
 	set( INCLUDE_DIR ${CMAKE_SOURCE_DIR}/include/${PROJECT_NAME} )
 

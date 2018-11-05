@@ -271,6 +271,7 @@ namespace sdw
 	void ExprCloner::visitMbrSelectExpr( expr::MbrSelect * expr )
 	{
 		m_result = expr::makeMbrSelect( doSubmit( expr->getOuterExpr() )
+			, expr->getMemberIndex()
 			, std::make_unique< expr::Identifier >( *static_cast< expr::Identifier * >( expr->getOperand() ) ) );
 	}
 
@@ -365,6 +366,12 @@ namespace sdw
 	void ExprCloner::visitSwitchTestExpr( expr::SwitchTest * expr )
 	{
 		m_result = expr::makeSwitchTest( doSubmit( expr->getValue() ) );
+	}
+
+	void ExprCloner::visitSwizzleExpr( expr::Swizzle * expr )
+	{
+		m_result = expr::makeSwizzle( doSubmit( expr->getOuterExpr() )
+			, expr->getSwizzle() );
 	}
 
 	void ExprCloner::visitTextureAccessCallExpr( expr::TextureAccessCall * expr )

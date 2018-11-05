@@ -114,6 +114,16 @@ namespace sdw
 		addStmt( stmt::makeDiscard() );
 	}
 
+	void ShaderWriter::inputComputeLayout( uint32_t localSizeX )
+	{
+		addStmt( stmt::makeInputComputeLayout( localSizeX, 1, 1 ) );
+	}
+
+	void ShaderWriter::inputComputeLayout( uint32_t localSizeX, uint32_t localSizeY )
+	{
+		addStmt( stmt::makeInputComputeLayout( localSizeX, localSizeY, 1 ) );
+	}
+
 	void ShaderWriter::inputComputeLayout( uint32_t localSizeX, uint32_t localSizeY, uint32_t localSizeZ )
 	{
 		addStmt( stmt::makeInputComputeLayout( localSizeX, localSizeY, localSizeZ ) );
@@ -212,6 +222,7 @@ namespace sdw
 		, std::function< void() > function )
 	{
 		auto stmt = stmt::makeIf( std::move( condition ) );
+		m_ifStmt = stmt.get();
 		m_shader.push( stmt.get() );
 		function();
 		m_shader.pop();
@@ -222,21 +233,25 @@ namespace sdw
 	ShaderWriter & ShaderWriter::elseIfStmt( expr::ExprPtr condition
 		, std::function< void() > function )
 	{
-		auto stmt = stmt::makeElseIf( std::move( condition ) );
-		m_shader.push( stmt.get() );
+		auto stmt = m_ifStmt->createElseIf( std::move( condition ) );
+		m_shader.push( stmt );
 		function();
 		m_shader.pop();
-		addStmt( std::move( stmt ) );
 		return *this;
 	}
 
-	void ShaderWriter::elseStmt( std::function< void() > function )
+	ShaderWriter & ShaderWriter::elseStmt( std::function< void() > function )
 	{
-		auto stmt = stmt::makeElse();
-		m_shader.push( stmt.get() );
+		auto stmt = m_ifStmt->createElse();
+		m_shader.push( stmt );
 		function();
 		m_shader.pop();
-		addStmt( std::move( stmt ) );
+		return *this;
+	}
+
+	void ShaderWriter::endIf()
+	{
+		m_ifStmt = nullptr;
 	}
 
 	void ShaderWriter::declareInvertVec2Y()

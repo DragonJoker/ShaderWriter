@@ -206,9 +206,8 @@ namespace sdw
 	inline Output Name()const\
 	{\
 		return Output{ findShader( *this )\
-			, sdw::makeMbrSelect( makeExpr( this->getExpr() )\
-				, sdw::makeIdent( var::makeVariable( type::makeType( typeEnum< Output > )\
-					, #Name ) ) ) };\
+			, sdw::makeSwizzle( makeExpr( this->getExpr() )\
+				, expr::SwizzleKind::e##Name ) };\
 	}
 
 #	define Writer_FirstSwizzle( Input, Output, Name )\
@@ -221,9 +220,8 @@ namespace sdw
 	inline Output Name()const\
 	{\
 		return Output{ findShader( *this )\
-			, sdw::makeMbrSelect( makeExpr( this->getExpr() )\
-				, sdw::makeIdent( var::makeVariable( type::makeType( typeEnum< Output > )\
-					, #Name ) ) )\
+			, sdw::makeSwizzle( makeExpr( this->getExpr() )\
+				, expr::SwizzleKind::e##Name )\
 			, this->isEnabled() };\
 	}
 

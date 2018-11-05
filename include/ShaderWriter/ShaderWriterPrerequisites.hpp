@@ -150,6 +150,9 @@ namespace sdw
 	struct Float;
 	struct Double;
 
+	class Struct;
+	class StructInstance;
+
 	using Vec2 = Vec2T< Float >;
 	using Vec3 = Vec3T< Float >;
 	using Vec4 = Vec4T< Float >;

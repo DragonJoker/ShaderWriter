@@ -20,9 +20,6 @@ namespace sdw
 		template< typename T >
 		inline T getMember( std::string const & name );
 		template< typename T >
-		inline Array< T > getMember( std::string const & name
-			, uint32_t dimension );
-		template< typename T >
 		inline Array< T > getMemberArray( std::string const & name );
 
 	private:

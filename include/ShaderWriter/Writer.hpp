@@ -57,6 +57,8 @@ namespace sdw
 		void multilineComment( std::string const & comment );
 		void enableExtension( std::string const & name, uint32_t inCoreVersion );
 		void discard();
+		void inputComputeLayout( uint32_t localSizeX );
+		void inputComputeLayout( uint32_t localSizeX, uint32_t localSizeY );
 		void inputComputeLayout( uint32_t localSizeX, uint32_t localSizeY, uint32_t localSizeZ );
 		void inputGeometryLayout( stmt::InputLayout layout );
 		void outputGeometryLayout( stmt::OutputLayout layout, uint32_t count );
@@ -97,7 +99,8 @@ namespace sdw
 			, std::function< void() > function );
 		ShaderWriter & elseIfStmt( expr::ExprPtr condition
 			, std::function< void() > function );
-		void elseStmt( std::function< void() > function );
+		ShaderWriter & elseStmt( std::function< void() > function );
+		void endIf();
 		/**@}*/
 #pragma endregion
 #pragma region Constant declaration
@@ -311,7 +314,14 @@ namespace sdw
 		template< typename T >
 		inline Optional< Array< T > > declBuiltinArray( std::string const & name
 			, bool enabled );
-
+		/**@}*/
+#pragma endregion
+#pragma region Built-in getter
+		/**
+		*name
+		*	Built-in variable getter.
+		*/
+		/**@{*/
 		template< typename T >
 		inline T getBuiltin( std::string const & name );
 		template< typename T >
@@ -413,6 +423,7 @@ namespace sdw
 		Shader m_shader;
 		Function< Vec2, InVec2 > m_invertVec2Y;
 		Function< Vec3, InVec3 > m_invertVec3Y;
+		stmt::If * m_ifStmt{ nullptr };
 	};
 }
 
@@ -460,7 +471,7 @@ namespace sdw
 		, [&]()
 
 #define FI\
- );
+ ).endIf();
 
 #define TERNARY( Writer, ExprType, Condition, Left, Right )\
 	( Writer ).ternary< ExprType >( Condition, Left, Right )

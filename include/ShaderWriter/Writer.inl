@@ -808,7 +808,14 @@ namespace sdw
 			, makeExpr( var )
 			, enabled };
 	}
-
+	/**@}*/
+#pragma endregion
+#pragma region Built-in getter
+	/**
+	*name
+	*	Built-in variable getter.
+	*/
+	/**@{*/
 	template< typename T >
 	inline T ShaderWriter::getBuiltin( std::string const & name )
 	{

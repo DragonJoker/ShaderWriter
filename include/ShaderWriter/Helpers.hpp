@@ -129,7 +129,10 @@ namespace sdw
 		, expr::IdentifierPtr name
 		, expr::ExprList && args );
 	expr::ExprPtr makeMbrSelect( expr::ExprPtr outer
+		, uint32_t memberIndex
 		, expr::IdentifierPtr inner );
+	expr::ExprPtr makeSwizzle( expr::ExprPtr outer
+		, expr::SwizzleKind swizzle );
 	expr::ExprPtr makeQuestion( type::TypePtr type
 		, expr::ExprPtr ctrlExpr
 		, expr::ExprPtr trueExpr
@@ -165,6 +168,10 @@ namespace sdw
 	void addStmt( stmt::Container & container
 		, stmt::StmtPtr stmt );
 	var::VariablePtr registerName( Shader & shader
+		, std::string const & name
+		, type::TypePtr type );
+	var::VariablePtr registerMember( Shader & shader
+		, var::VariablePtr outer
 		, std::string const & name
 		, type::TypePtr type );
 	var::VariablePtr getVar( Shader & shader

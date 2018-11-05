@@ -548,9 +548,6 @@ namespace sdw::hlsl
 		case ast::expr::TextureAccess::eTextureProjGradOffset3DU:
 			config.requiresProjectTexCoords4 = true;
 			break;
-
-		default:
-			throw std::runtime_error{ "Unsupported TextureAccess type." };
 		}
 	}
 }

@@ -9,7 +9,7 @@ See LICENSE file in root folder
 
 namespace sdw
 {
-	std::string writeDebug( Shader & shader )
+	std::string writeDebug( Shader const & shader )
 	{
 		return debug::StmtVisitor::submit( shader.getStatements() );
 	}

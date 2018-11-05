@@ -330,6 +330,12 @@ namespace sdw::hlsl
 		expr->getValue()->accept( this );
 	}
 
+	void ExprVisitor::visitSwizzleExpr( expr::Swizzle * expr )
+	{
+		wrap( expr->getOuterExpr() );
+		m_result += "." + getName( expr->getSwizzle() );
+	}
+
 	void ExprVisitor::visitTextureAccessCallExpr( expr::TextureAccessCall * expr )
 	{
 		if ( expr->getTextureAccess() >= expr::TextureAccess::eTextureSize1DF
