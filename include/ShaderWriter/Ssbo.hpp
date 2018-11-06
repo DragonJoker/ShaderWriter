@@ -13,21 +13,13 @@ namespace sdw
 	class Ssbo
 	{
 	public:
-		enum class Layout
-		{
-			eStd140,
-			eStd430,
-			ePacked,
-			eShared
-		};
-
 		using Info = BoInfo;
 
 		Ssbo( ShaderWriter & writer
 			, std::string const & name
 			, uint32_t bind
-			, uint32_t set = 0u
-			, Layout layout = Layout::eStd430 );
+			, uint32_t set
+			, ast::type::MemoryLayout layout = ast::type::MemoryLayout::eStd430 );
 		void end();
 
 		StructInstance declMember( std::string const & name, Struct const & s );

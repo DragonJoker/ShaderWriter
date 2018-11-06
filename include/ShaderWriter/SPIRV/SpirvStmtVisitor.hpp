@@ -40,6 +40,7 @@ namespace sdw::spirv
 		void visitOutputGeometryLayoutStmt( stmt::OutputGeometryLayout * stmt )override;
 		void visitPerVertexDeclStmt( stmt::PerVertexDecl * stmt )override;
 		void visitReturnStmt( stmt::Return * stmt )override;
+		void visitSampledImageDeclStmt( stmt::SampledImageDecl * stmt )override;
 		void visitSamplerDeclStmt( stmt::SamplerDecl * stmt )override;
 		void visitShaderBufferDeclStmt( stmt::ShaderBufferDecl * stmt )override;
 		void visitSimpleStmt( stmt::Simple * stmt )override;
@@ -64,7 +65,6 @@ namespace sdw::spirv
 		Block m_currentBlock;
 		Function * m_function{ nullptr };
 		std::vector< Block * > m_mergeBlocks;
-		LinkedVars m_linkedVars;
 		ShaderType m_type;
 		IdList m_inputs;
 		IdList m_outputs;

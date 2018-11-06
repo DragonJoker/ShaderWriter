@@ -1,4 +1,4 @@
-#include "Common.hpp"
+#include "../Common.hpp"
 
 #include <ASTGenerator/Var/Variable.hpp>
 #include <ASTGenerator/Debug/DebugExprVisitor.hpp>
@@ -1022,7 +1022,8 @@ namespace
 		testBegin( "testExprImageAccessCall" );
 		{
 			ast::expr::ExprList argList;
-			argList.emplace_back( ast::expr::makeIdentifier( ast::var::makeVariable( ast::type::getImage1DI(), "x" ) ) );
+			ast::type::ImageConfiguration config{};
+			argList.emplace_back( ast::expr::makeIdentifier( ast::var::makeVariable( ast::type::getImage( config ), "x" ) ) );
 			auto expr = ast::expr::makeImageAccessCall( ast::type::getInt(), ast::expr::ImageAccess::eImageSize1DI, std::move( argList ) );
 
 			check( expr->getKind() == ast::expr::Kind::eImageAccessCall );
@@ -1032,7 +1033,7 @@ namespace
 
 			check( expr->getArgList().size() == 1 );
 			check( expr->getArgList().back()->getKind() == ast::expr::Kind::eIdentifier );
-			check( expr->getArgList().back()->getType() == ast::type::getImage1DI() );
+			check( expr->getArgList().back()->getType() == ast::type::getImage( config ) );
 			std::cout << "ExprImageAccessCall: " << ast::debug::ExprVisitor::submit( expr.get() ) << std::endl;
 		}
 		testEnd();
@@ -1043,7 +1044,8 @@ namespace
 		testBegin( "testExprTextureAccessCall" );
 		{
 			ast::expr::ExprList argList;
-			argList.emplace_back( ast::expr::makeIdentifier( ast::var::makeVariable( ast::type::getSampler1DI(), "x" ) ) );
+			ast::type::ImageConfiguration config{};
+			argList.emplace_back( ast::expr::makeIdentifier( ast::var::makeVariable( ast::type::getSampledImage( config ), "x" ) ) );
 			auto expr = ast::expr::makeTextureAccessCall( ast::type::getInt(), ast::expr::TextureAccess::eTextureSize1DI, std::move( argList ) );
 
 			check( expr->getKind() == ast::expr::Kind::eTextureAccessCall );
@@ -1053,7 +1055,7 @@ namespace
 
 			check( expr->getArgList().size() == 1 );
 			check( expr->getArgList().back()->getKind() == ast::expr::Kind::eIdentifier );
-			check( expr->getArgList().back()->getType() == ast::type::getSampler1DI() );
+			check( expr->getArgList().back()->getType() == ast::type::getSampledImage( config ) );
 			std::cout << "ExprTextureAccessCall: " << ast::debug::ExprVisitor::submit( expr.get() ) << std::endl;
 		}
 		testEnd();

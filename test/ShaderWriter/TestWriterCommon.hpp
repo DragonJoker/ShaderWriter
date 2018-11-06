@@ -1,4 +1,4 @@
-#include "Common.hpp"
+#include "../Common.hpp"
 
 #include <ASTGenerator/Debug/DebugCommon.hpp>
 #include <ASTGenerator/Debug/DebugStmtVisitor.hpp>

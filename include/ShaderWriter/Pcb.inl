@@ -89,8 +89,7 @@ namespace sdw
 	template< typename T >
 	inline T Pcb::getMember( std::string const & name )
 	{
-		auto type = m_info.getMember( name );
-		auto var = getVar( m_shader, name, type );
+		auto var = getVar( m_shader, name );
 		return T{ &m_shader
 			, makeExpr( var ) };
 	}
@@ -98,8 +97,7 @@ namespace sdw
 	template< typename T >
 	inline Array< T > Pcb::getMemberArray( std::string const & name )
 	{
-		auto type = m_info.getMember( name );
-		auto var = getVar( m_shader, name, type );
+		auto var = getVar( m_shader, name );
 		return Array< T >{ &m_shader
 			, makeExpr( var ) };
 	}
@@ -108,8 +106,7 @@ namespace sdw
 	inline Optional< T > Pcb::getMember( std::string const & name
 		, bool enabled )
 	{
-		auto type = m_info.getMember( name );
-		auto var = getVar( m_shader, name, type );
+		auto var = getVar( m_shader, name );
 		return Optional< T >{ &m_shader
 			, makeExpr( var )
 			, enabled };
@@ -119,8 +116,7 @@ namespace sdw
 	inline Optional< Array< T > > Pcb::getMemberArray( std::string const & name
 		, bool enabled )
 	{
-		auto type = m_info.getMember( name );
-		auto var = getVar( m_shader, name, type );
+		auto var = getVar( m_shader, name );
 		return Optional< Array< T > >{ &m_shader
 			, makeExpr( var )
 			, enabled };

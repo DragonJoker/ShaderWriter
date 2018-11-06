@@ -50,7 +50,7 @@ namespace ast::type
 			, type::StructPtr type
 			, uint32_t arraySize );
 		Member getMember( std::string const & name );
-		StructPtr getUnqualifiedType();
+		StructPtr getUnqualifiedType()const;
 
 		std::string const & getName()const
 		{
@@ -85,6 +85,11 @@ namespace ast::type
 		auto back()const
 		{
 			return m_members.back();
+		}
+
+		MemoryLayout getMemoryLayout()const
+		{
+			return m_layout;
 		}
 
 	private:

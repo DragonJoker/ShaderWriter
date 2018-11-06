@@ -24,6 +24,7 @@ namespace ast::stmt
 		eShaderBufferDecl,
 		eSamplerDecl,
 		eImageDecl,
+		eSampledImageDecl,
 		eFunctionDecl,
 		eStructureDecl,
 		eIf,

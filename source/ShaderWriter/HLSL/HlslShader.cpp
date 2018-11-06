@@ -54,7 +54,7 @@ namespace sdw::hlsl
 	{
 		auto result = registerName( name
 			, type
-			, var::Flag::eSampler );
+			, var::Flag::eUniform );
 
 		if ( enabled )
 		{
@@ -72,7 +72,7 @@ namespace sdw::hlsl
 	{
 		auto result = registerName( name
 			, type
-			, var::Flag::eImage );
+			, var::Flag::eUniform );
 
 		if ( enabled )
 		{
@@ -85,7 +85,7 @@ namespace sdw::hlsl
 	var::VariablePtr HlslShader::getVar( std::string const & name
 		, type::TypePtr type )
 	{
-		auto result = m_shader.getVar( name, type );
+		auto result = m_shader.getVar( name );
 
 		if ( !result )
 		{

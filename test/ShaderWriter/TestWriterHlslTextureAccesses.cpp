@@ -1,4 +1,4 @@
-#include "Common.hpp"
+#include "../Common.hpp"
 #include "TestWriterCommon.hpp"
 
 #include <ShaderWriter/HLSL/HlslStmtVisitor.hpp>
@@ -22,7 +22,7 @@ namespace
 		}
 		{
 			ShaderWriter writer{ false };
-			auto s = writer.declSampler< SamplerType::eBufferF >( "s", 0u, 0u );
+			auto s = writer.declSampledImage< ImgBufferRGBA32F >( "s", 0u, 0u );
 			auto i = writer.declLocale( "i", textureSize( s ) );
 			std::cout << sdw::writeDebug( writer.getShader() ) << std::endl;
 			std::cout << sdw::writeGlsl( writer.getShader(), ShaderType::eVertex ) << std::endl;
@@ -45,7 +45,7 @@ namespace
 		}
 		{
 			ShaderWriter writer{ false };
-			auto s = writer.declSampler< SamplerType::eBufferI >( "s", 0u, 0u );
+			auto s = writer.declSampledImage< ImgBufferRGBA8I >( "s", 0u, 0u );
 			auto i = writer.declLocale( "i", textureSize( s ) );
 			std::cout << sdw::writeDebug( writer.getShader() ) << std::endl;
 			std::cout << sdw::writeGlsl( writer.getShader(), ShaderType::eVertex ) << std::endl;
@@ -68,7 +68,7 @@ namespace
 		}
 		{
 			ShaderWriter writer{ false };
-			auto s = writer.declSampler< SamplerType::eBufferU >( "s", 0u, 0u );
+			auto s = writer.declSampledImage< ImgBufferRGBA8U >( "s", 0u, 0u );
 			auto i = writer.declLocale( "i", textureSize( s ) );
 			std::cout << sdw::writeDebug( writer.getShader() ) << std::endl;
 			std::cout << sdw::writeGlsl( writer.getShader(), ShaderType::eVertex ) << std::endl;
@@ -91,7 +91,7 @@ namespace
 		}
 		{
 			ShaderWriter writer{ false };
-			auto s = writer.declSampler< SamplerType::e1DF >( "s", 0u, 0u );
+			auto s = writer.declSampledImage< Img1DRGBA32F >( "s", 0u, 0u );
 			auto i = writer.declLocale( "i", textureSize( s, 0_i ) );
 			std::cout << sdw::writeDebug( writer.getShader() ) << std::endl;
 			std::cout << sdw::writeGlsl( writer.getShader(), ShaderType::eVertex ) << std::endl;
@@ -114,7 +114,7 @@ namespace
 		}
 		{
 			ShaderWriter writer{ false };
-			auto s = writer.declSampler< SamplerType::e1DShadowF >( "s", 0u, 0u );
+			auto s = writer.declSampledImage< Img1DShadowRGBA32F >( "s", 0u, 0u );
 			auto i = writer.declLocale( "i", textureSize( s, 0_i ) );
 			std::cout << sdw::writeDebug( writer.getShader() ) << std::endl;
 			std::cout << sdw::writeGlsl( writer.getShader(), ShaderType::eVertex ) << std::endl;
@@ -137,7 +137,7 @@ namespace
 		}
 		{
 			ShaderWriter writer{ false };
-			auto s = writer.declSampler< SamplerType::e1DI >( "s", 0u, 0u );
+			auto s = writer.declSampledImage< Img1DRGBA8I >( "s", 0u, 0u );
 			auto i = writer.declLocale( "i", textureSize( s, 0_i ) );
 			std::cout << sdw::writeDebug( writer.getShader() ) << std::endl;
 			std::cout << sdw::writeGlsl( writer.getShader(), ShaderType::eVertex ) << std::endl;
@@ -160,7 +160,7 @@ namespace
 		}
 		{
 			ShaderWriter writer{ false };
-			auto s = writer.declSampler< SamplerType::e1DU >( "s", 0u, 0u );
+			auto s = writer.declSampledImage< Img1DRGBA8U >( "s", 0u, 0u );
 			auto i = writer.declLocale( "i", textureSize( s, 0_i ) );
 			std::cout << sdw::writeDebug( writer.getShader() ) << std::endl;
 			std::cout << sdw::writeGlsl( writer.getShader(), ShaderType::eVertex ) << std::endl;
@@ -183,7 +183,7 @@ namespace
 		}
 		{
 			ShaderWriter writer{ false };
-			auto s = writer.declSampler< SamplerType::e1DArrayF >( "s", 0u, 0u );
+			auto s = writer.declSampledImage< Img1DArrayRGBA32F >( "s", 0u, 0u );
 			auto i = writer.declLocale( "i", textureSize( s, 0_i ) );
 			std::cout << sdw::writeDebug( writer.getShader() ) << std::endl;
 			std::cout << sdw::writeGlsl( writer.getShader(), ShaderType::eVertex ) << std::endl;
@@ -206,7 +206,7 @@ namespace
 		}
 		{
 			ShaderWriter writer{ false };
-			auto s = writer.declSampler< SamplerType::e1DArrayShadowF >( "s", 0u, 0u );
+			auto s = writer.declSampledImage< Img1DArrayShadowRGBA32F >( "s", 0u, 0u );
 			auto i = writer.declLocale( "i", textureSize( s, 0_i ) );
 			std::cout << sdw::writeDebug( writer.getShader() ) << std::endl;
 			std::cout << sdw::writeGlsl( writer.getShader(), ShaderType::eVertex ) << std::endl;
@@ -229,7 +229,7 @@ namespace
 		}
 		{
 			ShaderWriter writer{ false };
-			auto s = writer.declSampler< SamplerType::e1DArrayI >( "s", 0u, 0u );
+			auto s = writer.declSampledImage< Img1DArrayRGBA8I >( "s", 0u, 0u );
 			auto i = writer.declLocale( "i", textureSize( s, 0_i ) );
 			std::cout << sdw::writeDebug( writer.getShader() ) << std::endl;
 			std::cout << sdw::writeGlsl( writer.getShader(), ShaderType::eVertex ) << std::endl;
@@ -252,7 +252,7 @@ namespace
 		}
 		{
 			ShaderWriter writer{ false };
-			auto s = writer.declSampler< SamplerType::e1DArrayU >( "s", 0u, 0u );
+			auto s = writer.declSampledImage< Img1DArrayRGBA8U >( "s", 0u, 0u );
 			auto i = writer.declLocale( "i", textureSize( s, 0_i ) );
 			std::cout << sdw::writeDebug( writer.getShader() ) << std::endl;
 			std::cout << sdw::writeGlsl( writer.getShader(), ShaderType::eVertex ) << std::endl;
@@ -275,7 +275,7 @@ namespace
 		}
 		{
 			ShaderWriter writer{ false };
-			auto s = writer.declSampler< SamplerType::e2DF >( "s", 0u, 0u );
+			auto s = writer.declSampledImage< Img2DRGBA32F >( "s", 0u, 0u );
 			auto i = writer.declLocale( "i", textureSize( s, 0_i ) );
 			std::cout << sdw::writeDebug( writer.getShader() ) << std::endl;
 			std::cout << sdw::writeGlsl( writer.getShader(), ShaderType::eVertex ) << std::endl;
@@ -298,7 +298,7 @@ namespace
 		}
 		{
 			ShaderWriter writer{ false };
-			auto s = writer.declSampler< SamplerType::e2DShadowF >( "s", 0u, 0u );
+			auto s = writer.declSampledImage< Img2DShadowRGBA32F >( "s", 0u, 0u );
 			auto i = writer.declLocale( "i", textureSize( s, 0_i ) );
 			std::cout << sdw::writeDebug( writer.getShader() ) << std::endl;
 			std::cout << sdw::writeGlsl( writer.getShader(), ShaderType::eVertex ) << std::endl;
@@ -321,7 +321,7 @@ namespace
 		}
 		{
 			ShaderWriter writer{ false };
-			auto s = writer.declSampler< SamplerType::e2DRectF >( "s", 0u, 0u );
+			auto s = writer.declSampledImage< ImgRectRGBA32F  >( "s", 0u, 0u );
 			auto i = writer.declLocale( "i", textureSize( s ) );
 			std::cout << sdw::writeDebug( writer.getShader() ) << std::endl;
 			std::cout << sdw::writeGlsl( writer.getShader(), ShaderType::eVertex ) << std::endl;
@@ -344,7 +344,7 @@ namespace
 		}
 		{
 			ShaderWriter writer{ false };
-			auto s = writer.declSampler< SamplerType::e2DRectShadowF >( "s", 0u, 0u );
+			auto s = writer.declSampledImage< ImgRectShadowRGBA32F >( "s", 0u, 0u );
 			auto i = writer.declLocale( "i", textureSize( s ) );
 			std::cout << sdw::writeDebug( writer.getShader() ) << std::endl;
 			std::cout << sdw::writeGlsl( writer.getShader(), ShaderType::eVertex ) << std::endl;
@@ -367,7 +367,7 @@ namespace
 		}
 		{
 			ShaderWriter writer{ false };
-			auto s = writer.declSampler< SamplerType::e2DI >( "s", 0u, 0u );
+			auto s = writer.declSampledImage< Img2DRGBA8I >( "s", 0u, 0u );
 			auto i = writer.declLocale( "i", textureSize( s, 0_i ) );
 			std::cout << sdw::writeDebug( writer.getShader() ) << std::endl;
 			std::cout << sdw::writeGlsl( writer.getShader(), ShaderType::eVertex ) << std::endl;
@@ -390,7 +390,7 @@ namespace
 		}
 		{
 			ShaderWriter writer{ false };
-			auto s = writer.declSampler< SamplerType::e2DRectI >( "s", 0u, 0u );
+			auto s = writer.declSampledImage< ImgRectRGBA8I >( "s", 0u, 0u );
 			auto i = writer.declLocale( "i", textureSize( s ) );
 			std::cout << sdw::writeDebug( writer.getShader() ) << std::endl;
 			std::cout << sdw::writeGlsl( writer.getShader(), ShaderType::eVertex ) << std::endl;
@@ -413,7 +413,7 @@ namespace
 		}
 		{
 			ShaderWriter writer{ false };
-			auto s = writer.declSampler< SamplerType::e2DU >( "s", 0u, 0u );
+			auto s = writer.declSampledImage< Img2DRGBA8U >( "s", 0u, 0u );
 			auto i = writer.declLocale( "i", textureSize( s, 0_i ) );
 			std::cout << sdw::writeDebug( writer.getShader() ) << std::endl;
 			std::cout << sdw::writeGlsl( writer.getShader(), ShaderType::eVertex ) << std::endl;
@@ -436,7 +436,7 @@ namespace
 		}
 		{
 			ShaderWriter writer{ false };
-			auto s = writer.declSampler< SamplerType::e2DRectU >( "s", 0u, 0u );
+			auto s = writer.declSampledImage< ImgRectRGBA8U >( "s", 0u, 0u );
 			auto i = writer.declLocale( "i", textureSize( s ) );
 			std::cout << sdw::writeDebug( writer.getShader() ) << std::endl;
 			std::cout << sdw::writeGlsl( writer.getShader(), ShaderType::eVertex ) << std::endl;
@@ -459,7 +459,7 @@ namespace
 		}
 		{
 			ShaderWriter writer{ false };
-			auto s = writer.declSampler< SamplerType::e2DArrayF >( "s", 0u, 0u );
+			auto s = writer.declSampledImage< Img2DArrayRGBA32F >( "s", 0u, 0u );
 			auto i = writer.declLocale( "i", textureSize( s, 0_i ) );
 			std::cout << sdw::writeDebug( writer.getShader() ) << std::endl;
 			std::cout << sdw::writeGlsl( writer.getShader(), ShaderType::eVertex ) << std::endl;
@@ -482,7 +482,7 @@ namespace
 		}
 		{
 			ShaderWriter writer{ false };
-			auto s = writer.declSampler< SamplerType::e2DArrayShadowF >( "s", 0u, 0u );
+			auto s = writer.declSampledImage< Img2DArrayShadowRGBA32F >( "s", 0u, 0u );
 			auto i = writer.declLocale( "i", textureSize( s, 0_i ) );
 			std::cout << sdw::writeDebug( writer.getShader() ) << std::endl;
 			std::cout << sdw::writeGlsl( writer.getShader(), ShaderType::eVertex ) << std::endl;
@@ -505,7 +505,7 @@ namespace
 		}
 		{
 			ShaderWriter writer{ false };
-			auto s = writer.declSampler< SamplerType::e2DArrayI >( "s", 0u, 0u );
+			auto s = writer.declSampledImage< Img2DArrayRGBA8I >( "s", 0u, 0u );
 			auto i = writer.declLocale( "i", textureSize( s, 0_i ) );
 			std::cout << sdw::writeDebug( writer.getShader() ) << std::endl;
 			std::cout << sdw::writeGlsl( writer.getShader(), ShaderType::eVertex ) << std::endl;
@@ -528,7 +528,7 @@ namespace
 		}
 		{
 			ShaderWriter writer{ false };
-			auto s = writer.declSampler< SamplerType::e2DArrayU >( "s", 0u, 0u );
+			auto s = writer.declSampledImage< Img2DArrayRGBA8U >( "s", 0u, 0u );
 			auto i = writer.declLocale( "i", textureSize( s, 0_i ) );
 			std::cout << sdw::writeDebug( writer.getShader() ) << std::endl;
 			std::cout << sdw::writeGlsl( writer.getShader(), ShaderType::eVertex ) << std::endl;
@@ -551,7 +551,7 @@ namespace
 		}
 		{
 			ShaderWriter writer{ false };
-			auto s = writer.declSampler< SamplerType::e3DF >( "s", 0u, 0u );
+			auto s = writer.declSampledImage< Img3DRGBA32F >( "s", 0u, 0u );
 			auto i = writer.declLocale( "i", textureSize( s, 0_i ) );
 			std::cout << sdw::writeDebug( writer.getShader() ) << std::endl;
 			std::cout << sdw::writeGlsl( writer.getShader(), ShaderType::eVertex ) << std::endl;
@@ -574,7 +574,7 @@ namespace
 		}
 		{
 			ShaderWriter writer{ false };
-			auto s = writer.declSampler< SamplerType::e3DI >( "s", 0u, 0u );
+			auto s = writer.declSampledImage< Img3DRGBA8I >( "s", 0u, 0u );
 			auto i = writer.declLocale( "i", textureSize( s, 0_i ) );
 			std::cout << sdw::writeDebug( writer.getShader() ) << std::endl;
 			std::cout << sdw::writeGlsl( writer.getShader(), ShaderType::eVertex ) << std::endl;
@@ -597,7 +597,7 @@ namespace
 		}
 		{
 			ShaderWriter writer{ false };
-			auto s = writer.declSampler< SamplerType::e3DU >( "s", 0u, 0u );
+			auto s = writer.declSampledImage< Img3DRGBA8U >( "s", 0u, 0u );
 			auto i = writer.declLocale( "i", textureSize( s, 0_i ) );
 			std::cout << sdw::writeDebug( writer.getShader() ) << std::endl;
 			std::cout << sdw::writeGlsl( writer.getShader(), ShaderType::eVertex ) << std::endl;
@@ -620,7 +620,7 @@ namespace
 		}
 		{
 			ShaderWriter writer{ false };
-			auto s = writer.declSampler< SamplerType::eCubeF >( "s", 0u, 0u );
+			auto s = writer.declSampledImage< ImgCubeRGBA32F >( "s", 0u, 0u );
 			auto i = writer.declLocale( "i", textureSize( s, 0_i ) );
 			std::cout << sdw::writeDebug( writer.getShader() ) << std::endl;
 			std::cout << sdw::writeGlsl( writer.getShader(), ShaderType::eVertex ) << std::endl;
@@ -643,7 +643,7 @@ namespace
 		}
 		{
 			ShaderWriter writer{ false };
-			auto s = writer.declSampler< SamplerType::eCubeShadowF >( "s", 0u, 0u );
+			auto s = writer.declSampledImage< ImgCubeShadowRGBA32F >( "s", 0u, 0u );
 			auto i = writer.declLocale( "i", textureSize( s, 0_i ) );
 			std::cout << sdw::writeDebug( writer.getShader() ) << std::endl;
 			std::cout << sdw::writeGlsl( writer.getShader(), ShaderType::eVertex ) << std::endl;
@@ -666,7 +666,7 @@ namespace
 		}
 		{
 			ShaderWriter writer{ false };
-			auto s = writer.declSampler< SamplerType::eCubeI >( "s", 0u, 0u );
+			auto s = writer.declSampledImage< ImgCubeRGBA8I >( "s", 0u, 0u );
 			auto i = writer.declLocale( "i", textureSize( s, 0_i ) );
 			std::cout << sdw::writeDebug( writer.getShader() ) << std::endl;
 			std::cout << sdw::writeGlsl( writer.getShader(), ShaderType::eVertex ) << std::endl;
@@ -689,7 +689,7 @@ namespace
 		}
 		{
 			ShaderWriter writer{ false };
-			auto s = writer.declSampler< SamplerType::eCubeU >( "s", 0u, 0u );
+			auto s = writer.declSampledImage< ImgCubeRGBA8U >( "s", 0u, 0u );
 			auto i = writer.declLocale( "i", textureSize( s, 0_i ) );
 			std::cout << sdw::writeDebug( writer.getShader() ) << std::endl;
 			std::cout << sdw::writeGlsl( writer.getShader(), ShaderType::eVertex ) << std::endl;
@@ -712,7 +712,7 @@ namespace
 		}
 		{
 			ShaderWriter writer{ false };
-			auto s = writer.declSampler< SamplerType::eCubeArrayF >( "s", 0u, 0u );
+			auto s = writer.declSampledImage< ImgCubeArrayRGBA32F >( "s", 0u, 0u );
 			auto i = writer.declLocale( "i", textureSize( s, 0_i ) );
 			std::cout << sdw::writeDebug( writer.getShader() ) << std::endl;
 			std::cout << sdw::writeGlsl( writer.getShader(), ShaderType::eVertex ) << std::endl;
@@ -735,7 +735,7 @@ namespace
 		}
 		{
 			ShaderWriter writer{ false };
-			auto s = writer.declSampler< SamplerType::eCubeArrayShadowF >( "s", 0u, 0u );
+			auto s = writer.declSampledImage< ImgCubeArrayShadowRGBA32F >( "s", 0u, 0u );
 			auto i = writer.declLocale( "i", textureSize( s, 0_i ) );
 			std::cout << sdw::writeDebug( writer.getShader() ) << std::endl;
 			std::cout << sdw::writeGlsl( writer.getShader(), ShaderType::eVertex ) << std::endl;
@@ -758,7 +758,7 @@ namespace
 		}
 		{
 			ShaderWriter writer{ false };
-			auto s = writer.declSampler< SamplerType::eCubeArrayI >( "s", 0u, 0u );
+			auto s = writer.declSampledImage< ImgCubeArrayRGBA8I >( "s", 0u, 0u );
 			auto i = writer.declLocale( "i", textureSize( s, 0_i ) );
 			std::cout << sdw::writeDebug( writer.getShader() ) << std::endl;
 			std::cout << sdw::writeGlsl( writer.getShader(), ShaderType::eVertex ) << std::endl;
@@ -781,7 +781,7 @@ namespace
 		}
 		{
 			ShaderWriter writer{ false };
-			auto s = writer.declSampler< SamplerType::eCubeArrayU >( "s", 0u, 0u );
+			auto s = writer.declSampledImage< ImgCubeArrayRGBA8U >( "s", 0u, 0u );
 			auto i = writer.declLocale( "i", textureSize( s, 0_i ) );
 			std::cout << sdw::writeDebug( writer.getShader() ) << std::endl;
 			std::cout << sdw::writeGlsl( writer.getShader(), ShaderType::eVertex ) << std::endl;
@@ -804,7 +804,7 @@ namespace
 		}
 		{
 			ShaderWriter writer{ false };
-			auto s = writer.declSampler< SamplerType::e1DF >( "s", 0u, 0u );
+			auto s = writer.declSampledImage< Img1DRGBA32F >( "s", 0u, 0u );
 			auto i = writer.declLocale( "i", textureQueryLod( s, 0.0_f ) );
 			std::cout << sdw::writeDebug( writer.getShader() ) << std::endl;
 			std::cout << sdw::writeGlsl( writer.getShader(), ShaderType::eVertex ) << std::endl;
@@ -827,7 +827,7 @@ namespace
 		}
 		{
 			ShaderWriter writer{ false };
-			auto s = writer.declSampler< SamplerType::e1DShadowF >( "s", 0u, 0u );
+			auto s = writer.declSampledImage< Img1DShadowRGBA32F >( "s", 0u, 0u );
 			auto i = writer.declLocale( "i", textureQueryLod( s, 0.0_f ) );
 			std::cout << sdw::writeDebug( writer.getShader() ) << std::endl;
 			std::cout << sdw::writeGlsl( writer.getShader(), ShaderType::eVertex ) << std::endl;
@@ -850,7 +850,7 @@ namespace
 		}
 		{
 			ShaderWriter writer{ false };
-			auto s = writer.declSampler< SamplerType::e1DI >( "s", 0u, 0u );
+			auto s = writer.declSampledImage< Img1DRGBA8I >( "s", 0u, 0u );
 			auto i = writer.declLocale( "i", textureQueryLod( s, 0.0_f ) );
 			std::cout << sdw::writeDebug( writer.getShader() ) << std::endl;
 			std::cout << sdw::writeGlsl( writer.getShader(), ShaderType::eVertex ) << std::endl;
@@ -873,7 +873,7 @@ namespace
 		}
 		{
 			ShaderWriter writer{ false };
-			auto s = writer.declSampler< SamplerType::e1DU >( "s", 0u, 0u );
+			auto s = writer.declSampledImage< Img1DRGBA8U >( "s", 0u, 0u );
 			auto i = writer.declLocale( "i", textureQueryLod( s, 0.0_f ) );
 			std::cout << sdw::writeDebug( writer.getShader() ) << std::endl;
 			std::cout << sdw::writeGlsl( writer.getShader(), ShaderType::eVertex ) << std::endl;
@@ -896,7 +896,7 @@ namespace
 		}
 		{
 			ShaderWriter writer{ false };
-			auto s = writer.declSampler< SamplerType::e1DArrayF >( "s", 0u, 0u );
+			auto s = writer.declSampledImage< Img1DArrayRGBA32F >( "s", 0u, 0u );
 			auto i = writer.declLocale( "i", textureQueryLod( s, 0.0_f ) );
 			std::cout << sdw::writeDebug( writer.getShader() ) << std::endl;
 			std::cout << sdw::writeGlsl( writer.getShader(), ShaderType::eVertex ) << std::endl;
@@ -919,7 +919,7 @@ namespace
 		}
 		{
 			ShaderWriter writer{ false };
-			auto s = writer.declSampler< SamplerType::e1DArrayShadowF >( "s", 0u, 0u );
+			auto s = writer.declSampledImage< Img1DArrayShadowRGBA32F >( "s", 0u, 0u );
 			auto i = writer.declLocale( "i", textureQueryLod( s, 0.0_f ) );
 			std::cout << sdw::writeDebug( writer.getShader() ) << std::endl;
 			std::cout << sdw::writeGlsl( writer.getShader(), ShaderType::eVertex ) << std::endl;
@@ -942,7 +942,7 @@ namespace
 		}
 		{
 			ShaderWriter writer{ false };
-			auto s = writer.declSampler< SamplerType::e1DArrayI >( "s", 0u, 0u );
+			auto s = writer.declSampledImage< Img1DArrayRGBA8I >( "s", 0u, 0u );
 			auto i = writer.declLocale( "i", textureQueryLod( s, 0.0_f ) );
 			std::cout << sdw::writeDebug( writer.getShader() ) << std::endl;
 			std::cout << sdw::writeGlsl( writer.getShader(), ShaderType::eVertex ) << std::endl;
@@ -965,7 +965,7 @@ namespace
 		}
 		{
 			ShaderWriter writer{ false };
-			auto s = writer.declSampler< SamplerType::e1DArrayU >( "s", 0u, 0u );
+			auto s = writer.declSampledImage< Img1DArrayRGBA8U >( "s", 0u, 0u );
 			auto i = writer.declLocale( "i", textureQueryLod( s, 0.0_f ) );
 			std::cout << sdw::writeDebug( writer.getShader() ) << std::endl;
 			std::cout << sdw::writeGlsl( writer.getShader(), ShaderType::eVertex ) << std::endl;
@@ -988,7 +988,7 @@ namespace
 		}
 		{
 			ShaderWriter writer{ false };
-			auto s = writer.declSampler< SamplerType::e2DF >( "s", 0u, 0u );
+			auto s = writer.declSampledImage< Img2DRGBA32F >( "s", 0u, 0u );
 			auto i = writer.declLocale( "i", textureQueryLod( s, vec2( 0.0_f ) ) );
 			std::cout << sdw::writeDebug( writer.getShader() ) << std::endl;
 			std::cout << sdw::writeGlsl( writer.getShader(), ShaderType::eVertex ) << std::endl;
@@ -1011,7 +1011,7 @@ namespace
 		}
 		{
 			ShaderWriter writer{ false };
-			auto s = writer.declSampler< SamplerType::e2DShadowF >( "s", 0u, 0u );
+			auto s = writer.declSampledImage< Img2DShadowRGBA32F >( "s", 0u, 0u );
 			auto i = writer.declLocale( "i", textureQueryLod( s, vec2( 0.0_f ) ) );
 			std::cout << sdw::writeDebug( writer.getShader() ) << std::endl;
 			std::cout << sdw::writeGlsl( writer.getShader(), ShaderType::eVertex ) << std::endl;
@@ -1034,7 +1034,7 @@ namespace
 		}
 		{
 			ShaderWriter writer{ false };
-			auto s = writer.declSampler< SamplerType::e2DI >( "s", 0u, 0u );
+			auto s = writer.declSampledImage< Img2DRGBA8I >( "s", 0u, 0u );
 			auto i = writer.declLocale( "i", textureQueryLod( s, vec2( 0.0_f ) ) );
 			std::cout << sdw::writeDebug( writer.getShader() ) << std::endl;
 			std::cout << sdw::writeGlsl( writer.getShader(), ShaderType::eVertex ) << std::endl;
@@ -1057,7 +1057,7 @@ namespace
 		}
 		{
 			ShaderWriter writer{ false };
-			auto s = writer.declSampler< SamplerType::e2DU >( "s", 0u, 0u );
+			auto s = writer.declSampledImage< Img2DRGBA8U >( "s", 0u, 0u );
 			auto i = writer.declLocale( "i", textureQueryLod( s, vec2( 0.0_f ) ) );
 			std::cout << sdw::writeDebug( writer.getShader() ) << std::endl;
 			std::cout << sdw::writeGlsl( writer.getShader(), ShaderType::eVertex ) << std::endl;
@@ -1080,7 +1080,7 @@ namespace
 		}
 		{
 			ShaderWriter writer{ false };
-			auto s = writer.declSampler< SamplerType::e2DArrayF >( "s", 0u, 0u );
+			auto s = writer.declSampledImage< Img2DArrayRGBA32F >( "s", 0u, 0u );
 			auto i = writer.declLocale( "i", textureQueryLod( s, vec2( 0.0_f ) ) );
 			std::cout << sdw::writeDebug( writer.getShader() ) << std::endl;
 			std::cout << sdw::writeGlsl( writer.getShader(), ShaderType::eVertex ) << std::endl;
@@ -1103,7 +1103,7 @@ namespace
 		}
 		{
 			ShaderWriter writer{ false };
-			auto s = writer.declSampler< SamplerType::e2DArrayShadowF >( "s", 0u, 0u );
+			auto s = writer.declSampledImage< Img2DArrayShadowRGBA32F >( "s", 0u, 0u );
 			auto i = writer.declLocale( "i", textureQueryLod( s, vec2( 0.0_f ) ) );
 			std::cout << sdw::writeDebug( writer.getShader() ) << std::endl;
 			std::cout << sdw::writeGlsl( writer.getShader(), ShaderType::eVertex ) << std::endl;
@@ -1126,7 +1126,7 @@ namespace
 		}
 		{
 			ShaderWriter writer{ false };
-			auto s = writer.declSampler< SamplerType::e2DArrayI >( "s", 0u, 0u );
+			auto s = writer.declSampledImage< Img2DArrayRGBA8I >( "s", 0u, 0u );
 			auto i = writer.declLocale( "i", textureQueryLod( s, vec2( 0.0_f ) ) );
 			std::cout << sdw::writeDebug( writer.getShader() ) << std::endl;
 			std::cout << sdw::writeGlsl( writer.getShader(), ShaderType::eVertex ) << std::endl;
@@ -1149,7 +1149,7 @@ namespace
 		}
 		{
 			ShaderWriter writer{ false };
-			auto s = writer.declSampler< SamplerType::e2DArrayU >( "s", 0u, 0u );
+			auto s = writer.declSampledImage< Img2DArrayRGBA8U >( "s", 0u, 0u );
 			auto i = writer.declLocale( "i", textureQueryLod( s, vec2( 0.0_f ) ) );
 			std::cout << sdw::writeDebug( writer.getShader() ) << std::endl;
 			std::cout << sdw::writeGlsl( writer.getShader(), ShaderType::eVertex ) << std::endl;
@@ -1172,7 +1172,7 @@ namespace
 		}
 		{
 			ShaderWriter writer{ false };
-			auto s = writer.declSampler< SamplerType::e3DF >( "s", 0u, 0u );
+			auto s = writer.declSampledImage< Img3DRGBA32F >( "s", 0u, 0u );
 			auto i = writer.declLocale( "i", textureQueryLod( s, vec3( 0.0_f ) ) );
 			std::cout << sdw::writeDebug( writer.getShader() ) << std::endl;
 			std::cout << sdw::writeGlsl( writer.getShader(), ShaderType::eVertex ) << std::endl;
@@ -1195,7 +1195,7 @@ namespace
 		}
 		{
 			ShaderWriter writer{ false };
-			auto s = writer.declSampler< SamplerType::e3DI >( "s", 0u, 0u );
+			auto s = writer.declSampledImage< Img3DRGBA8I >( "s", 0u, 0u );
 			auto i = writer.declLocale( "i", textureQueryLod( s, vec3( 0.0_f ) ) );
 			std::cout << sdw::writeDebug( writer.getShader() ) << std::endl;
 			std::cout << sdw::writeGlsl( writer.getShader(), ShaderType::eVertex ) << std::endl;
@@ -1218,7 +1218,7 @@ namespace
 		}
 		{
 			ShaderWriter writer{ false };
-			auto s = writer.declSampler< SamplerType::e3DU >( "s", 0u, 0u );
+			auto s = writer.declSampledImage< Img3DRGBA8U >( "s", 0u, 0u );
 			auto i = writer.declLocale( "i", textureQueryLod( s, vec3( 0.0_f ) ) );
 			std::cout << sdw::writeDebug( writer.getShader() ) << std::endl;
 			std::cout << sdw::writeGlsl( writer.getShader(), ShaderType::eVertex ) << std::endl;
@@ -1241,7 +1241,7 @@ namespace
 		}
 		{
 			ShaderWriter writer{ false };
-			auto s = writer.declSampler< SamplerType::eCubeF >( "s", 0u, 0u );
+			auto s = writer.declSampledImage< ImgCubeRGBA32F >( "s", 0u, 0u );
 			auto i = writer.declLocale( "i", textureQueryLod( s, vec3( 0.0_f ) ) );
 			std::cout << sdw::writeDebug( writer.getShader() ) << std::endl;
 			std::cout << sdw::writeGlsl( writer.getShader(), ShaderType::eVertex ) << std::endl;
@@ -1264,7 +1264,7 @@ namespace
 		}
 		{
 			ShaderWriter writer{ false };
-			auto s = writer.declSampler< SamplerType::eCubeShadowF >( "s", 0u, 0u );
+			auto s = writer.declSampledImage< ImgCubeShadowRGBA32F >( "s", 0u, 0u );
 			auto i = writer.declLocale( "i", textureQueryLod( s, vec3( 0.0_f ) ) );
 			std::cout << sdw::writeDebug( writer.getShader() ) << std::endl;
 			std::cout << sdw::writeGlsl( writer.getShader(), ShaderType::eVertex ) << std::endl;
@@ -1287,7 +1287,7 @@ namespace
 		}
 		{
 			ShaderWriter writer{ false };
-			auto s = writer.declSampler< SamplerType::eCubeI >( "s", 0u, 0u );
+			auto s = writer.declSampledImage< ImgCubeRGBA8I >( "s", 0u, 0u );
 			auto i = writer.declLocale( "i", textureQueryLod( s, vec3( 0.0_f ) ) );
 			std::cout << sdw::writeDebug( writer.getShader() ) << std::endl;
 			std::cout << sdw::writeGlsl( writer.getShader(), ShaderType::eVertex ) << std::endl;
@@ -1310,7 +1310,7 @@ namespace
 		}
 		{
 			ShaderWriter writer{ false };
-			auto s = writer.declSampler< SamplerType::eCubeU >( "s", 0u, 0u );
+			auto s = writer.declSampledImage< ImgCubeRGBA8U >( "s", 0u, 0u );
 			auto i = writer.declLocale( "i", textureQueryLod( s, vec3( 0.0_f ) ) );
 			std::cout << sdw::writeDebug( writer.getShader() ) << std::endl;
 			std::cout << sdw::writeGlsl( writer.getShader(), ShaderType::eVertex ) << std::endl;
@@ -1333,7 +1333,7 @@ namespace
 		}
 		{
 			ShaderWriter writer{ false };
-			auto s = writer.declSampler< SamplerType::eCubeArrayF >( "s", 0u, 0u );
+			auto s = writer.declSampledImage< ImgCubeArrayRGBA32F >( "s", 0u, 0u );
 			auto i = writer.declLocale( "i", textureQueryLod( s, vec3( 0.0_f ) ) );
 			std::cout << sdw::writeDebug( writer.getShader() ) << std::endl;
 			std::cout << sdw::writeGlsl( writer.getShader(), ShaderType::eVertex ) << std::endl;
@@ -1356,7 +1356,7 @@ namespace
 		}
 		{
 			ShaderWriter writer{ false };
-			auto s = writer.declSampler< SamplerType::eCubeArrayI >( "s", 0u, 0u );
+			auto s = writer.declSampledImage< ImgCubeArrayRGBA8I >( "s", 0u, 0u );
 			auto i = writer.declLocale( "i", textureQueryLod( s, vec3( 0.0_f ) ) );
 			std::cout << sdw::writeDebug( writer.getShader() ) << std::endl;
 			std::cout << sdw::writeGlsl( writer.getShader(), ShaderType::eVertex ) << std::endl;
@@ -1379,7 +1379,7 @@ namespace
 		}
 		{
 			ShaderWriter writer{ false };
-			auto s = writer.declSampler< SamplerType::eCubeArrayU >( "s", 0u, 0u );
+			auto s = writer.declSampledImage< ImgCubeArrayRGBA8U >( "s", 0u, 0u );
 			auto i = writer.declLocale( "i", textureQueryLod( s, vec3( 0.0_f ) ) );
 			std::cout << sdw::writeDebug( writer.getShader() ) << std::endl;
 			std::cout << sdw::writeGlsl( writer.getShader(), ShaderType::eVertex ) << std::endl;
@@ -1402,7 +1402,7 @@ namespace
 		}
 		{
 			ShaderWriter writer{ false };
-			auto s = writer.declSampler< SamplerType::eCubeArrayShadowF >( "s", 0u, 0u );
+			auto s = writer.declSampledImage< ImgCubeArrayShadowRGBA32F >( "s", 0u, 0u );
 			auto i = writer.declLocale( "i", textureQueryLod( s, vec3( 0.0_f ) ) );
 			std::cout << sdw::writeDebug( writer.getShader() ) << std::endl;
 			std::cout << sdw::writeGlsl( writer.getShader(), ShaderType::eVertex ) << std::endl;
@@ -1425,7 +1425,7 @@ namespace
 		}
 		{
 			ShaderWriter writer{ false };
-			auto s = writer.declSampler< SamplerType::e1DF >( "s", 0u, 0u );
+			auto s = writer.declSampledImage< Img1DRGBA32F >( "s", 0u, 0u );
 			auto i = writer.declLocale( "i", textureQueryLevels( s ) );
 			std::cout << sdw::writeDebug( writer.getShader() ) << std::endl;
 			std::cout << sdw::writeGlsl( writer.getShader(), ShaderType::eVertex ) << std::endl;
@@ -1448,7 +1448,7 @@ namespace
 		}
 		{
 			ShaderWriter writer{ false };
-			auto s = writer.declSampler< SamplerType::e1DShadowF >( "s", 0u, 0u );
+			auto s = writer.declSampledImage< Img1DShadowRGBA32F >( "s", 0u, 0u );
 			auto i = writer.declLocale( "i", textureQueryLevels( s ) );
 			std::cout << sdw::writeDebug( writer.getShader() ) << std::endl;
 			std::cout << sdw::writeGlsl( writer.getShader(), ShaderType::eVertex ) << std::endl;
@@ -1471,7 +1471,7 @@ namespace
 		}
 		{
 			ShaderWriter writer{ false };
-			auto s = writer.declSampler< SamplerType::e1DI >( "s", 0u, 0u );
+			auto s = writer.declSampledImage< Img1DRGBA8I >( "s", 0u, 0u );
 			auto i = writer.declLocale( "i", textureQueryLevels( s ) );
 			std::cout << sdw::writeDebug( writer.getShader() ) << std::endl;
 			std::cout << sdw::writeGlsl( writer.getShader(), ShaderType::eVertex ) << std::endl;
@@ -1494,7 +1494,7 @@ namespace
 		}
 		{
 			ShaderWriter writer{ false };
-			auto s = writer.declSampler< SamplerType::e1DU >( "s", 0u, 0u );
+			auto s = writer.declSampledImage< Img1DRGBA8U >( "s", 0u, 0u );
 			auto i = writer.declLocale( "i", textureQueryLevels( s ) );
 			std::cout << sdw::writeDebug( writer.getShader() ) << std::endl;
 			std::cout << sdw::writeGlsl( writer.getShader(), ShaderType::eVertex ) << std::endl;
@@ -1517,7 +1517,7 @@ namespace
 		}
 		{
 			ShaderWriter writer{ false };
-			auto s = writer.declSampler< SamplerType::e1DArrayF >( "s", 0u, 0u );
+			auto s = writer.declSampledImage< Img1DArrayRGBA32F >( "s", 0u, 0u );
 			auto i = writer.declLocale( "i", textureQueryLevels( s ) );
 			std::cout << sdw::writeDebug( writer.getShader() ) << std::endl;
 			std::cout << sdw::writeGlsl( writer.getShader(), ShaderType::eVertex ) << std::endl;
@@ -1540,7 +1540,7 @@ namespace
 		}
 		{
 			ShaderWriter writer{ false };
-			auto s = writer.declSampler< SamplerType::e1DArrayShadowF >( "s", 0u, 0u );
+			auto s = writer.declSampledImage< Img1DArrayShadowRGBA32F >( "s", 0u, 0u );
 			auto i = writer.declLocale( "i", textureQueryLevels( s ) );
 			std::cout << sdw::writeDebug( writer.getShader() ) << std::endl;
 			std::cout << sdw::writeGlsl( writer.getShader(), ShaderType::eVertex ) << std::endl;
@@ -1563,7 +1563,7 @@ namespace
 		}
 		{
 			ShaderWriter writer{ false };
-			auto s = writer.declSampler< SamplerType::e1DArrayI >( "s", 0u, 0u );
+			auto s = writer.declSampledImage< Img1DArrayRGBA8I >( "s", 0u, 0u );
 			auto i = writer.declLocale( "i", textureQueryLevels( s ) );
 			std::cout << sdw::writeDebug( writer.getShader() ) << std::endl;
 			std::cout << sdw::writeGlsl( writer.getShader(), ShaderType::eVertex ) << std::endl;
@@ -1586,7 +1586,7 @@ namespace
 		}
 		{
 			ShaderWriter writer{ false };
-			auto s = writer.declSampler< SamplerType::e1DArrayU >( "s", 0u, 0u );
+			auto s = writer.declSampledImage< Img1DArrayRGBA8U >( "s", 0u, 0u );
 			auto i = writer.declLocale( "i", textureQueryLevels( s ) );
 			std::cout << sdw::writeDebug( writer.getShader() ) << std::endl;
 			std::cout << sdw::writeGlsl( writer.getShader(), ShaderType::eVertex ) << std::endl;
@@ -1609,7 +1609,7 @@ namespace
 		}
 		{
 			ShaderWriter writer{ false };
-			auto s = writer.declSampler< SamplerType::e2DF >( "s", 0u, 0u );
+			auto s = writer.declSampledImage< Img2DRGBA32F >( "s", 0u, 0u );
 			auto i = writer.declLocale( "i", textureQueryLevels( s ) );
 			std::cout << sdw::writeDebug( writer.getShader() ) << std::endl;
 			std::cout << sdw::writeGlsl( writer.getShader(), ShaderType::eVertex ) << std::endl;
@@ -1632,7 +1632,7 @@ namespace
 		}
 		{
 			ShaderWriter writer{ false };
-			auto s = writer.declSampler< SamplerType::e2DShadowF >( "s", 0u, 0u );
+			auto s = writer.declSampledImage< Img2DShadowRGBA32F >( "s", 0u, 0u );
 			auto i = writer.declLocale( "i", textureQueryLevels( s ) );
 			std::cout << sdw::writeDebug( writer.getShader() ) << std::endl;
 			std::cout << sdw::writeGlsl( writer.getShader(), ShaderType::eVertex ) << std::endl;
@@ -1655,7 +1655,7 @@ namespace
 		}
 		{
 			ShaderWriter writer{ false };
-			auto s = writer.declSampler< SamplerType::e2DI >( "s", 0u, 0u );
+			auto s = writer.declSampledImage< Img2DRGBA8I >( "s", 0u, 0u );
 			auto i = writer.declLocale( "i", textureQueryLevels( s ) );
 			std::cout << sdw::writeDebug( writer.getShader() ) << std::endl;
 			std::cout << sdw::writeGlsl( writer.getShader(), ShaderType::eVertex ) << std::endl;
@@ -1678,7 +1678,7 @@ namespace
 		}
 		{
 			ShaderWriter writer{ false };
-			auto s = writer.declSampler< SamplerType::e2DU >( "s", 0u, 0u );
+			auto s = writer.declSampledImage< Img2DRGBA8U >( "s", 0u, 0u );
 			auto i = writer.declLocale( "i", textureQueryLevels( s ) );
 			std::cout << sdw::writeDebug( writer.getShader() ) << std::endl;
 			std::cout << sdw::writeGlsl( writer.getShader(), ShaderType::eVertex ) << std::endl;
@@ -1701,7 +1701,7 @@ namespace
 		}
 		{
 			ShaderWriter writer{ false };
-			auto s = writer.declSampler< SamplerType::e2DArrayF >( "s", 0u, 0u );
+			auto s = writer.declSampledImage< Img2DArrayRGBA32F >( "s", 0u, 0u );
 			auto i = writer.declLocale( "i", textureQueryLevels( s ) );
 			std::cout << sdw::writeDebug( writer.getShader() ) << std::endl;
 			std::cout << sdw::writeGlsl( writer.getShader(), ShaderType::eVertex ) << std::endl;
@@ -1724,7 +1724,7 @@ namespace
 		}
 		{
 			ShaderWriter writer{ false };
-			auto s = writer.declSampler< SamplerType::e2DArrayShadowF >( "s", 0u, 0u );
+			auto s = writer.declSampledImage< Img2DArrayShadowRGBA32F >( "s", 0u, 0u );
 			auto i = writer.declLocale( "i", textureQueryLevels( s ) );
 			std::cout << sdw::writeDebug( writer.getShader() ) << std::endl;
 			std::cout << sdw::writeGlsl( writer.getShader(), ShaderType::eVertex ) << std::endl;
@@ -1747,7 +1747,7 @@ namespace
 		}
 		{
 			ShaderWriter writer{ false };
-			auto s = writer.declSampler< SamplerType::e2DArrayI >( "s", 0u, 0u );
+			auto s = writer.declSampledImage< Img2DArrayRGBA8I >( "s", 0u, 0u );
 			auto i = writer.declLocale( "i", textureQueryLevels( s ) );
 			std::cout << sdw::writeDebug( writer.getShader() ) << std::endl;
 			std::cout << sdw::writeGlsl( writer.getShader(), ShaderType::eVertex ) << std::endl;
@@ -1770,7 +1770,7 @@ namespace
 		}
 		{
 			ShaderWriter writer{ false };
-			auto s = writer.declSampler< SamplerType::e2DArrayU >( "s", 0u, 0u );
+			auto s = writer.declSampledImage< Img2DArrayRGBA8U >( "s", 0u, 0u );
 			auto i = writer.declLocale( "i", textureQueryLevels( s ) );
 			std::cout << sdw::writeDebug( writer.getShader() ) << std::endl;
 			std::cout << sdw::writeGlsl( writer.getShader(), ShaderType::eVertex ) << std::endl;
@@ -1793,7 +1793,7 @@ namespace
 		}
 		{
 			ShaderWriter writer{ false };
-			auto s = writer.declSampler< SamplerType::e3DF >( "s", 0u, 0u );
+			auto s = writer.declSampledImage< Img3DRGBA32F >( "s", 0u, 0u );
 			auto i = writer.declLocale( "i", textureQueryLevels( s ) );
 			std::cout << sdw::writeDebug( writer.getShader() ) << std::endl;
 			std::cout << sdw::writeGlsl( writer.getShader(), ShaderType::eVertex ) << std::endl;
@@ -1816,7 +1816,7 @@ namespace
 		}
 		{
 			ShaderWriter writer{ false };
-			auto s = writer.declSampler< SamplerType::e3DI >( "s", 0u, 0u );
+			auto s = writer.declSampledImage< Img3DRGBA8I >( "s", 0u, 0u );
 			auto i = writer.declLocale( "i", textureQueryLevels( s ) );
 			std::cout << sdw::writeDebug( writer.getShader() ) << std::endl;
 			std::cout << sdw::writeGlsl( writer.getShader(), ShaderType::eVertex ) << std::endl;
@@ -1839,7 +1839,7 @@ namespace
 		}
 		{
 			ShaderWriter writer{ false };
-			auto s = writer.declSampler< SamplerType::e3DU >( "s", 0u, 0u );
+			auto s = writer.declSampledImage< Img3DRGBA8U >( "s", 0u, 0u );
 			auto i = writer.declLocale( "i", textureQueryLevels( s ) );
 			std::cout << sdw::writeDebug( writer.getShader() ) << std::endl;
 			std::cout << sdw::writeGlsl( writer.getShader(), ShaderType::eVertex ) << std::endl;
@@ -1862,7 +1862,7 @@ namespace
 		}
 		{
 			ShaderWriter writer{ false };
-			auto s = writer.declSampler< SamplerType::eCubeF >( "s", 0u, 0u );
+			auto s = writer.declSampledImage< ImgCubeRGBA32F >( "s", 0u, 0u );
 			auto i = writer.declLocale( "i", textureQueryLevels( s ) );
 			std::cout << sdw::writeDebug( writer.getShader() ) << std::endl;
 			std::cout << sdw::writeGlsl( writer.getShader(), ShaderType::eVertex ) << std::endl;
@@ -1885,7 +1885,7 @@ namespace
 		}
 		{
 			ShaderWriter writer{ false };
-			auto s = writer.declSampler< SamplerType::eCubeShadowF >( "s", 0u, 0u );
+			auto s = writer.declSampledImage< ImgCubeShadowRGBA32F >( "s", 0u, 0u );
 			auto i = writer.declLocale( "i", textureQueryLevels( s ) );
 			std::cout << sdw::writeDebug( writer.getShader() ) << std::endl;
 			std::cout << sdw::writeGlsl( writer.getShader(), ShaderType::eVertex ) << std::endl;
@@ -1908,7 +1908,7 @@ namespace
 		}
 		{
 			ShaderWriter writer{ false };
-			auto s = writer.declSampler< SamplerType::eCubeI >( "s", 0u, 0u );
+			auto s = writer.declSampledImage< ImgCubeRGBA8I >( "s", 0u, 0u );
 			auto i = writer.declLocale( "i", textureQueryLevels( s ) );
 			std::cout << sdw::writeDebug( writer.getShader() ) << std::endl;
 			std::cout << sdw::writeGlsl( writer.getShader(), ShaderType::eVertex ) << std::endl;
@@ -1931,7 +1931,7 @@ namespace
 		}
 		{
 			ShaderWriter writer{ false };
-			auto s = writer.declSampler< SamplerType::eCubeU >( "s", 0u, 0u );
+			auto s = writer.declSampledImage< ImgCubeRGBA8U >( "s", 0u, 0u );
 			auto i = writer.declLocale( "i", textureQueryLevels( s ) );
 			std::cout << sdw::writeDebug( writer.getShader() ) << std::endl;
 			std::cout << sdw::writeGlsl( writer.getShader(), ShaderType::eVertex ) << std::endl;
@@ -1954,7 +1954,7 @@ namespace
 		}
 		{
 			ShaderWriter writer{ false };
-			auto s = writer.declSampler< SamplerType::eCubeArrayF >( "s", 0u, 0u );
+			auto s = writer.declSampledImage< ImgCubeArrayRGBA32F >( "s", 0u, 0u );
 			auto i = writer.declLocale( "i", textureQueryLevels( s ) );
 			std::cout << sdw::writeDebug( writer.getShader() ) << std::endl;
 			std::cout << sdw::writeGlsl( writer.getShader(), ShaderType::eVertex ) << std::endl;
@@ -1977,7 +1977,7 @@ namespace
 		}
 		{
 			ShaderWriter writer{ false };
-			auto s = writer.declSampler< SamplerType::eCubeArrayI >( "s", 0u, 0u );
+			auto s = writer.declSampledImage< ImgCubeArrayRGBA8I >( "s", 0u, 0u );
 			auto i = writer.declLocale( "i", textureQueryLevels( s ) );
 			std::cout << sdw::writeDebug( writer.getShader() ) << std::endl;
 			std::cout << sdw::writeGlsl( writer.getShader(), ShaderType::eVertex ) << std::endl;
@@ -2000,7 +2000,7 @@ namespace
 		}
 		{
 			ShaderWriter writer{ false };
-			auto s = writer.declSampler< SamplerType::eCubeArrayU >( "s", 0u, 0u );
+			auto s = writer.declSampledImage< ImgCubeArrayRGBA8U >( "s", 0u, 0u );
 			auto i = writer.declLocale( "i", textureQueryLevels( s ) );
 			std::cout << sdw::writeDebug( writer.getShader() ) << std::endl;
 			std::cout << sdw::writeGlsl( writer.getShader(), ShaderType::eVertex ) << std::endl;
@@ -2023,7 +2023,7 @@ namespace
 		}
 		{
 			ShaderWriter writer{ false };
-			auto s = writer.declSampler< SamplerType::eCubeArrayShadowF >( "s", 0u, 0u );
+			auto s = writer.declSampledImage< ImgCubeArrayShadowRGBA32F >( "s", 0u, 0u );
 			auto i = writer.declLocale( "i", textureQueryLevels( s ) );
 			std::cout << sdw::writeDebug( writer.getShader() ) << std::endl;
 			std::cout << sdw::writeGlsl( writer.getShader(), ShaderType::eVertex ) << std::endl;
@@ -2046,7 +2046,7 @@ namespace
 		}
 		{
 			ShaderWriter writer{ false };
-			auto s = writer.declSampler< SamplerType::e1DF >( "s", 0u, 0u );
+			auto s = writer.declSampledImage< Img1DRGBA32F >( "s", 0u, 0u );
 			auto r = writer.declLocale( "r", textureProj( s, vec2( 0.0_f ) ) );
 			std::cout << sdw::writeDebug( writer.getShader() ) << std::endl;
 			std::cout << sdw::writeGlsl( writer.getShader(), ShaderType::eVertex ) << std::endl;
@@ -2069,7 +2069,7 @@ namespace
 		}
 		{
 			ShaderWriter writer{ false };
-			auto s = writer.declSampler< SamplerType::e2DF >( "s", 0u, 0u );
+			auto s = writer.declSampledImage< Img2DRGBA32F >( "s", 0u, 0u );
 			auto r = writer.declLocale( "r", textureProj( s, vec3( 0.0_f ) ) );
 			std::cout << sdw::writeDebug( writer.getShader() ) << std::endl;
 			std::cout << sdw::writeGlsl( writer.getShader(), ShaderType::eVertex ) << std::endl;
@@ -2092,7 +2092,7 @@ namespace
 		}
 		{
 			ShaderWriter writer{ false };
-			auto s = writer.declSampler< SamplerType::e1DF >( "s", 0u, 0u );
+			auto s = writer.declSampledImage< Img1DRGBA32F >( "s", 0u, 0u );
 			auto r = writer.declLocale( "r", textureProj( s, vec4( 0.0_f ) ) );
 			std::cout << sdw::writeDebug( writer.getShader() ) << std::endl;
 			std::cout << sdw::writeGlsl( writer.getShader(), ShaderType::eVertex ) << std::endl;
@@ -2115,7 +2115,7 @@ namespace
 		}
 		{
 			ShaderWriter writer{ false };
-			auto s = writer.declSampler< SamplerType::e2DF >( "s", 0u, 0u );
+			auto s = writer.declSampledImage< Img2DRGBA32F >( "s", 0u, 0u );
 			auto r = writer.declLocale( "r", textureProj( s, vec4( 0.0_f ) ) );
 			std::cout << sdw::writeDebug( writer.getShader() ) << std::endl;
 			std::cout << sdw::writeGlsl( writer.getShader(), ShaderType::eVertex ) << std::endl;
@@ -2138,7 +2138,7 @@ namespace
 		}
 		{
 			ShaderWriter writer{ false };
-			auto s = writer.declSampler< SamplerType::e3DF >( "s", 0u, 0u );
+			auto s = writer.declSampledImage< Img3DRGBA32F >( "s", 0u, 0u );
 			auto r = writer.declLocale( "r", textureProj( s, vec4( 0.0_f ) ) );
 			std::cout << sdw::writeDebug( writer.getShader() ) << std::endl;
 			std::cout << sdw::writeGlsl( writer.getShader(), ShaderType::eVertex ) << std::endl;

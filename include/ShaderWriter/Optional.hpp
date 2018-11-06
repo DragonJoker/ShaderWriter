@@ -18,6 +18,7 @@ namespace sdw
 			, bool enabled );
 		inline Optional( TypeT const & other
 			, bool enabled );
+		inline Optional( Optional const & rhs );
 
 		inline Optional< TypeT > operator=( Optional< TypeT > const & rhs );
 		template< typename T >

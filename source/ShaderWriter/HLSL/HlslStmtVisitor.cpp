@@ -280,6 +280,11 @@ namespace sdw::hlsl
 		}
 	}
 
+	void StmtVisitor::visitSampledImageDeclStmt( stmt::SampledImageDecl * stmt )
+	{
+		assert( false && "stmt::SampledImageDecl unexpected at that point" );
+	}
+
 	void StmtVisitor::visitSamplerDeclStmt( stmt::SamplerDecl * stmt )
 	{
 		doAppendLineEnd();

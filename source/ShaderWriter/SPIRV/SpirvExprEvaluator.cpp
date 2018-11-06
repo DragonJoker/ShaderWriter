@@ -283,6 +283,12 @@ namespace sdw::spirv
 	bool eval( expr::Expr * expr
 		, PreprocContext const & context )
 	{
-		return ExprEvaluator::submit( expr, context )->getValue< expr::LiteralType::eBool >();
+		return getLiteral( expr, context )->getValue< expr::LiteralType::eBool >();
+	}
+
+	expr::LiteralPtr getLiteral( expr::Expr * expr
+		, PreprocContext const & context )
+	{
+		return ExprEvaluator::submit( expr, context );
 	}
 }

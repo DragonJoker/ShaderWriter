@@ -11,6 +11,12 @@ namespace sdw
 	}
 
 	template< typename ValueT >
+	Vec3T< ValueT >::Vec3T( Vec3T const & rhs )
+		: Value{ rhs.getShader(), makeExpr( rhs ) }
+	{
+	}
+
+	template< typename ValueT >
 	inline Vec3T< ValueT > & Vec3T< ValueT >::operator=( Vec3T< ValueT > const & rhs )
 	{
 		if ( getContainer() )

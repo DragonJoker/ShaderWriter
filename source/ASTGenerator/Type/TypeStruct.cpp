@@ -130,73 +130,9 @@ namespace ast::type
 				break;
 			case Kind::eConstantsBuffer:
 			case Kind::eShaderBuffer:
-			case Kind::eSamplerBufferF:
-			case Kind::eSampler1DF:
-			case Kind::eSampler2DF:
-			case Kind::eSampler3DF:
-			case Kind::eSamplerCubeF:
-			case Kind::eSampler2DRectF:
-			case Kind::eSampler1DArrayF:
-			case Kind::eSampler2DArrayF:
-			case Kind::eSamplerCubeArrayF:
-			case Kind::eSampler1DShadowF:
-			case Kind::eSampler2DShadowF:
-			case Kind::eSamplerCubeShadowF:
-			case Kind::eSampler2DRectShadowF:
-			case Kind::eSampler1DArrayShadowF:
-			case Kind::eSampler2DArrayShadowF:
-			case Kind::eSamplerCubeArrayShadowF:
-			case Kind::eSamplerBufferI:
-			case Kind::eSampler1DI:
-			case Kind::eSampler2DI:
-			case Kind::eSampler3DI:
-			case Kind::eSamplerCubeI:
-			case Kind::eSampler2DRectI:
-			case Kind::eSampler1DArrayI:
-			case Kind::eSampler2DArrayI:
-			case Kind::eSamplerCubeArrayI:
-			case Kind::eSamplerBufferU:
-			case Kind::eSampler1DU:
-			case Kind::eSampler2DU:
-			case Kind::eSampler3DU:
-			case Kind::eSamplerCubeU:
-			case Kind::eSampler2DRectU:
-			case Kind::eSampler1DArrayU:
-			case Kind::eSampler2DArrayU:
-			case Kind::eSamplerCubeArrayU:
-			case Kind::eImageBufferF:
-			case Kind::eImage1DF:
-			case Kind::eImage2DF:
-			case Kind::eImage3DF:
-			case Kind::eImageCubeF:
-			case Kind::eImage2DRectF:
-			case Kind::eImage1DArrayF:
-			case Kind::eImage2DArrayF:
-			case Kind::eImageCubeArrayF:
-			case Kind::eImage2DMSF:
-			case Kind::eImage2DMSArrayF:
-			case Kind::eImageBufferI:
-			case Kind::eImage1DI:
-			case Kind::eImage2DI:
-			case Kind::eImage3DI:
-			case Kind::eImageCubeI:
-			case Kind::eImage2DRectI:
-			case Kind::eImage1DArrayI:
-			case Kind::eImage2DArrayI:
-			case Kind::eImageCubeArrayI:
-			case Kind::eImage2DMSI:
-			case Kind::eImage2DMSArrayI:
-			case Kind::eImageBufferU:
-			case Kind::eImage1DU:
-			case Kind::eImage2DU:
-			case Kind::eImage3DU:
-			case Kind::eImageCubeU:
-			case Kind::eImage2DRectU:
-			case Kind::eImage1DArrayU:
-			case Kind::eImage2DArrayU:
-			case Kind::eImageCubeArrayU:
-			case Kind::eImage2DMSU:
-			case Kind::eImage2DMSArrayU:
+			case Kind::eImage:
+			case Kind::eSampler:
+			case Kind::eSampledImage:
 				result = 1u;
 				break;
 			default:
@@ -359,7 +295,7 @@ namespace ast::type
 		return *it;
 	}
 
-	StructPtr Struct::getUnqualifiedType()
+	StructPtr Struct::getUnqualifiedType()const
 	{
 		return StructPtr{ new Struct
 		{

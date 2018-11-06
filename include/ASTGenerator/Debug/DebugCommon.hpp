@@ -11,12 +11,21 @@ See LICENSE file in root folder
 #include "ASTGenerator/Stmt/StmtInputGeometryLayout.hpp"
 #include "ASTGenerator/Stmt/StmtOutputGeometryLayout.hpp"
 #include "ASTGenerator/Type/Type.hpp"
+#include "ASTGenerator/Type/ImageConfiguration.hpp"
 
 namespace ast::debug
 {
 	std::string getName( type::Type const & type );
 	std::string getName( type::TypePtr type );
 	std::string getName( type::Kind type );
+	std::string getName( type::Kind type
+		, uint32_t arraySize );
+	std::string getName( ast::type::ImageDim dim
+		, ast::type::ImageFormat format
+		, bool arrayed
+		, bool depth
+		, bool ms );
+	std::string displayVar( ast::var::VariablePtr var );
 }
 
 #endif

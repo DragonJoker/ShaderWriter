@@ -25,19 +25,6 @@ namespace sdw::spirv
 		var::VariablePtr registerName( std::string const & name
 			, type::TypePtr type
 			, var::Flag flag );
-		var::VariablePtr registerSampler( std::string const & name
-			, type::TypePtr type
-			, uint32_t binding
-			, uint32_t set
-			, bool enabled = true );
-		var::VariablePtr registerSampledImage( std::string const & name
-			, type::TypePtr type
-			, bool enabled = true );
-		var::VariablePtr registerImage( std::string const & name
-			, type::TypePtr type
-			, uint32_t binding
-			, uint32_t set
-			, bool enabled = true );
 		var::VariablePtr getVar( std::string const & name
 			, type::TypePtr type );
 

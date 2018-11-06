@@ -4,6 +4,7 @@ See LICENSE file in root folder
 #include "ShaderWriter/SPIRV/SpirvStmtAdapter.hpp"
 
 #include "ShaderWriter/CloneExpr.hpp"
+#include "ShaderWriter/SPIRV/SpirvExprAdapter.hpp"
 #include "ShaderWriter/SPIRV/SpirvExprEvaluator.hpp"
 
 #include "ShaderWriter/Shader.hpp"
@@ -27,20 +28,6 @@ namespace sdw::spirv
 	{
 	}
 
-	void StmtAdapter::linkVars( var::VariablePtr textureSampler
-		, var::VariablePtr texture
-		, var::VariablePtr sampler
-		, var::VariablePtr sampledImage )
-	{
-		m_linkedVars.emplace( std::move( textureSampler )
-			, LinkedVar
-			{
-				std::move( texture ),
-				std::move( sampler ),
-				std::move( sampledImage ),
-			} );
-	}
-
 	void StmtAdapter::visitContainerStmt( stmt::Container * cont )
 	{
 		for ( auto & stmt : *cont )
@@ -54,7 +41,7 @@ namespace sdw::spirv
 		auto save = m_result;
 		auto cont = stmt::makeConstantBufferDecl( stmt->getName()
 			, stmt->getBindingPoint()
-			, stmt->getBindingSet() );
+			, stmt->getDescriptorSet() );
 		m_result = cont.get();
 		visitContainerStmt( stmt );
 		m_result = save;
@@ -94,7 +81,7 @@ namespace sdw::spirv
 	void StmtAdapter::visitDoWhileStmt( stmt::DoWhile * stmt )
 	{
 		auto save = m_result;
-		auto cont = stmt::makeDoWhile( ExprCloner::submit( stmt->getCtrlExpr() ) );
+		auto cont = stmt::makeDoWhile( ExprAdapter::submit( stmt->getCtrlExpr(), m_context ) );
 		m_result = cont.get();
 		visitContainerStmt( stmt );
 		m_result = save;
@@ -114,9 +101,9 @@ namespace sdw::spirv
 	void StmtAdapter::visitForStmt( stmt::For * stmt )
 	{
 		auto save = m_result;
-		auto cont = stmt::makeFor( ExprCloner::submit( stmt->getInitExpr() )
-			, ExprCloner::submit( stmt->getCtrlExpr() )
-			, ExprCloner::submit( stmt->getIncrExpr() ) );
+		auto cont = stmt::makeFor( ExprAdapter::submit( stmt->getInitExpr(), m_context )
+			, ExprAdapter::submit( stmt->getCtrlExpr(), m_context )
+			, ExprAdapter::submit( stmt->getIncrExpr(), m_context ) );
 		m_result = cont.get();
 		visitContainerStmt( stmt );
 		m_result = save;
@@ -127,29 +114,11 @@ namespace sdw::spirv
 	{
 		auto save = m_result;
 		stmt::FunctionDeclPtr cont;
-		auto linkedVars = m_linkedVars;
 		var::VariableList params;
 
 		for ( auto & param : stmt->getParameters() )
 		{
-			if ( isSamplerType( param->getType()->getKind() ) )
-			{
-				auto sampledImage = var::makeVariable( makeSampledImage()
-					, param->getName()
-					, var::Flag::eSampler | var::Flag::eImage );
-				m_linkedVars.emplace( param
-					, LinkedVar
-					{
-						sampledImage,
-						sampledImage,
-						sampledImage,
-					} );
-				params.push_back( sampledImage );
-			}
-			else
-			{
-				params.push_back( param );
-			}
+			params.push_back( param );
 		}
 
 		cont = stmt::makeFunctionDecl( stmt->getRet()
@@ -159,13 +128,12 @@ namespace sdw::spirv
 		visitContainerStmt( stmt );
 		m_result = save;
 		m_result->addStmt( std::move( cont ) );
-		m_linkedVars = linkedVars;
 	}
 
 	void StmtAdapter::visitIfStmt( stmt::If * stmt )
 	{
 		auto save = m_result;
-		auto cont = stmt::makeIf( ExprCloner::submit( stmt->getCtrlExpr() ) );
+		auto cont = stmt::makeIf( ExprAdapter::submit( stmt->getCtrlExpr(), m_context ) );
 		m_result = cont.get();
 		visitContainerStmt( stmt );
 		m_result = save;
@@ -195,7 +163,7 @@ namespace sdw::spirv
 			{
 				auto elseStmt = currentIf->createElse();
 				auto & elseIf = *it;
-				cont = stmt::makeIf( ExprCloner::submit( elseIf->getCtrlExpr() ) );
+				cont = stmt::makeIf( ExprAdapter::submit( elseIf->getCtrlExpr(), m_context ) );
 				m_result = cont.get();
 				visitContainerStmt( elseIf.get() );
 				m_result = save;
@@ -218,7 +186,7 @@ namespace sdw::spirv
 	{
 		m_result->addStmt( stmt::makeImageDecl( stmt->getVariable()
 			, stmt->getBindingPoint()
-			, stmt->getBindingSet() ) );
+			, stmt->getDescriptorSet() ) );
 	}
 
 	void StmtAdapter::visitInOutVariableDeclStmt( stmt::InOutVariableDecl * stmt )
@@ -254,7 +222,7 @@ namespace sdw::spirv
 	{
 		if ( stmt->getExpr() )
 		{
-			m_result->addStmt( stmt::makeReturn( ExprCloner::submit( stmt->getExpr() ) ) );
+			m_result->addStmt( stmt::makeReturn( ExprAdapter::submit( stmt->getExpr(), m_context ) ) );
 		}
 		else
 		{
@@ -262,35 +230,18 @@ namespace sdw::spirv
 		}
 	}
 
+	void StmtAdapter::visitSampledImageDeclStmt( stmt::SampledImageDecl * stmt )
+	{
+		m_result->addStmt( stmt::makeSampledImageDecl( stmt->getVariable()
+			, stmt->getBindingPoint()
+			, stmt->getDescriptorSet() ) );
+	}
+
 	void StmtAdapter::visitSamplerDeclStmt( stmt::SamplerDecl * stmt )
 	{
-		auto originalVar = stmt->getVariable();
-		auto textureVar = m_shader.registerImage( stmt->getVariable()->getName() + "_texture"
-			, stmt->getVariable()->getType()
+		m_result->addStmt( stmt::makeSamplerDecl( stmt->getVariable()
 			, stmt->getBindingPoint()
-			, stmt->getBindingSet() );
-		textureVar->setFlag( var::Flag::eImplicit );
-		m_result->addStmt( stmt::makeImageDecl( textureVar
-			, stmt->getBindingPoint()
-			, stmt->getBindingSet() ) );
-
-		if ( stmt->getVariable()->getType()->getKind() != type::Kind::eSamplerBufferF
-			&& stmt->getVariable()->getType()->getKind() != type::Kind::eSamplerBufferI
-			&& stmt->getVariable()->getType()->getKind() != type::Kind::eSamplerBufferU )
-		{
-			auto samplerVar = m_shader.registerSampler( stmt->getVariable()->getName() + "_sampler"
-				, makeSampler()
-				, stmt->getBindingPoint()
-				, stmt->getBindingSet() );
-			samplerVar->setFlag( var::Flag::eImplicit );
-			auto sampledImage = m_shader.registerSampledImage( stmt->getVariable()->getName()
-				, makeSampledImage() );
-			samplerVar->setFlag( var::Flag::eImplicit );
-			linkVars( originalVar, textureVar, samplerVar, sampledImage );
-			m_result->addStmt( stmt::makeSamplerDecl( samplerVar
-				, stmt->getBindingPoint()
-				, stmt->getBindingSet() ) );
-		}
+			, stmt->getDescriptorSet() ) );
 	}
 
 	void StmtAdapter::visitShaderBufferDeclStmt( stmt::ShaderBufferDecl * stmt )
@@ -298,7 +249,7 @@ namespace sdw::spirv
 		auto save = m_result;
 		auto cont = stmt::makeShaderBufferDecl( stmt->getName()
 			, stmt->getBindingPoint()
-			, stmt->getBindingSet() );
+			, stmt->getDescriptorSet() );
 		m_result = cont.get();
 		visitContainerStmt( stmt );
 		m_result = save;
@@ -307,7 +258,7 @@ namespace sdw::spirv
 
 	void StmtAdapter::visitSimpleStmt( stmt::Simple * stmt )
 	{
-		m_result->addStmt( stmt::makeSimple( ExprCloner::submit( stmt->getExpr() ) ) );
+		m_result->addStmt( stmt::makeSimple( ExprAdapter::submit( stmt->getExpr(), m_context ) ) );
 	}
 
 	void StmtAdapter::visitStructureDeclStmt( stmt::StructureDecl * stmt )
@@ -336,7 +287,7 @@ namespace sdw::spirv
 
 	void StmtAdapter::visitSwitchStmt( stmt::Switch * stmt )
 	{
-		auto cont = stmt::makeSwitch( expr::makeSwitchTest( ExprCloner::submit( stmt->getTestExpr()->getValue() ) ) );
+		auto cont = stmt::makeSwitch( expr::makeSwitchTest( ExprAdapter::submit( stmt->getTestExpr()->getValue(), m_context ) ) );
 		m_switchStmt = cont.get();
 
 		auto save = m_result;
@@ -353,7 +304,7 @@ namespace sdw::spirv
 
 	void StmtAdapter::visitWhileStmt( stmt::While * stmt )
 	{
-		auto cont = stmt::makeWhile( ExprCloner::submit( stmt->getCtrlExpr() ) );
+		auto cont = stmt::makeWhile( ExprAdapter::submit( stmt->getCtrlExpr(), m_context ) );
 
 		auto save = m_result;
 		m_result = cont.get();

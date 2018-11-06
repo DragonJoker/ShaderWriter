@@ -3,6 +3,8 @@ See LICENSE file in root folder
 */
 #include "ShaderWriter/GLSL/GlslHelpers.hpp"
 
+#include "ASTGenerator/Type/TypeImage.hpp"
+
 namespace sdw::glsl
 {
 	std::string getTypeName( type::Kind kind )
@@ -143,207 +145,78 @@ namespace sdw::glsl
 		case type::Kind::eShaderBuffer:
 			result = "buffer";
 			break;
-		case type::Kind::eSamplerBufferF:
-			result = "samplerBuffer";
-			break;
-		case type::Kind::eSampler1DF:
-			result = "sampler1D";
-			break;
-		case type::Kind::eSampler2DF:
-			result = "sampler2D";
-			break;
-		case type::Kind::eSampler3DF:
-			result = "sampler3D";
-			break;
-		case type::Kind::eSamplerCubeF:
-			result = "samplerCube";
-			break;
-		case type::Kind::eSampler2DRectF:
-			result = "sampler2DRect";
-			break;
-		case type::Kind::eSampler1DArrayF:
-			result = "sampler1DArray";
-			break;
-		case type::Kind::eSampler2DArrayF:
-			result = "sampler2DArray";
-			break;
-		case type::Kind::eSamplerCubeArrayF:
-			result = "samplerCubeArray";
-			break;
-		case type::Kind::eSampler1DShadowF:
-			result = "sampler1DShadow";
-			break;
-		case type::Kind::eSampler2DShadowF:
-			result = "sampler2DShadow";
-			break;
-		case type::Kind::eSamplerCubeShadowF:
-			result = "samplerCubeShadow";
-			break;
-		case type::Kind::eSampler2DRectShadowF:
-			result = "sampler2DRectArrayShadow";
-			break;
-		case type::Kind::eSampler1DArrayShadowF:
-			result = "sampler1DArrayShadow";
-			break;
-		case type::Kind::eSampler2DArrayShadowF:
-			result = "sampler2DArrayShadow";
-			break;
-		case type::Kind::eSamplerCubeArrayShadowF:
-			result = "samplerCubeArrayShadow";
-			break;
-		case type::Kind::eSamplerBufferI:
-			result = "isamplerBuffer";
-			break;
-		case type::Kind::eSampler1DI:
-			result = "isampler1D";
-			break;
-		case type::Kind::eSampler2DI:
-			result = "isampler2D";
-			break;
-		case type::Kind::eSampler3DI:
-			result = "isampler3D";
-			break;
-		case type::Kind::eSamplerCubeI:
-			result = "isamplerCube";
-			break;
-		case type::Kind::eSampler2DRectI:
-			result = "isampler2DRect";
-			break;
-		case type::Kind::eSampler1DArrayI:
-			result = "isampler1DArray";
-			break;
-		case type::Kind::eSampler2DArrayI:
-			result = "isampler2DArray";
-			break;
-		case type::Kind::eSamplerCubeArrayI:
-			result = "isamplerCubeArray";
-			break;
-		case type::Kind::eSamplerBufferU:
-			result = "usamplerBuffer";
-			break;
-		case type::Kind::eSampler1DU:
-			result = "usampler1D";
-			break;
-		case type::Kind::eSampler2DU:
-			result = "usampler2D";
-			break;
-		case type::Kind::eSampler3DU:
-			result = "usampler3D";
-			break;
-		case type::Kind::eSamplerCubeU:
-			result = "usamplerCube";
-			break;
-		case type::Kind::eSampler2DRectU:
-			result = "usampler2DRect";
-			break;
-		case type::Kind::eSampler1DArrayU:
-			result = "usampler1DArray";
-			break;
-		case type::Kind::eSampler2DArrayU:
-			result = "usampler2DArray";
-			break;
-		case type::Kind::eSamplerCubeArrayU:
-			result = "usamplerCubeArray";
-			break;
-		case type::Kind::eImageBufferF:
-			result = "imageBuffer";
-			break;
-		case type::Kind::eImage1DF:
-			result = "image1D";
-			break;
-		case type::Kind::eImage2DF:
-			result = "image2D";
-			break;
-		case type::Kind::eImage3DF:
-			result = "image3D";
-			break;
-		case type::Kind::eImageCubeF:
-			result = "imageCube";
-			break;
-		case type::Kind::eImage2DRectF:
-			result = "image2DRect";
-			break;
-		case type::Kind::eImage1DArrayF:
-			result = "image1DArray";
-			break;
-		case type::Kind::eImage2DArrayF:
-			result = "image2DArray";
-			break;
-		case type::Kind::eImageCubeArrayF:
-			result = "imageCubeArray";
-			break;
-		case type::Kind::eImage2DMSF:
-			result = "image2DMS";
-			break;
-		case type::Kind::eImage2DMSArrayF:
-			result = "image2DMSArray";
-			break;
-		case type::Kind::eImageBufferI:
-			result = "iimageBuffer";
-			break;
-		case type::Kind::eImage1DI:
-			result = "iimage1D";
-			break;
-		case type::Kind::eImage2DI:
-			result = "iimage2D";
-			break;
-		case type::Kind::eImage3DI:
-			result = "iimage3D";
-			break;
-		case type::Kind::eImageCubeI:
-			result = "iimageCube";
-			break;
-		case type::Kind::eImage2DRectI:
-			result = "iimage2DRect";
-			break;
-		case type::Kind::eImage1DArrayI:
-			result = "iimage1DArray";
-			break;
-		case type::Kind::eImage2DArrayI:
-			result = "iimage2DArray";
-			break;
-		case type::Kind::eImageCubeArrayI:
-			result = "iimageCubeArray";
-			break;
-		case type::Kind::eImage2DMSI:
-			result = "iimage2DMS";
-			break;
-		case type::Kind::eImage2DMSArrayI:
-			result = "iimage2DMSArray";
-			break;
-		case type::Kind::eImageBufferU:
-			result = "uimageBuffer";
-			break;
-		case type::Kind::eImage1DU:
-			result = "uimage1D";
-			break;
-		case type::Kind::eImage2DU:
-			result = "uimage2D";
-			break;
-		case type::Kind::eImage3DU:
-			result = "uimage3D";
-			break;
-		case type::Kind::eImageCubeU:
-			result = "uimageCube";
-			break;
-		case type::Kind::eImage2DRectU:
-			result = "uimage2DRect";
-			break;
-		case type::Kind::eImage1DArrayU:
-			result = "uimage1DArray";
-			break;
-		case type::Kind::eImage2DArrayU:
-			result = "uimage2DArray";
-			break;
-		case type::Kind::eImageCubeArrayU:
-			result = "uimageCubeArray";
-			break;
-		case type::Kind::eImage2DMSU:
-			result = "uimage2DMS";
-			break;
-		case type::Kind::eImage2DMSArrayU:
-			result = "uimage2DMSArray";
-			break;
+		case type::Kind::eImage:
+			result = "image";
+			break;
+		case type::Kind::eSampler:
+			result = "sampler";
+			break;
+		case type::Kind::eSampledImage:
+			result = "sampledImage";
+			break;
+		}
+
+		return result;
+	}
+
+	std::string getName( type::ImageDim value )
+	{
+		std::string result;
+
+		switch ( value )
+		{
+		case ast::type::ImageDim::e1D:
+			result = "1D";
+			break;
+		case ast::type::ImageDim::e2D:
+			result = "2D";
+			break;
+		case ast::type::ImageDim::e3D:
+			result = "3D";
+			break;
+		case ast::type::ImageDim::eCube:
+			result = "Cube";
+			break;
+		case ast::type::ImageDim::eRect:
+			result = "2DRect";
+			break;
+		case ast::type::ImageDim::eBuffer:
+			result = "Buffer";
+			break;
+		default:
+			assert( false && "Unsupported type::ImageDim" );
+			result = "Undefined";
+			break;
+		}
+
+		return result;
+	}
+
+	std::string getTypeName( type::ImagePtr type )
+	{
+		std::string result;
+		auto & config = type->getConfig();
+
+		if ( config.isSampled == type::Ternary::eTrue )
+		{
+			result += "sampler";
+		}
+		else
+		{
+			result += "image";
+		}
+
+		result += getName( config.dimension );
+
+		if ( config.isArrayed )
+		{
+			result += "Array";
+		}
+
+		if ( config.isDepth == type::Ternary::eTrue )
+		{
+			assert( config.isSampled == type::Ternary::eTrue );
+			result += "Shadow";
 		}
 
 		return result;
@@ -357,6 +230,9 @@ namespace sdw::glsl
 		{
 		case type::Kind::eStruct:
 			result = static_cast< type::Struct const & >( *type ).getName();
+			break;
+		case type::Kind::eImage:
+			result = getTypeName( std::static_pointer_cast< type::Image >( type ) );
 			break;
 		default:
 			result = getTypeName( type->getKind() );

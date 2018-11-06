@@ -9,6 +9,7 @@ See LICENSE file in root folder
 #include "FunctionParam.hpp"
 #include "Bool.hpp"
 #include "Image.hpp"
+#include "SampledImage.hpp"
 #include "OptionalMat2.hpp"
 #include "OptionalMat2x3.hpp"
 #include "OptionalMat2x4.hpp"

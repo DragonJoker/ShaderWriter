@@ -11,6 +11,9 @@ See LICENSE file in root folder
 
 #include "ShaderWriter/Shader.hpp"
 
+#include <ASTGenerator/Type/TypeSampledImage.hpp>
+#include <ASTGenerator/Type/TypeImage.hpp>
+
 namespace sdw::hlsl
 {
 	namespace
@@ -211,7 +214,7 @@ namespace sdw::hlsl
 		auto save = m_result;
 		auto cont = stmt::makeConstantBufferDecl( stmt->getName()
 			, stmt->getBindingPoint()
-			, stmt->getBindingSet() );
+			, stmt->getDescriptorSet() );
 		m_result = cont.get();
 		visitContainerStmt( stmt );
 		m_result = save;
@@ -389,11 +392,12 @@ namespace sdw::hlsl
 		// Split sampled textures in sampler + texture in parameters list.
 		for ( auto & param : stmt->getParameters() )
 		{
-			if ( isSampler( param->getType()->getKind() ) )
+			if ( isSampledImageType( param->getType()->getKind() ) )
 			{
-				auto texture = var::makeVariable( param->getType()
+				auto config = std::static_pointer_cast< type::SampledImage >( param->getType() )->getConfig();
+				auto texture = var::makeVariable( type::getImage( config, param->getType()->getArraySize() )
 					, param->getName() + "_texture" );
-				auto sampler = var::makeVariable( makeSampler()
+				auto sampler = var::makeVariable( makeType( type::Kind::eSampler, param->getType()->getArraySize() )
 					, param->getName() + "_sampler" );
 				m_linkedVars.emplace( param, std::make_pair( texture, sampler ) );
 				params.push_back( texture );
@@ -473,7 +477,7 @@ namespace sdw::hlsl
 	{
 		m_result->addStmt( stmt::makeImageDecl( stmt->getVariable()
 			, stmt->getBindingPoint()
-			, stmt->getBindingSet() ) );
+			, stmt->getDescriptorSet() ) );
 	}
 
 	void StmtAdapter::visitInOutVariableDeclStmt( stmt::InOutVariableDecl * stmt )
@@ -547,32 +551,40 @@ namespace sdw::hlsl
 		}
 	}
 
-	void StmtAdapter::visitSamplerDeclStmt( stmt::SamplerDecl * stmt )
+	void StmtAdapter::visitSampledImageDeclStmt( stmt::SampledImageDecl * stmt )
 	{
 		auto originalVar = stmt->getVariable();
+		auto config = std::static_pointer_cast< type::SampledImage >( stmt->getVariable()->getType() )->getConfig();
+		// Create Image
 		auto textureVar = m_shader.registerImage( stmt->getVariable()->getName() + "_texture"
-			, stmt->getVariable()->getType()
+			, type::getImage( config, stmt->getVariable()->getType()->getArraySize() )
 			, stmt->getBindingPoint()
-			, stmt->getBindingSet() );
+			, stmt->getDescriptorSet() );
 		textureVar->setFlag( var::Flag::eImplicit );
 		m_result->addStmt( stmt::makeImageDecl( textureVar
 			, stmt->getBindingPoint()
-			, stmt->getBindingSet() ) );
+			, stmt->getDescriptorSet() ) );
 
-		if ( stmt->getVariable()->getType()->getKind() != type::Kind::eSamplerBufferF
-			&& stmt->getVariable()->getType()->getKind() != type::Kind::eSamplerBufferI
-			&& stmt->getVariable()->getType()->getKind() != type::Kind::eSamplerBufferU )
-		{
-			auto samplerVar = m_shader.registerSampler( stmt->getVariable()->getName() + "_sampler"
-				, makeSampler()
-				, stmt->getBindingPoint()
-				, stmt->getBindingSet() );
-			samplerVar->setFlag( var::Flag::eImplicit );
-			linkVars( originalVar, textureVar, samplerVar );
-			m_result->addStmt( stmt::makeSamplerDecl( samplerVar
-				, stmt->getBindingPoint()
-				, stmt->getBindingSet() ) );
-		}
+		// Create Sampler
+		auto samplerVar = m_shader.registerSampler( stmt->getVariable()->getName() + "_sampler"
+			, makeType( type::Kind::eSampler, stmt->getVariable()->getType()->getArraySize() )
+			, stmt->getBindingPoint()
+			, stmt->getDescriptorSet() );
+		samplerVar->setFlag( var::Flag::eImplicit );
+		m_result->addStmt( stmt::makeSamplerDecl( samplerVar
+			, stmt->getBindingPoint()
+			, stmt->getDescriptorSet() ) );
+
+		// Link them
+		linkVars( originalVar, textureVar, samplerVar );
+	}
+
+	void StmtAdapter::visitSamplerDeclStmt( stmt::SamplerDecl * stmt )
+	{
+		auto samplerVar = m_shader.registerSampler( stmt->getVariable()->getName()
+			, stmt->getVariable()->getType()
+			, stmt->getBindingPoint()
+			, stmt->getDescriptorSet() );
 	}
 
 	void StmtAdapter::visitShaderBufferDeclStmt( stmt::ShaderBufferDecl * stmt )
@@ -580,7 +592,7 @@ namespace sdw::hlsl
 		auto save = m_result;
 		auto cont = stmt::makeShaderBufferDecl( stmt->getName()
 			, stmt->getBindingPoint()
-			, stmt->getBindingSet() );
+			, stmt->getDescriptorSet() );
 		m_result = cont.get();
 		visitContainerStmt( stmt );
 		m_result = save;

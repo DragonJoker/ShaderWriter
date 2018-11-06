@@ -18,7 +18,8 @@ namespace sdw
 		Ubo( ShaderWriter & writer
 			, std::string const & name
 			, uint32_t bind
-			, uint32_t set = 0u );
+			, uint32_t set
+			, ast::type::MemoryLayout layout = ast::type::MemoryLayout::eStd140 );
 		void end();
 
 		StructInstance declMember( std::string const & name, Struct const & s );

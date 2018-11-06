@@ -22,6 +22,7 @@ namespace sdw
 			, bool enabled );
 		inline Optional( Vec2T< ValueT > const & other
 			, bool enabled );
+		inline Optional( Optional< Vec2T< ValueT > > const & rhs );
 		inline Optional< Vec2T< ValueT > > & operator=( Optional< Vec2T< ValueT > > const & rhs );
 		template< typename IndexT >
 		inline Optional< ValueT > operator[]( IndexT const & rhs )const;

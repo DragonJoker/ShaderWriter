@@ -17,6 +17,7 @@ namespace sdw
 		Optional( Shader * shader
 			, expr::ExprPtr expr
 			, bool enabled );
+		inline Optional( Optional< Array< ValueT > > const & rhs );
 		template< typename IndexT >
 		Optional< ValueT > operator[]( IndexT const & offset )const;
 		inline bool isEnabled()const;

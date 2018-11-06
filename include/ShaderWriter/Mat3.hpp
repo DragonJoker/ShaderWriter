@@ -19,6 +19,7 @@ namespace sdw
 
 		inline Mat3T( Shader * shader
 			, expr::ExprPtr expr );
+		inline Mat3T( Mat3T const & rhs );
 		inline Mat3T< ValueT > & operator=( Mat3T< ValueT > const & rhs );
 		template< typename RhsT >
 		inline Mat3T< ValueT > & operator=( RhsT const & rhs );

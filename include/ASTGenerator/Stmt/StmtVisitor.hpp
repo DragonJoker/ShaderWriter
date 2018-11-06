@@ -32,6 +32,7 @@ See LICENSE file in root folder
 #include "StmtPerVertexDecl.hpp"
 #include "StmtPushConstantsBufferDecl.hpp"
 #include "StmtReturn.hpp"
+#include "StmtSampledImageDecl.hpp"
 #include "StmtSamplerDecl.hpp"
 #include "StmtShaderBufferDecl.hpp"
 #include "StmtSimple.hpp"
@@ -74,6 +75,7 @@ namespace ast::stmt
 		virtual void visitPerVertexDeclStmt( PerVertexDecl * ) = 0;
 		virtual void visitPushConstantsBufferDeclStmt( PushConstantsBufferDecl * ) = 0;
 		virtual void visitReturnStmt( Return * ) = 0;
+		virtual void visitSampledImageDeclStmt( SampledImageDecl * ) = 0;
 		virtual void visitSamplerDeclStmt( SamplerDecl * ) = 0;
 		virtual void visitShaderBufferDeclStmt( ShaderBufferDecl * ) = 0;
 		virtual void visitSimpleStmt( Simple * ) = 0;

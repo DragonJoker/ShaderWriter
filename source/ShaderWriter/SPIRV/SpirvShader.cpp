@@ -46,62 +46,10 @@ namespace sdw::spirv
 			, 0u );
 	}
 
-	var::VariablePtr SpirvShader::registerSampler( std::string const & name
-		, type::TypePtr type
-		, uint32_t binding
-		, uint32_t set
-		, bool enabled )
-	{
-		auto result = registerName( name
-			, type
-			, var::Flag::eSampler );
-
-		if ( enabled )
-		{
-			m_samplers.emplace( name, SamplerInfo{ type, binding, set } );
-		}
-
-		return result;
-	}
-
-	var::VariablePtr SpirvShader::registerSampledImage( std::string const & name
-		, type::TypePtr type
-		, bool enabled )
-	{
-		auto result = registerName( name
-			, type
-			, var::Flag::eSampler | var::Flag::eImage );
-
-		if ( enabled )
-		{
-			m_sampledImages.insert( name );
-		}
-
-		return result;
-	}
-
-	var::VariablePtr SpirvShader::registerImage( std::string const & name
-		, type::TypePtr type
-		, uint32_t binding
-		, uint32_t set
-		, bool enabled )
-	{
-		auto result = registerName( name
-			, type
-			, var::Flag::eImage );
-
-		if ( enabled )
-		{
-			m_images.emplace( name, ImageInfo{ type, binding, set } );
-		}
-
-		return result;
-	}
-
 	var::VariablePtr SpirvShader::getVar( std::string const & name
 		, type::TypePtr type )
 	{
-		auto result = m_shader.getVar( name, type );
+		auto result = m_shader.getVar( name );
 
 		if ( !result )
 		{

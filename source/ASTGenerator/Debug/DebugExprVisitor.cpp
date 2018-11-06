@@ -411,6 +411,7 @@ namespace ast::debug
 	void ExprVisitor::visitSwizzleExpr( expr::Swizzle * expr )
 	{
 		m_result += getName( expr->getKind() ) + " ";
-		m_result += getName( expr->getSwizzle() );
+		m_result += getName( expr->getSwizzle() ) + " ";
+		wrap( expr->getOuterExpr() );
 	}
 }

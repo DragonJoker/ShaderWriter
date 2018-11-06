@@ -1,4 +1,4 @@
-#include "Common.hpp"
+#include "../Common.hpp"
 
 #include <ASTGenerator/Var/Variable.hpp>
 #include <ASTGenerator/Debug/DebugExprVisitor.hpp>
@@ -124,16 +124,31 @@ namespace
 		testEnd();
 	}
 
+	void testSampledImageDeclStatement()
+	{
+		testBegin( "testSampledImageDeclStatement" );
+		ast::type::ImageConfiguration config{};
+		auto stmt = ast::stmt::makeSampledImageDecl( ast::var::makeVariable( ast::type::getSampledImage( config ), "lhs" ), 1u, 2u );
+		std::cout << "StmtSamplerDecl:\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
+
+		check( stmt->getKind() == ast::stmt::Kind::eSampledImageDecl );
+		check( stmt->getBindingPoint() == 1u );
+		check( stmt->getDescriptorSet() == 2u );
+		check( stmt->getVariable()->getType()->getKind() == ast::type::Kind::eSampledImage );
+		check( stmt->getVariable()->getName() == "lhs" );
+		testEnd();
+	}
+
 	void testSamplerDeclStatement()
 	{
 		testBegin( "testSamplerDeclStatement" );
-		auto stmt = ast::stmt::makeSamplerDecl( ast::var::makeVariable( ast::type::getSampler2DF(), "lhs" ), 1u, 2u );
+		auto stmt = ast::stmt::makeSamplerDecl( ast::var::makeVariable( ast::type::getSampler(), "lhs" ), 1u, 2u );
 		std::cout << "StmtSamplerDecl:\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
 
 		check( stmt->getKind() == ast::stmt::Kind::eSamplerDecl );
 		check( stmt->getBindingPoint() == 1u );
-		check( stmt->getBindingSet() == 2u );
-		check( stmt->getVariable()->getType()->getKind() == ast::type::Kind::eSampler2DF );
+		check( stmt->getDescriptorSet() == 2u );
+		check( stmt->getVariable()->getType()->getKind() == ast::type::Kind::eSampler );
 		check( stmt->getVariable()->getName() == "lhs" );
 		testEnd();
 	}
@@ -141,13 +156,14 @@ namespace
 	void testImageDeclStatement()
 	{
 		testBegin( "testImageDeclStatement" );
-		auto stmt = ast::stmt::makeImageDecl( ast::var::makeVariable( ast::type::getImage2DF(), "lhs" ), 1u, 2u );
+		ast::type::ImageConfiguration config{};
+		auto stmt = ast::stmt::makeImageDecl( ast::var::makeVariable( ast::type::getImage( config ), "lhs" ), 1u, 2u );
 		std::cout << "StmtImageDecl:\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
 
 		check( stmt->getKind() == ast::stmt::Kind::eImageDecl );
 		check( stmt->getBindingPoint() == 1u );
-		check( stmt->getBindingSet() == 2u );
-		check( stmt->getVariable()->getType()->getKind() == ast::type::Kind::eImage2DF );
+		check( stmt->getDescriptorSet() == 2u );
+		check( stmt->getVariable()->getType()->getKind() == ast::type::Kind::eImage );
 		check( stmt->getVariable()->getName() == "lhs" );
 		testEnd();
 	}
@@ -161,7 +177,7 @@ namespace
 
 			check( stmt->getKind() == ast::stmt::Kind::eConstantBufferDecl );
 			check( stmt->getBindingPoint() == 1u );
-			check( stmt->getBindingSet() == 2u );
+			check( stmt->getDescriptorSet() == 2u );
 			check( stmt->empty() );
 		}
 		{
@@ -172,7 +188,7 @@ namespace
 
 			check( stmt->getKind() == ast::stmt::Kind::eConstantBufferDecl );
 			check( stmt->getBindingPoint() == 1u );
-			check( stmt->getBindingSet() == 2u );
+			check( stmt->getDescriptorSet() == 2u );
 			check( stmt->size() == 2u );
 		}
 		testEnd();
@@ -187,7 +203,7 @@ namespace
 
 			check( stmt->getKind() == ast::stmt::Kind::eShaderBufferDecl );
 			check( stmt->getBindingPoint() == 1u );
-			check( stmt->getBindingSet() == 2u );
+			check( stmt->getDescriptorSet() == 2u );
 			check( stmt->empty() );
 		}
 		{
@@ -198,7 +214,7 @@ namespace
 
 			check( stmt->getKind() == ast::stmt::Kind::eShaderBufferDecl );
 			check( stmt->getBindingPoint() == 1u );
-			check( stmt->getBindingSet() == 2u );
+			check( stmt->getDescriptorSet() == 2u );
 			check( stmt->size() == 2u );
 		}
 		testEnd();
@@ -696,6 +712,7 @@ int main( int argc, char ** argv )
 	testPreprocVersion();
 	testSimpleStatement();
 	testVariableDeclStatement();
+	testSampledImageDeclStatement();
 	testSamplerDeclStatement();
 	testImageDeclStatement();
 	testConstantBufferDeclStatement();

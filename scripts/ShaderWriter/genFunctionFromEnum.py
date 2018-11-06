@@ -39,14 +39,15 @@ def typeKindToSdwType( kind ):
 
 def printHeader( outs, match ):
 	enumName = match.group( 1 )
-	outs.write( "#ifndef ___ShaderWriter_Get" + enumName + "Functions_H___\n" )
-	outs.write( "#define ___ShaderWriter_Get" + enumName + "Functions_H___\n" )
+	outs.write( "#ifndef ___SDW_Get" + enumName + "Functions_H___\n" )
+	outs.write( "#define ___SDW_Get" + enumName + "Functions_H___\n" )
 	outs.write( "#pragma once\n" )
 	outs.write( "\n" )
 	outs.write( '#include "Function.hpp"\n' )
 	outs.write( '#include "FunctionParam.hpp"\n' )
 	outs.write( '#include "Bool.hpp"\n' )
 	outs.write( '#include "Image.hpp"\n' )
+	outs.write( '#include "SampledImage.hpp"\n' )
 	outs.write( '#include "OptionalMat2.hpp"\n' )
 	outs.write( '#include "OptionalMat2x3.hpp"\n' )
 	outs.write( '#include "OptionalMat2x4.hpp"\n' )
@@ -203,8 +204,35 @@ def computeArgs( args, sep ):
 			index += 3
 	return result
 
-def getTextureName( texType, name ):
-	result = texType
+def isArrayTexture( name ):
+	result = re.sub( "Array", "", name )
+	return result != name
+
+def isDepthTexture( name ):
+	result = re.sub( "Shadow", "", name )
+	return result != name
+
+def getImageDim( name ):
+	result = ""
+	if name.find( "Rect" ) != -1:
+		result = "ast::type::ImageDim::eRect"
+	elif name.find( "1D" ) != -1:
+		result = "ast::type::ImageDim::e1D"
+	elif name.find( "2D" ) != -1:
+		result = "ast::type::ImageDim::e2D"
+	elif name.find( "3D" ) != -1:
+		result = "ast::type::ImageDim::e3D"
+	elif name.find( "Cube" ) != -1:
+		result = "ast::type::ImageDim::eCube"
+	elif name.find( "Buffer" ) != -1:
+		result = "ast::type::ImageDim::eBuffer"
+	return result
+
+def isMSTexture( name ):
+	result = re.sub( "MS", "", name )
+	return result != name
+	
+def getImagePostfix( name ):
 	intrName6 = re.compile( "([\w]*), ([\w]*), ([\w]*), ([\w]*), ([\w]*), ([\w]*), ([\w]*)" )
 	intrName5 = re.compile( "([\w]*), ([\w]*), ([\w]*), ([\w]*), ([\w]*), ([\w]*)" )
 	intrName4 = re.compile( "([\w]*), ([\w]*), ([\w]*), ([\w]*), ([\w]*)" )
@@ -230,45 +258,110 @@ def getTextureName( texType, name ):
 		postfix += resName2.group( 3 )
 	elif resName1:
 		postfix += resName1.group( 3 )
-	intrNameF = re.compile( "([^F]*)([F])" )
-	intrNameIU = re.compile( "([^IU]*)([IU])" )
-	resNameF = intrNameF.match( postfix )
-	resNameIU = intrNameIU.match( postfix )
-	if resNameF:
-		result = texType + resNameF.group( 1 )
-	elif resNameIU:
-		result = resNameIU.group( 2 ) + texType + resNameIU.group( 1 )
+	return postfix
+
+def getImageFormat( match ):
+	name = getImagePostfix( match )
+	format = name[len( name ) - 1]
+	result = ""
+	if format == "F":
+		result = "float"
+	if format == "I":
+		result = "sint"
+	if format == "U":
+		result = "uint"
 	return result
 
-def printValue( outs, enumName, match ):
+def writeTemplateParameters( format, name ):
+	postfix = getImagePostfix( name )
+	isArray = isArrayTexture( postfix )
+	isDepth = isDepthTexture( postfix )
+	isMs = isMSTexture( postfix )
+	imageDim = getImageDim( postfix )
+	result = imageDim + ", ast::type::ImageFormat::e" + format
+	if isArray:
+		result += ", true"
+	else:
+		result += ", false"
+	if isDepth:
+		result += ", true"
+	else:
+		result += ", false"
+	if isMs:
+		result += ", true"
+	else:
+		result += ", false"
+	return result
+
+def printImageFunction( outs, enumName, format, match ):
 	retType = typeKindToSdwType( match.group( 1 ) )
 	fullName = computeFullName( match.group( 2 ) )
+	# Write function name and return.
 	outs.write( "\n\tinline " + retType + " " + computeIntrinsicName( match.group( 2 ) ) + "(" )
+	# Write additional image parameter.
 	if enumName == "TextureAccess":
-		outs.write( " " + getTextureName( "Sampler", match.group( 2 ) ) + " const & texture" )
-		outs.write( computeParams( match.group( 3 ), "\n\t\t," ) + " )\n" )
-	elif enumName == "ImageAccess":
-		outs.write( " " + getTextureName( "Image", match.group( 2 ) ) + " const & image" )
-		outs.write( computeParams( match.group( 3 ), "\n\t\t," ) + " )\n" )
+		outs.write( " SampledImageT< " + writeTemplateParameters( format, match.group( 2 ) ) + " > const & image" )
 	else:
-		outs.write( computeParams( match.group( 3 ), "" ) + " )\n" )
+		outs.write( " ImageT< " + writeTemplateParameters( format, match.group( 2 ) ) + " > const & image" )
+	# Write function remaining parameters
+	outs.write( computeParams( match.group( 3 ), "\n\t\t," ) + " )\n" )
+	# Header finished, write content
 	outs.write( "\t{\n" )
-	if enumName == "TextureAccess":
-		outs.write( "\t\treturn " + retType + "{ findShader( texture" + listParams( match.group( 3 ), "," ) + " )" )
-	elif enumName == "ImageAccess":
-		outs.write( "\t\treturn " + retType + "{ findShader( image" + listParams( match.group( 3 ), "," ) + " )" )
-	else:
-		outs.write( "\t\treturn " + retType + "{ findShader(" + listParams( match.group( 3 ), "" ) + " )" )
+	outs.write( "\t\treturn " + retType + "{ findShader( image" + listParams( match.group( 3 ), "," ) + " )" )
 	outs.write( "\n\t\t\t, expr::make" + fullName + "(" )
-	if enumName == "TextureAccess":
-		outs.write( " makeExpr( texture )" )
-		outs.write( computeArgs( match.group( 3 ), "\n\t\t\t\t," ) + " ) };\n" )
-	elif enumName == "ImageAccess":
-		outs.write( " makeExpr( image )" )
-		outs.write( computeArgs( match.group( 3 ), "\n\t\t\t\t," ) + " ) };\n" )
-	else:
-		outs.write( computeArgs( match.group( 3 ), "" ) + " ) };\n" )
+	outs.write( " makeExpr( image )" )
+	outs.write( computeArgs( match.group( 3 ), "\n\t\t\t\t," ) + " ) };\n" )
 	outs.write( "\t}\n" )
+
+def printImageFunctions( outs, enumName, match ):
+	format = getImageFormat( match.group( 2 ) )
+	if format == "float":
+		printImageFunction( outs, enumName, "Rgba32f", match )
+		printImageFunction( outs, enumName, "Rgba16f", match )
+		printImageFunction( outs, enumName, "Rg32f", match )
+		printImageFunction( outs, enumName, "Rg16f", match )
+		printImageFunction( outs, enumName, "R32f", match )
+		printImageFunction( outs, enumName, "R16f", match )
+	elif format == "sint":
+		printImageFunction( outs, enumName, "Rgba32i", match )
+		printImageFunction( outs, enumName, "Rgba16i", match )
+		printImageFunction( outs, enumName, "Rgba8i", match )
+		printImageFunction( outs, enumName, "Rg32i", match )
+		printImageFunction( outs, enumName, "Rg16i", match )
+		printImageFunction( outs, enumName, "Rg8i", match )
+		printImageFunction( outs, enumName, "R32i", match )
+		printImageFunction( outs, enumName, "R16i", match )
+		printImageFunction( outs, enumName, "R8i", match )
+	else:
+		printImageFunction( outs, enumName, "Rgba32u", match )
+		printImageFunction( outs, enumName, "Rgba16u", match )
+		printImageFunction( outs, enumName, "Rgba8u", match )
+		printImageFunction( outs, enumName, "Rg32u", match )
+		printImageFunction( outs, enumName, "Rg16u", match )
+		printImageFunction( outs, enumName, "Rg8u", match )
+		printImageFunction( outs, enumName, "R32u", match )
+		printImageFunction( outs, enumName, "R16u", match )
+		printImageFunction( outs, enumName, "R8u", match )
+
+def printIntrinsicFunction( outs, enumName, match ):
+	retType = typeKindToSdwType( match.group( 1 ) )
+	fullName = computeFullName( match.group( 2 ) )
+	# Write function name and return
+	outs.write( "\n\tinline " + retType + " " + computeIntrinsicName( match.group( 2 ) ) + "(" )
+	# Write function parameters
+	outs.write( computeParams( match.group( 3 ), "" ) + " )\n" )
+	# Header finished, write content
+	outs.write( "\t{\n" )
+	outs.write( "\t\treturn " + retType + "{ findShader(" + listParams( match.group( 3 ), "" ) + " )" )
+	outs.write( "\n\t\t\t, expr::make" + fullName + "(" )
+	outs.write( computeArgs( match.group( 3 ), "" ) + " ) };\n" )
+	outs.write( "\t}\n" )
+
+def printFunction( outs, enumName, match ):
+	if enumName == "TextureAccess" or enumName == "ImageAccess":
+		printImageFunctions( outs, enumName, match )
+	else:
+		printIntrinsicFunction( outs, enumName, match )
 
 def printFooter( outs ):
 	outs.write( "}\n" )
@@ -304,7 +397,7 @@ def main( argv ):
 				if resultDecl:
 					enumName = printHeader( outs, resultDecl )
 				elif resultValue:
-					printValue( outs, enumName, resultValue )
+					printFunction( outs, enumName, resultValue )
 				elif resultEnd:
 					printFooter( outs )
 				else:

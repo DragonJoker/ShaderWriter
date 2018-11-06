@@ -1,4 +1,4 @@
-#include "Common.hpp"
+#include "../Common.hpp"
 #include "TestWriterCommon.hpp"
 
 #include <ShaderWriter/WriterGlsl.hpp>

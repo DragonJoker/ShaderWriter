@@ -83,7 +83,7 @@ namespace sdw
 			, type::TypePtr type );
 		var::VariablePtr registerConstant( std::string const & name
 			, type::TypePtr type );
-		var::VariablePtr registerSampler( std::string const & name
+		var::VariablePtr registerSampledImage( std::string const & name
 			, type::TypePtr type
 			, uint32_t binding
 			, uint32_t set
@@ -109,8 +109,7 @@ namespace sdw
 			, type::TypePtr type );
 		var::VariablePtr registerInOutParam( std::string const & name
 			, type::TypePtr type );
-		var::VariablePtr getVar( std::string const & name
-			, type::TypePtr type )const;
+		var::VariablePtr getVar( std::string const & name )const;
 		void addStmt( stmt::StmtPtr stmt );
 		void registerSsbo( std::string const & name
 			, Ssbo::Info const & info );

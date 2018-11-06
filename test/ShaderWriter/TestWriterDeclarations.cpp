@@ -1,4 +1,4 @@
-#include "Common.hpp"
+#include "../Common.hpp"
 #include "TestWriterCommon.hpp"
 
 #include <ASTGenerator/Debug/DebugCommon.hpp>
@@ -540,6 +540,7 @@ namespace
 		auto & shader = writer.getShader();
 		auto count = shader.getStatements()->size();
 		{
+			++count;
 			auto name = sdw::debug::getName( sdw::typeEnum< T > ) + "BuiltinValue";
 			auto value = writer.declBuiltin< T >( name );
 			check( value.getType()->getKind() == sdw::typeEnum< T > );
@@ -550,6 +551,7 @@ namespace
 			check( shader.getStatements()->size() == count );
 		}
 		{
+			++count;
 			auto name = sdw::debug::getName( sdw::typeEnum< T > ) + "BuiltinValueArray12";
 			auto value = writer.declBuiltinArray< T >( name, 12u );
 			check( value.getType()->getKind() == sdw::typeEnum< T > );
@@ -560,6 +562,7 @@ namespace
 			check( shader.getStatements()->size() == count );
 		}
 		{
+			++count;
 			auto name = sdw::debug::getName( sdw::typeEnum< T > ) + "BuiltinValueArray";
 			auto value = writer.declBuiltinArray< T >( name );
 			check( value.getType()->getKind() == sdw::typeEnum< T > );
@@ -570,6 +573,7 @@ namespace
 			check( shader.getStatements()->size() == count );
 		}
 		{
+			++count;
 			auto name = sdw::debug::getName( sdw::typeEnum< T > ) + "BuiltinValue_optDis";
 			auto value = writer.declBuiltin< T >( name, false );
 			check( !value.isEnabled() );
@@ -581,6 +585,7 @@ namespace
 			check( shader.getStatements()->size() == count );
 		}
 		{
+			++count;
 			auto name = sdw::debug::getName( sdw::typeEnum< T > ) + "BuiltinValueArray12_optDis";
 			auto value = writer.declBuiltinArray< T >( name, 12u, false );
 			check( !value.isEnabled() );
@@ -593,6 +598,7 @@ namespace
 			check( shader.getStatements()->size() == count );
 		}
 		{
+			++count;
 			auto name = sdw::debug::getName( sdw::typeEnum< T > ) + "BuiltinValueArray_optDis";
 			auto value = writer.declBuiltinArray< T >( name, false );
 			check( !value.isEnabled() );
@@ -605,6 +611,7 @@ namespace
 			check( shader.getStatements()->size() == count );
 		}
 		{
+			++count;
 			auto name = sdw::debug::getName( sdw::typeEnum< T > ) + "BuiltinValue_opt";
 			auto value = writer.declBuiltin< T >( name, true );
 			check( value.isEnabled() );
@@ -616,6 +623,7 @@ namespace
 			check( shader.getStatements()->size() == count );
 		}
 		{
+			++count;
 			auto name = sdw::debug::getName( sdw::typeEnum< T > ) + "BuiltinValueArray12_opt";
 			auto value = writer.declBuiltinArray< T >( name, 12u, true );
 			check( value.isEnabled() );
@@ -628,6 +636,7 @@ namespace
 			check( shader.getStatements()->size() == count );
 		}
 		{
+			++count;
 			auto name = sdw::debug::getName( sdw::typeEnum< T > ) + "BuiltinValueArray_opt";
 			auto value = writer.declBuiltinArray< T >( name, true );
 			check( value.isEnabled() );
@@ -640,186 +649,186 @@ namespace
 			check( shader.getStatements()->size() == count );
 		}
 	}
-
-	template< sdw::SamplerType ST >
-	void testSampler( sdw::ShaderWriter & writer )
+	
+	template< ast::type::ImageDim DimT
+		, ast::type::ImageFormat FormatT
+		, bool ArrayedT
+		, bool DepthT
+		, bool MsT >
+	void testSampledImage( sdw::ShaderWriter & writer )
 	{
+		auto nameBase = sdw::debug::getName( sdw::typeEnum< sdw::SampledImage > )
+			+ sdw::debug::getName( DimT, FormatT, ArrayedT, DepthT, MsT );
 		{
 			auto & shader = writer.getShader();
-			auto name = sdw::debug::getName( sdw::SamplerTypeTraits< ST >::TypeEnum ) + "SamplerValue_1_1";
-			auto value = writer.declSampler< ST >( name, 1u, 1u );
-			check( value.getType()->getKind() == sdw::SamplerTypeTraits< ST >::TypeEnum );
+			auto name = nameBase + "Value_1_1";
+			auto value = writer.declSampledImage< DimT, FormatT, ArrayedT, DepthT, MsT >( name, 1u, 1u );
+			check( value.getType()->getKind() == sdw::typeEnum< sdw::SampledImage > );
 			check( value.getType()->getArraySize() == sdw::type::NotArray );
 			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
-			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isSampler() );
 			auto & stmt = *shader.getStatements()->back();
-			check( stmt.getKind() == sdw::stmt::Kind::eSamplerDecl );
+			check( stmt.getKind() == sdw::stmt::Kind::eSampledImageDecl );
 			check( static_cast< sdw::stmt::SamplerDecl const & >( stmt ).getBindingPoint() == 1u );
-			check( static_cast< sdw::stmt::SamplerDecl const & >( stmt ).getBindingSet() == 1u );
+			check( static_cast< sdw::stmt::SamplerDecl const & >( stmt ).getDescriptorSet() == 1u );
 		}
 		{
 			auto & shader = writer.getShader();
-			auto name = sdw::debug::getName( sdw::SamplerTypeTraits< ST >::TypeEnum ) + "SamplerValue_2_2";
-			auto value = writer.declSamplerArray< ST >( name, 2u, 2u, 12u );
-			check( value.getType()->getKind() == sdw::SamplerTypeTraits< ST >::TypeEnum );
+			auto name = nameBase + "Value_2_2";
+			auto value = writer.declSampledImageArray< DimT, FormatT, ArrayedT, DepthT, MsT >( name, 2u, 2u, 12u );
+			check( value.getType()->getKind() == sdw::typeEnum< sdw::SampledImage > );
 			check( value.getType()->getArraySize() == 12u );
 			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
-			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isSampler() );
 			auto & stmt = *shader.getStatements()->back();
-			check( stmt.getKind() == sdw::stmt::Kind::eSamplerDecl );
+			check( stmt.getKind() == sdw::stmt::Kind::eSampledImageDecl );
 			check( static_cast< sdw::stmt::SamplerDecl const & >( stmt ).getBindingPoint() == 2u );
-			check( static_cast< sdw::stmt::SamplerDecl const & >( stmt ).getBindingSet() == 2u );
+			check( static_cast< sdw::stmt::SamplerDecl const & >( stmt ).getDescriptorSet() == 2u );
 		}
 		{
 			sdw::ShaderWriter writer{ false };
 			auto & shader = writer.getShader();
 			auto count = shader.getStatements()->size();
-			auto value = writer.declSampler< ST >( "value", 1u, 1u, false );
+			auto value = writer.declSampledImage< DimT, FormatT, ArrayedT, DepthT, MsT >( "value", 1u, 1u, false );
 			check( !value.isEnabled() );
-			check( value.getType()->getKind() == sdw::SamplerTypeTraits< ST >::TypeEnum );
+			check( value.getType()->getKind() == sdw::typeEnum< sdw::SampledImage > );
 			check( value.getType()->getArraySize() == sdw::type::NotArray );
 			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == "value" );
-			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isSampler() );
 			check( shader.getStatements()->size() == count );
 		}
 		{
 			sdw::ShaderWriter writer{ false };
 			auto & shader = writer.getShader();
 			auto count = shader.getStatements()->size();
-			auto value = writer.declSamplerArray< ST >( "value", 1u, 1u, 12u, false );
+			auto value = writer.declSampledImageArray< DimT, FormatT, ArrayedT, DepthT, MsT >( "value", 1u, 1u, 12u, false );
 			check( !value.isEnabled() );
 			check( !value[0].isEnabled() );
-			check( value.getType()->getKind() == sdw::SamplerTypeTraits< ST >::TypeEnum );
+			check( value.getType()->getKind() == sdw::typeEnum< sdw::SampledImage > );
 			check( value.getType()->getArraySize() == 12u );
 			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == "value" );
-			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isSampler() );
 			check( shader.getStatements()->size() == count );
 		}
 		{
 			auto & shader = writer.getShader();
-			auto name = sdw::debug::getName( sdw::SamplerTypeTraits< ST >::TypeEnum ) + "SamplerValue_1_1_opt";
-			auto value = writer.declSampler< ST >( name, 1u, 1u, true );
+			auto name = nameBase + "Value_1_1_opt";
+			auto value = writer.declSampledImage< DimT, FormatT, ArrayedT, DepthT, MsT >( name, 1u, 1u, true );
 			check( value.isEnabled() );
-			check( value.getType()->getKind() == sdw::SamplerTypeTraits< ST >::TypeEnum );
+			check( value.getType()->getKind() == sdw::typeEnum< sdw::SampledImage > );
 			check( value.getType()->getArraySize() == sdw::type::NotArray );
 			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
-			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isSampler() );
 			auto & stmt = *shader.getStatements()->back();
-			check( stmt.getKind() == sdw::stmt::Kind::eSamplerDecl );
+			check( stmt.getKind() == sdw::stmt::Kind::eSampledImageDecl );
 			check( static_cast< sdw::stmt::SamplerDecl const & >( stmt ).getBindingPoint() == 1u );
-			check( static_cast< sdw::stmt::SamplerDecl const & >( stmt ).getBindingSet() == 1u );
+			check( static_cast< sdw::stmt::SamplerDecl const & >( stmt ).getDescriptorSet() == 1u );
 		}
 		{
 			auto & shader = writer.getShader();
-			auto name = sdw::debug::getName( sdw::SamplerTypeTraits< ST >::TypeEnum ) + "SamplerValue_2_2_opt";
-			auto value = writer.declSamplerArray< ST >( name, 2u, 2u, 12u, true );
+			auto name = nameBase + "Value_2_2_opt";
+			auto value = writer.declSampledImageArray< DimT, FormatT, ArrayedT, DepthT, MsT >( name, 2u, 2u, 12u, true );
 			check( value.isEnabled() );
 			check( value[0].isEnabled() );
-			check( value.getType()->getKind() == sdw::SamplerTypeTraits< ST >::TypeEnum );
+			check( value.getType()->getKind() == sdw::typeEnum< sdw::SampledImage > );
 			check( value.getType()->getArraySize() == 12u );
 			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
-			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isSampler() );
 			auto & stmt = *shader.getStatements()->back();
-			check( stmt.getKind() == sdw::stmt::Kind::eSamplerDecl );
+			check( stmt.getKind() == sdw::stmt::Kind::eSampledImageDecl );
 			check( static_cast< sdw::stmt::SamplerDecl const & >( stmt ).getBindingPoint() == 2u );
-			check( static_cast< sdw::stmt::SamplerDecl const & >( stmt ).getBindingSet() == 2u );
+			check( static_cast< sdw::stmt::SamplerDecl const & >( stmt ).getDescriptorSet() == 2u );
 		}
 	}
 
-	template< sdw::ImageType ST >
+	template< ast::type::ImageDim DimT
+		, ast::type::ImageFormat FormatT
+		, bool ArrayedT
+		, bool DepthT
+		, bool MsT >
 	void testImage( sdw::ShaderWriter & writer )
 	{
+		auto nameBase = sdw::debug::getName( sdw::typeEnum< sdw::Image > )
+			+ sdw::debug::getName( DimT, FormatT, ArrayedT, DepthT, MsT );
 		{
 			auto & shader = writer.getShader();
-			auto name = sdw::debug::getName( sdw::ImageTypeTraits< ST >::TypeEnum ) + "ImageValue_1_1";
-			auto value = writer.declImage< ST >( name, 1u, 1u );
-			check( value.getType()->getKind() == sdw::ImageTypeTraits< ST >::TypeEnum );
+			auto name = nameBase + "Value_1_1";
+			auto value = writer.declImage< DimT, FormatT, ArrayedT, DepthT, MsT >( name, 1u, 1u );
+			check( value.getType()->getKind() == sdw::typeEnum< sdw::Image > );
 			check( value.getType()->getArraySize() == sdw::type::NotArray );
 			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
-			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isImage() );
 			auto & stmt = *shader.getStatements()->back();
 			check( stmt.getKind() == sdw::stmt::Kind::eImageDecl );
 			check( static_cast< sdw::stmt::ImageDecl const & >( stmt ).getBindingPoint() == 1u );
-			check( static_cast< sdw::stmt::ImageDecl const & >( stmt ).getBindingSet() == 1u );
+			check( static_cast< sdw::stmt::ImageDecl const & >( stmt ).getDescriptorSet() == 1u );
 		}
 		{
 			auto & shader = writer.getShader();
-			auto name = sdw::debug::getName( sdw::ImageTypeTraits< ST >::TypeEnum ) + "ImageValue_2_2";
-			auto value = writer.declImageArray< ST >( name, 2u, 2u, 12u );
-			check( value.getType()->getKind() == sdw::ImageTypeTraits< ST >::TypeEnum );
+			auto name = nameBase + "Value_2_2";
+			auto value = writer.declImageArray< DimT, FormatT, ArrayedT, DepthT, MsT >( name, 2u, 2u, 12u );
+			check( value.getType()->getKind() == sdw::typeEnum< sdw::Image > );
 			check( value.getType()->getArraySize() == 12u );
 			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
-			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isImage() );
 			auto & stmt = *shader.getStatements()->back();
 			check( stmt.getKind() == sdw::stmt::Kind::eImageDecl );
 			check( static_cast< sdw::stmt::ImageDecl const & >( stmt ).getBindingPoint() == 2u );
-			check( static_cast< sdw::stmt::ImageDecl const & >( stmt ).getBindingSet() == 2u );
+			check( static_cast< sdw::stmt::ImageDecl const & >( stmt ).getDescriptorSet() == 2u );
 		}
 		{
 			sdw::ShaderWriter writer{ false };
 			auto & shader = writer.getShader();
 			auto count = shader.getStatements()->size();
-			auto value = writer.declImage< ST >( "value", 1u, 1u, false );
+			auto value = writer.declImage< DimT, FormatT, ArrayedT, DepthT, MsT >( "value", 1u, 1u, false );
 			check( !value.isEnabled() );
-			check( value.getType()->getKind() == sdw::ImageTypeTraits< ST >::TypeEnum );
+			check( value.getType()->getKind() == sdw::typeEnum< sdw::Image > );
 			check( value.getType()->getArraySize() == sdw::type::NotArray );
 			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == "value" );
-			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isImage() );
 			check( shader.getStatements()->size() == count );
 		}
 		{
 			sdw::ShaderWriter writer{ false };
 			auto & shader = writer.getShader();
 			auto count = shader.getStatements()->size();
-			auto value = writer.declImageArray< ST >( "value", 1u, 1u, 12u, false );
+			auto value = writer.declImageArray< DimT, FormatT, ArrayedT, DepthT, MsT >( "value", 1u, 1u, 12u, false );
 			check( !value.isEnabled() );
 			check( !value[0].isEnabled() );
-			check( value.getType()->getKind() == sdw::ImageTypeTraits< ST >::TypeEnum );
+			check( value.getType()->getKind() == sdw::typeEnum< sdw::Image > );
 			check( value.getType()->getArraySize() == 12u );
 			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == "value" );
-			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isImage() );
 			check( shader.getStatements()->size() == count );
 		}
 		{
 			auto & shader = writer.getShader();
-			auto name = sdw::debug::getName( sdw::ImageTypeTraits< ST >::TypeEnum ) + "ImageValue_1_1_opt";
-			auto value = writer.declImage< ST >( name, 1u, 1u, true );
+			auto name = nameBase + "Value_1_1_opt";
+			auto value = writer.declImage< DimT, FormatT, ArrayedT, DepthT, MsT >( name, 1u, 1u, true );
 			check( value.isEnabled() );
-			check( value.getType()->getKind() == sdw::ImageTypeTraits< ST >::TypeEnum );
+			check( value.getType()->getKind() == sdw::typeEnum< sdw::Image > );
 			check( value.getType()->getArraySize() == sdw::type::NotArray );
 			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
-			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isImage() );
 			auto & stmt = *shader.getStatements()->back();
 			check( stmt.getKind() == sdw::stmt::Kind::eImageDecl );
 			check( static_cast< sdw::stmt::ImageDecl const & >( stmt ).getBindingPoint() == 1u );
-			check( static_cast< sdw::stmt::ImageDecl const & >( stmt ).getBindingSet() == 1u );
+			check( static_cast< sdw::stmt::ImageDecl const & >( stmt ).getDescriptorSet() == 1u );
 		}
 		{
 			auto & shader = writer.getShader();
-			auto name = sdw::debug::getName( sdw::ImageTypeTraits< ST >::TypeEnum ) + "ImageValue_2_2_opt";
-			auto value = writer.declImageArray< ST >( name, 2u, 2u, 12u, true );
+			auto name = nameBase + "Value_2_2_opt";
+			auto value = writer.declImageArray< DimT, FormatT, ArrayedT, DepthT, MsT >( name, 2u, 2u, 12u, true );
 			check( value.isEnabled() );
 			check( value[0].isEnabled() );
-			check( value.getType()->getKind() == sdw::ImageTypeTraits< ST >::TypeEnum );
+			check( value.getType()->getKind() == sdw::typeEnum< sdw::Image > );
 			check( value.getType()->getArraySize() == 12u );
 			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
-			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isImage() );
 			auto & stmt = *shader.getStatements()->back();
 			check( stmt.getKind() == sdw::stmt::Kind::eImageDecl );
 			check( static_cast< sdw::stmt::ImageDecl const & >( stmt ).getBindingPoint() == 2u );
-			check( static_cast< sdw::stmt::ImageDecl const & >( stmt ).getBindingSet() == 2u );
+			check( static_cast< sdw::stmt::ImageDecl const & >( stmt ).getDescriptorSet() == 2u );
 		}
 	}
 
@@ -844,12 +853,12 @@ namespace
 	void checkBoStmt( sdw::stmt::ShaderBufferDecl const & stmt )
 	{
 		check( stmt.getBindingPoint() == 1u );
-		check( stmt.getBindingSet() == 1u );
+		check( stmt.getDescriptorSet() == 1u );
 	}
 	void checkBoStmt( sdw::stmt::ConstantBufferDecl const & stmt )
 	{
 		check( stmt.getBindingPoint() == 1u );
-		check( stmt.getBindingSet() == 1u );
+		check( stmt.getDescriptorSet() == 1u );
 	}
 	void checkBoStmt( sdw::stmt::PushConstantsBufferDecl const & stmt )
 	{
@@ -1372,44 +1381,44 @@ namespace
 		testEnd();
 	}
 
-	void testSamplers()
+	void testSampledImages()
 	{
-		testBegin( "testSamplers" );
+		testBegin( "testSampledImages" );
 		sdw::ShaderWriter writer{ false };
-		testSampler< sdw::SamplerType::eBufferF >( writer );
-		testSampler< sdw::SamplerType::e1DF >( writer );
-		testSampler< sdw::SamplerType::e2DF >( writer );
-		testSampler< sdw::SamplerType::e3DF >( writer );
-		testSampler< sdw::SamplerType::eCubeF >( writer );
-		testSampler< sdw::SamplerType::e2DRectF >( writer );
-		testSampler< sdw::SamplerType::e1DArrayF >( writer );
-		testSampler< sdw::SamplerType::e2DArrayF >( writer );
-		testSampler< sdw::SamplerType::eCubeArrayF >( writer );
-		testSampler< sdw::SamplerType::e1DShadowF >( writer );
-		testSampler< sdw::SamplerType::e2DShadowF >( writer );
-		testSampler< sdw::SamplerType::eCubeShadowF >( writer );
-		testSampler< sdw::SamplerType::e2DRectShadowF >( writer );
-		testSampler< sdw::SamplerType::e1DArrayShadowF >( writer );
-		testSampler< sdw::SamplerType::e2DArrayShadowF >( writer );
-		testSampler< sdw::SamplerType::eCubeArrayShadowF >( writer );
-		testSampler< sdw::SamplerType::eBufferI >( writer );
-		testSampler< sdw::SamplerType::e1DI >( writer );
-		testSampler< sdw::SamplerType::e2DI >( writer );
-		testSampler< sdw::SamplerType::e3DI >( writer );
-		testSampler< sdw::SamplerType::eCubeI >( writer );
-		testSampler< sdw::SamplerType::e2DRectI >( writer );
-		testSampler< sdw::SamplerType::e1DArrayI >( writer );
-		testSampler< sdw::SamplerType::e2DArrayI >( writer );
-		testSampler< sdw::SamplerType::eCubeArrayI >( writer );
-		testSampler< sdw::SamplerType::eBufferU >( writer );
-		testSampler< sdw::SamplerType::e1DU >( writer );
-		testSampler< sdw::SamplerType::e2DU >( writer );
-		testSampler< sdw::SamplerType::e3DU >( writer );
-		testSampler< sdw::SamplerType::eCubeU >( writer );
-		testSampler< sdw::SamplerType::e2DRectU >( writer );
-		testSampler< sdw::SamplerType::e1DArrayU >( writer );
-		testSampler< sdw::SamplerType::e2DArrayU >( writer );
-		testSampler< sdw::SamplerType::eCubeArrayU >( writer );
+		testSampledImage< ImgBufferRGBA32F >( writer );
+		testSampledImage< Img1DRGBA32F >( writer );
+		testSampledImage< Img2DRGBA32F >( writer );
+		testSampledImage< Img3DRGBA32F >( writer );
+		testSampledImage< ImgCubeRGBA32F >( writer );
+		testSampledImage< ImgRectRGBA32F  >( writer );
+		testSampledImage< Img1DArrayRGBA32F >( writer );
+		testSampledImage< Img2DArrayRGBA32F >( writer );
+		testSampledImage< ImgCubeArrayRGBA32F >( writer );
+		testSampledImage< Img1DShadowRGBA32F >( writer );
+		testSampledImage< Img2DShadowRGBA32F >( writer );
+		testSampledImage< ImgCubeShadowRGBA32F >( writer );
+		testSampledImage< ImgRectShadowRGBA32F >( writer );
+		testSampledImage< Img1DArrayShadowRGBA32F >( writer );
+		testSampledImage< Img2DArrayShadowRGBA32F >( writer );
+		testSampledImage< ImgCubeArrayShadowRGBA32F >( writer );
+		testSampledImage< ImgBufferRGBA8I >( writer );
+		testSampledImage< Img1DRGBA8I >( writer );
+		testSampledImage< Img2DRGBA8I >( writer );
+		testSampledImage< Img3DRGBA8I >( writer );
+		testSampledImage< ImgCubeRGBA8I >( writer );
+		testSampledImage< ImgRectRGBA8I >( writer );
+		testSampledImage< Img1DArrayRGBA8I >( writer );
+		testSampledImage< Img2DArrayRGBA8I >( writer );
+		testSampledImage< ImgCubeArrayRGBA8I >( writer );
+		testSampledImage< ImgBufferRGBA8U >( writer );
+		testSampledImage< Img1DRGBA8U >( writer );
+		testSampledImage< Img2DRGBA8U >( writer );
+		testSampledImage< Img3DRGBA8U >( writer );
+		testSampledImage< ImgCubeRGBA8U >( writer );
+		testSampledImage< ImgRectRGBA8U >( writer );
+		testSampledImage< Img1DArrayRGBA8U >( writer );
+		testSampledImage< Img2DArrayRGBA8U >( writer );
+		testSampledImage< ImgCubeArrayRGBA8U >( writer );
 		std::cout << sdw::writeDebug( writer.getShader() ) << std::endl;
 		testEnd();
 	}
@@ -1418,39 +1427,39 @@ namespace
 	{
 		testBegin( "testImages" );
 		sdw::ShaderWriter writer{ false };
-		testImage< sdw::ImageType::eBufferF >( writer );
-		testImage< sdw::ImageType::e1DF >( writer );
-		testImage< sdw::ImageType::e2DF >( writer );
-		testImage< sdw::ImageType::e3DF >( writer );
-		testImage< sdw::ImageType::eCubeF >( writer );
-		testImage< sdw::ImageType::e2DRectF >( writer );
-		testImage< sdw::ImageType::e1DArrayF >( writer );
-		testImage< sdw::ImageType::e2DArrayF >( writer );
-		testImage< sdw::ImageType::eCubeArrayF >( writer );
-		testImage< sdw::ImageType::e2DMSF >( writer );
-		testImage< sdw::ImageType::e2DMSArrayF >( writer );
-		testImage< sdw::ImageType::eBufferI >( writer );
-		testImage< sdw::ImageType::e1DI >( writer );
-		testImage< sdw::ImageType::e2DI >( writer );
-		testImage< sdw::ImageType::e3DI >( writer );
-		testImage< sdw::ImageType::eCubeI >( writer );
-		testImage< sdw::ImageType::e2DRectI >( writer );
-		testImage< sdw::ImageType::e1DArrayI >( writer );
-		testImage< sdw::ImageType::e2DArrayI >( writer );
-		testImage< sdw::ImageType::eCubeArrayI >( writer );
-		testImage< sdw::ImageType::e2DMSI >( writer );
-		testImage< sdw::ImageType::e2DMSArrayI >( writer );
-		testImage< sdw::ImageType::eBufferU >( writer );
-		testImage< sdw::ImageType::e1DU >( writer );
-		testImage< sdw::ImageType::e2DU >( writer );
-		testImage< sdw::ImageType::e3DU >( writer );
-		testImage< sdw::ImageType::eCubeU >( writer );
-		testImage< sdw::ImageType::e2DRectU >( writer );
-		testImage< sdw::ImageType::e1DArrayU >( writer );
-		testImage< sdw::ImageType::e2DArrayU >( writer );
-		testImage< sdw::ImageType::eCubeArrayU >( writer );
-		testImage< sdw::ImageType::e2DMSU >( writer );
-		testImage< sdw::ImageType::e2DMSArrayU >( writer );
+		testImage< ImgBufferRGBA32F >( writer );
+		testImage< Img1DRGBA32F >( writer );
+		testImage< Img2DRGBA32F >( writer );
+		testImage< Img3DRGBA32F >( writer );
+		testImage< ImgCubeRGBA32F >( writer );
+		testImage< ImgRectRGBA32F  >( writer );
+		testImage< Img1DArrayRGBA32F >( writer );
+		testImage< Img2DArrayRGBA32F >( writer );
+		testImage< ImgCubeArrayRGBA32F >( writer );
+		testImage< Img2DMSRGBA32F >( writer );
+		testImage< Img2DMSArrayRGBA32F >( writer );
+		testImage< ImgBufferRGBA8I >( writer );
+		testImage< Img1DRGBA8I >( writer );
+		testImage< Img2DRGBA8I >( writer );
+		testImage< Img3DRGBA8I >( writer );
+		testImage< ImgCubeRGBA8I >( writer );
+		testImage< ImgRectRGBA8I >( writer );
+		testImage< Img1DArrayRGBA8I >( writer );
+		testImage< Img2DArrayRGBA8I >( writer );
+		testImage< ImgCubeArrayRGBA8I >( writer );
+		testImage< Img2DMSRGBA8I >( writer );
+		testImage< Img2DMSArrayRGBA8I >( writer );
+		testImage< ImgBufferRGBA8U >( writer );
+		testImage< Img1DRGBA8U >( writer );
+		testImage< Img2DRGBA8U >( writer );
+		testImage< Img3DRGBA8U >( writer );
+		testImage< ImgCubeRGBA8U >( writer );
+		testImage< ImgRectRGBA8U >( writer );
+		testImage< Img1DArrayRGBA8U >( writer );
+		testImage< Img2DArrayRGBA8U >( writer );
+		testImage< ImgCubeArrayRGBA8U >( writer );
+		testImage< Img2DMSRGBA8U >( writer );
+		testImage< Img2DMSArrayRGBA8U >( writer );
 		std::cout << sdw::writeDebug( writer.getShader() ) << std::endl;
 		testEnd();
 	}
@@ -1649,7 +1658,7 @@ int main( int argc, char ** argv )
 	testShaderOutputs();
 	testLocales();
 	testBuiltins();
-	testSamplers();
+	testSampledImages();
 	testImages();
 	testUbos();
 	testSsbos();

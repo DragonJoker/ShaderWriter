@@ -11,6 +11,12 @@ namespace sdw
 	}
 
 	template< typename ValueT >
+	Mat2x3T< ValueT >::Mat2x3T( Mat2x3T const & rhs )
+		: Value{ rhs.getShader(), makeExpr( rhs ) }
+	{
+	}
+
+	template< typename ValueT >
 	Mat2x3T< ValueT > & Mat2x3T< ValueT >::operator=( Mat2x3T< ValueT > const & rhs )
 	{
 		if ( this->getContainer() )

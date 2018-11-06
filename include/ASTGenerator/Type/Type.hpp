@@ -7,8 +7,6 @@ See LICENSE file in root folder
 
 #include "ASTGenerator/ASTGeneratorPrerequisites.hpp"
 
-#include <map>
-
 namespace ast::type
 {
 	static uint32_t constexpr NotArray = 0u;
@@ -60,87 +58,22 @@ namespace ast::type
 		eMat4x4D,
 		eConstantsBuffer,
 		eShaderBuffer,
-		eSamplerBufferF,
-		eSampler1DF,
-		eSampler2DF,
-		eSampler3DF,
-		eSamplerCubeF,
-		eSampler2DRectF,
-		eSampler1DArrayF,
-		eSampler2DArrayF,
-		eSamplerCubeArrayF,
-		eSampler1DShadowF,
-		eSampler2DShadowF,
-		eSamplerCubeShadowF,
-		eSampler2DRectShadowF,
-		eSampler1DArrayShadowF,
-		eSampler2DArrayShadowF,
-		eSamplerCubeArrayShadowF,
-		eSamplerBufferI,
-		eSampler1DI,
-		eSampler2DI,
-		eSampler3DI,
-		eSamplerCubeI,
-		eSampler2DRectI,
-		eSampler1DArrayI,
-		eSampler2DArrayI,
-		eSamplerCubeArrayI,
-		eSamplerBufferU,
-		eSampler1DU,
-		eSampler2DU,
-		eSampler3DU,
-		eSamplerCubeU,
-		eSampler2DRectU,
-		eSampler1DArrayU,
-		eSampler2DArrayU,
-		eSamplerCubeArrayU,
-		eImageBufferF,
-		eImage1DF,
-		eImage2DF,
-		eImage3DF,
-		eImageCubeF,
-		eImage2DRectF,
-		eImage1DArrayF,
-		eImage2DArrayF,
-		eImageCubeArrayF,
-		eImage2DMSF,
-		eImage2DMSArrayF,
-		eImageBufferI,
-		eImage1DI,
-		eImage2DI,
-		eImage3DI,
-		eImageCubeI,
-		eImage2DRectI,
-		eImage1DArrayI,
-		eImage2DArrayI,
-		eImageCubeArrayI,
-		eImage2DMSI,
-		eImage2DMSArrayI,
-		eImageBufferU,
-		eImage1DU,
-		eImage2DU,
-		eImage3DU,
-		eImageCubeU,
-		eImage2DRectU,
-		eImage1DArrayU,
-		eImage2DArrayU,
-		eImageCubeArrayU,
-		eImage2DMSU,
-		eImage2DMSArrayU,
+		eSampler,
+		eImage,
+		eSampledImage,
 		eCount,
 		eHalf,// Internal only, never use this !!!
 		eVec2H,// Internal only, never use this !!!
 		eVec3H,// Internal only, never use this !!!
 		eVec4H,// Internal only, never use this !!!
 		eMin = eUndefined,
-		eMax = eImage2DMSArrayU,
+		eMax = eSampledImage,
 	};
-
-	class TypeCache;
 
 	class Type
 	{
 	private:
+		template< typename TypeT, typename CreatorT >
 		friend class TypeCache;
 		friend class Struct;
 
@@ -233,122 +166,24 @@ namespace ast::type
 	TypePtr getMat4x4D( uint32_t arraySize = NotArray );
 	TypePtr getConstantsBuffer( uint32_t arraySize = NotArray );
 	TypePtr getShaderBuffer( uint32_t arraySize = NotArray );
-	TypePtr getSamplerBufferF( uint32_t arraySize = NotArray );
-	TypePtr getSampler1DF( uint32_t arraySize = NotArray );
-	TypePtr getSampler2DF( uint32_t arraySize = NotArray );
-	TypePtr getSampler3DF( uint32_t arraySize = NotArray );
-	TypePtr getSamplerCubeF( uint32_t arraySize = NotArray );
-	TypePtr getSampler2DRectF( uint32_t arraySize = NotArray );
-	TypePtr getSampler1DArrayF( uint32_t arraySize = NotArray );
-	TypePtr getSampler2DArrayF( uint32_t arraySize = NotArray );
-	TypePtr getSamplerCubeArrayF( uint32_t arraySize = NotArray );
-	TypePtr getSampler1DShadowF( uint32_t arraySize = NotArray );
-	TypePtr getSampler2DShadowF( uint32_t arraySize = NotArray );
-	TypePtr getSamplerCubeShadowF( uint32_t arraySize = NotArray );
-	TypePtr getSampler2DRectShadowF( uint32_t arraySize = NotArray );
-	TypePtr getSampler1DArrayShadowF( uint32_t arraySize = NotArray );
-	TypePtr getSampler2DArrayShadowF( uint32_t arraySize = NotArray );
-	TypePtr getSamplerCubeArrayShadowF( uint32_t arraySize = NotArray );
-	TypePtr getSamplerBufferI( uint32_t arraySize = NotArray );
-	TypePtr getSampler1DI( uint32_t arraySize = NotArray );
-	TypePtr getSampler2DI( uint32_t arraySize = NotArray );
-	TypePtr getSampler3DI( uint32_t arraySize = NotArray );
-	TypePtr getSamplerCubeI( uint32_t arraySize = NotArray );
-	TypePtr getSampler2DRectI( uint32_t arraySize = NotArray );
-	TypePtr getSampler1DArrayI( uint32_t arraySize = NotArray );
-	TypePtr getSampler2DArrayI( uint32_t arraySize = NotArray );
-	TypePtr getSamplerCubeArrayI( uint32_t arraySize = NotArray );
-	TypePtr getSamplerBufferU( uint32_t arraySize = NotArray );
-	TypePtr getSampler1DU( uint32_t arraySize = NotArray );
-	TypePtr getSampler2DU( uint32_t arraySize = NotArray );
-	TypePtr getSampler3DU( uint32_t arraySize = NotArray );
-	TypePtr getSamplerCubeU( uint32_t arraySize = NotArray );
-	TypePtr getSampler2DRectU( uint32_t arraySize = NotArray );
-	TypePtr getSampler1DArrayU( uint32_t arraySize = NotArray );
-	TypePtr getSampler2DArrayU( uint32_t arraySize = NotArray );
-	TypePtr getSamplerCubeArrayU( uint32_t arraySize = NotArray );
-	TypePtr getImageBufferF( uint32_t arraySize = NotArray );
-	TypePtr getImage1DF( uint32_t arraySize = NotArray );
-	TypePtr getImage2DF( uint32_t arraySize = NotArray );
-	TypePtr getImage3DF( uint32_t arraySize = NotArray );
-	TypePtr getImageCubeF( uint32_t arraySize = NotArray );
-	TypePtr getImage2DRectF( uint32_t arraySize = NotArray );
-	TypePtr getImage1DArrayF( uint32_t arraySize = NotArray );
-	TypePtr getImage2DArrayF( uint32_t arraySize = NotArray );
-	TypePtr getImageCubeArrayF( uint32_t arraySize = NotArray );
-	TypePtr getImage2DMSF( uint32_t arraySize = NotArray );
-	TypePtr getImage2DMSArrayF( uint32_t arraySize = NotArray );
-	TypePtr getImageBufferI( uint32_t arraySize = NotArray );
-	TypePtr getImage1DI( uint32_t arraySize = NotArray );
-	TypePtr getImage2DI( uint32_t arraySize = NotArray );
-	TypePtr getImage3DI( uint32_t arraySize = NotArray );
-	TypePtr getImageCubeI( uint32_t arraySize = NotArray );
-	TypePtr getImage2DRectI( uint32_t arraySize = NotArray );
-	TypePtr getImage1DArrayI( uint32_t arraySize = NotArray );
-	TypePtr getImage2DArrayI( uint32_t arraySize = NotArray );
-	TypePtr getImageCubeArrayI( uint32_t arraySize = NotArray );
-	TypePtr getImage2DMSI( uint32_t arraySize = NotArray );
-	TypePtr getImage2DMSArrayI( uint32_t arraySize = NotArray );
-	TypePtr getImageBufferU( uint32_t arraySize = NotArray );
-	TypePtr getImage1DU( uint32_t arraySize = NotArray );
-	TypePtr getImage2DU( uint32_t arraySize = NotArray );
-	TypePtr getImage3DU( uint32_t arraySize = NotArray );
-	TypePtr getImageCubeU( uint32_t arraySize = NotArray );
-	TypePtr getImage2DRectU( uint32_t arraySize = NotArray );
-	TypePtr getImage1DArrayU( uint32_t arraySize = NotArray );
-	TypePtr getImage2DArrayU( uint32_t arraySize = NotArray );
-	TypePtr getImageCubeArrayU( uint32_t arraySize = NotArray );
-	TypePtr getImage2DMSU( uint32_t arraySize = NotArray );
-	TypePtr getImage2DMSArrayU( uint32_t arraySize = NotArray );
+	TypePtr getSampler( uint32_t arraySize = NotArray );
 
-	TypePtr makeType( Kind kind, uint32_t arraySize = NotArray );
+	TypePtr getImage( ImageConfiguration config
+		, uint32_t arraySize = NotArray );
+	TypePtr getSampledImage( ImageConfiguration config
+		, uint32_t arraySize = NotArray );
+
+	TypePtr makeType( Kind kind
+		, uint32_t arraySize = NotArray );
 
 	bool isScalarType( Kind kind );
 	bool isVectorType( Kind kind );
 	bool isMatrixType( Kind kind );
 	bool isSamplerType( Kind kind );
 	bool isImageType( Kind kind );
+	bool isSampledImageType( Kind kind );
 	uint32_t getComponentCount( Kind kind );
 	Kind getComponentType( Kind kind );
-	Kind getVectorType( Kind kind );
-
-	enum class Ternary
-	{
-		eTrue,
-		eFalse,
-		eDontCare,
-	};
-
-	enum class AccessKind
-	{
-		eRead,
-		eWrite,
-		eReadWrite,
-	};
-
-	enum class ImageDim
-	{
-		e1D,
-		e2D,
-		e3D,
-		eCube,
-		eRect,
-		eBuffer,
-	};
-
-	struct ImageConfig
-	{
-		ImageDim dimension;
-		Ternary isDepth;
-		Ternary isSampled;
-		bool isArrayed;
-		bool isMS;
-		uint32_t componentCount;
-		Kind componentType;
-		AccessKind accessKind;
-	};
-
-	ImageConfig getImageConfig( Kind kind );
 }
 
 #endif

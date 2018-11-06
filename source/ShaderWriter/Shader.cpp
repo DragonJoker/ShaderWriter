@@ -100,7 +100,7 @@ namespace sdw
 		return result;
 	}
 
-	var::VariablePtr Shader::registerSampler( std::string const & name
+	var::VariablePtr Shader::registerSampledImage( std::string const & name
 		, type::TypePtr type
 		, uint32_t binding
 		, uint32_t set
@@ -108,7 +108,7 @@ namespace sdw
 	{
 		auto result = registerName( name
 			, type
-			, var::Flag::eSampler );
+			, var::Flag::eUniform );
 
 		if ( enabled )
 		{
@@ -126,7 +126,7 @@ namespace sdw
 	{
 		auto result = registerName( name
 			, type
-			, var::Flag::eImage );
+			, var::Flag::eUniform );
 
 		if ( enabled )
 		{
@@ -200,8 +200,7 @@ namespace sdw
 			, uint32_t( var::Flag::eInputParam ) | uint32_t( var::Flag::eOutputParam ) );
 	}
 
-	var::VariablePtr Shader::getVar( std::string const & name
-		, type::TypePtr type )const
+	var::VariablePtr Shader::getVar( std::string const & name )const
 	{
 		auto & block = m_blocks.back();
 		auto it = block.registered.find( name );

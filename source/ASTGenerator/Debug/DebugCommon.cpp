@@ -6,6 +6,8 @@ See LICENSE file in root folder
 #include "ASTGenerator/Expr/Expr.hpp"
 #include "ASTGenerator/Stmt/PreprocExtension.hpp"
 #include "ASTGenerator/Stmt/StmtInOutVariableDecl.hpp"
+#include "ASTGenerator/Type/TypeImage.hpp"
+#include "ASTGenerator/Type/TypeSampledImage.hpp"
 #include "ASTGenerator/Type/TypeStruct.hpp"
 #include "ASTGenerator/Var/Variable.hpp"
 
@@ -13,6 +15,158 @@ See LICENSE file in root folder
 
 namespace ast::debug
 {
+	namespace
+	{
+		std::string getName( type::ImageDim value )
+		{
+			switch ( value )
+			{
+			case type::ImageDim::e1D:
+				return "1D";
+			case type::ImageDim::e2D:
+				return "2D";
+			case type::ImageDim::e3D:
+				return "3D";
+			case type::ImageDim::eCube:
+				return "CUBE";
+			case type::ImageDim::eRect:
+				return "RECT";
+			case type::ImageDim::eBuffer:
+				return "BUFFER";
+			default:
+				assert( false && "Unsupported type::ImageDim" );
+				return "Undefined";
+			}
+		}
+
+		std::string getName( type::ImageFormat value )
+		{
+			switch ( value )
+			{
+			case ast::type::ImageFormat::eUnknown:
+				return "UNKNOWN";
+			case ast::type::ImageFormat::eRgba32f:
+				return "RGBA32F";
+			case ast::type::ImageFormat::eRgba16f:
+				return "RGBA16F";
+			case ast::type::ImageFormat::eRg32f:
+				return "RG32F";
+			case ast::type::ImageFormat::eRg16f:
+				return "RG16F";
+			case ast::type::ImageFormat::eR32f:
+				return "R32F";
+			case ast::type::ImageFormat::eR16f:
+				return "R16F";
+			case ast::type::ImageFormat::eRgba32i:
+				return "RGBA32I";
+			case ast::type::ImageFormat::eRgba16i:
+				return "RGBA16I";
+			case ast::type::ImageFormat::eRgba8i:
+				return "RGBA8I";
+			case ast::type::ImageFormat::eRg32i:
+				return "RG32I";
+			case ast::type::ImageFormat::eRg16i:
+				return "RG16I";
+			case ast::type::ImageFormat::eRg8i:
+				return "RG8I";
+			case ast::type::ImageFormat::eR32i:
+				return "R32I";
+			case ast::type::ImageFormat::eR16i:
+				return "R16I";
+			case ast::type::ImageFormat::eR8i:
+				return "R8I";
+			case ast::type::ImageFormat::eRgba32u:
+				return "RGBA32U";
+			case ast::type::ImageFormat::eRgba16u:
+				return "RGBA16U";
+			case ast::type::ImageFormat::eRgba8u:
+				return "RGBA8U";
+			case ast::type::ImageFormat::eRg32u:
+				return "RG32U";
+			case ast::type::ImageFormat::eRg16u:
+				return "RG16U";
+			case ast::type::ImageFormat::eRg8u:
+				return "RG8U";
+			case ast::type::ImageFormat::eR32u:
+				return "R32U";
+			case ast::type::ImageFormat::eR16u:
+				return "R16U";
+			case ast::type::ImageFormat::eR8u:
+				return "R8U";
+			default:
+				assert( false && "Unsupported type::ImageFormat" );
+				return "Undefined";
+			}
+		}
+
+		std::string getName( type::Ternary value
+			, std::string const & trueTxt = "TRUE"
+			, std::string const & falseTxt = "FALSE"
+			, std::string const & dontCareTxt = "DONTCARE" )
+		{
+			switch ( value )
+			{
+			case type::Ternary::eTrue:
+				return trueTxt;
+			case type::Ternary::eFalse:
+				return falseTxt;
+			default:
+				return dontCareTxt;
+			}
+		}
+
+		std::string getName( type::AccessKind value )
+		{
+			switch ( value )
+			{
+			case type::AccessKind::eRead:
+				return "R";
+			case type::AccessKind::eWrite:
+				return "W";
+			default:
+				return "RW";
+			}
+		}
+
+		std::string getName( bool value
+			, std::string const & trueTxt = "TRUE"
+			, std::string const & falseTxt = "FALSE" )
+		{
+			return value
+				? trueTxt
+				: falseTxt;
+		}
+
+		std::string getName( type::ImageConfiguration const & config )
+		{
+			std::string result;
+			result += getName( config.dimension );
+			result += "," + getName( config.format );
+			result += "," + getName( config.isDepth );
+			result += "," + getName( config.isSampled );
+			result += "," + getName( config.isArrayed );
+			result += "," + getName( config.isMS );
+			result += "," + getName( config.accessKind );
+			return result;
+		}
+
+		std::string getName( type::MemoryLayout value )
+		{
+			switch ( value )
+			{
+			case type::MemoryLayout::eStd140:
+				return "STD140";
+				break;
+			case type::MemoryLayout::eStd430:
+				return "STD430";
+				break;
+			default:
+				assert( false && "Unsupported type::MemoryLayout" );
+				return "Undefined";
+			}
+		}
+	}
+
 	std::string getName( type::Kind kind )
 	{
 		std::string result;
@@ -151,206 +305,14 @@ namespace ast::debug
 		case type::Kind::eShaderBuffer:
 			result = "SBUFF";
 			break;
-		case type::Kind::eSamplerBufferF:
-			result = "TEXBUFFERF";
+		case type::Kind::eImage:
+			result = "IMAGE";
 			break;
-		case type::Kind::eSampler1DF:
-			result = "TEX1DF";
+		case type::Kind::eSampler:
+			result = "SAMPLER";
 			break;
-		case type::Kind::eSampler2DF:
-			result = "TEX2DF";
-			break;
-		case type::Kind::eSampler3DF:
-			result = "TEX3DF";
-			break;
-		case type::Kind::eSamplerCubeF:
-			result = "TEXCUBEF";
-			break;
-		case type::Kind::eSampler2DRectF:
-			result = "TEX2DRECTF";
-			break;
-		case type::Kind::eSampler1DArrayF:
-			result = "TEX1DARRAYF";
-			break;
-		case type::Kind::eSampler2DArrayF:
-			result = "TEX2DARRAYF";
-			break;
-		case type::Kind::eSamplerCubeArrayF:
-			result = "TEXCUBEARRAYF";
-			break;
-		case type::Kind::eSampler1DShadowF:
-			result = "TEX1DSHADOWF";
-			break;
-		case type::Kind::eSampler2DShadowF:
-			result = "TEX2DSHADOWF";
-			break;
-		case type::Kind::eSamplerCubeShadowF:
-			result = "TEXCUBESHADOWF";
-			break;
-		case type::Kind::eSampler2DRectShadowF:
-			result = "TEX2DRECTARRAYSHADOWF";
-			break;
-		case type::Kind::eSampler1DArrayShadowF:
-			result = "TEX1DARRAYSHADOWF";
-			break;
-		case type::Kind::eSampler2DArrayShadowF:
-			result = "TEX2DARRAYSHADOWF";
-			break;
-		case type::Kind::eSamplerCubeArrayShadowF:
-			result = "TEXCUBEARRAYSHADOWF";
-			break;
-		case type::Kind::eSamplerBufferI:
-			result = "TEXBUFFERI";
-			break;
-		case type::Kind::eSampler1DI:
-			result = "TEX1DI";
-			break;
-		case type::Kind::eSampler2DI:
-			result = "TEX2DI";
-			break;
-		case type::Kind::eSampler3DI:
-			result = "TEX3DI";
-			break;
-		case type::Kind::eSamplerCubeI:
-			result = "TEXCUBEI";
-			break;
-		case type::Kind::eSampler2DRectI:
-			result = "TEX2DRECTI";
-			break;
-		case type::Kind::eSampler1DArrayI:
-			result = "TEX1DARRAYI";
-			break;
-		case type::Kind::eSampler2DArrayI:
-			result = "TEX2DARRAYI";
-			break;
-		case type::Kind::eSamplerCubeArrayI:
-			result = "TEXCUBEARRAYI";
-			break;
-		case type::Kind::eSamplerBufferU:
-			result = "TEXBUFFERU";
-			break;
-		case type::Kind::eSampler1DU:
-			result = "TEX1DU";
-			break;
-		case type::Kind::eSampler2DU:
-			result = "TEX2DU";
-			break;
-		case type::Kind::eSampler3DU:
-			result = "TEX3DU";
-			break;
-		case type::Kind::eSamplerCubeU:
-			result = "TEXCUBEU";
-			break;
-		case type::Kind::eSampler2DRectU:
-			result = "TEX2DRECTU";
-			break;
-		case type::Kind::eSampler1DArrayU:
-			result = "TEX1DARRAYU";
-			break;
-		case type::Kind::eSampler2DArrayU:
-			result = "TEX2DARRAYU";
-			break;
-		case type::Kind::eSamplerCubeArrayU:
-			result = "TEXCUBEARRAYU";
-			break;
-		case type::Kind::eImageBufferF:
-			result = "IMGBUFFERF";
-			break;
-		case type::Kind::eImage1DF:
-			result = "IMG1DF";
-			break;
-		case type::Kind::eImage2DF:
-			result = "IMG2DF";
-			break;
-		case type::Kind::eImage3DF:
-			result = "IMG3DF";
-			break;
-		case type::Kind::eImageCubeF:
-			result = "IMGCUBEF";
-			break;
-		case type::Kind::eImage2DRectF:
-			result = "IMG2DRECTF";
-			break;
-		case type::Kind::eImage1DArrayF:
-			result = "IMG1DARRAYF";
-			break;
-		case type::Kind::eImage2DArrayF:
-			result = "IMG2DARRAYF";
-			break;
-		case type::Kind::eImageCubeArrayF:
-			result = "IMGCUBEARRAYF";
-			break;
-		case type::Kind::eImage2DMSF:
-			result = "IMG2DMSF";
-			break;
-		case type::Kind::eImage2DMSArrayF:
-			result = "IMG2DMSARRAYF";
-			break;
-		case type::Kind::eImageBufferI:
-			result = "IMGBUFFERI";
-			break;
-		case type::Kind::eImage1DI:
-			result = "IMG1DI";
-			break;
-		case type::Kind::eImage2DI:
-			result = "IMG2DI";
-			break;
-		case type::Kind::eImage3DI:
-			result = "IMG3DI";
-			break;
-		case type::Kind::eImageCubeI:
-			result = "IMGCUBEI";
-			break;
-		case type::Kind::eImage2DRectI:
-			result = "IMG2DRECTI";
-			break;
-		case type::Kind::eImage1DArrayI:
-			result = "IMG1DARRAYI";
-			break;
-		case type::Kind::eImage2DArrayI:
-			result = "IMG2DARRAYI";
-			break;
-		case type::Kind::eImageCubeArrayI:
-			result = "IMGCUBEARRAYI";
-			break;
-		case type::Kind::eImage2DMSI:
-			result = "IMG2DMSI";
-			break;
-		case type::Kind::eImage2DMSArrayI:
-			result = "IMG2DMSARRAYI";
-			break;
-		case type::Kind::eImageBufferU:
-			result = "IMGBUFFERU";
-			break;
-		case type::Kind::eImage1DU:
-			result = "IMG1DU";
-			break;
-		case type::Kind::eImage2DU:
-			result = "IMG2DU";
-			break;
-		case type::Kind::eImage3DU:
-			result = "IMG3DU";
-			break;
-		case type::Kind::eImageCubeU:
-			result = "IMGCUBEU";
-			break;
-		case type::Kind::eImage2DRectU:
-			result = "IMG2DRECTU";
-			break;
-		case type::Kind::eImage1DArrayU:
-			result = "IMG1DARRAYU";
-			break;
-		case type::Kind::eImage2DArrayU:
-			result = "IMG2DARRAYU";
-			break;
-		case type::Kind::eImageCubeArrayU:
-			result = "IMGCUBEARRAYU";
-			break;
-		case type::Kind::eImage2DMSU:
-			result = "IMG2DMSU";
-			break;
-		case type::Kind::eImage2DMSArrayU:
-			result = "IMG2DMSARRAYU";
+		case type::Kind::eSampledImage:
+			result = "SAMPLEDIMG";
 			break;
 		}
 
@@ -362,21 +324,9 @@ namespace ast::debug
 		return getName( *type );
 	}
 
-	std::string getName( type::Type const & type )
+	std::string computeArray( uint32_t arraySize )
 	{
 		std::string result;
-
-		switch ( type.getKind() )
-		{
-		case type::Kind::eStruct:
-			result = static_cast< type::Struct const & >( type ).getName();
-			break;
-		default:
-			result = getName( type.getKind() );
-			break;
-		}
-
-		auto arraySize = type.getArraySize();
 
 		if ( arraySize != type::NotArray )
 		{
@@ -391,5 +341,127 @@ namespace ast::debug
 		}
 
 		return result;
+	}
+
+	std::string getName( type::Kind kind
+		, uint32_t arraySize )
+	{
+		return getName( kind ) + computeArray( arraySize );
+	}
+
+	std::string getName( ast::type::ImageDim dim
+		, ast::type::ImageFormat format
+		, bool arrayed
+		, bool depth
+		, bool ms )
+	{
+		return getName( dim )
+			+ getName( format )
+			+ getName( arrayed, "Array", "" )
+			+ getName( depth, "Shadow", "" )
+			+ getName( ms, "MS", "" );
+	}
+
+	std::string getName( type::Struct const & type )
+	{
+		return type.getName()
+			+ "," + getName( type.getMemoryLayout() );
+	}
+
+	std::string getName( type::Type const & type )
+	{
+		std::string result = getName( type.getKind() );
+
+		switch ( type.getKind() )
+		{
+		case type::Kind::eStruct:
+			result += "(" + getName( static_cast< type::Struct const & >( type ) ) + ")";
+			break;
+		case type::Kind::eImage:
+			result += "(" + getName( static_cast< type::Image const & >( type ).getConfig() ) + ")";
+			break;
+		case type::Kind::eSampledImage:
+			result += "(" + getName( static_cast< type::SampledImage const & >( type ).getConfig() ) + ")";
+			break;
+		default:
+			break;
+		}
+
+		return result + computeArray( type.getArraySize() );
+	}
+
+	std::string displayVar( ast::var::Variable const & var )
+	{
+		std::string result = "VAR(";
+		std::string sep;
+
+		if ( var.isInputParam() )
+		{
+			result += sep + "IN";
+			sep = ",";
+		}
+
+		if ( var.isOutputParam() )
+		{
+			result += sep + "OUT";
+			sep = ",";
+		}
+
+		if ( var.isShaderInput() )
+		{
+			result += sep + "INATTR";
+			sep = ",";
+		}
+
+		if ( var.isShaderOutput() )
+		{
+			result += sep + "OUTATTR";
+			sep = ",";
+		}
+
+		if ( var.isShaderConstant() )
+		{
+			result += sep + "CONST";
+			sep = ",";
+		}
+
+		if ( var.isUniform() )
+		{
+			result += sep + "UNIFORM";
+			sep = ",";
+		}
+
+		if ( var.isBuiltin() )
+		{
+			result += sep + "BUILTIN";
+			sep = ",";
+		}
+
+		if ( var.isImplicit() )
+		{
+			result += sep + "IMPLICIT";
+			sep = ",";
+		}
+
+		if ( var.isLocale() )
+		{
+			result += sep + "LOCALE";
+			sep = ",";
+		}
+
+		if ( var.isMember() )
+		{
+			result += sep + "MEMBER";
+			sep = ",";
+		}
+
+		result += sep + getName( *var.getType() );
+		result += ") " + var.getName();
+		return result;
+	}
+
+	std::string displayVar( ast::var::VariablePtr var )
+	{
+		return displayVar( *var );
 	}
 }

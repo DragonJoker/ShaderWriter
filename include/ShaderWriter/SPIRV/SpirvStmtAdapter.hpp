@@ -26,11 +26,6 @@ namespace sdw::spirv
 			, ShaderType type
 			, stmt::Container * result );
 
-		void linkVars( var::VariablePtr textureSampler
-			, var::VariablePtr texture
-			, var::VariablePtr sampler
-			, var::VariablePtr sampledImage );
-
 		void visitContainerStmt( stmt::Container * cont )override;
 		void visitConstantBufferDeclStmt( stmt::ConstantBufferDecl * stmt )override;
 		void visitDiscardStmt( stmt::Discard * stmt )override;
@@ -50,6 +45,7 @@ namespace sdw::spirv
 		void visitOutputGeometryLayoutStmt( stmt::OutputGeometryLayout * stmt )override;
 		void visitPerVertexDeclStmt( stmt::PerVertexDecl * stmt )override;
 		void visitReturnStmt( stmt::Return * stmt )override;
+		void visitSampledImageDeclStmt( stmt::SampledImageDecl * stmt )override;
 		void visitSamplerDeclStmt( stmt::SamplerDecl * stmt )override;
 		void visitShaderBufferDeclStmt( stmt::ShaderBufferDecl * stmt )override;
 		void visitSimpleStmt( stmt::Simple * stmt )override;
@@ -70,7 +66,6 @@ namespace sdw::spirv
 	private:
 		SpirvShader m_shader;
 		stmt::Container * m_result;
-		LinkedVars m_linkedVars;
 		ShaderType m_type;
 		PreprocContext m_context;
 		stmt::Switch * m_switchStmt;

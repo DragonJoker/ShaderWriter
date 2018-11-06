@@ -15,11 +15,18 @@ namespace sdw
 	}
 
 	template< typename ValueT >
+	Optional< Array< ValueT > >::Optional( Optional< Array< ValueT > > const & rhs )
+		: Array< ValueT >{ rhs }
+		, m_enabled{ other.m_enabled }
+	{
+	}
+
+	template< typename ValueT >
 	template< typename IndexT >
 	Optional< ValueT > Optional< Array< ValueT > >::operator[]( IndexT const & offset )const
 	{
 		return Optional< ValueT >{ findShader( *this, offset )
-			, sdw::makeArrayAccess( makeType( this->getType()->getKind() )
+			, sdw::makeArrayAccess( getNonArrayType( this->getType() )
 				, makeExpr( *this )
 				, makeExpr( offset ) )
 			, areOptionalEnabled( *this, offset ) };

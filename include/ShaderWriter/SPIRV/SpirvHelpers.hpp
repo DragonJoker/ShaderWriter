@@ -13,55 +13,11 @@ See LICENSE file in root folder
 
 namespace sdw::spirv
 {
-	struct LinkedVar
-	{
-		var::VariablePtr image;
-		var::VariablePtr sampler;
-		var::VariablePtr sampledImage;
-	};
-	using LinkedVars = std::map< var::VariablePtr, LinkedVar >;
-
-	class SampledImage
-		: public type::Type
-	{
-	public:
-		SampledImage()
-			: type::Type{ type::Kind::eCount }
-		{
-		}
-	};
-
-	using SampledImagePtr = std::shared_ptr< SampledImage >;
-
-	inline SampledImagePtr makeSampledImage()
-	{
-		return std::make_shared< SampledImage >();
-	}
-
-	class Sampler
-		: public type::Type
-	{
-	public:
-		Sampler()
-			: type::Type{ type::Kind( uint32_t( type::Kind::eCount ) + 1u ) }
-		{
-		}
-	};
-
-	using SamplerPtr = std::shared_ptr< Sampler >;
-
-	inline SamplerPtr makeSampler()
-	{
-		return std::make_shared< Sampler >();
-	}
-
 	struct PreprocContext
 	{
 		std::map< std::string, expr::Expr * > defines;
 	};
 
-	Op getOp( spv::Op op, std::string const & name );
-	Op getOp( spv::Op op, IdList const & operands );
 	spv::MemoryModel getMemoryModel();
 	spv::ExecutionModel getExecutionModel( ShaderType kind );
 	std::string getTypeName( spv::Op op );
@@ -71,16 +27,33 @@ namespace sdw::spirv
 	std::string getStatusName( stmt::PreprocExtension::Status status );
 
 	Instruction makeExtension( std::string const & name );
-	Instruction makeName( spv::Op op, spv::Id id, std::string const & name );
-	Instruction makeName( spv::Op op, spv::Id outerId, spv::Id memberIndex, std::string const & name );
-	Instruction makeType( type::Kind kind, spv::Id id );
-	Instruction makeType( type::Kind kind, spv::Id id, IdList const & subTypes );
-	Instruction makeImageType( type::Kind kind, spv::Id id, spv::Id sampledId );
+	Instruction makeName( spv::Op op
+		, spv::Id id
+		, std::string const & name );
+	Instruction makeName( spv::Op op
+		, spv::Id outerId
+		, spv::Id memberIndex
+		, std::string const & name );
+	Instruction makeType( type::Kind kind
+		, spv::Id id );
+	Instruction makeType( type::Kind kind
+		, spv::Id id
+		, IdList const & subTypes );
+	Instruction makeImageType( type::ImageConfiguration const & config
+		, spv::Id id
+		, spv::Id sampledTypeId );
 	Instruction makeSamplerType( spv::Id id );
-	Instruction makeSampledImageType( type::Kind kind, spv::Id id, spv::Id imageId );
-	Instruction makeStructType( spv::Id id, IdList const & subTypes );
-	Instruction makeArrayType( type::Kind kind, spv::Id id, spv::Id elementTypeId );
-	Instruction makeArrayType( type::Kind kind, spv::Id id, spv::Id elementTypeId, uint32_t length );
+	Instruction makeSampledImageType( spv::Id id
+		, spv::Id imgTypeId );
+	Instruction makeStructType( spv::Id id
+		, IdList const & subTypes );
+	Instruction makeArrayType( type::Kind kind
+		, spv::Id id
+		, spv::Id elementTypeId );
+	Instruction makeArrayType( type::Kind kind
+		, spv::Id id
+		, spv::Id elementTypeId
+		, spv::Id lengthId );
 	Instruction makeSwitch( spv::Id selector
 		, spv::Id defaultId
 		, std::map< int64_t, spv::Id > const & cases );
@@ -106,6 +79,11 @@ namespace sdw::spirv
 		, std::vector< uint32_t >const & components );
 
 	Instruction makeInstruction( spv::Op op );
+	Instruction makeInstruction( spv::Op op
+		, spv::Id resultId );
+	Instruction makeInstruction( spv::Op op
+		, spv::Id resultId
+		, spv::Id typeId );
 	Instruction makeInstruction( expr::Kind exprKind
 		, type::Kind typeKind );
 	Instruction makeInstruction( expr::ImageAccess kind );

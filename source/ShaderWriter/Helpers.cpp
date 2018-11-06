@@ -56,13 +56,48 @@ See LICENSE file in root folder
 #include <ASTGenerator/Stmt/StmtImageDecl.hpp>
 #include <ASTGenerator/Stmt/StmtInOutVariableDecl.hpp>
 #include <ASTGenerator/Stmt/StmtReturn.hpp>
-#include <ASTGenerator/Stmt/StmtSamplerDecl.hpp>
+#include <ASTGenerator/Stmt/StmtSampledImageDecl.hpp>
 #include <ASTGenerator/Stmt/StmtSimple.hpp>
 #include <ASTGenerator/Stmt/StmtStructureDecl.hpp>
 #include <ASTGenerator/Stmt/StmtVariableDecl.hpp>
 
+#include <ASTGenerator/Type/TypeImage.hpp>
+#include <ASTGenerator/Type/TypeSampledImage.hpp>
+#include <ASTGenerator/Type/TypeStruct.hpp>
+
 namespace sdw
 {
+	ast::type::TypePtr getNonArrayType( ast::type::TypePtr type )
+	{
+		if ( type->getArraySize() == type::NotArray )
+		{
+			return type;
+		}
+
+		switch ( type->getKind() )
+		{
+		case type::Kind::eStruct:
+			{
+				auto structType = std::static_pointer_cast< type::Struct >( type );
+				auto result = type::makeStructType( structType->getMemoryLayout()
+					, structType->getName() );
+
+				for ( auto & member : *structType )
+				{
+					result->declMember( member.name, member.type );
+				}
+
+				return result;
+			}
+		case type::Kind::eImage:
+			return type::makeImageType( std::static_pointer_cast< type::Image >( type )->getConfig() );
+		case type::Kind::eSampledImage:
+			return type::makeSampledImageType( std::static_pointer_cast< type::SampledImage >( type )->getConfig() );
+		default:
+			return type::makeType( type->getKind() );
+		}
+	}
+
 	stmt::Container * getContainer( Shader & shader )
 	{
 		return shader.getContainer();
@@ -503,11 +538,11 @@ namespace sdw
 			, location );
 	}
 
-	stmt::StmtPtr makeSamplerDecl( var::VariablePtr var
+	stmt::StmtPtr makeSampledImgDecl( var::VariablePtr var
 		, uint32_t bindingPoint
 		, uint32_t bindingSet )
 	{
-		return stmt::makeSamplerDecl( std::move( var )
+		return stmt::makeSampledImageDecl( std::move( var )
 			, bindingPoint
 			, bindingSet );
 	}
@@ -561,10 +596,8 @@ namespace sdw
 	}
 
 	var::VariablePtr getVar( Shader & shader
-		, std::string const & name
-		, type::TypePtr type )
+		, std::string const & name )
 	{
-		return shader.getVar( name
-			, type );
+		return shader.getVar( name );
 	}
 }

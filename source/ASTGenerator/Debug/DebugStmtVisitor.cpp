@@ -46,6 +46,9 @@ namespace ast::debug
 			case ast::stmt::Kind::eShaderBufferDecl:
 				result = "STSBUFFDECL";
 				break;
+			case ast::stmt::Kind::eSampledImageDecl:
+				result = "STSAMPLEDIMGDECL";
+				break;
 			case ast::stmt::Kind::eSamplerDecl:
 				result = "STSAMPLERDECL";
 				break;
@@ -56,7 +59,7 @@ namespace ast::debug
 				result = "STFUNCDECL";
 				break;
 			case ast::stmt::Kind::eStructureDecl:
-				result = "STSTRUECTDECL";
+				result = "STSTRUCTDECL";
 				break;
 			case ast::stmt::Kind::eIf:
 				result = "STIF";
@@ -157,32 +160,6 @@ namespace ast::debug
 		return m_result;
 	}
 
-	void StmtVisitor::displayVariable( var::Variable const & var )
-	{
-		if ( var.isInputParam()
-			&& var.isOutputParam() )
-		{
-			m_result += "INOUT ";
-		}
-		else if ( var.isInputParam()
-			|| var.isShaderInput() )
-		{
-			m_result += "IN ";
-		}
-		else if ( var.isOutputParam()
-			|| var.isShaderOutput() )
-		{
-			m_result += "OUT ";
-		}
-		else if ( var.isShaderConstant() )
-		{
-			m_result += "CONST ";
-		}
-
-		m_result += getName( *var.getType() );
-		m_result += " " + var.getName();
-	}
-
 	void StmtVisitor::visitContainerStmt( stmt::Container * stmt )
 	{
 		for ( auto & stmt : *stmt )
@@ -195,8 +172,8 @@ namespace ast::debug
 	{
 		displayStmtName( stmt, false );
 		m_result += stmt->getName() + " B(";
-		m_result += std::to_string( stmt->getBindingPoint() ) + ") S(";
-		m_result += std::to_string( stmt->getBindingSet() ) + ")\n";
+		m_result += std::to_string( stmt->getBindingPoint() ) + ") D(";
+		m_result += std::to_string( stmt->getDescriptorSet() ) + ")\n";
 		m_compoundName = false;
 		visitCompoundStmt( stmt );
 	}
@@ -277,7 +254,7 @@ namespace ast::debug
 		for ( auto & param : stmt->getParameters() )
 		{
 			m_result += sep;
-			displayVariable( *param );
+			m_result += displayVar( param );
 			sep = ", ";
 		}
 
@@ -307,8 +284,10 @@ namespace ast::debug
 	void StmtVisitor::visitImageDeclStmt( stmt::ImageDecl * stmt )
 	{
 		displayStmtName( stmt, false );
-		m_result += "B(" + std::to_string( stmt->getBindingPoint() ) + ") S(" + std::to_string( stmt->getBindingSet() ) + ") ";
-		displayVariable( *stmt->getVariable() );
+		m_result += " B(";
+		m_result += std::to_string( stmt->getBindingPoint() ) + ") D(";
+		m_result += std::to_string( stmt->getDescriptorSet() ) + ") ";
+		m_result += displayVar( stmt->getVariable() );
 		m_result += "\n";
 	}
 
@@ -327,7 +306,7 @@ namespace ast::debug
 		}
 
 		m_result += "(" + std::to_string( stmt->getLocation() ) + ") ";
-		displayVariable( *stmt->getVariable() );
+		m_result += displayVar( stmt->getVariable() );
 		m_result += "\n";
 	}
 
@@ -449,18 +428,33 @@ namespace ast::debug
 		m_result += "\n";
 	}
 
+	void StmtVisitor::visitSampledImageDeclStmt( stmt::SampledImageDecl * stmt )
+	{
+		displayStmtName( stmt, false );
+		m_result += " B(";
+		m_result += std::to_string( stmt->getBindingPoint() ) + ") D(";
+		m_result += std::to_string( stmt->getDescriptorSet() ) + ") ";
+		m_result += displayVar( stmt->getVariable() );
+		m_result += "\n";
+	}
+
 	void StmtVisitor::visitSamplerDeclStmt( stmt::SamplerDecl * stmt )
 	{
 		displayStmtName( stmt, false );
-		m_result += "B(" + std::to_string( stmt->getBindingPoint() ) + ") S(" + std::to_string( stmt->getBindingSet() ) + ") ";
-		displayVariable( *stmt->getVariable() );
+		m_result += " B(";
+		m_result += std::to_string( stmt->getBindingPoint() ) + ") D(";
+		m_result += std::to_string( stmt->getDescriptorSet() ) + ") ";
+		m_result += displayVar( stmt->getVariable() );
 		m_result += "\n";
 	}
 
 	void StmtVisitor::visitShaderBufferDeclStmt( stmt::ShaderBufferDecl * stmt )
 	{
 		displayStmtName( stmt, false );
-		m_result += "B(" + std::to_string( stmt->getBindingPoint() ) + ") S(" + std::to_string( stmt->getBindingSet() ) + ") " + stmt->getName() + "\n";
+		m_result += " B(";
+		m_result += std::to_string( stmt->getBindingPoint() ) + ") D(";
+		m_result += std::to_string( stmt->getDescriptorSet() ) + ") ";
+		m_result += stmt->getName() + "\n";
 		m_compoundName = false;
 		visitCompoundStmt( stmt );
 	}
@@ -474,7 +468,7 @@ namespace ast::debug
 	void StmtVisitor::visitStructureDeclStmt( stmt::StructureDecl * stmt )
 	{
 		displayStmtName( stmt, false );
-		m_result += stmt->getType()->getName() + "\n";
+		m_result += getName( stmt->getType() ) + "\n";
 
 		if ( !stmt->getType()->empty() )
 		{
@@ -523,7 +517,7 @@ namespace ast::debug
 	void StmtVisitor::visitVariableDeclStmt( stmt::VariableDecl * stmt )
 	{
 		displayStmtName( stmt, false );
-		displayVariable( *stmt->getVariable() );
+		m_result += displayVar( stmt->getVariable() );
 		m_result += "\n";
 	}
 

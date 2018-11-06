@@ -70,10 +70,9 @@ namespace sdw
 		return m_shader.registerInOutParam( name, type );
 	}
 
-	var::VariablePtr ShaderWriter::getVar( std::string const & name
-		, type::TypePtr type )
+	var::VariablePtr ShaderWriter::getVar( std::string const & name )
 	{
-		return m_shader.getVar( name, type );
+		return m_shader.getVar( name );
 	}
 
 	void ShaderWriter::registerSsbo( std::string const & name
@@ -222,7 +221,7 @@ namespace sdw
 		, std::function< void() > function )
 	{
 		auto stmt = stmt::makeIf( std::move( condition ) );
-		m_ifStmt = stmt.get();
+		m_ifStmt.push_back( stmt.get() );
 		m_shader.push( stmt.get() );
 		function();
 		m_shader.pop();
@@ -233,7 +232,7 @@ namespace sdw
 	ShaderWriter & ShaderWriter::elseIfStmt( expr::ExprPtr condition
 		, std::function< void() > function )
 	{
-		auto stmt = m_ifStmt->createElseIf( std::move( condition ) );
+		auto stmt = m_ifStmt.back()->createElseIf( std::move( condition ) );
 		m_shader.push( stmt );
 		function();
 		m_shader.pop();
@@ -242,7 +241,7 @@ namespace sdw
 
 	ShaderWriter & ShaderWriter::elseStmt( std::function< void() > function )
 	{
-		auto stmt = m_ifStmt->createElse();
+		auto stmt = m_ifStmt.back()->createElse();
 		m_shader.push( stmt );
 		function();
 		m_shader.pop();
@@ -251,7 +250,7 @@ namespace sdw
 
 	void ShaderWriter::endIf()
 	{
-		m_ifStmt = nullptr;
+		m_ifStmt.pop_back();
 	}
 
 	void ShaderWriter::declareInvertVec2Y()
@@ -280,13 +279,13 @@ namespace sdw
 		return m_shader.registerConstant( name, type );
 	}
 
-	var::VariablePtr ShaderWriter::registerSampler( std::string const & name
+	var::VariablePtr ShaderWriter::registerSampledImage( std::string const & name
 		, type::TypePtr type
 		, uint32_t binding
 		, uint32_t set
 		, bool enabled )
 	{
-		return m_shader.registerSampler( name, type, binding, set, enabled );
+		return m_shader.registerSampledImage( name, type, binding, set, enabled );
 	}
 
 	var::VariablePtr ShaderWriter::registerImage( std::string const & name

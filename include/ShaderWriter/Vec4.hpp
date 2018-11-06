@@ -20,6 +20,7 @@ namespace sdw
 
 		inline Vec4T( Shader * shader
 			, expr::ExprPtr expr );
+		inline Vec4T( Vec4T const & rhs );
 		inline Vec4T< ValueT > & operator=( Vec4T< ValueT > const & rhs );
 		template< typename IndexT >
 		inline ValueT operator[]( IndexT const & rhs )const;

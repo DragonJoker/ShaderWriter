@@ -23,6 +23,11 @@ namespace sdw
 {
 	using namespace ::ast;
 
+	template< typename ValueT >
+	ast::type::TypePtr makeType();
+	template< typename ValueT >
+	ast::type::ImageConfiguration makeConfig();
+	ast::type::TypePtr getNonArrayType( ast::type::TypePtr type );
 	stmt::Container * getContainer( Shader & shader );
 	expr::ExprPtr makeExpr( var::VariablePtr const & var );
 	expr::ExprPtr makeExpr( bool value );
@@ -151,7 +156,7 @@ namespace sdw
 	stmt::StmtPtr makeVariableDecl( var::VariablePtr var );
 	stmt::StmtPtr makeInOutVariableDecl( var::VariablePtr var
 		, uint32_t location );
-	stmt::StmtPtr makeSamplerDecl( var::VariablePtr var
+	stmt::StmtPtr makeSampledImgDecl( var::VariablePtr var
 		, uint32_t bindingPoint
 		, uint32_t bindingSet );
 	stmt::StmtPtr makeImageDecl( var::VariablePtr var
@@ -175,8 +180,7 @@ namespace sdw
 		, std::string const & name
 		, type::TypePtr type );
 	var::VariablePtr getVar( Shader & shader
-		, std::string const & name
-		, type::TypePtr type );
+		, std::string const & name );
 }
 
 #include "Helpers.inl"

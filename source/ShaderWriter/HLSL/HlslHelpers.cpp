@@ -3,51 +3,10 @@ See LICENSE file in root folder
 */
 #include "ShaderWriter/HLSL/HlslHelpers.hpp"
 
+#include "ASTGenerator/Type/TypeImage.hpp"
+
 namespace sdw::hlsl
 {
-	bool isSampler( type::Kind kind )
-	{
-		switch ( kind )
-		{
-		case ast::type::Kind::eSampler1DF:
-		case ast::type::Kind::eSampler2DF:
-		case ast::type::Kind::eSampler3DF:
-		case ast::type::Kind::eSamplerCubeF:
-		case ast::type::Kind::eSampler2DRectF:
-		case ast::type::Kind::eSampler1DArrayF:
-		case ast::type::Kind::eSampler2DArrayF:
-		case ast::type::Kind::eSamplerCubeArrayF:
-		case ast::type::Kind::eSampler1DShadowF:
-		case ast::type::Kind::eSampler2DShadowF:
-		case ast::type::Kind::eSamplerCubeShadowF:
-		case ast::type::Kind::eSampler2DRectShadowF:
-		case ast::type::Kind::eSampler1DArrayShadowF:
-		case ast::type::Kind::eSampler2DArrayShadowF:
-		case ast::type::Kind::eSamplerCubeArrayShadowF:
-		case ast::type::Kind::eSampler1DI:
-		case ast::type::Kind::eSampler2DI:
-		case ast::type::Kind::eSampler3DI:
-		case ast::type::Kind::eSamplerCubeI:
-		case ast::type::Kind::eSampler2DRectI:
-		case ast::type::Kind::eSampler1DArrayI:
-		case ast::type::Kind::eSampler2DArrayI:
-		case ast::type::Kind::eSamplerCubeArrayI:
-		case ast::type::Kind::eSampler1DU:
-		case ast::type::Kind::eSampler2DU:
-		case ast::type::Kind::eSampler3DU:
-		case ast::type::Kind::eSamplerCubeU:
-		case ast::type::Kind::eSampler2DRectU:
-		case ast::type::Kind::eSampler1DArrayU:
-		case ast::type::Kind::eSampler2DArrayU:
-		case ast::type::Kind::eSamplerCubeArrayU:
-		case ast::type::Kind::eCount:
-			return true;
-
-		default:
-			return false;
-		}
-	}
-
 	std::string getTypeName( type::Kind kind )
 	{
 		std::string result;
@@ -186,209 +145,14 @@ namespace sdw::hlsl
 		case type::Kind::eShaderBuffer:
 			result = "buffer";
 			break;
-		case type::Kind::eSamplerBufferF:
-			result = "Buffer<float4>";
+		case type::Kind::eImage:
+			result = "Texture";
 			break;
-		case type::Kind::eSampler1DF:
-			result = "Texture1D<float4>";
-			break;
-		case type::Kind::eSampler2DF:
-			result = "Texture2D<float4>";
-			break;
-		case type::Kind::eSampler3DF:
-			result = "Texture3D<float4>";
-			break;
-		case type::Kind::eSamplerCubeF:
-			result = "TextureCube<float4>";
-			break;
-		case type::Kind::eSampler2DRectF:
-			result = "Texture2D<float4>";
-			break;
-		case type::Kind::eSampler1DArrayF:
-			result = "Texture1DArray<float4>";
-			break;
-		case type::Kind::eSampler2DArrayF:
-			result = "Texture2DArray<float4>";
-			break;
-		case type::Kind::eSamplerCubeArrayF:
-			result = "TextureCubeArray<float4>";
-			break;
-		case type::Kind::eSampler1DShadowF:
-			result = "Texture1D<float4>";
-			break;
-		case type::Kind::eSampler2DShadowF:
-			result = "Texture2D<float4>";
-			break;
-		case type::Kind::eSamplerCubeShadowF:
-			result = "TextureCube<float4>";
-			break;
-		case type::Kind::eSampler2DRectShadowF:
-			result = "Texture2DArray<float4>";
-			break;
-		case type::Kind::eSampler1DArrayShadowF:
-			result = "Texture1DArray<float4>";
-			break;
-		case type::Kind::eSampler2DArrayShadowF:
-			result = "Texture2DArray<float4>";
-			break;
-		case type::Kind::eSamplerCubeArrayShadowF:
-			result = "TextureCubeArray<float4>";
-			break;
-		case type::Kind::eSamplerBufferI:
-			result = "Buffer<int4>";
-			break;
-		case type::Kind::eSampler1DI:
-			result = "Texture1D<int4>";
-			break;
-		case type::Kind::eSampler2DI:
-			result = "Texture2D<int4>";
-			break;
-		case type::Kind::eSampler3DI:
-			result = "Texture3D<int4>";
-			break;
-		case type::Kind::eSamplerCubeI:
-			result = "TextureCube<int4>";
-			break;
-		case type::Kind::eSampler2DRectI:
-			result = "Texture2D<int4>";
-			break;
-		case type::Kind::eSampler1DArrayI:
-			result = "Texture1DArray<int4>";
-			break;
-		case type::Kind::eSampler2DArrayI:
-			result = "Texture2DArray<int4>";
-			break;
-		case type::Kind::eSamplerCubeArrayI:
-			result = "TextureCubeArray<int4>";
-			break;
-		case type::Kind::eSamplerBufferU:
-			result = "Buffer<uint4>";
-			break;
-		case type::Kind::eSampler1DU:
-			result = "Texture1D<uint4>";
-			break;
-		case type::Kind::eSampler2DU:
-			result = "Texture2D<uint4>";
-			break;
-		case type::Kind::eSampler3DU:
-			result = "Texture3D<uint4>";
-			break;
-		case type::Kind::eSamplerCubeU:
-			result = "TextureCube<uint4>";
-			break;
-		case type::Kind::eSampler2DRectU:
-			result = "Texture2D<uint4>";
-			break;
-		case type::Kind::eSampler1DArrayU:
-			result = "Texture1DArray<uint4>";
-			break;
-		case type::Kind::eSampler2DArrayU:
-			result = "Texture2DArray<uint4>";
-			break;
-		case type::Kind::eSamplerCubeArrayU:
-			result = "TextureCubeArray<uint4>";
-			break;
-		case type::Kind::eImageBufferF:
-			result = "RWBuffer<float4>";
-			break;
-		case type::Kind::eImage1DF:
-			result = "RWTexture1D<float4>";
-			break;
-		case type::Kind::eImage2DF:
-			result = "RWTexture2D<float4>";
-			break;
-		case type::Kind::eImage3DF:
-			result = "RWTexture3D<float4>";
-			break;
-		case type::Kind::eImageCubeF:
-			result = "RWTexture2DArray<float4>";
-			break;
-		case type::Kind::eImage2DRectF:
-			result = "RWTexture2D<float4>";
-			break;
-		case type::Kind::eImage1DArrayF:
-			result = "RWTexture1DArray<float4>";
-			break;
-		case type::Kind::eImage2DArrayF:
-			result = "RWTexture2DArray<float4>";
-			break;
-		case type::Kind::eImageCubeArrayF:
-			result = "RWTexture2DArray<float4>";
-			break;
-		case type::Kind::eImage2DMSF:
-			result = "Texture2DMS<float4>";
-			break;
-		case type::Kind::eImage2DMSArrayF:
-			result = "Texture2DMSArray<float4>";
-			break;
-		case type::Kind::eImageBufferI:
-			result = "RWBuffer<int4>";
-			break;
-		case type::Kind::eImage1DI:
-			result = "RWTexture1D<int4>";
-			break;
-		case type::Kind::eImage2DI:
-			result = "RWTexture2D<int4>";
-			break;
-		case type::Kind::eImage3DI:
-			result = "RWTexture3D<int4>";
-			break;
-		case type::Kind::eImageCubeI:
-			result = "RWTexture2DArray<int4>";
-			break;
-		case type::Kind::eImage2DRectI:
-			result = "RWTexture2D<int4>";
-			break;
-		case type::Kind::eImage1DArrayI:
-			result = "RWTexture1DArray<int4>";
-			break;
-		case type::Kind::eImage2DArrayI:
-			result = "RWTexture2DArray<int4>";
-			break;
-		case type::Kind::eImageCubeArrayI:
-			result = "RWTexture2DArray<int4>";
-			break;
-		case type::Kind::eImage2DMSI:
-			result = "Texture2DMS<int4>";
-			break;
-		case type::Kind::eImage2DMSArrayI:
-			result = "Texture2DMSArray<int4>";
-			break;
-		case type::Kind::eImageBufferU:
-			result = "RWBuffer<uint4>";
-			break;
-		case type::Kind::eImage1DU:
-			result = "RWTexture1D<uint4>";
-			break;
-		case type::Kind::eImage2DU:
-			result = "RWTexture2D<uint4>";
-			break;
-		case type::Kind::eImage3DU:
-			result = "RWTexture3D<uint4>";
-			break;
-		case type::Kind::eImageCubeU:
-			result = "RWTexture2DArray<uint4>";
-			break;
-		case type::Kind::eImage2DRectU:
-			result = "RWTexture2D<uint4>";
-			break;
-		case type::Kind::eImage1DArrayU:
-			result = "RWTexture1DArray<uint4>";
-			break;
-		case type::Kind::eImage2DArrayU:
-			result = "RWTexture2DArray<uint4>";
-			break;
-		case type::Kind::eImageCubeArrayU:
-			result = "RWTexture2DArray<uint4>";
-			break;
-		case type::Kind::eImage2DMSU:
-			result = "Texture2DMS<uint4>";
-			break;
-		case type::Kind::eImage2DMSArrayU:
-			result = "Texture2DMSArray<uint4>";
-			break;
-		case type::Kind::eCount:
+		case type::Kind::eSampler:
 			result = "SamplerState";
+			break;
+		case type::Kind::eSampledImage:
+			result = "SampledImage";
 			break;
 		case type::Kind::eHalf:
 			result = "half";
@@ -407,6 +171,127 @@ namespace sdw::hlsl
 		return result;
 	}
 
+	std::string getName( type::ImageFormat value )
+	{
+		std::string result;
+
+		switch ( value )
+		{
+		case ast::type::ImageFormat::eRgba32f:
+			result = "float4";
+			break;
+		case ast::type::ImageFormat::eRgba16f:
+			result = "vector<half, 4>";
+			break;
+		case ast::type::ImageFormat::eRg32f:
+			result = "float2";
+			break;
+		case ast::type::ImageFormat::eRg16f:
+			result = "vector<half, 2>";
+			break;
+		case ast::type::ImageFormat::eR32f:
+			result = "float";
+			break;
+		case ast::type::ImageFormat::eR16f:
+			result = "half";
+			break;
+		case ast::type::ImageFormat::eRgba32i:
+		case ast::type::ImageFormat::eRgba16i:
+		case ast::type::ImageFormat::eRgba8i:
+			result = "int4";
+			break;
+		case ast::type::ImageFormat::eRg32i:
+		case ast::type::ImageFormat::eRg16i:
+		case ast::type::ImageFormat::eRg8i:
+			result = "int2";
+			break;
+		case ast::type::ImageFormat::eR32i:
+		case ast::type::ImageFormat::eR16i:
+		case ast::type::ImageFormat::eR8i:
+			result = "int";
+			break;
+		case ast::type::ImageFormat::eRgba32u:
+		case ast::type::ImageFormat::eRgba16u:
+		case ast::type::ImageFormat::eRgba8u:
+			result = "uint4";
+			break;
+		case ast::type::ImageFormat::eRg32u:
+		case ast::type::ImageFormat::eRg16u:
+		case ast::type::ImageFormat::eRg8u:
+			result = "uint2";
+			break;
+		case ast::type::ImageFormat::eR32u:
+		case ast::type::ImageFormat::eR16u:
+		case ast::type::ImageFormat::eR8u:
+			result = "uint";
+			break;
+		default:
+			assert( false && "Unsupported type::ImageFormat" );
+			result = "Undefined";
+			break;
+		}
+
+		return result;
+	}
+
+	std::string getName( type::ImageDim value )
+	{
+		std::string result;
+
+		switch ( value )
+		{
+		case ast::type::ImageDim::e1D:
+			result = "1D";
+			break;
+		case ast::type::ImageDim::e2D:
+		case ast::type::ImageDim::eRect:
+			result = "2D";
+			break;
+		case ast::type::ImageDim::e3D:
+			result = "3D";
+			break;
+		case ast::type::ImageDim::eCube:
+			result = "Cube";
+			break;
+		default:
+			assert( false && "Unsupported type::ImageDim" );
+			result = "Undefined";
+			break;
+		}
+
+		return result;
+	}
+
+	std::string getTypeName( type::ImagePtr type )
+	{
+		std::string result;
+		auto & config = type->getConfig();
+
+		if ( config.accessKind != type::AccessKind::eRead )
+		{
+			result += "RW";
+		}
+
+		if ( config.dimension == type::ImageDim::eBuffer )
+		{
+			result += "Buffer";
+		}
+		else
+		{
+			result += "Texture";
+			result += getName( config.dimension );
+		}
+
+		if ( config.isArrayed )
+		{
+			result += "Array";
+		}
+
+		result += "<" + getName( config.format ) +">";
+
+		return result;
+	}
+
 	std::string getTypeName( type::TypePtr type )
 	{
 		std::string result;
@@ -415,6 +300,9 @@ namespace sdw::hlsl
 		{
 		case type::Kind::eStruct:
 			result = static_cast< type::Struct const & >( *type ).getName();
+			break;
+		case type::Kind::eImage:
+			result = getTypeName( std::static_pointer_cast< type::Image >( type ) );
 			break;
 		default:
 			result = getTypeName( type->getKind() );

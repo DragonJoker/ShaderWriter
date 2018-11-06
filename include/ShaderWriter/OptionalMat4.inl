@@ -21,6 +21,13 @@ namespace sdw
 	}
 
 	template< typename ValueT >
+	Optional< Mat4T< ValueT > >::Optional( Optional< Mat4T< ValueT > > const & rhs )
+		: Mat4T< ValueT >{ rhs }
+		, m_enabled{ other.m_enabled }
+	{
+	}
+
+	template< typename ValueT >
 	Optional< Mat4T< ValueT > > & Optional< Mat4T< ValueT > >::operator=( Optional< Mat4T< ValueT > > const & rhs )
 	{
 		if ( this->getContainer() )

@@ -23,6 +23,13 @@ namespace sdw
 	}
 
 	template< typename ValueT >
+	Optional< Vec3T< ValueT > >::Optional( Optional< Vec3T< ValueT > > const & rhs )
+		: Vec3T< ValueT >{ rhs }
+		, m_enabled{ other.m_enabled }
+	{
+	}
+
+	template< typename ValueT >
 	inline Optional< Vec3T< ValueT > > & Optional< Vec3T< ValueT > >::operator=( Optional< Vec3T< ValueT > > const & rhs )
 	{
 		if ( areOptionalEnabled( *this, rhs ) )

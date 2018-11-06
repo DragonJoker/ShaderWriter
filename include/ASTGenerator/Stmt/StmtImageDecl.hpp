@@ -29,7 +29,7 @@ namespace ast::stmt
 			return m_bindingPoint;
 		}
 
-		inline uint32_t getBindingSet()const
+		inline uint32_t getDescriptorSet()const
 		{
 			return m_bindingSet;
 		}

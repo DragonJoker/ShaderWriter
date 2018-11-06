@@ -10,29 +10,6 @@ namespace sdw::spirv
 {
 	//*************************************************************************
 
-	Op getOp( spv::Op op, uint32_t count )
-	{
-		Op result;
-		result.opCode = uint16_t( op );
-		result.opCount = uint16_t( count ) + getOpBaseSize( op );
-		return result;
-	}
-
-	Op getOp( spv::Op op, IdList const & operands )
-	{
-		return getOp( op, uint32_t( operands.size() ) );
-	}
-
-	Op getOp( spv::Op op, std::string const & name )
-	{
-		return getOp( op, uint32_t( name.size() ) );
-	}
-
-	Op getOp( spv::Op op )
-	{
-		return getOp( op, 0u );
-	}
-
 	spv::MemoryModel getMemoryModel()
 	{
 		return spv::MemoryModel::GLSL450;
@@ -218,7 +195,7 @@ namespace sdw::spirv
 	{
 		return Instruction
 		{
-			getOp( spv::Op::OpExtension, name ),
+			spv::Op::OpExtension,
 			std::nullopt,
 			std::nullopt,
 			{},
@@ -230,7 +207,7 @@ namespace sdw::spirv
 	{
 		return Instruction
 		{
-			getOp( op, name ),
+			op,
 			std::nullopt,
 			id,
 			{},
@@ -242,7 +219,7 @@ namespace sdw::spirv
 	{
 		return Instruction
 		{
-			getOp( op, uint32_t( name.size() + 2u ) ),
+			op,
 			std::nullopt,
 			std::nullopt,
 			{ outerId, memberIndex },
@@ -250,91 +227,64 @@ namespace sdw::spirv
 		};
 	}
 
-	spv::ImageFormat getImageFormat( type::Kind kind )
+	spv::ImageFormat getImageFormat( type::ImageFormat value )
 	{
-		spv::ImageFormat result;
-
-		switch ( kind )
+		switch ( value )
 		{
-		case ast::type::Kind::eSamplerBufferF:
-		case ast::type::Kind::eSampler1DF:
-		case ast::type::Kind::eSampler2DF:
-		case ast::type::Kind::eSampler3DF:
-		case ast::type::Kind::eSamplerCubeF:
-		case ast::type::Kind::eSampler2DRectF:
-		case ast::type::Kind::eSampler1DArrayF:
-		case ast::type::Kind::eSampler2DArrayF:
-		case ast::type::Kind::eSamplerCubeArrayF:
-		case ast::type::Kind::eSampler1DShadowF:
-		case ast::type::Kind::eSampler2DShadowF:
-		case ast::type::Kind::eSamplerCubeShadowF:
-		case ast::type::Kind::eSampler2DRectShadowF:
-		case ast::type::Kind::eSampler1DArrayShadowF:
-		case ast::type::Kind::eSampler2DArrayShadowF:
-		case ast::type::Kind::eSamplerCubeArrayShadowF:
-		case ast::type::Kind::eImageBufferF:
-		case ast::type::Kind::eImage1DF:
-		case ast::type::Kind::eImage2DF:
-		case ast::type::Kind::eImage3DF:
-		case ast::type::Kind::eImageCubeF:
-		case ast::type::Kind::eImage2DRectF:
-		case ast::type::Kind::eImage1DArrayF:
-		case ast::type::Kind::eImage2DArrayF:
-		case ast::type::Kind::eImageCubeArrayF:
-		case ast::type::Kind::eImage2DMSF:
-		case ast::type::Kind::eImage2DMSArrayF:
+		case ast::type::ImageFormat::eUnknown:
+			return spv::ImageFormat::Unknown;
+		case ast::type::ImageFormat::eRgba32f:
 			return spv::ImageFormat::Rgba32f;
-
-		case ast::type::Kind::eSamplerBufferI:
-		case ast::type::Kind::eSampler1DI:
-		case ast::type::Kind::eSampler2DI:
-		case ast::type::Kind::eSampler3DI:
-		case ast::type::Kind::eSamplerCubeI:
-		case ast::type::Kind::eSampler2DRectI:
-		case ast::type::Kind::eSampler1DArrayI:
-		case ast::type::Kind::eSampler2DArrayI:
-		case ast::type::Kind::eSamplerCubeArrayI:
-		case ast::type::Kind::eImageBufferI:
-		case ast::type::Kind::eImage1DI:
-		case ast::type::Kind::eImage2DI:
-		case ast::type::Kind::eImage3DI:
-		case ast::type::Kind::eImageCubeI:
-		case ast::type::Kind::eImage2DRectI:
-		case ast::type::Kind::eImage1DArrayI:
-		case ast::type::Kind::eImage2DArrayI:
-		case ast::type::Kind::eImageCubeArrayI:
-		case ast::type::Kind::eImage2DMSI:
-		case ast::type::Kind::eImage2DMSArrayI:
-			return spv::ImageFormat::Rgba8Snorm;
-
-		case ast::type::Kind::eSamplerBufferU:
-		case ast::type::Kind::eSampler1DU:
-		case ast::type::Kind::eSampler2DU:
-		case ast::type::Kind::eSampler3DU:
-		case ast::type::Kind::eSamplerCubeU:
-		case ast::type::Kind::eSampler2DRectU:
-		case ast::type::Kind::eSampler1DArrayU:
-		case ast::type::Kind::eSampler2DArrayU:
-		case ast::type::Kind::eSamplerCubeArrayU:
-		case ast::type::Kind::eImageBufferU:
-		case ast::type::Kind::eImage1DU:
-		case ast::type::Kind::eImage2DU:
-		case ast::type::Kind::eImage3DU:
-		case ast::type::Kind::eImageCubeU:
-		case ast::type::Kind::eImage2DRectU:
-		case ast::type::Kind::eImage1DArrayU:
-		case ast::type::Kind::eImage2DArrayU:
-		case ast::type::Kind::eImageCubeArrayU:
-		case ast::type::Kind::eImage2DMSU:
-		case ast::type::Kind::eImage2DMSArrayU:
+		case ast::type::ImageFormat::eRgba16f:
+			return spv::ImageFormat::Rgba16f;
+		case ast::type::ImageFormat::eRg32f:
+			return spv::ImageFormat::Rg32f;
+		case ast::type::ImageFormat::eRg16f:
+			return spv::ImageFormat::Rg16f;
+		case ast::type::ImageFormat::eR32f:
+			return spv::ImageFormat::R32f;
+		case ast::type::ImageFormat::eR16f:
+			return spv::ImageFormat::R16f;
+		case ast::type::ImageFormat::eRgba32i:
+			return spv::ImageFormat::Rgba32i;
+		case ast::type::ImageFormat::eRgba16i:
+			return spv::ImageFormat::Rgba16i;
+		case ast::type::ImageFormat::eRgba8i:
+			return spv::ImageFormat::Rgba8i;
+		case ast::type::ImageFormat::eRg32i:
+			return spv::ImageFormat::Rg32i;
+		case ast::type::ImageFormat::eRg16i:
+			return spv::ImageFormat::Rg16i;
+		case ast::type::ImageFormat::eRg8i:
+			return spv::ImageFormat::Rg8i;
+		case ast::type::ImageFormat::eR32i:
+			return spv::ImageFormat::R32i;
+		case ast::type::ImageFormat::eR16i:
+			return spv::ImageFormat::R16i;
+		case ast::type::ImageFormat::eR8i:
+			return spv::ImageFormat::R8i;
+		case ast::type::ImageFormat::eRgba32u:
+			return spv::ImageFormat::Rgba32ui;
+		case ast::type::ImageFormat::eRgba16u:
+			return spv::ImageFormat::Rgba16ui;
+		case ast::type::ImageFormat::eRgba8u:
 			return spv::ImageFormat::Rgba8ui;
-
+		case ast::type::ImageFormat::eRg32u:
+			return spv::ImageFormat::Rg32ui;
+		case ast::type::ImageFormat::eRg16u:
+			return spv::ImageFormat::Rg16ui;
+		case ast::type::ImageFormat::eRg8u:
+			return spv::ImageFormat::Rg8ui;
+		case ast::type::ImageFormat::eR32u:
+			return spv::ImageFormat::R32ui;
+		case ast::type::ImageFormat::eR16u:
+			return spv::ImageFormat::R16ui;
+		case ast::type::ImageFormat::eR8u:
+			return spv::ImageFormat::R8ui;
 		default:
-			assert( false && "Unsupported type::Kind" );
+			assert( false && "Unsupported type::ImageFormat" );
 			return spv::ImageFormat::Rgba32f;
 		}
-
-		return result;
 	}
 
 	Instruction makeType( type::Kind kind
@@ -367,7 +317,7 @@ namespace sdw::spirv
 
 		return Instruction
 		{
-			getOp( getOpCode( kind ), 0u ),
+			getOpCode( kind ),
 			std::nullopt,
 			id,
 			operands,
@@ -380,22 +330,19 @@ namespace sdw::spirv
 	{
 		return Instruction
 		{
-			getOp( getOpCode( kind ), subTypes ),
+			getOpCode( kind ),
 			std::nullopt,
 			id,
 			subTypes
 		};
 	}
 
-	Instruction makeImageType( type::Kind kind
+	Instruction makeImageType( type::ImageConfiguration const & config
 		, spv::Id id
-		, spv::Id sampledId )
+		, spv::Id sampledTypeId )
 	{
-		assert( isSamplerType( kind )
-			|| isImageType( kind ) );
 		IdList operands;
-		auto config = getImageConfig( kind );
-		operands.push_back( sampledId );
+		operands.push_back( sampledTypeId );
 		operands.push_back( spv::Id( config.dimension ) );
 		operands.push_back( config.isDepth == ast::type::Ternary::eTrue
 			? 1u
@@ -409,12 +356,12 @@ namespace sdw::spirv
 			: ( config.isDepth == ast::type::Ternary::eFalse
 				? 2u
 				: 0u ) );
-		operands.push_back( uint32_t( getImageFormat( kind ) ) );
+		operands.push_back( uint32_t( getImageFormat( config.format ) ) );
 		operands.push_back( uint32_t( config.accessKind ) );
 
 		return Instruction
 		{
-			getOp( getImageOpCode( kind ), 1u ),
+			spv::Op::OpTypeImage,
 			std::nullopt,
 			id,
 			operands,
@@ -425,21 +372,22 @@ namespace sdw::spirv
 	{
 		return Instruction
 		{
-			getOp( spv::Op::OpTypeSampler, 0u ),
+			spv::Op::OpTypeSampler,
 			std::nullopt,
 			id,
 		};
 	}
 
-	Instruction makeSampledImageType( type::Kind kind
-		, spv::Id id
-		, spv::Id imageId )
+	Instruction makeSampledImageType( spv::Id id
+		, spv::Id imgTypeId )
 	{
-		IdList operands;
-		operands.push_back( imageId );
+		IdList operands
+		{
+			imgTypeId
+		};
 		return Instruction
 		{
-			getOp( getOpCode( kind ), 0u ),
+			spv::Op::OpTypeSampledImage,
 			std::nullopt,
 			id,
 			operands,
@@ -450,7 +398,7 @@ namespace sdw::spirv
 	{
 		return Instruction
 		{
-			getOp( spv::Op::OpTypeStruct, subTypes ),
+			spv::Op::OpTypeStruct,
 			std::nullopt,
 			id,
 			subTypes
@@ -461,21 +409,24 @@ namespace sdw::spirv
 	{
 		return Instruction
 		{
-			getOp( spv::Op::OpTypeRuntimeArray, 0u ),
+			spv::Op::OpTypeRuntimeArray,
 			std::nullopt,
 			id,
 			{ elementTypeId }
 		};
 	}
 
-	Instruction makeArrayType( type::Kind kind, spv::Id id, spv::Id elementTypeId, uint32_t length )
+	Instruction makeArrayType( type::Kind kind
+		, spv::Id id
+		, spv::Id elementTypeId
+		, spv::Id lengthId )
 	{
 		return Instruction
 		{
-			getOp( spv::Op::OpTypeArray, 0u ),
+			spv::Op::OpTypeArray,
 			std::nullopt,
 			id,
-			{ elementTypeId, length }
+			{ elementTypeId, lengthId }
 		};
 	}
 
@@ -483,7 +434,7 @@ namespace sdw::spirv
 	{
 		return Instruction
 		{
-			getOp( getOpCode( type ), 0u ),
+			getOpCode( type ),
 			std::nullopt,
 			id,
 		};
@@ -495,7 +446,7 @@ namespace sdw::spirv
 	{
 		return Instruction
 		{
-			getOp( spv::Op::OpSwitch, uint32_t( ( cases.size() * 2u ) + 1u ) ),
+			spv::Op::OpSwitch,
 			std::nullopt,
 			std::nullopt,
 			{},
@@ -510,10 +461,10 @@ namespace sdw::spirv
 	{
 		return Instruction
 		{
-			getOp( spv::Op::OpVariable, 0u ),
+			spv::Op::OpVariable,
 			typeId,
 			resultId,
-		{ spv::Id( storage ) },
+			{ spv::Id( storage ) },
 		};
 	}
 
@@ -524,7 +475,7 @@ namespace sdw::spirv
 	{
 		return Instruction
 		{
-			getOp( spv::Op::OpVariable, 0u ),
+			spv::Op::OpVariable,
 			typeId,
 			resultId,
 			{ spv::Id( storage ), initialiser },
@@ -538,7 +489,7 @@ namespace sdw::spirv
 	{
 		return Instruction
 		{
-			getOp( op, uint32_t( accessChain.size() - 1u ) ),
+			op,
 			typeId,
 			resultId,
 			accessChain,
@@ -569,7 +520,7 @@ namespace sdw::spirv
 		total.insert( total.end(), components.begin(), components.end() );
 		return Instruction
 		{
-			getOp( spv::Op::OpVectorShuffle, components ),
+			spv::Op::OpVectorShuffle,
 			typeId,
 			resultId,
 			total,
@@ -580,10 +531,33 @@ namespace sdw::spirv
 	{
 		return Instruction
 		{
-			getOp( op ),
+			op,
 			std::nullopt,
 			std::nullopt,
 			{},
+		};
+	}
+
+	Instruction makeInstruction( spv::Op op
+		, spv::Id resultId )
+	{
+		return Instruction
+		{
+			op,
+			std::nullopt,
+			resultId,
+		};
+	}
+
+	Instruction makeInstruction( spv::Op op
+		, spv::Id resultId
+		, spv::Id typeId )
+	{
+		return Instruction
+		{
+			op,
+			typeId,
+			resultId,
 		};
 	}
 
@@ -608,7 +582,7 @@ namespace sdw::spirv
 	{
 		return Instruction
 		{
-			getOp( op, operands ),
+			op,
 			std::nullopt,
 			std::nullopt,
 			operands,
@@ -654,7 +628,7 @@ namespace sdw::spirv
 	{
 		return Instruction
 		{
-			getOp( op, operands ),
+			op,
 			std::nullopt,
 			std::nullopt,
 			operands,
@@ -707,7 +681,7 @@ namespace sdw::spirv
 	{
 		return Instruction
 		{
-			getOp( op, operands ),
+			op,
 			std::nullopt,
 			resultId,
 			operands,
@@ -760,7 +734,7 @@ namespace sdw::spirv
 	{
 		return Instruction
 		{
-			getOp( op, operands ),
+			op,
 			typeId,
 			resultId,
 			operands,
@@ -820,7 +794,7 @@ namespace sdw::spirv
 	{
 		return Instruction
 		{
-			getOp( op, operands ),
+			op,
 			typeId,
 			resultId,
 			operands,
@@ -845,7 +819,7 @@ namespace sdw::spirv
 	Instruction makeInstruction( expr::ImageAccess kind
 		, spv::Id resultId
 		, spv::Id typeId
-		, IdList operands
+		, IdList const & operands
 		, std::string const & name )
 	{
 		return makeInstruction( getSpirVName( kind )
@@ -858,10 +832,11 @@ namespace sdw::spirv
 	Instruction makeInstruction( expr::TextureAccess kind
 		, spv::Id resultId
 		, spv::Id typeId
-		, IdList operands
+		, IdList const & ops
 		, std::string const & name )
 	{
 		auto mask = getMask( kind );
+		IdList operands{ ops };
 		operands.insert( operands.begin() + 2u, spv::Id( mask ) );
 
 		if ( uint32_t( mask ) & uint32_t( spv::ImageOperandsMask::Bias ) )
@@ -931,15 +906,12 @@ namespace sdw::spirv
 		, spv::Id lhs
 		, spv::Id rhs )
 	{
-		bool switchParams;
+		bool switchParams{ false };
 		auto opCode = getBinOpCode( exprKind, lhsTypeKind, rhsTypeKind, switchParams );
 
 		if ( switchParams )
 		{
-			return makeInstruction( opCode
-				, resultId
-				, typeId
-				, { rhs, lhs } );
+			std::swap( lhs, rhs );
 		}
 
 		return makeInstruction( opCode

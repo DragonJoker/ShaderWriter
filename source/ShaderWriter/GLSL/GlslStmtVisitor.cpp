@@ -6,10 +6,113 @@ See LICENSE file in root folder
 #include "ShaderWriter/GLSL/GlslExprVisitor.hpp"
 #include "ShaderWriter/GLSL/GlslHelpers.hpp"
 
+#include <ASTGenerator/Type/TypeImage.hpp>
+#include <ASTGenerator/Type/TypeSampledImage.hpp>
+
 #include <sstream>
 
 namespace sdw::glsl
 {
+	//*************************************************************************
+
+	namespace
+	{
+		std::string getDimension( type::ImageDim value )
+		{
+			switch ( value )
+			{
+			case type::ImageDim::e1D:
+				return "1D";
+			case type::ImageDim::e2D:
+				return "2D";
+			case type::ImageDim::e3D:
+				return "3D";
+			case type::ImageDim::eCube:
+				return "Cube";
+			case type::ImageDim::eRect:
+				return "2DRect";
+			case type::ImageDim::eBuffer:
+				return "Buffer";
+			default:
+				assert( false && "Unsupported type::ImageDim" );
+				return "Undefined";
+			}
+		}
+		
+		std::string getPrefix( type::ImageFormat value )
+		{
+			switch ( value )
+			{
+			case ast::type::ImageFormat::eRgba32i:
+			case ast::type::ImageFormat::eRgba16i:
+			case ast::type::ImageFormat::eRgba8i:
+			case ast::type::ImageFormat::eRg32i:
+			case ast::type::ImageFormat::eRg16i:
+			case ast::type::ImageFormat::eRg8i:
+			case ast::type::ImageFormat::eR32i:
+			case ast::type::ImageFormat::eR16i:
+			case ast::type::ImageFormat::eR8i:
+				return "i";
+
+			case ast::type::ImageFormat::eRgba32u:
+			case ast::type::ImageFormat::eRgba16u:
+			case ast::type::ImageFormat::eRgba8u:
+			case ast::type::ImageFormat::eRg32u:
+			case ast::type::ImageFormat::eRg16u:
+			case ast::type::ImageFormat::eRg8u:
+			case ast::type::ImageFormat::eR32u:
+			case ast::type::ImageFormat::eR16u:
+			case ast::type::ImageFormat::eR8u:
+				return "u";
+
+			default:
+				return std::string{};
+			}
+		}
+
+		std::string getArray( bool value )
+		{
+			return value
+				? "Array"
+				: "";
+		}
+
+		std::string getMS( bool value )
+		{
+			return value
+				? "MS"
+				: "";
+		}
+
+		std::string getShadow( type::Ternary value )
+		{
+			return value == type::Ternary::eTrue
+				? "Shadow"
+				: "";
+		}
+
+		std::string getType( type::Kind kind
+			, type::ImageConfiguration const & config )
+		{
+			return ( config.dimension == type::ImageDim::eBuffer || kind == type::Kind::eSampledImage )
+				? "sampler"
+				: "image";
+		}
+
+		std::string getQualifiedName( type::Kind kind
+			, type::ImageConfiguration const & config )
+		{
+			return getPrefix( config.format )
+				+ getType( kind, config )
+				+ getDimension( config.dimension )
+				+ getMS( config.isMS )
+				+ getArray( config.isArrayed )
+				+ getShadow( config.isDepth );
+		}
+	}
+
+	//*************************************************************************
+
 	std::string StmtVisitor::submit( stmt::Stmt * stmt
 		, std::string indent )
 	{
@@ -49,7 +152,7 @@ namespace sdw::glsl
 		m_appendLineEnd = true;
 		doAppendLineEnd();
 		m_result += m_indent;
-		m_result += "layout(binding=" + std::to_string( stmt->getBindingPoint() ) + ", set=" + std::to_string( stmt->getBindingSet() ) + ") ";
+		m_result += "layout(binding=" + std::to_string( stmt->getBindingPoint() ) + ", set=" + std::to_string( stmt->getDescriptorSet() ) + ") ";
 		m_result += "uniform " + stmt->getName();
 		m_appendSemiColon = true;
 		visitCompoundStmt( stmt );
@@ -195,8 +298,10 @@ namespace sdw::glsl
 	{
 		doAppendLineEnd();
 		m_result += m_indent;
-		m_result += "layout(binding=" + std::to_string( stmt->getBindingPoint() ) + ", set=" + std::to_string( stmt->getBindingSet() ) + ") ";
-		m_result += getTypeName( stmt->getVariable()->getType() ) + " " + stmt->getVariable()->getName();
+		m_result += "layout(binding=" + std::to_string( stmt->getBindingPoint() ) + ", set=" + std::to_string( stmt->getDescriptorSet() ) + ") ";
+		assert( stmt->getVariable()->getType()->getKind() == type::Kind::eImage );
+		auto image = std::static_pointer_cast< type::Image >( stmt->getVariable()->getType() );
+		m_result += getQualifiedName( type::Kind::eImage, image->getConfig() ) + " " + stmt->getVariable()->getName();
 		auto arraySize = stmt->getVariable()->getType()->getArraySize();
 
 		if ( arraySize != ast::type::NotArray )
@@ -323,12 +428,14 @@ namespace sdw::glsl
 		}
 	}
 
-	void StmtVisitor::visitSamplerDeclStmt( stmt::SamplerDecl * stmt )
+	void StmtVisitor::visitSampledImageDeclStmt( stmt::SampledImageDecl * stmt )
 	{
 		doAppendLineEnd();
 		m_result += m_indent;
-		m_result += "layout(binding=" + std::to_string( stmt->getBindingPoint() ) + ", set=" + std::to_string( stmt->getBindingSet() ) + ") ";
-		m_result += getTypeName( stmt->getVariable()->getType() ) + " " + stmt->getVariable()->getName();
+		m_result += "layout(binding=" + std::to_string( stmt->getBindingPoint() ) + ", set=" + std::to_string( stmt->getDescriptorSet() ) + ") ";
+		assert( stmt->getVariable()->getType()->getKind() == type::Kind::eSampledImage );
+		auto sampledImage = std::static_pointer_cast< type::SampledImage >( stmt->getVariable()->getType() );
+		m_result += getQualifiedName( type::Kind::eSampledImage, sampledImage->getConfig() ) + " " + stmt->getVariable()->getName();
 		auto arraySize = stmt->getVariable()->getType()->getArraySize();
 
 		if ( arraySize != ast::type::NotArray )
@@ -346,12 +453,16 @@ namespace sdw::glsl
 		m_result += ";\n";
 	}
 
+	void StmtVisitor::visitSamplerDeclStmt( stmt::SamplerDecl * stmt )
+	{
+	}
+
 	void StmtVisitor::visitShaderBufferDeclStmt( stmt::ShaderBufferDecl * stmt )
 	{
 		m_appendLineEnd = true;
 		doAppendLineEnd();
 		m_result += m_indent;
-		m_result += "layout(binding=" + std::to_string( stmt->getBindingPoint() ) + ", set=" + std::to_string( stmt->getBindingSet() ) + ") ";
+		m_result += "layout(binding=" + std::to_string( stmt->getBindingPoint() ) + ", set=" + std::to_string( stmt->getDescriptorSet() ) + ") ";
 		m_result += "buffer " + stmt->getName();
 		m_appendSemiColon = true;
 		visitCompoundStmt( stmt );
@@ -524,4 +635,6 @@ namespace sdw::glsl
 		doAppendLineEnd();
 		m_result += "#version " + preproc->getName() + "\n";
 	}
+
+	//*************************************************************************
 }

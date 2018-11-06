@@ -19,14 +19,12 @@ namespace sdw::spirv
 	public:
 		static spv::Id submit( expr::Expr * expr
 			, Block & currentBlock
-			, Module & module
-			, LinkedVars const & linkedVars );
+			, Module & module );
 
 	private:
 		ExprVisitor( spv::Id & result
 			, Block & currentBlock
-			, Module & module
-			, LinkedVars const & linkedVars );
+			, Module & module );
 		void visitAssignmentExpr( expr::Assign * expr );
 		void visitOpAssignmentExpr( expr::Assign * expr );
 
@@ -64,13 +62,10 @@ namespace sdw::spirv
 		void visitSwizzleExpr( expr::Swizzle * expr )override;
 		void visitTextureAccessCallExpr( expr::TextureAccessCall * expr )override;
 
-		void makeAccessChain( expr::Expr * expr );
-
 	private:
 		spv::Id & m_result;
 		Block & m_currentBlock;
 		Module & m_module;
-		LinkedVars const & m_linkedVars;
 	};
 }
 

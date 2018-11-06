@@ -5,6 +5,9 @@ See LICENSE file in root folder
 
 #include "ShaderWriter/SPIRV/SpirvHelpers.hpp"
 
+#include <ASTGenerator/Type/TypeImage.hpp>
+#include <ASTGenerator/Type/TypeSampledImage.hpp>
+
 #include <algorithm>
 
 namespace sdw::spirv
@@ -13,6 +16,48 @@ namespace sdw::spirv
 
 	namespace
 	{
+		std::vector< uint32_t > const & packString( std::string const & name )
+		{
+			static std::map < std::string, std::vector< uint32_t > > cache;
+			auto it = cache.find( name );
+
+			if ( it == cache.end() )
+			{
+				std::vector< uint32_t > packed;
+				uint32_t word{ 0u };
+				uint32_t offset{ 0u };
+				size_t i = 0u;
+
+				while ( i < name.size() )
+				{
+					if ( i != 0 && ( i % 4u ) == 0u )
+					{
+						packed.push_back( word );
+						word = 0u;
+						offset = 0u;
+					}
+
+					word |= ( uint32_t( name[i] ) & 0x000000FF ) << offset;
+					++i;
+					offset += 8u;
+				}
+
+				if ( word )
+				{
+					packed.push_back( word );
+				}
+
+				if ( i != 0 && ( i % 4u ) == 0u )
+				{
+					packed.push_back( 0u );
+				}
+
+				it = cache.emplace( name, packed ).first;
+			}
+
+			return it->second;
+		}
+
 		spv::BuiltIn getBuiltin( std::string const & name )
 		{
 			auto result = spv::BuiltIn( -1 );
@@ -276,13 +321,191 @@ namespace sdw::spirv
 
 			return result;
 		}
+
+		type::Kind getComponentType( type::ImageFormat format )
+		{
+			type::Kind result;
+
+			switch ( format )
+			{
+			case ast::type::ImageFormat::eRgba32f:
+			case ast::type::ImageFormat::eRgba16f:
+			case ast::type::ImageFormat::eRg32f:
+			case ast::type::ImageFormat::eRg16f:
+			case ast::type::ImageFormat::eR32f:
+			case ast::type::ImageFormat::eR16f:
+				return ast::type::Kind::eFloat;
+
+			case ast::type::ImageFormat::eRgba32i:
+			case ast::type::ImageFormat::eRgba16i:
+			case ast::type::ImageFormat::eRgba8i:
+			case ast::type::ImageFormat::eRg32i:
+			case ast::type::ImageFormat::eRg16i:
+			case ast::type::ImageFormat::eRg8i:
+			case ast::type::ImageFormat::eR32i:
+			case ast::type::ImageFormat::eR16i:
+			case ast::type::ImageFormat::eR8i:
+				return ast::type::Kind::eInt;
+
+			case ast::type::ImageFormat::eRgba32u:
+			case ast::type::ImageFormat::eRgba16u:
+			case ast::type::ImageFormat::eRgba8u:
+			case ast::type::ImageFormat::eRg32u:
+			case ast::type::ImageFormat::eRg16u:
+			case ast::type::ImageFormat::eRg8u:
+			case ast::type::ImageFormat::eR32u:
+			case ast::type::ImageFormat::eR16u:
+			case ast::type::ImageFormat::eR8u:
+				return ast::type::Kind::eUInt;
+
+			default:
+				assert( false && "Unsupported type::ImageFormat." );
+				return ast::type::Kind::eFloat;
+			}
+
+			return result;
+		}
+
+		template< typename T >
+		inline size_t hashCombine( size_t & hash
+			, T const & rhs )
+		{
+			const uint64_t kMul = 0x9ddfea08eb382d69ULL;
+			auto seed = hash;
+
+			std::hash< T > hasher;
+			uint64_t a = ( hasher( rhs ) ^ seed ) * kMul;
+			a ^= ( a >> 47 );
+
+			uint64_t b = ( seed ^ a ) * kMul;
+			b ^= ( b >> 47 );
+
+			hash = static_cast< std::size_t >( b * kMul );
+			return hash;
+		}
+
+		size_t getHash( type::ImageConfiguration const & config )
+		{
+			size_t result = std::hash< type::ImageDim >{}( config.dimension );
+			result = hashCombine( result, config.format );
+			result = hashCombine( result, config.isDepth );
+			result = hashCombine( result, config.isSampled );
+			result = hashCombine( result, config.isArrayed );
+			result = hashCombine( result, config.isMS );
+			result = hashCombine( result, config.accessKind );
+			return result;
+		}
+
+		type::TypePtr getUnqualifiedType( type::Type const & qualified )
+		{
+			type::TypePtr result;
+
+			if ( qualified.getKind() == type::Kind::eStruct )
+			{
+				auto resultStruct = static_cast< type::Struct const & >( qualified ).getUnqualifiedType();
+				static std::vector< type::StructPtr > cache;
+				auto it = std::find_if( cache.begin()
+					, cache.end()
+					, [&resultStruct]( type::StructPtr lookup )
+					{
+						return *resultStruct == *lookup;
+					} );
+
+				if ( it == cache.end() )
+				{
+					cache.push_back( resultStruct );
+					it = cache.begin() + cache.size() - 1u;
+				}
+
+				result = *it;
+			}
+			else if ( qualified.isMember() )
+			{
+				auto unqualifiedStruct = std::static_pointer_cast< type::Struct >( getUnqualifiedType( *qualified.getParent() ) );
+				auto it = unqualifiedStruct->begin() + qualified.getIndex();
+				result = it->type;
+			}
+
+			return result;
+		}
+
+		type::TypePtr getUnqualifiedType( type::TypePtr qualified )
+		{
+			auto result = qualified;
+
+			if ( result->isMember()
+				|| result->getKind() == type::Kind::eStruct )
+			{
+				result = getUnqualifiedType( *qualified );
+			}
+			else if ( result->getKind() == type::Kind::eImage )
+			{
+				auto image = std::static_pointer_cast< type::Image >( result );
+				auto config = image->getConfig();
+				auto hash = getHash( config );
+				static std::map< size_t, type::ImagePtr > cache;
+				auto it = cache.find( hash );
+
+				if ( it == cache.end() )
+				{
+					it = cache.emplace( hash, std::move( image ) ).first;
+				}
+
+				result = it->second;
+			}
+			else if ( result->getKind() == type::Kind::eSampledImage )
+			{
+				auto sampledImage = std::static_pointer_cast< type::SampledImage >( result );
+				auto config = sampledImage->getConfig();
+				auto hash = getHash( config );
+				static std::map< size_t, type::SampledImagePtr > cache;
+				auto it = cache.find( hash );
+
+				if ( it == cache.end() )
+				{
+					it = cache.emplace( hash, std::move( sampledImage ) ).first;
+				}
+
+				result = it->second;
+			}
+
+			return result;
+		}
 	}
-	
+
+	//*************************************************************************
+
+	Instruction::Instruction( spv::Op op
+		, std::optional< spv::Id > resultType
+		, std::optional< spv::Id > resultId
+		, IdList operands
+		, std::optional< std::string > name
+		, std::optional< std::map< int64_t, spv::Id > > labels )
+		: resultType{ resultType }
+		, resultId{ resultId }
+		, operands{ operands }
+		, packedName{ std::nullopt }
+		, name{ name }
+		, labels{ labels }
+	{
+		if ( this->name.has_value() )
+		{
+			packedName = packString( this->name.value() );
+		}
+
+		this->op.op = op;
+		this->op.opCount = uint16_t( 1u
+			+ ( this->resultType.has_value() ? 1u : 0u )
+			+ ( this->resultId.has_value() ? 1u : 0u )
+			+ this->operands.size()
+			+ ( this->packedName.has_value() ? this->packedName.value().size() : 0u ) );
+	}
+
 	//*************************************************************************
 
 	Module::Module( spv::MemoryModel memoryModel
 		, spv::ExecutionModel executionModel )
-		: variables{ &globals }
+		: variables{ &globalDeclarations }
 		, memoryModel{ makeInstruction( spv::Op::OpMemoryModel
 			, IdList{ spv::Id( spv::AddressingModel::Logical ), spv::Id( memoryModel ) } ) }
 		, m_model{ executionModel }
@@ -304,31 +527,31 @@ namespace sdw::spirv
 		{
 		case spv::ExecutionModel::Vertex:
 			capabilities.push_back( makeInstruction( spv::Op::OpCapability
-				, { spv::Id( spv::Capability::Shader ) } ) );
+				, IdList{ spv::Id( spv::Capability::Shader ) } ) );
 			break;
 		case spv::ExecutionModel::TessellationControl:
 			capabilities.push_back( makeInstruction( spv::Op::OpCapability
-				, { spv::Id( spv::Capability::Shader ) } ) );
+				, IdList{ spv::Id( spv::Capability::Shader ) } ) );
 			break;
 		case spv::ExecutionModel::TessellationEvaluation:
 			capabilities.push_back( makeInstruction( spv::Op::OpCapability
-				, { spv::Id( spv::Capability::Shader ) } ) );
+				, IdList{ spv::Id( spv::Capability::Shader ) } ) );
 			break;
 		case spv::ExecutionModel::Geometry:
 			capabilities.push_back( makeInstruction( spv::Op::OpCapability
-				, { spv::Id( spv::Capability::Shader ) } ) );
+				, IdList{ spv::Id( spv::Capability::Shader ) } ) );
 			break;
 		case spv::ExecutionModel::Fragment:
 			capabilities.push_back( makeInstruction( spv::Op::OpCapability
-				, { spv::Id( spv::Capability::Shader ) } ) );
+				, IdList{ spv::Id( spv::Capability::Shader ) } ) );
 			break;
 		case spv::ExecutionModel::GLCompute:
 			capabilities.push_back( makeInstruction( spv::Op::OpCapability
-				, { spv::Id( spv::Capability::Shader ) } ) );
+				, IdList{ spv::Id( spv::Capability::Shader ) } ) );
 			break;
 		case spv::ExecutionModel::Kernel:
 			capabilities.push_back( makeInstruction( spv::Op::OpCapability
-				, { spv::Id( spv::Capability::Kernel ) } ) );
+				, IdList{ spv::Id( spv::Capability::Kernel ) } ) );
 			break;
 		default:
 			assert( false && "Unsupported ExecutionModel" );
@@ -336,46 +559,39 @@ namespace sdw::spirv
 		}
 	}
 
-	type::TypePtr getUnqualifiedType( type::TypePtr qualified )
+	type::MemoryLayout getMemoryLayout( type::Type const & type )
 	{
-		auto result = qualified;
+		type::MemoryLayout result{ type::MemoryLayout::eStd140 };
 
-		if ( result->getKind() == type::Kind::eStruct )
+		if ( type.getKind() == type::Kind::eStruct )
 		{
-			auto resultStruct = std::static_pointer_cast< type::Struct >( result )->getUnqualifiedType();
-			static std::vector< type::StructPtr > cache;
-			auto it = std::find_if( cache.begin()
-				, cache.end()
-				, [&resultStruct]( type::StructPtr lookup )
-				{
-					return *resultStruct == *lookup;
-				} );
-
-			if ( it == cache.end() )
-			{
-				cache.push_back( resultStruct );
-				it = cache.begin() + cache.size() - 1u;
-			}
-
-			result = *it;
+			auto & structType = static_cast< type::Struct const & >( type );
+			result = structType.getMemoryLayout();
 		}
-		else if ( result->getKind() == type::Kind::eCount )
+		else if ( type.isMember() )
 		{
-			static type::TypePtr cache = qualified;
-			result = cache;
-		}
-		else if ( result->getKind() == type::Kind( uint32_t( type::Kind::eCount ) + 1u ) )
-		{
-			static type::TypePtr cache = qualified;
-			result = cache;
-		}
-		else if ( result->isMember() )
-		{
-			result = type::makeType( result->getKind()
-				, result->getArraySize() );
+			result = getMemoryLayout( *type.getParent() );
 		}
 
 		return result;
+	}
+
+	void writeArrayStride( Module & module
+		, type::TypePtr type
+		, uint32_t typeId )
+	{
+		auto layout = getMemoryLayout( *type );
+		auto div = type->getArraySize() == type::UnknownArraySize
+			? 1u
+			: type->getArraySize();
+		assert( div != 0u );
+
+		module.decorate( typeId
+			, IdList
+			{
+				uint32_t( spv::Decoration::ArrayStride ),
+				getSize( type, layout ) / div
+			} );
 	}
 
 	spv::Id Module::registerType( type::TypePtr type )
@@ -392,16 +608,18 @@ namespace sdw::spirv
 			}
 			else if ( type->getArraySize() != type::UnknownArraySize )
 			{
-				auto elementType = registerBaseType( type );
+				auto elementTypeId = registerBaseType( type );
+				auto lengthId = registerLiteral( type->getArraySize() );
 				result = ++*m_currentId;
-				types.push_back( spirv::makeArrayType( type->getKind(), result, elementType, type->getArraySize() ) );
-				decorate( result, IdList{ uint32_t( spv::Decoration::ArrayStride ), getSize( type, type::MemoryLayout::eStd140 ) / type->getArraySize() } );
+				globalDeclarations.push_back( spirv::makeArrayType( type->getKind(), result, elementTypeId, lengthId ) );
+				writeArrayStride( *this, type, result );
 			}
 			else
 			{
-				auto elementType = registerBaseType( type );
+				auto elementTypeId = registerBaseType( type );
 				result = ++*m_currentId;
-				types.push_back( spirv::makeArrayType( type->getKind(), result, elementType ) );
+				globalDeclarations.push_back( spirv::makeArrayType( type->getKind(), result, elementTypeId ) );
+				writeArrayStride( *this, type, result );
 			}
 
 			m_registeredTypes.emplace( type, result );
@@ -423,7 +641,7 @@ namespace sdw::spirv
 		{
 			spv::Id id{ ++*m_currentId };
 			it = m_registeredPointerTypes.emplace( key, id ).first;
-			types.push_back( spirv::makeInstruction( spv::Op::OpTypePointer, id, IdList{ spv::Id( storage ), type } ) );
+			globalDeclarations.push_back( spirv::makeInstruction( spv::Op::OpTypePointer, id, IdList{ spv::Id( storage ), type } ) );
 		}
 
 		return it->second;
@@ -475,7 +693,38 @@ namespace sdw::spirv
 		return result;
 	}
 
-	spv::Id Module::registerVariable( std::string name
+	void Module::bindVariable( spv::Id varId
+		, uint32_t bindingPoint
+		, uint32_t descriptorSet )
+	{
+		decorate( varId, { spv::Id( spv::Decoration::Binding ), bindingPoint } );
+		decorate( varId, { spv::Id( spv::Decoration::DescriptorSet ), descriptorSet } );
+	}
+
+	void Module::bindBufferVariable( std::string const & name
+		, uint32_t bindingPoint
+		, uint32_t descriptorSet
+		, spv::Decoration structDecoration )
+	{
+		auto varIt = m_registeredVariables.find( name );
+
+		if ( varIt != m_registeredVariables.end() )
+		{
+			auto varId = varIt->second;
+			decorate( varId, { spv::Id( spv::Decoration::Binding ), bindingPoint } );
+			decorate( varId, { spv::Id( spv::Decoration::DescriptorSet ), descriptorSet } );
+
+			auto typeIt = m_registeredVariablesTypes.find( varId );
+
+			if ( typeIt != m_registeredVariablesTypes.end() )
+			{
+				auto typeId = typeIt->second;
+				decorate( typeId, structDecoration );
+			}
+		}
+	}
+
+	spv::Id Module::registerVariable( std::string const & name
 		, spv::StorageClass storage
 		, type::TypePtr type )
 	{
@@ -490,6 +739,11 @@ namespace sdw::spirv
 				|| std::static_pointer_cast< type::Struct >( type )->getName() != name )
 			{
 				debug.push_back( makeName( spv::Op::OpName, id, name ) );
+			}
+			else if ( type->getKind() == type::Kind::eStruct
+				|| std::static_pointer_cast< type::Struct >( type )->getName() == name )
+			{
+				debug.push_back( makeName( spv::Op::OpName, id, name + "Inst" ) );
 			}
 
 			auto builtin = getBuiltin( name );
@@ -509,11 +763,20 @@ namespace sdw::spirv
 			}
 			else
 			{
-				globals.push_back( makeVariable( id, varType, storage ) );
+				globalDeclarations.push_back( makeVariable( id, varType, storage ) );
 			}
+
+			m_registeredVariablesTypes.emplace( id, rawType );
 		}
 
 		return it->second;
+	}
+
+	spv::Id Module::registerParameter( type::TypePtr type )
+	{
+		auto typeId = registerType( type );
+		auto paramId = ++*m_currentId;
+		return paramId;
 	}
 
 	spv::Id Module::registerMemberVariableIndex( type::TypePtr type )
@@ -533,7 +796,7 @@ namespace sdw::spirv
 				return pair.second == outer;
 			} );
 		assert( it != m_registeredVariables.end() );
-		assert( type->isMember()  );
+		assert( type->isMember() );
 		auto fullName = it->first + "::" + name;
 		auto outerId = it->second;
 		it = m_registeredVariables.find( fullName );
@@ -543,7 +806,6 @@ namespace sdw::spirv
 			spv::Id id{ ++*m_currentId };
 			m_registeredMemberVariables.insert( { fullName, { outer, id } } );
 			it = m_registeredVariables.emplace( fullName, id ).first;
-			assert( type->isMember() );
 			registerLiteral( type->getIndex() );
 		}
 
@@ -599,7 +861,7 @@ namespace sdw::spirv
 		{
 			spv::Id result{ ++*m_currentId };
 			auto type = registerType( type::getBool() );
-			constants.push_back( makeInstruction( spv::Op::OpConstant, result, type, IdList{ value ? 1u : 0u } ) );
+			globalDeclarations.push_back( makeInstruction( spv::Op::OpConstant, result, type, IdList{ value ? 1u : 0u } ) );
 			it = m_registeredBoolConstants.emplace( value, result ).first;
 			m_registeredConstants.emplace( result, type::getBool() );
 		}
@@ -615,7 +877,7 @@ namespace sdw::spirv
 		{
 			spv::Id result{ ++*m_currentId };
 			auto type = registerType( type::getInt() );
-			constants.push_back( makeInstruction( spv::Op::OpConstant, result, type, IdList{ uint32_t( value ) } ) );
+			globalDeclarations.push_back( makeInstruction( spv::Op::OpConstant, result, type, IdList{ uint32_t( value ) } ) );
 			it = m_registeredIntConstants.emplace( value, result ).first;
 			m_registeredConstants.emplace( result, type::getInt() );
 		}
@@ -631,7 +893,7 @@ namespace sdw::spirv
 		{
 			spv::Id result{ ++*m_currentId };
 			auto type = registerType( type::getUInt() );
-			constants.push_back( makeInstruction( spv::Op::OpConstant, result, type, IdList{ value } ) );
+			globalDeclarations.push_back( makeInstruction( spv::Op::OpConstant, result, type, IdList{ value } ) );
 			it = m_registeredUIntConstants.emplace( value, result ).first;
 			m_registeredConstants.emplace( result, type::getUInt() );
 		}
@@ -647,7 +909,7 @@ namespace sdw::spirv
 		{
 			spv::Id result{ ++*m_currentId };
 			auto type = registerType( type::getFloat() );
-			constants.push_back( makeInstruction( spv::Op::OpConstant, result, type, IdList{ *reinterpret_cast< uint32_t * >( &value ) } ) );
+			globalDeclarations.push_back( makeInstruction( spv::Op::OpConstant, result, type, IdList{ *reinterpret_cast< uint32_t * >( &value ) } ) );
 			it = m_registeredFloatConstants.emplace( value, result ).first;
 			m_registeredConstants.emplace( result, type::getFloat() );
 		}
@@ -667,7 +929,7 @@ namespace sdw::spirv
 			list.resize( 2u );
 			auto dst = reinterpret_cast< double * >( list.data() );
 			*dst = value;
-			constants.push_back( makeInstruction( spv::Op::OpConstant, result, type, list ) );
+			globalDeclarations.push_back( makeInstruction( spv::Op::OpConstant, result, type, list ) );
 			it = m_registeredDoubleConstants.emplace( value, result ).first;
 			m_registeredConstants.emplace( result, type::getDouble() );
 		}
@@ -689,7 +951,7 @@ namespace sdw::spirv
 		if ( it == m_registeredCompositeConstants.end() )
 		{
 			spv::Id result{ ++*m_currentId };
-			constants.push_back( makeInstruction( spv::Op::OpConstantComposite
+			globalDeclarations.push_back( makeInstruction( spv::Op::OpConstantComposite
 				, result
 				, typeId
 				, initialisers ) );
@@ -803,24 +1065,24 @@ namespace sdw::spirv
 
 	void Module::putIntermediateResult( spv::Id id )
 	{
-		if ( m_intermediates.end() != m_intermediates.find( id ) )
-		{
-			m_freeIntermediates.insert( id );
-			auto it = m_busyIntermediates.begin();
+		//if ( m_intermediates.end() != m_intermediates.find( id ) )
+		//{
+		//	m_freeIntermediates.insert( id );
+		//	auto it = m_busyIntermediates.begin();
 
-			while ( it != m_busyIntermediates.end() )
-			{
-				if ( it->first == id
-					|| it->second == id )
-				{
-					it = m_busyIntermediates.erase( it );
-				}
-				else
-				{
-					++it;
-				}
-			}
-		}
+		//	while ( it != m_busyIntermediates.end() )
+		//	{
+		//		if ( it->first == id
+		//			|| it->second == id )
+		//		{
+		//			it = m_busyIntermediates.erase( it );
+		//		}
+		//		else
+		//		{
+		//			++it;
+		//		}
+		//	}
+		//}
 	}
 
 	spv::Id Module::getNonIntermediate( spv::Id id )
@@ -833,30 +1095,51 @@ namespace sdw::spirv
 		return id;
 	}
 
-	Function * Module::beginFunction( std::string name
+	Function * Module::beginFunction( std::string const & name
 		, spv::Id retType
-		, ParameterList params )
+		, var::VariableList const & params )
 	{
 		IdList funcTypes;
+		IdList funcParams;
 		funcTypes.push_back( retType );
 
 		for ( auto & param : params )
 		{
-			funcTypes.push_back( param.type );
+			funcTypes.push_back( registerType( param->getType() ) );
+			spv::Id paramId{ ++*m_currentId };
+			funcParams.push_back( paramId );
+			debug.push_back( makeName( spv::Op::OpName, paramId, param->getName() ) );
+			m_registeredVariables.emplace( param->getName(), funcParams.back() );
+			m_registeredVariablesTypes.emplace( funcParams.back(), funcTypes.back() );
 		}
 
 		spv::Id funcType{ ++*m_currentId };
-		types.push_back( spirv::makeType( type::Kind::eFunction
+		globalDeclarations.push_back( spirv::makeType( type::Kind::eFunction
 			, funcType
 			, funcTypes ) );
 		spv::Id result{ ++*m_currentId };
+		InstructionList declaration;
+		declaration.emplace_back( makeInstruction( spv::Op::OpFunction
+			, result
+			, retType
+			, { spv::Id( spv::FunctionControlMask::MaskNone ), funcType } ) );
+		auto itType = funcTypes.begin() + 1u;
+		auto itParam = funcParams.begin();
+
+		for ( auto & param : params )
+		{
+			declaration.emplace_back( makeInstruction( spv::Op::OpFunctionParameter
+				, *itParam
+				, *itType ) );
+			++itType;
+			++itParam;
+		}
+
+		m_registeredVariables.emplace( name, result );
+		m_registeredVariablesTypes.emplace( result, funcType );
 		functions.push_back( Function
 			{
-				retType,
-				result,
-				uint32_t( spv::FunctionControlMask::MaskNone ),
-				funcType,
-				params,
+				declaration,
 				{},
 				{},
 				m_currentId,
@@ -870,10 +1153,12 @@ namespace sdw::spirv
 
 	Block Module::newBlock()
 	{
-		return Block
+		Block result
 		{
 			++*m_currentId
 		};
+		result.instructions.push_back( makeInstruction( spv::Op::OpLabel, result.label ) );
+		return result;
 	}
 
 	void Module::endFunction()
@@ -882,18 +1167,22 @@ namespace sdw::spirv
 			&& !m_currentFunction->cfg.blocks.empty()
 			&& !m_currentFunction->variables.empty() )
 		{
-			m_currentFunction->cfg.blocks.begin()->instructions.insert( m_currentFunction->cfg.blocks.begin()->instructions.begin()
+			auto & instructions = m_currentFunction->cfg.blocks.begin()->instructions;
+			instructions.insert( instructions.begin() + 1u
 				, m_currentFunction->variables.begin()
 				, m_currentFunction->variables.end() );
+			m_currentFunction->variables.clear();
 		}
 
-		variables = &globals;
+		variables = &globalDeclarations;
 		m_currentFunction = nullptr;
 	}
 
 	spv::Id Module::registerBaseType( type::Kind kind )
 	{
 		assert( kind != type::Kind::eStruct );
+		assert( kind != type::Kind::eImage );
+		assert( kind != type::Kind::eSampledImage );
 
 		spv::Id result{};
 		auto type = type::makeType( kind );
@@ -906,37 +1195,32 @@ namespace sdw::spirv
 			subTypes.push_back( componentType );
 			subTypes.push_back( getComponentCount( kind ) );
 			result = ++*m_currentId;
-			types.push_back( spirv::makeType( kind, result, subTypes ) );
-		}
-		else if ( kind == type::Kind::eCount )
-		{
-			// The Sampler Type.
-			result = ++*m_currentId;
-			types.push_back( spirv::makeSamplerType( result ) );
-		}
-		else if ( isImageType( kind )
-			|| isSamplerType( kind ) )
-		{
-			// The Sampled Type.
-			auto sampledType = registerType( makeType( getComponentType( kind ) ) );
-			// The Image Type.
-			result = ++*m_currentId;
-			types.push_back( spirv::makeImageType( kind, result, sampledType ) );
-
-			if ( isSamplerType( kind ) )
-			{
-				// The Sampled Image Type.
-				auto imageType = result;
-				result = ++*m_currentId;
-				types.push_back( spirv::makeSampledImageType( kind, result, imageType ) );
-			}
+			globalDeclarations.push_back( spirv::makeType( kind, result, subTypes ) );
 		}
 		else
 		{
 			result = ++*m_currentId;
-			types.push_back( spirv::makeType( kind, result ) );
+			globalDeclarations.push_back( spirv::makeType( kind, result ) );
 		}
 
+		return result;
+	}
+
+	spv::Id Module::registerBaseType( type::SampledImagePtr type )
+	{
+		auto imgTypeId = registerType( std::static_pointer_cast< type::SampledImage >( type )->getImageType() );
+		auto result = ++*m_currentId;
+		globalDeclarations.push_back( spirv::makeSampledImageType( result, imgTypeId ) );
+		return result;
+	}
+
+	spv::Id Module::registerBaseType( type::ImagePtr type )
+	{
+		// The Sampled Type.
+		auto sampledType = registerType( makeType( getComponentType( type->getConfig().format ) ) );
+		// The Image Type.
+		auto result = ++*m_currentId;
+		globalDeclarations.push_back( spirv::makeImageType( type->getConfig(), result, sampledType ) );
 		return result;
 	}
 
@@ -950,7 +1234,7 @@ namespace sdw::spirv
 			subTypes.push_back( registerType( member.type ) );
 		}
 
-		types.push_back( spirv::makeStructType( result, subTypes ) );
+		globalDeclarations.push_back( spirv::makeStructType( result, subTypes ) );
 		debug.push_back( spirv::makeName( spv::Op::OpName, result, type->getName() ) );
 
 		for ( auto & member : *type )
@@ -970,17 +1254,13 @@ namespace sdw::spirv
 		spv::Id result{};
 		auto kind = type->getKind();
 
-		if ( kind == type::Kind::eCount )
+		if ( kind == type::Kind::eSampledImage )
 		{
-			// Implicit Sampler
-			result = ++*m_currentId;
-			types.push_back( spirv::makeSamplerType( result ) );
+			result = registerBaseType( std::static_pointer_cast< type::SampledImage >( type ) );
 		}
-		else if ( kind == type::Kind( uint32_t( type::Kind::eCount ) + 1u ) )
+		else if ( kind == type::Kind::eImage )
 		{
-			// Implicit Sampled Image
-			result = ++*m_currentId;
-			types.push_back( spirv::makeSampledImageType( kind, result, 0u ) );
+			result = registerBaseType( std::static_pointer_cast< type::Image >( type ) );
 		}
 		else if ( kind == type::Kind::eStruct )
 		{

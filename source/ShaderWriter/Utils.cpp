@@ -166,7 +166,7 @@ namespace sdw
 				, Vec3 const & normal
 				, Vec3 const & position )
 			{
-				auto c3d_mapNormal( m_writer.getBuiltin< Sampler2D >( "c3d_mapNormal" ) );
+				auto c3d_mapNormal( m_writer.getVariable< SampledImageT< Img2DRGBA32F > >( "c3d_mapNormal" ) );
 
 				auto mapNormal = m_writer.declLocale( "mapNormal"
 					, texture( c3d_mapNormal, uv.xy() ).xyz() );
@@ -222,9 +222,9 @@ namespace sdw
 				, Float const & roughness
 				, Float const & metallic
 				, Vec3 const & worldEye
-				, SamplerCube const & irradianceMap
-				, SamplerCube const & prefilteredEnvMap
-				, Sampler2D const & brdfMap )
+				, SampledImageCubeRgba32f const & irradianceMap
+				, SampledImageCubeRgba32f const & prefilteredEnvMap
+				, SampledImage2DRgba32f const & brdfMap )
 			{
 				auto V = m_writer.declLocale( "V"
 					, normalize( worldEye - position ) );
@@ -267,9 +267,9 @@ namespace sdw
 			, InFloat{ m_writer, "roughness" }
 			, InFloat{ m_writer, "metallic" }
 			, InVec3{ m_writer, "worldEye" }
-			, InParam< SamplerCube >{ m_writer, "irradianceMap" }
-			, InParam< SamplerCube >{ m_writer, "prefilteredEnvMap" }
-			, InParam< Sampler2D >{ m_writer, "brdfMap" } );
+			, InSampledImageCubeRgba32f{ m_writer, "irradianceMap" }
+			, InSampledImageCubeRgba32f{ m_writer, "prefilteredEnvMap" }
+			, InSampledImage2DRgba32f{ m_writer, "brdfMap" } );
 	}
 
 	Vec2 Utils::calcTexCoord( Vec2 const & renderSize )
@@ -354,9 +354,9 @@ namespace sdw
 		, Float const & metallic
 		, Float const & roughness
 		, Vec3 const & worldEye
-		, SamplerCube const & irradianceMap
-		, SamplerCube const & prefilteredEnvMap
-		, Sampler2D const & brdfMap )
+		, SampledImageCubeRgba32f const & irradianceMap
+		, SampledImageCubeRgba32f const & prefilteredEnvMap
+		, SampledImage2DRgba32f const & brdfMap )
 	{
 		return m_computeIBL( normal
 			, position
@@ -376,9 +376,9 @@ namespace sdw
 		, Vec3 const & specular
 		, Float const & glossiness
 		, Vec3 const & worldEye
-		, SamplerCube const & irradianceMap
-		, SamplerCube const & prefilteredEnvMap
-		, Sampler2D const & brdfMap )
+		, SampledImageCubeRgba32f const & irradianceMap
+		, SampledImageCubeRgba32f const & prefilteredEnvMap
+		, SampledImage2DRgba32f const & brdfMap )
 	{
 		return m_computeIBL( normal
 			, position

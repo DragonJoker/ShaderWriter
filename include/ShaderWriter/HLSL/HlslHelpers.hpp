@@ -9,7 +9,6 @@ See LICENSE file in root folder
 
 namespace sdw::hlsl
 {
-	bool isSampler( type::Kind kind );
 	std::string getTypeName( type::Kind kind );
 	std::string getTypeName( type::TypePtr type );
 	std::string getLocationName( var::Variable const & var );
@@ -21,23 +20,6 @@ namespace sdw::hlsl
 
 	using LinkedVars = std::map< var::VariablePtr, std::pair< var::VariablePtr, var::VariablePtr > >;
 	using VariableExprMap = std::map< var::VariablePtr, expr::ExprPtr >;
-
-	class SamplerState
-		: public type::Type
-	{
-	public:
-		SamplerState()
-			: type::Type{ type::Kind::eCount }
-		{
-		}
-	};
-
-	using SamplerStatePtr = std::shared_ptr< SamplerState >;
-
-	inline SamplerStatePtr makeSampler()
-	{
-		return std::make_shared< SamplerState >();
-	}
 
 	struct IntrinsicsConfig
 	{

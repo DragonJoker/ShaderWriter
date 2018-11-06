@@ -1517,167 +1517,14 @@ namespace sdw::spirv
 		case ast::type::Kind::eMat4x4D:
 			result = spv::Op::OpTypeMatrix;
 			break;
-		case ast::type::Kind::eSamplerBufferF:
-		case ast::type::Kind::eSampler2DRectF:
-		case ast::type::Kind::eSampler2DRectShadowF:
-		case ast::type::Kind::eSamplerBufferI:
-		case ast::type::Kind::eSampler2DRectI:
-		case ast::type::Kind::eSamplerBufferU:
-		case ast::type::Kind::eSampler2DRectU:
-		case ast::type::Kind::eImageBufferF:
+		case ast::type::Kind::eImage:
 			result = spv::Op::OpTypeImage;
 			break;
-		case ast::type::Kind::eSampler1DF:
-		case ast::type::Kind::eSampler2DF:
-		case ast::type::Kind::eSampler3DF:
-		case ast::type::Kind::eSamplerCubeF:
-		case ast::type::Kind::eSampler1DArrayF:
-		case ast::type::Kind::eSampler2DArrayF:
-		case ast::type::Kind::eSamplerCubeArrayF:
-		case ast::type::Kind::eSampler1DShadowF:
-		case ast::type::Kind::eSampler2DShadowF:
-		case ast::type::Kind::eSamplerCubeShadowF:
-		case ast::type::Kind::eSampler1DArrayShadowF:
-		case ast::type::Kind::eSampler2DArrayShadowF:
-		case ast::type::Kind::eSamplerCubeArrayShadowF:
-		case ast::type::Kind::eSampler1DI:
-		case ast::type::Kind::eSampler2DI:
-		case ast::type::Kind::eSampler3DI:
-		case ast::type::Kind::eSamplerCubeI:
-		case ast::type::Kind::eSampler1DArrayI:
-		case ast::type::Kind::eSampler2DArrayI:
-		case ast::type::Kind::eSamplerCubeArrayI:
-		case ast::type::Kind::eSampler1DU:
-		case ast::type::Kind::eSampler2DU:
-		case ast::type::Kind::eSampler3DU:
-		case ast::type::Kind::eSamplerCubeU:
-		case ast::type::Kind::eSampler1DArrayU:
-		case ast::type::Kind::eSampler2DArrayU:
-		case ast::type::Kind::eSamplerCubeArrayU:
+		case ast::type::Kind::eSampledImage:
 			result = spv::Op::OpTypeSampledImage;
 			break;
-		case ast::type::Kind::eImage1DF:
-		case ast::type::Kind::eImage2DF:
-		case ast::type::Kind::eImage3DF:
-		case ast::type::Kind::eImageCubeF:
-		case ast::type::Kind::eImage2DRectF:
-		case ast::type::Kind::eImage1DArrayF:
-		case ast::type::Kind::eImage2DArrayF:
-		case ast::type::Kind::eImageCubeArrayF:
-		case ast::type::Kind::eImage2DMSF:
-		case ast::type::Kind::eImage2DMSArrayF:
-		case ast::type::Kind::eImageBufferI:
-		case ast::type::Kind::eImage1DI:
-		case ast::type::Kind::eImage2DI:
-		case ast::type::Kind::eImage3DI:
-		case ast::type::Kind::eImageCubeI:
-		case ast::type::Kind::eImage2DRectI:
-		case ast::type::Kind::eImage1DArrayI:
-		case ast::type::Kind::eImage2DArrayI:
-		case ast::type::Kind::eImageCubeArrayI:
-		case ast::type::Kind::eImage2DMSI:
-		case ast::type::Kind::eImage2DMSArrayI:
-		case ast::type::Kind::eImageBufferU:
-		case ast::type::Kind::eImage1DU:
-		case ast::type::Kind::eImage2DU:
-		case ast::type::Kind::eImage3DU:
-		case ast::type::Kind::eImageCubeU:
-		case ast::type::Kind::eImage2DRectU:
-		case ast::type::Kind::eImage1DArrayU:
-		case ast::type::Kind::eImage2DArrayU:
-		case ast::type::Kind::eImageCubeArrayU:
-		case ast::type::Kind::eImage2DMSU:
-		case ast::type::Kind::eImage2DMSArrayU:
-			result = spv::Op::OpTypeImage;
-			break;
-		case ast::type::Kind::eCount:
+		case ast::type::Kind::eSampler:
 			result = spv::Op::OpTypeSampler;
-			break;
-		case ast::type::Kind( uint32_t( ast::type::Kind::eCount ) + 1u ):
-			result = spv::Op::OpTypeSampledImage;
-			break;
-		default:
-			assert( false && "Unsupported type::Kind" );
-			break;
-		}
-
-		return result;
-	}
-
-	spv::Op getImageOpCode( type::Kind kind )
-	{
-		spv::Op result;
-
-		switch ( kind )
-		{
-		case ast::type::Kind::eSamplerBufferF:
-		case ast::type::Kind::eSampler2DRectF:
-		case ast::type::Kind::eSampler2DRectShadowF:
-		case ast::type::Kind::eSamplerBufferI:
-		case ast::type::Kind::eSampler2DRectI:
-		case ast::type::Kind::eSamplerBufferU:
-		case ast::type::Kind::eSampler2DRectU:
-		case ast::type::Kind::eImageBufferF:
-		case ast::type::Kind::eSampler1DF:
-		case ast::type::Kind::eSampler2DF:
-		case ast::type::Kind::eSampler3DF:
-		case ast::type::Kind::eSamplerCubeF:
-		case ast::type::Kind::eSampler1DArrayF:
-		case ast::type::Kind::eSampler2DArrayF:
-		case ast::type::Kind::eSamplerCubeArrayF:
-		case ast::type::Kind::eSampler1DShadowF:
-		case ast::type::Kind::eSampler2DShadowF:
-		case ast::type::Kind::eSamplerCubeShadowF:
-		case ast::type::Kind::eSampler1DArrayShadowF:
-		case ast::type::Kind::eSampler2DArrayShadowF:
-		case ast::type::Kind::eSamplerCubeArrayShadowF:
-		case ast::type::Kind::eSampler1DI:
-		case ast::type::Kind::eSampler2DI:
-		case ast::type::Kind::eSampler3DI:
-		case ast::type::Kind::eSamplerCubeI:
-		case ast::type::Kind::eSampler1DArrayI:
-		case ast::type::Kind::eSampler2DArrayI:
-		case ast::type::Kind::eSamplerCubeArrayI:
-		case ast::type::Kind::eSampler1DU:
-		case ast::type::Kind::eSampler2DU:
-		case ast::type::Kind::eSampler3DU:
-		case ast::type::Kind::eSamplerCubeU:
-		case ast::type::Kind::eSampler1DArrayU:
-		case ast::type::Kind::eSampler2DArrayU:
-		case ast::type::Kind::eSamplerCubeArrayU:
-		case ast::type::Kind::eImage1DF:
-		case ast::type::Kind::eImage2DF:
-		case ast::type::Kind::eImage3DF:
-		case ast::type::Kind::eImageCubeF:
-		case ast::type::Kind::eImage2DRectF:
-		case ast::type::Kind::eImage1DArrayF:
-		case ast::type::Kind::eImage2DArrayF:
-		case ast::type::Kind::eImageCubeArrayF:
-		case ast::type::Kind::eImage2DMSF:
-		case ast::type::Kind::eImage2DMSArrayF:
-		case ast::type::Kind::eImageBufferI:
-		case ast::type::Kind::eImage1DI:
-		case ast::type::Kind::eImage2DI:
-		case ast::type::Kind::eImage3DI:
-		case ast::type::Kind::eImageCubeI:
-		case ast::type::Kind::eImage2DRectI:
-		case ast::type::Kind::eImage1DArrayI:
-		case ast::type::Kind::eImage2DArrayI:
-		case ast::type::Kind::eImageCubeArrayI:
-		case ast::type::Kind::eImage2DMSI:
-		case ast::type::Kind::eImage2DMSArrayI:
-		case ast::type::Kind::eImageBufferU:
-		case ast::type::Kind::eImage1DU:
-		case ast::type::Kind::eImage2DU:
-		case ast::type::Kind::eImage3DU:
-		case ast::type::Kind::eImageCubeU:
-		case ast::type::Kind::eImage2DRectU:
-		case ast::type::Kind::eImage1DArrayU:
-		case ast::type::Kind::eImage2DArrayU:
-		case ast::type::Kind::eImageCubeArrayU:
-		case ast::type::Kind::eImage2DMSU:
-		case ast::type::Kind::eImage2DMSArrayU:
-			result = spv::Op::OpTypeImage;
 			break;
 		default:
 			assert( false && "Unsupported type::Kind" );
@@ -1927,6 +1774,7 @@ namespace sdw::spirv
 			assert( "Unexpected ast::expr::Kind::eArrayAccess" );
 			break;
 		default:
+			assert( "Unexpected ast::expr::Kind" );
 			break;
 		}
 

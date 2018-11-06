@@ -39,6 +39,13 @@ namespace sdw
 	}
 
 	template< typename TypeT >
+	Optional< TypeT >::Optional( Optional< TypeT > const & rhs )
+		: TypeT{ rhs }
+		, m_enabled{ rhs.m_enabled }
+	{
+	}
+
+	template< typename TypeT >
 	Optional< TypeT > Optional< TypeT >::operator=( Optional< TypeT > const & rhs )
 	{
 		if ( m_enabled )

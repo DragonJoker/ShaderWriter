@@ -22,7 +22,6 @@ namespace ast::debug
 
 	private:
 		std::string & displayStmtName( stmt::Stmt * stmt, bool newLine );
-		void displayVariable( var::Variable const & var );
 		void visitCommentStmt( stmt::Comment * stmt )override;
 		void visitCompoundStmt( stmt::Compound * stmt )override;
 		void visitContainerStmt( stmt::Container * stmt )override;
@@ -42,6 +41,7 @@ namespace ast::debug
 		void visitPerVertexDeclStmt( stmt::PerVertexDecl * stmt )override;
 		void visitPushConstantsBufferDeclStmt( stmt::PushConstantsBufferDecl * stmt )override;
 		void visitReturnStmt( stmt::Return * stmt )override;
+		void visitSampledImageDeclStmt( stmt::SampledImageDecl * stmt )override;
 		void visitSamplerDeclStmt( stmt::SamplerDecl * stmt )override;
 		void visitShaderBufferDeclStmt( stmt::ShaderBufferDecl * stmt )override;
 		void visitSimpleStmt( stmt::Simple * stmt )override;

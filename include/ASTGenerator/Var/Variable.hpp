@@ -15,16 +15,14 @@ namespace ast::var
 		eNone = 0,
 		eInputParam = 1 << 0,
 		eOutputParam = 1 << 1,
-		eBound = 1 << 2,
+		eUniform = 1 << 2,
 		eShaderInput = 1 << 3,
 		eShaderOutput = 1 << 4,
 		eShaderConstant = 1 << 5,
-		eSampler = 1 << 6,
-		eImage = 1 << 7,
-		eLocale = 1 << 8,
-		eBuiltin = 1 << 9,
-		eImplicit = 1 << 10,
-		eMember = 1 << 11,
+		eLocale = 1 << 6,
+		eBuiltin = 1 << 7,
+		eImplicit = 1 << 8,
+		eMember = 1 << 9,
 	};
 
 	class Variable
@@ -123,19 +121,9 @@ namespace ast::var
 			return hasFlag( Flag::eBuiltin );
 		}
 
-		inline bool isSampler()const
+		inline bool isUniform()const
 		{
-			return hasFlag( Flag::eSampler );
-		}
-
-		inline bool isImage()const
-		{
-			return hasFlag( Flag::eImage );
-		}
-
-		inline bool isBound()const
-		{
-			return hasFlag( Flag::eBound );
+			return hasFlag( Flag::eUniform );
 		}
 
 		inline bool isImplicit()const

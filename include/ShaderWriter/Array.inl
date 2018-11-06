@@ -13,11 +13,17 @@ namespace sdw
 	}
 
 	template< typename ValueT >
+	Array< ValueT >::Array( Array const & rhs )
+		: Value{ rhs }
+	{
+	}
+
+	template< typename ValueT >
 	template< typename IndexT >
 	ValueT Array< ValueT >::operator[]( IndexT const & offset )const
 	{
 		return ValueT{ findShader( *this, offset )
-			, sdw::makeArrayAccess( makeType( this->getType()->getKind() )
+			, sdw::makeArrayAccess( getNonArrayType( this->getType() )
 				, makeExpr( *this )
 				, makeExpr( offset ) ) };
 	}

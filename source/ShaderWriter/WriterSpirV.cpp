@@ -1304,14 +1304,22 @@ namespace sdw
 				stream << " " << instruction.operands[0];
 			}
 			else if ( opCode == spv::Op::OpTypeVector
-				|| opCode == spv::Op::OpTypeMatrix
-				|| opCode == spv::Op::OpTypeArray )
+				|| opCode == spv::Op::OpTypeMatrix )
 			{
 				// Component type and components count.
 				if ( !instruction.operands.empty() )
 				{
 					stream << " %" << instruction.operands[0];
 					stream << " " << instruction.operands[1];
+				}
+			}
+			else if ( opCode == spv::Op::OpTypeArray )
+			{
+				// Component type and components count.
+				if ( !instruction.operands.empty() )
+				{
+					stream << " %" << instruction.operands[0];
+					stream << " %" << instruction.operands[1];
 				}
 			}
 			else if ( opCode == spv::Op::OpTypeImage )
@@ -1345,7 +1353,7 @@ namespace sdw
 			return stream.str();
 		}
 
-		std::string writeVariable( spirv::Instruction const & instruction )
+		std::string writeGlobalVariable( spirv::Instruction const & instruction )
 		{
 			std::string result;
 			auto opCode = spv::Op( instruction.op.opCode );
@@ -1405,17 +1413,320 @@ namespace sdw
 			return stream.str();
 		}
 
-		std::string writeConstants( spirv::InstructionList const & instructions
+		std::string writeGlobalDeclaration( spirv::Instruction const & instruction
+			, spirv::Module const & module )
+		{
+			std::string result;
+			auto opCode = spv::Op( instruction.op.opCode );
+
+			if ( opCode == spv::Op::OpConstant
+				|| opCode == spv::Op::OpConstantComposite )
+			{
+				result += writeConstant( instruction, module.getLiteralType( instruction.resultId.value() ) ) + "\n";
+			}
+			else if ( opCode == spv::Op::OpVariable )
+			{
+				result += writeGlobalVariable( instruction ) + "\n";
+			}
+			else
+			{
+				result += writeType( instruction ) + "\n";
+			}
+
+			return result;
+		}
+
+		std::string writeGlobalDeclarations( spirv::InstructionList const & instructions
 			, spirv::Module const & module )
 		{
 			std::string result;
 
 			for ( auto & instruction : instructions )
 			{
-				result += writeConstant( instruction, module.getLiteralType( instruction.resultId.value() ) ) + "\n";
+				result += writeGlobalDeclaration( instruction, module );
 			}
 
 			return result;
+		}
+
+		std::string writeExtInst( spirv::Instruction const & instruction)
+		{
+			std::stringstream stream;
+			stream << " %" << instruction.operands[0];
+			stream << " " << getName( spv::GLSLstd450( instruction.operands[1] ) );
+
+			for ( size_t i = 2u; i < instruction.operands.size(); ++i )
+			{
+				stream << " %" << instruction.operands[i];
+			}
+
+			if ( instruction.name.has_value() )
+			{
+				stream << " \"" << instruction.name.value() << "\"";
+			}
+
+			return stream.str();
+		}
+
+		std::string writeFuncVariable( spirv::Instruction const & instruction )
+		{
+			std::stringstream stream;
+			stream << " " << getName( spv::StorageClass( instruction.operands[0] ) );
+
+			for ( size_t i = 1u; i < instruction.operands.size(); ++i )
+			{
+				stream << " %" << instruction.operands[i];
+			}
+
+			if ( instruction.name.has_value() )
+			{
+				stream << " \"" << instruction.name.value() << "\"";
+			}
+
+			return stream.str();
+		}
+
+		std::string writeImageSample( spirv::Instruction const & instruction )
+		{
+			std::stringstream stream;
+			// Sampled Image
+			stream << " %" << instruction.operands[0];
+			// Coordinate
+			stream << " %" << instruction.operands[1];
+
+			if ( instruction.operands.size() > 3u )
+			{
+				// Optional ImageOperands
+				stream << " " << getName( spv::ImageOperandsMask( instruction.operands[2] ) );
+
+				for ( size_t i = 3u; i < instruction.operands.size(); ++i )
+				{
+					stream << " %" << instruction.operands[i];
+				}
+			}
+
+			if ( instruction.name.has_value() )
+			{
+				stream << " \"" << instruction.name.value() << "\"";
+			}
+
+			return stream.str();
+		}
+
+		std::string writeImageSampleDref( spirv::Instruction const & instruction )
+		{
+			std::stringstream stream;
+			// Sampled Image
+			stream << " %" << instruction.operands[0];
+			// Coordinate
+			stream << " %" << instruction.operands[1];
+			// Dref
+			stream << " %" << instruction.operands[2];
+
+			if ( instruction.operands.size() > 4u )
+			{
+				// Optional ImageOperands
+				stream << " " << getName( spv::ImageOperandsMask( instruction.operands[3] ) );
+
+				for ( size_t i = 4u; i < instruction.operands.size(); ++i )
+				{
+					stream << " %" << instruction.operands[i];
+				}
+			}
+
+			if ( instruction.name.has_value() )
+			{
+				stream << " \"" << instruction.name.value() << "\"";
+			}
+
+			return stream.str();
+		}
+
+		std::string writeImageSampleProj( spirv::Instruction const & instruction )
+		{
+			std::stringstream stream;
+			// Sampled Image
+			stream << " %" << instruction.operands[0];
+			// Coordinate
+			stream << " %" << instruction.operands[1];
+
+			if ( instruction.operands.size() > 3u )
+			{
+				// Optional ImageOperands
+				stream << " " << getName( spv::ImageOperandsMask( instruction.operands[2] ) );
+
+				for ( size_t i = 3u; i < instruction.operands.size(); ++i )
+				{
+					stream << " %" << instruction.operands[i];
+				}
+			}
+
+			if ( instruction.name.has_value() )
+			{
+				stream << " \"" << instruction.name.value() << "\"";
+			}
+
+			return stream.str();
+		}
+
+		std::string writeImageSampleProjDref( spirv::Instruction const & instruction )
+		{
+			std::stringstream stream;
+			// Sampled Image
+			stream << " %" << instruction.operands[0];
+			// Coordinate
+			stream << " %" << instruction.operands[1];
+			// Dref
+			stream << " %" << instruction.operands[2];
+
+			if ( instruction.operands.size() > 4u )
+			{
+				// Optional ImageOperands
+				stream << " " << getName( spv::ImageOperandsMask( instruction.operands[3] ) );
+
+				for ( size_t i = 4u; i < instruction.operands.size(); ++i )
+				{
+					stream << " %" << instruction.operands[i];
+				}
+			}
+
+			if ( instruction.name.has_value() )
+			{
+				stream << " \"" << instruction.name.value() << "\"";
+			}
+
+			return stream.str();
+		}
+
+		std::string writeImageFetch( spirv::Instruction const & instruction )
+		{
+			std::stringstream stream;
+			// Image
+			stream << " %" << instruction.operands[0];
+			// Coordinate
+			stream << " %" << instruction.operands[1];
+
+			if ( instruction.operands.size() > 3u )
+			{
+				// Optional ImageOperands
+				stream << " " << getName( spv::ImageOperandsMask( instruction.operands[2] ) );
+
+				for ( size_t i = 3u; i < instruction.operands.size(); ++i )
+				{
+					stream << " %" << instruction.operands[i];
+				}
+			}
+
+			if ( instruction.name.has_value() )
+			{
+				stream << " \"" << instruction.name.value() << "\"";
+			}
+
+			return stream.str();
+		}
+
+		std::string writeImageGather( spirv::Instruction const & instruction )
+		{
+			std::stringstream stream;
+			// Image
+			stream << " %" << instruction.operands[0];
+			// Coordinate
+			stream << " %" << instruction.operands[1];
+			// Component
+			stream << " %" << instruction.operands[2];
+
+			if ( instruction.operands.size() > 4u )
+			{
+				// Optional ImageOperands
+				stream << " " << getName( spv::ImageOperandsMask( instruction.operands[3] ) );
+
+				for ( size_t i = 4u; i < instruction.operands.size(); ++i )
+				{
+					stream << " %" << instruction.operands[i];
+				}
+			}
+
+			if ( instruction.name.has_value() )
+			{
+				stream << " \"" << instruction.name.value() << "\"";
+			}
+
+			return stream.str();
+		}
+
+		std::string writeImageDrefGather( spirv::Instruction const & instruction )
+		{
+			std::stringstream stream;
+			// Image
+			stream << " %" << instruction.operands[0];
+			// Coordinate
+			stream << " %" << instruction.operands[1];
+			// Dref
+			stream << " %" << instruction.operands[2];
+
+			if ( instruction.operands.size() > 4u )
+			{
+				// Optional ImageOperands
+				stream << " " << getName( spv::ImageOperandsMask( instruction.operands[3] ) );
+
+				for ( size_t i = 4u; i < instruction.operands.size(); ++i )
+				{
+					stream << " %" << instruction.operands[i];
+				}
+			}
+
+			if ( instruction.name.has_value() )
+			{
+				stream << " \"" << instruction.name.value() << "\"";
+			}
+
+			return stream.str();
+		}
+
+		std::string writeStore( spirv::Instruction const & instruction )
+		{
+			std::stringstream stream;
+			stream << " %" << instruction.operands[0];
+			stream << " %" << instruction.operands[1];
+
+			if ( instruction.name.has_value() )
+			{
+				stream << " \"" << instruction.name.value() << "\"";
+			}
+
+			return stream.str();
+		}
+
+		std::string writeLoad( spirv::Instruction const & instruction )
+		{
+			std::stringstream stream;
+			stream << " %" << instruction.operands[0];
+
+			if ( instruction.name.has_value() )
+			{
+				stream << " \"" << instruction.name.value() << "\"";
+			}
+
+			return stream.str();
+		}
+
+		std::string writeVectorShuffle( spirv::Instruction const & instruction )
+		{
+			std::stringstream stream;
+			stream << " %" << instruction.operands[0];
+			stream << " %" << instruction.operands[1];
+
+			for ( size_t i = 2u; i < instruction.operands.size(); ++i )
+			{
+				stream << " " << instruction.operands[i];
+			}
+
+			if ( instruction.name.has_value() )
+			{
+				stream << " \"" << instruction.name.value() << "\"";
+			}
+
+			return stream.str();
 		}
 
 		std::string writeBlockInstruction( spirv::Instruction const & instruction )
@@ -1438,188 +1749,62 @@ namespace sdw
 			{
 				stream << " %" << instruction.resultType.value();
 			}
+
 			if ( opCode == spv::Op::OpExtInst )
 			{
-				stream << " %1";
-				stream << " " << getName( spv::GLSLstd450( instruction.operands[0] ) );
-
-				for ( size_t i = 1u; i < instruction.operands.size(); ++i )
-				{
-					stream << " %" << instruction.operands[i];
-				}
+				stream << writeExtInst( instruction );
+			}
+			else if ( opCode == spv::Op::OpVariable )
+			{
+				stream << writeFuncVariable( instruction );
+			}
+			else if ( opCode == spv::Op::OpImageSampleImplicitLod
+				|| opCode == spv::Op::OpImageSampleExplicitLod )
+			{
+				stream << writeImageSample( instruction );
+			}
+			else if ( opCode == spv::Op::OpImageSampleDrefImplicitLod
+				|| opCode == spv::Op::OpImageSampleDrefExplicitLod )
+			{
+				stream << writeImageSampleDref( instruction );
+			}
+			else if ( opCode == spv::Op::OpImageSampleProjImplicitLod
+				|| opCode == spv::Op::OpImageSampleProjExplicitLod )
+			{
+				stream << writeImageSampleProj( instruction );
+			}
+			else if ( opCode == spv::Op::OpImageSampleProjDrefImplicitLod
+				|| opCode == spv::Op::OpImageSampleProjDrefExplicitLod )
+			{
+				stream << writeImageSampleProjDref( instruction );
+			}
+			else if ( opCode == spv::Op::OpImageFetch )
+			{
+				stream << writeImageFetch( instruction );
+			}
+			else if ( opCode == spv::Op::OpImageGather )
+			{
+				stream << writeImageGather( instruction );
+			}
+			else if ( opCode == spv::Op::OpImageDrefGather )
+			{
+				stream << writeImageDrefGather( instruction );
+			}
+			else if ( opCode == spv::Op::OpStore )
+			{
+				stream << writeStore( instruction );
+			}
+			else if ( opCode == spv::Op::OpLoad )
+			{
+				stream << writeLoad( instruction );
+			}
+			else if ( opCode == spv::Op::OpVectorShuffle )
+			{
+				stream << writeVectorShuffle( instruction );
 			}
 			else
 			{
-				if ( opCode == spv::Op::OpVariable )
-				{
-					stream << " " << getName( spv::StorageClass( instruction.operands[0] ) );
-
-					for ( size_t i = 1u; i < instruction.operands.size(); ++i )
-					{
-						stream << " %" << instruction.operands[i];
-					}
-				}
-				else if ( opCode == spv::Op::OpImageSampleImplicitLod
-					|| opCode == spv::Op::OpImageSampleExplicitLod )
-				{
-					// Sampled Image
-					stream << " %" << instruction.operands[0];
-					// Coordinate
-					stream << " %" << instruction.operands[1];
-
-					if ( instruction.operands.size() > 3u )
-					{
-						// Optional ImageOperands
-						stream << " " << getName( spv::ImageOperandsMask( instruction.operands[2] ) );
-
-						for ( size_t i = 3u; i < instruction.operands.size(); ++i )
-						{
-							stream << " %" << instruction.operands[i];
-						}
-					}
-				}
-				else if ( opCode == spv::Op::OpImageSampleDrefImplicitLod
-					|| opCode == spv::Op::OpImageSampleDrefExplicitLod )
-				{
-					// Sampled Image
-					stream << " %" << instruction.operands[0];
-					// Coordinate
-					stream << " %" << instruction.operands[1];
-					// Dref
-					stream << " %" << instruction.operands[2];
-
-					if ( instruction.operands.size() > 4u )
-					{
-						// Optional ImageOperands
-						stream << " " << getName( spv::ImageOperandsMask( instruction.operands[3] ) );
-
-						for ( size_t i = 4u; i < instruction.operands.size(); ++i )
-						{
-							stream << " %" << instruction.operands[i];
-						}
-					}
-				}
-				else if ( opCode == spv::Op::OpImageSampleProjImplicitLod
-					|| opCode == spv::Op::OpImageSampleProjExplicitLod )
-				{
-					// Sampled Image
-					stream << " %" << instruction.operands[0];
-					// Coordinate
-					stream << " %" << instruction.operands[1];
-
-					if ( instruction.operands.size() > 3u )
-					{
-						// Optional ImageOperands
-						stream << " " << getName( spv::ImageOperandsMask( instruction.operands[2] ) );
-
-						for ( size_t i = 3u; i < instruction.operands.size(); ++i )
-						{
-							stream << " %" << instruction.operands[i];
-						}
-					}
-				}
-				else if ( opCode == spv::Op::OpImageSampleProjDrefImplicitLod
-					|| opCode == spv::Op::OpImageSampleProjDrefExplicitLod )
-				{
-					// Sampled Image
-					stream << " %" << instruction.operands[0];
-					// Coordinate
-					stream << " %" << instruction.operands[1];
-					// Dref
-					stream << " %" << instruction.operands[2];
-
-					if ( instruction.operands.size() > 4u )
-					{
-						// Optional ImageOperands
-						stream << " " << getName( spv::ImageOperandsMask( instruction.operands[3] ) );
-
-						for ( size_t i = 4u; i < instruction.operands.size(); ++i )
-						{
-							stream << " %" << instruction.operands[i];
-						}
-					}
-				}
-				else if ( opCode == spv::Op::OpImageFetch )
-				{
-					// Image
-					stream << " %" << instruction.operands[0];
-					// Coordinate
-					stream << " %" << instruction.operands[1];
-
-					if ( instruction.operands.size() > 3u )
-					{
-						// Optional ImageOperands
-						stream << " " << getName( spv::ImageOperandsMask( instruction.operands[2] ) );
-
-						for ( size_t i = 3u; i < instruction.operands.size(); ++i )
-						{
-							stream << " %" << instruction.operands[i];
-						}
-					}
-				}
-				else if ( opCode == spv::Op::OpImageGather )
-				{
-					// Image
-					stream << " %" << instruction.operands[0];
-					// Coordinate
-					stream << " %" << instruction.operands[1];
-					// Component
-					stream << " %" << instruction.operands[2];
-
-					if ( instruction.operands.size() > 4u )
-					{
-						// Optional ImageOperands
-						stream << " " << getName( spv::ImageOperandsMask( instruction.operands[3] ) );
-
-						for ( size_t i = 4u; i < instruction.operands.size(); ++i )
-						{
-							stream << " %" << instruction.operands[i];
-						}
-					}
-				}
-				else if ( opCode == spv::Op::OpImageDrefGather )
-				{
-					// Image
-					stream << " %" << instruction.operands[0];
-					// Coordinate
-					stream << " %" << instruction.operands[1];
-					// Dref
-					stream << " %" << instruction.operands[2];
-
-					if ( instruction.operands.size() > 4u )
-					{
-						// Optional ImageOperands
-						stream << " " << getName( spv::ImageOperandsMask( instruction.operands[3] ) );
-
-						for ( size_t i = 4u; i < instruction.operands.size(); ++i )
-						{
-							stream << " %" << instruction.operands[i];
-						}
-					}
-				}
-				else if ( opCode == spv::Op::OpStore )
-				{
-					stream << " %" << instruction.operands[0];
-					stream << " %" << instruction.operands[1];
-				}
-				else if ( opCode == spv::Op::OpLoad )
-				{
-					stream << " %" << instruction.operands[0];
-				}
-				else if ( opCode == spv::Op::OpVectorShuffle )
-				{
-					stream << " %" << instruction.operands[0];
-					stream << " %" << instruction.operands[1];
-
-					for ( size_t i = 2u; i < instruction.operands.size(); ++i )
-					{
-						stream << " " << instruction.operands[i];
-					}
-				}
-				else
-				{
-					stream << instruction.operands;
-				}
+				stream << instruction.operands;
 
 				if ( instruction.name.has_value() )
 				{
@@ -1647,58 +1832,63 @@ namespace sdw
 		std::string writeBlock( spirv::Block const & block )
 		{
 			std::stringstream stream;
-			stream << writeId( block.label ) << " = OpLabel" << std::endl;
 			stream << writeInstructions( block.instructions, writeBlockInstruction );
 			stream << writeBlockInstruction( block.blockEnd );
+			return stream.str();
+		}
+
+		std::string writeFunctionDecl( spirv::Instruction const & instruction )
+		{
+			std::stringstream stream;
+			auto opCode = spv::Op( instruction.op.opCode );
+			stream << writeId( instruction.resultId.value() ) << " =";
+			stream << " " << spirv::getOperatorName( opCode );
+			stream << " %" << instruction.resultType.value();
+
+			if ( opCode == spv::Op::OpFunction )
+			{
+				auto control = instruction.operands[0];
+				std::string sep = " ";
+
+				if ( control & uint32_t( spv::FunctionControlMask::Inline ) )
+				{
+					stream << sep << "Inline";
+					sep = "|";
+				}
+
+				if ( control & uint32_t( spv::FunctionControlMask::DontInline ) )
+				{
+					stream << sep << "DontInline";
+					sep = "|";
+				}
+
+				if ( control & uint32_t( spv::FunctionControlMask::Pure ) )
+				{
+					stream << sep << "Pure";
+					sep = "|";
+				}
+
+				if ( control & uint32_t( spv::FunctionControlMask::Const ) )
+				{
+					stream << sep << "Const";
+					sep = "|";
+				}
+
+				if ( !control )
+				{
+					stream << sep << "None";
+				}
+
+				stream << " %" << instruction.operands[1];
+			}
+
 			return stream.str();
 		}
 
 		std::string writeFunction( spirv::Function const & function )
 		{
 			std::stringstream stream;
-			stream << writeId( function.id ) << " =";
-			stream << " " << spirv::getOperatorName( spv::Op::OpFunction );
-			stream << " %" << function.retType;
-			std::string sep = " ";
-
-			if ( function.control & uint32_t( spv::FunctionControlMask::Inline ) )
-			{
-				stream << sep << "Inline";
-				sep = "|";
-			}
-
-			if ( function.control & uint32_t( spv::FunctionControlMask::DontInline ) )
-			{
-				stream << sep << "DontInline";
-				sep = "|";
-			}
-
-			if ( function.control & uint32_t( spv::FunctionControlMask::Pure ) )
-			{
-				stream << sep << "Pure";
-				sep = "|";
-			}
-
-			if ( function.control & uint32_t( spv::FunctionControlMask::Const ) )
-			{
-				stream << sep << "Const";
-				sep = "|";
-			}
-
-			if ( !function.control )
-			{
-				stream << sep << "None";
-			}
-
-			stream << " %" << function.funcType << std::endl;
-
-			for ( auto & param : function.params )
-			{
-				stream << writeId( param.id ) << " =";
-				stream << " " << spirv::getOperatorName( spv::Op::OpFunctionParameter );
-				stream << " %" << param.type << std::endl;
-			}
-
+			stream << writeInstructions( function.declaration, writeFunctionDecl );
 			stream << writeInstructions( function.cfg.blocks, writeBlock );
 			return stream.str();
 		}
@@ -1791,16 +1981,170 @@ namespace sdw
 			stream << writeInstructions( module.debug, writeDebug ) << std::endl;
 			stream << "; Decorations" << std::endl;
 			stream << writeInstructions( module.decorations, writeDecoration ) << std::endl;
-			stream << "; Types" << std::endl;
-			stream << writeInstructions( module.types, writeType ) << std::endl;
-			stream << "; Constants" << std::endl;
-			stream << writeConstants( module.constants, module ) << std::endl;
-			stream << "; Globals" << std::endl;
-			stream << writeInstructions( module.globals, writeVariable ) << std::endl;
+			stream << "; Types, Constants, and Global Variables" << std::endl;
+			stream << writeGlobalDeclarations( module.globalDeclarations, module ) << std::endl;
 			stream << "; Functions" << std::endl;
 			stream << writeInstructions( module.functions, writeFunction ) << std::endl;
 
 			return stream;
+		}
+
+		template< typename T >
+		void count( std::vector< T > const & values
+			, size_t & result )
+		{
+			for ( auto & value : values )
+			{
+				count( value, result );
+			}
+		}
+
+		template< typename T >
+		void count( std::optional< T > const & value
+			, size_t & result )
+		{
+			if ( value.has_value() )
+			{
+				count( value.value(), result );
+			}
+		}
+
+		void count( spv::Id const & id
+			, size_t & result )
+		{
+			++result;
+		}
+
+		void count( spirv::Op const & op
+			, size_t & result )
+		{
+			++result;
+		}
+
+		void count( spirv::Instruction const & instruction
+			, size_t & result )
+		{
+			count( instruction.op, result );
+			count( instruction.resultType, result );
+			count( instruction.resultId, result );
+			count( instruction.operands, result );
+			count( instruction.packedName, result );
+		}
+
+		void count( spirv::Block const & block
+			, size_t & result )
+		{
+			count( block.instructions, result );
+			count( block.blockEnd, result );
+		}
+
+		void count( spirv::ControlFlowGraph const & cfg
+			, size_t & result )
+		{
+			count( cfg.blocks, result );
+		}
+
+		void count( spirv::Function const & function
+			, size_t & result )
+		{
+			count( function.declaration, result );
+			count( function.cfg, result );
+		}
+
+		size_t count( spirv::Module const & module )
+		{
+			size_t result{};
+			count( module.header, result );
+			count( module.capabilities, result );
+			count( module.extensions, result );
+			count( module.imports, result );
+			count( module.memoryModel, result );
+			count( module.entryPoint, result );
+			count( module.executionModes, result );
+			count( module.debug, result );
+			count( module.decorations, result );
+			count( module.globalDeclarations, result );
+			count( module.functions, result );
+			return result;
+		}
+
+		template< typename T >
+		void serialize( std::vector< T > const & values
+			, std::vector< uint32_t > & result )
+		{
+			for ( auto & value : values )
+			{
+				serialize( value, result );
+			}
+		}
+
+		template< typename T >
+		void serialize( std::optional< T > const & value
+			, std::vector< uint32_t > & result )
+		{
+			if ( value.has_value() )
+			{
+				serialize( value.value(), result );
+			}
+		}
+
+		void serialize( spv::Id const & id
+			, std::vector< uint32_t > & result )
+		{
+			result.push_back( id );
+		}
+
+		void serialize( spirv::Op const & op
+			, std::vector< uint32_t > & result )
+		{
+			result.push_back( uint32_t( op.op ) );
+		}
+
+		void serialize( spirv::Instruction const & instruction
+			, std::vector< uint32_t > & result )
+		{
+			assert( instruction.op.opCount != 0 );
+			serialize( instruction.op, result );
+			serialize( instruction.resultType, result );
+			serialize( instruction.resultId, result );
+			serialize( instruction.operands, result );
+			serialize( instruction.packedName, result );
+		}
+
+		void serialize( spirv::Block const & block
+			, std::vector< uint32_t > & result )
+		{
+			serialize( block.instructions, result );
+			serialize( block.blockEnd, result );
+		}
+
+		void serialize( spirv::ControlFlowGraph const & cfg
+			, std::vector< uint32_t > & result )
+		{
+			serialize( cfg.blocks, result );
+		}
+
+		void serialize( spirv::Function const & function
+			, std::vector< uint32_t > & result )
+		{
+			serialize( function.declaration, result );
+			serialize( function.cfg, result );
+		}
+
+		void serialize( spirv::Module const & module
+			, std::vector< uint32_t > & result )
+		{
+			serialize( module.header, result );
+			serialize( module.capabilities, result );
+			serialize( module.extensions, result );
+			serialize( module.imports, result );
+			serialize( module.memoryModel, result );
+			serialize( module.entryPoint, result );
+			serialize( module.executionModes, result );
+			serialize( module.debug, result );
+			serialize( module.decorations, result );
+			serialize( module.globalDeclarations, result );
+			serialize( module.functions, result );
 		}
 
 		spirv::Module compileSpirV( Shader const & shader, ShaderType type )
@@ -1822,6 +2166,8 @@ namespace sdw
 	{
 		auto module = compileSpirV( shader, type );
 		std::vector< uint32_t > result;
+		result.reserve( count( module ) );
+		serialize( module, result );
 		return result;
 	}
 }

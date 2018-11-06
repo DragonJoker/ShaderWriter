@@ -40,6 +40,8 @@ namespace sdw::spirv
 			, getExecutionModel( type ) };
 		StmtVisitor vis{ result, type };
 		stmt->accept( &vis );
+		// Increment total ID count.
+		++result.header[3];
 		return result;
 	}
 
@@ -60,10 +62,10 @@ namespace sdw::spirv
 	void StmtVisitor::visitConstantBufferDeclStmt( stmt::ConstantBufferDecl * stmt )
 	{
 		visitContainerStmt( stmt );
-		auto varId = m_result.globals.back().resultId.value();
-		m_result.decorate( varId, spv::Decoration::BufferBlock );
-		m_result.decorate( varId, { spv::Id( spv::Decoration::Binding ), stmt->getBindingPoint() } );
-		m_result.decorate( varId, { spv::Id( spv::Decoration::DescriptorSet ), stmt->getBindingSet() } );
+		m_result.bindBufferVariable( stmt->getName()
+			, stmt->getBindingPoint()
+			, stmt->getDescriptorSet()
+			, spv::Decoration::Block );
 	}
 
 	void StmtVisitor::visitDiscardStmt( stmt::Discard * stmt )
@@ -113,7 +115,7 @@ namespace sdw::spirv
 		m_currentBlock.blockEnd = makeInstruction( spv::Op::OpBranch, { continueBlock.label } );
 
 		// The if block, branches either to the continue block (true) or to loop merge block (false).
-		auto intermediateIfId = ExprVisitor::submit( stmt->getCtrlExpr(), ifBlock, m_result, m_linkedVars );
+		auto intermediateIfId = ExprVisitor::submit( stmt->getCtrlExpr(), ifBlock, m_result );
 		ifBlock.blockEnd = makeInstruction( spv::Op::OpBranchConditional, { intermediateIfId, continueBlock.label, mergeBlock.label } );
 		m_function->cfg.blocks.push_back( ifBlock );
 
@@ -143,7 +145,7 @@ namespace sdw::spirv
 		auto mergeBlock = m_result.newBlock();
 
 		// End current block, to branch to the loop header block.
-		auto intermediateInitId = ExprVisitor::submit( stmt->getInitExpr(), m_currentBlock, m_result, m_linkedVars );
+		auto intermediateInitId = ExprVisitor::submit( stmt->getInitExpr(), m_currentBlock, m_result );
 		m_currentBlock.blockEnd = makeInstruction( spv::Op::OpBranch, { loopBlock.label } );
 		m_function->cfg.blocks.push_back( m_currentBlock );
 
@@ -156,7 +158,7 @@ namespace sdw::spirv
 		m_function->cfg.blocks.push_back( loopBlock );
 
 		// The if block, branches to either loop content block (true) or loop merge block (false).
-		auto intermediateIfId = ExprVisitor::submit( stmt->getCtrlExpr(), ifBlock, m_result, m_linkedVars );
+		auto intermediateIfId = ExprVisitor::submit( stmt->getCtrlExpr(), ifBlock, m_result );
 		ifBlock.blockEnd = makeInstruction( spv::Op::OpBranchConditional, { intermediateIfId, m_currentBlock.label, mergeBlock.label } );
 		m_function->cfg.blocks.push_back( ifBlock );
 
@@ -168,7 +170,7 @@ namespace sdw::spirv
 		m_function->cfg.blocks.push_back( m_currentBlock );
 
 		// The continue target block, branches back to loop header.
-		auto intermediateIncrId = ExprVisitor::submit( stmt->getIncrExpr(), continueBlock, m_result, m_linkedVars );
+		auto intermediateIncrId = ExprVisitor::submit( stmt->getIncrExpr(), continueBlock, m_result );
 		continueBlock.blockEnd = makeInstruction( spv::Op::OpBranch, { loopBlock.label } );
 		m_function->cfg.blocks.push_back( continueBlock );
 
@@ -179,27 +181,14 @@ namespace sdw::spirv
 	void StmtVisitor::visitFunctionDeclStmt( stmt::FunctionDecl * stmt )
 	{
 		auto retType = m_result.registerType( stmt->getRet() );
-		ParameterList params;
-
-		for ( auto & param : stmt->getParameters() )
-		{
-			params.push_back( Parameter
-				{
-					m_result.registerVariable( param->getName()
-						, spv::StorageClass::Function
-						, param->getType() ),
-					m_result.registerType( param->getType() ),
-				} );
-		}
-
 		m_function = m_result.beginFunction( stmt->getName()
 			, retType
-			, params );
+			, stmt->getParameters() );
 		m_currentBlock = m_result.newBlock();
 
 		if ( stmt->getName() == "main" )
 		{
-			m_result.registerEntryPoint( m_function->id
+			m_result.registerEntryPoint( m_function->declaration.front().resultId.value()
 				, stmt->getName()
 				, m_inputs
 				, m_outputs );
@@ -237,7 +226,7 @@ namespace sdw::spirv
 		}
 
 		// End current block, to branch to the if content block (true) or to the false branch block (false).
-		auto intermediateIfId = ExprVisitor::submit( stmt->getCtrlExpr(), m_currentBlock, m_result, m_linkedVars );
+		auto intermediateIfId = ExprVisitor::submit( stmt->getCtrlExpr(), m_currentBlock, m_result );
 		m_currentBlock.instructions.emplace_back( makeInstruction( spv::Op::OpSelectionMerge, { mergeBlock.label } ) );
 		m_currentBlock.blockEnd = makeInstruction( spv::Op::OpBranchConditional, { intermediateIfId, contentBlock.label, falseBlockLabel } );
 		m_function->cfg.blocks.push_back( m_currentBlock );
@@ -262,9 +251,9 @@ namespace sdw::spirv
 
 	void StmtVisitor::visitImageDeclStmt( stmt::ImageDecl * stmt )
 	{
-		auto id = visitVariable( stmt->getVariable() );
-		m_result.decorate( id, { spv::Id( spv::Decoration::Binding ), stmt->getBindingPoint() } );
-		m_result.decorate( id, { spv::Id( spv::Decoration::DescriptorSet ), stmt->getBindingSet() } );
+		m_result.bindVariable( visitVariable( stmt->getVariable() )
+			, stmt->getBindingPoint()
+			, stmt->getDescriptorSet() );
 	}
 
 	void StmtVisitor::visitInOutVariableDeclStmt( stmt::InOutVariableDecl * stmt )
@@ -352,7 +341,7 @@ namespace sdw::spirv
 	{
 		if ( stmt->getExpr() )
 		{
-			auto result = ExprVisitor::submit( stmt->getExpr(), m_currentBlock, m_result, m_linkedVars );
+			auto result = ExprVisitor::submit( stmt->getExpr(), m_currentBlock, m_result );
 			m_currentBlock.instructions.push_back( makeInstruction( spv::Op::OpReturnValue, { result } ) );
 		}
 		else
@@ -363,25 +352,32 @@ namespace sdw::spirv
 		m_function->hasReturn = true;
 	}
 
+	void StmtVisitor::visitSampledImageDeclStmt( stmt::SampledImageDecl * stmt )
+	{
+		m_result.bindVariable( visitVariable( stmt->getVariable() )
+			, stmt->getBindingPoint()
+			, stmt->getDescriptorSet() );
+	}
+
 	void StmtVisitor::visitSamplerDeclStmt( stmt::SamplerDecl * stmt )
 	{
-		auto id = visitVariable( stmt->getVariable() );
-		m_result.decorate( id, { spv::Id( spv::Decoration::Binding ), stmt->getBindingPoint() } );
-		m_result.decorate( id, { spv::Id( spv::Decoration::DescriptorSet ), stmt->getBindingSet() } );
+		m_result.bindVariable( visitVariable( stmt->getVariable() )
+			, stmt->getBindingPoint()
+			, stmt->getDescriptorSet() );
 	}
 
 	void StmtVisitor::visitShaderBufferDeclStmt( stmt::ShaderBufferDecl * stmt )
 	{
 		visitContainerStmt( stmt );
-		auto varId = m_result.globals.back().resultId.value();
-		m_result.decorate( varId, spv::Decoration::BufferBlock );
-		m_result.decorate( varId, { spv::Id( spv::Decoration::Binding ), stmt->getBindingPoint() } );
-		m_result.decorate( varId, { spv::Id( spv::Decoration::DescriptorSet ), stmt->getBindingSet() } );
+		m_result.bindBufferVariable( stmt->getName()
+			, stmt->getBindingPoint()
+			, stmt->getDescriptorSet()
+			, spv::Decoration::BufferBlock );
 	}
 
 	void StmtVisitor::visitSimpleStmt( stmt::Simple * stmt )
 	{
-		ExprVisitor::submit( stmt->getExpr(), m_currentBlock, m_result, m_linkedVars );
+		ExprVisitor::submit( stmt->getExpr(), m_currentBlock, m_result );
 	}
 
 	void StmtVisitor::visitStructureDeclStmt( stmt::StructureDecl * stmt )
@@ -419,7 +415,7 @@ namespace sdw::spirv
 			}
 		}
 
-		auto intermediate = ExprVisitor::submit( stmt->getTestExpr()->getValue(), m_currentBlock, m_result, m_linkedVars );
+		auto intermediate = ExprVisitor::submit( stmt->getTestExpr()->getValue(), m_currentBlock, m_result );
 		m_currentBlock.blockEnd = makeSwitch( intermediate, defaultId, caseBlocksIds );
 
 		visitContainerStmt( stmt );
@@ -448,7 +444,7 @@ namespace sdw::spirv
 		loopBlock.blockEnd = makeInstruction( spv::Op::OpBranch, { ifBlock.label } );
 
 		// The if block, branches to either loop content block (true) or loop merge block (false).
-		auto intermediateIfId = ExprVisitor::submit( stmt->getCtrlExpr(), ifBlock, m_result, m_linkedVars );
+		auto intermediateIfId = ExprVisitor::submit( stmt->getCtrlExpr(), ifBlock, m_result );
 		ifBlock.blockEnd = makeInstruction( spv::Op::OpBranchConditional, { intermediateIfId, m_currentBlock.label, mergeBlock.label } );
 
 		// Instructions go to loop content block.

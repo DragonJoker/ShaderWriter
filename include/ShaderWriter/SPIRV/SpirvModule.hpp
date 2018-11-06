@@ -21,9 +21,10 @@ namespace sdw::spirv
 	{
 		struct
 		{
-			uint16_t opCount;
 			uint16_t opCode;
+			uint16_t opCount;
 		};
+		uint32_t opValue;
 		spv::Op op;
 	};
 
@@ -31,10 +32,20 @@ namespace sdw::spirv
 
 	struct Instruction
 	{
+		Instruction( spv::Op op = spv::Op::OpNop
+			, std::optional< spv::Id > resultType = std::nullopt
+			, std::optional< spv::Id > resultId = std::nullopt
+			, IdList operands = IdList{}
+			, std::optional< std::string > name = std::nullopt
+			, std::optional< std::map< int64_t, spv::Id > > labels = std::nullopt );
+
+		// Serialisable.
 		Op op;
 		std::optional< spv::Id > resultType;
 		std::optional< spv::Id > resultId;
 		IdList operands;
+		std::optional< std::vector< uint32_t > > packedName;
+		// Used during construction.
 		std::optional< std::string > name;
 		std::optional< std::map< int64_t, spv::Id > > labels;
 	};
@@ -64,13 +75,11 @@ namespace sdw::spirv
 
 	struct Function
 	{
-		spv::Id retType;
-		spv::Id id;
-		uint32_t control{ uint32_t( spv::FunctionControlMask::MaskNone ) };
-		spv::Id funcType;
-		ParameterList params;
-		InstructionList variables;
+		// Serialisable.
+		InstructionList declaration;
 		ControlFlowGraph cfg;
+		// Used during construction.
+		InstructionList variables;
 		spv::Id * currentId;
 		bool hasReturn{ false };
 	};
@@ -94,9 +103,10 @@ namespace sdw::spirv
 		void decorateMember( spv::Id id
 			, uint32_t index
 			, IdList const & decoration );
-		spv::Id registerVariable( std::string name
+		spv::Id registerVariable( std::string const & name
 			, spv::StorageClass storage
 			, type::TypePtr type );
+		spv::Id registerParameter( type::TypePtr type );
 		spv::Id Module::registerMemberVariableIndex( type::TypePtr type );
 		spv::Id registerMemberVariable( spv::Id outer
 			, std::string name
@@ -126,8 +136,17 @@ namespace sdw::spirv
 		spv::Id loadVariable( spv::Id variable
 			, type::TypePtr type
 			, Block & currentBlock );
+		void bindVariable( spv::Id varId
+			, uint32_t bindingPoint
+			, uint32_t descriptorSet );
+		void bindBufferVariable( std::string const & name
+			, uint32_t bindingPoint
+			, uint32_t descriptorSet
+			, spv::Decoration structDecoration );// BufferBlock for SSBO, Block for UBO
 
-		Function * beginFunction( std::string name, spv::Id retType, ParameterList params );
+		Function * beginFunction( std::string const & name
+			, spv::Id retType
+			, var::VariableList const & params );
 		Block newBlock();
 		void endFunction();
 
@@ -141,15 +160,15 @@ namespace sdw::spirv
 		InstructionList executionModes;
 		InstructionList debug;
 		InstructionList decorations;
-		InstructionList types;
-		InstructionList constants;
-		InstructionList globals;
+		InstructionList globalDeclarations;
 		FunctionList functions;
 		InstructionList * variables;
 
 	private:
 		spv::Id registerBaseType( type::Kind kind );
 		spv::Id registerBaseType( type::StructPtr type );
+		spv::Id registerBaseType( type::SampledImagePtr type );
+		spv::Id registerBaseType( type::ImagePtr type );
 		spv::Id registerBaseType( type::TypePtr type );
 
 	private:
@@ -157,6 +176,7 @@ namespace sdw::spirv
 		Function * m_currentFunction{ nullptr };
 		std::map< type::TypePtr, spv::Id > m_registeredTypes;
 		std::map< std::string, spv::Id > m_registeredVariables;
+		std::map< spv::Id, spv::Id > m_registeredVariablesTypes;
 		std::map< std::string, std::pair< spv::Id, spv::Id > > m_registeredMemberVariables;
 		std::map< uint64_t, spv::Id > m_registeredPointerTypes;
 		std::map< bool, spv::Id > m_registeredBoolConstants;

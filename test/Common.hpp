@@ -2,6 +2,7 @@
 
 #include <ASTGenerator/Expr/ExprVisitor.hpp>
 #include <ASTGenerator/Stmt/StmtVisitor.hpp>
+#include <ASTGenerator/Type/ImageConfiguration.hpp>
 
 #include <iostream>
 #include <stdexcept>

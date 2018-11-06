@@ -7,11 +7,49 @@ See LICENSE file in root folder
 #include <map>
 
 #include <ASTGenerator/Type/Type.hpp>
+#include <ASTGenerator/Type/ImageConfiguration.hpp>
 
 #define Writer_Parameter( TypeName )\
 	using In##TypeName = InParam< TypeName >;\
 	using Out##TypeName = OutParam< TypeName >;\
 	using InOut##TypeName = InOutParam< TypeName >
+
+#define Writer_Image( TypeName, Format )\
+	using TypeName##Format = TypeName##T< ast::type::ImageFormat::e##Format >;\
+	Writer_Parameter( TypeName##Format )
+
+#define Writer_Images( Format )\
+	Writer_Image( ImageBuffer, Format );\
+	Writer_Image( Image1D, Format );\
+	Writer_Image( Image2D, Format );\
+	Writer_Image( Image3D, Format );\
+	Writer_Image( ImageCube, Format );\
+	Writer_Image( Image2DRect, Format );\
+	Writer_Image( Image1DArray, Format );\
+	Writer_Image( Image2DArray, Format );\
+	Writer_Image( ImageCubeArray, Format );\
+	Writer_Image( Image1DShadow, Format );\
+	Writer_Image( Image2DShadow, Format );\
+	Writer_Image( ImageCubeShadow, Format );\
+	Writer_Image( Image2DRectShadow, Format );\
+	Writer_Image( Image1DArrayShadow, Format );\
+	Writer_Image( Image2DArrayShadow, Format );\
+	Writer_Image( ImageCubeArrayShadow, Format );\
+	Writer_Image( Image2DMS, Format );\
+	Writer_Image( Image2DMSArray, Format );\
+	Writer_Image( SampledImage1D, Format );\
+	Writer_Image( SampledImage2D, Format );\
+	Writer_Image( SampledImage3D, Format );\
+	Writer_Image( SampledImageCube, Format );\
+	Writer_Image( SampledImage1DArray, Format );\
+	Writer_Image( SampledImage2DArray, Format );\
+	Writer_Image( SampledImageCubeArray, Format );\
+	Writer_Image( SampledImage1DShadow, Format );\
+	Writer_Image( SampledImage2DShadow, Format );\
+	Writer_Image( SampledImageCubeShadow, Format );\
+	Writer_Image( SampledImage1DArrayShadow, Format );\
+	Writer_Image( SampledImage2DArrayShadow, Format );\
+	Writer_Image( SampledImageCubeArrayShadow, Format )
 
 namespace sdw
 {
@@ -26,81 +64,6 @@ namespace sdw
 		eGeometry,
 		eCompute,
 		eFragment,
-	};
-
-	enum class SamplerType
-	{
-		eBufferF,
-		e1DF,
-		e2DF,
-		e3DF,
-		eCubeF,
-		e2DRectF,
-		e1DArrayF,
-		e2DArrayF,
-		eCubeArrayF,
-		e1DShadowF,
-		e2DShadowF,
-		eCubeShadowF,
-		e2DRectShadowF,
-		e1DArrayShadowF,
-		e2DArrayShadowF,
-		eCubeArrayShadowF,
-		eBufferI,
-		e1DI,
-		e2DI,
-		e3DI,
-		eCubeI,
-		e2DRectI,
-		e1DArrayI,
-		e2DArrayI,
-		eCubeArrayI,
-		eBufferU,
-		e1DU,
-		e2DU,
-		e3DU,
-		eCubeU,
-		e2DRectU,
-		e1DArrayU,
-		e2DArrayU,
-		eCubeArrayU,
-	};
-
-	enum class ImageType
-	{
-		eBufferF,
-		e1DF,
-		e2DF,
-		e3DF,
-		eCubeF,
-		e2DRectF,
-		e1DArrayF,
-		e2DArrayF,
-		eCubeArrayF,
-		e2DMSF,
-		e2DMSArrayF,
-		eBufferI,
-		e1DI,
-		e2DI,
-		e3DI,
-		eCubeI,
-		e2DRectI,
-		e1DArrayI,
-		e2DArrayI,
-		eCubeArrayI,
-		e2DMSI,
-		e2DMSArrayI,
-		eBufferU,
-		e1DU,
-		e2DU,
-		e3DU,
-		eCubeU,
-		e2DRectU,
-		e1DArrayU,
-		e2DArrayU,
-		eCubeArrayU,
-		e2DMSU,
-		e2DMSArrayU,
 	};
 
 	template< typename T >
@@ -137,10 +100,21 @@ namespace sdw
 	struct Mat4x2T;
 	template< typename TypeT >
 	struct Mat4x3T;
-	template< SamplerType ST >
-	struct SamplerT;
-	template< ImageType ST >
+	struct Image;
+	template< ast::type::ImageDim DimT
+		, ast::type::ImageFormat FormatT
+		, bool ArrayedT
+		, bool DepthT
+		, bool MsT >
 	struct ImageT;
+	struct Sampler;
+	struct SampledImage;
+	template< ast::type::ImageDim DimT
+		, ast::type::ImageFormat FormatT
+		, bool ArrayedT
+		, bool DepthT
+		, bool MsT >
+		struct SampledImageT;
 
 	struct Value;
 	struct Void;
@@ -187,78 +161,193 @@ namespace sdw
 	using DMat4x2 = Mat4x2T< Double >;
 	using DMat4x3 = Mat4x3T< Double >;
 
-	using SamplerBuffer = SamplerT< SamplerType::eBufferF >;
-	using Sampler1D = SamplerT< SamplerType::e1DF >;
-	using Sampler2D = SamplerT< SamplerType::e2DF >;
-	using Sampler3D = SamplerT< SamplerType::e3DF >;
-	using SamplerCube = SamplerT< SamplerType::eCubeF >;
-	using Sampler2DRect = SamplerT< SamplerType::e2DRectF >;
-	using Sampler1DArray = SamplerT< SamplerType::e1DArrayF >;
-	using Sampler2DArray = SamplerT< SamplerType::e2DArrayF >;
-	using SamplerCubeArray = SamplerT< SamplerType::eCubeArrayF >;
-	using Sampler1DShadow = SamplerT< SamplerType::e1DShadowF >;
-	using Sampler2DShadow = SamplerT< SamplerType::e2DShadowF >;
-	using SamplerCubeShadow = SamplerT< SamplerType::eCubeShadowF >;
-	using Sampler2DRectShadow = SamplerT< SamplerType::e2DRectShadowF >;
-	using Sampler1DArrayShadow = SamplerT< SamplerType::e1DArrayShadowF >;
-	using Sampler2DArrayShadow = SamplerT< SamplerType::e2DArrayShadowF >;
-	using SamplerCubeArrayShadow = SamplerT< SamplerType::eCubeArrayShadowF >;
+	template< ast::type::ImageFormat FormatT >
+	using ImageBufferT = ImageT< ast::type::ImageDim::eBuffer
+		, FormatT
+		, false
+		, false
+		, false >;
+	template< ast::type::ImageFormat FormatT >
+	using Image1DT = ImageT< ast::type::ImageDim::e1D
+		, FormatT
+		, false
+		, false
+		, false >;
+	template< ast::type::ImageFormat FormatT >
+	using Image2DT = ImageT< ast::type::ImageDim::e2D
+		, FormatT
+		, false
+		, false
+		, false >;
+	template< ast::type::ImageFormat FormatT >
+	using Image3DT = ImageT< ast::type::ImageDim::e3D
+		, FormatT
+		, false
+		, false
+		, false >;
+	template< ast::type::ImageFormat FormatT >
+	using ImageCubeT = ImageT< ast::type::ImageDim::eCube
+		, FormatT
+		, false
+		, false
+		, false >;
+	template< ast::type::ImageFormat FormatT >
+	using Image2DRectT = ImageT< ast::type::ImageDim::eRect
+		, FormatT
+		, false
+		, false
+		, false >;
+	template< ast::type::ImageFormat FormatT >
+	using Image1DArrayT = ImageT< ast::type::ImageDim::e1D
+		, FormatT
+		, true
+		, false
+		, false >;
+	template< ast::type::ImageFormat FormatT >
+	using Image2DArrayT = ImageT< ast::type::ImageDim::e2D
+		, FormatT
+		, true
+		, false
+		, false >;
+	template< ast::type::ImageFormat FormatT >
+	using ImageCubeArrayT = ImageT< ast::type::ImageDim::eCube
+		, FormatT
+		, true
+		, false
+		, false >;
+	template< ast::type::ImageFormat FormatT >
+	using Image1DShadowT = ImageT< ast::type::ImageDim::e1D
+		, FormatT
+		, false
+		, true
+		, false >;
+	template< ast::type::ImageFormat FormatT >
+	using Image2DShadowT = ImageT< ast::type::ImageDim::e2D
+		, FormatT
+		, false
+		, true
+		, false >;
+	template< ast::type::ImageFormat FormatT >
+	using ImageCubeShadowT = ImageT< ast::type::ImageDim::eCube
+		, FormatT
+		, false
+		, true
+		, false >;
+	template< ast::type::ImageFormat FormatT >
+	using Image2DRectShadowT = ImageT< ast::type::ImageDim::eRect
+		, FormatT
+		, false
+		, true
+		, false >;
+	template< ast::type::ImageFormat FormatT >
+	using Image1DArrayShadowT = ImageT< ast::type::ImageDim::e1D
+		, FormatT
+		, true
+		, true
+		, false >;
+	template< ast::type::ImageFormat FormatT >
+	using Image2DArrayShadowT = ImageT< ast::type::ImageDim::e2D
+		, FormatT
+		, true
+		, true
+		, false >;
+	template< ast::type::ImageFormat FormatT >
+	using ImageCubeArrayShadowT = ImageT< ast::type::ImageDim::eCube
+		, FormatT
+		, true
+		, true
+		, false >;
+	template< ast::type::ImageFormat FormatT >
+	using Image2DMST = ImageT< ast::type::ImageDim::e2D
+		, FormatT
+		, false
+		, false
+		, true >;
+	template< ast::type::ImageFormat FormatT >
+	using Image2DMSArrayT = ImageT< ast::type::ImageDim::e2D
+		, FormatT
+		, true
+		, false
+		, true >;
 
-	using ISamplerBuffer = SamplerT< SamplerType::eBufferI >;
-	using ISampler1D = SamplerT< SamplerType::e1DI >;
-	using ISampler2D = SamplerT< SamplerType::e2DI >;
-	using ISampler3D = SamplerT< SamplerType::e3DI >;
-	using ISamplerCube = SamplerT< SamplerType::eCubeI >;
-	using ISampler2DRect = SamplerT< SamplerType::e2DRectI >;
-	using ISampler1DArray = SamplerT< SamplerType::e1DArrayI >;
-	using ISampler2DArray = SamplerT< SamplerType::e2DArrayI >;
-	using ISamplerCubeArray = SamplerT< SamplerType::eCubeArrayI >;
-
-	using USamplerBuffer = SamplerT< SamplerType::eBufferU >;
-	using USampler1D = SamplerT< SamplerType::e1DU >;
-	using USampler2D = SamplerT< SamplerType::e2DU >;
-	using USampler3D = SamplerT< SamplerType::e3DU >;
-	using USamplerCube = SamplerT< SamplerType::eCubeU >;
-	using USampler2DRect = SamplerT< SamplerType::e2DRectU >;
-	using USampler1DArray = SamplerT< SamplerType::e1DArrayU >;
-	using USampler2DArray = SamplerT< SamplerType::e2DArrayU >;
-	using USamplerCubeArray = SamplerT< SamplerType::eCubeArrayU >;
-
-	using ImageBuffer = ImageT< ImageType::eBufferF >;
-	using Image1D = ImageT< ImageType::e1DF >;
-	using Image2D = ImageT< ImageType::e2DF >;
-	using Image3D = ImageT< ImageType::e3DF >;
-	using ImageCube = ImageT< ImageType::eCubeF >;
-	using Image2DRect = ImageT< ImageType::e2DRectF >;
-	using Image1DArray = ImageT< ImageType::e1DArrayF >;
-	using Image2DArray = ImageT< ImageType::e2DArrayF >;
-	using ImageCubeArray = ImageT< ImageType::eCubeArrayF >;
-	using Image2DMS = ImageT< ImageType::e2DMSF >;
-	using Image2DMSArray = ImageT< ImageType::e2DMSArrayF >;
-
-	using IImageBuffer = ImageT< ImageType::eBufferI >;
-	using IImage1D = ImageT< ImageType::e1DI >;
-	using IImage2D = ImageT< ImageType::e2DI >;
-	using IImage3D = ImageT< ImageType::e3DI >;
-	using IImageCube = ImageT< ImageType::eCubeI >;
-	using IImage2DRect = ImageT< ImageType::e2DRectI >;
-	using IImage1DArray = ImageT< ImageType::e1DArrayI >;
-	using IImage2DArray = ImageT< ImageType::e2DArrayI >;
-	using IImageCubeArray = ImageT< ImageType::eCubeArrayI >;
-	using IImage2DMS = ImageT< ImageType::e2DMSI >;
-	using IImage2DMSArray = ImageT< ImageType::e2DMSArrayI >;
-
-	using UImageBuffer = ImageT< ImageType::eBufferU >;
-	using UImage1D = ImageT< ImageType::e1DU >;
-	using UImage2D = ImageT< ImageType::e2DU >;
-	using UImage3D = ImageT< ImageType::e3DU >;
-	using UImageCube = ImageT< ImageType::eCubeU >;
-	using UImage2DRect = ImageT< ImageType::e2DRectU >;
-	using UImage1DArray = ImageT< ImageType::e1DArrayU >;
-	using UImage2DArray = ImageT< ImageType::e2DArrayU >;
-	using UImageCubeArray = ImageT< ImageType::eCubeArrayU >;
-	using UImage2DMS = ImageT< ImageType::e2DMSU >;
-	using UImage2DMSArray = ImageT< ImageType::e2DMSArrayU >;
+	template< ast::type::ImageFormat FormatT >
+	using SampledImage1DT = SampledImageT< ast::type::ImageDim::e1D
+		, FormatT
+		, false
+		, false
+		, false >;
+	template< ast::type::ImageFormat FormatT >
+	using SampledImage2DT = SampledImageT< ast::type::ImageDim::e2D
+		, FormatT
+		, false
+		, false
+		, false >;
+	template< ast::type::ImageFormat FormatT >
+	using SampledImage3DT = SampledImageT< ast::type::ImageDim::e3D
+		, FormatT
+		, false
+		, false
+		, false >;
+	template< ast::type::ImageFormat FormatT >
+	using SampledImageCubeT = SampledImageT< ast::type::ImageDim::eCube
+		, FormatT
+		, false
+		, false
+		, false >;
+	template< ast::type::ImageFormat FormatT >
+	using SampledImage1DArrayT = SampledImageT< ast::type::ImageDim::e1D
+		, FormatT
+		, true
+		, false
+		, false >;
+	template< ast::type::ImageFormat FormatT >
+	using SampledImage2DArrayT = SampledImageT< ast::type::ImageDim::e2D
+		, FormatT
+		, true
+		, false
+		, false >;
+	template< ast::type::ImageFormat FormatT >
+	using SampledImageCubeArrayT = SampledImageT< ast::type::ImageDim::eCube
+		, FormatT
+		, true
+		, false
+		, false >;
+	template< ast::type::ImageFormat FormatT >
+	using SampledImage1DShadowT = SampledImageT< ast::type::ImageDim::e1D
+		, FormatT
+		, false
+		, true
+		, false >;
+	template< ast::type::ImageFormat FormatT >
+	using SampledImage2DShadowT = SampledImageT< ast::type::ImageDim::e2D
+		, FormatT
+		, false
+		, true
+		, false >;
+	template< ast::type::ImageFormat FormatT >
+	using SampledImageCubeShadowT = SampledImageT< ast::type::ImageDim::eCube
+		, FormatT
+		, false
+		, true
+		, false >;
+	template< ast::type::ImageFormat FormatT >
+	using SampledImage1DArrayShadowT = SampledImageT< ast::type::ImageDim::e1D
+		, FormatT
+		, true
+		, true
+		, false >;
+	template< ast::type::ImageFormat FormatT >
+	using SampledImage2DArrayShadowT = SampledImageT< ast::type::ImageDim::e2D
+		, FormatT
+		, true
+		, true
+		, false >;
+	template< ast::type::ImageFormat FormatT >
+	using SampledImageCubeArrayShadowT = SampledImageT< ast::type::ImageDim::eCube
+		, FormatT
+		, true
+		, true
+		, false >;
 
 	template< typename RetT, typename ... ParamsT >
 	struct Function;
@@ -307,82 +396,39 @@ namespace sdw
 	Writer_Parameter( DMat4 );
 	Writer_Parameter( DMat4x2 );
 	Writer_Parameter( DMat4x3 );
-	Writer_Parameter( SamplerBuffer );
-	Writer_Parameter( Sampler1D );
-	Writer_Parameter( Sampler2D );
-	Writer_Parameter( Sampler3D );
-	Writer_Parameter( SamplerCube );
-	Writer_Parameter( Sampler2DRect );
-	Writer_Parameter( Sampler1DArray );
-	Writer_Parameter( Sampler2DArray );
-	Writer_Parameter( SamplerCubeArray );
-	Writer_Parameter( Sampler1DShadow );
-	Writer_Parameter( Sampler2DShadow );
-	Writer_Parameter( SamplerCubeShadow );
-	Writer_Parameter( Sampler2DRectShadow );
-	Writer_Parameter( Sampler1DArrayShadow );
-	Writer_Parameter( Sampler2DArrayShadow );
-	Writer_Parameter( SamplerCubeArrayShadow );
-	Writer_Parameter( ISamplerBuffer );
-	Writer_Parameter( ISampler1D );
-	Writer_Parameter( ISampler2D );
-	Writer_Parameter( ISampler3D );
-	Writer_Parameter( ISamplerCube );
-	Writer_Parameter( ISampler2DRect );
-	Writer_Parameter( ISampler1DArray );
-	Writer_Parameter( ISampler2DArray );
-	Writer_Parameter( ISamplerCubeArray );
-	Writer_Parameter( USamplerBuffer );
-	Writer_Parameter( USampler1D );
-	Writer_Parameter( USampler2D );
-	Writer_Parameter( USampler3D );
-	Writer_Parameter( USamplerCube );
-	Writer_Parameter( USampler2DRect );
-	Writer_Parameter( USampler1DArray );
-	Writer_Parameter( USampler2DArray );
-	Writer_Parameter( USamplerCubeArray );
-	Writer_Parameter( ImageBuffer );
-	Writer_Parameter( Image1D );
-	Writer_Parameter( Image2D );
-	Writer_Parameter( Image3D );
-	Writer_Parameter( ImageCube );
-	Writer_Parameter( Image2DRect );
-	Writer_Parameter( Image1DArray );
-	Writer_Parameter( Image2DArray );
-	Writer_Parameter( ImageCubeArray );
-	Writer_Parameter( Image2DMS );
-	Writer_Parameter( Image2DMSArray );
-	Writer_Parameter( IImageBuffer );
-	Writer_Parameter( IImage1D );
-	Writer_Parameter( IImage2D );
-	Writer_Parameter( IImage3D );
-	Writer_Parameter( IImageCube );
-	Writer_Parameter( IImage2DRect );
-	Writer_Parameter( IImage1DArray );
-	Writer_Parameter( IImage2DArray );
-	Writer_Parameter( IImageCubeArray );
-	Writer_Parameter( IImage2DMS );
-	Writer_Parameter( IImage2DMSArray );
-	Writer_Parameter( UImageBuffer );
-	Writer_Parameter( UImage1D );
-	Writer_Parameter( UImage2D );
-	Writer_Parameter( UImage3D );
-	Writer_Parameter( UImageCube );
-	Writer_Parameter( UImage2DRect );
-	Writer_Parameter( UImage1DArray );
-	Writer_Parameter( UImage2DArray );
-	Writer_Parameter( UImageCubeArray );
-	Writer_Parameter( UImage2DMS );
-	Writer_Parameter( UImage2DMSArray );
+
+	Writer_Images( Unknown );
+	Writer_Images( Rgba32f );
+	Writer_Images( Rgba16f );
+	Writer_Images( Rg32f );
+	Writer_Images( Rg16f );
+	Writer_Images( R32f );
+	Writer_Images( R16f );
+	Writer_Images( Rgba32i );
+	Writer_Images( Rgba16i );
+	Writer_Images( Rgba8i );
+	Writer_Images( Rg32i );
+	Writer_Images( Rg16i );
+	Writer_Images( Rg8i );
+	Writer_Images( R32i );
+	Writer_Images( R16i );
+	Writer_Images( R8i );
+	Writer_Images( Rgba32u );
+	Writer_Images( Rgba16u );
+	Writer_Images( Rgba8u );
+	Writer_Images( Rg32u );
+	Writer_Images( Rg16u );
+	Writer_Images( R32u );
+	Writer_Images( Rg8u );
+	Writer_Images( R16u );
+	Writer_Images( R8u );
 
 	template< typename T >
 	struct TypeTraits;
-	template< SamplerType ST >
-	struct SamplerTypeTraits;
-	template< ImageType ST >
-	struct ImageTypeTraits;
 }
 
+#undef Writer_Images
+#undef Writer_Image
 #undef Writer_Parameter
 
 #include "ShaderWriterPrerequisites.inl"

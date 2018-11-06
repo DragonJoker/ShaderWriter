@@ -44,8 +44,7 @@ namespace sdw
 			, type::TypePtr type );
 		var::VariablePtr registerInOutParam( std::string const & name
 			, type::TypePtr type );
-		var::VariablePtr getVar( std::string const & name
-			, type::TypePtr type );
+		var::VariablePtr getVar( std::string const & name );
 		void addStmt( stmt::StmtPtr stmt );
 		void registerSsbo( std::string const & name
 			, Ssbo::Info const & info );
@@ -134,28 +133,44 @@ namespace sdw
 			, bool enabled );
 		/**@}*/
 #pragma endregion
-#pragma region Sampler declaration
+#pragma region Sampled Image declaration
 		/**
 		*name
-		*	Sampler declaration.
+		*	Sampled Image declaration.
 		*/
 		/**@{*/
-		template< SamplerType SamplerT >
-		inline typename SamplerTypeTraits< SamplerT >::Type declSampler( std::string const & name
+		template< ast::type::ImageDim DimT
+			, ast::type::ImageFormat FormatT
+			, bool ArrayedT
+			, bool DepthT
+			, bool MsT>
+		inline SampledImageT< DimT, FormatT, ArrayedT, DepthT, MsT > declSampledImage( std::string const & name
 			, uint32_t binding
 			, uint32_t set );
-		template< SamplerType SamplerT >
-		inline Optional< typename SamplerTypeTraits< SamplerT >::Type > declSampler( std::string const & name
+		template< ast::type::ImageDim DimT
+			, ast::type::ImageFormat FormatT
+			, bool ArrayedT
+			, bool DepthT
+			, bool MsT >
+		inline Optional< SampledImageT< DimT, FormatT, ArrayedT, DepthT, MsT > > declSampledImage( std::string const & name
 			, uint32_t binding
 			, uint32_t set
 			, bool enabled );
-		template< SamplerType SamplerT >
-		inline Array< typename SamplerTypeTraits< SamplerT >::Type > declSamplerArray( std::string const & name
+		template< ast::type::ImageDim DimT
+			, ast::type::ImageFormat FormatT
+			, bool ArrayedT
+			, bool DepthT
+			, bool MsT >
+		inline Array< SampledImageT< DimT, FormatT, ArrayedT, DepthT, MsT > > declSampledImageArray( std::string const & name
 			, uint32_t binding
 			, uint32_t set
 			, uint32_t dimension );
-		template< SamplerType SamplerT >
-		inline Optional< Array< typename SamplerTypeTraits< SamplerT >::Type > > declSamplerArray( std::string const & name
+		template< ast::type::ImageDim DimT
+			, ast::type::ImageFormat FormatT
+			, bool ArrayedT
+			, bool DepthT
+			, bool MsT >
+		inline Optional< Array< SampledImageT< DimT, FormatT, ArrayedT, DepthT, MsT > > > declSampledImageArray( std::string const & name
 			, uint32_t binding
 			, uint32_t set
 			, uint32_t dimension
@@ -168,22 +183,38 @@ namespace sdw
 		*	Image declaration.
 		*/
 		/**@{*/
-		template< ImageType ImageT >
-		inline typename ImageTypeTraits< ImageT >::Type declImage( std::string const & name
+		template< ast::type::ImageDim DimT
+			, ast::type::ImageFormat FormatT
+			, bool ArrayedT
+			, bool DepthT
+			, bool MsT >
+		inline ImageT< DimT, FormatT, ArrayedT, DepthT, MsT > declImage( std::string const & name
 			, uint32_t binding
 			, uint32_t set );
-		template< ImageType ImageT >
-		inline Optional< typename ImageTypeTraits< ImageT >::Type > declImage( std::string const & name
+		template< ast::type::ImageDim DimT
+			, ast::type::ImageFormat FormatT
+			, bool ArrayedT
+			, bool DepthT
+			, bool MsT >
+		inline Optional< ImageT< DimT, FormatT, ArrayedT, DepthT, MsT > > declImage( std::string const & name
 			, uint32_t binding
 			, uint32_t set
 			, bool enabled );
-		template< ImageType ImageT >
-		inline Array< typename ImageTypeTraits< ImageT >::Type > declImageArray( std::string const & name
+		template< ast::type::ImageDim DimT
+			, ast::type::ImageFormat FormatT
+			, bool ArrayedT
+			, bool DepthT
+			, bool MsT >
+		inline Array< ImageT< DimT, FormatT, ArrayedT, DepthT, MsT > > declImageArray( std::string const & name
 			, uint32_t binding
 			, uint32_t set
 			, uint32_t dimension );
-		template< ImageType ImageT >
-		inline Optional< Array< typename ImageTypeTraits< ImageT >::Type > > declImageArray( std::string const & name
+		template< ast::type::ImageDim DimT
+			, ast::type::ImageFormat FormatT
+			, bool ArrayedT
+			, bool DepthT
+			, bool MsT >
+		inline Optional< Array< ImageT< DimT, FormatT, ArrayedT, DepthT, MsT > > > declImageArray( std::string const & name
 			, uint32_t binding
 			, uint32_t set
 			, uint32_t dimension
@@ -316,28 +347,21 @@ namespace sdw
 			, bool enabled );
 		/**@}*/
 #pragma endregion
-#pragma region Built-in getter
+#pragma region Already declared variable getters
 		/**
 		*name
-		*	Built-in variable getter.
+		*	Already declared variable getters.
 		*/
 		/**@{*/
 		template< typename T >
-		inline T getBuiltin( std::string const & name );
+		inline T getVariable( std::string const & name );
 		template< typename T >
-		inline Optional< T > getBuiltin( std::string const & name
+		inline Optional< T > getVariable( std::string const & name
 			, bool enabled );
 		template< typename T >
-		inline Array< T > getBuiltinArray( std::string const & name );
+		inline Array< T > getVariableArray( std::string const & name );
 		template< typename T >
-		inline Optional< Array< T > > getBuiltinArray( std::string const & name
-			, bool enabled );
-		template< typename T >
-		inline Array< T > getBuiltinArray( std::string const & name
-			, uint32_t dimension );
-		template< typename T >
-		inline Optional< Array< T > > getBuiltinArray( std::string const & name
-			, uint32_t dimension
+		inline Optional< Array< T > > getVariableArray( std::string const & name
 			, bool enabled );
 		/**@}*/
 #pragma endregion
@@ -399,7 +423,7 @@ namespace sdw
 		void declareInvertVec3Y();
 		var::VariablePtr registerConstant( std::string const & name
 			, type::TypePtr type );
-		var::VariablePtr registerSampler( std::string const & name
+		var::VariablePtr registerSampledImage( std::string const & name
 			, type::TypePtr type
 			, uint32_t binding
 			, uint32_t set
@@ -423,7 +447,7 @@ namespace sdw
 		Shader m_shader;
 		Function< Vec2, InVec2 > m_invertVec2Y;
 		Function< Vec3, InVec3 > m_invertVec3Y;
-		stmt::If * m_ifStmt{ nullptr };
+		std::vector< stmt::If * > m_ifStmt;
 	};
 }
 

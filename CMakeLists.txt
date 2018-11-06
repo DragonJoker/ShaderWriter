@@ -156,6 +156,9 @@ if ( MSVC OR NOT "${CMAKE_BUILD_TYPE}" STREQUAL "" )
 
 	if ( Python_FOUND )
 		set( SCRIPT_DIR ${CMAKE_SOURCE_DIR}/scripts/${PROJECT_NAME} )
+		file( GLOB_RECURSE ${PROJECT_NAME}_FOLDER_SCRIPT_FILES
+			${SCRIPT_DIR}/*.py
+		)
 		set( GENERATED_DIR ${CMAKE_BINARY_DIR}/generated/${PROJECT_NAME} )
 		add_custom_command( OUTPUT ${INCLUDE_DIR}/Expr/EnumImageAccess.hpp
 			COMMAND ${CMAKE_COMMAND} -E make_directory ${GENERATED_DIR}
@@ -220,6 +223,9 @@ if ( MSVC OR NOT "${CMAKE_BUILD_TYPE}" STREQUAL "" )
 			COMMENT "Generating MakeIntrinsic.hpp"
 			DEPENDS ${SCRIPT_DIR}/genMakeFromEnum.py ${INCLUDE_DIR}/Expr/Intrinsic.enum
 		)
+		source_group( "Script Files" FILES
+			${${PROJECT_NAME}_FOLDER_SCRIPT_FILES}
+		)
 	endif ()
 
 	source_group( "Header Files\\Expr" FILES
@@ -248,6 +254,7 @@ if ( MSVC OR NOT "${CMAKE_BUILD_TYPE}" STREQUAL "" )
 		${${PROJECT_NAME}_FOLDER_ENUM_FILES}
 		${${PROJECT_NAME}_FOLDER_HEADER_FILES}
 		${${PROJECT_NAME}_FOLDER_SOURCE_FILES}
+		${${PROJECT_NAME}_FOLDER_SCRIPT_FILES}
 	)
 	add_target_precompiled_header( ${PROJECT_NAME}
 		${CMAKE_SOURCE_DIR}/include/${PROJECT_NAME}/ASTGeneratorPch.hpp
@@ -278,6 +285,9 @@ if ( MSVC OR NOT "${CMAKE_BUILD_TYPE}" STREQUAL "" )
 
 	if ( Python_FOUND )
 		set( SCRIPT_DIR ${CMAKE_SOURCE_DIR}/scripts/${PROJECT_NAME} )
+		file( GLOB_RECURSE ${PROJECT_NAME}_FOLDER_SCRIPT_FILES
+			${SCRIPT_DIR}/*.py
+		)
 		set( GENERATED_DIR ${CMAKE_BINARY_DIR}/generated/${PROJECT_NAME} )
 		add_custom_command( OUTPUT ${INCLUDE_DIR}/ImageAccessFunctions.hpp
 			COMMAND ${CMAKE_COMMAND} -E make_directory ${GENERATED_DIR}
@@ -321,6 +331,9 @@ if ( MSVC OR NOT "${CMAKE_BUILD_TYPE}" STREQUAL "" )
 			COMMENT "Generating GlslIntrinsicNames.hpp"
 			DEPENDS ${SCRIPT_DIR}/genGlslNameFromEnum.py ${CMAKE_SOURCE_DIR}/include/ASTGenerator/Expr/Intrinsic.enum
 		)
+		source_group( "Script Files" FILES
+			${${PROJECT_NAME}_FOLDER_SCRIPT_FILES}
+		)
 	endif ()
 
 	source_group( "Header Files\\GLSL" FILES
@@ -339,6 +352,7 @@ if ( MSVC OR NOT "${CMAKE_BUILD_TYPE}" STREQUAL "" )
 		${INCLUDE_DIR}/IntrinsicFunctions.hpp
 		${${PROJECT_NAME}_FOLDER_HEADER_FILES}
 		${${PROJECT_NAME}_FOLDER_SOURCE_FILES}
+		${${PROJECT_NAME}_FOLDER_SCRIPT_FILES}
 	)
 	add_target_precompiled_header( ${PROJECT_NAME}
 		${CMAKE_SOURCE_DIR}/include/${PROJECT_NAME}/ShaderWriterPch.hpp

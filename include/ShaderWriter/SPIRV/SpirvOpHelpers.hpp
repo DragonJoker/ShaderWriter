@@ -16,7 +16,6 @@ namespace sdw::spirv
 	uint16_t getOpBaseSize( spv::Op op );
 	std::string getOpName( spv::Op op );
 	spv::Op getOpCode( type::Kind kind );
-	spv::Op getImageOpCode( type::Kind kind );
 	spv::Op getOpCode( expr::Kind exprKind
 		, type::Kind typeKind );
 	spv::Op getBinOpCode( expr::Kind exprKind

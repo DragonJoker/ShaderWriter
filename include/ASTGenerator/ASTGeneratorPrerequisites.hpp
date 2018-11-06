@@ -7,6 +7,7 @@ See LICENSE file in root folder
 
 #include <cassert>
 #include <cstdint>
+#include <functional>
 #include <memory>
 #include <string>
 #include <vector>
@@ -1401,8 +1402,17 @@ namespace ast
 	{
 		class Type;
 		using TypePtr = std::shared_ptr< Type >;
+
+		template< typename TypeT = Type
+			, typename CreatorT = std::function< TypePtr( uint32_t ) > >
+		class TypeCache;
 		class Struct;
 		using StructPtr = std::shared_ptr< Struct >;
+		struct ImageConfiguration;
+		class Image;
+		using ImagePtr = std::shared_ptr< Image >;
+		class SampledImage;
+		using SampledImagePtr = std::shared_ptr< SampledImage >;
 	}
 }
 

@@ -1,4 +1,4 @@
-#include "Common.hpp"
+#include "../Common.hpp"
 #include "TestWriterCommon.hpp"
 
 #include <ShaderWriter/WriterGlsl.hpp>
@@ -6,10 +6,13 @@
 #include <ShaderWriter/WriterSpirV.hpp>
 #include <ShaderWriter/PerVertex.hpp>
 
+#include <fstream>
+
 namespace
 {
 	void writeShader( sdw::Shader const & shader
-		, sdw::ShaderType type )
+		, sdw::ShaderType type
+		, std::string const & name )
 	{
 		std::cout << "////////////////////////////////////////////////////////////////////////////////" << std::endl;
 		std::cout << "// Statements" << std::endl;
@@ -27,11 +30,25 @@ namespace
 		std::cout << "// SPIR-V" << std::endl;
 		std::cout << "////////////////////////////////////////////////////////////////////////////////" << std::endl << std::endl;
 		std::cout << sdw::writeSpirv( shader, type ) << std::endl;
+
+		{
+			auto binary = sdw::serializeSpirv( shader, type );
+			FILE * stream = fopen( ( test::getExecutableDirectory() + name + ".spv" ).c_str(), "wb" );
+
+			if ( stream )
+			{
+				fwrite( binary.data()
+					, sizeof( uint32_t )
+					, binary.size()
+					, stream );
+				fclose( stream );
+			}
+		}
 	}
 
-	void f00()
+	void reference()
 	{
-		testBegin( "Shader" );
+		testBegin( "reference" );
 		using namespace sdw;
 
 		ShaderWriter writer{ false };
@@ -41,17 +58,17 @@ namespace
 		auto color = writer.declOutput< Vec4 >( "color", 0u );
 
 		Struct S{ writer, "S" };
-		S.declMember< Boolean >( "b" );
+		S.declMember< Int >( "b" );
 		S.declMember< Vec4 >( "v", 5u );
 		S.declMember< Int >( "i" );
 		S.end();
 
 		Ubo blockName{ writer, "blockName", 0u, 0u };
 		blockName.declMember( "s", S );
-		blockName.declMember< Boolean >( "cond" );
+		blockName.declMember< Int >( "cond" );
 		blockName.end();
 		auto s = blockName.getMember< StructInstance >( "s" );
-		auto cond = blockName.getMember< Boolean >( "cond" );
+		auto cond = blockName.getMember< Int >( "cond" );
 
 		writer.implementFunction< void >( "main", [&]()
 			{
@@ -69,7 +86,7 @@ namespace
 				}
 				FI;
 
-				FOR( writer, Int, i, 0_i, i < 4_u, ++i )
+				FOR( writer, Int, i, 0_i, i < 4_i, ++i )
 				{
 					color *= multiplier;
 				}
@@ -77,13 +94,14 @@ namespace
 			} );
 
 		writeShader( writer.getShader()
-			, sdw::ShaderType::eFragment );
+			, sdw::ShaderType::eFragment
+			, "reference" );
 		testEnd();
 	}
 
-	void f01()
+	void vertex()
 	{
-		testBegin( "Vertex Shader" );
+		testBegin( "vertex" );
 		using namespace sdw;
 
 		ShaderWriter writer{ false };
@@ -101,13 +119,14 @@ namespace
 			} );
 
 		writeShader( writer.getShader()
-			, sdw::ShaderType::eVertex );
+			, sdw::ShaderType::eVertex
+			, "vertex" );
 		testEnd();
 	}
 
-	void f02()
+	void fragment()
 	{
-		testBegin( "Fragment Shader" );
+		testBegin( "fragment" );
 		using namespace sdw;
 
 		ShaderWriter writer{ false };
@@ -117,7 +136,7 @@ namespace
 		auto c3d_gamma = hdrConfig.declMember< Float >( "c3d_gamma" );
 		hdrConfig.end();
 
-		auto c3d_mapDiffuse = writer.declSampler< SamplerType::e2DF >( "c3d_mapDiffuse", 1u, 0u );
+		auto c3d_mapDiffuse = writer.declSampledImage< Img2DRGBA32F >( "c3d_mapDiffuse", 1u, 0u );
 		auto vtx_texture = writer.declInput< Vec2 >( "vtx_texture", 0u );
 
 		// Shader outputs
@@ -158,12 +177,12 @@ namespace
 			, InVec3{ writer, "x" } );
 
 		auto sampleTex = writer.implementFunction< Vec3 >( "sampleTex"
-			, [&]( Sampler2D const & tex
+			, [&]( SampledImage2DRgba32f const & tex
 				, Vec2 const & coords )
 			{
 				writer.returnStmt( texture( tex, coords ).rgb() );
 			}
-			, InSampler2D{ writer, "tex" }
+			, InSampledImage2DRgba32f{ writer, "tex" }
 			, InVec2{ writer, "coords" } );
 
 		writer.implementFunction< void >( "main"
@@ -185,13 +204,14 @@ namespace
 			} );
 
 		writeShader( writer.getShader()
-			, sdw::ShaderType::eFragment );
+			, sdw::ShaderType::eFragment
+			, "fragment" );
 		testEnd();
 	}
 
-	void f03()
+	void compute()
 	{
-		testBegin( "Compute Shader" );
+		testBegin( "compute" );
 		using namespace sdw;
 		ShaderWriter writer{ false };
 		auto gl_GlobalInvocationID = writer.declBuiltin< UVec3 >( "gl_GlobalInvocationID" );
@@ -207,7 +227,8 @@ namespace
 			} );
 
 		writeShader( writer.getShader()
-			, sdw::ShaderType::eCompute );
+			, sdw::ShaderType::eCompute
+			, "compute" );
 		testEnd();
 	}
 }
@@ -215,9 +236,9 @@ namespace
 int main( int argc, char ** argv )
 {
 	testSuiteBegin( "TestWriterShader" );
-	//f00();
-	//f01();
-	f02();
-	//f03();
+	//reference();
+	//vertex();
+	fragment();
+	//compute();
 	testSuiteEnd();
 }

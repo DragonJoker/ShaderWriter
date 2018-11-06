@@ -12,12 +12,13 @@ namespace sdw
 	Ubo::Ubo( ShaderWriter & writer
 		, std::string const & name
 		, uint32_t bind
-		, uint32_t set )
+		, uint32_t set
+		, ast::type::MemoryLayout layout )
 		: m_shader{ writer.getShader() }
 		, m_stmt{ stmt::makeConstantBufferDecl( name, bind, set ) }
 		, m_name{ name }
-		, m_info{ type::MemoryLayout::eStd140, name, bind, set }
-		, m_var{ var::makeVariable( m_info.getType(), m_name, var::Flag::eBound ) }
+		, m_info{ layout, name, bind, set }
+		, m_var{ var::makeVariable( m_info.getType(), m_name, var::Flag::eUniform ) }
 	{
 	}
 

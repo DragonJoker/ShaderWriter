@@ -3,6 +3,9 @@ See LICENSE file in root folder
 */
 #include "Writer.hpp"
 
+#include <ASTGenerator/Type/TypeImage.hpp>
+#include <ASTGenerator/Type/TypeSampledImage.hpp>
+
 namespace sdw
 {
 	template< typename ReturnT, typename ... ParamsT >
@@ -139,39 +142,47 @@ namespace sdw
 	}
 	/**@}*/
 #pragma endregion
-#pragma region Sampler declaration
+#pragma region Sampled Image declaration
 	/**
 	*name
-	*	Sampler declaration.
+	*	Sampled Image declaration.
 	*/
 	/**@{*/
-	template< SamplerType SamplerT >
-	inline typename SamplerTypeTraits< SamplerT >::Type ShaderWriter::declSampler( std::string const & name
+	template< ast::type::ImageDim DimT
+		, ast::type::ImageFormat FormatT
+		, bool ArrayedT
+		, bool DepthT
+		, bool MsT >
+	inline SampledImageT< DimT, FormatT, ArrayedT, DepthT, MsT > ShaderWriter::declSampledImage( std::string const & name
 		, uint32_t binding
 		, uint32_t set )
 	{
-		using T = typename SamplerTypeTraits< SamplerT >::Type;
-		auto type = type::makeType( typeEnum< T > );
-		auto var = registerSampler( name
+		using T = SampledImageT< DimT, FormatT, ArrayedT, DepthT, MsT >;
+		auto type = type::makeSampledImageType( T::makeConfig() );
+		auto var = registerSampledImage( name
 			, type
 			, binding
 			, set );
-		addStmt( sdw::makeSamplerDecl( var
+		addStmt( sdw::makeSampledImgDecl( var
 			, binding
 			, set ) );
 		return T{ &m_shader
 			, makeExpr( var ) };
 	}
 
-	template< SamplerType SamplerT >
-	inline Optional< typename SamplerTypeTraits< SamplerT >::Type > ShaderWriter::declSampler( std::string const & name
+	template< ast::type::ImageDim DimT
+		, ast::type::ImageFormat FormatT
+		, bool ArrayedT
+		, bool DepthT
+		, bool MsT >
+	inline Optional< SampledImageT< DimT, FormatT, ArrayedT, DepthT, MsT > > ShaderWriter::declSampledImage( std::string const & name
 		, uint32_t binding
 		, uint32_t set
 		, bool enabled )
 	{
-		using T = typename SamplerTypeTraits< SamplerT >::Type;
-		auto type = type::makeType( typeEnum< T > );
-		auto var = registerSampler( name
+		using T = SampledImageT< DimT, FormatT, ArrayedT, DepthT, MsT >;
+		auto type = type::makeSampledImageType( T::makeConfig() );
+		auto var = registerSampledImage( name
 			, type
 			, binding
 			, set
@@ -179,7 +190,7 @@ namespace sdw
 
 		if ( enabled )
 		{
-			addStmt( sdw::makeSamplerDecl( var
+			addStmt( sdw::makeSampledImgDecl( var
 				, binding
 				, set ) );
 		}
@@ -189,37 +200,45 @@ namespace sdw
 			, enabled };
 	}
 
-	template< SamplerType SamplerT >
-	inline Array< typename SamplerTypeTraits< SamplerT >::Type > ShaderWriter::declSamplerArray( std::string const & name
+	template< ast::type::ImageDim DimT
+		, ast::type::ImageFormat FormatT
+		, bool ArrayedT
+		, bool DepthT
+		, bool MsT >
+	inline Array< SampledImageT< DimT, FormatT, ArrayedT, DepthT, MsT > > ShaderWriter::declSampledImageArray( std::string const & name
 		, uint32_t binding
 		, uint32_t set
 		, uint32_t dimension )
 	{
-		using T = typename SamplerTypeTraits< SamplerT >::Type;
-		auto type = type::makeType( typeEnum< T >
+		using T = SampledImageT< DimT, FormatT, ArrayedT, DepthT, MsT >;
+		auto type = type::makeSampledImageType( T::makeConfig()
 			, dimension );
-		auto var = registerSampler( name
+		auto var = registerSampledImage( name
 			, type
 			, binding
 			, set );
-		addStmt( sdw::makeSamplerDecl( var
+		addStmt( sdw::makeSampledImgDecl( var
 			, binding
 			, set ) );
 		return Array< T >{ &m_shader
 			, makeExpr( var ) };
 	}
 
-	template< SamplerType SamplerT >
-	inline Optional< Array< typename SamplerTypeTraits< SamplerT >::Type > > ShaderWriter::declSamplerArray( std::string const & name
+	template< ast::type::ImageDim DimT
+		, ast::type::ImageFormat FormatT
+		, bool ArrayedT
+		, bool DepthT
+		, bool MsT >
+	inline Optional< Array< SampledImageT< DimT, FormatT, ArrayedT, DepthT, MsT > > > ShaderWriter::declSampledImageArray( std::string const & name
 		, uint32_t binding
 		, uint32_t set
 		, uint32_t dimension
 		, bool enabled )
 	{
-		using T = typename SamplerTypeTraits< SamplerT >::Type;
-		auto type = type::makeType( typeEnum< T >
+		using T = SampledImageT< DimT, FormatT, ArrayedT, DepthT, MsT >;
+		auto type = type::makeSampledImageType( T::makeConfig()
 			, dimension );
-		auto var = registerSampler( name
+		auto var = registerSampledImage( name
 			, type
 			, binding
 			, set
@@ -227,7 +246,7 @@ namespace sdw
 
 		if ( enabled )
 		{
-			addStmt( sdw::makeSamplerDecl( var
+			addStmt( sdw::makeSampledImgDecl( var
 				, binding
 				, set ) );
 		}
@@ -244,13 +263,17 @@ namespace sdw
 	*	Image declaration.
 	*/
 	/**@{*/
-	template< ImageType ImageT >
-	inline typename ImageTypeTraits< ImageT >::Type ShaderWriter::declImage( std::string const & name
+	template< ast::type::ImageDim DimT
+		, ast::type::ImageFormat FormatT
+		, bool ArrayedT
+		, bool DepthT
+		, bool MsT >
+	inline ImageT< DimT, FormatT, ArrayedT, DepthT, MsT > ShaderWriter::declImage( std::string const & name
 		, uint32_t binding
 		, uint32_t set )
 	{
-		using T = typename ImageTypeTraits< ImageT >::Type;
-		auto type = type::makeType( typeEnum< T > );
+		using T = ImageT< DimT, FormatT, ArrayedT, DepthT, MsT >;
+		auto type = type::makeImageType( T::makeConfig() );
 		auto var = registerImage( name
 			, type
 			, binding
@@ -262,14 +285,18 @@ namespace sdw
 			, makeExpr( var ) };
 	}
 
-	template< ImageType ImageT >
-	inline Optional< typename ImageTypeTraits< ImageT >::Type > ShaderWriter::declImage( std::string const & name
+	template< ast::type::ImageDim DimT
+		, ast::type::ImageFormat FormatT
+		, bool ArrayedT
+		, bool DepthT
+		, bool MsT >
+	inline Optional< ImageT< DimT, FormatT, ArrayedT, DepthT, MsT > > ShaderWriter::declImage( std::string const & name
 		, uint32_t binding
 		, uint32_t set
 		, bool enabled )
 	{
-		using T = typename ImageTypeTraits< ImageT >::Type;
-		auto type = type::makeType( typeEnum< T > );
+		using T = ImageT< DimT, FormatT, ArrayedT, DepthT, MsT >;
+		auto type = type::makeImageType( T::makeConfig() );
 		auto var = registerImage( name
 			, type
 			, binding
@@ -288,14 +315,18 @@ namespace sdw
 			, enabled };
 	}
 
-	template< ImageType ImageT >
-	inline Array< typename ImageTypeTraits< ImageT >::Type > ShaderWriter::declImageArray( std::string const & name
+	template< ast::type::ImageDim DimT
+		, ast::type::ImageFormat FormatT
+		, bool ArrayedT
+		, bool DepthT
+		, bool MsT >
+	inline Array< ImageT< DimT, FormatT, ArrayedT, DepthT, MsT > > ShaderWriter::declImageArray( std::string const & name
 		, uint32_t binding
 		, uint32_t set
 		, uint32_t dimension )
 	{
-		using T = typename ImageTypeTraits< ImageT >::Type;
-		auto type = type::makeType( typeEnum< T >
+		using T = ImageT< DimT, FormatT, ArrayedT, DepthT, MsT >;
+		auto type = type::makeImageType( T::makeConfig()
 			, dimension );
 		auto var = registerImage( name
 			, type
@@ -308,15 +339,19 @@ namespace sdw
 			, makeExpr( var ) };
 	}
 
-	template< ImageType ImageT >
-	inline Optional< Array< typename ImageTypeTraits< ImageT >::Type > > ShaderWriter::declImageArray( std::string const & name
+	template< ast::type::ImageDim DimT
+		, ast::type::ImageFormat FormatT
+		, bool ArrayedT
+		, bool DepthT
+		, bool MsT >
+	inline Optional< Array< ImageT< DimT, FormatT, ArrayedT, DepthT, MsT > > > ShaderWriter::declImageArray( std::string const & name
 		, uint32_t binding
 		, uint32_t set
 		, uint32_t dimension
 		, bool enabled )
 	{
-		using T = typename ImageTypeTraits< ImageT >::Type;
-		auto type = type::makeType( typeEnum< T >
+		using T = ImageT< DimT, FormatT, ArrayedT, DepthT, MsT >;
+		auto type = type::makeImageType( T::makeConfig()
 			, dimension );
 		auto var = registerImage( name
 			, type
@@ -810,79 +845,43 @@ namespace sdw
 	}
 	/**@}*/
 #pragma endregion
-#pragma region Built-in getter
+#pragma region Already declared variable getters
 	/**
 	*name
-	*	Built-in variable getter.
+	*	Already declared variable getters.
 	*/
 	/**@{*/
 	template< typename T >
-	inline T ShaderWriter::getBuiltin( std::string const & name )
+	inline T ShaderWriter::getVariable( std::string const & name )
 	{
-		auto type = type::makeType( typeEnum< T > );
-		auto var = getVar( name
-			, type );
+		auto var = getVar( name );
 		return T{ &m_shader
 			, makeExpr( var ) };
 	}
 
 	template< typename T >
-	inline Optional< T > ShaderWriter::getBuiltin( std::string const & name
+	inline Optional< T > ShaderWriter::getVariable( std::string const & name
 		, bool enabled )
 	{
-		auto type = type::makeType( typeEnum< T > );
-		auto var = getVar( name
-			, type );
+		auto var = getVar( name );
 		return Optional< T >{ &m_shader
 			, makeExpr( var )
 			, enabled };
 	}
 
 	template< typename T >
-	inline Array< T > ShaderWriter::getBuiltinArray( std::string const & name )
+	inline Array< T > ShaderWriter::getVariableArray( std::string const & name )
 	{
-		auto type = type::makeType( typeEnum< T >
-			, type::UnknownArraySize );
-		auto var = getVar( name
-			, type );
+		auto var = getVar( name );
 		return Array< T >{ &m_shader
 			, makeExpr( var ) };
 	}
 
 	template< typename T >
-	inline Optional< Array< T > > ShaderWriter::getBuiltinArray( std::string const & name
+	inline Optional< Array< T > > ShaderWriter::getVariableArray( std::string const & name
 		, bool enabled )
 	{
-		auto type = type::makeType( typeEnum< T >
-			, type::UnknownArraySize );
-		auto var = getVar( name
-			, type );
-		return Optional< Array< T > >{ &m_shader
-			, makeExpr( var )
-			, enabled };
-	}
-
-	template< typename T >
-	inline Array< T > ShaderWriter::getBuiltinArray( std::string const & name
-		, uint32_t dimension )
-	{
-		auto type = type::makeType( typeEnum< T >
-			, dimension );
-		auto var = getVar( name
-			, type );
-		return Array< T >{ &m_shader
-			, makeExpr( var ) };
-	}
-
-	template< typename T >
-	inline Optional< Array< T > > ShaderWriter::getBuiltinArray( std::string const & name
-		, uint32_t dimension
-		, bool enabled )
-	{
-		auto type = type::makeType( typeEnum< T >
-			, dimension );
-		auto var = getVar( name
-			, type );
+		auto var = getVar( name );
 		return Optional< Array< T > >{ &m_shader
 			, makeExpr( var )
 			, enabled };
