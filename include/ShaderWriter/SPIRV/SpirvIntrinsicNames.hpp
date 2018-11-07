@@ -14,10 +14,12 @@ See LICENSE file in root folder
 namespace sdw::spirv
 {
 	inline spv::Id getSpirVName( ast::expr::Intrinsic value
-		, bool & isExtension )
+		, bool & isExtension
+		, bool & isAtomic )
 	{
 		spv::Id result;
 		isExtension = true;
+		isAtomic = false;
 
 		switch ( value )
 		{
@@ -1051,56 +1053,66 @@ namespace sdw::spirv
 		case ast::expr::Intrinsic::eAtomicAddI:
 		case ast::expr::Intrinsic::eAtomicAddU:
 			result = spv::Id( spv::Op::OpAtomicIAdd );
+			isAtomic = true;
 			isExtension = false;
 			break;
 
 		case ast::expr::Intrinsic::eAtomicMinI:
 			result = spv::Id( spv::Op::OpAtomicSMin );
+			isAtomic = true;
 			isExtension = false;
 			break;
 
 		case ast::expr::Intrinsic::eAtomicMinU:
 			result = spv::Id( spv::Op::OpAtomicUMin );
+			isAtomic = true;
 			isExtension = false;
 			break;
 
 		case ast::expr::Intrinsic::eAtomicMaxI:
 			result = spv::Id( spv::Op::OpAtomicSMax );
+			isAtomic = true;
 			isExtension = false;
 			break;
 
 		case ast::expr::Intrinsic::eAtomicMaxU:
 			result = spv::Id( spv::Op::OpAtomicUMax );
+			isAtomic = true;
 			isExtension = false;
 			break;
 
 		case ast::expr::Intrinsic::eAtomicAndI:
 		case ast::expr::Intrinsic::eAtomicAndU:
 			result = spv::Id( spv::Op::OpAtomicAnd );
+			isAtomic = true;
 			isExtension = false;
 			break;
 
 		case ast::expr::Intrinsic::eAtomicOrI:
 		case ast::expr::Intrinsic::eAtomicOrU:
 			result = spv::Id( spv::Op::OpAtomicOr );
+			isAtomic = true;
 			isExtension = false;
 			break;
 
 		case ast::expr::Intrinsic::eAtomicXorI:
 		case ast::expr::Intrinsic::eAtomicXorU:
 			result = spv::Id( spv::Op::OpAtomicXor );
+			isAtomic = true;
 			isExtension = false;
 			break;
 
 		case ast::expr::Intrinsic::eAtomicExchangeI:
 		case ast::expr::Intrinsic::eAtomicExchangeU:
 			result = spv::Id( spv::Op::OpAtomicExchange );
+			isAtomic = true;
 			isExtension = false;
 			break;
 
 		case ast::expr::Intrinsic::eAtomicCompSwapI:
 		case ast::expr::Intrinsic::eAtomicCompSwapU:
 			result = spv::Id( spv::Op::OpAtomicCompareExchange );
+			isAtomic = true;
 			isExtension = false;
 			break;
 
@@ -1211,6 +1223,7 @@ namespace sdw::spirv
 	// Shader Invocation Control Functions
 		case ast::expr::Intrinsic::eBarrier:
 			result = spv::Id( spv::Op::OpControlBarrier );
+			isAtomic = true;
 			isExtension = false;
 			break;
 
@@ -1222,6 +1235,7 @@ namespace sdw::spirv
 		case ast::expr::Intrinsic::eMemoryBarrierImage:
 		case ast::expr::Intrinsic::eGroupMemoryBarrier:
 			result = spv::Id( spv::Op::OpMemoryBarrier );
+			isAtomic = true;
 			isExtension = false;
 			break;
 

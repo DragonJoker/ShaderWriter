@@ -567,11 +567,6 @@ namespace sdw::spirv
 		return makeInstruction( getOpCode( exprKind, typeKind ) );
 	}
 
-	Instruction makeInstruction( expr::ImageAccess kind )
-	{
-		return makeInstruction( getSpirVName( kind ) );
-	}
-
 	Instruction makeInstruction( expr::TextureAccess kind )
 	{
 		return makeInstruction( getSpirVName( kind ) );
@@ -597,13 +592,6 @@ namespace sdw::spirv
 			, operands );
 	}
 
-	Instruction makeInstruction( expr::ImageAccess kind
-		, IdList operands )
-	{
-		return makeInstruction( getSpirVName( kind )
-			, operands );
-	}
-
 	Instruction makeInstruction( expr::TextureAccess kind
 		, IdList operands )
 	{
@@ -642,15 +630,6 @@ namespace sdw::spirv
 		, std::string const & name )
 	{
 		return makeInstruction( getOpCode( exprKind, typeKind )
-			, operands
-			, name );
-	}
-
-	Instruction makeInstruction( expr::ImageAccess kind
-		, IdList operands
-		, std::string const & name )
-	{
-		return makeInstruction( getSpirVName( kind )
 			, operands
 			, name );
 	}
@@ -694,15 +673,6 @@ namespace sdw::spirv
 		, IdList const & operands )
 	{
 		return makeInstruction( getOpCode( exprKind, typeKind )
-			, resultId
-			, operands );
-	}
-
-	Instruction makeInstruction( expr::ImageAccess kind
-		, spv::Id resultId
-		, IdList operands )
-	{
-		return makeInstruction( getSpirVName( kind )
 			, resultId
 			, operands );
 	}
@@ -748,17 +718,6 @@ namespace sdw::spirv
 		, IdList const & operands )
 	{
 		return makeInstruction( getOpCode( exprKind, typeKind )
-			, resultId
-			, typeId
-			, operands );
-	}
-
-	Instruction makeInstruction( expr::ImageAccess kind
-		, spv::Id resultId
-		, spv::Id typeId
-		, IdList operands )
-	{
-		return makeInstruction( getSpirVName( kind )
 			, resultId
 			, typeId
 			, operands );
@@ -810,19 +769,6 @@ namespace sdw::spirv
 		, std::string const & name )
 	{
 		return makeInstruction( getOpCode( exprKind, typeKind )
-			, resultId
-			, typeId
-			, operands
-			, name );
-	}
-
-	Instruction makeInstruction( expr::ImageAccess kind
-		, spv::Id resultId
-		, spv::Id typeId
-		, IdList const & operands
-		, std::string const & name )
-	{
-		return makeInstruction( getSpirVName( kind )
 			, resultId
 			, typeId
 			, operands

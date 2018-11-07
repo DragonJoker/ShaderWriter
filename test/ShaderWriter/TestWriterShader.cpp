@@ -236,9 +236,9 @@ namespace
 int main( int argc, char ** argv )
 {
 	testSuiteBegin( "TestWriterShader" );
-	//reference();
-	//vertex();
+	reference();
+	vertex();
 	fragment();
-	//compute();
+	compute();
 	testSuiteEnd();
 }

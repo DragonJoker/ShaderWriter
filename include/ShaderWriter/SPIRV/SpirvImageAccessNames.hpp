@@ -11,7 +11,8 @@ See LICENSE file in root folder
 
 namespace sdw::spirv
 {
-	inline spv::Op getSpirVName( ast::expr::ImageAccess value )
+	inline spv::Op getSpirVName( ast::expr::ImageAccess value
+		, bool & needsTexelPointer )
 	{
 		spv::Op result;
 
@@ -50,6 +51,7 @@ namespace sdw::spirv
 		case ast::expr::ImageAccess::eImageSizeBufferU:
 		case ast::expr::ImageAccess::eImageSize2DMSU:
 		case ast::expr::ImageAccess::eImageSize2DMSArrayU:
+			needsTexelPointer = false;
 			result = spv::Op::OpImageQuerySize;
 			break;
 
@@ -59,6 +61,7 @@ namespace sdw::spirv
 		case ast::expr::ImageAccess::eImageSamples2DMSArrayI:
 		case ast::expr::ImageAccess::eImageSamples2DMSU:
 		case ast::expr::ImageAccess::eImageSamples2DMSArrayU:
+			needsTexelPointer = false;
 			result = spv::Op::OpImageQuerySamples;
 			break;
 
@@ -164,6 +167,8 @@ namespace sdw::spirv
 		case ast::expr::ImageAccess::eImageAtomicAddCubeArrayUI:
 		case ast::expr::ImageAccess::eImageAtomicAdd2DMSUI:
 		case ast::expr::ImageAccess::eImageAtomicAdd2DMSArrayUI:
+			needsTexelPointer = true;
+			result = spv::Op::OpAtomicIAdd;
 			break;
 
 		case ast::expr::ImageAccess::eImageAtomicMin1DFU:
@@ -199,6 +204,10 @@ namespace sdw::spirv
 		case ast::expr::ImageAccess::eImageAtomicMinCubeArrayUU:
 		case ast::expr::ImageAccess::eImageAtomicMin2DMSUU:
 		case ast::expr::ImageAccess::eImageAtomicMin2DMSArrayUU:
+			needsTexelPointer = true;
+			result = spv::Op::OpAtomicUMin;
+			break;
+
 		case ast::expr::ImageAccess::eImageAtomicMin1DFI:
 		case ast::expr::ImageAccess::eImageAtomicMin2DFI:
 		case ast::expr::ImageAccess::eImageAtomicMin3DFI:
@@ -232,6 +241,8 @@ namespace sdw::spirv
 		case ast::expr::ImageAccess::eImageAtomicMinCubeArrayUI:
 		case ast::expr::ImageAccess::eImageAtomicMin2DMSUI:
 		case ast::expr::ImageAccess::eImageAtomicMin2DMSArrayUI:
+			needsTexelPointer = true;
+			result = spv::Op::OpAtomicSMin;
 			break;
 
 		case ast::expr::ImageAccess::eImageAtomicMax1DFU:
@@ -267,6 +278,10 @@ namespace sdw::spirv
 		case ast::expr::ImageAccess::eImageAtomicMaxCubeArrayUU:
 		case ast::expr::ImageAccess::eImageAtomicMax2DMSUU:
 		case ast::expr::ImageAccess::eImageAtomicMax2DMSArrayUU:
+			needsTexelPointer = true;
+			result = spv::Op::OpAtomicUMax;
+			break;
+
 		case ast::expr::ImageAccess::eImageAtomicMax1DFI:
 		case ast::expr::ImageAccess::eImageAtomicMax2DFI:
 		case ast::expr::ImageAccess::eImageAtomicMax3DFI:
@@ -300,6 +315,8 @@ namespace sdw::spirv
 		case ast::expr::ImageAccess::eImageAtomicMaxCubeArrayUI:
 		case ast::expr::ImageAccess::eImageAtomicMax2DMSUI:
 		case ast::expr::ImageAccess::eImageAtomicMax2DMSArrayUI:
+			needsTexelPointer = true;
+			result = spv::Op::OpAtomicSMax;
 			break;
 
 		case ast::expr::ImageAccess::eImageAtomicAnd1DFU:
@@ -368,6 +385,8 @@ namespace sdw::spirv
 		case ast::expr::ImageAccess::eImageAtomicAndCubeArrayUI:
 		case ast::expr::ImageAccess::eImageAtomicAnd2DMSUI:
 		case ast::expr::ImageAccess::eImageAtomicAnd2DMSArrayUI:
+			needsTexelPointer = true;
+			result = spv::Op::OpAtomicAnd;
 			break;
 
 		case ast::expr::ImageAccess::eImageAtomicOr1DFU:
@@ -436,6 +455,8 @@ namespace sdw::spirv
 		case ast::expr::ImageAccess::eImageAtomicOrCubeArrayUI:
 		case ast::expr::ImageAccess::eImageAtomicOr2DMSUI:
 		case ast::expr::ImageAccess::eImageAtomicOr2DMSArrayUI:
+			needsTexelPointer = true;
+			result = spv::Op::OpAtomicOr;
 			break;
 
 		case ast::expr::ImageAccess::eImageAtomicXor1DFU:
@@ -504,6 +525,8 @@ namespace sdw::spirv
 		case ast::expr::ImageAccess::eImageAtomicXorCubeArrayUI:
 		case ast::expr::ImageAccess::eImageAtomicXor2DMSUI:
 		case ast::expr::ImageAccess::eImageAtomicXor2DMSArrayUI:
+			needsTexelPointer = true;
+			result = spv::Op::OpAtomicXor;
 			break;
 
 		case ast::expr::ImageAccess::eImageAtomicExchange1DFU:
@@ -572,6 +595,8 @@ namespace sdw::spirv
 		case ast::expr::ImageAccess::eImageAtomicExchangeCubeArrayUI:
 		case ast::expr::ImageAccess::eImageAtomicExchange2DMSUI:
 		case ast::expr::ImageAccess::eImageAtomicExchange2DMSArrayUI:
+			needsTexelPointer = true;
+			result = spv::Op::OpAtomicExchange;
 			break;
 
 		case ast::expr::ImageAccess::eImageAtomicCompSwap1DFU:
@@ -640,6 +665,8 @@ namespace sdw::spirv
 		case ast::expr::ImageAccess::eImageAtomicCompSwapCubeArrayUI:
 		case ast::expr::ImageAccess::eImageAtomicCompSwap2DMSUI:
 		case ast::expr::ImageAccess::eImageAtomicCompSwap2DMSArrayUI:
+			needsTexelPointer = true;
+			result = spv::Op::OpAtomicCompareExchange;
 			break;
 
 		default:

@@ -8,6 +8,8 @@ See LICENSE file in root folder
 #include "ShaderWriter/SPIRV/SpirvIntrinsicNames.hpp"
 #include "ShaderWriter/SPIRV/SpirvTextureAccessNames.hpp"
 
+#include <ASTGenerator/Type/TypeImage.hpp>
+
 #include <numeric>
 #include <sstream>
 
@@ -1514,13 +1516,60 @@ namespace sdw::spirv
 			params.push_back( id );
 		}
 
-		auto type = m_module.registerType( expr->getType() );
-		auto intermediate = m_module.getIntermediateResult();
-		m_currentBlock.instructions.emplace_back( makeInstruction( expr->getImageAccess()
-			, intermediate
-			, type
-			, params ) );
-		m_result = intermediate;
+		bool needsTexelPointer;
+		auto op = getSpirVName( expr->getImageAccess(), needsTexelPointer );
+		auto typeId = m_module.registerType( expr->getType() );
+		auto paramType = expr->getArgList()[0]->getType();
+		assert( paramType->getKind() == type::Kind::eImage );
+		auto imageType = std::static_pointer_cast< type::Image >( paramType );
+
+		if ( needsTexelPointer )
+		{
+			IdList texelPointerParams;
+			uint32_t index = 0u;
+			texelPointerParams.push_back( params[index++] );
+			texelPointerParams.push_back( params[index++] );
+
+			if ( imageType->getConfig().isMS )
+			{
+				texelPointerParams.push_back( params[index++] );
+			}
+
+			auto pointerTypeId = m_module.registerPointerType( typeId
+				, spv::StorageClass::Image );
+			auto pointerId = m_module.getIntermediateResult();
+			m_currentBlock.instructions.emplace_back( makeInstruction( spv::Op::OpImageTexelPointer
+				, pointerId
+				, pointerTypeId
+				, texelPointerParams ) );
+
+			auto scopeId = m_module.registerLiteral( uint32_t( spv::Scope::Device ) );
+			auto memorySemanticsId = m_module.registerLiteral( uint32_t( spv::MemorySemanticsMask::AcquireRelease ) );
+			IdList accessParams;
+			accessParams.push_back( pointerId );
+			accessParams.push_back( scopeId );
+			accessParams.push_back( memorySemanticsId );
+
+			if ( params.size() > index )
+			{
+				accessParams.push_back( params[index++] );
+			}
+
+			m_result = m_module.getIntermediateResult();
+			m_currentBlock.instructions.emplace_back( makeInstruction( op
+				, m_result
+				, typeId
+				, accessParams ) );
+			m_module.putIntermediateResult( pointerId );
+		}
+		else
+		{
+			m_result = m_module.getIntermediateResult();
+			m_currentBlock.instructions.emplace_back( makeInstruction( op
+				, m_result
+				, typeId
+				, params ) );
+		}
 	}
 
 	void ExprVisitor::visitInitExpr( expr::Init * expr )
@@ -1549,7 +1598,19 @@ namespace sdw::spirv
 		auto type = m_module.registerType( expr->getType() );
 		auto intermediate = m_module.getIntermediateResult();
 		bool isExtension;
-		auto opCode = getSpirVName( expr->getIntrinsic(), isExtension );
+		bool isAtomic;
+		auto opCode = getSpirVName( expr->getIntrinsic()
+			, isExtension
+			, isAtomic );
+
+		if ( isAtomic )
+		{
+			auto scopeId = m_module.registerLiteral( uint32_t( spv::Scope::Device ) );
+			auto memorySemanticsId = m_module.registerLiteral( uint32_t( spv::MemorySemanticsMask::AcquireRelease ) );
+			uint32_t index{ 1u };
+			params.insert( params.begin() + ( index++ ), scopeId );
+			params.insert( params.begin() + ( index++ ), memorySemanticsId );
+		}
 
 		if ( isExtension )
 		{

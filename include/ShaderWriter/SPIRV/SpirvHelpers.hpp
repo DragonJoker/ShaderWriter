@@ -86,7 +86,6 @@ namespace sdw::spirv
 		, spv::Id typeId );
 	Instruction makeInstruction( expr::Kind exprKind
 		, type::Kind typeKind );
-	Instruction makeInstruction( expr::ImageAccess kind );
 	Instruction makeInstruction( expr::TextureAccess kind );
 
 	Instruction makeInstruction( spv::Op op
@@ -94,8 +93,6 @@ namespace sdw::spirv
 	Instruction makeInstruction( expr::Kind exprKind
 		, type::Kind typeKind
 		, IdList const & operands );
-	Instruction makeInstruction( expr::ImageAccess kind
-		, IdList operands );
 	Instruction makeInstruction( expr::TextureAccess kind
 		, IdList operands );
 
@@ -105,9 +102,6 @@ namespace sdw::spirv
 	Instruction makeInstruction( expr::Kind exprKind
 		, type::Kind typeKind
 		, IdList const & operands
-		, std::string const & name );
-	Instruction makeInstruction( expr::ImageAccess kind
-		, IdList operands
 		, std::string const & name );
 	Instruction makeInstruction( expr::TextureAccess kind
 		, IdList operands
@@ -120,9 +114,6 @@ namespace sdw::spirv
 		, type::Kind typeKind
 		, spv::Id resultId
 		, IdList const & operands );
-	Instruction makeInstruction( expr::ImageAccess kind
-		, spv::Id resultId
-		, IdList operands );
 	Instruction makeInstruction( expr::TextureAccess kind
 		, spv::Id resultId
 		, IdList operands );
@@ -136,10 +127,6 @@ namespace sdw::spirv
 		, spv::Id resultId
 		, spv::Id typeId
 		, IdList const & operands );
-	Instruction makeInstruction( expr::ImageAccess kind
-		, spv::Id resultId
-		, spv::Id typeId
-		, IdList operands );
 	Instruction makeInstruction( expr::TextureAccess kind
 		, spv::Id resultId
 		, spv::Id typeId
@@ -152,11 +139,6 @@ namespace sdw::spirv
 		, std::string const & name );
 	Instruction makeInstruction( expr::Kind exprKind
 		, type::Kind typeKind
-		, spv::Id resultId
-		, spv::Id typeId
-		, IdList const & operands
-		, std::string const & name );
-	Instruction makeInstruction( expr::ImageAccess kind
 		, spv::Id resultId
 		, spv::Id typeId
 		, IdList const & operands
