@@ -13,7 +13,7 @@ namespace sdw
 		, m_stmt{ stmt::makePushConstantsBufferDecl( name ) }
 		, m_name{ name }
 		, m_info{ type::MemoryLayout::eStd430, name, 0u, 0u }
-		, m_var{ var::makeVariable( m_info.getType(), m_name, var::Flag::eShaderConstant ) }
+		, m_var{ var::makeVariable( m_info.getType(), m_name, var::Flag::ePushConstant ) }
 	{
 	}
 

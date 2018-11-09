@@ -6,7 +6,7 @@ namespace sdw
 	template< typename T >
 	inline T Ssbo::declMember( std::string const & name )
 	{
-		auto type = m_info.registerMember( name, typeEnum< T > );
+		auto type = m_info.registerMember< typeEnum< T > >( name );
 		auto var = registerMember( m_shader, m_var, name, type );
 		m_stmt->add( stmt::makeVariableDecl( var ) );
 		return T{ &m_shader
@@ -17,7 +17,7 @@ namespace sdw
 	inline Array< T > Ssbo::declMember( std::string const & name
 		, uint32_t dimension )
 	{
-		auto type = m_info.registerMember( name, typeEnum< T >, dimension );
+		auto type = m_info.registerMember< typeEnum< T > >( name, dimension );
 		auto var = registerMember( m_shader, m_var, name, type );
 		m_stmt->add( stmt::makeVariableDecl( var ) );
 		return Array< T >{ &m_shader
@@ -27,7 +27,7 @@ namespace sdw
 	template< typename T >
 	inline Array< T > Ssbo::declMemberArray( std::string const & name )
 	{
-		auto type = m_info.registerMember( name, typeEnum< T >, type::UnknownArraySize );
+		auto type = m_info.registerMember< typeEnum< T > >( name, type::UnknownArraySize );
 		auto var = registerMember( m_shader, m_var, name, type );
 		m_stmt->add( stmt::makeVariableDecl( var ) );
 		return Array< T >{ &m_shader
@@ -38,7 +38,7 @@ namespace sdw
 	inline Optional< T > Ssbo::declMember( std::string const & name
 		, bool enabled )
 	{
-		auto type = m_info.registerMember( name, typeEnum< T > );
+		auto type = m_info.registerMember< typeEnum< T > >( name );
 		auto var = registerMember( m_shader, m_var, name, type );
 
 		if ( enabled )
@@ -56,7 +56,7 @@ namespace sdw
 		, uint32_t dimension
 		, bool enabled )
 	{
-		auto type = m_info.registerMember( name, typeEnum< T >, dimension );
+		auto type = m_info.registerMember< typeEnum< T > >( name, dimension );
 		auto var = registerMember( m_shader, m_var, name, type );
 
 		if ( enabled )
@@ -73,7 +73,7 @@ namespace sdw
 	inline Optional< Array< T > > Ssbo::declMemberArray( std::string const & name
 		, bool enabled )
 	{
-		auto type = m_info.registerMember( name, typeEnum< T >, type::UnknownArraySize );
+		auto type = m_info.registerMember< typeEnum< T > >( name, type::UnknownArraySize );
 		auto var = registerMember( m_shader, m_var, name, type );
 
 		if ( enabled )

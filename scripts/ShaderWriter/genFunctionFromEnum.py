@@ -39,46 +39,49 @@ def typeKindToSdwType( kind ):
 
 def printHeader( outs, match ):
 	enumName = match.group( 1 )
-	outs.write( "#ifndef ___SDW_Get" + enumName + "Functions_H___\n" )
-	outs.write( "#define ___SDW_Get" + enumName + "Functions_H___\n" )
-	outs.write( "#pragma once\n" )
+	outs.write( "\n/*" )
+	outs.write( "\nSee LICENSE file in root folder" )
+	outs.write( "\n*/" )
+	outs.write( "\n#ifndef ___SDW_Get" + enumName + "Functions_H___" )
+	outs.write( "\n#define ___SDW_Get" + enumName + "Functions_H___" )
+	outs.write( "\n#pragma once" )
 	outs.write( "\n" )
-	outs.write( '#include "Function.hpp"\n' )
-	outs.write( '#include "FunctionParam.hpp"\n' )
-	outs.write( '#include "Bool.hpp"\n' )
-	outs.write( '#include "Image.hpp"\n' )
-	outs.write( '#include "SampledImage.hpp"\n' )
-	outs.write( '#include "OptionalMat2.hpp"\n' )
-	outs.write( '#include "OptionalMat2x3.hpp"\n' )
-	outs.write( '#include "OptionalMat2x4.hpp"\n' )
-	outs.write( '#include "OptionalMat3.hpp"\n' )
-	outs.write( '#include "OptionalMat3x2.hpp"\n' )
-	outs.write( '#include "OptionalMat3x4.hpp"\n' )
-	outs.write( '#include "OptionalMat4.hpp"\n' )
-	outs.write( '#include "OptionalMat4x2.hpp"\n' )
-	outs.write( '#include "OptionalMat4x3.hpp"\n' )
-	outs.write( '#include "Sampler.hpp"\n' )
+	outs.write( '\n#include "Function.hpp"' )
+	outs.write( '\n#include "FunctionParam.hpp"' )
+	outs.write( '\n#include "Bool.hpp"' )
+	outs.write( '\n#include "Image.hpp"' )
+	outs.write( '\n#include "SampledImage.hpp"' )
+	outs.write( '\n#include "OptionalMat2.hpp"' )
+	outs.write( '\n#include "OptionalMat2x3.hpp"' )
+	outs.write( '\n#include "OptionalMat2x4.hpp"' )
+	outs.write( '\n#include "OptionalMat3.hpp"' )
+	outs.write( '\n#include "OptionalMat3x2.hpp"' )
+	outs.write( '\n#include "OptionalMat3x4.hpp"' )
+	outs.write( '\n#include "OptionalMat4.hpp"' )
+	outs.write( '\n#include "OptionalMat4x2.hpp"' )
+	outs.write( '\n#include "OptionalMat4x3.hpp"' )
+	outs.write( '\n#include "Sampler.hpp"' )
 	outs.write( "\n" )
-	outs.write( '#include <ASTGenerator/Expr/Make' + enumName + '.hpp>\n' )
+	outs.write( '\n#include <ASTGenerator/Expr/Make' + enumName + '.hpp>' )
 	outs.write( "\n" )
-	outs.write( "namespace sdw\n" )
-	outs.write( "{" )
+	outs.write( "\nnamespace sdw" )
+	outs.write( "\n{" )
 	return enumName
 
-def computeIntrinsicName( name ):
-	result = name
+def computeIntrinsicName( functionGroup ):
 	intrName6 = re.compile( "([\w]*), ([\w]*), ([\w]*), ([\w]*), ([\w]*), ([\w]*), ([\w]*)" )
 	intrName5 = re.compile( "([\w]*), ([\w]*), ([\w]*), ([\w]*), ([\w]*), ([\w]*)" )
 	intrName4 = re.compile( "([\w]*), ([\w]*), ([\w]*), ([\w]*), ([\w]*)" )
 	intrName3 = re.compile( "([\w]*), ([\w]*), ([\w]*), ([\w]*)" )
 	intrName2 = re.compile( "([\w]*), ([\w]*), ([\w]*)" )
 	intrName1 = re.compile( "([\w]*), ([\w]*)" )
-	resName6 = intrName6.match( name )
-	resName5 = intrName5.match( name )
-	resName4 = intrName4.match( name )
-	resName3 = intrName3.match( name )
-	resName2 = intrName2.match( name )
-	resName1 = intrName1.match( name )
+	resName6 = intrName6.match( functionGroup )
+	resName5 = intrName5.match( functionGroup )
+	resName4 = intrName4.match( functionGroup )
+	resName3 = intrName3.match( functionGroup )
+	resName2 = intrName2.match( functionGroup )
+	resName1 = intrName1.match( functionGroup )
+	result = ""
 	if resName6:
 		result = resName6.group( 1 )
 	elif resName5:
@@ -93,20 +96,20 @@ def computeIntrinsicName( name ):
 		result = resName1.group( 1 )
 	return result
 
-def computeFullName( name ):
-	result = name
+def computeFullName( functionGroup ):
 	intrName6 = re.compile( "([\w]*), ([\w]*), ([\w]*), ([\w]*), ([\w]*), ([\w]*), ([\w]*)" )
 	intrName5 = re.compile( "([\w]*), ([\w]*), ([\w]*), ([\w]*), ([\w]*), ([\w]*)" )
 	intrName4 = re.compile( "([\w]*), ([\w]*), ([\w]*), ([\w]*), ([\w]*)" )
 	intrName3 = re.compile( "([\w]*), ([\w]*), ([\w]*), ([\w]*)" )
 	intrName2 = re.compile( "([\w]*), ([\w]*), ([\w]*)" )
 	intrName1 = re.compile( "([\w]*), ([\w]*)" )
-	resName6 = intrName6.match( name )
-	resName5 = intrName5.match( name )
-	resName4 = intrName4.match( name )
-	resName3 = intrName3.match( name )
-	resName2 = intrName2.match( name )
-	resName1 = intrName1.match( name )
+	resName6 = intrName6.match( functionGroup )
+	resName5 = intrName5.match( functionGroup )
+	resName4 = intrName4.match( functionGroup )
+	resName3 = intrName3.match( functionGroup )
+	resName2 = intrName2.match( functionGroup )
+	resName1 = intrName1.match( functionGroup )
+	result = ""
 	if resName6:
 		result = resName6.group( 2 ) + resName6.group( 3 ) + resName6.group( 4 ) + resName6.group( 5 ) + resName6.group( 6 ) + resName6.group( 7 )
 	elif resName5:
@@ -121,33 +124,44 @@ def computeFullName( name ):
 		result = resName1.group( 2 )
 	return result
 
-def computeEnum( enumName, name ):
-	result = enumName + "::e"
+def getPostfix( functionGroup ):
 	intrName6 = re.compile( "([\w]*), ([\w]*), ([\w]*), ([\w]*), ([\w]*), ([\w]*), ([\w]*)" )
 	intrName5 = re.compile( "([\w]*), ([\w]*), ([\w]*), ([\w]*), ([\w]*), ([\w]*)" )
 	intrName4 = re.compile( "([\w]*), ([\w]*), ([\w]*), ([\w]*), ([\w]*)" )
 	intrName3 = re.compile( "([\w]*), ([\w]*), ([\w]*), ([\w]*)" )
 	intrName2 = re.compile( "([\w]*), ([\w]*), ([\w]*)" )
 	intrName1 = re.compile( "([\w]*), ([\w]*)" )
-	resName6 = intrName6.match( name )
-	resName5 = intrName5.match( name )
-	resName4 = intrName4.match( name )
-	resName3 = intrName3.match( name )
-	resName2 = intrName2.match( name )
-	resName1 = intrName1.match( name )
+	resName6 = intrName6.match( functionGroup )
+	resName5 = intrName5.match( functionGroup )
+	resName4 = intrName4.match( functionGroup )
+	resName3 = intrName3.match( functionGroup )
+	resName2 = intrName2.match( functionGroup )
+	resName1 = intrName1.match( functionGroup )
+	result = ""
 	if resName6:
-		result += resName6.group( 2 ) + resName6.group( 3 ) + resName6.group( 4 ) + resName6.group( 5 ) + resName6.group( 6 ) + resName6.group( 7 )
+		result += resName6.group( 3 )
 	elif resName5:
-		result += resName5.group( 2 ) + resName5.group( 3 ) + resName5.group( 4 ) + resName5.group( 5 ) + resName5.group( 6 )
+		result += resName5.group( 3 )
 	elif resName4:
-		result += resName4.group( 2 ) + resName4.group( 3 ) + resName4.group( 4 ) + resName4.group( 5 )
+		result += resName4.group( 3 )
 	elif resName3:
-		result += resName3.group( 2 ) + resName3.group( 3 ) + resName3.group( 4 )
+		result += resName3.group( 3 )
 	elif resName2:
-		result += resName2.group( 2 ) + resName2.group( 3 )
+		result += resName2.group( 3 )
 	elif resName1:
-		result += resName1.group( 2 )
+		result += resName1.group( 3 )
 	return result
+
+def getDoublePostfix( postfix ):
+	if postfix.endswith( "FBias" ) or postfix.endswith( "UBias" ) or postfix.endswith( "IBias" ):
+		return "Bias"
+	if postfix.endswith( "FI" ) or postfix.endswith( "UI" ) or postfix.endswith( "II" ):
+		return "I"
+	if postfix.endswith( "FU" ) or postfix.endswith( "UU" ) or postfix.endswith( "IU" ):
+		return "U"
+	if postfix.endswith( "FF" ) or postfix.endswith( "UF" ) or postfix.endswith( "IF" ):
+		return "F"
+	return ""
 
 def isArray( name ):
 	result = re.sub( "\[\d*\]", "", name )
@@ -208,163 +222,113 @@ def isArrayTexture( name ):
 	result = re.sub( "Array", "", name )
 	return result != name
 
+def getArrayType( name ):
+	result = re.sub( "Array", "", name )
+	return "Array" if result != name else ""
+
 def isDepthTexture( name ):
 	result = re.sub( "Shadow", "", name )
 	return result != name
 
-def getImageDim( name ):
-	result = ""
-	if name.find( "Rect" ) != -1:
-		result = "ast::type::ImageDim::eRect"
-	elif name.find( "1D" ) != -1:
-		result = "ast::type::ImageDim::e1D"
-	elif name.find( "2D" ) != -1:
-		result = "ast::type::ImageDim::e2D"
-	elif name.find( "3D" ) != -1:
-		result = "ast::type::ImageDim::e3D"
-	elif name.find( "Cube" ) != -1:
-		result = "ast::type::ImageDim::eCube"
-	elif name.find( "Buffer" ) != -1:
-		result = "ast::type::ImageDim::eBuffer"
-	return result
+def getDepthType( name ):
+	result = re.sub( "Shadow", "", name )
+	return "Shadow" if result != name else ""
 
 def isMSTexture( name ):
 	result = re.sub( "MS", "", name )
 	return result != name
-	
-def getImagePostfix( name ):
-	intrName6 = re.compile( "([\w]*), ([\w]*), ([\w]*), ([\w]*), ([\w]*), ([\w]*), ([\w]*)" )
-	intrName5 = re.compile( "([\w]*), ([\w]*), ([\w]*), ([\w]*), ([\w]*), ([\w]*)" )
-	intrName4 = re.compile( "([\w]*), ([\w]*), ([\w]*), ([\w]*), ([\w]*)" )
-	intrName3 = re.compile( "([\w]*), ([\w]*), ([\w]*), ([\w]*)" )
-	intrName2 = re.compile( "([\w]*), ([\w]*), ([\w]*)" )
-	intrName1 = re.compile( "([\w]*), ([\w]*)" )
-	resName6 = intrName6.match( name )
-	resName5 = intrName5.match( name )
-	resName4 = intrName4.match( name )
-	resName3 = intrName3.match( name )
-	resName2 = intrName2.match( name )
-	resName1 = intrName1.match( name )
-	postfix = ""
-	if resName6:
-		postfix += resName6.group( 3 )
-	elif resName5:
-		postfix += resName5.group( 3 )
-	elif resName4:
-		postfix += resName4.group( 3 )
-	elif resName3:
-		postfix += resName3.group( 3 )
-	elif resName2:
-		postfix += resName2.group( 3 )
-	elif resName1:
-		postfix += resName1.group( 3 )
-	return postfix
 
-def getImageFormat( match ):
-	name = getImagePostfix( match )
-	format = name[len( name ) - 1]
+def getMSType( name ):
+	result = re.sub( "MS", "", name )
+	return "MS" if result != name else ""
+
+def getImageDim( name ):
 	result = ""
-	if format == "F":
-		result = "float"
-	if format == "I":
-		result = "sint"
-	if format == "U":
-		result = "uint"
+	if name.find( "Rect" ) != -1:
+		result = "2DRect"
+	elif name.find( "1D" ) != -1:
+		result = "1D"
+	elif name.find( "2D" ) != -1:
+		result = "2D"
+	elif name.find( "3D" ) != -1:
+		result = "3D"
+	elif name.find( "Cube" ) != -1:
+		result = "Cube"
+	elif name.find( "Buffer" ) != -1:
+		result = "Buffer"
 	return result
 
-def writeTemplateParameters( format, name ):
-	postfix = getImagePostfix( name )
-	isArray = isArrayTexture( postfix )
-	isDepth = isDepthTexture( postfix )
-	isMs = isMSTexture( postfix )
-	imageDim = getImageDim( postfix )
-	result = imageDim + ", ast::type::ImageFormat::e" + format
-	if isArray:
-		result += ", true"
-	else:
-		result += ", false"
-	if isDepth:
-		result += ", true"
-	else:
-		result += ", false"
-	if isMs:
-		result += ", true"
-	else:
-		result += ", false"
+def getImageSampledType( postfix ):
+	sampled = postfix[len( postfix ) - 1]
+	result = ""
+	if sampled == "I" or sampled == "U":
+		result = sampled
 	return result
 
-def printImageFunction( outs, enumName, format, match ):
-	retType = typeKindToSdwType( match.group( 1 ) )
-	fullName = computeFullName( match.group( 2 ) )
-	# Write function name and return.
-	outs.write( "\n\tinline " + retType + " " + computeIntrinsicName( match.group( 2 ) ) + "(" )
-	# Write additional image parameter.
-	if enumName == "TextureAccess":
-		outs.write( " SampledImageT< " + writeTemplateParameters( format, match.group( 2 ) ) + " > const & image" )
-	else:
-		outs.write( " ImageT< " + writeTemplateParameters( format, match.group( 2 ) ) + " > const & image" )
-	# Write function remaining parameters
-	outs.write( computeParams( match.group( 3 ), "\n\t\t," ) + " )\n" )
-	# Header finished, write content
-	outs.write( "\t{\n" )
-	outs.write( "\t\treturn " + retType + "{ findShader( image" + listParams( match.group( 3 ), "," ) + " )" )
-	outs.write( "\n\t\t\t, expr::make" + fullName + "(" )
-	outs.write( " makeExpr( image )" )
-	outs.write( computeArgs( match.group( 3 ), "\n\t\t\t\t," ) + " ) };\n" )
-	outs.write( "\t}\n" )
+def getPostfixedFunctionName( functionGroup ):
+	functionName = computeIntrinsicName( functionGroup )
+	postfix = getDoublePostfix( computeFullName( functionGroup ) )
+	return functionName + postfix
 
-def printImageFunctions( outs, enumName, match ):
-	format = getImageFormat( match.group( 2 ) )
-	if format == "float":
-		printImageFunction( outs, enumName, "Rgba32f", match )
-		printImageFunction( outs, enumName, "Rgba16f", match )
-		printImageFunction( outs, enumName, "Rg32f", match )
-		printImageFunction( outs, enumName, "Rg16f", match )
-		printImageFunction( outs, enumName, "R32f", match )
-		printImageFunction( outs, enumName, "R16f", match )
-	elif format == "sint":
-		printImageFunction( outs, enumName, "Rgba32i", match )
-		printImageFunction( outs, enumName, "Rgba16i", match )
-		printImageFunction( outs, enumName, "Rgba8i", match )
-		printImageFunction( outs, enumName, "Rg32i", match )
-		printImageFunction( outs, enumName, "Rg16i", match )
-		printImageFunction( outs, enumName, "Rg8i", match )
-		printImageFunction( outs, enumName, "R32i", match )
-		printImageFunction( outs, enumName, "R16i", match )
-		printImageFunction( outs, enumName, "R8i", match )
-	else:
-		printImageFunction( outs, enumName, "Rgba32u", match )
-		printImageFunction( outs, enumName, "Rgba16u", match )
-		printImageFunction( outs, enumName, "Rgba8u", match )
-		printImageFunction( outs, enumName, "Rg32u", match )
-		printImageFunction( outs, enumName, "Rg16u", match )
-		printImageFunction( outs, enumName, "Rg8u", match )
-		printImageFunction( outs, enumName, "R32u", match )
-		printImageFunction( outs, enumName, "R16u", match )
-		printImageFunction( outs, enumName, "R8u", match )
+def beginFunctionGroup( outs, functionsName ):
+	# Write structure base declaration
+	outs.write( "\n#pragma region " + functionsName )
+	outs.write( "\n\t/**" )
+	outs.write( "\n\t*name" )
+	outs.write( "\n\t*	" + functionsName )
+	outs.write( "\n\t*/" )
+	outs.write( "\n\t/**@{*/" )
 
-def printIntrinsicFunction( outs, enumName, match ):
-	retType = typeKindToSdwType( match.group( 1 ) )
-	fullName = computeFullName( match.group( 2 ) )
+def computeImageFullType( imageType, functionGroup ):
+	postfix = getPostfix( functionGroup )
+	sampled = getImageSampledType( postfix )
+	dim = getImageDim( postfix )
+	array = getArrayType( postfix )
+	ms = getMSType( postfix )
+	depth = getDepthType( postfix )
+	return sampled + imageType + dim + ms + array + depth
+
+def printImageFunction( outs, returnGroup, functionGroup, paramsGroup, imageType ):
+	retType = typeKindToSdwType( returnGroup )
+	fullName = computeFullName( functionGroup )
 	# Write function name and return
-	outs.write( "\n\tinline " + retType + " " + computeIntrinsicName( match.group( 2 ) ) + "(" )
-	# Write function parameters
-	outs.write( computeParams( match.group( 3 ), "" ) + " )\n" )
+	outs.write( "\n\tinline " + retType + " " + computeIntrinsicName( functionGroup ) + "(" )
+	# Write parameters
+	#	Image parameter
+	outs.write( " " + computeImageFullType( imageType, functionGroup ) + " const & image" )
+	#	Remaining function parameters
+	outs.write( computeParams( paramsGroup, "\n\t\t," ) + " )" )
 	# Header finished, write content
-	outs.write( "\t{\n" )
-	outs.write( "\t\treturn " + retType + "{ findShader(" + listParams( match.group( 3 ), "" ) + " )" )
+	outs.write( "\n\t{" )
+	outs.write( "\n\t\treturn " + retType + "{ findShader( image" + listParams( paramsGroup, "," ) + " )" )
+	# Write arguments
 	outs.write( "\n\t\t\t, expr::make" + fullName + "(" )
-	outs.write( computeArgs( match.group( 3 ), "" ) + " ) };\n" )
-	outs.write( "\t}\n" )
+	#	Image argument
+	outs.write( " makeExpr( image )" )
+	#	Remaining arguments
+	outs.write( computeArgs( paramsGroup, "\n\t\t\t\t," ) + " ) };" )
+	outs.write( "\n\t}" )
 
-def printFunction( outs, enumName, match ):
-	if enumName == "TextureAccess" or enumName == "ImageAccess":
-		printImageFunctions( outs, enumName, match )
-	else:
-		printIntrinsicFunction( outs, enumName, match )
+def printIntrinsicFunction( outs, returnGroup, functionGroup, paramsGroup ):
+	retType = typeKindToSdwType( returnGroup )
+	fullName = computeFullName( functionGroup )
+	# Write function name and return
+	outs.write( "\n\tinline " + retType + " " + computeIntrinsicName( functionGroup ) + "(" )
+	# Write function parameters
+	outs.write( computeParams( paramsGroup, "" ) + " )" )
+	# Header finished, write content
+	outs.write( "\n\t{" )
+	outs.write( "\n\t\treturn " + retType + "{ findShader(" + listParams( paramsGroup, "" ) + " )" )
+	outs.write( "\n\t\t\t, expr::make" + fullName + "(" )
+	outs.write( computeArgs( paramsGroup, "" ) + " ) };" )
+	outs.write( "\n\t}" )
+	
+def endFunctionGroup( outs ):
+	outs.write( "\n\t/**@}*/" )
+	outs.write( "\n#pragma endregion" )
 
 def printFooter( outs ):
-	outs.write( "}\n" )
+	outs.write( "\n}\n" )
 	outs.write( "\n" )
 	outs.write( "#endif\n" )
 
@@ -386,9 +350,13 @@ def main( argv ):
 	intrEnd = re.compile("^ASTIntrEnd$")
 	intrValue = re.compile("^\s*ASTIntrValue\( ([^,]*), ASTIntrName\( ([^)]*) \)([\w:, ()\[\]]*) \)$")
 	enumName = ""
+	prvFunctionGroup = ""
+	prvParamsGroup = ""
 	with open(inEnumFile, "r") as ins:
 		with open(outEnumFile, "w") as outs:
 			array = []
+			functionGroups = dict()
+			imageType = "Image"
 			for line in ins:
 				array.append( line )
 				resultDecl = intrDecl.match( line )
@@ -396,12 +364,41 @@ def main( argv ):
 				resultEnd = intrEnd.match( line )
 				if resultDecl:
 					enumName = printHeader( outs, resultDecl )
+					if enumName == "TextureAccess":
+						imageType = "SampledImage"
 				elif resultValue:
-					printFunction( outs, enumName, resultValue )
+					returnGroup = resultValue.group( 1 )
+					functionGroup = resultValue.group( 2 )
+					paramsGroup = resultValue.group( 3 )
+					groupName = getPostfixedFunctionName( functionGroup )
+					if groupName not in functionGroups:
+						functionGroups[groupName] = dict()
+					paramsList = listParams( paramsGroup, "" )
+					if paramsList not in functionGroups[groupName]:
+						functionGroups[groupName][paramsList] = list()
+					functionGroups[groupName][paramsList].append( [returnGroup, functionGroup, paramsGroup] )
 				elif resultEnd:
+					if enumName == "TextureAccess" or enumName == "ImageAccess":
+						for functionsName, functionsSubGroup in functionGroups.items():
+							beginFunctionGroup( outs, functionsName )
+							for paramsList, functionsList in functionsSubGroup.items():
+								for function in functionsList:
+									returnGroup = function[0]
+									functionGroup = function[1]
+									paramsGroup = function[2]
+									printImageFunction( outs, returnGroup, functionGroup, paramsGroup, imageType )
+							endFunctionGroup( outs )
+					else:
+						for functionsName, functionsSubGroup in functionGroups.items():
+							beginFunctionGroup( outs, functionsName )
+							for paramsList, functionsList in functionsSubGroup.items():
+								for function in functionsList:
+									returnGroup = function[0]
+									functionGroup = function[1]
+									paramsGroup = function[2]
+									printIntrinsicFunction( outs, returnGroup, functionGroup, paramsGroup )
+							endFunctionGroup( outs )
 					printFooter( outs )
-				else:
-					outs.write( line )
 
 if __name__ == "__main__":
   main(sys.argv)

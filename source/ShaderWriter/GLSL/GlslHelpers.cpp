@@ -197,7 +197,7 @@ namespace sdw::glsl
 		std::string result;
 		auto & config = type->getConfig();
 
-		if ( config.isSampled == type::Ternary::eTrue )
+		if ( config.isSampled == type::Trinary::eTrue )
 		{
 			result += "sampler";
 		}
@@ -213,9 +213,9 @@ namespace sdw::glsl
 			result += "Array";
 		}
 
-		if ( config.isDepth == type::Ternary::eTrue )
+		if ( config.isDepth == type::Trinary::eTrue )
 		{
-			assert( config.isSampled == type::Ternary::eTrue );
+			assert( config.isSampled == type::Trinary::eTrue );
 			result += "Shadow";
 		}
 

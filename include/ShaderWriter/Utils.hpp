@@ -53,18 +53,18 @@ namespace sdw
 			, Float const & metalness
 			, Float const & roughness
 			, Vec3 const & worldEye
-			, SampledImageCubeRgba32f const & irradiance
-			, SampledImageCubeRgba32f const & prefiltered
-			, SampledImage2DRgba32f const & brdf );
+			, SampledImageCube const & irradiance
+			, SampledImageCube const & prefiltered
+			, SampledImage2D const & brdf );
 		Vec3 computeSpecularIBL( Vec3 const & normal
 			, Vec3 const & position
 			, Vec3 const & diffuse
 			, Vec3 const & specular
 			, Float const & glossiness
 			, Vec3 const & worldEye
-			, SampledImageCubeRgba32f const & irradiance
-			, SampledImageCubeRgba32f const & prefiltered
-			, SampledImage2DRgba32f const & brdf );
+			, SampledImageCube const & irradiance
+			, SampledImageCube const & prefiltered
+			, SampledImage2D const & brdf );
 	public:
 		static uint32_t const MaxIblReflectionLod;
 
@@ -112,9 +112,9 @@ namespace sdw
 			, InFloat
 			, InFloat
 			, InVec3
-			, InSampledImageCubeRgba32f
-			, InSampledImageCubeRgba32f
-			, InSampledImage2DRgba32f > m_computeIBL;
+			, InSampledImageCube
+			, InSampledImageCube
+			, InSampledImage2D > m_computeIBL;
 	};
 }
 

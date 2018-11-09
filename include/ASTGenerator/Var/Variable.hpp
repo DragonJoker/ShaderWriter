@@ -19,10 +19,11 @@ namespace ast::var
 		eShaderInput = 1 << 3,
 		eShaderOutput = 1 << 4,
 		eShaderConstant = 1 << 5,
-		eLocale = 1 << 6,
-		eBuiltin = 1 << 7,
-		eImplicit = 1 << 8,
-		eMember = 1 << 9,
+		ePushConstant = 1 << 6,
+		eLocale = 1 << 7,
+		eBuiltin = 1 << 8,
+		eImplicit = 1 << 9,
+		eMember = 1 << 10,
 	};
 
 	class Variable
@@ -104,6 +105,11 @@ namespace ast::var
 		inline bool isShaderOutput()const
 		{
 			return hasFlag( Flag::eShaderOutput );
+		}
+
+		inline bool isPushConstant()const
+		{
+			return hasFlag( Flag::ePushConstant );
 		}
 
 		inline bool isShaderConstant()const

@@ -93,35 +93,32 @@ namespace sdw::spirv
 	{
 		auto loopBlock = m_result.newBlock();
 		auto ifBlock = m_result.newBlock();
-		auto continueBlock = m_result.newBlock();
 		auto mergeBlock = m_result.newBlock();
+		auto contentBlock = m_result.newBlock();
 
 		// End current block, to branch to the loop header block.
-		m_currentBlock.blockEnd = makeInstruction( spv::Op::OpBranch, { loopBlock.label } );
+		m_currentBlock.blockEnd = makeInstruction( spv::Op::OpBranch, IdList{ loopBlock.label } );
 		m_function->cfg.blocks.push_back( m_currentBlock );
 
-		// The current block becomes the loop content block.
-		m_currentBlock = m_result.newBlock();
-
 		// The loop header block, to which continue target will branch, branches to the loop content block.
-		loopBlock.instructions.emplace_back( makeInstruction( spv::Op::OpLoopMerge, { mergeBlock.label, continueBlock.label } ) );
-		loopBlock.blockEnd = makeInstruction( spv::Op::OpBranch, { m_currentBlock.label } );
+		loopBlock.instructions.emplace_back( makeInstruction( spv::Op::OpLoopMerge, { mergeBlock.label, ifBlock.label } ) );
+		loopBlock.blockEnd = makeInstruction( spv::Op::OpBranch, IdList{ contentBlock.label } );
 		m_function->cfg.blocks.push_back( loopBlock );
+
+		// The current block becomes the loop content block.
+		m_currentBlock = contentBlock;
 
 		// Instructions go to loop content block.
 		visitContainerStmt( stmt );
 
 		// Branch current block to the continue target block.
-		m_currentBlock.blockEnd = makeInstruction( spv::Op::OpBranch, { continueBlock.label } );
+		m_currentBlock.blockEnd = makeInstruction( spv::Op::OpBranch, IdList{ ifBlock.label } );
+		m_function->cfg.blocks.push_back( m_currentBlock );
 
-		// The if block, branches either to the continue block (true) or to loop merge block (false).
+		// The if block, branches either back to the loop header block (true) or to the loop merge block (false).
 		auto intermediateIfId = ExprVisitor::submit( stmt->getCtrlExpr(), ifBlock, m_result );
-		ifBlock.blockEnd = makeInstruction( spv::Op::OpBranchConditional, { intermediateIfId, continueBlock.label, mergeBlock.label } );
+		ifBlock.blockEnd = makeInstruction( spv::Op::OpBranchConditional, { intermediateIfId, loopBlock.label, mergeBlock.label } );
 		m_function->cfg.blocks.push_back( ifBlock );
-
-		// The continue target block, branches back to the loop header block.
-		continueBlock.blockEnd = makeInstruction( spv::Op::OpBranch, { loopBlock.label } );
-		m_function->cfg.blocks.push_back( continueBlock );
 
 		// Current block becomes the merge block.
 		m_currentBlock = mergeBlock;
@@ -146,7 +143,7 @@ namespace sdw::spirv
 
 		// End current block, to branch to the loop header block.
 		auto intermediateInitId = ExprVisitor::submit( stmt->getInitExpr(), m_currentBlock, m_result );
-		m_currentBlock.blockEnd = makeInstruction( spv::Op::OpBranch, { loopBlock.label } );
+		m_currentBlock.blockEnd = makeInstruction( spv::Op::OpBranch, IdList{ loopBlock.label } );
 		m_function->cfg.blocks.push_back( m_currentBlock );
 
 		// The current block becomes the loop content block.
@@ -154,7 +151,7 @@ namespace sdw::spirv
 
 		// The loop header block, to which continue target will branch, branches to the if block.
 		loopBlock.instructions.emplace_back( makeInstruction( spv::Op::OpLoopMerge, { mergeBlock.label, continueBlock.label } ) );
-		loopBlock.blockEnd = makeInstruction( spv::Op::OpBranch, { ifBlock.label } );
+		loopBlock.blockEnd = makeInstruction( spv::Op::OpBranch, IdList{ ifBlock.label } );
 		m_function->cfg.blocks.push_back( loopBlock );
 
 		// The if block, branches to either loop content block (true) or loop merge block (false).
@@ -166,12 +163,12 @@ namespace sdw::spirv
 		visitContainerStmt( stmt );
 
 		// Branch current block to the continue target block.
-		m_currentBlock.blockEnd = makeInstruction( spv::Op::OpBranch, { continueBlock.label } );
+		m_currentBlock.blockEnd = makeInstruction( spv::Op::OpBranch, IdList{ continueBlock.label } );
 		m_function->cfg.blocks.push_back( m_currentBlock );
 
 		// The continue target block, branches back to loop header.
 		auto intermediateIncrId = ExprVisitor::submit( stmt->getIncrExpr(), continueBlock, m_result );
-		continueBlock.blockEnd = makeInstruction( spv::Op::OpBranch, { loopBlock.label } );
+		continueBlock.blockEnd = makeInstruction( spv::Op::OpBranch, IdList{ loopBlock.label } );
 		m_function->cfg.blocks.push_back( continueBlock );
 
 		// Current block becomes the merge block.
@@ -227,21 +224,21 @@ namespace sdw::spirv
 
 		// End current block, to branch to the if content block (true) or to the false branch block (false).
 		auto intermediateIfId = ExprVisitor::submit( stmt->getCtrlExpr(), m_currentBlock, m_result );
-		m_currentBlock.instructions.emplace_back( makeInstruction( spv::Op::OpSelectionMerge, { mergeBlock.label } ) );
+		m_currentBlock.instructions.emplace_back( makeInstruction( spv::Op::OpSelectionMerge, IdList{ mergeBlock.label } ) );
 		m_currentBlock.blockEnd = makeInstruction( spv::Op::OpBranchConditional, { intermediateIfId, contentBlock.label, falseBlockLabel } );
 		m_function->cfg.blocks.push_back( m_currentBlock );
 
 		// The current block becomes the if content block.
 		m_currentBlock = contentBlock;
 		visitContainerStmt( stmt );
-		m_currentBlock.blockEnd = makeInstruction( spv::Op::OpBranch, { mergeBlock.label } );
+		m_currentBlock.blockEnd = makeInstruction( spv::Op::OpBranch, IdList{ mergeBlock.label } );
 		m_function->cfg.blocks.push_back( m_currentBlock );
 
 		if ( stmt->getElse() )
 		{
 			m_currentBlock = elseBlock;
 			stmt->getElse()->accept( this );
-			m_currentBlock.blockEnd = makeInstruction( spv::Op::OpBranch, { mergeBlock.label } );
+			m_currentBlock.blockEnd = makeInstruction( spv::Op::OpBranch, IdList{ mergeBlock.label } );
 			m_function->cfg.blocks.push_back( m_currentBlock );
 		}
 
@@ -258,17 +255,26 @@ namespace sdw::spirv
 
 	void StmtVisitor::visitInOutVariableDeclStmt( stmt::InOutVariableDecl * stmt )
 	{
-		auto id = visitVariable( stmt->getVariable() );
-		m_result.decorate( id, { spv::Id( spv::Decoration::Location ), stmt->getLocation() } );
+		auto var = stmt->getVariable();
+		auto varId = visitVariable( var );
 
-		if ( stmt->getVariable()->isShaderInput() )
+		if ( var->isShaderConstant() )
 		{
-			m_inputs.push_back( id );
+			m_result.decorate( varId, { spv::Id( spv::Decoration::SpecId ), stmt->getLocation() } );
 		}
-
-		if ( stmt->getVariable()->isShaderOutput() )
+		else
 		{
-			m_outputs.push_back( id );
+			m_result.decorate( varId, { spv::Id( spv::Decoration::Location ), stmt->getLocation() } );
+
+			if ( stmt->getVariable()->isShaderInput() )
+			{
+				m_inputs.push_back( varId );
+			}
+
+			if ( stmt->getVariable()->isShaderOutput() )
+			{
+				m_outputs.push_back( varId );
+			}
 		}
 	}
 
@@ -434,27 +440,32 @@ namespace sdw::spirv
 		auto mergeBlock = m_result.newBlock();
 
 		// End current block, to branch to the loop header block.
-		m_currentBlock.blockEnd = makeInstruction( spv::Op::OpBranch, { loopBlock.label } );
+		m_currentBlock.blockEnd = makeInstruction( spv::Op::OpBranch, IdList{ loopBlock.label } );
+		m_function->cfg.blocks.push_back( m_currentBlock );
 
 		// The current block becomes the loop content block.
 		m_currentBlock = m_result.newBlock();
 
 		// The loop header block, to which continue target will branch, branches to the if block.
 		loopBlock.instructions.emplace_back( makeInstruction( spv::Op::OpLoopMerge, { mergeBlock.label, continueBlock.label } ) );
-		loopBlock.blockEnd = makeInstruction( spv::Op::OpBranch, { ifBlock.label } );
+		loopBlock.blockEnd = makeInstruction( spv::Op::OpBranch, IdList{ ifBlock.label } );
+		m_function->cfg.blocks.push_back( loopBlock );
 
 		// The if block, branches to either loop content block (true) or loop merge block (false).
 		auto intermediateIfId = ExprVisitor::submit( stmt->getCtrlExpr(), ifBlock, m_result );
 		ifBlock.blockEnd = makeInstruction( spv::Op::OpBranchConditional, { intermediateIfId, m_currentBlock.label, mergeBlock.label } );
+		m_function->cfg.blocks.push_back( ifBlock );
 
 		// Instructions go to loop content block.
 		visitContainerStmt( stmt );
 
 		// Branch current block to the continue target block.
-		m_currentBlock.blockEnd = makeInstruction( spv::Op::OpBranch, { continueBlock.label } );
+		m_currentBlock.blockEnd = makeInstruction( spv::Op::OpBranch, IdList{ continueBlock.label } );
+		m_function->cfg.blocks.push_back( m_currentBlock );
 
 		// The continue target block, branches back to loop header.
-		continueBlock.blockEnd = makeInstruction( spv::Op::OpBranch, { loopBlock.label } );
+		continueBlock.blockEnd = makeInstruction( spv::Op::OpBranch, IdList{ loopBlock.label } );
+		m_function->cfg.blocks.push_back( continueBlock );
 
 		// Current block becomes the merge block.
 		m_currentBlock = mergeBlock;

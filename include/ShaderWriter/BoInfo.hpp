@@ -25,11 +25,15 @@ namespace sdw
 			return m_name;
 		}
 
+		template< type::Kind Kind >
 		inline type::TypePtr registerMember( std::string const & name
-			, type::Kind kind
 			, uint32_t arraySize = ast::type::NotArray )
 		{
-			return m_type->declMember( name, kind, arraySize ).type;
+			static_assert( Kind != type::Kind::eBoolean, "Can't put a boolean type inside an interface block" );
+			static_assert( Kind != type::Kind::eVec2B, "Can't put a boolean type inside an interface block" );
+			static_assert( Kind != type::Kind::eVec3B, "Can't put a boolean type inside an interface block" );
+			static_assert( Kind != type::Kind::eVec4B, "Can't put a boolean type inside an interface block" );
+			return m_type->declMember( name, Kind, arraySize ).type;
 		}
 
 		inline type::TypePtr registerMember( std::string const & name

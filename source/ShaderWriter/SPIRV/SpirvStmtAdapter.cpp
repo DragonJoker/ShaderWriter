@@ -272,11 +272,11 @@ namespace sdw::spirv
 		
 		if ( stmt->getCaseExpr() )
 		{
-			cont = m_switchStmt->createCase( expr::makeSwitchCase( std::make_unique< expr::Literal >( *stmt->getCaseExpr()->getLabel() ) ) );
+			cont = m_switchStmts.back()->createCase( expr::makeSwitchCase( std::make_unique< expr::Literal >( *stmt->getCaseExpr()->getLabel() ) ) );
 		}
 		else
 		{
-			cont = m_switchStmt->createDefault();
+			cont = m_switchStmts.back()->createDefault();
 		}
 
 		auto save = m_result;
@@ -288,13 +288,14 @@ namespace sdw::spirv
 	void StmtAdapter::visitSwitchStmt( stmt::Switch * stmt )
 	{
 		auto cont = stmt::makeSwitch( expr::makeSwitchTest( ExprAdapter::submit( stmt->getTestExpr()->getValue(), m_context ) ) );
-		m_switchStmt = cont.get();
+		m_switchStmts.push_back( cont.get() );
 
 		auto save = m_result;
 		m_result = cont.get();
 		visitContainerStmt( stmt );
 		m_result = save;
 		m_result->addStmt( std::move( cont ) );
+		m_switchStmts.pop_back();
 	}
 
 	void StmtAdapter::visitVariableDeclStmt( stmt::VariableDecl * stmt )

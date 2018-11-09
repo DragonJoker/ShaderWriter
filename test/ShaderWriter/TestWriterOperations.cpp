@@ -1,5 +1,5 @@
 #include "../Common.hpp"
-#include "TestWriterCommon.hpp"
+#include "WriterCommon.hpp"
 
 namespace
 {

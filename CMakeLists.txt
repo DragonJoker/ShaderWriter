@@ -153,6 +153,7 @@ if ( MSVC OR NOT "${CMAKE_BUILD_TYPE}" STREQUAL "" )
 	parse_subdir_files( ${PROJECT_NAME}/Var "Var" )
 
 	set( INCLUDE_DIR ${CMAKE_SOURCE_DIR}/include/${PROJECT_NAME} )
+	set( SOURCE_DIR ${CMAKE_SOURCE_DIR}/source/${PROJECT_NAME} )
 
 	if ( Python_FOUND )
 		set( SCRIPT_DIR ${CMAKE_SOURCE_DIR}/scripts/${PROJECT_NAME} )
@@ -176,10 +177,17 @@ if ( MSVC OR NOT "${CMAKE_BUILD_TYPE}" STREQUAL "" )
 		)
 		add_custom_command( OUTPUT ${INCLUDE_DIR}/Expr/MakeImageAccess.hpp
 			COMMAND ${CMAKE_COMMAND} -E make_directory ${GENERATED_DIR}
-			COMMAND ${Python_EXECUTABLE} ${SCRIPT_DIR}/genMakeFromEnum.py ${INCLUDE_DIR}/Expr/ImageAccess.enum ${GENERATED_DIR}/MakeImageAccess.hpp
+			COMMAND ${Python_EXECUTABLE} ${SCRIPT_DIR}/genMakeHeaderFromEnum.py ${INCLUDE_DIR}/Expr/ImageAccess.enum ${GENERATED_DIR}/MakeImageAccess.hpp
 			COMMAND ${CMAKE_COMMAND} -E copy_if_different ${GENERATED_DIR}/MakeImageAccess.hpp ${INCLUDE_DIR}/Expr/MakeImageAccess.hpp
 			COMMENT "Generating MakeImageAccess.hpp"
-			DEPENDS ${SCRIPT_DIR}/genMakeFromEnum.py ${INCLUDE_DIR}/Expr/ImageAccess.enum
+			DEPENDS ${SCRIPT_DIR}/genMakeHeaderFromEnum.py ${INCLUDE_DIR}/Expr/ImageAccess.enum
+		)
+		add_custom_command( OUTPUT ${SOURCE_DIR}/Expr/MakeImageAccess.cpp
+			COMMAND ${CMAKE_COMMAND} -E make_directory ${GENERATED_DIR}
+			COMMAND ${Python_EXECUTABLE} ${SCRIPT_DIR}/genMakeSourceFromEnum.py ${INCLUDE_DIR}/Expr/ImageAccess.enum ${GENERATED_DIR}/MakeImageAccess.cpp
+			COMMAND ${CMAKE_COMMAND} -E copy_if_different ${GENERATED_DIR}/MakeImageAccess.cpp ${SOURCE_DIR}/Expr/MakeImageAccess.cpp
+			COMMENT "Generating MakeImageAccess.cpp"
+			DEPENDS ${SCRIPT_DIR}/genMakeSourceFromEnum.py ${INCLUDE_DIR}/Expr/ImageAccess.enum
 		)
 		add_custom_command( OUTPUT ${INCLUDE_DIR}/Expr/EnumTextureAccess.hpp
 			COMMAND ${CMAKE_COMMAND} -E make_directory ${GENERATED_DIR}
@@ -197,10 +205,17 @@ if ( MSVC OR NOT "${CMAKE_BUILD_TYPE}" STREQUAL "" )
 		)
 		add_custom_command( OUTPUT ${INCLUDE_DIR}/Expr/MakeTextureAccess.hpp
 			COMMAND ${CMAKE_COMMAND} -E make_directory ${GENERATED_DIR}
-			COMMAND ${Python_EXECUTABLE} ${SCRIPT_DIR}/genMakeFromEnum.py ${INCLUDE_DIR}/Expr/TextureAccess.enum ${GENERATED_DIR}/MakeTextureAccess.hpp
+			COMMAND ${Python_EXECUTABLE} ${SCRIPT_DIR}/genMakeHeaderFromEnum.py ${INCLUDE_DIR}/Expr/TextureAccess.enum ${GENERATED_DIR}/MakeTextureAccess.hpp
 			COMMAND ${CMAKE_COMMAND} -E copy_if_different ${GENERATED_DIR}/MakeTextureAccess.hpp ${INCLUDE_DIR}/Expr/MakeTextureAccess.hpp
 			COMMENT "Generating MakeTextureAccess.hpp"
-			DEPENDS ${SCRIPT_DIR}/genMakeFromEnum.py ${INCLUDE_DIR}/Expr/TextureAccess.enum
+			DEPENDS ${SCRIPT_DIR}/genMakeHeaderFromEnum.py ${INCLUDE_DIR}/Expr/TextureAccess.enum
+		)
+		add_custom_command( OUTPUT ${SOURCE_DIR}/Expr/MakeTextureAccess.cpp
+			COMMAND ${CMAKE_COMMAND} -E make_directory ${GENERATED_DIR}
+			COMMAND ${Python_EXECUTABLE} ${SCRIPT_DIR}/genMakeSourceFromEnum.py ${INCLUDE_DIR}/Expr/TextureAccess.enum ${GENERATED_DIR}/MakeTextureAccess.cpp
+			COMMAND ${CMAKE_COMMAND} -E copy_if_different ${GENERATED_DIR}/MakeTextureAccess.cpp ${SOURCE_DIR}/Expr/MakeTextureAccess.cpp
+			COMMENT "Generating MakeTextureAccess.cpp"
+			DEPENDS ${SCRIPT_DIR}/genMakeSourceFromEnum.py ${INCLUDE_DIR}/Expr/TextureAccess.enum
 		)
 		add_custom_command( OUTPUT ${INCLUDE_DIR}/Expr/EnumIntrinsic.hpp
 			COMMAND ${CMAKE_COMMAND} -E make_directory ${GENERATED_DIR}
@@ -218,10 +233,17 @@ if ( MSVC OR NOT "${CMAKE_BUILD_TYPE}" STREQUAL "" )
 		)
 		add_custom_command( OUTPUT ${INCLUDE_DIR}/Expr/MakeIntrinsic.hpp
 			COMMAND ${CMAKE_COMMAND} -E make_directory ${GENERATED_DIR}
-			COMMAND ${Python_EXECUTABLE} ${SCRIPT_DIR}/genMakeFromEnum.py ${INCLUDE_DIR}/Expr/Intrinsic.enum ${GENERATED_DIR}/MakeIntrinsic.hpp
+			COMMAND ${Python_EXECUTABLE} ${SCRIPT_DIR}/genMakeHeaderFromEnum.py ${INCLUDE_DIR}/Expr/Intrinsic.enum ${GENERATED_DIR}/MakeIntrinsic.hpp
 			COMMAND ${CMAKE_COMMAND} -E copy_if_different ${GENERATED_DIR}/MakeIntrinsic.hpp ${INCLUDE_DIR}/Expr/MakeIntrinsic.hpp
 			COMMENT "Generating MakeIntrinsic.hpp"
-			DEPENDS ${SCRIPT_DIR}/genMakeFromEnum.py ${INCLUDE_DIR}/Expr/Intrinsic.enum
+			DEPENDS ${SCRIPT_DIR}/genMakeHeaderFromEnum.py ${INCLUDE_DIR}/Expr/Intrinsic.enum
+		)
+		add_custom_command( OUTPUT ${SOURCE_DIR}/Expr/MakeIntrinsic.cpp
+			COMMAND ${CMAKE_COMMAND} -E make_directory ${GENERATED_DIR}
+			COMMAND ${Python_EXECUTABLE} ${SCRIPT_DIR}/genMakeSourceFromEnum.py ${INCLUDE_DIR}/Expr/Intrinsic.enum ${GENERATED_DIR}/MakeIntrinsic.cpp
+			COMMAND ${CMAKE_COMMAND} -E copy_if_different ${GENERATED_DIR}/MakeIntrinsic.cpp ${SOURCE_DIR}/Expr/MakeIntrinsic.cpp
+			COMMENT "Generating MakeIntrinsic.cpp"
+			DEPENDS ${SCRIPT_DIR}/genMakeSourceFromEnum.py ${INCLUDE_DIR}/Expr/Intrinsic.enum
 		)
 		source_group( "Script Files" FILES
 			${${PROJECT_NAME}_FOLDER_SCRIPT_FILES}
@@ -240,6 +262,12 @@ if ( MSVC OR NOT "${CMAKE_BUILD_TYPE}" STREQUAL "" )
 		${INCLUDE_DIR}/Expr/MakeIntrinsic.hpp
 	)
 
+	source_group( "Source Files\\Expr" FILES
+		${SOURCE_DIR}/Expr/MakeImageAccess.cpp
+		${SOURCE_DIR}/Expr/MakeTextureAccess.cpp
+		${SOURCE_DIR}/Expr/MakeIntrinsic.cpp
+	)
+
 	add_library( ${PROJECT_NAME}
 		STATIC
 		${INCLUDE_DIR}/Expr/EnumImageAccess.hpp
@@ -251,6 +279,9 @@ if ( MSVC OR NOT "${CMAKE_BUILD_TYPE}" STREQUAL "" )
 		${INCLUDE_DIR}/Expr/EnumIntrinsic.hpp
 		${INCLUDE_DIR}/Expr/GetIntrinsicName.hpp
 		${INCLUDE_DIR}/Expr/MakeIntrinsic.hpp
+		${SOURCE_DIR}/Expr/MakeImageAccess.cpp
+		${SOURCE_DIR}/Expr/MakeTextureAccess.cpp
+		${SOURCE_DIR}/Expr/MakeIntrinsic.cpp
 		${${PROJECT_NAME}_FOLDER_ENUM_FILES}
 		${${PROJECT_NAME}_FOLDER_HEADER_FILES}
 		${${PROJECT_NAME}_FOLDER_SOURCE_FILES}
@@ -317,13 +348,6 @@ if ( MSVC OR NOT "${CMAKE_BUILD_TYPE}" STREQUAL "" )
 			COMMENT "Generating GlslImageAccessNames.hpp"
 			DEPENDS ${SCRIPT_DIR}/genGlslNameFromEnum.py ${CMAKE_SOURCE_DIR}/include/ASTGenerator/Expr/ImageAccess.enum
 		)
-		add_custom_command( OUTPUT ${INCLUDE_DIR}/GLSL/GlslTextureAccessNames.hpp
-			COMMAND ${CMAKE_COMMAND} -E make_directory ${GENERATED_DIR}
-			COMMAND ${Python_EXECUTABLE} ${SCRIPT_DIR}/genGlslNameFromEnum.py ${CMAKE_SOURCE_DIR}/include/ASTGenerator/Expr/TextureAccess.enum ${GENERATED_DIR}/GlslTextureAccessNames.hpp
-			COMMAND ${CMAKE_COMMAND} -E copy_if_different ${GENERATED_DIR}/GlslTextureAccessNames.hpp ${INCLUDE_DIR}/GLSL/GlslTextureAccessNames.hpp
-			COMMENT "Generating GlslTextureAccessNames.hpp"
-			DEPENDS ${SCRIPT_DIR}/genGlslNameFromEnum.py ${CMAKE_SOURCE_DIR}/include/ASTGenerator/Expr/TextureAccess.enum
-		)
 		add_custom_command( OUTPUT ${INCLUDE_DIR}/GLSL/GlslIntrinsicNames.hpp
 			COMMAND ${CMAKE_COMMAND} -E make_directory ${GENERATED_DIR}
 			COMMAND ${Python_EXECUTABLE} ${SCRIPT_DIR}/genGlslNameFromEnum.py ${CMAKE_SOURCE_DIR}/include/ASTGenerator/Expr/Intrinsic.enum ${GENERATED_DIR}/GlslIntrinsicNames.hpp
@@ -338,14 +362,12 @@ if ( MSVC OR NOT "${CMAKE_BUILD_TYPE}" STREQUAL "" )
 
 	source_group( "Header Files\\GLSL" FILES
 		${INCLUDE_DIR}/GLSL/GlslImageAccessNames.hpp
-		${INCLUDE_DIR}/GLSL/GlslTextureAccessNames.hpp
 		${INCLUDE_DIR}/GLSL/GlslIntrinsicNames.hpp
 	)
 
 	add_library( ${PROJECT_NAME}
 		STATIC
 		${INCLUDE_DIR}/GLSL/GlslImageAccessNames.hpp
-		${INCLUDE_DIR}/GLSL/GlslTextureAccessNames.hpp
 		${INCLUDE_DIR}/GLSL/GlslIntrinsicNames.hpp
 		${INCLUDE_DIR}/ImageAccessFunctions.hpp
 		${INCLUDE_DIR}/TextureAccessFunctions.hpp

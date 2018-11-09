@@ -18,24 +18,25 @@ namespace sdw
 
 	//*************************************************************************
 
-	template< ast::type::ImageDim DimT
-		, ast::type::ImageFormat FormatT
+	template< ast::type::Kind SampledT
+		, ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool DepthT
 		, bool MsT >
-	SampledImageT< DimT, FormatT, ArrayedT, DepthT, MsT >::SampledImageT( Shader * shader
-		, expr::ExprPtr expr )
-		: SampledImage{ shader, std::move( expr ) }
+	SampledImageT< SampledT, DimT, ArrayedT, DepthT, MsT >::SampledImageT( Shader * shader
+		, expr::ExprPtr expr
+		, ast::type::ImageFormat format )
+		: SampledImage{ shader, std::move( expr ), format }
 	{
 	}
 
-	template< ast::type::ImageDim DimT
-		, ast::type::ImageFormat FormatT
+	template< ast::type::Kind SampledT
+		, ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool DepthT
 		, bool MsT >
 	template< typename T >
-	SampledImageT< DimT, FormatT, ArrayedT, DepthT, MsT > & SampledImageT< DimT, FormatT, ArrayedT, DepthT, MsT >::operator=( T const & rhs )
+	SampledImageT< SampledT, DimT, ArrayedT, DepthT, MsT > & SampledImageT< SampledT, DimT, ArrayedT, DepthT, MsT >::operator=( T const & rhs )
 	{
 		this->updateContainer( rhs );
 		addStmt( *findContainer( *this, rhs )
@@ -45,24 +46,24 @@ namespace sdw
 		return *this;
 	}
 
-	template< ast::type::ImageDim DimT
-		, ast::type::ImageFormat FormatT
+	template< ast::type::Kind SampledT
+		, ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool DepthT
 		, bool MsT >
-	SampledImageT< DimT, FormatT, ArrayedT, DepthT, MsT >::operator uint32_t()
+	SampledImageT< SampledT, DimT, ArrayedT, DepthT, MsT >::operator uint32_t()
 	{
 		return 0u;
 	}
 
-	template< ast::type::ImageDim DimT
-		, ast::type::ImageFormat FormatT
+	template< ast::type::Kind SampledT
+		, ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool DepthT
 		, bool MsT >
-	ast::type::ImageConfiguration SampledImageT< DimT, FormatT, ArrayedT, DepthT, MsT >::makeConfig()
+	ast::type::ImageConfiguration SampledImageT< SampledT, DimT, ArrayedT, DepthT, MsT >::makeConfig( ast::type::ImageFormat format )
 	{
-		return sdw::makeConfig< DimT, FormatT, ArrayedT, DepthT, MsT >( true, true );
+		return ast::type::makeConfig< SampledT, DimT, ArrayedT, DepthT, MsT >( format, true, true );
 	}
 
 	//*************************************************************************

@@ -268,7 +268,7 @@ namespace sdw::hlsl
 	void StmtAdapter::visitElseIfStmt( stmt::ElseIf * stmt )
 	{
 		auto save = m_result;
-		auto cont = m_ifStmt->createElseIf( ExprAdapter::submit( stmt->getCtrlExpr()
+		auto cont = m_ifStmts.back()->createElseIf( ExprAdapter::submit( stmt->getCtrlExpr()
 			, m_config
 			, m_linkedVars
 			, m_inputMembers
@@ -281,7 +281,7 @@ namespace sdw::hlsl
 	void StmtAdapter::visitElseStmt( stmt::Else * stmt )
 	{
 		auto save = m_result;
-		auto cont = m_ifStmt->createElse();
+		auto cont = m_ifStmts.back()->createElse();
 		m_result = cont;
 		visitContainerStmt( stmt );
 		m_result = save;
@@ -457,7 +457,7 @@ namespace sdw::hlsl
 		m_result = cont.get();
 		visitContainerStmt( stmt );
 		m_result = save;
-		m_ifStmt = cont.get();
+		m_ifStmts.push_back( cont.get() );
 		m_result->addStmt( std::move( cont ) );
 
 		for ( auto & elseIf : stmt->getElseIfList() )
@@ -470,7 +470,7 @@ namespace sdw::hlsl
 			stmt->getElse()->accept( this );
 		}
 
-		m_ifStmt = nullptr;
+		m_ifStmts.pop_back();
 	}
 
 	void StmtAdapter::visitImageDeclStmt( stmt::ImageDecl * stmt )
@@ -619,11 +619,11 @@ namespace sdw::hlsl
 
 		if ( stmt->getCaseExpr() )
 		{
-			cont = m_switchStmt->createCase( expr::makeSwitchCase( std::make_unique< expr::Literal >( *stmt->getCaseExpr()->getLabel() ) ) );
+			cont = m_switchStmts.back()->createCase( expr::makeSwitchCase( std::make_unique< expr::Literal >( *stmt->getCaseExpr()->getLabel() ) ) );
 		}
 		else
 		{
-			cont = m_switchStmt->createDefault();
+			cont = m_switchStmts.back()->createDefault();
 		}
 
 		auto save = m_result;
@@ -640,11 +640,12 @@ namespace sdw::hlsl
 			, m_linkedVars
 			, m_inputMembers
 			, m_outputMembers ) ) );
-		m_switchStmt = cont.get();
+		m_switchStmts.push_back( cont.get() );
 		m_result = cont.get();
 		visitContainerStmt( stmt );
 		m_result = save;
 		m_result->addStmt( std::move( cont ) );
+		m_switchStmts.pop_back();
 	}
 
 	void StmtAdapter::visitVariableDeclStmt( stmt::VariableDecl * stmt )
@@ -714,9 +715,9 @@ namespace sdw::hlsl
 	{
 		stmt::PreprocElif * cont;
 
-		if ( m_preprocIfStmt )
+		if ( !m_preprocIfDefs.back() )
 		{
-			cont = m_preprocIfStmt->createElif( ExprAdapter::submit( preproc->getCtrlExpr()
+			cont = m_preprocIfStmts.back()->createElif( ExprAdapter::submit( preproc->getCtrlExpr()
 				, m_config
 				, m_linkedVars
 				, m_inputMembers
@@ -724,7 +725,7 @@ namespace sdw::hlsl
 		}
 		else
 		{
-			cont = m_preprocIfDefStmt->createElif( ExprAdapter::submit( preproc->getCtrlExpr()
+			cont = m_preprocIfDefStmts.back()->createElif( ExprAdapter::submit( preproc->getCtrlExpr()
 				, m_config
 				, m_linkedVars
 				, m_inputMembers
@@ -741,13 +742,13 @@ namespace sdw::hlsl
 	{
 		stmt::PreprocElse * cont;
 
-		if ( m_preprocIfStmt )
+		if ( !m_preprocIfDefs.back() )
 		{
-			cont = m_preprocIfStmt->createElse();
+			cont = m_preprocIfStmts.back()->createElse();
 		}
 		else
 		{
-			cont = m_preprocIfStmt->createElse();
+			cont = m_preprocIfDefStmts.back()->createElse();
 		}
 
 		auto save = m_result;
@@ -758,8 +759,6 @@ namespace sdw::hlsl
 
 	void StmtAdapter::visitPreprocEndif( stmt::PreprocEndif * preproc )
 	{
-		m_preprocIfStmt = nullptr;
-		m_preprocIfDefStmt = nullptr;
 	}
 
 	void StmtAdapter::visitPreprocExtension( stmt::PreprocExtension * preproc )
@@ -773,27 +772,29 @@ namespace sdw::hlsl
 			, m_linkedVars
 			, m_inputMembers
 			, m_outputMembers ) );
-		m_preprocIfStmt = cont.get();
+		m_preprocIfStmts.push_back( cont.get() );
+		m_preprocIfDefs.push_back( false );
 
 		auto save = m_result;
 		m_result = cont.get();
 		visitContainerStmt( preproc );
 		m_result = save;
 		m_result->addStmt( std::move( cont ) );
-		m_preprocIfStmt = nullptr;
+		m_preprocIfStmts.pop_back();
 	}
 
 	void StmtAdapter::visitPreprocIfDef( stmt::PreprocIfDef * preproc )
 	{
 		auto cont = stmt::makePreprocIfDef( makeIdent( preproc->getIdentExpr()->getVariable() ) );
-		m_preprocIfDefStmt = cont.get();
+		m_preprocIfDefStmts.push_back( cont.get() );
+		m_preprocIfDefs.push_back( true );
 
 		auto save = m_result;
 		m_result = cont.get();
 		visitContainerStmt( preproc );
 		m_result = save;
 		m_result->addStmt( std::move( cont ) );
-		m_preprocIfDefStmt = nullptr;
+		m_preprocIfDefStmts.pop_back();
 	}
 
 	void StmtAdapter::visitPreprocVersion( stmt::PreprocVersion * preproc )

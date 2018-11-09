@@ -1710,6 +1710,19 @@ namespace sdw
 			return stream.str();
 		}
 
+		std::string writeBranch( spirv::Instruction const & instruction )
+		{
+			std::stringstream stream;
+			stream << " %" << instruction.operands[0];
+
+			if ( instruction.name.has_value() )
+			{
+				stream << " \"" << instruction.name.value() << "\"";
+			}
+
+			return stream.str();
+		}
+
 		std::string writeVectorShuffle( spirv::Instruction const & instruction )
 		{
 			std::stringstream stream;
@@ -1726,6 +1739,14 @@ namespace sdw
 				stream << " \"" << instruction.name.value() << "\"";
 			}
 
+			return stream.str();
+		}
+
+		std::string writeCompositeExtract( spirv::Instruction const & instruction )
+		{
+			std::stringstream stream;
+			stream << " %" << instruction.operands[0];
+			stream << " " << instruction.operands[1];
 			return stream.str();
 		}
 
@@ -1801,6 +1822,10 @@ namespace sdw
 			else if ( opCode == spv::Op::OpVectorShuffle )
 			{
 				stream << writeVectorShuffle( instruction );
+			}
+			else if ( opCode == spv::Op::OpCompositeExtract )
+			{
+				stream << writeCompositeExtract( instruction );
 			}
 			else
 			{
@@ -1968,15 +1993,22 @@ namespace sdw
 			return stream.str();
 		}
 
-		std::ostream & operator<<( std::ostream & stream, spirv::Module const & module )
+		std::string write( spirv::Module const & module
+			, bool doWriteHeader )
 		{
-			stream << writeHeader( module.header ) << std::endl;
-			stream << writeInstructions( module.capabilities, writeCapability );
-			stream << writeInstructions( module.extensions, writeExtension );
-			stream << writeInstructions( module.imports, writeImport );
-			stream << writeMemoryModel( module.memoryModel );
-			stream << writeEntryPoint( module.entryPoint );
-			stream << writeInstructions( module.executionModes, writeExecutionMode ) << std::endl;
+			std::stringstream stream;
+
+			if ( doWriteHeader )
+			{
+				stream << writeHeader( module.header ) << std::endl;
+				stream << writeInstructions( module.capabilities, writeCapability );
+				stream << writeInstructions( module.extensions, writeExtension );
+				stream << writeInstructions( module.imports, writeImport );
+				stream << writeMemoryModel( module.memoryModel );
+				stream << writeEntryPoint( module.entryPoint );
+				stream << writeInstructions( module.executionModes, writeExecutionMode ) << std::endl;
+			}
+
 			stream << "; Debug" << std::endl;
 			stream << writeInstructions( module.debug, writeDebug ) << std::endl;
 			stream << "; Decorations" << std::endl;
@@ -1985,8 +2017,7 @@ namespace sdw
 			stream << writeGlobalDeclarations( module.globalDeclarations, module ) << std::endl;
 			stream << "; Functions" << std::endl;
 			stream << writeInstructions( module.functions, writeFunction ) << std::endl;
-
-			return stream;
+			return stream.str();
 		}
 
 		template< typename T >
@@ -2154,12 +2185,12 @@ namespace sdw
 		}
 	}
 
-	std::string writeSpirv( Shader const & shader, ShaderType type )
+	std::string writeSpirv( Shader const & shader
+		, ShaderType type
+		, bool writeHeader )
 	{
 		auto module = compileSpirV( shader, type );
-		std::stringstream stream;
-		stream << module;
-		return stream.str();
+		return write( module, writeHeader );
 	}
 
 	std::vector< uint32_t > serializeSpirv( Shader const & shader, ShaderType type )

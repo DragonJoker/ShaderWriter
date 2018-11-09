@@ -10,8 +10,11 @@ See LICENSE file in root folder
 
 namespace sdw
 {
-	std::string writeSpirv( Shader const & shader, ShaderType type );
-	std::vector< uint32_t > serializeSpirv( Shader const & shader, ShaderType type );
+	std::string writeSpirv( Shader const & shader
+		, ShaderType type
+		, bool writeHeader = true );
+	std::vector< uint32_t > serializeSpirv( Shader const & shader
+		, ShaderType type );
 }
 
 #endif

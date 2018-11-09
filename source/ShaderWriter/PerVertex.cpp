@@ -12,9 +12,9 @@ namespace sdw
 		InterfaceBlock doGetInfo()
 		{
 			InterfaceBlock result{ type::MemoryLayout::eStd430, "gl_PerVertex" };
-			result.registerMember( "gl_Position", type::Kind::eVec4F );
-			result.registerMember( "gl_PointSize", type::Kind::eFloat );
-			result.registerMember( "gl_ClipDistance", type::Kind::eFloat, type::UnknownArraySize );
+			result.registerMember< type::Kind::eVec4F >( "gl_Position" );
+			result.registerMember< type::Kind::eFloat >( "gl_PointSize" );
+			result.registerMember< type::Kind::eFloat >( "gl_ClipDistance", type::UnknownArraySize );
 			return result;
 		}
 	}

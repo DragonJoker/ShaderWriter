@@ -43,8 +43,6 @@ namespace ast::debug
 		{
 			switch ( value )
 			{
-			case ast::type::ImageFormat::eUnknown:
-				return "UNKNOWN";
 			case ast::type::ImageFormat::eRgba32f:
 				return "RGBA32F";
 			case ast::type::ImageFormat::eRgba16f:
@@ -99,16 +97,16 @@ namespace ast::debug
 			}
 		}
 
-		std::string getName( type::Ternary value
+		std::string getName( type::Trinary value
 			, std::string const & trueTxt = "TRUE"
 			, std::string const & falseTxt = "FALSE"
 			, std::string const & dontCareTxt = "DONTCARE" )
 		{
 			switch ( value )
 			{
-			case type::Ternary::eTrue:
+			case type::Trinary::eTrue:
 				return trueTxt;
-			case type::Ternary::eFalse:
+			case type::Trinary::eFalse:
 				return falseTxt;
 			default:
 				return dontCareTxt;
@@ -349,13 +347,15 @@ namespace ast::debug
 		return getName( kind ) + computeArray( arraySize );
 	}
 
-	std::string getName( ast::type::ImageDim dim
+	std::string getName( ast::type::Kind sampled
+		, ast::type::ImageDim dim
 		, ast::type::ImageFormat format
 		, bool arrayed
 		, bool depth
 		, bool ms )
 	{
-		return getName( dim )
+		return getName( sampled )
+			+ getName( dim )
 			+ getName( format )
 			+ getName( arrayed, "Array", "" )
 			+ getName( depth, "Shadow", "" )
@@ -422,6 +422,12 @@ namespace ast::debug
 		if ( var.isShaderConstant() )
 		{
 			result += sep + "CONST";
+			sep = ",";
+		}
+
+		if ( var.isPushConstant() )
+		{
+			result += sep + "PUSH";
 			sep = ",";
 		}
 

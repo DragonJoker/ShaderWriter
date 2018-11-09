@@ -68,7 +68,7 @@ namespace sdw::spirv
 		stmt::Container * m_result;
 		ShaderType m_type;
 		PreprocContext m_context;
-		stmt::Switch * m_switchStmt;
+		std::vector< stmt::Switch * > m_switchStmts;
 	};
 }
 

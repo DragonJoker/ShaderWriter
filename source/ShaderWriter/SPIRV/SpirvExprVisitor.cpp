@@ -9,6 +9,7 @@ See LICENSE file in root folder
 #include "ShaderWriter/SPIRV/SpirvTextureAccessNames.hpp"
 
 #include <ASTGenerator/Type/TypeImage.hpp>
+#include <ASTGenerator/Type/TypeSampledImage.hpp>
 
 #include <numeric>
 #include <sstream>
@@ -1147,6 +1148,10 @@ namespace sdw::spirv
 		}
 		else if ( var->isShaderConstant() )
 		{
+			result = spv::StorageClass::Input;
+		}
+		else if ( var->isPushConstant() )
+		{
 			result = spv::StorageClass::PushConstant;
 		}
 
@@ -1176,7 +1181,7 @@ namespace sdw::spirv
 
 	void ExprVisitor::visitAssignmentExpr( expr::Assign * expr )
 	{
-		auto lhs = submit( expr->getLHS(), m_currentBlock, m_module );
+		auto lhs = getVariableIdNoLoad( expr->getLHS() );
 		auto rhs = submit( expr->getRHS(), m_currentBlock, m_module );
 		auto type = m_module.registerType( expr->getType() );
 		m_currentBlock.instructions.emplace_back( makeStore( lhs, rhs ) );
@@ -1535,7 +1540,12 @@ namespace sdw::spirv
 				texelPointerParams.push_back( params[index++] );
 			}
 
-			auto pointerTypeId = m_module.registerPointerType( typeId
+			assert( expr->getArgList()[0]->getKind() == expr::Kind::eIdentifier );
+			auto imgParam = static_cast< expr::Identifier const & >( *expr->getArgList()[0] ).getType();
+			assert( imgParam->getKind() == type::Kind::eImage );
+			auto image = std::static_pointer_cast< type::Image >( imgParam );
+			auto sampledId = m_module.registerType( makeType( image->getConfig().sampledType ) );
+			auto pointerTypeId = m_module.registerPointerType( sampledId
 				, spv::StorageClass::Image );
 			auto pointerId = m_module.getIntermediateResult();
 			m_currentBlock.instructions.emplace_back( makeInstruction( spv::Op::OpImageTexelPointer
@@ -1544,15 +1554,28 @@ namespace sdw::spirv
 				, texelPointerParams ) );
 
 			auto scopeId = m_module.registerLiteral( uint32_t( spv::Scope::Device ) );
-			auto memorySemanticsId = m_module.registerLiteral( uint32_t( spv::MemorySemanticsMask::AcquireRelease ) );
 			IdList accessParams;
 			accessParams.push_back( pointerId );
 			accessParams.push_back( scopeId );
-			accessParams.push_back( memorySemanticsId );
+
+			if ( op == spv::Op::OpAtomicCompareExchange )
+			{
+				auto equalMemorySemanticsId = m_module.registerLiteral( uint32_t( spv::MemorySemanticsMask::ImageMemory ) );
+				auto unequalMemorySemanticsId = m_module.registerLiteral( uint32_t( spv::MemorySemanticsMask::ImageMemory ) );
+				accessParams.push_back( equalMemorySemanticsId );
+				accessParams.push_back( unequalMemorySemanticsId );
+			}
+			else
+			{
+				auto memorySemanticsId = m_module.registerLiteral( uint32_t( spv::MemorySemanticsMask::ImageMemory ) );
+				accessParams.push_back( memorySemanticsId );
+			}
 
 			if ( params.size() > index )
 			{
-				accessParams.push_back( params[index++] );
+				accessParams.insert( accessParams.end()
+					, params.begin() + index
+					, params.end() );
 			}
 
 			m_result = m_module.getIntermediateResult();
@@ -1587,49 +1610,39 @@ namespace sdw::spirv
 
 	void ExprVisitor::visitIntrinsicCallExpr( expr::IntrinsicCall * expr )
 	{
-		IdList params;
-
-		for ( auto & arg : expr->getArgList() )
-		{
-			auto id = submit( arg.get(), m_currentBlock, m_module );
-			params.push_back( id );
-		}
-
-		auto type = m_module.registerType( expr->getType() );
-		auto intermediate = m_module.getIntermediateResult();
 		bool isExtension;
 		bool isAtomic;
-		auto opCode = getSpirVName( expr->getIntrinsic()
+		auto opCodeId = getSpirVName( expr->getIntrinsic()
 			, isExtension
 			, isAtomic );
 
-		if ( isAtomic )
+		if ( !isExtension )
 		{
-			auto scopeId = m_module.registerLiteral( uint32_t( spv::Scope::Device ) );
-			auto memorySemanticsId = m_module.registerLiteral( uint32_t( spv::MemorySemanticsMask::AcquireRelease ) );
-			uint32_t index{ 1u };
-			params.insert( params.begin() + ( index++ ), scopeId );
-			params.insert( params.begin() + ( index++ ), memorySemanticsId );
-		}
+			auto opCode = spv::Op( opCodeId );
 
-		if ( isExtension )
-		{
-			params.insert( params.begin(), opCode );
-			params.insert( params.begin(), 1u );
-			m_currentBlock.instructions.emplace_back( makeInstruction( spv::Op::OpExtInst
-				, intermediate
-				, type
-				, params ) );
+			if ( isAtomic )
+			{
+				handleAtomicIntrinsicCallExpr( opCode, expr );
+			}
+			else if ( opCode == spv::Op::OpIAddCarry
+				|| opCode == spv::Op::OpISubBorrow )
+			{
+				handleCarryBorrowIntrinsicCallExpr( opCode, expr );
+			}
+			else if ( opCode == spv::Op::OpUMulExtended
+				|| opCode == spv::Op::OpSMulExtended )
+			{
+				handleMulExtendedIntrinsicCallExpr( opCode, expr );
+			}
+			else
+			{
+				handleOtherIntrinsicCallExpr( opCode, expr );
+			}
 		}
 		else
 		{
-			m_currentBlock.instructions.emplace_back( makeInstruction( spv::Op( opCode )
-				, intermediate
-				, type
-				, params ) );
+			handleExtensionIntrinsicCallExpr( opCodeId, expr );
 		}
-
-		m_result = intermediate;
 	}
 
 	void ExprVisitor::visitLiteralExpr( expr::Literal * expr )
@@ -1703,12 +1716,271 @@ namespace sdw::spirv
 			args.emplace_back( submit( arg.get(), m_currentBlock, m_module ) );
 		}
 
-		auto type = m_module.registerType( expr->getType() );
-		auto intermediate = m_module.getIntermediateResult();
-		m_currentBlock.instructions.emplace_back( makeInstruction( expr->getTextureAccess()
-			, intermediate
-			, type
+		auto typeId = m_module.registerType( expr->getType() );
+		m_result = m_module.getIntermediateResult();
+		auto kind = expr->getTextureAccess();
+		uint32_t imageOperandsIndex = 0u;
+		auto op = getSpirVName( kind, imageOperandsIndex );
+
+		if ( imageOperandsIndex )
+		{
+			assert( args.size() >= imageOperandsIndex );
+			auto mask = getMask( kind );
+			args.insert( args.begin() + imageOperandsIndex, spv::Id( mask ) );
+
+			if ( uint32_t( mask ) & uint32_t( spv::ImageOperandsMask::Bias ) )
+			{
+				// Bias is the last parameter in GLSL, but it has to be the first one after the ImageOperands in SPIR-V.
+				args.insert( args.begin() + imageOperandsIndex + 1u, args.back() );
+				args.erase( args.begin() + args.size() - 1u );
+			}
+		}
+		else
+		{
+			// We need to extract the image from the sampled image, to give it to the final instruction.
+			auto sampledImageType = expr->getArgList()[0]->getType();
+			assert( sampledImageType->getKind() == type::Kind::eSampledImage );
+			auto imageTypeId = m_module.registerType( std::static_pointer_cast< type::SampledImage >( sampledImageType )->getImageType() );
+			auto imageId = m_module.getIntermediateResult();
+			m_currentBlock.instructions.emplace_back( makeInstruction( spv::Op::OpImage
+				, imageId
+				, imageTypeId
+				, IdList{ args[0] } ) );
+			args[0] = imageId;
+		}
+
+		m_currentBlock.instructions.emplace_back( makeInstruction( op
+			, m_result
+			, typeId
 			, args ) );
-		m_result = intermediate;
+	}
+
+	void ExprVisitor::handleCarryBorrowIntrinsicCallExpr( spv::Op opCode, expr::IntrinsicCall * expr )
+	{
+		// Arg 1 is lhs.
+		// Arg 2 is rhs.
+		// Arg 3 is carry or borrow.
+		assert( expr->getArgList().size() == 3u );
+		IdList params;
+		params.push_back( submit( expr->getArgList()[0].get(), m_currentBlock, m_module ) );
+		params.push_back( submit( expr->getArgList()[1].get(), m_currentBlock, m_module ) );
+
+		auto resultStructTypeId = getUnsignedExtendedResultTypeId( isVectorType( expr->getType()->getKind() )
+			? getComponentCount( expr->getType()->getKind() )
+			: 1 );
+		auto resultCarryBorrowId = m_module.getIntermediateResult();
+		m_currentBlock.instructions.emplace_back( makeInstruction( opCode
+			, resultCarryBorrowId
+			, resultStructTypeId
+			, params ) );
+
+		auto & carryBorrowArg = *expr->getArgList()[2];
+		auto carryBorrowTypeId = m_module.registerType( carryBorrowArg.getType() );
+		auto intermediate = m_module.getIntermediateResult();
+		m_currentBlock.instructions.emplace_back( makeInstruction( spv::Op::OpCompositeExtract
+			, intermediate
+			, carryBorrowTypeId
+			, IdList{ resultCarryBorrowId, 1u } ) );
+		auto carryBorrowId = getVariableIdNoLoad( &carryBorrowArg );
+		m_currentBlock.instructions.emplace_back( makeStore( carryBorrowId, intermediate ) );
+
+		auto resultTypeId = m_module.registerType( expr->getType() );
+		m_result = m_module.getIntermediateResult();
+		m_currentBlock.instructions.emplace_back( makeInstruction( spv::Op::OpCompositeExtract
+			, m_result
+			, resultTypeId
+			, IdList{ resultCarryBorrowId, 0u } ) );
+
+		m_module.putIntermediateResult( intermediate );
+	}
+
+	void ExprVisitor::handleMulExtendedIntrinsicCallExpr( spv::Op opCode, expr::IntrinsicCall * expr )
+	{
+		// Arg 1 is lhs.
+		// Arg 2 is rhs.
+		// Arg 3 is msb.
+		// Arg 4 is lsb.
+		assert( expr->getArgList().size() == 4u );
+		IdList params;
+		params.push_back( submit( expr->getArgList()[0].get(), m_currentBlock, m_module ) );
+		params.push_back( submit( expr->getArgList()[1].get(), m_currentBlock, m_module ) );
+		spv::Id resultStructTypeId;
+		auto paramType = expr->getArgList()[0]->getType()->getKind();
+
+		if ( isSignedIntType( paramType ) )
+		{
+			resultStructTypeId = getSignedExtendedResultTypeId( isVectorType( paramType )
+				? getComponentCount( paramType )
+				: 1 );
+		}
+		else
+		{
+			resultStructTypeId = getUnsignedExtendedResultTypeId( isVectorType( paramType )
+				? getComponentCount( paramType )
+				: 1 );
+		}
+
+		auto resultMulExtendedId = m_module.getIntermediateResult();
+		m_currentBlock.instructions.emplace_back( makeInstruction( opCode
+			, resultMulExtendedId
+			, resultStructTypeId
+			, params ) );
+
+		auto & msbArg = *expr->getArgList()[2];
+		auto msbTypeId = m_module.registerType( msbArg.getType() );
+		auto intermediateMsb = m_module.getIntermediateResult();
+		m_currentBlock.instructions.emplace_back( makeInstruction( spv::Op::OpCompositeExtract
+			, intermediateMsb
+			, msbTypeId
+			, IdList{ resultMulExtendedId, 1u } ) );
+		auto msbId = getVariableIdNoLoad( &msbArg );
+		m_currentBlock.instructions.emplace_back( makeStore( msbId, intermediateMsb ) );
+
+		auto & lsbArg = *expr->getArgList()[3];
+		auto lsbTypeId = m_module.registerType( lsbArg.getType() );
+		auto intermediateLsb = m_module.getIntermediateResult();
+		m_currentBlock.instructions.emplace_back( makeInstruction( spv::Op::OpCompositeExtract
+			, intermediateLsb
+			, lsbTypeId
+			, IdList{ resultMulExtendedId, 0u } ) );
+		auto lsbId = getVariableIdNoLoad( &lsbArg );
+		m_currentBlock.instructions.emplace_back( makeStore( lsbId, intermediateLsb ) );
+
+		m_module.putIntermediateResult( intermediateMsb );
+		m_module.putIntermediateResult( intermediateLsb );
+		m_module.putIntermediateResult( resultMulExtendedId );
+	}
+
+	void ExprVisitor::handleAtomicIntrinsicCallExpr( spv::Op opCode, expr::IntrinsicCall * expr )
+	{
+		IdList params;
+
+		for ( auto & arg : expr->getArgList() )
+		{
+			auto id = submit( arg.get(), m_currentBlock, m_module );
+			params.push_back( id );
+		}
+
+		auto typeId = m_module.registerType( expr->getType() );
+		m_result = m_module.getIntermediateResult();
+		auto scopeId = m_module.registerLiteral( uint32_t( spv::Scope::Device ) );
+		auto memorySemanticsId = m_module.registerLiteral( uint32_t( spv::MemorySemanticsMask::AcquireRelease ) );
+		uint32_t index{ 1u };
+		params.insert( params.begin() + ( index++ ), scopeId );
+		params.insert( params.begin() + ( index++ ), memorySemanticsId );
+		m_currentBlock.instructions.emplace_back( makeInstruction( opCode
+			, m_result
+			, typeId
+			, params ) );
+	}
+
+	void ExprVisitor::handleExtensionIntrinsicCallExpr( spv::Id opCode, expr::IntrinsicCall * expr )
+	{
+		IdList params;
+
+		for ( auto & arg : expr->getArgList() )
+		{
+			auto id = submit( arg.get(), m_currentBlock, m_module );
+			params.push_back( id );
+		}
+
+		auto typeId = m_module.registerType( expr->getType() );
+		m_result = m_module.getIntermediateResult();
+		params.insert( params.begin(), opCode );
+		params.insert( params.begin(), 1u );
+		m_currentBlock.instructions.emplace_back( makeInstruction( spv::Op::OpExtInst
+			, m_result
+			, typeId
+			, params ) );
+	}
+
+	void ExprVisitor::handleOtherIntrinsicCallExpr( spv::Op opCode, expr::IntrinsicCall * expr )
+	{
+		IdList params;
+
+		for ( auto & arg : expr->getArgList() )
+		{
+			auto id = submit( arg.get(), m_currentBlock, m_module );
+			params.push_back( id );
+		}
+
+		auto typeId = m_module.registerType( expr->getType() );
+		m_result = m_module.getIntermediateResult();
+		m_currentBlock.instructions.emplace_back( makeInstruction( opCode
+			, m_result
+			, typeId
+			, params ) );
+	}
+
+	spv::Id ExprVisitor::getUnsignedExtendedResultTypeId( uint32_t count )
+	{
+		--count;
+
+		if ( !m_unsignedExtendedTypes[count] )
+		{
+			std::string name = "SDW_ExtendedResultTypeU" + std::to_string( count + 1u );
+			m_unsignedExtendedTypes[count] = type::makeStructType( type::MemoryLayout::eStd430, name );
+			auto type = count == 3
+				? type::getVec4U()
+				: ( count == 2
+					? type::getVec3U()
+					: ( count == 1
+						? type::getVec2U()
+						: ( type::getUInt() ) ) );
+			m_unsignedExtendedTypes[count]->declMember( "result", type );
+			m_unsignedExtendedTypes[count]->declMember( "extended", type );
+		}
+
+		return m_module.registerType( m_unsignedExtendedTypes[count] );
+	}
+
+	spv::Id ExprVisitor::getSignedExtendedResultTypeId( uint32_t count )
+	{
+		--count;
+
+		if ( !m_signedExtendedTypes[count] )
+		{
+			std::string name = "SDW_ExtendedResultTypeS" + std::to_string( count + 1u );
+			m_signedExtendedTypes[count] = type::makeStructType( type::MemoryLayout::eStd430, name );
+			auto type = count == 3
+				? type::getVec4I()
+				: ( count == 2
+					? type::getVec3I()
+					: ( count == 1
+						? type::getVec2I()
+						: ( type::getInt() ) ) );
+			m_signedExtendedTypes[count]->declMember( "result", type );
+			m_signedExtendedTypes[count]->declMember( "extended", type );
+		}
+
+		return m_module.registerType( m_signedExtendedTypes[count] );
+	}
+
+	spv::Id ExprVisitor::getVariableIdNoLoad( expr::Expr * expr )
+	{
+		spv::Id result;
+
+		if ( isAccessChain( expr ) )
+		{
+			result = submit( expr, m_currentBlock, m_module );
+		}
+		else
+		{
+			auto ident = sdw::findIdentifier( expr );
+
+			if ( ident )
+			{
+				auto var = ident->getVariable();
+				result = m_module.registerVariable( var->getName()
+					, getStorageClass( getOutermost( var ) )
+					, var->getType() );
+			}
+			else
+			{
+				result = submit( expr, m_currentBlock, m_module );
+			}
+		}
+
+		return result;
 	}
 }

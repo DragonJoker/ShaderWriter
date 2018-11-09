@@ -404,30 +404,6 @@ namespace ast::expr
 			result = "TEXTURECUBEFBIAS";
 			break;
 
-		case TextureAccess::eTexture1DShadowF:
-			result = "TEXTURE1DSHADOWF";
-			break;
-
-		case TextureAccess::eTexture1DShadowFBias:
-			result = "TEXTURE1DSHADOWFBIAS";
-			break;
-
-		case TextureAccess::eTexture2DShadowF:
-			result = "TEXTURE2DSHADOWF";
-			break;
-
-		case TextureAccess::eTexture2DShadowFBias:
-			result = "TEXTURE2DSHADOWFBIAS";
-			break;
-
-		case TextureAccess::eTextureCubeShadowF:
-			result = "TEXTURECUBESHADOWF";
-			break;
-
-		case TextureAccess::eTextureCubeShadowFBias:
-			result = "TEXTURECUBESHADOWFBIAS";
-			break;
-
 		case TextureAccess::eTexture1DArrayF:
 			result = "TEXTURE1DARRAYF";
 			break;
@@ -452,32 +428,8 @@ namespace ast::expr
 			result = "TEXTURECUBEARRAYFBIAS";
 			break;
 
-		case TextureAccess::eTexture1DArrayShadowF:
-			result = "TEXTURE1DARRAYSHADOWF";
-			break;
-
-		case TextureAccess::eTexture1DArrayShadowFBias:
-			result = "TEXTURE1DARRAYSHADOWFBIAS";
-			break;
-
-		case TextureAccess::eTexture2DArrayShadowF:
-			result = "TEXTURE2DARRAYSHADOWF";
-			break;
-
-		case TextureAccess::eTexture2DArrayShadowFBias:
-			result = "TEXTURE2DARRAYSHADOWFBIAS";
-			break;
-
 		case TextureAccess::eTexture2DRectF:
 			result = "TEXTURE2DRECTF";
-			break;
-
-		case TextureAccess::eTexture2DRectShadowF:
-			result = "TEXTURE2DRECTSHADOWF";
-			break;
-
-		case TextureAccess::eTextureCubeArrayShadowF:
-			result = "TEXTURECUBEARRAYSHADOWF";
 			break;
 
 		case TextureAccess::eTexture1DI:
@@ -640,32 +592,12 @@ namespace ast::expr
 			result = "TEXTUREPROJ3DFBIAS";
 			break;
 
-		case TextureAccess::eTextureProj1DShadowF:
-			result = "TEXTUREPROJ1DSHADOWF";
-			break;
-
-		case TextureAccess::eTextureProj1DShadowFBias:
-			result = "TEXTUREPROJ1DSHADOWFBIAS";
-			break;
-
-		case TextureAccess::eTextureProj2DShadowF:
-			result = "TEXTUREPROJ2DSHADOWF";
-			break;
-
-		case TextureAccess::eTextureProj2DShadowFBias:
-			result = "TEXTUREPROJ2DSHADOWFBIAS";
-			break;
-
 		case TextureAccess::eTextureProj2DRectF3:
 			result = "TEXTUREPROJ2DRECTF3";
 			break;
 
 		case TextureAccess::eTextureProj2DRectF4:
 			result = "TEXTUREPROJ2DRECTF4";
-			break;
-
-		case TextureAccess::eTextureProj2DRectShadowF:
-			result = "TEXTUREPROJ2DRECTSHADOWF";
 			break;
 
 		case TextureAccess::eTextureProj1DI2:
@@ -780,24 +712,12 @@ namespace ast::expr
 			result = "TEXTURELODCUBEF";
 			break;
 
-		case TextureAccess::eTextureLod1DShadowF:
-			result = "TEXTURELOD1DSHADOWF";
-			break;
-
-		case TextureAccess::eTextureLod2DShadowF:
-			result = "TEXTURELOD2DSHADOWF";
-			break;
-
 		case TextureAccess::eTextureLod1DArrayF:
 			result = "TEXTURELOD1DARRAYF";
 			break;
 
 		case TextureAccess::eTextureLod2DArrayF:
 			result = "TEXTURELOD2DARRAYF";
-			break;
-
-		case TextureAccess::eTextureLod1DArrayShadowF:
-			result = "TEXTURELOD1DARRAYSHADOWF";
 			break;
 
 		case TextureAccess::eTextureLodCubeArrayF:
@@ -888,26 +808,6 @@ namespace ast::expr
 			result = "TEXTUREOFFSET2DRECTF";
 			break;
 
-		case TextureAccess::eTextureOffset2DRectShadowF:
-			result = "TEXTUREOFFSET2DRECTSHADOWF";
-			break;
-
-		case TextureAccess::eTextureOffset1DShadowF:
-			result = "TEXTUREOFFSET1DSHADOWF";
-			break;
-
-		case TextureAccess::eTextureOffset1DShadowFBias:
-			result = "TEXTUREOFFSET1DSHADOWFBIAS";
-			break;
-
-		case TextureAccess::eTextureOffset2DShadowF:
-			result = "TEXTUREOFFSET2DSHADOWF";
-			break;
-
-		case TextureAccess::eTextureOffset2DShadowFBias:
-			result = "TEXTUREOFFSET2DSHADOWFBIAS";
-			break;
-
 		case TextureAccess::eTextureOffset1DArrayF:
 			result = "TEXTUREOFFSET1DARRAYF";
 			break;
@@ -922,14 +822,6 @@ namespace ast::expr
 
 		case TextureAccess::eTextureOffset2DArrayFBias:
 			result = "TEXTUREOFFSET2DARRAYFBIAS";
-			break;
-
-		case TextureAccess::eTextureOffset1DArrayShadowF:
-			result = "TEXTUREOFFSET1DARRAYSHADOWF";
-			break;
-
-		case TextureAccess::eTextureOffset2DArrayShadowF:
-			result = "TEXTUREOFFSET2DARRAYSHADOWF";
 			break;
 
 		case TextureAccess::eTextureOffset1DI:
@@ -1216,32 +1108,12 @@ namespace ast::expr
 			result = "TEXTUREPROJOFFSET3DFBIAS";
 			break;
 
-		case TextureAccess::eTextureProjOffset1DShadowF:
-			result = "TEXTUREPROJOFFSET1DSHADOWF";
-			break;
-
-		case TextureAccess::eTextureProjOffset1DShadowFBias:
-			result = "TEXTUREPROJOFFSET1DSHADOWFBIAS";
-			break;
-
-		case TextureAccess::eTextureProjOffset2DShadowF:
-			result = "TEXTUREPROJOFFSET2DSHADOWF";
-			break;
-
-		case TextureAccess::eTextureProjOffset2DShadowFBias:
-			result = "TEXTUREPROJOFFSET2DSHADOWFBIAS";
-			break;
-
 		case TextureAccess::eTextureProjOffset2DRectF3:
 			result = "TEXTUREPROJOFFSET2DRECTF3";
 			break;
 
 		case TextureAccess::eTextureProjOffset2DRectF4:
 			result = "TEXTUREPROJOFFSET2DRECTF4";
-			break;
-
-		case TextureAccess::eTextureProjOffset2DRectShadowF:
-			result = "TEXTUREPROJOFFSET2DRECTSHADOWF";
 			break;
 
 		case TextureAccess::eTextureProjOffset1DI2:
@@ -1352,24 +1224,12 @@ namespace ast::expr
 			result = "TEXTURELODOFFSET3DF";
 			break;
 
-		case TextureAccess::eTextureLodOffset1DShadowF:
-			result = "TEXTURELODOFFSET1DSHADOWF";
-			break;
-
-		case TextureAccess::eTextureLodOffset2DShadowF:
-			result = "TEXTURELODOFFSET2DSHADOWF";
-			break;
-
 		case TextureAccess::eTextureLodOffset1DArrayF:
 			result = "TEXTURELODOFFSET1DARRAYF";
 			break;
 
 		case TextureAccess::eTextureLodOffset2DArrayF:
 			result = "TEXTURELODOFFSET2DARRAYF";
-			break;
-
-		case TextureAccess::eTextureLodOffset1DArrayShadowF:
-			result = "TEXTURELODOFFSET1DARRAYSHADOWF";
 			break;
 
 		case TextureAccess::eTextureLodOffset1DI:
@@ -1432,14 +1292,6 @@ namespace ast::expr
 			result = "TEXTUREPROJLOD3DF";
 			break;
 
-		case TextureAccess::eTextureProjLod1DShadowF:
-			result = "TEXTUREPROJLOD1DSHADOWF";
-			break;
-
-		case TextureAccess::eTextureProjLod2DShadowF:
-			result = "TEXTUREPROJLOD2DSHADOWF";
-			break;
-
 		case TextureAccess::eTextureProjLod1DI2:
 			result = "TEXTUREPROJLOD1DI2";
 			break;
@@ -1498,14 +1350,6 @@ namespace ast::expr
 
 		case TextureAccess::eTextureProjLodOffset3DF:
 			result = "TEXTUREPROJLODOFFSET3DF";
-			break;
-
-		case TextureAccess::eTextureProjLodOffset1DShadowF:
-			result = "TEXTUREPROJLODOFFSET1DSHADOWF";
-			break;
-
-		case TextureAccess::eTextureProjLodOffset2DShadowF:
-			result = "TEXTUREPROJLODOFFSET2DSHADOWF";
 			break;
 
 		case TextureAccess::eTextureProjLodOffset1DI2:
@@ -1568,28 +1412,12 @@ namespace ast::expr
 			result = "TEXTUREGRAD2DRECTF";
 			break;
 
-		case TextureAccess::eTextureGrad2DRectShadowF:
-			result = "TEXTUREGRAD2DRECTSHADOWF";
-			break;
-
-		case TextureAccess::eTextureGrad1DShadowF:
-			result = "TEXTUREGRAD1DSHADOWF";
-			break;
-
-		case TextureAccess::eTextureGrad2DShadowF:
-			result = "TEXTUREGRAD2DSHADOWF";
-			break;
-
 		case TextureAccess::eTextureGrad1DArrayF:
 			result = "TEXTUREGRAD1DARRAYF";
 			break;
 
 		case TextureAccess::eTextureGrad2DArrayF:
 			result = "TEXTUREGRAD2DARRAYF";
-			break;
-
-		case TextureAccess::eTextureGrad1DArrayShadowF:
-			result = "TEXTUREGRAD1DARRAYSHADOWF";
 			break;
 
 		case TextureAccess::eTextureGradCubeArrayF:
@@ -1676,32 +1504,12 @@ namespace ast::expr
 			result = "TEXTUREGRADOFFSET2DRECTF";
 			break;
 
-		case TextureAccess::eTextureGradOffset2DRectShadowF:
-			result = "TEXTUREGRADOFFSET2DRECTSHADOWF";
-			break;
-
-		case TextureAccess::eTextureGradOffset1DShadowF:
-			result = "TEXTUREGRADOFFSET1DSHADOWF";
-			break;
-
-		case TextureAccess::eTextureGradOffset2DShadowF:
-			result = "TEXTUREGRADOFFSET2DSHADOWF";
-			break;
-
 		case TextureAccess::eTextureGradOffset1DArrayF:
 			result = "TEXTUREGRADOFFSET1DARRAYF";
 			break;
 
 		case TextureAccess::eTextureGradOffset2DArrayF:
 			result = "TEXTUREGRADOFFSET2DARRAYF";
-			break;
-
-		case TextureAccess::eTextureGradOffset1DArrayShadowF:
-			result = "TEXTUREGRADOFFSET1DARRAYSHADOWF";
-			break;
-
-		case TextureAccess::eTextureGradOffset2DArrayShadowF:
-			result = "TEXTUREGRADOFFSET2DARRAYSHADOWF";
 			break;
 
 		case TextureAccess::eTextureGradOffset1DI:
@@ -1772,24 +1580,12 @@ namespace ast::expr
 			result = "TEXTUREPROJGRAD3DF";
 			break;
 
-		case TextureAccess::eTextureProjGrad1DShadowF:
-			result = "TEXTUREPROJGRAD1DSHADOWF";
-			break;
-
-		case TextureAccess::eTextureProjGrad2DShadowF:
-			result = "TEXTUREPROJGRAD2DSHADOWF";
-			break;
-
 		case TextureAccess::eTextureProjGrad2DRectF3:
 			result = "TEXTUREPROJGRAD2DRECTF3";
 			break;
 
 		case TextureAccess::eTextureProjGrad2DRectF4:
 			result = "TEXTUREPROJGRAD2DRECTF4";
-			break;
-
-		case TextureAccess::eTextureProjGrad2DRectShadowF:
-			result = "TEXTUREPROJGRAD2DRECTSHADOWF";
 			break;
 
 		case TextureAccess::eTextureProjGrad1DI2:
@@ -1868,24 +1664,12 @@ namespace ast::expr
 			result = "TEXTUREPROJGRADOFFSET3DF";
 			break;
 
-		case TextureAccess::eTextureProjGradOffset1DShadowF:
-			result = "TEXTUREPROJGRADOFFSET1DSHADOWF";
-			break;
-
-		case TextureAccess::eTextureProjGradOffset2DShadowF:
-			result = "TEXTUREPROJGRADOFFSET2DSHADOWF";
-			break;
-
 		case TextureAccess::eTextureProjGradOffset2DRectF3:
 			result = "TEXTUREPROJGRADOFFSET2DRECTF3";
 			break;
 
 		case TextureAccess::eTextureProjGradOffset2DRectF4:
 			result = "TEXTUREPROJGRADOFFSET2DRECTF4";
-			break;
-
-		case TextureAccess::eTextureProjGradOffset2DRectShadowF:
-			result = "TEXTUREPROJGRADOFFSET2DRECTSHADOWF";
 			break;
 
 		case TextureAccess::eTextureProjGradOffset1DI2:
@@ -1944,6 +1728,224 @@ namespace ast::expr
 			result = "TEXTUREPROJGRADOFFSET2DRECTU4";
 			break;
 
+	
+	// Texel Compare Functions
+		case TextureAccess::eTexture1DShadowF:
+			result = "TEXTURE1DSHADOWF";
+			break;
+
+		case TextureAccess::eTexture1DShadowFBias:
+			result = "TEXTURE1DSHADOWFBIAS";
+			break;
+
+		case TextureAccess::eTexture2DShadowF:
+			result = "TEXTURE2DSHADOWF";
+			break;
+
+		case TextureAccess::eTexture2DShadowFBias:
+			result = "TEXTURE2DSHADOWFBIAS";
+			break;
+
+		case TextureAccess::eTextureCubeShadowF:
+			result = "TEXTURECUBESHADOWF";
+			break;
+
+		case TextureAccess::eTextureCubeShadowFBias:
+			result = "TEXTURECUBESHADOWFBIAS";
+			break;
+
+		case TextureAccess::eTexture1DArrayShadowF:
+			result = "TEXTURE1DARRAYSHADOWF";
+			break;
+
+		case TextureAccess::eTexture1DArrayShadowFBias:
+			result = "TEXTURE1DARRAYSHADOWFBIAS";
+			break;
+
+		case TextureAccess::eTexture2DArrayShadowF:
+			result = "TEXTURE2DARRAYSHADOWF";
+			break;
+
+		case TextureAccess::eTexture2DArrayShadowFBias:
+			result = "TEXTURE2DARRAYSHADOWFBIAS";
+			break;
+
+		case TextureAccess::eTexture2DRectShadowF:
+			result = "TEXTURE2DRECTSHADOWF";
+			break;
+
+		case TextureAccess::eTextureCubeArrayShadowF:
+			result = "TEXTURECUBEARRAYSHADOWF";
+			break;
+
+		case TextureAccess::eTextureProj1DShadowF:
+			result = "TEXTUREPROJ1DSHADOWF";
+			break;
+
+		case TextureAccess::eTextureProj1DShadowFBias:
+			result = "TEXTUREPROJ1DSHADOWFBIAS";
+			break;
+
+		case TextureAccess::eTextureProj2DShadowF:
+			result = "TEXTUREPROJ2DSHADOWF";
+			break;
+
+		case TextureAccess::eTextureProj2DShadowFBias:
+			result = "TEXTUREPROJ2DSHADOWFBIAS";
+			break;
+
+		case TextureAccess::eTextureProj2DRectShadowF:
+			result = "TEXTUREPROJ2DRECTSHADOWF";
+			break;
+
+		case TextureAccess::eTextureLod1DShadowF:
+			result = "TEXTURELOD1DSHADOWF";
+			break;
+
+		case TextureAccess::eTextureLod2DShadowF:
+			result = "TEXTURELOD2DSHADOWF";
+			break;
+
+		case TextureAccess::eTextureLod1DArrayShadowF:
+			result = "TEXTURELOD1DARRAYSHADOWF";
+			break;
+
+		case TextureAccess::eTextureOffset2DRectShadowF:
+			result = "TEXTUREOFFSET2DRECTSHADOWF";
+			break;
+
+		case TextureAccess::eTextureOffset1DShadowF:
+			result = "TEXTUREOFFSET1DSHADOWF";
+			break;
+
+		case TextureAccess::eTextureOffset1DShadowFBias:
+			result = "TEXTUREOFFSET1DSHADOWFBIAS";
+			break;
+
+		case TextureAccess::eTextureOffset2DShadowF:
+			result = "TEXTUREOFFSET2DSHADOWF";
+			break;
+
+		case TextureAccess::eTextureOffset2DShadowFBias:
+			result = "TEXTUREOFFSET2DSHADOWFBIAS";
+			break;
+
+		case TextureAccess::eTextureOffset1DArrayShadowF:
+			result = "TEXTUREOFFSET1DARRAYSHADOWF";
+			break;
+
+		case TextureAccess::eTextureOffset2DArrayShadowF:
+			result = "TEXTUREOFFSET2DARRAYSHADOWF";
+			break;
+
+		case TextureAccess::eTextureProjOffset1DShadowF:
+			result = "TEXTUREPROJOFFSET1DSHADOWF";
+			break;
+
+		case TextureAccess::eTextureProjOffset1DShadowFBias:
+			result = "TEXTUREPROJOFFSET1DSHADOWFBIAS";
+			break;
+
+		case TextureAccess::eTextureProjOffset2DShadowF:
+			result = "TEXTUREPROJOFFSET2DSHADOWF";
+			break;
+
+		case TextureAccess::eTextureProjOffset2DShadowFBias:
+			result = "TEXTUREPROJOFFSET2DSHADOWFBIAS";
+			break;
+
+		case TextureAccess::eTextureProjOffset2DRectShadowF:
+			result = "TEXTUREPROJOFFSET2DRECTSHADOWF";
+			break;
+
+		case TextureAccess::eTextureLodOffset1DShadowF:
+			result = "TEXTURELODOFFSET1DSHADOWF";
+			break;
+
+		case TextureAccess::eTextureLodOffset2DShadowF:
+			result = "TEXTURELODOFFSET2DSHADOWF";
+			break;
+
+		case TextureAccess::eTextureLodOffset1DArrayShadowF:
+			result = "TEXTURELODOFFSET1DARRAYSHADOWF";
+			break;
+
+		case TextureAccess::eTextureProjLod1DShadowF:
+			result = "TEXTUREPROJLOD1DSHADOWF";
+			break;
+
+		case TextureAccess::eTextureProjLod2DShadowF:
+			result = "TEXTUREPROJLOD2DSHADOWF";
+			break;
+
+		case TextureAccess::eTextureProjLodOffset1DShadowF:
+			result = "TEXTUREPROJLODOFFSET1DSHADOWF";
+			break;
+
+		case TextureAccess::eTextureProjLodOffset2DShadowF:
+			result = "TEXTUREPROJLODOFFSET2DSHADOWF";
+			break;
+
+		case TextureAccess::eTextureGrad2DRectShadowF:
+			result = "TEXTUREGRAD2DRECTSHADOWF";
+			break;
+
+		case TextureAccess::eTextureGrad1DShadowF:
+			result = "TEXTUREGRAD1DSHADOWF";
+			break;
+
+		case TextureAccess::eTextureGrad2DShadowF:
+			result = "TEXTUREGRAD2DSHADOWF";
+			break;
+
+		case TextureAccess::eTextureGrad1DArrayShadowF:
+			result = "TEXTUREGRAD1DARRAYSHADOWF";
+			break;
+
+		case TextureAccess::eTextureGradOffset2DRectShadowF:
+			result = "TEXTUREGRADOFFSET2DRECTSHADOWF";
+			break;
+
+		case TextureAccess::eTextureGradOffset1DShadowF:
+			result = "TEXTUREGRADOFFSET1DSHADOWF";
+			break;
+
+		case TextureAccess::eTextureGradOffset2DShadowF:
+			result = "TEXTUREGRADOFFSET2DSHADOWF";
+			break;
+
+		case TextureAccess::eTextureGradOffset1DArrayShadowF:
+			result = "TEXTUREGRADOFFSET1DARRAYSHADOWF";
+			break;
+
+		case TextureAccess::eTextureGradOffset2DArrayShadowF:
+			result = "TEXTUREGRADOFFSET2DARRAYSHADOWF";
+			break;
+
+		case TextureAccess::eTextureProjGrad1DShadowF:
+			result = "TEXTUREPROJGRAD1DSHADOWF";
+			break;
+
+		case TextureAccess::eTextureProjGrad2DShadowF:
+			result = "TEXTUREPROJGRAD2DSHADOWF";
+			break;
+
+		case TextureAccess::eTextureProjGrad2DRectShadowF:
+			result = "TEXTUREPROJGRAD2DRECTSHADOWF";
+			break;
+
+		case TextureAccess::eTextureProjGradOffset1DShadowF:
+			result = "TEXTUREPROJGRADOFFSET1DSHADOWF";
+			break;
+
+		case TextureAccess::eTextureProjGradOffset2DShadowF:
+			result = "TEXTUREPROJGRADOFFSET2DSHADOWF";
+			break;
+
+		case TextureAccess::eTextureProjGradOffset2DRectShadowF:
+			result = "TEXTUREPROJGRADOFFSET2DRECTSHADOWF";
+			break;
+
 
 	// Texture Gather Functions
 		case TextureAccess::eTextureGather2DF:
@@ -1984,26 +1986,6 @@ namespace ast::expr
 
 		case TextureAccess::eTextureGather2DRectFComp:
 			result = "TEXTUREGATHER2DRECTFCOMP";
-			break;
-
-		case TextureAccess::eTextureGather2DShadowF:
-			result = "TEXTUREGATHER2DSHADOWF";
-			break;
-
-		case TextureAccess::eTextureGather2DArrayShadowF:
-			result = "TEXTUREGATHER2DARRAYSHADOWF";
-			break;
-
-		case TextureAccess::eTextureGatherCubeShadowF:
-			result = "TEXTUREGATHERCUBESHADOWF";
-			break;
-
-		case TextureAccess::eTextureGatherCubeArrayShadowF:
-			result = "TEXTUREGATHERCUBEARRAYSHADOWF";
-			break;
-
-		case TextureAccess::eTextureGather2DRectShadowF:
-			result = "TEXTUREGATHER2DRECTSHADOWF";
 			break;
 
 		case TextureAccess::eTextureGather2DI:
@@ -2110,18 +2092,6 @@ namespace ast::expr
 			result = "TEXTUREGATHEROFFSET2DRECTFCOMP";
 			break;
 
-		case TextureAccess::eTextureGatherOffset2DShadowF:
-			result = "TEXTUREGATHEROFFSET2DSHADOWF";
-			break;
-
-		case TextureAccess::eTextureGatherOffset2DArrayShadowF:
-			result = "TEXTUREGATHEROFFSET2DARRAYSHADOWF";
-			break;
-
-		case TextureAccess::eTextureGatherOffset2DRectShadowF:
-			result = "TEXTUREGATHEROFFSET2DRECTSHADOWF";
-			break;
-
 		case TextureAccess::eTextureGatherOffset2DI:
 			result = "TEXTUREGATHEROFFSET2DI";
 			break;
@@ -2194,18 +2164,6 @@ namespace ast::expr
 			result = "TEXTUREGATHEROFFSETS2DRECTFCOMP";
 			break;
 
-		case TextureAccess::eTextureGatherOffsets2DShadowF:
-			result = "TEXTUREGATHEROFFSETS2DSHADOWF";
-			break;
-
-		case TextureAccess::eTextureGatherOffsets2DArrayShadowF:
-			result = "TEXTUREGATHEROFFSETS2DARRAYSHADOWF";
-			break;
-
-		case TextureAccess::eTextureGatherOffsets2DRectShadowF:
-			result = "TEXTUREGATHEROFFSETS2DRECTSHADOWF";
-			break;
-
 		case TextureAccess::eTextureGatherOffsets2DI:
 			result = "TEXTUREGATHEROFFSETS2DI";
 			break;
@@ -2252,6 +2210,52 @@ namespace ast::expr
 
 		case TextureAccess::eTextureGatherOffsets2DRectUComp:
 			result = "TEXTUREGATHEROFFSETS2DRECTUCOMP";
+			break;
+
+
+	// Texture Gather Compare Functions
+		case TextureAccess::eTextureGather2DShadowF:
+			result = "TEXTUREGATHER2DSHADOWF";
+			break;
+
+		case TextureAccess::eTextureGather2DArrayShadowF:
+			result = "TEXTUREGATHER2DARRAYSHADOWF";
+			break;
+
+		case TextureAccess::eTextureGatherCubeShadowF:
+			result = "TEXTUREGATHERCUBESHADOWF";
+			break;
+
+		case TextureAccess::eTextureGatherCubeArrayShadowF:
+			result = "TEXTUREGATHERCUBEARRAYSHADOWF";
+			break;
+
+		case TextureAccess::eTextureGather2DRectShadowF:
+			result = "TEXTUREGATHER2DRECTSHADOWF";
+			break;
+
+		case TextureAccess::eTextureGatherOffset2DShadowF:
+			result = "TEXTUREGATHEROFFSET2DSHADOWF";
+			break;
+
+		case TextureAccess::eTextureGatherOffset2DArrayShadowF:
+			result = "TEXTUREGATHEROFFSET2DARRAYSHADOWF";
+			break;
+
+		case TextureAccess::eTextureGatherOffset2DRectShadowF:
+			result = "TEXTUREGATHEROFFSET2DRECTSHADOWF";
+			break;
+
+		case TextureAccess::eTextureGatherOffsets2DShadowF:
+			result = "TEXTUREGATHEROFFSETS2DSHADOWF";
+			break;
+
+		case TextureAccess::eTextureGatherOffsets2DArrayShadowF:
+			result = "TEXTUREGATHEROFFSETS2DARRAYSHADOWF";
+			break;
+
+		case TextureAccess::eTextureGatherOffsets2DRectShadowF:
+			result = "TEXTUREGATHEROFFSETS2DRECTSHADOWF";
 			break;
 
 		default:

@@ -3,9 +3,6 @@ See LICENSE file in root folder
 */
 #include "ShaderWriter/SPIRV/SpirvHelpers.hpp"
 
-#include "ShaderWriter/SPIRV/SpirvImageAccessNames.hpp"
-#include "ShaderWriter/SPIRV/SpirvTextureAccessNames.hpp"
-
 namespace sdw::spirv
 {
 	//*************************************************************************
@@ -57,138 +54,6 @@ namespace sdw::spirv
 		return getOpName( op );
 	}
 
-	std::string getLocationName( var::Variable const & var )
-	{
-		std::string result;
-
-		if ( var.isShaderConstant() )
-		{
-			result = "constant_id";
-		}
-		else if ( var.isShaderInput()
-			|| var.isShaderOutput() )
-		{
-			result = "location";
-		}
-
-		return result;
-	}
-
-	std::string getDirectionName( var::Variable const & var )
-	{
-		std::string result;
-
-		if ( var.isInputParam()
-			&& var.isOutputParam() )
-		{
-			result = "inout";
-		}
-		else if ( var.isInputParam()
-			|| var.isShaderInput() )
-		{
-			result = "in";
-		}
-		else if ( var.isOutputParam()
-			|| var.isShaderOutput() )
-		{
-			result = "out";
-		}
-		else if ( var.isShaderConstant() )
-		{
-			result = "const";
-		}
-
-		return result;
-	}
-
-	std::string getStatusName( stmt::PreprocExtension::Status status )
-	{
-		std::string result;
-
-		switch ( status )
-		{
-		case stmt::PreprocExtension::Status::eDisabled:
-			result = "disable";
-			break;
-
-		case stmt::PreprocExtension::Status::eEnabled:
-			result = "enable";
-			break;
-
-		case stmt::PreprocExtension::Status::eRequired:
-			result = "required";
-			break;
-
-		}
-
-		return result;
-	}
-
-	std::string getLayoutName( stmt::InputLayout layout )
-	{
-		std::string result;
-
-		switch ( layout )
-		{
-		case ast::stmt::InputLayout::ePointList:
-			result = "points";
-			break;
-		case ast::stmt::InputLayout::eLineList:
-			result = "lines";
-			break;
-		case ast::stmt::InputLayout::eLineStrip:
-			result = "lines";
-			break;
-		case ast::stmt::InputLayout::eTriangleList:
-			result = "triangles";
-			break;
-		case ast::stmt::InputLayout::eTriangleStrip:
-			result = "triangles";
-			break;
-		case ast::stmt::InputLayout::eTriangleFan:
-			result = "triangles";
-			break;
-		case ast::stmt::InputLayout::eLineListWithAdjacency:
-			result = "lines_adjacency";
-			break;
-		case ast::stmt::InputLayout::eLineStripWithAdjacency:
-			result = "lines_adjacency";
-			break;
-		case ast::stmt::InputLayout::eTriangleListWithAdjacency:
-			result = "triangles_adjacency";
-			break;
-		case ast::stmt::InputLayout::eTriangleStripWithAdjacency:
-			result = "triangles_adjacency";
-			break;
-		default:
-			throw std::runtime_error{ "Unsupported input layout." };
-		}
-
-		return result;
-	}
-
-	std::string getLayoutName( stmt::OutputLayout layout )
-	{
-		std::string result;
-
-		switch ( layout )
-		{
-		case ast::stmt::OutputLayout::ePointList:
-			result = "points";
-			break;
-		case ast::stmt::OutputLayout::eLineStrip:
-			result = "line_strip";
-			break;
-		case ast::stmt::OutputLayout::eTriangleStrip:
-			result = "triangle_strip";
-			break;
-		default:
-			throw std::runtime_error{ "Unsupported output layout." };
-		}
-
-		return result;
-	}
-
 	//*************************************************************************
 
 	Instruction makeExtension( std::string const & name )
@@ -231,8 +96,6 @@ namespace sdw::spirv
 	{
 		switch ( value )
 		{
-		case ast::type::ImageFormat::eUnknown:
-			return spv::ImageFormat::Unknown;
 		case ast::type::ImageFormat::eRgba32f:
 			return spv::ImageFormat::Rgba32f;
 		case ast::type::ImageFormat::eRgba16f:
@@ -344,16 +207,16 @@ namespace sdw::spirv
 		IdList operands;
 		operands.push_back( sampledTypeId );
 		operands.push_back( spv::Id( config.dimension ) );
-		operands.push_back( config.isDepth == ast::type::Ternary::eTrue
+		operands.push_back( config.isDepth == ast::type::Trinary::eTrue
 			? 1u
-			: ( config.isDepth == ast::type::Ternary::eFalse
+			: ( config.isDepth == ast::type::Trinary::eFalse
 				? 0u
 				: 2u ) );
 		operands.push_back( config.isArrayed ? 1u : 0u );
 		operands.push_back( config.isMS ? 1u : 0u );
-		operands.push_back( config.isSampled == ast::type::Ternary::eTrue
+		operands.push_back( config.isSampled == ast::type::Trinary::eTrue
 			? 1u
-			: ( config.isDepth == ast::type::Ternary::eFalse
+			: ( config.isDepth == ast::type::Trinary::eFalse
 				? 2u
 				: 0u ) );
 		operands.push_back( uint32_t( getImageFormat( config.format ) ) );
@@ -567,11 +430,6 @@ namespace sdw::spirv
 		return makeInstruction( getOpCode( exprKind, typeKind ) );
 	}
 
-	Instruction makeInstruction( expr::TextureAccess kind )
-	{
-		return makeInstruction( getSpirVName( kind ) );
-	}
-
 	Instruction makeInstruction( spv::Op op
 		, IdList const & operands )
 	{
@@ -589,24 +447,6 @@ namespace sdw::spirv
 		, IdList const & operands )
 	{
 		return makeInstruction( getOpCode( exprKind, typeKind )
-			, operands );
-	}
-
-	Instruction makeInstruction( expr::TextureAccess kind
-		, IdList operands )
-	{
-		auto mask = getMask( kind );
-		operands.insert( operands.begin() + 2u, spv::Id( mask ) );
-
-		if ( uint32_t( mask ) & uint32_t( spv::ImageOperandsMask::Bias ) )
-		{
-			// Bias is usually last parameter, but it has to be the first optional one.
-			// Two first operands are the image and its sampler
-			operands.insert( operands.begin() + 3u, operands.back() );
-			operands.erase( operands.begin() + operands.size() - 1u );
-		}
-
-		return makeInstruction( getSpirVName( kind )
 			, operands );
 	}
 
@@ -634,26 +474,6 @@ namespace sdw::spirv
 			, name );
 	}
 
-	Instruction makeInstruction( expr::TextureAccess kind
-		, IdList operands
-		, std::string const & name )
-	{
-		auto mask = getMask( kind );
-		operands.insert( operands.begin() + 2u, spv::Id( mask ) );
-
-		if ( uint32_t( mask ) & uint32_t( spv::ImageOperandsMask::Bias ) )
-		{
-			// Bias is usually last parameter, but it has to be the first optional one.
-			// Two first operands are the image and its sampler
-			operands.insert( operands.begin() + 3u, operands.back() );
-			operands.erase( operands.begin() + operands.size() - 1u );
-		}
-
-		return makeInstruction( getSpirVName( kind )
-			, operands
-			, name );
-	}
-
 	Instruction makeInstruction( spv::Op op
 		, spv::Id resultId
 		, IdList const & operands )
@@ -673,26 +493,6 @@ namespace sdw::spirv
 		, IdList const & operands )
 	{
 		return makeInstruction( getOpCode( exprKind, typeKind )
-			, resultId
-			, operands );
-	}
-
-	Instruction makeInstruction( expr::TextureAccess kind
-		, spv::Id resultId
-		, IdList operands )
-	{
-		auto mask = getMask( kind );
-		operands.insert( operands.begin() + 2u, spv::Id( mask ) );
-
-		if ( uint32_t( mask ) & uint32_t( spv::ImageOperandsMask::Bias ) )
-		{
-			// Bias is usually last parameter, but it has to be the first optional one.
-			// Two first operands are the image and its sampler
-			operands.insert( operands.begin() + 3u, operands.back() );
-			operands.erase( operands.begin() + operands.size() - 1u );
-		}
-
-		return makeInstruction( getSpirVName( kind )
 			, resultId
 			, operands );
 	}
@@ -723,28 +523,6 @@ namespace sdw::spirv
 			, operands );
 	}
 
-	Instruction makeInstruction( expr::TextureAccess kind
-		, spv::Id resultId
-		, spv::Id typeId
-		, IdList operands )
-	{
-		auto mask = getMask( kind );
-		operands.insert( operands.begin() + 2u, spv::Id( mask ) );
-
-		if ( uint32_t( mask ) & uint32_t( spv::ImageOperandsMask::Bias ) )
-		{
-			// Bias is usually last parameter, but it has to be the first optional one.
-			// Two first operands are the image and its sampler
-			operands.insert( operands.begin() + 3u, operands.back() );
-			operands.erase( operands.begin() + operands.size() - 1u );
-		}
-
-		return makeInstruction( getSpirVName( kind )
-			, resultId
-			, typeId
-			, operands );
-	}
-
 	Instruction makeInstruction( spv::Op op
 		, spv::Id resultId
 		, spv::Id typeId
@@ -769,31 +547,6 @@ namespace sdw::spirv
 		, std::string const & name )
 	{
 		return makeInstruction( getOpCode( exprKind, typeKind )
-			, resultId
-			, typeId
-			, operands
-			, name );
-	}
-
-	Instruction makeInstruction( expr::TextureAccess kind
-		, spv::Id resultId
-		, spv::Id typeId
-		, IdList const & ops
-		, std::string const & name )
-	{
-		auto mask = getMask( kind );
-		IdList operands{ ops };
-		operands.insert( operands.begin() + 2u, spv::Id( mask ) );
-
-		if ( uint32_t( mask ) & uint32_t( spv::ImageOperandsMask::Bias ) )
-		{
-			// Bias is usually last parameter, but it has to be the first optional one.
-			// Two first operands are the image and its sampler
-			operands.insert( operands.begin() + 3u, operands.back() );
-			operands.erase( operands.begin() + operands.size() - 1u );
-		}
-
-		return makeInstruction( getSpirVName( kind )
 			, resultId
 			, typeId
 			, operands

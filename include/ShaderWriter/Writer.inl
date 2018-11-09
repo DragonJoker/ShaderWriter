@@ -148,17 +148,18 @@ namespace sdw
 	*	Sampled Image declaration.
 	*/
 	/**@{*/
-	template< ast::type::ImageDim DimT
-		, ast::type::ImageFormat FormatT
+	template< ast::type::Kind SampledT
+		, ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool DepthT
 		, bool MsT >
-	inline SampledImageT< DimT, FormatT, ArrayedT, DepthT, MsT > ShaderWriter::declSampledImage( std::string const & name
+	inline SampledImageT< SampledT, DimT, ArrayedT, DepthT, MsT > ShaderWriter::declSampledImage( std::string const & name
 		, uint32_t binding
-		, uint32_t set )
+		, uint32_t set
+		, ast::type::ImageFormat format )
 	{
-		using T = SampledImageT< DimT, FormatT, ArrayedT, DepthT, MsT >;
-		auto type = type::makeSampledImageType( T::makeConfig() );
+		using T = SampledImageT< SampledT, DimT, FormatT, ArrayedT, DepthT, MsT >;
+		auto type = type::makeSampledImageType( T::makeConfig( format ) );
 		auto var = registerSampledImage( name
 			, type
 			, binding
@@ -170,18 +171,19 @@ namespace sdw
 			, makeExpr( var ) };
 	}
 
-	template< ast::type::ImageDim DimT
-		, ast::type::ImageFormat FormatT
+	template< ast::type::Kind SampledT
+		, ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool DepthT
 		, bool MsT >
-	inline Optional< SampledImageT< DimT, FormatT, ArrayedT, DepthT, MsT > > ShaderWriter::declSampledImage( std::string const & name
+	inline Optional< SampledImageT< SampledT, DimT, ArrayedT, DepthT, MsT > > ShaderWriter::declSampledImage( std::string const & name
 		, uint32_t binding
 		, uint32_t set
-		, bool enabled )
+		, bool enabled
+		, ast::type::ImageFormat format )
 	{
-		using T = SampledImageT< DimT, FormatT, ArrayedT, DepthT, MsT >;
-		auto type = type::makeSampledImageType( T::makeConfig() );
+		using T = SampledImageT< SampledT, DimT, FormatT, ArrayedT, DepthT, MsT >;
+		auto type = type::makeSampledImageType( T::makeConfig( format ) );
 		auto var = registerSampledImage( name
 			, type
 			, binding
@@ -200,18 +202,19 @@ namespace sdw
 			, enabled };
 	}
 
-	template< ast::type::ImageDim DimT
-		, ast::type::ImageFormat FormatT
+	template< ast::type::Kind SampledT
+		, ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool DepthT
 		, bool MsT >
-	inline Array< SampledImageT< DimT, FormatT, ArrayedT, DepthT, MsT > > ShaderWriter::declSampledImageArray( std::string const & name
+	inline Array< SampledImageT< SampledT, DimT, ArrayedT, DepthT, MsT > > ShaderWriter::declSampledImageArray( std::string const & name
 		, uint32_t binding
 		, uint32_t set
-		, uint32_t dimension )
+		, uint32_t dimension
+		, ast::type::ImageFormat format )
 	{
-		using T = SampledImageT< DimT, FormatT, ArrayedT, DepthT, MsT >;
-		auto type = type::makeSampledImageType( T::makeConfig()
+		using T = SampledImageT< SampledT, DimT, FormatT, ArrayedT, DepthT, MsT >;
+		auto type = type::makeSampledImageType( T::makeConfig( format )
 			, dimension );
 		auto var = registerSampledImage( name
 			, type
@@ -224,19 +227,20 @@ namespace sdw
 			, makeExpr( var ) };
 	}
 
-	template< ast::type::ImageDim DimT
-		, ast::type::ImageFormat FormatT
+	template< ast::type::Kind SampledT
+		, ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool DepthT
 		, bool MsT >
-	inline Optional< Array< SampledImageT< DimT, FormatT, ArrayedT, DepthT, MsT > > > ShaderWriter::declSampledImageArray( std::string const & name
+	inline Optional< Array< SampledImageT< SampledT, DimT, ArrayedT, DepthT, MsT > > > ShaderWriter::declSampledImageArray( std::string const & name
 		, uint32_t binding
 		, uint32_t set
 		, uint32_t dimension
-		, bool enabled )
+		, bool enabled
+		, ast::type::ImageFormat format )
 	{
-		using T = SampledImageT< DimT, FormatT, ArrayedT, DepthT, MsT >;
-		auto type = type::makeSampledImageType( T::makeConfig()
+		using T = SampledImageT< SampledT, DimT, FormatT, ArrayedT, DepthT, MsT >;
+		auto type = type::makeSampledImageType( T::makeConfig( format )
 			, dimension );
 		auto var = registerSampledImage( name
 			, type
@@ -263,17 +267,18 @@ namespace sdw
 	*	Image declaration.
 	*/
 	/**@{*/
-	template< ast::type::ImageDim DimT
-		, ast::type::ImageFormat FormatT
+	template< ast::type::Kind SampledT
+		, ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool DepthT
 		, bool MsT >
-	inline ImageT< DimT, FormatT, ArrayedT, DepthT, MsT > ShaderWriter::declImage( std::string const & name
+	inline ImageT< SampledT, DimT, ArrayedT, DepthT, MsT > ShaderWriter::declImage( std::string const & name
 		, uint32_t binding
-		, uint32_t set )
+		, uint32_t set
+		, ast::type::ImageFormat format )
 	{
-		using T = ImageT< DimT, FormatT, ArrayedT, DepthT, MsT >;
-		auto type = type::makeImageType( T::makeConfig() );
+		using T = ImageT< SampledT, DimT, FormatT, ArrayedT, DepthT, MsT >;
+		auto type = type::makeImageType( T::makeConfig( format ) );
 		auto var = registerImage( name
 			, type
 			, binding
@@ -285,18 +290,19 @@ namespace sdw
 			, makeExpr( var ) };
 	}
 
-	template< ast::type::ImageDim DimT
-		, ast::type::ImageFormat FormatT
+	template< ast::type::Kind SampledT
+		, ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool DepthT
 		, bool MsT >
-	inline Optional< ImageT< DimT, FormatT, ArrayedT, DepthT, MsT > > ShaderWriter::declImage( std::string const & name
+	inline Optional< ImageT< SampledT, DimT, ArrayedT, DepthT, MsT > > ShaderWriter::declImage( std::string const & name
 		, uint32_t binding
 		, uint32_t set
-		, bool enabled )
+		, bool enabled
+		, ast::type::ImageFormat format )
 	{
-		using T = ImageT< DimT, FormatT, ArrayedT, DepthT, MsT >;
-		auto type = type::makeImageType( T::makeConfig() );
+		using T = ImageT< SampledT, DimT, FormatT, ArrayedT, DepthT, MsT >;
+		auto type = type::makeImageType( T::makeConfig( format ) );
 		auto var = registerImage( name
 			, type
 			, binding
@@ -315,18 +321,19 @@ namespace sdw
 			, enabled };
 	}
 
-	template< ast::type::ImageDim DimT
-		, ast::type::ImageFormat FormatT
+	template< ast::type::Kind SampledT
+		, ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool DepthT
 		, bool MsT >
-	inline Array< ImageT< DimT, FormatT, ArrayedT, DepthT, MsT > > ShaderWriter::declImageArray( std::string const & name
+	inline Array< ImageT< SampledT, DimT, ArrayedT, DepthT, MsT > > ShaderWriter::declImageArray( std::string const & name
 		, uint32_t binding
 		, uint32_t set
-		, uint32_t dimension )
+		, uint32_t dimension
+		, ast::type::ImageFormat format )
 	{
-		using T = ImageT< DimT, FormatT, ArrayedT, DepthT, MsT >;
-		auto type = type::makeImageType( T::makeConfig()
+		using T = ImageT< SampledT, DimT, FormatT, ArrayedT, DepthT, MsT >;
+		auto type = type::makeImageType( T::makeConfig( format )
 			, dimension );
 		auto var = registerImage( name
 			, type
@@ -339,19 +346,20 @@ namespace sdw
 			, makeExpr( var ) };
 	}
 
-	template< ast::type::ImageDim DimT
-		, ast::type::ImageFormat FormatT
+	template< ast::type::Kind SampledT
+		, ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool DepthT
 		, bool MsT >
-	inline Optional< Array< ImageT< DimT, FormatT, ArrayedT, DepthT, MsT > > > ShaderWriter::declImageArray( std::string const & name
+	inline Optional< Array< ImageT< SampledT, DimT, ArrayedT, DepthT, MsT > > > ShaderWriter::declImageArray( std::string const & name
 		, uint32_t binding
 		, uint32_t set
 		, uint32_t dimension
-		, bool enabled )
+		, bool enabled
+		, ast::type::ImageFormat format )
 	{
-		using T = ImageT< DimT, FormatT, ArrayedT, DepthT, MsT >;
-		auto type = type::makeImageType( T::makeConfig()
+		using T = ImageT< SampledT, DimT, FormatT, ArrayedT, DepthT, MsT >;
+		auto type = type::makeImageType( T::makeConfig( format )
 			, dimension );
 		auto var = registerImage( name
 			, type

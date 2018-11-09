@@ -20,7 +20,8 @@ namespace ast::debug
 	std::string getName( type::Kind type );
 	std::string getName( type::Kind type
 		, uint32_t arraySize );
-	std::string getName( ast::type::ImageDim dim
+	std::string getName( ast::type::Kind sampled
+		, ast::type::ImageDim dim
 		, ast::type::ImageFormat format
 		, bool arrayed
 		, bool depth

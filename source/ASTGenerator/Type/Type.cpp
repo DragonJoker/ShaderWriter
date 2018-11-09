@@ -25,7 +25,7 @@ namespace ast::type
 
 	Type::Type( Kind kind
 		, uint32_t arraySize )
-		: Type{ nullptr, ~( 0u ), kind, arraySize }
+		: Type{ nullptr, NotMember, kind, arraySize }
 	{
 	}
 
@@ -477,6 +477,114 @@ namespace ast::type
 	}
 
 	//*************************************************************************
+
+	bool isBoolType( Kind kind )
+	{
+		switch ( kind )
+		{
+		case Kind::eBoolean:
+		case Kind::eVec2B:
+		case Kind::eVec3B:
+		case Kind::eVec4B:
+			return true;
+
+		default:
+			return false;
+		}
+	}
+
+	bool isUnsignedIntType( Kind kind )
+	{
+		switch ( kind )
+		{
+		case Kind::eUInt:
+		case Kind::eVec2U:
+		case Kind::eVec3U:
+		case Kind::eVec4U:
+			return true;
+
+		default:
+			return false;
+		}
+	}
+
+	bool isSignedIntType( Kind kind )
+	{
+		switch ( kind )
+		{
+		case Kind::eInt:
+		case Kind::eVec2I:
+		case Kind::eVec3I:
+		case Kind::eVec4I:
+			return true;
+
+		default:
+			return false;
+		}
+	}
+
+	bool isHalfType( Kind kind )
+	{
+		switch ( kind )
+		{
+		case Kind::eHalf:
+		case Kind::eVec2H:
+		case Kind::eVec3H:
+		case Kind::eVec4H:
+			return true;
+
+		default:
+			return false;
+		}
+	}
+
+	bool isFloatType( Kind kind )
+	{
+		switch ( kind )
+		{
+		case Kind::eFloat:
+		case Kind::eVec2F:
+		case Kind::eVec3F:
+		case Kind::eVec4F:
+		case Kind::eMat2x2F:
+		case Kind::eMat2x3F:
+		case Kind::eMat2x4F:
+		case Kind::eMat3x2F:
+		case Kind::eMat3x3F:
+		case Kind::eMat3x4F:
+		case Kind::eMat4x2F:
+		case Kind::eMat4x3F:
+		case Kind::eMat4x4F:
+			return true;
+
+		default:
+			return false;
+		}
+	}
+
+	bool isDoubleType( Kind kind )
+	{
+		switch ( kind )
+		{
+		case Kind::eDouble:
+		case Kind::eVec2D:
+		case Kind::eVec3D:
+		case Kind::eVec4D:
+		case Kind::eMat2x2D:
+		case Kind::eMat2x3D:
+		case Kind::eMat2x4D:
+		case Kind::eMat3x2D:
+		case Kind::eMat3x3D:
+		case Kind::eMat3x4D:
+		case Kind::eMat4x2D:
+		case Kind::eMat4x3D:
+		case Kind::eMat4x4D:
+			return true;
+
+		default:
+			return false;
+		}
+	}
 
 	bool isScalarType( Kind kind )
 	{

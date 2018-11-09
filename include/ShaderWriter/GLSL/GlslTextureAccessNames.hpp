@@ -125,25 +125,13 @@ namespace sdw
 		case ast::expr::TextureAccess::eTexture3DFBias:
 		case ast::expr::TextureAccess::eTextureCubeF:
 		case ast::expr::TextureAccess::eTextureCubeFBias:
-		case ast::expr::TextureAccess::eTexture1DShadowF:
-		case ast::expr::TextureAccess::eTexture1DShadowFBias:
-		case ast::expr::TextureAccess::eTexture2DShadowF:
-		case ast::expr::TextureAccess::eTexture2DShadowFBias:
-		case ast::expr::TextureAccess::eTextureCubeShadowF:
-		case ast::expr::TextureAccess::eTextureCubeShadowFBias:
 		case ast::expr::TextureAccess::eTexture1DArrayF:
 		case ast::expr::TextureAccess::eTexture1DArrayFBias:
 		case ast::expr::TextureAccess::eTexture2DArrayF:
 		case ast::expr::TextureAccess::eTexture2DArrayFBias:
 		case ast::expr::TextureAccess::eTextureCubeArrayF:
 		case ast::expr::TextureAccess::eTextureCubeArrayFBias:
-		case ast::expr::TextureAccess::eTexture1DArrayShadowF:
-		case ast::expr::TextureAccess::eTexture1DArrayShadowFBias:
-		case ast::expr::TextureAccess::eTexture2DArrayShadowF:
-		case ast::expr::TextureAccess::eTexture2DArrayShadowFBias:
 		case ast::expr::TextureAccess::eTexture2DRectF:
-		case ast::expr::TextureAccess::eTexture2DRectShadowF:
-		case ast::expr::TextureAccess::eTextureCubeArrayShadowF:
 		case ast::expr::TextureAccess::eTexture1DI:
 		case ast::expr::TextureAccess::eTexture1DIBias:
 		case ast::expr::TextureAccess::eTexture2DI:
@@ -187,13 +175,8 @@ namespace sdw
 		case ast::expr::TextureAccess::eTextureProj2DF4Bias:
 		case ast::expr::TextureAccess::eTextureProj3DF:
 		case ast::expr::TextureAccess::eTextureProj3DFBias:
-		case ast::expr::TextureAccess::eTextureProj1DShadowF:
-		case ast::expr::TextureAccess::eTextureProj1DShadowFBias:
-		case ast::expr::TextureAccess::eTextureProj2DShadowF:
-		case ast::expr::TextureAccess::eTextureProj2DShadowFBias:
 		case ast::expr::TextureAccess::eTextureProj2DRectF3:
 		case ast::expr::TextureAccess::eTextureProj2DRectF4:
-		case ast::expr::TextureAccess::eTextureProj2DRectShadowF:
 		case ast::expr::TextureAccess::eTextureProj1DI2:
 		case ast::expr::TextureAccess::eTextureProj1DI2Bias:
 		case ast::expr::TextureAccess::eTextureProj1DI4:
@@ -225,11 +208,8 @@ namespace sdw
 		case ast::expr::TextureAccess::eTextureLod2DF:
 		case ast::expr::TextureAccess::eTextureLod3DF:
 		case ast::expr::TextureAccess::eTextureLodCubeF:
-		case ast::expr::TextureAccess::eTextureLod1DShadowF:
-		case ast::expr::TextureAccess::eTextureLod2DShadowF:
 		case ast::expr::TextureAccess::eTextureLod1DArrayF:
 		case ast::expr::TextureAccess::eTextureLod2DArrayF:
-		case ast::expr::TextureAccess::eTextureLod1DArrayShadowF:
 		case ast::expr::TextureAccess::eTextureLodCubeArrayF:
 		case ast::expr::TextureAccess::eTextureLod1DI:
 		case ast::expr::TextureAccess::eTextureLod2DI:
@@ -255,17 +235,10 @@ namespace sdw
 		case ast::expr::TextureAccess::eTextureOffset3DF:
 		case ast::expr::TextureAccess::eTextureOffset3DFBias:
 		case ast::expr::TextureAccess::eTextureOffset2DRectF:
-		case ast::expr::TextureAccess::eTextureOffset2DRectShadowF:
-		case ast::expr::TextureAccess::eTextureOffset1DShadowF:
-		case ast::expr::TextureAccess::eTextureOffset1DShadowFBias:
-		case ast::expr::TextureAccess::eTextureOffset2DShadowF:
-		case ast::expr::TextureAccess::eTextureOffset2DShadowFBias:
 		case ast::expr::TextureAccess::eTextureOffset1DArrayF:
 		case ast::expr::TextureAccess::eTextureOffset1DArrayFBias:
 		case ast::expr::TextureAccess::eTextureOffset2DArrayF:
 		case ast::expr::TextureAccess::eTextureOffset2DArrayFBias:
-		case ast::expr::TextureAccess::eTextureOffset1DArrayShadowF:
-		case ast::expr::TextureAccess::eTextureOffset2DArrayShadowF:
 		case ast::expr::TextureAccess::eTextureOffset1DI:
 		case ast::expr::TextureAccess::eTextureOffset1DIBias:
 		case ast::expr::TextureAccess::eTextureOffset2DI:
@@ -346,13 +319,8 @@ namespace sdw
 		case ast::expr::TextureAccess::eTextureProjOffset2DF4Bias:
 		case ast::expr::TextureAccess::eTextureProjOffset3DF:
 		case ast::expr::TextureAccess::eTextureProjOffset3DFBias:
-		case ast::expr::TextureAccess::eTextureProjOffset1DShadowF:
-		case ast::expr::TextureAccess::eTextureProjOffset1DShadowFBias:
-		case ast::expr::TextureAccess::eTextureProjOffset2DShadowF:
-		case ast::expr::TextureAccess::eTextureProjOffset2DShadowFBias:
 		case ast::expr::TextureAccess::eTextureProjOffset2DRectF3:
 		case ast::expr::TextureAccess::eTextureProjOffset2DRectF4:
-		case ast::expr::TextureAccess::eTextureProjOffset2DRectShadowF:
 		case ast::expr::TextureAccess::eTextureProjOffset1DI2:
 		case ast::expr::TextureAccess::eTextureProjOffset1DI2Bias:
 		case ast::expr::TextureAccess::eTextureProjOffset1DI4:
@@ -383,11 +351,8 @@ namespace sdw
 		case ast::expr::TextureAccess::eTextureLodOffset1DF:
 		case ast::expr::TextureAccess::eTextureLodOffset2DF:
 		case ast::expr::TextureAccess::eTextureLodOffset3DF:
-		case ast::expr::TextureAccess::eTextureLodOffset1DShadowF:
-		case ast::expr::TextureAccess::eTextureLodOffset2DShadowF:
 		case ast::expr::TextureAccess::eTextureLodOffset1DArrayF:
 		case ast::expr::TextureAccess::eTextureLodOffset2DArrayF:
-		case ast::expr::TextureAccess::eTextureLodOffset1DArrayShadowF:
 		case ast::expr::TextureAccess::eTextureLodOffset1DI:
 		case ast::expr::TextureAccess::eTextureLodOffset2DI:
 		case ast::expr::TextureAccess::eTextureLodOffset3DI:
@@ -406,8 +371,6 @@ namespace sdw
 		case ast::expr::TextureAccess::eTextureProjLod2DF3:
 		case ast::expr::TextureAccess::eTextureProjLod2DF4:
 		case ast::expr::TextureAccess::eTextureProjLod3DF:
-		case ast::expr::TextureAccess::eTextureProjLod1DShadowF:
-		case ast::expr::TextureAccess::eTextureProjLod2DShadowF:
 		case ast::expr::TextureAccess::eTextureProjLod1DI2:
 		case ast::expr::TextureAccess::eTextureProjLod1DI4:
 		case ast::expr::TextureAccess::eTextureProjLod2DI3:
@@ -426,8 +389,6 @@ namespace sdw
 		case ast::expr::TextureAccess::eTextureProjLodOffset2DF3:
 		case ast::expr::TextureAccess::eTextureProjLodOffset2DF4:
 		case ast::expr::TextureAccess::eTextureProjLodOffset3DF:
-		case ast::expr::TextureAccess::eTextureProjLodOffset1DShadowF:
-		case ast::expr::TextureAccess::eTextureProjLodOffset2DShadowF:
 		case ast::expr::TextureAccess::eTextureProjLodOffset1DI2:
 		case ast::expr::TextureAccess::eTextureProjLodOffset1DI4:
 		case ast::expr::TextureAccess::eTextureProjLodOffset2DI3:
@@ -446,12 +407,8 @@ namespace sdw
 		case ast::expr::TextureAccess::eTextureGrad3DF:
 		case ast::expr::TextureAccess::eTextureGradCubeF:
 		case ast::expr::TextureAccess::eTextureGrad2DRectF:
-		case ast::expr::TextureAccess::eTextureGrad2DRectShadowF:
-		case ast::expr::TextureAccess::eTextureGrad1DShadowF:
-		case ast::expr::TextureAccess::eTextureGrad2DShadowF:
 		case ast::expr::TextureAccess::eTextureGrad1DArrayF:
 		case ast::expr::TextureAccess::eTextureGrad2DArrayF:
-		case ast::expr::TextureAccess::eTextureGrad1DArrayShadowF:
 		case ast::expr::TextureAccess::eTextureGradCubeArrayF:
 		case ast::expr::TextureAccess::eTextureGrad1DI:
 		case ast::expr::TextureAccess::eTextureGrad2DI:
@@ -476,13 +433,8 @@ namespace sdw
 		case ast::expr::TextureAccess::eTextureGradOffset2DF:
 		case ast::expr::TextureAccess::eTextureGradOffset3DF:
 		case ast::expr::TextureAccess::eTextureGradOffset2DRectF:
-		case ast::expr::TextureAccess::eTextureGradOffset2DRectShadowF:
-		case ast::expr::TextureAccess::eTextureGradOffset1DShadowF:
-		case ast::expr::TextureAccess::eTextureGradOffset2DShadowF:
 		case ast::expr::TextureAccess::eTextureGradOffset1DArrayF:
 		case ast::expr::TextureAccess::eTextureGradOffset2DArrayF:
-		case ast::expr::TextureAccess::eTextureGradOffset1DArrayShadowF:
-		case ast::expr::TextureAccess::eTextureGradOffset2DArrayShadowF:
 		case ast::expr::TextureAccess::eTextureGradOffset1DI:
 		case ast::expr::TextureAccess::eTextureGradOffset2DI:
 		case ast::expr::TextureAccess::eTextureGradOffset3DI:
@@ -503,11 +455,8 @@ namespace sdw
 		case ast::expr::TextureAccess::eTextureProjGrad2DF3:
 		case ast::expr::TextureAccess::eTextureProjGrad2DF4:
 		case ast::expr::TextureAccess::eTextureProjGrad3DF:
-		case ast::expr::TextureAccess::eTextureProjGrad1DShadowF:
-		case ast::expr::TextureAccess::eTextureProjGrad2DShadowF:
 		case ast::expr::TextureAccess::eTextureProjGrad2DRectF3:
 		case ast::expr::TextureAccess::eTextureProjGrad2DRectF4:
-		case ast::expr::TextureAccess::eTextureProjGrad2DRectShadowF:
 		case ast::expr::TextureAccess::eTextureProjGrad1DI2:
 		case ast::expr::TextureAccess::eTextureProjGrad1DI4:
 		case ast::expr::TextureAccess::eTextureProjGrad2DI3:
@@ -530,11 +479,8 @@ namespace sdw
 		case ast::expr::TextureAccess::eTextureProjGradOffset2DF3:
 		case ast::expr::TextureAccess::eTextureProjGradOffset2DF4:
 		case ast::expr::TextureAccess::eTextureProjGradOffset3DF:
-		case ast::expr::TextureAccess::eTextureProjGradOffset1DShadowF:
-		case ast::expr::TextureAccess::eTextureProjGradOffset2DShadowF:
 		case ast::expr::TextureAccess::eTextureProjGradOffset2DRectF3:
 		case ast::expr::TextureAccess::eTextureProjGradOffset2DRectF4:
-		case ast::expr::TextureAccess::eTextureProjGradOffset2DRectShadowF:
 		case ast::expr::TextureAccess::eTextureProjGradOffset1DI2:
 		case ast::expr::TextureAccess::eTextureProjGradOffset1DI4:
 		case ast::expr::TextureAccess::eTextureProjGradOffset2DI3:
@@ -552,6 +498,98 @@ namespace sdw
 			result = "textureProjGradOffset";
 			break;
 
+	
+	// Texel Compare Functions
+		case ast::expr::TextureAccess::eTexture1DShadowF:
+		case ast::expr::TextureAccess::eTexture1DShadowFBias:
+		case ast::expr::TextureAccess::eTexture2DShadowF:
+		case ast::expr::TextureAccess::eTexture2DShadowFBias:
+		case ast::expr::TextureAccess::eTextureCubeShadowF:
+		case ast::expr::TextureAccess::eTextureCubeShadowFBias:
+		case ast::expr::TextureAccess::eTexture1DArrayShadowF:
+		case ast::expr::TextureAccess::eTexture1DArrayShadowFBias:
+		case ast::expr::TextureAccess::eTexture2DArrayShadowF:
+		case ast::expr::TextureAccess::eTexture2DArrayShadowFBias:
+		case ast::expr::TextureAccess::eTexture2DRectShadowF:
+		case ast::expr::TextureAccess::eTextureCubeArrayShadowF:
+			result = "SDW_texture";
+			break;
+
+		case ast::expr::TextureAccess::eTextureProj1DShadowF:
+		case ast::expr::TextureAccess::eTextureProj1DShadowFBias:
+		case ast::expr::TextureAccess::eTextureProj2DShadowF:
+		case ast::expr::TextureAccess::eTextureProj2DShadowFBias:
+		case ast::expr::TextureAccess::eTextureProj2DRectShadowF:
+			result = "SDW_textureProj";
+			break;
+
+		case ast::expr::TextureAccess::eTextureLod1DShadowF:
+		case ast::expr::TextureAccess::eTextureLod2DShadowF:
+		case ast::expr::TextureAccess::eTextureLod1DArrayShadowF:
+			result = "SDW_textureLod";
+			break;
+
+		case ast::expr::TextureAccess::eTextureOffset2DRectShadowF:
+		case ast::expr::TextureAccess::eTextureOffset1DShadowF:
+		case ast::expr::TextureAccess::eTextureOffset1DShadowFBias:
+		case ast::expr::TextureAccess::eTextureOffset2DShadowF:
+		case ast::expr::TextureAccess::eTextureOffset2DShadowFBias:
+		case ast::expr::TextureAccess::eTextureOffset1DArrayShadowF:
+		case ast::expr::TextureAccess::eTextureOffset2DArrayShadowF:
+			result = "SDW_textureOffset";
+			break;
+
+		case ast::expr::TextureAccess::eTextureProjOffset1DShadowF:
+		case ast::expr::TextureAccess::eTextureProjOffset1DShadowFBias:
+		case ast::expr::TextureAccess::eTextureProjOffset2DShadowF:
+		case ast::expr::TextureAccess::eTextureProjOffset2DShadowFBias:
+		case ast::expr::TextureAccess::eTextureProjOffset2DRectShadowF:
+			result = "SDW_textureProjOffset";
+			break;
+
+		case ast::expr::TextureAccess::eTextureLodOffset1DShadowF:
+		case ast::expr::TextureAccess::eTextureLodOffset2DShadowF:
+		case ast::expr::TextureAccess::eTextureLodOffset1DArrayShadowF:
+			result = "SDW_textureLodOffset";
+			break;
+
+		case ast::expr::TextureAccess::eTextureProjLod1DShadowF:
+		case ast::expr::TextureAccess::eTextureProjLod2DShadowF:
+			result = "SDW_textureProjLod";
+			break;
+
+		case ast::expr::TextureAccess::eTextureProjLodOffset1DShadowF:
+		case ast::expr::TextureAccess::eTextureProjLodOffset2DShadowF:
+			result = "SDW_textureProjLodOffset";
+			break;
+
+		case ast::expr::TextureAccess::eTextureGrad2DRectShadowF:
+		case ast::expr::TextureAccess::eTextureGrad1DShadowF:
+		case ast::expr::TextureAccess::eTextureGrad2DShadowF:
+		case ast::expr::TextureAccess::eTextureGrad1DArrayShadowF:
+			result = "SDW_textureGrad";
+			break;
+
+		case ast::expr::TextureAccess::eTextureGradOffset2DRectShadowF:
+		case ast::expr::TextureAccess::eTextureGradOffset1DShadowF:
+		case ast::expr::TextureAccess::eTextureGradOffset2DShadowF:
+		case ast::expr::TextureAccess::eTextureGradOffset1DArrayShadowF:
+		case ast::expr::TextureAccess::eTextureGradOffset2DArrayShadowF:
+			result = "SDW_textureGradOffset";
+			break;
+
+		case ast::expr::TextureAccess::eTextureProjGrad1DShadowF:
+		case ast::expr::TextureAccess::eTextureProjGrad2DShadowF:
+		case ast::expr::TextureAccess::eTextureProjGrad2DRectShadowF:
+			result = "SDW_textureProjGrad";
+			break;
+
+		case ast::expr::TextureAccess::eTextureProjGradOffset1DShadowF:
+		case ast::expr::TextureAccess::eTextureProjGradOffset2DShadowF:
+		case ast::expr::TextureAccess::eTextureProjGradOffset2DRectShadowF:
+			result = "SDW_textureProjGradOffset";
+			break;
+
 
 	// Texture Gather Functions
 		case ast::expr::TextureAccess::eTextureGather2DF:
@@ -564,11 +602,6 @@ namespace sdw
 		case ast::expr::TextureAccess::eTextureGatherCubeArrayFComp:
 		case ast::expr::TextureAccess::eTextureGather2DRectF:
 		case ast::expr::TextureAccess::eTextureGather2DRectFComp:
-		case ast::expr::TextureAccess::eTextureGather2DShadowF:
-		case ast::expr::TextureAccess::eTextureGather2DArrayShadowF:
-		case ast::expr::TextureAccess::eTextureGatherCubeShadowF:
-		case ast::expr::TextureAccess::eTextureGatherCubeArrayShadowF:
-		case ast::expr::TextureAccess::eTextureGather2DRectShadowF:
 		case ast::expr::TextureAccess::eTextureGather2DI:
 		case ast::expr::TextureAccess::eTextureGather2DIComp:
 		case ast::expr::TextureAccess::eTextureGather2DArrayI:
@@ -598,9 +631,6 @@ namespace sdw
 		case ast::expr::TextureAccess::eTextureGatherOffset2DArrayFComp:
 		case ast::expr::TextureAccess::eTextureGatherOffset2DRectF:
 		case ast::expr::TextureAccess::eTextureGatherOffset2DRectFComp:
-		case ast::expr::TextureAccess::eTextureGatherOffset2DShadowF:
-		case ast::expr::TextureAccess::eTextureGatherOffset2DArrayShadowF:
-		case ast::expr::TextureAccess::eTextureGatherOffset2DRectShadowF:
 		case ast::expr::TextureAccess::eTextureGatherOffset2DI:
 		case ast::expr::TextureAccess::eTextureGatherOffset2DIComp:
 		case ast::expr::TextureAccess::eTextureGatherOffset2DArrayI:
@@ -622,9 +652,6 @@ namespace sdw
 		case ast::expr::TextureAccess::eTextureGatherOffsets2DArrayFComp:
 		case ast::expr::TextureAccess::eTextureGatherOffsets2DRectF:
 		case ast::expr::TextureAccess::eTextureGatherOffsets2DRectFComp:
-		case ast::expr::TextureAccess::eTextureGatherOffsets2DShadowF:
-		case ast::expr::TextureAccess::eTextureGatherOffsets2DArrayShadowF:
-		case ast::expr::TextureAccess::eTextureGatherOffsets2DRectShadowF:
 		case ast::expr::TextureAccess::eTextureGatherOffsets2DI:
 		case ast::expr::TextureAccess::eTextureGatherOffsets2DIComp:
 		case ast::expr::TextureAccess::eTextureGatherOffsets2DArrayI:
@@ -637,6 +664,28 @@ namespace sdw
 		case ast::expr::TextureAccess::eTextureGatherOffsets2DArrayUComp:
 		case ast::expr::TextureAccess::eTextureGatherOffsets2DRectU:
 		case ast::expr::TextureAccess::eTextureGatherOffsets2DRectUComp:
+			result = "textureGatherOffsets";
+			break;
+
+
+	// Texture Gather Compare Functions
+		case ast::expr::TextureAccess::eTextureGather2DShadowF:
+		case ast::expr::TextureAccess::eTextureGather2DArrayShadowF:
+		case ast::expr::TextureAccess::eTextureGatherCubeShadowF:
+		case ast::expr::TextureAccess::eTextureGatherCubeArrayShadowF:
+		case ast::expr::TextureAccess::eTextureGather2DRectShadowF:
+			result = "textureGather";
+			break;
+
+		case ast::expr::TextureAccess::eTextureGatherOffset2DShadowF:
+		case ast::expr::TextureAccess::eTextureGatherOffset2DArrayShadowF:
+		case ast::expr::TextureAccess::eTextureGatherOffset2DRectShadowF:
+			result = "textureGatherOffset";
+			break;
+
+		case ast::expr::TextureAccess::eTextureGatherOffsets2DShadowF:
+		case ast::expr::TextureAccess::eTextureGatherOffsets2DArrayShadowF:
+		case ast::expr::TextureAccess::eTextureGatherOffsets2DRectShadowF:
 			result = "textureGatherOffsets";
 			break;
 

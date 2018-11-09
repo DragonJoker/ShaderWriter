@@ -165,11 +165,24 @@ namespace sdw::spirv
 		InstructionList * variables;
 
 	private:
-		spv::Id registerBaseType( type::Kind kind );
-		spv::Id registerBaseType( type::StructPtr type );
-		spv::Id registerBaseType( type::SampledImagePtr type );
-		spv::Id registerBaseType( type::ImagePtr type );
-		spv::Id registerBaseType( type::TypePtr type );
+		spv::Id registerType( type::TypePtr type
+			, uint32_t mbrIndex
+			, spv::Id parentId );
+		spv::Id registerBaseType( type::Kind kind
+			, uint32_t mbrIndex
+			, spv::Id parentId );
+		spv::Id registerBaseType( type::StructPtr type
+			, uint32_t mbrIndex
+			, spv::Id parentId );
+		spv::Id registerBaseType( type::SampledImagePtr type
+			, uint32_t mbrIndex
+			, spv::Id parentId );
+		spv::Id registerBaseType( type::ImagePtr type
+			, uint32_t mbrIndex
+			, spv::Id parentId );
+		spv::Id registerBaseType( type::TypePtr type
+			, uint32_t mbrIndex
+			, spv::Id parentId );
 
 	private:
 		spv::Id * m_currentId;

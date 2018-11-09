@@ -11,26 +11,30 @@ See LICENSE file in root folder
 namespace sdw
 {
 	template< ast::type::ImageDim DimT
-		, ast::type::ImageFormat FormatT
-		, bool ArrayedT
-		, bool DepthT
-		, bool MsT >
-	inline ast::type::ImageConfiguration makeConfig( bool sampled
-		, bool readOnly );
+		, bool ArrayedT >
+	struct ImageCoordsGetter;
+
+	template< ast::type::ImageDim DimT
+		, bool ArrayedT >
+	using ImageCoordsGetterT = typename ImageCoordsGetter< DimT, ArrayedT >::Type;
 
 	struct Image
 		: public Value
 	{
 		Image( Shader * shader
-			, expr::ExprPtr expr );
+			, expr::ExprPtr expr
+			, ast::type::ImageFormat format );
 		Image( Image const & rhs );
 		template< typename T >
 		inline Image & operator=( T const & rhs );
 		operator uint32_t();
+
+	private:
+		ast::type::ImageFormat m_format;
 	};
 
-	template< ast::type::ImageDim DimT
-		, ast::type::ImageFormat FormatT
+	template< ast::type::Kind SampledT
+		, ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool DepthT
 		, bool MsT >
@@ -38,13 +42,14 @@ namespace sdw
 		: public Image
 	{
 		inline ImageT( Shader * shader
-			, expr::ExprPtr expr );
+			, expr::ExprPtr expr
+			, ast::type::ImageFormat format = ast::type::ImageFormat::eUnknown );
 		inline ImageT( ImageT const & rhs );
 		template< typename T >
 		inline ImageT & operator=( T const & rhs );
 		inline operator uint32_t();
 
-		static inline ast::type::ImageConfiguration makeConfig();
+		static inline ast::type::ImageConfiguration makeConfig( ast::type::ImageFormat format = ast::type::ImageFormat::eUnknown );
 	};
 }
 

@@ -9,7 +9,7 @@ See LICENSE file in root folder
 
 namespace ast::type
 {
-	enum class Ternary
+	enum class Trinary
 		: uint8_t
 	{
 		eFalse,
@@ -237,66 +237,180 @@ namespace ast::type
 
 	struct ImageConfiguration
 	{
+		ImageConfiguration( type::Kind sampledType = type::Kind::eFloat
+			, ImageDim dimension = ImageDim::e1D
+			, ImageFormat format = ImageFormat::eUnknown
+			, Trinary isDepth = Trinary::eFalse
+			, Trinary isSampled = Trinary::eFalse
+			, bool isArrayed = false
+			, bool isMS = false
+			, AccessKind accessKind = AccessKind::eRead )
+			: sampledType{ sampledType }
+			, dimension{ dimension }
+			, format{ format }
+			, isDepth{ isDepth }
+			, isSampled{ isSampled }
+			, isArrayed{ isArrayed }
+			, isMS{ isMS }
+			, accessKind{ accessKind }
+		{
+			assert( this->sampledType == type::Kind::eFloat
+				|| this->sampledType == type::Kind::eInt
+				|| this->sampledType == type::Kind::eUInt );
+		}/*
+
+		inline uint32_t getComponentCount()const
+		{
+			switch ( format )
+			{
+			case ImageFormat::eRgba32f:
+			case ImageFormat::eRgba16f:
+			case ImageFormat::eRgba32i:
+			case ImageFormat::eRgba16i:
+			case ImageFormat::eRgba8i:
+			case ImageFormat::eRgba32u:
+			case ImageFormat::eRgba16u:
+			case ImageFormat::eRgba8u:
+				return 4u;
+
+			case ImageFormat::eRg32f:
+			case ImageFormat::eRg16f:
+			case ImageFormat::eRg32i:
+			case ImageFormat::eRg16i:
+			case ImageFormat::eRg8i:
+			case ImageFormat::eRg32u:
+			case ImageFormat::eRg16u:
+			case ImageFormat::eRg8u:
+				return 2u;
+
+			case ImageFormat::eR32f:
+			case ImageFormat::eR16f:
+			case ImageFormat::eR32i:
+			case ImageFormat::eR16i:
+			case ImageFormat::eR8i:
+			case ImageFormat::eR32u:
+			case ImageFormat::eR16u:
+			case ImageFormat::eR8u:
+				return 1u;
+
+			default:
+				assert( false && "Unsupported type::ImageFormat" );
+				return 0u;
+			}
+		}
+
+		inline Kind getComponentType()const
+		{
+			switch ( format )
+			{
+			case ImageFormat::eRgba32f:
+			case ImageFormat::eRgba16f:
+			case ImageFormat::eRg32f:
+			case ImageFormat::eRg16f:
+			case ImageFormat::eR32f:
+			case ImageFormat::eR16f:
+				return Kind::eFloat;
+
+			case ImageFormat::eRgba32i:
+			case ImageFormat::eRgba16i:
+			case ImageFormat::eRgba8i:
+			case ImageFormat::eRg32i:
+			case ImageFormat::eRg16i:
+			case ImageFormat::eRg8i:
+			case ImageFormat::eR32i:
+			case ImageFormat::eR16i:
+			case ImageFormat::eR8i:
+				return Kind::eInt;
+
+			case ImageFormat::eRgba32u:
+			case ImageFormat::eRgba16u:
+			case ImageFormat::eRgba8u:
+			case ImageFormat::eRg32u:
+			case ImageFormat::eRg16u:
+			case ImageFormat::eRg8u:
+			case ImageFormat::eR32u:
+			case ImageFormat::eR16u:
+			case ImageFormat::eR8u:
+				return Kind::eUInt;
+
+			default:
+				assert( false && "Unsupported type::ImageFormat" );
+				return Kind::eUndefined;
+			}
+		}*/
+
+		type::Kind sampledType;
 		ImageDim dimension;
 		ImageFormat format;
-		Ternary isDepth;
-		Ternary isSampled;
+		Trinary isDepth;
+		Trinary isSampled;
 		bool isArrayed;
 		bool isMS;
 		AccessKind accessKind;
-		uint32_t componentCount;
-		Kind componentType;
 	};
+
+	template< Kind SampledT
+		, ImageDim DimT
+		, bool ArrayedT
+		, bool DepthT
+		, bool MsT >
+		inline ImageConfiguration makeConfig( ImageFormat format
+			, bool sampled
+			, bool readOnly )
+	{
+		ImageConfiguration result{};
+		result.isMS = MsT;
+		result.isArrayed = ArrayedT;
+		result.isDepth = DepthT ? Trinary::eTrue : Trinary::eFalse;
+		result.format = format;
+		result.dimension = DimT;
+		result.isSampled = sampled ? Trinary::eTrue : Trinary::eFalse;
+		result.accessKind = readOnly ? AccessKind::eRead : AccessKind::eReadWrite;
+		return result;
+	}
 }
 
-#define Img1DRGBA32F ast::type::ImageDim::e1D, ast::type::ImageFormat::eRgba32f, false, false, false
-#define Img1DRGBA8I ast::type::ImageDim::e1D, ast::type::ImageFormat::eRgba8i, false, false, false
-#define Img1DRGBA8U ast::type::ImageDim::e1D, ast::type::ImageFormat::eRgba8u, false, false, false
-#define Img2DRGBA32F ast::type::ImageDim::e2D, ast::type::ImageFormat::eRgba32f, false, false, false
-#define Img2DRGBA8I ast::type::ImageDim::e2D, ast::type::ImageFormat::eRgba8i, false, false, false
-#define Img2DRGBA8U ast::type::ImageDim::e2D, ast::type::ImageFormat::eRgba8u, false, false, false
-#define Img3DRGBA32F ast::type::ImageDim::e3D, ast::type::ImageFormat::eRgba32f, false, false, false
-#define Img3DRGBA8I ast::type::ImageDim::e3D, ast::type::ImageFormat::eRgba8i, false, false, false
-#define Img3DRGBA8U ast::type::ImageDim::e3D, ast::type::ImageFormat::eRgba8u, false, false, false
-#define ImgRectRGBA32F ast::type::ImageDim::eRect, ast::type::ImageFormat::eRgba32f, false, false, false
-#define ImgRectRGBA8I ast::type::ImageDim::eRect, ast::type::ImageFormat::eRgba8i, false, false, false
-#define ImgRectRGBA8U ast::type::ImageDim::eRect, ast::type::ImageFormat::eRgba8u, false, false, false
-#define ImgCubeRGBA32F ast::type::ImageDim::eCube, ast::type::ImageFormat::eRgba32f, false, false, false
-#define ImgCubeRGBA8I ast::type::ImageDim::eCube, ast::type::ImageFormat::eRgba8i, false, false, false
-#define ImgCubeRGBA8U ast::type::ImageDim::eCube, ast::type::ImageFormat::eRgba8u, false, false, false
-#define ImgBufferRGBA32F ast::type::ImageDim::eBuffer, ast::type::ImageFormat::eRgba32f, false, false, false
-#define ImgBufferRGBA8I ast::type::ImageDim::eBuffer, ast::type::ImageFormat::eRgba8i, false, false, false
-#define ImgBufferRGBA8U ast::type::ImageDim::eBuffer, ast::type::ImageFormat::eRgba8u, false, false, false
+#define FImg1D ast::type::Kind::eFloat, ast::type::ImageDim::e1D, false, false, false
+#define FImg2D ast::type::Kind::eFloat, ast::type::ImageDim::e2D, false, false, false
+#define FImg3D ast::type::Kind::eFloat, ast::type::ImageDim::e3D, false, false, false
+#define FImgRect ast::type::Kind::eFloat, ast::type::ImageDim::eRect, false, false, false
+#define FImgCube ast::type::Kind::eFloat, ast::type::ImageDim::eCube, false, false, false
+#define FImgBuffer ast::type::Kind::eFloat, ast::type::ImageDim::eBuffer, false, false, false
+#define FImg1DArray ast::type::Kind::eFloat, ast::type::ImageDim::e1D, true, false, false
+#define FImg2DArray ast::type::Kind::eFloat, ast::type::ImageDim::e2D, true, false, false
+#define FImgCubeArray ast::type::Kind::eFloat, ast::type::ImageDim::eCube, true, false, false
+#define FImg1DShadow ast::type::Kind::eFloat, ast::type::ImageDim::e1D, false, true, false
+#define FImg2DShadow ast::type::Kind::eFloat, ast::type::ImageDim::e2D, false, true, false
+#define FImgRectShadow ast::type::Kind::eFloat, ast::type::ImageDim::eRect, false, true, false
+#define FImgCubeShadow ast::type::Kind::eFloat, ast::type::ImageDim::eCube, false, true, false
+#define FImg1DArrayShadow ast::type::Kind::eFloat, ast::type::ImageDim::e1D, true, true, false
+#define FImg2DArrayShadow ast::type::Kind::eFloat, ast::type::ImageDim::e2D, true, true, false
+#define FImgCubeArrayShadow ast::type::Kind::eFloat, ast::type::ImageDim::eCube, true, true, false
+#define FImg2DMS ast::type::Kind::eFloat, ast::type::ImageDim::e2D, false, false, true
+#define FImg2DMSArray ast::type::Kind::eFloat, ast::type::ImageDim::e2D, true, false, true
 
-#define Img1DArrayRGBA32F ast::type::ImageDim::e1D, ast::type::ImageFormat::eRgba32f, true, false, false
-#define Img1DArrayRGBA8I ast::type::ImageDim::e1D, ast::type::ImageFormat::eRgba8i, true, false, false
-#define Img1DArrayRGBA8U ast::type::ImageDim::e1D, ast::type::ImageFormat::eRgba8u, true, false, false
-#define Img2DArrayRGBA32F ast::type::ImageDim::e2D, ast::type::ImageFormat::eRgba32f, true, false, false
-#define Img2DArrayRGBA8I ast::type::ImageDim::e2D, ast::type::ImageFormat::eRgba8i, true, false, false
-#define Img2DArrayRGBA8U ast::type::ImageDim::e2D, ast::type::ImageFormat::eRgba8u, true, false, false
-#define ImgRectArrayRGBA32F ast::type::ImageDim::eRect, ast::type::ImageFormat::eRgba32f, true, false, false
-#define ImgRectArrayRGBA8I ast::type::ImageDim::eRect, ast::type::ImageFormat::eRgba8i, true, false, false
-#define ImgRectArrayRGBA8U ast::type::ImageDim::eRect, ast::type::ImageFormat::eRgba8u, true, false, false
-#define ImgCubeArrayRGBA32F ast::type::ImageDim::eCube, ast::type::ImageFormat::eRgba32f, true, false, false
-#define ImgCubeArrayRGBA8I ast::type::ImageDim::eCube, ast::type::ImageFormat::eRgba8i, true, false, false
-#define ImgCubeArrayRGBA8U ast::type::ImageDim::eCube, ast::type::ImageFormat::eRgba8u, true, false, false
+#define IImg1D ast::type::Kind::eInt, ast::type::ImageDim::e1D, false, false, false
+#define IImg2D ast::type::Kind::eInt, ast::type::ImageDim::e2D, false, false, false
+#define IImg3D ast::type::Kind::eInt, ast::type::ImageDim::e3D, false, false, false
+#define IImgRect ast::type::Kind::eInt, ast::type::ImageDim::eRect, false, false, false
+#define IImgCube ast::type::Kind::eInt, ast::type::ImageDim::eCube, false, false, false
+#define IImgBuffer ast::type::Kind::eInt, ast::type::ImageDim::eBuffer, false, false, false
+#define IImg1DArray ast::type::Kind::eInt, ast::type::ImageDim::e1D, true, false, false
+#define IImg2DArray ast::type::Kind::eInt, ast::type::ImageDim::e2D, true, false, false
+#define IImgCubeArray ast::type::Kind::eInt, ast::type::ImageDim::eCube, true, false, false
+#define IImg2DMS ast::type::Kind::eInt, ast::type::ImageDim::e2D, false, false, true
+#define IImg2DMSArray ast::type::Kind::eInt, ast::type::ImageDim::e2D, true, false, true
 
-#define Img1DShadowRGBA32F ast::type::ImageDim::e1D, ast::type::ImageFormat::eRgba32f, false, true, false
-#define Img2DShadowRGBA32F ast::type::ImageDim::e2D, ast::type::ImageFormat::eRgba32f, false, true, false
-#define ImgRectShadowRGBA32F ast::type::ImageDim::eRect, ast::type::ImageFormat::eRgba32f, false, true, false
-#define ImgCubeShadowRGBA32F ast::type::ImageDim::eCube, ast::type::ImageFormat::eRgba32f, false, true, false
-
-#define Img1DArrayShadowRGBA32F ast::type::ImageDim::e1D, ast::type::ImageFormat::eRgba32f, true, true, false
-#define Img2DArrayShadowRGBA32F ast::type::ImageDim::e2D, ast::type::ImageFormat::eRgba32f, true, true, false
-#define ImgRectArrayShadowF ast::type::ImageDim::eRect, ast::type::ImageFormat::eRgba32f, true, true, false
-#define ImgCubeArrayShadowRGBA32F ast::type::ImageDim::eCube, ast::type::ImageFormat::eRgba32f, true, true, false
-
-#define Img2DMSRGBA32F ast::type::ImageDim::e2D, ast::type::ImageFormat::eRgba32f, false, false, true
-#define Img2DMSRGBA8I ast::type::ImageDim::e2D, ast::type::ImageFormat::eRgba8i, false, false, true
-#define Img2DMSRGBA8U ast::type::ImageDim::e2D, ast::type::ImageFormat::eRgba8u, false, false, true
-
-#define Img2DMSArrayRGBA32F ast::type::ImageDim::e2D, ast::type::ImageFormat::eRgba32f, true, false, true
-#define Img2DMSArrayRGBA8I ast::type::ImageDim::e2D, ast::type::ImageFormat::eRgba8i, true, false, true
-#define Img2DMSArrayRGBA8U ast::type::ImageDim::e2D, ast::type::ImageFormat::eRgba8u, true, false, true
+#define UImg1D ast::type::Kind::eUInt, ast::type::ImageDim::e1D, false, false, false
+#define UImg2D ast::type::Kind::eUInt, ast::type::ImageDim::e2D, false, false, false
+#define UImg3D ast::type::Kind::eUInt, ast::type::ImageDim::e3D, false, false, false
+#define UImgRect ast::type::Kind::eUInt, ast::type::ImageDim::eRect, false, false, false
+#define UImgCube ast::type::Kind::eUInt, ast::type::ImageDim::eCube, false, false, false
+#define UImgBuffer ast::type::Kind::eUInt, ast::type::ImageDim::eBuffer, false, false, false
+#define UImg1DArray ast::type::Kind::eUInt, ast::type::ImageDim::e1D, true, false, false
+#define UImg2DArray ast::type::Kind::eUInt, ast::type::ImageDim::e2D, true, false, false
+#define UImgCubeArray ast::type::Kind::eUInt, ast::type::ImageDim::eCube, true, false, false
+#define UImg2DMS ast::type::Kind::eUInt, ast::type::ImageDim::e2D, false, false, true
+#define UImg2DMSArray ast::type::Kind::eUInt, ast::type::ImageDim::e2D, true, false, true
 
 #endif

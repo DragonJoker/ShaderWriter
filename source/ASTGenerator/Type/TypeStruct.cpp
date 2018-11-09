@@ -24,6 +24,173 @@ namespace ast::type
 			return result + align;
 		}
 
+		uint32_t getScalarSize( Kind kind )
+		{
+			assert( isScalarType( kind ) );
+			uint32_t result;
+
+			switch ( kind )
+			{
+			case Kind::eBoolean:
+				result = 1u;
+				break;
+			case Kind::eHalf:
+				result = 2u;
+				break;
+			case Kind::eInt:
+			case Kind::eUInt:
+			case Kind::eFloat:
+				result = 4u;
+				break;
+			case Kind::eDouble:
+				result = 8u;
+				break;
+			}
+
+			return result;
+		}
+
+		uint32_t getSize140( Kind kind
+			, bool isArray );
+
+		uint32_t getSize140NotArray( Kind kind
+			, bool isVec4Padded )
+		{
+			// From 7.6.2.2 in GL 4.5 core spec
+			// (https://www.khronos.org/registry/OpenGL/specs/gl/glspec45.core.pdf).
+
+			// Rule 1
+			if ( isScalarType( kind ) )
+			{
+				return getScalarSize( kind );
+			}
+
+			auto componentCount = getComponentCount( kind );
+
+			// Rule 2
+			if ( isVectorType( kind )
+				&& ( componentCount == 2u || componentCount == 4u ) )
+			{
+				return componentCount * getScalarSize( getComponentType( kind ) );
+			}
+
+			// Rule 3
+			if ( isVectorType( kind )
+				&& componentCount == 3u )
+			{
+				return 4u * getScalarSize( getComponentType( kind ) );
+			}
+
+			// Rule 4 is about arrays.
+
+			/* Not scalar, not vector => Matrix type */
+
+			// Rule 5: Column-major matrices are stored as arrays of
+			// vectors.
+			if ( isVec4Padded )
+			{
+				return componentCount * 4u * getScalarSize( getComponentType( getComponentType( kind ) ) );
+			}
+			else
+			{
+				return componentCount * getSize140( getComponentType( kind ), true );
+			}
+
+			// Rule 6 is about arrays.
+
+			// Rule 7 is about column matrices, that are not supported. TODO ?.
+
+			// Rule 8 is about arrays.
+
+			// Rule 9 is about structures.
+		}
+
+		uint32_t getSize140( Kind kind
+			, bool isArray )
+		{
+			if ( !isArray )
+			{
+				return getSize140NotArray( kind, false );
+			}
+
+			return std::max( 16u, getSize140NotArray( kind, true ) );
+		}
+
+		uint32_t getSize430( Kind kind
+			, bool isArray );
+
+		uint32_t getSize430NotArray( Kind kind )
+		{
+			// From 7.6.2.2 in GL 4.5 core spec
+			// (https://www.khronos.org/registry/OpenGL/specs/gl/glspec45.core.pdf).
+
+			// Rule 1
+			if ( isScalarType( kind ) )
+			{
+				return getScalarSize( kind );
+			}
+
+			auto componentCount = getComponentCount( kind );
+
+			// Rule 2
+			if ( isVectorType( kind )
+				&& ( componentCount == 2u || componentCount == 4u ) )
+			{
+				return componentCount * getScalarSize( getComponentType( kind ) );
+			}
+
+			// Rule 3
+			if ( isVectorType( kind )
+				&& componentCount == 3u )
+			{
+				return 4u * getScalarSize( getComponentType( kind ) );
+			}
+
+			// Rule 4 is about arrays.
+
+			/* Not scalar, not vector => Matrix type */
+
+			// Rule 5: Column-major matrices are stored as arrays of
+			// vectors.
+			return componentCount * getSize430( getComponentType( kind ), true );
+
+			// Rule 6 is about arrays.
+
+			// Rule 7 is about column matrices, that are not supported. TODO ?.
+
+			// Rule 8 is about arrays.
+
+			// Rule 9 is about structures.
+		}
+
+		uint32_t getSize430( Kind kind
+			, bool isArray )
+		{
+			return getSize430NotArray( kind );
+		}
+
+		uint32_t getSize( Kind kind
+			, bool isArray
+			, MemoryLayout layout )
+		{
+			assert( isScalarType( kind )
+				|| isVectorType( kind )
+				|| isMatrixType( kind ) );
+
+			uint32_t result;
+
+			if ( layout == MemoryLayout::eStd430 )
+			{
+				result = getSize430( kind, isArray );
+			}
+			else
+			{
+				result = getSize140( kind, isArray );
+			}
+
+			return result;
+		}
+
 		uint32_t getSize( Struct const & type
 			, MemoryLayout layout )
 		{
@@ -41,111 +208,9 @@ namespace ast::type
 		uint32_t getSize( Type const & type
 			, MemoryLayout layout )
 		{
-			uint32_t result;
-
-			Kind kind = type.getKind();
-
-			switch ( kind )
-			{
-			case Kind::eUndefined:
-			case Kind::eVoid:
-			case Kind::eFunction:
-				result = 0;
-				break;
-			case Kind::eStruct:
-				result = getSize( static_cast< Struct const & >( type )
-					, layout );
-				break;
-			case Kind::eBoolean:
-				result = 1;
-				break;
-			case Kind::eInt:
-			case Kind::eUInt:
-			case Kind::eFloat:
-				result = 4;
-				break;
-			case Kind::eDouble:
-				result = 8;
-				break;
-			case Kind::eVec2B:
-				result = 2;
-				break;
-			case Kind::eVec3B:
-				result = 3;
-				break;
-			case Kind::eVec4B:
-				result = 4;
-				break;
-			case Kind::eVec2I:
-			case Kind::eVec2U:
-			case Kind::eVec2F:
-				result = 8;
-				break;
-			case Kind::eVec3I:
-			case Kind::eVec3U:
-			case Kind::eVec3F:
-				result = 12;
-				break;
-			case Kind::eVec4I:
-			case Kind::eVec4U:
-			case Kind::eVec4F:
-			case Kind::eVec2D:
-			case Kind::eMat2x2F:
-				result = 16;
-				break;
-			case Kind::eVec3D:
-			case Kind::eMat2x3F:
-			case Kind::eMat3x2F:
-				result = 24;
-				break;
-			case Kind::eVec4D:
-			case Kind::eMat2x4F:
-			case Kind::eMat4x2F:
-			case Kind::eMat2x2D:
-				result = 32;
-				break;
-			case Kind::eMat3x3F:
-				result = 36;
-				break;
-			case Kind::eMat3x4F:
-			case Kind::eMat4x3F:
-			case Kind::eMat2x3D:
-			case Kind::eMat3x2D:
-				result = 48;
-				break;
-			case Kind::eMat4x4F:
-			case Kind::eMat2x4D:
-			case Kind::eMat4x2D:
-				result = 64;
-				break;
-			case Kind::eMat3x3D:
-				result = 72;
-				break;
-			case Kind::eMat3x4D:
-			case Kind::eMat4x3D:
-				result = 96;
-				break;
-			case Kind::eMat4x4D:
-				result = 128;
-				break;
-			case Kind::eConstantsBuffer:
-			case Kind::eShaderBuffer:
-			case Kind::eImage:
-			case Kind::eSampler:
-			case Kind::eSampledImage:
-				result = 1u;
-				break;
-			default:
-				assert( false && "Unsizeable Kind" );
-				result = 0u;
-				break;
-			}
-
-			if ( layout == MemoryLayout::eStd140 )
-			{
-				result = getAlignedSize( result, 16u );
-			}
-
+			uint32_t result = type.getKind() == Kind::eStruct
+				? getSize( static_cast< Struct const & >( type ), layout )
+				: getSize( type.getKind(), type.getArraySize() != type::NotArray, layout );
 			return ( type.getArraySize() != type::NotArray && type.getArraySize() != type::UnknownArraySize )
 				? result * type.getArraySize()
 				: result;
@@ -300,7 +365,7 @@ namespace ast::type
 		return StructPtr{ new Struct
 		{
 			nullptr,
-			~( 0u ),
+			NotMember,
 			*this,
 			getArraySize(),
 		} };

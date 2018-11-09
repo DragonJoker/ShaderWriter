@@ -9,6 +9,8 @@ See LICENSE file in root folder
 
 #include <ASTGenerator/Expr/ExprVisitor.hpp>
 
+#include <array>
+
 namespace sdw::spirv
 {
 	spv::StorageClass getStorageClass( var::VariablePtr var );
@@ -62,10 +64,21 @@ namespace sdw::spirv
 		void visitSwizzleExpr( expr::Swizzle * expr )override;
 		void visitTextureAccessCallExpr( expr::TextureAccessCall * expr )override;
 
+		void handleCarryBorrowIntrinsicCallExpr( spv::Op opCode, expr::IntrinsicCall * expr );
+		void handleMulExtendedIntrinsicCallExpr( spv::Op opCode, expr::IntrinsicCall * expr );
+		void handleAtomicIntrinsicCallExpr( spv::Op opCode, expr::IntrinsicCall * expr );
+		void handleExtensionIntrinsicCallExpr( spv::Id opCode, expr::IntrinsicCall * expr );
+		void handleOtherIntrinsicCallExpr( spv::Op opCode, expr::IntrinsicCall * expr );
+		spv::Id getUnsignedExtendedResultTypeId( uint32_t count );
+		spv::Id getSignedExtendedResultTypeId( uint32_t count );
+		spv::Id getVariableIdNoLoad( expr::Expr * expr );
+
 	private:
 		spv::Id & m_result;
 		Block & m_currentBlock;
 		Module & m_module;
+		std::array< type::StructPtr, 4u > m_unsignedExtendedTypes;
+		std::array< type::StructPtr, 4u > m_signedExtendedTypes;
 	};
 }
 

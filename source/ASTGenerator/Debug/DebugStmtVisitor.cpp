@@ -299,6 +299,10 @@ namespace ast::debug
 		{
 			m_result += "CONST";
 		}
+		else if ( stmt->getVariable()->isPushConstant() )
+		{
+			m_result += "PUSH";
+		}
 		else if ( stmt->getVariable()->isShaderInput()
 			|| stmt->getVariable()->isShaderOutput() )
 		{

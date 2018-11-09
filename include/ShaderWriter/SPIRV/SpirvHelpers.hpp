@@ -22,9 +22,6 @@ namespace sdw::spirv
 	spv::ExecutionModel getExecutionModel( ShaderType kind );
 	std::string getTypeName( spv::Op op );
 	std::string getOperatorName( spv::Op op );
-	std::string getLocationName( var::Variable const & var );
-	std::string getDirectionName( var::Variable const & var );
-	std::string getStatusName( stmt::PreprocExtension::Status status );
 
 	Instruction makeExtension( std::string const & name );
 	Instruction makeName( spv::Op op
@@ -86,15 +83,12 @@ namespace sdw::spirv
 		, spv::Id typeId );
 	Instruction makeInstruction( expr::Kind exprKind
 		, type::Kind typeKind );
-	Instruction makeInstruction( expr::TextureAccess kind );
 
 	Instruction makeInstruction( spv::Op op
 		, IdList const & operands );
 	Instruction makeInstruction( expr::Kind exprKind
 		, type::Kind typeKind
 		, IdList const & operands );
-	Instruction makeInstruction( expr::TextureAccess kind
-		, IdList operands );
 
 	Instruction makeInstruction( spv::Op op
 		, IdList const & operands
@@ -103,9 +97,6 @@ namespace sdw::spirv
 		, type::Kind typeKind
 		, IdList const & operands
 		, std::string const & name );
-	Instruction makeInstruction( expr::TextureAccess kind
-		, IdList operands
-		, std::string const & name );
 
 	Instruction makeInstruction( spv::Op op
 		, spv::Id resultId
@@ -114,9 +105,6 @@ namespace sdw::spirv
 		, type::Kind typeKind
 		, spv::Id resultId
 		, IdList const & operands );
-	Instruction makeInstruction( expr::TextureAccess kind
-		, spv::Id resultId
-		, IdList operands );
 
 	Instruction makeInstruction( spv::Op op
 		, spv::Id resultId
@@ -127,10 +115,6 @@ namespace sdw::spirv
 		, spv::Id resultId
 		, spv::Id typeId
 		, IdList const & operands );
-	Instruction makeInstruction( expr::TextureAccess kind
-		, spv::Id resultId
-		, spv::Id typeId
-		, IdList operands );
 
 	Instruction makeInstruction( spv::Op op
 		, spv::Id resultId
@@ -139,11 +123,6 @@ namespace sdw::spirv
 		, std::string const & name );
 	Instruction makeInstruction( expr::Kind exprKind
 		, type::Kind typeKind
-		, spv::Id resultId
-		, spv::Id typeId
-		, IdList const & operands
-		, std::string const & name );
-	Instruction makeInstruction( expr::TextureAccess kind
 		, spv::Id resultId
 		, spv::Id typeId
 		, IdList const & operands

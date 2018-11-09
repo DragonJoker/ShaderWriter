@@ -93,10 +93,11 @@ namespace sdw::hlsl
 		LinkedVars m_linkedVars;
 		ShaderType m_type;
 		IntrinsicsConfig m_config;
-		stmt::If * m_ifStmt{ nullptr };
-		stmt::Switch * m_switchStmt{ nullptr };
-		stmt::PreprocIf * m_preprocIfStmt{ nullptr };
-		stmt::PreprocIfDef * m_preprocIfDefStmt{ nullptr };
+		std::vector< stmt::If * > m_ifStmts;
+		std::vector< stmt::Switch * > m_switchStmts;
+		std::vector< stmt::PreprocIf * > m_preprocIfStmts;
+		std::vector< stmt::PreprocIfDef * > m_preprocIfDefStmts;
+		std::vector< bool > m_preprocIfDefs;
 	};
 }
 

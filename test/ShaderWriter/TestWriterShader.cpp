@@ -1,5 +1,5 @@
 #include "../Common.hpp"
-#include "TestWriterCommon.hpp"
+#include "WriterCommon.hpp"
 
 #include <ShaderWriter/WriterGlsl.hpp>
 #include <ShaderWriter/WriterHlsl.hpp>
@@ -10,42 +10,6 @@
 
 namespace
 {
-	void writeShader( sdw::Shader const & shader
-		, sdw::ShaderType type
-		, std::string const & name )
-	{
-		std::cout << "////////////////////////////////////////////////////////////////////////////////" << std::endl;
-		std::cout << "// Statements" << std::endl;
-		std::cout << "////////////////////////////////////////////////////////////////////////////////" << std::endl << std::endl;
-		std::cout << sdw::writeDebug( shader ) << std::endl;
-		std::cout << "////////////////////////////////////////////////////////////////////////////////" << std::endl;
-		std::cout << "// GLSL" << std::endl;
-		std::cout << "////////////////////////////////////////////////////////////////////////////////" << std::endl << std::endl;
-		std::cout << sdw::writeGlsl( shader, type ) << std::endl;
-		std::cout << "////////////////////////////////////////////////////////////////////////////////" << std::endl;
-		std::cout << "// HLSL" << std::endl;
-		std::cout << "////////////////////////////////////////////////////////////////////////////////" << std::endl << std::endl;
-		std::cout << sdw::writeHlsl( shader, type ) << std::endl;
-		std::cout << "////////////////////////////////////////////////////////////////////////////////" << std::endl;
-		std::cout << "// SPIR-V" << std::endl;
-		std::cout << "////////////////////////////////////////////////////////////////////////////////" << std::endl << std::endl;
-		std::cout << sdw::writeSpirv( shader, type ) << std::endl;
-
-		{
-			auto binary = sdw::serializeSpirv( shader, type );
-			FILE * stream = fopen( ( test::getExecutableDirectory() + name + ".spv" ).c_str(), "wb" );
-
-			if ( stream )
-			{
-				fwrite( binary.data()
-					, sizeof( uint32_t )
-					, binary.size()
-					, stream );
-				fclose( stream );
-			}
-		}
-	}
-
 	void reference()
 	{
 		testBegin( "reference" );
@@ -93,9 +57,8 @@ namespace
 				ROF;
 			} );
 
-		writeShader( writer.getShader()
-			, sdw::ShaderType::eFragment
-			, "reference" );
+		test::writeShader( writer.getShader()
+			, sdw::ShaderType::eFragment );
 		testEnd();
 	}
 
@@ -118,9 +81,8 @@ namespace
 				out.gl_Position() = vec4( position.x(), position.y(), 0.0, 1.0 );
 			} );
 
-		writeShader( writer.getShader()
-			, sdw::ShaderType::eVertex
-			, "vertex" );
+		test::writeShader( writer.getShader()
+			, sdw::ShaderType::eVertex );
 		testEnd();
 	}
 
@@ -136,7 +98,7 @@ namespace
 		auto c3d_gamma = hdrConfig.declMember< Float >( "c3d_gamma" );
 		hdrConfig.end();
 
-		auto c3d_mapDiffuse = writer.declSampledImage< Img2DRGBA32F >( "c3d_mapDiffuse", 1u, 0u );
+		auto c3d_mapDiffuse = writer.declSampledImage< FImg2DRGBA32F >( "c3d_mapDiffuse", 1u, 0u );
 		auto vtx_texture = writer.declInput< Vec2 >( "vtx_texture", 0u );
 
 		// Shader outputs
@@ -177,12 +139,12 @@ namespace
 			, InVec3{ writer, "x" } );
 
 		auto sampleTex = writer.implementFunction< Vec3 >( "sampleTex"
-			, [&]( SampledImage2DRgba32f const & tex
+			, [&]( FSampledImage2DRgba32f const & tex
 				, Vec2 const & coords )
 			{
 				writer.returnStmt( texture( tex, coords ).rgb() );
 			}
-			, InSampledImage2DRgba32f{ writer, "tex" }
+			, InFSampledImage2DRgba32f{ writer, "tex" }
 			, InVec2{ writer, "coords" } );
 
 		writer.implementFunction< void >( "main"
@@ -203,9 +165,8 @@ namespace
 				pxl_rgb = vec4( applyGamma( c3d_gamma, colour ), 1.0 );
 			} );
 
-		writeShader( writer.getShader()
-			, sdw::ShaderType::eFragment
-			, "fragment" );
+		test::writeShader( writer.getShader()
+			, sdw::ShaderType::eFragment );
 		testEnd();
 	}
 
@@ -226,9 +187,8 @@ namespace
 				uints[gl_GlobalInvocationID.x()] = uints[gl_GlobalInvocationID.x()] * uints[gl_GlobalInvocationID.x()];
 			} );
 
-		writeShader( writer.getShader()
-			, sdw::ShaderType::eCompute
-			, "compute" );
+		test::writeShader( writer.getShader()
+			, sdw::ShaderType::eCompute );
 		testEnd();
 	}
 }

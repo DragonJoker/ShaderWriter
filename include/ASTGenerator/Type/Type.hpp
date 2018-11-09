@@ -11,6 +11,7 @@ namespace ast::type
 {
 	static uint32_t constexpr NotArray = 0u;
 	static uint32_t constexpr UnknownArraySize = ~( 0u );
+	static uint32_t constexpr NotMember = ~( 0u );
 	enum class Kind
 		: uint8_t
 	{
@@ -100,7 +101,7 @@ namespace ast::type
 
 		inline bool isMember()const
 		{
-			return m_index != ~( 0u );
+			return m_index != NotMember;
 		}
 
 		inline uint32_t getIndex()const
@@ -176,6 +177,12 @@ namespace ast::type
 	TypePtr makeType( Kind kind
 		, uint32_t arraySize = NotArray );
 
+	bool isBoolType( Kind kind );
+	bool isUnsignedIntType( Kind kind );
+	bool isSignedIntType( Kind kind );
+	bool isHalfType( Kind kind );
+	bool isFloatType( Kind kind );
+	bool isDoubleType( Kind kind );
 	bool isScalarType( Kind kind );
 	bool isVectorType( Kind kind );
 	bool isMatrixType( Kind kind );

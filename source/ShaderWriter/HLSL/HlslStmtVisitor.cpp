@@ -81,27 +81,19 @@ namespace sdw::hlsl
 	void StmtVisitor::visitCompoundStmt( stmt::Compound * stmt )
 	{
 		doAppendLineEnd();
+		m_result += "\n" + m_indent + "{\n";
+		auto save = m_indent;
+		m_indent += "\t";
+		visitContainerStmt( stmt );
+		m_indent = save;
 
-		if ( stmt->empty() )
+		if ( m_appendSemiColon )
 		{
-			m_result += ";\n";
+			m_result += m_indent + "};\n";
 		}
 		else
 		{
-			m_result += "\n" + m_indent + "{\n";
-			auto save = m_indent;
-			m_indent += "\t";
-			visitContainerStmt( stmt );
-			m_indent = save;
-
-			if ( m_appendSemiColon )
-			{
-				m_result += m_indent + "};\n";
-			}
-			else
-			{
-				m_result += m_indent + "}\n";
-			}
+			m_result += m_indent + "}\n";
 		}
 	}
 

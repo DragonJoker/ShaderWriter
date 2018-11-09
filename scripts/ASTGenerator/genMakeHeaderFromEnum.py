@@ -86,10 +86,26 @@ def computeParams( params, sep ):
 		resParam = intrParam.split( resParams.group( 1 ) )
 		index = 1
 		while len( resParam ) > index:
-			result += sep + " ExprPtr/*" + typeKindToGlslType( resParam[index] ) + "*/ "
+			result += sep + " ExprPtr "
 			index += 1
 			result += discardArray( resParam[index] )
-			sep = "\n\t\t,"
+			sep = ","
+			index += 2
+	return result
+
+def computeParamsDoc( params ):
+	result = ""
+	intrParams = re.compile("[, ]*ASTIntrParams\( ([\w, :()\[\]]*) \)$")
+	resParams = intrParams.match( params )
+	if resParams:
+		intrParam = re.compile("ASTIntrParam\( ([^,]*), ([^ ]*) \)")
+		resParam = intrParam.split( resParams.group( 1 ) )
+		index = 1
+		while len( resParam ) > index:
+			typeName = typeKindToGlslType( resParam[index] )
+			index += 1
+			result += "\n\t*@param " + discardArray( resParam[index] )
+			result += "\n\t*\t" + typeName
 			index += 2
 	return result
 
@@ -143,25 +159,33 @@ def getTextureName( texType, name ):
 		result = resNameIU.group( 2 ).lower() + texType + resNameIU.group( 1 )
 	return result
 
-def printValue( outs, enumName, match ):
-	outs.write( "\n\tinline " + enumName + "CallPtr/*" + typeKindToGlslType( match.group( 1 ) ) + "*/ make" + computeName( match.group( 2 ) ) + "(" )
+def printDoc( outs, enumName, match ):
+	outs.write( "\n\t/**" )
+	outs.write( "\n\t*@return" )
+	outs.write( "\n\t*\t" + typeKindToGlslType( match.group( 1 ) ) )
 	if enumName == "TextureAccess":
-		outs.write( " ExprPtr/*" + getTextureName( "sampler", match.group( 2 ) ) + "*/ texture" )
-		outs.write( computeParams( match.group( 3 ), "\n\t\t," ) + " )\n" )
+		outs.write( "\n\t*@param texture" )
+		outs.write( "\n\t*\t" + getTextureName( "sampler", match.group( 2 ) ) )
+		outs.write( computeParamsDoc( match.group( 3 ) ) )
 	elif enumName == "ImageAccess":
-		outs.write( " ExprPtr/*" + getTextureName( "image", match.group( 2 ) ) + "*/ image" )
-		outs.write( computeParams( match.group( 3 ), "\n\t\t," ) + " )\n" )
+		outs.write( "\n\t*@param image" )
+		outs.write( "\n\t*\t" + getTextureName( "sampler", match.group( 2 ) ) )
+		outs.write( computeParamsDoc( match.group( 3 ) ) )
 	else:
-		outs.write( computeParams( match.group( 3 ), "" ) + " )\n" )
-	outs.write( "\t{\n" )
-	outs.write( "\t\treturn make" + enumName + "Call( makeType( " + match.group( 1 ) + " )\n" )
-	outs.write( "\t\t\t, " + computeEnum( enumName, match.group( 2 ) ) )
+		outs.write( computeParamsDoc( match.group( 3 ) ) )
+	outs.write( "\n\t*/" )
+
+def printValue( outs, enumName, match ):
+	printDoc( outs, enumName, match )
+	outs.write( "\n\t" + enumName + "CallPtr make" + computeName( match.group( 2 ) ) + "(" )
 	if enumName == "TextureAccess":
-		outs.write( "\n\t\t\t, std::move( texture )" )
+		outs.write( " ExprPtr texture" )
+		outs.write( computeParams( match.group( 3 ), "," ) + " );" )
 	elif enumName == "ImageAccess":
-		outs.write( "\n\t\t\t, std::move( image )" )
-	outs.write( computeArgs( match.group( 3 ) ) + " );\n" )
-	outs.write( "\t}\n" )
+		outs.write( " ExprPtr image" )
+		outs.write( computeParams( match.group( 3 ), "," ) + " );" )
+	else:
+		outs.write( computeParams( match.group( 3 ), "" ) + " );" )
 
 def printFooter( outs ):
 	outs.write( "}\n" )

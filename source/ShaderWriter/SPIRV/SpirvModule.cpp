@@ -423,7 +423,7 @@ namespace sdw::spirv
 			{
 				auto unqualifiedStruct = std::static_pointer_cast< type::Struct >( getUnqualifiedType( *qualified.getParent() ) );
 				auto it = unqualifiedStruct->begin() + qualified.getIndex();
-				result = it->type;
+				result = makeType( it->type->getKind() );
 			}
 
 			return result;
@@ -470,6 +470,40 @@ namespace sdw::spirv
 			}
 
 			return result;
+		}
+
+		type::MemoryLayout getMemoryLayout( type::Type const & type )
+		{
+			type::MemoryLayout result{ type::MemoryLayout::eStd140 };
+
+			if ( type.getKind() == type::Kind::eStruct )
+			{
+				auto & structType = static_cast< type::Struct const & >( type );
+				result = structType.getMemoryLayout();
+			}
+			else if ( type.isMember() )
+			{
+				result = getMemoryLayout( *type.getParent() );
+			}
+
+			return result;
+		}
+
+		void writeArrayStride( Module & module
+			, type::TypePtr type
+			, uint32_t typeId )
+		{
+			auto layout = getMemoryLayout( *type );
+			auto div = type->getArraySize() == type::UnknownArraySize
+				? 1u
+				: type->getArraySize();
+			assert( div != 0u );
+			module.decorate( typeId
+				, IdList
+				{
+					uint32_t( spv::Decoration::ArrayStride ),
+					getSize( type, layout ) / div
+				} );
 		}
 	}
 
@@ -559,77 +593,11 @@ namespace sdw::spirv
 		}
 	}
 
-	type::MemoryLayout getMemoryLayout( type::Type const & type )
-	{
-		type::MemoryLayout result{ type::MemoryLayout::eStd140 };
-
-		if ( type.getKind() == type::Kind::eStruct )
-		{
-			auto & structType = static_cast< type::Struct const & >( type );
-			result = structType.getMemoryLayout();
-		}
-		else if ( type.isMember() )
-		{
-			result = getMemoryLayout( *type.getParent() );
-		}
-
-		return result;
-	}
-
-	void writeArrayStride( Module & module
-		, type::TypePtr type
-		, uint32_t typeId )
-	{
-		auto layout = getMemoryLayout( *type );
-		auto div = type->getArraySize() == type::UnknownArraySize
-			? 1u
-			: type->getArraySize();
-		assert( div != 0u );
-
-		module.decorate( typeId
-			, IdList
-			{
-				uint32_t( spv::Decoration::ArrayStride ),
-				getSize( type, layout ) / div
-			} );
-	}
-
 	spv::Id Module::registerType( type::TypePtr type )
 	{
-		spv::Id result;
-		type = getUnqualifiedType( type );
-		auto it = m_registeredTypes.find( type );
-
-		if ( it == m_registeredTypes.end() )
-		{
-			if ( type->getArraySize() == type::NotArray )
-			{
-				result = registerBaseType( type );
-			}
-			else if ( type->getArraySize() != type::UnknownArraySize )
-			{
-				auto elementTypeId = registerBaseType( type );
-				auto lengthId = registerLiteral( type->getArraySize() );
-				result = ++*m_currentId;
-				globalDeclarations.push_back( spirv::makeArrayType( type->getKind(), result, elementTypeId, lengthId ) );
-				writeArrayStride( *this, type, result );
-			}
-			else
-			{
-				auto elementTypeId = registerBaseType( type );
-				result = ++*m_currentId;
-				globalDeclarations.push_back( spirv::makeArrayType( type->getKind(), result, elementTypeId ) );
-				writeArrayStride( *this, type, result );
-			}
-
-			m_registeredTypes.emplace( type, result );
-		}
-		else
-		{
-			result = it->second;
-		}
-
-		return result;
+		return registerType( type
+			, type::NotMember
+			, 0u );
 	}
 
 	spv::Id Module::registerPointerType( spv::Id type, spv::StorageClass storage )
@@ -1178,7 +1146,64 @@ namespace sdw::spirv
 		m_currentFunction = nullptr;
 	}
 
-	spv::Id Module::registerBaseType( type::Kind kind )
+	spv::Id Module::registerType( type::TypePtr type
+		, uint32_t mbrIndex
+		, spv::Id parentId )
+	{
+		spv::Id result;
+		type = getUnqualifiedType( type );
+		auto it = m_registeredTypes.find( type );
+
+		if ( it == m_registeredTypes.end() )
+		{
+			if ( type->getArraySize() == type::NotArray )
+			{
+				result = registerBaseType( type
+					, mbrIndex
+					, parentId );
+			}
+			else if ( type->getArraySize() != type::UnknownArraySize )
+			{
+				auto elementTypeId = registerBaseType( type
+					, mbrIndex
+					, parentId );
+				auto lengthId = registerLiteral( type->getArraySize() );
+				result = ++*m_currentId;
+				globalDeclarations.push_back( spirv::makeArrayType( type->getKind()
+					, result
+					, elementTypeId
+					, lengthId ) );
+				writeArrayStride( *this
+					, type
+					, result );
+			}
+			else
+			{
+				auto elementTypeId = registerBaseType( type
+					, mbrIndex
+					, parentId );
+				result = ++*m_currentId;
+				globalDeclarations.push_back( spirv::makeArrayType( type->getKind()
+					, result
+					, elementTypeId ) );
+				writeArrayStride( *this
+					, type
+					, result );
+			}
+
+			m_registeredTypes.emplace( type, result );
+		}
+		else
+		{
+			result = it->second;
+		}
+
+		return result;
+	}
+
+	spv::Id Module::registerBaseType( type::Kind kind
+		, uint32_t mbrIndex
+		, spv::Id parentId )
 	{
 		assert( kind != type::Kind::eStruct );
 		assert( kind != type::Kind::eImage );
@@ -1196,6 +1221,21 @@ namespace sdw::spirv
 			subTypes.push_back( getComponentCount( kind ) );
 			result = ++*m_currentId;
 			globalDeclarations.push_back( spirv::makeType( kind, result, subTypes ) );
+
+			if ( isMatrixType( kind ) )
+			{
+				if ( mbrIndex != type::NotMember )
+				{
+					decorateMember( parentId
+						, mbrIndex
+						, spv::Decoration::ColMajor );
+				}
+				else
+				{
+					decorate( result
+						, spv::Decoration::ColMajor );
+				}
+			}
 		}
 		else
 		{
@@ -1206,7 +1246,9 @@ namespace sdw::spirv
 		return result;
 	}
 
-	spv::Id Module::registerBaseType( type::SampledImagePtr type )
+	spv::Id Module::registerBaseType( type::SampledImagePtr type
+		, uint32_t mbrIndex
+		, spv::Id parentId )
 	{
 		auto imgTypeId = registerType( std::static_pointer_cast< type::SampledImage >( type )->getImageType() );
 		auto result = ++*m_currentId;
@@ -1214,7 +1256,9 @@ namespace sdw::spirv
 		return result;
 	}
 
-	spv::Id Module::registerBaseType( type::ImagePtr type )
+	spv::Id Module::registerBaseType( type::ImagePtr type
+		, uint32_t mbrIndex
+		, spv::Id parent )
 	{
 		// The Sampled Type.
 		auto sampledType = registerType( makeType( getComponentType( type->getConfig().format ) ) );
@@ -1224,14 +1268,18 @@ namespace sdw::spirv
 		return result;
 	}
 
-	spv::Id Module::registerBaseType( type::StructPtr type )
+	spv::Id Module::registerBaseType( type::StructPtr type
+		, uint32_t mbrIndex
+		, spv::Id parentId )
 	{
 		spv::Id result{ ++*m_currentId };
 		IdList subTypes;
 
 		for ( auto & member : *type )
 		{
-			subTypes.push_back( registerType( member.type ) );
+			subTypes.push_back( registerType( member.type
+				, member.type->getIndex()
+				, result ) );
 		}
 
 		globalDeclarations.push_back( spirv::makeStructType( result, subTypes ) );
@@ -1249,26 +1297,36 @@ namespace sdw::spirv
 		return result;
 	}
 
-	spv::Id Module::registerBaseType( type::TypePtr type )
+	spv::Id Module::registerBaseType( type::TypePtr type
+		, uint32_t mbrIndex
+		, spv::Id parentId )
 	{
 		spv::Id result{};
 		auto kind = type->getKind();
 
 		if ( kind == type::Kind::eSampledImage )
 		{
-			result = registerBaseType( std::static_pointer_cast< type::SampledImage >( type ) );
+			result = registerBaseType( std::static_pointer_cast< type::SampledImage >( type )
+				, mbrIndex
+				, parentId );
 		}
 		else if ( kind == type::Kind::eImage )
 		{
-			result = registerBaseType( std::static_pointer_cast< type::Image >( type ) );
+			result = registerBaseType( std::static_pointer_cast< type::Image >( type )
+				, mbrIndex
+				, parentId );
 		}
 		else if ( kind == type::Kind::eStruct )
 		{
-			result = registerBaseType( std::static_pointer_cast< type::Struct >( type ) );
+			result = registerBaseType( std::static_pointer_cast< type::Struct >( type )
+				, mbrIndex
+				, parentId );
 		}
 		else
 		{
-			result = registerBaseType( type->getKind() );
+			result = registerBaseType( type->getKind()
+				, mbrIndex
+				, parentId );
 		}
 
 		return result;

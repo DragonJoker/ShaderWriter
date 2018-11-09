@@ -11,9 +11,11 @@ See LICENSE file in root folder
 
 namespace sdw::spirv
 {
-	inline spv::Op getSpirVName( ast::expr::TextureAccess value )
+	inline spv::Op getSpirVName( ast::expr::TextureAccess value
+		, uint32_t & imageOperandsIndex )
 	{
 		spv::Op result{};
+		imageOperandsIndex = 0u;
 
 		switch ( value )
 		{
@@ -238,6 +240,7 @@ namespace sdw::spirv
 		case ast::expr::TextureAccess::eTextureGradOffset1DArrayU:
 		case ast::expr::TextureAccess::eTextureGradOffset2DArrayU:
 			result = spv::Op::OpImageSampleImplicitLod;
+			imageOperandsIndex = 2u;
 			break;
 
 		case ast::expr::TextureAccess::eTexture1DShadowF:
@@ -251,7 +254,6 @@ namespace sdw::spirv
 		case ast::expr::TextureAccess::eTexture2DArrayShadowF:
 		case ast::expr::TextureAccess::eTexture2DArrayShadowFBias:
 		case ast::expr::TextureAccess::eTexture2DRectShadowF:
-		case ast::expr::TextureAccess::eTextureCubeArrayShadowF:
 		case ast::expr::TextureAccess::eTextureOffset2DRectShadowF:
 		case ast::expr::TextureAccess::eTextureOffset1DShadowF:
 		case ast::expr::TextureAccess::eTextureOffset1DShadowFBias:
@@ -269,6 +271,14 @@ namespace sdw::spirv
 		case ast::expr::TextureAccess::eTextureGradOffset1DArrayShadowF:
 		case ast::expr::TextureAccess::eTextureGradOffset2DArrayShadowF:
 			result = spv::Op::OpImageSampleDrefImplicitLod;
+			// Dref operand will be the last component of given vector...
+			imageOperandsIndex = 2u;
+			break;
+
+		case ast::expr::TextureAccess::eTextureCubeArrayShadowF:
+			result = spv::Op::OpImageSampleDrefImplicitLod;
+			// Dref operand will be given separately
+			imageOperandsIndex = 3u;
 			break;
 
 		case ast::expr::TextureAccess::eTextureProj1DF2:
@@ -386,6 +396,7 @@ namespace sdw::spirv
 		case ast::expr::TextureAccess::eTextureProjGradOffset2DRectU3:
 		case ast::expr::TextureAccess::eTextureProjGradOffset2DRectU4:
 			result = spv::Op::OpImageSampleProjImplicitLod;
+			imageOperandsIndex = 2u;
 			break;
 
 		case ast::expr::TextureAccess::eTextureProj1DShadowF:
@@ -405,6 +416,7 @@ namespace sdw::spirv
 		case ast::expr::TextureAccess::eTextureProjGradOffset2DShadowF:
 		case ast::expr::TextureAccess::eTextureProjGradOffset2DRectShadowF:
 			result = spv::Op::OpImageSampleProjDrefImplicitLod;
+			imageOperandsIndex = 3u;
 			break;
 
 		case ast::expr::TextureAccess::eTextureLod1DF:
@@ -444,6 +456,7 @@ namespace sdw::spirv
 		case ast::expr::TextureAccess::eTextureLodOffset1DArrayU:
 		case ast::expr::TextureAccess::eTextureLodOffset2DArrayU:
 			result = spv::Op::OpImageSampleExplicitLod;
+			imageOperandsIndex = 2u;
 			break;
 
 		case ast::expr::TextureAccess::eTextureLod1DShadowF:
@@ -453,6 +466,7 @@ namespace sdw::spirv
 		case ast::expr::TextureAccess::eTextureLodOffset2DShadowF:
 		case ast::expr::TextureAccess::eTextureLodOffset1DArrayShadowF:
 			result = spv::Op::OpImageSampleDrefExplicitLod;
+			imageOperandsIndex = 3u;
 			break;
 
 		case ast::expr::TextureAccess::eTextureProjLod1DF2:
@@ -486,6 +500,7 @@ namespace sdw::spirv
 		case ast::expr::TextureAccess::eTextureProjLodOffset2DU4:
 		case ast::expr::TextureAccess::eTextureProjLodOffset3DU:
 			result = spv::Op::OpImageSampleProjExplicitLod;
+			imageOperandsIndex = 2u;
 			break;
 
 		case ast::expr::TextureAccess::eTextureProjLod1DShadowF:
@@ -493,6 +508,7 @@ namespace sdw::spirv
 		case ast::expr::TextureAccess::eTextureProjLodOffset1DShadowF:
 		case ast::expr::TextureAccess::eTextureProjLodOffset2DShadowF:
 			result = spv::Op::OpImageSampleProjDrefExplicitLod;
+			imageOperandsIndex = 3u;
 			break;
 
 		case ast::expr::TextureAccess::eTexelFetch1DF:
@@ -535,6 +551,7 @@ namespace sdw::spirv
 		case ast::expr::TextureAccess::eTexelFetchOffset1DArrayU:
 		case ast::expr::TextureAccess::eTexelFetchOffset2DArrayU:
 			result = spv::Op::OpImageFetch;
+			imageOperandsIndex = 2u;
 			break;
 
 	// Texture Gather Functions
@@ -605,6 +622,7 @@ namespace sdw::spirv
 		case ast::expr::TextureAccess::eTextureGatherOffsets2DRectU:
 		case ast::expr::TextureAccess::eTextureGatherOffsets2DRectUComp:
 			result = spv::Op::OpImageGather;
+			imageOperandsIndex = 3u;
 			break;
 
 		case ast::expr::TextureAccess::eTextureGather2DShadowF:
@@ -619,6 +637,7 @@ namespace sdw::spirv
 		case ast::expr::TextureAccess::eTextureGatherOffsets2DArrayShadowF:
 		case ast::expr::TextureAccess::eTextureGatherOffsets2DRectShadowF:
 			result = spv::Op::OpImageDrefGather;
+			imageOperandsIndex = 3u;
 			break;
 
 		default:

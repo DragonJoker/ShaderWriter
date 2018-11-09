@@ -10,6261 +10,6371 @@ See LICENSE file in root folder
 namespace ast::expr
 {	// Texture Query Functions
 
-	inline TextureAccessCallPtr/*int*/ makeTextureSize1DF( ExprPtr/*sampler1D*/ texture
-		, ExprPtr/*int*/ lod )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eInt )
-			, TextureAccess::eTextureSize1DF
-			, std::move( texture )
-			, std::move( lod ) );
-	}
-
-	inline TextureAccessCallPtr/*vec2i*/ makeTextureSize2DF( ExprPtr/*sampler2D*/ texture
-		, ExprPtr/*int*/ lod )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec2I )
-			, TextureAccess::eTextureSize2DF
-			, std::move( texture )
-			, std::move( lod ) );
-	}
-
-	inline TextureAccessCallPtr/*vec3i*/ makeTextureSize3DF( ExprPtr/*sampler3D*/ texture
-		, ExprPtr/*int*/ lod )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec3I )
-			, TextureAccess::eTextureSize3DF
-			, std::move( texture )
-			, std::move( lod ) );
-	}
-
-	inline TextureAccessCallPtr/*vec2i*/ makeTextureSizeCubeF( ExprPtr/*samplerCube*/ texture
-		, ExprPtr/*int*/ lod )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec2I )
-			, TextureAccess::eTextureSizeCubeF
-			, std::move( texture )
-			, std::move( lod ) );
-	}
-
-	inline TextureAccessCallPtr/*int*/ makeTextureSize1DShadowF( ExprPtr/*sampler1DShadow*/ texture
-		, ExprPtr/*int*/ lod )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eInt )
-			, TextureAccess::eTextureSize1DShadowF
-			, std::move( texture )
-			, std::move( lod ) );
-	}
-
-	inline TextureAccessCallPtr/*vec2i*/ makeTextureSize2DShadowF( ExprPtr/*sampler2DShadow*/ texture
-		, ExprPtr/*int*/ lod )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec2I )
-			, TextureAccess::eTextureSize2DShadowF
-			, std::move( texture )
-			, std::move( lod ) );
-	}
-
-	inline TextureAccessCallPtr/*vec2i*/ makeTextureSizeCubeShadowF( ExprPtr/*samplerCubeShadow*/ texture
-		, ExprPtr/*int*/ lod )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec2I )
-			, TextureAccess::eTextureSizeCubeShadowF
-			, std::move( texture )
-			, std::move( lod ) );
-	}
-
-	inline TextureAccessCallPtr/*vec3i*/ makeTextureSizeCubeArrayF( ExprPtr/*samplerCubeArray*/ texture
-		, ExprPtr/*int*/ lod )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec3I )
-			, TextureAccess::eTextureSizeCubeArrayF
-			, std::move( texture )
-			, std::move( lod ) );
-	}
-
-	inline TextureAccessCallPtr/*vec3i*/ makeTextureSizeCubeArrayShadowF( ExprPtr/*samplerCubeArrayShadow*/ texture
-		, ExprPtr/*int*/ lod )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec3I )
-			, TextureAccess::eTextureSizeCubeArrayShadowF
-			, std::move( texture )
-			, std::move( lod ) );
-	}
-
-	inline TextureAccessCallPtr/*vec2i*/ makeTextureSize2DRectF( ExprPtr/*sampler2DRect*/ texture )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec2I )
-			, TextureAccess::eTextureSize2DRectF
-			, std::move( texture ) );
-	}
-
-	inline TextureAccessCallPtr/*vec2i*/ makeTextureSize2DRectShadowF( ExprPtr/*sampler2DRectShadow*/ texture )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec2I )
-			, TextureAccess::eTextureSize2DRectShadowF
-			, std::move( texture ) );
-	}
-
-	inline TextureAccessCallPtr/*vec2i*/ makeTextureSize1DArrayF( ExprPtr/*sampler1DArray*/ texture
-		, ExprPtr/*int*/ lod )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec2I )
-			, TextureAccess::eTextureSize1DArrayF
-			, std::move( texture )
-			, std::move( lod ) );
-	}
-
-	inline TextureAccessCallPtr/*vec3i*/ makeTextureSize2DArrayF( ExprPtr/*sampler2DArray*/ texture
-		, ExprPtr/*int*/ lod )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec3I )
-			, TextureAccess::eTextureSize2DArrayF
-			, std::move( texture )
-			, std::move( lod ) );
-	}
-
-	inline TextureAccessCallPtr/*vec2i*/ makeTextureSize1DArrayShadowF( ExprPtr/*sampler1DArrayShadow*/ texture
-		, ExprPtr/*int*/ lod )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec2I )
-			, TextureAccess::eTextureSize1DArrayShadowF
-			, std::move( texture )
-			, std::move( lod ) );
-	}
-
-	inline TextureAccessCallPtr/*vec3i*/ makeTextureSize2DArrayShadowF( ExprPtr/*sampler2DArrayShadow*/ texture
-		, ExprPtr/*int*/ lod )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec3I )
-			, TextureAccess::eTextureSize2DArrayShadowF
-			, std::move( texture )
-			, std::move( lod ) );
-	}
-
-	inline TextureAccessCallPtr/*int*/ makeTextureSizeBufferF( ExprPtr/*samplerBuffer*/ texture )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eInt )
-			, TextureAccess::eTextureSizeBufferF
-			, std::move( texture ) );
-	}
-
-	inline TextureAccessCallPtr/*int*/ makeTextureSize1DI( ExprPtr/*isampler1D*/ texture
-		, ExprPtr/*int*/ lod )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eInt )
-			, TextureAccess::eTextureSize1DI
-			, std::move( texture )
-			, std::move( lod ) );
-	}
-
-	inline TextureAccessCallPtr/*vec2i*/ makeTextureSize2DI( ExprPtr/*isampler2D*/ texture
-		, ExprPtr/*int*/ lod )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec2I )
-			, TextureAccess::eTextureSize2DI
-			, std::move( texture )
-			, std::move( lod ) );
-	}
-
-	inline TextureAccessCallPtr/*vec3i*/ makeTextureSize3DI( ExprPtr/*isampler3D*/ texture
-		, ExprPtr/*int*/ lod )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec3I )
-			, TextureAccess::eTextureSize3DI
-			, std::move( texture )
-			, std::move( lod ) );
-	}
-
-	inline TextureAccessCallPtr/*vec2i*/ makeTextureSizeCubeI( ExprPtr/*isamplerCube*/ texture
-		, ExprPtr/*int*/ lod )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec2I )
-			, TextureAccess::eTextureSizeCubeI
-			, std::move( texture )
-			, std::move( lod ) );
-	}
-
-	inline TextureAccessCallPtr/*vec3i*/ makeTextureSizeCubeArrayI( ExprPtr/*isamplerCubeArray*/ texture
-		, ExprPtr/*int*/ lod )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec3I )
-			, TextureAccess::eTextureSizeCubeArrayI
-			, std::move( texture )
-			, std::move( lod ) );
-	}
-
-	inline TextureAccessCallPtr/*vec2i*/ makeTextureSize2DRectI( ExprPtr/*isampler2DRect*/ texture )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec2I )
-			, TextureAccess::eTextureSize2DRectI
-			, std::move( texture ) );
-	}
-
-	inline TextureAccessCallPtr/*vec2i*/ makeTextureSize1DArrayI( ExprPtr/*isampler1DArray*/ texture
-		, ExprPtr/*int*/ lod )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec2I )
-			, TextureAccess::eTextureSize1DArrayI
-			, std::move( texture )
-			, std::move( lod ) );
-	}
-
-	inline TextureAccessCallPtr/*vec3i*/ makeTextureSize2DArrayI( ExprPtr/*isampler2DArray*/ texture
-		, ExprPtr/*int*/ lod )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec3I )
-			, TextureAccess::eTextureSize2DArrayI
-			, std::move( texture )
-			, std::move( lod ) );
-	}
-
-	inline TextureAccessCallPtr/*int*/ makeTextureSizeBufferI( ExprPtr/*isamplerBuffer*/ texture )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eInt )
-			, TextureAccess::eTextureSizeBufferI
-			, std::move( texture ) );
-	}
-
-	inline TextureAccessCallPtr/*int*/ makeTextureSize1DU( ExprPtr/*usampler1D*/ texture
-		, ExprPtr/*int*/ lod )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eInt )
-			, TextureAccess::eTextureSize1DU
-			, std::move( texture )
-			, std::move( lod ) );
-	}
-
-	inline TextureAccessCallPtr/*vec2i*/ makeTextureSize2DU( ExprPtr/*usampler2D*/ texture
-		, ExprPtr/*int*/ lod )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec2I )
-			, TextureAccess::eTextureSize2DU
-			, std::move( texture )
-			, std::move( lod ) );
-	}
-
-	inline TextureAccessCallPtr/*vec3i*/ makeTextureSize3DU( ExprPtr/*usampler3D*/ texture
-		, ExprPtr/*int*/ lod )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec3I )
-			, TextureAccess::eTextureSize3DU
-			, std::move( texture )
-			, std::move( lod ) );
-	}
-
-	inline TextureAccessCallPtr/*vec2i*/ makeTextureSizeCubeU( ExprPtr/*usamplerCube*/ texture
-		, ExprPtr/*int*/ lod )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec2I )
-			, TextureAccess::eTextureSizeCubeU
-			, std::move( texture )
-			, std::move( lod ) );
-	}
-
-	inline TextureAccessCallPtr/*vec3i*/ makeTextureSizeCubeArrayU( ExprPtr/*usamplerCubeArray*/ texture
-		, ExprPtr/*int*/ lod )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec3I )
-			, TextureAccess::eTextureSizeCubeArrayU
-			, std::move( texture )
-			, std::move( lod ) );
-	}
-
-	inline TextureAccessCallPtr/*vec2i*/ makeTextureSize2DRectU( ExprPtr/*usampler2DRect*/ texture )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec2I )
-			, TextureAccess::eTextureSize2DRectU
-			, std::move( texture ) );
-	}
-
-	inline TextureAccessCallPtr/*vec2i*/ makeTextureSize1DArrayU( ExprPtr/*usampler1DArray*/ texture
-		, ExprPtr/*int*/ lod )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec2I )
-			, TextureAccess::eTextureSize1DArrayU
-			, std::move( texture )
-			, std::move( lod ) );
-	}
-
-	inline TextureAccessCallPtr/*vec3i*/ makeTextureSize2DArrayU( ExprPtr/*usampler2DArray*/ texture
-		, ExprPtr/*int*/ lod )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec3I )
-			, TextureAccess::eTextureSize2DArrayU
-			, std::move( texture )
-			, std::move( lod ) );
-	}
-
-	inline TextureAccessCallPtr/*int*/ makeTextureSizeBufferU( ExprPtr/*usamplerBuffer*/ texture )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eInt )
-			, TextureAccess::eTextureSizeBufferU
-			, std::move( texture ) );
-	}
-
-	inline TextureAccessCallPtr/*vec2f*/ makeTextureQueryLod1DF( ExprPtr/*sampler1D*/ texture
-		, ExprPtr/*float*/ P )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec2F )
-			, TextureAccess::eTextureQueryLod1DF
-			, std::move( texture )
-			, std::move( P ) );
-	}
-
-	inline TextureAccessCallPtr/*vec2f*/ makeTextureQueryLod2DF( ExprPtr/*sampler2D*/ texture
-		, ExprPtr/*vec2f*/ P )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec2F )
-			, TextureAccess::eTextureQueryLod2DF
-			, std::move( texture )
-			, std::move( P ) );
-	}
-
-	inline TextureAccessCallPtr/*vec2f*/ makeTextureQueryLod3DF( ExprPtr/*sampler3D*/ texture
-		, ExprPtr/*vec3f*/ P )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec2F )
-			, TextureAccess::eTextureQueryLod3DF
-			, std::move( texture )
-			, std::move( P ) );
-	}
-
-	inline TextureAccessCallPtr/*vec2f*/ makeTextureQueryLodCubeF( ExprPtr/*samplerCube*/ texture
-		, ExprPtr/*vec3f*/ P )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec2F )
-			, TextureAccess::eTextureQueryLodCubeF
-			, std::move( texture )
-			, std::move( P ) );
-	}
-
-	inline TextureAccessCallPtr/*vec2f*/ makeTextureQueryLod1DArrayF( ExprPtr/*sampler1DArray*/ texture
-		, ExprPtr/*float*/ P )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec2F )
-			, TextureAccess::eTextureQueryLod1DArrayF
-			, std::move( texture )
-			, std::move( P ) );
-	}
-
-	inline TextureAccessCallPtr/*vec2f*/ makeTextureQueryLod2DArrayF( ExprPtr/*sampler2DArray*/ texture
-		, ExprPtr/*vec2f*/ P )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec2F )
-			, TextureAccess::eTextureQueryLod2DArrayF
-			, std::move( texture )
-			, std::move( P ) );
-	}
-
-	inline TextureAccessCallPtr/*vec2f*/ makeTextureQueryLodCubeArrayF( ExprPtr/*samplerCubeArray*/ texture
-		, ExprPtr/*vec3f*/ P )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec2F )
-			, TextureAccess::eTextureQueryLodCubeArrayF
-			, std::move( texture )
-			, std::move( P ) );
-	}
-
-	inline TextureAccessCallPtr/*vec2f*/ makeTextureQueryLod1DShadowF( ExprPtr/*sampler1DShadow*/ texture
-		, ExprPtr/*float*/ P )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec2F )
-			, TextureAccess::eTextureQueryLod1DShadowF
-			, std::move( texture )
-			, std::move( P ) );
-	}
-
-	inline TextureAccessCallPtr/*vec2f*/ makeTextureQueryLod2DShadowF( ExprPtr/*sampler2DShadow*/ texture
-		, ExprPtr/*vec2f*/ P )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec2F )
-			, TextureAccess::eTextureQueryLod2DShadowF
-			, std::move( texture )
-			, std::move( P ) );
-	}
-
-	inline TextureAccessCallPtr/*vec2f*/ makeTextureQueryLodCubeShadowF( ExprPtr/*samplerCubeShadow*/ texture
-		, ExprPtr/*vec3f*/ P )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec2F )
-			, TextureAccess::eTextureQueryLodCubeShadowF
-			, std::move( texture )
-			, std::move( P ) );
-	}
-
-	inline TextureAccessCallPtr/*vec2f*/ makeTextureQueryLod1DArrayShadowF( ExprPtr/*sampler1DArrayShadow*/ texture
-		, ExprPtr/*float*/ P )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec2F )
-			, TextureAccess::eTextureQueryLod1DArrayShadowF
-			, std::move( texture )
-			, std::move( P ) );
-	}
-
-	inline TextureAccessCallPtr/*vec2f*/ makeTextureQueryLod2DArrayShadowF( ExprPtr/*sampler2DArrayShadow*/ texture
-		, ExprPtr/*vec2f*/ P )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec2F )
-			, TextureAccess::eTextureQueryLod2DArrayShadowF
-			, std::move( texture )
-			, std::move( P ) );
-	}
-
-	inline TextureAccessCallPtr/*vec2f*/ makeTextureQueryLodCubeArrayShadowF( ExprPtr/*samplerCubeArrayShadow*/ texture
-		, ExprPtr/*vec3f*/ P )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec2F )
-			, TextureAccess::eTextureQueryLodCubeArrayShadowF
-			, std::move( texture )
-			, std::move( P ) );
-	}
-
-	inline TextureAccessCallPtr/*vec2f*/ makeTextureQueryLod1DI( ExprPtr/*isampler1D*/ texture
-		, ExprPtr/*float*/ P )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec2F )
-			, TextureAccess::eTextureQueryLod1DI
-			, std::move( texture )
-			, std::move( P ) );
-	}
-
-	inline TextureAccessCallPtr/*vec2f*/ makeTextureQueryLod2DI( ExprPtr/*isampler2D*/ texture
-		, ExprPtr/*vec2f*/ P )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec2F )
-			, TextureAccess::eTextureQueryLod2DI
-			, std::move( texture )
-			, std::move( P ) );
-	}
-
-	inline TextureAccessCallPtr/*vec2f*/ makeTextureQueryLod3DI( ExprPtr/*isampler3D*/ texture
-		, ExprPtr/*vec3f*/ P )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec2F )
-			, TextureAccess::eTextureQueryLod3DI
-			, std::move( texture )
-			, std::move( P ) );
-	}
-
-	inline TextureAccessCallPtr/*vec2f*/ makeTextureQueryLodCubeI( ExprPtr/*isamplerCube*/ texture
-		, ExprPtr/*vec3f*/ P )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec2F )
-			, TextureAccess::eTextureQueryLodCubeI
-			, std::move( texture )
-			, std::move( P ) );
-	}
-
-	inline TextureAccessCallPtr/*vec2f*/ makeTextureQueryLod1DArrayI( ExprPtr/*isampler1DArray*/ texture
-		, ExprPtr/*float*/ P )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec2F )
-			, TextureAccess::eTextureQueryLod1DArrayI
-			, std::move( texture )
-			, std::move( P ) );
-	}
-
-	inline TextureAccessCallPtr/*vec2f*/ makeTextureQueryLod2DArrayI( ExprPtr/*isampler2DArray*/ texture
-		, ExprPtr/*vec2f*/ P )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec2F )
-			, TextureAccess::eTextureQueryLod2DArrayI
-			, std::move( texture )
-			, std::move( P ) );
-	}
-
-	inline TextureAccessCallPtr/*vec2f*/ makeTextureQueryLodCubeArrayI( ExprPtr/*isamplerCubeArray*/ texture
-		, ExprPtr/*vec3f*/ P )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec2F )
-			, TextureAccess::eTextureQueryLodCubeArrayI
-			, std::move( texture )
-			, std::move( P ) );
-	}
-
-	inline TextureAccessCallPtr/*vec2f*/ makeTextureQueryLod1DU( ExprPtr/*usampler1D*/ texture
-		, ExprPtr/*float*/ P )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec2F )
-			, TextureAccess::eTextureQueryLod1DU
-			, std::move( texture )
-			, std::move( P ) );
-	}
-
-	inline TextureAccessCallPtr/*vec2f*/ makeTextureQueryLod2DU( ExprPtr/*usampler2D*/ texture
-		, ExprPtr/*vec2f*/ P )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec2F )
-			, TextureAccess::eTextureQueryLod2DU
-			, std::move( texture )
-			, std::move( P ) );
-	}
-
-	inline TextureAccessCallPtr/*vec2f*/ makeTextureQueryLod3DU( ExprPtr/*usampler3D*/ texture
-		, ExprPtr/*vec3f*/ P )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec2F )
-			, TextureAccess::eTextureQueryLod3DU
-			, std::move( texture )
-			, std::move( P ) );
-	}
-
-	inline TextureAccessCallPtr/*vec2f*/ makeTextureQueryLodCubeU( ExprPtr/*usamplerCube*/ texture
-		, ExprPtr/*vec3f*/ P )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec2F )
-			, TextureAccess::eTextureQueryLodCubeU
-			, std::move( texture )
-			, std::move( P ) );
-	}
-
-	inline TextureAccessCallPtr/*vec2f*/ makeTextureQueryLod1DArrayU( ExprPtr/*usampler1DArray*/ texture
-		, ExprPtr/*float*/ P )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec2F )
-			, TextureAccess::eTextureQueryLod1DArrayU
-			, std::move( texture )
-			, std::move( P ) );
-	}
-
-	inline TextureAccessCallPtr/*vec2f*/ makeTextureQueryLod2DArrayU( ExprPtr/*usampler2DArray*/ texture
-		, ExprPtr/*vec2f*/ P )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec2F )
-			, TextureAccess::eTextureQueryLod2DArrayU
-			, std::move( texture )
-			, std::move( P ) );
-	}
-
-	inline TextureAccessCallPtr/*vec2f*/ makeTextureQueryLodCubeArrayU( ExprPtr/*usamplerCubeArray*/ texture
-		, ExprPtr/*vec3f*/ P )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec2F )
-			, TextureAccess::eTextureQueryLodCubeArrayU
-			, std::move( texture )
-			, std::move( P ) );
-	}
-
-	inline TextureAccessCallPtr/*int*/ makeTextureQueryLevels1DF( ExprPtr/*sampler1D*/ texture )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eInt )
-			, TextureAccess::eTextureQueryLevels1DF
-			, std::move( texture ) );
-	}
-
-	inline TextureAccessCallPtr/*int*/ makeTextureQueryLevels2DF( ExprPtr/*sampler2D*/ texture )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eInt )
-			, TextureAccess::eTextureQueryLevels2DF
-			, std::move( texture ) );
-	}
-
-	inline TextureAccessCallPtr/*int*/ makeTextureQueryLevels3DF( ExprPtr/*sampler3D*/ texture )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eInt )
-			, TextureAccess::eTextureQueryLevels3DF
-			, std::move( texture ) );
-	}
-
-	inline TextureAccessCallPtr/*int*/ makeTextureQueryLevelsCubeF( ExprPtr/*samplerCube*/ texture )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eInt )
-			, TextureAccess::eTextureQueryLevelsCubeF
-			, std::move( texture ) );
-	}
-
-	inline TextureAccessCallPtr/*int*/ makeTextureQueryLevels1DArrayF( ExprPtr/*sampler1DArray*/ texture )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eInt )
-			, TextureAccess::eTextureQueryLevels1DArrayF
-			, std::move( texture ) );
-	}
-
-	inline TextureAccessCallPtr/*int*/ makeTextureQueryLevels2DArrayF( ExprPtr/*sampler2DArray*/ texture )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eInt )
-			, TextureAccess::eTextureQueryLevels2DArrayF
-			, std::move( texture ) );
-	}
-
-	inline TextureAccessCallPtr/*int*/ makeTextureQueryLevelsCubeArrayF( ExprPtr/*samplerCubeArray*/ texture )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eInt )
-			, TextureAccess::eTextureQueryLevelsCubeArrayF
-			, std::move( texture ) );
-	}
-
-	inline TextureAccessCallPtr/*int*/ makeTextureQueryLevels1DShadowF( ExprPtr/*sampler1DShadow*/ texture )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eInt )
-			, TextureAccess::eTextureQueryLevels1DShadowF
-			, std::move( texture ) );
-	}
-
-	inline TextureAccessCallPtr/*int*/ makeTextureQueryLevels2DShadowF( ExprPtr/*sampler2DShadow*/ texture )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eInt )
-			, TextureAccess::eTextureQueryLevels2DShadowF
-			, std::move( texture ) );
-	}
-
-	inline TextureAccessCallPtr/*int*/ makeTextureQueryLevelsCubeShadowF( ExprPtr/*samplerCubeShadow*/ texture )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eInt )
-			, TextureAccess::eTextureQueryLevelsCubeShadowF
-			, std::move( texture ) );
-	}
-
-	inline TextureAccessCallPtr/*int*/ makeTextureQueryLevels1DArrayShadowF( ExprPtr/*sampler1DArrayShadow*/ texture )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eInt )
-			, TextureAccess::eTextureQueryLevels1DArrayShadowF
-			, std::move( texture ) );
-	}
-
-	inline TextureAccessCallPtr/*int*/ makeTextureQueryLevels2DArrayShadowF( ExprPtr/*sampler2DArrayShadow*/ texture )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eInt )
-			, TextureAccess::eTextureQueryLevels2DArrayShadowF
-			, std::move( texture ) );
-	}
-
-	inline TextureAccessCallPtr/*int*/ makeTextureQueryLevelsCubeArrayShadowF( ExprPtr/*samplerCubeArrayShadow*/ texture )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eInt )
-			, TextureAccess::eTextureQueryLevelsCubeArrayShadowF
-			, std::move( texture ) );
-	}
-
-	inline TextureAccessCallPtr/*int*/ makeTextureQueryLevels1DI( ExprPtr/*isampler1D*/ texture )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eInt )
-			, TextureAccess::eTextureQueryLevels1DI
-			, std::move( texture ) );
-	}
-
-	inline TextureAccessCallPtr/*int*/ makeTextureQueryLevels2DI( ExprPtr/*isampler2D*/ texture )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eInt )
-			, TextureAccess::eTextureQueryLevels2DI
-			, std::move( texture ) );
-	}
-
-	inline TextureAccessCallPtr/*int*/ makeTextureQueryLevels3DI( ExprPtr/*isampler3D*/ texture )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eInt )
-			, TextureAccess::eTextureQueryLevels3DI
-			, std::move( texture ) );
-	}
-
-	inline TextureAccessCallPtr/*int*/ makeTextureQueryLevelsCubeI( ExprPtr/*isamplerCube*/ texture )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eInt )
-			, TextureAccess::eTextureQueryLevelsCubeI
-			, std::move( texture ) );
-	}
-
-	inline TextureAccessCallPtr/*int*/ makeTextureQueryLevels1DArrayI( ExprPtr/*isampler1DArray*/ texture )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eInt )
-			, TextureAccess::eTextureQueryLevels1DArrayI
-			, std::move( texture ) );
-	}
-
-	inline TextureAccessCallPtr/*int*/ makeTextureQueryLevels2DArrayI( ExprPtr/*isampler2DArray*/ texture )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eInt )
-			, TextureAccess::eTextureQueryLevels2DArrayI
-			, std::move( texture ) );
-	}
-
-	inline TextureAccessCallPtr/*int*/ makeTextureQueryLevelsCubeArrayI( ExprPtr/*isamplerCubeArray*/ texture )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eInt )
-			, TextureAccess::eTextureQueryLevelsCubeArrayI
-			, std::move( texture ) );
-	}
-
-	inline TextureAccessCallPtr/*int*/ makeTextureQueryLevels1DU( ExprPtr/*usampler1D*/ texture )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eInt )
-			, TextureAccess::eTextureQueryLevels1DU
-			, std::move( texture ) );
-	}
-
-	inline TextureAccessCallPtr/*int*/ makeTextureQueryLevels2DU( ExprPtr/*usampler2D*/ texture )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eInt )
-			, TextureAccess::eTextureQueryLevels2DU
-			, std::move( texture ) );
-	}
-
-	inline TextureAccessCallPtr/*int*/ makeTextureQueryLevels3DU( ExprPtr/*usampler3D*/ texture )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eInt )
-			, TextureAccess::eTextureQueryLevels3DU
-			, std::move( texture ) );
-	}
-
-	inline TextureAccessCallPtr/*int*/ makeTextureQueryLevelsCubeU( ExprPtr/*usamplerCube*/ texture )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eInt )
-			, TextureAccess::eTextureQueryLevelsCubeU
-			, std::move( texture ) );
-	}
-
-	inline TextureAccessCallPtr/*int*/ makeTextureQueryLevels1DArrayU( ExprPtr/*usampler1DArray*/ texture )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eInt )
-			, TextureAccess::eTextureQueryLevels1DArrayU
-			, std::move( texture ) );
-	}
-
-	inline TextureAccessCallPtr/*int*/ makeTextureQueryLevels2DArrayU( ExprPtr/*usampler2DArray*/ texture )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eInt )
-			, TextureAccess::eTextureQueryLevels2DArrayU
-			, std::move( texture ) );
-	}
-
-	inline TextureAccessCallPtr/*int*/ makeTextureQueryLevelsCubeArrayU( ExprPtr/*usamplerCubeArray*/ texture )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eInt )
-			, TextureAccess::eTextureQueryLevelsCubeArrayU
-			, std::move( texture ) );
-	}
-
+	/**
+	*@return
+	*	int
+	*@param texture
+	*	sampler1D
+	*@param lod
+	*	int
+	*/
+	TextureAccessCallPtr makeTextureSize1DF( ExprPtr texture, ExprPtr lod );
+	/**
+	*@return
+	*	vec2i
+	*@param texture
+	*	sampler2D
+	*@param lod
+	*	int
+	*/
+	TextureAccessCallPtr makeTextureSize2DF( ExprPtr texture, ExprPtr lod );
+	/**
+	*@return
+	*	vec3i
+	*@param texture
+	*	sampler3D
+	*@param lod
+	*	int
+	*/
+	TextureAccessCallPtr makeTextureSize3DF( ExprPtr texture, ExprPtr lod );
+	/**
+	*@return
+	*	vec2i
+	*@param texture
+	*	samplerCube
+	*@param lod
+	*	int
+	*/
+	TextureAccessCallPtr makeTextureSizeCubeF( ExprPtr texture, ExprPtr lod );
+	/**
+	*@return
+	*	int
+	*@param texture
+	*	sampler1DShadow
+	*@param lod
+	*	int
+	*/
+	TextureAccessCallPtr makeTextureSize1DShadowF( ExprPtr texture, ExprPtr lod );
+	/**
+	*@return
+	*	vec2i
+	*@param texture
+	*	sampler2DShadow
+	*@param lod
+	*	int
+	*/
+	TextureAccessCallPtr makeTextureSize2DShadowF( ExprPtr texture, ExprPtr lod );
+	/**
+	*@return
+	*	vec2i
+	*@param texture
+	*	samplerCubeShadow
+	*@param lod
+	*	int
+	*/
+	TextureAccessCallPtr makeTextureSizeCubeShadowF( ExprPtr texture, ExprPtr lod );
+	/**
+	*@return
+	*	vec3i
+	*@param texture
+	*	samplerCubeArray
+	*@param lod
+	*	int
+	*/
+	TextureAccessCallPtr makeTextureSizeCubeArrayF( ExprPtr texture, ExprPtr lod );
+	/**
+	*@return
+	*	vec3i
+	*@param texture
+	*	samplerCubeArrayShadow
+	*@param lod
+	*	int
+	*/
+	TextureAccessCallPtr makeTextureSizeCubeArrayShadowF( ExprPtr texture, ExprPtr lod );
+	/**
+	*@return
+	*	vec2i
+	*@param texture
+	*	sampler2DRect
+	*/
+	TextureAccessCallPtr makeTextureSize2DRectF( ExprPtr texture );
+	/**
+	*@return
+	*	vec2i
+	*@param texture
+	*	sampler2DRectShadow
+	*/
+	TextureAccessCallPtr makeTextureSize2DRectShadowF( ExprPtr texture );
+	/**
+	*@return
+	*	vec2i
+	*@param texture
+	*	sampler1DArray
+	*@param lod
+	*	int
+	*/
+	TextureAccessCallPtr makeTextureSize1DArrayF( ExprPtr texture, ExprPtr lod );
+	/**
+	*@return
+	*	vec3i
+	*@param texture
+	*	sampler2DArray
+	*@param lod
+	*	int
+	*/
+	TextureAccessCallPtr makeTextureSize2DArrayF( ExprPtr texture, ExprPtr lod );
+	/**
+	*@return
+	*	vec2i
+	*@param texture
+	*	sampler1DArrayShadow
+	*@param lod
+	*	int
+	*/
+	TextureAccessCallPtr makeTextureSize1DArrayShadowF( ExprPtr texture, ExprPtr lod );
+	/**
+	*@return
+	*	vec3i
+	*@param texture
+	*	sampler2DArrayShadow
+	*@param lod
+	*	int
+	*/
+	TextureAccessCallPtr makeTextureSize2DArrayShadowF( ExprPtr texture, ExprPtr lod );
+	/**
+	*@return
+	*	int
+	*@param texture
+	*	samplerBuffer
+	*/
+	TextureAccessCallPtr makeTextureSizeBufferF( ExprPtr texture );
+	/**
+	*@return
+	*	int
+	*@param texture
+	*	isampler1D
+	*@param lod
+	*	int
+	*/
+	TextureAccessCallPtr makeTextureSize1DI( ExprPtr texture, ExprPtr lod );
+	/**
+	*@return
+	*	vec2i
+	*@param texture
+	*	isampler2D
+	*@param lod
+	*	int
+	*/
+	TextureAccessCallPtr makeTextureSize2DI( ExprPtr texture, ExprPtr lod );
+	/**
+	*@return
+	*	vec3i
+	*@param texture
+	*	isampler3D
+	*@param lod
+	*	int
+	*/
+	TextureAccessCallPtr makeTextureSize3DI( ExprPtr texture, ExprPtr lod );
+	/**
+	*@return
+	*	vec2i
+	*@param texture
+	*	isamplerCube
+	*@param lod
+	*	int
+	*/
+	TextureAccessCallPtr makeTextureSizeCubeI( ExprPtr texture, ExprPtr lod );
+	/**
+	*@return
+	*	vec3i
+	*@param texture
+	*	isamplerCubeArray
+	*@param lod
+	*	int
+	*/
+	TextureAccessCallPtr makeTextureSizeCubeArrayI( ExprPtr texture, ExprPtr lod );
+	/**
+	*@return
+	*	vec2i
+	*@param texture
+	*	isampler2DRect
+	*/
+	TextureAccessCallPtr makeTextureSize2DRectI( ExprPtr texture );
+	/**
+	*@return
+	*	vec2i
+	*@param texture
+	*	isampler1DArray
+	*@param lod
+	*	int
+	*/
+	TextureAccessCallPtr makeTextureSize1DArrayI( ExprPtr texture, ExprPtr lod );
+	/**
+	*@return
+	*	vec3i
+	*@param texture
+	*	isampler2DArray
+	*@param lod
+	*	int
+	*/
+	TextureAccessCallPtr makeTextureSize2DArrayI( ExprPtr texture, ExprPtr lod );
+	/**
+	*@return
+	*	int
+	*@param texture
+	*	isamplerBuffer
+	*/
+	TextureAccessCallPtr makeTextureSizeBufferI( ExprPtr texture );
+	/**
+	*@return
+	*	int
+	*@param texture
+	*	usampler1D
+	*@param lod
+	*	int
+	*/
+	TextureAccessCallPtr makeTextureSize1DU( ExprPtr texture, ExprPtr lod );
+	/**
+	*@return
+	*	vec2i
+	*@param texture
+	*	usampler2D
+	*@param lod
+	*	int
+	*/
+	TextureAccessCallPtr makeTextureSize2DU( ExprPtr texture, ExprPtr lod );
+	/**
+	*@return
+	*	vec3i
+	*@param texture
+	*	usampler3D
+	*@param lod
+	*	int
+	*/
+	TextureAccessCallPtr makeTextureSize3DU( ExprPtr texture, ExprPtr lod );
+	/**
+	*@return
+	*	vec2i
+	*@param texture
+	*	usamplerCube
+	*@param lod
+	*	int
+	*/
+	TextureAccessCallPtr makeTextureSizeCubeU( ExprPtr texture, ExprPtr lod );
+	/**
+	*@return
+	*	vec3i
+	*@param texture
+	*	usamplerCubeArray
+	*@param lod
+	*	int
+	*/
+	TextureAccessCallPtr makeTextureSizeCubeArrayU( ExprPtr texture, ExprPtr lod );
+	/**
+	*@return
+	*	vec2i
+	*@param texture
+	*	usampler2DRect
+	*/
+	TextureAccessCallPtr makeTextureSize2DRectU( ExprPtr texture );
+	/**
+	*@return
+	*	vec2i
+	*@param texture
+	*	usampler1DArray
+	*@param lod
+	*	int
+	*/
+	TextureAccessCallPtr makeTextureSize1DArrayU( ExprPtr texture, ExprPtr lod );
+	/**
+	*@return
+	*	vec3i
+	*@param texture
+	*	usampler2DArray
+	*@param lod
+	*	int
+	*/
+	TextureAccessCallPtr makeTextureSize2DArrayU( ExprPtr texture, ExprPtr lod );
+	/**
+	*@return
+	*	int
+	*@param texture
+	*	usamplerBuffer
+	*/
+	TextureAccessCallPtr makeTextureSizeBufferU( ExprPtr texture );
+	/**
+	*@return
+	*	vec2f
+	*@param texture
+	*	sampler1D
+	*@param P
+	*	float
+	*/
+	TextureAccessCallPtr makeTextureQueryLod1DF( ExprPtr texture, ExprPtr P );
+	/**
+	*@return
+	*	vec2f
+	*@param texture
+	*	sampler2D
+	*@param P
+	*	vec2f
+	*/
+	TextureAccessCallPtr makeTextureQueryLod2DF( ExprPtr texture, ExprPtr P );
+	/**
+	*@return
+	*	vec2f
+	*@param texture
+	*	sampler3D
+	*@param P
+	*	vec3f
+	*/
+	TextureAccessCallPtr makeTextureQueryLod3DF( ExprPtr texture, ExprPtr P );
+	/**
+	*@return
+	*	vec2f
+	*@param texture
+	*	samplerCube
+	*@param P
+	*	vec3f
+	*/
+	TextureAccessCallPtr makeTextureQueryLodCubeF( ExprPtr texture, ExprPtr P );
+	/**
+	*@return
+	*	vec2f
+	*@param texture
+	*	sampler1DArray
+	*@param P
+	*	float
+	*/
+	TextureAccessCallPtr makeTextureQueryLod1DArrayF( ExprPtr texture, ExprPtr P );
+	/**
+	*@return
+	*	vec2f
+	*@param texture
+	*	sampler2DArray
+	*@param P
+	*	vec2f
+	*/
+	TextureAccessCallPtr makeTextureQueryLod2DArrayF( ExprPtr texture, ExprPtr P );
+	/**
+	*@return
+	*	vec2f
+	*@param texture
+	*	samplerCubeArray
+	*@param P
+	*	vec3f
+	*/
+	TextureAccessCallPtr makeTextureQueryLodCubeArrayF( ExprPtr texture, ExprPtr P );
+	/**
+	*@return
+	*	vec2f
+	*@param texture
+	*	sampler1DShadow
+	*@param P
+	*	float
+	*/
+	TextureAccessCallPtr makeTextureQueryLod1DShadowF( ExprPtr texture, ExprPtr P );
+	/**
+	*@return
+	*	vec2f
+	*@param texture
+	*	sampler2DShadow
+	*@param P
+	*	vec2f
+	*/
+	TextureAccessCallPtr makeTextureQueryLod2DShadowF( ExprPtr texture, ExprPtr P );
+	/**
+	*@return
+	*	vec2f
+	*@param texture
+	*	samplerCubeShadow
+	*@param P
+	*	vec3f
+	*/
+	TextureAccessCallPtr makeTextureQueryLodCubeShadowF( ExprPtr texture, ExprPtr P );
+	/**
+	*@return
+	*	vec2f
+	*@param texture
+	*	sampler1DArrayShadow
+	*@param P
+	*	float
+	*/
+	TextureAccessCallPtr makeTextureQueryLod1DArrayShadowF( ExprPtr texture, ExprPtr P );
+	/**
+	*@return
+	*	vec2f
+	*@param texture
+	*	sampler2DArrayShadow
+	*@param P
+	*	vec2f
+	*/
+	TextureAccessCallPtr makeTextureQueryLod2DArrayShadowF( ExprPtr texture, ExprPtr P );
+	/**
+	*@return
+	*	vec2f
+	*@param texture
+	*	samplerCubeArrayShadow
+	*@param P
+	*	vec3f
+	*/
+	TextureAccessCallPtr makeTextureQueryLodCubeArrayShadowF( ExprPtr texture, ExprPtr P );
+	/**
+	*@return
+	*	vec2f
+	*@param texture
+	*	isampler1D
+	*@param P
+	*	float
+	*/
+	TextureAccessCallPtr makeTextureQueryLod1DI( ExprPtr texture, ExprPtr P );
+	/**
+	*@return
+	*	vec2f
+	*@param texture
+	*	isampler2D
+	*@param P
+	*	vec2f
+	*/
+	TextureAccessCallPtr makeTextureQueryLod2DI( ExprPtr texture, ExprPtr P );
+	/**
+	*@return
+	*	vec2f
+	*@param texture
+	*	isampler3D
+	*@param P
+	*	vec3f
+	*/
+	TextureAccessCallPtr makeTextureQueryLod3DI( ExprPtr texture, ExprPtr P );
+	/**
+	*@return
+	*	vec2f
+	*@param texture
+	*	isamplerCube
+	*@param P
+	*	vec3f
+	*/
+	TextureAccessCallPtr makeTextureQueryLodCubeI( ExprPtr texture, ExprPtr P );
+	/**
+	*@return
+	*	vec2f
+	*@param texture
+	*	isampler1DArray
+	*@param P
+	*	float
+	*/
+	TextureAccessCallPtr makeTextureQueryLod1DArrayI( ExprPtr texture, ExprPtr P );
+	/**
+	*@return
+	*	vec2f
+	*@param texture
+	*	isampler2DArray
+	*@param P
+	*	vec2f
+	*/
+	TextureAccessCallPtr makeTextureQueryLod2DArrayI( ExprPtr texture, ExprPtr P );
+	/**
+	*@return
+	*	vec2f
+	*@param texture
+	*	isamplerCubeArray
+	*@param P
+	*	vec3f
+	*/
+	TextureAccessCallPtr makeTextureQueryLodCubeArrayI( ExprPtr texture, ExprPtr P );
+	/**
+	*@return
+	*	vec2f
+	*@param texture
+	*	usampler1D
+	*@param P
+	*	float
+	*/
+	TextureAccessCallPtr makeTextureQueryLod1DU( ExprPtr texture, ExprPtr P );
+	/**
+	*@return
+	*	vec2f
+	*@param texture
+	*	usampler2D
+	*@param P
+	*	vec2f
+	*/
+	TextureAccessCallPtr makeTextureQueryLod2DU( ExprPtr texture, ExprPtr P );
+	/**
+	*@return
+	*	vec2f
+	*@param texture
+	*	usampler3D
+	*@param P
+	*	vec3f
+	*/
+	TextureAccessCallPtr makeTextureQueryLod3DU( ExprPtr texture, ExprPtr P );
+	/**
+	*@return
+	*	vec2f
+	*@param texture
+	*	usamplerCube
+	*@param P
+	*	vec3f
+	*/
+	TextureAccessCallPtr makeTextureQueryLodCubeU( ExprPtr texture, ExprPtr P );
+	/**
+	*@return
+	*	vec2f
+	*@param texture
+	*	usampler1DArray
+	*@param P
+	*	float
+	*/
+	TextureAccessCallPtr makeTextureQueryLod1DArrayU( ExprPtr texture, ExprPtr P );
+	/**
+	*@return
+	*	vec2f
+	*@param texture
+	*	usampler2DArray
+	*@param P
+	*	vec2f
+	*/
+	TextureAccessCallPtr makeTextureQueryLod2DArrayU( ExprPtr texture, ExprPtr P );
+	/**
+	*@return
+	*	vec2f
+	*@param texture
+	*	usamplerCubeArray
+	*@param P
+	*	vec3f
+	*/
+	TextureAccessCallPtr makeTextureQueryLodCubeArrayU( ExprPtr texture, ExprPtr P );
+	/**
+	*@return
+	*	int
+	*@param texture
+	*	sampler1D
+	*/
+	TextureAccessCallPtr makeTextureQueryLevels1DF( ExprPtr texture );
+	/**
+	*@return
+	*	int
+	*@param texture
+	*	sampler2D
+	*/
+	TextureAccessCallPtr makeTextureQueryLevels2DF( ExprPtr texture );
+	/**
+	*@return
+	*	int
+	*@param texture
+	*	sampler3D
+	*/
+	TextureAccessCallPtr makeTextureQueryLevels3DF( ExprPtr texture );
+	/**
+	*@return
+	*	int
+	*@param texture
+	*	samplerCube
+	*/
+	TextureAccessCallPtr makeTextureQueryLevelsCubeF( ExprPtr texture );
+	/**
+	*@return
+	*	int
+	*@param texture
+	*	sampler1DArray
+	*/
+	TextureAccessCallPtr makeTextureQueryLevels1DArrayF( ExprPtr texture );
+	/**
+	*@return
+	*	int
+	*@param texture
+	*	sampler2DArray
+	*/
+	TextureAccessCallPtr makeTextureQueryLevels2DArrayF( ExprPtr texture );
+	/**
+	*@return
+	*	int
+	*@param texture
+	*	samplerCubeArray
+	*/
+	TextureAccessCallPtr makeTextureQueryLevelsCubeArrayF( ExprPtr texture );
+	/**
+	*@return
+	*	int
+	*@param texture
+	*	sampler1DShadow
+	*/
+	TextureAccessCallPtr makeTextureQueryLevels1DShadowF( ExprPtr texture );
+	/**
+	*@return
+	*	int
+	*@param texture
+	*	sampler2DShadow
+	*/
+	TextureAccessCallPtr makeTextureQueryLevels2DShadowF( ExprPtr texture );
+	/**
+	*@return
+	*	int
+	*@param texture
+	*	samplerCubeShadow
+	*/
+	TextureAccessCallPtr makeTextureQueryLevelsCubeShadowF( ExprPtr texture );
+	/**
+	*@return
+	*	int
+	*@param texture
+	*	sampler1DArrayShadow
+	*/
+	TextureAccessCallPtr makeTextureQueryLevels1DArrayShadowF( ExprPtr texture );
+	/**
+	*@return
+	*	int
+	*@param texture
+	*	sampler2DArrayShadow
+	*/
+	TextureAccessCallPtr makeTextureQueryLevels2DArrayShadowF( ExprPtr texture );
+	/**
+	*@return
+	*	int
+	*@param texture
+	*	samplerCubeArrayShadow
+	*/
+	TextureAccessCallPtr makeTextureQueryLevelsCubeArrayShadowF( ExprPtr texture );
+	/**
+	*@return
+	*	int
+	*@param texture
+	*	isampler1D
+	*/
+	TextureAccessCallPtr makeTextureQueryLevels1DI( ExprPtr texture );
+	/**
+	*@return
+	*	int
+	*@param texture
+	*	isampler2D
+	*/
+	TextureAccessCallPtr makeTextureQueryLevels2DI( ExprPtr texture );
+	/**
+	*@return
+	*	int
+	*@param texture
+	*	isampler3D
+	*/
+	TextureAccessCallPtr makeTextureQueryLevels3DI( ExprPtr texture );
+	/**
+	*@return
+	*	int
+	*@param texture
+	*	isamplerCube
+	*/
+	TextureAccessCallPtr makeTextureQueryLevelsCubeI( ExprPtr texture );
+	/**
+	*@return
+	*	int
+	*@param texture
+	*	isampler1DArray
+	*/
+	TextureAccessCallPtr makeTextureQueryLevels1DArrayI( ExprPtr texture );
+	/**
+	*@return
+	*	int
+	*@param texture
+	*	isampler2DArray
+	*/
+	TextureAccessCallPtr makeTextureQueryLevels2DArrayI( ExprPtr texture );
+	/**
+	*@return
+	*	int
+	*@param texture
+	*	isamplerCubeArray
+	*/
+	TextureAccessCallPtr makeTextureQueryLevelsCubeArrayI( ExprPtr texture );
+	/**
+	*@return
+	*	int
+	*@param texture
+	*	usampler1D
+	*/
+	TextureAccessCallPtr makeTextureQueryLevels1DU( ExprPtr texture );
+	/**
+	*@return
+	*	int
+	*@param texture
+	*	usampler2D
+	*/
+	TextureAccessCallPtr makeTextureQueryLevels2DU( ExprPtr texture );
+	/**
+	*@return
+	*	int
+	*@param texture
+	*	usampler3D
+	*/
+	TextureAccessCallPtr makeTextureQueryLevels3DU( ExprPtr texture );
+	/**
+	*@return
+	*	int
+	*@param texture
+	*	usamplerCube
+	*/
+	TextureAccessCallPtr makeTextureQueryLevelsCubeU( ExprPtr texture );
+	/**
+	*@return
+	*	int
+	*@param texture
+	*	usampler1DArray
+	*/
+	TextureAccessCallPtr makeTextureQueryLevels1DArrayU( ExprPtr texture );
+	/**
+	*@return
+	*	int
+	*@param texture
+	*	usampler2DArray
+	*/
+	TextureAccessCallPtr makeTextureQueryLevels2DArrayU( ExprPtr texture );
+	/**
+	*@return
+	*	int
+	*@param texture
+	*	usamplerCubeArray
+	*/
+	TextureAccessCallPtr makeTextureQueryLevelsCubeArrayU( ExprPtr texture );
 	// Texel Lookup Functions
 
-	inline TextureAccessCallPtr/*vec4f*/ makeTexture1DF( ExprPtr/*sampler1D*/ texture
-		, ExprPtr/*float*/ P )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTexture1DF
-			, std::move( texture )
-			, std::move( P ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTexture1DFBias( ExprPtr/*sampler1D*/ texture
-		, ExprPtr/*float*/ P
-		, ExprPtr/*float*/ bias )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTexture1DFBias
-			, std::move( texture )
-			, std::move( P )
-			, std::move( bias ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTexture2DF( ExprPtr/*sampler2D*/ texture
-		, ExprPtr/*vec2f*/ P )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTexture2DF
-			, std::move( texture )
-			, std::move( P ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTexture2DFBias( ExprPtr/*sampler2D*/ texture
-		, ExprPtr/*vec2f*/ P
-		, ExprPtr/*float*/ bias )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTexture2DFBias
-			, std::move( texture )
-			, std::move( P )
-			, std::move( bias ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTexture3DF( ExprPtr/*sampler3D*/ texture
-		, ExprPtr/*vec3f*/ P )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTexture3DF
-			, std::move( texture )
-			, std::move( P ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTexture3DFBias( ExprPtr/*sampler3D*/ texture
-		, ExprPtr/*vec3f*/ P
-		, ExprPtr/*float*/ bias )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTexture3DFBias
-			, std::move( texture )
-			, std::move( P )
-			, std::move( bias ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureCubeF( ExprPtr/*samplerCube*/ texture
-		, ExprPtr/*vec3f*/ P )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureCubeF
-			, std::move( texture )
-			, std::move( P ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureCubeFBias( ExprPtr/*samplerCube*/ texture
-		, ExprPtr/*vec3f*/ P
-		, ExprPtr/*float*/ bias )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureCubeFBias
-			, std::move( texture )
-			, std::move( P )
-			, std::move( bias ) );
-	}
-
-	inline TextureAccessCallPtr/*float*/ makeTexture1DShadowF( ExprPtr/*sampler1DShadow*/ texture
-		, ExprPtr/*vec3f*/ P )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eFloat )
-			, TextureAccess::eTexture1DShadowF
-			, std::move( texture )
-			, std::move( P ) );
-	}
-
-	inline TextureAccessCallPtr/*float*/ makeTexture1DShadowFBias( ExprPtr/*sampler1DShadow*/ texture
-		, ExprPtr/*vec3f*/ P
-		, ExprPtr/*float*/ bias )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eFloat )
-			, TextureAccess::eTexture1DShadowFBias
-			, std::move( texture )
-			, std::move( P )
-			, std::move( bias ) );
-	}
-
-	inline TextureAccessCallPtr/*float*/ makeTexture2DShadowF( ExprPtr/*sampler2DShadow*/ texture
-		, ExprPtr/*vec3f*/ P )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eFloat )
-			, TextureAccess::eTexture2DShadowF
-			, std::move( texture )
-			, std::move( P ) );
-	}
-
-	inline TextureAccessCallPtr/*float*/ makeTexture2DShadowFBias( ExprPtr/*sampler2DShadow*/ texture
-		, ExprPtr/*vec3f*/ P
-		, ExprPtr/*float*/ bias )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eFloat )
-			, TextureAccess::eTexture2DShadowFBias
-			, std::move( texture )
-			, std::move( P )
-			, std::move( bias ) );
-	}
-
-	inline TextureAccessCallPtr/*float*/ makeTextureCubeShadowF( ExprPtr/*samplerCubeShadow*/ texture
-		, ExprPtr/*vec4f*/ P )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eFloat )
-			, TextureAccess::eTextureCubeShadowF
-			, std::move( texture )
-			, std::move( P ) );
-	}
-
-	inline TextureAccessCallPtr/*float*/ makeTextureCubeShadowFBias( ExprPtr/*samplerCubeShadow*/ texture
-		, ExprPtr/*vec4f*/ P
-		, ExprPtr/*float*/ bias )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eFloat )
-			, TextureAccess::eTextureCubeShadowFBias
-			, std::move( texture )
-			, std::move( P )
-			, std::move( bias ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTexture1DArrayF( ExprPtr/*sampler1DArray*/ texture
-		, ExprPtr/*vec2f*/ P )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTexture1DArrayF
-			, std::move( texture )
-			, std::move( P ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTexture1DArrayFBias( ExprPtr/*sampler1DArray*/ texture
-		, ExprPtr/*vec2f*/ P
-		, ExprPtr/*float*/ bias )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTexture1DArrayFBias
-			, std::move( texture )
-			, std::move( P )
-			, std::move( bias ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTexture2DArrayF( ExprPtr/*sampler2DArray*/ texture
-		, ExprPtr/*vec3f*/ P )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTexture2DArrayF
-			, std::move( texture )
-			, std::move( P ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTexture2DArrayFBias( ExprPtr/*sampler2DArray*/ texture
-		, ExprPtr/*vec3f*/ P
-		, ExprPtr/*float*/ bias )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTexture2DArrayFBias
-			, std::move( texture )
-			, std::move( P )
-			, std::move( bias ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureCubeArrayF( ExprPtr/*samplerCubeArray*/ texture
-		, ExprPtr/*vec4f*/ P )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureCubeArrayF
-			, std::move( texture )
-			, std::move( P ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureCubeArrayFBias( ExprPtr/*samplerCubeArray*/ texture
-		, ExprPtr/*vec4f*/ P
-		, ExprPtr/*float*/ bias )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureCubeArrayFBias
-			, std::move( texture )
-			, std::move( P )
-			, std::move( bias ) );
-	}
-
-	inline TextureAccessCallPtr/*float*/ makeTexture1DArrayShadowF( ExprPtr/*sampler1DArrayShadow*/ texture
-		, ExprPtr/*vec3f*/ P )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eFloat )
-			, TextureAccess::eTexture1DArrayShadowF
-			, std::move( texture )
-			, std::move( P ) );
-	}
-
-	inline TextureAccessCallPtr/*float*/ makeTexture1DArrayShadowFBias( ExprPtr/*sampler1DArrayShadow*/ texture
-		, ExprPtr/*vec3f*/ P
-		, ExprPtr/*float*/ bias )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eFloat )
-			, TextureAccess::eTexture1DArrayShadowFBias
-			, std::move( texture )
-			, std::move( P )
-			, std::move( bias ) );
-	}
-
-	inline TextureAccessCallPtr/*float*/ makeTexture2DArrayShadowF( ExprPtr/*sampler2DArrayShadow*/ texture
-		, ExprPtr/*vec4f*/ P )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eFloat )
-			, TextureAccess::eTexture2DArrayShadowF
-			, std::move( texture )
-			, std::move( P ) );
-	}
-
-	inline TextureAccessCallPtr/*float*/ makeTexture2DArrayShadowFBias( ExprPtr/*sampler2DArrayShadow*/ texture
-		, ExprPtr/*vec4f*/ P
-		, ExprPtr/*float*/ bias )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eFloat )
-			, TextureAccess::eTexture2DArrayShadowFBias
-			, std::move( texture )
-			, std::move( P )
-			, std::move( bias ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTexture2DRectF( ExprPtr/*sampler2DRect*/ texture
-		, ExprPtr/*vec2f*/ P )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTexture2DRectF
-			, std::move( texture )
-			, std::move( P ) );
-	}
-
-	inline TextureAccessCallPtr/*float*/ makeTexture2DRectShadowF( ExprPtr/*sampler2DRectShadow*/ texture
-		, ExprPtr/*vec3f*/ P )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eFloat )
-			, TextureAccess::eTexture2DRectShadowF
-			, std::move( texture )
-			, std::move( P ) );
-	}
-
-	inline TextureAccessCallPtr/*float*/ makeTextureCubeArrayShadowF( ExprPtr/*samplerCubeArrayShadow*/ texture
-		, ExprPtr/*vec4f*/ P
-		, ExprPtr/*float*/ compare )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eFloat )
-			, TextureAccess::eTextureCubeArrayShadowF
-			, std::move( texture )
-			, std::move( P )
-			, std::move( compare ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4i*/ makeTexture1DI( ExprPtr/*isampler1D*/ texture
-		, ExprPtr/*float*/ P )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4I )
-			, TextureAccess::eTexture1DI
-			, std::move( texture )
-			, std::move( P ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4i*/ makeTexture1DIBias( ExprPtr/*isampler1D*/ texture
-		, ExprPtr/*float*/ P
-		, ExprPtr/*float*/ bias )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4I )
-			, TextureAccess::eTexture1DIBias
-			, std::move( texture )
-			, std::move( P )
-			, std::move( bias ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4i*/ makeTexture2DI( ExprPtr/*isampler2D*/ texture
-		, ExprPtr/*vec2f*/ P )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4I )
-			, TextureAccess::eTexture2DI
-			, std::move( texture )
-			, std::move( P ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4i*/ makeTexture2DIBias( ExprPtr/*isampler2D*/ texture
-		, ExprPtr/*vec2f*/ P
-		, ExprPtr/*float*/ bias )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4I )
-			, TextureAccess::eTexture2DIBias
-			, std::move( texture )
-			, std::move( P )
-			, std::move( bias ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4i*/ makeTexture3DI( ExprPtr/*isampler3D*/ texture
-		, ExprPtr/*vec3f*/ P )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4I )
-			, TextureAccess::eTexture3DI
-			, std::move( texture )
-			, std::move( P ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4i*/ makeTexture3DIBias( ExprPtr/*isampler3D*/ texture
-		, ExprPtr/*vec3f*/ P
-		, ExprPtr/*float*/ bias )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4I )
-			, TextureAccess::eTexture3DIBias
-			, std::move( texture )
-			, std::move( P )
-			, std::move( bias ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4i*/ makeTextureCubeI( ExprPtr/*isamplerCube*/ texture
-		, ExprPtr/*vec3f*/ P )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4I )
-			, TextureAccess::eTextureCubeI
-			, std::move( texture )
-			, std::move( P ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4i*/ makeTextureCubeIBias( ExprPtr/*isamplerCube*/ texture
-		, ExprPtr/*vec3f*/ P
-		, ExprPtr/*float*/ bias )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4I )
-			, TextureAccess::eTextureCubeIBias
-			, std::move( texture )
-			, std::move( P )
-			, std::move( bias ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4i*/ makeTexture1DArrayI( ExprPtr/*isampler1DArray*/ texture
-		, ExprPtr/*vec2f*/ P )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4I )
-			, TextureAccess::eTexture1DArrayI
-			, std::move( texture )
-			, std::move( P ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4i*/ makeTexture1DArrayIBias( ExprPtr/*isampler1DArray*/ texture
-		, ExprPtr/*vec2f*/ P
-		, ExprPtr/*float*/ bias )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4I )
-			, TextureAccess::eTexture1DArrayIBias
-			, std::move( texture )
-			, std::move( P )
-			, std::move( bias ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4i*/ makeTexture2DArrayI( ExprPtr/*isampler2DArray*/ texture
-		, ExprPtr/*vec3f*/ P )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4I )
-			, TextureAccess::eTexture2DArrayI
-			, std::move( texture )
-			, std::move( P ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4i*/ makeTexture2DArrayIBias( ExprPtr/*isampler2DArray*/ texture
-		, ExprPtr/*vec3f*/ P
-		, ExprPtr/*float*/ bias )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4I )
-			, TextureAccess::eTexture2DArrayIBias
-			, std::move( texture )
-			, std::move( P )
-			, std::move( bias ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4i*/ makeTextureCubeArrayI( ExprPtr/*isamplerCubeArray*/ texture
-		, ExprPtr/*vec4f*/ P )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4I )
-			, TextureAccess::eTextureCubeArrayI
-			, std::move( texture )
-			, std::move( P ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4i*/ makeTextureCubeArrayIBias( ExprPtr/*isamplerCubeArray*/ texture
-		, ExprPtr/*vec4f*/ P
-		, ExprPtr/*float*/ bias )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4I )
-			, TextureAccess::eTextureCubeArrayIBias
-			, std::move( texture )
-			, std::move( P )
-			, std::move( bias ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4i*/ makeTexture2DRectI( ExprPtr/*isampler2DRect*/ texture
-		, ExprPtr/*vec2f*/ P )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4I )
-			, TextureAccess::eTexture2DRectI
-			, std::move( texture )
-			, std::move( P ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4u*/ makeTexture1DU( ExprPtr/*usampler1D*/ texture
-		, ExprPtr/*float*/ P )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4U )
-			, TextureAccess::eTexture1DU
-			, std::move( texture )
-			, std::move( P ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4u*/ makeTexture1DUBias( ExprPtr/*usampler1D*/ texture
-		, ExprPtr/*float*/ P
-		, ExprPtr/*float*/ bias )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4U )
-			, TextureAccess::eTexture1DUBias
-			, std::move( texture )
-			, std::move( P )
-			, std::move( bias ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4u*/ makeTexture2DU( ExprPtr/*usampler2D*/ texture
-		, ExprPtr/*vec2f*/ P )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4U )
-			, TextureAccess::eTexture2DU
-			, std::move( texture )
-			, std::move( P ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4u*/ makeTexture2DUBias( ExprPtr/*usampler2D*/ texture
-		, ExprPtr/*vec2f*/ P
-		, ExprPtr/*float*/ bias )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4U )
-			, TextureAccess::eTexture2DUBias
-			, std::move( texture )
-			, std::move( P )
-			, std::move( bias ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4u*/ makeTexture3DU( ExprPtr/*usampler3D*/ texture
-		, ExprPtr/*vec3f*/ P )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4U )
-			, TextureAccess::eTexture3DU
-			, std::move( texture )
-			, std::move( P ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4u*/ makeTexture3DUBias( ExprPtr/*usampler3D*/ texture
-		, ExprPtr/*vec3f*/ P
-		, ExprPtr/*float*/ bias )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4U )
-			, TextureAccess::eTexture3DUBias
-			, std::move( texture )
-			, std::move( P )
-			, std::move( bias ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4u*/ makeTextureCubeU( ExprPtr/*usamplerCube*/ texture
-		, ExprPtr/*vec3f*/ P )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4U )
-			, TextureAccess::eTextureCubeU
-			, std::move( texture )
-			, std::move( P ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4u*/ makeTextureCubeUBias( ExprPtr/*usamplerCube*/ texture
-		, ExprPtr/*vec3f*/ P
-		, ExprPtr/*float*/ bias )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4U )
-			, TextureAccess::eTextureCubeUBias
-			, std::move( texture )
-			, std::move( P )
-			, std::move( bias ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4u*/ makeTexture1DArrayU( ExprPtr/*usampler1DArray*/ texture
-		, ExprPtr/*vec2f*/ P )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4U )
-			, TextureAccess::eTexture1DArrayU
-			, std::move( texture )
-			, std::move( P ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4u*/ makeTexture1DArrayUBias( ExprPtr/*usampler1DArray*/ texture
-		, ExprPtr/*vec2f*/ P
-		, ExprPtr/*float*/ bias )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4U )
-			, TextureAccess::eTexture1DArrayUBias
-			, std::move( texture )
-			, std::move( P )
-			, std::move( bias ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4u*/ makeTexture2DArrayU( ExprPtr/*usampler2DArray*/ texture
-		, ExprPtr/*vec3f*/ P )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4U )
-			, TextureAccess::eTexture2DArrayU
-			, std::move( texture )
-			, std::move( P ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4u*/ makeTexture2DArrayUBias( ExprPtr/*usampler2DArray*/ texture
-		, ExprPtr/*vec3f*/ P
-		, ExprPtr/*float*/ bias )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4U )
-			, TextureAccess::eTexture2DArrayUBias
-			, std::move( texture )
-			, std::move( P )
-			, std::move( bias ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4u*/ makeTextureCubeArrayU( ExprPtr/*usamplerCubeArray*/ texture
-		, ExprPtr/*vec4f*/ P )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4U )
-			, TextureAccess::eTextureCubeArrayU
-			, std::move( texture )
-			, std::move( P ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4u*/ makeTextureCubeArrayUBias( ExprPtr/*usamplerCubeArray*/ texture
-		, ExprPtr/*vec4f*/ P
-		, ExprPtr/*float*/ bias )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4U )
-			, TextureAccess::eTextureCubeArrayUBias
-			, std::move( texture )
-			, std::move( P )
-			, std::move( bias ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4u*/ makeTexture2DRectU( ExprPtr/*usampler2DRect*/ texture
-		, ExprPtr/*vec2f*/ P )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4U )
-			, TextureAccess::eTexture2DRectU
-			, std::move( texture )
-			, std::move( P ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureProj1DF2( ExprPtr/*sampler1D*/ texture
-		, ExprPtr/*vec2f*/ P )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureProj1DF2
-			, std::move( texture )
-			, std::move( P ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureProj1DF2Bias( ExprPtr/*sampler1D*/ texture
-		, ExprPtr/*vec2f*/ P
-		, ExprPtr/*float*/ bias )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureProj1DF2Bias
-			, std::move( texture )
-			, std::move( P )
-			, std::move( bias ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureProj1DF4( ExprPtr/*sampler1D*/ texture
-		, ExprPtr/*vec4f*/ P )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureProj1DF4
-			, std::move( texture )
-			, std::move( P ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureProj1DF4Bias( ExprPtr/*sampler1D*/ texture
-		, ExprPtr/*vec4f*/ P
-		, ExprPtr/*float*/ bias )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureProj1DF4Bias
-			, std::move( texture )
-			, std::move( P )
-			, std::move( bias ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureProj2DF3( ExprPtr/*sampler2D*/ texture
-		, ExprPtr/*vec3f*/ P )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureProj2DF3
-			, std::move( texture )
-			, std::move( P ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureProj2DF3Bias( ExprPtr/*sampler2D*/ texture
-		, ExprPtr/*vec3f*/ P
-		, ExprPtr/*float*/ bias )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureProj2DF3Bias
-			, std::move( texture )
-			, std::move( P )
-			, std::move( bias ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureProj2DF4( ExprPtr/*sampler2D*/ texture
-		, ExprPtr/*vec4f*/ P )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureProj2DF4
-			, std::move( texture )
-			, std::move( P ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureProj2DF4Bias( ExprPtr/*sampler2D*/ texture
-		, ExprPtr/*vec4f*/ P
-		, ExprPtr/*float*/ bias )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureProj2DF4Bias
-			, std::move( texture )
-			, std::move( P )
-			, std::move( bias ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureProj3DF( ExprPtr/*sampler3D*/ texture
-		, ExprPtr/*vec4f*/ P )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureProj3DF
-			, std::move( texture )
-			, std::move( P ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureProj3DFBias( ExprPtr/*sampler3D*/ texture
-		, ExprPtr/*vec4f*/ P
-		, ExprPtr/*float*/ bias )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureProj3DFBias
-			, std::move( texture )
-			, std::move( P )
-			, std::move( bias ) );
-	}
-
-	inline TextureAccessCallPtr/*float*/ makeTextureProj1DShadowF( ExprPtr/*sampler1DShadow*/ texture
-		, ExprPtr/*vec4f*/ P )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eFloat )
-			, TextureAccess::eTextureProj1DShadowF
-			, std::move( texture )
-			, std::move( P ) );
-	}
-
-	inline TextureAccessCallPtr/*float*/ makeTextureProj1DShadowFBias( ExprPtr/*sampler1DShadow*/ texture
-		, ExprPtr/*vec4f*/ P
-		, ExprPtr/*float*/ bias )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eFloat )
-			, TextureAccess::eTextureProj1DShadowFBias
-			, std::move( texture )
-			, std::move( P )
-			, std::move( bias ) );
-	}
-
-	inline TextureAccessCallPtr/*float*/ makeTextureProj2DShadowF( ExprPtr/*sampler2DShadow*/ texture
-		, ExprPtr/*vec4f*/ P )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eFloat )
-			, TextureAccess::eTextureProj2DShadowF
-			, std::move( texture )
-			, std::move( P ) );
-	}
-
-	inline TextureAccessCallPtr/*float*/ makeTextureProj2DShadowFBias( ExprPtr/*sampler2DShadow*/ texture
-		, ExprPtr/*vec4f*/ P
-		, ExprPtr/*float*/ bias )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eFloat )
-			, TextureAccess::eTextureProj2DShadowFBias
-			, std::move( texture )
-			, std::move( P )
-			, std::move( bias ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureProj2DRectF3( ExprPtr/*sampler2DRect*/ texture
-		, ExprPtr/*vec3f*/ P )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureProj2DRectF3
-			, std::move( texture )
-			, std::move( P ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureProj2DRectF4( ExprPtr/*sampler2DRect*/ texture
-		, ExprPtr/*vec4f*/ P )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureProj2DRectF4
-			, std::move( texture )
-			, std::move( P ) );
-	}
-
-	inline TextureAccessCallPtr/*float*/ makeTextureProj2DRectShadowF( ExprPtr/*sampler2DRectShadow*/ texture
-		, ExprPtr/*vec4f*/ P )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eFloat )
-			, TextureAccess::eTextureProj2DRectShadowF
-			, std::move( texture )
-			, std::move( P ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureProj1DI2( ExprPtr/*isampler1D*/ texture
-		, ExprPtr/*vec2f*/ P )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureProj1DI2
-			, std::move( texture )
-			, std::move( P ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureProj1DI2Bias( ExprPtr/*isampler1D*/ texture
-		, ExprPtr/*vec2f*/ P
-		, ExprPtr/*float*/ bias )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureProj1DI2Bias
-			, std::move( texture )
-			, std::move( P )
-			, std::move( bias ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureProj1DI4( ExprPtr/*isampler1D*/ texture
-		, ExprPtr/*vec4f*/ P )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureProj1DI4
-			, std::move( texture )
-			, std::move( P ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureProj1DI4Bias( ExprPtr/*isampler1D*/ texture
-		, ExprPtr/*vec4f*/ P
-		, ExprPtr/*float*/ bias )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureProj1DI4Bias
-			, std::move( texture )
-			, std::move( P )
-			, std::move( bias ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureProj2DI3( ExprPtr/*isampler2D*/ texture
-		, ExprPtr/*vec3f*/ P )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureProj2DI3
-			, std::move( texture )
-			, std::move( P ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureProj2DI3Bias( ExprPtr/*isampler2D*/ texture
-		, ExprPtr/*vec3f*/ P
-		, ExprPtr/*float*/ bias )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureProj2DI3Bias
-			, std::move( texture )
-			, std::move( P )
-			, std::move( bias ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureProj2DI4( ExprPtr/*isampler2D*/ texture
-		, ExprPtr/*vec4f*/ P )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureProj2DI4
-			, std::move( texture )
-			, std::move( P ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureProj2DI4Bias( ExprPtr/*isampler2D*/ texture
-		, ExprPtr/*vec4f*/ P
-		, ExprPtr/*float*/ bias )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureProj2DI4Bias
-			, std::move( texture )
-			, std::move( P )
-			, std::move( bias ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureProj3DI( ExprPtr/*isampler3D*/ texture
-		, ExprPtr/*vec4f*/ P )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureProj3DI
-			, std::move( texture )
-			, std::move( P ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureProj3DIBias( ExprPtr/*isampler3D*/ texture
-		, ExprPtr/*vec4f*/ P
-		, ExprPtr/*float*/ bias )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureProj3DIBias
-			, std::move( texture )
-			, std::move( P )
-			, std::move( bias ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureProj2DRectI3( ExprPtr/*isampler2DRect*/ texture
-		, ExprPtr/*vec3f*/ P )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureProj2DRectI3
-			, std::move( texture )
-			, std::move( P ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureProj2DRectI4( ExprPtr/*isampler2DRect*/ texture
-		, ExprPtr/*vec4f*/ P )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureProj2DRectI4
-			, std::move( texture )
-			, std::move( P ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureProj1DU2( ExprPtr/*usampler1D*/ texture
-		, ExprPtr/*vec2f*/ P )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureProj1DU2
-			, std::move( texture )
-			, std::move( P ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureProj1DU2Bias( ExprPtr/*usampler1D*/ texture
-		, ExprPtr/*vec2f*/ P
-		, ExprPtr/*float*/ bias )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureProj1DU2Bias
-			, std::move( texture )
-			, std::move( P )
-			, std::move( bias ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureProj1DU4( ExprPtr/*usampler1D*/ texture
-		, ExprPtr/*vec4f*/ P )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureProj1DU4
-			, std::move( texture )
-			, std::move( P ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureProj1DU4Bias( ExprPtr/*usampler1D*/ texture
-		, ExprPtr/*vec4f*/ P
-		, ExprPtr/*float*/ bias )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureProj1DU4Bias
-			, std::move( texture )
-			, std::move( P )
-			, std::move( bias ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureProj2DU3( ExprPtr/*usampler2D*/ texture
-		, ExprPtr/*vec3f*/ P )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureProj2DU3
-			, std::move( texture )
-			, std::move( P ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureProj2DU3Bias( ExprPtr/*usampler2D*/ texture
-		, ExprPtr/*vec3f*/ P
-		, ExprPtr/*float*/ bias )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureProj2DU3Bias
-			, std::move( texture )
-			, std::move( P )
-			, std::move( bias ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureProj2DU4( ExprPtr/*usampler2D*/ texture
-		, ExprPtr/*vec4f*/ P )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureProj2DU4
-			, std::move( texture )
-			, std::move( P ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureProj2DU4Bias( ExprPtr/*usampler2D*/ texture
-		, ExprPtr/*vec4f*/ P
-		, ExprPtr/*float*/ bias )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureProj2DU4Bias
-			, std::move( texture )
-			, std::move( P )
-			, std::move( bias ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureProj3DU( ExprPtr/*usampler3D*/ texture
-		, ExprPtr/*vec4f*/ P )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureProj3DU
-			, std::move( texture )
-			, std::move( P ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureProj3DUBias( ExprPtr/*usampler3D*/ texture
-		, ExprPtr/*vec4f*/ P
-		, ExprPtr/*float*/ bias )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureProj3DUBias
-			, std::move( texture )
-			, std::move( P )
-			, std::move( bias ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureProj2DRectU3( ExprPtr/*usampler2DRect*/ texture
-		, ExprPtr/*vec3f*/ P )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureProj2DRectU3
-			, std::move( texture )
-			, std::move( P ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureProj2DRectU4( ExprPtr/*usampler2DRect*/ texture
-		, ExprPtr/*vec4f*/ P )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureProj2DRectU4
-			, std::move( texture )
-			, std::move( P ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureLod1DF( ExprPtr/*sampler1D*/ texture
-		, ExprPtr/*float*/ P
-		, ExprPtr/*float*/ lod )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureLod1DF
-			, std::move( texture )
-			, std::move( P )
-			, std::move( lod ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureLod2DF( ExprPtr/*sampler2D*/ texture
-		, ExprPtr/*vec2f*/ P
-		, ExprPtr/*float*/ lod )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureLod2DF
-			, std::move( texture )
-			, std::move( P )
-			, std::move( lod ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureLod3DF( ExprPtr/*sampler3D*/ texture
-		, ExprPtr/*vec3f*/ P
-		, ExprPtr/*float*/ lod )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureLod3DF
-			, std::move( texture )
-			, std::move( P )
-			, std::move( lod ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureLodCubeF( ExprPtr/*samplerCube*/ texture
-		, ExprPtr/*vec3f*/ P
-		, ExprPtr/*float*/ lod )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureLodCubeF
-			, std::move( texture )
-			, std::move( P )
-			, std::move( lod ) );
-	}
-
-	inline TextureAccessCallPtr/*float*/ makeTextureLod1DShadowF( ExprPtr/*sampler1DShadow*/ texture
-		, ExprPtr/*vec3f*/ P
-		, ExprPtr/*float*/ lod )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eFloat )
-			, TextureAccess::eTextureLod1DShadowF
-			, std::move( texture )
-			, std::move( P )
-			, std::move( lod ) );
-	}
-
-	inline TextureAccessCallPtr/*float*/ makeTextureLod2DShadowF( ExprPtr/*sampler2DShadow*/ texture
-		, ExprPtr/*vec4f*/ P
-		, ExprPtr/*float*/ lod )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eFloat )
-			, TextureAccess::eTextureLod2DShadowF
-			, std::move( texture )
-			, std::move( P )
-			, std::move( lod ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureLod1DArrayF( ExprPtr/*sampler1DArray*/ texture
-		, ExprPtr/*vec2f*/ P
-		, ExprPtr/*float*/ lod )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureLod1DArrayF
-			, std::move( texture )
-			, std::move( P )
-			, std::move( lod ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureLod2DArrayF( ExprPtr/*sampler2DArray*/ texture
-		, ExprPtr/*vec3f*/ P
-		, ExprPtr/*float*/ lod )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureLod2DArrayF
-			, std::move( texture )
-			, std::move( P )
-			, std::move( lod ) );
-	}
-
-	inline TextureAccessCallPtr/*float*/ makeTextureLod1DArrayShadowF( ExprPtr/*sampler1DArrayShadow*/ texture
-		, ExprPtr/*vec3f*/ P
-		, ExprPtr/*float*/ lod )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eFloat )
-			, TextureAccess::eTextureLod1DArrayShadowF
-			, std::move( texture )
-			, std::move( P )
-			, std::move( lod ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureLodCubeArrayF( ExprPtr/*samplerCubeArray*/ texture
-		, ExprPtr/*vec4f*/ P
-		, ExprPtr/*float*/ lod )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureLodCubeArrayF
-			, std::move( texture )
-			, std::move( P )
-			, std::move( lod ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureLod1DI( ExprPtr/*isampler1D*/ texture
-		, ExprPtr/*float*/ P
-		, ExprPtr/*float*/ lod )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureLod1DI
-			, std::move( texture )
-			, std::move( P )
-			, std::move( lod ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureLod2DI( ExprPtr/*isampler2D*/ texture
-		, ExprPtr/*vec2f*/ P
-		, ExprPtr/*float*/ lod )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureLod2DI
-			, std::move( texture )
-			, std::move( P )
-			, std::move( lod ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureLod3DI( ExprPtr/*isampler3D*/ texture
-		, ExprPtr/*vec3f*/ P
-		, ExprPtr/*float*/ lod )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureLod3DI
-			, std::move( texture )
-			, std::move( P )
-			, std::move( lod ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureLodCubeI( ExprPtr/*isamplerCube*/ texture
-		, ExprPtr/*vec3f*/ P
-		, ExprPtr/*float*/ lod )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureLodCubeI
-			, std::move( texture )
-			, std::move( P )
-			, std::move( lod ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureLod1DArrayI( ExprPtr/*isampler1DArray*/ texture
-		, ExprPtr/*vec2f*/ P
-		, ExprPtr/*float*/ lod )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureLod1DArrayI
-			, std::move( texture )
-			, std::move( P )
-			, std::move( lod ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureLod2DArrayI( ExprPtr/*isampler2DArray*/ texture
-		, ExprPtr/*vec3f*/ P
-		, ExprPtr/*float*/ lod )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureLod2DArrayI
-			, std::move( texture )
-			, std::move( P )
-			, std::move( lod ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureLodCubeArrayI( ExprPtr/*isamplerCubeArray*/ texture
-		, ExprPtr/*vec4f*/ P
-		, ExprPtr/*float*/ lod )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureLodCubeArrayI
-			, std::move( texture )
-			, std::move( P )
-			, std::move( lod ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureLod1DU( ExprPtr/*usampler1D*/ texture
-		, ExprPtr/*float*/ P
-		, ExprPtr/*float*/ lod )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureLod1DU
-			, std::move( texture )
-			, std::move( P )
-			, std::move( lod ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureLod2DU( ExprPtr/*usampler2D*/ texture
-		, ExprPtr/*vec2f*/ P
-		, ExprPtr/*float*/ lod )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureLod2DU
-			, std::move( texture )
-			, std::move( P )
-			, std::move( lod ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureLod3DU( ExprPtr/*usampler3D*/ texture
-		, ExprPtr/*vec3f*/ P
-		, ExprPtr/*float*/ lod )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureLod3DU
-			, std::move( texture )
-			, std::move( P )
-			, std::move( lod ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureLodCubeU( ExprPtr/*usamplerCube*/ texture
-		, ExprPtr/*vec3f*/ P
-		, ExprPtr/*float*/ lod )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureLodCubeU
-			, std::move( texture )
-			, std::move( P )
-			, std::move( lod ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureLod1DArrayU( ExprPtr/*usampler1DArray*/ texture
-		, ExprPtr/*vec2f*/ P
-		, ExprPtr/*float*/ lod )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureLod1DArrayU
-			, std::move( texture )
-			, std::move( P )
-			, std::move( lod ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureLod2DArrayU( ExprPtr/*usampler2DArray*/ texture
-		, ExprPtr/*vec3f*/ P
-		, ExprPtr/*float*/ lod )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureLod2DArrayU
-			, std::move( texture )
-			, std::move( P )
-			, std::move( lod ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureLodCubeArrayU( ExprPtr/*usamplerCubeArray*/ texture
-		, ExprPtr/*vec4f*/ P
-		, ExprPtr/*float*/ lod )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureLodCubeArrayU
-			, std::move( texture )
-			, std::move( P )
-			, std::move( lod ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureOffset1DF( ExprPtr/*sampler1D*/ texture
-		, ExprPtr/*float*/ P
-		, ExprPtr/*int*/ offset )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureOffset1DF
-			, std::move( texture )
-			, std::move( P )
-			, std::move( offset ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureOffset1DFBias( ExprPtr/*sampler1D*/ texture
-		, ExprPtr/*float*/ P
-		, ExprPtr/*int*/ offset
-		, ExprPtr/*float*/ bias )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureOffset1DFBias
-			, std::move( texture )
-			, std::move( P )
-			, std::move( offset )
-			, std::move( bias ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureOffset2DF( ExprPtr/*sampler2D*/ texture
-		, ExprPtr/*vec2f*/ P
-		, ExprPtr/*vec2i*/ offset )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureOffset2DF
-			, std::move( texture )
-			, std::move( P )
-			, std::move( offset ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureOffset2DFBias( ExprPtr/*sampler2D*/ texture
-		, ExprPtr/*vec2f*/ P
-		, ExprPtr/*vec2i*/ offset
-		, ExprPtr/*float*/ bias )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureOffset2DFBias
-			, std::move( texture )
-			, std::move( P )
-			, std::move( offset )
-			, std::move( bias ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureOffset3DF( ExprPtr/*sampler3D*/ texture
-		, ExprPtr/*vec3f*/ P
-		, ExprPtr/*vec3i*/ offset )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureOffset3DF
-			, std::move( texture )
-			, std::move( P )
-			, std::move( offset ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureOffset3DFBias( ExprPtr/*sampler3D*/ texture
-		, ExprPtr/*vec3f*/ P
-		, ExprPtr/*vec3i*/ offset
-		, ExprPtr/*float*/ bias )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureOffset3DFBias
-			, std::move( texture )
-			, std::move( P )
-			, std::move( offset )
-			, std::move( bias ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureOffset2DRectF( ExprPtr/*sampler2DRect*/ texture
-		, ExprPtr/*vec2f*/ P
-		, ExprPtr/*vec2i*/ offset )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureOffset2DRectF
-			, std::move( texture )
-			, std::move( P )
-			, std::move( offset ) );
-	}
-
-	inline TextureAccessCallPtr/*float*/ makeTextureOffset2DRectShadowF( ExprPtr/*sampler2DRectShadow*/ texture
-		, ExprPtr/*vec3f*/ P
-		, ExprPtr/*vec2i*/ offset )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eFloat )
-			, TextureAccess::eTextureOffset2DRectShadowF
-			, std::move( texture )
-			, std::move( P )
-			, std::move( offset ) );
-	}
-
-	inline TextureAccessCallPtr/*float*/ makeTextureOffset1DShadowF( ExprPtr/*sampler1DShadow*/ texture
-		, ExprPtr/*vec3f*/ P
-		, ExprPtr/*int*/ offset )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eFloat )
-			, TextureAccess::eTextureOffset1DShadowF
-			, std::move( texture )
-			, std::move( P )
-			, std::move( offset ) );
-	}
-
-	inline TextureAccessCallPtr/*float*/ makeTextureOffset1DShadowFBias( ExprPtr/*sampler1DShadow*/ texture
-		, ExprPtr/*vec3f*/ P
-		, ExprPtr/*int*/ offset
-		, ExprPtr/*float*/ bias )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eFloat )
-			, TextureAccess::eTextureOffset1DShadowFBias
-			, std::move( texture )
-			, std::move( P )
-			, std::move( offset )
-			, std::move( bias ) );
-	}
-
-	inline TextureAccessCallPtr/*float*/ makeTextureOffset2DShadowF( ExprPtr/*sampler2DShadow*/ texture
-		, ExprPtr/*vec4f*/ P
-		, ExprPtr/*vec2i*/ offset )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eFloat )
-			, TextureAccess::eTextureOffset2DShadowF
-			, std::move( texture )
-			, std::move( P )
-			, std::move( offset ) );
-	}
-
-	inline TextureAccessCallPtr/*float*/ makeTextureOffset2DShadowFBias( ExprPtr/*sampler2DShadow*/ texture
-		, ExprPtr/*vec4f*/ P
-		, ExprPtr/*vec2i*/ offset
-		, ExprPtr/*float*/ bias )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eFloat )
-			, TextureAccess::eTextureOffset2DShadowFBias
-			, std::move( texture )
-			, std::move( P )
-			, std::move( offset )
-			, std::move( bias ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureOffset1DArrayF( ExprPtr/*sampler1DArray*/ texture
-		, ExprPtr/*vec2f*/ P
-		, ExprPtr/*int*/ offset )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureOffset1DArrayF
-			, std::move( texture )
-			, std::move( P )
-			, std::move( offset ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureOffset1DArrayFBias( ExprPtr/*sampler1DArray*/ texture
-		, ExprPtr/*vec2f*/ P
-		, ExprPtr/*int*/ offset
-		, ExprPtr/*float*/ bias )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureOffset1DArrayFBias
-			, std::move( texture )
-			, std::move( P )
-			, std::move( offset )
-			, std::move( bias ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureOffset2DArrayF( ExprPtr/*sampler2DArray*/ texture
-		, ExprPtr/*vec3f*/ P
-		, ExprPtr/*vec2i*/ offset )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureOffset2DArrayF
-			, std::move( texture )
-			, std::move( P )
-			, std::move( offset ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureOffset2DArrayFBias( ExprPtr/*sampler2DArray*/ texture
-		, ExprPtr/*vec3f*/ P
-		, ExprPtr/*vec2i*/ offset
-		, ExprPtr/*float*/ bias )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureOffset2DArrayFBias
-			, std::move( texture )
-			, std::move( P )
-			, std::move( offset )
-			, std::move( bias ) );
-	}
-
-	inline TextureAccessCallPtr/*float*/ makeTextureOffset1DArrayShadowF( ExprPtr/*sampler1DArrayShadow*/ texture
-		, ExprPtr/*vec3f*/ P
-		, ExprPtr/*int*/ offset )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eFloat )
-			, TextureAccess::eTextureOffset1DArrayShadowF
-			, std::move( texture )
-			, std::move( P )
-			, std::move( offset ) );
-	}
-
-	inline TextureAccessCallPtr/*float*/ makeTextureOffset2DArrayShadowF( ExprPtr/*sampler2DArrayShadow*/ texture
-		, ExprPtr/*vec4f*/ P
-		, ExprPtr/*vec2f*/ offset )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eFloat )
-			, TextureAccess::eTextureOffset2DArrayShadowF
-			, std::move( texture )
-			, std::move( P )
-			, std::move( offset ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureOffset1DI( ExprPtr/*isampler1D*/ texture
-		, ExprPtr/*float*/ P
-		, ExprPtr/*int*/ offset )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureOffset1DI
-			, std::move( texture )
-			, std::move( P )
-			, std::move( offset ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureOffset1DIBias( ExprPtr/*isampler1D*/ texture
-		, ExprPtr/*float*/ P
-		, ExprPtr/*int*/ offset
-		, ExprPtr/*float*/ bias )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureOffset1DIBias
-			, std::move( texture )
-			, std::move( P )
-			, std::move( offset )
-			, std::move( bias ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureOffset2DI( ExprPtr/*isampler2D*/ texture
-		, ExprPtr/*vec2f*/ P
-		, ExprPtr/*vec2i*/ offset )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureOffset2DI
-			, std::move( texture )
-			, std::move( P )
-			, std::move( offset ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureOffset2DIBias( ExprPtr/*isampler2D*/ texture
-		, ExprPtr/*vec2f*/ P
-		, ExprPtr/*vec2i*/ offset
-		, ExprPtr/*float*/ bias )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureOffset2DIBias
-			, std::move( texture )
-			, std::move( P )
-			, std::move( offset )
-			, std::move( bias ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureOffset3DI( ExprPtr/*isampler3D*/ texture
-		, ExprPtr/*vec3f*/ P
-		, ExprPtr/*vec3i*/ offset )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureOffset3DI
-			, std::move( texture )
-			, std::move( P )
-			, std::move( offset ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureOffset3DIBias( ExprPtr/*isampler3D*/ texture
-		, ExprPtr/*vec3f*/ P
-		, ExprPtr/*vec3i*/ offset
-		, ExprPtr/*float*/ bias )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureOffset3DIBias
-			, std::move( texture )
-			, std::move( P )
-			, std::move( offset )
-			, std::move( bias ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureOffset2DRectI( ExprPtr/*isampler2DRect*/ texture
-		, ExprPtr/*vec2f*/ P
-		, ExprPtr/*vec2i*/ offset )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureOffset2DRectI
-			, std::move( texture )
-			, std::move( P )
-			, std::move( offset ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureOffset1DArrayI( ExprPtr/*isampler1DArray*/ texture
-		, ExprPtr/*vec2f*/ P
-		, ExprPtr/*int*/ offset )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureOffset1DArrayI
-			, std::move( texture )
-			, std::move( P )
-			, std::move( offset ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureOffset1DArrayIBias( ExprPtr/*isampler1DArray*/ texture
-		, ExprPtr/*vec2f*/ P
-		, ExprPtr/*int*/ offset
-		, ExprPtr/*float*/ bias )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureOffset1DArrayIBias
-			, std::move( texture )
-			, std::move( P )
-			, std::move( offset )
-			, std::move( bias ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureOffset2DArrayI( ExprPtr/*isampler2DArray*/ texture
-		, ExprPtr/*vec3f*/ P
-		, ExprPtr/*vec2i*/ offset )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureOffset2DArrayI
-			, std::move( texture )
-			, std::move( P )
-			, std::move( offset ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureOffset2DArrayIBias( ExprPtr/*isampler2DArray*/ texture
-		, ExprPtr/*vec3f*/ P
-		, ExprPtr/*vec2i*/ offset
-		, ExprPtr/*float*/ bias )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureOffset2DArrayIBias
-			, std::move( texture )
-			, std::move( P )
-			, std::move( offset )
-			, std::move( bias ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureOffset1DU( ExprPtr/*usampler1D*/ texture
-		, ExprPtr/*float*/ P
-		, ExprPtr/*int*/ offset )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureOffset1DU
-			, std::move( texture )
-			, std::move( P )
-			, std::move( offset ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureOffset1DUBias( ExprPtr/*usampler1D*/ texture
-		, ExprPtr/*float*/ P
-		, ExprPtr/*int*/ offset
-		, ExprPtr/*float*/ bias )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureOffset1DUBias
-			, std::move( texture )
-			, std::move( P )
-			, std::move( offset )
-			, std::move( bias ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureOffset2DU( ExprPtr/*usampler2D*/ texture
-		, ExprPtr/*vec2f*/ P
-		, ExprPtr/*vec2i*/ offset )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureOffset2DU
-			, std::move( texture )
-			, std::move( P )
-			, std::move( offset ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureOffset2DUBias( ExprPtr/*usampler2D*/ texture
-		, ExprPtr/*vec2f*/ P
-		, ExprPtr/*vec2i*/ offset
-		, ExprPtr/*float*/ bias )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureOffset2DUBias
-			, std::move( texture )
-			, std::move( P )
-			, std::move( offset )
-			, std::move( bias ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureOffset3DU( ExprPtr/*usampler3D*/ texture
-		, ExprPtr/*vec3f*/ P
-		, ExprPtr/*vec3i*/ offset )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureOffset3DU
-			, std::move( texture )
-			, std::move( P )
-			, std::move( offset ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureOffset3DUBias( ExprPtr/*usampler3D*/ texture
-		, ExprPtr/*vec3f*/ P
-		, ExprPtr/*vec3i*/ offset
-		, ExprPtr/*float*/ bias )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureOffset3DUBias
-			, std::move( texture )
-			, std::move( P )
-			, std::move( offset )
-			, std::move( bias ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureOffset2DRectU( ExprPtr/*usampler2DRect*/ texture
-		, ExprPtr/*vec2f*/ P
-		, ExprPtr/*vec2i*/ offset )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureOffset2DRectU
-			, std::move( texture )
-			, std::move( P )
-			, std::move( offset ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureOffset1DArrayU( ExprPtr/*usampler1DArray*/ texture
-		, ExprPtr/*vec2f*/ P
-		, ExprPtr/*int*/ offset )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureOffset1DArrayU
-			, std::move( texture )
-			, std::move( P )
-			, std::move( offset ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureOffset1DArrayUBias( ExprPtr/*usampler1DArray*/ texture
-		, ExprPtr/*vec2f*/ P
-		, ExprPtr/*int*/ offset
-		, ExprPtr/*float*/ bias )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureOffset1DArrayUBias
-			, std::move( texture )
-			, std::move( P )
-			, std::move( offset )
-			, std::move( bias ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureOffset2DArrayU( ExprPtr/*usampler2DArray*/ texture
-		, ExprPtr/*vec3f*/ P
-		, ExprPtr/*vec2i*/ offset )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureOffset2DArrayU
-			, std::move( texture )
-			, std::move( P )
-			, std::move( offset ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureOffset2DArrayUBias( ExprPtr/*usampler2DArray*/ texture
-		, ExprPtr/*vec3f*/ P
-		, ExprPtr/*vec2i*/ offset
-		, ExprPtr/*float*/ bias )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureOffset2DArrayUBias
-			, std::move( texture )
-			, std::move( P )
-			, std::move( offset )
-			, std::move( bias ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTexelFetch1DF( ExprPtr/*sampler1D*/ texture
-		, ExprPtr/*int*/ P
-		, ExprPtr/*int*/ lod )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTexelFetch1DF
-			, std::move( texture )
-			, std::move( P )
-			, std::move( lod ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTexelFetch2DF( ExprPtr/*sampler2D*/ texture
-		, ExprPtr/*vec2i*/ P
-		, ExprPtr/*int*/ lod )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTexelFetch2DF
-			, std::move( texture )
-			, std::move( P )
-			, std::move( lod ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTexelFetch3DF( ExprPtr/*sampler3D*/ texture
-		, ExprPtr/*vec3i*/ P
-		, ExprPtr/*int*/ lod )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTexelFetch3DF
-			, std::move( texture )
-			, std::move( P )
-			, std::move( lod ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTexelFetch2DRectF( ExprPtr/*sampler2DRect*/ texture
-		, ExprPtr/*vec2i*/ P )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTexelFetch2DRectF
-			, std::move( texture )
-			, std::move( P ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTexelFetch1DArrayF( ExprPtr/*sampler1DArray*/ texture
-		, ExprPtr/*vec2i*/ P
-		, ExprPtr/*int*/ lod )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTexelFetch1DArrayF
-			, std::move( texture )
-			, std::move( P )
-			, std::move( lod ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTexelFetch2DArrayF( ExprPtr/*sampler2DArray*/ texture
-		, ExprPtr/*vec3i*/ P
-		, ExprPtr/*int*/ lod )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTexelFetch2DArrayF
-			, std::move( texture )
-			, std::move( P )
-			, std::move( lod ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTexelFetchBufferF( ExprPtr/*samplerBuffer*/ texture
-		, ExprPtr/*int*/ P )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTexelFetchBufferF
-			, std::move( texture )
-			, std::move( P ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTexelFetch1DI( ExprPtr/*isampler1D*/ texture
-		, ExprPtr/*int*/ P
-		, ExprPtr/*int*/ lod )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTexelFetch1DI
-			, std::move( texture )
-			, std::move( P )
-			, std::move( lod ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTexelFetch2DI( ExprPtr/*isampler2D*/ texture
-		, ExprPtr/*vec2i*/ P
-		, ExprPtr/*int*/ lod )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTexelFetch2DI
-			, std::move( texture )
-			, std::move( P )
-			, std::move( lod ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTexelFetch3DI( ExprPtr/*isampler3D*/ texture
-		, ExprPtr/*vec3i*/ P
-		, ExprPtr/*int*/ lod )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTexelFetch3DI
-			, std::move( texture )
-			, std::move( P )
-			, std::move( lod ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTexelFetch2DRectI( ExprPtr/*isampler2DRect*/ texture
-		, ExprPtr/*vec2i*/ P )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTexelFetch2DRectI
-			, std::move( texture )
-			, std::move( P ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTexelFetch1DArrayI( ExprPtr/*isampler1DArray*/ texture
-		, ExprPtr/*vec2i*/ P
-		, ExprPtr/*int*/ lod )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTexelFetch1DArrayI
-			, std::move( texture )
-			, std::move( P )
-			, std::move( lod ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTexelFetch2DArrayI( ExprPtr/*isampler2DArray*/ texture
-		, ExprPtr/*vec3i*/ P
-		, ExprPtr/*int*/ lod )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTexelFetch2DArrayI
-			, std::move( texture )
-			, std::move( P )
-			, std::move( lod ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTexelFetchBufferI( ExprPtr/*isamplerBuffer*/ texture
-		, ExprPtr/*int*/ P )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTexelFetchBufferI
-			, std::move( texture )
-			, std::move( P ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTexelFetch1DU( ExprPtr/*usampler1D*/ texture
-		, ExprPtr/*int*/ P
-		, ExprPtr/*int*/ lod )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTexelFetch1DU
-			, std::move( texture )
-			, std::move( P )
-			, std::move( lod ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTexelFetch2DU( ExprPtr/*usampler2D*/ texture
-		, ExprPtr/*vec2i*/ P
-		, ExprPtr/*int*/ lod )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTexelFetch2DU
-			, std::move( texture )
-			, std::move( P )
-			, std::move( lod ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTexelFetch3DU( ExprPtr/*usampler3D*/ texture
-		, ExprPtr/*vec3i*/ P
-		, ExprPtr/*int*/ lod )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTexelFetch3DU
-			, std::move( texture )
-			, std::move( P )
-			, std::move( lod ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTexelFetch2DRectU( ExprPtr/*usampler2DRect*/ texture
-		, ExprPtr/*vec2i*/ P )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTexelFetch2DRectU
-			, std::move( texture )
-			, std::move( P ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTexelFetch1DArrayU( ExprPtr/*usampler1DArray*/ texture
-		, ExprPtr/*vec2i*/ P
-		, ExprPtr/*int*/ lod )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTexelFetch1DArrayU
-			, std::move( texture )
-			, std::move( P )
-			, std::move( lod ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTexelFetch2DArrayU( ExprPtr/*usampler2DArray*/ texture
-		, ExprPtr/*vec3i*/ P
-		, ExprPtr/*int*/ lod )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTexelFetch2DArrayU
-			, std::move( texture )
-			, std::move( P )
-			, std::move( lod ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTexelFetchBufferU( ExprPtr/*usamplerBuffer*/ texture
-		, ExprPtr/*int*/ P )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTexelFetchBufferU
-			, std::move( texture )
-			, std::move( P ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTexelFetchOffset1DF( ExprPtr/*sampler1D*/ texture
-		, ExprPtr/*int*/ P
-		, ExprPtr/*int*/ lod
-		, ExprPtr/*int*/ offset )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTexelFetchOffset1DF
-			, std::move( texture )
-			, std::move( P )
-			, std::move( lod )
-			, std::move( offset ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTexelFetchOffset2DF( ExprPtr/*sampler2D*/ texture
-		, ExprPtr/*vec2i*/ P
-		, ExprPtr/*int*/ lod
-		, ExprPtr/*int*/ offset )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTexelFetchOffset2DF
-			, std::move( texture )
-			, std::move( P )
-			, std::move( lod )
-			, std::move( offset ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTexelFetchOffset3DF( ExprPtr/*sampler3D*/ texture
-		, ExprPtr/*vec3i*/ P
-		, ExprPtr/*int*/ lod
-		, ExprPtr/*int*/ offset )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTexelFetchOffset3DF
-			, std::move( texture )
-			, std::move( P )
-			, std::move( lod )
-			, std::move( offset ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTexelFetchOffset2DRectF( ExprPtr/*sampler2DRect*/ texture
-		, ExprPtr/*vec2i*/ P
-		, ExprPtr/*int*/ offset )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTexelFetchOffset2DRectF
-			, std::move( texture )
-			, std::move( P )
-			, std::move( offset ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTexelFetchOffset1DArrayF( ExprPtr/*sampler1DArray*/ texture
-		, ExprPtr/*vec2i*/ P
-		, ExprPtr/*int*/ lod
-		, ExprPtr/*int*/ offset )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTexelFetchOffset1DArrayF
-			, std::move( texture )
-			, std::move( P )
-			, std::move( lod )
-			, std::move( offset ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTexelFetchOffset2DArrayF( ExprPtr/*sampler2DArray*/ texture
-		, ExprPtr/*vec3i*/ P
-		, ExprPtr/*int*/ lod
-		, ExprPtr/*int*/ offset )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTexelFetchOffset2DArrayF
-			, std::move( texture )
-			, std::move( P )
-			, std::move( lod )
-			, std::move( offset ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTexelFetchOffset1DI( ExprPtr/*isampler1D*/ texture
-		, ExprPtr/*int*/ P
-		, ExprPtr/*int*/ lod
-		, ExprPtr/*int*/ offset )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTexelFetchOffset1DI
-			, std::move( texture )
-			, std::move( P )
-			, std::move( lod )
-			, std::move( offset ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTexelFetchOffset2DI( ExprPtr/*isampler2D*/ texture
-		, ExprPtr/*vec2i*/ P
-		, ExprPtr/*int*/ lod
-		, ExprPtr/*int*/ offset )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTexelFetchOffset2DI
-			, std::move( texture )
-			, std::move( P )
-			, std::move( lod )
-			, std::move( offset ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTexelFetchOffset3DI( ExprPtr/*isampler3D*/ texture
-		, ExprPtr/*vec3i*/ P
-		, ExprPtr/*int*/ lod
-		, ExprPtr/*int*/ offset )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTexelFetchOffset3DI
-			, std::move( texture )
-			, std::move( P )
-			, std::move( lod )
-			, std::move( offset ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTexelFetchOffset2DRectI( ExprPtr/*isampler2DRect*/ texture
-		, ExprPtr/*vec2i*/ P
-		, ExprPtr/*int*/ offset )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTexelFetchOffset2DRectI
-			, std::move( texture )
-			, std::move( P )
-			, std::move( offset ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTexelFetchOffset1DArrayI( ExprPtr/*isampler1DArray*/ texture
-		, ExprPtr/*vec2i*/ P
-		, ExprPtr/*int*/ lod
-		, ExprPtr/*int*/ offset )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTexelFetchOffset1DArrayI
-			, std::move( texture )
-			, std::move( P )
-			, std::move( lod )
-			, std::move( offset ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTexelFetchOffset2DArrayI( ExprPtr/*isampler2DArray*/ texture
-		, ExprPtr/*vec3i*/ P
-		, ExprPtr/*int*/ lod
-		, ExprPtr/*int*/ offset )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTexelFetchOffset2DArrayI
-			, std::move( texture )
-			, std::move( P )
-			, std::move( lod )
-			, std::move( offset ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTexelFetchOffset1DU( ExprPtr/*usampler1D*/ texture
-		, ExprPtr/*int*/ P
-		, ExprPtr/*int*/ lod
-		, ExprPtr/*int*/ offset )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTexelFetchOffset1DU
-			, std::move( texture )
-			, std::move( P )
-			, std::move( lod )
-			, std::move( offset ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTexelFetchOffset2DU( ExprPtr/*usampler2D*/ texture
-		, ExprPtr/*vec2i*/ P
-		, ExprPtr/*int*/ lod
-		, ExprPtr/*int*/ offset )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTexelFetchOffset2DU
-			, std::move( texture )
-			, std::move( P )
-			, std::move( lod )
-			, std::move( offset ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTexelFetchOffset3DU( ExprPtr/*usampler3D*/ texture
-		, ExprPtr/*vec3i*/ P
-		, ExprPtr/*int*/ lod
-		, ExprPtr/*int*/ offset )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTexelFetchOffset3DU
-			, std::move( texture )
-			, std::move( P )
-			, std::move( lod )
-			, std::move( offset ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTexelFetchOffset2DRectU( ExprPtr/*usampler2DRect*/ texture
-		, ExprPtr/*vec2i*/ P
-		, ExprPtr/*int*/ offset )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTexelFetchOffset2DRectU
-			, std::move( texture )
-			, std::move( P )
-			, std::move( offset ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTexelFetchOffset1DArrayU( ExprPtr/*usampler1DArray*/ texture
-		, ExprPtr/*vec2i*/ P
-		, ExprPtr/*int*/ lod
-		, ExprPtr/*int*/ offset )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTexelFetchOffset1DArrayU
-			, std::move( texture )
-			, std::move( P )
-			, std::move( lod )
-			, std::move( offset ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTexelFetchOffset2DArrayU( ExprPtr/*usampler2DArray*/ texture
-		, ExprPtr/*vec3i*/ P
-		, ExprPtr/*int*/ lod
-		, ExprPtr/*int*/ offset )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTexelFetchOffset2DArrayU
-			, std::move( texture )
-			, std::move( P )
-			, std::move( lod )
-			, std::move( offset ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureProjOffset1DF2( ExprPtr/*sampler1D*/ texture
-		, ExprPtr/*vec2f*/ P
-		, ExprPtr/*int*/ offset )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureProjOffset1DF2
-			, std::move( texture )
-			, std::move( P )
-			, std::move( offset ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureProjOffset1DF2Bias( ExprPtr/*sampler1D*/ texture
-		, ExprPtr/*vec2f*/ P
-		, ExprPtr/*int*/ offset
-		, ExprPtr/*float*/ bias )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureProjOffset1DF2Bias
-			, std::move( texture )
-			, std::move( P )
-			, std::move( offset )
-			, std::move( bias ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureProjOffset1DF4( ExprPtr/*sampler1D*/ texture
-		, ExprPtr/*vec4f*/ P
-		, ExprPtr/*int*/ offset )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureProjOffset1DF4
-			, std::move( texture )
-			, std::move( P )
-			, std::move( offset ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureProjOffset1DF4Bias( ExprPtr/*sampler1D*/ texture
-		, ExprPtr/*vec4f*/ P
-		, ExprPtr/*int*/ offset
-		, ExprPtr/*float*/ bias )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureProjOffset1DF4Bias
-			, std::move( texture )
-			, std::move( P )
-			, std::move( offset )
-			, std::move( bias ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureProjOffset2DF3( ExprPtr/*sampler2D*/ texture
-		, ExprPtr/*vec3f*/ P
-		, ExprPtr/*vec2i*/ offset )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureProjOffset2DF3
-			, std::move( texture )
-			, std::move( P )
-			, std::move( offset ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureProjOffset2DF3Bias( ExprPtr/*sampler2D*/ texture
-		, ExprPtr/*vec3f*/ P
-		, ExprPtr/*vec2i*/ offset
-		, ExprPtr/*float*/ bias )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureProjOffset2DF3Bias
-			, std::move( texture )
-			, std::move( P )
-			, std::move( offset )
-			, std::move( bias ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureProjOffset2DF4( ExprPtr/*sampler2D*/ texture
-		, ExprPtr/*vec4f*/ P
-		, ExprPtr/*vec2i*/ offset )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureProjOffset2DF4
-			, std::move( texture )
-			, std::move( P )
-			, std::move( offset ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureProjOffset2DF4Bias( ExprPtr/*sampler2D*/ texture
-		, ExprPtr/*vec4f*/ P
-		, ExprPtr/*vec2i*/ offset
-		, ExprPtr/*float*/ bias )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureProjOffset2DF4Bias
-			, std::move( texture )
-			, std::move( P )
-			, std::move( offset )
-			, std::move( bias ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureProjOffset3DF( ExprPtr/*sampler3D*/ texture
-		, ExprPtr/*vec4f*/ P
-		, ExprPtr/*vec3i*/ offset )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureProjOffset3DF
-			, std::move( texture )
-			, std::move( P )
-			, std::move( offset ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureProjOffset3DFBias( ExprPtr/*sampler3D*/ texture
-		, ExprPtr/*vec4f*/ P
-		, ExprPtr/*vec3i*/ offset
-		, ExprPtr/*float*/ bias )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureProjOffset3DFBias
-			, std::move( texture )
-			, std::move( P )
-			, std::move( offset )
-			, std::move( bias ) );
-	}
-
-	inline TextureAccessCallPtr/*float*/ makeTextureProjOffset1DShadowF( ExprPtr/*sampler1DShadow*/ texture
-		, ExprPtr/*vec4f*/ P
-		, ExprPtr/*int*/ offset )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eFloat )
-			, TextureAccess::eTextureProjOffset1DShadowF
-			, std::move( texture )
-			, std::move( P )
-			, std::move( offset ) );
-	}
-
-	inline TextureAccessCallPtr/*float*/ makeTextureProjOffset1DShadowFBias( ExprPtr/*sampler1DShadow*/ texture
-		, ExprPtr/*vec4f*/ P
-		, ExprPtr/*int*/ offset
-		, ExprPtr/*float*/ bias )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eFloat )
-			, TextureAccess::eTextureProjOffset1DShadowFBias
-			, std::move( texture )
-			, std::move( P )
-			, std::move( offset )
-			, std::move( bias ) );
-	}
-
-	inline TextureAccessCallPtr/*float*/ makeTextureProjOffset2DShadowF( ExprPtr/*sampler2DShadow*/ texture
-		, ExprPtr/*vec4f*/ P
-		, ExprPtr/*vec2i*/ offset )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eFloat )
-			, TextureAccess::eTextureProjOffset2DShadowF
-			, std::move( texture )
-			, std::move( P )
-			, std::move( offset ) );
-	}
-
-	inline TextureAccessCallPtr/*float*/ makeTextureProjOffset2DShadowFBias( ExprPtr/*sampler2DShadow*/ texture
-		, ExprPtr/*vec4f*/ P
-		, ExprPtr/*vec2i*/ offset
-		, ExprPtr/*float*/ bias )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eFloat )
-			, TextureAccess::eTextureProjOffset2DShadowFBias
-			, std::move( texture )
-			, std::move( P )
-			, std::move( offset )
-			, std::move( bias ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureProjOffset2DRectF3( ExprPtr/*sampler2DRect*/ texture
-		, ExprPtr/*vec3f*/ P
-		, ExprPtr/*vec2i*/ offset )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureProjOffset2DRectF3
-			, std::move( texture )
-			, std::move( P )
-			, std::move( offset ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureProjOffset2DRectF4( ExprPtr/*sampler2DRect*/ texture
-		, ExprPtr/*vec4f*/ P
-		, ExprPtr/*vec2i*/ offset )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureProjOffset2DRectF4
-			, std::move( texture )
-			, std::move( P )
-			, std::move( offset ) );
-	}
-
-	inline TextureAccessCallPtr/*float*/ makeTextureProjOffset2DRectShadowF( ExprPtr/*sampler2DRectShadow*/ texture
-		, ExprPtr/*vec4f*/ P
-		, ExprPtr/*vec2i*/ offset )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eFloat )
-			, TextureAccess::eTextureProjOffset2DRectShadowF
-			, std::move( texture )
-			, std::move( P )
-			, std::move( offset ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureProjOffset1DI2( ExprPtr/*isampler1D*/ texture
-		, ExprPtr/*vec2f*/ P
-		, ExprPtr/*int*/ offset )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureProjOffset1DI2
-			, std::move( texture )
-			, std::move( P )
-			, std::move( offset ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureProjOffset1DI2Bias( ExprPtr/*isampler1D*/ texture
-		, ExprPtr/*vec2f*/ P
-		, ExprPtr/*int*/ offset
-		, ExprPtr/*float*/ bias )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureProjOffset1DI2Bias
-			, std::move( texture )
-			, std::move( P )
-			, std::move( offset )
-			, std::move( bias ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureProjOffset1DI4( ExprPtr/*isampler1D*/ texture
-		, ExprPtr/*vec4f*/ P
-		, ExprPtr/*int*/ offset )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureProjOffset1DI4
-			, std::move( texture )
-			, std::move( P )
-			, std::move( offset ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureProjOffset1DI4Bias( ExprPtr/*isampler1D*/ texture
-		, ExprPtr/*vec4f*/ P
-		, ExprPtr/*int*/ offset
-		, ExprPtr/*float*/ bias )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureProjOffset1DI4Bias
-			, std::move( texture )
-			, std::move( P )
-			, std::move( offset )
-			, std::move( bias ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureProjOffset2DI3( ExprPtr/*isampler2D*/ texture
-		, ExprPtr/*vec3f*/ P
-		, ExprPtr/*vec2i*/ offset )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureProjOffset2DI3
-			, std::move( texture )
-			, std::move( P )
-			, std::move( offset ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureProjOffset2DI3Bias( ExprPtr/*isampler2D*/ texture
-		, ExprPtr/*vec3f*/ P
-		, ExprPtr/*vec2i*/ offset
-		, ExprPtr/*float*/ bias )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureProjOffset2DI3Bias
-			, std::move( texture )
-			, std::move( P )
-			, std::move( offset )
-			, std::move( bias ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureProjOffset2DI4( ExprPtr/*isampler2D*/ texture
-		, ExprPtr/*vec4f*/ P
-		, ExprPtr/*vec2i*/ offset )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureProjOffset2DI4
-			, std::move( texture )
-			, std::move( P )
-			, std::move( offset ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureProjOffset2DI4Bias( ExprPtr/*isampler2D*/ texture
-		, ExprPtr/*vec4f*/ P
-		, ExprPtr/*vec2i*/ offset
-		, ExprPtr/*float*/ bias )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureProjOffset2DI4Bias
-			, std::move( texture )
-			, std::move( P )
-			, std::move( offset )
-			, std::move( bias ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureProjOffset3DI( ExprPtr/*isampler3D*/ texture
-		, ExprPtr/*vec4f*/ P
-		, ExprPtr/*vec3i*/ offset )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureProjOffset3DI
-			, std::move( texture )
-			, std::move( P )
-			, std::move( offset ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureProjOffset3DIBias( ExprPtr/*isampler3D*/ texture
-		, ExprPtr/*vec4f*/ P
-		, ExprPtr/*vec3i*/ offset
-		, ExprPtr/*float*/ bias )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureProjOffset3DIBias
-			, std::move( texture )
-			, std::move( P )
-			, std::move( offset )
-			, std::move( bias ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureProjOffset2DRectI3( ExprPtr/*isampler2DRect*/ texture
-		, ExprPtr/*vec3f*/ P
-		, ExprPtr/*vec2i*/ offset )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureProjOffset2DRectI3
-			, std::move( texture )
-			, std::move( P )
-			, std::move( offset ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureProjOffset2DRectI4( ExprPtr/*isampler2DRect*/ texture
-		, ExprPtr/*vec4f*/ P
-		, ExprPtr/*vec2i*/ offset )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureProjOffset2DRectI4
-			, std::move( texture )
-			, std::move( P )
-			, std::move( offset ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureProjOffset1DU2( ExprPtr/*usampler1D*/ texture
-		, ExprPtr/*vec2f*/ P
-		, ExprPtr/*int*/ offset )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureProjOffset1DU2
-			, std::move( texture )
-			, std::move( P )
-			, std::move( offset ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureProjOffset1DU2Bias( ExprPtr/*usampler1D*/ texture
-		, ExprPtr/*vec2f*/ P
-		, ExprPtr/*int*/ offset
-		, ExprPtr/*float*/ bias )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureProjOffset1DU2Bias
-			, std::move( texture )
-			, std::move( P )
-			, std::move( offset )
-			, std::move( bias ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureProjOffset1DU4( ExprPtr/*usampler1D*/ texture
-		, ExprPtr/*vec4f*/ P
-		, ExprPtr/*int*/ offset )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureProjOffset1DU4
-			, std::move( texture )
-			, std::move( P )
-			, std::move( offset ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureProjOffset1DU4Bias( ExprPtr/*usampler1D*/ texture
-		, ExprPtr/*vec4f*/ P
-		, ExprPtr/*int*/ offset
-		, ExprPtr/*float*/ bias )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureProjOffset1DU4Bias
-			, std::move( texture )
-			, std::move( P )
-			, std::move( offset )
-			, std::move( bias ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureProjOffset2DU3( ExprPtr/*usampler2D*/ texture
-		, ExprPtr/*vec3f*/ P
-		, ExprPtr/*vec2i*/ offset )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureProjOffset2DU3
-			, std::move( texture )
-			, std::move( P )
-			, std::move( offset ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureProjOffset2DU3Bias( ExprPtr/*usampler2D*/ texture
-		, ExprPtr/*vec3f*/ P
-		, ExprPtr/*vec2i*/ offset
-		, ExprPtr/*float*/ bias )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureProjOffset2DU3Bias
-			, std::move( texture )
-			, std::move( P )
-			, std::move( offset )
-			, std::move( bias ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureProjOffset2DU4( ExprPtr/*usampler2D*/ texture
-		, ExprPtr/*vec4f*/ P
-		, ExprPtr/*vec2i*/ offset )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureProjOffset2DU4
-			, std::move( texture )
-			, std::move( P )
-			, std::move( offset ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureProjOffset2DU4Bias( ExprPtr/*usampler2D*/ texture
-		, ExprPtr/*vec4f*/ P
-		, ExprPtr/*vec2i*/ offset
-		, ExprPtr/*float*/ bias )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureProjOffset2DU4Bias
-			, std::move( texture )
-			, std::move( P )
-			, std::move( offset )
-			, std::move( bias ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureProjOffset3DU( ExprPtr/*usampler3D*/ texture
-		, ExprPtr/*vec4f*/ P
-		, ExprPtr/*vec3i*/ offset )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureProjOffset3DU
-			, std::move( texture )
-			, std::move( P )
-			, std::move( offset ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureProjOffset3DUBias( ExprPtr/*usampler3D*/ texture
-		, ExprPtr/*vec4f*/ P
-		, ExprPtr/*vec3i*/ offset
-		, ExprPtr/*float*/ bias )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureProjOffset3DUBias
-			, std::move( texture )
-			, std::move( P )
-			, std::move( offset )
-			, std::move( bias ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureProjOffset2DRectU3( ExprPtr/*usampler2DRect*/ texture
-		, ExprPtr/*vec3f*/ P
-		, ExprPtr/*vec2i*/ offset )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureProjOffset2DRectU3
-			, std::move( texture )
-			, std::move( P )
-			, std::move( offset ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureProjOffset2DRectU4( ExprPtr/*usampler2DRect*/ texture
-		, ExprPtr/*vec4f*/ P
-		, ExprPtr/*vec2i*/ offset )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureProjOffset2DRectU4
-			, std::move( texture )
-			, std::move( P )
-			, std::move( offset ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureLodOffset1DF( ExprPtr/*sampler1D*/ texture
-		, ExprPtr/*float*/ P
-		, ExprPtr/*float*/ lod
-		, ExprPtr/*int*/ offset )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureLodOffset1DF
-			, std::move( texture )
-			, std::move( P )
-			, std::move( lod )
-			, std::move( offset ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureLodOffset2DF( ExprPtr/*sampler2D*/ texture
-		, ExprPtr/*vec2f*/ P
-		, ExprPtr/*float*/ lod
-		, ExprPtr/*vec2i*/ offset )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureLodOffset2DF
-			, std::move( texture )
-			, std::move( P )
-			, std::move( lod )
-			, std::move( offset ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureLodOffset3DF( ExprPtr/*sampler3D*/ texture
-		, ExprPtr/*vec3f*/ P
-		, ExprPtr/*float*/ lod
-		, ExprPtr/*vec3i*/ offset )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureLodOffset3DF
-			, std::move( texture )
-			, std::move( P )
-			, std::move( lod )
-			, std::move( offset ) );
-	}
-
-	inline TextureAccessCallPtr/*float*/ makeTextureLodOffset1DShadowF( ExprPtr/*sampler1DShadow*/ texture
-		, ExprPtr/*vec3f*/ P
-		, ExprPtr/*float*/ lod
-		, ExprPtr/*int*/ offset )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eFloat )
-			, TextureAccess::eTextureLodOffset1DShadowF
-			, std::move( texture )
-			, std::move( P )
-			, std::move( lod )
-			, std::move( offset ) );
-	}
-
-	inline TextureAccessCallPtr/*float*/ makeTextureLodOffset2DShadowF( ExprPtr/*sampler2DShadow*/ texture
-		, ExprPtr/*vec4f*/ P
-		, ExprPtr/*float*/ lod
-		, ExprPtr/*vec2i*/ offset )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eFloat )
-			, TextureAccess::eTextureLodOffset2DShadowF
-			, std::move( texture )
-			, std::move( P )
-			, std::move( lod )
-			, std::move( offset ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureLodOffset1DArrayF( ExprPtr/*sampler1DArray*/ texture
-		, ExprPtr/*vec2f*/ P
-		, ExprPtr/*float*/ lod
-		, ExprPtr/*int*/ offset )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureLodOffset1DArrayF
-			, std::move( texture )
-			, std::move( P )
-			, std::move( lod )
-			, std::move( offset ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureLodOffset2DArrayF( ExprPtr/*sampler2DArray*/ texture
-		, ExprPtr/*vec3f*/ P
-		, ExprPtr/*float*/ lod
-		, ExprPtr/*vec2i*/ offset )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureLodOffset2DArrayF
-			, std::move( texture )
-			, std::move( P )
-			, std::move( lod )
-			, std::move( offset ) );
-	}
-
-	inline TextureAccessCallPtr/*float*/ makeTextureLodOffset1DArrayShadowF( ExprPtr/*sampler1DArrayShadow*/ texture
-		, ExprPtr/*vec3f*/ P
-		, ExprPtr/*float*/ lod
-		, ExprPtr/*int*/ offset )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eFloat )
-			, TextureAccess::eTextureLodOffset1DArrayShadowF
-			, std::move( texture )
-			, std::move( P )
-			, std::move( lod )
-			, std::move( offset ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureLodOffset1DI( ExprPtr/*isampler1D*/ texture
-		, ExprPtr/*float*/ P
-		, ExprPtr/*float*/ lod
-		, ExprPtr/*int*/ offset )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureLodOffset1DI
-			, std::move( texture )
-			, std::move( P )
-			, std::move( lod )
-			, std::move( offset ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureLodOffset2DI( ExprPtr/*isampler2D*/ texture
-		, ExprPtr/*vec2f*/ P
-		, ExprPtr/*float*/ lod
-		, ExprPtr/*vec2i*/ offset )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureLodOffset2DI
-			, std::move( texture )
-			, std::move( P )
-			, std::move( lod )
-			, std::move( offset ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureLodOffset3DI( ExprPtr/*isampler3D*/ texture
-		, ExprPtr/*vec3f*/ P
-		, ExprPtr/*float*/ lod
-		, ExprPtr/*vec3i*/ offset )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureLodOffset3DI
-			, std::move( texture )
-			, std::move( P )
-			, std::move( lod )
-			, std::move( offset ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureLodOffset1DArrayI( ExprPtr/*isampler1DArray*/ texture
-		, ExprPtr/*vec2f*/ P
-		, ExprPtr/*float*/ lod
-		, ExprPtr/*int*/ offset )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureLodOffset1DArrayI
-			, std::move( texture )
-			, std::move( P )
-			, std::move( lod )
-			, std::move( offset ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureLodOffset2DArrayI( ExprPtr/*isampler2DArray*/ texture
-		, ExprPtr/*vec3f*/ P
-		, ExprPtr/*float*/ lod
-		, ExprPtr/*vec2i*/ offset )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureLodOffset2DArrayI
-			, std::move( texture )
-			, std::move( P )
-			, std::move( lod )
-			, std::move( offset ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureLodOffset1DU( ExprPtr/*usampler1D*/ texture
-		, ExprPtr/*float*/ P
-		, ExprPtr/*float*/ lod
-		, ExprPtr/*int*/ offset )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureLodOffset1DU
-			, std::move( texture )
-			, std::move( P )
-			, std::move( lod )
-			, std::move( offset ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureLodOffset2DU( ExprPtr/*usampler2D*/ texture
-		, ExprPtr/*vec2f*/ P
-		, ExprPtr/*float*/ lod
-		, ExprPtr/*vec2i*/ offset )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureLodOffset2DU
-			, std::move( texture )
-			, std::move( P )
-			, std::move( lod )
-			, std::move( offset ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureLodOffset3DU( ExprPtr/*usampler3D*/ texture
-		, ExprPtr/*vec3f*/ P
-		, ExprPtr/*float*/ lod
-		, ExprPtr/*vec3i*/ offset )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureLodOffset3DU
-			, std::move( texture )
-			, std::move( P )
-			, std::move( lod )
-			, std::move( offset ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureLodOffset1DArrayU( ExprPtr/*usampler1DArray*/ texture
-		, ExprPtr/*vec2f*/ P
-		, ExprPtr/*float*/ lod
-		, ExprPtr/*int*/ offset )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureLodOffset1DArrayU
-			, std::move( texture )
-			, std::move( P )
-			, std::move( lod )
-			, std::move( offset ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureLodOffset2DArrayU( ExprPtr/*usampler2DArray*/ texture
-		, ExprPtr/*vec3f*/ P
-		, ExprPtr/*float*/ lod
-		, ExprPtr/*vec2i*/ offset )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureLodOffset2DArrayU
-			, std::move( texture )
-			, std::move( P )
-			, std::move( lod )
-			, std::move( offset ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureProjLod1DF2( ExprPtr/*sampler1D*/ texture
-		, ExprPtr/*vec2f*/ P
-		, ExprPtr/*float*/ lod )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureProjLod1DF2
-			, std::move( texture )
-			, std::move( P )
-			, std::move( lod ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureProjLod1DF4( ExprPtr/*sampler1D*/ texture
-		, ExprPtr/*vec4f*/ P
-		, ExprPtr/*float*/ lod )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureProjLod1DF4
-			, std::move( texture )
-			, std::move( P )
-			, std::move( lod ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureProjLod2DF3( ExprPtr/*sampler2D*/ texture
-		, ExprPtr/*vec3f*/ P
-		, ExprPtr/*float*/ lod )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureProjLod2DF3
-			, std::move( texture )
-			, std::move( P )
-			, std::move( lod ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureProjLod2DF4( ExprPtr/*sampler2D*/ texture
-		, ExprPtr/*vec4f*/ P
-		, ExprPtr/*float*/ lod )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureProjLod2DF4
-			, std::move( texture )
-			, std::move( P )
-			, std::move( lod ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureProjLod3DF( ExprPtr/*sampler3D*/ texture
-		, ExprPtr/*vec4f*/ P
-		, ExprPtr/*float*/ lod )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureProjLod3DF
-			, std::move( texture )
-			, std::move( P )
-			, std::move( lod ) );
-	}
-
-	inline TextureAccessCallPtr/*float*/ makeTextureProjLod1DShadowF( ExprPtr/*sampler1DShadow*/ texture
-		, ExprPtr/*vec4f*/ P
-		, ExprPtr/*float*/ lod )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eFloat )
-			, TextureAccess::eTextureProjLod1DShadowF
-			, std::move( texture )
-			, std::move( P )
-			, std::move( lod ) );
-	}
-
-	inline TextureAccessCallPtr/*float*/ makeTextureProjLod2DShadowF( ExprPtr/*sampler2DShadow*/ texture
-		, ExprPtr/*vec4f*/ P
-		, ExprPtr/*float*/ lod )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eFloat )
-			, TextureAccess::eTextureProjLod2DShadowF
-			, std::move( texture )
-			, std::move( P )
-			, std::move( lod ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureProjLod1DI2( ExprPtr/*isampler1D*/ texture
-		, ExprPtr/*vec2f*/ P
-		, ExprPtr/*float*/ lod )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureProjLod1DI2
-			, std::move( texture )
-			, std::move( P )
-			, std::move( lod ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureProjLod1DI4( ExprPtr/*isampler1D*/ texture
-		, ExprPtr/*vec4f*/ P
-		, ExprPtr/*float*/ lod )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureProjLod1DI4
-			, std::move( texture )
-			, std::move( P )
-			, std::move( lod ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureProjLod2DI3( ExprPtr/*isampler2D*/ texture
-		, ExprPtr/*vec3f*/ P
-		, ExprPtr/*float*/ lod )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureProjLod2DI3
-			, std::move( texture )
-			, std::move( P )
-			, std::move( lod ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureProjLod2DI4( ExprPtr/*isampler2D*/ texture
-		, ExprPtr/*vec4f*/ P
-		, ExprPtr/*float*/ lod )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureProjLod2DI4
-			, std::move( texture )
-			, std::move( P )
-			, std::move( lod ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureProjLod3DI( ExprPtr/*isampler3D*/ texture
-		, ExprPtr/*vec4f*/ P
-		, ExprPtr/*float*/ lod )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureProjLod3DI
-			, std::move( texture )
-			, std::move( P )
-			, std::move( lod ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureProjLod1DU2( ExprPtr/*usampler1D*/ texture
-		, ExprPtr/*vec2f*/ P
-		, ExprPtr/*float*/ lod )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureProjLod1DU2
-			, std::move( texture )
-			, std::move( P )
-			, std::move( lod ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureProjLod1DU4( ExprPtr/*usampler1D*/ texture
-		, ExprPtr/*vec4f*/ P
-		, ExprPtr/*float*/ lod )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureProjLod1DU4
-			, std::move( texture )
-			, std::move( P )
-			, std::move( lod ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureProjLod2DU3( ExprPtr/*usampler2D*/ texture
-		, ExprPtr/*vec3f*/ P
-		, ExprPtr/*float*/ lod )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureProjLod2DU3
-			, std::move( texture )
-			, std::move( P )
-			, std::move( lod ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureProjLod2DU4( ExprPtr/*usampler2D*/ texture
-		, ExprPtr/*vec4f*/ P
-		, ExprPtr/*float*/ lod )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureProjLod2DU4
-			, std::move( texture )
-			, std::move( P )
-			, std::move( lod ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureProjLod3DU( ExprPtr/*usampler3D*/ texture
-		, ExprPtr/*vec4f*/ P
-		, ExprPtr/*float*/ lod )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureProjLod3DU
-			, std::move( texture )
-			, std::move( P )
-			, std::move( lod ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureProjLodOffset1DF2( ExprPtr/*sampler1D*/ texture
-		, ExprPtr/*vec2f*/ P
-		, ExprPtr/*float*/ lod
-		, ExprPtr/*int*/ offset )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureProjLodOffset1DF2
-			, std::move( texture )
-			, std::move( P )
-			, std::move( lod )
-			, std::move( offset ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureProjLodOffset1DF4( ExprPtr/*sampler1D*/ texture
-		, ExprPtr/*vec4f*/ P
-		, ExprPtr/*float*/ lod
-		, ExprPtr/*int*/ offset )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureProjLodOffset1DF4
-			, std::move( texture )
-			, std::move( P )
-			, std::move( lod )
-			, std::move( offset ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureProjLodOffset2DF3( ExprPtr/*sampler2D*/ texture
-		, ExprPtr/*vec3f*/ P
-		, ExprPtr/*float*/ lod
-		, ExprPtr/*vec2i*/ offset )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureProjLodOffset2DF3
-			, std::move( texture )
-			, std::move( P )
-			, std::move( lod )
-			, std::move( offset ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureProjLodOffset2DF4( ExprPtr/*sampler2D*/ texture
-		, ExprPtr/*vec4f*/ P
-		, ExprPtr/*float*/ lod
-		, ExprPtr/*vec2i*/ offset )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureProjLodOffset2DF4
-			, std::move( texture )
-			, std::move( P )
-			, std::move( lod )
-			, std::move( offset ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureProjLodOffset3DF( ExprPtr/*sampler3D*/ texture
-		, ExprPtr/*vec4f*/ P
-		, ExprPtr/*float*/ lod
-		, ExprPtr/*vec3i*/ offset )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureProjLodOffset3DF
-			, std::move( texture )
-			, std::move( P )
-			, std::move( lod )
-			, std::move( offset ) );
-	}
-
-	inline TextureAccessCallPtr/*float*/ makeTextureProjLodOffset1DShadowF( ExprPtr/*sampler1DShadow*/ texture
-		, ExprPtr/*vec4f*/ P
-		, ExprPtr/*float*/ lod
-		, ExprPtr/*int*/ offset )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eFloat )
-			, TextureAccess::eTextureProjLodOffset1DShadowF
-			, std::move( texture )
-			, std::move( P )
-			, std::move( lod )
-			, std::move( offset ) );
-	}
-
-	inline TextureAccessCallPtr/*float*/ makeTextureProjLodOffset2DShadowF( ExprPtr/*sampler2DShadow*/ texture
-		, ExprPtr/*vec4f*/ P
-		, ExprPtr/*float*/ lod
-		, ExprPtr/*vec2i*/ offset )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eFloat )
-			, TextureAccess::eTextureProjLodOffset2DShadowF
-			, std::move( texture )
-			, std::move( P )
-			, std::move( lod )
-			, std::move( offset ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureProjLodOffset1DI2( ExprPtr/*isampler1D*/ texture
-		, ExprPtr/*vec2f*/ P
-		, ExprPtr/*float*/ lod
-		, ExprPtr/*int*/ offset )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureProjLodOffset1DI2
-			, std::move( texture )
-			, std::move( P )
-			, std::move( lod )
-			, std::move( offset ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureProjLodOffset1DI4( ExprPtr/*isampler1D*/ texture
-		, ExprPtr/*vec4f*/ P
-		, ExprPtr/*float*/ lod
-		, ExprPtr/*int*/ offset )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureProjLodOffset1DI4
-			, std::move( texture )
-			, std::move( P )
-			, std::move( lod )
-			, std::move( offset ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureProjLodOffset2DI3( ExprPtr/*isampler2D*/ texture
-		, ExprPtr/*vec3f*/ P
-		, ExprPtr/*float*/ lod
-		, ExprPtr/*vec2i*/ offset )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureProjLodOffset2DI3
-			, std::move( texture )
-			, std::move( P )
-			, std::move( lod )
-			, std::move( offset ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureProjLodOffset2DI4( ExprPtr/*isampler2D*/ texture
-		, ExprPtr/*vec4f*/ P
-		, ExprPtr/*float*/ lod
-		, ExprPtr/*vec2i*/ offset )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureProjLodOffset2DI4
-			, std::move( texture )
-			, std::move( P )
-			, std::move( lod )
-			, std::move( offset ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureProjLodOffset3DI( ExprPtr/*isampler3D*/ texture
-		, ExprPtr/*vec4f*/ P
-		, ExprPtr/*float*/ lod
-		, ExprPtr/*vec3i*/ offset )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureProjLodOffset3DI
-			, std::move( texture )
-			, std::move( P )
-			, std::move( lod )
-			, std::move( offset ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureProjLodOffset1DU2( ExprPtr/*usampler1D*/ texture
-		, ExprPtr/*vec2f*/ P
-		, ExprPtr/*float*/ lod
-		, ExprPtr/*int*/ offset )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureProjLodOffset1DU2
-			, std::move( texture )
-			, std::move( P )
-			, std::move( lod )
-			, std::move( offset ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureProjLodOffset1DU4( ExprPtr/*usampler1D*/ texture
-		, ExprPtr/*vec4f*/ P
-		, ExprPtr/*float*/ lod
-		, ExprPtr/*int*/ offset )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureProjLodOffset1DU4
-			, std::move( texture )
-			, std::move( P )
-			, std::move( lod )
-			, std::move( offset ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureProjLodOffset2DU3( ExprPtr/*usampler2D*/ texture
-		, ExprPtr/*vec3f*/ P
-		, ExprPtr/*float*/ lod
-		, ExprPtr/*vec2i*/ offset )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureProjLodOffset2DU3
-			, std::move( texture )
-			, std::move( P )
-			, std::move( lod )
-			, std::move( offset ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureProjLodOffset2DU4( ExprPtr/*usampler2D*/ texture
-		, ExprPtr/*vec4f*/ P
-		, ExprPtr/*float*/ lod
-		, ExprPtr/*vec2i*/ offset )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureProjLodOffset2DU4
-			, std::move( texture )
-			, std::move( P )
-			, std::move( lod )
-			, std::move( offset ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureProjLodOffset3DU( ExprPtr/*usampler3D*/ texture
-		, ExprPtr/*vec4f*/ P
-		, ExprPtr/*float*/ lod
-		, ExprPtr/*vec3i*/ offset )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureProjLodOffset3DU
-			, std::move( texture )
-			, std::move( P )
-			, std::move( lod )
-			, std::move( offset ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureGrad1DF( ExprPtr/*sampler1D*/ texture
-		, ExprPtr/*float*/ P
-		, ExprPtr/*float*/ dPdx
-		, ExprPtr/*float*/ dPdy )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureGrad1DF
-			, std::move( texture )
-			, std::move( P )
-			, std::move( dPdx )
-			, std::move( dPdy ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureGrad2DF( ExprPtr/*sampler2D*/ texture
-		, ExprPtr/*vec2f*/ P
-		, ExprPtr/*vec2f*/ dPdx
-		, ExprPtr/*vec2f*/ dPdy )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureGrad2DF
-			, std::move( texture )
-			, std::move( P )
-			, std::move( dPdx )
-			, std::move( dPdy ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureGrad3DF( ExprPtr/*sampler3D*/ texture
-		, ExprPtr/*vec3f*/ P
-		, ExprPtr/*vec3f*/ dPdx
-		, ExprPtr/*vec3f*/ dPdy )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureGrad3DF
-			, std::move( texture )
-			, std::move( P )
-			, std::move( dPdx )
-			, std::move( dPdy ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureGradCubeF( ExprPtr/*samplerCube*/ texture
-		, ExprPtr/*vec3f*/ P
-		, ExprPtr/*vec3f*/ dPdx
-		, ExprPtr/*vec3f*/ dPdy )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureGradCubeF
-			, std::move( texture )
-			, std::move( P )
-			, std::move( dPdx )
-			, std::move( dPdy ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureGrad2DRectF( ExprPtr/*sampler2DRect*/ texture
-		, ExprPtr/*vec2f*/ P
-		, ExprPtr/*vec2f*/ dPdx
-		, ExprPtr/*vec2f*/ dPdy )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureGrad2DRectF
-			, std::move( texture )
-			, std::move( P )
-			, std::move( dPdx )
-			, std::move( dPdy ) );
-	}
-
-	inline TextureAccessCallPtr/*float*/ makeTextureGrad2DRectShadowF( ExprPtr/*sampler2DRectShadow*/ texture
-		, ExprPtr/*vec2f*/ P
-		, ExprPtr/*vec2f*/ dPdx
-		, ExprPtr/*vec2f*/ dPdy )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eFloat )
-			, TextureAccess::eTextureGrad2DRectShadowF
-			, std::move( texture )
-			, std::move( P )
-			, std::move( dPdx )
-			, std::move( dPdy ) );
-	}
-
-	inline TextureAccessCallPtr/*float*/ makeTextureGrad1DShadowF( ExprPtr/*sampler1DShadow*/ texture
-		, ExprPtr/*vec3f*/ P
-		, ExprPtr/*float*/ dPdx
-		, ExprPtr/*float*/ dPdy )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eFloat )
-			, TextureAccess::eTextureGrad1DShadowF
-			, std::move( texture )
-			, std::move( P )
-			, std::move( dPdx )
-			, std::move( dPdy ) );
-	}
-
-	inline TextureAccessCallPtr/*float*/ makeTextureGrad2DShadowF( ExprPtr/*sampler2DShadow*/ texture
-		, ExprPtr/*vec3f*/ P
-		, ExprPtr/*vec2f*/ dPdx
-		, ExprPtr/*vec2f*/ dPdy )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eFloat )
-			, TextureAccess::eTextureGrad2DShadowF
-			, std::move( texture )
-			, std::move( P )
-			, std::move( dPdx )
-			, std::move( dPdy ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureGrad1DArrayF( ExprPtr/*sampler1DArray*/ texture
-		, ExprPtr/*vec2f*/ P
-		, ExprPtr/*float*/ dPdx
-		, ExprPtr/*float*/ dPdy )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureGrad1DArrayF
-			, std::move( texture )
-			, std::move( P )
-			, std::move( dPdx )
-			, std::move( dPdy ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureGrad2DArrayF( ExprPtr/*sampler2DArray*/ texture
-		, ExprPtr/*vec3f*/ P
-		, ExprPtr/*vec2f*/ dPdx
-		, ExprPtr/*vec2f*/ dPdy )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureGrad2DArrayF
-			, std::move( texture )
-			, std::move( P )
-			, std::move( dPdx )
-			, std::move( dPdy ) );
-	}
-
-	inline TextureAccessCallPtr/*float*/ makeTextureGrad1DArrayShadowF( ExprPtr/*sampler1DArrayShadow*/ texture
-		, ExprPtr/*vec3f*/ P
-		, ExprPtr/*float*/ dPdx
-		, ExprPtr/*float*/ dPdy )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eFloat )
-			, TextureAccess::eTextureGrad1DArrayShadowF
-			, std::move( texture )
-			, std::move( P )
-			, std::move( dPdx )
-			, std::move( dPdy ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureGradCubeArrayF( ExprPtr/*samplerCubeArray*/ texture
-		, ExprPtr/*vec4f*/ P
-		, ExprPtr/*vec3f*/ dPdx
-		, ExprPtr/*vec3f*/ dPdy )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureGradCubeArrayF
-			, std::move( texture )
-			, std::move( P )
-			, std::move( dPdx )
-			, std::move( dPdy ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureGrad1DI( ExprPtr/*isampler1D*/ texture
-		, ExprPtr/*float*/ P
-		, ExprPtr/*float*/ dPdx
-		, ExprPtr/*float*/ dPdy )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureGrad1DI
-			, std::move( texture )
-			, std::move( P )
-			, std::move( dPdx )
-			, std::move( dPdy ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureGrad2DI( ExprPtr/*isampler2D*/ texture
-		, ExprPtr/*vec2f*/ P
-		, ExprPtr/*vec2f*/ dPdx
-		, ExprPtr/*vec2f*/ dPdy )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureGrad2DI
-			, std::move( texture )
-			, std::move( P )
-			, std::move( dPdx )
-			, std::move( dPdy ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureGrad3DI( ExprPtr/*isampler3D*/ texture
-		, ExprPtr/*vec3f*/ P
-		, ExprPtr/*vec3f*/ dPdx
-		, ExprPtr/*vec3f*/ dPdy )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureGrad3DI
-			, std::move( texture )
-			, std::move( P )
-			, std::move( dPdx )
-			, std::move( dPdy ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureGradCubeI( ExprPtr/*isamplerCube*/ texture
-		, ExprPtr/*vec3f*/ P
-		, ExprPtr/*vec3f*/ dPdx
-		, ExprPtr/*vec3f*/ dPdy )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureGradCubeI
-			, std::move( texture )
-			, std::move( P )
-			, std::move( dPdx )
-			, std::move( dPdy ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureGrad2DRectI( ExprPtr/*isampler2DRect*/ texture
-		, ExprPtr/*vec2f*/ P
-		, ExprPtr/*vec2f*/ dPdx
-		, ExprPtr/*vec2f*/ dPdy )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureGrad2DRectI
-			, std::move( texture )
-			, std::move( P )
-			, std::move( dPdx )
-			, std::move( dPdy ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureGrad1DArrayI( ExprPtr/*isampler1DArray*/ texture
-		, ExprPtr/*vec2f*/ P
-		, ExprPtr/*float*/ dPdx
-		, ExprPtr/*float*/ dPdy )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureGrad1DArrayI
-			, std::move( texture )
-			, std::move( P )
-			, std::move( dPdx )
-			, std::move( dPdy ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureGrad2DArrayI( ExprPtr/*isampler2DArray*/ texture
-		, ExprPtr/*vec3f*/ P
-		, ExprPtr/*vec2f*/ dPdx
-		, ExprPtr/*vec2f*/ dPdy )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureGrad2DArrayI
-			, std::move( texture )
-			, std::move( P )
-			, std::move( dPdx )
-			, std::move( dPdy ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureGradCubeArrayI( ExprPtr/*isamplerCubeArray*/ texture
-		, ExprPtr/*vec4f*/ P
-		, ExprPtr/*vec3f*/ dPdx
-		, ExprPtr/*vec3f*/ dPdy )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureGradCubeArrayI
-			, std::move( texture )
-			, std::move( P )
-			, std::move( dPdx )
-			, std::move( dPdy ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureGrad1DU( ExprPtr/*usampler1D*/ texture
-		, ExprPtr/*float*/ P
-		, ExprPtr/*float*/ dPdx
-		, ExprPtr/*float*/ dPdy )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureGrad1DU
-			, std::move( texture )
-			, std::move( P )
-			, std::move( dPdx )
-			, std::move( dPdy ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureGrad2DU( ExprPtr/*usampler2D*/ texture
-		, ExprPtr/*vec2f*/ P
-		, ExprPtr/*vec2f*/ dPdx
-		, ExprPtr/*vec2f*/ dPdy )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureGrad2DU
-			, std::move( texture )
-			, std::move( P )
-			, std::move( dPdx )
-			, std::move( dPdy ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureGrad3DU( ExprPtr/*usampler3D*/ texture
-		, ExprPtr/*vec3f*/ P
-		, ExprPtr/*vec3f*/ dPdx
-		, ExprPtr/*vec3f*/ dPdy )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureGrad3DU
-			, std::move( texture )
-			, std::move( P )
-			, std::move( dPdx )
-			, std::move( dPdy ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureGradCubeU( ExprPtr/*usamplerCube*/ texture
-		, ExprPtr/*vec3f*/ P
-		, ExprPtr/*vec3f*/ dPdx
-		, ExprPtr/*vec3f*/ dPdy )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureGradCubeU
-			, std::move( texture )
-			, std::move( P )
-			, std::move( dPdx )
-			, std::move( dPdy ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureGrad2DRectU( ExprPtr/*usampler2DRect*/ texture
-		, ExprPtr/*vec2f*/ P
-		, ExprPtr/*vec2f*/ dPdx
-		, ExprPtr/*vec2f*/ dPdy )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureGrad2DRectU
-			, std::move( texture )
-			, std::move( P )
-			, std::move( dPdx )
-			, std::move( dPdy ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureGrad1DArrayU( ExprPtr/*usampler1DArray*/ texture
-		, ExprPtr/*vec2f*/ P
-		, ExprPtr/*float*/ dPdx
-		, ExprPtr/*float*/ dPdy )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureGrad1DArrayU
-			, std::move( texture )
-			, std::move( P )
-			, std::move( dPdx )
-			, std::move( dPdy ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureGrad2DArrayU( ExprPtr/*usampler2DArray*/ texture
-		, ExprPtr/*vec3f*/ P
-		, ExprPtr/*vec2f*/ dPdx
-		, ExprPtr/*vec2f*/ dPdy )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureGrad2DArrayU
-			, std::move( texture )
-			, std::move( P )
-			, std::move( dPdx )
-			, std::move( dPdy ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureGradCubeArrayU( ExprPtr/*usamplerCubeArray*/ texture
-		, ExprPtr/*vec4f*/ P
-		, ExprPtr/*vec3f*/ dPdx
-		, ExprPtr/*vec3f*/ dPdy )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureGradCubeArrayU
-			, std::move( texture )
-			, std::move( P )
-			, std::move( dPdx )
-			, std::move( dPdy ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureGradOffset1DF( ExprPtr/*sampler1D*/ texture
-		, ExprPtr/*float*/ P
-		, ExprPtr/*float*/ dPdx
-		, ExprPtr/*float*/ dPdy
-		, ExprPtr/*int*/ offset )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureGradOffset1DF
-			, std::move( texture )
-			, std::move( P )
-			, std::move( dPdx )
-			, std::move( dPdy )
-			, std::move( offset ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureGradOffset2DF( ExprPtr/*sampler2D*/ texture
-		, ExprPtr/*vec2f*/ P
-		, ExprPtr/*vec2f*/ dPdx
-		, ExprPtr/*vec2f*/ dPdy
-		, ExprPtr/*vec2i*/ offset )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureGradOffset2DF
-			, std::move( texture )
-			, std::move( P )
-			, std::move( dPdx )
-			, std::move( dPdy )
-			, std::move( offset ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureGradOffset3DF( ExprPtr/*sampler3D*/ texture
-		, ExprPtr/*vec3f*/ P
-		, ExprPtr/*vec3f*/ dPdx
-		, ExprPtr/*vec3f*/ dPdy
-		, ExprPtr/*vec3i*/ offset )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureGradOffset3DF
-			, std::move( texture )
-			, std::move( P )
-			, std::move( dPdx )
-			, std::move( dPdy )
-			, std::move( offset ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureGradOffset2DRectF( ExprPtr/*sampler2DRect*/ texture
-		, ExprPtr/*vec2f*/ P
-		, ExprPtr/*vec2f*/ dPdx
-		, ExprPtr/*vec2f*/ dPdy
-		, ExprPtr/*vec2i*/ offset )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureGradOffset2DRectF
-			, std::move( texture )
-			, std::move( P )
-			, std::move( dPdx )
-			, std::move( dPdy )
-			, std::move( offset ) );
-	}
-
-	inline TextureAccessCallPtr/*float*/ makeTextureGradOffset2DRectShadowF( ExprPtr/*sampler2DRectShadow*/ texture
-		, ExprPtr/*vec3f*/ P
-		, ExprPtr/*vec2f*/ dPdx
-		, ExprPtr/*vec2f*/ dPdy
-		, ExprPtr/*vec2i*/ offset )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eFloat )
-			, TextureAccess::eTextureGradOffset2DRectShadowF
-			, std::move( texture )
-			, std::move( P )
-			, std::move( dPdx )
-			, std::move( dPdy )
-			, std::move( offset ) );
-	}
-
-	inline TextureAccessCallPtr/*float*/ makeTextureGradOffset1DShadowF( ExprPtr/*sampler1DShadow*/ texture
-		, ExprPtr/*vec3f*/ P
-		, ExprPtr/*float*/ dPdx
-		, ExprPtr/*float*/ dPdy
-		, ExprPtr/*int*/ offset )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eFloat )
-			, TextureAccess::eTextureGradOffset1DShadowF
-			, std::move( texture )
-			, std::move( P )
-			, std::move( dPdx )
-			, std::move( dPdy )
-			, std::move( offset ) );
-	}
-
-	inline TextureAccessCallPtr/*float*/ makeTextureGradOffset2DShadowF( ExprPtr/*sampler2DShadow*/ texture
-		, ExprPtr/*vec3f*/ P
-		, ExprPtr/*vec2f*/ dPdx
-		, ExprPtr/*vec2f*/ dPdy
-		, ExprPtr/*vec2i*/ offset )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eFloat )
-			, TextureAccess::eTextureGradOffset2DShadowF
-			, std::move( texture )
-			, std::move( P )
-			, std::move( dPdx )
-			, std::move( dPdy )
-			, std::move( offset ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureGradOffset1DArrayF( ExprPtr/*sampler1DArray*/ texture
-		, ExprPtr/*vec2f*/ P
-		, ExprPtr/*float*/ dPdx
-		, ExprPtr/*float*/ dPdy
-		, ExprPtr/*int*/ offset )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureGradOffset1DArrayF
-			, std::move( texture )
-			, std::move( P )
-			, std::move( dPdx )
-			, std::move( dPdy )
-			, std::move( offset ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureGradOffset2DArrayF( ExprPtr/*sampler2DArray*/ texture
-		, ExprPtr/*vec3f*/ P
-		, ExprPtr/*vec2f*/ dPdx
-		, ExprPtr/*vec2f*/ dPdy
-		, ExprPtr/*vec2i*/ offset )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureGradOffset2DArrayF
-			, std::move( texture )
-			, std::move( P )
-			, std::move( dPdx )
-			, std::move( dPdy )
-			, std::move( offset ) );
-	}
-
-	inline TextureAccessCallPtr/*float*/ makeTextureGradOffset1DArrayShadowF( ExprPtr/*sampler1DArrayShadow*/ texture
-		, ExprPtr/*vec3f*/ P
-		, ExprPtr/*float*/ dPdx
-		, ExprPtr/*float*/ dPdy
-		, ExprPtr/*int*/ offset )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eFloat )
-			, TextureAccess::eTextureGradOffset1DArrayShadowF
-			, std::move( texture )
-			, std::move( P )
-			, std::move( dPdx )
-			, std::move( dPdy )
-			, std::move( offset ) );
-	}
-
-	inline TextureAccessCallPtr/*float*/ makeTextureGradOffset2DArrayShadowF( ExprPtr/*sampler2DArrayShadow*/ texture
-		, ExprPtr/*vec3f*/ P
-		, ExprPtr/*vec2f*/ dPdx
-		, ExprPtr/*vec2f*/ dPdy
-		, ExprPtr/*vec2i*/ offset )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eFloat )
-			, TextureAccess::eTextureGradOffset2DArrayShadowF
-			, std::move( texture )
-			, std::move( P )
-			, std::move( dPdx )
-			, std::move( dPdy )
-			, std::move( offset ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureGradOffset1DI( ExprPtr/*isampler1D*/ texture
-		, ExprPtr/*float*/ P
-		, ExprPtr/*float*/ dPdx
-		, ExprPtr/*float*/ dPdy
-		, ExprPtr/*int*/ offset )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureGradOffset1DI
-			, std::move( texture )
-			, std::move( P )
-			, std::move( dPdx )
-			, std::move( dPdy )
-			, std::move( offset ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureGradOffset2DI( ExprPtr/*isampler2D*/ texture
-		, ExprPtr/*vec2f*/ P
-		, ExprPtr/*vec2f*/ dPdx
-		, ExprPtr/*vec2f*/ dPdy
-		, ExprPtr/*vec2i*/ offset )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureGradOffset2DI
-			, std::move( texture )
-			, std::move( P )
-			, std::move( dPdx )
-			, std::move( dPdy )
-			, std::move( offset ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureGradOffset3DI( ExprPtr/*isampler3D*/ texture
-		, ExprPtr/*vec3f*/ P
-		, ExprPtr/*vec3f*/ dPdx
-		, ExprPtr/*vec3f*/ dPdy
-		, ExprPtr/*vec3i*/ offset )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureGradOffset3DI
-			, std::move( texture )
-			, std::move( P )
-			, std::move( dPdx )
-			, std::move( dPdy )
-			, std::move( offset ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureGradOffset2DRectI( ExprPtr/*isampler2DRect*/ texture
-		, ExprPtr/*vec2f*/ P
-		, ExprPtr/*vec2f*/ dPdx
-		, ExprPtr/*vec2f*/ dPdy
-		, ExprPtr/*vec2i*/ offset )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureGradOffset2DRectI
-			, std::move( texture )
-			, std::move( P )
-			, std::move( dPdx )
-			, std::move( dPdy )
-			, std::move( offset ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureGradOffset1DArrayI( ExprPtr/*isampler1DArray*/ texture
-		, ExprPtr/*vec2f*/ P
-		, ExprPtr/*float*/ dPdx
-		, ExprPtr/*float*/ dPdy
-		, ExprPtr/*int*/ offset )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureGradOffset1DArrayI
-			, std::move( texture )
-			, std::move( P )
-			, std::move( dPdx )
-			, std::move( dPdy )
-			, std::move( offset ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureGradOffset2DArrayI( ExprPtr/*isampler2DArray*/ texture
-		, ExprPtr/*vec3f*/ P
-		, ExprPtr/*vec2f*/ dPdx
-		, ExprPtr/*vec2f*/ dPdy
-		, ExprPtr/*vec2i*/ offset )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureGradOffset2DArrayI
-			, std::move( texture )
-			, std::move( P )
-			, std::move( dPdx )
-			, std::move( dPdy )
-			, std::move( offset ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureGradOffset1DU( ExprPtr/*usampler1D*/ texture
-		, ExprPtr/*float*/ P
-		, ExprPtr/*float*/ dPdx
-		, ExprPtr/*float*/ dPdy
-		, ExprPtr/*int*/ offset )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureGradOffset1DU
-			, std::move( texture )
-			, std::move( P )
-			, std::move( dPdx )
-			, std::move( dPdy )
-			, std::move( offset ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureGradOffset2DU( ExprPtr/*usampler2D*/ texture
-		, ExprPtr/*vec2f*/ P
-		, ExprPtr/*vec2f*/ dPdx
-		, ExprPtr/*vec2f*/ dPdy
-		, ExprPtr/*vec2i*/ offset )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureGradOffset2DU
-			, std::move( texture )
-			, std::move( P )
-			, std::move( dPdx )
-			, std::move( dPdy )
-			, std::move( offset ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureGradOffset3DU( ExprPtr/*usampler3D*/ texture
-		, ExprPtr/*vec3f*/ P
-		, ExprPtr/*vec3f*/ dPdx
-		, ExprPtr/*vec3f*/ dPdy
-		, ExprPtr/*vec3i*/ offset )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureGradOffset3DU
-			, std::move( texture )
-			, std::move( P )
-			, std::move( dPdx )
-			, std::move( dPdy )
-			, std::move( offset ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureGradOffset2DRectU( ExprPtr/*usampler2DRect*/ texture
-		, ExprPtr/*vec2f*/ P
-		, ExprPtr/*vec2f*/ dPdx
-		, ExprPtr/*vec2f*/ dPdy
-		, ExprPtr/*vec2i*/ offset )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureGradOffset2DRectU
-			, std::move( texture )
-			, std::move( P )
-			, std::move( dPdx )
-			, std::move( dPdy )
-			, std::move( offset ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureGradOffset1DArrayU( ExprPtr/*usampler1DArray*/ texture
-		, ExprPtr/*vec2f*/ P
-		, ExprPtr/*float*/ dPdx
-		, ExprPtr/*float*/ dPdy
-		, ExprPtr/*int*/ offset )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureGradOffset1DArrayU
-			, std::move( texture )
-			, std::move( P )
-			, std::move( dPdx )
-			, std::move( dPdy )
-			, std::move( offset ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureGradOffset2DArrayU( ExprPtr/*usampler2DArray*/ texture
-		, ExprPtr/*vec3f*/ P
-		, ExprPtr/*vec2f*/ dPdx
-		, ExprPtr/*vec2f*/ dPdy
-		, ExprPtr/*vec2i*/ offset )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureGradOffset2DArrayU
-			, std::move( texture )
-			, std::move( P )
-			, std::move( dPdx )
-			, std::move( dPdy )
-			, std::move( offset ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureProjGrad1DF2( ExprPtr/*sampler1D*/ texture
-		, ExprPtr/*vec2f*/ P
-		, ExprPtr/*float*/ pDx
-		, ExprPtr/*float*/ pDy )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureProjGrad1DF2
-			, std::move( texture )
-			, std::move( P )
-			, std::move( pDx )
-			, std::move( pDy ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureProjGrad1DF4( ExprPtr/*sampler1D*/ texture
-		, ExprPtr/*vec4f*/ P
-		, ExprPtr/*float*/ pDx
-		, ExprPtr/*float*/ pDy )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureProjGrad1DF4
-			, std::move( texture )
-			, std::move( P )
-			, std::move( pDx )
-			, std::move( pDy ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureProjGrad2DF3( ExprPtr/*sampler2D*/ texture
-		, ExprPtr/*vec3f*/ P
-		, ExprPtr/*vec2f*/ pDx
-		, ExprPtr/*vec2f*/ pDy )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureProjGrad2DF3
-			, std::move( texture )
-			, std::move( P )
-			, std::move( pDx )
-			, std::move( pDy ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureProjGrad2DF4( ExprPtr/*sampler2D*/ texture
-		, ExprPtr/*vec4f*/ P
-		, ExprPtr/*vec2f*/ pDx
-		, ExprPtr/*vec2f*/ pDy )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureProjGrad2DF4
-			, std::move( texture )
-			, std::move( P )
-			, std::move( pDx )
-			, std::move( pDy ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureProjGrad3DF( ExprPtr/*sampler3D*/ texture
-		, ExprPtr/*vec4f*/ P
-		, ExprPtr/*vec3f*/ pDx
-		, ExprPtr/*vec3f*/ pDy )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureProjGrad3DF
-			, std::move( texture )
-			, std::move( P )
-			, std::move( pDx )
-			, std::move( pDy ) );
-	}
-
-	inline TextureAccessCallPtr/*float*/ makeTextureProjGrad1DShadowF( ExprPtr/*sampler1DShadow*/ texture
-		, ExprPtr/*vec4f*/ P
-		, ExprPtr/*float*/ pDx
-		, ExprPtr/*float*/ pDy )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eFloat )
-			, TextureAccess::eTextureProjGrad1DShadowF
-			, std::move( texture )
-			, std::move( P )
-			, std::move( pDx )
-			, std::move( pDy ) );
-	}
-
-	inline TextureAccessCallPtr/*float*/ makeTextureProjGrad2DShadowF( ExprPtr/*sampler2DShadow*/ texture
-		, ExprPtr/*vec4f*/ P
-		, ExprPtr/*vec2f*/ pDx
-		, ExprPtr/*vec2f*/ pDy )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eFloat )
-			, TextureAccess::eTextureProjGrad2DShadowF
-			, std::move( texture )
-			, std::move( P )
-			, std::move( pDx )
-			, std::move( pDy ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureProjGrad2DRectF3( ExprPtr/*sampler2DRect*/ texture
-		, ExprPtr/*vec3f*/ P
-		, ExprPtr/*vec2f*/ pDx
-		, ExprPtr/*vec2f*/ pDy )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureProjGrad2DRectF3
-			, std::move( texture )
-			, std::move( P )
-			, std::move( pDx )
-			, std::move( pDy ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureProjGrad2DRectF4( ExprPtr/*sampler2DRect*/ texture
-		, ExprPtr/*vec4f*/ P
-		, ExprPtr/*vec2f*/ pDx
-		, ExprPtr/*vec2f*/ pDy )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureProjGrad2DRectF4
-			, std::move( texture )
-			, std::move( P )
-			, std::move( pDx )
-			, std::move( pDy ) );
-	}
-
-	inline TextureAccessCallPtr/*float*/ makeTextureProjGrad2DRectShadowF( ExprPtr/*sampler2DRectShadow*/ texture
-		, ExprPtr/*vec4f*/ P
-		, ExprPtr/*vec2f*/ pDx
-		, ExprPtr/*vec2f*/ pDy )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eFloat )
-			, TextureAccess::eTextureProjGrad2DRectShadowF
-			, std::move( texture )
-			, std::move( P )
-			, std::move( pDx )
-			, std::move( pDy ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureProjGrad1DI2( ExprPtr/*isampler1D*/ texture
-		, ExprPtr/*vec2f*/ P
-		, ExprPtr/*float*/ pDx
-		, ExprPtr/*float*/ pDy )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureProjGrad1DI2
-			, std::move( texture )
-			, std::move( P )
-			, std::move( pDx )
-			, std::move( pDy ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureProjGrad1DI4( ExprPtr/*isampler1D*/ texture
-		, ExprPtr/*vec4f*/ P
-		, ExprPtr/*float*/ pDx
-		, ExprPtr/*float*/ pDy )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureProjGrad1DI4
-			, std::move( texture )
-			, std::move( P )
-			, std::move( pDx )
-			, std::move( pDy ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureProjGrad2DI3( ExprPtr/*isampler2D*/ texture
-		, ExprPtr/*vec3f*/ P
-		, ExprPtr/*vec2f*/ pDx
-		, ExprPtr/*vec2f*/ pDy )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureProjGrad2DI3
-			, std::move( texture )
-			, std::move( P )
-			, std::move( pDx )
-			, std::move( pDy ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureProjGrad2DI4( ExprPtr/*isampler2D*/ texture
-		, ExprPtr/*vec4f*/ P
-		, ExprPtr/*vec2f*/ pDx
-		, ExprPtr/*vec2f*/ pDy )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureProjGrad2DI4
-			, std::move( texture )
-			, std::move( P )
-			, std::move( pDx )
-			, std::move( pDy ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureProjGrad3DI( ExprPtr/*isampler3D*/ texture
-		, ExprPtr/*vec4f*/ P
-		, ExprPtr/*vec3f*/ pDx
-		, ExprPtr/*vec3f*/ pDy )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureProjGrad3DI
-			, std::move( texture )
-			, std::move( P )
-			, std::move( pDx )
-			, std::move( pDy ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureProjGrad2DRectI3( ExprPtr/*isampler2DRect*/ texture
-		, ExprPtr/*vec3f*/ P
-		, ExprPtr/*vec2f*/ pDx
-		, ExprPtr/*vec2f*/ pDy )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureProjGrad2DRectI3
-			, std::move( texture )
-			, std::move( P )
-			, std::move( pDx )
-			, std::move( pDy ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureProjGrad2DRectI4( ExprPtr/*isampler2DRect*/ texture
-		, ExprPtr/*vec4f*/ P
-		, ExprPtr/*vec2f*/ pDx
-		, ExprPtr/*vec2f*/ pDy )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureProjGrad2DRectI4
-			, std::move( texture )
-			, std::move( P )
-			, std::move( pDx )
-			, std::move( pDy ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureProjGrad1DU2( ExprPtr/*usampler1D*/ texture
-		, ExprPtr/*vec2f*/ P
-		, ExprPtr/*float*/ pDx
-		, ExprPtr/*float*/ pDy )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureProjGrad1DU2
-			, std::move( texture )
-			, std::move( P )
-			, std::move( pDx )
-			, std::move( pDy ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureProjGrad1DU4( ExprPtr/*usampler1D*/ texture
-		, ExprPtr/*vec4f*/ P
-		, ExprPtr/*float*/ pDx
-		, ExprPtr/*float*/ pDy )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureProjGrad1DU4
-			, std::move( texture )
-			, std::move( P )
-			, std::move( pDx )
-			, std::move( pDy ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureProjGrad2DU3( ExprPtr/*usampler2D*/ texture
-		, ExprPtr/*vec3f*/ P
-		, ExprPtr/*vec2f*/ pDx
-		, ExprPtr/*vec2f*/ pDy )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureProjGrad2DU3
-			, std::move( texture )
-			, std::move( P )
-			, std::move( pDx )
-			, std::move( pDy ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureProjGrad2DU4( ExprPtr/*usampler2D*/ texture
-		, ExprPtr/*vec4f*/ P
-		, ExprPtr/*vec2f*/ pDx
-		, ExprPtr/*vec2f*/ pDy )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureProjGrad2DU4
-			, std::move( texture )
-			, std::move( P )
-			, std::move( pDx )
-			, std::move( pDy ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureProjGrad3DU( ExprPtr/*usampler3D*/ texture
-		, ExprPtr/*vec4f*/ P
-		, ExprPtr/*vec3f*/ pDx
-		, ExprPtr/*vec3f*/ pDy )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureProjGrad3DU
-			, std::move( texture )
-			, std::move( P )
-			, std::move( pDx )
-			, std::move( pDy ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureProjGrad2DRectU3( ExprPtr/*usampler2DRect*/ texture
-		, ExprPtr/*vec3f*/ P
-		, ExprPtr/*vec2f*/ pDx
-		, ExprPtr/*vec2f*/ pDy )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureProjGrad2DRectU3
-			, std::move( texture )
-			, std::move( P )
-			, std::move( pDx )
-			, std::move( pDy ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureProjGrad2DRectU4( ExprPtr/*usampler2DRect*/ texture
-		, ExprPtr/*vec4f*/ P
-		, ExprPtr/*vec2f*/ pDx
-		, ExprPtr/*vec2f*/ pDy )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureProjGrad2DRectU4
-			, std::move( texture )
-			, std::move( P )
-			, std::move( pDx )
-			, std::move( pDy ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureProjGradOffset1DF2( ExprPtr/*sampler1D*/ texture
-		, ExprPtr/*vec2f*/ P
-		, ExprPtr/*float*/ dPdx
-		, ExprPtr/*float*/ dPdy
-		, ExprPtr/*int*/ offset )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureProjGradOffset1DF2
-			, std::move( texture )
-			, std::move( P )
-			, std::move( dPdx )
-			, std::move( dPdy )
-			, std::move( offset ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureProjGradOffset1DF4( ExprPtr/*sampler1D*/ texture
-		, ExprPtr/*vec4f*/ P
-		, ExprPtr/*float*/ dPdx
-		, ExprPtr/*float*/ dPdy
-		, ExprPtr/*int*/ offset )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureProjGradOffset1DF4
-			, std::move( texture )
-			, std::move( P )
-			, std::move( dPdx )
-			, std::move( dPdy )
-			, std::move( offset ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureProjGradOffset2DF3( ExprPtr/*sampler2D*/ texture
-		, ExprPtr/*vec3f*/ P
-		, ExprPtr/*vec2f*/ dPdx
-		, ExprPtr/*vec2f*/ dPdy
-		, ExprPtr/*vec2i*/ offset )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureProjGradOffset2DF3
-			, std::move( texture )
-			, std::move( P )
-			, std::move( dPdx )
-			, std::move( dPdy )
-			, std::move( offset ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureProjGradOffset2DF4( ExprPtr/*sampler2D*/ texture
-		, ExprPtr/*vec4f*/ P
-		, ExprPtr/*vec2f*/ dPdx
-		, ExprPtr/*vec2f*/ dPdy
-		, ExprPtr/*vec2i*/ offset )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureProjGradOffset2DF4
-			, std::move( texture )
-			, std::move( P )
-			, std::move( dPdx )
-			, std::move( dPdy )
-			, std::move( offset ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureProjGradOffset3DF( ExprPtr/*sampler3D*/ texture
-		, ExprPtr/*vec4f*/ P
-		, ExprPtr/*vec3f*/ dPdx
-		, ExprPtr/*vec3f*/ dPdy
-		, ExprPtr/*vec3i*/ offset )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureProjGradOffset3DF
-			, std::move( texture )
-			, std::move( P )
-			, std::move( dPdx )
-			, std::move( dPdy )
-			, std::move( offset ) );
-	}
-
-	inline TextureAccessCallPtr/*float*/ makeTextureProjGradOffset1DShadowF( ExprPtr/*sampler1DShadow*/ texture
-		, ExprPtr/*vec4f*/ P
-		, ExprPtr/*float*/ dPdx
-		, ExprPtr/*float*/ dPdy
-		, ExprPtr/*int*/ offset )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eFloat )
-			, TextureAccess::eTextureProjGradOffset1DShadowF
-			, std::move( texture )
-			, std::move( P )
-			, std::move( dPdx )
-			, std::move( dPdy )
-			, std::move( offset ) );
-	}
-
-	inline TextureAccessCallPtr/*float*/ makeTextureProjGradOffset2DShadowF( ExprPtr/*sampler2DShadow*/ texture
-		, ExprPtr/*vec4f*/ P
-		, ExprPtr/*vec2f*/ dPdx
-		, ExprPtr/*vec2f*/ dPdy
-		, ExprPtr/*vec2i*/ offset )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eFloat )
-			, TextureAccess::eTextureProjGradOffset2DShadowF
-			, std::move( texture )
-			, std::move( P )
-			, std::move( dPdx )
-			, std::move( dPdy )
-			, std::move( offset ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureProjGradOffset2DRectF3( ExprPtr/*sampler2DRect*/ texture
-		, ExprPtr/*vec3f*/ P
-		, ExprPtr/*vec2f*/ dPdx
-		, ExprPtr/*vec2f*/ dPdy
-		, ExprPtr/*vec2i*/ offset )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureProjGradOffset2DRectF3
-			, std::move( texture )
-			, std::move( P )
-			, std::move( dPdx )
-			, std::move( dPdy )
-			, std::move( offset ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureProjGradOffset2DRectF4( ExprPtr/*sampler2DRect*/ texture
-		, ExprPtr/*vec4f*/ P
-		, ExprPtr/*vec2f*/ dPdx
-		, ExprPtr/*vec2f*/ dPdy
-		, ExprPtr/*vec2i*/ offset )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureProjGradOffset2DRectF4
-			, std::move( texture )
-			, std::move( P )
-			, std::move( dPdx )
-			, std::move( dPdy )
-			, std::move( offset ) );
-	}
-
-	inline TextureAccessCallPtr/*float*/ makeTextureProjGradOffset2DRectShadowF( ExprPtr/*sampler2DRectShadow*/ texture
-		, ExprPtr/*vec4f*/ P
-		, ExprPtr/*vec2f*/ dPdx
-		, ExprPtr/*vec2f*/ dPdy
-		, ExprPtr/*vec2i*/ offset )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eFloat )
-			, TextureAccess::eTextureProjGradOffset2DRectShadowF
-			, std::move( texture )
-			, std::move( P )
-			, std::move( dPdx )
-			, std::move( dPdy )
-			, std::move( offset ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureProjGradOffset1DI2( ExprPtr/*isampler1D*/ texture
-		, ExprPtr/*vec2f*/ P
-		, ExprPtr/*float*/ dPdx
-		, ExprPtr/*float*/ dPdy
-		, ExprPtr/*int*/ offset )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureProjGradOffset1DI2
-			, std::move( texture )
-			, std::move( P )
-			, std::move( dPdx )
-			, std::move( dPdy )
-			, std::move( offset ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureProjGradOffset1DI4( ExprPtr/*isampler1D*/ texture
-		, ExprPtr/*vec4f*/ P
-		, ExprPtr/*float*/ dPdx
-		, ExprPtr/*float*/ dPdy
-		, ExprPtr/*int*/ offset )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureProjGradOffset1DI4
-			, std::move( texture )
-			, std::move( P )
-			, std::move( dPdx )
-			, std::move( dPdy )
-			, std::move( offset ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureProjGradOffset2DI3( ExprPtr/*isampler2D*/ texture
-		, ExprPtr/*vec3f*/ P
-		, ExprPtr/*vec2f*/ dPdx
-		, ExprPtr/*vec2f*/ dPdy
-		, ExprPtr/*vec2i*/ offset )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureProjGradOffset2DI3
-			, std::move( texture )
-			, std::move( P )
-			, std::move( dPdx )
-			, std::move( dPdy )
-			, std::move( offset ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureProjGradOffset2DI4( ExprPtr/*isampler2D*/ texture
-		, ExprPtr/*vec4f*/ P
-		, ExprPtr/*vec2f*/ dPdx
-		, ExprPtr/*vec2f*/ dPdy
-		, ExprPtr/*vec2i*/ offset )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureProjGradOffset2DI4
-			, std::move( texture )
-			, std::move( P )
-			, std::move( dPdx )
-			, std::move( dPdy )
-			, std::move( offset ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureProjGradOffset3DI( ExprPtr/*isampler3D*/ texture
-		, ExprPtr/*vec4f*/ P
-		, ExprPtr/*vec3f*/ dPdx
-		, ExprPtr/*vec3f*/ dPdy
-		, ExprPtr/*vec3i*/ offset )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureProjGradOffset3DI
-			, std::move( texture )
-			, std::move( P )
-			, std::move( dPdx )
-			, std::move( dPdy )
-			, std::move( offset ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureProjGradOffset2DRectI3( ExprPtr/*isampler2DRect*/ texture
-		, ExprPtr/*vec3f*/ P
-		, ExprPtr/*vec2f*/ dPdx
-		, ExprPtr/*vec2f*/ dPdy
-		, ExprPtr/*vec2i*/ offset )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureProjGradOffset2DRectI3
-			, std::move( texture )
-			, std::move( P )
-			, std::move( dPdx )
-			, std::move( dPdy )
-			, std::move( offset ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureProjGradOffset2DRectI4( ExprPtr/*isampler2DRect*/ texture
-		, ExprPtr/*vec4f*/ P
-		, ExprPtr/*vec2f*/ dPdx
-		, ExprPtr/*vec2f*/ dPdy
-		, ExprPtr/*vec2i*/ offset )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureProjGradOffset2DRectI4
-			, std::move( texture )
-			, std::move( P )
-			, std::move( dPdx )
-			, std::move( dPdy )
-			, std::move( offset ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureProjGradOffset1DU2( ExprPtr/*usampler1D*/ texture
-		, ExprPtr/*vec2f*/ P
-		, ExprPtr/*float*/ dPdx
-		, ExprPtr/*float*/ dPdy
-		, ExprPtr/*int*/ offset )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureProjGradOffset1DU2
-			, std::move( texture )
-			, std::move( P )
-			, std::move( dPdx )
-			, std::move( dPdy )
-			, std::move( offset ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureProjGradOffset1DU4( ExprPtr/*usampler1D*/ texture
-		, ExprPtr/*vec4f*/ P
-		, ExprPtr/*float*/ dPdx
-		, ExprPtr/*float*/ dPdy
-		, ExprPtr/*int*/ offset )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureProjGradOffset1DU4
-			, std::move( texture )
-			, std::move( P )
-			, std::move( dPdx )
-			, std::move( dPdy )
-			, std::move( offset ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureProjGradOffset2DU3( ExprPtr/*usampler2D*/ texture
-		, ExprPtr/*vec3f*/ P
-		, ExprPtr/*vec2f*/ dPdx
-		, ExprPtr/*vec2f*/ dPdy
-		, ExprPtr/*vec2i*/ offset )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureProjGradOffset2DU3
-			, std::move( texture )
-			, std::move( P )
-			, std::move( dPdx )
-			, std::move( dPdy )
-			, std::move( offset ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureProjGradOffset2DU4( ExprPtr/*usampler2D*/ texture
-		, ExprPtr/*vec4f*/ P
-		, ExprPtr/*vec2f*/ dPdx
-		, ExprPtr/*vec2f*/ dPdy
-		, ExprPtr/*vec2i*/ offset )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureProjGradOffset2DU4
-			, std::move( texture )
-			, std::move( P )
-			, std::move( dPdx )
-			, std::move( dPdy )
-			, std::move( offset ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureProjGradOffset3DU( ExprPtr/*usampler3D*/ texture
-		, ExprPtr/*vec4f*/ P
-		, ExprPtr/*vec3f*/ dPdx
-		, ExprPtr/*vec3f*/ dPdy
-		, ExprPtr/*vec3i*/ offset )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureProjGradOffset3DU
-			, std::move( texture )
-			, std::move( P )
-			, std::move( dPdx )
-			, std::move( dPdy )
-			, std::move( offset ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureProjGradOffset2DRectU3( ExprPtr/*usampler2DRect*/ texture
-		, ExprPtr/*vec3f*/ P
-		, ExprPtr/*vec2f*/ dPdx
-		, ExprPtr/*vec2f*/ dPdy
-		, ExprPtr/*vec2i*/ offset )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureProjGradOffset2DRectU3
-			, std::move( texture )
-			, std::move( P )
-			, std::move( dPdx )
-			, std::move( dPdy )
-			, std::move( offset ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureProjGradOffset2DRectU4( ExprPtr/*usampler2DRect*/ texture
-		, ExprPtr/*vec4f*/ P
-		, ExprPtr/*vec2f*/ dPdx
-		, ExprPtr/*vec2f*/ dPdy
-		, ExprPtr/*vec2i*/ offset )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureProjGradOffset2DRectU4
-			, std::move( texture )
-			, std::move( P )
-			, std::move( dPdx )
-			, std::move( dPdy )
-			, std::move( offset ) );
-	}
-
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	sampler1D
+	*@param P
+	*	float
+	*/
+	TextureAccessCallPtr makeTexture1DF( ExprPtr texture, ExprPtr P );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	sampler1D
+	*@param P
+	*	float
+	*@param bias
+	*	float
+	*/
+	TextureAccessCallPtr makeTexture1DFBias( ExprPtr texture, ExprPtr P, ExprPtr bias );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	sampler2D
+	*@param P
+	*	vec2f
+	*/
+	TextureAccessCallPtr makeTexture2DF( ExprPtr texture, ExprPtr P );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	sampler2D
+	*@param P
+	*	vec2f
+	*@param bias
+	*	float
+	*/
+	TextureAccessCallPtr makeTexture2DFBias( ExprPtr texture, ExprPtr P, ExprPtr bias );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	sampler3D
+	*@param P
+	*	vec3f
+	*/
+	TextureAccessCallPtr makeTexture3DF( ExprPtr texture, ExprPtr P );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	sampler3D
+	*@param P
+	*	vec3f
+	*@param bias
+	*	float
+	*/
+	TextureAccessCallPtr makeTexture3DFBias( ExprPtr texture, ExprPtr P, ExprPtr bias );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	samplerCube
+	*@param P
+	*	vec3f
+	*/
+	TextureAccessCallPtr makeTextureCubeF( ExprPtr texture, ExprPtr P );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	samplerCube
+	*@param P
+	*	vec3f
+	*@param bias
+	*	float
+	*/
+	TextureAccessCallPtr makeTextureCubeFBias( ExprPtr texture, ExprPtr P, ExprPtr bias );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	sampler1DArray
+	*@param P
+	*	vec2f
+	*/
+	TextureAccessCallPtr makeTexture1DArrayF( ExprPtr texture, ExprPtr P );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	sampler1DArray
+	*@param P
+	*	vec2f
+	*@param bias
+	*	float
+	*/
+	TextureAccessCallPtr makeTexture1DArrayFBias( ExprPtr texture, ExprPtr P, ExprPtr bias );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	sampler2DArray
+	*@param P
+	*	vec3f
+	*/
+	TextureAccessCallPtr makeTexture2DArrayF( ExprPtr texture, ExprPtr P );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	sampler2DArray
+	*@param P
+	*	vec3f
+	*@param bias
+	*	float
+	*/
+	TextureAccessCallPtr makeTexture2DArrayFBias( ExprPtr texture, ExprPtr P, ExprPtr bias );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	samplerCubeArray
+	*@param P
+	*	vec4f
+	*/
+	TextureAccessCallPtr makeTextureCubeArrayF( ExprPtr texture, ExprPtr P );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	samplerCubeArray
+	*@param P
+	*	vec4f
+	*@param bias
+	*	float
+	*/
+	TextureAccessCallPtr makeTextureCubeArrayFBias( ExprPtr texture, ExprPtr P, ExprPtr bias );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	sampler2DRect
+	*@param P
+	*	vec2f
+	*/
+	TextureAccessCallPtr makeTexture2DRectF( ExprPtr texture, ExprPtr P );
+	/**
+	*@return
+	*	vec4i
+	*@param texture
+	*	isampler1D
+	*@param P
+	*	float
+	*/
+	TextureAccessCallPtr makeTexture1DI( ExprPtr texture, ExprPtr P );
+	/**
+	*@return
+	*	vec4i
+	*@param texture
+	*	isampler1D
+	*@param P
+	*	float
+	*@param bias
+	*	float
+	*/
+	TextureAccessCallPtr makeTexture1DIBias( ExprPtr texture, ExprPtr P, ExprPtr bias );
+	/**
+	*@return
+	*	vec4i
+	*@param texture
+	*	isampler2D
+	*@param P
+	*	vec2f
+	*/
+	TextureAccessCallPtr makeTexture2DI( ExprPtr texture, ExprPtr P );
+	/**
+	*@return
+	*	vec4i
+	*@param texture
+	*	isampler2D
+	*@param P
+	*	vec2f
+	*@param bias
+	*	float
+	*/
+	TextureAccessCallPtr makeTexture2DIBias( ExprPtr texture, ExprPtr P, ExprPtr bias );
+	/**
+	*@return
+	*	vec4i
+	*@param texture
+	*	isampler3D
+	*@param P
+	*	vec3f
+	*/
+	TextureAccessCallPtr makeTexture3DI( ExprPtr texture, ExprPtr P );
+	/**
+	*@return
+	*	vec4i
+	*@param texture
+	*	isampler3D
+	*@param P
+	*	vec3f
+	*@param bias
+	*	float
+	*/
+	TextureAccessCallPtr makeTexture3DIBias( ExprPtr texture, ExprPtr P, ExprPtr bias );
+	/**
+	*@return
+	*	vec4i
+	*@param texture
+	*	isamplerCube
+	*@param P
+	*	vec3f
+	*/
+	TextureAccessCallPtr makeTextureCubeI( ExprPtr texture, ExprPtr P );
+	/**
+	*@return
+	*	vec4i
+	*@param texture
+	*	isamplerCube
+	*@param P
+	*	vec3f
+	*@param bias
+	*	float
+	*/
+	TextureAccessCallPtr makeTextureCubeIBias( ExprPtr texture, ExprPtr P, ExprPtr bias );
+	/**
+	*@return
+	*	vec4i
+	*@param texture
+	*	isampler1DArray
+	*@param P
+	*	vec2f
+	*/
+	TextureAccessCallPtr makeTexture1DArrayI( ExprPtr texture, ExprPtr P );
+	/**
+	*@return
+	*	vec4i
+	*@param texture
+	*	isampler1DArray
+	*@param P
+	*	vec2f
+	*@param bias
+	*	float
+	*/
+	TextureAccessCallPtr makeTexture1DArrayIBias( ExprPtr texture, ExprPtr P, ExprPtr bias );
+	/**
+	*@return
+	*	vec4i
+	*@param texture
+	*	isampler2DArray
+	*@param P
+	*	vec3f
+	*/
+	TextureAccessCallPtr makeTexture2DArrayI( ExprPtr texture, ExprPtr P );
+	/**
+	*@return
+	*	vec4i
+	*@param texture
+	*	isampler2DArray
+	*@param P
+	*	vec3f
+	*@param bias
+	*	float
+	*/
+	TextureAccessCallPtr makeTexture2DArrayIBias( ExprPtr texture, ExprPtr P, ExprPtr bias );
+	/**
+	*@return
+	*	vec4i
+	*@param texture
+	*	isamplerCubeArray
+	*@param P
+	*	vec4f
+	*/
+	TextureAccessCallPtr makeTextureCubeArrayI( ExprPtr texture, ExprPtr P );
+	/**
+	*@return
+	*	vec4i
+	*@param texture
+	*	isamplerCubeArray
+	*@param P
+	*	vec4f
+	*@param bias
+	*	float
+	*/
+	TextureAccessCallPtr makeTextureCubeArrayIBias( ExprPtr texture, ExprPtr P, ExprPtr bias );
+	/**
+	*@return
+	*	vec4i
+	*@param texture
+	*	isampler2DRect
+	*@param P
+	*	vec2f
+	*/
+	TextureAccessCallPtr makeTexture2DRectI( ExprPtr texture, ExprPtr P );
+	/**
+	*@return
+	*	vec4u
+	*@param texture
+	*	usampler1D
+	*@param P
+	*	float
+	*/
+	TextureAccessCallPtr makeTexture1DU( ExprPtr texture, ExprPtr P );
+	/**
+	*@return
+	*	vec4u
+	*@param texture
+	*	usampler1D
+	*@param P
+	*	float
+	*@param bias
+	*	float
+	*/
+	TextureAccessCallPtr makeTexture1DUBias( ExprPtr texture, ExprPtr P, ExprPtr bias );
+	/**
+	*@return
+	*	vec4u
+	*@param texture
+	*	usampler2D
+	*@param P
+	*	vec2f
+	*/
+	TextureAccessCallPtr makeTexture2DU( ExprPtr texture, ExprPtr P );
+	/**
+	*@return
+	*	vec4u
+	*@param texture
+	*	usampler2D
+	*@param P
+	*	vec2f
+	*@param bias
+	*	float
+	*/
+	TextureAccessCallPtr makeTexture2DUBias( ExprPtr texture, ExprPtr P, ExprPtr bias );
+	/**
+	*@return
+	*	vec4u
+	*@param texture
+	*	usampler3D
+	*@param P
+	*	vec3f
+	*/
+	TextureAccessCallPtr makeTexture3DU( ExprPtr texture, ExprPtr P );
+	/**
+	*@return
+	*	vec4u
+	*@param texture
+	*	usampler3D
+	*@param P
+	*	vec3f
+	*@param bias
+	*	float
+	*/
+	TextureAccessCallPtr makeTexture3DUBias( ExprPtr texture, ExprPtr P, ExprPtr bias );
+	/**
+	*@return
+	*	vec4u
+	*@param texture
+	*	usamplerCube
+	*@param P
+	*	vec3f
+	*/
+	TextureAccessCallPtr makeTextureCubeU( ExprPtr texture, ExprPtr P );
+	/**
+	*@return
+	*	vec4u
+	*@param texture
+	*	usamplerCube
+	*@param P
+	*	vec3f
+	*@param bias
+	*	float
+	*/
+	TextureAccessCallPtr makeTextureCubeUBias( ExprPtr texture, ExprPtr P, ExprPtr bias );
+	/**
+	*@return
+	*	vec4u
+	*@param texture
+	*	usampler1DArray
+	*@param P
+	*	vec2f
+	*/
+	TextureAccessCallPtr makeTexture1DArrayU( ExprPtr texture, ExprPtr P );
+	/**
+	*@return
+	*	vec4u
+	*@param texture
+	*	usampler1DArray
+	*@param P
+	*	vec2f
+	*@param bias
+	*	float
+	*/
+	TextureAccessCallPtr makeTexture1DArrayUBias( ExprPtr texture, ExprPtr P, ExprPtr bias );
+	/**
+	*@return
+	*	vec4u
+	*@param texture
+	*	usampler2DArray
+	*@param P
+	*	vec3f
+	*/
+	TextureAccessCallPtr makeTexture2DArrayU( ExprPtr texture, ExprPtr P );
+	/**
+	*@return
+	*	vec4u
+	*@param texture
+	*	usampler2DArray
+	*@param P
+	*	vec3f
+	*@param bias
+	*	float
+	*/
+	TextureAccessCallPtr makeTexture2DArrayUBias( ExprPtr texture, ExprPtr P, ExprPtr bias );
+	/**
+	*@return
+	*	vec4u
+	*@param texture
+	*	usamplerCubeArray
+	*@param P
+	*	vec4f
+	*/
+	TextureAccessCallPtr makeTextureCubeArrayU( ExprPtr texture, ExprPtr P );
+	/**
+	*@return
+	*	vec4u
+	*@param texture
+	*	usamplerCubeArray
+	*@param P
+	*	vec4f
+	*@param bias
+	*	float
+	*/
+	TextureAccessCallPtr makeTextureCubeArrayUBias( ExprPtr texture, ExprPtr P, ExprPtr bias );
+	/**
+	*@return
+	*	vec4u
+	*@param texture
+	*	usampler2DRect
+	*@param P
+	*	vec2f
+	*/
+	TextureAccessCallPtr makeTexture2DRectU( ExprPtr texture, ExprPtr P );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	sampler1D
+	*@param P
+	*	vec2f
+	*/
+	TextureAccessCallPtr makeTextureProj1DF2( ExprPtr texture, ExprPtr P );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	sampler1D
+	*@param P
+	*	vec2f
+	*@param bias
+	*	float
+	*/
+	TextureAccessCallPtr makeTextureProj1DF2Bias( ExprPtr texture, ExprPtr P, ExprPtr bias );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	sampler1D
+	*@param P
+	*	vec4f
+	*/
+	TextureAccessCallPtr makeTextureProj1DF4( ExprPtr texture, ExprPtr P );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	sampler1D
+	*@param P
+	*	vec4f
+	*@param bias
+	*	float
+	*/
+	TextureAccessCallPtr makeTextureProj1DF4Bias( ExprPtr texture, ExprPtr P, ExprPtr bias );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	sampler2D
+	*@param P
+	*	vec3f
+	*/
+	TextureAccessCallPtr makeTextureProj2DF3( ExprPtr texture, ExprPtr P );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	sampler2D
+	*@param P
+	*	vec3f
+	*@param bias
+	*	float
+	*/
+	TextureAccessCallPtr makeTextureProj2DF3Bias( ExprPtr texture, ExprPtr P, ExprPtr bias );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	sampler2D
+	*@param P
+	*	vec4f
+	*/
+	TextureAccessCallPtr makeTextureProj2DF4( ExprPtr texture, ExprPtr P );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	sampler2D
+	*@param P
+	*	vec4f
+	*@param bias
+	*	float
+	*/
+	TextureAccessCallPtr makeTextureProj2DF4Bias( ExprPtr texture, ExprPtr P, ExprPtr bias );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	sampler3D
+	*@param P
+	*	vec4f
+	*/
+	TextureAccessCallPtr makeTextureProj3DF( ExprPtr texture, ExprPtr P );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	sampler3D
+	*@param P
+	*	vec4f
+	*@param bias
+	*	float
+	*/
+	TextureAccessCallPtr makeTextureProj3DFBias( ExprPtr texture, ExprPtr P, ExprPtr bias );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	sampler2DRect
+	*@param P
+	*	vec3f
+	*/
+	TextureAccessCallPtr makeTextureProj2DRectF3( ExprPtr texture, ExprPtr P );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	sampler2DRect
+	*@param P
+	*	vec4f
+	*/
+	TextureAccessCallPtr makeTextureProj2DRectF4( ExprPtr texture, ExprPtr P );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	isampler1D
+	*@param P
+	*	vec2f
+	*/
+	TextureAccessCallPtr makeTextureProj1DI2( ExprPtr texture, ExprPtr P );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	isampler1D
+	*@param P
+	*	vec2f
+	*@param bias
+	*	float
+	*/
+	TextureAccessCallPtr makeTextureProj1DI2Bias( ExprPtr texture, ExprPtr P, ExprPtr bias );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	isampler1D
+	*@param P
+	*	vec4f
+	*/
+	TextureAccessCallPtr makeTextureProj1DI4( ExprPtr texture, ExprPtr P );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	isampler1D
+	*@param P
+	*	vec4f
+	*@param bias
+	*	float
+	*/
+	TextureAccessCallPtr makeTextureProj1DI4Bias( ExprPtr texture, ExprPtr P, ExprPtr bias );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	isampler2D
+	*@param P
+	*	vec3f
+	*/
+	TextureAccessCallPtr makeTextureProj2DI3( ExprPtr texture, ExprPtr P );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	isampler2D
+	*@param P
+	*	vec3f
+	*@param bias
+	*	float
+	*/
+	TextureAccessCallPtr makeTextureProj2DI3Bias( ExprPtr texture, ExprPtr P, ExprPtr bias );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	isampler2D
+	*@param P
+	*	vec4f
+	*/
+	TextureAccessCallPtr makeTextureProj2DI4( ExprPtr texture, ExprPtr P );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	isampler2D
+	*@param P
+	*	vec4f
+	*@param bias
+	*	float
+	*/
+	TextureAccessCallPtr makeTextureProj2DI4Bias( ExprPtr texture, ExprPtr P, ExprPtr bias );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	isampler3D
+	*@param P
+	*	vec4f
+	*/
+	TextureAccessCallPtr makeTextureProj3DI( ExprPtr texture, ExprPtr P );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	isampler3D
+	*@param P
+	*	vec4f
+	*@param bias
+	*	float
+	*/
+	TextureAccessCallPtr makeTextureProj3DIBias( ExprPtr texture, ExprPtr P, ExprPtr bias );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	isampler2DRect
+	*@param P
+	*	vec3f
+	*/
+	TextureAccessCallPtr makeTextureProj2DRectI3( ExprPtr texture, ExprPtr P );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	isampler2DRect
+	*@param P
+	*	vec4f
+	*/
+	TextureAccessCallPtr makeTextureProj2DRectI4( ExprPtr texture, ExprPtr P );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	usampler1D
+	*@param P
+	*	vec2f
+	*/
+	TextureAccessCallPtr makeTextureProj1DU2( ExprPtr texture, ExprPtr P );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	usampler1D
+	*@param P
+	*	vec2f
+	*@param bias
+	*	float
+	*/
+	TextureAccessCallPtr makeTextureProj1DU2Bias( ExprPtr texture, ExprPtr P, ExprPtr bias );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	usampler1D
+	*@param P
+	*	vec4f
+	*/
+	TextureAccessCallPtr makeTextureProj1DU4( ExprPtr texture, ExprPtr P );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	usampler1D
+	*@param P
+	*	vec4f
+	*@param bias
+	*	float
+	*/
+	TextureAccessCallPtr makeTextureProj1DU4Bias( ExprPtr texture, ExprPtr P, ExprPtr bias );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	usampler2D
+	*@param P
+	*	vec3f
+	*/
+	TextureAccessCallPtr makeTextureProj2DU3( ExprPtr texture, ExprPtr P );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	usampler2D
+	*@param P
+	*	vec3f
+	*@param bias
+	*	float
+	*/
+	TextureAccessCallPtr makeTextureProj2DU3Bias( ExprPtr texture, ExprPtr P, ExprPtr bias );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	usampler2D
+	*@param P
+	*	vec4f
+	*/
+	TextureAccessCallPtr makeTextureProj2DU4( ExprPtr texture, ExprPtr P );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	usampler2D
+	*@param P
+	*	vec4f
+	*@param bias
+	*	float
+	*/
+	TextureAccessCallPtr makeTextureProj2DU4Bias( ExprPtr texture, ExprPtr P, ExprPtr bias );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	usampler3D
+	*@param P
+	*	vec4f
+	*/
+	TextureAccessCallPtr makeTextureProj3DU( ExprPtr texture, ExprPtr P );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	usampler3D
+	*@param P
+	*	vec4f
+	*@param bias
+	*	float
+	*/
+	TextureAccessCallPtr makeTextureProj3DUBias( ExprPtr texture, ExprPtr P, ExprPtr bias );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	usampler2DRect
+	*@param P
+	*	vec3f
+	*/
+	TextureAccessCallPtr makeTextureProj2DRectU3( ExprPtr texture, ExprPtr P );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	usampler2DRect
+	*@param P
+	*	vec4f
+	*/
+	TextureAccessCallPtr makeTextureProj2DRectU4( ExprPtr texture, ExprPtr P );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	sampler1D
+	*@param P
+	*	float
+	*@param lod
+	*	float
+	*/
+	TextureAccessCallPtr makeTextureLod1DF( ExprPtr texture, ExprPtr P, ExprPtr lod );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	sampler2D
+	*@param P
+	*	vec2f
+	*@param lod
+	*	float
+	*/
+	TextureAccessCallPtr makeTextureLod2DF( ExprPtr texture, ExprPtr P, ExprPtr lod );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	sampler3D
+	*@param P
+	*	vec3f
+	*@param lod
+	*	float
+	*/
+	TextureAccessCallPtr makeTextureLod3DF( ExprPtr texture, ExprPtr P, ExprPtr lod );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	samplerCube
+	*@param P
+	*	vec3f
+	*@param lod
+	*	float
+	*/
+	TextureAccessCallPtr makeTextureLodCubeF( ExprPtr texture, ExprPtr P, ExprPtr lod );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	sampler1DArray
+	*@param P
+	*	vec2f
+	*@param lod
+	*	float
+	*/
+	TextureAccessCallPtr makeTextureLod1DArrayF( ExprPtr texture, ExprPtr P, ExprPtr lod );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	sampler2DArray
+	*@param P
+	*	vec3f
+	*@param lod
+	*	float
+	*/
+	TextureAccessCallPtr makeTextureLod2DArrayF( ExprPtr texture, ExprPtr P, ExprPtr lod );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	samplerCubeArray
+	*@param P
+	*	vec4f
+	*@param lod
+	*	float
+	*/
+	TextureAccessCallPtr makeTextureLodCubeArrayF( ExprPtr texture, ExprPtr P, ExprPtr lod );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	isampler1D
+	*@param P
+	*	float
+	*@param lod
+	*	float
+	*/
+	TextureAccessCallPtr makeTextureLod1DI( ExprPtr texture, ExprPtr P, ExprPtr lod );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	isampler2D
+	*@param P
+	*	vec2f
+	*@param lod
+	*	float
+	*/
+	TextureAccessCallPtr makeTextureLod2DI( ExprPtr texture, ExprPtr P, ExprPtr lod );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	isampler3D
+	*@param P
+	*	vec3f
+	*@param lod
+	*	float
+	*/
+	TextureAccessCallPtr makeTextureLod3DI( ExprPtr texture, ExprPtr P, ExprPtr lod );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	isamplerCube
+	*@param P
+	*	vec3f
+	*@param lod
+	*	float
+	*/
+	TextureAccessCallPtr makeTextureLodCubeI( ExprPtr texture, ExprPtr P, ExprPtr lod );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	isampler1DArray
+	*@param P
+	*	vec2f
+	*@param lod
+	*	float
+	*/
+	TextureAccessCallPtr makeTextureLod1DArrayI( ExprPtr texture, ExprPtr P, ExprPtr lod );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	isampler2DArray
+	*@param P
+	*	vec3f
+	*@param lod
+	*	float
+	*/
+	TextureAccessCallPtr makeTextureLod2DArrayI( ExprPtr texture, ExprPtr P, ExprPtr lod );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	isamplerCubeArray
+	*@param P
+	*	vec4f
+	*@param lod
+	*	float
+	*/
+	TextureAccessCallPtr makeTextureLodCubeArrayI( ExprPtr texture, ExprPtr P, ExprPtr lod );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	usampler1D
+	*@param P
+	*	float
+	*@param lod
+	*	float
+	*/
+	TextureAccessCallPtr makeTextureLod1DU( ExprPtr texture, ExprPtr P, ExprPtr lod );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	usampler2D
+	*@param P
+	*	vec2f
+	*@param lod
+	*	float
+	*/
+	TextureAccessCallPtr makeTextureLod2DU( ExprPtr texture, ExprPtr P, ExprPtr lod );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	usampler3D
+	*@param P
+	*	vec3f
+	*@param lod
+	*	float
+	*/
+	TextureAccessCallPtr makeTextureLod3DU( ExprPtr texture, ExprPtr P, ExprPtr lod );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	usamplerCube
+	*@param P
+	*	vec3f
+	*@param lod
+	*	float
+	*/
+	TextureAccessCallPtr makeTextureLodCubeU( ExprPtr texture, ExprPtr P, ExprPtr lod );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	usampler1DArray
+	*@param P
+	*	vec2f
+	*@param lod
+	*	float
+	*/
+	TextureAccessCallPtr makeTextureLod1DArrayU( ExprPtr texture, ExprPtr P, ExprPtr lod );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	usampler2DArray
+	*@param P
+	*	vec3f
+	*@param lod
+	*	float
+	*/
+	TextureAccessCallPtr makeTextureLod2DArrayU( ExprPtr texture, ExprPtr P, ExprPtr lod );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	usamplerCubeArray
+	*@param P
+	*	vec4f
+	*@param lod
+	*	float
+	*/
+	TextureAccessCallPtr makeTextureLodCubeArrayU( ExprPtr texture, ExprPtr P, ExprPtr lod );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	sampler1D
+	*@param P
+	*	float
+	*@param offset
+	*	int
+	*/
+	TextureAccessCallPtr makeTextureOffset1DF( ExprPtr texture, ExprPtr P, ExprPtr offset );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	sampler1D
+	*@param P
+	*	float
+	*@param offset
+	*	int
+	*@param bias
+	*	float
+	*/
+	TextureAccessCallPtr makeTextureOffset1DFBias( ExprPtr texture, ExprPtr P, ExprPtr offset, ExprPtr bias );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	sampler2D
+	*@param P
+	*	vec2f
+	*@param offset
+	*	vec2i
+	*/
+	TextureAccessCallPtr makeTextureOffset2DF( ExprPtr texture, ExprPtr P, ExprPtr offset );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	sampler2D
+	*@param P
+	*	vec2f
+	*@param offset
+	*	vec2i
+	*@param bias
+	*	float
+	*/
+	TextureAccessCallPtr makeTextureOffset2DFBias( ExprPtr texture, ExprPtr P, ExprPtr offset, ExprPtr bias );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	sampler3D
+	*@param P
+	*	vec3f
+	*@param offset
+	*	vec3i
+	*/
+	TextureAccessCallPtr makeTextureOffset3DF( ExprPtr texture, ExprPtr P, ExprPtr offset );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	sampler3D
+	*@param P
+	*	vec3f
+	*@param offset
+	*	vec3i
+	*@param bias
+	*	float
+	*/
+	TextureAccessCallPtr makeTextureOffset3DFBias( ExprPtr texture, ExprPtr P, ExprPtr offset, ExprPtr bias );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	sampler2DRect
+	*@param P
+	*	vec2f
+	*@param offset
+	*	vec2i
+	*/
+	TextureAccessCallPtr makeTextureOffset2DRectF( ExprPtr texture, ExprPtr P, ExprPtr offset );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	sampler1DArray
+	*@param P
+	*	vec2f
+	*@param offset
+	*	int
+	*/
+	TextureAccessCallPtr makeTextureOffset1DArrayF( ExprPtr texture, ExprPtr P, ExprPtr offset );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	sampler1DArray
+	*@param P
+	*	vec2f
+	*@param offset
+	*	int
+	*@param bias
+	*	float
+	*/
+	TextureAccessCallPtr makeTextureOffset1DArrayFBias( ExprPtr texture, ExprPtr P, ExprPtr offset, ExprPtr bias );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	sampler2DArray
+	*@param P
+	*	vec3f
+	*@param offset
+	*	vec2i
+	*/
+	TextureAccessCallPtr makeTextureOffset2DArrayF( ExprPtr texture, ExprPtr P, ExprPtr offset );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	sampler2DArray
+	*@param P
+	*	vec3f
+	*@param offset
+	*	vec2i
+	*@param bias
+	*	float
+	*/
+	TextureAccessCallPtr makeTextureOffset2DArrayFBias( ExprPtr texture, ExprPtr P, ExprPtr offset, ExprPtr bias );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	isampler1D
+	*@param P
+	*	float
+	*@param offset
+	*	int
+	*/
+	TextureAccessCallPtr makeTextureOffset1DI( ExprPtr texture, ExprPtr P, ExprPtr offset );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	isampler1D
+	*@param P
+	*	float
+	*@param offset
+	*	int
+	*@param bias
+	*	float
+	*/
+	TextureAccessCallPtr makeTextureOffset1DIBias( ExprPtr texture, ExprPtr P, ExprPtr offset, ExprPtr bias );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	isampler2D
+	*@param P
+	*	vec2f
+	*@param offset
+	*	vec2i
+	*/
+	TextureAccessCallPtr makeTextureOffset2DI( ExprPtr texture, ExprPtr P, ExprPtr offset );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	isampler2D
+	*@param P
+	*	vec2f
+	*@param offset
+	*	vec2i
+	*@param bias
+	*	float
+	*/
+	TextureAccessCallPtr makeTextureOffset2DIBias( ExprPtr texture, ExprPtr P, ExprPtr offset, ExprPtr bias );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	isampler3D
+	*@param P
+	*	vec3f
+	*@param offset
+	*	vec3i
+	*/
+	TextureAccessCallPtr makeTextureOffset3DI( ExprPtr texture, ExprPtr P, ExprPtr offset );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	isampler3D
+	*@param P
+	*	vec3f
+	*@param offset
+	*	vec3i
+	*@param bias
+	*	float
+	*/
+	TextureAccessCallPtr makeTextureOffset3DIBias( ExprPtr texture, ExprPtr P, ExprPtr offset, ExprPtr bias );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	isampler2DRect
+	*@param P
+	*	vec2f
+	*@param offset
+	*	vec2i
+	*/
+	TextureAccessCallPtr makeTextureOffset2DRectI( ExprPtr texture, ExprPtr P, ExprPtr offset );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	isampler1DArray
+	*@param P
+	*	vec2f
+	*@param offset
+	*	int
+	*/
+	TextureAccessCallPtr makeTextureOffset1DArrayI( ExprPtr texture, ExprPtr P, ExprPtr offset );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	isampler1DArray
+	*@param P
+	*	vec2f
+	*@param offset
+	*	int
+	*@param bias
+	*	float
+	*/
+	TextureAccessCallPtr makeTextureOffset1DArrayIBias( ExprPtr texture, ExprPtr P, ExprPtr offset, ExprPtr bias );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	isampler2DArray
+	*@param P
+	*	vec3f
+	*@param offset
+	*	vec2i
+	*/
+	TextureAccessCallPtr makeTextureOffset2DArrayI( ExprPtr texture, ExprPtr P, ExprPtr offset );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	isampler2DArray
+	*@param P
+	*	vec3f
+	*@param offset
+	*	vec2i
+	*@param bias
+	*	float
+	*/
+	TextureAccessCallPtr makeTextureOffset2DArrayIBias( ExprPtr texture, ExprPtr P, ExprPtr offset, ExprPtr bias );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	usampler1D
+	*@param P
+	*	float
+	*@param offset
+	*	int
+	*/
+	TextureAccessCallPtr makeTextureOffset1DU( ExprPtr texture, ExprPtr P, ExprPtr offset );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	usampler1D
+	*@param P
+	*	float
+	*@param offset
+	*	int
+	*@param bias
+	*	float
+	*/
+	TextureAccessCallPtr makeTextureOffset1DUBias( ExprPtr texture, ExprPtr P, ExprPtr offset, ExprPtr bias );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	usampler2D
+	*@param P
+	*	vec2f
+	*@param offset
+	*	vec2i
+	*/
+	TextureAccessCallPtr makeTextureOffset2DU( ExprPtr texture, ExprPtr P, ExprPtr offset );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	usampler2D
+	*@param P
+	*	vec2f
+	*@param offset
+	*	vec2i
+	*@param bias
+	*	float
+	*/
+	TextureAccessCallPtr makeTextureOffset2DUBias( ExprPtr texture, ExprPtr P, ExprPtr offset, ExprPtr bias );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	usampler3D
+	*@param P
+	*	vec3f
+	*@param offset
+	*	vec3i
+	*/
+	TextureAccessCallPtr makeTextureOffset3DU( ExprPtr texture, ExprPtr P, ExprPtr offset );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	usampler3D
+	*@param P
+	*	vec3f
+	*@param offset
+	*	vec3i
+	*@param bias
+	*	float
+	*/
+	TextureAccessCallPtr makeTextureOffset3DUBias( ExprPtr texture, ExprPtr P, ExprPtr offset, ExprPtr bias );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	usampler2DRect
+	*@param P
+	*	vec2f
+	*@param offset
+	*	vec2i
+	*/
+	TextureAccessCallPtr makeTextureOffset2DRectU( ExprPtr texture, ExprPtr P, ExprPtr offset );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	usampler1DArray
+	*@param P
+	*	vec2f
+	*@param offset
+	*	int
+	*/
+	TextureAccessCallPtr makeTextureOffset1DArrayU( ExprPtr texture, ExprPtr P, ExprPtr offset );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	usampler1DArray
+	*@param P
+	*	vec2f
+	*@param offset
+	*	int
+	*@param bias
+	*	float
+	*/
+	TextureAccessCallPtr makeTextureOffset1DArrayUBias( ExprPtr texture, ExprPtr P, ExprPtr offset, ExprPtr bias );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	usampler2DArray
+	*@param P
+	*	vec3f
+	*@param offset
+	*	vec2i
+	*/
+	TextureAccessCallPtr makeTextureOffset2DArrayU( ExprPtr texture, ExprPtr P, ExprPtr offset );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	usampler2DArray
+	*@param P
+	*	vec3f
+	*@param offset
+	*	vec2i
+	*@param bias
+	*	float
+	*/
+	TextureAccessCallPtr makeTextureOffset2DArrayUBias( ExprPtr texture, ExprPtr P, ExprPtr offset, ExprPtr bias );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	sampler1D
+	*@param P
+	*	int
+	*@param lod
+	*	int
+	*/
+	TextureAccessCallPtr makeTexelFetch1DF( ExprPtr texture, ExprPtr P, ExprPtr lod );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	sampler2D
+	*@param P
+	*	vec2i
+	*@param lod
+	*	int
+	*/
+	TextureAccessCallPtr makeTexelFetch2DF( ExprPtr texture, ExprPtr P, ExprPtr lod );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	sampler3D
+	*@param P
+	*	vec3i
+	*@param lod
+	*	int
+	*/
+	TextureAccessCallPtr makeTexelFetch3DF( ExprPtr texture, ExprPtr P, ExprPtr lod );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	sampler2DRect
+	*@param P
+	*	vec2i
+	*/
+	TextureAccessCallPtr makeTexelFetch2DRectF( ExprPtr texture, ExprPtr P );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	sampler1DArray
+	*@param P
+	*	vec2i
+	*@param lod
+	*	int
+	*/
+	TextureAccessCallPtr makeTexelFetch1DArrayF( ExprPtr texture, ExprPtr P, ExprPtr lod );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	sampler2DArray
+	*@param P
+	*	vec3i
+	*@param lod
+	*	int
+	*/
+	TextureAccessCallPtr makeTexelFetch2DArrayF( ExprPtr texture, ExprPtr P, ExprPtr lod );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	samplerBuffer
+	*@param P
+	*	int
+	*/
+	TextureAccessCallPtr makeTexelFetchBufferF( ExprPtr texture, ExprPtr P );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	isampler1D
+	*@param P
+	*	int
+	*@param lod
+	*	int
+	*/
+	TextureAccessCallPtr makeTexelFetch1DI( ExprPtr texture, ExprPtr P, ExprPtr lod );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	isampler2D
+	*@param P
+	*	vec2i
+	*@param lod
+	*	int
+	*/
+	TextureAccessCallPtr makeTexelFetch2DI( ExprPtr texture, ExprPtr P, ExprPtr lod );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	isampler3D
+	*@param P
+	*	vec3i
+	*@param lod
+	*	int
+	*/
+	TextureAccessCallPtr makeTexelFetch3DI( ExprPtr texture, ExprPtr P, ExprPtr lod );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	isampler2DRect
+	*@param P
+	*	vec2i
+	*/
+	TextureAccessCallPtr makeTexelFetch2DRectI( ExprPtr texture, ExprPtr P );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	isampler1DArray
+	*@param P
+	*	vec2i
+	*@param lod
+	*	int
+	*/
+	TextureAccessCallPtr makeTexelFetch1DArrayI( ExprPtr texture, ExprPtr P, ExprPtr lod );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	isampler2DArray
+	*@param P
+	*	vec3i
+	*@param lod
+	*	int
+	*/
+	TextureAccessCallPtr makeTexelFetch2DArrayI( ExprPtr texture, ExprPtr P, ExprPtr lod );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	isamplerBuffer
+	*@param P
+	*	int
+	*/
+	TextureAccessCallPtr makeTexelFetchBufferI( ExprPtr texture, ExprPtr P );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	usampler1D
+	*@param P
+	*	int
+	*@param lod
+	*	int
+	*/
+	TextureAccessCallPtr makeTexelFetch1DU( ExprPtr texture, ExprPtr P, ExprPtr lod );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	usampler2D
+	*@param P
+	*	vec2i
+	*@param lod
+	*	int
+	*/
+	TextureAccessCallPtr makeTexelFetch2DU( ExprPtr texture, ExprPtr P, ExprPtr lod );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	usampler3D
+	*@param P
+	*	vec3i
+	*@param lod
+	*	int
+	*/
+	TextureAccessCallPtr makeTexelFetch3DU( ExprPtr texture, ExprPtr P, ExprPtr lod );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	usampler2DRect
+	*@param P
+	*	vec2i
+	*/
+	TextureAccessCallPtr makeTexelFetch2DRectU( ExprPtr texture, ExprPtr P );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	usampler1DArray
+	*@param P
+	*	vec2i
+	*@param lod
+	*	int
+	*/
+	TextureAccessCallPtr makeTexelFetch1DArrayU( ExprPtr texture, ExprPtr P, ExprPtr lod );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	usampler2DArray
+	*@param P
+	*	vec3i
+	*@param lod
+	*	int
+	*/
+	TextureAccessCallPtr makeTexelFetch2DArrayU( ExprPtr texture, ExprPtr P, ExprPtr lod );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	usamplerBuffer
+	*@param P
+	*	int
+	*/
+	TextureAccessCallPtr makeTexelFetchBufferU( ExprPtr texture, ExprPtr P );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	sampler1D
+	*@param P
+	*	int
+	*@param lod
+	*	int
+	*@param offset
+	*	int
+	*/
+	TextureAccessCallPtr makeTexelFetchOffset1DF( ExprPtr texture, ExprPtr P, ExprPtr lod, ExprPtr offset );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	sampler2D
+	*@param P
+	*	vec2i
+	*@param lod
+	*	int
+	*@param offset
+	*	int
+	*/
+	TextureAccessCallPtr makeTexelFetchOffset2DF( ExprPtr texture, ExprPtr P, ExprPtr lod, ExprPtr offset );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	sampler3D
+	*@param P
+	*	vec3i
+	*@param lod
+	*	int
+	*@param offset
+	*	int
+	*/
+	TextureAccessCallPtr makeTexelFetchOffset3DF( ExprPtr texture, ExprPtr P, ExprPtr lod, ExprPtr offset );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	sampler2DRect
+	*@param P
+	*	vec2i
+	*@param offset
+	*	int
+	*/
+	TextureAccessCallPtr makeTexelFetchOffset2DRectF( ExprPtr texture, ExprPtr P, ExprPtr offset );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	sampler1DArray
+	*@param P
+	*	vec2i
+	*@param lod
+	*	int
+	*@param offset
+	*	int
+	*/
+	TextureAccessCallPtr makeTexelFetchOffset1DArrayF( ExprPtr texture, ExprPtr P, ExprPtr lod, ExprPtr offset );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	sampler2DArray
+	*@param P
+	*	vec3i
+	*@param lod
+	*	int
+	*@param offset
+	*	int
+	*/
+	TextureAccessCallPtr makeTexelFetchOffset2DArrayF( ExprPtr texture, ExprPtr P, ExprPtr lod, ExprPtr offset );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	isampler1D
+	*@param P
+	*	int
+	*@param lod
+	*	int
+	*@param offset
+	*	int
+	*/
+	TextureAccessCallPtr makeTexelFetchOffset1DI( ExprPtr texture, ExprPtr P, ExprPtr lod, ExprPtr offset );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	isampler2D
+	*@param P
+	*	vec2i
+	*@param lod
+	*	int
+	*@param offset
+	*	int
+	*/
+	TextureAccessCallPtr makeTexelFetchOffset2DI( ExprPtr texture, ExprPtr P, ExprPtr lod, ExprPtr offset );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	isampler3D
+	*@param P
+	*	vec3i
+	*@param lod
+	*	int
+	*@param offset
+	*	int
+	*/
+	TextureAccessCallPtr makeTexelFetchOffset3DI( ExprPtr texture, ExprPtr P, ExprPtr lod, ExprPtr offset );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	isampler2DRect
+	*@param P
+	*	vec2i
+	*@param offset
+	*	int
+	*/
+	TextureAccessCallPtr makeTexelFetchOffset2DRectI( ExprPtr texture, ExprPtr P, ExprPtr offset );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	isampler1DArray
+	*@param P
+	*	vec2i
+	*@param lod
+	*	int
+	*@param offset
+	*	int
+	*/
+	TextureAccessCallPtr makeTexelFetchOffset1DArrayI( ExprPtr texture, ExprPtr P, ExprPtr lod, ExprPtr offset );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	isampler2DArray
+	*@param P
+	*	vec3i
+	*@param lod
+	*	int
+	*@param offset
+	*	int
+	*/
+	TextureAccessCallPtr makeTexelFetchOffset2DArrayI( ExprPtr texture, ExprPtr P, ExprPtr lod, ExprPtr offset );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	usampler1D
+	*@param P
+	*	int
+	*@param lod
+	*	int
+	*@param offset
+	*	int
+	*/
+	TextureAccessCallPtr makeTexelFetchOffset1DU( ExprPtr texture, ExprPtr P, ExprPtr lod, ExprPtr offset );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	usampler2D
+	*@param P
+	*	vec2i
+	*@param lod
+	*	int
+	*@param offset
+	*	int
+	*/
+	TextureAccessCallPtr makeTexelFetchOffset2DU( ExprPtr texture, ExprPtr P, ExprPtr lod, ExprPtr offset );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	usampler3D
+	*@param P
+	*	vec3i
+	*@param lod
+	*	int
+	*@param offset
+	*	int
+	*/
+	TextureAccessCallPtr makeTexelFetchOffset3DU( ExprPtr texture, ExprPtr P, ExprPtr lod, ExprPtr offset );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	usampler2DRect
+	*@param P
+	*	vec2i
+	*@param offset
+	*	int
+	*/
+	TextureAccessCallPtr makeTexelFetchOffset2DRectU( ExprPtr texture, ExprPtr P, ExprPtr offset );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	usampler1DArray
+	*@param P
+	*	vec2i
+	*@param lod
+	*	int
+	*@param offset
+	*	int
+	*/
+	TextureAccessCallPtr makeTexelFetchOffset1DArrayU( ExprPtr texture, ExprPtr P, ExprPtr lod, ExprPtr offset );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	usampler2DArray
+	*@param P
+	*	vec3i
+	*@param lod
+	*	int
+	*@param offset
+	*	int
+	*/
+	TextureAccessCallPtr makeTexelFetchOffset2DArrayU( ExprPtr texture, ExprPtr P, ExprPtr lod, ExprPtr offset );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	sampler1D
+	*@param P
+	*	vec2f
+	*@param offset
+	*	int
+	*/
+	TextureAccessCallPtr makeTextureProjOffset1DF2( ExprPtr texture, ExprPtr P, ExprPtr offset );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	sampler1D
+	*@param P
+	*	vec2f
+	*@param offset
+	*	int
+	*@param bias
+	*	float
+	*/
+	TextureAccessCallPtr makeTextureProjOffset1DF2Bias( ExprPtr texture, ExprPtr P, ExprPtr offset, ExprPtr bias );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	sampler1D
+	*@param P
+	*	vec4f
+	*@param offset
+	*	int
+	*/
+	TextureAccessCallPtr makeTextureProjOffset1DF4( ExprPtr texture, ExprPtr P, ExprPtr offset );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	sampler1D
+	*@param P
+	*	vec4f
+	*@param offset
+	*	int
+	*@param bias
+	*	float
+	*/
+	TextureAccessCallPtr makeTextureProjOffset1DF4Bias( ExprPtr texture, ExprPtr P, ExprPtr offset, ExprPtr bias );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	sampler2D
+	*@param P
+	*	vec3f
+	*@param offset
+	*	vec2i
+	*/
+	TextureAccessCallPtr makeTextureProjOffset2DF3( ExprPtr texture, ExprPtr P, ExprPtr offset );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	sampler2D
+	*@param P
+	*	vec3f
+	*@param offset
+	*	vec2i
+	*@param bias
+	*	float
+	*/
+	TextureAccessCallPtr makeTextureProjOffset2DF3Bias( ExprPtr texture, ExprPtr P, ExprPtr offset, ExprPtr bias );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	sampler2D
+	*@param P
+	*	vec4f
+	*@param offset
+	*	vec2i
+	*/
+	TextureAccessCallPtr makeTextureProjOffset2DF4( ExprPtr texture, ExprPtr P, ExprPtr offset );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	sampler2D
+	*@param P
+	*	vec4f
+	*@param offset
+	*	vec2i
+	*@param bias
+	*	float
+	*/
+	TextureAccessCallPtr makeTextureProjOffset2DF4Bias( ExprPtr texture, ExprPtr P, ExprPtr offset, ExprPtr bias );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	sampler3D
+	*@param P
+	*	vec4f
+	*@param offset
+	*	vec3i
+	*/
+	TextureAccessCallPtr makeTextureProjOffset3DF( ExprPtr texture, ExprPtr P, ExprPtr offset );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	sampler3D
+	*@param P
+	*	vec4f
+	*@param offset
+	*	vec3i
+	*@param bias
+	*	float
+	*/
+	TextureAccessCallPtr makeTextureProjOffset3DFBias( ExprPtr texture, ExprPtr P, ExprPtr offset, ExprPtr bias );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	sampler2DRect
+	*@param P
+	*	vec3f
+	*@param offset
+	*	vec2i
+	*/
+	TextureAccessCallPtr makeTextureProjOffset2DRectF3( ExprPtr texture, ExprPtr P, ExprPtr offset );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	sampler2DRect
+	*@param P
+	*	vec4f
+	*@param offset
+	*	vec2i
+	*/
+	TextureAccessCallPtr makeTextureProjOffset2DRectF4( ExprPtr texture, ExprPtr P, ExprPtr offset );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	isampler1D
+	*@param P
+	*	vec2f
+	*@param offset
+	*	int
+	*/
+	TextureAccessCallPtr makeTextureProjOffset1DI2( ExprPtr texture, ExprPtr P, ExprPtr offset );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	isampler1D
+	*@param P
+	*	vec2f
+	*@param offset
+	*	int
+	*@param bias
+	*	float
+	*/
+	TextureAccessCallPtr makeTextureProjOffset1DI2Bias( ExprPtr texture, ExprPtr P, ExprPtr offset, ExprPtr bias );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	isampler1D
+	*@param P
+	*	vec4f
+	*@param offset
+	*	int
+	*/
+	TextureAccessCallPtr makeTextureProjOffset1DI4( ExprPtr texture, ExprPtr P, ExprPtr offset );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	isampler1D
+	*@param P
+	*	vec4f
+	*@param offset
+	*	int
+	*@param bias
+	*	float
+	*/
+	TextureAccessCallPtr makeTextureProjOffset1DI4Bias( ExprPtr texture, ExprPtr P, ExprPtr offset, ExprPtr bias );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	isampler2D
+	*@param P
+	*	vec3f
+	*@param offset
+	*	vec2i
+	*/
+	TextureAccessCallPtr makeTextureProjOffset2DI3( ExprPtr texture, ExprPtr P, ExprPtr offset );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	isampler2D
+	*@param P
+	*	vec3f
+	*@param offset
+	*	vec2i
+	*@param bias
+	*	float
+	*/
+	TextureAccessCallPtr makeTextureProjOffset2DI3Bias( ExprPtr texture, ExprPtr P, ExprPtr offset, ExprPtr bias );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	isampler2D
+	*@param P
+	*	vec4f
+	*@param offset
+	*	vec2i
+	*/
+	TextureAccessCallPtr makeTextureProjOffset2DI4( ExprPtr texture, ExprPtr P, ExprPtr offset );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	isampler2D
+	*@param P
+	*	vec4f
+	*@param offset
+	*	vec2i
+	*@param bias
+	*	float
+	*/
+	TextureAccessCallPtr makeTextureProjOffset2DI4Bias( ExprPtr texture, ExprPtr P, ExprPtr offset, ExprPtr bias );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	isampler3D
+	*@param P
+	*	vec4f
+	*@param offset
+	*	vec3i
+	*/
+	TextureAccessCallPtr makeTextureProjOffset3DI( ExprPtr texture, ExprPtr P, ExprPtr offset );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	isampler3D
+	*@param P
+	*	vec4f
+	*@param offset
+	*	vec3i
+	*@param bias
+	*	float
+	*/
+	TextureAccessCallPtr makeTextureProjOffset3DIBias( ExprPtr texture, ExprPtr P, ExprPtr offset, ExprPtr bias );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	isampler2DRect
+	*@param P
+	*	vec3f
+	*@param offset
+	*	vec2i
+	*/
+	TextureAccessCallPtr makeTextureProjOffset2DRectI3( ExprPtr texture, ExprPtr P, ExprPtr offset );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	isampler2DRect
+	*@param P
+	*	vec4f
+	*@param offset
+	*	vec2i
+	*/
+	TextureAccessCallPtr makeTextureProjOffset2DRectI4( ExprPtr texture, ExprPtr P, ExprPtr offset );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	usampler1D
+	*@param P
+	*	vec2f
+	*@param offset
+	*	int
+	*/
+	TextureAccessCallPtr makeTextureProjOffset1DU2( ExprPtr texture, ExprPtr P, ExprPtr offset );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	usampler1D
+	*@param P
+	*	vec2f
+	*@param offset
+	*	int
+	*@param bias
+	*	float
+	*/
+	TextureAccessCallPtr makeTextureProjOffset1DU2Bias( ExprPtr texture, ExprPtr P, ExprPtr offset, ExprPtr bias );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	usampler1D
+	*@param P
+	*	vec4f
+	*@param offset
+	*	int
+	*/
+	TextureAccessCallPtr makeTextureProjOffset1DU4( ExprPtr texture, ExprPtr P, ExprPtr offset );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	usampler1D
+	*@param P
+	*	vec4f
+	*@param offset
+	*	int
+	*@param bias
+	*	float
+	*/
+	TextureAccessCallPtr makeTextureProjOffset1DU4Bias( ExprPtr texture, ExprPtr P, ExprPtr offset, ExprPtr bias );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	usampler2D
+	*@param P
+	*	vec3f
+	*@param offset
+	*	vec2i
+	*/
+	TextureAccessCallPtr makeTextureProjOffset2DU3( ExprPtr texture, ExprPtr P, ExprPtr offset );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	usampler2D
+	*@param P
+	*	vec3f
+	*@param offset
+	*	vec2i
+	*@param bias
+	*	float
+	*/
+	TextureAccessCallPtr makeTextureProjOffset2DU3Bias( ExprPtr texture, ExprPtr P, ExprPtr offset, ExprPtr bias );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	usampler2D
+	*@param P
+	*	vec4f
+	*@param offset
+	*	vec2i
+	*/
+	TextureAccessCallPtr makeTextureProjOffset2DU4( ExprPtr texture, ExprPtr P, ExprPtr offset );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	usampler2D
+	*@param P
+	*	vec4f
+	*@param offset
+	*	vec2i
+	*@param bias
+	*	float
+	*/
+	TextureAccessCallPtr makeTextureProjOffset2DU4Bias( ExprPtr texture, ExprPtr P, ExprPtr offset, ExprPtr bias );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	usampler3D
+	*@param P
+	*	vec4f
+	*@param offset
+	*	vec3i
+	*/
+	TextureAccessCallPtr makeTextureProjOffset3DU( ExprPtr texture, ExprPtr P, ExprPtr offset );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	usampler3D
+	*@param P
+	*	vec4f
+	*@param offset
+	*	vec3i
+	*@param bias
+	*	float
+	*/
+	TextureAccessCallPtr makeTextureProjOffset3DUBias( ExprPtr texture, ExprPtr P, ExprPtr offset, ExprPtr bias );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	usampler2DRect
+	*@param P
+	*	vec3f
+	*@param offset
+	*	vec2i
+	*/
+	TextureAccessCallPtr makeTextureProjOffset2DRectU3( ExprPtr texture, ExprPtr P, ExprPtr offset );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	usampler2DRect
+	*@param P
+	*	vec4f
+	*@param offset
+	*	vec2i
+	*/
+	TextureAccessCallPtr makeTextureProjOffset2DRectU4( ExprPtr texture, ExprPtr P, ExprPtr offset );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	sampler1D
+	*@param P
+	*	float
+	*@param lod
+	*	float
+	*@param offset
+	*	int
+	*/
+	TextureAccessCallPtr makeTextureLodOffset1DF( ExprPtr texture, ExprPtr P, ExprPtr lod, ExprPtr offset );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	sampler2D
+	*@param P
+	*	vec2f
+	*@param lod
+	*	float
+	*@param offset
+	*	vec2i
+	*/
+	TextureAccessCallPtr makeTextureLodOffset2DF( ExprPtr texture, ExprPtr P, ExprPtr lod, ExprPtr offset );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	sampler3D
+	*@param P
+	*	vec3f
+	*@param lod
+	*	float
+	*@param offset
+	*	vec3i
+	*/
+	TextureAccessCallPtr makeTextureLodOffset3DF( ExprPtr texture, ExprPtr P, ExprPtr lod, ExprPtr offset );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	sampler1DArray
+	*@param P
+	*	vec2f
+	*@param lod
+	*	float
+	*@param offset
+	*	int
+	*/
+	TextureAccessCallPtr makeTextureLodOffset1DArrayF( ExprPtr texture, ExprPtr P, ExprPtr lod, ExprPtr offset );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	sampler2DArray
+	*@param P
+	*	vec3f
+	*@param lod
+	*	float
+	*@param offset
+	*	vec2i
+	*/
+	TextureAccessCallPtr makeTextureLodOffset2DArrayF( ExprPtr texture, ExprPtr P, ExprPtr lod, ExprPtr offset );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	isampler1D
+	*@param P
+	*	float
+	*@param lod
+	*	float
+	*@param offset
+	*	int
+	*/
+	TextureAccessCallPtr makeTextureLodOffset1DI( ExprPtr texture, ExprPtr P, ExprPtr lod, ExprPtr offset );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	isampler2D
+	*@param P
+	*	vec2f
+	*@param lod
+	*	float
+	*@param offset
+	*	vec2i
+	*/
+	TextureAccessCallPtr makeTextureLodOffset2DI( ExprPtr texture, ExprPtr P, ExprPtr lod, ExprPtr offset );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	isampler3D
+	*@param P
+	*	vec3f
+	*@param lod
+	*	float
+	*@param offset
+	*	vec3i
+	*/
+	TextureAccessCallPtr makeTextureLodOffset3DI( ExprPtr texture, ExprPtr P, ExprPtr lod, ExprPtr offset );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	isampler1DArray
+	*@param P
+	*	vec2f
+	*@param lod
+	*	float
+	*@param offset
+	*	int
+	*/
+	TextureAccessCallPtr makeTextureLodOffset1DArrayI( ExprPtr texture, ExprPtr P, ExprPtr lod, ExprPtr offset );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	isampler2DArray
+	*@param P
+	*	vec3f
+	*@param lod
+	*	float
+	*@param offset
+	*	vec2i
+	*/
+	TextureAccessCallPtr makeTextureLodOffset2DArrayI( ExprPtr texture, ExprPtr P, ExprPtr lod, ExprPtr offset );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	usampler1D
+	*@param P
+	*	float
+	*@param lod
+	*	float
+	*@param offset
+	*	int
+	*/
+	TextureAccessCallPtr makeTextureLodOffset1DU( ExprPtr texture, ExprPtr P, ExprPtr lod, ExprPtr offset );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	usampler2D
+	*@param P
+	*	vec2f
+	*@param lod
+	*	float
+	*@param offset
+	*	vec2i
+	*/
+	TextureAccessCallPtr makeTextureLodOffset2DU( ExprPtr texture, ExprPtr P, ExprPtr lod, ExprPtr offset );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	usampler3D
+	*@param P
+	*	vec3f
+	*@param lod
+	*	float
+	*@param offset
+	*	vec3i
+	*/
+	TextureAccessCallPtr makeTextureLodOffset3DU( ExprPtr texture, ExprPtr P, ExprPtr lod, ExprPtr offset );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	usampler1DArray
+	*@param P
+	*	vec2f
+	*@param lod
+	*	float
+	*@param offset
+	*	int
+	*/
+	TextureAccessCallPtr makeTextureLodOffset1DArrayU( ExprPtr texture, ExprPtr P, ExprPtr lod, ExprPtr offset );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	usampler2DArray
+	*@param P
+	*	vec3f
+	*@param lod
+	*	float
+	*@param offset
+	*	vec2i
+	*/
+	TextureAccessCallPtr makeTextureLodOffset2DArrayU( ExprPtr texture, ExprPtr P, ExprPtr lod, ExprPtr offset );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	sampler1D
+	*@param P
+	*	vec2f
+	*@param lod
+	*	float
+	*/
+	TextureAccessCallPtr makeTextureProjLod1DF2( ExprPtr texture, ExprPtr P, ExprPtr lod );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	sampler1D
+	*@param P
+	*	vec4f
+	*@param lod
+	*	float
+	*/
+	TextureAccessCallPtr makeTextureProjLod1DF4( ExprPtr texture, ExprPtr P, ExprPtr lod );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	sampler2D
+	*@param P
+	*	vec3f
+	*@param lod
+	*	float
+	*/
+	TextureAccessCallPtr makeTextureProjLod2DF3( ExprPtr texture, ExprPtr P, ExprPtr lod );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	sampler2D
+	*@param P
+	*	vec4f
+	*@param lod
+	*	float
+	*/
+	TextureAccessCallPtr makeTextureProjLod2DF4( ExprPtr texture, ExprPtr P, ExprPtr lod );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	sampler3D
+	*@param P
+	*	vec4f
+	*@param lod
+	*	float
+	*/
+	TextureAccessCallPtr makeTextureProjLod3DF( ExprPtr texture, ExprPtr P, ExprPtr lod );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	isampler1D
+	*@param P
+	*	vec2f
+	*@param lod
+	*	float
+	*/
+	TextureAccessCallPtr makeTextureProjLod1DI2( ExprPtr texture, ExprPtr P, ExprPtr lod );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	isampler1D
+	*@param P
+	*	vec4f
+	*@param lod
+	*	float
+	*/
+	TextureAccessCallPtr makeTextureProjLod1DI4( ExprPtr texture, ExprPtr P, ExprPtr lod );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	isampler2D
+	*@param P
+	*	vec3f
+	*@param lod
+	*	float
+	*/
+	TextureAccessCallPtr makeTextureProjLod2DI3( ExprPtr texture, ExprPtr P, ExprPtr lod );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	isampler2D
+	*@param P
+	*	vec4f
+	*@param lod
+	*	float
+	*/
+	TextureAccessCallPtr makeTextureProjLod2DI4( ExprPtr texture, ExprPtr P, ExprPtr lod );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	isampler3D
+	*@param P
+	*	vec4f
+	*@param lod
+	*	float
+	*/
+	TextureAccessCallPtr makeTextureProjLod3DI( ExprPtr texture, ExprPtr P, ExprPtr lod );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	usampler1D
+	*@param P
+	*	vec2f
+	*@param lod
+	*	float
+	*/
+	TextureAccessCallPtr makeTextureProjLod1DU2( ExprPtr texture, ExprPtr P, ExprPtr lod );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	usampler1D
+	*@param P
+	*	vec4f
+	*@param lod
+	*	float
+	*/
+	TextureAccessCallPtr makeTextureProjLod1DU4( ExprPtr texture, ExprPtr P, ExprPtr lod );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	usampler2D
+	*@param P
+	*	vec3f
+	*@param lod
+	*	float
+	*/
+	TextureAccessCallPtr makeTextureProjLod2DU3( ExprPtr texture, ExprPtr P, ExprPtr lod );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	usampler2D
+	*@param P
+	*	vec4f
+	*@param lod
+	*	float
+	*/
+	TextureAccessCallPtr makeTextureProjLod2DU4( ExprPtr texture, ExprPtr P, ExprPtr lod );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	usampler3D
+	*@param P
+	*	vec4f
+	*@param lod
+	*	float
+	*/
+	TextureAccessCallPtr makeTextureProjLod3DU( ExprPtr texture, ExprPtr P, ExprPtr lod );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	sampler1D
+	*@param P
+	*	vec2f
+	*@param lod
+	*	float
+	*@param offset
+	*	int
+	*/
+	TextureAccessCallPtr makeTextureProjLodOffset1DF2( ExprPtr texture, ExprPtr P, ExprPtr lod, ExprPtr offset );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	sampler1D
+	*@param P
+	*	vec4f
+	*@param lod
+	*	float
+	*@param offset
+	*	int
+	*/
+	TextureAccessCallPtr makeTextureProjLodOffset1DF4( ExprPtr texture, ExprPtr P, ExprPtr lod, ExprPtr offset );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	sampler2D
+	*@param P
+	*	vec3f
+	*@param lod
+	*	float
+	*@param offset
+	*	vec2i
+	*/
+	TextureAccessCallPtr makeTextureProjLodOffset2DF3( ExprPtr texture, ExprPtr P, ExprPtr lod, ExprPtr offset );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	sampler2D
+	*@param P
+	*	vec4f
+	*@param lod
+	*	float
+	*@param offset
+	*	vec2i
+	*/
+	TextureAccessCallPtr makeTextureProjLodOffset2DF4( ExprPtr texture, ExprPtr P, ExprPtr lod, ExprPtr offset );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	sampler3D
+	*@param P
+	*	vec4f
+	*@param lod
+	*	float
+	*@param offset
+	*	vec3i
+	*/
+	TextureAccessCallPtr makeTextureProjLodOffset3DF( ExprPtr texture, ExprPtr P, ExprPtr lod, ExprPtr offset );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	isampler1D
+	*@param P
+	*	vec2f
+	*@param lod
+	*	float
+	*@param offset
+	*	int
+	*/
+	TextureAccessCallPtr makeTextureProjLodOffset1DI2( ExprPtr texture, ExprPtr P, ExprPtr lod, ExprPtr offset );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	isampler1D
+	*@param P
+	*	vec4f
+	*@param lod
+	*	float
+	*@param offset
+	*	int
+	*/
+	TextureAccessCallPtr makeTextureProjLodOffset1DI4( ExprPtr texture, ExprPtr P, ExprPtr lod, ExprPtr offset );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	isampler2D
+	*@param P
+	*	vec3f
+	*@param lod
+	*	float
+	*@param offset
+	*	vec2i
+	*/
+	TextureAccessCallPtr makeTextureProjLodOffset2DI3( ExprPtr texture, ExprPtr P, ExprPtr lod, ExprPtr offset );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	isampler2D
+	*@param P
+	*	vec4f
+	*@param lod
+	*	float
+	*@param offset
+	*	vec2i
+	*/
+	TextureAccessCallPtr makeTextureProjLodOffset2DI4( ExprPtr texture, ExprPtr P, ExprPtr lod, ExprPtr offset );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	isampler3D
+	*@param P
+	*	vec4f
+	*@param lod
+	*	float
+	*@param offset
+	*	vec3i
+	*/
+	TextureAccessCallPtr makeTextureProjLodOffset3DI( ExprPtr texture, ExprPtr P, ExprPtr lod, ExprPtr offset );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	usampler1D
+	*@param P
+	*	vec2f
+	*@param lod
+	*	float
+	*@param offset
+	*	int
+	*/
+	TextureAccessCallPtr makeTextureProjLodOffset1DU2( ExprPtr texture, ExprPtr P, ExprPtr lod, ExprPtr offset );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	usampler1D
+	*@param P
+	*	vec4f
+	*@param lod
+	*	float
+	*@param offset
+	*	int
+	*/
+	TextureAccessCallPtr makeTextureProjLodOffset1DU4( ExprPtr texture, ExprPtr P, ExprPtr lod, ExprPtr offset );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	usampler2D
+	*@param P
+	*	vec3f
+	*@param lod
+	*	float
+	*@param offset
+	*	vec2i
+	*/
+	TextureAccessCallPtr makeTextureProjLodOffset2DU3( ExprPtr texture, ExprPtr P, ExprPtr lod, ExprPtr offset );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	usampler2D
+	*@param P
+	*	vec4f
+	*@param lod
+	*	float
+	*@param offset
+	*	vec2i
+	*/
+	TextureAccessCallPtr makeTextureProjLodOffset2DU4( ExprPtr texture, ExprPtr P, ExprPtr lod, ExprPtr offset );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	usampler3D
+	*@param P
+	*	vec4f
+	*@param lod
+	*	float
+	*@param offset
+	*	vec3i
+	*/
+	TextureAccessCallPtr makeTextureProjLodOffset3DU( ExprPtr texture, ExprPtr P, ExprPtr lod, ExprPtr offset );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	sampler1D
+	*@param P
+	*	float
+	*@param dPdx
+	*	float
+	*@param dPdy
+	*	float
+	*/
+	TextureAccessCallPtr makeTextureGrad1DF( ExprPtr texture, ExprPtr P, ExprPtr dPdx, ExprPtr dPdy );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	sampler2D
+	*@param P
+	*	vec2f
+	*@param dPdx
+	*	vec2f
+	*@param dPdy
+	*	vec2f
+	*/
+	TextureAccessCallPtr makeTextureGrad2DF( ExprPtr texture, ExprPtr P, ExprPtr dPdx, ExprPtr dPdy );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	sampler3D
+	*@param P
+	*	vec3f
+	*@param dPdx
+	*	vec3f
+	*@param dPdy
+	*	vec3f
+	*/
+	TextureAccessCallPtr makeTextureGrad3DF( ExprPtr texture, ExprPtr P, ExprPtr dPdx, ExprPtr dPdy );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	samplerCube
+	*@param P
+	*	vec3f
+	*@param dPdx
+	*	vec3f
+	*@param dPdy
+	*	vec3f
+	*/
+	TextureAccessCallPtr makeTextureGradCubeF( ExprPtr texture, ExprPtr P, ExprPtr dPdx, ExprPtr dPdy );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	sampler2DRect
+	*@param P
+	*	vec2f
+	*@param dPdx
+	*	vec2f
+	*@param dPdy
+	*	vec2f
+	*/
+	TextureAccessCallPtr makeTextureGrad2DRectF( ExprPtr texture, ExprPtr P, ExprPtr dPdx, ExprPtr dPdy );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	sampler1DArray
+	*@param P
+	*	vec2f
+	*@param dPdx
+	*	float
+	*@param dPdy
+	*	float
+	*/
+	TextureAccessCallPtr makeTextureGrad1DArrayF( ExprPtr texture, ExprPtr P, ExprPtr dPdx, ExprPtr dPdy );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	sampler2DArray
+	*@param P
+	*	vec3f
+	*@param dPdx
+	*	vec2f
+	*@param dPdy
+	*	vec2f
+	*/
+	TextureAccessCallPtr makeTextureGrad2DArrayF( ExprPtr texture, ExprPtr P, ExprPtr dPdx, ExprPtr dPdy );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	samplerCubeArray
+	*@param P
+	*	vec4f
+	*@param dPdx
+	*	vec3f
+	*@param dPdy
+	*	vec3f
+	*/
+	TextureAccessCallPtr makeTextureGradCubeArrayF( ExprPtr texture, ExprPtr P, ExprPtr dPdx, ExprPtr dPdy );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	isampler1D
+	*@param P
+	*	float
+	*@param dPdx
+	*	float
+	*@param dPdy
+	*	float
+	*/
+	TextureAccessCallPtr makeTextureGrad1DI( ExprPtr texture, ExprPtr P, ExprPtr dPdx, ExprPtr dPdy );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	isampler2D
+	*@param P
+	*	vec2f
+	*@param dPdx
+	*	vec2f
+	*@param dPdy
+	*	vec2f
+	*/
+	TextureAccessCallPtr makeTextureGrad2DI( ExprPtr texture, ExprPtr P, ExprPtr dPdx, ExprPtr dPdy );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	isampler3D
+	*@param P
+	*	vec3f
+	*@param dPdx
+	*	vec3f
+	*@param dPdy
+	*	vec3f
+	*/
+	TextureAccessCallPtr makeTextureGrad3DI( ExprPtr texture, ExprPtr P, ExprPtr dPdx, ExprPtr dPdy );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	isamplerCube
+	*@param P
+	*	vec3f
+	*@param dPdx
+	*	vec3f
+	*@param dPdy
+	*	vec3f
+	*/
+	TextureAccessCallPtr makeTextureGradCubeI( ExprPtr texture, ExprPtr P, ExprPtr dPdx, ExprPtr dPdy );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	isampler2DRect
+	*@param P
+	*	vec2f
+	*@param dPdx
+	*	vec2f
+	*@param dPdy
+	*	vec2f
+	*/
+	TextureAccessCallPtr makeTextureGrad2DRectI( ExprPtr texture, ExprPtr P, ExprPtr dPdx, ExprPtr dPdy );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	isampler1DArray
+	*@param P
+	*	vec2f
+	*@param dPdx
+	*	float
+	*@param dPdy
+	*	float
+	*/
+	TextureAccessCallPtr makeTextureGrad1DArrayI( ExprPtr texture, ExprPtr P, ExprPtr dPdx, ExprPtr dPdy );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	isampler2DArray
+	*@param P
+	*	vec3f
+	*@param dPdx
+	*	vec2f
+	*@param dPdy
+	*	vec2f
+	*/
+	TextureAccessCallPtr makeTextureGrad2DArrayI( ExprPtr texture, ExprPtr P, ExprPtr dPdx, ExprPtr dPdy );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	isamplerCubeArray
+	*@param P
+	*	vec4f
+	*@param dPdx
+	*	vec3f
+	*@param dPdy
+	*	vec3f
+	*/
+	TextureAccessCallPtr makeTextureGradCubeArrayI( ExprPtr texture, ExprPtr P, ExprPtr dPdx, ExprPtr dPdy );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	usampler1D
+	*@param P
+	*	float
+	*@param dPdx
+	*	float
+	*@param dPdy
+	*	float
+	*/
+	TextureAccessCallPtr makeTextureGrad1DU( ExprPtr texture, ExprPtr P, ExprPtr dPdx, ExprPtr dPdy );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	usampler2D
+	*@param P
+	*	vec2f
+	*@param dPdx
+	*	vec2f
+	*@param dPdy
+	*	vec2f
+	*/
+	TextureAccessCallPtr makeTextureGrad2DU( ExprPtr texture, ExprPtr P, ExprPtr dPdx, ExprPtr dPdy );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	usampler3D
+	*@param P
+	*	vec3f
+	*@param dPdx
+	*	vec3f
+	*@param dPdy
+	*	vec3f
+	*/
+	TextureAccessCallPtr makeTextureGrad3DU( ExprPtr texture, ExprPtr P, ExprPtr dPdx, ExprPtr dPdy );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	usamplerCube
+	*@param P
+	*	vec3f
+	*@param dPdx
+	*	vec3f
+	*@param dPdy
+	*	vec3f
+	*/
+	TextureAccessCallPtr makeTextureGradCubeU( ExprPtr texture, ExprPtr P, ExprPtr dPdx, ExprPtr dPdy );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	usampler2DRect
+	*@param P
+	*	vec2f
+	*@param dPdx
+	*	vec2f
+	*@param dPdy
+	*	vec2f
+	*/
+	TextureAccessCallPtr makeTextureGrad2DRectU( ExprPtr texture, ExprPtr P, ExprPtr dPdx, ExprPtr dPdy );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	usampler1DArray
+	*@param P
+	*	vec2f
+	*@param dPdx
+	*	float
+	*@param dPdy
+	*	float
+	*/
+	TextureAccessCallPtr makeTextureGrad1DArrayU( ExprPtr texture, ExprPtr P, ExprPtr dPdx, ExprPtr dPdy );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	usampler2DArray
+	*@param P
+	*	vec3f
+	*@param dPdx
+	*	vec2f
+	*@param dPdy
+	*	vec2f
+	*/
+	TextureAccessCallPtr makeTextureGrad2DArrayU( ExprPtr texture, ExprPtr P, ExprPtr dPdx, ExprPtr dPdy );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	usamplerCubeArray
+	*@param P
+	*	vec4f
+	*@param dPdx
+	*	vec3f
+	*@param dPdy
+	*	vec3f
+	*/
+	TextureAccessCallPtr makeTextureGradCubeArrayU( ExprPtr texture, ExprPtr P, ExprPtr dPdx, ExprPtr dPdy );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	sampler1D
+	*@param P
+	*	float
+	*@param dPdx
+	*	float
+	*@param dPdy
+	*	float
+	*@param offset
+	*	int
+	*/
+	TextureAccessCallPtr makeTextureGradOffset1DF( ExprPtr texture, ExprPtr P, ExprPtr dPdx, ExprPtr dPdy, ExprPtr offset );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	sampler2D
+	*@param P
+	*	vec2f
+	*@param dPdx
+	*	vec2f
+	*@param dPdy
+	*	vec2f
+	*@param offset
+	*	vec2i
+	*/
+	TextureAccessCallPtr makeTextureGradOffset2DF( ExprPtr texture, ExprPtr P, ExprPtr dPdx, ExprPtr dPdy, ExprPtr offset );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	sampler3D
+	*@param P
+	*	vec3f
+	*@param dPdx
+	*	vec3f
+	*@param dPdy
+	*	vec3f
+	*@param offset
+	*	vec3i
+	*/
+	TextureAccessCallPtr makeTextureGradOffset3DF( ExprPtr texture, ExprPtr P, ExprPtr dPdx, ExprPtr dPdy, ExprPtr offset );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	sampler2DRect
+	*@param P
+	*	vec2f
+	*@param dPdx
+	*	vec2f
+	*@param dPdy
+	*	vec2f
+	*@param offset
+	*	vec2i
+	*/
+	TextureAccessCallPtr makeTextureGradOffset2DRectF( ExprPtr texture, ExprPtr P, ExprPtr dPdx, ExprPtr dPdy, ExprPtr offset );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	sampler1DArray
+	*@param P
+	*	vec2f
+	*@param dPdx
+	*	float
+	*@param dPdy
+	*	float
+	*@param offset
+	*	int
+	*/
+	TextureAccessCallPtr makeTextureGradOffset1DArrayF( ExprPtr texture, ExprPtr P, ExprPtr dPdx, ExprPtr dPdy, ExprPtr offset );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	sampler2DArray
+	*@param P
+	*	vec3f
+	*@param dPdx
+	*	vec2f
+	*@param dPdy
+	*	vec2f
+	*@param offset
+	*	vec2i
+	*/
+	TextureAccessCallPtr makeTextureGradOffset2DArrayF( ExprPtr texture, ExprPtr P, ExprPtr dPdx, ExprPtr dPdy, ExprPtr offset );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	isampler1D
+	*@param P
+	*	float
+	*@param dPdx
+	*	float
+	*@param dPdy
+	*	float
+	*@param offset
+	*	int
+	*/
+	TextureAccessCallPtr makeTextureGradOffset1DI( ExprPtr texture, ExprPtr P, ExprPtr dPdx, ExprPtr dPdy, ExprPtr offset );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	isampler2D
+	*@param P
+	*	vec2f
+	*@param dPdx
+	*	vec2f
+	*@param dPdy
+	*	vec2f
+	*@param offset
+	*	vec2i
+	*/
+	TextureAccessCallPtr makeTextureGradOffset2DI( ExprPtr texture, ExprPtr P, ExprPtr dPdx, ExprPtr dPdy, ExprPtr offset );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	isampler3D
+	*@param P
+	*	vec3f
+	*@param dPdx
+	*	vec3f
+	*@param dPdy
+	*	vec3f
+	*@param offset
+	*	vec3i
+	*/
+	TextureAccessCallPtr makeTextureGradOffset3DI( ExprPtr texture, ExprPtr P, ExprPtr dPdx, ExprPtr dPdy, ExprPtr offset );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	isampler2DRect
+	*@param P
+	*	vec2f
+	*@param dPdx
+	*	vec2f
+	*@param dPdy
+	*	vec2f
+	*@param offset
+	*	vec2i
+	*/
+	TextureAccessCallPtr makeTextureGradOffset2DRectI( ExprPtr texture, ExprPtr P, ExprPtr dPdx, ExprPtr dPdy, ExprPtr offset );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	isampler1DArray
+	*@param P
+	*	vec2f
+	*@param dPdx
+	*	float
+	*@param dPdy
+	*	float
+	*@param offset
+	*	int
+	*/
+	TextureAccessCallPtr makeTextureGradOffset1DArrayI( ExprPtr texture, ExprPtr P, ExprPtr dPdx, ExprPtr dPdy, ExprPtr offset );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	isampler2DArray
+	*@param P
+	*	vec3f
+	*@param dPdx
+	*	vec2f
+	*@param dPdy
+	*	vec2f
+	*@param offset
+	*	vec2i
+	*/
+	TextureAccessCallPtr makeTextureGradOffset2DArrayI( ExprPtr texture, ExprPtr P, ExprPtr dPdx, ExprPtr dPdy, ExprPtr offset );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	usampler1D
+	*@param P
+	*	float
+	*@param dPdx
+	*	float
+	*@param dPdy
+	*	float
+	*@param offset
+	*	int
+	*/
+	TextureAccessCallPtr makeTextureGradOffset1DU( ExprPtr texture, ExprPtr P, ExprPtr dPdx, ExprPtr dPdy, ExprPtr offset );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	usampler2D
+	*@param P
+	*	vec2f
+	*@param dPdx
+	*	vec2f
+	*@param dPdy
+	*	vec2f
+	*@param offset
+	*	vec2i
+	*/
+	TextureAccessCallPtr makeTextureGradOffset2DU( ExprPtr texture, ExprPtr P, ExprPtr dPdx, ExprPtr dPdy, ExprPtr offset );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	usampler3D
+	*@param P
+	*	vec3f
+	*@param dPdx
+	*	vec3f
+	*@param dPdy
+	*	vec3f
+	*@param offset
+	*	vec3i
+	*/
+	TextureAccessCallPtr makeTextureGradOffset3DU( ExprPtr texture, ExprPtr P, ExprPtr dPdx, ExprPtr dPdy, ExprPtr offset );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	usampler2DRect
+	*@param P
+	*	vec2f
+	*@param dPdx
+	*	vec2f
+	*@param dPdy
+	*	vec2f
+	*@param offset
+	*	vec2i
+	*/
+	TextureAccessCallPtr makeTextureGradOffset2DRectU( ExprPtr texture, ExprPtr P, ExprPtr dPdx, ExprPtr dPdy, ExprPtr offset );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	usampler1DArray
+	*@param P
+	*	vec2f
+	*@param dPdx
+	*	float
+	*@param dPdy
+	*	float
+	*@param offset
+	*	int
+	*/
+	TextureAccessCallPtr makeTextureGradOffset1DArrayU( ExprPtr texture, ExprPtr P, ExprPtr dPdx, ExprPtr dPdy, ExprPtr offset );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	usampler2DArray
+	*@param P
+	*	vec3f
+	*@param dPdx
+	*	vec2f
+	*@param dPdy
+	*	vec2f
+	*@param offset
+	*	vec2i
+	*/
+	TextureAccessCallPtr makeTextureGradOffset2DArrayU( ExprPtr texture, ExprPtr P, ExprPtr dPdx, ExprPtr dPdy, ExprPtr offset );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	sampler1D
+	*@param P
+	*	vec2f
+	*@param pDx
+	*	float
+	*@param pDy
+	*	float
+	*/
+	TextureAccessCallPtr makeTextureProjGrad1DF2( ExprPtr texture, ExprPtr P, ExprPtr pDx, ExprPtr pDy );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	sampler1D
+	*@param P
+	*	vec4f
+	*@param pDx
+	*	float
+	*@param pDy
+	*	float
+	*/
+	TextureAccessCallPtr makeTextureProjGrad1DF4( ExprPtr texture, ExprPtr P, ExprPtr pDx, ExprPtr pDy );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	sampler2D
+	*@param P
+	*	vec3f
+	*@param pDx
+	*	vec2f
+	*@param pDy
+	*	vec2f
+	*/
+	TextureAccessCallPtr makeTextureProjGrad2DF3( ExprPtr texture, ExprPtr P, ExprPtr pDx, ExprPtr pDy );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	sampler2D
+	*@param P
+	*	vec4f
+	*@param pDx
+	*	vec2f
+	*@param pDy
+	*	vec2f
+	*/
+	TextureAccessCallPtr makeTextureProjGrad2DF4( ExprPtr texture, ExprPtr P, ExprPtr pDx, ExprPtr pDy );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	sampler3D
+	*@param P
+	*	vec4f
+	*@param pDx
+	*	vec3f
+	*@param pDy
+	*	vec3f
+	*/
+	TextureAccessCallPtr makeTextureProjGrad3DF( ExprPtr texture, ExprPtr P, ExprPtr pDx, ExprPtr pDy );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	sampler2DRect
+	*@param P
+	*	vec3f
+	*@param pDx
+	*	vec2f
+	*@param pDy
+	*	vec2f
+	*/
+	TextureAccessCallPtr makeTextureProjGrad2DRectF3( ExprPtr texture, ExprPtr P, ExprPtr pDx, ExprPtr pDy );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	sampler2DRect
+	*@param P
+	*	vec4f
+	*@param pDx
+	*	vec2f
+	*@param pDy
+	*	vec2f
+	*/
+	TextureAccessCallPtr makeTextureProjGrad2DRectF4( ExprPtr texture, ExprPtr P, ExprPtr pDx, ExprPtr pDy );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	isampler1D
+	*@param P
+	*	vec2f
+	*@param pDx
+	*	float
+	*@param pDy
+	*	float
+	*/
+	TextureAccessCallPtr makeTextureProjGrad1DI2( ExprPtr texture, ExprPtr P, ExprPtr pDx, ExprPtr pDy );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	isampler1D
+	*@param P
+	*	vec4f
+	*@param pDx
+	*	float
+	*@param pDy
+	*	float
+	*/
+	TextureAccessCallPtr makeTextureProjGrad1DI4( ExprPtr texture, ExprPtr P, ExprPtr pDx, ExprPtr pDy );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	isampler2D
+	*@param P
+	*	vec3f
+	*@param pDx
+	*	vec2f
+	*@param pDy
+	*	vec2f
+	*/
+	TextureAccessCallPtr makeTextureProjGrad2DI3( ExprPtr texture, ExprPtr P, ExprPtr pDx, ExprPtr pDy );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	isampler2D
+	*@param P
+	*	vec4f
+	*@param pDx
+	*	vec2f
+	*@param pDy
+	*	vec2f
+	*/
+	TextureAccessCallPtr makeTextureProjGrad2DI4( ExprPtr texture, ExprPtr P, ExprPtr pDx, ExprPtr pDy );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	isampler3D
+	*@param P
+	*	vec4f
+	*@param pDx
+	*	vec3f
+	*@param pDy
+	*	vec3f
+	*/
+	TextureAccessCallPtr makeTextureProjGrad3DI( ExprPtr texture, ExprPtr P, ExprPtr pDx, ExprPtr pDy );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	isampler2DRect
+	*@param P
+	*	vec3f
+	*@param pDx
+	*	vec2f
+	*@param pDy
+	*	vec2f
+	*/
+	TextureAccessCallPtr makeTextureProjGrad2DRectI3( ExprPtr texture, ExprPtr P, ExprPtr pDx, ExprPtr pDy );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	isampler2DRect
+	*@param P
+	*	vec4f
+	*@param pDx
+	*	vec2f
+	*@param pDy
+	*	vec2f
+	*/
+	TextureAccessCallPtr makeTextureProjGrad2DRectI4( ExprPtr texture, ExprPtr P, ExprPtr pDx, ExprPtr pDy );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	usampler1D
+	*@param P
+	*	vec2f
+	*@param pDx
+	*	float
+	*@param pDy
+	*	float
+	*/
+	TextureAccessCallPtr makeTextureProjGrad1DU2( ExprPtr texture, ExprPtr P, ExprPtr pDx, ExprPtr pDy );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	usampler1D
+	*@param P
+	*	vec4f
+	*@param pDx
+	*	float
+	*@param pDy
+	*	float
+	*/
+	TextureAccessCallPtr makeTextureProjGrad1DU4( ExprPtr texture, ExprPtr P, ExprPtr pDx, ExprPtr pDy );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	usampler2D
+	*@param P
+	*	vec3f
+	*@param pDx
+	*	vec2f
+	*@param pDy
+	*	vec2f
+	*/
+	TextureAccessCallPtr makeTextureProjGrad2DU3( ExprPtr texture, ExprPtr P, ExprPtr pDx, ExprPtr pDy );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	usampler2D
+	*@param P
+	*	vec4f
+	*@param pDx
+	*	vec2f
+	*@param pDy
+	*	vec2f
+	*/
+	TextureAccessCallPtr makeTextureProjGrad2DU4( ExprPtr texture, ExprPtr P, ExprPtr pDx, ExprPtr pDy );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	usampler3D
+	*@param P
+	*	vec4f
+	*@param pDx
+	*	vec3f
+	*@param pDy
+	*	vec3f
+	*/
+	TextureAccessCallPtr makeTextureProjGrad3DU( ExprPtr texture, ExprPtr P, ExprPtr pDx, ExprPtr pDy );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	usampler2DRect
+	*@param P
+	*	vec3f
+	*@param pDx
+	*	vec2f
+	*@param pDy
+	*	vec2f
+	*/
+	TextureAccessCallPtr makeTextureProjGrad2DRectU3( ExprPtr texture, ExprPtr P, ExprPtr pDx, ExprPtr pDy );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	usampler2DRect
+	*@param P
+	*	vec4f
+	*@param pDx
+	*	vec2f
+	*@param pDy
+	*	vec2f
+	*/
+	TextureAccessCallPtr makeTextureProjGrad2DRectU4( ExprPtr texture, ExprPtr P, ExprPtr pDx, ExprPtr pDy );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	sampler1D
+	*@param P
+	*	vec2f
+	*@param dPdx
+	*	float
+	*@param dPdy
+	*	float
+	*@param offset
+	*	int
+	*/
+	TextureAccessCallPtr makeTextureProjGradOffset1DF2( ExprPtr texture, ExprPtr P, ExprPtr dPdx, ExprPtr dPdy, ExprPtr offset );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	sampler1D
+	*@param P
+	*	vec4f
+	*@param dPdx
+	*	float
+	*@param dPdy
+	*	float
+	*@param offset
+	*	int
+	*/
+	TextureAccessCallPtr makeTextureProjGradOffset1DF4( ExprPtr texture, ExprPtr P, ExprPtr dPdx, ExprPtr dPdy, ExprPtr offset );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	sampler2D
+	*@param P
+	*	vec3f
+	*@param dPdx
+	*	vec2f
+	*@param dPdy
+	*	vec2f
+	*@param offset
+	*	vec2i
+	*/
+	TextureAccessCallPtr makeTextureProjGradOffset2DF3( ExprPtr texture, ExprPtr P, ExprPtr dPdx, ExprPtr dPdy, ExprPtr offset );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	sampler2D
+	*@param P
+	*	vec4f
+	*@param dPdx
+	*	vec2f
+	*@param dPdy
+	*	vec2f
+	*@param offset
+	*	vec2i
+	*/
+	TextureAccessCallPtr makeTextureProjGradOffset2DF4( ExprPtr texture, ExprPtr P, ExprPtr dPdx, ExprPtr dPdy, ExprPtr offset );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	sampler3D
+	*@param P
+	*	vec4f
+	*@param dPdx
+	*	vec3f
+	*@param dPdy
+	*	vec3f
+	*@param offset
+	*	vec3i
+	*/
+	TextureAccessCallPtr makeTextureProjGradOffset3DF( ExprPtr texture, ExprPtr P, ExprPtr dPdx, ExprPtr dPdy, ExprPtr offset );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	sampler2DRect
+	*@param P
+	*	vec3f
+	*@param dPdx
+	*	vec2f
+	*@param dPdy
+	*	vec2f
+	*@param offset
+	*	vec2i
+	*/
+	TextureAccessCallPtr makeTextureProjGradOffset2DRectF3( ExprPtr texture, ExprPtr P, ExprPtr dPdx, ExprPtr dPdy, ExprPtr offset );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	sampler2DRect
+	*@param P
+	*	vec4f
+	*@param dPdx
+	*	vec2f
+	*@param dPdy
+	*	vec2f
+	*@param offset
+	*	vec2i
+	*/
+	TextureAccessCallPtr makeTextureProjGradOffset2DRectF4( ExprPtr texture, ExprPtr P, ExprPtr dPdx, ExprPtr dPdy, ExprPtr offset );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	isampler1D
+	*@param P
+	*	vec2f
+	*@param dPdx
+	*	float
+	*@param dPdy
+	*	float
+	*@param offset
+	*	int
+	*/
+	TextureAccessCallPtr makeTextureProjGradOffset1DI2( ExprPtr texture, ExprPtr P, ExprPtr dPdx, ExprPtr dPdy, ExprPtr offset );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	isampler1D
+	*@param P
+	*	vec4f
+	*@param dPdx
+	*	float
+	*@param dPdy
+	*	float
+	*@param offset
+	*	int
+	*/
+	TextureAccessCallPtr makeTextureProjGradOffset1DI4( ExprPtr texture, ExprPtr P, ExprPtr dPdx, ExprPtr dPdy, ExprPtr offset );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	isampler2D
+	*@param P
+	*	vec3f
+	*@param dPdx
+	*	vec2f
+	*@param dPdy
+	*	vec2f
+	*@param offset
+	*	vec2i
+	*/
+	TextureAccessCallPtr makeTextureProjGradOffset2DI3( ExprPtr texture, ExprPtr P, ExprPtr dPdx, ExprPtr dPdy, ExprPtr offset );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	isampler2D
+	*@param P
+	*	vec4f
+	*@param dPdx
+	*	vec2f
+	*@param dPdy
+	*	vec2f
+	*@param offset
+	*	vec2i
+	*/
+	TextureAccessCallPtr makeTextureProjGradOffset2DI4( ExprPtr texture, ExprPtr P, ExprPtr dPdx, ExprPtr dPdy, ExprPtr offset );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	isampler3D
+	*@param P
+	*	vec4f
+	*@param dPdx
+	*	vec3f
+	*@param dPdy
+	*	vec3f
+	*@param offset
+	*	vec3i
+	*/
+	TextureAccessCallPtr makeTextureProjGradOffset3DI( ExprPtr texture, ExprPtr P, ExprPtr dPdx, ExprPtr dPdy, ExprPtr offset );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	isampler2DRect
+	*@param P
+	*	vec3f
+	*@param dPdx
+	*	vec2f
+	*@param dPdy
+	*	vec2f
+	*@param offset
+	*	vec2i
+	*/
+	TextureAccessCallPtr makeTextureProjGradOffset2DRectI3( ExprPtr texture, ExprPtr P, ExprPtr dPdx, ExprPtr dPdy, ExprPtr offset );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	isampler2DRect
+	*@param P
+	*	vec4f
+	*@param dPdx
+	*	vec2f
+	*@param dPdy
+	*	vec2f
+	*@param offset
+	*	vec2i
+	*/
+	TextureAccessCallPtr makeTextureProjGradOffset2DRectI4( ExprPtr texture, ExprPtr P, ExprPtr dPdx, ExprPtr dPdy, ExprPtr offset );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	usampler1D
+	*@param P
+	*	vec2f
+	*@param dPdx
+	*	float
+	*@param dPdy
+	*	float
+	*@param offset
+	*	int
+	*/
+	TextureAccessCallPtr makeTextureProjGradOffset1DU2( ExprPtr texture, ExprPtr P, ExprPtr dPdx, ExprPtr dPdy, ExprPtr offset );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	usampler1D
+	*@param P
+	*	vec4f
+	*@param dPdx
+	*	float
+	*@param dPdy
+	*	float
+	*@param offset
+	*	int
+	*/
+	TextureAccessCallPtr makeTextureProjGradOffset1DU4( ExprPtr texture, ExprPtr P, ExprPtr dPdx, ExprPtr dPdy, ExprPtr offset );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	usampler2D
+	*@param P
+	*	vec3f
+	*@param dPdx
+	*	vec2f
+	*@param dPdy
+	*	vec2f
+	*@param offset
+	*	vec2i
+	*/
+	TextureAccessCallPtr makeTextureProjGradOffset2DU3( ExprPtr texture, ExprPtr P, ExprPtr dPdx, ExprPtr dPdy, ExprPtr offset );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	usampler2D
+	*@param P
+	*	vec4f
+	*@param dPdx
+	*	vec2f
+	*@param dPdy
+	*	vec2f
+	*@param offset
+	*	vec2i
+	*/
+	TextureAccessCallPtr makeTextureProjGradOffset2DU4( ExprPtr texture, ExprPtr P, ExprPtr dPdx, ExprPtr dPdy, ExprPtr offset );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	usampler3D
+	*@param P
+	*	vec4f
+	*@param dPdx
+	*	vec3f
+	*@param dPdy
+	*	vec3f
+	*@param offset
+	*	vec3i
+	*/
+	TextureAccessCallPtr makeTextureProjGradOffset3DU( ExprPtr texture, ExprPtr P, ExprPtr dPdx, ExprPtr dPdy, ExprPtr offset );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	usampler2DRect
+	*@param P
+	*	vec3f
+	*@param dPdx
+	*	vec2f
+	*@param dPdy
+	*	vec2f
+	*@param offset
+	*	vec2i
+	*/
+	TextureAccessCallPtr makeTextureProjGradOffset2DRectU3( ExprPtr texture, ExprPtr P, ExprPtr dPdx, ExprPtr dPdy, ExprPtr offset );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	usampler2DRect
+	*@param P
+	*	vec4f
+	*@param dPdx
+	*	vec2f
+	*@param dPdy
+	*	vec2f
+	*@param offset
+	*	vec2i
+	*/
+	TextureAccessCallPtr makeTextureProjGradOffset2DRectU4( ExprPtr texture, ExprPtr P, ExprPtr dPdx, ExprPtr dPdy, ExprPtr offset );	
+	// Texel Compare Functions
+
+	/**
+	*@return
+	*	float
+	*@param texture
+	*	sampler1DShadow
+	*@param P
+	*	float
+	*@param refZ
+	*	float
+	*/
+	TextureAccessCallPtr makeTexture1DShadowF( ExprPtr texture, ExprPtr P, ExprPtr refZ );
+	/**
+	*@return
+	*	float
+	*@param texture
+	*	sampler1DShadow
+	*@param P
+	*	float
+	*@param refZ
+	*	float
+	*@param bias
+	*	float
+	*/
+	TextureAccessCallPtr makeTexture1DShadowFBias( ExprPtr texture, ExprPtr P, ExprPtr refZ, ExprPtr bias );
+	/**
+	*@return
+	*	float
+	*@param texture
+	*	sampler2DShadow
+	*@param P
+	*	vec2f
+	*@param refZ
+	*	float
+	*/
+	TextureAccessCallPtr makeTexture2DShadowF( ExprPtr texture, ExprPtr P, ExprPtr refZ );
+	/**
+	*@return
+	*	float
+	*@param texture
+	*	sampler2DShadow
+	*@param P
+	*	vec2f
+	*@param refZ
+	*	float
+	*@param bias
+	*	float
+	*/
+	TextureAccessCallPtr makeTexture2DShadowFBias( ExprPtr texture, ExprPtr P, ExprPtr refZ, ExprPtr bias );
+	/**
+	*@return
+	*	float
+	*@param texture
+	*	samplerCubeShadow
+	*@param P
+	*	vec3f
+	*@param refZ
+	*	float
+	*/
+	TextureAccessCallPtr makeTextureCubeShadowF( ExprPtr texture, ExprPtr P, ExprPtr refZ );
+	/**
+	*@return
+	*	float
+	*@param texture
+	*	samplerCubeShadow
+	*@param P
+	*	vec3f
+	*@param refZ
+	*	float
+	*@param bias
+	*	float
+	*/
+	TextureAccessCallPtr makeTextureCubeShadowFBias( ExprPtr texture, ExprPtr P, ExprPtr refZ, ExprPtr bias );
+	/**
+	*@return
+	*	float
+	*@param texture
+	*	sampler1DArrayShadow
+	*@param P
+	*	vec2f
+	*@param refZ
+	*	float
+	*/
+	TextureAccessCallPtr makeTexture1DArrayShadowF( ExprPtr texture, ExprPtr P, ExprPtr refZ );
+	/**
+	*@return
+	*	float
+	*@param texture
+	*	sampler1DArrayShadow
+	*@param P
+	*	vec2f
+	*@param refZ
+	*	float
+	*@param bias
+	*	float
+	*/
+	TextureAccessCallPtr makeTexture1DArrayShadowFBias( ExprPtr texture, ExprPtr P, ExprPtr refZ, ExprPtr bias );
+	/**
+	*@return
+	*	float
+	*@param texture
+	*	sampler2DArrayShadow
+	*@param P
+	*	vec3f
+	*@param refZ
+	*	float
+	*/
+	TextureAccessCallPtr makeTexture2DArrayShadowF( ExprPtr texture, ExprPtr P, ExprPtr refZ );
+	/**
+	*@return
+	*	float
+	*@param texture
+	*	sampler2DArrayShadow
+	*@param P
+	*	vec3f
+	*@param refZ
+	*	float
+	*@param bias
+	*	float
+	*/
+	TextureAccessCallPtr makeTexture2DArrayShadowFBias( ExprPtr texture, ExprPtr P, ExprPtr refZ, ExprPtr bias );
+	/**
+	*@return
+	*	float
+	*@param texture
+	*	sampler2DRectShadow
+	*@param P
+	*	vec2f
+	*@param refZ
+	*	float
+	*/
+	TextureAccessCallPtr makeTexture2DRectShadowF( ExprPtr texture, ExprPtr P, ExprPtr refZ );
+	/**
+	*@return
+	*	float
+	*@param texture
+	*	samplerCubeArrayShadow
+	*@param P
+	*	vec4f
+	*@param refZ
+	*	float
+	*/
+	TextureAccessCallPtr makeTextureCubeArrayShadowF( ExprPtr texture, ExprPtr P, ExprPtr refZ );
+	/**
+	*@return
+	*	float
+	*@param texture
+	*	sampler1DShadow
+	*@param P
+	*	vec2f
+	*@param refZ
+	*	float
+	*/
+	TextureAccessCallPtr makeTextureProj1DShadowF( ExprPtr texture, ExprPtr P, ExprPtr refZ );
+	/**
+	*@return
+	*	float
+	*@param texture
+	*	sampler1DShadow
+	*@param P
+	*	vec2f
+	*@param refZ
+	*	float
+	*@param bias
+	*	float
+	*/
+	TextureAccessCallPtr makeTextureProj1DShadowFBias( ExprPtr texture, ExprPtr P, ExprPtr refZ, ExprPtr bias );
+	/**
+	*@return
+	*	float
+	*@param texture
+	*	sampler2DShadow
+	*@param P
+	*	vec3f
+	*@param refZ
+	*	float
+	*/
+	TextureAccessCallPtr makeTextureProj2DShadowF( ExprPtr texture, ExprPtr P, ExprPtr refZ );
+	/**
+	*@return
+	*	float
+	*@param texture
+	*	sampler2DShadow
+	*@param P
+	*	vec3f
+	*@param refZ
+	*	float
+	*@param bias
+	*	float
+	*/
+	TextureAccessCallPtr makeTextureProj2DShadowFBias( ExprPtr texture, ExprPtr P, ExprPtr refZ, ExprPtr bias );
+	/**
+	*@return
+	*	float
+	*@param texture
+	*	sampler2DRectShadow
+	*@param P
+	*	vec3f
+	*@param refZ
+	*	float
+	*/
+	TextureAccessCallPtr makeTextureProj2DRectShadowF( ExprPtr texture, ExprPtr P, ExprPtr refZ );
+	/**
+	*@return
+	*	float
+	*@param texture
+	*	sampler1DShadow
+	*@param P
+	*	float
+	*@param refZ
+	*	float
+	*@param lod
+	*	float
+	*/
+	TextureAccessCallPtr makeTextureLod1DShadowF( ExprPtr texture, ExprPtr P, ExprPtr refZ, ExprPtr lod );
+	/**
+	*@return
+	*	float
+	*@param texture
+	*	sampler2DShadow
+	*@param P
+	*	vec2f
+	*@param refZ
+	*	float
+	*@param lod
+	*	float
+	*/
+	TextureAccessCallPtr makeTextureLod2DShadowF( ExprPtr texture, ExprPtr P, ExprPtr refZ, ExprPtr lod );
+	/**
+	*@return
+	*	float
+	*@param texture
+	*	sampler1DArrayShadow
+	*@param P
+	*	vec2f
+	*@param refZ
+	*	float
+	*@param lod
+	*	float
+	*/
+	TextureAccessCallPtr makeTextureLod1DArrayShadowF( ExprPtr texture, ExprPtr P, ExprPtr refZ, ExprPtr lod );
+	/**
+	*@return
+	*	float
+	*@param texture
+	*	sampler2DRectShadow
+	*@param P
+	*	vec2f
+	*@param refZ
+	*	float
+	*@param offset
+	*	vec2i
+	*/
+	TextureAccessCallPtr makeTextureOffset2DRectShadowF( ExprPtr texture, ExprPtr P, ExprPtr refZ, ExprPtr offset );
+	/**
+	*@return
+	*	float
+	*@param texture
+	*	sampler1DShadow
+	*@param P
+	*	float
+	*@param refZ
+	*	float
+	*@param offset
+	*	int
+	*/
+	TextureAccessCallPtr makeTextureOffset1DShadowF( ExprPtr texture, ExprPtr P, ExprPtr refZ, ExprPtr offset );
+	/**
+	*@return
+	*	float
+	*@param texture
+	*	sampler1DShadow
+	*@param P
+	*	float
+	*@param refZ
+	*	float
+	*@param offset
+	*	int
+	*@param bias
+	*	float
+	*/
+	TextureAccessCallPtr makeTextureOffset1DShadowFBias( ExprPtr texture, ExprPtr P, ExprPtr refZ, ExprPtr offset, ExprPtr bias );
+	/**
+	*@return
+	*	float
+	*@param texture
+	*	sampler2DShadow
+	*@param P
+	*	vec2f
+	*@param refZ
+	*	float
+	*@param offset
+	*	vec2i
+	*/
+	TextureAccessCallPtr makeTextureOffset2DShadowF( ExprPtr texture, ExprPtr P, ExprPtr refZ, ExprPtr offset );
+	/**
+	*@return
+	*	float
+	*@param texture
+	*	sampler2DShadow
+	*@param P
+	*	vec2f
+	*@param refZ
+	*	float
+	*@param offset
+	*	vec2i
+	*@param bias
+	*	float
+	*/
+	TextureAccessCallPtr makeTextureOffset2DShadowFBias( ExprPtr texture, ExprPtr P, ExprPtr refZ, ExprPtr offset, ExprPtr bias );
+	/**
+	*@return
+	*	float
+	*@param texture
+	*	sampler1DArrayShadow
+	*@param P
+	*	vec2f
+	*@param refZ
+	*	float
+	*@param offset
+	*	int
+	*/
+	TextureAccessCallPtr makeTextureOffset1DArrayShadowF( ExprPtr texture, ExprPtr P, ExprPtr refZ, ExprPtr offset );
+	/**
+	*@return
+	*	float
+	*@param texture
+	*	sampler2DArrayShadow
+	*@param P
+	*	vec3f
+	*@param refZ
+	*	float
+	*@param offset
+	*	vec2f
+	*/
+	TextureAccessCallPtr makeTextureOffset2DArrayShadowF( ExprPtr texture, ExprPtr P, ExprPtr refZ, ExprPtr offset );
+	/**
+	*@return
+	*	float
+	*@param texture
+	*	sampler1DShadow
+	*@param P
+	*	vec2f
+	*@param refZ
+	*	float
+	*@param offset
+	*	int
+	*/
+	TextureAccessCallPtr makeTextureProjOffset1DShadowF( ExprPtr texture, ExprPtr P, ExprPtr refZ, ExprPtr offset );
+	/**
+	*@return
+	*	float
+	*@param texture
+	*	sampler1DShadow
+	*@param P
+	*	vec2f
+	*@param refZ
+	*	float
+	*@param offset
+	*	int
+	*@param bias
+	*	float
+	*/
+	TextureAccessCallPtr makeTextureProjOffset1DShadowFBias( ExprPtr texture, ExprPtr P, ExprPtr refZ, ExprPtr offset, ExprPtr bias );
+	/**
+	*@return
+	*	float
+	*@param texture
+	*	sampler2DShadow
+	*@param P
+	*	vec3f
+	*@param refZ
+	*	float
+	*@param offset
+	*	vec2i
+	*/
+	TextureAccessCallPtr makeTextureProjOffset2DShadowF( ExprPtr texture, ExprPtr P, ExprPtr refZ, ExprPtr offset );
+	/**
+	*@return
+	*	float
+	*@param texture
+	*	sampler2DShadow
+	*@param P
+	*	vec3f
+	*@param refZ
+	*	float
+	*@param offset
+	*	vec2i
+	*@param bias
+	*	float
+	*/
+	TextureAccessCallPtr makeTextureProjOffset2DShadowFBias( ExprPtr texture, ExprPtr P, ExprPtr refZ, ExprPtr offset, ExprPtr bias );
+	/**
+	*@return
+	*	float
+	*@param texture
+	*	sampler2DRectShadow
+	*@param P
+	*	vec3f
+	*@param refZ
+	*	float
+	*@param offset
+	*	vec2i
+	*/
+	TextureAccessCallPtr makeTextureProjOffset2DRectShadowF( ExprPtr texture, ExprPtr P, ExprPtr refZ, ExprPtr offset );
+	/**
+	*@return
+	*	float
+	*@param texture
+	*	sampler1DShadow
+	*@param P
+	*	float
+	*@param refZ
+	*	float
+	*@param lod
+	*	float
+	*@param offset
+	*	int
+	*/
+	TextureAccessCallPtr makeTextureLodOffset1DShadowF( ExprPtr texture, ExprPtr P, ExprPtr refZ, ExprPtr lod, ExprPtr offset );
+	/**
+	*@return
+	*	float
+	*@param texture
+	*	sampler2DShadow
+	*@param P
+	*	vec2f
+	*@param refZ
+	*	float
+	*@param lod
+	*	float
+	*@param offset
+	*	vec2i
+	*/
+	TextureAccessCallPtr makeTextureLodOffset2DShadowF( ExprPtr texture, ExprPtr P, ExprPtr refZ, ExprPtr lod, ExprPtr offset );
+	/**
+	*@return
+	*	float
+	*@param texture
+	*	sampler1DArrayShadow
+	*@param P
+	*	vec2f
+	*@param refZ
+	*	float
+	*@param lod
+	*	float
+	*@param offset
+	*	int
+	*/
+	TextureAccessCallPtr makeTextureLodOffset1DArrayShadowF( ExprPtr texture, ExprPtr P, ExprPtr refZ, ExprPtr lod, ExprPtr offset );
+	/**
+	*@return
+	*	float
+	*@param texture
+	*	sampler1DShadow
+	*@param P
+	*	vec2f
+	*@param refZ
+	*	float
+	*@param lod
+	*	float
+	*/
+	TextureAccessCallPtr makeTextureProjLod1DShadowF( ExprPtr texture, ExprPtr P, ExprPtr refZ, ExprPtr lod );
+	/**
+	*@return
+	*	float
+	*@param texture
+	*	sampler2DShadow
+	*@param P
+	*	vec3f
+	*@param refZ
+	*	float
+	*@param lod
+	*	float
+	*/
+	TextureAccessCallPtr makeTextureProjLod2DShadowF( ExprPtr texture, ExprPtr P, ExprPtr refZ, ExprPtr lod );
+	/**
+	*@return
+	*	float
+	*@param texture
+	*	sampler1DShadow
+	*@param P
+	*	vec2f
+	*@param refZ
+	*	float
+	*@param lod
+	*	float
+	*@param offset
+	*	int
+	*/
+	TextureAccessCallPtr makeTextureProjLodOffset1DShadowF( ExprPtr texture, ExprPtr P, ExprPtr refZ, ExprPtr lod, ExprPtr offset );
+	/**
+	*@return
+	*	float
+	*@param texture
+	*	sampler2DShadow
+	*@param P
+	*	vec3f
+	*@param refZ
+	*	float
+	*@param lod
+	*	float
+	*@param offset
+	*	vec2i
+	*/
+	TextureAccessCallPtr makeTextureProjLodOffset2DShadowF( ExprPtr texture, ExprPtr P, ExprPtr refZ, ExprPtr lod, ExprPtr offset );
+	/**
+	*@return
+	*	float
+	*@param texture
+	*	sampler2DRectShadow
+	*@param P
+	*	vec2f
+	*@param refZ
+	*	float
+	*@param dPdx
+	*	vec2f
+	*@param dPdy
+	*	vec2f
+	*/
+	TextureAccessCallPtr makeTextureGrad2DRectShadowF( ExprPtr texture, ExprPtr P, ExprPtr refZ, ExprPtr dPdx, ExprPtr dPdy );
+	/**
+	*@return
+	*	float
+	*@param texture
+	*	sampler1DShadow
+	*@param P
+	*	float
+	*@param refZ
+	*	float
+	*@param dPdx
+	*	float
+	*@param dPdy
+	*	float
+	*/
+	TextureAccessCallPtr makeTextureGrad1DShadowF( ExprPtr texture, ExprPtr P, ExprPtr refZ, ExprPtr dPdx, ExprPtr dPdy );
+	/**
+	*@return
+	*	float
+	*@param texture
+	*	sampler2DShadow
+	*@param P
+	*	vec2f
+	*@param refZ
+	*	float
+	*@param dPdx
+	*	vec2f
+	*@param dPdy
+	*	vec2f
+	*/
+	TextureAccessCallPtr makeTextureGrad2DShadowF( ExprPtr texture, ExprPtr P, ExprPtr refZ, ExprPtr dPdx, ExprPtr dPdy );
+	/**
+	*@return
+	*	float
+	*@param texture
+	*	sampler1DArrayShadow
+	*@param P
+	*	vec2f
+	*@param refZ
+	*	float
+	*@param dPdx
+	*	float
+	*@param dPdy
+	*	float
+	*/
+	TextureAccessCallPtr makeTextureGrad1DArrayShadowF( ExprPtr texture, ExprPtr P, ExprPtr refZ, ExprPtr dPdx, ExprPtr dPdy );
+	/**
+	*@return
+	*	float
+	*@param texture
+	*	sampler2DRectShadow
+	*@param P
+	*	vec2f
+	*@param refZ
+	*	float
+	*@param dPdx
+	*	vec2f
+	*@param dPdy
+	*	vec2f
+	*@param offset
+	*	vec2i
+	*/
+	TextureAccessCallPtr makeTextureGradOffset2DRectShadowF( ExprPtr texture, ExprPtr P, ExprPtr refZ, ExprPtr dPdx, ExprPtr dPdy, ExprPtr offset );
+	/**
+	*@return
+	*	float
+	*@param texture
+	*	sampler1DShadow
+	*@param P
+	*	float
+	*@param refZ
+	*	float
+	*@param dPdx
+	*	float
+	*@param dPdy
+	*	float
+	*@param offset
+	*	int
+	*/
+	TextureAccessCallPtr makeTextureGradOffset1DShadowF( ExprPtr texture, ExprPtr P, ExprPtr refZ, ExprPtr dPdx, ExprPtr dPdy, ExprPtr offset );
+	/**
+	*@return
+	*	float
+	*@param texture
+	*	sampler2DShadow
+	*@param P
+	*	vec2f
+	*@param refZ
+	*	float
+	*@param dPdx
+	*	vec2f
+	*@param dPdy
+	*	vec2f
+	*@param offset
+	*	vec2i
+	*/
+	TextureAccessCallPtr makeTextureGradOffset2DShadowF( ExprPtr texture, ExprPtr P, ExprPtr refZ, ExprPtr dPdx, ExprPtr dPdy, ExprPtr offset );
+	/**
+	*@return
+	*	float
+	*@param texture
+	*	sampler1DArrayShadow
+	*@param P
+	*	vec2f
+	*@param refZ
+	*	float
+	*@param dPdx
+	*	float
+	*@param dPdy
+	*	float
+	*@param offset
+	*	int
+	*/
+	TextureAccessCallPtr makeTextureGradOffset1DArrayShadowF( ExprPtr texture, ExprPtr P, ExprPtr refZ, ExprPtr dPdx, ExprPtr dPdy, ExprPtr offset );
+	/**
+	*@return
+	*	float
+	*@param texture
+	*	sampler2DArrayShadow
+	*@param P
+	*	vec3f
+	*@param refZ
+	*	float
+	*@param dPdx
+	*	vec2f
+	*@param dPdy
+	*	vec2f
+	*@param offset
+	*	vec2i
+	*/
+	TextureAccessCallPtr makeTextureGradOffset2DArrayShadowF( ExprPtr texture, ExprPtr P, ExprPtr refZ, ExprPtr dPdx, ExprPtr dPdy, ExprPtr offset );
+	/**
+	*@return
+	*	float
+	*@param texture
+	*	sampler1DShadow
+	*@param P
+	*	vec2f
+	*@param refZ
+	*	float
+	*@param pDx
+	*	float
+	*@param pDy
+	*	float
+	*/
+	TextureAccessCallPtr makeTextureProjGrad1DShadowF( ExprPtr texture, ExprPtr P, ExprPtr refZ, ExprPtr pDx, ExprPtr pDy );
+	/**
+	*@return
+	*	float
+	*@param texture
+	*	sampler2DShadow
+	*@param P
+	*	vec3f
+	*@param refZ
+	*	float
+	*@param pDx
+	*	vec2f
+	*@param pDy
+	*	vec2f
+	*/
+	TextureAccessCallPtr makeTextureProjGrad2DShadowF( ExprPtr texture, ExprPtr P, ExprPtr refZ, ExprPtr pDx, ExprPtr pDy );
+	/**
+	*@return
+	*	float
+	*@param texture
+	*	sampler2DRectShadow
+	*@param P
+	*	vec3f
+	*@param refZ
+	*	float
+	*@param pDx
+	*	vec2f
+	*@param pDy
+	*	vec2f
+	*/
+	TextureAccessCallPtr makeTextureProjGrad2DRectShadowF( ExprPtr texture, ExprPtr P, ExprPtr refZ, ExprPtr pDx, ExprPtr pDy );
+	/**
+	*@return
+	*	float
+	*@param texture
+	*	sampler1DShadow
+	*@param P
+	*	vec2f
+	*@param refZ
+	*	float
+	*@param dPdx
+	*	float
+	*@param dPdy
+	*	float
+	*@param offset
+	*	int
+	*/
+	TextureAccessCallPtr makeTextureProjGradOffset1DShadowF( ExprPtr texture, ExprPtr P, ExprPtr refZ, ExprPtr dPdx, ExprPtr dPdy, ExprPtr offset );
+	/**
+	*@return
+	*	float
+	*@param texture
+	*	sampler2DShadow
+	*@param P
+	*	vec3f
+	*@param refZ
+	*	float
+	*@param dPdx
+	*	vec2f
+	*@param dPdy
+	*	vec2f
+	*@param offset
+	*	vec2i
+	*/
+	TextureAccessCallPtr makeTextureProjGradOffset2DShadowF( ExprPtr texture, ExprPtr P, ExprPtr refZ, ExprPtr dPdx, ExprPtr dPdy, ExprPtr offset );
+	/**
+	*@return
+	*	float
+	*@param texture
+	*	sampler2DRectShadow
+	*@param P
+	*	vec4f
+	*@param refZ
+	*	float
+	*@param dPdx
+	*	vec2f
+	*@param dPdy
+	*	vec2f
+	*@param offset
+	*	vec2i
+	*/
+	TextureAccessCallPtr makeTextureProjGradOffset2DRectShadowF( ExprPtr texture, ExprPtr P, ExprPtr refZ, ExprPtr dPdx, ExprPtr dPdy, ExprPtr offset );
 	// Texture Gather Functions
 
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureGather2DF( ExprPtr/*sampler2D*/ texture
-		, ExprPtr/*vec2f*/ P )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureGather2DF
-			, std::move( texture )
-			, std::move( P ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureGather2DFComp( ExprPtr/*sampler2D*/ texture
-		, ExprPtr/*vec2f*/ P
-		, ExprPtr/*int*/ comp )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureGather2DFComp
-			, std::move( texture )
-			, std::move( P )
-			, std::move( comp ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureGather2DArrayF( ExprPtr/*sampler2DArray*/ texture
-		, ExprPtr/*vec3f*/ P )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureGather2DArrayF
-			, std::move( texture )
-			, std::move( P ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureGather2DArrayFComp( ExprPtr/*sampler2DArray*/ texture
-		, ExprPtr/*vec3f*/ P
-		, ExprPtr/*int*/ comp )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureGather2DArrayFComp
-			, std::move( texture )
-			, std::move( P )
-			, std::move( comp ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureGatherCubeF( ExprPtr/*samplerCube*/ texture
-		, ExprPtr/*vec3f*/ P )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureGatherCubeF
-			, std::move( texture )
-			, std::move( P ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureGatherCubeFComp( ExprPtr/*samplerCube*/ texture
-		, ExprPtr/*vec3f*/ P
-		, ExprPtr/*int*/ comp )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureGatherCubeFComp
-			, std::move( texture )
-			, std::move( P )
-			, std::move( comp ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureGatherCubeArrayF( ExprPtr/*samplerCubeArray*/ texture
-		, ExprPtr/*vec4f*/ P )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureGatherCubeArrayF
-			, std::move( texture )
-			, std::move( P ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureGatherCubeArrayFComp( ExprPtr/*samplerCubeArray*/ texture
-		, ExprPtr/*vec4f*/ P
-		, ExprPtr/*int*/ comp )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureGatherCubeArrayFComp
-			, std::move( texture )
-			, std::move( P )
-			, std::move( comp ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureGather2DRectF( ExprPtr/*sampler2DRect*/ texture
-		, ExprPtr/*vec3f*/ P )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureGather2DRectF
-			, std::move( texture )
-			, std::move( P ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureGather2DRectFComp( ExprPtr/*sampler2DRect*/ texture
-		, ExprPtr/*vec3f*/ P
-		, ExprPtr/*int*/ comp )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureGather2DRectFComp
-			, std::move( texture )
-			, std::move( P )
-			, std::move( comp ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureGather2DShadowF( ExprPtr/*sampler2DShadow*/ texture
-		, ExprPtr/*vec2f*/ P
-		, ExprPtr/*float*/ refZ )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureGather2DShadowF
-			, std::move( texture )
-			, std::move( P )
-			, std::move( refZ ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureGather2DArrayShadowF( ExprPtr/*sampler2DArrayShadow*/ texture
-		, ExprPtr/*vec3f*/ P
-		, ExprPtr/*float*/ refZ )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureGather2DArrayShadowF
-			, std::move( texture )
-			, std::move( P )
-			, std::move( refZ ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureGatherCubeShadowF( ExprPtr/*samplerCubeShadow*/ texture
-		, ExprPtr/*vec3f*/ P
-		, ExprPtr/*float*/ refZ )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureGatherCubeShadowF
-			, std::move( texture )
-			, std::move( P )
-			, std::move( refZ ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureGatherCubeArrayShadowF( ExprPtr/*samplerCubeArrayShadow*/ texture
-		, ExprPtr/*vec4f*/ P
-		, ExprPtr/*float*/ refZ )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureGatherCubeArrayShadowF
-			, std::move( texture )
-			, std::move( P )
-			, std::move( refZ ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureGather2DRectShadowF( ExprPtr/*sampler2DRectShadow*/ texture
-		, ExprPtr/*vec3f*/ P
-		, ExprPtr/*float*/ refZ )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureGather2DRectShadowF
-			, std::move( texture )
-			, std::move( P )
-			, std::move( refZ ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4i*/ makeTextureGather2DI( ExprPtr/*isampler2D*/ texture
-		, ExprPtr/*vec2f*/ P )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4I )
-			, TextureAccess::eTextureGather2DI
-			, std::move( texture )
-			, std::move( P ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4i*/ makeTextureGather2DIComp( ExprPtr/*isampler2D*/ texture
-		, ExprPtr/*vec2f*/ P
-		, ExprPtr/*int*/ comp )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4I )
-			, TextureAccess::eTextureGather2DIComp
-			, std::move( texture )
-			, std::move( P )
-			, std::move( comp ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4i*/ makeTextureGather2DArrayI( ExprPtr/*isampler2DArray*/ texture
-		, ExprPtr/*vec3f*/ P )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4I )
-			, TextureAccess::eTextureGather2DArrayI
-			, std::move( texture )
-			, std::move( P ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4i*/ makeTextureGather2DArrayIComp( ExprPtr/*isampler2DArray*/ texture
-		, ExprPtr/*vec3f*/ P
-		, ExprPtr/*int*/ comp )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4I )
-			, TextureAccess::eTextureGather2DArrayIComp
-			, std::move( texture )
-			, std::move( P )
-			, std::move( comp ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4i*/ makeTextureGatherCubeI( ExprPtr/*isamplerCube*/ texture
-		, ExprPtr/*vec3f*/ P )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4I )
-			, TextureAccess::eTextureGatherCubeI
-			, std::move( texture )
-			, std::move( P ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4i*/ makeTextureGatherCubeIComp( ExprPtr/*isamplerCube*/ texture
-		, ExprPtr/*vec3f*/ P
-		, ExprPtr/*int*/ comp )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4I )
-			, TextureAccess::eTextureGatherCubeIComp
-			, std::move( texture )
-			, std::move( P )
-			, std::move( comp ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4i*/ makeTextureGatherCubeArrayI( ExprPtr/*isamplerCubeArray*/ texture
-		, ExprPtr/*vec4f*/ P )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4I )
-			, TextureAccess::eTextureGatherCubeArrayI
-			, std::move( texture )
-			, std::move( P ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4i*/ makeTextureGatherCubeArrayIComp( ExprPtr/*isamplerCubeArray*/ texture
-		, ExprPtr/*vec4f*/ P
-		, ExprPtr/*int*/ comp )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4I )
-			, TextureAccess::eTextureGatherCubeArrayIComp
-			, std::move( texture )
-			, std::move( P )
-			, std::move( comp ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4i*/ makeTextureGather2DRectI( ExprPtr/*isampler2DRect*/ texture
-		, ExprPtr/*vec3f*/ P )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4I )
-			, TextureAccess::eTextureGather2DRectI
-			, std::move( texture )
-			, std::move( P ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4i*/ makeTextureGather2DRectIComp( ExprPtr/*isampler2DRect*/ texture
-		, ExprPtr/*vec3f*/ P
-		, ExprPtr/*int*/ comp )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4I )
-			, TextureAccess::eTextureGather2DRectIComp
-			, std::move( texture )
-			, std::move( P )
-			, std::move( comp ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4u*/ makeTextureGather2DU( ExprPtr/*usampler2D*/ texture
-		, ExprPtr/*vec2f*/ P )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4U )
-			, TextureAccess::eTextureGather2DU
-			, std::move( texture )
-			, std::move( P ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4u*/ makeTextureGather2DUComp( ExprPtr/*usampler2D*/ texture
-		, ExprPtr/*vec2f*/ P
-		, ExprPtr/*int*/ comp )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4U )
-			, TextureAccess::eTextureGather2DUComp
-			, std::move( texture )
-			, std::move( P )
-			, std::move( comp ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4u*/ makeTextureGather2DArrayU( ExprPtr/*usampler2DArray*/ texture
-		, ExprPtr/*vec3f*/ P )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4U )
-			, TextureAccess::eTextureGather2DArrayU
-			, std::move( texture )
-			, std::move( P ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4u*/ makeTextureGather2DArrayUComp( ExprPtr/*usampler2DArray*/ texture
-		, ExprPtr/*vec3f*/ P
-		, ExprPtr/*int*/ comp )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4U )
-			, TextureAccess::eTextureGather2DArrayUComp
-			, std::move( texture )
-			, std::move( P )
-			, std::move( comp ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4u*/ makeTextureGatherCubeU( ExprPtr/*usamplerCube*/ texture
-		, ExprPtr/*vec3f*/ P )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4U )
-			, TextureAccess::eTextureGatherCubeU
-			, std::move( texture )
-			, std::move( P ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4u*/ makeTextureGatherCubeUComp( ExprPtr/*usamplerCube*/ texture
-		, ExprPtr/*vec3f*/ P
-		, ExprPtr/*int*/ comp )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4U )
-			, TextureAccess::eTextureGatherCubeUComp
-			, std::move( texture )
-			, std::move( P )
-			, std::move( comp ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4u*/ makeTextureGatherCubeArrayU( ExprPtr/*usamplerCubeArray*/ texture
-		, ExprPtr/*vec4f*/ P )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4U )
-			, TextureAccess::eTextureGatherCubeArrayU
-			, std::move( texture )
-			, std::move( P ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4u*/ makeTextureGatherCubeArrayUComp( ExprPtr/*usamplerCubeArray*/ texture
-		, ExprPtr/*vec4f*/ P
-		, ExprPtr/*int*/ comp )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4U )
-			, TextureAccess::eTextureGatherCubeArrayUComp
-			, std::move( texture )
-			, std::move( P )
-			, std::move( comp ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4u*/ makeTextureGather2DRectU( ExprPtr/*usampler2DRect*/ texture
-		, ExprPtr/*vec3f*/ P )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4U )
-			, TextureAccess::eTextureGather2DRectU
-			, std::move( texture )
-			, std::move( P ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4u*/ makeTextureGather2DRectUComp( ExprPtr/*usampler2DRect*/ texture
-		, ExprPtr/*vec3f*/ P
-		, ExprPtr/*int*/ comp )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4U )
-			, TextureAccess::eTextureGather2DRectUComp
-			, std::move( texture )
-			, std::move( P )
-			, std::move( comp ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureGatherOffset2DF( ExprPtr/*sampler2D*/ texture
-		, ExprPtr/*vec2f*/ P
-		, ExprPtr/*vec2i*/ offset )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureGatherOffset2DF
-			, std::move( texture )
-			, std::move( P )
-			, std::move( offset ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureGatherOffset2DFComp( ExprPtr/*sampler2D*/ texture
-		, ExprPtr/*vec2f*/ P
-		, ExprPtr/*vec2i*/ offset
-		, ExprPtr/*int*/ comp )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureGatherOffset2DFComp
-			, std::move( texture )
-			, std::move( P )
-			, std::move( offset )
-			, std::move( comp ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureGatherOffset2DArrayF( ExprPtr/*sampler2DArray*/ texture
-		, ExprPtr/*vec3f*/ P
-		, ExprPtr/*vec2i*/ offset )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureGatherOffset2DArrayF
-			, std::move( texture )
-			, std::move( P )
-			, std::move( offset ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureGatherOffset2DArrayFComp( ExprPtr/*sampler2DArray*/ texture
-		, ExprPtr/*vec3f*/ P
-		, ExprPtr/*vec2i*/ offset
-		, ExprPtr/*int*/ comp )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureGatherOffset2DArrayFComp
-			, std::move( texture )
-			, std::move( P )
-			, std::move( offset )
-			, std::move( comp ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureGatherOffset2DRectF( ExprPtr/*sampler2DRect*/ texture
-		, ExprPtr/*vec3f*/ P
-		, ExprPtr/*vec2i*/ offset )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureGatherOffset2DRectF
-			, std::move( texture )
-			, std::move( P )
-			, std::move( offset ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureGatherOffset2DRectFComp( ExprPtr/*sampler2DRect*/ texture
-		, ExprPtr/*vec3f*/ P
-		, ExprPtr/*vec2i*/ offset
-		, ExprPtr/*int*/ comp )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureGatherOffset2DRectFComp
-			, std::move( texture )
-			, std::move( P )
-			, std::move( offset )
-			, std::move( comp ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureGatherOffset2DShadowF( ExprPtr/*sampler2DShadow*/ texture
-		, ExprPtr/*vec2f*/ P
-		, ExprPtr/*float*/ refZ
-		, ExprPtr/*vec2i*/ offset )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureGatherOffset2DShadowF
-			, std::move( texture )
-			, std::move( P )
-			, std::move( refZ )
-			, std::move( offset ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureGatherOffset2DArrayShadowF( ExprPtr/*sampler2DArrayShadow*/ texture
-		, ExprPtr/*vec3f*/ P
-		, ExprPtr/*float*/ refZ
-		, ExprPtr/*vec2i*/ offset )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureGatherOffset2DArrayShadowF
-			, std::move( texture )
-			, std::move( P )
-			, std::move( refZ )
-			, std::move( offset ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureGatherOffset2DRectShadowF( ExprPtr/*sampler2DRectShadow*/ texture
-		, ExprPtr/*vec3f*/ P
-		, ExprPtr/*float*/ refZ
-		, ExprPtr/*vec2i*/ offset )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureGatherOffset2DRectShadowF
-			, std::move( texture )
-			, std::move( P )
-			, std::move( refZ )
-			, std::move( offset ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4i*/ makeTextureGatherOffset2DI( ExprPtr/*isampler2D*/ texture
-		, ExprPtr/*vec2f*/ P
-		, ExprPtr/*vec2i*/ offset )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4I )
-			, TextureAccess::eTextureGatherOffset2DI
-			, std::move( texture )
-			, std::move( P )
-			, std::move( offset ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4i*/ makeTextureGatherOffset2DIComp( ExprPtr/*isampler2D*/ texture
-		, ExprPtr/*vec2f*/ P
-		, ExprPtr/*vec2i*/ offset
-		, ExprPtr/*int*/ comp )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4I )
-			, TextureAccess::eTextureGatherOffset2DIComp
-			, std::move( texture )
-			, std::move( P )
-			, std::move( offset )
-			, std::move( comp ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4i*/ makeTextureGatherOffset2DArrayI( ExprPtr/*isampler2DArray*/ texture
-		, ExprPtr/*vec3f*/ P
-		, ExprPtr/*vec2i*/ offset )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4I )
-			, TextureAccess::eTextureGatherOffset2DArrayI
-			, std::move( texture )
-			, std::move( P )
-			, std::move( offset ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4i*/ makeTextureGatherOffset2DArrayIComp( ExprPtr/*isampler2DArray*/ texture
-		, ExprPtr/*vec3f*/ P
-		, ExprPtr/*vec2i*/ offset
-		, ExprPtr/*int*/ comp )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4I )
-			, TextureAccess::eTextureGatherOffset2DArrayIComp
-			, std::move( texture )
-			, std::move( P )
-			, std::move( offset )
-			, std::move( comp ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4i*/ makeTextureGatherOffset2DRectI( ExprPtr/*isampler2DRect*/ texture
-		, ExprPtr/*vec3f*/ P
-		, ExprPtr/*vec2i*/ offset )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4I )
-			, TextureAccess::eTextureGatherOffset2DRectI
-			, std::move( texture )
-			, std::move( P )
-			, std::move( offset ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4i*/ makeTextureGatherOffset2DRectIComp( ExprPtr/*isampler2DRect*/ texture
-		, ExprPtr/*vec3f*/ P
-		, ExprPtr/*vec2i*/ offset
-		, ExprPtr/*int*/ comp )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4I )
-			, TextureAccess::eTextureGatherOffset2DRectIComp
-			, std::move( texture )
-			, std::move( P )
-			, std::move( offset )
-			, std::move( comp ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4u*/ makeTextureGatherOffset2DU( ExprPtr/*usampler2D*/ texture
-		, ExprPtr/*vec2f*/ P
-		, ExprPtr/*vec2i*/ offset )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4U )
-			, TextureAccess::eTextureGatherOffset2DU
-			, std::move( texture )
-			, std::move( P )
-			, std::move( offset ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4u*/ makeTextureGatherOffset2DUComp( ExprPtr/*usampler2D*/ texture
-		, ExprPtr/*vec2f*/ P
-		, ExprPtr/*vec2i*/ offset
-		, ExprPtr/*int*/ comp )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4U )
-			, TextureAccess::eTextureGatherOffset2DUComp
-			, std::move( texture )
-			, std::move( P )
-			, std::move( offset )
-			, std::move( comp ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4u*/ makeTextureGatherOffset2DArrayU( ExprPtr/*usampler2DArray*/ texture
-		, ExprPtr/*vec3f*/ P
-		, ExprPtr/*vec2i*/ offset )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4U )
-			, TextureAccess::eTextureGatherOffset2DArrayU
-			, std::move( texture )
-			, std::move( P )
-			, std::move( offset ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4u*/ makeTextureGatherOffset2DArrayUComp( ExprPtr/*usampler2DArray*/ texture
-		, ExprPtr/*vec3f*/ P
-		, ExprPtr/*vec2i*/ offset
-		, ExprPtr/*int*/ comp )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4U )
-			, TextureAccess::eTextureGatherOffset2DArrayUComp
-			, std::move( texture )
-			, std::move( P )
-			, std::move( offset )
-			, std::move( comp ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4u*/ makeTextureGatherOffset2DRectU( ExprPtr/*usampler2DRect*/ texture
-		, ExprPtr/*vec3f*/ P
-		, ExprPtr/*vec2i*/ offset )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4U )
-			, TextureAccess::eTextureGatherOffset2DRectU
-			, std::move( texture )
-			, std::move( P )
-			, std::move( offset ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4u*/ makeTextureGatherOffset2DRectUComp( ExprPtr/*usampler2DRect*/ texture
-		, ExprPtr/*vec3f*/ P
-		, ExprPtr/*vec2i*/ offset
-		, ExprPtr/*int*/ comp )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4U )
-			, TextureAccess::eTextureGatherOffset2DRectUComp
-			, std::move( texture )
-			, std::move( P )
-			, std::move( offset )
-			, std::move( comp ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureGatherOffsets2DF( ExprPtr/*sampler2D*/ texture
-		, ExprPtr/*vec2f*/ P
-		, ExprPtr/*vec2i*/ offsets )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureGatherOffsets2DF
-			, std::move( texture )
-			, std::move( P )
-			, std::move( offsets ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureGatherOffsets2DFComp( ExprPtr/*sampler2D*/ texture
-		, ExprPtr/*vec2f*/ P
-		, ExprPtr/*vec2i*/ offsets
-		, ExprPtr/*int*/ comp )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureGatherOffsets2DFComp
-			, std::move( texture )
-			, std::move( P )
-			, std::move( offsets )
-			, std::move( comp ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureGatherOffsets2DArrayF( ExprPtr/*sampler2DArray*/ texture
-		, ExprPtr/*vec3f*/ P
-		, ExprPtr/*vec2i*/ offsets )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureGatherOffsets2DArrayF
-			, std::move( texture )
-			, std::move( P )
-			, std::move( offsets ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureGatherOffsets2DArrayFComp( ExprPtr/*sampler2DArray*/ texture
-		, ExprPtr/*vec3f*/ P
-		, ExprPtr/*vec2i*/ offsets
-		, ExprPtr/*int*/ comp )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureGatherOffsets2DArrayFComp
-			, std::move( texture )
-			, std::move( P )
-			, std::move( offsets )
-			, std::move( comp ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureGatherOffsets2DRectF( ExprPtr/*sampler2DRect*/ texture
-		, ExprPtr/*vec3f*/ P
-		, ExprPtr/*vec2i*/ offsets )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureGatherOffsets2DRectF
-			, std::move( texture )
-			, std::move( P )
-			, std::move( offsets ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureGatherOffsets2DRectFComp( ExprPtr/*sampler2DRect*/ texture
-		, ExprPtr/*vec3f*/ P
-		, ExprPtr/*vec2i*/ offsets
-		, ExprPtr/*int*/ comp )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureGatherOffsets2DRectFComp
-			, std::move( texture )
-			, std::move( P )
-			, std::move( offsets )
-			, std::move( comp ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureGatherOffsets2DShadowF( ExprPtr/*sampler2DShadow*/ texture
-		, ExprPtr/*vec2f*/ P
-		, ExprPtr/*float*/ refZ
-		, ExprPtr/*vec2i*/ offsets )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureGatherOffsets2DShadowF
-			, std::move( texture )
-			, std::move( P )
-			, std::move( refZ )
-			, std::move( offsets ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureGatherOffsets2DArrayShadowF( ExprPtr/*sampler2DArrayShadow*/ texture
-		, ExprPtr/*vec3f*/ P
-		, ExprPtr/*float*/ refZ
-		, ExprPtr/*vec2i*/ offsets )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureGatherOffsets2DArrayShadowF
-			, std::move( texture )
-			, std::move( P )
-			, std::move( refZ )
-			, std::move( offsets ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4f*/ makeTextureGatherOffsets2DRectShadowF( ExprPtr/*sampler2DRectShadow*/ texture
-		, ExprPtr/*vec3f*/ P
-		, ExprPtr/*float*/ refZ
-		, ExprPtr/*vec2i*/ offsets )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4F )
-			, TextureAccess::eTextureGatherOffsets2DRectShadowF
-			, std::move( texture )
-			, std::move( P )
-			, std::move( refZ )
-			, std::move( offsets ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4i*/ makeTextureGatherOffsets2DI( ExprPtr/*isampler2D*/ texture
-		, ExprPtr/*vec2f*/ P
-		, ExprPtr/*vec2i*/ offsets )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4I )
-			, TextureAccess::eTextureGatherOffsets2DI
-			, std::move( texture )
-			, std::move( P )
-			, std::move( offsets ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4i*/ makeTextureGatherOffsets2DIComp( ExprPtr/*isampler2D*/ texture
-		, ExprPtr/*vec2f*/ P
-		, ExprPtr/*vec2i*/ offsets
-		, ExprPtr/*int*/ comp )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4I )
-			, TextureAccess::eTextureGatherOffsets2DIComp
-			, std::move( texture )
-			, std::move( P )
-			, std::move( offsets )
-			, std::move( comp ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4i*/ makeTextureGatherOffsets2DArrayI( ExprPtr/*isampler2DArray*/ texture
-		, ExprPtr/*vec3f*/ P
-		, ExprPtr/*vec2i*/ offsets )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4I )
-			, TextureAccess::eTextureGatherOffsets2DArrayI
-			, std::move( texture )
-			, std::move( P )
-			, std::move( offsets ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4i*/ makeTextureGatherOffsets2DArrayIComp( ExprPtr/*isampler2DArray*/ texture
-		, ExprPtr/*vec3f*/ P
-		, ExprPtr/*vec2i*/ offsets
-		, ExprPtr/*int*/ comp )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4I )
-			, TextureAccess::eTextureGatherOffsets2DArrayIComp
-			, std::move( texture )
-			, std::move( P )
-			, std::move( offsets )
-			, std::move( comp ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4i*/ makeTextureGatherOffsets2DRectI( ExprPtr/*isampler2DRect*/ texture
-		, ExprPtr/*vec3f*/ P
-		, ExprPtr/*vec2i*/ offsets )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4I )
-			, TextureAccess::eTextureGatherOffsets2DRectI
-			, std::move( texture )
-			, std::move( P )
-			, std::move( offsets ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4i*/ makeTextureGatherOffsets2DRectIComp( ExprPtr/*isampler2DRect*/ texture
-		, ExprPtr/*vec3f*/ P
-		, ExprPtr/*vec2i*/ offsets
-		, ExprPtr/*int*/ comp )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4I )
-			, TextureAccess::eTextureGatherOffsets2DRectIComp
-			, std::move( texture )
-			, std::move( P )
-			, std::move( offsets )
-			, std::move( comp ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4u*/ makeTextureGatherOffsets2DU( ExprPtr/*usampler2D*/ texture
-		, ExprPtr/*vec2f*/ P
-		, ExprPtr/*vec2i*/ offsets )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4U )
-			, TextureAccess::eTextureGatherOffsets2DU
-			, std::move( texture )
-			, std::move( P )
-			, std::move( offsets ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4u*/ makeTextureGatherOffsets2DUComp( ExprPtr/*usampler2D*/ texture
-		, ExprPtr/*vec2f*/ P
-		, ExprPtr/*vec2i*/ offsets
-		, ExprPtr/*int*/ comp )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4U )
-			, TextureAccess::eTextureGatherOffsets2DUComp
-			, std::move( texture )
-			, std::move( P )
-			, std::move( offsets )
-			, std::move( comp ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4u*/ makeTextureGatherOffsets2DArrayU( ExprPtr/*usampler2DArray*/ texture
-		, ExprPtr/*vec3f*/ P
-		, ExprPtr/*vec2i*/ offsets )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4U )
-			, TextureAccess::eTextureGatherOffsets2DArrayU
-			, std::move( texture )
-			, std::move( P )
-			, std::move( offsets ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4u*/ makeTextureGatherOffsets2DArrayUComp( ExprPtr/*usampler2DArray*/ texture
-		, ExprPtr/*vec3f*/ P
-		, ExprPtr/*vec2i*/ offsets
-		, ExprPtr/*int*/ comp )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4U )
-			, TextureAccess::eTextureGatherOffsets2DArrayUComp
-			, std::move( texture )
-			, std::move( P )
-			, std::move( offsets )
-			, std::move( comp ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4u*/ makeTextureGatherOffsets2DRectU( ExprPtr/*usampler2DRect*/ texture
-		, ExprPtr/*vec3f*/ P
-		, ExprPtr/*vec2i*/ offsets )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4U )
-			, TextureAccess::eTextureGatherOffsets2DRectU
-			, std::move( texture )
-			, std::move( P )
-			, std::move( offsets ) );
-	}
-
-	inline TextureAccessCallPtr/*vec4u*/ makeTextureGatherOffsets2DRectUComp( ExprPtr/*usampler2DRect*/ texture
-		, ExprPtr/*vec3f*/ P
-		, ExprPtr/*vec2i*/ offsets
-		, ExprPtr/*int*/ comp )
-	{
-		return makeTextureAccessCall( makeType( type::Kind::eVec4U )
-			, TextureAccess::eTextureGatherOffsets2DRectUComp
-			, std::move( texture )
-			, std::move( P )
-			, std::move( offsets )
-			, std::move( comp ) );
-	}
-}
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	sampler2D
+	*@param P
+	*	vec2f
+	*/
+	TextureAccessCallPtr makeTextureGather2DF( ExprPtr texture, ExprPtr P );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	sampler2D
+	*@param P
+	*	vec2f
+	*@param comp
+	*	int
+	*/
+	TextureAccessCallPtr makeTextureGather2DFComp( ExprPtr texture, ExprPtr P, ExprPtr comp );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	sampler2DArray
+	*@param P
+	*	vec3f
+	*/
+	TextureAccessCallPtr makeTextureGather2DArrayF( ExprPtr texture, ExprPtr P );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	sampler2DArray
+	*@param P
+	*	vec3f
+	*@param comp
+	*	int
+	*/
+	TextureAccessCallPtr makeTextureGather2DArrayFComp( ExprPtr texture, ExprPtr P, ExprPtr comp );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	samplerCube
+	*@param P
+	*	vec3f
+	*/
+	TextureAccessCallPtr makeTextureGatherCubeF( ExprPtr texture, ExprPtr P );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	samplerCube
+	*@param P
+	*	vec3f
+	*@param comp
+	*	int
+	*/
+	TextureAccessCallPtr makeTextureGatherCubeFComp( ExprPtr texture, ExprPtr P, ExprPtr comp );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	samplerCubeArray
+	*@param P
+	*	vec4f
+	*/
+	TextureAccessCallPtr makeTextureGatherCubeArrayF( ExprPtr texture, ExprPtr P );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	samplerCubeArray
+	*@param P
+	*	vec4f
+	*@param comp
+	*	int
+	*/
+	TextureAccessCallPtr makeTextureGatherCubeArrayFComp( ExprPtr texture, ExprPtr P, ExprPtr comp );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	sampler2DRect
+	*@param P
+	*	vec3f
+	*/
+	TextureAccessCallPtr makeTextureGather2DRectF( ExprPtr texture, ExprPtr P );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	sampler2DRect
+	*@param P
+	*	vec3f
+	*@param comp
+	*	int
+	*/
+	TextureAccessCallPtr makeTextureGather2DRectFComp( ExprPtr texture, ExprPtr P, ExprPtr comp );
+	/**
+	*@return
+	*	vec4i
+	*@param texture
+	*	isampler2D
+	*@param P
+	*	vec2f
+	*/
+	TextureAccessCallPtr makeTextureGather2DI( ExprPtr texture, ExprPtr P );
+	/**
+	*@return
+	*	vec4i
+	*@param texture
+	*	isampler2D
+	*@param P
+	*	vec2f
+	*@param comp
+	*	int
+	*/
+	TextureAccessCallPtr makeTextureGather2DIComp( ExprPtr texture, ExprPtr P, ExprPtr comp );
+	/**
+	*@return
+	*	vec4i
+	*@param texture
+	*	isampler2DArray
+	*@param P
+	*	vec3f
+	*/
+	TextureAccessCallPtr makeTextureGather2DArrayI( ExprPtr texture, ExprPtr P );
+	/**
+	*@return
+	*	vec4i
+	*@param texture
+	*	isampler2DArray
+	*@param P
+	*	vec3f
+	*@param comp
+	*	int
+	*/
+	TextureAccessCallPtr makeTextureGather2DArrayIComp( ExprPtr texture, ExprPtr P, ExprPtr comp );
+	/**
+	*@return
+	*	vec4i
+	*@param texture
+	*	isamplerCube
+	*@param P
+	*	vec3f
+	*/
+	TextureAccessCallPtr makeTextureGatherCubeI( ExprPtr texture, ExprPtr P );
+	/**
+	*@return
+	*	vec4i
+	*@param texture
+	*	isamplerCube
+	*@param P
+	*	vec3f
+	*@param comp
+	*	int
+	*/
+	TextureAccessCallPtr makeTextureGatherCubeIComp( ExprPtr texture, ExprPtr P, ExprPtr comp );
+	/**
+	*@return
+	*	vec4i
+	*@param texture
+	*	isamplerCubeArray
+	*@param P
+	*	vec4f
+	*/
+	TextureAccessCallPtr makeTextureGatherCubeArrayI( ExprPtr texture, ExprPtr P );
+	/**
+	*@return
+	*	vec4i
+	*@param texture
+	*	isamplerCubeArray
+	*@param P
+	*	vec4f
+	*@param comp
+	*	int
+	*/
+	TextureAccessCallPtr makeTextureGatherCubeArrayIComp( ExprPtr texture, ExprPtr P, ExprPtr comp );
+	/**
+	*@return
+	*	vec4i
+	*@param texture
+	*	isampler2DRect
+	*@param P
+	*	vec3f
+	*/
+	TextureAccessCallPtr makeTextureGather2DRectI( ExprPtr texture, ExprPtr P );
+	/**
+	*@return
+	*	vec4i
+	*@param texture
+	*	isampler2DRect
+	*@param P
+	*	vec3f
+	*@param comp
+	*	int
+	*/
+	TextureAccessCallPtr makeTextureGather2DRectIComp( ExprPtr texture, ExprPtr P, ExprPtr comp );
+	/**
+	*@return
+	*	vec4u
+	*@param texture
+	*	usampler2D
+	*@param P
+	*	vec2f
+	*/
+	TextureAccessCallPtr makeTextureGather2DU( ExprPtr texture, ExprPtr P );
+	/**
+	*@return
+	*	vec4u
+	*@param texture
+	*	usampler2D
+	*@param P
+	*	vec2f
+	*@param comp
+	*	int
+	*/
+	TextureAccessCallPtr makeTextureGather2DUComp( ExprPtr texture, ExprPtr P, ExprPtr comp );
+	/**
+	*@return
+	*	vec4u
+	*@param texture
+	*	usampler2DArray
+	*@param P
+	*	vec3f
+	*/
+	TextureAccessCallPtr makeTextureGather2DArrayU( ExprPtr texture, ExprPtr P );
+	/**
+	*@return
+	*	vec4u
+	*@param texture
+	*	usampler2DArray
+	*@param P
+	*	vec3f
+	*@param comp
+	*	int
+	*/
+	TextureAccessCallPtr makeTextureGather2DArrayUComp( ExprPtr texture, ExprPtr P, ExprPtr comp );
+	/**
+	*@return
+	*	vec4u
+	*@param texture
+	*	usamplerCube
+	*@param P
+	*	vec3f
+	*/
+	TextureAccessCallPtr makeTextureGatherCubeU( ExprPtr texture, ExprPtr P );
+	/**
+	*@return
+	*	vec4u
+	*@param texture
+	*	usamplerCube
+	*@param P
+	*	vec3f
+	*@param comp
+	*	int
+	*/
+	TextureAccessCallPtr makeTextureGatherCubeUComp( ExprPtr texture, ExprPtr P, ExprPtr comp );
+	/**
+	*@return
+	*	vec4u
+	*@param texture
+	*	usamplerCubeArray
+	*@param P
+	*	vec4f
+	*/
+	TextureAccessCallPtr makeTextureGatherCubeArrayU( ExprPtr texture, ExprPtr P );
+	/**
+	*@return
+	*	vec4u
+	*@param texture
+	*	usamplerCubeArray
+	*@param P
+	*	vec4f
+	*@param comp
+	*	int
+	*/
+	TextureAccessCallPtr makeTextureGatherCubeArrayUComp( ExprPtr texture, ExprPtr P, ExprPtr comp );
+	/**
+	*@return
+	*	vec4u
+	*@param texture
+	*	usampler2DRect
+	*@param P
+	*	vec3f
+	*/
+	TextureAccessCallPtr makeTextureGather2DRectU( ExprPtr texture, ExprPtr P );
+	/**
+	*@return
+	*	vec4u
+	*@param texture
+	*	usampler2DRect
+	*@param P
+	*	vec3f
+	*@param comp
+	*	int
+	*/
+	TextureAccessCallPtr makeTextureGather2DRectUComp( ExprPtr texture, ExprPtr P, ExprPtr comp );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	sampler2D
+	*@param P
+	*	vec2f
+	*@param offset
+	*	vec2i
+	*/
+	TextureAccessCallPtr makeTextureGatherOffset2DF( ExprPtr texture, ExprPtr P, ExprPtr offset );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	sampler2D
+	*@param P
+	*	vec2f
+	*@param offset
+	*	vec2i
+	*@param comp
+	*	int
+	*/
+	TextureAccessCallPtr makeTextureGatherOffset2DFComp( ExprPtr texture, ExprPtr P, ExprPtr offset, ExprPtr comp );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	sampler2DArray
+	*@param P
+	*	vec3f
+	*@param offset
+	*	vec2i
+	*/
+	TextureAccessCallPtr makeTextureGatherOffset2DArrayF( ExprPtr texture, ExprPtr P, ExprPtr offset );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	sampler2DArray
+	*@param P
+	*	vec3f
+	*@param offset
+	*	vec2i
+	*@param comp
+	*	int
+	*/
+	TextureAccessCallPtr makeTextureGatherOffset2DArrayFComp( ExprPtr texture, ExprPtr P, ExprPtr offset, ExprPtr comp );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	sampler2DRect
+	*@param P
+	*	vec3f
+	*@param offset
+	*	vec2i
+	*/
+	TextureAccessCallPtr makeTextureGatherOffset2DRectF( ExprPtr texture, ExprPtr P, ExprPtr offset );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	sampler2DRect
+	*@param P
+	*	vec3f
+	*@param offset
+	*	vec2i
+	*@param comp
+	*	int
+	*/
+	TextureAccessCallPtr makeTextureGatherOffset2DRectFComp( ExprPtr texture, ExprPtr P, ExprPtr offset, ExprPtr comp );
+	/**
+	*@return
+	*	vec4i
+	*@param texture
+	*	isampler2D
+	*@param P
+	*	vec2f
+	*@param offset
+	*	vec2i
+	*/
+	TextureAccessCallPtr makeTextureGatherOffset2DI( ExprPtr texture, ExprPtr P, ExprPtr offset );
+	/**
+	*@return
+	*	vec4i
+	*@param texture
+	*	isampler2D
+	*@param P
+	*	vec2f
+	*@param offset
+	*	vec2i
+	*@param comp
+	*	int
+	*/
+	TextureAccessCallPtr makeTextureGatherOffset2DIComp( ExprPtr texture, ExprPtr P, ExprPtr offset, ExprPtr comp );
+	/**
+	*@return
+	*	vec4i
+	*@param texture
+	*	isampler2DArray
+	*@param P
+	*	vec3f
+	*@param offset
+	*	vec2i
+	*/
+	TextureAccessCallPtr makeTextureGatherOffset2DArrayI( ExprPtr texture, ExprPtr P, ExprPtr offset );
+	/**
+	*@return
+	*	vec4i
+	*@param texture
+	*	isampler2DArray
+	*@param P
+	*	vec3f
+	*@param offset
+	*	vec2i
+	*@param comp
+	*	int
+	*/
+	TextureAccessCallPtr makeTextureGatherOffset2DArrayIComp( ExprPtr texture, ExprPtr P, ExprPtr offset, ExprPtr comp );
+	/**
+	*@return
+	*	vec4i
+	*@param texture
+	*	isampler2DRect
+	*@param P
+	*	vec3f
+	*@param offset
+	*	vec2i
+	*/
+	TextureAccessCallPtr makeTextureGatherOffset2DRectI( ExprPtr texture, ExprPtr P, ExprPtr offset );
+	/**
+	*@return
+	*	vec4i
+	*@param texture
+	*	isampler2DRect
+	*@param P
+	*	vec3f
+	*@param offset
+	*	vec2i
+	*@param comp
+	*	int
+	*/
+	TextureAccessCallPtr makeTextureGatherOffset2DRectIComp( ExprPtr texture, ExprPtr P, ExprPtr offset, ExprPtr comp );
+	/**
+	*@return
+	*	vec4u
+	*@param texture
+	*	usampler2D
+	*@param P
+	*	vec2f
+	*@param offset
+	*	vec2i
+	*/
+	TextureAccessCallPtr makeTextureGatherOffset2DU( ExprPtr texture, ExprPtr P, ExprPtr offset );
+	/**
+	*@return
+	*	vec4u
+	*@param texture
+	*	usampler2D
+	*@param P
+	*	vec2f
+	*@param offset
+	*	vec2i
+	*@param comp
+	*	int
+	*/
+	TextureAccessCallPtr makeTextureGatherOffset2DUComp( ExprPtr texture, ExprPtr P, ExprPtr offset, ExprPtr comp );
+	/**
+	*@return
+	*	vec4u
+	*@param texture
+	*	usampler2DArray
+	*@param P
+	*	vec3f
+	*@param offset
+	*	vec2i
+	*/
+	TextureAccessCallPtr makeTextureGatherOffset2DArrayU( ExprPtr texture, ExprPtr P, ExprPtr offset );
+	/**
+	*@return
+	*	vec4u
+	*@param texture
+	*	usampler2DArray
+	*@param P
+	*	vec3f
+	*@param offset
+	*	vec2i
+	*@param comp
+	*	int
+	*/
+	TextureAccessCallPtr makeTextureGatherOffset2DArrayUComp( ExprPtr texture, ExprPtr P, ExprPtr offset, ExprPtr comp );
+	/**
+	*@return
+	*	vec4u
+	*@param texture
+	*	usampler2DRect
+	*@param P
+	*	vec3f
+	*@param offset
+	*	vec2i
+	*/
+	TextureAccessCallPtr makeTextureGatherOffset2DRectU( ExprPtr texture, ExprPtr P, ExprPtr offset );
+	/**
+	*@return
+	*	vec4u
+	*@param texture
+	*	usampler2DRect
+	*@param P
+	*	vec3f
+	*@param offset
+	*	vec2i
+	*@param comp
+	*	int
+	*/
+	TextureAccessCallPtr makeTextureGatherOffset2DRectUComp( ExprPtr texture, ExprPtr P, ExprPtr offset, ExprPtr comp );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	sampler2D
+	*@param P
+	*	vec2f
+	*@param offsets
+	*	vec2i
+	*/
+	TextureAccessCallPtr makeTextureGatherOffsets2DF( ExprPtr texture, ExprPtr P, ExprPtr offsets );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	sampler2D
+	*@param P
+	*	vec2f
+	*@param offsets
+	*	vec2i
+	*@param comp
+	*	int
+	*/
+	TextureAccessCallPtr makeTextureGatherOffsets2DFComp( ExprPtr texture, ExprPtr P, ExprPtr offsets, ExprPtr comp );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	sampler2DArray
+	*@param P
+	*	vec3f
+	*@param offsets
+	*	vec2i
+	*/
+	TextureAccessCallPtr makeTextureGatherOffsets2DArrayF( ExprPtr texture, ExprPtr P, ExprPtr offsets );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	sampler2DArray
+	*@param P
+	*	vec3f
+	*@param offsets
+	*	vec2i
+	*@param comp
+	*	int
+	*/
+	TextureAccessCallPtr makeTextureGatherOffsets2DArrayFComp( ExprPtr texture, ExprPtr P, ExprPtr offsets, ExprPtr comp );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	sampler2DRect
+	*@param P
+	*	vec3f
+	*@param offsets
+	*	vec2i
+	*/
+	TextureAccessCallPtr makeTextureGatherOffsets2DRectF( ExprPtr texture, ExprPtr P, ExprPtr offsets );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	sampler2DRect
+	*@param P
+	*	vec3f
+	*@param offsets
+	*	vec2i
+	*@param comp
+	*	int
+	*/
+	TextureAccessCallPtr makeTextureGatherOffsets2DRectFComp( ExprPtr texture, ExprPtr P, ExprPtr offsets, ExprPtr comp );
+	/**
+	*@return
+	*	vec4i
+	*@param texture
+	*	isampler2D
+	*@param P
+	*	vec2f
+	*@param offsets
+	*	vec2i
+	*/
+	TextureAccessCallPtr makeTextureGatherOffsets2DI( ExprPtr texture, ExprPtr P, ExprPtr offsets );
+	/**
+	*@return
+	*	vec4i
+	*@param texture
+	*	isampler2D
+	*@param P
+	*	vec2f
+	*@param offsets
+	*	vec2i
+	*@param comp
+	*	int
+	*/
+	TextureAccessCallPtr makeTextureGatherOffsets2DIComp( ExprPtr texture, ExprPtr P, ExprPtr offsets, ExprPtr comp );
+	/**
+	*@return
+	*	vec4i
+	*@param texture
+	*	isampler2DArray
+	*@param P
+	*	vec3f
+	*@param offsets
+	*	vec2i
+	*/
+	TextureAccessCallPtr makeTextureGatherOffsets2DArrayI( ExprPtr texture, ExprPtr P, ExprPtr offsets );
+	/**
+	*@return
+	*	vec4i
+	*@param texture
+	*	isampler2DArray
+	*@param P
+	*	vec3f
+	*@param offsets
+	*	vec2i
+	*@param comp
+	*	int
+	*/
+	TextureAccessCallPtr makeTextureGatherOffsets2DArrayIComp( ExprPtr texture, ExprPtr P, ExprPtr offsets, ExprPtr comp );
+	/**
+	*@return
+	*	vec4i
+	*@param texture
+	*	isampler2DRect
+	*@param P
+	*	vec3f
+	*@param offsets
+	*	vec2i
+	*/
+	TextureAccessCallPtr makeTextureGatherOffsets2DRectI( ExprPtr texture, ExprPtr P, ExprPtr offsets );
+	/**
+	*@return
+	*	vec4i
+	*@param texture
+	*	isampler2DRect
+	*@param P
+	*	vec3f
+	*@param offsets
+	*	vec2i
+	*@param comp
+	*	int
+	*/
+	TextureAccessCallPtr makeTextureGatherOffsets2DRectIComp( ExprPtr texture, ExprPtr P, ExprPtr offsets, ExprPtr comp );
+	/**
+	*@return
+	*	vec4u
+	*@param texture
+	*	usampler2D
+	*@param P
+	*	vec2f
+	*@param offsets
+	*	vec2i
+	*/
+	TextureAccessCallPtr makeTextureGatherOffsets2DU( ExprPtr texture, ExprPtr P, ExprPtr offsets );
+	/**
+	*@return
+	*	vec4u
+	*@param texture
+	*	usampler2D
+	*@param P
+	*	vec2f
+	*@param offsets
+	*	vec2i
+	*@param comp
+	*	int
+	*/
+	TextureAccessCallPtr makeTextureGatherOffsets2DUComp( ExprPtr texture, ExprPtr P, ExprPtr offsets, ExprPtr comp );
+	/**
+	*@return
+	*	vec4u
+	*@param texture
+	*	usampler2DArray
+	*@param P
+	*	vec3f
+	*@param offsets
+	*	vec2i
+	*/
+	TextureAccessCallPtr makeTextureGatherOffsets2DArrayU( ExprPtr texture, ExprPtr P, ExprPtr offsets );
+	/**
+	*@return
+	*	vec4u
+	*@param texture
+	*	usampler2DArray
+	*@param P
+	*	vec3f
+	*@param offsets
+	*	vec2i
+	*@param comp
+	*	int
+	*/
+	TextureAccessCallPtr makeTextureGatherOffsets2DArrayUComp( ExprPtr texture, ExprPtr P, ExprPtr offsets, ExprPtr comp );
+	/**
+	*@return
+	*	vec4u
+	*@param texture
+	*	usampler2DRect
+	*@param P
+	*	vec3f
+	*@param offsets
+	*	vec2i
+	*/
+	TextureAccessCallPtr makeTextureGatherOffsets2DRectU( ExprPtr texture, ExprPtr P, ExprPtr offsets );
+	/**
+	*@return
+	*	vec4u
+	*@param texture
+	*	usampler2DRect
+	*@param P
+	*	vec3f
+	*@param offsets
+	*	vec2i
+	*@param comp
+	*	int
+	*/
+	TextureAccessCallPtr makeTextureGatherOffsets2DRectUComp( ExprPtr texture, ExprPtr P, ExprPtr offsets, ExprPtr comp );
+	// Texture Gather Compare Functions
+
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	sampler2DShadow
+	*@param P
+	*	vec2f
+	*@param refZ
+	*	float
+	*/
+	TextureAccessCallPtr makeTextureGather2DShadowF( ExprPtr texture, ExprPtr P, ExprPtr refZ );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	sampler2DArrayShadow
+	*@param P
+	*	vec3f
+	*@param refZ
+	*	float
+	*/
+	TextureAccessCallPtr makeTextureGather2DArrayShadowF( ExprPtr texture, ExprPtr P, ExprPtr refZ );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	samplerCubeShadow
+	*@param P
+	*	vec3f
+	*@param refZ
+	*	float
+	*/
+	TextureAccessCallPtr makeTextureGatherCubeShadowF( ExprPtr texture, ExprPtr P, ExprPtr refZ );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	samplerCubeArrayShadow
+	*@param P
+	*	vec4f
+	*@param refZ
+	*	float
+	*/
+	TextureAccessCallPtr makeTextureGatherCubeArrayShadowF( ExprPtr texture, ExprPtr P, ExprPtr refZ );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	sampler2DRectShadow
+	*@param P
+	*	vec3f
+	*@param refZ
+	*	float
+	*/
+	TextureAccessCallPtr makeTextureGather2DRectShadowF( ExprPtr texture, ExprPtr P, ExprPtr refZ );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	sampler2DShadow
+	*@param P
+	*	vec2f
+	*@param refZ
+	*	float
+	*@param offset
+	*	vec2i
+	*/
+	TextureAccessCallPtr makeTextureGatherOffset2DShadowF( ExprPtr texture, ExprPtr P, ExprPtr refZ, ExprPtr offset );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	sampler2DArrayShadow
+	*@param P
+	*	vec3f
+	*@param refZ
+	*	float
+	*@param offset
+	*	vec2i
+	*/
+	TextureAccessCallPtr makeTextureGatherOffset2DArrayShadowF( ExprPtr texture, ExprPtr P, ExprPtr refZ, ExprPtr offset );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	sampler2DRectShadow
+	*@param P
+	*	vec3f
+	*@param refZ
+	*	float
+	*@param offset
+	*	vec2i
+	*/
+	TextureAccessCallPtr makeTextureGatherOffset2DRectShadowF( ExprPtr texture, ExprPtr P, ExprPtr refZ, ExprPtr offset );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	sampler2DShadow
+	*@param P
+	*	vec2f
+	*@param refZ
+	*	float
+	*@param offsets
+	*	vec2i
+	*/
+	TextureAccessCallPtr makeTextureGatherOffsets2DShadowF( ExprPtr texture, ExprPtr P, ExprPtr refZ, ExprPtr offsets );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	sampler2DArrayShadow
+	*@param P
+	*	vec3f
+	*@param refZ
+	*	float
+	*@param offsets
+	*	vec2i
+	*/
+	TextureAccessCallPtr makeTextureGatherOffsets2DArrayShadowF( ExprPtr texture, ExprPtr P, ExprPtr refZ, ExprPtr offsets );
+	/**
+	*@return
+	*	vec4f
+	*@param texture
+	*	sampler2DRectShadow
+	*@param P
+	*	vec3f
+	*@param refZ
+	*	float
+	*@param offsets
+	*	vec2i
+	*/
+	TextureAccessCallPtr makeTextureGatherOffsets2DRectShadowF( ExprPtr texture, ExprPtr P, ExprPtr refZ, ExprPtr offsets );}
 
 #endif
