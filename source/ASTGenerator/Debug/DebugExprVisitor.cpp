@@ -229,7 +229,12 @@ namespace ast::debug
 	void ExprVisitor::visitAggrInitExpr( expr::AggrInit * expr )
 	{
 		m_result += getName( expr->getKind() ) + " ";
-		wrap( expr->getIdentifier() );
+
+		if ( expr->getIdentifier() )
+		{
+			wrap( expr->getIdentifier() );
+		}
+
 		m_result += " (";
 		std::string sep;
 

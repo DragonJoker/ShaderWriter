@@ -423,7 +423,7 @@ namespace sdw::spirv
 			{
 				auto unqualifiedStruct = std::static_pointer_cast< type::Struct >( getUnqualifiedType( *qualified.getParent() ) );
 				auto it = unqualifiedStruct->begin() + qualified.getIndex();
-				result = makeType( it->type->getKind() );
+				result = it->type;
 			}
 
 			return result;
@@ -1261,10 +1261,10 @@ namespace sdw::spirv
 		, spv::Id parent )
 	{
 		// The Sampled Type.
-		auto sampledType = registerType( makeType( getComponentType( type->getConfig().format ) ) );
+		auto sampledTypeId = registerType( makeType( type->getConfig().sampledType ) );
 		// The Image Type.
 		auto result = ++*m_currentId;
-		globalDeclarations.push_back( spirv::makeImageType( type->getConfig(), result, sampledType ) );
+		globalDeclarations.push_back( spirv::makeImageType( type->getConfig(), result, sampledTypeId ) );
 		return result;
 	}
 

@@ -36,10 +36,10 @@ namespace sdw::hlsl
 		inline void writeTextureSizeBuffer( stmt::Container * container, std::string const & type )
 		{
 			auto cont = stmt::makeContainer();
-			cont->addStmt( stmt::makeComment( "int SDW_textureSize(" + type + " texture)" ) );
+			cont->addStmt( stmt::makeComment( "int SDW_textureSize(" + type + " texImage)" ) );
 			cont->addStmt( stmt::makeComment( "{" ) );
 			cont->addStmt( stmt::makeComment( "	uint dim;" ) );
-			cont->addStmt( stmt::makeComment( "	texture.GetDimensions(dim);" ) );
+			cont->addStmt( stmt::makeComment( "	texImage.GetDimensions(dim);" ) );
 			cont->addStmt( stmt::makeComment( "	return int(dim);" ) );
 			cont->addStmt( stmt::makeComment( "}" ) );
 			container->addStmt( std::move( cont ) );
@@ -48,11 +48,11 @@ namespace sdw::hlsl
 		inline void writeTextureSize1D( stmt::Container * container, std::string const & type )
 		{
 			auto cont = stmt::makeContainer();
-			cont->addStmt( stmt::makeComment( "int SDW_textureSize(" + type + " texture, int lod)" ) );
+			cont->addStmt( stmt::makeComment( "int SDW_textureSize(" + type + " texImage, int lod)" ) );
 			cont->addStmt( stmt::makeComment( "{" ) );
 			cont->addStmt( stmt::makeComment( "	uint dim;" ) );
 			cont->addStmt( stmt::makeComment( "	uint dump;" ) );
-			cont->addStmt( stmt::makeComment( "	texture.GetDimensions(lod, dim, dump);" ) );
+			cont->addStmt( stmt::makeComment( "	texImage.GetDimensions(lod, dim, dump);" ) );
 			cont->addStmt( stmt::makeComment( "	return int(dim);" ) );
 			cont->addStmt( stmt::makeComment( "}" ) );
 			container->addStmt( std::move( cont ) );
@@ -61,12 +61,12 @@ namespace sdw::hlsl
 		inline void writeTextureSize2D( stmt::Container * container, std::string const & type )
 		{
 			auto cont = stmt::makeContainer();
-			cont->addStmt( stmt::makeComment( "int2 SDW_textureSize(" + type + " texture, int lod)" ) );
+			cont->addStmt( stmt::makeComment( "int2 SDW_textureSize(" + type + " texImage, int lod)" ) );
 			cont->addStmt( stmt::makeComment( "{" ) );
 			cont->addStmt( stmt::makeComment( "	uint dimX;" ) );
 			cont->addStmt( stmt::makeComment( "	uint dimY;" ) );
 			cont->addStmt( stmt::makeComment( "	uint dump;" ) );
-			cont->addStmt( stmt::makeComment( "	texture.GetDimensions(lod, dimX, dimY, dump);" ) );
+			cont->addStmt( stmt::makeComment( "	texImage.GetDimensions(lod, dimX, dimY, dump);" ) );
 			cont->addStmt( stmt::makeComment( "	return int2(dimX, dimY);" ) );
 			cont->addStmt( stmt::makeComment( "}" ) );
 			container->addStmt( std::move( cont ) );
@@ -75,12 +75,12 @@ namespace sdw::hlsl
 		inline void writeTextureSize2DRect( stmt::Container * container, std::string const & type )
 		{
 			auto cont = stmt::makeContainer();
-			cont->addStmt( stmt::makeComment( "int2 SDW_textureSize(" + type + " texture)" ) );
+			cont->addStmt( stmt::makeComment( "int2 SDW_textureSize(" + type + " texImage)" ) );
 			cont->addStmt( stmt::makeComment( "{" ) );
 			cont->addStmt( stmt::makeComment( "	uint dimX;" ) );
 			cont->addStmt( stmt::makeComment( "	uint dimY;" ) );
 			cont->addStmt( stmt::makeComment( "	uint dump;" ) );
-			cont->addStmt( stmt::makeComment( "	texture.GetDimensions(0, dimX, dimY, dump);" ) );
+			cont->addStmt( stmt::makeComment( "	texImage.GetDimensions(0, dimX, dimY, dump);" ) );
 			cont->addStmt( stmt::makeComment( "	return int2(dimX, dimY);" ) );
 			cont->addStmt( stmt::makeComment( "}" ) );
 			container->addStmt( std::move( cont ) );
@@ -89,13 +89,13 @@ namespace sdw::hlsl
 		inline void writeTextureSize3D( stmt::Container * container, std::string const & type )
 		{
 			auto cont = stmt::makeContainer();
-			cont->addStmt( stmt::makeComment( "int3 SDW_textureSize(" + type + " texture, int lod)" ) );
+			cont->addStmt( stmt::makeComment( "int3 SDW_textureSize(" + type + " texImage, int lod)" ) );
 			cont->addStmt( stmt::makeComment( "{" ) );
 			cont->addStmt( stmt::makeComment( "	uint dimX;" ) );
 			cont->addStmt( stmt::makeComment( "	uint dimY;" ) );
 			cont->addStmt( stmt::makeComment( "	uint dimZ;" ) );
 			cont->addStmt( stmt::makeComment( "	uint dump;" ) );
-			cont->addStmt( stmt::makeComment( "	texture.GetDimensions(lod, dimX, dimY, dimZ, dump);" ) );
+			cont->addStmt( stmt::makeComment( "	texImage.GetDimensions(lod, dimX, dimY, dimZ, dump);" ) );
 			cont->addStmt( stmt::makeComment( "	return int3(dimX, dimY, dimZ);" ) );
 			cont->addStmt( stmt::makeComment( "}" ) );
 			container->addStmt( std::move( cont ) );
@@ -104,9 +104,9 @@ namespace sdw::hlsl
 		inline void writeTextureQueryLod1D( stmt::Container * container, std::string const & type )
 		{
 			auto cont = stmt::makeContainer();
-			cont->addStmt( stmt::makeComment( "float2 SDW_textureQueryLod(" + type + " texture, SamplerState sampler, float P)" ) );
+			cont->addStmt( stmt::makeComment( "float2 SDW_textureQueryLod(" + type + " texImage, SamplerState texSampler, float P)" ) );
 			cont->addStmt( stmt::makeComment( "{" ) );
-			cont->addStmt( stmt::makeComment( "	return float2(texture.CalculateLevelOfDetail(sampler, P), 0.0);" ) );
+			cont->addStmt( stmt::makeComment( "	return float2(texImage.CalculateLevelOfDetail(texSampler, P), 0.0);" ) );
 			cont->addStmt( stmt::makeComment( "}" ) );
 			container->addStmt( std::move( cont ) );
 		}
@@ -114,9 +114,9 @@ namespace sdw::hlsl
 		inline void writeTextureQueryLod2D( stmt::Container * container, std::string const & type )
 		{
 			auto cont = stmt::makeContainer();
-			cont->addStmt( stmt::makeComment( "float2 SDW_textureQueryLod(" + type + " texture, SamplerState sampler, float2 P)" ) );
+			cont->addStmt( stmt::makeComment( "float2 SDW_textureQueryLod(" + type + " texImage, SamplerState texSampler, float2 P)" ) );
 			cont->addStmt( stmt::makeComment( "{" ) );
-			cont->addStmt( stmt::makeComment( "	return float2(texture.CalculateLevelOfDetail(sampler, P), 0.0);" ) );
+			cont->addStmt( stmt::makeComment( "	return float2(texImage.CalculateLevelOfDetail(texSampler, P), 0.0);" ) );
 			cont->addStmt( stmt::makeComment( "}" ) );
 			container->addStmt( std::move( cont ) );
 		}
@@ -124,9 +124,9 @@ namespace sdw::hlsl
 		inline void writeTextureQueryLod3D( stmt::Container * container, std::string const & type )
 		{
 			auto cont = stmt::makeContainer();
-			cont->addStmt( stmt::makeComment( "float2 SDW_textureQueryLod(" + type + " texture, SamplerState sampler, float3 P)" ) );
+			cont->addStmt( stmt::makeComment( "float2 SDW_textureQueryLod(" + type + " texImage, SamplerState texSampler, float3 P)" ) );
 			cont->addStmt( stmt::makeComment( "{" ) );
-			cont->addStmt( stmt::makeComment( "	return float2(texture.CalculateLevelOfDetail(sampler, P), 0.0);" ) );
+			cont->addStmt( stmt::makeComment( "	return float2(texImage.CalculateLevelOfDetail(texSampler, P), 0.0);" ) );
 			cont->addStmt( stmt::makeComment( "}" ) );
 			container->addStmt( std::move( cont ) );
 		}
@@ -134,11 +134,11 @@ namespace sdw::hlsl
 		inline void writeTextureQueryLevels1D( stmt::Container * container, std::string const & type )
 		{
 			auto cont = stmt::makeContainer();
-			cont->addStmt( stmt::makeComment( "int SDW_textureQueryLevels(" + type + " texture)" ) );
+			cont->addStmt( stmt::makeComment( "int SDW_textureQueryLevels(" + type + " texImage)" ) );
 			cont->addStmt( stmt::makeComment( "{" ) );
 			cont->addStmt( stmt::makeComment( "	uint dim;" ) );
 			cont->addStmt( stmt::makeComment( "	uint res;" ) );
-			cont->addStmt( stmt::makeComment( "	texture.GetDimensions(0, dim, res);" ) );
+			cont->addStmt( stmt::makeComment( "	texImage.GetDimensions(0, dim, res);" ) );
 			cont->addStmt( stmt::makeComment( "	return int(res);" ) );
 			cont->addStmt( stmt::makeComment( "}" ) );
 			container->addStmt( std::move( cont ) );
@@ -147,12 +147,12 @@ namespace sdw::hlsl
 		inline void writeTextureQueryLevels2D( stmt::Container * container, std::string const & type )
 		{
 			auto cont = stmt::makeContainer();
-			cont->addStmt( stmt::makeComment( "int SDW_textureQueryLevels(" + type + " texture)" ) );
+			cont->addStmt( stmt::makeComment( "int SDW_textureQueryLevels(" + type + " texImage)" ) );
 			cont->addStmt( stmt::makeComment( "{" ) );
 			cont->addStmt( stmt::makeComment( "	uint dimX;" ) );
 			cont->addStmt( stmt::makeComment( "	uint dimY;" ) );
 			cont->addStmt( stmt::makeComment( "	uint res;" ) );
-			cont->addStmt( stmt::makeComment( "	texture.GetDimensions(0, dimX, dimY, res);" ) );
+			cont->addStmt( stmt::makeComment( "	texImage.GetDimensions(0, dimX, dimY, res);" ) );
 			cont->addStmt( stmt::makeComment( "	return int(res);" ) );
 			cont->addStmt( stmt::makeComment( "}" ) );
 			container->addStmt( std::move( cont ) );
@@ -161,13 +161,13 @@ namespace sdw::hlsl
 		inline void writeTextureQueryLevels3D( stmt::Container * container, std::string const & type )
 		{
 			auto cont = stmt::makeContainer();
-			cont->addStmt( stmt::makeComment( "int SDW_textureQueryLevels(" + type + " texture)" ) );
+			cont->addStmt( stmt::makeComment( "int SDW_textureQueryLevels(" + type + " texImage)" ) );
 			cont->addStmt( stmt::makeComment( "{" ) );
 			cont->addStmt( stmt::makeComment( "	uint dimX;" ) );
 			cont->addStmt( stmt::makeComment( "	uint dimY;" ) );
 			cont->addStmt( stmt::makeComment( "	uint dimZ;" ) );
 			cont->addStmt( stmt::makeComment( "	uint res;" ) );
-			cont->addStmt( stmt::makeComment( "	texture.GetDimensions(0, dimX, dimY, dimZ, res);" ) );
+			cont->addStmt( stmt::makeComment( "	texImage.GetDimensions(0, dimX, dimY, dimZ, res);" ) );
 			cont->addStmt( stmt::makeComment( "	return int(res);" ) );
 			cont->addStmt( stmt::makeComment( "}" ) );
 			container->addStmt( std::move( cont ) );
@@ -176,9 +176,9 @@ namespace sdw::hlsl
 		inline void writeProjectTexCoords2( stmt::Container * container )
 		{
 			auto cont = stmt::makeContainer();
-			cont->addStmt( stmt::makeComment( "float SDW_projectTexCoords2(float2 texcoords)" ) );
+			cont->addStmt( stmt::makeComment( "float SDW_projectTexCoords2(float2 texCoords)" ) );
 			cont->addStmt( stmt::makeComment( "{" ) );
-			cont->addStmt( stmt::makeComment( "	return texcoords.x / texCoords.y;" ) );
+			cont->addStmt( stmt::makeComment( "	return texCoords.x / texCoords.y;" ) );
 			cont->addStmt( stmt::makeComment( "}" ) );
 			container->addStmt( std::move( cont ) );
 		}
@@ -186,9 +186,9 @@ namespace sdw::hlsl
 		inline void writeProjectTexCoords3( stmt::Container * container )
 		{
 			auto cont = stmt::makeContainer();
-			cont->addStmt( stmt::makeComment( "float2 SDW_projectTexCoords3(float3 texcoords)" ) );
+			cont->addStmt( stmt::makeComment( "float2 SDW_projectTexCoords3(float3 texCoords)" ) );
 			cont->addStmt( stmt::makeComment( "{" ) );
-			cont->addStmt( stmt::makeComment( "	return texcoords.xy / texCoords.z;" ) );
+			cont->addStmt( stmt::makeComment( "	return texCoords.xy / texCoords.z;" ) );
 			cont->addStmt( stmt::makeComment( "}" ) );
 			container->addStmt( std::move( cont ) );
 		}
@@ -196,9 +196,9 @@ namespace sdw::hlsl
 		inline void writeProjectTexCoords4To1( stmt::Container * container )
 		{
 			auto cont = stmt::makeContainer();
-			cont->addStmt( stmt::makeComment( "float SDW_projectTexCoords4to1(float4 texcoords)" ) );
+			cont->addStmt( stmt::makeComment( "float SDW_projectTexCoords4to1(float4 texCoords)" ) );
 			cont->addStmt( stmt::makeComment( "{" ) );
-			cont->addStmt( stmt::makeComment( "	return texcoords.x / texCoords.w;" ) );
+			cont->addStmt( stmt::makeComment( "	return texCoords.x / texCoords.w;" ) );
 			cont->addStmt( stmt::makeComment( "}" ) );
 			container->addStmt( std::move( cont ) );
 		}
@@ -206,9 +206,9 @@ namespace sdw::hlsl
 		inline void writeProjectTexCoords4To2( stmt::Container * container )
 		{
 			auto cont = stmt::makeContainer();
-			cont->addStmt( stmt::makeComment( "float2 SDW_projectTexCoords4To2(float4 texcoords)" ) );
+			cont->addStmt( stmt::makeComment( "float2 SDW_projectTexCoords4To2(float4 texCoords)" ) );
 			cont->addStmt( stmt::makeComment( "{" ) );
-			cont->addStmt( stmt::makeComment( "	return texcoords.xy / texCoords.w;" ) );
+			cont->addStmt( stmt::makeComment( "	return texCoords.xy / texCoords.w;" ) );
 			cont->addStmt( stmt::makeComment( "}" ) );
 			container->addStmt( std::move( cont ) );
 		}
@@ -216,9 +216,9 @@ namespace sdw::hlsl
 		inline void writeProjectTexCoords4( stmt::Container * container )
 		{
 			auto cont = stmt::makeContainer();
-			cont->addStmt( stmt::makeComment( "float3 SDW_projectTexCoords4(float4 texcoords)" ) );
+			cont->addStmt( stmt::makeComment( "float3 SDW_projectTexCoords4(float4 texCoords)" ) );
 			cont->addStmt( stmt::makeComment( "{" ) );
-			cont->addStmt( stmt::makeComment( "	return texcoords.xyz / texCoords.w;" ) );
+			cont->addStmt( stmt::makeComment( "	return texCoords.xyz / texCoords.w;" ) );
 			cont->addStmt( stmt::makeComment( "}" ) );
 			container->addStmt( std::move( cont ) );
 		}

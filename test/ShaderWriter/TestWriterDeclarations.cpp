@@ -16,7 +16,7 @@ namespace
 #define DummyMain writer.implementFunction< void >( "main", [](){} )
 
 	template< typename T >
-	void testConstant()
+	void testConstant( test::TestCounts & testCounts )
 	{
 		{
 			sdw::ShaderWriter writer{ false };
@@ -28,7 +28,7 @@ namespace
 			auto & stmt = *shader.getStatements()->back();
 			check( stmt.getKind() == sdw::stmt::Kind::ePreprocDefine );
 			DummyMain;
-			test::writeShader( shader, sdw::ShaderType::eFragment );
+			test::writeShader( shader, sdw::ShaderType::eFragment, testCounts );
 		}
 		{
 			sdw::ShaderWriter writer{ false };
@@ -40,7 +40,7 @@ namespace
 			check( value.getType()->getArraySize() == sdw::type::NotArray );
 			check( shader.getStatements()->size() == count );
 			DummyMain;
-			test::writeShader( shader, sdw::ShaderType::eFragment );
+			test::writeShader( shader, sdw::ShaderType::eFragment, testCounts );
 		}
 		{
 			sdw::ShaderWriter writer{ false };
@@ -53,12 +53,49 @@ namespace
 			auto & stmt = *shader.getStatements()->back();
 			check( stmt.getKind() == sdw::stmt::Kind::ePreprocDefine );
 			DummyMain;
-			test::writeShader( shader, sdw::ShaderType::eFragment );
+			test::writeShader( shader, sdw::ShaderType::eFragment, testCounts );
+		}
+		{
+			sdw::ShaderWriter writer{ false };
+			auto & shader = writer.getShader();
+			auto name = sdw::debug::getName( sdw::typeEnum< T > ) + "ConstantValue4";
+			auto value = writer.declConstantArray< T >( name, test::getDefaultVector< T >( shader, 4u ) );
+			check( value.getType()->getKind() == sdw::typeEnum< T > );
+			check( value.getType()->getArraySize() == 4u );
+			auto & stmt = *shader.getStatements()->back();
+			check( stmt.getKind() == sdw::stmt::Kind::ePreprocDefine );
+			DummyMain;
+			test::writeShader( shader, sdw::ShaderType::eFragment, testCounts );
+		}
+		{
+			sdw::ShaderWriter writer{ false };
+			auto & shader = writer.getShader();
+			auto count = shader.getStatements()->size();
+			auto value = writer.declConstantArray< T >( "value", test::getDefaultVector< T >( shader, 4u ), false );
+			check( !value.isEnabled() );
+			check( value.getType()->getKind() == sdw::typeEnum< T > );
+			check( value.getType()->getArraySize() == 4u );
+			check( shader.getStatements()->size() == count );
+			DummyMain;
+			test::writeShader( shader, sdw::ShaderType::eFragment, testCounts );
+		}
+		{
+			sdw::ShaderWriter writer{ false };
+			auto & shader = writer.getShader();
+			auto name = sdw::debug::getName( sdw::typeEnum< T > ) + "ConstantValue4_opt";
+			auto value = writer.declConstantArray< T >( name, test::getDefaultVector< T >( shader, 4u ), true );
+			check( value.isEnabled() );
+			check( value.getType()->getKind() == sdw::typeEnum< T > );
+			check( value.getType()->getArraySize() == 4u );
+			auto & stmt = *shader.getStatements()->back();
+			check( stmt.getKind() == sdw::stmt::Kind::ePreprocDefine );
+			DummyMain;
+			test::writeShader( shader, sdw::ShaderType::eFragment, testCounts );
 		}
 	}
 
 	template< typename T >
-	void testSpecConstant()
+	void testSpecConstant( test::TestCounts & testCounts )
 	{
 		{
 			sdw::ShaderWriter writer{ false };
@@ -67,14 +104,14 @@ namespace
 			auto value = writer.declSpecConstant< T >( name, 0u, test::getDefault< T >( shader ) );
 			check( value.getType()->getKind() == sdw::typeEnum< T > );
 			check( value.getType()->getArraySize() == sdw::type::NotArray );
-			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isShaderConstant() );
 			auto & stmt = *shader.getStatements()->back();
-			check( stmt.getKind() == sdw::stmt::Kind::eInOutVariableDecl );
+			require( stmt.getKind() == sdw::stmt::Kind::eInOutVariableDecl );
 			check( static_cast< sdw::stmt::InOutVariableDecl const & >( stmt ).getLocation() == 0u );
 			DummyMain;
-			test::writeShader( shader, sdw::ShaderType::eFragment );
+			test::writeShader( shader, sdw::ShaderType::eFragment, testCounts );
 		}
 		{
 			sdw::ShaderWriter writer{ false };
@@ -84,12 +121,12 @@ namespace
 			check( !value.isEnabled() );
 			check( value.getType()->getKind() == sdw::typeEnum< T > );
 			check( value.getType()->getArraySize() == sdw::type::NotArray );
-			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == "value" );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isShaderConstant() );
 			check( shader.getStatements()->size() == count );
 			DummyMain;
-			test::writeShader( shader, sdw::ShaderType::eFragment );
+			test::writeShader( shader, sdw::ShaderType::eFragment, testCounts );
 		}
 		{
 			sdw::ShaderWriter writer{ false };
@@ -99,19 +136,19 @@ namespace
 			check( value.isEnabled() );
 			check( value.getType()->getKind() == sdw::typeEnum< T > );
 			check( value.getType()->getArraySize() == sdw::type::NotArray );
-			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isShaderConstant() );
 			auto & stmt = *shader.getStatements()->back();
-			check( stmt.getKind() == sdw::stmt::Kind::eInOutVariableDecl );
+			require( stmt.getKind() == sdw::stmt::Kind::eInOutVariableDecl );
 			check( static_cast< sdw::stmt::InOutVariableDecl const & >( stmt ).getLocation() == 2u );
 			DummyMain;
-			test::writeShader( shader, sdw::ShaderType::eFragment );
+			test::writeShader( shader, sdw::ShaderType::eFragment, testCounts );
 		}
 	}
 
 	template< typename T >
-	void testShaderInput()
+	void testShaderInput( test::TestCounts & testCounts )
 	{
 		{
 			sdw::ShaderWriter writer{ false };
@@ -120,14 +157,14 @@ namespace
 			auto value = writer.declInput< T >( name, 0u );
 			check( value.getType()->getKind() == sdw::typeEnum< T > );
 			check( value.getType()->getArraySize() == sdw::type::NotArray );
-			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isShaderInput() );
 			auto & stmt = *shader.getStatements()->back();
-			check( stmt.getKind() == sdw::stmt::Kind::eInOutVariableDecl );
+			require( stmt.getKind() == sdw::stmt::Kind::eInOutVariableDecl );
 			check( static_cast< sdw::stmt::InOutVariableDecl const & >( stmt ).getLocation() == 0u );
 			DummyMain;
-			test::writeShader( shader, sdw::ShaderType::eFragment );
+			test::writeShader( shader, sdw::ShaderType::eFragment, testCounts );
 		}
 		{
 			sdw::ShaderWriter writer{ false };
@@ -136,14 +173,14 @@ namespace
 			auto value = writer.declInputArray< T >( name, 1u, 12u );
 			check( value.getType()->getKind() == sdw::typeEnum< T > );
 			check( value.getType()->getArraySize() == 12u );
-			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isShaderInput() );
 			auto & stmt = *shader.getStatements()->back();
-			check( stmt.getKind() == sdw::stmt::Kind::eInOutVariableDecl );
+			require( stmt.getKind() == sdw::stmt::Kind::eInOutVariableDecl );
 			check( static_cast< sdw::stmt::InOutVariableDecl const & >( stmt ).getLocation() == 1u );
 			DummyMain;
-			test::writeShader( shader, sdw::ShaderType::eFragment );
+			test::writeShader( shader, sdw::ShaderType::eFragment, testCounts );
 		}
 		{
 			sdw::ShaderWriter writer{ false };
@@ -152,14 +189,14 @@ namespace
 			auto value = writer.declInputArray< T >( name, 2u );
 			check( value.getType()->getKind() == sdw::typeEnum< T > );
 			check( value.getType()->getArraySize() == sdw::type::UnknownArraySize );
-			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isShaderInput() );
 			auto & stmt = *shader.getStatements()->back();
-			check( stmt.getKind() == sdw::stmt::Kind::eInOutVariableDecl );
+			require( stmt.getKind() == sdw::stmt::Kind::eInOutVariableDecl );
 			check( static_cast< sdw::stmt::InOutVariableDecl const & >( stmt ).getLocation() == 2u );
 			DummyMain;
-			test::writeShader( shader, sdw::ShaderType::eFragment );
+			test::writeShader( shader, sdw::ShaderType::eFragment, testCounts );
 		}
 		{
 			sdw::ShaderWriter writer{ false };
@@ -169,12 +206,12 @@ namespace
 			check( !value.isEnabled() );
 			check( value.getType()->getKind() == sdw::typeEnum< T > );
 			check( value.getType()->getArraySize() == sdw::type::NotArray );
-			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == "value" );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isShaderInput() );
 			check( shader.getStatements()->size() == count );
 			DummyMain;
-			test::writeShader( shader, sdw::ShaderType::eFragment );
+			test::writeShader( shader, sdw::ShaderType::eFragment, testCounts );
 		}
 		{
 			sdw::ShaderWriter writer{ false };
@@ -185,12 +222,12 @@ namespace
 			check( !value[0].isEnabled() );
 			check( value.getType()->getKind() == sdw::typeEnum< T > );
 			check( value.getType()->getArraySize() == 12u );
-			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == "value" );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isShaderInput() );
 			check( shader.getStatements()->size() == count );
 			DummyMain;
-			test::writeShader( shader, sdw::ShaderType::eFragment );
+			test::writeShader( shader, sdw::ShaderType::eFragment, testCounts );
 		}
 		{
 			sdw::ShaderWriter writer{ false };
@@ -201,12 +238,12 @@ namespace
 			check( !value[0].isEnabled() );
 			check( value.getType()->getKind() == sdw::typeEnum< T > );
 			check( value.getType()->getArraySize() == sdw::type::UnknownArraySize );
-			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == "value" );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isShaderInput() );
 			check( shader.getStatements()->size() == count );
 			DummyMain;
-			test::writeShader( shader, sdw::ShaderType::eFragment );
+			test::writeShader( shader, sdw::ShaderType::eFragment, testCounts );
 		}
 		{
 			sdw::ShaderWriter writer{ false };
@@ -216,14 +253,14 @@ namespace
 			check( value.isEnabled() );
 			check( value.getType()->getKind() == sdw::typeEnum< T > );
 			check( value.getType()->getArraySize() == sdw::type::NotArray );
-			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isShaderInput() );
 			auto & stmt = *shader.getStatements()->back();
-			check( stmt.getKind() == sdw::stmt::Kind::eInOutVariableDecl );
+			require( stmt.getKind() == sdw::stmt::Kind::eInOutVariableDecl );
 			check( static_cast< sdw::stmt::InOutVariableDecl const & >( stmt ).getLocation() == 0u );
 			DummyMain;
-			test::writeShader( shader, sdw::ShaderType::eFragment );
+			test::writeShader( shader, sdw::ShaderType::eFragment, testCounts );
 		}
 		{
 			sdw::ShaderWriter writer{ false };
@@ -234,14 +271,14 @@ namespace
 			check( value[0].isEnabled() );
 			check( value.getType()->getKind() == sdw::typeEnum< T > );
 			check( value.getType()->getArraySize() == 12u );
-			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isShaderInput() );
 			auto & stmt = *shader.getStatements()->back();
-			check( stmt.getKind() == sdw::stmt::Kind::eInOutVariableDecl );
+			require( stmt.getKind() == sdw::stmt::Kind::eInOutVariableDecl );
 			check( static_cast< sdw::stmt::InOutVariableDecl const & >( stmt ).getLocation() == 1u );
 			DummyMain;
-			test::writeShader( shader, sdw::ShaderType::eFragment );
+			test::writeShader( shader, sdw::ShaderType::eFragment, testCounts );
 		}
 		{
 			sdw::ShaderWriter writer{ false };
@@ -252,19 +289,19 @@ namespace
 			check( value[0].isEnabled() );
 			check( value.getType()->getKind() == sdw::typeEnum< T > );
 			check( value.getType()->getArraySize() == sdw::type::UnknownArraySize );
-			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isShaderInput() );
 			auto & stmt = *shader.getStatements()->back();
-			check( stmt.getKind() == sdw::stmt::Kind::eInOutVariableDecl );
+			require( stmt.getKind() == sdw::stmt::Kind::eInOutVariableDecl );
 			check( static_cast< sdw::stmt::InOutVariableDecl const & >( stmt ).getLocation() == 2u );
 			DummyMain;
-			test::writeShader( shader, sdw::ShaderType::eFragment );
+			test::writeShader( shader, sdw::ShaderType::eFragment, testCounts );
 		}
 	}
 
 	template< typename T >
-	void testShaderOutput()
+	void testShaderOutput( test::TestCounts & testCounts )
 	{
 		{
 			sdw::ShaderWriter writer{ false };
@@ -273,14 +310,14 @@ namespace
 			auto value = writer.declOutput< T >( name, 0u );
 			check( value.getType()->getKind() == sdw::typeEnum< T > );
 			check( value.getType()->getArraySize() == sdw::type::NotArray );
-			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isShaderOutput() );
 			auto & stmt = *shader.getStatements()->back();
-			check( stmt.getKind() == sdw::stmt::Kind::eInOutVariableDecl );
+			require( stmt.getKind() == sdw::stmt::Kind::eInOutVariableDecl );
 			check( static_cast< sdw::stmt::InOutVariableDecl const & >( stmt ).getLocation() == 0u );
 			DummyMain;
-			test::writeShader( shader, sdw::ShaderType::eFragment );
+			test::writeShader( shader, sdw::ShaderType::eFragment, testCounts );
 		}
 		{
 			sdw::ShaderWriter writer{ false };
@@ -289,14 +326,14 @@ namespace
 			auto value = writer.declOutputArray< T >( name, 1u, 12u );
 			check( value.getType()->getKind() == sdw::typeEnum< T > );
 			check( value.getType()->getArraySize() == 12u );
-			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isShaderOutput() );
 			auto & stmt = *shader.getStatements()->back();
-			check( stmt.getKind() == sdw::stmt::Kind::eInOutVariableDecl );
+			require( stmt.getKind() == sdw::stmt::Kind::eInOutVariableDecl );
 			check( static_cast< sdw::stmt::InOutVariableDecl const & >( stmt ).getLocation() == 1u );
 			DummyMain;
-			test::writeShader( shader, sdw::ShaderType::eFragment );
+			test::writeShader( shader, sdw::ShaderType::eFragment, testCounts );
 		}
 		{
 			sdw::ShaderWriter writer{ false };
@@ -305,14 +342,14 @@ namespace
 			auto value = writer.declOutputArray< T >( name, 2u );
 			check( value.getType()->getKind() == sdw::typeEnum< T > );
 			check( value.getType()->getArraySize() == sdw::type::UnknownArraySize );
-			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isShaderOutput() );
 			auto & stmt = *shader.getStatements()->back();
-			check( stmt.getKind() == sdw::stmt::Kind::eInOutVariableDecl );
+			require( stmt.getKind() == sdw::stmt::Kind::eInOutVariableDecl );
 			check( static_cast< sdw::stmt::InOutVariableDecl const & >( stmt ).getLocation() == 2u );
 			DummyMain;
-			test::writeShader( shader, sdw::ShaderType::eFragment );
+			test::writeShader( shader, sdw::ShaderType::eFragment, testCounts );
 		}
 		{
 			sdw::ShaderWriter writer{ false };
@@ -322,12 +359,12 @@ namespace
 			check( !value.isEnabled() );
 			check( value.getType()->getKind() == sdw::typeEnum< T > );
 			check( value.getType()->getArraySize() == sdw::type::NotArray );
-			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == "value" );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isShaderOutput() );
 			check( shader.getStatements()->size() == count );
 			DummyMain;
-			test::writeShader( shader, sdw::ShaderType::eFragment );
+			test::writeShader( shader, sdw::ShaderType::eFragment, testCounts );
 		}
 		{
 			sdw::ShaderWriter writer{ false };
@@ -338,12 +375,12 @@ namespace
 			check( !value[0].isEnabled() );
 			check( value.getType()->getKind() == sdw::typeEnum< T > );
 			check( value.getType()->getArraySize() == 12u );
-			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == "value" );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isShaderOutput() );
 			check( shader.getStatements()->size() == count );
 			DummyMain;
-			test::writeShader( shader, sdw::ShaderType::eFragment );
+			test::writeShader( shader, sdw::ShaderType::eFragment, testCounts );
 		}
 		{
 			sdw::ShaderWriter writer{ false };
@@ -354,12 +391,12 @@ namespace
 			check( !value[0].isEnabled() );
 			check( value.getType()->getKind() == sdw::typeEnum< T > );
 			check( value.getType()->getArraySize() == sdw::type::UnknownArraySize );
-			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == "value" );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isShaderOutput() );
 			check( shader.getStatements()->size() == count );
 			DummyMain;
-			test::writeShader( shader, sdw::ShaderType::eFragment );
+			test::writeShader( shader, sdw::ShaderType::eFragment, testCounts );
 		}
 		{
 			sdw::ShaderWriter writer{ false };
@@ -369,14 +406,14 @@ namespace
 			check( value.isEnabled() );
 			check( value.getType()->getKind() == sdw::typeEnum< T > );
 			check( value.getType()->getArraySize() == sdw::type::NotArray );
-			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isShaderOutput() );
 			auto & stmt = *shader.getStatements()->back();
-			check( stmt.getKind() == sdw::stmt::Kind::eInOutVariableDecl );
+			require( stmt.getKind() == sdw::stmt::Kind::eInOutVariableDecl );
 			check( static_cast< sdw::stmt::InOutVariableDecl const & >( stmt ).getLocation() == 0u );
 			DummyMain;
-			test::writeShader( shader, sdw::ShaderType::eFragment );
+			test::writeShader( shader, sdw::ShaderType::eFragment, testCounts );
 		}
 		{
 			sdw::ShaderWriter writer{ false };
@@ -387,14 +424,14 @@ namespace
 			check( value[0].isEnabled() );
 			check( value.getType()->getKind() == sdw::typeEnum< T > );
 			check( value.getType()->getArraySize() == 12u );
-			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isShaderOutput() );
 			auto & stmt = *shader.getStatements()->back();
-			check( stmt.getKind() == sdw::stmt::Kind::eInOutVariableDecl );
+			require( stmt.getKind() == sdw::stmt::Kind::eInOutVariableDecl );
 			check( static_cast< sdw::stmt::InOutVariableDecl const & >( stmt ).getLocation() == 1u );
 			DummyMain;
-			test::writeShader( shader, sdw::ShaderType::eFragment );
+			test::writeShader( shader, sdw::ShaderType::eFragment, testCounts );
 		}
 		{
 			sdw::ShaderWriter writer{ false };
@@ -405,19 +442,19 @@ namespace
 			check( value[0].isEnabled() );
 			check( value.getType()->getKind() == sdw::typeEnum< T > );
 			check( value.getType()->getArraySize() == sdw::type::UnknownArraySize );
-			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isShaderOutput() );
 			auto & stmt = *shader.getStatements()->back();
-			check( stmt.getKind() == sdw::stmt::Kind::eInOutVariableDecl );
+			require( stmt.getKind() == sdw::stmt::Kind::eInOutVariableDecl );
 			check( static_cast< sdw::stmt::InOutVariableDecl const & >( stmt ).getLocation() == 2u );
 			DummyMain;
-			test::writeShader( shader, sdw::ShaderType::eFragment );
+			test::writeShader( shader, sdw::ShaderType::eFragment, testCounts );
 		}
 	}
 
 	template< typename T >
-	void testLocale()
+	void testLocale( test::TestCounts & testCounts )
 	{
 		{
 			sdw::ShaderWriter writer{ false };
@@ -429,13 +466,13 @@ namespace
 					auto value = writer.declLocale< T >( name );
 					check( value.getType()->getKind() == sdw::typeEnum< T > );
 					check( value.getType()->getArraySize() == sdw::type::NotArray );
-					check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+					require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 					check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
 					check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isLocale() );
 					auto & stmt = *shader.getContainer()->back();
 					check( stmt.getKind() == sdw::stmt::Kind::eVariableDecl );
 				} );
-			test::writeShader( shader, sdw::ShaderType::eFragment );
+			test::writeShader( shader, sdw::ShaderType::eFragment, testCounts );
 		}
 		{
 			sdw::ShaderWriter writer{ false };
@@ -447,13 +484,13 @@ namespace
 					auto value = writer.declLocale< T >( name, test::getDefault< T >( shader ) );
 					check( value.getType()->getKind() == sdw::typeEnum< T > );
 					check( value.getType()->getArraySize() == sdw::type::NotArray );
-					check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+					require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 					check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
 					check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isLocale() );
 					auto & stmt = *shader.getContainer()->back();
 					check( stmt.getKind() == sdw::stmt::Kind::eSimple );
 				} );
-			test::writeShader( shader, sdw::ShaderType::eFragment );
+			test::writeShader( shader, sdw::ShaderType::eFragment, testCounts );
 		}
 		{
 			sdw::ShaderWriter writer{ false };
@@ -465,13 +502,13 @@ namespace
 					auto value = writer.declLocaleArray< T >( name, 12u );
 					check( value.getType()->getKind() == sdw::typeEnum< T > );
 					check( value.getType()->getArraySize() == 12u );
-					check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+					require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 					check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
 					check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isLocale() );
 					auto & stmt = *shader.getContainer()->back();
 					check( stmt.getKind() == sdw::stmt::Kind::eVariableDecl );
 				} );
-			test::writeShader( shader, sdw::ShaderType::eFragment );
+			test::writeShader( shader, sdw::ShaderType::eFragment, testCounts );
 		}
 		{
 			sdw::ShaderWriter writer{ false };
@@ -480,16 +517,16 @@ namespace
 			writer.implementFunction< void >( "main"
 				, [&]()
 				{
-					auto value = writer.declLocaleArray< T >( name, 3u, test::getDefaultArray< T >( shader, 3u ) );
+					auto value = writer.declLocaleArray< T >( name, 3u, test::getDefaultVector< T >( shader, 3u ) );
 					check( value.getType()->getKind() == sdw::typeEnum< T > );
 					check( value.getType()->getArraySize() == 3u );
-					check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+					require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 					check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
 					check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isLocale() );
 					auto & stmt = *shader.getContainer()->back();
 					check( stmt.getKind() == sdw::stmt::Kind::eSimple );
 				} );
-			test::writeShader( shader, sdw::ShaderType::eFragment );
+			test::writeShader( shader, sdw::ShaderType::eFragment, testCounts );
 		}
 		{
 			sdw::ShaderWriter writer{ false };
@@ -502,12 +539,12 @@ namespace
 					check( !value.isEnabled() );
 					check( value.getType()->getKind() == sdw::typeEnum< T > );
 					check( value.getType()->getArraySize() == sdw::type::NotArray );
-					check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+					require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 					check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == "value" );
 					check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isLocale() );
 					check( shader.getContainer()->size() == count );
 				} );
-			test::writeShader( shader, sdw::ShaderType::eFragment );
+			test::writeShader( shader, sdw::ShaderType::eFragment, testCounts );
 		}
 		{
 			sdw::ShaderWriter writer{ false };
@@ -520,12 +557,12 @@ namespace
 					check( !value.isEnabled() );
 					check( value.getType()->getKind() == sdw::typeEnum< T > );
 					check( value.getType()->getArraySize() == sdw::type::NotArray );
-					check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+					require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 					check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == "value" );
 					check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isLocale() );
 					check( shader.getContainer()->size() == count );
 				} );
-			test::writeShader( shader, sdw::ShaderType::eFragment );
+			test::writeShader( shader, sdw::ShaderType::eFragment, testCounts );
 		}
 		{
 			sdw::ShaderWriter writer{ false };
@@ -538,12 +575,12 @@ namespace
 					check( !value.isEnabled() );
 					check( value.getType()->getKind() == sdw::typeEnum< T > );
 					check( value.getType()->getArraySize() == sdw::type::NotArray );
-					check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+					require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 					check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == "value" );
 					check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isLocale() );
 					check( shader.getContainer()->size() == count );
 				} );
-			test::writeShader( shader, sdw::ShaderType::eFragment );
+			test::writeShader( shader, sdw::ShaderType::eFragment, testCounts );
 		}
 		{
 			sdw::ShaderWriter writer{ false };
@@ -557,12 +594,12 @@ namespace
 					check( !value[0].isEnabled() );
 					check( value.getType()->getKind() == sdw::typeEnum< T > );
 					check( value.getType()->getArraySize() == 12u );
-					check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+					require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 					check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == "value" );
 					check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isLocale() );
 					check( shader.getContainer()->size() == count );
 				} );
-			test::writeShader( shader, sdw::ShaderType::eFragment );
+			test::writeShader( shader, sdw::ShaderType::eFragment, testCounts );
 		}
 		{
 			sdw::ShaderWriter writer{ false };
@@ -571,17 +608,17 @@ namespace
 				, [&]()
 				{
 					auto count = shader.getContainer()->size();
-					auto value = writer.declLocaleArray< T >( "value", 3u, test::getDefaultArray< T >( shader, 3u ), false );
+					auto value = writer.declLocaleArray< T >( "value", 3u, test::getDefaultVector< T >( shader, 3u ), false );
 					check( !value.isEnabled() );
 					check( !value[0].isEnabled() );
 					check( value.getType()->getKind() == sdw::typeEnum< T > );
 					check( value.getType()->getArraySize() == 3u );
-					check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+					require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 					check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == "value" );
 					check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isLocale() );
 					check( shader.getContainer()->size() == count );
 				} );
-			test::writeShader( shader, sdw::ShaderType::eFragment );
+			test::writeShader( shader, sdw::ShaderType::eFragment, testCounts );
 		}
 		{
 			sdw::ShaderWriter writer{ false };
@@ -594,13 +631,13 @@ namespace
 					check( value.isEnabled() );
 					check( value.getType()->getKind() == sdw::typeEnum< T > );
 					check( value.getType()->getArraySize() == sdw::type::NotArray );
-					check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+					require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 					check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
 					check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isLocale() );
 					auto & stmt = *shader.getContainer()->back();
 					check( stmt.getKind() == sdw::stmt::Kind::eVariableDecl );
 				} );
-			test::writeShader( shader, sdw::ShaderType::eFragment );
+			test::writeShader( shader, sdw::ShaderType::eFragment, testCounts );
 		}
 		{
 			sdw::ShaderWriter writer{ false };
@@ -613,13 +650,13 @@ namespace
 					check( value.isEnabled() );
 					check( value.getType()->getKind() == sdw::typeEnum< T > );
 					check( value.getType()->getArraySize() == sdw::type::NotArray );
-					check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+					require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 					check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
 					check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isLocale() );
 					auto & stmt = *shader.getContainer()->back();
 					check( stmt.getKind() == sdw::stmt::Kind::eSimple );
 				} );
-			test::writeShader( shader, sdw::ShaderType::eFragment );
+			test::writeShader( shader, sdw::ShaderType::eFragment, testCounts );
 		}
 		{
 			sdw::ShaderWriter writer{ false };
@@ -632,13 +669,13 @@ namespace
 					check( value.isEnabled() );
 					check( value.getType()->getKind() == sdw::typeEnum< T > );
 					check( value.getType()->getArraySize() == sdw::type::NotArray );
-					check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+					require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 					check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
 					check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isLocale() );
 					auto & stmt = *shader.getContainer()->back();
 					check( stmt.getKind() == sdw::stmt::Kind::eSimple );
 				} );
-			test::writeShader( shader, sdw::ShaderType::eFragment );
+			test::writeShader( shader, sdw::ShaderType::eFragment, testCounts );
 		}
 		{
 			sdw::ShaderWriter writer{ false };
@@ -652,13 +689,13 @@ namespace
 					check( value[0].isEnabled() );
 					check( value.getType()->getKind() == sdw::typeEnum< T > );
 					check( value.getType()->getArraySize() == 12u );
-					check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+					require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 					check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
 					check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isLocale() );
 					auto & stmt = *shader.getContainer()->back();
 					check( stmt.getKind() == sdw::stmt::Kind::eVariableDecl );
 				} );
-			test::writeShader( shader, sdw::ShaderType::eFragment );
+			test::writeShader( shader, sdw::ShaderType::eFragment, testCounts );
 		}
 		{
 			sdw::ShaderWriter writer{ false };
@@ -667,23 +704,23 @@ namespace
 			writer.implementFunction< void >( "main"
 				, [&]()
 				{
-					auto value = writer.declLocaleArray< T >( name, 3u, test::getDefaultArray< T >( shader, 3u ), true );
+					auto value = writer.declLocaleArray< T >( name, 3u, test::getDefaultVector< T >( shader, 3u ), true );
 					check( value.isEnabled() );
 					check( value[0].isEnabled() );
 					check( value.getType()->getKind() == sdw::typeEnum< T > );
 					check( value.getType()->getArraySize() == 3u );
-					check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+					require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 					check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
 					check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isLocale() );
 					auto & stmt = *shader.getContainer()->back();
 					check( stmt.getKind() == sdw::stmt::Kind::eSimple );
 				} );
-			test::writeShader( shader, sdw::ShaderType::eFragment );
+			test::writeShader( shader, sdw::ShaderType::eFragment, testCounts );
 		}
 	}
 
 	template< typename T >
-	void testBuiltin()
+	void testBuiltin( test::TestCounts & testCounts )
 	{
 		{
 			sdw::ShaderWriter writer{ false };
@@ -694,12 +731,12 @@ namespace
 			auto value = writer.declBuiltin< T >( name );
 			check( value.getType()->getKind() == sdw::typeEnum< T > );
 			check( value.getType()->getArraySize() == sdw::type::NotArray );
-			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isBuiltin() );
 			check( shader.getStatements()->size() == count );
 			DummyMain;
-			test::writeShader( shader, sdw::ShaderType::eFragment );
+			test::writeShader( shader, sdw::ShaderType::eFragment, testCounts );
 		}
 		{
 			sdw::ShaderWriter writer{ false };
@@ -710,12 +747,12 @@ namespace
 			auto value = writer.declBuiltinArray< T >( name, 12u );
 			check( value.getType()->getKind() == sdw::typeEnum< T > );
 			check( value.getType()->getArraySize() == 12u );
-			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isBuiltin() );
 			check( shader.getStatements()->size() == count );
 			DummyMain;
-			test::writeShader( shader, sdw::ShaderType::eFragment );
+			test::writeShader( shader, sdw::ShaderType::eFragment, testCounts );
 		}
 		{
 			sdw::ShaderWriter writer{ false };
@@ -726,12 +763,12 @@ namespace
 			auto value = writer.declBuiltinArray< T >( name );
 			check( value.getType()->getKind() == sdw::typeEnum< T > );
 			check( value.getType()->getArraySize() == sdw::type::UnknownArraySize );
-			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isBuiltin() );
 			check( shader.getStatements()->size() == count );
 			DummyMain;
-			test::writeShader( shader, sdw::ShaderType::eFragment );
+			test::writeShader( shader, sdw::ShaderType::eFragment, testCounts );
 		}
 		{
 			sdw::ShaderWriter writer{ false };
@@ -743,12 +780,12 @@ namespace
 			check( !value.isEnabled() );
 			check( value.getType()->getKind() == sdw::typeEnum< T > );
 			check( value.getType()->getArraySize() == sdw::type::NotArray );
-			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isBuiltin() );
 			check( shader.getStatements()->size() == count );
 			DummyMain;
-			test::writeShader( shader, sdw::ShaderType::eFragment );
+			test::writeShader( shader, sdw::ShaderType::eFragment, testCounts );
 		}
 		{
 			sdw::ShaderWriter writer{ false };
@@ -761,12 +798,12 @@ namespace
 			check( !value[0].isEnabled() );
 			check( value.getType()->getKind() == sdw::typeEnum< T > );
 			check( value.getType()->getArraySize() == 12u );
-			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isBuiltin() );
 			check( shader.getStatements()->size() == count );
 			DummyMain;
-			test::writeShader( shader, sdw::ShaderType::eFragment );
+			test::writeShader( shader, sdw::ShaderType::eFragment, testCounts );
 		}
 		{
 			sdw::ShaderWriter writer{ false };
@@ -779,12 +816,12 @@ namespace
 			check( !value[0].isEnabled() );
 			check( value.getType()->getKind() == sdw::typeEnum< T > );
 			check( value.getType()->getArraySize() == sdw::type::UnknownArraySize );
-			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isBuiltin() );
 			check( shader.getStatements()->size() == count );
 			DummyMain;
-			test::writeShader( shader, sdw::ShaderType::eFragment );
+			test::writeShader( shader, sdw::ShaderType::eFragment, testCounts );
 		}
 		{
 			sdw::ShaderWriter writer{ false };
@@ -796,12 +833,12 @@ namespace
 			check( value.isEnabled() );
 			check( value.getType()->getKind() == sdw::typeEnum< T > );
 			check( value.getType()->getArraySize() == sdw::type::NotArray );
-			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isBuiltin() );
 			check( shader.getStatements()->size() == count );
 			DummyMain;
-			test::writeShader( shader, sdw::ShaderType::eFragment );
+			test::writeShader( shader, sdw::ShaderType::eFragment, testCounts );
 		}
 		{
 			sdw::ShaderWriter writer{ false };
@@ -814,12 +851,12 @@ namespace
 			check( value[0].isEnabled() );
 			check( value.getType()->getKind() == sdw::typeEnum< T > );
 			check( value.getType()->getArraySize() == 12u );
-			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isBuiltin() );
 			check( shader.getStatements()->size() == count );
 			DummyMain;
-			test::writeShader( shader, sdw::ShaderType::eFragment );
+			test::writeShader( shader, sdw::ShaderType::eFragment, testCounts );
 		}
 		{
 			sdw::ShaderWriter writer{ false };
@@ -832,228 +869,228 @@ namespace
 			check( value[0].isEnabled() );
 			check( value.getType()->getKind() == sdw::typeEnum< T > );
 			check( value.getType()->getArraySize() == sdw::type::UnknownArraySize );
-			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isBuiltin() );
 			check( shader.getStatements()->size() == count );
 			DummyMain;
-			test::writeShader( shader, sdw::ShaderType::eFragment );
+			test::writeShader( shader, sdw::ShaderType::eFragment, testCounts );
 		}
 	}
 
 	template< ast::type::Kind SampledT
 		, ast::type::ImageDim DimT
-		, ast::type::ImageFormat FormatT
 		, bool ArrayedT
 		, bool DepthT
 		, bool MsT >
-		void testSampledImage()
+	void testSampledImage( ast::type::ImageFormat format
+		, test::TestCounts & testCounts )
 	{
 		auto nameBase = sdw::debug::getName( sdw::typeEnum< sdw::SampledImage > )
-			+ sdw::debug::getName( SampledT, DimT, FormatT, ArrayedT, DepthT, MsT );
+			+ sdw::debug::getName( SampledT, DimT, format, ArrayedT, DepthT, MsT );
 		{
 			sdw::ShaderWriter writer{ false };
 			auto & shader = writer.getShader();
 			auto name = nameBase + "Value_1_1";
-			auto value = writer.declSampledImage< SampledT, DimT, FormatT, ArrayedT, DepthT, MsT >( name, 1u, 1u );
+			auto value = writer.declSampledImage< SampledT, DimT, ArrayedT, DepthT, MsT >( name, 1u, 1u, format );
 			check( value.getType()->getKind() == sdw::typeEnum< sdw::SampledImage > );
 			check( value.getType()->getArraySize() == sdw::type::NotArray );
-			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
 			auto & stmt = *shader.getStatements()->back();
-			check( stmt.getKind() == sdw::stmt::Kind::eSampledImageDecl );
+			require( stmt.getKind() == sdw::stmt::Kind::eSampledImageDecl );
 			check( static_cast< sdw::stmt::SamplerDecl const & >( stmt ).getBindingPoint() == 1u );
 			check( static_cast< sdw::stmt::SamplerDecl const & >( stmt ).getDescriptorSet() == 1u );
 			DummyMain;
-			test::writeShader( shader, sdw::ShaderType::eFragment );
+			test::writeShader( shader, sdw::ShaderType::eFragment, testCounts );
 		}
 		{
 			sdw::ShaderWriter writer{ false };
 			auto & shader = writer.getShader();
 			auto name = nameBase + "Value_2_2";
-			auto value = writer.declSampledImageArray< SampledT, DimT, FormatT, ArrayedT, DepthT, MsT >( name, 2u, 2u, 12u );
+			auto value = writer.declSampledImageArray< SampledT, DimT, ArrayedT, DepthT, MsT >( name, 2u, 2u, 12u, format );
 			check( value.getType()->getKind() == sdw::typeEnum< sdw::SampledImage > );
 			check( value.getType()->getArraySize() == 12u );
-			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
 			auto & stmt = *shader.getStatements()->back();
-			check( stmt.getKind() == sdw::stmt::Kind::eSampledImageDecl );
+			require( stmt.getKind() == sdw::stmt::Kind::eSampledImageDecl );
 			check( static_cast< sdw::stmt::SamplerDecl const & >( stmt ).getBindingPoint() == 2u );
 			check( static_cast< sdw::stmt::SamplerDecl const & >( stmt ).getDescriptorSet() == 2u );
 			DummyMain;
-			test::writeShader( shader, sdw::ShaderType::eFragment );
+			test::writeShader( shader, sdw::ShaderType::eFragment, testCounts );
 		}
 		{
 			sdw::ShaderWriter writer{ false };
 			auto & shader = writer.getShader();
 			auto count = shader.getStatements()->size();
-			auto value = writer.declSampledImage< SampledT, DimT, FormatT, ArrayedT, DepthT, MsT >( "value", 1u, 1u, false );
+			auto value = writer.declSampledImage< SampledT, DimT, ArrayedT, DepthT, MsT >( "value", 1u, 1u, false, format );
 			check( !value.isEnabled() );
 			check( value.getType()->getKind() == sdw::typeEnum< sdw::SampledImage > );
 			check( value.getType()->getArraySize() == sdw::type::NotArray );
-			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == "value" );
 			check( shader.getStatements()->size() == count );
 			DummyMain;
-			test::writeShader( shader, sdw::ShaderType::eFragment );
+			test::writeShader( shader, sdw::ShaderType::eFragment, testCounts );
 		}
 		{
 			sdw::ShaderWriter writer{ false };
 			auto & shader = writer.getShader();
 			auto count = shader.getStatements()->size();
-			auto value = writer.declSampledImageArray< SampledT, DimT, FormatT, ArrayedT, DepthT, MsT >( "value", 1u, 1u, 12u, false );
+			auto value = writer.declSampledImageArray< SampledT, DimT, ArrayedT, DepthT, MsT >( "value", 1u, 1u, 12u, false, format );
 			check( !value.isEnabled() );
 			check( !value[0].isEnabled() );
 			check( value.getType()->getKind() == sdw::typeEnum< sdw::SampledImage > );
 			check( value.getType()->getArraySize() == 12u );
-			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == "value" );
 			check( shader.getStatements()->size() == count );
 			DummyMain;
-			test::writeShader( shader, sdw::ShaderType::eFragment );
+			test::writeShader( shader, sdw::ShaderType::eFragment, testCounts );
 		}
 		{
 			sdw::ShaderWriter writer{ false };
 			auto & shader = writer.getShader();
 			auto name = nameBase + "Value_1_1_opt";
-			auto value = writer.declSampledImage< SampledT, DimT, FormatT, ArrayedT, DepthT, MsT >( name, 1u, 1u, true );
+			auto value = writer.declSampledImage< SampledT, DimT, ArrayedT, DepthT, MsT >( name, 1u, 1u, true, format );
 			check( value.isEnabled() );
 			check( value.getType()->getKind() == sdw::typeEnum< sdw::SampledImage > );
 			check( value.getType()->getArraySize() == sdw::type::NotArray );
-			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
 			auto & stmt = *shader.getStatements()->back();
-			check( stmt.getKind() == sdw::stmt::Kind::eSampledImageDecl );
+			require( stmt.getKind() == sdw::stmt::Kind::eSampledImageDecl );
 			check( static_cast< sdw::stmt::SamplerDecl const & >( stmt ).getBindingPoint() == 1u );
 			check( static_cast< sdw::stmt::SamplerDecl const & >( stmt ).getDescriptorSet() == 1u );
 			DummyMain;
-			test::writeShader( shader, sdw::ShaderType::eFragment );
+			test::writeShader( shader, sdw::ShaderType::eFragment, testCounts );
 		}
 		{
 			sdw::ShaderWriter writer{ false };
 			auto & shader = writer.getShader();
 			auto name = nameBase + "Value_2_2_opt";
-			auto value = writer.declSampledImageArray< SampledT, DimT, FormatT, ArrayedT, DepthT, MsT >( name, 2u, 2u, 12u, true );
+			auto value = writer.declSampledImageArray< SampledT, DimT, ArrayedT, DepthT, MsT >( name, 2u, 2u, 12u, true, format );
 			check( value.isEnabled() );
 			check( value[0].isEnabled() );
 			check( value.getType()->getKind() == sdw::typeEnum< sdw::SampledImage > );
 			check( value.getType()->getArraySize() == 12u );
-			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
 			auto & stmt = *shader.getStatements()->back();
-			check( stmt.getKind() == sdw::stmt::Kind::eSampledImageDecl );
+			require( stmt.getKind() == sdw::stmt::Kind::eSampledImageDecl );
 			check( static_cast< sdw::stmt::SamplerDecl const & >( stmt ).getBindingPoint() == 2u );
 			check( static_cast< sdw::stmt::SamplerDecl const & >( stmt ).getDescriptorSet() == 2u );
 			DummyMain;
-			test::writeShader( shader, sdw::ShaderType::eFragment );
+			test::writeShader( shader, sdw::ShaderType::eFragment, testCounts );
 		}
 	}
 
 	template< ast::type::Kind SampledT
 		, ast::type::ImageDim DimT
-		, ast::type::ImageFormat FormatT
 		, bool ArrayedT
 		, bool DepthT
 		, bool MsT >
-		void testImage()
+	void testImage( ast::type::ImageFormat format
+		, test::TestCounts & testCounts )
 	{
 		auto nameBase = sdw::debug::getName( sdw::typeEnum< sdw::Image > )
-			+ sdw::debug::getName( SampledT, DimT, FormatT, ArrayedT, DepthT, MsT );
+			+ sdw::debug::getName( SampledT, DimT, format, ArrayedT, DepthT, MsT );
 		{
 			sdw::ShaderWriter writer{ false };
 			auto & shader = writer.getShader();
 			auto name = nameBase + "Value_1_1";
-			auto value = writer.declImage< SampledT, DimT, FormatT, ArrayedT, DepthT, MsT >( name, 1u, 1u );
+			auto value = writer.declImage< SampledT, DimT, ArrayedT, DepthT, MsT >( name, 1u, 1u, format );
 			check( value.getType()->getKind() == sdw::typeEnum< sdw::Image > );
 			check( value.getType()->getArraySize() == sdw::type::NotArray );
-			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
 			auto & stmt = *shader.getStatements()->back();
-			check( stmt.getKind() == sdw::stmt::Kind::eImageDecl );
+			require( stmt.getKind() == sdw::stmt::Kind::eImageDecl );
 			check( static_cast< sdw::stmt::ImageDecl const & >( stmt ).getBindingPoint() == 1u );
 			check( static_cast< sdw::stmt::ImageDecl const & >( stmt ).getDescriptorSet() == 1u );
 			DummyMain;
-			test::writeShader( shader, sdw::ShaderType::eFragment );
+			test::writeShader( shader, sdw::ShaderType::eFragment, testCounts );
 		}
 		{
 			sdw::ShaderWriter writer{ false };
 			auto & shader = writer.getShader();
 			auto name = nameBase + "Value_2_2";
-			auto value = writer.declImageArray< SampledT, DimT, FormatT, ArrayedT, DepthT, MsT >( name, 2u, 2u, 12u );
+			auto value = writer.declImageArray< SampledT, DimT, ArrayedT, DepthT, MsT >( name, 2u, 2u, 12u, format );
 			check( value.getType()->getKind() == sdw::typeEnum< sdw::Image > );
 			check( value.getType()->getArraySize() == 12u );
-			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
 			auto & stmt = *shader.getStatements()->back();
-			check( stmt.getKind() == sdw::stmt::Kind::eImageDecl );
+			require( stmt.getKind() == sdw::stmt::Kind::eImageDecl );
 			check( static_cast< sdw::stmt::ImageDecl const & >( stmt ).getBindingPoint() == 2u );
 			check( static_cast< sdw::stmt::ImageDecl const & >( stmt ).getDescriptorSet() == 2u );
 			DummyMain;
-			test::writeShader( shader, sdw::ShaderType::eFragment );
+			test::writeShader( shader, sdw::ShaderType::eFragment, testCounts );
 		}
 		{
 			sdw::ShaderWriter writer{ false };
 			auto & shader = writer.getShader();
 			auto count = shader.getStatements()->size();
-			auto value = writer.declImage< SampledT, DimT, FormatT, ArrayedT, DepthT, MsT >( "value", 1u, 1u, false );
+			auto value = writer.declImage< SampledT, DimT, ArrayedT, DepthT, MsT >( "value", 1u, 1u, false, format );
 			check( !value.isEnabled() );
 			check( value.getType()->getKind() == sdw::typeEnum< sdw::Image > );
 			check( value.getType()->getArraySize() == sdw::type::NotArray );
-			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == "value" );
 			check( shader.getStatements()->size() == count );
 			DummyMain;
-			test::writeShader( shader, sdw::ShaderType::eFragment );
+			test::writeShader( shader, sdw::ShaderType::eFragment, testCounts );
 		}
 		{
 			sdw::ShaderWriter writer{ false };
 			auto & shader = writer.getShader();
 			auto count = shader.getStatements()->size();
-			auto value = writer.declImageArray< SampledT, DimT, FormatT, ArrayedT, DepthT, MsT >( "value", 1u, 1u, 12u, false );
+			auto value = writer.declImageArray< SampledT, DimT, ArrayedT, DepthT, MsT >( "value", 1u, 1u, 12u, false, format );
 			check( !value.isEnabled() );
 			check( !value[0].isEnabled() );
 			check( value.getType()->getKind() == sdw::typeEnum< sdw::Image > );
 			check( value.getType()->getArraySize() == 12u );
-			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == "value" );
 			check( shader.getStatements()->size() == count );
 			DummyMain;
-			test::writeShader( shader, sdw::ShaderType::eFragment );
+			test::writeShader( shader, sdw::ShaderType::eFragment, testCounts );
 		}
 		{
 			sdw::ShaderWriter writer{ false };
 			auto & shader = writer.getShader();
 			auto name = nameBase + "Value_1_1_opt";
-			auto value = writer.declImage< SampledT, DimT, FormatT, ArrayedT, DepthT, MsT >( name, 1u, 1u, true );
+			auto value = writer.declImage< SampledT, DimT, ArrayedT, DepthT, MsT >( name, 1u, 1u, true, format );
 			check( value.isEnabled() );
 			check( value.getType()->getKind() == sdw::typeEnum< sdw::Image > );
 			check( value.getType()->getArraySize() == sdw::type::NotArray );
-			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
 			auto & stmt = *shader.getStatements()->back();
-			check( stmt.getKind() == sdw::stmt::Kind::eImageDecl );
+			require( stmt.getKind() == sdw::stmt::Kind::eImageDecl );
 			check( static_cast< sdw::stmt::ImageDecl const & >( stmt ).getBindingPoint() == 1u );
 			check( static_cast< sdw::stmt::ImageDecl const & >( stmt ).getDescriptorSet() == 1u );
 			DummyMain;
-			test::writeShader( shader, sdw::ShaderType::eFragment );
+			test::writeShader( shader, sdw::ShaderType::eFragment, testCounts );
 		}
 		{
 			sdw::ShaderWriter writer{ false };
 			auto & shader = writer.getShader();
 			auto name = nameBase + "Value_2_2_opt";
-			auto value = writer.declImageArray< SampledT, DimT, FormatT, ArrayedT, DepthT, MsT >( name, 2u, 2u, 12u, true );
+			auto value = writer.declImageArray< SampledT, DimT, ArrayedT, DepthT, MsT >( name, 2u, 2u, 12u, true, format );
 			check( value.isEnabled() );
 			check( value[0].isEnabled() );
 			check( value.getType()->getKind() == sdw::typeEnum< sdw::Image > );
 			check( value.getType()->getArraySize() == 12u );
-			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
 			auto & stmt = *shader.getStatements()->back();
-			check( stmt.getKind() == sdw::stmt::Kind::eImageDecl );
+			require( stmt.getKind() == sdw::stmt::Kind::eImageDecl );
 			check( static_cast< sdw::stmt::ImageDecl const & >( stmt ).getBindingPoint() == 2u );
 			check( static_cast< sdw::stmt::ImageDecl const & >( stmt ).getDescriptorSet() == 2u );
 			DummyMain;
-			test::writeShader( shader, sdw::ShaderType::eFragment );
+			test::writeShader( shader, sdw::ShaderType::eFragment, testCounts );
 		}
 	}
 
@@ -1075,22 +1112,25 @@ namespace
 	{
 		return sdw::Pcb{ writer, "PCB" };
 	}
-	void checkBoStmt( sdw::stmt::ShaderBufferDecl const & stmt )
+	void checkBoStmt( sdw::stmt::ShaderBufferDecl const & stmt
+		, test::TestCounts & testCounts )
 	{
 		check( stmt.getBindingPoint() == 1u );
 		check( stmt.getDescriptorSet() == 1u );
 	}
-	void checkBoStmt( sdw::stmt::ConstantBufferDecl const & stmt )
+	void checkBoStmt( sdw::stmt::ConstantBufferDecl const & stmt
+		, test::TestCounts & testCounts )
 	{
 		check( stmt.getBindingPoint() == 1u );
 		check( stmt.getDescriptorSet() == 1u );
 	}
-	void checkBoStmt( sdw::stmt::PushConstantsBufferDecl const & stmt )
+	void checkBoStmt( sdw::stmt::PushConstantsBufferDecl const & stmt
+		, test::TestCounts & testCounts )
 	{
 	}
 
 	template< typename BOType, typename StmtType, sdw::stmt::Kind StmtKind, typename T >
-	void testBo()
+	void testBo( test::TestCounts & testCounts )
 	{
 		{
 			sdw::ShaderWriter writer{ false };
@@ -1101,17 +1141,17 @@ namespace
 			bo.end();
 			check( value.getType()->getKind() == sdw::typeEnum< T > );
 			check( value.getType()->getArraySize() == sdw::type::NotArray );
-			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			auto retrieved = bo.template getMember< T >( name );
 			check( retrieved.getType()->getKind() == sdw::typeEnum< T > );
 			check( retrieved.getType()->getArraySize() == sdw::type::NotArray );
-			check( retrieved.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			require( retrieved.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
 			auto & stmt = *shader.getStatements()->back();
-			check( stmt.getKind() == StmtKind );
-			checkBoStmt( static_cast< StmtType const & >( stmt ) );
+			require( stmt.getKind() == StmtKind );
+			checkBoStmt( static_cast< StmtType const & >( stmt ), testCounts );
 			DummyMain;
-			test::writeShader( shader, sdw::ShaderType::eFragment );
+			test::writeShader( shader, sdw::ShaderType::eFragment, testCounts );
 		}
 		{
 			sdw::ShaderWriter writer{ false };
@@ -1122,17 +1162,17 @@ namespace
 			bo.end();
 			check( value.getType()->getKind() == sdw::typeEnum< T > );
 			check( value.getType()->getArraySize() == 4u );
-			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			auto retrieved = bo.template getMemberArray< T >( name );
 			check( retrieved.getType()->getKind() == sdw::typeEnum< T > );
 			check( retrieved.getType()->getArraySize() == 4u );
-			check( retrieved.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			require( retrieved.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
 			auto & stmt = *shader.getStatements()->back();
-			check( stmt.getKind() == StmtKind );
-			checkBoStmt( static_cast< StmtType const & >( stmt ) );
+			require( stmt.getKind() == StmtKind );
+			checkBoStmt( static_cast< StmtType const & >( stmt ), testCounts );
 			DummyMain;
-			test::writeShader( shader, sdw::ShaderType::eFragment );
+			test::writeShader( shader, sdw::ShaderType::eFragment, testCounts );
 		}
 		{
 			sdw::ShaderWriter writer{ false };
@@ -1143,17 +1183,17 @@ namespace
 			bo.end();
 			check( value.getType()->getKind() == sdw::typeEnum< T > );
 			check( value.getType()->getArraySize() == sdw::type::UnknownArraySize );
-			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			auto retrieved = bo.template getMemberArray< T >( name );
 			check( retrieved.getType()->getKind() == sdw::typeEnum< T > );
 			check( retrieved.getType()->getArraySize() == sdw::type::UnknownArraySize );
-			check( retrieved.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			require( retrieved.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
 			auto & stmt = *shader.getStatements()->back();
-			check( stmt.getKind() == StmtKind );
-			checkBoStmt( static_cast< StmtType const & >( stmt ) );
+			require( stmt.getKind() == StmtKind );
+			checkBoStmt( static_cast< StmtType const & >( stmt ), testCounts );
 			DummyMain;
-			test::writeShader( shader, sdw::ShaderType::eFragment );
+			test::writeShader( shader, sdw::ShaderType::eFragment, testCounts );
 		}
 		{
 			sdw::ShaderWriter writer{ false };
@@ -1165,18 +1205,18 @@ namespace
 			check( !value.isEnabled() );
 			check( value.getType()->getKind() == sdw::typeEnum< T > );
 			check( value.getType()->getArraySize() == sdw::type::NotArray );
-			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			auto retrieved = bo.template getMember< T >( name, false );
 			check( !retrieved.isEnabled() );
 			check( retrieved.getType()->getKind() == sdw::typeEnum< T > );
 			check( retrieved.getType()->getArraySize() == sdw::type::NotArray );
-			check( retrieved.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			require( retrieved.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
 			auto & stmt = *shader.getStatements()->back();
-			check( stmt.getKind() == StmtKind );
-			checkBoStmt( static_cast< StmtType const & >( stmt ) );
+			require( stmt.getKind() == StmtKind );
+			checkBoStmt( static_cast< StmtType const & >( stmt ), testCounts );
 			DummyMain;
-			test::writeShader( shader, sdw::ShaderType::eFragment );
+			test::writeShader( shader, sdw::ShaderType::eFragment, testCounts );
 		}
 		{
 			sdw::ShaderWriter writer{ false };
@@ -1189,19 +1229,19 @@ namespace
 			check( !value[0].isEnabled() );
 			check( value.getType()->getKind() == sdw::typeEnum< T > );
 			check( value.getType()->getArraySize() == 4u );
-			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			auto retrieved = bo.template getMemberArray< T >( name, false );
 			check( !retrieved.isEnabled() );
 			check( !retrieved[0].isEnabled() );
 			check( retrieved.getType()->getKind() == sdw::typeEnum< T > );
 			check( retrieved.getType()->getArraySize() == 4u );
-			check( retrieved.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			require( retrieved.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
 			auto & stmt = *shader.getStatements()->back();
-			check( stmt.getKind() == StmtKind );
-			checkBoStmt( static_cast< StmtType const & >( stmt ) );
+			require( stmt.getKind() == StmtKind );
+			checkBoStmt( static_cast< StmtType const & >( stmt ), testCounts );
 			DummyMain;
-			test::writeShader( shader, sdw::ShaderType::eFragment );
+			test::writeShader( shader, sdw::ShaderType::eFragment, testCounts );
 		}
 		{
 			sdw::ShaderWriter writer{ false };
@@ -1214,19 +1254,19 @@ namespace
 			check( !value[0].isEnabled() );
 			check( value.getType()->getKind() == sdw::typeEnum< T > );
 			check( value.getType()->getArraySize() == sdw::type::UnknownArraySize );
-			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			auto retrieved = bo.template getMemberArray< T >( name, false );
 			check( !retrieved.isEnabled() );
 			check( !retrieved[0].isEnabled() );
 			check( retrieved.getType()->getKind() == sdw::typeEnum< T > );
 			check( retrieved.getType()->getArraySize() == sdw::type::UnknownArraySize );
-			check( retrieved.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			require( retrieved.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
 			auto & stmt = *shader.getStatements()->back();
-			check( stmt.getKind() == StmtKind );
-			checkBoStmt( static_cast< StmtType const & >( stmt ) );
+			require( stmt.getKind() == StmtKind );
+			checkBoStmt( static_cast< StmtType const & >( stmt ), testCounts );
 			DummyMain;
-			test::writeShader( shader, sdw::ShaderType::eFragment );
+			test::writeShader( shader, sdw::ShaderType::eFragment, testCounts );
 		}
 		{
 			sdw::ShaderWriter writer{ false };
@@ -1238,18 +1278,18 @@ namespace
 			check( value.isEnabled() );
 			check( value.getType()->getKind() == sdw::typeEnum< T > );
 			check( value.getType()->getArraySize() == sdw::type::NotArray );
-			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			auto retrieved = bo.template getMember< T >( name, true );
 			check( retrieved.isEnabled() );
 			check( retrieved.getType()->getKind() == sdw::typeEnum< T > );
 			check( retrieved.getType()->getArraySize() == sdw::type::NotArray );
-			check( retrieved.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			require( retrieved.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
 			auto & stmt = *shader.getStatements()->back();
-			check( stmt.getKind() == StmtKind );
-			checkBoStmt( static_cast< StmtType const & >( stmt ) );
+			require( stmt.getKind() == StmtKind );
+			checkBoStmt( static_cast< StmtType const & >( stmt ), testCounts );
 			DummyMain;
-			test::writeShader( shader, sdw::ShaderType::eFragment );
+			test::writeShader( shader, sdw::ShaderType::eFragment, testCounts );
 		}
 		{
 			sdw::ShaderWriter writer{ false };
@@ -1262,19 +1302,19 @@ namespace
 			check( value[0].isEnabled() );
 			check( value.getType()->getKind() == sdw::typeEnum< T > );
 			check( value.getType()->getArraySize() == 4u );
-			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			auto retrieved = bo.template getMemberArray< T >( name, true );
 			check( retrieved.isEnabled() );
 			check( retrieved[0].isEnabled() );
 			check( retrieved.getType()->getKind() == sdw::typeEnum< T > );
 			check( retrieved.getType()->getArraySize() == 4u );
-			check( retrieved.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			require( retrieved.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
 			auto & stmt = *shader.getStatements()->back();
-			check( stmt.getKind() == StmtKind );
-			checkBoStmt( static_cast< StmtType const & >( stmt ) );
+			require( stmt.getKind() == StmtKind );
+			checkBoStmt( static_cast< StmtType const & >( stmt ), testCounts );
 			DummyMain;
-			test::writeShader( shader, sdw::ShaderType::eFragment );
+			test::writeShader( shader, sdw::ShaderType::eFragment, testCounts );
 		}
 		{
 			sdw::ShaderWriter writer{ false };
@@ -1287,42 +1327,42 @@ namespace
 			check( value[0].isEnabled() );
 			check( value.getType()->getKind() == sdw::typeEnum< T > );
 			check( value.getType()->getArraySize() == sdw::type::UnknownArraySize );
-			check( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			auto retrieved = bo.template getMemberArray< T >( name, true );
 			check( retrieved.isEnabled() );
 			check( retrieved[0].isEnabled() );
 			check( retrieved.getType()->getKind() == sdw::typeEnum< T > );
 			check( retrieved.getType()->getArraySize() == sdw::type::UnknownArraySize );
-			check( retrieved.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			require( retrieved.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
 			auto & stmt = *shader.getStatements()->back();
-			check( stmt.getKind() == StmtKind );
-			checkBoStmt( static_cast< StmtType const & >( stmt ) );
+			require( stmt.getKind() == StmtKind );
+			checkBoStmt( static_cast< StmtType const & >( stmt ), testCounts );
 			DummyMain;
-			test::writeShader( shader, sdw::ShaderType::eFragment );
+			test::writeShader( shader, sdw::ShaderType::eFragment, testCounts );
 		}
 	}
 
 	template< typename T >
-	void testUbo()
+	void testUbo( test::TestCounts & testCounts )
 	{
-		testBo< sdw::Ubo, sdw::stmt::ConstantBufferDecl, sdw::stmt::Kind::eConstantBufferDecl, T >();
+		testBo< sdw::Ubo, sdw::stmt::ConstantBufferDecl, sdw::stmt::Kind::eConstantBufferDecl, T >( testCounts );
 	}
 
 	template< typename T >
-	void testSsbo()
+	void testSsbo( test::TestCounts & testCounts )
 	{
-		testBo< sdw::Ssbo, sdw::stmt::ShaderBufferDecl, sdw::stmt::Kind::eShaderBufferDecl, T >();
+		testBo< sdw::Ssbo, sdw::stmt::ShaderBufferDecl, sdw::stmt::Kind::eShaderBufferDecl, T >( testCounts );
 	}
 
 	template< typename T >
-	void testPcb()
+	void testPcb( test::TestCounts & testCounts )
 	{
-		testBo< sdw::Pcb, sdw::stmt::PushConstantsBufferDecl, sdw::stmt::Kind::ePushConstantsBufferDecl, T >();
+		testBo< sdw::Pcb, sdw::stmt::PushConstantsBufferDecl, sdw::stmt::Kind::ePushConstantsBufferDecl, T >( testCounts );
 	}
 
 	template< typename T >
-	void testStruct()
+	void testStruct( test::TestCounts & testCounts )
 	{
 		{
 			sdw::ShaderWriter writer{ false };
@@ -1339,7 +1379,7 @@ namespace
 			auto & stmt = *shader.getStatements()->back();
 			check( stmt.getKind() == sdw::stmt::Kind::eStructureDecl );
 			DummyMain;
-			test::writeShader( shader, sdw::ShaderType::eFragment );
+			test::writeShader( shader, sdw::ShaderType::eFragment, testCounts );
 		}
 		{
 			sdw::ShaderWriter writer{ false };
@@ -1356,7 +1396,7 @@ namespace
 			auto & stmt = *shader.getStatements()->back();
 			check( stmt.getKind() == sdw::stmt::Kind::eStructureDecl );
 			DummyMain;
-			test::writeShader( shader, sdw::ShaderType::eFragment );
+			test::writeShader( shader, sdw::ShaderType::eFragment, testCounts );
 		}
 		{
 			sdw::ShaderWriter writer{ false };
@@ -1373,638 +1413,535 @@ namespace
 			auto & stmt = *shader.getStatements()->back();
 			check( stmt.getKind() == sdw::stmt::Kind::eStructureDecl );
 			DummyMain;
-			test::writeShader( shader, sdw::ShaderType::eFragment );
+			test::writeShader( shader, sdw::ShaderType::eFragment, testCounts );
 		}
 	}
-	void testConstants()
+	void testConstants( test::TestCounts & testCounts )
 	{
 		testBegin( "testConstants" );
-		sdw::ShaderWriter writer{ false };
-		testConstant< sdw::Boolean >();
-		testConstant< sdw::Int >();
-		testConstant< sdw::UInt >();
-		testConstant< sdw::Float >();
-		testConstant< sdw::Double >();
-		testConstant< sdw::Vec2 >();
-		testConstant< sdw::Vec3 >();
-		testConstant< sdw::Vec4 >();
-		testConstant< sdw::DVec2 >();
-		testConstant< sdw::DVec3 >();
-		testConstant< sdw::DVec4 >();
-		testConstant< sdw::BVec2 >();
-		testConstant< sdw::BVec3 >();
-		testConstant< sdw::BVec4 >();
-		testConstant< sdw::IVec2 >();
-		testConstant< sdw::IVec3 >();
-		testConstant< sdw::IVec4 >();
-		testConstant< sdw::UVec2 >();
-		testConstant< sdw::UVec3 >();
-		testConstant< sdw::UVec4 >();
-		testConstant< sdw::Mat2 >();
-		testConstant< sdw::Mat2x3 >();
-		testConstant< sdw::Mat2x4 >();
-		testConstant< sdw::Mat3 >();
-		testConstant< sdw::Mat3x2 >();
-		testConstant< sdw::Mat3x4 >();
-		testConstant< sdw::Mat4 >();
-		testConstant< sdw::Mat4x2 >();
-		testConstant< sdw::Mat4x3 >();
-		testConstant< sdw::DMat2 >();
-		testConstant< sdw::DMat2x3 >();
-		testConstant< sdw::DMat2x4 >();
-		testConstant< sdw::DMat3 >();
-		testConstant< sdw::DMat3x2 >();
-		testConstant< sdw::DMat3x4 >();
-		testConstant< sdw::DMat4 >();
-		testConstant< sdw::DMat4x2 >();
-		testConstant< sdw::DMat4x3 >();
+		testConstant< sdw::Boolean >( testCounts );
+		testConstant< sdw::Int >( testCounts );
+		testConstant< sdw::UInt >( testCounts );
+		testConstant< sdw::Float >( testCounts );
+		testConstant< sdw::Double >( testCounts );
+		testConstant< sdw::Vec2 >( testCounts );
+		testConstant< sdw::Vec3 >( testCounts );
+		testConstant< sdw::Vec4 >( testCounts );
+		testConstant< sdw::DVec2 >( testCounts );
+		testConstant< sdw::DVec3 >( testCounts );
+		testConstant< sdw::DVec4 >( testCounts );
+		testConstant< sdw::BVec2 >( testCounts );
+		testConstant< sdw::BVec3 >( testCounts );
+		testConstant< sdw::BVec4 >( testCounts );
+		testConstant< sdw::IVec2 >( testCounts );
+		testConstant< sdw::IVec3 >( testCounts );
+		testConstant< sdw::IVec4 >( testCounts );
+		testConstant< sdw::UVec2 >( testCounts );
+		testConstant< sdw::UVec3 >( testCounts );
+		testConstant< sdw::UVec4 >( testCounts );
+		testConstant< sdw::Mat2 >( testCounts );
+		testConstant< sdw::Mat2x3 >( testCounts );
+		testConstant< sdw::Mat2x4 >( testCounts );
+		testConstant< sdw::Mat3 >( testCounts );
+		testConstant< sdw::Mat3x2 >( testCounts );
+		testConstant< sdw::Mat3x4 >( testCounts );
+		testConstant< sdw::Mat4 >( testCounts );
+		testConstant< sdw::Mat4x2 >( testCounts );
+		testConstant< sdw::Mat4x3 >( testCounts );
+		testConstant< sdw::DMat2 >( testCounts );
+		testConstant< sdw::DMat2x3 >( testCounts );
+		testConstant< sdw::DMat2x4 >( testCounts );
+		testConstant< sdw::DMat3 >( testCounts );
+		testConstant< sdw::DMat3x2 >( testCounts );
+		testConstant< sdw::DMat3x4 >( testCounts );
+		testConstant< sdw::DMat4 >( testCounts );
+		testConstant< sdw::DMat4x2 >( testCounts );
+		testConstant< sdw::DMat4x3 >( testCounts );
 		testEnd();
 	}
 
-	void testSpecConstants()
+	void testSpecConstants( test::TestCounts & testCounts )
 	{
 		testBegin( "testSpecConstants" );
-		sdw::ShaderWriter writer{ false };
-		testSpecConstant< sdw::Boolean >();
-		testSpecConstant< sdw::Int >();
-		testSpecConstant< sdw::UInt >();
-		testSpecConstant< sdw::Float >();
-		testSpecConstant< sdw::Double >();
-		testSpecConstant< sdw::Vec2 >();
-		testSpecConstant< sdw::Vec3 >();
-		testSpecConstant< sdw::Vec4 >();
-		testSpecConstant< sdw::DVec2 >();
-		testSpecConstant< sdw::DVec3 >();
-		testSpecConstant< sdw::DVec4 >();
-		testSpecConstant< sdw::BVec2 >();
-		testSpecConstant< sdw::BVec3 >();
-		testSpecConstant< sdw::BVec4 >();
-		testSpecConstant< sdw::IVec2 >();
-		testSpecConstant< sdw::IVec3 >();
-		testSpecConstant< sdw::IVec4 >();
-		testSpecConstant< sdw::UVec2 >();
-		testSpecConstant< sdw::UVec3 >();
-		testSpecConstant< sdw::UVec4 >();
-		testSpecConstant< sdw::Mat2 >();
-		testSpecConstant< sdw::Mat2x3 >();
-		testSpecConstant< sdw::Mat2x4 >();
-		testSpecConstant< sdw::Mat3 >();
-		testSpecConstant< sdw::Mat3x2 >();
-		testSpecConstant< sdw::Mat3x4 >();
-		testSpecConstant< sdw::Mat4 >();
-		testSpecConstant< sdw::Mat4x2 >();
-		testSpecConstant< sdw::Mat4x3 >();
-		testSpecConstant< sdw::DMat2 >();
-		testSpecConstant< sdw::DMat2x3 >();
-		testSpecConstant< sdw::DMat2x4 >();
-		testSpecConstant< sdw::DMat3 >();
-		testSpecConstant< sdw::DMat3x2 >();
-		testSpecConstant< sdw::DMat3x4 >();
-		testSpecConstant< sdw::DMat4 >();
-		testSpecConstant< sdw::DMat4x2 >();
-		testSpecConstant< sdw::DMat4x3 >();
+		testSpecConstant< sdw::Boolean >( testCounts );
+		testSpecConstant< sdw::Int >( testCounts );
+		testSpecConstant< sdw::UInt >( testCounts );
+		testSpecConstant< sdw::Float >( testCounts );
+		testSpecConstant< sdw::Double >( testCounts );
+		testSpecConstant< sdw::Vec2 >( testCounts );
+		testSpecConstant< sdw::Vec3 >( testCounts );
+		testSpecConstant< sdw::Vec4 >( testCounts );
+		testSpecConstant< sdw::DVec2 >( testCounts );
+		testSpecConstant< sdw::DVec3 >( testCounts );
+		testSpecConstant< sdw::DVec4 >( testCounts );
+		testSpecConstant< sdw::BVec2 >( testCounts );
+		testSpecConstant< sdw::BVec3 >( testCounts );
+		testSpecConstant< sdw::BVec4 >( testCounts );
+		testSpecConstant< sdw::IVec2 >( testCounts );
+		testSpecConstant< sdw::IVec3 >( testCounts );
+		testSpecConstant< sdw::IVec4 >( testCounts );
+		testSpecConstant< sdw::UVec2 >( testCounts );
+		testSpecConstant< sdw::UVec3 >( testCounts );
+		testSpecConstant< sdw::UVec4 >( testCounts );
+		testSpecConstant< sdw::Mat2 >( testCounts );
+		testSpecConstant< sdw::Mat2x3 >( testCounts );
+		testSpecConstant< sdw::Mat2x4 >( testCounts );
+		testSpecConstant< sdw::Mat3 >( testCounts );
+		testSpecConstant< sdw::Mat3x2 >( testCounts );
+		testSpecConstant< sdw::Mat3x4 >( testCounts );
+		testSpecConstant< sdw::Mat4 >( testCounts );
+		testSpecConstant< sdw::Mat4x2 >( testCounts );
+		testSpecConstant< sdw::Mat4x3 >( testCounts );
+		testSpecConstant< sdw::DMat2 >( testCounts );
+		testSpecConstant< sdw::DMat2x3 >( testCounts );
+		testSpecConstant< sdw::DMat2x4 >( testCounts );
+		testSpecConstant< sdw::DMat3 >( testCounts );
+		testSpecConstant< sdw::DMat3x2 >( testCounts );
+		testSpecConstant< sdw::DMat3x4 >( testCounts );
+		testSpecConstant< sdw::DMat4 >( testCounts );
+		testSpecConstant< sdw::DMat4x2 >( testCounts );
+		testSpecConstant< sdw::DMat4x3 >( testCounts );
 		testEnd();
 	}
 
-	void testShaderInputs()
+	void testShaderInputs( test::TestCounts & testCounts )
 	{
 		testBegin( "testShaderInputs" );
-		sdw::ShaderWriter writer{ false };
-		testShaderInput< sdw::Boolean >();
-		testShaderInput< sdw::Int >();
-		testShaderInput< sdw::UInt >();
-		testShaderInput< sdw::Float >();
-		testShaderInput< sdw::Double >();
-		testShaderInput< sdw::Vec2 >();
-		testShaderInput< sdw::Vec3 >();
-		testShaderInput< sdw::Vec4 >();
-		testShaderInput< sdw::DVec2 >();
-		testShaderInput< sdw::DVec3 >();
-		testShaderInput< sdw::DVec4 >();
-		testShaderInput< sdw::BVec2 >();
-		testShaderInput< sdw::BVec3 >();
-		testShaderInput< sdw::BVec4 >();
-		testShaderInput< sdw::IVec2 >();
-		testShaderInput< sdw::IVec3 >();
-		testShaderInput< sdw::IVec4 >();
-		testShaderInput< sdw::UVec2 >();
-		testShaderInput< sdw::UVec3 >();
-		testShaderInput< sdw::UVec4 >();
-		testShaderInput< sdw::Mat2 >();
-		testShaderInput< sdw::Mat2x3 >();
-		testShaderInput< sdw::Mat2x4 >();
-		testShaderInput< sdw::Mat3 >();
-		testShaderInput< sdw::Mat3x2 >();
-		testShaderInput< sdw::Mat3x4 >();
-		testShaderInput< sdw::Mat4 >();
-		testShaderInput< sdw::Mat4x2 >();
-		testShaderInput< sdw::Mat4x3 >();
-		testShaderInput< sdw::DMat2 >();
-		testShaderInput< sdw::DMat2x3 >();
-		testShaderInput< sdw::DMat2x4 >();
-		testShaderInput< sdw::DMat3 >();
-		testShaderInput< sdw::DMat3x2 >();
-		testShaderInput< sdw::DMat3x4 >();
-		testShaderInput< sdw::DMat4 >();
-		testShaderInput< sdw::DMat4x2 >();
-		testShaderInput< sdw::DMat4x3 >();
+		testShaderInput< sdw::Boolean >( testCounts );
+		testShaderInput< sdw::Int >( testCounts );
+		testShaderInput< sdw::UInt >( testCounts );
+		testShaderInput< sdw::Float >( testCounts );
+		testShaderInput< sdw::Double >( testCounts );
+		testShaderInput< sdw::Vec2 >( testCounts );
+		testShaderInput< sdw::Vec3 >( testCounts );
+		testShaderInput< sdw::Vec4 >( testCounts );
+		testShaderInput< sdw::DVec2 >( testCounts );
+		testShaderInput< sdw::DVec3 >( testCounts );
+		testShaderInput< sdw::DVec4 >( testCounts );
+		testShaderInput< sdw::BVec2 >( testCounts );
+		testShaderInput< sdw::BVec3 >( testCounts );
+		testShaderInput< sdw::BVec4 >( testCounts );
+		testShaderInput< sdw::IVec2 >( testCounts );
+		testShaderInput< sdw::IVec3 >( testCounts );
+		testShaderInput< sdw::IVec4 >( testCounts );
+		testShaderInput< sdw::UVec2 >( testCounts );
+		testShaderInput< sdw::UVec3 >( testCounts );
+		testShaderInput< sdw::UVec4 >( testCounts );
+		testShaderInput< sdw::Mat2 >( testCounts );
+		testShaderInput< sdw::Mat2x3 >( testCounts );
+		testShaderInput< sdw::Mat2x4 >( testCounts );
+		testShaderInput< sdw::Mat3 >( testCounts );
+		testShaderInput< sdw::Mat3x2 >( testCounts );
+		testShaderInput< sdw::Mat3x4 >( testCounts );
+		testShaderInput< sdw::Mat4 >( testCounts );
+		testShaderInput< sdw::Mat4x2 >( testCounts );
+		testShaderInput< sdw::Mat4x3 >( testCounts );
+		testShaderInput< sdw::DMat2 >( testCounts );
+		testShaderInput< sdw::DMat2x3 >( testCounts );
+		testShaderInput< sdw::DMat2x4 >( testCounts );
+		testShaderInput< sdw::DMat3 >( testCounts );
+		testShaderInput< sdw::DMat3x2 >( testCounts );
+		testShaderInput< sdw::DMat3x4 >( testCounts );
+		testShaderInput< sdw::DMat4 >( testCounts );
+		testShaderInput< sdw::DMat4x2 >( testCounts );
+		testShaderInput< sdw::DMat4x3 >( testCounts );
 		testEnd();
 	}
 
-	void testShaderOutputs()
+	void testShaderOutputs( test::TestCounts & testCounts )
 	{
 		testBegin( "testShaderOutputs" );
-		sdw::ShaderWriter writer{ false };
-		testShaderOutput< sdw::Boolean >();
-		testShaderOutput< sdw::Int >();
-		testShaderOutput< sdw::UInt >();
-		testShaderOutput< sdw::Float >();
-		testShaderOutput< sdw::Double >();
-		testShaderOutput< sdw::Vec2 >();
-		testShaderOutput< sdw::Vec3 >();
-		testShaderOutput< sdw::Vec4 >();
-		testShaderOutput< sdw::DVec2 >();
-		testShaderOutput< sdw::DVec3 >();
-		testShaderOutput< sdw::DVec4 >();
-		testShaderOutput< sdw::BVec2 >();
-		testShaderOutput< sdw::BVec3 >();
-		testShaderOutput< sdw::BVec4 >();
-		testShaderOutput< sdw::IVec2 >();
-		testShaderOutput< sdw::IVec3 >();
-		testShaderOutput< sdw::IVec4 >();
-		testShaderOutput< sdw::UVec2 >();
-		testShaderOutput< sdw::UVec3 >();
-		testShaderOutput< sdw::UVec4 >();
-		testShaderOutput< sdw::Mat2 >();
-		testShaderOutput< sdw::Mat2x3 >();
-		testShaderOutput< sdw::Mat2x4 >();
-		testShaderOutput< sdw::Mat3 >();
-		testShaderOutput< sdw::Mat3x2 >();
-		testShaderOutput< sdw::Mat3x4 >();
-		testShaderOutput< sdw::Mat4 >();
-		testShaderOutput< sdw::Mat4x2 >();
-		testShaderOutput< sdw::Mat4x3 >();
-		testShaderOutput< sdw::DMat2 >();
-		testShaderOutput< sdw::DMat2x3 >();
-		testShaderOutput< sdw::DMat2x4 >();
-		testShaderOutput< sdw::DMat3 >();
-		testShaderOutput< sdw::DMat3x2 >();
-		testShaderOutput< sdw::DMat3x4 >();
-		testShaderOutput< sdw::DMat4 >();
-		testShaderOutput< sdw::DMat4x2 >();
-		testShaderOutput< sdw::DMat4x3 >();
+		testShaderOutput< sdw::Boolean >( testCounts );
+		testShaderOutput< sdw::Int >( testCounts );
+		testShaderOutput< sdw::UInt >( testCounts );
+		testShaderOutput< sdw::Float >( testCounts );
+		testShaderOutput< sdw::Double >( testCounts );
+		testShaderOutput< sdw::Vec2 >( testCounts );
+		testShaderOutput< sdw::Vec3 >( testCounts );
+		testShaderOutput< sdw::Vec4 >( testCounts );
+		testShaderOutput< sdw::DVec2 >( testCounts );
+		testShaderOutput< sdw::DVec3 >( testCounts );
+		testShaderOutput< sdw::DVec4 >( testCounts );
+		testShaderOutput< sdw::BVec2 >( testCounts );
+		testShaderOutput< sdw::BVec3 >( testCounts );
+		testShaderOutput< sdw::BVec4 >( testCounts );
+		testShaderOutput< sdw::IVec2 >( testCounts );
+		testShaderOutput< sdw::IVec3 >( testCounts );
+		testShaderOutput< sdw::IVec4 >( testCounts );
+		testShaderOutput< sdw::UVec2 >( testCounts );
+		testShaderOutput< sdw::UVec3 >( testCounts );
+		testShaderOutput< sdw::UVec4 >( testCounts );
+		testShaderOutput< sdw::Mat2 >( testCounts );
+		testShaderOutput< sdw::Mat2x3 >( testCounts );
+		testShaderOutput< sdw::Mat2x4 >( testCounts );
+		testShaderOutput< sdw::Mat3 >( testCounts );
+		testShaderOutput< sdw::Mat3x2 >( testCounts );
+		testShaderOutput< sdw::Mat3x4 >( testCounts );
+		testShaderOutput< sdw::Mat4 >( testCounts );
+		testShaderOutput< sdw::Mat4x2 >( testCounts );
+		testShaderOutput< sdw::Mat4x3 >( testCounts );
+		testShaderOutput< sdw::DMat2 >( testCounts );
+		testShaderOutput< sdw::DMat2x3 >( testCounts );
+		testShaderOutput< sdw::DMat2x4 >( testCounts );
+		testShaderOutput< sdw::DMat3 >( testCounts );
+		testShaderOutput< sdw::DMat3x2 >( testCounts );
+		testShaderOutput< sdw::DMat3x4 >( testCounts );
+		testShaderOutput< sdw::DMat4 >( testCounts );
+		testShaderOutput< sdw::DMat4x2 >( testCounts );
+		testShaderOutput< sdw::DMat4x3 >( testCounts );
 		testEnd();
 	}
 
-	void testLocales()
+	void testLocales( test::TestCounts & testCounts )
 	{
 		testBegin( "testLocales" );
-		sdw::ShaderWriter writer{ false };
-		testLocale< sdw::Boolean >();
-		testLocale< sdw::Int >();
-		testLocale< sdw::UInt >();
-		testLocale< sdw::Float >();
-		testLocale< sdw::Double >();
-		testLocale< sdw::Vec2 >();
-		testLocale< sdw::Vec3 >();
-		testLocale< sdw::Vec4 >();
-		testLocale< sdw::DVec2 >();
-		testLocale< sdw::DVec3 >();
-		testLocale< sdw::DVec4 >();
-		testLocale< sdw::BVec2 >();
-		testLocale< sdw::BVec3 >();
-		testLocale< sdw::BVec4 >();
-		testLocale< sdw::IVec2 >();
-		testLocale< sdw::IVec3 >();
-		testLocale< sdw::IVec4 >();
-		testLocale< sdw::UVec2 >();
-		testLocale< sdw::UVec3 >();
-		testLocale< sdw::UVec4 >();
-		testLocale< sdw::Mat2 >();
-		testLocale< sdw::Mat2x3 >();
-		testLocale< sdw::Mat2x4 >();
-		testLocale< sdw::Mat3 >();
-		testLocale< sdw::Mat3x2 >();
-		testLocale< sdw::Mat3x4 >();
-		testLocale< sdw::Mat4 >();
-		testLocale< sdw::Mat4x2 >();
-		testLocale< sdw::Mat4x3 >();
-		testLocale< sdw::DMat2 >();
-		testLocale< sdw::DMat2x3 >();
-		testLocale< sdw::DMat2x4 >();
-		testLocale< sdw::DMat3 >();
-		testLocale< sdw::DMat3x2 >();
-		testLocale< sdw::DMat3x4 >();
-		testLocale< sdw::DMat4 >();
-		testLocale< sdw::DMat4x2 >();
-		testLocale< sdw::DMat4x3 >();
+		testLocale< sdw::Boolean >( testCounts );
+		testLocale< sdw::Int >( testCounts );
+		testLocale< sdw::UInt >( testCounts );
+		testLocale< sdw::Float >( testCounts );
+		testLocale< sdw::Double >( testCounts );
+		testLocale< sdw::Vec2 >( testCounts );
+		testLocale< sdw::Vec3 >( testCounts );
+		testLocale< sdw::Vec4 >( testCounts );
+		testLocale< sdw::DVec2 >( testCounts );
+		testLocale< sdw::DVec3 >( testCounts );
+		testLocale< sdw::DVec4 >( testCounts );
+		testLocale< sdw::BVec2 >( testCounts );
+		testLocale< sdw::BVec3 >( testCounts );
+		testLocale< sdw::BVec4 >( testCounts );
+		testLocale< sdw::IVec2 >( testCounts );
+		testLocale< sdw::IVec3 >( testCounts );
+		testLocale< sdw::IVec4 >( testCounts );
+		testLocale< sdw::UVec2 >( testCounts );
+		testLocale< sdw::UVec3 >( testCounts );
+		testLocale< sdw::UVec4 >( testCounts );
+		testLocale< sdw::Mat2 >( testCounts );
+		testLocale< sdw::Mat2x3 >( testCounts );
+		testLocale< sdw::Mat2x4 >( testCounts );
+		testLocale< sdw::Mat3 >( testCounts );
+		testLocale< sdw::Mat3x2 >( testCounts );
+		testLocale< sdw::Mat3x4 >( testCounts );
+		testLocale< sdw::Mat4 >( testCounts );
+		testLocale< sdw::Mat4x2 >( testCounts );
+		testLocale< sdw::Mat4x3 >( testCounts );
+		testLocale< sdw::DMat2 >( testCounts );
+		testLocale< sdw::DMat2x3 >( testCounts );
+		testLocale< sdw::DMat2x4 >( testCounts );
+		testLocale< sdw::DMat3 >( testCounts );
+		testLocale< sdw::DMat3x2 >( testCounts );
+		testLocale< sdw::DMat3x4 >( testCounts );
+		testLocale< sdw::DMat4 >( testCounts );
+		testLocale< sdw::DMat4x2 >( testCounts );
+		testLocale< sdw::DMat4x3 >( testCounts );
 		testEnd();
 	}
 
-	void testBuiltins()
+	void testBuiltins( test::TestCounts & testCounts )
 	{
 		testBegin( "testBuiltins" );
-		sdw::ShaderWriter writer{ false };
-		testBuiltin< sdw::Boolean >();
-		testBuiltin< sdw::Int >();
-		testBuiltin< sdw::UInt >();
-		testBuiltin< sdw::Float >();
-		testBuiltin< sdw::Double >();
-		testBuiltin< sdw::Vec2 >();
-		testBuiltin< sdw::Vec3 >();
-		testBuiltin< sdw::Vec4 >();
-		testBuiltin< sdw::DVec2 >();
-		testBuiltin< sdw::DVec3 >();
-		testBuiltin< sdw::DVec4 >();
-		testBuiltin< sdw::BVec2 >();
-		testBuiltin< sdw::BVec3 >();
-		testBuiltin< sdw::BVec4 >();
-		testBuiltin< sdw::IVec2 >();
-		testBuiltin< sdw::IVec3 >();
-		testBuiltin< sdw::IVec4 >();
-		testBuiltin< sdw::UVec2 >();
-		testBuiltin< sdw::UVec3 >();
-		testBuiltin< sdw::UVec4 >();
-		testBuiltin< sdw::Mat2 >();
-		testBuiltin< sdw::Mat2x3 >();
-		testBuiltin< sdw::Mat2x4 >();
-		testBuiltin< sdw::Mat3 >();
-		testBuiltin< sdw::Mat3x2 >();
-		testBuiltin< sdw::Mat3x4 >();
-		testBuiltin< sdw::Mat4 >();
-		testBuiltin< sdw::Mat4x2 >();
-		testBuiltin< sdw::Mat4x3 >();
-		testBuiltin< sdw::DMat2 >();
-		testBuiltin< sdw::DMat2x3 >();
-		testBuiltin< sdw::DMat2x4 >();
-		testBuiltin< sdw::DMat3 >();
-		testBuiltin< sdw::DMat3x2 >();
-		testBuiltin< sdw::DMat3x4 >();
-		testBuiltin< sdw::DMat4 >();
-		testBuiltin< sdw::DMat4x2 >();
-		testBuiltin< sdw::DMat4x3 >();
+		testBuiltin< sdw::Boolean >( testCounts );
+		testBuiltin< sdw::Int >( testCounts );
+		testBuiltin< sdw::UInt >( testCounts );
+		testBuiltin< sdw::Float >( testCounts );
+		testBuiltin< sdw::Double >( testCounts );
+		testBuiltin< sdw::Vec2 >( testCounts );
+		testBuiltin< sdw::Vec3 >( testCounts );
+		testBuiltin< sdw::Vec4 >( testCounts );
+		testBuiltin< sdw::DVec2 >( testCounts );
+		testBuiltin< sdw::DVec3 >( testCounts );
+		testBuiltin< sdw::DVec4 >( testCounts );
+		testBuiltin< sdw::BVec2 >( testCounts );
+		testBuiltin< sdw::BVec3 >( testCounts );
+		testBuiltin< sdw::BVec4 >( testCounts );
+		testBuiltin< sdw::IVec2 >( testCounts );
+		testBuiltin< sdw::IVec3 >( testCounts );
+		testBuiltin< sdw::IVec4 >( testCounts );
+		testBuiltin< sdw::UVec2 >( testCounts );
+		testBuiltin< sdw::UVec3 >( testCounts );
+		testBuiltin< sdw::UVec4 >( testCounts );
+		testBuiltin< sdw::Mat2 >( testCounts );
+		testBuiltin< sdw::Mat2x3 >( testCounts );
+		testBuiltin< sdw::Mat2x4 >( testCounts );
+		testBuiltin< sdw::Mat3 >( testCounts );
+		testBuiltin< sdw::Mat3x2 >( testCounts );
+		testBuiltin< sdw::Mat3x4 >( testCounts );
+		testBuiltin< sdw::Mat4 >( testCounts );
+		testBuiltin< sdw::Mat4x2 >( testCounts );
+		testBuiltin< sdw::Mat4x3 >( testCounts );
+		testBuiltin< sdw::DMat2 >( testCounts );
+		testBuiltin< sdw::DMat2x3 >( testCounts );
+		testBuiltin< sdw::DMat2x4 >( testCounts );
+		testBuiltin< sdw::DMat3 >( testCounts );
+		testBuiltin< sdw::DMat3x2 >( testCounts );
+		testBuiltin< sdw::DMat3x4 >( testCounts );
+		testBuiltin< sdw::DMat4 >( testCounts );
+		testBuiltin< sdw::DMat4x2 >( testCounts );
+		testBuiltin< sdw::DMat4x3 >( testCounts );
 		testEnd();
 	}
 
-	void testSampledImages()
+	void testSampledImages( test::TestCounts & testCounts )
 	{
 		testBegin( "testSampledImages" );
-		sdw::ShaderWriter writer{ false };
-		testSampledImage< FImg1DRGBA32F >();
-		testSampledImage< FImg1DRGBA8I >();
-		testSampledImage< FImg1DRGBA8U >();
-		testSampledImage< FImg2DRGBA32F >();
-		testSampledImage< FImg2DRGBA8I >();
-		testSampledImage< FImg2DRGBA8U >();
-		testSampledImage< FImg3DRGBA32F >();
-		testSampledImage< FImg3DRGBA8I >();
-		testSampledImage< FImg3DRGBA8U >();
-		testSampledImage< FImgRectRGBA32F >();
-		testSampledImage< FImgRectRGBA8I >();
-		testSampledImage< FImgRectRGBA8U >();
-		testSampledImage< FImgCubeRGBA32F >();
-		testSampledImage< FImgCubeRGBA8I >();
-		testSampledImage< FImgCubeRGBA8U >();
-		testSampledImage< FImgBufferRGBA32F >();
-		testSampledImage< FImgBufferRGBA8I >();
-		testSampledImage< FImgBufferRGBA8U >();
-		testSampledImage< FImg1DArrayRGBA32F >();
-		testSampledImage< FImg1DArrayRGBA8I >();
-		testSampledImage< FImg1DArrayRGBA8U >();
-		testSampledImage< FImg2DArrayRGBA32F >();
-		testSampledImage< FImg2DArrayRGBA8I >();
-		testSampledImage< FImg2DArrayRGBA8U >();
-		testSampledImage< FImgCubeArrayRGBA32F >();
-		testSampledImage< FImgCubeArrayRGBA8I >();
-		testSampledImage< FImgCubeArrayRGBA8U >();
-		testSampledImage< FImg1DShadowRGBA32F >();
-		testSampledImage< FImg2DShadowRGBA32F >();
-		testSampledImage< FImgRectShadowRGBA32F >();
-		testSampledImage< FImgCubeShadowRGBA32F >();
-		testSampledImage< FImg1DArrayShadowRGBA32F >();
-		testSampledImage< FImg2DArrayShadowRGBA32F >();
-		testSampledImage< FImgCubeArrayShadowRGBA32F >();
 
-		testSampledImage< IImg1DRGBA32F >();
-		testSampledImage< IImg1DRGBA8I >();
-		testSampledImage< IImg1DRGBA8U >();
-		testSampledImage< IImg2DRGBA32F >();
-		testSampledImage< IImg2DRGBA8I >();
-		testSampledImage< IImg2DRGBA8U >();
-		testSampledImage< IImg3DRGBA32F >();
-		testSampledImage< IImg3DRGBA8I >();
-		testSampledImage< IImg3DRGBA8U >();
-		testSampledImage< IImgRectRGBA32F >();
-		testSampledImage< IImgRectRGBA8I >();
-		testSampledImage< IImgRectRGBA8U >();
-		testSampledImage< IImgCubeRGBA32F >();
-		testSampledImage< IImgCubeRGBA8I >();
-		testSampledImage< IImgCubeRGBA8U >();
-		testSampledImage< IImgBufferRGBA32F >();
-		testSampledImage< IImgBufferRGBA8I >();
-		testSampledImage< IImgBufferRGBA8U >();
-		testSampledImage< IImg1DArrayRGBA32F >();
-		testSampledImage< IImg1DArrayRGBA8I >();
-		testSampledImage< IImg1DArrayRGBA8U >();
-		testSampledImage< IImg2DArrayRGBA32F >();
-		testSampledImage< IImg2DArrayRGBA8I >();
-		testSampledImage< IImg2DArrayRGBA8U >();
-		testSampledImage< IImgCubeArrayRGBA32F >();
-		testSampledImage< IImgCubeArrayRGBA8I >();
-		testSampledImage< IImgCubeArrayRGBA8U >();
+		for ( uint32_t i = 0u; i <= uint32_t( ast::type::ImageFormat::eR8u ); ++i )
+		{
+			auto format = ast::type::ImageFormat( i );
+			testSampledImage< FImg1D >( format, testCounts );
+			testSampledImage< FImg2D >( format, testCounts );
+			testSampledImage< FImg3D >( format, testCounts );
+			testSampledImage< FImgRect >( format, testCounts );
+			testSampledImage< FImgCube >( format, testCounts );
+			testSampledImage< FImgBuffer >( format, testCounts );
+			testSampledImage< FImg1DArray >( format, testCounts );
+			testSampledImage< FImg2DArray >( format, testCounts );
+			testSampledImage< FImgCubeArray >( format, testCounts );
+			testSampledImage< FImg2DMS >( format, testCounts );
+			testSampledImage< FImg2DMSArray >( format, testCounts );
+			testSampledImage< FImg1DShadow >( format, testCounts );
+			testSampledImage< FImg2DShadow >( format, testCounts );
+			testSampledImage< FImgRectShadow >( format, testCounts );
+			testSampledImage< FImgCubeShadow >( format, testCounts );
+			testSampledImage< FImg1DArrayShadow >( format, testCounts );
+			testSampledImage< FImg2DArrayShadow >( format, testCounts );
+			testSampledImage< FImgCubeArrayShadow >( format, testCounts );
 
-		testSampledImage< UImg1DRGBA32F >();
-		testSampledImage< UImg1DRGBA8I >();
-		testSampledImage< UImg1DRGBA8U >();
-		testSampledImage< UImg2DRGBA32F >();
-		testSampledImage< UImg2DRGBA8I >();
-		testSampledImage< UImg2DRGBA8U >();
-		testSampledImage< UImg3DRGBA32F >();
-		testSampledImage< UImg3DRGBA8I >();
-		testSampledImage< UImg3DRGBA8U >();
-		testSampledImage< UImgRectRGBA32F >();
-		testSampledImage< UImgRectRGBA8I >();
-		testSampledImage< UImgRectRGBA8U >();
-		testSampledImage< UImgCubeRGBA32F >();
-		testSampledImage< UImgCubeRGBA8I >();
-		testSampledImage< UImgCubeRGBA8U >();
-		testSampledImage< UImgBufferRGBA32F >();
-		testSampledImage< UImgBufferRGBA8I >();
-		testSampledImage< UImgBufferRGBA8U >();
-		testSampledImage< UImg1DArrayRGBA32F >();
-		testSampledImage< UImg1DArrayRGBA8I >();
-		testSampledImage< UImg1DArrayRGBA8U >();
-		testSampledImage< UImg2DArrayRGBA32F >();
-		testSampledImage< UImg2DArrayRGBA8I >();
-		testSampledImage< UImg2DArrayRGBA8U >();
-		testSampledImage< UImgCubeArrayRGBA32F >();
-		testSampledImage< UImgCubeArrayRGBA8I >();
-		testSampledImage< UImgCubeArrayRGBA8U >();
+			testSampledImage< IImg1D >( format, testCounts );
+			testSampledImage< IImg2D >( format, testCounts );
+			testSampledImage< IImg3D >( format, testCounts );
+			testSampledImage< IImgRect >( format, testCounts );
+			testSampledImage< IImgCube >( format, testCounts );
+			testSampledImage< IImgBuffer >( format, testCounts );
+			testSampledImage< IImg1DArray >( format, testCounts );
+			testSampledImage< IImg2DArray >( format, testCounts );
+			testSampledImage< IImgCubeArray >( format, testCounts );
+			testSampledImage< IImg2DMS >( format, testCounts );
+			testSampledImage< IImg2DMSArray >( format, testCounts );
+
+			testSampledImage< UImg1D >( format, testCounts );
+			testSampledImage< UImg2D >( format, testCounts );
+			testSampledImage< UImg3D >( format, testCounts );
+			testSampledImage< UImgRect >( format, testCounts );
+			testSampledImage< UImgCube >( format, testCounts );
+			testSampledImage< UImgBuffer >( format, testCounts );
+			testSampledImage< UImg1DArray >( format, testCounts );
+			testSampledImage< UImg2DArray >( format, testCounts );
+			testSampledImage< UImgCubeArray >( format, testCounts );
+			testSampledImage< UImg2DMS >( format, testCounts );
+			testSampledImage< UImg2DMSArray >( format, testCounts );
+		}
+
 		testEnd();
 	}
 
-	void testImages()
+	void testImages( test::TestCounts & testCounts )
 	{
 		testBegin( "testImages" );
-		sdw::ShaderWriter writer{ false };
-		testImage< FImg1DRGBA32F >();
-		testImage< FImg1DRGBA8I >();
-		testImage< FImg1DRGBA8U >();
-		testImage< FImg2DRGBA32F >();
-		testImage< FImg2DRGBA8I >();
-		testImage< FImg2DRGBA8U >();
-		testImage< FImg3DRGBA32F >();
-		testImage< FImg3DRGBA8I >();
-		testImage< FImg3DRGBA8U >();
-		testImage< FImgRectRGBA32F >();
-		testImage< FImgRectRGBA8I >();
-		testImage< FImgRectRGBA8U >();
-		testImage< FImgCubeRGBA32F >();
-		testImage< FImgCubeRGBA8I >();
-		testImage< FImgCubeRGBA8U >();
-		testImage< FImgBufferRGBA32F >();
-		testImage< FImgBufferRGBA8I >();
-		testImage< FImgBufferRGBA8U >();
-		testImage< FImg1DArrayRGBA32F >();
-		testImage< FImg1DArrayRGBA8I >();
-		testImage< FImg1DArrayRGBA8U >();
-		testImage< FImg2DArrayRGBA32F >();
-		testImage< FImg2DArrayRGBA8I >();
-		testImage< FImg2DArrayRGBA8U >();
-		testImage< FImgCubeArrayRGBA32F >();
-		testImage< FImgCubeArrayRGBA8I >();
-		testImage< FImgCubeArrayRGBA8U >();
-		testImage< FImg1DShadowRGBA32F >();
-		testImage< FImg2DShadowRGBA32F >();
-		testImage< FImgRectShadowRGBA32F >();
-		testImage< FImgCubeShadowRGBA32F >();
-		testImage< FImg1DArrayShadowRGBA32F >();
-		testImage< FImg2DArrayShadowRGBA32F >();
-		testImage< FImgCubeArrayShadowRGBA32F >();
 
-		testImage< IImg1DRGBA32F >();
-		testImage< IImg1DRGBA8I >();
-		testImage< IImg1DRGBA8U >();
-		testImage< IImg2DRGBA32F >();
-		testImage< IImg2DRGBA8I >();
-		testImage< IImg2DRGBA8U >();
-		testImage< IImg3DRGBA32F >();
-		testImage< IImg3DRGBA8I >();
-		testImage< IImg3DRGBA8U >();
-		testImage< IImgRectRGBA32F >();
-		testImage< IImgRectRGBA8I >();
-		testImage< IImgRectRGBA8U >();
-		testImage< IImgCubeRGBA32F >();
-		testImage< IImgCubeRGBA8I >();
-		testImage< IImgCubeRGBA8U >();
-		testImage< IImgBufferRGBA32F >();
-		testImage< IImgBufferRGBA8I >();
-		testImage< IImgBufferRGBA8U >();
-		testImage< IImg1DArrayRGBA32F >();
-		testImage< IImg1DArrayRGBA8I >();
-		testImage< IImg1DArrayRGBA8U >();
-		testImage< IImg2DArrayRGBA32F >();
-		testImage< IImg2DArrayRGBA8I >();
-		testImage< IImg2DArrayRGBA8U >();
-		testImage< IImgCubeArrayRGBA32F >();
-		testImage< IImgCubeArrayRGBA8I >();
-		testImage< IImgCubeArrayRGBA8U >();
+		for ( uint32_t i = 0u; i <= uint32_t( ast::type::ImageFormat::eR8u ); ++i )
+		{
+			auto format = ast::type::ImageFormat( i );
+			testImage< FImg1D >( format, testCounts );
+			testImage< FImg2D >( format, testCounts );
+			testImage< FImg3D >( format, testCounts );
+			testImage< FImgRect >( format, testCounts );
+			testImage< FImgCube >( format, testCounts );
+			testImage< FImgBuffer >( format, testCounts );
+			testImage< FImg1DArray >( format, testCounts );
+			testImage< FImg2DArray >( format, testCounts );
+			testImage< FImgCubeArray >( format, testCounts );
+			testImage< FImg2DMS >( format, testCounts );
+			testImage< FImg2DMSArray >( format, testCounts );
 
-		testImage< UImg1DRGBA32F >();
-		testImage< UImg1DRGBA8I >();
-		testImage< UImg1DRGBA8U >();
-		testImage< UImg2DRGBA32F >();
-		testImage< UImg2DRGBA8I >();
-		testImage< UImg2DRGBA8U >();
-		testImage< UImg3DRGBA32F >();
-		testImage< UImg3DRGBA8I >();
-		testImage< UImg3DRGBA8U >();
-		testImage< UImgRectRGBA32F >();
-		testImage< UImgRectRGBA8I >();
-		testImage< UImgRectRGBA8U >();
-		testImage< UImgCubeRGBA32F >();
-		testImage< UImgCubeRGBA8I >();
-		testImage< UImgCubeRGBA8U >();
-		testImage< UImgBufferRGBA32F >();
-		testImage< UImgBufferRGBA8I >();
-		testImage< UImgBufferRGBA8U >();
-		testImage< UImg1DArrayRGBA32F >();
-		testImage< UImg1DArrayRGBA8I >();
-		testImage< UImg1DArrayRGBA8U >();
-		testImage< UImg2DArrayRGBA32F >();
-		testImage< UImg2DArrayRGBA8I >();
-		testImage< UImg2DArrayRGBA8U >();
-		testImage< UImgCubeArrayRGBA32F >();
-		testImage< UImgCubeArrayRGBA8I >();
-		testImage< UImgCubeArrayRGBA8U >();
+			testImage< IImg1D >( format, testCounts );
+			testImage< IImg2D >( format, testCounts );
+			testImage< IImg3D >( format, testCounts );
+			testImage< IImgRect >( format, testCounts );
+			testImage< IImgCube >( format, testCounts );
+			testImage< IImgBuffer >( format, testCounts );
+			testImage< IImg1DArray >( format, testCounts );
+			testImage< IImg2DArray >( format, testCounts );
+			testImage< IImgCubeArray >( format, testCounts );
+			testImage< IImg2DMS >( format, testCounts );
+			testImage< IImg2DMSArray >( format, testCounts );
+
+			testImage< UImg1D >( format, testCounts );
+			testImage< UImg2D >( format, testCounts );
+			testImage< UImg3D >( format, testCounts );
+			testImage< UImgRect >( format, testCounts );
+			testImage< UImgCube >( format, testCounts );
+			testImage< UImgBuffer >( format, testCounts );
+			testImage< UImg1DArray >( format, testCounts );
+			testImage< UImg2DArray >( format, testCounts );
+			testImage< UImgCubeArray >( format, testCounts );
+			testImage< UImg2DMS >( format, testCounts );
+			testImage< UImg2DMSArray >( format, testCounts );
+		}
+
 		testEnd();
 	}
 
-	void testUbos()
+	void testUbos( test::TestCounts & testCounts )
 	{
 		testBegin( "testUbos" );
-		sdw::ShaderWriter writer{ false };
-		testUbo< sdw::Int >();
-		testUbo< sdw::UInt >();
-		testUbo< sdw::Float >();
-		testUbo< sdw::Double >();
-		testUbo< sdw::Vec2 >();
-		testUbo< sdw::Vec3 >();
-		testUbo< sdw::Vec4 >();
-		testUbo< sdw::DVec2 >();
-		testUbo< sdw::DVec3 >();
-		testUbo< sdw::DVec4 >();
-		testUbo< sdw::IVec2 >();
-		testUbo< sdw::IVec3 >();
-		testUbo< sdw::IVec4 >();
-		testUbo< sdw::UVec2 >();
-		testUbo< sdw::UVec3 >();
-		testUbo< sdw::UVec4 >();
-		testUbo< sdw::Mat2 >();
-		testUbo< sdw::Mat2x3 >();
-		testUbo< sdw::Mat2x4 >();
-		testUbo< sdw::Mat3 >();
-		testUbo< sdw::Mat3x2 >();
-		testUbo< sdw::Mat3x4 >();
-		testUbo< sdw::Mat4 >();
-		testUbo< sdw::Mat4x2 >();
-		testUbo< sdw::Mat4x3 >();
-		testUbo< sdw::DMat2 >();
-		testUbo< sdw::DMat2x3 >();
-		testUbo< sdw::DMat2x4 >();
-		testUbo< sdw::DMat3 >();
-		testUbo< sdw::DMat3x2 >();
-		testUbo< sdw::DMat3x4 >();
-		testUbo< sdw::DMat4 >();
-		testUbo< sdw::DMat4x2 >();
-		testUbo< sdw::DMat4x3 >();
+		testUbo< sdw::Int >( testCounts );
+		testUbo< sdw::UInt >( testCounts );
+		testUbo< sdw::Float >( testCounts );
+		testUbo< sdw::Double >( testCounts );
+		testUbo< sdw::Vec2 >( testCounts );
+		testUbo< sdw::Vec3 >( testCounts );
+		testUbo< sdw::Vec4 >( testCounts );
+		testUbo< sdw::DVec2 >( testCounts );
+		testUbo< sdw::DVec3 >( testCounts );
+		testUbo< sdw::DVec4 >( testCounts );
+		testUbo< sdw::IVec2 >( testCounts );
+		testUbo< sdw::IVec3 >( testCounts );
+		testUbo< sdw::IVec4 >( testCounts );
+		testUbo< sdw::UVec2 >( testCounts );
+		testUbo< sdw::UVec3 >( testCounts );
+		testUbo< sdw::UVec4 >( testCounts );
+		testUbo< sdw::Mat2 >( testCounts );
+		testUbo< sdw::Mat2x3 >( testCounts );
+		testUbo< sdw::Mat2x4 >( testCounts );
+		testUbo< sdw::Mat3 >( testCounts );
+		testUbo< sdw::Mat3x2 >( testCounts );
+		testUbo< sdw::Mat3x4 >( testCounts );
+		testUbo< sdw::Mat4 >( testCounts );
+		testUbo< sdw::Mat4x2 >( testCounts );
+		testUbo< sdw::Mat4x3 >( testCounts );
+		testUbo< sdw::DMat2 >( testCounts );
+		testUbo< sdw::DMat2x3 >( testCounts );
+		testUbo< sdw::DMat2x4 >( testCounts );
+		testUbo< sdw::DMat3 >( testCounts );
+		testUbo< sdw::DMat3x2 >( testCounts );
+		testUbo< sdw::DMat3x4 >( testCounts );
+		testUbo< sdw::DMat4 >( testCounts );
+		testUbo< sdw::DMat4x2 >( testCounts );
+		testUbo< sdw::DMat4x3 >( testCounts );
 		testEnd();
 	}
 
-	void testSsbos()
+	void testSsbos( test::TestCounts & testCounts )
 	{
 		testBegin( "testSsbos" );
-		sdw::ShaderWriter writer{ false };
-		testSsbo< sdw::Int >();
-		testSsbo< sdw::UInt >();
-		testSsbo< sdw::Float >();
-		testSsbo< sdw::Double >();
-		testSsbo< sdw::Vec2 >();
-		testSsbo< sdw::Vec3 >();
-		testSsbo< sdw::Vec4 >();
-		testSsbo< sdw::DVec2 >();
-		testSsbo< sdw::DVec3 >();
-		testSsbo< sdw::DVec4 >();
-		testSsbo< sdw::IVec2 >();
-		testSsbo< sdw::IVec3 >();
-		testSsbo< sdw::IVec4 >();
-		testSsbo< sdw::UVec2 >();
-		testSsbo< sdw::UVec3 >();
-		testSsbo< sdw::UVec4 >();
-		testSsbo< sdw::Mat2 >();
-		testSsbo< sdw::Mat2x3 >();
-		testSsbo< sdw::Mat2x4 >();
-		testSsbo< sdw::Mat3 >();
-		testSsbo< sdw::Mat3x2 >();
-		testSsbo< sdw::Mat3x4 >();
-		testSsbo< sdw::Mat4 >();
-		testSsbo< sdw::Mat4x2 >();
-		testSsbo< sdw::Mat4x3 >();
-		testSsbo< sdw::DMat2 >();
-		testSsbo< sdw::DMat2x3 >();
-		testSsbo< sdw::DMat2x4 >();
-		testSsbo< sdw::DMat3 >();
-		testSsbo< sdw::DMat3x2 >();
-		testSsbo< sdw::DMat3x4 >();
-		testSsbo< sdw::DMat4 >();
-		testSsbo< sdw::DMat4x2 >();
-		testSsbo< sdw::DMat4x3 >();
+		testSsbo< sdw::Int >( testCounts );
+		testSsbo< sdw::UInt >( testCounts );
+		testSsbo< sdw::Float >( testCounts );
+		testSsbo< sdw::Double >( testCounts );
+		testSsbo< sdw::Vec2 >( testCounts );
+		testSsbo< sdw::Vec3 >( testCounts );
+		testSsbo< sdw::Vec4 >( testCounts );
+		testSsbo< sdw::DVec2 >( testCounts );
+		testSsbo< sdw::DVec3 >( testCounts );
+		testSsbo< sdw::DVec4 >( testCounts );
+		testSsbo< sdw::IVec2 >( testCounts );
+		testSsbo< sdw::IVec3 >( testCounts );
+		testSsbo< sdw::IVec4 >( testCounts );
+		testSsbo< sdw::UVec2 >( testCounts );
+		testSsbo< sdw::UVec3 >( testCounts );
+		testSsbo< sdw::UVec4 >( testCounts );
+		testSsbo< sdw::Mat2 >( testCounts );
+		testSsbo< sdw::Mat2x3 >( testCounts );
+		testSsbo< sdw::Mat2x4 >( testCounts );
+		testSsbo< sdw::Mat3 >( testCounts );
+		testSsbo< sdw::Mat3x2 >( testCounts );
+		testSsbo< sdw::Mat3x4 >( testCounts );
+		testSsbo< sdw::Mat4 >( testCounts );
+		testSsbo< sdw::Mat4x2 >( testCounts );
+		testSsbo< sdw::Mat4x3 >( testCounts );
+		testSsbo< sdw::DMat2 >( testCounts );
+		testSsbo< sdw::DMat2x3 >( testCounts );
+		testSsbo< sdw::DMat2x4 >( testCounts );
+		testSsbo< sdw::DMat3 >( testCounts );
+		testSsbo< sdw::DMat3x2 >( testCounts );
+		testSsbo< sdw::DMat3x4 >( testCounts );
+		testSsbo< sdw::DMat4 >( testCounts );
+		testSsbo< sdw::DMat4x2 >( testCounts );
+		testSsbo< sdw::DMat4x3 >( testCounts );
 		testEnd();
 	}
 
-	void testPcbs()
+	void testPcbs( test::TestCounts & testCounts )
 	{
 		testBegin( "testPcbs" );
-		sdw::ShaderWriter writer{ false };
-		testPcb< sdw::Int >();
-		testPcb< sdw::UInt >();
-		testPcb< sdw::Float >();
-		testPcb< sdw::Double >();
-		testPcb< sdw::Vec2 >();
-		testPcb< sdw::Vec3 >();
-		testPcb< sdw::Vec4 >();
-		testPcb< sdw::DVec2 >();
-		testPcb< sdw::DVec3 >();
-		testPcb< sdw::DVec4 >();
-		testPcb< sdw::IVec2 >();
-		testPcb< sdw::IVec3 >();
-		testPcb< sdw::IVec4 >();
-		testPcb< sdw::UVec2 >();
-		testPcb< sdw::UVec3 >();
-		testPcb< sdw::UVec4 >();
-		testPcb< sdw::Mat2 >();
-		testPcb< sdw::Mat2x3 >();
-		testPcb< sdw::Mat2x4 >();
-		testPcb< sdw::Mat3 >();
-		testPcb< sdw::Mat3x2 >();
-		testPcb< sdw::Mat3x4 >();
-		testPcb< sdw::Mat4 >();
-		testPcb< sdw::Mat4x2 >();
-		testPcb< sdw::Mat4x3 >();
-		testPcb< sdw::DMat2 >();
-		testPcb< sdw::DMat2x3 >();
-		testPcb< sdw::DMat2x4 >();
-		testPcb< sdw::DMat3 >();
-		testPcb< sdw::DMat3x2 >();
-		testPcb< sdw::DMat3x4 >();
-		testPcb< sdw::DMat4 >();
-		testPcb< sdw::DMat4x2 >();
-		testPcb< sdw::DMat4x3 >();
+		testPcb< sdw::Int >( testCounts );
+		testPcb< sdw::UInt >( testCounts );
+		testPcb< sdw::Float >( testCounts );
+		testPcb< sdw::Double >( testCounts );
+		testPcb< sdw::Vec2 >( testCounts );
+		testPcb< sdw::Vec3 >( testCounts );
+		testPcb< sdw::Vec4 >( testCounts );
+		testPcb< sdw::DVec2 >( testCounts );
+		testPcb< sdw::DVec3 >( testCounts );
+		testPcb< sdw::DVec4 >( testCounts );
+		testPcb< sdw::IVec2 >( testCounts );
+		testPcb< sdw::IVec3 >( testCounts );
+		testPcb< sdw::IVec4 >( testCounts );
+		testPcb< sdw::UVec2 >( testCounts );
+		testPcb< sdw::UVec3 >( testCounts );
+		testPcb< sdw::UVec4 >( testCounts );
+		testPcb< sdw::Mat2 >( testCounts );
+		testPcb< sdw::Mat2x3 >( testCounts );
+		testPcb< sdw::Mat2x4 >( testCounts );
+		testPcb< sdw::Mat3 >( testCounts );
+		testPcb< sdw::Mat3x2 >( testCounts );
+		testPcb< sdw::Mat3x4 >( testCounts );
+		testPcb< sdw::Mat4 >( testCounts );
+		testPcb< sdw::Mat4x2 >( testCounts );
+		testPcb< sdw::Mat4x3 >( testCounts );
+		testPcb< sdw::DMat2 >( testCounts );
+		testPcb< sdw::DMat2x3 >( testCounts );
+		testPcb< sdw::DMat2x4 >( testCounts );
+		testPcb< sdw::DMat3 >( testCounts );
+		testPcb< sdw::DMat3x2 >( testCounts );
+		testPcb< sdw::DMat3x4 >( testCounts );
+		testPcb< sdw::DMat4 >( testCounts );
+		testPcb< sdw::DMat4x2 >( testCounts );
+		testPcb< sdw::DMat4x3 >( testCounts );
 		testEnd();
 	}
 
-	void testStructs()
+	void testStructs( test::TestCounts & testCounts )
 	{
 		testBegin( "testStructs" );
-		sdw::ShaderWriter writer{ false };
-		testStruct< sdw::Boolean >();
-		testStruct< sdw::Int >();
-		testStruct< sdw::UInt >();
-		testStruct< sdw::Float >();
-		testStruct< sdw::Double >();
-		testStruct< sdw::Vec2 >();
-		testStruct< sdw::Vec3 >();
-		testStruct< sdw::Vec4 >();
-		testStruct< sdw::DVec2 >();
-		testStruct< sdw::DVec3 >();
-		testStruct< sdw::DVec4 >();
-		testStruct< sdw::BVec2 >();
-		testStruct< sdw::BVec3 >();
-		testStruct< sdw::BVec4 >();
-		testStruct< sdw::IVec2 >();
-		testStruct< sdw::IVec3 >();
-		testStruct< sdw::IVec4 >();
-		testStruct< sdw::UVec2 >();
-		testStruct< sdw::UVec3 >();
-		testStruct< sdw::UVec4 >();
-		testStruct< sdw::Mat2 >();
-		testStruct< sdw::Mat2x3 >();
-		testStruct< sdw::Mat2x4 >();
-		testStruct< sdw::Mat3 >();
-		testStruct< sdw::Mat3x2 >();
-		testStruct< sdw::Mat3x4 >();
-		testStruct< sdw::Mat4 >();
-		testStruct< sdw::Mat4x2 >();
-		testStruct< sdw::Mat4x3 >();
-		testStruct< sdw::DMat2 >();
-		testStruct< sdw::DMat2x3 >();
-		testStruct< sdw::DMat2x4 >();
-		testStruct< sdw::DMat3 >();
-		testStruct< sdw::DMat3x2 >();
-		testStruct< sdw::DMat3x4 >();
-		testStruct< sdw::DMat4 >();
-		testStruct< sdw::DMat4x2 >();
-		testStruct< sdw::DMat4x3 >();
+		testStruct< sdw::Boolean >( testCounts );
+		testStruct< sdw::Int >( testCounts );
+		testStruct< sdw::UInt >( testCounts );
+		testStruct< sdw::Float >( testCounts );
+		testStruct< sdw::Double >( testCounts );
+		testStruct< sdw::Vec2 >( testCounts );
+		testStruct< sdw::Vec3 >( testCounts );
+		testStruct< sdw::Vec4 >( testCounts );
+		testStruct< sdw::DVec2 >( testCounts );
+		testStruct< sdw::DVec3 >( testCounts );
+		testStruct< sdw::DVec4 >( testCounts );
+		testStruct< sdw::BVec2 >( testCounts );
+		testStruct< sdw::BVec3 >( testCounts );
+		testStruct< sdw::BVec4 >( testCounts );
+		testStruct< sdw::IVec2 >( testCounts );
+		testStruct< sdw::IVec3 >( testCounts );
+		testStruct< sdw::IVec4 >( testCounts );
+		testStruct< sdw::UVec2 >( testCounts );
+		testStruct< sdw::UVec3 >( testCounts );
+		testStruct< sdw::UVec4 >( testCounts );
+		testStruct< sdw::Mat2 >( testCounts );
+		testStruct< sdw::Mat2x3 >( testCounts );
+		testStruct< sdw::Mat2x4 >( testCounts );
+		testStruct< sdw::Mat3 >( testCounts );
+		testStruct< sdw::Mat3x2 >( testCounts );
+		testStruct< sdw::Mat3x4 >( testCounts );
+		testStruct< sdw::Mat4 >( testCounts );
+		testStruct< sdw::Mat4x2 >( testCounts );
+		testStruct< sdw::Mat4x3 >( testCounts );
+		testStruct< sdw::DMat2 >( testCounts );
+		testStruct< sdw::DMat2x3 >( testCounts );
+		testStruct< sdw::DMat2x4 >( testCounts );
+		testStruct< sdw::DMat3 >( testCounts );
+		testStruct< sdw::DMat3x2 >( testCounts );
+		testStruct< sdw::DMat3x4 >( testCounts );
+		testStruct< sdw::DMat4 >( testCounts );
+		testStruct< sdw::DMat4x2 >( testCounts );
+		testStruct< sdw::DMat4x3 >( testCounts );
 		testEnd();
 	}
 }
@@ -2012,17 +1949,17 @@ namespace
 int main( int argc, char ** argv )
 {
 	testSuiteBegin( "TestWriterDeclarations" );
-	testUbos();
-	testConstants();
-	testSpecConstants();
-	testShaderInputs();
-	testShaderOutputs();
-	testLocales();
-	testBuiltins();
-	testSampledImages();
-	testImages();
-	testSsbos();
-	testPcbs();
-	testStructs();
+	testUbos( testCounts );
+	testConstants( testCounts );
+	testSpecConstants( testCounts );
+	testShaderInputs( testCounts );
+	testShaderOutputs( testCounts );
+	testLocales( testCounts );
+	testBuiltins( testCounts );
+	testSampledImages( testCounts );
+	testImages( testCounts );
+	testSsbos( testCounts );
+	testPcbs( testCounts );
+	testStructs( testCounts );
 	testSuiteEnd();
 }

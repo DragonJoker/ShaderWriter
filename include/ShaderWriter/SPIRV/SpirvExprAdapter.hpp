@@ -24,6 +24,7 @@ namespace sdw::spirv
 
 		ast::expr::ExprPtr doSubmit( ast::expr::Expr * expr )override;
 		void visitIdentifierExpr( expr::Identifier * expr )override;
+		void visitTextureAccessCallExpr( expr::TextureAccessCall * expr )override;
 
 	private:
 		PreprocContext const & m_context;

@@ -172,6 +172,13 @@ namespace sdw
 			, std::move( init ) );
 	}
 
+	expr::ExprPtr makeAggrInit( type::TypePtr type
+		, expr::ExprList && init )
+	{
+		return expr::makeAggrInit( std::move( type )
+			, std::move( init ) );
+	}
+
 	expr::ExprPtr makeAdd( type::TypePtr type
 		, expr::ExprPtr lhs
 		, expr::ExprPtr rhs )

@@ -294,6 +294,10 @@ namespace sdw::hlsl
 		case ast::expr::TextureAccess::eTextureOffset1DUBias:
 		case ast::expr::TextureAccess::eTextureOffset2DUBias:
 		case ast::expr::TextureAccess::eTextureOffset3DUBias:
+		case ast::expr::TextureAccess::eTextureOffset1DArrayFBias:
+		case ast::expr::TextureAccess::eTextureOffset2DArrayFBias:
+		case ast::expr::TextureAccess::eTextureOffset1DArrayIBias:
+		case ast::expr::TextureAccess::eTextureOffset2DArrayIBias:
 		case ast::expr::TextureAccess::eTextureOffset1DArrayUBias:
 		case ast::expr::TextureAccess::eTextureOffset2DArrayUBias:
 		case ast::expr::TextureAccess::eTextureProjOffset1DF2Bias:
@@ -481,6 +485,27 @@ namespace sdw::hlsl
 		case ast::expr::TextureAccess::eTextureProjGradOffset2DRectU4:
 			result = "SampleGrad";
 			break;
+			
+		case ast::expr::TextureAccess::eTextureGrad1DShadowF:
+		case ast::expr::TextureAccess::eTextureProjGrad1DShadowF:
+		case ast::expr::TextureAccess::eTextureGrad1DArrayShadowF:
+		case ast::expr::TextureAccess::eTextureGradOffset1DShadowF:
+		case ast::expr::TextureAccess::eTextureGradOffset1DArrayShadowF:
+		case ast::expr::TextureAccess::eTextureProjGradOffset1DShadowF:
+			result = "SampleGrad";
+			break;
+
+		case ast::expr::TextureAccess::eTextureGrad2DRectShadowF:
+		case ast::expr::TextureAccess::eTextureGrad2DShadowF:
+		case ast::expr::TextureAccess::eTextureGradOffset2DRectShadowF:
+		case ast::expr::TextureAccess::eTextureGradOffset2DShadowF:
+		case ast::expr::TextureAccess::eTextureProjGrad2DShadowF:
+		case ast::expr::TextureAccess::eTextureProjGrad2DRectShadowF:
+		case ast::expr::TextureAccess::eTextureProjGradOffset2DShadowF:
+		case ast::expr::TextureAccess::eTextureProjGradOffset2DRectShadowF:
+		case ast::expr::TextureAccess::eTextureGradOffset2DArrayShadowF:
+			result = "SampleGrad";
+			break;
 
 		case ast::expr::TextureAccess::eTexture1DShadowF:
 		case ast::expr::TextureAccess::eTexture2DShadowF:
@@ -507,15 +532,6 @@ namespace sdw::hlsl
 		case ast::expr::TextureAccess::eTextureLodOffset1DShadowF:
 		case ast::expr::TextureAccess::eTextureLodOffset2DShadowF:
 		case ast::expr::TextureAccess::eTextureLodOffset1DArrayShadowF:
-		case ast::expr::TextureAccess::eTextureGrad2DRectShadowF:
-		case ast::expr::TextureAccess::eTextureGrad1DShadowF:
-		case ast::expr::TextureAccess::eTextureGrad2DShadowF:
-		case ast::expr::TextureAccess::eTextureGrad1DArrayShadowF:
-		case ast::expr::TextureAccess::eTextureGradOffset2DRectShadowF:
-		case ast::expr::TextureAccess::eTextureGradOffset1DShadowF:
-		case ast::expr::TextureAccess::eTextureGradOffset2DShadowF:
-		case ast::expr::TextureAccess::eTextureGradOffset1DArrayShadowF:
-		case ast::expr::TextureAccess::eTextureGradOffset2DArrayShadowF:
 		case ast::expr::TextureAccess::eTextureGather2DShadowF:
 		case ast::expr::TextureAccess::eTextureGather2DArrayShadowF:
 		case ast::expr::TextureAccess::eTextureGatherCubeShadowF:
@@ -537,20 +553,10 @@ namespace sdw::hlsl
 		case ast::expr::TextureAccess::eTextureProjOffset1DShadowF:
 		case ast::expr::TextureAccess::eTextureProjOffset2DShadowF:
 		case ast::expr::TextureAccess::eTextureProjOffset2DRectShadowF:
-		case ast::expr::TextureAccess::eTextureOffset1DArrayFBias:
-		case ast::expr::TextureAccess::eTextureOffset2DArrayFBias:
-		case ast::expr::TextureAccess::eTextureOffset1DArrayIBias:
-		case ast::expr::TextureAccess::eTextureOffset2DArrayIBias:
 		case ast::expr::TextureAccess::eTextureProjOffset1DShadowFBias:
 		case ast::expr::TextureAccess::eTextureProjOffset2DShadowFBias:
 		case ast::expr::TextureAccess::eTextureProjLodOffset1DShadowF:
 		case ast::expr::TextureAccess::eTextureProjLodOffset2DShadowF:
-		case ast::expr::TextureAccess::eTextureProjGrad1DShadowF:
-		case ast::expr::TextureAccess::eTextureProjGrad2DShadowF:
-		case ast::expr::TextureAccess::eTextureProjGrad2DRectShadowF:
-		case ast::expr::TextureAccess::eTextureProjGradOffset1DShadowF:
-		case ast::expr::TextureAccess::eTextureProjGradOffset2DShadowF:
-		case ast::expr::TextureAccess::eTextureProjGradOffset2DRectShadowF:
 			result = "SampleCmp";
 			break;
 

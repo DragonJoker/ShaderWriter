@@ -1,8 +1,8 @@
 /*
 See LICENSE file in root folder
 */
-#ifndef ___SDW_HlslStmtAdapter_H___
-#define ___SDW_HlslStmtAdapter_H___
+#ifndef ___SDW_HlslStmtConfigFiller_H___
+#define ___SDW_HlslStmtConfigFiller_H___
 #pragma once
 
 #include "ShaderWriter/HLSL/HlslHelpers.hpp"
@@ -14,23 +14,15 @@ See LICENSE file in root folder
 
 namespace sdw::hlsl
 {
-	class StmtAdapter
+	class StmtConfigFiller
 		: public stmt::Visitor
 	{
 	public:
-		static stmt::ContainerPtr submit( Shader const & shader
-			, ShaderType type
-			, IntrinsicsConfig const & config );
+		static IntrinsicsConfig submit( Shader const & shader );
 
 	private:
-		StmtAdapter( Shader const & shader
-			, ShaderType type
-			, IntrinsicsConfig const & config
-			, stmt::Container * result );
-
-		void linkVars( var::VariablePtr textureSampler
-			, var::VariablePtr texture
-			, var::VariablePtr sampler );
+		StmtConfigFiller( Shader const & shader
+			, IntrinsicsConfig & result );
 
 		void visitContainerStmt( stmt::Container * cont )override;
 		void visitConstantBufferDeclStmt( stmt::ConstantBufferDecl * stmt )override;
@@ -70,34 +62,7 @@ namespace sdw::hlsl
 		void visitPreprocVersion( stmt::PreprocVersion * preproc )override;
 
 	private:
-		void rewriteShaderIOVars();
-		stmt::FunctionDeclPtr rewriteMainHeader( stmt::FunctionDecl * stmt );
-		stmt::FunctionDeclPtr rewriteFuncHeader( stmt::FunctionDecl * stmt );
-		void rewriteMainFooter( stmt::FunctionDecl * stmt );
-
-	private:
-		IntrinsicsConfig const & m_config;
-		HlslShader m_shader;
-		stmt::Container * m_result;
-		stmt::Container * m_intrinsics;
-		std::map< uint32_t, var::VariablePtr > m_inputVars;
-		std::map< uint32_t, var::VariablePtr > m_outputVars;
-		stmt::InputComputeLayout * m_inputComputeLayout{ nullptr };
-		stmt::InputGeometryLayout * m_inputGeometryLayout{ nullptr };
-		stmt::OutputGeometryLayout * m_outputGeometryLayout{ nullptr };
-		type::StructPtr m_inputStruct;
-		type::StructPtr m_outputStruct;
-		var::VariablePtr m_inputVar;
-		var::VariablePtr m_outputVar;
-		VariableExprMap m_inputMembers;
-		VariableExprMap m_outputMembers;
-		LinkedVars m_linkedVars;
-		ShaderType m_type;
-		std::vector< stmt::If * > m_ifStmts;
-		std::vector< stmt::Switch * > m_switchStmts;
-		std::vector< stmt::PreprocIf * > m_preprocIfStmts;
-		std::vector< stmt::PreprocIfDef * > m_preprocIfDefStmts;
-		std::vector< bool > m_preprocIfDefs;
+		IntrinsicsConfig & m_result;
 	};
 }
 

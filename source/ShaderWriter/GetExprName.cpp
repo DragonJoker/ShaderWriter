@@ -60,7 +60,8 @@ namespace sdw
 
 			void visitAggrInitExpr( expr::AggrInit * expr )override
 			{
-				if ( !m_result )
+				if ( !m_result
+					&& expr->getIdentifier() )
 				{
 					expr->getIdentifier()->accept( this );
 				}

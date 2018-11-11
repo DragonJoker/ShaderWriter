@@ -98,6 +98,43 @@ namespace sdw
 			, makeExpr( var )
 			, enabled };
 	}
+
+	template< typename T >
+	inline Array< T > ShaderWriter::declConstantArray( std::string const & name
+		, std::vector< T > const & rhs )
+	{
+		auto type = type::makeType( typeEnum< T >
+			, uint32_t( rhs.size() ) );
+		auto var = registerConstant( name
+			, type );
+		addStmt( sdw::makePreprocDefine( name
+			, sdw::makeAggrInit( var->getType()
+				, makeExpr( rhs ) ) ) );
+		return Array< T >{ &m_shader
+			, makeExpr( var ) };
+	}
+
+	template< typename T >
+	inline Optional< Array< T > > ShaderWriter::declConstantArray( std::string const & name
+		, std::vector< T > const & rhs
+		, bool enabled )
+	{
+		auto type = type::makeType( typeEnum< T >
+			, uint32_t( rhs.size() ) );
+		auto var = registerConstant( name
+			, type );
+
+		if ( enabled )
+		{
+			addStmt( sdw::makePreprocDefine( name
+				, sdw::makeAggrInit( var->getType()
+					, makeExpr( rhs ) ) ) );
+		}
+
+		return Optional< Array< T > >{ &m_shader
+			, makeExpr( var )
+			, enabled };
+	}
 	/**@}*/
 #pragma endregion
 #pragma region Specialisation constant declaration
@@ -112,7 +149,8 @@ namespace sdw
 		, T const & rhs )
 	{
 		auto type = type::makeType( typeEnum< T > );
-		auto var = registerConstant( name
+		auto var = registerSpecConstant( name
+			, location
 			, type );
 		addStmt( sdw::makeInOutVariableDecl( var
 			, location ) );
@@ -127,7 +165,8 @@ namespace sdw
 		, bool enabled )
 	{
 		auto type = type::makeType( typeEnum< T > );
-		auto var = registerConstant( name
+		auto var = registerSpecConstant( name
+			, location
 			, type );
 
 		if ( enabled )
@@ -158,7 +197,7 @@ namespace sdw
 		, uint32_t set
 		, ast::type::ImageFormat format )
 	{
-		using T = SampledImageT< SampledT, DimT, FormatT, ArrayedT, DepthT, MsT >;
+		using T = SampledImageT< SampledT, DimT, ArrayedT, DepthT, MsT >;
 		auto type = type::makeSampledImageType( T::makeConfig( format ) );
 		auto var = registerSampledImage( name
 			, type
@@ -182,7 +221,7 @@ namespace sdw
 		, bool enabled
 		, ast::type::ImageFormat format )
 	{
-		using T = SampledImageT< SampledT, DimT, FormatT, ArrayedT, DepthT, MsT >;
+		using T = SampledImageT< SampledT, DimT, ArrayedT, DepthT, MsT >;
 		auto type = type::makeSampledImageType( T::makeConfig( format ) );
 		auto var = registerSampledImage( name
 			, type
@@ -213,7 +252,7 @@ namespace sdw
 		, uint32_t dimension
 		, ast::type::ImageFormat format )
 	{
-		using T = SampledImageT< SampledT, DimT, FormatT, ArrayedT, DepthT, MsT >;
+		using T = SampledImageT< SampledT, DimT, ArrayedT, DepthT, MsT >;
 		auto type = type::makeSampledImageType( T::makeConfig( format )
 			, dimension );
 		auto var = registerSampledImage( name
@@ -239,7 +278,7 @@ namespace sdw
 		, bool enabled
 		, ast::type::ImageFormat format )
 	{
-		using T = SampledImageT< SampledT, DimT, FormatT, ArrayedT, DepthT, MsT >;
+		using T = SampledImageT< SampledT, DimT, ArrayedT, DepthT, MsT >;
 		auto type = type::makeSampledImageType( T::makeConfig( format )
 			, dimension );
 		auto var = registerSampledImage( name
@@ -277,7 +316,7 @@ namespace sdw
 		, uint32_t set
 		, ast::type::ImageFormat format )
 	{
-		using T = ImageT< SampledT, DimT, FormatT, ArrayedT, DepthT, MsT >;
+		using T = ImageT< SampledT, DimT, ArrayedT, DepthT, MsT >;
 		auto type = type::makeImageType( T::makeConfig( format ) );
 		auto var = registerImage( name
 			, type
@@ -301,7 +340,7 @@ namespace sdw
 		, bool enabled
 		, ast::type::ImageFormat format )
 	{
-		using T = ImageT< SampledT, DimT, FormatT, ArrayedT, DepthT, MsT >;
+		using T = ImageT< SampledT, DimT, ArrayedT, DepthT, MsT >;
 		auto type = type::makeImageType( T::makeConfig( format ) );
 		auto var = registerImage( name
 			, type
@@ -332,7 +371,7 @@ namespace sdw
 		, uint32_t dimension
 		, ast::type::ImageFormat format )
 	{
-		using T = ImageT< SampledT, DimT, FormatT, ArrayedT, DepthT, MsT >;
+		using T = ImageT< SampledT, DimT, ArrayedT, DepthT, MsT >;
 		auto type = type::makeImageType( T::makeConfig( format )
 			, dimension );
 		auto var = registerImage( name
@@ -358,7 +397,7 @@ namespace sdw
 		, bool enabled
 		, ast::type::ImageFormat format )
 	{
-		using T = ImageT< SampledT, DimT, FormatT, ArrayedT, DepthT, MsT >;
+		using T = ImageT< SampledT, DimT, ArrayedT, DepthT, MsT >;
 		auto type = type::makeImageType( T::makeConfig( format )
 			, dimension );
 		auto var = registerImage( name

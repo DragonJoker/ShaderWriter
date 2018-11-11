@@ -7,7 +7,7 @@
 
 namespace
 {
-	void testRoundEven1F()
+	void testRoundEven1F( test::TestCounts & testCounts )
 	{
 		testBegin( "testRoundEven1F" );
 		using namespace sdw;
@@ -20,12 +20,13 @@ namespace
 					v = roundEven( v );
 				} );
 			test::writeShader( writer.getShader()
-				, sdw::ShaderType::eFragment );
+				, sdw::ShaderType::eFragment
+				, testCounts );
 		}
 		testEnd();
 	}
 
-	void testRoundEven2F()
+	void testRoundEven2F( test::TestCounts & testCounts )
 	{
 		testBegin( "testRoundEven2F" );
 		using namespace sdw;
@@ -38,12 +39,13 @@ namespace
 					v = roundEven( v );
 				} );
 			test::writeShader( writer.getShader()
-				, sdw::ShaderType::eFragment );
+				, sdw::ShaderType::eFragment
+				, testCounts );
 		}
 		testEnd();
 	}
 
-	void testRoundEven3F()
+	void testRoundEven3F( test::TestCounts & testCounts )
 	{
 		testBegin( "testRoundEven3F" );
 		using namespace sdw;
@@ -56,12 +58,13 @@ namespace
 					v = roundEven( v );
 				} );
 			test::writeShader( writer.getShader()
-				, sdw::ShaderType::eFragment );
+				, sdw::ShaderType::eFragment
+				, testCounts );
 		}
 		testEnd();
 	}
 
-	void testRoundEven4F()
+	void testRoundEven4F( test::TestCounts & testCounts )
 	{
 		testBegin( "testRoundEven4F" );
 		using namespace sdw;
@@ -74,12 +77,13 @@ namespace
 					v = roundEven( v );
 				} );
 			test::writeShader( writer.getShader()
-				, sdw::ShaderType::eFragment );
+				, sdw::ShaderType::eFragment
+				, testCounts );
 		}
 		testEnd();
 	}
 
-	void testRoundEven1D()
+	void testRoundEven1D( test::TestCounts & testCounts )
 	{
 		testBegin( "testRoundEven1D" );
 		using namespace sdw;
@@ -92,12 +96,13 @@ namespace
 					v = roundEven( v );
 				} );
 			test::writeShader( writer.getShader()
-				, sdw::ShaderType::eFragment );
+				, sdw::ShaderType::eFragment
+				, testCounts );
 		}
 		testEnd();
 	}
 
-	void testRoundEven2D()
+	void testRoundEven2D( test::TestCounts & testCounts )
 	{
 		testBegin( "testRoundEven2D" );
 		using namespace sdw;
@@ -110,12 +115,13 @@ namespace
 					v = roundEven( v );
 				} );
 			test::writeShader( writer.getShader()
-				, sdw::ShaderType::eFragment );
+				, sdw::ShaderType::eFragment
+				, testCounts );
 		}
 		testEnd();
 	}
 
-	void testRoundEven3D()
+	void testRoundEven3D( test::TestCounts & testCounts )
 	{
 		testBegin( "testRoundEven3D" );
 		using namespace sdw;
@@ -128,12 +134,13 @@ namespace
 					v = roundEven( v );
 				} );
 			test::writeShader( writer.getShader()
-				, sdw::ShaderType::eFragment );
+				, sdw::ShaderType::eFragment
+				, testCounts );
 		}
 		testEnd();
 	}
 
-	void testRoundEven4D()
+	void testRoundEven4D( test::TestCounts & testCounts )
 	{
 		testBegin( "testRoundEven4D" );
 		using namespace sdw;
@@ -146,12 +153,13 @@ namespace
 					v = roundEven( v );
 				} );
 			test::writeShader( writer.getShader()
-				, sdw::ShaderType::eFragment );
+				, sdw::ShaderType::eFragment
+				, testCounts );
 		}
 		testEnd();
 	}
 
-	void testPackDouble2x32()
+	void testPackDouble2x32( test::TestCounts & testCounts )
 	{
 		testBegin( "testPackDouble2x32" );
 		using namespace sdw;
@@ -165,12 +173,13 @@ namespace
 					r = packDouble2x32( v );
 				} );
 			test::writeShader( writer.getShader()
-				, sdw::ShaderType::eFragment );
+				, sdw::ShaderType::eFragment
+				, testCounts );
 		}
 		testEnd();
 	}
 
-	void testPackHalf2x16()
+	void testPackHalf2x16( test::TestCounts & testCounts )
 	{
 		testBegin( "testPackHalf2x16" );
 		using namespace sdw;
@@ -184,12 +193,13 @@ namespace
 					r = packHalf2x16( v );
 				} );
 			test::writeShader( writer.getShader()
-				, sdw::ShaderType::eFragment );
+				, sdw::ShaderType::eFragment
+				, testCounts );
 		}
 		testEnd();
 	}
 
-	void testPackSnorm2x16()
+	void testPackSnorm2x16( test::TestCounts & testCounts )
 	{
 		testBegin( "testPackSnorm2x16" );
 		using namespace sdw;
@@ -203,12 +213,13 @@ namespace
 					r = packSnorm2x16( v );
 				} );
 			test::writeShader( writer.getShader()
-				, sdw::ShaderType::eFragment );
+				, sdw::ShaderType::eFragment
+				, testCounts );
 		}
 		testEnd();
 	}
 
-	void testPackUnorm2x16()
+	void testPackUnorm2x16( test::TestCounts & testCounts )
 	{
 		testBegin( "testPackUnorm2x16" );
 		using namespace sdw;
@@ -222,12 +233,13 @@ namespace
 					r = packUnorm2x16( v );
 				} );
 			test::writeShader( writer.getShader()
-				, sdw::ShaderType::eFragment );
+				, sdw::ShaderType::eFragment
+				, testCounts );
 		}
 		testEnd();
 	}
 
-	void testPackSnorm4x8()
+	void testPackSnorm4x8( test::TestCounts & testCounts )
 	{
 		testBegin( "testPackSnorm4x8" );
 		using namespace sdw;
@@ -241,12 +253,13 @@ namespace
 					r = packSnorm4x8( v );
 				} );
 			test::writeShader( writer.getShader()
-				, sdw::ShaderType::eFragment );
+				, sdw::ShaderType::eFragment
+				, testCounts );
 		}
 		testEnd();
 	}
 
-	void testPackUnorm4x8()
+	void testPackUnorm4x8( test::TestCounts & testCounts )
 	{
 		testBegin( "testPackUnorm4x8" );
 		using namespace sdw;
@@ -260,12 +273,13 @@ namespace
 					r = packUnorm4x8( v );
 				} );
 			test::writeShader( writer.getShader()
-				, sdw::ShaderType::eFragment );
+				, sdw::ShaderType::eFragment
+				, testCounts );
 		}
 		testEnd();
 	}
 
-	void testUnpackDouble2x32()
+	void testUnpackDouble2x32( test::TestCounts & testCounts )
 	{
 		testBegin( "testUnpackDouble2x32" );
 		using namespace sdw;
@@ -279,12 +293,13 @@ namespace
 					r = unpackDouble2x32( v );
 				} );
 			test::writeShader( writer.getShader()
-				, sdw::ShaderType::eFragment );
+				, sdw::ShaderType::eFragment
+				, testCounts );
 		}
 		testEnd();
 	}
 
-	void testUnpackHalf2x16()
+	void testUnpackHalf2x16( test::TestCounts & testCounts )
 	{
 		testBegin( "testUnpackHalf2x16" );
 		using namespace sdw;
@@ -298,12 +313,13 @@ namespace
 					r = unpackHalf2x16( v );
 				} );
 			test::writeShader( writer.getShader()
-				, sdw::ShaderType::eFragment );
+				, sdw::ShaderType::eFragment
+				, testCounts );
 		}
 		testEnd();
 	}
 
-	void testUnpackSnorm2x16()
+	void testUnpackSnorm2x16( test::TestCounts & testCounts )
 	{
 		testBegin( "testUnpackSnorm2x16" );
 		using namespace sdw;
@@ -317,12 +333,13 @@ namespace
 					r = unpackSnorm2x16( v );
 				} );
 			test::writeShader( writer.getShader()
-				, sdw::ShaderType::eFragment );
+				, sdw::ShaderType::eFragment
+				, testCounts );
 		}
 		testEnd();
 	}
 
-	void testUnpackUnorm2x16()
+	void testUnpackUnorm2x16( test::TestCounts & testCounts )
 	{
 		testBegin( "testUnpackUnorm2x16" );
 		using namespace sdw;
@@ -336,12 +353,13 @@ namespace
 					r = unpackUnorm2x16( v );
 				} );
 			test::writeShader( writer.getShader()
-				, sdw::ShaderType::eFragment );
+				, sdw::ShaderType::eFragment
+				, testCounts );
 		}
 		testEnd();
 	}
 
-	void testUnpackSnorm4x8()
+	void testUnpackSnorm4x8( test::TestCounts & testCounts )
 	{
 		testBegin( "testUnpackSnorm4x8" );
 		using namespace sdw;
@@ -355,12 +373,13 @@ namespace
 					r = unpackSnorm4x8( v );
 				} );
 			test::writeShader( writer.getShader()
-				, sdw::ShaderType::eFragment );
+				, sdw::ShaderType::eFragment
+				, testCounts );
 		}
 		testEnd();
 	}
 
-	void testUnpackUnorm4x8()
+	void testUnpackUnorm4x8( test::TestCounts & testCounts )
 	{
 		testBegin( "testUnpackUnorm4x8" );
 		using namespace sdw;
@@ -374,13 +393,15 @@ namespace
 					r = unpackUnorm4x8( v );
 				} );
 			test::writeShader( writer.getShader()
-				, sdw::ShaderType::eFragment );
+				, sdw::ShaderType::eFragment
+				, testCounts );
 		}
 		testEnd();
 	}
 
 	template< typename ValueT >
-	void testLessThan( std::string const & testName )
+	void testLessThan( std::string const & testName
+		, test::TestCounts & testCounts )
 	{
 		using namespace sdw;
 		{
@@ -394,96 +415,98 @@ namespace
 						, lessThan( lhs, rhs ) );
 				} );
 			test::writeShader( writer.getShader()
-				, sdw::ShaderType::eFragment );
+				, sdw::ShaderType::eFragment
+				, testCounts );
 		}
 	}
 
-	void testLessThan2F()
+	void testLessThan2F( test::TestCounts & testCounts )
 	{
 		testBegin( "testLessThan2F" );
-		testLessThan< sdw::Vec2 >( testName );
+		testLessThan< sdw::Vec2 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testLessThan3F()
+	void testLessThan3F( test::TestCounts & testCounts )
 	{
 		testBegin( "testLessThan3F" );
-		testLessThan< sdw::Vec3 >( testName );
+		testLessThan< sdw::Vec3 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testLessThan4F()
+	void testLessThan4F( test::TestCounts & testCounts )
 	{
 		testBegin( "testLessThan4F" );
-		testLessThan< sdw::Vec4 >( testName );
+		testLessThan< sdw::Vec4 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testLessThan2D()
+	void testLessThan2D( test::TestCounts & testCounts )
 	{
 		testBegin( "testLessThan2D" );
-		testLessThan< sdw::DVec2 >( testName );
+		testLessThan< sdw::DVec2 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testLessThan3D()
+	void testLessThan3D( test::TestCounts & testCounts )
 	{
 		testBegin( "testLessThan3D" );
-		testLessThan< sdw::DVec3 >( testName );
+		testLessThan< sdw::DVec3 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testLessThan4D()
+	void testLessThan4D( test::TestCounts & testCounts )
 	{
 		testBegin( "testLessThan4D" );
-		testLessThan< sdw::DVec4 >( testName );
+		testLessThan< sdw::DVec4 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testLessThan2I()
+	void testLessThan2I( test::TestCounts & testCounts )
 	{
 		testBegin( "testLessThan2I" );
-		testLessThan< sdw::IVec2 >( testName );
+		testLessThan< sdw::IVec2 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testLessThan3I()
+	void testLessThan3I( test::TestCounts & testCounts )
 	{
 		testBegin( "testLessThan3I" );
-		testLessThan< sdw::IVec3 >( testName );
+		testLessThan< sdw::IVec3 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testLessThan4I()
+	void testLessThan4I( test::TestCounts & testCounts )
 	{
 		testBegin( "testLessThan4I" );
-		testLessThan< sdw::IVec4 >( testName );
+		testLessThan< sdw::IVec4 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testLessThan2U()
+	void testLessThan2U( test::TestCounts & testCounts )
 	{
 		testBegin( "testLessThan2U" );
-		testLessThan< sdw::UVec2 >( testName );
+		testLessThan< sdw::UVec2 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testLessThan3U()
+	void testLessThan3U( test::TestCounts & testCounts )
 	{
 		testBegin( "testLessThan3U" );
-		testLessThan< sdw::UVec3 >( testName );
+		testLessThan< sdw::UVec3 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testLessThan4U()
+	void testLessThan4U( test::TestCounts & testCounts )
 	{
 		testBegin( "testLessThan4U" );
-		testLessThan< sdw::UVec4 >( testName );
+		testLessThan< sdw::UVec4 >( testName, testCounts );
 		testEnd();
 	}
 
 	template< typename ValueT >
-	void testLessThanEqual( std::string const & testName )
+	void testLessThanEqual( std::string const & testName
+		, test::TestCounts & testCounts )
 	{
 		using namespace sdw;
 		{
@@ -497,96 +520,98 @@ namespace
 						, lessThanEqual( lhs, rhs ) );
 				} );
 			test::writeShader( writer.getShader()
-				, sdw::ShaderType::eFragment );
+				, sdw::ShaderType::eFragment
+				, testCounts );
 		}
 	}
 
-	void testLessThanEqual2F()
+	void testLessThanEqual2F( test::TestCounts & testCounts )
 	{
 		testBegin( "testLessThanEqual2F" );
-		testLessThanEqual< sdw::Vec2 >( testName );
+		testLessThanEqual< sdw::Vec2 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testLessThanEqual3F()
+	void testLessThanEqual3F( test::TestCounts & testCounts )
 	{
 		testBegin( "testLessThanEqual3F" );
-		testLessThanEqual< sdw::Vec3 >( testName );
+		testLessThanEqual< sdw::Vec3 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testLessThanEqual4F()
+	void testLessThanEqual4F( test::TestCounts & testCounts )
 	{
 		testBegin( "testLessThanEqual4F" );
-		testLessThanEqual< sdw::Vec4 >( testName );
+		testLessThanEqual< sdw::Vec4 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testLessThanEqual2D()
+	void testLessThanEqual2D( test::TestCounts & testCounts )
 	{
 		testBegin( "testLessThanEqual2D" );
-		testLessThanEqual< sdw::DVec2 >( testName );
+		testLessThanEqual< sdw::DVec2 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testLessThanEqual3D()
+	void testLessThanEqual3D( test::TestCounts & testCounts )
 	{
 		testBegin( "testLessThanEqual3D" );
-		testLessThanEqual< sdw::DVec3 >( testName );
+		testLessThanEqual< sdw::DVec3 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testLessThanEqual4D()
+	void testLessThanEqual4D( test::TestCounts & testCounts )
 	{
 		testBegin( "testLessThanEqual4D" );
-		testLessThanEqual< sdw::DVec4 >( testName );
+		testLessThanEqual< sdw::DVec4 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testLessThanEqual2I()
+	void testLessThanEqual2I( test::TestCounts & testCounts )
 	{
 		testBegin( "testLessThanEqual2I" );
-		testLessThanEqual< sdw::IVec2 >( testName );
+		testLessThanEqual< sdw::IVec2 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testLessThanEqual3I()
+	void testLessThanEqual3I( test::TestCounts & testCounts )
 	{
 		testBegin( "testLessThanEqual3I" );
-		testLessThanEqual< sdw::IVec3 >( testName );
+		testLessThanEqual< sdw::IVec3 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testLessThanEqual4I()
+	void testLessThanEqual4I( test::TestCounts & testCounts )
 	{
 		testBegin( "testLessThanEqual4I" );
-		testLessThanEqual< sdw::IVec4 >( testName );
+		testLessThanEqual< sdw::IVec4 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testLessThanEqual2U()
+	void testLessThanEqual2U( test::TestCounts & testCounts )
 	{
 		testBegin( "testLessThanEqual2U" );
-		testLessThanEqual< sdw::UVec2 >( testName );
+		testLessThanEqual< sdw::UVec2 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testLessThanEqual3U()
+	void testLessThanEqual3U( test::TestCounts & testCounts )
 	{
 		testBegin( "testLessThanEqual3U" );
-		testLessThanEqual< sdw::UVec3 >( testName );
+		testLessThanEqual< sdw::UVec3 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testLessThanEqual4U()
+	void testLessThanEqual4U( test::TestCounts & testCounts )
 	{
 		testBegin( "testLessThanEqual4U" );
-		testLessThanEqual< sdw::UVec4 >( testName );
+		testLessThanEqual< sdw::UVec4 >( testName, testCounts );
 		testEnd();
 	}
 
 	template< typename ValueT >
-	void testGreaterThan( std::string const & testName )
+	void testGreaterThan( std::string const & testName
+		, test::TestCounts & testCounts )
 	{
 		using namespace sdw;
 		{
@@ -600,96 +625,98 @@ namespace
 						, greaterThan( lhs, rhs ) );
 				} );
 			test::writeShader( writer.getShader()
-				, sdw::ShaderType::eFragment );
+				, sdw::ShaderType::eFragment
+				, testCounts );
 		}
 	}
 
-	void testGreaterThan2F()
+	void testGreaterThan2F( test::TestCounts & testCounts )
 	{
 		testBegin( "testGreaterThan2F" );
-		testGreaterThan< sdw::Vec2 >( testName );
+		testGreaterThan< sdw::Vec2 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testGreaterThan3F()
+	void testGreaterThan3F( test::TestCounts & testCounts )
 	{
 		testBegin( "testGreaterThan3F" );
-		testGreaterThan< sdw::Vec3 >( testName );
+		testGreaterThan< sdw::Vec3 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testGreaterThan4F()
+	void testGreaterThan4F( test::TestCounts & testCounts )
 	{
 		testBegin( "testGreaterThan4F" );
-		testGreaterThan< sdw::Vec4 >( testName );
+		testGreaterThan< sdw::Vec4 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testGreaterThan2D()
+	void testGreaterThan2D( test::TestCounts & testCounts )
 	{
 		testBegin( "testGreaterThan2D" );
-		testGreaterThan< sdw::DVec2 >( testName );
+		testGreaterThan< sdw::DVec2 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testGreaterThan3D()
+	void testGreaterThan3D( test::TestCounts & testCounts )
 	{
 		testBegin( "testGreaterThan3D" );
-		testGreaterThan< sdw::DVec3 >( testName );
+		testGreaterThan< sdw::DVec3 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testGreaterThan4D()
+	void testGreaterThan4D( test::TestCounts & testCounts )
 	{
 		testBegin( "testGreaterThan4D" );
-		testGreaterThan< sdw::DVec4 >( testName );
+		testGreaterThan< sdw::DVec4 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testGreaterThan2I()
+	void testGreaterThan2I( test::TestCounts & testCounts )
 	{
 		testBegin( "testGreaterThan2I" );
-		testGreaterThan< sdw::IVec2 >( testName );
+		testGreaterThan< sdw::IVec2 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testGreaterThan3I()
+	void testGreaterThan3I( test::TestCounts & testCounts )
 	{
 		testBegin( "testGreaterThan3I" );
-		testGreaterThan< sdw::IVec3 >( testName );
+		testGreaterThan< sdw::IVec3 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testGreaterThan4I()
+	void testGreaterThan4I( test::TestCounts & testCounts )
 	{
 		testBegin( "testGreaterThan4I" );
-		testGreaterThan< sdw::IVec4 >( testName );
+		testGreaterThan< sdw::IVec4 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testGreaterThan2U()
+	void testGreaterThan2U( test::TestCounts & testCounts )
 	{
 		testBegin( "testGreaterThan2U" );
-		testGreaterThan< sdw::UVec2 >( testName );
+		testGreaterThan< sdw::UVec2 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testGreaterThan3U()
+	void testGreaterThan3U( test::TestCounts & testCounts )
 	{
 		testBegin( "testGreaterThan3U" );
-		testGreaterThan< sdw::UVec3 >( testName );
+		testGreaterThan< sdw::UVec3 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testGreaterThan4U()
+	void testGreaterThan4U( test::TestCounts & testCounts )
 	{
 		testBegin( "testGreaterThan4U" );
-		testGreaterThan< sdw::UVec4 >( testName );
+		testGreaterThan< sdw::UVec4 >( testName, testCounts );
 		testEnd();
 	}
 
 	template< typename ValueT >
-	void testGreaterThanEqual( std::string const & testName )
+	void testGreaterThanEqual( std::string const & testName
+		, test::TestCounts & testCounts )
 	{
 		using namespace sdw;
 		{
@@ -703,96 +730,98 @@ namespace
 						, greaterThanEqual( lhs, rhs ) );
 				} );
 			test::writeShader( writer.getShader()
-				, sdw::ShaderType::eFragment );
+				, sdw::ShaderType::eFragment
+				, testCounts );
 		}
 	}
 
-	void testGreaterThanEqual2F()
+	void testGreaterThanEqual2F( test::TestCounts & testCounts )
 	{
 		testBegin( "testGreaterThanEqual2F" );
-		testGreaterThanEqual< sdw::Vec2 >( testName );
+		testGreaterThanEqual< sdw::Vec2 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testGreaterThanEqual3F()
+	void testGreaterThanEqual3F( test::TestCounts & testCounts )
 	{
 		testBegin( "testGreaterThanEqual3F" );
-		testGreaterThanEqual< sdw::Vec3 >( testName );
+		testGreaterThanEqual< sdw::Vec3 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testGreaterThanEqual4F()
+	void testGreaterThanEqual4F( test::TestCounts & testCounts )
 	{
 		testBegin( "testGreaterThanEqual4F" );
-		testGreaterThanEqual< sdw::Vec4 >( testName );
+		testGreaterThanEqual< sdw::Vec4 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testGreaterThanEqual2D()
+	void testGreaterThanEqual2D( test::TestCounts & testCounts )
 	{
 		testBegin( "testGreaterThanEqual2D" );
-		testGreaterThanEqual< sdw::DVec2 >( testName );
+		testGreaterThanEqual< sdw::DVec2 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testGreaterThanEqual3D()
+	void testGreaterThanEqual3D( test::TestCounts & testCounts )
 	{
 		testBegin( "testGreaterThanEqual3D" );
-		testGreaterThanEqual< sdw::DVec3 >( testName );
+		testGreaterThanEqual< sdw::DVec3 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testGreaterThanEqual4D()
+	void testGreaterThanEqual4D( test::TestCounts & testCounts )
 	{
 		testBegin( "testGreaterThanEqual4D" );
-		testGreaterThanEqual< sdw::DVec4 >( testName );
+		testGreaterThanEqual< sdw::DVec4 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testGreaterThanEqual2I()
+	void testGreaterThanEqual2I( test::TestCounts & testCounts )
 	{
 		testBegin( "testGreaterThanEqual2I" );
-		testGreaterThanEqual< sdw::IVec2 >( testName );
+		testGreaterThanEqual< sdw::IVec2 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testGreaterThanEqual3I()
+	void testGreaterThanEqual3I( test::TestCounts & testCounts )
 	{
 		testBegin( "testGreaterThanEqual3I" );
-		testGreaterThanEqual< sdw::IVec3 >( testName );
+		testGreaterThanEqual< sdw::IVec3 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testGreaterThanEqual4I()
+	void testGreaterThanEqual4I( test::TestCounts & testCounts )
 	{
 		testBegin( "testGreaterThanEqual4I" );
-		testGreaterThanEqual< sdw::IVec4 >( testName );
+		testGreaterThanEqual< sdw::IVec4 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testGreaterThanEqual2U()
+	void testGreaterThanEqual2U( test::TestCounts & testCounts )
 	{
 		testBegin( "testGreaterThanEqual2U" );
-		testGreaterThanEqual< sdw::UVec2 >( testName );
+		testGreaterThanEqual< sdw::UVec2 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testGreaterThanEqual3U()
+	void testGreaterThanEqual3U( test::TestCounts & testCounts )
 	{
 		testBegin( "testGreaterThanEqual3U" );
-		testGreaterThanEqual< sdw::UVec3 >( testName );
+		testGreaterThanEqual< sdw::UVec3 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testGreaterThanEqual4U()
+	void testGreaterThanEqual4U( test::TestCounts & testCounts )
 	{
 		testBegin( "testGreaterThanEqual4U" );
-		testGreaterThanEqual< sdw::UVec4 >( testName );
+		testGreaterThanEqual< sdw::UVec4 >( testName, testCounts );
 		testEnd();
 	}
 
 	template< typename ValueT >
-	void testEqual( std::string const & testName )
+	void testEqual( std::string const & testName
+		, test::TestCounts & testCounts )
 	{
 		using namespace sdw;
 		{
@@ -806,96 +835,98 @@ namespace
 						, equal( lhs, rhs ) );
 				} );
 			test::writeShader( writer.getShader()
-				, sdw::ShaderType::eFragment );
+				, sdw::ShaderType::eFragment
+				, testCounts );
 		}
 	}
 
-	void testEqual2F()
+	void testEqual2F( test::TestCounts & testCounts )
 	{
 		testBegin( "testEqual2F" );
-		testEqual< sdw::Vec2 >( testName );
+		testEqual< sdw::Vec2 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testEqual3F()
+	void testEqual3F( test::TestCounts & testCounts )
 	{
 		testBegin( "testEqual3F" );
-		testEqual< sdw::Vec3 >( testName );
+		testEqual< sdw::Vec3 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testEqual4F()
+	void testEqual4F( test::TestCounts & testCounts )
 	{
 		testBegin( "testEqual4F" );
-		testEqual< sdw::Vec4 >( testName );
+		testEqual< sdw::Vec4 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testEqual2D()
+	void testEqual2D( test::TestCounts & testCounts )
 	{
 		testBegin( "testEqual2D" );
-		testEqual< sdw::DVec2 >( testName );
+		testEqual< sdw::DVec2 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testEqual3D()
+	void testEqual3D( test::TestCounts & testCounts )
 	{
 		testBegin( "testEqual3D" );
-		testEqual< sdw::DVec3 >( testName );
+		testEqual< sdw::DVec3 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testEqual4D()
+	void testEqual4D( test::TestCounts & testCounts )
 	{
 		testBegin( "testEqual4D" );
-		testEqual< sdw::DVec4 >( testName );
+		testEqual< sdw::DVec4 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testEqual2I()
+	void testEqual2I( test::TestCounts & testCounts )
 	{
 		testBegin( "testEqual2I" );
-		testEqual< sdw::IVec2 >( testName );
+		testEqual< sdw::IVec2 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testEqual3I()
+	void testEqual3I( test::TestCounts & testCounts )
 	{
 		testBegin( "testEqual3I" );
-		testEqual< sdw::IVec3 >( testName );
+		testEqual< sdw::IVec3 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testEqual4I()
+	void testEqual4I( test::TestCounts & testCounts )
 	{
 		testBegin( "testEqual4I" );
-		testEqual< sdw::IVec4 >( testName );
+		testEqual< sdw::IVec4 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testEqual2U()
+	void testEqual2U( test::TestCounts & testCounts )
 	{
 		testBegin( "testEqual2U" );
-		testEqual< sdw::UVec2 >( testName );
+		testEqual< sdw::UVec2 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testEqual3U()
+	void testEqual3U( test::TestCounts & testCounts )
 	{
 		testBegin( "testEqual3U" );
-		testEqual< sdw::UVec3 >( testName );
+		testEqual< sdw::UVec3 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testEqual4U()
+	void testEqual4U( test::TestCounts & testCounts )
 	{
 		testBegin( "testEqual4U" );
-		testEqual< sdw::UVec4 >( testName );
+		testEqual< sdw::UVec4 >( testName, testCounts );
 		testEnd();
 	}
 
 	template< typename ValueT >
-	void testNotEqual( std::string const & testName )
+	void testNotEqual( std::string const & testName
+		, test::TestCounts & testCounts )
 	{
 		using namespace sdw;
 		{
@@ -909,96 +940,98 @@ namespace
 						, notEqual( lhs, rhs ) );
 				} );
 			test::writeShader( writer.getShader()
-				, sdw::ShaderType::eFragment );
+				, sdw::ShaderType::eFragment
+				, testCounts );
 		}
 	}
 
-	void testNotEqual2F()
+	void testNotEqual2F( test::TestCounts & testCounts )
 	{
 		testBegin( "testNotEqual2F" );
-		testNotEqual< sdw::Vec2 >( testName );
+		testNotEqual< sdw::Vec2 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testNotEqual3F()
+	void testNotEqual3F( test::TestCounts & testCounts )
 	{
 		testBegin( "testNotEqual3F" );
-		testNotEqual< sdw::Vec3 >( testName );
+		testNotEqual< sdw::Vec3 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testNotEqual4F()
+	void testNotEqual4F( test::TestCounts & testCounts )
 	{
 		testBegin( "testNotEqual4F" );
-		testNotEqual< sdw::Vec4 >( testName );
+		testNotEqual< sdw::Vec4 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testNotEqual2D()
+	void testNotEqual2D( test::TestCounts & testCounts )
 	{
 		testBegin( "testNotEqual2D" );
-		testNotEqual< sdw::DVec2 >( testName );
+		testNotEqual< sdw::DVec2 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testNotEqual3D()
+	void testNotEqual3D( test::TestCounts & testCounts )
 	{
 		testBegin( "testNotEqual3D" );
-		testNotEqual< sdw::DVec3 >( testName );
+		testNotEqual< sdw::DVec3 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testNotEqual4D()
+	void testNotEqual4D( test::TestCounts & testCounts )
 	{
 		testBegin( "testNotEqual4D" );
-		testNotEqual< sdw::DVec4 >( testName );
+		testNotEqual< sdw::DVec4 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testNotEqual2I()
+	void testNotEqual2I( test::TestCounts & testCounts )
 	{
 		testBegin( "testNotEqual2I" );
-		testNotEqual< sdw::IVec2 >( testName );
+		testNotEqual< sdw::IVec2 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testNotEqual3I()
+	void testNotEqual3I( test::TestCounts & testCounts )
 	{
 		testBegin( "testNotEqual3I" );
-		testNotEqual< sdw::IVec3 >( testName );
+		testNotEqual< sdw::IVec3 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testNotEqual4I()
+	void testNotEqual4I( test::TestCounts & testCounts )
 	{
 		testBegin( "testNotEqual4I" );
-		testNotEqual< sdw::IVec4 >( testName );
+		testNotEqual< sdw::IVec4 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testNotEqual2U()
+	void testNotEqual2U( test::TestCounts & testCounts )
 	{
 		testBegin( "testNotEqual2U" );
-		testNotEqual< sdw::UVec2 >( testName );
+		testNotEqual< sdw::UVec2 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testNotEqual3U()
+	void testNotEqual3U( test::TestCounts & testCounts )
 	{
 		testBegin( "testNotEqual3U" );
-		testNotEqual< sdw::UVec3 >( testName );
+		testNotEqual< sdw::UVec3 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testNotEqual4U()
+	void testNotEqual4U( test::TestCounts & testCounts )
 	{
 		testBegin( "testNotEqual4U" );
-		testNotEqual< sdw::UVec4 >( testName );
+		testNotEqual< sdw::UVec4 >( testName, testCounts );
 		testEnd();
 	}
 
 	template< typename ValueT >
-	void testNot( std::string const & testName )
+	void testNot( std::string const & testName
+		, test::TestCounts & testCounts )
 	{
 		using namespace sdw;
 		{
@@ -1011,33 +1044,35 @@ namespace
 						, not( operand ) );
 				} );
 			test::writeShader( writer.getShader()
-				, sdw::ShaderType::eFragment );
+				, sdw::ShaderType::eFragment
+				, testCounts );
 		}
 	}
 
-	void testNot2()
+	void testNot2( test::TestCounts & testCounts )
 	{
 		testBegin( "testNot2" );
-		testNot< sdw::BVec2 >( testName );
+		testNot< sdw::BVec2 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testNot3()
+	void testNot3( test::TestCounts & testCounts )
 	{
 		testBegin( "testNot3" );
-		testNot< sdw::BVec3 >( testName );
+		testNot< sdw::BVec3 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testNot4()
+	void testNot4( test::TestCounts & testCounts )
 	{
 		testBegin( "testNot4" );
-		testNot< sdw::BVec4 >( testName );
+		testNot< sdw::BVec4 >( testName, testCounts );
 		testEnd();
 	}
 
 	template< typename ValueT >
-	void testMatrixCompMult( std::string const & testName )
+	void testMatrixCompMult( std::string const & testName
+		, test::TestCounts & testCounts )
 	{
 		using namespace sdw;
 		{
@@ -1051,138 +1086,140 @@ namespace
 						, matrixCompMult( lhs, rhs ) );
 				} );
 			test::writeShader( writer.getShader()
-				, sdw::ShaderType::eFragment );
+				, sdw::ShaderType::eFragment
+				, testCounts );
 		}
 	}
 
-	void testMatrixCompMult2x2F()
+	void testMatrixCompMult2x2F( test::TestCounts & testCounts )
 	{
 		testBegin( "testMatrixCompMult2x2F" );
-		testMatrixCompMult< sdw::Mat2 >( testName );
+		testMatrixCompMult< sdw::Mat2 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testMatrixCompMult2x3F()
+	void testMatrixCompMult2x3F( test::TestCounts & testCounts )
 	{
 		testBegin( "testMatrixCompMult2x3F" );
-		testMatrixCompMult< sdw::Mat2x3 >( testName );
+		testMatrixCompMult< sdw::Mat2x3 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testMatrixCompMult2x4F()
+	void testMatrixCompMult2x4F( test::TestCounts & testCounts )
 	{
 		testBegin( "testMatrixCompMult2x4F" );
-		testMatrixCompMult< sdw::Mat2x4 >( testName );
+		testMatrixCompMult< sdw::Mat2x4 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testMatrixCompMult3x2F()
+	void testMatrixCompMult3x2F( test::TestCounts & testCounts )
 	{
 		testBegin( "testMatrixCompMult3x2F" );
-		testMatrixCompMult< sdw::Mat3x2 >( testName );
+		testMatrixCompMult< sdw::Mat3x2 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testMatrixCompMult3x3F()
+	void testMatrixCompMult3x3F( test::TestCounts & testCounts )
 	{
 		testBegin( "testMatrixCompMult3x3F" );
-		testMatrixCompMult< sdw::Mat3 >( testName );
+		testMatrixCompMult< sdw::Mat3 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testMatrixCompMult3x4F()
+	void testMatrixCompMult3x4F( test::TestCounts & testCounts )
 	{
 		testBegin( "testMatrixCompMult3x4F" );
-		testMatrixCompMult< sdw::Mat3x4 >( testName );
+		testMatrixCompMult< sdw::Mat3x4 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testMatrixCompMult4x2F()
+	void testMatrixCompMult4x2F( test::TestCounts & testCounts )
 	{
 		testBegin( "testMatrixCompMult4x2F" );
-		testMatrixCompMult< sdw::Mat4x2 >( testName );
+		testMatrixCompMult< sdw::Mat4x2 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testMatrixCompMult4x3F()
+	void testMatrixCompMult4x3F( test::TestCounts & testCounts )
 	{
 		testBegin( "testMatrixCompMult4x3F" );
-		testMatrixCompMult< sdw::Mat4x3 >( testName );
+		testMatrixCompMult< sdw::Mat4x3 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testMatrixCompMult4x4F()
+	void testMatrixCompMult4x4F( test::TestCounts & testCounts )
 	{
 		testBegin( "testMatrixCompMult4x4F" );
-		testMatrixCompMult< sdw::Mat4 >( testName );
+		testMatrixCompMult< sdw::Mat4 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testMatrixCompMult2x2D()
+	void testMatrixCompMult2x2D( test::TestCounts & testCounts )
 	{
 		testBegin( "testMatrixCompMult2x2D" );
-		testMatrixCompMult< sdw::DMat2 >( testName );
+		testMatrixCompMult< sdw::DMat2 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testMatrixCompMult2x3D()
+	void testMatrixCompMult2x3D( test::TestCounts & testCounts )
 	{
 		testBegin( "testMatrixCompMult2x3D" );
-		testMatrixCompMult< sdw::DMat2x3 >( testName );
+		testMatrixCompMult< sdw::DMat2x3 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testMatrixCompMult2x4D()
+	void testMatrixCompMult2x4D( test::TestCounts & testCounts )
 	{
 		testBegin( "testMatrixCompMult2x4D" );
-		testMatrixCompMult< sdw::DMat2x4 >( testName );
+		testMatrixCompMult< sdw::DMat2x4 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testMatrixCompMult3x2D()
+	void testMatrixCompMult3x2D( test::TestCounts & testCounts )
 	{
 		testBegin( "testMatrixCompMult3x2D" );
-		testMatrixCompMult< sdw::DMat3x2 >( testName );
+		testMatrixCompMult< sdw::DMat3x2 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testMatrixCompMult3x3D()
+	void testMatrixCompMult3x3D( test::TestCounts & testCounts )
 	{
 		testBegin( "testMatrixCompMult3x3D" );
-		testMatrixCompMult< sdw::DMat3 >( testName );
+		testMatrixCompMult< sdw::DMat3 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testMatrixCompMult3x4D()
+	void testMatrixCompMult3x4D( test::TestCounts & testCounts )
 	{
 		testBegin( "testMatrixCompMult3x4D" );
-		testMatrixCompMult< sdw::DMat3x4 >( testName );
+		testMatrixCompMult< sdw::DMat3x4 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testMatrixCompMult4x2D()
+	void testMatrixCompMult4x2D( test::TestCounts & testCounts )
 	{
 		testBegin( "testMatrixCompMult4x2D" );
-		testMatrixCompMult< sdw::DMat4x2 >( testName );
+		testMatrixCompMult< sdw::DMat4x2 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testMatrixCompMult4x3D()
+	void testMatrixCompMult4x3D( test::TestCounts & testCounts )
 	{
 		testBegin( "testMatrixCompMult4x3D" );
-		testMatrixCompMult< sdw::DMat4x3 >( testName );
+		testMatrixCompMult< sdw::DMat4x3 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testMatrixCompMult4x4D()
+	void testMatrixCompMult4x4D( test::TestCounts & testCounts )
 	{
 		testBegin( "testMatrixCompMult4x4D" );
-		testMatrixCompMult< sdw::DMat4 >( testName );
+		testMatrixCompMult< sdw::DMat4 >( testName, testCounts );
 		testEnd();
 	}
 
 	template< typename ValueT >
-	void testMatrixMult( std::string const & testName )
+	void testMatrixMult( std::string const & testName
+		, test::TestCounts & testCounts )
 	{
 		using namespace sdw;
 		{
@@ -1196,53 +1233,54 @@ namespace
 						, lhs * rhs );
 				} );
 			test::writeShader( writer.getShader()
-				, sdw::ShaderType::eFragment );
+				, sdw::ShaderType::eFragment
+				, testCounts );
 		}
 	}
 
-	void testMatrixMult2x2F()
+	void testMatrixMult2x2F( test::TestCounts & testCounts )
 	{
 		testBegin( "testMatrixMult2x2F" );
-		testMatrixMult< sdw::Mat2 >( testName );
+		testMatrixMult< sdw::Mat2 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testMatrixMult3x3F()
+	void testMatrixMult3x3F( test::TestCounts & testCounts )
 	{
 		testBegin( "testMatrixMult3x3F" );
-		testMatrixMult< sdw::Mat3 >( testName );
+		testMatrixMult< sdw::Mat3 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testMatrixMult4x4F()
+	void testMatrixMult4x4F( test::TestCounts & testCounts )
 	{
 		testBegin( "testMatrixMult4x4F" );
-		testMatrixMult< sdw::Mat4 >( testName );
+		testMatrixMult< sdw::Mat4 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testMatrixMult2x2D()
+	void testMatrixMult2x2D( test::TestCounts & testCounts )
 	{
 		testBegin( "testMatrixMult2x2D" );
-		testMatrixMult< sdw::DMat2 >( testName );
+		testMatrixMult< sdw::DMat2 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testMatrixMult3x3D()
+	void testMatrixMult3x3D( test::TestCounts & testCounts )
 	{
 		testBegin( "testMatrixMult3x3D" );
-		testMatrixMult< sdw::DMat3 >( testName );
+		testMatrixMult< sdw::DMat3 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testMatrixMult4x4D()
+	void testMatrixMult4x4D( test::TestCounts & testCounts )
 	{
 		testBegin( "testMatrixMult4x4D" );
-		testMatrixMult< sdw::DMat4 >( testName );
+		testMatrixMult< sdw::DMat4 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testInverse2x2F()
+	void testInverse2x2F( test::TestCounts & testCounts )
 	{
 		testBegin( "testInverse2x2F" );
 		using namespace sdw;
@@ -1255,12 +1293,13 @@ namespace
 					m = inverse( m );
 				} );
 			test::writeShader( writer.getShader()
-				, sdw::ShaderType::eFragment );
+				, sdw::ShaderType::eFragment
+				, testCounts );
 		}
 		testEnd();
 	}
 
-	void testInverse2x2D()
+	void testInverse2x2D( test::TestCounts & testCounts )
 	{
 		testBegin( "testInverse2x2D" );
 		using namespace sdw;
@@ -1273,12 +1312,13 @@ namespace
 					m = inverse( m );
 				} );
 			test::writeShader( writer.getShader()
-				, sdw::ShaderType::eFragment );
+				, sdw::ShaderType::eFragment
+				, testCounts );
 		}
 		testEnd();
 	}
 
-	void testInverse3x3F()
+	void testInverse3x3F( test::TestCounts & testCounts )
 	{
 		testBegin( "testInverse3x3F" );
 		using namespace sdw;
@@ -1291,12 +1331,13 @@ namespace
 					m = inverse( m );
 				} );
 			test::writeShader( writer.getShader()
-				, sdw::ShaderType::eFragment );
+				, sdw::ShaderType::eFragment
+				, testCounts );
 		}
 		testEnd();
 	}
 
-	void testInverse3x3D()
+	void testInverse3x3D( test::TestCounts & testCounts )
 	{
 		testBegin( "testInverse3x3D" );
 		using namespace sdw;
@@ -1309,12 +1350,13 @@ namespace
 					m = inverse( m );
 				} );
 			test::writeShader( writer.getShader()
-				, sdw::ShaderType::eFragment );
+				, sdw::ShaderType::eFragment
+				, testCounts );
 		}
 		testEnd();
 	}
 
-	void testInverse4x4F()
+	void testInverse4x4F( test::TestCounts & testCounts )
 	{
 		testBegin( "testInverse4x4F" );
 		using namespace sdw;
@@ -1327,12 +1369,13 @@ namespace
 					m = inverse( m );
 				} );
 			test::writeShader( writer.getShader()
-				, sdw::ShaderType::eFragment );
+				, sdw::ShaderType::eFragment
+				, testCounts );
 		}
 		testEnd();
 	}
 
-	void testInverse4x4D()
+	void testInverse4x4D( test::TestCounts & testCounts )
 	{
 		testBegin( "testInverse4x4D" );
 		using namespace sdw;
@@ -1345,12 +1388,13 @@ namespace
 					m = inverse( m );
 				} );
 			test::writeShader( writer.getShader()
-				, sdw::ShaderType::eFragment );
+				, sdw::ShaderType::eFragment
+				, testCounts );
 		}
 		testEnd();
 	}
 
-	void testUaddCarry1()
+	void testUaddCarry1( test::TestCounts & testCounts )
 	{
 		testBegin( "testUaddCarry1" );
 		using namespace sdw;
@@ -1367,12 +1411,13 @@ namespace
 				} );
 			test::writeShader( writer.getShader()
 				, sdw::ShaderType::eFragment
+				, testCounts
 				, false );
 		}
 		testEnd();
 	}
 
-	void testUaddCarry2()
+	void testUaddCarry2( test::TestCounts & testCounts )
 	{
 		testBegin( "testUaddCarry2" );
 		using namespace sdw;
@@ -1389,12 +1434,13 @@ namespace
 				} );
 			test::writeShader( writer.getShader()
 				, sdw::ShaderType::eFragment
+				, testCounts
 				, false );
 		}
 		testEnd();
 	}
 
-	void testUaddCarry3()
+	void testUaddCarry3( test::TestCounts & testCounts )
 	{
 		testBegin( "testUaddCarry3" );
 		using namespace sdw;
@@ -1411,12 +1457,13 @@ namespace
 				} );
 			test::writeShader( writer.getShader()
 				, sdw::ShaderType::eFragment
+				, testCounts
 				, false );
 		}
 		testEnd();
 	}
 
-	void testUaddCarry4()
+	void testUaddCarry4( test::TestCounts & testCounts )
 	{
 		testBegin( "testUaddCarry4" );
 		using namespace sdw;
@@ -1433,12 +1480,13 @@ namespace
 				} );
 			test::writeShader( writer.getShader()
 				, sdw::ShaderType::eFragment
+				, testCounts
 				, false );
 		}
 		testEnd();
 	}
 
-	void testUsubBorrow1()
+	void testUsubBorrow1( test::TestCounts & testCounts )
 	{
 		testBegin( "testUsubBorrow1" );
 		using namespace sdw;
@@ -1455,12 +1503,13 @@ namespace
 				} );
 			test::writeShader( writer.getShader()
 				, sdw::ShaderType::eFragment
+				, testCounts
 				, false );
 		}
 		testEnd();
 	}
 
-	void testUsubBorrow2()
+	void testUsubBorrow2( test::TestCounts & testCounts )
 	{
 		testBegin( "testUsubBorrow2" );
 		using namespace sdw;
@@ -1477,12 +1526,13 @@ namespace
 				} );
 			test::writeShader( writer.getShader()
 				, sdw::ShaderType::eFragment
+				, testCounts
 				, false );
 		}
 		testEnd();
 	}
 
-	void testUsubBorrow3()
+	void testUsubBorrow3( test::TestCounts & testCounts )
 	{
 		testBegin( "testUsubBorrow3" );
 		using namespace sdw;
@@ -1499,12 +1549,13 @@ namespace
 				} );
 			test::writeShader( writer.getShader()
 				, sdw::ShaderType::eFragment
+				, testCounts
 				, false );
 		}
 		testEnd();
 	}
 
-	void testUsubBorrow4()
+	void testUsubBorrow4( test::TestCounts & testCounts )
 	{
 		testBegin( "testUsubBorrow4" );
 		using namespace sdw;
@@ -1521,12 +1572,13 @@ namespace
 				} );
 			test::writeShader( writer.getShader()
 				, sdw::ShaderType::eFragment
+				, testCounts
 				, false );
 		}
 		testEnd();
 	}
 
-	void testUmulExtended1()
+	void testUmulExtended1( test::TestCounts & testCounts )
 	{
 		testBegin( "testUmulExtended1" );
 		using namespace sdw;
@@ -1543,12 +1595,13 @@ namespace
 				} );
 			test::writeShader( writer.getShader()
 				, sdw::ShaderType::eFragment
+				, testCounts
 				, false );
 		}
 		testEnd();
 	}
 
-	void testUmulExtended2()
+	void testUmulExtended2( test::TestCounts & testCounts )
 	{
 		testBegin( "testUmulExtended2" );
 		using namespace sdw;
@@ -1565,12 +1618,13 @@ namespace
 				} );
 			test::writeShader( writer.getShader()
 				, sdw::ShaderType::eFragment
+				, testCounts
 				, false );
 		}
 		testEnd();
 	}
 
-	void testUmulExtended3()
+	void testUmulExtended3( test::TestCounts & testCounts )
 	{
 		testBegin( "testUmulExtended3" );
 		using namespace sdw;
@@ -1587,12 +1641,13 @@ namespace
 				} );
 			test::writeShader( writer.getShader()
 				, sdw::ShaderType::eFragment
+				, testCounts
 				, false );
 		}
 		testEnd();
 	}
 
-	void testUmulExtended4()
+	void testUmulExtended4( test::TestCounts & testCounts )
 	{
 		testBegin( "testUmulExtended4" );
 		using namespace sdw;
@@ -1609,12 +1664,13 @@ namespace
 				} );
 			test::writeShader( writer.getShader()
 				, sdw::ShaderType::eFragment
+				, testCounts
 				, false );
 		}
 		testEnd();
 	}
 
-	void testImulExtended1()
+	void testImulExtended1( test::TestCounts & testCounts )
 	{
 		testBegin( "testImulExtended1" );
 		using namespace sdw;
@@ -1631,12 +1687,13 @@ namespace
 				} );
 			test::writeShader( writer.getShader()
 				, sdw::ShaderType::eFragment
+				, testCounts
 				, false );
 		}
 		testEnd();
 	}
 
-	void testImulExtended2()
+	void testImulExtended2( test::TestCounts & testCounts )
 	{
 		testBegin( "testImulExtended2" );
 		using namespace sdw;
@@ -1653,12 +1710,13 @@ namespace
 				} );
 			test::writeShader( writer.getShader()
 				, sdw::ShaderType::eFragment
+				, testCounts
 				, false );
 		}
 		testEnd();
 	}
 
-	void testImulExtended3()
+	void testImulExtended3( test::TestCounts & testCounts )
 	{
 		testBegin( "testImulExtended3" );
 		using namespace sdw;
@@ -1675,12 +1733,13 @@ namespace
 				} );
 			test::writeShader( writer.getShader()
 				, sdw::ShaderType::eFragment
+				, testCounts
 				, false );
 		}
 		testEnd();
 	}
 
-	void testImulExtended4()
+	void testImulExtended4( test::TestCounts & testCounts )
 	{
 		testBegin( "testImulExtended4" );
 		using namespace sdw;
@@ -1697,12 +1756,13 @@ namespace
 				} );
 			test::writeShader( writer.getShader()
 				, sdw::ShaderType::eFragment
+				, testCounts
 				, false );
 		}
 		testEnd();
 	}
 
-	void testBitfieldInsert1I()
+	void testBitfieldInsert1I( test::TestCounts & testCounts )
 	{
 		testBegin( "testBitfieldInsert1I" );
 		using namespace sdw;
@@ -1719,12 +1779,13 @@ namespace
 						, bitfieldInsert( x, y, o, b ) );
 				} );
 			test::writeShader( writer.getShader()
-				, sdw::ShaderType::eFragment );
+				, sdw::ShaderType::eFragment
+				, testCounts );
 		}
 		testEnd();
 	}
 
-	void testBitfieldInsert2I()
+	void testBitfieldInsert2I( test::TestCounts & testCounts )
 	{
 		testBegin( "testBitfieldInsert2I" );
 		using namespace sdw;
@@ -1741,12 +1802,13 @@ namespace
 						, bitfieldInsert( x, y, o, b ) );
 				} );
 			test::writeShader( writer.getShader()
-				, sdw::ShaderType::eFragment );
+				, sdw::ShaderType::eFragment
+				, testCounts );
 		}
 		testEnd();
 	}
 
-	void testBitfieldInsert3I()
+	void testBitfieldInsert3I( test::TestCounts & testCounts )
 	{
 		testBegin( "testBitfieldInsert3I" );
 		using namespace sdw;
@@ -1763,12 +1825,13 @@ namespace
 						, bitfieldInsert( x, y, o, b ) );
 				} );
 			test::writeShader( writer.getShader()
-				, sdw::ShaderType::eFragment );
+				, sdw::ShaderType::eFragment
+				, testCounts );
 		}
 		testEnd();
 	}
 
-	void testBitfieldInsert4I()
+	void testBitfieldInsert4I( test::TestCounts & testCounts )
 	{
 		testBegin( "testBitfieldInsert4I" );
 		using namespace sdw;
@@ -1785,12 +1848,13 @@ namespace
 						, bitfieldInsert( x, y, o, b ) );
 				} );
 			test::writeShader( writer.getShader()
-				, sdw::ShaderType::eFragment );
+				, sdw::ShaderType::eFragment
+				, testCounts );
 		}
 		testEnd();
 	}
 
-	void testBitfieldInsert1U()
+	void testBitfieldInsert1U( test::TestCounts & testCounts )
 	{
 		testBegin( "testBitfieldInsert1U" );
 		using namespace sdw;
@@ -1807,12 +1871,13 @@ namespace
 						, bitfieldInsert( x, y, o, b ) );
 				} );
 			test::writeShader( writer.getShader()
-				, sdw::ShaderType::eFragment );
+				, sdw::ShaderType::eFragment
+				, testCounts );
 		}
 		testEnd();
 	}
 
-	void testBitfieldInsert2U()
+	void testBitfieldInsert2U( test::TestCounts & testCounts )
 	{
 		testBegin( "testBitfieldInsert2U" );
 		using namespace sdw;
@@ -1829,12 +1894,13 @@ namespace
 						, bitfieldInsert( x, y, o, b ) );
 				} );
 			test::writeShader( writer.getShader()
-				, sdw::ShaderType::eFragment );
+				, sdw::ShaderType::eFragment
+				, testCounts );
 		}
 		testEnd();
 	}
 
-	void testBitfieldInsert3U()
+	void testBitfieldInsert3U( test::TestCounts & testCounts )
 	{
 		testBegin( "testBitfieldInsert3U" );
 		using namespace sdw;
@@ -1851,12 +1917,13 @@ namespace
 						, bitfieldInsert( x, y, o, b ) );
 				} );
 			test::writeShader( writer.getShader()
-				, sdw::ShaderType::eFragment );
+				, sdw::ShaderType::eFragment
+				, testCounts );
 		}
 		testEnd();
 	}
 
-	void testBitfieldInsert4U()
+	void testBitfieldInsert4U( test::TestCounts & testCounts )
 	{
 		testBegin( "testBitfieldInsert4U" );
 		using namespace sdw;
@@ -1873,12 +1940,13 @@ namespace
 						, bitfieldInsert( x, y, o, b ) );
 				} );
 			test::writeShader( writer.getShader()
-				, sdw::ShaderType::eFragment );
+				, sdw::ShaderType::eFragment
+				, testCounts );
 		}
 		testEnd();
 	}
 
-	void testBitfieldExtract1I()
+	void testBitfieldExtract1I( test::TestCounts & testCounts )
 	{
 		testBegin( "testBitfieldExtract1I" );
 		using namespace sdw;
@@ -1894,12 +1962,13 @@ namespace
 						, bitfieldExtract( x, o, b ) );
 				} );
 			test::writeShader( writer.getShader()
-				, sdw::ShaderType::eFragment );
+				, sdw::ShaderType::eFragment
+				, testCounts );
 		}
 		testEnd();
 	}
 
-	void testBitfieldExtract2I()
+	void testBitfieldExtract2I( test::TestCounts & testCounts )
 	{
 		testBegin( "testBitfieldExtract2I" );
 		using namespace sdw;
@@ -1915,12 +1984,13 @@ namespace
 						, bitfieldExtract( x, o, b ) );
 				} );
 			test::writeShader( writer.getShader()
-				, sdw::ShaderType::eFragment );
+				, sdw::ShaderType::eFragment
+				, testCounts );
 		}
 		testEnd();
 	}
 
-	void testBitfieldExtract3I()
+	void testBitfieldExtract3I( test::TestCounts & testCounts )
 	{
 		testBegin( "testBitfieldExtract3I" );
 		using namespace sdw;
@@ -1936,12 +2006,13 @@ namespace
 						, bitfieldExtract( x, o, b ) );
 				} );
 			test::writeShader( writer.getShader()
-				, sdw::ShaderType::eFragment );
+				, sdw::ShaderType::eFragment
+				, testCounts );
 		}
 		testEnd();
 	}
 
-	void testBitfieldExtract4I()
+	void testBitfieldExtract4I( test::TestCounts & testCounts )
 	{
 		testBegin( "testBitfieldExtract4I" );
 		using namespace sdw;
@@ -1957,12 +2028,13 @@ namespace
 						, bitfieldExtract( x, o, b ) );
 				} );
 			test::writeShader( writer.getShader()
-				, sdw::ShaderType::eFragment );
+				, sdw::ShaderType::eFragment
+				, testCounts );
 		}
 		testEnd();
 	}
 
-	void testBitfieldExtract1U()
+	void testBitfieldExtract1U( test::TestCounts & testCounts )
 	{
 		testBegin( "testBitfieldExtract1U" );
 		using namespace sdw;
@@ -1978,12 +2050,13 @@ namespace
 						, bitfieldExtract( x, o, b ) );
 				} );
 			test::writeShader( writer.getShader()
-				, sdw::ShaderType::eFragment );
+				, sdw::ShaderType::eFragment
+				, testCounts );
 		}
 		testEnd();
 	}
 
-	void testBitfieldExtract2U()
+	void testBitfieldExtract2U( test::TestCounts & testCounts )
 	{
 		testBegin( "testBitfieldExtract2U" );
 		using namespace sdw;
@@ -1999,12 +2072,13 @@ namespace
 						, bitfieldExtract( x, o, b ) );
 				} );
 			test::writeShader( writer.getShader()
-				, sdw::ShaderType::eFragment );
+				, sdw::ShaderType::eFragment
+				, testCounts );
 		}
 		testEnd();
 	}
 
-	void testBitfieldExtract3U()
+	void testBitfieldExtract3U( test::TestCounts & testCounts )
 	{
 		testBegin( "testBitfieldExtract3U" );
 		using namespace sdw;
@@ -2020,12 +2094,13 @@ namespace
 						, bitfieldExtract( x, o, b ) );
 				} );
 			test::writeShader( writer.getShader()
-				, sdw::ShaderType::eFragment );
+				, sdw::ShaderType::eFragment
+				, testCounts );
 		}
 		testEnd();
 	}
 
-	void testBitfieldExtract4U()
+	void testBitfieldExtract4U( test::TestCounts & testCounts )
 	{
 		testBegin( "testBitfieldExtract4U" );
 		using namespace sdw;
@@ -2041,7 +2116,8 @@ namespace
 						, bitfieldExtract( x, o, b ) );
 				} );
 			test::writeShader( writer.getShader()
-				, sdw::ShaderType::eFragment );
+				, sdw::ShaderType::eFragment
+				, testCounts );
 		}
 		testEnd();
 	}
@@ -2050,162 +2126,162 @@ namespace
 int main( int argc, char ** argv )
 {
 	testSuiteBegin( "TestWriterIntrinsics" );
-	testRoundEven1F();
-	testRoundEven2F();
-	testRoundEven3F();
-	testRoundEven4F();
-	testRoundEven1D();
-	testRoundEven2D();
-	testRoundEven3D();
-	testRoundEven4D();
-	testPackDouble2x32();
-	testPackHalf2x16();
-	testPackSnorm2x16();
-	testPackUnorm2x16();
-	testPackSnorm4x8();
-	testPackUnorm4x8();
-	testUnpackDouble2x32();
-	testUnpackHalf2x16();
-	testUnpackSnorm2x16();
-	testUnpackUnorm2x16();
-	testUnpackSnorm4x8();
-	testUnpackUnorm4x8();
-	testLessThan2F();
-	testLessThan3F();
-	testLessThan4F();
-	testLessThan2D();
-	testLessThan3D();
-	testLessThan4D();
-	testLessThan2I();
-	testLessThan3I();
-	testLessThan4I();
-	testLessThan2U();
-	testLessThan3U();
-	testLessThan4U();
-	testLessThanEqual2F();
-	testLessThanEqual3F();
-	testLessThanEqual4F();
-	testLessThanEqual2D();
-	testLessThanEqual3D();
-	testLessThanEqual4D();
-	testLessThanEqual2I();
-	testLessThanEqual3I();
-	testLessThanEqual4I();
-	testLessThanEqual2U();
-	testLessThanEqual3U();
-	testLessThanEqual4U();
-	testGreaterThan2F();
-	testGreaterThan3F();
-	testGreaterThan4F();
-	testGreaterThan2D();
-	testGreaterThan3D();
-	testGreaterThan4D();
-	testGreaterThan2I();
-	testGreaterThan3I();
-	testGreaterThan4I();
-	testGreaterThan2U();
-	testGreaterThan3U();
-	testGreaterThan4U();
-	testGreaterThanEqual2F();
-	testGreaterThanEqual3F();
-	testGreaterThanEqual4F();
-	testGreaterThanEqual2D();
-	testGreaterThanEqual3D();
-	testGreaterThanEqual4D();
-	testGreaterThanEqual2I();
-	testGreaterThanEqual3I();
-	testGreaterThanEqual4I();
-	testGreaterThanEqual2U();
-	testGreaterThanEqual3U();
-	testGreaterThanEqual4U();
-	testEqual2F();
-	testEqual3F();
-	testEqual4F();
-	testEqual2D();
-	testEqual3D();
-	testEqual4D();
-	testEqual2I();
-	testEqual3I();
-	testEqual4I();
-	testEqual2U();
-	testEqual3U();
-	testEqual4U();
-	testNotEqual2F();
-	testNotEqual3F();
-	testNotEqual4F();
-	testNotEqual2D();
-	testNotEqual3D();
-	testNotEqual4D();
-	testNotEqual2I();
-	testNotEqual3I();
-	testNotEqual4I();
-	testNotEqual2U();
-	testNotEqual3U();
-	testNotEqual4U();
-	testNot2();
-	testNot3();
-	testNot4();
-	testMatrixCompMult2x2F();
-	testMatrixCompMult2x3F();
-	testMatrixCompMult2x4F();
-	testMatrixCompMult3x2F();
-	testMatrixCompMult3x3F();
-	testMatrixCompMult3x4F();
-	testMatrixCompMult4x2F();
-	testMatrixCompMult4x3F();
-	testMatrixCompMult4x4F();
-	testMatrixCompMult2x2D();
-	testMatrixCompMult2x3D();
-	testMatrixCompMult2x4D();
-	testMatrixCompMult3x2D();
-	testMatrixCompMult3x3D();
-	testMatrixCompMult3x4D();
-	testMatrixCompMult4x2D();
-	testMatrixCompMult4x3D();
-	testMatrixCompMult4x4D();
-	testMatrixMult2x2F();
-	testMatrixMult3x3F();
-	testMatrixMult4x4F();
-	testMatrixMult2x2D();
-	testMatrixMult3x3D();
-	testMatrixMult4x4D();
-	testInverse2x2F();
-	testInverse2x2D();
-	testInverse3x3F();
-	testInverse3x3D();
-	testInverse4x4F();
-	testInverse4x4D();
-	testUaddCarry1();
-	testUaddCarry2();
-	testUaddCarry3();
-	testUaddCarry4();
-	testUsubBorrow1();
-	testUsubBorrow2();
-	testUsubBorrow3();
-	testUsubBorrow4();
-	testUmulExtended1();
-	testUmulExtended2();
-	testUmulExtended3();
-	testUmulExtended4();
-	testImulExtended1();
-	testImulExtended2();
-	testImulExtended3();
-	testImulExtended4();
-	testBitfieldInsert1I();
-	testBitfieldInsert2I();
-	testBitfieldInsert3I();
-	testBitfieldInsert4I();
-	testBitfieldInsert1U();
-	testBitfieldInsert2U();
-	testBitfieldInsert3U();
-	testBitfieldInsert4U();
-	testBitfieldExtract1I();
-	testBitfieldExtract2I();
-	testBitfieldExtract3I();
-	testBitfieldExtract4I();
-	testBitfieldExtract1U();
-	testBitfieldExtract2U();
-	testBitfieldExtract3U();
-	testBitfieldExtract4U();
+	testRoundEven1F( testCounts );
+	testRoundEven2F( testCounts );
+	testRoundEven3F( testCounts );
+	testRoundEven4F( testCounts );
+	testRoundEven1D( testCounts );
+	testRoundEven2D( testCounts );
+	testRoundEven3D( testCounts );
+	testRoundEven4D( testCounts );
+	testPackDouble2x32( testCounts );
+	testPackHalf2x16( testCounts );
+	testPackSnorm2x16( testCounts );
+	testPackUnorm2x16( testCounts );
+	testPackSnorm4x8( testCounts );
+	testPackUnorm4x8( testCounts );
+	testUnpackDouble2x32( testCounts );
+	testUnpackHalf2x16( testCounts );
+	testUnpackSnorm2x16( testCounts );
+	testUnpackUnorm2x16( testCounts );
+	testUnpackSnorm4x8( testCounts );
+	testUnpackUnorm4x8( testCounts );
+	testLessThan2F( testCounts );
+	testLessThan3F( testCounts );
+	testLessThan4F( testCounts );
+	testLessThan2D( testCounts );
+	testLessThan3D( testCounts );
+	testLessThan4D( testCounts );
+	testLessThan2I( testCounts );
+	testLessThan3I( testCounts );
+	testLessThan4I( testCounts );
+	testLessThan2U( testCounts );
+	testLessThan3U( testCounts );
+	testLessThan4U( testCounts );
+	testLessThanEqual2F( testCounts );
+	testLessThanEqual3F( testCounts );
+	testLessThanEqual4F( testCounts );
+	testLessThanEqual2D( testCounts );
+	testLessThanEqual3D( testCounts );
+	testLessThanEqual4D( testCounts );
+	testLessThanEqual2I( testCounts );
+	testLessThanEqual3I( testCounts );
+	testLessThanEqual4I( testCounts );
+	testLessThanEqual2U( testCounts );
+	testLessThanEqual3U( testCounts );
+	testLessThanEqual4U( testCounts );
+	testGreaterThan2F( testCounts );
+	testGreaterThan3F( testCounts );
+	testGreaterThan4F( testCounts );
+	testGreaterThan2D( testCounts );
+	testGreaterThan3D( testCounts );
+	testGreaterThan4D( testCounts );
+	testGreaterThan2I( testCounts );
+	testGreaterThan3I( testCounts );
+	testGreaterThan4I( testCounts );
+	testGreaterThan2U( testCounts );
+	testGreaterThan3U( testCounts );
+	testGreaterThan4U( testCounts );
+	testGreaterThanEqual2F( testCounts );
+	testGreaterThanEqual3F( testCounts );
+	testGreaterThanEqual4F( testCounts );
+	testGreaterThanEqual2D( testCounts );
+	testGreaterThanEqual3D( testCounts );
+	testGreaterThanEqual4D( testCounts );
+	testGreaterThanEqual2I( testCounts );
+	testGreaterThanEqual3I( testCounts );
+	testGreaterThanEqual4I( testCounts );
+	testGreaterThanEqual2U( testCounts );
+	testGreaterThanEqual3U( testCounts );
+	testGreaterThanEqual4U( testCounts );
+	testEqual2F( testCounts );
+	testEqual3F( testCounts );
+	testEqual4F( testCounts );
+	testEqual2D( testCounts );
+	testEqual3D( testCounts );
+	testEqual4D( testCounts );
+	testEqual2I( testCounts );
+	testEqual3I( testCounts );
+	testEqual4I( testCounts );
+	testEqual2U( testCounts );
+	testEqual3U( testCounts );
+	testEqual4U( testCounts );
+	testNotEqual2F( testCounts );
+	testNotEqual3F( testCounts );
+	testNotEqual4F( testCounts );
+	testNotEqual2D( testCounts );
+	testNotEqual3D( testCounts );
+	testNotEqual4D( testCounts );
+	testNotEqual2I( testCounts );
+	testNotEqual3I( testCounts );
+	testNotEqual4I( testCounts );
+	testNotEqual2U( testCounts );
+	testNotEqual3U( testCounts );
+	testNotEqual4U( testCounts );
+	testNot2( testCounts );
+	testNot3( testCounts );
+	testNot4( testCounts );
+	testMatrixCompMult2x2F( testCounts );
+	testMatrixCompMult2x3F( testCounts );
+	testMatrixCompMult2x4F( testCounts );
+	testMatrixCompMult3x2F( testCounts );
+	testMatrixCompMult3x3F( testCounts );
+	testMatrixCompMult3x4F( testCounts );
+	testMatrixCompMult4x2F( testCounts );
+	testMatrixCompMult4x3F( testCounts );
+	testMatrixCompMult4x4F( testCounts );
+	testMatrixCompMult2x2D( testCounts );
+	testMatrixCompMult2x3D( testCounts );
+	testMatrixCompMult2x4D( testCounts );
+	testMatrixCompMult3x2D( testCounts );
+	testMatrixCompMult3x3D( testCounts );
+	testMatrixCompMult3x4D( testCounts );
+	testMatrixCompMult4x2D( testCounts );
+	testMatrixCompMult4x3D( testCounts );
+	testMatrixCompMult4x4D( testCounts );
+	testMatrixMult2x2F( testCounts );
+	testMatrixMult3x3F( testCounts );
+	testMatrixMult4x4F( testCounts );
+	testMatrixMult2x2D( testCounts );
+	testMatrixMult3x3D( testCounts );
+	testMatrixMult4x4D( testCounts );
+	testInverse2x2F( testCounts );
+	testInverse2x2D( testCounts );
+	testInverse3x3F( testCounts );
+	testInverse3x3D( testCounts );
+	testInverse4x4F( testCounts );
+	testInverse4x4D( testCounts );
+	testUaddCarry1( testCounts );
+	testUaddCarry2( testCounts );
+	testUaddCarry3( testCounts );
+	testUaddCarry4( testCounts );
+	testUsubBorrow1( testCounts );
+	testUsubBorrow2( testCounts );
+	testUsubBorrow3( testCounts );
+	testUsubBorrow4( testCounts );
+	testUmulExtended1( testCounts );
+	testUmulExtended2( testCounts );
+	testUmulExtended3( testCounts );
+	testUmulExtended4( testCounts );
+	testImulExtended1( testCounts );
+	testImulExtended2( testCounts );
+	testImulExtended3( testCounts );
+	testImulExtended4( testCounts );
+	testBitfieldInsert1I( testCounts );
+	testBitfieldInsert2I( testCounts );
+	testBitfieldInsert3I( testCounts );
+	testBitfieldInsert4I( testCounts );
+	testBitfieldInsert1U( testCounts );
+	testBitfieldInsert2U( testCounts );
+	testBitfieldInsert3U( testCounts );
+	testBitfieldInsert4U( testCounts );
+	testBitfieldExtract1I( testCounts );
+	testBitfieldExtract2I( testCounts );
+	testBitfieldExtract3I( testCounts );
+	testBitfieldExtract4I( testCounts );
+	testBitfieldExtract1U( testCounts );
+	testBitfieldExtract2U( testCounts );
+	testBitfieldExtract3U( testCounts );
+	testBitfieldExtract4U( testCounts );
 	testSuiteEnd();
 }

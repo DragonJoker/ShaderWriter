@@ -8,6 +8,38 @@ See LICENSE file in root folder
 
 namespace sdw
 {
+	template< ast::type::ImageDim DimT
+		, bool ArrayedT >
+	struct SampledImageCoordsGetter;
+
+	template< ast::type::ImageDim DimT
+		, bool ArrayedT >
+	using SampledImageQueryLodT = typename SampledImageCoordsGetter< DimT, ArrayedT >::QueryLodType;
+	
+	template< ast::type::ImageDim DimT
+		, bool ArrayedT >
+	using SampledImageSampleT = typename SampledImageCoordsGetter< DimT, ArrayedT >::SampleType;
+
+	template< ast::type::ImageDim DimT
+		, bool ArrayedT >
+	using SampledImageSampleProjT = typename SampledImageCoordsGetter< DimT, ArrayedT >::ProjType;
+
+	template< ast::type::ImageDim DimT
+		, bool ArrayedT >
+	using SampledImageOffsetT = typename SampledImageCoordsGetter< DimT, ArrayedT >::OffsetType;
+
+	template< ast::type::ImageDim DimT
+		, bool ArrayedT >
+	using SampledImageFetchT = typename SampledImageCoordsGetter< DimT, ArrayedT >::FetchType;
+
+	template< ast::type::ImageDim DimT
+		, bool ArrayedT >
+	using SampledImageDerivativeT = typename SampledImageCoordsGetter< DimT, ArrayedT >::DerivativeType;
+
+	template< ast::type::ImageDim DimT
+		, bool ArrayedT >
+	using SampledImageGatherT = typename SampledImageCoordsGetter< DimT, ArrayedT >::GatherType;
+
 	struct SampledImage
 		: public Value
 	{

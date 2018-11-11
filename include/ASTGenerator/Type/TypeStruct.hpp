@@ -93,6 +93,9 @@ namespace ast::type
 		}
 
 	private:
+		void doUpdateOffsets();
+
+	private:
 		std::string m_name;
 		std::vector< Member > m_members;
 		MemoryLayout m_layout;
@@ -111,6 +114,8 @@ namespace ast::type
 	bool operator==( Type const & lhs, Type const & rhs );
 	bool operator==( Struct const & lhs, Struct const & rhs );
 	uint32_t getSize( TypePtr type
+		, MemoryLayout layout );
+	uint32_t getAlignment( TypePtr type
 		, MemoryLayout layout );
 }
 

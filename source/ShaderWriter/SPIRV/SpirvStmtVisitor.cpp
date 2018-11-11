@@ -518,7 +518,7 @@ namespace sdw::spirv
 		if ( var->isMember() )
 		{
 			auto outer = m_result.registerVariable( var->getOuter()->getName()
-				, getStorageClass( getOutermost( var ) )
+				, getStorageClass( var )
 				, var->getOuter()->getType() );
 			result = m_result.registerMemberVariable( outer
 				, var->getName()
@@ -527,7 +527,7 @@ namespace sdw::spirv
 		else
 		{
 			result = m_result.registerVariable( var->getName()
-				, getStorageClass( getOutermost( var ) )
+				, getStorageClass( var )
 				, var->getType() );
 		}
 

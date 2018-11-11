@@ -45,42 +45,42 @@ def computeName( name ):
 		result = resName1.group( 2 )
 	return result
 
-def computeEnum( enumName, name ):
-	result = enumName + "::e"
+def discardArray( name ):
+	result = re.sub( "\[\d*\]", "", name )
+	return result
+
+def getPostfix( functionGroup ):
 	intrName6 = re.compile( "([\w]*), ([\w]*), ([\w]*), ([\w]*), ([\w]*), ([\w]*), ([\w]*)" )
 	intrName5 = re.compile( "([\w]*), ([\w]*), ([\w]*), ([\w]*), ([\w]*), ([\w]*)" )
 	intrName4 = re.compile( "([\w]*), ([\w]*), ([\w]*), ([\w]*), ([\w]*)" )
 	intrName3 = re.compile( "([\w]*), ([\w]*), ([\w]*), ([\w]*)" )
 	intrName2 = re.compile( "([\w]*), ([\w]*), ([\w]*)" )
 	intrName1 = re.compile( "([\w]*), ([\w]*)" )
-	resName6 = intrName6.match( name )
-	resName5 = intrName5.match( name )
-	resName4 = intrName4.match( name )
-	resName3 = intrName3.match( name )
-	resName2 = intrName2.match( name )
-	resName1 = intrName1.match( name )
+	resName6 = intrName6.match( functionGroup )
+	resName5 = intrName5.match( functionGroup )
+	resName4 = intrName4.match( functionGroup )
+	resName3 = intrName3.match( functionGroup )
+	resName2 = intrName2.match( functionGroup )
+	resName1 = intrName1.match( functionGroup )
+	result = ""
 	if resName6:
-		result += resName6.group( 2 ) + resName6.group( 3 ) + resName6.group( 4 ) + resName6.group( 5 ) + resName6.group( 6 ) + resName6.group( 7 )
+		result += resName6.group( 3 )
 	elif resName5:
-		result += resName5.group( 2 ) + resName5.group( 3 ) + resName5.group( 4 ) + resName5.group( 5 ) + resName5.group( 6 )
+		result += resName5.group( 3 )
 	elif resName4:
-		result += resName4.group( 2 ) + resName4.group( 3 ) + resName4.group( 4 ) + resName4.group( 5 )
+		result += resName4.group( 3 )
 	elif resName3:
-		result += resName3.group( 2 ) + resName3.group( 3 ) + resName3.group( 4 )
+		result += resName3.group( 3 )
 	elif resName2:
-		result += resName2.group( 2 ) + resName2.group( 3 )
+		result += resName2.group( 3 )
 	elif resName1:
-		result += resName1.group( 2 )
+		result += resName1.group( 3 )
 	return result
 
-def discardArray( name ):
-	result = re.sub( "\[\d*\]", "", name )
-	return result
-
-def computeParams( params, sep ):
+def computeParams( paramsGroup, sep ):
 	result = ""
 	intrParams = re.compile("[, ]*ASTIntrParams\( ([\w, :()\[\]]*) \)$")
-	resParams = intrParams.match( params )
+	resParams = intrParams.match( paramsGroup )
 	if resParams:
 		intrParam = re.compile("ASTIntrParam\( ([^,]*), ([^ ]*) \)")
 		resParam = intrParam.split( resParams.group( 1 ) )
@@ -93,10 +93,10 @@ def computeParams( params, sep ):
 			index += 2
 	return result
 
-def computeParamsDoc( params ):
+def computeParamsDoc( paramsGroup ):
 	result = ""
 	intrParams = re.compile("[, ]*ASTIntrParams\( ([\w, :()\[\]]*) \)$")
-	resParams = intrParams.match( params )
+	resParams = intrParams.match( paramsGroup )
 	if resParams:
 		intrParam = re.compile("ASTIntrParam\( ([^,]*), ([^ ]*) \)")
 		resParam = intrParam.split( resParams.group( 1 ) )
@@ -108,84 +108,91 @@ def computeParamsDoc( params ):
 			result += "\n\t*\t" + typeName
 			index += 2
 	return result
+	
+def getArrayType( name ):
+	result = re.sub( "Array", "", name )
+	return "Array" if result != name else ""
 
-def computeArgs( args ):
+def getDepthType( name ):
+	result = re.sub( "Shadow", "", name )
+	return "Shadow" if result != name else ""
+
+def getMSType( name ):
+	result = re.sub( "MS", "", name )
+	return "MS" if result != name else ""
+
+def getImageDim( name ):
 	result = ""
-	intrArgs = re.compile("[, ]*ASTIntrParams\( ([\w, :()\[\]]*) \)$")
-	resArgs = intrArgs.match( args )
-	if resArgs:
-		intrArg = re.compile("ASTIntrParam\( ([^,]*), ([^ ]*) \)")
-		resArg = intrArg.split( resArgs.group( 1 ) )
-		index = 2
-		while len( resArg ) > index:
-			result += "\n\t\t\t, std::move( " + discardArray( resArg[index] ) + " )"
-			index += 3
+	if name.find( "Rect" ) != -1:
+		result = "Rect"
+	elif name.find( "1D" ) != -1:
+		result = "1D"
+	elif name.find( "2D" ) != -1:
+		result = "2D"
+	elif name.find( "3D" ) != -1:
+		result = "3D"
+	elif name.find( "Cube" ) != -1:
+		result = "Cube"
+	elif name.find( "Buffer" ) != -1:
+		result = "Buffer"
 	return result
 
-def getTextureName( texType, name ):
-	result = texType
-	intrName6 = re.compile( "([\w]*), ([\w]*), ([\w]*), ([\w]*), ([\w]*), ([\w]*), ([\w]*)" )
-	intrName5 = re.compile( "([\w]*), ([\w]*), ([\w]*), ([\w]*), ([\w]*), ([\w]*)" )
-	intrName4 = re.compile( "([\w]*), ([\w]*), ([\w]*), ([\w]*), ([\w]*)" )
-	intrName3 = re.compile( "([\w]*), ([\w]*), ([\w]*), ([\w]*)" )
-	intrName2 = re.compile( "([\w]*), ([\w]*), ([\w]*)" )
-	intrName1 = re.compile( "([\w]*), ([\w]*)" )
-	resName6 = intrName6.match( name )
-	resName5 = intrName5.match( name )
-	resName4 = intrName4.match( name )
-	resName3 = intrName3.match( name )
-	resName2 = intrName2.match( name )
-	resName1 = intrName1.match( name )
-	postfix = ""
-	if resName6:
-		postfix += resName6.group( 3 )
-	elif resName5:
-		postfix += resName5.group( 3 )
-	elif resName4:
-		postfix += resName4.group( 3 )
-	elif resName3:
-		postfix += resName3.group( 3 )
-	elif resName2:
-		postfix += resName2.group( 3 )
-	elif resName1:
-		postfix += resName1.group( 3 )
-	intrNameF = re.compile( "([^F]*)([F])" )
-	intrNameIU = re.compile( "([^IU]*)([IU])" )
-	resNameF = intrNameF.match( postfix )
-	resNameIU = intrNameIU.match( postfix )
-	if resNameF:
-		result = texType + resNameF.group( 1 )
-	elif resNameIU:
-		result = resNameIU.group( 2 ).lower() + texType + resNameIU.group( 1 )
+def getImageSampledType( postfix ):
+	sampled = postfix[len( postfix ) - 1]
+	result = "Float"
+	if sampled == "I":
+		result = "Int"
+	elif sampled == "U":
+		result = "UInt"
 	return result
 
-def printDoc( outs, enumName, match ):
+def computeImageFullType( imageType, functionGroup ):
+	postfix = getPostfix( functionGroup )
+	sampled = getImageSampledType( postfix )
+	dim = getImageDim( postfix )
+	ms = getMSType( postfix )
+	array = getArrayType( postfix )
+	depth = getDepthType( postfix )
+	sep = ", "
+	seq = [sampled, dim]
+	if len( ms ):
+		seq.append( ms )
+	if len( array ):
+		seq.append( array )
+	if len( depth ):
+		seq.append( depth )
+	return imageType + "<" + ', '.join( seq ) + ">"
+
+def printDoc( outs, enumName, returnGroup, functionGroup, paramsGroup ):
 	outs.write( "\n\t/**" )
 	outs.write( "\n\t*@return" )
-	outs.write( "\n\t*\t" + typeKindToGlslType( match.group( 1 ) ) )
+	outs.write( "\n\t*\t" + typeKindToGlslType( returnGroup ) )
 	if enumName == "TextureAccess":
 		outs.write( "\n\t*@param texture" )
-		outs.write( "\n\t*\t" + getTextureName( "sampler", match.group( 2 ) ) )
-		outs.write( computeParamsDoc( match.group( 3 ) ) )
+		outs.write( "\n\t*\t" + computeImageFullType( "SampledImage", functionGroup ) )
+		outs.write( computeParamsDoc( paramsGroup ) )
 	elif enumName == "ImageAccess":
 		outs.write( "\n\t*@param image" )
-		outs.write( "\n\t*\t" + getTextureName( "sampler", match.group( 2 ) ) )
-		outs.write( computeParamsDoc( match.group( 3 ) ) )
+		outs.write( "\n\t*\t" + computeImageFullType( "Image", functionGroup ) )
+		outs.write( computeParamsDoc( paramsGroup ) )
 	else:
-		outs.write( computeParamsDoc( match.group( 3 ) ) )
+		outs.write( computeParamsDoc( paramsGroup ) )
 	outs.write( "\n\t*/" )
 
-def printValue( outs, enumName, match ):
-	printDoc( outs, enumName, match )
-	outs.write( "\n\t" + enumName + "CallPtr make" + computeName( match.group( 2 ) ) + "(" )
+def printFunction( outs, enumName, match ):
+	returnGroup = match.group( 1 )
+	functionGroup = match.group( 2 )
+	paramsGroup = match.group( 3 )
+	printDoc( outs, enumName, returnGroup, functionGroup, paramsGroup )
+	outs.write( "\n\t" + enumName + "CallPtr make" + computeName( functionGroup ) + "(" )
 	if enumName == "TextureAccess":
 		outs.write( " ExprPtr texture" )
-		outs.write( computeParams( match.group( 3 ), "," ) + " );" )
+		outs.write( computeParams( paramsGroup, "," ) + " );" )
 	elif enumName == "ImageAccess":
 		outs.write( " ExprPtr image" )
-		outs.write( computeParams( match.group( 3 ), "," ) + " );" )
+		outs.write( computeParams( paramsGroup, "," ) + " );" )
 	else:
-		outs.write( computeParams( match.group( 3 ), "" ) + " );" )
+		outs.write( computeParams( paramsGroup, "" ) + " );" )
 
 def printFooter( outs ):
 	outs.write( "}\n" )
@@ -221,7 +228,7 @@ def main( argv ):
 				if resultDecl:
 					enumName = printHeader( outs, resultDecl )
 				elif resultValue:
-					printValue( outs, enumName, resultValue )
+					printFunction( outs, enumName, resultValue )
 				elif resultEnd:
 					printFooter( outs )
 				else:

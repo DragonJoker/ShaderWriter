@@ -13,280 +13,280 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	sampler1D
+	*	Image<Float, 1D>
 	*/
 	ImageAccessCallPtr makeImageSize1DF( ExprPtr image );
 	/**
 	*@return
 	*	vec2i
 	*@param image
-	*	sampler2D
+	*	Image<Float, 2D>
 	*/
 	ImageAccessCallPtr makeImageSize2DF( ExprPtr image );
 	/**
 	*@return
 	*	vec3i
 	*@param image
-	*	sampler3D
+	*	Image<Float, 3D>
 	*/
 	ImageAccessCallPtr makeImageSize3DF( ExprPtr image );
 	/**
 	*@return
 	*	vec2i
 	*@param image
-	*	samplerCube
+	*	Image<Float, Cube>
 	*/
 	ImageAccessCallPtr makeImageSizeCubeF( ExprPtr image );
 	/**
 	*@return
 	*	vec3i
 	*@param image
-	*	samplerCubeArray
+	*	Image<Float, Cube, Array>
 	*/
 	ImageAccessCallPtr makeImageSizeCubeArrayF( ExprPtr image );
 	/**
 	*@return
 	*	vec2i
 	*@param image
-	*	sampler2DRect
+	*	Image<Float, Rect>
 	*/
 	ImageAccessCallPtr makeImageSize2DRectF( ExprPtr image );
 	/**
 	*@return
 	*	vec2i
 	*@param image
-	*	sampler1DArray
+	*	Image<Float, 1D, Array>
 	*/
 	ImageAccessCallPtr makeImageSize1DArrayF( ExprPtr image );
 	/**
 	*@return
 	*	vec3i
 	*@param image
-	*	sampler2DArray
+	*	Image<Float, 2D, Array>
 	*/
 	ImageAccessCallPtr makeImageSize2DArrayF( ExprPtr image );
 	/**
 	*@return
 	*	int
 	*@param image
-	*	samplerBuffer
+	*	Image<Float, Buffer>
 	*/
 	ImageAccessCallPtr makeImageSizeBufferF( ExprPtr image );
 	/**
 	*@return
 	*	vec2i
 	*@param image
-	*	sampler2DMS
+	*	Image<Float, 2D, MS>
 	*/
 	ImageAccessCallPtr makeImageSize2DMSF( ExprPtr image );
 	/**
 	*@return
 	*	vec3i
 	*@param image
-	*	sampler2DMSArray
+	*	Image<Float, 2D, MS, Array>
 	*/
 	ImageAccessCallPtr makeImageSize2DMSArrayF( ExprPtr image );
 	/**
 	*@return
 	*	int
 	*@param image
-	*	isampler1D
+	*	Image<Int, 1D>
 	*/
 	ImageAccessCallPtr makeImageSize1DI( ExprPtr image );
 	/**
 	*@return
 	*	vec2i
 	*@param image
-	*	isampler2D
+	*	Image<Int, 2D>
 	*/
 	ImageAccessCallPtr makeImageSize2DI( ExprPtr image );
 	/**
 	*@return
 	*	vec3i
 	*@param image
-	*	isampler3D
+	*	Image<Int, 3D>
 	*/
 	ImageAccessCallPtr makeImageSize3DI( ExprPtr image );
 	/**
 	*@return
 	*	vec2i
 	*@param image
-	*	isamplerCube
+	*	Image<Int, Cube>
 	*/
 	ImageAccessCallPtr makeImageSizeCubeI( ExprPtr image );
 	/**
 	*@return
 	*	vec3i
 	*@param image
-	*	isamplerCubeArray
+	*	Image<Int, Cube, Array>
 	*/
 	ImageAccessCallPtr makeImageSizeCubeArrayI( ExprPtr image );
 	/**
 	*@return
 	*	vec2i
 	*@param image
-	*	isampler2DRect
+	*	Image<Int, Rect>
 	*/
 	ImageAccessCallPtr makeImageSize2DRectI( ExprPtr image );
 	/**
 	*@return
 	*	vec2i
 	*@param image
-	*	isampler1DArray
+	*	Image<Int, 1D, Array>
 	*/
 	ImageAccessCallPtr makeImageSize1DArrayI( ExprPtr image );
 	/**
 	*@return
 	*	vec3i
 	*@param image
-	*	isampler2DArray
+	*	Image<Int, 2D, Array>
 	*/
 	ImageAccessCallPtr makeImageSize2DArrayI( ExprPtr image );
 	/**
 	*@return
 	*	int
 	*@param image
-	*	isamplerBuffer
+	*	Image<Int, Buffer>
 	*/
 	ImageAccessCallPtr makeImageSizeBufferI( ExprPtr image );
 	/**
 	*@return
 	*	vec2i
 	*@param image
-	*	isampler2DMS
+	*	Image<Int, 2D, MS>
 	*/
 	ImageAccessCallPtr makeImageSize2DMSI( ExprPtr image );
 	/**
 	*@return
 	*	vec3i
 	*@param image
-	*	isampler2DMSArray
+	*	Image<Int, 2D, MS, Array>
 	*/
 	ImageAccessCallPtr makeImageSize2DMSArrayI( ExprPtr image );
 	/**
 	*@return
 	*	int
 	*@param image
-	*	usampler1D
+	*	Image<UInt, 1D>
 	*/
 	ImageAccessCallPtr makeImageSize1DU( ExprPtr image );
 	/**
 	*@return
 	*	vec2i
 	*@param image
-	*	usampler2D
+	*	Image<UInt, 2D>
 	*/
 	ImageAccessCallPtr makeImageSize2DU( ExprPtr image );
 	/**
 	*@return
 	*	vec3i
 	*@param image
-	*	usampler3D
+	*	Image<UInt, 3D>
 	*/
 	ImageAccessCallPtr makeImageSize3DU( ExprPtr image );
 	/**
 	*@return
 	*	vec2i
 	*@param image
-	*	usamplerCube
+	*	Image<UInt, Cube>
 	*/
 	ImageAccessCallPtr makeImageSizeCubeU( ExprPtr image );
 	/**
 	*@return
 	*	vec3i
 	*@param image
-	*	usamplerCubeArray
+	*	Image<UInt, Cube, Array>
 	*/
 	ImageAccessCallPtr makeImageSizeCubeArrayU( ExprPtr image );
 	/**
 	*@return
 	*	vec2i
 	*@param image
-	*	usampler2DRect
+	*	Image<UInt, Rect>
 	*/
 	ImageAccessCallPtr makeImageSize2DRectU( ExprPtr image );
 	/**
 	*@return
 	*	vec2i
 	*@param image
-	*	usampler1DArray
+	*	Image<UInt, 1D, Array>
 	*/
 	ImageAccessCallPtr makeImageSize1DArrayU( ExprPtr image );
 	/**
 	*@return
 	*	vec3i
 	*@param image
-	*	usampler2DArray
+	*	Image<UInt, 2D, Array>
 	*/
 	ImageAccessCallPtr makeImageSize2DArrayU( ExprPtr image );
 	/**
 	*@return
 	*	int
 	*@param image
-	*	usamplerBuffer
+	*	Image<UInt, Buffer>
 	*/
 	ImageAccessCallPtr makeImageSizeBufferU( ExprPtr image );
 	/**
 	*@return
 	*	vec2i
 	*@param image
-	*	usampler2DMS
+	*	Image<UInt, 2D, MS>
 	*/
 	ImageAccessCallPtr makeImageSize2DMSU( ExprPtr image );
 	/**
 	*@return
 	*	vec3i
 	*@param image
-	*	usampler2DMSArray
+	*	Image<UInt, 2D, MS, Array>
 	*/
 	ImageAccessCallPtr makeImageSize2DMSArrayU( ExprPtr image );
 	/**
 	*@return
 	*	int
 	*@param image
-	*	sampler2DMS
+	*	Image<Float, 2D, MS>
 	*/
 	ImageAccessCallPtr makeImageSamples2DMSF( ExprPtr image );
 	/**
 	*@return
 	*	int
 	*@param image
-	*	sampler2DMSArray
+	*	Image<Float, 2D, MS, Array>
 	*/
 	ImageAccessCallPtr makeImageSamples2DMSArrayF( ExprPtr image );
 	/**
 	*@return
 	*	int
 	*@param image
-	*	isampler2DMS
+	*	Image<Int, 2D, MS>
 	*/
 	ImageAccessCallPtr makeImageSamples2DMSI( ExprPtr image );
 	/**
 	*@return
 	*	int
 	*@param image
-	*	isampler2DMSArray
+	*	Image<Int, 2D, MS, Array>
 	*/
 	ImageAccessCallPtr makeImageSamples2DMSArrayI( ExprPtr image );
 	/**
 	*@return
 	*	int
 	*@param image
-	*	usampler2DMS
+	*	Image<UInt, 2D, MS>
 	*/
 	ImageAccessCallPtr makeImageSamples2DMSU( ExprPtr image );
 	/**
 	*@return
 	*	int
 	*@param image
-	*	usampler2DMSArray
+	*	Image<UInt, 2D, MS, Array>
 	*/
 	ImageAccessCallPtr makeImageSamples2DMSArrayU( ExprPtr image );
 	/**
 	*@return
 	*	vec4f
 	*@param image
-	*	sampler1D
+	*	Image<Float, 1D>
 	*@param P
 	*	int
 	*/
@@ -295,7 +295,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	sampler2D
+	*	Image<Float, 2D>
 	*@param P
 	*	vec2i
 	*/
@@ -304,7 +304,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	sampler3D
+	*	Image<Float, 3D>
 	*@param P
 	*	vec3i
 	*/
@@ -313,7 +313,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	sampler2DRect
+	*	Image<Float, Rect>
 	*@param P
 	*	vec2i
 	*/
@@ -322,7 +322,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	samplerCube
+	*	Image<Float, Cube>
 	*@param P
 	*	vec3i
 	*/
@@ -331,7 +331,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	samplerBuffer
+	*	Image<Float, Buffer>
 	*@param P
 	*	int
 	*/
@@ -340,7 +340,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	sampler1DArray
+	*	Image<Float, 1D, Array>
 	*@param P
 	*	vec2i
 	*/
@@ -349,7 +349,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	sampler2DArray
+	*	Image<Float, 2D, Array>
 	*@param P
 	*	vec3i
 	*/
@@ -358,7 +358,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	samplerCubeArray
+	*	Image<Float, Cube, Array>
 	*@param P
 	*	vec3i
 	*/
@@ -367,7 +367,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	sampler2DMS
+	*	Image<Float, 2D, MS>
 	*@param P
 	*	vec2i
 	*@param sample
@@ -378,7 +378,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	sampler2DMSArray
+	*	Image<Float, 2D, MS, Array>
 	*@param P
 	*	vec3i
 	*@param sample
@@ -389,7 +389,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	isampler1D
+	*	Image<Int, 1D>
 	*@param P
 	*	int
 	*/
@@ -398,7 +398,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	isampler2D
+	*	Image<Int, 2D>
 	*@param P
 	*	vec2i
 	*/
@@ -407,7 +407,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	isampler3D
+	*	Image<Int, 3D>
 	*@param P
 	*	vec3i
 	*/
@@ -416,7 +416,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	isampler2DRect
+	*	Image<Int, Rect>
 	*@param P
 	*	vec2i
 	*/
@@ -425,7 +425,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	isamplerCube
+	*	Image<Int, Cube>
 	*@param P
 	*	vec3i
 	*/
@@ -434,7 +434,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	isamplerBuffer
+	*	Image<Int, Buffer>
 	*@param P
 	*	int
 	*/
@@ -443,7 +443,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	isampler1DArray
+	*	Image<Int, 1D, Array>
 	*@param P
 	*	vec2i
 	*/
@@ -452,7 +452,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	isampler2DArray
+	*	Image<Int, 2D, Array>
 	*@param P
 	*	vec3i
 	*/
@@ -461,7 +461,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	isamplerCubeArray
+	*	Image<Int, Cube, Array>
 	*@param P
 	*	vec3i
 	*/
@@ -470,7 +470,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	isampler2DMS
+	*	Image<Int, 2D, MS>
 	*@param P
 	*	vec2i
 	*@param sample
@@ -481,7 +481,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	isampler2DMSArray
+	*	Image<Int, 2D, MS, Array>
 	*@param P
 	*	vec3i
 	*@param sample
@@ -492,7 +492,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	usampler1D
+	*	Image<UInt, 1D>
 	*@param P
 	*	int
 	*/
@@ -501,7 +501,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	usampler2D
+	*	Image<UInt, 2D>
 	*@param P
 	*	vec2i
 	*/
@@ -510,7 +510,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	usampler3D
+	*	Image<UInt, 3D>
 	*@param P
 	*	vec3i
 	*/
@@ -519,7 +519,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	usampler2DRect
+	*	Image<UInt, Rect>
 	*@param P
 	*	vec2i
 	*/
@@ -528,7 +528,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	usamplerCube
+	*	Image<UInt, Cube>
 	*@param P
 	*	vec3i
 	*/
@@ -537,7 +537,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	usamplerBuffer
+	*	Image<UInt, Buffer>
 	*@param P
 	*	int
 	*/
@@ -546,7 +546,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	usampler1DArray
+	*	Image<UInt, 1D, Array>
 	*@param P
 	*	vec2i
 	*/
@@ -555,7 +555,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	usampler2DArray
+	*	Image<UInt, 2D, Array>
 	*@param P
 	*	vec3i
 	*/
@@ -564,7 +564,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	usamplerCubeArray
+	*	Image<UInt, Cube, Array>
 	*@param P
 	*	vec3i
 	*/
@@ -573,7 +573,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	usampler2DMS
+	*	Image<UInt, 2D, MS>
 	*@param P
 	*	vec2i
 	*@param sample
@@ -584,7 +584,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	usampler2DMSArray
+	*	Image<UInt, 2D, MS, Array>
 	*@param P
 	*	vec3i
 	*@param sample
@@ -595,7 +595,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	sampler1D
+	*	Image<Float, 1D>
 	*@param P
 	*	int
 	*@param data
@@ -606,7 +606,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	sampler2D
+	*	Image<Float, 2D>
 	*@param P
 	*	vec2i
 	*@param data
@@ -617,7 +617,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	sampler3D
+	*	Image<Float, 3D>
 	*@param P
 	*	vec3i
 	*@param data
@@ -628,7 +628,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	sampler2DRect
+	*	Image<Float, Rect>
 	*@param P
 	*	vec2i
 	*@param data
@@ -639,7 +639,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	samplerCube
+	*	Image<Float, Cube>
 	*@param P
 	*	vec3i
 	*@param data
@@ -650,7 +650,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	samplerBuffer
+	*	Image<Float, Buffer>
 	*@param P
 	*	int
 	*@param data
@@ -661,7 +661,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	sampler1DArray
+	*	Image<Float, 1D, Array>
 	*@param P
 	*	vec2i
 	*@param data
@@ -672,7 +672,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	sampler2DArray
+	*	Image<Float, 2D, Array>
 	*@param P
 	*	vec3i
 	*@param data
@@ -683,7 +683,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	samplerCubeArray
+	*	Image<Float, Cube, Array>
 	*@param P
 	*	vec3i
 	*@param data
@@ -694,7 +694,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	sampler2DMS
+	*	Image<Float, 2D, MS>
 	*@param P
 	*	vec2i
 	*@param sample
@@ -707,7 +707,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	sampler2DMSArray
+	*	Image<Float, 2D, MS, Array>
 	*@param P
 	*	vec3i
 	*@param sample
@@ -720,7 +720,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	isampler1D
+	*	Image<Int, 1D>
 	*@param P
 	*	int
 	*@param data
@@ -731,7 +731,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	isampler2D
+	*	Image<Int, 2D>
 	*@param P
 	*	vec2i
 	*@param data
@@ -742,7 +742,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	isampler3D
+	*	Image<Int, 3D>
 	*@param P
 	*	vec3i
 	*@param data
@@ -753,7 +753,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	isampler2DRect
+	*	Image<Int, Rect>
 	*@param P
 	*	vec2i
 	*@param data
@@ -764,7 +764,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	isamplerCube
+	*	Image<Int, Cube>
 	*@param P
 	*	vec3i
 	*@param data
@@ -775,7 +775,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	isamplerBuffer
+	*	Image<Int, Buffer>
 	*@param P
 	*	int
 	*@param data
@@ -786,7 +786,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	isampler1DArray
+	*	Image<Int, 1D, Array>
 	*@param P
 	*	vec2i
 	*@param data
@@ -797,7 +797,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	isampler2DArray
+	*	Image<Int, 2D, Array>
 	*@param P
 	*	 vec3i
 	*@param data
@@ -808,7 +808,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	isamplerCubeArray
+	*	Image<Int, Cube, Array>
 	*@param P
 	*	vec3i
 	*@param data
@@ -819,7 +819,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	isampler2DMS
+	*	Image<Int, 2D, MS>
 	*@param P
 	*	vec2i
 	*@param sample
@@ -832,7 +832,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	isampler2DMSArray
+	*	Image<Int, 2D, MS, Array>
 	*@param P
 	*	vec3i
 	*@param sample
@@ -845,7 +845,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	usampler1D
+	*	Image<UInt, 1D>
 	*@param P
 	*	int
 	*@param data
@@ -856,7 +856,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	usampler2D
+	*	Image<UInt, 2D>
 	*@param P
 	*	vec2i
 	*@param data
@@ -867,7 +867,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	usampler3D
+	*	Image<UInt, 3D>
 	*@param P
 	*	vec3i
 	*@param data
@@ -878,7 +878,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	usampler2DRect
+	*	Image<UInt, Rect>
 	*@param P
 	*	vec2i
 	*@param data
@@ -889,7 +889,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	usamplerCube
+	*	Image<UInt, Cube>
 	*@param P
 	*	vec3i
 	*@param data
@@ -900,7 +900,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	usamplerBuffer
+	*	Image<UInt, Buffer>
 	*@param P
 	*	int
 	*@param data
@@ -911,7 +911,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	usampler1DArray
+	*	Image<UInt, 1D, Array>
 	*@param P
 	*	vec2i
 	*@param data
@@ -922,7 +922,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	usampler2DArray
+	*	Image<UInt, 2D, Array>
 	*@param P
 	*	 vec3i
 	*@param data
@@ -933,7 +933,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	usamplerCubeArray
+	*	Image<UInt, Cube, Array>
 	*@param P
 	*	vec3i
 	*@param data
@@ -944,7 +944,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	usampler2DMS
+	*	Image<UInt, 2D, MS>
 	*@param P
 	*	vec2i
 	*@param sample
@@ -957,7 +957,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	usampler2DMSArray
+	*	Image<UInt, 2D, MS, Array>
 	*@param P
 	*	vec3i
 	*@param sample
@@ -970,7 +970,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	sampler1D
+	*	Image<Float, 1D>
 	*@param P
 	*	int
 	*@param data
@@ -981,7 +981,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	sampler2D
+	*	Image<Float, 2D>
 	*@param P
 	*	vec2i
 	*@param data
@@ -992,7 +992,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	sampler3D
+	*	Image<Float, 3D>
 	*@param P
 	*	vec3i
 	*@param data
@@ -1003,7 +1003,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	sampler2DRect
+	*	Image<Float, Rect>
 	*@param P
 	*	vec2i
 	*@param data
@@ -1014,7 +1014,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	samplerCube
+	*	Image<Float, Cube>
 	*@param P
 	*	vec3i
 	*@param data
@@ -1025,7 +1025,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	samplerBuffer
+	*	Image<Float, Buffer>
 	*@param P
 	*	int
 	*@param data
@@ -1036,7 +1036,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	sampler1DArray
+	*	Image<Float, 1D, Array>
 	*@param P
 	*	vec2i
 	*@param data
@@ -1047,7 +1047,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	sampler2DArray
+	*	Image<Float, 2D, Array>
 	*@param P
 	*	vec3i
 	*@param data
@@ -1058,7 +1058,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	samplerCubeArray
+	*	Image<Float, Cube, Array>
 	*@param P
 	*	vec3i
 	*@param data
@@ -1069,7 +1069,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	sampler2DMS
+	*	Image<Float, 2D, MS>
 	*@param P
 	*	vec2i
 	*@param sample
@@ -1082,7 +1082,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	sampler2DMSArray
+	*	Image<Float, 2D, MS, Array>
 	*@param P
 	*	vec3i
 	*@param sample
@@ -1095,7 +1095,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	isampler1D
+	*	Image<Int, 1D>
 	*@param P
 	*	int
 	*@param data
@@ -1106,7 +1106,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	isampler2D
+	*	Image<Int, 2D>
 	*@param P
 	*	vec2i
 	*@param data
@@ -1117,7 +1117,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	isampler3D
+	*	Image<Int, 3D>
 	*@param P
 	*	vec3i
 	*@param data
@@ -1128,7 +1128,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	isampler2DRect
+	*	Image<Int, Rect>
 	*@param P
 	*	vec2i
 	*@param data
@@ -1139,7 +1139,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	isamplerCube
+	*	Image<Int, Cube>
 	*@param P
 	*	vec3i
 	*@param data
@@ -1150,7 +1150,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	isamplerBuffer
+	*	Image<Int, Buffer>
 	*@param P
 	*	int
 	*@param data
@@ -1161,7 +1161,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	isampler1DArray
+	*	Image<Int, 1D, Array>
 	*@param P
 	*	vec2i
 	*@param data
@@ -1172,7 +1172,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	isampler2DArray
+	*	Image<Int, 2D, Array>
 	*@param P
 	*	vec3i
 	*@param data
@@ -1183,7 +1183,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	isamplerCubeArray
+	*	Image<Int, Cube, Array>
 	*@param P
 	*	vec3i
 	*@param data
@@ -1194,7 +1194,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	isampler2DMS
+	*	Image<Int, 2D, MS>
 	*@param P
 	*	vec2i
 	*@param sample
@@ -1207,7 +1207,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	isampler2DMSArray
+	*	Image<Int, 2D, MS, Array>
 	*@param P
 	*	vec3i
 	*@param sample
@@ -1220,7 +1220,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	usampler1D
+	*	Image<UInt, 1D>
 	*@param P
 	*	int
 	*@param data
@@ -1231,7 +1231,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	usampler2D
+	*	Image<UInt, 2D>
 	*@param P
 	*	vec2i
 	*@param data
@@ -1242,7 +1242,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	usampler3D
+	*	Image<UInt, 3D>
 	*@param P
 	*	vec3i
 	*@param data
@@ -1253,7 +1253,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	usampler2DRect
+	*	Image<UInt, Rect>
 	*@param P
 	*	vec2i
 	*@param data
@@ -1264,7 +1264,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	usamplerCube
+	*	Image<UInt, Cube>
 	*@param P
 	*	vec3i
 	*@param data
@@ -1275,7 +1275,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	usamplerBuffer
+	*	Image<UInt, Buffer>
 	*@param P
 	*	int
 	*@param data
@@ -1286,7 +1286,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	usampler1DArray
+	*	Image<UInt, 1D, Array>
 	*@param P
 	*	vec2i
 	*@param data
@@ -1297,7 +1297,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	usampler2DArray
+	*	Image<UInt, 2D, Array>
 	*@param P
 	*	vec3i
 	*@param data
@@ -1308,7 +1308,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	usamplerCubeArray
+	*	Image<UInt, Cube, Array>
 	*@param P
 	*	vec3i
 	*@param data
@@ -1319,7 +1319,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	usampler2DMS
+	*	Image<UInt, 2D, MS>
 	*@param P
 	*	vec2i
 	*@param sample
@@ -1332,7 +1332,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	usampler2DMSArray
+	*	Image<UInt, 2D, MS, Array>
 	*@param P
 	*	vec3i
 	*@param sample
@@ -1345,7 +1345,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	sampler1D
+	*	Image<Float, 1D>
 	*@param P
 	*	int
 	*@param data
@@ -1356,7 +1356,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	sampler2D
+	*	Image<Float, 2D>
 	*@param P
 	*	vec2i
 	*@param data
@@ -1367,7 +1367,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	sampler3D
+	*	Image<Float, 3D>
 	*@param P
 	*	vec3i
 	*@param data
@@ -1378,7 +1378,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	sampler2DRect
+	*	Image<Float, Rect>
 	*@param P
 	*	vec2i
 	*@param data
@@ -1389,7 +1389,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	samplerCube
+	*	Image<Float, Cube>
 	*@param P
 	*	vec3i
 	*@param data
@@ -1400,7 +1400,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	samplerBuffer
+	*	Image<Float, Buffer>
 	*@param P
 	*	int
 	*@param data
@@ -1411,7 +1411,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	sampler1DArray
+	*	Image<Float, 1D, Array>
 	*@param P
 	*	vec2i
 	*@param data
@@ -1422,7 +1422,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	sampler2DArray
+	*	Image<Float, 2D, Array>
 	*@param P
 	*	vec3i
 	*@param data
@@ -1433,7 +1433,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	samplerCubeArray
+	*	Image<Float, Cube, Array>
 	*@param P
 	*	vec3i
 	*@param data
@@ -1444,7 +1444,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	sampler2DMS
+	*	Image<Float, 2D, MS>
 	*@param P
 	*	vec2i
 	*@param sample
@@ -1457,7 +1457,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	sampler2DMSArray
+	*	Image<Float, 2D, MS, Array>
 	*@param P
 	*	vec3i
 	*@param sample
@@ -1470,7 +1470,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	isampler1D
+	*	Image<Int, 1D>
 	*@param P
 	*	int
 	*@param data
@@ -1481,7 +1481,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	isampler2D
+	*	Image<Int, 2D>
 	*@param P
 	*	vec2i
 	*@param data
@@ -1492,7 +1492,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	isampler3D
+	*	Image<Int, 3D>
 	*@param P
 	*	vec3i
 	*@param data
@@ -1503,7 +1503,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	isampler2DRect
+	*	Image<Int, Rect>
 	*@param P
 	*	vec2i
 	*@param data
@@ -1514,7 +1514,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	isamplerCube
+	*	Image<Int, Cube>
 	*@param P
 	*	vec3i
 	*@param data
@@ -1525,7 +1525,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	isamplerBuffer
+	*	Image<Int, Buffer>
 	*@param P
 	*	int
 	*@param data
@@ -1536,7 +1536,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	isampler1DArray
+	*	Image<Int, 1D, Array>
 	*@param P
 	*	vec2i
 	*@param data
@@ -1547,7 +1547,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	isampler2DArray
+	*	Image<Int, 2D, Array>
 	*@param P
 	*	vec3i
 	*@param data
@@ -1558,7 +1558,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	isamplerCubeArray
+	*	Image<Int, Cube, Array>
 	*@param P
 	*	vec3i
 	*@param data
@@ -1569,7 +1569,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	isampler2DMS
+	*	Image<Int, 2D, MS>
 	*@param P
 	*	vec2i
 	*@param sample
@@ -1582,7 +1582,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	isampler2DMSArray
+	*	Image<Int, 2D, MS, Array>
 	*@param P
 	*	vec3i
 	*@param sample
@@ -1595,7 +1595,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	usampler1D
+	*	Image<UInt, 1D>
 	*@param P
 	*	int
 	*@param data
@@ -1606,7 +1606,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	usampler2D
+	*	Image<UInt, 2D>
 	*@param P
 	*	vec2i
 	*@param data
@@ -1617,7 +1617,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	usampler3D
+	*	Image<UInt, 3D>
 	*@param P
 	*	vec3i
 	*@param data
@@ -1628,7 +1628,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	usampler2DRect
+	*	Image<UInt, Rect>
 	*@param P
 	*	vec2i
 	*@param data
@@ -1639,7 +1639,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	usamplerCube
+	*	Image<UInt, Cube>
 	*@param P
 	*	vec3i
 	*@param data
@@ -1650,7 +1650,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	usamplerBuffer
+	*	Image<UInt, Buffer>
 	*@param P
 	*	int
 	*@param data
@@ -1661,7 +1661,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	usampler1DArray
+	*	Image<UInt, 1D, Array>
 	*@param P
 	*	vec2i
 	*@param data
@@ -1672,7 +1672,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	usampler2DArray
+	*	Image<UInt, 2D, Array>
 	*@param P
 	*	vec3i
 	*@param data
@@ -1683,7 +1683,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	usamplerCubeArray
+	*	Image<UInt, Cube, Array>
 	*@param P
 	*	vec3i
 	*@param data
@@ -1694,7 +1694,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	usampler2DMS
+	*	Image<UInt, 2D, MS>
 	*@param P
 	*	vec2i
 	*@param sample
@@ -1707,7 +1707,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	usampler2DMSArray
+	*	Image<UInt, 2D, MS, Array>
 	*@param P
 	*	vec3i
 	*@param sample
@@ -1720,7 +1720,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	sampler1D
+	*	Image<Float, 1D>
 	*@param P
 	*	int
 	*@param data
@@ -1731,7 +1731,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	sampler2D
+	*	Image<Float, 2D>
 	*@param P
 	*	vec2i
 	*@param data
@@ -1742,7 +1742,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	sampler3D
+	*	Image<Float, 3D>
 	*@param P
 	*	vec3i
 	*@param data
@@ -1753,7 +1753,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	sampler2DRect
+	*	Image<Float, Rect>
 	*@param P
 	*	vec2i
 	*@param data
@@ -1764,7 +1764,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	samplerCube
+	*	Image<Float, Cube>
 	*@param P
 	*	vec3i
 	*@param data
@@ -1775,7 +1775,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	samplerBuffer
+	*	Image<Float, Buffer>
 	*@param P
 	*	int
 	*@param data
@@ -1786,7 +1786,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	sampler1DArray
+	*	Image<Float, 1D, Array>
 	*@param P
 	*	vec2i
 	*@param data
@@ -1797,7 +1797,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	sampler2DArray
+	*	Image<Float, 2D, Array>
 	*@param P
 	*	vec3i
 	*@param data
@@ -1808,7 +1808,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	samplerCubeArray
+	*	Image<Float, Cube, Array>
 	*@param P
 	*	vec3i
 	*@param data
@@ -1819,7 +1819,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	sampler2DMS
+	*	Image<Float, 2D, MS>
 	*@param P
 	*	vec2i
 	*@param sample
@@ -1832,7 +1832,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	sampler2DMSArray
+	*	Image<Float, 2D, MS, Array>
 	*@param P
 	*	vec3i
 	*@param sample
@@ -1845,7 +1845,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	isampler1D
+	*	Image<Int, 1D>
 	*@param P
 	*	int
 	*@param data
@@ -1856,7 +1856,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	isampler2D
+	*	Image<Int, 2D>
 	*@param P
 	*	vec2i
 	*@param data
@@ -1867,7 +1867,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	isampler3D
+	*	Image<Int, 3D>
 	*@param P
 	*	vec3i
 	*@param data
@@ -1878,7 +1878,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	isampler2DRect
+	*	Image<Int, Rect>
 	*@param P
 	*	vec2i
 	*@param data
@@ -1889,7 +1889,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	isamplerCube
+	*	Image<Int, Cube>
 	*@param P
 	*	vec3i
 	*@param data
@@ -1900,7 +1900,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	isamplerBuffer
+	*	Image<Int, Buffer>
 	*@param P
 	*	int
 	*@param data
@@ -1911,7 +1911,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	isampler1DArray
+	*	Image<Int, 1D, Array>
 	*@param P
 	*	vec2i
 	*@param data
@@ -1922,7 +1922,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	isampler2DArray
+	*	Image<Int, 2D, Array>
 	*@param P
 	*	vec3i
 	*@param data
@@ -1933,7 +1933,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	isamplerCubeArray
+	*	Image<Int, Cube, Array>
 	*@param P
 	*	vec3i
 	*@param data
@@ -1944,7 +1944,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	isampler2DMS
+	*	Image<Int, 2D, MS>
 	*@param P
 	*	vec2i
 	*@param sample
@@ -1957,7 +1957,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	isampler2DMSArray
+	*	Image<Int, 2D, MS, Array>
 	*@param P
 	*	vec3i
 	*@param sample
@@ -1970,7 +1970,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	usampler1D
+	*	Image<UInt, 1D>
 	*@param P
 	*	int
 	*@param data
@@ -1981,7 +1981,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	usampler2D
+	*	Image<UInt, 2D>
 	*@param P
 	*	vec2i
 	*@param data
@@ -1992,7 +1992,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	usampler3D
+	*	Image<UInt, 3D>
 	*@param P
 	*	vec3i
 	*@param data
@@ -2003,7 +2003,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	usampler2DRect
+	*	Image<UInt, Rect>
 	*@param P
 	*	vec2i
 	*@param data
@@ -2014,7 +2014,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	usamplerCube
+	*	Image<UInt, Cube>
 	*@param P
 	*	vec3i
 	*@param data
@@ -2025,7 +2025,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	usamplerBuffer
+	*	Image<UInt, Buffer>
 	*@param P
 	*	int
 	*@param data
@@ -2036,7 +2036,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	usampler1DArray
+	*	Image<UInt, 1D, Array>
 	*@param P
 	*	vec2i
 	*@param data
@@ -2047,7 +2047,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	usampler2DArray
+	*	Image<UInt, 2D, Array>
 	*@param P
 	*	vec3i
 	*@param data
@@ -2058,7 +2058,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	usamplerCubeArray
+	*	Image<UInt, Cube, Array>
 	*@param P
 	*	vec3i
 	*@param data
@@ -2069,7 +2069,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	usampler2DMS
+	*	Image<UInt, 2D, MS>
 	*@param P
 	*	vec2i
 	*@param sample
@@ -2082,7 +2082,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	usampler2DMSArray
+	*	Image<UInt, 2D, MS, Array>
 	*@param P
 	*	vec3i
 	*@param sample
@@ -2095,7 +2095,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	sampler1D
+	*	Image<Float, 1D>
 	*@param P
 	*	int
 	*@param data
@@ -2106,7 +2106,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	sampler2D
+	*	Image<Float, 2D>
 	*@param P
 	*	vec2i
 	*@param data
@@ -2117,7 +2117,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	sampler3D
+	*	Image<Float, 3D>
 	*@param P
 	*	vec3i
 	*@param data
@@ -2128,7 +2128,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	sampler2DRect
+	*	Image<Float, Rect>
 	*@param P
 	*	vec2i
 	*@param data
@@ -2139,7 +2139,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	samplerCube
+	*	Image<Float, Cube>
 	*@param P
 	*	vec3i
 	*@param data
@@ -2150,7 +2150,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	samplerBuffer
+	*	Image<Float, Buffer>
 	*@param P
 	*	int
 	*@param data
@@ -2161,7 +2161,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	sampler1DArray
+	*	Image<Float, 1D, Array>
 	*@param P
 	*	vec2i
 	*@param data
@@ -2172,7 +2172,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	sampler2DArray
+	*	Image<Float, 2D, Array>
 	*@param P
 	*	vec3i
 	*@param data
@@ -2183,7 +2183,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	samplerCubeArray
+	*	Image<Float, Cube, Array>
 	*@param P
 	*	vec3i
 	*@param data
@@ -2194,7 +2194,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	sampler2DMS
+	*	Image<Float, 2D, MS>
 	*@param P
 	*	vec2i
 	*@param sample
@@ -2207,7 +2207,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	sampler2DMSArray
+	*	Image<Float, 2D, MS, Array>
 	*@param P
 	*	vec3i
 	*@param sample
@@ -2220,7 +2220,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	isampler1D
+	*	Image<Int, 1D>
 	*@param P
 	*	int
 	*@param data
@@ -2231,7 +2231,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	isampler2D
+	*	Image<Int, 2D>
 	*@param P
 	*	vec2i
 	*@param data
@@ -2242,7 +2242,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	isampler3D
+	*	Image<Int, 3D>
 	*@param P
 	*	vec3i
 	*@param data
@@ -2253,7 +2253,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	isampler2DRect
+	*	Image<Int, Rect>
 	*@param P
 	*	vec2i
 	*@param data
@@ -2264,7 +2264,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	isamplerCube
+	*	Image<Int, Cube>
 	*@param P
 	*	vec3i
 	*@param data
@@ -2275,7 +2275,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	isamplerBuffer
+	*	Image<Int, Buffer>
 	*@param P
 	*	int
 	*@param data
@@ -2286,7 +2286,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	isampler1DArray
+	*	Image<Int, 1D, Array>
 	*@param P
 	*	vec2i
 	*@param data
@@ -2297,7 +2297,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	isampler2DArray
+	*	Image<Int, 2D, Array>
 	*@param P
 	*	vec3i
 	*@param data
@@ -2308,7 +2308,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	isamplerCubeArray
+	*	Image<Int, Cube, Array>
 	*@param P
 	*	vec3i
 	*@param data
@@ -2319,7 +2319,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	isampler2DMS
+	*	Image<Int, 2D, MS>
 	*@param P
 	*	vec2i
 	*@param sample
@@ -2332,7 +2332,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	isampler2DMSArray
+	*	Image<Int, 2D, MS, Array>
 	*@param P
 	*	vec3i
 	*@param sample
@@ -2345,7 +2345,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	usampler1D
+	*	Image<UInt, 1D>
 	*@param P
 	*	int
 	*@param data
@@ -2356,7 +2356,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	usampler2D
+	*	Image<UInt, 2D>
 	*@param P
 	*	vec2i
 	*@param data
@@ -2367,7 +2367,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	usampler3D
+	*	Image<UInt, 3D>
 	*@param P
 	*	vec3i
 	*@param data
@@ -2378,7 +2378,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	usampler2DRect
+	*	Image<UInt, Rect>
 	*@param P
 	*	vec2i
 	*@param data
@@ -2389,7 +2389,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	usamplerCube
+	*	Image<UInt, Cube>
 	*@param P
 	*	vec3i
 	*@param data
@@ -2400,7 +2400,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	usamplerBuffer
+	*	Image<UInt, Buffer>
 	*@param P
 	*	int
 	*@param data
@@ -2411,7 +2411,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	usampler1DArray
+	*	Image<UInt, 1D, Array>
 	*@param P
 	*	vec2i
 	*@param data
@@ -2422,7 +2422,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	usampler2DArray
+	*	Image<UInt, 2D, Array>
 	*@param P
 	*	vec3i
 	*@param data
@@ -2433,7 +2433,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	usamplerCubeArray
+	*	Image<UInt, Cube, Array>
 	*@param P
 	*	vec3i
 	*@param data
@@ -2444,7 +2444,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	usampler2DMS
+	*	Image<UInt, 2D, MS>
 	*@param P
 	*	vec2i
 	*@param sample
@@ -2457,7 +2457,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	usampler2DMSArray
+	*	Image<UInt, 2D, MS, Array>
 	*@param P
 	*	vec3i
 	*@param sample
@@ -2470,7 +2470,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	sampler1D
+	*	Image<Float, 1D>
 	*@param P
 	*	int
 	*@param data
@@ -2481,7 +2481,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	sampler2D
+	*	Image<Float, 2D>
 	*@param P
 	*	vec2i
 	*@param data
@@ -2492,7 +2492,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	sampler3D
+	*	Image<Float, 3D>
 	*@param P
 	*	vec3i
 	*@param data
@@ -2503,7 +2503,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	sampler2DRect
+	*	Image<Float, Rect>
 	*@param P
 	*	vec2i
 	*@param data
@@ -2514,7 +2514,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	samplerCube
+	*	Image<Float, Cube>
 	*@param P
 	*	vec3i
 	*@param data
@@ -2525,7 +2525,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	samplerBuffer
+	*	Image<Float, Buffer>
 	*@param P
 	*	int
 	*@param data
@@ -2536,7 +2536,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	sampler1DArray
+	*	Image<Float, 1D, Array>
 	*@param P
 	*	vec2i
 	*@param data
@@ -2547,7 +2547,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	sampler2DArray
+	*	Image<Float, 2D, Array>
 	*@param P
 	*	vec3i
 	*@param data
@@ -2558,7 +2558,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	samplerCubeArray
+	*	Image<Float, Cube, Array>
 	*@param P
 	*	vec3i
 	*@param data
@@ -2569,7 +2569,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	sampler2DMS
+	*	Image<Float, 2D, MS>
 	*@param P
 	*	vec2i
 	*@param sample
@@ -2582,7 +2582,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	sampler2DMSArray
+	*	Image<Float, 2D, MS, Array>
 	*@param P
 	*	vec3i
 	*@param sample
@@ -2595,7 +2595,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	isampler1D
+	*	Image<Int, 1D>
 	*@param P
 	*	int
 	*@param data
@@ -2606,7 +2606,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	isampler2D
+	*	Image<Int, 2D>
 	*@param P
 	*	vec2i
 	*@param data
@@ -2617,7 +2617,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	isampler3D
+	*	Image<Int, 3D>
 	*@param P
 	*	vec3i
 	*@param data
@@ -2628,7 +2628,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	isampler2DRect
+	*	Image<Int, Rect>
 	*@param P
 	*	vec2i
 	*@param data
@@ -2639,7 +2639,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	isamplerCube
+	*	Image<Int, Cube>
 	*@param P
 	*	vec3i
 	*@param data
@@ -2650,7 +2650,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	isamplerBuffer
+	*	Image<Int, Buffer>
 	*@param P
 	*	int
 	*@param data
@@ -2661,7 +2661,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	isampler1DArray
+	*	Image<Int, 1D, Array>
 	*@param P
 	*	vec2i
 	*@param data
@@ -2672,7 +2672,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	isampler2DArray
+	*	Image<Int, 2D, Array>
 	*@param P
 	*	vec3i
 	*@param data
@@ -2683,7 +2683,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	isamplerCubeArray
+	*	Image<Int, Cube, Array>
 	*@param P
 	*	vec3i
 	*@param data
@@ -2694,7 +2694,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	isampler2DMS
+	*	Image<Int, 2D, MS>
 	*@param P
 	*	vec2i
 	*@param sample
@@ -2707,7 +2707,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	isampler2DMSArray
+	*	Image<Int, 2D, MS, Array>
 	*@param P
 	*	vec3i
 	*@param sample
@@ -2720,7 +2720,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	usampler1D
+	*	Image<UInt, 1D>
 	*@param P
 	*	int
 	*@param data
@@ -2731,7 +2731,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	usampler2D
+	*	Image<UInt, 2D>
 	*@param P
 	*	vec2i
 	*@param data
@@ -2742,7 +2742,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	usampler3D
+	*	Image<UInt, 3D>
 	*@param P
 	*	vec3i
 	*@param data
@@ -2753,7 +2753,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	usampler2DRect
+	*	Image<UInt, Rect>
 	*@param P
 	*	vec2i
 	*@param data
@@ -2764,7 +2764,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	usamplerCube
+	*	Image<UInt, Cube>
 	*@param P
 	*	vec3i
 	*@param data
@@ -2775,7 +2775,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	usamplerBuffer
+	*	Image<UInt, Buffer>
 	*@param P
 	*	int
 	*@param data
@@ -2786,7 +2786,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	usampler1DArray
+	*	Image<UInt, 1D, Array>
 	*@param P
 	*	vec2i
 	*@param data
@@ -2797,7 +2797,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	usampler2DArray
+	*	Image<UInt, 2D, Array>
 	*@param P
 	*	vec3i
 	*@param data
@@ -2808,7 +2808,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	usamplerCubeArray
+	*	Image<UInt, Cube, Array>
 	*@param P
 	*	vec3i
 	*@param data
@@ -2819,7 +2819,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	usampler2DMS
+	*	Image<UInt, 2D, MS>
 	*@param P
 	*	vec2i
 	*@param sample
@@ -2832,7 +2832,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	usampler2DMSArray
+	*	Image<UInt, 2D, MS, Array>
 	*@param P
 	*	vec3i
 	*@param sample
@@ -2845,7 +2845,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	sampler1D
+	*	Image<Float, 1D>
 	*@param P
 	*	int
 	*@param data
@@ -2856,7 +2856,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	sampler2D
+	*	Image<Float, 2D>
 	*@param P
 	*	vec2i
 	*@param data
@@ -2867,7 +2867,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	sampler3D
+	*	Image<Float, 3D>
 	*@param P
 	*	vec3i
 	*@param data
@@ -2878,7 +2878,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	sampler2DRect
+	*	Image<Float, Rect>
 	*@param P
 	*	vec2i
 	*@param data
@@ -2889,7 +2889,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	samplerCube
+	*	Image<Float, Cube>
 	*@param P
 	*	vec3i
 	*@param data
@@ -2900,7 +2900,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	samplerBuffer
+	*	Image<Float, Buffer>
 	*@param P
 	*	int
 	*@param data
@@ -2911,7 +2911,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	sampler1DArray
+	*	Image<Float, 1D, Array>
 	*@param P
 	*	vec2i
 	*@param data
@@ -2922,7 +2922,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	sampler2DArray
+	*	Image<Float, 2D, Array>
 	*@param P
 	*	vec3i
 	*@param data
@@ -2933,7 +2933,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	samplerCubeArray
+	*	Image<Float, Cube, Array>
 	*@param P
 	*	vec3i
 	*@param data
@@ -2944,7 +2944,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	sampler2DMS
+	*	Image<Float, 2D, MS>
 	*@param P
 	*	vec2i
 	*@param sample
@@ -2957,7 +2957,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	sampler2DMSArray
+	*	Image<Float, 2D, MS, Array>
 	*@param P
 	*	vec3i
 	*@param sample
@@ -2970,7 +2970,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	isampler1D
+	*	Image<Int, 1D>
 	*@param P
 	*	int
 	*@param data
@@ -2981,7 +2981,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	isampler2D
+	*	Image<Int, 2D>
 	*@param P
 	*	vec2i
 	*@param data
@@ -2992,7 +2992,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	isampler3D
+	*	Image<Int, 3D>
 	*@param P
 	*	vec3i
 	*@param data
@@ -3003,7 +3003,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	isampler2DRect
+	*	Image<Int, Rect>
 	*@param P
 	*	vec2i
 	*@param data
@@ -3014,7 +3014,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	isamplerCube
+	*	Image<Int, Cube>
 	*@param P
 	*	vec3i
 	*@param data
@@ -3025,7 +3025,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	isamplerBuffer
+	*	Image<Int, Buffer>
 	*@param P
 	*	int
 	*@param data
@@ -3036,7 +3036,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	isampler1DArray
+	*	Image<Int, 1D, Array>
 	*@param P
 	*	vec2i
 	*@param data
@@ -3047,7 +3047,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	isampler2DArray
+	*	Image<Int, 2D, Array>
 	*@param P
 	*	vec3i
 	*@param data
@@ -3058,7 +3058,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	isamplerCubeArray
+	*	Image<Int, Cube, Array>
 	*@param P
 	*	vec3i
 	*@param data
@@ -3069,7 +3069,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	isampler2DMS
+	*	Image<Int, 2D, MS>
 	*@param P
 	*	vec2i
 	*@param sample
@@ -3082,7 +3082,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	isampler2DMSArray
+	*	Image<Int, 2D, MS, Array>
 	*@param P
 	*	vec3i
 	*@param sample
@@ -3095,7 +3095,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	usampler1D
+	*	Image<UInt, 1D>
 	*@param P
 	*	int
 	*@param data
@@ -3106,7 +3106,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	usampler2D
+	*	Image<UInt, 2D>
 	*@param P
 	*	vec2i
 	*@param data
@@ -3117,7 +3117,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	usampler3D
+	*	Image<UInt, 3D>
 	*@param P
 	*	vec3i
 	*@param data
@@ -3128,7 +3128,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	usampler2DRect
+	*	Image<UInt, Rect>
 	*@param P
 	*	vec2i
 	*@param data
@@ -3139,7 +3139,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	usamplerCube
+	*	Image<UInt, Cube>
 	*@param P
 	*	vec3i
 	*@param data
@@ -3150,7 +3150,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	usamplerBuffer
+	*	Image<UInt, Buffer>
 	*@param P
 	*	int
 	*@param data
@@ -3161,7 +3161,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	usampler1DArray
+	*	Image<UInt, 1D, Array>
 	*@param P
 	*	vec2i
 	*@param data
@@ -3172,7 +3172,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	usampler2DArray
+	*	Image<UInt, 2D, Array>
 	*@param P
 	*	vec3i
 	*@param data
@@ -3183,7 +3183,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	usamplerCubeArray
+	*	Image<UInt, Cube, Array>
 	*@param P
 	*	vec3i
 	*@param data
@@ -3194,7 +3194,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	usampler2DMS
+	*	Image<UInt, 2D, MS>
 	*@param P
 	*	vec2i
 	*@param sample
@@ -3207,7 +3207,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	usampler2DMSArray
+	*	Image<UInt, 2D, MS, Array>
 	*@param P
 	*	vec3i
 	*@param sample
@@ -3220,7 +3220,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	sampler1D
+	*	Image<Float, 1D>
 	*@param P
 	*	int
 	*@param data
@@ -3231,7 +3231,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	sampler2D
+	*	Image<Float, 2D>
 	*@param P
 	*	vec2i
 	*@param data
@@ -3242,7 +3242,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	sampler3D
+	*	Image<Float, 3D>
 	*@param P
 	*	vec3i
 	*@param data
@@ -3253,7 +3253,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	sampler2DRect
+	*	Image<Float, Rect>
 	*@param P
 	*	vec2i
 	*@param data
@@ -3264,7 +3264,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	samplerCube
+	*	Image<Float, Cube>
 	*@param P
 	*	vec3i
 	*@param data
@@ -3275,7 +3275,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	samplerBuffer
+	*	Image<Float, Buffer>
 	*@param P
 	*	int
 	*@param data
@@ -3286,7 +3286,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	sampler1DArray
+	*	Image<Float, 1D, Array>
 	*@param P
 	*	vec2i
 	*@param data
@@ -3297,7 +3297,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	sampler2DArray
+	*	Image<Float, 2D, Array>
 	*@param P
 	*	vec3i
 	*@param data
@@ -3308,7 +3308,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	samplerCubeArray
+	*	Image<Float, Cube, Array>
 	*@param P
 	*	vec3i
 	*@param data
@@ -3319,7 +3319,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	sampler2DMS
+	*	Image<Float, 2D, MS>
 	*@param P
 	*	vec2i
 	*@param sample
@@ -3332,7 +3332,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	sampler2DMSArray
+	*	Image<Float, 2D, MS, Array>
 	*@param P
 	*	vec3i
 	*@param sample
@@ -3345,7 +3345,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	isampler1D
+	*	Image<Int, 1D>
 	*@param P
 	*	int
 	*@param data
@@ -3356,7 +3356,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	isampler2D
+	*	Image<Int, 2D>
 	*@param P
 	*	vec2i
 	*@param data
@@ -3367,7 +3367,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	isampler3D
+	*	Image<Int, 3D>
 	*@param P
 	*	vec3i
 	*@param data
@@ -3378,7 +3378,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	isampler2DRect
+	*	Image<Int, Rect>
 	*@param P
 	*	vec2i
 	*@param data
@@ -3389,7 +3389,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	isamplerCube
+	*	Image<Int, Cube>
 	*@param P
 	*	vec3i
 	*@param data
@@ -3400,7 +3400,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	isamplerBuffer
+	*	Image<Int, Buffer>
 	*@param P
 	*	int
 	*@param data
@@ -3411,7 +3411,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	isampler1DArray
+	*	Image<Int, 1D, Array>
 	*@param P
 	*	vec2i
 	*@param data
@@ -3422,7 +3422,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	isampler2DArray
+	*	Image<Int, 2D, Array>
 	*@param P
 	*	vec3i
 	*@param data
@@ -3433,7 +3433,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	isamplerCubeArray
+	*	Image<Int, Cube, Array>
 	*@param P
 	*	vec3i
 	*@param data
@@ -3444,7 +3444,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	isampler2DMS
+	*	Image<Int, 2D, MS>
 	*@param P
 	*	vec2i
 	*@param sample
@@ -3457,7 +3457,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	isampler2DMSArray
+	*	Image<Int, 2D, MS, Array>
 	*@param P
 	*	vec3i
 	*@param sample
@@ -3470,7 +3470,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	usampler1D
+	*	Image<UInt, 1D>
 	*@param P
 	*	int
 	*@param data
@@ -3481,7 +3481,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	usampler2D
+	*	Image<UInt, 2D>
 	*@param P
 	*	vec2i
 	*@param data
@@ -3492,7 +3492,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	usampler3D
+	*	Image<UInt, 3D>
 	*@param P
 	*	vec3i
 	*@param data
@@ -3503,7 +3503,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	usampler2DRect
+	*	Image<UInt, Rect>
 	*@param P
 	*	vec2i
 	*@param data
@@ -3514,7 +3514,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	usamplerCube
+	*	Image<UInt, Cube>
 	*@param P
 	*	vec3i
 	*@param data
@@ -3525,7 +3525,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	usamplerBuffer
+	*	Image<UInt, Buffer>
 	*@param P
 	*	int
 	*@param data
@@ -3536,7 +3536,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	usampler1DArray
+	*	Image<UInt, 1D, Array>
 	*@param P
 	*	vec2i
 	*@param data
@@ -3547,7 +3547,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	usampler2DArray
+	*	Image<UInt, 2D, Array>
 	*@param P
 	*	vec3i
 	*@param data
@@ -3558,7 +3558,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	usamplerCubeArray
+	*	Image<UInt, Cube, Array>
 	*@param P
 	*	vec3i
 	*@param data
@@ -3569,7 +3569,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	usampler2DMS
+	*	Image<UInt, 2D, MS>
 	*@param P
 	*	vec2i
 	*@param sample
@@ -3582,7 +3582,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	usampler2DMSArray
+	*	Image<UInt, 2D, MS, Array>
 	*@param P
 	*	vec3i
 	*@param sample
@@ -3595,7 +3595,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	sampler1D
+	*	Image<Float, 1D>
 	*@param P
 	*	int
 	*@param data
@@ -3606,7 +3606,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	sampler2D
+	*	Image<Float, 2D>
 	*@param P
 	*	vec2i
 	*@param data
@@ -3617,7 +3617,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	sampler3D
+	*	Image<Float, 3D>
 	*@param P
 	*	vec3i
 	*@param data
@@ -3628,7 +3628,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	sampler2DRect
+	*	Image<Float, Rect>
 	*@param P
 	*	vec2i
 	*@param data
@@ -3639,7 +3639,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	samplerCube
+	*	Image<Float, Cube>
 	*@param P
 	*	vec3i
 	*@param data
@@ -3650,7 +3650,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	samplerBuffer
+	*	Image<Float, Buffer>
 	*@param P
 	*	int
 	*@param data
@@ -3661,7 +3661,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	sampler1DArray
+	*	Image<Float, 1D, Array>
 	*@param P
 	*	vec2i
 	*@param data
@@ -3672,7 +3672,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	sampler2DArray
+	*	Image<Float, 2D, Array>
 	*@param P
 	*	vec3i
 	*@param data
@@ -3683,7 +3683,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	samplerCubeArray
+	*	Image<Float, Cube, Array>
 	*@param P
 	*	vec3i
 	*@param data
@@ -3694,7 +3694,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	sampler2DMS
+	*	Image<Float, 2D, MS>
 	*@param P
 	*	vec2i
 	*@param sample
@@ -3707,7 +3707,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	sampler2DMSArray
+	*	Image<Float, 2D, MS, Array>
 	*@param P
 	*	vec3i
 	*@param sample
@@ -3720,7 +3720,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	isampler1D
+	*	Image<Int, 1D>
 	*@param P
 	*	int
 	*@param data
@@ -3731,7 +3731,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	isampler2D
+	*	Image<Int, 2D>
 	*@param P
 	*	vec2i
 	*@param data
@@ -3742,7 +3742,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	isampler3D
+	*	Image<Int, 3D>
 	*@param P
 	*	vec3i
 	*@param data
@@ -3753,7 +3753,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	isampler2DRect
+	*	Image<Int, Rect>
 	*@param P
 	*	vec2i
 	*@param data
@@ -3764,7 +3764,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	isamplerCube
+	*	Image<Int, Cube>
 	*@param P
 	*	vec3i
 	*@param data
@@ -3775,7 +3775,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	isamplerBuffer
+	*	Image<Int, Buffer>
 	*@param P
 	*	int
 	*@param data
@@ -3786,7 +3786,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	isampler1DArray
+	*	Image<Int, 1D, Array>
 	*@param P
 	*	vec2i
 	*@param data
@@ -3797,7 +3797,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	isampler2DArray
+	*	Image<Int, 2D, Array>
 	*@param P
 	*	vec3i
 	*@param data
@@ -3808,7 +3808,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	isamplerCubeArray
+	*	Image<Int, Cube, Array>
 	*@param P
 	*	vec3i
 	*@param data
@@ -3819,7 +3819,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	isampler2DMS
+	*	Image<Int, 2D, MS>
 	*@param P
 	*	vec2i
 	*@param sample
@@ -3832,7 +3832,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	isampler2DMSArray
+	*	Image<Int, 2D, MS, Array>
 	*@param P
 	*	vec3i
 	*@param sample
@@ -3845,7 +3845,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	usampler1D
+	*	Image<UInt, 1D>
 	*@param P
 	*	int
 	*@param data
@@ -3856,7 +3856,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	usampler2D
+	*	Image<UInt, 2D>
 	*@param P
 	*	vec2i
 	*@param data
@@ -3867,7 +3867,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	usampler3D
+	*	Image<UInt, 3D>
 	*@param P
 	*	vec3i
 	*@param data
@@ -3878,7 +3878,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	usampler2DRect
+	*	Image<UInt, Rect>
 	*@param P
 	*	vec2i
 	*@param data
@@ -3889,7 +3889,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	usamplerCube
+	*	Image<UInt, Cube>
 	*@param P
 	*	vec3i
 	*@param data
@@ -3900,7 +3900,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	usamplerBuffer
+	*	Image<UInt, Buffer>
 	*@param P
 	*	int
 	*@param data
@@ -3911,7 +3911,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	usampler1DArray
+	*	Image<UInt, 1D, Array>
 	*@param P
 	*	vec2i
 	*@param data
@@ -3922,7 +3922,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	usampler2DArray
+	*	Image<UInt, 2D, Array>
 	*@param P
 	*	vec3i
 	*@param data
@@ -3933,7 +3933,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	usamplerCubeArray
+	*	Image<UInt, Cube, Array>
 	*@param P
 	*	vec3i
 	*@param data
@@ -3944,7 +3944,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	usampler2DMS
+	*	Image<UInt, 2D, MS>
 	*@param P
 	*	vec2i
 	*@param sample
@@ -3957,7 +3957,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	usampler2DMSArray
+	*	Image<UInt, 2D, MS, Array>
 	*@param P
 	*	vec3i
 	*@param sample
@@ -3970,7 +3970,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	sampler1D
+	*	Image<Float, 1D>
 	*@param P
 	*	int
 	*@param data
@@ -3981,7 +3981,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	sampler2D
+	*	Image<Float, 2D>
 	*@param P
 	*	vec2i
 	*@param data
@@ -3992,7 +3992,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	sampler3D
+	*	Image<Float, 3D>
 	*@param P
 	*	vec3i
 	*@param data
@@ -4003,7 +4003,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	sampler2DRect
+	*	Image<Float, Rect>
 	*@param P
 	*	vec2i
 	*@param data
@@ -4014,7 +4014,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	samplerCube
+	*	Image<Float, Cube>
 	*@param P
 	*	vec3i
 	*@param data
@@ -4025,7 +4025,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	samplerBuffer
+	*	Image<Float, Buffer>
 	*@param P
 	*	int
 	*@param data
@@ -4036,7 +4036,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	sampler1DArray
+	*	Image<Float, 1D, Array>
 	*@param P
 	*	vec2i
 	*@param data
@@ -4047,7 +4047,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	sampler2DArray
+	*	Image<Float, 2D, Array>
 	*@param P
 	*	vec3i
 	*@param data
@@ -4058,7 +4058,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	samplerCubeArray
+	*	Image<Float, Cube, Array>
 	*@param P
 	*	vec3i
 	*@param data
@@ -4069,7 +4069,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	sampler2DMS
+	*	Image<Float, 2D, MS>
 	*@param P
 	*	vec2i
 	*@param sample
@@ -4082,7 +4082,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	sampler2DMSArray
+	*	Image<Float, 2D, MS, Array>
 	*@param P
 	*	vec3i
 	*@param sample
@@ -4095,7 +4095,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	isampler1D
+	*	Image<Int, 1D>
 	*@param P
 	*	int
 	*@param data
@@ -4106,7 +4106,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	isampler2D
+	*	Image<Int, 2D>
 	*@param P
 	*	vec2i
 	*@param data
@@ -4117,7 +4117,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	isampler3D
+	*	Image<Int, 3D>
 	*@param P
 	*	vec3i
 	*@param data
@@ -4128,7 +4128,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	isampler2DRect
+	*	Image<Int, Rect>
 	*@param P
 	*	vec2i
 	*@param data
@@ -4139,7 +4139,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	isamplerCube
+	*	Image<Int, Cube>
 	*@param P
 	*	vec3i
 	*@param data
@@ -4150,7 +4150,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	isamplerBuffer
+	*	Image<Int, Buffer>
 	*@param P
 	*	int
 	*@param data
@@ -4161,7 +4161,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	isampler1DArray
+	*	Image<Int, 1D, Array>
 	*@param P
 	*	vec2i
 	*@param data
@@ -4172,7 +4172,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	isampler2DArray
+	*	Image<Int, 2D, Array>
 	*@param P
 	*	vec3i
 	*@param data
@@ -4183,7 +4183,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	isamplerCubeArray
+	*	Image<Int, Cube, Array>
 	*@param P
 	*	vec3i
 	*@param data
@@ -4194,7 +4194,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	isampler2DMS
+	*	Image<Int, 2D, MS>
 	*@param P
 	*	vec2i
 	*@param sample
@@ -4207,7 +4207,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	isampler2DMSArray
+	*	Image<Int, 2D, MS, Array>
 	*@param P
 	*	vec3i
 	*@param sample
@@ -4220,7 +4220,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	usampler1D
+	*	Image<UInt, 1D>
 	*@param P
 	*	int
 	*@param data
@@ -4231,7 +4231,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	usampler2D
+	*	Image<UInt, 2D>
 	*@param P
 	*	vec2i
 	*@param data
@@ -4242,7 +4242,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	usampler3D
+	*	Image<UInt, 3D>
 	*@param P
 	*	vec3i
 	*@param data
@@ -4253,7 +4253,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	usampler2DRect
+	*	Image<UInt, Rect>
 	*@param P
 	*	vec2i
 	*@param data
@@ -4264,7 +4264,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	usamplerCube
+	*	Image<UInt, Cube>
 	*@param P
 	*	vec3i
 	*@param data
@@ -4275,7 +4275,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	usamplerBuffer
+	*	Image<UInt, Buffer>
 	*@param P
 	*	int
 	*@param data
@@ -4286,7 +4286,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	usampler1DArray
+	*	Image<UInt, 1D, Array>
 	*@param P
 	*	vec2i
 	*@param data
@@ -4297,7 +4297,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	usampler2DArray
+	*	Image<UInt, 2D, Array>
 	*@param P
 	*	vec3i
 	*@param data
@@ -4308,7 +4308,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	usamplerCubeArray
+	*	Image<UInt, Cube, Array>
 	*@param P
 	*	vec3i
 	*@param data
@@ -4319,7 +4319,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	usampler2DMS
+	*	Image<UInt, 2D, MS>
 	*@param P
 	*	vec2i
 	*@param sample
@@ -4332,7 +4332,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	usampler2DMSArray
+	*	Image<UInt, 2D, MS, Array>
 	*@param P
 	*	vec3i
 	*@param sample
@@ -4345,7 +4345,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	sampler1D
+	*	Image<Float, 1D>
 	*@param P
 	*	int
 	*@param data
@@ -4356,7 +4356,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	sampler2D
+	*	Image<Float, 2D>
 	*@param P
 	*	vec2i
 	*@param data
@@ -4367,7 +4367,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	sampler3D
+	*	Image<Float, 3D>
 	*@param P
 	*	vec3i
 	*@param data
@@ -4378,7 +4378,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	sampler2DRect
+	*	Image<Float, Rect>
 	*@param P
 	*	vec2i
 	*@param data
@@ -4389,7 +4389,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	samplerCube
+	*	Image<Float, Cube>
 	*@param P
 	*	vec3i
 	*@param data
@@ -4400,7 +4400,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	samplerBuffer
+	*	Image<Float, Buffer>
 	*@param P
 	*	int
 	*@param data
@@ -4411,7 +4411,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	sampler1DArray
+	*	Image<Float, 1D, Array>
 	*@param P
 	*	vec2i
 	*@param data
@@ -4422,7 +4422,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	sampler2DArray
+	*	Image<Float, 2D, Array>
 	*@param P
 	*	vec3i
 	*@param data
@@ -4433,7 +4433,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	samplerCubeArray
+	*	Image<Float, Cube, Array>
 	*@param P
 	*	vec3i
 	*@param data
@@ -4444,7 +4444,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	sampler2DMS
+	*	Image<Float, 2D, MS>
 	*@param P
 	*	vec2i
 	*@param sample
@@ -4457,7 +4457,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	sampler2DMSArray
+	*	Image<Float, 2D, MS, Array>
 	*@param P
 	*	vec3i
 	*@param sample
@@ -4470,7 +4470,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	isampler1D
+	*	Image<Int, 1D>
 	*@param P
 	*	int
 	*@param data
@@ -4481,7 +4481,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	isampler2D
+	*	Image<Int, 2D>
 	*@param P
 	*	vec2i
 	*@param data
@@ -4492,7 +4492,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	isampler3D
+	*	Image<Int, 3D>
 	*@param P
 	*	vec3i
 	*@param data
@@ -4503,7 +4503,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	isampler2DRect
+	*	Image<Int, Rect>
 	*@param P
 	*	vec2i
 	*@param data
@@ -4514,7 +4514,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	isamplerCube
+	*	Image<Int, Cube>
 	*@param P
 	*	vec3i
 	*@param data
@@ -4525,7 +4525,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	isamplerBuffer
+	*	Image<Int, Buffer>
 	*@param P
 	*	int
 	*@param data
@@ -4536,7 +4536,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	isampler1DArray
+	*	Image<Int, 1D, Array>
 	*@param P
 	*	vec2i
 	*@param data
@@ -4547,7 +4547,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	isampler2DArray
+	*	Image<Int, 2D, Array>
 	*@param P
 	*	vec3i
 	*@param data
@@ -4558,7 +4558,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	isamplerCubeArray
+	*	Image<Int, Cube, Array>
 	*@param P
 	*	vec3i
 	*@param data
@@ -4569,7 +4569,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	isampler2DMS
+	*	Image<Int, 2D, MS>
 	*@param P
 	*	vec2i
 	*@param sample
@@ -4582,7 +4582,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	isampler2DMSArray
+	*	Image<Int, 2D, MS, Array>
 	*@param P
 	*	vec3i
 	*@param sample
@@ -4595,7 +4595,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	usampler1D
+	*	Image<UInt, 1D>
 	*@param P
 	*	int
 	*@param data
@@ -4606,7 +4606,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	usampler2D
+	*	Image<UInt, 2D>
 	*@param P
 	*	vec2i
 	*@param data
@@ -4617,7 +4617,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	usampler3D
+	*	Image<UInt, 3D>
 	*@param P
 	*	vec3i
 	*@param data
@@ -4628,7 +4628,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	usampler2DRect
+	*	Image<UInt, Rect>
 	*@param P
 	*	vec2i
 	*@param data
@@ -4639,7 +4639,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	usamplerCube
+	*	Image<UInt, Cube>
 	*@param P
 	*	vec3i
 	*@param data
@@ -4650,7 +4650,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	usamplerBuffer
+	*	Image<UInt, Buffer>
 	*@param P
 	*	int
 	*@param data
@@ -4661,7 +4661,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	usampler1DArray
+	*	Image<UInt, 1D, Array>
 	*@param P
 	*	vec2i
 	*@param data
@@ -4672,7 +4672,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	usampler2DArray
+	*	Image<UInt, 2D, Array>
 	*@param P
 	*	vec3i
 	*@param data
@@ -4683,7 +4683,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	usamplerCubeArray
+	*	Image<UInt, Cube, Array>
 	*@param P
 	*	vec3i
 	*@param data
@@ -4694,7 +4694,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	usampler2DMS
+	*	Image<UInt, 2D, MS>
 	*@param P
 	*	vec2i
 	*@param sample
@@ -4707,7 +4707,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	usampler2DMSArray
+	*	Image<UInt, 2D, MS, Array>
 	*@param P
 	*	vec3i
 	*@param sample
@@ -4720,7 +4720,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	sampler1D
+	*	Image<Float, 1D>
 	*@param P
 	*	int
 	*@param data
@@ -4731,7 +4731,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	sampler2D
+	*	Image<Float, 2D>
 	*@param P
 	*	vec2i
 	*@param data
@@ -4742,7 +4742,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	sampler3D
+	*	Image<Float, 3D>
 	*@param P
 	*	vec3i
 	*@param data
@@ -4753,7 +4753,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	sampler2DRect
+	*	Image<Float, Rect>
 	*@param P
 	*	vec2i
 	*@param data
@@ -4764,7 +4764,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	samplerCube
+	*	Image<Float, Cube>
 	*@param P
 	*	vec3i
 	*@param data
@@ -4775,7 +4775,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	samplerBuffer
+	*	Image<Float, Buffer>
 	*@param P
 	*	int
 	*@param data
@@ -4786,7 +4786,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	sampler1DArray
+	*	Image<Float, 1D, Array>
 	*@param P
 	*	vec2i
 	*@param data
@@ -4797,7 +4797,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	sampler2DArray
+	*	Image<Float, 2D, Array>
 	*@param P
 	*	vec3i
 	*@param data
@@ -4808,7 +4808,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	samplerCubeArray
+	*	Image<Float, Cube, Array>
 	*@param P
 	*	vec3i
 	*@param data
@@ -4819,7 +4819,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	sampler2DMS
+	*	Image<Float, 2D, MS>
 	*@param P
 	*	vec2i
 	*@param sample
@@ -4832,7 +4832,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	sampler2DMSArray
+	*	Image<Float, 2D, MS, Array>
 	*@param P
 	*	vec3i
 	*@param sample
@@ -4845,7 +4845,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	isampler1D
+	*	Image<Int, 1D>
 	*@param P
 	*	int
 	*@param data
@@ -4856,7 +4856,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	isampler2D
+	*	Image<Int, 2D>
 	*@param P
 	*	vec2i
 	*@param data
@@ -4867,7 +4867,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	isampler3D
+	*	Image<Int, 3D>
 	*@param P
 	*	vec3i
 	*@param data
@@ -4878,7 +4878,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	isampler2DRect
+	*	Image<Int, Rect>
 	*@param P
 	*	vec2i
 	*@param data
@@ -4889,7 +4889,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	isamplerCube
+	*	Image<Int, Cube>
 	*@param P
 	*	vec3i
 	*@param data
@@ -4900,7 +4900,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	isamplerBuffer
+	*	Image<Int, Buffer>
 	*@param P
 	*	int
 	*@param data
@@ -4911,7 +4911,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	isampler1DArray
+	*	Image<Int, 1D, Array>
 	*@param P
 	*	vec2i
 	*@param data
@@ -4922,7 +4922,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	isampler2DArray
+	*	Image<Int, 2D, Array>
 	*@param P
 	*	vec3i
 	*@param data
@@ -4933,7 +4933,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	isamplerCubeArray
+	*	Image<Int, Cube, Array>
 	*@param P
 	*	vec3i
 	*@param data
@@ -4944,7 +4944,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	isampler2DMS
+	*	Image<Int, 2D, MS>
 	*@param P
 	*	vec2i
 	*@param sample
@@ -4957,7 +4957,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	isampler2DMSArray
+	*	Image<Int, 2D, MS, Array>
 	*@param P
 	*	vec3i
 	*@param sample
@@ -4970,7 +4970,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	usampler1D
+	*	Image<UInt, 1D>
 	*@param P
 	*	int
 	*@param data
@@ -4981,7 +4981,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	usampler2D
+	*	Image<UInt, 2D>
 	*@param P
 	*	vec2i
 	*@param data
@@ -4992,7 +4992,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	usampler3D
+	*	Image<UInt, 3D>
 	*@param P
 	*	vec3i
 	*@param data
@@ -5003,7 +5003,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	usampler2DRect
+	*	Image<UInt, Rect>
 	*@param P
 	*	vec2i
 	*@param data
@@ -5014,7 +5014,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	usamplerCube
+	*	Image<UInt, Cube>
 	*@param P
 	*	vec3i
 	*@param data
@@ -5025,7 +5025,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	usamplerBuffer
+	*	Image<UInt, Buffer>
 	*@param P
 	*	int
 	*@param data
@@ -5036,7 +5036,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	usampler1DArray
+	*	Image<UInt, 1D, Array>
 	*@param P
 	*	vec2i
 	*@param data
@@ -5047,7 +5047,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	usampler2DArray
+	*	Image<UInt, 2D, Array>
 	*@param P
 	*	vec3i
 	*@param data
@@ -5058,7 +5058,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	usamplerCubeArray
+	*	Image<UInt, Cube, Array>
 	*@param P
 	*	vec3i
 	*@param data
@@ -5069,7 +5069,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	usampler2DMS
+	*	Image<UInt, 2D, MS>
 	*@param P
 	*	vec2i
 	*@param sample
@@ -5082,7 +5082,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	usampler2DMSArray
+	*	Image<UInt, 2D, MS, Array>
 	*@param P
 	*	vec3i
 	*@param sample
@@ -5095,7 +5095,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	sampler1D
+	*	Image<Float, 1D>
 	*@param P
 	*	int
 	*@param data
@@ -5106,7 +5106,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	sampler2D
+	*	Image<Float, 2D>
 	*@param P
 	*	vec2i
 	*@param data
@@ -5117,7 +5117,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	sampler3D
+	*	Image<Float, 3D>
 	*@param P
 	*	vec3i
 	*@param data
@@ -5128,7 +5128,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	sampler2DRect
+	*	Image<Float, Rect>
 	*@param P
 	*	vec2i
 	*@param data
@@ -5139,7 +5139,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	samplerCube
+	*	Image<Float, Cube>
 	*@param P
 	*	vec3i
 	*@param data
@@ -5150,7 +5150,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	samplerBuffer
+	*	Image<Float, Buffer>
 	*@param P
 	*	int
 	*@param data
@@ -5161,7 +5161,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	sampler1DArray
+	*	Image<Float, 1D, Array>
 	*@param P
 	*	vec2i
 	*@param data
@@ -5172,7 +5172,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	sampler2DArray
+	*	Image<Float, 2D, Array>
 	*@param P
 	*	vec3i
 	*@param data
@@ -5183,7 +5183,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	samplerCubeArray
+	*	Image<Float, Cube, Array>
 	*@param P
 	*	vec3i
 	*@param data
@@ -5194,7 +5194,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	sampler2DMS
+	*	Image<Float, 2D, MS>
 	*@param P
 	*	vec2i
 	*@param sample
@@ -5207,7 +5207,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	sampler2DMSArray
+	*	Image<Float, 2D, MS, Array>
 	*@param P
 	*	vec3i
 	*@param sample
@@ -5220,7 +5220,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	isampler1D
+	*	Image<Int, 1D>
 	*@param P
 	*	int
 	*@param data
@@ -5231,7 +5231,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	isampler2D
+	*	Image<Int, 2D>
 	*@param P
 	*	vec2i
 	*@param data
@@ -5242,7 +5242,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	isampler3D
+	*	Image<Int, 3D>
 	*@param P
 	*	vec3i
 	*@param data
@@ -5253,7 +5253,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	isampler2DRect
+	*	Image<Int, Rect>
 	*@param P
 	*	vec2i
 	*@param data
@@ -5264,7 +5264,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	isamplerCube
+	*	Image<Int, Cube>
 	*@param P
 	*	vec3i
 	*@param data
@@ -5275,7 +5275,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	isamplerBuffer
+	*	Image<Int, Buffer>
 	*@param P
 	*	int
 	*@param data
@@ -5286,7 +5286,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	isampler1DArray
+	*	Image<Int, 1D, Array>
 	*@param P
 	*	vec2i
 	*@param data
@@ -5297,7 +5297,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	isampler2DArray
+	*	Image<Int, 2D, Array>
 	*@param P
 	*	vec3i
 	*@param data
@@ -5308,7 +5308,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	isamplerCubeArray
+	*	Image<Int, Cube, Array>
 	*@param P
 	*	vec3i
 	*@param data
@@ -5319,7 +5319,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	isampler2DMS
+	*	Image<Int, 2D, MS>
 	*@param P
 	*	vec2i
 	*@param sample
@@ -5332,7 +5332,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	isampler2DMSArray
+	*	Image<Int, 2D, MS, Array>
 	*@param P
 	*	vec3i
 	*@param sample
@@ -5345,7 +5345,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	usampler1D
+	*	Image<UInt, 1D>
 	*@param P
 	*	int
 	*@param data
@@ -5356,7 +5356,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	usampler2D
+	*	Image<UInt, 2D>
 	*@param P
 	*	vec2i
 	*@param data
@@ -5367,7 +5367,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	usampler3D
+	*	Image<UInt, 3D>
 	*@param P
 	*	vec3i
 	*@param data
@@ -5378,7 +5378,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	usampler2DRect
+	*	Image<UInt, Rect>
 	*@param P
 	*	vec2i
 	*@param data
@@ -5389,7 +5389,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	usamplerCube
+	*	Image<UInt, Cube>
 	*@param P
 	*	vec3i
 	*@param data
@@ -5400,7 +5400,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	usamplerBuffer
+	*	Image<UInt, Buffer>
 	*@param P
 	*	int
 	*@param data
@@ -5411,7 +5411,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	usampler1DArray
+	*	Image<UInt, 1D, Array>
 	*@param P
 	*	vec2i
 	*@param data
@@ -5422,7 +5422,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	usampler2DArray
+	*	Image<UInt, 2D, Array>
 	*@param P
 	*	vec3i
 	*@param data
@@ -5433,7 +5433,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	usamplerCubeArray
+	*	Image<UInt, Cube, Array>
 	*@param P
 	*	vec3i
 	*@param data
@@ -5444,7 +5444,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	usampler2DMS
+	*	Image<UInt, 2D, MS>
 	*@param P
 	*	vec2i
 	*@param sample
@@ -5457,7 +5457,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	usampler2DMSArray
+	*	Image<UInt, 2D, MS, Array>
 	*@param P
 	*	vec3i
 	*@param sample
@@ -5470,7 +5470,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	sampler1D
+	*	Image<Float, 1D>
 	*@param P
 	*	int
 	*@param data
@@ -5481,7 +5481,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	sampler2D
+	*	Image<Float, 2D>
 	*@param P
 	*	vec2i
 	*@param data
@@ -5492,7 +5492,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	sampler3D
+	*	Image<Float, 3D>
 	*@param P
 	*	vec3i
 	*@param data
@@ -5503,7 +5503,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	sampler2DRect
+	*	Image<Float, Rect>
 	*@param P
 	*	vec2i
 	*@param data
@@ -5514,7 +5514,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	samplerCube
+	*	Image<Float, Cube>
 	*@param P
 	*	vec3i
 	*@param data
@@ -5525,7 +5525,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	samplerBuffer
+	*	Image<Float, Buffer>
 	*@param P
 	*	int
 	*@param data
@@ -5536,7 +5536,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	sampler1DArray
+	*	Image<Float, 1D, Array>
 	*@param P
 	*	vec2i
 	*@param data
@@ -5547,7 +5547,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	sampler2DArray
+	*	Image<Float, 2D, Array>
 	*@param P
 	*	vec3i
 	*@param data
@@ -5558,7 +5558,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	samplerCubeArray
+	*	Image<Float, Cube, Array>
 	*@param P
 	*	vec3i
 	*@param data
@@ -5569,7 +5569,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	sampler2DMS
+	*	Image<Float, 2D, MS>
 	*@param P
 	*	vec2i
 	*@param sample
@@ -5582,7 +5582,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	sampler2DMSArray
+	*	Image<Float, 2D, MS, Array>
 	*@param P
 	*	vec3i
 	*@param sample
@@ -5595,7 +5595,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	isampler1D
+	*	Image<Int, 1D>
 	*@param P
 	*	int
 	*@param data
@@ -5606,7 +5606,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	isampler2D
+	*	Image<Int, 2D>
 	*@param P
 	*	vec2i
 	*@param data
@@ -5617,7 +5617,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	isampler3D
+	*	Image<Int, 3D>
 	*@param P
 	*	vec3i
 	*@param data
@@ -5628,7 +5628,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	isampler2DRect
+	*	Image<Int, Rect>
 	*@param P
 	*	vec2i
 	*@param data
@@ -5639,7 +5639,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	isamplerCube
+	*	Image<Int, Cube>
 	*@param P
 	*	vec3i
 	*@param data
@@ -5650,7 +5650,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	isamplerBuffer
+	*	Image<Int, Buffer>
 	*@param P
 	*	int
 	*@param data
@@ -5661,7 +5661,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	isampler1DArray
+	*	Image<Int, 1D, Array>
 	*@param P
 	*	vec2i
 	*@param data
@@ -5672,7 +5672,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	isampler2DArray
+	*	Image<Int, 2D, Array>
 	*@param P
 	*	vec3i
 	*@param data
@@ -5683,7 +5683,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	isamplerCubeArray
+	*	Image<Int, Cube, Array>
 	*@param P
 	*	vec3i
 	*@param data
@@ -5694,7 +5694,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	isampler2DMS
+	*	Image<Int, 2D, MS>
 	*@param P
 	*	vec2i
 	*@param sample
@@ -5707,7 +5707,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	isampler2DMSArray
+	*	Image<Int, 2D, MS, Array>
 	*@param P
 	*	vec3i
 	*@param sample
@@ -5720,7 +5720,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	usampler1D
+	*	Image<UInt, 1D>
 	*@param P
 	*	int
 	*@param data
@@ -5731,7 +5731,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	usampler2D
+	*	Image<UInt, 2D>
 	*@param P
 	*	vec2i
 	*@param data
@@ -5742,7 +5742,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	usampler3D
+	*	Image<UInt, 3D>
 	*@param P
 	*	vec3i
 	*@param data
@@ -5753,7 +5753,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	usampler2DRect
+	*	Image<UInt, Rect>
 	*@param P
 	*	vec2i
 	*@param data
@@ -5764,7 +5764,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	usamplerCube
+	*	Image<UInt, Cube>
 	*@param P
 	*	vec3i
 	*@param data
@@ -5775,7 +5775,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	usamplerBuffer
+	*	Image<UInt, Buffer>
 	*@param P
 	*	int
 	*@param data
@@ -5786,7 +5786,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	usampler1DArray
+	*	Image<UInt, 1D, Array>
 	*@param P
 	*	vec2i
 	*@param data
@@ -5797,7 +5797,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	usampler2DArray
+	*	Image<UInt, 2D, Array>
 	*@param P
 	*	vec3i
 	*@param data
@@ -5808,7 +5808,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	usamplerCubeArray
+	*	Image<UInt, Cube, Array>
 	*@param P
 	*	vec3i
 	*@param data
@@ -5819,7 +5819,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	usampler2DMS
+	*	Image<UInt, 2D, MS>
 	*@param P
 	*	vec2i
 	*@param sample
@@ -5832,7 +5832,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	usampler2DMSArray
+	*	Image<UInt, 2D, MS, Array>
 	*@param P
 	*	vec3i
 	*@param sample
@@ -5845,7 +5845,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	sampler1D
+	*	Image<Float, 1D>
 	*@param P
 	*	int
 	*@param compare
@@ -5858,7 +5858,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	sampler2D
+	*	Image<Float, 2D>
 	*@param P
 	*	vec2i
 	*@param compare
@@ -5871,7 +5871,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	sampler3D
+	*	Image<Float, 3D>
 	*@param P
 	*	vec3i
 	*@param compare
@@ -5884,7 +5884,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	sampler2DRect
+	*	Image<Float, Rect>
 	*@param P
 	*	vec2i
 	*@param compare
@@ -5897,7 +5897,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	samplerCube
+	*	Image<Float, Cube>
 	*@param P
 	*	vec3i
 	*@param compare
@@ -5910,7 +5910,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	samplerBuffer
+	*	Image<Float, Buffer>
 	*@param P
 	*	int
 	*@param compare
@@ -5923,7 +5923,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	sampler1DArray
+	*	Image<Float, 1D, Array>
 	*@param P
 	*	vec2i
 	*@param compare
@@ -5936,7 +5936,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	sampler2DArray
+	*	Image<Float, 2D, Array>
 	*@param P
 	*	vec3i
 	*@param compare
@@ -5949,7 +5949,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	samplerCubeArray
+	*	Image<Float, Cube, Array>
 	*@param P
 	*	vec3i
 	*@param compare
@@ -5962,7 +5962,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	sampler2DMS
+	*	Image<Float, 2D, MS>
 	*@param P
 	*	vec2i
 	*@param sample
@@ -5977,7 +5977,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	sampler2DMSArray
+	*	Image<Float, 2D, MS, Array>
 	*@param P
 	*	vec3i
 	*@param sample
@@ -5992,7 +5992,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	isampler1D
+	*	Image<Int, 1D>
 	*@param P
 	*	int
 	*@param compare
@@ -6005,7 +6005,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	isampler2D
+	*	Image<Int, 2D>
 	*@param P
 	*	vec2i
 	*@param compare
@@ -6018,7 +6018,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	isampler3D
+	*	Image<Int, 3D>
 	*@param P
 	*	vec3i
 	*@param compare
@@ -6031,7 +6031,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	isampler2DRect
+	*	Image<Int, Rect>
 	*@param P
 	*	vec2i
 	*@param compare
@@ -6044,7 +6044,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	isamplerCube
+	*	Image<Int, Cube>
 	*@param P
 	*	vec3i
 	*@param compare
@@ -6057,7 +6057,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	isamplerBuffer
+	*	Image<Int, Buffer>
 	*@param P
 	*	int
 	*@param compare
@@ -6070,7 +6070,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	isampler1DArray
+	*	Image<Int, 1D, Array>
 	*@param P
 	*	vec2i
 	*@param compare
@@ -6083,7 +6083,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	isampler2DArray
+	*	Image<Int, 2D, Array>
 	*@param P
 	*	vec3i
 	*@param compare
@@ -6096,7 +6096,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	isamplerCubeArray
+	*	Image<Int, Cube, Array>
 	*@param P
 	*	vec3i
 	*@param compare
@@ -6109,7 +6109,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	isampler2DMS
+	*	Image<Int, 2D, MS>
 	*@param P
 	*	vec2i
 	*@param sample
@@ -6124,7 +6124,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	isampler2DMSArray
+	*	Image<Int, 2D, MS, Array>
 	*@param P
 	*	vec3i
 	*@param sample
@@ -6139,7 +6139,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	usampler1D
+	*	Image<UInt, 1D>
 	*@param P
 	*	int
 	*@param compare
@@ -6152,7 +6152,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	usampler2D
+	*	Image<UInt, 2D>
 	*@param P
 	*	vec2i
 	*@param compare
@@ -6165,7 +6165,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	usampler3D
+	*	Image<UInt, 3D>
 	*@param P
 	*	vec3i
 	*@param compare
@@ -6178,7 +6178,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	usampler2DRect
+	*	Image<UInt, Rect>
 	*@param P
 	*	vec2i
 	*@param compare
@@ -6191,7 +6191,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	usamplerCube
+	*	Image<UInt, Cube>
 	*@param P
 	*	vec3i
 	*@param compare
@@ -6204,7 +6204,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	usamplerBuffer
+	*	Image<UInt, Buffer>
 	*@param P
 	*	int
 	*@param compare
@@ -6217,7 +6217,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	usampler1DArray
+	*	Image<UInt, 1D, Array>
 	*@param P
 	*	vec2i
 	*@param compare
@@ -6230,7 +6230,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	usampler2DArray
+	*	Image<UInt, 2D, Array>
 	*@param P
 	*	vec3i
 	*@param compare
@@ -6243,7 +6243,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	usamplerCubeArray
+	*	Image<UInt, Cube, Array>
 	*@param P
 	*	vec3i
 	*@param compare
@@ -6256,7 +6256,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	usampler2DMS
+	*	Image<UInt, 2D, MS>
 	*@param P
 	*	vec2i
 	*@param sample
@@ -6271,7 +6271,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	usampler2DMSArray
+	*	Image<UInt, 2D, MS, Array>
 	*@param P
 	*	vec3i
 	*@param sample
@@ -6286,7 +6286,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	sampler1D
+	*	Image<Float, 1D>
 	*@param P
 	*	int
 	*@param compare
@@ -6299,7 +6299,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	sampler2D
+	*	Image<Float, 2D>
 	*@param P
 	*	vec2i
 	*@param compare
@@ -6312,7 +6312,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	sampler3D
+	*	Image<Float, 3D>
 	*@param P
 	*	vec3i
 	*@param compare
@@ -6325,7 +6325,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	sampler2DRect
+	*	Image<Float, Rect>
 	*@param P
 	*	vec2i
 	*@param compare
@@ -6338,7 +6338,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	samplerCube
+	*	Image<Float, Cube>
 	*@param P
 	*	vec3i
 	*@param compare
@@ -6351,7 +6351,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	samplerBuffer
+	*	Image<Float, Buffer>
 	*@param P
 	*	int
 	*@param compare
@@ -6364,7 +6364,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	sampler1DArray
+	*	Image<Float, 1D, Array>
 	*@param P
 	*	vec2i
 	*@param compare
@@ -6377,7 +6377,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	sampler2DArray
+	*	Image<Float, 2D, Array>
 	*@param P
 	*	vec3i
 	*@param compare
@@ -6390,7 +6390,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	samplerCubeArray
+	*	Image<Float, Cube, Array>
 	*@param P
 	*	vec3i
 	*@param compare
@@ -6403,7 +6403,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	sampler2DMS
+	*	Image<Float, 2D, MS>
 	*@param P
 	*	vec2i
 	*@param sample
@@ -6418,7 +6418,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	sampler2DMSArray
+	*	Image<Float, 2D, MS, Array>
 	*@param P
 	*	vec3i
 	*@param sample
@@ -6433,7 +6433,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	isampler1D
+	*	Image<Int, 1D>
 	*@param P
 	*	int
 	*@param compare
@@ -6446,7 +6446,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	isampler2D
+	*	Image<Int, 2D>
 	*@param P
 	*	vec2i
 	*@param compare
@@ -6459,7 +6459,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	isampler3D
+	*	Image<Int, 3D>
 	*@param P
 	*	vec3i
 	*@param compare
@@ -6472,7 +6472,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	isampler2DRect
+	*	Image<Int, Rect>
 	*@param P
 	*	vec2i
 	*@param compare
@@ -6485,7 +6485,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	isamplerCube
+	*	Image<Int, Cube>
 	*@param P
 	*	vec3i
 	*@param compare
@@ -6498,7 +6498,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	isamplerBuffer
+	*	Image<Int, Buffer>
 	*@param P
 	*	int
 	*@param compare
@@ -6511,7 +6511,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	isampler1DArray
+	*	Image<Int, 1D, Array>
 	*@param P
 	*	vec2i
 	*@param compare
@@ -6524,7 +6524,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	isampler2DArray
+	*	Image<Int, 2D, Array>
 	*@param P
 	*	vec3i
 	*@param compare
@@ -6537,7 +6537,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	isamplerCubeArray
+	*	Image<Int, Cube, Array>
 	*@param P
 	*	vec3i
 	*@param compare
@@ -6550,7 +6550,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	isampler2DMS
+	*	Image<Int, 2D, MS>
 	*@param P
 	*	vec2i
 	*@param sample
@@ -6565,7 +6565,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	isampler2DMSArray
+	*	Image<Int, 2D, MS, Array>
 	*@param P
 	*	vec3i
 	*@param sample
@@ -6580,7 +6580,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	usampler1D
+	*	Image<UInt, 1D>
 	*@param P
 	*	int
 	*@param compare
@@ -6593,7 +6593,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	usampler2D
+	*	Image<UInt, 2D>
 	*@param P
 	*	vec2i
 	*@param compare
@@ -6606,7 +6606,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	usampler3D
+	*	Image<UInt, 3D>
 	*@param P
 	*	vec3i
 	*@param compare
@@ -6619,7 +6619,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	usampler2DRect
+	*	Image<UInt, Rect>
 	*@param P
 	*	vec2i
 	*@param compare
@@ -6632,7 +6632,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	usamplerCube
+	*	Image<UInt, Cube>
 	*@param P
 	*	vec3i
 	*@param compare
@@ -6645,7 +6645,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	usamplerBuffer
+	*	Image<UInt, Buffer>
 	*@param P
 	*	int
 	*@param compare
@@ -6658,7 +6658,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	usampler1DArray
+	*	Image<UInt, 1D, Array>
 	*@param P
 	*	vec2i
 	*@param compare
@@ -6671,7 +6671,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	usampler2DArray
+	*	Image<UInt, 2D, Array>
 	*@param P
 	*	vec3i
 	*@param compare
@@ -6684,7 +6684,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	usamplerCubeArray
+	*	Image<UInt, Cube, Array>
 	*@param P
 	*	vec3i
 	*@param compare
@@ -6697,7 +6697,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	usampler2DMS
+	*	Image<UInt, 2D, MS>
 	*@param P
 	*	vec2i
 	*@param sample
@@ -6712,7 +6712,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	usampler2DMSArray
+	*	Image<UInt, 2D, MS, Array>
 	*@param P
 	*	vec3i
 	*@param sample

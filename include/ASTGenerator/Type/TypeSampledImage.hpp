@@ -6,6 +6,7 @@ See LICENSE file in root folder
 #pragma once
 
 #include "TypeImage.hpp"
+#include "TypeSampler.hpp"
 
 #include <vector>
 
@@ -23,6 +24,11 @@ namespace ast::type
 			return m_imageType;
 		}
 
+		SamplerPtr getSamplerType()const
+		{
+			return m_samplerType;
+		}
+
 		ImageConfiguration getConfig()const
 		{
 			return m_imageType->getConfig();
@@ -30,6 +36,7 @@ namespace ast::type
 
 	private:
 		ImagePtr m_imageType;
+		SamplerPtr m_samplerType;
 	};
 	using SampledImagePtr = std::shared_ptr< SampledImage >;
 

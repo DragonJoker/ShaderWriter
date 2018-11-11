@@ -112,23 +112,45 @@ namespace test
 		}
 	};
 
+	struct TestCounts
+	{
+		uint32_t totalCount = 0u;
+		uint32_t errorCount = 0u;
+	};
+
 #define testSuiteBegin( name )\
 	auto result = EXIT_SUCCESS;\
+	test::TestCounts testCounts;\
 	try\
 	{\
 		auto tcout = std::make_unique< test::LogStreambuf< test::InfoLogStreambufTraits > >( name, std::cout );\
 		auto tcerr = std::make_unique< test::LogStreambuf< test::ErrorLogStreambufTraits > >( name, std::cerr );\
 
 #define testSuiteEnd()\
+		if ( testCounts.errorCount )\
+		{\
+			std::cout << "********************************************************************************" << std::endl;\
+			std::cout << "Test suite ended with some failures." << std::endl;\
+			std::cout << "Total checks count: " << testCounts.totalCount << std::endl;\
+			std::cout << "Failed checks count: " << testCounts.errorCount << std::endl;\
+			result = EXIT_FAILURE;\
+		}\
+		else\
+		{\
+			std::cout << "********************************************************************************" << std::endl;\
+			std::cout << "Test suite ended cleanly." << std::endl;\
+			std::cout << "Total checks count: " << testCounts.totalCount << std::endl;\
+			result = EXIT_SUCCESS;\
+		}\
 	}\
 	catch ( std::exception & exc )\
 	{\
-		std::cerr << "Test " << exc.what() << std::endl;\
+		std::cout << "Test failed, Unhandled exception: " << exc.what() << std::endl;\
 		result = EXIT_FAILURE;\
 	}\
 	catch ( ... )\
 	{\
-		std::cerr << "Test failed : Unhandled exception." << std::endl;\
+		std::cout << "Test failed, Unhandled exception: Unknown." << std::endl;\
 		result = EXIT_FAILURE;\
 	}\
 	return result;
@@ -138,7 +160,6 @@ namespace test
 	std::cout << "********************************************************************************" << std::endl;\
 	std::cout << "TEST: " << name << std::endl;\
 	std::cout << "********************************************************************************" << std::endl;\
-	uint32_t errCount = 0u;\
 	try\
 	{\
 
@@ -146,16 +167,17 @@ namespace test
 	}\
 	catch ( std::exception & exc )\
 	{\
-		throw std::runtime_error{ testName + " Failed : " + exc.what() };\
+		std::cout << testName << " Failed: " << exc.what() << std::endl;\
 	}\
 	catch ( ... )\
 	{\
-		throw std::runtime_error{ testName + " Failed : Unknown unhandled exception" };\
+		std::cout << testName << " Failed: Unknown unhandled exception" << std::endl;\
 	}
 
-#define check( x )\
+#define require( x )\
 	try\
 	{\
+		++testCounts.totalCount;\
 		if ( !( x ) )\
 		{\
 			throw std::runtime_error{ std::string{ #x } + " failed" };\
@@ -163,12 +185,30 @@ namespace test
 	}\
 	catch ( ... )\
 	{\
+		++testCounts.errorCount;\
 		throw std::runtime_error{ std::string{ #x } + " failed" };\
+	}
+
+#define check( x )\
+	try\
+	{\
+		++testCounts.totalCount;\
+		if ( !( x ) )\
+		{\
+			++testCounts.errorCount;\
+			std::cout << std::string{ #x } << " failed" << std::endl;\
+		}\
+	}\
+	catch ( ... )\
+	{\
+		++testCounts.errorCount;\
+		std::cout << std::string{ #x } << " failed: Unhandled exception" << std::endl;\
 	}
 
 #define checkEqual( x, y )\
 	try\
 	{\
+		++testCounts.totalCount;\
 		if ( ( x ) != ( y ) )\
 		{\
 			throw std::runtime_error{ std::string{ #x } + " == " + std::string{ #y } + " failed" };\
@@ -176,12 +216,14 @@ namespace test
 	}\
 	catch ( ... )\
 	{\
+		++testCounts.errorCount;\
 		throw std::runtime_error{ std::string{ #x } + " == " + std::string{ #y } + " failed" };\
 	}
 
 #define checkNotEqual( x, y )\
 	try\
 	{\
+		++testCounts.totalCount;\
 		if ( ( x ) == ( y ) )\
 		{\
 			throw std::runtime_error{ std::string{ #x } + " != " + std::string{ #y } + " failed" };\
@@ -189,13 +231,16 @@ namespace test
 	}\
 	catch ( ... )\
 	{\
+		++testCounts.errorCount;\
 		throw std::runtime_error{ std::string{ #x } + " != " + std::string{ #y } + " failed" };\
 	}
 
 #define checkThrow( x )\
 	try\
 	{\
+		++testCounts.totalCount;\
 		( x ); \
+		++testCounts.errorCount;\
 		throw std::runtime_error{ std::string{ #x } + " failed" };\
 	}\
 	catch ( ... )\
@@ -205,10 +250,12 @@ namespace test
 #define checkNoThrow( x )\
 	try\
 	{\
+		++testCounts.totalCount;\
 		( x ); \
 	}\
 	catch ( ... )\
 	{\
+		++testCounts.errorCount;\
 		throw std::runtime_error{ std::string{ #x } + " failed" };\
 	}
 }

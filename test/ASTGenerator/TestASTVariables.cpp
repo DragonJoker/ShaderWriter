@@ -13,7 +13,8 @@ namespace
 	}
 
 	void testVariable( ast::type::Kind kind
-		, uint32_t arraySize )
+		, uint32_t arraySize
+		, test::TestCounts & testCounts )
 	{
 		ast::type::TypePtr type;
 
@@ -40,22 +41,22 @@ namespace
 		check( dummyVar.getName() == "dummyVar" );
 	}
 
-	void testVariable()
+	void testVariable( test::TestCounts & testCounts )
 	{
 		testBegin( "testVariable" );
 		for ( uint8_t i = uint8_t( ast::type::Kind::eMin ); i < uint8_t( ast::type::Kind::eCount ); ++i )
 		{
-			testVariable( ast::type::Kind( i ), ast::type::NotArray );
+			testVariable( ast::type::Kind( i ), ast::type::NotArray, testCounts );
 		}
 
 		for ( uint8_t i = uint8_t( ast::type::Kind::eMin ); i < uint8_t( ast::type::Kind::eCount ); ++i )
 		{
-			testVariable( ast::type::Kind( i ), ast::type::UnknownArraySize );
+			testVariable( ast::type::Kind( i ), ast::type::UnknownArraySize, testCounts );
 		}
 
 		for ( uint8_t i = uint8_t( ast::type::Kind::eMin ); i < uint8_t( ast::type::Kind::eCount ); ++i )
 		{
-			testVariable( ast::type::Kind( i ), 3u );
+			testVariable( ast::type::Kind( i ), 3u, testCounts );
 		}
 		testEnd();
 	}
@@ -64,6 +65,6 @@ namespace
 int main( int argc, char ** argv )
 {
 	testSuiteBegin( "TestVariables" );
-	testVariable();
+	testVariable( testCounts );
 	testSuiteEnd();
 }

@@ -257,87 +257,7 @@ namespace ast::type
 			assert( this->sampledType == type::Kind::eFloat
 				|| this->sampledType == type::Kind::eInt
 				|| this->sampledType == type::Kind::eUInt );
-		}/*
-
-		inline uint32_t getComponentCount()const
-		{
-			switch ( format )
-			{
-			case ImageFormat::eRgba32f:
-			case ImageFormat::eRgba16f:
-			case ImageFormat::eRgba32i:
-			case ImageFormat::eRgba16i:
-			case ImageFormat::eRgba8i:
-			case ImageFormat::eRgba32u:
-			case ImageFormat::eRgba16u:
-			case ImageFormat::eRgba8u:
-				return 4u;
-
-			case ImageFormat::eRg32f:
-			case ImageFormat::eRg16f:
-			case ImageFormat::eRg32i:
-			case ImageFormat::eRg16i:
-			case ImageFormat::eRg8i:
-			case ImageFormat::eRg32u:
-			case ImageFormat::eRg16u:
-			case ImageFormat::eRg8u:
-				return 2u;
-
-			case ImageFormat::eR32f:
-			case ImageFormat::eR16f:
-			case ImageFormat::eR32i:
-			case ImageFormat::eR16i:
-			case ImageFormat::eR8i:
-			case ImageFormat::eR32u:
-			case ImageFormat::eR16u:
-			case ImageFormat::eR8u:
-				return 1u;
-
-			default:
-				assert( false && "Unsupported type::ImageFormat" );
-				return 0u;
-			}
 		}
-
-		inline Kind getComponentType()const
-		{
-			switch ( format )
-			{
-			case ImageFormat::eRgba32f:
-			case ImageFormat::eRgba16f:
-			case ImageFormat::eRg32f:
-			case ImageFormat::eRg16f:
-			case ImageFormat::eR32f:
-			case ImageFormat::eR16f:
-				return Kind::eFloat;
-
-			case ImageFormat::eRgba32i:
-			case ImageFormat::eRgba16i:
-			case ImageFormat::eRgba8i:
-			case ImageFormat::eRg32i:
-			case ImageFormat::eRg16i:
-			case ImageFormat::eRg8i:
-			case ImageFormat::eR32i:
-			case ImageFormat::eR16i:
-			case ImageFormat::eR8i:
-				return Kind::eInt;
-
-			case ImageFormat::eRgba32u:
-			case ImageFormat::eRgba16u:
-			case ImageFormat::eRgba8u:
-			case ImageFormat::eRg32u:
-			case ImageFormat::eRg16u:
-			case ImageFormat::eRg8u:
-			case ImageFormat::eR32u:
-			case ImageFormat::eR16u:
-			case ImageFormat::eR8u:
-				return Kind::eUInt;
-
-			default:
-				assert( false && "Unsupported type::ImageFormat" );
-				return Kind::eUndefined;
-			}
-		}*/
 
 		type::Kind sampledType;
 		ImageDim dimension;
@@ -354,9 +274,9 @@ namespace ast::type
 		, bool ArrayedT
 		, bool DepthT
 		, bool MsT >
-		inline ImageConfiguration makeConfig( ImageFormat format
-			, bool sampled
-			, bool readOnly )
+	inline ImageConfiguration makeConfig( ImageFormat format
+		, bool sampled
+		, bool readOnly )
 	{
 		ImageConfiguration result{};
 		result.isMS = MsT;
@@ -366,6 +286,7 @@ namespace ast::type
 		result.dimension = DimT;
 		result.isSampled = sampled ? Trinary::eTrue : Trinary::eFalse;
 		result.accessKind = readOnly ? AccessKind::eRead : AccessKind::eReadWrite;
+		result.sampledType = SampledT;
 		return result;
 	}
 }

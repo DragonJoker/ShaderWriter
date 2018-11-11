@@ -16,37 +16,36 @@ See LICENSE file in root folder
 
 namespace sdw
 {
-	struct UniformInfo
-	{
-		type::TypePtr m_type;
-		uint32_t m_location;
-		uint32_t m_count;
-	};
-
 	struct InputInfo
 	{
-		type::TypePtr m_type;
-		uint32_t m_location;
+		type::TypePtr type;
+		uint32_t location;
 	};
 
 	struct OutputInfo
 	{
-		type::TypePtr m_type;
-		uint32_t m_location;
+		type::TypePtr type;
+		uint32_t location;
 	};
 
 	struct SamplerInfo
 	{
-		type::TypePtr m_type;
-		uint32_t m_binding;
-		uint32_t m_set;
+		type::TypePtr type;
+		uint32_t binding;
+		uint32_t set;
 	};
 
 	struct ImageInfo
 	{
-		type::TypePtr m_type;
-		uint32_t m_binding;
-		uint32_t m_set;
+		type::TypePtr type;
+		uint32_t binding;
+		uint32_t set;
+	};
+
+	struct SpecConstantInfo
+	{
+		type::TypePtr type;
+		uint32_t location;
 	};
 
 	class Shader
@@ -82,6 +81,9 @@ namespace sdw
 			, std::string const & name
 			, type::TypePtr type );
 		var::VariablePtr registerConstant( std::string const & name
+			, type::TypePtr type );
+		var::VariablePtr registerSpecConstant( std::string const & name
+			, uint32_t location
 			, type::TypePtr type );
 		var::VariablePtr registerSampledImage( std::string const & name
 			, type::TypePtr type
@@ -130,12 +132,17 @@ namespace sdw
 
 		inline type::TypePtr getInput( std::string const & name )const
 		{
-			return m_inputs.at( name ).m_type;
+			return m_inputs.at( name ).type;
 		}
 
 		inline type::TypePtr getOutput( std::string const & name )const
 		{
-			return m_outputs.at( name ).m_type;
+			return m_outputs.at( name ).type;
+		}
+
+		inline std::map< std::string, SpecConstantInfo > const & getSpecConstants()const
+		{
+			return m_specConstants;
 		}
 
 		inline std::map< std::string, Ubo::Info > const & getUbos()const
@@ -179,6 +186,7 @@ namespace sdw
 		std::map< std::string, Ssbo::Info > m_ssbos;
 		std::map< std::string, Ubo::Info > m_ubos;
 		std::map< std::string, type::TypePtr > m_constants;
+		std::map< std::string, SpecConstantInfo > m_specConstants;
 		std::map< std::string, SamplerInfo > m_samplers;
 		std::map< std::string, ImageInfo > m_images;
 		std::map< std::string, InputInfo > m_inputs;

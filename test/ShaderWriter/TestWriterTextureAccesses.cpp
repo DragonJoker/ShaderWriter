@@ -7,677 +7,2611 @@
 
 namespace
 {
+#pragma region Helpers
+	/**
+	*name
+	*	Helpers
+	*/
+	/**@{*/
 	template< ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool DepthT >
-	struct CoordsGetter;
+	static bool constexpr is1D = ( !DepthT ) && ( !ArrayedT ) && ( DimT == ast::type::ImageDim::e1D );
+	
+	template< ast::type::ImageDim DimT
+		, bool ArrayedT
+		, bool DepthT >
+	static bool constexpr is2D = ( !DepthT ) && ( !ArrayedT ) && ( DimT == ast::type::ImageDim::e2D );
 
-	template<>
-	struct CoordsGetter< ast::type::ImageDim::eBuffer, false, false >
-	{
-		using QueryLodType = sdw::Int;
-		using SampleType = sdw::Int;
-	};
+	template< ast::type::ImageDim DimT
+		, bool ArrayedT
+		, bool DepthT >
+	static bool constexpr is3D = ( !DepthT ) && ( !ArrayedT ) && ( DimT == ast::type::ImageDim::e3D );
 
-	template<>
-	struct CoordsGetter< ast::type::ImageDim::e1D, false, false >
-	{
-		using QueryLodType = sdw::Float;
-		using SampleType = sdw::Float;
-	};
+	template< ast::type::ImageDim DimT
+		, bool ArrayedT
+		, bool DepthT >
+	static bool constexpr isBuffer = ( !DepthT ) && ( !ArrayedT ) && ( DimT == ast::type::ImageDim::eBuffer );
 
-	template<>
-	struct CoordsGetter< ast::type::ImageDim::e2D, false, false >
-	{
-		using QueryLodType = sdw::Vec2;
-		using SampleType = sdw::Vec2;
-	};
+	template< ast::type::ImageDim DimT
+		, bool ArrayedT
+		, bool DepthT >
+	static bool constexpr isRect = ( !DepthT ) && ( !ArrayedT ) && ( DimT == ast::type::ImageDim::eRect );
+	
+	template< ast::type::ImageDim DimT
+		, bool ArrayedT
+		, bool DepthT >
+	static bool constexpr isCube = ( !DepthT ) && ( !ArrayedT ) && ( DimT == ast::type::ImageDim::eCube );
+	
+	template< ast::type::ImageDim DimT
+		, bool ArrayedT
+		, bool DepthT >
+	static bool constexpr is1DArray = ( !DepthT ) && ( ArrayedT ) && ( DimT == ast::type::ImageDim::e1D );
+	
+	template< ast::type::ImageDim DimT
+		, bool ArrayedT
+		, bool DepthT >
+	static bool constexpr is2DArray = ( !DepthT ) && ( ArrayedT ) && ( DimT == ast::type::ImageDim::e2D );
+	
+	template< ast::type::ImageDim DimT
+		, bool ArrayedT
+		, bool DepthT >
+	static bool constexpr isCubeArray = ( !DepthT ) && ( ArrayedT ) && ( DimT == ast::type::ImageDim::eCube );
 
-	template<>
-	struct CoordsGetter< ast::type::ImageDim::e3D, false, false >
-	{
-		using QueryLodType = sdw::Vec3;
-		using SampleType = sdw::Vec3;
-	};
+	template< ast::type::ImageDim DimT
+		, bool ArrayedT
+		, bool DepthT >
+	static bool constexpr is1DShadow = ( DepthT ) && ( !ArrayedT ) && ( DimT == ast::type::ImageDim::e1D );
+	
+	template< ast::type::ImageDim DimT
+		, bool ArrayedT
+		, bool DepthT >
+	static bool constexpr is2DShadow = ( DepthT ) && ( !ArrayedT ) && ( DimT == ast::type::ImageDim::e2D );
 
-	template<>
-	struct CoordsGetter< ast::type::ImageDim::eCube, false, false >
-	{
-		using QueryLodType = sdw::Vec3;
-		using SampleType = sdw::Vec3;
-	};
+	template< ast::type::ImageDim DimT
+		, bool ArrayedT
+		, bool DepthT >
+	static bool constexpr isRectShadow = ( DepthT ) && ( !ArrayedT ) && ( DimT == ast::type::ImageDim::eRect );
 
-	template<>
-	struct CoordsGetter< ast::type::ImageDim::eRect, false, false >
-	{
-		using QueryLodType = sdw::Vec2;
-		using SampleType = sdw::Vec2;
-	};
-
-	template<>
-	struct CoordsGetter< ast::type::ImageDim::e1D, false, true >
-	{
-		using QueryLodType = sdw::Float;
-		using SampleType = sdw::Float;
-	};
-
-	template<>
-	struct CoordsGetter< ast::type::ImageDim::e2D, false, true >
-	{
-		using QueryLodType = sdw::Vec2;
-		using SampleType = sdw::Vec2;
-	};
-
-	template<>
-	struct CoordsGetter< ast::type::ImageDim::eCube, false, true >
-	{
-		using QueryLodType = sdw::Vec3;
-		using SampleType = sdw::Vec3;
-	};
-
-	template<>
-	struct CoordsGetter< ast::type::ImageDim::eRect, false, true >
-	{
-		using SampleType = sdw::Vec2;
-	};
-
-	template<>
-	struct CoordsGetter< ast::type::ImageDim::e1D, true, false >
-	{
-		using QueryLodType = sdw::Float;
-		using SampleType = sdw::Vec2;
-	};
-
-	template<>
-	struct CoordsGetter< ast::type::ImageDim::e2D, true, false >
-	{
-		using QueryLodType = sdw::Vec2;
-		using SampleType = sdw::Vec3;
-	};
-
-	template<>
-	struct CoordsGetter< ast::type::ImageDim::e3D, true, false >
-	{
-		using QueryLodType = sdw::Vec3;
-		using SampleType = sdw::Vec4;
-	};
-
-	template<>
-	struct CoordsGetter< ast::type::ImageDim::eCube, true, false >
-	{
-		using QueryLodType = sdw::Vec3;
-		using SampleType = sdw::Vec4;
-	};
-
-	template<>
-	struct CoordsGetter< ast::type::ImageDim::e1D, true, true >
-	{
-		using QueryLodType = sdw::Float;
-		using SampleType = sdw::Vec2;
-	};
-
-	template<>
-	struct CoordsGetter< ast::type::ImageDim::e2D, true, true >
-	{
-		using QueryLodType = sdw::Vec2;
-		using SampleType = sdw::Vec3;
-	};
-
-	template<>
-	struct CoordsGetter< ast::type::ImageDim::eCube, true, true >
-	{
-		using QueryLodType = sdw::Vec3;
-		using SampleType = sdw::Vec4;
-	};
-
+	template< ast::type::ImageDim DimT
+		, bool ArrayedT
+		, bool DepthT >
+	static bool constexpr isCubeShadow = ( DepthT ) && ( !ArrayedT ) && ( DimT == ast::type::ImageDim::eCube );
+	
+	template< ast::type::ImageDim DimT
+		, bool ArrayedT
+		, bool DepthT >
+	static bool constexpr is1DArrayShadow = ( DepthT ) && ( ArrayedT ) && ( DimT == ast::type::ImageDim::e1D );
+	
+	template< ast::type::ImageDim DimT
+		, bool ArrayedT
+		, bool DepthT >
+	static bool constexpr is2DArrayShadow = ( DepthT ) && ( ArrayedT ) && ( DimT == ast::type::ImageDim::e2D );
+	
+	template< ast::type::ImageDim DimT
+		, bool ArrayedT
+		, bool DepthT >
+	static bool constexpr isCubeArrayShadow = ( DepthT ) && ( ArrayedT ) && ( DimT == ast::type::ImageDim::eCube );
+	/**@}*/
+#pragma endregion
+#pragma region textureSize
+	/**
+	*name
+	*	textureSize
+	*/
+	/**@{*/
 	template< ast::type::Kind SampledT
 		, ast::type::ImageDim DimT
-		, ast::type::ImageFormat FormatT
 		, bool ArrayedT
 		, bool DepthT
-		, bool MsT >
+		, bool MsT
+		, typename Enable = void >
 	struct TextureSizeTester
 	{
-		static void test()
+		static void test( ast::type::ImageFormat format, test::TestCounts & testCounts )
 		{
-			auto name = "testTextureSize" + sdw::debug::getName( SampledT, DimT, FormatT, ArrayedT, DepthT, MsT );
-			testBegin( name );
-			using namespace sdw;
-			{
-				ShaderWriter writer{ false };
-				auto s = writer.declSampledImage< SampledT, DimT, FormatT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
-				writer.implementFunction< void >( "main"
-					, [&]()
-					{
-						auto i = writer.declLocale( "i", textureSize( s, 0_i ) );
-					} );
-				test::writeShader( writer.getShader()
-					, sdw::ShaderType::eFragment );
-			}
-			testEnd();
-		};
+		}
 	};
-
-	template< ast::type::Kind SampledT
-		, ast::type::ImageFormat FormatT
-		, bool ArrayedT
-		, bool DepthT
-		, bool MsT >
-	struct TextureSizeTester< SampledT, ast::type::ImageDim::eBuffer, FormatT, ArrayedT, DepthT, MsT >
-	{
-		static void test()
-		{
-			auto name = "testTextureSize" + sdw::debug::getName( SampledT, ast::type::ImageDim::eBuffer, FormatT, ArrayedT, DepthT, MsT );
-			testBegin( name );
-			using namespace sdw;
-			{
-				ShaderWriter writer{ false };
-				auto s = writer.declSampledImage< SampledT, ast::type::ImageDim::eBuffer, FormatT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
-				writer.implementFunction< void >( "main"
-					, [&]()
-					{
-						auto i = writer.declLocale( "i", textureSize( s ) );
-					} );
-				test::writeShader( writer.getShader()
-					, sdw::ShaderType::eFragment );
-			}
-			testEnd();
-		};
-	};
-
-	template< ast::type::Kind SampledT
-		, ast::type::ImageFormat FormatT
-		, bool ArrayedT
-		, bool DepthT
-		, bool MsT >
-	struct TextureSizeTester< SampledT, ast::type::ImageDim::eRect, FormatT, ArrayedT, DepthT, MsT >
-	{
-		static void test()
-		{
-			auto name = "testTextureSize" + sdw::debug::getName( SampledT, ast::type::ImageDim::eRect, FormatT, ArrayedT, DepthT, MsT );
-			testBegin( name );
-			using namespace sdw;
-			{
-				ShaderWriter writer{ false };
-				auto s = writer.declSampledImage< SampledT, ast::type::ImageDim::eRect, FormatT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
-				writer.implementFunction< void >( "main"
-					, [&]()
-					{
-						auto i = writer.declLocale( "i", textureSize( s ) );
-					} );
-				test::writeShader( writer.getShader()
-					, sdw::ShaderType::eFragment );
-			}
-			testEnd();
-		};
-	};
-
-	void testsTextureSize()
-	{
-		TextureSizeTester< FImg1DRGBA32F >::test();
-		TextureSizeTester< FImg1DRGBA8I >::test();
-		TextureSizeTester< FImg1DRGBA8U >::test();
-		TextureSizeTester< FImg2DRGBA32F >::test();
-		TextureSizeTester< FImg2DRGBA8I >::test();
-		TextureSizeTester< FImg2DRGBA8U >::test();
-		TextureSizeTester< FImg3DRGBA32F >::test();
-		TextureSizeTester< FImg3DRGBA8I >::test();
-		TextureSizeTester< FImg3DRGBA8U >::test();
-		TextureSizeTester< FImgRectRGBA32F >::test();
-		TextureSizeTester< FImgRectRGBA8I >::test();
-		TextureSizeTester< FImgRectRGBA8U >::test();
-		TextureSizeTester< FImgCubeRGBA32F >::test();
-		TextureSizeTester< FImgCubeRGBA8I >::test();
-		TextureSizeTester< FImgCubeRGBA8U >::test();
-		TextureSizeTester< FImgBufferRGBA32F >::test();
-		TextureSizeTester< FImgBufferRGBA8I >::test();
-		TextureSizeTester< FImgBufferRGBA8U >::test();
-		TextureSizeTester< FImg1DArrayRGBA32F >::test();
-		TextureSizeTester< FImg1DArrayRGBA8I >::test();
-		TextureSizeTester< FImg1DArrayRGBA8U >::test();
-		TextureSizeTester< FImg2DArrayRGBA32F >::test();
-		TextureSizeTester< FImg2DArrayRGBA8I >::test();
-		TextureSizeTester< FImg2DArrayRGBA8U >::test();
-		TextureSizeTester< FImgCubeArrayRGBA32F >::test();
-		TextureSizeTester< FImgCubeArrayRGBA8I >::test();
-		TextureSizeTester< FImgCubeArrayRGBA8U >::test();
-		TextureSizeTester< FImg1DShadowRGBA32F >::test();
-		TextureSizeTester< FImg2DShadowRGBA32F >::test();
-		TextureSizeTester< FImgRectShadowRGBA32F >::test();
-		TextureSizeTester< FImgCubeShadowRGBA32F >::test();
-		TextureSizeTester< FImg1DArrayShadowRGBA32F >::test();
-		TextureSizeTester< FImg2DArrayShadowRGBA32F >::test();
-		TextureSizeTester< FImgCubeArrayShadowRGBA32F >::test();
-
-		TextureSizeTester< IImg1DRGBA32F >::test();
-		TextureSizeTester< IImg1DRGBA8I >::test();
-		TextureSizeTester< IImg1DRGBA8U >::test();
-		TextureSizeTester< IImg2DRGBA32F >::test();
-		TextureSizeTester< IImg2DRGBA8I >::test();
-		TextureSizeTester< IImg2DRGBA8U >::test();
-		TextureSizeTester< IImg3DRGBA32F >::test();
-		TextureSizeTester< IImg3DRGBA8I >::test();
-		TextureSizeTester< IImg3DRGBA8U >::test();
-		TextureSizeTester< IImgRectRGBA32F >::test();
-		TextureSizeTester< IImgRectRGBA8I >::test();
-		TextureSizeTester< IImgRectRGBA8U >::test();
-		TextureSizeTester< IImgCubeRGBA32F >::test();
-		TextureSizeTester< IImgCubeRGBA8I >::test();
-		TextureSizeTester< IImgCubeRGBA8U >::test();
-		TextureSizeTester< IImgBufferRGBA32F >::test();
-		TextureSizeTester< IImgBufferRGBA8I >::test();
-		TextureSizeTester< IImgBufferRGBA8U >::test();
-		TextureSizeTester< IImg1DArrayRGBA32F >::test();
-		TextureSizeTester< IImg1DArrayRGBA8I >::test();
-		TextureSizeTester< IImg1DArrayRGBA8U >::test();
-		TextureSizeTester< IImg2DArrayRGBA32F >::test();
-		TextureSizeTester< IImg2DArrayRGBA8I >::test();
-		TextureSizeTester< IImg2DArrayRGBA8U >::test();
-		TextureSizeTester< IImgCubeArrayRGBA32F >::test();
-		TextureSizeTester< IImgCubeArrayRGBA8I >::test();
-		TextureSizeTester< IImgCubeArrayRGBA8U >::test();
-
-		TextureSizeTester< UImg1DRGBA32F >::test();
-		TextureSizeTester< UImg1DRGBA8I >::test();
-		TextureSizeTester< UImg1DRGBA8U >::test();
-		TextureSizeTester< UImg2DRGBA32F >::test();
-		TextureSizeTester< UImg2DRGBA8I >::test();
-		TextureSizeTester< UImg2DRGBA8U >::test();
-		TextureSizeTester< UImg3DRGBA32F >::test();
-		TextureSizeTester< UImg3DRGBA8I >::test();
-		TextureSizeTester< UImg3DRGBA8U >::test();
-		TextureSizeTester< UImgRectRGBA32F >::test();
-		TextureSizeTester< UImgRectRGBA8I >::test();
-		TextureSizeTester< UImgRectRGBA8U >::test();
-		TextureSizeTester< UImgCubeRGBA32F >::test();
-		TextureSizeTester< UImgCubeRGBA8I >::test();
-		TextureSizeTester< UImgCubeRGBA8U >::test();
-		TextureSizeTester< UImgBufferRGBA32F >::test();
-		TextureSizeTester< UImgBufferRGBA8I >::test();
-		TextureSizeTester< UImgBufferRGBA8U >::test();
-		TextureSizeTester< UImg1DArrayRGBA32F >::test();
-		TextureSizeTester< UImg1DArrayRGBA8I >::test();
-		TextureSizeTester< UImg1DArrayRGBA8U >::test();
-		TextureSizeTester< UImg2DArrayRGBA32F >::test();
-		TextureSizeTester< UImg2DArrayRGBA8I >::test();
-		TextureSizeTester< UImg2DArrayRGBA8U >::test();
-		TextureSizeTester< UImgCubeArrayRGBA32F >::test();
-		TextureSizeTester< UImgCubeArrayRGBA8I >::test();
-		TextureSizeTester< UImgCubeArrayRGBA8U >::test();
-	}
 
 	template< ast::type::Kind SampledT
 		, ast::type::ImageDim DimT
-		, ast::type::ImageFormat FormatT
 		, bool ArrayedT
 		, bool DepthT
 		, bool MsT >
+	struct TextureSizeTester< SampledT, DimT, ArrayedT, DepthT, MsT
+		, std::enable_if_t< is1D< DimT, ArrayedT, DepthT >
+			|| is2D< DimT, ArrayedT, DepthT >
+			|| is3D< DimT, ArrayedT, DepthT >
+			|| isCube< DimT, ArrayedT, DepthT >
+			|| is1DArray< DimT, ArrayedT, DepthT >
+			|| is2DArray< DimT, ArrayedT, DepthT >
+			|| isCubeArray< DimT, ArrayedT, DepthT >
+			|| is1DShadow< DimT, ArrayedT, DepthT >
+			|| is2DShadow< DimT, ArrayedT, DepthT >
+			|| isCubeShadow< DimT, ArrayedT, DepthT >
+			|| is1DArrayShadow< DimT, ArrayedT, DepthT >
+			|| is2DArrayShadow< DimT, ArrayedT, DepthT >
+			|| isCubeArrayShadow< DimT, ArrayedT, DepthT > > >
+	{
+		static void test( ast::type::ImageFormat format, test::TestCounts & testCounts )
+		{
+			auto name = "testTextureSizeLod" + sdw::debug::getName( SampledT, DimT, format, ArrayedT, DepthT, MsT );
+			testBegin( name );
+			using namespace sdw;
+			{
+				ShaderWriter writer{ false };
+				auto s = writer.declSampledImage< SampledT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
+				writer.implementFunction< void >( "main"
+					, [&]()
+					{
+						auto i = writer.declLocale( "i"
+							, textureSize( s, 0_i ) );
+					} );
+				test::writeShader( writer.getShader()
+					, sdw::ShaderType::eFragment
+					, testCounts );
+			}
+			testEnd();
+		};
+	};
+	
+	template< ast::type::Kind SampledT
+		, ast::type::ImageDim DimT
+		, bool ArrayedT
+		, bool DepthT
+		, bool MsT >
+	struct TextureSizeTester< SampledT, DimT, ArrayedT, DepthT, MsT
+		, std::enable_if_t< isBuffer< DimT, ArrayedT, DepthT >
+			|| isRect< DimT, ArrayedT, DepthT >
+			|| isRectShadow< DimT, ArrayedT, DepthT > > >
+	{
+		static void test( ast::type::ImageFormat format, test::TestCounts & testCounts )
+		{
+			auto name = "testTextureSize" + sdw::debug::getName( SampledT, DimT, format, ArrayedT, DepthT, MsT );
+			testBegin( name );
+			using namespace sdw;
+			{
+				ShaderWriter writer{ false };
+				auto s = writer.declSampledImage< SampledT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
+				writer.implementFunction< void >( "main"
+					, [&]()
+					{
+						auto i = writer.declLocale( "i"
+							, textureSize( s ) );
+					} );
+				test::writeShader( writer.getShader()
+					, sdw::ShaderType::eFragment
+					, testCounts );
+			}
+			testEnd();
+		};
+	};
+	/**@}*/
+#pragma endregion
+#pragma region textureQueryLod
+	/**
+	*name
+	*	textureQueryLod
+	*/
+	/**@{*/
+	template< ast::type::Kind SampledT
+		, ast::type::ImageDim DimT
+		, bool ArrayedT
+		, bool DepthT
+		, bool MsT
+		, typename Enable = void >
 	struct TextureQueryLodTester
 	{
-		using Coords = typename CoordsGetter< DimT, ArrayedT, DepthT >::QueryLodType;
-
-		static void test()
+		static void test( ast::type::ImageFormat format, test::TestCounts & testCounts )
 		{
-			auto name = "testTextureQueryLod" + sdw::debug::getName( SampledT, DimT, FormatT, ArrayedT, DepthT, MsT );
+		}
+	};
+	
+	template< ast::type::Kind SampledT
+		, ast::type::ImageDim DimT
+		, bool ArrayedT
+		, bool DepthT
+		, bool MsT >
+	struct TextureQueryLodTester< SampledT, DimT, ArrayedT, DepthT, MsT
+		, std::enable_if_t< is1D< DimT, ArrayedT, DepthT >
+			|| is2D< DimT, ArrayedT, DepthT >
+			|| is3D< DimT, ArrayedT, DepthT >
+			|| isCube< DimT, ArrayedT, DepthT >
+			|| is1DArray< DimT, ArrayedT, DepthT >
+			|| is2DArray< DimT, ArrayedT, DepthT >
+			|| isCubeArray< DimT, ArrayedT, DepthT >/*
+			|| is1DShadow< DimT, ArrayedT, DepthT >
+			|| is2DShadow< DimT, ArrayedT, DepthT >
+			|| isCubeShadow< DimT, ArrayedT, DepthT >
+			|| is1DArrayShadow< DimT, ArrayedT, DepthT >
+			|| is2DArrayShadow< DimT, ArrayedT, DepthT >
+			|| isCubeArrayShadow< DimT, ArrayedT, DepthT >*/ > >
+	{
+		using QueryLodT = typename sdw::SampledImageQueryLodT< DimT, ArrayedT >;
+
+		static void test( ast::type::ImageFormat format, test::TestCounts & testCounts )
+		{
+			auto name = "testTextureQueryLod" + sdw::debug::getName( SampledT, DimT, format, ArrayedT, DepthT, MsT );
 			testBegin( name );
 			using namespace sdw;
 			{
 				ShaderWriter writer{ false };
-				auto s = writer.declSampledImage< SampledT, DimT, FormatT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
+				auto s = writer.declSampledImage< SampledT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementFunction< void >( "main"
 					, [&]()
 					{
-						auto i = writer.declLocale( "i", textureQueryLod( s, test::getDefault< Coords >( writer.getShader() ) ) );
+						auto i = writer.declLocale( "i"
+							, textureQueryLod( s, test::getDefault< QueryLodT >( writer.getShader() ) ) );
 					} );
 				test::writeShader( writer.getShader()
-					, sdw::ShaderType::eFragment );
+					, sdw::ShaderType::eFragment
+					, testCounts );
 			}
 			testEnd();
 		}
 	};
-
-	void testsTextureQueryLod()
-	{
-		TextureQueryLodTester< FImg1DRGBA32F >::test();
-		TextureQueryLodTester< FImg1DRGBA8I >::test();
-		TextureQueryLodTester< FImg1DRGBA8U >::test();
-		TextureQueryLodTester< FImg2DRGBA32F >::test();
-		TextureQueryLodTester< FImg2DRGBA8I >::test();
-		TextureQueryLodTester< FImg2DRGBA8U >::test();
-		TextureQueryLodTester< FImg3DRGBA32F >::test();
-		TextureQueryLodTester< FImg3DRGBA8I >::test();
-		TextureQueryLodTester< FImg3DRGBA8U >::test();
-		TextureQueryLodTester< FImgCubeRGBA32F >::test();
-		TextureQueryLodTester< FImgCubeRGBA8I >::test();
-		TextureQueryLodTester< FImgCubeRGBA8U >::test();
-		TextureQueryLodTester< FImg1DArrayRGBA32F >::test();
-		TextureQueryLodTester< FImg1DArrayRGBA8I >::test();
-		TextureQueryLodTester< FImg1DArrayRGBA8U >::test();
-		TextureQueryLodTester< FImg2DArrayRGBA32F >::test();
-		TextureQueryLodTester< FImg2DArrayRGBA8I >::test();
-		TextureQueryLodTester< FImg2DArrayRGBA8U >::test();
-		TextureQueryLodTester< FImgCubeArrayRGBA32F >::test();
-		TextureQueryLodTester< FImgCubeArrayRGBA8I >::test();
-		TextureQueryLodTester< FImgCubeArrayRGBA8U >::test();
-		TextureQueryLodTester< FImg1DShadowRGBA32F >::test();
-		TextureQueryLodTester< FImg2DShadowRGBA32F >::test();
-		TextureQueryLodTester< FImgCubeShadowRGBA32F >::test();
-		TextureQueryLodTester< FImg1DArrayShadowRGBA32F >::test();
-		TextureQueryLodTester< FImg2DArrayShadowRGBA32F >::test();
-		TextureQueryLodTester< FImgCubeArrayShadowRGBA32F >::test();
-
-		TextureQueryLodTester< IImg1DRGBA32F >::test();
-		TextureQueryLodTester< IImg1DRGBA8I >::test();
-		TextureQueryLodTester< IImg1DRGBA8U >::test();
-		TextureQueryLodTester< IImg2DRGBA32F >::test();
-		TextureQueryLodTester< IImg2DRGBA8I >::test();
-		TextureQueryLodTester< IImg2DRGBA8U >::test();
-		TextureQueryLodTester< IImg3DRGBA32F >::test();
-		TextureQueryLodTester< IImg3DRGBA8I >::test();
-		TextureQueryLodTester< IImg3DRGBA8U >::test();
-		TextureQueryLodTester< IImgCubeRGBA32F >::test();
-		TextureQueryLodTester< IImgCubeRGBA8I >::test();
-		TextureQueryLodTester< IImgCubeRGBA8U >::test();
-		TextureQueryLodTester< IImg1DArrayRGBA32F >::test();
-		TextureQueryLodTester< IImg1DArrayRGBA8I >::test();
-		TextureQueryLodTester< IImg1DArrayRGBA8U >::test();
-		TextureQueryLodTester< IImg2DArrayRGBA32F >::test();
-		TextureQueryLodTester< IImg2DArrayRGBA8I >::test();
-		TextureQueryLodTester< IImg2DArrayRGBA8U >::test();
-		TextureQueryLodTester< IImgCubeArrayRGBA32F >::test();
-		TextureQueryLodTester< IImgCubeArrayRGBA8I >::test();
-		TextureQueryLodTester< IImgCubeArrayRGBA8U >::test();
-
-		TextureQueryLodTester< UImg1DRGBA32F >::test();
-		TextureQueryLodTester< UImg1DRGBA8I >::test();
-		TextureQueryLodTester< UImg1DRGBA8U >::test();
-		TextureQueryLodTester< UImg2DRGBA32F >::test();
-		TextureQueryLodTester< UImg2DRGBA8I >::test();
-		TextureQueryLodTester< UImg2DRGBA8U >::test();
-		TextureQueryLodTester< UImg3DRGBA32F >::test();
-		TextureQueryLodTester< UImg3DRGBA8I >::test();
-		TextureQueryLodTester< UImg3DRGBA8U >::test();
-		TextureQueryLodTester< UImgCubeRGBA32F >::test();
-		TextureQueryLodTester< UImgCubeRGBA8I >::test();
-		TextureQueryLodTester< UImgCubeRGBA8U >::test();
-		TextureQueryLodTester< UImg1DArrayRGBA32F >::test();
-		TextureQueryLodTester< UImg1DArrayRGBA8I >::test();
-		TextureQueryLodTester< UImg1DArrayRGBA8U >::test();
-		TextureQueryLodTester< UImg2DArrayRGBA32F >::test();
-		TextureQueryLodTester< UImg2DArrayRGBA8I >::test();
-		TextureQueryLodTester< UImg2DArrayRGBA8U >::test();
-		TextureQueryLodTester< UImgCubeArrayRGBA32F >::test();
-		TextureQueryLodTester< UImgCubeArrayRGBA8I >::test();
-		TextureQueryLodTester< UImgCubeArrayRGBA8U >::test();
-	}
-
+	/**@}*/
+#pragma endregion
+#pragma region textureQueryLevels
+	/**
+	*name
+	*	textureQueryLevels
+	*/
+	/**@{*/
 	template< ast::type::Kind SampledT
 		, ast::type::ImageDim DimT
-		, ast::type::ImageFormat FormatT
 		, bool ArrayedT
 		, bool DepthT
-		, bool MsT >
+		, bool MsT
+		, typename Enable = void >
 	struct TextureQueryLevelsTester
 	{
-		static void test()
+		static void test( ast::type::ImageFormat format, test::TestCounts & testCounts )
 		{
-			auto name = "testTextureQueryLevels" + sdw::debug::getName( SampledT, DimT, FormatT, ArrayedT, DepthT, MsT );
-			testBegin( name );
-			using namespace sdw;
-			{
-				ShaderWriter writer{ false };
-				auto s = writer.declSampledImage< SampledT, DimT, FormatT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
-				writer.implementFunction< void >( "main"
-					, [&]()
-					{
-						auto i = writer.declLocale( "i", textureQueryLevels( s ) );
-					} );
-				test::writeShader( writer.getShader()
-					, sdw::ShaderType::eFragment );
-			}
-			testEnd();
 		}
 	};
-
-	void testsTextureQueryLevels()
-	{
-		TextureQueryLevelsTester< FImg1DRGBA32F >::test();
-		TextureQueryLevelsTester< FImg1DRGBA8I >::test();
-		TextureQueryLevelsTester< FImg1DRGBA8U >::test();
-		TextureQueryLevelsTester< FImg2DRGBA32F >::test();
-		TextureQueryLevelsTester< FImg2DRGBA8I >::test();
-		TextureQueryLevelsTester< FImg2DRGBA8U >::test();
-		TextureQueryLevelsTester< FImg3DRGBA32F >::test();
-		TextureQueryLevelsTester< FImg3DRGBA8I >::test();
-		TextureQueryLevelsTester< FImg3DRGBA8U >::test();
-		TextureQueryLevelsTester< FImgCubeRGBA32F >::test();
-		TextureQueryLevelsTester< FImgCubeRGBA8I >::test();
-		TextureQueryLevelsTester< FImgCubeRGBA8U >::test();
-		TextureQueryLevelsTester< FImg1DArrayRGBA32F >::test();
-		TextureQueryLevelsTester< FImg1DArrayRGBA8I >::test();
-		TextureQueryLevelsTester< FImg1DArrayRGBA8U >::test();
-		TextureQueryLevelsTester< FImg2DArrayRGBA32F >::test();
-		TextureQueryLevelsTester< FImg2DArrayRGBA8I >::test();
-		TextureQueryLevelsTester< FImg2DArrayRGBA8U >::test();
-		TextureQueryLevelsTester< FImgCubeArrayRGBA32F >::test();
-		TextureQueryLevelsTester< FImgCubeArrayRGBA8I >::test();
-		TextureQueryLevelsTester< FImgCubeArrayRGBA8U >::test();
-		TextureQueryLevelsTester< FImg1DShadowRGBA32F >::test();
-		TextureQueryLevelsTester< FImg2DShadowRGBA32F >::test();
-		TextureQueryLevelsTester< FImgCubeShadowRGBA32F >::test();
-		TextureQueryLevelsTester< FImg1DArrayShadowRGBA32F >::test();
-		TextureQueryLevelsTester< FImg2DArrayShadowRGBA32F >::test();
-		TextureQueryLevelsTester< FImgCubeArrayShadowRGBA32F >::test();
-
-		TextureQueryLevelsTester< IImg1DRGBA32F >::test();
-		TextureQueryLevelsTester< IImg1DRGBA8I >::test();
-		TextureQueryLevelsTester< IImg1DRGBA8U >::test();
-		TextureQueryLevelsTester< IImg2DRGBA32F >::test();
-		TextureQueryLevelsTester< IImg2DRGBA8I >::test();
-		TextureQueryLevelsTester< IImg2DRGBA8U >::test();
-		TextureQueryLevelsTester< IImg3DRGBA32F >::test();
-		TextureQueryLevelsTester< IImg3DRGBA8I >::test();
-		TextureQueryLevelsTester< IImg3DRGBA8U >::test();
-		TextureQueryLevelsTester< IImgCubeRGBA32F >::test();
-		TextureQueryLevelsTester< IImgCubeRGBA8I >::test();
-		TextureQueryLevelsTester< IImgCubeRGBA8U >::test();
-		TextureQueryLevelsTester< IImg1DArrayRGBA32F >::test();
-		TextureQueryLevelsTester< IImg1DArrayRGBA8I >::test();
-		TextureQueryLevelsTester< IImg1DArrayRGBA8U >::test();
-		TextureQueryLevelsTester< IImg2DArrayRGBA32F >::test();
-		TextureQueryLevelsTester< IImg2DArrayRGBA8I >::test();
-		TextureQueryLevelsTester< IImg2DArrayRGBA8U >::test();
-		TextureQueryLevelsTester< IImgCubeArrayRGBA32F >::test();
-		TextureQueryLevelsTester< IImgCubeArrayRGBA8I >::test();
-		TextureQueryLevelsTester< IImgCubeArrayRGBA8U >::test();
-
-		TextureQueryLevelsTester< UImg1DRGBA32F >::test();
-		TextureQueryLevelsTester< UImg1DRGBA8I >::test();
-		TextureQueryLevelsTester< UImg1DRGBA8U >::test();
-		TextureQueryLevelsTester< UImg2DRGBA32F >::test();
-		TextureQueryLevelsTester< UImg2DRGBA8I >::test();
-		TextureQueryLevelsTester< UImg2DRGBA8U >::test();
-		TextureQueryLevelsTester< UImg3DRGBA32F >::test();
-		TextureQueryLevelsTester< UImg3DRGBA8I >::test();
-		TextureQueryLevelsTester< UImg3DRGBA8U >::test();
-		TextureQueryLevelsTester< UImgCubeRGBA32F >::test();
-		TextureQueryLevelsTester< UImgCubeRGBA8I >::test();
-		TextureQueryLevelsTester< UImgCubeRGBA8U >::test();
-		TextureQueryLevelsTester< UImg1DArrayRGBA32F >::test();
-		TextureQueryLevelsTester< UImg1DArrayRGBA8I >::test();
-		TextureQueryLevelsTester< UImg1DArrayRGBA8U >::test();
-		TextureQueryLevelsTester< UImg2DArrayRGBA32F >::test();
-		TextureQueryLevelsTester< UImg2DArrayRGBA8I >::test();
-		TextureQueryLevelsTester< UImg2DArrayRGBA8U >::test();
-		TextureQueryLevelsTester< UImgCubeArrayRGBA32F >::test();
-		TextureQueryLevelsTester< UImgCubeArrayRGBA8I >::test();
-		TextureQueryLevelsTester< UImgCubeArrayRGBA8U >::test();
-	}
-
+	
 	template< ast::type::Kind SampledT
 		, ast::type::ImageDim DimT
-		, ast::type::ImageFormat FormatT
 		, bool ArrayedT
 		, bool DepthT
 		, bool MsT >
-		struct TextureTester
+	struct TextureQueryLevelsTester< SampledT, DimT, ArrayedT, DepthT, MsT
+		, std::enable_if_t< is1D< DimT, ArrayedT, DepthT >
+			|| is2D< DimT, ArrayedT, DepthT >
+			|| is3D< DimT, ArrayedT, DepthT >
+			|| isCube< DimT, ArrayedT, DepthT >
+			|| is1DArray< DimT, ArrayedT, DepthT >
+			|| is2DArray< DimT, ArrayedT, DepthT >
+			|| isCubeArray< DimT, ArrayedT, DepthT >
+			|| is1DShadow< DimT, ArrayedT, DepthT >
+			|| is2DShadow< DimT, ArrayedT, DepthT >
+			|| isCubeShadow< DimT, ArrayedT, DepthT >
+			|| is1DArrayShadow< DimT, ArrayedT, DepthT >
+			|| is2DArrayShadow< DimT, ArrayedT, DepthT >
+			|| isCubeArrayShadow< DimT, ArrayedT, DepthT > > >
 	{
-		using Coords = typename CoordsGetter< DimT, ArrayedT, DepthT >::SampleType;
-
-		static void test()
+		static void test( ast::type::ImageFormat format, test::TestCounts & testCounts )
 		{
-			auto name = "testTexture" + sdw::debug::getName( SampledT, DimT, FormatT, ArrayedT, DepthT, MsT );
+			auto name = "testTextureQueryLevels" + sdw::debug::getName( SampledT, DimT, format, ArrayedT, DepthT, MsT );
 			testBegin( name );
 			using namespace sdw;
 			{
 				ShaderWriter writer{ false };
-				auto s = writer.declSampledImage< SampledT, DimT, FormatT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
+				auto s = writer.declSampledImage< SampledT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementFunction< void >( "main"
 					, [&]()
 					{
-						auto c = writer.declLocale( "c", texture( s, test::getDefault< Coords >( writer.getShader() ) ) );
+						auto i = writer.declLocale( "i"
+							, textureQueryLevels( s ) );
 					} );
 				test::writeShader( writer.getShader()
-					, sdw::ShaderType::eFragment );
+					, sdw::ShaderType::eFragment
+					, testCounts );
 			}
 			testEnd();
 		}
 	};
-
-	void testsTexture()
-	{
-		TextureSizeTester< FImg1DRGBA32F >::test();
-		TextureSizeTester< FImg1DRGBA8I >::test();
-		TextureSizeTester< FImg1DRGBA8U >::test();
-		TextureSizeTester< FImg2DRGBA32F >::test();
-		TextureSizeTester< FImg2DRGBA8I >::test();
-		TextureSizeTester< FImg2DRGBA8U >::test();
-		TextureSizeTester< FImg3DRGBA32F >::test();
-		TextureSizeTester< FImg3DRGBA8I >::test();
-		TextureSizeTester< FImg3DRGBA8U >::test();
-		TextureSizeTester< FImgRectRGBA32F >::test();
-		TextureSizeTester< FImgRectRGBA8I >::test();
-		TextureSizeTester< FImgRectRGBA8U >::test();
-		TextureSizeTester< FImgCubeRGBA32F >::test();
-		TextureSizeTester< FImgCubeRGBA8I >::test();
-		TextureSizeTester< FImgCubeRGBA8U >::test();
-		TextureSizeTester< FImg1DArrayRGBA32F >::test();
-		TextureSizeTester< FImg1DArrayRGBA8I >::test();
-		TextureSizeTester< FImg1DArrayRGBA8U >::test();
-		TextureSizeTester< FImg2DArrayRGBA32F >::test();
-		TextureSizeTester< FImg2DArrayRGBA8I >::test();
-		TextureSizeTester< FImg2DArrayRGBA8U >::test();
-		TextureSizeTester< FImgCubeArrayRGBA32F >::test();
-		TextureSizeTester< FImgCubeArrayRGBA8I >::test();
-		TextureSizeTester< FImgCubeArrayRGBA8U >::test();
-		TextureSizeTester< FImg1DShadowRGBA32F >::test();
-		TextureSizeTester< FImg2DShadowRGBA32F >::test();
-		TextureSizeTester< FImgRectShadowRGBA32F >::test();
-		TextureSizeTester< FImgCubeShadowRGBA32F >::test();
-		TextureSizeTester< FImg1DArrayShadowRGBA32F >::test();
-		TextureSizeTester< FImg2DArrayShadowRGBA32F >::test();
-		TextureSizeTester< FImgCubeArrayShadowRGBA32F >::test();
-
-		TextureSizeTester< IImg1DRGBA32F >::test();
-		TextureSizeTester< IImg1DRGBA8I >::test();
-		TextureSizeTester< IImg1DRGBA8U >::test();
-		TextureSizeTester< IImg2DRGBA32F >::test();
-		TextureSizeTester< IImg2DRGBA8I >::test();
-		TextureSizeTester< IImg2DRGBA8U >::test();
-		TextureSizeTester< IImg3DRGBA32F >::test();
-		TextureSizeTester< IImg3DRGBA8I >::test();
-		TextureSizeTester< IImg3DRGBA8U >::test();
-		TextureSizeTester< IImgRectRGBA32F >::test();
-		TextureSizeTester< IImgRectRGBA8I >::test();
-		TextureSizeTester< IImgRectRGBA8U >::test();
-		TextureSizeTester< IImgCubeRGBA32F >::test();
-		TextureSizeTester< IImgCubeRGBA8I >::test();
-		TextureSizeTester< IImgCubeRGBA8U >::test();
-		TextureSizeTester< IImg1DArrayRGBA32F >::test();
-		TextureSizeTester< IImg1DArrayRGBA8I >::test();
-		TextureSizeTester< IImg1DArrayRGBA8U >::test();
-		TextureSizeTester< IImg2DArrayRGBA32F >::test();
-		TextureSizeTester< IImg2DArrayRGBA8I >::test();
-		TextureSizeTester< IImg2DArrayRGBA8U >::test();
-		TextureSizeTester< IImgCubeArrayRGBA32F >::test();
-		TextureSizeTester< IImgCubeArrayRGBA8I >::test();
-		TextureSizeTester< IImgCubeArrayRGBA8U >::test();
-
-		TextureSizeTester< UImg1DRGBA32F >::test();
-		TextureSizeTester< UImg1DRGBA8I >::test();
-		TextureSizeTester< UImg1DRGBA8U >::test();
-		TextureSizeTester< UImg2DRGBA32F >::test();
-		TextureSizeTester< UImg2DRGBA8I >::test();
-		TextureSizeTester< UImg2DRGBA8U >::test();
-		TextureSizeTester< UImg3DRGBA32F >::test();
-		TextureSizeTester< UImg3DRGBA8I >::test();
-		TextureSizeTester< UImg3DRGBA8U >::test();
-		TextureSizeTester< UImgRectRGBA32F >::test();
-		TextureSizeTester< UImgRectRGBA8I >::test();
-		TextureSizeTester< UImgRectRGBA8U >::test();
-		TextureSizeTester< UImgCubeRGBA32F >::test();
-		TextureSizeTester< UImgCubeRGBA8I >::test();
-		TextureSizeTester< UImgCubeRGBA8U >::test();
-		TextureSizeTester< UImg1DArrayRGBA32F >::test();
-		TextureSizeTester< UImg1DArrayRGBA8I >::test();
-		TextureSizeTester< UImg1DArrayRGBA8U >::test();
-		TextureSizeTester< UImg2DArrayRGBA32F >::test();
-		TextureSizeTester< UImg2DArrayRGBA8I >::test();
-		TextureSizeTester< UImg2DArrayRGBA8U >::test();
-		TextureSizeTester< UImgCubeArrayRGBA32F >::test();
-		TextureSizeTester< UImgCubeArrayRGBA8I >::test();
-		TextureSizeTester< UImgCubeArrayRGBA8U >::test();
-	}
-
+	/**@}*/
+#pragma endregion
+#pragma region texture
+	/**
+	*name
+	*	texture
+	*/
+	/**@{*/
 	template< ast::type::Kind SampledT
 		, ast::type::ImageDim DimT
-		, ast::type::ImageFormat FormatT
+		, bool ArrayedT
+		, bool DepthT
+		, bool MsT
+		, typename Enable = void >
+	struct TextureTester
+	{
+		static void test( ast::type::ImageFormat format, test::TestCounts & testCounts )
+		{
+		}
+	};
+	
+	template< ast::type::Kind SampledT
+		, ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool DepthT
 		, bool MsT >
-		struct TextureShadowTester
+	struct TextureTester< SampledT, DimT, ArrayedT, DepthT, MsT
+		, std::enable_if_t< is1D< DimT, ArrayedT, DepthT >
+			|| is2D< DimT, ArrayedT, DepthT >
+			|| is3D< DimT, ArrayedT, DepthT >
+			|| isRect< DimT, ArrayedT, DepthT >
+			|| isCube< DimT, ArrayedT, DepthT >
+			|| is1DArray< DimT, ArrayedT, DepthT >
+			|| is2DArray< DimT, ArrayedT, DepthT >
+			|| isCubeArray< DimT, ArrayedT, DepthT > > >
 	{
-		using Coords = typename CoordsGetter< DimT, ArrayedT, true >::SampleType;
+		using SampleT = typename sdw::SampledImageSampleT< DimT, ArrayedT >;
 
-		static void test()
+		static void test( ast::type::ImageFormat format, test::TestCounts & testCounts )
 		{
-			auto name = "testTextureShadow" + sdw::debug::getName( SampledT, DimT, FormatT, ArrayedT, true, MsT );
+			auto name = "testTexture" + sdw::debug::getName( SampledT, DimT, format, ArrayedT, DepthT, MsT );
 			testBegin( name );
 			using namespace sdw;
 			{
 				ShaderWriter writer{ false };
-				auto s = writer.declSampledImage< SampledT, DimT, FormatT, ArrayedT, true, MsT >( "s", 0u, 0u );
+				auto s = writer.declSampledImage< SampledT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementFunction< void >( "main"
 					, [&]()
 					{
-						auto c = writer.declLocale( "c", texture( s, test::getDefault< Coords >( writer.getShader() ), 0.5_f ) );
+						auto c = writer.declLocale( "c"
+							, texture( s
+								, test::getDefault< SampleT >( writer.getShader() ) ) );
 					} );
 				test::writeShader( writer.getShader()
-					, sdw::ShaderType::eFragment );
+					, sdw::ShaderType::eFragment
+					, testCounts );
 			}
 			testEnd();
 		}
 	};
 
-	void testsTextureShadow()
+	template< ast::type::Kind SampledT
+		, ast::type::ImageDim DimT
+		, bool ArrayedT
+		, bool DepthT
+		, bool MsT >
+	struct TextureTester< SampledT, DimT, ArrayedT, DepthT, MsT
+		, std::enable_if_t< is1DShadow< DimT, ArrayedT, DepthT >
+			|| is2DShadow< DimT, ArrayedT, DepthT >
+			|| isCubeShadow< DimT, ArrayedT, DepthT >
+			|| isRectShadow< DimT, ArrayedT, DepthT >
+			|| is1DArrayShadow< DimT, ArrayedT, DepthT >
+			|| is2DArrayShadow< DimT, ArrayedT, DepthT >
+			|| isCubeArrayShadow< DimT, ArrayedT, DepthT > > >
 	{
-		TextureShadowTester< FImg1DShadowRGBA32F >::test();
-		TextureShadowTester< FImg1DArrayShadowRGBA32F >::test();
-		TextureShadowTester< FImg2DShadowRGBA32F >::test();
-		TextureShadowTester< FImg2DArrayShadowRGBA32F >::test();
-		TextureShadowTester< FImgCubeShadowRGBA32F >::test();
-		TextureShadowTester< FImgCubeArrayShadowRGBA32F >::test();
-		TextureShadowTester< FImgRectShadowRGBA32F >::test();
+		using SampleT = typename sdw::SampledImageSampleT< DimT, ArrayedT >;
+
+		static void test( ast::type::ImageFormat format, test::TestCounts & testCounts )
+		{
+			auto name = "testTextureShadow" + sdw::debug::getName( SampledT, DimT, format, ArrayedT, DepthT, MsT );
+			testBegin( name );
+			using namespace sdw;
+			{
+				ShaderWriter writer{ false };
+				auto s = writer.declSampledImage< SampledT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
+				writer.implementFunction< void >( "main"
+					, [&]()
+					{
+						auto c = writer.declLocale( "c"
+							, texture( s
+								, test::getDefault< SampleT >( writer.getShader() )
+								, 0.5_f ) );
+					} );
+				test::writeShader( writer.getShader()
+					, sdw::ShaderType::eFragment
+					, testCounts );
+			}
+			testEnd();
+		}
+	};
+	/**@}*/
+#pragma endregion
+#pragma region textureBias
+	/**
+	*name
+	*	textureBias
+	*/
+	/**@{*/
+	template< ast::type::Kind SampledT
+		, ast::type::ImageDim DimT
+		, bool ArrayedT
+		, bool DepthT
+		, bool MsT
+		, typename Enable = void >
+	struct TextureBiasTester
+	{
+		static void test( ast::type::ImageFormat format, test::TestCounts & testCounts )
+		{
+		}
+	};
+
+	template< ast::type::Kind SampledT
+		, ast::type::ImageDim DimT
+		, bool ArrayedT
+		, bool DepthT
+		, bool MsT >
+	struct TextureBiasTester< SampledT, DimT, ArrayedT, DepthT, MsT
+		, std::enable_if_t< is1D< DimT, ArrayedT, DepthT >
+			|| is2D< DimT, ArrayedT, DepthT >
+			|| is3D< DimT, ArrayedT, DepthT >
+			|| isCube< DimT, ArrayedT, DepthT >
+			|| is1DArray< DimT, ArrayedT, DepthT >
+			|| is2DArray< DimT, ArrayedT, DepthT >
+			|| isCubeArray< DimT, ArrayedT, DepthT > > >
+	{
+		using SampleT = typename sdw::SampledImageSampleT< DimT, ArrayedT >;
+
+		static void test( ast::type::ImageFormat format, test::TestCounts & testCounts )
+		{
+			auto name = "testTextureBias" + sdw::debug::getName( SampledT, DimT, format, ArrayedT, DepthT, MsT );
+			testBegin( name );
+			using namespace sdw;
+			{
+				ShaderWriter writer{ false };
+				auto s = writer.declSampledImage< SampledT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
+				writer.implementFunction< void >( "main"
+					, [&]()
+					{
+						auto c = writer.declLocale( "c"
+							, texture( s
+								, test::getDefault< SampleT >( writer.getShader() )
+								, 1.0_f ) );
+					} );
+				test::writeShader( writer.getShader()
+					, sdw::ShaderType::eFragment
+					, testCounts );
+			}
+			testEnd();
+		}
+	};
+
+	template< ast::type::Kind SampledT
+		, ast::type::ImageDim DimT
+		, bool ArrayedT
+		, bool DepthT
+		, bool MsT >
+	struct TextureBiasTester< SampledT, DimT, ArrayedT, DepthT, MsT
+		, std::enable_if_t< is1DShadow< DimT, ArrayedT, DepthT >
+			|| is2DShadow< DimT, ArrayedT, DepthT >
+			|| isCubeShadow< DimT, ArrayedT, DepthT >
+			|| is1DArrayShadow< DimT, ArrayedT, DepthT >
+			|| is2DArrayShadow< DimT, ArrayedT, DepthT > > >
+	{
+		using SampleT = typename sdw::SampledImageSampleT< DimT, ArrayedT >;
+
+		static void test( ast::type::ImageFormat format, test::TestCounts & testCounts )
+		{
+			auto name = "testTextureShadowBias" + sdw::debug::getName( SampledT, DimT, format, ArrayedT, DepthT, MsT );
+			testBegin( name );
+			using namespace sdw;
+			{
+				ShaderWriter writer{ false };
+				auto s = writer.declSampledImage< SampledT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
+				writer.implementFunction< void >( "main"
+					, [&]()
+					{
+						auto c = writer.declLocale( "c"
+							, texture( s
+								, test::getDefault< SampleT >( writer.getShader() )
+								, 0.5_f
+								, 1.0_f ) );
+					} );
+				test::writeShader( writer.getShader()
+					, sdw::ShaderType::eFragment
+					, testCounts );
+			}
+			testEnd();
+		}
+	};
+	/**@}*/
+#pragma endregion
+#pragma region textureProj
+	/**
+	*name
+	*	textureProj
+	*/
+	/**@{*/
+	template< ast::type::Kind SampledT
+		, ast::type::ImageDim DimT
+		, bool ArrayedT
+		, bool DepthT
+		, bool MsT
+		, typename Enable = void >
+	struct TextureProjTester
+	{
+		static void test( ast::type::ImageFormat format, test::TestCounts & testCounts )
+		{
+		}
+	};
+
+	template< ast::type::Kind SampledT
+		, ast::type::ImageDim DimT
+		, bool ArrayedT
+		, bool DepthT
+		, bool MsT >
+	struct TextureProjTester< SampledT, DimT, ArrayedT, DepthT, MsT
+		, std::enable_if_t< is1D< DimT, ArrayedT, DepthT >
+			|| is2D< DimT, ArrayedT, DepthT >
+			|| is3D< DimT, ArrayedT, DepthT >
+			|| isRect< DimT, ArrayedT, DepthT > > >
+	{
+		using SampleProjT = typename sdw::SampledImageSampleProjT< DimT, ArrayedT >;
+
+		static void test( ast::type::ImageFormat format, test::TestCounts & testCounts )
+		{
+			auto name = "testTextureProj" + sdw::debug::getName( SampledT, DimT, format, ArrayedT, DepthT, MsT );
+			testBegin( name );
+			using namespace sdw;
+			{
+				ShaderWriter writer{ false };
+				auto s = writer.declSampledImage< SampledT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
+				writer.implementFunction< void >( "main"
+					, [&]()
+					{
+						auto c = writer.declLocale( "c"
+							, textureProj( s
+								, test::getDefault< SampleProjT >( writer.getShader() ) ) );
+					} );
+				test::writeShader( writer.getShader()
+					, sdw::ShaderType::eFragment
+					, testCounts );
+			}
+			testEnd();
+		}
+	};
+
+	template< ast::type::Kind SampledT
+		, ast::type::ImageDim DimT
+		, bool ArrayedT
+		, bool DepthT
+		, bool MsT >
+	struct TextureProjTester< SampledT, DimT, ArrayedT, DepthT, MsT
+		, std::enable_if_t< is1DShadow< DimT, ArrayedT, DepthT >
+			|| is2DShadow< DimT, ArrayedT, DepthT >
+			|| isRectShadow< DimT, ArrayedT, DepthT > > >
+	{
+		using SampleProjT = typename sdw::SampledImageSampleProjT< DimT, ArrayedT >;
+
+		static void test( ast::type::ImageFormat format, test::TestCounts & testCounts )
+		{
+			auto name = "testTextureProjShadow" + sdw::debug::getName( SampledT, DimT, format, ArrayedT, DepthT, MsT );
+			testBegin( name );
+			using namespace sdw;
+			{
+				ShaderWriter writer{ false };
+				auto s = writer.declSampledImage< SampledT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
+				writer.implementFunction< void >( "main"
+					, [&]()
+					{
+						auto c = writer.declLocale( "c"
+							, textureProj( s
+								, test::getDefault< SampleProjT >( writer.getShader() )
+								, 0.5_f ) );
+					} );
+				test::writeShader( writer.getShader()
+					, sdw::ShaderType::eFragment
+					, testCounts );
+			}
+			testEnd();
+		}
+	};
+	/**@}*/
+#pragma endregion
+#pragma region textureProjBias
+	/**
+	*name
+	*	textureProjBias
+	*/
+	/**@{*/
+	template< ast::type::Kind SampledT
+		, ast::type::ImageDim DimT
+		, bool ArrayedT
+		, bool DepthT
+		, bool MsT
+		, typename Enable = void >
+	struct TextureProjBiasTester
+	{
+		static void test( ast::type::ImageFormat format, test::TestCounts & testCounts )
+		{
+		}
+	};
+
+	template< ast::type::Kind SampledT
+		, ast::type::ImageDim DimT
+		, bool ArrayedT
+		, bool DepthT
+		, bool MsT >
+	struct TextureProjBiasTester< SampledT, DimT, ArrayedT, DepthT, MsT
+		, std::enable_if_t< is1D< DimT, ArrayedT, DepthT >
+			|| is2D< DimT, ArrayedT, DepthT >
+			|| is3D< DimT, ArrayedT, DepthT > > >
+	{
+		using SampleProjT = typename sdw::SampledImageSampleProjT< DimT, ArrayedT >;
+
+		static void test( ast::type::ImageFormat format, test::TestCounts & testCounts )
+		{
+			auto name = "testTextureProjBias" + sdw::debug::getName( SampledT, DimT, format, ArrayedT, DepthT, MsT );
+			testBegin( name );
+			using namespace sdw;
+			{
+				ShaderWriter writer{ false };
+				auto s = writer.declSampledImage< SampledT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
+				writer.implementFunction< void >( "main"
+					, [&]()
+					{
+						auto c = writer.declLocale( "c"
+							, textureProj( s
+								, test::getDefault< SampleProjT >( writer.getShader() )
+								, 1.0_f ) );
+					} );
+				test::writeShader( writer.getShader()
+					, sdw::ShaderType::eFragment
+					, testCounts );
+			}
+			testEnd();
+		}
+	};
+
+	template< ast::type::Kind SampledT
+		, ast::type::ImageDim DimT
+		, bool ArrayedT
+		, bool DepthT
+		, bool MsT >
+	struct TextureProjBiasTester< SampledT, DimT, ArrayedT, DepthT, MsT
+		, std::enable_if_t< is1DShadow< DimT, ArrayedT, DepthT >
+			|| is2DShadow< DimT, ArrayedT, DepthT > > >
+	{
+		using SampleProjT = typename sdw::SampledImageSampleProjT< DimT, ArrayedT >;
+
+		static void test( ast::type::ImageFormat format, test::TestCounts & testCounts )
+		{
+			auto name = "testTextureProjShadowBias" + sdw::debug::getName( SampledT, DimT, format, ArrayedT, DepthT, MsT );
+			testBegin( name );
+			using namespace sdw;
+			{
+				ShaderWriter writer{ false };
+				auto s = writer.declSampledImage< SampledT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
+				writer.implementFunction< void >( "main"
+					, [&]()
+					{
+						auto c = writer.declLocale( "c"
+							, textureProj( s
+								, test::getDefault< SampleProjT >( writer.getShader() )
+								, 0.5_f
+								, 1.0_f ) );
+					} );
+				test::writeShader( writer.getShader()
+					, sdw::ShaderType::eFragment
+					, testCounts );
+			}
+			testEnd();
+		}
+	};
+	/**@}*/
+#pragma endregion
+#pragma region textureLod
+	/**
+	*name
+	*	textureLod
+	*/
+	/**@{*/
+	template< ast::type::Kind SampledT
+		, ast::type::ImageDim DimT
+		, bool ArrayedT
+		, bool DepthT
+		, bool MsT
+		, typename Enable = void >
+	struct TextureLodTester
+	{
+		static void test( ast::type::ImageFormat format, test::TestCounts & testCounts )
+		{
+		}
+	};
+
+	template< ast::type::Kind SampledT
+		, ast::type::ImageDim DimT
+		, bool ArrayedT
+		, bool DepthT
+		, bool MsT >
+	struct TextureLodTester< SampledT, DimT, ArrayedT, DepthT, MsT
+		, std::enable_if_t< is1D< DimT, ArrayedT, DepthT >
+			|| is2D< DimT, ArrayedT, DepthT >
+			|| is3D< DimT, ArrayedT, DepthT >
+			|| isCube< DimT, ArrayedT, DepthT >
+			|| is1DArray< DimT, ArrayedT, DepthT >
+			|| is2DArray< DimT, ArrayedT, DepthT >
+			|| isCubeArray< DimT, ArrayedT, DepthT > > >
+	{
+		using SampleT = typename sdw::SampledImageSampleT< DimT, ArrayedT >;
+
+		static void test( ast::type::ImageFormat format, test::TestCounts & testCounts )
+		{
+			auto name = "testTextureLod" + sdw::debug::getName( SampledT, DimT, format, ArrayedT, DepthT, MsT );
+			testBegin( name );
+			using namespace sdw;
+			{
+				ShaderWriter writer{ false };
+				auto s = writer.declSampledImage< SampledT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
+				writer.implementFunction< void >( "main"
+					, [&]()
+					{
+						auto c = writer.declLocale( "c"
+							, textureLod( s
+								, test::getDefault< SampleT >( writer.getShader() )
+								, 1.0_f ) );
+					} );
+				test::writeShader( writer.getShader()
+					, sdw::ShaderType::eFragment
+					, testCounts );
+			}
+			testEnd();
+		}
+	};
+
+	template< ast::type::Kind SampledT
+		, ast::type::ImageDim DimT
+		, bool ArrayedT
+		, bool DepthT
+		, bool MsT >
+	struct TextureLodTester< SampledT, DimT, ArrayedT, DepthT, MsT
+		, std::enable_if_t< is1DShadow< DimT, ArrayedT, DepthT >
+			|| is2DShadow< DimT, ArrayedT, DepthT >
+			|| is1DArrayShadow< DimT, ArrayedT, DepthT > > >
+	{
+		using SampleT = typename sdw::SampledImageSampleT< DimT, ArrayedT >;
+
+		static void test( ast::type::ImageFormat format, test::TestCounts & testCounts )
+		{
+			auto name = "testTextureLodShadow" + sdw::debug::getName( SampledT, DimT, format, ArrayedT, DepthT, MsT );
+			testBegin( name );
+			using namespace sdw;
+			{
+				ShaderWriter writer{ false };
+				auto s = writer.declSampledImage< SampledT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
+				writer.implementFunction< void >( "main"
+					, [&]()
+					{
+						auto c = writer.declLocale( "c"
+							, textureLod( s
+								, test::getDefault< SampleT >( writer.getShader() )
+								, 0.5_f
+								, 1.0_f ) );
+					} );
+				test::writeShader( writer.getShader()
+					, sdw::ShaderType::eFragment
+					, testCounts );
+			}
+			testEnd();
+		}
+	};
+	/**@}*/
+#pragma endregion
+#pragma region textureOffset
+	/**
+	*name
+	*	textureOffset
+	*/
+	/**@{*/
+	template< ast::type::Kind SampledT
+		, ast::type::ImageDim DimT
+		, bool ArrayedT
+		, bool DepthT
+		, bool MsT
+		, typename Enable = void >
+	struct TextureOffsetTester
+	{
+		static void test( ast::type::ImageFormat format, test::TestCounts & testCounts )
+		{
+		}
+	};
+	
+	template< ast::type::Kind SampledT
+		, ast::type::ImageDim DimT
+		, bool ArrayedT
+		, bool DepthT
+		, bool MsT >
+	struct TextureOffsetTester < SampledT, DimT, ArrayedT, DepthT, MsT
+		, std::enable_if_t< is1D< DimT, ArrayedT, DepthT >
+			|| is2D< DimT, ArrayedT, DepthT >
+			|| is3D< DimT, ArrayedT, DepthT >
+			|| isRect< DimT, ArrayedT, DepthT >
+			|| is1DArray< DimT, ArrayedT, DepthT >
+			|| is2DArray< DimT, ArrayedT, DepthT > > >
+	{
+		using SampleT = typename sdw::SampledImageSampleT< DimT, ArrayedT >;
+		using OffsetT = typename sdw::SampledImageOffsetT< DimT, ArrayedT >;
+
+		static void test( ast::type::ImageFormat format, test::TestCounts & testCounts )
+		{
+			auto name = "testTextureOffset" + sdw::debug::getName( SampledT, DimT, format, ArrayedT, DepthT, MsT );
+			testBegin( name );
+			using namespace sdw;
+			{
+				ShaderWriter writer{ false };
+				auto s = writer.declSampledImage< SampledT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
+				writer.implementFunction< void >( "main"
+					, [&]()
+					{
+						auto c = writer.declLocale( "c"
+							, textureOffset( s
+								, test::getDefault< SampleT >( writer.getShader() )
+								, test::getDefault < OffsetT >( writer.getShader() ) ) );
+					} );
+				test::writeShader( writer.getShader()
+					, sdw::ShaderType::eFragment
+					, testCounts );
+			}
+			testEnd();
+		}
+	};
+
+	template< ast::type::Kind SampledT
+		, ast::type::ImageDim DimT
+		, bool ArrayedT
+		, bool DepthT
+		, bool MsT >
+	struct TextureOffsetTester < SampledT, DimT, ArrayedT, DepthT, MsT
+		, std::enable_if_t< is1DShadow< DimT, ArrayedT, DepthT >
+			|| is2DShadow< DimT, ArrayedT, DepthT >
+			|| isRectShadow< DimT, ArrayedT, DepthT >
+			|| is1DArrayShadow< DimT, ArrayedT, DepthT >
+			|| is2DArrayShadow< DimT, ArrayedT, DepthT > > >
+	{
+		using SampleT = typename sdw::SampledImageSampleT< DimT, ArrayedT >;
+		using OffsetT = typename sdw::SampledImageOffsetT< DimT, ArrayedT >;
+
+		static void test( ast::type::ImageFormat format, test::TestCounts & testCounts )
+		{
+			auto name = "testTextureOffsetShadow" + sdw::debug::getName( SampledT, DimT, format, ArrayedT, DepthT, MsT );
+			testBegin( name );
+			using namespace sdw;
+			{
+				ShaderWriter writer{ false };
+				auto s = writer.declSampledImage< SampledT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
+				writer.implementFunction< void >( "main"
+					, [&]()
+					{
+						auto c = writer.declLocale( "c"
+							, textureOffset( s
+								, test::getDefault< SampleT >( writer.getShader() )
+								, 0.5_f
+								, test::getDefault < OffsetT >( writer.getShader() ) ) );
+					} );
+				test::writeShader( writer.getShader()
+					, sdw::ShaderType::eFragment
+					, testCounts );
+			}
+			testEnd();
+		}
+	};
+	/**@}*/
+#pragma endregion
+#pragma region textureOffsetBias
+	/**
+	*name
+	*	textureOffset
+	*/
+	/**@{*/
+	template< ast::type::Kind SampledT
+		, ast::type::ImageDim DimT
+		, bool ArrayedT
+		, bool DepthT
+		, bool MsT
+		, typename Enable = void >
+	struct TextureOffsetBiasTester
+	{
+		static void test( ast::type::ImageFormat format, test::TestCounts & testCounts )
+		{
+		}
+	};
+	
+	template< ast::type::Kind SampledT
+		, ast::type::ImageDim DimT
+		, bool ArrayedT
+		, bool DepthT
+		, bool MsT >
+	struct TextureOffsetBiasTester < SampledT, DimT, ArrayedT, DepthT, MsT
+		, std::enable_if_t< is1D< DimT, ArrayedT, DepthT >
+			|| is2D< DimT, ArrayedT, DepthT >
+			|| is3D< DimT, ArrayedT, DepthT >
+			|| is1DArray< DimT, ArrayedT, DepthT >
+			|| is2DArray< DimT, ArrayedT, DepthT > > >
+	{
+		using SampleT = typename sdw::SampledImageSampleT< DimT, ArrayedT >;
+		using OffsetT = typename sdw::SampledImageOffsetT< DimT, ArrayedT >;
+
+		static void test( ast::type::ImageFormat format, test::TestCounts & testCounts )
+		{
+			auto name = "testTextureOffsetBias" + sdw::debug::getName( SampledT, DimT, format, ArrayedT, DepthT, MsT );
+			testBegin( name );
+			using namespace sdw;
+			{
+				ShaderWriter writer{ false };
+				auto s = writer.declSampledImage< SampledT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
+				writer.implementFunction< void >( "main"
+					, [&]()
+					{
+						auto c = writer.declLocale( "c"
+							, textureOffset( s
+								, test::getDefault< SampleT >( writer.getShader() )
+								, test::getDefault< OffsetT >( writer.getShader() )
+								, 1.0_f ) );
+					} );
+				test::writeShader( writer.getShader()
+					, sdw::ShaderType::eFragment
+					, testCounts );
+			}
+			testEnd();
+		}
+	};
+
+	template< ast::type::Kind SampledT
+		, ast::type::ImageDim DimT
+		, bool ArrayedT
+		, bool DepthT
+		, bool MsT >
+	struct TextureOffsetBiasTester < SampledT, DimT, ArrayedT, DepthT, MsT
+		, std::enable_if_t< is1DShadow< DimT, ArrayedT, DepthT >
+			|| is2DShadow< DimT, ArrayedT, DepthT > > >
+	{
+		using SampleT = typename sdw::SampledImageSampleT< DimT, ArrayedT >;
+		using OffsetT = typename sdw::SampledImageOffsetT< DimT, ArrayedT >;
+
+		static void test( ast::type::ImageFormat format, test::TestCounts & testCounts )
+		{
+			auto name = "testTextureOffsetShadowBias" + sdw::debug::getName( SampledT, DimT, format, ArrayedT, DepthT, MsT );
+			testBegin( name );
+			using namespace sdw;
+			{
+				ShaderWriter writer{ false };
+				auto s = writer.declSampledImage< SampledT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
+				writer.implementFunction< void >( "main"
+					, [&]()
+					{
+						auto c = writer.declLocale( "c"
+							, textureOffset( s
+								, test::getDefault< SampleT >( writer.getShader() )
+								, 0.5_f
+								, test::getDefault< OffsetT >( writer.getShader() )
+								, 1.0_f ) );
+					} );
+				test::writeShader( writer.getShader()
+					, sdw::ShaderType::eFragment
+					, testCounts );
+			}
+			testEnd();
+		}
+	};
+	/**@}*/
+#pragma endregion
+#pragma region texelFetch
+	/**
+	*name
+	*	texelFetch
+	*/
+	/**@{*/
+	template< ast::type::Kind SampledT
+		, ast::type::ImageDim DimT
+		, bool ArrayedT
+		, bool DepthT
+		, bool MsT
+		, typename Enable = void >
+	struct TexelFetchTester
+	{
+		static void test( ast::type::ImageFormat format, test::TestCounts & testCounts )
+		{
+		}
+	};
+
+	template< ast::type::Kind SampledT
+		, ast::type::ImageDim DimT
+		, bool ArrayedT
+		, bool DepthT
+		, bool MsT >
+	struct TexelFetchTester < SampledT, DimT, ArrayedT, DepthT, MsT
+		, std::enable_if_t< is1D< DimT, ArrayedT, DepthT >
+			|| is2D< DimT, ArrayedT, DepthT >
+			|| is3D< DimT, ArrayedT, DepthT >
+			|| is1DArray< DimT, ArrayedT, DepthT >
+			|| is2DArray< DimT, ArrayedT, DepthT > > >
+	{
+		using FetchT = typename sdw::SampledImageFetchT< DimT, ArrayedT >;
+
+		static void test( ast::type::ImageFormat format, test::TestCounts & testCounts )
+		{
+			auto name = "testTexelFetchLod" + sdw::debug::getName( SampledT, DimT, format, ArrayedT, DepthT, MsT );
+			testBegin( name );
+			using namespace sdw;
+			{
+				ShaderWriter writer{ false };
+				auto s = writer.declSampledImage< SampledT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
+				writer.implementFunction< void >( "main"
+					, [&]()
+					{
+						auto c = writer.declLocale( "c"
+							, texelFetch( s
+								, test::getDefault< FetchT >( writer.getShader() )
+								, 1_i ) );
+					} );
+				test::writeShader( writer.getShader()
+					, sdw::ShaderType::eFragment
+					, testCounts );
+			}
+			testEnd();
+		}
+	};
+
+	template< ast::type::Kind SampledT
+		, ast::type::ImageDim DimT
+		, bool ArrayedT
+		, bool DepthT
+		, bool MsT >
+	struct TexelFetchTester < SampledT, DimT, ArrayedT, DepthT, MsT
+		, std::enable_if_t< isRect< DimT, ArrayedT, DepthT >
+			|| isBuffer< DimT, ArrayedT, DepthT > > >
+	{
+		using FetchT = typename sdw::SampledImageFetchT< DimT, ArrayedT >;
+
+		static void test( ast::type::ImageFormat format, test::TestCounts & testCounts )
+		{
+			auto name = "testTexelFetch" + sdw::debug::getName( SampledT, DimT, format, ArrayedT, DepthT, MsT );
+			testBegin( name );
+			using namespace sdw;
+			{
+				ShaderWriter writer{ false };
+				auto s = writer.declSampledImage< SampledT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
+				writer.implementFunction< void >( "main"
+					, [&]()
+					{
+						auto c = writer.declLocale( "c"
+							, texelFetch( s
+								, test::getDefault< FetchT >( writer.getShader() ) ) );
+					} );
+				test::writeShader( writer.getShader()
+					, sdw::ShaderType::eFragment
+					, testCounts );
+			}
+			testEnd();
+		}
+	};
+	/**@}*/
+#pragma endregion
+#pragma region texelFetchOffset
+	/**
+	*name
+	*	texelFetchOffset
+	*/
+	/**@{*/
+	template< ast::type::Kind SampledT
+		, ast::type::ImageDim DimT
+		, bool ArrayedT
+		, bool DepthT
+		, bool MsT
+		, typename Enable = void >
+	struct TexelFetchOffsetTester
+	{
+		static void test( ast::type::ImageFormat format, test::TestCounts & testCounts )
+		{
+		}
+	};
+
+	template< ast::type::Kind SampledT
+		, ast::type::ImageDim DimT
+		, bool ArrayedT
+		, bool DepthT
+		, bool MsT >
+	struct TexelFetchOffsetTester< SampledT, DimT, ArrayedT, DepthT, MsT
+		, std::enable_if_t< is1D< DimT, ArrayedT, DepthT >
+			|| is2D< DimT, ArrayedT, DepthT >
+			|| is3D< DimT, ArrayedT, DepthT >
+			|| is1DArray< DimT, ArrayedT, DepthT >
+			|| is2DArray< DimT, ArrayedT, DepthT > > >
+	{
+		using FetchT = typename sdw::SampledImageFetchT< DimT, ArrayedT >;
+
+		static void test( ast::type::ImageFormat format, test::TestCounts & testCounts )
+		{
+			auto name = "testTexelFetchOffsetLod" + sdw::debug::getName( SampledT, DimT, format, ArrayedT, DepthT, MsT );
+			testBegin( name );
+			using namespace sdw;
+			{
+				ShaderWriter writer{ false };
+				auto s = writer.declSampledImage< SampledT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
+				writer.implementFunction< void >( "main"
+					, [&]()
+					{
+						auto c = writer.declLocale( "c"
+							, texelFetchOffset( s
+								, test::getDefault< FetchT >( writer.getShader() )
+								, 1_i
+								, 0_i ) );
+					} );
+				test::writeShader( writer.getShader()
+					, sdw::ShaderType::eFragment
+					, testCounts );
+			}
+			testEnd();
+		}
+	};
+
+	template< ast::type::Kind SampledT
+		, ast::type::ImageDim DimT
+		, bool ArrayedT
+		, bool DepthT
+		, bool MsT >
+	struct TexelFetchOffsetTester< SampledT, DimT, ArrayedT, DepthT, MsT
+		, std::enable_if_t< isRect< DimT, ArrayedT, DepthT > > >
+	{
+		using FetchT = typename sdw::SampledImageFetchT< DimT, ArrayedT >;
+
+		static void test( ast::type::ImageFormat format, test::TestCounts & testCounts )
+		{
+			auto name = "testTexelFetchOffset" + sdw::debug::getName( SampledT, DimT, format, ArrayedT, DepthT, MsT );
+			testBegin( name );
+			using namespace sdw;
+			{
+				ShaderWriter writer{ false };
+				auto s = writer.declSampledImage< SampledT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
+				writer.implementFunction< void >( "main"
+					, [&]()
+					{
+						auto c = writer.declLocale( "c"
+							, texelFetchOffset( s
+								, test::getDefault< FetchT >( writer.getShader() )
+								, 0_i ) );
+					} );
+				test::writeShader( writer.getShader()
+					, sdw::ShaderType::eFragment
+					, testCounts );
+			}
+			testEnd();
+		}
+	};
+	/**@}*/
+#pragma endregion
+#pragma region textureProjOffset
+	/**
+	*name
+	*	textureProjOffset
+	*/
+	/**@{*/
+	template< ast::type::Kind SampledT
+		, ast::type::ImageDim DimT
+		, bool ArrayedT
+		, bool DepthT
+		, bool MsT
+		, typename Enable = void >
+	struct TextureProjOffsetTester
+	{
+		static void test( ast::type::ImageFormat format, test::TestCounts & testCounts )
+		{
+		}
+	};
+
+	template< ast::type::Kind SampledT
+		, ast::type::ImageDim DimT
+		, bool ArrayedT
+		, bool DepthT
+		, bool MsT >
+	struct TextureProjOffsetTester< SampledT, DimT, ArrayedT, DepthT, MsT
+		, std::enable_if_t< is1D< DimT, ArrayedT, DepthT >
+			|| is2D< DimT, ArrayedT, DepthT >
+			|| is3D< DimT, ArrayedT, DepthT >
+			|| isRect< DimT, ArrayedT, DepthT > > >
+	{
+		using SampleProjT = typename sdw::SampledImageSampleProjT< DimT, ArrayedT >;
+		using OffsetT = typename sdw::SampledImageOffsetT< DimT, ArrayedT >;
+
+		static void test( ast::type::ImageFormat format, test::TestCounts & testCounts )
+		{
+			auto name = "testTextureProjOffset" + sdw::debug::getName( SampledT, DimT, format, ArrayedT, DepthT, MsT );
+			testBegin( name );
+			using namespace sdw;
+			{
+				ShaderWriter writer{ false };
+				auto s = writer.declSampledImage< SampledT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
+				writer.implementFunction< void >( "main"
+					, [&]()
+					{
+						auto c = writer.declLocale( "c"
+							, textureProjOffset( s
+								, test::getDefault< SampleProjT >( writer.getShader() )
+								, test::getDefault< OffsetT >( writer.getShader() ) ) );
+					} );
+				test::writeShader( writer.getShader()
+					, sdw::ShaderType::eFragment
+					, testCounts );
+			}
+			testEnd();
+		}
+	};
+
+	template< ast::type::Kind SampledT
+		, ast::type::ImageDim DimT
+		, bool ArrayedT
+		, bool DepthT
+		, bool MsT >
+	struct TextureProjOffsetTester< SampledT, DimT, ArrayedT, DepthT, MsT
+		, std::enable_if_t< is1DShadow< DimT, ArrayedT, DepthT >
+			|| is2DShadow< DimT, ArrayedT, DepthT >
+			|| isRectShadow< DimT, ArrayedT, DepthT > > >
+	{
+		using SampleProjT = typename sdw::SampledImageSampleProjT< DimT, ArrayedT >;
+		using OffsetT = typename sdw::SampledImageOffsetT< DimT, ArrayedT >;
+
+		static void test( ast::type::ImageFormat format, test::TestCounts & testCounts )
+		{
+			auto name = "testTextureProjOffsetShadow" + sdw::debug::getName( SampledT, DimT, format, ArrayedT, DepthT, MsT );
+			testBegin( name );
+			using namespace sdw;
+			{
+				ShaderWriter writer{ false };
+				auto s = writer.declSampledImage< SampledT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
+				writer.implementFunction< void >( "main"
+					, [&]()
+					{
+						auto c = writer.declLocale( "c"
+							, textureProjOffset( s
+								, test::getDefault< SampleProjT >( writer.getShader() )
+								, 0.5_f
+								, test::getDefault< OffsetT >( writer.getShader() ) ) );
+					} );
+				test::writeShader( writer.getShader()
+					, sdw::ShaderType::eFragment
+					, testCounts );
+			}
+			testEnd();
+		}
+	};
+	/**@}*/
+#pragma endregion
+#pragma region textureProjOffsetBias
+	/**
+	*name
+	*	textureProjOffsetBias
+	*/
+	/**@{*/
+	template< ast::type::Kind SampledT
+		, ast::type::ImageDim DimT
+		, bool ArrayedT
+		, bool DepthT
+		, bool MsT
+		, typename Enable = void >
+	struct TextureProjOffsetBiasTester
+	{
+		static void test( ast::type::ImageFormat format, test::TestCounts & testCounts )
+		{
+		}
+	};
+
+	template< ast::type::Kind SampledT
+		, ast::type::ImageDim DimT
+		, bool ArrayedT
+		, bool DepthT
+		, bool MsT >
+	struct TextureProjOffsetBiasTester< SampledT, DimT, ArrayedT, DepthT, MsT
+		, std::enable_if_t< is1D< DimT, ArrayedT, DepthT >
+			|| is2D< DimT, ArrayedT, DepthT >
+			|| is3D< DimT, ArrayedT, DepthT > > >
+	{
+		using SampleProjT = typename sdw::SampledImageSampleProjT< DimT, ArrayedT >;
+		using OffsetT = typename sdw::SampledImageOffsetT< DimT, ArrayedT >;
+
+		static void test( ast::type::ImageFormat format, test::TestCounts & testCounts )
+		{
+			auto name = "testTextureProjOffsetBias" + sdw::debug::getName( SampledT, DimT, format, ArrayedT, DepthT, MsT );
+			testBegin( name );
+			using namespace sdw;
+			{
+				ShaderWriter writer{ false };
+				auto s = writer.declSampledImage< SampledT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
+				writer.implementFunction< void >( "main"
+					, [&]()
+					{
+						auto c = writer.declLocale( "c"
+							, textureProjOffset( s
+								, test::getDefault< SampleProjT >( writer.getShader() )
+								, test::getDefault< OffsetT >( writer.getShader() )
+								, 1.0_f ) );
+					} );
+				test::writeShader( writer.getShader()
+					, sdw::ShaderType::eFragment
+					, testCounts );
+			}
+			testEnd();
+		}
+	};
+
+	template< ast::type::Kind SampledT
+		, ast::type::ImageDim DimT
+		, bool ArrayedT
+		, bool DepthT
+		, bool MsT >
+	struct TextureProjOffsetBiasTester< SampledT, DimT, ArrayedT, DepthT, MsT
+		, std::enable_if_t< is1DShadow< DimT, ArrayedT, DepthT >
+			|| is2DShadow< DimT, ArrayedT, DepthT > > >
+	{
+		using SampleProjT = typename sdw::SampledImageSampleProjT< DimT, ArrayedT >;
+		using OffsetT = typename sdw::SampledImageOffsetT< DimT, ArrayedT >;
+
+		static void test( ast::type::ImageFormat format, test::TestCounts & testCounts )
+		{
+			auto name = "testTextureProjOffsetShadowBias" + sdw::debug::getName( SampledT, DimT, format, ArrayedT, DepthT, MsT );
+			testBegin( name );
+			using namespace sdw;
+			{
+				ShaderWriter writer{ false };
+				auto s = writer.declSampledImage< SampledT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
+				writer.implementFunction< void >( "main"
+					, [&]()
+					{
+						auto c = writer.declLocale( "c"
+							, textureProjOffset( s
+								, test::getDefault< SampleProjT >( writer.getShader() )
+								, 0.5_f
+								, test::getDefault< OffsetT >( writer.getShader() )
+								, 1.0_f ) );
+					} );
+				test::writeShader( writer.getShader()
+					, sdw::ShaderType::eFragment
+					, testCounts );
+			}
+			testEnd();
+		}
+	};
+	/**@}*/
+#pragma endregion
+#pragma region textureLodOffset
+	/**
+	*name
+	*	textureLodOffset
+	*/
+	/**@{*/
+	template< ast::type::Kind SampledT
+		, ast::type::ImageDim DimT
+		, bool ArrayedT
+		, bool DepthT
+		, bool MsT
+		, typename Enable = void >
+	struct TextureLodOffsetTester
+	{
+		static void test( ast::type::ImageFormat format, test::TestCounts & testCounts )
+		{
+		}
+	};
+
+	template< ast::type::Kind SampledT
+		, ast::type::ImageDim DimT
+		, bool ArrayedT
+		, bool DepthT
+		, bool MsT >
+	struct TextureLodOffsetTester < SampledT, DimT, ArrayedT, DepthT, MsT
+		, std::enable_if_t< is1D< DimT, ArrayedT, DepthT >
+			|| is2D< DimT, ArrayedT, DepthT >
+			|| is3D< DimT, ArrayedT, DepthT >
+			|| is1DArray< DimT, ArrayedT, DepthT >
+			|| is2DArray< DimT, ArrayedT, DepthT > > >
+	{
+		using SampleT = typename sdw::SampledImageSampleT< DimT, ArrayedT >;
+		using OffsetT = typename sdw::SampledImageOffsetT< DimT, ArrayedT >;
+
+		static void test( ast::type::ImageFormat format, test::TestCounts & testCounts )
+		{
+			auto name = "testTextureLodOffset" + sdw::debug::getName( SampledT, DimT, format, ArrayedT, DepthT, MsT );
+			testBegin( name );
+			using namespace sdw;
+			{
+				ShaderWriter writer{ false };
+				auto s = writer.declSampledImage< SampledT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
+				writer.implementFunction< void >( "main"
+					, [&]()
+					{
+						auto c = writer.declLocale( "c"
+							, textureLodOffset( s
+								, test::getDefault< SampleT >( writer.getShader() )
+								, 1.0_f
+								, test::getDefault< OffsetT >( writer.getShader() ) ) );
+					} );
+				test::writeShader( writer.getShader()
+					, sdw::ShaderType::eFragment
+					, testCounts );
+			}
+			testEnd();
+		}
+	};
+
+	template< ast::type::Kind SampledT
+		, ast::type::ImageDim DimT
+		, bool ArrayedT
+		, bool DepthT
+		, bool MsT >
+	struct TextureLodOffsetTester< SampledT, DimT, ArrayedT, DepthT, MsT
+		, std::enable_if_t< is1DShadow< DimT, ArrayedT, DepthT >
+			|| is2DShadow< DimT, ArrayedT, DepthT >
+			|| is1DArrayShadow< DimT, ArrayedT, DepthT > > >
+	{
+		using SampleT = typename sdw::SampledImageSampleT< DimT, ArrayedT >;
+		using OffsetT = typename sdw::SampledImageOffsetT< DimT, ArrayedT >;
+
+		static void test( ast::type::ImageFormat format, test::TestCounts & testCounts )
+		{
+			auto name = "testTextureLodShadowOffset" + sdw::debug::getName( SampledT, DimT, format, ArrayedT, DepthT, MsT );
+			testBegin( name );
+			using namespace sdw;
+			{
+				ShaderWriter writer{ false };
+				auto s = writer.declSampledImage< SampledT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
+				writer.implementFunction< void >( "main"
+					, [&]()
+					{
+						auto c = writer.declLocale( "c"
+							, textureLodOffset( s
+								, test::getDefault< SampleT >( writer.getShader() )
+								, 0.5_f
+								, 1.0_f
+								, test::getDefault< OffsetT >( writer.getShader() ) ) );
+					} );
+				test::writeShader( writer.getShader()
+					, sdw::ShaderType::eFragment
+					, testCounts );
+			}
+			testEnd();
+		}
+	};
+	/**@}*/
+#pragma endregion
+#pragma region textureProjLod
+	/**
+	*name
+	*	textureProjLod
+	*/
+	/**@{*/
+	template< ast::type::Kind SampledT
+		, ast::type::ImageDim DimT
+		, bool ArrayedT
+		, bool DepthT
+		, bool MsT
+		, typename Enable = void >
+	struct TextureProjLodTester
+	{
+		static void test( ast::type::ImageFormat format, test::TestCounts & testCounts )
+		{
+		}
+	};
+
+	template< ast::type::Kind SampledT
+		, ast::type::ImageDim DimT
+		, bool ArrayedT
+		, bool DepthT
+		, bool MsT >
+	struct TextureProjLodTester< SampledT, DimT, ArrayedT, DepthT, MsT
+		, std::enable_if_t< is1D< DimT, ArrayedT, DepthT >
+			|| is2D< DimT, ArrayedT, DepthT >
+			|| is3D< DimT, ArrayedT, DepthT > > >
+	{
+		using SampleProjT = typename sdw::SampledImageSampleProjT< DimT, ArrayedT >;
+
+		static void test( ast::type::ImageFormat format, test::TestCounts & testCounts )
+		{
+			auto name = "testTextureProjLod" + sdw::debug::getName( SampledT, DimT, format, ArrayedT, DepthT, MsT );
+			testBegin( name );
+			using namespace sdw;
+			{
+				ShaderWriter writer{ false };
+				auto s = writer.declSampledImage< SampledT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
+				writer.implementFunction< void >( "main"
+					, [&]()
+					{
+						auto c = writer.declLocale( "c"
+							, textureProjLod( s
+								, test::getDefault< SampleProjT >( writer.getShader() )
+								, 1.0_f ) );
+					} );
+				test::writeShader( writer.getShader()
+					, sdw::ShaderType::eFragment
+					, testCounts );
+			}
+			testEnd();
+		}
+	};
+
+	template< ast::type::Kind SampledT
+		, ast::type::ImageDim DimT
+		, bool ArrayedT
+		, bool DepthT
+		, bool MsT >
+	struct TextureProjLodTester< SampledT, DimT, ArrayedT, DepthT, MsT
+		, std::enable_if_t< is1DShadow< DimT, ArrayedT, DepthT >
+			|| is2DShadow< DimT, ArrayedT, DepthT > > >
+	{
+		using SampleProjT = typename sdw::SampledImageSampleProjT< DimT, ArrayedT >;
+
+		static void test( ast::type::ImageFormat format, test::TestCounts & testCounts )
+		{
+			auto name = "testTextureProjShadowLod" + sdw::debug::getName( SampledT, DimT, format, ArrayedT, DepthT, MsT );
+			testBegin( name );
+			using namespace sdw;
+			{
+				ShaderWriter writer{ false };
+				auto s = writer.declSampledImage< SampledT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
+				writer.implementFunction< void >( "main"
+					, [&]()
+					{
+						auto c = writer.declLocale( "c"
+							, textureProjLod( s
+								, test::getDefault< SampleProjT >( writer.getShader() )
+								, 0.5_f
+								, 1.0_f ) );
+					} );
+				test::writeShader( writer.getShader()
+					, sdw::ShaderType::eFragment
+					, testCounts );
+			}
+			testEnd();
+		}
+	};
+	/**@}*/
+#pragma endregion
+#pragma region textureProjLodOffset
+	/**
+	*name
+	*	textureProjLodOffset
+	*/
+	/**@{*/
+	template< ast::type::Kind SampledT
+		, ast::type::ImageDim DimT
+		, bool ArrayedT
+		, bool DepthT
+		, bool MsT
+		, typename Enable = void >
+	struct TextureProjLodOffsetTester
+	{
+		static void test( ast::type::ImageFormat format, test::TestCounts & testCounts )
+		{
+		}
+	};
+
+	template< ast::type::Kind SampledT
+		, ast::type::ImageDim DimT
+		, bool ArrayedT
+		, bool DepthT
+		, bool MsT >
+	struct TextureProjLodOffsetTester< SampledT, DimT, ArrayedT, DepthT, MsT
+		, std::enable_if_t< is1D< DimT, ArrayedT, DepthT >
+			|| is2D< DimT, ArrayedT, DepthT >
+			|| is3D< DimT, ArrayedT, DepthT > > >
+	{
+		using SampleProjT = typename sdw::SampledImageSampleProjT< DimT, ArrayedT >;
+		using OffsetT = typename sdw::SampledImageOffsetT< DimT, ArrayedT >;
+
+		static void test( ast::type::ImageFormat format, test::TestCounts & testCounts )
+		{
+			auto name = "testTextureProjLodOffset" + sdw::debug::getName( SampledT, DimT, format, ArrayedT, DepthT, MsT );
+			testBegin( name );
+			using namespace sdw;
+			{
+				ShaderWriter writer{ false };
+				auto s = writer.declSampledImage< SampledT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
+				writer.implementFunction< void >( "main"
+					, [&]()
+					{
+						auto c = writer.declLocale( "c"
+							, textureProjLodOffset( s
+								, test::getDefault< SampleProjT >( writer.getShader() )
+								, 1.0_f
+								, test::getDefault< OffsetT >( writer.getShader() ) ) );
+					} );
+				test::writeShader( writer.getShader()
+					, sdw::ShaderType::eFragment
+					, testCounts );
+			}
+			testEnd();
+		}
+	};
+
+	template< ast::type::Kind SampledT
+		, ast::type::ImageDim DimT
+		, bool ArrayedT
+		, bool DepthT
+		, bool MsT >
+	struct TextureProjLodOffsetTester< SampledT, DimT, ArrayedT, DepthT, MsT
+		, std::enable_if_t< is1DShadow< DimT, ArrayedT, DepthT >
+			|| is2DShadow< DimT, ArrayedT, DepthT > > >
+	{
+		using SampleProjT = typename sdw::SampledImageSampleProjT< DimT, ArrayedT >;
+		using OffsetT = typename sdw::SampledImageOffsetT< DimT, ArrayedT >;
+
+		static void test( ast::type::ImageFormat format, test::TestCounts & testCounts )
+		{
+			auto name = "testTextureProjShadowLodOffset" + sdw::debug::getName( SampledT, DimT, format, ArrayedT, DepthT, MsT );
+			testBegin( name );
+			using namespace sdw;
+			{
+				ShaderWriter writer{ false };
+				auto s = writer.declSampledImage< SampledT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
+				writer.implementFunction< void >( "main"
+					, [&]()
+					{
+						auto c = writer.declLocale( "c"
+							, textureProjLodOffset( s
+								, test::getDefault< SampleProjT >( writer.getShader() )
+								, 0.5_f
+								, 1.0_f
+								, test::getDefault< OffsetT >( writer.getShader() ) ) );
+					} );
+				test::writeShader( writer.getShader()
+					, sdw::ShaderType::eFragment
+					, testCounts );
+			}
+			testEnd();
+		}
+	};
+	/**@}*/
+#pragma endregion
+#pragma region textureGrad
+	/**
+	*name
+	*	textureGrad
+	*/
+	/**@{*/
+	template< ast::type::Kind SampledT
+		, ast::type::ImageDim DimT
+		, bool ArrayedT
+		, bool DepthT
+		, bool MsT
+		, typename Enable = void >
+	struct TextureGradTester
+	{
+		static void test( ast::type::ImageFormat format, test::TestCounts & testCounts )
+		{
+		}
+	};
+	
+	template< ast::type::Kind SampledT
+		, ast::type::ImageDim DimT
+		, bool ArrayedT
+		, bool DepthT
+		, bool MsT >
+	struct TextureGradTester < SampledT, DimT, ArrayedT, DepthT, MsT
+		, std::enable_if_t< is1D< DimT, ArrayedT, DepthT >
+			|| is2D< DimT, ArrayedT, DepthT >
+			|| is3D< DimT, ArrayedT, DepthT >
+			|| isRect< DimT, ArrayedT, DepthT >
+			|| isCube< DimT, ArrayedT, DepthT >
+			|| is1DArray< DimT, ArrayedT, DepthT >
+			|| is2DArray< DimT, ArrayedT, DepthT >
+			|| isCubeArray< DimT, ArrayedT, DepthT > > >
+	{
+		using SampleT = typename sdw::SampledImageSampleT< DimT, ArrayedT >;
+		using DerivativeT = typename sdw::SampledImageDerivativeT< DimT, ArrayedT >;
+
+		static void test( ast::type::ImageFormat format, test::TestCounts & testCounts )
+		{
+			auto name = "testTextureGrad" + sdw::debug::getName( SampledT, DimT, format, ArrayedT, DepthT, MsT );
+			testBegin( name );
+			using namespace sdw;
+			{
+				ShaderWriter writer{ false };
+				auto s = writer.declSampledImage< SampledT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
+				writer.implementFunction< void >( "main"
+					, [&]()
+					{
+						auto c = writer.declLocale( "c"
+							, textureGrad( s
+								, test::getDefault< SampleT >( writer.getShader() )
+								, test::getDefault< DerivativeT >( writer.getShader() )
+								, test::getDefault< DerivativeT >( writer.getShader() ) ) );
+					} );
+				test::writeShader( writer.getShader()
+					, sdw::ShaderType::eFragment
+					, testCounts );
+			}
+			testEnd();
+		}
+	};
+
+	template< ast::type::Kind SampledT
+		, ast::type::ImageDim DimT
+		, bool ArrayedT
+		, bool DepthT
+		, bool MsT >
+	struct TextureGradTester< SampledT, DimT, ArrayedT, DepthT, MsT
+		, std::enable_if_t< is1DShadow< DimT, ArrayedT, DepthT >
+			|| is2DShadow< DimT, ArrayedT, DepthT >
+			|| isRectShadow< DimT, ArrayedT, DepthT >
+			|| is1DArrayShadow< DimT, ArrayedT, DepthT > > >
+	{
+		using SampleT = typename sdw::SampledImageSampleT< DimT, ArrayedT >;
+		using DerivativeT = typename sdw::SampledImageDerivativeT< DimT, ArrayedT >;
+
+		static void test( ast::type::ImageFormat format, test::TestCounts & testCounts )
+		{
+			auto name = "testTextureShadowGrad" + sdw::debug::getName( SampledT, DimT, format, ArrayedT, DepthT, MsT );
+			testBegin( name );
+			using namespace sdw;
+			{
+				ShaderWriter writer{ false };
+				auto s = writer.declSampledImage< SampledT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
+				writer.implementFunction< void >( "main"
+					, [&]()
+					{
+						auto c = writer.declLocale( "c"
+							, textureGrad( s
+								, test::getDefault< SampleT >( writer.getShader() )
+								, 0.5_f
+								, test::getDefault< DerivativeT >( writer.getShader() )
+								, test::getDefault< DerivativeT >( writer.getShader() ) ) );
+					} );
+				test::writeShader( writer.getShader()
+					, sdw::ShaderType::eFragment
+					, testCounts );
+			}
+			testEnd();
+		}
+	};
+	/**@}*/
+#pragma endregion
+#pragma region textureGradOffset
+	/**
+	*name
+	*	textureGradOffset
+	*/
+	/**@{*/
+	template< ast::type::Kind SampledT
+		, ast::type::ImageDim DimT
+		, bool ArrayedT
+		, bool DepthT
+		, bool MsT
+		, typename Enable = void >
+	struct TextureGradOffsetTester
+	{
+		static void test( ast::type::ImageFormat format, test::TestCounts & testCounts )
+		{
+		}
+	};
+	
+	template< ast::type::Kind SampledT
+		, ast::type::ImageDim DimT
+		, bool ArrayedT
+		, bool DepthT
+		, bool MsT >
+	struct TextureGradOffsetTester < SampledT, DimT, ArrayedT, DepthT, MsT
+		, std::enable_if_t< is1D< DimT, ArrayedT, DepthT >
+			|| is2D< DimT, ArrayedT, DepthT >
+			|| is3D< DimT, ArrayedT, DepthT >
+			|| isRect< DimT, ArrayedT, DepthT >
+			|| is1DArray< DimT, ArrayedT, DepthT >
+			|| is2DArray< DimT, ArrayedT, DepthT > > >
+	{
+		using SampleT = typename sdw::SampledImageSampleT< DimT, ArrayedT >;
+		using DerivativeT = typename sdw::SampledImageDerivativeT< DimT, ArrayedT >;
+		using OffsetT = typename sdw::SampledImageOffsetT< DimT, ArrayedT >;
+
+		static void test( ast::type::ImageFormat format, test::TestCounts & testCounts )
+		{
+			auto name = "testTextureGradOffset" + sdw::debug::getName( SampledT, DimT, format, ArrayedT, DepthT, MsT );
+			testBegin( name );
+			using namespace sdw;
+			{
+				ShaderWriter writer{ false };
+				auto s = writer.declSampledImage< SampledT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
+				writer.implementFunction< void >( "main"
+					, [&]()
+					{
+						auto c = writer.declLocale( "c"
+							, textureGradOffset( s
+								, test::getDefault< SampleT >( writer.getShader() )
+								, test::getDefault< DerivativeT >( writer.getShader() )
+								, test::getDefault< DerivativeT >( writer.getShader() )
+								, test::getDefault< OffsetT >( writer.getShader() ) ) );
+					} );
+				test::writeShader( writer.getShader()
+					, sdw::ShaderType::eFragment
+					, testCounts );
+			}
+			testEnd();
+		}
+	};
+
+	template< ast::type::Kind SampledT
+		, ast::type::ImageDim DimT
+		, bool ArrayedT
+		, bool DepthT
+		, bool MsT >
+	struct TextureGradOffsetTester< SampledT, DimT, ArrayedT, DepthT, MsT
+		, std::enable_if_t< is1DShadow< DimT, ArrayedT, DepthT >
+			|| is2DShadow< DimT, ArrayedT, DepthT >
+			|| isRectShadow< DimT, ArrayedT, DepthT >
+			|| is1DArrayShadow< DimT, ArrayedT, DepthT >
+			|| is2DArrayShadow< DimT, ArrayedT, DepthT > > >
+	{
+		using SampleT = typename sdw::SampledImageSampleT< DimT, ArrayedT >;
+		using DerivativeT = typename sdw::SampledImageDerivativeT< DimT, ArrayedT >;
+		using OffsetT = typename sdw::SampledImageOffsetT< DimT, ArrayedT >;
+
+		static void test( ast::type::ImageFormat format, test::TestCounts & testCounts )
+		{
+			auto name = "testTextureShadowGradOffset" + sdw::debug::getName( SampledT, DimT, format, ArrayedT, DepthT, MsT );
+			testBegin( name );
+			using namespace sdw;
+			{
+				ShaderWriter writer{ false };
+				auto s = writer.declSampledImage< SampledT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
+				writer.implementFunction< void >( "main"
+					, [&]()
+					{
+						auto c = writer.declLocale( "c"
+							, textureGradOffset( s
+								, test::getDefault< SampleT >( writer.getShader() )
+								, 0.5_f
+								, test::getDefault< DerivativeT >( writer.getShader() )
+								, test::getDefault< DerivativeT >( writer.getShader() )
+								, test::getDefault< OffsetT >( writer.getShader() ) ) );
+					} );
+				test::writeShader( writer.getShader()
+					, sdw::ShaderType::eFragment
+					, testCounts );
+			}
+			testEnd();
+		}
+	};
+	/**@}*/
+#pragma endregion
+#pragma region textureProjGrad
+	/**
+	*name
+	*	textureProjGrad
+	*/
+	/**@{*/
+	template< ast::type::Kind SampledT
+		, ast::type::ImageDim DimT
+		, bool ArrayedT
+		, bool DepthT
+		, bool MsT
+		, typename Enable = void >
+	struct TextureProjGradTester
+	{
+		static void test( ast::type::ImageFormat format, test::TestCounts & testCounts )
+		{
+		}
+	};
+	
+	template< ast::type::Kind SampledT
+		, ast::type::ImageDim DimT
+		, bool ArrayedT
+		, bool DepthT
+		, bool MsT >
+	struct TextureProjGradTester < SampledT, DimT, ArrayedT, DepthT, MsT
+		, std::enable_if_t< is1D< DimT, ArrayedT, DepthT >
+			|| is2D< DimT, ArrayedT, DepthT >
+			|| is3D< DimT, ArrayedT, DepthT >
+			|| isRect< DimT, ArrayedT, DepthT > > >
+	{
+		using SampleProjT = typename sdw::SampledImageSampleProjT< DimT, ArrayedT >;
+		using DerivativeT = typename sdw::SampledImageDerivativeT< DimT, ArrayedT >;
+
+		static void test( ast::type::ImageFormat format, test::TestCounts & testCounts )
+		{
+			auto name = "testTextureProjGrad" + sdw::debug::getName( SampledT, DimT, format, ArrayedT, DepthT, MsT );
+			testBegin( name );
+			using namespace sdw;
+			{
+				ShaderWriter writer{ false };
+				auto s = writer.declSampledImage< SampledT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
+				writer.implementFunction< void >( "main"
+					, [&]()
+					{
+						auto c = writer.declLocale( "c"
+							, textureProjGrad( s
+								, test::getDefault< SampleProjT >( writer.getShader() )
+								, test::getDefault< DerivativeT >( writer.getShader() )
+								, test::getDefault< DerivativeT >( writer.getShader() ) ) );
+					} );
+				test::writeShader( writer.getShader()
+					, sdw::ShaderType::eFragment
+					, testCounts );
+			}
+			testEnd();
+		}
+	};
+
+	template< ast::type::Kind SampledT
+		, ast::type::ImageDim DimT
+		, bool ArrayedT
+		, bool DepthT
+		, bool MsT >
+	struct TextureProjGradTester< SampledT, DimT, ArrayedT, DepthT, MsT
+		, std::enable_if_t< is1DShadow< DimT, ArrayedT, DepthT >
+			|| is2DShadow< DimT, ArrayedT, DepthT >
+			|| isRectShadow< DimT, ArrayedT, DepthT > > >
+	{
+		using SampleProjT = typename sdw::SampledImageSampleProjT< DimT, ArrayedT >;
+		using DerivativeT = typename sdw::SampledImageDerivativeT< DimT, ArrayedT >;
+
+		static void test( ast::type::ImageFormat format, test::TestCounts & testCounts )
+		{
+			auto name = "testTextureProjShadowGrad" + sdw::debug::getName( SampledT, DimT, format, ArrayedT, DepthT, MsT );
+			testBegin( name );
+			using namespace sdw;
+			{
+				ShaderWriter writer{ false };
+				auto s = writer.declSampledImage< SampledT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
+				writer.implementFunction< void >( "main"
+					, [&]()
+					{
+						auto c = writer.declLocale( "c"
+							, textureProjGrad( s
+								, test::getDefault< SampleProjT >( writer.getShader() )
+								, 0.5_f
+								, test::getDefault< DerivativeT >( writer.getShader() )
+								, test::getDefault< DerivativeT >( writer.getShader() ) ) );
+					} );
+				test::writeShader( writer.getShader()
+					, sdw::ShaderType::eFragment
+					, testCounts );
+			}
+			testEnd();
+		}
+	};
+	/**@}*/
+#pragma endregion
+#pragma region textureProjGradOffset
+	/**
+	*name
+	*	textureProjGradOffset
+	*/
+	/**@{*/
+	template< ast::type::Kind SampledT
+		, ast::type::ImageDim DimT
+		, bool ArrayedT
+		, bool DepthT
+		, bool MsT
+		, typename Enable = void >
+	struct TextureProjGradOffsetTester
+	{
+		static void test( ast::type::ImageFormat format, test::TestCounts & testCounts )
+		{
+		}
+	};
+	
+	template< ast::type::Kind SampledT
+		, ast::type::ImageDim DimT
+		, bool ArrayedT
+		, bool DepthT
+		, bool MsT >
+	struct TextureProjGradOffsetTester < SampledT, DimT, ArrayedT, DepthT, MsT
+		, std::enable_if_t< is1D< DimT, ArrayedT, DepthT >
+			|| is2D< DimT, ArrayedT, DepthT >
+			|| is3D< DimT, ArrayedT, DepthT >
+			|| isRect< DimT, ArrayedT, DepthT > > >
+	{
+		using SampleProjT = typename sdw::SampledImageSampleProjT< DimT, ArrayedT >;
+		using DerivativeT = typename sdw::SampledImageDerivativeT< DimT, ArrayedT >;
+		using OffsetT = typename sdw::SampledImageOffsetT< DimT, ArrayedT >;
+
+		static void test( ast::type::ImageFormat format, test::TestCounts & testCounts )
+		{
+			auto name = "testTextureProjGradOffset" + sdw::debug::getName( SampledT, DimT, format, ArrayedT, DepthT, MsT );
+			testBegin( name );
+			using namespace sdw;
+			{
+				ShaderWriter writer{ false };
+				auto s = writer.declSampledImage< SampledT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
+				writer.implementFunction< void >( "main"
+					, [&]()
+					{
+						auto c = writer.declLocale( "c"
+							, textureProjGradOffset( s
+								, test::getDefault< SampleProjT >( writer.getShader() )
+								, test::getDefault< DerivativeT >( writer.getShader() )
+								, test::getDefault< DerivativeT >( writer.getShader() )
+								, test::getDefault< OffsetT >( writer.getShader() ) ) );
+					} );
+				test::writeShader( writer.getShader()
+					, sdw::ShaderType::eFragment
+					, testCounts );
+			}
+			testEnd();
+		}
+	};
+
+	template< ast::type::Kind SampledT
+		, ast::type::ImageDim DimT
+		, bool ArrayedT
+		, bool DepthT
+		, bool MsT >
+	struct TextureProjGradOffsetTester< SampledT, DimT, ArrayedT, DepthT, MsT
+		, std::enable_if_t< is1DShadow< DimT, ArrayedT, DepthT >
+			|| is2DShadow< DimT, ArrayedT, DepthT >
+			|| isRectShadow< DimT, ArrayedT, DepthT > > >
+	{
+		using SampleProjT = typename sdw::SampledImageSampleProjT< DimT, ArrayedT >;
+		using DerivativeT = typename sdw::SampledImageDerivativeT< DimT, ArrayedT >;
+		using OffsetT = typename sdw::SampledImageOffsetT< DimT, ArrayedT >;
+
+		static void test( ast::type::ImageFormat format, test::TestCounts & testCounts )
+		{
+			auto name = "testTextureProjShadowGradOffset" + sdw::debug::getName( SampledT, DimT, format, ArrayedT, DepthT, MsT );
+			testBegin( name );
+			using namespace sdw;
+			{
+				ShaderWriter writer{ false };
+				auto s = writer.declSampledImage< SampledT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
+				writer.implementFunction< void >( "main"
+					, [&]()
+					{
+						auto c = writer.declLocale( "c"
+							, textureProjGradOffset( s
+								, test::getDefault< SampleProjT >( writer.getShader() )
+								, 0.5_f
+								, test::getDefault< DerivativeT >( writer.getShader() )
+								, test::getDefault< DerivativeT >( writer.getShader() )
+								, test::getDefault< OffsetT >( writer.getShader() ) ) );
+					} );
+				test::writeShader( writer.getShader()
+					, sdw::ShaderType::eFragment
+					, testCounts );
+			}
+			testEnd();
+		}
+	};
+	/**@}*/
+#pragma endregion
+#pragma region textureGather
+	/**
+	*name
+	*	textureGather
+	*/
+	/**@{*/
+	template< ast::type::Kind SampledT
+		, ast::type::ImageDim DimT
+		, bool ArrayedT
+		, bool DepthT
+		, bool MsT
+		, typename Enable = void >
+	struct TextureGatherTester
+	{
+		static void test( ast::type::ImageFormat format, test::TestCounts & testCounts )
+		{
+		}
+	};
+	
+	template< ast::type::Kind SampledT
+		, ast::type::ImageDim DimT
+		, bool ArrayedT
+		, bool DepthT
+		, bool MsT >
+	struct TextureGatherTester< SampledT, DimT, ArrayedT, DepthT, MsT
+		, std::enable_if_t< is2D< DimT, ArrayedT, DepthT >
+			|| isRect< DimT, ArrayedT, DepthT >
+			|| isCube< DimT, ArrayedT, DepthT >
+			|| is2DArray< DimT, ArrayedT, DepthT >
+			|| isCubeArray< DimT, ArrayedT, DepthT > > >
+	{
+		using GatherT = typename sdw::SampledImageGatherT< DimT, ArrayedT >;
+
+		static void test( ast::type::ImageFormat format, test::TestCounts & testCounts )
+		{
+			auto name = "testTextureGather" + sdw::debug::getName( SampledT, DimT, format, ArrayedT, DepthT, MsT );
+			testBegin( name );
+			using namespace sdw;
+			{
+				ShaderWriter writer{ false };
+				auto s = writer.declSampledImage< SampledT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
+				writer.implementFunction< void >( "main"
+					, [&]()
+					{
+						auto c = writer.declLocale( "c"
+							, textureGather( s
+								, test::getDefault< GatherT >( writer.getShader() ) ) );
+					} );
+				test::writeShader( writer.getShader()
+					, sdw::ShaderType::eFragment
+					, testCounts );
+			}
+			testEnd();
+		}
+	};
+
+	template< ast::type::Kind SampledT
+		, ast::type::ImageDim DimT
+		, bool ArrayedT
+		, bool DepthT
+		, bool MsT >
+	struct TextureGatherTester< SampledT, DimT, ArrayedT, DepthT, MsT
+		, std::enable_if_t< is2DShadow< DimT, ArrayedT, DepthT >
+			|| isCubeShadow< DimT, ArrayedT, DepthT >
+			|| isRectShadow< DimT, ArrayedT, DepthT >
+			|| is2DArrayShadow< DimT, ArrayedT, DepthT >
+			|| isCubeArrayShadow< DimT, ArrayedT, DepthT > > >
+	{
+		using GatherT = typename sdw::SampledImageGatherT< DimT, ArrayedT >;
+
+		static void test( ast::type::ImageFormat format, test::TestCounts & testCounts )
+		{
+			auto name = "testTextureGatherShadow" + sdw::debug::getName( SampledT, DimT, format, ArrayedT, DepthT, MsT );
+			testBegin( name );
+			using namespace sdw;
+			{
+				ShaderWriter writer{ false };
+				auto s = writer.declSampledImage< SampledT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
+				writer.implementFunction< void >( "main"
+					, [&]()
+					{
+						auto c = writer.declLocale( "c"
+							, textureGather( s
+								, test::getDefault< GatherT >( writer.getShader() )
+								, 0.5_f ) );
+					} );
+				test::writeShader( writer.getShader()
+					, sdw::ShaderType::eFragment
+					, testCounts );
+			}
+			testEnd();
+		}
+	};
+	/**@}*/
+#pragma endregion
+#pragma region textureGatherComp
+	/**
+	*name
+	*	textureGatherComp
+	*/
+	/**@{*/
+	template< ast::type::Kind SampledT
+		, ast::type::ImageDim DimT
+		, bool ArrayedT
+		, bool DepthT
+		, bool MsT
+		, typename Enable = void >
+	struct TextureGatherCompTester
+	{
+		static void test( ast::type::ImageFormat format, test::TestCounts & testCounts )
+		{
+		}
+	};
+
+	template< ast::type::Kind SampledT
+		, ast::type::ImageDim DimT
+		, bool ArrayedT
+		, bool DepthT
+		, bool MsT >
+	struct TextureGatherCompTester< SampledT, DimT, ArrayedT, DepthT, MsT
+		, std::enable_if_t< is2D< DimT, ArrayedT, DepthT >
+			|| isRect< DimT, ArrayedT, DepthT >
+			|| isCube< DimT, ArrayedT, DepthT >
+			|| is2DArray< DimT, ArrayedT, DepthT >
+			|| isCubeArray< DimT, ArrayedT, DepthT > > >
+	{
+		using GatherT = typename sdw::SampledImageGatherT< DimT, ArrayedT >;
+
+		static void test( ast::type::ImageFormat format, test::TestCounts & testCounts )
+		{
+			auto name = "testTextureGatherComp" + sdw::debug::getName( SampledT, DimT, format, ArrayedT, DepthT, MsT );
+			testBegin( name );
+			using namespace sdw;
+			{
+				ShaderWriter writer{ false };
+				auto s = writer.declSampledImage< SampledT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
+				writer.implementFunction< void >( "main"
+					, [&]()
+					{
+						auto c = writer.declLocale( "c"
+							, textureGather( s
+								, test::getDefault< GatherT >( writer.getShader() )
+								, 1_i ) );
+					} );
+				test::writeShader( writer.getShader()
+					, sdw::ShaderType::eFragment
+					, testCounts );
+			}
+			testEnd();
+		}
+	};
+	/**@}*/
+#pragma endregion
+#pragma region textureGatherOffset
+	/**
+	*name
+	*	textureGatherOffset
+	*/
+	/**@{*/
+	template< ast::type::Kind SampledT
+		, ast::type::ImageDim DimT
+		, bool ArrayedT
+		, bool DepthT
+		, bool MsT
+		, typename Enable = void >
+	struct TextureGatherOffsetTester
+	{
+		static void test( ast::type::ImageFormat format, test::TestCounts & testCounts )
+		{
+		}
+	};
+	
+	template< ast::type::Kind SampledT
+		, ast::type::ImageDim DimT
+		, bool ArrayedT
+		, bool DepthT
+		, bool MsT >
+	struct TextureGatherOffsetTester< SampledT, DimT, ArrayedT, DepthT, MsT
+		, std::enable_if_t< is2D< DimT, ArrayedT, DepthT >
+			|| isRect< DimT, ArrayedT, DepthT >
+			|| is2DArray< DimT, ArrayedT, DepthT > > >
+	{
+		using GatherT = typename sdw::SampledImageGatherT< DimT, ArrayedT >;
+		using OffsetT = typename sdw::SampledImageOffsetT< DimT, ArrayedT >;
+
+		static void test( ast::type::ImageFormat format, test::TestCounts & testCounts )
+		{
+			auto name = "testTextureGatherOffset" + sdw::debug::getName( SampledT, DimT, format, ArrayedT, DepthT, MsT );
+			testBegin( name );
+			using namespace sdw;
+			{
+				ShaderWriter writer{ false };
+				auto s = writer.declSampledImage< SampledT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
+				writer.implementFunction< void >( "main"
+					, [&]()
+					{
+						auto c = writer.declLocale( "c"
+							, textureGatherOffset( s
+								, test::getDefault< GatherT >( writer.getShader() )
+								, test::getDefault< OffsetT >( writer.getShader() ) ) );
+					} );
+				test::writeShader( writer.getShader()
+					, sdw::ShaderType::eFragment
+					, testCounts );
+			}
+			testEnd();
+		}
+	};
+
+	template< ast::type::Kind SampledT
+		, ast::type::ImageDim DimT
+		, bool ArrayedT
+		, bool DepthT
+		, bool MsT >
+	struct TextureGatherOffsetTester< SampledT, DimT, ArrayedT, DepthT, MsT
+		, std::enable_if_t< is2DShadow< DimT, ArrayedT, DepthT >
+			|| isRectShadow< DimT, ArrayedT, DepthT >
+			|| is2DArrayShadow< DimT, ArrayedT, DepthT > > >
+	{
+		using GatherT = typename sdw::SampledImageGatherT< DimT, ArrayedT >;
+		using OffsetT = typename sdw::SampledImageOffsetT< DimT, ArrayedT >;
+
+		static void test( ast::type::ImageFormat format, test::TestCounts & testCounts )
+		{
+			auto name = "testTextureGatherShadowOffset" + sdw::debug::getName( SampledT, DimT, format, ArrayedT, DepthT, MsT );
+			testBegin( name );
+			using namespace sdw;
+			{
+				ShaderWriter writer{ false };
+				auto s = writer.declSampledImage< SampledT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
+				writer.implementFunction< void >( "main"
+					, [&]()
+					{
+						auto c = writer.declLocale( "c"
+							, textureGatherOffset( s
+								, test::getDefault< GatherT >( writer.getShader() )
+								, 0.5_f
+								, test::getDefault< OffsetT >( writer.getShader() ) ) );
+					} );
+				test::writeShader( writer.getShader()
+					, sdw::ShaderType::eFragment
+					, testCounts );
+			}
+			testEnd();
+		}
+	};
+	/**@}*/
+#pragma endregion
+#pragma region textureGatherOffsetComp
+	/**
+	*name
+	*	textureGatherOffsetComp
+	*/
+	/**@{*/
+	template< ast::type::Kind SampledT
+		, ast::type::ImageDim DimT
+		, bool ArrayedT
+		, bool DepthT
+		, bool MsT
+		, typename Enable = void >
+	struct TextureGatherOffsetCompTester
+	{
+		static void test( ast::type::ImageFormat format, test::TestCounts & testCounts )
+		{
+		}
+	};
+
+	template< ast::type::Kind SampledT
+		, ast::type::ImageDim DimT
+		, bool ArrayedT
+		, bool DepthT
+		, bool MsT >
+	struct TextureGatherOffsetCompTester< SampledT, DimT, ArrayedT, DepthT, MsT
+		, std::enable_if_t< is2D< DimT, ArrayedT, DepthT >
+			|| isRect< DimT, ArrayedT, DepthT >
+			|| is2DArray< DimT, ArrayedT, DepthT > > >
+	{
+		using GatherT = typename sdw::SampledImageGatherT< DimT, ArrayedT >;
+		using OffsetT = typename sdw::SampledImageOffsetT< DimT, ArrayedT >;
+
+		static void test( ast::type::ImageFormat format, test::TestCounts & testCounts )
+		{
+			auto name = "testTextureGatherOffsetComp" + sdw::debug::getName( SampledT, DimT, format, ArrayedT, DepthT, MsT );
+			testBegin( name );
+			using namespace sdw;
+			{
+				ShaderWriter writer{ false };
+				auto s = writer.declSampledImage< SampledT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
+				writer.implementFunction< void >( "main"
+					, [&]()
+					{
+						auto c = writer.declLocale( "c"
+							, textureGatherOffset( s
+								, test::getDefault< GatherT >( writer.getShader() )
+								, test::getDefault< OffsetT >( writer.getShader() )
+								, 1_i ) );
+					} );
+				test::writeShader( writer.getShader()
+					, sdw::ShaderType::eFragment
+					, testCounts );
+			}
+			testEnd();
+		}
+	};
+	/**@}*/
+#pragma endregion
+#pragma region textureGatherOffsets
+	/**
+	*name
+	*	textureGatherOffsets
+	*/
+	/**@{*/
+	template< ast::type::Kind SampledT
+		, ast::type::ImageDim DimT
+		, bool ArrayedT
+		, bool DepthT
+		, bool MsT
+		, typename Enable = void >
+	struct TextureGatherOffsetsTester
+	{
+		static void test( ast::type::ImageFormat format, test::TestCounts & testCounts )
+		{
+		}
+	};
+	
+	template< ast::type::Kind SampledT
+		, ast::type::ImageDim DimT
+		, bool ArrayedT
+		, bool DepthT
+		, bool MsT >
+	struct TextureGatherOffsetsTester< SampledT, DimT, ArrayedT, DepthT, MsT
+		, std::enable_if_t< is2D< DimT, ArrayedT, DepthT >
+			|| isRect< DimT, ArrayedT, DepthT >
+			|| is2DArray< DimT, ArrayedT, DepthT > > >
+	{
+		using GatherT = typename sdw::SampledImageGatherT< DimT, ArrayedT >;
+		using OffsetT = typename sdw::SampledImageOffsetT< DimT, ArrayedT >;
+
+		static void test( ast::type::ImageFormat format, test::TestCounts & testCounts )
+		{
+			auto name = "testTextureGatherOffsets" + sdw::debug::getName( SampledT, DimT, format, ArrayedT, DepthT, MsT );
+			testBegin( name );
+			using namespace sdw;
+			{
+				ShaderWriter writer{ false };
+				auto s = writer.declSampledImage< SampledT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
+				auto offsets = writer.declConstantArray< OffsetT >( "offsets"
+					, test::getDefaultVector< OffsetT >( writer.getShader(), 4u ) );
+				writer.implementFunction< void >( "main"
+					, [&]()
+					{
+						auto c = writer.declLocale( "c"
+							, textureGatherOffsets( s
+								, test::getDefault< GatherT >( writer.getShader() )
+								, offsets ) );
+					} );
+				test::writeShader( writer.getShader()
+					, sdw::ShaderType::eFragment
+					, testCounts );
+			}
+			testEnd();
+		}
+	};
+
+	template< ast::type::Kind SampledT
+		, ast::type::ImageDim DimT
+		, bool ArrayedT
+		, bool DepthT
+		, bool MsT >
+	struct TextureGatherOffsetsTester< SampledT, DimT, ArrayedT, DepthT, MsT
+		, std::enable_if_t< is2DShadow< DimT, ArrayedT, DepthT >
+			|| isRectShadow< DimT, ArrayedT, DepthT >
+			|| is2DArrayShadow< DimT, ArrayedT, DepthT > > >
+	{
+		using GatherT = typename sdw::SampledImageGatherT< DimT, ArrayedT >;
+		using OffsetT = typename sdw::SampledImageOffsetT< DimT, ArrayedT >;
+
+		static void test( ast::type::ImageFormat format, test::TestCounts & testCounts )
+		{
+			auto name = "testTextureGatherShadowOffsets" + sdw::debug::getName( SampledT, DimT, format, ArrayedT, DepthT, MsT );
+			testBegin( name );
+			using namespace sdw;
+			{
+				ShaderWriter writer{ false };
+				auto s = writer.declSampledImage< SampledT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
+				auto offsets = writer.declConstantArray< OffsetT >( "offsets"
+					, test::getDefaultVector< OffsetT >( writer.getShader(), 4u ) );
+				writer.implementFunction< void >( "main"
+					, [&]()
+					{
+						auto c = writer.declLocale( "c"
+							, textureGatherOffsets( s
+								, test::getDefault< GatherT >( writer.getShader() )
+								, 0.5_f
+								, offsets ) );
+					} );
+				test::writeShader( writer.getShader()
+					, sdw::ShaderType::eFragment
+					, testCounts );
+			}
+			testEnd();
+		}
+	};
+	/**@}*/
+#pragma endregion
+#pragma region textureGatherOffsetsComp
+	/**
+	*name
+	*	textureGatherOffsetsComp
+	*/
+	/**@{*/
+	template< ast::type::Kind SampledT
+		, ast::type::ImageDim DimT
+		, bool ArrayedT
+		, bool DepthT
+		, bool MsT
+		, typename Enable = void >
+	struct TextureGatherOffsetsCompTester
+	{
+		static void test( ast::type::ImageFormat format, test::TestCounts & testCounts )
+		{
+		}
+	};
+
+	template< ast::type::Kind SampledT
+		, ast::type::ImageDim DimT
+		, bool ArrayedT
+		, bool DepthT
+		, bool MsT >
+	struct TextureGatherOffsetsCompTester< SampledT, DimT, ArrayedT, DepthT, MsT
+		, std::enable_if_t< is2D< DimT, ArrayedT, DepthT >
+			|| isRect< DimT, ArrayedT, DepthT >
+			|| is2DArray< DimT, ArrayedT, DepthT > > >
+	{
+		using GatherT = typename sdw::SampledImageGatherT< DimT, ArrayedT >;
+		using OffsetT = typename sdw::SampledImageOffsetT< DimT, ArrayedT >;
+
+		static void test( ast::type::ImageFormat format, test::TestCounts & testCounts )
+		{
+			auto name = "testTextureGatherOffsetsComp" + sdw::debug::getName( SampledT, DimT, format, ArrayedT, DepthT, MsT );
+			testBegin( name );
+			using namespace sdw;
+			{
+				ShaderWriter writer{ false };
+				auto s = writer.declSampledImage< SampledT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
+				writer.implementFunction< void >( "main"
+					, [&]()
+					{
+						auto offsets = writer.declLocaleArray< OffsetT >( "offsets", 4u );
+						auto c = writer.declLocale( "c"
+							, textureGatherOffsets( s
+								, test::getDefault< GatherT >( writer.getShader() )
+								, offsets
+								, 1_i ) );
+					} );
+				test::writeShader( writer.getShader()
+					, sdw::ShaderType::eFragment
+					, testCounts );
+			}
+			testEnd();
+		}
+	};
+	/**@}*/
+#pragma endregion
+#pragma region Main test function
+	/**
+	*name
+	*	Main test function
+	*/
+	/**@{*/
+	template< template< ast::type::Kind, ast::type::ImageDim, bool, bool, bool > typename TesterT >
+	void testsTexture( test::TestCounts & testCounts )
+	{
+		for ( uint32_t i = 0u; i <= uint32_t( ast::type::ImageFormat::eR8u ); ++i )
+		{
+			auto format = ast::type::ImageFormat( i );
+			//TesterT< FImg1D >::test( format, testCounts );
+			//TesterT< FImg2D >::test( format, testCounts );
+			//TesterT< FImg3D >::test( format, testCounts );
+			//TesterT< FImgRect >::test( format, testCounts );
+			//TesterT< FImgCube >::test( format, testCounts );
+			//TesterT< FImgBuffer >::test( format, testCounts );
+			//TesterT< FImg1DArray >::test( format, testCounts );
+			//TesterT< FImg2DArray >::test( format, testCounts );
+			//TesterT< FImgCubeArray >::test( format, testCounts );
+			TesterT< FImg1DShadow >::test( format, testCounts );
+			TesterT< FImg2DShadow >::test( format, testCounts );
+			TesterT< FImgRectShadow >::test( format, testCounts );
+			TesterT< FImgCubeShadow >::test( format, testCounts );
+			TesterT< FImg1DArrayShadow >::test( format, testCounts );
+			TesterT< FImg2DArrayShadow >::test( format, testCounts );
+			TesterT< FImgCubeArrayShadow >::test( format, testCounts );
+
+			TesterT< IImg1D >::test( format, testCounts );
+			TesterT< IImg2D >::test( format, testCounts );
+			TesterT< IImg3D >::test( format, testCounts );
+			TesterT< IImgRect >::test( format, testCounts );
+			TesterT< IImgCube >::test( format, testCounts );
+			TesterT< IImgBuffer >::test( format, testCounts );
+			TesterT< IImg1DArray >::test( format, testCounts );
+			TesterT< IImg2DArray >::test( format, testCounts );
+			TesterT< IImgCubeArray >::test( format, testCounts );
+
+			TesterT< UImg1D >::test( format, testCounts );
+			TesterT< UImg2D >::test( format, testCounts );
+			TesterT< UImg3D >::test( format, testCounts );
+			TesterT< UImgRect >::test( format, testCounts );
+			TesterT< UImgCube >::test( format, testCounts );
+			TesterT< UImgBuffer >::test( format, testCounts );
+			TesterT< UImg1DArray >::test( format, testCounts );
+			TesterT< UImg2DArray >::test( format, testCounts );
+			TesterT< UImgCubeArray >::test( format, testCounts );
+		}
 	}
+	/**@}*/
+#pragma endregion
 }
 
 int main( int argc, char ** argv )
 {
 	testSuiteBegin( "TestWriterTextureAccesses" );
-	testsTextureSize();
-	testsTextureQueryLod();
-	testsTextureQueryLevels();
-	testsTexture();
-	testsTextureShadow();
+	//testsTexture< TextureSizeTester >( testCounts );
+	//testsTexture< TextureQueryLodTester >( testCounts );
+	//testsTexture< TextureQueryLevelsTester >( testCounts );
+	//testsTexture< TextureTester >( testCounts );
+	//testsTexture< TextureBiasTester >( testCounts );
+	//testsTexture< TextureProjTester >( testCounts );
+	//testsTexture< TextureProjBiasTester >( testCounts );
+	//testsTexture< TextureLodTester >( testCounts );
+	//testsTexture< TextureOffsetTester >( testCounts );
+	//testsTexture< TextureOffsetBiasTester >( testCounts );
+	//testsTexture< TexelFetchTester >( testCounts );
+	//testsTexture< TexelFetchOffsetTester >( testCounts );
+	//testsTexture< TextureProjOffsetTester >( testCounts );
+	//testsTexture< TextureProjOffsetBiasTester >( testCounts );
+	//testsTexture< TextureLodOffsetTester >( testCounts );
+	//testsTexture< TextureProjLodTester >( testCounts );
+	//testsTexture< TextureProjLodOffsetTester >( testCounts );
+	testsTexture< TextureGradTester >( testCounts );
+	testsTexture< TextureGradOffsetTester >( testCounts );
+	testsTexture< TextureProjGradTester >( testCounts );
+	testsTexture< TextureProjGradOffsetTester >( testCounts );
+	testsTexture< TextureGatherTester >( testCounts );
+	testsTexture< TextureGatherCompTester >( testCounts );
+	testsTexture< TextureGatherOffsetTester >( testCounts );
+	testsTexture< TextureGatherOffsetCompTester >( testCounts );
+	testsTexture< TextureGatherOffsetsTester >( testCounts );
+	testsTexture< TextureGatherOffsetsCompTester >( testCounts );
 	testSuiteEnd();
 }

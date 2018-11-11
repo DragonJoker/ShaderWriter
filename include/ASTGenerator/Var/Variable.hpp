@@ -16,14 +16,15 @@ namespace ast::var
 		eInputParam = 1 << 0,
 		eOutputParam = 1 << 1,
 		eUniform = 1 << 2,
-		eShaderInput = 1 << 3,
-		eShaderOutput = 1 << 4,
-		eShaderConstant = 1 << 5,
-		ePushConstant = 1 << 6,
-		eLocale = 1 << 7,
-		eBuiltin = 1 << 8,
-		eImplicit = 1 << 9,
-		eMember = 1 << 10,
+		eConstant = 1 << 3,
+		eShaderInput = 1 << 4,
+		eShaderOutput = 1 << 5,
+		eShaderConstant = 1 << 6,
+		ePushConstant = 1 << 7,
+		eLocale = 1 << 8,
+		eBuiltin = 1 << 9,
+		eImplicit = 1 << 10,
+		eMember = 1 << 11,
 	};
 
 	class Variable
@@ -130,6 +131,11 @@ namespace ast::var
 		inline bool isUniform()const
 		{
 			return hasFlag( Flag::eUniform );
+		}
+
+		inline bool isConstant()const
+		{
+			return hasFlag( Flag::eConstant );
 		}
 
 		inline bool isImplicit()const

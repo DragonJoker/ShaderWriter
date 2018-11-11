@@ -279,6 +279,13 @@ namespace sdw
 		return m_shader.registerConstant( name, type );
 	}
 
+	var::VariablePtr ShaderWriter::registerSpecConstant( std::string const & name
+		, uint32_t location
+		, type::TypePtr type )
+	{
+		return m_shader.registerSpecConstant( name, location, type );
+	}
+
 	var::VariablePtr ShaderWriter::registerSampledImage( std::string const & name
 		, type::TypePtr type
 		, uint32_t binding

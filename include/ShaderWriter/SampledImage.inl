@@ -5,6 +5,98 @@ namespace sdw
 {
 	//*************************************************************************
 
+	template<>
+	struct SampledImageCoordsGetter< ast::type::ImageDim::eBuffer, false >
+	{
+		using FetchType = sdw::Int;
+	};
+
+	template<>
+	struct SampledImageCoordsGetter< ast::type::ImageDim::e1D, false >
+	{
+		using QueryLodType = sdw::Float;
+		using SampleType = sdw::Float;
+		using ProjType = sdw::Vec2;
+		using OffsetType = sdw::Int;
+		using FetchType = sdw::Int;
+		using DerivativeType = sdw::Float;
+	};
+
+	template<>
+	struct SampledImageCoordsGetter< ast::type::ImageDim::e2D, false >
+	{
+		using QueryLodType = sdw::Vec2;
+		using SampleType = sdw::Vec2;
+		using ProjType = sdw::Vec3;
+		using OffsetType = sdw::IVec2;
+		using FetchType = sdw::IVec2;
+		using DerivativeType = sdw::Vec2;
+		using GatherType = sdw::Vec2;
+	};
+
+	template<>
+	struct SampledImageCoordsGetter< ast::type::ImageDim::e3D, false >
+	{
+		using QueryLodType = sdw::Vec3;
+		using SampleType = sdw::Vec3;
+		using ProjType = sdw::Vec4;
+		using OffsetType = sdw::IVec3;
+		using FetchType = sdw::IVec3;
+		using DerivativeType = sdw::Vec3;
+	};
+
+	template<>
+	struct SampledImageCoordsGetter< ast::type::ImageDim::eCube, false >
+	{
+		using QueryLodType = sdw::Vec3;
+		using SampleType = sdw::Vec3;
+		using DerivativeType = sdw::Vec3;
+		using GatherType = sdw::Vec3;
+	};
+
+	template<>
+	struct SampledImageCoordsGetter< ast::type::ImageDim::eRect, false >
+	{
+		using SampleType = sdw::Vec2;
+		using ProjType = sdw::Vec3;
+		using OffsetType = sdw::IVec2;
+		using FetchType = sdw::IVec2;
+		using DerivativeType = sdw::Vec2;
+		using GatherType = sdw::Vec3;
+	};
+
+	template<>
+	struct SampledImageCoordsGetter< ast::type::ImageDim::e1D, true >
+	{
+		using QueryLodType = sdw::Float;
+		using SampleType = sdw::Vec2;
+		using OffsetType = sdw::Int;
+		using FetchType = sdw::IVec2;
+		using DerivativeType = sdw::Float;
+	};
+
+	template<>
+	struct SampledImageCoordsGetter< ast::type::ImageDim::e2D, true >
+	{
+		using QueryLodType = sdw::Vec2;
+		using SampleType = sdw::Vec3;
+		using OffsetType = sdw::IVec2;
+		using FetchType = sdw::IVec3;
+		using DerivativeType = sdw::Vec2;
+		using GatherType = sdw::Vec3;
+	};
+
+	template<>
+	struct SampledImageCoordsGetter< ast::type::ImageDim::eCube, true >
+	{
+		using QueryLodType = sdw::Vec3;
+		using SampleType = sdw::Vec4;
+		using DerivativeType = sdw::Vec3;
+		using GatherType = sdw::Vec4;
+	};
+
+	//*************************************************************************
+
 	template< typename T >
 	SampledImage & SampledImage::operator=( T const & rhs )
 	{

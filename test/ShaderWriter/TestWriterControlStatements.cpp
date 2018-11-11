@@ -3,7 +3,7 @@
 
 namespace
 {
-	void testIf()
+	void testIf( test::TestCounts & testCounts )
 	{
 		testBegin( "testIf" );
 		sdw::ShaderWriter writer{ false };
@@ -18,11 +18,12 @@ namespace
 				FI;
 			} );
 		test::writeShader( writer.getShader()
-			, sdw::ShaderType::eVertex );
+			, sdw::ShaderType::eVertex
+			, testCounts );
 		testEnd();
 	}
 
-	void testIfElse()
+	void testIfElse( test::TestCounts & testCounts )
 	{
 		testBegin( "testIfElse" );
 		sdw::ShaderWriter writer{ false };
@@ -41,11 +42,12 @@ namespace
 				FI;
 			} );
 		test::writeShader( writer.getShader()
-			, sdw::ShaderType::eVertex );
+			, sdw::ShaderType::eVertex
+			, testCounts );
 		testEnd();
 	}
 
-	void testIfElseIf()
+	void testIfElseIf( test::TestCounts & testCounts )
 	{
 		testBegin( "testIfElseIf" );
 		sdw::ShaderWriter writer{ false };
@@ -65,11 +67,12 @@ namespace
 				FI;
 			} );
 		test::writeShader( writer.getShader()
-			, sdw::ShaderType::eVertex );
+			, sdw::ShaderType::eVertex
+			, testCounts );
 		testEnd();
 	}
 
-	void testIfElseIfElse()
+	void testIfElseIfElse( test::TestCounts & testCounts )
 	{
 		testBegin( "testIfElseIfElse" );
 		sdw::ShaderWriter writer{ false };
@@ -93,11 +96,12 @@ namespace
 				FI;
 			} );
 		test::writeShader( writer.getShader()
-			, sdw::ShaderType::eVertex );
+			, sdw::ShaderType::eVertex
+			, testCounts );
 		testEnd();
 	}
 
-	void testFor()
+	void testFor( test::TestCounts & testCounts )
 	{
 		testBegin( "testFor" );
 		sdw::ShaderWriter writer{ false };
@@ -111,11 +115,12 @@ namespace
 				ROF;
 			} );
 		test::writeShader( writer.getShader()
-			, sdw::ShaderType::eVertex );
+			, sdw::ShaderType::eVertex
+			, testCounts );
 		testEnd();
 	}
 
-	void testWhile()
+	void testWhile( test::TestCounts & testCounts )
 	{
 		testBegin( "testWhile" );
 		sdw::ShaderWriter writer{ false };
@@ -130,11 +135,12 @@ namespace
 				ELIHW;
 			} );
 		test::writeShader( writer.getShader()
-			, sdw::ShaderType::eVertex );
+			, sdw::ShaderType::eVertex
+			, testCounts );
 		testEnd();
 	}
 
-	void testDoWhile()
+	void testDoWhile( test::TestCounts & testCounts )
 	{
 		testBegin( "testDoWhile" );
 		sdw::ShaderWriter writer{ false };
@@ -149,11 +155,12 @@ namespace
 				ELIHWOD;
 			} );
 		test::writeShader( writer.getShader()
-			, sdw::ShaderType::eVertex );
+			, sdw::ShaderType::eVertex
+			, testCounts );
 		testEnd();
 	}
 
-	void testNestedIf()
+	void testNestedIf( test::TestCounts & testCounts )
 	{
 		testBegin( "testNestedIf" );
 		sdw::ShaderWriter writer{ false };
@@ -173,11 +180,12 @@ namespace
 				FI;
 			} );
 		test::writeShader( writer.getShader()
-			, sdw::ShaderType::eVertex );
+			, sdw::ShaderType::eVertex
+			, testCounts );
 		testEnd();
 	}
 
-	void testNestedIfElse()
+	void testNestedIfElse( test::TestCounts & testCounts )
 	{
 		testBegin( "testNestedIfElse" );
 		sdw::ShaderWriter writer{ false };
@@ -214,11 +222,12 @@ namespace
 				FI;
 			} );
 		test::writeShader( writer.getShader()
-			, sdw::ShaderType::eVertex );
+			, sdw::ShaderType::eVertex
+			, testCounts );
 		testEnd();
 	}
 
-	void testNestedIfElseIf()
+	void testNestedIfElseIf( test::TestCounts & testCounts )
 	{
 		testBegin( "testNestedIfElseIf" );
 		sdw::ShaderWriter writer{ false };
@@ -258,11 +267,12 @@ namespace
 				FI;
 			} );
 		test::writeShader( writer.getShader()
-			, sdw::ShaderType::eVertex );
+			, sdw::ShaderType::eVertex
+			, testCounts );
 		testEnd();
 	}
 
-	void testNestedIfElseIfElse()
+	void testNestedIfElseIfElse( test::TestCounts & testCounts )
 	{
 		testBegin( "testNestedIfElseIfElse" );
 		sdw::ShaderWriter writer{ false };
@@ -328,11 +338,12 @@ namespace
 				FI;
 			} );
 		test::writeShader( writer.getShader()
-			, sdw::ShaderType::eVertex );
+			, sdw::ShaderType::eVertex
+			, testCounts );
 		testEnd();
 	}
 
-	void testNestedFor()
+	void testNestedFor( test::TestCounts & testCounts )
 	{
 		testBegin( "testNestedFor" );
 		sdw::ShaderWriter writer{ false };
@@ -350,11 +361,12 @@ namespace
 				ROF;
 			} );
 		test::writeShader( writer.getShader()
-			, sdw::ShaderType::eVertex );
+			, sdw::ShaderType::eVertex
+			, testCounts );
 		testEnd();
 	}
 
-	void testNestedWhile()
+	void testNestedWhile( test::TestCounts & testCounts )
 	{
 		testBegin( "testNestedWhile" );
 		sdw::ShaderWriter writer{ false };
@@ -375,11 +387,12 @@ namespace
 				ELIHW;
 			} );
 		test::writeShader( writer.getShader()
-			, sdw::ShaderType::eVertex );
+			, sdw::ShaderType::eVertex
+			, testCounts );
 		testEnd();
 	}
 
-	void testNestedDoWhile()
+	void testNestedDoWhile( test::TestCounts & testCounts )
 	{
 		testBegin( "testNestedDoWhile" );
 		sdw::ShaderWriter writer{ false };
@@ -400,7 +413,8 @@ namespace
 				ELIHWOD;
 			} );
 		test::writeShader( writer.getShader()
-			, sdw::ShaderType::eVertex );
+			, sdw::ShaderType::eVertex
+			, testCounts );
 		testEnd();
 	}
 }
@@ -408,19 +422,19 @@ namespace
 int main( int argc, char ** argv )	
 {
 	testSuiteBegin( "TestWriterControlStatements" );
-	testIf();
-	testIfElse();
-	testIfElseIf();
-	testIfElseIfElse();
-	testFor();
-	testWhile();
-	testDoWhile();
-	testNestedIf();
-	testNestedIfElse();
-	testNestedIfElseIf();
-	testNestedIfElseIfElse();
-	testNestedFor();
-	testNestedWhile();
-	testNestedDoWhile();
+	testIf(  testCounts );
+	testIfElse(  testCounts );
+	testIfElseIf(  testCounts );
+	testIfElseIfElse(  testCounts );
+	testFor(  testCounts );
+	testWhile(  testCounts );
+	testDoWhile(  testCounts );
+	testNestedIf(  testCounts );
+	testNestedIfElse(  testCounts );
+	testNestedIfElseIf(  testCounts );
+	testNestedIfElseIfElse(  testCounts );
+	testNestedFor(  testCounts );
+	testNestedWhile(  testCounts );
+	testNestedDoWhile(  testCounts );
 	testSuiteEnd();
 }

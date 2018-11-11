@@ -45,6 +45,8 @@ namespace sdw
 		, expr::ExprPtr init );
 	expr::ExprPtr makeAggrInit( var::VariablePtr var
 		, expr::ExprList && init );
+	expr::ExprPtr makeAggrInit( type::TypePtr type
+		, expr::ExprList && init );
 	expr::ExprPtr makeAdd( type::TypePtr type
 		, expr::ExprPtr lhs
 		, expr::ExprPtr rhs );

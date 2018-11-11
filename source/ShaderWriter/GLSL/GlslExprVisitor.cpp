@@ -119,23 +119,28 @@ namespace sdw::glsl
 
 	void ExprVisitor::visitAggrInitExpr( expr::AggrInit * expr )
 	{
-		m_result += getTypeName( expr->getType() ) + " ";
-		expr->getIdentifier()->accept( this );
-		auto arraySize = expr->getIdentifier()->getType()->getArraySize();
-
-		if ( arraySize != ast::type::NotArray )
+		if ( expr->getIdentifier() )
 		{
-			if ( arraySize == ast::type::UnknownArraySize )
+			m_result += getTypeName( expr->getType() ) + " ";
+			expr->getIdentifier()->accept( this );
+			auto arraySize = expr->getType()->getArraySize();
+
+			if ( arraySize != ast::type::NotArray )
 			{
-				m_result += "[]";
+				if ( arraySize == ast::type::UnknownArraySize )
+				{
+					m_result += "[]";
+				}
+				else
+				{
+					m_result += "[" + std::to_string( arraySize ) + "]";
+				}
 			}
-			else
-			{
-				m_result += "[" + std::to_string( arraySize ) + "]";
-			}
+
+			m_result += " = ";
 		}
 
-		m_result += " = " + getTypeName( expr->getType() ) + "[](";
+		m_result += getTypeName( expr->getType() ) + "[](";
 		std::string sep;
 
 		for ( auto & init : expr->getInitialisers() )

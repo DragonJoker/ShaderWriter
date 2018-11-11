@@ -15,6 +15,13 @@ namespace ast::expr
 	{
 	}
 
+	AggrInit::AggrInit( type::TypePtr type
+		, ExprList && initialisers )
+		: Expr{ std::move( type ), Kind::eAggrInit }
+		, m_initialisers{ std::move( initialisers ) }
+	{
+	}
+
 	void AggrInit::accept( VisitorPtr vis )
 	{
 		vis->visitAggrInitExpr( this );

@@ -158,26 +158,22 @@ namespace sdw::hlsl
 		}
 	}
 
-	stmt::ContainerPtr StmtAdapter::submit( Shader const & shader, ShaderType type )
+	stmt::ContainerPtr StmtAdapter::submit( Shader const & shader
+		, ShaderType type
+		, IntrinsicsConfig const & config )
 	{
 		auto result = stmt::makeContainer();
-		StmtAdapter vis{ shader, type, result.get() };
+		StmtAdapter vis{ shader, type, config, result.get() };
 		shader.getStatements()->accept( &vis );
-		vis.end();
 		return result;
-	}
-
-	void StmtAdapter::end()
-	{
-		writeHlslIntrinsicFunctions( m_intrinsics, m_config );
-		writeHlslTextureAccessFunctions( m_intrinsics, m_config );
-		writeHlslImageAccessFunctions( m_intrinsics, m_config );
 	}
 
 	StmtAdapter::StmtAdapter( Shader const & shader
 		, ShaderType type
+		, IntrinsicsConfig const & config
 		, stmt::Container * result )
-		: m_shader{ shader }
+		: m_config{ config }
+		, m_shader{ shader }
 		, m_result{ result }
 		, m_type{ type }
 	{
@@ -185,9 +181,13 @@ namespace sdw::hlsl
 		m_outputStruct = type::makeStructType( type::MemoryLayout::eStd430, "HLSL_SDW_Output" );
 		m_result->addStmt( stmt::makeStructureDecl( m_inputStruct ) );
 		m_result->addStmt( stmt::makeStructureDecl( m_outputStruct ) );
+
 		auto cont = stmt::makeContainer();
-		m_intrinsics = cont.get();
+		writeHlslIntrinsicFunctions( cont.get(), m_config );
+		writeHlslTextureAccessFunctions( cont.get(), m_config );
+		writeHlslImageAccessFunctions( cont.get(), m_config );
 		m_result->addStmt( std::move( cont ) );
+
 		m_inputVar = m_shader.registerName( "sdwInput", m_inputStruct, var::Flag::eInputParam );
 		m_outputVar = m_shader.registerName( "sdwOutput", m_outputStruct );
 	}
@@ -309,118 +309,6 @@ namespace sdw::hlsl
 		visitContainerStmt( stmt );
 		m_result = save;
 		m_result->addStmt( std::move( cont ) );
-	}
-
-	void StmtAdapter::rewriteShaderIOVars()
-	{
-		std::string outputName = "TEXCOORD";
-		std::string inputName = "TEXCOORD";
-		uint32_t index = 0u;
-
-		for ( auto & input : m_inputVars )
-		{
-			m_inputStruct->declMember( input.second->getName()
-				+ ": "
-				+ getSemantic( input.second->getName()
-					, inputName
-					, index )
-				, input.second->getType()->getKind()
-				, input.second->getType()->getArraySize() );
-		}
-
-		index = 0u;
-
-		if ( m_type == ShaderType::eFragment )
-		{
-			outputName = "SV_TARGET";
-		}
-		else if ( m_type == ShaderType::eCompute )
-		{
-		}
-
-		for ( auto & output : m_outputVars )
-		{
-			m_outputStruct->declMember( output.second->getName()
-				+ ": "
-				+ getSemantic( output.second->getName()
-					, outputName
-					, index )
-				, output.second->getType()->getKind()
-				, output.second->getType()->getArraySize() );
-		}
-	}
-
-	stmt::FunctionDeclPtr StmtAdapter::rewriteMainHeader( stmt::FunctionDecl * stmt )
-	{
-		rewriteShaderIOVars();
-		assert( stmt->getParameters().empty() );
-		assert( stmt->getRet()->getKind() == type::Kind::eVoid );
-		var::VariableList parameters;
-		parameters.emplace_back( m_inputVar );
-
-		// Add input parameter
-		if ( m_inputComputeLayout )
-		{
-			m_result->addStmt( stmt::makeInputComputeLayout( m_inputComputeLayout->getWorkGroupsX()
-				, m_inputComputeLayout->getWorkGroupsY()
-				, m_inputComputeLayout->getWorkGroupsZ() ) );
-		}
-
-		// Write output return if needed.
-		stmt::FunctionDeclPtr result;
-
-		if ( !m_outputStruct->empty() )
-		{
-			result = stmt::makeFunctionDecl( m_outputStruct
-				, stmt->getName()
-				, parameters );
-			result->addStmt( stmt::makeVariableDecl( m_outputVar ) );
-		}
-		else
-		{
-			result = stmt::makeFunctionDecl( stmt->getRet()
-				, stmt->getName()
-				, parameters );
-		}
-
-		return result;
-	}
-
-	stmt::FunctionDeclPtr StmtAdapter::rewriteFuncHeader( stmt::FunctionDecl * stmt )
-	{
-		var::VariableList params;
-		// Split sampled textures in sampler + texture in parameters list.
-		for ( auto & param : stmt->getParameters() )
-		{
-			if ( isSampledImageType( param->getType()->getKind() ) )
-			{
-				auto config = std::static_pointer_cast< type::SampledImage >( param->getType() )->getConfig();
-				auto texture = var::makeVariable( type::getImage( config, param->getType()->getArraySize() )
-					, param->getName() + "_texture" );
-				auto sampler = var::makeVariable( makeType( type::Kind::eSampler, param->getType()->getArraySize() )
-					, param->getName() + "_sampler" );
-				m_linkedVars.emplace( param, std::make_pair( texture, sampler ) );
-				params.push_back( texture );
-				params.push_back( sampler );
-			}
-			else
-			{
-				params.push_back( param );
-			}
-		}
-
-		return stmt::makeFunctionDecl( stmt->getRet()
-			, stmt->getName()
-			, params );
-	}
-
-	void StmtAdapter::rewriteMainFooter( stmt::FunctionDecl * stmt )
-	{
-		if ( stmt->getName() == "main"
-			&& !m_outputStruct->empty() )
-		{
-			m_result->addStmt( stmt::makeReturn( expr::makeIdentifier( m_outputVar ) ) );
-		}
 	}
 
 	void StmtAdapter::visitFunctionDeclStmt( stmt::FunctionDecl * stmt )
@@ -554,29 +442,63 @@ namespace sdw::hlsl
 	void StmtAdapter::visitSampledImageDeclStmt( stmt::SampledImageDecl * stmt )
 	{
 		auto originalVar = stmt->getVariable();
-		auto config = std::static_pointer_cast< type::SampledImage >( stmt->getVariable()->getType() )->getConfig();
-		// Create Image
-		auto textureVar = m_shader.registerImage( stmt->getVariable()->getName() + "_texture"
-			, type::getImage( config, stmt->getVariable()->getType()->getArraySize() )
-			, stmt->getBindingPoint()
-			, stmt->getDescriptorSet() );
-		textureVar->setFlag( var::Flag::eImplicit );
-		m_result->addStmt( stmt::makeImageDecl( textureVar
-			, stmt->getBindingPoint()
-			, stmt->getDescriptorSet() ) );
+		auto sampledType = std::static_pointer_cast< type::SampledImage >( stmt->getVariable()->getType() );
+		auto config = sampledType->getConfig();
 
-		// Create Sampler
-		auto samplerVar = m_shader.registerSampler( stmt->getVariable()->getName() + "_sampler"
-			, makeType( type::Kind::eSampler, stmt->getVariable()->getType()->getArraySize() )
-			, stmt->getBindingPoint()
-			, stmt->getDescriptorSet() );
-		samplerVar->setFlag( var::Flag::eImplicit );
-		m_result->addStmt( stmt::makeSamplerDecl( samplerVar
-			, stmt->getBindingPoint()
-			, stmt->getDescriptorSet() ) );
+		if ( config.dimension == type::ImageDim::eBuffer )
+		{
+			// Create Image
+			auto textureVar = m_shader.registerImage( stmt->getVariable()->getName()
+				, sampledType->getImageType()
+				, stmt->getBindingPoint()
+				, stmt->getDescriptorSet() );
+			textureVar->setFlag( var::Flag::eImplicit );
+			m_result->addStmt( stmt::makeImageDecl( textureVar
+				, stmt->getBindingPoint()
+				, stmt->getDescriptorSet() ) );
+		}
+		else
+		{
+			// Create Image
+			auto textureVar = m_shader.registerImage( stmt->getVariable()->getName() + "_texture"
+				, sampledType->getImageType()
+				, stmt->getBindingPoint()
+				, stmt->getDescriptorSet() );
+			textureVar->setFlag( var::Flag::eImplicit );
+			m_result->addStmt( stmt::makeImageDecl( textureVar
+				, stmt->getBindingPoint()
+				, stmt->getDescriptorSet() ) );
 
-		// Link them
-		linkVars( originalVar, textureVar, samplerVar );
+			// Create Sampler
+			var::VariablePtr samplerVar;
+
+			if ( m_config.requiresShadowSampler )
+			{
+				samplerVar = m_shader.registerSampler( stmt->getVariable()->getName() + "_sampler"
+					, sampledType->getSamplerType()
+					, stmt->getBindingPoint()
+					, stmt->getDescriptorSet() );
+				samplerVar->setFlag( var::Flag::eImplicit );
+				m_result->addStmt( stmt::makeSamplerDecl( samplerVar
+					, stmt->getBindingPoint()
+					, stmt->getDescriptorSet() ) );
+			}
+			else
+			{
+				samplerVar = m_shader.registerSampler( stmt->getVariable()->getName() + "_sampler"
+					, type::getSampler( false, sampledType->getSamplerType()->getArraySize() )
+					, stmt->getBindingPoint()
+					, stmt->getDescriptorSet() );
+				samplerVar->setFlag( var::Flag::eImplicit );
+				m_result->addStmt( stmt::makeSamplerDecl( samplerVar
+					, stmt->getBindingPoint()
+					, stmt->getDescriptorSet() ) );
+			}
+
+			// Link them
+			linkVars( originalVar, textureVar, samplerVar );
+		}
+
 	}
 
 	void StmtAdapter::visitSamplerDeclStmt( stmt::SamplerDecl * stmt )
@@ -799,5 +721,121 @@ namespace sdw::hlsl
 
 	void StmtAdapter::visitPreprocVersion( stmt::PreprocVersion * preproc )
 	{
+	}
+
+	void StmtAdapter::rewriteShaderIOVars()
+	{
+		std::string outputName = "TEXCOORD";
+		std::string inputName = "TEXCOORD";
+		uint32_t index = 0u;
+
+		for ( auto & input : m_inputVars )
+		{
+			m_inputStruct->declMember( input.second->getName()
+				+ ": "
+				+ getSemantic( input.second->getName()
+					, inputName
+					, index )
+				, input.second->getType()->getKind()
+				, input.second->getType()->getArraySize() );
+		}
+
+		index = 0u;
+
+		if ( m_type == ShaderType::eFragment )
+		{
+			outputName = "SV_TARGET";
+		}
+		else if ( m_type == ShaderType::eCompute )
+		{
+		}
+
+		for ( auto & output : m_outputVars )
+		{
+			m_outputStruct->declMember( output.second->getName()
+				+ ": "
+				+ getSemantic( output.second->getName()
+					, outputName
+					, index )
+				, output.second->getType()->getKind()
+				, output.second->getType()->getArraySize() );
+		}
+	}
+
+	stmt::FunctionDeclPtr StmtAdapter::rewriteMainHeader( stmt::FunctionDecl * stmt )
+	{
+		rewriteShaderIOVars();
+		assert( stmt->getParameters().empty() );
+		assert( stmt->getRet()->getKind() == type::Kind::eVoid );
+		var::VariableList parameters;
+
+		if ( !m_inputStruct->empty() )
+		{
+			parameters.emplace_back( m_inputVar );
+		}
+
+		// Add input parameter
+		if ( m_inputComputeLayout )
+		{
+			m_result->addStmt( stmt::makeInputComputeLayout( m_inputComputeLayout->getWorkGroupsX()
+				, m_inputComputeLayout->getWorkGroupsY()
+				, m_inputComputeLayout->getWorkGroupsZ() ) );
+		}
+
+		// Write output return if needed.
+		stmt::FunctionDeclPtr result;
+
+		if ( !m_outputStruct->empty() )
+		{
+			result = stmt::makeFunctionDecl( m_outputStruct
+				, stmt->getName()
+				, parameters );
+			result->addStmt( stmt::makeVariableDecl( m_outputVar ) );
+		}
+		else
+		{
+			result = stmt::makeFunctionDecl( stmt->getRet()
+				, stmt->getName()
+				, parameters );
+		}
+
+		return result;
+	}
+
+	stmt::FunctionDeclPtr StmtAdapter::rewriteFuncHeader( stmt::FunctionDecl * stmt )
+	{
+		var::VariableList params;
+		// Split sampled textures in sampler + texture in parameters list.
+		for ( auto & param : stmt->getParameters() )
+		{
+			if ( isSampledImageType( param->getType()->getKind() ) )
+			{
+				auto sampledType = std::static_pointer_cast< type::SampledImage >( param->getType() );
+				auto texture = var::makeVariable( sampledType->getImageType()
+					, param->getName() + "_texture" );
+				auto sampler = var::makeVariable( sampledType->getSamplerType()
+					, param->getName() + "_sampler" );
+				m_linkedVars.emplace( param, std::make_pair( texture, sampler ) );
+				params.push_back( texture );
+				params.push_back( sampler );
+			}
+			else
+			{
+				params.push_back( param );
+			}
+		}
+
+		return stmt::makeFunctionDecl( stmt->getRet()
+			, stmt->getName()
+			, params );
+	}
+
+	void StmtAdapter::rewriteMainFooter( stmt::FunctionDecl * stmt )
+	{
+		if ( stmt->getName() == "main"
+			&& !m_outputStruct->empty() )
+		{
+			m_result->addStmt( stmt::makeReturn( expr::makeIdentifier( m_outputVar ) ) );
+		}
 	}
 }

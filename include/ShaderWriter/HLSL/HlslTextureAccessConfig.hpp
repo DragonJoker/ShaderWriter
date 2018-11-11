@@ -18,6 +18,51 @@ namespace sdw::hlsl
 	{
 		switch ( value )
 		{
+		case ast::expr::TextureAccess::eTexture1DShadowF:
+		case ast::expr::TextureAccess::eTexture1DShadowFBias:
+		case ast::expr::TextureAccess::eTexture2DShadowF:
+		case ast::expr::TextureAccess::eTexture2DShadowFBias:
+		case ast::expr::TextureAccess::eTextureCubeShadowF:
+		case ast::expr::TextureAccess::eTextureCubeShadowFBias:
+		case ast::expr::TextureAccess::eTexture1DArrayShadowF:
+		case ast::expr::TextureAccess::eTexture1DArrayShadowFBias:
+		case ast::expr::TextureAccess::eTexture2DArrayShadowF:
+		case ast::expr::TextureAccess::eTexture2DArrayShadowFBias:
+		case ast::expr::TextureAccess::eTexture2DRectShadowF:
+		case ast::expr::TextureAccess::eTextureCubeArrayShadowF:
+		case ast::expr::TextureAccess::eTextureProj1DShadowF:
+		case ast::expr::TextureAccess::eTextureProj1DShadowFBias:
+		case ast::expr::TextureAccess::eTextureProj2DShadowF:
+		case ast::expr::TextureAccess::eTextureProj2DShadowFBias:
+		case ast::expr::TextureAccess::eTextureProj2DRectShadowF:
+		case ast::expr::TextureAccess::eTextureLod1DShadowF:
+		case ast::expr::TextureAccess::eTextureLod2DShadowF:
+		case ast::expr::TextureAccess::eTextureLod1DArrayShadowF:
+		case ast::expr::TextureAccess::eTextureOffset2DRectShadowF:
+		case ast::expr::TextureAccess::eTextureOffset1DShadowF:
+		case ast::expr::TextureAccess::eTextureOffset1DShadowFBias:
+		case ast::expr::TextureAccess::eTextureOffset2DShadowF:
+		case ast::expr::TextureAccess::eTextureOffset2DShadowFBias:
+		case ast::expr::TextureAccess::eTextureOffset1DArrayShadowF:
+		case ast::expr::TextureAccess::eTextureOffset2DArrayShadowF:
+		case ast::expr::TextureAccess::eTextureProjOffset1DShadowF:
+		case ast::expr::TextureAccess::eTextureProjOffset1DShadowFBias:
+		case ast::expr::TextureAccess::eTextureProjOffset2DShadowF:
+		case ast::expr::TextureAccess::eTextureProjOffset2DShadowFBias:
+		case ast::expr::TextureAccess::eTextureProjOffset2DRectShadowF:
+		case ast::expr::TextureAccess::eTextureLodOffset1DShadowF:
+		case ast::expr::TextureAccess::eTextureLodOffset2DShadowF:
+		case ast::expr::TextureAccess::eTextureLodOffset1DArrayShadowF:
+		case ast::expr::TextureAccess::eTextureProjLod1DShadowF:
+		case ast::expr::TextureAccess::eTextureProjLod2DShadowF:
+		case ast::expr::TextureAccess::eTextureProjLodOffset1DShadowF:
+		case ast::expr::TextureAccess::eTextureProjLodOffset2DShadowF:
+			config.requiresShadowSampler = true;
+			break;
+		}
+
+		switch ( value )
+		{
 		case ast::expr::TextureAccess::eTextureSizeBufferF:
 			config.requiresTextureSizeBufferF = true;
 			break;
@@ -371,37 +416,37 @@ namespace sdw::hlsl
 			break;
 
 		case ast::expr::TextureAccess::eTextureProj1DF2:
-		case ast::expr::TextureAccess::eTextureProj1DShadowF:
 		case ast::expr::TextureAccess::eTextureProj1DI2:
 		case ast::expr::TextureAccess::eTextureProj1DU2:
 		case ast::expr::TextureAccess::eTextureProj1DF2Bias:
-		case ast::expr::TextureAccess::eTextureProj1DShadowFBias:
 		case ast::expr::TextureAccess::eTextureProj1DI2Bias:
 		case ast::expr::TextureAccess::eTextureProj1DU2Bias:
 		case ast::expr::TextureAccess::eTextureProjOffset1DF2:
-		case ast::expr::TextureAccess::eTextureProjOffset1DShadowF:
 		case ast::expr::TextureAccess::eTextureProjOffset1DI2:
 		case ast::expr::TextureAccess::eTextureProjOffset1DU2:
 		case ast::expr::TextureAccess::eTextureProjOffset1DF2Bias:
-		case ast::expr::TextureAccess::eTextureProjOffset1DShadowFBias:
 		case ast::expr::TextureAccess::eTextureProjOffset1DI2Bias:
 		case ast::expr::TextureAccess::eTextureProjOffset1DU2Bias:
 		case ast::expr::TextureAccess::eTextureProjLod1DF2:
-		case ast::expr::TextureAccess::eTextureProjLod1DShadowF:
 		case ast::expr::TextureAccess::eTextureProjLod1DI2:
 		case ast::expr::TextureAccess::eTextureProjLod1DU2:
 		case ast::expr::TextureAccess::eTextureProjLodOffset1DF2:
-		case ast::expr::TextureAccess::eTextureProjLodOffset1DShadowF:
 		case ast::expr::TextureAccess::eTextureProjLodOffset1DI2:
 		case ast::expr::TextureAccess::eTextureProjLodOffset1DU2:
 		case ast::expr::TextureAccess::eTextureProjGrad1DF2:
-		case ast::expr::TextureAccess::eTextureProjGrad1DShadowF:
 		case ast::expr::TextureAccess::eTextureProjGrad1DI2:
 		case ast::expr::TextureAccess::eTextureProjGrad1DU2:
 		case ast::expr::TextureAccess::eTextureProjGradOffset1DF2:
-		case ast::expr::TextureAccess::eTextureProjGradOffset1DShadowF:
 		case ast::expr::TextureAccess::eTextureProjGradOffset1DI2:
 		case ast::expr::TextureAccess::eTextureProjGradOffset1DU2:
+		case ast::expr::TextureAccess::eTextureProj1DShadowF:
+		case ast::expr::TextureAccess::eTextureProj1DShadowFBias:
+		case ast::expr::TextureAccess::eTextureProjOffset1DShadowF:
+		case ast::expr::TextureAccess::eTextureProjOffset1DShadowFBias:
+		case ast::expr::TextureAccess::eTextureProjLod1DShadowF:
+		case ast::expr::TextureAccess::eTextureProjLodOffset1DShadowF:
+		case ast::expr::TextureAccess::eTextureProjGrad1DShadowF:
+		case ast::expr::TextureAccess::eTextureProjGradOffset1DShadowF:
 			config.requiresProjectTexCoords2 = true;
 			break;
 
@@ -433,53 +478,53 @@ namespace sdw::hlsl
 			break;
 
 		case ast::expr::TextureAccess::eTextureProj2DF3:
-		case ast::expr::TextureAccess::eTextureProj2DShadowF:
 		case ast::expr::TextureAccess::eTextureProj2DRectF3:
-		case ast::expr::TextureAccess::eTextureProj2DRectShadowF:
 		case ast::expr::TextureAccess::eTextureProj2DI3:
 		case ast::expr::TextureAccess::eTextureProj2DRectI3:
 		case ast::expr::TextureAccess::eTextureProj2DU3:
 		case ast::expr::TextureAccess::eTextureProj2DRectU3:
 		case ast::expr::TextureAccess::eTextureProj2DF3Bias:
-		case ast::expr::TextureAccess::eTextureProj2DShadowFBias:
 		case ast::expr::TextureAccess::eTextureProj2DI3Bias:
 		case ast::expr::TextureAccess::eTextureProj2DU3Bias:
 		case ast::expr::TextureAccess::eTextureProjOffset2DF3:
-		case ast::expr::TextureAccess::eTextureProjOffset2DShadowF:
 		case ast::expr::TextureAccess::eTextureProjOffset2DRectF3:
-		case ast::expr::TextureAccess::eTextureProjOffset2DRectShadowF:
 		case ast::expr::TextureAccess::eTextureProjOffset2DI3:
 		case ast::expr::TextureAccess::eTextureProjOffset2DRectI3:
 		case ast::expr::TextureAccess::eTextureProjOffset2DU3:
 		case ast::expr::TextureAccess::eTextureProjOffset2DRectU3:
 		case ast::expr::TextureAccess::eTextureProjOffset2DF3Bias:
-		case ast::expr::TextureAccess::eTextureProjOffset2DShadowFBias:
 		case ast::expr::TextureAccess::eTextureProjOffset2DI3Bias:
 		case ast::expr::TextureAccess::eTextureProjOffset2DU3Bias:
 		case ast::expr::TextureAccess::eTextureProjLod2DF3:
-		case ast::expr::TextureAccess::eTextureProjLod2DShadowF:
 		case ast::expr::TextureAccess::eTextureProjLod2DI3:
 		case ast::expr::TextureAccess::eTextureProjLod2DU3:
 		case ast::expr::TextureAccess::eTextureProjLodOffset2DF3:
-		case ast::expr::TextureAccess::eTextureProjLodOffset2DShadowF:
 		case ast::expr::TextureAccess::eTextureProjLodOffset2DI3:
 		case ast::expr::TextureAccess::eTextureProjLodOffset2DU3:
 		case ast::expr::TextureAccess::eTextureProjGrad2DF3:
-		case ast::expr::TextureAccess::eTextureProjGrad2DShadowF:
 		case ast::expr::TextureAccess::eTextureProjGrad2DRectF3:
-		case ast::expr::TextureAccess::eTextureProjGrad2DRectShadowF:
 		case ast::expr::TextureAccess::eTextureProjGrad2DI3:
 		case ast::expr::TextureAccess::eTextureProjGrad2DRectI3:
 		case ast::expr::TextureAccess::eTextureProjGrad2DU3:
 		case ast::expr::TextureAccess::eTextureProjGrad2DRectU3:
 		case ast::expr::TextureAccess::eTextureProjGradOffset2DF3:
-		case ast::expr::TextureAccess::eTextureProjGradOffset2DShadowF:
 		case ast::expr::TextureAccess::eTextureProjGradOffset2DRectF3:
-		case ast::expr::TextureAccess::eTextureProjGradOffset2DRectShadowF:
 		case ast::expr::TextureAccess::eTextureProjGradOffset2DI3:
 		case ast::expr::TextureAccess::eTextureProjGradOffset2DRectI3:
 		case ast::expr::TextureAccess::eTextureProjGradOffset2DU3:
 		case ast::expr::TextureAccess::eTextureProjGradOffset2DRectU3:
+		case ast::expr::TextureAccess::eTextureProj2DShadowF:
+		case ast::expr::TextureAccess::eTextureProj2DRectShadowF:
+		case ast::expr::TextureAccess::eTextureProj2DShadowFBias:
+		case ast::expr::TextureAccess::eTextureProjOffset2DShadowF:
+		case ast::expr::TextureAccess::eTextureProjOffset2DRectShadowF:
+		case ast::expr::TextureAccess::eTextureProjOffset2DShadowFBias:
+		case ast::expr::TextureAccess::eTextureProjLod2DShadowF:
+		case ast::expr::TextureAccess::eTextureProjLodOffset2DShadowF:
+		case ast::expr::TextureAccess::eTextureProjGrad2DShadowF:
+		case ast::expr::TextureAccess::eTextureProjGrad2DRectShadowF:
+		case ast::expr::TextureAccess::eTextureProjGradOffset2DShadowF:
+		case ast::expr::TextureAccess::eTextureProjGradOffset2DRectShadowF:
 			config.requiresProjectTexCoords3 = true;
 			break;
 

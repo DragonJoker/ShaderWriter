@@ -280,7 +280,7 @@ namespace sdw::hlsl
 	void StmtVisitor::visitSamplerDeclStmt( stmt::SamplerDecl * stmt )
 	{
 		doAppendLineEnd();
-		m_result += m_indent + "SamplerState " + stmt->getVariable()->getName() + ": register(s" + std::to_string( stmt->getBindingPoint() ) + ");\n";
+		m_result += m_indent + getTypeName( stmt->getVariable()->getType() ) + " " + stmt->getVariable()->getName() + ": register(s" + std::to_string( stmt->getBindingPoint() ) + ");\n";
 	}
 
 	void StmtVisitor::visitShaderBufferDeclStmt( stmt::ShaderBufferDecl * stmt )

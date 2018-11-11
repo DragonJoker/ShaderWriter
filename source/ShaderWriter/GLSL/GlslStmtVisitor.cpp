@@ -39,33 +39,21 @@ namespace sdw::glsl
 			}
 		}
 		
-		std::string getPrefix( type::ImageFormat value )
+		std::string getPrefix( type::Kind value )
 		{
 			switch ( value )
 			{
-			case ast::type::ImageFormat::eRgba32i:
-			case ast::type::ImageFormat::eRgba16i:
-			case ast::type::ImageFormat::eRgba8i:
-			case ast::type::ImageFormat::eRg32i:
-			case ast::type::ImageFormat::eRg16i:
-			case ast::type::ImageFormat::eRg8i:
-			case ast::type::ImageFormat::eR32i:
-			case ast::type::ImageFormat::eR16i:
-			case ast::type::ImageFormat::eR8i:
+			case ast::type::Kind::eInt:
 				return "i";
 
-			case ast::type::ImageFormat::eRgba32u:
-			case ast::type::ImageFormat::eRgba16u:
-			case ast::type::ImageFormat::eRgba8u:
-			case ast::type::ImageFormat::eRg32u:
-			case ast::type::ImageFormat::eRg16u:
-			case ast::type::ImageFormat::eRg8u:
-			case ast::type::ImageFormat::eR32u:
-			case ast::type::ImageFormat::eR16u:
-			case ast::type::ImageFormat::eR8u:
+			case ast::type::Kind::eUInt:
 				return "u";
 
+			case ast::type::Kind::eFloat:
+				return std::string{};
+
 			default:
+				assert( false && "Unsupported type::Kind" );
 				return std::string{};
 			}
 		}
@@ -74,21 +62,21 @@ namespace sdw::glsl
 		{
 			return value
 				? "Array"
-				: "";
+				: std::string{};
 		}
 
 		std::string getMS( bool value )
 		{
 			return value
 				? "MS"
-				: "";
+				: std::string{};
 		}
 
 		std::string getShadow( type::Trinary value )
 		{
 			return value == type::Trinary::eTrue
 				? "Shadow"
-				: "";
+				: std::string{};
 		}
 
 		std::string getType( type::Kind kind
@@ -102,7 +90,7 @@ namespace sdw::glsl
 		std::string getQualifiedName( type::Kind kind
 			, type::ImageConfiguration const & config )
 		{
-			return getPrefix( config.format )
+			return getPrefix( config.sampledType )
 				+ getType( kind, config )
 				+ getDimension( config.dimension )
 				+ getMS( config.isMS )

@@ -173,6 +173,8 @@ namespace ast::type
 		, uint32_t arraySize = NotArray );
 	TypePtr getSampledImage( ImageConfiguration config
 		, uint32_t arraySize = NotArray );
+	TypePtr getSampler( bool comparison
+		, uint32_t arraySize = NotArray );
 
 	TypePtr makeType( Kind kind
 		, uint32_t arraySize = NotArray );
@@ -191,6 +193,7 @@ namespace ast::type
 	bool isSampledImageType( Kind kind );
 	uint32_t getComponentCount( Kind kind );
 	Kind getComponentType( Kind kind );
+	Kind getScalarType( Kind kind );
 }
 
 #endif

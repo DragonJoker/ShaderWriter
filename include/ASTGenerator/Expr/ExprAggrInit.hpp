@@ -16,6 +16,9 @@ namespace ast::expr
 	public:
 		AggrInit( IdentifierPtr identifier
 			, ExprList && initialisers );
+		
+		AggrInit( type::TypePtr type
+			, ExprList && initialisers );
 
 		void accept( VisitorPtr vis )override;
 
@@ -39,6 +42,13 @@ namespace ast::expr
 		, ExprList && initialisers )
 	{
 		return std::make_unique< AggrInit >( std::move( identifier )
+			, std::move( initialisers ) );
+	}
+
+	inline AggrInitPtr makeAggrInit( type::TypePtr type
+		, ExprList && initialisers )
+	{
+		return std::make_unique< AggrInit >( std::move( type )
 			, std::move( initialisers ) );
 	}
 }

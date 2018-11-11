@@ -16,7 +16,7 @@ namespace sdw
 
 	template< ast::type::ImageDim DimT
 		, bool ArrayedT >
-	using ImageCoordsGetterT = typename ImageCoordsGetter< DimT, ArrayedT >::Type;
+	using ImageCoordsT = typename ImageCoordsGetter< DimT, ArrayedT >::Type;
 
 	struct Image
 		: public Value

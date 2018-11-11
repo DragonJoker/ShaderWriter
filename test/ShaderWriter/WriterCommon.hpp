@@ -311,7 +311,7 @@ namespace test
 	}
 
 	template< typename T >
-	inline std::vector< T > getDefaultArray( sdw::Shader & shader
+	inline std::vector< T > getDefaultVector( sdw::Shader & shader
 		, uint32_t dimension )
 	{
 		std::vector< T > result;
@@ -324,7 +324,24 @@ namespace test
 		return result;
 	}
 
+	template< typename T >
+	inline sdw::Array< T > getDefaultArray( sdw::Shader & shader
+		, uint32_t dimension )
+	{
+		ast::expr::ExprList initialisers;
+
+		for ( auto i = 0u; i < dimension; ++i )
+		{
+			initialisers.emplace_back( sdw::makeExpr( getDefault< T >( shader ) ) );
+		}
+
+		return sdw::Array< T >{ &shader
+			, ast::expr::makeAggrInit( nullptr
+				, std::move( initialisers ) ) };
+	}
+
 	void writeShader( sdw::Shader const & shader
 		, sdw::ShaderType type
+		, test::TestCounts & testCounts
 		, bool validateSpirV = true );
 }

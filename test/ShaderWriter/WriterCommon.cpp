@@ -7,9 +7,13 @@
 #include "spirv_cpp.hpp"
 #include "spirv_cross_util.hpp"
 #include "spirv_glsl.hpp"
+#include "spirv_hlsl.hpp"
 
 namespace test
 {
+	bool compileHlsl( std::string const & shader
+		, sdw::ShaderType type );
+
 	namespace
 	{
 		std::string getName( sdw::ShaderType stage )
@@ -92,67 +96,139 @@ namespace test
 			options.vulkan_semantics = true;
 			compiler.set_common_options( options );
 		}
-	}
 
-	std::string compileSpirV( spirv_cross::Compiler & compiler )
-	{
-		std::string result;
-		try
+		void doSetupHlslOptions( spirv_cross::CompilerHLSL & compiler )
 		{
-			result = compiler.compile();
-		}
-		catch ( std::exception & exc )
-		{
-			std::cerr << "Shader compilation failed: " << exc.what();
-			throw;
-		}
-		catch ( ... )
-		{
-			std::cerr << "Shader compilation failed: Unknown error";
-			throw;
+			auto options = compiler.get_hlsl_options();
+			options.shader_model = 50;
+			compiler.set_hlsl_options( options );
 		}
 
-		return result;
-	}
+		std::string compileSpirV( spirv_cross::Compiler & compiler )
+		{
+			std::string result;
+			try
+			{
+				result = compiler.compile();
+			}
+			catch ( std::exception & exc )
+			{
+				std::cerr << "Shader compilation failed: " << exc.what();
+				throw;
+			}
+			catch ( ... )
+			{
+				std::cerr << "Shader compilation failed: Unknown error";
+				throw;
+			}
 
-	std::string validateSpirV( std::vector< uint32_t > const & spirv
-		, sdw::ShaderType stage )
-	{
-		auto compiler = std::make_unique< spirv_cross::CompilerGLSL >( spirv );
-		doSetEntryPoint( stage, *compiler );
-		doSetupOptions( *compiler );
-		std::string glsl;
-		checkNoThrow( glsl = compileSpirV( *compiler ) );
-		return glsl;
+			return result;
+		}
+
+		std::string validateSpirVToGlsl( std::vector< uint32_t > const & spirv
+			, sdw::ShaderType stage
+			, test::TestCounts & testCounts )
+		{
+			auto compiler = std::make_unique< spirv_cross::CompilerGLSL >( spirv );
+			doSetEntryPoint( stage, *compiler );
+			doSetupOptions( *compiler );
+			std::string glsl;
+			checkNoThrow( glsl = compileSpirV( *compiler ) );
+			return glsl;
+		}
+
+		std::string validateSpirVToHlsl( std::vector< uint32_t > const & spirv
+			, sdw::ShaderType stage
+			, test::TestCounts & testCounts )
+		{
+			auto compiler = std::make_unique< spirv_cross::CompilerHLSL >( spirv );
+			doSetEntryPoint( stage, *compiler );
+			doSetupHlslOptions( *compiler );
+			doSetupOptions( *compiler );
+			std::string hlsl;
+			checkNoThrow( hlsl = compileSpirV( *compiler ) );
+			return hlsl;
+		}
+
+		void validateSpirV( std::vector< uint32_t > const & spirv
+			, sdw::ShaderType stage
+			, test::TestCounts & testCounts )
+		{
+			auto crossGlsl = test::validateSpirVToGlsl( spirv, stage, testCounts );
+			//std::cout << "////////////////////////////////////////////////////////////" << std::endl;
+			//std::cout << "// SPIRV-Cross GLSL" << std::endl;
+			//std::cout << "////////////////////////////////////////////////////////////" << std::endl;
+			//std::cout << std::endl << crossGlsl << std::endl;
+			auto crossHlsl = test::validateSpirVToHlsl( spirv, stage, testCounts );
+			//check( compileHlsl( crossHlsl, stage ) );
+			//std::cout << "////////////////////////////////////////////////////////////" << std::endl;
+			//std::cout << "// SPIRV-Cross HLSL" << std::endl;
+			//std::cout << "////////////////////////////////////////////////////////////" << std::endl;
+			//std::cout << std::endl << crossHlsl << std::endl;
+		}
+
+		void testWriteDebug( sdw::Shader const & shader
+			, sdw::ShaderType stage
+			, test::TestCounts & testCounts )
+		{
+			auto debug = sdw::writeDebug( shader );
+			std::cout << "////////////////////////////////////////////////////////////" << std::endl;
+			std::cout << "// Statements" << std::endl;
+			std::cout << "////////////////////////////////////////////////////////////" << std::endl;
+			std::cout << std::endl << debug << std::endl;
+		}
+
+		void testWriteGlsl( sdw::Shader const & shader
+			, sdw::ShaderType stage
+			, test::TestCounts & testCounts )
+		{
+			auto glsl = sdw::writeGlsl( shader, stage );
+			//std::cout << "////////////////////////////////////////////////////////////" << std::endl;
+			//std::cout << "// GLSL" << std::endl;
+			//std::cout << "////////////////////////////////////////////////////////////" << std::endl;
+			//std::cout << std::endl << glsl << std::endl;
+		}
+
+		void testWriteHlsl( sdw::Shader const & shader
+			, sdw::ShaderType stage
+			, test::TestCounts & testCounts )
+		{
+			auto hlsl = sdw::writeHlsl( shader, stage );
+			check( compileHlsl( hlsl, stage ) );
+			//std::cout << "////////////////////////////////////////////////////////////" << std::endl;
+			//std::cout << "// HLSL" << std::endl;
+			//std::cout << "////////////////////////////////////////////////////////////" << std::endl;
+			//std::cout << std::endl << hlsl << std::endl;
+		}
+
+		void testWriteSpirV( sdw::Shader const & shader
+			, sdw::ShaderType stage
+			, bool validateSpirV
+			, test::TestCounts & testCounts )
+		{
+			auto textSpirv = sdw::writeSpirv( shader, stage, false );
+			std::cout << "////////////////////////////////////////////////////////////" << std::endl;
+			std::cout << "// SPIR-V" << std::endl;
+			std::cout << "////////////////////////////////////////////////////////////" << std::endl;
+			std::cout << std::endl << textSpirv << std::endl;
+
+			if ( validateSpirV )
+			{
+				test::validateSpirV( sdw::serializeSpirv( shader, stage )
+					, stage
+					, testCounts );
+			}
+		}
 	}
 
 	void writeShader( sdw::Shader const & shader
-		, sdw::ShaderType type
+		, sdw::ShaderType stage
+		, test::TestCounts & testCounts
 		, bool validateSpirV )
 	{
-		std::cout << "////////////////////////////////////////////////////////////" << std::endl;
-		std::cout << "// Statements" << std::endl;
-		std::cout << "////////////////////////////////////////////////////////////" << std::endl;
-		std::cout << std::endl << sdw::writeDebug( shader ) << std::endl;
-		std::cout << "////////////////////////////////////////////////////////////" << std::endl;
-		std::cout << "// GLSL" << std::endl;
-		std::cout << "////////////////////////////////////////////////////////////" << std::endl;
-		std::cout << std::endl << sdw::writeGlsl( shader, type ) << std::endl;
-		std::cout << "////////////////////////////////////////////////////////////" << std::endl;
-		std::cout << "// HLSL" << std::endl;
-		std::cout << "////////////////////////////////////////////////////////////" << std::endl;
-		std::cout << std::endl << sdw::writeHlsl( shader, type ) << std::endl;
-		std::cout << "////////////////////////////////////////////////////////////" << std::endl;
-		std::cout << "// SPIR-V" << std::endl;
-		std::cout << "////////////////////////////////////////////////////////////" << std::endl;
-		std::cout << std::endl << sdw::writeSpirv( shader, type, false ) << std::endl;
-
-		if ( validateSpirV )
-		{
-			std::cout << "////////////////////////////////////////////////////////////" << std::endl;
-			std::cout << "// SPIRV-Cross" << std::endl;
-			std::cout << "////////////////////////////////////////////////////////////" << std::endl;
-			std::cout << std::endl << test::validateSpirV( sdw::serializeSpirv( shader, type ), type ) << std::endl;
-		}
+		checkNoThrow( testWriteDebug( shader, stage, testCounts ) );
+		checkNoThrow( testWriteSpirV( shader, stage, validateSpirV, testCounts ) );
+		checkNoThrow( testWriteGlsl( shader, stage, testCounts ) );
+		checkNoThrow( testWriteHlsl( shader, stage, testCounts ) );
 	}
 }

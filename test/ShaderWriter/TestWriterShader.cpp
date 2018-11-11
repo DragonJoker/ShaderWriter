@@ -10,7 +10,7 @@
 
 namespace
 {
-	void reference()
+	void reference( test::TestCounts & testCounts )
 	{
 		testBegin( "reference" );
 		using namespace sdw;
@@ -58,11 +58,12 @@ namespace
 			} );
 
 		test::writeShader( writer.getShader()
-			, sdw::ShaderType::eFragment );
+			, sdw::ShaderType::eFragment
+			, testCounts );
 		testEnd();
 	}
 
-	void vertex()
+	void vertex( test::TestCounts & testCounts )
 	{
 		testBegin( "vertex" );
 		using namespace sdw;
@@ -82,11 +83,12 @@ namespace
 			} );
 
 		test::writeShader( writer.getShader()
-			, sdw::ShaderType::eVertex );
+			, sdw::ShaderType::eVertex
+			, testCounts );
 		testEnd();
 	}
 
-	void fragment()
+	void fragment( test::TestCounts & testCounts )
 	{
 		testBegin( "fragment" );
 		using namespace sdw;
@@ -98,7 +100,7 @@ namespace
 		auto c3d_gamma = hdrConfig.declMember< Float >( "c3d_gamma" );
 		hdrConfig.end();
 
-		auto c3d_mapDiffuse = writer.declSampledImage< FImg2DRGBA32F >( "c3d_mapDiffuse", 1u, 0u );
+		auto c3d_mapDiffuse = writer.declSampledImage< FImg2D >( "c3d_mapDiffuse", 1u, 0u );
 		auto vtx_texture = writer.declInput< Vec2 >( "vtx_texture", 0u );
 
 		// Shader outputs
@@ -139,12 +141,12 @@ namespace
 			, InVec3{ writer, "x" } );
 
 		auto sampleTex = writer.implementFunction< Vec3 >( "sampleTex"
-			, [&]( FSampledImage2DRgba32f const & tex
+			, [&]( SampledImage2D const & tex
 				, Vec2 const & coords )
 			{
 				writer.returnStmt( texture( tex, coords ).rgb() );
 			}
-			, InFSampledImage2DRgba32f{ writer, "tex" }
+			, InSampledImage2D{ writer, "tex" }
 			, InVec2{ writer, "coords" } );
 
 		writer.implementFunction< void >( "main"
@@ -166,11 +168,12 @@ namespace
 			} );
 
 		test::writeShader( writer.getShader()
-			, sdw::ShaderType::eFragment );
+			, sdw::ShaderType::eFragment
+			, testCounts );
 		testEnd();
 	}
 
-	void compute()
+	void compute( test::TestCounts & testCounts )
 	{
 		testBegin( "compute" );
 		using namespace sdw;
@@ -188,7 +191,8 @@ namespace
 			} );
 
 		test::writeShader( writer.getShader()
-			, sdw::ShaderType::eCompute );
+			, sdw::ShaderType::eCompute
+			, testCounts );
 		testEnd();
 	}
 }
@@ -196,9 +200,9 @@ namespace
 int main( int argc, char ** argv )
 {
 	testSuiteBegin( "TestWriterShader" );
-	reference();
-	vertex();
-	fragment();
-	compute();
+	reference( testCounts );
+	vertex( testCounts );
+	fragment( testCounts );
+	compute( testCounts );
 	testSuiteEnd();
 }

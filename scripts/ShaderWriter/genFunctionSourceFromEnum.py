@@ -42,25 +42,8 @@ def printHeader( outs, match ):
 	outs.write( "\n/*" )
 	outs.write( "\nSee LICENSE file in root folder" )
 	outs.write( "\n*/" )
-	outs.write( "\n#ifndef ___SDW_Get" + enumName + "Functions_H___" )
-	outs.write( "\n#define ___SDW_Get" + enumName + "Functions_H___" )
-	outs.write( "\n#pragma once" )
 	outs.write( "\n" )
-	outs.write( '\n#include "Function.hpp"' )
-	outs.write( '\n#include "FunctionParam.hpp"' )
-	outs.write( '\n#include "Bool.hpp"' )
-	outs.write( '\n#include "Image.hpp"' )
-	outs.write( '\n#include "SampledImage.hpp"' )
-	outs.write( '\n#include "OptionalMat2.hpp"' )
-	outs.write( '\n#include "OptionalMat2x3.hpp"' )
-	outs.write( '\n#include "OptionalMat2x4.hpp"' )
-	outs.write( '\n#include "OptionalMat3.hpp"' )
-	outs.write( '\n#include "OptionalMat3x2.hpp"' )
-	outs.write( '\n#include "OptionalMat3x4.hpp"' )
-	outs.write( '\n#include "OptionalMat4.hpp"' )
-	outs.write( '\n#include "OptionalMat4x2.hpp"' )
-	outs.write( '\n#include "OptionalMat4x3.hpp"' )
-	outs.write( '\n#include "Sampler.hpp"' )
+	outs.write( '\n#include "ShaderWriter/' + enumName + 'Functions.hpp"' )
 	outs.write( "\n" )
 	outs.write( '\n#include <ASTGenerator/Expr/Make' + enumName + '.hpp>' )
 	outs.write( "\n" )
@@ -153,7 +136,9 @@ def getPostfix( functionGroup ):
 	return result
 
 def getDoublePostfix( postfix ):
-	if postfix.endswith( "FBias" ) or postfix.endswith( "UBias" ) or postfix.endswith( "IBias" ):
+	if postfix.endswith( "Comp" ):
+		return "Comp"
+	if postfix.endswith( "Bias" ):
 		return "Bias"
 	if postfix.endswith( "FI" ) or postfix.endswith( "UI" ) or postfix.endswith( "II" ):
 		return "I"
@@ -218,25 +203,13 @@ def computeArgs( args, sep ):
 			index += 3
 	return result
 
-def isArrayTexture( name ):
-	result = re.sub( "Array", "", name )
-	return result != name
-
 def getArrayType( name ):
 	result = re.sub( "Array", "", name )
 	return "Array" if result != name else ""
 
-def isDepthTexture( name ):
-	result = re.sub( "Shadow", "", name )
-	return result != name
-
 def getDepthType( name ):
 	result = re.sub( "Shadow", "", name )
 	return "Shadow" if result != name else ""
-
-def isMSTexture( name ):
-	result = re.sub( "MS", "", name )
-	return result != name
 
 def getMSType( name ):
 	result = re.sub( "MS", "", name )
@@ -292,7 +265,7 @@ def printImageFunction( outs, returnGroup, functionGroup, paramsGroup, imageType
 	retType = typeKindToSdwType( returnGroup )
 	fullName = computeFullName( functionGroup )
 	# Write function name and return
-	outs.write( "\n\tinline " + retType + " " + computeIntrinsicName( functionGroup ) + "(" )
+	outs.write( "\n\t" + retType + " " + computeIntrinsicName( functionGroup ) + "(" )
 	# Write parameters
 	#	Image parameter
 	outs.write( " " + computeImageFullType( imageType, functionGroup ) + " const & image" )
@@ -313,7 +286,7 @@ def printIntrinsicFunction( outs, returnGroup, functionGroup, paramsGroup ):
 	retType = typeKindToSdwType( returnGroup )
 	fullName = computeFullName( functionGroup )
 	# Write function name and return
-	outs.write( "\n\tinline " + retType + " " + computeIntrinsicName( functionGroup ) + "(" )
+	outs.write( "\n\t" + retType + " " + computeIntrinsicName( functionGroup ) + "(" )
 	# Write function parameters
 	outs.write( computeParams( paramsGroup, "" ) + " )" )
 	# Header finished, write content
@@ -329,8 +302,6 @@ def endFunctionGroup( outs ):
 
 def printFooter( outs ):
 	outs.write( "\n}\n" )
-	outs.write( "\n" )
-	outs.write( "#endif\n" )
 
 def main( argv ):
 	inEnumFile = sys.argv[1]

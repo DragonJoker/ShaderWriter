@@ -96,6 +96,8 @@ namespace sdw::spirv
 	{
 		switch ( value )
 		{
+		case ast::type::ImageFormat::eUnknown:
+			return spv::ImageFormat::Unknown;
 		case ast::type::ImageFormat::eRgba32f:
 			return spv::ImageFormat::Rgba32f;
 		case ast::type::ImageFormat::eRgba16f:

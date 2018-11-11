@@ -19,93 +19,12 @@ namespace sdw::hlsl
 		ast::expr::Kind operatorKind;
 	};
 
-	inline InstantChange getHlslConfig( ast::expr::Intrinsic value
-		, IntrinsicsConfig & config )
+	inline InstantChange getInstantChange( ast::expr::Intrinsic value )
 	{
 		InstantChange result;
 
 		switch ( value )
 		{
-		case ast::expr::Intrinsic::eRoundEven1F:
-			config.requiresRoundEven1F = true;
-			break;
-
-		case ast::expr::Intrinsic::eRoundEven2F:
-			config.requiresRoundEven2F = true;
-			break;
-
-		case ast::expr::Intrinsic::eRoundEven3F:
-			config.requiresRoundEven3F = true;
-			break;
-
-		case ast::expr::Intrinsic::eRoundEven4F:
-			config.requiresRoundEven4F = true;
-			break;
-
-		case ast::expr::Intrinsic::eRoundEven1D:
-			config.requiresRoundEven1D = true;
-			break;
-
-		case ast::expr::Intrinsic::eRoundEven2D:
-			config.requiresRoundEven2D = true;
-			break;
-
-		case ast::expr::Intrinsic::eRoundEven3D:
-			config.requiresRoundEven3D = true;
-			break;
-
-		case ast::expr::Intrinsic::eRoundEven4D:
-			config.requiresRoundEven4D = true;
-			break;
-
-		case ast::expr::Intrinsic::ePackDouble2x32:
-			config.requiresPackDouble2x32 = true;
-			break;
-
-		case ast::expr::Intrinsic::ePackHalf2x16:
-			config.requiresPackHalf2x16 = true;
-			break;
-
-		case ast::expr::Intrinsic::ePackSnorm2x16:
-			config.requiresPackSnorm2x16 = true;
-			break;
-
-		case ast::expr::Intrinsic::ePackSnorm4x8:
-			config.requiresPackSnorm4x8 = true;
-			break;
-
-		case ast::expr::Intrinsic::ePackUnorm2x16:
-			config.requiresPackUnorm2x16 = true;
-			break;
-
-		case ast::expr::Intrinsic::ePackUnorm4x8:
-			config.requiresPackUnorm4x8 = true;
-			break;
-
-		case ast::expr::Intrinsic::eUnpackDouble2x32:
-			config.requiresUnpackDouble2x32 = true;
-			break;
-
-		case ast::expr::Intrinsic::eUnpackHalf2x16:
-			config.requiresUnpackHalf2x16 = true;
-			break;
-
-		case ast::expr::Intrinsic::eUnpackSnorm2x16:
-			config.requiresUnpackSnorm2x16 = true;
-			break;
-
-		case ast::expr::Intrinsic::eUnpackSnorm4x8:
-			config.requiresUnpackSnorm4x8 = true;
-			break;
-
-		case ast::expr::Intrinsic::eUnpackUnorm2x16:
-			config.requiresUnpackUnorm2x16 = true;
-			break;
-
-		case ast::expr::Intrinsic::eUnpackUnorm4x8:
-			config.requiresUnpackUnorm4x8 = true;
-			break;
-
 		case ast::expr::Intrinsic::eMatrixCompMult2x2F:
 		case ast::expr::Intrinsic::eMatrixCompMult2x3F:
 		case ast::expr::Intrinsic::eMatrixCompMult2x4F:
@@ -126,30 +45,6 @@ namespace sdw::hlsl
 		case ast::expr::Intrinsic::eMatrixCompMult4x4D:
 			result.toOperator = true;
 			result.operatorKind = ast::expr::Kind::eTimes;
-			break;
-
-		case ast::expr::Intrinsic::eInverse2x2F:
-			config.requiresInverse2x2F = true;
-			break;
-
-		case ast::expr::Intrinsic::eInverse3x3F:
-			config.requiresInverse3x3F = true;
-			break;
-
-		case ast::expr::Intrinsic::eInverse4x4F:
-			config.requiresInverse4x4F = true;
-			break;
-
-		case ast::expr::Intrinsic::eInverse2x2D:
-			config.requiresInverse2x2D = true;
-			break;
-
-		case ast::expr::Intrinsic::eInverse3x3D:
-			config.requiresInverse3x3D = true;
-			break;
-
-		case ast::expr::Intrinsic::eInverse4x4D:
-			config.requiresInverse4x4D = true;
 			break;
 
 		case ast::expr::Intrinsic::eLessThan2F:
@@ -254,9 +149,120 @@ namespace sdw::hlsl
 			result.toOperator = true;
 			result.operatorKind = ast::expr::Kind::eLogNot;
 			break;
+		}
 
+		return result;
+	}
 
-	// Integer Functions
+	inline void getHlslConfig( ast::expr::Intrinsic value
+		, IntrinsicsConfig & config )
+	{
+		switch ( value )
+		{
+		case ast::expr::Intrinsic::eRoundEven1F:
+			config.requiresRoundEven1F = true;
+			break;
+
+		case ast::expr::Intrinsic::eRoundEven2F:
+			config.requiresRoundEven2F = true;
+			break;
+
+		case ast::expr::Intrinsic::eRoundEven3F:
+			config.requiresRoundEven3F = true;
+			break;
+
+		case ast::expr::Intrinsic::eRoundEven4F:
+			config.requiresRoundEven4F = true;
+			break;
+
+		case ast::expr::Intrinsic::eRoundEven1D:
+			config.requiresRoundEven1D = true;
+			break;
+
+		case ast::expr::Intrinsic::eRoundEven2D:
+			config.requiresRoundEven2D = true;
+			break;
+
+		case ast::expr::Intrinsic::eRoundEven3D:
+			config.requiresRoundEven3D = true;
+			break;
+
+		case ast::expr::Intrinsic::eRoundEven4D:
+			config.requiresRoundEven4D = true;
+			break;
+
+		case ast::expr::Intrinsic::ePackDouble2x32:
+			config.requiresPackDouble2x32 = true;
+			break;
+
+		case ast::expr::Intrinsic::ePackHalf2x16:
+			config.requiresPackHalf2x16 = true;
+			break;
+
+		case ast::expr::Intrinsic::ePackSnorm2x16:
+			config.requiresPackSnorm2x16 = true;
+			break;
+
+		case ast::expr::Intrinsic::ePackSnorm4x8:
+			config.requiresPackSnorm4x8 = true;
+			break;
+
+		case ast::expr::Intrinsic::ePackUnorm2x16:
+			config.requiresPackUnorm2x16 = true;
+			break;
+
+		case ast::expr::Intrinsic::ePackUnorm4x8:
+			config.requiresPackUnorm4x8 = true;
+			break;
+
+		case ast::expr::Intrinsic::eUnpackDouble2x32:
+			config.requiresUnpackDouble2x32 = true;
+			break;
+
+		case ast::expr::Intrinsic::eUnpackHalf2x16:
+			config.requiresUnpackHalf2x16 = true;
+			break;
+
+		case ast::expr::Intrinsic::eUnpackSnorm2x16:
+			config.requiresUnpackSnorm2x16 = true;
+			break;
+
+		case ast::expr::Intrinsic::eUnpackSnorm4x8:
+			config.requiresUnpackSnorm4x8 = true;
+			break;
+
+		case ast::expr::Intrinsic::eUnpackUnorm2x16:
+			config.requiresUnpackUnorm2x16 = true;
+			break;
+
+		case ast::expr::Intrinsic::eUnpackUnorm4x8:
+			config.requiresUnpackUnorm4x8 = true;
+			break;
+
+		case ast::expr::Intrinsic::eInverse2x2F:
+			config.requiresInverse2x2F = true;
+			break;
+
+		case ast::expr::Intrinsic::eInverse3x3F:
+			config.requiresInverse3x3F = true;
+			break;
+
+		case ast::expr::Intrinsic::eInverse4x4F:
+			config.requiresInverse4x4F = true;
+			break;
+
+		case ast::expr::Intrinsic::eInverse2x2D:
+			config.requiresInverse2x2D = true;
+			break;
+
+		case ast::expr::Intrinsic::eInverse3x3D:
+			config.requiresInverse3x3D = true;
+			break;
+
+		case ast::expr::Intrinsic::eInverse4x4D:
+			config.requiresInverse4x4D = true;
+			break;
+
 		case ast::expr::Intrinsic::eUaddCarry1:
 			config.requiresUaddCarry1 = true;
 			break;
@@ -385,8 +391,6 @@ namespace sdw::hlsl
 			config.requiresBitfieldInsert4U = true;
 			break;
 		}
-
-		return result;
 	}
 }
 

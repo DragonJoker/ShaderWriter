@@ -4,6 +4,7 @@ See LICENSE file in root folder
 #include "ShaderWriter/HLSL/HlslHelpers.hpp"
 
 #include "ASTGenerator/Type/TypeImage.hpp"
+#include "ASTGenerator/Type/TypeSampler.hpp"
 
 namespace sdw::hlsl
 {
@@ -149,7 +150,7 @@ namespace sdw::hlsl
 			result = "Texture";
 			break;
 		case type::Kind::eSampler:
-			result = "SamplerState";
+			assert( false && "Unsupported type::Kind" );
 			break;
 		case type::Kind::eSampledImage:
 			result = "SampledImage";
@@ -171,62 +172,23 @@ namespace sdw::hlsl
 		return result;
 	}
 
-	std::string getName( type::ImageFormat value )
+	std::string getSampledName( type::Kind value )
 	{
 		std::string result;
 
 		switch ( value )
 		{
-		case ast::type::ImageFormat::eRgba32f:
+		case ast::type::Kind::eFloat:
 			result = "float4";
 			break;
-		case ast::type::ImageFormat::eRgba16f:
-			result = "vector<half, 4>";
-			break;
-		case ast::type::ImageFormat::eRg32f:
-			result = "float2";
-			break;
-		case ast::type::ImageFormat::eRg16f:
-			result = "vector<half, 2>";
-			break;
-		case ast::type::ImageFormat::eR32f:
-			result = "float";
-			break;
-		case ast::type::ImageFormat::eR16f:
-			result = "half";
-			break;
-		case ast::type::ImageFormat::eRgba32i:
-		case ast::type::ImageFormat::eRgba16i:
-		case ast::type::ImageFormat::eRgba8i:
+		case ast::type::Kind::eInt:
 			result = "int4";
 			break;
-		case ast::type::ImageFormat::eRg32i:
-		case ast::type::ImageFormat::eRg16i:
-		case ast::type::ImageFormat::eRg8i:
-			result = "int2";
-			break;
-		case ast::type::ImageFormat::eR32i:
-		case ast::type::ImageFormat::eR16i:
-		case ast::type::ImageFormat::eR8i:
-			result = "int";
-			break;
-		case ast::type::ImageFormat::eRgba32u:
-		case ast::type::ImageFormat::eRgba16u:
-		case ast::type::ImageFormat::eRgba8u:
+		case ast::type::Kind::eUInt:
 			result = "uint4";
 			break;
-		case ast::type::ImageFormat::eRg32u:
-		case ast::type::ImageFormat::eRg16u:
-		case ast::type::ImageFormat::eRg8u:
-			result = "uint2";
-			break;
-		case ast::type::ImageFormat::eR32u:
-		case ast::type::ImageFormat::eR16u:
-		case ast::type::ImageFormat::eR8u:
-			result = "uint";
-			break;
 		default:
-			assert( false && "Unsupported type::ImageFormat" );
+			assert( false && "Unsupported type::Kind" );
 			result = "Undefined";
 			break;
 		}
@@ -287,7 +249,22 @@ namespace sdw::hlsl
 			result += "Array";
 		}
 
-		result += "<" + getName( config.format ) +">";
+		result += "<" + getSampledName( config.sampledType ) + ">";
+		return result;
+	}
+
+	std::string getTypeName( type::SamplerPtr type )
+	{
+		std::string result;
+
+		if ( type->isComparison() )
+		{
+			result = "SamplerComparisonState";
+		}
+		else
+		{
+			result = "SamplerState";
+		}
 
 		return result;
 	}
@@ -303,6 +280,9 @@ namespace sdw::hlsl
 			break;
 		case type::Kind::eImage:
 			result = getTypeName( std::static_pointer_cast< type::Image >( type ) );
+			break;
+		case type::Kind::eSampler:
+			result = getTypeName( std::static_pointer_cast< type::Sampler >( type ) );
 			break;
 		default:
 			result = getTypeName( type->getKind() );

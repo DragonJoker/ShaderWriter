@@ -24,9 +24,15 @@ namespace sdw::spirv
 			, Module & module );
 
 	private:
+		static spv::Id submit( expr::Expr * expr
+			, Block & currentBlock
+			, Module & module
+			, bool & allLiterals );
+
 		ExprVisitor( spv::Id & result
 			, Block & currentBlock
-			, Module & module );
+			, Module & module
+			, bool & allLiterals );
 		void visitAssignmentExpr( expr::Assign * expr );
 		void visitOpAssignmentExpr( expr::Assign * expr );
 
@@ -77,6 +83,7 @@ namespace sdw::spirv
 		spv::Id & m_result;
 		Block & m_currentBlock;
 		Module & m_module;
+		bool & m_allLiterals;
 		std::array< type::StructPtr, 4u > m_unsignedExtendedTypes;
 		std::array< type::StructPtr, 4u > m_signedExtendedTypes;
 	};

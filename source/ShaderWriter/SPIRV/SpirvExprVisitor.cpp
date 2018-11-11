@@ -981,7 +981,7 @@ namespace sdw::spirv
 				{
 					// Head identifier
 					m_result = m_module.registerVariable( var->getName()
-						, getStorageClass( getOutermost( var ) )
+						, getStorageClass( var )
 						, expr->getType() );
 				}
 			}
@@ -1112,7 +1112,7 @@ namespace sdw::spirv
 			auto rawType = module.registerType( expr->getType() );
 			// Register the pointer to the type.
 			auto pointerType = module.registerPointerType( rawType
-				, getStorageClass( getOutermost( findIdentifier( expr )->getVariable() ) ) );
+				, getStorageClass( findIdentifier( expr )->getVariable() ) );
 			// Write access chain => resultId = pointerType( outer.members + index ).
 			currentBlock.instructions.emplace_back( spirv::makeAccessChain( spv::Op::OpAccessChain
 				, intermediate
@@ -1128,11 +1128,19 @@ namespace sdw::spirv
 
 	spv::StorageClass getStorageClass( var::VariablePtr var )
 	{
+		var = getOutermost( var );
 		spv::StorageClass result = spv::StorageClass::Function;
 
 		if ( var->isUniform() )
 		{
-			result = spv::StorageClass::Uniform;
+			if ( var->isConstant() )
+			{
+				result = spv::StorageClass::UniformConstant;
+			}
+			else
+			{
+				result = spv::StorageClass::Uniform;
+			}
 		}
 		else if ( var->isBuiltin() )
 		{
@@ -1162,25 +1170,39 @@ namespace sdw::spirv
 		, Block & currentBlock
 		, Module & module )
 	{
-		spv::Id result;
+		bool allLiterals{ false };
+		return submit( expr, currentBlock, module, allLiterals );
+	}
+
+	spv::Id ExprVisitor::submit( expr::Expr * expr
+		, Block & currentBlock
+		, Module & module
+		, bool & allLiterals )
+	{
+		spv::Id result{ 0u };
 		ExprVisitor vis{ result
 			, currentBlock
-			, module };
+			, module
+			, allLiterals };
 		expr->accept( &vis );
+		assert( result != 0u );
 		return result;
 	}
 
 	ExprVisitor::ExprVisitor( spv::Id & result
 		, Block & currentBlock
-		, Module & module )
+		, Module & module
+		, bool & allLiterals )
 		: m_result{ result }
 		, m_currentBlock{ currentBlock }
 		, m_module{ module }
+		, m_allLiterals{ allLiterals }
 	{
 	}
 
 	void ExprVisitor::visitAssignmentExpr( expr::Assign * expr )
 	{
+		m_allLiterals = false;
 		auto lhs = getVariableIdNoLoad( expr->getLHS() );
 		auto rhs = submit( expr->getRHS(), m_currentBlock, m_module );
 		auto type = m_module.registerType( expr->getType() );
@@ -1190,6 +1212,7 @@ namespace sdw::spirv
 
 	void ExprVisitor::visitOpAssignmentExpr( expr::Assign * expr )
 	{
+		m_allLiterals = false;
 		auto typeId = m_module.registerType( expr->getType() );
 		auto lhsId = submit( expr->getLHS(), m_currentBlock, m_module );
 		auto loadedLhsId = m_module.loadVariable( lhsId
@@ -1213,6 +1236,7 @@ namespace sdw::spirv
 
 	void ExprVisitor::visitUnaryExpr( expr::Unary * expr )
 	{
+		m_allLiterals = false;
 		auto operand = submit( expr->getOperand(), m_currentBlock, m_module );
 		auto type = m_module.registerType( expr->getType() );
 		auto intermediate = m_module.getIntermediateResult();
@@ -1226,6 +1250,7 @@ namespace sdw::spirv
 
 	void ExprVisitor::visitBinaryExpr( expr::Binary * expr )
 	{
+		m_allLiterals = false;
 		auto lhs = submit( expr->getLHS(), m_currentBlock, m_module );
 		auto rhs = submit( expr->getRHS(), m_currentBlock, m_module );
 		auto type = m_module.registerType( expr->getType() );
@@ -1242,6 +1267,7 @@ namespace sdw::spirv
 
 	void ExprVisitor::visitPreDecrementExpr( expr::PreDecrement * expr )
 	{
+		m_allLiterals = false;
 		auto literal = m_module.registerLiteral( 1 );
 		auto operand = submit( expr->getOperand(), m_currentBlock, m_module );
 		auto type = m_module.registerType( expr->getType() );
@@ -1259,6 +1285,7 @@ namespace sdw::spirv
 
 	void ExprVisitor::visitPreIncrementExpr( expr::PreIncrement * expr )
 	{
+		m_allLiterals = false;
 		auto literal = m_module.registerLiteral( 1 );
 		auto operand = submit( expr->getOperand(), m_currentBlock, m_module );
 		auto type = m_module.registerType( expr->getType() );
@@ -1277,6 +1304,7 @@ namespace sdw::spirv
 
 	void ExprVisitor::visitPostDecrementExpr( expr::PostDecrement * expr )
 	{
+		m_allLiterals = false;
 		auto literal1 = m_module.registerLiteral( 1 );
 		auto literal0 = m_module.registerLiteral( 0 );
 		auto operand = submit( expr->getOperand(), m_currentBlock, m_module );
@@ -1301,6 +1329,7 @@ namespace sdw::spirv
 
 	void ExprVisitor::visitPostIncrementExpr( expr::PostIncrement * expr )
 	{
+		m_allLiterals = false;
 		auto literal1 = m_module.registerLiteral( 1 );
 		auto literal0 = m_module.registerLiteral( 0 );
 		auto operand = submit( expr->getOperand(), m_currentBlock, m_module );
@@ -1391,10 +1420,7 @@ namespace sdw::spirv
 
 		for ( auto & init : expr->getInitialisers() )
 		{
-			auto initialiser = submit( init.get(), m_currentBlock, m_module );
-			initialisers.push_back( initialiser );
-			allLiterals = allLiterals
-				&& ( init->getKind() == expr::Kind::eLiteral );
+			initialisers.push_back( submit( init.get(), m_currentBlock, m_module, allLiterals ) );
 		}
 
 		spv::Id init;
@@ -1412,18 +1438,30 @@ namespace sdw::spirv
 				, { initialisers } ) );
 		}
 
-		m_result = submit( expr->getIdentifier(), m_currentBlock, m_module );
-		m_currentBlock.instructions.emplace_back( makeStore( m_result, init ) );
-		m_module.putIntermediateResult( init );
+		if ( expr->getIdentifier() )
+		{
+			m_result = submit( expr->getIdentifier(), m_currentBlock, m_module );
+			m_currentBlock.instructions.emplace_back( makeStore( m_result, init ) );
+			m_module.putIntermediateResult( init );
+		}
+		else
+		{
+			assert( allLiterals );
+			m_result = init;
+		}
+
+		m_allLiterals = false;
 	}
 
 	void ExprVisitor::visitArrayAccessExpr( expr::ArrayAccess * expr )
 	{
+		m_allLiterals = false;
 		m_result = makeAccessChain( expr, m_module, m_currentBlock );
 	}
 
 	void ExprVisitor::visitMbrSelectExpr( expr::MbrSelect * expr )
 	{
+		m_allLiterals = false;
 		m_result = makeAccessChain( expr, m_module, m_currentBlock );
 	}
 
@@ -1484,11 +1522,13 @@ namespace sdw::spirv
 				, params ) );
 		}
 
+		m_allLiterals = m_allLiterals && allLiterals;
 		m_result = result;
 	}
 
 	void ExprVisitor::visitIdentifierExpr( expr::Identifier * expr )
 	{
+		m_allLiterals = false;
 		auto var = expr->getVariable();
 
 		if ( var->isMember() )
@@ -1513,6 +1553,7 @@ namespace sdw::spirv
 
 	void ExprVisitor::visitImageAccessCallExpr( expr::ImageAccessCall * expr )
 	{
+		m_allLiterals = false;
 		IdList params;
 
 		for ( auto & arg : expr->getArgList() )
@@ -1597,6 +1638,7 @@ namespace sdw::spirv
 
 	void ExprVisitor::visitInitExpr( expr::Init * expr )
 	{
+		m_allLiterals = false;
 		auto result = m_module.registerVariable( expr->getIdentifier()->getVariable()->getName()
 			, ( ( expr->getIdentifier()->getVariable()->isLocale() || expr->getIdentifier()->getVariable()->isInputParam() )
 				? spv::StorageClass::Function
@@ -1610,6 +1652,7 @@ namespace sdw::spirv
 
 	void ExprVisitor::visitIntrinsicCallExpr( expr::IntrinsicCall * expr )
 	{
+		m_allLiterals = false;
 		bool isExtension;
 		bool isAtomic;
 		auto opCodeId = getSpirVName( expr->getIntrinsic()
@@ -1672,6 +1715,7 @@ namespace sdw::spirv
 
 	void ExprVisitor::visitQuestionExpr( expr::Question * expr )
 	{
+		m_allLiterals = false;
 		auto ctrlId = submit( expr->getCtrlExpr(), m_currentBlock, m_module );
 		auto trueId = submit( expr->getTrueExpr(), m_currentBlock, m_module );
 		auto falseId = submit( expr->getFalseExpr(), m_currentBlock, m_module );
@@ -1697,6 +1741,7 @@ namespace sdw::spirv
 
 	void ExprVisitor::visitSwizzleExpr( expr::Swizzle * expr )
 	{
+		m_allLiterals = false;
 		auto outer = submit( expr->getOuterExpr(), m_currentBlock, m_module );
 		auto rawType = m_module.registerType( expr->getType() );
 		auto pointerType = m_module.registerPointerType( rawType, spv::StorageClass::Function );
@@ -1709,6 +1754,7 @@ namespace sdw::spirv
 
 	void ExprVisitor::visitTextureAccessCallExpr( expr::TextureAccessCall * expr )
 	{
+		m_allLiterals = false;
 		IdList args;
 
 		for ( auto & arg : expr->getArgList() )
@@ -1972,7 +2018,7 @@ namespace sdw::spirv
 			{
 				auto var = ident->getVariable();
 				result = m_module.registerVariable( var->getName()
-					, getStorageClass( getOutermost( var ) )
+					, getStorageClass( var )
 					, var->getType() );
 			}
 			else

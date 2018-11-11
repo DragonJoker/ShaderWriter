@@ -9,6 +9,7 @@ namespace ast::type
 		, uint32_t arraySize )
 		: Type{ Kind::eSampledImage, arraySize }
 		, m_imageType{ makeImageType( std::move( config ) ) }
+		, m_samplerType{ makeSamplerType( getConfig().isDepth == Trinary::eTrue ) }
 	{
 	}
 }

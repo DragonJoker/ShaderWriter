@@ -100,6 +100,17 @@ namespace sdw
 		return result;
 	}
 
+	var::VariablePtr Shader::registerSpecConstant( std::string const & name
+		, uint32_t location
+		, type::TypePtr type )
+	{
+		auto result = registerName( name
+			, type
+			, var::Flag::eShaderConstant );
+		m_specConstants.emplace( name, SpecConstantInfo{ type, location } );
+		return result;
+	}
+
 	var::VariablePtr Shader::registerSampledImage( std::string const & name
 		, type::TypePtr type
 		, uint32_t binding
@@ -108,7 +119,7 @@ namespace sdw
 	{
 		auto result = registerName( name
 			, type
-			, var::Flag::eUniform );
+			, var::Flag::eUniform | var::Flag::eConstant );
 
 		if ( enabled )
 		{
@@ -126,7 +137,7 @@ namespace sdw
 	{
 		auto result = registerName( name
 			, type
-			, var::Flag::eUniform );
+			, var::Flag::eUniform | var::Flag::eConstant );
 
 		if ( enabled )
 		{

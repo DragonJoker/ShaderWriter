@@ -14,14 +14,17 @@ set( TEST_WRITER_COMMON_HEADER_FILES
 	${SPIRV_CROSS_DIR}/spirv_parser.hpp
 	${SPIRV_CROSS_DIR}/spirv_cfg.hpp
 	${SPIRV_CROSS_DIR}/spirv_glsl.hpp
+	${SPIRV_CROSS_DIR}/spirv_hlsl.hpp
 )
 set( TEST_WRITER_COMMON_SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/WriterCommon.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/CompileHLSL.cpp
 	${SPIRV_CROSS_DIR}/spirv_cross.cpp
 	${SPIRV_CROSS_DIR}/spirv_cross_parsed_ir.cpp
 	${SPIRV_CROSS_DIR}/spirv_parser.cpp
 	${SPIRV_CROSS_DIR}/spirv_cfg.cpp
 	${SPIRV_CROSS_DIR}/spirv_glsl.cpp
+	${SPIRV_CROSS_DIR}/spirv_hlsl.cpp
 )
 
 add_library( TestWriterCommon

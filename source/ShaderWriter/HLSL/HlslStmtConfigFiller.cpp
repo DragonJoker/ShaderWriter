@@ -1,0 +1,223 @@
+/*
+See LICENSE file in root folder
+*/
+#include "ShaderWriter/HLSL/HlslStmtConfigFiller.hpp"
+
+#include "ShaderWriter/HLSL/HlslExprConfigFiller.hpp"
+#include "ShaderWriter/HLSL/HlslHelpers.hpp"
+#include "ShaderWriter/HLSL/HlslImageAccessFunctions.hpp"
+#include "ShaderWriter/HLSL/HlslIntrinsicFunctions.hpp"
+#include "ShaderWriter/HLSL/HlslTextureAccessFunctions.hpp"
+
+#include "ShaderWriter/Shader.hpp"
+
+#include <ASTGenerator/Type/TypeSampledImage.hpp>
+#include <ASTGenerator/Type/TypeImage.hpp>
+
+namespace sdw::hlsl
+{
+	IntrinsicsConfig StmtConfigFiller::submit( Shader const & shader )
+	{
+		IntrinsicsConfig result;
+		StmtConfigFiller vis{ shader, result };
+		shader.getStatements()->accept( &vis );
+		return result;
+	}
+
+	StmtConfigFiller::StmtConfigFiller( Shader const & shader
+		, IntrinsicsConfig & result )
+		: m_result{ result }
+	{
+	}
+
+	void StmtConfigFiller::visitContainerStmt( stmt::Container * cont )
+	{
+		for ( auto & stmt : *cont )
+		{
+			stmt->accept( this );
+		}
+	}
+
+	void StmtConfigFiller::visitConstantBufferDeclStmt( stmt::ConstantBufferDecl * stmt )
+	{
+		visitContainerStmt( stmt );
+	}
+
+	void StmtConfigFiller::visitDiscardStmt( stmt::Discard * stmt )
+	{
+	}
+
+	void StmtConfigFiller::visitPushConstantsBufferDeclStmt( stmt::PushConstantsBufferDecl * stmt )
+	{
+		visitContainerStmt( stmt );
+	}
+
+	void StmtConfigFiller::visitCommentStmt( stmt::Comment * stmt )
+	{
+	}
+
+	void StmtConfigFiller::visitCompoundStmt( stmt::Compound * stmt )
+	{
+		visitContainerStmt( stmt );
+	}
+
+	void StmtConfigFiller::visitDoWhileStmt( stmt::DoWhile * stmt )
+	{
+		ExprConfigFiller::submit( stmt->getCtrlExpr(), m_result );
+		visitContainerStmt( stmt );
+	}
+
+	void StmtConfigFiller::visitElseIfStmt( stmt::ElseIf * stmt )
+	{
+		ExprConfigFiller::submit( stmt->getCtrlExpr(), m_result );
+		visitContainerStmt( stmt );
+	}
+
+	void StmtConfigFiller::visitElseStmt( stmt::Else * stmt )
+	{
+		visitContainerStmt( stmt );
+	}
+
+	void StmtConfigFiller::visitForStmt( stmt::For * stmt )
+	{
+		ExprConfigFiller::submit( stmt->getInitExpr(), m_result );
+		ExprConfigFiller::submit( stmt->getCtrlExpr(), m_result );
+		ExprConfigFiller::submit( stmt->getIncrExpr(), m_result );
+		visitContainerStmt( stmt );
+	}
+
+	void StmtConfigFiller::visitFunctionDeclStmt( stmt::FunctionDecl * stmt )
+	{
+		visitContainerStmt( stmt );
+	}
+
+	void StmtConfigFiller::visitIfStmt( stmt::If * stmt )
+	{
+		ExprConfigFiller::submit( stmt->getCtrlExpr(), m_result );
+		visitContainerStmt( stmt );
+
+		for ( auto & elseIf : stmt->getElseIfList() )
+		{
+			elseIf->accept( this );
+		}
+
+		if ( stmt->getElse() )
+		{
+			stmt->getElse()->accept( this );
+		}
+	}
+
+	void StmtConfigFiller::visitImageDeclStmt( stmt::ImageDecl * stmt )
+	{
+	}
+
+	void StmtConfigFiller::visitInOutVariableDeclStmt( stmt::InOutVariableDecl * stmt )
+	{
+	}
+
+	void StmtConfigFiller::visitInputComputeLayoutStmt( stmt::InputComputeLayout * stmt )
+	{
+	}
+
+	void StmtConfigFiller::visitInputGeometryLayoutStmt( stmt::InputGeometryLayout * stmt )
+	{
+	}
+
+	void StmtConfigFiller::visitOutputGeometryLayoutStmt( stmt::OutputGeometryLayout * stmt )
+	{
+	}
+
+	void StmtConfigFiller::visitPerVertexDeclStmt( stmt::PerVertexDecl * stmt )
+	{
+	}
+
+	void StmtConfigFiller::visitReturnStmt( stmt::Return * stmt )
+	{
+		if ( stmt->getExpr() )
+		{
+			ExprConfigFiller::submit( stmt->getExpr(), m_result );
+		}
+	}
+
+	void StmtConfigFiller::visitSampledImageDeclStmt( stmt::SampledImageDecl * stmt )
+	{
+	}
+
+	void StmtConfigFiller::visitSamplerDeclStmt( stmt::SamplerDecl * stmt )
+	{
+	}
+
+	void StmtConfigFiller::visitShaderBufferDeclStmt( stmt::ShaderBufferDecl * stmt )
+	{
+		visitContainerStmt( stmt );
+	}
+
+	void StmtConfigFiller::visitSimpleStmt( stmt::Simple * stmt )
+	{
+		ExprConfigFiller::submit( stmt->getExpr(), m_result );
+	}
+
+	void StmtConfigFiller::visitStructureDeclStmt( stmt::StructureDecl * stmt )
+	{
+	}
+
+	void StmtConfigFiller::visitSwitchCaseStmt( stmt::SwitchCase * stmt )
+	{
+		visitContainerStmt( stmt );
+	}
+
+	void StmtConfigFiller::visitSwitchStmt( stmt::Switch * stmt )
+	{
+		ExprConfigFiller::submit( stmt->getTestExpr()->getValue(), m_result );
+		visitContainerStmt( stmt );
+	}
+
+	void StmtConfigFiller::visitVariableDeclStmt( stmt::VariableDecl * stmt )
+	{
+	}
+
+	void StmtConfigFiller::visitWhileStmt( stmt::While * stmt )
+	{
+		ExprConfigFiller::submit( stmt->getCtrlExpr(), m_result );
+		visitContainerStmt( stmt );
+	}
+
+	void StmtConfigFiller::visitPreprocDefine( stmt::PreprocDefine * preproc )
+	{
+		ExprConfigFiller::submit( preproc->getExpr(), m_result );
+	}
+
+	void StmtConfigFiller::visitPreprocElif( stmt::PreprocElif * preproc )
+	{
+		ExprConfigFiller::submit( preproc->getCtrlExpr(), m_result );
+		visitContainerStmt( preproc );
+	}
+
+	void StmtConfigFiller::visitPreprocElse( stmt::PreprocElse * preproc )
+	{
+		visitContainerStmt( preproc );
+	}
+
+	void StmtConfigFiller::visitPreprocEndif( stmt::PreprocEndif * preproc )
+	{
+	}
+
+	void StmtConfigFiller::visitPreprocExtension( stmt::PreprocExtension * preproc )
+	{
+	}
+
+	void StmtConfigFiller::visitPreprocIf( stmt::PreprocIf * preproc )
+	{
+		ExprConfigFiller::submit( preproc->getCtrlExpr(), m_result );
+		visitContainerStmt( preproc );
+	}
+
+	void StmtConfigFiller::visitPreprocIfDef( stmt::PreprocIfDef * preproc )
+	{
+		visitContainerStmt( preproc );
+	}
+
+	void StmtConfigFiller::visitPreprocVersion( stmt::PreprocVersion * preproc )
+	{
+	}
+}

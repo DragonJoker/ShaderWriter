@@ -264,15 +264,7 @@ namespace sdw
 	Writer_Image( , ImageCube, ast::type::Kind::eFloat, eImage );
 	Writer_Image( , Image1DArray, ast::type::Kind::eFloat, eImage );
 	Writer_Image( , Image2DArray, ast::type::Kind::eFloat, eImage );
-	Writer_Image( , Image2DRectArray, ast::type::Kind::eFloat, eImage );
 	Writer_Image( , ImageCubeArray, ast::type::Kind::eFloat, eImage );
-	Writer_Image( , Image1DShadow, ast::type::Kind::eFloat, eImage );
-	Writer_Image( , Image2DShadow, ast::type::Kind::eFloat, eImage );
-	Writer_Image( , Image2DRectShadow, ast::type::Kind::eFloat, eImage );
-	Writer_Image( , ImageCubeShadow, ast::type::Kind::eFloat, eImage );
-	Writer_Image( , Image1DArrayShadow, ast::type::Kind::eFloat, eImage );
-	Writer_Image( , Image2DArrayShadow, ast::type::Kind::eFloat, eImage );
-	Writer_Image( , ImageCubeArrayShadow, ast::type::Kind::eFloat, eImage );
 	Writer_Image( , Image2DMS, ast::type::Kind::eFloat, eImage );
 	Writer_Image( , Image2DMSArray, ast::type::Kind::eFloat, eImage );
 	Writer_Image( , SampledImageBuffer, ast::type::Kind::eFloat, eSampledImage );
@@ -283,8 +275,9 @@ namespace sdw
 	Writer_Image( , SampledImageCube, ast::type::Kind::eFloat, eSampledImage );
 	Writer_Image( , SampledImage1DArray, ast::type::Kind::eFloat, eSampledImage );
 	Writer_Image( , SampledImage2DArray, ast::type::Kind::eFloat, eSampledImage );
-	Writer_Image( , SampledImage2DRectArray, ast::type::Kind::eFloat, eSampledImage );
 	Writer_Image( , SampledImageCubeArray, ast::type::Kind::eFloat, eSampledImage );
+	Writer_Image( , SampledImage2DMS, ast::type::Kind::eFloat, eSampledImage );
+	Writer_Image( , SampledImage2DMSArray, ast::type::Kind::eFloat, eSampledImage );
 	Writer_Image( , SampledImage1DShadow, ast::type::Kind::eFloat, eSampledImage );
 	Writer_Image( , SampledImage2DShadow, ast::type::Kind::eFloat, eSampledImage );
 	Writer_Image( , SampledImage2DRectShadow, ast::type::Kind::eFloat, eSampledImage );
@@ -300,15 +293,7 @@ namespace sdw
 	Writer_Image( I, ImageCube, ast::type::Kind::eInt, eImage );
 	Writer_Image( I, Image1DArray, ast::type::Kind::eInt, eImage );
 	Writer_Image( I, Image2DArray, ast::type::Kind::eInt, eImage );
-	Writer_Image( I, Image2DRectArray, ast::type::Kind::eInt, eImage );
 	Writer_Image( I, ImageCubeArray, ast::type::Kind::eInt, eImage );
-	Writer_Image( I, Image1DShadow, ast::type::Kind::eInt, eImage );
-	Writer_Image( I, Image2DShadow, ast::type::Kind::eInt, eImage );
-	Writer_Image( I, Image2DRectShadow, ast::type::Kind::eInt, eImage );
-	Writer_Image( I, ImageCubeShadow, ast::type::Kind::eInt, eImage );
-	Writer_Image( I, Image1DArrayShadow, ast::type::Kind::eInt, eImage );
-	Writer_Image( I, Image2DArrayShadow, ast::type::Kind::eInt, eImage );
-	Writer_Image( I, ImageCubeArrayShadow, ast::type::Kind::eInt, eImage );
 	Writer_Image( I, Image2DMS, ast::type::Kind::eInt, eImage );
 	Writer_Image( I, Image2DMSArray, ast::type::Kind::eInt, eImage );
 	Writer_Image( I, SampledImageBuffer, ast::type::Kind::eInt, eSampledImage );
@@ -319,15 +304,9 @@ namespace sdw
 	Writer_Image( I, SampledImageCube, ast::type::Kind::eInt, eSampledImage );
 	Writer_Image( I, SampledImage1DArray, ast::type::Kind::eInt, eSampledImage );
 	Writer_Image( I, SampledImage2DArray, ast::type::Kind::eInt, eSampledImage );
-	Writer_Image( I, SampledImage2DRectArray, ast::type::Kind::eInt, eSampledImage );
 	Writer_Image( I, SampledImageCubeArray, ast::type::Kind::eInt, eSampledImage );
-	Writer_Image( I, SampledImage1DShadow, ast::type::Kind::eInt, eSampledImage );
-	Writer_Image( I, SampledImage2DShadow, ast::type::Kind::eInt, eSampledImage );
-	Writer_Image( I, SampledImage2DRectShadow, ast::type::Kind::eInt, eSampledImage );
-	Writer_Image( I, SampledImageCubeShadow, ast::type::Kind::eInt, eSampledImage );
-	Writer_Image( I, SampledImage1DArrayShadow, ast::type::Kind::eInt, eSampledImage );
-	Writer_Image( I, SampledImage2DArrayShadow, ast::type::Kind::eInt, eSampledImage );
-	Writer_Image( I, SampledImageCubeArrayShadow, ast::type::Kind::eInt, eSampledImage );
+	Writer_Image( I, SampledImage2DMS, ast::type::Kind::eInt, eSampledImage );
+	Writer_Image( I, SampledImage2DMSArray, ast::type::Kind::eInt, eSampledImage );
 	Writer_Image( U, ImageBuffer, ast::type::Kind::eUInt, eImage );
 	Writer_Image( U, Image1D, ast::type::Kind::eUInt, eImage );
 	Writer_Image( U, Image2D, ast::type::Kind::eUInt, eImage );
@@ -336,15 +315,7 @@ namespace sdw
 	Writer_Image( U, ImageCube, ast::type::Kind::eUInt, eImage );
 	Writer_Image( U, Image1DArray, ast::type::Kind::eUInt, eImage );
 	Writer_Image( U, Image2DArray, ast::type::Kind::eUInt, eImage );
-	Writer_Image( U, Image2DRectArray, ast::type::Kind::eUInt, eImage );
 	Writer_Image( U, ImageCubeArray, ast::type::Kind::eUInt, eImage );
-	Writer_Image( U, Image1DShadow, ast::type::Kind::eUInt, eImage );
-	Writer_Image( U, Image2DShadow, ast::type::Kind::eUInt, eImage );
-	Writer_Image( U, Image2DRectShadow, ast::type::Kind::eUInt, eImage );
-	Writer_Image( U, ImageCubeShadow, ast::type::Kind::eUInt, eImage );
-	Writer_Image( U, Image1DArrayShadow, ast::type::Kind::eUInt, eImage );
-	Writer_Image( U, Image2DArrayShadow, ast::type::Kind::eUInt, eImage );
-	Writer_Image( U, ImageCubeArrayShadow, ast::type::Kind::eUInt, eImage );
 	Writer_Image( U, Image2DMS, ast::type::Kind::eUInt, eImage );
 	Writer_Image( U, Image2DMSArray, ast::type::Kind::eUInt, eImage );
 	Writer_Image( U, SampledImageBuffer, ast::type::Kind::eUInt, eSampledImage );
@@ -355,15 +326,9 @@ namespace sdw
 	Writer_Image( U, SampledImageCube, ast::type::Kind::eUInt, eSampledImage );
 	Writer_Image( U, SampledImage1DArray, ast::type::Kind::eUInt, eSampledImage );
 	Writer_Image( U, SampledImage2DArray, ast::type::Kind::eUInt, eSampledImage );
-	Writer_Image( U, SampledImage2DRectArray, ast::type::Kind::eUInt, eSampledImage );
 	Writer_Image( U, SampledImageCubeArray, ast::type::Kind::eUInt, eSampledImage );
-	Writer_Image( U, SampledImage1DShadow, ast::type::Kind::eUInt, eSampledImage );
-	Writer_Image( U, SampledImage2DShadow, ast::type::Kind::eUInt, eSampledImage );
-	Writer_Image( U, SampledImage2DRectShadow, ast::type::Kind::eUInt, eSampledImage );
-	Writer_Image( U, SampledImageCubeShadow, ast::type::Kind::eUInt, eSampledImage );
-	Writer_Image( U, SampledImage1DArrayShadow, ast::type::Kind::eUInt, eSampledImage );
-	Writer_Image( U, SampledImage2DArrayShadow, ast::type::Kind::eUInt, eSampledImage );
-	Writer_Image( U, SampledImageCubeArrayShadow, ast::type::Kind::eUInt, eSampledImage );
+	Writer_Image( U, SampledImage2DMS, ast::type::Kind::eInt, eSampledImage );
+	Writer_Image( U, SampledImage2DMSArray, ast::type::Kind::eInt, eSampledImage );
 
 #undef Writer_Image
 

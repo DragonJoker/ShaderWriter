@@ -6,100 +6,100 @@
 
 namespace
 {
-	void testPreprocIf()
+	void testPreprocIf( test::TestCounts & testCounts )
 	{
 		testBegin( "testPreprocIf" );
 		auto stmt = ast::stmt::makePreprocIf( ast::expr::makeIdentifier( ast::var::makeVariable( ast::type::getBool(), "ItIsDefined" ) ) );
 		std::cout << "PreprocIf:\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
 
-		check( stmt->getKind() == ast::stmt::Kind::ePreprocIf );
+		require( stmt->getKind() == ast::stmt::Kind::ePreprocIf );
 		check( stmt->getCtrlExpr()->getKind() == ast::expr::Kind::eIdentifier );
 		check( stmt->getCtrlExpr()->getType()->getKind() == ast::type::Kind::eBoolean );
 		testEnd();
 	}
 	
-	void testPreprocIfDef()
+	void testPreprocIfDef( test::TestCounts & testCounts )
 	{
 		testBegin( "testPreprocIfDef" );
 		auto stmt = ast::stmt::makePreprocIfDef( ast::expr::makeIdentifier( ast::var::makeVariable( ast::type::getBool(), "IsItDefined" ) ) );
 		std::cout << "PreprocIfDef:\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
 
-		check( stmt->getKind() == ast::stmt::Kind::ePreprocIfDef );
+		require( stmt->getKind() == ast::stmt::Kind::ePreprocIfDef );
 		check( stmt->getIdentExpr()->getKind() == ast::expr::Kind::eIdentifier );
 		check( stmt->getIdentExpr()->getType()->getKind() == ast::type::Kind::eBoolean );
 		testEnd();
 	}
 
-	void testPreprocElif()
+	void testPreprocElif( test::TestCounts & testCounts )
 	{
 		testBegin( "testPreprocElif" );
 		auto ifStmt = ast::stmt::makePreprocIf( ast::expr::makeIdentifier( ast::var::makeVariable( ast::type::getBool(), "ItIsNotDefined" ) ) );
 		auto stmt = ifStmt->createElif( ast::expr::makeIdentifier( ast::var::makeVariable( ast::type::getBool(), "ItIsDefined" ) ) );
 		std::cout << "PreprocElif:\n" << ast::debug::StmtVisitor::submit( stmt ) << std::endl;
 
-		check( stmt->getKind() == ast::stmt::Kind::ePreprocElif );
+		require( stmt->getKind() == ast::stmt::Kind::ePreprocElif );
 		check( stmt->getCtrlExpr()->getKind() == ast::expr::Kind::eIdentifier );
 		check( stmt->getCtrlExpr()->getType()->getKind() == ast::type::Kind::eBoolean );
 		testEnd();
 	}
 
-	void testPreprocElse()
+	void testPreprocElse( test::TestCounts & testCounts )
 	{
 		testBegin( "testPreprocElse" );
 		auto ifStmt = ast::stmt::makePreprocIf( ast::expr::makeIdentifier( ast::var::makeVariable( ast::type::getBool(), "ItIsDefined" ) ) );
 		auto stmt = ifStmt->createElse();
 		std::cout << "PreprocElse:\n" << ast::debug::StmtVisitor::submit( stmt ) << std::endl;
 
-		check( stmt->getKind() == ast::stmt::Kind::ePreprocElse );
+		require( stmt->getKind() == ast::stmt::Kind::ePreprocElse );
 		testEnd();
 	}
 
-	void testPreprocEndif()
+	void testPreprocEndif( test::TestCounts & testCounts )
 	{
 		testBegin( "testPreprocEndif" );
 		auto stmt = ast::stmt::makePreprocEndif();
 		std::cout << "PreprocEndif:\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
 
-		check( stmt->getKind() == ast::stmt::Kind::ePreprocEndif );
+		require( stmt->getKind() == ast::stmt::Kind::ePreprocEndif );
 		testEnd();
 	}
 
-	void testPreprocDefine()
+	void testPreprocDefine( test::TestCounts & testCounts )
 	{
 		testBegin( "testPreprocDefine" );
 		auto stmt = ast::stmt::makePreprocDefine( "DefineIt", ast::expr::makeLiteral( 1 ) );
 		std::cout << "PreprocDefine:\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
 
-		check( stmt->getKind() == ast::stmt::Kind::ePreprocDefine );
+		require( stmt->getKind() == ast::stmt::Kind::ePreprocDefine );
 		check( stmt->getExpr()->getKind() == ast::expr::Kind::eLiteral );
 		check( stmt->getExpr()->getType()->getKind() == ast::type::Kind::eInt );
 		testEnd();
 	}
 
-	void testPreprocExtension()
+	void testPreprocExtension( test::TestCounts & testCounts )
 	{
 		testBegin( "testPreprocExtension" );
 		auto stmt = ast::stmt::makePreprocExtension( "GL_arb_coin", ast::stmt::PreprocExtension::Status::eEnabled );
 		std::cout << "PreprocExtension:\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
 
-		check( stmt->getKind() == ast::stmt::Kind::ePreprocExtension );
+		require( stmt->getKind() == ast::stmt::Kind::ePreprocExtension );
 		check( stmt->getName() == "GL_arb_coin" );
 		check( stmt->getStatus() == ast::stmt::PreprocExtension::Status::eEnabled );
 		testEnd();
 	}
 
-	void testPreprocVersion()
+	void testPreprocVersion( test::TestCounts & testCounts )
 	{
 		testBegin( "testPreprocVersion" );
 		auto stmt = ast::stmt::makePreprocVersion( "430 core" );
 		std::cout << "PreprocVersion:\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
 
-		check( stmt->getKind() == ast::stmt::Kind::ePreprocVersion );
+		require( stmt->getKind() == ast::stmt::Kind::ePreprocVersion );
 		check( stmt->getName() == "430 core" );
 		testEnd();
 	}
 
-	void testSimpleStatement()
+	void testSimpleStatement( test::TestCounts & testCounts )
 	{
 		testBegin( "testSimpleStatement" );
 		auto lhs = ast::expr::makeIdentifier( ast::var::makeVariable( ast::type::getInt(), "lhs" ) );
@@ -107,31 +107,31 @@ namespace
 		auto stmt = ast::stmt::makeSimple( ast::expr::makeInit( std::move( lhs ), std::move( rhs ) ) );
 		std::cout << "StmtSimple:\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
 
-		check( stmt->getKind() == ast::stmt::Kind::eSimple );
+		require( stmt->getKind() == ast::stmt::Kind::eSimple );
 		check( stmt->getExpr()->getKind() == ast::expr::Kind::eInit );
 		testEnd();
 	}
 	
-	void testVariableDeclStatement()
+	void testVariableDeclStatement( test::TestCounts & testCounts )
 	{
 		testBegin( "testVariableDeclStatement" );
 		auto stmt = ast::stmt::makeVariableDecl( ast::var::makeVariable( ast::type::getInt(), "lhs" ) );
 		std::cout << "StmtVariableDecl:\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
 
-		check( stmt->getKind() == ast::stmt::Kind::eVariableDecl );
+		require( stmt->getKind() == ast::stmt::Kind::eVariableDecl );
 		check( stmt->getVariable()->getType()->getKind() == ast::type::Kind::eInt );
 		check( stmt->getVariable()->getName() == "lhs" );
 		testEnd();
 	}
 
-	void testSampledImageDeclStatement()
+	void testSampledImageDeclStatement( test::TestCounts & testCounts )
 	{
 		testBegin( "testSampledImageDeclStatement" );
 		ast::type::ImageConfiguration config{};
 		auto stmt = ast::stmt::makeSampledImageDecl( ast::var::makeVariable( ast::type::getSampledImage( config ), "lhs" ), 1u, 2u );
 		std::cout << "StmtSamplerDecl:\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
 
-		check( stmt->getKind() == ast::stmt::Kind::eSampledImageDecl );
+		require( stmt->getKind() == ast::stmt::Kind::eSampledImageDecl );
 		check( stmt->getBindingPoint() == 1u );
 		check( stmt->getDescriptorSet() == 2u );
 		check( stmt->getVariable()->getType()->getKind() == ast::type::Kind::eSampledImage );
@@ -139,13 +139,13 @@ namespace
 		testEnd();
 	}
 
-	void testSamplerDeclStatement()
+	void testSamplerDeclStatement( test::TestCounts & testCounts )
 	{
 		testBegin( "testSamplerDeclStatement" );
 		auto stmt = ast::stmt::makeSamplerDecl( ast::var::makeVariable( ast::type::getSampler(), "lhs" ), 1u, 2u );
 		std::cout << "StmtSamplerDecl:\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
 
-		check( stmt->getKind() == ast::stmt::Kind::eSamplerDecl );
+		require( stmt->getKind() == ast::stmt::Kind::eSamplerDecl );
 		check( stmt->getBindingPoint() == 1u );
 		check( stmt->getDescriptorSet() == 2u );
 		check( stmt->getVariable()->getType()->getKind() == ast::type::Kind::eSampler );
@@ -153,14 +153,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageDeclStatement()
+	void testImageDeclStatement( test::TestCounts & testCounts )
 	{
 		testBegin( "testImageDeclStatement" );
 		ast::type::ImageConfiguration config{};
 		auto stmt = ast::stmt::makeImageDecl( ast::var::makeVariable( ast::type::getImage( config ), "lhs" ), 1u, 2u );
 		std::cout << "StmtImageDecl:\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
 
-		check( stmt->getKind() == ast::stmt::Kind::eImageDecl );
+		require( stmt->getKind() == ast::stmt::Kind::eImageDecl );
 		check( stmt->getBindingPoint() == 1u );
 		check( stmt->getDescriptorSet() == 2u );
 		check( stmt->getVariable()->getType()->getKind() == ast::type::Kind::eImage );
@@ -168,14 +168,14 @@ namespace
 		testEnd();
 	}
 
-	void testConstantBufferDeclStatement()
+	void testConstantBufferDeclStatement( test::TestCounts & testCounts )
 	{
 		testBegin( "testConstantBufferDeclStatement" );
 		{
 			auto stmt = ast::stmt::makeConstantBufferDecl( "Buffer", 1u, 2u );
 			std::cout << "StmtConstantBufferDecl (empty):\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
 
-			check( stmt->getKind() == ast::stmt::Kind::eConstantBufferDecl );
+			require( stmt->getKind() == ast::stmt::Kind::eConstantBufferDecl );
 			check( stmt->getBindingPoint() == 1u );
 			check( stmt->getDescriptorSet() == 2u );
 			check( stmt->empty() );
@@ -186,7 +186,7 @@ namespace
 			stmt->add( ast::stmt::makeVariableDecl( ast::var::makeVariable( ast::type::getInt(), "j" ) ) );
 			std::cout << "StmtConstantBufferDecl:\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
 
-			check( stmt->getKind() == ast::stmt::Kind::eConstantBufferDecl );
+			require( stmt->getKind() == ast::stmt::Kind::eConstantBufferDecl );
 			check( stmt->getBindingPoint() == 1u );
 			check( stmt->getDescriptorSet() == 2u );
 			check( stmt->size() == 2u );
@@ -194,14 +194,14 @@ namespace
 		testEnd();
 	}
 
-	void testShaderBufferDeclStatement()
+	void testShaderBufferDeclStatement( test::TestCounts & testCounts )
 	{
 		testBegin( "testShaderBufferDeclStatement" );
 		{
 			auto stmt = ast::stmt::makeShaderBufferDecl( "Buffer", 1u, 2u );
 			std::cout << "StmtShaderBufferDecl (empty):\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
 
-			check( stmt->getKind() == ast::stmt::Kind::eShaderBufferDecl );
+			require( stmt->getKind() == ast::stmt::Kind::eShaderBufferDecl );
 			check( stmt->getBindingPoint() == 1u );
 			check( stmt->getDescriptorSet() == 2u );
 			check( stmt->empty() );
@@ -212,7 +212,7 @@ namespace
 			stmt->add( ast::stmt::makeVariableDecl( ast::var::makeVariable( ast::type::getInt(), "j" ) ) );
 			std::cout << "StmtShaderBufferDecl:\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
 
-			check( stmt->getKind() == ast::stmt::Kind::eShaderBufferDecl );
+			require( stmt->getKind() == ast::stmt::Kind::eShaderBufferDecl );
 			check( stmt->getBindingPoint() == 1u );
 			check( stmt->getDescriptorSet() == 2u );
 			check( stmt->size() == 2u );
@@ -220,27 +220,27 @@ namespace
 		testEnd();
 	}
 	
-	void testInOutVariableDeclStatement()
+	void testInOutVariableDeclStatement( test::TestCounts & testCounts )
 	{
 		testBegin( "testInOutVariableDeclStatement" );
 		auto stmt = ast::stmt::makeInOutVariableDecl( ast::var::makeVariable( ast::type::getInt(), "lhs", ast::var::Flag::eShaderInput ), 1u );
 		std::cout << "StmtInOutVariableDecl:\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
 
-		check( stmt->getKind() == ast::stmt::Kind::eInOutVariableDecl );
+		require( stmt->getKind() == ast::stmt::Kind::eInOutVariableDecl );
 		check( stmt->getLocation() == 1u );
 		check( stmt->getVariable()->getType()->getKind() == ast::type::Kind::eInt );
 		check( stmt->getVariable()->getName() == "lhs" );
 		testEnd();
 	}
 
-	void testContainerStatement()
+	void testContainerStatement( test::TestCounts & testCounts )
 	{
 		testBegin( "testContainerStatement" );
 		{
 			auto stmt = ast::stmt::makeContainer();
 			std::cout << "StmtContainer (empty):\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
 
-			check( stmt->getKind() == ast::stmt::Kind::eContainer );
+			require( stmt->getKind() == ast::stmt::Kind::eContainer );
 			check( stmt->empty() );
 		}
 		{
@@ -251,20 +251,20 @@ namespace
 			stmt->addStmt( ast::stmt::makeSimple( ast::expr::makeInit( std::move( j ), ast::expr::makeLiteral( 20 ) ) ) );
 			std::cout << "StmtContainer:\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
 
-			check( stmt->getKind() == ast::stmt::Kind::eContainer );
+			require( stmt->getKind() == ast::stmt::Kind::eContainer );
 			check( stmt->size() == 2u );
 		}
 		testEnd();
 	}
 
-	void testCompoundStatement()
+	void testCompoundStatement( test::TestCounts & testCounts )
 	{
 		testBegin( "testCompoundStatement" );
 		{
 			auto stmt = ast::stmt::makeCompound();
 			std::cout << "StmtCompound (empty):\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
 
-			check( stmt->getKind() == ast::stmt::Kind::eCompound );
+			require( stmt->getKind() == ast::stmt::Kind::eCompound );
 			check( stmt->empty() );
 		}
 		{
@@ -275,20 +275,20 @@ namespace
 			stmt->addStmt( ast::stmt::makeSimple( ast::expr::makeInit( std::move( j ), ast::expr::makeLiteral( 20 ) ) ) );
 			std::cout << "StmtCompound:" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
 
-			check( stmt->getKind() == ast::stmt::Kind::eCompound );
+			require( stmt->getKind() == ast::stmt::Kind::eCompound );
 			check( stmt->size() == 2u );
 		}
 		testEnd();
 	}
 
-	void testIfStatement()
+	void testIfStatement( test::TestCounts & testCounts )
 	{
 		testBegin( "testIfStatement" );
 		{
 			auto stmt = ast::stmt::makeIf( ast::expr::makeIdentifier( ast::var::makeVariable( ast::type::getBool(), "k" ) ) );
 			std::cout << "StmtIf (empty):\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
 
-			check( stmt->getKind() == ast::stmt::Kind::eIf );
+			require( stmt->getKind() == ast::stmt::Kind::eIf );
 			check( stmt->getCtrlExpr()->getKind() == ast::expr::Kind::eIdentifier );
 			check( stmt->getCtrlExpr()->getType()->getKind() == ast::type::Kind::eBoolean );
 			check( stmt->empty() );
@@ -301,7 +301,7 @@ namespace
 			stmt->addStmt( ast::stmt::makeSimple( ast::expr::makeInit( std::move( j ), ast::expr::makeLiteral( 20 ) ) ) );
 			std::cout << "StmtIf:\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
 
-			check( stmt->getKind() == ast::stmt::Kind::eIf );
+			require( stmt->getKind() == ast::stmt::Kind::eIf );
 			check( stmt->getCtrlExpr()->getKind() == ast::expr::Kind::eIdentifier );
 			check( stmt->getCtrlExpr()->getType()->getKind() == ast::type::Kind::eBoolean );
 			check( stmt->size() == 2u );
@@ -309,7 +309,7 @@ namespace
 		testEnd();
 	}
 
-	void testElseStatement()
+	void testElseStatement( test::TestCounts & testCounts )
 	{
 		testBegin( "testElseStatement" );
 		{
@@ -319,7 +319,7 @@ namespace
 			auto elseStmt = stmt->createElse();
 			std::cout << "StmtElse (empty):\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
 
-			check( elseStmt->getKind() == ast::stmt::Kind::eElse );
+			require( elseStmt->getKind() == ast::stmt::Kind::eElse );
 			check( elseStmt->empty() );
 		}
 		{
@@ -333,13 +333,13 @@ namespace
 			elseStmt->addStmt( ast::stmt::makeSimple( ast::expr::makeInit( ast::expr::makeIdentifier( j ), ast::expr::makeLiteral( 10 ) ) ) );
 			std::cout << "StmtElse:\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
 
-			check( elseStmt->getKind() == ast::stmt::Kind::eElse );
+			require( elseStmt->getKind() == ast::stmt::Kind::eElse );
 			check( elseStmt->size() == 2u );
 		}
 		testEnd();
 	}
 
-	void testElseIfStatement()
+	void testElseIfStatement( test::TestCounts & testCounts )
 	{
 		testBegin( "testElseIfStatement" );
 		{
@@ -349,7 +349,7 @@ namespace
 			auto elseIfStmt = stmt->createElseIf( ast::expr::makeIdentifier( ast::var::makeVariable( ast::type::getBool(), "l" ) ) );
 			std::cout << "StmtElseIf (empty):\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
 
-			check( elseIfStmt->getKind() == ast::stmt::Kind::eElseIf );
+			require( elseIfStmt->getKind() == ast::stmt::Kind::eElseIf );
 			check( elseIfStmt->empty() );
 		}
 		{
@@ -363,13 +363,13 @@ namespace
 			elseIfStmt->addStmt( ast::stmt::makeSimple( ast::expr::makeInit( ast::expr::makeIdentifier( j ), ast::expr::makeLiteral( 10 ) ) ) );
 			std::cout << "StmtElseIf:\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
 
-			check( elseIfStmt->getKind() == ast::stmt::Kind::eElseIf );
+			require( elseIfStmt->getKind() == ast::stmt::Kind::eElseIf );
 			check( elseIfStmt->size() == 2u );
 		}
 		testEnd();
 	}
 
-	void testElseIfElseStatement()
+	void testElseIfElseStatement( test::TestCounts & testCounts )
 	{
 		testBegin( "testElseIfStatement" );
 		{
@@ -397,14 +397,14 @@ namespace
 		testEnd();
 	}
 
-	void testWhileStatement()
+	void testWhileStatement( test::TestCounts & testCounts )
 	{
 		testBegin( "testWhileStatement" );
 		{
 			auto stmt = ast::stmt::makeWhile( ast::expr::makeIdentifier( ast::var::makeVariable( ast::type::getBool(), "k" ) ) );
 			std::cout << "StmtWhile (empty):\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
 
-			check( stmt->getKind() == ast::stmt::Kind::eWhile );
+			require( stmt->getKind() == ast::stmt::Kind::eWhile );
 			check( stmt->getCtrlExpr()->getKind() == ast::expr::Kind::eIdentifier );
 			check( stmt->getCtrlExpr()->getType()->getKind() == ast::type::Kind::eBoolean );
 			check( stmt->empty() );
@@ -417,7 +417,7 @@ namespace
 			stmt->addStmt( ast::stmt::makeSimple( ast::expr::makeInit( std::move( j ), ast::expr::makeLiteral( 20 ) ) ) );
 			std::cout << "StmtWhile:\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
 
-			check( stmt->getKind() == ast::stmt::Kind::eWhile );
+			require( stmt->getKind() == ast::stmt::Kind::eWhile );
 			check( stmt->getCtrlExpr()->getKind() == ast::expr::Kind::eIdentifier );
 			check( stmt->getCtrlExpr()->getType()->getKind() == ast::type::Kind::eBoolean );
 			check( stmt->size() == 2u );
@@ -425,14 +425,14 @@ namespace
 		testEnd();
 	}
 
-	void testDoWhileStatement()
+	void testDoWhileStatement( test::TestCounts & testCounts )
 	{
 		testBegin( "testDoWhileStatement" );
 		{
 			auto stmt = ast::stmt::makeDoWhile( ast::expr::makeIdentifier( ast::var::makeVariable( ast::type::getBool(), "k" ) ) );
 			std::cout << "StmtDoWhile (empty):\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
 
-			check( stmt->getKind() == ast::stmt::Kind::eDoWhile );
+			require( stmt->getKind() == ast::stmt::Kind::eDoWhile );
 			check( stmt->getCtrlExpr()->getKind() == ast::expr::Kind::eIdentifier );
 			check( stmt->getCtrlExpr()->getType()->getKind() == ast::type::Kind::eBoolean );
 			check( stmt->empty() );
@@ -445,7 +445,7 @@ namespace
 			stmt->addStmt( ast::stmt::makeSimple( ast::expr::makeInit( std::move( j ), ast::expr::makeLiteral( 20 ) ) ) );
 			std::cout << "StmtDoWhile:\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
 
-			check( stmt->getKind() == ast::stmt::Kind::eDoWhile );
+			require( stmt->getKind() == ast::stmt::Kind::eDoWhile );
 			check( stmt->getCtrlExpr()->getKind() == ast::expr::Kind::eIdentifier );
 			check( stmt->getCtrlExpr()->getType()->getKind() == ast::type::Kind::eBoolean );
 			check( stmt->size() == 2u );
@@ -453,7 +453,7 @@ namespace
 		testEnd();
 	}
 
-	void testForStatement()
+	void testForStatement( test::TestCounts & testCounts )
 	{
 		testBegin( "testForStatement" );
 		{
@@ -463,7 +463,7 @@ namespace
 				, ast::expr::makePreIncrement( ast::expr::makeIdentifier( k ) ) );
 			std::cout << "StmtFor (empty):\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
 
-			check( stmt->getKind() == ast::stmt::Kind::eFor );
+			require( stmt->getKind() == ast::stmt::Kind::eFor );
 			check( stmt->getInitExpr()->getKind() == ast::expr::Kind::eInit );
 			check( stmt->getInitExpr()->getType()->getKind() == ast::type::Kind::eInt );
 			check( stmt->getCtrlExpr()->getKind() == ast::expr::Kind::eLessEqual );
@@ -483,7 +483,7 @@ namespace
 			stmt->addStmt( ast::stmt::makeSimple( ast::expr::makeInit( std::move( j ), ast::expr::makeLiteral( 20 ) ) ) );
 			std::cout << "StmtFor:\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
 
-			check( stmt->getKind() == ast::stmt::Kind::eFor );
+			require( stmt->getKind() == ast::stmt::Kind::eFor );
 			check( stmt->getInitExpr()->getKind() == ast::expr::Kind::eInit );
 			check( stmt->getInitExpr()->getType()->getKind() == ast::type::Kind::eInt );
 			check( stmt->getCtrlExpr()->getKind() == ast::expr::Kind::eLessEqual );
@@ -495,7 +495,7 @@ namespace
 		testEnd();
 	}
 
-	void testStructureDeclStatement()
+	void testStructureDeclStatement( test::TestCounts & testCounts )
 	{
 		testBegin( "testStructureDeclStatement" );
 		{
@@ -503,7 +503,7 @@ namespace
 			auto stmt = ast::stmt::makeStructureDecl( type );
 			std::cout << "StmtStructureDecl (empty):\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
 
-			check( stmt->getKind() == ast::stmt::Kind::eStructureDecl );
+			require( stmt->getKind() == ast::stmt::Kind::eStructureDecl );
 			check( stmt->getType()->getName() == "MyStruct" );
 			check( stmt->getType()->empty() );
 		}
@@ -514,14 +514,14 @@ namespace
 			auto stmt = ast::stmt::makeStructureDecl( type );
 			std::cout << "StmtStructureDecl:\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
 
-			check( stmt->getKind() == ast::stmt::Kind::eStructureDecl );
+			require( stmt->getKind() == ast::stmt::Kind::eStructureDecl );
 			check( stmt->getType()->getName() == "MyStruct" );
 			check( stmt->getType()->size() == 2u );
 		}
 		testEnd();
 	}
 
-	void testSwitchStatement()
+	void testSwitchStatement( test::TestCounts & testCounts )
 	{
 		testBegin( "testSwitchStatement" );
 		{
@@ -529,7 +529,7 @@ namespace
 			auto stmt = ast::stmt::makeSwitch( ast::expr::makeSwitchTest( ast::expr::makeIdentifier( i ) ) );
 			std::cout << "StmtSwitch (empty):\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
 
-			check( stmt->getKind() == ast::stmt::Kind::eSwitch );
+			require( stmt->getKind() == ast::stmt::Kind::eSwitch );
 			check( stmt->getTestExpr()->getKind() == ast::expr::Kind::eSwitchTest );
 			check( stmt->empty() );
 		}
@@ -540,7 +540,7 @@ namespace
 			stmt->createDefault();
 			std::cout << "StmtSwitch (empty cases):\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
 
-			check( stmt->getKind() == ast::stmt::Kind::eSwitch );
+			require( stmt->getKind() == ast::stmt::Kind::eSwitch );
 			check( stmt->getTestExpr()->getKind() == ast::expr::Kind::eSwitchTest );
 			check( stmt->size() == 2u );
 		}
@@ -557,86 +557,86 @@ namespace
 			defaultStmt->addStmt( ast::stmt::makeSimple( ast::expr::makeInit( ast::expr::makeIdentifier( j ), ast::expr::makeLiteral( 20 ) ) ) );
 			std::cout << "StmtSwitch:\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
 
-			check( stmt->getKind() == ast::stmt::Kind::eSwitch );
+			require( stmt->getKind() == ast::stmt::Kind::eSwitch );
 			check( stmt->getTestExpr()->getKind() == ast::expr::Kind::eSwitchTest );
 			check( stmt->size() == 2u );
 		}
 		testEnd();
 	}
 
-	void testReturnStatement()
+	void testReturnStatement( test::TestCounts & testCounts )
 	{
 		testBegin( "testReturnStatement" );
 		{
 			auto stmt = ast::stmt::makeReturn();
 			std::cout << "StmtReturn:\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
 
-			check( stmt->getKind() == ast::stmt::Kind::eReturn );
+			require( stmt->getKind() == ast::stmt::Kind::eReturn );
 		}
 		{
 			auto stmt = ast::stmt::makeReturn( ast::expr::makeLiteral( 10 ) );
 			std::cout << "StmtReturn:\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
 
-			check( stmt->getKind() == ast::stmt::Kind::eReturn );
+			require( stmt->getKind() == ast::stmt::Kind::eReturn );
 			check( stmt->getExpr()->getKind() == ast::expr::Kind::eLiteral );
 		}
 		testEnd();
 	}
 
-	void testDiscardStatement()
+	void testDiscardStatement( test::TestCounts & testCounts )
 	{
 		testBegin( "testDiscardStatement" );
 		auto stmt = ast::stmt::makeDiscard();
 		std::cout << "StmtDiscard:\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
 
-		check( stmt->getKind() == ast::stmt::Kind::eDiscard );
+		require( stmt->getKind() == ast::stmt::Kind::eDiscard );
 		testEnd();
 	}
 
-	void testInputComputeLayout()
+	void testInputComputeLayout( test::TestCounts & testCounts )
 	{
 		testBegin( "testInputComputeLayout" );
 		auto stmt = ast::stmt::makeInputComputeLayout( 16, 32, 64 );
 		std::cout << "StmtInputComputeLayout:\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
 
-		check( stmt->getKind() == ast::stmt::Kind::eInputComputeLayout );
+		require( stmt->getKind() == ast::stmt::Kind::eInputComputeLayout );
 		check( stmt->getWorkGroupsX() == 16u );
 		check( stmt->getWorkGroupsY() == 32u );
 		check( stmt->getWorkGroupsZ() == 64u );
 		testEnd();
 	}
 
-	void testInputGeometryLayout()
+	void testInputGeometryLayout( test::TestCounts & testCounts )
 	{
 		testBegin( "testInputGeometryLayout" );
 		auto stmt = ast::stmt::makeInputGeometryLayout( ast::stmt::InputLayout::eLineStripWithAdjacency );
 		std::cout << "StmtInputGeometryLayout:\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
 
-		check( stmt->getKind() == ast::stmt::Kind::eInputGeometryLayout );
+		require( stmt->getKind() == ast::stmt::Kind::eInputGeometryLayout );
 		check( stmt->getLayout() == ast::stmt::InputLayout::eLineStripWithAdjacency );
 		testEnd();
 	}
 
-	void testOutputGeometryLayout()
+	void testOutputGeometryLayout( test::TestCounts & testCounts )
 	{
 		testBegin( "testOutputGeometryLayout" );
 		auto stmt = ast::stmt::makeOutputGeometryLayout( ast::stmt::OutputLayout::eTriangleStrip, 15u );
 		std::cout << "StmtOutputGeometryLayout:\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
 
-		check( stmt->getKind() == ast::stmt::Kind::eOutputGeometryLayout );
+		require( stmt->getKind() == ast::stmt::Kind::eOutputGeometryLayout );
 		check( stmt->getLayout() == ast::stmt::OutputLayout::eTriangleStrip );
 		check( stmt->getPrimCount() == 15u );
 		testEnd();
 	}
 
-	void testFunctionDeclStatement()
+	void testFunctionDeclStatement( test::TestCounts & testCounts )
 	{
 		testBegin( "testFunctionDeclStatement" );
 		{
 			auto stmt = ast::stmt::makeFunctionDecl( ast::type::getInt(), "foo", {} );
 			std::cout << "StmtFunctionDecl (empty):\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
 
-			check( stmt->getKind() == ast::stmt::Kind::eFunctionDecl );
+			require( stmt->getKind() == ast::stmt::Kind::eFunctionDecl );
 			check( stmt->getName() == "foo" );
 			check( stmt->getParameters().empty() );
 			check( stmt->empty() );
@@ -645,7 +645,7 @@ namespace
 			auto stmt = ast::stmt::makeFunctionDecl( ast::type::getInt(), "foo", { ast::var::makeVariable( ast::type::getInt(), "i" ) } );
 			std::cout << "StmtFunctionDecl (empty body):\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
 
-			check( stmt->getKind() == ast::stmt::Kind::eFunctionDecl );
+			require( stmt->getKind() == ast::stmt::Kind::eFunctionDecl );
 			check( stmt->getName() == "foo" );
 			check( stmt->getParameters().size() == 1u );
 			check( stmt->empty() );
@@ -654,7 +654,7 @@ namespace
 			auto stmt = ast::stmt::makeFunctionDecl( ast::type::getInt(), "foo", { ast::var::makeVariable( ast::type::getInt(), "i" ), ast::var::makeVariable( ast::type::getInt(), "j" ) } );
 			std::cout << "StmtFunctionDecl (empty body):\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
 
-			check( stmt->getKind() == ast::stmt::Kind::eFunctionDecl );
+			require( stmt->getKind() == ast::stmt::Kind::eFunctionDecl );
 			check( stmt->getName() == "foo" );
 			check( stmt->getParameters().size() == 2u );
 			check( stmt->empty() );
@@ -664,7 +664,7 @@ namespace
 			stmt->addStmt( ast::stmt::makeReturn( ast::expr::makeLiteral( 10 ) ) );
 			std::cout << "StmtFunctionDecl (empty parameters list):\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
 
-			check( stmt->getKind() == ast::stmt::Kind::eFunctionDecl );
+			require( stmt->getKind() == ast::stmt::Kind::eFunctionDecl );
 			check( stmt->getName() == "foo" );
 			check( stmt->getParameters().empty() );
 			check( stmt->size() == 1u );
@@ -677,7 +677,7 @@ namespace
 					ast::expr::makeLiteral( 10 ) ) ) );
 			std::cout << "StmtFunctionDecl:\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
 
-			check( stmt->getKind() == ast::stmt::Kind::eFunctionDecl );
+			require( stmt->getKind() == ast::stmt::Kind::eFunctionDecl );
 			check( stmt->getName() == "foo" );
 			check( stmt->getParameters().size() == 1u );
 			check( stmt->size() == 1u );
@@ -690,7 +690,7 @@ namespace
 					ast::expr::makeIdentifier( stmt->getParameters()[1] ) ) ) );
 			std::cout << "StmtFunctionDecl:\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
 
-			check( stmt->getKind() == ast::stmt::Kind::eFunctionDecl );
+			require( stmt->getKind() == ast::stmt::Kind::eFunctionDecl );
 			check( stmt->getName() == "foo" );
 			check( stmt->getParameters().size() == 2u );
 			check( stmt->size() == 1u );
@@ -702,38 +702,38 @@ namespace
 int main( int argc, char ** argv )
 {
 	testSuiteBegin( "TestStatements" );
-	testPreprocIf();
-	testPreprocIfDef();
-	testPreprocElif();
-	testPreprocElse();
-	testPreprocEndif();
-	testPreprocDefine();
-	testPreprocExtension();
-	testPreprocVersion();
-	testSimpleStatement();
-	testVariableDeclStatement();
-	testSampledImageDeclStatement();
-	testSamplerDeclStatement();
-	testImageDeclStatement();
-	testConstantBufferDeclStatement();
-	testShaderBufferDeclStatement();
-	testInOutVariableDeclStatement();
-	testContainerStatement();
-	testCompoundStatement();
-	testIfStatement();
-	testElseStatement();
-	testElseIfStatement();
-	testElseIfElseStatement();
-	testWhileStatement();
-	testDoWhileStatement();
-	testForStatement();
-	testStructureDeclStatement();
-	testSwitchStatement();
-	testReturnStatement();
-	testDiscardStatement();
-	testInputComputeLayout();
-	testInputGeometryLayout();
-	testOutputGeometryLayout();
-	testFunctionDeclStatement();
+	testPreprocIf( testCounts );
+	testPreprocIfDef( testCounts );
+	testPreprocElif( testCounts );
+	testPreprocElse( testCounts );
+	testPreprocEndif( testCounts );
+	testPreprocDefine( testCounts );
+	testPreprocExtension( testCounts );
+	testPreprocVersion( testCounts );
+	testSimpleStatement( testCounts );
+	testVariableDeclStatement( testCounts );
+	testSampledImageDeclStatement( testCounts );
+	testSamplerDeclStatement( testCounts );
+	testImageDeclStatement( testCounts );
+	testConstantBufferDeclStatement( testCounts );
+	testShaderBufferDeclStatement( testCounts );
+	testInOutVariableDeclStatement( testCounts );
+	testContainerStatement( testCounts );
+	testCompoundStatement( testCounts );
+	testIfStatement( testCounts );
+	testElseStatement( testCounts );
+	testElseIfStatement( testCounts );
+	testElseIfElseStatement( testCounts );
+	testWhileStatement( testCounts );
+	testDoWhileStatement( testCounts );
+	testForStatement( testCounts );
+	testStructureDeclStatement( testCounts );
+	testSwitchStatement( testCounts );
+	testReturnStatement( testCounts );
+	testDiscardStatement( testCounts );
+	testInputComputeLayout( testCounts );
+	testInputGeometryLayout( testCounts );
+	testOutputGeometryLayout( testCounts );
+	testFunctionDeclStatement( testCounts );
 	testSuiteEnd();
 }

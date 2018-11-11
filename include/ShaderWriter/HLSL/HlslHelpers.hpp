@@ -23,6 +23,8 @@ namespace sdw::hlsl
 
 	struct IntrinsicsConfig
 	{
+		bool requiresShadowSampler{ false };
+
 		bool requiresRoundEven1F{ false };
 		bool requiresRoundEven2F{ false };
 		bool requiresRoundEven3F{ false };

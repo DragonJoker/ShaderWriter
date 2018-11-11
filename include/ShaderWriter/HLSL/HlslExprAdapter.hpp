@@ -15,19 +15,19 @@ namespace sdw::hlsl
 	{
 	public:
 		static expr::ExprPtr submit( expr::Expr * expr
-			, IntrinsicsConfig & config
+			, IntrinsicsConfig const & config
 			, LinkedVars const & linkedVars
 			, VariableExprMap const & inputMembers
 			, VariableExprMap const & outputMembers );
 		static expr::ExprPtr submit( expr::ExprPtr const & expr
-			, IntrinsicsConfig & config
+			, IntrinsicsConfig const & config
 			, LinkedVars const & linkedVars
 			, VariableExprMap const & inputMembers
 			, VariableExprMap const & outputMembers );
 
 	private:
 		ExprAdapter( expr::ExprPtr & result
-			, IntrinsicsConfig & config
+			, IntrinsicsConfig const & config
 			, LinkedVars const & linkedVars
 			, VariableExprMap const & inputMembers
 			, VariableExprMap const & outputMembers );
@@ -40,8 +40,15 @@ namespace sdw::hlsl
 		void visitTextureAccessCallExpr( expr::TextureAccessCall * expr )override;
 		void visitTimesExpr( expr::Times * expr )override;
 
+		bool doProcessSampledImageArg( expr::Expr & arg
+			, bool writeSampler
+			, expr::ExprList & args );
+		void doProcessTextureQueries( expr::TextureAccessCall * expr );
+		void doProcessTexelFetch( expr::TextureAccessCall * expr );
+		void doProcessTextureGradShadow( expr::TextureAccessCall * expr );
+
 	private:
-		IntrinsicsConfig & m_config;
+		IntrinsicsConfig const & m_config;
 		LinkedVars const & m_linkedVars;
 		VariableExprMap const & m_inputMembers;
 		VariableExprMap const & m_outputMembers;

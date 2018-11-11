@@ -118,23 +118,28 @@ namespace sdw::hlsl
 
 	void ExprVisitor::visitAggrInitExpr( expr::AggrInit * expr )
 	{
-		m_result += getTypeName( expr->getType() ) + " ";
-		expr->getIdentifier()->accept( this );
-		auto arraySize = expr->getIdentifier()->getType()->getArraySize();
-
-		if ( arraySize != ast::type::NotArray )
+		if ( expr->getIdentifier() )
 		{
-			if ( arraySize == ast::type::UnknownArraySize )
+			m_result += getTypeName( expr->getType() ) + " ";
+			expr->getIdentifier()->accept( this );
+			auto arraySize = expr->getIdentifier()->getType()->getArraySize();
+
+			if ( arraySize != ast::type::NotArray )
 			{
-				m_result += "[]";
+				if ( arraySize == ast::type::UnknownArraySize )
+				{
+					m_result += "[]";
+				}
+				else
+				{
+					m_result += "[" + std::to_string( arraySize ) + "]";
+				}
 			}
-			else
-			{
-				m_result += "[" + std::to_string( arraySize ) + "]";
-			}
+
+			m_result += " = ";
 		}
 
-		m_result += " = {";
+		m_result += "{";
 		std::string sep;
 
 		for ( auto & init : expr->getInitialisers() )
@@ -339,7 +344,7 @@ namespace sdw::hlsl
 	void ExprVisitor::visitTextureAccessCallExpr( expr::TextureAccessCall * expr )
 	{
 		if ( expr->getTextureAccess() >= expr::TextureAccess::eTextureSize1DF
-			&& expr->getTextureAccess() <= expr::TextureAccess::eTextureQueryLevelsCubeArrayU )
+				&& expr->getTextureAccess() <= expr::TextureAccess::eTextureQueryLevelsCubeArrayU )
 		{
 			m_result += getHlslName( expr->getTextureAccess() ) + "(";
 			std::string sep;

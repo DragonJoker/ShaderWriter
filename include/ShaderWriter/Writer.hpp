@@ -113,7 +113,15 @@ namespace sdw
 			, T const & rhs );
 		template< typename T >
 		inline Optional< T > declConstant( std::string const & name
-			, T const & rhs, bool enabled );
+			, T const & rhs
+			, bool enabled );
+		template< typename T >
+		inline Array< T > declConstantArray( std::string const & name
+			, std::vector< T > const & rhs );
+		template< typename T >
+		inline Optional< Array< T > > declConstantArray( std::string const & name
+			, std::vector< T > const & rhs
+			, bool enabled );
 		/**@}*/
 #pragma endregion
 #pragma region Specialisation constant declaration
@@ -430,6 +438,9 @@ namespace sdw
 		void declareInvertVec2Y();
 		void declareInvertVec3Y();
 		var::VariablePtr registerConstant( std::string const & name
+			, type::TypePtr type );
+		var::VariablePtr registerSpecConstant( std::string const & name
+			, uint32_t location
 			, type::TypePtr type );
 		var::VariablePtr registerSampledImage( std::string const & name
 			, type::TypePtr type

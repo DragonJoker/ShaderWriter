@@ -7,6 +7,7 @@ See LICENSE file in root folder
 #include "ASTGenerator/Type/TypeCache.hpp"
 #include "ASTGenerator/Type/TypeImage.hpp"
 #include "ASTGenerator/Type/TypeSampledImage.hpp"
+#include "ASTGenerator/Type/TypeSampler.hpp"
 
 namespace ast::type
 {
@@ -373,12 +374,20 @@ namespace ast::type
 		return cache.getType( arraySize, config );
 	}
 
+	TypePtr getSampler( bool comparison
+		, uint32_t arraySize )
+	{
+		static auto cache{ makeTypeCache< Sampler >( makeSamplerType ) };
+		return cache.getType( arraySize, comparison );
+	}
+
 	//*************************************************************************
 
 	TypePtr makeType( Kind kind, uint32_t arraySize )
 	{
 		assert( kind != Kind::eImage
-			&& kind != Kind::eSampledImage );
+			&& kind != Kind::eSampledImage
+			&& kind != Kind::eSampler );
 
 		switch ( kind )
 		{
@@ -786,6 +795,23 @@ namespace ast::type
 			assert( "Unsupported type::Kind" );
 			return Kind::eUndefined;
 		}
+	}
+
+	Kind getScalarType( Kind kind )
+	{
+		if ( isScalarType( kind ) )
+		{
+			return kind;
+		}
+
+		auto parent = getComponentType( kind );
+
+		if ( isVectorType( kind ) )
+		{
+			return parent;
+		}
+
+		return getComponentType( parent );
 	}
 
 	//*************************************************************************

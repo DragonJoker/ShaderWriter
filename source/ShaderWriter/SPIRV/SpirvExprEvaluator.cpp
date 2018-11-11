@@ -116,7 +116,10 @@ namespace sdw::spirv
 
 			void visitIdentifierExpr( expr::Identifier * expr )override
 			{
-				m_result = std::unique_ptr< expr::Literal >( new expr::Literal{ static_cast< expr::Literal const & >( *m_context.defines.at( expr->getVariable()->getName() ) ) } );
+				auto it = m_context.defines.find( expr->getVariable()->getName() );
+				assert( it != m_context.defines.end() );
+				assert( it->second->getKind() == expr::Kind::eLiteral );
+				m_result = std::unique_ptr< expr::Literal >( new expr::Literal{ static_cast< expr::Literal const & >( *it->second ) } );
 			}
 
 			void visitLiteralExpr( expr::Literal * expr )override

@@ -9,6 +9,8 @@ See LICENSE file in root folder
 #include "ShaderWriter/HLSL/HlslIntrinsicConfig.hpp"
 #include "ShaderWriter/HLSL/HlslTextureAccessConfig.hpp"
 
+#include "ShaderWriter/Intrinsics.hpp"
+
 namespace sdw::hlsl
 {
 	namespace
@@ -475,10 +477,68 @@ namespace sdw::hlsl
 
 			return result;
 		}
+
+		expr::TextureAccess getSampleCmp( expr::TextureAccess value )
+		{
+			assert( value >= expr::TextureAccess::eTextureGrad2DRectShadowF
+				&& value <= expr::TextureAccess::eTextureProjGradOffset2DRectShadowF );
+			expr::TextureAccess result;
+
+			switch ( value )
+			{
+			case expr::TextureAccess::eTextureGrad2DRectShadowF:
+				result = expr::TextureAccess::eTexture2DRectShadowF;
+				break;
+			case expr::TextureAccess::eTextureGrad1DShadowF:
+				result = expr::TextureAccess::eTexture1DShadowF;
+				break;
+			case expr::TextureAccess::eTextureGrad2DShadowF:
+				result = expr::TextureAccess::eTexture2DShadowF;
+				break;
+			case expr::TextureAccess::eTextureGrad1DArrayShadowF:
+				result = expr::TextureAccess::eTexture1DArrayShadowF;
+				break;
+			case expr::TextureAccess::eTextureGradOffset2DRectShadowF:
+				result = expr::TextureAccess::eTextureOffset2DRectShadowF;
+				break;
+			case expr::TextureAccess::eTextureGradOffset1DShadowF:
+				result = expr::TextureAccess::eTextureOffset1DShadowF;
+				break;
+			case expr::TextureAccess::eTextureGradOffset2DShadowF:
+				result = expr::TextureAccess::eTextureOffset2DShadowF;
+				break;
+			case expr::TextureAccess::eTextureGradOffset1DArrayShadowF:
+				result = expr::TextureAccess::eTextureOffset1DArrayShadowF;
+				break;
+			case expr::TextureAccess::eTextureGradOffset2DArrayShadowF:
+				result = expr::TextureAccess::eTextureOffset2DArrayShadowF;
+				break;
+			case expr::TextureAccess::eTextureProjGrad1DShadowF:
+				result = expr::TextureAccess::eTextureProj1DShadowF;
+				break;
+			case expr::TextureAccess::eTextureProjGrad2DShadowF:
+				result = expr::TextureAccess::eTextureProj2DShadowF;
+				break;
+			case expr::TextureAccess::eTextureProjGrad2DRectShadowF:
+				result = expr::TextureAccess::eTextureProj2DRectShadowF;
+				break;
+			case expr::TextureAccess::eTextureProjGradOffset1DShadowF:
+				result = expr::TextureAccess::eTextureProjOffset1DShadowF;
+				break;
+			case expr::TextureAccess::eTextureProjGradOffset2DShadowF:
+				result = expr::TextureAccess::eTextureProjOffset2DShadowF;
+				break;
+			case expr::TextureAccess::eTextureProjGradOffset2DRectShadowF:
+				result = expr::TextureAccess::eTextureProjOffset2DRectShadowF;
+				break;
+			}
+
+			return result;
+		}
 	}
 
 	expr::ExprPtr ExprAdapter::submit( expr::Expr * expr
-		, IntrinsicsConfig & config
+		, IntrinsicsConfig const & config
 		, LinkedVars const & linkedVars
 		, VariableExprMap const & inputMembers
 		, VariableExprMap const & outputMembers )
@@ -490,7 +550,7 @@ namespace sdw::hlsl
 	}
 			
 	expr::ExprPtr ExprAdapter::submit( expr::ExprPtr const & expr
-		, IntrinsicsConfig & config
+		, IntrinsicsConfig const & config
 		, LinkedVars const & linkedVars
 		, VariableExprMap const & inputMembers
 		, VariableExprMap const & outputMembers )
@@ -503,7 +563,7 @@ namespace sdw::hlsl
 	}
 
 	ExprAdapter::ExprAdapter( expr::ExprPtr & result
-		, IntrinsicsConfig & config
+		, IntrinsicsConfig const & config
 		, LinkedVars const & linkedVars
 		, VariableExprMap const & inputMembers
 		, VariableExprMap const & outputMembers )
@@ -577,7 +637,6 @@ namespace sdw::hlsl
 
 	void ExprAdapter::visitImageAccessCallExpr( expr::ImageAccessCall * expr )
 	{
-		getHlslConfig( expr->getImageAccess(), m_config );
 		expr::ExprList args;
 
 		for ( auto & arg : expr->getArgList() )
@@ -592,7 +651,7 @@ namespace sdw::hlsl
 
 	void ExprAdapter::visitIntrinsicCallExpr( expr::IntrinsicCall * expr )
 	{
-		auto instantChange = getHlslConfig( expr->getIntrinsic(), m_config );
+		auto instantChange = getInstantChange( expr->getIntrinsic() );
 
 		if ( instantChange.toOperator )
 		{
@@ -668,58 +727,35 @@ namespace sdw::hlsl
 
 	void ExprAdapter::visitTextureAccessCallExpr( expr::TextureAccessCall * expr )
 	{
-		getHlslConfig( expr->getTextureAccess(), m_config );
-		expr::ExprList args;
-
 		if ( ( expr->getTextureAccess() >= expr::TextureAccess::eTextureSize1DF
 				&& expr->getTextureAccess() <= expr::TextureAccess::eTextureSizeBufferU )
 			|| ( expr->getTextureAccess() >= expr::TextureAccess::eTextureQueryLevels1DF
 				&& expr->getTextureAccess() <= expr::TextureAccess::eTextureQueryLevelsCubeArrayU ) )
 		{
-			for ( auto & arg : expr->getArgList() )
-			{
-				if ( arg->getKind() == expr::Kind::eIdentifier )
-				{
-					auto ident = findIdentifier( arg );
-					auto it = m_linkedVars.find( ident->getVariable() );
-
-					if ( m_linkedVars.end() != it )
-					{
-						args.emplace_back( makeIdent( it->second.first ) );
-					}
-					else
-					{
-						args.emplace_back( doSubmit( arg.get() ) );
-					}
-				}
-				else
-				{
-					args.emplace_back( doSubmit( arg.get() ) );
-				}
-			}
+			doProcessTextureQueries( expr );
+		}
+		else if ( expr->getTextureAccess() >= expr::TextureAccess::eTexelFetch1DF
+			&& expr->getTextureAccess() <= expr::TextureAccess::eTexelFetchOffset2DArrayU )
+		{
+			doProcessTexelFetch( expr );
+		}
+		else if ( expr->getTextureAccess() >= expr::TextureAccess::eTextureGrad2DRectShadowF
+			&& expr->getTextureAccess() <= expr::TextureAccess::eTextureProjGradOffset2DRectShadowF
+			&& m_config.requiresShadowSampler )
+		{
+			doProcessTextureGradShadow( expr );
 		}
 		else
 		{
+			expr::ExprList args;
+
 			uint32_t index = 0u;
 			uint32_t sampler = 0u;
 
 			for ( auto & arg : expr->getArgList() )
 			{
-				if ( arg->getKind() == expr::Kind::eIdentifier )
+				if ( doProcessSampledImageArg( *arg, true, args ) )
 				{
-					auto ident = findIdentifier( arg );
-					auto it = m_linkedVars.find( ident->getVariable() );
-
-					if ( m_linkedVars.end() != it )
-					{
-						args.emplace_back( makeIdent( it->second.first ) );
-						args.emplace_back( makeIdent( it->second.second ) );
-					}
-					else
-					{
-						args.emplace_back( doSubmit( arg.get() ) );
-					}
-
 					sampler = index;
 				}
 				else if ( index == sampler + 1
@@ -734,11 +770,11 @@ namespace sdw::hlsl
 
 				++index;
 			}
-		}
 
-		m_result = expr::makeTextureAccessCall( expr->getType()
-			, expr->getTextureAccess()
-			, std::move( args ) );
+			m_result = expr::makeTextureAccessCall( expr->getType()
+				, expr->getTextureAccess()
+				, std::move( args ) );
+		}
 	}
 
 	void ExprAdapter::visitTimesExpr( expr::Times * expr )
@@ -758,5 +794,148 @@ namespace sdw::hlsl
 				, doSubmit( expr->getLHS() )
 				, doSubmit( expr->getRHS() ) );
 		}
+	}
+
+	bool ExprAdapter::doProcessSampledImageArg( expr::Expr & arg
+		, bool writeSampler
+		, expr::ExprList & args )
+	{
+		bool result = arg.getKind() == expr::Kind::eIdentifier;
+
+		if ( result )
+		{
+			auto ident = findIdentifier( &arg );
+			auto it = m_linkedVars.find( ident->getVariable() );
+
+			if ( m_linkedVars.end() != it )
+			{
+				args.emplace_back( makeIdent( it->second.first ) );
+
+				if ( writeSampler )
+				{
+					args.emplace_back( makeIdent( it->second.second ) );
+				}
+			}
+			else
+			{
+				args.emplace_back( doSubmit( &arg ) );
+			}
+		}
+
+		return result;
+	}
+
+	void ExprAdapter::doProcessTextureQueries( expr::TextureAccessCall * expr )
+	{
+		expr::ExprList args;
+
+		for ( auto & arg : expr->getArgList() )
+		{
+			if ( !doProcessSampledImageArg( *arg, false, args ) )
+			{
+				args.emplace_back( doSubmit( arg.get() ) );
+			}
+		}
+
+		m_result = expr::makeTextureAccessCall( expr->getType()
+			, expr->getTextureAccess()
+			, std::move( args ) );
+	}
+
+	void ExprAdapter::doProcessTexelFetch( expr::TextureAccessCall * expr )
+	{
+		expr::ExprList args;
+		// First parameter should be sampled image
+		auto isImage = doProcessSampledImageArg( *expr->getArgList()[0], false, args );
+		assert( isImage );
+
+		if ( expr->getTextureAccess() == expr::TextureAccess::eTexelFetchBufferF
+			|| expr->getTextureAccess() == expr::TextureAccess::eTexelFetchBufferI
+			|| expr->getTextureAccess() == expr::TextureAccess::eTexelFetchBufferU )
+		{
+			// For those texel fetch functions, no lod, and none needed.
+			assert( expr->getArgList().size() >= 2u );
+			args.emplace_back( doSubmit( expr->getArgList()[1].get() ) );
+		}
+		else
+		{
+			expr::ExprList merged;
+
+			if ( expr->getTextureAccess() == expr::TextureAccess::eTexelFetch2DRectF
+				|| expr->getTextureAccess() == expr::TextureAccess::eTexelFetch2DRectI
+				|| expr->getTextureAccess() == expr::TextureAccess::eTexelFetch2DRectU )
+			{
+				// For those texel fetch functions, no lod, hence create a 0 lod.
+				assert( expr->getArgList().size() >= 2u );
+				// Merge second and literal(0) parameters to the appropriate vector type (int=>ivec2, ivec2=>ivec3, ivec3=>ivec4).
+				merged.emplace_back( doSubmit( expr->getArgList()[1].get() ) );
+				merged.emplace_back( expr::makeLiteral( 0 ) );
+			}
+			else
+			{
+				// For those texel fetch functions, lod is put inside the coords parameter, instead of being aside.
+				assert( expr->getArgList().size() >= 3u );
+				// Merge second and third parameters to the appropriate vector type (int=>ivec2, ivec2=>ivec3, ivec3=>ivec4).
+				merged.emplace_back( doSubmit( expr->getArgList()[1].get() ) );
+				merged.emplace_back( doSubmit( expr->getArgList()[2].get() ) );
+			}
+
+			switch ( merged[0]->getType()->getKind() )
+			{
+			case type::Kind::eInt:
+				args.emplace_back( sdw::makeFnCall( type::makeType( typeEnum< IVec2 > )
+					, sdw::makeIdent( var::makeFunction( "int2" ) )
+					, std::move( merged ) ) );
+				break;
+			case type::Kind::eVec2I:
+				args.emplace_back( sdw::makeFnCall( type::makeType( typeEnum< IVec3 > )
+					, sdw::makeIdent( var::makeFunction( "int3" ) )
+					, std::move( merged ) ) );
+				break;
+			case type::Kind::eVec3I:
+				args.emplace_back( sdw::makeFnCall( type::makeType( typeEnum< IVec4 > )
+					, sdw::makeIdent( var::makeFunction( "int4" ) )
+					, std::move( merged ) ) );
+				break;
+			}
+		}
+
+		// Other parameters remain unchanged.
+		for ( size_t i = 3u; i < expr->getArgList().size(); ++i )
+		{
+			args.emplace_back( doSubmit( expr->getArgList()[i].get() ) );
+		}
+
+		m_result = expr::makeTextureAccessCall( expr->getType()
+			, expr->getTextureAccess()
+			, std::move( args ) );
+	}
+
+	void ExprAdapter::doProcessTextureGradShadow( expr::TextureAccessCall * expr )
+	{
+		// Sample grad doesn't support SampleComparisonState, replace it with a SampleCmp.
+		expr::ExprList args;
+		// First parameter should be sampled image
+		auto isImage = doProcessSampledImageArg( *expr->getArgList()[0], false, args );
+		assert( isImage );
+		assert( expr->getArgList().size() >= 5u );
+		// Second param is texcoord
+		args.emplace_back( doSubmit( expr->getArgList()[1].get() ) );
+		// Third param is dref value
+		args.emplace_back( doSubmit( expr->getArgList()[2].get() ) );
+		// Fourth and fifth params ard dPdx and dPdy, drop them
+
+		// Other parameters remain unchanged.
+		for ( size_t i = 5u; i < expr->getArgList().size(); ++i )
+		{
+			args.emplace_back( doSubmit( expr->getArgList()[i].get() ) );
+		}
+
+		auto result = expr::makeTextureAccessCall( expr->getType()
+			, getSampleCmp( expr->getTextureAccess() )
+			, std::move( args ) );
+
+		// Reparse the created expression, textureProj cases.
+		visitTextureAccessCallExpr( result.get() );
 	}
 }

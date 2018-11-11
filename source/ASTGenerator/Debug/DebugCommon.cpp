@@ -43,6 +43,8 @@ namespace ast::debug
 		{
 			switch ( value )
 			{
+			case ast::type::ImageFormat::eUnknown:
+				return "UNKNOWN";
 			case ast::type::ImageFormat::eRgba32f:
 				return "RGBA32F";
 			case ast::type::ImageFormat::eRgba16f:

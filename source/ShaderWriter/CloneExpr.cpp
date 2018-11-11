@@ -71,8 +71,16 @@ namespace sdw
 			initialisers.emplace_back( doSubmit( init ) );
 		}
 
-		m_result = expr::makeAggrInit( std::make_unique< expr::Identifier >( *expr->getIdentifier() )
-			, std::move( initialisers ) );
+		if ( expr->getIdentifier() )
+		{
+			m_result = expr::makeAggrInit( std::make_unique< expr::Identifier >( *expr->getIdentifier() )
+				, std::move( initialisers ) );
+		}
+		else
+		{
+			m_result = expr::makeAggrInit( expr->getType()
+				, std::move( initialisers ) );
+		}
 	}
 
 	void ExprCloner::visitAndAssignExpr( expr::AndAssign * expr )
