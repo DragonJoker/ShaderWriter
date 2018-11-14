@@ -6,6 +6,7 @@
 #include <ShaderWriter/ShaderWriterPrerequisites.hpp>
 
 #include <string>
+#include <iostream>
 
 #pragma comment(lib,"d3dcompiler.lib")
 
@@ -61,7 +62,7 @@ namespace test
 		{
 			if ( errorBlob )
 			{
-				OutputDebugStringA( ( char* )errorBlob->GetBufferPointer() );
+				std::cout << reinterpret_cast< char * >( errorBlob->GetBufferPointer() ) << std::endl;
 				errorBlob->Release();
 			}
 

@@ -18,43 +18,6 @@ namespace sdw::spirv
 {
 	namespace
 	{
-		bool isCtor( std::string const & name )
-		{
-			return name == "bvec2"
-				|| name == "bvec3"
-				|| name == "bvec4"
-				|| name == "ivec2"
-				|| name == "ivec3"
-				|| name == "ivec4"
-				|| name == "uvec2"
-				|| name == "uvec3"
-				|| name == "uvec4"
-				|| name == "dvec2"
-				|| name == "dvec3"
-				|| name == "dvec4"
-				|| name == "vec2"
-				|| name == "vec3"
-				|| name == "vec4"
-				|| name == "dmat2"
-				|| name == "dmat2x3"
-				|| name == "dmat2x4"
-				|| name == "dmat3x2"
-				|| name == "dmat3"
-				|| name == "dmat3x4"
-				|| name == "dmat4x2"
-				|| name == "dmat4x3"
-				|| name == "dmat4"
-				|| name == "mat2"
-				|| name == "mat2x3"
-				|| name == "mat2x4"
-				|| name == "mat3x2"
-				|| name == "mat3"
-				|| name == "mat3x4"
-				|| name == "mat4x2"
-				|| name == "mat4x3"
-				|| name == "mat4";
-		}
-
 		std::vector< uint32_t > getSwizzleComponents( expr::SwizzleKind kind )
 		{
 			switch ( kind )
@@ -830,6 +793,11 @@ namespace sdw::spirv
 				assert( false && "Unexpected expr::AggrInit ?" );
 			}
 
+			void visitCompositeConstructExpr( expr::CompositeConstruct * expr )override
+			{
+				assert( false && "Unexpected expr::CompositeConstruct ?" );
+			}
+
 			void visitFnCallExpr( expr::FnCall * )override
 			{
 				assert( false && "Unexpected expr::FnCall ?" );
@@ -1046,6 +1014,11 @@ namespace sdw::spirv
 			void visitAggrInitExpr( expr::AggrInit * )override
 			{
 				assert( false && "Unexpected expr::AggrInit ?" );
+			}
+
+			void visitCompositeConstructExpr( expr::CompositeConstruct * expr )override
+			{
+				assert( false && "Unexpected expr::CompositeConstruct ?" );
 			}
 
 			void visitFnCallExpr( expr::FnCall * )override
@@ -1465,7 +1438,7 @@ namespace sdw::spirv
 		m_result = makeAccessChain( expr, m_module, m_currentBlock );
 	}
 
-	void ExprVisitor::visitFnCallExpr( expr::FnCall * expr )
+	void ExprVisitor::visitCompositeConstructExpr( expr::CompositeConstruct * expr )
 	{
 		IdList params;
 		bool allLiterals = true;
@@ -1481,17 +1454,7 @@ namespace sdw::spirv
 		auto type = m_module.registerType( expr->getType() );
 		spv::Id result;
 
-		if ( !isCtor( expr->getFn()->getVariable()->getName() ) )
-		{
-			result = m_module.getIntermediateResult();
-			auto fnId = submit( expr->getFn(), m_currentBlock, m_module );
-			params.insert( params.begin(), fnId );
-			m_currentBlock.instructions.emplace_back( makeInstruction( spv::Op::OpFunctionCall
-				, result
-				, type
-				, params ) );
-		}
-		else if ( allLiterals )
+		if ( allLiterals )
 		{
 			auto paramsCount = std::accumulate( expr->getArgList().begin()
 				, expr->getArgList().end()
@@ -1502,7 +1465,7 @@ namespace sdw::spirv
 				} );
 			auto retCount = type::getComponentCount( expr->getType()->getKind() );
 
-			if ( paramsCount == 1u && retCount != 1u)
+			if ( paramsCount == 1u && retCount != 1u )
 			{
 				params.resize( retCount, params.back() );
 				result = m_module.registerLiteral( params, expr->getType() );
@@ -1521,6 +1484,34 @@ namespace sdw::spirv
 				, type
 				, params ) );
 		}
+
+		m_allLiterals = m_allLiterals && allLiterals;
+		m_result = result;
+	}
+
+	void ExprVisitor::visitFnCallExpr( expr::FnCall * expr )
+	{
+		IdList params;
+		bool allLiterals = true;
+
+		for ( auto & arg : expr->getArgList() )
+		{
+			auto id = submit( arg.get(), m_currentBlock, m_module );
+			params.push_back( id );
+			allLiterals = allLiterals
+				&& ( arg->getKind() == expr::Kind::eLiteral );
+		}
+
+		auto type = m_module.registerType( expr->getType() );
+		spv::Id result;
+
+		result = m_module.getIntermediateResult();
+		auto fnId = submit( expr->getFn(), m_currentBlock, m_module );
+		params.insert( params.begin(), fnId );
+		m_currentBlock.instructions.emplace_back( makeInstruction( spv::Op::OpFunctionCall
+			, result
+			, type
+			, params ) );
 
 		m_allLiterals = m_allLiterals && allLiterals;
 		m_result = result;

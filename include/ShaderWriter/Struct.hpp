@@ -28,8 +28,6 @@ namespace sdw
 		template< typename T >
 		inline void declMember( std::string const & name
 			, uint32_t dimension );
-		template< typename T >
-		inline void declMemberArray( std::string const & name );
 
 	private:
 		Shader * m_shader;

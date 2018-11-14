@@ -3,6 +3,8 @@ See LICENSE file in root folder
 */
 namespace sdw
 {
+	//*************************************************************************
+
 	template< typename ValueT >
 	inline Vec2T< ValueT >::Vec2T( Shader * shader
 		, expr::ExprPtr expr )
@@ -224,4 +226,194 @@ namespace sdw
 		}
 		return *this;
 	}
+
+	//*************************************************************************
+
+	template< typename ValueT >
+	Boolean operator==( Vec2T< ValueT > const & lhs, Vec2T< ValueT > const & rhs )
+	{
+		return Boolean{ findShader( lhs, rhs )
+			, sdw::makeEqual( makeExpr( lhs ), makeExpr( rhs ) ) };
+	}
+
+	template< typename ValueT >
+	Boolean operator!=( Vec2T< ValueT > const & lhs, Vec2T< ValueT > const & rhs )
+	{
+		return Boolean{ findShader( lhs, rhs )
+			, sdw::makeNEqual( makeExpr( lhs ), makeExpr( rhs ) ) };
+	}
+
+	template< typename ValueT >
+	Boolean operator<( Vec2T< ValueT > const & lhs, Vec2T< ValueT > const & rhs )
+	{
+		return Boolean{ findShader( lhs, rhs )
+			, sdw::makeLess( makeExpr( lhs ), makeExpr( rhs ) ) };
+	}
+
+	template< typename ValueT >
+	Boolean operator<=( Vec2T< ValueT > const & lhs, Vec2T< ValueT > const & rhs )
+	{
+		return Boolean{ findShader( lhs, rhs )
+			, sdw::makeLEqual( makeExpr( lhs ), makeExpr( rhs ) ) };
+	}
+
+	template< typename ValueT >
+	Boolean operator>( Vec2T< ValueT > const & lhs, Vec2T< ValueT > const & rhs )
+	{
+		return Boolean{ findShader( lhs, rhs )
+			, sdw::makeGreater( makeExpr( lhs ), makeExpr( rhs ) ) };
+	}
+
+	template< typename ValueT >
+	Boolean operator>=( Vec2T< ValueT > const & lhs, Vec2T< ValueT > const & rhs )
+	{
+		return Boolean{ findShader( lhs, rhs )
+			, sdw::makeGEqual( makeExpr( lhs ), makeExpr( rhs ) ) };
+	}
+
+	template< typename ValueT >
+	Optional< Boolean > operator==( Optional< Vec2T< ValueT > > const & lhs, Vec2T< ValueT > const & rhs )
+	{
+		return Optional< Boolean >{ findShader( lhs, rhs )
+			, sdw::makeEqual( makeExpr( lhs ), makeExpr( rhs ) )
+			, areOptionalEnabled( lhs, rhs ) };
+	}
+
+	template< typename ValueT >
+	Optional< Boolean > operator!=( Optional< Vec2T< ValueT > > const & lhs, Vec2T< ValueT > const & rhs )
+	{
+		return Optional< Boolean >{ findShader( lhs, rhs )
+			, sdw::makeNEqual( makeExpr( lhs ), makeExpr( rhs ) )
+			, areOptionalEnabled( lhs, rhs ) };
+	}
+
+	template< typename ValueT >
+	Optional< Boolean > operator<( Optional< Vec2T< ValueT > > const & lhs, Vec2T< ValueT > const & rhs )
+	{
+		return Optional< Boolean >{ findShader( lhs, rhs )
+			, sdw::makeLess( makeExpr( lhs ), makeExpr( rhs ) )
+			, areOptionalEnabled( lhs, rhs ) };
+	}
+
+	template< typename ValueT >
+	Optional< Boolean > operator<=( Optional< Vec2T< ValueT > > const & lhs, Vec2T< ValueT > const & rhs )
+	{
+		return Optional< Boolean >{ findShader( lhs, rhs )
+			, sdw::makeLEqual( makeExpr( lhs ), makeExpr( rhs ) )
+			, areOptionalEnabled( lhs, rhs ) };
+	}
+
+	template< typename ValueT >
+	Optional< Boolean > operator>( Optional< Vec2T< ValueT > > const & lhs, Vec2T< ValueT > const & rhs )
+	{
+		return Optional< Boolean >{ findShader( lhs, rhs )
+			, sdw::makeGreater( makeExpr( lhs ), makeExpr( rhs ) )
+			, areOptionalEnabled( lhs, rhs ) };
+	}
+
+	template< typename ValueT >
+	Optional< Boolean > operator>=( Optional< Vec2T< ValueT > > const & lhs, Vec2T< ValueT > const & rhs )
+	{
+		return Optional< Boolean >{ findShader( lhs, rhs )
+			, sdw::makeGEqual( makeExpr( lhs ), makeExpr( rhs ) )
+			, areOptionalEnabled( lhs, rhs ) };
+	}
+
+	template< typename ValueT >
+	Optional< Boolean > operator==( Vec2T< ValueT > const & lhs, Optional< Vec2T< ValueT > > const & rhs )
+	{
+		return Optional< Boolean >{ findShader( lhs, rhs )
+			, sdw::makeEqual( makeExpr( lhs ), makeExpr( rhs ) )
+			, areOptionalEnabled( lhs, rhs ) };
+	}
+
+	template< typename ValueT >
+	Optional< Boolean > operator!=( Vec2T< ValueT > const & lhs, Optional< Vec2T< ValueT > > const & rhs )
+	{
+		return Optional< Boolean >{ findShader( lhs, rhs )
+			, sdw::makeNEqual( makeExpr( lhs ), makeExpr( rhs ) )
+			, areOptionalEnabled( lhs, rhs ) };
+	}
+
+	template< typename ValueT >
+	Optional< Boolean > operator<( Vec2T< ValueT > const & lhs, Optional< Vec2T< ValueT > > const & rhs )
+	{
+		return Optional< Boolean >{ findShader( lhs, rhs )
+			, sdw::makeLess( makeExpr( lhs ), makeExpr( rhs ) )
+			, areOptionalEnabled( lhs, rhs ) };
+	}
+
+	template< typename ValueT >
+	Optional< Boolean > operator<=( Vec2T< ValueT > const & lhs, Optional< Vec2T< ValueT > > const & rhs )
+	{
+		return Optional< Boolean >{ findShader( lhs, rhs )
+			, sdw::makeLEqual( makeExpr( lhs ), makeExpr( rhs ) )
+			, areOptionalEnabled( lhs, rhs ) };
+	}
+
+	template< typename ValueT >
+	Optional< Boolean > operator>( Vec2T< ValueT > const & lhs, Optional< Vec2T< ValueT > > const & rhs )
+	{
+		return Optional< Boolean >{ findShader( lhs, rhs )
+			, sdw::makeGreater( makeExpr( lhs ), makeExpr( rhs ) )
+			, areOptionalEnabled( lhs, rhs ) };
+	}
+
+	template< typename ValueT >
+	Optional< Boolean > operator>=( Vec2T< ValueT > const & lhs, Optional< Vec2T< ValueT > > const & rhs )
+	{
+		return Optional< Boolean >{ findShader( lhs, rhs )
+			, sdw::makeGEqual( makeExpr( lhs ), makeExpr( rhs ) )
+			, areOptionalEnabled( lhs, rhs ) };
+	}
+
+	template< typename ValueT >
+	Optional< Boolean > operator==( Optional< Vec2T< ValueT > > const & lhs, Optional< Vec2T< ValueT > > const & rhs )
+	{
+		return Optional< Boolean >{ findShader( lhs, rhs )
+			, sdw::makeEqual( makeExpr( lhs ), makeExpr( rhs ) )
+			, areOptionalEnabled( lhs, rhs ) };
+	}
+
+	template< typename ValueT >
+	Optional< Boolean > operator!=( Optional< Vec2T< ValueT > > const & lhs, Optional< Vec2T< ValueT > > const & rhs )
+	{
+		return Optional< Boolean >{ findShader( lhs, rhs )
+			, sdw::makeNEqual( makeExpr( lhs ), makeExpr( rhs ) )
+			, areOptionalEnabled( lhs, rhs ) };
+	}
+
+	template< typename ValueT >
+	Optional< Boolean > operator<( Optional< Vec2T< ValueT > > const & lhs, Optional< Vec2T< ValueT > > const & rhs )
+	{
+		return Optional< Boolean >{ findShader( lhs, rhs )
+			, sdw::makeLess( makeExpr( lhs ), makeExpr( rhs ) )
+			, areOptionalEnabled( lhs, rhs ) };
+	}
+
+	template< typename ValueT >
+	Optional< Boolean > operator<=( Optional< Vec2T< ValueT > > const & lhs, Optional< Vec2T< ValueT > > const & rhs )
+	{
+		return Optional< Boolean >{ findShader( lhs, rhs )
+			, sdw::makeLEqual( makeExpr( lhs ), makeExpr( rhs ) )
+			, areOptionalEnabled( lhs, rhs ) };
+	}
+
+	template< typename ValueT >
+	Optional< Boolean > operator>( Optional< Vec2T< ValueT > > const & lhs, Optional< Vec2T< ValueT > > const & rhs )
+	{
+		return Optional< Boolean >{ findShader( lhs, rhs )
+			, sdw::makeGreater( makeExpr( lhs ), makeExpr( rhs ) )
+			, areOptionalEnabled( lhs, rhs ) };
+	}
+
+	template< typename ValueT >
+	Optional< Boolean > operator>=( Optional< Vec2T< ValueT > > const & lhs, Optional< Vec2T< ValueT > > const & rhs )
+	{
+		return Optional< Boolean >{ findShader( lhs, rhs )
+			, sdw::makeGEqual( makeExpr( lhs ), makeExpr( rhs ) )
+			, areOptionalEnabled( lhs, rhs ) };
+	}
+
+	//*************************************************************************
 }

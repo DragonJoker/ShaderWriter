@@ -340,8 +340,9 @@ namespace test
 				, std::move( initialisers ) ) };
 	}
 
-	void writeShader( sdw::Shader const & shader
-		, sdw::ShaderType type
+	void writeShader( sdw::ShaderWriter const & writer
 		, test::TestCounts & testCounts
-		, bool validateSpirV = true );
+		, bool validateSpirV = true
+		, bool validateHlsl = true
+		, bool validateGlsl = true );
 }

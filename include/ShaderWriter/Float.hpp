@@ -74,6 +74,49 @@ namespace sdw
 	Optional< Float > operator-( float const & lhs, Optional< Float > const & rhs );
 	Optional< Float > operator*( float const & lhs, Optional< Float > const & rhs );
 	Optional< Float > operator/( float const & lhs, Optional< Float > const & rhs );
+
+	Boolean operator==( Float const & lhs, Float const & rhs );
+	Boolean operator!=( Float const & lhs, Float const & rhs );
+	Boolean operator<( Float const & lhs, Float const & rhs );
+	Boolean operator<=( Float const & lhs, Float const & rhs );
+	Boolean operator>( Float const & lhs, Float const & rhs );
+	Boolean operator>=( Float const & lhs, Float const & rhs );
+	Optional< Boolean > operator==( Optional< Float > const & lhs, Float const & rhs );
+	Optional< Boolean > operator!=( Optional< Float > const & lhs, Float const & rhs );
+	Optional< Boolean > operator<( Optional< Float > const & lhs, Float const & rhs );
+	Optional< Boolean > operator<=( Optional< Float > const & lhs, Float const & rhs );
+	Optional< Boolean > operator>( Optional< Float > const & lhs, Float const & rhs );
+	Optional< Boolean > operator>=( Optional< Float > const & lhs, Float const & rhs );
+	Optional< Boolean > operator==( Float const & lhs, Optional< Float > const & rhs );
+	Optional< Boolean > operator!=( Float const & lhs, Optional< Float > const & rhs );
+	Optional< Boolean > operator<( Float const & lhs, Optional< Float > const & rhs );
+	Optional< Boolean > operator<=( Float const & lhs, Optional< Float > const & rhs );
+	Optional< Boolean > operator>( Float const & lhs, Optional< Float > const & rhs );
+	Optional< Boolean > operator>=( Float const & lhs, Optional< Float > const & rhs );
+	Optional< Boolean > operator==( Optional< Float > const & lhs, Optional< Float > const & rhs );
+	Optional< Boolean > operator!=( Optional< Float > const & lhs, Optional< Float > const & rhs );
+	Optional< Boolean > operator<( Optional< Float > const & lhs, Optional< Float > const & rhs );
+	Optional< Boolean > operator<=( Optional< Float > const & lhs, Optional< Float > const & rhs );
+	Optional< Boolean > operator>( Optional< Float > const & lhs, Optional< Float > const & rhs );
+	Optional< Boolean > operator>=( Optional< Float > const & lhs, Optional< Float > const & rhs );
+	Boolean operator==( Float const & lhs, float const & rhs );
+	Boolean operator!=( Float const & lhs, float const & rhs );
+	Boolean operator<( Float const & lhs, float const & rhs );
+	Boolean operator<=( Float const & lhs, float const & rhs );
+	Boolean operator>( Float const & lhs, float const & rhs );
+	Boolean operator>=( Float const & lhs, float const & rhs );
+	Optional< Boolean > operator==( Optional< Float > const & lhs, float const & rhs );
+	Optional< Boolean > operator!=( Optional< Float > const & lhs, float const & rhs );
+	Optional< Boolean > operator<( Optional< Float > const & lhs, float const & rhs );
+	Optional< Boolean > operator<=( Optional< Float > const & lhs, float const & rhs );
+	Optional< Boolean > operator>( Optional< Float > const & lhs, float const & rhs );
+	Optional< Boolean > operator>=( Optional< Float > const & lhs, float const & rhs );
+	Optional< Boolean > operator==( float const & lhs, Optional< Float > const & rhs );
+	Optional< Boolean > operator!=( float const & lhs, Optional< Float > const & rhs );
+	Optional< Boolean > operator<( float const & lhs, Optional< Float > const & rhs );
+	Optional< Boolean > operator<=( float const & lhs, Optional< Float > const & rhs );
+	Optional< Boolean > operator>( float const & lhs, Optional< Float > const & rhs );
+	Optional< Boolean > operator>=( float const & lhs, Optional< Float > const & rhs );
 }
 
 inline sdw::Float operator "" _f( long double value )

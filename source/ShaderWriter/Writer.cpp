@@ -21,9 +21,13 @@ See LICENSE file in root folder
 
 namespace sdw
 {
-	ShaderWriter::ShaderWriter( bool writeInvertFuncs
+	//*************************************************************************
+
+	ShaderWriter::ShaderWriter( ShaderType type
+		, bool writeInvertFuncs
 		, Config config )
-		: m_config{ std::move( config ) }
+		: m_type{ type }
+		, m_config{ std::move( config ) }
 	{
 		addStmt( stmt::makePreprocVersion( std::to_string( config.shaderLanguageVersion ) ) );
 		enableExtension( "GL_ARB_explicit_attrib_location", 330u );
@@ -111,31 +115,6 @@ namespace sdw
 	void ShaderWriter::discard()
 	{
 		addStmt( stmt::makeDiscard() );
-	}
-
-	void ShaderWriter::inputComputeLayout( uint32_t localSizeX )
-	{
-		addStmt( stmt::makeInputComputeLayout( localSizeX, 1, 1 ) );
-	}
-
-	void ShaderWriter::inputComputeLayout( uint32_t localSizeX, uint32_t localSizeY )
-	{
-		addStmt( stmt::makeInputComputeLayout( localSizeX, localSizeY, 1 ) );
-	}
-
-	void ShaderWriter::inputComputeLayout( uint32_t localSizeX, uint32_t localSizeY, uint32_t localSizeZ )
-	{
-		addStmt( stmt::makeInputComputeLayout( localSizeX, localSizeY, localSizeZ ) );
-	}
-
-	void ShaderWriter::inputGeometryLayout( stmt::InputLayout layout )
-	{
-		addStmt( stmt::makeInputGeometryLayout( layout ) );
-	}
-
-	void ShaderWriter::outputGeometryLayout( stmt::OutputLayout layout, uint32_t count )
-	{
-		addStmt( stmt::makeOutputGeometryLayout( layout, count ) );
 	}
 
 	sdw::Vec2 ShaderWriter::bottomUpToTopDown( sdw::Vec2 const & texCoord )
@@ -323,4 +302,140 @@ namespace sdw
 	{
 		return m_shader.registerBuiltin( name, type );
 	}
+
+	//*************************************************************************
+
+	VertexWriter::VertexWriter( bool writeInvertFuncs
+		, Config config )
+		: ShaderWriter{ ShaderType::eVertex, writeInvertFuncs, config }
+	{
+	}
+
+	InVertex VertexWriter::getIn()
+	{
+		return InVertex{ *this };
+	}
+
+	OutVertex VertexWriter::getOut()
+	{
+		return OutVertex{ *this };
+	}
+
+	//*************************************************************************
+
+	TessellationControlWriter::TessellationControlWriter( bool writeInvertFuncs
+		, Config config )
+		: ShaderWriter{ ShaderType::eTessellationControl, writeInvertFuncs, config }
+	{
+	}
+
+	InTessellationControl TessellationControlWriter::getIn()
+	{
+		return InTessellationControl{ *this };
+	}
+
+	OutTessellationControl TessellationControlWriter::getOut()
+	{
+		return OutTessellationControl{ *this };
+	}
+
+	//*************************************************************************
+
+	TessellationEvaluationWriter::TessellationEvaluationWriter( bool writeInvertFuncs
+		, Config config )
+		: ShaderWriter{ ShaderType::eTessellationControl, writeInvertFuncs, config }
+	{
+	}
+
+	InTessellationEvaluation TessellationEvaluationWriter::getIn()
+	{
+		return InTessellationEvaluation{ *this };
+	}
+
+	OutTessellationEvaluation TessellationEvaluationWriter::getOut()
+	{
+		return OutTessellationEvaluation{ *this };
+	}
+
+	//*************************************************************************
+
+	GeometryWriter::GeometryWriter( bool writeInvertFuncs
+		, Config config )
+		: ShaderWriter{ ShaderType::eGeometry, writeInvertFuncs, config }
+	{
+	}
+
+	void GeometryWriter::inputLayout( stmt::InputLayout layout )
+	{
+		addStmt( stmt::makeInputGeometryLayout( layout ) );
+	}
+
+	void GeometryWriter::outputLayout( stmt::OutputLayout layout, uint32_t count )
+	{
+		addStmt( stmt::makeOutputGeometryLayout( layout, count ) );
+	}
+
+	InGeometry GeometryWriter::getIn()
+	{
+		return InGeometry{ *this };
+	}
+
+	OutGeometry GeometryWriter::getOut()
+	{
+		return OutGeometry{ *this };
+	}
+
+	//*************************************************************************
+
+	FragmentWriter::FragmentWriter( bool writeInvertFuncs
+		, Config config )
+		: ShaderWriter{ ShaderType::eFragment, writeInvertFuncs, config }
+	{
+	}
+
+	InFragment FragmentWriter::getIn()
+	{
+		return InFragment{ *this };
+	}
+
+	OutFragment FragmentWriter::getOut()
+	{
+		return OutFragment{ *this };
+	}
+
+	//*************************************************************************
+
+	ComputeWriter::ComputeWriter( bool writeInvertFuncs
+		, Config config )
+		: ShaderWriter{ ShaderType::eCompute, writeInvertFuncs, config }
+	{
+	}
+
+	InCompute ComputeWriter::getIn()
+	{
+		return InCompute{ *this };
+	}
+
+	void ComputeWriter::inputLayout( uint32_t localSizeX )
+	{
+		addStmt( stmt::makeInputComputeLayout( localSizeX, 1, 1 ) );
+	}
+
+	void ComputeWriter::inputLayout( uint32_t localSizeX
+		, uint32_t localSizeY )
+	{
+		addStmt( stmt::makeInputComputeLayout( localSizeX
+			, localSizeY, 1 ) );
+	}
+
+	void ComputeWriter::inputLayout( uint32_t localSizeX
+		, uint32_t localSizeY
+		, uint32_t localSizeZ )
+	{
+		addStmt( stmt::makeInputComputeLayout( localSizeX
+			, localSizeY
+			, localSizeZ ) );
+	}
+
+	//*************************************************************************
 }

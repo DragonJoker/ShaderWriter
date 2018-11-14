@@ -822,14 +822,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicAddBufferFU()
+	void testImageAtomicAddBufferU()
 	{
-		testBegin( "testImageAtomicAddBufferFU" );
+		testBegin( "testImageAtomicAddBufferU" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicAddBufferFU = true;
+			config.requiresImageAtomicAddBufferU = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -837,14 +837,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicAddBufferIU()
+	void testImageAtomicAdd1DU()
 	{
-		testBegin( "testImageAtomicAddBufferIU" );
+		testBegin( "testImageAtomicAdd1DU" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicAddBufferIU = true;
+			config.requiresImageAtomicAdd1DU = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -852,14 +852,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicAddBufferUU()
+	void testImageAtomicAdd1DArrayU()
 	{
-		testBegin( "testImageAtomicAddBufferUU" );
+		testBegin( "testImageAtomicAdd1DArrayU" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicAddBufferUU = true;
+			config.requiresImageAtomicAdd1DArrayU = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -867,14 +867,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicAdd1DFU()
+	void testImageAtomicAdd2DU()
 	{
-		testBegin( "testImageAtomicAdd1DFU" );
+		testBegin( "testImageAtomicAdd2DU" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicAdd1DFU = true;
+			config.requiresImageAtomicAdd2DU = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -882,14 +882,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicAdd1DIU()
+	void testImageAtomicAdd2DRectU()
 	{
-		testBegin( "testImageAtomicAdd1DIU" );
+		testBegin( "testImageAtomicAdd2DRectU" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicAdd1DIU = true;
+			config.requiresImageAtomicAdd2DRectU = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -897,14 +897,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicAdd1DUU()
+	void testImageAtomicAdd2DArrayU()
 	{
-		testBegin( "testImageAtomicAdd1DUU" );
+		testBegin( "testImageAtomicAdd2DArrayU" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicAdd1DUU = true;
+			config.requiresImageAtomicAdd2DArrayU = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -912,14 +912,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicAdd1DArrayFU()
+	void testImageAtomicAdd3DU()
 	{
-		testBegin( "testImageAtomicAdd1DArrayFU" );
+		testBegin( "testImageAtomicAdd3DU" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicAdd1DArrayFU = true;
+			config.requiresImageAtomicAdd3DU = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -927,14 +927,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicAdd1DArrayIU()
+	void testImageAtomicAddCubeU()
 	{
-		testBegin( "testImageAtomicAdd1DArrayIU" );
+		testBegin( "testImageAtomicAddCubeU" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicAdd1DArrayIU = true;
+			config.requiresImageAtomicAddCubeU = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -942,14 +942,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicAdd1DArrayUU()
+	void testImageAtomicAddCubeArrayU()
 	{
-		testBegin( "testImageAtomicAdd1DArrayUU" );
+		testBegin( "testImageAtomicAddCubeArrayU" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicAdd1DArrayUU = true;
+			config.requiresImageAtomicAddCubeArrayU = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -957,14 +957,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicAdd2DFU()
+	void testImageAtomicAdd2DMSU()
 	{
-		testBegin( "testImageAtomicAdd2DFU" );
+		testBegin( "testImageAtomicAdd2DMSU" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicAdd2DFU = true;
+			config.requiresImageAtomicAdd2DMSU = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -972,14 +972,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicAdd2DRectFU()
+	void testImageAtomicAdd2DMSArrayU()
 	{
-		testBegin( "testImageAtomicAdd2DRectFU" );
+		testBegin( "testImageAtomicAdd2DMSArrayU" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicAdd2DRectFU = true;
+			config.requiresImageAtomicAdd2DMSArrayU = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -987,14 +987,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicAdd2DIU()
+	void testImageAtomicAddBufferI()
 	{
-		testBegin( "testImageAtomicAdd2DIU" );
+		testBegin( "testImageAtomicAddBufferI" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicAdd2DIU = true;
+			config.requiresImageAtomicAddBufferI = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -1002,14 +1002,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicAdd2DRectIU()
+	void testImageAtomicAdd1DI()
 	{
-		testBegin( "testImageAtomicAdd2DRectIU" );
+		testBegin( "testImageAtomicAdd1DI" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicAdd2DRectIU = true;
+			config.requiresImageAtomicAdd1DI = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -1017,14 +1017,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicAdd2DUU()
+	void testImageAtomicAdd1DArrayI()
 	{
-		testBegin( "testImageAtomicAdd2DUU" );
+		testBegin( "testImageAtomicAdd1DArrayI" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicAdd2DUU = true;
+			config.requiresImageAtomicAdd1DArrayI = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -1032,14 +1032,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicAdd2DRectUU()
+	void testImageAtomicAdd2DI()
 	{
-		testBegin( "testImageAtomicAdd2DRectUU" );
+		testBegin( "testImageAtomicAdd2DI" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicAdd2DRectUU = true;
+			config.requiresImageAtomicAdd2DI = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -1047,14 +1047,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicAdd2DArrayFU()
+	void testImageAtomicAdd2DRectI()
 	{
-		testBegin( "testImageAtomicAdd2DArrayFU" );
+		testBegin( "testImageAtomicAdd2DRectI" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicAdd2DArrayFU = true;
+			config.requiresImageAtomicAdd2DRectI = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -1062,14 +1062,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicAdd2DArrayIU()
+	void testImageAtomicAdd2DArrayI()
 	{
-		testBegin( "testImageAtomicAdd2DArrayIU" );
+		testBegin( "testImageAtomicAdd2DArrayI" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicAdd2DArrayIU = true;
+			config.requiresImageAtomicAdd2DArrayI = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -1077,14 +1077,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicAdd2DArrayUU()
+	void testImageAtomicAdd3DI()
 	{
-		testBegin( "testImageAtomicAdd2DArrayUU" );
+		testBegin( "testImageAtomicAdd3DI" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicAdd2DArrayUU = true;
+			config.requiresImageAtomicAdd3DI = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -1092,14 +1092,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicAdd3DFU()
+	void testImageAtomicAddCubeI()
 	{
-		testBegin( "testImageAtomicAdd3DFU" );
+		testBegin( "testImageAtomicAddCubeI" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicAdd3DFU = true;
+			config.requiresImageAtomicAddCubeI = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -1107,14 +1107,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicAdd3DIU()
+	void testImageAtomicAddCubeArrayI()
 	{
-		testBegin( "testImageAtomicAdd3DIU" );
+		testBegin( "testImageAtomicAddCubeArrayI" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicAdd3DIU = true;
+			config.requiresImageAtomicAddCubeArrayI = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -1122,14 +1122,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicAdd3DUU()
+	void testImageAtomicAdd2DMSI()
 	{
-		testBegin( "testImageAtomicAdd3DUU" );
+		testBegin( "testImageAtomicAdd2DMSI" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicAdd3DUU = true;
+			config.requiresImageAtomicAdd2DMSI = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -1137,14 +1137,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicAddCubeFU()
+	void testImageAtomicAdd2DMSArrayI()
 	{
-		testBegin( "testImageAtomicAddCubeFU" );
+		testBegin( "testImageAtomicAdd2DMSArrayI" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicAddCubeFU = true;
+			config.requiresImageAtomicAdd2DMSArrayI = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -1152,14 +1152,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicAddCubeIU()
+	void testImageAtomicMinBufferU()
 	{
-		testBegin( "testImageAtomicAddCubeIU" );
+		testBegin( "testImageAtomicMinBufferU" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicAddCubeIU = true;
+			config.requiresImageAtomicMinBufferU = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -1167,14 +1167,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicAddCubeUU()
+	void testImageAtomicMin1DU()
 	{
-		testBegin( "testImageAtomicAddCubeUU" );
+		testBegin( "testImageAtomicMin1DU" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicAddCubeUU = true;
+			config.requiresImageAtomicMin1DU = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -1182,14 +1182,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicAddCubeArrayFU()
+	void testImageAtomicMin1DArrayU()
 	{
-		testBegin( "testImageAtomicAddCubeArrayFU" );
+		testBegin( "testImageAtomicMin1DArrayU" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicAddCubeArrayFU = true;
+			config.requiresImageAtomicMin1DArrayU = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -1197,14 +1197,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicAddCubeArrayIU()
+	void testImageAtomicMin2DU()
 	{
-		testBegin( "testImageAtomicAddCubeArrayIU" );
+		testBegin( "testImageAtomicMin2DU" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicAddCubeArrayIU = true;
+			config.requiresImageAtomicMin2DU = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -1212,14 +1212,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicAddCubeArrayUU()
+	void testImageAtomicMin2DRectU()
 	{
-		testBegin( "testImageAtomicAddCubeArrayUU" );
+		testBegin( "testImageAtomicMin2DRectU" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicAddCubeArrayUU = true;
+			config.requiresImageAtomicMin2DRectU = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -1227,14 +1227,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicAdd2DMSFU()
+	void testImageAtomicMin2DArrayU()
 	{
-		testBegin( "testImageAtomicAdd2DMSFU" );
+		testBegin( "testImageAtomicMin2DArrayU" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicAdd2DMSFU = true;
+			config.requiresImageAtomicMin2DArrayU = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -1242,14 +1242,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicAdd2DMSIU()
+	void testImageAtomicMin3DU()
 	{
-		testBegin( "testImageAtomicAdd2DMSIU" );
+		testBegin( "testImageAtomicMin3DU" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicAdd2DMSIU = true;
+			config.requiresImageAtomicMin3DU = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -1257,14 +1257,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicAdd2DMSUU()
+	void testImageAtomicMinCubeU()
 	{
-		testBegin( "testImageAtomicAdd2DMSUU" );
+		testBegin( "testImageAtomicMinCubeU" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicAdd2DMSUU = true;
+			config.requiresImageAtomicMinCubeU = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -1272,14 +1272,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicAdd2DMSArrayFU()
+	void testImageAtomicMinCubeArrayU()
 	{
-		testBegin( "testImageAtomicAdd2DMSArrayFU" );
+		testBegin( "testImageAtomicMinCubeArrayU" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicAdd2DMSArrayFU = true;
+			config.requiresImageAtomicMinCubeArrayU = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -1287,14 +1287,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicAdd2DMSArrayIU()
+	void testImageAtomicMin2DMSU()
 	{
-		testBegin( "testImageAtomicAdd2DMSArrayIU" );
+		testBegin( "testImageAtomicMin2DMSU" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicAdd2DMSArrayIU = true;
+			config.requiresImageAtomicMin2DMSU = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -1302,14 +1302,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicAdd2DMSArrayUU()
+	void testImageAtomicMin2DMSArrayU()
 	{
-		testBegin( "testImageAtomicAdd2DMSArrayUU" );
+		testBegin( "testImageAtomicMin2DMSArrayU" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicAdd2DMSArrayUU = true;
+			config.requiresImageAtomicMin2DMSArrayU = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -1317,14 +1317,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicAddBufferFI()
+	void testImageAtomicMinBufferI()
 	{
-		testBegin( "testImageAtomicAddBufferFI" );
+		testBegin( "testImageAtomicMinBufferI" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicAddBufferFI = true;
+			config.requiresImageAtomicMinBufferI = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -1332,14 +1332,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicAddBufferII()
+	void testImageAtomicMin1DI()
 	{
-		testBegin( "testImageAtomicAddBufferII" );
+		testBegin( "testImageAtomicMin1DI" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicAddBufferII = true;
+			config.requiresImageAtomicMin1DI = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -1347,14 +1347,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicAddBufferUI()
+	void testImageAtomicMin1DArrayI()
 	{
-		testBegin( "testImageAtomicAddBufferUI" );
+		testBegin( "testImageAtomicMin1DArrayI" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicAddBufferUI = true;
+			config.requiresImageAtomicMin1DArrayI = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -1362,14 +1362,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicAdd1DFI()
+	void testImageAtomicMin2DI()
 	{
-		testBegin( "testImageAtomicAdd1DFI" );
+		testBegin( "testImageAtomicMin2DI" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicAdd1DFI = true;
+			config.requiresImageAtomicMin2DI = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -1377,14 +1377,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicAdd1DII()
+	void testImageAtomicMin2DRectI()
 	{
-		testBegin( "testImageAtomicAdd1DII" );
+		testBegin( "testImageAtomicMin2DRectI" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicAdd1DII = true;
+			config.requiresImageAtomicMin2DRectI = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -1392,14 +1392,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicAdd1DUI()
+	void testImageAtomicMin2DArrayI()
 	{
-		testBegin( "testImageAtomicAdd1DUI" );
+		testBegin( "testImageAtomicMin2DArrayI" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicAdd1DUI = true;
+			config.requiresImageAtomicMin2DArrayI = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -1407,14 +1407,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicAdd1DArrayFI()
+	void testImageAtomicMin3DI()
 	{
-		testBegin( "testImageAtomicAdd1DArrayFI" );
+		testBegin( "testImageAtomicMin3DI" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicAdd1DArrayFI = true;
+			config.requiresImageAtomicMin3DI = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -1422,14 +1422,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicAdd1DArrayII()
+	void testImageAtomicMinCubeI()
 	{
-		testBegin( "testImageAtomicAdd1DArrayII" );
+		testBegin( "testImageAtomicMinCubeI" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicAdd1DArrayII = true;
+			config.requiresImageAtomicMinCubeI = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -1437,14 +1437,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicAdd1DArrayUI()
+	void testImageAtomicMinCubeArrayI()
 	{
-		testBegin( "testImageAtomicAdd1DArrayUI" );
+		testBegin( "testImageAtomicMinCubeArrayI" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicAdd1DArrayUI = true;
+			config.requiresImageAtomicMinCubeArrayI = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -1452,14 +1452,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicAdd2DFI()
+	void testImageAtomicMin2DMSI()
 	{
-		testBegin( "testImageAtomicAdd2DFI" );
+		testBegin( "testImageAtomicMin2DMSI" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicAdd2DFI = true;
+			config.requiresImageAtomicMin2DMSI = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -1467,14 +1467,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicAdd2DRectFI()
+	void testImageAtomicMin2DMSArrayI()
 	{
-		testBegin( "testImageAtomicAdd2DRectFI" );
+		testBegin( "testImageAtomicMin2DMSArrayI" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicAdd2DRectFI = true;
+			config.requiresImageAtomicMin2DMSArrayI = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -1482,14 +1482,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicAdd2DII()
+	void testImageAtomicMaxBufferU()
 	{
-		testBegin( "testImageAtomicAdd2DII" );
+		testBegin( "testImageAtomicMaxBufferU" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicAdd2DII = true;
+			config.requiresImageAtomicMaxBufferU = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -1497,14 +1497,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicAdd2DRectII()
+	void testImageAtomicMax1DU()
 	{
-		testBegin( "testImageAtomicAdd2DRectII" );
+		testBegin( "testImageAtomicMax1DU" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicAdd2DRectII = true;
+			config.requiresImageAtomicMax1DU = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -1512,14 +1512,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicAdd2DUI()
+	void testImageAtomicMax1DArrayU()
 	{
-		testBegin( "testImageAtomicAdd2DUI" );
+		testBegin( "testImageAtomicMax1DArrayU" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicAdd2DUI = true;
+			config.requiresImageAtomicMax1DArrayU = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -1527,14 +1527,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicAdd2DRectUI()
+	void testImageAtomicMax2DU()
 	{
-		testBegin( "testImageAtomicAdd2DRectUI" );
+		testBegin( "testImageAtomicMax2DU" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicAdd2DRectUI = true;
+			config.requiresImageAtomicMax2DU = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -1542,14 +1542,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicAdd2DArrayFI()
+	void testImageAtomicMax2DRectU()
 	{
-		testBegin( "testImageAtomicAdd2DArrayFI" );
+		testBegin( "testImageAtomicMax2DRectU" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicAdd2DArrayFI = true;
+			config.requiresImageAtomicMax2DRectU = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -1557,14 +1557,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicAdd2DArrayII()
+	void testImageAtomicMax2DArrayU()
 	{
-		testBegin( "testImageAtomicAdd2DArrayII" );
+		testBegin( "testImageAtomicMax2DArrayU" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicAdd2DArrayII = true;
+			config.requiresImageAtomicMax2DArrayU = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -1572,14 +1572,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicAdd2DArrayUI()
+	void testImageAtomicMax3DU()
 	{
-		testBegin( "testImageAtomicAdd2DArrayUI" );
+		testBegin( "testImageAtomicMax3DU" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicAdd2DArrayUI = true;
+			config.requiresImageAtomicMax3DU = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -1587,14 +1587,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicAdd3DFI()
+	void testImageAtomicMaxCubeU()
 	{
-		testBegin( "testImageAtomicAdd3DFI" );
+		testBegin( "testImageAtomicMaxCubeU" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicAdd3DFI = true;
+			config.requiresImageAtomicMaxCubeU = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -1602,14 +1602,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicAdd3DII()
+	void testImageAtomicMaxCubeArrayU()
 	{
-		testBegin( "testImageAtomicAdd3DII" );
+		testBegin( "testImageAtomicMaxCubeArrayU" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicAdd3DII = true;
+			config.requiresImageAtomicMaxCubeArrayU = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -1617,14 +1617,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicAdd3DUI()
+	void testImageAtomicMax2DMSU()
 	{
-		testBegin( "testImageAtomicAdd3DUI" );
+		testBegin( "testImageAtomicMax2DMSU" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicAdd3DUI = true;
+			config.requiresImageAtomicMax2DMSU = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -1632,14 +1632,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicAddCubeFI()
+	void testImageAtomicMax2DMSArrayU()
 	{
-		testBegin( "testImageAtomicAddCubeFI" );
+		testBegin( "testImageAtomicMax2DMSArrayU" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicAddCubeFI = true;
+			config.requiresImageAtomicMax2DMSArrayU = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -1647,14 +1647,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicAddCubeII()
+	void testImageAtomicMaxBufferI()
 	{
-		testBegin( "testImageAtomicAddCubeII" );
+		testBegin( "testImageAtomicMaxBufferI" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicAddCubeII = true;
+			config.requiresImageAtomicMaxBufferI = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -1662,14 +1662,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicAddCubeUI()
+	void testImageAtomicMax1DI()
 	{
-		testBegin( "testImageAtomicAddCubeUI" );
+		testBegin( "testImageAtomicMax1DI" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicAddCubeUI = true;
+			config.requiresImageAtomicMax1DI = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -1677,14 +1677,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicAddCubeArrayFI()
+	void testImageAtomicMax1DArrayI()
 	{
-		testBegin( "testImageAtomicAddCubeArrayFI" );
+		testBegin( "testImageAtomicMax1DArrayI" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicAddCubeArrayFI = true;
+			config.requiresImageAtomicMax1DArrayI = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -1692,14 +1692,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicAddCubeArrayII()
+	void testImageAtomicMax2DI()
 	{
-		testBegin( "testImageAtomicAddCubeArrayII" );
+		testBegin( "testImageAtomicMax2DI" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicAddCubeArrayII = true;
+			config.requiresImageAtomicMax2DI = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -1707,14 +1707,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicAddCubeArrayUI()
+	void testImageAtomicMax2DRectI()
 	{
-		testBegin( "testImageAtomicAddCubeArrayUI" );
+		testBegin( "testImageAtomicMax2DRectI" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicAddCubeArrayUI = true;
+			config.requiresImageAtomicMax2DRectI = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -1722,14 +1722,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicAdd2DMSFI()
+	void testImageAtomicMax2DArrayI()
 	{
-		testBegin( "testImageAtomicAdd2DMSFI" );
+		testBegin( "testImageAtomicMax2DArrayI" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicAdd2DMSFI = true;
+			config.requiresImageAtomicMax2DArrayI = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -1737,14 +1737,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicAdd2DMSII()
+	void testImageAtomicMax3DI()
 	{
-		testBegin( "testImageAtomicAdd2DMSII" );
+		testBegin( "testImageAtomicMax3DI" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicAdd2DMSII = true;
+			config.requiresImageAtomicMax3DI = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -1752,14 +1752,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicAdd2DMSUI()
+	void testImageAtomicMaxCubeI()
 	{
-		testBegin( "testImageAtomicAdd2DMSUI" );
+		testBegin( "testImageAtomicMaxCubeI" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicAdd2DMSUI = true;
+			config.requiresImageAtomicMaxCubeI = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -1767,14 +1767,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicAdd2DMSArrayFI()
+	void testImageAtomicMaxCubeArrayI()
 	{
-		testBegin( "testImageAtomicAdd2DMSArrayFI" );
+		testBegin( "testImageAtomicMaxCubeArrayI" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicAdd2DMSArrayFI = true;
+			config.requiresImageAtomicMaxCubeArrayI = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -1782,14 +1782,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicAdd2DMSArrayII()
+	void testImageAtomicMax2DMSI()
 	{
-		testBegin( "testImageAtomicAdd2DMSArrayII" );
+		testBegin( "testImageAtomicMax2DMSI" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicAdd2DMSArrayII = true;
+			config.requiresImageAtomicMax2DMSI = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -1797,14 +1797,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicAdd2DMSArrayUI()
+	void testImageAtomicMax2DMSArrayI()
 	{
-		testBegin( "testImageAtomicAdd2DMSArrayUI" );
+		testBegin( "testImageAtomicMax2DMSArrayI" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicAdd2DMSArrayUI = true;
+			config.requiresImageAtomicMax2DMSArrayI = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -1812,14 +1812,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicMinBufferFU()
+	void testImageAtomicAndBufferU()
 	{
-		testBegin( "testImageAtomicMinBufferFU" );
+		testBegin( "testImageAtomicAndBufferU" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicMinBufferFU = true;
+			config.requiresImageAtomicAndBufferU = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -1827,14 +1827,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicMinBufferIU()
+	void testImageAtomicAnd1DU()
 	{
-		testBegin( "testImageAtomicMinBufferIU" );
+		testBegin( "testImageAtomicAnd1DU" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicMinBufferIU = true;
+			config.requiresImageAtomicAnd1DU = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -1842,14 +1842,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicMinBufferUU()
+	void testImageAtomicAnd1DArrayU()
 	{
-		testBegin( "testImageAtomicMinBufferUU" );
+		testBegin( "testImageAtomicAnd1DArrayU" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicMinBufferUU = true;
+			config.requiresImageAtomicAnd1DArrayU = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -1857,14 +1857,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicMin1DFU()
+	void testImageAtomicAnd2DU()
 	{
-		testBegin( "testImageAtomicMin1DFU" );
+		testBegin( "testImageAtomicAnd2DU" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicMin1DFU = true;
+			config.requiresImageAtomicAnd2DU = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -1872,14 +1872,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicMin1DIU()
+	void testImageAtomicAnd2DRectU()
 	{
-		testBegin( "testImageAtomicMin1DIU" );
+		testBegin( "testImageAtomicAnd2DRectU" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicMin1DIU = true;
+			config.requiresImageAtomicAnd2DRectU = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -1887,14 +1887,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicMin1DUU()
+	void testImageAtomicAnd2DArrayU()
 	{
-		testBegin( "testImageAtomicMin1DUU" );
+		testBegin( "testImageAtomicAnd2DArrayU" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicMin1DUU = true;
+			config.requiresImageAtomicAnd2DArrayU = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -1902,14 +1902,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicMin1DArrayFU()
+	void testImageAtomicAnd3DU()
 	{
-		testBegin( "testImageAtomicMin1DArrayFU" );
+		testBegin( "testImageAtomicAnd3DU" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicMin1DArrayFU = true;
+			config.requiresImageAtomicAnd3DU = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -1917,14 +1917,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicMin1DArrayIU()
+	void testImageAtomicAndCubeU()
 	{
-		testBegin( "testImageAtomicMin1DArrayIU" );
+		testBegin( "testImageAtomicAndCubeU" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicMin1DArrayIU = true;
+			config.requiresImageAtomicAndCubeU = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -1932,14 +1932,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicMin1DArrayUU()
+	void testImageAtomicAndCubeArrayU()
 	{
-		testBegin( "testImageAtomicMin1DArrayUU" );
+		testBegin( "testImageAtomicAndCubeArrayU" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicMin1DArrayUU = true;
+			config.requiresImageAtomicAndCubeArrayU = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -1947,14 +1947,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicMin2DFU()
+	void testImageAtomicAnd2DMSU()
 	{
-		testBegin( "testImageAtomicMin2DFU" );
+		testBegin( "testImageAtomicAnd2DMSU" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicMin2DFU = true;
+			config.requiresImageAtomicAnd2DMSU = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -1962,14 +1962,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicMin2DRectFU()
+	void testImageAtomicAnd2DMSArrayU()
 	{
-		testBegin( "testImageAtomicMin2DRectFU" );
+		testBegin( "testImageAtomicAnd2DMSArrayU" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicMin2DRectFU = true;
+			config.requiresImageAtomicAnd2DMSArrayU = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -1977,14 +1977,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicMin2DIU()
+	void testImageAtomicAndBufferI()
 	{
-		testBegin( "testImageAtomicMin2DIU" );
+		testBegin( "testImageAtomicAndBufferI" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicMin2DIU = true;
+			config.requiresImageAtomicAndBufferI = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -1992,14 +1992,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicMin2DRectIU()
+	void testImageAtomicAnd1DI()
 	{
-		testBegin( "testImageAtomicMin2DRectIU" );
+		testBegin( "testImageAtomicAnd1DI" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicMin2DRectIU = true;
+			config.requiresImageAtomicAnd1DI = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -2007,14 +2007,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicMin2DUU()
+	void testImageAtomicAnd1DArrayI()
 	{
-		testBegin( "testImageAtomicMin2DUU" );
+		testBegin( "testImageAtomicAnd1DArrayI" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicMin2DUU = true;
+			config.requiresImageAtomicAnd1DArrayI = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -2022,14 +2022,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicMin2DRectUU()
+	void testImageAtomicAnd2DI()
 	{
-		testBegin( "testImageAtomicMin2DRectUU" );
+		testBegin( "testImageAtomicAnd2DI" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicMin2DRectUU = true;
+			config.requiresImageAtomicAnd2DI = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -2037,14 +2037,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicMin2DArrayFU()
+	void testImageAtomicAnd2DRectI()
 	{
-		testBegin( "testImageAtomicMin2DArrayFU" );
+		testBegin( "testImageAtomicAnd2DRectI" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicMin2DArrayFU = true;
+			config.requiresImageAtomicAnd2DRectI = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -2052,14 +2052,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicMin2DArrayIU()
+	void testImageAtomicAnd2DArrayI()
 	{
-		testBegin( "testImageAtomicMin2DArrayIU" );
+		testBegin( "testImageAtomicAnd2DArrayI" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicMin2DArrayIU = true;
+			config.requiresImageAtomicAnd2DArrayI = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -2067,14 +2067,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicMin2DArrayUU()
+	void testImageAtomicAnd3DI()
 	{
-		testBegin( "testImageAtomicMin2DArrayUU" );
+		testBegin( "testImageAtomicAnd3DI" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicMin2DArrayUU = true;
+			config.requiresImageAtomicAnd3DI = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -2082,14 +2082,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicMin3DFU()
+	void testImageAtomicAndCubeI()
 	{
-		testBegin( "testImageAtomicMin3DFU" );
+		testBegin( "testImageAtomicAndCubeI" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicMin3DFU = true;
+			config.requiresImageAtomicAndCubeI = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -2097,14 +2097,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicMin3DIU()
+	void testImageAtomicAndCubeArrayI()
 	{
-		testBegin( "testImageAtomicMin3DIU" );
+		testBegin( "testImageAtomicAndCubeArrayI" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicMin3DIU = true;
+			config.requiresImageAtomicAndCubeArrayI = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -2112,14 +2112,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicMin3DUU()
+	void testImageAtomicAnd2DMSI()
 	{
-		testBegin( "testImageAtomicMin3DUU" );
+		testBegin( "testImageAtomicAnd2DMSI" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicMin3DUU = true;
+			config.requiresImageAtomicAnd2DMSI = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -2127,14 +2127,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicMinCubeFU()
+	void testImageAtomicAnd2DMSArrayI()
 	{
-		testBegin( "testImageAtomicMinCubeFU" );
+		testBegin( "testImageAtomicAnd2DMSArrayI" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicMinCubeFU = true;
+			config.requiresImageAtomicAnd2DMSArrayI = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -2142,14 +2142,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicMinCubeIU()
+	void testImageAtomicOrBufferU()
 	{
-		testBegin( "testImageAtomicMinCubeIU" );
+		testBegin( "testImageAtomicOrBufferU" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicMinCubeIU = true;
+			config.requiresImageAtomicOrBufferU = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -2157,14 +2157,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicMinCubeUU()
+	void testImageAtomicOr1DU()
 	{
-		testBegin( "testImageAtomicMinCubeUU" );
+		testBegin( "testImageAtomicOr1DU" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicMinCubeUU = true;
+			config.requiresImageAtomicOr1DU = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -2172,14 +2172,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicMinCubeArrayFU()
+	void testImageAtomicOr1DArrayU()
 	{
-		testBegin( "testImageAtomicMinCubeArrayFU" );
+		testBegin( "testImageAtomicOr1DArrayU" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicMinCubeArrayFU = true;
+			config.requiresImageAtomicOr1DArrayU = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -2187,14 +2187,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicMinCubeArrayIU()
+	void testImageAtomicOr2DU()
 	{
-		testBegin( "testImageAtomicMinCubeArrayIU" );
+		testBegin( "testImageAtomicOr2DU" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicMinCubeArrayIU = true;
+			config.requiresImageAtomicOr2DU = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -2202,14 +2202,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicMinCubeArrayUU()
+	void testImageAtomicOr2DRectU()
 	{
-		testBegin( "testImageAtomicMinCubeArrayUU" );
+		testBegin( "testImageAtomicOr2DRectU" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicMinCubeArrayUU = true;
+			config.requiresImageAtomicOr2DRectU = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -2217,14 +2217,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicMin2DMSFU()
+	void testImageAtomicOr2DArrayU()
 	{
-		testBegin( "testImageAtomicMin2DMSFU" );
+		testBegin( "testImageAtomicOr2DArrayU" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicMin2DMSFU = true;
+			config.requiresImageAtomicOr2DArrayU = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -2232,14 +2232,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicMin2DMSIU()
+	void testImageAtomicOr3DU()
 	{
-		testBegin( "testImageAtomicMin2DMSIU" );
+		testBegin( "testImageAtomicOr3DU" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicMin2DMSIU = true;
+			config.requiresImageAtomicOr3DU = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -2247,14 +2247,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicMin2DMSUU()
+	void testImageAtomicOrCubeU()
 	{
-		testBegin( "testImageAtomicMin2DMSUU" );
+		testBegin( "testImageAtomicOrCubeU" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicMin2DMSUU = true;
+			config.requiresImageAtomicOrCubeU = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -2262,14 +2262,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicMin2DMSArrayFU()
+	void testImageAtomicOrCubeArrayU()
 	{
-		testBegin( "testImageAtomicMin2DMSArrayFU" );
+		testBegin( "testImageAtomicOrCubeArrayU" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicMin2DMSArrayFU = true;
+			config.requiresImageAtomicOrCubeArrayU = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -2277,14 +2277,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicMin2DMSArrayIU()
+	void testImageAtomicOr2DMSU()
 	{
-		testBegin( "testImageAtomicMin2DMSArrayIU" );
+		testBegin( "testImageAtomicOr2DMSU" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicMin2DMSArrayIU = true;
+			config.requiresImageAtomicOr2DMSU = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -2292,14 +2292,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicMin2DMSArrayUU()
+	void testImageAtomicOr2DMSArrayU()
 	{
-		testBegin( "testImageAtomicMin2DMSArrayUU" );
+		testBegin( "testImageAtomicOr2DMSArrayU" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicMin2DMSArrayUU = true;
+			config.requiresImageAtomicOr2DMSArrayU = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -2307,14 +2307,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicMinBufferFI()
+	void testImageAtomicOrBufferI()
 	{
-		testBegin( "testImageAtomicMinBufferFI" );
+		testBegin( "testImageAtomicOrBufferI" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicMinBufferFI = true;
+			config.requiresImageAtomicOrBufferI = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -2322,14 +2322,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicMinBufferII()
+	void testImageAtomicOr1DI()
 	{
-		testBegin( "testImageAtomicMinBufferII" );
+		testBegin( "testImageAtomicOr1DI" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicMinBufferII = true;
+			config.requiresImageAtomicOr1DI = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -2337,14 +2337,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicMinBufferUI()
+	void testImageAtomicOr1DArrayI()
 	{
-		testBegin( "testImageAtomicMinBufferUI" );
+		testBegin( "testImageAtomicOr1DArrayI" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicMinBufferUI = true;
+			config.requiresImageAtomicOr1DArrayI = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -2352,14 +2352,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicMin1DFI()
+	void testImageAtomicOr2DI()
 	{
-		testBegin( "testImageAtomicMin1DFI" );
+		testBegin( "testImageAtomicOr2DI" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicMin1DFI = true;
+			config.requiresImageAtomicOr2DI = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -2367,14 +2367,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicMin1DII()
+	void testImageAtomicOr2DRectI()
 	{
-		testBegin( "testImageAtomicMin1DII" );
+		testBegin( "testImageAtomicOr2DRectI" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicMin1DII = true;
+			config.requiresImageAtomicOr2DRectI = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -2382,14 +2382,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicMin1DUI()
+	void testImageAtomicOr2DArrayI()
 	{
-		testBegin( "testImageAtomicMin1DUI" );
+		testBegin( "testImageAtomicOr2DArrayI" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicMin1DUI = true;
+			config.requiresImageAtomicOr2DArrayI = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -2397,14 +2397,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicMin1DArrayFI()
+	void testImageAtomicOr3DI()
 	{
-		testBegin( "testImageAtomicMin1DArrayFI" );
+		testBegin( "testImageAtomicOr3DI" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicMin1DArrayFI = true;
+			config.requiresImageAtomicOr3DI = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -2412,14 +2412,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicMin1DArrayII()
+	void testImageAtomicOrCubeI()
 	{
-		testBegin( "testImageAtomicMin1DArrayII" );
+		testBegin( "testImageAtomicOrCubeI" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicMin1DArrayII = true;
+			config.requiresImageAtomicOrCubeI = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -2427,14 +2427,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicMin1DArrayUI()
+	void testImageAtomicOrCubeArrayI()
 	{
-		testBegin( "testImageAtomicMin1DArrayUI" );
+		testBegin( "testImageAtomicOrCubeArrayI" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicMin1DArrayUI = true;
+			config.requiresImageAtomicOrCubeArrayI = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -2442,14 +2442,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicMin2DFI()
+	void testImageAtomicOr2DMSI()
 	{
-		testBegin( "testImageAtomicMin2DFI" );
+		testBegin( "testImageAtomicOr2DMSI" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicMin2DFI = true;
+			config.requiresImageAtomicOr2DMSI = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -2457,14 +2457,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicMin2DRectFI()
+	void testImageAtomicOr2DMSArrayI()
 	{
-		testBegin( "testImageAtomicMin2DRectFI" );
+		testBegin( "testImageAtomicOr2DMSArrayI" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicMin2DRectFI = true;
+			config.requiresImageAtomicOr2DMSArrayI = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -2472,14 +2472,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicMin2DII()
+	void testImageAtomicXorBufferU()
 	{
-		testBegin( "testImageAtomicMin2DII" );
+		testBegin( "testImageAtomicXorBufferU" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicMin2DII = true;
+			config.requiresImageAtomicXorBufferU = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -2487,14 +2487,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicMin2DRectII()
+	void testImageAtomicXor1DU()
 	{
-		testBegin( "testImageAtomicMin2DRectII" );
+		testBegin( "testImageAtomicXor1DU" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicMin2DRectII = true;
+			config.requiresImageAtomicXor1DU = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -2502,14 +2502,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicMin2DUI()
+	void testImageAtomicXor1DArrayU()
 	{
-		testBegin( "testImageAtomicMin2DUI" );
+		testBegin( "testImageAtomicXor1DArrayU" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicMin2DUI = true;
+			config.requiresImageAtomicXor1DArrayU = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -2517,14 +2517,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicMin2DRectUI()
+	void testImageAtomicXor2DU()
 	{
-		testBegin( "testImageAtomicMin2DRectUI" );
+		testBegin( "testImageAtomicXor2DU" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicMin2DRectUI = true;
+			config.requiresImageAtomicXor2DU = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -2532,14 +2532,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicMin2DArrayFI()
+	void testImageAtomicXor2DRectU()
 	{
-		testBegin( "testImageAtomicMin2DArrayFI" );
+		testBegin( "testImageAtomicXor2DRectU" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicMin2DArrayFI = true;
+			config.requiresImageAtomicXor2DRectU = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -2547,14 +2547,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicMin2DArrayII()
+	void testImageAtomicXor2DArrayU()
 	{
-		testBegin( "testImageAtomicMin2DArrayII" );
+		testBegin( "testImageAtomicXor2DArrayU" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicMin2DArrayII = true;
+			config.requiresImageAtomicXor2DArrayU = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -2562,14 +2562,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicMin2DArrayUI()
+	void testImageAtomicXor3DU()
 	{
-		testBegin( "testImageAtomicMin2DArrayUI" );
+		testBegin( "testImageAtomicXor3DU" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicMin2DArrayUI = true;
+			config.requiresImageAtomicXor3DU = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -2577,14 +2577,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicMin3DFI()
+	void testImageAtomicXorCubeU()
 	{
-		testBegin( "testImageAtomicMin3DFI" );
+		testBegin( "testImageAtomicXorCubeU" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicMin3DFI = true;
+			config.requiresImageAtomicXorCubeU = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -2592,14 +2592,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicMin3DII()
+	void testImageAtomicXorCubeArrayU()
 	{
-		testBegin( "testImageAtomicMin3DII" );
+		testBegin( "testImageAtomicXorCubeArrayU" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicMin3DII = true;
+			config.requiresImageAtomicXorCubeArrayU = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -2607,14 +2607,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicMin3DUI()
+	void testImageAtomicXor2DMSU()
 	{
-		testBegin( "testImageAtomicMin3DUI" );
+		testBegin( "testImageAtomicXor2DMSU" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicMin3DUI = true;
+			config.requiresImageAtomicXor2DMSU = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -2622,14 +2622,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicMinCubeFI()
+	void testImageAtomicXor2DMSArrayU()
 	{
-		testBegin( "testImageAtomicMinCubeFI" );
+		testBegin( "testImageAtomicXor2DMSArrayU" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicMinCubeFI = true;
+			config.requiresImageAtomicXor2DMSArrayU = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -2637,14 +2637,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicMinCubeII()
+	void testImageAtomicXorBufferI()
 	{
-		testBegin( "testImageAtomicMinCubeII" );
+		testBegin( "testImageAtomicXorBufferI" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicMinCubeII = true;
+			config.requiresImageAtomicXorBufferI = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -2652,14 +2652,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicMinCubeUI()
+	void testImageAtomicXor1DI()
 	{
-		testBegin( "testImageAtomicMinCubeUI" );
+		testBegin( "testImageAtomicXor1DI" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicMinCubeUI = true;
+			config.requiresImageAtomicXor1DI = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -2667,14 +2667,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicMinCubeArrayFI()
+	void testImageAtomicXor1DArrayI()
 	{
-		testBegin( "testImageAtomicMinCubeArrayFI" );
+		testBegin( "testImageAtomicXor1DArrayI" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicMinCubeArrayFI = true;
+			config.requiresImageAtomicXor1DArrayI = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -2682,14 +2682,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicMinCubeArrayII()
+	void testImageAtomicXor2DI()
 	{
-		testBegin( "testImageAtomicMinCubeArrayII" );
+		testBegin( "testImageAtomicXor2DI" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicMinCubeArrayII = true;
+			config.requiresImageAtomicXor2DI = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -2697,14 +2697,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicMinCubeArrayUI()
+	void testImageAtomicXor2DRectI()
 	{
-		testBegin( "testImageAtomicMinCubeArrayUI" );
+		testBegin( "testImageAtomicXor2DRectI" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicMinCubeArrayUI = true;
+			config.requiresImageAtomicXor2DRectI = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -2712,14 +2712,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicMin2DMSFI()
+	void testImageAtomicXor2DArrayI()
 	{
-		testBegin( "testImageAtomicMin2DMSFI" );
+		testBegin( "testImageAtomicXor2DArrayI" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicMin2DMSFI = true;
+			config.requiresImageAtomicXor2DArrayI = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -2727,14 +2727,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicMin2DMSII()
+	void testImageAtomicXor3DI()
 	{
-		testBegin( "testImageAtomicMin2DMSII" );
+		testBegin( "testImageAtomicXor3DI" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicMin2DMSII = true;
+			config.requiresImageAtomicXor3DI = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -2742,14 +2742,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicMin2DMSUI()
+	void testImageAtomicXorCubeI()
 	{
-		testBegin( "testImageAtomicMin2DMSUI" );
+		testBegin( "testImageAtomicXorCubeI" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicMin2DMSUI = true;
+			config.requiresImageAtomicXorCubeI = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -2757,14 +2757,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicMin2DMSArrayFI()
+	void testImageAtomicXorCubeArrayI()
 	{
-		testBegin( "testImageAtomicMin2DMSArrayFI" );
+		testBegin( "testImageAtomicXorCubeArrayI" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicMin2DMSArrayFI = true;
+			config.requiresImageAtomicXorCubeArrayI = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -2772,14 +2772,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicMin2DMSArrayII()
+	void testImageAtomicXor2DMSI()
 	{
-		testBegin( "testImageAtomicMin2DMSArrayII" );
+		testBegin( "testImageAtomicXor2DMSI" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicMin2DMSArrayII = true;
+			config.requiresImageAtomicXor2DMSI = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -2787,14 +2787,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicMin2DMSArrayUI()
+	void testImageAtomicXor2DMSArrayI()
 	{
-		testBegin( "testImageAtomicMin2DMSArrayUI" );
+		testBegin( "testImageAtomicXor2DMSArrayI" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicMin2DMSArrayUI = true;
+			config.requiresImageAtomicXor2DMSArrayI = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -2802,14 +2802,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicMaxBufferFU()
+	void testImageAtomicExchangeBufferU()
 	{
-		testBegin( "testImageAtomicMaxBufferFU" );
+		testBegin( "testImageAtomicExchangeBufferU" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicMaxBufferFU = true;
+			config.requiresImageAtomicExchangeBufferU = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -2817,14 +2817,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicMaxBufferIU()
+	void testImageAtomicExchange1DU()
 	{
-		testBegin( "testImageAtomicMaxBufferIU" );
+		testBegin( "testImageAtomicExchange1DU" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicMaxBufferIU = true;
+			config.requiresImageAtomicExchange1DU = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -2832,14 +2832,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicMaxBufferUU()
+	void testImageAtomicExchange1DArrayU()
 	{
-		testBegin( "testImageAtomicMaxBufferUU" );
+		testBegin( "testImageAtomicExchange1DArrayU" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicMaxBufferUU = true;
+			config.requiresImageAtomicExchange1DArrayU = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -2847,14 +2847,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicMax1DFU()
+	void testImageAtomicExchange2DU()
 	{
-		testBegin( "testImageAtomicMax1DFU" );
+		testBegin( "testImageAtomicExchange2DU" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicMax1DFU = true;
+			config.requiresImageAtomicExchange2DU = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -2862,14 +2862,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicMax1DIU()
+	void testImageAtomicExchange2DRectU()
 	{
-		testBegin( "testImageAtomicMax1DIU" );
+		testBegin( "testImageAtomicExchange2DRectU" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicMax1DIU = true;
+			config.requiresImageAtomicExchange2DRectU = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -2877,14 +2877,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicMax1DUU()
+	void testImageAtomicExchange2DArrayU()
 	{
-		testBegin( "testImageAtomicMax1DUU" );
+		testBegin( "testImageAtomicExchange2DArrayU" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicMax1DUU = true;
+			config.requiresImageAtomicExchange2DArrayU = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -2892,14 +2892,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicMax1DArrayFU()
+	void testImageAtomicExchange3DU()
 	{
-		testBegin( "testImageAtomicMax1DArrayFU" );
+		testBegin( "testImageAtomicExchange3DU" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicMax1DArrayFU = true;
+			config.requiresImageAtomicExchange3DU = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -2907,14 +2907,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicMax1DArrayIU()
+	void testImageAtomicExchangeCubeU()
 	{
-		testBegin( "testImageAtomicMax1DArrayIU" );
+		testBegin( "testImageAtomicExchangeCubeU" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicMax1DArrayIU = true;
+			config.requiresImageAtomicExchangeCubeU = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -2922,14 +2922,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicMax1DArrayUU()
+	void testImageAtomicExchangeCubeArrayU()
 	{
-		testBegin( "testImageAtomicMax1DArrayUU" );
+		testBegin( "testImageAtomicExchangeCubeArrayU" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicMax1DArrayUU = true;
+			config.requiresImageAtomicExchangeCubeArrayU = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -2937,14 +2937,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicMax2DFU()
+	void testImageAtomicExchange2DMSU()
 	{
-		testBegin( "testImageAtomicMax2DFU" );
+		testBegin( "testImageAtomicExchange2DMSU" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicMax2DFU = true;
+			config.requiresImageAtomicExchange2DMSU = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -2952,14 +2952,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicMax2DRectFU()
+	void testImageAtomicExchange2DMSArrayU()
 	{
-		testBegin( "testImageAtomicMax2DRectFU" );
+		testBegin( "testImageAtomicExchange2DMSArrayU" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicMax2DRectFU = true;
+			config.requiresImageAtomicExchange2DMSArrayU = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -2967,14 +2967,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicMax2DIU()
+	void testImageAtomicExchangeBufferI()
 	{
-		testBegin( "testImageAtomicMax2DIU" );
+		testBegin( "testImageAtomicExchangeBufferI" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicMax2DIU = true;
+			config.requiresImageAtomicExchangeBufferI = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -2982,14 +2982,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicMax2DRectIU()
+	void testImageAtomicExchange1DI()
 	{
-		testBegin( "testImageAtomicMax2DRectIU" );
+		testBegin( "testImageAtomicExchange1DI" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicMax2DRectIU = true;
+			config.requiresImageAtomicExchange1DI = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -2997,14 +2997,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicMax2DUU()
+	void testImageAtomicExchange1DArrayI()
 	{
-		testBegin( "testImageAtomicMax2DUU" );
+		testBegin( "testImageAtomicExchange1DArrayI" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicMax2DUU = true;
+			config.requiresImageAtomicExchange1DArrayI = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -3012,14 +3012,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicMax2DRectUU()
+	void testImageAtomicExchange2DI()
 	{
-		testBegin( "testImageAtomicMax2DRectUU" );
+		testBegin( "testImageAtomicExchange2DI" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicMax2DRectUU = true;
+			config.requiresImageAtomicExchange2DI = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -3027,14 +3027,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicMax2DArrayFU()
+	void testImageAtomicExchange2DRectI()
 	{
-		testBegin( "testImageAtomicMax2DArrayFU" );
+		testBegin( "testImageAtomicExchange2DRectI" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicMax2DArrayFU = true;
+			config.requiresImageAtomicExchange2DRectI = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -3042,14 +3042,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicMax2DArrayIU()
+	void testImageAtomicExchange2DArrayI()
 	{
-		testBegin( "testImageAtomicMax2DArrayIU" );
+		testBegin( "testImageAtomicExchange2DArrayI" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicMax2DArrayIU = true;
+			config.requiresImageAtomicExchange2DArrayI = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -3057,14 +3057,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicMax2DArrayUU()
+	void testImageAtomicExchange3DI()
 	{
-		testBegin( "testImageAtomicMax2DArrayUU" );
+		testBegin( "testImageAtomicExchange3DI" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicMax2DArrayUU = true;
+			config.requiresImageAtomicExchange3DI = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -3072,14 +3072,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicMax3DFU()
+	void testImageAtomicExchangeCubeI()
 	{
-		testBegin( "testImageAtomicMax3DFU" );
+		testBegin( "testImageAtomicExchangeCubeI" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicMax3DFU = true;
+			config.requiresImageAtomicExchangeCubeI = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -3087,14 +3087,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicMax3DIU()
+	void testImageAtomicExchangeCubeArrayI()
 	{
-		testBegin( "testImageAtomicMax3DIU" );
+		testBegin( "testImageAtomicExchangeCubeArrayI" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicMax3DIU = true;
+			config.requiresImageAtomicExchangeCubeArrayI = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -3102,14 +3102,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicMax3DUU()
+	void testImageAtomicExchange2DMSI()
 	{
-		testBegin( "testImageAtomicMax3DUU" );
+		testBegin( "testImageAtomicExchange2DMSI" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicMax3DUU = true;
+			config.requiresImageAtomicExchange2DMSI = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -3117,14 +3117,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicMaxCubeFU()
+	void testImageAtomicExchange2DMSArrayI()
 	{
-		testBegin( "testImageAtomicMaxCubeFU" );
+		testBegin( "testImageAtomicExchange2DMSArrayI" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicMaxCubeFU = true;
+			config.requiresImageAtomicExchange2DMSArrayI = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -3132,14 +3132,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicMaxCubeIU()
+	void testImageAtomicCompSwapBufferU()
 	{
-		testBegin( "testImageAtomicMaxCubeIU" );
+		testBegin( "testImageAtomicCompSwapBufferU" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicMaxCubeIU = true;
+			config.requiresImageAtomicCompSwapBufferU = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -3147,14 +3147,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicMaxCubeUU()
+	void testImageAtomicCompSwap1DU()
 	{
-		testBegin( "testImageAtomicMaxCubeUU" );
+		testBegin( "testImageAtomicCompSwap1DU" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicMaxCubeUU = true;
+			config.requiresImageAtomicCompSwap1DU = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -3162,14 +3162,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicMaxCubeArrayFU()
+	void testImageAtomicCompSwap1DArrayU()
 	{
-		testBegin( "testImageAtomicMaxCubeArrayFU" );
+		testBegin( "testImageAtomicCompSwap1DArrayU" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicMaxCubeArrayFU = true;
+			config.requiresImageAtomicCompSwap1DArrayU = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -3177,14 +3177,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicMaxCubeArrayIU()
+	void testImageAtomicCompSwap2DU()
 	{
-		testBegin( "testImageAtomicMaxCubeArrayIU" );
+		testBegin( "testImageAtomicCompSwap2DU" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicMaxCubeArrayIU = true;
+			config.requiresImageAtomicCompSwap2DU = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -3192,14 +3192,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicMaxCubeArrayUU()
+	void testImageAtomicCompSwap2DRectU()
 	{
-		testBegin( "testImageAtomicMaxCubeArrayUU" );
+		testBegin( "testImageAtomicCompSwap2DRectU" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicMaxCubeArrayUU = true;
+			config.requiresImageAtomicCompSwap2DRectU = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -3207,14 +3207,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicMax2DMSFU()
+	void testImageAtomicCompSwap2DArrayU()
 	{
-		testBegin( "testImageAtomicMax2DMSFU" );
+		testBegin( "testImageAtomicCompSwap2DArrayU" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicMax2DMSFU = true;
+			config.requiresImageAtomicCompSwap2DArrayU = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -3222,14 +3222,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicMax2DMSIU()
+	void testImageAtomicCompSwap3DU()
 	{
-		testBegin( "testImageAtomicMax2DMSIU" );
+		testBegin( "testImageAtomicCompSwap3DU" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicMax2DMSIU = true;
+			config.requiresImageAtomicCompSwap3DU = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -3237,14 +3237,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicMax2DMSUU()
+	void testImageAtomicCompSwapCubeU()
 	{
-		testBegin( "testImageAtomicMax2DMSUU" );
+		testBegin( "testImageAtomicCompSwapCubeU" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicMax2DMSUU = true;
+			config.requiresImageAtomicCompSwapCubeU = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -3252,14 +3252,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicMax2DMSArrayFU()
+	void testImageAtomicCompSwapCubeArrayU()
 	{
-		testBegin( "testImageAtomicMax2DMSArrayFU" );
+		testBegin( "testImageAtomicCompSwapCubeArrayU" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicMax2DMSArrayFU = true;
+			config.requiresImageAtomicCompSwapCubeArrayU = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -3267,14 +3267,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicMax2DMSArrayIU()
+	void testImageAtomicCompSwap2DMSU()
 	{
-		testBegin( "testImageAtomicMax2DMSArrayIU" );
+		testBegin( "testImageAtomicCompSwap2DMSU" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicMax2DMSArrayIU = true;
+			config.requiresImageAtomicCompSwap2DMSU = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -3282,14 +3282,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicMax2DMSArrayUU()
+	void testImageAtomicCompSwap2DMSArrayU()
 	{
-		testBegin( "testImageAtomicMax2DMSArrayUU" );
+		testBegin( "testImageAtomicCompSwap2DMSArrayU" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicMax2DMSArrayUU = true;
+			config.requiresImageAtomicCompSwap2DMSArrayU = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -3297,14 +3297,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicMaxBufferFI()
+	void testImageAtomicCompSwapBufferI()
 	{
-		testBegin( "testImageAtomicMaxBufferFI" );
+		testBegin( "testImageAtomicCompSwapBufferI" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicMaxBufferFI = true;
+			config.requiresImageAtomicCompSwapBufferI = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -3312,14 +3312,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicMaxBufferII()
+	void testImageAtomicCompSwap1DI()
 	{
-		testBegin( "testImageAtomicMaxBufferII" );
+		testBegin( "testImageAtomicCompSwap1DI" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicMaxBufferII = true;
+			config.requiresImageAtomicCompSwap1DI = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -3327,14 +3327,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicMaxBufferUI()
+	void testImageAtomicCompSwap1DArrayI()
 	{
-		testBegin( "testImageAtomicMaxBufferUI" );
+		testBegin( "testImageAtomicCompSwap1DArrayI" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicMaxBufferUI = true;
+			config.requiresImageAtomicCompSwap1DArrayI = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -3342,14 +3342,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicMax1DFI()
+	void testImageAtomicCompSwap2DI()
 	{
-		testBegin( "testImageAtomicMax1DFI" );
+		testBegin( "testImageAtomicCompSwap2DI" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicMax1DFI = true;
+			config.requiresImageAtomicCompSwap2DI = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -3357,14 +3357,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicMax1DII()
+	void testImageAtomicCompSwap2DRectI()
 	{
-		testBegin( "testImageAtomicMax1DII" );
+		testBegin( "testImageAtomicCompSwap2DRectI" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicMax1DII = true;
+			config.requiresImageAtomicCompSwap2DRectI = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -3372,14 +3372,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicMax1DUI()
+	void testImageAtomicCompSwap2DArrayI()
 	{
-		testBegin( "testImageAtomicMax1DUI" );
+		testBegin( "testImageAtomicCompSwap2DArrayI" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicMax1DUI = true;
+			config.requiresImageAtomicCompSwap2DArrayI = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -3387,14 +3387,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicMax1DArrayFI()
+	void testImageAtomicCompSwap3DI()
 	{
-		testBegin( "testImageAtomicMax1DArrayFI" );
+		testBegin( "testImageAtomicCompSwap3DI" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicMax1DArrayFI = true;
+			config.requiresImageAtomicCompSwap3DI = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -3402,14 +3402,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicMax1DArrayII()
+	void testImageAtomicCompSwapCubeI()
 	{
-		testBegin( "testImageAtomicMax1DArrayII" );
+		testBegin( "testImageAtomicCompSwapCubeI" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicMax1DArrayII = true;
+			config.requiresImageAtomicCompSwapCubeI = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -3417,14 +3417,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicMax1DArrayUI()
+	void testImageAtomicCompSwapCubeArrayI()
 	{
-		testBegin( "testImageAtomicMax1DArrayUI" );
+		testBegin( "testImageAtomicCompSwapCubeArrayI" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicMax1DArrayUI = true;
+			config.requiresImageAtomicCompSwapCubeArrayI = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -3432,14 +3432,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicMax2DFI()
+	void testImageAtomicCompSwap2DMSI()
 	{
-		testBegin( "testImageAtomicMax2DFI" );
+		testBegin( "testImageAtomicCompSwap2DMSI" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicMax2DFI = true;
+			config.requiresImageAtomicCompSwap2DMSI = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -3447,5294 +3447,14 @@ namespace
 		testEnd();
 	}
 
-	void testImageAtomicMax2DRectFI()
+	void testImageAtomicCompSwap2DMSArrayI()
 	{
-		testBegin( "testImageAtomicMax2DRectFI" );
+		testBegin( "testImageAtomicCompSwap2DMSArrayI" );
 		using namespace sdw;
 		{
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicMax2DRectFI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicMax2DII()
-	{
-		testBegin( "testImageAtomicMax2DII" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicMax2DII = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicMax2DRectII()
-	{
-		testBegin( "testImageAtomicMax2DRectII" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicMax2DRectII = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicMax2DUI()
-	{
-		testBegin( "testImageAtomicMax2DUI" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicMax2DUI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicMax2DRectUI()
-	{
-		testBegin( "testImageAtomicMax2DRectUI" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicMax2DRectUI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicMax2DArrayFI()
-	{
-		testBegin( "testImageAtomicMax2DArrayFI" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicMax2DArrayFI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicMax2DArrayII()
-	{
-		testBegin( "testImageAtomicMax2DArrayII" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicMax2DArrayII = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicMax2DArrayUI()
-	{
-		testBegin( "testImageAtomicMax2DArrayUI" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicMax2DArrayUI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicMax3DFI()
-	{
-		testBegin( "testImageAtomicMax3DFI" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicMax3DFI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicMax3DII()
-	{
-		testBegin( "testImageAtomicMax3DII" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicMax3DII = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicMax3DUI()
-	{
-		testBegin( "testImageAtomicMax3DUI" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicMax3DUI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicMaxCubeFI()
-	{
-		testBegin( "testImageAtomicMaxCubeFI" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicMaxCubeFI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicMaxCubeII()
-	{
-		testBegin( "testImageAtomicMaxCubeII" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicMaxCubeII = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicMaxCubeUI()
-	{
-		testBegin( "testImageAtomicMaxCubeUI" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicMaxCubeUI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicMaxCubeArrayFI()
-	{
-		testBegin( "testImageAtomicMaxCubeArrayFI" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicMaxCubeArrayFI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicMaxCubeArrayII()
-	{
-		testBegin( "testImageAtomicMaxCubeArrayII" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicMaxCubeArrayII = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicMaxCubeArrayUI()
-	{
-		testBegin( "testImageAtomicMaxCubeArrayUI" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicMaxCubeArrayUI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicMax2DMSFI()
-	{
-		testBegin( "testImageAtomicMax2DMSFI" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicMax2DMSFI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicMax2DMSII()
-	{
-		testBegin( "testImageAtomicMax2DMSII" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicMax2DMSII = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicMax2DMSUI()
-	{
-		testBegin( "testImageAtomicMax2DMSUI" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicMax2DMSUI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicMax2DMSArrayFI()
-	{
-		testBegin( "testImageAtomicMax2DMSArrayFI" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicMax2DMSArrayFI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicMax2DMSArrayII()
-	{
-		testBegin( "testImageAtomicMax2DMSArrayII" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicMax2DMSArrayII = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicMax2DMSArrayUI()
-	{
-		testBegin( "testImageAtomicMax2DMSArrayUI" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicMax2DMSArrayUI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicAndBufferFU()
-	{
-		testBegin( "testImageAtomicAndBufferFU" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicAndBufferFU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicAndBufferIU()
-	{
-		testBegin( "testImageAtomicAndBufferIU" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicAndBufferIU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicAndBufferUU()
-	{
-		testBegin( "testImageAtomicAndBufferUU" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicAndBufferUU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicAnd1DFU()
-	{
-		testBegin( "testImageAtomicAnd1DFU" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicAnd1DFU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicAnd1DIU()
-	{
-		testBegin( "testImageAtomicAnd1DIU" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicAnd1DIU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicAnd1DUU()
-	{
-		testBegin( "testImageAtomicAnd1DUU" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicAnd1DUU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicAnd1DArrayFU()
-	{
-		testBegin( "testImageAtomicAnd1DArrayFU" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicAnd1DArrayFU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicAnd1DArrayIU()
-	{
-		testBegin( "testImageAtomicAnd1DArrayIU" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicAnd1DArrayIU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicAnd1DArrayUU()
-	{
-		testBegin( "testImageAtomicAnd1DArrayUU" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicAnd1DArrayUU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicAnd2DFU()
-	{
-		testBegin( "testImageAtomicAnd2DFU" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicAnd2DFU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicAnd2DRectFU()
-	{
-		testBegin( "testImageAtomicAnd2DRectFU" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicAnd2DRectFU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicAnd2DIU()
-	{
-		testBegin( "testImageAtomicAnd2DIU" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicAnd2DIU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicAnd2DRectIU()
-	{
-		testBegin( "testImageAtomicAnd2DRectIU" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicAnd2DRectIU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicAnd2DUU()
-	{
-		testBegin( "testImageAtomicAnd2DUU" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicAnd2DUU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicAnd2DRectUU()
-	{
-		testBegin( "testImageAtomicAnd2DRectUU" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicAnd2DRectUU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicAnd2DArrayFU()
-	{
-		testBegin( "testImageAtomicAnd2DArrayFU" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicAnd2DArrayFU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicAnd2DArrayIU()
-	{
-		testBegin( "testImageAtomicAnd2DArrayIU" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicAnd2DArrayIU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicAnd2DArrayUU()
-	{
-		testBegin( "testImageAtomicAnd2DArrayUU" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicAnd2DArrayUU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicAnd3DFU()
-	{
-		testBegin( "testImageAtomicAnd3DFU" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicAnd3DFU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicAnd3DIU()
-	{
-		testBegin( "testImageAtomicAnd3DIU" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicAnd3DIU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicAnd3DUU()
-	{
-		testBegin( "testImageAtomicAnd3DUU" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicAnd3DUU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicAndCubeFU()
-	{
-		testBegin( "testImageAtomicAndCubeFU" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicAndCubeFU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicAndCubeIU()
-	{
-		testBegin( "testImageAtomicAndCubeIU" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicAndCubeIU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicAndCubeUU()
-	{
-		testBegin( "testImageAtomicAndCubeUU" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicAndCubeUU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicAndCubeArrayFU()
-	{
-		testBegin( "testImageAtomicAndCubeArrayFU" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicAndCubeArrayFU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicAndCubeArrayIU()
-	{
-		testBegin( "testImageAtomicAndCubeArrayIU" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicAndCubeArrayIU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicAndCubeArrayUU()
-	{
-		testBegin( "testImageAtomicAndCubeArrayUU" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicAndCubeArrayUU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicAnd2DMSFU()
-	{
-		testBegin( "testImageAtomicAnd2DMSFU" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicAnd2DMSFU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicAnd2DMSIU()
-	{
-		testBegin( "testImageAtomicAnd2DMSIU" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicAnd2DMSIU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicAnd2DMSUU()
-	{
-		testBegin( "testImageAtomicAnd2DMSUU" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicAnd2DMSUU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicAnd2DMSArrayFU()
-	{
-		testBegin( "testImageAtomicAnd2DMSArrayFU" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicAnd2DMSArrayFU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicAnd2DMSArrayIU()
-	{
-		testBegin( "testImageAtomicAnd2DMSArrayIU" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicAnd2DMSArrayIU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicAnd2DMSArrayUU()
-	{
-		testBegin( "testImageAtomicAnd2DMSArrayUU" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicAnd2DMSArrayUU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicAndBufferFI()
-	{
-		testBegin( "testImageAtomicAndBufferFI" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicAndBufferFI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicAndBufferII()
-	{
-		testBegin( "testImageAtomicAndBufferII" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicAndBufferII = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicAndBufferUI()
-	{
-		testBegin( "testImageAtomicAndBufferUI" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicAndBufferUI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicAnd1DFI()
-	{
-		testBegin( "testImageAtomicAnd1DFI" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicAnd1DFI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicAnd1DII()
-	{
-		testBegin( "testImageAtomicAnd1DII" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicAnd1DII = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicAnd1DUI()
-	{
-		testBegin( "testImageAtomicAnd1DUI" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicAnd1DUI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicAnd1DArrayFI()
-	{
-		testBegin( "testImageAtomicAnd1DArrayFI" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicAnd1DArrayFI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicAnd1DArrayII()
-	{
-		testBegin( "testImageAtomicAnd1DArrayII" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicAnd1DArrayII = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicAnd1DArrayUI()
-	{
-		testBegin( "testImageAtomicAnd1DArrayUI" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicAnd1DArrayUI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicAnd2DFI()
-	{
-		testBegin( "testImageAtomicAnd2DFI" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicAnd2DFI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicAnd2DRectFI()
-	{
-		testBegin( "testImageAtomicAnd2DRectFI" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicAnd2DRectFI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicAnd2DII()
-	{
-		testBegin( "testImageAtomicAnd2DII" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicAnd2DII = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicAnd2DRectII()
-	{
-		testBegin( "testImageAtomicAnd2DRectII" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicAnd2DRectII = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicAnd2DUI()
-	{
-		testBegin( "testImageAtomicAnd2DUI" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicAnd2DUI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicAnd2DRectUI()
-	{
-		testBegin( "testImageAtomicAnd2DRectUI" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicAnd2DRectUI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicAnd2DArrayFI()
-	{
-		testBegin( "testImageAtomicAnd2DArrayFI" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicAnd2DArrayFI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicAnd2DArrayII()
-	{
-		testBegin( "testImageAtomicAnd2DArrayII" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicAnd2DArrayII = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicAnd2DArrayUI()
-	{
-		testBegin( "testImageAtomicAnd2DArrayUI" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicAnd2DArrayUI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicAnd3DFI()
-	{
-		testBegin( "testImageAtomicAnd3DFI" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicAnd3DFI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicAnd3DII()
-	{
-		testBegin( "testImageAtomicAnd3DII" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicAnd3DII = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicAnd3DUI()
-	{
-		testBegin( "testImageAtomicAnd3DUI" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicAnd3DUI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicAndCubeFI()
-	{
-		testBegin( "testImageAtomicAndCubeFI" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicAndCubeFI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicAndCubeII()
-	{
-		testBegin( "testImageAtomicAndCubeII" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicAndCubeII = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicAndCubeUI()
-	{
-		testBegin( "testImageAtomicAndCubeUI" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicAndCubeUI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicAndCubeArrayFI()
-	{
-		testBegin( "testImageAtomicAndCubeArrayFI" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicAndCubeArrayFI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicAndCubeArrayII()
-	{
-		testBegin( "testImageAtomicAndCubeArrayII" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicAndCubeArrayII = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicAndCubeArrayUI()
-	{
-		testBegin( "testImageAtomicAndCubeArrayUI" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicAndCubeArrayUI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicAnd2DMSFI()
-	{
-		testBegin( "testImageAtomicAnd2DMSFI" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicAnd2DMSFI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicAnd2DMSII()
-	{
-		testBegin( "testImageAtomicAnd2DMSII" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicAnd2DMSII = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicAnd2DMSUI()
-	{
-		testBegin( "testImageAtomicAnd2DMSUI" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicAnd2DMSUI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicAnd2DMSArrayFI()
-	{
-		testBegin( "testImageAtomicAnd2DMSArrayFI" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicAnd2DMSArrayFI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicAnd2DMSArrayII()
-	{
-		testBegin( "testImageAtomicAnd2DMSArrayII" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicAnd2DMSArrayII = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicAnd2DMSArrayUI()
-	{
-		testBegin( "testImageAtomicAnd2DMSArrayUI" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicAnd2DMSArrayUI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicOrBufferFU()
-	{
-		testBegin( "testImageAtomicOrBufferFU" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicOrBufferFU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicOrBufferIU()
-	{
-		testBegin( "testImageAtomicOrBufferIU" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicOrBufferIU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicOrBufferUU()
-	{
-		testBegin( "testImageAtomicOrBufferUU" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicOrBufferUU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicOr1DFU()
-	{
-		testBegin( "testImageAtomicOr1DFU" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicOr1DFU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicOr1DIU()
-	{
-		testBegin( "testImageAtomicOr1DIU" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicOr1DIU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicOr1DUU()
-	{
-		testBegin( "testImageAtomicOr1DUU" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicOr1DUU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicOr1DArrayFU()
-	{
-		testBegin( "testImageAtomicOr1DArrayFU" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicOr1DArrayFU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicOr1DArrayIU()
-	{
-		testBegin( "testImageAtomicOr1DArrayIU" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicOr1DArrayIU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicOr1DArrayUU()
-	{
-		testBegin( "testImageAtomicOr1DArrayUU" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicOr1DArrayUU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicOr2DFU()
-	{
-		testBegin( "testImageAtomicOr2DFU" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicOr2DFU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicOr2DRectFU()
-	{
-		testBegin( "testImageAtomicOr2DRectFU" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicOr2DRectFU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicOr2DIU()
-	{
-		testBegin( "testImageAtomicOr2DIU" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicOr2DIU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicOr2DRectIU()
-	{
-		testBegin( "testImageAtomicOr2DRectIU" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicOr2DRectIU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicOr2DUU()
-	{
-		testBegin( "testImageAtomicOr2DUU" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicOr2DUU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicOr2DRectUU()
-	{
-		testBegin( "testImageAtomicOr2DRectUU" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicOr2DRectUU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicOr2DArrayFU()
-	{
-		testBegin( "testImageAtomicOr2DArrayFU" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicOr2DArrayFU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicOr2DArrayIU()
-	{
-		testBegin( "testImageAtomicOr2DArrayIU" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicOr2DArrayIU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicOr2DArrayUU()
-	{
-		testBegin( "testImageAtomicOr2DArrayUU" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicOr2DArrayUU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicOr3DFU()
-	{
-		testBegin( "testImageAtomicOr3DFU" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicOr3DFU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicOr3DIU()
-	{
-		testBegin( "testImageAtomicOr3DIU" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicOr3DIU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicOr3DUU()
-	{
-		testBegin( "testImageAtomicOr3DUU" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicOr3DUU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicOrCubeFU()
-	{
-		testBegin( "testImageAtomicOrCubeFU" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicOrCubeFU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicOrCubeIU()
-	{
-		testBegin( "testImageAtomicOrCubeIU" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicOrCubeIU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicOrCubeUU()
-	{
-		testBegin( "testImageAtomicOrCubeUU" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicOrCubeUU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicOrCubeArrayFU()
-	{
-		testBegin( "testImageAtomicOrCubeArrayFU" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicOrCubeArrayFU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicOrCubeArrayIU()
-	{
-		testBegin( "testImageAtomicOrCubeArrayIU" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicOrCubeArrayIU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicOrCubeArrayUU()
-	{
-		testBegin( "testImageAtomicOrCubeArrayUU" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicOrCubeArrayUU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicOr2DMSFU()
-	{
-		testBegin( "testImageAtomicOr2DMSFU" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicOr2DMSFU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicOr2DMSIU()
-	{
-		testBegin( "testImageAtomicOr2DMSIU" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicOr2DMSIU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicOr2DMSUU()
-	{
-		testBegin( "testImageAtomicOr2DMSUU" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicOr2DMSUU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicOr2DMSArrayFU()
-	{
-		testBegin( "testImageAtomicOr2DMSArrayFU" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicOr2DMSArrayFU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicOr2DMSArrayIU()
-	{
-		testBegin( "testImageAtomicOr2DMSArrayIU" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicOr2DMSArrayIU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicOr2DMSArrayUU()
-	{
-		testBegin( "testImageAtomicOr2DMSArrayUU" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicOr2DMSArrayUU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicOrBufferFI()
-	{
-		testBegin( "testImageAtomicOrBufferFI" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicOrBufferFI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicOrBufferII()
-	{
-		testBegin( "testImageAtomicOrBufferII" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicOrBufferII = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicOrBufferUI()
-	{
-		testBegin( "testImageAtomicOrBufferUI" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicOrBufferUI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicOr1DFI()
-	{
-		testBegin( "testImageAtomicOr1DFI" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicOr1DFI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicOr1DII()
-	{
-		testBegin( "testImageAtomicOr1DII" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicOr1DII = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicOr1DUI()
-	{
-		testBegin( "testImageAtomicOr1DUI" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicOr1DUI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicOr1DArrayFI()
-	{
-		testBegin( "testImageAtomicOr1DArrayFI" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicOr1DArrayFI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicOr1DArrayII()
-	{
-		testBegin( "testImageAtomicOr1DArrayII" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicOr1DArrayII = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicOr1DArrayUI()
-	{
-		testBegin( "testImageAtomicOr1DArrayUI" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicOr1DArrayUI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicOr2DFI()
-	{
-		testBegin( "testImageAtomicOr2DFI" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicOr2DFI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicOr2DRectFI()
-	{
-		testBegin( "testImageAtomicOr2DRectFI" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicOr2DRectFI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicOr2DII()
-	{
-		testBegin( "testImageAtomicOr2DII" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicOr2DII = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicOr2DRectII()
-	{
-		testBegin( "testImageAtomicOr2DRectII" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicOr2DRectII = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicOr2DUI()
-	{
-		testBegin( "testImageAtomicOr2DUI" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicOr2DUI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicOr2DRectUI()
-	{
-		testBegin( "testImageAtomicOr2DRectUI" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicOr2DRectUI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicOr2DArrayFI()
-	{
-		testBegin( "testImageAtomicOr2DArrayFI" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicOr2DArrayFI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicOr2DArrayII()
-	{
-		testBegin( "testImageAtomicOr2DArrayII" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicOr2DArrayII = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicOr2DArrayUI()
-	{
-		testBegin( "testImageAtomicOr2DArrayUI" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicOr2DArrayUI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicOr3DFI()
-	{
-		testBegin( "testImageAtomicOr3DFI" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicOr3DFI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicOr3DII()
-	{
-		testBegin( "testImageAtomicOr3DII" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicOr3DII = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicOr3DUI()
-	{
-		testBegin( "testImageAtomicOr3DUI" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicOr3DUI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicOrCubeFI()
-	{
-		testBegin( "testImageAtomicOrCubeFI" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicOrCubeFI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicOrCubeII()
-	{
-		testBegin( "testImageAtomicOrCubeII" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicOrCubeII = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicOrCubeUI()
-	{
-		testBegin( "testImageAtomicOrCubeUI" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicOrCubeUI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicOrCubeArrayFI()
-	{
-		testBegin( "testImageAtomicOrCubeArrayFI" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicOrCubeArrayFI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicOrCubeArrayII()
-	{
-		testBegin( "testImageAtomicOrCubeArrayII" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicOrCubeArrayII = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicOrCubeArrayUI()
-	{
-		testBegin( "testImageAtomicOrCubeArrayUI" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicOrCubeArrayUI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicOr2DMSFI()
-	{
-		testBegin( "testImageAtomicOr2DMSFI" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicOr2DMSFI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicOr2DMSII()
-	{
-		testBegin( "testImageAtomicOr2DMSII" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicOr2DMSII = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicOr2DMSUI()
-	{
-		testBegin( "testImageAtomicOr2DMSUI" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicOr2DMSUI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicOr2DMSArrayFI()
-	{
-		testBegin( "testImageAtomicOr2DMSArrayFI" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicOr2DMSArrayFI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicOr2DMSArrayII()
-	{
-		testBegin( "testImageAtomicOr2DMSArrayII" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicOr2DMSArrayII = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicOr2DMSArrayUI()
-	{
-		testBegin( "testImageAtomicOr2DMSArrayUI" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicOr2DMSArrayUI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicXorBufferFU()
-	{
-		testBegin( "testImageAtomicXorBufferFU" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicXorBufferFU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicXorBufferIU()
-	{
-		testBegin( "testImageAtomicXorBufferIU" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicXorBufferIU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicXorBufferUU()
-	{
-		testBegin( "testImageAtomicXorBufferUU" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicXorBufferUU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicXor1DFU()
-	{
-		testBegin( "testImageAtomicXor1DFU" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicXor1DFU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicXor1DIU()
-	{
-		testBegin( "testImageAtomicXor1DIU" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicXor1DIU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicXor1DUU()
-	{
-		testBegin( "testImageAtomicXor1DUU" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicXor1DUU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicXor1DArrayFU()
-	{
-		testBegin( "testImageAtomicXor1DArrayFU" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicXor1DArrayFU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicXor1DArrayIU()
-	{
-		testBegin( "testImageAtomicXor1DArrayIU" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicXor1DArrayIU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicXor1DArrayUU()
-	{
-		testBegin( "testImageAtomicXor1DArrayUU" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicXor1DArrayUU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicXor2DFU()
-	{
-		testBegin( "testImageAtomicXor2DFU" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicXor2DFU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicXor2DRectFU()
-	{
-		testBegin( "testImageAtomicXor2DRectFU" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicXor2DRectFU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicXor2DIU()
-	{
-		testBegin( "testImageAtomicXor2DIU" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicXor2DIU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicXor2DRectIU()
-	{
-		testBegin( "testImageAtomicXor2DRectIU" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicXor2DRectIU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicXor2DUU()
-	{
-		testBegin( "testImageAtomicXor2DUU" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicXor2DUU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicXor2DRectUU()
-	{
-		testBegin( "testImageAtomicXor2DRectUU" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicXor2DRectUU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicXor2DArrayFU()
-	{
-		testBegin( "testImageAtomicXor2DArrayFU" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicXor2DArrayFU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicXor2DArrayIU()
-	{
-		testBegin( "testImageAtomicXor2DArrayIU" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicXor2DArrayIU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicXor2DArrayUU()
-	{
-		testBegin( "testImageAtomicXor2DArrayUU" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicXor2DArrayUU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicXor3DFU()
-	{
-		testBegin( "testImageAtomicXor3DFU" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicXor3DFU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicXor3DIU()
-	{
-		testBegin( "testImageAtomicXor3DIU" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicXor3DIU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicXor3DUU()
-	{
-		testBegin( "testImageAtomicXor3DUU" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicXor3DUU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicXorCubeFU()
-	{
-		testBegin( "testImageAtomicXorCubeFU" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicXorCubeFU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicXorCubeIU()
-	{
-		testBegin( "testImageAtomicXorCubeIU" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicXorCubeIU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicXorCubeUU()
-	{
-		testBegin( "testImageAtomicXorCubeUU" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicXorCubeUU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicXorCubeArrayFU()
-	{
-		testBegin( "testImageAtomicXorCubeArrayFU" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicXorCubeArrayFU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicXorCubeArrayIU()
-	{
-		testBegin( "testImageAtomicXorCubeArrayIU" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicXorCubeArrayIU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicXorCubeArrayUU()
-	{
-		testBegin( "testImageAtomicXorCubeArrayUU" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicXorCubeArrayUU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicXor2DMSFU()
-	{
-		testBegin( "testImageAtomicXor2DMSFU" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicXor2DMSFU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicXor2DMSIU()
-	{
-		testBegin( "testImageAtomicXor2DMSIU" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicXor2DMSIU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicXor2DMSUU()
-	{
-		testBegin( "testImageAtomicXor2DMSUU" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicXor2DMSUU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicXor2DMSArrayFU()
-	{
-		testBegin( "testImageAtomicXor2DMSArrayFU" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicXor2DMSArrayFU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicXor2DMSArrayIU()
-	{
-		testBegin( "testImageAtomicXor2DMSArrayIU" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicXor2DMSArrayIU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicXor2DMSArrayUU()
-	{
-		testBegin( "testImageAtomicXor2DMSArrayUU" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicXor2DMSArrayUU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicXorBufferFI()
-	{
-		testBegin( "testImageAtomicXorBufferFI" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicXorBufferFI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicXorBufferII()
-	{
-		testBegin( "testImageAtomicXorBufferII" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicXorBufferII = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicXorBufferUI()
-	{
-		testBegin( "testImageAtomicXorBufferUI" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicXorBufferUI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicXor1DFI()
-	{
-		testBegin( "testImageAtomicXor1DFI" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicXor1DFI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicXor1DII()
-	{
-		testBegin( "testImageAtomicXor1DII" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicXor1DII = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicXor1DUI()
-	{
-		testBegin( "testImageAtomicXor1DUI" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicXor1DUI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicXor1DArrayFI()
-	{
-		testBegin( "testImageAtomicXor1DArrayFI" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicXor1DArrayFI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicXor1DArrayII()
-	{
-		testBegin( "testImageAtomicXor1DArrayII" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicXor1DArrayII = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicXor1DArrayUI()
-	{
-		testBegin( "testImageAtomicXor1DArrayUI" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicXor1DArrayUI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicXor2DFI()
-	{
-		testBegin( "testImageAtomicXor2DFI" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicXor2DFI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicXor2DRectFI()
-	{
-		testBegin( "testImageAtomicXor2DRectFI" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicXor2DRectFI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicXor2DII()
-	{
-		testBegin( "testImageAtomicXor2DII" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicXor2DII = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicXor2DRectII()
-	{
-		testBegin( "testImageAtomicXor2DRectII" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicXor2DRectII = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicXor2DUI()
-	{
-		testBegin( "testImageAtomicXor2DUI" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicXor2DUI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicXor2DRectUI()
-	{
-		testBegin( "testImageAtomicXor2DRectUI" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicXor2DRectUI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicXor2DArrayFI()
-	{
-		testBegin( "testImageAtomicXor2DArrayFI" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicXor2DArrayFI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicXor2DArrayII()
-	{
-		testBegin( "testImageAtomicXor2DArrayII" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicXor2DArrayII = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicXor2DArrayUI()
-	{
-		testBegin( "testImageAtomicXor2DArrayUI" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicXor2DArrayUI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicXor3DFI()
-	{
-		testBegin( "testImageAtomicXor3DFI" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicXor3DFI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicXor3DII()
-	{
-		testBegin( "testImageAtomicXor3DII" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicXor3DII = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicXor3DUI()
-	{
-		testBegin( "testImageAtomicXor3DUI" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicXor3DUI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicXorCubeFI()
-	{
-		testBegin( "testImageAtomicXorCubeFI" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicXorCubeFI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicXorCubeII()
-	{
-		testBegin( "testImageAtomicXorCubeII" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicXorCubeII = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicXorCubeUI()
-	{
-		testBegin( "testImageAtomicXorCubeUI" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicXorCubeUI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicXorCubeArrayFI()
-	{
-		testBegin( "testImageAtomicXorCubeArrayFI" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicXorCubeArrayFI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicXorCubeArrayII()
-	{
-		testBegin( "testImageAtomicXorCubeArrayII" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicXorCubeArrayII = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicXorCubeArrayUI()
-	{
-		testBegin( "testImageAtomicXorCubeArrayUI" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicXorCubeArrayUI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicXor2DMSFI()
-	{
-		testBegin( "testImageAtomicXor2DMSFI" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicXor2DMSFI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicXor2DMSII()
-	{
-		testBegin( "testImageAtomicXor2DMSII" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicXor2DMSII = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicXor2DMSUI()
-	{
-		testBegin( "testImageAtomicXor2DMSUI" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicXor2DMSUI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicXor2DMSArrayFI()
-	{
-		testBegin( "testImageAtomicXor2DMSArrayFI" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicXor2DMSArrayFI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicXor2DMSArrayII()
-	{
-		testBegin( "testImageAtomicXor2DMSArrayII" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicXor2DMSArrayII = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicXor2DMSArrayUI()
-	{
-		testBegin( "testImageAtomicXor2DMSArrayUI" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicXor2DMSArrayUI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicExchangeBufferFU()
-	{
-		testBegin( "testImageAtomicExchangeBufferFU" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicExchangeBufferFU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicExchangeBufferIU()
-	{
-		testBegin( "testImageAtomicExchangeBufferIU" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicExchangeBufferIU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicExchangeBufferUU()
-	{
-		testBegin( "testImageAtomicExchangeBufferUU" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicExchangeBufferUU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicExchange1DFU()
-	{
-		testBegin( "testImageAtomicExchange1DFU" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicExchange1DFU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicExchange1DIU()
-	{
-		testBegin( "testImageAtomicExchange1DIU" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicExchange1DIU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicExchange1DUU()
-	{
-		testBegin( "testImageAtomicExchange1DUU" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicExchange1DUU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicExchange1DArrayFU()
-	{
-		testBegin( "testImageAtomicExchange1DArrayFU" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicExchange1DArrayFU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicExchange1DArrayIU()
-	{
-		testBegin( "testImageAtomicExchange1DArrayIU" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicExchange1DArrayIU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicExchange1DArrayUU()
-	{
-		testBegin( "testImageAtomicExchange1DArrayUU" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicExchange1DArrayUU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicExchange2DFU()
-	{
-		testBegin( "testImageAtomicExchange2DFU" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicExchange2DFU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicExchange2DRectFU()
-	{
-		testBegin( "testImageAtomicExchange2DRectFU" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicExchange2DRectFU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicExchange2DIU()
-	{
-		testBegin( "testImageAtomicExchange2DIU" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicExchange2DIU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicExchange2DRectIU()
-	{
-		testBegin( "testImageAtomicExchange2DRectIU" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicExchange2DRectIU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicExchange2DUU()
-	{
-		testBegin( "testImageAtomicExchange2DUU" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicExchange2DUU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicExchange2DRectUU()
-	{
-		testBegin( "testImageAtomicExchange2DRectUU" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicExchange2DRectUU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicExchange2DArrayFU()
-	{
-		testBegin( "testImageAtomicExchange2DArrayFU" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicExchange2DArrayFU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicExchange2DArrayIU()
-	{
-		testBegin( "testImageAtomicExchange2DArrayIU" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicExchange2DArrayIU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicExchange2DArrayUU()
-	{
-		testBegin( "testImageAtomicExchange2DArrayUU" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicExchange2DArrayUU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicExchange3DFU()
-	{
-		testBegin( "testImageAtomicExchange3DFU" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicExchange3DFU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicExchange3DIU()
-	{
-		testBegin( "testImageAtomicExchange3DIU" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicExchange3DIU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicExchange3DUU()
-	{
-		testBegin( "testImageAtomicExchange3DUU" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicExchange3DUU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicExchangeCubeFU()
-	{
-		testBegin( "testImageAtomicExchangeCubeFU" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicExchangeCubeFU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicExchangeCubeIU()
-	{
-		testBegin( "testImageAtomicExchangeCubeIU" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicExchangeCubeIU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicExchangeCubeUU()
-	{
-		testBegin( "testImageAtomicExchangeCubeUU" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicExchangeCubeUU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicExchangeCubeArrayFU()
-	{
-		testBegin( "testImageAtomicExchangeCubeArrayFU" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicExchangeCubeArrayFU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicExchangeCubeArrayIU()
-	{
-		testBegin( "testImageAtomicExchangeCubeArrayIU" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicExchangeCubeArrayIU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicExchangeCubeArrayUU()
-	{
-		testBegin( "testImageAtomicExchangeCubeArrayUU" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicExchangeCubeArrayUU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicExchange2DMSFU()
-	{
-		testBegin( "testImageAtomicExchange2DMSFU" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicExchange2DMSFU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicExchange2DMSIU()
-	{
-		testBegin( "testImageAtomicExchange2DMSIU" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicExchange2DMSIU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicExchange2DMSUU()
-	{
-		testBegin( "testImageAtomicExchange2DMSUU" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicExchange2DMSUU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicExchange2DMSArrayFU()
-	{
-		testBegin( "testImageAtomicExchange2DMSArrayFU" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicExchange2DMSArrayFU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicExchange2DMSArrayIU()
-	{
-		testBegin( "testImageAtomicExchange2DMSArrayIU" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicExchange2DMSArrayIU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicExchange2DMSArrayUU()
-	{
-		testBegin( "testImageAtomicExchange2DMSArrayUU" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicExchange2DMSArrayUU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicExchangeBufferFI()
-	{
-		testBegin( "testImageAtomicExchangeBufferFI" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicExchangeBufferFI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicExchangeBufferII()
-	{
-		testBegin( "testImageAtomicExchangeBufferII" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicExchangeBufferII = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicExchangeBufferUI()
-	{
-		testBegin( "testImageAtomicExchangeBufferUI" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicExchangeBufferUI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicExchange1DFI()
-	{
-		testBegin( "testImageAtomicExchange1DFI" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicExchange1DFI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicExchange1DII()
-	{
-		testBegin( "testImageAtomicExchange1DII" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicExchange1DII = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicExchange1DUI()
-	{
-		testBegin( "testImageAtomicExchange1DUI" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicExchange1DUI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicExchange1DArrayFI()
-	{
-		testBegin( "testImageAtomicExchange1DArrayFI" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicExchange1DArrayFI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicExchange1DArrayII()
-	{
-		testBegin( "testImageAtomicExchange1DArrayII" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicExchange1DArrayII = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicExchange1DArrayUI()
-	{
-		testBegin( "testImageAtomicExchange1DArrayUI" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicExchange1DArrayUI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicExchange2DFI()
-	{
-		testBegin( "testImageAtomicExchange2DFI" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicExchange2DFI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicExchange2DRectFI()
-	{
-		testBegin( "testImageAtomicExchange2DRectFI" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicExchange2DRectFI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicExchange2DII()
-	{
-		testBegin( "testImageAtomicExchange2DII" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicExchange2DII = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicExchange2DRectII()
-	{
-		testBegin( "testImageAtomicExchange2DRectII" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicExchange2DRectII = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicExchange2DUI()
-	{
-		testBegin( "testImageAtomicExchange2DUI" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicExchange2DUI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicExchange2DRectUI()
-	{
-		testBegin( "testImageAtomicExchange2DRectUI" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicExchange2DRectUI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicExchange2DArrayFI()
-	{
-		testBegin( "testImageAtomicExchange2DArrayFI" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicExchange2DArrayFI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicExchange2DArrayII()
-	{
-		testBegin( "testImageAtomicExchange2DArrayII" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicExchange2DArrayII = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicExchange2DArrayUI()
-	{
-		testBegin( "testImageAtomicExchange2DArrayUI" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicExchange2DArrayUI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicExchange3DFI()
-	{
-		testBegin( "testImageAtomicExchange3DFI" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicExchange3DFI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicExchange3DII()
-	{
-		testBegin( "testImageAtomicExchange3DII" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicExchange3DII = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicExchange3DUI()
-	{
-		testBegin( "testImageAtomicExchange3DUI" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicExchange3DUI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicExchangeCubeFI()
-	{
-		testBegin( "testImageAtomicExchangeCubeFI" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicExchangeCubeFI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicExchangeCubeII()
-	{
-		testBegin( "testImageAtomicExchangeCubeII" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicExchangeCubeII = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicExchangeCubeUI()
-	{
-		testBegin( "testImageAtomicExchangeCubeUI" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicExchangeCubeUI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicExchangeCubeArrayFI()
-	{
-		testBegin( "testImageAtomicExchangeCubeArrayFI" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicExchangeCubeArrayFI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicExchangeCubeArrayII()
-	{
-		testBegin( "testImageAtomicExchangeCubeArrayII" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicExchangeCubeArrayII = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicExchangeCubeArrayUI()
-	{
-		testBegin( "testImageAtomicExchangeCubeArrayUI" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicExchangeCubeArrayUI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicExchange2DMSFI()
-	{
-		testBegin( "testImageAtomicExchange2DMSFI" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicExchange2DMSFI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicExchange2DMSII()
-	{
-		testBegin( "testImageAtomicExchange2DMSII" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicExchange2DMSII = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicExchange2DMSUI()
-	{
-		testBegin( "testImageAtomicExchange2DMSUI" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicExchange2DMSUI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicExchange2DMSArrayFI()
-	{
-		testBegin( "testImageAtomicExchange2DMSArrayFI" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicExchange2DMSArrayFI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicExchange2DMSArrayII()
-	{
-		testBegin( "testImageAtomicExchange2DMSArrayII" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicExchange2DMSArrayII = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicExchange2DMSArrayUI()
-	{
-		testBegin( "testImageAtomicExchange2DMSArrayUI" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicExchange2DMSArrayUI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicCompSwapBufferFU()
-	{
-		testBegin( "testImageAtomicCompSwapBufferFU" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicCompSwapBufferFU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicCompSwapBufferIU()
-	{
-		testBegin( "testImageAtomicCompSwapBufferIU" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicCompSwapBufferIU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicCompSwapBufferUU()
-	{
-		testBegin( "testImageAtomicCompSwapBufferUU" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicCompSwapBufferUU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicCompSwap1DFU()
-	{
-		testBegin( "testImageAtomicCompSwap1DFU" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicCompSwap1DFU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicCompSwap1DIU()
-	{
-		testBegin( "testImageAtomicCompSwap1DIU" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicCompSwap1DIU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicCompSwap1DUU()
-	{
-		testBegin( "testImageAtomicCompSwap1DUU" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicCompSwap1DUU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicCompSwap1DArrayFU()
-	{
-		testBegin( "testImageAtomicCompSwap1DArrayFU" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicCompSwap1DArrayFU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicCompSwap1DArrayIU()
-	{
-		testBegin( "testImageAtomicCompSwap1DArrayIU" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicCompSwap1DArrayIU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicCompSwap1DArrayUU()
-	{
-		testBegin( "testImageAtomicCompSwap1DArrayUU" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicCompSwap1DArrayUU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicCompSwap2DFU()
-	{
-		testBegin( "testImageAtomicCompSwap2DFU" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicCompSwap2DFU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicCompSwap2DRectFU()
-	{
-		testBegin( "testImageAtomicCompSwap2DRectFU" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicCompSwap2DRectFU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicCompSwap2DIU()
-	{
-		testBegin( "testImageAtomicCompSwap2DIU" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicCompSwap2DIU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicCompSwap2DRectIU()
-	{
-		testBegin( "testImageAtomicCompSwap2DRectIU" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicCompSwap2DRectIU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicCompSwap2DUU()
-	{
-		testBegin( "testImageAtomicCompSwap2DUU" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicCompSwap2DUU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicCompSwap2DRectUU()
-	{
-		testBegin( "testImageAtomicCompSwap2DRectUU" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicCompSwap2DRectUU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicCompSwap2DArrayFU()
-	{
-		testBegin( "testImageAtomicCompSwap2DArrayFU" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicCompSwap2DArrayFU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicCompSwap2DArrayIU()
-	{
-		testBegin( "testImageAtomicCompSwap2DArrayIU" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicCompSwap2DArrayIU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicCompSwap2DArrayUU()
-	{
-		testBegin( "testImageAtomicCompSwap2DArrayUU" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicCompSwap2DArrayUU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicCompSwap3DFU()
-	{
-		testBegin( "testImageAtomicCompSwap3DFU" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicCompSwap3DFU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicCompSwap3DIU()
-	{
-		testBegin( "testImageAtomicCompSwap3DIU" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicCompSwap3DIU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicCompSwap3DUU()
-	{
-		testBegin( "testImageAtomicCompSwap3DUU" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicCompSwap3DUU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicCompSwapCubeFU()
-	{
-		testBegin( "testImageAtomicCompSwapCubeFU" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicCompSwapCubeFU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicCompSwapCubeIU()
-	{
-		testBegin( "testImageAtomicCompSwapCubeIU" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicCompSwapCubeIU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicCompSwapCubeUU()
-	{
-		testBegin( "testImageAtomicCompSwapCubeUU" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicCompSwapCubeUU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicCompSwapCubeArrayFU()
-	{
-		testBegin( "testImageAtomicCompSwapCubeArrayFU" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicCompSwapCubeArrayFU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicCompSwapCubeArrayIU()
-	{
-		testBegin( "testImageAtomicCompSwapCubeArrayIU" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicCompSwapCubeArrayIU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicCompSwapCubeArrayUU()
-	{
-		testBegin( "testImageAtomicCompSwapCubeArrayUU" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicCompSwapCubeArrayUU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicCompSwap2DMSFU()
-	{
-		testBegin( "testImageAtomicCompSwap2DMSFU" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicCompSwap2DMSFU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicCompSwap2DMSIU()
-	{
-		testBegin( "testImageAtomicCompSwap2DMSIU" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicCompSwap2DMSIU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicCompSwap2DMSUU()
-	{
-		testBegin( "testImageAtomicCompSwap2DMSUU" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicCompSwap2DMSUU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicCompSwap2DMSArrayFU()
-	{
-		testBegin( "testImageAtomicCompSwap2DMSArrayFU" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicCompSwap2DMSArrayFU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicCompSwap2DMSArrayIU()
-	{
-		testBegin( "testImageAtomicCompSwap2DMSArrayIU" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicCompSwap2DMSArrayIU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicCompSwap2DMSArrayUU()
-	{
-		testBegin( "testImageAtomicCompSwap2DMSArrayUU" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicCompSwap2DMSArrayUU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicCompSwapBufferFI()
-	{
-		testBegin( "testImageAtomicCompSwapBufferFI" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicCompSwapBufferFI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicCompSwapBufferII()
-	{
-		testBegin( "testImageAtomicCompSwapBufferII" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicCompSwapBufferII = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicCompSwapBufferUI()
-	{
-		testBegin( "testImageAtomicCompSwapBufferUI" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicCompSwapBufferUI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicCompSwap1DFI()
-	{
-		testBegin( "testImageAtomicCompSwap1DFI" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicCompSwap1DFI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicCompSwap1DII()
-	{
-		testBegin( "testImageAtomicCompSwap1DII" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicCompSwap1DII = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicCompSwap1DUI()
-	{
-		testBegin( "testImageAtomicCompSwap1DUI" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicCompSwap1DUI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicCompSwap1DArrayFI()
-	{
-		testBegin( "testImageAtomicCompSwap1DArrayFI" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicCompSwap1DArrayFI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicCompSwap1DArrayII()
-	{
-		testBegin( "testImageAtomicCompSwap1DArrayII" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicCompSwap1DArrayII = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicCompSwap1DArrayUI()
-	{
-		testBegin( "testImageAtomicCompSwap1DArrayUI" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicCompSwap1DArrayUI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicCompSwap2DFI()
-	{
-		testBegin( "testImageAtomicCompSwap2DFI" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicCompSwap2DFI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicCompSwap2DRectFI()
-	{
-		testBegin( "testImageAtomicCompSwap2DRectFI" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicCompSwap2DRectFI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicCompSwap2DII()
-	{
-		testBegin( "testImageAtomicCompSwap2DII" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicCompSwap2DII = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicCompSwap2DRectII()
-	{
-		testBegin( "testImageAtomicCompSwap2DRectII" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicCompSwap2DRectII = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicCompSwap2DUI()
-	{
-		testBegin( "testImageAtomicCompSwap2DUI" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicCompSwap2DUI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicCompSwap2DRectUI()
-	{
-		testBegin( "testImageAtomicCompSwap2DRectUI" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicCompSwap2DRectUI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicCompSwap2DArrayFI()
-	{
-		testBegin( "testImageAtomicCompSwap2DArrayFI" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicCompSwap2DArrayFI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicCompSwap2DArrayII()
-	{
-		testBegin( "testImageAtomicCompSwap2DArrayII" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicCompSwap2DArrayII = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicCompSwap2DArrayUI()
-	{
-		testBegin( "testImageAtomicCompSwap2DArrayUI" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicCompSwap2DArrayUI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicCompSwap3DFI()
-	{
-		testBegin( "testImageAtomicCompSwap3DFI" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicCompSwap3DFI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicCompSwap3DII()
-	{
-		testBegin( "testImageAtomicCompSwap3DII" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicCompSwap3DII = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicCompSwap3DUI()
-	{
-		testBegin( "testImageAtomicCompSwap3DUI" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicCompSwap3DUI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicCompSwapCubeFI()
-	{
-		testBegin( "testImageAtomicCompSwapCubeFI" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicCompSwapCubeFI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicCompSwapCubeII()
-	{
-		testBegin( "testImageAtomicCompSwapCubeII" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicCompSwapCubeII = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicCompSwapCubeUI()
-	{
-		testBegin( "testImageAtomicCompSwapCubeUI" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicCompSwapCubeUI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicCompSwapCubeArrayFI()
-	{
-		testBegin( "testImageAtomicCompSwapCubeArrayFI" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicCompSwapCubeArrayFI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicCompSwapCubeArrayII()
-	{
-		testBegin( "testImageAtomicCompSwapCubeArrayII" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicCompSwapCubeArrayII = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicCompSwapCubeArrayUI()
-	{
-		testBegin( "testImageAtomicCompSwapCubeArrayUI" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicCompSwapCubeArrayUI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicCompSwap2DMSFI()
-	{
-		testBegin( "testImageAtomicCompSwap2DMSFI" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicCompSwap2DMSFI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicCompSwap2DMSII()
-	{
-		testBegin( "testImageAtomicCompSwap2DMSII" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicCompSwap2DMSII = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicCompSwap2DMSUI()
-	{
-		testBegin( "testImageAtomicCompSwap2DMSUI" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicCompSwap2DMSUI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicCompSwap2DMSArrayFI()
-	{
-		testBegin( "testImageAtomicCompSwap2DMSArrayFI" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicCompSwap2DMSArrayFI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicCompSwap2DMSArrayII()
-	{
-		testBegin( "testImageAtomicCompSwap2DMSArrayII" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicCompSwap2DMSArrayII = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
-			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
-			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
-		}
-		testEnd();
-	}
-
-	void testImageAtomicCompSwap2DMSArrayUI()
-	{
-		testBegin( "testImageAtomicCompSwap2DMSArrayUI" );
-		using namespace sdw;
-		{
-			auto cont = stmt::makeContainer();
-			hlsl::IntrinsicsConfig config;
-			config.requiresImageAtomicCompSwap2DMSArrayUI = true;
+			config.requiresImageAtomicCompSwap2DMSArrayI = true;
 			writeHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
@@ -8818,533 +3538,181 @@ int main( int argc, char ** argv )
 	testImageLoad2DMSArrayF();
 	testImageLoad2DMSArrayI();
 	testImageLoad2DMSArrayU();
-	testImageAtomicAddBufferFU();
-	testImageAtomicAddBufferIU();
-	testImageAtomicAddBufferUU();
-	testImageAtomicAdd1DFU();
-	testImageAtomicAdd1DIU();
-	testImageAtomicAdd1DUU();
-	testImageAtomicAdd1DArrayFU();
-	testImageAtomicAdd1DArrayIU();
-	testImageAtomicAdd1DArrayUU();
-	testImageAtomicAdd2DFU();
-	testImageAtomicAdd2DRectFU();
-	testImageAtomicAdd2DIU();
-	testImageAtomicAdd2DRectIU();
-	testImageAtomicAdd2DUU();
-	testImageAtomicAdd2DRectUU();
-	testImageAtomicAdd2DArrayFU();
-	testImageAtomicAdd2DArrayIU();
-	testImageAtomicAdd2DArrayUU();
-	testImageAtomicAdd3DFU();
-	testImageAtomicAdd3DIU();
-	testImageAtomicAdd3DUU();
-	testImageAtomicAddCubeFU();
-	testImageAtomicAddCubeIU();
-	testImageAtomicAddCubeUU();
-	testImageAtomicAddCubeArrayFU();
-	testImageAtomicAddCubeArrayIU();
-	testImageAtomicAddCubeArrayUU();
-	testImageAtomicAdd2DMSFU();
-	testImageAtomicAdd2DMSIU();
-	testImageAtomicAdd2DMSUU();
-	testImageAtomicAdd2DMSArrayFU();
-	testImageAtomicAdd2DMSArrayIU();
-	testImageAtomicAdd2DMSArrayUU();
-	testImageAtomicAddBufferFI();
-	testImageAtomicAddBufferII();
-	testImageAtomicAddBufferUI();
-	testImageAtomicAdd1DFI();
-	testImageAtomicAdd1DII();
-	testImageAtomicAdd1DUI();
-	testImageAtomicAdd1DArrayFI();
-	testImageAtomicAdd1DArrayII();
-	testImageAtomicAdd1DArrayUI();
-	testImageAtomicAdd2DFI();
-	testImageAtomicAdd2DRectFI();
-	testImageAtomicAdd2DII();
-	testImageAtomicAdd2DRectII();
-	testImageAtomicAdd2DUI();
-	testImageAtomicAdd2DRectUI();
-	testImageAtomicAdd2DArrayFI();
-	testImageAtomicAdd2DArrayII();
-	testImageAtomicAdd2DArrayUI();
-	testImageAtomicAdd3DFI();
-	testImageAtomicAdd3DII();
-	testImageAtomicAdd3DUI();
-	testImageAtomicAddCubeFI();
-	testImageAtomicAddCubeII();
-	testImageAtomicAddCubeUI();
-	testImageAtomicAddCubeArrayFI();
-	testImageAtomicAddCubeArrayII();
-	testImageAtomicAddCubeArrayUI();
-	testImageAtomicAdd2DMSFI();
-	testImageAtomicAdd2DMSII();
-	testImageAtomicAdd2DMSUI();
-	testImageAtomicAdd2DMSArrayFI();
-	testImageAtomicAdd2DMSArrayII();
-	testImageAtomicAdd2DMSArrayUI();
-	testImageAtomicMinBufferFU();
-	testImageAtomicMinBufferIU();
-	testImageAtomicMinBufferUU();
-	testImageAtomicMin1DFU();
-	testImageAtomicMin1DIU();
-	testImageAtomicMin1DUU();
-	testImageAtomicMin1DArrayFU();
-	testImageAtomicMin1DArrayIU();
-	testImageAtomicMin1DArrayUU();
-	testImageAtomicMin2DFU();
-	testImageAtomicMin2DRectFU();
-	testImageAtomicMin2DIU();
-	testImageAtomicMin2DRectIU();
-	testImageAtomicMin2DUU();
-	testImageAtomicMin2DRectUU();
-	testImageAtomicMin2DArrayFU();
-	testImageAtomicMin2DArrayIU();
-	testImageAtomicMin2DArrayUU();
-	testImageAtomicMin3DFU();
-	testImageAtomicMin3DIU();
-	testImageAtomicMin3DUU();
-	testImageAtomicMinCubeFU();
-	testImageAtomicMinCubeIU();
-	testImageAtomicMinCubeUU();
-	testImageAtomicMinCubeArrayFU();
-	testImageAtomicMinCubeArrayIU();
-	testImageAtomicMinCubeArrayUU();
-	testImageAtomicMin2DMSFU();
-	testImageAtomicMin2DMSIU();
-	testImageAtomicMin2DMSUU();
-	testImageAtomicMin2DMSArrayFU();
-	testImageAtomicMin2DMSArrayIU();
-	testImageAtomicMin2DMSArrayUU();
-	testImageAtomicMinBufferFI();
-	testImageAtomicMinBufferII();
-	testImageAtomicMinBufferUI();
-	testImageAtomicMin1DFI();
-	testImageAtomicMin1DII();
-	testImageAtomicMin1DUI();
-	testImageAtomicMin1DArrayFI();
-	testImageAtomicMin1DArrayII();
-	testImageAtomicMin1DArrayUI();
-	testImageAtomicMin2DFI();
-	testImageAtomicMin2DRectFI();
-	testImageAtomicMin2DII();
-	testImageAtomicMin2DRectII();
-	testImageAtomicMin2DUI();
-	testImageAtomicMin2DRectUI();
-	testImageAtomicMin2DArrayFI();
-	testImageAtomicMin2DArrayII();
-	testImageAtomicMin2DArrayUI();
-	testImageAtomicMin3DFI();
-	testImageAtomicMin3DII();
-	testImageAtomicMin3DUI();
-	testImageAtomicMinCubeFI();
-	testImageAtomicMinCubeII();
-	testImageAtomicMinCubeUI();
-	testImageAtomicMinCubeArrayFI();
-	testImageAtomicMinCubeArrayII();
-	testImageAtomicMinCubeArrayUI();
-	testImageAtomicMin2DMSFI();
-	testImageAtomicMin2DMSII();
-	testImageAtomicMin2DMSUI();
-	testImageAtomicMin2DMSArrayFI();
-	testImageAtomicMin2DMSArrayII();
-	testImageAtomicMin2DMSArrayUI();
-	testImageAtomicMaxBufferFU();
-	testImageAtomicMaxBufferIU();
-	testImageAtomicMaxBufferUU();
-	testImageAtomicMax1DFU();
-	testImageAtomicMax1DIU();
-	testImageAtomicMax1DUU();
-	testImageAtomicMax1DArrayFU();
-	testImageAtomicMax1DArrayIU();
-	testImageAtomicMax1DArrayUU();
-	testImageAtomicMax2DFU();
-	testImageAtomicMax2DRectFU();
-	testImageAtomicMax2DIU();
-	testImageAtomicMax2DRectIU();
-	testImageAtomicMax2DUU();
-	testImageAtomicMax2DRectUU();
-	testImageAtomicMax2DArrayFU();
-	testImageAtomicMax2DArrayIU();
-	testImageAtomicMax2DArrayUU();
-	testImageAtomicMax3DFU();
-	testImageAtomicMax3DIU();
-	testImageAtomicMax3DUU();
-	testImageAtomicMaxCubeFU();
-	testImageAtomicMaxCubeIU();
-	testImageAtomicMaxCubeUU();
-	testImageAtomicMaxCubeArrayFU();
-	testImageAtomicMaxCubeArrayIU();
-	testImageAtomicMaxCubeArrayUU();
-	testImageAtomicMax2DMSFU();
-	testImageAtomicMax2DMSIU();
-	testImageAtomicMax2DMSUU();
-	testImageAtomicMax2DMSArrayFU();
-	testImageAtomicMax2DMSArrayIU();
-	testImageAtomicMax2DMSArrayUU();
-	testImageAtomicMaxBufferFI();
-	testImageAtomicMaxBufferII();
-	testImageAtomicMaxBufferUI();
-	testImageAtomicMax1DFI();
-	testImageAtomicMax1DII();
-	testImageAtomicMax1DUI();
-	testImageAtomicMax1DArrayFI();
-	testImageAtomicMax1DArrayII();
-	testImageAtomicMax1DArrayUI();
-	testImageAtomicMax2DFI();
-	testImageAtomicMax2DRectFI();
-	testImageAtomicMax2DII();
-	testImageAtomicMax2DRectII();
-	testImageAtomicMax2DUI();
-	testImageAtomicMax2DRectUI();
-	testImageAtomicMax2DArrayFI();
-	testImageAtomicMax2DArrayII();
-	testImageAtomicMax2DArrayUI();
-	testImageAtomicMax3DFI();
-	testImageAtomicMax3DII();
-	testImageAtomicMax3DUI();
-	testImageAtomicMaxCubeFI();
-	testImageAtomicMaxCubeII();
-	testImageAtomicMaxCubeUI();
-	testImageAtomicMaxCubeArrayFI();
-	testImageAtomicMaxCubeArrayII();
-	testImageAtomicMaxCubeArrayUI();
-	testImageAtomicMax2DMSFI();
-	testImageAtomicMax2DMSII();
-	testImageAtomicMax2DMSUI();
-	testImageAtomicMax2DMSArrayFI();
-	testImageAtomicMax2DMSArrayII();
-	testImageAtomicMax2DMSArrayUI();
-	testImageAtomicAndBufferFU();
-	testImageAtomicAndBufferIU();
-	testImageAtomicAndBufferUU();
-	testImageAtomicAnd1DFU();
-	testImageAtomicAnd1DIU();
-	testImageAtomicAnd1DUU();
-	testImageAtomicAnd1DArrayFU();
-	testImageAtomicAnd1DArrayIU();
-	testImageAtomicAnd1DArrayUU();
-	testImageAtomicAnd2DFU();
-	testImageAtomicAnd2DRectFU();
-	testImageAtomicAnd2DIU();
-	testImageAtomicAnd2DRectIU();
-	testImageAtomicAnd2DUU();
-	testImageAtomicAnd2DRectUU();
-	testImageAtomicAnd2DArrayFU();
-	testImageAtomicAnd2DArrayIU();
-	testImageAtomicAnd2DArrayUU();
-	testImageAtomicAnd3DFU();
-	testImageAtomicAnd3DIU();
-	testImageAtomicAnd3DUU();
-	testImageAtomicAndCubeFU();
-	testImageAtomicAndCubeIU();
-	testImageAtomicAndCubeUU();
-	testImageAtomicAndCubeArrayFU();
-	testImageAtomicAndCubeArrayIU();
-	testImageAtomicAndCubeArrayUU();
-	testImageAtomicAnd2DMSFU();
-	testImageAtomicAnd2DMSIU();
-	testImageAtomicAnd2DMSUU();
-	testImageAtomicAnd2DMSArrayFU();
-	testImageAtomicAnd2DMSArrayIU();
-	testImageAtomicAnd2DMSArrayUU();
-	testImageAtomicAndBufferFI();
-	testImageAtomicAndBufferII();
-	testImageAtomicAndBufferUI();
-	testImageAtomicAnd1DFI();
-	testImageAtomicAnd1DII();
-	testImageAtomicAnd1DUI();
-	testImageAtomicAnd1DArrayFI();
-	testImageAtomicAnd1DArrayII();
-	testImageAtomicAnd1DArrayUI();
-	testImageAtomicAnd2DFI();
-	testImageAtomicAnd2DRectFI();
-	testImageAtomicAnd2DII();
-	testImageAtomicAnd2DRectII();
-	testImageAtomicAnd2DUI();
-	testImageAtomicAnd2DRectUI();
-	testImageAtomicAnd2DArrayFI();
-	testImageAtomicAnd2DArrayII();
-	testImageAtomicAnd2DArrayUI();
-	testImageAtomicAnd3DFI();
-	testImageAtomicAnd3DII();
-	testImageAtomicAnd3DUI();
-	testImageAtomicAndCubeFI();
-	testImageAtomicAndCubeII();
-	testImageAtomicAndCubeUI();
-	testImageAtomicAndCubeArrayFI();
-	testImageAtomicAndCubeArrayII();
-	testImageAtomicAndCubeArrayUI();
-	testImageAtomicAnd2DMSFI();
-	testImageAtomicAnd2DMSII();
-	testImageAtomicAnd2DMSUI();
-	testImageAtomicAnd2DMSArrayFI();
-	testImageAtomicAnd2DMSArrayII();
-	testImageAtomicAnd2DMSArrayUI();
-	testImageAtomicOrBufferFU();
-	testImageAtomicOrBufferIU();
-	testImageAtomicOrBufferUU();
-	testImageAtomicOr1DFU();
-	testImageAtomicOr1DIU();
-	testImageAtomicOr1DUU();
-	testImageAtomicOr1DArrayFU();
-	testImageAtomicOr1DArrayIU();
-	testImageAtomicOr1DArrayUU();
-	testImageAtomicOr2DFU();
-	testImageAtomicOr2DRectFU();
-	testImageAtomicOr2DIU();
-	testImageAtomicOr2DRectIU();
-	testImageAtomicOr2DUU();
-	testImageAtomicOr2DRectUU();
-	testImageAtomicOr2DArrayFU();
-	testImageAtomicOr2DArrayIU();
-	testImageAtomicOr2DArrayUU();
-	testImageAtomicOr3DFU();
-	testImageAtomicOr3DIU();
-	testImageAtomicOr3DUU();
-	testImageAtomicOrCubeFU();
-	testImageAtomicOrCubeIU();
-	testImageAtomicOrCubeUU();
-	testImageAtomicOrCubeArrayFU();
-	testImageAtomicOrCubeArrayIU();
-	testImageAtomicOrCubeArrayUU();
-	testImageAtomicOr2DMSFU();
-	testImageAtomicOr2DMSIU();
-	testImageAtomicOr2DMSUU();
-	testImageAtomicOr2DMSArrayFU();
-	testImageAtomicOr2DMSArrayIU();
-	testImageAtomicOr2DMSArrayUU();
-	testImageAtomicOrBufferFI();
-	testImageAtomicOrBufferII();
-	testImageAtomicOrBufferUI();
-	testImageAtomicOr1DFI();
-	testImageAtomicOr1DII();
-	testImageAtomicOr1DUI();
-	testImageAtomicOr1DArrayFI();
-	testImageAtomicOr1DArrayII();
-	testImageAtomicOr1DArrayUI();
-	testImageAtomicOr2DFI();
-	testImageAtomicOr2DRectFI();
-	testImageAtomicOr2DII();
-	testImageAtomicOr2DRectII();
-	testImageAtomicOr2DUI();
-	testImageAtomicOr2DRectUI();
-	testImageAtomicOr2DArrayFI();
-	testImageAtomicOr2DArrayII();
-	testImageAtomicOr2DArrayUI();
-	testImageAtomicOr3DFI();
-	testImageAtomicOr3DII();
-	testImageAtomicOr3DUI();
-	testImageAtomicOrCubeFI();
-	testImageAtomicOrCubeII();
-	testImageAtomicOrCubeUI();
-	testImageAtomicOrCubeArrayFI();
-	testImageAtomicOrCubeArrayII();
-	testImageAtomicOrCubeArrayUI();
-	testImageAtomicOr2DMSFI();
-	testImageAtomicOr2DMSII();
-	testImageAtomicOr2DMSUI();
-	testImageAtomicOr2DMSArrayFI();
-	testImageAtomicOr2DMSArrayII();
-	testImageAtomicOr2DMSArrayUI();
-	testImageAtomicXorBufferFU();
-	testImageAtomicXorBufferIU();
-	testImageAtomicXorBufferUU();
-	testImageAtomicXor1DFU();
-	testImageAtomicXor1DIU();
-	testImageAtomicXor1DUU();
-	testImageAtomicXor1DArrayFU();
-	testImageAtomicXor1DArrayIU();
-	testImageAtomicXor1DArrayUU();
-	testImageAtomicXor2DFU();
-	testImageAtomicXor2DRectFU();
-	testImageAtomicXor2DIU();
-	testImageAtomicXor2DRectIU();
-	testImageAtomicXor2DUU();
-	testImageAtomicXor2DRectUU();
-	testImageAtomicXor2DArrayFU();
-	testImageAtomicXor2DArrayIU();
-	testImageAtomicXor2DArrayUU();
-	testImageAtomicXor3DFU();
-	testImageAtomicXor3DIU();
-	testImageAtomicXor3DUU();
-	testImageAtomicXorCubeFU();
-	testImageAtomicXorCubeIU();
-	testImageAtomicXorCubeUU();
-	testImageAtomicXorCubeArrayFU();
-	testImageAtomicXorCubeArrayIU();
-	testImageAtomicXorCubeArrayUU();
-	testImageAtomicXor2DMSFU();
-	testImageAtomicXor2DMSIU();
-	testImageAtomicXor2DMSUU();
-	testImageAtomicXor2DMSArrayFU();
-	testImageAtomicXor2DMSArrayIU();
-	testImageAtomicXor2DMSArrayUU();
-	testImageAtomicXorBufferFI();
-	testImageAtomicXorBufferII();
-	testImageAtomicXorBufferUI();
-	testImageAtomicXor1DFI();
-	testImageAtomicXor1DII();
-	testImageAtomicXor1DUI();
-	testImageAtomicXor1DArrayFI();
-	testImageAtomicXor1DArrayII();
-	testImageAtomicXor1DArrayUI();
-	testImageAtomicXor2DFI();
-	testImageAtomicXor2DRectFI();
-	testImageAtomicXor2DII();
-	testImageAtomicXor2DRectII();
-	testImageAtomicXor2DUI();
-	testImageAtomicXor2DRectUI();
-	testImageAtomicXor2DArrayFI();
-	testImageAtomicXor2DArrayII();
-	testImageAtomicXor2DArrayUI();
-	testImageAtomicXor3DFI();
-	testImageAtomicXor3DII();
-	testImageAtomicXor3DUI();
-	testImageAtomicXorCubeFI();
-	testImageAtomicXorCubeII();
-	testImageAtomicXorCubeUI();
-	testImageAtomicXorCubeArrayFI();
-	testImageAtomicXorCubeArrayII();
-	testImageAtomicXorCubeArrayUI();
-	testImageAtomicXor2DMSFI();
-	testImageAtomicXor2DMSII();
-	testImageAtomicXor2DMSUI();
-	testImageAtomicXor2DMSArrayFI();
-	testImageAtomicXor2DMSArrayII();
-	testImageAtomicXor2DMSArrayUI();
-	testImageAtomicExchangeBufferFU();
-	testImageAtomicExchangeBufferIU();
-	testImageAtomicExchangeBufferUU();
-	testImageAtomicExchange1DFU();
-	testImageAtomicExchange1DIU();
-	testImageAtomicExchange1DUU();
-	testImageAtomicExchange1DArrayFU();
-	testImageAtomicExchange1DArrayIU();
-	testImageAtomicExchange1DArrayUU();
-	testImageAtomicExchange2DFU();
-	testImageAtomicExchange2DRectFU();
-	testImageAtomicExchange2DIU();
-	testImageAtomicExchange2DRectIU();
-	testImageAtomicExchange2DUU();
-	testImageAtomicExchange2DRectUU();
-	testImageAtomicExchange2DArrayFU();
-	testImageAtomicExchange2DArrayIU();
-	testImageAtomicExchange2DArrayUU();
-	testImageAtomicExchange3DFU();
-	testImageAtomicExchange3DIU();
-	testImageAtomicExchange3DUU();
-	testImageAtomicExchangeCubeFU();
-	testImageAtomicExchangeCubeIU();
-	testImageAtomicExchangeCubeUU();
-	testImageAtomicExchangeCubeArrayFU();
-	testImageAtomicExchangeCubeArrayIU();
-	testImageAtomicExchangeCubeArrayUU();
-	testImageAtomicExchange2DMSFU();
-	testImageAtomicExchange2DMSIU();
-	testImageAtomicExchange2DMSUU();
-	testImageAtomicExchange2DMSArrayFU();
-	testImageAtomicExchange2DMSArrayIU();
-	testImageAtomicExchange2DMSArrayUU();
-	testImageAtomicExchangeBufferFI();
-	testImageAtomicExchangeBufferII();
-	testImageAtomicExchangeBufferUI();
-	testImageAtomicExchange1DFI();
-	testImageAtomicExchange1DII();
-	testImageAtomicExchange1DUI();
-	testImageAtomicExchange1DArrayFI();
-	testImageAtomicExchange1DArrayII();
-	testImageAtomicExchange1DArrayUI();
-	testImageAtomicExchange2DFI();
-	testImageAtomicExchange2DRectFI();
-	testImageAtomicExchange2DII();
-	testImageAtomicExchange2DRectII();
-	testImageAtomicExchange2DUI();
-	testImageAtomicExchange2DRectUI();
-	testImageAtomicExchange2DArrayFI();
-	testImageAtomicExchange2DArrayII();
-	testImageAtomicExchange2DArrayUI();
-	testImageAtomicExchange3DFI();
-	testImageAtomicExchange3DII();
-	testImageAtomicExchange3DUI();
-	testImageAtomicExchangeCubeFI();
-	testImageAtomicExchangeCubeII();
-	testImageAtomicExchangeCubeUI();
-	testImageAtomicExchangeCubeArrayFI();
-	testImageAtomicExchangeCubeArrayII();
-	testImageAtomicExchangeCubeArrayUI();
-	testImageAtomicExchange2DMSFI();
-	testImageAtomicExchange2DMSII();
-	testImageAtomicExchange2DMSUI();
-	testImageAtomicExchange2DMSArrayFI();
-	testImageAtomicExchange2DMSArrayII();
-	testImageAtomicExchange2DMSArrayUI();
-	testImageAtomicCompSwapBufferFU();
-	testImageAtomicCompSwapBufferIU();
-	testImageAtomicCompSwapBufferUU();
-	testImageAtomicCompSwap1DFU();
-	testImageAtomicCompSwap1DIU();
-	testImageAtomicCompSwap1DUU();
-	testImageAtomicCompSwap1DArrayFU();
-	testImageAtomicCompSwap1DArrayIU();
-	testImageAtomicCompSwap1DArrayUU();
-	testImageAtomicCompSwap2DFU();
-	testImageAtomicCompSwap2DRectFU();
-	testImageAtomicCompSwap2DIU();
-	testImageAtomicCompSwap2DRectIU();
-	testImageAtomicCompSwap2DUU();
-	testImageAtomicCompSwap2DRectUU();
-	testImageAtomicCompSwap2DArrayFU();
-	testImageAtomicCompSwap2DArrayIU();
-	testImageAtomicCompSwap2DArrayUU();
-	testImageAtomicCompSwap3DFU();
-	testImageAtomicCompSwap3DIU();
-	testImageAtomicCompSwap3DUU();
-	testImageAtomicCompSwapCubeFU();
-	testImageAtomicCompSwapCubeIU();
-	testImageAtomicCompSwapCubeUU();
-	testImageAtomicCompSwapCubeArrayFU();
-	testImageAtomicCompSwapCubeArrayIU();
-	testImageAtomicCompSwapCubeArrayUU();
-	testImageAtomicCompSwap2DMSFU();
-	testImageAtomicCompSwap2DMSIU();
-	testImageAtomicCompSwap2DMSUU();
-	testImageAtomicCompSwap2DMSArrayFU();
-	testImageAtomicCompSwap2DMSArrayIU();
-	testImageAtomicCompSwap2DMSArrayUU();
-	testImageAtomicCompSwapBufferFI();
-	testImageAtomicCompSwapBufferII();
-	testImageAtomicCompSwapBufferUI();
-	testImageAtomicCompSwap1DFI();
-	testImageAtomicCompSwap1DII();
-	testImageAtomicCompSwap1DUI();
-	testImageAtomicCompSwap1DArrayFI();
-	testImageAtomicCompSwap1DArrayII();
-	testImageAtomicCompSwap1DArrayUI();
-	testImageAtomicCompSwap2DFI();
-	testImageAtomicCompSwap2DRectFI();
-	testImageAtomicCompSwap2DII();
-	testImageAtomicCompSwap2DRectII();
-	testImageAtomicCompSwap2DUI();
-	testImageAtomicCompSwap2DRectUI();
-	testImageAtomicCompSwap2DArrayFI();
-	testImageAtomicCompSwap2DArrayII();
-	testImageAtomicCompSwap2DArrayUI();
-	testImageAtomicCompSwap3DFI();
-	testImageAtomicCompSwap3DII();
-	testImageAtomicCompSwap3DUI();
-	testImageAtomicCompSwapCubeFI();
-	testImageAtomicCompSwapCubeII();
-	testImageAtomicCompSwapCubeUI();
-	testImageAtomicCompSwapCubeArrayFI();
-	testImageAtomicCompSwapCubeArrayII();
-	testImageAtomicCompSwapCubeArrayUI();
-	testImageAtomicCompSwap2DMSFI();
-	testImageAtomicCompSwap2DMSII();
-	testImageAtomicCompSwap2DMSUI();
-	testImageAtomicCompSwap2DMSArrayFI();
-	testImageAtomicCompSwap2DMSArrayII();
-	testImageAtomicCompSwap2DMSArrayUI();
+	testImageAtomicAddBufferU();
+	testImageAtomicAdd1DU();
+	testImageAtomicAdd1DArrayU();
+	testImageAtomicAdd2DU();
+	testImageAtomicAdd2DRectU();
+	testImageAtomicAdd2DArrayU();
+	testImageAtomicAdd3DU();
+	testImageAtomicAddCubeU();
+	testImageAtomicAddCubeArrayU();
+	testImageAtomicAdd2DMSU();
+	testImageAtomicAdd2DMSArrayU();
+	testImageAtomicAddBufferI();
+	testImageAtomicAdd1DI();
+	testImageAtomicAdd1DArrayI();
+	testImageAtomicAdd2DI();
+	testImageAtomicAdd2DRectI();
+	testImageAtomicAdd2DArrayI();
+	testImageAtomicAdd3DI();
+	testImageAtomicAddCubeI();
+	testImageAtomicAddCubeArrayI();
+	testImageAtomicAdd2DMSI();
+	testImageAtomicAdd2DMSArrayI();
+	testImageAtomicMinBufferU();
+	testImageAtomicMin1DU();
+	testImageAtomicMin1DArrayU();
+	testImageAtomicMin2DU();
+	testImageAtomicMin2DRectU();
+	testImageAtomicMin2DArrayU();
+	testImageAtomicMin3DU();
+	testImageAtomicMinCubeU();
+	testImageAtomicMinCubeArrayU();
+	testImageAtomicMin2DMSU();
+	testImageAtomicMin2DMSArrayU();
+	testImageAtomicMinBufferI();
+	testImageAtomicMin1DI();
+	testImageAtomicMin1DArrayI();
+	testImageAtomicMin2DI();
+	testImageAtomicMin2DRectI();
+	testImageAtomicMin2DArrayI();
+	testImageAtomicMin3DI();
+	testImageAtomicMinCubeI();
+	testImageAtomicMinCubeArrayI();
+	testImageAtomicMin2DMSI();
+	testImageAtomicMin2DMSArrayI();
+	testImageAtomicMaxBufferU();
+	testImageAtomicMax1DU();
+	testImageAtomicMax1DArrayU();
+	testImageAtomicMax2DU();
+	testImageAtomicMax2DRectU();
+	testImageAtomicMax2DArrayU();
+	testImageAtomicMax3DU();
+	testImageAtomicMaxCubeU();
+	testImageAtomicMaxCubeArrayU();
+	testImageAtomicMax2DMSU();
+	testImageAtomicMax2DMSArrayU();
+	testImageAtomicMaxBufferI();
+	testImageAtomicMax1DI();
+	testImageAtomicMax1DArrayI();
+	testImageAtomicMax2DI();
+	testImageAtomicMax2DRectI();
+	testImageAtomicMax2DArrayI();
+	testImageAtomicMax3DI();
+	testImageAtomicMaxCubeI();
+	testImageAtomicMaxCubeArrayI();
+	testImageAtomicMax2DMSI();
+	testImageAtomicMax2DMSArrayI();
+	testImageAtomicAndBufferU();
+	testImageAtomicAnd1DU();
+	testImageAtomicAnd1DArrayU();
+	testImageAtomicAnd2DU();
+	testImageAtomicAnd2DRectU();
+	testImageAtomicAnd2DArrayU();
+	testImageAtomicAnd3DU();
+	testImageAtomicAndCubeU();
+	testImageAtomicAndCubeArrayU();
+	testImageAtomicAnd2DMSU();
+	testImageAtomicAnd2DMSArrayU();
+	testImageAtomicAndBufferI();
+	testImageAtomicAnd1DI();
+	testImageAtomicAnd1DArrayI();
+	testImageAtomicAnd2DI();
+	testImageAtomicAnd2DRectI();
+	testImageAtomicAnd2DArrayI();
+	testImageAtomicAnd3DI();
+	testImageAtomicAndCubeI();
+	testImageAtomicAndCubeArrayI();
+	testImageAtomicAnd2DMSI();
+	testImageAtomicAnd2DMSArrayI();
+	testImageAtomicOrBufferU();
+	testImageAtomicOr1DU();
+	testImageAtomicOr1DArrayU();
+	testImageAtomicOr2DU();
+	testImageAtomicOr2DRectU();
+	testImageAtomicOr2DArrayU();
+	testImageAtomicOr3DU();
+	testImageAtomicOrCubeU();
+	testImageAtomicOrCubeArrayU();
+	testImageAtomicOr2DMSU();
+	testImageAtomicOr2DMSArrayU();
+	testImageAtomicOrBufferI();
+	testImageAtomicOr1DI();
+	testImageAtomicOr1DArrayI();
+	testImageAtomicOr2DI();
+	testImageAtomicOr2DRectI();
+	testImageAtomicOr2DArrayI();
+	testImageAtomicOr3DI();
+	testImageAtomicOrCubeI();
+	testImageAtomicOrCubeArrayI();
+	testImageAtomicOr2DMSI();
+	testImageAtomicOr2DMSArrayI();
+	testImageAtomicXorBufferU();
+	testImageAtomicXor1DU();
+	testImageAtomicXor1DArrayU();
+	testImageAtomicXor2DU();
+	testImageAtomicXor2DRectU();
+	testImageAtomicXor2DArrayU();
+	testImageAtomicXor3DU();
+	testImageAtomicXorCubeU();
+	testImageAtomicXorCubeArrayU();
+	testImageAtomicXor2DMSU();
+	testImageAtomicXor2DMSArrayU();
+	testImageAtomicXorBufferI();
+	testImageAtomicXor1DI();
+	testImageAtomicXor1DArrayI();
+	testImageAtomicXor2DI();
+	testImageAtomicXor2DRectI();
+	testImageAtomicXor2DArrayI();
+	testImageAtomicXor3DI();
+	testImageAtomicXorCubeI();
+	testImageAtomicXorCubeArrayI();
+	testImageAtomicXor2DMSI();
+	testImageAtomicXor2DMSArrayI();
+	testImageAtomicExchangeBufferU();
+	testImageAtomicExchange1DU();
+	testImageAtomicExchange1DArrayU();
+	testImageAtomicExchange2DU();
+	testImageAtomicExchange2DRectU();
+	testImageAtomicExchange2DArrayU();
+	testImageAtomicExchange3DU();
+	testImageAtomicExchangeCubeU();
+	testImageAtomicExchangeCubeArrayU();
+	testImageAtomicExchange2DMSU();
+	testImageAtomicExchange2DMSArrayU();
+	testImageAtomicExchangeBufferI();
+	testImageAtomicExchange1DI();
+	testImageAtomicExchange1DArrayI();
+	testImageAtomicExchange2DI();
+	testImageAtomicExchange2DRectI();
+	testImageAtomicExchange2DArrayI();
+	testImageAtomicExchange3DI();
+	testImageAtomicExchangeCubeI();
+	testImageAtomicExchangeCubeArrayI();
+	testImageAtomicExchange2DMSI();
+	testImageAtomicExchange2DMSArrayI();
+	testImageAtomicCompSwapBufferU();
+	testImageAtomicCompSwap1DU();
+	testImageAtomicCompSwap1DArrayU();
+	testImageAtomicCompSwap2DU();
+	testImageAtomicCompSwap2DRectU();
+	testImageAtomicCompSwap2DArrayU();
+	testImageAtomicCompSwap3DU();
+	testImageAtomicCompSwapCubeU();
+	testImageAtomicCompSwapCubeArrayU();
+	testImageAtomicCompSwap2DMSU();
+	testImageAtomicCompSwap2DMSArrayU();
+	testImageAtomicCompSwapBufferI();
+	testImageAtomicCompSwap1DI();
+	testImageAtomicCompSwap1DArrayI();
+	testImageAtomicCompSwap2DI();
+	testImageAtomicCompSwap2DRectI();
+	testImageAtomicCompSwap2DArrayI();
+	testImageAtomicCompSwap3DI();
+	testImageAtomicCompSwapCubeI();
+	testImageAtomicCompSwapCubeArrayI();
+	testImageAtomicCompSwap2DMSI();
+	testImageAtomicCompSwap2DMSArrayI();
 	testSuiteEnd();
 }

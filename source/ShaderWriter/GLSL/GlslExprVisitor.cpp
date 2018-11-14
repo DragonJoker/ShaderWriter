@@ -167,6 +167,21 @@ namespace sdw::glsl
 		m_result += ")";
 	}
 
+	void ExprVisitor::visitCompositeConstructExpr( expr::CompositeConstruct * expr )
+	{
+		m_result += getCtorName( expr->getComposite(), expr->getComponent() ) + "(";
+		std::string sep;
+
+		for ( auto & arg : expr->getArgList() )
+		{
+			m_result += sep;
+			arg->accept( this );
+			sep = ", ";
+		}
+
+		m_result += ")";
+	}
+
 	void ExprVisitor::visitMbrSelectExpr( expr::MbrSelect * expr )
 	{
 		wrap( expr->getOuterExpr() );
@@ -176,6 +191,12 @@ namespace sdw::glsl
 
 	void ExprVisitor::visitFnCallExpr( expr::FnCall * expr )
 	{
+		if ( expr->isMember() )
+		{
+			wrap( expr->getInstance() );
+			m_result += ".";
+		}
+
 		expr->getFn()->accept( this );
 		m_result += "(";
 		std::string sep;

@@ -12,27 +12,25 @@ namespace ast::expr
 		type::TypePtr getSwizzleType( type::TypePtr outer
 			, SwizzleKind swizzle )
 		{
-			assert( isVectorType( outer->getKind() ) );
-
 			if ( swizzle >= SwizzleKind::e0
 				&& swizzle <= SwizzleKind::e3 )
 			{
-				return makeType( getComponentType( outer->getKind() ) );
+				return makeType( getScalarType( outer->getKind() ) );
 			}
 
 			if ( swizzle >= SwizzleKind::e00
 				&& swizzle <= SwizzleKind::e33 )
 			{
-				return getVec2Type( getComponentType( outer->getKind() ) );
+				return getVec2Type( getScalarType( outer->getKind() ) );
 			}
 
 			if ( swizzle >= SwizzleKind::e000
 				&& swizzle <= SwizzleKind::e333 )
 			{
-				return getVec3Type( getComponentType( outer->getKind() ) );
+				return getVec3Type( getScalarType( outer->getKind() ) );
 			}
 
-			return getVec4Type( getComponentType( outer->getKind() ) );
+			return getVec4Type( getScalarType( outer->getKind() ) );
 		}
 	}
 

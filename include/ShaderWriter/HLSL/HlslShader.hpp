@@ -33,6 +33,7 @@ namespace sdw::hlsl
 			, uint32_t binding
 			, uint32_t set
 			, bool enabled = true );
+		bool hasVar( std::string const & name );
 		var::VariablePtr getVar( std::string const & name
 			, type::TypePtr type );
 

@@ -37,6 +37,7 @@ namespace sdw
 		void visitBitXorExpr( ast::expr::BitXor * expr )override;
 		void visitCastExpr( ast::expr::Cast * expr )override;
 		void visitCommaExpr( ast::expr::Comma * expr )override;
+		void visitCompositeConstructExpr( ast::expr::CompositeConstruct * expr )override;
 		void visitDivideExpr( ast::expr::Divide * expr )override;
 		void visitDivideAssignExpr( ast::expr::DivideAssign * expr )override;
 		void visitEqualExpr( ast::expr::Equal * expr )override;

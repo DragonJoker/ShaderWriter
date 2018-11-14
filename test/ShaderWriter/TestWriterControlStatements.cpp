@@ -6,19 +6,18 @@ namespace
 	void testIf( test::TestCounts & testCounts )
 	{
 		testBegin( "testIf" );
-		sdw::ShaderWriter writer{ false };
+		sdw::VertexWriter writer{ false };
 		writer.implementFunction< void >( "main"
 			, [&]()
 			{
 				auto ctrlVar = writer.declLocale< sdw::Int >( "ctrlVar", 1_i );
-				IF( writer, ctrlVar )
+				IF( writer, ctrlVar != 0_i )
 				{
 					auto i = writer.declLocale< sdw::Int >( "i" );
 				}
 				FI;
 			} );
-		test::writeShader( writer.getShader()
-			, sdw::ShaderType::eVertex
+		test::writeShader( writer
 			, testCounts );
 		testEnd();
 	}
@@ -26,12 +25,12 @@ namespace
 	void testIfElse( test::TestCounts & testCounts )
 	{
 		testBegin( "testIfElse" );
-		sdw::ShaderWriter writer{ false };
+		sdw::VertexWriter writer{ false };
 		writer.implementFunction< void >( "main"
 			, [&]()
 			{
 				auto ctrlVar = writer.declLocale< sdw::Int >( "ctrlVar", 1_i );
-				IF( writer, ctrlVar )
+				IF( writer, ctrlVar != 0_i )
 				{
 					auto i = writer.declLocale< sdw::Int >( "i" );
 				}
@@ -41,8 +40,7 @@ namespace
 				}
 				FI;
 			} );
-		test::writeShader( writer.getShader()
-			, sdw::ShaderType::eVertex
+		test::writeShader( writer
 			, testCounts );
 		testEnd();
 	}
@@ -50,24 +48,23 @@ namespace
 	void testIfElseIf( test::TestCounts & testCounts )
 	{
 		testBegin( "testIfElseIf" );
-		sdw::ShaderWriter writer{ false };
+		sdw::VertexWriter writer{ false };
 		writer.implementFunction< void >( "main"
 			, [&]()
 			{
 				auto ctrlVar1 = writer.declLocale< sdw::Int >( "ctrlVar1", 1_i );
 				auto ctrlVar2 = writer.declLocale< sdw::Int >( "ctrlVar2", 0_i );
-				IF( writer, ctrlVar1 )
+				IF( writer, ctrlVar1 != 0_i )
 				{
 					auto i = writer.declLocale< sdw::Int >( "i" );
 				}
-				ELSEIF( ctrlVar2 )
+				ELSEIF( ctrlVar2 != 0_i )
 				{
 					auto j = writer.declLocale< sdw::Int >( "j" );
 				}
 				FI;
 			} );
-		test::writeShader( writer.getShader()
-			, sdw::ShaderType::eVertex
+		test::writeShader( writer
 			, testCounts );
 		testEnd();
 	}
@@ -75,17 +72,17 @@ namespace
 	void testIfElseIfElse( test::TestCounts & testCounts )
 	{
 		testBegin( "testIfElseIfElse" );
-		sdw::ShaderWriter writer{ false };
+		sdw::VertexWriter writer{ false };
 		writer.implementFunction< void >( "main"
 			, [&]()
 			{
 				auto ctrlVar1 = writer.declLocale< sdw::Int >( "ctrlVar1", 1_i );
 				auto ctrlVar2 = writer.declLocale< sdw::Int >( "ctrlVar2", 0_i );
-				IF( writer, ctrlVar1 )
+				IF( writer, ctrlVar1 != 0_i )
 				{
 					auto i = writer.declLocale< sdw::Int >( "i" );
 				}
-				ELSEIF( ctrlVar2 )
+				ELSEIF( ctrlVar2 != 0_i )
 				{
 					auto j = writer.declLocale< sdw::Int >( "j" );
 				}
@@ -95,8 +92,7 @@ namespace
 				}
 				FI;
 			} );
-		test::writeShader( writer.getShader()
-			, sdw::ShaderType::eVertex
+		test::writeShader( writer
 			, testCounts );
 		testEnd();
 	}
@@ -104,7 +100,7 @@ namespace
 	void testFor( test::TestCounts & testCounts )
 	{
 		testBegin( "testFor" );
-		sdw::ShaderWriter writer{ false };
+		sdw::VertexWriter writer{ false };
 		writer.implementFunction< void >( "main"
 			, [&]()
 			{
@@ -114,8 +110,7 @@ namespace
 				}
 				ROF;
 			} );
-		test::writeShader( writer.getShader()
-			, sdw::ShaderType::eVertex
+		test::writeShader( writer
 			, testCounts );
 		testEnd();
 	}
@@ -123,19 +118,18 @@ namespace
 	void testWhile( test::TestCounts & testCounts )
 	{
 		testBegin( "testWhile" );
-		sdw::ShaderWriter writer{ false };
+		sdw::VertexWriter writer{ false };
 		writer.implementFunction< void >( "main"
 			, [&]()
 			{
 				auto ctrlVar = writer.declLocale< sdw::Int >( "ctrlVar", 20_i );
-				WHILE( writer, ctrlVar )
+				WHILE( writer, ctrlVar != 0_i )
 				{
 					ctrlVar = ctrlVar - 1_i;
 				}
 				ELIHW;
 			} );
-		test::writeShader( writer.getShader()
-			, sdw::ShaderType::eVertex
+		test::writeShader( writer
 			, testCounts );
 		testEnd();
 	}
@@ -143,19 +137,18 @@ namespace
 	void testDoWhile( test::TestCounts & testCounts )
 	{
 		testBegin( "testDoWhile" );
-		sdw::ShaderWriter writer{ false };
+		sdw::VertexWriter writer{ false };
 		writer.implementFunction< void >( "main"
 			, [&]()
 			{
 				auto ctrlVar = writer.declLocale< sdw::Int >( "ctrlVar", 20_i );
-				DOWHILE( writer, ctrlVar )
+				DOWHILE( writer, ctrlVar != 0_i )
 				{
 					ctrlVar = ctrlVar - 1_i;
 				}
 				ELIHWOD;
 			} );
-		test::writeShader( writer.getShader()
-			, sdw::ShaderType::eVertex
+		test::writeShader( writer
 			, testCounts );
 		testEnd();
 	}
@@ -163,15 +156,15 @@ namespace
 	void testNestedIf( test::TestCounts & testCounts )
 	{
 		testBegin( "testNestedIf" );
-		sdw::ShaderWriter writer{ false };
+		sdw::VertexWriter writer{ false };
 		writer.implementFunction< void >( "main"
 			, [&]()
 			{
 				auto ctrlVar1 = writer.declLocale< sdw::Int >( "ctrlVar1", 1_i );
-				IF( writer, ctrlVar1 )
+				IF( writer, ctrlVar1 != 0_i )
 				{
 					auto ctrlVar2 = writer.declLocale< sdw::Int >( "ctrlVar2", 1_i );
-					IF( writer, ctrlVar2 )
+					IF( writer, ctrlVar2 != 0_i )
 					{
 						auto i = writer.declLocale< sdw::Int >( "i" );
 					}
@@ -179,8 +172,7 @@ namespace
 				}
 				FI;
 			} );
-		test::writeShader( writer.getShader()
-			, sdw::ShaderType::eVertex
+		test::writeShader( writer
 			, testCounts );
 		testEnd();
 	}
@@ -188,15 +180,15 @@ namespace
 	void testNestedIfElse( test::TestCounts & testCounts )
 	{
 		testBegin( "testNestedIfElse" );
-		sdw::ShaderWriter writer{ false };
+		sdw::VertexWriter writer{ false };
 		writer.implementFunction< void >( "main"
 			, [&]()
 			{
 				auto ctrlVar1 = writer.declLocale< sdw::Int >( "ctrlVar1", 1_i );
-				IF( writer, ctrlVar1 )
+				IF( writer, ctrlVar1 != 0_i )
 				{
 					auto ctrlVar2 = writer.declLocale< sdw::Int >( "ctrlVar2", 1_i );
-					IF( writer, ctrlVar2 )
+					IF( writer, ctrlVar2 != 0_i )
 					{
 						auto i = writer.declLocale< sdw::Int >( "i" );
 					}
@@ -209,7 +201,7 @@ namespace
 				ELSE
 				{
 					auto ctrlVar2 = writer.declLocale< sdw::Int >( "ctrlVar2", 1_i );
-					IF( writer, ctrlVar2 )
+					IF( writer, ctrlVar2 != 0_i )
 					{
 						auto i = writer.declLocale< sdw::Int >( "j" );
 					}
@@ -221,8 +213,7 @@ namespace
 				}
 				FI;
 			} );
-		test::writeShader( writer.getShader()
-			, sdw::ShaderType::eVertex
+		test::writeShader( writer
 			, testCounts );
 		testEnd();
 	}
@@ -230,35 +221,35 @@ namespace
 	void testNestedIfElseIf( test::TestCounts & testCounts )
 	{
 		testBegin( "testNestedIfElseIf" );
-		sdw::ShaderWriter writer{ false };
+		sdw::VertexWriter writer{ false };
 		writer.implementFunction< void >( "main"
 			, [&]()
 			{
 				auto ctrlVar1 = writer.declLocale< sdw::Int >( "ctrlVar1", 1_i );
 				auto ctrlVar2 = writer.declLocale< sdw::Int >( "ctrlVar2", 0_i );
-				IF( writer, ctrlVar1 )
+				IF( writer, ctrlVar1 != 0_i )
 				{
 					auto ctrlVar3 = writer.declLocale< sdw::Int >( "ctrlVar3", 1_i );
 					auto ctrlVar4 = writer.declLocale< sdw::Int >( "ctrlVar4", 1_i );
-					IF( writer, ctrlVar3 )
+					IF( writer, ctrlVar3 != 0_i )
 					{
 						auto i = writer.declLocale< sdw::Int >( "i" );
 					}
-					ELSEIF( ctrlVar4 )
+					ELSEIF( ctrlVar4 != 0_i )
 					{
 						auto j = writer.declLocale< sdw::Int >( "j" );
 					}
 					FI;
 				}
-				ELSEIF( ctrlVar2 )
+				ELSEIF( ctrlVar2 != 0_i )
 				{
 					auto ctrlVar3 = writer.declLocale< sdw::Int >( "ctrlVar3", 1_i );
 					auto ctrlVar4 = writer.declLocale< sdw::Int >( "ctrlVar4", 1_i );
-					IF( writer, ctrlVar3 )
+					IF( writer, ctrlVar3 != 0_i )
 					{
 						auto k = writer.declLocale< sdw::Int >( "k" );
 					}
-					ELSEIF( ctrlVar4 )
+					ELSEIF( ctrlVar4 != 0_i )
 					{
 						auto l = writer.declLocale< sdw::Int >( "l" );
 					}
@@ -266,8 +257,7 @@ namespace
 				}
 				FI;
 			} );
-		test::writeShader( writer.getShader()
-			, sdw::ShaderType::eVertex
+		test::writeShader( writer
 			, testCounts );
 		testEnd();
 	}
@@ -275,21 +265,21 @@ namespace
 	void testNestedIfElseIfElse( test::TestCounts & testCounts )
 	{
 		testBegin( "testNestedIfElseIfElse" );
-		sdw::ShaderWriter writer{ false };
+		sdw::VertexWriter writer{ false };
 		writer.implementFunction< void >( "main"
 			, [&]()
 			{
 				auto ctrlVar1 = writer.declLocale< sdw::Int >( "ctrlVar1", 1_i );
 				auto ctrlVar2 = writer.declLocale< sdw::Int >( "ctrlVar2", 0_i );
-				IF( writer, ctrlVar1 )
+				IF( writer, ctrlVar1 != 0_i )
 				{
 					auto ctrlVar3 = writer.declLocale< sdw::Int >( "ctrlVar3", 1_i );
 					auto ctrlVar4 = writer.declLocale< sdw::Int >( "ctrlVar4", 1_i );
-					IF( writer, ctrlVar3 )
+					IF( writer, ctrlVar3 != 0_i )
 					{
 						auto i = writer.declLocale< sdw::Int >( "i" );
 					}
-					ELSEIF( ctrlVar4 )
+					ELSEIF( ctrlVar4 != 0_i )
 					{
 						auto j = writer.declLocale< sdw::Int >( "j" );
 					}
@@ -299,15 +289,15 @@ namespace
 					}
 					FI;
 				}
-				ELSEIF( ctrlVar2 )
+				ELSEIF( ctrlVar2 != 0_i )
 				{
 					auto ctrlVar3 = writer.declLocale< sdw::Int >( "ctrlVar3", 1_i );
 					auto ctrlVar4 = writer.declLocale< sdw::Int >( "ctrlVar4", 1_i );
-					IF( writer, ctrlVar3 )
+					IF( writer, ctrlVar3 != 0_i )
 					{
 						auto l = writer.declLocale< sdw::Int >( "l" );
 					}
-					ELSEIF( ctrlVar4 )
+					ELSEIF( ctrlVar4 != 0_i )
 					{
 						auto m = writer.declLocale< sdw::Int >( "m" );
 					}
@@ -321,11 +311,11 @@ namespace
 				{
 					auto ctrlVar3 = writer.declLocale< sdw::Int >( "ctrlVar3", 1_i );
 					auto ctrlVar4 = writer.declLocale< sdw::Int >( "ctrlVar4", 1_i );
-					IF( writer, ctrlVar3 )
+					IF( writer, ctrlVar3 != 0_i )
 					{
 						auto o = writer.declLocale< sdw::Int >( "o" );
 					}
-					ELSEIF( ctrlVar4 )
+					ELSEIF( ctrlVar4 != 0_i )
 					{
 						auto p = writer.declLocale< sdw::Int >( "p" );
 					}
@@ -337,8 +327,7 @@ namespace
 				}
 				FI;
 			} );
-		test::writeShader( writer.getShader()
-			, sdw::ShaderType::eVertex
+		test::writeShader( writer
 			, testCounts );
 		testEnd();
 	}
@@ -346,7 +335,7 @@ namespace
 	void testNestedFor( test::TestCounts & testCounts )
 	{
 		testBegin( "testNestedFor" );
-		sdw::ShaderWriter writer{ false };
+		sdw::VertexWriter writer{ false };
 		writer.implementFunction< void >( "main"
 			, [&]()
 			{
@@ -360,8 +349,7 @@ namespace
 				}
 				ROF;
 			} );
-		test::writeShader( writer.getShader()
-			, sdw::ShaderType::eVertex
+		test::writeShader( writer
 			, testCounts );
 		testEnd();
 	}
@@ -369,15 +357,15 @@ namespace
 	void testNestedWhile( test::TestCounts & testCounts )
 	{
 		testBegin( "testNestedWhile" );
-		sdw::ShaderWriter writer{ false };
+		sdw::VertexWriter writer{ false };
 		writer.implementFunction< void >( "main"
 			, [&]()
 			{
 				auto ctrlVar1 = writer.declLocale< sdw::Int >( "ctrlVar1", 20_i );
-				WHILE( writer, ctrlVar1 )
+				WHILE( writer, ctrlVar1 != 0_i )
 				{
 					auto ctrlVar2 = writer.declLocale< sdw::Int >( "ctrlVar2", 20_i );
-					WHILE( writer, ctrlVar2 )
+					WHILE( writer, ctrlVar2 != 0_i )
 					{
 						ctrlVar2 = ctrlVar2 - 1_i;
 					}
@@ -386,8 +374,7 @@ namespace
 				}
 				ELIHW;
 			} );
-		test::writeShader( writer.getShader()
-			, sdw::ShaderType::eVertex
+		test::writeShader( writer
 			, testCounts );
 		testEnd();
 	}
@@ -395,15 +382,15 @@ namespace
 	void testNestedDoWhile( test::TestCounts & testCounts )
 	{
 		testBegin( "testNestedDoWhile" );
-		sdw::ShaderWriter writer{ false };
+		sdw::VertexWriter writer{ false };
 		writer.implementFunction< void >( "main"
 			, [&]()
 			{
 				auto ctrlVar1 = writer.declLocale< sdw::Int >( "ctrlVar1", 20_i );
-				DOWHILE( writer, ctrlVar1 )
+				DOWHILE( writer, ctrlVar1 != 0_i )
 				{
 					auto ctrlVar2 = writer.declLocale< sdw::Int >( "ctrlVar2", 20_i );
-					DOWHILE( writer, ctrlVar2 )
+					DOWHILE( writer, ctrlVar2 != 0_i )
 					{
 						ctrlVar2 = ctrlVar2 - 1_i;
 					}
@@ -412,8 +399,7 @@ namespace
 				}
 				ELIHWOD;
 			} );
-		test::writeShader( writer.getShader()
-			, sdw::ShaderType::eVertex
+		test::writeShader( writer
 			, testCounts );
 		testEnd();
 	}

@@ -567,7 +567,7 @@ namespace sdw::glsl
 		}
 	}
 
-	void writeHlslTextureAccessFunctions( ast::stmt::Container * cont
+	void writeGlslTextureAccessFunctions( ast::stmt::Container * cont
 		, IntrinsicsConfig const & config )
 	{
 		if ( config.requiresTexture1DShadowF )

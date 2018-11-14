@@ -172,6 +172,64 @@ namespace sdw::hlsl
 		return result;
 	}
 
+	std::string getSampledName( type::ImageFormat value )
+	{
+		std::string result;
+
+		switch ( value )
+		{
+		case ast::type::ImageFormat::eUnknown:
+			result = "float4";
+			break;
+		case ast::type::ImageFormat::eRgba32f:
+		case ast::type::ImageFormat::eRgba16f:
+			result = "float4";
+			break;
+		case ast::type::ImageFormat::eRg32f:
+		case ast::type::ImageFormat::eRg16f:
+			result = "float2";
+			break;
+		case ast::type::ImageFormat::eR32f:
+		case ast::type::ImageFormat::eR16f:
+			result = "float";
+			break;
+		case ast::type::ImageFormat::eRgba32i:
+		case ast::type::ImageFormat::eRgba16i:
+		case ast::type::ImageFormat::eRgba8i:
+			result = "int4";
+			break;
+		case ast::type::ImageFormat::eRg32i:
+		case ast::type::ImageFormat::eRg16i:
+		case ast::type::ImageFormat::eRg8i:
+			result = "int2";
+			break;
+		case ast::type::ImageFormat::eR32i:
+		case ast::type::ImageFormat::eR16i:
+		case ast::type::ImageFormat::eR8i:
+			result = "int";
+			break;
+		case ast::type::ImageFormat::eRgba32u:
+		case ast::type::ImageFormat::eRgba16u:
+		case ast::type::ImageFormat::eRgba8u:
+			result = "uint4";
+			break;
+		case ast::type::ImageFormat::eRg32u:
+		case ast::type::ImageFormat::eRg16u:
+		case ast::type::ImageFormat::eRg8u:
+			result = "uint2";
+			break;
+		case ast::type::ImageFormat::eR32u:
+		case ast::type::ImageFormat::eR16u:
+		case ast::type::ImageFormat::eR8u:
+			result = "uint";
+			break;
+		default:
+			break;
+		}
+
+		return result;
+	}
+
 	std::string getSampledName( type::Kind value )
 	{
 		std::string result;
@@ -215,6 +273,9 @@ namespace sdw::hlsl
 		case ast::type::ImageDim::eCube:
 			result = "Cube";
 			break;
+		case ast::type::ImageDim::eBuffer:
+			result = "Buffer";
+			break;
 		default:
 			assert( false && "Unsupported type::ImageDim" );
 			result = "Undefined";
@@ -232,24 +293,46 @@ namespace sdw::hlsl
 		if ( config.accessKind != type::AccessKind::eRead )
 		{
 			result += "RW";
-		}
 
-		if ( config.dimension == type::ImageDim::eBuffer )
-		{
-			result += "Buffer";
+			if ( config.dimension == type::ImageDim::eBuffer )
+			{
+				result += "Buffer";
+			}
+			else if( config.dimension == type::ImageDim::eCube )
+			{
+				result += "Texture2DArray";
+			}
+			else
+			{
+				result += "Texture";
+				result += getName( config.dimension );
+
+				if ( config.isArrayed )
+				{
+					result += "Array";
+				}
+			}
 		}
 		else
 		{
-			result += "Texture";
-			result += getName( config.dimension );
+			if ( config.dimension == type::ImageDim::eBuffer )
+			{
+				result += "Buffer";
+			}
+			else
+			{
+				result += "Texture";
+				result += getName( config.dimension );
+			}
+
+			if ( config.isArrayed )
+			{
+				result += "Array";
+			}
 		}
 
-		if ( config.isArrayed )
-		{
-			result += "Array";
-		}
-
-		result += "<" + getSampledName( config.sampledType ) + ">";
+		//result += "<" + getSampledName( config.sampledType ) + ">";
+		result += "<" + getSampledName( config.format ) + ">";
 		return result;
 	}
 
@@ -522,6 +605,186 @@ namespace sdw::hlsl
 			break;
 		default:
 			throw std::runtime_error{ "Unsupported output layout." };
+		}
+
+		return result;
+	}
+
+	std::string getCtorName( expr::CompositeType composite
+		, type::Kind component )
+	{
+		std::string result;
+
+		switch ( composite )
+		{
+		case ast::expr::CompositeType::eVec2:
+			switch ( component )
+			{
+			case ast::type::Kind::eBoolean:
+				result = "bool2";
+				break;
+			case ast::type::Kind::eInt:
+				result = "int2";
+				break;
+			case ast::type::Kind::eUInt:
+				result = "uint2";
+				break;
+			case ast::type::Kind::eFloat:
+				result = "float2";
+				break;
+			case ast::type::Kind::eDouble:
+				result = "double2";
+				break;
+			case ast::type::Kind::eHalf:
+				result = "vector<half, 2>";
+				break;
+			}
+			break;
+		case ast::expr::CompositeType::eVec3:
+			switch ( component )
+			{
+			case ast::type::Kind::eBoolean:
+				result = "bool3";
+				break;
+			case ast::type::Kind::eInt:
+				result = "int3";
+				break;
+			case ast::type::Kind::eUInt:
+				result = "uint3";
+				break;
+			case ast::type::Kind::eFloat:
+				result = "float3";
+				break;
+			case ast::type::Kind::eDouble:
+				result = "double3";
+				break;
+			case ast::type::Kind::eHalf:
+				result = "vector<half, 3>";
+				break;
+			}
+			break;
+		case ast::expr::CompositeType::eVec4:
+			switch ( component )
+			{
+			case ast::type::Kind::eBoolean:
+				result = "bool4";
+				break;
+			case ast::type::Kind::eInt:
+				result = "int4";
+				break;
+			case ast::type::Kind::eUInt:
+				result = "uint4";
+				break;
+			case ast::type::Kind::eFloat:
+				result = "float4";
+				break;
+			case ast::type::Kind::eDouble:
+				result = "double4";
+				break;
+			case ast::type::Kind::eHalf:
+				result = "vector<half, 4>";
+				break;
+			}
+			break;
+		case ast::expr::CompositeType::eMat2x2:
+			switch ( component )
+			{
+			case ast::type::Kind::eFloat:
+				result = "float2x2";
+				break;
+			case ast::type::Kind::eDouble:
+				result = "double2x2";
+				break;
+			}
+			break;
+		case ast::expr::CompositeType::eMat2x3:
+			switch ( component )
+			{
+			case ast::type::Kind::eFloat:
+				result = "float2x3";
+				break;
+			case ast::type::Kind::eDouble:
+				result = "double2x3";
+				break;
+			}
+			break;
+		case ast::expr::CompositeType::eMat2x4:
+			switch ( component )
+			{
+			case ast::type::Kind::eFloat:
+				result = "float2x4";
+				break;
+			case ast::type::Kind::eDouble:
+				result = "double2x4";
+				break;
+			}
+			break;
+		case ast::expr::CompositeType::eMat3x2:
+			switch ( component )
+			{
+			case ast::type::Kind::eFloat:
+				result = "float3x2";
+				break;
+			case ast::type::Kind::eDouble:
+				result = "double3x2";
+				break;
+			}
+			break;
+		case ast::expr::CompositeType::eMat3x3:
+			switch ( component )
+			{
+			case ast::type::Kind::eFloat:
+				result = "float3x3";
+				break;
+			case ast::type::Kind::eDouble:
+				result = "double3x3";
+				break;
+			}
+			break;
+		case ast::expr::CompositeType::eMat3x4:
+			switch ( component )
+			{
+			case ast::type::Kind::eFloat:
+				result = "float3x4";
+				break;
+			case ast::type::Kind::eDouble:
+				result = "double3x4";
+				break;
+			}
+			break;
+		case ast::expr::CompositeType::eMat4x2:
+			switch ( component )
+			{
+			case ast::type::Kind::eFloat:
+				result = "float4x2";
+				break;
+			case ast::type::Kind::eDouble:
+				result = "double4x2";
+				break;
+			}
+			break;
+		case ast::expr::CompositeType::eMat4x3:
+			switch ( component )
+			{
+			case ast::type::Kind::eFloat:
+				result = "float4x3";
+				break;
+			case ast::type::Kind::eDouble:
+				result = "double4x3";
+				break;
+			}
+			break;
+		case ast::expr::CompositeType::eMat4x4:
+			switch ( component )
+			{
+			case ast::type::Kind::eFloat:
+				result = "float4x4";
+				break;
+			case ast::type::Kind::eDouble:
+				result = "double4x4";
+				break;
+			}
+			break;
 		}
 
 		return result;

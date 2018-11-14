@@ -41,6 +41,39 @@ namespace sdw
 	namespace details
 	{
 		template< typename ReturnT >
+		struct CtorCallGetter
+		{
+			template< typename ... ParamsT >
+			static ReturnT submit( ParamsT const & ... params )
+			{
+				expr::ExprList args;
+				bool isEnabled = true;
+				getFunctionCallParamsRec( args, isEnabled, params... );
+				return ReturnT{ findShader( params... )
+					, sdw::makeCompositeCtor( getCompositeType( typeEnum< ReturnT > )
+						, type::getScalarType( typeEnum< ReturnT > )
+						, std::move( args ) ) };
+			}
+		};
+
+		template< typename ReturnT >
+		struct CtorCallGetter< Optional< ReturnT > >
+		{
+			template< typename ... ParamsT >
+			static Optional< ReturnT > submit( ParamsT const & ... params )
+			{
+				expr::ExprList args;
+				bool isEnabled = true;
+				getFunctionCallParamsRec( args, isEnabled, params... );
+				return Optional< ReturnT >{ findShader( params... )
+					, sdw::makeCompositeCtor( getCompositeType( typeEnum< ReturnT > )
+						, type::getScalarType( typeEnum< ReturnT > )
+						, std::move( args ) )
+					, isEnabled };
+			}
+		};
+
+		template< typename ReturnT >
 		struct FunctionCallGetter
 		{
 			template< typename ... ParamsT >
@@ -75,7 +108,21 @@ namespace sdw
 			}
 		};
 	}
-	
+
+	template< typename ReturnT
+		, typename ... ParamsT >
+	inline ReturnT getCtorCall( ParamsT const & ... params )
+	{
+		return details::CtorCallGetter< ReturnT >::submit( params... );
+	}
+
+	template< typename ReturnT
+		, typename ... ParamsT >
+	inline Optional< ReturnT > getOptCtorCall( ParamsT const & ... params )
+	{
+		return details::CtorCallGetter< Optional< ReturnT > >::submit( params... );
+	}
+
 	template< typename ReturnT
 		, typename ... ParamsT >
 	inline ReturnT getFunctionCall( std::string const & name

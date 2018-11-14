@@ -6,6 +6,8 @@ See LICENSE file in root folder
 #pragma once
 
 #include "Vec4.hpp"
+#include "Float.hpp"
+#include "Array.hpp"
 
 #include <ASTGenerator/Stmt/StmtPerVertexDecl.hpp>
 #include <ASTGenerator/Var/VariableList.hpp>
@@ -18,15 +20,12 @@ namespace sdw
 		gl_PerVertex();
 		gl_PerVertex( ShaderWriter & writer
 			, stmt::PerVertexDecl::Source source = stmt::PerVertexDecl::eVertexOutput );
-		Vec4 gl_Position()const;
-		Float gl_PointSize()const;
-		Float gl_ClipDistance()const;
+		Vec4 gl_Position;
+		Float gl_PointSize;
+		Array< Float > gl_ClipDistance;
 
 	private:
 		stmt::PerVertexDecl::Source m_source;
-		var::VariablePtr m_glPosition;
-		var::VariablePtr m_glPointSize;
-		var::VariablePtr m_glClipDistance;
 	};
 }
 

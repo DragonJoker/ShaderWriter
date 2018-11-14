@@ -82,6 +82,19 @@ namespace sdw::hlsl
 		return result;
 	}
 
+	bool HlslShader::hasVar( std::string const & name )
+	{
+		try
+		{
+			getVar( name, nullptr );
+			return true;
+		}
+		catch ( ... )
+		{
+			return false;
+		}
+	}
+
 	var::VariablePtr HlslShader::getVar( std::string const & name
 		, type::TypePtr type )
 	{

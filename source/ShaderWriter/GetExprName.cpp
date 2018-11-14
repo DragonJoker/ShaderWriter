@@ -67,6 +67,10 @@ namespace sdw
 				}
 			}
 
+			void visitCompositeConstructExpr( expr::CompositeConstruct * expr )override
+			{
+			}
+
 			void visitMbrSelectExpr( expr::MbrSelect * expr )override
 			{
 				if ( !m_result )

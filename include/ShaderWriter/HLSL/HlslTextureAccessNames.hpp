@@ -507,6 +507,7 @@ namespace sdw::hlsl
 			result = "SampleGrad";
 			break;
 
+	// Texel Compare Functions
 		case ast::expr::TextureAccess::eTexture1DShadowF:
 		case ast::expr::TextureAccess::eTexture2DShadowF:
 		case ast::expr::TextureAccess::eTextureCubeShadowF:
@@ -532,17 +533,6 @@ namespace sdw::hlsl
 		case ast::expr::TextureAccess::eTextureLodOffset1DShadowF:
 		case ast::expr::TextureAccess::eTextureLodOffset2DShadowF:
 		case ast::expr::TextureAccess::eTextureLodOffset1DArrayShadowF:
-		case ast::expr::TextureAccess::eTextureGather2DShadowF:
-		case ast::expr::TextureAccess::eTextureGather2DArrayShadowF:
-		case ast::expr::TextureAccess::eTextureGatherCubeShadowF:
-		case ast::expr::TextureAccess::eTextureGatherCubeArrayShadowF:
-		case ast::expr::TextureAccess::eTextureGather2DRectShadowF:
-		case ast::expr::TextureAccess::eTextureGatherOffset2DShadowF:
-		case ast::expr::TextureAccess::eTextureGatherOffset2DArrayShadowF:
-		case ast::expr::TextureAccess::eTextureGatherOffset2DRectShadowF:
-		case ast::expr::TextureAccess::eTextureGatherOffsets2DShadowF:
-		case ast::expr::TextureAccess::eTextureGatherOffsets2DArrayShadowF:
-		case ast::expr::TextureAccess::eTextureGatherOffsets2DRectShadowF:
 		case ast::expr::TextureAccess::eTextureProj1DShadowF:
 		case ast::expr::TextureAccess::eTextureProj2DShadowF:
 		case ast::expr::TextureAccess::eTextureProj2DRectShadowF:
@@ -559,8 +549,6 @@ namespace sdw::hlsl
 		case ast::expr::TextureAccess::eTextureProjLodOffset2DShadowF:
 			result = "SampleCmp";
 			break;
-
-
 
 	// Texture Gather Functions
 		case ast::expr::TextureAccess::eTextureGather2DF:
@@ -636,6 +624,21 @@ namespace sdw::hlsl
 		case ast::expr::TextureAccess::eTextureGatherOffsets2DRectU:
 		case ast::expr::TextureAccess::eTextureGatherOffsets2DRectUComp:
 			result = "Gather";
+			break;
+
+	// Texture Gather Compare Functions
+		case ast::expr::TextureAccess::eTextureGather2DShadowF:
+		case ast::expr::TextureAccess::eTextureGather2DArrayShadowF:
+		case ast::expr::TextureAccess::eTextureGatherCubeShadowF:
+		case ast::expr::TextureAccess::eTextureGatherCubeArrayShadowF:
+		case ast::expr::TextureAccess::eTextureGather2DRectShadowF:
+		case ast::expr::TextureAccess::eTextureGatherOffset2DShadowF:
+		case ast::expr::TextureAccess::eTextureGatherOffset2DArrayShadowF:
+		case ast::expr::TextureAccess::eTextureGatherOffset2DRectShadowF:
+		case ast::expr::TextureAccess::eTextureGatherOffsets2DShadowF:
+		case ast::expr::TextureAccess::eTextureGatherOffsets2DArrayShadowF:
+		case ast::expr::TextureAccess::eTextureGatherOffsets2DRectShadowF:
+			result = "GatherCmpRed";
 			break;
 
 		default:

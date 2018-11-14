@@ -15,7 +15,7 @@ namespace
 		testBegin( "reference" );
 		using namespace sdw;
 
-		ShaderWriter writer{ false };
+		FragmentWriter writer{ false };
 		auto color1 = writer.declInput< Vec4 >( "color1", 0u );
 		auto multiplier = writer.declInput< Vec4 >( "multiplier", 1u );
 		auto color2 = writer.declInput< Vec4 >( "color2", 2u );
@@ -40,7 +40,7 @@ namespace
 					, vec4( 1.0_f, 1.0_f, 2.0_f, 1.0_f ) );
 				auto sv = s.getMemberArray< Vec4 >( "v" );
 
-				IF( writer, cond )
+				IF( writer, cond != 0_i )
 				{
 					color = color1 + sv[2];
 				}
@@ -57,8 +57,7 @@ namespace
 				ROF;
 			} );
 
-		test::writeShader( writer.getShader()
-			, sdw::ShaderType::eFragment
+		test::writeShader( writer
 			, testCounts );
 		testEnd();
 	}
@@ -68,22 +67,21 @@ namespace
 		testBegin( "vertex" );
 		using namespace sdw;
 
-		ShaderWriter writer{ false };
+		VertexWriter writer{ false };
 		auto position = writer.declInput< Vec2 >( "position", 0u );
 		auto texcoord = writer.declInput< Vec2 >( "texcoord", 1u );
 
 		// Shader outputs
 		auto vtx_texture = writer.declOutput< Vec2 >( "vtx_texture", 0u );
-		auto out = gl_PerVertex{ writer };
+		auto out = writer.getOut();
 
 		writer.implementFunction< void >( "main", [&]()
 			{
 				vtx_texture = texcoord;
-				out.gl_Position() = vec4( position.x(), position.y(), 0.0, 1.0 );
+				out.gl_out.gl_Position = vec4( position.x(), position.y(), 0.0, 1.0 );
 			} );
 
-		test::writeShader( writer.getShader()
-			, sdw::ShaderType::eVertex
+		test::writeShader( writer
 			, testCounts );
 		testEnd();
 	}
@@ -93,7 +91,7 @@ namespace
 		testBegin( "fragment" );
 		using namespace sdw;
 
-		ShaderWriter writer{ false };
+		FragmentWriter writer{ false };
 		// Shader inputs
 		Ubo hdrConfig{ writer, "BufferHdrConfig", 0u, 0u };
 		auto c3d_exposure = hdrConfig.declMember< Float >( "c3d_exposure" );
@@ -167,8 +165,7 @@ namespace
 				pxl_rgb = vec4( applyGamma( c3d_gamma, colour ), 1.0 );
 			} );
 
-		test::writeShader( writer.getShader()
-			, sdw::ShaderType::eFragment
+		test::writeShader( writer
 			, testCounts );
 		testEnd();
 	}
@@ -177,21 +174,20 @@ namespace
 	{
 		testBegin( "compute" );
 		using namespace sdw;
-		ShaderWriter writer{ false };
-		auto gl_GlobalInvocationID = writer.declBuiltin< UVec3 >( "gl_GlobalInvocationID" );
+		ComputeWriter writer{ false };
+		auto in = writer.getIn();
 		Ssbo ssbo{ writer, "SSBO", 0u, 0u };
 		auto uints = ssbo.declMemberArray< UInt >( "uints" );
 		ssbo.end();
 
-		writer.inputComputeLayout( 16 );
+		writer.inputLayout( 16 );
 		writer.implementFunction< void >( "main"
 			, [&]()
 			{
-				uints[gl_GlobalInvocationID.x()] = uints[gl_GlobalInvocationID.x()] * uints[gl_GlobalInvocationID.x()];
+				uints[in.gl_GlobalInvocationID.x()] = uints[in.gl_GlobalInvocationID.x()] * uints[in.gl_GlobalInvocationID.x()];
 			} );
 
-		test::writeShader( writer.getShader()
-			, sdw::ShaderType::eCompute
+		test::writeShader( writer
 			, testCounts );
 		testEnd();
 	}

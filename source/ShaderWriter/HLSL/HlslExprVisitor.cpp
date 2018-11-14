@@ -138,6 +138,23 @@ namespace sdw::hlsl
 
 			m_result += " = ";
 		}
+		else
+		{
+			m_result += getTypeName( expr->getType() );
+			auto arraySize = expr->getType()->getArraySize();
+
+			if ( arraySize != ast::type::NotArray )
+			{
+				if ( arraySize == ast::type::UnknownArraySize )
+				{
+					m_result += "[]";
+				}
+				else
+				{
+					m_result += "[" + std::to_string( arraySize ) + "]";
+				}
+			}
+		}
 
 		m_result += "{";
 		std::string sep;
@@ -166,6 +183,21 @@ namespace sdw::hlsl
 		m_result += ")";
 	}
 
+	void ExprVisitor::visitCompositeConstructExpr( expr::CompositeConstruct * expr )
+	{
+		m_result += getCtorName( expr->getComposite(), expr->getComponent() ) + "(";
+		std::string sep;
+
+		for ( auto & arg : expr->getArgList() )
+		{
+			m_result += sep;
+			arg->accept( this );
+			sep = ", ";
+		}
+
+		m_result += ")";
+	}
+
 	void ExprVisitor::visitMbrSelectExpr( expr::MbrSelect * expr )
 	{
 		wrap( expr->getOuterExpr() );
@@ -175,6 +207,12 @@ namespace sdw::hlsl
 
 	void ExprVisitor::visitFnCallExpr( expr::FnCall * expr )
 	{
+		if ( expr->isMember() )
+		{
+			wrap( expr->getInstance() );
+			m_result += ".";
+		}
+
 		expr->getFn()->accept( this );
 		m_result += "(";
 		std::string sep;
@@ -191,7 +229,24 @@ namespace sdw::hlsl
 
 	void ExprVisitor::visitIdentifierExpr( expr::Identifier * expr )
 	{
-		m_result += expr->getVariable()->getName();
+		//if ( expr->getVariable()->isMember() 
+		//	&& getOutermost( expr->getVariable() )->isUniform() )
+		//{
+		//	auto result = expr->getVariable()->getName();
+		//	auto outer = expr->getVariable()->getOuter();
+
+		//	while ( outer )
+		//	{
+		//		result = outer->getName() + "." + result;
+		//		outer = outer->getOuter();
+		//	}
+
+		//	m_result += result;
+		//}
+		//else
+		{
+			m_result += expr->getVariable()->getName();
+		}
 	}
 
 	void ExprVisitor::visitImageAccessCallExpr( expr::ImageAccessCall * expr )
@@ -346,32 +401,105 @@ namespace sdw::hlsl
 		if ( expr->getTextureAccess() >= expr::TextureAccess::eTextureSize1DF
 				&& expr->getTextureAccess() <= expr::TextureAccess::eTextureQueryLevelsCubeArrayU )
 		{
-			m_result += getHlslName( expr->getTextureAccess() ) + "(";
-			std::string sep;
-
-			for ( auto & arg : expr->getArgList() )
-			{
-				m_result += sep;
-				arg->accept( this );
-				sep = ", ";
-			}
-
-			m_result += ")";
+			doProcessNonMemberTexture( expr );
+		}
+		else if ( expr->getTextureAccess() >= expr::TextureAccess::eTextureGather2DF
+				&& expr->getTextureAccess() <= expr::TextureAccess::eTextureGatherOffsets2DRectUComp )
+		{
+			doProcessTextureGather( expr );
 		}
 		else
 		{
-			expr->getArgList()[0]->accept( this );
-			m_result += "." + getHlslName( expr->getTextureAccess() ) + "(";
-			expr->getArgList()[1]->accept( this );
-
-			for ( size_t i = 2; i < expr->getArgList().size(); ++i )
-			{
-				auto & arg = expr->getArgList()[i];
-				m_result += ", ";
-				arg->accept( this );
-			}
-
-			m_result += ")";
+			doProcessMemberTexture( expr );
 		}
+	}
+
+	void ExprVisitor::doProcessMemberTexture( expr::TextureAccessCall * expr )
+	{
+		expr->getArgList()[0]->accept( this );
+		m_result += "." + getHlslName( expr->getTextureAccess() ) + "(";
+		expr->getArgList()[1]->accept( this );
+
+		for ( size_t i = 2; i < expr->getArgList().size(); ++i )
+		{
+			auto & arg = expr->getArgList()[i];
+			m_result += ", ";
+			arg->accept( this );
+		}
+
+		m_result += ")";
+	}
+
+	void ExprVisitor::doProcessNonMemberTexture( expr::TextureAccessCall * expr )
+	{
+		m_result += getHlslName( expr->getTextureAccess() ) + "(";
+		std::string sep;
+
+		for ( auto & arg : expr->getArgList() )
+		{
+			m_result += sep;
+			arg->accept( this );
+			sep = ", ";
+		}
+
+		m_result += ")";
+	}
+
+	void ExprVisitor::doProcessTextureGather( expr::TextureAccessCall * expr )
+	{
+		expr->getArgList()[0]->accept( this );
+		uint32_t compValue = 0u;
+
+		// Component value will determine Gather function name.
+		auto component = expr->getArgList().back().get();
+
+		if ( component->getKind() == expr::Kind::eLiteral )
+		{
+			auto lit = static_cast< expr::Literal const * >( component );
+
+			if ( lit->getLiteralType() == expr::LiteralType::eInt )
+			{
+				compValue = uint32_t( lit->getValue< expr::LiteralType::eInt >() );
+			}
+			else
+			{
+				assert( lit->getLiteralType() == expr::LiteralType::eUInt );
+				compValue = lit->getValue< expr::LiteralType::eUInt >();
+			}
+		}
+
+		auto name = getHlslName( expr->getTextureAccess() );
+
+		switch ( compValue )
+		{
+		case 0:
+			name = "GatherRed";
+			break;
+		case 1:
+			name = "GatherGreen";
+			break;
+		case 2:
+			name = "GatherBlue";
+			break;
+		case 3:
+			name = "GatherAlpha";
+			break;
+		}
+
+		m_result += "." + name + "(";
+		// Sampler
+		expr->getArgList()[1]->accept( this );
+		// Coord
+		m_result += ", ";
+		expr->getArgList()[2]->accept( this );
+
+		for ( size_t i = 3u; i < expr->getArgList().size() - 1u; ++i )
+		{
+			auto & arg = expr->getArgList()[i];
+			m_result += ", ";
+			arg->accept( this );
+		}
+
+		m_result += ")";
 	}
 }

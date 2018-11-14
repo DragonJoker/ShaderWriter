@@ -45,6 +45,21 @@ namespace sdw
 	static bool constexpr isOptional = IsOptional< T >::value;
 
 	template< typename T >
+	struct RealTypeOf
+	{
+		using Type = T;
+	};
+
+	template< typename T >
+	struct RealTypeOf< Optional< T > >
+	{
+		using Type = T;
+	};
+
+	template< typename T >
+	using RealTypeT = typename RealTypeOf< T >::Type;
+
+	template< typename T >
 	expr::ExprPtr makeExpr( Optional< T > const & value );
 
 	template< typename T >

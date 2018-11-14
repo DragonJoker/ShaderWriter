@@ -135,6 +135,9 @@ namespace sdw
 	expr::ExprPtr makeFnCall( type::TypePtr type
 		, expr::IdentifierPtr name
 		, expr::ExprList && args );
+	expr::ExprPtr makeCompositeCtor( expr::CompositeType composite
+		, type::Kind component
+		, expr::ExprList && args );
 	expr::ExprPtr makeMbrSelect( expr::ExprPtr outer
 		, uint32_t memberIndex
 		, expr::IdentifierPtr inner );

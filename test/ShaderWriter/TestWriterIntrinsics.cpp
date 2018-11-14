@@ -12,15 +12,15 @@ namespace
 		testBegin( "testRoundEven1F" );
 		using namespace sdw;
 		{
-			ShaderWriter writer{ false };
+			ComputeWriter writer{ false };
+			writer.inputLayout( 1u );
 			writer.implementFunction< void >( "main"
 				, [&]()
 				{
 					auto v = writer.declLocale< Float >( "v" );
 					v = roundEven( v );
 				} );
-			test::writeShader( writer.getShader()
-				, sdw::ShaderType::eFragment
+			test::writeShader( writer
 				, testCounts );
 		}
 		testEnd();
@@ -31,15 +31,15 @@ namespace
 		testBegin( "testRoundEven2F" );
 		using namespace sdw;
 		{
-			ShaderWriter writer{ false };
+			ComputeWriter writer{ false };
+			writer.inputLayout( 1u );
 			writer.implementFunction< void >( "main"
 				, [&]()
 				{
 					auto v = writer.declLocale< Vec2 >( "v" );
 					v = roundEven( v );
 				} );
-			test::writeShader( writer.getShader()
-				, sdw::ShaderType::eFragment
+			test::writeShader( writer
 				, testCounts );
 		}
 		testEnd();
@@ -50,15 +50,15 @@ namespace
 		testBegin( "testRoundEven3F" );
 		using namespace sdw;
 		{
-			ShaderWriter writer{ false };
+			ComputeWriter writer{ false };
+			writer.inputLayout( 1u );
 			writer.implementFunction< void >( "main"
 				, [&]()
 				{
 					auto v = writer.declLocale< Vec3 >( "v" );
 					v = roundEven( v );
 				} );
-			test::writeShader( writer.getShader()
-				, sdw::ShaderType::eFragment
+			test::writeShader( writer
 				, testCounts );
 		}
 		testEnd();
@@ -69,15 +69,15 @@ namespace
 		testBegin( "testRoundEven4F" );
 		using namespace sdw;
 		{
-			ShaderWriter writer{ false };
+			ComputeWriter writer{ false };
+			writer.inputLayout( 1u );
 			writer.implementFunction< void >( "main"
 				, [&]()
 				{
 					auto v = writer.declLocale< Vec4 >( "v" );
 					v = roundEven( v );
 				} );
-			test::writeShader( writer.getShader()
-				, sdw::ShaderType::eFragment
+			test::writeShader( writer
 				, testCounts );
 		}
 		testEnd();
@@ -88,15 +88,15 @@ namespace
 		testBegin( "testRoundEven1D" );
 		using namespace sdw;
 		{
-			ShaderWriter writer{ false };
+			ComputeWriter writer{ false };
+			writer.inputLayout( 1u );
 			writer.implementFunction< void >( "main"
 				, [&]()
 				{
 					auto v = writer.declLocale< Double >( "v" );
 					v = roundEven( v );
 				} );
-			test::writeShader( writer.getShader()
-				, sdw::ShaderType::eFragment
+			test::writeShader( writer
 				, testCounts );
 		}
 		testEnd();
@@ -107,15 +107,15 @@ namespace
 		testBegin( "testRoundEven2D" );
 		using namespace sdw;
 		{
-			ShaderWriter writer{ false };
+			ComputeWriter writer{ false };
+			writer.inputLayout( 1u );
 			writer.implementFunction< void >( "main"
 				, [&]()
 				{
 					auto v = writer.declLocale< DVec2 >( "v" );
 					v = roundEven( v );
 				} );
-			test::writeShader( writer.getShader()
-				, sdw::ShaderType::eFragment
+			test::writeShader( writer
 				, testCounts );
 		}
 		testEnd();
@@ -126,15 +126,15 @@ namespace
 		testBegin( "testRoundEven3D" );
 		using namespace sdw;
 		{
-			ShaderWriter writer{ false };
+			ComputeWriter writer{ false };
+			writer.inputLayout( 1u );
 			writer.implementFunction< void >( "main"
 				, [&]()
 				{
 					auto v = writer.declLocale< DVec3 >( "v" );
 					v = roundEven( v );
 				} );
-			test::writeShader( writer.getShader()
-				, sdw::ShaderType::eFragment
+			test::writeShader( writer
 				, testCounts );
 		}
 		testEnd();
@@ -145,15 +145,15 @@ namespace
 		testBegin( "testRoundEven4D" );
 		using namespace sdw;
 		{
-			ShaderWriter writer{ false };
+			ComputeWriter writer{ false };
+			writer.inputLayout( 1u );
 			writer.implementFunction< void >( "main"
 				, [&]()
 				{
 					auto v = writer.declLocale< DVec4 >( "v" );
 					v = roundEven( v );
 				} );
-			test::writeShader( writer.getShader()
-				, sdw::ShaderType::eFragment
+			test::writeShader( writer
 				, testCounts );
 		}
 		testEnd();
@@ -164,7 +164,8 @@ namespace
 		testBegin( "testPackDouble2x32" );
 		using namespace sdw;
 		{
-			ShaderWriter writer{ false };
+			ComputeWriter writer{ false };
+			writer.inputLayout( 1u );
 			writer.implementFunction< void >( "main"
 				, [&]()
 				{
@@ -172,8 +173,7 @@ namespace
 					auto r = writer.declLocale< Double >( "r" );
 					r = packDouble2x32( v );
 				} );
-			test::writeShader( writer.getShader()
-				, sdw::ShaderType::eFragment
+			test::writeShader( writer
 				, testCounts );
 		}
 		testEnd();
@@ -184,7 +184,8 @@ namespace
 		testBegin( "testPackHalf2x16" );
 		using namespace sdw;
 		{
-			ShaderWriter writer{ false };
+			ComputeWriter writer{ false };
+			writer.inputLayout( 1u );
 			writer.implementFunction< void >( "main"
 				, [&]()
 				{
@@ -192,8 +193,7 @@ namespace
 					auto r = writer.declLocale< UInt >( "r" );
 					r = packHalf2x16( v );
 				} );
-			test::writeShader( writer.getShader()
-				, sdw::ShaderType::eFragment
+			test::writeShader( writer
 				, testCounts );
 		}
 		testEnd();
@@ -204,7 +204,8 @@ namespace
 		testBegin( "testPackSnorm2x16" );
 		using namespace sdw;
 		{
-			ShaderWriter writer{ false };
+			ComputeWriter writer{ false };
+			writer.inputLayout( 1u );
 			writer.implementFunction< void >( "main"
 				, [&]()
 				{
@@ -212,8 +213,7 @@ namespace
 					auto r = writer.declLocale< UInt >( "r" );
 					r = packSnorm2x16( v );
 				} );
-			test::writeShader( writer.getShader()
-				, sdw::ShaderType::eFragment
+			test::writeShader( writer
 				, testCounts );
 		}
 		testEnd();
@@ -224,7 +224,8 @@ namespace
 		testBegin( "testPackUnorm2x16" );
 		using namespace sdw;
 		{
-			ShaderWriter writer{ false };
+			ComputeWriter writer{ false };
+			writer.inputLayout( 1u );
 			writer.implementFunction< void >( "main"
 				, [&]()
 				{
@@ -232,8 +233,7 @@ namespace
 					auto r = writer.declLocale< UInt >( "r" );
 					r = packUnorm2x16( v );
 				} );
-			test::writeShader( writer.getShader()
-				, sdw::ShaderType::eFragment
+			test::writeShader( writer
 				, testCounts );
 		}
 		testEnd();
@@ -244,7 +244,8 @@ namespace
 		testBegin( "testPackSnorm4x8" );
 		using namespace sdw;
 		{
-			ShaderWriter writer{ false };
+			ComputeWriter writer{ false };
+			writer.inputLayout( 1u );
 			writer.implementFunction< void >( "main"
 				, [&]()
 				{
@@ -252,8 +253,7 @@ namespace
 					auto r = writer.declLocale< UInt >( "r" );
 					r = packSnorm4x8( v );
 				} );
-			test::writeShader( writer.getShader()
-				, sdw::ShaderType::eFragment
+			test::writeShader( writer
 				, testCounts );
 		}
 		testEnd();
@@ -264,7 +264,8 @@ namespace
 		testBegin( "testPackUnorm4x8" );
 		using namespace sdw;
 		{
-			ShaderWriter writer{ false };
+			ComputeWriter writer{ false };
+			writer.inputLayout( 1u );
 			writer.implementFunction< void >( "main"
 				, [&]()
 				{
@@ -272,8 +273,7 @@ namespace
 					auto r = writer.declLocale< UInt >( "r" );
 					r = packUnorm4x8( v );
 				} );
-			test::writeShader( writer.getShader()
-				, sdw::ShaderType::eFragment
+			test::writeShader( writer
 				, testCounts );
 		}
 		testEnd();
@@ -284,7 +284,8 @@ namespace
 		testBegin( "testUnpackDouble2x32" );
 		using namespace sdw;
 		{
-			ShaderWriter writer{ false };
+			ComputeWriter writer{ false };
+			writer.inputLayout( 1u );
 			writer.implementFunction< void >( "main"
 				, [&]()
 				{
@@ -292,8 +293,7 @@ namespace
 					auto r = writer.declLocale< UVec2 >( "r" );
 					r = unpackDouble2x32( v );
 				} );
-			test::writeShader( writer.getShader()
-				, sdw::ShaderType::eFragment
+			test::writeShader( writer
 				, testCounts );
 		}
 		testEnd();
@@ -304,7 +304,8 @@ namespace
 		testBegin( "testUnpackHalf2x16" );
 		using namespace sdw;
 		{
-			ShaderWriter writer{ false };
+			ComputeWriter writer{ false };
+			writer.inputLayout( 1u );
 			writer.implementFunction< void >( "main"
 				, [&]()
 				{
@@ -312,8 +313,7 @@ namespace
 					auto r = writer.declLocale< Vec2 >( "r" );
 					r = unpackHalf2x16( v );
 				} );
-			test::writeShader( writer.getShader()
-				, sdw::ShaderType::eFragment
+			test::writeShader( writer
 				, testCounts );
 		}
 		testEnd();
@@ -324,7 +324,8 @@ namespace
 		testBegin( "testUnpackSnorm2x16" );
 		using namespace sdw;
 		{
-			ShaderWriter writer{ false };
+			ComputeWriter writer{ false };
+			writer.inputLayout( 1u );
 			writer.implementFunction< void >( "main"
 				, [&]()
 				{
@@ -332,8 +333,7 @@ namespace
 					auto r = writer.declLocale< Vec2 >( "r" );
 					r = unpackSnorm2x16( v );
 				} );
-			test::writeShader( writer.getShader()
-				, sdw::ShaderType::eFragment
+			test::writeShader( writer
 				, testCounts );
 		}
 		testEnd();
@@ -344,7 +344,8 @@ namespace
 		testBegin( "testUnpackUnorm2x16" );
 		using namespace sdw;
 		{
-			ShaderWriter writer{ false };
+			ComputeWriter writer{ false };
+			writer.inputLayout( 1u );
 			writer.implementFunction< void >( "main"
 				, [&]()
 				{
@@ -352,8 +353,7 @@ namespace
 					auto r = writer.declLocale< Vec2 >( "r" );
 					r = unpackUnorm2x16( v );
 				} );
-			test::writeShader( writer.getShader()
-				, sdw::ShaderType::eFragment
+			test::writeShader( writer
 				, testCounts );
 		}
 		testEnd();
@@ -364,7 +364,8 @@ namespace
 		testBegin( "testUnpackSnorm4x8" );
 		using namespace sdw;
 		{
-			ShaderWriter writer{ false };
+			ComputeWriter writer{ false };
+			writer.inputLayout( 1u );
 			writer.implementFunction< void >( "main"
 				, [&]()
 				{
@@ -372,8 +373,7 @@ namespace
 					auto r = writer.declLocale< Vec4 >( "r" );
 					r = unpackSnorm4x8( v );
 				} );
-			test::writeShader( writer.getShader()
-				, sdw::ShaderType::eFragment
+			test::writeShader( writer
 				, testCounts );
 		}
 		testEnd();
@@ -384,7 +384,8 @@ namespace
 		testBegin( "testUnpackUnorm4x8" );
 		using namespace sdw;
 		{
-			ShaderWriter writer{ false };
+			ComputeWriter writer{ false };
+			writer.inputLayout( 1u );
 			writer.implementFunction< void >( "main"
 				, [&]()
 				{
@@ -392,8 +393,7 @@ namespace
 					auto r = writer.declLocale< Vec4 >( "r" );
 					r = unpackUnorm4x8( v );
 				} );
-			test::writeShader( writer.getShader()
-				, sdw::ShaderType::eFragment
+			test::writeShader( writer
 				, testCounts );
 		}
 		testEnd();
@@ -405,7 +405,8 @@ namespace
 	{
 		using namespace sdw;
 		{
-			ShaderWriter writer{ false };
+			ComputeWriter writer{ false };
+			writer.inputLayout( 1u );
 			writer.implementFunction< void >( "main"
 				, [&]()
 				{
@@ -414,8 +415,7 @@ namespace
 					auto res = writer.declLocale( "res"
 						, lessThan( lhs, rhs ) );
 				} );
-			test::writeShader( writer.getShader()
-				, sdw::ShaderType::eFragment
+			test::writeShader( writer
 				, testCounts );
 		}
 	}
@@ -510,7 +510,8 @@ namespace
 	{
 		using namespace sdw;
 		{
-			ShaderWriter writer{ false };
+			ComputeWriter writer{ false };
+			writer.inputLayout( 1u );
 			writer.implementFunction< void >( "main"
 				, [&]()
 				{
@@ -519,8 +520,7 @@ namespace
 					auto res = writer.declLocale( "res"
 						, lessThanEqual( lhs, rhs ) );
 				} );
-			test::writeShader( writer.getShader()
-				, sdw::ShaderType::eFragment
+			test::writeShader( writer
 				, testCounts );
 		}
 	}
@@ -615,7 +615,8 @@ namespace
 	{
 		using namespace sdw;
 		{
-			ShaderWriter writer{ false };
+			ComputeWriter writer{ false };
+			writer.inputLayout( 1u );
 			writer.implementFunction< void >( "main"
 				, [&]()
 				{
@@ -624,8 +625,7 @@ namespace
 					auto res = writer.declLocale( "res"
 						, greaterThan( lhs, rhs ) );
 				} );
-			test::writeShader( writer.getShader()
-				, sdw::ShaderType::eFragment
+			test::writeShader( writer
 				, testCounts );
 		}
 	}
@@ -720,7 +720,8 @@ namespace
 	{
 		using namespace sdw;
 		{
-			ShaderWriter writer{ false };
+			ComputeWriter writer{ false };
+			writer.inputLayout( 1u );
 			writer.implementFunction< void >( "main"
 				, [&]()
 				{
@@ -729,8 +730,7 @@ namespace
 					auto res = writer.declLocale( "res"
 						, greaterThanEqual( lhs, rhs ) );
 				} );
-			test::writeShader( writer.getShader()
-				, sdw::ShaderType::eFragment
+			test::writeShader( writer
 				, testCounts );
 		}
 	}
@@ -825,7 +825,8 @@ namespace
 	{
 		using namespace sdw;
 		{
-			ShaderWriter writer{ false };
+			ComputeWriter writer{ false };
+			writer.inputLayout( 1u );
 			writer.implementFunction< void >( "main"
 				, [&]()
 				{
@@ -834,8 +835,7 @@ namespace
 					auto res = writer.declLocale( "res"
 						, equal( lhs, rhs ) );
 				} );
-			test::writeShader( writer.getShader()
-				, sdw::ShaderType::eFragment
+			test::writeShader( writer
 				, testCounts );
 		}
 	}
@@ -930,7 +930,8 @@ namespace
 	{
 		using namespace sdw;
 		{
-			ShaderWriter writer{ false };
+			ComputeWriter writer{ false };
+			writer.inputLayout( 1u );
 			writer.implementFunction< void >( "main"
 				, [&]()
 				{
@@ -939,8 +940,7 @@ namespace
 					auto res = writer.declLocale( "res"
 						, notEqual( lhs, rhs ) );
 				} );
-			test::writeShader( writer.getShader()
-				, sdw::ShaderType::eFragment
+			test::writeShader( writer
 				, testCounts );
 		}
 	}
@@ -1035,7 +1035,8 @@ namespace
 	{
 		using namespace sdw;
 		{
-			ShaderWriter writer{ false };
+			ComputeWriter writer{ false };
+			writer.inputLayout( 1u );
 			writer.implementFunction< void >( "main"
 				, [&]()
 				{
@@ -1043,8 +1044,7 @@ namespace
 					auto res = writer.declLocale( "res"
 						, not( operand ) );
 				} );
-			test::writeShader( writer.getShader()
-				, sdw::ShaderType::eFragment
+			test::writeShader( writer
 				, testCounts );
 		}
 	}
@@ -1076,7 +1076,8 @@ namespace
 	{
 		using namespace sdw;
 		{
-			ShaderWriter writer{ false };
+			ComputeWriter writer{ false };
+			writer.inputLayout( 1u );
 			writer.implementFunction< void >( "main"
 				, [&]()
 				{
@@ -1085,8 +1086,7 @@ namespace
 					auto res = writer.declLocale( "res"
 						, matrixCompMult( lhs, rhs ) );
 				} );
-			test::writeShader( writer.getShader()
-				, sdw::ShaderType::eFragment
+			test::writeShader( writer
 				, testCounts );
 		}
 	}
@@ -1223,7 +1223,8 @@ namespace
 	{
 		using namespace sdw;
 		{
-			ShaderWriter writer{ false };
+			ComputeWriter writer{ false };
+			writer.inputLayout( 1u );
 			writer.implementFunction< void >( "main"
 				, [&]()
 				{
@@ -1232,8 +1233,7 @@ namespace
 					auto res = writer.declLocale( "res"
 						, lhs * rhs );
 				} );
-			test::writeShader( writer.getShader()
-				, sdw::ShaderType::eFragment
+			test::writeShader( writer
 				, testCounts );
 		}
 	}
@@ -1285,15 +1285,15 @@ namespace
 		testBegin( "testInverse2x2F" );
 		using namespace sdw;
 		{
-			ShaderWriter writer{ false };
+			ComputeWriter writer{ false };
+			writer.inputLayout( 1u );
 			writer.implementFunction< void >( "main"
 				, [&]()
 				{
 					auto m = writer.declLocale< Mat2 >( "m" );
 					m = inverse( m );
 				} );
-			test::writeShader( writer.getShader()
-				, sdw::ShaderType::eFragment
+			test::writeShader( writer
 				, testCounts );
 		}
 		testEnd();
@@ -1304,15 +1304,15 @@ namespace
 		testBegin( "testInverse2x2D" );
 		using namespace sdw;
 		{
-			ShaderWriter writer{ false };
+			ComputeWriter writer{ false };
+			writer.inputLayout( 1u );
 			writer.implementFunction< void >( "main"
 				, [&]()
 				{
 					auto m = writer.declLocale< DMat2 >( "m" );
 					m = inverse( m );
 				} );
-			test::writeShader( writer.getShader()
-				, sdw::ShaderType::eFragment
+			test::writeShader( writer
 				, testCounts );
 		}
 		testEnd();
@@ -1323,15 +1323,15 @@ namespace
 		testBegin( "testInverse3x3F" );
 		using namespace sdw;
 		{
-			ShaderWriter writer{ false };
+			ComputeWriter writer{ false };
+			writer.inputLayout( 1u );
 			writer.implementFunction< void >( "main"
 				, [&]()
 				{
 					auto m = writer.declLocale< Mat3 >( "m" );
 					m = inverse( m );
 				} );
-			test::writeShader( writer.getShader()
-				, sdw::ShaderType::eFragment
+			test::writeShader( writer
 				, testCounts );
 		}
 		testEnd();
@@ -1342,15 +1342,15 @@ namespace
 		testBegin( "testInverse3x3D" );
 		using namespace sdw;
 		{
-			ShaderWriter writer{ false };
+			ComputeWriter writer{ false };
+			writer.inputLayout( 1u );
 			writer.implementFunction< void >( "main"
 				, [&]()
 				{
 					auto m = writer.declLocale< DMat3 >( "m" );
 					m = inverse( m );
 				} );
-			test::writeShader( writer.getShader()
-				, sdw::ShaderType::eFragment
+			test::writeShader( writer
 				, testCounts );
 		}
 		testEnd();
@@ -1361,15 +1361,15 @@ namespace
 		testBegin( "testInverse4x4F" );
 		using namespace sdw;
 		{
-			ShaderWriter writer{ false };
+			ComputeWriter writer{ false };
+			writer.inputLayout( 1u );
 			writer.implementFunction< void >( "main"
 				, [&]()
 				{
 					auto m = writer.declLocale< Mat4 >( "m" );
 					m = inverse( m );
 				} );
-			test::writeShader( writer.getShader()
-				, sdw::ShaderType::eFragment
+			test::writeShader( writer
 				, testCounts );
 		}
 		testEnd();
@@ -1380,15 +1380,15 @@ namespace
 		testBegin( "testInverse4x4D" );
 		using namespace sdw;
 		{
-			ShaderWriter writer{ false };
+			ComputeWriter writer{ false };
+			writer.inputLayout( 1u );
 			writer.implementFunction< void >( "main"
 				, [&]()
 				{
 					auto m = writer.declLocale< DMat4 >( "m" );
 					m = inverse( m );
 				} );
-			test::writeShader( writer.getShader()
-				, sdw::ShaderType::eFragment
+			test::writeShader( writer
 				, testCounts );
 		}
 		testEnd();
@@ -1399,7 +1399,8 @@ namespace
 		testBegin( "testUaddCarry1" );
 		using namespace sdw;
 		{
-			ShaderWriter writer{ false };
+			ComputeWriter writer{ false };
+			writer.inputLayout( 1u );
 			writer.implementFunction< void >( "main"
 				, [&]()
 				{
@@ -1409,9 +1410,9 @@ namespace
 					auto r = writer.declLocale< UInt >( "r"
 						, uaddCarry( x, y, c ) );
 				} );
-			test::writeShader( writer.getShader()
-				, sdw::ShaderType::eFragment
+			test::writeShader( writer
 				, testCounts
+				, true
 				, false );
 		}
 		testEnd();
@@ -1422,7 +1423,8 @@ namespace
 		testBegin( "testUaddCarry2" );
 		using namespace sdw;
 		{
-			ShaderWriter writer{ false };
+			ComputeWriter writer{ false };
+			writer.inputLayout( 1u );
 			writer.implementFunction< void >( "main"
 				, [&]()
 				{
@@ -1432,9 +1434,9 @@ namespace
 					auto r = writer.declLocale< UVec2 >( "r"
 						, uaddCarry( x, y, c ) );
 				} );
-			test::writeShader( writer.getShader()
-				, sdw::ShaderType::eFragment
+			test::writeShader( writer
 				, testCounts
+				, true
 				, false );
 		}
 		testEnd();
@@ -1445,7 +1447,8 @@ namespace
 		testBegin( "testUaddCarry3" );
 		using namespace sdw;
 		{
-			ShaderWriter writer{ false };
+			ComputeWriter writer{ false };
+			writer.inputLayout( 1u );
 			writer.implementFunction< void >( "main"
 				, [&]()
 				{
@@ -1455,9 +1458,9 @@ namespace
 					auto r = writer.declLocale< UVec3 >( "r"
 						, uaddCarry( x, y, c ) );
 				} );
-			test::writeShader( writer.getShader()
-				, sdw::ShaderType::eFragment
+			test::writeShader( writer
 				, testCounts
+				, true
 				, false );
 		}
 		testEnd();
@@ -1468,7 +1471,8 @@ namespace
 		testBegin( "testUaddCarry4" );
 		using namespace sdw;
 		{
-			ShaderWriter writer{ false };
+			ComputeWriter writer{ false };
+			writer.inputLayout( 1u );
 			writer.implementFunction< void >( "main"
 				, [&]()
 				{
@@ -1478,9 +1482,9 @@ namespace
 					auto r = writer.declLocale< UVec4 >( "r"
 						, uaddCarry( x, y, c ) );
 				} );
-			test::writeShader( writer.getShader()
-				, sdw::ShaderType::eFragment
+			test::writeShader( writer
 				, testCounts
+				, true
 				, false );
 		}
 		testEnd();
@@ -1491,7 +1495,8 @@ namespace
 		testBegin( "testUsubBorrow1" );
 		using namespace sdw;
 		{
-			ShaderWriter writer{ false };
+			ComputeWriter writer{ false };
+			writer.inputLayout( 1u );
 			writer.implementFunction< void >( "main"
 				, [&]()
 				{
@@ -1501,9 +1506,9 @@ namespace
 					auto r = writer.declLocale< UInt >( "r"
 						, usubBorrow( x, y, b ) );
 				} );
-			test::writeShader( writer.getShader()
-				, sdw::ShaderType::eFragment
+			test::writeShader( writer
 				, testCounts
+				, true
 				, false );
 		}
 		testEnd();
@@ -1514,7 +1519,8 @@ namespace
 		testBegin( "testUsubBorrow2" );
 		using namespace sdw;
 		{
-			ShaderWriter writer{ false };
+			ComputeWriter writer{ false };
+			writer.inputLayout( 1u );
 			writer.implementFunction< void >( "main"
 				, [&]()
 				{
@@ -1524,9 +1530,9 @@ namespace
 					auto r = writer.declLocale< UVec2 >( "r"
 						, usubBorrow( x, y, b ) );
 				} );
-			test::writeShader( writer.getShader()
-				, sdw::ShaderType::eFragment
+			test::writeShader( writer
 				, testCounts
+				, true
 				, false );
 		}
 		testEnd();
@@ -1537,7 +1543,8 @@ namespace
 		testBegin( "testUsubBorrow3" );
 		using namespace sdw;
 		{
-			ShaderWriter writer{ false };
+			ComputeWriter writer{ false };
+			writer.inputLayout( 1u );
 			writer.implementFunction< void >( "main"
 				, [&]()
 				{
@@ -1547,9 +1554,9 @@ namespace
 					auto r = writer.declLocale< UVec3 >( "r"
 						, usubBorrow( x, y, b ) );
 				} );
-			test::writeShader( writer.getShader()
-				, sdw::ShaderType::eFragment
+			test::writeShader( writer
 				, testCounts
+				, true
 				, false );
 		}
 		testEnd();
@@ -1560,7 +1567,8 @@ namespace
 		testBegin( "testUsubBorrow4" );
 		using namespace sdw;
 		{
-			ShaderWriter writer{ false };
+			ComputeWriter writer{ false };
+			writer.inputLayout( 1u );
 			writer.implementFunction< void >( "main"
 				, [&]()
 				{
@@ -1570,9 +1578,9 @@ namespace
 					auto r = writer.declLocale< UVec4 >( "r"
 						, usubBorrow( x, y, b ) );
 				} );
-			test::writeShader( writer.getShader()
-				, sdw::ShaderType::eFragment
+			test::writeShader( writer
 				, testCounts
+				, true
 				, false );
 		}
 		testEnd();
@@ -1583,7 +1591,8 @@ namespace
 		testBegin( "testUmulExtended1" );
 		using namespace sdw;
 		{
-			ShaderWriter writer{ false };
+			ComputeWriter writer{ false };
+			writer.inputLayout( 1u );
 			writer.implementFunction< void >( "main"
 				, [&]()
 				{
@@ -1593,9 +1602,9 @@ namespace
 					auto l = writer.declLocale< UInt >( "l" );
 					umulExtended( x, y, h, l );
 				} );
-			test::writeShader( writer.getShader()
-				, sdw::ShaderType::eFragment
+			test::writeShader( writer
 				, testCounts
+				, true
 				, false );
 		}
 		testEnd();
@@ -1606,7 +1615,8 @@ namespace
 		testBegin( "testUmulExtended2" );
 		using namespace sdw;
 		{
-			ShaderWriter writer{ false };
+			ComputeWriter writer{ false };
+			writer.inputLayout( 1u );
 			writer.implementFunction< void >( "main"
 				, [&]()
 				{
@@ -1616,9 +1626,9 @@ namespace
 					auto l = writer.declLocale< UVec2 >( "l" );
 					umulExtended( x, y, h, l );
 				} );
-			test::writeShader( writer.getShader()
-				, sdw::ShaderType::eFragment
+			test::writeShader( writer
 				, testCounts
+				, true
 				, false );
 		}
 		testEnd();
@@ -1629,7 +1639,8 @@ namespace
 		testBegin( "testUmulExtended3" );
 		using namespace sdw;
 		{
-			ShaderWriter writer{ false };
+			ComputeWriter writer{ false };
+			writer.inputLayout( 1u );
 			writer.implementFunction< void >( "main"
 				, [&]()
 				{
@@ -1639,9 +1650,9 @@ namespace
 					auto l = writer.declLocale< UVec3 >( "l" );
 					umulExtended( x, y, h, l );
 				} );
-			test::writeShader( writer.getShader()
-				, sdw::ShaderType::eFragment
+			test::writeShader( writer
 				, testCounts
+				, true
 				, false );
 		}
 		testEnd();
@@ -1652,7 +1663,8 @@ namespace
 		testBegin( "testUmulExtended4" );
 		using namespace sdw;
 		{
-			ShaderWriter writer{ false };
+			ComputeWriter writer{ false };
+			writer.inputLayout( 1u );
 			writer.implementFunction< void >( "main"
 				, [&]()
 				{
@@ -1662,9 +1674,9 @@ namespace
 					auto l = writer.declLocale< UVec4 >( "l" );
 					umulExtended( x, y, h, l );
 				} );
-			test::writeShader( writer.getShader()
-				, sdw::ShaderType::eFragment
+			test::writeShader( writer
 				, testCounts
+				, true
 				, false );
 		}
 		testEnd();
@@ -1675,7 +1687,8 @@ namespace
 		testBegin( "testImulExtended1" );
 		using namespace sdw;
 		{
-			ShaderWriter writer{ false };
+			ComputeWriter writer{ false };
+			writer.inputLayout( 1u );
 			writer.implementFunction< void >( "main"
 				, [&]()
 				{
@@ -1685,9 +1698,9 @@ namespace
 					auto l = writer.declLocale< Int >( "l" );
 					imulExtended( x, y, h, l );
 				} );
-			test::writeShader( writer.getShader()
-				, sdw::ShaderType::eFragment
+			test::writeShader( writer
 				, testCounts
+				, true
 				, false );
 		}
 		testEnd();
@@ -1698,7 +1711,8 @@ namespace
 		testBegin( "testImulExtended2" );
 		using namespace sdw;
 		{
-			ShaderWriter writer{ false };
+			ComputeWriter writer{ false };
+			writer.inputLayout( 1u );
 			writer.implementFunction< void >( "main"
 				, [&]()
 				{
@@ -1708,9 +1722,9 @@ namespace
 					auto l = writer.declLocale< IVec2 >( "l" );
 					imulExtended( x, y, h, l );
 				} );
-			test::writeShader( writer.getShader()
-				, sdw::ShaderType::eFragment
+			test::writeShader( writer
 				, testCounts
+				, true
 				, false );
 		}
 		testEnd();
@@ -1721,7 +1735,8 @@ namespace
 		testBegin( "testImulExtended3" );
 		using namespace sdw;
 		{
-			ShaderWriter writer{ false };
+			ComputeWriter writer{ false };
+			writer.inputLayout( 1u );
 			writer.implementFunction< void >( "main"
 				, [&]()
 				{
@@ -1731,9 +1746,9 @@ namespace
 					auto l = writer.declLocale< IVec3 >( "l" );
 					imulExtended( x, y, h, l );
 				} );
-			test::writeShader( writer.getShader()
-				, sdw::ShaderType::eFragment
+			test::writeShader( writer
 				, testCounts
+				, true
 				, false );
 		}
 		testEnd();
@@ -1744,7 +1759,8 @@ namespace
 		testBegin( "testImulExtended4" );
 		using namespace sdw;
 		{
-			ShaderWriter writer{ false };
+			ComputeWriter writer{ false };
+			writer.inputLayout( 1u );
 			writer.implementFunction< void >( "main"
 				, [&]()
 				{
@@ -1754,9 +1770,9 @@ namespace
 					auto l = writer.declLocale< IVec4 >( "l" );
 					imulExtended( x, y, h, l );
 				} );
-			test::writeShader( writer.getShader()
-				, sdw::ShaderType::eFragment
+			test::writeShader( writer
 				, testCounts
+				, true
 				, false );
 		}
 		testEnd();
@@ -1767,7 +1783,8 @@ namespace
 		testBegin( "testBitfieldInsert1I" );
 		using namespace sdw;
 		{
-			ShaderWriter writer{ false };
+			ComputeWriter writer{ false };
+			writer.inputLayout( 1u );
 			writer.implementFunction< void >( "main"
 				, [&]()
 				{
@@ -1778,8 +1795,7 @@ namespace
 					auto r = writer.declLocale( "r"
 						, bitfieldInsert( x, y, o, b ) );
 				} );
-			test::writeShader( writer.getShader()
-				, sdw::ShaderType::eFragment
+			test::writeShader( writer
 				, testCounts );
 		}
 		testEnd();
@@ -1790,7 +1806,8 @@ namespace
 		testBegin( "testBitfieldInsert2I" );
 		using namespace sdw;
 		{
-			ShaderWriter writer{ false };
+			ComputeWriter writer{ false };
+			writer.inputLayout( 1u );
 			writer.implementFunction< void >( "main"
 				, [&]()
 				{
@@ -1801,8 +1818,7 @@ namespace
 					auto r = writer.declLocale( "r"
 						, bitfieldInsert( x, y, o, b ) );
 				} );
-			test::writeShader( writer.getShader()
-				, sdw::ShaderType::eFragment
+			test::writeShader( writer
 				, testCounts );
 		}
 		testEnd();
@@ -1813,7 +1829,8 @@ namespace
 		testBegin( "testBitfieldInsert3I" );
 		using namespace sdw;
 		{
-			ShaderWriter writer{ false };
+			ComputeWriter writer{ false };
+			writer.inputLayout( 1u );
 			writer.implementFunction< void >( "main"
 				, [&]()
 				{
@@ -1824,8 +1841,7 @@ namespace
 					auto r = writer.declLocale( "r"
 						, bitfieldInsert( x, y, o, b ) );
 				} );
-			test::writeShader( writer.getShader()
-				, sdw::ShaderType::eFragment
+			test::writeShader( writer
 				, testCounts );
 		}
 		testEnd();
@@ -1836,7 +1852,8 @@ namespace
 		testBegin( "testBitfieldInsert4I" );
 		using namespace sdw;
 		{
-			ShaderWriter writer{ false };
+			ComputeWriter writer{ false };
+			writer.inputLayout( 1u );
 			writer.implementFunction< void >( "main"
 				, [&]()
 				{
@@ -1847,8 +1864,7 @@ namespace
 					auto r = writer.declLocale( "r"
 						, bitfieldInsert( x, y, o, b ) );
 				} );
-			test::writeShader( writer.getShader()
-				, sdw::ShaderType::eFragment
+			test::writeShader( writer
 				, testCounts );
 		}
 		testEnd();
@@ -1859,7 +1875,8 @@ namespace
 		testBegin( "testBitfieldInsert1U" );
 		using namespace sdw;
 		{
-			ShaderWriter writer{ false };
+			ComputeWriter writer{ false };
+			writer.inputLayout( 1u );
 			writer.implementFunction< void >( "main"
 				, [&]()
 				{
@@ -1870,8 +1887,7 @@ namespace
 					auto r = writer.declLocale( "r"
 						, bitfieldInsert( x, y, o, b ) );
 				} );
-			test::writeShader( writer.getShader()
-				, sdw::ShaderType::eFragment
+			test::writeShader( writer
 				, testCounts );
 		}
 		testEnd();
@@ -1882,7 +1898,8 @@ namespace
 		testBegin( "testBitfieldInsert2U" );
 		using namespace sdw;
 		{
-			ShaderWriter writer{ false };
+			ComputeWriter writer{ false };
+			writer.inputLayout( 1u );
 			writer.implementFunction< void >( "main"
 				, [&]()
 				{
@@ -1893,8 +1910,7 @@ namespace
 					auto r = writer.declLocale( "r"
 						, bitfieldInsert( x, y, o, b ) );
 				} );
-			test::writeShader( writer.getShader()
-				, sdw::ShaderType::eFragment
+			test::writeShader( writer
 				, testCounts );
 		}
 		testEnd();
@@ -1905,7 +1921,8 @@ namespace
 		testBegin( "testBitfieldInsert3U" );
 		using namespace sdw;
 		{
-			ShaderWriter writer{ false };
+			ComputeWriter writer{ false };
+			writer.inputLayout( 1u );
 			writer.implementFunction< void >( "main"
 				, [&]()
 				{
@@ -1916,8 +1933,7 @@ namespace
 					auto r = writer.declLocale( "r"
 						, bitfieldInsert( x, y, o, b ) );
 				} );
-			test::writeShader( writer.getShader()
-				, sdw::ShaderType::eFragment
+			test::writeShader( writer
 				, testCounts );
 		}
 		testEnd();
@@ -1928,7 +1944,8 @@ namespace
 		testBegin( "testBitfieldInsert4U" );
 		using namespace sdw;
 		{
-			ShaderWriter writer{ false };
+			ComputeWriter writer{ false };
+			writer.inputLayout( 1u );
 			writer.implementFunction< void >( "main"
 				, [&]()
 				{
@@ -1939,8 +1956,7 @@ namespace
 					auto r = writer.declLocale( "r"
 						, bitfieldInsert( x, y, o, b ) );
 				} );
-			test::writeShader( writer.getShader()
-				, sdw::ShaderType::eFragment
+			test::writeShader( writer
 				, testCounts );
 		}
 		testEnd();
@@ -1951,7 +1967,8 @@ namespace
 		testBegin( "testBitfieldExtract1I" );
 		using namespace sdw;
 		{
-			ShaderWriter writer{ false };
+			ComputeWriter writer{ false };
+			writer.inputLayout( 1u );
 			writer.implementFunction< void >( "main"
 				, [&]()
 				{
@@ -1961,8 +1978,7 @@ namespace
 					auto r = writer.declLocale( "r"
 						, bitfieldExtract( x, o, b ) );
 				} );
-			test::writeShader( writer.getShader()
-				, sdw::ShaderType::eFragment
+			test::writeShader( writer
 				, testCounts );
 		}
 		testEnd();
@@ -1973,7 +1989,8 @@ namespace
 		testBegin( "testBitfieldExtract2I" );
 		using namespace sdw;
 		{
-			ShaderWriter writer{ false };
+			ComputeWriter writer{ false };
+			writer.inputLayout( 1u );
 			writer.implementFunction< void >( "main"
 				, [&]()
 				{
@@ -1983,8 +2000,7 @@ namespace
 					auto r = writer.declLocale( "r"
 						, bitfieldExtract( x, o, b ) );
 				} );
-			test::writeShader( writer.getShader()
-				, sdw::ShaderType::eFragment
+			test::writeShader( writer
 				, testCounts );
 		}
 		testEnd();
@@ -1995,7 +2011,8 @@ namespace
 		testBegin( "testBitfieldExtract3I" );
 		using namespace sdw;
 		{
-			ShaderWriter writer{ false };
+			ComputeWriter writer{ false };
+			writer.inputLayout( 1u );
 			writer.implementFunction< void >( "main"
 				, [&]()
 				{
@@ -2005,8 +2022,7 @@ namespace
 					auto r = writer.declLocale( "r"
 						, bitfieldExtract( x, o, b ) );
 				} );
-			test::writeShader( writer.getShader()
-				, sdw::ShaderType::eFragment
+			test::writeShader( writer
 				, testCounts );
 		}
 		testEnd();
@@ -2017,7 +2033,8 @@ namespace
 		testBegin( "testBitfieldExtract4I" );
 		using namespace sdw;
 		{
-			ShaderWriter writer{ false };
+			ComputeWriter writer{ false };
+			writer.inputLayout( 1u );
 			writer.implementFunction< void >( "main"
 				, [&]()
 				{
@@ -2027,8 +2044,7 @@ namespace
 					auto r = writer.declLocale( "r"
 						, bitfieldExtract( x, o, b ) );
 				} );
-			test::writeShader( writer.getShader()
-				, sdw::ShaderType::eFragment
+			test::writeShader( writer
 				, testCounts );
 		}
 		testEnd();
@@ -2039,7 +2055,8 @@ namespace
 		testBegin( "testBitfieldExtract1U" );
 		using namespace sdw;
 		{
-			ShaderWriter writer{ false };
+			ComputeWriter writer{ false };
+			writer.inputLayout( 1u );
 			writer.implementFunction< void >( "main"
 				, [&]()
 				{
@@ -2049,8 +2066,7 @@ namespace
 					auto r = writer.declLocale( "r"
 						, bitfieldExtract( x, o, b ) );
 				} );
-			test::writeShader( writer.getShader()
-				, sdw::ShaderType::eFragment
+			test::writeShader( writer
 				, testCounts );
 		}
 		testEnd();
@@ -2061,7 +2077,8 @@ namespace
 		testBegin( "testBitfieldExtract2U" );
 		using namespace sdw;
 		{
-			ShaderWriter writer{ false };
+			ComputeWriter writer{ false };
+			writer.inputLayout( 1u );
 			writer.implementFunction< void >( "main"
 				, [&]()
 				{
@@ -2071,8 +2088,7 @@ namespace
 					auto r = writer.declLocale( "r"
 						, bitfieldExtract( x, o, b ) );
 				} );
-			test::writeShader( writer.getShader()
-				, sdw::ShaderType::eFragment
+			test::writeShader( writer
 				, testCounts );
 		}
 		testEnd();
@@ -2083,7 +2099,8 @@ namespace
 		testBegin( "testBitfieldExtract3U" );
 		using namespace sdw;
 		{
-			ShaderWriter writer{ false };
+			ComputeWriter writer{ false };
+			writer.inputLayout( 1u );
 			writer.implementFunction< void >( "main"
 				, [&]()
 				{
@@ -2093,8 +2110,7 @@ namespace
 					auto r = writer.declLocale( "r"
 						, bitfieldExtract( x, o, b ) );
 				} );
-			test::writeShader( writer.getShader()
-				, sdw::ShaderType::eFragment
+			test::writeShader( writer
 				, testCounts );
 		}
 		testEnd();
@@ -2105,7 +2121,8 @@ namespace
 		testBegin( "testBitfieldExtract4U" );
 		using namespace sdw;
 		{
-			ShaderWriter writer{ false };
+			ComputeWriter writer{ false };
+			writer.inputLayout( 1u );
 			writer.implementFunction< void >( "main"
 				, [&]()
 				{
@@ -2115,8 +2132,7 @@ namespace
 					auto r = writer.declLocale( "r"
 						, bitfieldExtract( x, o, b ) );
 				} );
-			test::writeShader( writer.getShader()
-				, sdw::ShaderType::eFragment
+			test::writeShader( writer
 				, testCounts );
 		}
 		testEnd();

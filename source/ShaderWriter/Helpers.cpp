@@ -16,6 +16,7 @@ See LICENSE file in root folder
 #include <ASTGenerator/Expr/ExprBitNot.hpp>
 #include <ASTGenerator/Expr/ExprBitOr.hpp>
 #include <ASTGenerator/Expr/ExprCast.hpp>
+#include <ASTGenerator/Expr/ExprCompositeConstruct.hpp>
 #include <ASTGenerator/Expr/ExprDivide.hpp>
 #include <ASTGenerator/Expr/ExprDivideAssign.hpp>
 #include <ASTGenerator/Expr/ExprEqual.hpp>
@@ -463,6 +464,15 @@ namespace sdw
 	{
 		return expr::makeFnCall( std::move( type )
 			, std::move( name )
+			, std::move( args ) );
+	}
+
+	expr::ExprPtr makeCompositeCtor( expr::CompositeType composite
+		, type::Kind component
+		, expr::ExprList && args )
+	{
+		return expr::makeCompositeConstruct( composite
+			, component
 			, std::move( args ) );
 	}
 

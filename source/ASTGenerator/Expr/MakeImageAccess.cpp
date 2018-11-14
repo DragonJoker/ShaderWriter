@@ -587,5969 +587,1881 @@ namespace ast::expr
 			, std::move( sample ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicAdd1DFU( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicAdd1DU( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicAdd1DFU
+			, ImageAccess::eImageAtomicAdd1DU
 			, std::move( image )
 			, std::move( P )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicAdd2DFU( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicAdd2DU( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicAdd2DFU
+			, ImageAccess::eImageAtomicAdd2DU
 			, std::move( image )
 			, std::move( P )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicAdd3DFU( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicAdd3DU( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicAdd3DFU
+			, ImageAccess::eImageAtomicAdd3DU
 			, std::move( image )
 			, std::move( P )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicAdd2DRectFU( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicAdd2DRectU( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicAdd2DRectFU
+			, ImageAccess::eImageAtomicAdd2DRectU
 			, std::move( image )
 			, std::move( P )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicAddCubeFU( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicAddCubeU( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicAddCubeFU
+			, ImageAccess::eImageAtomicAddCubeU
 			, std::move( image )
 			, std::move( P )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicAddBufferFU( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicAddBufferU( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicAddBufferFU
+			, ImageAccess::eImageAtomicAddBufferU
 			, std::move( image )
 			, std::move( P )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicAdd1DArrayFU( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicAdd1DArrayU( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicAdd1DArrayFU
+			, ImageAccess::eImageAtomicAdd1DArrayU
 			, std::move( image )
 			, std::move( P )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicAdd2DArrayFU( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicAdd2DArrayU( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicAdd2DArrayFU
+			, ImageAccess::eImageAtomicAdd2DArrayU
 			, std::move( image )
 			, std::move( P )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicAddCubeArrayFU( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicAddCubeArrayU( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicAddCubeArrayFU
+			, ImageAccess::eImageAtomicAddCubeArrayU
 			, std::move( image )
 			, std::move( P )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicAdd2DMSFU( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicAdd2DMSU( ExprPtr image
 		, ExprPtr P
 		, ExprPtr sample
 		, ExprPtr data )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicAdd2DMSFU
+			, ImageAccess::eImageAtomicAdd2DMSU
 			, std::move( image )
 			, std::move( P )
 			, std::move( sample )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicAdd2DMSArrayFU( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicAdd2DMSArrayU( ExprPtr image
 		, ExprPtr P
 		, ExprPtr sample
 		, ExprPtr data )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicAdd2DMSArrayFU
+			, ImageAccess::eImageAtomicAdd2DMSArrayU
 			, std::move( image )
 			, std::move( P )
 			, std::move( sample )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicAdd1DIU( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicAdd1DI( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicAdd1DIU
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicAdd2DIU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicAdd2DIU
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicAdd3DIU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicAdd3DIU
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicAdd2DRectIU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicAdd2DRectIU
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicAddCubeIU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicAddCubeIU
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicAddBufferIU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicAddBufferIU
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicAdd1DArrayIU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicAdd1DArrayIU
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicAdd2DArrayIU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicAdd2DArrayIU
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicAddCubeArrayIU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicAddCubeArrayIU
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicAdd2DMSIU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr sample
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicAdd2DMSIU
-			, std::move( image )
-			, std::move( P )
-			, std::move( sample )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicAdd2DMSArrayIU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr sample
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicAdd2DMSArrayIU
-			, std::move( image )
-			, std::move( P )
-			, std::move( sample )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicAdd1DUU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicAdd1DUU
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicAdd2DUU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicAdd2DUU
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicAdd3DUU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicAdd3DUU
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicAdd2DRectUU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicAdd2DRectUU
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicAddCubeUU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicAddCubeUU
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicAddBufferUU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicAddBufferUU
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicAdd1DArrayUU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicAdd1DArrayUU
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicAdd2DArrayUU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicAdd2DArrayUU
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicAddCubeArrayUU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicAddCubeArrayUU
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicAdd2DMSUU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr sample
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicAdd2DMSUU
-			, std::move( image )
-			, std::move( P )
-			, std::move( sample )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicAdd2DMSArrayUU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr sample
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicAdd2DMSArrayUU
-			, std::move( image )
-			, std::move( P )
-			, std::move( sample )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicAdd1DFI( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicAdd1DFI
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicAdd2DFI( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicAdd2DFI
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicAdd3DFI( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicAdd3DFI
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicAdd2DRectFI( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicAdd2DRectFI
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicAddCubeFI( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicAddCubeFI
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicAddBufferFI( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicAddBufferFI
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicAdd1DArrayFI( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicAdd1DArrayFI
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicAdd2DArrayFI( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicAdd2DArrayFI
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicAddCubeArrayFI( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicAddCubeArrayFI
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicAdd2DMSFI( ExprPtr image
-		, ExprPtr P
-		, ExprPtr sample
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicAdd2DMSFI
-			, std::move( image )
-			, std::move( P )
-			, std::move( sample )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicAdd2DMSArrayFI( ExprPtr image
-		, ExprPtr P
-		, ExprPtr sample
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicAdd2DMSArrayFI
-			, std::move( image )
-			, std::move( P )
-			, std::move( sample )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicAdd1DII( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicAdd1DII
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicAdd2DII( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicAdd2DII
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicAdd3DII( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicAdd3DII
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicAdd2DRectII( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicAdd2DRectII
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicAddCubeII( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicAddCubeII
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicAddBufferII( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicAddBufferII
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicAdd1DArrayII( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicAdd1DArrayII
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicAdd2DArrayII( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicAdd2DArrayII
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicAddCubeArrayII( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicAddCubeArrayII
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicAdd2DMSII( ExprPtr image
-		, ExprPtr P
-		, ExprPtr sample
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicAdd2DMSII
-			, std::move( image )
-			, std::move( P )
-			, std::move( sample )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicAdd2DMSArrayII( ExprPtr image
-		, ExprPtr P
-		, ExprPtr sample
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicAdd2DMSArrayII
-			, std::move( image )
-			, std::move( P )
-			, std::move( sample )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicAdd1DUI( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicAdd1DUI
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicAdd2DUI( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicAdd2DUI
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicAdd3DUI( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicAdd3DUI
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicAdd2DRectUI( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicAdd2DRectUI
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicAddCubeUI( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicAddCubeUI
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicAddBufferUI( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicAddBufferUI
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicAdd1DArrayUI( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicAdd1DArrayUI
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicAdd2DArrayUI( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicAdd2DArrayUI
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicAddCubeArrayUI( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicAddCubeArrayUI
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicAdd2DMSUI( ExprPtr image
-		, ExprPtr P
-		, ExprPtr sample
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicAdd2DMSUI
-			, std::move( image )
-			, std::move( P )
-			, std::move( sample )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicAdd2DMSArrayUI( ExprPtr image
-		, ExprPtr P
-		, ExprPtr sample
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicAdd2DMSArrayUI
-			, std::move( image )
-			, std::move( P )
-			, std::move( sample )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicMin1DFU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicMin1DFU
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicMin2DFU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicMin2DFU
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicMin3DFU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicMin3DFU
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicMin2DRectFU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicMin2DRectFU
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicMinCubeFU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicMinCubeFU
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicMinBufferFU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicMinBufferFU
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicMin1DArrayFU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicMin1DArrayFU
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicMin2DArrayFU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicMin2DArrayFU
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicMinCubeArrayFU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicMinCubeArrayFU
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicMin2DMSFU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr sample
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicMin2DMSFU
-			, std::move( image )
-			, std::move( P )
-			, std::move( sample )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicMin2DMSArrayFU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr sample
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicMin2DMSArrayFU
-			, std::move( image )
-			, std::move( P )
-			, std::move( sample )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicMin1DIU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicMin1DIU
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicMin2DIU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicMin2DIU
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicMin3DIU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicMin3DIU
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicMin2DRectIU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicMin2DRectIU
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicMinCubeIU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicMinCubeIU
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicMinBufferIU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicMinBufferIU
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicMin1DArrayIU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicMin1DArrayIU
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicMin2DArrayIU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicMin2DArrayIU
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicMinCubeArrayIU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicMinCubeArrayIU
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicMin2DMSIU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr sample
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicMin2DMSIU
-			, std::move( image )
-			, std::move( P )
-			, std::move( sample )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicMin2DMSArrayIU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr sample
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicMin2DMSArrayIU
-			, std::move( image )
-			, std::move( P )
-			, std::move( sample )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicMin1DUU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicMin1DUU
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicMin2DUU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicMin2DUU
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicMin3DUU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicMin3DUU
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicMin2DRectUU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicMin2DRectUU
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicMinCubeUU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicMinCubeUU
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicMinBufferUU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicMinBufferUU
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicMin1DArrayUU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicMin1DArrayUU
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicMin2DArrayUU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicMin2DArrayUU
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicMinCubeArrayUU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicMinCubeArrayUU
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicMin2DMSUU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr sample
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicMin2DMSUU
-			, std::move( image )
-			, std::move( P )
-			, std::move( sample )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicMin2DMSArrayUU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr sample
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicMin2DMSArrayUU
-			, std::move( image )
-			, std::move( P )
-			, std::move( sample )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicMin1DFI( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicMin1DFI
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicMin2DFI( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicMin2DFI
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicMin3DFI( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicMin3DFI
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicMin2DRectFI( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicMin2DRectFI
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicMinCubeFI( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicMinCubeFI
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicMinBufferFI( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicMinBufferFI
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicMin1DArrayFI( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicMin1DArrayFI
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicMin2DArrayFI( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicMin2DArrayFI
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicMinCubeArrayFI( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicMinCubeArrayFI
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicMin2DMSFI( ExprPtr image
-		, ExprPtr P
-		, ExprPtr sample
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicMin2DMSFI
-			, std::move( image )
-			, std::move( P )
-			, std::move( sample )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicMin2DMSArrayFI( ExprPtr image
-		, ExprPtr P
-		, ExprPtr sample
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicMin2DMSArrayFI
-			, std::move( image )
-			, std::move( P )
-			, std::move( sample )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicMin1DII( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicMin1DII
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicMin2DII( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicMin2DII
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicMin3DII( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicMin3DII
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicMin2DRectII( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicMin2DRectII
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicMinCubeII( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicMinCubeII
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicMinBufferII( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicMinBufferII
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicMin1DArrayII( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicMin1DArrayII
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicMin2DArrayII( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicMin2DArrayII
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicMinCubeArrayII( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicMinCubeArrayII
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicMin2DMSII( ExprPtr image
-		, ExprPtr P
-		, ExprPtr sample
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicMin2DMSII
-			, std::move( image )
-			, std::move( P )
-			, std::move( sample )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicMin2DMSArrayII( ExprPtr image
-		, ExprPtr P
-		, ExprPtr sample
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicMin2DMSArrayII
-			, std::move( image )
-			, std::move( P )
-			, std::move( sample )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicMin1DUI( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicMin1DUI
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicMin2DUI( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicMin2DUI
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicMin3DUI( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicMin3DUI
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicMin2DRectUI( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicMin2DRectUI
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicMinCubeUI( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicMinCubeUI
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicMinBufferUI( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicMinBufferUI
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicMin1DArrayUI( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicMin1DArrayUI
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicMin2DArrayUI( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicMin2DArrayUI
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicMinCubeArrayUI( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicMinCubeArrayUI
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicMin2DMSUI( ExprPtr image
-		, ExprPtr P
-		, ExprPtr sample
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicMin2DMSUI
-			, std::move( image )
-			, std::move( P )
-			, std::move( sample )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicMin2DMSArrayUI( ExprPtr image
-		, ExprPtr P
-		, ExprPtr sample
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicMin2DMSArrayUI
-			, std::move( image )
-			, std::move( P )
-			, std::move( sample )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicMax1DFU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicMax1DFU
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicMax2DFU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicMax2DFU
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicMax3DFU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicMax3DFU
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicMax2DRectFU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicMax2DRectFU
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicMaxCubeFU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicMaxCubeFU
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicMaxBufferFU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicMaxBufferFU
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicMax1DArrayFU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicMax1DArrayFU
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicMax2DArrayFU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicMax2DArrayFU
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicMaxCubeArrayFU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicMaxCubeArrayFU
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicMax2DMSFU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr sample
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicMax2DMSFU
-			, std::move( image )
-			, std::move( P )
-			, std::move( sample )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicMax2DMSArrayFU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr sample
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicMax2DMSArrayFU
-			, std::move( image )
-			, std::move( P )
-			, std::move( sample )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicMax1DIU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicMax1DIU
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicMax2DIU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicMax2DIU
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicMax3DIU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicMax3DIU
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicMax2DRectIU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicMax2DRectIU
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicMaxCubeIU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicMaxCubeIU
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicMaxBufferIU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicMaxBufferIU
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicMax1DArrayIU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicMax1DArrayIU
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicMax2DArrayIU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicMax2DArrayIU
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicMaxCubeArrayIU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicMaxCubeArrayIU
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicMax2DMSIU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr sample
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicMax2DMSIU
-			, std::move( image )
-			, std::move( P )
-			, std::move( sample )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicMax2DMSArrayIU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr sample
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicMax2DMSArrayIU
-			, std::move( image )
-			, std::move( P )
-			, std::move( sample )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicMax1DUU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicMax1DUU
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicMax2DUU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicMax2DUU
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicMax3DUU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicMax3DUU
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicMax2DRectUU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicMax2DRectUU
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicMaxCubeUU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicMaxCubeUU
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicMaxBufferUU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicMaxBufferUU
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicMax1DArrayUU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicMax1DArrayUU
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicMax2DArrayUU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicMax2DArrayUU
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicMaxCubeArrayUU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicMaxCubeArrayUU
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicMax2DMSUU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr sample
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicMax2DMSUU
-			, std::move( image )
-			, std::move( P )
-			, std::move( sample )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicMax2DMSArrayUU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr sample
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicMax2DMSArrayUU
-			, std::move( image )
-			, std::move( P )
-			, std::move( sample )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicMax1DFI( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicMax1DFI
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicMax2DFI( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicMax2DFI
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicMax3DFI( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicMax3DFI
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicMax2DRectFI( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicMax2DRectFI
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicMaxCubeFI( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicMaxCubeFI
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicMaxBufferFI( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicMaxBufferFI
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicMax1DArrayFI( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicMax1DArrayFI
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicMax2DArrayFI( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicMax2DArrayFI
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicMaxCubeArrayFI( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicMaxCubeArrayFI
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicMax2DMSFI( ExprPtr image
-		, ExprPtr P
-		, ExprPtr sample
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicMax2DMSFI
-			, std::move( image )
-			, std::move( P )
-			, std::move( sample )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicMax2DMSArrayFI( ExprPtr image
-		, ExprPtr P
-		, ExprPtr sample
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicMax2DMSArrayFI
-			, std::move( image )
-			, std::move( P )
-			, std::move( sample )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicMax1DII( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicMax1DII
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicMax2DII( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicMax2DII
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicMax3DII( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicMax3DII
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicMax2DRectII( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicMax2DRectII
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicMaxCubeII( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicMaxCubeII
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicMaxBufferII( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicMaxBufferII
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicMax1DArrayII( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicMax1DArrayII
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicMax2DArrayII( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicMax2DArrayII
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicMaxCubeArrayII( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicMaxCubeArrayII
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicMax2DMSII( ExprPtr image
-		, ExprPtr P
-		, ExprPtr sample
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicMax2DMSII
-			, std::move( image )
-			, std::move( P )
-			, std::move( sample )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicMax2DMSArrayII( ExprPtr image
-		, ExprPtr P
-		, ExprPtr sample
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicMax2DMSArrayII
-			, std::move( image )
-			, std::move( P )
-			, std::move( sample )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicMax1DUI( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicMax1DUI
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicMax2DUI( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicMax2DUI
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicMax3DUI( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicMax3DUI
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicMax2DRectUI( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicMax2DRectUI
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicMaxCubeUI( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicMaxCubeUI
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicMaxBufferUI( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicMaxBufferUI
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicMax1DArrayUI( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicMax1DArrayUI
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicMax2DArrayUI( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicMax2DArrayUI
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicMaxCubeArrayUI( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicMaxCubeArrayUI
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicMax2DMSUI( ExprPtr image
-		, ExprPtr P
-		, ExprPtr sample
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicMax2DMSUI
-			, std::move( image )
-			, std::move( P )
-			, std::move( sample )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicMax2DMSArrayUI( ExprPtr image
-		, ExprPtr P
-		, ExprPtr sample
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicMax2DMSArrayUI
-			, std::move( image )
-			, std::move( P )
-			, std::move( sample )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicAnd1DFU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicAnd1DFU
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicAnd2DFU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicAnd2DFU
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicAnd3DFU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicAnd3DFU
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicAnd2DRectFU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicAnd2DRectFU
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicAndCubeFU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicAndCubeFU
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicAndBufferFU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicAndBufferFU
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicAnd1DArrayFU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicAnd1DArrayFU
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicAnd2DArrayFU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicAnd2DArrayFU
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicAndCubeArrayFU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicAndCubeArrayFU
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicAnd2DMSFU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr sample
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicAnd2DMSFU
-			, std::move( image )
-			, std::move( P )
-			, std::move( sample )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicAnd2DMSArrayFU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr sample
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicAnd2DMSArrayFU
-			, std::move( image )
-			, std::move( P )
-			, std::move( sample )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicAnd1DIU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicAnd1DIU
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicAnd2DIU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicAnd2DIU
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicAnd3DIU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicAnd3DIU
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicAnd2DRectIU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicAnd2DRectIU
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicAndCubeIU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicAndCubeIU
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicAndBufferIU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicAndBufferIU
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicAnd1DArrayIU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicAnd1DArrayIU
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicAnd2DArrayIU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicAnd2DArrayIU
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicAndCubeArrayIU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicAndCubeArrayIU
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicAnd2DMSIU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr sample
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicAnd2DMSIU
-			, std::move( image )
-			, std::move( P )
-			, std::move( sample )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicAnd2DMSArrayIU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr sample
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicAnd2DMSArrayIU
-			, std::move( image )
-			, std::move( P )
-			, std::move( sample )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicAnd1DUU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicAnd1DUU
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicAnd2DUU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicAnd2DUU
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicAnd3DUU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicAnd3DUU
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicAnd2DRectUU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicAnd2DRectUU
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicAndCubeUU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicAndCubeUU
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicAndBufferUU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicAndBufferUU
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicAnd1DArrayUU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicAnd1DArrayUU
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicAnd2DArrayUU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicAnd2DArrayUU
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicAndCubeArrayUU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicAndCubeArrayUU
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicAnd2DMSUU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr sample
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicAnd2DMSUU
-			, std::move( image )
-			, std::move( P )
-			, std::move( sample )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicAnd2DMSArrayUU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr sample
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicAnd2DMSArrayUU
-			, std::move( image )
-			, std::move( P )
-			, std::move( sample )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicAnd1DFI( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicAnd1DFI
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicAnd2DFI( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicAnd2DFI
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicAnd3DFI( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicAnd3DFI
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicAnd2DRectFI( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicAnd2DRectFI
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicAndCubeFI( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicAndCubeFI
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicAndBufferFI( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicAndBufferFI
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicAnd1DArrayFI( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicAnd1DArrayFI
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicAnd2DArrayFI( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicAnd2DArrayFI
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicAndCubeArrayFI( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicAndCubeArrayFI
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicAnd2DMSFI( ExprPtr image
-		, ExprPtr P
-		, ExprPtr sample
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicAnd2DMSFI
-			, std::move( image )
-			, std::move( P )
-			, std::move( sample )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicAnd2DMSArrayFI( ExprPtr image
-		, ExprPtr P
-		, ExprPtr sample
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicAnd2DMSArrayFI
-			, std::move( image )
-			, std::move( P )
-			, std::move( sample )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicAnd1DII( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicAnd1DII
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicAnd2DII( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicAnd2DII
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicAnd3DII( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicAnd3DII
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicAnd2DRectII( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicAnd2DRectII
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicAndCubeII( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicAndCubeII
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicAndBufferII( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicAndBufferII
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicAnd1DArrayII( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicAnd1DArrayII
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicAnd2DArrayII( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicAnd2DArrayII
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicAndCubeArrayII( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicAndCubeArrayII
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicAnd2DMSII( ExprPtr image
-		, ExprPtr P
-		, ExprPtr sample
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicAnd2DMSII
-			, std::move( image )
-			, std::move( P )
-			, std::move( sample )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicAnd2DMSArrayII( ExprPtr image
-		, ExprPtr P
-		, ExprPtr sample
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicAnd2DMSArrayII
-			, std::move( image )
-			, std::move( P )
-			, std::move( sample )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicAnd1DUI( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicAnd1DUI
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicAnd2DUI( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicAnd2DUI
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicAnd3DUI( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicAnd3DUI
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicAnd2DRectUI( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicAnd2DRectUI
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicAndCubeUI( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicAndCubeUI
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicAndBufferUI( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicAndBufferUI
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicAnd1DArrayUI( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicAnd1DArrayUI
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicAnd2DArrayUI( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicAnd2DArrayUI
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicAndCubeArrayUI( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicAndCubeArrayUI
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicAnd2DMSUI( ExprPtr image
-		, ExprPtr P
-		, ExprPtr sample
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicAnd2DMSUI
-			, std::move( image )
-			, std::move( P )
-			, std::move( sample )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicAnd2DMSArrayUI( ExprPtr image
-		, ExprPtr P
-		, ExprPtr sample
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicAnd2DMSArrayUI
-			, std::move( image )
-			, std::move( P )
-			, std::move( sample )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicOr1DFU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicOr1DFU
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicOr2DFU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicOr2DFU
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicOr3DFU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicOr3DFU
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicOr2DRectFU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicOr2DRectFU
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicOrCubeFU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicOrCubeFU
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicOrBufferFU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicOrBufferFU
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicOr1DArrayFU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicOr1DArrayFU
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicOr2DArrayFU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicOr2DArrayFU
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicOrCubeArrayFU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicOrCubeArrayFU
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicOr2DMSFU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr sample
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicOr2DMSFU
-			, std::move( image )
-			, std::move( P )
-			, std::move( sample )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicOr2DMSArrayFU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr sample
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicOr2DMSArrayFU
-			, std::move( image )
-			, std::move( P )
-			, std::move( sample )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicOr1DIU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicOr1DIU
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicOr2DIU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicOr2DIU
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicOr3DIU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicOr3DIU
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicOr2DRectIU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicOr2DRectIU
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicOrCubeIU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicOrCubeIU
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicOrBufferIU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicOrBufferIU
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicOr1DArrayIU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicOr1DArrayIU
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicOr2DArrayIU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicOr2DArrayIU
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicOrCubeArrayIU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicOrCubeArrayIU
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicOr2DMSIU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr sample
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicOr2DMSIU
-			, std::move( image )
-			, std::move( P )
-			, std::move( sample )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicOr2DMSArrayIU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr sample
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicOr2DMSArrayIU
-			, std::move( image )
-			, std::move( P )
-			, std::move( sample )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicOr1DUU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicOr1DUU
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicOr2DUU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicOr2DUU
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicOr3DUU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicOr3DUU
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicOr2DRectUU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicOr2DRectUU
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicOrCubeUU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicOrCubeUU
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicOrBufferUU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicOrBufferUU
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicOr1DArrayUU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicOr1DArrayUU
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicOr2DArrayUU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicOr2DArrayUU
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicOrCubeArrayUU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicOrCubeArrayUU
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicOr2DMSUU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr sample
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicOr2DMSUU
-			, std::move( image )
-			, std::move( P )
-			, std::move( sample )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicOr2DMSArrayUU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr sample
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicOr2DMSArrayUU
-			, std::move( image )
-			, std::move( P )
-			, std::move( sample )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicOr1DFI( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicOr1DFI
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicOr2DFI( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicOr2DFI
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicOr3DFI( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicOr3DFI
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicOr2DRectFI( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicOr2DRectFI
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicOrCubeFI( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicOrCubeFI
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicOrBufferFI( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicOrBufferFI
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicOr1DArrayFI( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicOr1DArrayFI
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicOr2DArrayFI( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicOr2DArrayFI
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicOrCubeArrayFI( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicOrCubeArrayFI
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicOr2DMSFI( ExprPtr image
-		, ExprPtr P
-		, ExprPtr sample
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicOr2DMSFI
-			, std::move( image )
-			, std::move( P )
-			, std::move( sample )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicOr2DMSArrayFI( ExprPtr image
-		, ExprPtr P
-		, ExprPtr sample
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicOr2DMSArrayFI
-			, std::move( image )
-			, std::move( P )
-			, std::move( sample )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicOr1DII( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicOr1DII
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicOr2DII( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicOr2DII
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicOr3DII( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicOr3DII
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicOr2DRectII( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicOr2DRectII
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicOrCubeII( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicOrCubeII
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicOrBufferII( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicOrBufferII
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicOr1DArrayII( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicOr1DArrayII
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicOr2DArrayII( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicOr2DArrayII
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicOrCubeArrayII( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicOrCubeArrayII
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicOr2DMSII( ExprPtr image
-		, ExprPtr P
-		, ExprPtr sample
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicOr2DMSII
-			, std::move( image )
-			, std::move( P )
-			, std::move( sample )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicOr2DMSArrayII( ExprPtr image
-		, ExprPtr P
-		, ExprPtr sample
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicOr2DMSArrayII
-			, std::move( image )
-			, std::move( P )
-			, std::move( sample )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicOr1DUI( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicOr1DUI
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicOr2DUI( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicOr2DUI
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicOr3DUI( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicOr3DUI
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicOr2DRectUI( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicOr2DRectUI
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicOrCubeUI( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicOrCubeUI
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicOrBufferUI( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicOrBufferUI
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicOr1DArrayUI( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicOr1DArrayUI
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicOr2DArrayUI( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicOr2DArrayUI
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicOrCubeArrayUI( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicOrCubeArrayUI
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicOr2DMSUI( ExprPtr image
-		, ExprPtr P
-		, ExprPtr sample
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicOr2DMSUI
-			, std::move( image )
-			, std::move( P )
-			, std::move( sample )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicOr2DMSArrayUI( ExprPtr image
-		, ExprPtr P
-		, ExprPtr sample
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicOr2DMSArrayUI
-			, std::move( image )
-			, std::move( P )
-			, std::move( sample )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicXor1DFU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicXor1DFU
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicXor2DFU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicXor2DFU
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicXor3DFU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicXor3DFU
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicXor2DRectFU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicXor2DRectFU
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicXorCubeFU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicXorCubeFU
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicXorBufferFU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicXorBufferFU
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicXor1DArrayFU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicXor1DArrayFU
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicXor2DArrayFU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicXor2DArrayFU
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicXorCubeArrayFU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicXorCubeArrayFU
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicXor2DMSFU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr sample
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicXor2DMSFU
-			, std::move( image )
-			, std::move( P )
-			, std::move( sample )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicXor2DMSArrayFU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr sample
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicXor2DMSArrayFU
-			, std::move( image )
-			, std::move( P )
-			, std::move( sample )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicXor1DIU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicXor1DIU
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicXor2DIU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicXor2DIU
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicXor3DIU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicXor3DIU
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicXor2DRectIU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicXor2DRectIU
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicXorCubeIU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicXorCubeIU
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicXorBufferIU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicXorBufferIU
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicXor1DArrayIU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicXor1DArrayIU
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicXor2DArrayIU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicXor2DArrayIU
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicXorCubeArrayIU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicXorCubeArrayIU
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicXor2DMSIU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr sample
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicXor2DMSIU
-			, std::move( image )
-			, std::move( P )
-			, std::move( sample )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicXor2DMSArrayIU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr sample
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicXor2DMSArrayIU
-			, std::move( image )
-			, std::move( P )
-			, std::move( sample )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicXor1DUU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicXor1DUU
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicXor2DUU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicXor2DUU
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicXor3DUU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicXor3DUU
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicXor2DRectUU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicXor2DRectUU
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicXorCubeUU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicXorCubeUU
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicXorBufferUU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicXorBufferUU
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicXor1DArrayUU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicXor1DArrayUU
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicXor2DArrayUU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicXor2DArrayUU
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicXorCubeArrayUU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicXorCubeArrayUU
-			, std::move( image )
-			, std::move( P )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicXor2DMSUU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr sample
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicXor2DMSUU
-			, std::move( image )
-			, std::move( P )
-			, std::move( sample )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicXor2DMSArrayUU( ExprPtr image
-		, ExprPtr P
-		, ExprPtr sample
-		, ExprPtr data )
-	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicXor2DMSArrayUU
-			, std::move( image )
-			, std::move( P )
-			, std::move( sample )
-			, std::move( data ) );
-	}
-
-	ImageAccessCallPtr makeImageAtomicXor1DFI( ExprPtr image
-		, ExprPtr P
-		, ExprPtr data )
-	{
 		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicXor1DFI
+			, ImageAccess::eImageAtomicAdd1DI
 			, std::move( image )
 			, std::move( P )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicXor2DFI( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicAdd2DI( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicXor2DFI
+			, ImageAccess::eImageAtomicAdd2DI
 			, std::move( image )
 			, std::move( P )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicXor3DFI( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicAdd3DI( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicXor3DFI
+			, ImageAccess::eImageAtomicAdd3DI
 			, std::move( image )
 			, std::move( P )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicXor2DRectFI( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicAdd2DRectI( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicXor2DRectFI
+			, ImageAccess::eImageAtomicAdd2DRectI
 			, std::move( image )
 			, std::move( P )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicXorCubeFI( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicAddCubeI( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicXorCubeFI
+			, ImageAccess::eImageAtomicAddCubeI
 			, std::move( image )
 			, std::move( P )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicXorBufferFI( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicAddBufferI( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicXorBufferFI
+			, ImageAccess::eImageAtomicAddBufferI
 			, std::move( image )
 			, std::move( P )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicXor1DArrayFI( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicAdd1DArrayI( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicXor1DArrayFI
+			, ImageAccess::eImageAtomicAdd1DArrayI
 			, std::move( image )
 			, std::move( P )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicXor2DArrayFI( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicAdd2DArrayI( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicXor2DArrayFI
+			, ImageAccess::eImageAtomicAdd2DArrayI
 			, std::move( image )
 			, std::move( P )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicXorCubeArrayFI( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicAddCubeArrayI( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicXorCubeArrayFI
+			, ImageAccess::eImageAtomicAddCubeArrayI
 			, std::move( image )
 			, std::move( P )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicXor2DMSFI( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicAdd2DMSI( ExprPtr image
 		, ExprPtr P
 		, ExprPtr sample
 		, ExprPtr data )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicXor2DMSFI
+			, ImageAccess::eImageAtomicAdd2DMSI
 			, std::move( image )
 			, std::move( P )
 			, std::move( sample )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicXor2DMSArrayFI( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicAdd2DMSArrayI( ExprPtr image
 		, ExprPtr P
 		, ExprPtr sample
 		, ExprPtr data )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicXor2DMSArrayFI
+			, ImageAccess::eImageAtomicAdd2DMSArrayI
 			, std::move( image )
 			, std::move( P )
 			, std::move( sample )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicXor1DII( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicMin1DU( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicXor1DII
+		return makeImageAccessCall( makeType( type::Kind::eUInt )
+			, ImageAccess::eImageAtomicMin1DU
 			, std::move( image )
 			, std::move( P )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicXor2DII( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicMin2DU( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicXor2DII
+		return makeImageAccessCall( makeType( type::Kind::eUInt )
+			, ImageAccess::eImageAtomicMin2DU
 			, std::move( image )
 			, std::move( P )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicXor3DII( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicMin3DU( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicXor3DII
+		return makeImageAccessCall( makeType( type::Kind::eUInt )
+			, ImageAccess::eImageAtomicMin3DU
 			, std::move( image )
 			, std::move( P )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicXor2DRectII( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicMin2DRectU( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicXor2DRectII
+		return makeImageAccessCall( makeType( type::Kind::eUInt )
+			, ImageAccess::eImageAtomicMin2DRectU
 			, std::move( image )
 			, std::move( P )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicXorCubeII( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicMinCubeU( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicXorCubeII
+		return makeImageAccessCall( makeType( type::Kind::eUInt )
+			, ImageAccess::eImageAtomicMinCubeU
 			, std::move( image )
 			, std::move( P )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicXorBufferII( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicMinBufferU( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicXorBufferII
+		return makeImageAccessCall( makeType( type::Kind::eUInt )
+			, ImageAccess::eImageAtomicMinBufferU
 			, std::move( image )
 			, std::move( P )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicXor1DArrayII( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicMin1DArrayU( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicXor1DArrayII
+		return makeImageAccessCall( makeType( type::Kind::eUInt )
+			, ImageAccess::eImageAtomicMin1DArrayU
 			, std::move( image )
 			, std::move( P )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicXor2DArrayII( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicMin2DArrayU( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicXor2DArrayII
+		return makeImageAccessCall( makeType( type::Kind::eUInt )
+			, ImageAccess::eImageAtomicMin2DArrayU
 			, std::move( image )
 			, std::move( P )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicXorCubeArrayII( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicMinCubeArrayU( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicXorCubeArrayII
+		return makeImageAccessCall( makeType( type::Kind::eUInt )
+			, ImageAccess::eImageAtomicMinCubeArrayU
 			, std::move( image )
 			, std::move( P )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicXor2DMSII( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicMin2DMSU( ExprPtr image
 		, ExprPtr P
 		, ExprPtr sample
 		, ExprPtr data )
 	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicXor2DMSII
+		return makeImageAccessCall( makeType( type::Kind::eUInt )
+			, ImageAccess::eImageAtomicMin2DMSU
 			, std::move( image )
 			, std::move( P )
 			, std::move( sample )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicXor2DMSArrayII( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicMin2DMSArrayU( ExprPtr image
 		, ExprPtr P
 		, ExprPtr sample
 		, ExprPtr data )
 	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicXor2DMSArrayII
+		return makeImageAccessCall( makeType( type::Kind::eUInt )
+			, ImageAccess::eImageAtomicMin2DMSArrayU
 			, std::move( image )
 			, std::move( P )
 			, std::move( sample )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicXor1DUI( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicMin1DI( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicXor1DUI
+			, ImageAccess::eImageAtomicMin1DI
 			, std::move( image )
 			, std::move( P )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicXor2DUI( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicMin2DI( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicXor2DUI
+			, ImageAccess::eImageAtomicMin2DI
 			, std::move( image )
 			, std::move( P )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicXor3DUI( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicMin3DI( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicXor3DUI
+			, ImageAccess::eImageAtomicMin3DI
 			, std::move( image )
 			, std::move( P )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicXor2DRectUI( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicMin2DRectI( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicXor2DRectUI
+			, ImageAccess::eImageAtomicMin2DRectI
 			, std::move( image )
 			, std::move( P )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicXorCubeUI( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicMinCubeI( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicXorCubeUI
+			, ImageAccess::eImageAtomicMinCubeI
 			, std::move( image )
 			, std::move( P )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicXorBufferUI( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicMinBufferI( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicXorBufferUI
+			, ImageAccess::eImageAtomicMinBufferI
 			, std::move( image )
 			, std::move( P )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicXor1DArrayUI( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicMin1DArrayI( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicXor1DArrayUI
+			, ImageAccess::eImageAtomicMin1DArrayI
 			, std::move( image )
 			, std::move( P )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicXor2DArrayUI( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicMin2DArrayI( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicXor2DArrayUI
+			, ImageAccess::eImageAtomicMin2DArrayI
 			, std::move( image )
 			, std::move( P )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicXorCubeArrayUI( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicMinCubeArrayI( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicXorCubeArrayUI
+			, ImageAccess::eImageAtomicMinCubeArrayI
 			, std::move( image )
 			, std::move( P )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicXor2DMSUI( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicMin2DMSI( ExprPtr image
 		, ExprPtr P
 		, ExprPtr sample
 		, ExprPtr data )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicXor2DMSUI
+			, ImageAccess::eImageAtomicMin2DMSI
 			, std::move( image )
 			, std::move( P )
 			, std::move( sample )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicXor2DMSArrayUI( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicMin2DMSArrayI( ExprPtr image
 		, ExprPtr P
 		, ExprPtr sample
 		, ExprPtr data )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicXor2DMSArrayUI
+			, ImageAccess::eImageAtomicMin2DMSArrayI
 			, std::move( image )
 			, std::move( P )
 			, std::move( sample )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicExchange1DFU( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicMax1DU( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicExchange1DFU
+			, ImageAccess::eImageAtomicMax1DU
 			, std::move( image )
 			, std::move( P )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicExchange2DFU( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicMax2DU( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicExchange2DFU
+			, ImageAccess::eImageAtomicMax2DU
 			, std::move( image )
 			, std::move( P )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicExchange3DFU( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicMax3DU( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicExchange3DFU
+			, ImageAccess::eImageAtomicMax3DU
 			, std::move( image )
 			, std::move( P )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicExchange2DRectFU( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicMax2DRectU( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicExchange2DRectFU
+			, ImageAccess::eImageAtomicMax2DRectU
 			, std::move( image )
 			, std::move( P )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicExchangeCubeFU( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicMaxCubeU( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicExchangeCubeFU
+			, ImageAccess::eImageAtomicMaxCubeU
 			, std::move( image )
 			, std::move( P )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicExchangeBufferFU( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicMaxBufferU( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicExchangeBufferFU
+			, ImageAccess::eImageAtomicMaxBufferU
 			, std::move( image )
 			, std::move( P )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicExchange1DArrayFU( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicMax1DArrayU( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicExchange1DArrayFU
+			, ImageAccess::eImageAtomicMax1DArrayU
 			, std::move( image )
 			, std::move( P )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicExchange2DArrayFU( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicMax2DArrayU( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicExchange2DArrayFU
+			, ImageAccess::eImageAtomicMax2DArrayU
 			, std::move( image )
 			, std::move( P )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicExchangeCubeArrayFU( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicMaxCubeArrayU( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicExchangeCubeArrayFU
+			, ImageAccess::eImageAtomicMaxCubeArrayU
 			, std::move( image )
 			, std::move( P )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicExchange2DMSFU( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicMax2DMSU( ExprPtr image
 		, ExprPtr P
 		, ExprPtr sample
 		, ExprPtr data )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicExchange2DMSFU
+			, ImageAccess::eImageAtomicMax2DMSU
 			, std::move( image )
 			, std::move( P )
 			, std::move( sample )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicExchange2DMSArrayFU( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicMax2DMSArrayU( ExprPtr image
 		, ExprPtr P
 		, ExprPtr sample
 		, ExprPtr data )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicExchange2DMSArrayFU
+			, ImageAccess::eImageAtomicMax2DMSArrayU
 			, std::move( image )
 			, std::move( P )
 			, std::move( sample )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicExchange1DIU( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicMax1DI( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicExchange1DIU
+		return makeImageAccessCall( makeType( type::Kind::eInt )
+			, ImageAccess::eImageAtomicMax1DI
 			, std::move( image )
 			, std::move( P )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicExchange2DIU( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicMax2DI( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicExchange2DIU
+		return makeImageAccessCall( makeType( type::Kind::eInt )
+			, ImageAccess::eImageAtomicMax2DI
 			, std::move( image )
 			, std::move( P )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicExchange3DIU( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicMax3DI( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicExchange3DIU
+		return makeImageAccessCall( makeType( type::Kind::eInt )
+			, ImageAccess::eImageAtomicMax3DI
 			, std::move( image )
 			, std::move( P )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicExchange2DRectIU( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicMax2DRectI( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicExchange2DRectIU
+		return makeImageAccessCall( makeType( type::Kind::eInt )
+			, ImageAccess::eImageAtomicMax2DRectI
 			, std::move( image )
 			, std::move( P )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicExchangeCubeIU( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicMaxCubeI( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicExchangeCubeIU
+		return makeImageAccessCall( makeType( type::Kind::eInt )
+			, ImageAccess::eImageAtomicMaxCubeI
 			, std::move( image )
 			, std::move( P )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicExchangeBufferIU( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicMaxBufferI( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicExchangeBufferIU
+		return makeImageAccessCall( makeType( type::Kind::eInt )
+			, ImageAccess::eImageAtomicMaxBufferI
 			, std::move( image )
 			, std::move( P )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicExchange1DArrayIU( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicMax1DArrayI( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicExchange1DArrayIU
+		return makeImageAccessCall( makeType( type::Kind::eInt )
+			, ImageAccess::eImageAtomicMax1DArrayI
 			, std::move( image )
 			, std::move( P )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicExchange2DArrayIU( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicMax2DArrayI( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicExchange2DArrayIU
+		return makeImageAccessCall( makeType( type::Kind::eInt )
+			, ImageAccess::eImageAtomicMax2DArrayI
 			, std::move( image )
 			, std::move( P )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicExchangeCubeArrayIU( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicMaxCubeArrayI( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicExchangeCubeArrayIU
+		return makeImageAccessCall( makeType( type::Kind::eInt )
+			, ImageAccess::eImageAtomicMaxCubeArrayI
 			, std::move( image )
 			, std::move( P )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicExchange2DMSIU( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicMax2DMSI( ExprPtr image
 		, ExprPtr P
 		, ExprPtr sample
 		, ExprPtr data )
 	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicExchange2DMSIU
+		return makeImageAccessCall( makeType( type::Kind::eInt )
+			, ImageAccess::eImageAtomicMax2DMSI
 			, std::move( image )
 			, std::move( P )
 			, std::move( sample )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicExchange2DMSArrayIU( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicMax2DMSArrayI( ExprPtr image
 		, ExprPtr P
 		, ExprPtr sample
 		, ExprPtr data )
 	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicExchange2DMSArrayIU
+		return makeImageAccessCall( makeType( type::Kind::eInt )
+			, ImageAccess::eImageAtomicMax2DMSArrayI
 			, std::move( image )
 			, std::move( P )
 			, std::move( sample )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicExchange1DUU( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicAnd1DU( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicExchange1DUU
+			, ImageAccess::eImageAtomicAnd1DU
 			, std::move( image )
 			, std::move( P )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicExchange2DUU( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicAnd2DU( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicExchange2DUU
+			, ImageAccess::eImageAtomicAnd2DU
 			, std::move( image )
 			, std::move( P )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicExchange3DUU( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicAnd3DU( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicExchange3DUU
+			, ImageAccess::eImageAtomicAnd3DU
 			, std::move( image )
 			, std::move( P )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicExchange2DRectUU( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicAnd2DRectU( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicExchange2DRectUU
+			, ImageAccess::eImageAtomicAnd2DRectU
 			, std::move( image )
 			, std::move( P )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicExchangeCubeUU( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicAndCubeU( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicExchangeCubeUU
+			, ImageAccess::eImageAtomicAndCubeU
 			, std::move( image )
 			, std::move( P )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicExchangeBufferUU( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicAndBufferU( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicExchangeBufferUU
+			, ImageAccess::eImageAtomicAndBufferU
 			, std::move( image )
 			, std::move( P )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicExchange1DArrayUU( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicAnd1DArrayU( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicExchange1DArrayUU
+			, ImageAccess::eImageAtomicAnd1DArrayU
 			, std::move( image )
 			, std::move( P )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicExchange2DArrayUU( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicAnd2DArrayU( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicExchange2DArrayUU
+			, ImageAccess::eImageAtomicAnd2DArrayU
 			, std::move( image )
 			, std::move( P )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicExchangeCubeArrayUU( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicAndCubeArrayU( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicExchangeCubeArrayUU
+			, ImageAccess::eImageAtomicAndCubeArrayU
 			, std::move( image )
 			, std::move( P )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicExchange2DMSUU( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicAnd2DMSU( ExprPtr image
 		, ExprPtr P
 		, ExprPtr sample
 		, ExprPtr data )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicExchange2DMSUU
+			, ImageAccess::eImageAtomicAnd2DMSU
 			, std::move( image )
 			, std::move( P )
 			, std::move( sample )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicExchange2DMSArrayUU( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicAnd2DMSArrayU( ExprPtr image
 		, ExprPtr P
 		, ExprPtr sample
 		, ExprPtr data )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicExchange2DMSArrayUU
+			, ImageAccess::eImageAtomicAnd2DMSArrayU
 			, std::move( image )
 			, std::move( P )
 			, std::move( sample )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicExchange1DFI( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicAnd1DI( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicExchange1DFI
+			, ImageAccess::eImageAtomicAnd1DI
 			, std::move( image )
 			, std::move( P )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicExchange2DFI( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicAnd2DI( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicExchange2DFI
+			, ImageAccess::eImageAtomicAnd2DI
 			, std::move( image )
 			, std::move( P )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicExchange3DFI( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicAnd3DI( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicExchange3DFI
+			, ImageAccess::eImageAtomicAnd3DI
 			, std::move( image )
 			, std::move( P )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicExchange2DRectFI( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicAnd2DRectI( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicExchange2DRectFI
+			, ImageAccess::eImageAtomicAnd2DRectI
 			, std::move( image )
 			, std::move( P )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicExchangeCubeFI( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicAndCubeI( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicExchangeCubeFI
+			, ImageAccess::eImageAtomicAndCubeI
 			, std::move( image )
 			, std::move( P )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicExchangeBufferFI( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicAndBufferI( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicExchangeBufferFI
+			, ImageAccess::eImageAtomicAndBufferI
 			, std::move( image )
 			, std::move( P )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicExchange1DArrayFI( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicAnd1DArrayI( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicExchange1DArrayFI
+			, ImageAccess::eImageAtomicAnd1DArrayI
 			, std::move( image )
 			, std::move( P )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicExchange2DArrayFI( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicAnd2DArrayI( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicExchange2DArrayFI
+			, ImageAccess::eImageAtomicAnd2DArrayI
 			, std::move( image )
 			, std::move( P )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicExchangeCubeArrayFI( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicAndCubeArrayI( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicExchangeCubeArrayFI
+			, ImageAccess::eImageAtomicAndCubeArrayI
 			, std::move( image )
 			, std::move( P )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicExchange2DMSFI( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicAnd2DMSI( ExprPtr image
 		, ExprPtr P
 		, ExprPtr sample
 		, ExprPtr data )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicExchange2DMSFI
+			, ImageAccess::eImageAtomicAnd2DMSI
 			, std::move( image )
 			, std::move( P )
 			, std::move( sample )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicExchange2DMSArrayFI( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicAnd2DMSArrayI( ExprPtr image
 		, ExprPtr P
 		, ExprPtr sample
 		, ExprPtr data )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicExchange2DMSArrayFI
+			, ImageAccess::eImageAtomicAnd2DMSArrayI
 			, std::move( image )
 			, std::move( P )
 			, std::move( sample )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicExchange1DII( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicOr1DU( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicExchange1DII
+		return makeImageAccessCall( makeType( type::Kind::eUInt )
+			, ImageAccess::eImageAtomicOr1DU
 			, std::move( image )
 			, std::move( P )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicExchange2DII( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicOr2DU( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicExchange2DII
+		return makeImageAccessCall( makeType( type::Kind::eUInt )
+			, ImageAccess::eImageAtomicOr2DU
 			, std::move( image )
 			, std::move( P )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicExchange3DII( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicOr3DU( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicExchange3DII
+		return makeImageAccessCall( makeType( type::Kind::eUInt )
+			, ImageAccess::eImageAtomicOr3DU
 			, std::move( image )
 			, std::move( P )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicExchange2DRectII( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicOr2DRectU( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicExchange2DRectII
+		return makeImageAccessCall( makeType( type::Kind::eUInt )
+			, ImageAccess::eImageAtomicOr2DRectU
 			, std::move( image )
 			, std::move( P )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicExchangeCubeII( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicOrCubeU( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicExchangeCubeII
+		return makeImageAccessCall( makeType( type::Kind::eUInt )
+			, ImageAccess::eImageAtomicOrCubeU
 			, std::move( image )
 			, std::move( P )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicExchangeBufferII( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicOrBufferU( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicExchangeBufferII
+		return makeImageAccessCall( makeType( type::Kind::eUInt )
+			, ImageAccess::eImageAtomicOrBufferU
 			, std::move( image )
 			, std::move( P )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicExchange1DArrayII( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicOr1DArrayU( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicExchange1DArrayII
+		return makeImageAccessCall( makeType( type::Kind::eUInt )
+			, ImageAccess::eImageAtomicOr1DArrayU
 			, std::move( image )
 			, std::move( P )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicExchange2DArrayII( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicOr2DArrayU( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicExchange2DArrayII
+		return makeImageAccessCall( makeType( type::Kind::eUInt )
+			, ImageAccess::eImageAtomicOr2DArrayU
 			, std::move( image )
 			, std::move( P )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicExchangeCubeArrayII( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicOrCubeArrayU( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicExchangeCubeArrayII
+		return makeImageAccessCall( makeType( type::Kind::eUInt )
+			, ImageAccess::eImageAtomicOrCubeArrayU
 			, std::move( image )
 			, std::move( P )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicExchange2DMSII( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicOr2DMSU( ExprPtr image
 		, ExprPtr P
 		, ExprPtr sample
 		, ExprPtr data )
 	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicExchange2DMSII
+		return makeImageAccessCall( makeType( type::Kind::eUInt )
+			, ImageAccess::eImageAtomicOr2DMSU
 			, std::move( image )
 			, std::move( P )
 			, std::move( sample )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicExchange2DMSArrayII( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicOr2DMSArrayU( ExprPtr image
 		, ExprPtr P
 		, ExprPtr sample
 		, ExprPtr data )
 	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicExchange2DMSArrayII
+		return makeImageAccessCall( makeType( type::Kind::eUInt )
+			, ImageAccess::eImageAtomicOr2DMSArrayU
 			, std::move( image )
 			, std::move( P )
 			, std::move( sample )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicExchange1DUI( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicOr1DI( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicExchange1DUI
+			, ImageAccess::eImageAtomicOr1DI
 			, std::move( image )
 			, std::move( P )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicExchange2DUI( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicOr2DI( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicExchange2DUI
+			, ImageAccess::eImageAtomicOr2DI
 			, std::move( image )
 			, std::move( P )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicExchange3DUI( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicOr3DI( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicExchange3DUI
+			, ImageAccess::eImageAtomicOr3DI
 			, std::move( image )
 			, std::move( P )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicExchange2DRectUI( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicOr2DRectI( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicExchange2DRectUI
+			, ImageAccess::eImageAtomicOr2DRectI
 			, std::move( image )
 			, std::move( P )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicExchangeCubeUI( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicOrCubeI( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicExchangeCubeUI
+			, ImageAccess::eImageAtomicOrCubeI
 			, std::move( image )
 			, std::move( P )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicExchangeBufferUI( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicOrBufferI( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicExchangeBufferUI
+			, ImageAccess::eImageAtomicOrBufferI
 			, std::move( image )
 			, std::move( P )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicExchange1DArrayUI( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicOr1DArrayI( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicExchange1DArrayUI
+			, ImageAccess::eImageAtomicOr1DArrayI
 			, std::move( image )
 			, std::move( P )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicExchange2DArrayUI( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicOr2DArrayI( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicExchange2DArrayUI
+			, ImageAccess::eImageAtomicOr2DArrayI
 			, std::move( image )
 			, std::move( P )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicExchangeCubeArrayUI( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicOrCubeArrayI( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicExchangeCubeArrayUI
+			, ImageAccess::eImageAtomicOrCubeArrayI
 			, std::move( image )
 			, std::move( P )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicExchange2DMSUI( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicOr2DMSI( ExprPtr image
 		, ExprPtr P
 		, ExprPtr sample
 		, ExprPtr data )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicExchange2DMSUI
+			, ImageAccess::eImageAtomicOr2DMSI
 			, std::move( image )
 			, std::move( P )
 			, std::move( sample )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicExchange2DMSArrayUI( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicOr2DMSArrayI( ExprPtr image
 		, ExprPtr P
 		, ExprPtr sample
 		, ExprPtr data )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicExchange2DMSArrayUI
+			, ImageAccess::eImageAtomicOr2DMSArrayI
 			, std::move( image )
 			, std::move( P )
 			, std::move( sample )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicCompSwap1DFU( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicXor1DU( ExprPtr image
 		, ExprPtr P
-		, ExprPtr compare
 		, ExprPtr data )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicCompSwap1DFU
+			, ImageAccess::eImageAtomicXor1DU
 			, std::move( image )
 			, std::move( P )
-			, std::move( compare )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicCompSwap2DFU( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicXor2DU( ExprPtr image
 		, ExprPtr P
-		, ExprPtr compare
 		, ExprPtr data )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicCompSwap2DFU
+			, ImageAccess::eImageAtomicXor2DU
 			, std::move( image )
 			, std::move( P )
-			, std::move( compare )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicCompSwap3DFU( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicXor3DU( ExprPtr image
 		, ExprPtr P
-		, ExprPtr compare
 		, ExprPtr data )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicCompSwap3DFU
+			, ImageAccess::eImageAtomicXor3DU
 			, std::move( image )
 			, std::move( P )
-			, std::move( compare )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicCompSwap2DRectFU( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicXor2DRectU( ExprPtr image
 		, ExprPtr P
-		, ExprPtr compare
 		, ExprPtr data )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicCompSwap2DRectFU
+			, ImageAccess::eImageAtomicXor2DRectU
 			, std::move( image )
 			, std::move( P )
-			, std::move( compare )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicCompSwapCubeFU( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicXorCubeU( ExprPtr image
 		, ExprPtr P
-		, ExprPtr compare
 		, ExprPtr data )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicCompSwapCubeFU
+			, ImageAccess::eImageAtomicXorCubeU
 			, std::move( image )
 			, std::move( P )
-			, std::move( compare )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicCompSwapBufferFU( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicXorBufferU( ExprPtr image
 		, ExprPtr P
-		, ExprPtr compare
 		, ExprPtr data )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicCompSwapBufferFU
+			, ImageAccess::eImageAtomicXorBufferU
 			, std::move( image )
 			, std::move( P )
-			, std::move( compare )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicCompSwap1DArrayFU( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicXor1DArrayU( ExprPtr image
 		, ExprPtr P
-		, ExprPtr compare
 		, ExprPtr data )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicCompSwap1DArrayFU
+			, ImageAccess::eImageAtomicXor1DArrayU
 			, std::move( image )
 			, std::move( P )
-			, std::move( compare )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicCompSwap2DArrayFU( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicXor2DArrayU( ExprPtr image
 		, ExprPtr P
-		, ExprPtr compare
 		, ExprPtr data )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicCompSwap2DArrayFU
+			, ImageAccess::eImageAtomicXor2DArrayU
 			, std::move( image )
 			, std::move( P )
-			, std::move( compare )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicCompSwapCubeArrayFU( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicXorCubeArrayU( ExprPtr image
 		, ExprPtr P
-		, ExprPtr compare
 		, ExprPtr data )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicCompSwapCubeArrayFU
+			, ImageAccess::eImageAtomicXorCubeArrayU
 			, std::move( image )
 			, std::move( P )
-			, std::move( compare )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicCompSwap2DMSFU( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicXor2DMSU( ExprPtr image
 		, ExprPtr P
 		, ExprPtr sample
-		, ExprPtr compare
 		, ExprPtr data )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicCompSwap2DMSFU
+			, ImageAccess::eImageAtomicXor2DMSU
 			, std::move( image )
 			, std::move( P )
 			, std::move( sample )
-			, std::move( compare )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicCompSwap2DMSArrayFU( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicXor2DMSArrayU( ExprPtr image
 		, ExprPtr P
 		, ExprPtr sample
-		, ExprPtr compare
 		, ExprPtr data )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicCompSwap2DMSArrayFU
+			, ImageAccess::eImageAtomicXor2DMSArrayU
 			, std::move( image )
 			, std::move( P )
 			, std::move( sample )
-			, std::move( compare )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicCompSwap1DIU( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicXor1DI( ExprPtr image
 		, ExprPtr P
-		, ExprPtr compare
 		, ExprPtr data )
 	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicCompSwap1DIU
+		return makeImageAccessCall( makeType( type::Kind::eInt )
+			, ImageAccess::eImageAtomicXor1DI
 			, std::move( image )
 			, std::move( P )
-			, std::move( compare )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicCompSwap2DIU( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicXor2DI( ExprPtr image
 		, ExprPtr P
-		, ExprPtr compare
 		, ExprPtr data )
 	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicCompSwap2DIU
+		return makeImageAccessCall( makeType( type::Kind::eInt )
+			, ImageAccess::eImageAtomicXor2DI
 			, std::move( image )
 			, std::move( P )
-			, std::move( compare )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicCompSwap3DIU( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicXor3DI( ExprPtr image
 		, ExprPtr P
-		, ExprPtr compare
 		, ExprPtr data )
 	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicCompSwap3DIU
+		return makeImageAccessCall( makeType( type::Kind::eInt )
+			, ImageAccess::eImageAtomicXor3DI
 			, std::move( image )
 			, std::move( P )
-			, std::move( compare )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicCompSwap2DRectIU( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicXor2DRectI( ExprPtr image
 		, ExprPtr P
-		, ExprPtr compare
 		, ExprPtr data )
 	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicCompSwap2DRectIU
+		return makeImageAccessCall( makeType( type::Kind::eInt )
+			, ImageAccess::eImageAtomicXor2DRectI
 			, std::move( image )
 			, std::move( P )
-			, std::move( compare )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicCompSwapCubeIU( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicXorCubeI( ExprPtr image
 		, ExprPtr P
-		, ExprPtr compare
 		, ExprPtr data )
 	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicCompSwapCubeIU
+		return makeImageAccessCall( makeType( type::Kind::eInt )
+			, ImageAccess::eImageAtomicXorCubeI
 			, std::move( image )
 			, std::move( P )
-			, std::move( compare )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicCompSwapBufferIU( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicXorBufferI( ExprPtr image
 		, ExprPtr P
-		, ExprPtr compare
 		, ExprPtr data )
 	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicCompSwapBufferIU
+		return makeImageAccessCall( makeType( type::Kind::eInt )
+			, ImageAccess::eImageAtomicXorBufferI
 			, std::move( image )
 			, std::move( P )
-			, std::move( compare )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicCompSwap1DArrayIU( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicXor1DArrayI( ExprPtr image
 		, ExprPtr P
-		, ExprPtr compare
 		, ExprPtr data )
 	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicCompSwap1DArrayIU
+		return makeImageAccessCall( makeType( type::Kind::eInt )
+			, ImageAccess::eImageAtomicXor1DArrayI
 			, std::move( image )
 			, std::move( P )
-			, std::move( compare )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicCompSwap2DArrayIU( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicXor2DArrayI( ExprPtr image
 		, ExprPtr P
-		, ExprPtr compare
 		, ExprPtr data )
 	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicCompSwap2DArrayIU
+		return makeImageAccessCall( makeType( type::Kind::eInt )
+			, ImageAccess::eImageAtomicXor2DArrayI
 			, std::move( image )
 			, std::move( P )
-			, std::move( compare )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicCompSwapCubeArrayIU( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicXorCubeArrayI( ExprPtr image
 		, ExprPtr P
-		, ExprPtr compare
 		, ExprPtr data )
 	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicCompSwapCubeArrayIU
+		return makeImageAccessCall( makeType( type::Kind::eInt )
+			, ImageAccess::eImageAtomicXorCubeArrayI
 			, std::move( image )
 			, std::move( P )
-			, std::move( compare )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicCompSwap2DMSIU( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicXor2DMSI( ExprPtr image
 		, ExprPtr P
 		, ExprPtr sample
-		, ExprPtr compare
 		, ExprPtr data )
 	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicCompSwap2DMSIU
+		return makeImageAccessCall( makeType( type::Kind::eInt )
+			, ImageAccess::eImageAtomicXor2DMSI
 			, std::move( image )
 			, std::move( P )
 			, std::move( sample )
-			, std::move( compare )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicCompSwap2DMSArrayIU( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicXor2DMSArrayI( ExprPtr image
 		, ExprPtr P
 		, ExprPtr sample
-		, ExprPtr compare
 		, ExprPtr data )
 	{
-		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicCompSwap2DMSArrayIU
+		return makeImageAccessCall( makeType( type::Kind::eInt )
+			, ImageAccess::eImageAtomicXor2DMSArrayI
 			, std::move( image )
 			, std::move( P )
 			, std::move( sample )
-			, std::move( compare )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicCompSwap1DUU( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicExchange1DU( ExprPtr image
 		, ExprPtr P
-		, ExprPtr compare
 		, ExprPtr data )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicCompSwap1DUU
+			, ImageAccess::eImageAtomicExchange1DU
 			, std::move( image )
 			, std::move( P )
-			, std::move( compare )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicCompSwap2DUU( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicExchange2DU( ExprPtr image
 		, ExprPtr P
-		, ExprPtr compare
 		, ExprPtr data )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicCompSwap2DUU
+			, ImageAccess::eImageAtomicExchange2DU
 			, std::move( image )
 			, std::move( P )
-			, std::move( compare )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicCompSwap3DUU( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicExchange3DU( ExprPtr image
 		, ExprPtr P
-		, ExprPtr compare
 		, ExprPtr data )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicCompSwap3DUU
+			, ImageAccess::eImageAtomicExchange3DU
 			, std::move( image )
 			, std::move( P )
-			, std::move( compare )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicCompSwap2DRectUU( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicExchange2DRectU( ExprPtr image
 		, ExprPtr P
-		, ExprPtr compare
 		, ExprPtr data )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicCompSwap2DRectUU
+			, ImageAccess::eImageAtomicExchange2DRectU
 			, std::move( image )
 			, std::move( P )
-			, std::move( compare )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicCompSwapCubeUU( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicExchangeCubeU( ExprPtr image
 		, ExprPtr P
-		, ExprPtr compare
 		, ExprPtr data )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicCompSwapCubeUU
+			, ImageAccess::eImageAtomicExchangeCubeU
 			, std::move( image )
 			, std::move( P )
-			, std::move( compare )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicCompSwapBufferUU( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicExchangeBufferU( ExprPtr image
 		, ExprPtr P
-		, ExprPtr compare
 		, ExprPtr data )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicCompSwapBufferUU
+			, ImageAccess::eImageAtomicExchangeBufferU
 			, std::move( image )
 			, std::move( P )
-			, std::move( compare )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicCompSwap1DArrayUU( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicExchange1DArrayU( ExprPtr image
 		, ExprPtr P
-		, ExprPtr compare
 		, ExprPtr data )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicCompSwap1DArrayUU
+			, ImageAccess::eImageAtomicExchange1DArrayU
 			, std::move( image )
 			, std::move( P )
-			, std::move( compare )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicCompSwap2DArrayUU( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicExchange2DArrayU( ExprPtr image
 		, ExprPtr P
-		, ExprPtr compare
 		, ExprPtr data )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicCompSwap2DArrayUU
+			, ImageAccess::eImageAtomicExchange2DArrayU
 			, std::move( image )
 			, std::move( P )
-			, std::move( compare )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicCompSwapCubeArrayUU( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicExchangeCubeArrayU( ExprPtr image
 		, ExprPtr P
-		, ExprPtr compare
 		, ExprPtr data )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicCompSwapCubeArrayUU
+			, ImageAccess::eImageAtomicExchangeCubeArrayU
 			, std::move( image )
 			, std::move( P )
-			, std::move( compare )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicCompSwap2DMSUU( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicExchange2DMSU( ExprPtr image
 		, ExprPtr P
 		, ExprPtr sample
-		, ExprPtr compare
 		, ExprPtr data )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicCompSwap2DMSUU
+			, ImageAccess::eImageAtomicExchange2DMSU
 			, std::move( image )
 			, std::move( P )
 			, std::move( sample )
-			, std::move( compare )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicCompSwap2DMSArrayUU( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicExchange2DMSArrayU( ExprPtr image
 		, ExprPtr P
 		, ExprPtr sample
-		, ExprPtr compare
 		, ExprPtr data )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eUInt )
-			, ImageAccess::eImageAtomicCompSwap2DMSArrayUU
+			, ImageAccess::eImageAtomicExchange2DMSArrayU
 			, std::move( image )
 			, std::move( P )
 			, std::move( sample )
-			, std::move( compare )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicCompSwap1DFI( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicExchange1DI( ExprPtr image
 		, ExprPtr P
-		, ExprPtr compare
 		, ExprPtr data )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicCompSwap1DFI
+			, ImageAccess::eImageAtomicExchange1DI
 			, std::move( image )
 			, std::move( P )
-			, std::move( compare )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicCompSwap2DFI( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicExchange2DI( ExprPtr image
 		, ExprPtr P
-		, ExprPtr compare
 		, ExprPtr data )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicCompSwap2DFI
+			, ImageAccess::eImageAtomicExchange2DI
 			, std::move( image )
 			, std::move( P )
-			, std::move( compare )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicCompSwap3DFI( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicExchange3DI( ExprPtr image
 		, ExprPtr P
-		, ExprPtr compare
 		, ExprPtr data )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicCompSwap3DFI
+			, ImageAccess::eImageAtomicExchange3DI
 			, std::move( image )
 			, std::move( P )
-			, std::move( compare )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicCompSwap2DRectFI( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicExchange2DRectI( ExprPtr image
 		, ExprPtr P
-		, ExprPtr compare
 		, ExprPtr data )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicCompSwap2DRectFI
+			, ImageAccess::eImageAtomicExchange2DRectI
 			, std::move( image )
 			, std::move( P )
-			, std::move( compare )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicCompSwapCubeFI( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicExchangeCubeI( ExprPtr image
 		, ExprPtr P
-		, ExprPtr compare
 		, ExprPtr data )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicCompSwapCubeFI
+			, ImageAccess::eImageAtomicExchangeCubeI
 			, std::move( image )
 			, std::move( P )
-			, std::move( compare )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicCompSwapBufferFI( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicExchangeBufferI( ExprPtr image
 		, ExprPtr P
-		, ExprPtr compare
 		, ExprPtr data )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicCompSwapBufferFI
+			, ImageAccess::eImageAtomicExchangeBufferI
 			, std::move( image )
 			, std::move( P )
-			, std::move( compare )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicCompSwap1DArrayFI( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicExchange1DArrayI( ExprPtr image
 		, ExprPtr P
-		, ExprPtr compare
 		, ExprPtr data )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicCompSwap1DArrayFI
+			, ImageAccess::eImageAtomicExchange1DArrayI
 			, std::move( image )
 			, std::move( P )
-			, std::move( compare )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicCompSwap2DArrayFI( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicExchange2DArrayI( ExprPtr image
 		, ExprPtr P
-		, ExprPtr compare
 		, ExprPtr data )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicCompSwap2DArrayFI
+			, ImageAccess::eImageAtomicExchange2DArrayI
 			, std::move( image )
 			, std::move( P )
-			, std::move( compare )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicCompSwapCubeArrayFI( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicExchangeCubeArrayI( ExprPtr image
 		, ExprPtr P
-		, ExprPtr compare
 		, ExprPtr data )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicCompSwapCubeArrayFI
+			, ImageAccess::eImageAtomicExchangeCubeArrayI
 			, std::move( image )
 			, std::move( P )
-			, std::move( compare )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicCompSwap2DMSFI( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicExchange2DMSI( ExprPtr image
 		, ExprPtr P
 		, ExprPtr sample
-		, ExprPtr compare
 		, ExprPtr data )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicCompSwap2DMSFI
+			, ImageAccess::eImageAtomicExchange2DMSI
 			, std::move( image )
 			, std::move( P )
 			, std::move( sample )
-			, std::move( compare )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicCompSwap2DMSArrayFI( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicExchange2DMSArrayI( ExprPtr image
 		, ExprPtr P
 		, ExprPtr sample
-		, ExprPtr compare
 		, ExprPtr data )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicCompSwap2DMSArrayFI
+			, ImageAccess::eImageAtomicExchange2DMSArrayI
 			, std::move( image )
 			, std::move( P )
 			, std::move( sample )
-			, std::move( compare )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicCompSwap1DII( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicCompSwap1DU( ExprPtr image
 		, ExprPtr P
 		, ExprPtr compare
 		, ExprPtr data )
 	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicCompSwap1DII
+		return makeImageAccessCall( makeType( type::Kind::eUInt )
+			, ImageAccess::eImageAtomicCompSwap1DU
 			, std::move( image )
 			, std::move( P )
 			, std::move( compare )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicCompSwap2DII( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicCompSwap2DU( ExprPtr image
 		, ExprPtr P
 		, ExprPtr compare
 		, ExprPtr data )
 	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicCompSwap2DII
+		return makeImageAccessCall( makeType( type::Kind::eUInt )
+			, ImageAccess::eImageAtomicCompSwap2DU
 			, std::move( image )
 			, std::move( P )
 			, std::move( compare )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicCompSwap3DII( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicCompSwap3DU( ExprPtr image
 		, ExprPtr P
 		, ExprPtr compare
 		, ExprPtr data )
 	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicCompSwap3DII
+		return makeImageAccessCall( makeType( type::Kind::eUInt )
+			, ImageAccess::eImageAtomicCompSwap3DU
 			, std::move( image )
 			, std::move( P )
 			, std::move( compare )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicCompSwap2DRectII( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicCompSwap2DRectU( ExprPtr image
 		, ExprPtr P
 		, ExprPtr compare
 		, ExprPtr data )
 	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicCompSwap2DRectII
+		return makeImageAccessCall( makeType( type::Kind::eUInt )
+			, ImageAccess::eImageAtomicCompSwap2DRectU
 			, std::move( image )
 			, std::move( P )
 			, std::move( compare )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicCompSwapCubeII( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicCompSwapCubeU( ExprPtr image
 		, ExprPtr P
 		, ExprPtr compare
 		, ExprPtr data )
 	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicCompSwapCubeII
+		return makeImageAccessCall( makeType( type::Kind::eUInt )
+			, ImageAccess::eImageAtomicCompSwapCubeU
 			, std::move( image )
 			, std::move( P )
 			, std::move( compare )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicCompSwapBufferII( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicCompSwapBufferU( ExprPtr image
 		, ExprPtr P
 		, ExprPtr compare
 		, ExprPtr data )
 	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicCompSwapBufferII
+		return makeImageAccessCall( makeType( type::Kind::eUInt )
+			, ImageAccess::eImageAtomicCompSwapBufferU
 			, std::move( image )
 			, std::move( P )
 			, std::move( compare )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicCompSwap1DArrayII( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicCompSwap1DArrayU( ExprPtr image
 		, ExprPtr P
 		, ExprPtr compare
 		, ExprPtr data )
 	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicCompSwap1DArrayII
+		return makeImageAccessCall( makeType( type::Kind::eUInt )
+			, ImageAccess::eImageAtomicCompSwap1DArrayU
 			, std::move( image )
 			, std::move( P )
 			, std::move( compare )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicCompSwap2DArrayII( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicCompSwap2DArrayU( ExprPtr image
 		, ExprPtr P
 		, ExprPtr compare
 		, ExprPtr data )
 	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicCompSwap2DArrayII
+		return makeImageAccessCall( makeType( type::Kind::eUInt )
+			, ImageAccess::eImageAtomicCompSwap2DArrayU
 			, std::move( image )
 			, std::move( P )
 			, std::move( compare )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicCompSwapCubeArrayII( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicCompSwapCubeArrayU( ExprPtr image
 		, ExprPtr P
 		, ExprPtr compare
 		, ExprPtr data )
 	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicCompSwapCubeArrayII
+		return makeImageAccessCall( makeType( type::Kind::eUInt )
+			, ImageAccess::eImageAtomicCompSwapCubeArrayU
 			, std::move( image )
 			, std::move( P )
 			, std::move( compare )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicCompSwap2DMSII( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicCompSwap2DMSU( ExprPtr image
 		, ExprPtr P
 		, ExprPtr sample
 		, ExprPtr compare
 		, ExprPtr data )
 	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicCompSwap2DMSII
+		return makeImageAccessCall( makeType( type::Kind::eUInt )
+			, ImageAccess::eImageAtomicCompSwap2DMSU
 			, std::move( image )
 			, std::move( P )
 			, std::move( sample )
@@ -6557,14 +2469,14 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicCompSwap2DMSArrayII( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicCompSwap2DMSArrayU( ExprPtr image
 		, ExprPtr P
 		, ExprPtr sample
 		, ExprPtr compare
 		, ExprPtr data )
 	{
-		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicCompSwap2DMSArrayII
+		return makeImageAccessCall( makeType( type::Kind::eUInt )
+			, ImageAccess::eImageAtomicCompSwap2DMSArrayU
 			, std::move( image )
 			, std::move( P )
 			, std::move( sample )
@@ -6572,131 +2484,131 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicCompSwap1DUI( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicCompSwap1DI( ExprPtr image
 		, ExprPtr P
 		, ExprPtr compare
 		, ExprPtr data )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicCompSwap1DUI
+			, ImageAccess::eImageAtomicCompSwap1DI
 			, std::move( image )
 			, std::move( P )
 			, std::move( compare )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicCompSwap2DUI( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicCompSwap2DI( ExprPtr image
 		, ExprPtr P
 		, ExprPtr compare
 		, ExprPtr data )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicCompSwap2DUI
+			, ImageAccess::eImageAtomicCompSwap2DI
 			, std::move( image )
 			, std::move( P )
 			, std::move( compare )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicCompSwap3DUI( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicCompSwap3DI( ExprPtr image
 		, ExprPtr P
 		, ExprPtr compare
 		, ExprPtr data )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicCompSwap3DUI
+			, ImageAccess::eImageAtomicCompSwap3DI
 			, std::move( image )
 			, std::move( P )
 			, std::move( compare )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicCompSwap2DRectUI( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicCompSwap2DRectI( ExprPtr image
 		, ExprPtr P
 		, ExprPtr compare
 		, ExprPtr data )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicCompSwap2DRectUI
+			, ImageAccess::eImageAtomicCompSwap2DRectI
 			, std::move( image )
 			, std::move( P )
 			, std::move( compare )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicCompSwapCubeUI( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicCompSwapCubeI( ExprPtr image
 		, ExprPtr P
 		, ExprPtr compare
 		, ExprPtr data )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicCompSwapCubeUI
+			, ImageAccess::eImageAtomicCompSwapCubeI
 			, std::move( image )
 			, std::move( P )
 			, std::move( compare )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicCompSwapBufferUI( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicCompSwapBufferI( ExprPtr image
 		, ExprPtr P
 		, ExprPtr compare
 		, ExprPtr data )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicCompSwapBufferUI
+			, ImageAccess::eImageAtomicCompSwapBufferI
 			, std::move( image )
 			, std::move( P )
 			, std::move( compare )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicCompSwap1DArrayUI( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicCompSwap1DArrayI( ExprPtr image
 		, ExprPtr P
 		, ExprPtr compare
 		, ExprPtr data )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicCompSwap1DArrayUI
+			, ImageAccess::eImageAtomicCompSwap1DArrayI
 			, std::move( image )
 			, std::move( P )
 			, std::move( compare )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicCompSwap2DArrayUI( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicCompSwap2DArrayI( ExprPtr image
 		, ExprPtr P
 		, ExprPtr compare
 		, ExprPtr data )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicCompSwap2DArrayUI
+			, ImageAccess::eImageAtomicCompSwap2DArrayI
 			, std::move( image )
 			, std::move( P )
 			, std::move( compare )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicCompSwapCubeArrayUI( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicCompSwapCubeArrayI( ExprPtr image
 		, ExprPtr P
 		, ExprPtr compare
 		, ExprPtr data )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicCompSwapCubeArrayUI
+			, ImageAccess::eImageAtomicCompSwapCubeArrayI
 			, std::move( image )
 			, std::move( P )
 			, std::move( compare )
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicCompSwap2DMSUI( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicCompSwap2DMSI( ExprPtr image
 		, ExprPtr P
 		, ExprPtr sample
 		, ExprPtr compare
 		, ExprPtr data )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicCompSwap2DMSUI
+			, ImageAccess::eImageAtomicCompSwap2DMSI
 			, std::move( image )
 			, std::move( P )
 			, std::move( sample )
@@ -6704,14 +2616,14 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicCompSwap2DMSArrayUI( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicCompSwap2DMSArrayI( ExprPtr image
 		, ExprPtr P
 		, ExprPtr sample
 		, ExprPtr compare
 		, ExprPtr data )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eInt )
-			, ImageAccess::eImageAtomicCompSwap2DMSArrayUI
+			, ImageAccess::eImageAtomicCompSwap2DMSArrayI
 			, std::move( image )
 			, std::move( P )
 			, std::move( sample )

@@ -3,6 +3,8 @@ See LICENSE file in root folder
 */
 #include "ShaderWriter/Float.hpp"
 
+#include "ShaderWriter/Bool.hpp"
+
 namespace sdw
 {
 	//*************************************************************************
@@ -493,6 +495,296 @@ namespace sdw
 			, sdw::makeDivide( type::getFloat()
 				, makeExpr( lhs )
 				, makeExpr( rhs ) )
+			, areOptionalEnabled( lhs, rhs ) };
+	}
+
+	//*************************************************************************
+
+	Boolean operator==( Float const & lhs, Float const & rhs )
+	{
+		return Boolean{ findShader( lhs, rhs )
+			, sdw::makeEqual( makeExpr( lhs ), makeExpr( rhs ) ) };
+	}
+
+	Boolean operator!=( Float const & lhs, Float const & rhs )
+	{
+		return Boolean{ findShader( lhs, rhs )
+			, sdw::makeNEqual( makeExpr( lhs ), makeExpr( rhs ) ) };
+	}
+
+	Boolean operator<( Float const & lhs, Float const & rhs )
+	{
+		return Boolean{ findShader( lhs, rhs )
+			, sdw::makeLess( makeExpr( lhs ), makeExpr( rhs ) ) };
+	}
+
+	Boolean operator<=( Float const & lhs, Float const & rhs )
+	{
+		return Boolean{ findShader( lhs, rhs )
+			, sdw::makeLEqual( makeExpr( lhs ), makeExpr( rhs ) ) };
+	}
+
+	Boolean operator>( Float const & lhs, Float const & rhs )
+	{
+		return Boolean{ findShader( lhs, rhs )
+			, sdw::makeGreater( makeExpr( lhs ), makeExpr( rhs ) ) };
+	}
+
+	Boolean operator>=( Float const & lhs, Float const & rhs )
+	{
+		return Boolean{ findShader( lhs, rhs )
+			, sdw::makeGEqual( makeExpr( lhs ), makeExpr( rhs ) ) };
+	}
+
+	Optional< Boolean > operator==( Optional< Float > const & lhs, Float const & rhs )
+	{
+		return Optional< Boolean >{ findShader( lhs, rhs )
+			, sdw::makeEqual( makeExpr( lhs ), makeExpr( rhs ) )
+			, areOptionalEnabled( lhs, rhs ) };
+	}
+
+	Optional< Boolean > operator!=( Optional< Float > const & lhs, Float const & rhs )
+	{
+		return Optional< Boolean >{ findShader( lhs, rhs )
+			, sdw::makeNEqual( makeExpr( lhs ), makeExpr( rhs ) )
+			, areOptionalEnabled( lhs, rhs ) };
+	}
+
+	Optional< Boolean > operator<( Optional< Float > const & lhs, Float const & rhs )
+	{
+		return Optional< Boolean >{ findShader( lhs, rhs )
+			, sdw::makeLess( makeExpr( lhs ), makeExpr( rhs ) )
+			, areOptionalEnabled( lhs, rhs ) };
+	}
+
+	Optional< Boolean > operator<=( Optional< Float > const & lhs, Float const & rhs )
+	{
+		return Optional< Boolean >{ findShader( lhs, rhs )
+			, sdw::makeLEqual( makeExpr( lhs ), makeExpr( rhs ) )
+			, areOptionalEnabled( lhs, rhs ) };
+	}
+
+	Optional< Boolean > operator>( Optional< Float > const & lhs, Float const & rhs )
+	{
+		return Optional< Boolean >{ findShader( lhs, rhs )
+			, sdw::makeGreater( makeExpr( lhs ), makeExpr( rhs ) )
+			, areOptionalEnabled( lhs, rhs ) };
+	}
+
+	Optional< Boolean > operator>=( Optional< Float > const & lhs, Float const & rhs )
+	{
+		return Optional< Boolean >{ findShader( lhs, rhs )
+			, sdw::makeGEqual( makeExpr( lhs ), makeExpr( rhs ) )
+			, areOptionalEnabled( lhs, rhs ) };
+	}
+
+	Optional< Boolean > operator==( Float const & lhs, Optional< Float > const & rhs )
+	{
+		return Optional< Boolean >{ findShader( lhs, rhs )
+			, sdw::makeEqual( makeExpr( lhs ), makeExpr( rhs ) )
+			, areOptionalEnabled( lhs, rhs ) };
+	}
+
+	Optional< Boolean > operator!=( Float const & lhs, Optional< Float > const & rhs )
+	{
+		return Optional< Boolean >{ findShader( lhs, rhs )
+			, sdw::makeNEqual( makeExpr( lhs ), makeExpr( rhs ) )
+			, areOptionalEnabled( lhs, rhs ) };
+	}
+
+	Optional< Boolean > operator<( Float const & lhs, Optional< Float > const & rhs )
+	{
+		return Optional< Boolean >{ findShader( lhs, rhs )
+			, sdw::makeLess( makeExpr( lhs ), makeExpr( rhs ) )
+			, areOptionalEnabled( lhs, rhs ) };
+	}
+
+	Optional< Boolean > operator<=( Float const & lhs, Optional< Float > const & rhs )
+	{
+		return Optional< Boolean >{ findShader( lhs, rhs )
+			, sdw::makeLEqual( makeExpr( lhs ), makeExpr( rhs ) )
+			, areOptionalEnabled( lhs, rhs ) };
+	}
+
+	Optional< Boolean > operator>( Float const & lhs, Optional< Float > const & rhs )
+	{
+		return Optional< Boolean >{ findShader( lhs, rhs )
+			, sdw::makeGreater( makeExpr( lhs ), makeExpr( rhs ) )
+			, areOptionalEnabled( lhs, rhs ) };
+	}
+
+	Optional< Boolean > operator>=( Float const & lhs, Optional< Float > const & rhs )
+	{
+		return Optional< Boolean >{ findShader( lhs, rhs )
+			, sdw::makeGEqual( makeExpr( lhs ), makeExpr( rhs ) )
+			, areOptionalEnabled( lhs, rhs ) };
+	}
+
+	Optional< Boolean > operator==( Optional< Float > const & lhs, Optional< Float > const & rhs )
+	{
+		return Optional< Boolean >{ findShader( lhs, rhs )
+			, sdw::makeEqual( makeExpr( lhs ), makeExpr( rhs ) )
+			, areOptionalEnabled( lhs, rhs ) };
+	}
+
+	Optional< Boolean > operator!=( Optional< Float > const & lhs, Optional< Float > const & rhs )
+	{
+		return Optional< Boolean >{ findShader( lhs, rhs )
+			, sdw::makeNEqual( makeExpr( lhs ), makeExpr( rhs ) )
+			, areOptionalEnabled( lhs, rhs ) };
+	}
+
+	Optional< Boolean > operator<( Optional< Float > const & lhs, Optional< Float > const & rhs )
+	{
+		return Optional< Boolean >{ findShader( lhs, rhs )
+			, sdw::makeLess( makeExpr( lhs ), makeExpr( rhs ) )
+			, areOptionalEnabled( lhs, rhs ) };
+	}
+
+	Optional< Boolean > operator<=( Optional< Float > const & lhs, Optional< Float > const & rhs )
+	{
+		return Optional< Boolean >{ findShader( lhs, rhs )
+			, sdw::makeLEqual( makeExpr( lhs ), makeExpr( rhs ) )
+			, areOptionalEnabled( lhs, rhs ) };
+	}
+
+	Optional< Boolean > operator>( Optional< Float > const & lhs, Optional< Float > const & rhs )
+	{
+		return Optional< Boolean >{ findShader( lhs, rhs )
+			, sdw::makeGreater( makeExpr( lhs ), makeExpr( rhs ) )
+			, areOptionalEnabled( lhs, rhs ) };
+	}
+
+	Optional< Boolean > operator>=( Optional< Float > const & lhs, Optional< Float > const & rhs )
+	{
+		return Optional< Boolean >{ findShader( lhs, rhs )
+			, sdw::makeGEqual( makeExpr( lhs ), makeExpr( rhs ) )
+			, areOptionalEnabled( lhs, rhs ) };
+	}
+
+	Boolean operator==( Float const & lhs, float const & rhs )
+	{
+		return Optional< Boolean >{ findShader( lhs, rhs )
+			, sdw::makeEqual( makeExpr( lhs ), makeExpr( rhs ) )
+			, areOptionalEnabled( lhs, rhs ) };
+	}
+
+	Boolean operator!=( Float const & lhs, float const & rhs )
+	{
+		return Optional< Boolean >{ findShader( lhs, rhs )
+			, sdw::makeNEqual( makeExpr( lhs ), makeExpr( rhs ) )
+			, areOptionalEnabled( lhs, rhs ) };
+	}
+
+	Boolean operator<( Float const & lhs, float const & rhs )
+	{
+		return Optional< Boolean >{ findShader( lhs, rhs )
+			, sdw::makeLess( makeExpr( lhs ), makeExpr( rhs ) )
+			, areOptionalEnabled( lhs, rhs ) };
+	}
+
+	Boolean operator<=( Float const & lhs, float const & rhs )
+	{
+		return Optional< Boolean >{ findShader( lhs, rhs )
+			, sdw::makeLEqual( makeExpr( lhs ), makeExpr( rhs ) )
+			, areOptionalEnabled( lhs, rhs ) };
+	}
+
+	Boolean operator>( Float const & lhs, float const & rhs )
+	{
+		return Optional< Boolean >{ findShader( lhs, rhs )
+			, sdw::makeGreater( makeExpr( lhs ), makeExpr( rhs ) )
+			, areOptionalEnabled( lhs, rhs ) };
+	}
+
+	Boolean operator>=( Float const & lhs, float const & rhs )
+	{
+		return Optional< Boolean >{ findShader( lhs, rhs )
+			, sdw::makeGEqual( makeExpr( lhs ), makeExpr( rhs ) )
+			, areOptionalEnabled( lhs, rhs ) };
+	}
+
+	Optional< Boolean > operator==( Optional< Float > const & lhs, float const & rhs )
+	{
+		return Optional< Boolean >{ findShader( lhs, rhs )
+			, sdw::makeEqual( makeExpr( lhs ), makeExpr( rhs ) )
+			, areOptionalEnabled( lhs, rhs ) };
+	}
+
+	Optional< Boolean > operator!=( Optional< Float > const & lhs, float const & rhs )
+	{
+		return Optional< Boolean >{ findShader( lhs, rhs )
+			, sdw::makeNEqual( makeExpr( lhs ), makeExpr( rhs ) )
+			, areOptionalEnabled( lhs, rhs ) };
+	}
+
+	Optional< Boolean > operator<( Optional< Float > const & lhs, float const & rhs )
+	{
+		return Optional< Boolean >{ findShader( lhs, rhs )
+			, sdw::makeLess( makeExpr( lhs ), makeExpr( rhs ) )
+			, areOptionalEnabled( lhs, rhs ) };
+	}
+
+	Optional< Boolean > operator<=( Optional< Float > const & lhs, float const & rhs )
+	{
+		return Optional< Boolean >{ findShader( lhs, rhs )
+			, sdw::makeLEqual( makeExpr( lhs ), makeExpr( rhs ) )
+			, areOptionalEnabled( lhs, rhs ) };
+	}
+
+	Optional< Boolean > operator>( Optional< Float > const & lhs, float const & rhs )
+	{
+		return Optional< Boolean >{ findShader( lhs, rhs )
+			, sdw::makeGreater( makeExpr( lhs ), makeExpr( rhs ) )
+			, areOptionalEnabled( lhs, rhs ) };
+	}
+
+	Optional< Boolean > operator>=( Optional< Float > const & lhs, float const & rhs )
+	{
+		return Optional< Boolean >{ findShader( lhs, rhs )
+			, sdw::makeGEqual( makeExpr( lhs ), makeExpr( rhs ) )
+			, areOptionalEnabled( lhs, rhs ) };
+	}
+
+	Optional< Boolean > operator==( float const & lhs, Optional< Float > const & rhs )
+	{
+		return Optional< Boolean >{ findShader( lhs, rhs )
+			, sdw::makeEqual( makeExpr( lhs ), makeExpr( rhs ) )
+			, areOptionalEnabled( lhs, rhs ) };
+	}
+
+	Optional< Boolean > operator!=( float const & lhs, Optional< Float > const & rhs )
+	{
+		return Optional< Boolean >{ findShader( lhs, rhs )
+			, sdw::makeNEqual( makeExpr( lhs ), makeExpr( rhs ) )
+			, areOptionalEnabled( lhs, rhs ) };
+	}
+
+	Optional< Boolean > operator<( float const & lhs, Optional< Float > const & rhs )
+	{
+		return Optional< Boolean >{ findShader( lhs, rhs )
+			, sdw::makeLess( makeExpr( lhs ), makeExpr( rhs ) )
+			, areOptionalEnabled( lhs, rhs ) };
+	}
+
+	Optional< Boolean > operator<=( float const & lhs, Optional< Float > const & rhs )
+	{
+		return Optional< Boolean >{ findShader( lhs, rhs )
+			, sdw::makeLEqual( makeExpr( lhs ), makeExpr( rhs ) )
+			, areOptionalEnabled( lhs, rhs ) };
+	}
+
+	Optional< Boolean > operator>( float const & lhs, Optional< Float > const & rhs )
+	{
+		return Optional< Boolean >{ findShader( lhs, rhs )
+			, sdw::makeGreater( makeExpr( lhs ), makeExpr( rhs ) )
+			, areOptionalEnabled( lhs, rhs ) };
+	}
+
+	Optional< Boolean > operator>=( float const & lhs, Optional< Float > const & rhs )
+	{
+		return Optional< Boolean >{ findShader( lhs, rhs )
+			, sdw::makeGEqual( makeExpr( lhs ), makeExpr( rhs ) )
 			, areOptionalEnabled( lhs, rhs ) };
 	}
 

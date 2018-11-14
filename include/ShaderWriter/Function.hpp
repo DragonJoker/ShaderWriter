@@ -44,6 +44,14 @@ namespace sdw
 
 	template< typename ReturnT
 		, typename ... ParamsT >
+	ReturnT getCtorCall( ParamsT const & ... params );
+
+	template< typename ReturnT
+		, typename ... ParamsT >
+	Optional< ReturnT > getOptCtorCall( ParamsT const & ... params );
+
+	template< typename ReturnT
+		, typename ... ParamsT >
 	ReturnT getFunctionCall( std::string const & name
 		, ParamsT const & ... params );
 

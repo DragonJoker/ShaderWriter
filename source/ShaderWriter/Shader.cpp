@@ -175,7 +175,6 @@ namespace sdw
 		var::VariablePtr result = registerName( name
 			, type
 			, var::Flag::eBuiltin );
-		addStmt( sdw::makeVariableDecl( result ) );
 		return result;
 	}
 

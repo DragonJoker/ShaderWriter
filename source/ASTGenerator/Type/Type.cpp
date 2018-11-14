@@ -604,6 +604,7 @@ namespace ast::type
 		case Kind::eUInt:
 		case Kind::eFloat:
 		case Kind::eDouble:
+		case Kind::eHalf:
 			return true;
 
 		default:
@@ -630,6 +631,9 @@ namespace ast::type
 		case Kind::eVec2D:
 		case Kind::eVec3D:
 		case Kind::eVec4D:
+		case Kind::eVec2H:
+		case Kind::eVec3H:
+		case Kind::eVec4H:
 			return true;
 
 		default:
@@ -690,6 +694,7 @@ namespace ast::type
 		case Kind::eVec2U:
 		case Kind::eVec2F:
 		case Kind::eVec2D:
+		case Kind::eVec2H:
 		case Kind::eMat2x2F:
 		case Kind::eMat2x3F:
 		case Kind::eMat2x4F:
@@ -703,6 +708,7 @@ namespace ast::type
 		case Kind::eVec3U:
 		case Kind::eVec3F:
 		case Kind::eVec3D:
+		case Kind::eVec3H:
 		case Kind::eMat3x2F:
 		case Kind::eMat3x3F:
 		case Kind::eMat3x4F:
@@ -716,6 +722,7 @@ namespace ast::type
 		case Kind::eVec4U:
 		case Kind::eVec4F:
 		case Kind::eVec4D:
+		case Kind::eVec4H:
 		case Kind::eMat4x2F:
 		case Kind::eMat4x3F:
 		case Kind::eMat4x4F:
@@ -791,6 +798,11 @@ namespace ast::type
 		case Kind::eMat4x4D:
 			return Kind::eVec4D;
 
+		case Kind::eVec2H:
+		case Kind::eVec3H:
+		case Kind::eVec4H:
+			return Kind::eHalf;
+
 		default:
 			assert( "Unsupported type::Kind" );
 			return Kind::eUndefined;
@@ -812,6 +824,79 @@ namespace ast::type
 		}
 
 		return getComponentType( parent );
+	}
+
+	expr::CompositeType getCompositeType( Kind kind )
+	{
+		assert( isVectorType( kind )
+			|| isMatrixType( kind ) );
+
+		switch ( kind )
+		{
+		case Kind::eVec2B:
+		case Kind::eVec2I:
+		case Kind::eVec2U:
+		case Kind::eVec2F:
+		case Kind::eVec2D:
+		case Kind::eVec2H:
+			return expr::CompositeType::eVec2;
+
+		case Kind::eVec3B:
+		case Kind::eVec3I:
+		case Kind::eVec3U:
+		case Kind::eVec3F:
+		case Kind::eVec3D:
+		case Kind::eVec3H:
+			return expr::CompositeType::eVec3;
+
+		case Kind::eVec4B:
+		case Kind::eVec4I:
+		case Kind::eVec4U:
+		case Kind::eVec4F:
+		case Kind::eVec4D:
+		case Kind::eVec4H:
+			return expr::CompositeType::eVec4;
+
+		case Kind::eMat2x2F:
+		case Kind::eMat2x2D:
+			return expr::CompositeType::eMat2x2;
+
+		case Kind::eMat2x3F:
+		case Kind::eMat2x3D:
+			return expr::CompositeType::eMat2x3;
+
+		case Kind::eMat2x4F:
+		case Kind::eMat2x4D:
+			return expr::CompositeType::eMat2x4;
+
+		case Kind::eMat3x2F:
+		case Kind::eMat3x2D:
+			return expr::CompositeType::eMat3x2;
+
+		case Kind::eMat3x3F:
+		case Kind::eMat3x3D:
+			return expr::CompositeType::eMat3x3;
+
+		case Kind::eMat3x4F:
+		case Kind::eMat3x4D:
+			return expr::CompositeType::eMat3x4;
+
+		case Kind::eMat4x2F:
+		case Kind::eMat4x2D:
+			return expr::CompositeType::eMat4x2;
+
+		case Kind::eMat4x3F:
+		case Kind::eMat4x3D:
+			return expr::CompositeType::eMat4x3;
+
+		case Kind::eMat4x4F:
+		case Kind::eMat4x4D:
+			return expr::CompositeType::eMat4x4;
+
+		default:
+			assert( "Unsupported type::Kind" );
+			return expr::CompositeType::eVec4;
+		}
 	}
 
 	//*************************************************************************

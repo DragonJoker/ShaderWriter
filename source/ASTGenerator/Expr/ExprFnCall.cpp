@@ -10,9 +10,18 @@ namespace ast::expr
 	FnCall::FnCall( type::TypePtr type
 		, IdentifierPtr fn
 		, ExprList && argList )
+		: FnCall{ std::move( type ), std::move( fn ), nullptr, std::move( argList ) }
+	{
+	}
+
+	FnCall::FnCall( type::TypePtr type
+		, IdentifierPtr fn
+		, ExprPtr instance
+		, ExprList && argList )
 		: Expr{ std::move( type ), Kind::eFnCall }
 		, m_fn{ std::move( fn ) }
 		, m_argList{ std::move( argList ) }
+		, m_instance{ std::move( instance ) }
 	{
 	}
 

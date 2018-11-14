@@ -121,8 +121,7 @@ namespace sdw
 	inline Vec2 vec2( Value const & value
 		, ValuesT const & ... values )
 	{
-		return getFunctionCall< Vec2 >( "vec2"
-			, value
+		return getCtorCall< Vec2 >( value
 			, values... );
 	}
 
@@ -130,8 +129,7 @@ namespace sdw
 	inline Vec3 vec3( Value const & value
 		, ValuesT const & ... values )
 	{
-		return getFunctionCall< Vec3 >( "vec3"
-			, value
+		return getCtorCall< Vec3 >( value
 			, values... );
 	}
 
@@ -139,8 +137,7 @@ namespace sdw
 	inline Vec4 vec4( Value const & value
 		, ValuesT const & ... values )
 	{
-		return getFunctionCall< Vec4 >( "vec4"
-			, value
+		return getCtorCall< Vec4 >( value
 			, values... );
 	}
 
@@ -148,8 +145,7 @@ namespace sdw
 	inline DVec2 dvec2( Value const & value
 		, ValuesT const & ... values )
 	{
-		return getFunctionCall< DVec2 >( "dvec2"
-			, value
+		return getCtorCall< DVec2 >( value
 			, values... );
 	}
 
@@ -157,8 +153,7 @@ namespace sdw
 	inline DVec3 dvec3( Value const & value
 		, ValuesT const & ... values )
 	{
-		return getFunctionCall< DVec3 >( "dvec3"
-			, value
+		return getCtorCall< DVec3 >( value
 			, values... );
 	}
 
@@ -166,8 +161,7 @@ namespace sdw
 	inline DVec4 dvec4( Value const & value
 		, ValuesT const & ... values )
 	{
-		return getFunctionCall< DVec4 >( "dvec4"
-			, value
+		return getCtorCall< DVec4 >( value
 			, values... );
 	}
 
@@ -175,8 +169,7 @@ namespace sdw
 	inline IVec2 ivec2( Value const & value
 		, ValuesT const & ... values )
 	{
-		return getFunctionCall< IVec2 >( "ivec2"
-			, value
+		return getCtorCall< IVec2 >( value
 			, values... );
 	}
 
@@ -184,8 +177,7 @@ namespace sdw
 	inline IVec3 ivec3( Value const & value
 		, ValuesT const & ... values )
 	{
-		return getFunctionCall< IVec3 >( "ivec3"
-			, value
+		return getCtorCall< IVec3 >( value
 			, values... );
 	}
 
@@ -193,8 +185,7 @@ namespace sdw
 	inline IVec4 ivec4( Value const & value
 		, ValuesT const & ... values )
 	{
-		return getFunctionCall< IVec4 >( "ivec4"
-			, value
+		return getCtorCall< IVec4 >( value
 			, values... );
 	}
 
@@ -202,8 +193,7 @@ namespace sdw
 	inline UVec2 uvec2( Value const & value
 		, ValuesT const & ... values )
 	{
-		return getFunctionCall< UVec2 >( "uvec2"
-			, value
+		return getCtorCall< UVec2 >( value
 			, values... );
 	}
 
@@ -211,8 +201,7 @@ namespace sdw
 	inline UVec3 uvec3( Value const & value
 		, ValuesT const & ... values )
 	{
-		return getFunctionCall< UVec3 >( "uvec3"
-			, value
+		return getCtorCall< UVec3 >( value
 			, values... );
 	}
 
@@ -220,8 +209,7 @@ namespace sdw
 	inline UVec4 uvec4( Value const & value
 		, ValuesT const & ... values )
 	{
-		return getFunctionCall< UVec4 >( "uvec4"
-			, value
+		return getCtorCall< UVec4 >( value
 			, values... );
 	}
 
@@ -229,8 +217,7 @@ namespace sdw
 	inline BVec2 bvec2( Value const & value
 		, ValuesT const & ... values )
 	{
-		return getFunctionCall< BVec2 >( "bvec2"
-			, value
+		return getCtorCall< BVec2 >( value
 			, values... );
 	}
 
@@ -238,8 +225,7 @@ namespace sdw
 	inline BVec3 bvec3( Value const & value
 		, ValuesT const & ... values )
 	{
-		return getFunctionCall< BVec3 >( "bvec3"
-			, value
+		return getCtorCall< BVec3 >( value
 			, values... );
 	}
 
@@ -247,8 +233,7 @@ namespace sdw
 	inline BVec4 bvec4( Value const & value
 		, ValuesT const & ... values )
 	{
-		return getFunctionCall< BVec4 >( "bvec4"
-			, value
+		return getCtorCall< BVec4 >( value
 			, values... );
 	}
 
@@ -256,8 +241,7 @@ namespace sdw
 	inline Mat2 mat2( Value const & value
 		, ValuesT const & ... values )
 	{
-		return getFunctionCall< Mat2 >( "mat2"
-			, value
+		return getCtorCall< Mat2 >( value
 			, values... );
 	}
 
@@ -265,8 +249,7 @@ namespace sdw
 	inline Mat2x3 mat2x3( Value const & value
 		, ValuesT const & ... values )
 	{
-		return getFunctionCall< Mat2x3 >( "mat2x3"
-			, value
+		return getCtorCall< Mat2x3 >( value
 			, values... );
 	}
 
@@ -274,8 +257,7 @@ namespace sdw
 	inline Mat2x4 mat2x4( Value const & value
 		, ValuesT const & ... values )
 	{
-		return getFunctionCall< Mat2x4 >( "mat2x4"
-			, value
+		return getCtorCall< Mat2x4 >( value
 			, values... );
 	}
 
@@ -283,8 +265,7 @@ namespace sdw
 	inline Mat3 mat3( Value const & value
 		, ValuesT const & ... values )
 	{
-		return getFunctionCall< Mat3 >( "mat3"
-			, value
+		return getCtorCall< Mat3 >( value
 			, values... );
 	}
 
@@ -292,8 +273,7 @@ namespace sdw
 	inline Mat3x2 mat3x2( Value const & value
 		, ValuesT const & ... values )
 	{
-		return getFunctionCall< Mat3x2 >( "mat3x2"
-			, value
+		return getCtorCall< Mat3x2 >( value
 			, values... );
 	}
 
@@ -301,8 +281,7 @@ namespace sdw
 	inline Mat3x4 mat3x4( Value const & value
 		, ValuesT const & ... values )
 	{
-		return getFunctionCall< Mat3x4 >( "mat3x4"
-			, value
+		return getCtorCall< Mat3x4 >( value
 			, values... );
 	}
 
@@ -310,8 +289,7 @@ namespace sdw
 	inline Mat4 mat4( Value const & value
 		, ValuesT const & ... values )
 	{
-		return getFunctionCall< Mat4 >( "mat4"
-			, value
+		return getCtorCall< Mat4 >( value
 			, values... );
 	}
 
@@ -319,8 +297,7 @@ namespace sdw
 	inline Mat4x2 mat4x2( Value const & value
 		, ValuesT const & ... values )
 	{
-		return getFunctionCall< Mat4x2 >( "mat4x2"
-			, value
+		return getCtorCall< Mat4x2 >( value
 			, values... );
 	}
 
@@ -328,8 +305,7 @@ namespace sdw
 	inline Mat4x3 mat4x3( Value const & value
 		, ValuesT const & ... values )
 	{
-		return getFunctionCall< Mat4x3 >( "mat4x3"
-			, value
+		return getCtorCall< Mat4x3 >( value
 			, values... );
 	}
 
@@ -337,8 +313,7 @@ namespace sdw
 	inline DMat2 dmat2( Value const & value
 		, ValuesT const & ... values )
 	{
-		return getFunctionCall< DMat2 >( "dmat2"
-			, value
+		return getCtorCall< DMat2 >( value
 			, values... );
 	}
 
@@ -346,8 +321,7 @@ namespace sdw
 	inline DMat2x3 dmat2x3( Value const & value
 		, ValuesT const & ... values )
 	{
-		return getFunctionCall< DMat2x3 >( "dmat2x3"
-			, value
+		return getCtorCall< DMat2x3 >( value
 			, values... );
 	}
 
@@ -355,8 +329,7 @@ namespace sdw
 	inline DMat2x4 dmat2x4( Value const & value
 		, ValuesT const & ... values )
 	{
-		return getFunctionCall< DMat2x4 >( "dmat2x4"
-			, value
+		return getCtorCall< DMat2x4 >( value
 			, values... );
 	}
 
@@ -364,8 +337,7 @@ namespace sdw
 	inline DMat3 dmat3( Value const & value
 		, ValuesT const & ... values )
 	{
-		return getFunctionCall< DMat3 >( "dmat3"
-			, value
+		return getCtorCall< DMat3 >( value
 			, values... );
 	}
 
@@ -373,8 +345,7 @@ namespace sdw
 	inline DMat3x2 dmat3x2( Value const & value
 		, ValuesT const & ... values )
 	{
-		return getFunctionCall< DMat3x2 >( "dmat3x2"
-			, value
+		return getCtorCall< DMat3x2 >( value
 			, values... );
 	}
 
@@ -382,8 +353,7 @@ namespace sdw
 	inline DMat3x4 dmat3x4( Value const & value
 		, ValuesT const & ... values )
 	{
-		return getFunctionCall< DMat3x4 >( "dmat3x4"
-			, value
+		return getCtorCall< DMat3x4 >( value
 			, values... );
 	}
 
@@ -391,8 +361,7 @@ namespace sdw
 	inline DMat4 dmat4( Value const & value
 		, ValuesT const & ... values )
 	{
-		return getFunctionCall< DMat4 >( "dmat4"
-			, value
+		return getCtorCall< DMat4 >( value
 			, values... );
 	}
 
@@ -400,8 +369,7 @@ namespace sdw
 	inline DMat4x2 dmat4x2( Value const & value
 		, ValuesT const & ... values )
 	{
-		return getFunctionCall< DMat4x2 >( "dmat4x2"
-			, value
+		return getCtorCall< DMat4x2 >( value
 			, values... );
 	}
 
@@ -409,8 +377,7 @@ namespace sdw
 	inline DMat4x3 dmat4x3( Value const & value
 		, ValuesT const & ... values )
 	{
-		return getFunctionCall< DMat4x3 >( "dmat4x3"
-			, value
+		return getCtorCall< DMat4x3 >( value
 			, values... );
 	}
 

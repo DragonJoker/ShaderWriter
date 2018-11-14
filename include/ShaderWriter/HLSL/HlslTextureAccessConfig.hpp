@@ -57,6 +57,17 @@ namespace sdw::hlsl
 		case ast::expr::TextureAccess::eTextureProjLod2DShadowF:
 		case ast::expr::TextureAccess::eTextureProjLodOffset1DShadowF:
 		case ast::expr::TextureAccess::eTextureProjLodOffset2DShadowF:
+		case ast::expr::TextureAccess::eTextureGather2DShadowF:
+		case ast::expr::TextureAccess::eTextureGather2DArrayShadowF:
+		case ast::expr::TextureAccess::eTextureGatherCubeShadowF:
+		case ast::expr::TextureAccess::eTextureGatherCubeArrayShadowF:
+		case ast::expr::TextureAccess::eTextureGather2DRectShadowF:
+		case ast::expr::TextureAccess::eTextureGatherOffset2DShadowF:
+		case ast::expr::TextureAccess::eTextureGatherOffset2DArrayShadowF:
+		case ast::expr::TextureAccess::eTextureGatherOffset2DRectShadowF:
+		case ast::expr::TextureAccess::eTextureGatherOffsets2DShadowF:
+		case ast::expr::TextureAccess::eTextureGatherOffsets2DArrayShadowF:
+		case ast::expr::TextureAccess::eTextureGatherOffsets2DRectShadowF:
 			config.requiresShadowSampler = true;
 			break;
 		}

@@ -139,7 +139,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				ShaderWriter writer{ false };
+				FragmentWriter writer{ false };
 				auto s = writer.declSampledImage< SampledT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementFunction< void >( "main"
 					, [&]()
@@ -147,8 +147,7 @@ namespace
 						auto i = writer.declLocale( "i"
 							, textureSize( s, 0_i ) );
 					} );
-				test::writeShader( writer.getShader()
-					, sdw::ShaderType::eFragment
+				test::writeShader( writer
 					, testCounts );
 			}
 			testEnd();
@@ -171,7 +170,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				ShaderWriter writer{ false };
+				FragmentWriter writer{ false };
 				auto s = writer.declSampledImage< SampledT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementFunction< void >( "main"
 					, [&]()
@@ -179,8 +178,7 @@ namespace
 						auto i = writer.declLocale( "i"
 							, textureSize( s ) );
 					} );
-				test::writeShader( writer.getShader()
-					, sdw::ShaderType::eFragment
+				test::writeShader( writer
 					, testCounts );
 			}
 			testEnd();
@@ -235,7 +233,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				ShaderWriter writer{ false };
+				FragmentWriter writer{ false };
 				auto s = writer.declSampledImage< SampledT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementFunction< void >( "main"
 					, [&]()
@@ -243,8 +241,7 @@ namespace
 						auto i = writer.declLocale( "i"
 							, textureQueryLod( s, test::getDefault< QueryLodT >( writer.getShader() ) ) );
 					} );
-				test::writeShader( writer.getShader()
-					, sdw::ShaderType::eFragment
+				test::writeShader( writer
 					, testCounts );
 			}
 			testEnd();
@@ -297,7 +294,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				ShaderWriter writer{ false };
+				FragmentWriter writer{ false };
 				auto s = writer.declSampledImage< SampledT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementFunction< void >( "main"
 					, [&]()
@@ -305,8 +302,7 @@ namespace
 						auto i = writer.declLocale( "i"
 							, textureQueryLevels( s ) );
 					} );
-				test::writeShader( writer.getShader()
-					, sdw::ShaderType::eFragment
+				test::writeShader( writer
 					, testCounts );
 			}
 			testEnd();
@@ -356,7 +352,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				ShaderWriter writer{ false };
+				FragmentWriter writer{ false };
 				auto s = writer.declSampledImage< SampledT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementFunction< void >( "main"
 					, [&]()
@@ -365,8 +361,7 @@ namespace
 							, texture( s
 								, test::getDefault< SampleT >( writer.getShader() ) ) );
 					} );
-				test::writeShader( writer.getShader()
-					, sdw::ShaderType::eFragment
+				test::writeShader( writer
 					, testCounts );
 			}
 			testEnd();
@@ -395,7 +390,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				ShaderWriter writer{ false };
+				FragmentWriter writer{ false };
 				auto s = writer.declSampledImage< SampledT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementFunction< void >( "main"
 					, [&]()
@@ -405,8 +400,7 @@ namespace
 								, test::getDefault< SampleT >( writer.getShader() )
 								, 0.5_f ) );
 					} );
-				test::writeShader( writer.getShader()
-					, sdw::ShaderType::eFragment
+				test::writeShader( writer
 					, testCounts );
 			}
 			testEnd();
@@ -455,7 +449,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				ShaderWriter writer{ false };
+				FragmentWriter writer{ false };
 				auto s = writer.declSampledImage< SampledT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementFunction< void >( "main"
 					, [&]()
@@ -465,8 +459,7 @@ namespace
 								, test::getDefault< SampleT >( writer.getShader() )
 								, 1.0_f ) );
 					} );
-				test::writeShader( writer.getShader()
-					, sdw::ShaderType::eFragment
+				test::writeShader( writer
 					, testCounts );
 			}
 			testEnd();
@@ -493,7 +486,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				ShaderWriter writer{ false };
+				FragmentWriter writer{ false };
 				auto s = writer.declSampledImage< SampledT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementFunction< void >( "main"
 					, [&]()
@@ -504,8 +497,7 @@ namespace
 								, 0.5_f
 								, 1.0_f ) );
 					} );
-				test::writeShader( writer.getShader()
-					, sdw::ShaderType::eFragment
+				test::writeShader( writer
 					, testCounts );
 			}
 			testEnd();
@@ -551,7 +543,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				ShaderWriter writer{ false };
+				FragmentWriter writer{ false };
 				auto s = writer.declSampledImage< SampledT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementFunction< void >( "main"
 					, [&]()
@@ -560,8 +552,7 @@ namespace
 							, textureProj( s
 								, test::getDefault< SampleProjT >( writer.getShader() ) ) );
 					} );
-				test::writeShader( writer.getShader()
-					, sdw::ShaderType::eFragment
+				test::writeShader( writer
 					, testCounts );
 			}
 			testEnd();
@@ -586,7 +577,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				ShaderWriter writer{ false };
+				FragmentWriter writer{ false };
 				auto s = writer.declSampledImage< SampledT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementFunction< void >( "main"
 					, [&]()
@@ -596,8 +587,7 @@ namespace
 								, test::getDefault< SampleProjT >( writer.getShader() )
 								, 0.5_f ) );
 					} );
-				test::writeShader( writer.getShader()
-					, sdw::ShaderType::eFragment
+				test::writeShader( writer
 					, testCounts );
 			}
 			testEnd();
@@ -642,7 +632,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				ShaderWriter writer{ false };
+				FragmentWriter writer{ false };
 				auto s = writer.declSampledImage< SampledT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementFunction< void >( "main"
 					, [&]()
@@ -652,8 +642,7 @@ namespace
 								, test::getDefault< SampleProjT >( writer.getShader() )
 								, 1.0_f ) );
 					} );
-				test::writeShader( writer.getShader()
-					, sdw::ShaderType::eFragment
+				test::writeShader( writer
 					, testCounts );
 			}
 			testEnd();
@@ -677,7 +666,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				ShaderWriter writer{ false };
+				FragmentWriter writer{ false };
 				auto s = writer.declSampledImage< SampledT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementFunction< void >( "main"
 					, [&]()
@@ -688,8 +677,7 @@ namespace
 								, 0.5_f
 								, 1.0_f ) );
 					} );
-				test::writeShader( writer.getShader()
-					, sdw::ShaderType::eFragment
+				test::writeShader( writer
 					, testCounts );
 			}
 			testEnd();
@@ -738,7 +726,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				ShaderWriter writer{ false };
+				FragmentWriter writer{ false };
 				auto s = writer.declSampledImage< SampledT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementFunction< void >( "main"
 					, [&]()
@@ -748,8 +736,7 @@ namespace
 								, test::getDefault< SampleT >( writer.getShader() )
 								, 1.0_f ) );
 					} );
-				test::writeShader( writer.getShader()
-					, sdw::ShaderType::eFragment
+				test::writeShader( writer
 					, testCounts );
 			}
 			testEnd();
@@ -774,7 +761,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				ShaderWriter writer{ false };
+				FragmentWriter writer{ false };
 				auto s = writer.declSampledImage< SampledT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementFunction< void >( "main"
 					, [&]()
@@ -785,8 +772,7 @@ namespace
 								, 0.5_f
 								, 1.0_f ) );
 					} );
-				test::writeShader( writer.getShader()
-					, sdw::ShaderType::eFragment
+				test::writeShader( writer
 					, testCounts );
 			}
 			testEnd();
@@ -835,7 +821,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				ShaderWriter writer{ false };
+				FragmentWriter writer{ false };
 				auto s = writer.declSampledImage< SampledT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementFunction< void >( "main"
 					, [&]()
@@ -845,8 +831,7 @@ namespace
 								, test::getDefault< SampleT >( writer.getShader() )
 								, test::getDefault < OffsetT >( writer.getShader() ) ) );
 					} );
-				test::writeShader( writer.getShader()
-					, sdw::ShaderType::eFragment
+				test::writeShader( writer
 					, testCounts );
 			}
 			testEnd();
@@ -874,7 +859,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				ShaderWriter writer{ false };
+				FragmentWriter writer{ false };
 				auto s = writer.declSampledImage< SampledT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementFunction< void >( "main"
 					, [&]()
@@ -885,8 +870,7 @@ namespace
 								, 0.5_f
 								, test::getDefault < OffsetT >( writer.getShader() ) ) );
 					} );
-				test::writeShader( writer.getShader()
-					, sdw::ShaderType::eFragment
+				test::writeShader( writer
 					, testCounts );
 			}
 			testEnd();
@@ -934,7 +918,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				ShaderWriter writer{ false };
+				FragmentWriter writer{ false };
 				auto s = writer.declSampledImage< SampledT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementFunction< void >( "main"
 					, [&]()
@@ -945,8 +929,7 @@ namespace
 								, test::getDefault< OffsetT >( writer.getShader() )
 								, 1.0_f ) );
 					} );
-				test::writeShader( writer.getShader()
-					, sdw::ShaderType::eFragment
+				test::writeShader( writer
 					, testCounts );
 			}
 			testEnd();
@@ -971,7 +954,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				ShaderWriter writer{ false };
+				FragmentWriter writer{ false };
 				auto s = writer.declSampledImage< SampledT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementFunction< void >( "main"
 					, [&]()
@@ -983,8 +966,7 @@ namespace
 								, test::getDefault< OffsetT >( writer.getShader() )
 								, 1.0_f ) );
 					} );
-				test::writeShader( writer.getShader()
-					, sdw::ShaderType::eFragment
+				test::writeShader( writer
 					, testCounts );
 			}
 			testEnd();
@@ -1031,7 +1013,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				ShaderWriter writer{ false };
+				FragmentWriter writer{ false };
 				auto s = writer.declSampledImage< SampledT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementFunction< void >( "main"
 					, [&]()
@@ -1041,8 +1023,7 @@ namespace
 								, test::getDefault< FetchT >( writer.getShader() )
 								, 1_i ) );
 					} );
-				test::writeShader( writer.getShader()
-					, sdw::ShaderType::eFragment
+				test::writeShader( writer
 					, testCounts );
 			}
 			testEnd();
@@ -1066,7 +1047,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				ShaderWriter writer{ false };
+				FragmentWriter writer{ false };
 				auto s = writer.declSampledImage< SampledT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementFunction< void >( "main"
 					, [&]()
@@ -1075,8 +1056,7 @@ namespace
 							, texelFetch( s
 								, test::getDefault< FetchT >( writer.getShader() ) ) );
 					} );
-				test::writeShader( writer.getShader()
-					, sdw::ShaderType::eFragment
+				test::writeShader( writer
 					, testCounts );
 			}
 			testEnd();
@@ -1123,7 +1103,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				ShaderWriter writer{ false };
+				FragmentWriter writer{ false };
 				auto s = writer.declSampledImage< SampledT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementFunction< void >( "main"
 					, [&]()
@@ -1134,8 +1114,7 @@ namespace
 								, 1_i
 								, 0_i ) );
 					} );
-				test::writeShader( writer.getShader()
-					, sdw::ShaderType::eFragment
+				test::writeShader( writer
 					, testCounts );
 			}
 			testEnd();
@@ -1158,7 +1137,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				ShaderWriter writer{ false };
+				FragmentWriter writer{ false };
 				auto s = writer.declSampledImage< SampledT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementFunction< void >( "main"
 					, [&]()
@@ -1168,8 +1147,7 @@ namespace
 								, test::getDefault< FetchT >( writer.getShader() )
 								, 0_i ) );
 					} );
-				test::writeShader( writer.getShader()
-					, sdw::ShaderType::eFragment
+				test::writeShader( writer
 					, testCounts );
 			}
 			testEnd();
@@ -1216,7 +1194,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				ShaderWriter writer{ false };
+				FragmentWriter writer{ false };
 				auto s = writer.declSampledImage< SampledT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementFunction< void >( "main"
 					, [&]()
@@ -1226,8 +1204,7 @@ namespace
 								, test::getDefault< SampleProjT >( writer.getShader() )
 								, test::getDefault< OffsetT >( writer.getShader() ) ) );
 					} );
-				test::writeShader( writer.getShader()
-					, sdw::ShaderType::eFragment
+				test::writeShader( writer
 					, testCounts );
 			}
 			testEnd();
@@ -1253,7 +1230,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				ShaderWriter writer{ false };
+				FragmentWriter writer{ false };
 				auto s = writer.declSampledImage< SampledT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementFunction< void >( "main"
 					, [&]()
@@ -1264,8 +1241,7 @@ namespace
 								, 0.5_f
 								, test::getDefault< OffsetT >( writer.getShader() ) ) );
 					} );
-				test::writeShader( writer.getShader()
-					, sdw::ShaderType::eFragment
+				test::writeShader( writer
 					, testCounts );
 			}
 			testEnd();
@@ -1311,7 +1287,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				ShaderWriter writer{ false };
+				FragmentWriter writer{ false };
 				auto s = writer.declSampledImage< SampledT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementFunction< void >( "main"
 					, [&]()
@@ -1322,8 +1298,7 @@ namespace
 								, test::getDefault< OffsetT >( writer.getShader() )
 								, 1.0_f ) );
 					} );
-				test::writeShader( writer.getShader()
-					, sdw::ShaderType::eFragment
+				test::writeShader( writer
 					, testCounts );
 			}
 			testEnd();
@@ -1348,7 +1323,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				ShaderWriter writer{ false };
+				FragmentWriter writer{ false };
 				auto s = writer.declSampledImage< SampledT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementFunction< void >( "main"
 					, [&]()
@@ -1360,8 +1335,7 @@ namespace
 								, test::getDefault< OffsetT >( writer.getShader() )
 								, 1.0_f ) );
 					} );
-				test::writeShader( writer.getShader()
-					, sdw::ShaderType::eFragment
+				test::writeShader( writer
 					, testCounts );
 			}
 			testEnd();
@@ -1409,7 +1383,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				ShaderWriter writer{ false };
+				FragmentWriter writer{ false };
 				auto s = writer.declSampledImage< SampledT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementFunction< void >( "main"
 					, [&]()
@@ -1420,8 +1394,7 @@ namespace
 								, 1.0_f
 								, test::getDefault< OffsetT >( writer.getShader() ) ) );
 					} );
-				test::writeShader( writer.getShader()
-					, sdw::ShaderType::eFragment
+				test::writeShader( writer
 					, testCounts );
 			}
 			testEnd();
@@ -1447,7 +1420,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				ShaderWriter writer{ false };
+				FragmentWriter writer{ false };
 				auto s = writer.declSampledImage< SampledT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementFunction< void >( "main"
 					, [&]()
@@ -1459,8 +1432,7 @@ namespace
 								, 1.0_f
 								, test::getDefault< OffsetT >( writer.getShader() ) ) );
 					} );
-				test::writeShader( writer.getShader()
-					, sdw::ShaderType::eFragment
+				test::writeShader( writer
 					, testCounts );
 			}
 			testEnd();
@@ -1505,7 +1477,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				ShaderWriter writer{ false };
+				FragmentWriter writer{ false };
 				auto s = writer.declSampledImage< SampledT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementFunction< void >( "main"
 					, [&]()
@@ -1515,8 +1487,7 @@ namespace
 								, test::getDefault< SampleProjT >( writer.getShader() )
 								, 1.0_f ) );
 					} );
-				test::writeShader( writer.getShader()
-					, sdw::ShaderType::eFragment
+				test::writeShader( writer
 					, testCounts );
 			}
 			testEnd();
@@ -1540,7 +1511,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				ShaderWriter writer{ false };
+				FragmentWriter writer{ false };
 				auto s = writer.declSampledImage< SampledT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementFunction< void >( "main"
 					, [&]()
@@ -1551,8 +1522,7 @@ namespace
 								, 0.5_f
 								, 1.0_f ) );
 					} );
-				test::writeShader( writer.getShader()
-					, sdw::ShaderType::eFragment
+				test::writeShader( writer
 					, testCounts );
 			}
 			testEnd();
@@ -1598,7 +1568,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				ShaderWriter writer{ false };
+				FragmentWriter writer{ false };
 				auto s = writer.declSampledImage< SampledT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementFunction< void >( "main"
 					, [&]()
@@ -1609,8 +1579,7 @@ namespace
 								, 1.0_f
 								, test::getDefault< OffsetT >( writer.getShader() ) ) );
 					} );
-				test::writeShader( writer.getShader()
-					, sdw::ShaderType::eFragment
+				test::writeShader( writer
 					, testCounts );
 			}
 			testEnd();
@@ -1635,7 +1604,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				ShaderWriter writer{ false };
+				FragmentWriter writer{ false };
 				auto s = writer.declSampledImage< SampledT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementFunction< void >( "main"
 					, [&]()
@@ -1647,8 +1616,7 @@ namespace
 								, 1.0_f
 								, test::getDefault< OffsetT >( writer.getShader() ) ) );
 					} );
-				test::writeShader( writer.getShader()
-					, sdw::ShaderType::eFragment
+				test::writeShader( writer
 					, testCounts );
 			}
 			testEnd();
@@ -1699,7 +1667,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				ShaderWriter writer{ false };
+				FragmentWriter writer{ false };
 				auto s = writer.declSampledImage< SampledT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementFunction< void >( "main"
 					, [&]()
@@ -1710,8 +1678,7 @@ namespace
 								, test::getDefault< DerivativeT >( writer.getShader() )
 								, test::getDefault< DerivativeT >( writer.getShader() ) ) );
 					} );
-				test::writeShader( writer.getShader()
-					, sdw::ShaderType::eFragment
+				test::writeShader( writer
 					, testCounts );
 			}
 			testEnd();
@@ -1738,7 +1705,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				ShaderWriter writer{ false };
+				FragmentWriter writer{ false };
 				auto s = writer.declSampledImage< SampledT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementFunction< void >( "main"
 					, [&]()
@@ -1750,8 +1717,7 @@ namespace
 								, test::getDefault< DerivativeT >( writer.getShader() )
 								, test::getDefault< DerivativeT >( writer.getShader() ) ) );
 					} );
-				test::writeShader( writer.getShader()
-					, sdw::ShaderType::eFragment
+				test::writeShader( writer
 					, testCounts );
 			}
 			testEnd();
@@ -1801,7 +1767,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				ShaderWriter writer{ false };
+				FragmentWriter writer{ false };
 				auto s = writer.declSampledImage< SampledT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementFunction< void >( "main"
 					, [&]()
@@ -1813,8 +1779,7 @@ namespace
 								, test::getDefault< DerivativeT >( writer.getShader() )
 								, test::getDefault< OffsetT >( writer.getShader() ) ) );
 					} );
-				test::writeShader( writer.getShader()
-					, sdw::ShaderType::eFragment
+				test::writeShader( writer
 					, testCounts );
 			}
 			testEnd();
@@ -1843,7 +1808,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				ShaderWriter writer{ false };
+				FragmentWriter writer{ false };
 				auto s = writer.declSampledImage< SampledT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementFunction< void >( "main"
 					, [&]()
@@ -1856,8 +1821,7 @@ namespace
 								, test::getDefault< DerivativeT >( writer.getShader() )
 								, test::getDefault< OffsetT >( writer.getShader() ) ) );
 					} );
-				test::writeShader( writer.getShader()
-					, sdw::ShaderType::eFragment
+				test::writeShader( writer
 					, testCounts );
 			}
 			testEnd();
@@ -1904,7 +1868,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				ShaderWriter writer{ false };
+				FragmentWriter writer{ false };
 				auto s = writer.declSampledImage< SampledT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementFunction< void >( "main"
 					, [&]()
@@ -1915,8 +1879,7 @@ namespace
 								, test::getDefault< DerivativeT >( writer.getShader() )
 								, test::getDefault< DerivativeT >( writer.getShader() ) ) );
 					} );
-				test::writeShader( writer.getShader()
-					, sdw::ShaderType::eFragment
+				test::writeShader( writer
 					, testCounts );
 			}
 			testEnd();
@@ -1942,7 +1905,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				ShaderWriter writer{ false };
+				FragmentWriter writer{ false };
 				auto s = writer.declSampledImage< SampledT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementFunction< void >( "main"
 					, [&]()
@@ -1954,8 +1917,7 @@ namespace
 								, test::getDefault< DerivativeT >( writer.getShader() )
 								, test::getDefault< DerivativeT >( writer.getShader() ) ) );
 					} );
-				test::writeShader( writer.getShader()
-					, sdw::ShaderType::eFragment
+				test::writeShader( writer
 					, testCounts );
 			}
 			testEnd();
@@ -2003,7 +1965,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				ShaderWriter writer{ false };
+				FragmentWriter writer{ false };
 				auto s = writer.declSampledImage< SampledT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementFunction< void >( "main"
 					, [&]()
@@ -2015,8 +1977,7 @@ namespace
 								, test::getDefault< DerivativeT >( writer.getShader() )
 								, test::getDefault< OffsetT >( writer.getShader() ) ) );
 					} );
-				test::writeShader( writer.getShader()
-					, sdw::ShaderType::eFragment
+				test::writeShader( writer
 					, testCounts );
 			}
 			testEnd();
@@ -2043,7 +2004,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				ShaderWriter writer{ false };
+				FragmentWriter writer{ false };
 				auto s = writer.declSampledImage< SampledT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementFunction< void >( "main"
 					, [&]()
@@ -2056,8 +2017,7 @@ namespace
 								, test::getDefault< DerivativeT >( writer.getShader() )
 								, test::getDefault< OffsetT >( writer.getShader() ) ) );
 					} );
-				test::writeShader( writer.getShader()
-					, sdw::ShaderType::eFragment
+				test::writeShader( writer
 					, testCounts );
 			}
 			testEnd();
@@ -2104,7 +2064,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				ShaderWriter writer{ false };
+				FragmentWriter writer{ false };
 				auto s = writer.declSampledImage< SampledT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementFunction< void >( "main"
 					, [&]()
@@ -2113,8 +2073,7 @@ namespace
 							, textureGather( s
 								, test::getDefault< GatherT >( writer.getShader() ) ) );
 					} );
-				test::writeShader( writer.getShader()
-					, sdw::ShaderType::eFragment
+				test::writeShader( writer
 					, testCounts );
 			}
 			testEnd();
@@ -2141,7 +2100,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				ShaderWriter writer{ false };
+				FragmentWriter writer{ false };
 				auto s = writer.declSampledImage< SampledT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementFunction< void >( "main"
 					, [&]()
@@ -2151,8 +2110,7 @@ namespace
 								, test::getDefault< GatherT >( writer.getShader() )
 								, 0.5_f ) );
 					} );
-				test::writeShader( writer.getShader()
-					, sdw::ShaderType::eFragment
+				test::writeShader( writer
 					, testCounts );
 			}
 			testEnd();
@@ -2199,7 +2157,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				ShaderWriter writer{ false };
+				FragmentWriter writer{ false };
 				auto s = writer.declSampledImage< SampledT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementFunction< void >( "main"
 					, [&]()
@@ -2209,8 +2167,7 @@ namespace
 								, test::getDefault< GatherT >( writer.getShader() )
 								, 1_i ) );
 					} );
-				test::writeShader( writer.getShader()
-					, sdw::ShaderType::eFragment
+				test::writeShader( writer
 					, testCounts );
 			}
 			testEnd();
@@ -2256,7 +2213,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				ShaderWriter writer{ false };
+				FragmentWriter writer{ false };
 				auto s = writer.declSampledImage< SampledT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementFunction< void >( "main"
 					, [&]()
@@ -2266,8 +2223,7 @@ namespace
 								, test::getDefault< GatherT >( writer.getShader() )
 								, test::getDefault< OffsetT >( writer.getShader() ) ) );
 					} );
-				test::writeShader( writer.getShader()
-					, sdw::ShaderType::eFragment
+				test::writeShader( writer
 					, testCounts );
 			}
 			testEnd();
@@ -2293,7 +2249,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				ShaderWriter writer{ false };
+				FragmentWriter writer{ false };
 				auto s = writer.declSampledImage< SampledT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementFunction< void >( "main"
 					, [&]()
@@ -2304,8 +2260,7 @@ namespace
 								, 0.5_f
 								, test::getDefault< OffsetT >( writer.getShader() ) ) );
 					} );
-				test::writeShader( writer.getShader()
-					, sdw::ShaderType::eFragment
+				test::writeShader( writer
 					, testCounts );
 			}
 			testEnd();
@@ -2351,7 +2306,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				ShaderWriter writer{ false };
+				FragmentWriter writer{ false };
 				auto s = writer.declSampledImage< SampledT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementFunction< void >( "main"
 					, [&]()
@@ -2362,8 +2317,7 @@ namespace
 								, test::getDefault< OffsetT >( writer.getShader() )
 								, 1_i ) );
 					} );
-				test::writeShader( writer.getShader()
-					, sdw::ShaderType::eFragment
+				test::writeShader( writer
 					, testCounts );
 			}
 			testEnd();
@@ -2409,7 +2363,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				ShaderWriter writer{ false };
+				FragmentWriter writer{ false };
 				auto s = writer.declSampledImage< SampledT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				auto offsets = writer.declConstantArray< OffsetT >( "offsets"
 					, test::getDefaultVector< OffsetT >( writer.getShader(), 4u ) );
@@ -2421,8 +2375,7 @@ namespace
 								, test::getDefault< GatherT >( writer.getShader() )
 								, offsets ) );
 					} );
-				test::writeShader( writer.getShader()
-					, sdw::ShaderType::eFragment
+				test::writeShader( writer
 					, testCounts );
 			}
 			testEnd();
@@ -2448,7 +2401,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				ShaderWriter writer{ false };
+				FragmentWriter writer{ false };
 				auto s = writer.declSampledImage< SampledT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				auto offsets = writer.declConstantArray< OffsetT >( "offsets"
 					, test::getDefaultVector< OffsetT >( writer.getShader(), 4u ) );
@@ -2461,8 +2414,7 @@ namespace
 								, 0.5_f
 								, offsets ) );
 					} );
-				test::writeShader( writer.getShader()
-					, sdw::ShaderType::eFragment
+				test::writeShader( writer
 					, testCounts );
 			}
 			testEnd();
@@ -2508,7 +2460,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				ShaderWriter writer{ false };
+				FragmentWriter writer{ false };
 				auto s = writer.declSampledImage< SampledT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementFunction< void >( "main"
 					, [&]()
@@ -2520,8 +2472,7 @@ namespace
 								, offsets
 								, 1_i ) );
 					} );
-				test::writeShader( writer.getShader()
-					, sdw::ShaderType::eFragment
+				test::writeShader( writer
 					, testCounts );
 			}
 			testEnd();
@@ -2541,42 +2492,50 @@ namespace
 		for ( uint32_t i = 0u; i <= uint32_t( ast::type::ImageFormat::eR8u ); ++i )
 		{
 			auto format = ast::type::ImageFormat( i );
-			//TesterT< FImg1D >::test( format, testCounts );
-			//TesterT< FImg2D >::test( format, testCounts );
-			//TesterT< FImg3D >::test( format, testCounts );
-			//TesterT< FImgRect >::test( format, testCounts );
-			//TesterT< FImgCube >::test( format, testCounts );
-			//TesterT< FImgBuffer >::test( format, testCounts );
-			//TesterT< FImg1DArray >::test( format, testCounts );
-			//TesterT< FImg2DArray >::test( format, testCounts );
-			//TesterT< FImgCubeArray >::test( format, testCounts );
-			TesterT< FImg1DShadow >::test( format, testCounts );
-			TesterT< FImg2DShadow >::test( format, testCounts );
-			TesterT< FImgRectShadow >::test( format, testCounts );
-			TesterT< FImgCubeShadow >::test( format, testCounts );
-			TesterT< FImg1DArrayShadow >::test( format, testCounts );
-			TesterT< FImg2DArrayShadow >::test( format, testCounts );
-			TesterT< FImgCubeArrayShadow >::test( format, testCounts );
 
-			TesterT< IImg1D >::test( format, testCounts );
-			TesterT< IImg2D >::test( format, testCounts );
-			TesterT< IImg3D >::test( format, testCounts );
-			TesterT< IImgRect >::test( format, testCounts );
-			TesterT< IImgCube >::test( format, testCounts );
-			TesterT< IImgBuffer >::test( format, testCounts );
-			TesterT< IImg1DArray >::test( format, testCounts );
-			TesterT< IImg2DArray >::test( format, testCounts );
-			TesterT< IImgCubeArray >::test( format, testCounts );
-
-			TesterT< UImg1D >::test( format, testCounts );
-			TesterT< UImg2D >::test( format, testCounts );
-			TesterT< UImg3D >::test( format, testCounts );
-			TesterT< UImgRect >::test( format, testCounts );
-			TesterT< UImgCube >::test( format, testCounts );
-			TesterT< UImgBuffer >::test( format, testCounts );
-			TesterT< UImg1DArray >::test( format, testCounts );
-			TesterT< UImg2DArray >::test( format, testCounts );
-			TesterT< UImgCubeArray >::test( format, testCounts );
+			if ( isFloatFormat( format ) )
+			{
+				TesterT< FImg1D >::test( format, testCounts );
+				TesterT< FImg2D >::test( format, testCounts );
+				TesterT< FImg3D >::test( format, testCounts );
+				TesterT< FImgRect >::test( format, testCounts );
+				TesterT< FImgCube >::test( format, testCounts );
+				TesterT< FImgBuffer >::test( format, testCounts );
+				TesterT< FImg1DArray >::test( format, testCounts );
+				TesterT< FImg2DArray >::test( format, testCounts );
+				TesterT< FImgCubeArray >::test( format, testCounts );
+				TesterT< FImg1DShadow >::test( format, testCounts );
+				TesterT< FImg2DShadow >::test( format, testCounts );
+				TesterT< FImgRectShadow >::test( format, testCounts );
+				TesterT< FImgCubeShadow >::test( format, testCounts );
+				TesterT< FImg1DArrayShadow >::test( format, testCounts );
+				TesterT< FImg2DArrayShadow >::test( format, testCounts );
+				TesterT< FImgCubeArrayShadow >::test( format, testCounts );
+			}
+			else if ( isSIntFormat( format ) )
+			{
+				TesterT< IImg1D >::test( format, testCounts );
+				TesterT< IImg2D >::test( format, testCounts );
+				TesterT< IImg3D >::test( format, testCounts );
+				TesterT< IImgRect >::test( format, testCounts );
+				TesterT< IImgCube >::test( format, testCounts );
+				TesterT< IImgBuffer >::test( format, testCounts );
+				TesterT< IImg1DArray >::test( format, testCounts );
+				TesterT< IImg2DArray >::test( format, testCounts );
+				TesterT< IImgCubeArray >::test( format, testCounts );
+			}
+			else if ( isUIntFormat( format ) )
+			{
+				TesterT< UImg1D >::test( format, testCounts );
+				TesterT< UImg2D >::test( format, testCounts );
+				TesterT< UImg3D >::test( format, testCounts );
+				TesterT< UImgRect >::test( format, testCounts );
+				TesterT< UImgCube >::test( format, testCounts );
+				TesterT< UImgBuffer >::test( format, testCounts );
+				TesterT< UImg1DArray >::test( format, testCounts );
+				TesterT< UImg2DArray >::test( format, testCounts );
+				TesterT< UImgCubeArray >::test( format, testCounts );
+			}
 		}
 	}
 	/**@}*/
@@ -2586,23 +2545,23 @@ namespace
 int main( int argc, char ** argv )
 {
 	testSuiteBegin( "TestWriterTextureAccesses" );
-	//testsTexture< TextureSizeTester >( testCounts );
-	//testsTexture< TextureQueryLodTester >( testCounts );
-	//testsTexture< TextureQueryLevelsTester >( testCounts );
-	//testsTexture< TextureTester >( testCounts );
-	//testsTexture< TextureBiasTester >( testCounts );
-	//testsTexture< TextureProjTester >( testCounts );
-	//testsTexture< TextureProjBiasTester >( testCounts );
-	//testsTexture< TextureLodTester >( testCounts );
-	//testsTexture< TextureOffsetTester >( testCounts );
-	//testsTexture< TextureOffsetBiasTester >( testCounts );
-	//testsTexture< TexelFetchTester >( testCounts );
-	//testsTexture< TexelFetchOffsetTester >( testCounts );
-	//testsTexture< TextureProjOffsetTester >( testCounts );
-	//testsTexture< TextureProjOffsetBiasTester >( testCounts );
-	//testsTexture< TextureLodOffsetTester >( testCounts );
-	//testsTexture< TextureProjLodTester >( testCounts );
-	//testsTexture< TextureProjLodOffsetTester >( testCounts );
+	testsTexture< TextureSizeTester >( testCounts );
+	testsTexture< TextureQueryLodTester >( testCounts );
+	testsTexture< TextureQueryLevelsTester >( testCounts );
+	testsTexture< TextureTester >( testCounts );
+	testsTexture< TextureBiasTester >( testCounts );
+	testsTexture< TextureProjTester >( testCounts );
+	testsTexture< TextureProjBiasTester >( testCounts );
+	testsTexture< TextureLodTester >( testCounts );
+	testsTexture< TextureOffsetTester >( testCounts );
+	testsTexture< TextureOffsetBiasTester >( testCounts );
+	testsTexture< TexelFetchTester >( testCounts );
+	testsTexture< TexelFetchOffsetTester >( testCounts );
+	testsTexture< TextureProjOffsetTester >( testCounts );
+	testsTexture< TextureProjOffsetBiasTester >( testCounts );
+	testsTexture< TextureLodOffsetTester >( testCounts );
+	testsTexture< TextureProjLodTester >( testCounts );
+	testsTexture< TextureProjLodOffsetTester >( testCounts );
 	testsTexture< TextureGradTester >( testCounts );
 	testsTexture< TextureGradOffsetTester >( testCounts );
 	testsTexture< TextureProjGradTester >( testCounts );

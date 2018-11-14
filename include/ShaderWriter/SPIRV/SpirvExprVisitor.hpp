@@ -57,6 +57,7 @@ namespace sdw::spirv
 		void visitXorAssignExpr( expr::XorAssign * expr )override;
 		void visitAggrInitExpr( expr::AggrInit * expr )override;
 		void visitArrayAccessExpr( expr::ArrayAccess * expr )override;
+		void visitCompositeConstructExpr( expr::CompositeConstruct * expr )override;
 		void visitMbrSelectExpr( expr::MbrSelect * expr )override;
 		void visitFnCallExpr( expr::FnCall * expr )override;
 		void visitIdentifierExpr( expr::Identifier * expr )override;

@@ -359,5 +359,38 @@ namespace sdw
 	template< typename T >
 	static ast::type::Kind constexpr typeEnum = TypeTraits< T >::TypeEnum;
 
+	template< typename T >
+	struct RealTypeGetter
+	{
+		using Type = T;
+	};
+
+	template< typename T >
+	struct RealTypeGetter< InParam< T > >
+	{
+		using Type = T;
+	};
+
+	template< typename T >
+	struct RealTypeGetter< Optional< T > >
+	{
+		using Type = T;
+	};
+
+	template< typename T >
+	struct RealTypeGetter< OutParam< T > >
+	{
+		using Type = T;
+	};
+
+	template< typename T >
+	struct RealTypeGetter< InOutParam< T > >
+	{
+		using Type = T;
+	};
+
+	template< typename T >
+	using RealType = typename RealTypeGetter< T >::Type;
+
 	//***********************************************************************************************
 }

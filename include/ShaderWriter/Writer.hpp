@@ -4,6 +4,7 @@ See LICENSE file in root folder
 #ifndef ___SDW_Writer_H___
 #define ___SDW_Writer_H___
 
+#include "Builtins.hpp"
 #include "Shader.hpp"
 
 namespace sdw
@@ -24,13 +25,16 @@ namespace sdw
 
 	class ShaderWriter
 	{
-	public:
-		ShaderWriter( bool writeInvertFuncs = true
+	protected:
+		ShaderWriter( ShaderType type
+			, bool writeInvertFuncs = true
 			, Config config = Config{} );
+
+	public:
 #pragma region Variables registration
 		/**
 		*name
-		*	Control statements.
+		*	Variables registration.
 		*/
 		/**@{*/
 		var::VariablePtr registerName( std::string const & name
@@ -56,11 +60,6 @@ namespace sdw
 		void multilineComment( std::string const & comment );
 		void enableExtension( std::string const & name, uint32_t inCoreVersion );
 		void discard();
-		void inputComputeLayout( uint32_t localSizeX );
-		void inputComputeLayout( uint32_t localSizeX, uint32_t localSizeY );
-		void inputComputeLayout( uint32_t localSizeX, uint32_t localSizeY, uint32_t localSizeZ );
-		void inputGeometryLayout( stmt::InputLayout layout );
-		void outputGeometryLayout( stmt::OutputLayout layout, uint32_t count );
 		sdw::Vec2 bottomUpToTopDown( sdw::Vec2 const & texCoord );
 		sdw::Vec2 topDownToBottomUp( sdw::Vec2 const & texCoord );
 		sdw::Vec3 bottomUpToTopDown( sdw::Vec3 const & texCoord );
@@ -72,10 +71,28 @@ namespace sdw
 		void returnStmt();
 		template< typename RetType >
 		void returnStmt( RetType const & value );
-		template< typename DestT >
-		inline DestT cast( Value const & from );
 		template< typename ValueT >
 		inline ValueT paren( ValueT const & content );
+#pragma region Cast
+		/**
+		*name
+		*	Cast.
+		*/
+		/**@{*/
+		template< typename DestT >
+		inline DestT cast( Value const & from );
+		template< typename DestT, typename SrcT >
+		inline Optional< DestT > cast( Optional< SrcT > const & from );
+		template< typename DestT >
+		inline DestT cast( int32_t from );
+		template< typename DestT >
+		inline DestT cast( uint32_t from );
+		template< typename DestT >
+		inline DestT cast( float from );
+		template< typename DestT >
+		inline DestT cast( double from );
+		/**@}*/
+#pragma endregion
 #pragma region Control statements
 		/**
 		*name
@@ -255,16 +272,9 @@ namespace sdw
 			, uint32_t location
 			, uint32_t dimension );
 		template< typename T >
-		inline Array< T > declInputArray( std::string const & name
-			, uint32_t location );
-		template< typename T >
 		inline Optional< Array< T > > declInputArray( std::string const & name
 			, uint32_t location
 			, uint32_t dimension
-			, bool enabled );
-		template< typename T >
-		inline Optional< Array< T > > declInputArray( std::string const & name
-			, uint32_t location
 			, bool enabled );
 		/**@}*/
 #pragma endregion
@@ -282,9 +292,6 @@ namespace sdw
 			, uint32_t location
 			, uint32_t dimension );
 		template< typename T >
-		inline Array< T > declOutputArray( std::string const & name
-			, uint32_t location );
-		template< typename T >
 		inline Optional< T > declOutput( std::string const & name
 			, uint32_t location
 			, bool enabled );
@@ -292,10 +299,6 @@ namespace sdw
 		inline Optional< Array< T > > declOutputArray( std::string const & name
 			, uint32_t location
 			, uint32_t dimension
-			, bool enabled );
-		template< typename T >
-		inline Optional< Array< T > > declOutputArray( std::string const & name
-			, uint32_t location
 			, bool enabled );
 		/**@}*/
 #pragma endregion
@@ -335,31 +338,6 @@ namespace sdw
 		inline Optional< Array< T > > declLocaleArray( std::string const & name
 			, uint32_t dimension
 			, std::vector< T > const & rhs
-			, bool enabled );
-		/**@}*/
-#pragma endregion
-#pragma region Built-in declaration
-		/**
-		*name
-		*	Built-in variable declaration.
-		*/
-		/**@{*/
-		template< typename T >
-		inline T declBuiltin( std::string const & name );
-		template< typename T >
-		inline Optional< T > declBuiltin( std::string const & name
-			, bool enabled );
-		template< typename T >
-		inline Array< T > declBuiltinArray( std::string const & name
-			, uint32_t dimension );
-		template< typename T >
-		inline Array< T > declBuiltinArray( std::string const & name );
-		template< typename T >
-		inline Optional< Array< T > > declBuiltinArray( std::string const & name
-			, uint32_t dimension
-			, bool enabled );
-		template< typename T >
-		inline Optional< Array< T > > declBuiltinArray( std::string const & name
 			, bool enabled );
 		/**@}*/
 #pragma endregion
@@ -431,6 +409,11 @@ namespace sdw
 		{
 			return m_shader;
 		}
+
+		inline ShaderType getShaderType()const
+		{
+			return m_type;
+		}
 		/**@}*/
 #pragma endregion
 
@@ -462,11 +445,82 @@ namespace sdw
 			, type::TypePtr type );
 
 	private:
+		ShaderType m_type;
 		Config m_config;
 		Shader m_shader;
 		Function< Vec2, InVec2 > m_invertVec2Y;
 		Function< Vec3, InVec3 > m_invertVec3Y;
 		std::vector< stmt::If * > m_ifStmt;
+	};
+
+	class VertexWriter
+		: public ShaderWriter
+	{
+	public:
+		VertexWriter( bool writeInvertFuncs = true
+			, Config config = Config{} );
+
+		InVertex getIn();
+		OutVertex getOut();
+	};
+
+	class TessellationControlWriter
+		: public ShaderWriter
+	{
+	public:
+		TessellationControlWriter( bool writeInvertFuncs = true
+			, Config config = Config{} );
+
+		InTessellationControl getIn();
+		OutTessellationControl getOut();
+	};
+
+	class TessellationEvaluationWriter
+		: public ShaderWriter
+	{
+	public:
+		TessellationEvaluationWriter( bool writeInvertFuncs = true
+			, Config config = Config{} );
+
+		InTessellationEvaluation getIn();
+		OutTessellationEvaluation getOut();
+	};
+
+	class GeometryWriter
+		: public ShaderWriter
+	{
+	public:
+		GeometryWriter( bool writeInvertFuncs = true
+			, Config config = Config{} );
+
+		void inputLayout( stmt::InputLayout layout );
+		void outputLayout( stmt::OutputLayout layout, uint32_t count );
+		InGeometry getIn();
+		OutGeometry getOut();
+	};
+
+	class FragmentWriter
+		: public ShaderWriter
+	{
+	public:
+		FragmentWriter( bool writeInvertFuncs = true
+			, Config config = Config{} );
+
+		InFragment getIn();
+		OutFragment getOut();
+	};
+
+	class ComputeWriter
+		: public ShaderWriter
+	{
+	public:
+		ComputeWriter( bool writeInvertFuncs = true
+			, Config config = Config{} );
+
+		void inputLayout( uint32_t localSizeX );
+		void inputLayout( uint32_t localSizeX, uint32_t localSizeY );
+		void inputLayout( uint32_t localSizeX, uint32_t localSizeY, uint32_t localSizeZ );
+		InCompute getIn();
 	};
 }
 

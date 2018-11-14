@@ -82,7 +82,7 @@ namespace sdw::glsl
 		std::string getType( type::Kind kind
 			, type::ImageConfiguration const & config )
 		{
-			return ( config.dimension == type::ImageDim::eBuffer || kind == type::Kind::eSampledImage )
+			return ( kind == type::Kind::eSampledImage )
 				? "sampler"
 				: "image";
 		}
@@ -96,6 +96,66 @@ namespace sdw::glsl
 				+ getMS( config.isMS )
 				+ getArray( config.isArrayed )
 				+ getShadow( config.isDepth );
+		}
+
+		std::string getFormatName( type::ImageFormat format )
+		{
+			switch ( format )
+			{
+			case ast::type::ImageFormat::eUnknown:
+				return "rgba32f";
+			case ast::type::ImageFormat::eRgba32f:
+				return "rgba32f";
+			case ast::type::ImageFormat::eRgba16f:
+				return "rgba16f";
+			case ast::type::ImageFormat::eRg32f:
+				return "rg32f";
+			case ast::type::ImageFormat::eRg16f:
+				return "rg16f";
+			case ast::type::ImageFormat::eR32f:
+				return "r32f";
+			case ast::type::ImageFormat::eR16f:
+				return "r16f";
+			case ast::type::ImageFormat::eRgba32i:
+				return "rgba32i";
+			case ast::type::ImageFormat::eRgba16i:
+				return "rgba16i";
+			case ast::type::ImageFormat::eRgba8i:
+				return "rgba8i";
+			case ast::type::ImageFormat::eRg32i:
+				return "rg32i";
+			case ast::type::ImageFormat::eRg16i:
+				return "rg16i";
+			case ast::type::ImageFormat::eRg8i:
+				return "rg8i";
+			case ast::type::ImageFormat::eR32i:
+				return "r32i";
+			case ast::type::ImageFormat::eR16i:
+				return "r16i";
+			case ast::type::ImageFormat::eR8i:
+				return "r8i";
+			case ast::type::ImageFormat::eRgba32u:
+				return "rgba32ui";
+			case ast::type::ImageFormat::eRgba16u:
+				return "rgba16ui";
+			case ast::type::ImageFormat::eRgba8u:
+				return "rgba8ui";
+			case ast::type::ImageFormat::eRg32u:
+				return "rg32ui";
+			case ast::type::ImageFormat::eRg16u:
+				return "rg16ui";
+			case ast::type::ImageFormat::eRg8u:
+				return "rg8ui";
+			case ast::type::ImageFormat::eR32u:
+				return "r32ui";
+			case ast::type::ImageFormat::eR16u:
+				return "r16ui";
+			case ast::type::ImageFormat::eR8u:
+				return "r8ui";
+			default:
+				assert( false && "Unsupported type::ImageFormat" );
+				return "rgba32f";
+			}
 		}
 	}
 
@@ -137,14 +197,17 @@ namespace sdw::glsl
 
 	void StmtVisitor::visitConstantBufferDeclStmt( stmt::ConstantBufferDecl * stmt )
 	{
-		m_appendLineEnd = true;
-		doAppendLineEnd();
-		m_result += m_indent;
-		m_result += "layout(binding=" + std::to_string( stmt->getBindingPoint() ) + ", set=" + std::to_string( stmt->getDescriptorSet() ) + ") ";
-		m_result += "uniform " + stmt->getName();
-		m_appendSemiColon = true;
-		visitCompoundStmt( stmt );
-		m_appendLineEnd = true;
+		if ( !stmt->empty() )
+		{
+			m_appendLineEnd = true;
+			doAppendLineEnd();
+			m_result += m_indent;
+			m_result += "layout(binding=" + std::to_string( stmt->getBindingPoint() ) + ", set=" + std::to_string( stmt->getDescriptorSet() ) + ") ";
+			m_result += "uniform " + stmt->getName();
+			m_appendSemiColon = true;
+			visitCompoundStmt( stmt );
+			m_appendLineEnd = true;
+		}
 	}
 
 	void StmtVisitor::visitDiscardStmt( stmt::Discard * stmt )
@@ -155,14 +218,17 @@ namespace sdw::glsl
 
 	void StmtVisitor::visitPushConstantsBufferDeclStmt( stmt::PushConstantsBufferDecl * stmt )
 	{
-		m_appendLineEnd = true;
-		doAppendLineEnd();
-		m_result += m_indent;
-		m_result += "layout(push_constant) ";
-		m_result += "uniform " + stmt->getName();
-		m_appendSemiColon = true;
-		visitCompoundStmt( stmt );
-		m_appendLineEnd = true;
+		if ( !stmt->empty() )
+		{
+			m_appendLineEnd = true;
+			doAppendLineEnd();
+			m_result += m_indent;
+			m_result += "layout(push_constant) ";
+			m_result += "uniform " + stmt->getName();
+			m_appendSemiColon = true;
+			visitCompoundStmt( stmt );
+			m_appendLineEnd = true;
+		}
 	}
 
 	void StmtVisitor::visitCommentStmt( stmt::Comment * stmt )
@@ -277,10 +343,27 @@ namespace sdw::glsl
 	void StmtVisitor::visitImageDeclStmt( stmt::ImageDecl * stmt )
 	{
 		doAppendLineEnd();
-		m_result += m_indent;
-		m_result += "layout(binding=" + std::to_string( stmt->getBindingPoint() ) + ", set=" + std::to_string( stmt->getDescriptorSet() ) + ") ";
 		assert( stmt->getVariable()->getType()->getKind() == type::Kind::eImage );
 		auto image = std::static_pointer_cast< type::Image >( stmt->getVariable()->getType() );
+		m_result += m_indent;
+		m_result += "layout(binding=" + std::to_string( stmt->getBindingPoint() );
+		m_result += ", set=" + std::to_string( stmt->getDescriptorSet() );
+
+		if ( image->getConfig().accessKind == type::AccessKind::eRead )
+		{
+			m_result += ", readonly";
+			m_result += ", " + getFormatName( image->getConfig().format );
+		}
+		else if ( image->getConfig().accessKind == type::AccessKind::eWrite )
+		{
+			m_result += ", writeonly";
+		}
+		else
+		{
+			m_result += ", " + getFormatName( image->getConfig().format );
+		}
+
+		m_result += ") uniform ";
 		m_result += getQualifiedName( type::Kind::eImage, image->getConfig() ) + " " + stmt->getVariable()->getName();
 		auto arraySize = stmt->getVariable()->getType()->getArraySize();
 
@@ -327,9 +410,9 @@ namespace sdw::glsl
 	{
 		doAppendLineEnd();
 
-		if ( stmt->getWorkGroupsZ() == -1 )
+		if ( stmt->getWorkGroupsZ() == 1 )
 		{
-			if ( stmt->getWorkGroupsY() == -1 )
+			if ( stmt->getWorkGroupsY() == 1 )
 			{
 				m_result += m_indent + "layout(local_size_x=" + std::to_string( stmt->getWorkGroupsX() ) + ") in;\n";
 			}
@@ -415,7 +498,7 @@ namespace sdw::glsl
 		m_result += "layout(binding=" + std::to_string( stmt->getBindingPoint() ) + ", set=" + std::to_string( stmt->getDescriptorSet() ) + ") ";
 		assert( stmt->getVariable()->getType()->getKind() == type::Kind::eSampledImage );
 		auto sampledImage = std::static_pointer_cast< type::SampledImage >( stmt->getVariable()->getType() );
-		m_result += getQualifiedName( type::Kind::eSampledImage, sampledImage->getConfig() ) + " " + stmt->getVariable()->getName();
+		m_result += "uniform " + getQualifiedName( type::Kind::eSampledImage, sampledImage->getConfig() ) + " " + stmt->getVariable()->getName();
 		auto arraySize = stmt->getVariable()->getType()->getArraySize();
 
 		if ( arraySize != ast::type::NotArray )
@@ -439,14 +522,17 @@ namespace sdw::glsl
 
 	void StmtVisitor::visitShaderBufferDeclStmt( stmt::ShaderBufferDecl * stmt )
 	{
-		m_appendLineEnd = true;
-		doAppendLineEnd();
-		m_result += m_indent;
-		m_result += "layout(binding=" + std::to_string( stmt->getBindingPoint() ) + ", set=" + std::to_string( stmt->getDescriptorSet() ) + ") ";
-		m_result += "buffer " + stmt->getName();
-		m_appendSemiColon = true;
-		visitCompoundStmt( stmt );
-		m_appendLineEnd = true;
+		if ( !stmt->empty() )
+		{
+			m_appendLineEnd = true;
+			doAppendLineEnd();
+			m_result += m_indent;
+			m_result += "layout(binding=" + std::to_string( stmt->getBindingPoint() ) + ", set=" + std::to_string( stmt->getDescriptorSet() ) + ") ";
+			m_result += "buffer " + stmt->getName();
+			m_appendSemiColon = true;
+			visitCompoundStmt( stmt );
+			m_appendLineEnd = true;
+		}
 	}
 
 	void StmtVisitor::visitSimpleStmt( stmt::Simple * stmt )
@@ -614,6 +700,7 @@ namespace sdw::glsl
 	{
 		doAppendLineEnd();
 		m_result += "#version " + preproc->getName() + "\n";
+		m_result += "#extension GL_KHR_vulkan_glsl : enable\n";
 	}
 
 	//*************************************************************************

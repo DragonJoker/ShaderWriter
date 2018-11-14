@@ -174,6 +174,11 @@ namespace test
 		std::cout << testName << " Failed: Unknown unhandled exception" << std::endl;\
 	}
 
+#define failure( x )\
+	++testCounts.totalCount;\
+	++testCounts.errorCount;\
+	std::cout << x << " failed" << std::endl;\
+
 #define require( x )\
 	try\
 	{\

@@ -74,6 +74,49 @@ namespace sdw
 	Optional< Double > operator-( float const & lhs, Optional< Double > const & rhs );
 	Optional< Double > operator*( float const & lhs, Optional< Double > const & rhs );
 	Optional< Double > operator/( float const & lhs, Optional< Double > const & rhs );
+
+	Boolean operator==( Double const & lhs, Double const & rhs );
+	Boolean operator!=( Double const & lhs, Double const & rhs );
+	Boolean operator<( Double const & lhs, Double const & rhs );
+	Boolean operator<=( Double const & lhs, Double const & rhs );
+	Boolean operator>( Double const & lhs, Double const & rhs );
+	Boolean operator>=( Double const & lhs, Double const & rhs );
+	Optional< Boolean > operator==( Optional< Double > const & lhs, Double const & rhs );
+	Optional< Boolean > operator!=( Optional< Double > const & lhs, Double const & rhs );
+	Optional< Boolean > operator<( Optional< Double > const & lhs, Double const & rhs );
+	Optional< Boolean > operator<=( Optional< Double > const & lhs, Double const & rhs );
+	Optional< Boolean > operator>( Optional< Double > const & lhs, Double const & rhs );
+	Optional< Boolean > operator>=( Optional< Double > const & lhs, Double const & rhs );
+	Optional< Boolean > operator==( Double const & lhs, Optional< Double > const & rhs );
+	Optional< Boolean > operator!=( Double const & lhs, Optional< Double > const & rhs );
+	Optional< Boolean > operator<( Double const & lhs, Optional< Double > const & rhs );
+	Optional< Boolean > operator<=( Double const & lhs, Optional< Double > const & rhs );
+	Optional< Boolean > operator>( Double const & lhs, Optional< Double > const & rhs );
+	Optional< Boolean > operator>=( Double const & lhs, Optional< Double > const & rhs );
+	Optional< Boolean > operator==( Optional< Double > const & lhs, Optional< Double > const & rhs );
+	Optional< Boolean > operator!=( Optional< Double > const & lhs, Optional< Double > const & rhs );
+	Optional< Boolean > operator<( Optional< Double > const & lhs, Optional< Double > const & rhs );
+	Optional< Boolean > operator<=( Optional< Double > const & lhs, Optional< Double > const & rhs );
+	Optional< Boolean > operator>( Optional< Double > const & lhs, Optional< Double > const & rhs );
+	Optional< Boolean > operator>=( Optional< Double > const & lhs, Optional< Double > const & rhs );
+	Boolean operator==( Double const & lhs, double const & rhs );
+	Boolean operator!=( Double const & lhs, double const & rhs );
+	Boolean operator<( Double const & lhs, double const & rhs );
+	Boolean operator<=( Double const & lhs, double const & rhs );
+	Boolean operator>( Double const & lhs, double const & rhs );
+	Boolean operator>=( Double const & lhs, double const & rhs );
+	Optional< Boolean > operator==( Optional< Double > const & lhs, double const & rhs );
+	Optional< Boolean > operator!=( Optional< Double > const & lhs, double const & rhs );
+	Optional< Boolean > operator<( Optional< Double > const & lhs, double const & rhs );
+	Optional< Boolean > operator<=( Optional< Double > const & lhs, double const & rhs );
+	Optional< Boolean > operator>( Optional< Double > const & lhs, double const & rhs );
+	Optional< Boolean > operator>=( Optional< Double > const & lhs, double const & rhs );
+	Optional< Boolean > operator==( double const & lhs, Optional< Double > const & rhs );
+	Optional< Boolean > operator!=( double const & lhs, Optional< Double > const & rhs );
+	Optional< Boolean > operator<( double const & lhs, Optional< Double > const & rhs );
+	Optional< Boolean > operator<=( double const & lhs, Optional< Double > const & rhs );
+	Optional< Boolean > operator>( double const & lhs, Optional< Double > const & rhs );
+	Optional< Boolean > operator>=( double const & lhs, Optional< Double > const & rhs );
 }
 
 inline sdw::Double operator "" _d( long double value )

@@ -927,6 +927,26 @@ namespace
 		testEnd();
 	}
 
+	void testExprCompositeConstruct( test::TestCounts & testCounts )
+	{
+		testBegin( "testExprCompositeConstruct" );
+		ast::expr::ExprList args;
+		args.emplace_back( ast::expr::makeIdentifier( ast::var::makeVariable( ast::type::getVec4F(), "c1" ) ) );
+		args.emplace_back( ast::expr::makeIdentifier( ast::var::makeVariable( ast::type::getVec4F(), "c2" ) ) );
+		auto expr = ast::expr::makeCompositeConstruct( ast::expr::CompositeType::eMat2x4
+			, ast::type::Kind::eFloat
+			, std::move( args ) );
+
+		check( expr->getKind() == ast::expr::Kind::eCompositeConstruct );
+		check( expr->getType()->getKind() == ast::type::Kind::eMat2x4F );
+		check( expr->getComposite() == ast::expr::CompositeType::eMat2x4 );
+		check( expr->getComponent() == ast::type::Kind::eFloat );
+
+		check( expr->getArgList().size() == 2u );
+		std::cout << "ExprCompositeConstruct: " << ast::debug::ExprVisitor::submit( expr.get() ) << std::endl;
+		testEnd();
+	}
+
 	void testExprFnCall( test::TestCounts & testCounts )
 	{
 		testBegin( "testExprFnCall" );
@@ -1265,6 +1285,7 @@ int main( int argc, char ** argv )
 	testExprUnaryMinus( testCounts );
 	testExprUnaryPlus( testCounts );
 	testExprCast( testCounts );
+	testExprCompositeConstruct( testCounts );
 	testExprFnCall( testCounts );
 	testExprIntrinsicCall( testCounts );
 	testExprTextureAccessCall( testCounts );

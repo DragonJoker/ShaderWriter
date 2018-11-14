@@ -67,6 +67,9 @@ namespace ast::debug
 			case expr::Kind::eCast:
 				result = "CAST";
 				break;
+			case expr::Kind::eCompositeConstruct:
+				result = "COMPOSITECONSTRUCT";
+				break;
 			case expr::Kind::eInit:
 				result = "INIT";
 				break;
@@ -190,6 +193,55 @@ namespace ast::debug
 
 			return result;
 		}
+
+		std::string getName( expr::CompositeType value )
+		{
+			std::string result;
+
+			switch ( value )
+			{
+			case ast::expr::CompositeType::eVec2:
+				result = "VEC2";
+				break;
+			case ast::expr::CompositeType::eVec3:
+				result = "VEC3";
+				break;
+			case ast::expr::CompositeType::eVec4:
+				result = "VEC4";
+				break;
+			case ast::expr::CompositeType::eMat2x2:
+				result = "MAT2X2";
+				break;
+			case ast::expr::CompositeType::eMat2x3:
+				result = "MAT2X3";
+				break;
+			case ast::expr::CompositeType::eMat2x4:
+				result = "MAT2X4";
+				break;
+			case ast::expr::CompositeType::eMat3x2:
+				result = "MAT3X2";
+				break;
+			case ast::expr::CompositeType::eMat3x3:
+				result = "MAT3X3";
+				break;
+			case ast::expr::CompositeType::eMat3x4:
+				result = "MAT3X4";
+				break;
+			case ast::expr::CompositeType::eMat4x2:
+				result = "MAT4X2";
+				break;
+			case ast::expr::CompositeType::eMat4x3:
+				result = "MAT4X3";
+				break;
+			case ast::expr::CompositeType::eMat4x4:
+				result = "MAT4X4";
+				break;
+			default:
+				throw std::runtime_error{ "Unsupported expr::CompositeType" };
+			}
+
+			return result;
+		}
 	}
 
 	ExprVisitor::ExprVisitor( std::string & result )
@@ -254,6 +306,23 @@ namespace ast::debug
 		wrap( expr->getOperand() );
 	}
 
+	void ExprVisitor::visitCompositeConstructExpr( expr::CompositeConstruct * expr )
+	{
+		m_result += getName( expr->getKind() ) + " ";
+		m_result += getName( expr->getComposite() ) + " ";
+		m_result += getName( expr->getComponent() ) + " (";
+		std::string sep;
+
+		for ( auto & arg : expr->getArgList() )
+		{
+			m_result += sep;
+			wrap( arg.get() );
+			sep = ", ";
+		}
+
+		m_result += ")";
+	}
+
 	void ExprVisitor::visitMbrSelectExpr( expr::MbrSelect * expr )
 	{
 		m_result += getName( expr->getKind() ) + " ";
@@ -264,6 +333,12 @@ namespace ast::debug
 
 	void ExprVisitor::visitFnCallExpr( expr::FnCall * expr )
 	{
+		if ( expr->isMember() )
+		{
+			wrap( expr->getInstance() );
+			m_result += ".";
+		}
+
 		m_result += getName( expr->getKind() ) + " ";
 		wrap( expr->getFn() );
 		m_result += " (";

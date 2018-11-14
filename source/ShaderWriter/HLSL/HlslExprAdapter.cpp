@@ -3,68 +3,19 @@ See LICENSE file in root folder
 */
 #include "ShaderWriter/HLSL/HlslExprAdapter.hpp"
 
+#include "ShaderWriter/Intrinsics.hpp"
 #include "ShaderWriter/HLSL/HlslHelpers.hpp"
 #include "ShaderWriter/HLSL/HlslVariableReplacer.hpp"
 #include "ShaderWriter/HLSL/HlslImageAccessConfig.hpp"
 #include "ShaderWriter/HLSL/HlslIntrinsicConfig.hpp"
 #include "ShaderWriter/HLSL/HlslTextureAccessConfig.hpp"
 
-#include "ShaderWriter/Intrinsics.hpp"
+#include <ASTGenerator/Type/TypeImage.hpp>
 
 namespace sdw::hlsl
 {
 	namespace
 	{
-		static std::map< std::string, std::string > const TypeCtorNames
-		{
-			{ "bool", "bool" },
-			{ "bvec2", "bool2" },
-			{ "bvec3", "bool3" },
-			{ "bvec4", "bool4" },
-			{ "int", "int" },
-			{ "ivec2", "int2" },
-			{ "ivec3", "int3" },
-			{ "ivec4", "int4" },
-			{ "uint", "uint" },
-			{ "uvec2", "uint2" },
-			{ "uvec3", "uint3" },
-			{ "uvec4", "uint4" },
-			{ "float", "float" },
-			{ "vec2", "float2" },
-			{ "vec3", "float3" },
-			{ "vec4", "float4" },
-			{ "mat2", "float2x2" },
-			{ "mat2x3", "float2x3" },
-			{ "mat2x4", "float2x4" },
-			{ "mat3x2", "float3x2" },
-			{ "mat3", "float3x3" },
-			{ "mat3x4", "float3x4" },
-			{ "mat4x2", "float4x2" },
-			{ "mat4x3", "float4x3" },
-			{ "mat4", "float4x4" },
-			{ "double", "double" },
-			{ "dvec2", "double2" },
-			{ "dvec3", "double3" },
-			{ "dvec4", "double4" },
-		};
-
-		var::VariablePtr adaptName( var::VariablePtr var )
-		{
-			auto it = TypeCtorNames.find( var->getName() );
-
-			if ( it != TypeCtorNames.end() )
-			{
-				return var::makeVariable( var->getType(), it->second );
-			}
-
-			return var;
-		}
-
-		expr::IdentifierPtr adaptName( expr::Identifier const & ident )
-		{
-			return makeIdent( adaptName( ident.getVariable() ) );
-		}
-
 		bool isMatrix( type::Kind kind )
 		{
 			return kind >= type::Kind::eMat2x2F
@@ -535,16 +486,394 @@ namespace sdw::hlsl
 
 			return result;
 		}
+
+		inline ast::expr::TextureAccess getCompAccess( ast::expr::TextureAccess value )
+		{
+			switch ( value )
+			{
+			case ast::expr::TextureAccess::eTextureGather2DF:
+				return ast::expr::TextureAccess::eTextureGather2DFComp;
+			case ast::expr::TextureAccess::eTextureGather2DArrayF:
+				return ast::expr::TextureAccess::eTextureGather2DArrayFComp;
+			case ast::expr::TextureAccess::eTextureGatherCubeF:
+				return ast::expr::TextureAccess::eTextureGatherCubeFComp;
+			case ast::expr::TextureAccess::eTextureGatherCubeArrayF:
+				return ast::expr::TextureAccess::eTextureGatherCubeArrayFComp;
+			case ast::expr::TextureAccess::eTextureGather2DRectF:
+				return ast::expr::TextureAccess::eTextureGather2DRectFComp;
+			case ast::expr::TextureAccess::eTextureGather2DI:
+				return ast::expr::TextureAccess::eTextureGather2DIComp;
+			case ast::expr::TextureAccess::eTextureGather2DArrayI:
+				return ast::expr::TextureAccess::eTextureGather2DArrayIComp;
+			case ast::expr::TextureAccess::eTextureGatherCubeI:
+				return ast::expr::TextureAccess::eTextureGatherCubeIComp;
+			case ast::expr::TextureAccess::eTextureGatherCubeArrayI:
+				return ast::expr::TextureAccess::eTextureGatherCubeArrayIComp;
+			case ast::expr::TextureAccess::eTextureGather2DRectI:
+				return ast::expr::TextureAccess::eTextureGather2DRectIComp;
+			case ast::expr::TextureAccess::eTextureGather2DU:
+				return ast::expr::TextureAccess::eTextureGather2DUComp;
+			case ast::expr::TextureAccess::eTextureGather2DArrayU:
+				return ast::expr::TextureAccess::eTextureGather2DArrayUComp;
+			case ast::expr::TextureAccess::eTextureGatherCubeU:
+				return ast::expr::TextureAccess::eTextureGatherCubeUComp;
+			case ast::expr::TextureAccess::eTextureGatherCubeArrayU:
+				return ast::expr::TextureAccess::eTextureGatherCubeArrayUComp;
+			case ast::expr::TextureAccess::eTextureGather2DRectU:
+				return ast::expr::TextureAccess::eTextureGather2DRectUComp;
+			case ast::expr::TextureAccess::eTextureGatherOffset2DF:
+				return ast::expr::TextureAccess::eTextureGatherOffset2DFComp;
+			case ast::expr::TextureAccess::eTextureGatherOffset2DArrayF:
+				return ast::expr::TextureAccess::eTextureGatherOffset2DArrayFComp;
+			case ast::expr::TextureAccess::eTextureGatherOffset2DRectF:
+				return ast::expr::TextureAccess::eTextureGatherOffset2DRectFComp;
+			case ast::expr::TextureAccess::eTextureGatherOffset2DI:
+				return ast::expr::TextureAccess::eTextureGatherOffset2DIComp;
+			case ast::expr::TextureAccess::eTextureGatherOffset2DArrayI:
+				return ast::expr::TextureAccess::eTextureGatherOffset2DArrayIComp;
+			case ast::expr::TextureAccess::eTextureGatherOffset2DRectI:
+				return ast::expr::TextureAccess::eTextureGatherOffset2DRectIComp;
+			case ast::expr::TextureAccess::eTextureGatherOffset2DU:
+				return ast::expr::TextureAccess::eTextureGatherOffset2DUComp;
+			case ast::expr::TextureAccess::eTextureGatherOffset2DArrayU:
+				return ast::expr::TextureAccess::eTextureGatherOffset2DArrayUComp;
+			case ast::expr::TextureAccess::eTextureGatherOffset2DRectU:
+				return ast::expr::TextureAccess::eTextureGatherOffset2DRectUComp;
+			case ast::expr::TextureAccess::eTextureGatherOffsets2DF:
+				return ast::expr::TextureAccess::eTextureGatherOffsets2DFComp;
+			case ast::expr::TextureAccess::eTextureGatherOffsets2DArrayF:
+				return ast::expr::TextureAccess::eTextureGatherOffsets2DArrayFComp;
+			case ast::expr::TextureAccess::eTextureGatherOffsets2DRectF:
+				return ast::expr::TextureAccess::eTextureGatherOffsets2DRectFComp;
+			case ast::expr::TextureAccess::eTextureGatherOffsets2DI:
+				return ast::expr::TextureAccess::eTextureGatherOffsets2DIComp;
+			case ast::expr::TextureAccess::eTextureGatherOffsets2DArrayI:
+				return ast::expr::TextureAccess::eTextureGatherOffsets2DArrayIComp;
+			case ast::expr::TextureAccess::eTextureGatherOffsets2DRectI:
+				return ast::expr::TextureAccess::eTextureGatherOffsets2DRectIComp;
+			case ast::expr::TextureAccess::eTextureGatherOffsets2DU:
+				return ast::expr::TextureAccess::eTextureGatherOffsets2DUComp;
+			case ast::expr::TextureAccess::eTextureGatherOffsets2DArrayU:
+				return ast::expr::TextureAccess::eTextureGatherOffsets2DArrayUComp;
+			case ast::expr::TextureAccess::eTextureGatherOffsets2DRectU:
+				return ast::expr::TextureAccess::eTextureGatherOffsets2DRectUComp;
+
+			default:
+				throw std::runtime_error{ "Unsupported TextureAccess type." };
+			}
+		}
+
+		inline bool needsComp( ast::expr::TextureAccess value )
+		{
+			bool result{};
+
+			switch ( value )
+			{
+			case ast::expr::TextureAccess::eTextureGather2DF:
+			case ast::expr::TextureAccess::eTextureGather2DArrayF:
+			case ast::expr::TextureAccess::eTextureGatherCubeF:
+			case ast::expr::TextureAccess::eTextureGatherCubeArrayF:
+			case ast::expr::TextureAccess::eTextureGather2DRectF:
+			case ast::expr::TextureAccess::eTextureGather2DI:
+			case ast::expr::TextureAccess::eTextureGather2DArrayI:
+			case ast::expr::TextureAccess::eTextureGatherCubeI:
+			case ast::expr::TextureAccess::eTextureGatherCubeArrayI:
+			case ast::expr::TextureAccess::eTextureGather2DRectI:
+			case ast::expr::TextureAccess::eTextureGather2DU:
+			case ast::expr::TextureAccess::eTextureGather2DArrayU:
+			case ast::expr::TextureAccess::eTextureGatherCubeU:
+			case ast::expr::TextureAccess::eTextureGatherCubeArrayU:
+			case ast::expr::TextureAccess::eTextureGather2DRectU:
+			case ast::expr::TextureAccess::eTextureGatherOffset2DF:
+			case ast::expr::TextureAccess::eTextureGatherOffset2DArrayF:
+			case ast::expr::TextureAccess::eTextureGatherOffset2DRectF:
+			case ast::expr::TextureAccess::eTextureGatherOffset2DI:
+			case ast::expr::TextureAccess::eTextureGatherOffset2DArrayI:
+			case ast::expr::TextureAccess::eTextureGatherOffset2DRectI:
+			case ast::expr::TextureAccess::eTextureGatherOffset2DU:
+			case ast::expr::TextureAccess::eTextureGatherOffset2DArrayU:
+			case ast::expr::TextureAccess::eTextureGatherOffset2DRectU:
+			case ast::expr::TextureAccess::eTextureGatherOffsets2DF:
+			case ast::expr::TextureAccess::eTextureGatherOffsets2DArrayF:
+			case ast::expr::TextureAccess::eTextureGatherOffsets2DRectF:
+			case ast::expr::TextureAccess::eTextureGatherOffsets2DI:
+			case ast::expr::TextureAccess::eTextureGatherOffsets2DArrayI:
+			case ast::expr::TextureAccess::eTextureGatherOffsets2DRectI:
+			case ast::expr::TextureAccess::eTextureGatherOffsets2DU:
+			case ast::expr::TextureAccess::eTextureGatherOffsets2DArrayU:
+			case ast::expr::TextureAccess::eTextureGatherOffsets2DRectU:
+				result = true;
+				break;
+
+			default:
+				result = false;
+				break;
+			}
+
+			return result;
+		}
+
+		bool isShadow( expr::TextureAccess value )
+		{
+			bool result{};
+
+			switch ( value )
+			{
+			case ast::expr::TextureAccess::eTexture1DShadowF:
+			case ast::expr::TextureAccess::eTexture1DShadowFBias:
+			case ast::expr::TextureAccess::eTexture2DShadowF:
+			case ast::expr::TextureAccess::eTexture2DShadowFBias:
+			case ast::expr::TextureAccess::eTextureCubeShadowF:
+			case ast::expr::TextureAccess::eTextureCubeShadowFBias:
+			case ast::expr::TextureAccess::eTexture1DArrayShadowF:
+			case ast::expr::TextureAccess::eTexture1DArrayShadowFBias:
+			case ast::expr::TextureAccess::eTexture2DArrayShadowF:
+			case ast::expr::TextureAccess::eTexture2DArrayShadowFBias:
+			case ast::expr::TextureAccess::eTexture2DRectShadowF:
+			case ast::expr::TextureAccess::eTextureCubeArrayShadowF:
+			case ast::expr::TextureAccess::eTextureProj1DShadowF:
+			case ast::expr::TextureAccess::eTextureProj1DShadowFBias:
+			case ast::expr::TextureAccess::eTextureProj2DShadowF:
+			case ast::expr::TextureAccess::eTextureProj2DShadowFBias:
+			case ast::expr::TextureAccess::eTextureProj2DRectShadowF:
+			case ast::expr::TextureAccess::eTextureLod1DShadowF:
+			case ast::expr::TextureAccess::eTextureLod2DShadowF:
+			case ast::expr::TextureAccess::eTextureLod1DArrayShadowF:
+			case ast::expr::TextureAccess::eTextureOffset2DRectShadowF:
+			case ast::expr::TextureAccess::eTextureOffset1DShadowF:
+			case ast::expr::TextureAccess::eTextureOffset1DShadowFBias:
+			case ast::expr::TextureAccess::eTextureOffset2DShadowF:
+			case ast::expr::TextureAccess::eTextureOffset2DShadowFBias:
+			case ast::expr::TextureAccess::eTextureOffset1DArrayShadowF:
+			case ast::expr::TextureAccess::eTextureOffset2DArrayShadowF:
+			case ast::expr::TextureAccess::eTextureProjOffset1DShadowF:
+			case ast::expr::TextureAccess::eTextureProjOffset1DShadowFBias:
+			case ast::expr::TextureAccess::eTextureProjOffset2DShadowF:
+			case ast::expr::TextureAccess::eTextureProjOffset2DShadowFBias:
+			case ast::expr::TextureAccess::eTextureProjOffset2DRectShadowF:
+			case ast::expr::TextureAccess::eTextureLodOffset1DShadowF:
+			case ast::expr::TextureAccess::eTextureLodOffset2DShadowF:
+			case ast::expr::TextureAccess::eTextureLodOffset1DArrayShadowF:
+			case ast::expr::TextureAccess::eTextureProjLod1DShadowF:
+			case ast::expr::TextureAccess::eTextureProjLod2DShadowF:
+			case ast::expr::TextureAccess::eTextureProjLodOffset1DShadowF:
+			case ast::expr::TextureAccess::eTextureProjLodOffset2DShadowF:
+			case ast::expr::TextureAccess::eTextureGrad2DRectShadowF:
+			case ast::expr::TextureAccess::eTextureGrad1DShadowF:
+			case ast::expr::TextureAccess::eTextureGrad2DShadowF:
+			case ast::expr::TextureAccess::eTextureGrad1DArrayShadowF:
+			case ast::expr::TextureAccess::eTextureGradOffset2DRectShadowF:
+			case ast::expr::TextureAccess::eTextureGradOffset1DShadowF:
+			case ast::expr::TextureAccess::eTextureGradOffset2DShadowF:
+			case ast::expr::TextureAccess::eTextureGradOffset1DArrayShadowF:
+			case ast::expr::TextureAccess::eTextureGradOffset2DArrayShadowF:
+			case ast::expr::TextureAccess::eTextureProjGrad1DShadowF:
+			case ast::expr::TextureAccess::eTextureProjGrad2DShadowF:
+			case ast::expr::TextureAccess::eTextureProjGrad2DRectShadowF:
+			case ast::expr::TextureAccess::eTextureProjGradOffset1DShadowF:
+			case ast::expr::TextureAccess::eTextureProjGradOffset2DShadowF:
+			case ast::expr::TextureAccess::eTextureProjGradOffset2DRectShadowF:
+			case ast::expr::TextureAccess::eTextureGather2DShadowF:
+			case ast::expr::TextureAccess::eTextureGather2DArrayShadowF:
+			case ast::expr::TextureAccess::eTextureGatherCubeShadowF:
+			case ast::expr::TextureAccess::eTextureGatherCubeArrayShadowF:
+			case ast::expr::TextureAccess::eTextureGather2DRectShadowF:
+			case ast::expr::TextureAccess::eTextureGatherOffset2DShadowF:
+			case ast::expr::TextureAccess::eTextureGatherOffset2DArrayShadowF:
+			case ast::expr::TextureAccess::eTextureGatherOffset2DRectShadowF:
+			case ast::expr::TextureAccess::eTextureGatherOffsets2DShadowF:
+			case ast::expr::TextureAccess::eTextureGatherOffsets2DArrayShadowF:
+			case ast::expr::TextureAccess::eTextureGatherOffsets2DRectShadowF:
+				result = true;
+				break;
+
+			default:
+				result = false;
+				break;
+			}
+
+			return result;
+		}
+
+		std::string getName( std::string const & baseName
+			, type::ImageConfiguration const & config )
+		{
+			return baseName
+				+ hlsl::getName( config.dimension )
+				+ ( config.isArrayed ? "Array" : "" )
+				+ hlsl::getSampledName( config.format );
+		}
+
+		type::TypePtr getType( type::ImageFormat format )
+		{
+			switch ( format )
+			{
+			case ast::type::ImageFormat::eUnknown:
+			case ast::type::ImageFormat::eRgba32f:
+			case ast::type::ImageFormat::eRgba16f:
+				return type::getVec4F();
+			case ast::type::ImageFormat::eRg32f:
+			case ast::type::ImageFormat::eRg16f:
+				return type::getVec2F();
+			case ast::type::ImageFormat::eR32f:
+			case ast::type::ImageFormat::eR16f:
+				return type::getFloat();
+			case ast::type::ImageFormat::eRgba32i:
+			case ast::type::ImageFormat::eRgba16i:
+			case ast::type::ImageFormat::eRgba8i:
+				return type::getVec4I();
+			case ast::type::ImageFormat::eRg32i:
+			case ast::type::ImageFormat::eRg16i:
+			case ast::type::ImageFormat::eRg8i:
+				return type::getVec2I();
+			case ast::type::ImageFormat::eR32i:
+			case ast::type::ImageFormat::eR16i:
+			case ast::type::ImageFormat::eR8i:
+				return type::getInt();
+			case ast::type::ImageFormat::eRgba32u:
+			case ast::type::ImageFormat::eRgba16u:
+			case ast::type::ImageFormat::eRgba8u:
+				return type::getVec4U();
+			case ast::type::ImageFormat::eRg32u:
+			case ast::type::ImageFormat::eRg16u:
+			case ast::type::ImageFormat::eRg8u:
+				return type::getVec2U();
+			case ast::type::ImageFormat::eR32u:
+			case ast::type::ImageFormat::eR16u:
+			case ast::type::ImageFormat::eR8u:
+				return type::getUInt();
+			default:
+				assert( false && "hlsl::getType: Unsupported type::ImageFormat" );
+				return nullptr;
+			}
+		}
+
+		expr::ExprPtr swizzleConvert( type::TypePtr dst
+			, expr::ExprPtr expr )
+		{
+			expr::SwizzleKind swizzle;
+			auto srcCount = getComponentCount( expr->getType()->getKind() );
+			auto dstCount = getComponentCount( dst->getKind() );
+
+			switch ( srcCount )
+			{
+			case 1:
+				switch ( dstCount )
+				{
+				case 1:
+					swizzle = expr::SwizzleKind::e0;
+					break;
+				case 2:
+					swizzle = expr::SwizzleKind::e00;
+					break;
+				case 3:
+					swizzle = expr::SwizzleKind::e000;
+					break;
+				case 4:
+					swizzle = expr::SwizzleKind::e0000;
+					break;
+				}
+				break;
+			case 2:
+				switch ( dstCount )
+				{
+				case 1:
+					swizzle = expr::SwizzleKind::e0;
+					break;
+				case 2:
+					swizzle = expr::SwizzleKind::e01;
+					break;
+				case 3:
+					swizzle = expr::SwizzleKind::e011;
+					break;
+				case 4:
+					swizzle = expr::SwizzleKind::e0111;
+					break;
+				}
+				break;
+			case 3:
+				switch ( dstCount )
+				{
+				case 1:
+					swizzle = expr::SwizzleKind::e0;
+					break;
+				case 2:
+					swizzle = expr::SwizzleKind::e01;
+					break;
+				case 3:
+					swizzle = expr::SwizzleKind::e012;
+					break;
+				case 4:
+					swizzle = expr::SwizzleKind::e0122;
+					break;
+				}
+				break;
+			case 4:
+				switch ( dstCount )
+				{
+				case 1:
+					swizzle = expr::SwizzleKind::e0;
+					break;
+				case 2:
+					swizzle = expr::SwizzleKind::e01;
+					break;
+				case 3:
+					swizzle = expr::SwizzleKind::e012;
+					break;
+				case 4:
+					swizzle = expr::SwizzleKind::e0123;
+					break;
+				}
+				break;
+			}
+
+			return std::make_unique< expr::Swizzle >( std::move( expr )
+				, swizzle );
+		}
+
+		expr::ExprPtr componentCastConvert( type::TypePtr dst
+			, expr::ExprPtr expr )
+		{
+			return expr::makeCast( dst, std::move( expr ) );
+		}
+
+		expr::ExprPtr convert( type::TypePtr dst
+			, expr::ExprPtr expr )
+		{
+			auto srcCount = getComponentCount( expr->getType()->getKind() );
+			auto dstCount = getComponentCount( dst->getKind() );
+			expr::ExprPtr result = std::move( expr );
+
+			if ( srcCount == dstCount )
+			{
+				result = componentCastConvert( dst, std::move( result ) );
+			}
+			else
+			{
+				result = swizzleConvert( dst, std::move( result ) );
+			}
+
+			return result;
+		}
 	}
 
 	expr::ExprPtr ExprAdapter::submit( expr::Expr * expr
 		, IntrinsicsConfig const & config
 		, LinkedVars const & linkedVars
 		, VariableExprMap const & inputMembers
-		, VariableExprMap const & outputMembers )
+		, VariableExprMap const & outputMembers
+		, stmt::Container * intrinsics )
 	{
 		expr::ExprPtr result;
-		ExprAdapter vis{ result, config, linkedVars, inputMembers, outputMembers };
+		ExprAdapter vis
+		{
+			result,
+			config,
+			linkedVars,
+			inputMembers,
+			outputMembers,
+			intrinsics,
+		};
 		expr->accept( &vis );
 		return result;
 	}
@@ -553,32 +882,44 @@ namespace sdw::hlsl
 		, IntrinsicsConfig const & config
 		, LinkedVars const & linkedVars
 		, VariableExprMap const & inputMembers
-		, VariableExprMap const & outputMembers )
+		, VariableExprMap const & outputMembers
+		, stmt::Container * intrinsics )
 	{
 		return submit( expr.get()
 			, config
 			, linkedVars
 			, inputMembers
-			, outputMembers );
+			, outputMembers
+			, intrinsics );
 	}
 
 	ExprAdapter::ExprAdapter( expr::ExprPtr & result
 		, IntrinsicsConfig const & config
 		, LinkedVars const & linkedVars
 		, VariableExprMap const & inputMembers
-		, VariableExprMap const & outputMembers )
+		, VariableExprMap const & outputMembers
+		, stmt::Container * intrinsics )
 		: ExprCloner{ result }
 		, m_config{ config }
 		, m_linkedVars{ linkedVars }
 		, m_inputMembers{ inputMembers }
 		, m_outputMembers{ outputMembers }
+		, m_intrinsics{ intrinsics }
 	{
 	}
 
 	ast::expr::ExprPtr ExprAdapter::doSubmit( ast::expr::Expr * expr )
 	{
 		expr::ExprPtr result;
-		ExprAdapter vis{ result, m_config, m_linkedVars, m_inputMembers, m_outputMembers };
+		ExprAdapter vis
+		{
+			result,
+			m_config,
+			m_linkedVars,
+			m_inputMembers,
+			m_outputMembers,
+			m_intrinsics,
+		};
 		expr->accept( &vis );
 		return result;
 	}
@@ -599,6 +940,35 @@ namespace sdw::hlsl
 		else
 		{
 			m_result = expr::makeIdentifier( expr->getVariable() );
+		}
+	}
+
+	void ExprAdapter::visitCompositeConstructExpr( expr::CompositeConstruct * expr )
+	{
+		if ( expr->getArgList().size() == 1u
+			&& getComponentCount( expr->getArgList().back()->getType()->getKind() ) == 1u
+			&& isVectorType( expr->getType()->getKind() ) )
+		{
+			auto count = getComponentCount( expr->getType()->getKind() );
+			m_result = std::make_unique< expr::Swizzle >( doSubmit( expr->getArgList().back().get() )
+				, ( count == 2u
+					? expr::SwizzleKind::e00
+					: ( count == 3u
+						? expr::SwizzleKind::e000
+						: expr::SwizzleKind::e0000 ) ) );
+		}
+		else
+		{
+			expr::ExprList args;
+
+			for ( auto & arg : expr->getArgList() )
+			{
+				args.emplace_back( doSubmit( arg.get() ) );
+			}
+
+			m_result = expr::makeCompositeConstruct( expr->getComposite()
+				, expr->getComponent()
+				, std::move( args ) );
 		}
 	}
 
@@ -631,22 +1001,35 @@ namespace sdw::hlsl
 		}
 
 		m_result = expr::makeFnCall( expr->getType()
-			, adaptName( *expr->getFn() )
+			, makeIdent( expr->getFn()->getVariable() )
 			, std::move( args ) );
 	}
 
 	void ExprAdapter::visitImageAccessCallExpr( expr::ImageAccessCall * expr )
 	{
-		expr::ExprList args;
-
-		for ( auto & arg : expr->getArgList() )
+		if ( expr->getImageAccess() >= expr::ImageAccess::eImageSize1DF
+			&& expr->getImageAccess() <= expr::ImageAccess::eImageSize2DMSArrayU )
 		{
-			args.emplace_back( doSubmit( arg.get() ) );
+			m_result = doProcessImageSize( expr );
 		}
+		else if ( expr->getImageAccess() >= expr::ImageAccess::eImageLoad1DF
+			&& expr->getImageAccess() <= expr::ImageAccess::eImageLoad2DMSArrayU )
+		{
+			m_result = doProcessImageLoad( expr );
+		}
+		else
+		{
+			expr::ExprList args;
 
-		m_result = expr::makeImageAccessCall( expr->getType()
-			, expr->getImageAccess()
-			, std::move( args ) );
+			for ( auto & arg : expr->getArgList() )
+			{
+				args.emplace_back( doSubmit( arg.get() ) );
+			}
+
+			m_result = expr::makeImageAccessCall( expr->getType()
+				, expr->getImageAccess()
+				, std::move( args ) );
+		}
 	}
 
 	void ExprAdapter::visitIntrinsicCallExpr( expr::IntrinsicCall * expr )
@@ -745,35 +1128,23 @@ namespace sdw::hlsl
 		{
 			doProcessTextureGradShadow( expr );
 		}
+		else if ( ( expr->getTextureAccess() >= expr::TextureAccess::eTextureGather2DF
+				&& expr->getTextureAccess() <= expr::TextureAccess::eTextureGatherOffset2DRectUComp )
+			|| ( expr->getTextureAccess() >= expr::TextureAccess::eTextureGather2DShadowF
+				&& expr->getTextureAccess() <= expr::TextureAccess::eTextureGatherOffset2DRectShadowF ) )
+		{
+			doProcessTextureGather( expr );
+		}
+		else if ( ( expr->getTextureAccess() >= expr::TextureAccess::eTextureGatherOffsets2DF
+				&& expr->getTextureAccess() <= expr::TextureAccess::eTextureGatherOffsets2DRectUComp )
+			|| ( expr->getTextureAccess() >= expr::TextureAccess::eTextureGatherOffsets2DShadowF
+				&& expr->getTextureAccess() <= expr::TextureAccess::eTextureGatherOffsets2DRectShadowF ) )
+		{
+			doProcessTextureGatherOffsets( expr );
+		}
 		else
 		{
-			expr::ExprList args;
-
-			uint32_t index = 0u;
-			uint32_t sampler = 0u;
-
-			for ( auto & arg : expr->getArgList() )
-			{
-				if ( doProcessSampledImageArg( *arg, true, args ) )
-				{
-					sampler = index;
-				}
-				else if ( index == sampler + 1
-					&& requiresProjTexCoords( expr->getTextureAccess() ) )
-				{
-					args.emplace_back( writeProjTexCoords( expr->getTextureAccess(), doSubmit( arg.get() ) ) );
-				}
-				else
-				{
-					args.emplace_back( doSubmit( arg.get() ) );
-				}
-
-				++index;
-			}
-
-			m_result = expr::makeTextureAccessCall( expr->getType()
-				, expr->getTextureAccess()
-				, std::move( args ) );
+			doProcessTexture( expr );
 		}
 	}
 
@@ -820,6 +1191,136 @@ namespace sdw::hlsl
 			{
 				args.emplace_back( doSubmit( &arg ) );
 			}
+		}
+
+		return result;
+	}
+
+	expr::ExprPtr ExprAdapter::doProcessImageSize( expr::ImageAccessCall * expr )
+	{
+		auto imgArgType = std::static_pointer_cast< type::Image >( expr->getArgList()[0]->getType() );
+		auto config = imgArgType->getConfig();
+		auto funcName = getName( "SDW_imageSize", config );
+		auto it = m_imageSizeFuncs.find( funcName );
+
+		if ( it == m_imageSizeFuncs.end() )
+		{
+			var::VariableList parameters;
+			auto image = var::makeVariable( expr->getArgList()[0]->getType(), "image" );
+			parameters.emplace_back( image );
+			auto cont = stmt::makeFunctionDecl( expr->getType()
+				, funcName
+				, parameters );
+			type::TypePtr uintType = type::getUInt();
+			var::VariableList resVars;
+			expr::CompositeType composite{};
+
+			switch ( getComponentCount( expr->getType()->getKind() ) )
+			{
+			case 1:
+			{
+				resVars.emplace_back( var::makeVariable( uintType, "dimX" ) );
+				cont->addStmt( stmt::makeVariableDecl( resVars.back() ) );
+				composite = expr::CompositeType::eScalar;
+			}
+			break;
+			case 2:
+			{
+				resVars.emplace_back( var::makeVariable( uintType, "dimX" ) );
+				cont->addStmt( stmt::makeVariableDecl( resVars.back() ) );
+				resVars.emplace_back( var::makeVariable( uintType, "dimY" ) );
+				cont->addStmt( stmt::makeVariableDecl( resVars.back() ) );
+				composite = expr::CompositeType::eVec2;
+			}
+			break;
+			case 3:
+			{
+				resVars.emplace_back( var::makeVariable( uintType, "dimX" ) );
+				cont->addStmt( stmt::makeVariableDecl( resVars.back() ) );
+				resVars.emplace_back( var::makeVariable( uintType, "dimY" ) );
+				cont->addStmt( stmt::makeVariableDecl( resVars.back() ) );
+				resVars.emplace_back( var::makeVariable( uintType, "dimZ" ) );
+				cont->addStmt( stmt::makeVariableDecl( resVars.back() ) );
+				composite = expr::CompositeType::eVec3;
+			}
+			break;
+			}
+
+			// The call to image.GetDimensions
+			expr::ExprList callArgs;
+
+			for ( auto & var : resVars )
+			{
+				callArgs.emplace_back( expr::makeIdentifier( var ) );
+			}
+
+			if ( config.dimension == type::ImageDim::eCube
+				&& !config.isArrayed )
+			{
+				auto var = var::makeVariable( uintType, "dummy" );
+				cont->addStmt( stmt::makeVariableDecl( var ) );
+				callArgs.emplace_back( expr::makeIdentifier( var ) );
+			}
+
+			cont->addStmt( stmt::makeSimple( expr::makeMemberFnCall( type::getVoid()
+				, makeIdent( var::makeFunction( "GetDimensions" ) )
+				, makeIdent( image )
+				, std::move( callArgs ) ) ) );
+
+			// The return statement
+			expr::ExprList resArgs;
+
+			for ( auto & var : resVars )
+			{
+				resArgs.emplace_back( expr::makeCast( type::getInt()
+					, expr::makeIdentifier( var ) ) );
+			}
+
+			if ( composite == expr::CompositeType::eScalar )
+			{
+				cont->addStmt( stmt::makeReturn( std::move( resArgs.back() ) ) );
+			}
+			else
+			{
+				cont->addStmt( stmt::makeReturn( expr::makeCompositeConstruct( composite
+					, type::Kind::eInt
+					, std::move( resArgs ) ) ) );
+			}
+
+			it = m_imageSizeFuncs.emplace( funcName
+				, static_cast< stmt::Return const & >( *cont->back() ).getExpr()->getType() ).first;
+			m_intrinsics->addStmt( std::move( cont ) );
+		}
+
+		expr::ExprList argList;
+		argList.emplace_back( doSubmit( expr->getArgList().front().get() ) );
+		return expr::makeFnCall( it->second
+			, expr::makeIdentifier( var::makeFunction( funcName ) )
+			, std::move( argList ) );
+	}
+
+	expr::ExprPtr ExprAdapter::doProcessImageLoad( expr::ImageAccessCall * expr )
+	{
+		auto imgArgType = std::static_pointer_cast< type::Image >( expr->getArgList()[0]->getType() );
+		auto config = imgArgType->getConfig();
+		auto callRetType = getType( config.format );
+		expr::ExprPtr result;
+		expr::ExprList argList;
+
+		for ( auto it = expr->getArgList().begin() + 1u; it != expr->getArgList().end(); ++it )
+		{
+			argList.emplace_back( doSubmit( it->get() ) );
+		}
+
+		result = expr::makeMemberFnCall( callRetType
+			, expr::makeIdentifier( var::makeFunction( "Load" ) )
+			, doSubmit( expr->getArgList().front().get() )
+			, std::move( argList ) );
+
+		if ( expr->getType() != callRetType )
+		{
+			// We'll need to add a swizzle
+			result = convert( expr->getType(), std::move( result ) );
 		}
 
 		return result;
@@ -937,5 +1438,124 @@ namespace sdw::hlsl
 
 		// Reparse the created expression, textureProj cases.
 		visitTextureAccessCallExpr( result.get() );
+	}
+
+	void ExprAdapter::doProcessTextureGather( expr::TextureAccessCall * expr )
+	{
+		auto kind = expr->getTextureAccess();
+		assert( expr->getArgList().size() >= 2u );
+		uint32_t index = 0u;
+		expr::ExprList args;
+		// Image
+		auto isImage = doProcessSampledImageArg( *expr->getArgList()[index++], true, args );
+		assert( isImage );
+		// Coord
+		args.emplace_back( doSubmit( expr->getArgList()[index++].get() ) );
+
+		if ( isShadow( kind ) )
+		{
+			// Dref value
+			assert( expr->getArgList().size() >= 3u );
+			args.emplace_back( doSubmit( expr->getArgList()[index++].get() ) );
+		}
+
+		if ( needsComp( kind ) )
+		{
+			// Comp parameter of textureGather can be implicitly 0, in GLSL.
+			// Hence add it to args.
+			args.push_back( expr::makeLiteral( 0 ) );
+			kind = getCompAccess( kind );
+		}
+		else if ( !isShadow( kind ) )
+		{
+			args.emplace_back( doSubmit( expr->getArgList()[index++].get() ) );
+		}
+
+		m_result = expr::makeTextureAccessCall( expr->getType()
+			, kind
+			, std::move( args ) );
+	}
+
+	void ExprAdapter::doProcessTextureGatherOffsets( expr::TextureAccessCall * expr )
+	{
+		auto kind = expr->getTextureAccess();
+		assert( expr->getArgList().size() >= 3u );
+		uint32_t index = 0u;
+		expr::ExprList args;
+		// Image
+		auto isImage = doProcessSampledImageArg( *expr->getArgList()[index++], true, args );
+		assert( isImage );
+		// Coord
+		args.emplace_back( doSubmit( expr->getArgList()[index++].get() ) );
+
+		if ( isShadow( kind ) )
+		{
+			// Dref value
+			assert( expr->getArgList().size() >= 4u );
+			args.emplace_back( doSubmit( expr->getArgList()[index++].get() ) );
+		}
+
+		// Next parameter contains the 4 offsets.
+		auto & offset = *expr->getArgList()[index++];
+		assert( offset.getType()->getArraySize() >= 4u );
+		args.emplace_back( expr::makeArrayAccess( type::makeType( offset.getType()->getKind() )
+			, makeExpr( &offset )
+			, expr::makeLiteral( 0u ) ) );
+		args.emplace_back( expr::makeArrayAccess( type::makeType( offset.getType()->getKind() )
+			, makeExpr( &offset )
+			, expr::makeLiteral( 1u ) ) );
+		args.emplace_back( expr::makeArrayAccess( type::makeType( offset.getType()->getKind() )
+			, makeExpr( &offset )
+			, expr::makeLiteral( 2u ) ) );
+		args.emplace_back( expr::makeArrayAccess( type::makeType( offset.getType()->getKind() )
+			, makeExpr( &offset )
+			, expr::makeLiteral( 3u ) ) );
+
+		if ( needsComp( kind ) )
+		{
+			// Comp parameter of textureGather can be implicitly 0, in GLSL.
+			// Hence add it to args.
+			args.push_back( expr::makeLiteral( 0 ) );
+			kind = getCompAccess( kind );
+		}
+		else if ( !isShadow( kind ) )
+		{
+			args.emplace_back( doSubmit( expr->getArgList()[index++].get() ) );
+		}
+
+		m_result = expr::makeTextureAccessCall( expr->getType()
+			, kind
+			, std::move( args ) );
+	}
+
+	void ExprAdapter::doProcessTexture( expr::TextureAccessCall * expr )
+	{
+		expr::ExprList args;
+
+		uint32_t index = 0u;
+		uint32_t sampler = 0u;
+
+		for ( auto & arg : expr->getArgList() )
+		{
+			if ( doProcessSampledImageArg( *arg, true, args ) )
+			{
+				sampler = index;
+			}
+			else if ( index == sampler + 1
+				&& requiresProjTexCoords( expr->getTextureAccess() ) )
+			{
+				args.emplace_back( writeProjTexCoords( expr->getTextureAccess(), doSubmit( arg.get() ) ) );
+			}
+			else
+			{
+				args.emplace_back( doSubmit( arg.get() ) );
+			}
+
+			++index;
+		}
+
+		m_result = expr::makeTextureAccessCall( expr->getType()
+			, expr->getTextureAccess()
+			, std::move( args ) );
 	}
 }

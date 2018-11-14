@@ -194,6 +194,7 @@ namespace ast::type
 	uint32_t getComponentCount( Kind kind );
 	Kind getComponentType( Kind kind );
 	Kind getScalarType( Kind kind );
+	expr::CompositeType getCompositeType( Kind kind );
 }
 
 #endif

@@ -21,6 +21,23 @@ namespace ast
 		using ExprPtr = std::unique_ptr< Expr >;
 		using VisitorPtr = Visitor * ;
 
+		enum class CompositeType
+		{
+			eScalar,
+			eVec2,
+			eVec3,
+			eVec4,
+			eMat2x2,
+			eMat2x3,
+			eMat2x4,
+			eMat3x2,
+			eMat3x3,
+			eMat3x4,
+			eMat4x2,
+			eMat4x3,
+			eMat4x4,
+		};
+
 		enum class SwizzleKind
 		{
 			e0,

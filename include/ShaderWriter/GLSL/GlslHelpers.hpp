@@ -17,6 +17,8 @@ namespace sdw::glsl
 	std::string getOperatorName( expr::Kind kind );
 	std::string getLayoutName( stmt::InputLayout layout );
 	std::string getLayoutName( stmt::OutputLayout layout );
+	std::string getCtorName( expr::CompositeType composite
+		, type::Kind component );
 	bool isUnaryPre( expr::Kind kind );
 
 	struct IntrinsicsConfig

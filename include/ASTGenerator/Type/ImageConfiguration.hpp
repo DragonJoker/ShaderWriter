@@ -66,174 +66,44 @@ namespace ast::type
 		eR8u,
 	};
 
-	template< ImageFormat FormatT >
-	struct IsFloatFormatT
-		: std::false_type
+	inline bool isFloatFormat( ImageFormat format )
 	{
-	};
+		return format == ImageFormat::eUnknown
+			|| format == ImageFormat::eRgba32f
+			|| format == ImageFormat::eRgba16f
+			|| format == ImageFormat::eRg32f
+			|| format == ImageFormat::eRg16f
+			|| format == ImageFormat::eR32f
+			|| format == ImageFormat::eR16f;
+	}
 
-	template< ImageFormat FormatT >
-	struct IsSIntFormatT
-		: std::false_type
+	inline bool isSIntFormat( ImageFormat format )
 	{
-	};
+		return format == ImageFormat::eUnknown
+			|| format == ImageFormat::eRgba32i
+			|| format == ImageFormat::eRgba16i
+			|| format == ImageFormat::eRgba8i
+			|| format == ImageFormat::eRg32i
+			|| format == ImageFormat::eRg16i
+			|| format == ImageFormat::eRg8i
+			|| format == ImageFormat::eR32i
+			|| format == ImageFormat::eR16i
+			|| format == ImageFormat::eR8i;
+	}
 
-	template< ImageFormat FormatT >
-	struct IsUIntFormatT
-		: std::false_type
+	inline bool isUIntFormat( ImageFormat format )
 	{
-	};
-
-	template<>
-	struct IsFloatFormatT< ImageFormat::eRgba32f >
-		: std::true_type
-	{
-	};
-
-	template<>
-	struct IsFloatFormatT< ImageFormat::eRgba16f >
-		: std::true_type
-	{
-	};
-
-	template<>
-	struct IsFloatFormatT< ImageFormat::eRg32f >
-		: std::true_type
-	{
-	};
-
-	template<>
-	struct IsFloatFormatT< ImageFormat::eRg16f >
-		: std::true_type
-	{
-	};
-
-	template<>
-	struct IsFloatFormatT< ImageFormat::eR32f >
-		: std::true_type
-	{
-	};
-
-	template<>
-	struct IsFloatFormatT< ImageFormat::eR16f >
-		: std::true_type
-	{
-	};
-
-	template<>
-	struct IsSIntFormatT< ImageFormat::eRgba32i >
-		: std::true_type
-	{
-	};
-
-	template<>
-	struct IsSIntFormatT< ImageFormat::eRgba16i >
-		: std::true_type
-	{
-	};
-
-	template<>
-	struct IsSIntFormatT< ImageFormat::eRgba8i >
-		: std::true_type
-	{
-	};
-
-	template<>
-	struct IsSIntFormatT< ImageFormat::eRg32i >
-		: std::true_type
-	{
-	};
-
-	template<>
-	struct IsSIntFormatT< ImageFormat::eRg16i >
-		: std::true_type
-	{
-	};
-
-	template<>
-	struct IsSIntFormatT< ImageFormat::eRg8i >
-		: std::true_type
-	{
-	};
-
-	template<>
-	struct IsSIntFormatT< ImageFormat::eR32i >
-		: std::true_type
-	{
-	};
-
-	template<>
-	struct IsSIntFormatT< ImageFormat::eR16i >
-		: std::true_type
-	{
-	};
-
-	template<>
-	struct IsSIntFormatT< ImageFormat::eR8i >
-		: std::true_type
-	{
-	};
-
-	template<>
-	struct IsUIntFormatT< ImageFormat::eRgba32u >
-		: std::true_type
-	{
-	};
-
-	template<>
-	struct IsUIntFormatT< ImageFormat::eRgba16u >
-		: std::true_type
-	{
-	};
-
-	template<>
-	struct IsUIntFormatT< ImageFormat::eRgba8u >
-		: std::true_type
-	{
-	};
-
-	template<>
-	struct IsUIntFormatT< ImageFormat::eRg32u >
-		: std::true_type
-	{
-	};
-
-	template<>
-	struct IsUIntFormatT< ImageFormat::eRg16u >
-		: std::true_type
-	{
-	};
-
-	template<>
-	struct IsUIntFormatT< ImageFormat::eRg8u >
-		: std::true_type
-	{
-	};
-
-	template<>
-	struct IsUIntFormatT< ImageFormat::eR32u >
-		: std::true_type
-	{
-	};
-
-	template<>
-	struct IsUIntFormatT< ImageFormat::eR16u >
-		: std::true_type
-	{
-	};
-
-	template<>
-	struct IsUIntFormatT< ImageFormat::eR8u >
-		: std::true_type
-	{
-	};
-
-	template< ImageFormat FormatT >
-	static bool constexpr IsFloatFormat = IsFloatFormatT< FormatT >::value;
-	template< ImageFormat FormatT >
-	static bool constexpr IsSIntFormat = IsSIntFormatT< FormatT >::value;
-	template< ImageFormat FormatT >
-	static bool constexpr IsUIntFormat = IsUIntFormatT< FormatT >::value;
+		return format == ImageFormat::eUnknown
+			|| format == ImageFormat::eRgba32u
+			|| format == ImageFormat::eRgba16u
+			|| format == ImageFormat::eRgba8u
+			|| format == ImageFormat::eRg32u
+			|| format == ImageFormat::eRg16u
+			|| format == ImageFormat::eRg8u
+			|| format == ImageFormat::eR32u
+			|| format == ImageFormat::eR16u
+			|| format == ImageFormat::eR8u;
+	}
 
 	struct ImageConfiguration
 	{
@@ -254,9 +124,9 @@ namespace ast::type
 			, isMS{ isMS }
 			, accessKind{ accessKind }
 		{
-			assert( this->sampledType == type::Kind::eFloat
-				|| this->sampledType == type::Kind::eInt
-				|| this->sampledType == type::Kind::eUInt );
+			assert( ( this->sampledType == type::Kind::eFloat && isFloatFormat( format ) )
+				|| ( this->sampledType == type::Kind::eInt && isSIntFormat( format ) )
+				|| ( this->sampledType == type::Kind::eUInt && isUIntFormat( format ) ) );
 		}
 
 		type::Kind sampledType;
@@ -278,16 +148,17 @@ namespace ast::type
 		, bool sampled
 		, bool readOnly )
 	{
-		ImageConfiguration result{};
-		result.isMS = MsT;
-		result.isArrayed = ArrayedT;
-		result.isDepth = DepthT ? Trinary::eTrue : Trinary::eFalse;
-		result.format = format;
-		result.dimension = DimT;
-		result.isSampled = sampled ? Trinary::eTrue : Trinary::eFalse;
-		result.accessKind = readOnly ? AccessKind::eRead : AccessKind::eReadWrite;
-		result.sampledType = SampledT;
-		return result;
+		return ImageConfiguration
+		{
+			SampledT,
+			DimT,
+			format,
+			DepthT ? Trinary::eTrue : Trinary::eFalse,
+			sampled ? Trinary::eTrue : Trinary::eFalse,
+			ArrayedT,
+			MsT,
+			readOnly ? AccessKind::eRead : AccessKind::eReadWrite
+		};
 	}
 }
 

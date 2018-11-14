@@ -30,6 +30,7 @@ namespace ast::expr
 		eInit,
 		eAggrInit,
 		eFnCall,
+		eCompositeConstruct,
 		eIntrinsicCall,
 		eTextureAccessCall,
 		eImageAccessCall,

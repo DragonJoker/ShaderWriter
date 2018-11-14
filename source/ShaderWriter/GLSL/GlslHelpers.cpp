@@ -4,6 +4,7 @@ See LICENSE file in root folder
 #include "ShaderWriter/GLSL/GlslHelpers.hpp"
 
 #include "ASTGenerator/Type/TypeImage.hpp"
+#include "ASTGenerator/Type/TypeSampledImage.hpp"
 
 namespace sdw::glsl
 {
@@ -196,16 +197,28 @@ namespace sdw::glsl
 	{
 		std::string result;
 		auto & config = type->getConfig();
+		result += "image";
+		result += getName( config.dimension );
 
-		if ( config.isSampled == type::Trinary::eTrue )
+		if ( config.isArrayed )
 		{
-			result += "sampler";
-		}
-		else
-		{
-			result += "image";
+			result += "Array";
 		}
 
+		if ( config.isDepth == type::Trinary::eTrue )
+		{
+			assert( config.isSampled == type::Trinary::eTrue );
+			result += "Shadow";
+		}
+
+		return result;
+	}
+
+	std::string getTypeName( type::SampledImagePtr type )
+	{
+		std::string result;
+		auto & config = type->getConfig();
+		result += "sampler";
 		result += getName( config.dimension );
 
 		if ( config.isArrayed )
@@ -233,6 +246,9 @@ namespace sdw::glsl
 			break;
 		case type::Kind::eImage:
 			result = getTypeName( std::static_pointer_cast< type::Image >( type ) );
+			break;
+		case type::Kind::eSampledImage:
+			result = getTypeName( std::static_pointer_cast< type::SampledImage >( type ) );
 			break;
 		default:
 			result = getTypeName( type->getKind() );
@@ -505,6 +521,186 @@ namespace sdw::glsl
 			break;
 		default:
 			throw std::runtime_error{ "Unsupported output layout." };
+		}
+
+		return result;
+	}
+
+	std::string getCtorName( expr::CompositeType composite
+		, type::Kind component )
+	{
+		std::string result;
+
+		switch ( composite )
+		{
+		case ast::expr::CompositeType::eVec2:
+			switch ( component )
+			{
+			case ast::type::Kind::eBoolean:
+				result = "bvec2";
+				break;
+			case ast::type::Kind::eInt:
+				result = "ivec2";
+				break;
+			case ast::type::Kind::eUInt:
+				result = "uvec2";
+				break;
+			case ast::type::Kind::eFloat:
+				result = "vec2";
+				break;
+			case ast::type::Kind::eDouble:
+				result = "dvec2";
+				break;
+			case ast::type::Kind::eHalf:
+				result = "hvec2";
+				break;
+			}
+			break;
+		case ast::expr::CompositeType::eVec3:
+			switch ( component )
+			{
+			case ast::type::Kind::eBoolean:
+				result = "bvec3";
+				break;
+			case ast::type::Kind::eInt:
+				result = "ivec3";
+				break;
+			case ast::type::Kind::eUInt:
+				result = "uvec3";
+				break;
+			case ast::type::Kind::eFloat:
+				result = "vec3";
+				break;
+			case ast::type::Kind::eDouble:
+				result = "dvec3";
+				break;
+			case ast::type::Kind::eHalf:
+				result = "hvec3";
+				break;
+			}
+			break;
+		case ast::expr::CompositeType::eVec4:
+			switch ( component )
+			{
+			case ast::type::Kind::eBoolean:
+				result = "bvec4";
+				break;
+			case ast::type::Kind::eInt:
+				result = "ivec4";
+				break;
+			case ast::type::Kind::eUInt:
+				result = "uvec4";
+				break;
+			case ast::type::Kind::eFloat:
+				result = "vec4";
+				break;
+			case ast::type::Kind::eDouble:
+				result = "dvec4";
+				break;
+			case ast::type::Kind::eHalf:
+				result = "hvec4";
+				break;
+			}
+			break;
+		case ast::expr::CompositeType::eMat2x2:
+			switch ( component )
+			{
+			case ast::type::Kind::eFloat:
+				result = "mat2";
+				break;
+			case ast::type::Kind::eDouble:
+				result = "dmat2";
+				break;
+			}
+			break;
+		case ast::expr::CompositeType::eMat2x3:
+			switch ( component )
+			{
+			case ast::type::Kind::eFloat:
+				result = "mat2x3";
+				break;
+			case ast::type::Kind::eDouble:
+				result = "dmat2x3";
+				break;
+			}
+			break;
+		case ast::expr::CompositeType::eMat2x4:
+			switch ( component )
+			{
+			case ast::type::Kind::eFloat:
+				result = "mat2x4";
+				break;
+			case ast::type::Kind::eDouble:
+				result = "dmat2x4";
+				break;
+			}
+			break;
+		case ast::expr::CompositeType::eMat3x2:
+			switch ( component )
+			{
+			case ast::type::Kind::eFloat:
+				result = "mat3x2";
+				break;
+			case ast::type::Kind::eDouble:
+				result = "dmat3x2";
+				break;
+			}
+			break;
+		case ast::expr::CompositeType::eMat3x3:
+			switch ( component )
+			{
+			case ast::type::Kind::eFloat:
+				result = "mat3";
+				break;
+			case ast::type::Kind::eDouble:
+				result = "dmat3";
+				break;
+			}
+			break;
+		case ast::expr::CompositeType::eMat3x4:
+			switch ( component )
+			{
+			case ast::type::Kind::eFloat:
+				result = "mat3x4";
+				break;
+			case ast::type::Kind::eDouble:
+				result = "dmat3x4";
+				break;
+			}
+			break;
+		case ast::expr::CompositeType::eMat4x2:
+			switch ( component )
+			{
+			case ast::type::Kind::eFloat:
+				result = "mat4x2";
+				break;
+			case ast::type::Kind::eDouble:
+				result = "dmat4x2";
+				break;
+			}
+			break;
+		case ast::expr::CompositeType::eMat4x3:
+			switch ( component )
+			{
+			case ast::type::Kind::eFloat:
+				result = "mat4x3";
+				break;
+			case ast::type::Kind::eDouble:
+				result = "dmat4x3";
+				break;
+			}
+			break;
+		case ast::expr::CompositeType::eMat4x4:
+			switch ( component )
+			{
+			case ast::type::Kind::eFloat:
+				result = "mat4";
+				break;
+			case ast::type::Kind::eDouble:
+				result = "dmat4";
+				break;
+			}
+			break;
 		}
 
 		return result;

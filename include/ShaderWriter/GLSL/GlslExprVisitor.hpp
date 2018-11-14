@@ -39,6 +39,7 @@ namespace sdw::glsl
 		void visitAggrInitExpr( expr::AggrInit * expr )override;
 		void visitArrayAccessExpr( expr::ArrayAccess * expr )override;
 		void visitCastExpr( expr::Cast * expr )override;
+		void visitCompositeConstructExpr( expr::CompositeConstruct * expr )override;
 		void visitMbrSelectExpr( expr::MbrSelect * expr )override;
 		void visitFnCallExpr( expr::FnCall * expr )override;
 		void visitIdentifierExpr( expr::Identifier * expr )override;

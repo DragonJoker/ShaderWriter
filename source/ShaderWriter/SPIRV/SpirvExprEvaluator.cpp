@@ -182,6 +182,11 @@ namespace sdw::spirv
 				assert( false && "Unexpected Comma expression" );
 			}
 
+			void visitCompositeConstructExpr( expr::CompositeConstruct * expr )override
+			{
+				assert( false && "Unexpected CompositeConstruct expression" );
+			}
+
 			void visitDivideAssignExpr( expr::DivideAssign * expr )override
 			{
 				assert( false && "Unexpected DivideAssign expression" );

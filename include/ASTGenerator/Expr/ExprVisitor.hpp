@@ -17,6 +17,7 @@ See LICENSE file in root folder
 #include "ExprBitXor.hpp"
 #include "ExprCast.hpp"
 #include "ExprComma.hpp"
+#include "ExprCompositeConstruct.hpp"
 #include "ExprDivide.hpp"
 #include "ExprDivideAssign.hpp"
 #include "ExprEqual.hpp"
@@ -85,6 +86,7 @@ namespace ast::expr
 		virtual void visitBitXorExpr( BitXor * ) = 0;
 		virtual void visitCastExpr( Cast * ) = 0;
 		virtual void visitCommaExpr( Comma * ) = 0;
+		virtual void visitCompositeConstructExpr( CompositeConstruct * ) = 0;
 		virtual void visitDivideExpr( Divide * ) = 0;
 		virtual void visitDivideAssignExpr( DivideAssign * ) = 0;
 		virtual void visitEqualExpr( Equal * ) = 0;

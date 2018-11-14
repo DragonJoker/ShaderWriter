@@ -143,6 +143,20 @@ namespace sdw
 			, doSubmit( expr->getRHS() ) );
 	}
 
+	void ExprCloner::visitCompositeConstructExpr( expr::CompositeConstruct * expr )
+	{
+		expr::ExprList args;
+
+		for ( auto & arg : expr->getArgList() )
+		{
+			args.emplace_back( doSubmit( arg ) );
+		}
+
+		m_result = expr::makeCompositeConstruct( expr->getComposite()
+			, expr->getComponent()
+			, std::move( args ) );
+	}
+
 	void ExprCloner::visitDivideExpr( expr::Divide * expr )
 	{
 		m_result = expr::makeDivide( expr->getType()

@@ -471,180 +471,18 @@ namespace sdw
 	}
 	/**@}*/
 #pragma endregion
-#pragma region imageAtomicAddU
+#pragma region imageAtomicAdd
 	/**
 	*name
-	*	imageAtomicAddU
+	*	imageAtomicAdd
 	*/
 	/**@{*/
-	UInt imageAtomicAdd( Image1D const & image
-		, Int const & P
-		, UInt const & data )
-	{
-		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicAdd1DFU( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	UInt imageAtomicAdd( Image2D const & image
-		, IVec2 const & P
-		, UInt const & data )
-	{
-		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicAdd2DFU( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	UInt imageAtomicAdd( Image3D const & image
-		, IVec3 const & P
-		, UInt const & data )
-	{
-		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicAdd3DFU( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	UInt imageAtomicAdd( Image2DRect const & image
-		, IVec2 const & P
-		, UInt const & data )
-	{
-		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicAdd2DRectFU( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	UInt imageAtomicAdd( ImageCube const & image
-		, IVec3 const & P
-		, UInt const & data )
-	{
-		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicAddCubeFU( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	UInt imageAtomicAdd( ImageBuffer const & image
-		, Int const & P
-		, UInt const & data )
-	{
-		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicAddBufferFU( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	UInt imageAtomicAdd( Image1DArray const & image
-		, IVec2 const & P
-		, UInt const & data )
-	{
-		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicAdd1DArrayFU( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	UInt imageAtomicAdd( Image2DArray const & image
-		, IVec3 const & P
-		, UInt const & data )
-	{
-		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicAdd2DArrayFU( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	UInt imageAtomicAdd( ImageCubeArray const & image
-		, IVec3 const & P
-		, UInt const & data )
-	{
-		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicAddCubeArrayFU( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	UInt imageAtomicAdd( IImage1D const & image
-		, Int const & P
-		, UInt const & data )
-	{
-		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicAdd1DIU( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	UInt imageAtomicAdd( IImage2D const & image
-		, IVec2 const & P
-		, UInt const & data )
-	{
-		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicAdd2DIU( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	UInt imageAtomicAdd( IImage3D const & image
-		, IVec3 const & P
-		, UInt const & data )
-	{
-		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicAdd3DIU( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	UInt imageAtomicAdd( IImage2DRect const & image
-		, IVec2 const & P
-		, UInt const & data )
-	{
-		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicAdd2DRectIU( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	UInt imageAtomicAdd( IImageCube const & image
-		, IVec3 const & P
-		, UInt const & data )
-	{
-		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicAddCubeIU( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	UInt imageAtomicAdd( IImageBuffer const & image
-		, Int const & P
-		, UInt const & data )
-	{
-		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicAddBufferIU( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	UInt imageAtomicAdd( IImage1DArray const & image
-		, IVec2 const & P
-		, UInt const & data )
-	{
-		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicAdd1DArrayIU( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	UInt imageAtomicAdd( IImage2DArray const & image
-		,  IVec3 const & P
-		, UInt const & data )
-	{
-		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicAdd2DArrayIU( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	UInt imageAtomicAdd( IImageCubeArray const & image
-		, IVec3 const & P
-		, UInt const & data )
-	{
-		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicAddCubeArrayIU( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
 	UInt imageAtomicAdd( UImage1D const & image
 		, Int const & P
 		, UInt const & data )
 	{
 		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicAdd1DUU( makeExpr( image )
+			, expr::makeImageAtomicAdd1DU( makeExpr( image )
 				, makeExpr( P )
 				, makeExpr( data ) ) };
 	}
@@ -653,7 +491,7 @@ namespace sdw
 		, UInt const & data )
 	{
 		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicAdd2DUU( makeExpr( image )
+			, expr::makeImageAtomicAdd2DU( makeExpr( image )
 				, makeExpr( P )
 				, makeExpr( data ) ) };
 	}
@@ -662,7 +500,7 @@ namespace sdw
 		, UInt const & data )
 	{
 		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicAdd3DUU( makeExpr( image )
+			, expr::makeImageAtomicAdd3DU( makeExpr( image )
 				, makeExpr( P )
 				, makeExpr( data ) ) };
 	}
@@ -671,7 +509,7 @@ namespace sdw
 		, UInt const & data )
 	{
 		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicAdd2DRectUU( makeExpr( image )
+			, expr::makeImageAtomicAdd2DRectU( makeExpr( image )
 				, makeExpr( P )
 				, makeExpr( data ) ) };
 	}
@@ -680,7 +518,7 @@ namespace sdw
 		, UInt const & data )
 	{
 		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicAddCubeUU( makeExpr( image )
+			, expr::makeImageAtomicAddCubeU( makeExpr( image )
 				, makeExpr( P )
 				, makeExpr( data ) ) };
 	}
@@ -689,7 +527,7 @@ namespace sdw
 		, UInt const & data )
 	{
 		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicAddBufferUU( makeExpr( image )
+			, expr::makeImageAtomicAddBufferU( makeExpr( image )
 				, makeExpr( P )
 				, makeExpr( data ) ) };
 	}
@@ -698,7 +536,7 @@ namespace sdw
 		, UInt const & data )
 	{
 		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicAdd1DArrayUU( makeExpr( image )
+			, expr::makeImageAtomicAdd1DArrayU( makeExpr( image )
 				, makeExpr( P )
 				, makeExpr( data ) ) };
 	}
@@ -707,7 +545,7 @@ namespace sdw
 		, UInt const & data )
 	{
 		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicAdd2DArrayUU( makeExpr( image )
+			, expr::makeImageAtomicAdd2DArrayU( makeExpr( image )
 				, makeExpr( P )
 				, makeExpr( data ) ) };
 	}
@@ -716,52 +554,89 @@ namespace sdw
 		, UInt const & data )
 	{
 		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicAddCubeArrayUU( makeExpr( image )
+			, expr::makeImageAtomicAddCubeArrayU( makeExpr( image )
 				, makeExpr( P )
 				, makeExpr( data ) ) };
 	}
-	UInt imageAtomicAdd( Image2DMS const & image
+	Int imageAtomicAdd( IImage1D const & image
+		, Int const & P
+		, Int const & data )
+	{
+		return Int{ findShader( image, P, data )
+			, expr::makeImageAtomicAdd1DI( makeExpr( image )
+				, makeExpr( P )
+				, makeExpr( data ) ) };
+	}
+	Int imageAtomicAdd( IImage2D const & image
 		, IVec2 const & P
-		, Int const & sample
-		, UInt const & data )
+		, Int const & data )
 	{
-		return UInt{ findShader( image, P, sample, data )
-			, expr::makeImageAtomicAdd2DMSFU( makeExpr( image )
+		return Int{ findShader( image, P, data )
+			, expr::makeImageAtomicAdd2DI( makeExpr( image )
 				, makeExpr( P )
-				, makeExpr( sample )
 				, makeExpr( data ) ) };
 	}
-	UInt imageAtomicAdd( Image2DMSArray const & image
+	Int imageAtomicAdd( IImage3D const & image
 		, IVec3 const & P
-		, Int const & sample
-		, UInt const & data )
+		, Int const & data )
 	{
-		return UInt{ findShader( image, P, sample, data )
-			, expr::makeImageAtomicAdd2DMSArrayFU( makeExpr( image )
+		return Int{ findShader( image, P, data )
+			, expr::makeImageAtomicAdd3DI( makeExpr( image )
 				, makeExpr( P )
-				, makeExpr( sample )
 				, makeExpr( data ) ) };
 	}
-	UInt imageAtomicAdd( IImage2DMS const & image
+	Int imageAtomicAdd( IImage2DRect const & image
 		, IVec2 const & P
-		, Int const & sample
-		, UInt const & data )
+		, Int const & data )
 	{
-		return UInt{ findShader( image, P, sample, data )
-			, expr::makeImageAtomicAdd2DMSIU( makeExpr( image )
+		return Int{ findShader( image, P, data )
+			, expr::makeImageAtomicAdd2DRectI( makeExpr( image )
 				, makeExpr( P )
-				, makeExpr( sample )
 				, makeExpr( data ) ) };
 	}
-	UInt imageAtomicAdd( IImage2DMSArray const & image
+	Int imageAtomicAdd( IImageCube const & image
 		, IVec3 const & P
-		, Int const & sample
-		, UInt const & data )
+		, Int const & data )
 	{
-		return UInt{ findShader( image, P, sample, data )
-			, expr::makeImageAtomicAdd2DMSArrayIU( makeExpr( image )
+		return Int{ findShader( image, P, data )
+			, expr::makeImageAtomicAddCubeI( makeExpr( image )
 				, makeExpr( P )
-				, makeExpr( sample )
+				, makeExpr( data ) ) };
+	}
+	Int imageAtomicAdd( IImageBuffer const & image
+		, Int const & P
+		, Int const & data )
+	{
+		return Int{ findShader( image, P, data )
+			, expr::makeImageAtomicAddBufferI( makeExpr( image )
+				, makeExpr( P )
+				, makeExpr( data ) ) };
+	}
+	Int imageAtomicAdd( IImage1DArray const & image
+		, IVec2 const & P
+		, Int const & data )
+	{
+		return Int{ findShader( image, P, data )
+			, expr::makeImageAtomicAdd1DArrayI( makeExpr( image )
+				, makeExpr( P )
+				, makeExpr( data ) ) };
+	}
+	Int imageAtomicAdd( IImage2DArray const & image
+		, IVec3 const & P
+		, Int const & data )
+	{
+		return Int{ findShader( image, P, data )
+			, expr::makeImageAtomicAdd2DArrayI( makeExpr( image )
+				, makeExpr( P )
+				, makeExpr( data ) ) };
+	}
+	Int imageAtomicAdd( IImageCubeArray const & image
+		, IVec3 const & P
+		, Int const & data )
+	{
+		return Int{ findShader( image, P, data )
+			, expr::makeImageAtomicAddCubeArrayI( makeExpr( image )
+				, makeExpr( P )
 				, makeExpr( data ) ) };
 	}
 	UInt imageAtomicAdd( UImage2DMS const & image
@@ -770,7 +645,7 @@ namespace sdw
 		, UInt const & data )
 	{
 		return UInt{ findShader( image, P, sample, data )
-			, expr::makeImageAtomicAdd2DMSUU( makeExpr( image )
+			, expr::makeImageAtomicAdd2DMSU( makeExpr( image )
 				, makeExpr( P )
 				, makeExpr( sample )
 				, makeExpr( data ) ) };
@@ -781,280 +656,7 @@ namespace sdw
 		, UInt const & data )
 	{
 		return UInt{ findShader( image, P, sample, data )
-			, expr::makeImageAtomicAdd2DMSArrayUU( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( sample )
-				, makeExpr( data ) ) };
-	}
-	/**@}*/
-#pragma endregion
-#pragma region imageAtomicAddI
-	/**
-	*name
-	*	imageAtomicAddI
-	*/
-	/**@{*/
-	Int imageAtomicAdd( Image1D const & image
-		, Int const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicAdd1DFI( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicAdd( Image2D const & image
-		, IVec2 const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicAdd2DFI( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicAdd( Image3D const & image
-		, IVec3 const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicAdd3DFI( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicAdd( Image2DRect const & image
-		, IVec2 const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicAdd2DRectFI( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicAdd( ImageCube const & image
-		, IVec3 const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicAddCubeFI( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicAdd( ImageBuffer const & image
-		, Int const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicAddBufferFI( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicAdd( Image1DArray const & image
-		, IVec2 const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicAdd1DArrayFI( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicAdd( Image2DArray const & image
-		, IVec3 const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicAdd2DArrayFI( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicAdd( ImageCubeArray const & image
-		, IVec3 const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicAddCubeArrayFI( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicAdd( IImage1D const & image
-		, Int const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicAdd1DII( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicAdd( IImage2D const & image
-		, IVec2 const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicAdd2DII( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicAdd( IImage3D const & image
-		, IVec3 const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicAdd3DII( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicAdd( IImage2DRect const & image
-		, IVec2 const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicAdd2DRectII( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicAdd( IImageCube const & image
-		, IVec3 const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicAddCubeII( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicAdd( IImageBuffer const & image
-		, Int const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicAddBufferII( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicAdd( IImage1DArray const & image
-		, IVec2 const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicAdd1DArrayII( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicAdd( IImage2DArray const & image
-		, IVec3 const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicAdd2DArrayII( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicAdd( IImageCubeArray const & image
-		, IVec3 const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicAddCubeArrayII( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicAdd( UImage1D const & image
-		, Int const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicAdd1DUI( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicAdd( UImage2D const & image
-		, IVec2 const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicAdd2DUI( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicAdd( UImage3D const & image
-		, IVec3 const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicAdd3DUI( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicAdd( UImage2DRect const & image
-		, IVec2 const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicAdd2DRectUI( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicAdd( UImageCube const & image
-		, IVec3 const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicAddCubeUI( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicAdd( UImageBuffer const & image
-		, Int const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicAddBufferUI( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicAdd( UImage1DArray const & image
-		, IVec2 const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicAdd1DArrayUI( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicAdd( UImage2DArray const & image
-		, IVec3 const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicAdd2DArrayUI( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicAdd( UImageCubeArray const & image
-		, IVec3 const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicAddCubeArrayUI( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicAdd( Image2DMS const & image
-		, IVec2 const & P
-		, Int const & sample
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, sample, data )
-			, expr::makeImageAtomicAdd2DMSFI( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( sample )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicAdd( Image2DMSArray const & image
-		, IVec3 const & P
-		, Int const & sample
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, sample, data )
-			, expr::makeImageAtomicAdd2DMSArrayFI( makeExpr( image )
+			, expr::makeImageAtomicAdd2DMSArrayU( makeExpr( image )
 				, makeExpr( P )
 				, makeExpr( sample )
 				, makeExpr( data ) ) };
@@ -1065,7 +667,7 @@ namespace sdw
 		, Int const & data )
 	{
 		return Int{ findShader( image, P, sample, data )
-			, expr::makeImageAtomicAdd2DMSII( makeExpr( image )
+			, expr::makeImageAtomicAdd2DMSI( makeExpr( image )
 				, makeExpr( P )
 				, makeExpr( sample )
 				, makeExpr( data ) ) };
@@ -1076,209 +678,25 @@ namespace sdw
 		, Int const & data )
 	{
 		return Int{ findShader( image, P, sample, data )
-			, expr::makeImageAtomicAdd2DMSArrayII( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( sample )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicAdd( UImage2DMS const & image
-		, IVec2 const & P
-		, Int const & sample
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, sample, data )
-			, expr::makeImageAtomicAdd2DMSUI( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( sample )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicAdd( UImage2DMSArray const & image
-		, IVec3 const & P
-		, Int const & sample
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, sample, data )
-			, expr::makeImageAtomicAdd2DMSArrayUI( makeExpr( image )
+			, expr::makeImageAtomicAdd2DMSArrayI( makeExpr( image )
 				, makeExpr( P )
 				, makeExpr( sample )
 				, makeExpr( data ) ) };
 	}
 	/**@}*/
 #pragma endregion
-#pragma region imageAtomicMinU
+#pragma region imageAtomicMin
 	/**
 	*name
-	*	imageAtomicMinU
+	*	imageAtomicMin
 	*/
 	/**@{*/
-	UInt imageAtomicMin( Image1D const & image
-		, Int const & P
-		, UInt const & data )
-	{
-		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicMin1DFU( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	UInt imageAtomicMin( Image2D const & image
-		, IVec2 const & P
-		, UInt const & data )
-	{
-		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicMin2DFU( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	UInt imageAtomicMin( Image3D const & image
-		, IVec3 const & P
-		, UInt const & data )
-	{
-		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicMin3DFU( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	UInt imageAtomicMin( Image2DRect const & image
-		, IVec2 const & P
-		, UInt const & data )
-	{
-		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicMin2DRectFU( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	UInt imageAtomicMin( ImageCube const & image
-		, IVec3 const & P
-		, UInt const & data )
-	{
-		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicMinCubeFU( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	UInt imageAtomicMin( ImageBuffer const & image
-		, Int const & P
-		, UInt const & data )
-	{
-		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicMinBufferFU( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	UInt imageAtomicMin( Image1DArray const & image
-		, IVec2 const & P
-		, UInt const & data )
-	{
-		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicMin1DArrayFU( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	UInt imageAtomicMin( Image2DArray const & image
-		, IVec3 const & P
-		, UInt const & data )
-	{
-		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicMin2DArrayFU( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	UInt imageAtomicMin( ImageCubeArray const & image
-		, IVec3 const & P
-		, UInt const & data )
-	{
-		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicMinCubeArrayFU( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	UInt imageAtomicMin( IImage1D const & image
-		, Int const & P
-		, UInt const & data )
-	{
-		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicMin1DIU( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	UInt imageAtomicMin( IImage2D const & image
-		, IVec2 const & P
-		, UInt const & data )
-	{
-		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicMin2DIU( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	UInt imageAtomicMin( IImage3D const & image
-		, IVec3 const & P
-		, UInt const & data )
-	{
-		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicMin3DIU( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	UInt imageAtomicMin( IImage2DRect const & image
-		, IVec2 const & P
-		, UInt const & data )
-	{
-		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicMin2DRectIU( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	UInt imageAtomicMin( IImageCube const & image
-		, IVec3 const & P
-		, UInt const & data )
-	{
-		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicMinCubeIU( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	UInt imageAtomicMin( IImageBuffer const & image
-		, Int const & P
-		, UInt const & data )
-	{
-		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicMinBufferIU( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	UInt imageAtomicMin( IImage1DArray const & image
-		, IVec2 const & P
-		, UInt const & data )
-	{
-		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicMin1DArrayIU( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	UInt imageAtomicMin( IImage2DArray const & image
-		, IVec3 const & P
-		, UInt const & data )
-	{
-		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicMin2DArrayIU( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	UInt imageAtomicMin( IImageCubeArray const & image
-		, IVec3 const & P
-		, UInt const & data )
-	{
-		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicMinCubeArrayIU( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
 	UInt imageAtomicMin( UImage1D const & image
 		, Int const & P
 		, UInt const & data )
 	{
 		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicMin1DUU( makeExpr( image )
+			, expr::makeImageAtomicMin1DU( makeExpr( image )
 				, makeExpr( P )
 				, makeExpr( data ) ) };
 	}
@@ -1287,7 +705,7 @@ namespace sdw
 		, UInt const & data )
 	{
 		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicMin2DUU( makeExpr( image )
+			, expr::makeImageAtomicMin2DU( makeExpr( image )
 				, makeExpr( P )
 				, makeExpr( data ) ) };
 	}
@@ -1296,7 +714,7 @@ namespace sdw
 		, UInt const & data )
 	{
 		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicMin3DUU( makeExpr( image )
+			, expr::makeImageAtomicMin3DU( makeExpr( image )
 				, makeExpr( P )
 				, makeExpr( data ) ) };
 	}
@@ -1305,7 +723,7 @@ namespace sdw
 		, UInt const & data )
 	{
 		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicMin2DRectUU( makeExpr( image )
+			, expr::makeImageAtomicMin2DRectU( makeExpr( image )
 				, makeExpr( P )
 				, makeExpr( data ) ) };
 	}
@@ -1314,7 +732,7 @@ namespace sdw
 		, UInt const & data )
 	{
 		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicMinCubeUU( makeExpr( image )
+			, expr::makeImageAtomicMinCubeU( makeExpr( image )
 				, makeExpr( P )
 				, makeExpr( data ) ) };
 	}
@@ -1323,7 +741,7 @@ namespace sdw
 		, UInt const & data )
 	{
 		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicMinBufferUU( makeExpr( image )
+			, expr::makeImageAtomicMinBufferU( makeExpr( image )
 				, makeExpr( P )
 				, makeExpr( data ) ) };
 	}
@@ -1332,7 +750,7 @@ namespace sdw
 		, UInt const & data )
 	{
 		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicMin1DArrayUU( makeExpr( image )
+			, expr::makeImageAtomicMin1DArrayU( makeExpr( image )
 				, makeExpr( P )
 				, makeExpr( data ) ) };
 	}
@@ -1341,7 +759,7 @@ namespace sdw
 		, UInt const & data )
 	{
 		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicMin2DArrayUU( makeExpr( image )
+			, expr::makeImageAtomicMin2DArrayU( makeExpr( image )
 				, makeExpr( P )
 				, makeExpr( data ) ) };
 	}
@@ -1350,52 +768,89 @@ namespace sdw
 		, UInt const & data )
 	{
 		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicMinCubeArrayUU( makeExpr( image )
+			, expr::makeImageAtomicMinCubeArrayU( makeExpr( image )
 				, makeExpr( P )
 				, makeExpr( data ) ) };
 	}
-	UInt imageAtomicMin( Image2DMS const & image
+	Int imageAtomicMin( IImage1D const & image
+		, Int const & P
+		, Int const & data )
+	{
+		return Int{ findShader( image, P, data )
+			, expr::makeImageAtomicMin1DI( makeExpr( image )
+				, makeExpr( P )
+				, makeExpr( data ) ) };
+	}
+	Int imageAtomicMin( IImage2D const & image
 		, IVec2 const & P
-		, Int const & sample
-		, UInt const & data )
+		, Int const & data )
 	{
-		return UInt{ findShader( image, P, sample, data )
-			, expr::makeImageAtomicMin2DMSFU( makeExpr( image )
+		return Int{ findShader( image, P, data )
+			, expr::makeImageAtomicMin2DI( makeExpr( image )
 				, makeExpr( P )
-				, makeExpr( sample )
 				, makeExpr( data ) ) };
 	}
-	UInt imageAtomicMin( Image2DMSArray const & image
+	Int imageAtomicMin( IImage3D const & image
 		, IVec3 const & P
-		, Int const & sample
-		, UInt const & data )
+		, Int const & data )
 	{
-		return UInt{ findShader( image, P, sample, data )
-			, expr::makeImageAtomicMin2DMSArrayFU( makeExpr( image )
+		return Int{ findShader( image, P, data )
+			, expr::makeImageAtomicMin3DI( makeExpr( image )
 				, makeExpr( P )
-				, makeExpr( sample )
 				, makeExpr( data ) ) };
 	}
-	UInt imageAtomicMin( IImage2DMS const & image
+	Int imageAtomicMin( IImage2DRect const & image
 		, IVec2 const & P
-		, Int const & sample
-		, UInt const & data )
+		, Int const & data )
 	{
-		return UInt{ findShader( image, P, sample, data )
-			, expr::makeImageAtomicMin2DMSIU( makeExpr( image )
+		return Int{ findShader( image, P, data )
+			, expr::makeImageAtomicMin2DRectI( makeExpr( image )
 				, makeExpr( P )
-				, makeExpr( sample )
 				, makeExpr( data ) ) };
 	}
-	UInt imageAtomicMin( IImage2DMSArray const & image
+	Int imageAtomicMin( IImageCube const & image
 		, IVec3 const & P
-		, Int const & sample
-		, UInt const & data )
+		, Int const & data )
 	{
-		return UInt{ findShader( image, P, sample, data )
-			, expr::makeImageAtomicMin2DMSArrayIU( makeExpr( image )
+		return Int{ findShader( image, P, data )
+			, expr::makeImageAtomicMinCubeI( makeExpr( image )
 				, makeExpr( P )
-				, makeExpr( sample )
+				, makeExpr( data ) ) };
+	}
+	Int imageAtomicMin( IImageBuffer const & image
+		, Int const & P
+		, Int const & data )
+	{
+		return Int{ findShader( image, P, data )
+			, expr::makeImageAtomicMinBufferI( makeExpr( image )
+				, makeExpr( P )
+				, makeExpr( data ) ) };
+	}
+	Int imageAtomicMin( IImage1DArray const & image
+		, IVec2 const & P
+		, Int const & data )
+	{
+		return Int{ findShader( image, P, data )
+			, expr::makeImageAtomicMin1DArrayI( makeExpr( image )
+				, makeExpr( P )
+				, makeExpr( data ) ) };
+	}
+	Int imageAtomicMin( IImage2DArray const & image
+		, IVec3 const & P
+		, Int const & data )
+	{
+		return Int{ findShader( image, P, data )
+			, expr::makeImageAtomicMin2DArrayI( makeExpr( image )
+				, makeExpr( P )
+				, makeExpr( data ) ) };
+	}
+	Int imageAtomicMin( IImageCubeArray const & image
+		, IVec3 const & P
+		, Int const & data )
+	{
+		return Int{ findShader( image, P, data )
+			, expr::makeImageAtomicMinCubeArrayI( makeExpr( image )
+				, makeExpr( P )
 				, makeExpr( data ) ) };
 	}
 	UInt imageAtomicMin( UImage2DMS const & image
@@ -1404,7 +859,7 @@ namespace sdw
 		, UInt const & data )
 	{
 		return UInt{ findShader( image, P, sample, data )
-			, expr::makeImageAtomicMin2DMSUU( makeExpr( image )
+			, expr::makeImageAtomicMin2DMSU( makeExpr( image )
 				, makeExpr( P )
 				, makeExpr( sample )
 				, makeExpr( data ) ) };
@@ -1415,280 +870,7 @@ namespace sdw
 		, UInt const & data )
 	{
 		return UInt{ findShader( image, P, sample, data )
-			, expr::makeImageAtomicMin2DMSArrayUU( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( sample )
-				, makeExpr( data ) ) };
-	}
-	/**@}*/
-#pragma endregion
-#pragma region imageAtomicMinI
-	/**
-	*name
-	*	imageAtomicMinI
-	*/
-	/**@{*/
-	Int imageAtomicMin( Image1D const & image
-		, Int const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicMin1DFI( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicMin( Image2D const & image
-		, IVec2 const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicMin2DFI( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicMin( Image3D const & image
-		, IVec3 const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicMin3DFI( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicMin( Image2DRect const & image
-		, IVec2 const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicMin2DRectFI( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicMin( ImageCube const & image
-		, IVec3 const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicMinCubeFI( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicMin( ImageBuffer const & image
-		, Int const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicMinBufferFI( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicMin( Image1DArray const & image
-		, IVec2 const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicMin1DArrayFI( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicMin( Image2DArray const & image
-		, IVec3 const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicMin2DArrayFI( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicMin( ImageCubeArray const & image
-		, IVec3 const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicMinCubeArrayFI( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicMin( IImage1D const & image
-		, Int const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicMin1DII( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicMin( IImage2D const & image
-		, IVec2 const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicMin2DII( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicMin( IImage3D const & image
-		, IVec3 const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicMin3DII( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicMin( IImage2DRect const & image
-		, IVec2 const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicMin2DRectII( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicMin( IImageCube const & image
-		, IVec3 const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicMinCubeII( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicMin( IImageBuffer const & image
-		, Int const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicMinBufferII( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicMin( IImage1DArray const & image
-		, IVec2 const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicMin1DArrayII( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicMin( IImage2DArray const & image
-		, IVec3 const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicMin2DArrayII( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicMin( IImageCubeArray const & image
-		, IVec3 const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicMinCubeArrayII( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicMin( UImage1D const & image
-		, Int const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicMin1DUI( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicMin( UImage2D const & image
-		, IVec2 const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicMin2DUI( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicMin( UImage3D const & image
-		, IVec3 const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicMin3DUI( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicMin( UImage2DRect const & image
-		, IVec2 const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicMin2DRectUI( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicMin( UImageCube const & image
-		, IVec3 const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicMinCubeUI( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicMin( UImageBuffer const & image
-		, Int const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicMinBufferUI( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicMin( UImage1DArray const & image
-		, IVec2 const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicMin1DArrayUI( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicMin( UImage2DArray const & image
-		, IVec3 const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicMin2DArrayUI( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicMin( UImageCubeArray const & image
-		, IVec3 const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicMinCubeArrayUI( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicMin( Image2DMS const & image
-		, IVec2 const & P
-		, Int const & sample
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, sample, data )
-			, expr::makeImageAtomicMin2DMSFI( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( sample )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicMin( Image2DMSArray const & image
-		, IVec3 const & P
-		, Int const & sample
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, sample, data )
-			, expr::makeImageAtomicMin2DMSArrayFI( makeExpr( image )
+			, expr::makeImageAtomicMin2DMSArrayU( makeExpr( image )
 				, makeExpr( P )
 				, makeExpr( sample )
 				, makeExpr( data ) ) };
@@ -1699,7 +881,7 @@ namespace sdw
 		, Int const & data )
 	{
 		return Int{ findShader( image, P, sample, data )
-			, expr::makeImageAtomicMin2DMSII( makeExpr( image )
+			, expr::makeImageAtomicMin2DMSI( makeExpr( image )
 				, makeExpr( P )
 				, makeExpr( sample )
 				, makeExpr( data ) ) };
@@ -1710,209 +892,25 @@ namespace sdw
 		, Int const & data )
 	{
 		return Int{ findShader( image, P, sample, data )
-			, expr::makeImageAtomicMin2DMSArrayII( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( sample )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicMin( UImage2DMS const & image
-		, IVec2 const & P
-		, Int const & sample
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, sample, data )
-			, expr::makeImageAtomicMin2DMSUI( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( sample )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicMin( UImage2DMSArray const & image
-		, IVec3 const & P
-		, Int const & sample
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, sample, data )
-			, expr::makeImageAtomicMin2DMSArrayUI( makeExpr( image )
+			, expr::makeImageAtomicMin2DMSArrayI( makeExpr( image )
 				, makeExpr( P )
 				, makeExpr( sample )
 				, makeExpr( data ) ) };
 	}
 	/**@}*/
 #pragma endregion
-#pragma region imageAtomicMaxU
+#pragma region imageAtomicMax
 	/**
 	*name
-	*	imageAtomicMaxU
+	*	imageAtomicMax
 	*/
 	/**@{*/
-	UInt imageAtomicMax( Image1D const & image
-		, Int const & P
-		, UInt const & data )
-	{
-		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicMax1DFU( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	UInt imageAtomicMax( Image2D const & image
-		, IVec2 const & P
-		, UInt const & data )
-	{
-		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicMax2DFU( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	UInt imageAtomicMax( Image3D const & image
-		, IVec3 const & P
-		, UInt const & data )
-	{
-		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicMax3DFU( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	UInt imageAtomicMax( Image2DRect const & image
-		, IVec2 const & P
-		, UInt const & data )
-	{
-		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicMax2DRectFU( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	UInt imageAtomicMax( ImageCube const & image
-		, IVec3 const & P
-		, UInt const & data )
-	{
-		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicMaxCubeFU( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	UInt imageAtomicMax( ImageBuffer const & image
-		, Int const & P
-		, UInt const & data )
-	{
-		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicMaxBufferFU( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	UInt imageAtomicMax( Image1DArray const & image
-		, IVec2 const & P
-		, UInt const & data )
-	{
-		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicMax1DArrayFU( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	UInt imageAtomicMax( Image2DArray const & image
-		, IVec3 const & P
-		, UInt const & data )
-	{
-		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicMax2DArrayFU( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	UInt imageAtomicMax( ImageCubeArray const & image
-		, IVec3 const & P
-		, UInt const & data )
-	{
-		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicMaxCubeArrayFU( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	UInt imageAtomicMax( IImage1D const & image
-		, Int const & P
-		, UInt const & data )
-	{
-		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicMax1DIU( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	UInt imageAtomicMax( IImage2D const & image
-		, IVec2 const & P
-		, UInt const & data )
-	{
-		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicMax2DIU( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	UInt imageAtomicMax( IImage3D const & image
-		, IVec3 const & P
-		, UInt const & data )
-	{
-		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicMax3DIU( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	UInt imageAtomicMax( IImage2DRect const & image
-		, IVec2 const & P
-		, UInt const & data )
-	{
-		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicMax2DRectIU( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	UInt imageAtomicMax( IImageCube const & image
-		, IVec3 const & P
-		, UInt const & data )
-	{
-		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicMaxCubeIU( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	UInt imageAtomicMax( IImageBuffer const & image
-		, Int const & P
-		, UInt const & data )
-	{
-		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicMaxBufferIU( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	UInt imageAtomicMax( IImage1DArray const & image
-		, IVec2 const & P
-		, UInt const & data )
-	{
-		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicMax1DArrayIU( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	UInt imageAtomicMax( IImage2DArray const & image
-		, IVec3 const & P
-		, UInt const & data )
-	{
-		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicMax2DArrayIU( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	UInt imageAtomicMax( IImageCubeArray const & image
-		, IVec3 const & P
-		, UInt const & data )
-	{
-		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicMaxCubeArrayIU( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
 	UInt imageAtomicMax( UImage1D const & image
 		, Int const & P
 		, UInt const & data )
 	{
 		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicMax1DUU( makeExpr( image )
+			, expr::makeImageAtomicMax1DU( makeExpr( image )
 				, makeExpr( P )
 				, makeExpr( data ) ) };
 	}
@@ -1921,7 +919,7 @@ namespace sdw
 		, UInt const & data )
 	{
 		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicMax2DUU( makeExpr( image )
+			, expr::makeImageAtomicMax2DU( makeExpr( image )
 				, makeExpr( P )
 				, makeExpr( data ) ) };
 	}
@@ -1930,7 +928,7 @@ namespace sdw
 		, UInt const & data )
 	{
 		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicMax3DUU( makeExpr( image )
+			, expr::makeImageAtomicMax3DU( makeExpr( image )
 				, makeExpr( P )
 				, makeExpr( data ) ) };
 	}
@@ -1939,7 +937,7 @@ namespace sdw
 		, UInt const & data )
 	{
 		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicMax2DRectUU( makeExpr( image )
+			, expr::makeImageAtomicMax2DRectU( makeExpr( image )
 				, makeExpr( P )
 				, makeExpr( data ) ) };
 	}
@@ -1948,7 +946,7 @@ namespace sdw
 		, UInt const & data )
 	{
 		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicMaxCubeUU( makeExpr( image )
+			, expr::makeImageAtomicMaxCubeU( makeExpr( image )
 				, makeExpr( P )
 				, makeExpr( data ) ) };
 	}
@@ -1957,7 +955,7 @@ namespace sdw
 		, UInt const & data )
 	{
 		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicMaxBufferUU( makeExpr( image )
+			, expr::makeImageAtomicMaxBufferU( makeExpr( image )
 				, makeExpr( P )
 				, makeExpr( data ) ) };
 	}
@@ -1966,7 +964,7 @@ namespace sdw
 		, UInt const & data )
 	{
 		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicMax1DArrayUU( makeExpr( image )
+			, expr::makeImageAtomicMax1DArrayU( makeExpr( image )
 				, makeExpr( P )
 				, makeExpr( data ) ) };
 	}
@@ -1975,7 +973,7 @@ namespace sdw
 		, UInt const & data )
 	{
 		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicMax2DArrayUU( makeExpr( image )
+			, expr::makeImageAtomicMax2DArrayU( makeExpr( image )
 				, makeExpr( P )
 				, makeExpr( data ) ) };
 	}
@@ -1984,52 +982,89 @@ namespace sdw
 		, UInt const & data )
 	{
 		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicMaxCubeArrayUU( makeExpr( image )
+			, expr::makeImageAtomicMaxCubeArrayU( makeExpr( image )
 				, makeExpr( P )
 				, makeExpr( data ) ) };
 	}
-	UInt imageAtomicMax( Image2DMS const & image
+	Int imageAtomicMax( IImage1D const & image
+		, Int const & P
+		, Int const & data )
+	{
+		return Int{ findShader( image, P, data )
+			, expr::makeImageAtomicMax1DI( makeExpr( image )
+				, makeExpr( P )
+				, makeExpr( data ) ) };
+	}
+	Int imageAtomicMax( IImage2D const & image
 		, IVec2 const & P
-		, Int const & sample
-		, UInt const & data )
+		, Int const & data )
 	{
-		return UInt{ findShader( image, P, sample, data )
-			, expr::makeImageAtomicMax2DMSFU( makeExpr( image )
+		return Int{ findShader( image, P, data )
+			, expr::makeImageAtomicMax2DI( makeExpr( image )
 				, makeExpr( P )
-				, makeExpr( sample )
 				, makeExpr( data ) ) };
 	}
-	UInt imageAtomicMax( Image2DMSArray const & image
+	Int imageAtomicMax( IImage3D const & image
 		, IVec3 const & P
-		, Int const & sample
-		, UInt const & data )
+		, Int const & data )
 	{
-		return UInt{ findShader( image, P, sample, data )
-			, expr::makeImageAtomicMax2DMSArrayFU( makeExpr( image )
+		return Int{ findShader( image, P, data )
+			, expr::makeImageAtomicMax3DI( makeExpr( image )
 				, makeExpr( P )
-				, makeExpr( sample )
 				, makeExpr( data ) ) };
 	}
-	UInt imageAtomicMax( IImage2DMS const & image
+	Int imageAtomicMax( IImage2DRect const & image
 		, IVec2 const & P
-		, Int const & sample
-		, UInt const & data )
+		, Int const & data )
 	{
-		return UInt{ findShader( image, P, sample, data )
-			, expr::makeImageAtomicMax2DMSIU( makeExpr( image )
+		return Int{ findShader( image, P, data )
+			, expr::makeImageAtomicMax2DRectI( makeExpr( image )
 				, makeExpr( P )
-				, makeExpr( sample )
 				, makeExpr( data ) ) };
 	}
-	UInt imageAtomicMax( IImage2DMSArray const & image
+	Int imageAtomicMax( IImageCube const & image
 		, IVec3 const & P
-		, Int const & sample
-		, UInt const & data )
+		, Int const & data )
 	{
-		return UInt{ findShader( image, P, sample, data )
-			, expr::makeImageAtomicMax2DMSArrayIU( makeExpr( image )
+		return Int{ findShader( image, P, data )
+			, expr::makeImageAtomicMaxCubeI( makeExpr( image )
 				, makeExpr( P )
-				, makeExpr( sample )
+				, makeExpr( data ) ) };
+	}
+	Int imageAtomicMax( IImageBuffer const & image
+		, Int const & P
+		, Int const & data )
+	{
+		return Int{ findShader( image, P, data )
+			, expr::makeImageAtomicMaxBufferI( makeExpr( image )
+				, makeExpr( P )
+				, makeExpr( data ) ) };
+	}
+	Int imageAtomicMax( IImage1DArray const & image
+		, IVec2 const & P
+		, Int const & data )
+	{
+		return Int{ findShader( image, P, data )
+			, expr::makeImageAtomicMax1DArrayI( makeExpr( image )
+				, makeExpr( P )
+				, makeExpr( data ) ) };
+	}
+	Int imageAtomicMax( IImage2DArray const & image
+		, IVec3 const & P
+		, Int const & data )
+	{
+		return Int{ findShader( image, P, data )
+			, expr::makeImageAtomicMax2DArrayI( makeExpr( image )
+				, makeExpr( P )
+				, makeExpr( data ) ) };
+	}
+	Int imageAtomicMax( IImageCubeArray const & image
+		, IVec3 const & P
+		, Int const & data )
+	{
+		return Int{ findShader( image, P, data )
+			, expr::makeImageAtomicMaxCubeArrayI( makeExpr( image )
+				, makeExpr( P )
 				, makeExpr( data ) ) };
 	}
 	UInt imageAtomicMax( UImage2DMS const & image
@@ -2038,7 +1073,7 @@ namespace sdw
 		, UInt const & data )
 	{
 		return UInt{ findShader( image, P, sample, data )
-			, expr::makeImageAtomicMax2DMSUU( makeExpr( image )
+			, expr::makeImageAtomicMax2DMSU( makeExpr( image )
 				, makeExpr( P )
 				, makeExpr( sample )
 				, makeExpr( data ) ) };
@@ -2049,280 +1084,7 @@ namespace sdw
 		, UInt const & data )
 	{
 		return UInt{ findShader( image, P, sample, data )
-			, expr::makeImageAtomicMax2DMSArrayUU( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( sample )
-				, makeExpr( data ) ) };
-	}
-	/**@}*/
-#pragma endregion
-#pragma region imageAtomicMaxI
-	/**
-	*name
-	*	imageAtomicMaxI
-	*/
-	/**@{*/
-	Int imageAtomicMax( Image1D const & image
-		, Int const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicMax1DFI( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicMax( Image2D const & image
-		, IVec2 const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicMax2DFI( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicMax( Image3D const & image
-		, IVec3 const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicMax3DFI( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicMax( Image2DRect const & image
-		, IVec2 const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicMax2DRectFI( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicMax( ImageCube const & image
-		, IVec3 const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicMaxCubeFI( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicMax( ImageBuffer const & image
-		, Int const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicMaxBufferFI( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicMax( Image1DArray const & image
-		, IVec2 const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicMax1DArrayFI( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicMax( Image2DArray const & image
-		, IVec3 const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicMax2DArrayFI( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicMax( ImageCubeArray const & image
-		, IVec3 const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicMaxCubeArrayFI( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicMax( IImage1D const & image
-		, Int const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicMax1DII( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicMax( IImage2D const & image
-		, IVec2 const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicMax2DII( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicMax( IImage3D const & image
-		, IVec3 const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicMax3DII( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicMax( IImage2DRect const & image
-		, IVec2 const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicMax2DRectII( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicMax( IImageCube const & image
-		, IVec3 const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicMaxCubeII( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicMax( IImageBuffer const & image
-		, Int const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicMaxBufferII( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicMax( IImage1DArray const & image
-		, IVec2 const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicMax1DArrayII( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicMax( IImage2DArray const & image
-		, IVec3 const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicMax2DArrayII( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicMax( IImageCubeArray const & image
-		, IVec3 const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicMaxCubeArrayII( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicMax( UImage1D const & image
-		, Int const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicMax1DUI( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicMax( UImage2D const & image
-		, IVec2 const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicMax2DUI( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicMax( UImage3D const & image
-		, IVec3 const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicMax3DUI( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicMax( UImage2DRect const & image
-		, IVec2 const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicMax2DRectUI( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicMax( UImageCube const & image
-		, IVec3 const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicMaxCubeUI( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicMax( UImageBuffer const & image
-		, Int const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicMaxBufferUI( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicMax( UImage1DArray const & image
-		, IVec2 const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicMax1DArrayUI( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicMax( UImage2DArray const & image
-		, IVec3 const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicMax2DArrayUI( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicMax( UImageCubeArray const & image
-		, IVec3 const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicMaxCubeArrayUI( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicMax( Image2DMS const & image
-		, IVec2 const & P
-		, Int const & sample
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, sample, data )
-			, expr::makeImageAtomicMax2DMSFI( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( sample )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicMax( Image2DMSArray const & image
-		, IVec3 const & P
-		, Int const & sample
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, sample, data )
-			, expr::makeImageAtomicMax2DMSArrayFI( makeExpr( image )
+			, expr::makeImageAtomicMax2DMSArrayU( makeExpr( image )
 				, makeExpr( P )
 				, makeExpr( sample )
 				, makeExpr( data ) ) };
@@ -2333,7 +1095,7 @@ namespace sdw
 		, Int const & data )
 	{
 		return Int{ findShader( image, P, sample, data )
-			, expr::makeImageAtomicMax2DMSII( makeExpr( image )
+			, expr::makeImageAtomicMax2DMSI( makeExpr( image )
 				, makeExpr( P )
 				, makeExpr( sample )
 				, makeExpr( data ) ) };
@@ -2344,209 +1106,25 @@ namespace sdw
 		, Int const & data )
 	{
 		return Int{ findShader( image, P, sample, data )
-			, expr::makeImageAtomicMax2DMSArrayII( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( sample )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicMax( UImage2DMS const & image
-		, IVec2 const & P
-		, Int const & sample
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, sample, data )
-			, expr::makeImageAtomicMax2DMSUI( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( sample )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicMax( UImage2DMSArray const & image
-		, IVec3 const & P
-		, Int const & sample
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, sample, data )
-			, expr::makeImageAtomicMax2DMSArrayUI( makeExpr( image )
+			, expr::makeImageAtomicMax2DMSArrayI( makeExpr( image )
 				, makeExpr( P )
 				, makeExpr( sample )
 				, makeExpr( data ) ) };
 	}
 	/**@}*/
 #pragma endregion
-#pragma region imageAtomicAndU
+#pragma region imageAtomicAnd
 	/**
 	*name
-	*	imageAtomicAndU
+	*	imageAtomicAnd
 	*/
 	/**@{*/
-	UInt imageAtomicAnd( Image1D const & image
-		, Int const & P
-		, UInt const & data )
-	{
-		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicAnd1DFU( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	UInt imageAtomicAnd( Image2D const & image
-		, IVec2 const & P
-		, UInt const & data )
-	{
-		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicAnd2DFU( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	UInt imageAtomicAnd( Image3D const & image
-		, IVec3 const & P
-		, UInt const & data )
-	{
-		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicAnd3DFU( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	UInt imageAtomicAnd( Image2DRect const & image
-		, IVec2 const & P
-		, UInt const & data )
-	{
-		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicAnd2DRectFU( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	UInt imageAtomicAnd( ImageCube const & image
-		, IVec3 const & P
-		, UInt const & data )
-	{
-		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicAndCubeFU( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	UInt imageAtomicAnd( ImageBuffer const & image
-		, Int const & P
-		, UInt const & data )
-	{
-		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicAndBufferFU( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	UInt imageAtomicAnd( Image1DArray const & image
-		, IVec2 const & P
-		, UInt const & data )
-	{
-		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicAnd1DArrayFU( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	UInt imageAtomicAnd( Image2DArray const & image
-		, IVec3 const & P
-		, UInt const & data )
-	{
-		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicAnd2DArrayFU( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	UInt imageAtomicAnd( ImageCubeArray const & image
-		, IVec3 const & P
-		, UInt const & data )
-	{
-		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicAndCubeArrayFU( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	UInt imageAtomicAnd( IImage1D const & image
-		, Int const & P
-		, UInt const & data )
-	{
-		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicAnd1DIU( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	UInt imageAtomicAnd( IImage2D const & image
-		, IVec2 const & P
-		, UInt const & data )
-	{
-		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicAnd2DIU( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	UInt imageAtomicAnd( IImage3D const & image
-		, IVec3 const & P
-		, UInt const & data )
-	{
-		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicAnd3DIU( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	UInt imageAtomicAnd( IImage2DRect const & image
-		, IVec2 const & P
-		, UInt const & data )
-	{
-		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicAnd2DRectIU( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	UInt imageAtomicAnd( IImageCube const & image
-		, IVec3 const & P
-		, UInt const & data )
-	{
-		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicAndCubeIU( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	UInt imageAtomicAnd( IImageBuffer const & image
-		, Int const & P
-		, UInt const & data )
-	{
-		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicAndBufferIU( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	UInt imageAtomicAnd( IImage1DArray const & image
-		, IVec2 const & P
-		, UInt const & data )
-	{
-		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicAnd1DArrayIU( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	UInt imageAtomicAnd( IImage2DArray const & image
-		, IVec3 const & P
-		, UInt const & data )
-	{
-		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicAnd2DArrayIU( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	UInt imageAtomicAnd( IImageCubeArray const & image
-		, IVec3 const & P
-		, UInt const & data )
-	{
-		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicAndCubeArrayIU( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
 	UInt imageAtomicAnd( UImage1D const & image
 		, Int const & P
 		, UInt const & data )
 	{
 		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicAnd1DUU( makeExpr( image )
+			, expr::makeImageAtomicAnd1DU( makeExpr( image )
 				, makeExpr( P )
 				, makeExpr( data ) ) };
 	}
@@ -2555,7 +1133,7 @@ namespace sdw
 		, UInt const & data )
 	{
 		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicAnd2DUU( makeExpr( image )
+			, expr::makeImageAtomicAnd2DU( makeExpr( image )
 				, makeExpr( P )
 				, makeExpr( data ) ) };
 	}
@@ -2564,7 +1142,7 @@ namespace sdw
 		, UInt const & data )
 	{
 		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicAnd3DUU( makeExpr( image )
+			, expr::makeImageAtomicAnd3DU( makeExpr( image )
 				, makeExpr( P )
 				, makeExpr( data ) ) };
 	}
@@ -2573,7 +1151,7 @@ namespace sdw
 		, UInt const & data )
 	{
 		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicAnd2DRectUU( makeExpr( image )
+			, expr::makeImageAtomicAnd2DRectU( makeExpr( image )
 				, makeExpr( P )
 				, makeExpr( data ) ) };
 	}
@@ -2582,7 +1160,7 @@ namespace sdw
 		, UInt const & data )
 	{
 		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicAndCubeUU( makeExpr( image )
+			, expr::makeImageAtomicAndCubeU( makeExpr( image )
 				, makeExpr( P )
 				, makeExpr( data ) ) };
 	}
@@ -2591,7 +1169,7 @@ namespace sdw
 		, UInt const & data )
 	{
 		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicAndBufferUU( makeExpr( image )
+			, expr::makeImageAtomicAndBufferU( makeExpr( image )
 				, makeExpr( P )
 				, makeExpr( data ) ) };
 	}
@@ -2600,7 +1178,7 @@ namespace sdw
 		, UInt const & data )
 	{
 		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicAnd1DArrayUU( makeExpr( image )
+			, expr::makeImageAtomicAnd1DArrayU( makeExpr( image )
 				, makeExpr( P )
 				, makeExpr( data ) ) };
 	}
@@ -2609,7 +1187,7 @@ namespace sdw
 		, UInt const & data )
 	{
 		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicAnd2DArrayUU( makeExpr( image )
+			, expr::makeImageAtomicAnd2DArrayU( makeExpr( image )
 				, makeExpr( P )
 				, makeExpr( data ) ) };
 	}
@@ -2618,52 +1196,89 @@ namespace sdw
 		, UInt const & data )
 	{
 		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicAndCubeArrayUU( makeExpr( image )
+			, expr::makeImageAtomicAndCubeArrayU( makeExpr( image )
 				, makeExpr( P )
 				, makeExpr( data ) ) };
 	}
-	UInt imageAtomicAnd( Image2DMS const & image
+	Int imageAtomicAnd( IImage1D const & image
+		, Int const & P
+		, Int const & data )
+	{
+		return Int{ findShader( image, P, data )
+			, expr::makeImageAtomicAnd1DI( makeExpr( image )
+				, makeExpr( P )
+				, makeExpr( data ) ) };
+	}
+	Int imageAtomicAnd( IImage2D const & image
 		, IVec2 const & P
-		, Int const & sample
-		, UInt const & data )
+		, Int const & data )
 	{
-		return UInt{ findShader( image, P, sample, data )
-			, expr::makeImageAtomicAnd2DMSFU( makeExpr( image )
+		return Int{ findShader( image, P, data )
+			, expr::makeImageAtomicAnd2DI( makeExpr( image )
 				, makeExpr( P )
-				, makeExpr( sample )
 				, makeExpr( data ) ) };
 	}
-	UInt imageAtomicAnd( Image2DMSArray const & image
+	Int imageAtomicAnd( IImage3D const & image
 		, IVec3 const & P
-		, Int const & sample
-		, UInt const & data )
+		, Int const & data )
 	{
-		return UInt{ findShader( image, P, sample, data )
-			, expr::makeImageAtomicAnd2DMSArrayFU( makeExpr( image )
+		return Int{ findShader( image, P, data )
+			, expr::makeImageAtomicAnd3DI( makeExpr( image )
 				, makeExpr( P )
-				, makeExpr( sample )
 				, makeExpr( data ) ) };
 	}
-	UInt imageAtomicAnd( IImage2DMS const & image
+	Int imageAtomicAnd( IImage2DRect const & image
 		, IVec2 const & P
-		, Int const & sample
-		, UInt const & data )
+		, Int const & data )
 	{
-		return UInt{ findShader( image, P, sample, data )
-			, expr::makeImageAtomicAnd2DMSIU( makeExpr( image )
+		return Int{ findShader( image, P, data )
+			, expr::makeImageAtomicAnd2DRectI( makeExpr( image )
 				, makeExpr( P )
-				, makeExpr( sample )
 				, makeExpr( data ) ) };
 	}
-	UInt imageAtomicAnd( IImage2DMSArray const & image
+	Int imageAtomicAnd( IImageCube const & image
 		, IVec3 const & P
-		, Int const & sample
-		, UInt const & data )
+		, Int const & data )
 	{
-		return UInt{ findShader( image, P, sample, data )
-			, expr::makeImageAtomicAnd2DMSArrayIU( makeExpr( image )
+		return Int{ findShader( image, P, data )
+			, expr::makeImageAtomicAndCubeI( makeExpr( image )
 				, makeExpr( P )
-				, makeExpr( sample )
+				, makeExpr( data ) ) };
+	}
+	Int imageAtomicAnd( IImageBuffer const & image
+		, Int const & P
+		, Int const & data )
+	{
+		return Int{ findShader( image, P, data )
+			, expr::makeImageAtomicAndBufferI( makeExpr( image )
+				, makeExpr( P )
+				, makeExpr( data ) ) };
+	}
+	Int imageAtomicAnd( IImage1DArray const & image
+		, IVec2 const & P
+		, Int const & data )
+	{
+		return Int{ findShader( image, P, data )
+			, expr::makeImageAtomicAnd1DArrayI( makeExpr( image )
+				, makeExpr( P )
+				, makeExpr( data ) ) };
+	}
+	Int imageAtomicAnd( IImage2DArray const & image
+		, IVec3 const & P
+		, Int const & data )
+	{
+		return Int{ findShader( image, P, data )
+			, expr::makeImageAtomicAnd2DArrayI( makeExpr( image )
+				, makeExpr( P )
+				, makeExpr( data ) ) };
+	}
+	Int imageAtomicAnd( IImageCubeArray const & image
+		, IVec3 const & P
+		, Int const & data )
+	{
+		return Int{ findShader( image, P, data )
+			, expr::makeImageAtomicAndCubeArrayI( makeExpr( image )
+				, makeExpr( P )
 				, makeExpr( data ) ) };
 	}
 	UInt imageAtomicAnd( UImage2DMS const & image
@@ -2672,7 +1287,7 @@ namespace sdw
 		, UInt const & data )
 	{
 		return UInt{ findShader( image, P, sample, data )
-			, expr::makeImageAtomicAnd2DMSUU( makeExpr( image )
+			, expr::makeImageAtomicAnd2DMSU( makeExpr( image )
 				, makeExpr( P )
 				, makeExpr( sample )
 				, makeExpr( data ) ) };
@@ -2683,280 +1298,7 @@ namespace sdw
 		, UInt const & data )
 	{
 		return UInt{ findShader( image, P, sample, data )
-			, expr::makeImageAtomicAnd2DMSArrayUU( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( sample )
-				, makeExpr( data ) ) };
-	}
-	/**@}*/
-#pragma endregion
-#pragma region imageAtomicAndI
-	/**
-	*name
-	*	imageAtomicAndI
-	*/
-	/**@{*/
-	Int imageAtomicAnd( Image1D const & image
-		, Int const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicAnd1DFI( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicAnd( Image2D const & image
-		, IVec2 const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicAnd2DFI( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicAnd( Image3D const & image
-		, IVec3 const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicAnd3DFI( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicAnd( Image2DRect const & image
-		, IVec2 const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicAnd2DRectFI( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicAnd( ImageCube const & image
-		, IVec3 const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicAndCubeFI( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicAnd( ImageBuffer const & image
-		, Int const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicAndBufferFI( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicAnd( Image1DArray const & image
-		, IVec2 const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicAnd1DArrayFI( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicAnd( Image2DArray const & image
-		, IVec3 const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicAnd2DArrayFI( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicAnd( ImageCubeArray const & image
-		, IVec3 const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicAndCubeArrayFI( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicAnd( IImage1D const & image
-		, Int const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicAnd1DII( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicAnd( IImage2D const & image
-		, IVec2 const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicAnd2DII( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicAnd( IImage3D const & image
-		, IVec3 const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicAnd3DII( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicAnd( IImage2DRect const & image
-		, IVec2 const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicAnd2DRectII( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicAnd( IImageCube const & image
-		, IVec3 const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicAndCubeII( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicAnd( IImageBuffer const & image
-		, Int const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicAndBufferII( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicAnd( IImage1DArray const & image
-		, IVec2 const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicAnd1DArrayII( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicAnd( IImage2DArray const & image
-		, IVec3 const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicAnd2DArrayII( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicAnd( IImageCubeArray const & image
-		, IVec3 const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicAndCubeArrayII( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicAnd( UImage1D const & image
-		, Int const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicAnd1DUI( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicAnd( UImage2D const & image
-		, IVec2 const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicAnd2DUI( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicAnd( UImage3D const & image
-		, IVec3 const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicAnd3DUI( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicAnd( UImage2DRect const & image
-		, IVec2 const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicAnd2DRectUI( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicAnd( UImageCube const & image
-		, IVec3 const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicAndCubeUI( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicAnd( UImageBuffer const & image
-		, Int const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicAndBufferUI( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicAnd( UImage1DArray const & image
-		, IVec2 const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicAnd1DArrayUI( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicAnd( UImage2DArray const & image
-		, IVec3 const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicAnd2DArrayUI( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicAnd( UImageCubeArray const & image
-		, IVec3 const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicAndCubeArrayUI( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicAnd( Image2DMS const & image
-		, IVec2 const & P
-		, Int const & sample
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, sample, data )
-			, expr::makeImageAtomicAnd2DMSFI( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( sample )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicAnd( Image2DMSArray const & image
-		, IVec3 const & P
-		, Int const & sample
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, sample, data )
-			, expr::makeImageAtomicAnd2DMSArrayFI( makeExpr( image )
+			, expr::makeImageAtomicAnd2DMSArrayU( makeExpr( image )
 				, makeExpr( P )
 				, makeExpr( sample )
 				, makeExpr( data ) ) };
@@ -2967,7 +1309,7 @@ namespace sdw
 		, Int const & data )
 	{
 		return Int{ findShader( image, P, sample, data )
-			, expr::makeImageAtomicAnd2DMSII( makeExpr( image )
+			, expr::makeImageAtomicAnd2DMSI( makeExpr( image )
 				, makeExpr( P )
 				, makeExpr( sample )
 				, makeExpr( data ) ) };
@@ -2978,209 +1320,25 @@ namespace sdw
 		, Int const & data )
 	{
 		return Int{ findShader( image, P, sample, data )
-			, expr::makeImageAtomicAnd2DMSArrayII( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( sample )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicAnd( UImage2DMS const & image
-		, IVec2 const & P
-		, Int const & sample
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, sample, data )
-			, expr::makeImageAtomicAnd2DMSUI( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( sample )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicAnd( UImage2DMSArray const & image
-		, IVec3 const & P
-		, Int const & sample
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, sample, data )
-			, expr::makeImageAtomicAnd2DMSArrayUI( makeExpr( image )
+			, expr::makeImageAtomicAnd2DMSArrayI( makeExpr( image )
 				, makeExpr( P )
 				, makeExpr( sample )
 				, makeExpr( data ) ) };
 	}
 	/**@}*/
 #pragma endregion
-#pragma region imageAtomicOrU
+#pragma region imageAtomicOr
 	/**
 	*name
-	*	imageAtomicOrU
+	*	imageAtomicOr
 	*/
 	/**@{*/
-	UInt imageAtomicOr( Image1D const & image
-		, Int const & P
-		, UInt const & data )
-	{
-		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicOr1DFU( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	UInt imageAtomicOr( Image2D const & image
-		, IVec2 const & P
-		, UInt const & data )
-	{
-		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicOr2DFU( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	UInt imageAtomicOr( Image3D const & image
-		, IVec3 const & P
-		, UInt const & data )
-	{
-		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicOr3DFU( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	UInt imageAtomicOr( Image2DRect const & image
-		, IVec2 const & P
-		, UInt const & data )
-	{
-		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicOr2DRectFU( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	UInt imageAtomicOr( ImageCube const & image
-		, IVec3 const & P
-		, UInt const & data )
-	{
-		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicOrCubeFU( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	UInt imageAtomicOr( ImageBuffer const & image
-		, Int const & P
-		, UInt const & data )
-	{
-		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicOrBufferFU( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	UInt imageAtomicOr( Image1DArray const & image
-		, IVec2 const & P
-		, UInt const & data )
-	{
-		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicOr1DArrayFU( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	UInt imageAtomicOr( Image2DArray const & image
-		, IVec3 const & P
-		, UInt const & data )
-	{
-		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicOr2DArrayFU( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	UInt imageAtomicOr( ImageCubeArray const & image
-		, IVec3 const & P
-		, UInt const & data )
-	{
-		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicOrCubeArrayFU( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	UInt imageAtomicOr( IImage1D const & image
-		, Int const & P
-		, UInt const & data )
-	{
-		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicOr1DIU( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	UInt imageAtomicOr( IImage2D const & image
-		, IVec2 const & P
-		, UInt const & data )
-	{
-		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicOr2DIU( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	UInt imageAtomicOr( IImage3D const & image
-		, IVec3 const & P
-		, UInt const & data )
-	{
-		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicOr3DIU( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	UInt imageAtomicOr( IImage2DRect const & image
-		, IVec2 const & P
-		, UInt const & data )
-	{
-		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicOr2DRectIU( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	UInt imageAtomicOr( IImageCube const & image
-		, IVec3 const & P
-		, UInt const & data )
-	{
-		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicOrCubeIU( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	UInt imageAtomicOr( IImageBuffer const & image
-		, Int const & P
-		, UInt const & data )
-	{
-		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicOrBufferIU( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	UInt imageAtomicOr( IImage1DArray const & image
-		, IVec2 const & P
-		, UInt const & data )
-	{
-		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicOr1DArrayIU( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	UInt imageAtomicOr( IImage2DArray const & image
-		, IVec3 const & P
-		, UInt const & data )
-	{
-		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicOr2DArrayIU( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	UInt imageAtomicOr( IImageCubeArray const & image
-		, IVec3 const & P
-		, UInt const & data )
-	{
-		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicOrCubeArrayIU( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
 	UInt imageAtomicOr( UImage1D const & image
 		, Int const & P
 		, UInt const & data )
 	{
 		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicOr1DUU( makeExpr( image )
+			, expr::makeImageAtomicOr1DU( makeExpr( image )
 				, makeExpr( P )
 				, makeExpr( data ) ) };
 	}
@@ -3189,7 +1347,7 @@ namespace sdw
 		, UInt const & data )
 	{
 		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicOr2DUU( makeExpr( image )
+			, expr::makeImageAtomicOr2DU( makeExpr( image )
 				, makeExpr( P )
 				, makeExpr( data ) ) };
 	}
@@ -3198,7 +1356,7 @@ namespace sdw
 		, UInt const & data )
 	{
 		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicOr3DUU( makeExpr( image )
+			, expr::makeImageAtomicOr3DU( makeExpr( image )
 				, makeExpr( P )
 				, makeExpr( data ) ) };
 	}
@@ -3207,7 +1365,7 @@ namespace sdw
 		, UInt const & data )
 	{
 		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicOr2DRectUU( makeExpr( image )
+			, expr::makeImageAtomicOr2DRectU( makeExpr( image )
 				, makeExpr( P )
 				, makeExpr( data ) ) };
 	}
@@ -3216,7 +1374,7 @@ namespace sdw
 		, UInt const & data )
 	{
 		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicOrCubeUU( makeExpr( image )
+			, expr::makeImageAtomicOrCubeU( makeExpr( image )
 				, makeExpr( P )
 				, makeExpr( data ) ) };
 	}
@@ -3225,7 +1383,7 @@ namespace sdw
 		, UInt const & data )
 	{
 		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicOrBufferUU( makeExpr( image )
+			, expr::makeImageAtomicOrBufferU( makeExpr( image )
 				, makeExpr( P )
 				, makeExpr( data ) ) };
 	}
@@ -3234,7 +1392,7 @@ namespace sdw
 		, UInt const & data )
 	{
 		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicOr1DArrayUU( makeExpr( image )
+			, expr::makeImageAtomicOr1DArrayU( makeExpr( image )
 				, makeExpr( P )
 				, makeExpr( data ) ) };
 	}
@@ -3243,7 +1401,7 @@ namespace sdw
 		, UInt const & data )
 	{
 		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicOr2DArrayUU( makeExpr( image )
+			, expr::makeImageAtomicOr2DArrayU( makeExpr( image )
 				, makeExpr( P )
 				, makeExpr( data ) ) };
 	}
@@ -3252,52 +1410,89 @@ namespace sdw
 		, UInt const & data )
 	{
 		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicOrCubeArrayUU( makeExpr( image )
+			, expr::makeImageAtomicOrCubeArrayU( makeExpr( image )
 				, makeExpr( P )
 				, makeExpr( data ) ) };
 	}
-	UInt imageAtomicOr( Image2DMS const & image
+	Int imageAtomicOr( IImage1D const & image
+		, Int const & P
+		, Int const & data )
+	{
+		return Int{ findShader( image, P, data )
+			, expr::makeImageAtomicOr1DI( makeExpr( image )
+				, makeExpr( P )
+				, makeExpr( data ) ) };
+	}
+	Int imageAtomicOr( IImage2D const & image
 		, IVec2 const & P
-		, Int const & sample
-		, UInt const & data )
+		, Int const & data )
 	{
-		return UInt{ findShader( image, P, sample, data )
-			, expr::makeImageAtomicOr2DMSFU( makeExpr( image )
+		return Int{ findShader( image, P, data )
+			, expr::makeImageAtomicOr2DI( makeExpr( image )
 				, makeExpr( P )
-				, makeExpr( sample )
 				, makeExpr( data ) ) };
 	}
-	UInt imageAtomicOr( Image2DMSArray const & image
+	Int imageAtomicOr( IImage3D const & image
 		, IVec3 const & P
-		, Int const & sample
-		, UInt const & data )
+		, Int const & data )
 	{
-		return UInt{ findShader( image, P, sample, data )
-			, expr::makeImageAtomicOr2DMSArrayFU( makeExpr( image )
+		return Int{ findShader( image, P, data )
+			, expr::makeImageAtomicOr3DI( makeExpr( image )
 				, makeExpr( P )
-				, makeExpr( sample )
 				, makeExpr( data ) ) };
 	}
-	UInt imageAtomicOr( IImage2DMS const & image
+	Int imageAtomicOr( IImage2DRect const & image
 		, IVec2 const & P
-		, Int const & sample
-		, UInt const & data )
+		, Int const & data )
 	{
-		return UInt{ findShader( image, P, sample, data )
-			, expr::makeImageAtomicOr2DMSIU( makeExpr( image )
+		return Int{ findShader( image, P, data )
+			, expr::makeImageAtomicOr2DRectI( makeExpr( image )
 				, makeExpr( P )
-				, makeExpr( sample )
 				, makeExpr( data ) ) };
 	}
-	UInt imageAtomicOr( IImage2DMSArray const & image
+	Int imageAtomicOr( IImageCube const & image
 		, IVec3 const & P
-		, Int const & sample
-		, UInt const & data )
+		, Int const & data )
 	{
-		return UInt{ findShader( image, P, sample, data )
-			, expr::makeImageAtomicOr2DMSArrayIU( makeExpr( image )
+		return Int{ findShader( image, P, data )
+			, expr::makeImageAtomicOrCubeI( makeExpr( image )
 				, makeExpr( P )
-				, makeExpr( sample )
+				, makeExpr( data ) ) };
+	}
+	Int imageAtomicOr( IImageBuffer const & image
+		, Int const & P
+		, Int const & data )
+	{
+		return Int{ findShader( image, P, data )
+			, expr::makeImageAtomicOrBufferI( makeExpr( image )
+				, makeExpr( P )
+				, makeExpr( data ) ) };
+	}
+	Int imageAtomicOr( IImage1DArray const & image
+		, IVec2 const & P
+		, Int const & data )
+	{
+		return Int{ findShader( image, P, data )
+			, expr::makeImageAtomicOr1DArrayI( makeExpr( image )
+				, makeExpr( P )
+				, makeExpr( data ) ) };
+	}
+	Int imageAtomicOr( IImage2DArray const & image
+		, IVec3 const & P
+		, Int const & data )
+	{
+		return Int{ findShader( image, P, data )
+			, expr::makeImageAtomicOr2DArrayI( makeExpr( image )
+				, makeExpr( P )
+				, makeExpr( data ) ) };
+	}
+	Int imageAtomicOr( IImageCubeArray const & image
+		, IVec3 const & P
+		, Int const & data )
+	{
+		return Int{ findShader( image, P, data )
+			, expr::makeImageAtomicOrCubeArrayI( makeExpr( image )
+				, makeExpr( P )
 				, makeExpr( data ) ) };
 	}
 	UInt imageAtomicOr( UImage2DMS const & image
@@ -3306,7 +1501,7 @@ namespace sdw
 		, UInt const & data )
 	{
 		return UInt{ findShader( image, P, sample, data )
-			, expr::makeImageAtomicOr2DMSUU( makeExpr( image )
+			, expr::makeImageAtomicOr2DMSU( makeExpr( image )
 				, makeExpr( P )
 				, makeExpr( sample )
 				, makeExpr( data ) ) };
@@ -3317,280 +1512,7 @@ namespace sdw
 		, UInt const & data )
 	{
 		return UInt{ findShader( image, P, sample, data )
-			, expr::makeImageAtomicOr2DMSArrayUU( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( sample )
-				, makeExpr( data ) ) };
-	}
-	/**@}*/
-#pragma endregion
-#pragma region imageAtomicOrI
-	/**
-	*name
-	*	imageAtomicOrI
-	*/
-	/**@{*/
-	Int imageAtomicOr( Image1D const & image
-		, Int const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicOr1DFI( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicOr( Image2D const & image
-		, IVec2 const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicOr2DFI( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicOr( Image3D const & image
-		, IVec3 const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicOr3DFI( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicOr( Image2DRect const & image
-		, IVec2 const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicOr2DRectFI( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicOr( ImageCube const & image
-		, IVec3 const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicOrCubeFI( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicOr( ImageBuffer const & image
-		, Int const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicOrBufferFI( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicOr( Image1DArray const & image
-		, IVec2 const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicOr1DArrayFI( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicOr( Image2DArray const & image
-		, IVec3 const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicOr2DArrayFI( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicOr( ImageCubeArray const & image
-		, IVec3 const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicOrCubeArrayFI( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicOr( IImage1D const & image
-		, Int const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicOr1DII( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicOr( IImage2D const & image
-		, IVec2 const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicOr2DII( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicOr( IImage3D const & image
-		, IVec3 const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicOr3DII( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicOr( IImage2DRect const & image
-		, IVec2 const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicOr2DRectII( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicOr( IImageCube const & image
-		, IVec3 const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicOrCubeII( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicOr( IImageBuffer const & image
-		, Int const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicOrBufferII( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicOr( IImage1DArray const & image
-		, IVec2 const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicOr1DArrayII( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicOr( IImage2DArray const & image
-		, IVec3 const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicOr2DArrayII( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicOr( IImageCubeArray const & image
-		, IVec3 const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicOrCubeArrayII( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicOr( UImage1D const & image
-		, Int const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicOr1DUI( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicOr( UImage2D const & image
-		, IVec2 const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicOr2DUI( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicOr( UImage3D const & image
-		, IVec3 const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicOr3DUI( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicOr( UImage2DRect const & image
-		, IVec2 const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicOr2DRectUI( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicOr( UImageCube const & image
-		, IVec3 const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicOrCubeUI( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicOr( UImageBuffer const & image
-		, Int const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicOrBufferUI( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicOr( UImage1DArray const & image
-		, IVec2 const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicOr1DArrayUI( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicOr( UImage2DArray const & image
-		, IVec3 const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicOr2DArrayUI( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicOr( UImageCubeArray const & image
-		, IVec3 const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicOrCubeArrayUI( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicOr( Image2DMS const & image
-		, IVec2 const & P
-		, Int const & sample
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, sample, data )
-			, expr::makeImageAtomicOr2DMSFI( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( sample )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicOr( Image2DMSArray const & image
-		, IVec3 const & P
-		, Int const & sample
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, sample, data )
-			, expr::makeImageAtomicOr2DMSArrayFI( makeExpr( image )
+			, expr::makeImageAtomicOr2DMSArrayU( makeExpr( image )
 				, makeExpr( P )
 				, makeExpr( sample )
 				, makeExpr( data ) ) };
@@ -3601,7 +1523,7 @@ namespace sdw
 		, Int const & data )
 	{
 		return Int{ findShader( image, P, sample, data )
-			, expr::makeImageAtomicOr2DMSII( makeExpr( image )
+			, expr::makeImageAtomicOr2DMSI( makeExpr( image )
 				, makeExpr( P )
 				, makeExpr( sample )
 				, makeExpr( data ) ) };
@@ -3612,209 +1534,25 @@ namespace sdw
 		, Int const & data )
 	{
 		return Int{ findShader( image, P, sample, data )
-			, expr::makeImageAtomicOr2DMSArrayII( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( sample )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicOr( UImage2DMS const & image
-		, IVec2 const & P
-		, Int const & sample
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, sample, data )
-			, expr::makeImageAtomicOr2DMSUI( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( sample )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicOr( UImage2DMSArray const & image
-		, IVec3 const & P
-		, Int const & sample
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, sample, data )
-			, expr::makeImageAtomicOr2DMSArrayUI( makeExpr( image )
+			, expr::makeImageAtomicOr2DMSArrayI( makeExpr( image )
 				, makeExpr( P )
 				, makeExpr( sample )
 				, makeExpr( data ) ) };
 	}
 	/**@}*/
 #pragma endregion
-#pragma region imageAtomicXorU
+#pragma region imageAtomicXor
 	/**
 	*name
-	*	imageAtomicXorU
+	*	imageAtomicXor
 	*/
 	/**@{*/
-	UInt imageAtomicXor( Image1D const & image
-		, Int const & P
-		, UInt const & data )
-	{
-		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicXor1DFU( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	UInt imageAtomicXor( Image2D const & image
-		, IVec2 const & P
-		, UInt const & data )
-	{
-		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicXor2DFU( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	UInt imageAtomicXor( Image3D const & image
-		, IVec3 const & P
-		, UInt const & data )
-	{
-		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicXor3DFU( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	UInt imageAtomicXor( Image2DRect const & image
-		, IVec2 const & P
-		, UInt const & data )
-	{
-		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicXor2DRectFU( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	UInt imageAtomicXor( ImageCube const & image
-		, IVec3 const & P
-		, UInt const & data )
-	{
-		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicXorCubeFU( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	UInt imageAtomicXor( ImageBuffer const & image
-		, Int const & P
-		, UInt const & data )
-	{
-		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicXorBufferFU( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	UInt imageAtomicXor( Image1DArray const & image
-		, IVec2 const & P
-		, UInt const & data )
-	{
-		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicXor1DArrayFU( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	UInt imageAtomicXor( Image2DArray const & image
-		, IVec3 const & P
-		, UInt const & data )
-	{
-		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicXor2DArrayFU( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	UInt imageAtomicXor( ImageCubeArray const & image
-		, IVec3 const & P
-		, UInt const & data )
-	{
-		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicXorCubeArrayFU( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	UInt imageAtomicXor( IImage1D const & image
-		, Int const & P
-		, UInt const & data )
-	{
-		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicXor1DIU( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	UInt imageAtomicXor( IImage2D const & image
-		, IVec2 const & P
-		, UInt const & data )
-	{
-		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicXor2DIU( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	UInt imageAtomicXor( IImage3D const & image
-		, IVec3 const & P
-		, UInt const & data )
-	{
-		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicXor3DIU( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	UInt imageAtomicXor( IImage2DRect const & image
-		, IVec2 const & P
-		, UInt const & data )
-	{
-		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicXor2DRectIU( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	UInt imageAtomicXor( IImageCube const & image
-		, IVec3 const & P
-		, UInt const & data )
-	{
-		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicXorCubeIU( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	UInt imageAtomicXor( IImageBuffer const & image
-		, Int const & P
-		, UInt const & data )
-	{
-		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicXorBufferIU( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	UInt imageAtomicXor( IImage1DArray const & image
-		, IVec2 const & P
-		, UInt const & data )
-	{
-		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicXor1DArrayIU( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	UInt imageAtomicXor( IImage2DArray const & image
-		, IVec3 const & P
-		, UInt const & data )
-	{
-		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicXor2DArrayIU( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	UInt imageAtomicXor( IImageCubeArray const & image
-		, IVec3 const & P
-		, UInt const & data )
-	{
-		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicXorCubeArrayIU( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
 	UInt imageAtomicXor( UImage1D const & image
 		, Int const & P
 		, UInt const & data )
 	{
 		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicXor1DUU( makeExpr( image )
+			, expr::makeImageAtomicXor1DU( makeExpr( image )
 				, makeExpr( P )
 				, makeExpr( data ) ) };
 	}
@@ -3823,7 +1561,7 @@ namespace sdw
 		, UInt const & data )
 	{
 		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicXor2DUU( makeExpr( image )
+			, expr::makeImageAtomicXor2DU( makeExpr( image )
 				, makeExpr( P )
 				, makeExpr( data ) ) };
 	}
@@ -3832,7 +1570,7 @@ namespace sdw
 		, UInt const & data )
 	{
 		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicXor3DUU( makeExpr( image )
+			, expr::makeImageAtomicXor3DU( makeExpr( image )
 				, makeExpr( P )
 				, makeExpr( data ) ) };
 	}
@@ -3841,7 +1579,7 @@ namespace sdw
 		, UInt const & data )
 	{
 		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicXor2DRectUU( makeExpr( image )
+			, expr::makeImageAtomicXor2DRectU( makeExpr( image )
 				, makeExpr( P )
 				, makeExpr( data ) ) };
 	}
@@ -3850,7 +1588,7 @@ namespace sdw
 		, UInt const & data )
 	{
 		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicXorCubeUU( makeExpr( image )
+			, expr::makeImageAtomicXorCubeU( makeExpr( image )
 				, makeExpr( P )
 				, makeExpr( data ) ) };
 	}
@@ -3859,7 +1597,7 @@ namespace sdw
 		, UInt const & data )
 	{
 		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicXorBufferUU( makeExpr( image )
+			, expr::makeImageAtomicXorBufferU( makeExpr( image )
 				, makeExpr( P )
 				, makeExpr( data ) ) };
 	}
@@ -3868,7 +1606,7 @@ namespace sdw
 		, UInt const & data )
 	{
 		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicXor1DArrayUU( makeExpr( image )
+			, expr::makeImageAtomicXor1DArrayU( makeExpr( image )
 				, makeExpr( P )
 				, makeExpr( data ) ) };
 	}
@@ -3877,7 +1615,7 @@ namespace sdw
 		, UInt const & data )
 	{
 		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicXor2DArrayUU( makeExpr( image )
+			, expr::makeImageAtomicXor2DArrayU( makeExpr( image )
 				, makeExpr( P )
 				, makeExpr( data ) ) };
 	}
@@ -3886,52 +1624,89 @@ namespace sdw
 		, UInt const & data )
 	{
 		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicXorCubeArrayUU( makeExpr( image )
+			, expr::makeImageAtomicXorCubeArrayU( makeExpr( image )
 				, makeExpr( P )
 				, makeExpr( data ) ) };
 	}
-	UInt imageAtomicXor( Image2DMS const & image
+	Int imageAtomicXor( IImage1D const & image
+		, Int const & P
+		, Int const & data )
+	{
+		return Int{ findShader( image, P, data )
+			, expr::makeImageAtomicXor1DI( makeExpr( image )
+				, makeExpr( P )
+				, makeExpr( data ) ) };
+	}
+	Int imageAtomicXor( IImage2D const & image
 		, IVec2 const & P
-		, Int const & sample
-		, UInt const & data )
+		, Int const & data )
 	{
-		return UInt{ findShader( image, P, sample, data )
-			, expr::makeImageAtomicXor2DMSFU( makeExpr( image )
+		return Int{ findShader( image, P, data )
+			, expr::makeImageAtomicXor2DI( makeExpr( image )
 				, makeExpr( P )
-				, makeExpr( sample )
 				, makeExpr( data ) ) };
 	}
-	UInt imageAtomicXor( Image2DMSArray const & image
+	Int imageAtomicXor( IImage3D const & image
 		, IVec3 const & P
-		, Int const & sample
-		, UInt const & data )
+		, Int const & data )
 	{
-		return UInt{ findShader( image, P, sample, data )
-			, expr::makeImageAtomicXor2DMSArrayFU( makeExpr( image )
+		return Int{ findShader( image, P, data )
+			, expr::makeImageAtomicXor3DI( makeExpr( image )
 				, makeExpr( P )
-				, makeExpr( sample )
 				, makeExpr( data ) ) };
 	}
-	UInt imageAtomicXor( IImage2DMS const & image
+	Int imageAtomicXor( IImage2DRect const & image
 		, IVec2 const & P
-		, Int const & sample
-		, UInt const & data )
+		, Int const & data )
 	{
-		return UInt{ findShader( image, P, sample, data )
-			, expr::makeImageAtomicXor2DMSIU( makeExpr( image )
+		return Int{ findShader( image, P, data )
+			, expr::makeImageAtomicXor2DRectI( makeExpr( image )
 				, makeExpr( P )
-				, makeExpr( sample )
 				, makeExpr( data ) ) };
 	}
-	UInt imageAtomicXor( IImage2DMSArray const & image
+	Int imageAtomicXor( IImageCube const & image
 		, IVec3 const & P
-		, Int const & sample
-		, UInt const & data )
+		, Int const & data )
 	{
-		return UInt{ findShader( image, P, sample, data )
-			, expr::makeImageAtomicXor2DMSArrayIU( makeExpr( image )
+		return Int{ findShader( image, P, data )
+			, expr::makeImageAtomicXorCubeI( makeExpr( image )
 				, makeExpr( P )
-				, makeExpr( sample )
+				, makeExpr( data ) ) };
+	}
+	Int imageAtomicXor( IImageBuffer const & image
+		, Int const & P
+		, Int const & data )
+	{
+		return Int{ findShader( image, P, data )
+			, expr::makeImageAtomicXorBufferI( makeExpr( image )
+				, makeExpr( P )
+				, makeExpr( data ) ) };
+	}
+	Int imageAtomicXor( IImage1DArray const & image
+		, IVec2 const & P
+		, Int const & data )
+	{
+		return Int{ findShader( image, P, data )
+			, expr::makeImageAtomicXor1DArrayI( makeExpr( image )
+				, makeExpr( P )
+				, makeExpr( data ) ) };
+	}
+	Int imageAtomicXor( IImage2DArray const & image
+		, IVec3 const & P
+		, Int const & data )
+	{
+		return Int{ findShader( image, P, data )
+			, expr::makeImageAtomicXor2DArrayI( makeExpr( image )
+				, makeExpr( P )
+				, makeExpr( data ) ) };
+	}
+	Int imageAtomicXor( IImageCubeArray const & image
+		, IVec3 const & P
+		, Int const & data )
+	{
+		return Int{ findShader( image, P, data )
+			, expr::makeImageAtomicXorCubeArrayI( makeExpr( image )
+				, makeExpr( P )
 				, makeExpr( data ) ) };
 	}
 	UInt imageAtomicXor( UImage2DMS const & image
@@ -3940,7 +1715,7 @@ namespace sdw
 		, UInt const & data )
 	{
 		return UInt{ findShader( image, P, sample, data )
-			, expr::makeImageAtomicXor2DMSUU( makeExpr( image )
+			, expr::makeImageAtomicXor2DMSU( makeExpr( image )
 				, makeExpr( P )
 				, makeExpr( sample )
 				, makeExpr( data ) ) };
@@ -3951,280 +1726,7 @@ namespace sdw
 		, UInt const & data )
 	{
 		return UInt{ findShader( image, P, sample, data )
-			, expr::makeImageAtomicXor2DMSArrayUU( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( sample )
-				, makeExpr( data ) ) };
-	}
-	/**@}*/
-#pragma endregion
-#pragma region imageAtomicXorI
-	/**
-	*name
-	*	imageAtomicXorI
-	*/
-	/**@{*/
-	Int imageAtomicXor( Image1D const & image
-		, Int const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicXor1DFI( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicXor( Image2D const & image
-		, IVec2 const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicXor2DFI( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicXor( Image3D const & image
-		, IVec3 const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicXor3DFI( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicXor( Image2DRect const & image
-		, IVec2 const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicXor2DRectFI( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicXor( ImageCube const & image
-		, IVec3 const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicXorCubeFI( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicXor( ImageBuffer const & image
-		, Int const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicXorBufferFI( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicXor( Image1DArray const & image
-		, IVec2 const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicXor1DArrayFI( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicXor( Image2DArray const & image
-		, IVec3 const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicXor2DArrayFI( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicXor( ImageCubeArray const & image
-		, IVec3 const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicXorCubeArrayFI( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicXor( IImage1D const & image
-		, Int const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicXor1DII( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicXor( IImage2D const & image
-		, IVec2 const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicXor2DII( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicXor( IImage3D const & image
-		, IVec3 const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicXor3DII( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicXor( IImage2DRect const & image
-		, IVec2 const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicXor2DRectII( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicXor( IImageCube const & image
-		, IVec3 const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicXorCubeII( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicXor( IImageBuffer const & image
-		, Int const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicXorBufferII( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicXor( IImage1DArray const & image
-		, IVec2 const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicXor1DArrayII( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicXor( IImage2DArray const & image
-		, IVec3 const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicXor2DArrayII( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicXor( IImageCubeArray const & image
-		, IVec3 const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicXorCubeArrayII( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicXor( UImage1D const & image
-		, Int const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicXor1DUI( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicXor( UImage2D const & image
-		, IVec2 const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicXor2DUI( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicXor( UImage3D const & image
-		, IVec3 const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicXor3DUI( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicXor( UImage2DRect const & image
-		, IVec2 const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicXor2DRectUI( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicXor( UImageCube const & image
-		, IVec3 const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicXorCubeUI( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicXor( UImageBuffer const & image
-		, Int const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicXorBufferUI( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicXor( UImage1DArray const & image
-		, IVec2 const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicXor1DArrayUI( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicXor( UImage2DArray const & image
-		, IVec3 const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicXor2DArrayUI( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicXor( UImageCubeArray const & image
-		, IVec3 const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicXorCubeArrayUI( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicXor( Image2DMS const & image
-		, IVec2 const & P
-		, Int const & sample
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, sample, data )
-			, expr::makeImageAtomicXor2DMSFI( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( sample )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicXor( Image2DMSArray const & image
-		, IVec3 const & P
-		, Int const & sample
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, sample, data )
-			, expr::makeImageAtomicXor2DMSArrayFI( makeExpr( image )
+			, expr::makeImageAtomicXor2DMSArrayU( makeExpr( image )
 				, makeExpr( P )
 				, makeExpr( sample )
 				, makeExpr( data ) ) };
@@ -4235,7 +1737,7 @@ namespace sdw
 		, Int const & data )
 	{
 		return Int{ findShader( image, P, sample, data )
-			, expr::makeImageAtomicXor2DMSII( makeExpr( image )
+			, expr::makeImageAtomicXor2DMSI( makeExpr( image )
 				, makeExpr( P )
 				, makeExpr( sample )
 				, makeExpr( data ) ) };
@@ -4246,209 +1748,25 @@ namespace sdw
 		, Int const & data )
 	{
 		return Int{ findShader( image, P, sample, data )
-			, expr::makeImageAtomicXor2DMSArrayII( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( sample )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicXor( UImage2DMS const & image
-		, IVec2 const & P
-		, Int const & sample
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, sample, data )
-			, expr::makeImageAtomicXor2DMSUI( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( sample )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicXor( UImage2DMSArray const & image
-		, IVec3 const & P
-		, Int const & sample
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, sample, data )
-			, expr::makeImageAtomicXor2DMSArrayUI( makeExpr( image )
+			, expr::makeImageAtomicXor2DMSArrayI( makeExpr( image )
 				, makeExpr( P )
 				, makeExpr( sample )
 				, makeExpr( data ) ) };
 	}
 	/**@}*/
 #pragma endregion
-#pragma region imageAtomicExchangeU
+#pragma region imageAtomicExchange
 	/**
 	*name
-	*	imageAtomicExchangeU
+	*	imageAtomicExchange
 	*/
 	/**@{*/
-	UInt imageAtomicExchange( Image1D const & image
-		, Int const & P
-		, UInt const & data )
-	{
-		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicExchange1DFU( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	UInt imageAtomicExchange( Image2D const & image
-		, IVec2 const & P
-		, UInt const & data )
-	{
-		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicExchange2DFU( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	UInt imageAtomicExchange( Image3D const & image
-		, IVec3 const & P
-		, UInt const & data )
-	{
-		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicExchange3DFU( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	UInt imageAtomicExchange( Image2DRect const & image
-		, IVec2 const & P
-		, UInt const & data )
-	{
-		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicExchange2DRectFU( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	UInt imageAtomicExchange( ImageCube const & image
-		, IVec3 const & P
-		, UInt const & data )
-	{
-		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicExchangeCubeFU( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	UInt imageAtomicExchange( ImageBuffer const & image
-		, Int const & P
-		, UInt const & data )
-	{
-		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicExchangeBufferFU( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	UInt imageAtomicExchange( Image1DArray const & image
-		, IVec2 const & P
-		, UInt const & data )
-	{
-		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicExchange1DArrayFU( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	UInt imageAtomicExchange( Image2DArray const & image
-		, IVec3 const & P
-		, UInt const & data )
-	{
-		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicExchange2DArrayFU( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	UInt imageAtomicExchange( ImageCubeArray const & image
-		, IVec3 const & P
-		, UInt const & data )
-	{
-		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicExchangeCubeArrayFU( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	UInt imageAtomicExchange( IImage1D const & image
-		, Int const & P
-		, UInt const & data )
-	{
-		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicExchange1DIU( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	UInt imageAtomicExchange( IImage2D const & image
-		, IVec2 const & P
-		, UInt const & data )
-	{
-		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicExchange2DIU( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	UInt imageAtomicExchange( IImage3D const & image
-		, IVec3 const & P
-		, UInt const & data )
-	{
-		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicExchange3DIU( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	UInt imageAtomicExchange( IImage2DRect const & image
-		, IVec2 const & P
-		, UInt const & data )
-	{
-		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicExchange2DRectIU( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	UInt imageAtomicExchange( IImageCube const & image
-		, IVec3 const & P
-		, UInt const & data )
-	{
-		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicExchangeCubeIU( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	UInt imageAtomicExchange( IImageBuffer const & image
-		, Int const & P
-		, UInt const & data )
-	{
-		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicExchangeBufferIU( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	UInt imageAtomicExchange( IImage1DArray const & image
-		, IVec2 const & P
-		, UInt const & data )
-	{
-		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicExchange1DArrayIU( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	UInt imageAtomicExchange( IImage2DArray const & image
-		, IVec3 const & P
-		, UInt const & data )
-	{
-		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicExchange2DArrayIU( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	UInt imageAtomicExchange( IImageCubeArray const & image
-		, IVec3 const & P
-		, UInt const & data )
-	{
-		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicExchangeCubeArrayIU( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
 	UInt imageAtomicExchange( UImage1D const & image
 		, Int const & P
 		, UInt const & data )
 	{
 		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicExchange1DUU( makeExpr( image )
+			, expr::makeImageAtomicExchange1DU( makeExpr( image )
 				, makeExpr( P )
 				, makeExpr( data ) ) };
 	}
@@ -4457,7 +1775,7 @@ namespace sdw
 		, UInt const & data )
 	{
 		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicExchange2DUU( makeExpr( image )
+			, expr::makeImageAtomicExchange2DU( makeExpr( image )
 				, makeExpr( P )
 				, makeExpr( data ) ) };
 	}
@@ -4466,7 +1784,7 @@ namespace sdw
 		, UInt const & data )
 	{
 		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicExchange3DUU( makeExpr( image )
+			, expr::makeImageAtomicExchange3DU( makeExpr( image )
 				, makeExpr( P )
 				, makeExpr( data ) ) };
 	}
@@ -4475,7 +1793,7 @@ namespace sdw
 		, UInt const & data )
 	{
 		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicExchange2DRectUU( makeExpr( image )
+			, expr::makeImageAtomicExchange2DRectU( makeExpr( image )
 				, makeExpr( P )
 				, makeExpr( data ) ) };
 	}
@@ -4484,7 +1802,7 @@ namespace sdw
 		, UInt const & data )
 	{
 		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicExchangeCubeUU( makeExpr( image )
+			, expr::makeImageAtomicExchangeCubeU( makeExpr( image )
 				, makeExpr( P )
 				, makeExpr( data ) ) };
 	}
@@ -4493,7 +1811,7 @@ namespace sdw
 		, UInt const & data )
 	{
 		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicExchangeBufferUU( makeExpr( image )
+			, expr::makeImageAtomicExchangeBufferU( makeExpr( image )
 				, makeExpr( P )
 				, makeExpr( data ) ) };
 	}
@@ -4502,7 +1820,7 @@ namespace sdw
 		, UInt const & data )
 	{
 		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicExchange1DArrayUU( makeExpr( image )
+			, expr::makeImageAtomicExchange1DArrayU( makeExpr( image )
 				, makeExpr( P )
 				, makeExpr( data ) ) };
 	}
@@ -4511,7 +1829,7 @@ namespace sdw
 		, UInt const & data )
 	{
 		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicExchange2DArrayUU( makeExpr( image )
+			, expr::makeImageAtomicExchange2DArrayU( makeExpr( image )
 				, makeExpr( P )
 				, makeExpr( data ) ) };
 	}
@@ -4520,52 +1838,89 @@ namespace sdw
 		, UInt const & data )
 	{
 		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicExchangeCubeArrayUU( makeExpr( image )
+			, expr::makeImageAtomicExchangeCubeArrayU( makeExpr( image )
 				, makeExpr( P )
 				, makeExpr( data ) ) };
 	}
-	UInt imageAtomicExchange( Image2DMS const & image
+	Int imageAtomicExchange( IImage1D const & image
+		, Int const & P
+		, Int const & data )
+	{
+		return Int{ findShader( image, P, data )
+			, expr::makeImageAtomicExchange1DI( makeExpr( image )
+				, makeExpr( P )
+				, makeExpr( data ) ) };
+	}
+	Int imageAtomicExchange( IImage2D const & image
 		, IVec2 const & P
-		, Int const & sample
-		, UInt const & data )
+		, Int const & data )
 	{
-		return UInt{ findShader( image, P, sample, data )
-			, expr::makeImageAtomicExchange2DMSFU( makeExpr( image )
+		return Int{ findShader( image, P, data )
+			, expr::makeImageAtomicExchange2DI( makeExpr( image )
 				, makeExpr( P )
-				, makeExpr( sample )
 				, makeExpr( data ) ) };
 	}
-	UInt imageAtomicExchange( Image2DMSArray const & image
+	Int imageAtomicExchange( IImage3D const & image
 		, IVec3 const & P
-		, Int const & sample
-		, UInt const & data )
+		, Int const & data )
 	{
-		return UInt{ findShader( image, P, sample, data )
-			, expr::makeImageAtomicExchange2DMSArrayFU( makeExpr( image )
+		return Int{ findShader( image, P, data )
+			, expr::makeImageAtomicExchange3DI( makeExpr( image )
 				, makeExpr( P )
-				, makeExpr( sample )
 				, makeExpr( data ) ) };
 	}
-	UInt imageAtomicExchange( IImage2DMS const & image
+	Int imageAtomicExchange( IImage2DRect const & image
 		, IVec2 const & P
-		, Int const & sample
-		, UInt const & data )
+		, Int const & data )
 	{
-		return UInt{ findShader( image, P, sample, data )
-			, expr::makeImageAtomicExchange2DMSIU( makeExpr( image )
+		return Int{ findShader( image, P, data )
+			, expr::makeImageAtomicExchange2DRectI( makeExpr( image )
 				, makeExpr( P )
-				, makeExpr( sample )
 				, makeExpr( data ) ) };
 	}
-	UInt imageAtomicExchange( IImage2DMSArray const & image
+	Int imageAtomicExchange( IImageCube const & image
 		, IVec3 const & P
-		, Int const & sample
-		, UInt const & data )
+		, Int const & data )
 	{
-		return UInt{ findShader( image, P, sample, data )
-			, expr::makeImageAtomicExchange2DMSArrayIU( makeExpr( image )
+		return Int{ findShader( image, P, data )
+			, expr::makeImageAtomicExchangeCubeI( makeExpr( image )
 				, makeExpr( P )
-				, makeExpr( sample )
+				, makeExpr( data ) ) };
+	}
+	Int imageAtomicExchange( IImageBuffer const & image
+		, Int const & P
+		, Int const & data )
+	{
+		return Int{ findShader( image, P, data )
+			, expr::makeImageAtomicExchangeBufferI( makeExpr( image )
+				, makeExpr( P )
+				, makeExpr( data ) ) };
+	}
+	Int imageAtomicExchange( IImage1DArray const & image
+		, IVec2 const & P
+		, Int const & data )
+	{
+		return Int{ findShader( image, P, data )
+			, expr::makeImageAtomicExchange1DArrayI( makeExpr( image )
+				, makeExpr( P )
+				, makeExpr( data ) ) };
+	}
+	Int imageAtomicExchange( IImage2DArray const & image
+		, IVec3 const & P
+		, Int const & data )
+	{
+		return Int{ findShader( image, P, data )
+			, expr::makeImageAtomicExchange2DArrayI( makeExpr( image )
+				, makeExpr( P )
+				, makeExpr( data ) ) };
+	}
+	Int imageAtomicExchange( IImageCubeArray const & image
+		, IVec3 const & P
+		, Int const & data )
+	{
+		return Int{ findShader( image, P, data )
+			, expr::makeImageAtomicExchangeCubeArrayI( makeExpr( image )
+				, makeExpr( P )
 				, makeExpr( data ) ) };
 	}
 	UInt imageAtomicExchange( UImage2DMS const & image
@@ -4574,7 +1929,7 @@ namespace sdw
 		, UInt const & data )
 	{
 		return UInt{ findShader( image, P, sample, data )
-			, expr::makeImageAtomicExchange2DMSUU( makeExpr( image )
+			, expr::makeImageAtomicExchange2DMSU( makeExpr( image )
 				, makeExpr( P )
 				, makeExpr( sample )
 				, makeExpr( data ) ) };
@@ -4585,280 +1940,7 @@ namespace sdw
 		, UInt const & data )
 	{
 		return UInt{ findShader( image, P, sample, data )
-			, expr::makeImageAtomicExchange2DMSArrayUU( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( sample )
-				, makeExpr( data ) ) };
-	}
-	/**@}*/
-#pragma endregion
-#pragma region imageAtomicExchangeI
-	/**
-	*name
-	*	imageAtomicExchangeI
-	*/
-	/**@{*/
-	Int imageAtomicExchange( Image1D const & image
-		, Int const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicExchange1DFI( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicExchange( Image2D const & image
-		, IVec2 const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicExchange2DFI( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicExchange( Image3D const & image
-		, IVec3 const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicExchange3DFI( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicExchange( Image2DRect const & image
-		, IVec2 const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicExchange2DRectFI( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicExchange( ImageCube const & image
-		, IVec3 const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicExchangeCubeFI( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicExchange( ImageBuffer const & image
-		, Int const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicExchangeBufferFI( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicExchange( Image1DArray const & image
-		, IVec2 const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicExchange1DArrayFI( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicExchange( Image2DArray const & image
-		, IVec3 const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicExchange2DArrayFI( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicExchange( ImageCubeArray const & image
-		, IVec3 const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicExchangeCubeArrayFI( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicExchange( IImage1D const & image
-		, Int const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicExchange1DII( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicExchange( IImage2D const & image
-		, IVec2 const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicExchange2DII( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicExchange( IImage3D const & image
-		, IVec3 const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicExchange3DII( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicExchange( IImage2DRect const & image
-		, IVec2 const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicExchange2DRectII( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicExchange( IImageCube const & image
-		, IVec3 const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicExchangeCubeII( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicExchange( IImageBuffer const & image
-		, Int const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicExchangeBufferII( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicExchange( IImage1DArray const & image
-		, IVec2 const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicExchange1DArrayII( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicExchange( IImage2DArray const & image
-		, IVec3 const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicExchange2DArrayII( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicExchange( IImageCubeArray const & image
-		, IVec3 const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicExchangeCubeArrayII( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicExchange( UImage1D const & image
-		, Int const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicExchange1DUI( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicExchange( UImage2D const & image
-		, IVec2 const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicExchange2DUI( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicExchange( UImage3D const & image
-		, IVec3 const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicExchange3DUI( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicExchange( UImage2DRect const & image
-		, IVec2 const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicExchange2DRectUI( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicExchange( UImageCube const & image
-		, IVec3 const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicExchangeCubeUI( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicExchange( UImageBuffer const & image
-		, Int const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicExchangeBufferUI( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicExchange( UImage1DArray const & image
-		, IVec2 const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicExchange1DArrayUI( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicExchange( UImage2DArray const & image
-		, IVec3 const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicExchange2DArrayUI( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicExchange( UImageCubeArray const & image
-		, IVec3 const & P
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicExchangeCubeArrayUI( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicExchange( Image2DMS const & image
-		, IVec2 const & P
-		, Int const & sample
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, sample, data )
-			, expr::makeImageAtomicExchange2DMSFI( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( sample )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicExchange( Image2DMSArray const & image
-		, IVec3 const & P
-		, Int const & sample
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, sample, data )
-			, expr::makeImageAtomicExchange2DMSArrayFI( makeExpr( image )
+			, expr::makeImageAtomicExchange2DMSArrayU( makeExpr( image )
 				, makeExpr( P )
 				, makeExpr( sample )
 				, makeExpr( data ) ) };
@@ -4869,7 +1951,7 @@ namespace sdw
 		, Int const & data )
 	{
 		return Int{ findShader( image, P, sample, data )
-			, expr::makeImageAtomicExchange2DMSII( makeExpr( image )
+			, expr::makeImageAtomicExchange2DMSI( makeExpr( image )
 				, makeExpr( P )
 				, makeExpr( sample )
 				, makeExpr( data ) ) };
@@ -4880,246 +1962,26 @@ namespace sdw
 		, Int const & data )
 	{
 		return Int{ findShader( image, P, sample, data )
-			, expr::makeImageAtomicExchange2DMSArrayII( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( sample )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicExchange( UImage2DMS const & image
-		, IVec2 const & P
-		, Int const & sample
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, sample, data )
-			, expr::makeImageAtomicExchange2DMSUI( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( sample )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicExchange( UImage2DMSArray const & image
-		, IVec3 const & P
-		, Int const & sample
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, sample, data )
-			, expr::makeImageAtomicExchange2DMSArrayUI( makeExpr( image )
+			, expr::makeImageAtomicExchange2DMSArrayI( makeExpr( image )
 				, makeExpr( P )
 				, makeExpr( sample )
 				, makeExpr( data ) ) };
 	}
 	/**@}*/
 #pragma endregion
-#pragma region imageAtomicCompSwapU
+#pragma region imageAtomicCompSwap
 	/**
 	*name
-	*	imageAtomicCompSwapU
+	*	imageAtomicCompSwap
 	*/
 	/**@{*/
-	UInt imageAtomicCompSwap( Image1D const & image
-		, Int const & P
-		, UInt const & compare
-		, UInt const & data )
-	{
-		return UInt{ findShader( image, P, compare, data )
-			, expr::makeImageAtomicCompSwap1DFU( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( compare )
-				, makeExpr( data ) ) };
-	}
-	UInt imageAtomicCompSwap( Image2D const & image
-		, IVec2 const & P
-		, UInt const & compare
-		, UInt const & data )
-	{
-		return UInt{ findShader( image, P, compare, data )
-			, expr::makeImageAtomicCompSwap2DFU( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( compare )
-				, makeExpr( data ) ) };
-	}
-	UInt imageAtomicCompSwap( Image3D const & image
-		, IVec3 const & P
-		, UInt const & compare
-		, UInt const & data )
-	{
-		return UInt{ findShader( image, P, compare, data )
-			, expr::makeImageAtomicCompSwap3DFU( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( compare )
-				, makeExpr( data ) ) };
-	}
-	UInt imageAtomicCompSwap( Image2DRect const & image
-		, IVec2 const & P
-		, UInt const & compare
-		, UInt const & data )
-	{
-		return UInt{ findShader( image, P, compare, data )
-			, expr::makeImageAtomicCompSwap2DRectFU( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( compare )
-				, makeExpr( data ) ) };
-	}
-	UInt imageAtomicCompSwap( ImageCube const & image
-		, IVec3 const & P
-		, UInt const & compare
-		, UInt const & data )
-	{
-		return UInt{ findShader( image, P, compare, data )
-			, expr::makeImageAtomicCompSwapCubeFU( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( compare )
-				, makeExpr( data ) ) };
-	}
-	UInt imageAtomicCompSwap( ImageBuffer const & image
-		, Int const & P
-		, UInt const & compare
-		, UInt const & data )
-	{
-		return UInt{ findShader( image, P, compare, data )
-			, expr::makeImageAtomicCompSwapBufferFU( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( compare )
-				, makeExpr( data ) ) };
-	}
-	UInt imageAtomicCompSwap( Image1DArray const & image
-		, IVec2 const & P
-		, UInt const & compare
-		, UInt const & data )
-	{
-		return UInt{ findShader( image, P, compare, data )
-			, expr::makeImageAtomicCompSwap1DArrayFU( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( compare )
-				, makeExpr( data ) ) };
-	}
-	UInt imageAtomicCompSwap( Image2DArray const & image
-		, IVec3 const & P
-		, UInt const & compare
-		, UInt const & data )
-	{
-		return UInt{ findShader( image, P, compare, data )
-			, expr::makeImageAtomicCompSwap2DArrayFU( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( compare )
-				, makeExpr( data ) ) };
-	}
-	UInt imageAtomicCompSwap( ImageCubeArray const & image
-		, IVec3 const & P
-		, UInt const & compare
-		, UInt const & data )
-	{
-		return UInt{ findShader( image, P, compare, data )
-			, expr::makeImageAtomicCompSwapCubeArrayFU( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( compare )
-				, makeExpr( data ) ) };
-	}
-	UInt imageAtomicCompSwap( IImage1D const & image
-		, Int const & P
-		, UInt const & compare
-		, UInt const & data )
-	{
-		return UInt{ findShader( image, P, compare, data )
-			, expr::makeImageAtomicCompSwap1DIU( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( compare )
-				, makeExpr( data ) ) };
-	}
-	UInt imageAtomicCompSwap( IImage2D const & image
-		, IVec2 const & P
-		, UInt const & compare
-		, UInt const & data )
-	{
-		return UInt{ findShader( image, P, compare, data )
-			, expr::makeImageAtomicCompSwap2DIU( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( compare )
-				, makeExpr( data ) ) };
-	}
-	UInt imageAtomicCompSwap( IImage3D const & image
-		, IVec3 const & P
-		, UInt const & compare
-		, UInt const & data )
-	{
-		return UInt{ findShader( image, P, compare, data )
-			, expr::makeImageAtomicCompSwap3DIU( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( compare )
-				, makeExpr( data ) ) };
-	}
-	UInt imageAtomicCompSwap( IImage2DRect const & image
-		, IVec2 const & P
-		, UInt const & compare
-		, UInt const & data )
-	{
-		return UInt{ findShader( image, P, compare, data )
-			, expr::makeImageAtomicCompSwap2DRectIU( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( compare )
-				, makeExpr( data ) ) };
-	}
-	UInt imageAtomicCompSwap( IImageCube const & image
-		, IVec3 const & P
-		, UInt const & compare
-		, UInt const & data )
-	{
-		return UInt{ findShader( image, P, compare, data )
-			, expr::makeImageAtomicCompSwapCubeIU( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( compare )
-				, makeExpr( data ) ) };
-	}
-	UInt imageAtomicCompSwap( IImageBuffer const & image
-		, Int const & P
-		, UInt const & compare
-		, UInt const & data )
-	{
-		return UInt{ findShader( image, P, compare, data )
-			, expr::makeImageAtomicCompSwapBufferIU( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( compare )
-				, makeExpr( data ) ) };
-	}
-	UInt imageAtomicCompSwap( IImage1DArray const & image
-		, IVec2 const & P
-		, UInt const & compare
-		, UInt const & data )
-	{
-		return UInt{ findShader( image, P, compare, data )
-			, expr::makeImageAtomicCompSwap1DArrayIU( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( compare )
-				, makeExpr( data ) ) };
-	}
-	UInt imageAtomicCompSwap( IImage2DArray const & image
-		, IVec3 const & P
-		, UInt const & compare
-		, UInt const & data )
-	{
-		return UInt{ findShader( image, P, compare, data )
-			, expr::makeImageAtomicCompSwap2DArrayIU( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( compare )
-				, makeExpr( data ) ) };
-	}
-	UInt imageAtomicCompSwap( IImageCubeArray const & image
-		, IVec3 const & P
-		, UInt const & compare
-		, UInt const & data )
-	{
-		return UInt{ findShader( image, P, compare, data )
-			, expr::makeImageAtomicCompSwapCubeArrayIU( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( compare )
-				, makeExpr( data ) ) };
-	}
 	UInt imageAtomicCompSwap( UImage1D const & image
 		, Int const & P
 		, UInt const & compare
 		, UInt const & data )
 	{
 		return UInt{ findShader( image, P, compare, data )
-			, expr::makeImageAtomicCompSwap1DUU( makeExpr( image )
+			, expr::makeImageAtomicCompSwap1DU( makeExpr( image )
 				, makeExpr( P )
 				, makeExpr( compare )
 				, makeExpr( data ) ) };
@@ -5130,7 +1992,7 @@ namespace sdw
 		, UInt const & data )
 	{
 		return UInt{ findShader( image, P, compare, data )
-			, expr::makeImageAtomicCompSwap2DUU( makeExpr( image )
+			, expr::makeImageAtomicCompSwap2DU( makeExpr( image )
 				, makeExpr( P )
 				, makeExpr( compare )
 				, makeExpr( data ) ) };
@@ -5141,7 +2003,7 @@ namespace sdw
 		, UInt const & data )
 	{
 		return UInt{ findShader( image, P, compare, data )
-			, expr::makeImageAtomicCompSwap3DUU( makeExpr( image )
+			, expr::makeImageAtomicCompSwap3DU( makeExpr( image )
 				, makeExpr( P )
 				, makeExpr( compare )
 				, makeExpr( data ) ) };
@@ -5152,7 +2014,7 @@ namespace sdw
 		, UInt const & data )
 	{
 		return UInt{ findShader( image, P, compare, data )
-			, expr::makeImageAtomicCompSwap2DRectUU( makeExpr( image )
+			, expr::makeImageAtomicCompSwap2DRectU( makeExpr( image )
 				, makeExpr( P )
 				, makeExpr( compare )
 				, makeExpr( data ) ) };
@@ -5163,7 +2025,7 @@ namespace sdw
 		, UInt const & data )
 	{
 		return UInt{ findShader( image, P, compare, data )
-			, expr::makeImageAtomicCompSwapCubeUU( makeExpr( image )
+			, expr::makeImageAtomicCompSwapCubeU( makeExpr( image )
 				, makeExpr( P )
 				, makeExpr( compare )
 				, makeExpr( data ) ) };
@@ -5174,7 +2036,7 @@ namespace sdw
 		, UInt const & data )
 	{
 		return UInt{ findShader( image, P, compare, data )
-			, expr::makeImageAtomicCompSwapBufferUU( makeExpr( image )
+			, expr::makeImageAtomicCompSwapBufferU( makeExpr( image )
 				, makeExpr( P )
 				, makeExpr( compare )
 				, makeExpr( data ) ) };
@@ -5185,7 +2047,7 @@ namespace sdw
 		, UInt const & data )
 	{
 		return UInt{ findShader( image, P, compare, data )
-			, expr::makeImageAtomicCompSwap1DArrayUU( makeExpr( image )
+			, expr::makeImageAtomicCompSwap1DArrayU( makeExpr( image )
 				, makeExpr( P )
 				, makeExpr( compare )
 				, makeExpr( data ) ) };
@@ -5196,7 +2058,7 @@ namespace sdw
 		, UInt const & data )
 	{
 		return UInt{ findShader( image, P, compare, data )
-			, expr::makeImageAtomicCompSwap2DArrayUU( makeExpr( image )
+			, expr::makeImageAtomicCompSwap2DArrayU( makeExpr( image )
 				, makeExpr( P )
 				, makeExpr( compare )
 				, makeExpr( data ) ) };
@@ -5207,60 +2069,107 @@ namespace sdw
 		, UInt const & data )
 	{
 		return UInt{ findShader( image, P, compare, data )
-			, expr::makeImageAtomicCompSwapCubeArrayUU( makeExpr( image )
+			, expr::makeImageAtomicCompSwapCubeArrayU( makeExpr( image )
 				, makeExpr( P )
 				, makeExpr( compare )
 				, makeExpr( data ) ) };
 	}
-	UInt imageAtomicCompSwap( Image2DMS const & image
+	Int imageAtomicCompSwap( IImage1D const & image
+		, Int const & P
+		, Int const & compare
+		, Int const & data )
+	{
+		return Int{ findShader( image, P, compare, data )
+			, expr::makeImageAtomicCompSwap1DI( makeExpr( image )
+				, makeExpr( P )
+				, makeExpr( compare )
+				, makeExpr( data ) ) };
+	}
+	Int imageAtomicCompSwap( IImage2D const & image
 		, IVec2 const & P
-		, Int const & sample
-		, UInt const & compare
-		, UInt const & data )
+		, Int const & compare
+		, Int const & data )
 	{
-		return UInt{ findShader( image, P, sample, compare, data )
-			, expr::makeImageAtomicCompSwap2DMSFU( makeExpr( image )
+		return Int{ findShader( image, P, compare, data )
+			, expr::makeImageAtomicCompSwap2DI( makeExpr( image )
 				, makeExpr( P )
-				, makeExpr( sample )
 				, makeExpr( compare )
 				, makeExpr( data ) ) };
 	}
-	UInt imageAtomicCompSwap( Image2DMSArray const & image
+	Int imageAtomicCompSwap( IImage3D const & image
 		, IVec3 const & P
-		, Int const & sample
-		, UInt const & compare
-		, UInt const & data )
+		, Int const & compare
+		, Int const & data )
 	{
-		return UInt{ findShader( image, P, sample, compare, data )
-			, expr::makeImageAtomicCompSwap2DMSArrayFU( makeExpr( image )
+		return Int{ findShader( image, P, compare, data )
+			, expr::makeImageAtomicCompSwap3DI( makeExpr( image )
 				, makeExpr( P )
-				, makeExpr( sample )
 				, makeExpr( compare )
 				, makeExpr( data ) ) };
 	}
-	UInt imageAtomicCompSwap( IImage2DMS const & image
+	Int imageAtomicCompSwap( IImage2DRect const & image
 		, IVec2 const & P
-		, Int const & sample
-		, UInt const & compare
-		, UInt const & data )
+		, Int const & compare
+		, Int const & data )
 	{
-		return UInt{ findShader( image, P, sample, compare, data )
-			, expr::makeImageAtomicCompSwap2DMSIU( makeExpr( image )
+		return Int{ findShader( image, P, compare, data )
+			, expr::makeImageAtomicCompSwap2DRectI( makeExpr( image )
 				, makeExpr( P )
-				, makeExpr( sample )
 				, makeExpr( compare )
 				, makeExpr( data ) ) };
 	}
-	UInt imageAtomicCompSwap( IImage2DMSArray const & image
+	Int imageAtomicCompSwap( IImageCube const & image
 		, IVec3 const & P
-		, Int const & sample
-		, UInt const & compare
-		, UInt const & data )
+		, Int const & compare
+		, Int const & data )
 	{
-		return UInt{ findShader( image, P, sample, compare, data )
-			, expr::makeImageAtomicCompSwap2DMSArrayIU( makeExpr( image )
+		return Int{ findShader( image, P, compare, data )
+			, expr::makeImageAtomicCompSwapCubeI( makeExpr( image )
 				, makeExpr( P )
-				, makeExpr( sample )
+				, makeExpr( compare )
+				, makeExpr( data ) ) };
+	}
+	Int imageAtomicCompSwap( IImageBuffer const & image
+		, Int const & P
+		, Int const & compare
+		, Int const & data )
+	{
+		return Int{ findShader( image, P, compare, data )
+			, expr::makeImageAtomicCompSwapBufferI( makeExpr( image )
+				, makeExpr( P )
+				, makeExpr( compare )
+				, makeExpr( data ) ) };
+	}
+	Int imageAtomicCompSwap( IImage1DArray const & image
+		, IVec2 const & P
+		, Int const & compare
+		, Int const & data )
+	{
+		return Int{ findShader( image, P, compare, data )
+			, expr::makeImageAtomicCompSwap1DArrayI( makeExpr( image )
+				, makeExpr( P )
+				, makeExpr( compare )
+				, makeExpr( data ) ) };
+	}
+	Int imageAtomicCompSwap( IImage2DArray const & image
+		, IVec3 const & P
+		, Int const & compare
+		, Int const & data )
+	{
+		return Int{ findShader( image, P, compare, data )
+			, expr::makeImageAtomicCompSwap2DArrayI( makeExpr( image )
+				, makeExpr( P )
+				, makeExpr( compare )
+				, makeExpr( data ) ) };
+	}
+	Int imageAtomicCompSwap( IImageCubeArray const & image
+		, IVec3 const & P
+		, Int const & compare
+		, Int const & data )
+	{
+		return Int{ findShader( image, P, compare, data )
+			, expr::makeImageAtomicCompSwapCubeArrayI( makeExpr( image )
+				, makeExpr( P )
 				, makeExpr( compare )
 				, makeExpr( data ) ) };
 	}
@@ -5271,7 +2180,7 @@ namespace sdw
 		, UInt const & data )
 	{
 		return UInt{ findShader( image, P, sample, compare, data )
-			, expr::makeImageAtomicCompSwap2DMSUU( makeExpr( image )
+			, expr::makeImageAtomicCompSwap2DMSU( makeExpr( image )
 				, makeExpr( P )
 				, makeExpr( sample )
 				, makeExpr( compare )
@@ -5284,338 +2193,7 @@ namespace sdw
 		, UInt const & data )
 	{
 		return UInt{ findShader( image, P, sample, compare, data )
-			, expr::makeImageAtomicCompSwap2DMSArrayUU( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( sample )
-				, makeExpr( compare )
-				, makeExpr( data ) ) };
-	}
-	/**@}*/
-#pragma endregion
-#pragma region imageAtomicCompSwapI
-	/**
-	*name
-	*	imageAtomicCompSwapI
-	*/
-	/**@{*/
-	Int imageAtomicCompSwap( Image1D const & image
-		, Int const & P
-		, Int const & compare
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, compare, data )
-			, expr::makeImageAtomicCompSwap1DFI( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( compare )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicCompSwap( Image2D const & image
-		, IVec2 const & P
-		, Int const & compare
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, compare, data )
-			, expr::makeImageAtomicCompSwap2DFI( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( compare )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicCompSwap( Image3D const & image
-		, IVec3 const & P
-		, Int const & compare
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, compare, data )
-			, expr::makeImageAtomicCompSwap3DFI( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( compare )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicCompSwap( Image2DRect const & image
-		, IVec2 const & P
-		, Int const & compare
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, compare, data )
-			, expr::makeImageAtomicCompSwap2DRectFI( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( compare )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicCompSwap( ImageCube const & image
-		, IVec3 const & P
-		, Int const & compare
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, compare, data )
-			, expr::makeImageAtomicCompSwapCubeFI( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( compare )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicCompSwap( ImageBuffer const & image
-		, Int const & P
-		, Int const & compare
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, compare, data )
-			, expr::makeImageAtomicCompSwapBufferFI( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( compare )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicCompSwap( Image1DArray const & image
-		, IVec2 const & P
-		, Int const & compare
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, compare, data )
-			, expr::makeImageAtomicCompSwap1DArrayFI( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( compare )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicCompSwap( Image2DArray const & image
-		, IVec3 const & P
-		, Int const & compare
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, compare, data )
-			, expr::makeImageAtomicCompSwap2DArrayFI( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( compare )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicCompSwap( ImageCubeArray const & image
-		, IVec3 const & P
-		, Int const & compare
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, compare, data )
-			, expr::makeImageAtomicCompSwapCubeArrayFI( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( compare )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicCompSwap( IImage1D const & image
-		, Int const & P
-		, Int const & compare
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, compare, data )
-			, expr::makeImageAtomicCompSwap1DII( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( compare )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicCompSwap( IImage2D const & image
-		, IVec2 const & P
-		, Int const & compare
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, compare, data )
-			, expr::makeImageAtomicCompSwap2DII( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( compare )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicCompSwap( IImage3D const & image
-		, IVec3 const & P
-		, Int const & compare
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, compare, data )
-			, expr::makeImageAtomicCompSwap3DII( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( compare )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicCompSwap( IImage2DRect const & image
-		, IVec2 const & P
-		, Int const & compare
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, compare, data )
-			, expr::makeImageAtomicCompSwap2DRectII( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( compare )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicCompSwap( IImageCube const & image
-		, IVec3 const & P
-		, Int const & compare
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, compare, data )
-			, expr::makeImageAtomicCompSwapCubeII( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( compare )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicCompSwap( IImageBuffer const & image
-		, Int const & P
-		, Int const & compare
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, compare, data )
-			, expr::makeImageAtomicCompSwapBufferII( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( compare )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicCompSwap( IImage1DArray const & image
-		, IVec2 const & P
-		, Int const & compare
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, compare, data )
-			, expr::makeImageAtomicCompSwap1DArrayII( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( compare )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicCompSwap( IImage2DArray const & image
-		, IVec3 const & P
-		, Int const & compare
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, compare, data )
-			, expr::makeImageAtomicCompSwap2DArrayII( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( compare )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicCompSwap( IImageCubeArray const & image
-		, IVec3 const & P
-		, Int const & compare
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, compare, data )
-			, expr::makeImageAtomicCompSwapCubeArrayII( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( compare )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicCompSwap( UImage1D const & image
-		, Int const & P
-		, Int const & compare
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, compare, data )
-			, expr::makeImageAtomicCompSwap1DUI( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( compare )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicCompSwap( UImage2D const & image
-		, IVec2 const & P
-		, Int const & compare
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, compare, data )
-			, expr::makeImageAtomicCompSwap2DUI( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( compare )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicCompSwap( UImage3D const & image
-		, IVec3 const & P
-		, Int const & compare
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, compare, data )
-			, expr::makeImageAtomicCompSwap3DUI( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( compare )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicCompSwap( UImage2DRect const & image
-		, IVec2 const & P
-		, Int const & compare
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, compare, data )
-			, expr::makeImageAtomicCompSwap2DRectUI( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( compare )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicCompSwap( UImageCube const & image
-		, IVec3 const & P
-		, Int const & compare
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, compare, data )
-			, expr::makeImageAtomicCompSwapCubeUI( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( compare )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicCompSwap( UImageBuffer const & image
-		, Int const & P
-		, Int const & compare
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, compare, data )
-			, expr::makeImageAtomicCompSwapBufferUI( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( compare )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicCompSwap( UImage1DArray const & image
-		, IVec2 const & P
-		, Int const & compare
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, compare, data )
-			, expr::makeImageAtomicCompSwap1DArrayUI( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( compare )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicCompSwap( UImage2DArray const & image
-		, IVec3 const & P
-		, Int const & compare
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, compare, data )
-			, expr::makeImageAtomicCompSwap2DArrayUI( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( compare )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicCompSwap( UImageCubeArray const & image
-		, IVec3 const & P
-		, Int const & compare
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, compare, data )
-			, expr::makeImageAtomicCompSwapCubeArrayUI( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( compare )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicCompSwap( Image2DMS const & image
-		, IVec2 const & P
-		, Int const & sample
-		, Int const & compare
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, sample, compare, data )
-			, expr::makeImageAtomicCompSwap2DMSFI( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( sample )
-				, makeExpr( compare )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicCompSwap( Image2DMSArray const & image
-		, IVec3 const & P
-		, Int const & sample
-		, Int const & compare
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, sample, compare, data )
-			, expr::makeImageAtomicCompSwap2DMSArrayFI( makeExpr( image )
+			, expr::makeImageAtomicCompSwap2DMSArrayU( makeExpr( image )
 				, makeExpr( P )
 				, makeExpr( sample )
 				, makeExpr( compare )
@@ -5628,7 +2206,7 @@ namespace sdw
 		, Int const & data )
 	{
 		return Int{ findShader( image, P, sample, compare, data )
-			, expr::makeImageAtomicCompSwap2DMSII( makeExpr( image )
+			, expr::makeImageAtomicCompSwap2DMSI( makeExpr( image )
 				, makeExpr( P )
 				, makeExpr( sample )
 				, makeExpr( compare )
@@ -5641,33 +2219,7 @@ namespace sdw
 		, Int const & data )
 	{
 		return Int{ findShader( image, P, sample, compare, data )
-			, expr::makeImageAtomicCompSwap2DMSArrayII( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( sample )
-				, makeExpr( compare )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicCompSwap( UImage2DMS const & image
-		, IVec2 const & P
-		, Int const & sample
-		, Int const & compare
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, sample, compare, data )
-			, expr::makeImageAtomicCompSwap2DMSUI( makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( sample )
-				, makeExpr( compare )
-				, makeExpr( data ) ) };
-	}
-	Int imageAtomicCompSwap( UImage2DMSArray const & image
-		, IVec3 const & P
-		, Int const & sample
-		, Int const & compare
-		, Int const & data )
-	{
-		return Int{ findShader( image, P, sample, compare, data )
-			, expr::makeImageAtomicCompSwap2DMSArrayUI( makeExpr( image )
+			, expr::makeImageAtomicCompSwap2DMSArrayI( makeExpr( image )
 				, makeExpr( P )
 				, makeExpr( sample )
 				, makeExpr( compare )

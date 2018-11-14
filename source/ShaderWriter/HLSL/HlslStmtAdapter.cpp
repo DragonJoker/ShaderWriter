@@ -186,6 +186,7 @@ namespace sdw::hlsl
 		writeHlslIntrinsicFunctions( cont.get(), m_config );
 		writeHlslTextureAccessFunctions( cont.get(), m_config );
 		writeHlslImageAccessFunctions( cont.get(), m_config );
+		m_intrinsics = cont.get();
 		m_result->addStmt( std::move( cont ) );
 
 		m_inputVar = m_shader.registerName( "sdwInput", m_inputStruct, var::Flag::eInputParam );
@@ -258,7 +259,8 @@ namespace sdw::hlsl
 			, m_config
 			, m_linkedVars
 			, m_inputMembers
-			, m_outputMembers ) );
+			, m_outputMembers
+			, m_intrinsics ) );
 		m_result = cont.get();
 		visitContainerStmt( stmt );
 		m_result = save;
@@ -272,7 +274,8 @@ namespace sdw::hlsl
 			, m_config
 			, m_linkedVars
 			, m_inputMembers
-			, m_outputMembers ) );
+			, m_outputMembers
+			, m_intrinsics ) );
 		m_result = cont;
 		visitContainerStmt( stmt );
 		m_result = save;
@@ -294,17 +297,20 @@ namespace sdw::hlsl
 				, m_config
 				, m_linkedVars
 				, m_inputMembers
-				, m_outputMembers )
+				, m_outputMembers
+				, m_intrinsics )
 			, ExprAdapter::submit( stmt->getCtrlExpr()
 				, m_config
 				, m_linkedVars
 				, m_inputMembers
-				, m_outputMembers )
+				, m_outputMembers
+				, m_intrinsics )
 			, ExprAdapter::submit( stmt->getIncrExpr()
 				, m_config
 				, m_linkedVars
 				, m_inputMembers
-				, m_outputMembers ) );
+				, m_outputMembers
+				, m_intrinsics ) );
 		m_result = cont.get();
 		visitContainerStmt( stmt );
 		m_result = save;
@@ -341,7 +347,8 @@ namespace sdw::hlsl
 			, m_config
 			, m_linkedVars
 			, m_inputMembers
-			, m_outputMembers ) );
+			, m_outputMembers
+			, m_intrinsics ) );
 		m_result = cont.get();
 		visitContainerStmt( stmt );
 		m_result = save;
@@ -431,7 +438,8 @@ namespace sdw::hlsl
 				, m_config
 				, m_linkedVars
 				, m_inputMembers
-				, m_outputMembers ) ) );
+				, m_outputMembers
+				, m_intrinsics ) ) );
 		}
 		else
 		{
@@ -527,7 +535,8 @@ namespace sdw::hlsl
 			, m_config
 			, m_linkedVars
 			, m_inputMembers
-			, m_outputMembers ) ) );
+			, m_outputMembers
+			, m_intrinsics ) ) );
 	}
 
 	void StmtAdapter::visitStructureDeclStmt( stmt::StructureDecl * stmt )
@@ -561,7 +570,8 @@ namespace sdw::hlsl
 			, m_config
 			, m_linkedVars
 			, m_inputMembers
-			, m_outputMembers ) ) );
+			, m_outputMembers
+			, m_intrinsics ) ) );
 		m_switchStmts.push_back( cont.get() );
 		m_result = cont.get();
 		visitContainerStmt( stmt );
@@ -615,7 +625,8 @@ namespace sdw::hlsl
 			, m_config
 			, m_linkedVars
 			, m_inputMembers
-			, m_outputMembers ) );
+			, m_outputMembers
+			, m_intrinsics ) );
 
 		auto save = m_result;
 		m_result = cont.get();
@@ -626,11 +637,52 @@ namespace sdw::hlsl
 
 	void StmtAdapter::visitPreprocDefine( stmt::PreprocDefine * preproc )
 	{
-		m_result->addStmt( stmt::makePreprocDefine( preproc->getName(), ExprAdapter::submit( preproc->getExpr()
-			, m_config
-			, m_linkedVars
-			, m_inputMembers
-			, m_outputMembers ) ) );
+		if ( preproc->getExpr() )
+		{
+			auto var = m_shader.getVar( preproc->getName(), preproc->getExpr()->getType() );
+
+			if ( var )
+			{
+				var->setFlag( var::Flag::eConstant );
+
+				if ( preproc->getExpr()->getKind() == expr::Kind::eAggrInit )
+				{
+					expr::ExprList initialisers;
+
+					for ( auto & expr : static_cast< expr::AggrInit const & >( *preproc->getExpr() ).getInitialisers() )
+					{
+						initialisers.emplace_back( ExprAdapter::submit( expr
+							, m_config
+							, m_linkedVars
+							, m_inputMembers
+							, m_outputMembers
+							, m_intrinsics ) );
+					}
+
+					m_result->addStmt( stmt::makeSimple( expr::makeAggrInit( makeIdent( var )
+						, std::move( initialisers ) ) ) );
+				}
+				else
+				{
+					m_result->addStmt( stmt::makeSimple( expr::makeInit( makeIdent( var )
+						, ExprAdapter::submit( preproc->getExpr()
+							, m_config
+							, m_linkedVars
+							, m_inputMembers
+							, m_outputMembers
+							, m_intrinsics ) ) ) );
+				}
+			}
+		}
+		else
+		{
+			m_result->addStmt( stmt::makePreprocDefine( preproc->getName(), ExprAdapter::submit( preproc->getExpr()
+				, m_config
+				, m_linkedVars
+				, m_inputMembers
+				, m_outputMembers
+				, m_intrinsics ) ) );
+		}
 	}
 
 	void StmtAdapter::visitPreprocElif( stmt::PreprocElif * preproc )
@@ -643,7 +695,8 @@ namespace sdw::hlsl
 				, m_config
 				, m_linkedVars
 				, m_inputMembers
-				, m_outputMembers ) );
+				, m_outputMembers
+				, m_intrinsics ) );
 		}
 		else
 		{
@@ -651,7 +704,8 @@ namespace sdw::hlsl
 				, m_config
 				, m_linkedVars
 				, m_inputMembers
-				, m_outputMembers ) );
+				, m_outputMembers
+				, m_intrinsics ) );
 		}
 
 		auto save = m_result;
@@ -693,7 +747,8 @@ namespace sdw::hlsl
 			, m_config
 			, m_linkedVars
 			, m_inputMembers
-			, m_outputMembers ) );
+			, m_outputMembers
+			, m_intrinsics ) );
 		m_preprocIfStmts.push_back( cont.get() );
 		m_preprocIfDefs.push_back( false );
 
@@ -702,6 +757,18 @@ namespace sdw::hlsl
 		visitContainerStmt( preproc );
 		m_result = save;
 		m_result->addStmt( std::move( cont ) );
+
+		for ( auto & elseIf : preproc->getElifList() )
+		{
+			elseIf->accept( this );
+		}
+
+		if ( preproc->getElse() )
+		{
+			preproc->getElse()->accept( this );
+		}
+
+		m_preprocIfDefs.pop_back();
 		m_preprocIfStmts.pop_back();
 	}
 
@@ -716,6 +783,18 @@ namespace sdw::hlsl
 		visitContainerStmt( preproc );
 		m_result = save;
 		m_result->addStmt( std::move( cont ) );
+
+		for ( auto & elseIf : preproc->getElifList() )
+		{
+			elseIf->accept( this );
+		}
+
+		if ( preproc->getElse() )
+		{
+			preproc->getElse()->accept( this );
+		}
+
+		m_preprocIfDefs.pop_back();
 		m_preprocIfDefStmts.pop_back();
 	}
 

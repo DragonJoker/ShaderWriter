@@ -7,6 +7,28 @@ See LICENSE file in root folder
 
 namespace sdw::hlsl
 {
+	namespace
+	{
+		std::string getArray( uint32_t arraySize )
+		{
+			std::string result;
+
+			if ( arraySize != ast::type::NotArray )
+			{
+				if ( arraySize == ast::type::UnknownArraySize )
+				{
+					result += "[]";
+				}
+				else
+				{
+					result += "[" + std::to_string( arraySize ) + "]";
+				}
+			}
+
+			return result;
+		}
+	}
+
 	std::string StmtVisitor::submit( stmt::Stmt * stmt
 		, ShaderType type
 		, std::string indent )
@@ -46,12 +68,15 @@ namespace sdw::hlsl
 
 	void StmtVisitor::visitConstantBufferDeclStmt( stmt::ConstantBufferDecl * stmt )
 	{
-		m_appendLineEnd = true;
-		doAppendLineEnd();
-		m_result += m_indent + "cbuffer " + stmt->getName() + ": register(b" + std::to_string( stmt->getBindingPoint() ) + ")";
-		m_appendSemiColon = true;
-		visitCompoundStmt( stmt );
-		m_appendLineEnd = true;
+		if ( !stmt->empty() )
+		{
+			m_appendLineEnd = true;
+			doAppendLineEnd();
+			m_result += m_indent + "cbuffer " + stmt->getName() + ": register(b" + std::to_string( stmt->getBindingPoint() ) + ")";
+			m_appendSemiColon = true;
+			visitCompoundStmt( stmt );
+			m_appendLineEnd = true;
+		}
 	}
 
 	void StmtVisitor::visitDiscardStmt( stmt::Discard * stmt )
@@ -62,14 +87,15 @@ namespace sdw::hlsl
 
 	void StmtVisitor::visitPushConstantsBufferDeclStmt( stmt::PushConstantsBufferDecl * stmt )
 	{
-		m_appendLineEnd = true;
-		doAppendLineEnd();
-		m_result += m_indent;
-		m_result += "layout(push_constant) ";
-		m_result += "uniform " + stmt->getName();
-		m_appendSemiColon = true;
-		visitCompoundStmt( stmt );
-		m_appendLineEnd = true;
+		if ( !stmt->empty() )
+		{
+			m_appendLineEnd = true;
+			doAppendLineEnd();
+			m_result += m_indent + "cbuffer " + stmt->getName();
+			m_appendSemiColon = true;
+			visitCompoundStmt( stmt );
+			m_appendLineEnd = true;
+		}
 	}
 
 	void StmtVisitor::visitCommentStmt( stmt::Comment * stmt )
@@ -186,28 +212,16 @@ namespace sdw::hlsl
 		doAppendLineEnd();
 		m_result += m_indent;
 		m_result += getTypeName( stmt->getVariable()->getType() ) + " ";
+		m_result += stmt->getVariable()->getName();
+		m_result += getArray( stmt->getVariable()->getType()->getArraySize() );
 
 		if ( stmt->getVariable()->isImplicit() )
 		{
-			m_result += stmt->getVariable()->getName() + ": register(t" + std::to_string( stmt->getBindingPoint() ) + ")";
+			m_result += ": register(t" + std::to_string( stmt->getBindingPoint() ) + ")";
 		}
 		else
 		{
-			m_result += stmt->getVariable()->getName() + ": register(u" + std::to_string( stmt->getBindingPoint() ) + ")";
-		}
-
-		auto arraySize = stmt->getVariable()->getType()->getArraySize();
-
-		if ( arraySize != ast::type::NotArray )
-		{
-			if ( arraySize == ast::type::UnknownArraySize )
-			{
-				m_result += "[]";
-			}
-			else
-			{
-				m_result += "[" + std::to_string( arraySize ) + "]";
-			}
+			m_result += ": register(u" + std::to_string( stmt->getBindingPoint() ) + ")";
 		}
 
 		m_result += ";\n";
@@ -280,17 +294,19 @@ namespace sdw::hlsl
 	void StmtVisitor::visitSamplerDeclStmt( stmt::SamplerDecl * stmt )
 	{
 		doAppendLineEnd();
-		m_result += m_indent + getTypeName( stmt->getVariable()->getType() ) + " " + stmt->getVariable()->getName() + ": register(s" + std::to_string( stmt->getBindingPoint() ) + ");\n";
+		m_result += m_indent + getTypeName( stmt->getVariable()->getType() ) + " " + stmt->getVariable()->getName();
+		m_result += getArray( stmt->getVariable()->getType()->getArraySize() );
+		m_result += ": register(s" + std::to_string( stmt->getBindingPoint() ) + ");\n";
 	}
 
 	void StmtVisitor::visitShaderBufferDeclStmt( stmt::ShaderBufferDecl * stmt )
 	{
-		m_appendLineEnd = true;
-		doAppendLineEnd();
-		m_result += m_indent + "struct " + stmt->getName() + "Struct";
-		m_appendSemiColon = true;
-		visitCompoundStmt( stmt );
-		m_result += m_indent + "RWStructuredBuffer<" + stmt->getName() + "Struct> " + stmt->getName() + ": register(u" + std::to_string( stmt->getBindingPoint() ) + ");\n";
+		if ( !stmt->empty() )
+		{
+			m_appendLineEnd = true;
+			doAppendLineEnd();
+			m_result += m_indent + "RWByteAddressBuffer " + stmt->getName() + ": register(u" + std::to_string( stmt->getBindingPoint() ) + ");\n";
+		}
 	}
 
 	void StmtVisitor::visitSimpleStmt( stmt::Simple * stmt )
@@ -313,22 +329,23 @@ namespace sdw::hlsl
 
 			for ( auto & member : *stmt->getType() )
 			{
-				m_result += m_indent + getTypeName( member.type ) + " " + member.name;
-				auto arraySize = member.type->getArraySize();
+				m_result += m_indent + getTypeName( member.type ) + " ";
+				auto name = member.name;
+				auto index = name.find( ":" );
 
-				if ( arraySize != ast::type::NotArray )
+				if ( index != std::string::npos )
 				{
-					if ( arraySize == ast::type::UnknownArraySize )
-					{
-						m_result += "[]";
-					}
-					else
-					{
-						m_result += "[" + std::to_string( arraySize ) + "]";
-					}
+					// There are semantics for this variable.
+					name = name.substr( 0, index )
+						+ getArray( member.type->getArraySize() )
+						+ name.substr( index );
+				}
+				else
+				{
+					name += getArray( member.type->getArraySize() );
 				}
 
-				m_result += ";\n";
+				m_result += name + ";\n";
 			}
 
 			m_indent = save;
@@ -377,21 +394,9 @@ namespace sdw::hlsl
 	void StmtVisitor::visitVariableDeclStmt( stmt::VariableDecl * stmt )
 	{
 		doAppendLineEnd();
-		m_result += m_indent + getTypeName( stmt->getVariable()->getType() ) + " " + stmt->getVariable()->getName();
-		auto arraySize = stmt->getVariable()->getType()->getArraySize();
-
-		if ( arraySize != ast::type::NotArray )
-		{
-			if ( arraySize == ast::type::UnknownArraySize )
-			{
-				m_result += "[]";
-			}
-			else
-			{
-				m_result += "[" + std::to_string( arraySize ) + "]";
-			}
-		}
-
+		m_result += m_indent + getTypeName( stmt->getVariable()->getType() ) + " ";
+		m_result += stmt->getVariable()->getName();
+		m_result += getArray( stmt->getVariable()->getType()->getArraySize() );
 		m_result += ";\n";
 	}
 

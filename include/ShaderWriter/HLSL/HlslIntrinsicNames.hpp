@@ -750,7 +750,7 @@ namespace sdw::hlsl
 		case ast::expr::Intrinsic::eInverse2x2D:
 		case ast::expr::Intrinsic::eInverse3x3D:
 		case ast::expr::Intrinsic::eInverse4x4D:
-			result = "SDW_inverse";
+			result = "SDW_Inverse";
 			break;
 
 

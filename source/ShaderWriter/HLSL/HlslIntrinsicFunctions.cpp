@@ -118,7 +118,7 @@ namespace sdw::hlsl
 			auto cont = stmt::makeContainer();
 			cont->addStmt( stmt::makeComment( "double SDW_packDouble2x32(uint2 v)" ) );
 			cont->addStmt( stmt::makeComment( "{" ) );
-			cont->addStmt( stmt::makeComment( "	return double(v);" ) );
+			cont->addStmt( stmt::makeComment( "	return asdouble(v.x, v.y);" ) );
 			cont->addStmt( stmt::makeComment( "}" ) );
 			container->addStmt( std::move( cont ) );
 		}
@@ -128,7 +128,9 @@ namespace sdw::hlsl
 			auto cont = stmt::makeContainer();
 			cont->addStmt( stmt::makeComment( "uint2 SDW_unpackDouble2x32(double v)" ) );
 			cont->addStmt( stmt::makeComment( "{" ) );
-			cont->addStmt( stmt::makeComment( "	return uint2(v);" ) );
+			cont->addStmt( stmt::makeComment( "	uint2 res;" ) );
+			cont->addStmt( stmt::makeComment( "	asuint(v, res.x, res.y);" ) );
+			cont->addStmt( stmt::makeComment( "	return res;" ) );
 			cont->addStmt( stmt::makeComment( "}" ) );
 			container->addStmt( std::move( cont ) );
 		}
@@ -149,7 +151,7 @@ namespace sdw::hlsl
 			auto cont = stmt::makeContainer();
 			cont->addStmt( stmt::makeComment( "float2 SDW_unpackHalf2x16(uint v)" ) );
 			cont->addStmt( stmt::makeComment( "{" ) );
-			cont->addStmt( stmt::makeComment( "	return f16tof32(uint2(v & 0x0000FFFF, v >> 16));" ) );
+			cont->addStmt( stmt::makeComment( "	return f16tof32(uint2(v & 0xFFFF, v >> 16));" ) );
 			cont->addStmt( stmt::makeComment( "}" ) );
 			container->addStmt( std::move( cont ) );
 		}
@@ -159,7 +161,7 @@ namespace sdw::hlsl
 			auto cont = stmt::makeContainer();
 			cont->addStmt( stmt::makeComment( "uint SDW_packSnorm2x16(float2 v)" ) );
 			cont->addStmt( stmt::makeComment( "{" ) );
-			cont->addStmt( stmt::makeComment( "	int2 p = int2(round(clamp(v, -1.0, 1.0) * 32767.0));" ) );
+			cont->addStmt( stmt::makeComment( "	int2 p = int2(round(clamp(v, -1.0, 1.0) * 32767.0)) & 0xFFFF;" ) );
 			cont->addStmt( stmt::makeComment( "	return uint(p.x | (p.y << 16));" ) );
 			cont->addStmt( stmt::makeComment( "}" ) );
 			container->addStmt( std::move( cont ) );
@@ -182,7 +184,7 @@ namespace sdw::hlsl
 			auto cont = stmt::makeContainer();
 			cont->addStmt( stmt::makeComment( "uint SDW_packUnorm2x16(float2 v)" ) );
 			cont->addStmt( stmt::makeComment( "{" ) );
-			cont->addStmt( stmt::makeComment( "	uint2 p = uint2(round(clamp(v, 0.0, 1.0) * 65535.0));" ) );
+			cont->addStmt( stmt::makeComment( "	uint2 p = uint2(round(saturate(v) * 65535.0));" ) );
 			cont->addStmt( stmt::makeComment( "	return p.x | (p.y << 16);" ) );
 			cont->addStmt( stmt::makeComment( "}" ) );
 			container->addStmt( std::move( cont ) );
@@ -193,8 +195,8 @@ namespace sdw::hlsl
 			auto cont = stmt::makeContainer();
 			cont->addStmt( stmt::makeComment( "float2 SDW_unpackUnorm2x16(uint v)" ) );
 			cont->addStmt( stmt::makeComment( "{" ) );
-			cont->addStmt( stmt::makeComment( "	uint2 p = uint2(v << 16, v) >> 24;" ) );
-			cont->addStmt( stmt::makeComment( "	return clamp(p / 65535.0, 0.0, 1.0);" ) );
+			cont->addStmt( stmt::makeComment( "	uint2 p = uint2(v & 0xFFFF, v >> 16);" ) );
+			cont->addStmt( stmt::makeComment( "	return float2(p) / 65535.0;" ) );
 			cont->addStmt( stmt::makeComment( "}" ) );
 			container->addStmt( std::move( cont ) );
 		}
@@ -204,7 +206,7 @@ namespace sdw::hlsl
 			auto cont = stmt::makeContainer();
 			cont->addStmt( stmt::makeComment( "uint SDW_packSnorm4x8(float4 v)" ) );
 			cont->addStmt( stmt::makeComment( "{" ) );
-			cont->addStmt( stmt::makeComment( "	int4 p = int4(round(clamp(v, -1.0, 1.0) * 127.0));" ) );
+			cont->addStmt( stmt::makeComment( "	int4 p = int4(round(clamp(v, -1.0, 1.0) * 127.0)) & 0xFF;" ) );
 			cont->addStmt( stmt::makeComment( "	return uint(p.x | (p.y << 8) | (p.z << 16) | (p.w << 24));" ) );
 			cont->addStmt( stmt::makeComment( "}" ) );
 			container->addStmt( std::move( cont ) );
@@ -217,7 +219,7 @@ namespace sdw::hlsl
 			cont->addStmt( stmt::makeComment( "{" ) );
 			cont->addStmt( stmt::makeComment( "	int s = int(v);" ) );
 			cont->addStmt( stmt::makeComment( "	int4 p = int4(s << 24, s << 16, s << 8, s) >> 24;" ) );
-			cont->addStmt( stmt::makeComment( "	return clamp(p / 127.0, -1.0, 1.0);" ) );
+			cont->addStmt( stmt::makeComment( "	return clamp(float4(p) / 127.0, -1.0, 1.0);" ) );
 			cont->addStmt( stmt::makeComment( "}" ) );
 			container->addStmt( std::move( cont ) );
 		}
@@ -236,10 +238,10 @@ namespace sdw::hlsl
 		inline void writeUnpackUnorm4x8( stmt::Container * container )
 		{
 			auto cont = stmt::makeContainer();
-			cont->addStmt( stmt::makeComment( "float4 SDW_unpackSnorm4x8(uint v)" ) );
+			cont->addStmt( stmt::makeComment( "float4 SDW_unpackUnorm4x8(uint v)" ) );
 			cont->addStmt( stmt::makeComment( "{" ) );
-			cont->addStmt( stmt::makeComment( "	uint4 p = uint4(v << 24, v << 16, v << 8, v) >> 24;" ) );
-			cont->addStmt( stmt::makeComment( "	return clamp(p / 127.0, -1.0, 1.0);" ) );
+			cont->addStmt( stmt::makeComment( "	uint4 p = uint4(v & 0xFF, (v >> 8) & 0xFF, (v >> 16) & 0xFF, v >> 24);" ) );
+			cont->addStmt( stmt::makeComment( "	return float4(p) / 255.0;" ) );
 			cont->addStmt( stmt::makeComment( "}" ) );
 			container->addStmt( std::move( cont ) );
 		}
@@ -249,7 +251,7 @@ namespace sdw::hlsl
 			auto cont = stmt::makeContainer();
 			cont->addStmt( stmt::makeComment( "float2x2 SDW_Inverse(float2x2 m)" ) );
 			cont->addStmt( stmt::makeComment( "{" ) );
-			cont->addStmt( stmt::makeComment( "	float2x2 adj" ) );
+			cont->addStmt( stmt::makeComment( "	float2x2 adj;" ) );
 			cont->addStmt( stmt::makeComment( "	adj[0][0] =  m[1][1];" ) );
 			cont->addStmt( stmt::makeComment( "	adj[0][1] = -m[0][1];" ) );
 			cont->addStmt( stmt::makeComment( "	adj[1][0] = -m[1][0];" ) );
@@ -265,7 +267,7 @@ namespace sdw::hlsl
 			auto cont = stmt::makeContainer();
 			cont->addStmt( stmt::makeComment( "double2x2 SDW_Inverse(double2x2 m)" ) );
 			cont->addStmt( stmt::makeComment( "{" ) );
-			cont->addStmt( stmt::makeComment( "	double2x2 adj" ) );
+			cont->addStmt( stmt::makeComment( "	double2x2 adj;" ) );
 			cont->addStmt( stmt::makeComment( "	adj[0][0] =  m[1][1];" ) );
 			cont->addStmt( stmt::makeComment( "	adj[0][1] = -m[0][1];" ) );
 			cont->addStmt( stmt::makeComment( "	adj[1][0] = -m[1][0];" ) );
@@ -422,7 +424,7 @@ namespace sdw::hlsl
 			cont->addStmt( stmt::makeComment( "uint SDW_uaddCarry(uint x, uint y, out uint carry)" ) );
 			cont->addStmt( stmt::makeComment( "{" ) );
 			cont->addStmt( stmt::makeComment( "	uint r;" ) );
-			cont->addStmt( stmt::makeComment( "	uaddc r, carry, x, y" ) );
+			cont->addStmt( stmt::makeComment( "	uaddc r, carry, x, y;" ) );
 			cont->addStmt( stmt::makeComment( "	return r;" ) );
 			cont->addStmt( stmt::makeComment( "}" ) );
 			container->addStmt( std::move( cont ) );
@@ -434,8 +436,8 @@ namespace sdw::hlsl
 			cont->addStmt( stmt::makeComment( "uint2 SDW_uaddCarry(uint2 x, uint2 y, out uint2 carry)" ) );
 			cont->addStmt( stmt::makeComment( "{" ) );
 			cont->addStmt( stmt::makeComment( "	uint2 r;" ) );
-			cont->addStmt( stmt::makeComment( "	uaddc r.x, carry.x, x.x, y.x" ) );
-			cont->addStmt( stmt::makeComment( "	uaddc r.y, carry.y, x.y, y.y" ) );
+			cont->addStmt( stmt::makeComment( "	uaddc r.x, carry.x, x.x, y.x;" ) );
+			cont->addStmt( stmt::makeComment( "	uaddc r.y, carry.y, x.y, y.y;" ) );
 			cont->addStmt( stmt::makeComment( "	return r;" ) );
 			cont->addStmt( stmt::makeComment( "}" ) );
 			container->addStmt( std::move( cont ) );
@@ -447,9 +449,9 @@ namespace sdw::hlsl
 			cont->addStmt( stmt::makeComment( "uint3 SDW_uaddCarry(uint3 x, uint3 y, out uint3 carry)" ) );
 			cont->addStmt( stmt::makeComment( "{" ) );
 			cont->addStmt( stmt::makeComment( "	uint3 r;" ) );
-			cont->addStmt( stmt::makeComment( "	uaddc r.x, carry.x, x.x, y.x" ) );
-			cont->addStmt( stmt::makeComment( "	uaddc r.y, carry.y, x.y, y.y" ) );
-			cont->addStmt( stmt::makeComment( "	uaddc r.z, carry.z, x.z, y.z" ) );
+			cont->addStmt( stmt::makeComment( "	uaddc r.x, carry.x, x.x, y.x;" ) );
+			cont->addStmt( stmt::makeComment( "	uaddc r.y, carry.y, x.y, y.y;" ) );
+			cont->addStmt( stmt::makeComment( "	uaddc r.z, carry.z, x.z, y.z;" ) );
 			cont->addStmt( stmt::makeComment( "	return r;" ) );
 			cont->addStmt( stmt::makeComment( "}" ) );
 			container->addStmt( std::move( cont ) );
@@ -461,10 +463,10 @@ namespace sdw::hlsl
 			cont->addStmt( stmt::makeComment( "uint4 SDW_uaddCarry(uint4 x, uint4 y, out uint4 carry)" ) );
 			cont->addStmt( stmt::makeComment( "{" ) );
 			cont->addStmt( stmt::makeComment( "	uint4 r;" ) );
-			cont->addStmt( stmt::makeComment( "	uaddc r.x, carry.x, x.x, y.x" ) );
-			cont->addStmt( stmt::makeComment( "	uaddc r.y, carry.y, x.y, y.y" ) );
-			cont->addStmt( stmt::makeComment( "	uaddc r.z, carry.z, x.z, y.z" ) );
-			cont->addStmt( stmt::makeComment( "	uaddc r.w, carry.w, x.w, y.w" ) );
+			cont->addStmt( stmt::makeComment( "	uaddc r.x, carry.x, x.x, y.x;" ) );
+			cont->addStmt( stmt::makeComment( "	uaddc r.y, carry.y, x.y, y.y;" ) );
+			cont->addStmt( stmt::makeComment( "	uaddc r.z, carry.z, x.z, y.z;" ) );
+			cont->addStmt( stmt::makeComment( "	uaddc r.w, carry.w, x.w, y.w;" ) );
 			cont->addStmt( stmt::makeComment( "	return r;" ) );
 			cont->addStmt( stmt::makeComment( "}" ) );
 			container->addStmt( std::move( cont ) );
@@ -476,7 +478,7 @@ namespace sdw::hlsl
 			cont->addStmt( stmt::makeComment( "uint SDW_usubBorrow(uint x, uint y, out uint borrow)" ) );
 			cont->addStmt( stmt::makeComment( "{" ) );
 			cont->addStmt( stmt::makeComment( "	uint r;" ) );
-			cont->addStmt( stmt::makeComment( "	usubb r, borrow, x, y" ) );
+			cont->addStmt( stmt::makeComment( "	usubb r, borrow, x, y;" ) );
 			cont->addStmt( stmt::makeComment( "	return r;" ) );
 			cont->addStmt( stmt::makeComment( "}" ) );
 			container->addStmt( std::move( cont ) );
@@ -488,8 +490,8 @@ namespace sdw::hlsl
 			cont->addStmt( stmt::makeComment( "uint2 SDW_usubBorrow(uint2 x, uint2 y, out uint2 borrow)" ) );
 			cont->addStmt( stmt::makeComment( "{" ) );
 			cont->addStmt( stmt::makeComment( "	uint2 r;" ) );
-			cont->addStmt( stmt::makeComment( "	usubb r.x, borrow.x, x.x, y.x" ) );
-			cont->addStmt( stmt::makeComment( "	usubb r.y, borrow.y, x.y, y.y" ) );
+			cont->addStmt( stmt::makeComment( "	usubb r.x, borrow.x, x.x, y.x;" ) );
+			cont->addStmt( stmt::makeComment( "	usubb r.y, borrow.y, x.y, y.y;" ) );
 			cont->addStmt( stmt::makeComment( "	return r;" ) );
 			cont->addStmt( stmt::makeComment( "}" ) );
 			container->addStmt( std::move( cont ) );
@@ -501,9 +503,9 @@ namespace sdw::hlsl
 			cont->addStmt( stmt::makeComment( "uint3 SDW_usubBorrow(uint3 x, uint3 y, out uint3 borrow)" ) );
 			cont->addStmt( stmt::makeComment( "{" ) );
 			cont->addStmt( stmt::makeComment( "	uint3 r;" ) );
-			cont->addStmt( stmt::makeComment( "	usubb r.x, borrow.x, x.x, y.x" ) );
-			cont->addStmt( stmt::makeComment( "	usubb r.y, borrow.y, x.y, y.y" ) );
-			cont->addStmt( stmt::makeComment( "	usubb r.z, borrow.z, x.z, y.z" ) );
+			cont->addStmt( stmt::makeComment( "	usubb r.x, borrow.x, x.x, y.x;" ) );
+			cont->addStmt( stmt::makeComment( "	usubb r.y, borrow.y, x.y, y.y;" ) );
+			cont->addStmt( stmt::makeComment( "	usubb r.z, borrow.z, x.z, y.z;" ) );
 			cont->addStmt( stmt::makeComment( "	return r;" ) );
 			cont->addStmt( stmt::makeComment( "}" ) );
 			container->addStmt( std::move( cont ) );
@@ -515,10 +517,10 @@ namespace sdw::hlsl
 			cont->addStmt( stmt::makeComment( "uint4 SDW_usubBorrow(uint4 x, uint4 y, out uint4 borrow)" ) );
 			cont->addStmt( stmt::makeComment( "{" ) );
 			cont->addStmt( stmt::makeComment( "	uint4 r;" ) );
-			cont->addStmt( stmt::makeComment( "	usubb r.x, borrow.x, x.x, y.x" ) );
-			cont->addStmt( stmt::makeComment( "	usubb r.y, borrow.y, x.y, y.y" ) );
-			cont->addStmt( stmt::makeComment( "	usubb r.z, borrow.z, x.z, y.z" ) );
-			cont->addStmt( stmt::makeComment( "	usubb r.w, borrow.w, x.w, y.w" ) );
+			cont->addStmt( stmt::makeComment( "	usubb r.x, borrow.x, x.x, y.x;" ) );
+			cont->addStmt( stmt::makeComment( "	usubb r.y, borrow.y, x.y, y.y;" ) );
+			cont->addStmt( stmt::makeComment( "	usubb r.z, borrow.z, x.z, y.z;" ) );
+			cont->addStmt( stmt::makeComment( "	usubb r.w, borrow.w, x.w, y.w;" ) );
 			cont->addStmt( stmt::makeComment( "	return r;" ) );
 			cont->addStmt( stmt::makeComment( "}" ) );
 			container->addStmt( std::move( cont ) );
@@ -530,7 +532,7 @@ namespace sdw::hlsl
 			cont->addStmt( stmt::makeComment( "uint SDW_umulExtended(uint x, uint y, out uint msb, out uint lsb)" ) );
 			cont->addStmt( stmt::makeComment( "{" ) );
 			cont->addStmt( stmt::makeComment( "	uint r;" ) );
-			cont->addStmt( stmt::makeComment( "	umul msb, lsb, x, y" ) );
+			cont->addStmt( stmt::makeComment( "	umul msb, lsb, x, y;" ) );
 			cont->addStmt( stmt::makeComment( "	return r;" ) );
 			cont->addStmt( stmt::makeComment( "}" ) );
 			container->addStmt( std::move( cont ) );
@@ -542,8 +544,8 @@ namespace sdw::hlsl
 			cont->addStmt( stmt::makeComment( "uint2 SDW_umulExtended(uint2 x, uint2 y, out uint2 msb, out uint2 lsb)" ) );
 			cont->addStmt( stmt::makeComment( "{" ) );
 			cont->addStmt( stmt::makeComment( "	uint2 r;" ) );
-			cont->addStmt( stmt::makeComment( "	umul msb.x, lsb.x, x.x, y.x" ) );
-			cont->addStmt( stmt::makeComment( "	umul msb.y, lsb.y, x.y, y.y" ) );
+			cont->addStmt( stmt::makeComment( "	umul msb.x, lsb.x, x.x, y.x;" ) );
+			cont->addStmt( stmt::makeComment( "	umul msb.y, lsb.y, x.y, y.y;" ) );
 			cont->addStmt( stmt::makeComment( "	return r;" ) );
 			cont->addStmt( stmt::makeComment( "}" ) );
 			container->addStmt( std::move( cont ) );
@@ -555,9 +557,9 @@ namespace sdw::hlsl
 			cont->addStmt( stmt::makeComment( "uint3 SDW_umulExtended(uint3 x, uint3 y, out uint3 msb, out uint3 lsb)" ) );
 			cont->addStmt( stmt::makeComment( "{" ) );
 			cont->addStmt( stmt::makeComment( "	uint3 r;" ) );
-			cont->addStmt( stmt::makeComment( "	umul msb.x, lsb.x, x.x, y.x" ) );
-			cont->addStmt( stmt::makeComment( "	umul msb.y, lsb.y, x.y, y.y" ) );
-			cont->addStmt( stmt::makeComment( "	umul msb.z, lsb.z, x.z, y.z" ) );
+			cont->addStmt( stmt::makeComment( "	umul msb.x, lsb.x, x.x, y.x;" ) );
+			cont->addStmt( stmt::makeComment( "	umul msb.y, lsb.y, x.y, y.y;" ) );
+			cont->addStmt( stmt::makeComment( "	umul msb.z, lsb.z, x.z, y.z;" ) );
 			cont->addStmt( stmt::makeComment( "	return r;" ) );
 			cont->addStmt( stmt::makeComment( "}" ) );
 			container->addStmt( std::move( cont ) );
@@ -569,10 +571,10 @@ namespace sdw::hlsl
 			cont->addStmt( stmt::makeComment( "uint4 SDW_umulExtended(uint4 x, uint4 y, out uint4 msb, out uint4 lsb)" ) );
 			cont->addStmt( stmt::makeComment( "{" ) );
 			cont->addStmt( stmt::makeComment( "	uint4 r;" ) );
-			cont->addStmt( stmt::makeComment( "	umul msb.x, lsb.x, x.x, y.x" ) );
-			cont->addStmt( stmt::makeComment( "	umul msb.y, lsb.y, x.y, y.y" ) );
-			cont->addStmt( stmt::makeComment( "	umul msb.z, lsb.z, x.z, y.z" ) );
-			cont->addStmt( stmt::makeComment( "	umul msb.w, lsb.w, x.w, y.w" ) );
+			cont->addStmt( stmt::makeComment( "	umul msb.x, lsb.x, x.x, y.x;" ) );
+			cont->addStmt( stmt::makeComment( "	umul msb.y, lsb.y, x.y, y.y;" ) );
+			cont->addStmt( stmt::makeComment( "	umul msb.z, lsb.z, x.z, y.z;" ) );
+			cont->addStmt( stmt::makeComment( "	umul msb.w, lsb.w, x.w, y.w;" ) );
 			cont->addStmt( stmt::makeComment( "	return r;" ) );
 			cont->addStmt( stmt::makeComment( "}" ) );
 			container->addStmt( std::move( cont ) );
@@ -584,7 +586,7 @@ namespace sdw::hlsl
 			cont->addStmt( stmt::makeComment( "int SDW_imulExtended(int x, int y, out int msb, out int lsb)" ) );
 			cont->addStmt( stmt::makeComment( "{" ) );
 			cont->addStmt( stmt::makeComment( "	int r;" ) );
-			cont->addStmt( stmt::makeComment( "	imul msb, lsb, x, y" ) );
+			cont->addStmt( stmt::makeComment( "	imul msb, lsb, x, y;" ) );
 			cont->addStmt( stmt::makeComment( "	return r;" ) );
 			cont->addStmt( stmt::makeComment( "}" ) );
 			container->addStmt( std::move( cont ) );
@@ -596,8 +598,8 @@ namespace sdw::hlsl
 			cont->addStmt( stmt::makeComment( "int2 SDW_imulExtended(int2 x, int2 y, out int2 msb, out int2 lsb)" ) );
 			cont->addStmt( stmt::makeComment( "{" ) );
 			cont->addStmt( stmt::makeComment( "	int2 r;" ) );
-			cont->addStmt( stmt::makeComment( "	imul msb.x, lsb.x, x.x, y.x" ) );
-			cont->addStmt( stmt::makeComment( "	imul msb.y, lsb.y, x.y, y.y" ) );
+			cont->addStmt( stmt::makeComment( "	imul msb.x, lsb.x, x.x, y.x;" ) );
+			cont->addStmt( stmt::makeComment( "	imul msb.y, lsb.y, x.y, y.y;" ) );
 			cont->addStmt( stmt::makeComment( "	return r;" ) );
 			cont->addStmt( stmt::makeComment( "}" ) );
 			container->addStmt( std::move( cont ) );
@@ -609,9 +611,9 @@ namespace sdw::hlsl
 			cont->addStmt( stmt::makeComment( "int3 SDW_imulExtended(int3 x, int3 y, out int3 msb, out int3 lsb)" ) );
 			cont->addStmt( stmt::makeComment( "{" ) );
 			cont->addStmt( stmt::makeComment( "	int3 r;" ) );
-			cont->addStmt( stmt::makeComment( "	imul msb.x, lsb.x, x.x, y.x" ) );
-			cont->addStmt( stmt::makeComment( "	imul msb.y, lsb.y, x.y, y.y" ) );
-			cont->addStmt( stmt::makeComment( "	imul msb.z, lsb.z, x.z, y.z" ) );
+			cont->addStmt( stmt::makeComment( "	imul msb.x, lsb.x, x.x, y.x;" ) );
+			cont->addStmt( stmt::makeComment( "	imul msb.y, lsb.y, x.y, y.y;" ) );
+			cont->addStmt( stmt::makeComment( "	imul msb.z, lsb.z, x.z, y.z;" ) );
 			cont->addStmt( stmt::makeComment( "	return r;" ) );
 			cont->addStmt( stmt::makeComment( "}" ) );
 			container->addStmt( std::move( cont ) );
@@ -623,10 +625,10 @@ namespace sdw::hlsl
 			cont->addStmt( stmt::makeComment( "int4 SDW_imulExtended(int4 x, int4 y, out int4 msb, out int4 lsb)" ) );
 			cont->addStmt( stmt::makeComment( "{" ) );
 			cont->addStmt( stmt::makeComment( "	int4 r;" ) );
-			cont->addStmt( stmt::makeComment( "	imul msb.x, lsb.x, x.x, y.x" ) );
-			cont->addStmt( stmt::makeComment( "	imul msb.y, lsb.y, x.y, y.y" ) );
-			cont->addStmt( stmt::makeComment( "	imul msb.z, lsb.z, x.z, y.z" ) );
-			cont->addStmt( stmt::makeComment( "	imul msb.w, lsb.w, x.w, y.w" ) );
+			cont->addStmt( stmt::makeComment( "	imul msb.x, lsb.x, x.x, y.x;" ) );
+			cont->addStmt( stmt::makeComment( "	imul msb.y, lsb.y, x.y, y.y;" ) );
+			cont->addStmt( stmt::makeComment( "	imul msb.z, lsb.z, x.z, y.z;" ) );
+			cont->addStmt( stmt::makeComment( "	imul msb.w, lsb.w, x.w, y.w;" ) );
 			cont->addStmt( stmt::makeComment( "	return r;" ) );
 			cont->addStmt( stmt::makeComment( "}" ) );
 			container->addStmt( std::move( cont ) );
@@ -777,7 +779,7 @@ namespace sdw::hlsl
 			auto cont = stmt::makeContainer();
 			cont->addStmt( stmt::makeComment( "uint SDW_bitfieldExtract(uint base, int offset, int bits)" ) );
 			cont->addStmt( stmt::makeComment( "{" ) );
-			cont->addStmt( stmt::makeComment( "	uint mask = bits == 32 ? 0FFFFFFFF : ((1 << bits) - 1);" ) );
+			cont->addStmt( stmt::makeComment( "	uint mask = bits == 32 ? 0xFFFFFFFF : ((1 << bits) - 1);" ) );
 			cont->addStmt( stmt::makeComment( "	return (base >> offset) & mask;" ) );
 			cont->addStmt( stmt::makeComment( "}" ) );
 			container->addStmt( std::move( cont ) );
@@ -788,7 +790,7 @@ namespace sdw::hlsl
 			auto cont = stmt::makeContainer();
 			cont->addStmt( stmt::makeComment( "uint2 SDW_bitfieldExtract(uint2 base, int offset, int bits)" ) );
 			cont->addStmt( stmt::makeComment( "{" ) );
-			cont->addStmt( stmt::makeComment( "	uint mask = bits == 32 ? 0FFFFFFFF : ((1 << bits) - 1);" ) );
+			cont->addStmt( stmt::makeComment( "	uint mask = bits == 32 ? 0xFFFFFFFF : ((1 << bits) - 1);" ) );
 			cont->addStmt( stmt::makeComment( "	return (base >> offset) & mask;" ) );
 			cont->addStmt( stmt::makeComment( "}" ) );
 			container->addStmt( std::move( cont ) );
@@ -799,7 +801,7 @@ namespace sdw::hlsl
 			auto cont = stmt::makeContainer();
 			cont->addStmt( stmt::makeComment( "uint3 SDW_bitfieldExtract(uint3 base, int offset, int bits)" ) );
 			cont->addStmt( stmt::makeComment( "{" ) );
-			cont->addStmt( stmt::makeComment( "	uint mask = bits == 32 ? 0FFFFFFFF : ((1 << bits) - 1);" ) );
+			cont->addStmt( stmt::makeComment( "	uint mask = bits == 32 ? 0xFFFFFFFF : ((1 << bits) - 1);" ) );
 			cont->addStmt( stmt::makeComment( "	return (base >> offset) & mask;" ) );
 			cont->addStmt( stmt::makeComment( "}" ) );
 			container->addStmt( std::move( cont ) );
@@ -810,7 +812,7 @@ namespace sdw::hlsl
 			auto cont = stmt::makeContainer();
 			cont->addStmt( stmt::makeComment( "uint4 SDW_bitfieldExtract(uint4 base, int offset, int bits)" ) );
 			cont->addStmt( stmt::makeComment( "{" ) );
-			cont->addStmt( stmt::makeComment( "	uint mask = bits == 32 ? 0FFFFFFFF : ((1 << bits) - 1);" ) );
+			cont->addStmt( stmt::makeComment( "	uint mask = bits == 32 ? 0xFFFFFFFF : ((1 << bits) - 1);" ) );
 			cont->addStmt( stmt::makeComment( "	return (base >> offset) & mask;" ) );
 			cont->addStmt( stmt::makeComment( "}" ) );
 			container->addStmt( std::move( cont ) );
