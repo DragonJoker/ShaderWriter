@@ -8,7 +8,9 @@ See LICENSE file in root folder
 
 namespace sdw
 {
-	std::string writeHlsl( Shader const & shader, ShaderType type );
+	std::string compileHlsl( Shader const & shader
+		, ShaderType type
+		, SpecialisationInfo const & specialisation );
 }
 
 #endif

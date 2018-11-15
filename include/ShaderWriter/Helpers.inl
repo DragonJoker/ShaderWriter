@@ -14,29 +14,29 @@ namespace sdw
 			}
 		};
 
-		template< ast::type::Kind SampledT
+		template< ast::type::ImageFormat FormatT
 			, ast::type::ImageDim DimT
 			, bool ArrayedT
 			, bool DepthT
 			, bool MsT >
-		struct ConfigMaker< ImageT< SampledT, DimT, ArrayedT, DepthT, MsT > >
+		struct ConfigMaker< ImageT< FormatT, DimT, ArrayedT, DepthT, MsT > >
 		{
 			static ast::type::ImageConfiguration get()
 			{
-				return ImageT< SampledT, DimT, ArrayedT, DepthT, MsT >::makeConfig();
+				return ImageT< FormatT, DimT, ArrayedT, DepthT, MsT >::makeConfig();
 			}
 		};
 
-		template< ast::type::Kind SampledT
+		template< ast::type::ImageFormat FormatT
 			, ast::type::ImageDim DimT
 			, bool ArrayedT
 			, bool DepthT
 			, bool MsT >
-		struct ConfigMaker< SampledImageT< SampledT, DimT, ArrayedT, DepthT, MsT > >
+		struct ConfigMaker< SampledImageT< FormatT, DimT, ArrayedT, DepthT, MsT > >
 		{
 			static ast::type::ImageConfiguration get()
 			{
-				return SampledImageT< SampledT, DimT, ArrayedT, DepthT, MsT >::makeConfig();
+				return SampledImageT< FormatT, DimT, ArrayedT, DepthT, MsT >::makeConfig();
 			}
 		};
 	}

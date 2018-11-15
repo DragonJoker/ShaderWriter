@@ -39,9 +39,9 @@ namespace sdw::glsl
 			, std::string const & glslArgType )
 		{
 			auto cont = stmt::makeContainer();
-			cont->addStmt( stmt::makeComment( "float SDW_texture(" + sampler + " texture, " + astArgType + " P, float refZ)" ) );
+			cont->addStmt( stmt::makeComment( "float SDW_texture(" + sampler + " image, " + astArgType + " P, float refZ)" ) );
 			cont->addStmt( stmt::makeComment( "{" ) );
-			cont->addStmt( stmt::makeComment( "	return texture(texture, " + glslArgType + "(P, refZ));" ) );
+			cont->addStmt( stmt::makeComment( "	return texture(image, " + glslArgType + "(P, refZ));" ) );
 			cont->addStmt( stmt::makeComment( "}" ) );
 			container->addStmt( std::move( cont ) );
 		}
@@ -52,9 +52,9 @@ namespace sdw::glsl
 			, std::string const & glslArgType )
 		{
 			auto cont = stmt::makeContainer();
-			cont->addStmt( stmt::makeComment( "float SDW_texture(" + sampler + " texture, " + astArgType + " P, float refZ, float bias)" ) );
+			cont->addStmt( stmt::makeComment( "float SDW_texture(" + sampler + " image, " + astArgType + " P, float refZ, float bias)" ) );
 			cont->addStmt( stmt::makeComment( "{" ) );
-			cont->addStmt( stmt::makeComment( "	return texture(texture, " + glslArgType + "(P, refZ), bias);" ) );
+			cont->addStmt( stmt::makeComment( "	return texture(image, " + glslArgType + "(P, refZ), bias);" ) );
 			cont->addStmt( stmt::makeComment( "}" ) );
 			container->addStmt( std::move( cont ) );
 		}
@@ -62,9 +62,9 @@ namespace sdw::glsl
 		inline void writeTexture1DShadow( stmt::Container * container )
 		{
 			auto cont = stmt::makeContainer();
-			cont->addStmt( stmt::makeComment( "float SDW_texture(sampler1DShadow texture, float P, float refZ)" ) );
+			cont->addStmt( stmt::makeComment( "float SDW_texture(sampler1DShadow image, float P, float refZ)" ) );
 			cont->addStmt( stmt::makeComment( "{" ) );
-			cont->addStmt( stmt::makeComment( "	return texture(texture, vec3(P, refZ, refZ));" ) );
+			cont->addStmt( stmt::makeComment( "	return texture(image, vec3(P, refZ, refZ));" ) );
 			cont->addStmt( stmt::makeComment( "}" ) );
 			container->addStmt( std::move( cont ) );
 		}
@@ -72,9 +72,9 @@ namespace sdw::glsl
 		inline void writeTexture1DShadowBias( stmt::Container * container )
 		{
 			auto cont = stmt::makeContainer();
-			cont->addStmt( stmt::makeComment( "float SDW_texture(sampler1DShadow texture, float P, float refZ, float bias)" ) );
+			cont->addStmt( stmt::makeComment( "float SDW_texture(sampler1DShadow image, float P, float refZ, float bias)" ) );
 			cont->addStmt( stmt::makeComment( "{" ) );
-			cont->addStmt( stmt::makeComment( "	return texture(texture, vec3(P, refZ, refZ), bias);" ) );
+			cont->addStmt( stmt::makeComment( "	return texture(image, vec3(P, refZ, refZ), bias);" ) );
 			cont->addStmt( stmt::makeComment( "}" ) );
 			container->addStmt( std::move( cont ) );
 		}
@@ -128,9 +128,9 @@ namespace sdw::glsl
 			, std::string const & sampler )
 		{
 			auto cont = stmt::makeContainer();
-			cont->addStmt( stmt::makeComment( "float SDW_textureProj(" + sampler + " texture, vec3 P, float refZ)" ) );
+			cont->addStmt( stmt::makeComment( "float SDW_textureProj(" + sampler + " image, vec3 P, float refZ)" ) );
 			cont->addStmt( stmt::makeComment( "{" ) );
-			cont->addStmt( stmt::makeComment( "	return textureProj(texture, vec4(P.xy, refZ, P.z));" ) );
+			cont->addStmt( stmt::makeComment( "	return textureProj(image, vec4(P.xy, refZ, P.z));" ) );
 			cont->addStmt( stmt::makeComment( "}" ) );
 			container->addStmt( std::move( cont ) );
 		}
@@ -138,9 +138,9 @@ namespace sdw::glsl
 		inline void writeTextureProj1DShadow( stmt::Container * container )
 		{
 			auto cont = stmt::makeContainer();
-			cont->addStmt( stmt::makeComment( "float SDW_textureProj(sampler1DShadow texture, vec2 P, float refZ)" ) );
+			cont->addStmt( stmt::makeComment( "float SDW_textureProj(sampler1DShadow image, vec2 P, float refZ)" ) );
 			cont->addStmt( stmt::makeComment( "{" ) );
-			cont->addStmt( stmt::makeComment( "	return textureProj(texture, vec4(P.x, refZ, refZ, P.y));" ) );
+			cont->addStmt( stmt::makeComment( "	return textureProj(image, vec4(P.x, refZ, refZ, P.y));" ) );
 			cont->addStmt( stmt::makeComment( "}" ) );
 			container->addStmt( std::move( cont ) );
 		}
@@ -148,9 +148,9 @@ namespace sdw::glsl
 		inline void writeTextureProj1DShadowBias( stmt::Container * container )
 		{
 			auto cont = stmt::makeContainer();
-			cont->addStmt( stmt::makeComment( "float SDW_textureProj(sampler1DShadow texture, vec2 P, float refZ, float bias)" ) );
+			cont->addStmt( stmt::makeComment( "float SDW_textureProj(sampler1DShadow image, vec2 P, float refZ, float bias)" ) );
 			cont->addStmt( stmt::makeComment( "{" ) );
-			cont->addStmt( stmt::makeComment( "	return textureProj(texture, vec4(P.x, refZ, refZ, P.y), bias);" ) );
+			cont->addStmt( stmt::makeComment( "	return textureProj(image, vec4(P.x, refZ, refZ, P.y), bias);" ) );
 			cont->addStmt( stmt::makeComment( "}" ) );
 			container->addStmt( std::move( cont ) );
 		}
@@ -159,9 +159,9 @@ namespace sdw::glsl
 			, std::string const & sampler )
 		{
 			auto cont = stmt::makeContainer();
-			cont->addStmt( stmt::makeComment( "float SDW_textureProj(" + sampler + " texture, vec3 P, float refZ, float bias)" ) );
+			cont->addStmt( stmt::makeComment( "float SDW_textureProj(" + sampler + " image, vec3 P, float refZ, float bias)" ) );
 			cont->addStmt( stmt::makeComment( "{" ) );
-			cont->addStmt( stmt::makeComment( "	return textureProj(texture, vec4(P.xy, refZ, P.z), bias);" ) );
+			cont->addStmt( stmt::makeComment( "	return textureProj(image, vec4(P.xy, refZ, P.z), bias);" ) );
 			cont->addStmt( stmt::makeComment( "}" ) );
 			container->addStmt( std::move( cont ) );
 		}
@@ -187,9 +187,9 @@ namespace sdw::glsl
 			, std::string const & glslArgType )
 		{
 			auto cont = stmt::makeContainer();
-			cont->addStmt( stmt::makeComment( "float SDW_textureLod(" + sampler + " texture, " + astArgType + " P, float refZ, float lod)" ) );
+			cont->addStmt( stmt::makeComment( "float SDW_textureLod(" + sampler + " image, " + astArgType + " P, float refZ, float lod)" ) );
 			cont->addStmt( stmt::makeComment( "{" ) );
-			cont->addStmt( stmt::makeComment( "	return textureLod(texture, " + glslArgType + "(P, refZ), lod);" ) );
+			cont->addStmt( stmt::makeComment( "	return textureLod(image, " + glslArgType + "(P, refZ), lod);" ) );
 			cont->addStmt( stmt::makeComment( "}" ) );
 			container->addStmt( std::move( cont ) );
 		}
@@ -197,9 +197,9 @@ namespace sdw::glsl
 		inline void writeTextureLod1DShadow( stmt::Container * container )
 		{
 			auto cont = stmt::makeContainer();
-			cont->addStmt( stmt::makeComment( "float SDW_textureLod(sampler1DShadow texture, float P, float refZ, float lod)" ) );
+			cont->addStmt( stmt::makeComment( "float SDW_textureLod(sampler1DShadow image, float P, float refZ, float lod)" ) );
 			cont->addStmt( stmt::makeComment( "{" ) );
-			cont->addStmt( stmt::makeComment( "	return textureLod(texture, vec3(P, refZ, refZ), lod);" ) );
+			cont->addStmt( stmt::makeComment( "	return textureLod(image, vec3(P, refZ, refZ), lod);" ) );
 			cont->addStmt( stmt::makeComment( "}" ) );
 			container->addStmt( std::move( cont ) );
 		}
@@ -221,9 +221,9 @@ namespace sdw::glsl
 			, std::string const & offsetType )
 		{
 			auto cont = stmt::makeContainer();
-			cont->addStmt( stmt::makeComment( "float SDW_textureOffset(" + sampler + " texture, " + astArgType + " P, float refZ, " + offsetType + " offset)" ) );
+			cont->addStmt( stmt::makeComment( "float SDW_textureOffset(" + sampler + " image, " + astArgType + " P, float refZ, " + offsetType + " offset)" ) );
 			cont->addStmt( stmt::makeComment( "{" ) );
-			cont->addStmt( stmt::makeComment( "	return textureOffset(texture, " + glslArgType + "(P, refZ), offset);" ) );
+			cont->addStmt( stmt::makeComment( "	return textureOffset(image, " + glslArgType + "(P, refZ), offset);" ) );
 			cont->addStmt( stmt::makeComment( "}" ) );
 			container->addStmt( std::move( cont ) );
 		}
@@ -235,9 +235,9 @@ namespace sdw::glsl
 			, std::string const & offsetType )
 		{
 			auto cont = stmt::makeContainer();
-			cont->addStmt( stmt::makeComment( "float SDW_textureOffset(" + sampler + " texture, " + astArgType + " P, float refZ, " + offsetType + " offset, float bias)" ) );
+			cont->addStmt( stmt::makeComment( "float SDW_textureOffset(" + sampler + " image, " + astArgType + " P, float refZ, " + offsetType + " offset, float bias)" ) );
 			cont->addStmt( stmt::makeComment( "{" ) );
-			cont->addStmt( stmt::makeComment( "	return textureOffset(texture, " + glslArgType + "(P, refZ), offset, bias);" ) );
+			cont->addStmt( stmt::makeComment( "	return textureOffset(image, " + glslArgType + "(P, refZ), offset, bias);" ) );
 			cont->addStmt( stmt::makeComment( "}" ) );
 			container->addStmt( std::move( cont ) );
 		}
@@ -245,9 +245,9 @@ namespace sdw::glsl
 		inline void writeTextureOffset1DShadow( stmt::Container * container )
 		{
 			auto cont = stmt::makeContainer();
-			cont->addStmt( stmt::makeComment( "float SDW_textureOffset(sampler1DShadow texture, float P, float refZ, float offset)" ) );
+			cont->addStmt( stmt::makeComment( "float SDW_textureOffset(sampler1DShadow image, float P, float refZ, float offset)" ) );
 			cont->addStmt( stmt::makeComment( "{" ) );
-			cont->addStmt( stmt::makeComment( "	return textureOffset(texture, vec3(P, refZ, refZ), offset);" ) );
+			cont->addStmt( stmt::makeComment( "	return textureOffset(image, vec3(P, refZ, refZ), offset);" ) );
 			cont->addStmt( stmt::makeComment( "}" ) );
 			container->addStmt( std::move( cont ) );
 		}
@@ -255,9 +255,9 @@ namespace sdw::glsl
 		inline void writeTextureOffset1DShadowBias( stmt::Container * container )
 		{
 			auto cont = stmt::makeContainer();
-			cont->addStmt( stmt::makeComment( "float SDW_textureOffset(sampler1DShadow texture, float P, float refZ, float offset, float bias)" ) );
+			cont->addStmt( stmt::makeComment( "float SDW_textureOffset(sampler1DShadow image, float P, float refZ, float offset, float bias)" ) );
 			cont->addStmt( stmt::makeComment( "{" ) );
-			cont->addStmt( stmt::makeComment( "	return textureOffset(texture, vec3(P, refZ, refZ), offset, bias);" ) );
+			cont->addStmt( stmt::makeComment( "	return textureOffset(image, vec3(P, refZ, refZ), offset, bias);" ) );
 			cont->addStmt( stmt::makeComment( "}" ) );
 			container->addStmt( std::move( cont ) );
 		}
@@ -292,9 +292,9 @@ namespace sdw::glsl
 			, std::string const & offsetType )
 		{
 			auto cont = stmt::makeContainer();
-			cont->addStmt( stmt::makeComment( "float SDW_textureProjOffset(" + sampler + " texture, vec3 P, float refZ, " + offsetType + " offset)" ) );
+			cont->addStmt( stmt::makeComment( "float SDW_textureProjOffset(" + sampler + " image, vec3 P, float refZ, " + offsetType + " offset)" ) );
 			cont->addStmt( stmt::makeComment( "{" ) );
-			cont->addStmt( stmt::makeComment( "	return textureProjOffset(texture, vec4(P.xy, refZ, P.z), offset);" ) );
+			cont->addStmt( stmt::makeComment( "	return textureProjOffset(image, vec4(P.xy, refZ, P.z), offset);" ) );
 			cont->addStmt( stmt::makeComment( "}" ) );
 			container->addStmt( std::move( cont ) );
 		}
@@ -304,9 +304,9 @@ namespace sdw::glsl
 			, std::string const & offsetType )
 		{
 			auto cont = stmt::makeContainer();
-			cont->addStmt( stmt::makeComment( "float SDW_textureProjOffset(" + sampler + " texture, vec3 P, float refZ, float " + offsetType + ", float bias)" ) );
+			cont->addStmt( stmt::makeComment( "float SDW_textureProjOffset(" + sampler + " image, vec3 P, float refZ, float " + offsetType + ", float bias)" ) );
 			cont->addStmt( stmt::makeComment( "{" ) );
-			cont->addStmt( stmt::makeComment( "	return textureProjOffset(texture, vec4(P.xy, refZ, P.z), offset, bias);" ) );
+			cont->addStmt( stmt::makeComment( "	return textureProjOffset(image, vec4(P.xy, refZ, P.z), offset, bias);" ) );
 			cont->addStmt( stmt::makeComment( "}" ) );
 			container->addStmt( std::move( cont ) );
 		}
@@ -314,9 +314,9 @@ namespace sdw::glsl
 		inline void writeTextureProjOffset1DShadow( stmt::Container * container )
 		{
 			auto cont = stmt::makeContainer();
-			cont->addStmt( stmt::makeComment( "float SDW_textureProjOffset(sampler1DShadow texture, vec2 P, float refZ, float offset)" ) );
+			cont->addStmt( stmt::makeComment( "float SDW_textureProjOffset(sampler1DShadow image, vec2 P, float refZ, float offset)" ) );
 			cont->addStmt( stmt::makeComment( "{" ) );
-			cont->addStmt( stmt::makeComment( "	return textureProjOffset(texture, vec4(P.x, refZ, refZ, P.y), offset);" ) );
+			cont->addStmt( stmt::makeComment( "	return textureProjOffset(image, vec4(P.x, refZ, refZ, P.y), offset);" ) );
 			cont->addStmt( stmt::makeComment( "}" ) );
 			container->addStmt( std::move( cont ) );
 		}
@@ -324,9 +324,9 @@ namespace sdw::glsl
 		inline void writeTextureProjOffset1DShadowBias( stmt::Container * container )
 		{
 			auto cont = stmt::makeContainer();
-			cont->addStmt( stmt::makeComment( "float SDW_textureProjOffset(sampler1DShadow texture, vec2 P, float refZ, float offset, float bias)" ) );
+			cont->addStmt( stmt::makeComment( "float SDW_textureProjOffset(sampler1DShadow image, vec2 P, float refZ, float offset, float bias)" ) );
 			cont->addStmt( stmt::makeComment( "{" ) );
-			cont->addStmt( stmt::makeComment( "	return textureProjOffset(texture, vec4(P.x, refZ, refZ, P.y), offset, bias);" ) );
+			cont->addStmt( stmt::makeComment( "	return textureProjOffset(image, vec4(P.x, refZ, refZ, P.y), offset, bias);" ) );
 			cont->addStmt( stmt::makeComment( "}" ) );
 			container->addStmt( std::move( cont ) );
 		}
@@ -353,9 +353,9 @@ namespace sdw::glsl
 			, std::string const & offsetType )
 		{
 			auto cont = stmt::makeContainer();
-			cont->addStmt( stmt::makeComment( "float SDW_textureLodOffset(" + sampler + " texture, " + astArgType + " P, float refZ, float lod, " + offsetType + " offset)" ) );
+			cont->addStmt( stmt::makeComment( "float SDW_textureLodOffset(" + sampler + " image, " + astArgType + " P, float refZ, float lod, " + offsetType + " offset)" ) );
 			cont->addStmt( stmt::makeComment( "{" ) );
-			cont->addStmt( stmt::makeComment( "	return textureLodOffset(texture, " + glslArgType + "(P, refZ), lod, offset);" ) );
+			cont->addStmt( stmt::makeComment( "	return textureLodOffset(image, " + glslArgType + "(P, refZ), lod, offset);" ) );
 			cont->addStmt( stmt::makeComment( "}" ) );
 			container->addStmt( std::move( cont ) );
 		}
@@ -363,9 +363,9 @@ namespace sdw::glsl
 		inline void writeTextureLodOffset1DShadow( stmt::Container * container )
 		{
 			auto cont = stmt::makeContainer();
-			cont->addStmt( stmt::makeComment( "float SDW_textureLodOffset(sampler1DShadow texture, float P, float refZ, float lod, int offset)" ) );
+			cont->addStmt( stmt::makeComment( "float SDW_textureLodOffset(sampler1DShadow image, float P, float refZ, float lod, int offset)" ) );
 			cont->addStmt( stmt::makeComment( "{" ) );
-			cont->addStmt( stmt::makeComment( "	return textureLodOffset(texture, vec3(P, refZ, refZ), lod, offset);" ) );
+			cont->addStmt( stmt::makeComment( "	return textureLodOffset(image, vec3(P, refZ, refZ), lod, offset);" ) );
 			cont->addStmt( stmt::makeComment( "}" ) );
 			container->addStmt( std::move( cont ) );
 		}
@@ -383,9 +383,9 @@ namespace sdw::glsl
 		inline void writeTextureProjLod1DShadow( stmt::Container * container )
 		{
 			auto cont = stmt::makeContainer();
-			cont->addStmt( stmt::makeComment( "float SDW_textureProjLod(sampler1DShadow texture, vec2 P, float refZ, float lod)" ) );
+			cont->addStmt( stmt::makeComment( "float SDW_textureProjLod(sampler1DShadow image, vec2 P, float refZ, float lod)" ) );
 			cont->addStmt( stmt::makeComment( "{" ) );
-			cont->addStmt( stmt::makeComment( "	return textureProjLod(texture, vec4(P.x, refZ, refZ, P.y), lod);" ) );
+			cont->addStmt( stmt::makeComment( "	return textureProjLod(image, vec4(P.x, refZ, refZ, P.y), lod);" ) );
 			cont->addStmt( stmt::makeComment( "}" ) );
 			container->addStmt( std::move( cont ) );
 		}
@@ -393,9 +393,9 @@ namespace sdw::glsl
 		inline void writeTextureProjLod2DShadow( stmt::Container * container )
 		{
 			auto cont = stmt::makeContainer();
-			cont->addStmt( stmt::makeComment( "float SDW_textureProjLod(sampler2DShadow texture, vec3 P, float refZ, float lod)" ) );
+			cont->addStmt( stmt::makeComment( "float SDW_textureProjLod(sampler2DShadow image, vec3 P, float refZ, float lod)" ) );
 			cont->addStmt( stmt::makeComment( "{" ) );
-			cont->addStmt( stmt::makeComment( "	return textureProjLod(texture, vec4(P.xy, refZ, P.z), lod);" ) );
+			cont->addStmt( stmt::makeComment( "	return textureProjLod(image, vec4(P.xy, refZ, P.z), lod);" ) );
 			cont->addStmt( stmt::makeComment( "}" ) );
 			container->addStmt( std::move( cont ) );
 		}
@@ -403,9 +403,9 @@ namespace sdw::glsl
 		inline void writeTextureProjLodOffset1DShadow( stmt::Container * container )
 		{
 			auto cont = stmt::makeContainer();
-			cont->addStmt( stmt::makeComment( "float SDW_textureProjLodOffset(sampler1DShadow texture, vec2 P, float refZ, float lod, int offset)" ) );
+			cont->addStmt( stmt::makeComment( "float SDW_textureProjLodOffset(sampler1DShadow image, vec2 P, float refZ, float lod, int offset)" ) );
 			cont->addStmt( stmt::makeComment( "{" ) );
-			cont->addStmt( stmt::makeComment( "	return textureProjLodOffset(texture, vec3(P.x, refZ, refZ, P.y), lod, offset);" ) );
+			cont->addStmt( stmt::makeComment( "	return textureProjLodOffset(image, vec3(P.x, refZ, refZ, P.y), lod, offset);" ) );
 			cont->addStmt( stmt::makeComment( "}" ) );
 			container->addStmt( std::move( cont ) );
 		}
@@ -413,9 +413,9 @@ namespace sdw::glsl
 		inline void writeTextureProjLodOffset2DShadow( stmt::Container * container )
 		{
 			auto cont = stmt::makeContainer();
-			cont->addStmt( stmt::makeComment( "float SDW_textureProjLodOffset(sampler2DShadow texture, vec3 P, float refZ, float lod, ivec2 offset)" ) );
+			cont->addStmt( stmt::makeComment( "float SDW_textureProjLodOffset(sampler2DShadow image, vec3 P, float refZ, float lod, ivec2 offset)" ) );
 			cont->addStmt( stmt::makeComment( "{" ) );
-			cont->addStmt( stmt::makeComment( "	return textureProjLodOffset(texture, vec4(P.xy, refZ, p.z), lod, offset);" ) );
+			cont->addStmt( stmt::makeComment( "	return textureProjLodOffset(image, vec4(P.xy, refZ, p.z), lod, offset);" ) );
 			cont->addStmt( stmt::makeComment( "}" ) );
 			container->addStmt( std::move( cont ) );
 		}
@@ -427,9 +427,9 @@ namespace sdw::glsl
 			, std::string const & dPdType )
 		{
 			auto cont = stmt::makeContainer();
-			cont->addStmt( stmt::makeComment( "float SDW_textureGrad(" + sampler + " texture, " + astArgType + " P, float refZ, " + dPdType + " dPdx, " + dPdType + " dPdy)" ) );
+			cont->addStmt( stmt::makeComment( "float SDW_textureGrad(" + sampler + " image, " + astArgType + " P, float refZ, " + dPdType + " dPdx, " + dPdType + " dPdy)" ) );
 			cont->addStmt( stmt::makeComment( "{" ) );
-			cont->addStmt( stmt::makeComment( "	return textureGrad(texture, " + glslArgType + "(P, refZ), dPdx, dPdy);" ) );
+			cont->addStmt( stmt::makeComment( "	return textureGrad(image, " + glslArgType + "(P, refZ), dPdx, dPdy);" ) );
 			cont->addStmt( stmt::makeComment( "}" ) );
 			container->addStmt( std::move( cont ) );
 		}
@@ -437,9 +437,9 @@ namespace sdw::glsl
 		inline void writeTextureGrad1DShadow( stmt::Container * container )
 		{
 			auto cont = stmt::makeContainer();
-			cont->addStmt( stmt::makeComment( "float SDW_textureGrad(sampler1DShadow texture, float P, float refZ, float dPdx, float dPdy)" ) );
+			cont->addStmt( stmt::makeComment( "float SDW_textureGrad(sampler1DShadow image, float P, float refZ, float dPdx, float dPdy)" ) );
 			cont->addStmt( stmt::makeComment( "{" ) );
-			cont->addStmt( stmt::makeComment( "	return textureGrad(texture, vec3(P, refZ, refZ), dPdx, dPdy);" ) );
+			cont->addStmt( stmt::makeComment( "	return textureGrad(image, vec3(P, refZ, refZ), dPdx, dPdy);" ) );
 			cont->addStmt( stmt::makeComment( "}" ) );
 			container->addStmt( std::move( cont ) );
 		}
@@ -467,9 +467,9 @@ namespace sdw::glsl
 			, std::string const & offsetType )
 		{
 			auto cont = stmt::makeContainer();
-			cont->addStmt( stmt::makeComment( "float SDW_textureGradOffset(" + sampler + " texture, " + astArgType + " P, float refZ, " + dPdType + " dPdx, " + dPdType + " dPdy, " + offsetType + " offset)" ) );
+			cont->addStmt( stmt::makeComment( "float SDW_textureGradOffset(" + sampler + " image, " + astArgType + " P, float refZ, " + dPdType + " dPdx, " + dPdType + " dPdy, " + offsetType + " offset)" ) );
 			cont->addStmt( stmt::makeComment( "{" ) );
-			cont->addStmt( stmt::makeComment( "	return textureGradOffset(texture, " + glslArgType + "(P, refZ), dPdx, dPdy, offset);" ) );
+			cont->addStmt( stmt::makeComment( "	return textureGradOffset(image, " + glslArgType + "(P, refZ), dPdx, dPdy, offset);" ) );
 			cont->addStmt( stmt::makeComment( "}" ) );
 			container->addStmt( std::move( cont ) );
 		}
@@ -477,9 +477,9 @@ namespace sdw::glsl
 		inline void writeTextureGradOffset1DShadow( stmt::Container * container )
 		{
 			auto cont = stmt::makeContainer();
-			cont->addStmt( stmt::makeComment( "float SDW_textureGradOffset(sampler1DShadow texture, float P, float refZ, float dPdx, float dPdy, int offset)" ) );
+			cont->addStmt( stmt::makeComment( "float SDW_textureGradOffset(sampler1DShadow image, float P, float refZ, float dPdx, float dPdy, int offset)" ) );
 			cont->addStmt( stmt::makeComment( "{" ) );
-			cont->addStmt( stmt::makeComment( "	return textureGradOffset(texture, vec3(P, refZ, refZ), dPdx, dPdy, offset);" ) );
+			cont->addStmt( stmt::makeComment( "	return textureGradOffset(image, vec3(P, refZ, refZ), dPdx, dPdy, offset);" ) );
 			cont->addStmt( stmt::makeComment( "}" ) );
 			container->addStmt( std::move( cont ) );
 		}
@@ -508,9 +508,9 @@ namespace sdw::glsl
 			, std::string const & sampler )
 		{
 			auto cont = stmt::makeContainer();
-			cont->addStmt( stmt::makeComment( "float SDW_textureProjGrad(" + sampler + " texture, vec3 P, float refZ, vec2 dPdx, vec2 dPdy)" ) );
+			cont->addStmt( stmt::makeComment( "float SDW_textureProjGrad(" + sampler + " image, vec3 P, float refZ, vec2 dPdx, vec2 dPdy)" ) );
 			cont->addStmt( stmt::makeComment( "{" ) );
-			cont->addStmt( stmt::makeComment( "	return textureProjGrad(texture, vec4(P.xy, refZ, p.z), dPdx, dPdy);" ) );
+			cont->addStmt( stmt::makeComment( "	return textureProjGrad(image, vec4(P.xy, refZ, p.z), dPdx, dPdy);" ) );
 			cont->addStmt( stmt::makeComment( "}" ) );
 			container->addStmt( std::move( cont ) );
 		}
@@ -518,9 +518,9 @@ namespace sdw::glsl
 		inline void writeTextureProjGrad1DShadow( stmt::Container * container )
 		{
 			auto cont = stmt::makeContainer();
-			cont->addStmt( stmt::makeComment( "float SDW_textureProjGrad(sampler1DShadow texture, vec2 P, float refZ, float dPdx, float dPdy)" ) );
+			cont->addStmt( stmt::makeComment( "float SDW_textureProjGrad(sampler1DShadow image, vec2 P, float refZ, float dPdx, float dPdy)" ) );
 			cont->addStmt( stmt::makeComment( "{" ) );
-			cont->addStmt( stmt::makeComment( "	return textureProjGrad(texture, vec4(P.x, refZ, refZ, P.y), dPdx, dPdy);" ) );
+			cont->addStmt( stmt::makeComment( "	return textureProjGrad(image, vec4(P.x, refZ, refZ, P.y), dPdx, dPdy);" ) );
 			cont->addStmt( stmt::makeComment( "}" ) );
 			container->addStmt( std::move( cont ) );
 		}
@@ -539,9 +539,9 @@ namespace sdw::glsl
 			, std::string const & sampler )
 		{
 			auto cont = stmt::makeContainer();
-			cont->addStmt( stmt::makeComment( "float SDW_textureProjGradOffset(" + sampler + " texture, vec3 P, float refZ, vec2 dPdx, vec2 dPdy, ivec2 offset)" ) );
+			cont->addStmt( stmt::makeComment( "float SDW_textureProjGradOffset(" + sampler + " image, vec3 P, float refZ, vec2 dPdx, vec2 dPdy, ivec2 offset)" ) );
 			cont->addStmt( stmt::makeComment( "{" ) );
-			cont->addStmt( stmt::makeComment( "	return textureProjGradOffset(texture, vec4(P.xy, refZ, p.z), dPdx, dPdy, offset);" ) );
+			cont->addStmt( stmt::makeComment( "	return textureProjGradOffset(image, vec4(P.xy, refZ, p.z), dPdx, dPdy, offset);" ) );
 			cont->addStmt( stmt::makeComment( "}" ) );
 			container->addStmt( std::move( cont ) );
 		}
@@ -549,9 +549,9 @@ namespace sdw::glsl
 		inline void writeTextureProjGradOffset1DShadow( stmt::Container * container )
 		{
 			auto cont = stmt::makeContainer();
-			cont->addStmt( stmt::makeComment( "float SDW_textureProjGradOffset(sampler1DShadow texture, vec2 P, float refZ, float dPdx, float dPdy, int offset)" ) );
+			cont->addStmt( stmt::makeComment( "float SDW_textureProjGradOffset(sampler1DShadow image, vec2 P, float refZ, float dPdx, float dPdy, int offset)" ) );
 			cont->addStmt( stmt::makeComment( "{" ) );
-			cont->addStmt( stmt::makeComment( "	return textureProjGradOffset(texture, vec4(P.x, refZ, refZ, P.y), dPdx, dPdy, offset);" ) );
+			cont->addStmt( stmt::makeComment( "	return textureProjGradOffset(image, vec4(P.x, refZ, refZ, P.y), dPdx, dPdy, offset);" ) );
 			cont->addStmt( stmt::makeComment( "}" ) );
 			container->addStmt( std::move( cont ) );
 		}
@@ -567,272 +567,272 @@ namespace sdw::glsl
 		}
 	}
 
-	void writeGlslTextureAccessFunctions( ast::stmt::Container * cont
+	void compileGlslTextureAccessFunctions( ast::stmt::Container * cont
 		, IntrinsicsConfig const & config )
 	{
-		if ( config.requiresTexture1DShadowF )
-		{
-			details::writeTexture1DShadow( cont );
-		}
+		//if ( config.requiresTexture1DShadowF )
+		//{
+		//	details::writeTexture1DShadow( cont );
+		//}
 
-		if ( config.requiresTexture1DShadowFBias )
-		{
-			details::writeTexture1DShadowBias( cont );
-		}
+		//if ( config.requiresTexture1DShadowFBias )
+		//{
+		//	details::writeTexture1DShadowBias( cont );
+		//}
 
-		if ( config.requiresTexture2DShadowF )
-		{
-			details::writeTexture2DShadow( cont );
-		}
+		//if ( config.requiresTexture2DShadowF )
+		//{
+		//	details::writeTexture2DShadow( cont );
+		//}
 
-		if ( config.requiresTexture2DShadowFBias )
-		{
-			details::writeTexture2DShadowBias( cont );
-		}
+		//if ( config.requiresTexture2DShadowFBias )
+		//{
+		//	details::writeTexture2DShadowBias( cont );
+		//}
 
-		if ( config.requiresTextureCubeShadowF )
-		{
-			details::writeTextureCubeShadow( cont );
-		}
+		//if ( config.requiresTextureCubeShadowF )
+		//{
+		//	details::writeTextureCubeShadow( cont );
+		//}
 
-		if ( config.requiresTextureCubeShadowFBias )
-		{
-			details::writeTextureCubeShadowBias( cont );
-		}
+		//if ( config.requiresTextureCubeShadowFBias )
+		//{
+		//	details::writeTextureCubeShadowBias( cont );
+		//}
 
-		if ( config.requiresTexture1DArrayShadowF )
-		{
-			details::writeTexture1DArrayShadow( cont );
-		}
+		//if ( config.requiresTexture1DArrayShadowF )
+		//{
+		//	details::writeTexture1DArrayShadow( cont );
+		//}
 
-		if ( config.requiresTexture1DArrayShadowFBias )
-		{
-			details::writeTexture1DArrayShadowBias( cont );
-		}
+		//if ( config.requiresTexture1DArrayShadowFBias )
+		//{
+		//	details::writeTexture1DArrayShadowBias( cont );
+		//}
 
-		if ( config.requiresTexture2DArrayShadowF )
-		{
-			details::writeTexture2DArrayShadow( cont );
-		}
+		//if ( config.requiresTexture2DArrayShadowF )
+		//{
+		//	details::writeTexture2DArrayShadow( cont );
+		//}
 
-		if ( config.requiresTexture2DArrayShadowFBias )
-		{
-			details::writeTexture2DArrayShadowBias( cont );
-		}
+		//if ( config.requiresTexture2DArrayShadowFBias )
+		//{
+		//	details::writeTexture2DArrayShadowBias( cont );
+		//}
 
-		if ( config.requiresTexture2DRectShadowF )
-		{
-			details::writeTexture2DRectShadow( cont );
-		}
+		//if ( config.requiresTexture2DRectShadowF )
+		//{
+		//	details::writeTexture2DRectShadow( cont );
+		//}
 
-		if ( config.requiresTextureProj1DShadowF )
-		{
-			details::writeTextureProj1DShadow( cont );
-		}
+		//if ( config.requiresTextureProj1DShadowF )
+		//{
+		//	details::writeTextureProj1DShadow( cont );
+		//}
 
-		if ( config.requiresTextureProj1DShadowFBias )
-		{
-			details::writeTextureProj1DShadowBias( cont );
-		}
+		//if ( config.requiresTextureProj1DShadowFBias )
+		//{
+		//	details::writeTextureProj1DShadowBias( cont );
+		//}
 
-		if ( config.requiresTextureProj2DShadowF )
-		{
-			details::writeTextureProj2DShadow( cont );
-		}
+		//if ( config.requiresTextureProj2DShadowF )
+		//{
+		//	details::writeTextureProj2DShadow( cont );
+		//}
 
-		if ( config.requiresTextureProj2DShadowFBias )
-		{
-			details::writeTextureProj2DShadowBias( cont );
-		}
+		//if ( config.requiresTextureProj2DShadowFBias )
+		//{
+		//	details::writeTextureProj2DShadowBias( cont );
+		//}
 
-		if ( config.requiresTextureProj2DRectShadowF )
-		{
-			details::writeTextureProj2DRectShadow( cont );
-		}
+		//if ( config.requiresTextureProj2DRectShadowF )
+		//{
+		//	details::writeTextureProj2DRectShadow( cont );
+		//}
 
-		if ( config.requiresTextureLod1DShadowF )
-		{
-			details::writeTextureLod1DShadow( cont );
-		}
+		//if ( config.requiresTextureLod1DShadowF )
+		//{
+		//	details::writeTextureLod1DShadow( cont );
+		//}
 
-		if ( config.requiresTextureLod2DShadowF )
-		{
-			details::writeTextureLod2DShadow( cont );
-		}
+		//if ( config.requiresTextureLod2DShadowF )
+		//{
+		//	details::writeTextureLod2DShadow( cont );
+		//}
 
-		if ( config.requiresTextureLod1DArrayShadowF )
-		{
-			details::writeTextureLod1DArrayShadow( cont );
-		}
+		//if ( config.requiresTextureLod1DArrayShadowF )
+		//{
+		//	details::writeTextureLod1DArrayShadow( cont );
+		//}
 
-		if ( config.requiresTextureOffset2DRectShadowF )
-		{
-			details::writeTextureOffset2DRectShadow( cont );
-		}
+		//if ( config.requiresTextureOffset2DRectShadowF )
+		//{
+		//	details::writeTextureOffset2DRectShadow( cont );
+		//}
 
-		if ( config.requiresTextureOffset1DShadowF )
-		{
-			details::writeTextureOffset1DShadow( cont );
-		}
+		//if ( config.requiresTextureOffset1DShadowF )
+		//{
+		//	details::writeTextureOffset1DShadow( cont );
+		//}
 
-		if ( config.requiresTextureOffset1DShadowFBias )
-		{
-			details::writeTextureOffset1DShadowBias( cont );
-		}
+		//if ( config.requiresTextureOffset1DShadowFBias )
+		//{
+		//	details::writeTextureOffset1DShadowBias( cont );
+		//}
 
-		if ( config.requiresTextureOffset2DShadowF )
-		{
-			details::writeTextureOffset2DShadow( cont );
-		}
+		//if ( config.requiresTextureOffset2DShadowF )
+		//{
+		//	details::writeTextureOffset2DShadow( cont );
+		//}
 
-		if ( config.requiresTextureOffset2DShadowFBias )
-		{
-			details::writeTextureOffset2DShadowBias( cont );
-		}
+		//if ( config.requiresTextureOffset2DShadowFBias )
+		//{
+		//	details::writeTextureOffset2DShadowBias( cont );
+		//}
 
-		if ( config.requiresTextureOffset1DArrayShadowF )
-		{
-			details::writeTextureOffset1DArrayShadow( cont );
-		}
+		//if ( config.requiresTextureOffset1DArrayShadowF )
+		//{
+		//	details::writeTextureOffset1DArrayShadow( cont );
+		//}
 
-		if ( config.requiresTextureOffset2DArrayShadowF )
-		{
-			details::writeTextureOffset2DArrayShadow( cont );
-		}
+		//if ( config.requiresTextureOffset2DArrayShadowF )
+		//{
+		//	details::writeTextureOffset2DArrayShadow( cont );
+		//}
 
-		if ( config.requiresTextureProjOffset1DShadowF )
-		{
-			details::writeTextureProjOffset1DShadow( cont );
-		}
+		//if ( config.requiresTextureProjOffset1DShadowF )
+		//{
+		//	details::writeTextureProjOffset1DShadow( cont );
+		//}
 
-		if ( config.requiresTextureProjOffset1DShadowFBias )
-		{
-			details::writeTextureProjOffset1DShadowBias( cont );
-		}
+		//if ( config.requiresTextureProjOffset1DShadowFBias )
+		//{
+		//	details::writeTextureProjOffset1DShadowBias( cont );
+		//}
 
-		if ( config.requiresTextureProjOffset2DShadowF )
-		{
-			details::writeTextureProjOffset2DShadow( cont );
-		}
+		//if ( config.requiresTextureProjOffset2DShadowF )
+		//{
+		//	details::writeTextureProjOffset2DShadow( cont );
+		//}
 
-		if ( config.requiresTextureProjOffset2DShadowFBias )
-		{
-			details::writeTextureProjOffset2DShadowBias( cont );
-		}
+		//if ( config.requiresTextureProjOffset2DShadowFBias )
+		//{
+		//	details::writeTextureProjOffset2DShadowBias( cont );
+		//}
 
-		if ( config.requiresTextureProjOffset2DRectShadowF )
-		{
-			details::writeTextureProjOffset2DRectShadow( cont );
-		}
+		//if ( config.requiresTextureProjOffset2DRectShadowF )
+		//{
+		//	details::writeTextureProjOffset2DRectShadow( cont );
+		//}
 
-		if ( config.requiresTextureLodOffset1DShadowF )
-		{
-			details::writeTextureLodOffset1DShadow( cont );
-		}
+		//if ( config.requiresTextureLodOffset1DShadowF )
+		//{
+		//	details::writeTextureLodOffset1DShadow( cont );
+		//}
 
-		if ( config.requiresTextureLodOffset2DShadowF )
-		{
-			details::writeTextureLodOffset2DShadow( cont );
-		}
+		//if ( config.requiresTextureLodOffset2DShadowF )
+		//{
+		//	details::writeTextureLodOffset2DShadow( cont );
+		//}
 
-		if ( config.requiresTextureLodOffset1DArrayShadowF )
-		{
-			details::writeTextureLodOffset1DArrayShadow( cont );
-		}
+		//if ( config.requiresTextureLodOffset1DArrayShadowF )
+		//{
+		//	details::writeTextureLodOffset1DArrayShadow( cont );
+		//}
 
-		if ( config.requiresTextureProjLod1DShadowF )
-		{
-			details::writeTextureProjLod1DShadow( cont );
-		}
+		//if ( config.requiresTextureProjLod1DShadowF )
+		//{
+		//	details::writeTextureProjLod1DShadow( cont );
+		//}
 
-		if ( config.requiresTextureProjLod2DShadowF )
-		{
-			details::writeTextureProjLod2DShadow( cont );
-		}
+		//if ( config.requiresTextureProjLod2DShadowF )
+		//{
+		//	details::writeTextureProjLod2DShadow( cont );
+		//}
 
-		if ( config.requiresTextureProjLodOffset1DShadowF )
-		{
-			details::writeTextureProjLodOffset1DShadow( cont );
-		}
+		//if ( config.requiresTextureProjLodOffset1DShadowF )
+		//{
+		//	details::writeTextureProjLodOffset1DShadow( cont );
+		//}
 
-		if ( config.requiresTextureProjLodOffset2DShadowF )
-		{
-			details::writeTextureProjLodOffset2DShadow( cont );
-		}
+		//if ( config.requiresTextureProjLodOffset2DShadowF )
+		//{
+		//	details::writeTextureProjLodOffset2DShadow( cont );
+		//}
 
-		if ( config.requiresTextureGrad2DRectShadowF )
-		{
-			details::writeTextureGrad2DRectShadow( cont );
-		}
+		//if ( config.requiresTextureGrad2DRectShadowF )
+		//{
+		//	details::writeTextureGrad2DRectShadow( cont );
+		//}
 
-		if ( config.requiresTextureGrad1DShadowF )
-		{
-			details::writeTextureGrad1DShadow( cont );
-		}
+		//if ( config.requiresTextureGrad1DShadowF )
+		//{
+		//	details::writeTextureGrad1DShadow( cont );
+		//}
 
-		if ( config.requiresTextureGrad2DShadowF )
-		{
-			details::writeTextureGrad2DShadow( cont );
-		}
+		//if ( config.requiresTextureGrad2DShadowF )
+		//{
+		//	details::writeTextureGrad2DShadow( cont );
+		//}
 
-		if ( config.requiresTextureGrad1DArrayShadowF )
-		{
-			details::writeTextureGrad1DArrayShadow( cont );
-		}
+		//if ( config.requiresTextureGrad1DArrayShadowF )
+		//{
+		//	details::writeTextureGrad1DArrayShadow( cont );
+		//}
 
-		if ( config.requiresTextureGradOffset2DRectShadowF )
-		{
-			details::writeTextureGradOffset2DRectShadow( cont );
-		}
+		//if ( config.requiresTextureGradOffset2DRectShadowF )
+		//{
+		//	details::writeTextureGradOffset2DRectShadow( cont );
+		//}
 
-		if ( config.requiresTextureGradOffset1DShadowF )
-		{
-			details::writeTextureGradOffset1DShadow( cont );
-		}
+		//if ( config.requiresTextureGradOffset1DShadowF )
+		//{
+		//	details::writeTextureGradOffset1DShadow( cont );
+		//}
 
-		if ( config.requiresTextureGradOffset2DShadowF )
-		{
-			details::writeTextureGradOffset2DShadow( cont );
-		}
+		//if ( config.requiresTextureGradOffset2DShadowF )
+		//{
+		//	details::writeTextureGradOffset2DShadow( cont );
+		//}
 
-		if ( config.requiresTextureGradOffset1DArrayShadowF )
-		{
-			details::writeTextureGradOffset1DArrayShadow( cont );
-		}
+		//if ( config.requiresTextureGradOffset1DArrayShadowF )
+		//{
+		//	details::writeTextureGradOffset1DArrayShadow( cont );
+		//}
 
-		if ( config.requiresTextureGradOffset2DArrayShadowF )
-		{
-			details::writeTextureGradOffset2DArrayShadow( cont );
-		}
+		//if ( config.requiresTextureGradOffset2DArrayShadowF )
+		//{
+		//	details::writeTextureGradOffset2DArrayShadow( cont );
+		//}
 
-		if ( config.requiresTextureProjGrad1DShadowF )
-		{
-			details::writeTextureProjGrad1DShadow( cont );
-		}
+		//if ( config.requiresTextureProjGrad1DShadowF )
+		//{
+		//	details::writeTextureProjGrad1DShadow( cont );
+		//}
 
-		if ( config.requiresTextureProjGrad2DShadowF )
-		{
-			details::writeTextureProjGrad2DShadow( cont );
-		}
+		//if ( config.requiresTextureProjGrad2DShadowF )
+		//{
+		//	details::writeTextureProjGrad2DShadow( cont );
+		//}
 
-		if ( config.requiresTextureProjGrad2DRectShadowF )
-		{
-			details::writeTextureProjGrad2DRectShadow( cont );
-		}
+		//if ( config.requiresTextureProjGrad2DRectShadowF )
+		//{
+		//	details::writeTextureProjGrad2DRectShadow( cont );
+		//}
 
-		if ( config.requiresTextureProjGradOffset1DShadowF )
-		{
-			details::writeTextureProjGradOffset1DShadow( cont );
-		}
+		//if ( config.requiresTextureProjGradOffset1DShadowF )
+		//{
+		//	details::writeTextureProjGradOffset1DShadow( cont );
+		//}
 
-		if ( config.requiresTextureProjGradOffset2DShadowF )
-		{
-			details::writeTextureProjGradOffset2DShadow( cont );
-		}
+		//if ( config.requiresTextureProjGradOffset2DShadowF )
+		//{
+		//	details::writeTextureProjGradOffset2DShadow( cont );
+		//}
 
-		if ( config.requiresTextureProjGradOffset2DRectShadowF )
-		{
-			details::writeTextureProjGradOffset2DRectShadow( cont );
-		}
+		//if ( config.requiresTextureProjGradOffset2DRectShadowF )
+		//{
+		//	details::writeTextureProjGradOffset2DRectShadow( cont );
+		//}
 	}
 }

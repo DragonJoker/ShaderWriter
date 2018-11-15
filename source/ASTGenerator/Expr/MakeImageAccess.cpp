@@ -5,280 +5,2191 @@ See LICENSE file in root folder
 
 namespace ast::expr
 {
-	ImageAccessCallPtr makeImageSize1DF( ExprPtr image )
+	ImageAccessCallPtr makeImageSize1DFRgba32( ExprPtr image )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eInt )
 			, ImageAccess::eImageSize1DF
 			, std::move( image ) );
 	}
 
-	ImageAccessCallPtr makeImageSize2DF( ExprPtr image )
+	ImageAccessCallPtr makeImageSize1DFRgba16( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eInt )
+			, ImageAccess::eImageSize1DF
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSize1DFRg32( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eInt )
+			, ImageAccess::eImageSize1DF
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSize1DFRg16( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eInt )
+			, ImageAccess::eImageSize1DF
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSize1DFR32( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eInt )
+			, ImageAccess::eImageSize1DF
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSize1DFR16( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eInt )
+			, ImageAccess::eImageSize1DF
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSize2DFRgba32( ExprPtr image )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eVec2I )
 			, ImageAccess::eImageSize2DF
 			, std::move( image ) );
 	}
 
-	ImageAccessCallPtr makeImageSize3DF( ExprPtr image )
+	ImageAccessCallPtr makeImageSize2DFRgba16( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2I )
+			, ImageAccess::eImageSize2DF
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSize2DFRg32( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2I )
+			, ImageAccess::eImageSize2DF
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSize2DFRg16( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2I )
+			, ImageAccess::eImageSize2DF
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSize2DFR32( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2I )
+			, ImageAccess::eImageSize2DF
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSize2DFR16( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2I )
+			, ImageAccess::eImageSize2DF
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSize3DFRgba32( ExprPtr image )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eVec3I )
 			, ImageAccess::eImageSize3DF
 			, std::move( image ) );
 	}
 
-	ImageAccessCallPtr makeImageSizeCubeF( ExprPtr image )
+	ImageAccessCallPtr makeImageSize3DFRgba16( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec3I )
+			, ImageAccess::eImageSize3DF
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSize3DFRg32( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec3I )
+			, ImageAccess::eImageSize3DF
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSize3DFRg16( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec3I )
+			, ImageAccess::eImageSize3DF
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSize3DFR32( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec3I )
+			, ImageAccess::eImageSize3DF
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSize3DFR16( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec3I )
+			, ImageAccess::eImageSize3DF
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSizeCubeFRgba32( ExprPtr image )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eVec2I )
 			, ImageAccess::eImageSizeCubeF
 			, std::move( image ) );
 	}
 
-	ImageAccessCallPtr makeImageSizeCubeArrayF( ExprPtr image )
+	ImageAccessCallPtr makeImageSizeCubeFRgba16( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2I )
+			, ImageAccess::eImageSizeCubeF
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSizeCubeFRg32( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2I )
+			, ImageAccess::eImageSizeCubeF
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSizeCubeFRg16( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2I )
+			, ImageAccess::eImageSizeCubeF
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSizeCubeFR32( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2I )
+			, ImageAccess::eImageSizeCubeF
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSizeCubeFR16( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2I )
+			, ImageAccess::eImageSizeCubeF
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSizeCubeArrayFRgba32( ExprPtr image )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eVec3I )
 			, ImageAccess::eImageSizeCubeArrayF
 			, std::move( image ) );
 	}
 
-	ImageAccessCallPtr makeImageSize2DRectF( ExprPtr image )
+	ImageAccessCallPtr makeImageSizeCubeArrayFRgba16( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec3I )
+			, ImageAccess::eImageSizeCubeArrayF
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSizeCubeArrayFRg32( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec3I )
+			, ImageAccess::eImageSizeCubeArrayF
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSizeCubeArrayFRg16( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec3I )
+			, ImageAccess::eImageSizeCubeArrayF
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSizeCubeArrayFR32( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec3I )
+			, ImageAccess::eImageSizeCubeArrayF
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSizeCubeArrayFR16( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec3I )
+			, ImageAccess::eImageSizeCubeArrayF
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSize2DRectFRgba32( ExprPtr image )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eVec2I )
 			, ImageAccess::eImageSize2DRectF
 			, std::move( image ) );
 	}
 
-	ImageAccessCallPtr makeImageSize1DArrayF( ExprPtr image )
+	ImageAccessCallPtr makeImageSize2DRectFRgba16( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2I )
+			, ImageAccess::eImageSize2DRectF
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSize2DRectFRg32( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2I )
+			, ImageAccess::eImageSize2DRectF
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSize2DRectFRg16( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2I )
+			, ImageAccess::eImageSize2DRectF
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSize2DRectFR32( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2I )
+			, ImageAccess::eImageSize2DRectF
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSize2DRectFR16( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2I )
+			, ImageAccess::eImageSize2DRectF
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSize1DArrayFRgba32( ExprPtr image )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eVec2I )
 			, ImageAccess::eImageSize1DArrayF
 			, std::move( image ) );
 	}
 
-	ImageAccessCallPtr makeImageSize2DArrayF( ExprPtr image )
+	ImageAccessCallPtr makeImageSize1DArrayFRgba16( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2I )
+			, ImageAccess::eImageSize1DArrayF
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSize1DArrayFRg32( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2I )
+			, ImageAccess::eImageSize1DArrayF
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSize1DArrayFRg16( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2I )
+			, ImageAccess::eImageSize1DArrayF
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSize1DArrayFR32( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2I )
+			, ImageAccess::eImageSize1DArrayF
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSize1DArrayFR16( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2I )
+			, ImageAccess::eImageSize1DArrayF
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSize2DArrayFRgba32( ExprPtr image )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eVec3I )
 			, ImageAccess::eImageSize2DArrayF
 			, std::move( image ) );
 	}
 
-	ImageAccessCallPtr makeImageSizeBufferF( ExprPtr image )
+	ImageAccessCallPtr makeImageSize2DArrayFRgba16( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec3I )
+			, ImageAccess::eImageSize2DArrayF
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSize2DArrayFRg32( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec3I )
+			, ImageAccess::eImageSize2DArrayF
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSize2DArrayFRg16( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec3I )
+			, ImageAccess::eImageSize2DArrayF
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSize2DArrayFR32( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec3I )
+			, ImageAccess::eImageSize2DArrayF
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSize2DArrayFR16( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec3I )
+			, ImageAccess::eImageSize2DArrayF
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSizeBufferFRgba32( ExprPtr image )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eInt )
 			, ImageAccess::eImageSizeBufferF
 			, std::move( image ) );
 	}
 
-	ImageAccessCallPtr makeImageSize2DMSF( ExprPtr image )
+	ImageAccessCallPtr makeImageSizeBufferFRgba16( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eInt )
+			, ImageAccess::eImageSizeBufferF
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSizeBufferFRg32( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eInt )
+			, ImageAccess::eImageSizeBufferF
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSizeBufferFRg16( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eInt )
+			, ImageAccess::eImageSizeBufferF
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSizeBufferFR32( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eInt )
+			, ImageAccess::eImageSizeBufferF
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSizeBufferFR16( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eInt )
+			, ImageAccess::eImageSizeBufferF
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSize2DMSFRgba32( ExprPtr image )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eVec2I )
 			, ImageAccess::eImageSize2DMSF
 			, std::move( image ) );
 	}
 
-	ImageAccessCallPtr makeImageSize2DMSArrayF( ExprPtr image )
+	ImageAccessCallPtr makeImageSize2DMSFRgba16( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2I )
+			, ImageAccess::eImageSize2DMSF
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSize2DMSFRg32( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2I )
+			, ImageAccess::eImageSize2DMSF
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSize2DMSFRg16( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2I )
+			, ImageAccess::eImageSize2DMSF
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSize2DMSFR32( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2I )
+			, ImageAccess::eImageSize2DMSF
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSize2DMSFR16( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2I )
+			, ImageAccess::eImageSize2DMSF
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSize2DMSArrayFRgba32( ExprPtr image )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eVec3I )
 			, ImageAccess::eImageSize2DMSArrayF
 			, std::move( image ) );
 	}
 
-	ImageAccessCallPtr makeImageSize1DI( ExprPtr image )
+	ImageAccessCallPtr makeImageSize2DMSArrayFRgba16( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec3I )
+			, ImageAccess::eImageSize2DMSArrayF
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSize2DMSArrayFRg32( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec3I )
+			, ImageAccess::eImageSize2DMSArrayF
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSize2DMSArrayFRg16( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec3I )
+			, ImageAccess::eImageSize2DMSArrayF
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSize2DMSArrayFR32( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec3I )
+			, ImageAccess::eImageSize2DMSArrayF
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSize2DMSArrayFR16( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec3I )
+			, ImageAccess::eImageSize2DMSArrayF
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSize1DIRgba32( ExprPtr image )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eInt )
 			, ImageAccess::eImageSize1DI
 			, std::move( image ) );
 	}
 
-	ImageAccessCallPtr makeImageSize2DI( ExprPtr image )
+	ImageAccessCallPtr makeImageSize1DIRgba16( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eInt )
+			, ImageAccess::eImageSize1DI
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSize1DIRgba8( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eInt )
+			, ImageAccess::eImageSize1DI
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSize1DIRg32( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eInt )
+			, ImageAccess::eImageSize1DI
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSize1DIRg16( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eInt )
+			, ImageAccess::eImageSize1DI
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSize1DIRg8( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eInt )
+			, ImageAccess::eImageSize1DI
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSize1DIR32( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eInt )
+			, ImageAccess::eImageSize1DI
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSize1DIR16( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eInt )
+			, ImageAccess::eImageSize1DI
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSize1DIR8( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eInt )
+			, ImageAccess::eImageSize1DI
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSize2DIRgba32( ExprPtr image )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eVec2I )
 			, ImageAccess::eImageSize2DI
 			, std::move( image ) );
 	}
 
-	ImageAccessCallPtr makeImageSize3DI( ExprPtr image )
+	ImageAccessCallPtr makeImageSize2DIRgba16( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2I )
+			, ImageAccess::eImageSize2DI
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSize2DIRgba8( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2I )
+			, ImageAccess::eImageSize2DI
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSize2DIRg32( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2I )
+			, ImageAccess::eImageSize2DI
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSize2DIRg16( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2I )
+			, ImageAccess::eImageSize2DI
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSize2DIRg8( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2I )
+			, ImageAccess::eImageSize2DI
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSize2DIR32( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2I )
+			, ImageAccess::eImageSize2DI
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSize2DIR16( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2I )
+			, ImageAccess::eImageSize2DI
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSize2DIR8( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2I )
+			, ImageAccess::eImageSize2DI
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSize3DIRgba32( ExprPtr image )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eVec3I )
 			, ImageAccess::eImageSize3DI
 			, std::move( image ) );
 	}
 
-	ImageAccessCallPtr makeImageSizeCubeI( ExprPtr image )
+	ImageAccessCallPtr makeImageSize3DIRgba16( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec3I )
+			, ImageAccess::eImageSize3DI
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSize3DIRgba8( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec3I )
+			, ImageAccess::eImageSize3DI
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSize3DIRg32( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec3I )
+			, ImageAccess::eImageSize3DI
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSize3DIRg16( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec3I )
+			, ImageAccess::eImageSize3DI
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSize3DIRg8( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec3I )
+			, ImageAccess::eImageSize3DI
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSize3DIR32( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec3I )
+			, ImageAccess::eImageSize3DI
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSize3DIR16( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec3I )
+			, ImageAccess::eImageSize3DI
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSize3DIR8( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec3I )
+			, ImageAccess::eImageSize3DI
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSizeCubeIRgba32( ExprPtr image )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eVec2I )
 			, ImageAccess::eImageSizeCubeI
 			, std::move( image ) );
 	}
 
-	ImageAccessCallPtr makeImageSizeCubeArrayI( ExprPtr image )
+	ImageAccessCallPtr makeImageSizeCubeIRgba16( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2I )
+			, ImageAccess::eImageSizeCubeI
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSizeCubeIRgba8( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2I )
+			, ImageAccess::eImageSizeCubeI
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSizeCubeIRg32( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2I )
+			, ImageAccess::eImageSizeCubeI
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSizeCubeIRg16( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2I )
+			, ImageAccess::eImageSizeCubeI
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSizeCubeIRg8( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2I )
+			, ImageAccess::eImageSizeCubeI
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSizeCubeIR32( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2I )
+			, ImageAccess::eImageSizeCubeI
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSizeCubeIR16( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2I )
+			, ImageAccess::eImageSizeCubeI
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSizeCubeIR8( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2I )
+			, ImageAccess::eImageSizeCubeI
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSizeCubeArrayIRgba32( ExprPtr image )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eVec3I )
 			, ImageAccess::eImageSizeCubeArrayI
 			, std::move( image ) );
 	}
 
-	ImageAccessCallPtr makeImageSize2DRectI( ExprPtr image )
+	ImageAccessCallPtr makeImageSizeCubeArrayIRgba16( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec3I )
+			, ImageAccess::eImageSizeCubeArrayI
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSizeCubeArrayIRgba8( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec3I )
+			, ImageAccess::eImageSizeCubeArrayI
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSizeCubeArrayIRg32( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec3I )
+			, ImageAccess::eImageSizeCubeArrayI
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSizeCubeArrayIRg16( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec3I )
+			, ImageAccess::eImageSizeCubeArrayI
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSizeCubeArrayIRg8( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec3I )
+			, ImageAccess::eImageSizeCubeArrayI
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSizeCubeArrayIR32( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec3I )
+			, ImageAccess::eImageSizeCubeArrayI
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSizeCubeArrayIR16( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec3I )
+			, ImageAccess::eImageSizeCubeArrayI
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSizeCubeArrayIR8( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec3I )
+			, ImageAccess::eImageSizeCubeArrayI
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSize2DRectIRgba32( ExprPtr image )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eVec2I )
 			, ImageAccess::eImageSize2DRectI
 			, std::move( image ) );
 	}
 
-	ImageAccessCallPtr makeImageSize1DArrayI( ExprPtr image )
+	ImageAccessCallPtr makeImageSize2DRectIRgba16( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2I )
+			, ImageAccess::eImageSize2DRectI
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSize2DRectIRgba8( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2I )
+			, ImageAccess::eImageSize2DRectI
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSize2DRectIRg32( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2I )
+			, ImageAccess::eImageSize2DRectI
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSize2DRectIRg16( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2I )
+			, ImageAccess::eImageSize2DRectI
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSize2DRectIRg8( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2I )
+			, ImageAccess::eImageSize2DRectI
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSize2DRectIR32( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2I )
+			, ImageAccess::eImageSize2DRectI
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSize2DRectIR16( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2I )
+			, ImageAccess::eImageSize2DRectI
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSize2DRectIR8( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2I )
+			, ImageAccess::eImageSize2DRectI
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSize1DArrayIRgba32( ExprPtr image )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eVec2I )
 			, ImageAccess::eImageSize1DArrayI
 			, std::move( image ) );
 	}
 
-	ImageAccessCallPtr makeImageSize2DArrayI( ExprPtr image )
+	ImageAccessCallPtr makeImageSize1DArrayIRgba16( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2I )
+			, ImageAccess::eImageSize1DArrayI
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSize1DArrayIRgba8( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2I )
+			, ImageAccess::eImageSize1DArrayI
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSize1DArrayIRg32( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2I )
+			, ImageAccess::eImageSize1DArrayI
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSize1DArrayIRg16( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2I )
+			, ImageAccess::eImageSize1DArrayI
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSize1DArrayIRg8( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2I )
+			, ImageAccess::eImageSize1DArrayI
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSize1DArrayIR32( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2I )
+			, ImageAccess::eImageSize1DArrayI
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSize1DArrayIR16( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2I )
+			, ImageAccess::eImageSize1DArrayI
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSize1DArrayIR8( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2I )
+			, ImageAccess::eImageSize1DArrayI
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSize2DArrayIRgba32( ExprPtr image )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eVec3I )
 			, ImageAccess::eImageSize2DArrayI
 			, std::move( image ) );
 	}
 
-	ImageAccessCallPtr makeImageSizeBufferI( ExprPtr image )
+	ImageAccessCallPtr makeImageSize2DArrayIRgba16( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec3I )
+			, ImageAccess::eImageSize2DArrayI
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSize2DArrayIRgba8( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec3I )
+			, ImageAccess::eImageSize2DArrayI
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSize2DArrayIRg32( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec3I )
+			, ImageAccess::eImageSize2DArrayI
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSize2DArrayIRg16( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec3I )
+			, ImageAccess::eImageSize2DArrayI
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSize2DArrayIRg8( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec3I )
+			, ImageAccess::eImageSize2DArrayI
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSize2DArrayIR32( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec3I )
+			, ImageAccess::eImageSize2DArrayI
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSize2DArrayIR16( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec3I )
+			, ImageAccess::eImageSize2DArrayI
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSize2DArrayIR8( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec3I )
+			, ImageAccess::eImageSize2DArrayI
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSizeBufferIRgba32( ExprPtr image )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eInt )
 			, ImageAccess::eImageSizeBufferI
 			, std::move( image ) );
 	}
 
-	ImageAccessCallPtr makeImageSize2DMSI( ExprPtr image )
+	ImageAccessCallPtr makeImageSizeBufferIRgba16( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eInt )
+			, ImageAccess::eImageSizeBufferI
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSizeBufferIRgba8( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eInt )
+			, ImageAccess::eImageSizeBufferI
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSizeBufferIRg32( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eInt )
+			, ImageAccess::eImageSizeBufferI
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSizeBufferIRg16( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eInt )
+			, ImageAccess::eImageSizeBufferI
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSizeBufferIRg8( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eInt )
+			, ImageAccess::eImageSizeBufferI
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSizeBufferIR32( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eInt )
+			, ImageAccess::eImageSizeBufferI
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSizeBufferIR16( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eInt )
+			, ImageAccess::eImageSizeBufferI
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSizeBufferIR8( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eInt )
+			, ImageAccess::eImageSizeBufferI
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSize2DMSIRgba32( ExprPtr image )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eVec2I )
 			, ImageAccess::eImageSize2DMSI
 			, std::move( image ) );
 	}
 
-	ImageAccessCallPtr makeImageSize2DMSArrayI( ExprPtr image )
+	ImageAccessCallPtr makeImageSize2DMSIRgba16( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2I )
+			, ImageAccess::eImageSize2DMSI
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSize2DMSIRgba8( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2I )
+			, ImageAccess::eImageSize2DMSI
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSize2DMSIRg32( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2I )
+			, ImageAccess::eImageSize2DMSI
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSize2DMSIRg16( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2I )
+			, ImageAccess::eImageSize2DMSI
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSize2DMSIRg8( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2I )
+			, ImageAccess::eImageSize2DMSI
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSize2DMSIR32( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2I )
+			, ImageAccess::eImageSize2DMSI
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSize2DMSIR16( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2I )
+			, ImageAccess::eImageSize2DMSI
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSize2DMSIR8( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2I )
+			, ImageAccess::eImageSize2DMSI
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSize2DMSArrayIRgba32( ExprPtr image )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eVec3I )
 			, ImageAccess::eImageSize2DMSArrayI
 			, std::move( image ) );
 	}
 
-	ImageAccessCallPtr makeImageSize1DU( ExprPtr image )
+	ImageAccessCallPtr makeImageSize2DMSArrayIRgba16( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec3I )
+			, ImageAccess::eImageSize2DMSArrayI
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSize2DMSArrayIRgba8( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec3I )
+			, ImageAccess::eImageSize2DMSArrayI
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSize2DMSArrayIRg32( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec3I )
+			, ImageAccess::eImageSize2DMSArrayI
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSize2DMSArrayIRg16( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec3I )
+			, ImageAccess::eImageSize2DMSArrayI
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSize2DMSArrayIRg8( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec3I )
+			, ImageAccess::eImageSize2DMSArrayI
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSize2DMSArrayIR32( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec3I )
+			, ImageAccess::eImageSize2DMSArrayI
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSize2DMSArrayIR16( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec3I )
+			, ImageAccess::eImageSize2DMSArrayI
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSize2DMSArrayIR8( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec3I )
+			, ImageAccess::eImageSize2DMSArrayI
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSize1DURgba32( ExprPtr image )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eInt )
 			, ImageAccess::eImageSize1DU
 			, std::move( image ) );
 	}
 
-	ImageAccessCallPtr makeImageSize2DU( ExprPtr image )
+	ImageAccessCallPtr makeImageSize1DURgba16( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eInt )
+			, ImageAccess::eImageSize1DU
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSize1DURgba8( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eInt )
+			, ImageAccess::eImageSize1DU
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSize1DURg32( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eInt )
+			, ImageAccess::eImageSize1DU
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSize1DURg16( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eInt )
+			, ImageAccess::eImageSize1DU
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSize1DURg8( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eInt )
+			, ImageAccess::eImageSize1DU
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSize1DUR32( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eInt )
+			, ImageAccess::eImageSize1DU
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSize1DUR16( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eInt )
+			, ImageAccess::eImageSize1DU
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSize1DUR8( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eInt )
+			, ImageAccess::eImageSize1DU
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSize2DURgba32( ExprPtr image )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eVec2I )
 			, ImageAccess::eImageSize2DU
 			, std::move( image ) );
 	}
 
-	ImageAccessCallPtr makeImageSize3DU( ExprPtr image )
+	ImageAccessCallPtr makeImageSize2DURgba16( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2I )
+			, ImageAccess::eImageSize2DU
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSize2DURgba8( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2I )
+			, ImageAccess::eImageSize2DU
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSize2DURg32( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2I )
+			, ImageAccess::eImageSize2DU
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSize2DURg16( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2I )
+			, ImageAccess::eImageSize2DU
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSize2DURg8( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2I )
+			, ImageAccess::eImageSize2DU
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSize2DUR32( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2I )
+			, ImageAccess::eImageSize2DU
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSize2DUR16( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2I )
+			, ImageAccess::eImageSize2DU
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSize2DUR8( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2I )
+			, ImageAccess::eImageSize2DU
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSize3DURgba32( ExprPtr image )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eVec3I )
 			, ImageAccess::eImageSize3DU
 			, std::move( image ) );
 	}
 
-	ImageAccessCallPtr makeImageSizeCubeU( ExprPtr image )
+	ImageAccessCallPtr makeImageSize3DURgba16( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec3I )
+			, ImageAccess::eImageSize3DU
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSize3DURgba8( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec3I )
+			, ImageAccess::eImageSize3DU
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSize3DURg32( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec3I )
+			, ImageAccess::eImageSize3DU
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSize3DURg16( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec3I )
+			, ImageAccess::eImageSize3DU
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSize3DURg8( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec3I )
+			, ImageAccess::eImageSize3DU
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSize3DUR32( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec3I )
+			, ImageAccess::eImageSize3DU
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSize3DUR16( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec3I )
+			, ImageAccess::eImageSize3DU
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSize3DUR8( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec3I )
+			, ImageAccess::eImageSize3DU
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSizeCubeURgba32( ExprPtr image )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eVec2I )
 			, ImageAccess::eImageSizeCubeU
 			, std::move( image ) );
 	}
 
-	ImageAccessCallPtr makeImageSizeCubeArrayU( ExprPtr image )
+	ImageAccessCallPtr makeImageSizeCubeURgba16( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2I )
+			, ImageAccess::eImageSizeCubeU
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSizeCubeURgba8( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2I )
+			, ImageAccess::eImageSizeCubeU
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSizeCubeURg32( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2I )
+			, ImageAccess::eImageSizeCubeU
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSizeCubeURg16( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2I )
+			, ImageAccess::eImageSizeCubeU
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSizeCubeURg8( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2I )
+			, ImageAccess::eImageSizeCubeU
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSizeCubeUR32( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2I )
+			, ImageAccess::eImageSizeCubeU
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSizeCubeUR16( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2I )
+			, ImageAccess::eImageSizeCubeU
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSizeCubeUR8( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2I )
+			, ImageAccess::eImageSizeCubeU
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSizeCubeArrayURgba32( ExprPtr image )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eVec3I )
 			, ImageAccess::eImageSizeCubeArrayU
 			, std::move( image ) );
 	}
 
-	ImageAccessCallPtr makeImageSize2DRectU( ExprPtr image )
+	ImageAccessCallPtr makeImageSizeCubeArrayURgba16( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec3I )
+			, ImageAccess::eImageSizeCubeArrayU
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSizeCubeArrayURgba8( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec3I )
+			, ImageAccess::eImageSizeCubeArrayU
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSizeCubeArrayURg32( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec3I )
+			, ImageAccess::eImageSizeCubeArrayU
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSizeCubeArrayURg16( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec3I )
+			, ImageAccess::eImageSizeCubeArrayU
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSizeCubeArrayURg8( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec3I )
+			, ImageAccess::eImageSizeCubeArrayU
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSizeCubeArrayUR32( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec3I )
+			, ImageAccess::eImageSizeCubeArrayU
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSizeCubeArrayUR16( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec3I )
+			, ImageAccess::eImageSizeCubeArrayU
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSizeCubeArrayUR8( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec3I )
+			, ImageAccess::eImageSizeCubeArrayU
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSize2DRectURgba32( ExprPtr image )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eVec2I )
 			, ImageAccess::eImageSize2DRectU
 			, std::move( image ) );
 	}
 
-	ImageAccessCallPtr makeImageSize1DArrayU( ExprPtr image )
+	ImageAccessCallPtr makeImageSize2DRectURgba16( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2I )
+			, ImageAccess::eImageSize2DRectU
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSize2DRectURgba8( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2I )
+			, ImageAccess::eImageSize2DRectU
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSize2DRectURg32( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2I )
+			, ImageAccess::eImageSize2DRectU
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSize2DRectURg16( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2I )
+			, ImageAccess::eImageSize2DRectU
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSize2DRectURg8( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2I )
+			, ImageAccess::eImageSize2DRectU
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSize2DRectUR32( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2I )
+			, ImageAccess::eImageSize2DRectU
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSize2DRectUR16( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2I )
+			, ImageAccess::eImageSize2DRectU
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSize2DRectUR8( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2I )
+			, ImageAccess::eImageSize2DRectU
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSize1DArrayURgba32( ExprPtr image )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eVec2I )
 			, ImageAccess::eImageSize1DArrayU
 			, std::move( image ) );
 	}
 
-	ImageAccessCallPtr makeImageSize2DArrayU( ExprPtr image )
+	ImageAccessCallPtr makeImageSize1DArrayURgba16( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2I )
+			, ImageAccess::eImageSize1DArrayU
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSize1DArrayURgba8( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2I )
+			, ImageAccess::eImageSize1DArrayU
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSize1DArrayURg32( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2I )
+			, ImageAccess::eImageSize1DArrayU
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSize1DArrayURg16( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2I )
+			, ImageAccess::eImageSize1DArrayU
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSize1DArrayURg8( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2I )
+			, ImageAccess::eImageSize1DArrayU
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSize1DArrayUR32( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2I )
+			, ImageAccess::eImageSize1DArrayU
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSize1DArrayUR16( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2I )
+			, ImageAccess::eImageSize1DArrayU
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSize1DArrayUR8( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2I )
+			, ImageAccess::eImageSize1DArrayU
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSize2DArrayURgba32( ExprPtr image )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eVec3I )
 			, ImageAccess::eImageSize2DArrayU
 			, std::move( image ) );
 	}
 
-	ImageAccessCallPtr makeImageSizeBufferU( ExprPtr image )
+	ImageAccessCallPtr makeImageSize2DArrayURgba16( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec3I )
+			, ImageAccess::eImageSize2DArrayU
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSize2DArrayURgba8( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec3I )
+			, ImageAccess::eImageSize2DArrayU
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSize2DArrayURg32( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec3I )
+			, ImageAccess::eImageSize2DArrayU
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSize2DArrayURg16( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec3I )
+			, ImageAccess::eImageSize2DArrayU
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSize2DArrayURg8( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec3I )
+			, ImageAccess::eImageSize2DArrayU
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSize2DArrayUR32( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec3I )
+			, ImageAccess::eImageSize2DArrayU
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSize2DArrayUR16( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec3I )
+			, ImageAccess::eImageSize2DArrayU
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSize2DArrayUR8( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec3I )
+			, ImageAccess::eImageSize2DArrayU
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSizeBufferURgba32( ExprPtr image )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eInt )
 			, ImageAccess::eImageSizeBufferU
 			, std::move( image ) );
 	}
 
-	ImageAccessCallPtr makeImageSize2DMSU( ExprPtr image )
+	ImageAccessCallPtr makeImageSizeBufferURgba16( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eInt )
+			, ImageAccess::eImageSizeBufferU
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSizeBufferURgba8( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eInt )
+			, ImageAccess::eImageSizeBufferU
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSizeBufferURg32( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eInt )
+			, ImageAccess::eImageSizeBufferU
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSizeBufferURg16( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eInt )
+			, ImageAccess::eImageSizeBufferU
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSizeBufferURg8( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eInt )
+			, ImageAccess::eImageSizeBufferU
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSizeBufferUR32( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eInt )
+			, ImageAccess::eImageSizeBufferU
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSizeBufferUR16( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eInt )
+			, ImageAccess::eImageSizeBufferU
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSizeBufferUR8( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eInt )
+			, ImageAccess::eImageSizeBufferU
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSize2DMSURgba32( ExprPtr image )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eVec2I )
 			, ImageAccess::eImageSize2DMSU
 			, std::move( image ) );
 	}
 
-	ImageAccessCallPtr makeImageSize2DMSArrayU( ExprPtr image )
+	ImageAccessCallPtr makeImageSize2DMSURgba16( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2I )
+			, ImageAccess::eImageSize2DMSU
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSize2DMSURgba8( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2I )
+			, ImageAccess::eImageSize2DMSU
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSize2DMSURg32( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2I )
+			, ImageAccess::eImageSize2DMSU
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSize2DMSURg16( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2I )
+			, ImageAccess::eImageSize2DMSU
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSize2DMSURg8( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2I )
+			, ImageAccess::eImageSize2DMSU
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSize2DMSUR32( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2I )
+			, ImageAccess::eImageSize2DMSU
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSize2DMSUR16( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2I )
+			, ImageAccess::eImageSize2DMSU
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSize2DMSUR8( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2I )
+			, ImageAccess::eImageSize2DMSU
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSize2DMSArrayURgba32( ExprPtr image )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eVec3I )
 			, ImageAccess::eImageSize2DMSArrayU
 			, std::move( image ) );
 	}
 
-	ImageAccessCallPtr makeImageSamples2DMSF( ExprPtr image )
+	ImageAccessCallPtr makeImageSize2DMSArrayURgba16( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec3I )
+			, ImageAccess::eImageSize2DMSArrayU
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSize2DMSArrayURgba8( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec3I )
+			, ImageAccess::eImageSize2DMSArrayU
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSize2DMSArrayURg32( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec3I )
+			, ImageAccess::eImageSize2DMSArrayU
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSize2DMSArrayURg16( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec3I )
+			, ImageAccess::eImageSize2DMSArrayU
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSize2DMSArrayURg8( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec3I )
+			, ImageAccess::eImageSize2DMSArrayU
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSize2DMSArrayUR32( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec3I )
+			, ImageAccess::eImageSize2DMSArrayU
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSize2DMSArrayUR16( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec3I )
+			, ImageAccess::eImageSize2DMSArrayU
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSize2DMSArrayUR8( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec3I )
+			, ImageAccess::eImageSize2DMSArrayU
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSamples2DMSFRgba32( ExprPtr image )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eInt )
 			, ImageAccess::eImageSamples2DMSF
 			, std::move( image ) );
 	}
 
-	ImageAccessCallPtr makeImageSamples2DMSArrayF( ExprPtr image )
+	ImageAccessCallPtr makeImageSamples2DMSFRgba16( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eInt )
+			, ImageAccess::eImageSamples2DMSF
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSamples2DMSFRg32( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eInt )
+			, ImageAccess::eImageSamples2DMSF
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSamples2DMSFRg16( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eInt )
+			, ImageAccess::eImageSamples2DMSF
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSamples2DMSFR32( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eInt )
+			, ImageAccess::eImageSamples2DMSF
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSamples2DMSFR16( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eInt )
+			, ImageAccess::eImageSamples2DMSF
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSamples2DMSArrayFRgba32( ExprPtr image )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eInt )
 			, ImageAccess::eImageSamples2DMSArrayF
 			, std::move( image ) );
 	}
 
-	ImageAccessCallPtr makeImageSamples2DMSI( ExprPtr image )
+	ImageAccessCallPtr makeImageSamples2DMSArrayFRgba16( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eInt )
+			, ImageAccess::eImageSamples2DMSArrayF
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSamples2DMSArrayFRg32( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eInt )
+			, ImageAccess::eImageSamples2DMSArrayF
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSamples2DMSArrayFRg16( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eInt )
+			, ImageAccess::eImageSamples2DMSArrayF
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSamples2DMSArrayFR32( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eInt )
+			, ImageAccess::eImageSamples2DMSArrayF
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSamples2DMSArrayFR16( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eInt )
+			, ImageAccess::eImageSamples2DMSArrayF
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSamples2DMSIRgba32( ExprPtr image )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eInt )
 			, ImageAccess::eImageSamples2DMSI
 			, std::move( image ) );
 	}
 
-	ImageAccessCallPtr makeImageSamples2DMSArrayI( ExprPtr image )
+	ImageAccessCallPtr makeImageSamples2DMSIRgba16( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eInt )
+			, ImageAccess::eImageSamples2DMSI
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSamples2DMSIRgba8( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eInt )
+			, ImageAccess::eImageSamples2DMSI
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSamples2DMSIRg32( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eInt )
+			, ImageAccess::eImageSamples2DMSI
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSamples2DMSIRg16( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eInt )
+			, ImageAccess::eImageSamples2DMSI
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSamples2DMSIRg8( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eInt )
+			, ImageAccess::eImageSamples2DMSI
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSamples2DMSIR32( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eInt )
+			, ImageAccess::eImageSamples2DMSI
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSamples2DMSIR16( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eInt )
+			, ImageAccess::eImageSamples2DMSI
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSamples2DMSIR8( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eInt )
+			, ImageAccess::eImageSamples2DMSI
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSamples2DMSArrayIRgba32( ExprPtr image )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eInt )
 			, ImageAccess::eImageSamples2DMSArrayI
 			, std::move( image ) );
 	}
 
-	ImageAccessCallPtr makeImageSamples2DMSU( ExprPtr image )
+	ImageAccessCallPtr makeImageSamples2DMSArrayIRgba16( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eInt )
+			, ImageAccess::eImageSamples2DMSArrayI
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSamples2DMSArrayIRgba8( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eInt )
+			, ImageAccess::eImageSamples2DMSArrayI
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSamples2DMSArrayIRg32( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eInt )
+			, ImageAccess::eImageSamples2DMSArrayI
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSamples2DMSArrayIRg16( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eInt )
+			, ImageAccess::eImageSamples2DMSArrayI
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSamples2DMSArrayIRg8( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eInt )
+			, ImageAccess::eImageSamples2DMSArrayI
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSamples2DMSArrayIR32( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eInt )
+			, ImageAccess::eImageSamples2DMSArrayI
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSamples2DMSArrayIR16( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eInt )
+			, ImageAccess::eImageSamples2DMSArrayI
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSamples2DMSArrayIR8( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eInt )
+			, ImageAccess::eImageSamples2DMSArrayI
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSamples2DMSURgba32( ExprPtr image )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eInt )
 			, ImageAccess::eImageSamples2DMSU
 			, std::move( image ) );
 	}
 
-	ImageAccessCallPtr makeImageSamples2DMSArrayU( ExprPtr image )
+	ImageAccessCallPtr makeImageSamples2DMSURgba16( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eInt )
+			, ImageAccess::eImageSamples2DMSU
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSamples2DMSURgba8( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eInt )
+			, ImageAccess::eImageSamples2DMSU
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSamples2DMSURg32( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eInt )
+			, ImageAccess::eImageSamples2DMSU
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSamples2DMSURg16( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eInt )
+			, ImageAccess::eImageSamples2DMSU
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSamples2DMSURg8( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eInt )
+			, ImageAccess::eImageSamples2DMSU
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSamples2DMSUR32( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eInt )
+			, ImageAccess::eImageSamples2DMSU
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSamples2DMSUR16( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eInt )
+			, ImageAccess::eImageSamples2DMSU
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSamples2DMSUR8( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eInt )
+			, ImageAccess::eImageSamples2DMSU
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSamples2DMSArrayURgba32( ExprPtr image )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eInt )
 			, ImageAccess::eImageSamples2DMSArrayU
 			, std::move( image ) );
 	}
 
-	ImageAccessCallPtr makeImageLoad1DF( ExprPtr image
+	ImageAccessCallPtr makeImageSamples2DMSArrayURgba16( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eInt )
+			, ImageAccess::eImageSamples2DMSArrayU
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSamples2DMSArrayURgba8( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eInt )
+			, ImageAccess::eImageSamples2DMSArrayU
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSamples2DMSArrayURg32( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eInt )
+			, ImageAccess::eImageSamples2DMSArrayU
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSamples2DMSArrayURg16( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eInt )
+			, ImageAccess::eImageSamples2DMSArrayU
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSamples2DMSArrayURg8( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eInt )
+			, ImageAccess::eImageSamples2DMSArrayU
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSamples2DMSArrayUR32( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eInt )
+			, ImageAccess::eImageSamples2DMSArrayU
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSamples2DMSArrayUR16( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eInt )
+			, ImageAccess::eImageSamples2DMSArrayU
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageSamples2DMSArrayUR8( ExprPtr image )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eInt )
+			, ImageAccess::eImageSamples2DMSArrayU
+			, std::move( image ) );
+	}
+
+	ImageAccessCallPtr makeImageLoad1DFRgba32( ExprPtr image
 		, ExprPtr P )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eVec4F )
@@ -287,7 +2198,52 @@ namespace ast::expr
 			, std::move( P ) );
 	}
 
-	ImageAccessCallPtr makeImageLoad2DF( ExprPtr image
+	ImageAccessCallPtr makeImageLoad1DFRgba16( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec4F )
+			, ImageAccess::eImageLoad1DF
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoad1DFRg32( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2F )
+			, ImageAccess::eImageLoad1DF
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoad1DFRg16( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2F )
+			, ImageAccess::eImageLoad1DF
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoad1DFR32( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eFloat )
+			, ImageAccess::eImageLoad1DF
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoad1DFR16( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eFloat )
+			, ImageAccess::eImageLoad1DF
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoad2DFRgba32( ExprPtr image
 		, ExprPtr P )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eVec4F )
@@ -296,7 +2252,52 @@ namespace ast::expr
 			, std::move( P ) );
 	}
 
-	ImageAccessCallPtr makeImageLoad3DF( ExprPtr image
+	ImageAccessCallPtr makeImageLoad2DFRgba16( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec4F )
+			, ImageAccess::eImageLoad2DF
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoad2DFRg32( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2F )
+			, ImageAccess::eImageLoad2DF
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoad2DFRg16( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2F )
+			, ImageAccess::eImageLoad2DF
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoad2DFR32( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eFloat )
+			, ImageAccess::eImageLoad2DF
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoad2DFR16( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eFloat )
+			, ImageAccess::eImageLoad2DF
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoad3DFRgba32( ExprPtr image
 		, ExprPtr P )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eVec4F )
@@ -305,7 +2306,52 @@ namespace ast::expr
 			, std::move( P ) );
 	}
 
-	ImageAccessCallPtr makeImageLoad2DRectF( ExprPtr image
+	ImageAccessCallPtr makeImageLoad3DFRgba16( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec4F )
+			, ImageAccess::eImageLoad3DF
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoad3DFRg32( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2F )
+			, ImageAccess::eImageLoad3DF
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoad3DFRg16( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2F )
+			, ImageAccess::eImageLoad3DF
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoad3DFR32( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eFloat )
+			, ImageAccess::eImageLoad3DF
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoad3DFR16( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eFloat )
+			, ImageAccess::eImageLoad3DF
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoad2DRectFRgba32( ExprPtr image
 		, ExprPtr P )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eVec4F )
@@ -314,7 +2360,52 @@ namespace ast::expr
 			, std::move( P ) );
 	}
 
-	ImageAccessCallPtr makeImageLoadCubeF( ExprPtr image
+	ImageAccessCallPtr makeImageLoad2DRectFRgba16( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec4F )
+			, ImageAccess::eImageLoad2DRectF
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoad2DRectFRg32( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2F )
+			, ImageAccess::eImageLoad2DRectF
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoad2DRectFRg16( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2F )
+			, ImageAccess::eImageLoad2DRectF
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoad2DRectFR32( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eFloat )
+			, ImageAccess::eImageLoad2DRectF
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoad2DRectFR16( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eFloat )
+			, ImageAccess::eImageLoad2DRectF
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoadCubeFRgba32( ExprPtr image
 		, ExprPtr P )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eVec4F )
@@ -323,7 +2414,52 @@ namespace ast::expr
 			, std::move( P ) );
 	}
 
-	ImageAccessCallPtr makeImageLoadBufferF( ExprPtr image
+	ImageAccessCallPtr makeImageLoadCubeFRgba16( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec4F )
+			, ImageAccess::eImageLoadCubeF
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoadCubeFRg32( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2F )
+			, ImageAccess::eImageLoadCubeF
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoadCubeFRg16( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2F )
+			, ImageAccess::eImageLoadCubeF
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoadCubeFR32( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eFloat )
+			, ImageAccess::eImageLoadCubeF
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoadCubeFR16( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eFloat )
+			, ImageAccess::eImageLoadCubeF
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoadBufferFRgba32( ExprPtr image
 		, ExprPtr P )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eVec4F )
@@ -332,7 +2468,52 @@ namespace ast::expr
 			, std::move( P ) );
 	}
 
-	ImageAccessCallPtr makeImageLoad1DArrayF( ExprPtr image
+	ImageAccessCallPtr makeImageLoadBufferFRgba16( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec4F )
+			, ImageAccess::eImageLoadBufferF
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoadBufferFRg32( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2F )
+			, ImageAccess::eImageLoadBufferF
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoadBufferFRg16( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2F )
+			, ImageAccess::eImageLoadBufferF
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoadBufferFR32( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eFloat )
+			, ImageAccess::eImageLoadBufferF
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoadBufferFR16( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eFloat )
+			, ImageAccess::eImageLoadBufferF
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoad1DArrayFRgba32( ExprPtr image
 		, ExprPtr P )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eVec4F )
@@ -341,7 +2522,52 @@ namespace ast::expr
 			, std::move( P ) );
 	}
 
-	ImageAccessCallPtr makeImageLoad2DArrayF( ExprPtr image
+	ImageAccessCallPtr makeImageLoad1DArrayFRgba16( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec4F )
+			, ImageAccess::eImageLoad1DArrayF
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoad1DArrayFRg32( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2F )
+			, ImageAccess::eImageLoad1DArrayF
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoad1DArrayFRg16( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2F )
+			, ImageAccess::eImageLoad1DArrayF
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoad1DArrayFR32( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eFloat )
+			, ImageAccess::eImageLoad1DArrayF
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoad1DArrayFR16( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eFloat )
+			, ImageAccess::eImageLoad1DArrayF
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoad2DArrayFRgba32( ExprPtr image
 		, ExprPtr P )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eVec4F )
@@ -350,7 +2576,52 @@ namespace ast::expr
 			, std::move( P ) );
 	}
 
-	ImageAccessCallPtr makeImageLoadCubeArrayF( ExprPtr image
+	ImageAccessCallPtr makeImageLoad2DArrayFRgba16( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec4F )
+			, ImageAccess::eImageLoad2DArrayF
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoad2DArrayFRg32( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2F )
+			, ImageAccess::eImageLoad2DArrayF
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoad2DArrayFRg16( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2F )
+			, ImageAccess::eImageLoad2DArrayF
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoad2DArrayFR32( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eFloat )
+			, ImageAccess::eImageLoad2DArrayF
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoad2DArrayFR16( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eFloat )
+			, ImageAccess::eImageLoad2DArrayF
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoadCubeArrayFRgba32( ExprPtr image
 		, ExprPtr P )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eVec4F )
@@ -359,7 +2630,52 @@ namespace ast::expr
 			, std::move( P ) );
 	}
 
-	ImageAccessCallPtr makeImageLoad2DMSF( ExprPtr image
+	ImageAccessCallPtr makeImageLoadCubeArrayFRgba16( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec4F )
+			, ImageAccess::eImageLoadCubeArrayF
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoadCubeArrayFRg32( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2F )
+			, ImageAccess::eImageLoadCubeArrayF
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoadCubeArrayFRg16( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2F )
+			, ImageAccess::eImageLoadCubeArrayF
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoadCubeArrayFR32( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eFloat )
+			, ImageAccess::eImageLoadCubeArrayF
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoadCubeArrayFR16( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eFloat )
+			, ImageAccess::eImageLoadCubeArrayF
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoad2DMSFRgba32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr sample )
 	{
@@ -370,7 +2686,62 @@ namespace ast::expr
 			, std::move( sample ) );
 	}
 
-	ImageAccessCallPtr makeImageLoad2DMSArrayF( ExprPtr image
+	ImageAccessCallPtr makeImageLoad2DMSFRgba16( ExprPtr image
+		, ExprPtr P
+		, ExprPtr sample )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec4F )
+			, ImageAccess::eImageLoad2DMSF
+			, std::move( image )
+			, std::move( P )
+			, std::move( sample ) );
+	}
+
+	ImageAccessCallPtr makeImageLoad2DMSFRg32( ExprPtr image
+		, ExprPtr P
+		, ExprPtr sample )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2F )
+			, ImageAccess::eImageLoad2DMSF
+			, std::move( image )
+			, std::move( P )
+			, std::move( sample ) );
+	}
+
+	ImageAccessCallPtr makeImageLoad2DMSFRg16( ExprPtr image
+		, ExprPtr P
+		, ExprPtr sample )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2F )
+			, ImageAccess::eImageLoad2DMSF
+			, std::move( image )
+			, std::move( P )
+			, std::move( sample ) );
+	}
+
+	ImageAccessCallPtr makeImageLoad2DMSFR32( ExprPtr image
+		, ExprPtr P
+		, ExprPtr sample )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eFloat )
+			, ImageAccess::eImageLoad2DMSF
+			, std::move( image )
+			, std::move( P )
+			, std::move( sample ) );
+	}
+
+	ImageAccessCallPtr makeImageLoad2DMSFR16( ExprPtr image
+		, ExprPtr P
+		, ExprPtr sample )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eFloat )
+			, ImageAccess::eImageLoad2DMSF
+			, std::move( image )
+			, std::move( P )
+			, std::move( sample ) );
+	}
+
+	ImageAccessCallPtr makeImageLoad2DMSArrayFRgba32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr sample )
 	{
@@ -381,213 +2752,1916 @@ namespace ast::expr
 			, std::move( sample ) );
 	}
 
-	ImageAccessCallPtr makeImageLoad1DI( ExprPtr image
-		, ExprPtr P )
+	ImageAccessCallPtr makeImageLoad2DMSArrayFRgba16( ExprPtr image
+		, ExprPtr P
+		, ExprPtr sample )
 	{
 		return makeImageAccessCall( makeType( type::Kind::eVec4F )
+			, ImageAccess::eImageLoad2DMSArrayF
+			, std::move( image )
+			, std::move( P )
+			, std::move( sample ) );
+	}
+
+	ImageAccessCallPtr makeImageLoad2DMSArrayFRg32( ExprPtr image
+		, ExprPtr P
+		, ExprPtr sample )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2F )
+			, ImageAccess::eImageLoad2DMSArrayF
+			, std::move( image )
+			, std::move( P )
+			, std::move( sample ) );
+	}
+
+	ImageAccessCallPtr makeImageLoad2DMSArrayFRg16( ExprPtr image
+		, ExprPtr P
+		, ExprPtr sample )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2F )
+			, ImageAccess::eImageLoad2DMSArrayF
+			, std::move( image )
+			, std::move( P )
+			, std::move( sample ) );
+	}
+
+	ImageAccessCallPtr makeImageLoad2DMSArrayFR32( ExprPtr image
+		, ExprPtr P
+		, ExprPtr sample )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eFloat )
+			, ImageAccess::eImageLoad2DMSArrayF
+			, std::move( image )
+			, std::move( P )
+			, std::move( sample ) );
+	}
+
+	ImageAccessCallPtr makeImageLoad2DMSArrayFR16( ExprPtr image
+		, ExprPtr P
+		, ExprPtr sample )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eFloat )
+			, ImageAccess::eImageLoad2DMSArrayF
+			, std::move( image )
+			, std::move( P )
+			, std::move( sample ) );
+	}
+
+	ImageAccessCallPtr makeImageLoad1DIRgba32( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec4I )
 			, ImageAccess::eImageLoad1DI
 			, std::move( image )
 			, std::move( P ) );
 	}
 
-	ImageAccessCallPtr makeImageLoad2DI( ExprPtr image
+	ImageAccessCallPtr makeImageLoad1DIRgba16( ExprPtr image
 		, ExprPtr P )
 	{
-		return makeImageAccessCall( makeType( type::Kind::eVec4F )
+		return makeImageAccessCall( makeType( type::Kind::eVec4I )
+			, ImageAccess::eImageLoad1DI
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoad1DIRgba8( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec4I )
+			, ImageAccess::eImageLoad1DI
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoad1DIRg32( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2I )
+			, ImageAccess::eImageLoad1DI
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoad1DIRg16( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2I )
+			, ImageAccess::eImageLoad1DI
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoad1DIRg8( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2I )
+			, ImageAccess::eImageLoad1DI
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoad1DIR32( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eInt )
+			, ImageAccess::eImageLoad1DI
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoad1DIR16( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eInt )
+			, ImageAccess::eImageLoad1DI
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoad1DIR8( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eInt )
+			, ImageAccess::eImageLoad1DI
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoad2DIRgba32( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec4I )
 			, ImageAccess::eImageLoad2DI
 			, std::move( image )
 			, std::move( P ) );
 	}
 
-	ImageAccessCallPtr makeImageLoad3DI( ExprPtr image
+	ImageAccessCallPtr makeImageLoad2DIRgba16( ExprPtr image
 		, ExprPtr P )
 	{
-		return makeImageAccessCall( makeType( type::Kind::eVec4F )
+		return makeImageAccessCall( makeType( type::Kind::eVec4I )
+			, ImageAccess::eImageLoad2DI
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoad2DIRgba8( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec4I )
+			, ImageAccess::eImageLoad2DI
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoad2DIRg32( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2I )
+			, ImageAccess::eImageLoad2DI
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoad2DIRg16( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2I )
+			, ImageAccess::eImageLoad2DI
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoad2DIRg8( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2I )
+			, ImageAccess::eImageLoad2DI
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoad2DIR32( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eInt )
+			, ImageAccess::eImageLoad2DI
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoad2DIR16( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eInt )
+			, ImageAccess::eImageLoad2DI
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoad2DIR8( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eInt )
+			, ImageAccess::eImageLoad2DI
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoad3DIRgba32( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec4I )
 			, ImageAccess::eImageLoad3DI
 			, std::move( image )
 			, std::move( P ) );
 	}
 
-	ImageAccessCallPtr makeImageLoad2DRectI( ExprPtr image
+	ImageAccessCallPtr makeImageLoad3DIRgba16( ExprPtr image
 		, ExprPtr P )
 	{
-		return makeImageAccessCall( makeType( type::Kind::eVec4F )
+		return makeImageAccessCall( makeType( type::Kind::eVec4I )
+			, ImageAccess::eImageLoad3DI
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoad3DIRgba8( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec4I )
+			, ImageAccess::eImageLoad3DI
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoad3DIRg32( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2I )
+			, ImageAccess::eImageLoad3DI
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoad3DIRg16( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2I )
+			, ImageAccess::eImageLoad3DI
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoad3DIRg8( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2I )
+			, ImageAccess::eImageLoad3DI
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoad3DIR32( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eInt )
+			, ImageAccess::eImageLoad3DI
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoad3DIR16( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eInt )
+			, ImageAccess::eImageLoad3DI
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoad3DIR8( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eInt )
+			, ImageAccess::eImageLoad3DI
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoad2DRectIRgba32( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec4I )
 			, ImageAccess::eImageLoad2DRectI
 			, std::move( image )
 			, std::move( P ) );
 	}
 
-	ImageAccessCallPtr makeImageLoadCubeI( ExprPtr image
+	ImageAccessCallPtr makeImageLoad2DRectIRgba16( ExprPtr image
 		, ExprPtr P )
 	{
-		return makeImageAccessCall( makeType( type::Kind::eVec4F )
+		return makeImageAccessCall( makeType( type::Kind::eVec4I )
+			, ImageAccess::eImageLoad2DRectI
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoad2DRectIRgba8( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec4I )
+			, ImageAccess::eImageLoad2DRectI
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoad2DRectIRg32( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2I )
+			, ImageAccess::eImageLoad2DRectI
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoad2DRectIRg16( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2I )
+			, ImageAccess::eImageLoad2DRectI
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoad2DRectIRg8( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2I )
+			, ImageAccess::eImageLoad2DRectI
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoad2DRectIR32( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eInt )
+			, ImageAccess::eImageLoad2DRectI
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoad2DRectIR16( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eInt )
+			, ImageAccess::eImageLoad2DRectI
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoad2DRectIR8( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eInt )
+			, ImageAccess::eImageLoad2DRectI
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoadCubeIRgba32( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec4I )
 			, ImageAccess::eImageLoadCubeI
 			, std::move( image )
 			, std::move( P ) );
 	}
 
-	ImageAccessCallPtr makeImageLoadBufferI( ExprPtr image
+	ImageAccessCallPtr makeImageLoadCubeIRgba16( ExprPtr image
 		, ExprPtr P )
 	{
-		return makeImageAccessCall( makeType( type::Kind::eVec4F )
+		return makeImageAccessCall( makeType( type::Kind::eVec4I )
+			, ImageAccess::eImageLoadCubeI
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoadCubeIRgba8( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec4I )
+			, ImageAccess::eImageLoadCubeI
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoadCubeIRg32( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2I )
+			, ImageAccess::eImageLoadCubeI
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoadCubeIRg16( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2I )
+			, ImageAccess::eImageLoadCubeI
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoadCubeIRg8( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2I )
+			, ImageAccess::eImageLoadCubeI
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoadCubeIR32( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eInt )
+			, ImageAccess::eImageLoadCubeI
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoadCubeIR16( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eInt )
+			, ImageAccess::eImageLoadCubeI
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoadCubeIR8( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eInt )
+			, ImageAccess::eImageLoadCubeI
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoadBufferIRgba32( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec4I )
 			, ImageAccess::eImageLoadBufferI
 			, std::move( image )
 			, std::move( P ) );
 	}
 
-	ImageAccessCallPtr makeImageLoad1DArrayI( ExprPtr image
+	ImageAccessCallPtr makeImageLoadBufferIRgba16( ExprPtr image
 		, ExprPtr P )
 	{
-		return makeImageAccessCall( makeType( type::Kind::eVec4F )
+		return makeImageAccessCall( makeType( type::Kind::eVec4I )
+			, ImageAccess::eImageLoadBufferI
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoadBufferIRgba8( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec4I )
+			, ImageAccess::eImageLoadBufferI
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoadBufferIRg32( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2I )
+			, ImageAccess::eImageLoadBufferI
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoadBufferIRg16( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2I )
+			, ImageAccess::eImageLoadBufferI
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoadBufferIRg8( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2I )
+			, ImageAccess::eImageLoadBufferI
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoadBufferIR32( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eInt )
+			, ImageAccess::eImageLoadBufferI
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoadBufferIR16( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eInt )
+			, ImageAccess::eImageLoadBufferI
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoadBufferIR8( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eInt )
+			, ImageAccess::eImageLoadBufferI
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoad1DArrayIRgba32( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec4I )
 			, ImageAccess::eImageLoad1DArrayI
 			, std::move( image )
 			, std::move( P ) );
 	}
 
-	ImageAccessCallPtr makeImageLoad2DArrayI( ExprPtr image
+	ImageAccessCallPtr makeImageLoad1DArrayIRgba16( ExprPtr image
 		, ExprPtr P )
 	{
-		return makeImageAccessCall( makeType( type::Kind::eVec4F )
+		return makeImageAccessCall( makeType( type::Kind::eVec4I )
+			, ImageAccess::eImageLoad1DArrayI
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoad1DArrayIRgba8( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec4I )
+			, ImageAccess::eImageLoad1DArrayI
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoad1DArrayIRg32( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2I )
+			, ImageAccess::eImageLoad1DArrayI
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoad1DArrayIRg16( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2I )
+			, ImageAccess::eImageLoad1DArrayI
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoad1DArrayIRg8( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2I )
+			, ImageAccess::eImageLoad1DArrayI
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoad1DArrayIR32( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eInt )
+			, ImageAccess::eImageLoad1DArrayI
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoad1DArrayIR16( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eInt )
+			, ImageAccess::eImageLoad1DArrayI
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoad1DArrayIR8( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eInt )
+			, ImageAccess::eImageLoad1DArrayI
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoad2DArrayIRgba32( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec4I )
 			, ImageAccess::eImageLoad2DArrayI
 			, std::move( image )
 			, std::move( P ) );
 	}
 
-	ImageAccessCallPtr makeImageLoadCubeArrayI( ExprPtr image
+	ImageAccessCallPtr makeImageLoad2DArrayIRgba16( ExprPtr image
 		, ExprPtr P )
 	{
-		return makeImageAccessCall( makeType( type::Kind::eVec4F )
+		return makeImageAccessCall( makeType( type::Kind::eVec4I )
+			, ImageAccess::eImageLoad2DArrayI
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoad2DArrayIRgba8( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec4I )
+			, ImageAccess::eImageLoad2DArrayI
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoad2DArrayIRg32( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2I )
+			, ImageAccess::eImageLoad2DArrayI
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoad2DArrayIRg16( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2I )
+			, ImageAccess::eImageLoad2DArrayI
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoad2DArrayIRg8( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2I )
+			, ImageAccess::eImageLoad2DArrayI
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoad2DArrayIR32( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eInt )
+			, ImageAccess::eImageLoad2DArrayI
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoad2DArrayIR16( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eInt )
+			, ImageAccess::eImageLoad2DArrayI
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoad2DArrayIR8( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eInt )
+			, ImageAccess::eImageLoad2DArrayI
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoadCubeArrayIRgba32( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec4I )
 			, ImageAccess::eImageLoadCubeArrayI
 			, std::move( image )
 			, std::move( P ) );
 	}
 
-	ImageAccessCallPtr makeImageLoad2DMSI( ExprPtr image
+	ImageAccessCallPtr makeImageLoadCubeArrayIRgba16( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec4I )
+			, ImageAccess::eImageLoadCubeArrayI
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoadCubeArrayIRgba8( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec4I )
+			, ImageAccess::eImageLoadCubeArrayI
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoadCubeArrayIRg32( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2I )
+			, ImageAccess::eImageLoadCubeArrayI
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoadCubeArrayIRg16( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2I )
+			, ImageAccess::eImageLoadCubeArrayI
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoadCubeArrayIRg8( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2I )
+			, ImageAccess::eImageLoadCubeArrayI
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoadCubeArrayIR32( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eInt )
+			, ImageAccess::eImageLoadCubeArrayI
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoadCubeArrayIR16( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eInt )
+			, ImageAccess::eImageLoadCubeArrayI
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoadCubeArrayIR8( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eInt )
+			, ImageAccess::eImageLoadCubeArrayI
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoad2DMSIRgba32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr sample )
 	{
-		return makeImageAccessCall( makeType( type::Kind::eVec4F )
+		return makeImageAccessCall( makeType( type::Kind::eVec4I )
 			, ImageAccess::eImageLoad2DMSI
 			, std::move( image )
 			, std::move( P )
 			, std::move( sample ) );
 	}
 
-	ImageAccessCallPtr makeImageLoad2DMSArrayI( ExprPtr image
+	ImageAccessCallPtr makeImageLoad2DMSIRgba16( ExprPtr image
 		, ExprPtr P
 		, ExprPtr sample )
 	{
-		return makeImageAccessCall( makeType( type::Kind::eVec4F )
+		return makeImageAccessCall( makeType( type::Kind::eVec4I )
+			, ImageAccess::eImageLoad2DMSI
+			, std::move( image )
+			, std::move( P )
+			, std::move( sample ) );
+	}
+
+	ImageAccessCallPtr makeImageLoad2DMSIRgba8( ExprPtr image
+		, ExprPtr P
+		, ExprPtr sample )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec4I )
+			, ImageAccess::eImageLoad2DMSI
+			, std::move( image )
+			, std::move( P )
+			, std::move( sample ) );
+	}
+
+	ImageAccessCallPtr makeImageLoad2DMSIRg32( ExprPtr image
+		, ExprPtr P
+		, ExprPtr sample )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2I )
+			, ImageAccess::eImageLoad2DMSI
+			, std::move( image )
+			, std::move( P )
+			, std::move( sample ) );
+	}
+
+	ImageAccessCallPtr makeImageLoad2DMSIRg16( ExprPtr image
+		, ExprPtr P
+		, ExprPtr sample )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2I )
+			, ImageAccess::eImageLoad2DMSI
+			, std::move( image )
+			, std::move( P )
+			, std::move( sample ) );
+	}
+
+	ImageAccessCallPtr makeImageLoad2DMSIRg8( ExprPtr image
+		, ExprPtr P
+		, ExprPtr sample )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2I )
+			, ImageAccess::eImageLoad2DMSI
+			, std::move( image )
+			, std::move( P )
+			, std::move( sample ) );
+	}
+
+	ImageAccessCallPtr makeImageLoad2DMSIR32( ExprPtr image
+		, ExprPtr P
+		, ExprPtr sample )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eInt )
+			, ImageAccess::eImageLoad2DMSI
+			, std::move( image )
+			, std::move( P )
+			, std::move( sample ) );
+	}
+
+	ImageAccessCallPtr makeImageLoad2DMSIR16( ExprPtr image
+		, ExprPtr P
+		, ExprPtr sample )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eInt )
+			, ImageAccess::eImageLoad2DMSI
+			, std::move( image )
+			, std::move( P )
+			, std::move( sample ) );
+	}
+
+	ImageAccessCallPtr makeImageLoad2DMSIR8( ExprPtr image
+		, ExprPtr P
+		, ExprPtr sample )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eInt )
+			, ImageAccess::eImageLoad2DMSI
+			, std::move( image )
+			, std::move( P )
+			, std::move( sample ) );
+	}
+
+	ImageAccessCallPtr makeImageLoad2DMSArrayIRgba32( ExprPtr image
+		, ExprPtr P
+		, ExprPtr sample )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec4I )
 			, ImageAccess::eImageLoad2DMSArrayI
 			, std::move( image )
 			, std::move( P )
 			, std::move( sample ) );
 	}
 
-	ImageAccessCallPtr makeImageLoad1DU( ExprPtr image
+	ImageAccessCallPtr makeImageLoad2DMSArrayIRgba16( ExprPtr image
+		, ExprPtr P
+		, ExprPtr sample )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec4I )
+			, ImageAccess::eImageLoad2DMSArrayI
+			, std::move( image )
+			, std::move( P )
+			, std::move( sample ) );
+	}
+
+	ImageAccessCallPtr makeImageLoad2DMSArrayIRgba8( ExprPtr image
+		, ExprPtr P
+		, ExprPtr sample )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec4I )
+			, ImageAccess::eImageLoad2DMSArrayI
+			, std::move( image )
+			, std::move( P )
+			, std::move( sample ) );
+	}
+
+	ImageAccessCallPtr makeImageLoad2DMSArrayIRg32( ExprPtr image
+		, ExprPtr P
+		, ExprPtr sample )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2I )
+			, ImageAccess::eImageLoad2DMSArrayI
+			, std::move( image )
+			, std::move( P )
+			, std::move( sample ) );
+	}
+
+	ImageAccessCallPtr makeImageLoad2DMSArrayIRg16( ExprPtr image
+		, ExprPtr P
+		, ExprPtr sample )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2I )
+			, ImageAccess::eImageLoad2DMSArrayI
+			, std::move( image )
+			, std::move( P )
+			, std::move( sample ) );
+	}
+
+	ImageAccessCallPtr makeImageLoad2DMSArrayIRg8( ExprPtr image
+		, ExprPtr P
+		, ExprPtr sample )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2I )
+			, ImageAccess::eImageLoad2DMSArrayI
+			, std::move( image )
+			, std::move( P )
+			, std::move( sample ) );
+	}
+
+	ImageAccessCallPtr makeImageLoad2DMSArrayIR32( ExprPtr image
+		, ExprPtr P
+		, ExprPtr sample )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eInt )
+			, ImageAccess::eImageLoad2DMSArrayI
+			, std::move( image )
+			, std::move( P )
+			, std::move( sample ) );
+	}
+
+	ImageAccessCallPtr makeImageLoad2DMSArrayIR16( ExprPtr image
+		, ExprPtr P
+		, ExprPtr sample )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eInt )
+			, ImageAccess::eImageLoad2DMSArrayI
+			, std::move( image )
+			, std::move( P )
+			, std::move( sample ) );
+	}
+
+	ImageAccessCallPtr makeImageLoad2DMSArrayIR8( ExprPtr image
+		, ExprPtr P
+		, ExprPtr sample )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eInt )
+			, ImageAccess::eImageLoad2DMSArrayI
+			, std::move( image )
+			, std::move( P )
+			, std::move( sample ) );
+	}
+
+	ImageAccessCallPtr makeImageLoad1DURgba32( ExprPtr image
 		, ExprPtr P )
 	{
-		return makeImageAccessCall( makeType( type::Kind::eVec4F )
+		return makeImageAccessCall( makeType( type::Kind::eVec4U )
 			, ImageAccess::eImageLoad1DU
 			, std::move( image )
 			, std::move( P ) );
 	}
 
-	ImageAccessCallPtr makeImageLoad2DU( ExprPtr image
+	ImageAccessCallPtr makeImageLoad1DURgba16( ExprPtr image
 		, ExprPtr P )
 	{
-		return makeImageAccessCall( makeType( type::Kind::eVec4F )
+		return makeImageAccessCall( makeType( type::Kind::eVec4U )
+			, ImageAccess::eImageLoad1DU
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoad1DURgba8( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec4U )
+			, ImageAccess::eImageLoad1DU
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoad1DURg32( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2U )
+			, ImageAccess::eImageLoad1DU
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoad1DURg16( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2U )
+			, ImageAccess::eImageLoad1DU
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoad1DURg8( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2U )
+			, ImageAccess::eImageLoad1DU
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoad1DUR32( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eUInt )
+			, ImageAccess::eImageLoad1DU
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoad1DUR16( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eUInt )
+			, ImageAccess::eImageLoad1DU
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoad1DUR8( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eUInt )
+			, ImageAccess::eImageLoad1DU
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoad2DURgba32( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec4U )
 			, ImageAccess::eImageLoad2DU
 			, std::move( image )
 			, std::move( P ) );
 	}
 
-	ImageAccessCallPtr makeImageLoad3DU( ExprPtr image
+	ImageAccessCallPtr makeImageLoad2DURgba16( ExprPtr image
 		, ExprPtr P )
 	{
-		return makeImageAccessCall( makeType( type::Kind::eVec4F )
+		return makeImageAccessCall( makeType( type::Kind::eVec4U )
+			, ImageAccess::eImageLoad2DU
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoad2DURgba8( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec4U )
+			, ImageAccess::eImageLoad2DU
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoad2DURg32( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2U )
+			, ImageAccess::eImageLoad2DU
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoad2DURg16( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2U )
+			, ImageAccess::eImageLoad2DU
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoad2DURg8( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2U )
+			, ImageAccess::eImageLoad2DU
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoad2DUR32( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eUInt )
+			, ImageAccess::eImageLoad2DU
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoad2DUR16( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eUInt )
+			, ImageAccess::eImageLoad2DU
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoad2DUR8( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eUInt )
+			, ImageAccess::eImageLoad2DU
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoad3DURgba32( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec4U )
 			, ImageAccess::eImageLoad3DU
 			, std::move( image )
 			, std::move( P ) );
 	}
 
-	ImageAccessCallPtr makeImageLoad2DRectU( ExprPtr image
+	ImageAccessCallPtr makeImageLoad3DURgba16( ExprPtr image
 		, ExprPtr P )
 	{
-		return makeImageAccessCall( makeType( type::Kind::eVec4F )
+		return makeImageAccessCall( makeType( type::Kind::eVec4U )
+			, ImageAccess::eImageLoad3DU
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoad3DURgba8( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec4U )
+			, ImageAccess::eImageLoad3DU
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoad3DURg32( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2U )
+			, ImageAccess::eImageLoad3DU
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoad3DURg16( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2U )
+			, ImageAccess::eImageLoad3DU
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoad3DURg8( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2U )
+			, ImageAccess::eImageLoad3DU
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoad3DUR32( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eUInt )
+			, ImageAccess::eImageLoad3DU
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoad3DUR16( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eUInt )
+			, ImageAccess::eImageLoad3DU
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoad3DUR8( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eUInt )
+			, ImageAccess::eImageLoad3DU
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoad2DRectURgba32( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec4U )
 			, ImageAccess::eImageLoad2DRectU
 			, std::move( image )
 			, std::move( P ) );
 	}
 
-	ImageAccessCallPtr makeImageLoadCubeU( ExprPtr image
+	ImageAccessCallPtr makeImageLoad2DRectURgba16( ExprPtr image
 		, ExprPtr P )
 	{
-		return makeImageAccessCall( makeType( type::Kind::eVec4F )
+		return makeImageAccessCall( makeType( type::Kind::eVec4U )
+			, ImageAccess::eImageLoad2DRectU
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoad2DRectURgba8( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec4U )
+			, ImageAccess::eImageLoad2DRectU
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoad2DRectURg32( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2U )
+			, ImageAccess::eImageLoad2DRectU
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoad2DRectURg16( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2U )
+			, ImageAccess::eImageLoad2DRectU
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoad2DRectURg8( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2U )
+			, ImageAccess::eImageLoad2DRectU
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoad2DRectUR32( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eUInt )
+			, ImageAccess::eImageLoad2DRectU
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoad2DRectUR16( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eUInt )
+			, ImageAccess::eImageLoad2DRectU
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoad2DRectUR8( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eUInt )
+			, ImageAccess::eImageLoad2DRectU
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoadCubeURgba32( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec4U )
 			, ImageAccess::eImageLoadCubeU
 			, std::move( image )
 			, std::move( P ) );
 	}
 
-	ImageAccessCallPtr makeImageLoadBufferU( ExprPtr image
+	ImageAccessCallPtr makeImageLoadCubeURgba16( ExprPtr image
 		, ExprPtr P )
 	{
-		return makeImageAccessCall( makeType( type::Kind::eVec4F )
+		return makeImageAccessCall( makeType( type::Kind::eVec4U )
+			, ImageAccess::eImageLoadCubeU
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoadCubeURgba8( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec4U )
+			, ImageAccess::eImageLoadCubeU
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoadCubeURg32( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2U )
+			, ImageAccess::eImageLoadCubeU
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoadCubeURg16( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2U )
+			, ImageAccess::eImageLoadCubeU
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoadCubeURg8( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2U )
+			, ImageAccess::eImageLoadCubeU
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoadCubeUR32( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eUInt )
+			, ImageAccess::eImageLoadCubeU
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoadCubeUR16( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eUInt )
+			, ImageAccess::eImageLoadCubeU
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoadCubeUR8( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eUInt )
+			, ImageAccess::eImageLoadCubeU
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoadBufferURgba32( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec4U )
 			, ImageAccess::eImageLoadBufferU
 			, std::move( image )
 			, std::move( P ) );
 	}
 
-	ImageAccessCallPtr makeImageLoad1DArrayU( ExprPtr image
+	ImageAccessCallPtr makeImageLoadBufferURgba16( ExprPtr image
 		, ExprPtr P )
 	{
-		return makeImageAccessCall( makeType( type::Kind::eVec4F )
+		return makeImageAccessCall( makeType( type::Kind::eVec4U )
+			, ImageAccess::eImageLoadBufferU
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoadBufferURgba8( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec4U )
+			, ImageAccess::eImageLoadBufferU
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoadBufferURg32( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2U )
+			, ImageAccess::eImageLoadBufferU
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoadBufferURg16( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2U )
+			, ImageAccess::eImageLoadBufferU
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoadBufferURg8( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2U )
+			, ImageAccess::eImageLoadBufferU
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoadBufferUR32( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eUInt )
+			, ImageAccess::eImageLoadBufferU
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoadBufferUR16( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eUInt )
+			, ImageAccess::eImageLoadBufferU
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoadBufferUR8( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eUInt )
+			, ImageAccess::eImageLoadBufferU
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoad1DArrayURgba32( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec4U )
 			, ImageAccess::eImageLoad1DArrayU
 			, std::move( image )
 			, std::move( P ) );
 	}
 
-	ImageAccessCallPtr makeImageLoad2DArrayU( ExprPtr image
+	ImageAccessCallPtr makeImageLoad1DArrayURgba16( ExprPtr image
 		, ExprPtr P )
 	{
-		return makeImageAccessCall( makeType( type::Kind::eVec4F )
+		return makeImageAccessCall( makeType( type::Kind::eVec4U )
+			, ImageAccess::eImageLoad1DArrayU
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoad1DArrayURgba8( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec4U )
+			, ImageAccess::eImageLoad1DArrayU
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoad1DArrayURg32( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2U )
+			, ImageAccess::eImageLoad1DArrayU
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoad1DArrayURg16( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2U )
+			, ImageAccess::eImageLoad1DArrayU
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoad1DArrayURg8( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2U )
+			, ImageAccess::eImageLoad1DArrayU
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoad1DArrayUR32( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eUInt )
+			, ImageAccess::eImageLoad1DArrayU
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoad1DArrayUR16( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eUInt )
+			, ImageAccess::eImageLoad1DArrayU
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoad1DArrayUR8( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eUInt )
+			, ImageAccess::eImageLoad1DArrayU
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoad2DArrayURgba32( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec4U )
 			, ImageAccess::eImageLoad2DArrayU
 			, std::move( image )
 			, std::move( P ) );
 	}
 
-	ImageAccessCallPtr makeImageLoadCubeArrayU( ExprPtr image
+	ImageAccessCallPtr makeImageLoad2DArrayURgba16( ExprPtr image
 		, ExprPtr P )
 	{
-		return makeImageAccessCall( makeType( type::Kind::eVec4F )
+		return makeImageAccessCall( makeType( type::Kind::eVec4U )
+			, ImageAccess::eImageLoad2DArrayU
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoad2DArrayURgba8( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec4U )
+			, ImageAccess::eImageLoad2DArrayU
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoad2DArrayURg32( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2U )
+			, ImageAccess::eImageLoad2DArrayU
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoad2DArrayURg16( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2U )
+			, ImageAccess::eImageLoad2DArrayU
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoad2DArrayURg8( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2U )
+			, ImageAccess::eImageLoad2DArrayU
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoad2DArrayUR32( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eUInt )
+			, ImageAccess::eImageLoad2DArrayU
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoad2DArrayUR16( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eUInt )
+			, ImageAccess::eImageLoad2DArrayU
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoad2DArrayUR8( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eUInt )
+			, ImageAccess::eImageLoad2DArrayU
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoadCubeArrayURgba32( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec4U )
 			, ImageAccess::eImageLoadCubeArrayU
 			, std::move( image )
 			, std::move( P ) );
 	}
 
-	ImageAccessCallPtr makeImageLoad2DMSU( ExprPtr image
+	ImageAccessCallPtr makeImageLoadCubeArrayURgba16( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec4U )
+			, ImageAccess::eImageLoadCubeArrayU
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoadCubeArrayURgba8( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec4U )
+			, ImageAccess::eImageLoadCubeArrayU
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoadCubeArrayURg32( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2U )
+			, ImageAccess::eImageLoadCubeArrayU
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoadCubeArrayURg16( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2U )
+			, ImageAccess::eImageLoadCubeArrayU
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoadCubeArrayURg8( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2U )
+			, ImageAccess::eImageLoadCubeArrayU
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoadCubeArrayUR32( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eUInt )
+			, ImageAccess::eImageLoadCubeArrayU
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoadCubeArrayUR16( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eUInt )
+			, ImageAccess::eImageLoadCubeArrayU
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoadCubeArrayUR8( ExprPtr image
+		, ExprPtr P )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eUInt )
+			, ImageAccess::eImageLoadCubeArrayU
+			, std::move( image )
+			, std::move( P ) );
+	}
+
+	ImageAccessCallPtr makeImageLoad2DMSURgba32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr sample )
 	{
-		return makeImageAccessCall( makeType( type::Kind::eVec4F )
+		return makeImageAccessCall( makeType( type::Kind::eVec4U )
 			, ImageAccess::eImageLoad2DMSU
 			, std::move( image )
 			, std::move( P )
 			, std::move( sample ) );
 	}
 
-	ImageAccessCallPtr makeImageLoad2DMSArrayU( ExprPtr image
+	ImageAccessCallPtr makeImageLoad2DMSURgba16( ExprPtr image
 		, ExprPtr P
 		, ExprPtr sample )
 	{
-		return makeImageAccessCall( makeType( type::Kind::eVec4F )
+		return makeImageAccessCall( makeType( type::Kind::eVec4U )
+			, ImageAccess::eImageLoad2DMSU
+			, std::move( image )
+			, std::move( P )
+			, std::move( sample ) );
+	}
+
+	ImageAccessCallPtr makeImageLoad2DMSURgba8( ExprPtr image
+		, ExprPtr P
+		, ExprPtr sample )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec4U )
+			, ImageAccess::eImageLoad2DMSU
+			, std::move( image )
+			, std::move( P )
+			, std::move( sample ) );
+	}
+
+	ImageAccessCallPtr makeImageLoad2DMSURg32( ExprPtr image
+		, ExprPtr P
+		, ExprPtr sample )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2U )
+			, ImageAccess::eImageLoad2DMSU
+			, std::move( image )
+			, std::move( P )
+			, std::move( sample ) );
+	}
+
+	ImageAccessCallPtr makeImageLoad2DMSURg16( ExprPtr image
+		, ExprPtr P
+		, ExprPtr sample )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2U )
+			, ImageAccess::eImageLoad2DMSU
+			, std::move( image )
+			, std::move( P )
+			, std::move( sample ) );
+	}
+
+	ImageAccessCallPtr makeImageLoad2DMSURg8( ExprPtr image
+		, ExprPtr P
+		, ExprPtr sample )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2U )
+			, ImageAccess::eImageLoad2DMSU
+			, std::move( image )
+			, std::move( P )
+			, std::move( sample ) );
+	}
+
+	ImageAccessCallPtr makeImageLoad2DMSUR32( ExprPtr image
+		, ExprPtr P
+		, ExprPtr sample )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eUInt )
+			, ImageAccess::eImageLoad2DMSU
+			, std::move( image )
+			, std::move( P )
+			, std::move( sample ) );
+	}
+
+	ImageAccessCallPtr makeImageLoad2DMSUR16( ExprPtr image
+		, ExprPtr P
+		, ExprPtr sample )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eUInt )
+			, ImageAccess::eImageLoad2DMSU
+			, std::move( image )
+			, std::move( P )
+			, std::move( sample ) );
+	}
+
+	ImageAccessCallPtr makeImageLoad2DMSUR8( ExprPtr image
+		, ExprPtr P
+		, ExprPtr sample )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eUInt )
+			, ImageAccess::eImageLoad2DMSU
+			, std::move( image )
+			, std::move( P )
+			, std::move( sample ) );
+	}
+
+	ImageAccessCallPtr makeImageLoad2DMSArrayURgba32( ExprPtr image
+		, ExprPtr P
+		, ExprPtr sample )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec4U )
 			, ImageAccess::eImageLoad2DMSArrayU
 			, std::move( image )
 			, std::move( P )
 			, std::move( sample ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicAdd1DU( ExprPtr image
+	ImageAccessCallPtr makeImageLoad2DMSArrayURgba16( ExprPtr image
+		, ExprPtr P
+		, ExprPtr sample )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec4U )
+			, ImageAccess::eImageLoad2DMSArrayU
+			, std::move( image )
+			, std::move( P )
+			, std::move( sample ) );
+	}
+
+	ImageAccessCallPtr makeImageLoad2DMSArrayURgba8( ExprPtr image
+		, ExprPtr P
+		, ExprPtr sample )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec4U )
+			, ImageAccess::eImageLoad2DMSArrayU
+			, std::move( image )
+			, std::move( P )
+			, std::move( sample ) );
+	}
+
+	ImageAccessCallPtr makeImageLoad2DMSArrayURg32( ExprPtr image
+		, ExprPtr P
+		, ExprPtr sample )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2U )
+			, ImageAccess::eImageLoad2DMSArrayU
+			, std::move( image )
+			, std::move( P )
+			, std::move( sample ) );
+	}
+
+	ImageAccessCallPtr makeImageLoad2DMSArrayURg16( ExprPtr image
+		, ExprPtr P
+		, ExprPtr sample )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2U )
+			, ImageAccess::eImageLoad2DMSArrayU
+			, std::move( image )
+			, std::move( P )
+			, std::move( sample ) );
+	}
+
+	ImageAccessCallPtr makeImageLoad2DMSArrayURg8( ExprPtr image
+		, ExprPtr P
+		, ExprPtr sample )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eVec2U )
+			, ImageAccess::eImageLoad2DMSArrayU
+			, std::move( image )
+			, std::move( P )
+			, std::move( sample ) );
+	}
+
+	ImageAccessCallPtr makeImageLoad2DMSArrayUR32( ExprPtr image
+		, ExprPtr P
+		, ExprPtr sample )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eUInt )
+			, ImageAccess::eImageLoad2DMSArrayU
+			, std::move( image )
+			, std::move( P )
+			, std::move( sample ) );
+	}
+
+	ImageAccessCallPtr makeImageLoad2DMSArrayUR16( ExprPtr image
+		, ExprPtr P
+		, ExprPtr sample )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eUInt )
+			, ImageAccess::eImageLoad2DMSArrayU
+			, std::move( image )
+			, std::move( P )
+			, std::move( sample ) );
+	}
+
+	ImageAccessCallPtr makeImageLoad2DMSArrayUR8( ExprPtr image
+		, ExprPtr P
+		, ExprPtr sample )
+	{
+		return makeImageAccessCall( makeType( type::Kind::eUInt )
+			, ImageAccess::eImageLoad2DMSArrayU
+			, std::move( image )
+			, std::move( P )
+			, std::move( sample ) );
+	}
+
+	ImageAccessCallPtr makeImageAtomicAdd1DUR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
@@ -598,7 +4672,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicAdd2DU( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicAdd2DUR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
@@ -609,7 +4683,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicAdd3DU( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicAdd3DUR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
@@ -620,7 +4694,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicAdd2DRectU( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicAdd2DRectUR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
@@ -631,7 +4705,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicAddCubeU( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicAddCubeUR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
@@ -642,7 +4716,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicAddBufferU( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicAddBufferUR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
@@ -653,7 +4727,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicAdd1DArrayU( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicAdd1DArrayUR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
@@ -664,7 +4738,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicAdd2DArrayU( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicAdd2DArrayUR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
@@ -675,7 +4749,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicAddCubeArrayU( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicAddCubeArrayUR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
@@ -686,7 +4760,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicAdd2DMSU( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicAdd2DMSUR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr sample
 		, ExprPtr data )
@@ -699,7 +4773,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicAdd2DMSArrayU( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicAdd2DMSArrayUR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr sample
 		, ExprPtr data )
@@ -712,7 +4786,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicAdd1DI( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicAdd1DIR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
@@ -723,7 +4797,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicAdd2DI( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicAdd2DIR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
@@ -734,7 +4808,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicAdd3DI( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicAdd3DIR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
@@ -745,7 +4819,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicAdd2DRectI( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicAdd2DRectIR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
@@ -756,7 +4830,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicAddCubeI( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicAddCubeIR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
@@ -767,7 +4841,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicAddBufferI( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicAddBufferIR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
@@ -778,7 +4852,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicAdd1DArrayI( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicAdd1DArrayIR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
@@ -789,7 +4863,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicAdd2DArrayI( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicAdd2DArrayIR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
@@ -800,7 +4874,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicAddCubeArrayI( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicAddCubeArrayIR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
@@ -811,7 +4885,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicAdd2DMSI( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicAdd2DMSIR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr sample
 		, ExprPtr data )
@@ -824,7 +4898,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicAdd2DMSArrayI( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicAdd2DMSArrayIR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr sample
 		, ExprPtr data )
@@ -837,7 +4911,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicMin1DU( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicMin1DUR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
@@ -848,7 +4922,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicMin2DU( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicMin2DUR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
@@ -859,7 +4933,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicMin3DU( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicMin3DUR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
@@ -870,7 +4944,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicMin2DRectU( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicMin2DRectUR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
@@ -881,7 +4955,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicMinCubeU( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicMinCubeUR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
@@ -892,7 +4966,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicMinBufferU( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicMinBufferUR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
@@ -903,7 +4977,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicMin1DArrayU( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicMin1DArrayUR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
@@ -914,7 +4988,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicMin2DArrayU( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicMin2DArrayUR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
@@ -925,7 +4999,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicMinCubeArrayU( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicMinCubeArrayUR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
@@ -936,7 +5010,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicMin2DMSU( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicMin2DMSUR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr sample
 		, ExprPtr data )
@@ -949,7 +5023,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicMin2DMSArrayU( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicMin2DMSArrayUR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr sample
 		, ExprPtr data )
@@ -962,7 +5036,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicMin1DI( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicMin1DIR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
@@ -973,7 +5047,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicMin2DI( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicMin2DIR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
@@ -984,7 +5058,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicMin3DI( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicMin3DIR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
@@ -995,7 +5069,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicMin2DRectI( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicMin2DRectIR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
@@ -1006,7 +5080,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicMinCubeI( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicMinCubeIR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
@@ -1017,7 +5091,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicMinBufferI( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicMinBufferIR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
@@ -1028,7 +5102,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicMin1DArrayI( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicMin1DArrayIR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
@@ -1039,7 +5113,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicMin2DArrayI( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicMin2DArrayIR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
@@ -1050,7 +5124,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicMinCubeArrayI( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicMinCubeArrayIR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
@@ -1061,7 +5135,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicMin2DMSI( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicMin2DMSIR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr sample
 		, ExprPtr data )
@@ -1074,7 +5148,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicMin2DMSArrayI( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicMin2DMSArrayIR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr sample
 		, ExprPtr data )
@@ -1087,7 +5161,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicMax1DU( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicMax1DUR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
@@ -1098,7 +5172,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicMax2DU( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicMax2DUR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
@@ -1109,7 +5183,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicMax3DU( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicMax3DUR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
@@ -1120,7 +5194,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicMax2DRectU( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicMax2DRectUR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
@@ -1131,7 +5205,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicMaxCubeU( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicMaxCubeUR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
@@ -1142,7 +5216,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicMaxBufferU( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicMaxBufferUR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
@@ -1153,7 +5227,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicMax1DArrayU( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicMax1DArrayUR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
@@ -1164,7 +5238,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicMax2DArrayU( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicMax2DArrayUR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
@@ -1175,7 +5249,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicMaxCubeArrayU( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicMaxCubeArrayUR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
@@ -1186,7 +5260,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicMax2DMSU( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicMax2DMSUR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr sample
 		, ExprPtr data )
@@ -1199,7 +5273,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicMax2DMSArrayU( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicMax2DMSArrayUR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr sample
 		, ExprPtr data )
@@ -1212,7 +5286,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicMax1DI( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicMax1DIR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
@@ -1223,7 +5297,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicMax2DI( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicMax2DIR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
@@ -1234,7 +5308,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicMax3DI( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicMax3DIR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
@@ -1245,7 +5319,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicMax2DRectI( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicMax2DRectIR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
@@ -1256,7 +5330,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicMaxCubeI( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicMaxCubeIR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
@@ -1267,7 +5341,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicMaxBufferI( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicMaxBufferIR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
@@ -1278,7 +5352,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicMax1DArrayI( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicMax1DArrayIR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
@@ -1289,7 +5363,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicMax2DArrayI( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicMax2DArrayIR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
@@ -1300,7 +5374,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicMaxCubeArrayI( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicMaxCubeArrayIR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
@@ -1311,7 +5385,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicMax2DMSI( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicMax2DMSIR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr sample
 		, ExprPtr data )
@@ -1324,7 +5398,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicMax2DMSArrayI( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicMax2DMSArrayIR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr sample
 		, ExprPtr data )
@@ -1337,7 +5411,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicAnd1DU( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicAnd1DUR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
@@ -1348,7 +5422,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicAnd2DU( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicAnd2DUR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
@@ -1359,7 +5433,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicAnd3DU( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicAnd3DUR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
@@ -1370,7 +5444,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicAnd2DRectU( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicAnd2DRectUR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
@@ -1381,7 +5455,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicAndCubeU( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicAndCubeUR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
@@ -1392,7 +5466,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicAndBufferU( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicAndBufferUR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
@@ -1403,7 +5477,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicAnd1DArrayU( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicAnd1DArrayUR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
@@ -1414,7 +5488,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicAnd2DArrayU( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicAnd2DArrayUR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
@@ -1425,7 +5499,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicAndCubeArrayU( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicAndCubeArrayUR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
@@ -1436,7 +5510,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicAnd2DMSU( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicAnd2DMSUR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr sample
 		, ExprPtr data )
@@ -1449,7 +5523,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicAnd2DMSArrayU( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicAnd2DMSArrayUR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr sample
 		, ExprPtr data )
@@ -1462,7 +5536,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicAnd1DI( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicAnd1DIR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
@@ -1473,7 +5547,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicAnd2DI( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicAnd2DIR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
@@ -1484,7 +5558,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicAnd3DI( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicAnd3DIR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
@@ -1495,7 +5569,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicAnd2DRectI( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicAnd2DRectIR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
@@ -1506,7 +5580,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicAndCubeI( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicAndCubeIR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
@@ -1517,7 +5591,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicAndBufferI( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicAndBufferIR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
@@ -1528,7 +5602,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicAnd1DArrayI( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicAnd1DArrayIR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
@@ -1539,7 +5613,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicAnd2DArrayI( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicAnd2DArrayIR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
@@ -1550,7 +5624,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicAndCubeArrayI( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicAndCubeArrayIR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
@@ -1561,7 +5635,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicAnd2DMSI( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicAnd2DMSIR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr sample
 		, ExprPtr data )
@@ -1574,7 +5648,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicAnd2DMSArrayI( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicAnd2DMSArrayIR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr sample
 		, ExprPtr data )
@@ -1587,7 +5661,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicOr1DU( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicOr1DUR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
@@ -1598,7 +5672,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicOr2DU( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicOr2DUR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
@@ -1609,7 +5683,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicOr3DU( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicOr3DUR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
@@ -1620,7 +5694,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicOr2DRectU( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicOr2DRectUR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
@@ -1631,7 +5705,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicOrCubeU( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicOrCubeUR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
@@ -1642,7 +5716,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicOrBufferU( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicOrBufferUR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
@@ -1653,7 +5727,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicOr1DArrayU( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicOr1DArrayUR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
@@ -1664,7 +5738,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicOr2DArrayU( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicOr2DArrayUR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
@@ -1675,7 +5749,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicOrCubeArrayU( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicOrCubeArrayUR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
@@ -1686,7 +5760,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicOr2DMSU( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicOr2DMSUR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr sample
 		, ExprPtr data )
@@ -1699,7 +5773,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicOr2DMSArrayU( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicOr2DMSArrayUR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr sample
 		, ExprPtr data )
@@ -1712,7 +5786,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicOr1DI( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicOr1DIR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
@@ -1723,7 +5797,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicOr2DI( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicOr2DIR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
@@ -1734,7 +5808,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicOr3DI( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicOr3DIR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
@@ -1745,7 +5819,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicOr2DRectI( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicOr2DRectIR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
@@ -1756,7 +5830,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicOrCubeI( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicOrCubeIR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
@@ -1767,7 +5841,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicOrBufferI( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicOrBufferIR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
@@ -1778,7 +5852,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicOr1DArrayI( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicOr1DArrayIR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
@@ -1789,7 +5863,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicOr2DArrayI( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicOr2DArrayIR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
@@ -1800,7 +5874,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicOrCubeArrayI( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicOrCubeArrayIR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
@@ -1811,7 +5885,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicOr2DMSI( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicOr2DMSIR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr sample
 		, ExprPtr data )
@@ -1824,7 +5898,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicOr2DMSArrayI( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicOr2DMSArrayIR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr sample
 		, ExprPtr data )
@@ -1837,7 +5911,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicXor1DU( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicXor1DUR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
@@ -1848,7 +5922,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicXor2DU( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicXor2DUR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
@@ -1859,7 +5933,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicXor3DU( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicXor3DUR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
@@ -1870,7 +5944,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicXor2DRectU( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicXor2DRectUR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
@@ -1881,7 +5955,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicXorCubeU( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicXorCubeUR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
@@ -1892,7 +5966,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicXorBufferU( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicXorBufferUR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
@@ -1903,7 +5977,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicXor1DArrayU( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicXor1DArrayUR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
@@ -1914,7 +5988,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicXor2DArrayU( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicXor2DArrayUR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
@@ -1925,7 +5999,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicXorCubeArrayU( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicXorCubeArrayUR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
@@ -1936,7 +6010,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicXor2DMSU( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicXor2DMSUR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr sample
 		, ExprPtr data )
@@ -1949,7 +6023,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicXor2DMSArrayU( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicXor2DMSArrayUR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr sample
 		, ExprPtr data )
@@ -1962,7 +6036,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicXor1DI( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicXor1DIR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
@@ -1973,7 +6047,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicXor2DI( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicXor2DIR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
@@ -1984,7 +6058,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicXor3DI( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicXor3DIR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
@@ -1995,7 +6069,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicXor2DRectI( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicXor2DRectIR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
@@ -2006,7 +6080,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicXorCubeI( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicXorCubeIR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
@@ -2017,7 +6091,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicXorBufferI( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicXorBufferIR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
@@ -2028,7 +6102,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicXor1DArrayI( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicXor1DArrayIR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
@@ -2039,7 +6113,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicXor2DArrayI( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicXor2DArrayIR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
@@ -2050,7 +6124,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicXorCubeArrayI( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicXorCubeArrayIR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
@@ -2061,7 +6135,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicXor2DMSI( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicXor2DMSIR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr sample
 		, ExprPtr data )
@@ -2074,7 +6148,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicXor2DMSArrayI( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicXor2DMSArrayIR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr sample
 		, ExprPtr data )
@@ -2087,7 +6161,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicExchange1DU( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicExchange1DUR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
@@ -2098,7 +6172,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicExchange2DU( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicExchange2DUR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
@@ -2109,7 +6183,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicExchange3DU( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicExchange3DUR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
@@ -2120,7 +6194,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicExchange2DRectU( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicExchange2DRectUR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
@@ -2131,7 +6205,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicExchangeCubeU( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicExchangeCubeUR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
@@ -2142,7 +6216,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicExchangeBufferU( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicExchangeBufferUR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
@@ -2153,7 +6227,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicExchange1DArrayU( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicExchange1DArrayUR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
@@ -2164,7 +6238,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicExchange2DArrayU( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicExchange2DArrayUR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
@@ -2175,7 +6249,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicExchangeCubeArrayU( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicExchangeCubeArrayUR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
@@ -2186,7 +6260,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicExchange2DMSU( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicExchange2DMSUR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr sample
 		, ExprPtr data )
@@ -2199,7 +6273,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicExchange2DMSArrayU( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicExchange2DMSArrayUR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr sample
 		, ExprPtr data )
@@ -2212,7 +6286,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicExchange1DI( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicExchange1DIR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
@@ -2223,7 +6297,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicExchange2DI( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicExchange2DIR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
@@ -2234,7 +6308,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicExchange3DI( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicExchange3DIR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
@@ -2245,7 +6319,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicExchange2DRectI( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicExchange2DRectIR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
@@ -2256,7 +6330,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicExchangeCubeI( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicExchangeCubeIR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
@@ -2267,7 +6341,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicExchangeBufferI( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicExchangeBufferIR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
@@ -2278,7 +6352,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicExchange1DArrayI( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicExchange1DArrayIR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
@@ -2289,7 +6363,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicExchange2DArrayI( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicExchange2DArrayIR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
@@ -2300,7 +6374,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicExchangeCubeArrayI( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicExchangeCubeArrayIR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr data )
 	{
@@ -2311,7 +6385,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicExchange2DMSI( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicExchange2DMSIR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr sample
 		, ExprPtr data )
@@ -2324,7 +6398,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicExchange2DMSArrayI( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicExchange2DMSArrayIR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr sample
 		, ExprPtr data )
@@ -2337,7 +6411,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicCompSwap1DU( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicCompSwap1DUR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr compare
 		, ExprPtr data )
@@ -2350,7 +6424,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicCompSwap2DU( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicCompSwap2DUR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr compare
 		, ExprPtr data )
@@ -2363,7 +6437,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicCompSwap3DU( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicCompSwap3DUR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr compare
 		, ExprPtr data )
@@ -2376,7 +6450,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicCompSwap2DRectU( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicCompSwap2DRectUR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr compare
 		, ExprPtr data )
@@ -2389,7 +6463,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicCompSwapCubeU( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicCompSwapCubeUR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr compare
 		, ExprPtr data )
@@ -2402,7 +6476,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicCompSwapBufferU( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicCompSwapBufferUR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr compare
 		, ExprPtr data )
@@ -2415,7 +6489,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicCompSwap1DArrayU( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicCompSwap1DArrayUR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr compare
 		, ExprPtr data )
@@ -2428,7 +6502,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicCompSwap2DArrayU( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicCompSwap2DArrayUR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr compare
 		, ExprPtr data )
@@ -2441,7 +6515,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicCompSwapCubeArrayU( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicCompSwapCubeArrayUR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr compare
 		, ExprPtr data )
@@ -2454,7 +6528,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicCompSwap2DMSU( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicCompSwap2DMSUR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr sample
 		, ExprPtr compare
@@ -2469,7 +6543,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicCompSwap2DMSArrayU( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicCompSwap2DMSArrayUR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr sample
 		, ExprPtr compare
@@ -2484,7 +6558,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicCompSwap1DI( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicCompSwap1DIR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr compare
 		, ExprPtr data )
@@ -2497,7 +6571,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicCompSwap2DI( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicCompSwap2DIR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr compare
 		, ExprPtr data )
@@ -2510,7 +6584,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicCompSwap3DI( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicCompSwap3DIR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr compare
 		, ExprPtr data )
@@ -2523,7 +6597,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicCompSwap2DRectI( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicCompSwap2DRectIR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr compare
 		, ExprPtr data )
@@ -2536,7 +6610,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicCompSwapCubeI( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicCompSwapCubeIR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr compare
 		, ExprPtr data )
@@ -2549,7 +6623,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicCompSwapBufferI( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicCompSwapBufferIR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr compare
 		, ExprPtr data )
@@ -2562,7 +6636,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicCompSwap1DArrayI( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicCompSwap1DArrayIR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr compare
 		, ExprPtr data )
@@ -2575,7 +6649,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicCompSwap2DArrayI( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicCompSwap2DArrayIR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr compare
 		, ExprPtr data )
@@ -2588,7 +6662,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicCompSwapCubeArrayI( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicCompSwapCubeArrayIR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr compare
 		, ExprPtr data )
@@ -2601,7 +6675,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicCompSwap2DMSI( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicCompSwap2DMSIR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr sample
 		, ExprPtr compare
@@ -2616,7 +6690,7 @@ namespace ast::expr
 			, std::move( data ) );
 	}
 
-	ImageAccessCallPtr makeImageAtomicCompSwap2DMSArrayI( ExprPtr image
+	ImageAccessCallPtr makeImageAtomicCompSwap2DMSArrayIR32( ExprPtr image
 		, ExprPtr P
 		, ExprPtr sample
 		, ExprPtr compare

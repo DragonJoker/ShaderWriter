@@ -9,7 +9,7 @@ See LICENSE file in root folder
 
 namespace sdw::hlsl
 {
-	void writeHlslImageAccessFunctions( ast::stmt::Container * container
+	void compileHlslImageAccessFunctions( ast::stmt::Container * container
 		, IntrinsicsConfig const & config );
 }
 

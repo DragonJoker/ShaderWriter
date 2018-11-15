@@ -14,7 +14,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageSizeBufferF = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -29,7 +29,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageSizeBufferI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -44,7 +44,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageSizeBufferU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -59,7 +59,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageSize1DF = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -74,7 +74,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageSize1DI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -89,7 +89,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageSize1DU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -104,7 +104,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageSize1DArrayF = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -119,7 +119,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageSize1DArrayI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -134,7 +134,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageSize1DArrayU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -149,7 +149,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageSize2DF = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -164,7 +164,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageSize2DRectF = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -179,7 +179,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageSize2DI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -194,7 +194,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageSize2DRectI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -209,7 +209,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageSize2DU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -224,7 +224,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageSize2DRectU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -239,7 +239,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageSize2DArrayF = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -254,7 +254,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageSize2DArrayI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -269,7 +269,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageSize2DArrayU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -284,7 +284,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageSize3DF = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -299,7 +299,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageSize3DI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -314,7 +314,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageSize3DU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -329,7 +329,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageSizeCubeF = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -344,7 +344,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageSizeCubeI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -359,7 +359,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageSizeCubeU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -374,7 +374,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageSizeCubeArrayF = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -389,7 +389,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageSizeCubeArrayI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -404,7 +404,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageSizeCubeArrayU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -419,7 +419,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageSize2DMSF = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -434,7 +434,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageSize2DMSI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -449,7 +449,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageSize2DMSU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -464,7 +464,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageSize2DMSArrayF = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -479,7 +479,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageSize2DMSArrayI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -494,7 +494,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageSize2DMSArrayU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -509,7 +509,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageSamples2DMSF = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -524,7 +524,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageSamples2DMSI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -539,7 +539,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageSamples2DMSU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -554,7 +554,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageSamples2DMSArrayF = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -569,7 +569,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageSamples2DMSArrayI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -584,7 +584,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageSamples2DMSArrayU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -830,7 +830,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicAddBufferU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -845,7 +845,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicAdd1DU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -860,7 +860,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicAdd1DArrayU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -875,7 +875,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicAdd2DU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -890,7 +890,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicAdd2DRectU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -905,7 +905,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicAdd2DArrayU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -920,7 +920,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicAdd3DU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -935,7 +935,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicAddCubeU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -950,7 +950,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicAddCubeArrayU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -965,7 +965,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicAdd2DMSU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -980,7 +980,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicAdd2DMSArrayU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -995,7 +995,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicAddBufferI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -1010,7 +1010,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicAdd1DI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -1025,7 +1025,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicAdd1DArrayI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -1040,7 +1040,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicAdd2DI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -1055,7 +1055,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicAdd2DRectI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -1070,7 +1070,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicAdd2DArrayI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -1085,7 +1085,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicAdd3DI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -1100,7 +1100,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicAddCubeI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -1115,7 +1115,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicAddCubeArrayI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -1130,7 +1130,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicAdd2DMSI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -1145,7 +1145,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicAdd2DMSArrayI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -1160,7 +1160,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicMinBufferU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -1175,7 +1175,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicMin1DU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -1190,7 +1190,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicMin1DArrayU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -1205,7 +1205,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicMin2DU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -1220,7 +1220,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicMin2DRectU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -1235,7 +1235,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicMin2DArrayU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -1250,7 +1250,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicMin3DU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -1265,7 +1265,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicMinCubeU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -1280,7 +1280,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicMinCubeArrayU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -1295,7 +1295,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicMin2DMSU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -1310,7 +1310,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicMin2DMSArrayU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -1325,7 +1325,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicMinBufferI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -1340,7 +1340,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicMin1DI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -1355,7 +1355,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicMin1DArrayI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -1370,7 +1370,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicMin2DI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -1385,7 +1385,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicMin2DRectI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -1400,7 +1400,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicMin2DArrayI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -1415,7 +1415,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicMin3DI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -1430,7 +1430,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicMinCubeI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -1445,7 +1445,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicMinCubeArrayI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -1460,7 +1460,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicMin2DMSI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -1475,7 +1475,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicMin2DMSArrayI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -1490,7 +1490,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicMaxBufferU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -1505,7 +1505,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicMax1DU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -1520,7 +1520,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicMax1DArrayU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -1535,7 +1535,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicMax2DU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -1550,7 +1550,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicMax2DRectU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -1565,7 +1565,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicMax2DArrayU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -1580,7 +1580,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicMax3DU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -1595,7 +1595,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicMaxCubeU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -1610,7 +1610,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicMaxCubeArrayU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -1625,7 +1625,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicMax2DMSU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -1640,7 +1640,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicMax2DMSArrayU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -1655,7 +1655,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicMaxBufferI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -1670,7 +1670,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicMax1DI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -1685,7 +1685,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicMax1DArrayI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -1700,7 +1700,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicMax2DI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -1715,7 +1715,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicMax2DRectI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -1730,7 +1730,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicMax2DArrayI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -1745,7 +1745,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicMax3DI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -1760,7 +1760,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicMaxCubeI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -1775,7 +1775,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicMaxCubeArrayI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -1790,7 +1790,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicMax2DMSI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -1805,7 +1805,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicMax2DMSArrayI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -1820,7 +1820,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicAndBufferU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -1835,7 +1835,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicAnd1DU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -1850,7 +1850,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicAnd1DArrayU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -1865,7 +1865,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicAnd2DU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -1880,7 +1880,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicAnd2DRectU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -1895,7 +1895,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicAnd2DArrayU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -1910,7 +1910,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicAnd3DU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -1925,7 +1925,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicAndCubeU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -1940,7 +1940,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicAndCubeArrayU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -1955,7 +1955,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicAnd2DMSU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -1970,7 +1970,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicAnd2DMSArrayU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -1985,7 +1985,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicAndBufferI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -2000,7 +2000,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicAnd1DI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -2015,7 +2015,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicAnd1DArrayI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -2030,7 +2030,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicAnd2DI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -2045,7 +2045,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicAnd2DRectI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -2060,7 +2060,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicAnd2DArrayI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -2075,7 +2075,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicAnd3DI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -2090,7 +2090,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicAndCubeI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -2105,7 +2105,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicAndCubeArrayI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -2120,7 +2120,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicAnd2DMSI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -2135,7 +2135,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicAnd2DMSArrayI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -2150,7 +2150,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicOrBufferU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -2165,7 +2165,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicOr1DU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -2180,7 +2180,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicOr1DArrayU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -2195,7 +2195,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicOr2DU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -2210,7 +2210,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicOr2DRectU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -2225,7 +2225,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicOr2DArrayU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -2240,7 +2240,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicOr3DU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -2255,7 +2255,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicOrCubeU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -2270,7 +2270,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicOrCubeArrayU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -2285,7 +2285,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicOr2DMSU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -2300,7 +2300,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicOr2DMSArrayU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -2315,7 +2315,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicOrBufferI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -2330,7 +2330,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicOr1DI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -2345,7 +2345,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicOr1DArrayI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -2360,7 +2360,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicOr2DI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -2375,7 +2375,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicOr2DRectI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -2390,7 +2390,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicOr2DArrayI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -2405,7 +2405,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicOr3DI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -2420,7 +2420,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicOrCubeI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -2435,7 +2435,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicOrCubeArrayI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -2450,7 +2450,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicOr2DMSI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -2465,7 +2465,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicOr2DMSArrayI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -2480,7 +2480,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicXorBufferU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -2495,7 +2495,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicXor1DU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -2510,7 +2510,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicXor1DArrayU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -2525,7 +2525,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicXor2DU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -2540,7 +2540,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicXor2DRectU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -2555,7 +2555,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicXor2DArrayU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -2570,7 +2570,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicXor3DU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -2585,7 +2585,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicXorCubeU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -2600,7 +2600,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicXorCubeArrayU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -2615,7 +2615,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicXor2DMSU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -2630,7 +2630,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicXor2DMSArrayU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -2645,7 +2645,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicXorBufferI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -2660,7 +2660,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicXor1DI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -2675,7 +2675,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicXor1DArrayI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -2690,7 +2690,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicXor2DI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -2705,7 +2705,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicXor2DRectI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -2720,7 +2720,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicXor2DArrayI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -2735,7 +2735,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicXor3DI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -2750,7 +2750,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicXorCubeI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -2765,7 +2765,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicXorCubeArrayI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -2780,7 +2780,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicXor2DMSI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -2795,7 +2795,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicXor2DMSArrayI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -2810,7 +2810,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicExchangeBufferU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -2825,7 +2825,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicExchange1DU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -2840,7 +2840,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicExchange1DArrayU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -2855,7 +2855,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicExchange2DU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -2870,7 +2870,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicExchange2DRectU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -2885,7 +2885,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicExchange2DArrayU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -2900,7 +2900,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicExchange3DU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -2915,7 +2915,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicExchangeCubeU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -2930,7 +2930,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicExchangeCubeArrayU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -2945,7 +2945,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicExchange2DMSU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -2960,7 +2960,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicExchange2DMSArrayU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -2975,7 +2975,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicExchangeBufferI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -2990,7 +2990,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicExchange1DI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -3005,7 +3005,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicExchange1DArrayI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -3020,7 +3020,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicExchange2DI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -3035,7 +3035,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicExchange2DRectI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -3050,7 +3050,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicExchange2DArrayI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -3065,7 +3065,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicExchange3DI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -3080,7 +3080,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicExchangeCubeI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -3095,7 +3095,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicExchangeCubeArrayI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -3110,7 +3110,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicExchange2DMSI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -3125,7 +3125,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicExchange2DMSArrayI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -3140,7 +3140,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicCompSwapBufferU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -3155,7 +3155,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicCompSwap1DU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -3170,7 +3170,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicCompSwap1DArrayU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -3185,7 +3185,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicCompSwap2DU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -3200,7 +3200,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicCompSwap2DRectU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -3215,7 +3215,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicCompSwap2DArrayU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -3230,7 +3230,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicCompSwap3DU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -3245,7 +3245,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicCompSwapCubeU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -3260,7 +3260,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicCompSwapCubeArrayU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -3275,7 +3275,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicCompSwap2DMSU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -3290,7 +3290,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicCompSwap2DMSArrayU = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -3305,7 +3305,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicCompSwapBufferI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -3320,7 +3320,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicCompSwap1DI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -3335,7 +3335,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicCompSwap1DArrayI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -3350,7 +3350,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicCompSwap2DI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -3365,7 +3365,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicCompSwap2DRectI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -3380,7 +3380,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicCompSwap2DArrayI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -3395,7 +3395,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicCompSwap3DI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -3410,7 +3410,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicCompSwapCubeI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -3425,7 +3425,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicCompSwapCubeArrayI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -3440,7 +3440,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicCompSwap2DMSI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}
@@ -3455,7 +3455,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresImageAtomicCompSwap2DMSArrayI = true;
-			writeHlslImageAccessFunctions( cont.get(), config );
+			compileHlslImageAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eVertex ) << std::endl;
 		}

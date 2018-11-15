@@ -74,35 +74,34 @@ namespace sdw
 
 	//*****************************************************************************************
 
-	template< ast::type::Kind SampledT
+	template< ast::type::ImageFormat FormatT
 		, ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool DepthT
 		, bool MsT >
-	ImageT< SampledT, DimT, ArrayedT, DepthT, MsT >::ImageT( Shader * shader
-		, expr::ExprPtr expr
-		, ast::type::ImageFormat format )
-		: Image{ shader, std::move( expr ), format }
+	ImageT< FormatT, DimT, ArrayedT, DepthT, MsT >::ImageT( Shader * shader
+		, expr::ExprPtr expr )
+		: Image{ shader, std::move( expr ) }
 	{
 	}
 
-	template< ast::type::Kind SampledT
+	template< ast::type::ImageFormat FormatT
 		, ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool DepthT
 		, bool MsT >
-	ImageT< SampledT, DimT, ArrayedT, DepthT, MsT >::ImageT( ImageT const & rhs )
+	ImageT< FormatT, DimT, ArrayedT, DepthT, MsT >::ImageT( ImageT const & rhs )
 		: Image{ rhs }
 	{
 	}
 
-	template< ast::type::Kind SampledT
+	template< ast::type::ImageFormat FormatT
 		, ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool DepthT
 		, bool MsT >
 	template< typename T >
-	ImageT< SampledT, DimT, ArrayedT, DepthT, MsT > & ImageT< SampledT, DimT, ArrayedT, DepthT, MsT >::operator=( T const & rhs )
+	ImageT< FormatT, DimT, ArrayedT, DepthT, MsT > & ImageT< FormatT, DimT, ArrayedT, DepthT, MsT >::operator=( T const & rhs )
 	{
 		this->updateContainer( rhs );
 		addStmt( *findContainer( *this, rhs )
@@ -112,24 +111,24 @@ namespace sdw
 		return *this;
 	}
 
-	template< ast::type::Kind SampledT
+	template< ast::type::ImageFormat FormatT
 		, ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool DepthT
 		, bool MsT >
-	ImageT< SampledT, DimT, ArrayedT, DepthT, MsT >::operator uint32_t()
+	ImageT< FormatT, DimT, ArrayedT, DepthT, MsT >::operator uint32_t()
 	{
 		return 0u;
 	}
 
-	template< ast::type::Kind SampledT
+	template< ast::type::ImageFormat FormatT
 		, ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool DepthT
 		, bool MsT >
-	ast::type::ImageConfiguration ImageT< SampledT, DimT, ArrayedT, DepthT, MsT >::makeConfig( ast::type::ImageFormat format )
+	ast::type::ImageConfiguration ImageT< FormatT, DimT, ArrayedT, DepthT, MsT >::makeConfig()
 	{
-		return ast::type::makeConfig< SampledT, DimT, ArrayedT, DepthT, MsT >( format, false, false );
+		return ast::type::makeConfig< FormatT, DimT, ArrayedT, DepthT, MsT >( false, false );
 	}
 
 	//*****************************************************************************************

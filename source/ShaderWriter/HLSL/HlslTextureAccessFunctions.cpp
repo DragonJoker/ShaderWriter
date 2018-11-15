@@ -224,361 +224,361 @@ namespace sdw::hlsl
 		}
 	}
 
-	void writeHlslTextureAccessFunctions( ast::stmt::Container * container
+	void compileHlslTextureAccessFunctions( ast::stmt::Container * container
 		, IntrinsicsConfig const & config )
 	{
-		if ( config.requiresTextureSizeBufferF )
-		{
-			details::writeTextureSizeBuffer( container, "Buffer<float4>" );
-		}
-		if ( config.requiresTextureSizeBufferI )
-		{
-			details::writeTextureSizeBuffer( container, "Buffer<int4>" );
-		}
-		if ( config.requiresTextureSizeBufferU )
-		{
-			details::writeTextureSizeBuffer( container, "Buffer<uint4>" );
-		}
-		if ( config.requiresTextureSize1DF )
-		{
-			details::writeTextureSize1D( container, "Texture1D<float4>" );
-		}
-		if ( config.requiresTextureSize1DShadowF )
-		{
-			details::writeTextureSize1D( container, "Texture1D<float4>" );
-		}
-		if ( config.requiresTextureSize1DI )
-		{
-			details::writeTextureSize1D( container, "Texture1D<int4>" );
-		}
-		if ( config.requiresTextureSize1DU )
-		{
-			details::writeTextureSize1D( container, "Texture1D<uint4>" );
-		}
-		if ( config.requiresTextureSize1DArrayF )
-		{
-			details::writeTextureSize2D( container, "Texture1DArray<float4>" );
-		}
-		if ( config.requiresTextureSize1DArrayShadowF )
-		{
-			details::writeTextureSize2D( container, "Texture1DArray<float4>" );
-		}
-		if ( config.requiresTextureSize1DArrayI )
-		{
-			details::writeTextureSize2D( container, "Texture1DArray<int4>" );
-		}
-		if ( config.requiresTextureSize1DArrayU )
-		{
-			details::writeTextureSize2D( container, "Texture1DArray<uint4>" );
-		}
-		if ( config.requiresTextureSize2DF )
-		{
-			details::writeTextureSize2D( container, "Texture2D<float4>" );
-		}
-		if ( config.requiresTextureSize2DRectF )
-		{
-			details::writeTextureSize2DRect( container, "Texture2D<float4>" );
-		}
-		if ( config.requiresTextureSize2DShadowF )
-		{
-			details::writeTextureSize2D( container, "Texture2D<float4>" );
-		}
-		if ( config.requiresTextureSize2DRectShadowF )
-		{
-			details::writeTextureSize2DRect( container, "Texture2D<float4>" );
-		}
-		if ( config.requiresTextureSize2DI )
-		{
-			details::writeTextureSize2D( container, "Texture2D<int4>" );
-		}
-		if ( config.requiresTextureSize2DRectI )
-		{
-			details::writeTextureSize2DRect( container, "Texture2D<int4>" );
-		}
-		if ( config.requiresTextureSize2DU )
-		{
-			details::writeTextureSize2D( container, "Texture2D<uint4>" );
-		}
-		if ( config.requiresTextureSize2DRectU )
-		{
-			details::writeTextureSize2DRect( container, "Texture2D<uint4>" );
-		}
-		if ( config.requiresTextureSize2DArrayF )
-		{
-			details::writeTextureSize3D( container, "Texture2DArray<float4>" );
-		}
-		if ( config.requiresTextureSize2DArrayShadowF )
-		{
-			details::writeTextureSize3D( container, "Texture2DArray<float4>" );
-		}
-		if ( config.requiresTextureSize2DArrayI )
-		{
-			details::writeTextureSize3D( container, "Texture2DArray<int4>" );
-		}
-		if ( config.requiresTextureSize2DArrayU )
-		{
-			details::writeTextureSize3D( container, "Texture2DArray<uint4>" );
-		}
-		if ( config.requiresTextureSize3DF )
-		{
-			details::writeTextureSize3D( container, "Texture3D<float4>" );
-		}
-		if ( config.requiresTextureSize3DI )
-		{
-			details::writeTextureSize3D( container, "Texture3D<int4>" );
-		}
-		if ( config.requiresTextureSize3DU )
-		{
-			details::writeTextureSize3D( container, "Texture3D<uint4>" );
-		}
-		if ( config.requiresTextureSizeCubeF )
-		{
-			details::writeTextureSize2D( container, "TextureCube<float4>" );
-		}
-		if ( config.requiresTextureSizeCubeShadowF )
-		{
-			details::writeTextureSize2D( container, "TextureCube<float4>" );
-		}
-		if ( config.requiresTextureSizeCubeI )
-		{
-			details::writeTextureSize2D( container, "TextureCube<int4>" );
-		}
-		if ( config.requiresTextureSizeCubeU )
-		{
-			details::writeTextureSize2D( container, "TextureCube<uint4>" );
-		}
-		if ( config.requiresTextureSizeCubeArrayF )
-		{
-			details::writeTextureSize3D( container, "TextureCubeArray<float4>" );
-		}
-		if ( config.requiresTextureSizeCubeArrayShadowF )
-		{
-			details::writeTextureSize3D( container, "TextureCubeArray<float4>" );
-		}
-		if ( config.requiresTextureSizeCubeArrayI )
-		{
-			details::writeTextureSize3D( container, "TextureCubeArray<int4>" );
-		}
-		if ( config.requiresTextureSizeCubeArrayU )
-		{
-			details::writeTextureSize3D( container, "TextureCubeArray<uint4>" );
-		}
-		if ( config.requiresTextureQueryLod1DF )
-		{
-			details::writeTextureQueryLod1D( container, "Texture1D<float4>" );
-		}
-		if ( config.requiresTextureQueryLod1DShadowF )
-		{
-			details::writeTextureQueryLod1D( container, "Texture1D<float4>" );
-		}
-		if ( config.requiresTextureQueryLod1DI )
-		{
-			details::writeTextureQueryLod1D( container, "Texture1D<int4>" );
-		}
-		if ( config.requiresTextureQueryLod1DU )
-		{
-			details::writeTextureQueryLod1D( container, "Texture1D<uint4>" );
-		}
-		if ( config.requiresTextureQueryLod1DArrayF )
-		{
-			details::writeTextureQueryLod1D( container, "Texture1DArray<float4>" );
-		}
-		if ( config.requiresTextureQueryLod1DArrayShadowF )
-		{
-			details::writeTextureQueryLod1D( container, "Texture1DArray<float4>" );
-		}
-		if ( config.requiresTextureQueryLod1DArrayI )
-		{
-			details::writeTextureQueryLod1D( container, "Texture1DArray<int4>" );
-		}
-		if ( config.requiresTextureQueryLod1DArrayU )
-		{
-			details::writeTextureQueryLod1D( container, "Texture1DArray<uint4>" );
-		}
-		if ( config.requiresTextureQueryLod2DF )
-		{
-			details::writeTextureQueryLod2D( container, "Texture2D<float4>" );
-		}
-		if ( config.requiresTextureQueryLod2DShadowF )
-		{
-			details::writeTextureQueryLod2D( container, "Texture2D<float4>" );
-		}
-		if ( config.requiresTextureQueryLod2DI )
-		{
-			details::writeTextureQueryLod2D( container, "Texture2D<int4>" );
-		}
-		if ( config.requiresTextureQueryLod2DU )
-		{
-			details::writeTextureQueryLod2D( container, "Texture2D<uint4>" );
-		}
-		if ( config.requiresTextureQueryLod2DArrayF )
-		{
-			details::writeTextureQueryLod2D( container, "Texture2DArray<float4>" );
-		}
-		if ( config.requiresTextureQueryLod2DArrayShadowF )
-		{
-			details::writeTextureQueryLod2D( container, "Texture2DArray<float4>" );
-		}
-		if ( config.requiresTextureQueryLod2DArrayI )
-		{
-			details::writeTextureQueryLod2D( container, "Texture2DArray<int4>" );
-		}
-		if ( config.requiresTextureQueryLod2DArrayU )
-		{
-			details::writeTextureQueryLod2D( container, "Texture2DArray<uint4>" );
-		}
-		if ( config.requiresTextureQueryLod3DF )
-		{
-			details::writeTextureQueryLod3D( container, "Texture3D<float4>" );
-		}
-		if ( config.requiresTextureQueryLod3DI )
-		{
-			details::writeTextureQueryLod3D( container, "Texture3D<int4>" );
-		}
-		if ( config.requiresTextureQueryLod3DU )
-		{
-			details::writeTextureQueryLod3D( container, "Texture3D<uint4>" );
-		}
-		if ( config.requiresTextureQueryLodCubeF )
-		{
-			details::writeTextureQueryLod3D( container, "TextureCube<float4>" );
-		}
-		if ( config.requiresTextureQueryLodCubeShadowF )
-		{
-			details::writeTextureQueryLod3D( container, "TextureCube<float4>" );
-		}
-		if ( config.requiresTextureQueryLodCubeI )
-		{
-			details::writeTextureQueryLod3D( container, "TextureCube<int4>" );
-		}
-		if ( config.requiresTextureQueryLodCubeU )
-		{
-			details::writeTextureQueryLod3D( container, "TextureCube<uint4>" );
-		}
-		if ( config.requiresTextureQueryLodCubeArrayF )
-		{
-			details::writeTextureQueryLod3D( container, "TextureCubeArray<float4>" );
-		}
-		if ( config.requiresTextureQueryLodCubeArrayShadowF )
-		{
-			details::writeTextureQueryLod3D( container, "TextureCubeArray<float4>" );
-		}
-		if ( config.requiresTextureQueryLodCubeArrayI )
-		{
-			details::writeTextureQueryLod3D( container, "TextureCubeArray<int4>" );
-		}
-		if ( config.requiresTextureQueryLodCubeArrayU )
-		{
-			details::writeTextureQueryLod3D( container, "TextureCubeArray<uint4>" );
-		}
-		if ( config.requiresTextureQueryLevels1DF )
-		{
-			details::writeTextureQueryLevels1D( container, "Texture1D<float4>" );
-		}
-		if ( config.requiresTextureQueryLevels1DShadowF )
-		{
-			details::writeTextureQueryLevels1D( container, "Texture1D<float4>" );
-		}
-		if ( config.requiresTextureQueryLevels1DI )
-		{
-			details::writeTextureQueryLevels1D( container, "Texture1D<int4>" );
-		}
-		if ( config.requiresTextureQueryLevels1DU )
-		{
-			details::writeTextureQueryLevels1D( container, "Texture1D<uint4>" );
-		}
-		if ( config.requiresTextureQueryLevels1DArrayF )
-		{
-			details::writeTextureQueryLevels2D( container, "Texture1DArray<float4>" );
-		}
-		if ( config.requiresTextureQueryLevels1DArrayShadowF )
-		{
-			details::writeTextureQueryLevels2D( container, "Texture1DArray<float4>" );
-		}
-		if ( config.requiresTextureQueryLevels1DArrayI )
-		{
-			details::writeTextureQueryLevels2D( container, "Texture1DArray<int4>" );
-		}
-		if ( config.requiresTextureQueryLevels1DArrayU )
-		{
-			details::writeTextureQueryLevels2D( container, "Texture1DArray<uint4>" );
-		}
-		if ( config.requiresTextureQueryLevels2DF )
-		{
-			details::writeTextureQueryLevels2D( container, "Texture2D<float4>" );
-		}
-		if ( config.requiresTextureQueryLevels2DShadowF )
-		{
-			details::writeTextureQueryLevels2D( container, "Texture2D<float4>" );
-		}
-		if ( config.requiresTextureQueryLevels2DI )
-		{
-			details::writeTextureQueryLevels2D( container, "Texture2D<int4>" );
-		}
-		if ( config.requiresTextureQueryLevels2DU )
-		{
-			details::writeTextureQueryLevels2D( container, "Texture2D<uint4>" );
-		}
-		if ( config.requiresTextureQueryLevels2DArrayF )
-		{
-			details::writeTextureQueryLevels3D( container, "Texture2DArray<float4>" );
-		}
-		if ( config.requiresTextureQueryLevels2DArrayShadowF )
-		{
-			details::writeTextureQueryLevels3D( container, "Texture2DArray<float4>" );
-		}
-		if ( config.requiresTextureQueryLevels2DArrayI )
-		{
-			details::writeTextureQueryLevels3D( container, "Texture2DArray<int4>" );
-		}
-		if ( config.requiresTextureQueryLevels2DArrayU )
-		{
-			details::writeTextureQueryLevels3D( container, "Texture2DArray<uint4>" );
-		}
-		if ( config.requiresTextureQueryLevels3DF )
-		{
-			details::writeTextureQueryLevels3D( container, "Texture3D<float4>" );
-		}
-		if ( config.requiresTextureQueryLevels3DI )
-		{
-			details::writeTextureQueryLevels3D( container, "Texture3D<int4>" );
-		}
-		if ( config.requiresTextureQueryLevels3DU )
-		{
-			details::writeTextureQueryLevels3D( container, "Texture3D<uint4>" );
-		}
-		if ( config.requiresTextureQueryLevelsCubeF )
-		{
-			details::writeTextureQueryLevels2D( container, "TextureCube<float4>" );
-		}
-		if ( config.requiresTextureQueryLevelsCubeShadowF )
-		{
-			details::writeTextureQueryLevels2D( container, "TextureCube<float4>" );
-		}
-		if ( config.requiresTextureQueryLevelsCubeI )
-		{
-			details::writeTextureQueryLevels2D( container, "TextureCube<int4>" );
-		}
-		if ( config.requiresTextureQueryLevelsCubeU )
-		{
-			details::writeTextureQueryLevels2D( container, "TextureCube<uint4>" );
-		}
-		if ( config.requiresTextureQueryLevelsCubeArrayF )
-		{
-			details::writeTextureQueryLevels3D( container, "TextureCubeArray<float4>" );
-		}
-		if ( config.requiresTextureQueryLevelsCubeArrayShadowF )
-		{
-			details::writeTextureQueryLevels3D( container, "TextureCubeArray<float4>" );
-		}
-		if ( config.requiresTextureQueryLevelsCubeArrayI )
-		{
-			details::writeTextureQueryLevels3D( container, "TextureCubeArray<int4>" );
-		}
-		if ( config.requiresTextureQueryLevelsCubeArrayU )
-		{
-			details::writeTextureQueryLevels3D( container, "TextureCubeArray<uint4>" );
-		}
+		//if ( config.requiresTextureSizeBufferF )
+		//{
+		//	details::writeTextureSizeBuffer( container, "Buffer<float4>" );
+		//}
+		//if ( config.requiresTextureSizeBufferI )
+		//{
+		//	details::writeTextureSizeBuffer( container, "Buffer<int4>" );
+		//}
+		//if ( config.requiresTextureSizeBufferU )
+		//{
+		//	details::writeTextureSizeBuffer( container, "Buffer<uint4>" );
+		//}
+		//if ( config.requiresTextureSize1DF )
+		//{
+		//	details::writeTextureSize1D( container, "Texture1D<float4>" );
+		//}
+		//if ( config.requiresTextureSize1DShadowF )
+		//{
+		//	details::writeTextureSize1D( container, "Texture1D<float4>" );
+		//}
+		//if ( config.requiresTextureSize1DI )
+		//{
+		//	details::writeTextureSize1D( container, "Texture1D<int4>" );
+		//}
+		//if ( config.requiresTextureSize1DU )
+		//{
+		//	details::writeTextureSize1D( container, "Texture1D<uint4>" );
+		//}
+		//if ( config.requiresTextureSize1DArrayF )
+		//{
+		//	details::writeTextureSize2D( container, "Texture1DArray<float4>" );
+		//}
+		//if ( config.requiresTextureSize1DArrayShadowF )
+		//{
+		//	details::writeTextureSize2D( container, "Texture1DArray<float4>" );
+		//}
+		//if ( config.requiresTextureSize1DArrayI )
+		//{
+		//	details::writeTextureSize2D( container, "Texture1DArray<int4>" );
+		//}
+		//if ( config.requiresTextureSize1DArrayU )
+		//{
+		//	details::writeTextureSize2D( container, "Texture1DArray<uint4>" );
+		//}
+		//if ( config.requiresTextureSize2DF )
+		//{
+		//	details::writeTextureSize2D( container, "Texture2D<float4>" );
+		//}
+		//if ( config.requiresTextureSize2DRectF )
+		//{
+		//	details::writeTextureSize2DRect( container, "Texture2D<float4>" );
+		//}
+		//if ( config.requiresTextureSize2DShadowF )
+		//{
+		//	details::writeTextureSize2D( container, "Texture2D<float4>" );
+		//}
+		//if ( config.requiresTextureSize2DRectShadowF )
+		//{
+		//	details::writeTextureSize2DRect( container, "Texture2D<float4>" );
+		//}
+		//if ( config.requiresTextureSize2DI )
+		//{
+		//	details::writeTextureSize2D( container, "Texture2D<int4>" );
+		//}
+		//if ( config.requiresTextureSize2DRectI )
+		//{
+		//	details::writeTextureSize2DRect( container, "Texture2D<int4>" );
+		//}
+		//if ( config.requiresTextureSize2DU )
+		//{
+		//	details::writeTextureSize2D( container, "Texture2D<uint4>" );
+		//}
+		//if ( config.requiresTextureSize2DRectU )
+		//{
+		//	details::writeTextureSize2DRect( container, "Texture2D<uint4>" );
+		//}
+		//if ( config.requiresTextureSize2DArrayF )
+		//{
+		//	details::writeTextureSize3D( container, "Texture2DArray<float4>" );
+		//}
+		//if ( config.requiresTextureSize2DArrayShadowF )
+		//{
+		//	details::writeTextureSize3D( container, "Texture2DArray<float4>" );
+		//}
+		//if ( config.requiresTextureSize2DArrayI )
+		//{
+		//	details::writeTextureSize3D( container, "Texture2DArray<int4>" );
+		//}
+		//if ( config.requiresTextureSize2DArrayU )
+		//{
+		//	details::writeTextureSize3D( container, "Texture2DArray<uint4>" );
+		//}
+		//if ( config.requiresTextureSize3DF )
+		//{
+		//	details::writeTextureSize3D( container, "Texture3D<float4>" );
+		//}
+		//if ( config.requiresTextureSize3DI )
+		//{
+		//	details::writeTextureSize3D( container, "Texture3D<int4>" );
+		//}
+		//if ( config.requiresTextureSize3DU )
+		//{
+		//	details::writeTextureSize3D( container, "Texture3D<uint4>" );
+		//}
+		//if ( config.requiresTextureSizeCubeF )
+		//{
+		//	details::writeTextureSize2D( container, "TextureCube<float4>" );
+		//}
+		//if ( config.requiresTextureSizeCubeShadowF )
+		//{
+		//	details::writeTextureSize2D( container, "TextureCube<float4>" );
+		//}
+		//if ( config.requiresTextureSizeCubeI )
+		//{
+		//	details::writeTextureSize2D( container, "TextureCube<int4>" );
+		//}
+		//if ( config.requiresTextureSizeCubeU )
+		//{
+		//	details::writeTextureSize2D( container, "TextureCube<uint4>" );
+		//}
+		//if ( config.requiresTextureSizeCubeArrayF )
+		//{
+		//	details::writeTextureSize3D( container, "TextureCubeArray<float4>" );
+		//}
+		//if ( config.requiresTextureSizeCubeArrayShadowF )
+		//{
+		//	details::writeTextureSize3D( container, "TextureCubeArray<float4>" );
+		//}
+		//if ( config.requiresTextureSizeCubeArrayI )
+		//{
+		//	details::writeTextureSize3D( container, "TextureCubeArray<int4>" );
+		//}
+		//if ( config.requiresTextureSizeCubeArrayU )
+		//{
+		//	details::writeTextureSize3D( container, "TextureCubeArray<uint4>" );
+		//}
+		//if ( config.requiresTextureQueryLod1DF )
+		//{
+		//	details::writeTextureQueryLod1D( container, "Texture1D<float4>" );
+		//}
+		//if ( config.requiresTextureQueryLod1DShadowF )
+		//{
+		//	details::writeTextureQueryLod1D( container, "Texture1D<float4>" );
+		//}
+		//if ( config.requiresTextureQueryLod1DI )
+		//{
+		//	details::writeTextureQueryLod1D( container, "Texture1D<int4>" );
+		//}
+		//if ( config.requiresTextureQueryLod1DU )
+		//{
+		//	details::writeTextureQueryLod1D( container, "Texture1D<uint4>" );
+		//}
+		//if ( config.requiresTextureQueryLod1DArrayF )
+		//{
+		//	details::writeTextureQueryLod1D( container, "Texture1DArray<float4>" );
+		//}
+		//if ( config.requiresTextureQueryLod1DArrayShadowF )
+		//{
+		//	details::writeTextureQueryLod1D( container, "Texture1DArray<float4>" );
+		//}
+		//if ( config.requiresTextureQueryLod1DArrayI )
+		//{
+		//	details::writeTextureQueryLod1D( container, "Texture1DArray<int4>" );
+		//}
+		//if ( config.requiresTextureQueryLod1DArrayU )
+		//{
+		//	details::writeTextureQueryLod1D( container, "Texture1DArray<uint4>" );
+		//}
+		//if ( config.requiresTextureQueryLod2DF )
+		//{
+		//	details::writeTextureQueryLod2D( container, "Texture2D<float4>" );
+		//}
+		//if ( config.requiresTextureQueryLod2DShadowF )
+		//{
+		//	details::writeTextureQueryLod2D( container, "Texture2D<float4>" );
+		//}
+		//if ( config.requiresTextureQueryLod2DI )
+		//{
+		//	details::writeTextureQueryLod2D( container, "Texture2D<int4>" );
+		//}
+		//if ( config.requiresTextureQueryLod2DU )
+		//{
+		//	details::writeTextureQueryLod2D( container, "Texture2D<uint4>" );
+		//}
+		//if ( config.requiresTextureQueryLod2DArrayF )
+		//{
+		//	details::writeTextureQueryLod2D( container, "Texture2DArray<float4>" );
+		//}
+		//if ( config.requiresTextureQueryLod2DArrayShadowF )
+		//{
+		//	details::writeTextureQueryLod2D( container, "Texture2DArray<float4>" );
+		//}
+		//if ( config.requiresTextureQueryLod2DArrayI )
+		//{
+		//	details::writeTextureQueryLod2D( container, "Texture2DArray<int4>" );
+		//}
+		//if ( config.requiresTextureQueryLod2DArrayU )
+		//{
+		//	details::writeTextureQueryLod2D( container, "Texture2DArray<uint4>" );
+		//}
+		//if ( config.requiresTextureQueryLod3DF )
+		//{
+		//	details::writeTextureQueryLod3D( container, "Texture3D<float4>" );
+		//}
+		//if ( config.requiresTextureQueryLod3DI )
+		//{
+		//	details::writeTextureQueryLod3D( container, "Texture3D<int4>" );
+		//}
+		//if ( config.requiresTextureQueryLod3DU )
+		//{
+		//	details::writeTextureQueryLod3D( container, "Texture3D<uint4>" );
+		//}
+		//if ( config.requiresTextureQueryLodCubeF )
+		//{
+		//	details::writeTextureQueryLod3D( container, "TextureCube<float4>" );
+		//}
+		//if ( config.requiresTextureQueryLodCubeShadowF )
+		//{
+		//	details::writeTextureQueryLod3D( container, "TextureCube<float4>" );
+		//}
+		//if ( config.requiresTextureQueryLodCubeI )
+		//{
+		//	details::writeTextureQueryLod3D( container, "TextureCube<int4>" );
+		//}
+		//if ( config.requiresTextureQueryLodCubeU )
+		//{
+		//	details::writeTextureQueryLod3D( container, "TextureCube<uint4>" );
+		//}
+		//if ( config.requiresTextureQueryLodCubeArrayF )
+		//{
+		//	details::writeTextureQueryLod3D( container, "TextureCubeArray<float4>" );
+		//}
+		//if ( config.requiresTextureQueryLodCubeArrayShadowF )
+		//{
+		//	details::writeTextureQueryLod3D( container, "TextureCubeArray<float4>" );
+		//}
+		//if ( config.requiresTextureQueryLodCubeArrayI )
+		//{
+		//	details::writeTextureQueryLod3D( container, "TextureCubeArray<int4>" );
+		//}
+		//if ( config.requiresTextureQueryLodCubeArrayU )
+		//{
+		//	details::writeTextureQueryLod3D( container, "TextureCubeArray<uint4>" );
+		//}
+		//if ( config.requiresTextureQueryLevels1DF )
+		//{
+		//	details::writeTextureQueryLevels1D( container, "Texture1D<float4>" );
+		//}
+		//if ( config.requiresTextureQueryLevels1DShadowF )
+		//{
+		//	details::writeTextureQueryLevels1D( container, "Texture1D<float4>" );
+		//}
+		//if ( config.requiresTextureQueryLevels1DI )
+		//{
+		//	details::writeTextureQueryLevels1D( container, "Texture1D<int4>" );
+		//}
+		//if ( config.requiresTextureQueryLevels1DU )
+		//{
+		//	details::writeTextureQueryLevels1D( container, "Texture1D<uint4>" );
+		//}
+		//if ( config.requiresTextureQueryLevels1DArrayF )
+		//{
+		//	details::writeTextureQueryLevels2D( container, "Texture1DArray<float4>" );
+		//}
+		//if ( config.requiresTextureQueryLevels1DArrayShadowF )
+		//{
+		//	details::writeTextureQueryLevels2D( container, "Texture1DArray<float4>" );
+		//}
+		//if ( config.requiresTextureQueryLevels1DArrayI )
+		//{
+		//	details::writeTextureQueryLevels2D( container, "Texture1DArray<int4>" );
+		//}
+		//if ( config.requiresTextureQueryLevels1DArrayU )
+		//{
+		//	details::writeTextureQueryLevels2D( container, "Texture1DArray<uint4>" );
+		//}
+		//if ( config.requiresTextureQueryLevels2DF )
+		//{
+		//	details::writeTextureQueryLevels2D( container, "Texture2D<float4>" );
+		//}
+		//if ( config.requiresTextureQueryLevels2DShadowF )
+		//{
+		//	details::writeTextureQueryLevels2D( container, "Texture2D<float4>" );
+		//}
+		//if ( config.requiresTextureQueryLevels2DI )
+		//{
+		//	details::writeTextureQueryLevels2D( container, "Texture2D<int4>" );
+		//}
+		//if ( config.requiresTextureQueryLevels2DU )
+		//{
+		//	details::writeTextureQueryLevels2D( container, "Texture2D<uint4>" );
+		//}
+		//if ( config.requiresTextureQueryLevels2DArrayF )
+		//{
+		//	details::writeTextureQueryLevels3D( container, "Texture2DArray<float4>" );
+		//}
+		//if ( config.requiresTextureQueryLevels2DArrayShadowF )
+		//{
+		//	details::writeTextureQueryLevels3D( container, "Texture2DArray<float4>" );
+		//}
+		//if ( config.requiresTextureQueryLevels2DArrayI )
+		//{
+		//	details::writeTextureQueryLevels3D( container, "Texture2DArray<int4>" );
+		//}
+		//if ( config.requiresTextureQueryLevels2DArrayU )
+		//{
+		//	details::writeTextureQueryLevels3D( container, "Texture2DArray<uint4>" );
+		//}
+		//if ( config.requiresTextureQueryLevels3DF )
+		//{
+		//	details::writeTextureQueryLevels3D( container, "Texture3D<float4>" );
+		//}
+		//if ( config.requiresTextureQueryLevels3DI )
+		//{
+		//	details::writeTextureQueryLevels3D( container, "Texture3D<int4>" );
+		//}
+		//if ( config.requiresTextureQueryLevels3DU )
+		//{
+		//	details::writeTextureQueryLevels3D( container, "Texture3D<uint4>" );
+		//}
+		//if ( config.requiresTextureQueryLevelsCubeF )
+		//{
+		//	details::writeTextureQueryLevels2D( container, "TextureCube<float4>" );
+		//}
+		//if ( config.requiresTextureQueryLevelsCubeShadowF )
+		//{
+		//	details::writeTextureQueryLevels2D( container, "TextureCube<float4>" );
+		//}
+		//if ( config.requiresTextureQueryLevelsCubeI )
+		//{
+		//	details::writeTextureQueryLevels2D( container, "TextureCube<int4>" );
+		//}
+		//if ( config.requiresTextureQueryLevelsCubeU )
+		//{
+		//	details::writeTextureQueryLevels2D( container, "TextureCube<uint4>" );
+		//}
+		//if ( config.requiresTextureQueryLevelsCubeArrayF )
+		//{
+		//	details::writeTextureQueryLevels3D( container, "TextureCubeArray<float4>" );
+		//}
+		//if ( config.requiresTextureQueryLevelsCubeArrayShadowF )
+		//{
+		//	details::writeTextureQueryLevels3D( container, "TextureCubeArray<float4>" );
+		//}
+		//if ( config.requiresTextureQueryLevelsCubeArrayI )
+		//{
+		//	details::writeTextureQueryLevels3D( container, "TextureCubeArray<int4>" );
+		//}
+		//if ( config.requiresTextureQueryLevelsCubeArrayU )
+		//{
+		//	details::writeTextureQueryLevels3D( container, "TextureCubeArray<uint4>" );
+		//}
 		if ( config.requiresProjectTexCoords2 )
 		{
 			details::writeProjectTexCoords2( container );

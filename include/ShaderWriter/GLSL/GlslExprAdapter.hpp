@@ -24,9 +24,13 @@ namespace sdw::glsl
 			, IntrinsicsConfig const & config );
 
 		ast::expr::ExprPtr doSubmit( ast::expr::Expr * expr )override;
+		void visitImageAccessCallExpr( expr::ImageAccessCall * expr )override;
 		void visitTextureAccessCallExpr( expr::TextureAccessCall * expr )override;
 
+		void doProcessImageLoad( expr::ImageAccessCall * expr );
 		void doProcessTextureShadow( expr::TextureAccessCall * expr );
+		void doProcessTextureSample( expr::TextureAccessCall * expr );
+		void doProcessTextureGather( expr::TextureAccessCall * expr );
 
 	private:
 		IntrinsicsConfig const & m_config;

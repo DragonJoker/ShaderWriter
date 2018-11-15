@@ -42,12 +42,6 @@ namespace sdw
 		uint32_t set;
 	};
 
-	struct SpecConstantInfo
-	{
-		type::TypePtr type;
-		uint32_t location;
-	};
-
 	class Shader
 	{
 	public:

@@ -40,7 +40,7 @@ def computeName( name ):
 		result = resName1.group( 2 )
 	return result
 
-def printValue( outs, match ):
+def printValue( outs, enumName, match ):
 	name = computeName( match.group( 2 ) )
 	outs.write( "\t\te" + name + ",\n" )
 
@@ -70,15 +70,16 @@ def main( argv ):
 	with open(inEnumFile, "r") as ins:
 		with open(outEnumFile, "w") as outs:
 			array = []
+			enumName = ""
 			for line in ins:
 				array.append( line )
 				resultDecl = intrDecl.match( line )
 				resultValue = intrValue.match( line )
 				resultEnd = intrEnd.match( line )
 				if resultDecl:
-					printHeader( outs, resultDecl )
+					enumName = printHeader( outs, resultDecl )
 				elif resultValue:
-					printValue( outs, resultValue )
+					printValue( outs, enumName, resultValue )
 				elif resultEnd:
 					printFooter( outs )
 				else:

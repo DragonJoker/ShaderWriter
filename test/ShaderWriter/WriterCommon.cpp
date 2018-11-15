@@ -200,6 +200,7 @@ namespace test
 
 		void testWriteDebug( sdw::Shader const & shader
 			, sdw::ShaderType stage
+			, sdw::SpecialisationInfo const & specialisation
 			, test::TestCounts & testCounts )
 		{
 			auto debug = sdw::writeDebug( shader );
@@ -208,10 +209,11 @@ namespace test
 
 		void testWriteGlsl( sdw::Shader const & shader
 			, sdw::ShaderType stage
+			, sdw::SpecialisationInfo const & specialisation
 			, bool validateGlsl
 			, test::TestCounts & testCounts )
 		{
-			auto glsl = sdw::writeGlsl( shader, stage );
+			auto glsl = sdw::compileGlsl( shader, stage, specialisation );
 
 			if ( validateGlsl && !compileGlsl( glsl, stage ) )
 			{
@@ -226,10 +228,11 @@ namespace test
 
 		void testWriteHlsl( sdw::Shader const & shader
 			, sdw::ShaderType stage
+			, sdw::SpecialisationInfo const & specialisation
 			, bool validateHlsl
 			, test::TestCounts & testCounts )
 		{
-			auto hlsl = sdw::writeHlsl( shader, stage );
+			auto hlsl = sdw::compileHlsl( shader, stage, specialisation );
 
 			if ( validateHlsl && !compileHlsl( hlsl, stage ) )
 			{
@@ -244,6 +247,7 @@ namespace test
 
 		void testWriteSpirV( sdw::Shader const & shader
 			, sdw::ShaderType stage
+			, sdw::SpecialisationInfo const & specialisation
 			, bool validateSpirV
 			, test::TestCounts & testCounts )
 		{
@@ -252,10 +256,28 @@ namespace test
 
 			if ( validateSpirV )
 			{
-				test::validateSpirV( sdw::serializeSpirv( shader, stage )
+				test::validateSpirV( sdw::serialiseSpirv( shader, stage )
 					, stage
 					, testCounts );
 			}
+		}
+
+		std::vector< uint8_t > getSpecData( sdw::SpecConstantInfo const & info )
+		{
+			return std::vector< uint8_t >( getSize( info.type, ast::type::MemoryLayout::eStd430 ), 0 );
+		}
+
+		sdw::SpecialisationInfo getSpecialisationInfo( sdw::Shader const & shader )
+		{
+			auto & specInfo = shader.getSpecConstants();
+			sdw::SpecialisationInfo result;
+
+			for ( auto & info : specInfo )
+			{
+				result.data.push_back( { info.second, getSpecData( info.second ) } );
+			}
+
+			return result;
 		}
 	}
 
@@ -265,9 +287,10 @@ namespace test
 		, bool validateHlsl
 		, bool validateGlsl )
 	{
-		checkNoThrow( testWriteDebug( writer.getShader(), writer.getShaderType(), testCounts ) );
-		checkNoThrow( testWriteSpirV( writer.getShader(), writer.getShaderType(), validateSpirV, testCounts ) );
-		checkNoThrow( testWriteGlsl( writer.getShader(), writer.getShaderType(), validateGlsl, testCounts ) );
-		checkNoThrow( testWriteHlsl( writer.getShader(), writer.getShaderType(), validateHlsl, testCounts ) );
+		auto specialisation = getSpecialisationInfo( writer.getShader() );
+		//checkNoThrow( testWriteDebug( writer.getShader(), writer.getShaderType(), specialisation, testCounts ) );
+		//checkNoThrow( testWriteSpirV( writer.getShader(), writer.getShaderType(), specialisation, validateSpirV, testCounts ) );
+		checkNoThrow( testWriteGlsl( writer.getShader(), writer.getShaderType(), specialisation, validateGlsl, testCounts ) );
+		//checkNoThrow( testWriteHlsl( writer.getShader(), writer.getShaderType(), specialisation, validateHlsl, testCounts ) );
 	}
 }

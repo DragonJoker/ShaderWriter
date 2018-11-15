@@ -13,7 +13,7 @@ def printHeader( outs, match ):
 	outs.write( "{" )
 	return enumName
 
-def computeName( name ):
+def computeIntrinsicName( name ):
 	result = name
 	intrName6 = re.compile( "([\w]*), ([\w]*), ([\w]*), ([\w]*), ([\w]*), ([\w]*), ([\w]*)" )
 	intrName5 = re.compile( "([\w]*), ([\w]*), ([\w]*), ([\w]*), ([\w]*), ([\w]*)" )
@@ -102,33 +102,37 @@ def computeArgs( args ):
 			index += 3
 	return result
 
-def getTextureName( texType, name ):
-	result = texType
+def getPostfix( functionGroup ):
 	intrName6 = re.compile( "([\w]*), ([\w]*), ([\w]*), ([\w]*), ([\w]*), ([\w]*), ([\w]*)" )
 	intrName5 = re.compile( "([\w]*), ([\w]*), ([\w]*), ([\w]*), ([\w]*), ([\w]*)" )
 	intrName4 = re.compile( "([\w]*), ([\w]*), ([\w]*), ([\w]*), ([\w]*)" )
 	intrName3 = re.compile( "([\w]*), ([\w]*), ([\w]*), ([\w]*)" )
 	intrName2 = re.compile( "([\w]*), ([\w]*), ([\w]*)" )
 	intrName1 = re.compile( "([\w]*), ([\w]*)" )
-	resName6 = intrName6.match( name )
-	resName5 = intrName5.match( name )
-	resName4 = intrName4.match( name )
-	resName3 = intrName3.match( name )
-	resName2 = intrName2.match( name )
-	resName1 = intrName1.match( name )
-	postfix = ""
+	resName6 = intrName6.match( functionGroup )
+	resName5 = intrName5.match( functionGroup )
+	resName4 = intrName4.match( functionGroup )
+	resName3 = intrName3.match( functionGroup )
+	resName2 = intrName2.match( functionGroup )
+	resName1 = intrName1.match( functionGroup )
+	result = ""
 	if resName6:
-		postfix += resName6.group( 3 )
+		result += resName6.group( 3 )
 	elif resName5:
-		postfix += resName5.group( 3 )
+		result += resName5.group( 3 )
 	elif resName4:
-		postfix += resName4.group( 3 )
+		result += resName4.group( 3 )
 	elif resName3:
-		postfix += resName3.group( 3 )
+		result += resName3.group( 3 )
 	elif resName2:
-		postfix += resName2.group( 3 )
+		result += resName2.group( 3 )
 	elif resName1:
-		postfix += resName1.group( 3 )
+		result += resName1.group( 3 )
+	return result
+
+def getTextureName( texType, name ):
+	result = texType
+	postfix = getPostfix( name )
 	intrNameF = re.compile( "([^F]*)([F])" )
 	intrNameIU = re.compile( "([^IU]*)([IU])" )
 	resNameF = intrNameF.match( postfix )
@@ -139,16 +143,109 @@ def getTextureName( texType, name ):
 		result = resNameIU.group( 2 ).lower() + texType + resNameIU.group( 1 )
 	return result
 
-def printValue( outs, enumName, match ):
-	outs.write( "\n\t" + enumName + "CallPtr make" + computeName( match.group( 2 ) ) + "(" )
-	if enumName == "TextureAccess":
-		outs.write( " ExprPtr texture" )
-		outs.write( computeParams( match.group( 3 ), "\n\t\t," ) + " )\n" )
-	elif enumName == "ImageAccess":
-		outs.write( " ExprPtr image" )
-		outs.write( computeParams( match.group( 3 ), "\n\t\t," ) + " )\n" )
+def getImageSampledType( postfix ):
+	sampled = postfix[len( postfix ) - 1]
+	result = ""
+	if sampled == "I" or sampled == "U":
+		result = sampled
+	return result
+
+def getDepthType( name ):
+	result = re.sub( "Shadow", "", name )
+	return "Shadow" if result != name else ""
+
+def printTextureFunction( outs, enumName, match ):
+	returnGroup = match.group( 1 )
+	functionGroup = match.group( 2 )
+	paramsGroup = match.group( 3 )
+	postfix = getPostfix( functionGroup )
+	sampled = getImageSampledType( postfix )
+	depth = getDepthType( postfix )
+	retType = returnGroup
+	intrinsicName = computeIntrinsicName( functionGroup )
+	formats = list()
+	if sampled == 'I':
+		if intrinsicName.find( "Atomic" ) != -1:
+			formats.append( ( 'R32', 'type::Kind::eInt' ) )
+		elif intrinsicName.find( "Size" ) != -1 or intrinsicName.find( "Samples" ) != -1 or intrinsicName.find( "Query" ) != -1 or intrinsicName.find( "Gather" ) != -1:
+			formats.append( ( 'Rgba32', retType ) )
+			formats.append( ( 'Rgba16', retType ) )
+			formats.append( ( 'Rgba8', retType ) )
+			formats.append( ( 'Rg32', retType ) )
+			formats.append( ( 'Rg16', retType ) )
+			formats.append( ( 'Rg8', retType ) )
+			formats.append( ( 'R32', retType ) )
+			formats.append( ( 'R16', retType ) )
+			formats.append( ( 'R8', retType ) )
+		else:
+			formats.append( ( 'Rgba32', 'type::Kind::eVec4I' ) )
+			formats.append( ( 'Rgba16', 'type::Kind::eVec4I' ) )
+			formats.append( ( 'Rgba8', 'type::Kind::eVec4I' ) )
+			formats.append( ( 'Rg32', 'type::Kind::eVec2I' ) )
+			formats.append( ( 'Rg16', 'type::Kind::eVec2I' ) )
+			formats.append( ( 'Rg8', 'type::Kind::eVec2I' ) )
+			formats.append( ( 'R32', 'type::Kind::eInt' ) )
+			formats.append( ( 'R16', 'type::Kind::eInt' ) )
+			formats.append( ( 'R8', 'type::Kind::eInt' ) )
+	elif sampled == 'U':
+		if intrinsicName.find( "Atomic" ) != -1:
+			formats.append( ( 'R32', 'type::Kind::eUInt' ) )
+		elif intrinsicName.find( "Size" ) != -1 or intrinsicName.find( "Samples" ) != -1 or intrinsicName.find( "Query" ) != -1 or intrinsicName.find( "Gather" ) != -1:
+			formats.append( ( 'Rgba32', retType ) )
+			formats.append( ( 'Rgba16', retType ) )
+			formats.append( ( 'Rgba8', retType ) )
+			formats.append( ( 'Rg32', retType ) )
+			formats.append( ( 'Rg16', retType ) )
+			formats.append( ( 'Rg8', retType ) )
+			formats.append( ( 'R32', retType ) )
+			formats.append( ( 'R16', retType ) )
+			formats.append( ( 'R8', retType ) )
+		else:
+			formats.append( ( 'Rgba32', 'type::Kind::eVec4U' ) )
+			formats.append( ( 'Rgba16', 'type::Kind::eVec4U' ) )
+			formats.append( ( 'Rgba8', 'type::Kind::eVec4U' ) )
+			formats.append( ( 'Rg32', 'type::Kind::eVec2U' ) )
+			formats.append( ( 'Rg16', 'type::Kind::eVec2U' ) )
+			formats.append( ( 'Rg8', 'type::Kind::eVec2U' ) )
+			formats.append( ( 'R32', 'type::Kind::eUInt' ) )
+			formats.append( ( 'R16', 'type::Kind::eUInt' ) )
+			formats.append( ( 'R8', 'type::Kind::eUInt' ) )
 	else:
-		outs.write( computeParams( match.group( 3 ), "" ) + " )\n" )
+		if depth == "Shadow":
+			if intrinsicName.find( "Size" ) != -1 or intrinsicName.find( "Samples" ) != -1 or intrinsicName.find( "Query" ) != -1 or intrinsicName.find( "Gather" ) != -1:
+				formats.append( ( 'R32', retType ) )
+				formats.append( ( 'R16', retType ) )
+			else:
+				formats.append( ( 'R32', 'type::Kind::eFloat' ) )
+				formats.append( ( 'R16', 'type::Kind::eFloat' ) )
+		elif intrinsicName.find( "Size" ) != -1 or intrinsicName.find( "Samples" ) != -1 or intrinsicName.find( "Query" ) != -1 or intrinsicName.find( "Gather" ) != -1:
+			formats.append( ( 'Rgba32', retType ) )
+			formats.append( ( 'Rgba16', retType ) )
+			formats.append( ( 'Rg32', retType ) )
+			formats.append( ( 'Rg16', retType ) )
+			formats.append( ( 'R32', retType ) )
+			formats.append( ( 'R16', retType ) )
+		else:
+			formats.append( ( 'Rgba32', 'type::Kind::eVec4F' ) )
+			formats.append( ( 'Rgba16', 'type::Kind::eVec4F' ) )
+			formats.append( ( 'Rg32', 'type::Kind::eVec2F' ) )
+			formats.append( ( 'Rg16', 'type::Kind::eVec2F' ) )
+			formats.append( ( 'R32', 'type::Kind::eFloat' ) )
+			formats.append( ( 'R16', 'type::Kind::eFloat' ) )
+	for fmt, ret in formats:
+		outs.write( "\n\t" + enumName + "CallPtr make" + intrinsicName + fmt + "(" )
+		outs.write( " ExprPtr image" )
+		outs.write( computeParams( paramsGroup, "\n\t\t," ) + " )\n" )
+		outs.write( "\t{\n" )
+		outs.write( "\t\treturn make" + enumName + "Call( makeType( " + ret + " )\n" )
+		outs.write( "\t\t\t, " + computeEnum( enumName, functionGroup ) )
+		outs.write( "\n\t\t\t, std::move( image )" )
+		outs.write( computeArgs( paramsGroup ) + " );\n" )
+		outs.write( "\t}\n" )
+
+def printIntrinsic( outs, enumName, match ):
+	outs.write( "\n\t" + enumName + "CallPtr make" + computeIntrinsicName( match.group( 2 ) ) + "(" )
+	outs.write( computeParams( match.group( 3 ), "" ) + " )\n" )
 	outs.write( "\t{\n" )
 	outs.write( "\t\treturn make" + enumName + "Call( makeType( " + match.group( 1 ) + " )\n" )
 	outs.write( "\t\t\t, " + computeEnum( enumName, match.group( 2 ) ) )
@@ -158,6 +255,12 @@ def printValue( outs, enumName, match ):
 		outs.write( "\n\t\t\t, std::move( image )" )
 	outs.write( computeArgs( match.group( 3 ) ) + " );\n" )
 	outs.write( "\t}\n" )
+
+def printFunction( outs, enumName, match ):
+	if enumName == "TextureAccess" or enumName == "ImageAccess":
+		printTextureFunction( outs, enumName, match )
+	else:
+		printIntrinsic( outs, enumName, match )
 
 def printFooter( outs ):
 	outs.write( "}\n" )
@@ -191,7 +294,7 @@ def main( argv ):
 				if resultDecl:
 					enumName = printHeader( outs, resultDecl )
 				elif resultValue:
-					printValue( outs, enumName, resultValue )
+					printFunction( outs, enumName, resultValue )
 				elif resultEnd:
 					printFooter( outs )
 				else:

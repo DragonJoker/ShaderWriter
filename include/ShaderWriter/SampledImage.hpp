@@ -44,8 +44,7 @@ namespace sdw
 		: public Value
 	{
 		SampledImage( Shader * shader
-			, expr::ExprPtr expr
-			, ast::type::ImageFormat format );
+			, expr::ExprPtr expr );
 		template< typename T >
 		inline SampledImage & operator=( T const & rhs );
 		operator uint32_t();
@@ -54,7 +53,7 @@ namespace sdw
 		ast::type::ImageFormat m_format;
 	};
 
-	template< ast::type::Kind SampledT
+	template< ast::type::ImageFormat FormatT
 		, ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool DepthT
@@ -63,13 +62,12 @@ namespace sdw
 		: public SampledImage
 	{
 		inline SampledImageT( Shader * shader
-			, expr::ExprPtr expr
-			, ast::type::ImageFormat format = ast::type::ImageFormat::eUnknown );
+			, expr::ExprPtr expr );
 		template< typename T >
 		inline SampledImageT & operator=( T const & rhs );
 		inline operator uint32_t();
 
-		static inline ast::type::ImageConfiguration makeConfig( ast::type::ImageFormat format = ast::type::ImageFormat::eUnknown );
+		static inline ast::type::ImageConfiguration makeConfig();
 	};
 }
 

@@ -269,24 +269,95 @@ def beginFunctionGroup( outs, functionsName ):
 	outs.write( "\n\t*/" )
 	outs.write( "\n\t/**@{*/" )
 
-def computeImageFullType( imageType, functionGroup ):
-	postfix = getPostfix( functionGroup )
-	sampled = getImageSampledType( postfix )
+def computeImageFullType( imageType, postfix, sampled, depth ):
 	dim = getImageDim( postfix )
 	array = getArrayType( postfix )
 	ms = getMSType( postfix )
-	depth = getDepthType( postfix )
 	return sampled + imageType + dim + ms + array + depth
 
 def printImageFunction( outs, returnGroup, functionGroup, paramsGroup, imageType ):
+	postfix = getPostfix( functionGroup )
+	sampled = getImageSampledType( postfix )
+	depth = getDepthType( postfix )
 	retType = typeKindToSdwType( returnGroup )
-	# Write function name and return
-	outs.write( "\n\t" + retType + " " + computeIntrinsicName( functionGroup ) + "(" )
-	# Write parameters
-	#	Image parameter
-	outs.write( " " + computeImageFullType( imageType, functionGroup ) + " const & image" )
-	#	Remaining function parameters
-	outs.write( computeParams( paramsGroup, "," ) + " );" )
+	intrinsicName = computeIntrinsicName( functionGroup )
+	formats = list()
+	if sampled == 'I':
+		if intrinsicName.find( "Atomic" ) != -1:
+			formats.append( ( 'R32', 'Int' ) )
+		elif intrinsicName.find( "Size" ) != -1 or intrinsicName.find( "Samples" ) != -1 or intrinsicName.find( "Query" ) != -1 or intrinsicName.find( "Gather" ) != -1:
+			formats.append( ( 'Rgba32', retType ) )
+			formats.append( ( 'Rgba16', retType ) )
+			formats.append( ( 'Rgba8', retType ) )
+			formats.append( ( 'Rg32', retType ) )
+			formats.append( ( 'Rg16', retType ) )
+			formats.append( ( 'Rg8', retType ) )
+			formats.append( ( 'R32', retType ) )
+			formats.append( ( 'R16', retType ) )
+			formats.append( ( 'R8', retType ) )
+		else:
+			formats.append( ( 'Rgba32', 'IVec4' ) )
+			formats.append( ( 'Rgba16', 'IVec4' ) )
+			formats.append( ( 'Rgba8', 'IVec4' ) )
+			formats.append( ( 'Rg32', 'IVec2' ) )
+			formats.append( ( 'Rg16', 'IVec2' ) )
+			formats.append( ( 'Rg8', 'IVec2' ) )
+			formats.append( ( 'R32', 'Int' ) )
+			formats.append( ( 'R16', 'Int' ) )
+			formats.append( ( 'R8', 'Int' ) )
+	elif sampled == 'U':
+		if intrinsicName.find( "Atomic" ) != -1:
+			formats.append( ( 'R32', 'UInt' ) )
+		elif intrinsicName.find( "Size" ) != -1 or intrinsicName.find( "Samples" ) != -1 or intrinsicName.find( "Query" ) != -1 or intrinsicName.find( "Gather" ) != -1:
+			formats.append( ( 'Rgba32', retType ) )
+			formats.append( ( 'Rgba16', retType ) )
+			formats.append( ( 'Rgba8', retType ) )
+			formats.append( ( 'Rg32', retType ) )
+			formats.append( ( 'Rg16', retType ) )
+			formats.append( ( 'Rg8', retType ) )
+			formats.append( ( 'R32', retType ) )
+			formats.append( ( 'R16', retType ) )
+			formats.append( ( 'R8', retType ) )
+		else:
+			formats.append( ( 'Rgba32', 'UVec4' ) )
+			formats.append( ( 'Rgba16', 'UVec4' ) )
+			formats.append( ( 'Rgba8', 'UVec4' ) )
+			formats.append( ( 'Rg32', 'UVec2' ) )
+			formats.append( ( 'Rg16', 'UVec2' ) )
+			formats.append( ( 'Rg8', 'UVec2' ) )
+			formats.append( ( 'R32', 'UInt' ) )
+			formats.append( ( 'R16', 'UInt' ) )
+			formats.append( ( 'R8', 'UInt' ) )
+	else:
+		if depth == "Shadow":
+			if intrinsicName.find( "Size" ) != -1 or intrinsicName.find( "Samples" ) != -1 or intrinsicName.find( "Query" ) != -1 or intrinsicName.find( "Gather" ) != -1:
+				formats.append( ( 'R32', retType ) )
+				formats.append( ( 'R16', retType ) )
+			else:
+				formats.append( ( 'R32', 'Float' ) )
+				formats.append( ( 'R16', 'Float' ) )
+		elif intrinsicName.find( "Size" ) != -1 or intrinsicName.find( "Samples" ) != -1 or intrinsicName.find( "Query" ) != -1 or intrinsicName.find( "Gather" ) != -1:
+			formats.append( ( 'Rgba32', retType ) )
+			formats.append( ( 'Rgba16', retType ) )
+			formats.append( ( 'Rg32', retType ) )
+			formats.append( ( 'Rg16', retType ) )
+			formats.append( ( 'R32', retType ) )
+			formats.append( ( 'R16', retType ) )
+		else:
+			formats.append( ( 'Rgba32', 'Vec4' ) )
+			formats.append( ( 'Rgba16', 'Vec4' ) )
+			formats.append( ( 'Rg32', 'Vec2' ) )
+			formats.append( ( 'Rg16', 'Vec2' ) )
+			formats.append( ( 'R32', 'Float' ) )
+			formats.append( ( 'R16', 'Float' ) )
+	for fmt, ret in formats:
+		# Write function name and return
+		outs.write( "\n\t" + ret + " " + intrinsicName + "(" )
+		# Write parameters
+		#	Image parameter
+		outs.write( " " + computeImageFullType( imageType, postfix, sampled, depth ) + fmt + " const & image" )
+		#	Remaining function parameters
+		outs.write( computeParams( paramsGroup, "," ) + " );" )
 
 def printIntrinsicFunction( outs, returnGroup, functionGroup, paramsGroup ):
 	retType = typeKindToSdwType( returnGroup )

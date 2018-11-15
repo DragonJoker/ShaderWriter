@@ -100,7 +100,7 @@ namespace
 	*	textureSize
 	*/
 	/**@{*/
-	template< ast::type::Kind SampledT
+	template< ast::type::ImageFormat FormatT
 		, ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool DepthT
@@ -108,17 +108,17 @@ namespace
 		, typename Enable = void >
 	struct TextureSizeTester
 	{
-		static void test( ast::type::ImageFormat format, test::TestCounts & testCounts )
+		static void test( test::TestCounts & testCounts )
 		{
 		}
 	};
 
-	template< ast::type::Kind SampledT
+	template< ast::type::ImageFormat FormatT
 		, ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool DepthT
 		, bool MsT >
-	struct TextureSizeTester< SampledT, DimT, ArrayedT, DepthT, MsT
+	struct TextureSizeTester< FormatT, DimT, ArrayedT, DepthT, MsT
 		, std::enable_if_t< is1D< DimT, ArrayedT, DepthT >
 			|| is2D< DimT, ArrayedT, DepthT >
 			|| is3D< DimT, ArrayedT, DepthT >
@@ -133,14 +133,14 @@ namespace
 			|| is2DArrayShadow< DimT, ArrayedT, DepthT >
 			|| isCubeArrayShadow< DimT, ArrayedT, DepthT > > >
 	{
-		static void test( ast::type::ImageFormat format, test::TestCounts & testCounts )
+		static void test( test::TestCounts & testCounts )
 		{
-			auto name = "testTextureSizeLod" + sdw::debug::getName( SampledT, DimT, format, ArrayedT, DepthT, MsT );
+			auto name = "testTextureSizeLod" + sdw::debug::getName( FormatT, DimT, ArrayedT, DepthT, MsT );
 			testBegin( name );
 			using namespace sdw;
 			{
 				FragmentWriter writer{ false };
-				auto s = writer.declSampledImage< SampledT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
+				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementFunction< void >( "main"
 					, [&]()
 					{
@@ -154,24 +154,24 @@ namespace
 		};
 	};
 	
-	template< ast::type::Kind SampledT
+	template< ast::type::ImageFormat FormatT
 		, ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool DepthT
 		, bool MsT >
-	struct TextureSizeTester< SampledT, DimT, ArrayedT, DepthT, MsT
+	struct TextureSizeTester< FormatT, DimT, ArrayedT, DepthT, MsT
 		, std::enable_if_t< isBuffer< DimT, ArrayedT, DepthT >
 			|| isRect< DimT, ArrayedT, DepthT >
 			|| isRectShadow< DimT, ArrayedT, DepthT > > >
 	{
-		static void test( ast::type::ImageFormat format, test::TestCounts & testCounts )
+		static void test( test::TestCounts & testCounts )
 		{
-			auto name = "testTextureSize" + sdw::debug::getName( SampledT, DimT, format, ArrayedT, DepthT, MsT );
+			auto name = "testTextureSize" + sdw::debug::getName( FormatT, DimT, ArrayedT, DepthT, MsT );
 			testBegin( name );
 			using namespace sdw;
 			{
 				FragmentWriter writer{ false };
-				auto s = writer.declSampledImage< SampledT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
+				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementFunction< void >( "main"
 					, [&]()
 					{
@@ -192,7 +192,7 @@ namespace
 	*	textureQueryLod
 	*/
 	/**@{*/
-	template< ast::type::Kind SampledT
+	template< ast::type::ImageFormat FormatT
 		, ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool DepthT
@@ -200,17 +200,17 @@ namespace
 		, typename Enable = void >
 	struct TextureQueryLodTester
 	{
-		static void test( ast::type::ImageFormat format, test::TestCounts & testCounts )
+		static void test( test::TestCounts & testCounts )
 		{
 		}
 	};
 	
-	template< ast::type::Kind SampledT
+	template< ast::type::ImageFormat FormatT
 		, ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool DepthT
 		, bool MsT >
-	struct TextureQueryLodTester< SampledT, DimT, ArrayedT, DepthT, MsT
+	struct TextureQueryLodTester< FormatT, DimT, ArrayedT, DepthT, MsT
 		, std::enable_if_t< is1D< DimT, ArrayedT, DepthT >
 			|| is2D< DimT, ArrayedT, DepthT >
 			|| is3D< DimT, ArrayedT, DepthT >
@@ -227,14 +227,14 @@ namespace
 	{
 		using QueryLodT = typename sdw::SampledImageQueryLodT< DimT, ArrayedT >;
 
-		static void test( ast::type::ImageFormat format, test::TestCounts & testCounts )
+		static void test( test::TestCounts & testCounts )
 		{
-			auto name = "testTextureQueryLod" + sdw::debug::getName( SampledT, DimT, format, ArrayedT, DepthT, MsT );
+			auto name = "testTextureQueryLod" + sdw::debug::getName( FormatT, DimT, ArrayedT, DepthT, MsT );
 			testBegin( name );
 			using namespace sdw;
 			{
 				FragmentWriter writer{ false };
-				auto s = writer.declSampledImage< SampledT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
+				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementFunction< void >( "main"
 					, [&]()
 					{
@@ -255,7 +255,7 @@ namespace
 	*	textureQueryLevels
 	*/
 	/**@{*/
-	template< ast::type::Kind SampledT
+	template< ast::type::ImageFormat FormatT
 		, ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool DepthT
@@ -263,17 +263,17 @@ namespace
 		, typename Enable = void >
 	struct TextureQueryLevelsTester
 	{
-		static void test( ast::type::ImageFormat format, test::TestCounts & testCounts )
+		static void test( test::TestCounts & testCounts )
 		{
 		}
 	};
 	
-	template< ast::type::Kind SampledT
+	template< ast::type::ImageFormat FormatT
 		, ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool DepthT
 		, bool MsT >
-	struct TextureQueryLevelsTester< SampledT, DimT, ArrayedT, DepthT, MsT
+	struct TextureQueryLevelsTester< FormatT, DimT, ArrayedT, DepthT, MsT
 		, std::enable_if_t< is1D< DimT, ArrayedT, DepthT >
 			|| is2D< DimT, ArrayedT, DepthT >
 			|| is3D< DimT, ArrayedT, DepthT >
@@ -288,14 +288,14 @@ namespace
 			|| is2DArrayShadow< DimT, ArrayedT, DepthT >
 			|| isCubeArrayShadow< DimT, ArrayedT, DepthT > > >
 	{
-		static void test( ast::type::ImageFormat format, test::TestCounts & testCounts )
+		static void test( test::TestCounts & testCounts )
 		{
-			auto name = "testTextureQueryLevels" + sdw::debug::getName( SampledT, DimT, format, ArrayedT, DepthT, MsT );
+			auto name = "testTextureQueryLevels" + sdw::debug::getName( FormatT, DimT, ArrayedT, DepthT, MsT );
 			testBegin( name );
 			using namespace sdw;
 			{
 				FragmentWriter writer{ false };
-				auto s = writer.declSampledImage< SampledT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
+				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementFunction< void >( "main"
 					, [&]()
 					{
@@ -316,7 +316,7 @@ namespace
 	*	texture
 	*/
 	/**@{*/
-	template< ast::type::Kind SampledT
+	template< ast::type::ImageFormat FormatT
 		, ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool DepthT
@@ -324,17 +324,17 @@ namespace
 		, typename Enable = void >
 	struct TextureTester
 	{
-		static void test( ast::type::ImageFormat format, test::TestCounts & testCounts )
+		static void test( test::TestCounts & testCounts )
 		{
 		}
 	};
 	
-	template< ast::type::Kind SampledT
+	template< ast::type::ImageFormat FormatT
 		, ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool DepthT
 		, bool MsT >
-	struct TextureTester< SampledT, DimT, ArrayedT, DepthT, MsT
+	struct TextureTester< FormatT, DimT, ArrayedT, DepthT, MsT
 		, std::enable_if_t< is1D< DimT, ArrayedT, DepthT >
 			|| is2D< DimT, ArrayedT, DepthT >
 			|| is3D< DimT, ArrayedT, DepthT >
@@ -346,14 +346,14 @@ namespace
 	{
 		using SampleT = typename sdw::SampledImageSampleT< DimT, ArrayedT >;
 
-		static void test( ast::type::ImageFormat format, test::TestCounts & testCounts )
+		static void test( test::TestCounts & testCounts )
 		{
-			auto name = "testTexture" + sdw::debug::getName( SampledT, DimT, format, ArrayedT, DepthT, MsT );
+			auto name = "testTexture" + sdw::debug::getName( FormatT, DimT, ArrayedT, DepthT, MsT );
 			testBegin( name );
 			using namespace sdw;
 			{
 				FragmentWriter writer{ false };
-				auto s = writer.declSampledImage< SampledT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
+				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementFunction< void >( "main"
 					, [&]()
 					{
@@ -368,12 +368,12 @@ namespace
 		}
 	};
 
-	template< ast::type::Kind SampledT
+	template< ast::type::ImageFormat FormatT
 		, ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool DepthT
 		, bool MsT >
-	struct TextureTester< SampledT, DimT, ArrayedT, DepthT, MsT
+	struct TextureTester< FormatT, DimT, ArrayedT, DepthT, MsT
 		, std::enable_if_t< is1DShadow< DimT, ArrayedT, DepthT >
 			|| is2DShadow< DimT, ArrayedT, DepthT >
 			|| isCubeShadow< DimT, ArrayedT, DepthT >
@@ -384,14 +384,14 @@ namespace
 	{
 		using SampleT = typename sdw::SampledImageSampleT< DimT, ArrayedT >;
 
-		static void test( ast::type::ImageFormat format, test::TestCounts & testCounts )
+		static void test( test::TestCounts & testCounts )
 		{
-			auto name = "testTextureShadow" + sdw::debug::getName( SampledT, DimT, format, ArrayedT, DepthT, MsT );
+			auto name = "testTextureShadow" + sdw::debug::getName( FormatT, DimT, ArrayedT, DepthT, MsT );
 			testBegin( name );
 			using namespace sdw;
 			{
 				FragmentWriter writer{ false };
-				auto s = writer.declSampledImage< SampledT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
+				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementFunction< void >( "main"
 					, [&]()
 					{
@@ -414,7 +414,7 @@ namespace
 	*	textureBias
 	*/
 	/**@{*/
-	template< ast::type::Kind SampledT
+	template< ast::type::ImageFormat FormatT
 		, ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool DepthT
@@ -422,17 +422,17 @@ namespace
 		, typename Enable = void >
 	struct TextureBiasTester
 	{
-		static void test( ast::type::ImageFormat format, test::TestCounts & testCounts )
+		static void test( test::TestCounts & testCounts )
 		{
 		}
 	};
 
-	template< ast::type::Kind SampledT
+	template< ast::type::ImageFormat FormatT
 		, ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool DepthT
 		, bool MsT >
-	struct TextureBiasTester< SampledT, DimT, ArrayedT, DepthT, MsT
+	struct TextureBiasTester< FormatT, DimT, ArrayedT, DepthT, MsT
 		, std::enable_if_t< is1D< DimT, ArrayedT, DepthT >
 			|| is2D< DimT, ArrayedT, DepthT >
 			|| is3D< DimT, ArrayedT, DepthT >
@@ -443,14 +443,14 @@ namespace
 	{
 		using SampleT = typename sdw::SampledImageSampleT< DimT, ArrayedT >;
 
-		static void test( ast::type::ImageFormat format, test::TestCounts & testCounts )
+		static void test( test::TestCounts & testCounts )
 		{
-			auto name = "testTextureBias" + sdw::debug::getName( SampledT, DimT, format, ArrayedT, DepthT, MsT );
+			auto name = "testTextureBias" + sdw::debug::getName( FormatT, DimT, ArrayedT, DepthT, MsT );
 			testBegin( name );
 			using namespace sdw;
 			{
 				FragmentWriter writer{ false };
-				auto s = writer.declSampledImage< SampledT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
+				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementFunction< void >( "main"
 					, [&]()
 					{
@@ -466,12 +466,12 @@ namespace
 		}
 	};
 
-	template< ast::type::Kind SampledT
+	template< ast::type::ImageFormat FormatT
 		, ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool DepthT
 		, bool MsT >
-	struct TextureBiasTester< SampledT, DimT, ArrayedT, DepthT, MsT
+	struct TextureBiasTester< FormatT, DimT, ArrayedT, DepthT, MsT
 		, std::enable_if_t< is1DShadow< DimT, ArrayedT, DepthT >
 			|| is2DShadow< DimT, ArrayedT, DepthT >
 			|| isCubeShadow< DimT, ArrayedT, DepthT >
@@ -480,14 +480,14 @@ namespace
 	{
 		using SampleT = typename sdw::SampledImageSampleT< DimT, ArrayedT >;
 
-		static void test( ast::type::ImageFormat format, test::TestCounts & testCounts )
+		static void test( test::TestCounts & testCounts )
 		{
-			auto name = "testTextureShadowBias" + sdw::debug::getName( SampledT, DimT, format, ArrayedT, DepthT, MsT );
+			auto name = "testTextureShadowBias" + sdw::debug::getName( FormatT, DimT, ArrayedT, DepthT, MsT );
 			testBegin( name );
 			using namespace sdw;
 			{
 				FragmentWriter writer{ false };
-				auto s = writer.declSampledImage< SampledT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
+				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementFunction< void >( "main"
 					, [&]()
 					{
@@ -511,7 +511,7 @@ namespace
 	*	textureProj
 	*/
 	/**@{*/
-	template< ast::type::Kind SampledT
+	template< ast::type::ImageFormat FormatT
 		, ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool DepthT
@@ -519,17 +519,17 @@ namespace
 		, typename Enable = void >
 	struct TextureProjTester
 	{
-		static void test( ast::type::ImageFormat format, test::TestCounts & testCounts )
+		static void test( test::TestCounts & testCounts )
 		{
 		}
 	};
 
-	template< ast::type::Kind SampledT
+	template< ast::type::ImageFormat FormatT
 		, ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool DepthT
 		, bool MsT >
-	struct TextureProjTester< SampledT, DimT, ArrayedT, DepthT, MsT
+	struct TextureProjTester< FormatT, DimT, ArrayedT, DepthT, MsT
 		, std::enable_if_t< is1D< DimT, ArrayedT, DepthT >
 			|| is2D< DimT, ArrayedT, DepthT >
 			|| is3D< DimT, ArrayedT, DepthT >
@@ -537,14 +537,14 @@ namespace
 	{
 		using SampleProjT = typename sdw::SampledImageSampleProjT< DimT, ArrayedT >;
 
-		static void test( ast::type::ImageFormat format, test::TestCounts & testCounts )
+		static void test( test::TestCounts & testCounts )
 		{
-			auto name = "testTextureProj" + sdw::debug::getName( SampledT, DimT, format, ArrayedT, DepthT, MsT );
+			auto name = "testTextureProj" + sdw::debug::getName( FormatT, DimT, ArrayedT, DepthT, MsT );
 			testBegin( name );
 			using namespace sdw;
 			{
 				FragmentWriter writer{ false };
-				auto s = writer.declSampledImage< SampledT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
+				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementFunction< void >( "main"
 					, [&]()
 					{
@@ -559,26 +559,26 @@ namespace
 		}
 	};
 
-	template< ast::type::Kind SampledT
+	template< ast::type::ImageFormat FormatT
 		, ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool DepthT
 		, bool MsT >
-	struct TextureProjTester< SampledT, DimT, ArrayedT, DepthT, MsT
+	struct TextureProjTester< FormatT, DimT, ArrayedT, DepthT, MsT
 		, std::enable_if_t< is1DShadow< DimT, ArrayedT, DepthT >
 			|| is2DShadow< DimT, ArrayedT, DepthT >
 			|| isRectShadow< DimT, ArrayedT, DepthT > > >
 	{
 		using SampleProjT = typename sdw::SampledImageSampleProjT< DimT, ArrayedT >;
 
-		static void test( ast::type::ImageFormat format, test::TestCounts & testCounts )
+		static void test( test::TestCounts & testCounts )
 		{
-			auto name = "testTextureProjShadow" + sdw::debug::getName( SampledT, DimT, format, ArrayedT, DepthT, MsT );
+			auto name = "testTextureProjShadow" + sdw::debug::getName( FormatT, DimT, ArrayedT, DepthT, MsT );
 			testBegin( name );
 			using namespace sdw;
 			{
 				FragmentWriter writer{ false };
-				auto s = writer.declSampledImage< SampledT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
+				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementFunction< void >( "main"
 					, [&]()
 					{
@@ -601,7 +601,7 @@ namespace
 	*	textureProjBias
 	*/
 	/**@{*/
-	template< ast::type::Kind SampledT
+	template< ast::type::ImageFormat FormatT
 		, ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool DepthT
@@ -609,31 +609,31 @@ namespace
 		, typename Enable = void >
 	struct TextureProjBiasTester
 	{
-		static void test( ast::type::ImageFormat format, test::TestCounts & testCounts )
+		static void test( test::TestCounts & testCounts )
 		{
 		}
 	};
 
-	template< ast::type::Kind SampledT
+	template< ast::type::ImageFormat FormatT
 		, ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool DepthT
 		, bool MsT >
-	struct TextureProjBiasTester< SampledT, DimT, ArrayedT, DepthT, MsT
+	struct TextureProjBiasTester< FormatT, DimT, ArrayedT, DepthT, MsT
 		, std::enable_if_t< is1D< DimT, ArrayedT, DepthT >
 			|| is2D< DimT, ArrayedT, DepthT >
 			|| is3D< DimT, ArrayedT, DepthT > > >
 	{
 		using SampleProjT = typename sdw::SampledImageSampleProjT< DimT, ArrayedT >;
 
-		static void test( ast::type::ImageFormat format, test::TestCounts & testCounts )
+		static void test( test::TestCounts & testCounts )
 		{
-			auto name = "testTextureProjBias" + sdw::debug::getName( SampledT, DimT, format, ArrayedT, DepthT, MsT );
+			auto name = "testTextureProjBias" + sdw::debug::getName( FormatT, DimT, ArrayedT, DepthT, MsT );
 			testBegin( name );
 			using namespace sdw;
 			{
 				FragmentWriter writer{ false };
-				auto s = writer.declSampledImage< SampledT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
+				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementFunction< void >( "main"
 					, [&]()
 					{
@@ -649,25 +649,25 @@ namespace
 		}
 	};
 
-	template< ast::type::Kind SampledT
+	template< ast::type::ImageFormat FormatT
 		, ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool DepthT
 		, bool MsT >
-	struct TextureProjBiasTester< SampledT, DimT, ArrayedT, DepthT, MsT
+	struct TextureProjBiasTester< FormatT, DimT, ArrayedT, DepthT, MsT
 		, std::enable_if_t< is1DShadow< DimT, ArrayedT, DepthT >
 			|| is2DShadow< DimT, ArrayedT, DepthT > > >
 	{
 		using SampleProjT = typename sdw::SampledImageSampleProjT< DimT, ArrayedT >;
 
-		static void test( ast::type::ImageFormat format, test::TestCounts & testCounts )
+		static void test( test::TestCounts & testCounts )
 		{
-			auto name = "testTextureProjShadowBias" + sdw::debug::getName( SampledT, DimT, format, ArrayedT, DepthT, MsT );
+			auto name = "testTextureProjShadowBias" + sdw::debug::getName( FormatT, DimT, ArrayedT, DepthT, MsT );
 			testBegin( name );
 			using namespace sdw;
 			{
 				FragmentWriter writer{ false };
-				auto s = writer.declSampledImage< SampledT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
+				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementFunction< void >( "main"
 					, [&]()
 					{
@@ -691,7 +691,7 @@ namespace
 	*	textureLod
 	*/
 	/**@{*/
-	template< ast::type::Kind SampledT
+	template< ast::type::ImageFormat FormatT
 		, ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool DepthT
@@ -699,17 +699,17 @@ namespace
 		, typename Enable = void >
 	struct TextureLodTester
 	{
-		static void test( ast::type::ImageFormat format, test::TestCounts & testCounts )
+		static void test( test::TestCounts & testCounts )
 		{
 		}
 	};
 
-	template< ast::type::Kind SampledT
+	template< ast::type::ImageFormat FormatT
 		, ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool DepthT
 		, bool MsT >
-	struct TextureLodTester< SampledT, DimT, ArrayedT, DepthT, MsT
+	struct TextureLodTester< FormatT, DimT, ArrayedT, DepthT, MsT
 		, std::enable_if_t< is1D< DimT, ArrayedT, DepthT >
 			|| is2D< DimT, ArrayedT, DepthT >
 			|| is3D< DimT, ArrayedT, DepthT >
@@ -720,14 +720,14 @@ namespace
 	{
 		using SampleT = typename sdw::SampledImageSampleT< DimT, ArrayedT >;
 
-		static void test( ast::type::ImageFormat format, test::TestCounts & testCounts )
+		static void test( test::TestCounts & testCounts )
 		{
-			auto name = "testTextureLod" + sdw::debug::getName( SampledT, DimT, format, ArrayedT, DepthT, MsT );
+			auto name = "testTextureLod" + sdw::debug::getName( FormatT, DimT, ArrayedT, DepthT, MsT );
 			testBegin( name );
 			using namespace sdw;
 			{
 				FragmentWriter writer{ false };
-				auto s = writer.declSampledImage< SampledT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
+				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementFunction< void >( "main"
 					, [&]()
 					{
@@ -743,26 +743,26 @@ namespace
 		}
 	};
 
-	template< ast::type::Kind SampledT
+	template< ast::type::ImageFormat FormatT
 		, ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool DepthT
 		, bool MsT >
-	struct TextureLodTester< SampledT, DimT, ArrayedT, DepthT, MsT
+	struct TextureLodTester< FormatT, DimT, ArrayedT, DepthT, MsT
 		, std::enable_if_t< is1DShadow< DimT, ArrayedT, DepthT >
 			|| is2DShadow< DimT, ArrayedT, DepthT >
 			|| is1DArrayShadow< DimT, ArrayedT, DepthT > > >
 	{
 		using SampleT = typename sdw::SampledImageSampleT< DimT, ArrayedT >;
 
-		static void test( ast::type::ImageFormat format, test::TestCounts & testCounts )
+		static void test( test::TestCounts & testCounts )
 		{
-			auto name = "testTextureLodShadow" + sdw::debug::getName( SampledT, DimT, format, ArrayedT, DepthT, MsT );
+			auto name = "testTextureLodShadow" + sdw::debug::getName( FormatT, DimT, ArrayedT, DepthT, MsT );
 			testBegin( name );
 			using namespace sdw;
 			{
 				FragmentWriter writer{ false };
-				auto s = writer.declSampledImage< SampledT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
+				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementFunction< void >( "main"
 					, [&]()
 					{
@@ -786,7 +786,7 @@ namespace
 	*	textureOffset
 	*/
 	/**@{*/
-	template< ast::type::Kind SampledT
+	template< ast::type::ImageFormat FormatT
 		, ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool DepthT
@@ -794,17 +794,17 @@ namespace
 		, typename Enable = void >
 	struct TextureOffsetTester
 	{
-		static void test( ast::type::ImageFormat format, test::TestCounts & testCounts )
+		static void test( test::TestCounts & testCounts )
 		{
 		}
 	};
 	
-	template< ast::type::Kind SampledT
+	template< ast::type::ImageFormat FormatT
 		, ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool DepthT
 		, bool MsT >
-	struct TextureOffsetTester < SampledT, DimT, ArrayedT, DepthT, MsT
+	struct TextureOffsetTester < FormatT, DimT, ArrayedT, DepthT, MsT
 		, std::enable_if_t< is1D< DimT, ArrayedT, DepthT >
 			|| is2D< DimT, ArrayedT, DepthT >
 			|| is3D< DimT, ArrayedT, DepthT >
@@ -815,14 +815,14 @@ namespace
 		using SampleT = typename sdw::SampledImageSampleT< DimT, ArrayedT >;
 		using OffsetT = typename sdw::SampledImageOffsetT< DimT, ArrayedT >;
 
-		static void test( ast::type::ImageFormat format, test::TestCounts & testCounts )
+		static void test( test::TestCounts & testCounts )
 		{
-			auto name = "testTextureOffset" + sdw::debug::getName( SampledT, DimT, format, ArrayedT, DepthT, MsT );
+			auto name = "testTextureOffset" + sdw::debug::getName( FormatT, DimT, ArrayedT, DepthT, MsT );
 			testBegin( name );
 			using namespace sdw;
 			{
 				FragmentWriter writer{ false };
-				auto s = writer.declSampledImage< SampledT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
+				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementFunction< void >( "main"
 					, [&]()
 					{
@@ -838,12 +838,12 @@ namespace
 		}
 	};
 
-	template< ast::type::Kind SampledT
+	template< ast::type::ImageFormat FormatT
 		, ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool DepthT
 		, bool MsT >
-	struct TextureOffsetTester < SampledT, DimT, ArrayedT, DepthT, MsT
+	struct TextureOffsetTester < FormatT, DimT, ArrayedT, DepthT, MsT
 		, std::enable_if_t< is1DShadow< DimT, ArrayedT, DepthT >
 			|| is2DShadow< DimT, ArrayedT, DepthT >
 			|| isRectShadow< DimT, ArrayedT, DepthT >
@@ -853,14 +853,14 @@ namespace
 		using SampleT = typename sdw::SampledImageSampleT< DimT, ArrayedT >;
 		using OffsetT = typename sdw::SampledImageOffsetT< DimT, ArrayedT >;
 
-		static void test( ast::type::ImageFormat format, test::TestCounts & testCounts )
+		static void test( test::TestCounts & testCounts )
 		{
-			auto name = "testTextureOffsetShadow" + sdw::debug::getName( SampledT, DimT, format, ArrayedT, DepthT, MsT );
+			auto name = "testTextureOffsetShadow" + sdw::debug::getName( FormatT, DimT, ArrayedT, DepthT, MsT );
 			testBegin( name );
 			using namespace sdw;
 			{
 				FragmentWriter writer{ false };
-				auto s = writer.declSampledImage< SampledT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
+				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementFunction< void >( "main"
 					, [&]()
 					{
@@ -884,7 +884,7 @@ namespace
 	*	textureOffset
 	*/
 	/**@{*/
-	template< ast::type::Kind SampledT
+	template< ast::type::ImageFormat FormatT
 		, ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool DepthT
@@ -892,17 +892,17 @@ namespace
 		, typename Enable = void >
 	struct TextureOffsetBiasTester
 	{
-		static void test( ast::type::ImageFormat format, test::TestCounts & testCounts )
+		static void test( test::TestCounts & testCounts )
 		{
 		}
 	};
 	
-	template< ast::type::Kind SampledT
+	template< ast::type::ImageFormat FormatT
 		, ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool DepthT
 		, bool MsT >
-	struct TextureOffsetBiasTester < SampledT, DimT, ArrayedT, DepthT, MsT
+	struct TextureOffsetBiasTester < FormatT, DimT, ArrayedT, DepthT, MsT
 		, std::enable_if_t< is1D< DimT, ArrayedT, DepthT >
 			|| is2D< DimT, ArrayedT, DepthT >
 			|| is3D< DimT, ArrayedT, DepthT >
@@ -912,14 +912,14 @@ namespace
 		using SampleT = typename sdw::SampledImageSampleT< DimT, ArrayedT >;
 		using OffsetT = typename sdw::SampledImageOffsetT< DimT, ArrayedT >;
 
-		static void test( ast::type::ImageFormat format, test::TestCounts & testCounts )
+		static void test( test::TestCounts & testCounts )
 		{
-			auto name = "testTextureOffsetBias" + sdw::debug::getName( SampledT, DimT, format, ArrayedT, DepthT, MsT );
+			auto name = "testTextureOffsetBias" + sdw::debug::getName( FormatT, DimT, ArrayedT, DepthT, MsT );
 			testBegin( name );
 			using namespace sdw;
 			{
 				FragmentWriter writer{ false };
-				auto s = writer.declSampledImage< SampledT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
+				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementFunction< void >( "main"
 					, [&]()
 					{
@@ -936,26 +936,26 @@ namespace
 		}
 	};
 
-	template< ast::type::Kind SampledT
+	template< ast::type::ImageFormat FormatT
 		, ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool DepthT
 		, bool MsT >
-	struct TextureOffsetBiasTester < SampledT, DimT, ArrayedT, DepthT, MsT
+	struct TextureOffsetBiasTester < FormatT, DimT, ArrayedT, DepthT, MsT
 		, std::enable_if_t< is1DShadow< DimT, ArrayedT, DepthT >
 			|| is2DShadow< DimT, ArrayedT, DepthT > > >
 	{
 		using SampleT = typename sdw::SampledImageSampleT< DimT, ArrayedT >;
 		using OffsetT = typename sdw::SampledImageOffsetT< DimT, ArrayedT >;
 
-		static void test( ast::type::ImageFormat format, test::TestCounts & testCounts )
+		static void test( test::TestCounts & testCounts )
 		{
-			auto name = "testTextureOffsetShadowBias" + sdw::debug::getName( SampledT, DimT, format, ArrayedT, DepthT, MsT );
+			auto name = "testTextureOffsetShadowBias" + sdw::debug::getName( FormatT, DimT, ArrayedT, DepthT, MsT );
 			testBegin( name );
 			using namespace sdw;
 			{
 				FragmentWriter writer{ false };
-				auto s = writer.declSampledImage< SampledT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
+				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementFunction< void >( "main"
 					, [&]()
 					{
@@ -980,7 +980,7 @@ namespace
 	*	texelFetch
 	*/
 	/**@{*/
-	template< ast::type::Kind SampledT
+	template< ast::type::ImageFormat FormatT
 		, ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool DepthT
@@ -988,17 +988,17 @@ namespace
 		, typename Enable = void >
 	struct TexelFetchTester
 	{
-		static void test( ast::type::ImageFormat format, test::TestCounts & testCounts )
+		static void test( test::TestCounts & testCounts )
 		{
 		}
 	};
 
-	template< ast::type::Kind SampledT
+	template< ast::type::ImageFormat FormatT
 		, ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool DepthT
 		, bool MsT >
-	struct TexelFetchTester < SampledT, DimT, ArrayedT, DepthT, MsT
+	struct TexelFetchTester < FormatT, DimT, ArrayedT, DepthT, MsT
 		, std::enable_if_t< is1D< DimT, ArrayedT, DepthT >
 			|| is2D< DimT, ArrayedT, DepthT >
 			|| is3D< DimT, ArrayedT, DepthT >
@@ -1007,14 +1007,14 @@ namespace
 	{
 		using FetchT = typename sdw::SampledImageFetchT< DimT, ArrayedT >;
 
-		static void test( ast::type::ImageFormat format, test::TestCounts & testCounts )
+		static void test( test::TestCounts & testCounts )
 		{
-			auto name = "testTexelFetchLod" + sdw::debug::getName( SampledT, DimT, format, ArrayedT, DepthT, MsT );
+			auto name = "testTexelFetchLod" + sdw::debug::getName( FormatT, DimT, ArrayedT, DepthT, MsT );
 			testBegin( name );
 			using namespace sdw;
 			{
 				FragmentWriter writer{ false };
-				auto s = writer.declSampledImage< SampledT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
+				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementFunction< void >( "main"
 					, [&]()
 					{
@@ -1030,25 +1030,25 @@ namespace
 		}
 	};
 
-	template< ast::type::Kind SampledT
+	template< ast::type::ImageFormat FormatT
 		, ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool DepthT
 		, bool MsT >
-	struct TexelFetchTester < SampledT, DimT, ArrayedT, DepthT, MsT
+	struct TexelFetchTester < FormatT, DimT, ArrayedT, DepthT, MsT
 		, std::enable_if_t< isRect< DimT, ArrayedT, DepthT >
 			|| isBuffer< DimT, ArrayedT, DepthT > > >
 	{
 		using FetchT = typename sdw::SampledImageFetchT< DimT, ArrayedT >;
 
-		static void test( ast::type::ImageFormat format, test::TestCounts & testCounts )
+		static void test( test::TestCounts & testCounts )
 		{
-			auto name = "testTexelFetch" + sdw::debug::getName( SampledT, DimT, format, ArrayedT, DepthT, MsT );
+			auto name = "testTexelFetch" + sdw::debug::getName( FormatT, DimT, ArrayedT, DepthT, MsT );
 			testBegin( name );
 			using namespace sdw;
 			{
 				FragmentWriter writer{ false };
-				auto s = writer.declSampledImage< SampledT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
+				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementFunction< void >( "main"
 					, [&]()
 					{
@@ -1070,7 +1070,7 @@ namespace
 	*	texelFetchOffset
 	*/
 	/**@{*/
-	template< ast::type::Kind SampledT
+	template< ast::type::ImageFormat FormatT
 		, ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool DepthT
@@ -1078,17 +1078,17 @@ namespace
 		, typename Enable = void >
 	struct TexelFetchOffsetTester
 	{
-		static void test( ast::type::ImageFormat format, test::TestCounts & testCounts )
+		static void test( test::TestCounts & testCounts )
 		{
 		}
 	};
 
-	template< ast::type::Kind SampledT
+	template< ast::type::ImageFormat FormatT
 		, ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool DepthT
 		, bool MsT >
-	struct TexelFetchOffsetTester< SampledT, DimT, ArrayedT, DepthT, MsT
+	struct TexelFetchOffsetTester< FormatT, DimT, ArrayedT, DepthT, MsT
 		, std::enable_if_t< is1D< DimT, ArrayedT, DepthT >
 			|| is2D< DimT, ArrayedT, DepthT >
 			|| is3D< DimT, ArrayedT, DepthT >
@@ -1097,14 +1097,14 @@ namespace
 	{
 		using FetchT = typename sdw::SampledImageFetchT< DimT, ArrayedT >;
 
-		static void test( ast::type::ImageFormat format, test::TestCounts & testCounts )
+		static void test( test::TestCounts & testCounts )
 		{
-			auto name = "testTexelFetchOffsetLod" + sdw::debug::getName( SampledT, DimT, format, ArrayedT, DepthT, MsT );
+			auto name = "testTexelFetchOffsetLod" + sdw::debug::getName( FormatT, DimT, ArrayedT, DepthT, MsT );
 			testBegin( name );
 			using namespace sdw;
 			{
 				FragmentWriter writer{ false };
-				auto s = writer.declSampledImage< SampledT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
+				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementFunction< void >( "main"
 					, [&]()
 					{
@@ -1121,24 +1121,24 @@ namespace
 		}
 	};
 
-	template< ast::type::Kind SampledT
+	template< ast::type::ImageFormat FormatT
 		, ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool DepthT
 		, bool MsT >
-	struct TexelFetchOffsetTester< SampledT, DimT, ArrayedT, DepthT, MsT
+	struct TexelFetchOffsetTester< FormatT, DimT, ArrayedT, DepthT, MsT
 		, std::enable_if_t< isRect< DimT, ArrayedT, DepthT > > >
 	{
 		using FetchT = typename sdw::SampledImageFetchT< DimT, ArrayedT >;
 
-		static void test( ast::type::ImageFormat format, test::TestCounts & testCounts )
+		static void test( test::TestCounts & testCounts )
 		{
-			auto name = "testTexelFetchOffset" + sdw::debug::getName( SampledT, DimT, format, ArrayedT, DepthT, MsT );
+			auto name = "testTexelFetchOffset" + sdw::debug::getName( FormatT, DimT, ArrayedT, DepthT, MsT );
 			testBegin( name );
 			using namespace sdw;
 			{
 				FragmentWriter writer{ false };
-				auto s = writer.declSampledImage< SampledT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
+				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementFunction< void >( "main"
 					, [&]()
 					{
@@ -1161,7 +1161,7 @@ namespace
 	*	textureProjOffset
 	*/
 	/**@{*/
-	template< ast::type::Kind SampledT
+	template< ast::type::ImageFormat FormatT
 		, ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool DepthT
@@ -1169,17 +1169,17 @@ namespace
 		, typename Enable = void >
 	struct TextureProjOffsetTester
 	{
-		static void test( ast::type::ImageFormat format, test::TestCounts & testCounts )
+		static void test( test::TestCounts & testCounts )
 		{
 		}
 	};
 
-	template< ast::type::Kind SampledT
+	template< ast::type::ImageFormat FormatT
 		, ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool DepthT
 		, bool MsT >
-	struct TextureProjOffsetTester< SampledT, DimT, ArrayedT, DepthT, MsT
+	struct TextureProjOffsetTester< FormatT, DimT, ArrayedT, DepthT, MsT
 		, std::enable_if_t< is1D< DimT, ArrayedT, DepthT >
 			|| is2D< DimT, ArrayedT, DepthT >
 			|| is3D< DimT, ArrayedT, DepthT >
@@ -1188,14 +1188,14 @@ namespace
 		using SampleProjT = typename sdw::SampledImageSampleProjT< DimT, ArrayedT >;
 		using OffsetT = typename sdw::SampledImageOffsetT< DimT, ArrayedT >;
 
-		static void test( ast::type::ImageFormat format, test::TestCounts & testCounts )
+		static void test( test::TestCounts & testCounts )
 		{
-			auto name = "testTextureProjOffset" + sdw::debug::getName( SampledT, DimT, format, ArrayedT, DepthT, MsT );
+			auto name = "testTextureProjOffset" + sdw::debug::getName( FormatT, DimT, ArrayedT, DepthT, MsT );
 			testBegin( name );
 			using namespace sdw;
 			{
 				FragmentWriter writer{ false };
-				auto s = writer.declSampledImage< SampledT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
+				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementFunction< void >( "main"
 					, [&]()
 					{
@@ -1211,12 +1211,12 @@ namespace
 		}
 	};
 
-	template< ast::type::Kind SampledT
+	template< ast::type::ImageFormat FormatT
 		, ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool DepthT
 		, bool MsT >
-	struct TextureProjOffsetTester< SampledT, DimT, ArrayedT, DepthT, MsT
+	struct TextureProjOffsetTester< FormatT, DimT, ArrayedT, DepthT, MsT
 		, std::enable_if_t< is1DShadow< DimT, ArrayedT, DepthT >
 			|| is2DShadow< DimT, ArrayedT, DepthT >
 			|| isRectShadow< DimT, ArrayedT, DepthT > > >
@@ -1224,14 +1224,14 @@ namespace
 		using SampleProjT = typename sdw::SampledImageSampleProjT< DimT, ArrayedT >;
 		using OffsetT = typename sdw::SampledImageOffsetT< DimT, ArrayedT >;
 
-		static void test( ast::type::ImageFormat format, test::TestCounts & testCounts )
+		static void test( test::TestCounts & testCounts )
 		{
-			auto name = "testTextureProjOffsetShadow" + sdw::debug::getName( SampledT, DimT, format, ArrayedT, DepthT, MsT );
+			auto name = "testTextureProjOffsetShadow" + sdw::debug::getName( FormatT, DimT, ArrayedT, DepthT, MsT );
 			testBegin( name );
 			using namespace sdw;
 			{
 				FragmentWriter writer{ false };
-				auto s = writer.declSampledImage< SampledT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
+				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementFunction< void >( "main"
 					, [&]()
 					{
@@ -1255,7 +1255,7 @@ namespace
 	*	textureProjOffsetBias
 	*/
 	/**@{*/
-	template< ast::type::Kind SampledT
+	template< ast::type::ImageFormat FormatT
 		, ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool DepthT
@@ -1263,17 +1263,17 @@ namespace
 		, typename Enable = void >
 	struct TextureProjOffsetBiasTester
 	{
-		static void test( ast::type::ImageFormat format, test::TestCounts & testCounts )
+		static void test( test::TestCounts & testCounts )
 		{
 		}
 	};
 
-	template< ast::type::Kind SampledT
+	template< ast::type::ImageFormat FormatT
 		, ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool DepthT
 		, bool MsT >
-	struct TextureProjOffsetBiasTester< SampledT, DimT, ArrayedT, DepthT, MsT
+	struct TextureProjOffsetBiasTester< FormatT, DimT, ArrayedT, DepthT, MsT
 		, std::enable_if_t< is1D< DimT, ArrayedT, DepthT >
 			|| is2D< DimT, ArrayedT, DepthT >
 			|| is3D< DimT, ArrayedT, DepthT > > >
@@ -1281,14 +1281,14 @@ namespace
 		using SampleProjT = typename sdw::SampledImageSampleProjT< DimT, ArrayedT >;
 		using OffsetT = typename sdw::SampledImageOffsetT< DimT, ArrayedT >;
 
-		static void test( ast::type::ImageFormat format, test::TestCounts & testCounts )
+		static void test( test::TestCounts & testCounts )
 		{
-			auto name = "testTextureProjOffsetBias" + sdw::debug::getName( SampledT, DimT, format, ArrayedT, DepthT, MsT );
+			auto name = "testTextureProjOffsetBias" + sdw::debug::getName( FormatT, DimT, ArrayedT, DepthT, MsT );
 			testBegin( name );
 			using namespace sdw;
 			{
 				FragmentWriter writer{ false };
-				auto s = writer.declSampledImage< SampledT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
+				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementFunction< void >( "main"
 					, [&]()
 					{
@@ -1305,26 +1305,26 @@ namespace
 		}
 	};
 
-	template< ast::type::Kind SampledT
+	template< ast::type::ImageFormat FormatT
 		, ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool DepthT
 		, bool MsT >
-	struct TextureProjOffsetBiasTester< SampledT, DimT, ArrayedT, DepthT, MsT
+	struct TextureProjOffsetBiasTester< FormatT, DimT, ArrayedT, DepthT, MsT
 		, std::enable_if_t< is1DShadow< DimT, ArrayedT, DepthT >
 			|| is2DShadow< DimT, ArrayedT, DepthT > > >
 	{
 		using SampleProjT = typename sdw::SampledImageSampleProjT< DimT, ArrayedT >;
 		using OffsetT = typename sdw::SampledImageOffsetT< DimT, ArrayedT >;
 
-		static void test( ast::type::ImageFormat format, test::TestCounts & testCounts )
+		static void test( test::TestCounts & testCounts )
 		{
-			auto name = "testTextureProjOffsetShadowBias" + sdw::debug::getName( SampledT, DimT, format, ArrayedT, DepthT, MsT );
+			auto name = "testTextureProjOffsetShadowBias" + sdw::debug::getName( FormatT, DimT, ArrayedT, DepthT, MsT );
 			testBegin( name );
 			using namespace sdw;
 			{
 				FragmentWriter writer{ false };
-				auto s = writer.declSampledImage< SampledT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
+				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementFunction< void >( "main"
 					, [&]()
 					{
@@ -1349,7 +1349,7 @@ namespace
 	*	textureLodOffset
 	*/
 	/**@{*/
-	template< ast::type::Kind SampledT
+	template< ast::type::ImageFormat FormatT
 		, ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool DepthT
@@ -1357,17 +1357,17 @@ namespace
 		, typename Enable = void >
 	struct TextureLodOffsetTester
 	{
-		static void test( ast::type::ImageFormat format, test::TestCounts & testCounts )
+		static void test( test::TestCounts & testCounts )
 		{
 		}
 	};
 
-	template< ast::type::Kind SampledT
+	template< ast::type::ImageFormat FormatT
 		, ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool DepthT
 		, bool MsT >
-	struct TextureLodOffsetTester < SampledT, DimT, ArrayedT, DepthT, MsT
+	struct TextureLodOffsetTester < FormatT, DimT, ArrayedT, DepthT, MsT
 		, std::enable_if_t< is1D< DimT, ArrayedT, DepthT >
 			|| is2D< DimT, ArrayedT, DepthT >
 			|| is3D< DimT, ArrayedT, DepthT >
@@ -1377,14 +1377,14 @@ namespace
 		using SampleT = typename sdw::SampledImageSampleT< DimT, ArrayedT >;
 		using OffsetT = typename sdw::SampledImageOffsetT< DimT, ArrayedT >;
 
-		static void test( ast::type::ImageFormat format, test::TestCounts & testCounts )
+		static void test( test::TestCounts & testCounts )
 		{
-			auto name = "testTextureLodOffset" + sdw::debug::getName( SampledT, DimT, format, ArrayedT, DepthT, MsT );
+			auto name = "testTextureLodOffset" + sdw::debug::getName( FormatT, DimT, ArrayedT, DepthT, MsT );
 			testBegin( name );
 			using namespace sdw;
 			{
 				FragmentWriter writer{ false };
-				auto s = writer.declSampledImage< SampledT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
+				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementFunction< void >( "main"
 					, [&]()
 					{
@@ -1401,12 +1401,12 @@ namespace
 		}
 	};
 
-	template< ast::type::Kind SampledT
+	template< ast::type::ImageFormat FormatT
 		, ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool DepthT
 		, bool MsT >
-	struct TextureLodOffsetTester< SampledT, DimT, ArrayedT, DepthT, MsT
+	struct TextureLodOffsetTester< FormatT, DimT, ArrayedT, DepthT, MsT
 		, std::enable_if_t< is1DShadow< DimT, ArrayedT, DepthT >
 			|| is2DShadow< DimT, ArrayedT, DepthT >
 			|| is1DArrayShadow< DimT, ArrayedT, DepthT > > >
@@ -1414,14 +1414,14 @@ namespace
 		using SampleT = typename sdw::SampledImageSampleT< DimT, ArrayedT >;
 		using OffsetT = typename sdw::SampledImageOffsetT< DimT, ArrayedT >;
 
-		static void test( ast::type::ImageFormat format, test::TestCounts & testCounts )
+		static void test( test::TestCounts & testCounts )
 		{
-			auto name = "testTextureLodShadowOffset" + sdw::debug::getName( SampledT, DimT, format, ArrayedT, DepthT, MsT );
+			auto name = "testTextureLodShadowOffset" + sdw::debug::getName( FormatT, DimT, ArrayedT, DepthT, MsT );
 			testBegin( name );
 			using namespace sdw;
 			{
 				FragmentWriter writer{ false };
-				auto s = writer.declSampledImage< SampledT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
+				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementFunction< void >( "main"
 					, [&]()
 					{
@@ -1446,7 +1446,7 @@ namespace
 	*	textureProjLod
 	*/
 	/**@{*/
-	template< ast::type::Kind SampledT
+	template< ast::type::ImageFormat FormatT
 		, ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool DepthT
@@ -1454,31 +1454,31 @@ namespace
 		, typename Enable = void >
 	struct TextureProjLodTester
 	{
-		static void test( ast::type::ImageFormat format, test::TestCounts & testCounts )
+		static void test( test::TestCounts & testCounts )
 		{
 		}
 	};
 
-	template< ast::type::Kind SampledT
+	template< ast::type::ImageFormat FormatT
 		, ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool DepthT
 		, bool MsT >
-	struct TextureProjLodTester< SampledT, DimT, ArrayedT, DepthT, MsT
+	struct TextureProjLodTester< FormatT, DimT, ArrayedT, DepthT, MsT
 		, std::enable_if_t< is1D< DimT, ArrayedT, DepthT >
 			|| is2D< DimT, ArrayedT, DepthT >
 			|| is3D< DimT, ArrayedT, DepthT > > >
 	{
 		using SampleProjT = typename sdw::SampledImageSampleProjT< DimT, ArrayedT >;
 
-		static void test( ast::type::ImageFormat format, test::TestCounts & testCounts )
+		static void test( test::TestCounts & testCounts )
 		{
-			auto name = "testTextureProjLod" + sdw::debug::getName( SampledT, DimT, format, ArrayedT, DepthT, MsT );
+			auto name = "testTextureProjLod" + sdw::debug::getName( FormatT, DimT, ArrayedT, DepthT, MsT );
 			testBegin( name );
 			using namespace sdw;
 			{
 				FragmentWriter writer{ false };
-				auto s = writer.declSampledImage< SampledT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
+				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementFunction< void >( "main"
 					, [&]()
 					{
@@ -1494,25 +1494,25 @@ namespace
 		}
 	};
 
-	template< ast::type::Kind SampledT
+	template< ast::type::ImageFormat FormatT
 		, ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool DepthT
 		, bool MsT >
-	struct TextureProjLodTester< SampledT, DimT, ArrayedT, DepthT, MsT
+	struct TextureProjLodTester< FormatT, DimT, ArrayedT, DepthT, MsT
 		, std::enable_if_t< is1DShadow< DimT, ArrayedT, DepthT >
 			|| is2DShadow< DimT, ArrayedT, DepthT > > >
 	{
 		using SampleProjT = typename sdw::SampledImageSampleProjT< DimT, ArrayedT >;
 
-		static void test( ast::type::ImageFormat format, test::TestCounts & testCounts )
+		static void test( test::TestCounts & testCounts )
 		{
-			auto name = "testTextureProjShadowLod" + sdw::debug::getName( SampledT, DimT, format, ArrayedT, DepthT, MsT );
+			auto name = "testTextureProjShadowLod" + sdw::debug::getName( FormatT, DimT, ArrayedT, DepthT, MsT );
 			testBegin( name );
 			using namespace sdw;
 			{
 				FragmentWriter writer{ false };
-				auto s = writer.declSampledImage< SampledT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
+				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementFunction< void >( "main"
 					, [&]()
 					{
@@ -1536,7 +1536,7 @@ namespace
 	*	textureProjLodOffset
 	*/
 	/**@{*/
-	template< ast::type::Kind SampledT
+	template< ast::type::ImageFormat FormatT
 		, ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool DepthT
@@ -1544,17 +1544,17 @@ namespace
 		, typename Enable = void >
 	struct TextureProjLodOffsetTester
 	{
-		static void test( ast::type::ImageFormat format, test::TestCounts & testCounts )
+		static void test( test::TestCounts & testCounts )
 		{
 		}
 	};
 
-	template< ast::type::Kind SampledT
+	template< ast::type::ImageFormat FormatT
 		, ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool DepthT
 		, bool MsT >
-	struct TextureProjLodOffsetTester< SampledT, DimT, ArrayedT, DepthT, MsT
+	struct TextureProjLodOffsetTester< FormatT, DimT, ArrayedT, DepthT, MsT
 		, std::enable_if_t< is1D< DimT, ArrayedT, DepthT >
 			|| is2D< DimT, ArrayedT, DepthT >
 			|| is3D< DimT, ArrayedT, DepthT > > >
@@ -1562,14 +1562,14 @@ namespace
 		using SampleProjT = typename sdw::SampledImageSampleProjT< DimT, ArrayedT >;
 		using OffsetT = typename sdw::SampledImageOffsetT< DimT, ArrayedT >;
 
-		static void test( ast::type::ImageFormat format, test::TestCounts & testCounts )
+		static void test( test::TestCounts & testCounts )
 		{
-			auto name = "testTextureProjLodOffset" + sdw::debug::getName( SampledT, DimT, format, ArrayedT, DepthT, MsT );
+			auto name = "testTextureProjLodOffset" + sdw::debug::getName( FormatT, DimT, ArrayedT, DepthT, MsT );
 			testBegin( name );
 			using namespace sdw;
 			{
 				FragmentWriter writer{ false };
-				auto s = writer.declSampledImage< SampledT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
+				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementFunction< void >( "main"
 					, [&]()
 					{
@@ -1586,26 +1586,26 @@ namespace
 		}
 	};
 
-	template< ast::type::Kind SampledT
+	template< ast::type::ImageFormat FormatT
 		, ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool DepthT
 		, bool MsT >
-	struct TextureProjLodOffsetTester< SampledT, DimT, ArrayedT, DepthT, MsT
+	struct TextureProjLodOffsetTester< FormatT, DimT, ArrayedT, DepthT, MsT
 		, std::enable_if_t< is1DShadow< DimT, ArrayedT, DepthT >
 			|| is2DShadow< DimT, ArrayedT, DepthT > > >
 	{
 		using SampleProjT = typename sdw::SampledImageSampleProjT< DimT, ArrayedT >;
 		using OffsetT = typename sdw::SampledImageOffsetT< DimT, ArrayedT >;
 
-		static void test( ast::type::ImageFormat format, test::TestCounts & testCounts )
+		static void test( test::TestCounts & testCounts )
 		{
-			auto name = "testTextureProjShadowLodOffset" + sdw::debug::getName( SampledT, DimT, format, ArrayedT, DepthT, MsT );
+			auto name = "testTextureProjShadowLodOffset" + sdw::debug::getName( FormatT, DimT, ArrayedT, DepthT, MsT );
 			testBegin( name );
 			using namespace sdw;
 			{
 				FragmentWriter writer{ false };
-				auto s = writer.declSampledImage< SampledT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
+				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementFunction< void >( "main"
 					, [&]()
 					{
@@ -1630,7 +1630,7 @@ namespace
 	*	textureGrad
 	*/
 	/**@{*/
-	template< ast::type::Kind SampledT
+	template< ast::type::ImageFormat FormatT
 		, ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool DepthT
@@ -1638,17 +1638,17 @@ namespace
 		, typename Enable = void >
 	struct TextureGradTester
 	{
-		static void test( ast::type::ImageFormat format, test::TestCounts & testCounts )
+		static void test( test::TestCounts & testCounts )
 		{
 		}
 	};
 	
-	template< ast::type::Kind SampledT
+	template< ast::type::ImageFormat FormatT
 		, ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool DepthT
 		, bool MsT >
-	struct TextureGradTester < SampledT, DimT, ArrayedT, DepthT, MsT
+	struct TextureGradTester < FormatT, DimT, ArrayedT, DepthT, MsT
 		, std::enable_if_t< is1D< DimT, ArrayedT, DepthT >
 			|| is2D< DimT, ArrayedT, DepthT >
 			|| is3D< DimT, ArrayedT, DepthT >
@@ -1661,14 +1661,14 @@ namespace
 		using SampleT = typename sdw::SampledImageSampleT< DimT, ArrayedT >;
 		using DerivativeT = typename sdw::SampledImageDerivativeT< DimT, ArrayedT >;
 
-		static void test( ast::type::ImageFormat format, test::TestCounts & testCounts )
+		static void test( test::TestCounts & testCounts )
 		{
-			auto name = "testTextureGrad" + sdw::debug::getName( SampledT, DimT, format, ArrayedT, DepthT, MsT );
+			auto name = "testTextureGrad" + sdw::debug::getName( FormatT, DimT, ArrayedT, DepthT, MsT );
 			testBegin( name );
 			using namespace sdw;
 			{
 				FragmentWriter writer{ false };
-				auto s = writer.declSampledImage< SampledT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
+				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementFunction< void >( "main"
 					, [&]()
 					{
@@ -1685,12 +1685,12 @@ namespace
 		}
 	};
 
-	template< ast::type::Kind SampledT
+	template< ast::type::ImageFormat FormatT
 		, ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool DepthT
 		, bool MsT >
-	struct TextureGradTester< SampledT, DimT, ArrayedT, DepthT, MsT
+	struct TextureGradTester< FormatT, DimT, ArrayedT, DepthT, MsT
 		, std::enable_if_t< is1DShadow< DimT, ArrayedT, DepthT >
 			|| is2DShadow< DimT, ArrayedT, DepthT >
 			|| isRectShadow< DimT, ArrayedT, DepthT >
@@ -1699,14 +1699,14 @@ namespace
 		using SampleT = typename sdw::SampledImageSampleT< DimT, ArrayedT >;
 		using DerivativeT = typename sdw::SampledImageDerivativeT< DimT, ArrayedT >;
 
-		static void test( ast::type::ImageFormat format, test::TestCounts & testCounts )
+		static void test( test::TestCounts & testCounts )
 		{
-			auto name = "testTextureShadowGrad" + sdw::debug::getName( SampledT, DimT, format, ArrayedT, DepthT, MsT );
+			auto name = "testTextureShadowGrad" + sdw::debug::getName( FormatT, DimT, ArrayedT, DepthT, MsT );
 			testBegin( name );
 			using namespace sdw;
 			{
 				FragmentWriter writer{ false };
-				auto s = writer.declSampledImage< SampledT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
+				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementFunction< void >( "main"
 					, [&]()
 					{
@@ -1731,7 +1731,7 @@ namespace
 	*	textureGradOffset
 	*/
 	/**@{*/
-	template< ast::type::Kind SampledT
+	template< ast::type::ImageFormat FormatT
 		, ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool DepthT
@@ -1739,17 +1739,17 @@ namespace
 		, typename Enable = void >
 	struct TextureGradOffsetTester
 	{
-		static void test( ast::type::ImageFormat format, test::TestCounts & testCounts )
+		static void test( test::TestCounts & testCounts )
 		{
 		}
 	};
 	
-	template< ast::type::Kind SampledT
+	template< ast::type::ImageFormat FormatT
 		, ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool DepthT
 		, bool MsT >
-	struct TextureGradOffsetTester < SampledT, DimT, ArrayedT, DepthT, MsT
+	struct TextureGradOffsetTester < FormatT, DimT, ArrayedT, DepthT, MsT
 		, std::enable_if_t< is1D< DimT, ArrayedT, DepthT >
 			|| is2D< DimT, ArrayedT, DepthT >
 			|| is3D< DimT, ArrayedT, DepthT >
@@ -1761,14 +1761,14 @@ namespace
 		using DerivativeT = typename sdw::SampledImageDerivativeT< DimT, ArrayedT >;
 		using OffsetT = typename sdw::SampledImageOffsetT< DimT, ArrayedT >;
 
-		static void test( ast::type::ImageFormat format, test::TestCounts & testCounts )
+		static void test( test::TestCounts & testCounts )
 		{
-			auto name = "testTextureGradOffset" + sdw::debug::getName( SampledT, DimT, format, ArrayedT, DepthT, MsT );
+			auto name = "testTextureGradOffset" + sdw::debug::getName( FormatT, DimT, ArrayedT, DepthT, MsT );
 			testBegin( name );
 			using namespace sdw;
 			{
 				FragmentWriter writer{ false };
-				auto s = writer.declSampledImage< SampledT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
+				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementFunction< void >( "main"
 					, [&]()
 					{
@@ -1786,12 +1786,12 @@ namespace
 		}
 	};
 
-	template< ast::type::Kind SampledT
+	template< ast::type::ImageFormat FormatT
 		, ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool DepthT
 		, bool MsT >
-	struct TextureGradOffsetTester< SampledT, DimT, ArrayedT, DepthT, MsT
+	struct TextureGradOffsetTester< FormatT, DimT, ArrayedT, DepthT, MsT
 		, std::enable_if_t< is1DShadow< DimT, ArrayedT, DepthT >
 			|| is2DShadow< DimT, ArrayedT, DepthT >
 			|| isRectShadow< DimT, ArrayedT, DepthT >
@@ -1802,14 +1802,14 @@ namespace
 		using DerivativeT = typename sdw::SampledImageDerivativeT< DimT, ArrayedT >;
 		using OffsetT = typename sdw::SampledImageOffsetT< DimT, ArrayedT >;
 
-		static void test( ast::type::ImageFormat format, test::TestCounts & testCounts )
+		static void test( test::TestCounts & testCounts )
 		{
-			auto name = "testTextureShadowGradOffset" + sdw::debug::getName( SampledT, DimT, format, ArrayedT, DepthT, MsT );
+			auto name = "testTextureShadowGradOffset" + sdw::debug::getName( FormatT, DimT, ArrayedT, DepthT, MsT );
 			testBegin( name );
 			using namespace sdw;
 			{
 				FragmentWriter writer{ false };
-				auto s = writer.declSampledImage< SampledT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
+				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementFunction< void >( "main"
 					, [&]()
 					{
@@ -1835,7 +1835,7 @@ namespace
 	*	textureProjGrad
 	*/
 	/**@{*/
-	template< ast::type::Kind SampledT
+	template< ast::type::ImageFormat FormatT
 		, ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool DepthT
@@ -1843,17 +1843,17 @@ namespace
 		, typename Enable = void >
 	struct TextureProjGradTester
 	{
-		static void test( ast::type::ImageFormat format, test::TestCounts & testCounts )
+		static void test( test::TestCounts & testCounts )
 		{
 		}
 	};
 	
-	template< ast::type::Kind SampledT
+	template< ast::type::ImageFormat FormatT
 		, ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool DepthT
 		, bool MsT >
-	struct TextureProjGradTester < SampledT, DimT, ArrayedT, DepthT, MsT
+	struct TextureProjGradTester < FormatT, DimT, ArrayedT, DepthT, MsT
 		, std::enable_if_t< is1D< DimT, ArrayedT, DepthT >
 			|| is2D< DimT, ArrayedT, DepthT >
 			|| is3D< DimT, ArrayedT, DepthT >
@@ -1862,14 +1862,14 @@ namespace
 		using SampleProjT = typename sdw::SampledImageSampleProjT< DimT, ArrayedT >;
 		using DerivativeT = typename sdw::SampledImageDerivativeT< DimT, ArrayedT >;
 
-		static void test( ast::type::ImageFormat format, test::TestCounts & testCounts )
+		static void test( test::TestCounts & testCounts )
 		{
-			auto name = "testTextureProjGrad" + sdw::debug::getName( SampledT, DimT, format, ArrayedT, DepthT, MsT );
+			auto name = "testTextureProjGrad" + sdw::debug::getName( FormatT, DimT, ArrayedT, DepthT, MsT );
 			testBegin( name );
 			using namespace sdw;
 			{
 				FragmentWriter writer{ false };
-				auto s = writer.declSampledImage< SampledT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
+				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementFunction< void >( "main"
 					, [&]()
 					{
@@ -1886,12 +1886,12 @@ namespace
 		}
 	};
 
-	template< ast::type::Kind SampledT
+	template< ast::type::ImageFormat FormatT
 		, ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool DepthT
 		, bool MsT >
-	struct TextureProjGradTester< SampledT, DimT, ArrayedT, DepthT, MsT
+	struct TextureProjGradTester< FormatT, DimT, ArrayedT, DepthT, MsT
 		, std::enable_if_t< is1DShadow< DimT, ArrayedT, DepthT >
 			|| is2DShadow< DimT, ArrayedT, DepthT >
 			|| isRectShadow< DimT, ArrayedT, DepthT > > >
@@ -1899,14 +1899,14 @@ namespace
 		using SampleProjT = typename sdw::SampledImageSampleProjT< DimT, ArrayedT >;
 		using DerivativeT = typename sdw::SampledImageDerivativeT< DimT, ArrayedT >;
 
-		static void test( ast::type::ImageFormat format, test::TestCounts & testCounts )
+		static void test( test::TestCounts & testCounts )
 		{
-			auto name = "testTextureProjShadowGrad" + sdw::debug::getName( SampledT, DimT, format, ArrayedT, DepthT, MsT );
+			auto name = "testTextureProjShadowGrad" + sdw::debug::getName( FormatT, DimT, ArrayedT, DepthT, MsT );
 			testBegin( name );
 			using namespace sdw;
 			{
 				FragmentWriter writer{ false };
-				auto s = writer.declSampledImage< SampledT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
+				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementFunction< void >( "main"
 					, [&]()
 					{
@@ -1931,7 +1931,7 @@ namespace
 	*	textureProjGradOffset
 	*/
 	/**@{*/
-	template< ast::type::Kind SampledT
+	template< ast::type::ImageFormat FormatT
 		, ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool DepthT
@@ -1939,17 +1939,17 @@ namespace
 		, typename Enable = void >
 	struct TextureProjGradOffsetTester
 	{
-		static void test( ast::type::ImageFormat format, test::TestCounts & testCounts )
+		static void test( test::TestCounts & testCounts )
 		{
 		}
 	};
 	
-	template< ast::type::Kind SampledT
+	template< ast::type::ImageFormat FormatT
 		, ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool DepthT
 		, bool MsT >
-	struct TextureProjGradOffsetTester < SampledT, DimT, ArrayedT, DepthT, MsT
+	struct TextureProjGradOffsetTester < FormatT, DimT, ArrayedT, DepthT, MsT
 		, std::enable_if_t< is1D< DimT, ArrayedT, DepthT >
 			|| is2D< DimT, ArrayedT, DepthT >
 			|| is3D< DimT, ArrayedT, DepthT >
@@ -1959,14 +1959,14 @@ namespace
 		using DerivativeT = typename sdw::SampledImageDerivativeT< DimT, ArrayedT >;
 		using OffsetT = typename sdw::SampledImageOffsetT< DimT, ArrayedT >;
 
-		static void test( ast::type::ImageFormat format, test::TestCounts & testCounts )
+		static void test( test::TestCounts & testCounts )
 		{
-			auto name = "testTextureProjGradOffset" + sdw::debug::getName( SampledT, DimT, format, ArrayedT, DepthT, MsT );
+			auto name = "testTextureProjGradOffset" + sdw::debug::getName( FormatT, DimT, ArrayedT, DepthT, MsT );
 			testBegin( name );
 			using namespace sdw;
 			{
 				FragmentWriter writer{ false };
-				auto s = writer.declSampledImage< SampledT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
+				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementFunction< void >( "main"
 					, [&]()
 					{
@@ -1984,12 +1984,12 @@ namespace
 		}
 	};
 
-	template< ast::type::Kind SampledT
+	template< ast::type::ImageFormat FormatT
 		, ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool DepthT
 		, bool MsT >
-	struct TextureProjGradOffsetTester< SampledT, DimT, ArrayedT, DepthT, MsT
+	struct TextureProjGradOffsetTester< FormatT, DimT, ArrayedT, DepthT, MsT
 		, std::enable_if_t< is1DShadow< DimT, ArrayedT, DepthT >
 			|| is2DShadow< DimT, ArrayedT, DepthT >
 			|| isRectShadow< DimT, ArrayedT, DepthT > > >
@@ -1998,14 +1998,14 @@ namespace
 		using DerivativeT = typename sdw::SampledImageDerivativeT< DimT, ArrayedT >;
 		using OffsetT = typename sdw::SampledImageOffsetT< DimT, ArrayedT >;
 
-		static void test( ast::type::ImageFormat format, test::TestCounts & testCounts )
+		static void test( test::TestCounts & testCounts )
 		{
-			auto name = "testTextureProjShadowGradOffset" + sdw::debug::getName( SampledT, DimT, format, ArrayedT, DepthT, MsT );
+			auto name = "testTextureProjShadowGradOffset" + sdw::debug::getName( FormatT, DimT, ArrayedT, DepthT, MsT );
 			testBegin( name );
 			using namespace sdw;
 			{
 				FragmentWriter writer{ false };
-				auto s = writer.declSampledImage< SampledT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
+				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementFunction< void >( "main"
 					, [&]()
 					{
@@ -2031,7 +2031,7 @@ namespace
 	*	textureGather
 	*/
 	/**@{*/
-	template< ast::type::Kind SampledT
+	template< ast::type::ImageFormat FormatT
 		, ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool DepthT
@@ -2039,17 +2039,17 @@ namespace
 		, typename Enable = void >
 	struct TextureGatherTester
 	{
-		static void test( ast::type::ImageFormat format, test::TestCounts & testCounts )
+		static void test( test::TestCounts & testCounts )
 		{
 		}
 	};
 	
-	template< ast::type::Kind SampledT
+	template< ast::type::ImageFormat FormatT
 		, ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool DepthT
 		, bool MsT >
-	struct TextureGatherTester< SampledT, DimT, ArrayedT, DepthT, MsT
+	struct TextureGatherTester< FormatT, DimT, ArrayedT, DepthT, MsT
 		, std::enable_if_t< is2D< DimT, ArrayedT, DepthT >
 			|| isRect< DimT, ArrayedT, DepthT >
 			|| isCube< DimT, ArrayedT, DepthT >
@@ -2058,14 +2058,14 @@ namespace
 	{
 		using GatherT = typename sdw::SampledImageGatherT< DimT, ArrayedT >;
 
-		static void test( ast::type::ImageFormat format, test::TestCounts & testCounts )
+		static void test( test::TestCounts & testCounts )
 		{
-			auto name = "testTextureGather" + sdw::debug::getName( SampledT, DimT, format, ArrayedT, DepthT, MsT );
+			auto name = "testTextureGather" + sdw::debug::getName( FormatT, DimT, ArrayedT, DepthT, MsT );
 			testBegin( name );
 			using namespace sdw;
 			{
 				FragmentWriter writer{ false };
-				auto s = writer.declSampledImage< SampledT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
+				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementFunction< void >( "main"
 					, [&]()
 					{
@@ -2080,12 +2080,12 @@ namespace
 		}
 	};
 
-	template< ast::type::Kind SampledT
+	template< ast::type::ImageFormat FormatT
 		, ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool DepthT
 		, bool MsT >
-	struct TextureGatherTester< SampledT, DimT, ArrayedT, DepthT, MsT
+	struct TextureGatherTester< FormatT, DimT, ArrayedT, DepthT, MsT
 		, std::enable_if_t< is2DShadow< DimT, ArrayedT, DepthT >
 			|| isCubeShadow< DimT, ArrayedT, DepthT >
 			|| isRectShadow< DimT, ArrayedT, DepthT >
@@ -2094,14 +2094,14 @@ namespace
 	{
 		using GatherT = typename sdw::SampledImageGatherT< DimT, ArrayedT >;
 
-		static void test( ast::type::ImageFormat format, test::TestCounts & testCounts )
+		static void test( test::TestCounts & testCounts )
 		{
-			auto name = "testTextureGatherShadow" + sdw::debug::getName( SampledT, DimT, format, ArrayedT, DepthT, MsT );
+			auto name = "testTextureGatherShadow" + sdw::debug::getName( FormatT, DimT, ArrayedT, DepthT, MsT );
 			testBegin( name );
 			using namespace sdw;
 			{
 				FragmentWriter writer{ false };
-				auto s = writer.declSampledImage< SampledT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
+				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementFunction< void >( "main"
 					, [&]()
 					{
@@ -2124,7 +2124,7 @@ namespace
 	*	textureGatherComp
 	*/
 	/**@{*/
-	template< ast::type::Kind SampledT
+	template< ast::type::ImageFormat FormatT
 		, ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool DepthT
@@ -2132,17 +2132,17 @@ namespace
 		, typename Enable = void >
 	struct TextureGatherCompTester
 	{
-		static void test( ast::type::ImageFormat format, test::TestCounts & testCounts )
+		static void test( test::TestCounts & testCounts )
 		{
 		}
 	};
 
-	template< ast::type::Kind SampledT
+	template< ast::type::ImageFormat FormatT
 		, ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool DepthT
 		, bool MsT >
-	struct TextureGatherCompTester< SampledT, DimT, ArrayedT, DepthT, MsT
+	struct TextureGatherCompTester< FormatT, DimT, ArrayedT, DepthT, MsT
 		, std::enable_if_t< is2D< DimT, ArrayedT, DepthT >
 			|| isRect< DimT, ArrayedT, DepthT >
 			|| isCube< DimT, ArrayedT, DepthT >
@@ -2151,14 +2151,14 @@ namespace
 	{
 		using GatherT = typename sdw::SampledImageGatherT< DimT, ArrayedT >;
 
-		static void test( ast::type::ImageFormat format, test::TestCounts & testCounts )
+		static void test( test::TestCounts & testCounts )
 		{
-			auto name = "testTextureGatherComp" + sdw::debug::getName( SampledT, DimT, format, ArrayedT, DepthT, MsT );
+			auto name = "testTextureGatherComp" + sdw::debug::getName( FormatT, DimT, ArrayedT, DepthT, MsT );
 			testBegin( name );
 			using namespace sdw;
 			{
 				FragmentWriter writer{ false };
-				auto s = writer.declSampledImage< SampledT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
+				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementFunction< void >( "main"
 					, [&]()
 					{
@@ -2181,7 +2181,7 @@ namespace
 	*	textureGatherOffset
 	*/
 	/**@{*/
-	template< ast::type::Kind SampledT
+	template< ast::type::ImageFormat FormatT
 		, ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool DepthT
@@ -2189,17 +2189,17 @@ namespace
 		, typename Enable = void >
 	struct TextureGatherOffsetTester
 	{
-		static void test( ast::type::ImageFormat format, test::TestCounts & testCounts )
+		static void test( test::TestCounts & testCounts )
 		{
 		}
 	};
 	
-	template< ast::type::Kind SampledT
+	template< ast::type::ImageFormat FormatT
 		, ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool DepthT
 		, bool MsT >
-	struct TextureGatherOffsetTester< SampledT, DimT, ArrayedT, DepthT, MsT
+	struct TextureGatherOffsetTester< FormatT, DimT, ArrayedT, DepthT, MsT
 		, std::enable_if_t< is2D< DimT, ArrayedT, DepthT >
 			|| isRect< DimT, ArrayedT, DepthT >
 			|| is2DArray< DimT, ArrayedT, DepthT > > >
@@ -2207,14 +2207,14 @@ namespace
 		using GatherT = typename sdw::SampledImageGatherT< DimT, ArrayedT >;
 		using OffsetT = typename sdw::SampledImageOffsetT< DimT, ArrayedT >;
 
-		static void test( ast::type::ImageFormat format, test::TestCounts & testCounts )
+		static void test( test::TestCounts & testCounts )
 		{
-			auto name = "testTextureGatherOffset" + sdw::debug::getName( SampledT, DimT, format, ArrayedT, DepthT, MsT );
+			auto name = "testTextureGatherOffset" + sdw::debug::getName( FormatT, DimT, ArrayedT, DepthT, MsT );
 			testBegin( name );
 			using namespace sdw;
 			{
 				FragmentWriter writer{ false };
-				auto s = writer.declSampledImage< SampledT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
+				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementFunction< void >( "main"
 					, [&]()
 					{
@@ -2230,12 +2230,12 @@ namespace
 		}
 	};
 
-	template< ast::type::Kind SampledT
+	template< ast::type::ImageFormat FormatT
 		, ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool DepthT
 		, bool MsT >
-	struct TextureGatherOffsetTester< SampledT, DimT, ArrayedT, DepthT, MsT
+	struct TextureGatherOffsetTester< FormatT, DimT, ArrayedT, DepthT, MsT
 		, std::enable_if_t< is2DShadow< DimT, ArrayedT, DepthT >
 			|| isRectShadow< DimT, ArrayedT, DepthT >
 			|| is2DArrayShadow< DimT, ArrayedT, DepthT > > >
@@ -2243,14 +2243,14 @@ namespace
 		using GatherT = typename sdw::SampledImageGatherT< DimT, ArrayedT >;
 		using OffsetT = typename sdw::SampledImageOffsetT< DimT, ArrayedT >;
 
-		static void test( ast::type::ImageFormat format, test::TestCounts & testCounts )
+		static void test( test::TestCounts & testCounts )
 		{
-			auto name = "testTextureGatherShadowOffset" + sdw::debug::getName( SampledT, DimT, format, ArrayedT, DepthT, MsT );
+			auto name = "testTextureGatherShadowOffset" + sdw::debug::getName( FormatT, DimT, ArrayedT, DepthT, MsT );
 			testBegin( name );
 			using namespace sdw;
 			{
 				FragmentWriter writer{ false };
-				auto s = writer.declSampledImage< SampledT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
+				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementFunction< void >( "main"
 					, [&]()
 					{
@@ -2274,7 +2274,7 @@ namespace
 	*	textureGatherOffsetComp
 	*/
 	/**@{*/
-	template< ast::type::Kind SampledT
+	template< ast::type::ImageFormat FormatT
 		, ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool DepthT
@@ -2282,17 +2282,17 @@ namespace
 		, typename Enable = void >
 	struct TextureGatherOffsetCompTester
 	{
-		static void test( ast::type::ImageFormat format, test::TestCounts & testCounts )
+		static void test( test::TestCounts & testCounts )
 		{
 		}
 	};
 
-	template< ast::type::Kind SampledT
+	template< ast::type::ImageFormat FormatT
 		, ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool DepthT
 		, bool MsT >
-	struct TextureGatherOffsetCompTester< SampledT, DimT, ArrayedT, DepthT, MsT
+	struct TextureGatherOffsetCompTester< FormatT, DimT, ArrayedT, DepthT, MsT
 		, std::enable_if_t< is2D< DimT, ArrayedT, DepthT >
 			|| isRect< DimT, ArrayedT, DepthT >
 			|| is2DArray< DimT, ArrayedT, DepthT > > >
@@ -2300,14 +2300,14 @@ namespace
 		using GatherT = typename sdw::SampledImageGatherT< DimT, ArrayedT >;
 		using OffsetT = typename sdw::SampledImageOffsetT< DimT, ArrayedT >;
 
-		static void test( ast::type::ImageFormat format, test::TestCounts & testCounts )
+		static void test( test::TestCounts & testCounts )
 		{
-			auto name = "testTextureGatherOffsetComp" + sdw::debug::getName( SampledT, DimT, format, ArrayedT, DepthT, MsT );
+			auto name = "testTextureGatherOffsetComp" + sdw::debug::getName( FormatT, DimT, ArrayedT, DepthT, MsT );
 			testBegin( name );
 			using namespace sdw;
 			{
 				FragmentWriter writer{ false };
-				auto s = writer.declSampledImage< SampledT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
+				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementFunction< void >( "main"
 					, [&]()
 					{
@@ -2331,7 +2331,7 @@ namespace
 	*	textureGatherOffsets
 	*/
 	/**@{*/
-	template< ast::type::Kind SampledT
+	template< ast::type::ImageFormat FormatT
 		, ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool DepthT
@@ -2339,17 +2339,17 @@ namespace
 		, typename Enable = void >
 	struct TextureGatherOffsetsTester
 	{
-		static void test( ast::type::ImageFormat format, test::TestCounts & testCounts )
+		static void test( test::TestCounts & testCounts )
 		{
 		}
 	};
 	
-	template< ast::type::Kind SampledT
+	template< ast::type::ImageFormat FormatT
 		, ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool DepthT
 		, bool MsT >
-	struct TextureGatherOffsetsTester< SampledT, DimT, ArrayedT, DepthT, MsT
+	struct TextureGatherOffsetsTester< FormatT, DimT, ArrayedT, DepthT, MsT
 		, std::enable_if_t< is2D< DimT, ArrayedT, DepthT >
 			|| isRect< DimT, ArrayedT, DepthT >
 			|| is2DArray< DimT, ArrayedT, DepthT > > >
@@ -2357,14 +2357,14 @@ namespace
 		using GatherT = typename sdw::SampledImageGatherT< DimT, ArrayedT >;
 		using OffsetT = typename sdw::SampledImageOffsetT< DimT, ArrayedT >;
 
-		static void test( ast::type::ImageFormat format, test::TestCounts & testCounts )
+		static void test( test::TestCounts & testCounts )
 		{
-			auto name = "testTextureGatherOffsets" + sdw::debug::getName( SampledT, DimT, format, ArrayedT, DepthT, MsT );
+			auto name = "testTextureGatherOffsets" + sdw::debug::getName( FormatT, DimT, ArrayedT, DepthT, MsT );
 			testBegin( name );
 			using namespace sdw;
 			{
 				FragmentWriter writer{ false };
-				auto s = writer.declSampledImage< SampledT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
+				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				auto offsets = writer.declConstantArray< OffsetT >( "offsets"
 					, test::getDefaultVector< OffsetT >( writer.getShader(), 4u ) );
 				writer.implementFunction< void >( "main"
@@ -2382,12 +2382,12 @@ namespace
 		}
 	};
 
-	template< ast::type::Kind SampledT
+	template< ast::type::ImageFormat FormatT
 		, ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool DepthT
 		, bool MsT >
-	struct TextureGatherOffsetsTester< SampledT, DimT, ArrayedT, DepthT, MsT
+	struct TextureGatherOffsetsTester< FormatT, DimT, ArrayedT, DepthT, MsT
 		, std::enable_if_t< is2DShadow< DimT, ArrayedT, DepthT >
 			|| isRectShadow< DimT, ArrayedT, DepthT >
 			|| is2DArrayShadow< DimT, ArrayedT, DepthT > > >
@@ -2395,14 +2395,14 @@ namespace
 		using GatherT = typename sdw::SampledImageGatherT< DimT, ArrayedT >;
 		using OffsetT = typename sdw::SampledImageOffsetT< DimT, ArrayedT >;
 
-		static void test( ast::type::ImageFormat format, test::TestCounts & testCounts )
+		static void test( test::TestCounts & testCounts )
 		{
-			auto name = "testTextureGatherShadowOffsets" + sdw::debug::getName( SampledT, DimT, format, ArrayedT, DepthT, MsT );
+			auto name = "testTextureGatherShadowOffsets" + sdw::debug::getName( FormatT, DimT, ArrayedT, DepthT, MsT );
 			testBegin( name );
 			using namespace sdw;
 			{
 				FragmentWriter writer{ false };
-				auto s = writer.declSampledImage< SampledT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
+				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				auto offsets = writer.declConstantArray< OffsetT >( "offsets"
 					, test::getDefaultVector< OffsetT >( writer.getShader(), 4u ) );
 				writer.implementFunction< void >( "main"
@@ -2428,7 +2428,7 @@ namespace
 	*	textureGatherOffsetsComp
 	*/
 	/**@{*/
-	template< ast::type::Kind SampledT
+	template< ast::type::ImageFormat FormatT
 		, ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool DepthT
@@ -2436,17 +2436,17 @@ namespace
 		, typename Enable = void >
 	struct TextureGatherOffsetsCompTester
 	{
-		static void test( ast::type::ImageFormat format, test::TestCounts & testCounts )
+		static void test( test::TestCounts & testCounts )
 		{
 		}
 	};
 
-	template< ast::type::Kind SampledT
+	template< ast::type::ImageFormat FormatT
 		, ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool DepthT
 		, bool MsT >
-	struct TextureGatherOffsetsCompTester< SampledT, DimT, ArrayedT, DepthT, MsT
+	struct TextureGatherOffsetsCompTester< FormatT, DimT, ArrayedT, DepthT, MsT
 		, std::enable_if_t< is2D< DimT, ArrayedT, DepthT >
 			|| isRect< DimT, ArrayedT, DepthT >
 			|| is2DArray< DimT, ArrayedT, DepthT > > >
@@ -2454,14 +2454,14 @@ namespace
 		using GatherT = typename sdw::SampledImageGatherT< DimT, ArrayedT >;
 		using OffsetT = typename sdw::SampledImageOffsetT< DimT, ArrayedT >;
 
-		static void test( ast::type::ImageFormat format, test::TestCounts & testCounts )
+		static void test( test::TestCounts & testCounts )
 		{
-			auto name = "testTextureGatherOffsetsComp" + sdw::debug::getName( SampledT, DimT, format, ArrayedT, DepthT, MsT );
+			auto name = "testTextureGatherOffsetsComp" + sdw::debug::getName( FormatT, DimT, ArrayedT, DepthT, MsT );
 			testBegin( name );
 			using namespace sdw;
 			{
 				FragmentWriter writer{ false };
-				auto s = writer.declSampledImage< SampledT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
+				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementFunction< void >( "main"
 					, [&]()
 					{
@@ -2486,57 +2486,85 @@ namespace
 	*	Main test function
 	*/
 	/**@{*/
-	template< template< ast::type::Kind, ast::type::ImageDim, bool, bool, bool > typename TesterT >
+	template< ast::type::ImageFormat FormatT, template< ast::type::ImageFormat, ast::type::ImageDim, bool, bool, bool > typename TesterT >
 	void testsTexture( test::TestCounts & testCounts )
 	{
-		for ( uint32_t i = 0u; i <= uint32_t( ast::type::ImageFormat::eR8u ); ++i )
+		if ( isFloatFormat( FormatT ) )
 		{
-			auto format = ast::type::ImageFormat( i );
+			TesterT< FormatT, Img1D >::test( testCounts );
+			TesterT< FormatT, Img2D >::test( testCounts );
+			TesterT< FormatT, Img3D >::test( testCounts );
+			TesterT< FormatT, ImgRect >::test( testCounts );
+			TesterT< FormatT, ImgCube >::test( testCounts );
+			TesterT< FormatT, ImgBuffer >::test( testCounts );
+			TesterT< FormatT, Img1DArray >::test( testCounts );
+			TesterT< FormatT, Img2DArray >::test( testCounts );
+			TesterT< FormatT, ImgCubeArray >::test( testCounts );
 
-			if ( isFloatFormat( format ) )
+			if constexpr ( FormatT == ast::type::ImageFormat::eR32f
+				|| FormatT == ast::type::ImageFormat::eR16f )
 			{
-				TesterT< FImg1D >::test( format, testCounts );
-				TesterT< FImg2D >::test( format, testCounts );
-				TesterT< FImg3D >::test( format, testCounts );
-				TesterT< FImgRect >::test( format, testCounts );
-				TesterT< FImgCube >::test( format, testCounts );
-				TesterT< FImgBuffer >::test( format, testCounts );
-				TesterT< FImg1DArray >::test( format, testCounts );
-				TesterT< FImg2DArray >::test( format, testCounts );
-				TesterT< FImgCubeArray >::test( format, testCounts );
-				TesterT< FImg1DShadow >::test( format, testCounts );
-				TesterT< FImg2DShadow >::test( format, testCounts );
-				TesterT< FImgRectShadow >::test( format, testCounts );
-				TesterT< FImgCubeShadow >::test( format, testCounts );
-				TesterT< FImg1DArrayShadow >::test( format, testCounts );
-				TesterT< FImg2DArrayShadow >::test( format, testCounts );
-				TesterT< FImgCubeArrayShadow >::test( format, testCounts );
-			}
-			else if ( isSIntFormat( format ) )
-			{
-				TesterT< IImg1D >::test( format, testCounts );
-				TesterT< IImg2D >::test( format, testCounts );
-				TesterT< IImg3D >::test( format, testCounts );
-				TesterT< IImgRect >::test( format, testCounts );
-				TesterT< IImgCube >::test( format, testCounts );
-				TesterT< IImgBuffer >::test( format, testCounts );
-				TesterT< IImg1DArray >::test( format, testCounts );
-				TesterT< IImg2DArray >::test( format, testCounts );
-				TesterT< IImgCubeArray >::test( format, testCounts );
-			}
-			else if ( isUIntFormat( format ) )
-			{
-				TesterT< UImg1D >::test( format, testCounts );
-				TesterT< UImg2D >::test( format, testCounts );
-				TesterT< UImg3D >::test( format, testCounts );
-				TesterT< UImgRect >::test( format, testCounts );
-				TesterT< UImgCube >::test( format, testCounts );
-				TesterT< UImgBuffer >::test( format, testCounts );
-				TesterT< UImg1DArray >::test( format, testCounts );
-				TesterT< UImg2DArray >::test( format, testCounts );
-				TesterT< UImgCubeArray >::test( format, testCounts );
+				TesterT< FormatT, ImgRectShadow >::test( testCounts );
+				TesterT< FormatT, Img2DShadow >::test( testCounts );
+				TesterT< FormatT, ImgRectShadow >::test( testCounts );
+				TesterT< FormatT, ImgCubeShadow >::test( testCounts );
+				TesterT< FormatT, Img1DArrayShadow >::test( testCounts );
+				TesterT< FormatT, Img2DArrayShadow >::test( testCounts );
+				TesterT< FormatT, ImgCubeArrayShadow >::test( testCounts );
 			}
 		}
+		else if ( isSIntFormat( FormatT ) )
+		{
+			TesterT< FormatT, Img1D >::test( testCounts );
+			TesterT< FormatT, Img2D >::test( testCounts );
+			TesterT< FormatT, Img3D >::test( testCounts );
+			TesterT< FormatT, ImgRect >::test( testCounts );
+			TesterT< FormatT, ImgCube >::test( testCounts );
+			TesterT< FormatT, ImgBuffer >::test( testCounts );
+			TesterT< FormatT, Img1DArray >::test( testCounts );
+			TesterT< FormatT, Img2DArray >::test( testCounts );
+			TesterT< FormatT, ImgCubeArray >::test( testCounts );
+		}
+		else if ( isUIntFormat( FormatT ) )
+		{
+			TesterT< FormatT, Img1D >::test( testCounts );
+			TesterT< FormatT, Img2D >::test( testCounts );
+			TesterT< FormatT, Img3D >::test( testCounts );
+			TesterT< FormatT, ImgRect >::test( testCounts );
+			TesterT< FormatT, ImgCube >::test( testCounts );
+			TesterT< FormatT, ImgBuffer >::test( testCounts );
+			TesterT< FormatT, Img1DArray >::test( testCounts );
+			TesterT< FormatT, Img2DArray >::test( testCounts );
+			TesterT< FormatT, ImgCubeArray >::test( testCounts );
+		}
+	}
+	template< template< ast::type::ImageFormat, ast::type::ImageDim, bool, bool, bool > typename TesterT >
+	void testsTextures( test::TestCounts & testCounts )
+	{
+		testsTexture< ast::type::ImageFormat::eRgba32f, TesterT >( testCounts );
+		testsTexture< ast::type::ImageFormat::eRgba16f, TesterT >( testCounts );
+		testsTexture< ast::type::ImageFormat::eRg32f, TesterT >( testCounts );
+		testsTexture< ast::type::ImageFormat::eRg16f, TesterT >( testCounts );
+		testsTexture< ast::type::ImageFormat::eR32f, TesterT >( testCounts );
+		testsTexture< ast::type::ImageFormat::eR16f, TesterT >( testCounts );
+		testsTexture< ast::type::ImageFormat::eRgba32i, TesterT >( testCounts );
+		testsTexture< ast::type::ImageFormat::eRgba16i, TesterT >( testCounts );
+		testsTexture< ast::type::ImageFormat::eRgba8i, TesterT >( testCounts );
+		testsTexture< ast::type::ImageFormat::eRg32i, TesterT >( testCounts );
+		testsTexture< ast::type::ImageFormat::eRg16i, TesterT >( testCounts );
+		testsTexture< ast::type::ImageFormat::eRg8i, TesterT >( testCounts );
+		testsTexture< ast::type::ImageFormat::eR32i, TesterT >( testCounts );
+		testsTexture< ast::type::ImageFormat::eR16i, TesterT >( testCounts );
+		testsTexture< ast::type::ImageFormat::eR8i, TesterT >( testCounts );
+		testsTexture< ast::type::ImageFormat::eRgba32u, TesterT >( testCounts );
+		testsTexture< ast::type::ImageFormat::eRgba16u, TesterT >( testCounts );
+		testsTexture< ast::type::ImageFormat::eRgba8u, TesterT >( testCounts );
+		testsTexture< ast::type::ImageFormat::eRg32u, TesterT >( testCounts );
+		testsTexture< ast::type::ImageFormat::eRg16u, TesterT >( testCounts );
+		testsTexture< ast::type::ImageFormat::eRg8u, TesterT >( testCounts );
+		testsTexture< ast::type::ImageFormat::eR32u, TesterT >( testCounts );
+		testsTexture< ast::type::ImageFormat::eR16u, TesterT >( testCounts );
+		testsTexture< ast::type::ImageFormat::eR8u, TesterT >( testCounts );
 	}
 	/**@}*/
 #pragma endregion
@@ -2545,32 +2573,32 @@ namespace
 int main( int argc, char ** argv )
 {
 	testSuiteBegin( "TestWriterTextureAccesses" );
-	testsTexture< TextureSizeTester >( testCounts );
-	testsTexture< TextureQueryLodTester >( testCounts );
-	testsTexture< TextureQueryLevelsTester >( testCounts );
-	testsTexture< TextureTester >( testCounts );
-	testsTexture< TextureBiasTester >( testCounts );
-	testsTexture< TextureProjTester >( testCounts );
-	testsTexture< TextureProjBiasTester >( testCounts );
-	testsTexture< TextureLodTester >( testCounts );
-	testsTexture< TextureOffsetTester >( testCounts );
-	testsTexture< TextureOffsetBiasTester >( testCounts );
-	testsTexture< TexelFetchTester >( testCounts );
-	testsTexture< TexelFetchOffsetTester >( testCounts );
-	testsTexture< TextureProjOffsetTester >( testCounts );
-	testsTexture< TextureProjOffsetBiasTester >( testCounts );
-	testsTexture< TextureLodOffsetTester >( testCounts );
-	testsTexture< TextureProjLodTester >( testCounts );
-	testsTexture< TextureProjLodOffsetTester >( testCounts );
-	testsTexture< TextureGradTester >( testCounts );
-	testsTexture< TextureGradOffsetTester >( testCounts );
-	testsTexture< TextureProjGradTester >( testCounts );
-	testsTexture< TextureProjGradOffsetTester >( testCounts );
-	testsTexture< TextureGatherTester >( testCounts );
-	testsTexture< TextureGatherCompTester >( testCounts );
-	testsTexture< TextureGatherOffsetTester >( testCounts );
-	testsTexture< TextureGatherOffsetCompTester >( testCounts );
-	testsTexture< TextureGatherOffsetsTester >( testCounts );
-	testsTexture< TextureGatherOffsetsCompTester >( testCounts );
+	testsTextures< TextureSizeTester >( testCounts );
+	testsTextures< TextureQueryLodTester >( testCounts );
+	testsTextures< TextureQueryLevelsTester >( testCounts );
+	testsTextures< TextureTester >( testCounts );
+	testsTextures< TextureBiasTester >( testCounts );
+	testsTextures< TextureProjTester >( testCounts );
+	testsTextures< TextureProjBiasTester >( testCounts );
+	testsTextures< TextureLodTester >( testCounts );
+	testsTextures< TextureOffsetTester >( testCounts );
+	testsTextures< TextureOffsetBiasTester >( testCounts );
+	testsTextures< TexelFetchTester >( testCounts );
+	testsTextures< TexelFetchOffsetTester >( testCounts );
+	testsTextures< TextureProjOffsetTester >( testCounts );
+	testsTextures< TextureProjOffsetBiasTester >( testCounts );
+	testsTextures< TextureLodOffsetTester >( testCounts );
+	testsTextures< TextureProjLodTester >( testCounts );
+	testsTextures< TextureProjLodOffsetTester >( testCounts );
+	testsTextures< TextureGradTester >( testCounts );
+	testsTextures< TextureGradOffsetTester >( testCounts );
+	testsTextures< TextureProjGradTester >( testCounts );
+	testsTextures< TextureProjGradOffsetTester >( testCounts );
+	testsTextures< TextureGatherTester >( testCounts );
+	testsTextures< TextureGatherCompTester >( testCounts );
+	testsTextures< TextureGatherOffsetTester >( testCounts );
+	testsTextures< TextureGatherOffsetCompTester >( testCounts );
+	testsTextures< TextureGatherOffsetsTester >( testCounts );
+	testsTextures< TextureGatherOffsetsCompTester >( testCounts );
 	testSuiteEnd();
 }

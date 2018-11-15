@@ -47,9 +47,22 @@ namespace sdw::hlsl
 		bool doProcessSampledImageArg( expr::Expr & arg
 			, bool writeSampler
 			, expr::ExprList & args );
-		expr::ExprPtr doProcessImageSize( expr::ImageAccessCall * expr );
-		expr::ExprPtr doProcessImageLoad( expr::ImageAccessCall * expr );
-		void doProcessTextureQueries( expr::TextureAccessCall * expr );
+		void doProcessImageSize( expr::ImageAccessCall * expr );
+		void doProcessImageLoad( expr::ImageAccessCall * expr );
+		void doProcessImageAtomic( expr::ImageAccessCall * expr
+			, std::string const & name
+			, std::map< std::string, type::TypePtr > imageAtomicFuncs );
+		void doProcessImageAtomicAdd( expr::ImageAccessCall * expr );
+		void doProcessImageAtomicMin( expr::ImageAccessCall * expr );
+		void doProcessImageAtomicMax( expr::ImageAccessCall * expr );
+		void doProcessImageAtomicAnd( expr::ImageAccessCall * expr );
+		void doProcessImageAtomicOr( expr::ImageAccessCall * expr );
+		void doProcessImageAtomicXor( expr::ImageAccessCall * expr );
+		void doProcessImageAtomicExchange( expr::ImageAccessCall * expr );
+		void doProcessImageAtomicCompSwap( expr::ImageAccessCall * expr );
+		void doProcessTextureSize( expr::TextureAccessCall * expr );
+		void doProcessTextureQueryLod( expr::TextureAccessCall * expr );
+		void doProcessTextureQueryLevels( expr::TextureAccessCall * expr );
 		void doProcessTexelFetch( expr::TextureAccessCall * expr );
 		void doProcessTextureGradShadow( expr::TextureAccessCall * expr );
 		void doProcessTextureGather( expr::TextureAccessCall * expr );
@@ -63,6 +76,16 @@ namespace sdw::hlsl
 		VariableExprMap const & m_outputMembers;
 		stmt::Container * m_intrinsics;
 		std::map< std::string, type::TypePtr > m_imageSizeFuncs;
+		std::map< std::string, type::TypePtr > m_imageAtomicAddFuncs;
+		std::map< std::string, type::TypePtr > m_imageAtomicMinFuncs;
+		std::map< std::string, type::TypePtr > m_imageAtomicMaxFuncs;
+		std::map< std::string, type::TypePtr > m_imageAtomicAndFuncs;
+		std::map< std::string, type::TypePtr > m_imageAtomicOrFuncs;
+		std::map< std::string, type::TypePtr > m_imageAtomicXorFuncs;
+		std::map< std::string, type::TypePtr > m_imageAtomicExchangeFuncs;
+		std::map< std::string, type::TypePtr > m_imageAtomicCompSwapFuncs;
+		std::map< std::string, type::TypePtr > m_imageLodFuncs;
+		std::map< std::string, type::TypePtr > m_imageLevelsFuncs;
 	};
 }
 

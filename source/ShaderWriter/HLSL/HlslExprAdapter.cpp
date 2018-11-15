@@ -11,6 +11,7 @@ See LICENSE file in root folder
 #include "ShaderWriter/HLSL/HlslTextureAccessConfig.hpp"
 
 #include <ASTGenerator/Type/TypeImage.hpp>
+#include <ASTGenerator/Type/TypeSampledImage.hpp>
 
 namespace sdw::hlsl
 {
@@ -704,50 +705,6 @@ namespace sdw::hlsl
 				+ hlsl::getSampledName( config.format );
 		}
 
-		type::TypePtr getType( type::ImageFormat format )
-		{
-			switch ( format )
-			{
-			case ast::type::ImageFormat::eUnknown:
-			case ast::type::ImageFormat::eRgba32f:
-			case ast::type::ImageFormat::eRgba16f:
-				return type::getVec4F();
-			case ast::type::ImageFormat::eRg32f:
-			case ast::type::ImageFormat::eRg16f:
-				return type::getVec2F();
-			case ast::type::ImageFormat::eR32f:
-			case ast::type::ImageFormat::eR16f:
-				return type::getFloat();
-			case ast::type::ImageFormat::eRgba32i:
-			case ast::type::ImageFormat::eRgba16i:
-			case ast::type::ImageFormat::eRgba8i:
-				return type::getVec4I();
-			case ast::type::ImageFormat::eRg32i:
-			case ast::type::ImageFormat::eRg16i:
-			case ast::type::ImageFormat::eRg8i:
-				return type::getVec2I();
-			case ast::type::ImageFormat::eR32i:
-			case ast::type::ImageFormat::eR16i:
-			case ast::type::ImageFormat::eR8i:
-				return type::getInt();
-			case ast::type::ImageFormat::eRgba32u:
-			case ast::type::ImageFormat::eRgba16u:
-			case ast::type::ImageFormat::eRgba8u:
-				return type::getVec4U();
-			case ast::type::ImageFormat::eRg32u:
-			case ast::type::ImageFormat::eRg16u:
-			case ast::type::ImageFormat::eRg8u:
-				return type::getVec2U();
-			case ast::type::ImageFormat::eR32u:
-			case ast::type::ImageFormat::eR16u:
-			case ast::type::ImageFormat::eR8u:
-				return type::getUInt();
-			default:
-				assert( false && "hlsl::getType: Unsupported type::ImageFormat" );
-				return nullptr;
-			}
-		}
-
 		expr::ExprPtr swizzleConvert( type::TypePtr dst
 			, expr::ExprPtr expr )
 		{
@@ -1010,12 +967,52 @@ namespace sdw::hlsl
 		if ( expr->getImageAccess() >= expr::ImageAccess::eImageSize1DF
 			&& expr->getImageAccess() <= expr::ImageAccess::eImageSize2DMSArrayU )
 		{
-			m_result = doProcessImageSize( expr );
+			doProcessImageSize( expr );
 		}
 		else if ( expr->getImageAccess() >= expr::ImageAccess::eImageLoad1DF
 			&& expr->getImageAccess() <= expr::ImageAccess::eImageLoad2DMSArrayU )
 		{
-			m_result = doProcessImageLoad( expr );
+			doProcessImageLoad( expr );
+		}
+		else if ( expr->getImageAccess() >= expr::ImageAccess::eImageAtomicAdd1DU
+			&& expr->getImageAccess() <= expr::ImageAccess::eImageAtomicAdd2DMSArrayI )
+		{
+			doProcessImageAtomicAdd( expr );
+		}
+		else if ( expr->getImageAccess() >= expr::ImageAccess::eImageAtomicMin1DU
+			&& expr->getImageAccess() <= expr::ImageAccess::eImageAtomicMin2DMSArrayI )
+		{
+			doProcessImageAtomicMin( expr );
+		}
+		else if ( expr->getImageAccess() >= expr::ImageAccess::eImageAtomicMax1DU
+			&& expr->getImageAccess() <= expr::ImageAccess::eImageAtomicMax2DMSArrayI )
+		{
+			doProcessImageAtomicMax( expr );
+		}
+		else if ( expr->getImageAccess() >= expr::ImageAccess::eImageAtomicAnd1DU
+			&& expr->getImageAccess() <= expr::ImageAccess::eImageAtomicAnd2DMSArrayI )
+		{
+			doProcessImageAtomicAnd( expr );
+		}
+		else if ( expr->getImageAccess() >= expr::ImageAccess::eImageAtomicOr1DU
+			&& expr->getImageAccess() <= expr::ImageAccess::eImageAtomicOr2DMSArrayI )
+		{
+			doProcessImageAtomicOr( expr );
+		}
+		else if ( expr->getImageAccess() >= expr::ImageAccess::eImageAtomicXor1DU
+			&& expr->getImageAccess() <= expr::ImageAccess::eImageAtomicXor2DMSArrayI )
+		{
+			doProcessImageAtomicXor( expr );
+		}
+		else if ( expr->getImageAccess() >= expr::ImageAccess::eImageAtomicExchange1DU
+			&& expr->getImageAccess() <= expr::ImageAccess::eImageAtomicExchange2DMSArrayI )
+		{
+			doProcessImageAtomicExchange( expr );
+		}
+		else if ( expr->getImageAccess() >= expr::ImageAccess::eImageAtomicCompSwap1DU
+			&& expr->getImageAccess() <= expr::ImageAccess::eImageAtomicCompSwap2DMSArrayI )
+		{
+			doProcessImageAtomicCompSwap( expr );
 		}
 		else
 		{
@@ -1110,12 +1107,20 @@ namespace sdw::hlsl
 
 	void ExprAdapter::visitTextureAccessCallExpr( expr::TextureAccessCall * expr )
 	{
-		if ( ( expr->getTextureAccess() >= expr::TextureAccess::eTextureSize1DF
-				&& expr->getTextureAccess() <= expr::TextureAccess::eTextureSizeBufferU )
-			|| ( expr->getTextureAccess() >= expr::TextureAccess::eTextureQueryLevels1DF
-				&& expr->getTextureAccess() <= expr::TextureAccess::eTextureQueryLevelsCubeArrayU ) )
+		if ( expr->getTextureAccess() >= expr::TextureAccess::eTextureSize1DF
+			&& expr->getTextureAccess() <= expr::TextureAccess::eTextureSizeBufferU )
 		{
-			doProcessTextureQueries( expr );
+			doProcessTextureSize( expr );
+		}
+		else if ( expr->getTextureAccess() >= expr::TextureAccess::eTextureQueryLod1DF
+			&& expr->getTextureAccess() <= expr::TextureAccess::eTextureQueryLodCubeArrayU )
+		{
+			doProcessTextureQueryLod( expr );
+		}
+		else if ( expr->getTextureAccess() >= expr::TextureAccess::eTextureQueryLevels1DF
+			&& expr->getTextureAccess() <= expr::TextureAccess::eTextureQueryLevelsCubeArrayU )
+		{
+			doProcessTextureQueryLevels( expr );
 		}
 		else if ( expr->getTextureAccess() >= expr::TextureAccess::eTexelFetch1DF
 			&& expr->getTextureAccess() <= expr::TextureAccess::eTexelFetchOffset2DArrayU )
@@ -1196,7 +1201,7 @@ namespace sdw::hlsl
 		return result;
 	}
 
-	expr::ExprPtr ExprAdapter::doProcessImageSize( expr::ImageAccessCall * expr )
+	void ExprAdapter::doProcessImageSize( expr::ImageAccessCall * expr )
 	{
 		auto imgArgType = std::static_pointer_cast< type::Image >( expr->getArgList()[0]->getType() );
 		auto config = imgArgType->getConfig();
@@ -1294,17 +1299,16 @@ namespace sdw::hlsl
 
 		expr::ExprList argList;
 		argList.emplace_back( doSubmit( expr->getArgList().front().get() ) );
-		return expr::makeFnCall( it->second
+		m_result = expr::makeFnCall( it->second
 			, expr::makeIdentifier( var::makeFunction( funcName ) )
 			, std::move( argList ) );
 	}
 
-	expr::ExprPtr ExprAdapter::doProcessImageLoad( expr::ImageAccessCall * expr )
+	void ExprAdapter::doProcessImageLoad( expr::ImageAccessCall * expr )
 	{
 		auto imgArgType = std::static_pointer_cast< type::Image >( expr->getArgList()[0]->getType() );
 		auto config = imgArgType->getConfig();
 		auto callRetType = getType( config.format );
-		expr::ExprPtr result;
 		expr::ExprList argList;
 
 		for ( auto it = expr->getArgList().begin() + 1u; it != expr->getArgList().end(); ++it )
@@ -1312,35 +1316,443 @@ namespace sdw::hlsl
 			argList.emplace_back( doSubmit( it->get() ) );
 		}
 
-		result = expr::makeMemberFnCall( callRetType
+		m_result = expr::makeMemberFnCall( callRetType
 			, expr::makeIdentifier( var::makeFunction( "Load" ) )
 			, doSubmit( expr->getArgList().front().get() )
 			, std::move( argList ) );
-
-		if ( expr->getType() != callRetType )
-		{
-			// We'll need to add a swizzle
-			result = convert( expr->getType(), std::move( result ) );
-		}
-
-		return result;
 	}
 
-	void ExprAdapter::doProcessTextureQueries( expr::TextureAccessCall * expr )
+	void ExprAdapter::doProcessImageAtomic( expr::ImageAccessCall * expr
+		, std::string const & name
+		, std::map< std::string, type::TypePtr > imageAtomicFuncs )
 	{
-		expr::ExprList args;
+		auto imgArgType = std::static_pointer_cast< type::Image >( expr->getArgList()[0]->getType() );
+		auto config = imgArgType->getConfig();
+		auto funcName = getName( "SDW_imageAtomic" + name, config );
+		auto it = imageAtomicFuncs.find( funcName );
+
+		if ( it == imageAtomicFuncs.end() )
+		{
+			// Declare the function
+			auto dataType = expr->getArgList()[2]->getType();
+			var::VariableList parameters;
+			auto image = var::makeVariable( expr->getArgList()[0]->getType(), "image" );
+			auto coord = var::makeVariable( expr->getArgList()[1]->getType(), "coord" );
+			auto data = var::makeVariable( dataType, "data" );
+			parameters.emplace_back( image );
+			parameters.emplace_back( coord );
+			parameters.emplace_back( data );
+			auto cont = stmt::makeFunctionDecl( expr->getType()
+				, funcName
+				, parameters );
+			// Function content
+			auto res = var::makeVariable( dataType, "res" );
+			cont->addStmt( stmt::makeVariableDecl( res ) );
+
+			//	The call to Interlocked<name>
+			expr::ExprList callArgs;
+			callArgs.emplace_back( expr::makeArrayAccess( getType( config.format )
+				, expr::makeIdentifier( image )
+				, expr::makeIdentifier( coord ) ) );
+			callArgs.emplace_back( expr::makeIdentifier( data ) );
+			callArgs.emplace_back( expr::makeIdentifier( res ) );
+
+			cont->addStmt( stmt::makeSimple( expr::makeFnCall( type::getVoid()
+				, makeIdent( var::makeFunction( "Interlocked" + name ) )
+				, std::move( callArgs ) ) ) );
+
+			//	The return statement
+			cont->addStmt( stmt::makeReturn( expr::makeIdentifier( res ) ) );
+
+			it = imageAtomicFuncs.emplace( funcName
+				, static_cast< stmt::Return const & >( *cont->back() ).getExpr()->getType() ).first;
+			m_intrinsics->addStmt( std::move( cont ) );
+		}
+
+		expr::ExprList argList;
 
 		for ( auto & arg : expr->getArgList() )
 		{
-			if ( !doProcessSampledImageArg( *arg, false, args ) )
+			argList.emplace_back( doSubmit( arg.get() ) );
+		}
+
+		m_result = expr::makeFnCall( it->second
+			, expr::makeIdentifier( var::makeFunction( funcName ) )
+			, std::move( argList ) );
+	}
+
+	void ExprAdapter::doProcessImageAtomicAdd( expr::ImageAccessCall * expr )
+	{
+		doProcessImageAtomic( expr, "Add", m_imageAtomicAddFuncs );
+	}
+
+	void ExprAdapter::doProcessImageAtomicMin( expr::ImageAccessCall * expr )
+	{
+		doProcessImageAtomic( expr, "Min", m_imageAtomicMinFuncs );
+	}
+
+	void ExprAdapter::doProcessImageAtomicMax( expr::ImageAccessCall * expr )
+	{
+		doProcessImageAtomic( expr, "Max", m_imageAtomicMaxFuncs );
+	}
+
+	void ExprAdapter::doProcessImageAtomicAnd( expr::ImageAccessCall * expr )
+	{
+		doProcessImageAtomic( expr, "And", m_imageAtomicAndFuncs );
+	}
+
+	void ExprAdapter::doProcessImageAtomicOr( expr::ImageAccessCall * expr )
+	{
+		doProcessImageAtomic( expr, "Or", m_imageAtomicOrFuncs );
+	}
+
+	void ExprAdapter::doProcessImageAtomicXor( expr::ImageAccessCall * expr )
+	{
+		doProcessImageAtomic( expr, "Xor", m_imageAtomicXorFuncs );
+	}
+
+	void ExprAdapter::doProcessImageAtomicExchange( expr::ImageAccessCall * expr )
+	{
+		doProcessImageAtomic( expr, "Exchange", m_imageAtomicExchangeFuncs );
+	}
+
+	void ExprAdapter::doProcessImageAtomicCompSwap( expr::ImageAccessCall * expr )
+	{
+		auto imgArgType = std::static_pointer_cast< type::Image >( expr->getArgList()[0]->getType() );
+		auto config = imgArgType->getConfig();
+		auto funcName = getName( "SDW_imageAtomicCompSwap", config );
+		auto it = m_imageAtomicCompSwapFuncs.find( funcName );
+
+		if ( it == m_imageAtomicCompSwapFuncs.end() )
+		{
+			// Declare the function
+			auto dataType = expr->getArgList()[2]->getType();
+			var::VariableList parameters;
+			auto image = var::makeVariable( expr->getArgList()[0]->getType(), "image" );
+			auto coord = var::makeVariable( expr->getArgList()[1]->getType(), "coord" );
+			auto compare = var::makeVariable( expr->getArgList()[2]->getType(), "compare" );
+			auto data = var::makeVariable( dataType, "data" );
+			parameters.emplace_back( image );
+			parameters.emplace_back( coord );
+			parameters.emplace_back( compare );
+			parameters.emplace_back( data );
+			auto cont = stmt::makeFunctionDecl( expr->getType()
+				, funcName
+				, parameters );
+			// Function content
+			auto res = var::makeVariable( dataType, "res" );
+			cont->addStmt( stmt::makeVariableDecl( res ) );
+
+			//	The call to InterlockedCompareExchange
+			expr::ExprList callArgs;
+			callArgs.emplace_back( expr::makeArrayAccess( getType( config.format )
+				, expr::makeIdentifier( image )
+				, expr::makeIdentifier( coord ) ) );
+			callArgs.emplace_back( expr::makeIdentifier( compare ) );
+			callArgs.emplace_back( expr::makeIdentifier( data ) );
+			callArgs.emplace_back( expr::makeIdentifier( res ) );
+
+			cont->addStmt( stmt::makeSimple( expr::makeFnCall( type::getVoid()
+				, makeIdent( var::makeFunction( "InterlockedCompareExchange" ) )
+				, std::move( callArgs ) ) ) );
+
+			//	The return statement
+			cont->addStmt( stmt::makeReturn( expr::makeIdentifier( res ) ) );
+
+			it = m_imageAtomicCompSwapFuncs.emplace( funcName
+				, static_cast< stmt::Return const & >( *cont->back() ).getExpr()->getType() ).first;
+			m_intrinsics->addStmt( std::move( cont ) );
+		}
+
+		expr::ExprList argList;
+
+		for ( auto & arg : expr->getArgList() )
+		{
+			argList.emplace_back( doSubmit( arg.get() ) );
+		}
+
+		m_result = expr::makeFnCall( it->second
+			, expr::makeIdentifier( var::makeFunction( funcName ) )
+			, std::move( argList ) );
+	}
+
+	void ExprAdapter::doProcessTextureSize( expr::TextureAccessCall * expr )
+	{
+		auto imgArgType = std::static_pointer_cast< type::SampledImage >( expr->getArgList()[0]->getType() );
+		auto config = imgArgType->getConfig();
+		auto funcName = getName( "SDW_textureSize", config );
+		auto it = m_imageSizeFuncs.find( funcName );
+
+		if ( it == m_imageSizeFuncs.end() )
+		{
+			var::VariableList parameters;
+			auto image = var::makeVariable( imgArgType->getImageType(), "image" );
+			parameters.emplace_back( image );
+			var::VariablePtr lod;
+
+			if ( config.dimension != type::ImageDim::eBuffer
+				&& config.dimension != type::ImageDim::eRect )
 			{
-				args.emplace_back( doSubmit( arg.get() ) );
+				lod = var::makeVariable( expr->getArgList()[1]->getType(), "lod" );
+				parameters.emplace_back( lod );
+			}
+
+			auto cont = stmt::makeFunctionDecl( expr->getType()
+				, funcName
+				, parameters );
+			type::TypePtr uintType = type::getUInt();
+			var::VariableList resVars;
+			expr::CompositeType composite{};
+
+			switch ( getComponentCount( expr->getType()->getKind() ) )
+			{
+			case 1:
+			{
+				resVars.emplace_back( var::makeVariable( uintType, "dimX" ) );
+				cont->addStmt( stmt::makeVariableDecl( resVars.back() ) );
+				composite = expr::CompositeType::eScalar;
+			}
+			break;
+			case 2:
+			{
+				resVars.emplace_back( var::makeVariable( uintType, "dimX" ) );
+				cont->addStmt( stmt::makeVariableDecl( resVars.back() ) );
+				resVars.emplace_back( var::makeVariable( uintType, "dimY" ) );
+				cont->addStmt( stmt::makeVariableDecl( resVars.back() ) );
+				composite = expr::CompositeType::eVec2;
+			}
+			break;
+			case 3:
+			{
+				resVars.emplace_back( var::makeVariable( uintType, "dimX" ) );
+				cont->addStmt( stmt::makeVariableDecl( resVars.back() ) );
+				resVars.emplace_back( var::makeVariable( uintType, "dimY" ) );
+				cont->addStmt( stmt::makeVariableDecl( resVars.back() ) );
+				resVars.emplace_back( var::makeVariable( uintType, "dimZ" ) );
+				cont->addStmt( stmt::makeVariableDecl( resVars.back() ) );
+				composite = expr::CompositeType::eVec3;
+			}
+			break;
+			}
+
+			// The call to image.GetDimensions
+			expr::ExprList callArgs;
+
+			if ( lod )
+			{
+				callArgs.emplace_back( expr::makeIdentifier( lod ) );
+			}
+			else if ( config.dimension != type::ImageDim::eBuffer )
+			{
+				callArgs.emplace_back( expr::makeLiteral( 0u ) );
+			}
+
+			for ( auto & var : resVars )
+			{
+				callArgs.emplace_back( expr::makeIdentifier( var ) );
+			}
+
+			if ( config.dimension != type::ImageDim::eBuffer )
+			{
+				auto var = var::makeVariable( uintType, "levels" );
+				cont->addStmt( stmt::makeVariableDecl( var ) );
+				callArgs.emplace_back( expr::makeIdentifier( var ) );
+			}
+
+			cont->addStmt( stmt::makeSimple( expr::makeMemberFnCall( type::getVoid()
+				, makeIdent( var::makeFunction( "GetDimensions" ) )
+				, makeIdent( image )
+				, std::move( callArgs ) ) ) );
+
+			// The return statement
+			expr::ExprList resArgs;
+
+			for ( auto & var : resVars )
+			{
+				resArgs.emplace_back( expr::makeCast( type::getInt()
+					, expr::makeIdentifier( var ) ) );
+			}
+
+			if ( composite == expr::CompositeType::eScalar )
+			{
+				cont->addStmt( stmt::makeReturn( std::move( resArgs.back() ) ) );
+			}
+			else
+			{
+				cont->addStmt( stmt::makeReturn( expr::makeCompositeConstruct( composite
+					, type::Kind::eInt
+					, std::move( resArgs ) ) ) );
+			}
+
+			it = m_imageSizeFuncs.emplace( funcName
+				, static_cast< stmt::Return const & >( *cont->back() ).getExpr()->getType() ).first;
+			m_intrinsics->addStmt( std::move( cont ) );
+		}
+
+		expr::ExprList argList;
+
+		for ( auto & arg : expr->getArgList() )
+		{
+			if ( !doProcessSampledImageArg( *arg, false, argList ) )
+			{
+				argList.emplace_back( doSubmit( arg.get() ) );
 			}
 		}
 
-		m_result = expr::makeTextureAccessCall( expr->getType()
-			, expr->getTextureAccess()
-			, std::move( args ) );
+		m_result = expr::makeFnCall( it->second
+			, expr::makeIdentifier( var::makeFunction( funcName ) )
+			, std::move( argList ) );
+	}
+
+	void ExprAdapter::doProcessTextureQueryLod( expr::TextureAccessCall * expr )
+	{
+		auto imgArgType = std::static_pointer_cast< type::SampledImage >( expr->getArgList()[0]->getType() );
+		auto config = imgArgType->getConfig();
+		auto funcName = getName( "SDW_textureQueryLod", config );
+		auto it = m_imageLodFuncs.find( funcName );
+
+		if ( it == m_imageLodFuncs.end() )
+		{
+			var::VariableList parameters;
+			auto image = var::makeVariable( imgArgType->getImageType(), "texImage" );
+			auto sampler = var::makeVariable( imgArgType->getSamplerType(), "texSampler" );
+			auto coord = var::makeVariable( expr->getArgList()[1]->getType(), "P" );
+			parameters.emplace_back( image );
+			parameters.emplace_back( sampler );
+			parameters.emplace_back( coord );
+
+			auto cont = stmt::makeFunctionDecl( expr->getType()
+				, funcName
+				, parameters );
+			type::TypePtr uintType = type::getUInt();
+
+			// The call to image.CalculateLevelOfDetail
+			expr::ExprList callArgs;
+			callArgs.emplace_back( expr::makeIdentifier( sampler ) );
+			callArgs.emplace_back( expr::makeIdentifier( coord ) );
+
+			// The return statement
+			expr::ExprList resArgs;
+			resArgs.emplace_back( expr::makeMemberFnCall( type::getVoid()
+				, makeIdent( var::makeFunction( "CalculateLevelOfDetail" ) )
+				, makeIdent( image )
+				, std::move( callArgs ) ) );
+			resArgs.emplace_back( expr::makeLiteral( 0.0f ) );
+
+			cont->addStmt( stmt::makeReturn( expr::makeCompositeConstruct( expr::CompositeType::eVec2
+				, type::Kind::eFloat
+				, std::move( resArgs ) ) ) );
+
+			it = m_imageLodFuncs.emplace( funcName
+				, static_cast< stmt::Return const & >( *cont->back() ).getExpr()->getType() ).first;
+			m_intrinsics->addStmt( std::move( cont ) );
+		}
+
+		expr::ExprList argList;
+
+		for ( auto & arg : expr->getArgList() )
+		{
+			if ( !doProcessSampledImageArg( *arg, true, argList ) )
+			{
+				argList.emplace_back( doSubmit( arg.get() ) );
+			}
+		}
+
+		m_result = expr::makeFnCall( it->second
+			, expr::makeIdentifier( var::makeFunction( funcName ) )
+			, std::move( argList ) );
+	}
+
+	void ExprAdapter::doProcessTextureQueryLevels( expr::TextureAccessCall * expr )
+	{
+		auto imgArgType = std::static_pointer_cast< type::SampledImage >( expr->getArgList()[0]->getType() );
+		auto config = imgArgType->getConfig();
+		auto funcName = getName( "SDW_textureQueryLevels", config );
+		auto it = m_imageLevelsFuncs.find( funcName );
+
+		if ( it == m_imageLevelsFuncs.end() )
+		{
+			var::VariableList parameters;
+			auto image = var::makeVariable( imgArgType->getImageType(), "image" );
+			parameters.emplace_back( image );
+
+			auto cont = stmt::makeFunctionDecl( expr->getType()
+				, funcName
+				, parameters );
+			type::TypePtr uintType = type::getUInt();
+			var::VariableList resVars;
+			expr::CompositeType composite{};
+
+			switch ( config.dimension )
+			{
+			case type::ImageDim::e1D:
+				resVars.emplace_back( var::makeVariable( uintType, "dimX" ) );
+				cont->addStmt( stmt::makeVariableDecl( resVars.back() ) );
+				if ( config.isArrayed )
+				{
+					resVars.emplace_back( var::makeVariable( uintType, "dimY" ) );
+					cont->addStmt( stmt::makeVariableDecl( resVars.back() ) );
+				}
+				break;
+			case type::ImageDim::e2D:
+			case type::ImageDim::eRect:
+			case type::ImageDim::eCube:
+				resVars.emplace_back( var::makeVariable( uintType, "dimX" ) );
+				cont->addStmt( stmt::makeVariableDecl( resVars.back() ) );
+				resVars.emplace_back( var::makeVariable( uintType, "dimY" ) );
+				cont->addStmt( stmt::makeVariableDecl( resVars.back() ) );
+				if ( config.isArrayed )
+				{
+					resVars.emplace_back( var::makeVariable( uintType, "dimZ" ) );
+					cont->addStmt( stmt::makeVariableDecl( resVars.back() ) );
+				}
+				break;
+			case type::ImageDim::e3D:
+				resVars.emplace_back( var::makeVariable( uintType, "dimX" ) );
+				cont->addStmt( stmt::makeVariableDecl( resVars.back() ) );
+				resVars.emplace_back( var::makeVariable( uintType, "dimY" ) );
+				cont->addStmt( stmt::makeVariableDecl( resVars.back() ) );
+				resVars.emplace_back( var::makeVariable( uintType, "dimZ" ) );
+				cont->addStmt( stmt::makeVariableDecl( resVars.back() ) );
+				break;
+			}
+
+			// The call to image.GetDimensions
+			expr::ExprList callArgs;
+
+			if ( config.dimension != type::ImageDim::eBuffer )
+			{
+				callArgs.emplace_back( expr::makeLiteral( 0u ) );
+			}
+
+			for ( auto & var : resVars )
+			{
+				callArgs.emplace_back( expr::makeIdentifier( var ) );
+			}
+
+			auto levels = var::makeVariable( uintType, "levels" );
+			cont->addStmt( stmt::makeVariableDecl( levels ) );
+			callArgs.emplace_back( expr::makeIdentifier( levels ) );
+
+			cont->addStmt( stmt::makeSimple( expr::makeMemberFnCall( type::getVoid()
+				, makeIdent( var::makeFunction( "GetDimensions" ) )
+				, makeIdent( image )
+				, std::move( callArgs ) ) ) );
+
+			// The return statement
+			cont->addStmt( stmt::makeReturn( makeIdent( levels ) ) );
+
+			it = m_imageLevelsFuncs.emplace( funcName
+				, static_cast< stmt::Return const & >( *cont->back() ).getExpr()->getType() ).first;
+			m_intrinsics->addStmt( std::move( cont ) );
+		}
+
+		expr::ExprList argList;
+		doProcessSampledImageArg( *expr->getArgList()[0], false, argList );
+
+		m_result = expr::makeFnCall( it->second
+			, expr::makeIdentifier( var::makeFunction( funcName ) )
+			, std::move( argList ) );
 	}
 
 	void ExprAdapter::doProcessTexelFetch( expr::TextureAccessCall * expr )

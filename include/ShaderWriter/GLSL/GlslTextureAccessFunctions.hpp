@@ -9,7 +9,7 @@ See LICENSE file in root folder
 
 namespace sdw::glsl
 {
-	void writeGlslTextureAccessFunctions( ast::stmt::Container * container
+	void compileGlslTextureAccessFunctions( ast::stmt::Container * container
 		, IntrinsicsConfig const & config );
 }
 

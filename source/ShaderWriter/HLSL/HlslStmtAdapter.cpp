@@ -183,9 +183,9 @@ namespace sdw::hlsl
 		m_result->addStmt( stmt::makeStructureDecl( m_outputStruct ) );
 
 		auto cont = stmt::makeContainer();
-		writeHlslIntrinsicFunctions( cont.get(), m_config );
-		writeHlslTextureAccessFunctions( cont.get(), m_config );
-		writeHlslImageAccessFunctions( cont.get(), m_config );
+		compileHlslIntrinsicFunctions( cont.get(), m_config );
+		compileHlslTextureAccessFunctions( cont.get(), m_config );
+		compileHlslImageAccessFunctions( cont.get(), m_config );
 		m_intrinsics = cont.get();
 		m_result->addStmt( std::move( cont ) );
 

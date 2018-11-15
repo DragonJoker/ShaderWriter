@@ -13,7 +13,7 @@ namespace sdw
 	std::string writeSpirv( Shader const & shader
 		, ShaderType type
 		, bool writeHeader = true );
-	std::vector< uint32_t > serializeSpirv( Shader const & shader
+	std::vector< uint32_t > serialiseSpirv( Shader const & shader
 		, ShaderType type );
 }
 

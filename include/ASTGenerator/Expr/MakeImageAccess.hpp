@@ -15,273 +15,2184 @@ namespace ast::expr
 	*@param image
 	*	Image<Float, 1D>
 	*/
-	ImageAccessCallPtr makeImageSize1DF( ExprPtr image );
+	ImageAccessCallPtr makeImageSize1DFRgba32( ExprPtr image );
+	/**
+	*@return
+	*	int
+	*@param image
+	*	Image<Float, 1D>
+	*/
+	ImageAccessCallPtr makeImageSize1DFRgba16( ExprPtr image );
+	/**
+	*@return
+	*	int
+	*@param image
+	*	Image<Float, 1D>
+	*/
+	ImageAccessCallPtr makeImageSize1DFRg32( ExprPtr image );
+	/**
+	*@return
+	*	int
+	*@param image
+	*	Image<Float, 1D>
+	*/
+	ImageAccessCallPtr makeImageSize1DFRg16( ExprPtr image );
+	/**
+	*@return
+	*	int
+	*@param image
+	*	Image<Float, 1D>
+	*/
+	ImageAccessCallPtr makeImageSize1DFR32( ExprPtr image );
+	/**
+	*@return
+	*	int
+	*@param image
+	*	Image<Float, 1D>
+	*/
+	ImageAccessCallPtr makeImageSize1DFR16( ExprPtr image );
 	/**
 	*@return
 	*	vec2i
 	*@param image
 	*	Image<Float, 2D>
 	*/
-	ImageAccessCallPtr makeImageSize2DF( ExprPtr image );
+	ImageAccessCallPtr makeImageSize2DFRgba32( ExprPtr image );
+	/**
+	*@return
+	*	vec2i
+	*@param image
+	*	Image<Float, 2D>
+	*/
+	ImageAccessCallPtr makeImageSize2DFRgba16( ExprPtr image );
+	/**
+	*@return
+	*	vec2i
+	*@param image
+	*	Image<Float, 2D>
+	*/
+	ImageAccessCallPtr makeImageSize2DFRg32( ExprPtr image );
+	/**
+	*@return
+	*	vec2i
+	*@param image
+	*	Image<Float, 2D>
+	*/
+	ImageAccessCallPtr makeImageSize2DFRg16( ExprPtr image );
+	/**
+	*@return
+	*	vec2i
+	*@param image
+	*	Image<Float, 2D>
+	*/
+	ImageAccessCallPtr makeImageSize2DFR32( ExprPtr image );
+	/**
+	*@return
+	*	vec2i
+	*@param image
+	*	Image<Float, 2D>
+	*/
+	ImageAccessCallPtr makeImageSize2DFR16( ExprPtr image );
 	/**
 	*@return
 	*	vec3i
 	*@param image
 	*	Image<Float, 3D>
 	*/
-	ImageAccessCallPtr makeImageSize3DF( ExprPtr image );
+	ImageAccessCallPtr makeImageSize3DFRgba32( ExprPtr image );
+	/**
+	*@return
+	*	vec3i
+	*@param image
+	*	Image<Float, 3D>
+	*/
+	ImageAccessCallPtr makeImageSize3DFRgba16( ExprPtr image );
+	/**
+	*@return
+	*	vec3i
+	*@param image
+	*	Image<Float, 3D>
+	*/
+	ImageAccessCallPtr makeImageSize3DFRg32( ExprPtr image );
+	/**
+	*@return
+	*	vec3i
+	*@param image
+	*	Image<Float, 3D>
+	*/
+	ImageAccessCallPtr makeImageSize3DFRg16( ExprPtr image );
+	/**
+	*@return
+	*	vec3i
+	*@param image
+	*	Image<Float, 3D>
+	*/
+	ImageAccessCallPtr makeImageSize3DFR32( ExprPtr image );
+	/**
+	*@return
+	*	vec3i
+	*@param image
+	*	Image<Float, 3D>
+	*/
+	ImageAccessCallPtr makeImageSize3DFR16( ExprPtr image );
 	/**
 	*@return
 	*	vec2i
 	*@param image
 	*	Image<Float, Cube>
 	*/
-	ImageAccessCallPtr makeImageSizeCubeF( ExprPtr image );
+	ImageAccessCallPtr makeImageSizeCubeFRgba32( ExprPtr image );
+	/**
+	*@return
+	*	vec2i
+	*@param image
+	*	Image<Float, Cube>
+	*/
+	ImageAccessCallPtr makeImageSizeCubeFRgba16( ExprPtr image );
+	/**
+	*@return
+	*	vec2i
+	*@param image
+	*	Image<Float, Cube>
+	*/
+	ImageAccessCallPtr makeImageSizeCubeFRg32( ExprPtr image );
+	/**
+	*@return
+	*	vec2i
+	*@param image
+	*	Image<Float, Cube>
+	*/
+	ImageAccessCallPtr makeImageSizeCubeFRg16( ExprPtr image );
+	/**
+	*@return
+	*	vec2i
+	*@param image
+	*	Image<Float, Cube>
+	*/
+	ImageAccessCallPtr makeImageSizeCubeFR32( ExprPtr image );
+	/**
+	*@return
+	*	vec2i
+	*@param image
+	*	Image<Float, Cube>
+	*/
+	ImageAccessCallPtr makeImageSizeCubeFR16( ExprPtr image );
 	/**
 	*@return
 	*	vec3i
 	*@param image
 	*	Image<Float, Cube, Array>
 	*/
-	ImageAccessCallPtr makeImageSizeCubeArrayF( ExprPtr image );
+	ImageAccessCallPtr makeImageSizeCubeArrayFRgba32( ExprPtr image );
+	/**
+	*@return
+	*	vec3i
+	*@param image
+	*	Image<Float, Cube, Array>
+	*/
+	ImageAccessCallPtr makeImageSizeCubeArrayFRgba16( ExprPtr image );
+	/**
+	*@return
+	*	vec3i
+	*@param image
+	*	Image<Float, Cube, Array>
+	*/
+	ImageAccessCallPtr makeImageSizeCubeArrayFRg32( ExprPtr image );
+	/**
+	*@return
+	*	vec3i
+	*@param image
+	*	Image<Float, Cube, Array>
+	*/
+	ImageAccessCallPtr makeImageSizeCubeArrayFRg16( ExprPtr image );
+	/**
+	*@return
+	*	vec3i
+	*@param image
+	*	Image<Float, Cube, Array>
+	*/
+	ImageAccessCallPtr makeImageSizeCubeArrayFR32( ExprPtr image );
+	/**
+	*@return
+	*	vec3i
+	*@param image
+	*	Image<Float, Cube, Array>
+	*/
+	ImageAccessCallPtr makeImageSizeCubeArrayFR16( ExprPtr image );
 	/**
 	*@return
 	*	vec2i
 	*@param image
 	*	Image<Float, Rect>
 	*/
-	ImageAccessCallPtr makeImageSize2DRectF( ExprPtr image );
+	ImageAccessCallPtr makeImageSize2DRectFRgba32( ExprPtr image );
+	/**
+	*@return
+	*	vec2i
+	*@param image
+	*	Image<Float, Rect>
+	*/
+	ImageAccessCallPtr makeImageSize2DRectFRgba16( ExprPtr image );
+	/**
+	*@return
+	*	vec2i
+	*@param image
+	*	Image<Float, Rect>
+	*/
+	ImageAccessCallPtr makeImageSize2DRectFRg32( ExprPtr image );
+	/**
+	*@return
+	*	vec2i
+	*@param image
+	*	Image<Float, Rect>
+	*/
+	ImageAccessCallPtr makeImageSize2DRectFRg16( ExprPtr image );
+	/**
+	*@return
+	*	vec2i
+	*@param image
+	*	Image<Float, Rect>
+	*/
+	ImageAccessCallPtr makeImageSize2DRectFR32( ExprPtr image );
+	/**
+	*@return
+	*	vec2i
+	*@param image
+	*	Image<Float, Rect>
+	*/
+	ImageAccessCallPtr makeImageSize2DRectFR16( ExprPtr image );
 	/**
 	*@return
 	*	vec2i
 	*@param image
 	*	Image<Float, 1D, Array>
 	*/
-	ImageAccessCallPtr makeImageSize1DArrayF( ExprPtr image );
+	ImageAccessCallPtr makeImageSize1DArrayFRgba32( ExprPtr image );
+	/**
+	*@return
+	*	vec2i
+	*@param image
+	*	Image<Float, 1D, Array>
+	*/
+	ImageAccessCallPtr makeImageSize1DArrayFRgba16( ExprPtr image );
+	/**
+	*@return
+	*	vec2i
+	*@param image
+	*	Image<Float, 1D, Array>
+	*/
+	ImageAccessCallPtr makeImageSize1DArrayFRg32( ExprPtr image );
+	/**
+	*@return
+	*	vec2i
+	*@param image
+	*	Image<Float, 1D, Array>
+	*/
+	ImageAccessCallPtr makeImageSize1DArrayFRg16( ExprPtr image );
+	/**
+	*@return
+	*	vec2i
+	*@param image
+	*	Image<Float, 1D, Array>
+	*/
+	ImageAccessCallPtr makeImageSize1DArrayFR32( ExprPtr image );
+	/**
+	*@return
+	*	vec2i
+	*@param image
+	*	Image<Float, 1D, Array>
+	*/
+	ImageAccessCallPtr makeImageSize1DArrayFR16( ExprPtr image );
 	/**
 	*@return
 	*	vec3i
 	*@param image
 	*	Image<Float, 2D, Array>
 	*/
-	ImageAccessCallPtr makeImageSize2DArrayF( ExprPtr image );
+	ImageAccessCallPtr makeImageSize2DArrayFRgba32( ExprPtr image );
+	/**
+	*@return
+	*	vec3i
+	*@param image
+	*	Image<Float, 2D, Array>
+	*/
+	ImageAccessCallPtr makeImageSize2DArrayFRgba16( ExprPtr image );
+	/**
+	*@return
+	*	vec3i
+	*@param image
+	*	Image<Float, 2D, Array>
+	*/
+	ImageAccessCallPtr makeImageSize2DArrayFRg32( ExprPtr image );
+	/**
+	*@return
+	*	vec3i
+	*@param image
+	*	Image<Float, 2D, Array>
+	*/
+	ImageAccessCallPtr makeImageSize2DArrayFRg16( ExprPtr image );
+	/**
+	*@return
+	*	vec3i
+	*@param image
+	*	Image<Float, 2D, Array>
+	*/
+	ImageAccessCallPtr makeImageSize2DArrayFR32( ExprPtr image );
+	/**
+	*@return
+	*	vec3i
+	*@param image
+	*	Image<Float, 2D, Array>
+	*/
+	ImageAccessCallPtr makeImageSize2DArrayFR16( ExprPtr image );
 	/**
 	*@return
 	*	int
 	*@param image
 	*	Image<Float, Buffer>
 	*/
-	ImageAccessCallPtr makeImageSizeBufferF( ExprPtr image );
+	ImageAccessCallPtr makeImageSizeBufferFRgba32( ExprPtr image );
+	/**
+	*@return
+	*	int
+	*@param image
+	*	Image<Float, Buffer>
+	*/
+	ImageAccessCallPtr makeImageSizeBufferFRgba16( ExprPtr image );
+	/**
+	*@return
+	*	int
+	*@param image
+	*	Image<Float, Buffer>
+	*/
+	ImageAccessCallPtr makeImageSizeBufferFRg32( ExprPtr image );
+	/**
+	*@return
+	*	int
+	*@param image
+	*	Image<Float, Buffer>
+	*/
+	ImageAccessCallPtr makeImageSizeBufferFRg16( ExprPtr image );
+	/**
+	*@return
+	*	int
+	*@param image
+	*	Image<Float, Buffer>
+	*/
+	ImageAccessCallPtr makeImageSizeBufferFR32( ExprPtr image );
+	/**
+	*@return
+	*	int
+	*@param image
+	*	Image<Float, Buffer>
+	*/
+	ImageAccessCallPtr makeImageSizeBufferFR16( ExprPtr image );
 	/**
 	*@return
 	*	vec2i
 	*@param image
 	*	Image<Float, 2D, MS>
 	*/
-	ImageAccessCallPtr makeImageSize2DMSF( ExprPtr image );
+	ImageAccessCallPtr makeImageSize2DMSFRgba32( ExprPtr image );
+	/**
+	*@return
+	*	vec2i
+	*@param image
+	*	Image<Float, 2D, MS>
+	*/
+	ImageAccessCallPtr makeImageSize2DMSFRgba16( ExprPtr image );
+	/**
+	*@return
+	*	vec2i
+	*@param image
+	*	Image<Float, 2D, MS>
+	*/
+	ImageAccessCallPtr makeImageSize2DMSFRg32( ExprPtr image );
+	/**
+	*@return
+	*	vec2i
+	*@param image
+	*	Image<Float, 2D, MS>
+	*/
+	ImageAccessCallPtr makeImageSize2DMSFRg16( ExprPtr image );
+	/**
+	*@return
+	*	vec2i
+	*@param image
+	*	Image<Float, 2D, MS>
+	*/
+	ImageAccessCallPtr makeImageSize2DMSFR32( ExprPtr image );
+	/**
+	*@return
+	*	vec2i
+	*@param image
+	*	Image<Float, 2D, MS>
+	*/
+	ImageAccessCallPtr makeImageSize2DMSFR16( ExprPtr image );
 	/**
 	*@return
 	*	vec3i
 	*@param image
 	*	Image<Float, 2D, MS, Array>
 	*/
-	ImageAccessCallPtr makeImageSize2DMSArrayF( ExprPtr image );
+	ImageAccessCallPtr makeImageSize2DMSArrayFRgba32( ExprPtr image );
+	/**
+	*@return
+	*	vec3i
+	*@param image
+	*	Image<Float, 2D, MS, Array>
+	*/
+	ImageAccessCallPtr makeImageSize2DMSArrayFRgba16( ExprPtr image );
+	/**
+	*@return
+	*	vec3i
+	*@param image
+	*	Image<Float, 2D, MS, Array>
+	*/
+	ImageAccessCallPtr makeImageSize2DMSArrayFRg32( ExprPtr image );
+	/**
+	*@return
+	*	vec3i
+	*@param image
+	*	Image<Float, 2D, MS, Array>
+	*/
+	ImageAccessCallPtr makeImageSize2DMSArrayFRg16( ExprPtr image );
+	/**
+	*@return
+	*	vec3i
+	*@param image
+	*	Image<Float, 2D, MS, Array>
+	*/
+	ImageAccessCallPtr makeImageSize2DMSArrayFR32( ExprPtr image );
+	/**
+	*@return
+	*	vec3i
+	*@param image
+	*	Image<Float, 2D, MS, Array>
+	*/
+	ImageAccessCallPtr makeImageSize2DMSArrayFR16( ExprPtr image );
 	/**
 	*@return
 	*	int
 	*@param image
 	*	Image<Int, 1D>
 	*/
-	ImageAccessCallPtr makeImageSize1DI( ExprPtr image );
+	ImageAccessCallPtr makeImageSize1DIRgba32( ExprPtr image );
+	/**
+	*@return
+	*	int
+	*@param image
+	*	Image<Int, 1D>
+	*/
+	ImageAccessCallPtr makeImageSize1DIRgba16( ExprPtr image );
+	/**
+	*@return
+	*	int
+	*@param image
+	*	Image<Int, 1D>
+	*/
+	ImageAccessCallPtr makeImageSize1DIRgba8( ExprPtr image );
+	/**
+	*@return
+	*	int
+	*@param image
+	*	Image<Int, 1D>
+	*/
+	ImageAccessCallPtr makeImageSize1DIRg32( ExprPtr image );
+	/**
+	*@return
+	*	int
+	*@param image
+	*	Image<Int, 1D>
+	*/
+	ImageAccessCallPtr makeImageSize1DIRg16( ExprPtr image );
+	/**
+	*@return
+	*	int
+	*@param image
+	*	Image<Int, 1D>
+	*/
+	ImageAccessCallPtr makeImageSize1DIRg8( ExprPtr image );
+	/**
+	*@return
+	*	int
+	*@param image
+	*	Image<Int, 1D>
+	*/
+	ImageAccessCallPtr makeImageSize1DIR32( ExprPtr image );
+	/**
+	*@return
+	*	int
+	*@param image
+	*	Image<Int, 1D>
+	*/
+	ImageAccessCallPtr makeImageSize1DIR16( ExprPtr image );
+	/**
+	*@return
+	*	int
+	*@param image
+	*	Image<Int, 1D>
+	*/
+	ImageAccessCallPtr makeImageSize1DIR8( ExprPtr image );
 	/**
 	*@return
 	*	vec2i
 	*@param image
 	*	Image<Int, 2D>
 	*/
-	ImageAccessCallPtr makeImageSize2DI( ExprPtr image );
+	ImageAccessCallPtr makeImageSize2DIRgba32( ExprPtr image );
+	/**
+	*@return
+	*	vec2i
+	*@param image
+	*	Image<Int, 2D>
+	*/
+	ImageAccessCallPtr makeImageSize2DIRgba16( ExprPtr image );
+	/**
+	*@return
+	*	vec2i
+	*@param image
+	*	Image<Int, 2D>
+	*/
+	ImageAccessCallPtr makeImageSize2DIRgba8( ExprPtr image );
+	/**
+	*@return
+	*	vec2i
+	*@param image
+	*	Image<Int, 2D>
+	*/
+	ImageAccessCallPtr makeImageSize2DIRg32( ExprPtr image );
+	/**
+	*@return
+	*	vec2i
+	*@param image
+	*	Image<Int, 2D>
+	*/
+	ImageAccessCallPtr makeImageSize2DIRg16( ExprPtr image );
+	/**
+	*@return
+	*	vec2i
+	*@param image
+	*	Image<Int, 2D>
+	*/
+	ImageAccessCallPtr makeImageSize2DIRg8( ExprPtr image );
+	/**
+	*@return
+	*	vec2i
+	*@param image
+	*	Image<Int, 2D>
+	*/
+	ImageAccessCallPtr makeImageSize2DIR32( ExprPtr image );
+	/**
+	*@return
+	*	vec2i
+	*@param image
+	*	Image<Int, 2D>
+	*/
+	ImageAccessCallPtr makeImageSize2DIR16( ExprPtr image );
+	/**
+	*@return
+	*	vec2i
+	*@param image
+	*	Image<Int, 2D>
+	*/
+	ImageAccessCallPtr makeImageSize2DIR8( ExprPtr image );
 	/**
 	*@return
 	*	vec3i
 	*@param image
 	*	Image<Int, 3D>
 	*/
-	ImageAccessCallPtr makeImageSize3DI( ExprPtr image );
+	ImageAccessCallPtr makeImageSize3DIRgba32( ExprPtr image );
+	/**
+	*@return
+	*	vec3i
+	*@param image
+	*	Image<Int, 3D>
+	*/
+	ImageAccessCallPtr makeImageSize3DIRgba16( ExprPtr image );
+	/**
+	*@return
+	*	vec3i
+	*@param image
+	*	Image<Int, 3D>
+	*/
+	ImageAccessCallPtr makeImageSize3DIRgba8( ExprPtr image );
+	/**
+	*@return
+	*	vec3i
+	*@param image
+	*	Image<Int, 3D>
+	*/
+	ImageAccessCallPtr makeImageSize3DIRg32( ExprPtr image );
+	/**
+	*@return
+	*	vec3i
+	*@param image
+	*	Image<Int, 3D>
+	*/
+	ImageAccessCallPtr makeImageSize3DIRg16( ExprPtr image );
+	/**
+	*@return
+	*	vec3i
+	*@param image
+	*	Image<Int, 3D>
+	*/
+	ImageAccessCallPtr makeImageSize3DIRg8( ExprPtr image );
+	/**
+	*@return
+	*	vec3i
+	*@param image
+	*	Image<Int, 3D>
+	*/
+	ImageAccessCallPtr makeImageSize3DIR32( ExprPtr image );
+	/**
+	*@return
+	*	vec3i
+	*@param image
+	*	Image<Int, 3D>
+	*/
+	ImageAccessCallPtr makeImageSize3DIR16( ExprPtr image );
+	/**
+	*@return
+	*	vec3i
+	*@param image
+	*	Image<Int, 3D>
+	*/
+	ImageAccessCallPtr makeImageSize3DIR8( ExprPtr image );
 	/**
 	*@return
 	*	vec2i
 	*@param image
 	*	Image<Int, Cube>
 	*/
-	ImageAccessCallPtr makeImageSizeCubeI( ExprPtr image );
+	ImageAccessCallPtr makeImageSizeCubeIRgba32( ExprPtr image );
+	/**
+	*@return
+	*	vec2i
+	*@param image
+	*	Image<Int, Cube>
+	*/
+	ImageAccessCallPtr makeImageSizeCubeIRgba16( ExprPtr image );
+	/**
+	*@return
+	*	vec2i
+	*@param image
+	*	Image<Int, Cube>
+	*/
+	ImageAccessCallPtr makeImageSizeCubeIRgba8( ExprPtr image );
+	/**
+	*@return
+	*	vec2i
+	*@param image
+	*	Image<Int, Cube>
+	*/
+	ImageAccessCallPtr makeImageSizeCubeIRg32( ExprPtr image );
+	/**
+	*@return
+	*	vec2i
+	*@param image
+	*	Image<Int, Cube>
+	*/
+	ImageAccessCallPtr makeImageSizeCubeIRg16( ExprPtr image );
+	/**
+	*@return
+	*	vec2i
+	*@param image
+	*	Image<Int, Cube>
+	*/
+	ImageAccessCallPtr makeImageSizeCubeIRg8( ExprPtr image );
+	/**
+	*@return
+	*	vec2i
+	*@param image
+	*	Image<Int, Cube>
+	*/
+	ImageAccessCallPtr makeImageSizeCubeIR32( ExprPtr image );
+	/**
+	*@return
+	*	vec2i
+	*@param image
+	*	Image<Int, Cube>
+	*/
+	ImageAccessCallPtr makeImageSizeCubeIR16( ExprPtr image );
+	/**
+	*@return
+	*	vec2i
+	*@param image
+	*	Image<Int, Cube>
+	*/
+	ImageAccessCallPtr makeImageSizeCubeIR8( ExprPtr image );
 	/**
 	*@return
 	*	vec3i
 	*@param image
 	*	Image<Int, Cube, Array>
 	*/
-	ImageAccessCallPtr makeImageSizeCubeArrayI( ExprPtr image );
+	ImageAccessCallPtr makeImageSizeCubeArrayIRgba32( ExprPtr image );
+	/**
+	*@return
+	*	vec3i
+	*@param image
+	*	Image<Int, Cube, Array>
+	*/
+	ImageAccessCallPtr makeImageSizeCubeArrayIRgba16( ExprPtr image );
+	/**
+	*@return
+	*	vec3i
+	*@param image
+	*	Image<Int, Cube, Array>
+	*/
+	ImageAccessCallPtr makeImageSizeCubeArrayIRgba8( ExprPtr image );
+	/**
+	*@return
+	*	vec3i
+	*@param image
+	*	Image<Int, Cube, Array>
+	*/
+	ImageAccessCallPtr makeImageSizeCubeArrayIRg32( ExprPtr image );
+	/**
+	*@return
+	*	vec3i
+	*@param image
+	*	Image<Int, Cube, Array>
+	*/
+	ImageAccessCallPtr makeImageSizeCubeArrayIRg16( ExprPtr image );
+	/**
+	*@return
+	*	vec3i
+	*@param image
+	*	Image<Int, Cube, Array>
+	*/
+	ImageAccessCallPtr makeImageSizeCubeArrayIRg8( ExprPtr image );
+	/**
+	*@return
+	*	vec3i
+	*@param image
+	*	Image<Int, Cube, Array>
+	*/
+	ImageAccessCallPtr makeImageSizeCubeArrayIR32( ExprPtr image );
+	/**
+	*@return
+	*	vec3i
+	*@param image
+	*	Image<Int, Cube, Array>
+	*/
+	ImageAccessCallPtr makeImageSizeCubeArrayIR16( ExprPtr image );
+	/**
+	*@return
+	*	vec3i
+	*@param image
+	*	Image<Int, Cube, Array>
+	*/
+	ImageAccessCallPtr makeImageSizeCubeArrayIR8( ExprPtr image );
 	/**
 	*@return
 	*	vec2i
 	*@param image
 	*	Image<Int, Rect>
 	*/
-	ImageAccessCallPtr makeImageSize2DRectI( ExprPtr image );
+	ImageAccessCallPtr makeImageSize2DRectIRgba32( ExprPtr image );
+	/**
+	*@return
+	*	vec2i
+	*@param image
+	*	Image<Int, Rect>
+	*/
+	ImageAccessCallPtr makeImageSize2DRectIRgba16( ExprPtr image );
+	/**
+	*@return
+	*	vec2i
+	*@param image
+	*	Image<Int, Rect>
+	*/
+	ImageAccessCallPtr makeImageSize2DRectIRgba8( ExprPtr image );
+	/**
+	*@return
+	*	vec2i
+	*@param image
+	*	Image<Int, Rect>
+	*/
+	ImageAccessCallPtr makeImageSize2DRectIRg32( ExprPtr image );
+	/**
+	*@return
+	*	vec2i
+	*@param image
+	*	Image<Int, Rect>
+	*/
+	ImageAccessCallPtr makeImageSize2DRectIRg16( ExprPtr image );
+	/**
+	*@return
+	*	vec2i
+	*@param image
+	*	Image<Int, Rect>
+	*/
+	ImageAccessCallPtr makeImageSize2DRectIRg8( ExprPtr image );
+	/**
+	*@return
+	*	vec2i
+	*@param image
+	*	Image<Int, Rect>
+	*/
+	ImageAccessCallPtr makeImageSize2DRectIR32( ExprPtr image );
+	/**
+	*@return
+	*	vec2i
+	*@param image
+	*	Image<Int, Rect>
+	*/
+	ImageAccessCallPtr makeImageSize2DRectIR16( ExprPtr image );
+	/**
+	*@return
+	*	vec2i
+	*@param image
+	*	Image<Int, Rect>
+	*/
+	ImageAccessCallPtr makeImageSize2DRectIR8( ExprPtr image );
 	/**
 	*@return
 	*	vec2i
 	*@param image
 	*	Image<Int, 1D, Array>
 	*/
-	ImageAccessCallPtr makeImageSize1DArrayI( ExprPtr image );
+	ImageAccessCallPtr makeImageSize1DArrayIRgba32( ExprPtr image );
+	/**
+	*@return
+	*	vec2i
+	*@param image
+	*	Image<Int, 1D, Array>
+	*/
+	ImageAccessCallPtr makeImageSize1DArrayIRgba16( ExprPtr image );
+	/**
+	*@return
+	*	vec2i
+	*@param image
+	*	Image<Int, 1D, Array>
+	*/
+	ImageAccessCallPtr makeImageSize1DArrayIRgba8( ExprPtr image );
+	/**
+	*@return
+	*	vec2i
+	*@param image
+	*	Image<Int, 1D, Array>
+	*/
+	ImageAccessCallPtr makeImageSize1DArrayIRg32( ExprPtr image );
+	/**
+	*@return
+	*	vec2i
+	*@param image
+	*	Image<Int, 1D, Array>
+	*/
+	ImageAccessCallPtr makeImageSize1DArrayIRg16( ExprPtr image );
+	/**
+	*@return
+	*	vec2i
+	*@param image
+	*	Image<Int, 1D, Array>
+	*/
+	ImageAccessCallPtr makeImageSize1DArrayIRg8( ExprPtr image );
+	/**
+	*@return
+	*	vec2i
+	*@param image
+	*	Image<Int, 1D, Array>
+	*/
+	ImageAccessCallPtr makeImageSize1DArrayIR32( ExprPtr image );
+	/**
+	*@return
+	*	vec2i
+	*@param image
+	*	Image<Int, 1D, Array>
+	*/
+	ImageAccessCallPtr makeImageSize1DArrayIR16( ExprPtr image );
+	/**
+	*@return
+	*	vec2i
+	*@param image
+	*	Image<Int, 1D, Array>
+	*/
+	ImageAccessCallPtr makeImageSize1DArrayIR8( ExprPtr image );
 	/**
 	*@return
 	*	vec3i
 	*@param image
 	*	Image<Int, 2D, Array>
 	*/
-	ImageAccessCallPtr makeImageSize2DArrayI( ExprPtr image );
+	ImageAccessCallPtr makeImageSize2DArrayIRgba32( ExprPtr image );
+	/**
+	*@return
+	*	vec3i
+	*@param image
+	*	Image<Int, 2D, Array>
+	*/
+	ImageAccessCallPtr makeImageSize2DArrayIRgba16( ExprPtr image );
+	/**
+	*@return
+	*	vec3i
+	*@param image
+	*	Image<Int, 2D, Array>
+	*/
+	ImageAccessCallPtr makeImageSize2DArrayIRgba8( ExprPtr image );
+	/**
+	*@return
+	*	vec3i
+	*@param image
+	*	Image<Int, 2D, Array>
+	*/
+	ImageAccessCallPtr makeImageSize2DArrayIRg32( ExprPtr image );
+	/**
+	*@return
+	*	vec3i
+	*@param image
+	*	Image<Int, 2D, Array>
+	*/
+	ImageAccessCallPtr makeImageSize2DArrayIRg16( ExprPtr image );
+	/**
+	*@return
+	*	vec3i
+	*@param image
+	*	Image<Int, 2D, Array>
+	*/
+	ImageAccessCallPtr makeImageSize2DArrayIRg8( ExprPtr image );
+	/**
+	*@return
+	*	vec3i
+	*@param image
+	*	Image<Int, 2D, Array>
+	*/
+	ImageAccessCallPtr makeImageSize2DArrayIR32( ExprPtr image );
+	/**
+	*@return
+	*	vec3i
+	*@param image
+	*	Image<Int, 2D, Array>
+	*/
+	ImageAccessCallPtr makeImageSize2DArrayIR16( ExprPtr image );
+	/**
+	*@return
+	*	vec3i
+	*@param image
+	*	Image<Int, 2D, Array>
+	*/
+	ImageAccessCallPtr makeImageSize2DArrayIR8( ExprPtr image );
 	/**
 	*@return
 	*	int
 	*@param image
 	*	Image<Int, Buffer>
 	*/
-	ImageAccessCallPtr makeImageSizeBufferI( ExprPtr image );
+	ImageAccessCallPtr makeImageSizeBufferIRgba32( ExprPtr image );
+	/**
+	*@return
+	*	int
+	*@param image
+	*	Image<Int, Buffer>
+	*/
+	ImageAccessCallPtr makeImageSizeBufferIRgba16( ExprPtr image );
+	/**
+	*@return
+	*	int
+	*@param image
+	*	Image<Int, Buffer>
+	*/
+	ImageAccessCallPtr makeImageSizeBufferIRgba8( ExprPtr image );
+	/**
+	*@return
+	*	int
+	*@param image
+	*	Image<Int, Buffer>
+	*/
+	ImageAccessCallPtr makeImageSizeBufferIRg32( ExprPtr image );
+	/**
+	*@return
+	*	int
+	*@param image
+	*	Image<Int, Buffer>
+	*/
+	ImageAccessCallPtr makeImageSizeBufferIRg16( ExprPtr image );
+	/**
+	*@return
+	*	int
+	*@param image
+	*	Image<Int, Buffer>
+	*/
+	ImageAccessCallPtr makeImageSizeBufferIRg8( ExprPtr image );
+	/**
+	*@return
+	*	int
+	*@param image
+	*	Image<Int, Buffer>
+	*/
+	ImageAccessCallPtr makeImageSizeBufferIR32( ExprPtr image );
+	/**
+	*@return
+	*	int
+	*@param image
+	*	Image<Int, Buffer>
+	*/
+	ImageAccessCallPtr makeImageSizeBufferIR16( ExprPtr image );
+	/**
+	*@return
+	*	int
+	*@param image
+	*	Image<Int, Buffer>
+	*/
+	ImageAccessCallPtr makeImageSizeBufferIR8( ExprPtr image );
 	/**
 	*@return
 	*	vec2i
 	*@param image
 	*	Image<Int, 2D, MS>
 	*/
-	ImageAccessCallPtr makeImageSize2DMSI( ExprPtr image );
+	ImageAccessCallPtr makeImageSize2DMSIRgba32( ExprPtr image );
+	/**
+	*@return
+	*	vec2i
+	*@param image
+	*	Image<Int, 2D, MS>
+	*/
+	ImageAccessCallPtr makeImageSize2DMSIRgba16( ExprPtr image );
+	/**
+	*@return
+	*	vec2i
+	*@param image
+	*	Image<Int, 2D, MS>
+	*/
+	ImageAccessCallPtr makeImageSize2DMSIRgba8( ExprPtr image );
+	/**
+	*@return
+	*	vec2i
+	*@param image
+	*	Image<Int, 2D, MS>
+	*/
+	ImageAccessCallPtr makeImageSize2DMSIRg32( ExprPtr image );
+	/**
+	*@return
+	*	vec2i
+	*@param image
+	*	Image<Int, 2D, MS>
+	*/
+	ImageAccessCallPtr makeImageSize2DMSIRg16( ExprPtr image );
+	/**
+	*@return
+	*	vec2i
+	*@param image
+	*	Image<Int, 2D, MS>
+	*/
+	ImageAccessCallPtr makeImageSize2DMSIRg8( ExprPtr image );
+	/**
+	*@return
+	*	vec2i
+	*@param image
+	*	Image<Int, 2D, MS>
+	*/
+	ImageAccessCallPtr makeImageSize2DMSIR32( ExprPtr image );
+	/**
+	*@return
+	*	vec2i
+	*@param image
+	*	Image<Int, 2D, MS>
+	*/
+	ImageAccessCallPtr makeImageSize2DMSIR16( ExprPtr image );
+	/**
+	*@return
+	*	vec2i
+	*@param image
+	*	Image<Int, 2D, MS>
+	*/
+	ImageAccessCallPtr makeImageSize2DMSIR8( ExprPtr image );
 	/**
 	*@return
 	*	vec3i
 	*@param image
 	*	Image<Int, 2D, MS, Array>
 	*/
-	ImageAccessCallPtr makeImageSize2DMSArrayI( ExprPtr image );
+	ImageAccessCallPtr makeImageSize2DMSArrayIRgba32( ExprPtr image );
+	/**
+	*@return
+	*	vec3i
+	*@param image
+	*	Image<Int, 2D, MS, Array>
+	*/
+	ImageAccessCallPtr makeImageSize2DMSArrayIRgba16( ExprPtr image );
+	/**
+	*@return
+	*	vec3i
+	*@param image
+	*	Image<Int, 2D, MS, Array>
+	*/
+	ImageAccessCallPtr makeImageSize2DMSArrayIRgba8( ExprPtr image );
+	/**
+	*@return
+	*	vec3i
+	*@param image
+	*	Image<Int, 2D, MS, Array>
+	*/
+	ImageAccessCallPtr makeImageSize2DMSArrayIRg32( ExprPtr image );
+	/**
+	*@return
+	*	vec3i
+	*@param image
+	*	Image<Int, 2D, MS, Array>
+	*/
+	ImageAccessCallPtr makeImageSize2DMSArrayIRg16( ExprPtr image );
+	/**
+	*@return
+	*	vec3i
+	*@param image
+	*	Image<Int, 2D, MS, Array>
+	*/
+	ImageAccessCallPtr makeImageSize2DMSArrayIRg8( ExprPtr image );
+	/**
+	*@return
+	*	vec3i
+	*@param image
+	*	Image<Int, 2D, MS, Array>
+	*/
+	ImageAccessCallPtr makeImageSize2DMSArrayIR32( ExprPtr image );
+	/**
+	*@return
+	*	vec3i
+	*@param image
+	*	Image<Int, 2D, MS, Array>
+	*/
+	ImageAccessCallPtr makeImageSize2DMSArrayIR16( ExprPtr image );
+	/**
+	*@return
+	*	vec3i
+	*@param image
+	*	Image<Int, 2D, MS, Array>
+	*/
+	ImageAccessCallPtr makeImageSize2DMSArrayIR8( ExprPtr image );
 	/**
 	*@return
 	*	int
 	*@param image
 	*	Image<UInt, 1D>
 	*/
-	ImageAccessCallPtr makeImageSize1DU( ExprPtr image );
+	ImageAccessCallPtr makeImageSize1DURgba32( ExprPtr image );
+	/**
+	*@return
+	*	int
+	*@param image
+	*	Image<UInt, 1D>
+	*/
+	ImageAccessCallPtr makeImageSize1DURgba16( ExprPtr image );
+	/**
+	*@return
+	*	int
+	*@param image
+	*	Image<UInt, 1D>
+	*/
+	ImageAccessCallPtr makeImageSize1DURgba8( ExprPtr image );
+	/**
+	*@return
+	*	int
+	*@param image
+	*	Image<UInt, 1D>
+	*/
+	ImageAccessCallPtr makeImageSize1DURg32( ExprPtr image );
+	/**
+	*@return
+	*	int
+	*@param image
+	*	Image<UInt, 1D>
+	*/
+	ImageAccessCallPtr makeImageSize1DURg16( ExprPtr image );
+	/**
+	*@return
+	*	int
+	*@param image
+	*	Image<UInt, 1D>
+	*/
+	ImageAccessCallPtr makeImageSize1DURg8( ExprPtr image );
+	/**
+	*@return
+	*	int
+	*@param image
+	*	Image<UInt, 1D>
+	*/
+	ImageAccessCallPtr makeImageSize1DUR32( ExprPtr image );
+	/**
+	*@return
+	*	int
+	*@param image
+	*	Image<UInt, 1D>
+	*/
+	ImageAccessCallPtr makeImageSize1DUR16( ExprPtr image );
+	/**
+	*@return
+	*	int
+	*@param image
+	*	Image<UInt, 1D>
+	*/
+	ImageAccessCallPtr makeImageSize1DUR8( ExprPtr image );
 	/**
 	*@return
 	*	vec2i
 	*@param image
 	*	Image<UInt, 2D>
 	*/
-	ImageAccessCallPtr makeImageSize2DU( ExprPtr image );
+	ImageAccessCallPtr makeImageSize2DURgba32( ExprPtr image );
+	/**
+	*@return
+	*	vec2i
+	*@param image
+	*	Image<UInt, 2D>
+	*/
+	ImageAccessCallPtr makeImageSize2DURgba16( ExprPtr image );
+	/**
+	*@return
+	*	vec2i
+	*@param image
+	*	Image<UInt, 2D>
+	*/
+	ImageAccessCallPtr makeImageSize2DURgba8( ExprPtr image );
+	/**
+	*@return
+	*	vec2i
+	*@param image
+	*	Image<UInt, 2D>
+	*/
+	ImageAccessCallPtr makeImageSize2DURg32( ExprPtr image );
+	/**
+	*@return
+	*	vec2i
+	*@param image
+	*	Image<UInt, 2D>
+	*/
+	ImageAccessCallPtr makeImageSize2DURg16( ExprPtr image );
+	/**
+	*@return
+	*	vec2i
+	*@param image
+	*	Image<UInt, 2D>
+	*/
+	ImageAccessCallPtr makeImageSize2DURg8( ExprPtr image );
+	/**
+	*@return
+	*	vec2i
+	*@param image
+	*	Image<UInt, 2D>
+	*/
+	ImageAccessCallPtr makeImageSize2DUR32( ExprPtr image );
+	/**
+	*@return
+	*	vec2i
+	*@param image
+	*	Image<UInt, 2D>
+	*/
+	ImageAccessCallPtr makeImageSize2DUR16( ExprPtr image );
+	/**
+	*@return
+	*	vec2i
+	*@param image
+	*	Image<UInt, 2D>
+	*/
+	ImageAccessCallPtr makeImageSize2DUR8( ExprPtr image );
 	/**
 	*@return
 	*	vec3i
 	*@param image
 	*	Image<UInt, 3D>
 	*/
-	ImageAccessCallPtr makeImageSize3DU( ExprPtr image );
+	ImageAccessCallPtr makeImageSize3DURgba32( ExprPtr image );
+	/**
+	*@return
+	*	vec3i
+	*@param image
+	*	Image<UInt, 3D>
+	*/
+	ImageAccessCallPtr makeImageSize3DURgba16( ExprPtr image );
+	/**
+	*@return
+	*	vec3i
+	*@param image
+	*	Image<UInt, 3D>
+	*/
+	ImageAccessCallPtr makeImageSize3DURgba8( ExprPtr image );
+	/**
+	*@return
+	*	vec3i
+	*@param image
+	*	Image<UInt, 3D>
+	*/
+	ImageAccessCallPtr makeImageSize3DURg32( ExprPtr image );
+	/**
+	*@return
+	*	vec3i
+	*@param image
+	*	Image<UInt, 3D>
+	*/
+	ImageAccessCallPtr makeImageSize3DURg16( ExprPtr image );
+	/**
+	*@return
+	*	vec3i
+	*@param image
+	*	Image<UInt, 3D>
+	*/
+	ImageAccessCallPtr makeImageSize3DURg8( ExprPtr image );
+	/**
+	*@return
+	*	vec3i
+	*@param image
+	*	Image<UInt, 3D>
+	*/
+	ImageAccessCallPtr makeImageSize3DUR32( ExprPtr image );
+	/**
+	*@return
+	*	vec3i
+	*@param image
+	*	Image<UInt, 3D>
+	*/
+	ImageAccessCallPtr makeImageSize3DUR16( ExprPtr image );
+	/**
+	*@return
+	*	vec3i
+	*@param image
+	*	Image<UInt, 3D>
+	*/
+	ImageAccessCallPtr makeImageSize3DUR8( ExprPtr image );
 	/**
 	*@return
 	*	vec2i
 	*@param image
 	*	Image<UInt, Cube>
 	*/
-	ImageAccessCallPtr makeImageSizeCubeU( ExprPtr image );
+	ImageAccessCallPtr makeImageSizeCubeURgba32( ExprPtr image );
+	/**
+	*@return
+	*	vec2i
+	*@param image
+	*	Image<UInt, Cube>
+	*/
+	ImageAccessCallPtr makeImageSizeCubeURgba16( ExprPtr image );
+	/**
+	*@return
+	*	vec2i
+	*@param image
+	*	Image<UInt, Cube>
+	*/
+	ImageAccessCallPtr makeImageSizeCubeURgba8( ExprPtr image );
+	/**
+	*@return
+	*	vec2i
+	*@param image
+	*	Image<UInt, Cube>
+	*/
+	ImageAccessCallPtr makeImageSizeCubeURg32( ExprPtr image );
+	/**
+	*@return
+	*	vec2i
+	*@param image
+	*	Image<UInt, Cube>
+	*/
+	ImageAccessCallPtr makeImageSizeCubeURg16( ExprPtr image );
+	/**
+	*@return
+	*	vec2i
+	*@param image
+	*	Image<UInt, Cube>
+	*/
+	ImageAccessCallPtr makeImageSizeCubeURg8( ExprPtr image );
+	/**
+	*@return
+	*	vec2i
+	*@param image
+	*	Image<UInt, Cube>
+	*/
+	ImageAccessCallPtr makeImageSizeCubeUR32( ExprPtr image );
+	/**
+	*@return
+	*	vec2i
+	*@param image
+	*	Image<UInt, Cube>
+	*/
+	ImageAccessCallPtr makeImageSizeCubeUR16( ExprPtr image );
+	/**
+	*@return
+	*	vec2i
+	*@param image
+	*	Image<UInt, Cube>
+	*/
+	ImageAccessCallPtr makeImageSizeCubeUR8( ExprPtr image );
 	/**
 	*@return
 	*	vec3i
 	*@param image
 	*	Image<UInt, Cube, Array>
 	*/
-	ImageAccessCallPtr makeImageSizeCubeArrayU( ExprPtr image );
+	ImageAccessCallPtr makeImageSizeCubeArrayURgba32( ExprPtr image );
+	/**
+	*@return
+	*	vec3i
+	*@param image
+	*	Image<UInt, Cube, Array>
+	*/
+	ImageAccessCallPtr makeImageSizeCubeArrayURgba16( ExprPtr image );
+	/**
+	*@return
+	*	vec3i
+	*@param image
+	*	Image<UInt, Cube, Array>
+	*/
+	ImageAccessCallPtr makeImageSizeCubeArrayURgba8( ExprPtr image );
+	/**
+	*@return
+	*	vec3i
+	*@param image
+	*	Image<UInt, Cube, Array>
+	*/
+	ImageAccessCallPtr makeImageSizeCubeArrayURg32( ExprPtr image );
+	/**
+	*@return
+	*	vec3i
+	*@param image
+	*	Image<UInt, Cube, Array>
+	*/
+	ImageAccessCallPtr makeImageSizeCubeArrayURg16( ExprPtr image );
+	/**
+	*@return
+	*	vec3i
+	*@param image
+	*	Image<UInt, Cube, Array>
+	*/
+	ImageAccessCallPtr makeImageSizeCubeArrayURg8( ExprPtr image );
+	/**
+	*@return
+	*	vec3i
+	*@param image
+	*	Image<UInt, Cube, Array>
+	*/
+	ImageAccessCallPtr makeImageSizeCubeArrayUR32( ExprPtr image );
+	/**
+	*@return
+	*	vec3i
+	*@param image
+	*	Image<UInt, Cube, Array>
+	*/
+	ImageAccessCallPtr makeImageSizeCubeArrayUR16( ExprPtr image );
+	/**
+	*@return
+	*	vec3i
+	*@param image
+	*	Image<UInt, Cube, Array>
+	*/
+	ImageAccessCallPtr makeImageSizeCubeArrayUR8( ExprPtr image );
 	/**
 	*@return
 	*	vec2i
 	*@param image
 	*	Image<UInt, Rect>
 	*/
-	ImageAccessCallPtr makeImageSize2DRectU( ExprPtr image );
+	ImageAccessCallPtr makeImageSize2DRectURgba32( ExprPtr image );
+	/**
+	*@return
+	*	vec2i
+	*@param image
+	*	Image<UInt, Rect>
+	*/
+	ImageAccessCallPtr makeImageSize2DRectURgba16( ExprPtr image );
+	/**
+	*@return
+	*	vec2i
+	*@param image
+	*	Image<UInt, Rect>
+	*/
+	ImageAccessCallPtr makeImageSize2DRectURgba8( ExprPtr image );
+	/**
+	*@return
+	*	vec2i
+	*@param image
+	*	Image<UInt, Rect>
+	*/
+	ImageAccessCallPtr makeImageSize2DRectURg32( ExprPtr image );
+	/**
+	*@return
+	*	vec2i
+	*@param image
+	*	Image<UInt, Rect>
+	*/
+	ImageAccessCallPtr makeImageSize2DRectURg16( ExprPtr image );
+	/**
+	*@return
+	*	vec2i
+	*@param image
+	*	Image<UInt, Rect>
+	*/
+	ImageAccessCallPtr makeImageSize2DRectURg8( ExprPtr image );
+	/**
+	*@return
+	*	vec2i
+	*@param image
+	*	Image<UInt, Rect>
+	*/
+	ImageAccessCallPtr makeImageSize2DRectUR32( ExprPtr image );
+	/**
+	*@return
+	*	vec2i
+	*@param image
+	*	Image<UInt, Rect>
+	*/
+	ImageAccessCallPtr makeImageSize2DRectUR16( ExprPtr image );
+	/**
+	*@return
+	*	vec2i
+	*@param image
+	*	Image<UInt, Rect>
+	*/
+	ImageAccessCallPtr makeImageSize2DRectUR8( ExprPtr image );
 	/**
 	*@return
 	*	vec2i
 	*@param image
 	*	Image<UInt, 1D, Array>
 	*/
-	ImageAccessCallPtr makeImageSize1DArrayU( ExprPtr image );
+	ImageAccessCallPtr makeImageSize1DArrayURgba32( ExprPtr image );
+	/**
+	*@return
+	*	vec2i
+	*@param image
+	*	Image<UInt, 1D, Array>
+	*/
+	ImageAccessCallPtr makeImageSize1DArrayURgba16( ExprPtr image );
+	/**
+	*@return
+	*	vec2i
+	*@param image
+	*	Image<UInt, 1D, Array>
+	*/
+	ImageAccessCallPtr makeImageSize1DArrayURgba8( ExprPtr image );
+	/**
+	*@return
+	*	vec2i
+	*@param image
+	*	Image<UInt, 1D, Array>
+	*/
+	ImageAccessCallPtr makeImageSize1DArrayURg32( ExprPtr image );
+	/**
+	*@return
+	*	vec2i
+	*@param image
+	*	Image<UInt, 1D, Array>
+	*/
+	ImageAccessCallPtr makeImageSize1DArrayURg16( ExprPtr image );
+	/**
+	*@return
+	*	vec2i
+	*@param image
+	*	Image<UInt, 1D, Array>
+	*/
+	ImageAccessCallPtr makeImageSize1DArrayURg8( ExprPtr image );
+	/**
+	*@return
+	*	vec2i
+	*@param image
+	*	Image<UInt, 1D, Array>
+	*/
+	ImageAccessCallPtr makeImageSize1DArrayUR32( ExprPtr image );
+	/**
+	*@return
+	*	vec2i
+	*@param image
+	*	Image<UInt, 1D, Array>
+	*/
+	ImageAccessCallPtr makeImageSize1DArrayUR16( ExprPtr image );
+	/**
+	*@return
+	*	vec2i
+	*@param image
+	*	Image<UInt, 1D, Array>
+	*/
+	ImageAccessCallPtr makeImageSize1DArrayUR8( ExprPtr image );
 	/**
 	*@return
 	*	vec3i
 	*@param image
 	*	Image<UInt, 2D, Array>
 	*/
-	ImageAccessCallPtr makeImageSize2DArrayU( ExprPtr image );
+	ImageAccessCallPtr makeImageSize2DArrayURgba32( ExprPtr image );
+	/**
+	*@return
+	*	vec3i
+	*@param image
+	*	Image<UInt, 2D, Array>
+	*/
+	ImageAccessCallPtr makeImageSize2DArrayURgba16( ExprPtr image );
+	/**
+	*@return
+	*	vec3i
+	*@param image
+	*	Image<UInt, 2D, Array>
+	*/
+	ImageAccessCallPtr makeImageSize2DArrayURgba8( ExprPtr image );
+	/**
+	*@return
+	*	vec3i
+	*@param image
+	*	Image<UInt, 2D, Array>
+	*/
+	ImageAccessCallPtr makeImageSize2DArrayURg32( ExprPtr image );
+	/**
+	*@return
+	*	vec3i
+	*@param image
+	*	Image<UInt, 2D, Array>
+	*/
+	ImageAccessCallPtr makeImageSize2DArrayURg16( ExprPtr image );
+	/**
+	*@return
+	*	vec3i
+	*@param image
+	*	Image<UInt, 2D, Array>
+	*/
+	ImageAccessCallPtr makeImageSize2DArrayURg8( ExprPtr image );
+	/**
+	*@return
+	*	vec3i
+	*@param image
+	*	Image<UInt, 2D, Array>
+	*/
+	ImageAccessCallPtr makeImageSize2DArrayUR32( ExprPtr image );
+	/**
+	*@return
+	*	vec3i
+	*@param image
+	*	Image<UInt, 2D, Array>
+	*/
+	ImageAccessCallPtr makeImageSize2DArrayUR16( ExprPtr image );
+	/**
+	*@return
+	*	vec3i
+	*@param image
+	*	Image<UInt, 2D, Array>
+	*/
+	ImageAccessCallPtr makeImageSize2DArrayUR8( ExprPtr image );
 	/**
 	*@return
 	*	int
 	*@param image
 	*	Image<UInt, Buffer>
 	*/
-	ImageAccessCallPtr makeImageSizeBufferU( ExprPtr image );
+	ImageAccessCallPtr makeImageSizeBufferURgba32( ExprPtr image );
+	/**
+	*@return
+	*	int
+	*@param image
+	*	Image<UInt, Buffer>
+	*/
+	ImageAccessCallPtr makeImageSizeBufferURgba16( ExprPtr image );
+	/**
+	*@return
+	*	int
+	*@param image
+	*	Image<UInt, Buffer>
+	*/
+	ImageAccessCallPtr makeImageSizeBufferURgba8( ExprPtr image );
+	/**
+	*@return
+	*	int
+	*@param image
+	*	Image<UInt, Buffer>
+	*/
+	ImageAccessCallPtr makeImageSizeBufferURg32( ExprPtr image );
+	/**
+	*@return
+	*	int
+	*@param image
+	*	Image<UInt, Buffer>
+	*/
+	ImageAccessCallPtr makeImageSizeBufferURg16( ExprPtr image );
+	/**
+	*@return
+	*	int
+	*@param image
+	*	Image<UInt, Buffer>
+	*/
+	ImageAccessCallPtr makeImageSizeBufferURg8( ExprPtr image );
+	/**
+	*@return
+	*	int
+	*@param image
+	*	Image<UInt, Buffer>
+	*/
+	ImageAccessCallPtr makeImageSizeBufferUR32( ExprPtr image );
+	/**
+	*@return
+	*	int
+	*@param image
+	*	Image<UInt, Buffer>
+	*/
+	ImageAccessCallPtr makeImageSizeBufferUR16( ExprPtr image );
+	/**
+	*@return
+	*	int
+	*@param image
+	*	Image<UInt, Buffer>
+	*/
+	ImageAccessCallPtr makeImageSizeBufferUR8( ExprPtr image );
 	/**
 	*@return
 	*	vec2i
 	*@param image
 	*	Image<UInt, 2D, MS>
 	*/
-	ImageAccessCallPtr makeImageSize2DMSU( ExprPtr image );
+	ImageAccessCallPtr makeImageSize2DMSURgba32( ExprPtr image );
+	/**
+	*@return
+	*	vec2i
+	*@param image
+	*	Image<UInt, 2D, MS>
+	*/
+	ImageAccessCallPtr makeImageSize2DMSURgba16( ExprPtr image );
+	/**
+	*@return
+	*	vec2i
+	*@param image
+	*	Image<UInt, 2D, MS>
+	*/
+	ImageAccessCallPtr makeImageSize2DMSURgba8( ExprPtr image );
+	/**
+	*@return
+	*	vec2i
+	*@param image
+	*	Image<UInt, 2D, MS>
+	*/
+	ImageAccessCallPtr makeImageSize2DMSURg32( ExprPtr image );
+	/**
+	*@return
+	*	vec2i
+	*@param image
+	*	Image<UInt, 2D, MS>
+	*/
+	ImageAccessCallPtr makeImageSize2DMSURg16( ExprPtr image );
+	/**
+	*@return
+	*	vec2i
+	*@param image
+	*	Image<UInt, 2D, MS>
+	*/
+	ImageAccessCallPtr makeImageSize2DMSURg8( ExprPtr image );
+	/**
+	*@return
+	*	vec2i
+	*@param image
+	*	Image<UInt, 2D, MS>
+	*/
+	ImageAccessCallPtr makeImageSize2DMSUR32( ExprPtr image );
+	/**
+	*@return
+	*	vec2i
+	*@param image
+	*	Image<UInt, 2D, MS>
+	*/
+	ImageAccessCallPtr makeImageSize2DMSUR16( ExprPtr image );
+	/**
+	*@return
+	*	vec2i
+	*@param image
+	*	Image<UInt, 2D, MS>
+	*/
+	ImageAccessCallPtr makeImageSize2DMSUR8( ExprPtr image );
 	/**
 	*@return
 	*	vec3i
 	*@param image
 	*	Image<UInt, 2D, MS, Array>
 	*/
-	ImageAccessCallPtr makeImageSize2DMSArrayU( ExprPtr image );
+	ImageAccessCallPtr makeImageSize2DMSArrayURgba32( ExprPtr image );
+	/**
+	*@return
+	*	vec3i
+	*@param image
+	*	Image<UInt, 2D, MS, Array>
+	*/
+	ImageAccessCallPtr makeImageSize2DMSArrayURgba16( ExprPtr image );
+	/**
+	*@return
+	*	vec3i
+	*@param image
+	*	Image<UInt, 2D, MS, Array>
+	*/
+	ImageAccessCallPtr makeImageSize2DMSArrayURgba8( ExprPtr image );
+	/**
+	*@return
+	*	vec3i
+	*@param image
+	*	Image<UInt, 2D, MS, Array>
+	*/
+	ImageAccessCallPtr makeImageSize2DMSArrayURg32( ExprPtr image );
+	/**
+	*@return
+	*	vec3i
+	*@param image
+	*	Image<UInt, 2D, MS, Array>
+	*/
+	ImageAccessCallPtr makeImageSize2DMSArrayURg16( ExprPtr image );
+	/**
+	*@return
+	*	vec3i
+	*@param image
+	*	Image<UInt, 2D, MS, Array>
+	*/
+	ImageAccessCallPtr makeImageSize2DMSArrayURg8( ExprPtr image );
+	/**
+	*@return
+	*	vec3i
+	*@param image
+	*	Image<UInt, 2D, MS, Array>
+	*/
+	ImageAccessCallPtr makeImageSize2DMSArrayUR32( ExprPtr image );
+	/**
+	*@return
+	*	vec3i
+	*@param image
+	*	Image<UInt, 2D, MS, Array>
+	*/
+	ImageAccessCallPtr makeImageSize2DMSArrayUR16( ExprPtr image );
+	/**
+	*@return
+	*	vec3i
+	*@param image
+	*	Image<UInt, 2D, MS, Array>
+	*/
+	ImageAccessCallPtr makeImageSize2DMSArrayUR8( ExprPtr image );
 	/**
 	*@return
 	*	int
 	*@param image
 	*	Image<Float, 2D, MS>
 	*/
-	ImageAccessCallPtr makeImageSamples2DMSF( ExprPtr image );
+	ImageAccessCallPtr makeImageSamples2DMSFRgba32( ExprPtr image );
+	/**
+	*@return
+	*	int
+	*@param image
+	*	Image<Float, 2D, MS>
+	*/
+	ImageAccessCallPtr makeImageSamples2DMSFRgba16( ExprPtr image );
+	/**
+	*@return
+	*	int
+	*@param image
+	*	Image<Float, 2D, MS>
+	*/
+	ImageAccessCallPtr makeImageSamples2DMSFRg32( ExprPtr image );
+	/**
+	*@return
+	*	int
+	*@param image
+	*	Image<Float, 2D, MS>
+	*/
+	ImageAccessCallPtr makeImageSamples2DMSFRg16( ExprPtr image );
+	/**
+	*@return
+	*	int
+	*@param image
+	*	Image<Float, 2D, MS>
+	*/
+	ImageAccessCallPtr makeImageSamples2DMSFR32( ExprPtr image );
+	/**
+	*@return
+	*	int
+	*@param image
+	*	Image<Float, 2D, MS>
+	*/
+	ImageAccessCallPtr makeImageSamples2DMSFR16( ExprPtr image );
 	/**
 	*@return
 	*	int
 	*@param image
 	*	Image<Float, 2D, MS, Array>
 	*/
-	ImageAccessCallPtr makeImageSamples2DMSArrayF( ExprPtr image );
+	ImageAccessCallPtr makeImageSamples2DMSArrayFRgba32( ExprPtr image );
+	/**
+	*@return
+	*	int
+	*@param image
+	*	Image<Float, 2D, MS, Array>
+	*/
+	ImageAccessCallPtr makeImageSamples2DMSArrayFRgba16( ExprPtr image );
+	/**
+	*@return
+	*	int
+	*@param image
+	*	Image<Float, 2D, MS, Array>
+	*/
+	ImageAccessCallPtr makeImageSamples2DMSArrayFRg32( ExprPtr image );
+	/**
+	*@return
+	*	int
+	*@param image
+	*	Image<Float, 2D, MS, Array>
+	*/
+	ImageAccessCallPtr makeImageSamples2DMSArrayFRg16( ExprPtr image );
+	/**
+	*@return
+	*	int
+	*@param image
+	*	Image<Float, 2D, MS, Array>
+	*/
+	ImageAccessCallPtr makeImageSamples2DMSArrayFR32( ExprPtr image );
+	/**
+	*@return
+	*	int
+	*@param image
+	*	Image<Float, 2D, MS, Array>
+	*/
+	ImageAccessCallPtr makeImageSamples2DMSArrayFR16( ExprPtr image );
 	/**
 	*@return
 	*	int
 	*@param image
 	*	Image<Int, 2D, MS>
 	*/
-	ImageAccessCallPtr makeImageSamples2DMSI( ExprPtr image );
+	ImageAccessCallPtr makeImageSamples2DMSIRgba32( ExprPtr image );
+	/**
+	*@return
+	*	int
+	*@param image
+	*	Image<Int, 2D, MS>
+	*/
+	ImageAccessCallPtr makeImageSamples2DMSIRgba16( ExprPtr image );
+	/**
+	*@return
+	*	int
+	*@param image
+	*	Image<Int, 2D, MS>
+	*/
+	ImageAccessCallPtr makeImageSamples2DMSIRgba8( ExprPtr image );
+	/**
+	*@return
+	*	int
+	*@param image
+	*	Image<Int, 2D, MS>
+	*/
+	ImageAccessCallPtr makeImageSamples2DMSIRg32( ExprPtr image );
+	/**
+	*@return
+	*	int
+	*@param image
+	*	Image<Int, 2D, MS>
+	*/
+	ImageAccessCallPtr makeImageSamples2DMSIRg16( ExprPtr image );
+	/**
+	*@return
+	*	int
+	*@param image
+	*	Image<Int, 2D, MS>
+	*/
+	ImageAccessCallPtr makeImageSamples2DMSIRg8( ExprPtr image );
+	/**
+	*@return
+	*	int
+	*@param image
+	*	Image<Int, 2D, MS>
+	*/
+	ImageAccessCallPtr makeImageSamples2DMSIR32( ExprPtr image );
+	/**
+	*@return
+	*	int
+	*@param image
+	*	Image<Int, 2D, MS>
+	*/
+	ImageAccessCallPtr makeImageSamples2DMSIR16( ExprPtr image );
+	/**
+	*@return
+	*	int
+	*@param image
+	*	Image<Int, 2D, MS>
+	*/
+	ImageAccessCallPtr makeImageSamples2DMSIR8( ExprPtr image );
 	/**
 	*@return
 	*	int
 	*@param image
 	*	Image<Int, 2D, MS, Array>
 	*/
-	ImageAccessCallPtr makeImageSamples2DMSArrayI( ExprPtr image );
+	ImageAccessCallPtr makeImageSamples2DMSArrayIRgba32( ExprPtr image );
+	/**
+	*@return
+	*	int
+	*@param image
+	*	Image<Int, 2D, MS, Array>
+	*/
+	ImageAccessCallPtr makeImageSamples2DMSArrayIRgba16( ExprPtr image );
+	/**
+	*@return
+	*	int
+	*@param image
+	*	Image<Int, 2D, MS, Array>
+	*/
+	ImageAccessCallPtr makeImageSamples2DMSArrayIRgba8( ExprPtr image );
+	/**
+	*@return
+	*	int
+	*@param image
+	*	Image<Int, 2D, MS, Array>
+	*/
+	ImageAccessCallPtr makeImageSamples2DMSArrayIRg32( ExprPtr image );
+	/**
+	*@return
+	*	int
+	*@param image
+	*	Image<Int, 2D, MS, Array>
+	*/
+	ImageAccessCallPtr makeImageSamples2DMSArrayIRg16( ExprPtr image );
+	/**
+	*@return
+	*	int
+	*@param image
+	*	Image<Int, 2D, MS, Array>
+	*/
+	ImageAccessCallPtr makeImageSamples2DMSArrayIRg8( ExprPtr image );
+	/**
+	*@return
+	*	int
+	*@param image
+	*	Image<Int, 2D, MS, Array>
+	*/
+	ImageAccessCallPtr makeImageSamples2DMSArrayIR32( ExprPtr image );
+	/**
+	*@return
+	*	int
+	*@param image
+	*	Image<Int, 2D, MS, Array>
+	*/
+	ImageAccessCallPtr makeImageSamples2DMSArrayIR16( ExprPtr image );
+	/**
+	*@return
+	*	int
+	*@param image
+	*	Image<Int, 2D, MS, Array>
+	*/
+	ImageAccessCallPtr makeImageSamples2DMSArrayIR8( ExprPtr image );
 	/**
 	*@return
 	*	int
 	*@param image
 	*	Image<UInt, 2D, MS>
 	*/
-	ImageAccessCallPtr makeImageSamples2DMSU( ExprPtr image );
+	ImageAccessCallPtr makeImageSamples2DMSURgba32( ExprPtr image );
+	/**
+	*@return
+	*	int
+	*@param image
+	*	Image<UInt, 2D, MS>
+	*/
+	ImageAccessCallPtr makeImageSamples2DMSURgba16( ExprPtr image );
+	/**
+	*@return
+	*	int
+	*@param image
+	*	Image<UInt, 2D, MS>
+	*/
+	ImageAccessCallPtr makeImageSamples2DMSURgba8( ExprPtr image );
+	/**
+	*@return
+	*	int
+	*@param image
+	*	Image<UInt, 2D, MS>
+	*/
+	ImageAccessCallPtr makeImageSamples2DMSURg32( ExprPtr image );
+	/**
+	*@return
+	*	int
+	*@param image
+	*	Image<UInt, 2D, MS>
+	*/
+	ImageAccessCallPtr makeImageSamples2DMSURg16( ExprPtr image );
+	/**
+	*@return
+	*	int
+	*@param image
+	*	Image<UInt, 2D, MS>
+	*/
+	ImageAccessCallPtr makeImageSamples2DMSURg8( ExprPtr image );
+	/**
+	*@return
+	*	int
+	*@param image
+	*	Image<UInt, 2D, MS>
+	*/
+	ImageAccessCallPtr makeImageSamples2DMSUR32( ExprPtr image );
+	/**
+	*@return
+	*	int
+	*@param image
+	*	Image<UInt, 2D, MS>
+	*/
+	ImageAccessCallPtr makeImageSamples2DMSUR16( ExprPtr image );
+	/**
+	*@return
+	*	int
+	*@param image
+	*	Image<UInt, 2D, MS>
+	*/
+	ImageAccessCallPtr makeImageSamples2DMSUR8( ExprPtr image );
 	/**
 	*@return
 	*	int
 	*@param image
 	*	Image<UInt, 2D, MS, Array>
 	*/
-	ImageAccessCallPtr makeImageSamples2DMSArrayU( ExprPtr image );
+	ImageAccessCallPtr makeImageSamples2DMSArrayURgba32( ExprPtr image );
+	/**
+	*@return
+	*	int
+	*@param image
+	*	Image<UInt, 2D, MS, Array>
+	*/
+	ImageAccessCallPtr makeImageSamples2DMSArrayURgba16( ExprPtr image );
+	/**
+	*@return
+	*	int
+	*@param image
+	*	Image<UInt, 2D, MS, Array>
+	*/
+	ImageAccessCallPtr makeImageSamples2DMSArrayURgba8( ExprPtr image );
+	/**
+	*@return
+	*	int
+	*@param image
+	*	Image<UInt, 2D, MS, Array>
+	*/
+	ImageAccessCallPtr makeImageSamples2DMSArrayURg32( ExprPtr image );
+	/**
+	*@return
+	*	int
+	*@param image
+	*	Image<UInt, 2D, MS, Array>
+	*/
+	ImageAccessCallPtr makeImageSamples2DMSArrayURg16( ExprPtr image );
+	/**
+	*@return
+	*	int
+	*@param image
+	*	Image<UInt, 2D, MS, Array>
+	*/
+	ImageAccessCallPtr makeImageSamples2DMSArrayURg8( ExprPtr image );
+	/**
+	*@return
+	*	int
+	*@param image
+	*	Image<UInt, 2D, MS, Array>
+	*/
+	ImageAccessCallPtr makeImageSamples2DMSArrayUR32( ExprPtr image );
+	/**
+	*@return
+	*	int
+	*@param image
+	*	Image<UInt, 2D, MS, Array>
+	*/
+	ImageAccessCallPtr makeImageSamples2DMSArrayUR16( ExprPtr image );
+	/**
+	*@return
+	*	int
+	*@param image
+	*	Image<UInt, 2D, MS, Array>
+	*/
+	ImageAccessCallPtr makeImageSamples2DMSArrayUR8( ExprPtr image );
 	/**
 	*@return
 	*	vec4f
@@ -290,7 +2201,52 @@ namespace ast::expr
 	*@param P
 	*	int
 	*/
-	ImageAccessCallPtr makeImageLoad1DF( ExprPtr image, ExprPtr P );
+	ImageAccessCallPtr makeImageLoad1DFRgba32( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	vec4f
+	*@param image
+	*	Image<Float, 1D>
+	*@param P
+	*	int
+	*/
+	ImageAccessCallPtr makeImageLoad1DFRgba16( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	vec2f
+	*@param image
+	*	Image<Float, 1D>
+	*@param P
+	*	int
+	*/
+	ImageAccessCallPtr makeImageLoad1DFRg32( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	vec2f
+	*@param image
+	*	Image<Float, 1D>
+	*@param P
+	*	int
+	*/
+	ImageAccessCallPtr makeImageLoad1DFRg16( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	float
+	*@param image
+	*	Image<Float, 1D>
+	*@param P
+	*	int
+	*/
+	ImageAccessCallPtr makeImageLoad1DFR32( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	float
+	*@param image
+	*	Image<Float, 1D>
+	*@param P
+	*	int
+	*/
+	ImageAccessCallPtr makeImageLoad1DFR16( ExprPtr image, ExprPtr P );
 	/**
 	*@return
 	*	vec4f
@@ -299,7 +2255,52 @@ namespace ast::expr
 	*@param P
 	*	vec2i
 	*/
-	ImageAccessCallPtr makeImageLoad2DF( ExprPtr image, ExprPtr P );
+	ImageAccessCallPtr makeImageLoad2DFRgba32( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	vec4f
+	*@param image
+	*	Image<Float, 2D>
+	*@param P
+	*	vec2i
+	*/
+	ImageAccessCallPtr makeImageLoad2DFRgba16( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	vec2f
+	*@param image
+	*	Image<Float, 2D>
+	*@param P
+	*	vec2i
+	*/
+	ImageAccessCallPtr makeImageLoad2DFRg32( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	vec2f
+	*@param image
+	*	Image<Float, 2D>
+	*@param P
+	*	vec2i
+	*/
+	ImageAccessCallPtr makeImageLoad2DFRg16( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	float
+	*@param image
+	*	Image<Float, 2D>
+	*@param P
+	*	vec2i
+	*/
+	ImageAccessCallPtr makeImageLoad2DFR32( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	float
+	*@param image
+	*	Image<Float, 2D>
+	*@param P
+	*	vec2i
+	*/
+	ImageAccessCallPtr makeImageLoad2DFR16( ExprPtr image, ExprPtr P );
 	/**
 	*@return
 	*	vec4f
@@ -308,7 +2309,52 @@ namespace ast::expr
 	*@param P
 	*	vec3i
 	*/
-	ImageAccessCallPtr makeImageLoad3DF( ExprPtr image, ExprPtr P );
+	ImageAccessCallPtr makeImageLoad3DFRgba32( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	vec4f
+	*@param image
+	*	Image<Float, 3D>
+	*@param P
+	*	vec3i
+	*/
+	ImageAccessCallPtr makeImageLoad3DFRgba16( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	vec2f
+	*@param image
+	*	Image<Float, 3D>
+	*@param P
+	*	vec3i
+	*/
+	ImageAccessCallPtr makeImageLoad3DFRg32( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	vec2f
+	*@param image
+	*	Image<Float, 3D>
+	*@param P
+	*	vec3i
+	*/
+	ImageAccessCallPtr makeImageLoad3DFRg16( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	float
+	*@param image
+	*	Image<Float, 3D>
+	*@param P
+	*	vec3i
+	*/
+	ImageAccessCallPtr makeImageLoad3DFR32( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	float
+	*@param image
+	*	Image<Float, 3D>
+	*@param P
+	*	vec3i
+	*/
+	ImageAccessCallPtr makeImageLoad3DFR16( ExprPtr image, ExprPtr P );
 	/**
 	*@return
 	*	vec4f
@@ -317,7 +2363,52 @@ namespace ast::expr
 	*@param P
 	*	vec2i
 	*/
-	ImageAccessCallPtr makeImageLoad2DRectF( ExprPtr image, ExprPtr P );
+	ImageAccessCallPtr makeImageLoad2DRectFRgba32( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	vec4f
+	*@param image
+	*	Image<Float, Rect>
+	*@param P
+	*	vec2i
+	*/
+	ImageAccessCallPtr makeImageLoad2DRectFRgba16( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	vec2f
+	*@param image
+	*	Image<Float, Rect>
+	*@param P
+	*	vec2i
+	*/
+	ImageAccessCallPtr makeImageLoad2DRectFRg32( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	vec2f
+	*@param image
+	*	Image<Float, Rect>
+	*@param P
+	*	vec2i
+	*/
+	ImageAccessCallPtr makeImageLoad2DRectFRg16( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	float
+	*@param image
+	*	Image<Float, Rect>
+	*@param P
+	*	vec2i
+	*/
+	ImageAccessCallPtr makeImageLoad2DRectFR32( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	float
+	*@param image
+	*	Image<Float, Rect>
+	*@param P
+	*	vec2i
+	*/
+	ImageAccessCallPtr makeImageLoad2DRectFR16( ExprPtr image, ExprPtr P );
 	/**
 	*@return
 	*	vec4f
@@ -326,7 +2417,52 @@ namespace ast::expr
 	*@param P
 	*	vec3i
 	*/
-	ImageAccessCallPtr makeImageLoadCubeF( ExprPtr image, ExprPtr P );
+	ImageAccessCallPtr makeImageLoadCubeFRgba32( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	vec4f
+	*@param image
+	*	Image<Float, Cube>
+	*@param P
+	*	vec3i
+	*/
+	ImageAccessCallPtr makeImageLoadCubeFRgba16( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	vec2f
+	*@param image
+	*	Image<Float, Cube>
+	*@param P
+	*	vec3i
+	*/
+	ImageAccessCallPtr makeImageLoadCubeFRg32( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	vec2f
+	*@param image
+	*	Image<Float, Cube>
+	*@param P
+	*	vec3i
+	*/
+	ImageAccessCallPtr makeImageLoadCubeFRg16( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	float
+	*@param image
+	*	Image<Float, Cube>
+	*@param P
+	*	vec3i
+	*/
+	ImageAccessCallPtr makeImageLoadCubeFR32( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	float
+	*@param image
+	*	Image<Float, Cube>
+	*@param P
+	*	vec3i
+	*/
+	ImageAccessCallPtr makeImageLoadCubeFR16( ExprPtr image, ExprPtr P );
 	/**
 	*@return
 	*	vec4f
@@ -335,7 +2471,52 @@ namespace ast::expr
 	*@param P
 	*	int
 	*/
-	ImageAccessCallPtr makeImageLoadBufferF( ExprPtr image, ExprPtr P );
+	ImageAccessCallPtr makeImageLoadBufferFRgba32( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	vec4f
+	*@param image
+	*	Image<Float, Buffer>
+	*@param P
+	*	int
+	*/
+	ImageAccessCallPtr makeImageLoadBufferFRgba16( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	vec2f
+	*@param image
+	*	Image<Float, Buffer>
+	*@param P
+	*	int
+	*/
+	ImageAccessCallPtr makeImageLoadBufferFRg32( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	vec2f
+	*@param image
+	*	Image<Float, Buffer>
+	*@param P
+	*	int
+	*/
+	ImageAccessCallPtr makeImageLoadBufferFRg16( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	float
+	*@param image
+	*	Image<Float, Buffer>
+	*@param P
+	*	int
+	*/
+	ImageAccessCallPtr makeImageLoadBufferFR32( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	float
+	*@param image
+	*	Image<Float, Buffer>
+	*@param P
+	*	int
+	*/
+	ImageAccessCallPtr makeImageLoadBufferFR16( ExprPtr image, ExprPtr P );
 	/**
 	*@return
 	*	vec4f
@@ -344,7 +2525,52 @@ namespace ast::expr
 	*@param P
 	*	vec2i
 	*/
-	ImageAccessCallPtr makeImageLoad1DArrayF( ExprPtr image, ExprPtr P );
+	ImageAccessCallPtr makeImageLoad1DArrayFRgba32( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	vec4f
+	*@param image
+	*	Image<Float, 1D, Array>
+	*@param P
+	*	vec2i
+	*/
+	ImageAccessCallPtr makeImageLoad1DArrayFRgba16( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	vec2f
+	*@param image
+	*	Image<Float, 1D, Array>
+	*@param P
+	*	vec2i
+	*/
+	ImageAccessCallPtr makeImageLoad1DArrayFRg32( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	vec2f
+	*@param image
+	*	Image<Float, 1D, Array>
+	*@param P
+	*	vec2i
+	*/
+	ImageAccessCallPtr makeImageLoad1DArrayFRg16( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	float
+	*@param image
+	*	Image<Float, 1D, Array>
+	*@param P
+	*	vec2i
+	*/
+	ImageAccessCallPtr makeImageLoad1DArrayFR32( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	float
+	*@param image
+	*	Image<Float, 1D, Array>
+	*@param P
+	*	vec2i
+	*/
+	ImageAccessCallPtr makeImageLoad1DArrayFR16( ExprPtr image, ExprPtr P );
 	/**
 	*@return
 	*	vec4f
@@ -353,7 +2579,52 @@ namespace ast::expr
 	*@param P
 	*	vec3i
 	*/
-	ImageAccessCallPtr makeImageLoad2DArrayF( ExprPtr image, ExprPtr P );
+	ImageAccessCallPtr makeImageLoad2DArrayFRgba32( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	vec4f
+	*@param image
+	*	Image<Float, 2D, Array>
+	*@param P
+	*	vec3i
+	*/
+	ImageAccessCallPtr makeImageLoad2DArrayFRgba16( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	vec2f
+	*@param image
+	*	Image<Float, 2D, Array>
+	*@param P
+	*	vec3i
+	*/
+	ImageAccessCallPtr makeImageLoad2DArrayFRg32( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	vec2f
+	*@param image
+	*	Image<Float, 2D, Array>
+	*@param P
+	*	vec3i
+	*/
+	ImageAccessCallPtr makeImageLoad2DArrayFRg16( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	float
+	*@param image
+	*	Image<Float, 2D, Array>
+	*@param P
+	*	vec3i
+	*/
+	ImageAccessCallPtr makeImageLoad2DArrayFR32( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	float
+	*@param image
+	*	Image<Float, 2D, Array>
+	*@param P
+	*	vec3i
+	*/
+	ImageAccessCallPtr makeImageLoad2DArrayFR16( ExprPtr image, ExprPtr P );
 	/**
 	*@return
 	*	vec4f
@@ -362,7 +2633,52 @@ namespace ast::expr
 	*@param P
 	*	vec3i
 	*/
-	ImageAccessCallPtr makeImageLoadCubeArrayF( ExprPtr image, ExprPtr P );
+	ImageAccessCallPtr makeImageLoadCubeArrayFRgba32( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	vec4f
+	*@param image
+	*	Image<Float, Cube, Array>
+	*@param P
+	*	vec3i
+	*/
+	ImageAccessCallPtr makeImageLoadCubeArrayFRgba16( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	vec2f
+	*@param image
+	*	Image<Float, Cube, Array>
+	*@param P
+	*	vec3i
+	*/
+	ImageAccessCallPtr makeImageLoadCubeArrayFRg32( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	vec2f
+	*@param image
+	*	Image<Float, Cube, Array>
+	*@param P
+	*	vec3i
+	*/
+	ImageAccessCallPtr makeImageLoadCubeArrayFRg16( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	float
+	*@param image
+	*	Image<Float, Cube, Array>
+	*@param P
+	*	vec3i
+	*/
+	ImageAccessCallPtr makeImageLoadCubeArrayFR32( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	float
+	*@param image
+	*	Image<Float, Cube, Array>
+	*@param P
+	*	vec3i
+	*/
+	ImageAccessCallPtr makeImageLoadCubeArrayFR16( ExprPtr image, ExprPtr P );
 	/**
 	*@return
 	*	vec4f
@@ -373,7 +2689,62 @@ namespace ast::expr
 	*@param sample
 	*	int
 	*/
-	ImageAccessCallPtr makeImageLoad2DMSF( ExprPtr image, ExprPtr P, ExprPtr sample );
+	ImageAccessCallPtr makeImageLoad2DMSFRgba32( ExprPtr image, ExprPtr P, ExprPtr sample );
+	/**
+	*@return
+	*	vec4f
+	*@param image
+	*	Image<Float, 2D, MS>
+	*@param P
+	*	vec2i
+	*@param sample
+	*	int
+	*/
+	ImageAccessCallPtr makeImageLoad2DMSFRgba16( ExprPtr image, ExprPtr P, ExprPtr sample );
+	/**
+	*@return
+	*	vec2f
+	*@param image
+	*	Image<Float, 2D, MS>
+	*@param P
+	*	vec2i
+	*@param sample
+	*	int
+	*/
+	ImageAccessCallPtr makeImageLoad2DMSFRg32( ExprPtr image, ExprPtr P, ExprPtr sample );
+	/**
+	*@return
+	*	vec2f
+	*@param image
+	*	Image<Float, 2D, MS>
+	*@param P
+	*	vec2i
+	*@param sample
+	*	int
+	*/
+	ImageAccessCallPtr makeImageLoad2DMSFRg16( ExprPtr image, ExprPtr P, ExprPtr sample );
+	/**
+	*@return
+	*	float
+	*@param image
+	*	Image<Float, 2D, MS>
+	*@param P
+	*	vec2i
+	*@param sample
+	*	int
+	*/
+	ImageAccessCallPtr makeImageLoad2DMSFR32( ExprPtr image, ExprPtr P, ExprPtr sample );
+	/**
+	*@return
+	*	float
+	*@param image
+	*	Image<Float, 2D, MS>
+	*@param P
+	*	vec2i
+	*@param sample
+	*	int
+	*/
+	ImageAccessCallPtr makeImageLoad2DMSFR16( ExprPtr image, ExprPtr P, ExprPtr sample );
 	/**
 	*@return
 	*	vec4f
@@ -384,91 +2755,794 @@ namespace ast::expr
 	*@param sample
 	*	int
 	*/
-	ImageAccessCallPtr makeImageLoad2DMSArrayF( ExprPtr image, ExprPtr P, ExprPtr sample );
+	ImageAccessCallPtr makeImageLoad2DMSArrayFRgba32( ExprPtr image, ExprPtr P, ExprPtr sample );
 	/**
 	*@return
 	*	vec4f
+	*@param image
+	*	Image<Float, 2D, MS, Array>
+	*@param P
+	*	vec3i
+	*@param sample
+	*	int
+	*/
+	ImageAccessCallPtr makeImageLoad2DMSArrayFRgba16( ExprPtr image, ExprPtr P, ExprPtr sample );
+	/**
+	*@return
+	*	vec2f
+	*@param image
+	*	Image<Float, 2D, MS, Array>
+	*@param P
+	*	vec3i
+	*@param sample
+	*	int
+	*/
+	ImageAccessCallPtr makeImageLoad2DMSArrayFRg32( ExprPtr image, ExprPtr P, ExprPtr sample );
+	/**
+	*@return
+	*	vec2f
+	*@param image
+	*	Image<Float, 2D, MS, Array>
+	*@param P
+	*	vec3i
+	*@param sample
+	*	int
+	*/
+	ImageAccessCallPtr makeImageLoad2DMSArrayFRg16( ExprPtr image, ExprPtr P, ExprPtr sample );
+	/**
+	*@return
+	*	float
+	*@param image
+	*	Image<Float, 2D, MS, Array>
+	*@param P
+	*	vec3i
+	*@param sample
+	*	int
+	*/
+	ImageAccessCallPtr makeImageLoad2DMSArrayFR32( ExprPtr image, ExprPtr P, ExprPtr sample );
+	/**
+	*@return
+	*	float
+	*@param image
+	*	Image<Float, 2D, MS, Array>
+	*@param P
+	*	vec3i
+	*@param sample
+	*	int
+	*/
+	ImageAccessCallPtr makeImageLoad2DMSArrayFR16( ExprPtr image, ExprPtr P, ExprPtr sample );
+	/**
+	*@return
+	*	vec4i
 	*@param image
 	*	Image<Int, 1D>
 	*@param P
 	*	int
 	*/
-	ImageAccessCallPtr makeImageLoad1DI( ExprPtr image, ExprPtr P );
+	ImageAccessCallPtr makeImageLoad1DIRgba32( ExprPtr image, ExprPtr P );
 	/**
 	*@return
-	*	vec4f
+	*	vec4i
+	*@param image
+	*	Image<Int, 1D>
+	*@param P
+	*	int
+	*/
+	ImageAccessCallPtr makeImageLoad1DIRgba16( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	vec4i
+	*@param image
+	*	Image<Int, 1D>
+	*@param P
+	*	int
+	*/
+	ImageAccessCallPtr makeImageLoad1DIRgba8( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	vec2i
+	*@param image
+	*	Image<Int, 1D>
+	*@param P
+	*	int
+	*/
+	ImageAccessCallPtr makeImageLoad1DIRg32( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	vec2i
+	*@param image
+	*	Image<Int, 1D>
+	*@param P
+	*	int
+	*/
+	ImageAccessCallPtr makeImageLoad1DIRg16( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	vec2i
+	*@param image
+	*	Image<Int, 1D>
+	*@param P
+	*	int
+	*/
+	ImageAccessCallPtr makeImageLoad1DIRg8( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	int
+	*@param image
+	*	Image<Int, 1D>
+	*@param P
+	*	int
+	*/
+	ImageAccessCallPtr makeImageLoad1DIR32( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	int
+	*@param image
+	*	Image<Int, 1D>
+	*@param P
+	*	int
+	*/
+	ImageAccessCallPtr makeImageLoad1DIR16( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	int
+	*@param image
+	*	Image<Int, 1D>
+	*@param P
+	*	int
+	*/
+	ImageAccessCallPtr makeImageLoad1DIR8( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	vec4i
 	*@param image
 	*	Image<Int, 2D>
 	*@param P
 	*	vec2i
 	*/
-	ImageAccessCallPtr makeImageLoad2DI( ExprPtr image, ExprPtr P );
+	ImageAccessCallPtr makeImageLoad2DIRgba32( ExprPtr image, ExprPtr P );
 	/**
 	*@return
-	*	vec4f
+	*	vec4i
+	*@param image
+	*	Image<Int, 2D>
+	*@param P
+	*	vec2i
+	*/
+	ImageAccessCallPtr makeImageLoad2DIRgba16( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	vec4i
+	*@param image
+	*	Image<Int, 2D>
+	*@param P
+	*	vec2i
+	*/
+	ImageAccessCallPtr makeImageLoad2DIRgba8( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	vec2i
+	*@param image
+	*	Image<Int, 2D>
+	*@param P
+	*	vec2i
+	*/
+	ImageAccessCallPtr makeImageLoad2DIRg32( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	vec2i
+	*@param image
+	*	Image<Int, 2D>
+	*@param P
+	*	vec2i
+	*/
+	ImageAccessCallPtr makeImageLoad2DIRg16( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	vec2i
+	*@param image
+	*	Image<Int, 2D>
+	*@param P
+	*	vec2i
+	*/
+	ImageAccessCallPtr makeImageLoad2DIRg8( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	int
+	*@param image
+	*	Image<Int, 2D>
+	*@param P
+	*	vec2i
+	*/
+	ImageAccessCallPtr makeImageLoad2DIR32( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	int
+	*@param image
+	*	Image<Int, 2D>
+	*@param P
+	*	vec2i
+	*/
+	ImageAccessCallPtr makeImageLoad2DIR16( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	int
+	*@param image
+	*	Image<Int, 2D>
+	*@param P
+	*	vec2i
+	*/
+	ImageAccessCallPtr makeImageLoad2DIR8( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	vec4i
 	*@param image
 	*	Image<Int, 3D>
 	*@param P
 	*	vec3i
 	*/
-	ImageAccessCallPtr makeImageLoad3DI( ExprPtr image, ExprPtr P );
+	ImageAccessCallPtr makeImageLoad3DIRgba32( ExprPtr image, ExprPtr P );
 	/**
 	*@return
-	*	vec4f
+	*	vec4i
+	*@param image
+	*	Image<Int, 3D>
+	*@param P
+	*	vec3i
+	*/
+	ImageAccessCallPtr makeImageLoad3DIRgba16( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	vec4i
+	*@param image
+	*	Image<Int, 3D>
+	*@param P
+	*	vec3i
+	*/
+	ImageAccessCallPtr makeImageLoad3DIRgba8( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	vec2i
+	*@param image
+	*	Image<Int, 3D>
+	*@param P
+	*	vec3i
+	*/
+	ImageAccessCallPtr makeImageLoad3DIRg32( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	vec2i
+	*@param image
+	*	Image<Int, 3D>
+	*@param P
+	*	vec3i
+	*/
+	ImageAccessCallPtr makeImageLoad3DIRg16( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	vec2i
+	*@param image
+	*	Image<Int, 3D>
+	*@param P
+	*	vec3i
+	*/
+	ImageAccessCallPtr makeImageLoad3DIRg8( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	int
+	*@param image
+	*	Image<Int, 3D>
+	*@param P
+	*	vec3i
+	*/
+	ImageAccessCallPtr makeImageLoad3DIR32( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	int
+	*@param image
+	*	Image<Int, 3D>
+	*@param P
+	*	vec3i
+	*/
+	ImageAccessCallPtr makeImageLoad3DIR16( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	int
+	*@param image
+	*	Image<Int, 3D>
+	*@param P
+	*	vec3i
+	*/
+	ImageAccessCallPtr makeImageLoad3DIR8( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	vec4i
 	*@param image
 	*	Image<Int, Rect>
 	*@param P
 	*	vec2i
 	*/
-	ImageAccessCallPtr makeImageLoad2DRectI( ExprPtr image, ExprPtr P );
+	ImageAccessCallPtr makeImageLoad2DRectIRgba32( ExprPtr image, ExprPtr P );
 	/**
 	*@return
-	*	vec4f
+	*	vec4i
+	*@param image
+	*	Image<Int, Rect>
+	*@param P
+	*	vec2i
+	*/
+	ImageAccessCallPtr makeImageLoad2DRectIRgba16( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	vec4i
+	*@param image
+	*	Image<Int, Rect>
+	*@param P
+	*	vec2i
+	*/
+	ImageAccessCallPtr makeImageLoad2DRectIRgba8( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	vec2i
+	*@param image
+	*	Image<Int, Rect>
+	*@param P
+	*	vec2i
+	*/
+	ImageAccessCallPtr makeImageLoad2DRectIRg32( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	vec2i
+	*@param image
+	*	Image<Int, Rect>
+	*@param P
+	*	vec2i
+	*/
+	ImageAccessCallPtr makeImageLoad2DRectIRg16( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	vec2i
+	*@param image
+	*	Image<Int, Rect>
+	*@param P
+	*	vec2i
+	*/
+	ImageAccessCallPtr makeImageLoad2DRectIRg8( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	int
+	*@param image
+	*	Image<Int, Rect>
+	*@param P
+	*	vec2i
+	*/
+	ImageAccessCallPtr makeImageLoad2DRectIR32( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	int
+	*@param image
+	*	Image<Int, Rect>
+	*@param P
+	*	vec2i
+	*/
+	ImageAccessCallPtr makeImageLoad2DRectIR16( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	int
+	*@param image
+	*	Image<Int, Rect>
+	*@param P
+	*	vec2i
+	*/
+	ImageAccessCallPtr makeImageLoad2DRectIR8( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	vec4i
 	*@param image
 	*	Image<Int, Cube>
 	*@param P
 	*	vec3i
 	*/
-	ImageAccessCallPtr makeImageLoadCubeI( ExprPtr image, ExprPtr P );
+	ImageAccessCallPtr makeImageLoadCubeIRgba32( ExprPtr image, ExprPtr P );
 	/**
 	*@return
-	*	vec4f
+	*	vec4i
+	*@param image
+	*	Image<Int, Cube>
+	*@param P
+	*	vec3i
+	*/
+	ImageAccessCallPtr makeImageLoadCubeIRgba16( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	vec4i
+	*@param image
+	*	Image<Int, Cube>
+	*@param P
+	*	vec3i
+	*/
+	ImageAccessCallPtr makeImageLoadCubeIRgba8( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	vec2i
+	*@param image
+	*	Image<Int, Cube>
+	*@param P
+	*	vec3i
+	*/
+	ImageAccessCallPtr makeImageLoadCubeIRg32( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	vec2i
+	*@param image
+	*	Image<Int, Cube>
+	*@param P
+	*	vec3i
+	*/
+	ImageAccessCallPtr makeImageLoadCubeIRg16( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	vec2i
+	*@param image
+	*	Image<Int, Cube>
+	*@param P
+	*	vec3i
+	*/
+	ImageAccessCallPtr makeImageLoadCubeIRg8( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	int
+	*@param image
+	*	Image<Int, Cube>
+	*@param P
+	*	vec3i
+	*/
+	ImageAccessCallPtr makeImageLoadCubeIR32( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	int
+	*@param image
+	*	Image<Int, Cube>
+	*@param P
+	*	vec3i
+	*/
+	ImageAccessCallPtr makeImageLoadCubeIR16( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	int
+	*@param image
+	*	Image<Int, Cube>
+	*@param P
+	*	vec3i
+	*/
+	ImageAccessCallPtr makeImageLoadCubeIR8( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	vec4i
 	*@param image
 	*	Image<Int, Buffer>
 	*@param P
 	*	int
 	*/
-	ImageAccessCallPtr makeImageLoadBufferI( ExprPtr image, ExprPtr P );
+	ImageAccessCallPtr makeImageLoadBufferIRgba32( ExprPtr image, ExprPtr P );
 	/**
 	*@return
-	*	vec4f
+	*	vec4i
+	*@param image
+	*	Image<Int, Buffer>
+	*@param P
+	*	int
+	*/
+	ImageAccessCallPtr makeImageLoadBufferIRgba16( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	vec4i
+	*@param image
+	*	Image<Int, Buffer>
+	*@param P
+	*	int
+	*/
+	ImageAccessCallPtr makeImageLoadBufferIRgba8( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	vec2i
+	*@param image
+	*	Image<Int, Buffer>
+	*@param P
+	*	int
+	*/
+	ImageAccessCallPtr makeImageLoadBufferIRg32( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	vec2i
+	*@param image
+	*	Image<Int, Buffer>
+	*@param P
+	*	int
+	*/
+	ImageAccessCallPtr makeImageLoadBufferIRg16( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	vec2i
+	*@param image
+	*	Image<Int, Buffer>
+	*@param P
+	*	int
+	*/
+	ImageAccessCallPtr makeImageLoadBufferIRg8( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	int
+	*@param image
+	*	Image<Int, Buffer>
+	*@param P
+	*	int
+	*/
+	ImageAccessCallPtr makeImageLoadBufferIR32( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	int
+	*@param image
+	*	Image<Int, Buffer>
+	*@param P
+	*	int
+	*/
+	ImageAccessCallPtr makeImageLoadBufferIR16( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	int
+	*@param image
+	*	Image<Int, Buffer>
+	*@param P
+	*	int
+	*/
+	ImageAccessCallPtr makeImageLoadBufferIR8( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	vec4i
 	*@param image
 	*	Image<Int, 1D, Array>
 	*@param P
 	*	vec2i
 	*/
-	ImageAccessCallPtr makeImageLoad1DArrayI( ExprPtr image, ExprPtr P );
+	ImageAccessCallPtr makeImageLoad1DArrayIRgba32( ExprPtr image, ExprPtr P );
 	/**
 	*@return
-	*	vec4f
+	*	vec4i
+	*@param image
+	*	Image<Int, 1D, Array>
+	*@param P
+	*	vec2i
+	*/
+	ImageAccessCallPtr makeImageLoad1DArrayIRgba16( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	vec4i
+	*@param image
+	*	Image<Int, 1D, Array>
+	*@param P
+	*	vec2i
+	*/
+	ImageAccessCallPtr makeImageLoad1DArrayIRgba8( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	vec2i
+	*@param image
+	*	Image<Int, 1D, Array>
+	*@param P
+	*	vec2i
+	*/
+	ImageAccessCallPtr makeImageLoad1DArrayIRg32( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	vec2i
+	*@param image
+	*	Image<Int, 1D, Array>
+	*@param P
+	*	vec2i
+	*/
+	ImageAccessCallPtr makeImageLoad1DArrayIRg16( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	vec2i
+	*@param image
+	*	Image<Int, 1D, Array>
+	*@param P
+	*	vec2i
+	*/
+	ImageAccessCallPtr makeImageLoad1DArrayIRg8( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	int
+	*@param image
+	*	Image<Int, 1D, Array>
+	*@param P
+	*	vec2i
+	*/
+	ImageAccessCallPtr makeImageLoad1DArrayIR32( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	int
+	*@param image
+	*	Image<Int, 1D, Array>
+	*@param P
+	*	vec2i
+	*/
+	ImageAccessCallPtr makeImageLoad1DArrayIR16( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	int
+	*@param image
+	*	Image<Int, 1D, Array>
+	*@param P
+	*	vec2i
+	*/
+	ImageAccessCallPtr makeImageLoad1DArrayIR8( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	vec4i
 	*@param image
 	*	Image<Int, 2D, Array>
 	*@param P
 	*	vec3i
 	*/
-	ImageAccessCallPtr makeImageLoad2DArrayI( ExprPtr image, ExprPtr P );
+	ImageAccessCallPtr makeImageLoad2DArrayIRgba32( ExprPtr image, ExprPtr P );
 	/**
 	*@return
-	*	vec4f
+	*	vec4i
+	*@param image
+	*	Image<Int, 2D, Array>
+	*@param P
+	*	vec3i
+	*/
+	ImageAccessCallPtr makeImageLoad2DArrayIRgba16( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	vec4i
+	*@param image
+	*	Image<Int, 2D, Array>
+	*@param P
+	*	vec3i
+	*/
+	ImageAccessCallPtr makeImageLoad2DArrayIRgba8( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	vec2i
+	*@param image
+	*	Image<Int, 2D, Array>
+	*@param P
+	*	vec3i
+	*/
+	ImageAccessCallPtr makeImageLoad2DArrayIRg32( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	vec2i
+	*@param image
+	*	Image<Int, 2D, Array>
+	*@param P
+	*	vec3i
+	*/
+	ImageAccessCallPtr makeImageLoad2DArrayIRg16( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	vec2i
+	*@param image
+	*	Image<Int, 2D, Array>
+	*@param P
+	*	vec3i
+	*/
+	ImageAccessCallPtr makeImageLoad2DArrayIRg8( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	int
+	*@param image
+	*	Image<Int, 2D, Array>
+	*@param P
+	*	vec3i
+	*/
+	ImageAccessCallPtr makeImageLoad2DArrayIR32( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	int
+	*@param image
+	*	Image<Int, 2D, Array>
+	*@param P
+	*	vec3i
+	*/
+	ImageAccessCallPtr makeImageLoad2DArrayIR16( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	int
+	*@param image
+	*	Image<Int, 2D, Array>
+	*@param P
+	*	vec3i
+	*/
+	ImageAccessCallPtr makeImageLoad2DArrayIR8( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	vec4i
 	*@param image
 	*	Image<Int, Cube, Array>
 	*@param P
 	*	vec3i
 	*/
-	ImageAccessCallPtr makeImageLoadCubeArrayI( ExprPtr image, ExprPtr P );
+	ImageAccessCallPtr makeImageLoadCubeArrayIRgba32( ExprPtr image, ExprPtr P );
 	/**
 	*@return
-	*	vec4f
+	*	vec4i
+	*@param image
+	*	Image<Int, Cube, Array>
+	*@param P
+	*	vec3i
+	*/
+	ImageAccessCallPtr makeImageLoadCubeArrayIRgba16( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	vec4i
+	*@param image
+	*	Image<Int, Cube, Array>
+	*@param P
+	*	vec3i
+	*/
+	ImageAccessCallPtr makeImageLoadCubeArrayIRgba8( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	vec2i
+	*@param image
+	*	Image<Int, Cube, Array>
+	*@param P
+	*	vec3i
+	*/
+	ImageAccessCallPtr makeImageLoadCubeArrayIRg32( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	vec2i
+	*@param image
+	*	Image<Int, Cube, Array>
+	*@param P
+	*	vec3i
+	*/
+	ImageAccessCallPtr makeImageLoadCubeArrayIRg16( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	vec2i
+	*@param image
+	*	Image<Int, Cube, Array>
+	*@param P
+	*	vec3i
+	*/
+	ImageAccessCallPtr makeImageLoadCubeArrayIRg8( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	int
+	*@param image
+	*	Image<Int, Cube, Array>
+	*@param P
+	*	vec3i
+	*/
+	ImageAccessCallPtr makeImageLoadCubeArrayIR32( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	int
+	*@param image
+	*	Image<Int, Cube, Array>
+	*@param P
+	*	vec3i
+	*/
+	ImageAccessCallPtr makeImageLoadCubeArrayIR16( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	int
+	*@param image
+	*	Image<Int, Cube, Array>
+	*@param P
+	*	vec3i
+	*/
+	ImageAccessCallPtr makeImageLoadCubeArrayIR8( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	vec4i
 	*@param image
 	*	Image<Int, 2D, MS>
 	*@param P
@@ -476,10 +3550,98 @@ namespace ast::expr
 	*@param sample
 	*	int
 	*/
-	ImageAccessCallPtr makeImageLoad2DMSI( ExprPtr image, ExprPtr P, ExprPtr sample );
+	ImageAccessCallPtr makeImageLoad2DMSIRgba32( ExprPtr image, ExprPtr P, ExprPtr sample );
 	/**
 	*@return
-	*	vec4f
+	*	vec4i
+	*@param image
+	*	Image<Int, 2D, MS>
+	*@param P
+	*	vec2i
+	*@param sample
+	*	int
+	*/
+	ImageAccessCallPtr makeImageLoad2DMSIRgba16( ExprPtr image, ExprPtr P, ExprPtr sample );
+	/**
+	*@return
+	*	vec4i
+	*@param image
+	*	Image<Int, 2D, MS>
+	*@param P
+	*	vec2i
+	*@param sample
+	*	int
+	*/
+	ImageAccessCallPtr makeImageLoad2DMSIRgba8( ExprPtr image, ExprPtr P, ExprPtr sample );
+	/**
+	*@return
+	*	vec2i
+	*@param image
+	*	Image<Int, 2D, MS>
+	*@param P
+	*	vec2i
+	*@param sample
+	*	int
+	*/
+	ImageAccessCallPtr makeImageLoad2DMSIRg32( ExprPtr image, ExprPtr P, ExprPtr sample );
+	/**
+	*@return
+	*	vec2i
+	*@param image
+	*	Image<Int, 2D, MS>
+	*@param P
+	*	vec2i
+	*@param sample
+	*	int
+	*/
+	ImageAccessCallPtr makeImageLoad2DMSIRg16( ExprPtr image, ExprPtr P, ExprPtr sample );
+	/**
+	*@return
+	*	vec2i
+	*@param image
+	*	Image<Int, 2D, MS>
+	*@param P
+	*	vec2i
+	*@param sample
+	*	int
+	*/
+	ImageAccessCallPtr makeImageLoad2DMSIRg8( ExprPtr image, ExprPtr P, ExprPtr sample );
+	/**
+	*@return
+	*	int
+	*@param image
+	*	Image<Int, 2D, MS>
+	*@param P
+	*	vec2i
+	*@param sample
+	*	int
+	*/
+	ImageAccessCallPtr makeImageLoad2DMSIR32( ExprPtr image, ExprPtr P, ExprPtr sample );
+	/**
+	*@return
+	*	int
+	*@param image
+	*	Image<Int, 2D, MS>
+	*@param P
+	*	vec2i
+	*@param sample
+	*	int
+	*/
+	ImageAccessCallPtr makeImageLoad2DMSIR16( ExprPtr image, ExprPtr P, ExprPtr sample );
+	/**
+	*@return
+	*	int
+	*@param image
+	*	Image<Int, 2D, MS>
+	*@param P
+	*	vec2i
+	*@param sample
+	*	int
+	*/
+	ImageAccessCallPtr makeImageLoad2DMSIR8( ExprPtr image, ExprPtr P, ExprPtr sample );
+	/**
+	*@return
+	*	vec4i
 	*@param image
 	*	Image<Int, 2D, MS, Array>
 	*@param P
@@ -487,91 +3649,827 @@ namespace ast::expr
 	*@param sample
 	*	int
 	*/
-	ImageAccessCallPtr makeImageLoad2DMSArrayI( ExprPtr image, ExprPtr P, ExprPtr sample );
+	ImageAccessCallPtr makeImageLoad2DMSArrayIRgba32( ExprPtr image, ExprPtr P, ExprPtr sample );
 	/**
 	*@return
-	*	vec4f
+	*	vec4i
+	*@param image
+	*	Image<Int, 2D, MS, Array>
+	*@param P
+	*	vec3i
+	*@param sample
+	*	int
+	*/
+	ImageAccessCallPtr makeImageLoad2DMSArrayIRgba16( ExprPtr image, ExprPtr P, ExprPtr sample );
+	/**
+	*@return
+	*	vec4i
+	*@param image
+	*	Image<Int, 2D, MS, Array>
+	*@param P
+	*	vec3i
+	*@param sample
+	*	int
+	*/
+	ImageAccessCallPtr makeImageLoad2DMSArrayIRgba8( ExprPtr image, ExprPtr P, ExprPtr sample );
+	/**
+	*@return
+	*	vec2i
+	*@param image
+	*	Image<Int, 2D, MS, Array>
+	*@param P
+	*	vec3i
+	*@param sample
+	*	int
+	*/
+	ImageAccessCallPtr makeImageLoad2DMSArrayIRg32( ExprPtr image, ExprPtr P, ExprPtr sample );
+	/**
+	*@return
+	*	vec2i
+	*@param image
+	*	Image<Int, 2D, MS, Array>
+	*@param P
+	*	vec3i
+	*@param sample
+	*	int
+	*/
+	ImageAccessCallPtr makeImageLoad2DMSArrayIRg16( ExprPtr image, ExprPtr P, ExprPtr sample );
+	/**
+	*@return
+	*	vec2i
+	*@param image
+	*	Image<Int, 2D, MS, Array>
+	*@param P
+	*	vec3i
+	*@param sample
+	*	int
+	*/
+	ImageAccessCallPtr makeImageLoad2DMSArrayIRg8( ExprPtr image, ExprPtr P, ExprPtr sample );
+	/**
+	*@return
+	*	int
+	*@param image
+	*	Image<Int, 2D, MS, Array>
+	*@param P
+	*	vec3i
+	*@param sample
+	*	int
+	*/
+	ImageAccessCallPtr makeImageLoad2DMSArrayIR32( ExprPtr image, ExprPtr P, ExprPtr sample );
+	/**
+	*@return
+	*	int
+	*@param image
+	*	Image<Int, 2D, MS, Array>
+	*@param P
+	*	vec3i
+	*@param sample
+	*	int
+	*/
+	ImageAccessCallPtr makeImageLoad2DMSArrayIR16( ExprPtr image, ExprPtr P, ExprPtr sample );
+	/**
+	*@return
+	*	int
+	*@param image
+	*	Image<Int, 2D, MS, Array>
+	*@param P
+	*	vec3i
+	*@param sample
+	*	int
+	*/
+	ImageAccessCallPtr makeImageLoad2DMSArrayIR8( ExprPtr image, ExprPtr P, ExprPtr sample );
+	/**
+	*@return
+	*	vec4u
 	*@param image
 	*	Image<UInt, 1D>
 	*@param P
 	*	int
 	*/
-	ImageAccessCallPtr makeImageLoad1DU( ExprPtr image, ExprPtr P );
+	ImageAccessCallPtr makeImageLoad1DURgba32( ExprPtr image, ExprPtr P );
 	/**
 	*@return
-	*	vec4f
+	*	vec4u
+	*@param image
+	*	Image<UInt, 1D>
+	*@param P
+	*	int
+	*/
+	ImageAccessCallPtr makeImageLoad1DURgba16( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	vec4u
+	*@param image
+	*	Image<UInt, 1D>
+	*@param P
+	*	int
+	*/
+	ImageAccessCallPtr makeImageLoad1DURgba8( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	vec2u
+	*@param image
+	*	Image<UInt, 1D>
+	*@param P
+	*	int
+	*/
+	ImageAccessCallPtr makeImageLoad1DURg32( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	vec2u
+	*@param image
+	*	Image<UInt, 1D>
+	*@param P
+	*	int
+	*/
+	ImageAccessCallPtr makeImageLoad1DURg16( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	vec2u
+	*@param image
+	*	Image<UInt, 1D>
+	*@param P
+	*	int
+	*/
+	ImageAccessCallPtr makeImageLoad1DURg8( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	uint
+	*@param image
+	*	Image<UInt, 1D>
+	*@param P
+	*	int
+	*/
+	ImageAccessCallPtr makeImageLoad1DUR32( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	uint
+	*@param image
+	*	Image<UInt, 1D>
+	*@param P
+	*	int
+	*/
+	ImageAccessCallPtr makeImageLoad1DUR16( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	uint
+	*@param image
+	*	Image<UInt, 1D>
+	*@param P
+	*	int
+	*/
+	ImageAccessCallPtr makeImageLoad1DUR8( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	vec4u
 	*@param image
 	*	Image<UInt, 2D>
 	*@param P
 	*	vec2i
 	*/
-	ImageAccessCallPtr makeImageLoad2DU( ExprPtr image, ExprPtr P );
+	ImageAccessCallPtr makeImageLoad2DURgba32( ExprPtr image, ExprPtr P );
 	/**
 	*@return
-	*	vec4f
+	*	vec4u
+	*@param image
+	*	Image<UInt, 2D>
+	*@param P
+	*	vec2i
+	*/
+	ImageAccessCallPtr makeImageLoad2DURgba16( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	vec4u
+	*@param image
+	*	Image<UInt, 2D>
+	*@param P
+	*	vec2i
+	*/
+	ImageAccessCallPtr makeImageLoad2DURgba8( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	vec2u
+	*@param image
+	*	Image<UInt, 2D>
+	*@param P
+	*	vec2i
+	*/
+	ImageAccessCallPtr makeImageLoad2DURg32( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	vec2u
+	*@param image
+	*	Image<UInt, 2D>
+	*@param P
+	*	vec2i
+	*/
+	ImageAccessCallPtr makeImageLoad2DURg16( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	vec2u
+	*@param image
+	*	Image<UInt, 2D>
+	*@param P
+	*	vec2i
+	*/
+	ImageAccessCallPtr makeImageLoad2DURg8( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	uint
+	*@param image
+	*	Image<UInt, 2D>
+	*@param P
+	*	vec2i
+	*/
+	ImageAccessCallPtr makeImageLoad2DUR32( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	uint
+	*@param image
+	*	Image<UInt, 2D>
+	*@param P
+	*	vec2i
+	*/
+	ImageAccessCallPtr makeImageLoad2DUR16( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	uint
+	*@param image
+	*	Image<UInt, 2D>
+	*@param P
+	*	vec2i
+	*/
+	ImageAccessCallPtr makeImageLoad2DUR8( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	vec4u
 	*@param image
 	*	Image<UInt, 3D>
 	*@param P
 	*	vec3i
 	*/
-	ImageAccessCallPtr makeImageLoad3DU( ExprPtr image, ExprPtr P );
+	ImageAccessCallPtr makeImageLoad3DURgba32( ExprPtr image, ExprPtr P );
 	/**
 	*@return
-	*	vec4f
+	*	vec4u
+	*@param image
+	*	Image<UInt, 3D>
+	*@param P
+	*	vec3i
+	*/
+	ImageAccessCallPtr makeImageLoad3DURgba16( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	vec4u
+	*@param image
+	*	Image<UInt, 3D>
+	*@param P
+	*	vec3i
+	*/
+	ImageAccessCallPtr makeImageLoad3DURgba8( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	vec2u
+	*@param image
+	*	Image<UInt, 3D>
+	*@param P
+	*	vec3i
+	*/
+	ImageAccessCallPtr makeImageLoad3DURg32( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	vec2u
+	*@param image
+	*	Image<UInt, 3D>
+	*@param P
+	*	vec3i
+	*/
+	ImageAccessCallPtr makeImageLoad3DURg16( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	vec2u
+	*@param image
+	*	Image<UInt, 3D>
+	*@param P
+	*	vec3i
+	*/
+	ImageAccessCallPtr makeImageLoad3DURg8( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	uint
+	*@param image
+	*	Image<UInt, 3D>
+	*@param P
+	*	vec3i
+	*/
+	ImageAccessCallPtr makeImageLoad3DUR32( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	uint
+	*@param image
+	*	Image<UInt, 3D>
+	*@param P
+	*	vec3i
+	*/
+	ImageAccessCallPtr makeImageLoad3DUR16( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	uint
+	*@param image
+	*	Image<UInt, 3D>
+	*@param P
+	*	vec3i
+	*/
+	ImageAccessCallPtr makeImageLoad3DUR8( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	vec4u
 	*@param image
 	*	Image<UInt, Rect>
 	*@param P
 	*	vec2i
 	*/
-	ImageAccessCallPtr makeImageLoad2DRectU( ExprPtr image, ExprPtr P );
+	ImageAccessCallPtr makeImageLoad2DRectURgba32( ExprPtr image, ExprPtr P );
 	/**
 	*@return
-	*	vec4f
+	*	vec4u
+	*@param image
+	*	Image<UInt, Rect>
+	*@param P
+	*	vec2i
+	*/
+	ImageAccessCallPtr makeImageLoad2DRectURgba16( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	vec4u
+	*@param image
+	*	Image<UInt, Rect>
+	*@param P
+	*	vec2i
+	*/
+	ImageAccessCallPtr makeImageLoad2DRectURgba8( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	vec2u
+	*@param image
+	*	Image<UInt, Rect>
+	*@param P
+	*	vec2i
+	*/
+	ImageAccessCallPtr makeImageLoad2DRectURg32( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	vec2u
+	*@param image
+	*	Image<UInt, Rect>
+	*@param P
+	*	vec2i
+	*/
+	ImageAccessCallPtr makeImageLoad2DRectURg16( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	vec2u
+	*@param image
+	*	Image<UInt, Rect>
+	*@param P
+	*	vec2i
+	*/
+	ImageAccessCallPtr makeImageLoad2DRectURg8( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	uint
+	*@param image
+	*	Image<UInt, Rect>
+	*@param P
+	*	vec2i
+	*/
+	ImageAccessCallPtr makeImageLoad2DRectUR32( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	uint
+	*@param image
+	*	Image<UInt, Rect>
+	*@param P
+	*	vec2i
+	*/
+	ImageAccessCallPtr makeImageLoad2DRectUR16( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	uint
+	*@param image
+	*	Image<UInt, Rect>
+	*@param P
+	*	vec2i
+	*/
+	ImageAccessCallPtr makeImageLoad2DRectUR8( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	vec4u
 	*@param image
 	*	Image<UInt, Cube>
 	*@param P
 	*	vec3i
 	*/
-	ImageAccessCallPtr makeImageLoadCubeU( ExprPtr image, ExprPtr P );
+	ImageAccessCallPtr makeImageLoadCubeURgba32( ExprPtr image, ExprPtr P );
 	/**
 	*@return
-	*	vec4f
+	*	vec4u
+	*@param image
+	*	Image<UInt, Cube>
+	*@param P
+	*	vec3i
+	*/
+	ImageAccessCallPtr makeImageLoadCubeURgba16( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	vec4u
+	*@param image
+	*	Image<UInt, Cube>
+	*@param P
+	*	vec3i
+	*/
+	ImageAccessCallPtr makeImageLoadCubeURgba8( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	vec2u
+	*@param image
+	*	Image<UInt, Cube>
+	*@param P
+	*	vec3i
+	*/
+	ImageAccessCallPtr makeImageLoadCubeURg32( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	vec2u
+	*@param image
+	*	Image<UInt, Cube>
+	*@param P
+	*	vec3i
+	*/
+	ImageAccessCallPtr makeImageLoadCubeURg16( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	vec2u
+	*@param image
+	*	Image<UInt, Cube>
+	*@param P
+	*	vec3i
+	*/
+	ImageAccessCallPtr makeImageLoadCubeURg8( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	uint
+	*@param image
+	*	Image<UInt, Cube>
+	*@param P
+	*	vec3i
+	*/
+	ImageAccessCallPtr makeImageLoadCubeUR32( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	uint
+	*@param image
+	*	Image<UInt, Cube>
+	*@param P
+	*	vec3i
+	*/
+	ImageAccessCallPtr makeImageLoadCubeUR16( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	uint
+	*@param image
+	*	Image<UInt, Cube>
+	*@param P
+	*	vec3i
+	*/
+	ImageAccessCallPtr makeImageLoadCubeUR8( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	vec4u
 	*@param image
 	*	Image<UInt, Buffer>
 	*@param P
 	*	int
 	*/
-	ImageAccessCallPtr makeImageLoadBufferU( ExprPtr image, ExprPtr P );
+	ImageAccessCallPtr makeImageLoadBufferURgba32( ExprPtr image, ExprPtr P );
 	/**
 	*@return
-	*	vec4f
+	*	vec4u
+	*@param image
+	*	Image<UInt, Buffer>
+	*@param P
+	*	int
+	*/
+	ImageAccessCallPtr makeImageLoadBufferURgba16( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	vec4u
+	*@param image
+	*	Image<UInt, Buffer>
+	*@param P
+	*	int
+	*/
+	ImageAccessCallPtr makeImageLoadBufferURgba8( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	vec2u
+	*@param image
+	*	Image<UInt, Buffer>
+	*@param P
+	*	int
+	*/
+	ImageAccessCallPtr makeImageLoadBufferURg32( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	vec2u
+	*@param image
+	*	Image<UInt, Buffer>
+	*@param P
+	*	int
+	*/
+	ImageAccessCallPtr makeImageLoadBufferURg16( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	vec2u
+	*@param image
+	*	Image<UInt, Buffer>
+	*@param P
+	*	int
+	*/
+	ImageAccessCallPtr makeImageLoadBufferURg8( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	uint
+	*@param image
+	*	Image<UInt, Buffer>
+	*@param P
+	*	int
+	*/
+	ImageAccessCallPtr makeImageLoadBufferUR32( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	uint
+	*@param image
+	*	Image<UInt, Buffer>
+	*@param P
+	*	int
+	*/
+	ImageAccessCallPtr makeImageLoadBufferUR16( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	uint
+	*@param image
+	*	Image<UInt, Buffer>
+	*@param P
+	*	int
+	*/
+	ImageAccessCallPtr makeImageLoadBufferUR8( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	vec4u
 	*@param image
 	*	Image<UInt, 1D, Array>
 	*@param P
 	*	vec2i
 	*/
-	ImageAccessCallPtr makeImageLoad1DArrayU( ExprPtr image, ExprPtr P );
+	ImageAccessCallPtr makeImageLoad1DArrayURgba32( ExprPtr image, ExprPtr P );
 	/**
 	*@return
-	*	vec4f
+	*	vec4u
+	*@param image
+	*	Image<UInt, 1D, Array>
+	*@param P
+	*	vec2i
+	*/
+	ImageAccessCallPtr makeImageLoad1DArrayURgba16( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	vec4u
+	*@param image
+	*	Image<UInt, 1D, Array>
+	*@param P
+	*	vec2i
+	*/
+	ImageAccessCallPtr makeImageLoad1DArrayURgba8( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	vec2u
+	*@param image
+	*	Image<UInt, 1D, Array>
+	*@param P
+	*	vec2i
+	*/
+	ImageAccessCallPtr makeImageLoad1DArrayURg32( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	vec2u
+	*@param image
+	*	Image<UInt, 1D, Array>
+	*@param P
+	*	vec2i
+	*/
+	ImageAccessCallPtr makeImageLoad1DArrayURg16( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	vec2u
+	*@param image
+	*	Image<UInt, 1D, Array>
+	*@param P
+	*	vec2i
+	*/
+	ImageAccessCallPtr makeImageLoad1DArrayURg8( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	uint
+	*@param image
+	*	Image<UInt, 1D, Array>
+	*@param P
+	*	vec2i
+	*/
+	ImageAccessCallPtr makeImageLoad1DArrayUR32( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	uint
+	*@param image
+	*	Image<UInt, 1D, Array>
+	*@param P
+	*	vec2i
+	*/
+	ImageAccessCallPtr makeImageLoad1DArrayUR16( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	uint
+	*@param image
+	*	Image<UInt, 1D, Array>
+	*@param P
+	*	vec2i
+	*/
+	ImageAccessCallPtr makeImageLoad1DArrayUR8( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	vec4u
 	*@param image
 	*	Image<UInt, 2D, Array>
 	*@param P
 	*	vec3i
 	*/
-	ImageAccessCallPtr makeImageLoad2DArrayU( ExprPtr image, ExprPtr P );
+	ImageAccessCallPtr makeImageLoad2DArrayURgba32( ExprPtr image, ExprPtr P );
 	/**
 	*@return
-	*	vec4f
+	*	vec4u
+	*@param image
+	*	Image<UInt, 2D, Array>
+	*@param P
+	*	vec3i
+	*/
+	ImageAccessCallPtr makeImageLoad2DArrayURgba16( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	vec4u
+	*@param image
+	*	Image<UInt, 2D, Array>
+	*@param P
+	*	vec3i
+	*/
+	ImageAccessCallPtr makeImageLoad2DArrayURgba8( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	vec2u
+	*@param image
+	*	Image<UInt, 2D, Array>
+	*@param P
+	*	vec3i
+	*/
+	ImageAccessCallPtr makeImageLoad2DArrayURg32( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	vec2u
+	*@param image
+	*	Image<UInt, 2D, Array>
+	*@param P
+	*	vec3i
+	*/
+	ImageAccessCallPtr makeImageLoad2DArrayURg16( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	vec2u
+	*@param image
+	*	Image<UInt, 2D, Array>
+	*@param P
+	*	vec3i
+	*/
+	ImageAccessCallPtr makeImageLoad2DArrayURg8( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	uint
+	*@param image
+	*	Image<UInt, 2D, Array>
+	*@param P
+	*	vec3i
+	*/
+	ImageAccessCallPtr makeImageLoad2DArrayUR32( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	uint
+	*@param image
+	*	Image<UInt, 2D, Array>
+	*@param P
+	*	vec3i
+	*/
+	ImageAccessCallPtr makeImageLoad2DArrayUR16( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	uint
+	*@param image
+	*	Image<UInt, 2D, Array>
+	*@param P
+	*	vec3i
+	*/
+	ImageAccessCallPtr makeImageLoad2DArrayUR8( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	vec4u
 	*@param image
 	*	Image<UInt, Cube, Array>
 	*@param P
 	*	vec3i
 	*/
-	ImageAccessCallPtr makeImageLoadCubeArrayU( ExprPtr image, ExprPtr P );
+	ImageAccessCallPtr makeImageLoadCubeArrayURgba32( ExprPtr image, ExprPtr P );
 	/**
 	*@return
-	*	vec4f
+	*	vec4u
+	*@param image
+	*	Image<UInt, Cube, Array>
+	*@param P
+	*	vec3i
+	*/
+	ImageAccessCallPtr makeImageLoadCubeArrayURgba16( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	vec4u
+	*@param image
+	*	Image<UInt, Cube, Array>
+	*@param P
+	*	vec3i
+	*/
+	ImageAccessCallPtr makeImageLoadCubeArrayURgba8( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	vec2u
+	*@param image
+	*	Image<UInt, Cube, Array>
+	*@param P
+	*	vec3i
+	*/
+	ImageAccessCallPtr makeImageLoadCubeArrayURg32( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	vec2u
+	*@param image
+	*	Image<UInt, Cube, Array>
+	*@param P
+	*	vec3i
+	*/
+	ImageAccessCallPtr makeImageLoadCubeArrayURg16( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	vec2u
+	*@param image
+	*	Image<UInt, Cube, Array>
+	*@param P
+	*	vec3i
+	*/
+	ImageAccessCallPtr makeImageLoadCubeArrayURg8( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	uint
+	*@param image
+	*	Image<UInt, Cube, Array>
+	*@param P
+	*	vec3i
+	*/
+	ImageAccessCallPtr makeImageLoadCubeArrayUR32( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	uint
+	*@param image
+	*	Image<UInt, Cube, Array>
+	*@param P
+	*	vec3i
+	*/
+	ImageAccessCallPtr makeImageLoadCubeArrayUR16( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	uint
+	*@param image
+	*	Image<UInt, Cube, Array>
+	*@param P
+	*	vec3i
+	*/
+	ImageAccessCallPtr makeImageLoadCubeArrayUR8( ExprPtr image, ExprPtr P );
+	/**
+	*@return
+	*	vec4u
 	*@param image
 	*	Image<UInt, 2D, MS>
 	*@param P
@@ -579,10 +4477,98 @@ namespace ast::expr
 	*@param sample
 	*	int
 	*/
-	ImageAccessCallPtr makeImageLoad2DMSU( ExprPtr image, ExprPtr P, ExprPtr sample );
+	ImageAccessCallPtr makeImageLoad2DMSURgba32( ExprPtr image, ExprPtr P, ExprPtr sample );
 	/**
 	*@return
-	*	vec4f
+	*	vec4u
+	*@param image
+	*	Image<UInt, 2D, MS>
+	*@param P
+	*	vec2i
+	*@param sample
+	*	int
+	*/
+	ImageAccessCallPtr makeImageLoad2DMSURgba16( ExprPtr image, ExprPtr P, ExprPtr sample );
+	/**
+	*@return
+	*	vec4u
+	*@param image
+	*	Image<UInt, 2D, MS>
+	*@param P
+	*	vec2i
+	*@param sample
+	*	int
+	*/
+	ImageAccessCallPtr makeImageLoad2DMSURgba8( ExprPtr image, ExprPtr P, ExprPtr sample );
+	/**
+	*@return
+	*	vec2u
+	*@param image
+	*	Image<UInt, 2D, MS>
+	*@param P
+	*	vec2i
+	*@param sample
+	*	int
+	*/
+	ImageAccessCallPtr makeImageLoad2DMSURg32( ExprPtr image, ExprPtr P, ExprPtr sample );
+	/**
+	*@return
+	*	vec2u
+	*@param image
+	*	Image<UInt, 2D, MS>
+	*@param P
+	*	vec2i
+	*@param sample
+	*	int
+	*/
+	ImageAccessCallPtr makeImageLoad2DMSURg16( ExprPtr image, ExprPtr P, ExprPtr sample );
+	/**
+	*@return
+	*	vec2u
+	*@param image
+	*	Image<UInt, 2D, MS>
+	*@param P
+	*	vec2i
+	*@param sample
+	*	int
+	*/
+	ImageAccessCallPtr makeImageLoad2DMSURg8( ExprPtr image, ExprPtr P, ExprPtr sample );
+	/**
+	*@return
+	*	uint
+	*@param image
+	*	Image<UInt, 2D, MS>
+	*@param P
+	*	vec2i
+	*@param sample
+	*	int
+	*/
+	ImageAccessCallPtr makeImageLoad2DMSUR32( ExprPtr image, ExprPtr P, ExprPtr sample );
+	/**
+	*@return
+	*	uint
+	*@param image
+	*	Image<UInt, 2D, MS>
+	*@param P
+	*	vec2i
+	*@param sample
+	*	int
+	*/
+	ImageAccessCallPtr makeImageLoad2DMSUR16( ExprPtr image, ExprPtr P, ExprPtr sample );
+	/**
+	*@return
+	*	uint
+	*@param image
+	*	Image<UInt, 2D, MS>
+	*@param P
+	*	vec2i
+	*@param sample
+	*	int
+	*/
+	ImageAccessCallPtr makeImageLoad2DMSUR8( ExprPtr image, ExprPtr P, ExprPtr sample );
+	/**
+	*@return
+	*	vec4u
 	*@param image
 	*	Image<UInt, 2D, MS, Array>
 	*@param P
@@ -590,7 +4576,95 @@ namespace ast::expr
 	*@param sample
 	*	int
 	*/
-	ImageAccessCallPtr makeImageLoad2DMSArrayU( ExprPtr image, ExprPtr P, ExprPtr sample );
+	ImageAccessCallPtr makeImageLoad2DMSArrayURgba32( ExprPtr image, ExprPtr P, ExprPtr sample );
+	/**
+	*@return
+	*	vec4u
+	*@param image
+	*	Image<UInt, 2D, MS, Array>
+	*@param P
+	*	vec3i
+	*@param sample
+	*	int
+	*/
+	ImageAccessCallPtr makeImageLoad2DMSArrayURgba16( ExprPtr image, ExprPtr P, ExprPtr sample );
+	/**
+	*@return
+	*	vec4u
+	*@param image
+	*	Image<UInt, 2D, MS, Array>
+	*@param P
+	*	vec3i
+	*@param sample
+	*	int
+	*/
+	ImageAccessCallPtr makeImageLoad2DMSArrayURgba8( ExprPtr image, ExprPtr P, ExprPtr sample );
+	/**
+	*@return
+	*	vec2u
+	*@param image
+	*	Image<UInt, 2D, MS, Array>
+	*@param P
+	*	vec3i
+	*@param sample
+	*	int
+	*/
+	ImageAccessCallPtr makeImageLoad2DMSArrayURg32( ExprPtr image, ExprPtr P, ExprPtr sample );
+	/**
+	*@return
+	*	vec2u
+	*@param image
+	*	Image<UInt, 2D, MS, Array>
+	*@param P
+	*	vec3i
+	*@param sample
+	*	int
+	*/
+	ImageAccessCallPtr makeImageLoad2DMSArrayURg16( ExprPtr image, ExprPtr P, ExprPtr sample );
+	/**
+	*@return
+	*	vec2u
+	*@param image
+	*	Image<UInt, 2D, MS, Array>
+	*@param P
+	*	vec3i
+	*@param sample
+	*	int
+	*/
+	ImageAccessCallPtr makeImageLoad2DMSArrayURg8( ExprPtr image, ExprPtr P, ExprPtr sample );
+	/**
+	*@return
+	*	uint
+	*@param image
+	*	Image<UInt, 2D, MS, Array>
+	*@param P
+	*	vec3i
+	*@param sample
+	*	int
+	*/
+	ImageAccessCallPtr makeImageLoad2DMSArrayUR32( ExprPtr image, ExprPtr P, ExprPtr sample );
+	/**
+	*@return
+	*	uint
+	*@param image
+	*	Image<UInt, 2D, MS, Array>
+	*@param P
+	*	vec3i
+	*@param sample
+	*	int
+	*/
+	ImageAccessCallPtr makeImageLoad2DMSArrayUR16( ExprPtr image, ExprPtr P, ExprPtr sample );
+	/**
+	*@return
+	*	uint
+	*@param image
+	*	Image<UInt, 2D, MS, Array>
+	*@param P
+	*	vec3i
+	*@param sample
+	*	int
+	*/
+	ImageAccessCallPtr makeImageLoad2DMSArrayUR8( ExprPtr image, ExprPtr P, ExprPtr sample );
 	/**
 	*@return
 	*	uint
@@ -601,7 +4675,7 @@ namespace ast::expr
 	*@param data
 	*	uint
 	*/
-	ImageAccessCallPtr makeImageAtomicAdd1DU( ExprPtr image, ExprPtr P, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicAdd1DUR32( ExprPtr image, ExprPtr P, ExprPtr data );
 	/**
 	*@return
 	*	uint
@@ -612,7 +4686,7 @@ namespace ast::expr
 	*@param data
 	*	uint
 	*/
-	ImageAccessCallPtr makeImageAtomicAdd2DU( ExprPtr image, ExprPtr P, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicAdd2DUR32( ExprPtr image, ExprPtr P, ExprPtr data );
 	/**
 	*@return
 	*	uint
@@ -623,7 +4697,7 @@ namespace ast::expr
 	*@param data
 	*	uint
 	*/
-	ImageAccessCallPtr makeImageAtomicAdd3DU( ExprPtr image, ExprPtr P, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicAdd3DUR32( ExprPtr image, ExprPtr P, ExprPtr data );
 	/**
 	*@return
 	*	uint
@@ -634,7 +4708,7 @@ namespace ast::expr
 	*@param data
 	*	uint
 	*/
-	ImageAccessCallPtr makeImageAtomicAdd2DRectU( ExprPtr image, ExprPtr P, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicAdd2DRectUR32( ExprPtr image, ExprPtr P, ExprPtr data );
 	/**
 	*@return
 	*	uint
@@ -645,7 +4719,7 @@ namespace ast::expr
 	*@param data
 	*	uint
 	*/
-	ImageAccessCallPtr makeImageAtomicAddCubeU( ExprPtr image, ExprPtr P, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicAddCubeUR32( ExprPtr image, ExprPtr P, ExprPtr data );
 	/**
 	*@return
 	*	uint
@@ -656,7 +4730,7 @@ namespace ast::expr
 	*@param data
 	*	uint
 	*/
-	ImageAccessCallPtr makeImageAtomicAddBufferU( ExprPtr image, ExprPtr P, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicAddBufferUR32( ExprPtr image, ExprPtr P, ExprPtr data );
 	/**
 	*@return
 	*	uint
@@ -667,7 +4741,7 @@ namespace ast::expr
 	*@param data
 	*	uint
 	*/
-	ImageAccessCallPtr makeImageAtomicAdd1DArrayU( ExprPtr image, ExprPtr P, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicAdd1DArrayUR32( ExprPtr image, ExprPtr P, ExprPtr data );
 	/**
 	*@return
 	*	uint
@@ -678,7 +4752,7 @@ namespace ast::expr
 	*@param data
 	*	uint
 	*/
-	ImageAccessCallPtr makeImageAtomicAdd2DArrayU( ExprPtr image, ExprPtr P, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicAdd2DArrayUR32( ExprPtr image, ExprPtr P, ExprPtr data );
 	/**
 	*@return
 	*	uint
@@ -689,7 +4763,7 @@ namespace ast::expr
 	*@param data
 	*	uint
 	*/
-	ImageAccessCallPtr makeImageAtomicAddCubeArrayU( ExprPtr image, ExprPtr P, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicAddCubeArrayUR32( ExprPtr image, ExprPtr P, ExprPtr data );
 	/**
 	*@return
 	*	uint
@@ -702,7 +4776,7 @@ namespace ast::expr
 	*@param data
 	*	uint
 	*/
-	ImageAccessCallPtr makeImageAtomicAdd2DMSU( ExprPtr image, ExprPtr P, ExprPtr sample, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicAdd2DMSUR32( ExprPtr image, ExprPtr P, ExprPtr sample, ExprPtr data );
 	/**
 	*@return
 	*	uint
@@ -715,7 +4789,7 @@ namespace ast::expr
 	*@param data
 	*	uint
 	*/
-	ImageAccessCallPtr makeImageAtomicAdd2DMSArrayU( ExprPtr image, ExprPtr P, ExprPtr sample, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicAdd2DMSArrayUR32( ExprPtr image, ExprPtr P, ExprPtr sample, ExprPtr data );
 	/**
 	*@return
 	*	int
@@ -726,7 +4800,7 @@ namespace ast::expr
 	*@param data
 	*	int
 	*/
-	ImageAccessCallPtr makeImageAtomicAdd1DI( ExprPtr image, ExprPtr P, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicAdd1DIR32( ExprPtr image, ExprPtr P, ExprPtr data );
 	/**
 	*@return
 	*	int
@@ -737,7 +4811,7 @@ namespace ast::expr
 	*@param data
 	*	int
 	*/
-	ImageAccessCallPtr makeImageAtomicAdd2DI( ExprPtr image, ExprPtr P, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicAdd2DIR32( ExprPtr image, ExprPtr P, ExprPtr data );
 	/**
 	*@return
 	*	int
@@ -748,7 +4822,7 @@ namespace ast::expr
 	*@param data
 	*	int
 	*/
-	ImageAccessCallPtr makeImageAtomicAdd3DI( ExprPtr image, ExprPtr P, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicAdd3DIR32( ExprPtr image, ExprPtr P, ExprPtr data );
 	/**
 	*@return
 	*	int
@@ -759,7 +4833,7 @@ namespace ast::expr
 	*@param data
 	*	int
 	*/
-	ImageAccessCallPtr makeImageAtomicAdd2DRectI( ExprPtr image, ExprPtr P, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicAdd2DRectIR32( ExprPtr image, ExprPtr P, ExprPtr data );
 	/**
 	*@return
 	*	int
@@ -770,7 +4844,7 @@ namespace ast::expr
 	*@param data
 	*	int
 	*/
-	ImageAccessCallPtr makeImageAtomicAddCubeI( ExprPtr image, ExprPtr P, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicAddCubeIR32( ExprPtr image, ExprPtr P, ExprPtr data );
 	/**
 	*@return
 	*	int
@@ -781,7 +4855,7 @@ namespace ast::expr
 	*@param data
 	*	int
 	*/
-	ImageAccessCallPtr makeImageAtomicAddBufferI( ExprPtr image, ExprPtr P, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicAddBufferIR32( ExprPtr image, ExprPtr P, ExprPtr data );
 	/**
 	*@return
 	*	int
@@ -792,7 +4866,7 @@ namespace ast::expr
 	*@param data
 	*	int
 	*/
-	ImageAccessCallPtr makeImageAtomicAdd1DArrayI( ExprPtr image, ExprPtr P, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicAdd1DArrayIR32( ExprPtr image, ExprPtr P, ExprPtr data );
 	/**
 	*@return
 	*	int
@@ -803,7 +4877,7 @@ namespace ast::expr
 	*@param data
 	*	int
 	*/
-	ImageAccessCallPtr makeImageAtomicAdd2DArrayI( ExprPtr image, ExprPtr P, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicAdd2DArrayIR32( ExprPtr image, ExprPtr P, ExprPtr data );
 	/**
 	*@return
 	*	int
@@ -814,7 +4888,7 @@ namespace ast::expr
 	*@param data
 	*	int
 	*/
-	ImageAccessCallPtr makeImageAtomicAddCubeArrayI( ExprPtr image, ExprPtr P, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicAddCubeArrayIR32( ExprPtr image, ExprPtr P, ExprPtr data );
 	/**
 	*@return
 	*	int
@@ -827,7 +4901,7 @@ namespace ast::expr
 	*@param data
 	*	int
 	*/
-	ImageAccessCallPtr makeImageAtomicAdd2DMSI( ExprPtr image, ExprPtr P, ExprPtr sample, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicAdd2DMSIR32( ExprPtr image, ExprPtr P, ExprPtr sample, ExprPtr data );
 	/**
 	*@return
 	*	int
@@ -840,7 +4914,7 @@ namespace ast::expr
 	*@param data
 	*	int
 	*/
-	ImageAccessCallPtr makeImageAtomicAdd2DMSArrayI( ExprPtr image, ExprPtr P, ExprPtr sample, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicAdd2DMSArrayIR32( ExprPtr image, ExprPtr P, ExprPtr sample, ExprPtr data );
 	/**
 	*@return
 	*	uint
@@ -851,7 +4925,7 @@ namespace ast::expr
 	*@param data
 	*	uint
 	*/
-	ImageAccessCallPtr makeImageAtomicMin1DU( ExprPtr image, ExprPtr P, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicMin1DUR32( ExprPtr image, ExprPtr P, ExprPtr data );
 	/**
 	*@return
 	*	uint
@@ -862,7 +4936,7 @@ namespace ast::expr
 	*@param data
 	*	uint
 	*/
-	ImageAccessCallPtr makeImageAtomicMin2DU( ExprPtr image, ExprPtr P, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicMin2DUR32( ExprPtr image, ExprPtr P, ExprPtr data );
 	/**
 	*@return
 	*	uint
@@ -873,7 +4947,7 @@ namespace ast::expr
 	*@param data
 	*	uint
 	*/
-	ImageAccessCallPtr makeImageAtomicMin3DU( ExprPtr image, ExprPtr P, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicMin3DUR32( ExprPtr image, ExprPtr P, ExprPtr data );
 	/**
 	*@return
 	*	uint
@@ -884,7 +4958,7 @@ namespace ast::expr
 	*@param data
 	*	uint
 	*/
-	ImageAccessCallPtr makeImageAtomicMin2DRectU( ExprPtr image, ExprPtr P, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicMin2DRectUR32( ExprPtr image, ExprPtr P, ExprPtr data );
 	/**
 	*@return
 	*	uint
@@ -895,7 +4969,7 @@ namespace ast::expr
 	*@param data
 	*	uint
 	*/
-	ImageAccessCallPtr makeImageAtomicMinCubeU( ExprPtr image, ExprPtr P, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicMinCubeUR32( ExprPtr image, ExprPtr P, ExprPtr data );
 	/**
 	*@return
 	*	uint
@@ -906,7 +4980,7 @@ namespace ast::expr
 	*@param data
 	*	uint
 	*/
-	ImageAccessCallPtr makeImageAtomicMinBufferU( ExprPtr image, ExprPtr P, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicMinBufferUR32( ExprPtr image, ExprPtr P, ExprPtr data );
 	/**
 	*@return
 	*	uint
@@ -917,7 +4991,7 @@ namespace ast::expr
 	*@param data
 	*	uint
 	*/
-	ImageAccessCallPtr makeImageAtomicMin1DArrayU( ExprPtr image, ExprPtr P, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicMin1DArrayUR32( ExprPtr image, ExprPtr P, ExprPtr data );
 	/**
 	*@return
 	*	uint
@@ -928,7 +5002,7 @@ namespace ast::expr
 	*@param data
 	*	uint
 	*/
-	ImageAccessCallPtr makeImageAtomicMin2DArrayU( ExprPtr image, ExprPtr P, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicMin2DArrayUR32( ExprPtr image, ExprPtr P, ExprPtr data );
 	/**
 	*@return
 	*	uint
@@ -939,7 +5013,7 @@ namespace ast::expr
 	*@param data
 	*	uint
 	*/
-	ImageAccessCallPtr makeImageAtomicMinCubeArrayU( ExprPtr image, ExprPtr P, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicMinCubeArrayUR32( ExprPtr image, ExprPtr P, ExprPtr data );
 	/**
 	*@return
 	*	uint
@@ -952,7 +5026,7 @@ namespace ast::expr
 	*@param data
 	*	uint
 	*/
-	ImageAccessCallPtr makeImageAtomicMin2DMSU( ExprPtr image, ExprPtr P, ExprPtr sample, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicMin2DMSUR32( ExprPtr image, ExprPtr P, ExprPtr sample, ExprPtr data );
 	/**
 	*@return
 	*	uint
@@ -965,7 +5039,7 @@ namespace ast::expr
 	*@param data
 	*	uint
 	*/
-	ImageAccessCallPtr makeImageAtomicMin2DMSArrayU( ExprPtr image, ExprPtr P, ExprPtr sample, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicMin2DMSArrayUR32( ExprPtr image, ExprPtr P, ExprPtr sample, ExprPtr data );
 	/**
 	*@return
 	*	int
@@ -976,7 +5050,7 @@ namespace ast::expr
 	*@param data
 	*	int
 	*/
-	ImageAccessCallPtr makeImageAtomicMin1DI( ExprPtr image, ExprPtr P, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicMin1DIR32( ExprPtr image, ExprPtr P, ExprPtr data );
 	/**
 	*@return
 	*	int
@@ -987,7 +5061,7 @@ namespace ast::expr
 	*@param data
 	*	int
 	*/
-	ImageAccessCallPtr makeImageAtomicMin2DI( ExprPtr image, ExprPtr P, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicMin2DIR32( ExprPtr image, ExprPtr P, ExprPtr data );
 	/**
 	*@return
 	*	int
@@ -998,7 +5072,7 @@ namespace ast::expr
 	*@param data
 	*	int
 	*/
-	ImageAccessCallPtr makeImageAtomicMin3DI( ExprPtr image, ExprPtr P, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicMin3DIR32( ExprPtr image, ExprPtr P, ExprPtr data );
 	/**
 	*@return
 	*	int
@@ -1009,7 +5083,7 @@ namespace ast::expr
 	*@param data
 	*	int
 	*/
-	ImageAccessCallPtr makeImageAtomicMin2DRectI( ExprPtr image, ExprPtr P, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicMin2DRectIR32( ExprPtr image, ExprPtr P, ExprPtr data );
 	/**
 	*@return
 	*	int
@@ -1020,7 +5094,7 @@ namespace ast::expr
 	*@param data
 	*	int
 	*/
-	ImageAccessCallPtr makeImageAtomicMinCubeI( ExprPtr image, ExprPtr P, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicMinCubeIR32( ExprPtr image, ExprPtr P, ExprPtr data );
 	/**
 	*@return
 	*	int
@@ -1031,7 +5105,7 @@ namespace ast::expr
 	*@param data
 	*	int
 	*/
-	ImageAccessCallPtr makeImageAtomicMinBufferI( ExprPtr image, ExprPtr P, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicMinBufferIR32( ExprPtr image, ExprPtr P, ExprPtr data );
 	/**
 	*@return
 	*	int
@@ -1042,7 +5116,7 @@ namespace ast::expr
 	*@param data
 	*	int
 	*/
-	ImageAccessCallPtr makeImageAtomicMin1DArrayI( ExprPtr image, ExprPtr P, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicMin1DArrayIR32( ExprPtr image, ExprPtr P, ExprPtr data );
 	/**
 	*@return
 	*	int
@@ -1053,7 +5127,7 @@ namespace ast::expr
 	*@param data
 	*	int
 	*/
-	ImageAccessCallPtr makeImageAtomicMin2DArrayI( ExprPtr image, ExprPtr P, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicMin2DArrayIR32( ExprPtr image, ExprPtr P, ExprPtr data );
 	/**
 	*@return
 	*	int
@@ -1064,7 +5138,7 @@ namespace ast::expr
 	*@param data
 	*	int
 	*/
-	ImageAccessCallPtr makeImageAtomicMinCubeArrayI( ExprPtr image, ExprPtr P, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicMinCubeArrayIR32( ExprPtr image, ExprPtr P, ExprPtr data );
 	/**
 	*@return
 	*	int
@@ -1077,7 +5151,7 @@ namespace ast::expr
 	*@param data
 	*	int
 	*/
-	ImageAccessCallPtr makeImageAtomicMin2DMSI( ExprPtr image, ExprPtr P, ExprPtr sample, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicMin2DMSIR32( ExprPtr image, ExprPtr P, ExprPtr sample, ExprPtr data );
 	/**
 	*@return
 	*	int
@@ -1090,7 +5164,7 @@ namespace ast::expr
 	*@param data
 	*	int
 	*/
-	ImageAccessCallPtr makeImageAtomicMin2DMSArrayI( ExprPtr image, ExprPtr P, ExprPtr sample, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicMin2DMSArrayIR32( ExprPtr image, ExprPtr P, ExprPtr sample, ExprPtr data );
 	/**
 	*@return
 	*	uint
@@ -1101,7 +5175,7 @@ namespace ast::expr
 	*@param data
 	*	uint
 	*/
-	ImageAccessCallPtr makeImageAtomicMax1DU( ExprPtr image, ExprPtr P, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicMax1DUR32( ExprPtr image, ExprPtr P, ExprPtr data );
 	/**
 	*@return
 	*	uint
@@ -1112,7 +5186,7 @@ namespace ast::expr
 	*@param data
 	*	uint
 	*/
-	ImageAccessCallPtr makeImageAtomicMax2DU( ExprPtr image, ExprPtr P, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicMax2DUR32( ExprPtr image, ExprPtr P, ExprPtr data );
 	/**
 	*@return
 	*	uint
@@ -1123,7 +5197,7 @@ namespace ast::expr
 	*@param data
 	*	uint
 	*/
-	ImageAccessCallPtr makeImageAtomicMax3DU( ExprPtr image, ExprPtr P, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicMax3DUR32( ExprPtr image, ExprPtr P, ExprPtr data );
 	/**
 	*@return
 	*	uint
@@ -1134,7 +5208,7 @@ namespace ast::expr
 	*@param data
 	*	uint
 	*/
-	ImageAccessCallPtr makeImageAtomicMax2DRectU( ExprPtr image, ExprPtr P, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicMax2DRectUR32( ExprPtr image, ExprPtr P, ExprPtr data );
 	/**
 	*@return
 	*	uint
@@ -1145,7 +5219,7 @@ namespace ast::expr
 	*@param data
 	*	uint
 	*/
-	ImageAccessCallPtr makeImageAtomicMaxCubeU( ExprPtr image, ExprPtr P, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicMaxCubeUR32( ExprPtr image, ExprPtr P, ExprPtr data );
 	/**
 	*@return
 	*	uint
@@ -1156,7 +5230,7 @@ namespace ast::expr
 	*@param data
 	*	uint
 	*/
-	ImageAccessCallPtr makeImageAtomicMaxBufferU( ExprPtr image, ExprPtr P, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicMaxBufferUR32( ExprPtr image, ExprPtr P, ExprPtr data );
 	/**
 	*@return
 	*	uint
@@ -1167,7 +5241,7 @@ namespace ast::expr
 	*@param data
 	*	uint
 	*/
-	ImageAccessCallPtr makeImageAtomicMax1DArrayU( ExprPtr image, ExprPtr P, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicMax1DArrayUR32( ExprPtr image, ExprPtr P, ExprPtr data );
 	/**
 	*@return
 	*	uint
@@ -1178,7 +5252,7 @@ namespace ast::expr
 	*@param data
 	*	uint
 	*/
-	ImageAccessCallPtr makeImageAtomicMax2DArrayU( ExprPtr image, ExprPtr P, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicMax2DArrayUR32( ExprPtr image, ExprPtr P, ExprPtr data );
 	/**
 	*@return
 	*	uint
@@ -1189,7 +5263,7 @@ namespace ast::expr
 	*@param data
 	*	uint
 	*/
-	ImageAccessCallPtr makeImageAtomicMaxCubeArrayU( ExprPtr image, ExprPtr P, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicMaxCubeArrayUR32( ExprPtr image, ExprPtr P, ExprPtr data );
 	/**
 	*@return
 	*	uint
@@ -1202,7 +5276,7 @@ namespace ast::expr
 	*@param data
 	*	uint
 	*/
-	ImageAccessCallPtr makeImageAtomicMax2DMSU( ExprPtr image, ExprPtr P, ExprPtr sample, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicMax2DMSUR32( ExprPtr image, ExprPtr P, ExprPtr sample, ExprPtr data );
 	/**
 	*@return
 	*	uint
@@ -1215,7 +5289,7 @@ namespace ast::expr
 	*@param data
 	*	uint
 	*/
-	ImageAccessCallPtr makeImageAtomicMax2DMSArrayU( ExprPtr image, ExprPtr P, ExprPtr sample, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicMax2DMSArrayUR32( ExprPtr image, ExprPtr P, ExprPtr sample, ExprPtr data );
 	/**
 	*@return
 	*	int
@@ -1226,7 +5300,7 @@ namespace ast::expr
 	*@param data
 	*	int
 	*/
-	ImageAccessCallPtr makeImageAtomicMax1DI( ExprPtr image, ExprPtr P, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicMax1DIR32( ExprPtr image, ExprPtr P, ExprPtr data );
 	/**
 	*@return
 	*	int
@@ -1237,7 +5311,7 @@ namespace ast::expr
 	*@param data
 	*	int
 	*/
-	ImageAccessCallPtr makeImageAtomicMax2DI( ExprPtr image, ExprPtr P, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicMax2DIR32( ExprPtr image, ExprPtr P, ExprPtr data );
 	/**
 	*@return
 	*	int
@@ -1248,7 +5322,7 @@ namespace ast::expr
 	*@param data
 	*	int
 	*/
-	ImageAccessCallPtr makeImageAtomicMax3DI( ExprPtr image, ExprPtr P, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicMax3DIR32( ExprPtr image, ExprPtr P, ExprPtr data );
 	/**
 	*@return
 	*	int
@@ -1259,7 +5333,7 @@ namespace ast::expr
 	*@param data
 	*	int
 	*/
-	ImageAccessCallPtr makeImageAtomicMax2DRectI( ExprPtr image, ExprPtr P, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicMax2DRectIR32( ExprPtr image, ExprPtr P, ExprPtr data );
 	/**
 	*@return
 	*	int
@@ -1270,7 +5344,7 @@ namespace ast::expr
 	*@param data
 	*	int
 	*/
-	ImageAccessCallPtr makeImageAtomicMaxCubeI( ExprPtr image, ExprPtr P, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicMaxCubeIR32( ExprPtr image, ExprPtr P, ExprPtr data );
 	/**
 	*@return
 	*	int
@@ -1281,7 +5355,7 @@ namespace ast::expr
 	*@param data
 	*	int
 	*/
-	ImageAccessCallPtr makeImageAtomicMaxBufferI( ExprPtr image, ExprPtr P, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicMaxBufferIR32( ExprPtr image, ExprPtr P, ExprPtr data );
 	/**
 	*@return
 	*	int
@@ -1292,7 +5366,7 @@ namespace ast::expr
 	*@param data
 	*	int
 	*/
-	ImageAccessCallPtr makeImageAtomicMax1DArrayI( ExprPtr image, ExprPtr P, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicMax1DArrayIR32( ExprPtr image, ExprPtr P, ExprPtr data );
 	/**
 	*@return
 	*	int
@@ -1303,7 +5377,7 @@ namespace ast::expr
 	*@param data
 	*	int
 	*/
-	ImageAccessCallPtr makeImageAtomicMax2DArrayI( ExprPtr image, ExprPtr P, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicMax2DArrayIR32( ExprPtr image, ExprPtr P, ExprPtr data );
 	/**
 	*@return
 	*	int
@@ -1314,7 +5388,7 @@ namespace ast::expr
 	*@param data
 	*	int
 	*/
-	ImageAccessCallPtr makeImageAtomicMaxCubeArrayI( ExprPtr image, ExprPtr P, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicMaxCubeArrayIR32( ExprPtr image, ExprPtr P, ExprPtr data );
 	/**
 	*@return
 	*	int
@@ -1327,7 +5401,7 @@ namespace ast::expr
 	*@param data
 	*	int
 	*/
-	ImageAccessCallPtr makeImageAtomicMax2DMSI( ExprPtr image, ExprPtr P, ExprPtr sample, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicMax2DMSIR32( ExprPtr image, ExprPtr P, ExprPtr sample, ExprPtr data );
 	/**
 	*@return
 	*	int
@@ -1340,7 +5414,7 @@ namespace ast::expr
 	*@param data
 	*	int
 	*/
-	ImageAccessCallPtr makeImageAtomicMax2DMSArrayI( ExprPtr image, ExprPtr P, ExprPtr sample, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicMax2DMSArrayIR32( ExprPtr image, ExprPtr P, ExprPtr sample, ExprPtr data );
 	/**
 	*@return
 	*	uint
@@ -1351,7 +5425,7 @@ namespace ast::expr
 	*@param data
 	*	uint
 	*/
-	ImageAccessCallPtr makeImageAtomicAnd1DU( ExprPtr image, ExprPtr P, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicAnd1DUR32( ExprPtr image, ExprPtr P, ExprPtr data );
 	/**
 	*@return
 	*	uint
@@ -1362,7 +5436,7 @@ namespace ast::expr
 	*@param data
 	*	uint
 	*/
-	ImageAccessCallPtr makeImageAtomicAnd2DU( ExprPtr image, ExprPtr P, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicAnd2DUR32( ExprPtr image, ExprPtr P, ExprPtr data );
 	/**
 	*@return
 	*	uint
@@ -1373,7 +5447,7 @@ namespace ast::expr
 	*@param data
 	*	uint
 	*/
-	ImageAccessCallPtr makeImageAtomicAnd3DU( ExprPtr image, ExprPtr P, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicAnd3DUR32( ExprPtr image, ExprPtr P, ExprPtr data );
 	/**
 	*@return
 	*	uint
@@ -1384,7 +5458,7 @@ namespace ast::expr
 	*@param data
 	*	uint
 	*/
-	ImageAccessCallPtr makeImageAtomicAnd2DRectU( ExprPtr image, ExprPtr P, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicAnd2DRectUR32( ExprPtr image, ExprPtr P, ExprPtr data );
 	/**
 	*@return
 	*	uint
@@ -1395,7 +5469,7 @@ namespace ast::expr
 	*@param data
 	*	uint
 	*/
-	ImageAccessCallPtr makeImageAtomicAndCubeU( ExprPtr image, ExprPtr P, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicAndCubeUR32( ExprPtr image, ExprPtr P, ExprPtr data );
 	/**
 	*@return
 	*	uint
@@ -1406,7 +5480,7 @@ namespace ast::expr
 	*@param data
 	*	uint
 	*/
-	ImageAccessCallPtr makeImageAtomicAndBufferU( ExprPtr image, ExprPtr P, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicAndBufferUR32( ExprPtr image, ExprPtr P, ExprPtr data );
 	/**
 	*@return
 	*	uint
@@ -1417,7 +5491,7 @@ namespace ast::expr
 	*@param data
 	*	uint
 	*/
-	ImageAccessCallPtr makeImageAtomicAnd1DArrayU( ExprPtr image, ExprPtr P, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicAnd1DArrayUR32( ExprPtr image, ExprPtr P, ExprPtr data );
 	/**
 	*@return
 	*	uint
@@ -1428,7 +5502,7 @@ namespace ast::expr
 	*@param data
 	*	uint
 	*/
-	ImageAccessCallPtr makeImageAtomicAnd2DArrayU( ExprPtr image, ExprPtr P, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicAnd2DArrayUR32( ExprPtr image, ExprPtr P, ExprPtr data );
 	/**
 	*@return
 	*	uint
@@ -1439,7 +5513,7 @@ namespace ast::expr
 	*@param data
 	*	uint
 	*/
-	ImageAccessCallPtr makeImageAtomicAndCubeArrayU( ExprPtr image, ExprPtr P, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicAndCubeArrayUR32( ExprPtr image, ExprPtr P, ExprPtr data );
 	/**
 	*@return
 	*	uint
@@ -1452,7 +5526,7 @@ namespace ast::expr
 	*@param data
 	*	uint
 	*/
-	ImageAccessCallPtr makeImageAtomicAnd2DMSU( ExprPtr image, ExprPtr P, ExprPtr sample, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicAnd2DMSUR32( ExprPtr image, ExprPtr P, ExprPtr sample, ExprPtr data );
 	/**
 	*@return
 	*	uint
@@ -1465,7 +5539,7 @@ namespace ast::expr
 	*@param data
 	*	uint
 	*/
-	ImageAccessCallPtr makeImageAtomicAnd2DMSArrayU( ExprPtr image, ExprPtr P, ExprPtr sample, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicAnd2DMSArrayUR32( ExprPtr image, ExprPtr P, ExprPtr sample, ExprPtr data );
 	/**
 	*@return
 	*	int
@@ -1476,7 +5550,7 @@ namespace ast::expr
 	*@param data
 	*	int
 	*/
-	ImageAccessCallPtr makeImageAtomicAnd1DI( ExprPtr image, ExprPtr P, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicAnd1DIR32( ExprPtr image, ExprPtr P, ExprPtr data );
 	/**
 	*@return
 	*	int
@@ -1487,7 +5561,7 @@ namespace ast::expr
 	*@param data
 	*	int
 	*/
-	ImageAccessCallPtr makeImageAtomicAnd2DI( ExprPtr image, ExprPtr P, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicAnd2DIR32( ExprPtr image, ExprPtr P, ExprPtr data );
 	/**
 	*@return
 	*	int
@@ -1498,7 +5572,7 @@ namespace ast::expr
 	*@param data
 	*	int
 	*/
-	ImageAccessCallPtr makeImageAtomicAnd3DI( ExprPtr image, ExprPtr P, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicAnd3DIR32( ExprPtr image, ExprPtr P, ExprPtr data );
 	/**
 	*@return
 	*	int
@@ -1509,7 +5583,7 @@ namespace ast::expr
 	*@param data
 	*	int
 	*/
-	ImageAccessCallPtr makeImageAtomicAnd2DRectI( ExprPtr image, ExprPtr P, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicAnd2DRectIR32( ExprPtr image, ExprPtr P, ExprPtr data );
 	/**
 	*@return
 	*	int
@@ -1520,7 +5594,7 @@ namespace ast::expr
 	*@param data
 	*	int
 	*/
-	ImageAccessCallPtr makeImageAtomicAndCubeI( ExprPtr image, ExprPtr P, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicAndCubeIR32( ExprPtr image, ExprPtr P, ExprPtr data );
 	/**
 	*@return
 	*	int
@@ -1531,7 +5605,7 @@ namespace ast::expr
 	*@param data
 	*	int
 	*/
-	ImageAccessCallPtr makeImageAtomicAndBufferI( ExprPtr image, ExprPtr P, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicAndBufferIR32( ExprPtr image, ExprPtr P, ExprPtr data );
 	/**
 	*@return
 	*	int
@@ -1542,7 +5616,7 @@ namespace ast::expr
 	*@param data
 	*	int
 	*/
-	ImageAccessCallPtr makeImageAtomicAnd1DArrayI( ExprPtr image, ExprPtr P, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicAnd1DArrayIR32( ExprPtr image, ExprPtr P, ExprPtr data );
 	/**
 	*@return
 	*	int
@@ -1553,7 +5627,7 @@ namespace ast::expr
 	*@param data
 	*	int
 	*/
-	ImageAccessCallPtr makeImageAtomicAnd2DArrayI( ExprPtr image, ExprPtr P, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicAnd2DArrayIR32( ExprPtr image, ExprPtr P, ExprPtr data );
 	/**
 	*@return
 	*	int
@@ -1564,7 +5638,7 @@ namespace ast::expr
 	*@param data
 	*	int
 	*/
-	ImageAccessCallPtr makeImageAtomicAndCubeArrayI( ExprPtr image, ExprPtr P, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicAndCubeArrayIR32( ExprPtr image, ExprPtr P, ExprPtr data );
 	/**
 	*@return
 	*	int
@@ -1577,7 +5651,7 @@ namespace ast::expr
 	*@param data
 	*	int
 	*/
-	ImageAccessCallPtr makeImageAtomicAnd2DMSI( ExprPtr image, ExprPtr P, ExprPtr sample, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicAnd2DMSIR32( ExprPtr image, ExprPtr P, ExprPtr sample, ExprPtr data );
 	/**
 	*@return
 	*	int
@@ -1590,7 +5664,7 @@ namespace ast::expr
 	*@param data
 	*	int
 	*/
-	ImageAccessCallPtr makeImageAtomicAnd2DMSArrayI( ExprPtr image, ExprPtr P, ExprPtr sample, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicAnd2DMSArrayIR32( ExprPtr image, ExprPtr P, ExprPtr sample, ExprPtr data );
 	/**
 	*@return
 	*	uint
@@ -1601,7 +5675,7 @@ namespace ast::expr
 	*@param data
 	*	uint
 	*/
-	ImageAccessCallPtr makeImageAtomicOr1DU( ExprPtr image, ExprPtr P, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicOr1DUR32( ExprPtr image, ExprPtr P, ExprPtr data );
 	/**
 	*@return
 	*	uint
@@ -1612,7 +5686,7 @@ namespace ast::expr
 	*@param data
 	*	uint
 	*/
-	ImageAccessCallPtr makeImageAtomicOr2DU( ExprPtr image, ExprPtr P, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicOr2DUR32( ExprPtr image, ExprPtr P, ExprPtr data );
 	/**
 	*@return
 	*	uint
@@ -1623,7 +5697,7 @@ namespace ast::expr
 	*@param data
 	*	uint
 	*/
-	ImageAccessCallPtr makeImageAtomicOr3DU( ExprPtr image, ExprPtr P, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicOr3DUR32( ExprPtr image, ExprPtr P, ExprPtr data );
 	/**
 	*@return
 	*	uint
@@ -1634,7 +5708,7 @@ namespace ast::expr
 	*@param data
 	*	uint
 	*/
-	ImageAccessCallPtr makeImageAtomicOr2DRectU( ExprPtr image, ExprPtr P, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicOr2DRectUR32( ExprPtr image, ExprPtr P, ExprPtr data );
 	/**
 	*@return
 	*	uint
@@ -1645,7 +5719,7 @@ namespace ast::expr
 	*@param data
 	*	uint
 	*/
-	ImageAccessCallPtr makeImageAtomicOrCubeU( ExprPtr image, ExprPtr P, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicOrCubeUR32( ExprPtr image, ExprPtr P, ExprPtr data );
 	/**
 	*@return
 	*	uint
@@ -1656,7 +5730,7 @@ namespace ast::expr
 	*@param data
 	*	uint
 	*/
-	ImageAccessCallPtr makeImageAtomicOrBufferU( ExprPtr image, ExprPtr P, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicOrBufferUR32( ExprPtr image, ExprPtr P, ExprPtr data );
 	/**
 	*@return
 	*	uint
@@ -1667,7 +5741,7 @@ namespace ast::expr
 	*@param data
 	*	uint
 	*/
-	ImageAccessCallPtr makeImageAtomicOr1DArrayU( ExprPtr image, ExprPtr P, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicOr1DArrayUR32( ExprPtr image, ExprPtr P, ExprPtr data );
 	/**
 	*@return
 	*	uint
@@ -1678,7 +5752,7 @@ namespace ast::expr
 	*@param data
 	*	uint
 	*/
-	ImageAccessCallPtr makeImageAtomicOr2DArrayU( ExprPtr image, ExprPtr P, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicOr2DArrayUR32( ExprPtr image, ExprPtr P, ExprPtr data );
 	/**
 	*@return
 	*	uint
@@ -1689,7 +5763,7 @@ namespace ast::expr
 	*@param data
 	*	uint
 	*/
-	ImageAccessCallPtr makeImageAtomicOrCubeArrayU( ExprPtr image, ExprPtr P, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicOrCubeArrayUR32( ExprPtr image, ExprPtr P, ExprPtr data );
 	/**
 	*@return
 	*	uint
@@ -1702,7 +5776,7 @@ namespace ast::expr
 	*@param data
 	*	uint
 	*/
-	ImageAccessCallPtr makeImageAtomicOr2DMSU( ExprPtr image, ExprPtr P, ExprPtr sample, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicOr2DMSUR32( ExprPtr image, ExprPtr P, ExprPtr sample, ExprPtr data );
 	/**
 	*@return
 	*	uint
@@ -1715,7 +5789,7 @@ namespace ast::expr
 	*@param data
 	*	uint
 	*/
-	ImageAccessCallPtr makeImageAtomicOr2DMSArrayU( ExprPtr image, ExprPtr P, ExprPtr sample, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicOr2DMSArrayUR32( ExprPtr image, ExprPtr P, ExprPtr sample, ExprPtr data );
 	/**
 	*@return
 	*	int
@@ -1726,7 +5800,7 @@ namespace ast::expr
 	*@param data
 	*	int
 	*/
-	ImageAccessCallPtr makeImageAtomicOr1DI( ExprPtr image, ExprPtr P, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicOr1DIR32( ExprPtr image, ExprPtr P, ExprPtr data );
 	/**
 	*@return
 	*	int
@@ -1737,7 +5811,7 @@ namespace ast::expr
 	*@param data
 	*	int
 	*/
-	ImageAccessCallPtr makeImageAtomicOr2DI( ExprPtr image, ExprPtr P, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicOr2DIR32( ExprPtr image, ExprPtr P, ExprPtr data );
 	/**
 	*@return
 	*	int
@@ -1748,7 +5822,7 @@ namespace ast::expr
 	*@param data
 	*	int
 	*/
-	ImageAccessCallPtr makeImageAtomicOr3DI( ExprPtr image, ExprPtr P, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicOr3DIR32( ExprPtr image, ExprPtr P, ExprPtr data );
 	/**
 	*@return
 	*	int
@@ -1759,7 +5833,7 @@ namespace ast::expr
 	*@param data
 	*	int
 	*/
-	ImageAccessCallPtr makeImageAtomicOr2DRectI( ExprPtr image, ExprPtr P, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicOr2DRectIR32( ExprPtr image, ExprPtr P, ExprPtr data );
 	/**
 	*@return
 	*	int
@@ -1770,7 +5844,7 @@ namespace ast::expr
 	*@param data
 	*	int
 	*/
-	ImageAccessCallPtr makeImageAtomicOrCubeI( ExprPtr image, ExprPtr P, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicOrCubeIR32( ExprPtr image, ExprPtr P, ExprPtr data );
 	/**
 	*@return
 	*	int
@@ -1781,7 +5855,7 @@ namespace ast::expr
 	*@param data
 	*	int
 	*/
-	ImageAccessCallPtr makeImageAtomicOrBufferI( ExprPtr image, ExprPtr P, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicOrBufferIR32( ExprPtr image, ExprPtr P, ExprPtr data );
 	/**
 	*@return
 	*	int
@@ -1792,7 +5866,7 @@ namespace ast::expr
 	*@param data
 	*	int
 	*/
-	ImageAccessCallPtr makeImageAtomicOr1DArrayI( ExprPtr image, ExprPtr P, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicOr1DArrayIR32( ExprPtr image, ExprPtr P, ExprPtr data );
 	/**
 	*@return
 	*	int
@@ -1803,7 +5877,7 @@ namespace ast::expr
 	*@param data
 	*	int
 	*/
-	ImageAccessCallPtr makeImageAtomicOr2DArrayI( ExprPtr image, ExprPtr P, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicOr2DArrayIR32( ExprPtr image, ExprPtr P, ExprPtr data );
 	/**
 	*@return
 	*	int
@@ -1814,7 +5888,7 @@ namespace ast::expr
 	*@param data
 	*	int
 	*/
-	ImageAccessCallPtr makeImageAtomicOrCubeArrayI( ExprPtr image, ExprPtr P, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicOrCubeArrayIR32( ExprPtr image, ExprPtr P, ExprPtr data );
 	/**
 	*@return
 	*	int
@@ -1827,7 +5901,7 @@ namespace ast::expr
 	*@param data
 	*	int
 	*/
-	ImageAccessCallPtr makeImageAtomicOr2DMSI( ExprPtr image, ExprPtr P, ExprPtr sample, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicOr2DMSIR32( ExprPtr image, ExprPtr P, ExprPtr sample, ExprPtr data );
 	/**
 	*@return
 	*	int
@@ -1840,7 +5914,7 @@ namespace ast::expr
 	*@param data
 	*	int
 	*/
-	ImageAccessCallPtr makeImageAtomicOr2DMSArrayI( ExprPtr image, ExprPtr P, ExprPtr sample, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicOr2DMSArrayIR32( ExprPtr image, ExprPtr P, ExprPtr sample, ExprPtr data );
 	/**
 	*@return
 	*	uint
@@ -1851,7 +5925,7 @@ namespace ast::expr
 	*@param data
 	*	uint
 	*/
-	ImageAccessCallPtr makeImageAtomicXor1DU( ExprPtr image, ExprPtr P, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicXor1DUR32( ExprPtr image, ExprPtr P, ExprPtr data );
 	/**
 	*@return
 	*	uint
@@ -1862,7 +5936,7 @@ namespace ast::expr
 	*@param data
 	*	uint
 	*/
-	ImageAccessCallPtr makeImageAtomicXor2DU( ExprPtr image, ExprPtr P, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicXor2DUR32( ExprPtr image, ExprPtr P, ExprPtr data );
 	/**
 	*@return
 	*	uint
@@ -1873,7 +5947,7 @@ namespace ast::expr
 	*@param data
 	*	uint
 	*/
-	ImageAccessCallPtr makeImageAtomicXor3DU( ExprPtr image, ExprPtr P, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicXor3DUR32( ExprPtr image, ExprPtr P, ExprPtr data );
 	/**
 	*@return
 	*	uint
@@ -1884,7 +5958,7 @@ namespace ast::expr
 	*@param data
 	*	uint
 	*/
-	ImageAccessCallPtr makeImageAtomicXor2DRectU( ExprPtr image, ExprPtr P, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicXor2DRectUR32( ExprPtr image, ExprPtr P, ExprPtr data );
 	/**
 	*@return
 	*	uint
@@ -1895,7 +5969,7 @@ namespace ast::expr
 	*@param data
 	*	uint
 	*/
-	ImageAccessCallPtr makeImageAtomicXorCubeU( ExprPtr image, ExprPtr P, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicXorCubeUR32( ExprPtr image, ExprPtr P, ExprPtr data );
 	/**
 	*@return
 	*	uint
@@ -1906,7 +5980,7 @@ namespace ast::expr
 	*@param data
 	*	uint
 	*/
-	ImageAccessCallPtr makeImageAtomicXorBufferU( ExprPtr image, ExprPtr P, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicXorBufferUR32( ExprPtr image, ExprPtr P, ExprPtr data );
 	/**
 	*@return
 	*	uint
@@ -1917,7 +5991,7 @@ namespace ast::expr
 	*@param data
 	*	uint
 	*/
-	ImageAccessCallPtr makeImageAtomicXor1DArrayU( ExprPtr image, ExprPtr P, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicXor1DArrayUR32( ExprPtr image, ExprPtr P, ExprPtr data );
 	/**
 	*@return
 	*	uint
@@ -1928,7 +6002,7 @@ namespace ast::expr
 	*@param data
 	*	uint
 	*/
-	ImageAccessCallPtr makeImageAtomicXor2DArrayU( ExprPtr image, ExprPtr P, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicXor2DArrayUR32( ExprPtr image, ExprPtr P, ExprPtr data );
 	/**
 	*@return
 	*	uint
@@ -1939,7 +6013,7 @@ namespace ast::expr
 	*@param data
 	*	uint
 	*/
-	ImageAccessCallPtr makeImageAtomicXorCubeArrayU( ExprPtr image, ExprPtr P, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicXorCubeArrayUR32( ExprPtr image, ExprPtr P, ExprPtr data );
 	/**
 	*@return
 	*	uint
@@ -1952,7 +6026,7 @@ namespace ast::expr
 	*@param data
 	*	uint
 	*/
-	ImageAccessCallPtr makeImageAtomicXor2DMSU( ExprPtr image, ExprPtr P, ExprPtr sample, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicXor2DMSUR32( ExprPtr image, ExprPtr P, ExprPtr sample, ExprPtr data );
 	/**
 	*@return
 	*	uint
@@ -1965,7 +6039,7 @@ namespace ast::expr
 	*@param data
 	*	uint
 	*/
-	ImageAccessCallPtr makeImageAtomicXor2DMSArrayU( ExprPtr image, ExprPtr P, ExprPtr sample, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicXor2DMSArrayUR32( ExprPtr image, ExprPtr P, ExprPtr sample, ExprPtr data );
 	/**
 	*@return
 	*	int
@@ -1976,7 +6050,7 @@ namespace ast::expr
 	*@param data
 	*	int
 	*/
-	ImageAccessCallPtr makeImageAtomicXor1DI( ExprPtr image, ExprPtr P, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicXor1DIR32( ExprPtr image, ExprPtr P, ExprPtr data );
 	/**
 	*@return
 	*	int
@@ -1987,7 +6061,7 @@ namespace ast::expr
 	*@param data
 	*	int
 	*/
-	ImageAccessCallPtr makeImageAtomicXor2DI( ExprPtr image, ExprPtr P, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicXor2DIR32( ExprPtr image, ExprPtr P, ExprPtr data );
 	/**
 	*@return
 	*	int
@@ -1998,7 +6072,7 @@ namespace ast::expr
 	*@param data
 	*	int
 	*/
-	ImageAccessCallPtr makeImageAtomicXor3DI( ExprPtr image, ExprPtr P, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicXor3DIR32( ExprPtr image, ExprPtr P, ExprPtr data );
 	/**
 	*@return
 	*	int
@@ -2009,7 +6083,7 @@ namespace ast::expr
 	*@param data
 	*	int
 	*/
-	ImageAccessCallPtr makeImageAtomicXor2DRectI( ExprPtr image, ExprPtr P, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicXor2DRectIR32( ExprPtr image, ExprPtr P, ExprPtr data );
 	/**
 	*@return
 	*	int
@@ -2020,7 +6094,7 @@ namespace ast::expr
 	*@param data
 	*	int
 	*/
-	ImageAccessCallPtr makeImageAtomicXorCubeI( ExprPtr image, ExprPtr P, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicXorCubeIR32( ExprPtr image, ExprPtr P, ExprPtr data );
 	/**
 	*@return
 	*	int
@@ -2031,7 +6105,7 @@ namespace ast::expr
 	*@param data
 	*	int
 	*/
-	ImageAccessCallPtr makeImageAtomicXorBufferI( ExprPtr image, ExprPtr P, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicXorBufferIR32( ExprPtr image, ExprPtr P, ExprPtr data );
 	/**
 	*@return
 	*	int
@@ -2042,7 +6116,7 @@ namespace ast::expr
 	*@param data
 	*	int
 	*/
-	ImageAccessCallPtr makeImageAtomicXor1DArrayI( ExprPtr image, ExprPtr P, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicXor1DArrayIR32( ExprPtr image, ExprPtr P, ExprPtr data );
 	/**
 	*@return
 	*	int
@@ -2053,7 +6127,7 @@ namespace ast::expr
 	*@param data
 	*	int
 	*/
-	ImageAccessCallPtr makeImageAtomicXor2DArrayI( ExprPtr image, ExprPtr P, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicXor2DArrayIR32( ExprPtr image, ExprPtr P, ExprPtr data );
 	/**
 	*@return
 	*	int
@@ -2064,7 +6138,7 @@ namespace ast::expr
 	*@param data
 	*	int
 	*/
-	ImageAccessCallPtr makeImageAtomicXorCubeArrayI( ExprPtr image, ExprPtr P, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicXorCubeArrayIR32( ExprPtr image, ExprPtr P, ExprPtr data );
 	/**
 	*@return
 	*	int
@@ -2077,7 +6151,7 @@ namespace ast::expr
 	*@param data
 	*	int
 	*/
-	ImageAccessCallPtr makeImageAtomicXor2DMSI( ExprPtr image, ExprPtr P, ExprPtr sample, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicXor2DMSIR32( ExprPtr image, ExprPtr P, ExprPtr sample, ExprPtr data );
 	/**
 	*@return
 	*	int
@@ -2090,7 +6164,7 @@ namespace ast::expr
 	*@param data
 	*	int
 	*/
-	ImageAccessCallPtr makeImageAtomicXor2DMSArrayI( ExprPtr image, ExprPtr P, ExprPtr sample, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicXor2DMSArrayIR32( ExprPtr image, ExprPtr P, ExprPtr sample, ExprPtr data );
 	/**
 	*@return
 	*	uint
@@ -2101,7 +6175,7 @@ namespace ast::expr
 	*@param data
 	*	uint
 	*/
-	ImageAccessCallPtr makeImageAtomicExchange1DU( ExprPtr image, ExprPtr P, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicExchange1DUR32( ExprPtr image, ExprPtr P, ExprPtr data );
 	/**
 	*@return
 	*	uint
@@ -2112,7 +6186,7 @@ namespace ast::expr
 	*@param data
 	*	uint
 	*/
-	ImageAccessCallPtr makeImageAtomicExchange2DU( ExprPtr image, ExprPtr P, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicExchange2DUR32( ExprPtr image, ExprPtr P, ExprPtr data );
 	/**
 	*@return
 	*	uint
@@ -2123,7 +6197,7 @@ namespace ast::expr
 	*@param data
 	*	uint
 	*/
-	ImageAccessCallPtr makeImageAtomicExchange3DU( ExprPtr image, ExprPtr P, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicExchange3DUR32( ExprPtr image, ExprPtr P, ExprPtr data );
 	/**
 	*@return
 	*	uint
@@ -2134,7 +6208,7 @@ namespace ast::expr
 	*@param data
 	*	uint
 	*/
-	ImageAccessCallPtr makeImageAtomicExchange2DRectU( ExprPtr image, ExprPtr P, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicExchange2DRectUR32( ExprPtr image, ExprPtr P, ExprPtr data );
 	/**
 	*@return
 	*	uint
@@ -2145,7 +6219,7 @@ namespace ast::expr
 	*@param data
 	*	uint
 	*/
-	ImageAccessCallPtr makeImageAtomicExchangeCubeU( ExprPtr image, ExprPtr P, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicExchangeCubeUR32( ExprPtr image, ExprPtr P, ExprPtr data );
 	/**
 	*@return
 	*	uint
@@ -2156,7 +6230,7 @@ namespace ast::expr
 	*@param data
 	*	uint
 	*/
-	ImageAccessCallPtr makeImageAtomicExchangeBufferU( ExprPtr image, ExprPtr P, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicExchangeBufferUR32( ExprPtr image, ExprPtr P, ExprPtr data );
 	/**
 	*@return
 	*	uint
@@ -2167,7 +6241,7 @@ namespace ast::expr
 	*@param data
 	*	uint
 	*/
-	ImageAccessCallPtr makeImageAtomicExchange1DArrayU( ExprPtr image, ExprPtr P, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicExchange1DArrayUR32( ExprPtr image, ExprPtr P, ExprPtr data );
 	/**
 	*@return
 	*	uint
@@ -2178,7 +6252,7 @@ namespace ast::expr
 	*@param data
 	*	uint
 	*/
-	ImageAccessCallPtr makeImageAtomicExchange2DArrayU( ExprPtr image, ExprPtr P, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicExchange2DArrayUR32( ExprPtr image, ExprPtr P, ExprPtr data );
 	/**
 	*@return
 	*	uint
@@ -2189,7 +6263,7 @@ namespace ast::expr
 	*@param data
 	*	uint
 	*/
-	ImageAccessCallPtr makeImageAtomicExchangeCubeArrayU( ExprPtr image, ExprPtr P, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicExchangeCubeArrayUR32( ExprPtr image, ExprPtr P, ExprPtr data );
 	/**
 	*@return
 	*	uint
@@ -2202,7 +6276,7 @@ namespace ast::expr
 	*@param data
 	*	uint
 	*/
-	ImageAccessCallPtr makeImageAtomicExchange2DMSU( ExprPtr image, ExprPtr P, ExprPtr sample, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicExchange2DMSUR32( ExprPtr image, ExprPtr P, ExprPtr sample, ExprPtr data );
 	/**
 	*@return
 	*	uint
@@ -2215,7 +6289,7 @@ namespace ast::expr
 	*@param data
 	*	uint
 	*/
-	ImageAccessCallPtr makeImageAtomicExchange2DMSArrayU( ExprPtr image, ExprPtr P, ExprPtr sample, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicExchange2DMSArrayUR32( ExprPtr image, ExprPtr P, ExprPtr sample, ExprPtr data );
 	/**
 	*@return
 	*	int
@@ -2226,7 +6300,7 @@ namespace ast::expr
 	*@param data
 	*	int
 	*/
-	ImageAccessCallPtr makeImageAtomicExchange1DI( ExprPtr image, ExprPtr P, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicExchange1DIR32( ExprPtr image, ExprPtr P, ExprPtr data );
 	/**
 	*@return
 	*	int
@@ -2237,7 +6311,7 @@ namespace ast::expr
 	*@param data
 	*	int
 	*/
-	ImageAccessCallPtr makeImageAtomicExchange2DI( ExprPtr image, ExprPtr P, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicExchange2DIR32( ExprPtr image, ExprPtr P, ExprPtr data );
 	/**
 	*@return
 	*	int
@@ -2248,7 +6322,7 @@ namespace ast::expr
 	*@param data
 	*	int
 	*/
-	ImageAccessCallPtr makeImageAtomicExchange3DI( ExprPtr image, ExprPtr P, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicExchange3DIR32( ExprPtr image, ExprPtr P, ExprPtr data );
 	/**
 	*@return
 	*	int
@@ -2259,7 +6333,7 @@ namespace ast::expr
 	*@param data
 	*	int
 	*/
-	ImageAccessCallPtr makeImageAtomicExchange2DRectI( ExprPtr image, ExprPtr P, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicExchange2DRectIR32( ExprPtr image, ExprPtr P, ExprPtr data );
 	/**
 	*@return
 	*	int
@@ -2270,7 +6344,7 @@ namespace ast::expr
 	*@param data
 	*	int
 	*/
-	ImageAccessCallPtr makeImageAtomicExchangeCubeI( ExprPtr image, ExprPtr P, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicExchangeCubeIR32( ExprPtr image, ExprPtr P, ExprPtr data );
 	/**
 	*@return
 	*	int
@@ -2281,7 +6355,7 @@ namespace ast::expr
 	*@param data
 	*	int
 	*/
-	ImageAccessCallPtr makeImageAtomicExchangeBufferI( ExprPtr image, ExprPtr P, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicExchangeBufferIR32( ExprPtr image, ExprPtr P, ExprPtr data );
 	/**
 	*@return
 	*	int
@@ -2292,7 +6366,7 @@ namespace ast::expr
 	*@param data
 	*	int
 	*/
-	ImageAccessCallPtr makeImageAtomicExchange1DArrayI( ExprPtr image, ExprPtr P, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicExchange1DArrayIR32( ExprPtr image, ExprPtr P, ExprPtr data );
 	/**
 	*@return
 	*	int
@@ -2303,7 +6377,7 @@ namespace ast::expr
 	*@param data
 	*	int
 	*/
-	ImageAccessCallPtr makeImageAtomicExchange2DArrayI( ExprPtr image, ExprPtr P, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicExchange2DArrayIR32( ExprPtr image, ExprPtr P, ExprPtr data );
 	/**
 	*@return
 	*	int
@@ -2314,7 +6388,7 @@ namespace ast::expr
 	*@param data
 	*	int
 	*/
-	ImageAccessCallPtr makeImageAtomicExchangeCubeArrayI( ExprPtr image, ExprPtr P, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicExchangeCubeArrayIR32( ExprPtr image, ExprPtr P, ExprPtr data );
 	/**
 	*@return
 	*	int
@@ -2327,7 +6401,7 @@ namespace ast::expr
 	*@param data
 	*	int
 	*/
-	ImageAccessCallPtr makeImageAtomicExchange2DMSI( ExprPtr image, ExprPtr P, ExprPtr sample, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicExchange2DMSIR32( ExprPtr image, ExprPtr P, ExprPtr sample, ExprPtr data );
 	/**
 	*@return
 	*	int
@@ -2340,7 +6414,7 @@ namespace ast::expr
 	*@param data
 	*	int
 	*/
-	ImageAccessCallPtr makeImageAtomicExchange2DMSArrayI( ExprPtr image, ExprPtr P, ExprPtr sample, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicExchange2DMSArrayIR32( ExprPtr image, ExprPtr P, ExprPtr sample, ExprPtr data );
 	/**
 	*@return
 	*	uint
@@ -2353,7 +6427,7 @@ namespace ast::expr
 	*@param data
 	*	uint
 	*/
-	ImageAccessCallPtr makeImageAtomicCompSwap1DU( ExprPtr image, ExprPtr P, ExprPtr compare, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicCompSwap1DUR32( ExprPtr image, ExprPtr P, ExprPtr compare, ExprPtr data );
 	/**
 	*@return
 	*	uint
@@ -2366,7 +6440,7 @@ namespace ast::expr
 	*@param data
 	*	uint
 	*/
-	ImageAccessCallPtr makeImageAtomicCompSwap2DU( ExprPtr image, ExprPtr P, ExprPtr compare, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicCompSwap2DUR32( ExprPtr image, ExprPtr P, ExprPtr compare, ExprPtr data );
 	/**
 	*@return
 	*	uint
@@ -2379,7 +6453,7 @@ namespace ast::expr
 	*@param data
 	*	uint
 	*/
-	ImageAccessCallPtr makeImageAtomicCompSwap3DU( ExprPtr image, ExprPtr P, ExprPtr compare, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicCompSwap3DUR32( ExprPtr image, ExprPtr P, ExprPtr compare, ExprPtr data );
 	/**
 	*@return
 	*	uint
@@ -2392,7 +6466,7 @@ namespace ast::expr
 	*@param data
 	*	uint
 	*/
-	ImageAccessCallPtr makeImageAtomicCompSwap2DRectU( ExprPtr image, ExprPtr P, ExprPtr compare, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicCompSwap2DRectUR32( ExprPtr image, ExprPtr P, ExprPtr compare, ExprPtr data );
 	/**
 	*@return
 	*	uint
@@ -2405,7 +6479,7 @@ namespace ast::expr
 	*@param data
 	*	uint
 	*/
-	ImageAccessCallPtr makeImageAtomicCompSwapCubeU( ExprPtr image, ExprPtr P, ExprPtr compare, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicCompSwapCubeUR32( ExprPtr image, ExprPtr P, ExprPtr compare, ExprPtr data );
 	/**
 	*@return
 	*	uint
@@ -2418,7 +6492,7 @@ namespace ast::expr
 	*@param data
 	*	uint
 	*/
-	ImageAccessCallPtr makeImageAtomicCompSwapBufferU( ExprPtr image, ExprPtr P, ExprPtr compare, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicCompSwapBufferUR32( ExprPtr image, ExprPtr P, ExprPtr compare, ExprPtr data );
 	/**
 	*@return
 	*	uint
@@ -2431,7 +6505,7 @@ namespace ast::expr
 	*@param data
 	*	uint
 	*/
-	ImageAccessCallPtr makeImageAtomicCompSwap1DArrayU( ExprPtr image, ExprPtr P, ExprPtr compare, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicCompSwap1DArrayUR32( ExprPtr image, ExprPtr P, ExprPtr compare, ExprPtr data );
 	/**
 	*@return
 	*	uint
@@ -2444,7 +6518,7 @@ namespace ast::expr
 	*@param data
 	*	uint
 	*/
-	ImageAccessCallPtr makeImageAtomicCompSwap2DArrayU( ExprPtr image, ExprPtr P, ExprPtr compare, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicCompSwap2DArrayUR32( ExprPtr image, ExprPtr P, ExprPtr compare, ExprPtr data );
 	/**
 	*@return
 	*	uint
@@ -2457,7 +6531,7 @@ namespace ast::expr
 	*@param data
 	*	uint
 	*/
-	ImageAccessCallPtr makeImageAtomicCompSwapCubeArrayU( ExprPtr image, ExprPtr P, ExprPtr compare, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicCompSwapCubeArrayUR32( ExprPtr image, ExprPtr P, ExprPtr compare, ExprPtr data );
 	/**
 	*@return
 	*	uint
@@ -2472,7 +6546,7 @@ namespace ast::expr
 	*@param data
 	*	uint
 	*/
-	ImageAccessCallPtr makeImageAtomicCompSwap2DMSU( ExprPtr image, ExprPtr P, ExprPtr sample, ExprPtr compare, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicCompSwap2DMSUR32( ExprPtr image, ExprPtr P, ExprPtr sample, ExprPtr compare, ExprPtr data );
 	/**
 	*@return
 	*	uint
@@ -2487,7 +6561,7 @@ namespace ast::expr
 	*@param data
 	*	uint
 	*/
-	ImageAccessCallPtr makeImageAtomicCompSwap2DMSArrayU( ExprPtr image, ExprPtr P, ExprPtr sample, ExprPtr compare, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicCompSwap2DMSArrayUR32( ExprPtr image, ExprPtr P, ExprPtr sample, ExprPtr compare, ExprPtr data );
 	/**
 	*@return
 	*	int
@@ -2500,7 +6574,7 @@ namespace ast::expr
 	*@param data
 	*	int
 	*/
-	ImageAccessCallPtr makeImageAtomicCompSwap1DI( ExprPtr image, ExprPtr P, ExprPtr compare, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicCompSwap1DIR32( ExprPtr image, ExprPtr P, ExprPtr compare, ExprPtr data );
 	/**
 	*@return
 	*	int
@@ -2513,7 +6587,7 @@ namespace ast::expr
 	*@param data
 	*	int
 	*/
-	ImageAccessCallPtr makeImageAtomicCompSwap2DI( ExprPtr image, ExprPtr P, ExprPtr compare, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicCompSwap2DIR32( ExprPtr image, ExprPtr P, ExprPtr compare, ExprPtr data );
 	/**
 	*@return
 	*	int
@@ -2526,7 +6600,7 @@ namespace ast::expr
 	*@param data
 	*	int
 	*/
-	ImageAccessCallPtr makeImageAtomicCompSwap3DI( ExprPtr image, ExprPtr P, ExprPtr compare, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicCompSwap3DIR32( ExprPtr image, ExprPtr P, ExprPtr compare, ExprPtr data );
 	/**
 	*@return
 	*	int
@@ -2539,7 +6613,7 @@ namespace ast::expr
 	*@param data
 	*	int
 	*/
-	ImageAccessCallPtr makeImageAtomicCompSwap2DRectI( ExprPtr image, ExprPtr P, ExprPtr compare, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicCompSwap2DRectIR32( ExprPtr image, ExprPtr P, ExprPtr compare, ExprPtr data );
 	/**
 	*@return
 	*	int
@@ -2552,7 +6626,7 @@ namespace ast::expr
 	*@param data
 	*	int
 	*/
-	ImageAccessCallPtr makeImageAtomicCompSwapCubeI( ExprPtr image, ExprPtr P, ExprPtr compare, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicCompSwapCubeIR32( ExprPtr image, ExprPtr P, ExprPtr compare, ExprPtr data );
 	/**
 	*@return
 	*	int
@@ -2565,7 +6639,7 @@ namespace ast::expr
 	*@param data
 	*	int
 	*/
-	ImageAccessCallPtr makeImageAtomicCompSwapBufferI( ExprPtr image, ExprPtr P, ExprPtr compare, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicCompSwapBufferIR32( ExprPtr image, ExprPtr P, ExprPtr compare, ExprPtr data );
 	/**
 	*@return
 	*	int
@@ -2578,7 +6652,7 @@ namespace ast::expr
 	*@param data
 	*	int
 	*/
-	ImageAccessCallPtr makeImageAtomicCompSwap1DArrayI( ExprPtr image, ExprPtr P, ExprPtr compare, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicCompSwap1DArrayIR32( ExprPtr image, ExprPtr P, ExprPtr compare, ExprPtr data );
 	/**
 	*@return
 	*	int
@@ -2591,7 +6665,7 @@ namespace ast::expr
 	*@param data
 	*	int
 	*/
-	ImageAccessCallPtr makeImageAtomicCompSwap2DArrayI( ExprPtr image, ExprPtr P, ExprPtr compare, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicCompSwap2DArrayIR32( ExprPtr image, ExprPtr P, ExprPtr compare, ExprPtr data );
 	/**
 	*@return
 	*	int
@@ -2604,7 +6678,7 @@ namespace ast::expr
 	*@param data
 	*	int
 	*/
-	ImageAccessCallPtr makeImageAtomicCompSwapCubeArrayI( ExprPtr image, ExprPtr P, ExprPtr compare, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicCompSwapCubeArrayIR32( ExprPtr image, ExprPtr P, ExprPtr compare, ExprPtr data );
 	/**
 	*@return
 	*	int
@@ -2619,7 +6693,7 @@ namespace ast::expr
 	*@param data
 	*	int
 	*/
-	ImageAccessCallPtr makeImageAtomicCompSwap2DMSI( ExprPtr image, ExprPtr P, ExprPtr sample, ExprPtr compare, ExprPtr data );
+	ImageAccessCallPtr makeImageAtomicCompSwap2DMSIR32( ExprPtr image, ExprPtr P, ExprPtr sample, ExprPtr compare, ExprPtr data );
 	/**
 	*@return
 	*	int
@@ -2634,6 +6708,6 @@ namespace ast::expr
 	*@param data
 	*	int
 	*/
-	ImageAccessCallPtr makeImageAtomicCompSwap2DMSArrayI( ExprPtr image, ExprPtr P, ExprPtr sample, ExprPtr compare, ExprPtr data );}
+	ImageAccessCallPtr makeImageAtomicCompSwap2DMSArrayIR32( ExprPtr image, ExprPtr P, ExprPtr sample, ExprPtr compare, ExprPtr data );}
 
 #endif

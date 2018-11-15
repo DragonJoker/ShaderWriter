@@ -39,66 +39,6 @@ namespace ast::debug
 			}
 		}
 
-		std::string getName( type::ImageFormat value )
-		{
-			switch ( value )
-			{
-			case ast::type::ImageFormat::eUnknown:
-				return "UNKNOWN";
-			case ast::type::ImageFormat::eRgba32f:
-				return "RGBA32F";
-			case ast::type::ImageFormat::eRgba16f:
-				return "RGBA16F";
-			case ast::type::ImageFormat::eRg32f:
-				return "RG32F";
-			case ast::type::ImageFormat::eRg16f:
-				return "RG16F";
-			case ast::type::ImageFormat::eR32f:
-				return "R32F";
-			case ast::type::ImageFormat::eR16f:
-				return "R16F";
-			case ast::type::ImageFormat::eRgba32i:
-				return "RGBA32I";
-			case ast::type::ImageFormat::eRgba16i:
-				return "RGBA16I";
-			case ast::type::ImageFormat::eRgba8i:
-				return "RGBA8I";
-			case ast::type::ImageFormat::eRg32i:
-				return "RG32I";
-			case ast::type::ImageFormat::eRg16i:
-				return "RG16I";
-			case ast::type::ImageFormat::eRg8i:
-				return "RG8I";
-			case ast::type::ImageFormat::eR32i:
-				return "R32I";
-			case ast::type::ImageFormat::eR16i:
-				return "R16I";
-			case ast::type::ImageFormat::eR8i:
-				return "R8I";
-			case ast::type::ImageFormat::eRgba32u:
-				return "RGBA32U";
-			case ast::type::ImageFormat::eRgba16u:
-				return "RGBA16U";
-			case ast::type::ImageFormat::eRgba8u:
-				return "RGBA8U";
-			case ast::type::ImageFormat::eRg32u:
-				return "RG32U";
-			case ast::type::ImageFormat::eRg16u:
-				return "RG16U";
-			case ast::type::ImageFormat::eRg8u:
-				return "RG8U";
-			case ast::type::ImageFormat::eR32u:
-				return "R32U";
-			case ast::type::ImageFormat::eR16u:
-				return "R16U";
-			case ast::type::ImageFormat::eR8u:
-				return "R8U";
-			default:
-				assert( false && "Unsupported type::ImageFormat" );
-				return "Undefined";
-			}
-		}
-
 		std::string getName( type::Trinary value
 			, std::string const & trueTxt = "TRUE"
 			, std::string const & falseTxt = "FALSE"
@@ -141,7 +81,7 @@ namespace ast::debug
 		{
 			std::string result;
 			result += getName( config.dimension );
-			result += "," + getName( config.format );
+			result += "," + debug::getName( config.format );
 			result += "," + getName( config.isDepth );
 			result += "," + getName( config.isSampled );
 			result += "," + getName( config.isArrayed );
@@ -349,15 +289,73 @@ namespace ast::debug
 		return getName( kind ) + computeArray( arraySize );
 	}
 
-	std::string getName( ast::type::Kind sampled
+	std::string getName( type::ImageFormat value )
+	{
+		switch ( value )
+		{
+		case ast::type::ImageFormat::eUnknown:
+			return "UNKNOWN";
+		case ast::type::ImageFormat::eRgba32f:
+			return "RGBA32F";
+		case ast::type::ImageFormat::eRgba16f:
+			return "RGBA16F";
+		case ast::type::ImageFormat::eRg32f:
+			return "RG32F";
+		case ast::type::ImageFormat::eRg16f:
+			return "RG16F";
+		case ast::type::ImageFormat::eR32f:
+			return "R32F";
+		case ast::type::ImageFormat::eR16f:
+			return "R16F";
+		case ast::type::ImageFormat::eRgba32i:
+			return "RGBA32I";
+		case ast::type::ImageFormat::eRgba16i:
+			return "RGBA16I";
+		case ast::type::ImageFormat::eRgba8i:
+			return "RGBA8I";
+		case ast::type::ImageFormat::eRg32i:
+			return "RG32I";
+		case ast::type::ImageFormat::eRg16i:
+			return "RG16I";
+		case ast::type::ImageFormat::eRg8i:
+			return "RG8I";
+		case ast::type::ImageFormat::eR32i:
+			return "R32I";
+		case ast::type::ImageFormat::eR16i:
+			return "R16I";
+		case ast::type::ImageFormat::eR8i:
+			return "R8I";
+		case ast::type::ImageFormat::eRgba32u:
+			return "RGBA32U";
+		case ast::type::ImageFormat::eRgba16u:
+			return "RGBA16U";
+		case ast::type::ImageFormat::eRgba8u:
+			return "RGBA8U";
+		case ast::type::ImageFormat::eRg32u:
+			return "RG32U";
+		case ast::type::ImageFormat::eRg16u:
+			return "RG16U";
+		case ast::type::ImageFormat::eRg8u:
+			return "RG8U";
+		case ast::type::ImageFormat::eR32u:
+			return "R32U";
+		case ast::type::ImageFormat::eR16u:
+			return "R16U";
+		case ast::type::ImageFormat::eR8u:
+			return "R8U";
+		default:
+			assert( false && "Unsupported type::ImageFormat" );
+			return "Undefined";
+		}
+	}
+
+	std::string getName( ast::type::ImageFormat format
 		, ast::type::ImageDim dim
-		, ast::type::ImageFormat format
 		, bool arrayed
 		, bool depth
 		, bool ms )
 	{
-		return getName( sampled )
-			+ getName( dim )
+		return getName( dim )
 			+ getName( format )
 			+ getName( arrayed, "Array", "" )
 			+ getName( depth, "Shadow", "" )

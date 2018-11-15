@@ -29,9 +29,6 @@ namespace sdw::glsl
 		, m_result{ result }
 		, m_type{ type }
 	{
-		auto cont = stmt::makeContainer();
-		writeGlslTextureAccessFunctions( cont.get(), m_config );
-		m_result->addStmt( std::move( cont ) );
 	}
 
 	void StmtAdapter::visitContainerStmt( stmt::Container * cont )
@@ -419,5 +416,8 @@ namespace sdw::glsl
 	void StmtAdapter::visitPreprocVersion( stmt::PreprocVersion * preproc )
 	{
 		m_result->addStmt( stmt::makePreprocVersion( preproc->getName() ) );
+		auto cont = stmt::makeContainer();
+		compileGlslTextureAccessFunctions( cont.get(), m_config );
+		m_result->addStmt( std::move( cont ) );
 	}
 }

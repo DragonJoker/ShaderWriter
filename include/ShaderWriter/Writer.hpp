@@ -11,7 +11,7 @@ namespace sdw
 {
 	struct Config
 	{
-		uint32_t shaderLanguageVersion{ 430 };
+		uint32_t shaderLanguageVersion{ 450 };
 		bool hasConstantsBuffers{ true };
 		bool hasTextureBuffers{ true };
 		bool hasShaderStorageBuffers{ true };
@@ -164,46 +164,42 @@ namespace sdw
 		*	Sampled Image declaration.
 		*/
 		/**@{*/
-		template< ast::type::Kind SampledT
+		template< ast::type::ImageFormat FormatT
 			, ast::type::ImageDim DimT
 			, bool ArrayedT
 			, bool DepthT
 			, bool MsT>
-		inline SampledImageT< SampledT, DimT, ArrayedT, DepthT, MsT > declSampledImage( std::string const & name
+		inline SampledImageT< FormatT, DimT, ArrayedT, DepthT, MsT > declSampledImage( std::string const & name
 			, uint32_t binding
-			, uint32_t set
-			, ast::type::ImageFormat format = ast::type::ImageFormat::eUnknown );
-		template< ast::type::Kind SampledT
+			, uint32_t set );
+		template< ast::type::ImageFormat FormatT
 			, ast::type::ImageDim DimT
 			, bool ArrayedT
 			, bool DepthT
 			, bool MsT >
-		inline Optional< SampledImageT< SampledT, DimT, ArrayedT, DepthT, MsT > > declSampledImage( std::string const & name
+		inline Optional< SampledImageT< FormatT, DimT, ArrayedT, DepthT, MsT > > declSampledImage( std::string const & name
 			, uint32_t binding
 			, uint32_t set
-			, bool enabled
-			, ast::type::ImageFormat format = ast::type::ImageFormat::eUnknown );
-		template< ast::type::Kind SampledT
+			, bool enabled );
+		template< ast::type::ImageFormat FormatT
 			, ast::type::ImageDim DimT
 			, bool ArrayedT
 			, bool DepthT
 			, bool MsT >
-		inline Array< SampledImageT< SampledT, DimT, ArrayedT, DepthT, MsT > > declSampledImageArray( std::string const & name
+		inline Array< SampledImageT< FormatT, DimT, ArrayedT, DepthT, MsT > > declSampledImageArray( std::string const & name
+			, uint32_t binding
+			, uint32_t set
+			, uint32_t dimension );
+		template< ast::type::ImageFormat FormatT
+			, ast::type::ImageDim DimT
+			, bool ArrayedT
+			, bool DepthT
+			, bool MsT >
+		inline Optional< Array< SampledImageT< FormatT, DimT, ArrayedT, DepthT, MsT > > > declSampledImageArray( std::string const & name
 			, uint32_t binding
 			, uint32_t set
 			, uint32_t dimension
-			, ast::type::ImageFormat format = ast::type::ImageFormat::eUnknown );
-		template< ast::type::Kind SampledT
-			, ast::type::ImageDim DimT
-			, bool ArrayedT
-			, bool DepthT
-			, bool MsT >
-		inline Optional< Array< SampledImageT< SampledT, DimT, ArrayedT, DepthT, MsT > > > declSampledImageArray( std::string const & name
-			, uint32_t binding
-			, uint32_t set
-			, uint32_t dimension
-			, bool enabled
-			, ast::type::ImageFormat format = ast::type::ImageFormat::eUnknown );
+			, bool enabled );
 		/**@}*/
 #pragma endregion
 #pragma region Image declaration
@@ -212,46 +208,42 @@ namespace sdw
 		*	Image declaration.
 		*/
 		/**@{*/
-		template< ast::type::Kind SampledT
+		template< ast::type::ImageFormat FormatT
 			, ast::type::ImageDim DimT
 			, bool ArrayedT
 			, bool DepthT
 			, bool MsT >
-		inline ImageT< SampledT, DimT, ArrayedT, DepthT, MsT > declImage( std::string const & name
+		inline ImageT< FormatT, DimT, ArrayedT, DepthT, MsT > declImage( std::string const & name
+			, uint32_t binding
+			, uint32_t set );
+		template< ast::type::ImageFormat FormatT
+			, ast::type::ImageDim DimT
+			, bool ArrayedT
+			, bool DepthT
+			, bool MsT >
+		inline Optional< ImageT< FormatT, DimT, ArrayedT, DepthT, MsT > > declImage( std::string const & name
 			, uint32_t binding
 			, uint32_t set
-			, ast::type::ImageFormat format = ast::type::ImageFormat::eUnknown );
-		template< ast::type::Kind SampledT
+			, bool enabled );
+		template< ast::type::ImageFormat FormatT
 			, ast::type::ImageDim DimT
 			, bool ArrayedT
 			, bool DepthT
 			, bool MsT >
-		inline Optional< ImageT< SampledT, DimT, ArrayedT, DepthT, MsT > > declImage( std::string const & name
+		inline Array< ImageT< FormatT, DimT, ArrayedT, DepthT, MsT > > declImageArray( std::string const & name
 			, uint32_t binding
 			, uint32_t set
-			, bool enabled
-			, ast::type::ImageFormat format = ast::type::ImageFormat::eUnknown );
-		template< ast::type::Kind SampledT
+			, uint32_t dimension );
+		template< ast::type::ImageFormat FormatT
 			, ast::type::ImageDim DimT
 			, bool ArrayedT
 			, bool DepthT
 			, bool MsT >
-		inline Array< ImageT< SampledT, DimT, ArrayedT, DepthT, MsT > > declImageArray( std::string const & name
-			, uint32_t binding
-			, uint32_t set
-			, uint32_t dimension
-			, ast::type::ImageFormat format = ast::type::ImageFormat::eUnknown );
-		template< ast::type::Kind SampledT
-			, ast::type::ImageDim DimT
-			, bool ArrayedT
-			, bool DepthT
-			, bool MsT >
-		inline Optional< Array< ImageT< SampledT, DimT, ArrayedT, DepthT, MsT > > > declImageArray( std::string const & name
+		inline Optional< Array< ImageT< FormatT, DimT, ArrayedT, DepthT, MsT > > > declImageArray( std::string const & name
 			, uint32_t binding
 			, uint32_t set
 			, uint32_t dimension
-			, bool enabled
-			, ast::type::ImageFormat format = ast::type::ImageFormat::eUnknown );
+			, bool enabled );
 		/**@}*/
 #pragma endregion
 #pragma region Input declaration

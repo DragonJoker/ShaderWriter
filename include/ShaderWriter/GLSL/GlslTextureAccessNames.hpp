@@ -512,7 +512,7 @@ namespace sdw
 		case ast::expr::TextureAccess::eTexture2DArrayShadowFBias:
 		case ast::expr::TextureAccess::eTexture2DRectShadowF:
 		case ast::expr::TextureAccess::eTextureCubeArrayShadowF:
-			result = "SDW_texture";
+			result = "texture";
 			break;
 
 		case ast::expr::TextureAccess::eTextureProj1DShadowF:
@@ -520,13 +520,13 @@ namespace sdw
 		case ast::expr::TextureAccess::eTextureProj2DShadowF:
 		case ast::expr::TextureAccess::eTextureProj2DShadowFBias:
 		case ast::expr::TextureAccess::eTextureProj2DRectShadowF:
-			result = "SDW_textureProj";
+			result = "textureProj";
 			break;
 
 		case ast::expr::TextureAccess::eTextureLod1DShadowF:
 		case ast::expr::TextureAccess::eTextureLod2DShadowF:
 		case ast::expr::TextureAccess::eTextureLod1DArrayShadowF:
-			result = "SDW_textureLod";
+			result = "textureLod";
 			break;
 
 		case ast::expr::TextureAccess::eTextureOffset2DRectShadowF:
@@ -536,7 +536,7 @@ namespace sdw
 		case ast::expr::TextureAccess::eTextureOffset2DShadowFBias:
 		case ast::expr::TextureAccess::eTextureOffset1DArrayShadowF:
 		case ast::expr::TextureAccess::eTextureOffset2DArrayShadowF:
-			result = "SDW_textureOffset";
+			result = "textureOffset";
 			break;
 
 		case ast::expr::TextureAccess::eTextureProjOffset1DShadowF:
@@ -544,30 +544,30 @@ namespace sdw
 		case ast::expr::TextureAccess::eTextureProjOffset2DShadowF:
 		case ast::expr::TextureAccess::eTextureProjOffset2DShadowFBias:
 		case ast::expr::TextureAccess::eTextureProjOffset2DRectShadowF:
-			result = "SDW_textureProjOffset";
+			result = "textureProjOffset";
 			break;
 
 		case ast::expr::TextureAccess::eTextureLodOffset1DShadowF:
 		case ast::expr::TextureAccess::eTextureLodOffset2DShadowF:
 		case ast::expr::TextureAccess::eTextureLodOffset1DArrayShadowF:
-			result = "SDW_textureLodOffset";
+			result = "textureLodOffset";
 			break;
 
 		case ast::expr::TextureAccess::eTextureProjLod1DShadowF:
 		case ast::expr::TextureAccess::eTextureProjLod2DShadowF:
-			result = "SDW_textureProjLod";
+			result = "textureProjLod";
 			break;
 
 		case ast::expr::TextureAccess::eTextureProjLodOffset1DShadowF:
 		case ast::expr::TextureAccess::eTextureProjLodOffset2DShadowF:
-			result = "SDW_textureProjLodOffset";
+			result = "textureProjLodOffset";
 			break;
 
 		case ast::expr::TextureAccess::eTextureGrad2DRectShadowF:
 		case ast::expr::TextureAccess::eTextureGrad1DShadowF:
 		case ast::expr::TextureAccess::eTextureGrad2DShadowF:
 		case ast::expr::TextureAccess::eTextureGrad1DArrayShadowF:
-			result = "SDW_textureGrad";
+			result = "textureGrad";
 			break;
 
 		case ast::expr::TextureAccess::eTextureGradOffset2DRectShadowF:
@@ -575,19 +575,19 @@ namespace sdw
 		case ast::expr::TextureAccess::eTextureGradOffset2DShadowF:
 		case ast::expr::TextureAccess::eTextureGradOffset1DArrayShadowF:
 		case ast::expr::TextureAccess::eTextureGradOffset2DArrayShadowF:
-			result = "SDW_textureGradOffset";
+			result = "textureGradOffset";
 			break;
 
 		case ast::expr::TextureAccess::eTextureProjGrad1DShadowF:
 		case ast::expr::TextureAccess::eTextureProjGrad2DShadowF:
 		case ast::expr::TextureAccess::eTextureProjGrad2DRectShadowF:
-			result = "SDW_textureProjGrad";
+			result = "textureProjGrad";
 			break;
 
 		case ast::expr::TextureAccess::eTextureProjGradOffset1DShadowF:
 		case ast::expr::TextureAccess::eTextureProjGradOffset2DShadowF:
 		case ast::expr::TextureAccess::eTextureProjGradOffset2DRectShadowF:
-			result = "SDW_textureProjGradOffset";
+			result = "textureProjGradOffset";
 			break;
 
 

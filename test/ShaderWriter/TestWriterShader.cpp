@@ -98,7 +98,7 @@ namespace
 		auto c3d_gamma = hdrConfig.declMember< Float >( "c3d_gamma" );
 		hdrConfig.end();
 
-		auto c3d_mapDiffuse = writer.declSampledImage< FImg2D >( "c3d_mapDiffuse", 1u, 0u );
+		auto c3d_mapDiffuse = writer.declSampledImage< FImg2DRgba32 >( "c3d_mapDiffuse", 1u, 0u );
 		auto vtx_texture = writer.declInput< Vec2 >( "vtx_texture", 0u );
 
 		// Shader outputs
@@ -139,12 +139,12 @@ namespace
 			, InVec3{ writer, "x" } );
 
 		auto sampleTex = writer.implementFunction< Vec3 >( "sampleTex"
-			, [&]( SampledImage2D const & tex
+			, [&]( SampledImage2DRgba32 const & tex
 				, Vec2 const & coords )
 			{
 				writer.returnStmt( texture( tex, coords ).rgb() );
 			}
-			, InSampledImage2D{ writer, "tex" }
+			, InSampledImage2DRgba32{ writer, "tex" }
 			, InVec2{ writer, "coords" } );
 
 		writer.implementFunction< void >( "main"

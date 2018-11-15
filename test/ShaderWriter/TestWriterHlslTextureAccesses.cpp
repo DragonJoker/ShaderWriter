@@ -14,7 +14,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresTextureSizeBufferF = true;
-			writeHlslTextureAccessFunctions( cont.get(), config );
+			compileHlslTextureAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eFragment ) << std::endl;
 		}
@@ -29,7 +29,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresTextureSizeBufferI = true;
-			writeHlslTextureAccessFunctions( cont.get(), config );
+			compileHlslTextureAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eFragment ) << std::endl;
 		}
@@ -44,7 +44,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresTextureSizeBufferU = true;
-			writeHlslTextureAccessFunctions( cont.get(), config );
+			compileHlslTextureAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eFragment ) << std::endl;
 		}
@@ -59,7 +59,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresTextureSize1DF = true;
-			writeHlslTextureAccessFunctions( cont.get(), config );
+			compileHlslTextureAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eFragment ) << std::endl;
 		}
@@ -74,7 +74,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresTextureSize1DShadowF = true;
-			writeHlslTextureAccessFunctions( cont.get(), config );
+			compileHlslTextureAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eFragment ) << std::endl;
 		}
@@ -89,7 +89,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresTextureSize1DI = true;
-			writeHlslTextureAccessFunctions( cont.get(), config );
+			compileHlslTextureAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eFragment ) << std::endl;
 		}
@@ -104,7 +104,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresTextureSize1DU = true;
-			writeHlslTextureAccessFunctions( cont.get(), config );
+			compileHlslTextureAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eFragment ) << std::endl;
 		}
@@ -119,7 +119,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresTextureSize1DArrayF = true;
-			writeHlslTextureAccessFunctions( cont.get(), config );
+			compileHlslTextureAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eFragment ) << std::endl;
 		}
@@ -134,7 +134,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresTextureSize1DArrayShadowF = true;
-			writeHlslTextureAccessFunctions( cont.get(), config );
+			compileHlslTextureAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eFragment ) << std::endl;
 		}
@@ -149,7 +149,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresTextureSize1DArrayI = true;
-			writeHlslTextureAccessFunctions( cont.get(), config );
+			compileHlslTextureAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eFragment ) << std::endl;
 		}
@@ -164,7 +164,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresTextureSize1DArrayU = true;
-			writeHlslTextureAccessFunctions( cont.get(), config );
+			compileHlslTextureAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eFragment ) << std::endl;
 		}
@@ -179,7 +179,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresTextureSize2DF = true;
-			writeHlslTextureAccessFunctions( cont.get(), config );
+			compileHlslTextureAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eFragment ) << std::endl;
 		}
@@ -194,7 +194,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresTextureSize2DShadowF = true;
-			writeHlslTextureAccessFunctions( cont.get(), config );
+			compileHlslTextureAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eFragment ) << std::endl;
 		}
@@ -209,7 +209,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresTextureSize2DRectF = true;
-			writeHlslTextureAccessFunctions( cont.get(), config );
+			compileHlslTextureAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eFragment ) << std::endl;
 		}
@@ -224,7 +224,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresTextureSize2DRectShadowF = true;
-			writeHlslTextureAccessFunctions( cont.get(), config );
+			compileHlslTextureAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eFragment ) << std::endl;
 		}
@@ -239,7 +239,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresTextureSize2DI = true;
-			writeHlslTextureAccessFunctions( cont.get(), config );
+			compileHlslTextureAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eFragment ) << std::endl;
 		}
@@ -254,7 +254,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresTextureSize2DRectI = true;
-			writeHlslTextureAccessFunctions( cont.get(), config );
+			compileHlslTextureAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eFragment ) << std::endl;
 		}
@@ -269,7 +269,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresTextureSize2DU = true;
-			writeHlslTextureAccessFunctions( cont.get(), config );
+			compileHlslTextureAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eFragment ) << std::endl;
 		}
@@ -284,7 +284,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresTextureSize2DRectU = true;
-			writeHlslTextureAccessFunctions( cont.get(), config );
+			compileHlslTextureAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eFragment ) << std::endl;
 		}
@@ -299,7 +299,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresTextureSize2DArrayF = true;
-			writeHlslTextureAccessFunctions( cont.get(), config );
+			compileHlslTextureAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eFragment ) << std::endl;
 		}
@@ -314,7 +314,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresTextureSize2DArrayShadowF = true;
-			writeHlslTextureAccessFunctions( cont.get(), config );
+			compileHlslTextureAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eFragment ) << std::endl;
 		}
@@ -329,7 +329,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresTextureSize2DArrayI = true;
-			writeHlslTextureAccessFunctions( cont.get(), config );
+			compileHlslTextureAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eFragment ) << std::endl;
 		}
@@ -344,7 +344,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresTextureSize2DArrayU = true;
-			writeHlslTextureAccessFunctions( cont.get(), config );
+			compileHlslTextureAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eFragment ) << std::endl;
 		}
@@ -359,7 +359,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresTextureSize3DF = true;
-			writeHlslTextureAccessFunctions( cont.get(), config );
+			compileHlslTextureAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eFragment ) << std::endl;
 		}
@@ -374,7 +374,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresTextureSize3DI = true;
-			writeHlslTextureAccessFunctions( cont.get(), config );
+			compileHlslTextureAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eFragment ) << std::endl;
 		}
@@ -389,7 +389,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresTextureSize3DU = true;
-			writeHlslTextureAccessFunctions( cont.get(), config );
+			compileHlslTextureAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eFragment ) << std::endl;
 		}
@@ -404,7 +404,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresTextureSizeCubeF = true;
-			writeHlslTextureAccessFunctions( cont.get(), config );
+			compileHlslTextureAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eFragment ) << std::endl;
 		}
@@ -419,7 +419,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresTextureSizeCubeShadowF = true;
-			writeHlslTextureAccessFunctions( cont.get(), config );
+			compileHlslTextureAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eFragment ) << std::endl;
 		}
@@ -434,7 +434,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresTextureSizeCubeI = true;
-			writeHlslTextureAccessFunctions( cont.get(), config );
+			compileHlslTextureAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eFragment ) << std::endl;
 		}
@@ -449,7 +449,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresTextureSizeCubeU = true;
-			writeHlslTextureAccessFunctions( cont.get(), config );
+			compileHlslTextureAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eFragment ) << std::endl;
 		}
@@ -464,7 +464,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresTextureSizeCubeArrayF = true;
-			writeHlslTextureAccessFunctions( cont.get(), config );
+			compileHlslTextureAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eFragment ) << std::endl;
 		}
@@ -479,7 +479,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresTextureSizeCubeArrayShadowF = true;
-			writeHlslTextureAccessFunctions( cont.get(), config );
+			compileHlslTextureAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eFragment ) << std::endl;
 		}
@@ -494,7 +494,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresTextureSizeCubeArrayI = true;
-			writeHlslTextureAccessFunctions( cont.get(), config );
+			compileHlslTextureAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eFragment ) << std::endl;
 		}
@@ -509,7 +509,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresTextureSizeCubeArrayU = true;
-			writeHlslTextureAccessFunctions( cont.get(), config );
+			compileHlslTextureAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eFragment ) << std::endl;
 		}
@@ -524,7 +524,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresTextureQueryLod1DF = true;
-			writeHlslTextureAccessFunctions( cont.get(), config );
+			compileHlslTextureAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eFragment ) << std::endl;
 		}
@@ -539,7 +539,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresTextureQueryLod1DShadowF = true;
-			writeHlslTextureAccessFunctions( cont.get(), config );
+			compileHlslTextureAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eFragment ) << std::endl;
 		}
@@ -554,7 +554,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresTextureQueryLod1DI = true;
-			writeHlslTextureAccessFunctions( cont.get(), config );
+			compileHlslTextureAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eFragment ) << std::endl;
 		}
@@ -569,7 +569,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresTextureQueryLod1DU = true;
-			writeHlslTextureAccessFunctions( cont.get(), config );
+			compileHlslTextureAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eFragment ) << std::endl;
 		}
@@ -584,7 +584,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresTextureQueryLod1DArrayF = true;
-			writeHlslTextureAccessFunctions( cont.get(), config );
+			compileHlslTextureAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eFragment ) << std::endl;
 		}
@@ -599,7 +599,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresTextureQueryLod1DArrayShadowF = true;
-			writeHlslTextureAccessFunctions( cont.get(), config );
+			compileHlslTextureAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eFragment ) << std::endl;
 		}
@@ -614,7 +614,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresTextureQueryLod1DArrayI = true;
-			writeHlslTextureAccessFunctions( cont.get(), config );
+			compileHlslTextureAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eFragment ) << std::endl;
 		}
@@ -629,7 +629,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresTextureQueryLod1DArrayU = true;
-			writeHlslTextureAccessFunctions( cont.get(), config );
+			compileHlslTextureAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eFragment ) << std::endl;
 		}
@@ -644,7 +644,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresTextureQueryLod2DF = true;
-			writeHlslTextureAccessFunctions( cont.get(), config );
+			compileHlslTextureAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eFragment ) << std::endl;
 		}
@@ -659,7 +659,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresTextureQueryLod2DShadowF = true;
-			writeHlslTextureAccessFunctions( cont.get(), config );
+			compileHlslTextureAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eFragment ) << std::endl;
 		}
@@ -674,7 +674,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresTextureQueryLod2DI = true;
-			writeHlslTextureAccessFunctions( cont.get(), config );
+			compileHlslTextureAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eFragment ) << std::endl;
 		}
@@ -689,7 +689,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresTextureQueryLod2DU = true;
-			writeHlslTextureAccessFunctions( cont.get(), config );
+			compileHlslTextureAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eFragment ) << std::endl;
 		}
@@ -704,7 +704,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresTextureQueryLod2DArrayF = true;
-			writeHlslTextureAccessFunctions( cont.get(), config );
+			compileHlslTextureAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eFragment ) << std::endl;
 		}
@@ -719,7 +719,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresTextureQueryLod2DArrayShadowF = true;
-			writeHlslTextureAccessFunctions( cont.get(), config );
+			compileHlslTextureAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eFragment ) << std::endl;
 		}
@@ -734,7 +734,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresTextureQueryLod2DArrayI = true;
-			writeHlslTextureAccessFunctions( cont.get(), config );
+			compileHlslTextureAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eFragment ) << std::endl;
 		}
@@ -749,7 +749,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresTextureQueryLod2DArrayU = true;
-			writeHlslTextureAccessFunctions( cont.get(), config );
+			compileHlslTextureAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eFragment ) << std::endl;
 		}
@@ -764,7 +764,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresTextureQueryLod3DF = true;
-			writeHlslTextureAccessFunctions( cont.get(), config );
+			compileHlslTextureAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eFragment ) << std::endl;
 		}
@@ -779,7 +779,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresTextureQueryLod3DI = true;
-			writeHlslTextureAccessFunctions( cont.get(), config );
+			compileHlslTextureAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eFragment ) << std::endl;
 		}
@@ -794,7 +794,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresTextureQueryLod3DU = true;
-			writeHlslTextureAccessFunctions( cont.get(), config );
+			compileHlslTextureAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eFragment ) << std::endl;
 		}
@@ -809,7 +809,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresTextureQueryLodCubeF = true;
-			writeHlslTextureAccessFunctions( cont.get(), config );
+			compileHlslTextureAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eFragment ) << std::endl;
 		}
@@ -824,7 +824,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresTextureQueryLodCubeShadowF = true;
-			writeHlslTextureAccessFunctions( cont.get(), config );
+			compileHlslTextureAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eFragment ) << std::endl;
 		}
@@ -839,7 +839,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresTextureQueryLodCubeI = true;
-			writeHlslTextureAccessFunctions( cont.get(), config );
+			compileHlslTextureAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eFragment ) << std::endl;
 		}
@@ -854,7 +854,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresTextureQueryLodCubeU = true;
-			writeHlslTextureAccessFunctions( cont.get(), config );
+			compileHlslTextureAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eFragment ) << std::endl;
 		}
@@ -869,7 +869,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresTextureQueryLodCubeArrayF = true;
-			writeHlslTextureAccessFunctions( cont.get(), config );
+			compileHlslTextureAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eFragment ) << std::endl;
 		}
@@ -884,7 +884,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresTextureQueryLodCubeArrayI = true;
-			writeHlslTextureAccessFunctions( cont.get(), config );
+			compileHlslTextureAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eFragment ) << std::endl;
 		}
@@ -899,7 +899,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresTextureQueryLodCubeArrayU = true;
-			writeHlslTextureAccessFunctions( cont.get(), config );
+			compileHlslTextureAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eFragment ) << std::endl;
 		}
@@ -914,7 +914,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresTextureQueryLodCubeArrayShadowF = true;
-			writeHlslTextureAccessFunctions( cont.get(), config );
+			compileHlslTextureAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eFragment ) << std::endl;
 		}
@@ -929,7 +929,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresTextureQueryLevels1DF = true;
-			writeHlslTextureAccessFunctions( cont.get(), config );
+			compileHlslTextureAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eFragment ) << std::endl;
 		}
@@ -944,7 +944,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresTextureQueryLevels1DShadowF = true;
-			writeHlslTextureAccessFunctions( cont.get(), config );
+			compileHlslTextureAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eFragment ) << std::endl;
 		}
@@ -959,7 +959,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresTextureQueryLevels1DI = true;
-			writeHlslTextureAccessFunctions( cont.get(), config );
+			compileHlslTextureAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eFragment ) << std::endl;
 		}
@@ -974,7 +974,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresTextureQueryLevels1DU = true;
-			writeHlslTextureAccessFunctions( cont.get(), config );
+			compileHlslTextureAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eFragment ) << std::endl;
 		}
@@ -989,7 +989,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresTextureQueryLevels1DArrayF = true;
-			writeHlslTextureAccessFunctions( cont.get(), config );
+			compileHlslTextureAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eFragment ) << std::endl;
 		}
@@ -1004,7 +1004,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresTextureQueryLevels1DArrayShadowF = true;
-			writeHlslTextureAccessFunctions( cont.get(), config );
+			compileHlslTextureAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eFragment ) << std::endl;
 		}
@@ -1019,7 +1019,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresTextureQueryLevels1DArrayI = true;
-			writeHlslTextureAccessFunctions( cont.get(), config );
+			compileHlslTextureAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eFragment ) << std::endl;
 		}
@@ -1034,7 +1034,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresTextureQueryLevels1DArrayU = true;
-			writeHlslTextureAccessFunctions( cont.get(), config );
+			compileHlslTextureAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eFragment ) << std::endl;
 		}
@@ -1049,7 +1049,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresTextureQueryLevels2DF = true;
-			writeHlslTextureAccessFunctions( cont.get(), config );
+			compileHlslTextureAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eFragment ) << std::endl;
 		}
@@ -1064,7 +1064,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresTextureQueryLevels2DShadowF = true;
-			writeHlslTextureAccessFunctions( cont.get(), config );
+			compileHlslTextureAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eFragment ) << std::endl;
 		}
@@ -1079,7 +1079,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresTextureQueryLevels2DI = true;
-			writeHlslTextureAccessFunctions( cont.get(), config );
+			compileHlslTextureAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eFragment ) << std::endl;
 		}
@@ -1094,7 +1094,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresTextureQueryLevels2DU = true;
-			writeHlslTextureAccessFunctions( cont.get(), config );
+			compileHlslTextureAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eFragment ) << std::endl;
 		}
@@ -1109,7 +1109,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresTextureQueryLevels2DArrayF = true;
-			writeHlslTextureAccessFunctions( cont.get(), config );
+			compileHlslTextureAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eFragment ) << std::endl;
 		}
@@ -1124,7 +1124,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresTextureQueryLevels2DArrayShadowF = true;
-			writeHlslTextureAccessFunctions( cont.get(), config );
+			compileHlslTextureAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eFragment ) << std::endl;
 		}
@@ -1139,7 +1139,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresTextureQueryLevels2DArrayI = true;
-			writeHlslTextureAccessFunctions( cont.get(), config );
+			compileHlslTextureAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eFragment ) << std::endl;
 		}
@@ -1154,7 +1154,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresTextureQueryLevels2DArrayU = true;
-			writeHlslTextureAccessFunctions( cont.get(), config );
+			compileHlslTextureAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eFragment ) << std::endl;
 		}
@@ -1169,7 +1169,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresTextureQueryLevels3DF = true;
-			writeHlslTextureAccessFunctions( cont.get(), config );
+			compileHlslTextureAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eFragment ) << std::endl;
 		}
@@ -1184,7 +1184,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresTextureQueryLevels3DI = true;
-			writeHlslTextureAccessFunctions( cont.get(), config );
+			compileHlslTextureAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eFragment ) << std::endl;
 		}
@@ -1199,7 +1199,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresTextureQueryLevels3DU = true;
-			writeHlslTextureAccessFunctions( cont.get(), config );
+			compileHlslTextureAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eFragment ) << std::endl;
 		}
@@ -1214,7 +1214,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresTextureQueryLevelsCubeF = true;
-			writeHlslTextureAccessFunctions( cont.get(), config );
+			compileHlslTextureAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eFragment ) << std::endl;
 		}
@@ -1229,7 +1229,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresTextureQueryLevelsCubeShadowF = true;
-			writeHlslTextureAccessFunctions( cont.get(), config );
+			compileHlslTextureAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eFragment ) << std::endl;
 		}
@@ -1244,7 +1244,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresTextureQueryLevelsCubeI = true;
-			writeHlslTextureAccessFunctions( cont.get(), config );
+			compileHlslTextureAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eFragment ) << std::endl;
 		}
@@ -1259,7 +1259,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresTextureQueryLevelsCubeU = true;
-			writeHlslTextureAccessFunctions( cont.get(), config );
+			compileHlslTextureAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eFragment ) << std::endl;
 		}
@@ -1274,7 +1274,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresTextureQueryLevelsCubeArrayF = true;
-			writeHlslTextureAccessFunctions( cont.get(), config );
+			compileHlslTextureAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eFragment ) << std::endl;
 		}
@@ -1289,7 +1289,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresTextureQueryLevelsCubeArrayI = true;
-			writeHlslTextureAccessFunctions( cont.get(), config );
+			compileHlslTextureAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eFragment ) << std::endl;
 		}
@@ -1304,7 +1304,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresTextureQueryLevelsCubeArrayU = true;
-			writeHlslTextureAccessFunctions( cont.get(), config );
+			compileHlslTextureAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eFragment ) << std::endl;
 		}
@@ -1319,7 +1319,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresTextureQueryLevelsCubeArrayShadowF = true;
-			writeHlslTextureAccessFunctions( cont.get(), config );
+			compileHlslTextureAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eFragment ) << std::endl;
 		}
@@ -1334,7 +1334,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresProjectTexCoords2 = true;
-			writeHlslTextureAccessFunctions( cont.get(), config );
+			compileHlslTextureAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eFragment ) << std::endl;
 		}
@@ -1349,7 +1349,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresProjectTexCoords3 = true;
-			writeHlslTextureAccessFunctions( cont.get(), config );
+			compileHlslTextureAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eFragment ) << std::endl;
 		}
@@ -1364,7 +1364,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresProjectTexCoords4To1 = true;
-			writeHlslTextureAccessFunctions( cont.get(), config );
+			compileHlslTextureAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eFragment ) << std::endl;
 		}
@@ -1379,7 +1379,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresProjectTexCoords4To2 = true;
-			writeHlslTextureAccessFunctions( cont.get(), config );
+			compileHlslTextureAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eFragment ) << std::endl;
 		}
@@ -1394,7 +1394,7 @@ namespace
 			auto cont = stmt::makeContainer();
 			hlsl::IntrinsicsConfig config;
 			config.requiresProjectTexCoords4 = true;
-			writeHlslTextureAccessFunctions( cont.get(), config );
+			compileHlslTextureAccessFunctions( cont.get(), config );
 			std::cout << sdw::writeDebug( cont.get() ) << std::endl;
 			std::cout << sdw::hlsl::StmtVisitor::submit( cont.get(), sdw::ShaderType::eFragment ) << std::endl;
 		}

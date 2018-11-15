@@ -20,13 +20,13 @@ namespace ast::debug
 	std::string getName( type::Kind type );
 	std::string getName( type::Kind type
 		, uint32_t arraySize );
-	std::string getName( ast::type::Kind sampled
-		, ast::type::ImageDim dim
-		, ast::type::ImageFormat format
+	std::string getName( type::ImageFormat value );
+	std::string getName( type::ImageFormat format
+		, type::ImageDim dim
 		, bool arrayed
 		, bool depth
 		, bool ms );
-	std::string displayVar( ast::var::VariablePtr var );
+	std::string displayVar( var::VariablePtr var );
 }
 
 #endif

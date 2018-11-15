@@ -6,10 +6,8 @@ See LICENSE file in root folder
 namespace sdw
 {
 	Image::Image( Shader * shader
-		, expr::ExprPtr expr
-		, ast::type::ImageFormat format )
+		, expr::ExprPtr expr )
 		: Value{ shader, std::move( expr ) }
-		, m_format{ format }
 	{
 	}
 

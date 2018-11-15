@@ -2308,7 +2308,8 @@ namespace sdw
 		return stream.str();
 	}
 
-	std::vector< uint32_t > serializeSpirv( Shader const & shader, ShaderType type )
+	std::vector< uint32_t > serialiseSpirv( Shader const & shader
+		, ShaderType type )
 	{
 		auto module = compileSpirV( shader, type );
 		std::vector< uint32_t > result;

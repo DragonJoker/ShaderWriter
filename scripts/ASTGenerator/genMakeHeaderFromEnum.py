@@ -17,7 +17,7 @@ def printHeader( outs, match ):
 	outs.write( "{" )
 	return enumName
 
-def computeName( name ):
+def computeIntrinsicName( name ):
 	result = name
 	intrName6 = re.compile( "([\w]*), ([\w]*), ([\w]*), ([\w]*), ([\w]*), ([\w]*), ([\w]*)" )
 	intrName5 = re.compile( "([\w]*), ([\w]*), ([\w]*), ([\w]*), ([\w]*), ([\w]*)" )
@@ -146,6 +146,13 @@ def getImageSampledType( postfix ):
 		result = "UInt"
 	return result
 
+def getImageSampledTypePostfix( postfix ):
+	sampled = postfix[len( postfix ) - 1]
+	result = ""
+	if sampled == "I" or sampled == "U":
+		result = sampled
+	return result
+
 def computeImageFullType( imageType, functionGroup ):
 	postfix = getPostfix( functionGroup )
 	sampled = getImageSampledType( postfix )
@@ -163,12 +170,12 @@ def computeImageFullType( imageType, functionGroup ):
 		seq.append( depth )
 	return imageType + "<" + ', '.join( seq ) + ">"
 
-def printDoc( outs, enumName, returnGroup, functionGroup, paramsGroup ):
+def printTextureFunctionDoc( outs, enumName, returnGroup, functionGroup, paramsGroup ):
 	outs.write( "\n\t/**" )
 	outs.write( "\n\t*@return" )
 	outs.write( "\n\t*\t" + typeKindToGlslType( returnGroup ) )
 	if enumName == "TextureAccess":
-		outs.write( "\n\t*@param texture" )
+		outs.write( "\n\t*@param image" )
 		outs.write( "\n\t*\t" + computeImageFullType( "SampledImage", functionGroup ) )
 		outs.write( computeParamsDoc( paramsGroup ) )
 	elif enumName == "ImageAccess":
@@ -179,20 +186,119 @@ def printDoc( outs, enumName, returnGroup, functionGroup, paramsGroup ):
 		outs.write( computeParamsDoc( paramsGroup ) )
 	outs.write( "\n\t*/" )
 
-def printFunction( outs, enumName, match ):
+def printTextureFunction( outs, enumName, match ):
 	returnGroup = match.group( 1 )
 	functionGroup = match.group( 2 )
 	paramsGroup = match.group( 3 )
-	printDoc( outs, enumName, returnGroup, functionGroup, paramsGroup )
-	outs.write( "\n\t" + enumName + "CallPtr make" + computeName( functionGroup ) + "(" )
-	if enumName == "TextureAccess":
-		outs.write( " ExprPtr texture" )
-		outs.write( computeParams( paramsGroup, "," ) + " );" )
-	elif enumName == "ImageAccess":
+	postfix = getPostfix( functionGroup )
+	sampled = getImageSampledTypePostfix( postfix )
+	depth = getDepthType( postfix )
+	retType = returnGroup
+	intrinsicName = computeIntrinsicName( functionGroup )
+	formats = list()
+	if sampled == 'I':
+		if intrinsicName.find( "Atomic" ) != -1:
+			formats.append( ( 'R32', 'Int' ) )
+		elif intrinsicName.find( "Size" ) != -1 or intrinsicName.find( "Samples" ) != -1 or intrinsicName.find( "Query" ) != -1 or intrinsicName.find( "Gather" ) != -1:
+			formats.append( ( 'Rgba32', retType ) )
+			formats.append( ( 'Rgba16', retType ) )
+			formats.append( ( 'Rgba8', retType ) )
+			formats.append( ( 'Rg32', retType ) )
+			formats.append( ( 'Rg16', retType ) )
+			formats.append( ( 'Rg8', retType ) )
+			formats.append( ( 'R32', retType ) )
+			formats.append( ( 'R16', retType ) )
+			formats.append( ( 'R8', retType ) )
+		else:
+			formats.append( ( 'Rgba32', 'type::Kind::eVec4I' ) )
+			formats.append( ( 'Rgba16', 'type::Kind::eVec4I' ) )
+			formats.append( ( 'Rgba8', 'type::Kind::eVec4I' ) )
+			formats.append( ( 'Rg32', 'type::Kind::eVec2I' ) )
+			formats.append( ( 'Rg16', 'type::Kind::eVec2I' ) )
+			formats.append( ( 'Rg8', 'type::Kind::eVec2I' ) )
+			formats.append( ( 'R32', 'type::Kind::eInt' ) )
+			formats.append( ( 'R16', 'type::Kind::eInt' ) )
+			formats.append( ( 'R8', 'type::Kind::eInt' ) )
+	elif sampled == 'U':
+		if intrinsicName.find( "Atomic" ) != -1:
+			formats.append( ( 'R32', 'UInt' ) )
+		elif intrinsicName.find( "Size" ) != -1 or intrinsicName.find( "Samples" ) != -1 or intrinsicName.find( "Query" ) != -1 or intrinsicName.find( "Gather" ) != -1:
+			formats.append( ( 'Rgba32', retType ) )
+			formats.append( ( 'Rgba16', retType ) )
+			formats.append( ( 'Rgba8', retType ) )
+			formats.append( ( 'Rg32', retType ) )
+			formats.append( ( 'Rg16', retType ) )
+			formats.append( ( 'Rg8', retType ) )
+			formats.append( ( 'R32', retType ) )
+			formats.append( ( 'R16', retType ) )
+			formats.append( ( 'R8', retType ) )
+		else:
+			formats.append( ( 'Rgba32', 'type::Kind::eVec4U' ) )
+			formats.append( ( 'Rgba16', 'type::Kind::eVec4U' ) )
+			formats.append( ( 'Rgba8', 'type::Kind::eVec4U' ) )
+			formats.append( ( 'Rg32', 'type::Kind::eVec2U' ) )
+			formats.append( ( 'Rg16', 'type::Kind::eVec2U' ) )
+			formats.append( ( 'Rg8', 'type::Kind::eVec2U' ) )
+			formats.append( ( 'R32', 'type::Kind::eUInt' ) )
+			formats.append( ( 'R16', 'type::Kind::eUInt' ) )
+			formats.append( ( 'R8', 'type::Kind::eUInt' ) )
+	else:
+		if depth == "Shadow":
+			if intrinsicName.find( "Size" ) != -1 or intrinsicName.find( "Samples" ) != -1 or intrinsicName.find( "Query" ) != -1 or intrinsicName.find( "Gather" ) != -1:
+				formats.append( ( 'R32', retType ) )
+				formats.append( ( 'R16', retType ) )
+			else:
+				formats.append( ( 'R32', 'type::Kind::eFloat' ) )
+				formats.append( ( 'R16', 'type::Kind::eFloat' ) )
+		elif intrinsicName.find( "Size" ) != -1 or intrinsicName.find( "Samples" ) != -1 or intrinsicName.find( "Query" ) != -1 or intrinsicName.find( "Gather" ) != -1:
+			formats.append( ( 'Rgba32', retType ) )
+			formats.append( ( 'Rgba16', retType ) )
+			formats.append( ( 'Rg32', retType ) )
+			formats.append( ( 'Rg16', retType ) )
+			formats.append( ( 'R32', retType ) )
+			formats.append( ( 'R16', retType ) )
+		else:
+			formats.append( ( 'Rgba32', 'type::Kind::eVec4F' ) )
+			formats.append( ( 'Rgba16', 'type::Kind::eVec4F' ) )
+			formats.append( ( 'Rg32', 'type::Kind::eVec2F' ) )
+			formats.append( ( 'Rg16', 'type::Kind::eVec2F' ) )
+			formats.append( ( 'R32', 'type::Kind::eFloat' ) )
+			formats.append( ( 'R16', 'type::Kind::eFloat' ) )
+	for fmt, ret in formats:
+		printTextureFunctionDoc( outs, enumName, ret, functionGroup, paramsGroup )
+		outs.write( "\n\t" + enumName + "CallPtr make" + intrinsicName + fmt + "(" )
 		outs.write( " ExprPtr image" )
 		outs.write( computeParams( paramsGroup, "," ) + " );" )
+
+def printIntrinsicDoc( outs, enumName, returnGroup, functionGroup, paramsGroup ):
+	outs.write( "\n\t/**" )
+	outs.write( "\n\t*@return" )
+	outs.write( "\n\t*\t" + typeKindToGlslType( returnGroup ) )
+	if enumName == "TextureAccess":
+		outs.write( "\n\t*@param image" )
+		outs.write( "\n\t*\t" + computeImageFullType( "SampledImage", functionGroup ) )
+		outs.write( computeParamsDoc( paramsGroup ) )
+	elif enumName == "ImageAccess":
+		outs.write( "\n\t*@param image" )
+		outs.write( "\n\t*\t" + computeImageFullType( "Image", functionGroup ) )
+		outs.write( computeParamsDoc( paramsGroup ) )
 	else:
-		outs.write( computeParams( paramsGroup, "" ) + " );" )
+		outs.write( computeParamsDoc( paramsGroup ) )
+	outs.write( "\n\t*/" )
+
+def printIntrinsic( outs, enumName, match ):
+	returnGroup = match.group( 1 )
+	functionGroup = match.group( 2 )
+	paramsGroup = match.group( 3 )
+	printIntrinsicDoc( outs, enumName, returnGroup, functionGroup, paramsGroup )
+	outs.write( "\n\t" + enumName + "CallPtr make" + computeIntrinsicName( functionGroup ) + "(" )
+	outs.write( computeParams( paramsGroup, "" ) + " );" )
+
+def printFunction( outs, enumName, match ):
+	if enumName == "TextureAccess" or enumName == "ImageAccess":
+		printTextureFunction( outs, enumName, match )
+	else:
+		printIntrinsic( outs, enumName, match )
 
 def printFooter( outs ):
 	outs.write( "}\n" )
