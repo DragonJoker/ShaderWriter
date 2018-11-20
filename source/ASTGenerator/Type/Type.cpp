@@ -8,6 +8,9 @@ See LICENSE file in root folder
 #include "ASTGenerator/Type/TypeImage.hpp"
 #include "ASTGenerator/Type/TypeSampledImage.hpp"
 #include "ASTGenerator/Type/TypeSampler.hpp"
+#include "ASTGenerator/Type/TypeStruct.hpp"
+
+#include <algorithm>
 
 namespace ast::type
 {
@@ -52,6 +55,21 @@ namespace ast::type
 
 	Type::~Type()
 	{
+	}
+
+	//*************************************************************************
+
+	bool operator==( Type const & lhs, Type const & rhs )
+	{
+		auto result = lhs.getKind() == rhs.getKind()
+			&& getArraySize( lhs ) == getArraySize( rhs );
+
+		if ( result )
+		{
+			result = getSize( lhs, MemoryLayout::eStd430 ) == getSize( rhs, MemoryLayout::eStd430 );
+		}
+
+		return result;
 	}
 
 	//*************************************************************************
@@ -924,6 +942,48 @@ namespace ast::type
 			assert( "Unsupported type::Kind" );
 			return expr::CompositeType::eVec4;
 		}
+	}
+
+	Kind getNonArrayKindRec( Type const & type )
+	{
+		auto result = type.getKind();
+		auto * tmp = &type;
+
+		while ( tmp->getKind() == type::Kind::eArray )
+		{
+			tmp = static_cast< Array const & >( type ).getType().get();
+		}
+
+		return tmp->getKind();
+	}
+
+	Kind getNonArrayKindRec( TypePtr type )
+	{
+		return getNonArrayKindRec( *type );
+	}
+
+	Kind getNonArrayKind( Type const & type )
+	{
+		return type.getKind() == type::Kind::eArray
+			? static_cast< Array const & >( type ).getType()->getKind()
+			: type.getKind();
+	}
+
+	Kind getNonArrayKind( TypePtr type )
+	{
+		return getNonArrayKind( *type );
+	}
+
+	uint32_t getArraySize( Type const & type )
+	{
+		return type.getKind() == type::Kind::eArray
+			? static_cast< type::Array const & >( type ).getArraySize()
+			: NotArray;
+	}
+
+	uint32_t getArraySize( TypePtr type )
+	{
+		return getArraySize( *type );
 	}
 
 	//*************************************************************************

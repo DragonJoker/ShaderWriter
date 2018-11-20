@@ -27,6 +27,7 @@ namespace ast::type
 			std::string name;
 			uint32_t offset;
 			uint32_t size;
+			uint32_t arrayStride;
 		};
 
 	private:
@@ -112,12 +113,23 @@ namespace ast::type
 			, std::move( name ) );
 	}
 
-	bool operator==( Type const & lhs, Type const & rhs );
-	bool operator==( Array const & lhs, Array const & rhs );
 	bool operator==( Struct const & lhs, Struct const & rhs );
+
+	uint32_t getSize( Type const & type
+		, MemoryLayout layout );
 	uint32_t getSize( TypePtr type
 		, MemoryLayout layout );
+	uint32_t getAlignment( Type const & type
+		, MemoryLayout layout );
 	uint32_t getAlignment( TypePtr type
+		, MemoryLayout layout );
+	uint32_t getArrayStride( Array const & type
+		, MemoryLayout layout );
+	uint32_t getArrayStride( ArrayPtr type
+		, MemoryLayout layout );
+	uint32_t getArrayStride( Type const & type
+		, MemoryLayout layout );
+	uint32_t getArrayStride( TypePtr type
 		, MemoryLayout layout );
 }
 

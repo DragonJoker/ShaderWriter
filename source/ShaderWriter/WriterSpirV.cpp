@@ -1942,6 +1942,20 @@ namespace sdw
 			return stream;
 		}
 
+		std::ostream & writeSpecConstantOp( spirv::Instruction const & instruction
+			, IdNames & names
+			, std::ostream & stream )
+		{
+			stream << " " << spirv::getOperatorName( spv::Op( instruction.operands[0] ) );
+
+			for ( size_t i = 1u; i < instruction.operands.size(); ++i )
+			{
+				write( instruction.operands[i], names, stream );
+			}
+
+			return stream;
+		}
+
 		std::ostream & writeBlockInstruction( spirv::Instruction const & instruction
 			, IdNames & names
 			, std::ostream & stream )
@@ -2019,6 +2033,10 @@ namespace sdw
 			else if ( opCode == spv::Op::OpCompositeExtract )
 			{
 				writeCompositeExtract( instruction, names, stream );
+			}
+			else if ( opCode == spv::Op::OpSpecConstantOp )
+			{
+				writeSpecConstantOp( instruction, names, stream );
 			}
 			else
 			{
@@ -2307,6 +2325,12 @@ namespace sdw
 			, std::vector< uint32_t > & result )
 		{
 			assert( instruction.op.opCount != 0 );
+
+			if ( instruction.op.opCode == 0 )
+			{
+				throw std::runtime_error{ "Invalid OpNop opCode found in an instruction." };
+			}
+
 			serialize( instruction.op, result );
 			serialize( instruction.resultType, result );
 			serialize( instruction.resultId, result );

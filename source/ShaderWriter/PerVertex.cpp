@@ -36,16 +36,18 @@ namespace sdw
 	gl_PerVertex::gl_PerVertex( ShaderWriter & writer
 		, stmt::PerVertexDecl::Source source )
 		: Value{ &writer.getShader(), makeExpr( var::makeVariable( doGetInfo().getType(), "" ) ) }
-		, m_source{ source }
 		, gl_Position{ &writer.getShader()
 			, makeIdent( writer.getShader().registerBuiltin( "gl_Position"
-				, std::static_pointer_cast< type::Struct >( getType() )->getMember( "gl_Position" ).type, getBuiltinFlag( m_source ) ) ) }
+				, std::static_pointer_cast< type::Struct >( getType() )->getMember( "gl_Position" ).type
+				, getBuiltinFlag( source ) ) ) }
 		, gl_PointSize{ &writer.getShader()
 			, makeIdent( writer.getShader().registerBuiltin( "gl_PointSize"
-				, std::static_pointer_cast< type::Struct >( getType() )->getMember( "gl_PointSize" ).type, getBuiltinFlag( m_source ) ) ) }
+				, std::static_pointer_cast< type::Struct >( getType() )->getMember( "gl_PointSize" ).type
+				, getBuiltinFlag( source ) ) ) }
 		, gl_ClipDistance{ &writer.getShader()
 			, makeIdent( writer.getShader().registerBuiltin( "gl_ClipDistance"
-				, std::static_pointer_cast< type::Struct >( getType() )->getMember( "gl_ClipDistance" ).type, getBuiltinFlag( m_source ) ) ) }
+				, std::static_pointer_cast< type::Struct >( getType() )->getMember( "gl_ClipDistance" ).type
+				, getBuiltinFlag( source ) ) ) }
 	{
 		addStmt( *findContainer( *this )
 			, sdw::makePerVertexDecl( source, getType() ) );

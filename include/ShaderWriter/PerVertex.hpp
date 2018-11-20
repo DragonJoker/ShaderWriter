@@ -23,9 +23,6 @@ namespace sdw
 		Vec4 gl_Position;
 		Float gl_PointSize;
 		Array< Float > gl_ClipDistance;
-
-	private:
-		stmt::PerVertexDecl::Source m_source;
 	};
 }
 

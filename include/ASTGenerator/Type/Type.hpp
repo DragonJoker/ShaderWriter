@@ -113,6 +113,8 @@ namespace ast::type
 		uint32_t m_index;
 	};
 
+	bool operator==( Type const & lhs, Type const & rhs );
+
 	TypePtr getUndefined();
 	TypePtr getVoid();
 	TypePtr getFunction();
@@ -183,6 +185,12 @@ namespace ast::type
 	Kind getComponentType( Kind kind );
 	Kind getScalarType( Kind kind );
 	expr::CompositeType getCompositeType( Kind kind );
+	Kind getNonArrayKindRec( Type const & type );
+	Kind getNonArrayKindRec( TypePtr type );
+	Kind getNonArrayKind( Type const & type );
+	Kind getNonArrayKind( TypePtr type );
+	uint32_t getArraySize( Type const & type );
+	uint32_t getArraySize( TypePtr type );
 }
 
 #endif

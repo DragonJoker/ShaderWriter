@@ -39,6 +39,7 @@ namespace sdw::spirv
 		void visitUnaryExpr( expr::Unary * expr )override;
 		void visitBinaryExpr( expr::Binary * expr )override;
 
+		void visitCastExpr( expr::Cast * expr )override;
 		void visitPreDecrementExpr( expr::PreDecrement * expr )override;
 		void visitPreIncrementExpr( expr::PreIncrement * expr )override;
 		void visitPostDecrementExpr( expr::PostDecrement * expr )override;

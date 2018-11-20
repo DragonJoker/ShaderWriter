@@ -20,8 +20,7 @@ namespace sdw
 		{
 		}
 		
-		inline InterfaceBlock( type::MemoryLayout layout
-			, type::StructPtr dataType )
+		inline InterfaceBlock( type::StructPtr dataType )
 			: m_type{ std::move( dataType ) }
 		{
 		}
@@ -76,11 +75,10 @@ namespace sdw
 		{
 		}
 		
-		BoInfo( type::MemoryLayout layout
-			, type::StructPtr dataType
+		BoInfo( type::StructPtr dataType
 			, uint32_t bind
 			, uint32_t set )
-			: InterfaceBlock{ layout, std::move( dataType ) }
+			: InterfaceBlock{ std::move( dataType ) }
 			, m_bind{ bind }
 			, m_set{ set }
 		{

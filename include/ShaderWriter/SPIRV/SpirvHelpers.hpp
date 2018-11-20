@@ -131,6 +131,31 @@ namespace sdw::spirv
 		, IdList const & operands
 		, std::string const & name );
 
+	Instruction makeUnInstruction( spv::Op op
+		, spv::Id resultId
+		, spv::Id const & operand );
+	Instruction makeBinInstruction( spv::Op op
+		, spv::Id resultId
+		, spv::Id lhs
+		, spv::Id rhs );
+	Instruction makeUnSpecConstantInstruction( spv::Op op
+		, spv::Id resultId
+		, spv::Id typeId
+		, spv::Id operand );
+	Instruction makeBinSpecConstantInstruction( spv::Op op
+		, spv::Id resultId
+		, spv::Id typeId
+		, spv::Id lhs
+		, spv::Id rhs );
+	Instruction makeUnInstruction( spv::Op op
+		, spv::Id resultId
+		, spv::Id typeId
+		, spv::Id operand );
+	Instruction makeBinInstruction( spv::Op op
+		, spv::Id resultId
+		, spv::Id typeId
+		, spv::Id lhs
+		, spv::Id rhs );
 	Instruction makeUnInstruction( expr::Kind exprKind
 		, type::Kind typeKind
 		, spv::Id resultId

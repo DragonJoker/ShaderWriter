@@ -92,7 +92,7 @@ namespace sdw
 
 	void ExprCloner::visitArrayAccessExpr( expr::ArrayAccess * expr )
 	{
-		m_result = expr::makeArrayAccess( expr->getType()
+		m_result = std::make_unique< expr::ArrayAccess >( expr->getType()
 			, doSubmit( expr->getLHS() )
 			, doSubmit( expr->getRHS() ) );
 	}

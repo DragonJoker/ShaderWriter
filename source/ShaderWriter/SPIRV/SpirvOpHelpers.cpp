@@ -1864,7 +1864,7 @@ namespace sdw::spirv
 			result = spv::Op::OpLogicalOr;
 			break;
 		case ast::expr::Kind::eCast:
-			assert( "Unexpected ast::expr::Kind::eCast" );
+			assert( false && "Unexpected ast::expr::Kind::eCast" );
 			break;
 		case ast::expr::Kind::eInit:
 			result = spv::Op::OpStore;
@@ -1914,13 +1914,13 @@ namespace sdw::spirv
 				: spv::Op::OpINotEqual;
 			break;
 		case ast::expr::Kind::eComma:
-			assert( "Unexpected ast::expr::Kind::eComma" );
+			assert( false && "Unexpected ast::expr::Kind::eComma" );
 			break;
 		case ast::expr::Kind::eIdentifier:
-			assert( "Unexpected ast::expr::Kind::eIdentifier" );
+			assert( false && "Unexpected ast::expr::Kind::eIdentifier" );
 			break;
 		case ast::expr::Kind::eLiteral:
-			assert( "Unexpected ast::expr::Kind::eLiteral" );
+			assert( false && "Unexpected ast::expr::Kind::eLiteral" );
 			break;
 		case ast::expr::Kind::eMbrSelect:
 			result = spv::Op::OpAccessChain;
@@ -1935,16 +1935,16 @@ namespace sdw::spirv
 			result = spv::Op::OpSelect;
 			break;
 		case ast::expr::Kind::ePreIncrement:
-			assert( "Unexpected ast::expr::Kind::ePreIncrement" );
+			assert( false && "Unexpected ast::expr::Kind::ePreIncrement" );
 			break;
 		case ast::expr::Kind::ePreDecrement:
-			assert( "Unexpected ast::expr::Kind::ePreDecrement" );
+			assert( false && "Unexpected ast::expr::Kind::ePreDecrement" );
 			break;
 		case ast::expr::Kind::ePostIncrement:
-			assert( "Unexpected ast::expr::Kind::ePostIncrement" );
+			assert( false && "Unexpected ast::expr::Kind::ePostIncrement" );
 			break;
 		case ast::expr::Kind::ePostDecrement:
-			assert( "Unexpected ast::expr::Kind::ePostDecrement" );
+			assert( false && "Unexpected ast::expr::Kind::ePostDecrement" );
 			break;
 		case ast::expr::Kind::eUnaryMinus:
 			result = isFloating( typeKind )
@@ -1952,7 +1952,7 @@ namespace sdw::spirv
 				:  spv::Op::OpSNegate;
 			break;
 		case ast::expr::Kind::eUnaryPlus:
-			assert( "Unexpected ast::expr::Kind::eUnaryPlus" );
+			assert( false && "Unexpected ast::expr::Kind::eUnaryPlus" );
 			break;
 		case ast::expr::Kind::eAssign:
 			result = spv::Op::OpStore;

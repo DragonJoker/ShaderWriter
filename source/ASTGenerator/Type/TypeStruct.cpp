@@ -11,45 +11,6 @@ namespace ast::type
 
 	namespace
 	{
-		uint32_t getAlignedSize( uint32_t size, uint32_t align )
-		{
-			uint32_t result = 0u;
-
-			while ( size > align )
-			{
-				size -= align;
-				result += align;
-			}
-
-			return result + align;
-		}
-
-		uint32_t getScalarSize( Kind kind )
-		{
-			assert( isScalarType( kind ) );
-			uint32_t result;
-
-			switch ( kind )
-			{
-			case Kind::eBoolean:
-				result = 1u;
-				break;
-			case Kind::eHalf:
-				result = 2u;
-				break;
-			case Kind::eInt:
-			case Kind::eUInt:
-			case Kind::eFloat:
-				result = 4u;
-				break;
-			case Kind::eDouble:
-				result = 8u;
-				break;
-			}
-
-			return result;
-		}
-
 		bool isVec4Padded( MemoryLayout layout )
 		{
 			switch ( layout )
@@ -64,6 +25,11 @@ namespace ast::type
 
 		uint32_t getPackedBaseSize( Kind kind )
 		{
+			while ( !isScalarType( kind ) )
+			{
+				kind = getComponentType( kind );
+			}
+
 			switch ( kind )
 			{
 			case Kind::eDouble:
@@ -86,6 +52,28 @@ namespace ast::type
 		uint32_t getPackedAlignment( Type const & type
 			, MemoryLayout layout );
 
+		uint32_t getPackedAlignment( Array const & type
+			, MemoryLayout layout )
+		{
+			uint32_t minimumAlignment = 1;
+
+			if ( isVec4Padded( layout ) )
+			{
+				minimumAlignment = 16;
+			}
+
+			auto * tmp = static_cast< Array const & >( type ).getType().get();
+
+			while ( getArraySize( *tmp ) != NotArray )
+			{
+				tmp = static_cast< Array const & >( *tmp ).getType().get();
+			}
+
+			// Get the alignment of the base type, then maybe round up.
+			return std::max( minimumAlignment
+				, getPackedAlignment( *tmp, layout ) );
+		}
+
 		uint32_t getPackedAlignment( Struct const & type
 			, MemoryLayout layout )
 		{
@@ -94,14 +82,16 @@ namespace ast::type
 
 			for ( auto & member : type )
 			{
-				alignment = std::max( alignment, getPackedAlignment( *member.type, layout ) );
+				//auto member_flags = ir.meta[type.self].members.at( i ).decoration_flags;
+				alignment = std::max( alignment
+					, getPackedAlignment( *member.type, layout ) );
 			}
 
-			//// In std140, struct alignment is rounded up to 16.
-			//if ( isVec4Padded( layout ) )
-			//{
-			//	alignment = std::max( alignment, 16u );
-			//}
+			// In std140, struct alignment is rounded up to 16.
+			if ( isVec4Padded( layout ) )
+			{
+				alignment = std::max( alignment, 16u );
+			}
 
 			return alignment;
 		}
@@ -109,450 +99,198 @@ namespace ast::type
 		uint32_t getPackedAlignment( Kind kind
 			, MemoryLayout layout )
 		{
-			uint32_t const baseAlignment = getPackedBaseSize( getScalarType( kind ) );
-			uint32_t result;
+			const uint32_t baseAlignment = getPackedBaseSize( kind );
+			auto componentCount = getComponentCount( kind );
 			// From 7.6.2.2 in GL 4.5 core spec
 			// (https://www.khronos.org/registry/OpenGL/specs/gl/glspec45.core.pdf).
 
+			// Rule 1
 			if ( isScalarType( kind ) )
 			{
-				// Rule 1
-				result = baseAlignment;
+				return baseAlignment;
+			}
+
+			// Rule 2
+			if ( isVectorType( kind )
+				&& ( componentCount == 2u || componentCount == 4u ) )
+			{
+				return componentCount * baseAlignment;
+			}
+
+			// Rule 3
+			if ( isVectorType( kind )
+				&& componentCount == 3u )
+			{
+				return 4u * baseAlignment;
+			}
+
+			// Rule 4 implied. Alignment does not change in std430.
+
+			/* Not scalar, not vector => Matrix type */
+			componentCount = getComponentCount( getComponentType( kind ) );
+
+			// Rule 5. Column-major matrices are stored as arrays of
+			// vectors.
+			if ( isVec4Padded( layout ) )
+			{
+				return 4u * baseAlignment;
+			}
+			else if ( componentCount == 3u )
+			{
+				return 4u * baseAlignment;
 			}
 			else
 			{
-				auto componentCount = getComponentCount( kind );
-
-				if ( isVectorType( kind )
-					&& ( componentCount == 2u || componentCount == 4u ) )
-				{
-					// Rule 2
-					result = componentCount * baseAlignment;
-				}
-				else if ( isVectorType( kind )
-						&& componentCount == 3u )
-				{
-					// Rule 3
-					result = 4u * baseAlignment;
-				}
-				else
-				{
-					// Rule 4 is about arrays.
-
-					/* Not scalar, not vector => Matrix type */
-					componentCount = getComponentCount( getComponentType( kind ) );
-
-					// Rule 5: Column-major matrices are stored as arrays of
-					// vectors.
-					if ( isVec4Padded( layout ) )
-					{
-						result = 4u * baseAlignment;
-					}
-					else if ( componentCount == 3u )
-					{
-						result = 4u * baseAlignment;
-					}
-					else
-					{
-						result = componentCount * baseAlignment;
-					}
-					// Rule 6 is about arrays.
-
-					// Rule 7 is about column matrices, that are not supported. TODO ?.
-
-					// Rule 8 is about arrays.
-
-					// Rule 9 is about structures.
-				}
+				return componentCount * baseAlignment;
 			}
 
-			return result;
+			// Rule 6 implied.
+
+			// Rule 7 is about column matrices, that are not supported. TODO ?.
+
+			// Rule 8 implied.
+
+			// Rule 9 is about structures.
 		}
 
 		uint32_t getPackedAlignment( Type const & type
 			, MemoryLayout layout )
 		{
-			uint32_t result = 0u;
+			auto arraySize = getArraySize( type );
 
-			if ( getArraySize( type ) != NotArray )
+			if ( arraySize != NotArray )
 			{
-				uint32_t const minimumAlignment = isVec4Padded( layout )
-					? 16u
-					: 1u;
-				// Get the alignment of the base type, then maybe round up.
-				result = std::max( minimumAlignment
-					, getPackedAlignment( *static_cast< Array const & >( type ).getType()
-						, layout ) );
-			}
-			else if ( type.getKind() == Kind::eStruct )
-			{
-				result = getPackedAlignment( static_cast< Struct const & >( type )
-					, layout );
-			}
-			else
-			{
-				result = getPackedAlignment( getNonArrayKind( type )
+				return getPackedAlignment( static_cast< Array const & >( type )
 					, layout );
 			}
 
-			return result;
+			auto kind = getNonArrayKindRec( type );
+
+			if ( kind == Kind::eStruct )
+			{
+				return getPackedAlignment( static_cast< Struct const & >( type )
+					, layout );
+			}
+
+			return getPackedAlignment( type.getKind()
+				, layout );
 		}
 
-		uint32_t getSize140( Kind kind
-			, bool isArray );
+		uint32_t getPackedSize( Type const & type
+			, MemoryLayout layout );
 
-		uint32_t getSize140NotArray( Kind kind
-			, bool isVec4Padded )
-		{
-			// From 7.6.2.2 in GL 4.5 core spec
-			// (https://www.khronos.org/registry/OpenGL/specs/gl/glspec45.core.pdf).
-
-			// Rule 1
-			if ( isScalarType( kind ) )
-			{
-				return getScalarSize( kind );
-			}
-
-			auto componentCount = getComponentCount( kind );
-
-			// Rule 2
-			if ( isVectorType( kind )
-				&& ( componentCount == 2u || componentCount == 4u ) )
-			{
-				return componentCount * getScalarSize( getComponentType( kind ) );
-			}
-
-			// Rule 3
-			if ( isVectorType( kind )
-				&& componentCount == 3u )
-			{
-				return 4u * getScalarSize( getComponentType( kind ) );
-			}
-
-			// Rule 4 is about arrays.
-
-			/* Not scalar, not vector => Matrix type */
-
-			// Rule 5: Column-major matrices are stored as arrays of
-			// vectors.
-			if ( isVec4Padded )
-			{
-				return componentCount * 4u * getScalarSize( getComponentType( getComponentType( kind ) ) );
-			}
-			else
-			{
-				return componentCount * getSize140( getComponentType( kind ), true );
-			}
-
-			// Rule 6 is about arrays.
-
-			// Rule 7 is about column matrices, that are not supported. TODO ?.
-
-			// Rule 8 is about arrays.
-
-			// Rule 9 is about structures.
-		}
-
-		uint32_t getSize140( Kind kind
-			, bool isArray )
-		{
-			if ( !isArray )
-			{
-				return getSize140NotArray( kind, false );
-			}
-
-			return std::max( 16u, getSize140NotArray( kind, true ) );
-		}
-
-		uint32_t getSize430( Kind kind
-			, bool isArray );
-
-		uint32_t getSize430NotArray( Kind kind )
-		{
-			// From 7.6.2.2 in GL 4.5 core spec
-			// (https://www.khronos.org/registry/OpenGL/specs/gl/glspec45.core.pdf).
-
-			// Rule 1
-			if ( isScalarType( kind ) )
-			{
-				return getScalarSize( kind );
-			}
-
-			auto componentCount = getComponentCount( kind );
-
-			// Rule 2
-			if ( isVectorType( kind )
-				&& ( componentCount == 2u || componentCount == 4u ) )
-			{
-				return componentCount * getScalarSize( getComponentType( kind ) );
-			}
-
-			// Rule 3
-			if ( isVectorType( kind )
-				&& componentCount == 3u )
-			{
-				return 4u * getScalarSize( getComponentType( kind ) );
-			}
-
-			// Rule 4 is about arrays.
-
-			/* Not scalar, not vector => Matrix type */
-
-			// Rule 5: Column-major matrices are stored as arrays of
-			// vectors.
-			return componentCount * getSize430( getComponentType( kind ), true );
-
-			// Rule 6 is about arrays.
-
-			// Rule 7 is about column matrices, that are not supported. TODO ?.
-
-			// Rule 8 is about arrays.
-
-			// Rule 9 is about structures.
-		}
-
-		uint32_t getSize430( Kind kind
-			, bool isArray )
-		{
-			return getSize430NotArray( kind );
-		}
-
-		uint32_t getSize( Kind kind
-			, bool isArray
+		uint32_t getPackedArrayStride( const Array & type
 			, MemoryLayout layout )
 		{
-			assert( isScalarType( kind )
-				|| isVectorType( kind )
-				|| isMatrixType( kind ) );
+			// Array stride is equal to aligned size of the underlying type.
+			auto arrayed = type.getType();
+			uint32_t size = getPackedSize( *arrayed, layout );
+			auto arraySize = getArraySize( *arrayed );
 
-			uint32_t result;
-
-			if ( layout == MemoryLayout::eStd430 )
+			if ( arraySize == NotArray )
 			{
-				result = getSize430( kind, isArray );
+				uint32_t alignment = getPackedAlignment( type, layout );
+				return ( size + alignment - 1 ) & ~( alignment - 1 );
 			}
 			else
 			{
-				result = getSize140( kind, isArray );
+				// For multidimensional arrays, array stride always matches size of subtype.
+				// The alignment cannot change because multidimensional arrays are basically N * M array elements.
+				return size;
 			}
-
-			return result;
 		}
 
-		uint32_t getSize( Struct const & type
+		uint32_t getPackedSize( Array const & type
+			, MemoryLayout layout )
+		{
+			auto arraySize = type.getArraySize() == UnknownArraySize
+				? 1u
+				: type.getArraySize();
+			return arraySize * getPackedArrayStride( static_cast< Array const & >( type )
+				, layout );
+		}
+
+		uint32_t getPackedSize( Struct const & type
 			, MemoryLayout layout )
 		{
 			uint32_t result{ 0u };
-
-			if ( !type.empty() )
-			{
-				auto & member = type.back();
-				result = member.offset + member.size;
-			}
-
-			return result;
-		}
-
-		uint32_t getSize( Type const & type
-			, MemoryLayout layout )
-		{
-			uint32_t result;
-			auto arraySize = getArraySize( type );
-
-			if ( type.getKind() == Kind::eStruct )
-			{
-				result = getSize( static_cast< Struct const & >( type )
-					, layout );
-			}
-			else if ( type.getKind() == Kind::eArray )
-			{
-				result = getSize( *static_cast< Array const & >( type ).getType()
-					, layout );
-			}
-			else
-			{
-				result = getSize( getNonArrayKind( type )
-					, false
-					, layout );
-			}
-
-			return ( arraySize != type::NotArray && arraySize != type::UnknownArraySize )
-				? result * arraySize
-				: result;
-		}
-
-		uint32_t getAlignment140( Kind kind
-			, bool isArray );
-
-		uint32_t getAlignment140NotArray( Kind kind
-			, bool isVec4Padded )
-		{
-			// From 7.6.2.2 in GL 4.5 core spec
-			// (https://www.khronos.org/registry/OpenGL/specs/gl/glspec45.core.pdf).
-
-			// Rule 1
-			if ( isScalarType( kind ) )
-			{
-				return 1u;
-			}
-
-			auto componentCount = getComponentCount( kind );
-
-			// Rule 2
-			if ( isVectorType( kind )
-				&& ( componentCount == 2u || componentCount == 4u ) )
-			{
-				return componentCount * getScalarSize( getComponentType( kind ) );
-			}
-
-			// Rule 3
-			if ( isVectorType( kind )
-				&& componentCount == 3u )
-			{
-				return 4u * getScalarSize( getComponentType( kind ) );
-			}
-
-			// Rule 4 is about arrays.
-
-			/* Not scalar, not vector => Matrix type */
-
-			// Rule 5: Column-major matrices are stored as arrays of
-			// vectors.
-			if ( isVec4Padded )
-			{
-				return componentCount * 4u * getScalarSize( getComponentType( getComponentType( kind ) ) );
-			}
-			else
-			{
-				return componentCount * getAlignment140( getComponentType( kind ), true );
-			}
-
-			// Rule 6 is about arrays.
-
-			// Rule 7 is about column matrices, that are not supported. TODO ?.
-
-			// Rule 8 is about arrays.
-
-			// Rule 9 is about structures.
-		}
-
-		uint32_t getAlignment140( Kind kind
-			, bool isArray )
-		{
-			if ( !isArray )
-			{
-				return getAlignment140NotArray( kind, false );
-			}
-
-			return std::max( 16u, getAlignment140NotArray( kind, true ) );
-		}
-
-		uint32_t getAlignment430( Kind kind
-			, bool isArray );
-
-		uint32_t getAlignment430NotArray( Kind kind )
-		{
-			// From 7.6.2.2 in GL 4.5 core spec
-			// (https://www.khronos.org/registry/OpenGL/specs/gl/glspec45.core.pdf).
-
-			// Rule 1
-			if ( isScalarType( kind ) )
-			{
-				return 1u;
-			}
-
-			auto componentCount = getComponentCount( kind );
-
-			// Rule 2
-			if ( isVectorType( kind )
-				&& ( componentCount == 2u || componentCount == 4u ) )
-			{
-				return componentCount * getScalarSize( getComponentType( kind ) );
-			}
-
-			// Rule 3
-			if ( isVectorType( kind )
-				&& componentCount == 3u )
-			{
-				return 4u * getScalarSize( getComponentType( kind ) );
-			}
-
-			// Rule 4 is about arrays.
-
-			/* Not scalar, not vector => Matrix type */
-
-			// Rule 5: Column-major matrices are stored as arrays of
-			// vectors.
-			return componentCount * getAlignment430( getComponentType( kind ), true );
-
-			// Rule 6 is about arrays.
-
-			// Rule 7 is about column matrices, that are not supported. TODO ?.
-
-			// Rule 8 is about arrays.
-
-			// Rule 9 is about structures.
-		}
-
-		uint32_t getAlignment430( Kind kind
-			, bool isArray )
-		{
-			return getAlignment430NotArray( kind );
-		}
-
-		uint32_t getAlignment( Kind kind
-			, bool isArray
-			, MemoryLayout layout )
-		{
-			assert( isScalarType( kind )
-				|| isVectorType( kind )
-				|| isMatrixType( kind ) );
-
-			uint32_t result;
-
-			if ( layout == MemoryLayout::eStd430 )
-			{
-				result = getAlignment430( kind, isArray );
-			}
-			else
-			{
-				result = getAlignment140( kind, isArray );
-			}
-
-			return result;
-		}
-
-		uint32_t getAlignment( Struct const & type
-			, MemoryLayout layout )
-		{
-			// Rule 9. Structs alignments are maximum alignment of its members.
-			uint32_t result = 0u;
+			uint32_t padAlignment = 1;
 
 			for ( auto & member : type )
 			{
-				result = std::max( result, getAlignment( member.type, layout ) );
-			}
+				uint32_t packedAlignment = getPackedAlignment( *member.type, layout );
+				uint32_t alignment = std::max( packedAlignment, padAlignment );
+				auto kind = getNonArrayKindRec( *member.type );
 
-			// In std140, struct alignment is rounded up to 16.
-			if ( layout == MemoryLayout::eStd140 )
-			{
-				result = std::max( result, 16u );
+				// The next member following a struct member is aligned to the base alignment of the struct that came before.
+				// GL 4.5 spec, 7.6.2.2.
+				if ( kind == Kind::eStruct )
+				{
+					padAlignment = packedAlignment;
+				}
+				else
+				{
+					padAlignment = 1;
+				}
+
+				result = ( result + alignment - 1 ) & ~( alignment - 1 );
+				result += getPackedSize( *member.type, layout );
 			}
 
 			return result;
 		}
 
-		uint32_t getAlignment( Type const & type
+		uint32_t getPackedSize( Type const & type
 			, MemoryLayout layout )
 		{
-			uint32_t result = type.getKind() == Kind::eStruct
-				? getAlignment( static_cast< Struct const & >( type ), layout )
-				: getAlignment( type.getKind(), getArraySize( type ) != type::NotArray, layout );
-			return ( getArraySize( type ) != type::NotArray && getArraySize( type ) != type::UnknownArraySize )
-				? result * getArraySize( type )
-				: result;
+			auto arraySize = getArraySize( type );
+
+			if ( arraySize != NotArray )
+			{
+				return getPackedSize( static_cast< Array const & >( type )
+					, layout );
+			}
+
+			auto kind = getNonArrayKindRec( type );
+
+			if ( kind == Kind::eStruct )
+			{
+				return getPackedSize( static_cast< Struct const & >( type )
+					, layout );
+			}
+
+			const uint32_t baseAlignment = getPackedBaseSize( kind );
+
+			if ( isScalarType( kind ) )
+			{
+				return baseAlignment;
+			}
+
+			if ( isVectorType( kind ) )
+			{
+				return getComponentCount( kind ) * baseAlignment;
+			}
+
+			// Not scalar, not vector => Matrix.
+			auto columns = getComponentCount( kind );
+
+			if ( isVec4Padded( layout ) )
+			{
+				return columns * 4 * baseAlignment;
+			}
+
+			auto rows = getComponentCount( getComponentType( kind ) );
+
+			if ( rows == 3 )
+			{
+				return columns * 4 * baseAlignment;
+			}
+
+			return columns * rows * baseAlignment;
 		}
 	}
+
+	//*************************************************************************
 
 	Struct::Struct( Struct const & rhs )
 		: Type{ Kind::eStruct }
@@ -680,7 +418,7 @@ namespace ast::type
 	{
 		return declMember( name
 			, type
-			, getArraySize( type ) );
+			, NotArray );
 	}
 
 	Struct::Member Struct::declMember( std::string name
@@ -747,10 +485,13 @@ namespace ast::type
 			throw std::runtime_error{ "Struct member [" + name + "] already exists." };
 		}
 
-		auto size = getSize( type, m_layout );
+		auto size = getPackedSize( type, m_layout );
 		auto offset = m_members.empty()
 			? 0u
 			: m_members.back().offset + m_members.back().size;
+		auto stride = type->getKind() == Kind::eArray
+			? getArrayStride( type, m_layout )
+			: 0u;
 
 		m_members.push_back(
 			{
@@ -758,6 +499,7 @@ namespace ast::type
 				std::string( name ),
 				offset,
 				size,
+				stride,
 			} );
 		doUpdateOffsets();
 		return m_members.back();
@@ -765,7 +507,7 @@ namespace ast::type
 
 	void Struct::doUpdateOffsets()
 	{
-		uint32_t alignment = getPackedAlignment( *this, getMemoryLayout() );
+		uint32_t alignment = getPackedAlignment( *this, m_layout );
 		uint32_t offset = 0u;
 
 		for ( auto & member : m_members )
@@ -775,36 +517,7 @@ namespace ast::type
 		}
 	}
 
-	uint32_t getSize( TypePtr type
-		, MemoryLayout layout )
-	{
-		return getSize( *type, layout );
-	}
-
-	uint32_t getAlignment( TypePtr type
-		, MemoryLayout layout )
-	{
-		return getAlignment( *type, layout );
-	}
-
-	bool operator==( Type const & lhs, Type const & rhs )
-	{
-		auto result = lhs.getKind() == rhs.getKind()
-			&& getArraySize( lhs ) == getArraySize( lhs );
-
-		if ( result )
-		{
-			result = getSize( lhs, MemoryLayout::eStd430 ) == getSize( rhs, MemoryLayout::eStd430 );
-		}
-
-		return result;
-	}
-
-	bool operator==( Array const & lhs, Array const & rhs )
-	{
-		return *lhs.getType() == *rhs.getType()
-			&& lhs.getArraySize() == rhs.getArraySize();
-	}
+	//*************************************************************************
 
 	bool operator==( Struct const & lhs, Struct const & rhs )
 	{
@@ -836,4 +549,58 @@ namespace ast::type
 
 		return result;
 	}
+
+	//*************************************************************************
+
+	uint32_t getSize( Type const & type
+		, MemoryLayout layout )
+	{
+		return getPackedSize( type, layout );
+	}
+
+	uint32_t getSize( TypePtr type
+		, MemoryLayout layout )
+	{
+		return getSize( *type, layout );
+	}
+
+	uint32_t getAlignment( Type const & type
+		, MemoryLayout layout )
+	{
+		return getPackedAlignment( type, layout );
+	}
+
+	uint32_t getAlignment( TypePtr type
+		, MemoryLayout layout )
+	{
+		return getAlignment( *type, layout );
+	}
+
+	uint32_t getArrayStride( Array const & type
+		, MemoryLayout layout )
+	{
+		return getPackedArrayStride( type, layout );
+	}
+
+	uint32_t getArrayStride( ArrayPtr type
+		, MemoryLayout layout )
+	{
+		return getArrayStride( *type, layout );
+	}
+
+	uint32_t getArrayStride( Type const & type
+		, MemoryLayout layout )
+	{
+		return type.getKind() == Kind::eArray
+			? getArrayStride( static_cast< Array const & >( type ), layout )
+			: 1u;
+	}
+
+	uint32_t getArrayStride( TypePtr type
+		, MemoryLayout layout )
+	{
+		return getArrayStride( *type, layout );
+	}
+
+	//*************************************************************************
 }

@@ -566,14 +566,79 @@ namespace sdw::spirv
 			, name );
 	}
 
+	Instruction makeUnInstruction( spv::Op op
+		, spv::Id resultId
+		, spv::Id const & operand )
+	{
+		return makeInstruction( op
+			, resultId
+			, { operand } );
+	}
+
+	Instruction makeBinInstruction( spv::Op op
+		, spv::Id resultId
+		, spv::Id lhs
+		, spv::Id rhs )
+	{
+		return makeInstruction( op
+			, resultId
+			, { lhs, rhs } );
+	}
+
+	Instruction makeUnSpecConstantInstruction( spv::Op op
+		, spv::Id resultId
+		, spv::Id typeId
+		, spv::Id operand )
+	{
+		return makeInstruction( spv::Op::OpSpecConstantOp
+			, resultId
+			, typeId
+			, IdList{ spv::Id( op ), operand } );
+	}
+
+	Instruction makeBinSpecConstantInstruction( spv::Op op
+		, spv::Id resultId
+		, spv::Id typeId
+		, spv::Id lhs
+		, spv::Id rhs )
+	{
+		return makeInstruction( spv::Op::OpSpecConstantOp
+			, resultId
+			, typeId
+			, IdList{ spv::Id( op ), lhs, rhs } );
+	}
+
+	Instruction makeUnInstruction( spv::Op op
+		, spv::Id resultId
+		, spv::Id typeId
+		, spv::Id operand )
+	{
+		return makeInstruction( op
+			, resultId
+			, typeId
+			, IdList{ operand } );
+	}
+
+	Instruction makeBinInstruction( spv::Op op
+		, spv::Id resultId
+		, spv::Id typeId
+		, spv::Id lhs
+		, spv::Id rhs )
+	{
+		return makeInstruction( op
+			, resultId
+			, typeId
+			, { lhs, rhs } );
+	}
+
 	Instruction makeUnInstruction( expr::Kind exprKind
 		, type::Kind typeKind
 		, spv::Id resultId
 		, spv::Id const & operand )
 	{
-		return makeInstruction( getOpCode( exprKind, typeKind )
+		return makeUnInstruction( getOpCode( exprKind, typeKind )
 			, resultId
-			, { operand } );
+			, operand );
 	}
 
 	Instruction makeBinInstruction( expr::Kind exprKind
@@ -588,14 +653,13 @@ namespace sdw::spirv
 
 		if ( switchParams )
 		{
-			return makeInstruction( opCode
-				, resultId
-				, { rhs, lhs } );
+			std::swap( lhs, rhs );
 		}
 
-		return makeInstruction( opCode
+		return makeBinInstruction( opCode
 			, resultId
-			, { lhs, rhs } );
+			, lhs
+			, rhs );
 	}
 
 	Instruction makeUnSpecConstantInstruction( expr::Kind exprKind
@@ -604,10 +668,10 @@ namespace sdw::spirv
 		, spv::Id typeId
 		, spv::Id operand )
 	{
-		return makeInstruction( spv::Op::OpSpecConstantOp
+		return makeUnSpecConstantInstruction( getOpCode( exprKind, typeKind )
 			, resultId
 			, typeId
-			, IdList{ spv::Id( getOpCode( exprKind, typeKind ) ), operand } );
+			, operand );
 	}
 
 	Instruction makeBinSpecConstantInstruction( expr::Kind exprKind
@@ -626,10 +690,11 @@ namespace sdw::spirv
 			std::swap( lhs, rhs );
 		}
 
-		return makeInstruction( spv::Op::OpSpecConstantOp
+		return makeBinSpecConstantInstruction( opCode
 			, resultId
 			, typeId
-			, IdList{ spv::Id( opCode ), lhs, rhs } );
+			, lhs
+			, rhs );
 	}
 
 	Instruction makeUnInstruction( expr::Kind exprKind
@@ -638,10 +703,10 @@ namespace sdw::spirv
 		, spv::Id typeId
 		, spv::Id operand )
 	{
-		return makeInstruction( getOpCode( exprKind, typeKind )
+		return makeUnInstruction( getOpCode( exprKind, typeKind )
 			, resultId
 			, typeId
-			, IdList{ operand } );
+			, operand );
 	}
 
 	Instruction makeBinInstruction( expr::Kind exprKind
@@ -660,10 +725,11 @@ namespace sdw::spirv
 			std::swap( lhs, rhs );
 		}
 
-		return makeInstruction( opCode
+		return makeBinInstruction( opCode
 			, resultId
 			, typeId
-			, { lhs, rhs } );
+			, lhs
+			, rhs );
 	}
 
 	Instruction makeLoad( spv::Id resultId

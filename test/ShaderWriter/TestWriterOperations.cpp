@@ -1127,8 +1127,8 @@ namespace
 int main( int argc, char ** argv )
 {
 	testSuiteBegin( "TestWriterOperations" );
-	//testBool( testCounts );
-	//testFloat( testCounts );
+	testBool( testCounts );
+	testFloat( testCounts );
 	testInt( testCounts );
 	testUInt( testCounts );
 	testVec2( testCounts );

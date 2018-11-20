@@ -24,7 +24,7 @@ namespace
 			sdw::FragmentWriter writer{ false };
 			auto & shader = writer.getShader();
 			std::string const name = "m_member" + sdw::debug::getName( sdw::typeEnum< T > );
-			sdw::Struct type{ writer, "Type" };
+			sdw::Struct type{ writer, "Type", ast::type::MemoryLayout::eStd430 };
 			type.declMember< T >( name );
 			type.end();
 			sdw::StructuredSsbo bo{ writer, "SSBO", type, 1u, 1u };
@@ -43,7 +43,7 @@ namespace
 			sdw::FragmentWriter writer{ false };
 			auto & shader = writer.getShader();
 			std::string const name = "m_memberArray" + sdw::debug::getName( sdw::typeEnum< T > );
-			sdw::Struct type{ writer, "Type" };
+			sdw::Struct type{ writer, "Type", ast::type::MemoryLayout::eStd430 };
 			type.declMember< T >( name, 4u );
 			type.end();
 			sdw::StructuredSsbo bo{ writer, "SSBO", type, 1u, 1u };

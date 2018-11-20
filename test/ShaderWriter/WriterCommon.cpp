@@ -140,17 +140,7 @@ namespace test
 			auto compiler = std::make_unique< spirv_cross::CompilerGLSL >( spirv );
 			doSetEntryPoint( stage, *compiler );
 			doSetupOptions( *compiler );
-			std::string glsl;
-
-			try
-			{
-				glsl = compileSpirV( "HLSL", *compiler );
-			}
-			catch ( ... )
-			{
-			}
-
-			return glsl;
+			return compileSpirV( "HLSL", *compiler );
 		}
 
 		std::string validateSpirVToHlsl( std::vector< uint32_t > const & spirv
@@ -161,17 +151,7 @@ namespace test
 			doSetEntryPoint( stage, *compiler );
 			doSetupHlslOptions( *compiler );
 			doSetupOptions( *compiler );
-			std::string hlsl;
-
-			try
-			{
-				hlsl = compileSpirV( "HLSL", *compiler );
-			}
-			catch ( ... )
-			{
-			}
-
-			return hlsl;
+			return compileSpirV( "HLSL", *compiler );
 		}
 
 		void displayShader( std::string const & name
@@ -195,7 +175,6 @@ namespace test
 			displayShader( "SPIRV-Cross GLSL", crossGlsl );
 			auto crossHlsl = test::validateSpirVToHlsl( spirv, stage, testCounts );
 			displayShader( "SPIRV-Cross HLSL", crossHlsl );
-			//check( compileHlsl( crossHlsl, stage ) );
 		}
 
 		void testWriteDebug( sdw::Shader const & shader
@@ -257,12 +236,37 @@ namespace test
 		{
 			auto textSpirv = sdw::writeSpirv( shader, stage, true );
 			displayShader( "SPIR-V", textSpirv );
+			std::vector< uint32_t > spirv;
+
+			try
+			{
+				spirv = sdw::serialiseSpirv( shader, stage );
+			}
+			catch ( ... )
+			{
+				displayShader( "SPIR-V", textSpirv, true );
+				throw;
+			}
 
 			if ( validateSpirV )
 			{
-				test::validateSpirV( sdw::serialiseSpirv( shader, stage )
-					, stage
-					, testCounts );
+				try
+				{
+					test::validateSpirV( spirv
+						, stage
+						, testCounts );
+				}
+				catch ( spirv_cross::CompilerError & exc )
+				{
+					std::string text = exc.what();
+
+					if ( text.find( "is not supported in HLSL" ) == std::string::npos
+						&& text.find( "is not supported on HLSL" ) == std::string::npos
+						&& text.find( "does not exist in HLSL" ) == std::string::npos )
+					{
+						displayShader( "SPIR-V", textSpirv, true );
+					}
+				}
 			}
 		}
 

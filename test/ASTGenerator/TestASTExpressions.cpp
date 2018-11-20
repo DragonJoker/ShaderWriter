@@ -397,7 +397,7 @@ namespace
 	void testExprArrayAccess( test::TestCounts & testCounts )
 	{
 		testBegin( "testExprArrayAccess" );
-		auto lhs = ast::expr::makeIdentifier( ast::var::makeVariable( ast::type::getInt(), "lhs" ) );
+		auto lhs = ast::expr::makeIdentifier( ast::var::makeVariable( ast::type::makeArrayType( ast::type::getInt() ), "lhs" ) );
 		auto rhs = ast::expr::makeLiteral( 10 );
 		auto expr = ast::expr::makeArrayAccess( ast::type::getInt(), std::move( lhs ), std::move( rhs ) );
 
@@ -405,9 +405,9 @@ namespace
 		check( expr->getType()->getKind() == ast::type::Kind::eInt );
 
 		require( expr->getLHS()->getKind() == ast::expr::Kind::eIdentifier );
-		check( expr->getLHS()->getType()->getKind() == ast::type::Kind::eInt );
+		check( expr->getLHS()->getType()->getKind() == ast::type::Kind::eArray );
 		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getName() == "lhs" );
-		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getType()->getKind() == ast::type::Kind::eInt );
+		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getType()->getKind() == ast::type::Kind::eArray );
 
 		require( expr->getRHS()->getKind() == ast::expr::Kind::eLiteral );
 		check( expr->getRHS()->getType()->getKind() == ast::type::Kind::eInt );

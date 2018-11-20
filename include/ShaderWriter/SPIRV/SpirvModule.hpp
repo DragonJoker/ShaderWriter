@@ -182,10 +182,12 @@ namespace sdw::spirv
 			, spv::Id parentId );
 		spv::Id registerType( type::TypePtr type
 			, uint32_t mbrIndex
-			, spv::Id parentId );
+			, spv::Id parentId
+			, uint32_t arrayStride );
 		spv::Id registerBaseType( type::Kind kind
 			, uint32_t mbrIndex
-			, spv::Id parentId );
+			, spv::Id parentId
+			, uint32_t arrayStride );
 		spv::Id registerBaseType( type::StructPtr type
 			, uint32_t mbrIndex
 			, spv::Id parentId );
@@ -197,12 +199,14 @@ namespace sdw::spirv
 			, spv::Id parentId );
 		spv::Id registerBaseType( type::TypePtr type
 			, uint32_t mbrIndex
-			, spv::Id parentId );
+			, spv::Id parentId
+			, uint32_t arrayStride );
 
 	private:
 		spv::Id * m_currentId;
 		Function * m_currentFunction{ nullptr };
 		std::map< type::TypePtr, spv::Id > m_registeredTypes;
+		std::map< type::TypePtr, spv::Id > m_registeredMemberTypes;
 		std::map< std::string, spv::Id > m_registeredVariables;
 		std::map< spv::Id, spv::Id > m_registeredVariablesTypes;
 		std::map< std::string, std::pair< spv::Id, spv::Id > > m_registeredMemberVariables;

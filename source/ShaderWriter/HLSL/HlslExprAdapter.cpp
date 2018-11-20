@@ -1427,7 +1427,7 @@ namespace sdw::hlsl
 
 			//	The call to Interlocked<name>
 			expr::ExprList callArgs;
-			callArgs.emplace_back( expr::makeArrayAccess( getType( config.format )
+			callArgs.emplace_back( std::make_unique< expr::ArrayAccess >( getType( config.format )
 				, expr::makeIdentifier( image )
 				, expr::makeIdentifier( coord ) ) );
 			callArgs.emplace_back( expr::makeIdentifier( data ) );
@@ -1521,7 +1521,7 @@ namespace sdw::hlsl
 
 			//	The call to InterlockedCompareExchange
 			expr::ExprList callArgs;
-			callArgs.emplace_back( expr::makeArrayAccess( getType( config.format )
+			callArgs.emplace_back( std::make_unique< expr::ArrayAccess >( getType( config.format )
 				, expr::makeIdentifier( image )
 				, expr::makeIdentifier( coord ) ) );
 			callArgs.emplace_back( expr::makeIdentifier( compare ) );

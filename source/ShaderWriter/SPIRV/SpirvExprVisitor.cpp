@@ -722,11 +722,11 @@ namespace sdw::spirv
 
 			if ( it == currentBlock.vectorShuffles.end() )
 			{
-				auto intermediate = module.getIntermediateResult();
-				currentBlock.instructions.emplace_back( makeVectorShuffle( intermediate
+				auto intermediateId = module.getIntermediateResult();
+				currentBlock.instructions.emplace_back( makeVectorShuffle( intermediateId
 					, typeId
 					, shuffle ) );
-				it = currentBlock.vectorShuffles.emplace( shuffle, intermediate ).first;
+				it = currentBlock.vectorShuffles.emplace( shuffle, intermediateId ).first;
 			}
 
 			return it->second;
@@ -1098,21 +1098,21 @@ namespace sdw::spirv
 			if ( it == currentBlock.accessChains.end() )
 			{
 			// Reserve the ID for the result.
-				auto intermediate = module.getIntermediateResult();
+				auto intermediateId = module.getIntermediateResult();
 				// Register the type pointed to.
-				auto rawType = module.registerType( expr->getType() );
+				auto rawTypeId = module.registerType( expr->getType() );
 				// Register the pointer to the type.
-				auto pointerType = module.registerPointerType( rawType
+				auto pointerTypeId = module.registerPointerType( rawTypeId
 					, getStorageClass( findIdentifier( expr )->getVariable() ) );
-				// Write access chain => resultId = pointerType( outer.members + index ).
+				// Write access chain => resultId = pointerTypeId( outer.members + index ).
 				currentBlock.instructions.emplace_back( spirv::makeAccessChain( spv::Op::OpAccessChain
-					, intermediate
-					, pointerType
+					, intermediateId
+					, pointerTypeId
 					, accessChain ) );
-				auto result = module.loadVariable( intermediate
+				auto result = module.loadVariable( intermediateId
 					, expr->getType()
 					, currentBlock );
-				module.putIntermediateResult( intermediate );
+				module.putIntermediateResult( intermediateId );
 				it = currentBlock.accessChains.emplace( accessChain, result ).first;
 			}
 
@@ -1130,6 +1130,88 @@ namespace sdw::spirv
 				, module
 				, currentBlock );
 			return writeAccessChain( currentBlock, accessChain, expr, module );
+		}
+
+		inline spv::Op getCastOp( type::Kind src, type::Kind dst )
+		{
+			spv::Op result = spv::Op::OpNop;
+
+			if ( isDoubleType( src ) )
+			{
+				if ( isFloatType( dst ) )
+				{
+					result = spv::Op::OpFConvert;
+				}
+				else if ( isSignedIntType( dst ) )
+				{
+					result = spv::Op::OpConvertFToS;
+				}
+				else if ( isUnsignedIntType( dst ) )
+				{
+					result = spv::Op::OpConvertFToU;
+				}
+				else
+				{
+					assert( false && "Unsupported cast expression" );
+				}
+			}
+			else if ( isFloatType( src ) )
+			{
+				if ( isDoubleType( dst ) )
+				{
+					result = spv::Op::OpFConvert;
+				}
+				else if ( isSignedIntType( dst ) )
+				{
+					result = spv::Op::OpConvertFToS;
+				}
+				else if ( isUnsignedIntType( dst ) )
+				{
+					result = spv::Op::OpConvertFToU;
+				}
+				else
+				{
+					assert( false && "Unsupported cast expression" );
+				}
+			}
+			else if ( isSignedIntType( src ) )
+			{
+				if ( isDoubleType( dst )
+					|| isFloatType( dst ) )
+				{
+					result = spv::Op::OpConvertSToF;
+				}
+				else if ( isSignedIntType( dst )
+					|| isUnsignedIntType( dst ) )
+				{
+				}
+				else
+				{
+					assert( false && "Unsupported cast expression" );
+				}
+			}
+			else if ( isUnsignedIntType( src ) )
+			{
+				if ( isDoubleType( dst )
+					|| isFloatType( dst ) )
+				{
+					result = spv::Op::OpConvertUToF;
+				}
+				else if ( isSignedIntType( dst )
+					|| isUnsignedIntType( dst ) )
+				{
+				}
+				else
+				{
+					assert( false && "Unsupported cast expression" );
+				}
+			}
+			else
+			{
+				assert( false && "Unsupported cast expression" );
+			}
+
+			return result;
 		}
 	}
 
@@ -1151,7 +1233,18 @@ namespace sdw::spirv
 		}
 		else if ( var->isBuiltin() )
 		{
-			result = spv::StorageClass::Input;
+			if ( var->isShaderInput() )
+			{
+				result = spv::StorageClass::Input;
+			}
+			else if ( var->isShaderOutput() )
+			{
+				result = spv::StorageClass::Output;
+			}
+			else
+			{
+				assert( false && "Unsupported built-in variable storage." );
+			}
 		}
 		else if ( var->isShaderInput() )
 		{
@@ -1214,11 +1307,11 @@ namespace sdw::spirv
 	void ExprVisitor::visitAssignmentExpr( expr::Assign * expr )
 	{
 		m_allLiterals = false;
-		auto lhs = getVariableIdNoLoad( expr->getLHS() );
-		auto rhs = submit( expr->getRHS(), m_currentBlock, m_module );
-		auto type = m_module.registerType( expr->getType() );
-		m_currentBlock.instructions.emplace_back( makeStore( lhs, rhs ) );
-		m_result = lhs;
+		m_module.registerType( expr->getType() );
+		auto lhsId = getVariableIdNoLoad( expr->getLHS() );
+		auto rhsId = submit( expr->getRHS(), m_currentBlock, m_module );
+		m_currentBlock.instructions.emplace_back( makeStore( lhsId, rhsId ) );
+		m_result = lhsId;
 	}
 
 	void ExprVisitor::visitOpAssignmentExpr( expr::Assign * expr )
@@ -1262,97 +1355,124 @@ namespace sdw::spirv
 	void ExprVisitor::visitUnaryExpr( expr::Unary * expr )
 	{
 		m_allLiterals = false;
-		auto operand = submit( expr->getOperand(), m_currentBlock, m_module );
-		auto type = m_module.registerType( expr->getType() );
-		auto intermediate = m_module.getIntermediateResult();
+		auto operandId = submit( expr->getOperand(), m_currentBlock, m_module );
+		auto typeId = m_module.registerType( expr->getType() );
+		m_result = m_module.getIntermediateResult();
 
 		if ( expr->isSpecialisationConstant() )
 		{
 			m_currentBlock.instructions.emplace_back( makeUnSpecConstantInstruction( expr->getKind()
 				, expr->getType()->getKind()
-				, intermediate
-				, type
-				, operand ) );
+				, m_result
+				, typeId
+				, operandId ) );
 		}
 		else
 		{
 			m_currentBlock.instructions.emplace_back( makeUnInstruction( expr->getKind()
 				, expr->getType()->getKind()
-				, intermediate
-				, type
-				, operand ) );
+				, m_result
+				, typeId
+				, operandId ) );
 		}
-
-		m_result = intermediate;
 	}
 
 	void ExprVisitor::visitBinaryExpr( expr::Binary * expr )
 	{
 		m_allLiterals = false;
-		auto lhs = submit( expr->getLHS(), m_currentBlock, m_module );
-		auto rhs = submit( expr->getRHS(), m_currentBlock, m_module );
-		auto type = m_module.registerType( expr->getType() );
-		auto intermediate = m_module.getIntermediateResult();
+		auto lhsId = submit( expr->getLHS(), m_currentBlock, m_module );
+		auto rhsId = submit( expr->getRHS(), m_currentBlock, m_module );
+		auto typeId = m_module.registerType( expr->getType() );
+		m_result = m_module.getIntermediateResult();
 
 		if ( expr->isSpecialisationConstant() )
 		{
 			m_currentBlock.instructions.emplace_back( makeBinSpecConstantInstruction( expr->getKind()
 				, expr->getLHS()->getType()->getKind()
 				, expr->getRHS()->getType()->getKind()
-				, intermediate
-				, type
-				, lhs
-				, rhs ) );
+				, m_result
+				, typeId
+				, lhsId
+				, rhsId ) );
 		}
 		else
 		{
 			m_currentBlock.instructions.emplace_back( makeBinInstruction( expr->getKind()
 				, expr->getLHS()->getType()->getKind()
 				, expr->getRHS()->getType()->getKind()
-				, intermediate
-				, type
-				, lhs
-				, rhs ) );
+				, m_result
+				, typeId
+				, lhsId
+				, rhsId ) );
 		}
+	}
 
-		m_result = intermediate;
+	void ExprVisitor::visitCastExpr( expr::Cast * expr )
+	{
+		m_allLiterals = false;
+		auto operandId = submit( expr->getOperand(), m_currentBlock, m_module );
+		auto dstTypeId = m_module.registerType( expr->getType() );
+		auto op = getCastOp( expr->getOperand()->getType()->getKind()
+			, expr->getType()->getKind() );
+
+		if ( op == spv::Op::OpNop )
+		{
+			m_result = operandId;
+		}
+		else
+		{
+			m_result = m_module.getIntermediateResult();
+
+			if ( expr->isSpecialisationConstant() )
+			{
+				m_currentBlock.instructions.emplace_back( makeUnSpecConstantInstruction( op
+					, m_result
+					, dstTypeId
+					, operandId ) );
+			}
+			else
+			{
+				m_currentBlock.instructions.emplace_back( makeUnInstruction( op
+					, m_result
+					, dstTypeId
+					, operandId ) );
+			}
+		}
 	}
 
 	void ExprVisitor::visitPreDecrementExpr( expr::PreDecrement * expr )
 	{
 		m_allLiterals = false;
 		auto literal = m_module.registerLiteral( 1 );
-		auto operand = submit( expr->getOperand(), m_currentBlock, m_module );
-		auto type = m_module.registerType( expr->getType() );
-		auto intermediate = m_module.getIntermediateResult();
+		auto operandId = submit( expr->getOperand(), m_currentBlock, m_module );
+		auto typeId = m_module.registerType( expr->getType() );
+		m_result = m_module.getIntermediateResult();
 		m_currentBlock.instructions.emplace_back( makeBinInstruction( expr::Kind::eMinus
 			, expr->getOperand()->getType()->getKind()
 			, type::Kind::eInt
-			, intermediate
-			, type
-			, operand
+			, m_result
+			, typeId
+			, operandId
 			, literal ) );
-		m_currentBlock.instructions.emplace_back( makeStore( operand, intermediate ) );
-		m_result = intermediate;
+		m_currentBlock.instructions.emplace_back( makeStore( operandId, m_result ) );
 	}
 
 	void ExprVisitor::visitPreIncrementExpr( expr::PreIncrement * expr )
 	{
 		m_allLiterals = false;
 		auto literal = m_module.registerLiteral( 1 );
-		auto operand = submit( expr->getOperand(), m_currentBlock, m_module );
-		auto type = m_module.registerType( expr->getType() );
-		auto intermediate = m_module.getIntermediateResult();
+		auto operandId = submit( expr->getOperand(), m_currentBlock, m_module );
+		auto typeId = m_module.registerType( expr->getType() );
+		m_result = m_module.getIntermediateResult();
 		m_currentBlock.instructions.emplace_back( makeBinInstruction( expr::Kind::eAdd
 			, expr->getOperand()->getType()->getKind()
 			, type::Kind::eInt
-			, intermediate
-			, type
-			, operand
+			, m_result
+			, typeId
+			, operandId
 			, literal ) );
-		operand = m_module.getNonIntermediate( operand );
-		m_currentBlock.instructions.emplace_back( makeStore( operand, intermediate ) );
-		m_result = intermediate;
+		operandId = m_module.getNonIntermediate( operandId );
+		m_currentBlock.instructions.emplace_back( makeStore( operandId, m_result ) );
 	}
 
 	void ExprVisitor::visitPostDecrementExpr( expr::PostDecrement * expr )
@@ -1360,24 +1480,23 @@ namespace sdw::spirv
 		m_allLiterals = false;
 		auto literal1 = m_module.registerLiteral( 1 );
 		auto literal0 = m_module.registerLiteral( 0 );
-		auto operand = submit( expr->getOperand(), m_currentBlock, m_module );
-		auto type = m_module.registerType( expr->getType() );
-		auto intermediate = m_module.getIntermediateResult();
+		auto operandId = submit( expr->getOperand(), m_currentBlock, m_module );
+		auto typeId = m_module.registerType( expr->getType() );
+		m_result = m_module.getIntermediateResult();
 		m_currentBlock.instructions.emplace_back( makeBinInstruction( expr::Kind::eAdd
 			, expr->getOperand()->getType()->getKind()
 			, type::Kind::eInt
-			, intermediate
-			, type
-			, operand
+			, m_result
+			, typeId
+			, operandId
 			, literal0 ) );
 		m_currentBlock.instructions.emplace_back( makeBinInstruction( expr::Kind::eMinus
 			, expr->getOperand()->getType()->getKind()
 			, type::Kind::eInt
-			, operand
-			, type
-			, operand
+			, operandId
+			, typeId
+			, operandId
 			, literal1 ) );
-		m_result = intermediate;
 	}
 
 	void ExprVisitor::visitPostIncrementExpr( expr::PostIncrement * expr )
@@ -1385,24 +1504,23 @@ namespace sdw::spirv
 		m_allLiterals = false;
 		auto literal1 = m_module.registerLiteral( 1 );
 		auto literal0 = m_module.registerLiteral( 0 );
-		auto operand = submit( expr->getOperand(), m_currentBlock, m_module );
-		auto type = m_module.registerType( expr->getType() );
-		auto intermediate = m_module.getIntermediateResult();
+		auto operandId = submit( expr->getOperand(), m_currentBlock, m_module );
+		auto typeId = m_module.registerType( expr->getType() );
+		m_result = m_module.getIntermediateResult();
 		m_currentBlock.instructions.emplace_back( makeBinInstruction( expr::Kind::eAdd
 			, expr->getOperand()->getType()->getKind()
 			, type::Kind::eInt
-			, intermediate
-			, type
-			, operand
+			, m_result
+			, typeId
+			, operandId
 			, literal0 ) );
 		m_currentBlock.instructions.emplace_back( makeBinInstruction( expr::Kind::eAdd
 			, expr->getOperand()->getType()->getKind()
 			, type::Kind::eInt
-			, operand
-			, type
-			, operand
+			, operandId
+			, typeId
+			, operandId
 			, literal1 ) );
-		m_result = intermediate;
 	}
 
 	void ExprVisitor::visitUnaryPlusExpr( expr::UnaryPlus * expr )
@@ -1531,8 +1649,7 @@ namespace sdw::spirv
 				&& ( arg->getKind() == expr::Kind::eLiteral );
 		}
 
-		auto type = m_module.registerType( expr->getType() );
-		spv::Id result;
+		auto typeId = m_module.registerType( expr->getType() );
 
 		if ( allLiterals )
 		{
@@ -1548,25 +1665,24 @@ namespace sdw::spirv
 			if ( paramsCount == 1u && retCount != 1u )
 			{
 				params.resize( retCount, params.back() );
-				result = m_module.registerLiteral( params, expr->getType() );
+				m_result = m_module.registerLiteral( params, expr->getType() );
 			}
 			else
 			{
 				assert( paramsCount == retCount );
-				result = m_module.registerLiteral( params, expr->getType() );
+				m_result = m_module.registerLiteral( params, expr->getType() );
 			}
 		}
 		else
 		{
-			result = m_module.getIntermediateResult();
+			m_result = m_module.getIntermediateResult();
 			m_currentBlock.instructions.emplace_back( makeInstruction( spv::Op::OpCompositeConstruct
-				, result
-				, type
+				, m_result
+				, typeId
 				, params ) );
 		}
 
 		m_allLiterals = m_allLiterals && allLiterals;
-		m_result = result;
 	}
 
 	void ExprVisitor::visitFnCallExpr( expr::FnCall * expr )
@@ -1582,19 +1698,16 @@ namespace sdw::spirv
 				&& ( arg->getKind() == expr::Kind::eLiteral );
 		}
 
-		auto type = m_module.registerType( expr->getType() );
-		spv::Id result;
-
-		result = m_module.getIntermediateResult();
+		auto typeId = m_module.registerType( expr->getType() );
 		auto fnId = submit( expr->getFn(), m_currentBlock, m_module );
 		params.insert( params.begin(), fnId );
+		m_result = m_module.getIntermediateResult();
 		m_currentBlock.instructions.emplace_back( makeInstruction( spv::Op::OpFunctionCall
-			, result
-			, type
+			, m_result
+			, typeId
 			, params ) );
 
 		m_allLiterals = m_allLiterals && allLiterals;
-		m_result = result;
 	}
 
 	void ExprVisitor::visitIdentifierExpr( expr::Identifier * expr )
@@ -1719,15 +1832,14 @@ namespace sdw::spirv
 	void ExprVisitor::visitInitExpr( expr::Init * expr )
 	{
 		m_allLiterals = false;
-		auto result = m_module.registerVariable( expr->getIdentifier()->getVariable()->getName()
+		m_module.registerType( expr->getType() );
+		auto init = submit( expr->getInitialiser(), m_currentBlock, m_module );
+		m_result = m_module.registerVariable( expr->getIdentifier()->getVariable()->getName()
 			, ( ( expr->getIdentifier()->getVariable()->isLocale() || expr->getIdentifier()->getVariable()->isInputParam() )
 				? spv::StorageClass::Function
 				: spv::StorageClass::UniformConstant )
 			, expr->getType() );
-		auto type = m_module.registerType( expr->getType() );
-		auto init = submit( expr->getInitialiser(), m_currentBlock, m_module );
-		m_currentBlock.instructions.emplace_back( makeStore( result, init ) );
-		m_result = result;
+		m_currentBlock.instructions.emplace_back( makeStore( m_result, init ) );
 	}
 
 	void ExprVisitor::visitIntrinsicCallExpr( expr::IntrinsicCall * expr )
@@ -1800,23 +1912,22 @@ namespace sdw::spirv
 		auto trueId = submit( expr->getTrueExpr(), m_currentBlock, m_module );
 		auto falseId = submit( expr->getFalseExpr(), m_currentBlock, m_module );
 		auto type = m_module.registerType( expr->getType() );
-		auto intermediate = m_module.getIntermediateResult();
+		m_result = m_module.getIntermediateResult();
 
 		if ( expr->getCtrlExpr()->isSpecialisationConstant() )
 		{
 			m_currentBlock.instructions.emplace_back( makeInstruction( spv::Op::OpSpecConstantOp
-				, intermediate
+				, m_result
 				, type
 				, IdList{ spv::Id( spv::Op::OpSelect ), ctrlId, trueId, falseId } ) );
 		}
 		else
 		{
 			m_currentBlock.instructions.emplace_back( makeInstruction( spv::Op::OpSelect
-				, intermediate
+				, m_result
 				, type
 				, IdList{ ctrlId, trueId, falseId } ) );
 		}
-		m_result = intermediate;
 	}
 
 	void ExprVisitor::visitSwitchCaseExpr( expr::SwitchCase * expr )
@@ -1849,7 +1960,6 @@ namespace sdw::spirv
 		}
 
 		auto typeId = m_module.registerType( expr->getType() );
-		m_result = m_module.getIntermediateResult();
 		auto kind = expr->getTextureAccess();
 		uint32_t imageOperandsIndex = 0u;
 		auto op = getSpirVName( kind, imageOperandsIndex );
@@ -1881,6 +1991,7 @@ namespace sdw::spirv
 			args[0] = imageId;
 		}
 
+		m_result = m_module.getIntermediateResult();
 		m_currentBlock.instructions.emplace_back( makeInstruction( op
 			, m_result
 			, typeId
@@ -1908,13 +2019,13 @@ namespace sdw::spirv
 
 		auto & carryBorrowArg = *expr->getArgList()[2];
 		auto carryBorrowTypeId = m_module.registerType( carryBorrowArg.getType() );
-		auto intermediate = m_module.getIntermediateResult();
+		auto intermediateId = m_module.getIntermediateResult();
 		m_currentBlock.instructions.emplace_back( makeInstruction( spv::Op::OpCompositeExtract
-			, intermediate
+			, intermediateId
 			, carryBorrowTypeId
 			, IdList{ resultCarryBorrowId, 1u } ) );
 		auto carryBorrowId = getVariableIdNoLoad( &carryBorrowArg );
-		m_currentBlock.instructions.emplace_back( makeStore( carryBorrowId, intermediate ) );
+		m_currentBlock.instructions.emplace_back( makeStore( carryBorrowId, intermediateId ) );
 
 		auto resultTypeId = m_module.registerType( expr->getType() );
 		m_result = m_module.getIntermediateResult();
@@ -1923,7 +2034,7 @@ namespace sdw::spirv
 			, resultTypeId
 			, IdList{ resultCarryBorrowId, 0u } ) );
 
-		m_module.putIntermediateResult( intermediate );
+		m_module.putIntermediateResult( intermediateId );
 	}
 
 	void ExprVisitor::handleMulExtendedIntrinsicCallExpr( spv::Op opCode, expr::IntrinsicCall * expr )
@@ -1994,12 +2105,12 @@ namespace sdw::spirv
 		}
 
 		auto typeId = m_module.registerType( expr->getType() );
-		m_result = m_module.getIntermediateResult();
 		auto scopeId = m_module.registerLiteral( uint32_t( spv::Scope::Device ) );
 		auto memorySemanticsId = m_module.registerLiteral( uint32_t( spv::MemorySemanticsMask::AcquireRelease ) );
 		uint32_t index{ 1u };
 		params.insert( params.begin() + ( index++ ), scopeId );
 		params.insert( params.begin() + ( index++ ), memorySemanticsId );
+		m_result = m_module.getIntermediateResult();
 		m_currentBlock.instructions.emplace_back( makeInstruction( opCode
 			, m_result
 			, typeId
@@ -2017,9 +2128,9 @@ namespace sdw::spirv
 		}
 
 		auto typeId = m_module.registerType( expr->getType() );
-		m_result = m_module.getIntermediateResult();
 		params.insert( params.begin(), opCode );
 		params.insert( params.begin(), 1u );
+		m_result = m_module.getIntermediateResult();
 		m_currentBlock.instructions.emplace_back( makeInstruction( spv::Op::OpExtInst
 			, m_result
 			, typeId

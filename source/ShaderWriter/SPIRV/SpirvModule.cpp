@@ -7,6 +7,7 @@ See LICENSE file in root folder
 
 #include <ASTGenerator/Type/TypeImage.hpp>
 #include <ASTGenerator/Type/TypeSampledImage.hpp>
+#include <ASTGenerator/Type/TypeArray.hpp>
 
 #include <algorithm>
 
@@ -491,10 +492,21 @@ namespace sdw::spirv
 
 		type::MemoryLayout getMemoryLayout( type::Type const & type )
 		{
-			type::MemoryLayout result{ type::MemoryLayout::eStd140 };
-			auto kind = getNonArrayKind( type );
+			type::MemoryLayout result{ type::MemoryLayout::eStd430 };
+			auto kind = type.getKind();
 
-			if ( kind == type::Kind::eStruct )
+			if ( kind == type::Kind::eArray )
+			{
+				if ( type.isMember() )
+				{
+					result = getMemoryLayout( *type.getParent() );
+				}
+				else
+				{
+					result = getMemoryLayout( *static_cast< type::Array const & >( type ).getType() );
+				}
+			}
+			else if ( kind == type::Kind::eStruct )
 			{
 				auto & structType = static_cast< type::Struct const & >( type );
 				result = structType.getMemoryLayout();
@@ -509,15 +521,10 @@ namespace sdw::spirv
 
 		void writeArrayStride( Module & module
 			, type::TypePtr type
-			, uint32_t typeId )
+			, uint32_t typeId
+			, uint32_t arrayStride )
 		{
 			auto kind = getNonArrayKind( type );
-			auto arraySize = getArraySize( type );
-			auto layout = getMemoryLayout( *type );
-			auto div = arraySize == type::UnknownArraySize
-				? 1u
-				: arraySize;
-			assert( div != 0u );
 
 			if ( kind != type::Kind::eImage
 				&& kind != type::Kind::eSampledImage
@@ -527,7 +534,7 @@ namespace sdw::spirv
 					, IdList
 					{
 						uint32_t( spv::Decoration::ArrayStride ),
-						getSize( type, layout ) / div
+						arrayStride
 					} );
 			}
 		}
@@ -640,6 +647,7 @@ namespace sdw::spirv
 	{
 		return registerType( type
 			, type::NotMember
+			, 0u
 			, 0u );
 	}
 
@@ -1245,6 +1253,7 @@ namespace sdw::spirv
 		, spv::Id parentId )
 	{
 		spv::Id result;
+
 		auto unqualifiedType = getUnqualifiedType( type );
 		auto it = m_registeredTypes.find( unqualifiedType );
 
@@ -1252,7 +1261,8 @@ namespace sdw::spirv
 		{
 			result = registerBaseType( unqualifiedType
 				, mbrIndex
-				, parentId );
+				, parentId
+				, 0u );
 			m_registeredTypes.emplace( unqualifiedType, result );
 		}
 		else
@@ -1265,7 +1275,8 @@ namespace sdw::spirv
 
 	spv::Id Module::registerType( type::TypePtr type
 		, uint32_t mbrIndex
-		, spv::Id parentId )
+		, spv::Id parentId
+		, uint32_t arrayStride )
 	{
 		spv::Id result;
 
@@ -1275,7 +1286,8 @@ namespace sdw::spirv
 			auto arraySize = getArraySize( type );
 			auto elementTypeId = registerType( arrayedType
 				, mbrIndex
-				, parentId );
+				, parentId
+				, arrayStride );
 
 			auto unqualifiedType = getUnqualifiedType( type );
 			auto it = m_registeredTypes.find( unqualifiedType );
@@ -1290,9 +1302,6 @@ namespace sdw::spirv
 						, result
 						, elementTypeId
 						, lengthId ) );
-					writeArrayStride( *this
-						, unqualifiedType
-						, result );
 				}
 				else
 				{
@@ -1300,11 +1309,12 @@ namespace sdw::spirv
 					globalDeclarations.push_back( spirv::makeArrayType( getNonArrayKind( unqualifiedType )
 						, result
 						, elementTypeId ) );
-					writeArrayStride( *this
-						, unqualifiedType
-						, result );
 				}
 
+				writeArrayStride( *this
+					, unqualifiedType
+					, result
+					, arrayStride );
 				m_registeredTypes.emplace( unqualifiedType, result );
 			}
 			else
@@ -1324,7 +1334,8 @@ namespace sdw::spirv
 
 	spv::Id Module::registerBaseType( type::Kind kind
 		, uint32_t mbrIndex
-		, spv::Id parentId )
+		, spv::Id parentId
+		, uint32_t arrayStride )
 	{
 		assert( kind != type::Kind::eStruct );
 		assert( kind != type::Kind::eImage );
@@ -1390,8 +1401,8 @@ namespace sdw::spirv
 	}
 
 	spv::Id Module::registerBaseType( type::StructPtr type
-		, uint32_t mbrIndex
-		, spv::Id parentId )
+		, uint32_t
+		, spv::Id )
 	{
 		spv::Id result{ ++*m_currentId };
 		IdList subTypes;
@@ -1400,7 +1411,8 @@ namespace sdw::spirv
 		{
 			subTypes.push_back( registerType( member.type
 				, member.type->getIndex()
-				, result ) );
+				, result
+				, member.arrayStride ) );
 		}
 
 		globalDeclarations.push_back( spirv::makeStructType( result, subTypes ) );
@@ -1420,7 +1432,8 @@ namespace sdw::spirv
 
 	spv::Id Module::registerBaseType( type::TypePtr type
 		, uint32_t mbrIndex
-		, spv::Id parentId )
+		, spv::Id parentId
+		, uint32_t arrayStride )
 	{
 		spv::Id result{};
 
@@ -1453,7 +1466,8 @@ namespace sdw::spirv
 		{
 			result = registerBaseType( kind
 				, mbrIndex
-				, parentId );
+				, parentId
+				, arrayStride );
 		}
 
 		return result;

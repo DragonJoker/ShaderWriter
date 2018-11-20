@@ -19,8 +19,7 @@ namespace sdw
 			, std::string const & name
 			, Struct const & dataType
 			, uint32_t bind
-			, uint32_t set
-			, ast::type::MemoryLayout layout = ast::type::MemoryLayout::eStd430 );
+			, uint32_t set );
 
 		StructInstance operator[]( uint32_t index );
 		StructInstance operator[]( UInt index );

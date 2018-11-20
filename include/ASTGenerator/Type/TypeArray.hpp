@@ -19,29 +19,16 @@ namespace ast::type
 		Array( Struct * parent
 			, uint32_t index
 			, TypePtr type
-			, uint32_t arraySize = UnknownArraySize )
-			: Type{ parent, index, Kind::eArray }
-			, m_type{ std::move( type ) }
-			, m_arraySize{ arraySize }
-		{
-			assert( m_arraySize > NotArray && "Can't create a 0 sized array" );
-		}
-
+			, uint32_t arraySize = UnknownArraySize );
 		Array( TypePtr type
-			, uint32_t arraySize = UnknownArraySize )
-			: Type{ Kind::eArray }
-			, m_type{ std::move( type ) }
-			, m_arraySize{ arraySize }
-		{
-			assert( m_arraySize > NotArray && "Can't create a 0 sized array" );
-		}
+			, uint32_t arraySize = UnknownArraySize );
 
-		TypePtr getType()const
+		inline TypePtr getType()const
 		{
 			return m_type;
 		}
 
-		uint32_t getArraySize()const
+		inline uint32_t getArraySize()const
 		{
 			return m_arraySize;
 		}
@@ -52,36 +39,14 @@ namespace ast::type
 	};
 	using ArrayPtr = std::shared_ptr< Array >;
 
-	inline Kind getNonArrayKind( Type const & type )
-	{
-		return type.getKind() == type::Kind::eArray
-			? static_cast< type::Array const & >( type ).getType()->getKind()
-			: type.getKind();
-	}
-
-	inline Kind getNonArrayKind( TypePtr type )
-	{
-		return getNonArrayKind( *type );
-	}
-
-	inline uint32_t getArraySize( Type const & type )
-	{
-		return type.getKind() == type::Kind::eArray
-			? static_cast< type::Array const & >( type ).getArraySize()
-			: NotArray;
-	}
-
-	inline uint32_t getArraySize( TypePtr type )
-	{
-		return getArraySize( *type );
-	}
-
 	inline ArrayPtr makeArrayType( TypePtr type
 		, uint32_t arraySize = UnknownArraySize )
 	{
 		return std::make_shared< Array >( std::move( type )
 			, arraySize );
 	}
+
+	bool operator==( Array const & lhs, Array const & rhs );
 }
 
 #endif
