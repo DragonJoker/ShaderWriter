@@ -1096,6 +1096,7 @@ namespace
 			|| is2DArray< DimT, ArrayedT, DepthT > > >
 	{
 		using FetchT = typename sdw::SampledImageFetchT< DimT, ArrayedT >;
+		using OffsetT = typename sdw::SampledImageOffsetT< DimT, ArrayedT >;
 
 		static void test( test::TestCounts & testCounts )
 		{
@@ -1112,7 +1113,7 @@ namespace
 							, texelFetchOffset( s
 								, test::getDefault< FetchT >( writer.getShader() )
 								, 1_i
-								, 0_i ) );
+								, test::getDefault< OffsetT >( writer.getShader() ) ) );
 					} );
 				test::writeShader( writer
 					, testCounts );
@@ -1130,10 +1131,11 @@ namespace
 		, std::enable_if_t< isRect< DimT, ArrayedT, DepthT > > >
 	{
 		using FetchT = typename sdw::SampledImageFetchT< DimT, ArrayedT >;
+		using OffsetT = typename sdw::SampledImageOffsetT< DimT, ArrayedT >;
 
 		static void test( test::TestCounts & testCounts )
 		{
-			auto name = "testTexelFetchOffset" + sdw::debug::getName( FormatT, DimT, ArrayedT, DepthT, MsT );
+			auto name = "testTexelFetchOffsetRect" + sdw::debug::getName( FormatT, DimT, ArrayedT, DepthT, MsT );
 			testBegin( name );
 			using namespace sdw;
 			{
@@ -1145,7 +1147,7 @@ namespace
 						auto c = writer.declLocale( "c"
 							, texelFetchOffset( s
 								, test::getDefault< FetchT >( writer.getShader() )
-								, 0_i ) );
+								, test::getDefault< OffsetT >( writer.getShader() ) ) );
 					} );
 				test::writeShader( writer
 					, testCounts );

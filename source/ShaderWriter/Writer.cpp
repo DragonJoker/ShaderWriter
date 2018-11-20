@@ -232,6 +232,191 @@ namespace sdw
 		m_ifStmt.pop_back();
 	}
 
+	Boolean ShaderWriter::declSpecConstant( std::string const & name
+		, uint32_t location
+		, bool rhs )
+	{
+		auto type = type::makeType( typeEnum< Boolean > );
+		auto var = registerSpecConstant( name
+			, location
+			, type );
+		addStmt( sdw::makeSpecConstantDecl( var
+			, location
+			, ast::expr::makeLiteral( rhs ) ) );
+		return Boolean{ &m_shader
+			, makeExpr( var ) };
+	}
+
+	Optional< Boolean > ShaderWriter::declSpecConstant( std::string const & name
+		, uint32_t location
+		, bool rhs
+		, bool enabled )
+	{
+		auto type = type::makeType( typeEnum< Boolean > );
+		auto var = registerSpecConstant( name
+			, location
+			, type );
+
+		if ( enabled )
+		{
+			addStmt( sdw::makeSpecConstantDecl( var
+				, location
+				, ast::expr::makeLiteral( rhs ) ) );
+		}
+
+		return Optional< Boolean >{ &m_shader
+			, makeExpr( var )
+			, enabled };
+	}
+
+	Int ShaderWriter::declSpecConstant( std::string const & name
+		, uint32_t location
+		, int32_t rhs )
+	{
+		auto type = type::makeType( typeEnum< Int > );
+		auto var = registerSpecConstant( name
+			, location
+			, type );
+		addStmt( sdw::makeSpecConstantDecl( var
+			, location
+			, ast::expr::makeLiteral( rhs ) ) );
+		return Int{ &m_shader
+			, makeExpr( var ) };
+	}
+
+	Optional< Int > ShaderWriter::declSpecConstant( std::string const & name
+		, uint32_t location
+		, int32_t rhs
+		, bool enabled )
+	{
+		auto type = type::makeType( typeEnum< Int > );
+		auto var = registerSpecConstant( name
+			, location
+			, type );
+
+		if ( enabled )
+		{
+			addStmt( sdw::makeSpecConstantDecl( var
+				, location
+				, ast::expr::makeLiteral( rhs ) ) );
+		}
+
+		return Optional< Int >{ &m_shader
+			, makeExpr( var )
+			, enabled };
+	}
+
+	UInt ShaderWriter::declSpecConstant( std::string const & name
+		, uint32_t location
+		, uint32_t rhs )
+	{
+		auto type = type::makeType( typeEnum< UInt > );
+		auto var = registerSpecConstant( name
+			, location
+			, type );
+		addStmt( sdw::makeSpecConstantDecl( var
+			, location
+			, ast::expr::makeLiteral( rhs ) ) );
+		return UInt{ &m_shader
+			, makeExpr( var ) };
+	}
+
+	Optional< UInt > ShaderWriter::declSpecConstant( std::string const & name
+		, uint32_t location
+		, uint32_t rhs
+		, bool enabled )
+	{
+		auto type = type::makeType( typeEnum< UInt > );
+		auto var = registerSpecConstant( name
+			, location
+			, type );
+
+		if ( enabled )
+		{
+			addStmt( sdw::makeSpecConstantDecl( var
+				, location
+				, ast::expr::makeLiteral( rhs ) ) );
+		}
+
+		return Optional< UInt >{ &m_shader
+			, makeExpr( var )
+			, enabled };
+	}
+
+	Float ShaderWriter::declSpecConstant( std::string const & name
+		, uint32_t location
+		, float rhs )
+	{
+		auto type = type::makeType( typeEnum< Float > );
+		auto var = registerSpecConstant( name
+			, location
+			, type );
+		addStmt( sdw::makeSpecConstantDecl( var
+			, location
+			, ast::expr::makeLiteral( rhs ) ) );
+		return Float{ &m_shader
+			, makeExpr( var ) };
+	}
+
+	Optional< Float > ShaderWriter::declSpecConstant( std::string const & name
+		, uint32_t location
+		, float rhs
+		, bool enabled )
+	{
+		auto type = type::makeType( typeEnum< Float > );
+		auto var = registerSpecConstant( name
+			, location
+			, type );
+
+		if ( enabled )
+		{
+			addStmt( sdw::makeSpecConstantDecl( var
+				, location
+				, ast::expr::makeLiteral( rhs ) ) );
+		}
+
+		return Optional< Float >{ &m_shader
+			, makeExpr( var )
+			, enabled };
+	}
+
+	Double ShaderWriter::declSpecConstant( std::string const & name
+		, uint32_t location
+		, double rhs )
+	{
+		auto type = type::makeType( typeEnum< Double > );
+		auto var = registerSpecConstant( name
+			, location
+			, type );
+		addStmt( sdw::makeSpecConstantDecl( var
+			, location
+			, ast::expr::makeLiteral( rhs ) ) );
+		return Double{ &m_shader
+			, makeExpr( var ) };
+	}
+
+	Optional< Double > ShaderWriter::declSpecConstant( std::string const & name
+		, uint32_t location
+		, double rhs
+		, bool enabled )
+	{
+		auto type = type::makeType( typeEnum< Double > );
+		auto var = registerSpecConstant( name
+			, location
+			, type );
+
+		if ( enabled )
+		{
+			addStmt( sdw::makeSpecConstantDecl( var
+				, location
+				, ast::expr::makeLiteral( rhs ) ) );
+		}
+
+		return Optional< Double >{ &m_shader
+			, makeExpr( var )
+			, enabled };
+	}
+
 	void ShaderWriter::declareInvertVec2Y()
 	{
 		m_invertVec2Y = implementFunction< Vec2 >( "invertVec2Y"
@@ -298,9 +483,10 @@ namespace sdw
 	}
 
 	var::VariablePtr ShaderWriter::registerBuiltin( std::string const & name
-		, type::TypePtr type )
+		, type::TypePtr type
+		, var::Flag flag )
 	{
-		return m_shader.registerBuiltin( name, type );
+		return m_shader.registerBuiltin( name, type, flag );
 	}
 
 	//*************************************************************************

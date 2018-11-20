@@ -122,38 +122,13 @@ namespace sdw::hlsl
 		{
 			m_result += getTypeName( expr->getType() ) + " ";
 			expr->getIdentifier()->accept( this );
-			auto arraySize = expr->getIdentifier()->getType()->getArraySize();
-
-			if ( arraySize != ast::type::NotArray )
-			{
-				if ( arraySize == ast::type::UnknownArraySize )
-				{
-					m_result += "[]";
-				}
-				else
-				{
-					m_result += "[" + std::to_string( arraySize ) + "]";
-				}
-			}
-
+			m_result += getTypeArraySize( expr->getIdentifier()->getType() );
 			m_result += " = ";
 		}
 		else
 		{
 			m_result += getTypeName( expr->getType() );
-			auto arraySize = expr->getType()->getArraySize();
-
-			if ( arraySize != ast::type::NotArray )
-			{
-				if ( arraySize == ast::type::UnknownArraySize )
-				{
-					m_result += "[]";
-				}
-				else
-				{
-					m_result += "[" + std::to_string( arraySize ) + "]";
-				}
-			}
+			m_result += getTypeArraySize( expr->getType() );
 		}
 
 		m_result += "{";
@@ -287,20 +262,7 @@ namespace sdw::hlsl
 	{
 		m_result += getTypeName( expr->getType() ) + " ";
 		expr->getIdentifier()->accept( this );
-		auto arraySize = expr->getIdentifier()->getType()->getArraySize();
-
-		if ( arraySize != ast::type::NotArray )
-		{
-			if ( arraySize == ast::type::UnknownArraySize )
-			{
-				m_result += "[]";
-			}
-			else
-			{
-				m_result += "[" + std::to_string( arraySize ) + "]";
-			}
-		}
-
+		m_result += getTypeArraySize( expr->getIdentifier()->getType() );
 		m_result += " = ";
 		expr->getInitialiser()->accept( this );
 	}

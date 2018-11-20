@@ -6,6 +6,8 @@
 #include <ShaderWriter/WriterSpirV.hpp>
 #include <ShaderWriter/PerVertex.hpp>
 
+#include <ShaderWriter/StructuredSsbo.hpp>
+
 #include <fstream>
 
 namespace
@@ -176,15 +178,18 @@ namespace
 		using namespace sdw;
 		ComputeWriter writer{ false };
 		auto in = writer.getIn();
-		Ssbo ssbo{ writer, "SSBO", 0u, 0u };
-		auto uints = ssbo.declMemberArray< UInt >( "uints" );
-		ssbo.end();
+		Struct ssboType{ writer, "SSBOType", type::MemoryLayout::eStd430 };
+		ssboType.declMember< UInt >( "value" );
+		ssboType.end();
+		StructuredSsbo ssbo{ writer, "SSBO", ssboType, 0u, 0u };
 
 		writer.inputLayout( 16 );
 		writer.implementFunction< void >( "main"
 			, [&]()
 			{
-				uints[in.gl_GlobalInvocationID.x()] = uints[in.gl_GlobalInvocationID.x()] * uints[in.gl_GlobalInvocationID.x()];
+				ssbo[in.gl_GlobalInvocationID.x()].getMember< UInt >( "value" )
+					= ssbo[in.gl_GlobalInvocationID.x()].getMember< UInt >( "value" )
+					* ssbo[in.gl_GlobalInvocationID.x()].getMember< UInt >( "value" );
 			} );
 
 		test::writeShader( writer

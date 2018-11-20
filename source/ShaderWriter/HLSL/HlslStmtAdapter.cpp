@@ -18,53 +18,6 @@ namespace sdw::hlsl
 {
 	namespace
 	{
-		std::string getSemantic( std::string const & name
-			, std::string const & default
-			, uint32_t & index )
-		{
-			static std::map< std::string, std::string > const NamesMap
-			{
-				{ "gl_InvocationID", "SV_GSInstanceID" },
-				{ "gl_LocalInvocationID", "SV_GroupThreadID" },
-				{ "gl_LocalInvocationIndex", "SV_GroupIndex" },
-				{ "gl_WorkGroupID", "SV_GroupID" },
-				{ "gl_TessCord", "SV_DomainLocation" },
-				{ "gl_GlobalInvocationID", "SV_DispatchThreadID" },
-				{ "gl_FragDepth", "SV_Depth" },
-				{ "gl_SampleMask", "SV_Coverage" },
-				{ "gl_SampleMaskIn", "SV_Coverage" },
-				{ "gl_CullDistance", "SV_CullDistance" },
-				{ "gl_ClipDistance", "SV_ClipDistance" },
-				{ "gl_TessLevelInner", "SV_InsideTessFactor" },
-				{ "gl_InstanceID", "SV_InstanceID" },
-				{ "gl_InstanceIndex", "SV_InstanceID" },
-				{ "gl_FrontFacing", "SV_IsFrontFace" },
-				{ "gl_Position", "SV_Position" },
-				{ "gl_FragCoord", "SV_Position" },
-				{ "gl_PrimitiveID", "SV_PrimitiveID" },
-				{ "gl_Layer", "SV_RenderTargetArrayIndex" },
-				{ "gl_SampleID", "SV_SampleIndex" },
-				{ "gl_FragStencilRef", "SV_StencilRef" },
-				{ "gl_TessLevelOuter", "SV_TessFactor" },
-				{ "gl_VertexID", "SV_VertexID" },
-				{ "gl_VertexIndex", "SV_VertexID" },
-				{ "gl_ViewportIndex", "SV_ViewportArrayIndex" },
-			};
-			std::string result;
-			auto it = NamesMap.find( name );
-
-			if ( it != NamesMap.end() )
-			{
-				result = it->second;
-			}
-			else
-			{
-				result = default + std::to_string( index++ );
-			}
-
-			return result;
-		}
-
 		bool isShaderInput( std::string const & name
 			, ShaderType type )
 		{
@@ -163,7 +116,7 @@ namespace sdw::hlsl
 		, IntrinsicsConfig const & config )
 	{
 		auto result = stmt::makeContainer();
-		StmtAdapter vis{ shader, type, config, result.get() };
+		StmtAdapter vis{ shader, type, config, result };
 		shader.getStatements()->accept( &vis );
 		return result;
 	}
@@ -171,208 +124,76 @@ namespace sdw::hlsl
 	StmtAdapter::StmtAdapter( Shader const & shader
 		, ShaderType type
 		, IntrinsicsConfig const & config
-		, stmt::Container * result )
-		: m_config{ config }
+		, stmt::ContainerPtr & result )
+		: StmtCloner{ result }
+		, m_config{ config }
 		, m_shader{ shader }
-		, m_result{ result }
 		, m_type{ type }
 	{
-		m_inputStruct = type::makeStructType( type::MemoryLayout::eStd430, "HLSL_SDW_Input" );
-		m_outputStruct = type::makeStructType( type::MemoryLayout::eStd430, "HLSL_SDW_Output" );
-		m_result->addStmt( stmt::makeStructureDecl( m_inputStruct ) );
-		m_result->addStmt( stmt::makeStructureDecl( m_outputStruct ) );
+		m_adaptationData.inputStruct = type::makeStructType( type::MemoryLayout::eStd430, "HLSL_SDW_Input" );
+		m_adaptationData.outputStruct = type::makeStructType( type::MemoryLayout::eStd430, "HLSL_SDW_Output" );
+		m_current->addStmt( stmt::makeStructureDecl( m_adaptationData.inputStruct ) );
+		m_current->addStmt( stmt::makeStructureDecl( m_adaptationData.outputStruct ) );
 
 		auto cont = stmt::makeContainer();
 		compileHlslIntrinsicFunctions( cont.get(), m_config );
 		compileHlslTextureAccessFunctions( cont.get(), m_config );
 		compileHlslImageAccessFunctions( cont.get(), m_config );
 		m_intrinsics = cont.get();
-		m_result->addStmt( std::move( cont ) );
+		m_current->addStmt( std::move( cont ) );
 
-		m_inputVar = m_shader.registerName( "sdwInput", m_inputStruct, var::Flag::eInputParam );
-		m_outputVar = m_shader.registerName( "sdwOutput", m_outputStruct );
+		m_adaptationData.inputVar = m_shader.registerName( "sdwInput", m_adaptationData.inputStruct, var::Flag::eInputParam );
+		m_adaptationData.outputVar = m_shader.registerName( "sdwOutput", m_adaptationData.outputStruct );
+	}
+
+	expr::ExprPtr StmtAdapter::doSubmit( expr::Expr * expr )
+	{
+		return ExprAdapter::submit( expr
+			, m_config
+			, m_adaptationData
+			, m_intrinsics );
 	}
 
 	void StmtAdapter::linkVars( var::VariablePtr textureSampler
 		, var::VariablePtr texture
 		, var::VariablePtr sampler )
 	{
-		m_linkedVars.emplace( std::move( textureSampler )
+		m_adaptationData.linkedVars.emplace( std::move( textureSampler )
 			, std::make_pair( std::move( texture )
 				, std::move( sampler ) ) );
 	}
 
-	void StmtAdapter::visitContainerStmt( stmt::Container * cont )
-	{
-		for ( auto & stmt : *cont )
-		{
-			stmt->accept( this );
-		}
-	}
-
-	void StmtAdapter::visitConstantBufferDeclStmt( stmt::ConstantBufferDecl * stmt )
-	{
-		auto save = m_result;
-		auto cont = stmt::makeConstantBufferDecl( stmt->getName()
-			, stmt->getBindingPoint()
-			, stmt->getDescriptorSet() );
-		m_result = cont.get();
-		visitContainerStmt( stmt );
-		m_result = save;
-		m_result->addStmt( std::move( cont ) );
-	}
-
-	void StmtAdapter::visitDiscardStmt( stmt::Discard * stmt )
-	{
-		m_result->addStmt( stmt::makeDiscard() );
-	}
-
-	void StmtAdapter::visitPushConstantsBufferDeclStmt( stmt::PushConstantsBufferDecl * stmt )
-	{
-		auto save = m_result;
-		auto cont = stmt::makePushConstantsBufferDecl( stmt->getName() );
-		m_result = cont.get();
-		visitContainerStmt( stmt );
-		m_result = save;
-		m_result->addStmt( std::move( cont ) );
-	}
-
-	void StmtAdapter::visitCommentStmt( stmt::Comment * stmt )
-	{
-		m_result->addStmt( stmt::makeComment( stmt->getText() ) );
-	}
-
-	void StmtAdapter::visitCompoundStmt( stmt::Compound * stmt )
-	{
-		auto save = m_result;
-		auto cont = stmt::makeContainer();
-		m_result = cont.get();
-		visitContainerStmt( stmt );
-		m_result = save;
-		m_result->addStmt( std::move( cont ) );
-	}
-
-	void StmtAdapter::visitDoWhileStmt( stmt::DoWhile * stmt )
-	{
-		auto save = m_result;
-		auto cont = stmt::makeDoWhile( ExprAdapter::submit( stmt->getCtrlExpr()
-			, m_config
-			, m_linkedVars
-			, m_inputMembers
-			, m_outputMembers
-			, m_intrinsics ) );
-		m_result = cont.get();
-		visitContainerStmt( stmt );
-		m_result = save;
-		m_result->addStmt( std::move( cont ) );
-	}
-
-	void StmtAdapter::visitElseIfStmt( stmt::ElseIf * stmt )
-	{
-		auto save = m_result;
-		auto cont = m_ifStmts.back()->createElseIf( ExprAdapter::submit( stmt->getCtrlExpr()
-			, m_config
-			, m_linkedVars
-			, m_inputMembers
-			, m_outputMembers
-			, m_intrinsics ) );
-		m_result = cont;
-		visitContainerStmt( stmt );
-		m_result = save;
-	}
-
-	void StmtAdapter::visitElseStmt( stmt::Else * stmt )
-	{
-		auto save = m_result;
-		auto cont = m_ifStmts.back()->createElse();
-		m_result = cont;
-		visitContainerStmt( stmt );
-		m_result = save;
-	}
-
-	void StmtAdapter::visitForStmt( stmt::For * stmt )
-	{
-		auto save = m_result;
-		auto cont = stmt::makeFor( ExprAdapter::submit( stmt->getInitExpr()
-				, m_config
-				, m_linkedVars
-				, m_inputMembers
-				, m_outputMembers
-				, m_intrinsics )
-			, ExprAdapter::submit( stmt->getCtrlExpr()
-				, m_config
-				, m_linkedVars
-				, m_inputMembers
-				, m_outputMembers
-				, m_intrinsics )
-			, ExprAdapter::submit( stmt->getIncrExpr()
-				, m_config
-				, m_linkedVars
-				, m_inputMembers
-				, m_outputMembers
-				, m_intrinsics ) );
-		m_result = cont.get();
-		visitContainerStmt( stmt );
-		m_result = save;
-		m_result->addStmt( std::move( cont ) );
-	}
-
 	void StmtAdapter::visitFunctionDeclStmt( stmt::FunctionDecl * stmt )
 	{
-		auto save = m_result;
-		stmt::FunctionDeclPtr cont;
-		auto linkedVars = m_linkedVars;
-
 		if ( stmt->getName() == "main" )
 		{
-			cont = rewriteMainHeader( stmt );
+			auto linkedVars = m_adaptationData.linkedVars;
+			auto save = m_current;
+			auto cont = stmt::makeContainer();
+			m_current = cont.get();
+			visitContainerStmt( stmt );
+			m_current = save;
+
+			stmt::ContainerPtr funcCont;
+			funcCont = rewriteMainHeader( stmt );
+			funcCont->addStmt( std::move( cont ) );
+			m_current = funcCont.get();
+			rewriteMainFooter( stmt );
+			m_current = save;
+			m_adaptationData.linkedVars = linkedVars;
+			m_current->addStmt( std::move( funcCont ) );
 		}
 		else
 		{
-			cont = rewriteFuncHeader( stmt );
+			auto linkedVars = m_adaptationData.linkedVars;
+			auto save = m_current;
+			auto cont = rewriteFuncHeader( stmt );
+			m_current = cont.get();
+			visitContainerStmt( stmt );
+			m_current = save;
+			m_adaptationData.linkedVars = linkedVars;
+			m_current->addStmt( std::move( cont ) );
 		}
-
-		m_result = cont.get();
-		visitContainerStmt( stmt );
-		rewriteMainFooter( stmt );
-		m_result = save;
-		m_result->addStmt( std::move( cont ) );
-		m_linkedVars = linkedVars;
-	}
-
-	void StmtAdapter::visitIfStmt( stmt::If * stmt )
-	{
-		auto save = m_result;
-		auto cont = stmt::makeIf( ExprAdapter::submit( stmt->getCtrlExpr()
-			, m_config
-			, m_linkedVars
-			, m_inputMembers
-			, m_outputMembers
-			, m_intrinsics ) );
-		m_result = cont.get();
-		visitContainerStmt( stmt );
-		m_result = save;
-		m_ifStmts.push_back( cont.get() );
-		m_result->addStmt( std::move( cont ) );
-
-		for ( auto & elseIf : stmt->getElseIfList() )
-		{
-			elseIf->accept( this );
-		}
-
-		if ( stmt->getElse() )
-		{
-			stmt->getElse()->accept( this );
-		}
-
-		m_ifStmts.pop_back();
-	}
-
-	void StmtAdapter::visitImageDeclStmt( stmt::ImageDecl * stmt )
-	{
-		m_result->addStmt( stmt::makeImageDecl( stmt->getVariable()
-			, stmt->getBindingPoint()
-			, stmt->getDescriptorSet() ) );
 	}
 
 	void StmtAdapter::visitInOutVariableDeclStmt( stmt::InOutVariableDecl * stmt )
@@ -381,18 +202,18 @@ namespace sdw::hlsl
 
 		if ( var->isShaderInput() )
 		{
-			m_inputVars.emplace( stmt->getLocation(), var );
-			m_inputMembers.emplace( var
-				, expr::makeMbrSelect( makeIdent( m_inputVar )
-					, uint32_t( m_inputMembers.size() )
+			m_adaptationData.inputVars.emplace( stmt->getLocation(), var );
+			m_adaptationData.inputMembers.emplace( var
+				, expr::makeMbrSelect( makeIdent( m_adaptationData.inputVar )
+					, uint32_t( m_adaptationData.inputMembers.size() )
 					, makeIdent( var ) ) );
 		}
 		else if ( var->isShaderOutput() )
 		{
-			m_outputVars.emplace( stmt->getLocation(), var );
-			m_outputMembers.emplace( var
-				, expr::makeMbrSelect( makeIdent( m_outputVar )
-					, uint32_t( m_outputMembers.size() )
+			m_adaptationData.outputVars.emplace( stmt->getLocation(), var );
+			m_adaptationData.outputMembers.emplace( var
+				, expr::makeMbrSelect( makeIdent( m_adaptationData.outputVar )
+					, uint32_t( m_adaptationData.outputMembers.size() )
 					, makeIdent( var ) ) );
 		}
 	}
@@ -421,47 +242,66 @@ namespace sdw::hlsl
 			if ( member.name == "gl_Position" )
 			{
 				auto outputVar = m_shader.getVar( member.name, member.type );
-				m_outputMembers.emplace( outputVar
-					, expr::makeMbrSelect( makeIdent( m_outputVar )
-						, uint32_t( m_outputMembers.size() )
+				m_adaptationData.outputMembers.emplace( outputVar
+					, expr::makeMbrSelect( makeIdent( m_adaptationData.outputVar )
+						, uint32_t( m_adaptationData.outputMembers.size() )
 						, makeIdent( outputVar ) ) );
-				m_outputVars.emplace( index, outputVar );
+				m_adaptationData.outputVars.emplace( index, outputVar );
 			}
-		}
-	}
-
-	void StmtAdapter::visitReturnStmt( stmt::Return * stmt )
-	{
-		if ( stmt->getExpr() )
-		{
-			m_result->addStmt( stmt::makeReturn( ExprAdapter::submit( stmt->getExpr()
-				, m_config
-				, m_linkedVars
-				, m_inputMembers
-				, m_outputMembers
-				, m_intrinsics ) ) );
-		}
-		else
-		{
-			m_result->addStmt( stmt::makeReturn() );
 		}
 	}
 
 	void StmtAdapter::visitSampledImageDeclStmt( stmt::SampledImageDecl * stmt )
 	{
 		auto originalVar = stmt->getVariable();
-		auto sampledType = std::static_pointer_cast< type::SampledImage >( stmt->getVariable()->getType() );
-		auto config = sampledType->getConfig();
+		type::TypePtr sampledType;
+		type::TypePtr samplerType;
+		type::TypePtr imageType;
+		type::ImageConfiguration config;
+
+		if ( stmt->getVariable()->getType()->getKind() == type::Kind::eArray )
+		{
+			auto arrayType = std::static_pointer_cast< type::Array >( stmt->getVariable()->getType() );
+			auto realSampledType = std::static_pointer_cast< type::SampledImage >( arrayType->getType() );
+			imageType = type::makeArrayType( realSampledType->getImageType(), arrayType->getArraySize() );
+			sampledType = type::makeArrayType( realSampledType, arrayType->getArraySize() );
+			config = realSampledType->getConfig();
+
+			if ( !m_config.requiresShadowSampler )
+			{
+				samplerType = type::makeArrayType( type::makeSamplerType( false ), arrayType->getArraySize() );
+			}
+			else
+			{
+				samplerType = type::makeArrayType( realSampledType->getSamplerType(), arrayType->getArraySize() );
+			}
+		}
+		else
+		{
+			auto realSampledType = std::static_pointer_cast< type::SampledImage >( stmt->getVariable()->getType() );
+			imageType = realSampledType->getImageType();
+			sampledType = realSampledType;
+			config = realSampledType->getConfig();
+
+			if ( !m_config.requiresShadowSampler )
+			{
+				samplerType = type::makeSamplerType( false );
+			}
+			else
+			{
+				samplerType = realSampledType->getSamplerType();
+			}
+		}
 
 		if ( config.dimension == type::ImageDim::eBuffer )
 		{
 			// Create Image
 			auto textureVar = m_shader.registerImage( stmt->getVariable()->getName()
-				, sampledType->getImageType()
+				, imageType
 				, stmt->getBindingPoint()
 				, stmt->getDescriptorSet() );
-			textureVar->setFlag( var::Flag::eImplicit );
-			m_result->addStmt( stmt::makeImageDecl( textureVar
+			textureVar->updateFlag( var::Flag::eImplicit );
+			m_current->addStmt( stmt::makeImageDecl( textureVar
 				, stmt->getBindingPoint()
 				, stmt->getDescriptorSet() ) );
 		}
@@ -469,115 +309,42 @@ namespace sdw::hlsl
 		{
 			// Create Image
 			auto textureVar = m_shader.registerImage( stmt->getVariable()->getName() + "_texture"
-				, sampledType->getImageType()
+				, imageType
 				, stmt->getBindingPoint()
 				, stmt->getDescriptorSet() );
-			textureVar->setFlag( var::Flag::eImplicit );
-			m_result->addStmt( stmt::makeImageDecl( textureVar
+			textureVar->updateFlag( var::Flag::eImplicit );
+			m_current->addStmt( stmt::makeImageDecl( textureVar
 				, stmt->getBindingPoint()
 				, stmt->getDescriptorSet() ) );
 
 			// Create Sampler
-			var::VariablePtr samplerVar;
-
-			if ( m_config.requiresShadowSampler )
-			{
-				samplerVar = m_shader.registerSampler( stmt->getVariable()->getName() + "_sampler"
-					, sampledType->getSamplerType()
-					, stmt->getBindingPoint()
-					, stmt->getDescriptorSet() );
-				samplerVar->setFlag( var::Flag::eImplicit );
-				m_result->addStmt( stmt::makeSamplerDecl( samplerVar
-					, stmt->getBindingPoint()
-					, stmt->getDescriptorSet() ) );
-			}
-			else
-			{
-				samplerVar = m_shader.registerSampler( stmt->getVariable()->getName() + "_sampler"
-					, type::getSampler( false, sampledType->getSamplerType()->getArraySize() )
-					, stmt->getBindingPoint()
-					, stmt->getDescriptorSet() );
-				samplerVar->setFlag( var::Flag::eImplicit );
-				m_result->addStmt( stmt::makeSamplerDecl( samplerVar
-					, stmt->getBindingPoint()
-					, stmt->getDescriptorSet() ) );
-			}
+			auto samplerVar = m_shader.registerSampler( stmt->getVariable()->getName() + "_sampler"
+				, samplerType
+				, stmt->getBindingPoint()
+				, stmt->getDescriptorSet() );
+			samplerVar->updateFlag( var::Flag::eImplicit );
+			m_current->addStmt( stmt::makeSamplerDecl( samplerVar
+				, stmt->getBindingPoint()
+				, stmt->getDescriptorSet() ) );
 
 			// Link them
 			linkVars( originalVar, textureVar, samplerVar );
 		}
-
-	}
-
-	void StmtAdapter::visitSamplerDeclStmt( stmt::SamplerDecl * stmt )
-	{
-		auto samplerVar = m_shader.registerSampler( stmt->getVariable()->getName()
-			, stmt->getVariable()->getType()
-			, stmt->getBindingPoint()
-			, stmt->getDescriptorSet() );
 	}
 
 	void StmtAdapter::visitShaderBufferDeclStmt( stmt::ShaderBufferDecl * stmt )
 	{
-		auto save = m_result;
-		auto cont = stmt::makeShaderBufferDecl( stmt->getName()
+		m_adaptationData.ssboList.push_back( stmt->getSsboInstance() );
+		auto save = m_current;
+		auto cont = stmt::makeShaderBufferDecl( stmt->getSsboName()
+			, stmt->getSsboInstance()
+			, stmt->getData()
 			, stmt->getBindingPoint()
 			, stmt->getDescriptorSet() );
-		m_result = cont.get();
+		m_current = cont.get();
 		visitContainerStmt( stmt );
-		m_result = save;
-		m_result->addStmt( std::move( cont ) );
-	}
-
-	void StmtAdapter::visitSimpleStmt( stmt::Simple * stmt )
-	{
-		m_result->addStmt( stmt::makeSimple( ExprAdapter::submit( stmt->getExpr()
-			, m_config
-			, m_linkedVars
-			, m_inputMembers
-			, m_outputMembers
-			, m_intrinsics ) ) );
-	}
-
-	void StmtAdapter::visitStructureDeclStmt( stmt::StructureDecl * stmt )
-	{
-		m_result->addStmt( stmt::makeStructureDecl( stmt->getType() ) );
-	}
-
-	void StmtAdapter::visitSwitchCaseStmt( stmt::SwitchCase * stmt )
-	{
-		stmt::SwitchCase * cont;
-
-		if ( stmt->getCaseExpr() )
-		{
-			cont = m_switchStmts.back()->createCase( expr::makeSwitchCase( std::make_unique< expr::Literal >( *stmt->getCaseExpr()->getLabel() ) ) );
-		}
-		else
-		{
-			cont = m_switchStmts.back()->createDefault();
-		}
-
-		auto save = m_result;
-		m_result = cont;
-		visitContainerStmt( stmt );
-		m_result = save;
-	}
-
-	void StmtAdapter::visitSwitchStmt( stmt::Switch * stmt )
-	{
-		auto save = m_result;
-		auto cont = stmt::makeSwitch( expr::makeSwitchTest( ExprAdapter::submit( stmt->getTestExpr()->getValue()
-			, m_config
-			, m_linkedVars
-			, m_inputMembers
-			, m_outputMembers
-			, m_intrinsics ) ) );
-		m_switchStmts.push_back( cont.get() );
-		m_result = cont.get();
-		visitContainerStmt( stmt );
-		m_result = save;
-		m_result->addStmt( std::move( cont ) );
-		m_switchStmts.pop_back();
+		m_current = save;
+		m_current->addStmt( std::move( cont ) );
 	}
 
 	void StmtAdapter::visitVariableDeclStmt( stmt::VariableDecl * stmt )
@@ -586,53 +353,37 @@ namespace sdw::hlsl
 
 		if ( isShaderInOut( var->getName(), m_type ) )
 		{
-			m_inputVars.emplace( 128u, var );
-			m_inputMembers.emplace( var
-				, expr::makeMbrSelect( makeIdent( m_inputVar )
-					, uint32_t( m_inputMembers.size() )
+			m_adaptationData.inputVars.emplace( 128u, var );
+			m_adaptationData.inputMembers.emplace( var
+				, expr::makeMbrSelect( makeIdent( m_adaptationData.inputVar )
+					, uint32_t( m_adaptationData.inputMembers.size() )
 					, makeIdent( var ) ) );
-			m_outputVars.emplace( 128u, var );
-			m_outputMembers.emplace( var
-				, expr::makeMbrSelect( makeIdent( m_inputVar )
-					, uint32_t( m_outputMembers.size() )
+			m_adaptationData.outputVars.emplace( 128u, var );
+			m_adaptationData.outputMembers.emplace( var
+				, expr::makeMbrSelect( makeIdent( m_adaptationData.outputVar )
+					, uint32_t( m_adaptationData.outputMembers.size() )
 					, makeIdent( var ) ) );
 		}
 		else if ( isShaderInput( var->getName(), m_type ) )
 		{
-			m_inputVars.emplace( 128u, var );
-			m_inputMembers.emplace( var
-				, expr::makeMbrSelect( makeIdent( m_inputVar )
-					, uint32_t( m_inputMembers.size() )
+			m_adaptationData.inputVars.emplace( 128u, var );
+			m_adaptationData.inputMembers.emplace( var
+				, expr::makeMbrSelect( makeIdent( m_adaptationData.inputVar )
+					, uint32_t( m_adaptationData.inputMembers.size() )
 					, makeIdent( var ) ) );
 		}
 		else if ( isShaderOutput( var->getName(), m_type ) )
 		{
-			m_outputVars.emplace( 128u, var );
-			m_outputMembers.emplace( var
-				, expr::makeMbrSelect( makeIdent( m_outputVar )
-					, uint32_t( m_outputMembers.size() )
+			m_adaptationData.outputVars.emplace( 128u, var );
+			m_adaptationData.outputMembers.emplace( var
+				, expr::makeMbrSelect( makeIdent( m_adaptationData.outputVar )
+					, uint32_t( m_adaptationData.outputMembers.size() )
 					, makeIdent( var ) ) );
 		}
 		else
 		{
-			m_result->addStmt( stmt::makeVariableDecl( stmt->getVariable() ) );
+			m_current->addStmt( stmt::makeVariableDecl( stmt->getVariable() ) );
 		}
-	}
-
-	void StmtAdapter::visitWhileStmt( stmt::While * stmt )
-	{
-		auto cont = stmt::makeWhile( ExprAdapter::submit( stmt->getCtrlExpr()
-			, m_config
-			, m_linkedVars
-			, m_inputMembers
-			, m_outputMembers
-			, m_intrinsics ) );
-
-		auto save = m_result;
-		m_result = cont.get();
-		visitContainerStmt( stmt );
-		m_result = save;
-		m_result->addStmt( std::move( cont ) );
 	}
 
 	void StmtAdapter::visitPreprocDefine( stmt::PreprocDefine * preproc )
@@ -643,7 +394,7 @@ namespace sdw::hlsl
 
 			if ( var )
 			{
-				var->setFlag( var::Flag::eConstant );
+				var->updateFlag( var::Flag::eConstant );
 
 				if ( preproc->getExpr()->getKind() == expr::Kind::eAggrInit )
 				{
@@ -651,86 +402,23 @@ namespace sdw::hlsl
 
 					for ( auto & expr : static_cast< expr::AggrInit const & >( *preproc->getExpr() ).getInitialisers() )
 					{
-						initialisers.emplace_back( ExprAdapter::submit( expr
-							, m_config
-							, m_linkedVars
-							, m_inputMembers
-							, m_outputMembers
-							, m_intrinsics ) );
+						initialisers.emplace_back( doSubmit( expr.get() ) );
 					}
 
-					m_result->addStmt( stmt::makeSimple( expr::makeAggrInit( makeIdent( var )
+					m_current->addStmt( stmt::makeSimple( expr::makeAggrInit( makeIdent( var )
 						, std::move( initialisers ) ) ) );
 				}
 				else
 				{
-					m_result->addStmt( stmt::makeSimple( expr::makeInit( makeIdent( var )
-						, ExprAdapter::submit( preproc->getExpr()
-							, m_config
-							, m_linkedVars
-							, m_inputMembers
-							, m_outputMembers
-							, m_intrinsics ) ) ) );
+					m_current->addStmt( stmt::makeSimple( expr::makeInit( makeIdent( var )
+						, doSubmit( preproc->getExpr() ) ) ) );
 				}
 			}
 		}
 		else
 		{
-			m_result->addStmt( stmt::makePreprocDefine( preproc->getName(), ExprAdapter::submit( preproc->getExpr()
-				, m_config
-				, m_linkedVars
-				, m_inputMembers
-				, m_outputMembers
-				, m_intrinsics ) ) );
+			m_current->addStmt( stmt::makePreprocDefine( preproc->getName(), doSubmit( preproc->getExpr() ) ) );
 		}
-	}
-
-	void StmtAdapter::visitPreprocElif( stmt::PreprocElif * preproc )
-	{
-		stmt::PreprocElif * cont;
-
-		if ( !m_preprocIfDefs.back() )
-		{
-			cont = m_preprocIfStmts.back()->createElif( ExprAdapter::submit( preproc->getCtrlExpr()
-				, m_config
-				, m_linkedVars
-				, m_inputMembers
-				, m_outputMembers
-				, m_intrinsics ) );
-		}
-		else
-		{
-			cont = m_preprocIfDefStmts.back()->createElif( ExprAdapter::submit( preproc->getCtrlExpr()
-				, m_config
-				, m_linkedVars
-				, m_inputMembers
-				, m_outputMembers
-				, m_intrinsics ) );
-		}
-
-		auto save = m_result;
-		m_result = cont;
-		visitContainerStmt( preproc );
-		m_result = save;
-	}
-
-	void StmtAdapter::visitPreprocElse( stmt::PreprocElse * preproc )
-	{
-		stmt::PreprocElse * cont;
-
-		if ( !m_preprocIfDefs.back() )
-		{
-			cont = m_preprocIfStmts.back()->createElse();
-		}
-		else
-		{
-			cont = m_preprocIfDefStmts.back()->createElse();
-		}
-
-		auto save = m_result;
-		m_result = cont;
-		visitContainerStmt( preproc );
-		m_result = save;
 	}
 
 	void StmtAdapter::visitPreprocEndif( stmt::PreprocEndif * preproc )
@@ -739,63 +427,6 @@ namespace sdw::hlsl
 
 	void StmtAdapter::visitPreprocExtension( stmt::PreprocExtension * preproc )
 	{
-	}
-
-	void StmtAdapter::visitPreprocIf( stmt::PreprocIf * preproc )
-	{
-		auto cont = stmt::makePreprocIf( ExprAdapter::submit( preproc->getCtrlExpr()
-			, m_config
-			, m_linkedVars
-			, m_inputMembers
-			, m_outputMembers
-			, m_intrinsics ) );
-		m_preprocIfStmts.push_back( cont.get() );
-		m_preprocIfDefs.push_back( false );
-
-		auto save = m_result;
-		m_result = cont.get();
-		visitContainerStmt( preproc );
-		m_result = save;
-		m_result->addStmt( std::move( cont ) );
-
-		for ( auto & elseIf : preproc->getElifList() )
-		{
-			elseIf->accept( this );
-		}
-
-		if ( preproc->getElse() )
-		{
-			preproc->getElse()->accept( this );
-		}
-
-		m_preprocIfDefs.pop_back();
-		m_preprocIfStmts.pop_back();
-	}
-
-	void StmtAdapter::visitPreprocIfDef( stmt::PreprocIfDef * preproc )
-	{
-		auto cont = stmt::makePreprocIfDef( makeIdent( preproc->getIdentExpr()->getVariable() ) );
-		m_preprocIfDefStmts.push_back( cont.get() );
-		m_preprocIfDefs.push_back( true );
-
-		auto save = m_result;
-		m_result = cont.get();
-		visitContainerStmt( preproc );
-		m_result = save;
-		m_result->addStmt( std::move( cont ) );
-
-		for ( auto & elseIf : preproc->getElifList() )
-		{
-			elseIf->accept( this );
-		}
-
-		if ( preproc->getElse() )
-		{
-			preproc->getElse()->accept( this );
-		}
-
-		m_preprocIfDefs.pop_back();
-		m_preprocIfDefStmts.pop_back();
 	}
 
 	void StmtAdapter::visitPreprocVersion( stmt::PreprocVersion * preproc )
@@ -808,36 +439,34 @@ namespace sdw::hlsl
 		std::string inputName = "TEXCOORD";
 		uint32_t index = 0u;
 
-		for ( auto & input : m_inputVars )
+		for ( auto & input : m_adaptationData.inputVars )
 		{
-			m_inputStruct->declMember( input.second->getName()
+			m_adaptationData.inputStruct->declMember( input.second->getName()
 				+ ": "
 				+ getSemantic( input.second->getName()
 					, inputName
 					, index )
-				, input.second->getType()->getKind()
-				, input.second->getType()->getArraySize() );
+				, input.second->getType() );
 		}
 
 		index = 0u;
 
 		if ( m_type == ShaderType::eFragment )
 		{
-			outputName = "SV_TARGET";
+			outputName = "SV_Target";
 		}
 		else if ( m_type == ShaderType::eCompute )
 		{
 		}
 
-		for ( auto & output : m_outputVars )
+		for ( auto & output : m_adaptationData.outputVars )
 		{
-			m_outputStruct->declMember( output.second->getName()
+			m_adaptationData.outputStruct->declMember( output.second->getName()
 				+ ": "
 				+ getSemantic( output.second->getName()
 					, outputName
 					, index )
-				, output.second->getType()->getKind()
-				, output.second->getType()->getArraySize() );
+				, output.second->getType() );
 		}
 	}
 
@@ -848,15 +477,15 @@ namespace sdw::hlsl
 		assert( stmt->getRet()->getKind() == type::Kind::eVoid );
 		var::VariableList parameters;
 
-		if ( !m_inputStruct->empty() )
+		if ( !m_adaptationData.inputStruct->empty() )
 		{
-			parameters.emplace_back( m_inputVar );
+			parameters.emplace_back( m_adaptationData.inputVar );
 		}
 
 		// Add input parameter
 		if ( m_inputComputeLayout )
 		{
-			m_result->addStmt( stmt::makeInputComputeLayout( m_inputComputeLayout->getWorkGroupsX()
+			m_current->addStmt( stmt::makeInputComputeLayout( m_inputComputeLayout->getWorkGroupsX()
 				, m_inputComputeLayout->getWorkGroupsY()
 				, m_inputComputeLayout->getWorkGroupsZ() ) );
 		}
@@ -864,12 +493,12 @@ namespace sdw::hlsl
 		// Write output return if needed.
 		stmt::FunctionDeclPtr result;
 
-		if ( !m_outputStruct->empty() )
+		if ( !m_adaptationData.outputStruct->empty() )
 		{
-			result = stmt::makeFunctionDecl( m_outputStruct
+			result = stmt::makeFunctionDecl( m_adaptationData.outputStruct
 				, stmt->getName()
 				, parameters );
-			result->addStmt( stmt::makeVariableDecl( m_outputVar ) );
+			result->addStmt( stmt::makeVariableDecl( m_adaptationData.outputVar ) );
 		}
 		else
 		{
@@ -894,7 +523,7 @@ namespace sdw::hlsl
 					, param->getName() + "_texture" );
 				auto sampler = var::makeVariable( sampledType->getSamplerType()
 					, param->getName() + "_sampler" );
-				m_linkedVars.emplace( param, std::make_pair( texture, sampler ) );
+				m_adaptationData.linkedVars.emplace( param, std::make_pair( texture, sampler ) );
 				params.push_back( texture );
 				params.push_back( sampler );
 			}
@@ -912,9 +541,9 @@ namespace sdw::hlsl
 	void StmtAdapter::rewriteMainFooter( stmt::FunctionDecl * stmt )
 	{
 		if ( stmt->getName() == "main"
-			&& !m_outputStruct->empty() )
+			&& !m_adaptationData.outputStruct->empty() )
 		{
-			m_result->addStmt( stmt::makeReturn( expr::makeIdentifier( m_outputVar ) ) );
+			m_current->addStmt( stmt::makeReturn( expr::makeIdentifier( m_adaptationData.outputVar ) ) );
 		}
 	}
 }

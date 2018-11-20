@@ -11,6 +11,7 @@ namespace sdw::hlsl
 {
 	std::string getTypeName( type::Kind kind );
 	std::string getTypeName( type::TypePtr type );
+	std::string getTypeArraySize( type::TypePtr type );
 	std::string getLocationName( var::Variable const & var );
 	std::string getDirectionName( var::Variable const & var );
 	std::string getOperatorName( expr::Kind kind );
@@ -20,10 +21,28 @@ namespace sdw::hlsl
 		, type::Kind component );
 	std::string getSampledName( type::ImageFormat value );
 	std::string getName( type::ImageDim value );
+	std::string getSemantic( std::string const & name
+		, std::string const & default
+		, uint32_t & index );
 	bool isUnaryPre( expr::Kind kind );
 
 	using LinkedVars = std::map< var::VariablePtr, std::pair< var::VariablePtr, var::VariablePtr > >;
 	using VariableExprMap = std::map< var::VariablePtr, expr::ExprPtr >;
+	using VariableIdMap = std::map< uint32_t, var::VariablePtr >;
+
+	struct AdaptationData
+	{
+		VariableIdMap inputVars;
+		VariableIdMap outputVars;
+		VariableExprMap inputMembers;
+		VariableExprMap outputMembers;
+		type::StructPtr inputStruct;
+		type::StructPtr outputStruct;
+		var::VariablePtr inputVar;
+		var::VariablePtr outputVar;
+		var::VariableList ssboList;
+		LinkedVars linkedVars;
+	};
 
 	struct IntrinsicsConfig
 	{

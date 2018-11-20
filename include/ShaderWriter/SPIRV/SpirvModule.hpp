@@ -14,6 +14,7 @@ See LICENSE file in root folder
 #include <set>
 #include <string>
 #include <vector>
+#include <unordered_map>
 
 namespace sdw::spirv
 {
@@ -29,6 +30,11 @@ namespace sdw::spirv
 	};
 
 	using IdList = std::vector< spv::Id >;
+
+	struct IdListHasher
+	{
+		size_t operator()( IdList const & list )const;
+	};
 
 	struct Instruction
 	{
@@ -57,6 +63,8 @@ namespace sdw::spirv
 		spv::Id label;
 		InstructionList instructions;
 		Instruction blockEnd;
+		std::unordered_map< IdList, spv::Id, IdListHasher > accessChains;
+		std::unordered_map< IdList, spv::Id, IdListHasher > vectorShuffles;
 	};
 
 	using BlockList = std::vector< Block >;
@@ -106,6 +114,10 @@ namespace sdw::spirv
 		spv::Id registerVariable( std::string const & name
 			, spv::StorageClass storage
 			, type::TypePtr type );
+		spv::Id registerSpecConstant( std::string name
+			, uint32_t location
+			, type::TypePtr type
+			, expr::Literal const & value );
 		spv::Id registerParameter( type::TypePtr type );
 		spv::Id Module::registerMemberVariableIndex( type::TypePtr type );
 		spv::Id registerMemberVariable( spv::Id outer
@@ -165,6 +177,9 @@ namespace sdw::spirv
 		InstructionList * variables;
 
 	private:
+		spv::Id doRegisterNonArrayType( type::TypePtr type
+			, uint32_t mbrIndex
+			, spv::Id parentId );
 		spv::Id registerType( type::TypePtr type
 			, uint32_t mbrIndex
 			, spv::Id parentId );

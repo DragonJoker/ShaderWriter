@@ -126,4 +126,15 @@ namespace ast::type
 			|| ( this->sampledType == type::Kind::eUInt && isUIntFormat( format ) )
 			|| ( format == ImageFormat::eUnknown ) );
 	}
-}
+
+	size_t getHash( type::ImageConfiguration const & config )
+	{
+		size_t result = std::hash< type::ImageDim >{}( config.dimension );
+		result = hashCombine( result, config.format );
+		result = hashCombine( result, config.isDepth );
+		result = hashCombine( result, config.isSampled );
+		result = hashCombine( result, config.isArrayed );
+		result = hashCombine( result, config.isMS );
+		result = hashCombine( result, config.accessKind );
+		return result;
+	}}

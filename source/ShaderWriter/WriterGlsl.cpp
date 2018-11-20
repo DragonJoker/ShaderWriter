@@ -3,6 +3,7 @@ See LICENSE file in root folder
 */
 #include "ShaderWriter/WriterGlsl.hpp"
 
+#include "ShaderWriter/StmtSpecialiser.hpp"
 #include "ShaderWriter/GLSL/GlslStmtAdapter.hpp"
 #include "ShaderWriter/GLSL/GlslStmtConfigFiller.hpp"
 #include "ShaderWriter/GLSL/GlslStmtVisitor.hpp"
@@ -17,6 +18,7 @@ namespace sdw
 	{
 		auto config = glsl::StmtConfigFiller::submit( shader );
 		auto glStatements = glsl::StmtAdapter::submit( shader, type, config );
+		glStatements = StmtSpecialiser::submit( glStatements.get(), specialisation );
 		return glsl::StmtVisitor::submit( glStatements.get() );
 	}
 }

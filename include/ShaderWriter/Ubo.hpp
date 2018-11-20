@@ -29,16 +29,11 @@ namespace sdw
 		inline Array< T > declMember( std::string const & name
 			, uint32_t dimension );
 		template< typename T >
-		inline Array< T > declMemberArray( std::string const & name );
-		template< typename T >
 		inline Optional< T > declMember( std::string const & name
 			, bool enabled );
 		template< typename T >
 		inline Optional< Array< T > > declMember( std::string const & name
 			, uint32_t dimension
-			, bool enabled );
-		template< typename T >
-		inline Optional< Array< T > > declMemberArray( std::string const & name
 			, bool enabled );
 		template< typename T >
 		inline T getMember( std::string const & name );

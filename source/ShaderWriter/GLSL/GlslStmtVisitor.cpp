@@ -252,7 +252,7 @@ namespace sdw::glsl
 		}
 		else
 		{
-			m_result += m_indent + "}\n";
+			m_result += m_indent + "}";
 		}
 	}
 
@@ -263,16 +263,35 @@ namespace sdw::glsl
 		m_result += m_indent + "do";
 		m_appendSemiColon = false;
 		visitCompoundStmt( stmt );
-		m_result += m_indent + "while (" + ExprVisitor::submit( stmt->getCtrlExpr() ) + ");\n";
+		m_result += "\n";
+
+		if ( stmt->getCtrlExpr()->getType()->getKind() != type::Kind::eBoolean )
+		{
+			m_result += m_indent + "while (bool(" + ExprVisitor::submit( stmt->getCtrlExpr() ) + "));\n";
+		}
+		else
+		{
+			m_result += m_indent + "while (" + ExprVisitor::submit( stmt->getCtrlExpr() ) + ");\n";
+		}
+
 		m_appendLineEnd = true;
 	}
 
 	void StmtVisitor::visitElseIfStmt( stmt::ElseIf * stmt )
 	{
-		m_result += m_indent + "else if (" + ExprVisitor::submit( stmt->getCtrlExpr() ) + ")";
+		if ( stmt->getCtrlExpr()->getType()->getKind() != type::Kind::eBoolean )
+		{
+			m_result += m_indent + "else if (bool(" + ExprVisitor::submit( stmt->getCtrlExpr() ) + "))";
+		}
+		else
+		{
+			m_result += m_indent + "else if (" + ExprVisitor::submit( stmt->getCtrlExpr() ) + ")";
+		}
+
 		m_appendSemiColon = false;
 		m_appendLineEnd = false;
 		visitCompoundStmt( stmt );
+		m_result += "\n";
 		m_appendLineEnd = true;
 	}
 
@@ -282,6 +301,7 @@ namespace sdw::glsl
 		m_appendSemiColon = false;
 		m_appendLineEnd = false;
 		visitCompoundStmt( stmt );
+		m_result += "\n";
 		m_appendLineEnd = true;
 	}
 
@@ -290,10 +310,20 @@ namespace sdw::glsl
 		m_appendLineEnd = true;
 		doAppendLineEnd();
 		m_result += m_indent + "for (" + ExprVisitor::submit( stmt->getInitExpr() ) + "; ";
-		m_result += ExprVisitor::submit( stmt->getCtrlExpr() ) + "; ";
+
+		if ( stmt->getCtrlExpr()->getType()->getKind() != type::Kind::eBoolean )
+		{
+			m_result += "bool(" + ExprVisitor::submit( stmt->getCtrlExpr() ) + "); ";
+		}
+		else
+		{
+			m_result += ExprVisitor::submit( stmt->getCtrlExpr() ) + "; ";
+		}
+
 		m_result += ExprVisitor::submit( stmt->getIncrExpr() ) + ")";
 		m_appendSemiColon = false;
 		visitCompoundStmt( stmt );
+		m_result += "\n";
 		m_appendLineEnd = true;
 	}
 
@@ -316,6 +346,7 @@ namespace sdw::glsl
 		m_result += ")";
 		m_appendSemiColon = false;
 		visitCompoundStmt( stmt );
+		m_result += "\n";
 		m_appendLineEnd = true;
 	}
 
@@ -323,9 +354,19 @@ namespace sdw::glsl
 	{
 		m_appendLineEnd = true;
 		doAppendLineEnd();
-		m_result += m_indent + "if (" + ExprVisitor::submit( stmt->getCtrlExpr() ) + ")";
+
+		if ( stmt->getCtrlExpr()->getType()->getKind() != type::Kind::eBoolean )
+		{
+			m_result += m_indent + "if (bool(" + ExprVisitor::submit( stmt->getCtrlExpr() ) + "))";
+		}
+		else
+		{
+			m_result += m_indent + "if (" + ExprVisitor::submit( stmt->getCtrlExpr() ) + ")";
+		}
+
 		m_appendSemiColon = false;
 		visitCompoundStmt( stmt );
+		m_result += "\n";
 
 		for ( auto & elseIf : stmt->getElseIfList() )
 		{
@@ -343,8 +384,15 @@ namespace sdw::glsl
 	void StmtVisitor::visitImageDeclStmt( stmt::ImageDecl * stmt )
 	{
 		doAppendLineEnd();
-		assert( stmt->getVariable()->getType()->getKind() == type::Kind::eImage );
-		auto image = std::static_pointer_cast< type::Image >( stmt->getVariable()->getType() );
+		auto type = stmt->getVariable()->getType();
+
+		if ( type->getKind() == type::Kind::eArray )
+		{
+			type = std::static_pointer_cast< type::Array >( type )->getType();
+		}
+
+		assert( type->getKind() == type::Kind::eImage );
+		auto image = std::static_pointer_cast< type::Image >( type );
 		m_result += m_indent;
 		m_result += "layout(binding=" + std::to_string( stmt->getBindingPoint() );
 		m_result += ", set=" + std::to_string( stmt->getDescriptorSet() );
@@ -365,20 +413,7 @@ namespace sdw::glsl
 
 		m_result += ") uniform ";
 		m_result += getQualifiedName( type::Kind::eImage, image->getConfig() ) + " " + stmt->getVariable()->getName();
-		auto arraySize = stmt->getVariable()->getType()->getArraySize();
-
-		if ( arraySize != ast::type::NotArray )
-		{
-			if ( arraySize == ast::type::UnknownArraySize )
-			{
-				m_result += "[]";
-			}
-			else
-			{
-				m_result += "[" + std::to_string( arraySize ) + "]";
-			}
-		}
-
+		m_result += getTypeArraySize( stmt->getVariable()->getType() );
 		m_result += ";\n";
 	}
 
@@ -389,21 +424,13 @@ namespace sdw::glsl
 		m_result += "layout(" + getLocationName( *stmt->getVariable() ) + "=" + std::to_string( stmt->getLocation() ) + ") ";
 		m_result += getDirectionName( *stmt->getVariable() ) + " ";
 		m_result += getTypeName( stmt->getVariable()->getType() ) + " " + stmt->getVariable()->getName();
-		auto arraySize = stmt->getVariable()->getType()->getArraySize();
-
-		if ( arraySize != ast::type::NotArray )
-		{
-			if ( arraySize == ast::type::UnknownArraySize )
-			{
-				m_result += "[]";
-			}
-			else
-			{
-				m_result += "[" + std::to_string( arraySize ) + "]";
-			}
-		}
-
+		m_result += getTypeArraySize( stmt->getVariable()->getType() );
 		m_result += ";\n";
+	}
+
+	void StmtVisitor::visitSpecialisationConstantDeclStmt( stmt::SpecialisationConstantDecl * stmt )
+	{
+		assert( false && "No specialisation constant should remain at this stage" );
 	}
 
 	void StmtVisitor::visitInputComputeLayoutStmt( stmt::InputComputeLayout * stmt )
@@ -494,25 +521,19 @@ namespace sdw::glsl
 	void StmtVisitor::visitSampledImageDeclStmt( stmt::SampledImageDecl * stmt )
 	{
 		doAppendLineEnd();
-		m_result += m_indent;
-		m_result += "layout(binding=" + std::to_string( stmt->getBindingPoint() ) + ", set=" + std::to_string( stmt->getDescriptorSet() ) + ") ";
-		assert( stmt->getVariable()->getType()->getKind() == type::Kind::eSampledImage );
-		auto sampledImage = std::static_pointer_cast< type::SampledImage >( stmt->getVariable()->getType() );
-		m_result += "uniform " + getQualifiedName( type::Kind::eSampledImage, sampledImage->getConfig() ) + " " + stmt->getVariable()->getName();
-		auto arraySize = stmt->getVariable()->getType()->getArraySize();
+		auto type = stmt->getVariable()->getType();
 
-		if ( arraySize != ast::type::NotArray )
+		if ( type->getKind() == type::Kind::eArray )
 		{
-			if ( arraySize == ast::type::UnknownArraySize )
-			{
-				m_result += "[]";
-			}
-			else
-			{
-				m_result += "[" + std::to_string( arraySize ) + "]";
-			}
+			type = std::static_pointer_cast< type::Array >( type )->getType();
 		}
 
+		m_result += m_indent;
+		m_result += "layout(binding=" + std::to_string( stmt->getBindingPoint() ) + ", set=" + std::to_string( stmt->getDescriptorSet() ) + ") ";
+		assert( type->getKind() == type::Kind::eSampledImage );
+		auto sampledImage = std::static_pointer_cast< type::SampledImage >( type );
+		m_result += "uniform " + getQualifiedName( type::Kind::eSampledImage, sampledImage->getConfig() ) + " " + stmt->getVariable()->getName();
+		m_result += getTypeArraySize( stmt->getVariable()->getType() );
 		m_result += ";\n";
 	}
 
@@ -522,15 +543,27 @@ namespace sdw::glsl
 
 	void StmtVisitor::visitShaderBufferDeclStmt( stmt::ShaderBufferDecl * stmt )
 	{
+		m_appendLineEnd = true;
+		doAppendLineEnd();
+		m_result += m_indent;
+		m_result += "layout(binding=" + std::to_string( stmt->getBindingPoint() ) + ", set=" + std::to_string( stmt->getDescriptorSet() ) + ") ";
+		m_result += "buffer " + stmt->getSsboName();
+
 		if ( !stmt->empty() )
 		{
-			m_appendLineEnd = true;
-			doAppendLineEnd();
-			m_result += m_indent;
-			m_result += "layout(binding=" + std::to_string( stmt->getBindingPoint() ) + ", set=" + std::to_string( stmt->getDescriptorSet() ) + ") ";
-			m_result += "buffer " + stmt->getName();
-			m_appendSemiColon = true;
+			m_appendSemiColon = false;
 			visitCompoundStmt( stmt );
+			m_result += " " + stmt->getSsboInstance()->getName() + ";\n";
+			m_appendLineEnd = true;
+		}
+		else
+		{
+			auto data = stmt->getData();
+			auto arrayType = std::static_pointer_cast< type::Array >( data->getType() );
+			auto structType = std::static_pointer_cast< type::Struct >( arrayType->getType() );
+			m_result += "\n{";
+			m_result += "\n\t" + structType->getName() + " " + data->getName() + "[];";
+			m_result += "\n} " + stmt->getSsboInstance()->getName() + ";\n";
 			m_appendLineEnd = true;
 		}
 	}
@@ -556,20 +589,7 @@ namespace sdw::glsl
 			for ( auto & member : *stmt->getType() )
 			{
 				m_result += m_indent + getTypeName( member.type ) + " " + member.name;
-				auto arraySize = member.type->getArraySize();
-
-				if ( arraySize != ast::type::NotArray )
-				{
-					if ( arraySize == ast::type::UnknownArraySize )
-					{
-						m_result += "[]";
-					}
-					else
-					{
-						m_result += "[" + std::to_string( arraySize ) + "]";
-					}
-				}
-
+				m_result += getTypeArraySize( member.type );
 				m_result += ";\n";
 			}
 
@@ -601,11 +621,8 @@ namespace sdw::glsl
 		{
 			visitCompoundStmt( stmt );
 		}
-		else
-		{
-			m_result += "\n";
-		}
 
+		m_result += "\n";
 		m_result += m_indent + "break;\n";
 		m_appendLineEnd = true;
 	}
@@ -617,6 +634,7 @@ namespace sdw::glsl
 		m_result += m_indent + "switch (" + ExprVisitor::submit( stmt->getTestExpr() ) + ")";
 		m_appendSemiColon = false;
 		visitCompoundStmt( stmt );
+		m_result += "\n";
 		m_appendLineEnd = true;
 	}
 
@@ -626,20 +644,7 @@ namespace sdw::glsl
 		{
 			doAppendLineEnd();
 			m_result += m_indent + getTypeName( stmt->getVariable()->getType() ) + " " + stmt->getVariable()->getName();
-			auto arraySize = stmt->getVariable()->getType()->getArraySize();
-
-			if ( arraySize != ast::type::NotArray )
-			{
-				if ( arraySize == ast::type::UnknownArraySize )
-				{
-					m_result += "[]";
-				}
-				else
-				{
-					m_result += "[" + std::to_string( arraySize ) + "]";
-				}
-			}
-
+			m_result += getTypeArraySize( stmt->getVariable()->getType() );
 			m_result += ";\n";
 		}
 	}
@@ -648,9 +653,19 @@ namespace sdw::glsl
 	{
 		m_appendLineEnd = true;
 		doAppendLineEnd();
-		m_result += m_indent + "while (" + ExprVisitor::submit( stmt->getCtrlExpr() ) + ")";
+
+		if ( stmt->getCtrlExpr()->getType()->getKind() != type::Kind::eBoolean )
+		{
+			m_result += m_indent + "while (bool(" + ExprVisitor::submit( stmt->getCtrlExpr() ) + "))";
+		}
+		else
+		{
+			m_result += m_indent + "while (" + ExprVisitor::submit( stmt->getCtrlExpr() ) + ")";
+		}
+
 		m_appendSemiColon = false;
 		visitCompoundStmt( stmt );
+		m_result += "\n";
 		m_appendLineEnd = true;
 	}
 

@@ -7,6 +7,7 @@ See LICENSE file in root folder
 
 #include "ShaderWriterPrerequisites.hpp"
 
+#include <ASTGenerator/Type/TypeArray.hpp>
 #include <ASTGenerator/Type/TypeStruct.hpp>
 
 namespace sdw
@@ -15,14 +16,19 @@ namespace sdw
 	{
 		inline InterfaceBlock( type::MemoryLayout layout
 			, std::string name )
-			: m_name{ std::move( name ) }
-			, m_type{ type::makeStructType( layout, m_name ) }
+			: m_type{ type::makeStructType( layout, std::move( name ) ) }
+		{
+		}
+		
+		inline InterfaceBlock( type::MemoryLayout layout
+			, type::StructPtr dataType )
+			: m_type{ std::move( dataType ) }
 		{
 		}
 
 		inline std::string const & getName()const
 		{
-			return m_name;
+			return m_type->getName();
 		}
 
 		template< type::Kind Kind >
@@ -48,13 +54,12 @@ namespace sdw
 			return m_type->getMember( name ).type;
 		}
 
-		inline type::TypePtr getType()const
+		inline type::StructPtr getType()const
 		{
 			return m_type;
 		}
 
 	private:
-		std::string m_name;
 		type::StructPtr m_type;
 	};
 
@@ -66,6 +71,16 @@ namespace sdw
 			, uint32_t bind
 			, uint32_t set )
 			: InterfaceBlock{ layout, std::move( name ) }
+			, m_bind{ bind }
+			, m_set{ set }
+		{
+		}
+		
+		BoInfo( type::MemoryLayout layout
+			, type::StructPtr dataType
+			, uint32_t bind
+			, uint32_t set )
+			: InterfaceBlock{ layout, std::move( dataType ) }
 			, m_bind{ bind }
 			, m_set{ set }
 		{

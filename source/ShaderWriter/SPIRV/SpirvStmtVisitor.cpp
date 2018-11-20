@@ -278,10 +278,25 @@ namespace sdw::spirv
 		}
 	}
 
+	void StmtVisitor::visitSpecialisationConstantDeclStmt( stmt::SpecialisationConstantDecl * stmt )
+	{
+		auto var = stmt->getVariable();
+		auto varId = m_result.registerSpecConstant( var->getName()
+			, stmt->getLocation()
+			, var->getType()
+			, *stmt->getValue() );
+	}
+
 	void StmtVisitor::visitInputComputeLayoutStmt( stmt::InputComputeLayout * stmt )
 	{
 		m_result.registerExecutionMode( spv::ExecutionMode::LocalSize
 			, { stmt->getWorkGroupsX(), stmt->getWorkGroupsY(), stmt->getWorkGroupsZ() } );
+		IdList ids;
+		ids.push_back( m_result.registerLiteral( stmt->getWorkGroupsX() ) );
+		ids.push_back( m_result.registerLiteral( stmt->getWorkGroupsY() ) );
+		ids.push_back( m_result.registerLiteral( stmt->getWorkGroupsZ() ) );
+		auto id = m_result.registerLiteral( ids, type::getVec3I() );
+		m_result.decorate( id, { spv::Id( spv::Decoration::BuiltIn ), spv::Id( spv::BuiltIn::WorkgroupSize ) } );
 	}
 
 	void StmtVisitor::visitInputGeometryLayoutStmt( stmt::InputGeometryLayout * stmt )
@@ -339,8 +354,22 @@ namespace sdw::spirv
 
 	void StmtVisitor::visitPerVertexDeclStmt( stmt::PerVertexDecl * stmt )
 	{
-		//m_result->addStmt( stmt::makePerVertexDecl( stmt->getSource()
-		//	, stmt->getType() ) );
+		switch ( stmt->getSource() )
+		{
+		case stmt::PerVertexDecl::Source::eVertexOutput:
+			//m_result.registerVariable( "gl_Position", spv::StorageClass::Output, stmt->getType()->getMember( "gl_Position" ).type );
+			//m_result.registerVariable( "gl_PointSize", spv::StorageClass::Output, stmt->getType()->getMember( "gl_PointSize" ).type );
+			//m_result.registerVariable( "gl_ClipDistance", spv::StorageClass::Output, stmt->getType()->getMember( "gl_ClipDistance" ).type );
+			break;
+		case stmt::PerVertexDecl::Source::eTessellationControlInput:
+		case stmt::PerVertexDecl::Source::eTessellationControlOutput:
+		case stmt::PerVertexDecl::Source::eTessellationEvaluationInput:
+		case stmt::PerVertexDecl::Source::eTessellationEvaluationOutput:
+		case stmt::PerVertexDecl::Source::eGeometryInput:
+		case stmt::PerVertexDecl::Source::eGeometryOutput:
+		default:
+			break;
+		}
 	}
 
 	void StmtVisitor::visitReturnStmt( stmt::Return * stmt )
@@ -375,7 +404,8 @@ namespace sdw::spirv
 	void StmtVisitor::visitShaderBufferDeclStmt( stmt::ShaderBufferDecl * stmt )
 	{
 		visitContainerStmt( stmt );
-		m_result.bindBufferVariable( stmt->getName()
+		visitVariable( stmt->getSsboInstance() );
+		m_result.bindBufferVariable( stmt->getSsboInstance()->getName()
 			, stmt->getBindingPoint()
 			, stmt->getDescriptorSet()
 			, spv::Decoration::BufferBlock );

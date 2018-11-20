@@ -732,17 +732,18 @@ namespace test
 		bool doCheckCompileErrors( RenderWindow const & window
 			, bool compiled
 			, GLuint shaderName
-			, std::string const & source )
+			, std::string const & source
+			, std::string & errors )
 		{
 			auto compilerLog = doRetrieveCompilerLog( window, shaderName );
 
 			if ( !compilerLog.empty() )
 			{
-				std::cout << compilerLog << std::endl;
+				errors = compilerLog;
 			}
 			else if ( !compiled )
 			{
-				std::cout << "Shader compilation failed" << std::endl;
+				errors = "GLSL Shader compilation failed";
 			}
 
 			return compiled;
@@ -783,7 +784,8 @@ namespace test
 	}
 
 	bool compileGlsl( std::string const & source
-		, sdw::ShaderType stage )
+		, sdw::ShaderType stage
+		, std::string & errors )
 	{
 		RenderWindow window;
 		bool result = false;
@@ -801,7 +803,11 @@ namespace test
 			, GL_INFO_COMPILE_STATUS
 			, &compiled );
 
-		result = doCheckCompileErrors( window, compiled != 0, shader, source );
+		result = doCheckCompileErrors( window
+			, compiled != 0
+			, shader
+			, source
+			, errors );
 		window.glDeleteShader( shader );
 		window.endCurrent();
 		return result;

@@ -194,7 +194,7 @@ namespace test
 			auto crossGlsl = test::validateSpirVToGlsl( spirv, stage, testCounts );
 			displayShader( "SPIRV-Cross GLSL", crossGlsl );
 			auto crossHlsl = test::validateSpirVToHlsl( spirv, stage, testCounts );
-			displayShader( "SPIRV-Cross HLSL", crossHlsl, true );
+			displayShader( "SPIRV-Cross HLSL", crossHlsl );
 			//check( compileHlsl( crossHlsl, stage ) );
 		}
 
@@ -213,11 +213,13 @@ namespace test
 			, bool validateGlsl
 			, test::TestCounts & testCounts )
 		{
+			std::string errors;
 			auto glsl = sdw::compileGlsl( shader, stage, specialisation );
 
-			if ( validateGlsl && !compileGlsl( glsl, stage ) )
+			if ( validateGlsl && !compileGlsl( glsl, stage, errors ) )
 			{
-				std::cout << std::endl << glsl << std::endl;
+				displayShader( "GLSL", glsl, true );
+				std::cout << errors << std::endl;
 				failure( "compileGlsl( glsl, stage )" );
 			}
 			else
@@ -232,11 +234,13 @@ namespace test
 			, bool validateHlsl
 			, test::TestCounts & testCounts )
 		{
+			std::string errors;
 			auto hlsl = sdw::compileHlsl( shader, stage, specialisation );
 
-			if ( validateHlsl && !compileHlsl( hlsl, stage ) )
+			if ( validateHlsl && !compileHlsl( hlsl, stage, errors ) )
 			{
-				std::cout << std::endl << hlsl << std::endl;
+				displayShader( "HLSL", hlsl, true );
+				std::cout << errors << std::endl;
 				failure( "compileHlsl( hlsl, stage )" );
 			}
 			else
@@ -251,7 +255,7 @@ namespace test
 			, bool validateSpirV
 			, test::TestCounts & testCounts )
 		{
-			auto textSpirv = sdw::writeSpirv( shader, stage, false );
+			auto textSpirv = sdw::writeSpirv( shader, stage, true );
 			displayShader( "SPIR-V", textSpirv );
 
 			if ( validateSpirV )
@@ -264,7 +268,9 @@ namespace test
 
 		std::vector< uint8_t > getSpecData( sdw::SpecConstantInfo const & info )
 		{
-			return std::vector< uint8_t >( getSize( info.type, ast::type::MemoryLayout::eStd430 ), 0 );
+			return std::vector< uint8_t >( size_t( getSize( info.type
+					, ast::type::MemoryLayout::eStd430 ) )
+				, 0 );
 		}
 
 		sdw::SpecialisationInfo getSpecialisationInfo( sdw::Shader const & shader )
@@ -288,9 +294,9 @@ namespace test
 		, bool validateGlsl )
 	{
 		auto specialisation = getSpecialisationInfo( writer.getShader() );
-		//checkNoThrow( testWriteDebug( writer.getShader(), writer.getShaderType(), specialisation, testCounts ) );
-		//checkNoThrow( testWriteSpirV( writer.getShader(), writer.getShaderType(), specialisation, validateSpirV, testCounts ) );
+		checkNoThrow( testWriteDebug( writer.getShader(), writer.getShaderType(), specialisation, testCounts ) );
+		checkNoThrow( testWriteSpirV( writer.getShader(), writer.getShaderType(), specialisation, validateSpirV, testCounts ) );
 		checkNoThrow( testWriteGlsl( writer.getShader(), writer.getShaderType(), specialisation, validateGlsl, testCounts ) );
-		//checkNoThrow( testWriteHlsl( writer.getShader(), writer.getShaderType(), specialisation, validateHlsl, testCounts ) );
+		checkNoThrow( testWriteHlsl( writer.getShader(), writer.getShaderType(), specialisation, validateHlsl, testCounts ) );
 	}
 }

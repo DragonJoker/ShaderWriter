@@ -314,6 +314,16 @@ namespace ast::debug
 		m_result += "\n";
 	}
 
+	void StmtVisitor::visitSpecialisationConstantDeclStmt( stmt::SpecialisationConstantDecl * stmt )
+	{
+		displayStmtName( stmt, false );
+		m_result += "SPECCONST";
+		m_result += "(" + std::to_string( stmt->getLocation() ) + ") ";
+		m_result += displayVar( stmt->getVariable() );
+		m_result += ExprVisitor::submit( stmt->getValue() );
+		m_result += "\n";
+	}
+
 	void StmtVisitor::visitInputComputeLayoutStmt( stmt::InputComputeLayout * stmt )
 	{
 		displayStmtName( stmt, false );
@@ -458,9 +468,18 @@ namespace ast::debug
 		m_result += " B(";
 		m_result += std::to_string( stmt->getBindingPoint() ) + ") D(";
 		m_result += std::to_string( stmt->getDescriptorSet() ) + ") ";
-		m_result += stmt->getName() + "\n";
-		m_compoundName = false;
-		visitCompoundStmt( stmt );
+		m_result += stmt->getSsboName() + ", ";
+		m_result += displayVar( stmt->getSsboInstance() ) + "\n";
+
+		if ( !stmt->empty() )
+		{
+			m_compoundName = false;
+			visitCompoundStmt( stmt );
+		}
+		else
+		{
+			m_result += "\t" + displayVar( stmt->getData() ) + "\n";
+		}
 	}
 
 	void StmtVisitor::visitSimpleStmt( stmt::Simple * stmt )

@@ -16,8 +16,7 @@ namespace ast::type
 		: public Type
 	{
 	public:
-		SampledImage( ImageConfiguration config
-			, uint32_t arraySize = NotArray );
+		SampledImage( ImageConfiguration config );
 
 		ImagePtr getImageType()const
 		{
@@ -40,11 +39,9 @@ namespace ast::type
 	};
 	using SampledImagePtr = std::shared_ptr< SampledImage >;
 
-	inline SampledImagePtr makeSampledImageType( ImageConfiguration config
-		, uint32_t arraySize = NotArray )
+	inline SampledImagePtr makeSampledImageType( ImageConfiguration config )
 	{
-		return std::make_shared< SampledImage >( std::move( config )
-			, arraySize );
+		return std::make_shared< SampledImage >( std::move( config ) );
 	}
 }
 

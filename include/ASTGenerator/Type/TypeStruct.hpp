@@ -5,7 +5,7 @@ See LICENSE file in root folder
 #define ___AST_TypeStruct_H___
 #pragma once
 
-#include "Type.hpp"
+#include "TypeArray.hpp"
 
 #include <vector>
 
@@ -30,15 +30,14 @@ namespace ast::type
 		};
 
 	private:
+		Struct::Struct( Struct const & rhs );
 		Struct( Struct * parent
 			, uint32_t index
-			, Struct const & copy
-			, uint32_t arraySize = NotArray );
+			, Struct const & copy );
 
 	public:
 		Struct( MemoryLayout layout
-			, std::string name
-			, uint32_t arraySize = NotArray );
+			, std::string name );
 		Member declMember( std::string name
 			, type::Kind kind
 			, uint32_t arraySize = NotArray );
@@ -49,6 +48,8 @@ namespace ast::type
 		Member declMember( std::string name
 			, type::StructPtr type
 			, uint32_t arraySize );
+		Member declMember( std::string name
+			, type::ArrayPtr type );
 		Member getMember( std::string const & name );
 		StructPtr getUnqualifiedType()const;
 
@@ -93,6 +94,8 @@ namespace ast::type
 		}
 
 	private:
+		Member doAddMember( type::TypePtr type
+			, std::string const & name );
 		void doUpdateOffsets();
 
 	private:
@@ -103,15 +106,14 @@ namespace ast::type
 	using StructPtr = std::shared_ptr< Struct >;
 
 	inline StructPtr makeStructType( MemoryLayout layout
-		, std::string name
-		, uint32_t arraySize = NotArray )
+		, std::string name )
 	{
 		return std::make_shared< Struct >( layout
-			, std::move( name )
-			, arraySize );
+			, std::move( name ) );
 	}
 
 	bool operator==( Type const & lhs, Type const & rhs );
+	bool operator==( Array const & lhs, Array const & rhs );
 	bool operator==( Struct const & lhs, Struct const & rhs );
 	uint32_t getSize( TypePtr type
 		, MemoryLayout layout );

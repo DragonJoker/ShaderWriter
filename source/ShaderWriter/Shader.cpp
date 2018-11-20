@@ -106,7 +106,7 @@ namespace sdw
 	{
 		auto result = registerName( name
 			, type
-			, var::Flag::eShaderConstant );
+			, var::Flag::eSpecialisationConstant );
 		m_specConstants.emplace( name, SpecConstantInfo{ type, location } );
 		return result;
 	}
@@ -170,11 +170,12 @@ namespace sdw
 	}
 
 	var::VariablePtr Shader::registerBuiltin( std::string const & name
-		, type::TypePtr type )
+		, type::TypePtr type
+		, var::Flag flag )
 	{
 		var::VariablePtr result = registerName( name
 			, type
-			, var::Flag::eBuiltin );
+			, var::Flag::eBuiltin | flag );
 		return result;
 	}
 

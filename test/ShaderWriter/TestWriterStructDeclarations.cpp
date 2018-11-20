@@ -28,8 +28,8 @@ namespace
 			st.end();
 			auto instance = st.getInstance( "st" + sdw::debug::getName( sdw::typeEnum< T > ) );
 			auto retrieved = instance.getMember< T >( name );
-			check( retrieved.getType()->getKind() == sdw::typeEnum< T > );
-			check( retrieved.getType()->getArraySize() == sdw::type::NotArray );
+			check( getNonArrayKind( retrieved.getType() ) == sdw::typeEnum< T > );
+			check( getArraySize( retrieved.getType() ) == sdw::type::NotArray );
 			check( retrieved.getExpr()->getKind() == sdw::expr::Kind::eMbrSelect );
 			auto & stmt = *shader.getStatements()->back();
 			check( stmt.getKind() == sdw::stmt::Kind::eStructureDecl );
@@ -45,8 +45,8 @@ namespace
 			st.end();
 			auto instance = st.getInstance( "stArray4" + sdw::debug::getName( sdw::typeEnum< T > ) );
 			auto retrieved = instance.getMemberArray< T >( name );
-			check( retrieved.getType()->getKind() == sdw::typeEnum< T > );
-			check( retrieved.getType()->getArraySize() == 4u );
+			check( getNonArrayKind( retrieved.getType() ) == sdw::typeEnum< T > );
+			check( getArraySize( retrieved.getType() ) == 4u );
 			check( retrieved.getExpr()->getKind() == sdw::expr::Kind::eMbrSelect );
 			auto & stmt = *shader.getStatements()->back();
 			check( stmt.getKind() == sdw::stmt::Kind::eStructureDecl );

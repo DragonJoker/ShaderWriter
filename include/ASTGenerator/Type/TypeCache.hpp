@@ -13,36 +13,29 @@ See LICENSE file in root folder
 namespace ast::type
 {
 	template< typename TypeT
-		, typename CreatorT >
+		, typename CreatorT
+		, typename HasherT >
 	class TypeCache
 	{
 	private:
 		using TypeTPtr = std::shared_ptr< TypeT >;
 
 	public:
-		inline TypeCache( Kind kind )
-		{
-			m_creator = [kind]( uint32_t arraySize )
-			{
-				return std::shared_ptr< TypeT >( new Type{ kind, arraySize } );
-			};
-		}
-		
-		inline TypeCache( CreatorT creator )
+		inline TypeCache( CreatorT creator, HasherT hasher )
 			: m_creator{ std::move( creator ) }
+			, m_hasher{ std::move( hasher ) }
 		{
 		}
 
 		template< typename ... ParamsT >
-		inline TypeTPtr getType( uint32_t arraySize, ParamsT ... params )
+		inline TypeTPtr getType( ParamsT ... params )
 		{
-			auto it = m_cache.find( arraySize );
+			auto key = m_hasher( std::forward< ParamsT >( params )... );
+			auto it = m_cache.find( key );
 
 			if ( it == m_cache.end() )
 			{
-				it = m_cache.emplace( arraySize
-					, m_creator( std::forward< ParamsT >( params )...
-						, arraySize ) ).first;
+				it = m_cache.emplace( key, m_creator( std::forward< ParamsT >( params )... ) ).first;
 			}
 
 			return it->second;
@@ -50,14 +43,16 @@ namespace ast::type
 
 	private:
 		CreatorT m_creator;
-		std::map< uint32_t, TypeTPtr > m_cache;
+		HasherT m_hasher;
+		std::map< size_t, TypeTPtr > m_cache;
 	};
 
 	template< typename TypeT
-		, typename CreatorT >
-		inline TypeCache< TypeT, CreatorT > makeTypeCache( CreatorT creator )
+		, typename CreatorT
+		, typename HasherT >
+		inline TypeCache< TypeT, CreatorT, HasherT > makeTypeCache( CreatorT creator, HasherT hasher )
 	{
-		return TypeCache< TypeT, CreatorT >{ std::move( creator ) };
+		return TypeCache< TypeT, CreatorT, HasherT >{ std::move( creator ), std::move( hasher ) };
 	}
 }
 

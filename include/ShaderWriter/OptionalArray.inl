@@ -27,7 +27,7 @@ namespace sdw
 	{
 		return Optional< ValueT >{ findShader( *this, offset )
 			, sdw::makeArrayAccess( getNonArrayType( this->getType() )
-				, makeExpr( *this )
+				, makeExpr( *this, true )
 				, makeExpr( offset ) )
 			, areOptionalEnabled( *this, offset ) };
 	}

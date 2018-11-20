@@ -1420,11 +1420,14 @@ namespace ast
 		class Type;
 		using TypePtr = std::shared_ptr< Type >;
 
-		template< typename TypeT = Type
-			, typename CreatorT = std::function< TypePtr( uint32_t ) > >
+		template< typename TypeT
+			, typename CreatorT
+			, typename HasherT >
 		class TypeCache;
 		class Struct;
 		using StructPtr = std::shared_ptr< Struct >;
+		class Array;
+		using ArrayPtr = std::shared_ptr< Array >;
 		struct ImageConfiguration;
 		class Image;
 		using ImagePtr = std::shared_ptr< Image >;

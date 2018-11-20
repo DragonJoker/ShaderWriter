@@ -20,12 +20,12 @@ namespace
 	{
 		testBegin( "testShaderOutput" + ast::debug::getName( sdw::typeEnum< T > ) );
 		{
-			sdw::FragmentWriter writer{ false };
+			sdw::VertexWriter writer{ false };
 			auto & shader = writer.getShader();
 			auto name = sdw::debug::getName( sdw::typeEnum< T > ) + "OutputValue_0";
 			auto value = writer.declOutput< T >( name, 0u );
-			check( value.getType()->getKind() == sdw::typeEnum< T > );
-			check( value.getType()->getArraySize() == sdw::type::NotArray );
+			check( getNonArrayKind( value.getType() ) == sdw::typeEnum< T > );
+			check( getArraySize( value.getType() ) == sdw::type::NotArray );
 			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isShaderOutput() );
@@ -36,12 +36,12 @@ namespace
 			test::writeShader( writer, testCounts );
 		}
 		{
-			sdw::FragmentWriter writer{ false };
+			sdw::VertexWriter writer{ false };
 			auto & shader = writer.getShader();
 			auto name = sdw::debug::getName( sdw::typeEnum< T > ) + "OutputValue_1";
 			auto value = writer.declOutputArray< T >( name, 1u, 6u );
-			check( value.getType()->getKind() == sdw::typeEnum< T > );
-			check( value.getType()->getArraySize() == 6u );
+			check( getNonArrayKind( value.getType() ) == sdw::typeEnum< T > );
+			check( getArraySize( value.getType() ) == 6u );
 			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isShaderOutput() );
@@ -52,13 +52,13 @@ namespace
 			test::writeShader( writer, testCounts );
 		}
 		{
-			sdw::FragmentWriter writer{ false };
+			sdw::VertexWriter writer{ false };
 			auto & shader = writer.getShader();
 			auto count = shader.getStatements()->size();
 			auto value = writer.declOutput< T >( "value", 0u, false );
 			check( !value.isEnabled() );
-			check( value.getType()->getKind() == sdw::typeEnum< T > );
-			check( value.getType()->getArraySize() == sdw::type::NotArray );
+			check( getNonArrayKind( value.getType() ) == sdw::typeEnum< T > );
+			check( getArraySize( value.getType() ) == sdw::type::NotArray );
 			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == "value" );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isShaderOutput() );
@@ -67,14 +67,14 @@ namespace
 			test::writeShader( writer, testCounts );
 		}
 		{
-			sdw::FragmentWriter writer{ false };
+			sdw::VertexWriter writer{ false };
 			auto & shader = writer.getShader();
 			auto count = shader.getStatements()->size();
 			auto value = writer.declOutputArray< T >( "value", 1u, 6u, false );
 			check( !value.isEnabled() );
 			check( !value[0].isEnabled() );
-			check( value.getType()->getKind() == sdw::typeEnum< T > );
-			check( value.getType()->getArraySize() == 6u );
+			check( getNonArrayKind( value.getType() ) == sdw::typeEnum< T > );
+			check( getArraySize( value.getType() ) == 6u );
 			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == "value" );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isShaderOutput() );
@@ -83,13 +83,13 @@ namespace
 			test::writeShader( writer, testCounts );
 		}
 		{
-			sdw::FragmentWriter writer{ false };
+			sdw::VertexWriter writer{ false };
 			auto & shader = writer.getShader();
 			auto name = sdw::debug::getName( sdw::typeEnum< T > ) + "OutputValue_0_opt";
 			auto value = writer.declOutput< T >( name, 0u, true );
 			check( value.isEnabled() );
-			check( value.getType()->getKind() == sdw::typeEnum< T > );
-			check( value.getType()->getArraySize() == sdw::type::NotArray );
+			check( getNonArrayKind( value.getType() ) == sdw::typeEnum< T > );
+			check( getArraySize( value.getType() ) == sdw::type::NotArray );
 			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isShaderOutput() );
@@ -100,14 +100,14 @@ namespace
 			test::writeShader( writer, testCounts );
 		}
 		{
-			sdw::FragmentWriter writer{ false };
+			sdw::VertexWriter writer{ false };
 			auto & shader = writer.getShader();
 			auto name = sdw::debug::getName( sdw::typeEnum< T > ) + "OutputValue_1_opt";
 			auto value = writer.declOutputArray< T >( name, 1u, 6u, true );
 			check( value.isEnabled() );
 			check( value[0].isEnabled() );
-			check( value.getType()->getKind() == sdw::typeEnum< T > );
-			check( value.getType()->getArraySize() == 6u );
+			check( getNonArrayKind( value.getType() ) == sdw::typeEnum< T > );
+			check( getArraySize( value.getType() ) == 6u );
 			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isShaderOutput() );

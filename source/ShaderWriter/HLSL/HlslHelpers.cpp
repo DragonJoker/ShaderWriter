@@ -356,6 +356,11 @@ namespace sdw::hlsl
 	{
 		std::string result;
 
+		if ( type->getKind() == type::Kind::eArray )
+		{
+			type = std::static_pointer_cast< type::Array >( type )->getType();
+		}
+
 		switch ( type->getKind() )
 		{
 		case type::Kind::eStruct:
@@ -370,6 +375,26 @@ namespace sdw::hlsl
 		default:
 			result = getTypeName( type->getKind() );
 			break;
+		}
+
+		return result;
+	}
+
+	std::string getTypeArraySize( type::TypePtr type )
+	{
+		std::string result;
+		auto arraySize = getArraySize( type );
+
+		if ( arraySize != type::NotArray )
+		{
+			if ( arraySize == type::UnknownArraySize )
+			{
+				result += "[]";
+			}
+			else
+			{
+				result += "[" + std::to_string( arraySize ) + "]";
+			}
 		}
 
 		return result;
@@ -812,6 +837,53 @@ namespace sdw::hlsl
 			break;
 		default:
 			throw std::runtime_error{ "Non unary expression" };
+		}
+
+		return result;
+	}
+
+	std::string getSemantic( std::string const & name
+		, std::string const & default
+		, uint32_t & index )
+	{
+		static std::map< std::string, std::string > const NamesMap
+		{
+			{ "gl_InvocationID", "SV_GSInstanceID" },
+			{ "gl_LocalInvocationID", "SV_GroupThreadID" },
+			{ "gl_LocalInvocationIndex", "SV_GroupIndex" },
+			{ "gl_WorkGroupID", "SV_GroupID" },
+			{ "gl_TessCord", "SV_DomainLocation" },
+			{ "gl_GlobalInvocationID", "SV_DispatchThreadID" },
+			{ "gl_FragDepth", "SV_Depth" },
+			{ "gl_SampleMask", "SV_Coverage" },
+			{ "gl_SampleMaskIn", "SV_Coverage" },
+			{ "gl_CullDistance", "SV_CullDistance" },
+			{ "gl_ClipDistance", "SV_ClipDistance" },
+			{ "gl_TessLevelInner", "SV_InsideTessFactor" },
+			{ "gl_InstanceID", "SV_InstanceID" },
+			{ "gl_InstanceIndex", "SV_InstanceID" },
+			{ "gl_FrontFacing", "SV_IsFrontFace" },
+			{ "gl_Position", "SV_Position" },
+			{ "gl_FragCoord", "SV_Position" },
+			{ "gl_PrimitiveID", "SV_PrimitiveID" },
+			{ "gl_Layer", "SV_RenderTargetArrayIndex" },
+			{ "gl_SampleID", "SV_SampleIndex" },
+			{ "gl_FragStencilRef", "SV_StencilRef" },
+			{ "gl_TessLevelOuter", "SV_TessFactor" },
+			{ "gl_VertexID", "SV_VertexID" },
+			{ "gl_VertexIndex", "SV_VertexID" },
+			{ "gl_ViewportIndex", "SV_ViewportArrayIndex" },
+		};
+		std::string result;
+		auto it = NamesMap.find( name );
+
+		if ( it != NamesMap.end() )
+		{
+			result = it->second;
+		}
+		else
+		{
+			result = default + std::to_string( index++ );
 		}
 
 		return result;

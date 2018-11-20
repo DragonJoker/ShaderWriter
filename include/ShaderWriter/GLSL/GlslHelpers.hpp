@@ -11,6 +11,7 @@ namespace sdw::glsl
 {
 	std::string getTypeName( type::Kind kind );
 	std::string getTypeName( type::TypePtr type );
+	std::string getTypeArraySize( type::TypePtr type );
 	std::string getLocationName( var::Variable const & var );
 	std::string getDirectionName( var::Variable const & var );
 	std::string getStatusName( stmt::PreprocExtension::Status status );

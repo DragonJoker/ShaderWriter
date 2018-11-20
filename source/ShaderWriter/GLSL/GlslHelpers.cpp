@@ -250,9 +250,32 @@ namespace sdw::glsl
 		case type::Kind::eSampledImage:
 			result = getTypeName( std::static_pointer_cast< type::SampledImage >( type ) );
 			break;
+		case type::Kind::eArray:
+			result = getTypeName( std::static_pointer_cast< type::Array >( type )->getType() );
+			break;
 		default:
 			result = getTypeName( type->getKind() );
 			break;
+		}
+
+		return result;
+	}
+
+	std::string getTypeArraySize( type::TypePtr type )
+	{
+		std::string result;
+		auto arraySize = getArraySize( type );
+
+		if ( arraySize != type::NotArray )
+		{
+			if ( arraySize == type::UnknownArraySize )
+			{
+				result += "[]";
+			}
+			else
+			{
+				result += "[" + std::to_string( arraySize ) + "]";
+			}
 		}
 
 		return result;

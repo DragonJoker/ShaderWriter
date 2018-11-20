@@ -15,8 +15,7 @@ namespace ast::type
 		: public Type
 	{
 	public:
-		Sampler( bool comparison
-			, uint32_t arraySize = NotArray );
+		Sampler( bool comparison );
 
 		bool isComparison()const
 		{
@@ -28,11 +27,9 @@ namespace ast::type
 	};
 	using SamplerPtr = std::shared_ptr< Sampler >;
 
-	inline SamplerPtr makeSamplerType( bool comparison
-		, uint32_t arraySize = NotArray )
+	inline SamplerPtr makeSamplerType( bool comparison )
 	{
-		return std::make_shared< Sampler >( comparison
-			, arraySize );
+		return std::make_shared< Sampler >( comparison );
 	}
 }
 

@@ -198,7 +198,13 @@ namespace
 	{
 		testBegin( "testShaderBufferDeclStatement" );
 		{
-			auto stmt = ast::stmt::makeShaderBufferDecl( "Buffer", 1u, 2u );
+			auto baseType = ast::type::makeStructType( ast::type::MemoryLayout::eStd430, "BaseType" );
+			auto array = ast::type::makeArrayType( baseType );
+			auto type = ast::type::makeStructType( ast::type::MemoryLayout::eStd430, "BufferType" );
+			type->declMember( "Data", array );
+			auto data = ast::var::makeVariable( type->getMember( "Data" ).type, "Data", ast::var::Flag::eUniform );
+			auto instance = ast::var::makeVariable( type, "Inst", ast::var::Flag::eUniform );
+			auto stmt = ast::stmt::makeShaderBufferDecl( "Buffer", instance, data, 1u, 2u );
 			std::cout << "StmtShaderBufferDecl (empty):\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
 
 			require( stmt->getKind() == ast::stmt::Kind::eShaderBufferDecl );
@@ -207,15 +213,21 @@ namespace
 			check( stmt->empty() );
 		}
 		{
-			auto stmt = ast::stmt::makeShaderBufferDecl( "Buffer", 1u, 2u );
-			stmt->add( ast::stmt::makeVariableDecl( ast::var::makeVariable( ast::type::getInt(), "i" ) ) );
-			stmt->add( ast::stmt::makeVariableDecl( ast::var::makeVariable( ast::type::getInt(), "j" ) ) );
+			auto baseType = ast::type::makeStructType( ast::type::MemoryLayout::eStd430, "BaseType" );
+			baseType->declMember( "i", ast::type::getInt() );
+			baseType->declMember( "j", ast::type::getInt() );
+			auto array = ast::type::makeArrayType( baseType );
+			auto type = ast::type::makeStructType( ast::type::MemoryLayout::eStd430, "BufferType" );
+			type->declMember( "Data", array );
+			auto data = ast::var::makeVariable( type->getMember( "Data" ).type, "Data", ast::var::Flag::eUniform );
+			auto instance = ast::var::makeVariable( type, "Inst", ast::var::Flag::eUniform );
+			auto stmt = ast::stmt::makeShaderBufferDecl( "Buffer", instance, data, 1u, 2u );
 			std::cout << "StmtShaderBufferDecl:\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
 
 			require( stmt->getKind() == ast::stmt::Kind::eShaderBufferDecl );
 			check( stmt->getBindingPoint() == 1u );
 			check( stmt->getDescriptorSet() == 2u );
-			check( stmt->size() == 2u );
+			check( stmt->empty() );
 		}
 		testEnd();
 	}
@@ -509,8 +521,8 @@ namespace
 		}
 		{
 			auto type = ast::type::makeStructType( ast::type::MemoryLayout::eStd140, "MyStruct" );
-			type->declMember( "i", ast::type::Kind::eInt );
-			type->declMember( "j", ast::type::Kind::eInt );
+			type->declMember( "i", ast::type::getInt() );
+			type->declMember( "j", ast::type::getInt() );
 			auto stmt = ast::stmt::makeStructureDecl( type );
 			std::cout << "StmtStructureDecl:\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
 
@@ -701,7 +713,7 @@ namespace
 
 int main( int argc, char ** argv )
 {
-	testSuiteBegin( "TestStatements" );
+	testSuiteBegin( "TestASTStatements" );
 	testPreprocIf( testCounts );
 	testPreprocIfDef( testCounts );
 	testPreprocElif( testCounts );

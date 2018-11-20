@@ -7,28 +7,6 @@ See LICENSE file in root folder
 
 namespace sdw::hlsl
 {
-	namespace
-	{
-		std::string getArray( uint32_t arraySize )
-		{
-			std::string result;
-
-			if ( arraySize != ast::type::NotArray )
-			{
-				if ( arraySize == ast::type::UnknownArraySize )
-				{
-					result += "[]";
-				}
-				else
-				{
-					result += "[" + std::to_string( arraySize ) + "]";
-				}
-			}
-
-			return result;
-		}
-	}
-
 	std::string StmtVisitor::submit( stmt::Stmt * stmt
 		, ShaderType type
 		, std::string indent )
@@ -213,7 +191,7 @@ namespace sdw::hlsl
 		m_result += m_indent;
 		m_result += getTypeName( stmt->getVariable()->getType() ) + " ";
 		m_result += stmt->getVariable()->getName();
-		m_result += getArray( stmt->getVariable()->getType()->getArraySize() );
+		m_result += getTypeArraySize( stmt->getVariable()->getType() );
 
 		if ( stmt->getVariable()->isImplicit() )
 		{
@@ -230,6 +208,11 @@ namespace sdw::hlsl
 	void StmtVisitor::visitInOutVariableDeclStmt( stmt::InOutVariableDecl * stmt )
 	{
 		assert( false && "stmt::InOutVariableDecl unexpected at that point" );
+	}
+
+	void StmtVisitor::visitSpecialisationConstantDeclStmt( stmt::SpecialisationConstantDecl * stmt )
+	{
+		assert( false && "stmt::SpecialisationConstantDecl unexpected at that point" );
 	}
 
 	void StmtVisitor::visitInputComputeLayoutStmt( stmt::InputComputeLayout * stmt )
@@ -295,17 +278,19 @@ namespace sdw::hlsl
 	{
 		doAppendLineEnd();
 		m_result += m_indent + getTypeName( stmt->getVariable()->getType() ) + " " + stmt->getVariable()->getName();
-		m_result += getArray( stmt->getVariable()->getType()->getArraySize() );
+		m_result += getTypeArraySize( stmt->getVariable()->getType() );
 		m_result += ": register(s" + std::to_string( stmt->getBindingPoint() ) + ");\n";
 	}
 
 	void StmtVisitor::visitShaderBufferDeclStmt( stmt::ShaderBufferDecl * stmt )
 	{
-		if ( !stmt->empty() )
+		if ( stmt->empty() )
 		{
 			m_appendLineEnd = true;
 			doAppendLineEnd();
-			m_result += m_indent + "RWByteAddressBuffer " + stmt->getName() + ": register(u" + std::to_string( stmt->getBindingPoint() ) + ");\n";
+			m_result += m_indent + "RWStructuredBuffer<" + getTypeName( stmt->getData()->getType() ) + "> "
+				+ stmt->getData()->getName()
+				+ ": register(u" + std::to_string( stmt->getBindingPoint() ) + ");\n";
 		}
 	}
 
@@ -337,12 +322,12 @@ namespace sdw::hlsl
 				{
 					// There are semantics for this variable.
 					name = name.substr( 0, index )
-						+ getArray( member.type->getArraySize() )
+						+ getTypeArraySize( member.type )
 						+ name.substr( index );
 				}
 				else
 				{
-					name += getArray( member.type->getArraySize() );
+					name += getTypeArraySize( member.type );
 				}
 
 				m_result += name + ";\n";
@@ -396,7 +381,7 @@ namespace sdw::hlsl
 		doAppendLineEnd();
 		m_result += m_indent + getTypeName( stmt->getVariable()->getType() ) + " ";
 		m_result += stmt->getVariable()->getName();
-		m_result += getArray( stmt->getVariable()->getType()->getArraySize() );
+		m_result += getTypeArraySize( stmt->getVariable()->getType() );
 		m_result += ";\n";
 	}
 

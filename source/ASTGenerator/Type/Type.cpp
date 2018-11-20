@@ -13,20 +13,40 @@ namespace ast::type
 {
 	//*************************************************************************
 
+	namespace
+	{
+		template< typename T >
+		inline size_t hashCombine( size_t & hash
+			, T const & rhs )
+		{
+			const uint64_t kMul = 0x9ddfea08eb382d69ULL;
+			auto seed = hash;
+
+			std::hash< T > hasher;
+			uint64_t a = ( hasher( rhs ) ^ seed ) * kMul;
+			a ^= ( a >> 47 );
+
+			uint64_t b = ( seed ^ a ) * kMul;
+			b ^= ( b >> 47 );
+
+			hash = static_cast< std::size_t >( b * kMul );
+			return hash;
+		}
+	}
+
+	//*************************************************************************
+
 	Type::Type( Struct * parent
 		, uint32_t index
-		, Kind kind
-		, uint32_t arraySize )
+		, Kind kind )
 		: m_kind{ kind }
-		, m_arraySize{ arraySize }
 		, m_parent{ parent }
 		, m_index{ index }
 	{
 	}
 
-	Type::Type( Kind kind
-		, uint32_t arraySize )
-		: Type{ nullptr, NotMember, kind, arraySize }
+	Type::Type( Kind kind )
+		: Type{ nullptr, NotMember, kind }
 	{
 	}
 
@@ -36,354 +56,363 @@ namespace ast::type
 
 	//*************************************************************************
 
-	TypePtr getUndefined( uint32_t arraySize )
+	TypePtr getUndefined()
 	{
-		static TypeCache<> cache{ Kind::eUndefined };
-		return cache.getType( arraySize );
+		static TypePtr cache = std::make_shared< Type >( Kind::eUndefined );
+		return cache;
 	}
 
-	TypePtr getVoid( uint32_t arraySize )
+	TypePtr getVoid()
 	{
-		static TypeCache<> cache{ Kind::eVoid };
-		return cache.getType( arraySize );
+		static TypePtr cache = std::make_shared< Type >( Kind::eVoid );
+		return cache;
 	}
 
-	TypePtr getFunction( uint32_t arraySize )
+	TypePtr getFunction()
 	{
-		static TypeCache<> cache{ Kind::eFunction };
-		return cache.getType( arraySize );
+		static TypePtr cache = std::make_shared< Type >( Kind::eFunction );
+		return cache;
 	}
 
-	TypePtr getBool( uint32_t arraySize )
+	TypePtr getBool()
 	{
-		static TypeCache<> cache{ Kind::eBoolean };
-		return cache.getType( arraySize );
+		static TypePtr cache = std::make_shared< Type >( Kind::eBoolean );
+		return cache;
 	}
 
-	TypePtr getInt( uint32_t arraySize )
+	TypePtr getInt()
 	{
-		static TypeCache<> cache{ Kind::eInt };
-		return cache.getType( arraySize );
+		static TypePtr cache = std::make_shared< Type >( Kind::eInt );
+		return cache;
 	}
 
-	TypePtr getUInt( uint32_t arraySize )
+	TypePtr getUInt()
 	{
-		static TypeCache<> cache{ Kind::eUInt };
-		return cache.getType( arraySize );
+		static TypePtr cache = std::make_shared< Type >( Kind::eUInt );
+		return cache;
 	}
 
-	TypePtr getFloat( uint32_t arraySize )
+	TypePtr getFloat()
 	{
-		static TypeCache<> cache{ Kind::eFloat };
-		return cache.getType( arraySize );
+		static TypePtr cache = std::make_shared< Type >( Kind::eFloat );
+		return cache;
 	}
 
-	TypePtr getDouble( uint32_t arraySize )
+	TypePtr getDouble()
 	{
-		static TypeCache<> cache{ Kind::eDouble };
-		return cache.getType( arraySize );
+		static TypePtr cache = std::make_shared< Type >( Kind::eDouble );
+		return cache;
 	}
 
-	TypePtr getVec2Type( Kind kind, uint32_t arraySize )
+	TypePtr getVec2Type( Kind kind )
 	{
 		switch ( kind )
 		{
 		case Kind::eBoolean:
-			return getVec2B( arraySize );
+			return getVec2B();
 		case Kind::eInt:
-			return getVec2I( arraySize );
+			return getVec2I();
 		case Kind::eUInt:
-			return getVec2U( arraySize );
+			return getVec2U();
 		case Kind::eFloat:
-			return getVec2F( arraySize );
+			return getVec2F();
 		case Kind::eDouble:
-			return getVec2D( arraySize );
+			return getVec2D();
 		default:
 			assert( false && "Unsupported component type." );
 			return nullptr;
 		}
 	}
 
-	TypePtr getVec3Type( Kind kind, uint32_t arraySize )
+	TypePtr getVec3Type( Kind kind )
 	{
 		switch ( kind )
 		{
 		case Kind::eBoolean:
-			return getVec3B( arraySize );
+			return getVec3B();
 		case Kind::eInt:
-			return getVec3I( arraySize );
+			return getVec3I();
 		case Kind::eUInt:
-			return getVec3U( arraySize );
+			return getVec3U();
 		case Kind::eFloat:
-			return getVec3F( arraySize );
+			return getVec3F();
 		case Kind::eDouble:
-			return getVec3D( arraySize );
+			return getVec3D();
 		default:
 			assert( false && "Unsupported component type." );
 			return nullptr;
 		}
 	}
 
-	TypePtr getVec4Type( Kind kind, uint32_t arraySize )
+	TypePtr getVec4Type( Kind kind )
 	{
 		switch ( kind )
 		{
 		case Kind::eBoolean:
-			return getVec4B( arraySize );
+			return getVec4B();
 		case Kind::eInt:
-			return getVec4I( arraySize );
+			return getVec4I();
 		case Kind::eUInt:
-			return getVec4U( arraySize );
+			return getVec4U();
 		case Kind::eFloat:
-			return getVec4F( arraySize );
+			return getVec4F();
 		case Kind::eDouble:
-			return getVec4D( arraySize );
+			return getVec4D();
 		default:
 			assert( false && "Unsupported component type." );
 			return nullptr;
 		}
 	}
 
-	TypePtr getVec2B( uint32_t arraySize )
+	TypePtr getVec2B()
 	{
-		static TypeCache<> cache{ Kind::eVec2B };
-		return cache.getType( arraySize );
+		static TypePtr cache = std::make_shared< Type >( Kind::eVec2B );
+		return cache;
 	}
 
-	TypePtr getVec3B( uint32_t arraySize )
+	TypePtr getVec3B()
 	{
-		static TypeCache<> cache{ Kind::eVec3B };
-		return cache.getType( arraySize );
+		static TypePtr cache = std::make_shared< Type >( Kind::eVec3B );
+		return cache;
 	}
 
-	TypePtr getVec4B( uint32_t arraySize )
+	TypePtr getVec4B()
 	{
-		static TypeCache<> cache{ Kind::eVec4B };
-		return cache.getType( arraySize );
+		static TypePtr cache = std::make_shared< Type >( Kind::eVec4B );
+		return cache;
 	}
 
-	TypePtr getVec2I( uint32_t arraySize )
+	TypePtr getVec2I()
 	{
-		static TypeCache<> cache{ Kind::eVec2I };
-		return cache.getType( arraySize );
+		static TypePtr cache = std::make_shared< Type >( Kind::eVec2I );
+		return cache;
 	}
 
-	TypePtr getVec3I( uint32_t arraySize )
+	TypePtr getVec3I()
 	{
-		static TypeCache<> cache{ Kind::eVec3I };
-		return cache.getType( arraySize );
+		static TypePtr cache = std::make_shared< Type >( Kind::eVec3I );
+		return cache;
 	}
 
-	TypePtr getVec4I( uint32_t arraySize )
+	TypePtr getVec4I()
 	{
-		static TypeCache<> cache{ Kind::eVec4I };
-		return cache.getType( arraySize );
+		static TypePtr cache = std::make_shared< Type >( Kind::eVec4I );
+		return cache;
 	}
 
-	TypePtr getVec2U( uint32_t arraySize )
+	TypePtr getVec2U()
 	{
-		static TypeCache<> cache{ Kind::eVec2U };
-		return cache.getType( arraySize );
+		static TypePtr cache = std::make_shared< Type >( Kind::eVec2U );
+		return cache;
 	}
 
-	TypePtr getVec3U( uint32_t arraySize )
+	TypePtr getVec3U()
 	{
-		static TypeCache<> cache{ Kind::eVec3U };
-		return cache.getType( arraySize );
+		static TypePtr cache = std::make_shared< Type >( Kind::eVec3U );
+		return cache;
 	}
 
-	TypePtr getVec4U( uint32_t arraySize )
+	TypePtr getVec4U()
 	{
-		static TypeCache<> cache{ Kind::eVec4U };
-		return cache.getType( arraySize );
+		static TypePtr cache = std::make_shared< Type >( Kind::eVec4U );
+		return cache;
 	}
 
-	TypePtr getVec2F( uint32_t arraySize )
+	TypePtr getVec2F()
 	{
-		static TypeCache<> cache{ Kind::eVec2F };
-		return cache.getType( arraySize );
+		static TypePtr cache = std::make_shared< Type >( Kind::eVec2F );
+		return cache;
 	}
 
-	TypePtr getVec3F( uint32_t arraySize )
+	TypePtr getVec3F()
 	{
-		static TypeCache<> cache{ Kind::eVec3F };
-		return cache.getType( arraySize );
+		static TypePtr cache = std::make_shared< Type >( Kind::eVec3F );
+		return cache;
 	}
 
-	TypePtr getVec4F( uint32_t arraySize )
+	TypePtr getVec4F()
 	{
-		static TypeCache<> cache{ Kind::eVec4F };
-		return cache.getType( arraySize );
+		static TypePtr cache = std::make_shared< Type >( Kind::eVec4F );
+		return cache;
 	}
 
-	TypePtr getVec2D( uint32_t arraySize )
+	TypePtr getVec2D()
 	{
-		static TypeCache<> cache{ Kind::eVec2D };
-		return cache.getType( arraySize );
+		static TypePtr cache = std::make_shared< Type >( Kind::eVec2D );
+		return cache;
 	}
 
-	TypePtr getVec3D( uint32_t arraySize )
+	TypePtr getVec3D()
 	{
-		static TypeCache<> cache{ Kind::eVec3D };
-		return cache.getType( arraySize );
+		static TypePtr cache = std::make_shared< Type >( Kind::eVec3D );
+		return cache;
 	}
 
-	TypePtr getVec4D( uint32_t arraySize )
+	TypePtr getVec4D()
 	{
-		static TypeCache<> cache{ Kind::eVec4D };
-		return cache.getType( arraySize );
+		static TypePtr cache = std::make_shared< Type >( Kind::eVec4D );
+		return cache;
 	}
 
-	TypePtr getMat2x2F( uint32_t arraySize )
+	TypePtr getMat2x2F()
 	{
-		static TypeCache<> cache{ Kind::eMat2x2F };
-		return cache.getType( arraySize );
+		static TypePtr cache = std::make_shared< Type >( Kind::eMat2x2F );
+		return cache;
 	}
 
-	TypePtr getMat2x3F( uint32_t arraySize )
+	TypePtr getMat2x3F()
 	{
-		static TypeCache<> cache{ Kind::eMat2x3F };
-		return cache.getType( arraySize );
+		static TypePtr cache = std::make_shared< Type >( Kind::eMat2x3F );
+		return cache;
 	}
 
-	TypePtr getMat2x4F( uint32_t arraySize )
+	TypePtr getMat2x4F()
 	{
-		static TypeCache<> cache{ Kind::eMat2x4F };
-		return cache.getType( arraySize );
+		static TypePtr cache = std::make_shared< Type >( Kind::eMat2x4F );
+		return cache;
 	}
 
-	TypePtr getMat3x2F( uint32_t arraySize )
+	TypePtr getMat3x2F()
 	{
-		static TypeCache<> cache{ Kind::eMat3x2F };
-		return cache.getType( arraySize );
+		static TypePtr cache = std::make_shared< Type >( Kind::eMat3x2F );
+		return cache;
 	}
 
-	TypePtr getMat3x3F( uint32_t arraySize )
+	TypePtr getMat3x3F()
 	{
-		static TypeCache<> cache{ Kind::eMat3x3F };
-		return cache.getType( arraySize );
+		static TypePtr cache = std::make_shared< Type >( Kind::eMat3x3F );
+		return cache;
 	}
 
-	TypePtr getMat3x4F( uint32_t arraySize )
+	TypePtr getMat3x4F()
 	{
-		static TypeCache<> cache{ Kind::eMat3x4F };
-		return cache.getType( arraySize );
+		static TypePtr cache = std::make_shared< Type >( Kind::eMat3x4F );
+		return cache;
 	}
 
-	TypePtr getMat4x2F( uint32_t arraySize )
+	TypePtr getMat4x2F()
 	{
-		static TypeCache<> cache{ Kind::eMat4x2F };
-		return cache.getType( arraySize );
+		static TypePtr cache = std::make_shared< Type >( Kind::eMat4x2F );
+		return cache;
 	}
 
-	TypePtr getMat4x3F( uint32_t arraySize )
+	TypePtr getMat4x3F()
 	{
-		static TypeCache<> cache{ Kind::eMat4x3F };
-		return cache.getType( arraySize );
+		static TypePtr cache = std::make_shared< Type >( Kind::eMat4x3F );
+		return cache;
 	}
 
-	TypePtr getMat4x4F( uint32_t arraySize )
+	TypePtr getMat4x4F()
 	{
-		static TypeCache<> cache{ Kind::eMat4x4F };
-		return cache.getType( arraySize );
+		static TypePtr cache = std::make_shared< Type >( Kind::eMat4x4F );
+		return cache;
 	}
 
-	TypePtr getMat2x2D( uint32_t arraySize )
+	TypePtr getMat2x2D()
 	{
-		static TypeCache<> cache{ Kind::eMat2x2D };
-		return cache.getType( arraySize );
+		static TypePtr cache = std::make_shared< Type >( Kind::eMat2x2D );
+		return cache;
 	}
 
-	TypePtr getMat2x3D( uint32_t arraySize )
+	TypePtr getMat2x3D()
 	{
-		static TypeCache<> cache{ Kind::eMat2x3D };
-		return cache.getType( arraySize );
+		static TypePtr cache = std::make_shared< Type >( Kind::eMat2x3D );
+		return cache;
 	}
 
-	TypePtr getMat2x4D( uint32_t arraySize )
+	TypePtr getMat2x4D()
 	{
-		static TypeCache<> cache{ Kind::eMat2x4D };
-		return cache.getType( arraySize );
+		static TypePtr cache = std::make_shared< Type >( Kind::eMat2x4D );
+		return cache;
 	}
 
-	TypePtr getMat3x2D( uint32_t arraySize )
+	TypePtr getMat3x2D()
 	{
-		static TypeCache<> cache{ Kind::eMat3x2D };
-		return cache.getType( arraySize );
+		static TypePtr cache = std::make_shared< Type >( Kind::eMat3x2D );
+		return cache;
 	}
 
-	TypePtr getMat3x3D( uint32_t arraySize )
+	TypePtr getMat3x3D()
 	{
-		static TypeCache<> cache{ Kind::eMat3x3D };
-		return cache.getType( arraySize );
+		static TypePtr cache = std::make_shared< Type >( Kind::eMat3x3D );
+		return cache;
 	}
 
-	TypePtr getMat3x4D( uint32_t arraySize )
+	TypePtr getMat3x4D()
 	{
-		static TypeCache<> cache{ Kind::eMat3x4D };
-		return cache.getType( arraySize );
+		static TypePtr cache = std::make_shared< Type >( Kind::eMat3x4D );
+		return cache;
 	}
 
-	TypePtr getMat4x2D( uint32_t arraySize )
+	TypePtr getMat4x2D()
 	{
-		static TypeCache<> cache{ Kind::eMat4x2D };
-		return cache.getType( arraySize );
+		static TypePtr cache = std::make_shared< Type >( Kind::eMat4x2D );
+		return cache;
 	}
 
-	TypePtr getMat4x3D( uint32_t arraySize )
+	TypePtr getMat4x3D()
 	{
-		static TypeCache<> cache{ Kind::eMat4x3D };
-		return cache.getType( arraySize );
+		static TypePtr cache = std::make_shared< Type >( Kind::eMat4x3D );
+		return cache;
 	}
 
-	TypePtr getMat4x4D( uint32_t arraySize )
+	TypePtr getMat4x4D()
 	{
-		static TypeCache<> cache{ Kind::eMat4x4D };
-		return cache.getType( arraySize );
+		static TypePtr cache = std::make_shared< Type >( Kind::eMat4x4D );
+		return cache;
 	}
 
-	TypePtr getConstantsBuffer( uint32_t arraySize )
+	TypePtr getConstantsBuffer()
 	{
-		static TypeCache<> cache{ Kind::eConstantsBuffer };
-		return cache.getType( arraySize );
+		static TypePtr cache = std::make_shared< Type >( Kind::eConstantsBuffer );
+		return cache;
 	}
 
-	TypePtr getShaderBuffer( uint32_t arraySize )
+	TypePtr getShaderBuffer()
 	{
-		static TypeCache<> cache{ Kind::eShaderBuffer };
-		return cache.getType( arraySize );
+		static TypePtr cache = std::make_shared< Type >( Kind::eShaderBuffer );
+		return cache;
 	}
 
-	TypePtr getSampler( uint32_t arraySize )
+	TypePtr getSampler()
 	{
-		static TypeCache<> cache{ Kind::eSampler };
-		return cache.getType( arraySize );
+		static TypePtr cache = std::make_shared< Type >( Kind::eSampler );
+		return cache;
 	}
 
-	TypePtr getImage( ImageConfiguration config
-		, uint32_t arraySize )
+	TypePtr getImage( ImageConfiguration config )
 	{
-		static auto cache{ makeTypeCache< Image >( makeImageType ) };
-		return cache.getType( arraySize, config );
+		static auto cache{ makeTypeCache< Image >( makeImageType
+			, []( ImageConfiguration const & config )
+			{
+				return getHash( config );
+			} ) };
+		return cache.getType( config );
 	}
 
-	TypePtr getSampledImage( ImageConfiguration config
-		, uint32_t arraySize )
+	TypePtr getSampledImage( ImageConfiguration config )
 	{
-		static auto cache{ makeTypeCache< SampledImage >( makeSampledImageType ) };
-		return cache.getType( arraySize, config );
+		static auto cache{ makeTypeCache< SampledImage >( makeSampledImageType
+			, []( ImageConfiguration const & config )
+			{
+				return getHash( config );
+			} ) };
+		return cache.getType( config );
 	}
 
-	TypePtr getSampler( bool comparison
-		, uint32_t arraySize )
+	TypePtr getSampler( bool comparison )
 	{
-		static auto cache{ makeTypeCache< Sampler >( makeSamplerType ) };
-		return cache.getType( arraySize, comparison );
+		static auto cache{ makeTypeCache< Sampler >( makeSamplerType
+			, []( bool comparison )
+			{
+				return comparison ? 1u : 0u;
+			} ) };
+		return cache.getType( comparison );
 	}
 
 	//*************************************************************************
 
-	TypePtr makeType( Kind kind, uint32_t arraySize )
+	TypePtr makeType( Kind kind )
 	{
 		assert( kind != Kind::eImage
 			&& kind != Kind::eSampledImage
@@ -392,93 +421,91 @@ namespace ast::type
 		switch ( kind )
 		{
 		case Kind::eUndefined:
-			return getUndefined( arraySize );
+			return getUndefined();
 		case Kind::eVoid:
-			return getVoid( arraySize );
+			return getVoid();
 		case Kind::eFunction:
-			return getFunction( arraySize );
+			return getFunction();
 		case Kind::eBoolean:
-			return getBool( arraySize );
+			return getBool();
 		case Kind::eInt:
-			return getInt( arraySize );
+			return getInt();
 		case Kind::eUInt:
-			return getUInt( arraySize );
+			return getUInt();
 		case Kind::eFloat:
-			return getFloat( arraySize );
+			return getFloat();
 		case Kind::eDouble:
-			return getDouble( arraySize );
+			return getDouble();
 		case Kind::eVec2B:
-			return getVec2B( arraySize );
+			return getVec2B();
 		case Kind::eVec3B:
-			return getVec3B( arraySize );
+			return getVec3B();
 		case Kind::eVec4B:
-			return getVec4B( arraySize );
+			return getVec4B();
 		case Kind::eVec2I:
-			return getVec2I( arraySize );
+			return getVec2I();
 		case Kind::eVec3I:
-			return getVec3I( arraySize );
+			return getVec3I();
 		case Kind::eVec4I:
-			return getVec4I( arraySize );
+			return getVec4I();
 		case Kind::eVec2U:
-			return getVec2U( arraySize );
+			return getVec2U();
 		case Kind::eVec3U:
-			return getVec3U( arraySize );
+			return getVec3U();
 		case Kind::eVec4U:
-			return getVec4U( arraySize );
+			return getVec4U();
 		case Kind::eVec2F:
-			return getVec2F( arraySize );
+			return getVec2F();
 		case Kind::eVec3F:
-			return getVec3F( arraySize );
+			return getVec3F();
 		case Kind::eVec4F:
-			return getVec4F( arraySize );
+			return getVec4F();
 		case Kind::eVec2D:
-			return getVec2D( arraySize );
+			return getVec2D();
 		case Kind::eVec3D:
-			return getVec3D( arraySize );
+			return getVec3D();
 		case Kind::eVec4D:
-			return getVec4D( arraySize );
+			return getVec4D();
 		case Kind::eMat2x2F:
-			return getMat2x2F( arraySize );
+			return getMat2x2F();
 		case Kind::eMat2x3F:
-			return getMat2x3F( arraySize );
+			return getMat2x3F();
 		case Kind::eMat2x4F:
-			return getMat2x4F( arraySize );
+			return getMat2x4F();
 		case Kind::eMat3x2F:
-			return getMat3x2F( arraySize );
+			return getMat3x2F();
 		case Kind::eMat3x3F:
-			return getMat3x3F( arraySize );
+			return getMat3x3F();
 		case Kind::eMat3x4F:
-			return getMat3x4F( arraySize );
+			return getMat3x4F();
 		case Kind::eMat4x2F:
-			return getMat4x2F( arraySize );
+			return getMat4x2F();
 		case Kind::eMat4x3F:
-			return getMat4x3F( arraySize );
+			return getMat4x3F();
 		case Kind::eMat4x4F:
-			return getMat4x4F( arraySize );
+			return getMat4x4F();
 		case Kind::eMat2x2D:
-			return getMat2x2D( arraySize );
+			return getMat2x2D();
 		case Kind::eMat2x3D:
-			return getMat2x3D( arraySize );
+			return getMat2x3D();
 		case Kind::eMat2x4D:
-			return getMat2x4D( arraySize );
+			return getMat2x4D();
 		case Kind::eMat3x2D:
-			return getMat3x2D( arraySize );
+			return getMat3x2D();
 		case Kind::eMat3x3D:
-			return getMat3x3D( arraySize );
+			return getMat3x3D();
 		case Kind::eMat3x4D:
-			return getMat3x4D( arraySize );
+			return getMat3x4D();
 		case Kind::eMat4x2D:
-			return getMat4x2D( arraySize );
+			return getMat4x2D();
 		case Kind::eMat4x3D:
-			return getMat4x3D( arraySize );
+			return getMat4x3D();
 		case Kind::eMat4x4D:
-			return getMat4x4D( arraySize );
+			return getMat4x4D();
 		case Kind::eConstantsBuffer:
-			return getConstantsBuffer( arraySize );
+			return getConstantsBuffer();
 		case Kind::eShaderBuffer:
-			return getShaderBuffer( arraySize );
-		case Kind::eSampler:
-			return getSampler( arraySize );
+			return getShaderBuffer();
 		default:
 			assert( false && "Unexpected Kind" );
 			return nullptr;

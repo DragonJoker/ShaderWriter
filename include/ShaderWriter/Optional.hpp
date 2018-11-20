@@ -60,7 +60,8 @@ namespace sdw
 	using RealTypeT = typename RealTypeOf< T >::Type;
 
 	template< typename T >
-	expr::ExprPtr makeExpr( Optional< T > const & value );
+	expr::ExprPtr makeExpr( Optional< T > const & value
+		, bool force = false );
 
 	template< typename T >
 	bool isOptionalEnabled( T const & value );

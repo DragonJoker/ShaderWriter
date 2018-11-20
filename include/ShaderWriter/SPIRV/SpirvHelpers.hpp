@@ -67,13 +67,16 @@ namespace sdw::spirv
 		, IdList const & accessChain );
 	Instruction makeVectorShuffle( spv::Id resultId
 		, spv::Id typeId
+		, IdList const & shuffle );
+	Instruction makeVectorShuffle( spv::Id resultId
+		, spv::Id typeId
 		, spv::Id vector
-		, std::vector< uint32_t >const & components );
+		, IdList const & components );
 	Instruction makeVectorShuffle( spv::Id resultId
 		, spv::Id typeId
 		, spv::Id vector1
 		, spv::Id vector2
-		, std::vector< uint32_t >const & components );
+		, IdList const & components );
 
 	Instruction makeInstruction( spv::Op op );
 	Instruction makeInstruction( spv::Op op
@@ -136,6 +139,18 @@ namespace sdw::spirv
 		, type::Kind lhsTypeKind
 		, type::Kind rhsTypeKind
 		, spv::Id resultId
+		, spv::Id lhs
+		, spv::Id rhs );
+	Instruction makeUnSpecConstantInstruction( expr::Kind exprKind
+		, type::Kind typeKind
+		, spv::Id resultId
+		, spv::Id typeId
+		, spv::Id operand );
+	Instruction makeBinSpecConstantInstruction( expr::Kind exprKind
+		, type::Kind lhsTypeKind
+		, type::Kind rhsTypeKind
+		, spv::Id resultId
+		, spv::Id typeId
 		, spv::Id lhs
 		, spv::Id rhs );
 	Instruction makeUnInstruction( expr::Kind exprKind

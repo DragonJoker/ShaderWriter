@@ -70,32 +70,12 @@ namespace sdw
 {
 	ast::type::TypePtr getNonArrayType( ast::type::TypePtr type )
 	{
-		if ( type->getArraySize() == type::NotArray )
-		{
-			return type;
-		}
-
 		switch ( type->getKind() )
 		{
-		case type::Kind::eStruct:
-			{
-				auto structType = std::static_pointer_cast< type::Struct >( type );
-				auto result = type::makeStructType( structType->getMemoryLayout()
-					, structType->getName() );
-
-				for ( auto & member : *structType )
-				{
-					result->declMember( member.name, member.type );
-				}
-
-				return result;
-			}
-		case type::Kind::eImage:
-			return type::makeImageType( std::static_pointer_cast< type::Image >( type )->getConfig() );
-		case type::Kind::eSampledImage:
-			return type::makeSampledImageType( std::static_pointer_cast< type::SampledImage >( type )->getConfig() );
+		case type::Kind::eArray:
+			return std::static_pointer_cast< type::Array >( type )->getType();
 		default:
-			return type::makeType( type->getKind() );
+			return type;
 		}
 	}
 
@@ -467,6 +447,17 @@ namespace sdw
 			, std::move( args ) );
 	}
 
+	expr::ExprPtr makeFnCall( type::TypePtr type
+		, expr::IdentifierPtr name
+		, expr::IdentifierPtr instance
+		, expr::ExprList && args )
+	{
+		return expr::makeMemberFnCall( std::move( type )
+			, std::move( name )
+			, std::move( instance )
+			, std::move( args ) );
+	}
+
 	expr::ExprPtr makeCompositeCtor( expr::CompositeType composite
 		, type::Kind component
 		, expr::ExprList && args )
@@ -553,6 +544,15 @@ namespace sdw
 	{
 		return stmt::makeInOutVariableDecl( std::move( var )
 			, location );
+	}
+
+	stmt::StmtPtr makeSpecConstantDecl( var::VariablePtr var
+		, uint32_t location
+		, expr::LiteralPtr literal )
+	{
+		return stmt::makeSpecialisationConstantDecl( std::move( var )
+			, location
+			, std::move( literal ) );
 	}
 
 	stmt::StmtPtr makeSampledImgDecl( var::VariablePtr var

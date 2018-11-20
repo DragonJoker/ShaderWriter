@@ -708,6 +708,30 @@ namespace sdw::spirv
 			}
 		}
 
+		spv::Id writeShuffle( Module & module
+			, Block & currentBlock
+			, spv::Id typeId
+			, spv::Id outerId
+			, expr::SwizzleKind swizzle )
+		{
+			auto swizzleComponents = getSwizzleComponents( swizzle );
+			IdList shuffle;
+			shuffle.push_back( outerId );
+			shuffle.insert( shuffle.end(), swizzleComponents.begin(), swizzleComponents.end() );
+			auto it = currentBlock.vectorShuffles.find( shuffle );
+
+			if ( it == currentBlock.vectorShuffles.end() )
+			{
+				auto intermediate = module.getIntermediateResult();
+				currentBlock.instructions.emplace_back( makeVectorShuffle( intermediate
+					, typeId
+					, shuffle ) );
+				it = currentBlock.vectorShuffles.emplace( shuffle, intermediate ).first;
+			}
+
+			return it->second;
+		}
+
 		bool isAccessChain( expr::Expr * expr )
 		{
 			return expr->getKind() == expr::Kind::eArrayAccess
@@ -999,16 +1023,11 @@ namespace sdw::spirv
 						, m_module );
 				}
 
-				auto rawType = m_module.registerType( expr->getType() );
-				auto pointerType = m_module.registerPointerType( rawType, spv::StorageClass::Function );
-				auto intermediate = m_module.getIntermediateResult();
-				m_currentBlock.instructions.emplace_back( makeVectorShuffle( intermediate
-					, pointerType
-					, parentId
-					, getSwizzleComponents( expr->getSwizzle() ) ) );
+				auto rawTypeId = m_module.registerType( expr->getType() );
+				auto pointerTypeId = m_module.registerPointerType( rawTypeId, spv::StorageClass::Function );
+				auto shuffleId = writeShuffle( m_module, m_currentBlock, pointerTypeId, parentId, expr->getSwizzle() );
 				m_result = m_module.getIntermediateResult();
-				m_currentBlock.instructions.emplace_back( makeLoad( m_result, rawType, intermediate ) );
-				m_module.putIntermediateResult( intermediate );
+				m_currentBlock.instructions.emplace_back( makeLoad( m_result, rawTypeId, shuffleId ) );
 			}
 
 			void visitAggrInitExpr( expr::AggrInit * )override
@@ -1069,6 +1088,37 @@ namespace sdw::spirv
 			expr::Expr * m_parentExpr;
 		};
 
+		spv::Id writeAccessChain( Block & currentBlock
+			, IdList const & accessChain
+			, expr::Expr * expr
+			, Module & module )
+		{
+			auto it = currentBlock.accessChains.find( accessChain );
+
+			if ( it == currentBlock.accessChains.end() )
+			{
+			// Reserve the ID for the result.
+				auto intermediate = module.getIntermediateResult();
+				// Register the type pointed to.
+				auto rawType = module.registerType( expr->getType() );
+				// Register the pointer to the type.
+				auto pointerType = module.registerPointerType( rawType
+					, getStorageClass( findIdentifier( expr )->getVariable() ) );
+				// Write access chain => resultId = pointerType( outer.members + index ).
+				currentBlock.instructions.emplace_back( spirv::makeAccessChain( spv::Op::OpAccessChain
+					, intermediate
+					, pointerType
+					, accessChain ) );
+				auto result = module.loadVariable( intermediate
+					, expr->getType()
+					, currentBlock );
+				module.putIntermediateResult( intermediate );
+				it = currentBlock.accessChains.emplace( accessChain, result ).first;
+			}
+
+			return it->second;
+		}
+
 		spv::Id makeAccessChain( expr::Expr * expr
 			, Module & module
 			, Block & currentBlock )
@@ -1079,23 +1129,7 @@ namespace sdw::spirv
 			auto accessChain = AccessChainCreator::submit( accessChainExprs
 				, module
 				, currentBlock );
-			// Reserve the ID for the result.
-			auto intermediate = module.getIntermediateResult();
-			// Register the type pointed to.
-			auto rawType = module.registerType( expr->getType() );
-			// Register the pointer to the type.
-			auto pointerType = module.registerPointerType( rawType
-				, getStorageClass( findIdentifier( expr )->getVariable() ) );
-			// Write access chain => resultId = pointerType( outer.members + index ).
-			currentBlock.instructions.emplace_back( spirv::makeAccessChain( spv::Op::OpAccessChain
-				, intermediate
-				, pointerType
-				, accessChain ) );
-			auto result = module.loadVariable( intermediate
-				, expr->getType()
-				, currentBlock );
-			module.putIntermediateResult( intermediate );
-			return result;
+			return writeAccessChain( currentBlock, accessChain, expr, module );
 		}
 	}
 
@@ -1131,6 +1165,10 @@ namespace sdw::spirv
 		{
 			result = spv::StorageClass::Input;
 		}
+		else if ( var->isSpecialisationConstant() )
+		{
+			assert( false && "Specialisation constants shouldn't be processed as variables" );
+		}
 		else if ( var->isPushConstant() )
 		{
 			result = spv::StorageClass::PushConstant;
@@ -1158,7 +1196,7 @@ namespace sdw::spirv
 			, module
 			, allLiterals };
 		expr->accept( &vis );
-		assert( result != 0u );
+
 		return result;
 	}
 
@@ -1192,15 +1230,29 @@ namespace sdw::spirv
 			, expr->getType()
 			, m_currentBlock );
 		auto rhsId = submit( expr->getRHS(), m_currentBlock, m_module );
-
 		auto intermediateId = m_module.getIntermediateResult();
-		m_currentBlock.instructions.emplace_back( makeBinInstruction( expr->getKind()
-			, expr->getLHS()->getType()->getKind()
-			, expr->getRHS()->getType()->getKind()
-			, intermediateId
-			, typeId
-			, loadedLhsId
-			, rhsId ) );
+
+		if ( expr->getLHS()->isSpecialisationConstant() )
+		{
+			m_currentBlock.instructions.emplace_back( makeBinSpecConstantInstruction( expr->getKind()
+				, expr->getLHS()->getType()->getKind()
+				, expr->getRHS()->getType()->getKind()
+				, intermediateId
+				, typeId
+				, loadedLhsId
+				, rhsId ) );
+		}
+		else
+		{
+			m_currentBlock.instructions.emplace_back( makeBinInstruction( expr->getKind()
+				, expr->getLHS()->getType()->getKind()
+				, expr->getRHS()->getType()->getKind()
+				, intermediateId
+				, typeId
+				, loadedLhsId
+				, rhsId ) );
+		}
+
 		m_currentBlock.instructions.emplace_back( makeStore( lhsId, intermediateId ) );
 		m_module.putIntermediateResult( intermediateId );
 		m_module.putIntermediateResult( loadedLhsId );
@@ -1213,11 +1265,24 @@ namespace sdw::spirv
 		auto operand = submit( expr->getOperand(), m_currentBlock, m_module );
 		auto type = m_module.registerType( expr->getType() );
 		auto intermediate = m_module.getIntermediateResult();
-		m_currentBlock.instructions.emplace_back( makeUnInstruction( expr->getKind()
-			, expr->getType()->getKind()
-			, intermediate
-			, type
-			, operand ) );
+
+		if ( expr->isSpecialisationConstant() )
+		{
+			m_currentBlock.instructions.emplace_back( makeUnSpecConstantInstruction( expr->getKind()
+				, expr->getType()->getKind()
+				, intermediate
+				, type
+				, operand ) );
+		}
+		else
+		{
+			m_currentBlock.instructions.emplace_back( makeUnInstruction( expr->getKind()
+				, expr->getType()->getKind()
+				, intermediate
+				, type
+				, operand ) );
+		}
+
 		m_result = intermediate;
 	}
 
@@ -1228,13 +1293,28 @@ namespace sdw::spirv
 		auto rhs = submit( expr->getRHS(), m_currentBlock, m_module );
 		auto type = m_module.registerType( expr->getType() );
 		auto intermediate = m_module.getIntermediateResult();
-		m_currentBlock.instructions.emplace_back( makeBinInstruction( expr->getKind()
-			, expr->getLHS()->getType()->getKind()
-			, expr->getRHS()->getType()->getKind()
-			, intermediate
-			, type
-			, lhs
-			, rhs ) );
+
+		if ( expr->isSpecialisationConstant() )
+		{
+			m_currentBlock.instructions.emplace_back( makeBinSpecConstantInstruction( expr->getKind()
+				, expr->getLHS()->getType()->getKind()
+				, expr->getRHS()->getType()->getKind()
+				, intermediate
+				, type
+				, lhs
+				, rhs ) );
+		}
+		else
+		{
+			m_currentBlock.instructions.emplace_back( makeBinInstruction( expr->getKind()
+				, expr->getLHS()->getType()->getKind()
+				, expr->getRHS()->getType()->getKind()
+				, intermediate
+				, type
+				, lhs
+				, rhs ) );
+		}
+
 		m_result = intermediate;
 	}
 
@@ -1528,9 +1608,18 @@ namespace sdw::spirv
 		}
 		else
 		{
-			m_result = m_module.registerVariable( var->getName()
-				, getStorageClass( var )
-				, expr->getType() );
+			if ( var->isSpecialisationConstant() )
+			{
+				m_result = m_module.registerVariable( var->getName()
+					, spv::StorageClass::Input
+					, expr->getType() );
+			}
+			else
+			{
+				m_result = m_module.registerVariable( var->getName()
+					, getStorageClass( var )
+					, expr->getType() );
+			}
 
 			if ( var->isLocale()
 				|| var->isShaderInput() )
@@ -1712,11 +1801,21 @@ namespace sdw::spirv
 		auto falseId = submit( expr->getFalseExpr(), m_currentBlock, m_module );
 		auto type = m_module.registerType( expr->getType() );
 		auto intermediate = m_module.getIntermediateResult();
-		m_currentBlock.instructions.emplace_back( makeInstruction( expr->getKind()
-			, expr->getType()->getKind()
-			, intermediate
-			, type
-			, IdList{ ctrlId, trueId, falseId } ) );
+
+		if ( expr->getCtrlExpr()->isSpecialisationConstant() )
+		{
+			m_currentBlock.instructions.emplace_back( makeInstruction( spv::Op::OpSpecConstantOp
+				, intermediate
+				, type
+				, IdList{ spv::Id( spv::Op::OpSelect ), ctrlId, trueId, falseId } ) );
+		}
+		else
+		{
+			m_currentBlock.instructions.emplace_back( makeInstruction( spv::Op::OpSelect
+				, intermediate
+				, type
+				, IdList{ ctrlId, trueId, falseId } ) );
+		}
 		m_result = intermediate;
 	}
 
@@ -1733,14 +1832,10 @@ namespace sdw::spirv
 	void ExprVisitor::visitSwizzleExpr( expr::Swizzle * expr )
 	{
 		m_allLiterals = false;
-		auto outer = submit( expr->getOuterExpr(), m_currentBlock, m_module );
-		auto rawType = m_module.registerType( expr->getType() );
-		auto pointerType = m_module.registerPointerType( rawType, spv::StorageClass::Function );
-		m_result = m_module.getIntermediateResult();
-		m_currentBlock.instructions.emplace_back( makeVectorShuffle( m_result
-			, pointerType
-			, outer
-			, getSwizzleComponents( expr->getSwizzle() ) ) );
+		auto outerId = submit( expr->getOuterExpr(), m_currentBlock, m_module );
+		auto rawTypeId = m_module.registerType( expr->getType() );
+		auto pointerTypeId = m_module.registerPointerType( rawTypeId, spv::StorageClass::Function );
+		m_result = writeShuffle( m_module, m_currentBlock, pointerTypeId, outerId, expr->getSwizzle() );
 	}
 
 	void ExprVisitor::visitTextureAccessCallExpr( expr::TextureAccessCall * expr )

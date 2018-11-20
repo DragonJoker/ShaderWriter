@@ -96,7 +96,8 @@ namespace sdw
 			, uint32_t location
 			, type::TypePtr type );
 		var::VariablePtr registerBuiltin( std::string const & name
-			, type::TypePtr type );
+			, type::TypePtr type
+			, var::Flag flag );
 		var::VariablePtr registerLocale( std::string const & name
 			, type::TypePtr type );
 		var::VariablePtr registerInParam( std::string const & name

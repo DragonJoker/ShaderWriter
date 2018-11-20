@@ -3,6 +3,7 @@
 #include <ASTGenerator/Expr/ExprVisitor.hpp>
 #include <ASTGenerator/Stmt/StmtVisitor.hpp>
 #include <ASTGenerator/Type/ImageConfiguration.hpp>
+#include <ASTGenerator/Type/TypeArray.hpp>
 
 #include <iostream>
 #include <stdexcept>
@@ -80,6 +81,23 @@ namespace test
 		std::ofstream m_fstream;
 	};
 
+	struct DebugLogStreambufTraits
+	{
+		static inline void log( std::ostream & stream
+			, std::string const & text )
+		{
+			stream << "DEBUG: " << text << std::endl;
+			printf( "%s\n", text.c_str() );
+		}
+
+		static inline void logNoNL( std::ostream & stream
+			, std::string const & text )
+		{
+			stream << "DEBUG: " << text;
+			printf( "%s", text.c_str() );
+		}
+	};
+
 	struct InfoLogStreambufTraits
 	{
 		static inline void log( std::ostream & stream
@@ -88,6 +106,7 @@ namespace test
 			stream << text << std::endl;
 			printf( "%s\n", text.c_str() );
 		}
+
 		static inline void logNoNL( std::ostream & stream
 			, std::string const & text )
 		{
@@ -104,6 +123,7 @@ namespace test
 			stream << "ERROR: " << text << std::endl;
 			printf( "%s\n", text.c_str() );
 		}
+
 		static inline void logNoNL( std::ostream & stream
 			, std::string const & text )
 		{
@@ -114,45 +134,62 @@ namespace test
 
 	struct TestCounts
 	{
+		void initialise( std::string const & name );
+		void cleanup();
+
 		uint32_t totalCount = 0u;
 		uint32_t errorCount = 0u;
+
+	private:
+		std::unique_ptr< std::streambuf > tclog;
+		std::unique_ptr< std::streambuf > tcout;
+		std::unique_ptr< std::streambuf > tcerr;
 	};
 
+	int reportTestSuite( TestCounts const & testCounts );
+	void reportFailure( char const * const error
+		, char const * const function
+		, int line
+		, TestCounts & testCounts );
+	inline void reportFailure( std::string const & error
+		, char const * const function
+		, int line
+		, TestCounts & testCounts )
+	{
+		reportFailure( error.c_str(), function, line, testCounts );
+	}
+
+
+#define testStringify( x )\
+	#x
+
+#define testConcat2( x, y )\
+	testStringify( x )##testStringify( y )
+
+#define testConcat3( x, y, z )\
+	testConcat2( x, y )##testStringify( z )
+
+#define testConcat4( x, y, z, w )\
+	testConcat3( x, y, z )##testStringify( w )
+
 #define testSuiteBegin( name )\
-	auto result = EXIT_SUCCESS;\
 	test::TestCounts testCounts;\
+	testCounts.initialise( name );\
 	try\
 	{\
-		auto tcout = std::make_unique< test::LogStreambuf< test::InfoLogStreambufTraits > >( name, std::cout );\
-		auto tcerr = std::make_unique< test::LogStreambuf< test::ErrorLogStreambufTraits > >( name, std::cerr );\
 
 #define testSuiteEnd()\
-		if ( testCounts.errorCount )\
-		{\
-			std::cout << "********************************************************************************" << std::endl;\
-			std::cout << "Test suite ended with some failures." << std::endl;\
-			std::cout << "Total checks count: " << testCounts.totalCount << std::endl;\
-			std::cout << "Failed checks count: " << testCounts.errorCount << std::endl;\
-			result = EXIT_FAILURE;\
-		}\
-		else\
-		{\
-			std::cout << "********************************************************************************" << std::endl;\
-			std::cout << "Test suite ended cleanly." << std::endl;\
-			std::cout << "Total checks count: " << testCounts.totalCount << std::endl;\
-			result = EXIT_SUCCESS;\
-		}\
 	}\
 	catch ( std::exception & exc )\
 	{\
-		std::cout << "Test failed, Unhandled exception: " << exc.what() << std::endl;\
-		result = EXIT_FAILURE;\
+		test::reportFailure( std::string{ "Test failed, Unhandled exception: " } + exc.what(), __FUNCTION__, __LINE__, testCounts );\
 	}\
 	catch ( ... )\
 	{\
-		std::cout << "Test failed, Unhandled exception: Unknown." << std::endl;\
-		result = EXIT_FAILURE;\
+		test::reportFailure( "Test failed, Unhandled exception: Unknown", __FUNCTION__, __LINE__, testCounts );\
 	}\
+	auto result = test::reportTestSuite( testCounts );\
+	testCounts.cleanup();\
 	return result;
 
 #define testBegin( name )\
@@ -176,8 +213,7 @@ namespace test
 
 #define failure( x )\
 	++testCounts.totalCount;\
-	++testCounts.errorCount;\
-	std::cout << x << " failed" << std::endl;\
+	test::reportFailure( #x##" failed.", __FUNCTION__, __LINE__, testCounts );\
 
 #define require( x )\
 	try\
@@ -190,8 +226,7 @@ namespace test
 	}\
 	catch ( ... )\
 	{\
-		++testCounts.errorCount;\
-		throw std::runtime_error{ std::string{ #x } + " failed" };\
+		test::reportFailure( testConcat2( x, " failed." ), __FUNCTION__, __LINE__, testCounts );\
 	}
 
 #define check( x )\
@@ -200,14 +235,12 @@ namespace test
 		++testCounts.totalCount;\
 		if ( !( x ) )\
 		{\
-			++testCounts.errorCount;\
-			std::cout << std::string{ #x } << " failed" << std::endl;\
+			test::reportFailure( testConcat2( x, " failed." ), __FUNCTION__, __LINE__, testCounts );\
 		}\
 	}\
 	catch ( ... )\
 	{\
-		++testCounts.errorCount;\
-		std::cout << std::string{ #x } << " failed: Unhandled exception" << std::endl;\
+		test::reportFailure( testConcat2( x, " failed: Unhandled exception." ), __FUNCTION__, __LINE__, testCounts );\
 	}
 
 #define checkEqual( x, y )\
@@ -221,8 +254,7 @@ namespace test
 	}\
 	catch ( ... )\
 	{\
-		++testCounts.errorCount;\
-		throw std::runtime_error{ std::string{ #x } + " == " + std::string{ #y } + " failed" };\
+		test::reportFailure( testConcat4( x, " == ", y, " failed." ), __FUNCTION__, __LINE__, testCounts );\
 	}
 
 #define checkNotEqual( x, y )\
@@ -236,8 +268,7 @@ namespace test
 	}\
 	catch ( ... )\
 	{\
-		++testCounts.errorCount;\
-		throw std::runtime_error{ std::string{ #x } + " != " + std::string{ #y } + " failed" };\
+		test::reportFailure( testConcat4( x, " != ", y, " failed." ), __FUNCTION__, __LINE__, testCounts );\
 	}
 
 #define checkThrow( x )\
@@ -245,8 +276,7 @@ namespace test
 	{\
 		++testCounts.totalCount;\
 		( x ); \
-		++testCounts.errorCount;\
-		throw std::runtime_error{ std::string{ #x } + " failed" };\
+		test::reportFailure( testConcat2( x, " failed." ), __FUNCTION__, __LINE__, testCounts );\
 	}\
 	catch ( ... )\
 	{\
@@ -260,7 +290,6 @@ namespace test
 	}\
 	catch ( ... )\
 	{\
-		++testCounts.errorCount;\
-		throw std::runtime_error{ std::string{ #x } + " failed" };\
+		test::reportFailure( testConcat2( x, " failed." ), __FUNCTION__, __LINE__, testCounts );\
 	}
 }

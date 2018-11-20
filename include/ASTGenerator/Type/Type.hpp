@@ -9,8 +9,6 @@ See LICENSE file in root folder
 
 namespace ast::type
 {
-	static uint32_t constexpr NotArray = 0u;
-	static uint32_t constexpr UnknownArraySize = ~( 0u );
 	static uint32_t constexpr NotMember = ~( 0u );
 	enum class Kind
 		: uint8_t
@@ -62,6 +60,7 @@ namespace ast::type
 		eSampler,
 		eImage,
 		eSampledImage,
+		eArray,
 		eCount,
 		eHalf,// Internal only, never use this !!!
 		eVec2H,// Internal only, never use this !!!
@@ -74,29 +73,23 @@ namespace ast::type
 	class Type
 	{
 	private:
-		template< typename TypeT, typename CreatorT >
+		template< typename TypeT
+			, typename CreatorT
+			, typename HasherT >
 		friend class TypeCache;
 		friend class Struct;
 
-	protected:
-		Type( Kind kind
-			, uint32_t arraySize = NotArray );
+	public:
+		Type( Kind kind );
 		Type( Struct * parent
 			, uint32_t index
-			, Kind kind
-			, uint32_t arraySize = NotArray );
+			, Kind kind );
 
-	public:
 		virtual ~Type();
 
 		inline Kind getKind()const
 		{
 			return m_kind;
-		}
-
-		inline uint32_t getArraySize()const
-		{
-			return m_arraySize;
 		}
 
 		inline bool isMember()const
@@ -116,68 +109,63 @@ namespace ast::type
 
 	private:
 		Kind m_kind;
-		uint32_t m_arraySize;
 		Struct * m_parent;
 		uint32_t m_index;
 	};
 
-	TypePtr getUndefined( uint32_t arraySize = NotArray );
-	TypePtr getVoid( uint32_t arraySize = NotArray );
-	TypePtr getFunction( uint32_t arraySize = NotArray );
-	TypePtr getBool( uint32_t arraySize = NotArray );
-	TypePtr getInt( uint32_t arraySize = NotArray );
-	TypePtr getUInt( uint32_t arraySize = NotArray );
-	TypePtr getFloat( uint32_t arraySize = NotArray );
-	TypePtr getDouble( uint32_t arraySize = NotArray );
-	TypePtr getVec2Type( Kind kind, uint32_t arraySize = NotArray );
-	TypePtr getVec3Type( Kind kind, uint32_t arraySize = NotArray );
-	TypePtr getVec4Type( Kind kind, uint32_t arraySize = NotArray );
-	TypePtr getVec2B( uint32_t arraySize = NotArray );
-	TypePtr getVec3B( uint32_t arraySize = NotArray );
-	TypePtr getVec4B( uint32_t arraySize = NotArray );
-	TypePtr getVec2I( uint32_t arraySize = NotArray );
-	TypePtr getVec3I( uint32_t arraySize = NotArray );
-	TypePtr getVec4I( uint32_t arraySize = NotArray );
-	TypePtr getVec2U( uint32_t arraySize = NotArray );
-	TypePtr getVec3U( uint32_t arraySize = NotArray );
-	TypePtr getVec4U( uint32_t arraySize = NotArray );
-	TypePtr getVec2F( uint32_t arraySize = NotArray );
-	TypePtr getVec3F( uint32_t arraySize = NotArray );
-	TypePtr getVec4F( uint32_t arraySize = NotArray );
-	TypePtr getVec2D( uint32_t arraySize = NotArray );
-	TypePtr getVec3D( uint32_t arraySize = NotArray );
-	TypePtr getVec4D( uint32_t arraySize = NotArray );
-	TypePtr getMat2x2F( uint32_t arraySize = NotArray );
-	TypePtr getMat2x3F( uint32_t arraySize = NotArray );
-	TypePtr getMat2x4F( uint32_t arraySize = NotArray );
-	TypePtr getMat3x2F( uint32_t arraySize = NotArray );
-	TypePtr getMat3x3F( uint32_t arraySize = NotArray );
-	TypePtr getMat3x4F( uint32_t arraySize = NotArray );
-	TypePtr getMat4x2F( uint32_t arraySize = NotArray );
-	TypePtr getMat4x3F( uint32_t arraySize = NotArray );
-	TypePtr getMat4x4F( uint32_t arraySize = NotArray );
-	TypePtr getMat2x2D( uint32_t arraySize = NotArray );
-	TypePtr getMat2x3D( uint32_t arraySize = NotArray );
-	TypePtr getMat2x4D( uint32_t arraySize = NotArray );
-	TypePtr getMat3x2D( uint32_t arraySize = NotArray );
-	TypePtr getMat3x3D( uint32_t arraySize = NotArray );
-	TypePtr getMat3x4D( uint32_t arraySize = NotArray );
-	TypePtr getMat4x2D( uint32_t arraySize = NotArray );
-	TypePtr getMat4x3D( uint32_t arraySize = NotArray );
-	TypePtr getMat4x4D( uint32_t arraySize = NotArray );
-	TypePtr getConstantsBuffer( uint32_t arraySize = NotArray );
-	TypePtr getShaderBuffer( uint32_t arraySize = NotArray );
-	TypePtr getSampler( uint32_t arraySize = NotArray );
+	TypePtr getUndefined();
+	TypePtr getVoid();
+	TypePtr getFunction();
+	TypePtr getBool();
+	TypePtr getInt();
+	TypePtr getUInt();
+	TypePtr getFloat();
+	TypePtr getDouble();
+	TypePtr getVec2Type( Kind kind );
+	TypePtr getVec3Type( Kind kind );
+	TypePtr getVec4Type( Kind kind );
+	TypePtr getVec2B();
+	TypePtr getVec3B();
+	TypePtr getVec4B();
+	TypePtr getVec2I();
+	TypePtr getVec3I();
+	TypePtr getVec4I();
+	TypePtr getVec2U();
+	TypePtr getVec3U();
+	TypePtr getVec4U();
+	TypePtr getVec2F();
+	TypePtr getVec3F();
+	TypePtr getVec4F();
+	TypePtr getVec2D();
+	TypePtr getVec3D();
+	TypePtr getVec4D();
+	TypePtr getMat2x2F();
+	TypePtr getMat2x3F();
+	TypePtr getMat2x4F();
+	TypePtr getMat3x2F();
+	TypePtr getMat3x3F();
+	TypePtr getMat3x4F();
+	TypePtr getMat4x2F();
+	TypePtr getMat4x3F();
+	TypePtr getMat4x4F();
+	TypePtr getMat2x2D();
+	TypePtr getMat2x3D();
+	TypePtr getMat2x4D();
+	TypePtr getMat3x2D();
+	TypePtr getMat3x3D();
+	TypePtr getMat3x4D();
+	TypePtr getMat4x2D();
+	TypePtr getMat4x3D();
+	TypePtr getMat4x4D();
+	TypePtr getConstantsBuffer();
+	TypePtr getShaderBuffer();
+	TypePtr getSampler();
 
-	TypePtr getImage( ImageConfiguration config
-		, uint32_t arraySize = NotArray );
-	TypePtr getSampledImage( ImageConfiguration config
-		, uint32_t arraySize = NotArray );
-	TypePtr getSampler( bool comparison
-		, uint32_t arraySize = NotArray );
+	TypePtr getImage( ImageConfiguration config );
+	TypePtr getSampledImage( ImageConfiguration config );
+	TypePtr getSampler( bool comparison );
 
-	TypePtr makeType( Kind kind
-		, uint32_t arraySize = NotArray );
+	TypePtr makeType( Kind kind );
 
 	bool isBoolType( Kind kind );
 	bool isUnsignedIntType( Kind kind );

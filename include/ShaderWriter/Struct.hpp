@@ -14,7 +14,8 @@ namespace sdw
 	{
 	public:
 		Struct( ShaderWriter & writer
-			, std::string name );
+			, std::string name
+			, type::MemoryLayout layout = type::MemoryLayout::eStd140 );
 		void end();
 		StructInstance getInstance( std::string const & name )const;
 

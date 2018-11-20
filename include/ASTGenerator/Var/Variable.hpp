@@ -20,11 +20,12 @@ namespace ast::var
 		eShaderInput = 1 << 4,
 		eShaderOutput = 1 << 5,
 		eShaderConstant = 1 << 6,
-		ePushConstant = 1 << 7,
-		eLocale = 1 << 8,
-		eBuiltin = 1 << 9,
-		eImplicit = 1 << 10,
-		eMember = 1 << 11,
+		eSpecialisationConstant = 1 << 7,
+		ePushConstant = 1 << 8,
+		eLocale = 1 << 9,
+		eBuiltin = 1 << 10,
+		eImplicit = 1 << 11,
+		eMember = 1 << 12,
 	};
 
 	class Variable
@@ -61,7 +62,7 @@ namespace ast::var
 			return m_name;
 		}
 
-		inline void setFlag( Flag flag, bool set = true )
+		inline void updateFlag( Flag flag, bool set = true )
 		{
 			if ( set )
 			{
@@ -116,6 +117,11 @@ namespace ast::var
 		inline bool isShaderConstant()const
 		{
 			return hasFlag( Flag::eShaderConstant );
+		}
+
+		inline bool isSpecialisationConstant()const
+		{
+			return hasFlag( Flag::eSpecialisationConstant );
 		}
 
 		inline bool isLocale()const

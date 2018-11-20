@@ -15,6 +15,9 @@ namespace ast::expr
 			, std::move( rhs )
 			, Kind::eArrayAccess }
 	{
+		assert( getLHS()->getType()->getKind() == type::Kind::eArray
+			|| isVectorType( getLHS()->getType()->getKind() )
+			|| isMatrixType( getLHS()->getType()->getKind() ) );
 	}
 
 	void ArrayAccess::accept( VisitorPtr vis )

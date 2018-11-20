@@ -7,6 +7,7 @@ See LICENSE file in root folder
 #include <map>
 
 #include <ASTGenerator/Type/Type.hpp>
+#include <ASTGenerator/Type/TypeArray.hpp>
 #include <ASTGenerator/Type/ImageConfiguration.hpp>
 
 #define Writer_Parameter( TypeName )\

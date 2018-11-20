@@ -29,8 +29,8 @@ namespace
 			auto & shader = writer.getShader();
 			auto name = nameBase + "Value_1_1";
 			auto value = writer.declImage< FormatT, DimT, ArrayedT, DepthT, MsT >( name, 1u, 1u );
-			check( value.getType()->getKind() == sdw::typeEnum< sdw::Image > );
-			check( value.getType()->getArraySize() == sdw::type::NotArray );
+			check( getNonArrayKind( value.getType() ) == sdw::typeEnum< sdw::Image > );
+			check( getArraySize( value.getType() ) == sdw::type::NotArray );
 			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
 			auto & stmt = *shader.getStatements()->back();
@@ -45,8 +45,8 @@ namespace
 			auto & shader = writer.getShader();
 			auto name = nameBase + "Value_2_2";
 			auto value = writer.declImageArray< FormatT, DimT, ArrayedT, DepthT, MsT >( name, 2u, 2u, 6u );
-			check( value.getType()->getKind() == sdw::typeEnum< sdw::Image > );
-			check( value.getType()->getArraySize() == 6u );
+			check( getNonArrayKind( value.getType() ) == sdw::typeEnum< sdw::Image > );
+			check( getArraySize( value.getType() ) == 6u );
 			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
 			auto & stmt = *shader.getStatements()->back();
@@ -62,8 +62,8 @@ namespace
 			auto count = shader.getStatements()->size();
 			auto value = writer.declImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "value", 1u, 1u, false );
 			check( !value.isEnabled() );
-			check( value.getType()->getKind() == sdw::typeEnum< sdw::Image > );
-			check( value.getType()->getArraySize() == sdw::type::NotArray );
+			check( getNonArrayKind( value.getType() ) == sdw::typeEnum< sdw::Image > );
+			check( getArraySize( value.getType() ) == sdw::type::NotArray );
 			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == "value" );
 			check( shader.getStatements()->size() == count );
@@ -77,8 +77,8 @@ namespace
 			auto value = writer.declImageArray< FormatT, DimT, ArrayedT, DepthT, MsT >( "value", 1u, 1u, 6u, false );
 			check( !value.isEnabled() );
 			check( !value[0].isEnabled() );
-			check( value.getType()->getKind() == sdw::typeEnum< sdw::Image > );
-			check( value.getType()->getArraySize() == 6u );
+			check( getNonArrayKind( value.getType() ) == sdw::typeEnum< sdw::Image > );
+			check( getArraySize( value.getType() ) == 6u );
 			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == "value" );
 			check( shader.getStatements()->size() == count );
@@ -91,8 +91,8 @@ namespace
 			auto name = nameBase + "Value_1_1_opt";
 			auto value = writer.declImage< FormatT, DimT, ArrayedT, DepthT, MsT >( name, 1u, 1u, true );
 			check( value.isEnabled() );
-			check( value.getType()->getKind() == sdw::typeEnum< sdw::Image > );
-			check( value.getType()->getArraySize() == sdw::type::NotArray );
+			check( getNonArrayKind( value.getType() ) == sdw::typeEnum< sdw::Image > );
+			check( getArraySize( value.getType() ) == sdw::type::NotArray );
 			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
 			auto & stmt = *shader.getStatements()->back();
@@ -109,8 +109,8 @@ namespace
 			auto value = writer.declImageArray< FormatT, DimT, ArrayedT, DepthT, MsT >( name, 2u, 2u, 6u, true );
 			check( value.isEnabled() );
 			check( value[0].isEnabled() );
-			check( value.getType()->getKind() == sdw::typeEnum< sdw::Image > );
-			check( value.getType()->getArraySize() == 6u );
+			check( getNonArrayKind( value.getType() ) == sdw::typeEnum< sdw::Image > );
+			check( getArraySize( value.getType() ) == 6u );
 			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
 			auto & stmt = *shader.getStatements()->back();

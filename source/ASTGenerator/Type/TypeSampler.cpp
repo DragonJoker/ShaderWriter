@@ -5,9 +5,8 @@ See LICENSE file in root folder
 
 namespace ast::type
 {
-	Sampler::Sampler( bool comparison
-		, uint32_t arraySize )
-		: Type{ Kind::eSampler, arraySize }
+	Sampler::Sampler( bool comparison )
+		: Type{ Kind::eSampler }
 		, m_comparison{ comparison }
 	{
 	}

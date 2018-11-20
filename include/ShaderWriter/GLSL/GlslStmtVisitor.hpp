@@ -5,7 +5,7 @@ See LICENSE file in root folder
 #define ___SDW_GLSLStmtVisitor_H___
 #pragma once
 
-#include "ShaderWriter/ShaderWriterPrerequisites.hpp"
+#include "ShaderWriter/CloneStmt.hpp"
 
 #include <ASTGenerator/Stmt/StmtVisitor.hpp>
 
@@ -36,6 +36,7 @@ namespace sdw::glsl
 		void visitIfStmt( stmt::If * stmt )override;
 		void visitImageDeclStmt( stmt::ImageDecl * stmt )override;
 		void visitInOutVariableDeclStmt( stmt::InOutVariableDecl * stmt )override;
+		void visitSpecialisationConstantDeclStmt( stmt::SpecialisationConstantDecl * stmt )override;
 		void visitInputComputeLayoutStmt( stmt::InputComputeLayout * stmt )override;
 		void visitInputGeometryLayoutStmt( stmt::InputGeometryLayout * stmt )override;
 		void visitOutputGeometryLayoutStmt( stmt::OutputGeometryLayout * stmt )override;

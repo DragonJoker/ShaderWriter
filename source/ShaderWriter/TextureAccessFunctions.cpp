@@ -15060,7 +15060,7 @@ namespace sdw
 	Vec4 texelFetchOffset( SampledImage2DRgba32 const & image
 		, IVec2 const & P
 		, Int const & lod
-		, Int const & offset )
+		, IVec2 const & offset )
 	{
 		return Vec4{ findShader( image, P, lod, offset )
 			, expr::makeTexelFetchOffset2DFRgba32( makeExpr( image )
@@ -15071,7 +15071,7 @@ namespace sdw
 	Vec4 texelFetchOffset( SampledImage2DRgba16 const & image
 		, IVec2 const & P
 		, Int const & lod
-		, Int const & offset )
+		, IVec2 const & offset )
 	{
 		return Vec4{ findShader( image, P, lod, offset )
 			, expr::makeTexelFetchOffset2DFRgba16( makeExpr( image )
@@ -15082,7 +15082,7 @@ namespace sdw
 	Vec2 texelFetchOffset( SampledImage2DRg32 const & image
 		, IVec2 const & P
 		, Int const & lod
-		, Int const & offset )
+		, IVec2 const & offset )
 	{
 		return Vec2{ findShader( image, P, lod, offset )
 			, expr::makeTexelFetchOffset2DFRg32( makeExpr( image )
@@ -15093,7 +15093,7 @@ namespace sdw
 	Vec2 texelFetchOffset( SampledImage2DRg16 const & image
 		, IVec2 const & P
 		, Int const & lod
-		, Int const & offset )
+		, IVec2 const & offset )
 	{
 		return Vec2{ findShader( image, P, lod, offset )
 			, expr::makeTexelFetchOffset2DFRg16( makeExpr( image )
@@ -15104,7 +15104,7 @@ namespace sdw
 	Float texelFetchOffset( SampledImage2DR32 const & image
 		, IVec2 const & P
 		, Int const & lod
-		, Int const & offset )
+		, IVec2 const & offset )
 	{
 		return Float{ findShader( image, P, lod, offset )
 			, expr::makeTexelFetchOffset2DFR32( makeExpr( image )
@@ -15115,7 +15115,7 @@ namespace sdw
 	Float texelFetchOffset( SampledImage2DR16 const & image
 		, IVec2 const & P
 		, Int const & lod
-		, Int const & offset )
+		, IVec2 const & offset )
 	{
 		return Float{ findShader( image, P, lod, offset )
 			, expr::makeTexelFetchOffset2DFR16( makeExpr( image )
@@ -15126,7 +15126,7 @@ namespace sdw
 	Vec4 texelFetchOffset( SampledImage3DRgba32 const & image
 		, IVec3 const & P
 		, Int const & lod
-		, Int const & offset )
+		, IVec3 const & offset )
 	{
 		return Vec4{ findShader( image, P, lod, offset )
 			, expr::makeTexelFetchOffset3DFRgba32( makeExpr( image )
@@ -15137,7 +15137,7 @@ namespace sdw
 	Vec4 texelFetchOffset( SampledImage3DRgba16 const & image
 		, IVec3 const & P
 		, Int const & lod
-		, Int const & offset )
+		, IVec3 const & offset )
 	{
 		return Vec4{ findShader( image, P, lod, offset )
 			, expr::makeTexelFetchOffset3DFRgba16( makeExpr( image )
@@ -15148,7 +15148,7 @@ namespace sdw
 	Vec2 texelFetchOffset( SampledImage3DRg32 const & image
 		, IVec3 const & P
 		, Int const & lod
-		, Int const & offset )
+		, IVec3 const & offset )
 	{
 		return Vec2{ findShader( image, P, lod, offset )
 			, expr::makeTexelFetchOffset3DFRg32( makeExpr( image )
@@ -15159,7 +15159,7 @@ namespace sdw
 	Vec2 texelFetchOffset( SampledImage3DRg16 const & image
 		, IVec3 const & P
 		, Int const & lod
-		, Int const & offset )
+		, IVec3 const & offset )
 	{
 		return Vec2{ findShader( image, P, lod, offset )
 			, expr::makeTexelFetchOffset3DFRg16( makeExpr( image )
@@ -15170,7 +15170,7 @@ namespace sdw
 	Float texelFetchOffset( SampledImage3DR32 const & image
 		, IVec3 const & P
 		, Int const & lod
-		, Int const & offset )
+		, IVec3 const & offset )
 	{
 		return Float{ findShader( image, P, lod, offset )
 			, expr::makeTexelFetchOffset3DFR32( makeExpr( image )
@@ -15181,7 +15181,7 @@ namespace sdw
 	Float texelFetchOffset( SampledImage3DR16 const & image
 		, IVec3 const & P
 		, Int const & lod
-		, Int const & offset )
+		, IVec3 const & offset )
 	{
 		return Float{ findShader( image, P, lod, offset )
 			, expr::makeTexelFetchOffset3DFR16( makeExpr( image )
@@ -15258,7 +15258,7 @@ namespace sdw
 	Vec4 texelFetchOffset( SampledImage2DArrayRgba32 const & image
 		, IVec3 const & P
 		, Int const & lod
-		, Int const & offset )
+		, IVec2 const & offset )
 	{
 		return Vec4{ findShader( image, P, lod, offset )
 			, expr::makeTexelFetchOffset2DArrayFRgba32( makeExpr( image )
@@ -15269,7 +15269,7 @@ namespace sdw
 	Vec4 texelFetchOffset( SampledImage2DArrayRgba16 const & image
 		, IVec3 const & P
 		, Int const & lod
-		, Int const & offset )
+		, IVec2 const & offset )
 	{
 		return Vec4{ findShader( image, P, lod, offset )
 			, expr::makeTexelFetchOffset2DArrayFRgba16( makeExpr( image )
@@ -15280,7 +15280,7 @@ namespace sdw
 	Vec2 texelFetchOffset( SampledImage2DArrayRg32 const & image
 		, IVec3 const & P
 		, Int const & lod
-		, Int const & offset )
+		, IVec2 const & offset )
 	{
 		return Vec2{ findShader( image, P, lod, offset )
 			, expr::makeTexelFetchOffset2DArrayFRg32( makeExpr( image )
@@ -15291,7 +15291,7 @@ namespace sdw
 	Vec2 texelFetchOffset( SampledImage2DArrayRg16 const & image
 		, IVec3 const & P
 		, Int const & lod
-		, Int const & offset )
+		, IVec2 const & offset )
 	{
 		return Vec2{ findShader( image, P, lod, offset )
 			, expr::makeTexelFetchOffset2DArrayFRg16( makeExpr( image )
@@ -15302,7 +15302,7 @@ namespace sdw
 	Float texelFetchOffset( SampledImage2DArrayR32 const & image
 		, IVec3 const & P
 		, Int const & lod
-		, Int const & offset )
+		, IVec2 const & offset )
 	{
 		return Float{ findShader( image, P, lod, offset )
 			, expr::makeTexelFetchOffset2DArrayFR32( makeExpr( image )
@@ -15313,7 +15313,7 @@ namespace sdw
 	Float texelFetchOffset( SampledImage2DArrayR16 const & image
 		, IVec3 const & P
 		, Int const & lod
-		, Int const & offset )
+		, IVec2 const & offset )
 	{
 		return Float{ findShader( image, P, lod, offset )
 			, expr::makeTexelFetchOffset2DArrayFR16( makeExpr( image )
@@ -15423,7 +15423,7 @@ namespace sdw
 	IVec4 texelFetchOffset( ISampledImage2DRgba32 const & image
 		, IVec2 const & P
 		, Int const & lod
-		, Int const & offset )
+		, IVec2 const & offset )
 	{
 		return IVec4{ findShader( image, P, lod, offset )
 			, expr::makeTexelFetchOffset2DIRgba32( makeExpr( image )
@@ -15434,7 +15434,7 @@ namespace sdw
 	IVec4 texelFetchOffset( ISampledImage2DRgba16 const & image
 		, IVec2 const & P
 		, Int const & lod
-		, Int const & offset )
+		, IVec2 const & offset )
 	{
 		return IVec4{ findShader( image, P, lod, offset )
 			, expr::makeTexelFetchOffset2DIRgba16( makeExpr( image )
@@ -15445,7 +15445,7 @@ namespace sdw
 	IVec4 texelFetchOffset( ISampledImage2DRgba8 const & image
 		, IVec2 const & P
 		, Int const & lod
-		, Int const & offset )
+		, IVec2 const & offset )
 	{
 		return IVec4{ findShader( image, P, lod, offset )
 			, expr::makeTexelFetchOffset2DIRgba8( makeExpr( image )
@@ -15456,7 +15456,7 @@ namespace sdw
 	IVec2 texelFetchOffset( ISampledImage2DRg32 const & image
 		, IVec2 const & P
 		, Int const & lod
-		, Int const & offset )
+		, IVec2 const & offset )
 	{
 		return IVec2{ findShader( image, P, lod, offset )
 			, expr::makeTexelFetchOffset2DIRg32( makeExpr( image )
@@ -15467,7 +15467,7 @@ namespace sdw
 	IVec2 texelFetchOffset( ISampledImage2DRg16 const & image
 		, IVec2 const & P
 		, Int const & lod
-		, Int const & offset )
+		, IVec2 const & offset )
 	{
 		return IVec2{ findShader( image, P, lod, offset )
 			, expr::makeTexelFetchOffset2DIRg16( makeExpr( image )
@@ -15478,7 +15478,7 @@ namespace sdw
 	IVec2 texelFetchOffset( ISampledImage2DRg8 const & image
 		, IVec2 const & P
 		, Int const & lod
-		, Int const & offset )
+		, IVec2 const & offset )
 	{
 		return IVec2{ findShader( image, P, lod, offset )
 			, expr::makeTexelFetchOffset2DIRg8( makeExpr( image )
@@ -15489,7 +15489,7 @@ namespace sdw
 	Int texelFetchOffset( ISampledImage2DR32 const & image
 		, IVec2 const & P
 		, Int const & lod
-		, Int const & offset )
+		, IVec2 const & offset )
 	{
 		return Int{ findShader( image, P, lod, offset )
 			, expr::makeTexelFetchOffset2DIR32( makeExpr( image )
@@ -15500,7 +15500,7 @@ namespace sdw
 	Int texelFetchOffset( ISampledImage2DR16 const & image
 		, IVec2 const & P
 		, Int const & lod
-		, Int const & offset )
+		, IVec2 const & offset )
 	{
 		return Int{ findShader( image, P, lod, offset )
 			, expr::makeTexelFetchOffset2DIR16( makeExpr( image )
@@ -15511,7 +15511,7 @@ namespace sdw
 	Int texelFetchOffset( ISampledImage2DR8 const & image
 		, IVec2 const & P
 		, Int const & lod
-		, Int const & offset )
+		, IVec2 const & offset )
 	{
 		return Int{ findShader( image, P, lod, offset )
 			, expr::makeTexelFetchOffset2DIR8( makeExpr( image )
@@ -15522,7 +15522,7 @@ namespace sdw
 	IVec4 texelFetchOffset( ISampledImage3DRgba32 const & image
 		, IVec3 const & P
 		, Int const & lod
-		, Int const & offset )
+		, IVec3 const & offset )
 	{
 		return IVec4{ findShader( image, P, lod, offset )
 			, expr::makeTexelFetchOffset3DIRgba32( makeExpr( image )
@@ -15533,7 +15533,7 @@ namespace sdw
 	IVec4 texelFetchOffset( ISampledImage3DRgba16 const & image
 		, IVec3 const & P
 		, Int const & lod
-		, Int const & offset )
+		, IVec3 const & offset )
 	{
 		return IVec4{ findShader( image, P, lod, offset )
 			, expr::makeTexelFetchOffset3DIRgba16( makeExpr( image )
@@ -15544,7 +15544,7 @@ namespace sdw
 	IVec4 texelFetchOffset( ISampledImage3DRgba8 const & image
 		, IVec3 const & P
 		, Int const & lod
-		, Int const & offset )
+		, IVec3 const & offset )
 	{
 		return IVec4{ findShader( image, P, lod, offset )
 			, expr::makeTexelFetchOffset3DIRgba8( makeExpr( image )
@@ -15555,7 +15555,7 @@ namespace sdw
 	IVec2 texelFetchOffset( ISampledImage3DRg32 const & image
 		, IVec3 const & P
 		, Int const & lod
-		, Int const & offset )
+		, IVec3 const & offset )
 	{
 		return IVec2{ findShader( image, P, lod, offset )
 			, expr::makeTexelFetchOffset3DIRg32( makeExpr( image )
@@ -15566,7 +15566,7 @@ namespace sdw
 	IVec2 texelFetchOffset( ISampledImage3DRg16 const & image
 		, IVec3 const & P
 		, Int const & lod
-		, Int const & offset )
+		, IVec3 const & offset )
 	{
 		return IVec2{ findShader( image, P, lod, offset )
 			, expr::makeTexelFetchOffset3DIRg16( makeExpr( image )
@@ -15577,7 +15577,7 @@ namespace sdw
 	IVec2 texelFetchOffset( ISampledImage3DRg8 const & image
 		, IVec3 const & P
 		, Int const & lod
-		, Int const & offset )
+		, IVec3 const & offset )
 	{
 		return IVec2{ findShader( image, P, lod, offset )
 			, expr::makeTexelFetchOffset3DIRg8( makeExpr( image )
@@ -15588,7 +15588,7 @@ namespace sdw
 	Int texelFetchOffset( ISampledImage3DR32 const & image
 		, IVec3 const & P
 		, Int const & lod
-		, Int const & offset )
+		, IVec3 const & offset )
 	{
 		return Int{ findShader( image, P, lod, offset )
 			, expr::makeTexelFetchOffset3DIR32( makeExpr( image )
@@ -15599,7 +15599,7 @@ namespace sdw
 	Int texelFetchOffset( ISampledImage3DR16 const & image
 		, IVec3 const & P
 		, Int const & lod
-		, Int const & offset )
+		, IVec3 const & offset )
 	{
 		return Int{ findShader( image, P, lod, offset )
 			, expr::makeTexelFetchOffset3DIR16( makeExpr( image )
@@ -15610,7 +15610,7 @@ namespace sdw
 	Int texelFetchOffset( ISampledImage3DR8 const & image
 		, IVec3 const & P
 		, Int const & lod
-		, Int const & offset )
+		, IVec3 const & offset )
 	{
 		return Int{ findShader( image, P, lod, offset )
 			, expr::makeTexelFetchOffset3DIR8( makeExpr( image )
@@ -15720,7 +15720,7 @@ namespace sdw
 	IVec4 texelFetchOffset( ISampledImage2DArrayRgba32 const & image
 		, IVec3 const & P
 		, Int const & lod
-		, Int const & offset )
+		, IVec2 const & offset )
 	{
 		return IVec4{ findShader( image, P, lod, offset )
 			, expr::makeTexelFetchOffset2DArrayIRgba32( makeExpr( image )
@@ -15731,7 +15731,7 @@ namespace sdw
 	IVec4 texelFetchOffset( ISampledImage2DArrayRgba16 const & image
 		, IVec3 const & P
 		, Int const & lod
-		, Int const & offset )
+		, IVec2 const & offset )
 	{
 		return IVec4{ findShader( image, P, lod, offset )
 			, expr::makeTexelFetchOffset2DArrayIRgba16( makeExpr( image )
@@ -15742,7 +15742,7 @@ namespace sdw
 	IVec4 texelFetchOffset( ISampledImage2DArrayRgba8 const & image
 		, IVec3 const & P
 		, Int const & lod
-		, Int const & offset )
+		, IVec2 const & offset )
 	{
 		return IVec4{ findShader( image, P, lod, offset )
 			, expr::makeTexelFetchOffset2DArrayIRgba8( makeExpr( image )
@@ -15753,7 +15753,7 @@ namespace sdw
 	IVec2 texelFetchOffset( ISampledImage2DArrayRg32 const & image
 		, IVec3 const & P
 		, Int const & lod
-		, Int const & offset )
+		, IVec2 const & offset )
 	{
 		return IVec2{ findShader( image, P, lod, offset )
 			, expr::makeTexelFetchOffset2DArrayIRg32( makeExpr( image )
@@ -15764,7 +15764,7 @@ namespace sdw
 	IVec2 texelFetchOffset( ISampledImage2DArrayRg16 const & image
 		, IVec3 const & P
 		, Int const & lod
-		, Int const & offset )
+		, IVec2 const & offset )
 	{
 		return IVec2{ findShader( image, P, lod, offset )
 			, expr::makeTexelFetchOffset2DArrayIRg16( makeExpr( image )
@@ -15775,7 +15775,7 @@ namespace sdw
 	IVec2 texelFetchOffset( ISampledImage2DArrayRg8 const & image
 		, IVec3 const & P
 		, Int const & lod
-		, Int const & offset )
+		, IVec2 const & offset )
 	{
 		return IVec2{ findShader( image, P, lod, offset )
 			, expr::makeTexelFetchOffset2DArrayIRg8( makeExpr( image )
@@ -15786,7 +15786,7 @@ namespace sdw
 	Int texelFetchOffset( ISampledImage2DArrayR32 const & image
 		, IVec3 const & P
 		, Int const & lod
-		, Int const & offset )
+		, IVec2 const & offset )
 	{
 		return Int{ findShader( image, P, lod, offset )
 			, expr::makeTexelFetchOffset2DArrayIR32( makeExpr( image )
@@ -15797,7 +15797,7 @@ namespace sdw
 	Int texelFetchOffset( ISampledImage2DArrayR16 const & image
 		, IVec3 const & P
 		, Int const & lod
-		, Int const & offset )
+		, IVec2 const & offset )
 	{
 		return Int{ findShader( image, P, lod, offset )
 			, expr::makeTexelFetchOffset2DArrayIR16( makeExpr( image )
@@ -15808,7 +15808,7 @@ namespace sdw
 	Int texelFetchOffset( ISampledImage2DArrayR8 const & image
 		, IVec3 const & P
 		, Int const & lod
-		, Int const & offset )
+		, IVec2 const & offset )
 	{
 		return Int{ findShader( image, P, lod, offset )
 			, expr::makeTexelFetchOffset2DArrayIR8( makeExpr( image )
@@ -15918,7 +15918,7 @@ namespace sdw
 	UVec4 texelFetchOffset( USampledImage2DRgba32 const & image
 		, IVec2 const & P
 		, Int const & lod
-		, Int const & offset )
+		, IVec2 const & offset )
 	{
 		return UVec4{ findShader( image, P, lod, offset )
 			, expr::makeTexelFetchOffset2DURgba32( makeExpr( image )
@@ -15929,7 +15929,7 @@ namespace sdw
 	UVec4 texelFetchOffset( USampledImage2DRgba16 const & image
 		, IVec2 const & P
 		, Int const & lod
-		, Int const & offset )
+		, IVec2 const & offset )
 	{
 		return UVec4{ findShader( image, P, lod, offset )
 			, expr::makeTexelFetchOffset2DURgba16( makeExpr( image )
@@ -15940,7 +15940,7 @@ namespace sdw
 	UVec4 texelFetchOffset( USampledImage2DRgba8 const & image
 		, IVec2 const & P
 		, Int const & lod
-		, Int const & offset )
+		, IVec2 const & offset )
 	{
 		return UVec4{ findShader( image, P, lod, offset )
 			, expr::makeTexelFetchOffset2DURgba8( makeExpr( image )
@@ -15951,7 +15951,7 @@ namespace sdw
 	UVec2 texelFetchOffset( USampledImage2DRg32 const & image
 		, IVec2 const & P
 		, Int const & lod
-		, Int const & offset )
+		, IVec2 const & offset )
 	{
 		return UVec2{ findShader( image, P, lod, offset )
 			, expr::makeTexelFetchOffset2DURg32( makeExpr( image )
@@ -15962,7 +15962,7 @@ namespace sdw
 	UVec2 texelFetchOffset( USampledImage2DRg16 const & image
 		, IVec2 const & P
 		, Int const & lod
-		, Int const & offset )
+		, IVec2 const & offset )
 	{
 		return UVec2{ findShader( image, P, lod, offset )
 			, expr::makeTexelFetchOffset2DURg16( makeExpr( image )
@@ -15973,7 +15973,7 @@ namespace sdw
 	UVec2 texelFetchOffset( USampledImage2DRg8 const & image
 		, IVec2 const & P
 		, Int const & lod
-		, Int const & offset )
+		, IVec2 const & offset )
 	{
 		return UVec2{ findShader( image, P, lod, offset )
 			, expr::makeTexelFetchOffset2DURg8( makeExpr( image )
@@ -15984,7 +15984,7 @@ namespace sdw
 	UInt texelFetchOffset( USampledImage2DR32 const & image
 		, IVec2 const & P
 		, Int const & lod
-		, Int const & offset )
+		, IVec2 const & offset )
 	{
 		return UInt{ findShader( image, P, lod, offset )
 			, expr::makeTexelFetchOffset2DUR32( makeExpr( image )
@@ -15995,7 +15995,7 @@ namespace sdw
 	UInt texelFetchOffset( USampledImage2DR16 const & image
 		, IVec2 const & P
 		, Int const & lod
-		, Int const & offset )
+		, IVec2 const & offset )
 	{
 		return UInt{ findShader( image, P, lod, offset )
 			, expr::makeTexelFetchOffset2DUR16( makeExpr( image )
@@ -16006,7 +16006,7 @@ namespace sdw
 	UInt texelFetchOffset( USampledImage2DR8 const & image
 		, IVec2 const & P
 		, Int const & lod
-		, Int const & offset )
+		, IVec2 const & offset )
 	{
 		return UInt{ findShader( image, P, lod, offset )
 			, expr::makeTexelFetchOffset2DUR8( makeExpr( image )
@@ -16017,7 +16017,7 @@ namespace sdw
 	UVec4 texelFetchOffset( USampledImage3DRgba32 const & image
 		, IVec3 const & P
 		, Int const & lod
-		, Int const & offset )
+		, IVec3 const & offset )
 	{
 		return UVec4{ findShader( image, P, lod, offset )
 			, expr::makeTexelFetchOffset3DURgba32( makeExpr( image )
@@ -16028,7 +16028,7 @@ namespace sdw
 	UVec4 texelFetchOffset( USampledImage3DRgba16 const & image
 		, IVec3 const & P
 		, Int const & lod
-		, Int const & offset )
+		, IVec3 const & offset )
 	{
 		return UVec4{ findShader( image, P, lod, offset )
 			, expr::makeTexelFetchOffset3DURgba16( makeExpr( image )
@@ -16039,7 +16039,7 @@ namespace sdw
 	UVec4 texelFetchOffset( USampledImage3DRgba8 const & image
 		, IVec3 const & P
 		, Int const & lod
-		, Int const & offset )
+		, IVec3 const & offset )
 	{
 		return UVec4{ findShader( image, P, lod, offset )
 			, expr::makeTexelFetchOffset3DURgba8( makeExpr( image )
@@ -16050,7 +16050,7 @@ namespace sdw
 	UVec2 texelFetchOffset( USampledImage3DRg32 const & image
 		, IVec3 const & P
 		, Int const & lod
-		, Int const & offset )
+		, IVec3 const & offset )
 	{
 		return UVec2{ findShader( image, P, lod, offset )
 			, expr::makeTexelFetchOffset3DURg32( makeExpr( image )
@@ -16061,7 +16061,7 @@ namespace sdw
 	UVec2 texelFetchOffset( USampledImage3DRg16 const & image
 		, IVec3 const & P
 		, Int const & lod
-		, Int const & offset )
+		, IVec3 const & offset )
 	{
 		return UVec2{ findShader( image, P, lod, offset )
 			, expr::makeTexelFetchOffset3DURg16( makeExpr( image )
@@ -16072,7 +16072,7 @@ namespace sdw
 	UVec2 texelFetchOffset( USampledImage3DRg8 const & image
 		, IVec3 const & P
 		, Int const & lod
-		, Int const & offset )
+		, IVec3 const & offset )
 	{
 		return UVec2{ findShader( image, P, lod, offset )
 			, expr::makeTexelFetchOffset3DURg8( makeExpr( image )
@@ -16083,7 +16083,7 @@ namespace sdw
 	UInt texelFetchOffset( USampledImage3DR32 const & image
 		, IVec3 const & P
 		, Int const & lod
-		, Int const & offset )
+		, IVec3 const & offset )
 	{
 		return UInt{ findShader( image, P, lod, offset )
 			, expr::makeTexelFetchOffset3DUR32( makeExpr( image )
@@ -16094,7 +16094,7 @@ namespace sdw
 	UInt texelFetchOffset( USampledImage3DR16 const & image
 		, IVec3 const & P
 		, Int const & lod
-		, Int const & offset )
+		, IVec3 const & offset )
 	{
 		return UInt{ findShader( image, P, lod, offset )
 			, expr::makeTexelFetchOffset3DUR16( makeExpr( image )
@@ -16105,7 +16105,7 @@ namespace sdw
 	UInt texelFetchOffset( USampledImage3DR8 const & image
 		, IVec3 const & P
 		, Int const & lod
-		, Int const & offset )
+		, IVec3 const & offset )
 	{
 		return UInt{ findShader( image, P, lod, offset )
 			, expr::makeTexelFetchOffset3DUR8( makeExpr( image )
@@ -16215,7 +16215,7 @@ namespace sdw
 	UVec4 texelFetchOffset( USampledImage2DArrayRgba32 const & image
 		, IVec3 const & P
 		, Int const & lod
-		, Int const & offset )
+		, IVec2 const & offset )
 	{
 		return UVec4{ findShader( image, P, lod, offset )
 			, expr::makeTexelFetchOffset2DArrayURgba32( makeExpr( image )
@@ -16226,7 +16226,7 @@ namespace sdw
 	UVec4 texelFetchOffset( USampledImage2DArrayRgba16 const & image
 		, IVec3 const & P
 		, Int const & lod
-		, Int const & offset )
+		, IVec2 const & offset )
 	{
 		return UVec4{ findShader( image, P, lod, offset )
 			, expr::makeTexelFetchOffset2DArrayURgba16( makeExpr( image )
@@ -16237,7 +16237,7 @@ namespace sdw
 	UVec4 texelFetchOffset( USampledImage2DArrayRgba8 const & image
 		, IVec3 const & P
 		, Int const & lod
-		, Int const & offset )
+		, IVec2 const & offset )
 	{
 		return UVec4{ findShader( image, P, lod, offset )
 			, expr::makeTexelFetchOffset2DArrayURgba8( makeExpr( image )
@@ -16248,7 +16248,7 @@ namespace sdw
 	UVec2 texelFetchOffset( USampledImage2DArrayRg32 const & image
 		, IVec3 const & P
 		, Int const & lod
-		, Int const & offset )
+		, IVec2 const & offset )
 	{
 		return UVec2{ findShader( image, P, lod, offset )
 			, expr::makeTexelFetchOffset2DArrayURg32( makeExpr( image )
@@ -16259,7 +16259,7 @@ namespace sdw
 	UVec2 texelFetchOffset( USampledImage2DArrayRg16 const & image
 		, IVec3 const & P
 		, Int const & lod
-		, Int const & offset )
+		, IVec2 const & offset )
 	{
 		return UVec2{ findShader( image, P, lod, offset )
 			, expr::makeTexelFetchOffset2DArrayURg16( makeExpr( image )
@@ -16270,7 +16270,7 @@ namespace sdw
 	UVec2 texelFetchOffset( USampledImage2DArrayRg8 const & image
 		, IVec3 const & P
 		, Int const & lod
-		, Int const & offset )
+		, IVec2 const & offset )
 	{
 		return UVec2{ findShader( image, P, lod, offset )
 			, expr::makeTexelFetchOffset2DArrayURg8( makeExpr( image )
@@ -16281,7 +16281,7 @@ namespace sdw
 	UInt texelFetchOffset( USampledImage2DArrayR32 const & image
 		, IVec3 const & P
 		, Int const & lod
-		, Int const & offset )
+		, IVec2 const & offset )
 	{
 		return UInt{ findShader( image, P, lod, offset )
 			, expr::makeTexelFetchOffset2DArrayUR32( makeExpr( image )
@@ -16292,7 +16292,7 @@ namespace sdw
 	UInt texelFetchOffset( USampledImage2DArrayR16 const & image
 		, IVec3 const & P
 		, Int const & lod
-		, Int const & offset )
+		, IVec2 const & offset )
 	{
 		return UInt{ findShader( image, P, lod, offset )
 			, expr::makeTexelFetchOffset2DArrayUR16( makeExpr( image )
@@ -16303,7 +16303,7 @@ namespace sdw
 	UInt texelFetchOffset( USampledImage2DArrayR8 const & image
 		, IVec3 const & P
 		, Int const & lod
-		, Int const & offset )
+		, IVec2 const & offset )
 	{
 		return UInt{ findShader( image, P, lod, offset )
 			, expr::makeTexelFetchOffset2DArrayUR8( makeExpr( image )
@@ -16313,7 +16313,7 @@ namespace sdw
 	}
 	Vec4 texelFetchOffset( SampledImage2DRectRgba32 const & image
 		, IVec2 const & P
-		, Int const & offset )
+		, IVec2 const & offset )
 	{
 		return Vec4{ findShader( image, P, offset )
 			, expr::makeTexelFetchOffset2DRectFRgba32( makeExpr( image )
@@ -16322,7 +16322,7 @@ namespace sdw
 	}
 	Vec4 texelFetchOffset( SampledImage2DRectRgba16 const & image
 		, IVec2 const & P
-		, Int const & offset )
+		, IVec2 const & offset )
 	{
 		return Vec4{ findShader( image, P, offset )
 			, expr::makeTexelFetchOffset2DRectFRgba16( makeExpr( image )
@@ -16331,7 +16331,7 @@ namespace sdw
 	}
 	Vec2 texelFetchOffset( SampledImage2DRectRg32 const & image
 		, IVec2 const & P
-		, Int const & offset )
+		, IVec2 const & offset )
 	{
 		return Vec2{ findShader( image, P, offset )
 			, expr::makeTexelFetchOffset2DRectFRg32( makeExpr( image )
@@ -16340,7 +16340,7 @@ namespace sdw
 	}
 	Vec2 texelFetchOffset( SampledImage2DRectRg16 const & image
 		, IVec2 const & P
-		, Int const & offset )
+		, IVec2 const & offset )
 	{
 		return Vec2{ findShader( image, P, offset )
 			, expr::makeTexelFetchOffset2DRectFRg16( makeExpr( image )
@@ -16349,7 +16349,7 @@ namespace sdw
 	}
 	Float texelFetchOffset( SampledImage2DRectR32 const & image
 		, IVec2 const & P
-		, Int const & offset )
+		, IVec2 const & offset )
 	{
 		return Float{ findShader( image, P, offset )
 			, expr::makeTexelFetchOffset2DRectFR32( makeExpr( image )
@@ -16358,7 +16358,7 @@ namespace sdw
 	}
 	Float texelFetchOffset( SampledImage2DRectR16 const & image
 		, IVec2 const & P
-		, Int const & offset )
+		, IVec2 const & offset )
 	{
 		return Float{ findShader( image, P, offset )
 			, expr::makeTexelFetchOffset2DRectFR16( makeExpr( image )
@@ -16367,7 +16367,7 @@ namespace sdw
 	}
 	IVec4 texelFetchOffset( ISampledImage2DRectRgba32 const & image
 		, IVec2 const & P
-		, Int const & offset )
+		, IVec2 const & offset )
 	{
 		return IVec4{ findShader( image, P, offset )
 			, expr::makeTexelFetchOffset2DRectIRgba32( makeExpr( image )
@@ -16376,7 +16376,7 @@ namespace sdw
 	}
 	IVec4 texelFetchOffset( ISampledImage2DRectRgba16 const & image
 		, IVec2 const & P
-		, Int const & offset )
+		, IVec2 const & offset )
 	{
 		return IVec4{ findShader( image, P, offset )
 			, expr::makeTexelFetchOffset2DRectIRgba16( makeExpr( image )
@@ -16385,7 +16385,7 @@ namespace sdw
 	}
 	IVec4 texelFetchOffset( ISampledImage2DRectRgba8 const & image
 		, IVec2 const & P
-		, Int const & offset )
+		, IVec2 const & offset )
 	{
 		return IVec4{ findShader( image, P, offset )
 			, expr::makeTexelFetchOffset2DRectIRgba8( makeExpr( image )
@@ -16394,7 +16394,7 @@ namespace sdw
 	}
 	IVec2 texelFetchOffset( ISampledImage2DRectRg32 const & image
 		, IVec2 const & P
-		, Int const & offset )
+		, IVec2 const & offset )
 	{
 		return IVec2{ findShader( image, P, offset )
 			, expr::makeTexelFetchOffset2DRectIRg32( makeExpr( image )
@@ -16403,7 +16403,7 @@ namespace sdw
 	}
 	IVec2 texelFetchOffset( ISampledImage2DRectRg16 const & image
 		, IVec2 const & P
-		, Int const & offset )
+		, IVec2 const & offset )
 	{
 		return IVec2{ findShader( image, P, offset )
 			, expr::makeTexelFetchOffset2DRectIRg16( makeExpr( image )
@@ -16412,7 +16412,7 @@ namespace sdw
 	}
 	IVec2 texelFetchOffset( ISampledImage2DRectRg8 const & image
 		, IVec2 const & P
-		, Int const & offset )
+		, IVec2 const & offset )
 	{
 		return IVec2{ findShader( image, P, offset )
 			, expr::makeTexelFetchOffset2DRectIRg8( makeExpr( image )
@@ -16421,7 +16421,7 @@ namespace sdw
 	}
 	Int texelFetchOffset( ISampledImage2DRectR32 const & image
 		, IVec2 const & P
-		, Int const & offset )
+		, IVec2 const & offset )
 	{
 		return Int{ findShader( image, P, offset )
 			, expr::makeTexelFetchOffset2DRectIR32( makeExpr( image )
@@ -16430,7 +16430,7 @@ namespace sdw
 	}
 	Int texelFetchOffset( ISampledImage2DRectR16 const & image
 		, IVec2 const & P
-		, Int const & offset )
+		, IVec2 const & offset )
 	{
 		return Int{ findShader( image, P, offset )
 			, expr::makeTexelFetchOffset2DRectIR16( makeExpr( image )
@@ -16439,7 +16439,7 @@ namespace sdw
 	}
 	Int texelFetchOffset( ISampledImage2DRectR8 const & image
 		, IVec2 const & P
-		, Int const & offset )
+		, IVec2 const & offset )
 	{
 		return Int{ findShader( image, P, offset )
 			, expr::makeTexelFetchOffset2DRectIR8( makeExpr( image )
@@ -16448,7 +16448,7 @@ namespace sdw
 	}
 	UVec4 texelFetchOffset( USampledImage2DRectRgba32 const & image
 		, IVec2 const & P
-		, Int const & offset )
+		, IVec2 const & offset )
 	{
 		return UVec4{ findShader( image, P, offset )
 			, expr::makeTexelFetchOffset2DRectURgba32( makeExpr( image )
@@ -16457,7 +16457,7 @@ namespace sdw
 	}
 	UVec4 texelFetchOffset( USampledImage2DRectRgba16 const & image
 		, IVec2 const & P
-		, Int const & offset )
+		, IVec2 const & offset )
 	{
 		return UVec4{ findShader( image, P, offset )
 			, expr::makeTexelFetchOffset2DRectURgba16( makeExpr( image )
@@ -16466,7 +16466,7 @@ namespace sdw
 	}
 	UVec4 texelFetchOffset( USampledImage2DRectRgba8 const & image
 		, IVec2 const & P
-		, Int const & offset )
+		, IVec2 const & offset )
 	{
 		return UVec4{ findShader( image, P, offset )
 			, expr::makeTexelFetchOffset2DRectURgba8( makeExpr( image )
@@ -16475,7 +16475,7 @@ namespace sdw
 	}
 	UVec2 texelFetchOffset( USampledImage2DRectRg32 const & image
 		, IVec2 const & P
-		, Int const & offset )
+		, IVec2 const & offset )
 	{
 		return UVec2{ findShader( image, P, offset )
 			, expr::makeTexelFetchOffset2DRectURg32( makeExpr( image )
@@ -16484,7 +16484,7 @@ namespace sdw
 	}
 	UVec2 texelFetchOffset( USampledImage2DRectRg16 const & image
 		, IVec2 const & P
-		, Int const & offset )
+		, IVec2 const & offset )
 	{
 		return UVec2{ findShader( image, P, offset )
 			, expr::makeTexelFetchOffset2DRectURg16( makeExpr( image )
@@ -16493,7 +16493,7 @@ namespace sdw
 	}
 	UVec2 texelFetchOffset( USampledImage2DRectRg8 const & image
 		, IVec2 const & P
-		, Int const & offset )
+		, IVec2 const & offset )
 	{
 		return UVec2{ findShader( image, P, offset )
 			, expr::makeTexelFetchOffset2DRectURg8( makeExpr( image )
@@ -16502,7 +16502,7 @@ namespace sdw
 	}
 	UInt texelFetchOffset( USampledImage2DRectR32 const & image
 		, IVec2 const & P
-		, Int const & offset )
+		, IVec2 const & offset )
 	{
 		return UInt{ findShader( image, P, offset )
 			, expr::makeTexelFetchOffset2DRectUR32( makeExpr( image )
@@ -16511,7 +16511,7 @@ namespace sdw
 	}
 	UInt texelFetchOffset( USampledImage2DRectR16 const & image
 		, IVec2 const & P
-		, Int const & offset )
+		, IVec2 const & offset )
 	{
 		return UInt{ findShader( image, P, offset )
 			, expr::makeTexelFetchOffset2DRectUR16( makeExpr( image )
@@ -16520,7 +16520,7 @@ namespace sdw
 	}
 	UInt texelFetchOffset( USampledImage2DRectR8 const & image
 		, IVec2 const & P
-		, Int const & offset )
+		, IVec2 const & offset )
 	{
 		return UInt{ findShader( image, P, offset )
 			, expr::makeTexelFetchOffset2DRectUR8( makeExpr( image )

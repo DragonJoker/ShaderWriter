@@ -1085,22 +1085,25 @@ namespace
 	{
 		testBegin( "testExprAggrInit" );
 		{
-			auto lhs = ast::expr::makeIdentifier( ast::var::makeVariable( ast::type::makeType( ast::type::Kind::eInt, 4u ), "lhs" ) );
+			auto lhs = ast::expr::makeIdentifier( ast::var::makeVariable( ast::type::makeArrayType( ast::type::getInt(), 4u ), "lhs" ) );
 			ast::expr::ExprList rhs;
 			auto expr = ast::expr::makeAggrInit( std::move( lhs ), std::move( rhs ) );
 
 			require( expr->getKind() == ast::expr::Kind::eAggrInit );
-			check( expr->getType()->getKind() == ast::type::Kind::eInt );
+			check( expr->getType()->getKind() == ast::type::Kind::eArray );
+			check( getNonArrayKind( expr->getType() ) == ast::type::Kind::eInt );
 
-			check( expr->getIdentifier()->getType()->getKind() == ast::type::Kind::eInt );
+			check( expr->getIdentifier()->getType()->getKind() == ast::type::Kind::eArray );
+			check( getNonArrayKind( expr->getIdentifier()->getType() ) == ast::type::Kind::eInt );
 			check( expr->getIdentifier()->getVariable()->getName() == "lhs" );
-			check( expr->getIdentifier()->getVariable()->getType()->getKind() == ast::type::Kind::eInt );
+			check( expr->getIdentifier()->getVariable()->getType()->getKind() == ast::type::Kind::eArray );
+			check( getNonArrayKind( expr->getIdentifier()->getVariable()->getType() ) == ast::type::Kind::eInt );
 
 			check( expr->getInitialisers().empty() );
 			std::cout << "ExprAggrInit (empty): " << ast::debug::ExprVisitor::submit( expr.get() ) << std::endl;
 		}
 		{
-			auto lhs = ast::expr::makeIdentifier( ast::var::makeVariable( ast::type::makeType( ast::type::Kind::eInt, 4u ), "lhs" ) );
+			auto lhs = ast::expr::makeIdentifier( ast::var::makeVariable( ast::type::makeArrayType( ast::type::getInt(), 4u ), "lhs" ) );
 			ast::expr::ExprList rhs;
 			rhs.emplace_back( ast::expr::makeLiteral( 10 ) );
 			rhs.emplace_back( ast::expr::makeLiteral( 20 ) );
@@ -1109,11 +1112,14 @@ namespace
 			auto expr = ast::expr::makeAggrInit( std::move( lhs ), std::move( rhs ) );
 
 			require( expr->getKind() == ast::expr::Kind::eAggrInit );
-			check( expr->getType()->getKind() == ast::type::Kind::eInt );
+			check( expr->getType()->getKind() == ast::type::Kind::eArray );
+			check( getNonArrayKind( expr->getType() ) == ast::type::Kind::eInt );
 
-			check( expr->getIdentifier()->getType()->getKind() == ast::type::Kind::eInt );
+			check( expr->getIdentifier()->getType()->getKind() == ast::type::Kind::eArray );
+			check( getNonArrayKind( expr->getIdentifier()->getType() ) == ast::type::Kind::eInt );
 			check( expr->getIdentifier()->getVariable()->getName() == "lhs" );
-			check( expr->getIdentifier()->getVariable()->getType()->getKind() == ast::type::Kind::eInt );
+			check( expr->getIdentifier()->getVariable()->getType()->getKind() == ast::type::Kind::eArray );
+			check( getNonArrayKind( expr->getIdentifier()->getVariable()->getType() ) == ast::type::Kind::eInt );
 
 			check( expr->getInitialisers().size() == 4u );
 			int v = 10;
@@ -1242,7 +1248,7 @@ namespace
 
 int main( int argc, char ** argv )
 {
-	testSuiteBegin( "TestExpressions" );
+	testSuiteBegin( "TestASTExpressions" );
 	testExprLiteral( testCounts );
 	testExprIdentifier( testCounts );
 	testExprAdd( testCounts );

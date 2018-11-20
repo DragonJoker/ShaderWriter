@@ -9,6 +9,7 @@ See LICENSE file in root folder
 #include "GetExprName.hpp"
 #include <ASTGenerator/Expr/ExprIdentifier.hpp>
 #include <ASTGenerator/Expr/ExprList.hpp>
+#include <ASTGenerator/Expr/ExprLiteral.hpp>
 #include <ASTGenerator/Type/Type.hpp>
 #include <ASTGenerator/Stmt/Stmt.hpp>
 #include <ASTGenerator/Stmt/StmtContainer.hpp>
@@ -135,6 +136,10 @@ namespace sdw
 	expr::ExprPtr makeFnCall( type::TypePtr type
 		, expr::IdentifierPtr name
 		, expr::ExprList && args );
+	expr::ExprPtr makeFnCall( type::TypePtr type
+		, expr::IdentifierPtr name
+		, expr::IdentifierPtr instance
+		, expr::ExprList && args );
 	expr::ExprPtr makeCompositeCtor( expr::CompositeType composite
 		, type::Kind component
 		, expr::ExprList && args );
@@ -161,6 +166,9 @@ namespace sdw
 	stmt::StmtPtr makeVariableDecl( var::VariablePtr var );
 	stmt::StmtPtr makeInOutVariableDecl( var::VariablePtr var
 		, uint32_t location );
+	stmt::StmtPtr makeSpecConstantDecl( var::VariablePtr var
+		, uint32_t location
+		, expr::LiteralPtr literal );
 	stmt::StmtPtr makeSampledImgDecl( var::VariablePtr var
 		, uint32_t bindingPoint
 		, uint32_t bindingSet );

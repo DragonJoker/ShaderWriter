@@ -1537,12 +1537,13 @@ namespace sdw::spirv
 	spv::Op getOpCode( type::TypePtr type )
 	{
 		spv::Op result;
+		auto arraySize = getArraySize( type );
 
-		if ( type->getArraySize() == type::NotArray )
+		if ( arraySize == type::NotArray )
 		{
 			result = getOpCode( type->getKind() );
 		}
-		else if ( type->getArraySize() == type::UnknownArraySize )
+		else if ( arraySize != type::UnknownArraySize )
 		{
 			result = spv::Op::OpTypeArray;
 		}

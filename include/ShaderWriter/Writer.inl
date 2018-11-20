@@ -267,7 +267,7 @@ namespace sdw
 	inline Array< T > ShaderWriter::declConstantArray( std::string const & name
 		, std::vector< T > const & rhs )
 	{
-		auto type = type::makeType( typeEnum< T >
+		auto type = type::makeArrayType( type::makeType( typeEnum< T > )
 			, uint32_t( rhs.size() ) );
 		auto var = registerConstant( name
 			, type );
@@ -283,7 +283,7 @@ namespace sdw
 		, std::vector< T > const & rhs
 		, bool enabled )
 	{
-		auto type = type::makeType( typeEnum< T >
+		auto type = type::makeArrayType( type::makeType( typeEnum< T > )
 			, uint32_t( rhs.size() ) );
 		auto var = registerConstant( name
 			, type );
@@ -297,50 +297,6 @@ namespace sdw
 
 		return Optional< Array< T > >{ &m_shader
 			, makeExpr( var )
-			, enabled };
-	}
-	/**@}*/
-#pragma endregion
-#pragma region Specialisation constant declaration
-	/**
-	*name
-	*	Specialisation constant declaration.
-	*/
-	/**@{*/
-	template< typename T >
-	inline T ShaderWriter::declSpecConstant( std::string const & name
-		, uint32_t location
-		, T const & rhs )
-	{
-		auto type = type::makeType( typeEnum< T > );
-		auto var = registerSpecConstant( name
-			, location
-			, type );
-		addStmt( sdw::makeInOutVariableDecl( var
-			, location ) );
-		return T{ &m_shader
-			, makeInit( var, makeExpr( rhs ) ) };
-	}
-
-	template< typename T >
-	inline Optional< T > ShaderWriter::declSpecConstant( std::string const & name
-		, uint32_t location
-		, T const & rhs
-		, bool enabled )
-	{
-		auto type = type::makeType( typeEnum< T > );
-		auto var = registerSpecConstant( name
-			, location
-			, type );
-
-		if ( enabled )
-		{
-			addStmt( sdw::makeInOutVariableDecl( var
-				, location ) );
-		}
-
-		return Optional< T >{ &m_shader
-			, makeInit( var, makeExpr( rhs ) )
 			, enabled };
 	}
 	/**@}*/
@@ -414,7 +370,7 @@ namespace sdw
 		, uint32_t dimension )
 	{
 		using T = SampledImageT< FormatT, DimT, ArrayedT, DepthT, MsT >;
-		auto type = type::makeSampledImageType( T::makeConfig()
+		auto type = type::makeArrayType( type::makeSampledImageType( T::makeConfig() )
 			, dimension );
 		auto var = registerSampledImage( name
 			, type
@@ -439,7 +395,7 @@ namespace sdw
 		, bool enabled )
 	{
 		using T = SampledImageT< FormatT, DimT, ArrayedT, DepthT, MsT >;
-		auto type = type::makeSampledImageType( T::makeConfig()
+		auto type = type::makeArrayType( type::makeSampledImageType( T::makeConfig() )
 			, dimension );
 		auto var = registerSampledImage( name
 			, type
@@ -529,7 +485,7 @@ namespace sdw
 		, uint32_t dimension )
 	{
 		using T = ImageT< FormatT, DimT, ArrayedT, DepthT, MsT >;
-		auto type = type::makeImageType( T::makeConfig()
+		auto type = type::makeArrayType( type::makeImageType( T::makeConfig() )
 			, dimension );
 		auto var = registerImage( name
 			, type
@@ -554,7 +510,7 @@ namespace sdw
 		, bool enabled )
 	{
 		using T = ImageT< FormatT, DimT, ArrayedT, DepthT, MsT >;
-		auto type = type::makeImageType( T::makeConfig()
+		auto type = type::makeArrayType( type::makeImageType( T::makeConfig() )
 			, dimension );
 		auto var = registerImage( name
 			, type
@@ -645,7 +601,7 @@ namespace sdw
 		static_assert( !std::is_same_v< T, DVec2 >, "DVec2 is not supported as input type" );
 		static_assert( !std::is_same_v< T, DVec3 >, "DVec3 is not supported as input type" );
 		static_assert( !std::is_same_v< T, DVec4 >, "DVec4 is not supported as input type" );
-		auto type = type::makeType( typeEnum< T >
+		auto type = type::makeArrayType( type::makeType( typeEnum< T > )
 			, dimension );
 		auto var = registerInput( name
 			, location
@@ -670,7 +626,7 @@ namespace sdw
 		static_assert( !std::is_same_v< T, DVec2 >, "DVec2 is not supported as input type" );
 		static_assert( !std::is_same_v< T, DVec3 >, "DVec3 is not supported as input type" );
 		static_assert( !std::is_same_v< T, DVec4 >, "DVec4 is not supported as input type" );
-		auto type = type::makeType( typeEnum< T >
+		auto type = type::makeArrayType( type::makeType( typeEnum< T > )
 			, dimension );
 		auto var = registerInput( name
 			, location
@@ -758,7 +714,7 @@ namespace sdw
 		static_assert( !std::is_same_v< T, DVec2 >, "DVec2 is not supported as output type" );
 		static_assert( !std::is_same_v< T, DVec3 >, "DVec3 is not supported as output type" );
 		static_assert( !std::is_same_v< T, DVec4 >, "DVec4 is not supported as output type" );
-		auto type = type::makeType( typeEnum< T >
+		auto type = type::makeArrayType( type::makeType( typeEnum< T > )
 			, dimension );
 		auto var = registerOutput( name
 			, location
@@ -783,7 +739,7 @@ namespace sdw
 		static_assert( !std::is_same_v< T, DVec2 >, "DVec2 is not supported as output type" );
 		static_assert( !std::is_same_v< T, DVec3 >, "DVec3 is not supported as output type" );
 		static_assert( !std::is_same_v< T, DVec4 >, "DVec4 is not supported as output type" );
-		auto type = type::makeType( typeEnum< T >
+		auto type = type::makeArrayType( type::makeType( typeEnum< T > )
 			, dimension );
 		auto var = registerOutput( name
 			, location
@@ -892,7 +848,7 @@ namespace sdw
 	inline Array< T > ShaderWriter::declLocaleArray( std::string const & name
 		, uint32_t dimension )
 	{
-		auto type = type::makeType( typeEnum< T >
+		auto type = type::makeArrayType( type::makeType( typeEnum< T > )
 			, dimension );
 		auto var = registerLocale( name
 			, type );
@@ -906,7 +862,7 @@ namespace sdw
 		, uint32_t dimension
 		, std::vector< T > const & rhs )
 	{
-		auto type = type::makeType( typeEnum< T >
+		auto type = type::makeArrayType( type::makeType( typeEnum< T > )
 			, dimension );
 		auto var = registerLocale( name
 			, type );
@@ -921,7 +877,7 @@ namespace sdw
 		, uint32_t dimension
 		, bool enabled )
 	{
-		auto type = type::makeType( typeEnum< T >
+		auto type = type::makeArrayType( type::makeType( typeEnum< T > )
 			, dimension );
 		auto var = registerLocale( name
 			, type );
@@ -942,7 +898,7 @@ namespace sdw
 		, std::vector< T > const & rhs
 		, bool enabled )
 	{
-		auto type = type::makeType( typeEnum< T >
+		auto type = type::makeArrayType( type::makeType( typeEnum< T > )
 			, dimension );
 		auto var = registerLocale( name
 			, type );

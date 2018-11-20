@@ -6,6 +6,7 @@ See LICENSE file in root folder
 #include "ASTGenerator/Expr/Expr.hpp"
 #include "ASTGenerator/Stmt/PreprocExtension.hpp"
 #include "ASTGenerator/Stmt/StmtInOutVariableDecl.hpp"
+#include "ASTGenerator/Type/TypeArray.hpp"
 #include "ASTGenerator/Type/TypeImage.hpp"
 #include "ASTGenerator/Type/TypeSampledImage.hpp"
 #include "ASTGenerator/Type/TypeStruct.hpp"
@@ -370,24 +371,31 @@ namespace ast::debug
 
 	std::string getName( type::Type const & type )
 	{
-		std::string result = getName( type.getKind() );
+		std::string result;
 
 		switch ( type.getKind() )
 		{
+		case type::Kind::eArray:
+			result = getName( *static_cast< type::Array const & >( type ).getType() );
+			result += computeArray( static_cast< type::Array const & >( type ).getArraySize() );
+			break;
 		case type::Kind::eStruct:
+			result = getName( getNonArrayKind( type ) );
 			result += "(" + getName( static_cast< type::Struct const & >( type ) ) + ")";
 			break;
 		case type::Kind::eImage:
+			result = getName( getNonArrayKind( type ) );
 			result += "(" + getName( static_cast< type::Image const & >( type ).getConfig() ) + ")";
 			break;
 		case type::Kind::eSampledImage:
+			result = getName( getNonArrayKind( type ) );
 			result += "(" + getName( static_cast< type::SampledImage const & >( type ).getConfig() ) + ")";
 			break;
 		default:
 			break;
 		}
 
-		return result + computeArray( type.getArraySize() );
+		return result;
 	}
 
 	std::string displayVar( ast::var::Variable const & var )

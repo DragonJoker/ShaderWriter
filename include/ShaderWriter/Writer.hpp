@@ -147,14 +147,40 @@ namespace sdw
 		*	Specialisation constant declaration.
 		*/
 		/**@{*/
-		template< typename T >
-		inline T declSpecConstant( std::string const & name
+		Boolean declSpecConstant( std::string const & name
 			, uint32_t location
-			, T const & rhs );
-		template< typename T >
-		inline Optional< T > declSpecConstant( std::string const & name
+			, bool rhs );
+		Optional< Boolean > declSpecConstant( std::string const & name
 			, uint32_t location
-			, T const & rhs
+			, bool rhs
+			, bool enabled );
+		Int declSpecConstant( std::string const & name
+			, uint32_t location
+			, int32_t rhs );
+		Optional< Int > declSpecConstant( std::string const & name
+			, uint32_t location
+			, int32_t rhs
+			, bool enabled );
+		UInt declSpecConstant( std::string const & name
+			, uint32_t location
+			, uint32_t rhs );
+		Optional< UInt > declSpecConstant( std::string const & name
+			, uint32_t location
+			, uint32_t rhs
+			, bool enabled );
+		Float declSpecConstant( std::string const & name
+			, uint32_t location
+			, float rhs );
+		Optional< Float > declSpecConstant( std::string const & name
+			, uint32_t location
+			, float rhs
+			, bool enabled );
+		Double declSpecConstant( std::string const & name
+			, uint32_t location
+			, double rhs );
+		Optional< Double > declSpecConstant( std::string const & name
+			, uint32_t location
+			, double rhs
 			, bool enabled );
 		/**@}*/
 #pragma endregion
@@ -434,7 +460,8 @@ namespace sdw
 			, uint32_t location
 			, type::TypePtr type );
 		var::VariablePtr registerBuiltin( std::string const & name
-			, type::TypePtr type );
+			, type::TypePtr type
+			, var::Flag flag );
 
 	private:
 		ShaderType m_type;

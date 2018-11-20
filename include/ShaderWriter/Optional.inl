@@ -81,9 +81,10 @@ namespace sdw
 	}
 
 	template< typename T >
-	expr::ExprPtr makeExpr( Optional< T > const & value )
+	expr::ExprPtr makeExpr( Optional< T > const & value
+		, bool force )
 	{
-		if ( value.isEnabled() )
+		if ( value.isEnabled() || force )
 		{
 			return makeExpr( static_cast< T const & >( value ) );
 		}

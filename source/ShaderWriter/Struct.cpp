@@ -8,9 +8,10 @@ See LICENSE file in root folder
 namespace sdw
 {
 	Struct::Struct( ShaderWriter & writer
-		, std::string name )
+		, std::string name
+		, type::MemoryLayout layout )
 		: m_shader{ &writer.getShader() }
-		, m_type{ type::makeStructType( type::MemoryLayout::eStd140, std::move( name ) ) }
+		, m_type{ type::makeStructType( layout, std::move( name ) ) }
 	{
 	}
 

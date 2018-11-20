@@ -363,33 +363,44 @@ namespace sdw::spirv
 
 	Instruction makeVectorShuffle( spv::Id resultId
 		, spv::Id typeId
-		, spv::Id vector
-		, std::vector< uint32_t >const & components )
+		, IdList const & shuffle )
 	{
+		return Instruction
+		{
+			spv::Op::OpVectorShuffle,
+			typeId,
+			resultId,
+			shuffle,
+		};
+	}
+
+	Instruction makeVectorShuffle( spv::Id resultId
+		, spv::Id typeId
+		, spv::Id vector
+		, IdList const & components )
+	{
+		IdList shuffle;
+		shuffle.push_back( vector );
+		shuffle.push_back( vector );
+		shuffle.insert( shuffle.end(), components.begin(), components.end() );
 		return makeVectorShuffle( resultId
 			, typeId
-			, vector
-			, vector
-			, components );
+			, shuffle );
 	}
 
 	Instruction makeVectorShuffle( spv::Id resultId
 		, spv::Id typeId
 		, spv::Id vector1
 		, spv::Id vector2
-		, std::vector< uint32_t >const & components )
+		, IdList const & components )
 	{
-		IdList total;
-		total.push_back( vector1 );
-		total.push_back( vector2 );
-		total.insert( total.end(), components.begin(), components.end() );
-		return Instruction
-		{
-			spv::Op::OpVectorShuffle,
-			typeId,
-			resultId,
-			total,
-		};
+		IdList shuffle;
+		shuffle.push_back( vector1 );
+		shuffle.push_back( vector2 );
+		shuffle.insert( shuffle.end(), components.begin(), components.end() );
+		return makeVectorShuffle( resultId
+			, typeId
+			, shuffle );
 	}
 
 	Instruction makeInstruction( spv::Op op )
@@ -585,6 +596,40 @@ namespace sdw::spirv
 		return makeInstruction( opCode
 			, resultId
 			, { lhs, rhs } );
+	}
+
+	Instruction makeUnSpecConstantInstruction( expr::Kind exprKind
+		, type::Kind typeKind
+		, spv::Id resultId
+		, spv::Id typeId
+		, spv::Id operand )
+	{
+		return makeInstruction( spv::Op::OpSpecConstantOp
+			, resultId
+			, typeId
+			, IdList{ spv::Id( getOpCode( exprKind, typeKind ) ), operand } );
+	}
+
+	Instruction makeBinSpecConstantInstruction( expr::Kind exprKind
+		, type::Kind lhsTypeKind
+		, type::Kind rhsTypeKind
+		, spv::Id resultId
+		, spv::Id typeId
+		, spv::Id lhs
+		, spv::Id rhs )
+	{
+		bool switchParams{ false };
+		auto opCode = getBinOpCode( exprKind, lhsTypeKind, rhsTypeKind, switchParams );
+
+		if ( switchParams )
+		{
+			std::swap( lhs, rhs );
+		}
+
+		return makeInstruction( spv::Op::OpSpecConstantOp
+			, resultId
+			, typeId
+			, IdList{ spv::Id( opCode ), lhs, rhs } );
 	}
 
 	Instruction makeUnInstruction( expr::Kind exprKind

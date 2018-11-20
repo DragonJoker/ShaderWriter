@@ -13,6 +13,8 @@ See LICENSE file in root folder
 #include <ASTGenerator/Type/TypeImage.hpp>
 #include <ASTGenerator/Type/TypeSampledImage.hpp>
 
+#include <algorithm>
+
 namespace sdw::hlsl
 {
 	namespace
@@ -812,13 +814,62 @@ namespace sdw::hlsl
 
 			return result;
 		}
+
+		expr::ExprPtr registerBuiltinInputVar( var::VariablePtr var
+			, AdaptationData & adaptationData )
+		{
+			auto it = adaptationData.inputMembers.find( var );
+
+			if ( it == adaptationData.inputMembers.end() )
+			{
+				adaptationData.inputVars.emplace( 128, var );
+				it = adaptationData.inputMembers.emplace( var
+					, expr::makeMbrSelect( makeIdent( adaptationData.inputVar )
+						, uint32_t( adaptationData.inputMembers.size() )
+						, makeIdent( var ) ) ).first;
+			}
+
+			return makeExpr( it->second );
+		}
+
+		expr::ExprPtr registerBuiltinOutputVar( var::VariablePtr var
+			, AdaptationData & adaptationData )
+		{
+			auto it = adaptationData.outputMembers.find( var );
+
+			if ( it == adaptationData.outputMembers.end() )
+			{
+				adaptationData.outputVars.emplace( 128, var );
+				it = adaptationData.outputMembers.emplace( var
+					, expr::makeMbrSelect( makeIdent( adaptationData.inputVar )
+						, uint32_t( adaptationData.outputMembers.size() )
+						, makeIdent( var ) ) ).first;
+			}
+
+			return makeExpr( it->second );
+		}
+
+		expr::ExprPtr registerBuiltinVar( var::VariablePtr var
+			, AdaptationData & adaptationData )
+		{
+			expr::ExprPtr result;
+
+			if ( var->isShaderInput() )
+			{
+				result = registerBuiltinInputVar( var, adaptationData );
+			}
+			else
+			{
+				result = registerBuiltinOutputVar( var, adaptationData );
+			}
+
+			return result;
+		}
 	}
 
 	expr::ExprPtr ExprAdapter::submit( expr::Expr * expr
 		, IntrinsicsConfig const & config
-		, LinkedVars const & linkedVars
-		, VariableExprMap const & inputMembers
-		, VariableExprMap const & outputMembers
+		, AdaptationData & adaptationData
 		, stmt::Container * intrinsics )
 	{
 		expr::ExprPtr result;
@@ -826,9 +877,7 @@ namespace sdw::hlsl
 		{
 			result,
 			config,
-			linkedVars,
-			inputMembers,
-			outputMembers,
+			adaptationData,
 			intrinsics,
 		};
 		expr->accept( &vis );
@@ -837,30 +886,22 @@ namespace sdw::hlsl
 			
 	expr::ExprPtr ExprAdapter::submit( expr::ExprPtr const & expr
 		, IntrinsicsConfig const & config
-		, LinkedVars const & linkedVars
-		, VariableExprMap const & inputMembers
-		, VariableExprMap const & outputMembers
+		, AdaptationData & adaptationData
 		, stmt::Container * intrinsics )
 	{
 		return submit( expr.get()
 			, config
-			, linkedVars
-			, inputMembers
-			, outputMembers
+			, adaptationData
 			, intrinsics );
 	}
 
 	ExprAdapter::ExprAdapter( expr::ExprPtr & result
 		, IntrinsicsConfig const & config
-		, LinkedVars const & linkedVars
-		, VariableExprMap const & inputMembers
-		, VariableExprMap const & outputMembers
+		, AdaptationData & adaptationData
 		, stmt::Container * intrinsics )
 		: ExprCloner{ result }
 		, m_config{ config }
-		, m_linkedVars{ linkedVars }
-		, m_inputMembers{ inputMembers }
-		, m_outputMembers{ outputMembers }
+		, m_adaptationData{ adaptationData }
 		, m_intrinsics{ intrinsics }
 	{
 	}
@@ -872,9 +913,7 @@ namespace sdw::hlsl
 		{
 			result,
 			m_config,
-			m_linkedVars,
-			m_inputMembers,
-			m_outputMembers,
+			m_adaptationData,
 			m_intrinsics,
 		};
 		expr->accept( &vis );
@@ -883,20 +922,29 @@ namespace sdw::hlsl
 
 	void ExprAdapter::visitIdentifierExpr( expr::Identifier * expr )
 	{
-		auto itInputs = m_inputMembers.find( expr->getVariable() );
-		auto itOutputs = m_outputMembers.find( expr->getVariable() );
+		auto var = expr->getVariable();
 
-		if ( m_inputMembers.end() != itInputs )
+		if ( var->isBuiltin() )
 		{
-			m_result = makeExpr( itInputs->second );
-		}
-		else if ( m_outputMembers.end() != itOutputs )
-		{
-			m_result = makeExpr( itOutputs->second );
+			m_result = registerBuiltinVar( var, m_adaptationData );
 		}
 		else
 		{
-			m_result = expr::makeIdentifier( expr->getVariable() );
+			auto itInputs = m_adaptationData.inputMembers.find( var );
+			auto itOutputs = m_adaptationData.outputMembers.find( var );
+
+			if ( m_adaptationData.inputMembers.end() != itInputs )
+			{
+				m_result = makeExpr( itInputs->second );
+			}
+			else if ( m_adaptationData.outputMembers.end() != itOutputs )
+			{
+				m_result = makeExpr( itOutputs->second );
+			}
+			else
+			{
+				m_result = expr::makeIdentifier( var );
+			}
 		}
 	}
 
@@ -939,9 +987,9 @@ namespace sdw::hlsl
 
 			if ( ident )
 			{
-				auto it = m_linkedVars.find( ident->getVariable() );
+				auto it = m_adaptationData.linkedVars.find( ident->getVariable() );
 
-				if ( m_linkedVars.end() != it )
+				if ( m_adaptationData.linkedVars.end() != it )
 				{
 					args.emplace_back( VariableReplacer::submit( arg, ident->getVariable(), it->second.first ) );
 					args.emplace_back( VariableReplacer::submit( arg, ident->getVariable(), it->second.second ) );
@@ -1105,6 +1153,34 @@ namespace sdw::hlsl
 		}
 	}
 
+	void ExprAdapter::visitMbrSelectExpr( expr::MbrSelect * expr )
+	{
+		if ( expr->getOuterExpr()->getKind() == expr::Kind::eIdentifier )
+		{
+			auto var = static_cast< expr::Identifier const * >( expr->getOuterExpr() )->getVariable();
+			auto it = std::find( m_adaptationData.ssboList.begin()
+				, m_adaptationData.ssboList.end()
+				, var );
+
+			if ( it != m_adaptationData.ssboList.end() )
+			{
+				m_result = expr::makeIdentifier( expr->getMember()->getVariable() );
+			}
+			else
+			{
+				m_result = expr::makeMbrSelect( doSubmit( expr->getOuterExpr() )
+					, expr->getMemberIndex()
+					, expr::makeIdentifier( expr->getMember()->getVariable() ) );
+			}
+		}
+		else
+		{
+			m_result = expr::makeMbrSelect( doSubmit( expr->getOuterExpr() )
+				, expr->getMemberIndex()
+				, expr::makeIdentifier( expr->getMember()->getVariable() ) );
+		}
+	}
+
 	void ExprAdapter::visitTextureAccessCallExpr( expr::TextureAccessCall * expr )
 	{
 		if ( expr->getTextureAccess() >= expr::TextureAccess::eTextureSize1DF
@@ -1181,9 +1257,9 @@ namespace sdw::hlsl
 		if ( result )
 		{
 			auto ident = findIdentifier( &arg );
-			auto it = m_linkedVars.find( ident->getVariable() );
+			auto it = m_adaptationData.linkedVars.find( ident->getVariable() );
 
-			if ( m_linkedVars.end() != it )
+			if ( m_adaptationData.linkedVars.end() != it )
 			{
 				args.emplace_back( makeIdent( it->second.first ) );
 
@@ -1776,7 +1852,10 @@ namespace sdw::hlsl
 
 			if ( expr->getTextureAccess() == expr::TextureAccess::eTexelFetch2DRectF
 				|| expr->getTextureAccess() == expr::TextureAccess::eTexelFetch2DRectI
-				|| expr->getTextureAccess() == expr::TextureAccess::eTexelFetch2DRectU )
+				|| expr->getTextureAccess() == expr::TextureAccess::eTexelFetch2DRectU
+				|| expr->getTextureAccess() == expr::TextureAccess::eTexelFetchOffset2DRectF
+				|| expr->getTextureAccess() == expr::TextureAccess::eTexelFetchOffset2DRectI
+				|| expr->getTextureAccess() == expr::TextureAccess::eTexelFetchOffset2DRectU )
 			{
 				// For those texel fetch functions, no lod, hence create a 0 lod.
 				assert( expr->getArgList().size() >= 2u );
@@ -1796,18 +1875,18 @@ namespace sdw::hlsl
 			switch ( merged[0]->getType()->getKind() )
 			{
 			case type::Kind::eInt:
-				args.emplace_back( sdw::makeFnCall( type::makeType( typeEnum< IVec2 > )
-					, sdw::makeIdent( var::makeFunction( "int2" ) )
+				args.emplace_back( sdw::makeCompositeCtor( expr::CompositeType::eVec2
+					, type::Kind::eInt
 					, std::move( merged ) ) );
 				break;
 			case type::Kind::eVec2I:
-				args.emplace_back( sdw::makeFnCall( type::makeType( typeEnum< IVec3 > )
-					, sdw::makeIdent( var::makeFunction( "int3" ) )
+				args.emplace_back( sdw::makeCompositeCtor( expr::CompositeType::eVec3
+					, type::Kind::eInt
 					, std::move( merged ) ) );
 				break;
 			case type::Kind::eVec3I:
-				args.emplace_back( sdw::makeFnCall( type::makeType( typeEnum< IVec4 > )
-					, sdw::makeIdent( var::makeFunction( "int4" ) )
+				args.emplace_back( sdw::makeCompositeCtor( expr::CompositeType::eVec4
+					, type::Kind::eInt
 					, std::move( merged ) ) );
 				break;
 			}
@@ -1909,17 +1988,18 @@ namespace sdw::hlsl
 
 		// Next parameter contains the 4 offsets.
 		auto & offset = *expr->getArgList()[index++];
-		assert( offset.getType()->getArraySize() >= 4u );
-		args.emplace_back( expr::makeArrayAccess( type::makeType( offset.getType()->getKind() )
+		assert( getArraySize( offset.getType() ) == 4u );
+		auto arrayType = std::static_pointer_cast< type::Array >( offset.getType() );
+		args.emplace_back( expr::makeArrayAccess( type::makeType( arrayType->getType()->getKind() )
 			, makeExpr( &offset )
 			, expr::makeLiteral( 0u ) ) );
-		args.emplace_back( expr::makeArrayAccess( type::makeType( offset.getType()->getKind() )
+		args.emplace_back( expr::makeArrayAccess( type::makeType( arrayType->getType()->getKind() )
 			, makeExpr( &offset )
 			, expr::makeLiteral( 1u ) ) );
-		args.emplace_back( expr::makeArrayAccess( type::makeType( offset.getType()->getKind() )
+		args.emplace_back( expr::makeArrayAccess( type::makeType( arrayType->getType()->getKind() )
 			, makeExpr( &offset )
 			, expr::makeLiteral( 2u ) ) );
-		args.emplace_back( expr::makeArrayAccess( type::makeType( offset.getType()->getKind() )
+		args.emplace_back( expr::makeArrayAccess( type::makeType( arrayType->getType()->getKind() )
 			, makeExpr( &offset )
 			, expr::makeLiteral( 3u ) ) );
 

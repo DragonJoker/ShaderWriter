@@ -38,6 +38,7 @@ namespace sdw::hlsl
 		void visitIfStmt( stmt::If * stmt )override;
 		void visitImageDeclStmt( stmt::ImageDecl * stmt )override;
 		void visitInOutVariableDeclStmt( stmt::InOutVariableDecl * stmt )override;
+		void visitSpecialisationConstantDeclStmt( stmt::SpecialisationConstantDecl * stmt )override;
 		void visitInputComputeLayoutStmt( stmt::InputComputeLayout * stmt )override;
 		void visitInputGeometryLayoutStmt( stmt::InputGeometryLayout * stmt )override;
 		void visitOutputGeometryLayoutStmt( stmt::OutputGeometryLayout * stmt )override;

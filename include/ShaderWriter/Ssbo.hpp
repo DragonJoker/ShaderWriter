@@ -53,10 +53,10 @@ namespace sdw
 
 	private:
 		Shader & m_shader;
-		stmt::ShaderBufferDeclPtr m_stmt;
 		std::string m_name;
 		Info m_info;
 		var::VariablePtr m_var;
+		stmt::ShaderBufferDeclPtr m_stmt;
 	};
 }
 

@@ -33,20 +33,6 @@ namespace sdw
 	}
 
 	template< typename T >
-	inline Array< T > Pcb::declMemberArray( std::string const & name )
-	{
-		static_assert( !std::is_same_v< T, Boolean >, "Boolean is not supported inside a Push Constants Buffer" );
-		static_assert( !std::is_same_v< T, BVec2 >, "BVec2 is not supported inside a Push Constants Buffer" );
-		static_assert( !std::is_same_v< T, BVec3 >, "BVec3 is not supported inside a Push Constants Buffer" );
-		static_assert( !std::is_same_v< T, BVec4 >, "BVec4 is not supported inside a Push Constants Buffer" );
-		auto type = m_info.registerMember< typeEnum< T > >( name, type::UnknownArraySize );
-		auto var = registerMember( m_shader, m_var, name, type );
-		m_stmt->add( stmt::makeVariableDecl( var ) );
-		return Array< T >{ &m_shader
-			, makeExpr( var ) };
-	}
-
-	template< typename T >
 	inline Optional< T > Pcb::declMember( std::string const & name
 		, bool enabled )
 	{
@@ -77,27 +63,6 @@ namespace sdw
 		static_assert( !std::is_same_v< T, BVec3 >, "BVec3 is not supported inside a Push Constants Buffer" );
 		static_assert( !std::is_same_v< T, BVec4 >, "BVec4 is not supported inside a Push Constants Buffer" );
 		auto type = m_info.registerMember< typeEnum< T > >( name, dimension );
-		auto var = registerMember( m_shader, m_var, name, type );
-
-		if ( enabled )
-		{
-			m_stmt->add( stmt::makeVariableDecl( var ) );
-		}
-
-		return Optional< Array< T > >{ &m_shader
-			, makeExpr( var )
-			, enabled };
-	}
-
-	template< typename T >
-	inline Optional< Array< T > > Pcb::declMemberArray( std::string const & name
-		, bool enabled )
-	{
-		static_assert( !std::is_same_v< T, Boolean >, "Boolean is not supported inside a Push Constants Buffer" );
-		static_assert( !std::is_same_v< T, BVec2 >, "BVec2 is not supported inside a Push Constants Buffer" );
-		static_assert( !std::is_same_v< T, BVec3 >, "BVec3 is not supported inside a Push Constants Buffer" );
-		static_assert( !std::is_same_v< T, BVec4 >, "BVec4 is not supported inside a Push Constants Buffer" );
-		auto type = m_info.registerMember< typeEnum< T > >( name, type::UnknownArraySize );
 		auto var = registerMember( m_shader, m_var, name, type );
 
 		if ( enabled )

@@ -19,6 +19,7 @@ namespace ast::stmt
 		eVariableDecl,
 		ePerVertexDecl,
 		eInOutVariableDecl,
+		eSpecialisationConstantDecl,
 		eConstantBufferDecl,
 		ePushConstantsBufferDecl,
 		eShaderBufferDecl,

@@ -4,11 +4,41 @@ See LICENSE file in root folder
 namespace sdw
 {
 	template<>
-	struct TypeTraits< Boolean >
+	struct TypeTraits< bool >
 	{
 		static ast::type::Kind const TypeEnum = ast::type::Kind::eBoolean;
 	};
 
+	template<>
+	struct TypeTraits< int32_t >
+	{
+		static ast::type::Kind const TypeEnum = ast::type::Kind::eInt;
+	};
+
+	template<>
+	struct TypeTraits< uint32_t >
+	{
+		static ast::type::Kind const TypeEnum = ast::type::Kind::eUInt;
+	};
+
+	template<>
+	struct TypeTraits< float >
+	{
+		static ast::type::Kind const TypeEnum = ast::type::Kind::eFloat;
+	};
+
+	template<>
+	struct TypeTraits< double >
+	{
+		static ast::type::Kind const TypeEnum = ast::type::Kind::eDouble;
+	};
+
+	template<>
+	struct TypeTraits< Boolean >
+	{
+		static ast::type::Kind const TypeEnum = ast::type::Kind::eBoolean;
+	};
+	
 	template<>
 	struct TypeTraits< Int >
 	{

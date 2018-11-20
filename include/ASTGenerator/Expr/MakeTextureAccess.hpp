@@ -18102,7 +18102,7 @@ namespace ast::expr
 	*@param lod
 	*	int
 	*@param offset
-	*	int
+	*	vec2i
 	*/
 	TextureAccessCallPtr makeTexelFetchOffset2DFRgba32( ExprPtr image, ExprPtr P, ExprPtr lod, ExprPtr offset );
 	/**
@@ -18115,7 +18115,7 @@ namespace ast::expr
 	*@param lod
 	*	int
 	*@param offset
-	*	int
+	*	vec2i
 	*/
 	TextureAccessCallPtr makeTexelFetchOffset2DFRgba16( ExprPtr image, ExprPtr P, ExprPtr lod, ExprPtr offset );
 	/**
@@ -18128,7 +18128,7 @@ namespace ast::expr
 	*@param lod
 	*	int
 	*@param offset
-	*	int
+	*	vec2i
 	*/
 	TextureAccessCallPtr makeTexelFetchOffset2DFRg32( ExprPtr image, ExprPtr P, ExprPtr lod, ExprPtr offset );
 	/**
@@ -18141,7 +18141,7 @@ namespace ast::expr
 	*@param lod
 	*	int
 	*@param offset
-	*	int
+	*	vec2i
 	*/
 	TextureAccessCallPtr makeTexelFetchOffset2DFRg16( ExprPtr image, ExprPtr P, ExprPtr lod, ExprPtr offset );
 	/**
@@ -18154,7 +18154,7 @@ namespace ast::expr
 	*@param lod
 	*	int
 	*@param offset
-	*	int
+	*	vec2i
 	*/
 	TextureAccessCallPtr makeTexelFetchOffset2DFR32( ExprPtr image, ExprPtr P, ExprPtr lod, ExprPtr offset );
 	/**
@@ -18167,7 +18167,7 @@ namespace ast::expr
 	*@param lod
 	*	int
 	*@param offset
-	*	int
+	*	vec2i
 	*/
 	TextureAccessCallPtr makeTexelFetchOffset2DFR16( ExprPtr image, ExprPtr P, ExprPtr lod, ExprPtr offset );
 	/**
@@ -18180,7 +18180,7 @@ namespace ast::expr
 	*@param lod
 	*	int
 	*@param offset
-	*	int
+	*	vec3i
 	*/
 	TextureAccessCallPtr makeTexelFetchOffset3DFRgba32( ExprPtr image, ExprPtr P, ExprPtr lod, ExprPtr offset );
 	/**
@@ -18193,7 +18193,7 @@ namespace ast::expr
 	*@param lod
 	*	int
 	*@param offset
-	*	int
+	*	vec3i
 	*/
 	TextureAccessCallPtr makeTexelFetchOffset3DFRgba16( ExprPtr image, ExprPtr P, ExprPtr lod, ExprPtr offset );
 	/**
@@ -18206,7 +18206,7 @@ namespace ast::expr
 	*@param lod
 	*	int
 	*@param offset
-	*	int
+	*	vec3i
 	*/
 	TextureAccessCallPtr makeTexelFetchOffset3DFRg32( ExprPtr image, ExprPtr P, ExprPtr lod, ExprPtr offset );
 	/**
@@ -18219,7 +18219,7 @@ namespace ast::expr
 	*@param lod
 	*	int
 	*@param offset
-	*	int
+	*	vec3i
 	*/
 	TextureAccessCallPtr makeTexelFetchOffset3DFRg16( ExprPtr image, ExprPtr P, ExprPtr lod, ExprPtr offset );
 	/**
@@ -18232,7 +18232,7 @@ namespace ast::expr
 	*@param lod
 	*	int
 	*@param offset
-	*	int
+	*	vec3i
 	*/
 	TextureAccessCallPtr makeTexelFetchOffset3DFR32( ExprPtr image, ExprPtr P, ExprPtr lod, ExprPtr offset );
 	/**
@@ -18245,7 +18245,7 @@ namespace ast::expr
 	*@param lod
 	*	int
 	*@param offset
-	*	int
+	*	vec3i
 	*/
 	TextureAccessCallPtr makeTexelFetchOffset3DFR16( ExprPtr image, ExprPtr P, ExprPtr lod, ExprPtr offset );
 	/**
@@ -18256,7 +18256,7 @@ namespace ast::expr
 	*@param P
 	*	vec2i
 	*@param offset
-	*	int
+	*	vec2i
 	*/
 	TextureAccessCallPtr makeTexelFetchOffset2DRectFRgba32( ExprPtr image, ExprPtr P, ExprPtr offset );
 	/**
@@ -18267,7 +18267,7 @@ namespace ast::expr
 	*@param P
 	*	vec2i
 	*@param offset
-	*	int
+	*	vec2i
 	*/
 	TextureAccessCallPtr makeTexelFetchOffset2DRectFRgba16( ExprPtr image, ExprPtr P, ExprPtr offset );
 	/**
@@ -18278,7 +18278,7 @@ namespace ast::expr
 	*@param P
 	*	vec2i
 	*@param offset
-	*	int
+	*	vec2i
 	*/
 	TextureAccessCallPtr makeTexelFetchOffset2DRectFRg32( ExprPtr image, ExprPtr P, ExprPtr offset );
 	/**
@@ -18289,7 +18289,7 @@ namespace ast::expr
 	*@param P
 	*	vec2i
 	*@param offset
-	*	int
+	*	vec2i
 	*/
 	TextureAccessCallPtr makeTexelFetchOffset2DRectFRg16( ExprPtr image, ExprPtr P, ExprPtr offset );
 	/**
@@ -18300,7 +18300,7 @@ namespace ast::expr
 	*@param P
 	*	vec2i
 	*@param offset
-	*	int
+	*	vec2i
 	*/
 	TextureAccessCallPtr makeTexelFetchOffset2DRectFR32( ExprPtr image, ExprPtr P, ExprPtr offset );
 	/**
@@ -18311,7 +18311,7 @@ namespace ast::expr
 	*@param P
 	*	vec2i
 	*@param offset
-	*	int
+	*	vec2i
 	*/
 	TextureAccessCallPtr makeTexelFetchOffset2DRectFR16( ExprPtr image, ExprPtr P, ExprPtr offset );
 	/**
@@ -18402,7 +18402,7 @@ namespace ast::expr
 	*@param lod
 	*	int
 	*@param offset
-	*	int
+	*	vec2i
 	*/
 	TextureAccessCallPtr makeTexelFetchOffset2DArrayFRgba32( ExprPtr image, ExprPtr P, ExprPtr lod, ExprPtr offset );
 	/**
@@ -18415,7 +18415,7 @@ namespace ast::expr
 	*@param lod
 	*	int
 	*@param offset
-	*	int
+	*	vec2i
 	*/
 	TextureAccessCallPtr makeTexelFetchOffset2DArrayFRgba16( ExprPtr image, ExprPtr P, ExprPtr lod, ExprPtr offset );
 	/**
@@ -18428,7 +18428,7 @@ namespace ast::expr
 	*@param lod
 	*	int
 	*@param offset
-	*	int
+	*	vec2i
 	*/
 	TextureAccessCallPtr makeTexelFetchOffset2DArrayFRg32( ExprPtr image, ExprPtr P, ExprPtr lod, ExprPtr offset );
 	/**
@@ -18441,7 +18441,7 @@ namespace ast::expr
 	*@param lod
 	*	int
 	*@param offset
-	*	int
+	*	vec2i
 	*/
 	TextureAccessCallPtr makeTexelFetchOffset2DArrayFRg16( ExprPtr image, ExprPtr P, ExprPtr lod, ExprPtr offset );
 	/**
@@ -18454,7 +18454,7 @@ namespace ast::expr
 	*@param lod
 	*	int
 	*@param offset
-	*	int
+	*	vec2i
 	*/
 	TextureAccessCallPtr makeTexelFetchOffset2DArrayFR32( ExprPtr image, ExprPtr P, ExprPtr lod, ExprPtr offset );
 	/**
@@ -18467,7 +18467,7 @@ namespace ast::expr
 	*@param lod
 	*	int
 	*@param offset
-	*	int
+	*	vec2i
 	*/
 	TextureAccessCallPtr makeTexelFetchOffset2DArrayFR16( ExprPtr image, ExprPtr P, ExprPtr lod, ExprPtr offset );
 	/**
@@ -18597,7 +18597,7 @@ namespace ast::expr
 	*@param lod
 	*	int
 	*@param offset
-	*	int
+	*	vec2i
 	*/
 	TextureAccessCallPtr makeTexelFetchOffset2DIRgba32( ExprPtr image, ExprPtr P, ExprPtr lod, ExprPtr offset );
 	/**
@@ -18610,7 +18610,7 @@ namespace ast::expr
 	*@param lod
 	*	int
 	*@param offset
-	*	int
+	*	vec2i
 	*/
 	TextureAccessCallPtr makeTexelFetchOffset2DIRgba16( ExprPtr image, ExprPtr P, ExprPtr lod, ExprPtr offset );
 	/**
@@ -18623,7 +18623,7 @@ namespace ast::expr
 	*@param lod
 	*	int
 	*@param offset
-	*	int
+	*	vec2i
 	*/
 	TextureAccessCallPtr makeTexelFetchOffset2DIRgba8( ExprPtr image, ExprPtr P, ExprPtr lod, ExprPtr offset );
 	/**
@@ -18636,7 +18636,7 @@ namespace ast::expr
 	*@param lod
 	*	int
 	*@param offset
-	*	int
+	*	vec2i
 	*/
 	TextureAccessCallPtr makeTexelFetchOffset2DIRg32( ExprPtr image, ExprPtr P, ExprPtr lod, ExprPtr offset );
 	/**
@@ -18649,7 +18649,7 @@ namespace ast::expr
 	*@param lod
 	*	int
 	*@param offset
-	*	int
+	*	vec2i
 	*/
 	TextureAccessCallPtr makeTexelFetchOffset2DIRg16( ExprPtr image, ExprPtr P, ExprPtr lod, ExprPtr offset );
 	/**
@@ -18662,7 +18662,7 @@ namespace ast::expr
 	*@param lod
 	*	int
 	*@param offset
-	*	int
+	*	vec2i
 	*/
 	TextureAccessCallPtr makeTexelFetchOffset2DIRg8( ExprPtr image, ExprPtr P, ExprPtr lod, ExprPtr offset );
 	/**
@@ -18675,7 +18675,7 @@ namespace ast::expr
 	*@param lod
 	*	int
 	*@param offset
-	*	int
+	*	vec2i
 	*/
 	TextureAccessCallPtr makeTexelFetchOffset2DIR32( ExprPtr image, ExprPtr P, ExprPtr lod, ExprPtr offset );
 	/**
@@ -18688,7 +18688,7 @@ namespace ast::expr
 	*@param lod
 	*	int
 	*@param offset
-	*	int
+	*	vec2i
 	*/
 	TextureAccessCallPtr makeTexelFetchOffset2DIR16( ExprPtr image, ExprPtr P, ExprPtr lod, ExprPtr offset );
 	/**
@@ -18701,7 +18701,7 @@ namespace ast::expr
 	*@param lod
 	*	int
 	*@param offset
-	*	int
+	*	vec2i
 	*/
 	TextureAccessCallPtr makeTexelFetchOffset2DIR8( ExprPtr image, ExprPtr P, ExprPtr lod, ExprPtr offset );
 	/**
@@ -18714,7 +18714,7 @@ namespace ast::expr
 	*@param lod
 	*	int
 	*@param offset
-	*	int
+	*	vec3i
 	*/
 	TextureAccessCallPtr makeTexelFetchOffset3DIRgba32( ExprPtr image, ExprPtr P, ExprPtr lod, ExprPtr offset );
 	/**
@@ -18727,7 +18727,7 @@ namespace ast::expr
 	*@param lod
 	*	int
 	*@param offset
-	*	int
+	*	vec3i
 	*/
 	TextureAccessCallPtr makeTexelFetchOffset3DIRgba16( ExprPtr image, ExprPtr P, ExprPtr lod, ExprPtr offset );
 	/**
@@ -18740,7 +18740,7 @@ namespace ast::expr
 	*@param lod
 	*	int
 	*@param offset
-	*	int
+	*	vec3i
 	*/
 	TextureAccessCallPtr makeTexelFetchOffset3DIRgba8( ExprPtr image, ExprPtr P, ExprPtr lod, ExprPtr offset );
 	/**
@@ -18753,7 +18753,7 @@ namespace ast::expr
 	*@param lod
 	*	int
 	*@param offset
-	*	int
+	*	vec3i
 	*/
 	TextureAccessCallPtr makeTexelFetchOffset3DIRg32( ExprPtr image, ExprPtr P, ExprPtr lod, ExprPtr offset );
 	/**
@@ -18766,7 +18766,7 @@ namespace ast::expr
 	*@param lod
 	*	int
 	*@param offset
-	*	int
+	*	vec3i
 	*/
 	TextureAccessCallPtr makeTexelFetchOffset3DIRg16( ExprPtr image, ExprPtr P, ExprPtr lod, ExprPtr offset );
 	/**
@@ -18779,7 +18779,7 @@ namespace ast::expr
 	*@param lod
 	*	int
 	*@param offset
-	*	int
+	*	vec3i
 	*/
 	TextureAccessCallPtr makeTexelFetchOffset3DIRg8( ExprPtr image, ExprPtr P, ExprPtr lod, ExprPtr offset );
 	/**
@@ -18792,7 +18792,7 @@ namespace ast::expr
 	*@param lod
 	*	int
 	*@param offset
-	*	int
+	*	vec3i
 	*/
 	TextureAccessCallPtr makeTexelFetchOffset3DIR32( ExprPtr image, ExprPtr P, ExprPtr lod, ExprPtr offset );
 	/**
@@ -18805,7 +18805,7 @@ namespace ast::expr
 	*@param lod
 	*	int
 	*@param offset
-	*	int
+	*	vec3i
 	*/
 	TextureAccessCallPtr makeTexelFetchOffset3DIR16( ExprPtr image, ExprPtr P, ExprPtr lod, ExprPtr offset );
 	/**
@@ -18818,7 +18818,7 @@ namespace ast::expr
 	*@param lod
 	*	int
 	*@param offset
-	*	int
+	*	vec3i
 	*/
 	TextureAccessCallPtr makeTexelFetchOffset3DIR8( ExprPtr image, ExprPtr P, ExprPtr lod, ExprPtr offset );
 	/**
@@ -18829,7 +18829,7 @@ namespace ast::expr
 	*@param P
 	*	vec2i
 	*@param offset
-	*	int
+	*	vec2i
 	*/
 	TextureAccessCallPtr makeTexelFetchOffset2DRectIRgba32( ExprPtr image, ExprPtr P, ExprPtr offset );
 	/**
@@ -18840,7 +18840,7 @@ namespace ast::expr
 	*@param P
 	*	vec2i
 	*@param offset
-	*	int
+	*	vec2i
 	*/
 	TextureAccessCallPtr makeTexelFetchOffset2DRectIRgba16( ExprPtr image, ExprPtr P, ExprPtr offset );
 	/**
@@ -18851,7 +18851,7 @@ namespace ast::expr
 	*@param P
 	*	vec2i
 	*@param offset
-	*	int
+	*	vec2i
 	*/
 	TextureAccessCallPtr makeTexelFetchOffset2DRectIRgba8( ExprPtr image, ExprPtr P, ExprPtr offset );
 	/**
@@ -18862,7 +18862,7 @@ namespace ast::expr
 	*@param P
 	*	vec2i
 	*@param offset
-	*	int
+	*	vec2i
 	*/
 	TextureAccessCallPtr makeTexelFetchOffset2DRectIRg32( ExprPtr image, ExprPtr P, ExprPtr offset );
 	/**
@@ -18873,7 +18873,7 @@ namespace ast::expr
 	*@param P
 	*	vec2i
 	*@param offset
-	*	int
+	*	vec2i
 	*/
 	TextureAccessCallPtr makeTexelFetchOffset2DRectIRg16( ExprPtr image, ExprPtr P, ExprPtr offset );
 	/**
@@ -18884,7 +18884,7 @@ namespace ast::expr
 	*@param P
 	*	vec2i
 	*@param offset
-	*	int
+	*	vec2i
 	*/
 	TextureAccessCallPtr makeTexelFetchOffset2DRectIRg8( ExprPtr image, ExprPtr P, ExprPtr offset );
 	/**
@@ -18895,7 +18895,7 @@ namespace ast::expr
 	*@param P
 	*	vec2i
 	*@param offset
-	*	int
+	*	vec2i
 	*/
 	TextureAccessCallPtr makeTexelFetchOffset2DRectIR32( ExprPtr image, ExprPtr P, ExprPtr offset );
 	/**
@@ -18906,7 +18906,7 @@ namespace ast::expr
 	*@param P
 	*	vec2i
 	*@param offset
-	*	int
+	*	vec2i
 	*/
 	TextureAccessCallPtr makeTexelFetchOffset2DRectIR16( ExprPtr image, ExprPtr P, ExprPtr offset );
 	/**
@@ -18917,7 +18917,7 @@ namespace ast::expr
 	*@param P
 	*	vec2i
 	*@param offset
-	*	int
+	*	vec2i
 	*/
 	TextureAccessCallPtr makeTexelFetchOffset2DRectIR8( ExprPtr image, ExprPtr P, ExprPtr offset );
 	/**
@@ -19047,7 +19047,7 @@ namespace ast::expr
 	*@param lod
 	*	int
 	*@param offset
-	*	int
+	*	vec2i
 	*/
 	TextureAccessCallPtr makeTexelFetchOffset2DArrayIRgba32( ExprPtr image, ExprPtr P, ExprPtr lod, ExprPtr offset );
 	/**
@@ -19060,7 +19060,7 @@ namespace ast::expr
 	*@param lod
 	*	int
 	*@param offset
-	*	int
+	*	vec2i
 	*/
 	TextureAccessCallPtr makeTexelFetchOffset2DArrayIRgba16( ExprPtr image, ExprPtr P, ExprPtr lod, ExprPtr offset );
 	/**
@@ -19073,7 +19073,7 @@ namespace ast::expr
 	*@param lod
 	*	int
 	*@param offset
-	*	int
+	*	vec2i
 	*/
 	TextureAccessCallPtr makeTexelFetchOffset2DArrayIRgba8( ExprPtr image, ExprPtr P, ExprPtr lod, ExprPtr offset );
 	/**
@@ -19086,7 +19086,7 @@ namespace ast::expr
 	*@param lod
 	*	int
 	*@param offset
-	*	int
+	*	vec2i
 	*/
 	TextureAccessCallPtr makeTexelFetchOffset2DArrayIRg32( ExprPtr image, ExprPtr P, ExprPtr lod, ExprPtr offset );
 	/**
@@ -19099,7 +19099,7 @@ namespace ast::expr
 	*@param lod
 	*	int
 	*@param offset
-	*	int
+	*	vec2i
 	*/
 	TextureAccessCallPtr makeTexelFetchOffset2DArrayIRg16( ExprPtr image, ExprPtr P, ExprPtr lod, ExprPtr offset );
 	/**
@@ -19112,7 +19112,7 @@ namespace ast::expr
 	*@param lod
 	*	int
 	*@param offset
-	*	int
+	*	vec2i
 	*/
 	TextureAccessCallPtr makeTexelFetchOffset2DArrayIRg8( ExprPtr image, ExprPtr P, ExprPtr lod, ExprPtr offset );
 	/**
@@ -19125,7 +19125,7 @@ namespace ast::expr
 	*@param lod
 	*	int
 	*@param offset
-	*	int
+	*	vec2i
 	*/
 	TextureAccessCallPtr makeTexelFetchOffset2DArrayIR32( ExprPtr image, ExprPtr P, ExprPtr lod, ExprPtr offset );
 	/**
@@ -19138,7 +19138,7 @@ namespace ast::expr
 	*@param lod
 	*	int
 	*@param offset
-	*	int
+	*	vec2i
 	*/
 	TextureAccessCallPtr makeTexelFetchOffset2DArrayIR16( ExprPtr image, ExprPtr P, ExprPtr lod, ExprPtr offset );
 	/**
@@ -19151,7 +19151,7 @@ namespace ast::expr
 	*@param lod
 	*	int
 	*@param offset
-	*	int
+	*	vec2i
 	*/
 	TextureAccessCallPtr makeTexelFetchOffset2DArrayIR8( ExprPtr image, ExprPtr P, ExprPtr lod, ExprPtr offset );
 	/**
@@ -19281,7 +19281,7 @@ namespace ast::expr
 	*@param lod
 	*	int
 	*@param offset
-	*	int
+	*	vec2i
 	*/
 	TextureAccessCallPtr makeTexelFetchOffset2DURgba32( ExprPtr image, ExprPtr P, ExprPtr lod, ExprPtr offset );
 	/**
@@ -19294,7 +19294,7 @@ namespace ast::expr
 	*@param lod
 	*	int
 	*@param offset
-	*	int
+	*	vec2i
 	*/
 	TextureAccessCallPtr makeTexelFetchOffset2DURgba16( ExprPtr image, ExprPtr P, ExprPtr lod, ExprPtr offset );
 	/**
@@ -19307,7 +19307,7 @@ namespace ast::expr
 	*@param lod
 	*	int
 	*@param offset
-	*	int
+	*	vec2i
 	*/
 	TextureAccessCallPtr makeTexelFetchOffset2DURgba8( ExprPtr image, ExprPtr P, ExprPtr lod, ExprPtr offset );
 	/**
@@ -19320,7 +19320,7 @@ namespace ast::expr
 	*@param lod
 	*	int
 	*@param offset
-	*	int
+	*	vec2i
 	*/
 	TextureAccessCallPtr makeTexelFetchOffset2DURg32( ExprPtr image, ExprPtr P, ExprPtr lod, ExprPtr offset );
 	/**
@@ -19333,7 +19333,7 @@ namespace ast::expr
 	*@param lod
 	*	int
 	*@param offset
-	*	int
+	*	vec2i
 	*/
 	TextureAccessCallPtr makeTexelFetchOffset2DURg16( ExprPtr image, ExprPtr P, ExprPtr lod, ExprPtr offset );
 	/**
@@ -19346,7 +19346,7 @@ namespace ast::expr
 	*@param lod
 	*	int
 	*@param offset
-	*	int
+	*	vec2i
 	*/
 	TextureAccessCallPtr makeTexelFetchOffset2DURg8( ExprPtr image, ExprPtr P, ExprPtr lod, ExprPtr offset );
 	/**
@@ -19359,7 +19359,7 @@ namespace ast::expr
 	*@param lod
 	*	int
 	*@param offset
-	*	int
+	*	vec2i
 	*/
 	TextureAccessCallPtr makeTexelFetchOffset2DUR32( ExprPtr image, ExprPtr P, ExprPtr lod, ExprPtr offset );
 	/**
@@ -19372,7 +19372,7 @@ namespace ast::expr
 	*@param lod
 	*	int
 	*@param offset
-	*	int
+	*	vec2i
 	*/
 	TextureAccessCallPtr makeTexelFetchOffset2DUR16( ExprPtr image, ExprPtr P, ExprPtr lod, ExprPtr offset );
 	/**
@@ -19385,7 +19385,7 @@ namespace ast::expr
 	*@param lod
 	*	int
 	*@param offset
-	*	int
+	*	vec2i
 	*/
 	TextureAccessCallPtr makeTexelFetchOffset2DUR8( ExprPtr image, ExprPtr P, ExprPtr lod, ExprPtr offset );
 	/**
@@ -19398,7 +19398,7 @@ namespace ast::expr
 	*@param lod
 	*	int
 	*@param offset
-	*	int
+	*	vec3i
 	*/
 	TextureAccessCallPtr makeTexelFetchOffset3DURgba32( ExprPtr image, ExprPtr P, ExprPtr lod, ExprPtr offset );
 	/**
@@ -19411,7 +19411,7 @@ namespace ast::expr
 	*@param lod
 	*	int
 	*@param offset
-	*	int
+	*	vec3i
 	*/
 	TextureAccessCallPtr makeTexelFetchOffset3DURgba16( ExprPtr image, ExprPtr P, ExprPtr lod, ExprPtr offset );
 	/**
@@ -19424,7 +19424,7 @@ namespace ast::expr
 	*@param lod
 	*	int
 	*@param offset
-	*	int
+	*	vec3i
 	*/
 	TextureAccessCallPtr makeTexelFetchOffset3DURgba8( ExprPtr image, ExprPtr P, ExprPtr lod, ExprPtr offset );
 	/**
@@ -19437,7 +19437,7 @@ namespace ast::expr
 	*@param lod
 	*	int
 	*@param offset
-	*	int
+	*	vec3i
 	*/
 	TextureAccessCallPtr makeTexelFetchOffset3DURg32( ExprPtr image, ExprPtr P, ExprPtr lod, ExprPtr offset );
 	/**
@@ -19450,7 +19450,7 @@ namespace ast::expr
 	*@param lod
 	*	int
 	*@param offset
-	*	int
+	*	vec3i
 	*/
 	TextureAccessCallPtr makeTexelFetchOffset3DURg16( ExprPtr image, ExprPtr P, ExprPtr lod, ExprPtr offset );
 	/**
@@ -19463,7 +19463,7 @@ namespace ast::expr
 	*@param lod
 	*	int
 	*@param offset
-	*	int
+	*	vec3i
 	*/
 	TextureAccessCallPtr makeTexelFetchOffset3DURg8( ExprPtr image, ExprPtr P, ExprPtr lod, ExprPtr offset );
 	/**
@@ -19476,7 +19476,7 @@ namespace ast::expr
 	*@param lod
 	*	int
 	*@param offset
-	*	int
+	*	vec3i
 	*/
 	TextureAccessCallPtr makeTexelFetchOffset3DUR32( ExprPtr image, ExprPtr P, ExprPtr lod, ExprPtr offset );
 	/**
@@ -19489,7 +19489,7 @@ namespace ast::expr
 	*@param lod
 	*	int
 	*@param offset
-	*	int
+	*	vec3i
 	*/
 	TextureAccessCallPtr makeTexelFetchOffset3DUR16( ExprPtr image, ExprPtr P, ExprPtr lod, ExprPtr offset );
 	/**
@@ -19502,7 +19502,7 @@ namespace ast::expr
 	*@param lod
 	*	int
 	*@param offset
-	*	int
+	*	vec3i
 	*/
 	TextureAccessCallPtr makeTexelFetchOffset3DUR8( ExprPtr image, ExprPtr P, ExprPtr lod, ExprPtr offset );
 	/**
@@ -19513,7 +19513,7 @@ namespace ast::expr
 	*@param P
 	*	vec2i
 	*@param offset
-	*	int
+	*	vec2i
 	*/
 	TextureAccessCallPtr makeTexelFetchOffset2DRectURgba32( ExprPtr image, ExprPtr P, ExprPtr offset );
 	/**
@@ -19524,7 +19524,7 @@ namespace ast::expr
 	*@param P
 	*	vec2i
 	*@param offset
-	*	int
+	*	vec2i
 	*/
 	TextureAccessCallPtr makeTexelFetchOffset2DRectURgba16( ExprPtr image, ExprPtr P, ExprPtr offset );
 	/**
@@ -19535,7 +19535,7 @@ namespace ast::expr
 	*@param P
 	*	vec2i
 	*@param offset
-	*	int
+	*	vec2i
 	*/
 	TextureAccessCallPtr makeTexelFetchOffset2DRectURgba8( ExprPtr image, ExprPtr P, ExprPtr offset );
 	/**
@@ -19546,7 +19546,7 @@ namespace ast::expr
 	*@param P
 	*	vec2i
 	*@param offset
-	*	int
+	*	vec2i
 	*/
 	TextureAccessCallPtr makeTexelFetchOffset2DRectURg32( ExprPtr image, ExprPtr P, ExprPtr offset );
 	/**
@@ -19557,7 +19557,7 @@ namespace ast::expr
 	*@param P
 	*	vec2i
 	*@param offset
-	*	int
+	*	vec2i
 	*/
 	TextureAccessCallPtr makeTexelFetchOffset2DRectURg16( ExprPtr image, ExprPtr P, ExprPtr offset );
 	/**
@@ -19568,7 +19568,7 @@ namespace ast::expr
 	*@param P
 	*	vec2i
 	*@param offset
-	*	int
+	*	vec2i
 	*/
 	TextureAccessCallPtr makeTexelFetchOffset2DRectURg8( ExprPtr image, ExprPtr P, ExprPtr offset );
 	/**
@@ -19579,7 +19579,7 @@ namespace ast::expr
 	*@param P
 	*	vec2i
 	*@param offset
-	*	int
+	*	vec2i
 	*/
 	TextureAccessCallPtr makeTexelFetchOffset2DRectUR32( ExprPtr image, ExprPtr P, ExprPtr offset );
 	/**
@@ -19590,7 +19590,7 @@ namespace ast::expr
 	*@param P
 	*	vec2i
 	*@param offset
-	*	int
+	*	vec2i
 	*/
 	TextureAccessCallPtr makeTexelFetchOffset2DRectUR16( ExprPtr image, ExprPtr P, ExprPtr offset );
 	/**
@@ -19601,7 +19601,7 @@ namespace ast::expr
 	*@param P
 	*	vec2i
 	*@param offset
-	*	int
+	*	vec2i
 	*/
 	TextureAccessCallPtr makeTexelFetchOffset2DRectUR8( ExprPtr image, ExprPtr P, ExprPtr offset );
 	/**
@@ -19731,7 +19731,7 @@ namespace ast::expr
 	*@param lod
 	*	int
 	*@param offset
-	*	int
+	*	vec2i
 	*/
 	TextureAccessCallPtr makeTexelFetchOffset2DArrayURgba32( ExprPtr image, ExprPtr P, ExprPtr lod, ExprPtr offset );
 	/**
@@ -19744,7 +19744,7 @@ namespace ast::expr
 	*@param lod
 	*	int
 	*@param offset
-	*	int
+	*	vec2i
 	*/
 	TextureAccessCallPtr makeTexelFetchOffset2DArrayURgba16( ExprPtr image, ExprPtr P, ExprPtr lod, ExprPtr offset );
 	/**
@@ -19757,7 +19757,7 @@ namespace ast::expr
 	*@param lod
 	*	int
 	*@param offset
-	*	int
+	*	vec2i
 	*/
 	TextureAccessCallPtr makeTexelFetchOffset2DArrayURgba8( ExprPtr image, ExprPtr P, ExprPtr lod, ExprPtr offset );
 	/**
@@ -19770,7 +19770,7 @@ namespace ast::expr
 	*@param lod
 	*	int
 	*@param offset
-	*	int
+	*	vec2i
 	*/
 	TextureAccessCallPtr makeTexelFetchOffset2DArrayURg32( ExprPtr image, ExprPtr P, ExprPtr lod, ExprPtr offset );
 	/**
@@ -19783,7 +19783,7 @@ namespace ast::expr
 	*@param lod
 	*	int
 	*@param offset
-	*	int
+	*	vec2i
 	*/
 	TextureAccessCallPtr makeTexelFetchOffset2DArrayURg16( ExprPtr image, ExprPtr P, ExprPtr lod, ExprPtr offset );
 	/**
@@ -19796,7 +19796,7 @@ namespace ast::expr
 	*@param lod
 	*	int
 	*@param offset
-	*	int
+	*	vec2i
 	*/
 	TextureAccessCallPtr makeTexelFetchOffset2DArrayURg8( ExprPtr image, ExprPtr P, ExprPtr lod, ExprPtr offset );
 	/**
@@ -19809,7 +19809,7 @@ namespace ast::expr
 	*@param lod
 	*	int
 	*@param offset
-	*	int
+	*	vec2i
 	*/
 	TextureAccessCallPtr makeTexelFetchOffset2DArrayUR32( ExprPtr image, ExprPtr P, ExprPtr lod, ExprPtr offset );
 	/**
@@ -19822,7 +19822,7 @@ namespace ast::expr
 	*@param lod
 	*	int
 	*@param offset
-	*	int
+	*	vec2i
 	*/
 	TextureAccessCallPtr makeTexelFetchOffset2DArrayUR16( ExprPtr image, ExprPtr P, ExprPtr lod, ExprPtr offset );
 	/**
@@ -19835,7 +19835,7 @@ namespace ast::expr
 	*@param lod
 	*	int
 	*@param offset
-	*	int
+	*	vec2i
 	*/
 	TextureAccessCallPtr makeTexelFetchOffset2DArrayUR8( ExprPtr image, ExprPtr P, ExprPtr lod, ExprPtr offset );
 	/**

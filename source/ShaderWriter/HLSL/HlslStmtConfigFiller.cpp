@@ -115,6 +115,10 @@ namespace sdw::hlsl
 	{
 	}
 
+	void StmtConfigFiller::visitSpecialisationConstantDeclStmt( stmt::SpecialisationConstantDecl * stmt )
+	{
+	}
+
 	void StmtConfigFiller::visitInputComputeLayoutStmt( stmt::InputComputeLayout * stmt )
 	{
 	}

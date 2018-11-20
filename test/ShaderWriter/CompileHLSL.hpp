@@ -5,5 +5,6 @@
 namespace test
 {
 	bool compileHlsl( std::string const & shader
-		, sdw::ShaderType type );
+		, sdw::ShaderType type
+		, std::string & errors );
 }

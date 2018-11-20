@@ -13,10 +13,10 @@ namespace sdw
 		, uint32_t set
 		, ast::type::MemoryLayout layout )
 		: m_shader{ writer.getShader() }
-		, m_stmt{ stmt::makeShaderBufferDecl( name, bind, set ) }
 		, m_name{ name }
 		, m_info{ layout, name, bind, set }
 		, m_var{ var::makeVariable( m_info.getType(), m_name, var::Flag::eUniform ) }
+		, m_stmt{ stmt::makeShaderBufferDecl( name, m_var, nullptr, bind, set ) }
 	{
 	}
 

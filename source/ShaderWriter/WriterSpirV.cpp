@@ -1385,6 +1385,10 @@ namespace sdw
 					write( operand, names, stream );
 				}
 			}
+			else if ( opCode == spv::Op::OpTypeBool )
+			{
+				names.emplace( instruction.resultId.value(), "bool" );
+			}
 			else if ( opCode == spv::Op::OpTypeInt )
 			{
 				names.emplace( instruction.resultId.value(), "int" );
@@ -1454,7 +1458,7 @@ namespace sdw
 			}
 			else if ( opCode == spv::Op::OpTypeRuntimeArray )
 			{
-				names.emplace( instruction.resultId.value(), "sampler" );
+				names.emplace( instruction.resultId.value(), "dynarray" );
 				// Element type.
 				write( instruction.operands[0], names, stream );
 			}
@@ -1531,6 +1535,56 @@ namespace sdw
 			return stream;
 		}
 
+		std::ostream & writeSpecConstant( spirv::Instruction const & instruction
+			, type::Kind type
+			, IdNames & names
+			, std::ostream & stream )
+		{
+			assert( instruction.resultId.has_value() );
+			assert( instruction.resultType.has_value() );
+			stream << writeId( instruction.resultId.value() ) << " =";
+			auto opCode = spv::Op( instruction.op.opCode );
+			stream << " " << spirv::getOperatorName( opCode );
+			write( instruction.resultType.value(), names, stream );
+
+			if ( opCode == spv::Op::OpSpecConstant )
+			{
+				switch ( type )
+				{
+				case type::Kind::eBoolean:
+					names.emplace( instruction.resultId.value(), std::to_string( bool( instruction.operands[0] ) ) );
+					stream << " " << bool( instruction.operands[0] );
+					break;
+				case type::Kind::eInt:
+					names.emplace( instruction.resultId.value(), std::to_string( int32_t( instruction.operands[0] ) ) );
+					stream << " " << int32_t( instruction.operands[0] );
+					break;
+				case type::Kind::eUInt:
+					names.emplace( instruction.resultId.value(), std::to_string( instruction.operands[0] ) );
+					stream << " " << instruction.operands[0];
+					break;
+				case type::Kind::eFloat:
+					names.emplace( instruction.resultId.value(), std::to_string( *reinterpret_cast< float const * >( instruction.operands.data() ) ) );
+					stream << " " << *reinterpret_cast< float const * >( instruction.operands.data() );
+					break;
+				case type::Kind::eDouble:
+					assert( instruction.operands.size() >= 2 );
+					{
+						names.emplace( instruction.resultId.value(), std::to_string( *reinterpret_cast< double const * >( instruction.operands.data() ) ) );
+						stream << " " << *reinterpret_cast< double const * >( instruction.operands.data() );
+					}
+					break;
+				}
+			}
+			else if ( opCode == spv::Op::OpSpecConstantComposite )
+			{
+				names.emplace( instruction.resultId.value(), "specconst" );
+				write( instruction.operands, names, stream );
+			}
+
+			return stream;
+		}
+
 		std::ostream & writeGlobalDeclaration( spirv::Instruction const & instruction
 			, IdNames & names
 			, spirv::Module const & module
@@ -1542,6 +1596,11 @@ namespace sdw
 				|| opCode == spv::Op::OpConstantComposite )
 			{
 				writeConstant( instruction, module.getLiteralType( instruction.resultId.value() ), names, stream ) << "\n";
+			}
+			else if ( opCode == spv::Op::OpSpecConstant
+				|| opCode == spv::Op::OpSpecConstantComposite )
+			{
+				writeSpecConstant( instruction, module.getLiteralType( instruction.resultId.value() ), names, stream ) << "\n";
 			}
 			else if ( opCode == spv::Op::OpVariable )
 			{

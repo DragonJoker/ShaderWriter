@@ -100,6 +100,8 @@ namespace ast::type
 		AccessKind accessKind;
 	};
 
+	size_t getHash( type::ImageConfiguration const & config );
+
 	template< ImageFormat FormatT
 		, ImageDim DimT
 		, bool ArrayedT
@@ -107,6 +109,10 @@ namespace ast::type
 		, bool MsT >
 	inline ImageConfiguration makeConfig( bool sampled
 		, bool readOnly );
+
+	template< typename T >
+	inline size_t hashCombine( size_t & hash
+		, T const & rhs );
 }
 
 #define Img1D ast::type::ImageDim::e1D, false, false, false

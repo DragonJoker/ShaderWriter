@@ -186,9 +186,19 @@ namespace sdw
 			args.emplace_back( doSubmit( arg ) );
 		}
 
-		m_result = expr::makeFnCall( expr->getType()
-			, std::make_unique< expr::Identifier >( *expr->getFn() )
-			, std::move( args ) );
+		if ( expr->isMember() )
+		{
+			m_result = expr::makeMemberFnCall( expr->getType()
+				, std::make_unique< expr::Identifier >( *expr->getFn() )
+				, doSubmit( expr->getInstance() )
+				, std::move( args ) );
+		}
+		else
+		{
+			m_result = expr::makeFnCall( expr->getType()
+				, std::make_unique< expr::Identifier >( *expr->getFn() )
+				, std::move( args ) );
+		}
 	}
 
 	void ExprCloner::visitGreaterExpr( expr::Greater * expr )
@@ -392,7 +402,7 @@ namespace sdw
 
 	void ExprCloner::visitSwizzleExpr( expr::Swizzle * expr )
 	{
-		m_result = expr::makeSwizzle( doSubmit( expr->getOuterExpr() )
+		m_result = std::make_unique< expr::Swizzle >( doSubmit( expr->getOuterExpr() )
 			, expr->getSwizzle() );
 	}
 

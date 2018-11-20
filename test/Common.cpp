@@ -67,4 +67,49 @@ namespace test
 	}
 
 #endif
+	void TestCounts::initialise( std::string const & name )
+	{
+		tclog = std::make_unique< test::LogStreambuf< test::DebugLogStreambufTraits > >( name, std::cout );
+		tcout = std::make_unique< test::LogStreambuf< test::InfoLogStreambufTraits > >( name, std::cout );
+		tcerr = std::make_unique< test::LogStreambuf< test::ErrorLogStreambufTraits > >( name, std::cerr );
+	}
+
+	void TestCounts::cleanup()
+	{
+		tclog.reset();
+		tcout.reset();
+		tcerr.reset();
+	}
+
+	void reportFailure( char const * const error
+		, char const * const function
+		, int line
+		, TestCounts & testCounts )
+	{
+		std::cout << function << ":" << line << " - " << error << std::endl;
+		++testCounts.errorCount;
+	}
+
+	int reportTestSuite( TestCounts const & testCounts )
+	{
+		int result;
+
+		if ( testCounts.errorCount )
+		{
+			std::cout << "********************************************************************************" << std::endl;
+			std::cout << "Test suite ended with some failures." << std::endl;
+			std::cout << "Total checks count: " << testCounts.totalCount << std::endl;
+			std::cout << "Failed checks count: " << testCounts.errorCount << std::endl;
+			result = EXIT_FAILURE;
+		}
+		else
+		{
+			std::cout << "********************************************************************************" << std::endl;
+			std::cout << "Test suite ended cleanly." << std::endl;
+			std::cout << "Total checks count: " << testCounts.totalCount << std::endl;
+			result = EXIT_SUCCESS;
+		}
+
+		return result;
+	}
 }

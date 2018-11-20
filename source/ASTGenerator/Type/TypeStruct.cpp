@@ -67,13 +67,15 @@ namespace ast::type
 			switch ( kind )
 			{
 			case Kind::eDouble:
-				return 8;
+				return 8u;
 			case Kind::eFloat:
 			case Kind::eInt:
 			case Kind::eUInt:
-				return 4;
+				return 4u;
 			case Kind::eHalf:
-				return 2;
+				return 2u;
+			case Kind::eBoolean:
+				return 1u;
 
 			default:
 				assert( false && "Unsupported type::Kind" );
@@ -172,14 +174,14 @@ namespace ast::type
 		{
 			uint32_t result = 0u;
 
-			if ( type.getArraySize() != NotArray )
+			if ( getArraySize( type ) != NotArray )
 			{
 				uint32_t const minimumAlignment = isVec4Padded( layout )
 					? 16u
 					: 1u;
 				// Get the alignment of the base type, then maybe round up.
 				result = std::max( minimumAlignment
-					, getPackedAlignment( type.getKind()
+					, getPackedAlignment( *static_cast< Array const & >( type ).getType()
 						, layout ) );
 			}
 			else if ( type.getKind() == Kind::eStruct )
@@ -189,7 +191,7 @@ namespace ast::type
 			}
 			else
 			{
-				result = getPackedAlignment( type.getKind()
+				result = getPackedAlignment( getNonArrayKind( type )
 					, layout );
 			}
 
@@ -354,11 +356,28 @@ namespace ast::type
 		uint32_t getSize( Type const & type
 			, MemoryLayout layout )
 		{
-			uint32_t result = type.getKind() == Kind::eStruct
-				? getSize( static_cast< Struct const & >( type ), layout )
-				: getSize( type.getKind(), type.getArraySize() != type::NotArray, layout );
-			return ( type.getArraySize() != type::NotArray && type.getArraySize() != type::UnknownArraySize )
-				? result * type.getArraySize()
+			uint32_t result;
+			auto arraySize = getArraySize( type );
+
+			if ( type.getKind() == Kind::eStruct )
+			{
+				result = getSize( static_cast< Struct const & >( type )
+					, layout );
+			}
+			else if ( type.getKind() == Kind::eArray )
+			{
+				result = getSize( *static_cast< Array const & >( type ).getType()
+					, layout );
+			}
+			else
+			{
+				result = getSize( getNonArrayKind( type )
+					, false
+					, layout );
+			}
+
+			return ( arraySize != type::NotArray && arraySize != type::UnknownArraySize )
+				? result * arraySize
 				: result;
 		}
 
@@ -528,92 +547,132 @@ namespace ast::type
 		{
 			uint32_t result = type.getKind() == Kind::eStruct
 				? getAlignment( static_cast< Struct const & >( type ), layout )
-				: getAlignment( type.getKind(), type.getArraySize() != type::NotArray, layout );
-			return ( type.getArraySize() != type::NotArray && type.getArraySize() != type::UnknownArraySize )
-				? result * type.getArraySize()
+				: getAlignment( type.getKind(), getArraySize( type ) != type::NotArray, layout );
+			return ( getArraySize( type ) != type::NotArray && getArraySize( type ) != type::UnknownArraySize )
+				? result * getArraySize( type )
 				: result;
+		}
+	}
+
+	Struct::Struct( Struct const & rhs )
+		: Type{ Kind::eStruct }
+		, m_name{ rhs.getName() }
+		, m_layout{ rhs.m_layout }
+	{
+		for ( auto & member : rhs )
+		{
+			if ( member.type->getKind() == Kind::eArray )
+			{
+				declMember( member.name
+					, std::static_pointer_cast< Array >( member.type ) );
+			}
+			else if ( member.type->getKind() == Kind::eStruct )
+			{
+				declMember( member.name
+					, std::static_pointer_cast< Struct >( member.type ) );
+			}
+			else
+			{
+				declMember( member.name
+					, member.type );
+			}
 		}
 	}
 
 	Struct::Struct( Struct * parent
 		, uint32_t index
-		, Struct const & copy
-		, uint32_t arraySize )
-		: Type{ parent, index, Kind::eStruct, arraySize }
+		, Struct const & copy )
+		: Type{ parent, index, Kind::eStruct }
 		, m_name{ copy.getName() }
 		, m_layout{ copy.m_layout }
 	{
 		for ( auto & member : copy )
 		{
-			if ( member.type->getKind() == Kind::eStruct )
+			if ( member.type->getKind() == Kind::eArray )
 			{
 				declMember( member.name
-					, std::static_pointer_cast< Struct >( member.type )
-					, member.type->getArraySize() );
+					, std::static_pointer_cast< Array >( member.type ) );
+			}
+			else if ( member.type->getKind() == Kind::eStruct )
+			{
+				declMember( member.name
+					, std::static_pointer_cast< Struct >( member.type ) );
 			}
 			else
 			{
 				declMember( member.name
-					, member.type->getKind()
-					, member.type->getArraySize() );
+					, member.type );
 			}
 		}
 	}
 
 	Struct::Struct( MemoryLayout layout
-		, std::string name
-		, uint32_t arraySize )
-		: Type{ Kind::eStruct, arraySize }
+		, std::string name )
+		: Type{ Kind::eStruct }
 		, m_name{ std::move( name ) }
 		, m_layout{ layout }
 	{
 	}
 
 	Struct::Member Struct::declMember( std::string name
-		, TypePtr type )
-	{
-		return declMember( name
-			, type->getKind()
-			, type->getArraySize() );
-	}
-
-	Struct::Member Struct::declMember( std::string name
 		, Kind kind
 		, uint32_t arraySize )
 	{
-		auto it = std::find_if( m_members.begin()
-			, m_members.end()
-			, [&name]( Member const & lookup )
-			{
-				return lookup.name == name;
-			} );
+		type::TypePtr mbrType;
 
-		if ( it != m_members.end() )
+		if ( arraySize != NotArray )
 		{
-			throw std::runtime_error{ "Struct member [" + name + "] already exists." };
+			mbrType = std::make_shared< Array >( this
+				, uint32_t( m_members.size() )
+				, makeType( kind )
+				, arraySize );
+		}
+		else
+		{
+			mbrType = std::shared_ptr< Type >( new Type
+				{
+					this,
+					uint32_t( m_members.size() ),
+					kind,
+				} );
 		}
 
-		auto type = std::shared_ptr< Type >( new Type
-			{
-				this,
-				uint32_t( m_members.size() ),
-				kind,
-				arraySize,
-			} );
-		auto size = type::getSize( type, m_layout );
-		auto offset = m_members.empty()
-			? 0u
-			: m_members.back().offset + m_members.back().size;
+		return doAddMember( mbrType, name );
+	}
 
-		m_members.push_back(
-			{
-				std::move( type ),
-				std::string( name ),
-				offset,
-				size,
-			} );
-		doUpdateOffsets();
-		return m_members.back();
+	Struct::Member Struct::declMember( std::string name
+		, StructPtr type
+		, uint32_t arraySize )
+	{
+		type::TypePtr mbrType;
+
+		if ( arraySize != NotArray )
+		{
+			mbrType = std::shared_ptr< Struct >( new Struct{ *type } );
+			mbrType = std::make_shared< Array >( this
+				, uint32_t( m_members.size() )
+				, std::move( mbrType )
+				, arraySize );
+		}
+		else
+		{
+			mbrType = std::shared_ptr< Struct >( new Struct
+				{
+					this,
+					uint32_t( m_members.size() ),
+					*type,
+				} );
+		}
+
+		return doAddMember( mbrType, name );
+	}
+
+	Struct::Member Struct::declMember( std::string name
+		, TypePtr type )
+	{
+		return declMember( name
+			, getNonArrayKind( type )
+			, getArraySize( type ) );
 	}
 
 	Struct::Member Struct::declMember( std::string name
@@ -621,46 +680,29 @@ namespace ast::type
 	{
 		return declMember( name
 			, type
-			, type->getArraySize() );
+			, getArraySize( type ) );
 	}
 
 	Struct::Member Struct::declMember( std::string name
-		, StructPtr type
-		, uint32_t arraySize )
+		, ArrayPtr type )
 	{
-		auto it = std::find_if( m_members.begin()
-			, m_members.end()
-			, [&name]( Member const & lookup )
-			{
-				return lookup.name == name;
-			} );
+		Struct::Member result;
+		auto kind = getNonArrayKind( type );
 
-		if ( it != m_members.end() )
+		if ( kind == type::Kind::eStruct )
 		{
-			throw std::runtime_error{ "Struct member [" + name + "] already exists." };
+			result = declMember( name
+				, std::static_pointer_cast< Struct >( type->getType() )
+				, type->getArraySize() );
+		}
+		else
+		{
+			result = declMember( name
+				, kind
+				, type->getArraySize() );
 		}
 
-		type = std::shared_ptr< Struct >( new Struct
-			{
-				this,
-				uint32_t( m_members.size() ),
-				*type,
-				arraySize
-			} );
-		auto size = getSize( type, m_layout );
-		auto offset = m_members.empty()
-			? 0u
-			: m_members.back().offset + m_members.back().size;
-
-		m_members.push_back(
-			{
-				std::move( type ),
-				std::string( name ),
-				offset,
-				size,
-			} );
-		doUpdateOffsets();
-		return m_members.back();
+		return result;
 	}
 
 	Struct::Member Struct::getMember( std::string const & name )
@@ -682,13 +724,43 @@ namespace ast::type
 
 	StructPtr Struct::getUnqualifiedType()const
 	{
-		return StructPtr{ new Struct
+		return StructPtr( new Struct
+			{
+				nullptr,
+				NotMember,
+				*this,
+			} );
+	}
+
+	Struct::Member Struct::doAddMember( type::TypePtr type
+		, std::string const & name )
+	{
+		auto it = std::find_if( m_members.begin()
+			, m_members.end()
+			, [&name]( Member const & lookup )
+			{
+				return lookup.name == name;
+			} );
+
+		if ( it != m_members.end() )
 		{
-			nullptr,
-			NotMember,
-			*this,
-			getArraySize(),
-		} };
+			throw std::runtime_error{ "Struct member [" + name + "] already exists." };
+		}
+
+		auto size = getSize( type, m_layout );
+		auto offset = m_members.empty()
+			? 0u
+			: m_members.back().offset + m_members.back().size;
+
+		m_members.push_back(
+			{
+				std::move( type ),
+				std::string( name ),
+				offset,
+				size,
+			} );
+		doUpdateOffsets();
+		return m_members.back();
 	}
 
 	void Struct::doUpdateOffsets()
@@ -718,7 +790,7 @@ namespace ast::type
 	bool operator==( Type const & lhs, Type const & rhs )
 	{
 		auto result = lhs.getKind() == rhs.getKind()
-			&& lhs.getArraySize() == lhs.getArraySize();
+			&& getArraySize( lhs ) == getArraySize( lhs );
 
 		if ( result )
 		{
@@ -726,6 +798,12 @@ namespace ast::type
 		}
 
 		return result;
+	}
+
+	bool operator==( Array const & lhs, Array const & rhs )
+	{
+		return *lhs.getType() == *rhs.getType()
+			&& lhs.getArraySize() == rhs.getArraySize();
 	}
 
 	bool operator==( Struct const & lhs, Struct const & rhs )
@@ -738,7 +816,7 @@ namespace ast::type
 		while ( result && itl != lhs.end() )
 		{
 			result = itl->type->getKind() == itr->type->getKind()
-				&& itl->type->getArraySize() == itr->type->getArraySize();
+				&& getArraySize( itl->type ) == getArraySize( itr->type );
 
 			if ( result )
 			{

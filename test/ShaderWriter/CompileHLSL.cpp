@@ -13,7 +13,8 @@
 namespace test
 {
 	bool compileHlsl( std::string const & shader
-		, sdw::ShaderType type )
+		, sdw::ShaderType type
+		, std::string & errors )
 	{
 		ID3DBlob * result{ nullptr };
 		std::string model;
@@ -58,24 +59,9 @@ namespace test
 			, &shaderBlob
 			, &errorBlob );
 
-		if ( FAILED( hr ) )
-		{
-			if ( errorBlob )
-			{
-				std::cout << reinterpret_cast< char * >( errorBlob->GetBufferPointer() ) << std::endl;
-				errorBlob->Release();
-			}
-
-			if ( shaderBlob )
-			{
-				shaderBlob->Release();
-			}
-
-			return false;
-		}
-
 		if ( errorBlob )
 		{
+			errors += reinterpret_cast< char * >( errorBlob->GetBufferPointer() );
 			errorBlob->Release();
 		}
 
@@ -84,6 +70,6 @@ namespace test
 			shaderBlob->Release();
 		}
 
-		return true;
+		return !FAILED( hr );
 	}
 }

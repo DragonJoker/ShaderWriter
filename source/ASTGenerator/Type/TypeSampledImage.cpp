@@ -5,9 +5,8 @@ See LICENSE file in root folder
 
 namespace ast::type
 {
-	SampledImage::SampledImage( ImageConfiguration config
-		, uint32_t arraySize )
-		: Type{ Kind::eSampledImage, arraySize }
+	SampledImage::SampledImage( ImageConfiguration config )
+		: Type{ Kind::eSampledImage }
 		, m_imageType{ makeImageType( std::move( config ) ) }
 		, m_samplerType{ makeSamplerType( getConfig().isDepth == Trinary::eTrue ) }
 	{
