@@ -5,12 +5,13 @@ See LICENSE file in root folder
 #define ___SDW_Shader_H___
 #pragma once
 
-#include "Function.hpp"
-#include "Struct.hpp"
-#include "Ssbo.hpp"
-#include "Ubo.hpp"
-#include "Pcb.hpp"
-#include "Optional.hpp"
+#include "ShaderWriter/CompositeTypes/Function.hpp"
+#include "ShaderWriter/CompositeTypes/Struct.hpp"
+#include "ShaderWriter/CompositeTypes/Ssbo.hpp"
+#include "ShaderWriter/CompositeTypes/StructuredSsbo.hpp"
+#include "ShaderWriter/CompositeTypes/Ubo.hpp"
+#include "ShaderWriter/CompositeTypes/Pcb.hpp"
+#include "ShaderWriter/Optional/Optional.hpp"
 
 #include <vector>
 
@@ -45,7 +46,7 @@ namespace sdw
 	class Shader
 	{
 	public:
-		Shader();
+		Shader( ShaderType type );
 		void push( stmt::Container * container );
 		void pop();
 #pragma region Variables registration
@@ -170,12 +171,18 @@ namespace sdw
 			return m_blocks.back().container;
 		}
 
+		inline ShaderType getType()const
+		{
+			return m_type;
+		}
+
 	private:
 		struct Block
 		{
 			std::map< std::string, var::VariablePtr > registered;
 			stmt::Container * container;
 		};
+		ShaderType m_type;
 		std::vector< Block > m_blocks;
 		stmt::ContainerPtr m_container;
 		std::map< std::string, Ssbo::Info > m_ssbos;

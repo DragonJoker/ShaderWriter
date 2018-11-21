@@ -1,16 +1,6 @@
 #include "../Common.hpp"
 #include "WriterCommon.hpp"
 
-#include <ASTGenerator/Debug/DebugCommon.hpp>
-#include <ASTGenerator/Debug/DebugStmtVisitor.hpp>
-#include <ASTGenerator/Var/Variable.hpp>
-#include <ShaderWriter/Intrinsics.hpp>
-#include <ShaderWriter/Sampler.hpp>
-#include <ShaderWriter/Shader.hpp>
-#include <ShaderWriter/WriterGlsl.hpp>
-#include <ShaderWriter/WriterHlsl.hpp>
-#include <ShaderWriter/WriterSpirV.hpp>
-
 namespace
 {
 	template< typename T >

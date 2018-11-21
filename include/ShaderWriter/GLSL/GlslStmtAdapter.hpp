@@ -5,12 +5,8 @@ See LICENSE file in root folder
 #define ___SDW_GlslStmtAdapter_H___
 #pragma once
 
-#include "ShaderWriter/CloneStmt.hpp"
 #include "ShaderWriter/GLSL/GlslHelpers.hpp"
-
-#include <ASTGenerator/Stmt/StmtVisitor.hpp>
-
-#include <sstream>
+#include "ShaderWriter/Visitors/CloneStmt.hpp"
 
 namespace sdw::glsl
 {
@@ -19,12 +15,10 @@ namespace sdw::glsl
 	{
 	public:
 		static stmt::ContainerPtr submit( Shader const & shader
-			, ShaderType type
 			, IntrinsicsConfig const & config );
 
 	private:
 		StmtAdapter( Shader const & shader
-			, ShaderType type
 			, IntrinsicsConfig const & config
 			, stmt::ContainerPtr & result );
 

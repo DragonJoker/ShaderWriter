@@ -178,7 +178,6 @@ namespace test
 		}
 
 		void testWriteDebug( sdw::Shader const & shader
-			, sdw::ShaderType stage
 			, sdw::SpecialisationInfo const & specialisation
 			, test::TestCounts & testCounts )
 		{
@@ -187,15 +186,14 @@ namespace test
 		}
 
 		void testWriteGlsl( sdw::Shader const & shader
-			, sdw::ShaderType stage
 			, sdw::SpecialisationInfo const & specialisation
 			, bool validateGlsl
 			, test::TestCounts & testCounts )
 		{
 			std::string errors;
-			auto glsl = sdw::compileGlsl( shader, stage, specialisation );
+			auto glsl = sdw::compileGlsl( shader, specialisation );
 
-			if ( validateGlsl && !compileGlsl( glsl, stage, errors ) )
+			if ( validateGlsl && !compileGlsl( glsl, shader.getType(), errors ) )
 			{
 				displayShader( "GLSL", glsl, true );
 				std::cout << errors << std::endl;
@@ -208,15 +206,14 @@ namespace test
 		}
 
 		void testWriteHlsl( sdw::Shader const & shader
-			, sdw::ShaderType stage
 			, sdw::SpecialisationInfo const & specialisation
 			, bool validateHlsl
 			, test::TestCounts & testCounts )
 		{
 			std::string errors;
-			auto hlsl = sdw::compileHlsl( shader, stage, specialisation );
+			auto hlsl = sdw::compileHlsl( shader, specialisation );
 
-			if ( validateHlsl && !compileHlsl( hlsl, stage, errors ) )
+			if ( validateHlsl && !compileHlsl( hlsl, shader.getType(), errors ) )
 			{
 				displayShader( "HLSL", hlsl, true );
 				std::cout << errors << std::endl;
@@ -229,18 +226,17 @@ namespace test
 		}
 
 		void testWriteSpirV( sdw::Shader const & shader
-			, sdw::ShaderType stage
 			, sdw::SpecialisationInfo const & specialisation
 			, bool validateSpirV
 			, test::TestCounts & testCounts )
 		{
-			auto textSpirv = sdw::writeSpirv( shader, stage );
+			auto textSpirv = sdw::writeSpirv( shader );
 			displayShader( "SPIR-V", textSpirv );
 			std::vector< uint32_t > spirv;
 
 			try
 			{
-				spirv = sdw::serialiseSpirv( shader, stage );
+				spirv = sdw::serialiseSpirv( shader );
 			}
 			catch ( ... )
 			{
@@ -253,7 +249,7 @@ namespace test
 				try
 				{
 					test::validateSpirV( spirv
-						, stage
+						, shader.getType()
 						, testCounts );
 				}
 				catch ( spirv_cross::CompilerError & exc )
@@ -298,9 +294,9 @@ namespace test
 		, bool validateGlsl )
 	{
 		auto specialisation = getSpecialisationInfo( writer.getShader() );
-		checkNoThrow( testWriteDebug( writer.getShader(), writer.getShaderType(), specialisation, testCounts ) );
-		checkNoThrow( testWriteSpirV( writer.getShader(), writer.getShaderType(), specialisation, validateSpirV, testCounts ) );
-		checkNoThrow( testWriteGlsl( writer.getShader(), writer.getShaderType(), specialisation, validateGlsl, testCounts ) );
-		checkNoThrow( testWriteHlsl( writer.getShader(), writer.getShaderType(), specialisation, validateHlsl, testCounts ) );
+		checkNoThrow( testWriteDebug( writer.getShader(), specialisation, testCounts ) );
+		checkNoThrow( testWriteSpirV( writer.getShader(), specialisation, validateSpirV, testCounts ) );
+		checkNoThrow( testWriteGlsl( writer.getShader(), specialisation, validateGlsl, testCounts ) );
+		checkNoThrow( testWriteHlsl( writer.getShader(), specialisation, validateHlsl, testCounts ) );
 	}
 }

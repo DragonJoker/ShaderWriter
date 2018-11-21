@@ -5,9 +5,9 @@
 #include <ASTGenerator/Debug/DebugCommon.hpp>
 #include <ASTGenerator/Debug/DebugStmtVisitor.hpp>
 #include <ASTGenerator/Var/Variable.hpp>
-#include <ShaderWriter/Intrinsics.hpp>
-#include <ShaderWriter/Sampler.hpp>
-#include <ShaderWriter/Image.hpp>
+#include <ShaderWriter/BaseTypes/Sampler.hpp>
+#include <ShaderWriter/BaseTypes/Image.hpp>
+#include <ShaderWriter/Intrinsics/Intrinsics.hpp>
 #include <ShaderWriter/Writer.hpp>
 #include <ShaderWriter/WriterDebug.hpp>
 

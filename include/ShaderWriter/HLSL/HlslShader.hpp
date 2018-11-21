@@ -37,6 +37,11 @@ namespace sdw::hlsl
 		var::VariablePtr getVar( std::string const & name
 			, type::TypePtr type );
 
+		inline ShaderType getType()const
+		{
+			return m_shader.getType();
+		}
+
 	private:
 		sdw::Shader const & m_shader;
 		std::map< std::string, var::VariablePtr > m_registered;

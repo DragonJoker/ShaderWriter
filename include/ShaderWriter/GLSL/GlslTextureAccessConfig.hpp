@@ -9,8 +9,6 @@ See LICENSE file in root folder
 
 #include <ASTGenerator/Expr/EnumTextureAccess.hpp>
 
-#include <string>
-
 namespace sdw::glsl
 {
 	inline void getGlslConfig( ast::expr::TextureAccess value

@@ -1,9 +1,11 @@
 /*
 See LICENSE file in root folder
 */
-#include "ShaderWriter/ShaderWriterPrerequisites.hpp"
+#ifndef ___AST_HlslVariableReplacer_H___
+#define ___AST_HlslVariableReplacer_H___
+#pragma once
 
-#include "ShaderWriter/CloneExpr.hpp"
+#include "ShaderWriter/Visitors/CloneExpr.hpp"
 
 namespace sdw::hlsl
 {
@@ -31,3 +33,5 @@ namespace sdw::hlsl
 		var::VariablePtr m_replacement;
 	};
 }
+
+#endif

@@ -5,7 +5,7 @@ See LICENSE file in root folder
 #define ___SDW_HlslStmtVisitor_H___
 #pragma once
 
-#include "ShaderWriter/HLSL/HlslHelpers.hpp"
+#include "HlslHelpers.hpp"
 
 #include <ASTGenerator/Stmt/StmtVisitor.hpp>
 

@@ -6,7 +6,7 @@ See LICENSE file in root folder
 #pragma once
 
 #include "ShaderWriter/GLSL/GlslHelpers.hpp"
-#include "ShaderWriter/CloneExpr.hpp"
+#include "ShaderWriter/Visitors/CloneExpr.hpp"
 
 namespace sdw::glsl
 {

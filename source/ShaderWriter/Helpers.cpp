@@ -3,7 +3,7 @@ See LICENSE file in root folder
 */
 #include "ShaderWriter/Helpers.hpp"
 
-#include "ShaderWriter/CloneExpr.hpp"
+#include "ShaderWriter/Visitors/CloneExpr.hpp"
 #include "ShaderWriter/Shader.hpp"
 
 #include <ASTGenerator/Expr/ExprAdd.hpp>

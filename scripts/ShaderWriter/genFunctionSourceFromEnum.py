@@ -43,7 +43,7 @@ def printHeader( outs, match ):
 	outs.write( "\nSee LICENSE file in root folder" )
 	outs.write( "\n*/" )
 	outs.write( "\n" )
-	outs.write( '\n#include "ShaderWriter/' + enumName + 'Functions.hpp"' )
+	outs.write( '\n#include "ShaderWriter/Intrinsics/' + enumName + 'Functions.hpp"' )
 	outs.write( "\n" )
 	outs.write( '\n#include <ASTGenerator/Expr/Make' + enumName + '.hpp>' )
 	outs.write( "\n" )

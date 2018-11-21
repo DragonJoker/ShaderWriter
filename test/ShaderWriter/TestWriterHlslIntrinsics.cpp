@@ -3,8 +3,6 @@
 
 #include <ShaderWriter/HLSL/HlslStmtVisitor.hpp>
 #include <ShaderWriter/HLSL/HlslIntrinsicFunctions.hpp>
-#include <ShaderWriter/WriterGlsl.hpp>
-#include <ShaderWriter/WriterHlsl.hpp>
 
 namespace
 {

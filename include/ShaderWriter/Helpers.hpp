@@ -6,7 +6,7 @@ See LICENSE file in root folder
 
 #include "ShaderWriterPrerequisites.hpp"
 
-#include "GetExprName.hpp"
+#include "ShaderWriter/Visitors/GetExprName.hpp"
 #include <ASTGenerator/Expr/ExprIdentifier.hpp>
 #include <ASTGenerator/Expr/ExprList.hpp>
 #include <ASTGenerator/Expr/ExprLiteral.hpp>

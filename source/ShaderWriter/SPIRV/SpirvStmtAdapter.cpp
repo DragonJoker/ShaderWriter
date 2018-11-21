@@ -3,7 +3,6 @@ See LICENSE file in root folder
 */
 #include "ShaderWriter/SPIRV/SpirvStmtAdapter.hpp"
 
-#include "ShaderWriter/CloneExpr.hpp"
 #include "ShaderWriter/SPIRV/SpirvExprAdapter.hpp"
 #include "ShaderWriter/SPIRV/SpirvExprEvaluator.hpp"
 
@@ -11,20 +10,18 @@ See LICENSE file in root folder
 
 namespace sdw::spirv
 {
-	stmt::ContainerPtr StmtAdapter::submit( Shader const & shader, ShaderType type )
+	stmt::ContainerPtr StmtAdapter::submit( Shader const & shader )
 	{
 		auto result = stmt::makeContainer();
-		StmtAdapter vis{ shader, type, result };
+		StmtAdapter vis{ shader, result };
 		shader.getStatements()->accept( &vis );
 		return result;
 	}
 
 	StmtAdapter::StmtAdapter( Shader const & shader
-		, ShaderType type
 		, stmt::ContainerPtr & result )
 		: StmtCloner{ result }
 		, m_shader{ shader }
-		, m_type{ type }
 	{
 	}
 

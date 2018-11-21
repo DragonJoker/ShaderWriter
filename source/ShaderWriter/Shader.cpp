@@ -5,8 +5,9 @@ See LICENSE file in root folder
 
 namespace sdw
 {
-	Shader::Shader()
+	Shader::Shader( ShaderType type )
 		: m_container{ stmt::makeContainer() }
+		, m_type{ type }
 	{
 		push( m_container.get() );
 	}

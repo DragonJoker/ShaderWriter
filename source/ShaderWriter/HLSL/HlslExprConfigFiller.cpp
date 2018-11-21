@@ -9,7 +9,7 @@ See LICENSE file in root folder
 #include "ShaderWriter/HLSL/HlslIntrinsicConfig.hpp"
 #include "ShaderWriter/HLSL/HlslTextureAccessConfig.hpp"
 
-#include "ShaderWriter/Intrinsics.hpp"
+#include "ShaderWriter/Intrinsics/Intrinsics.hpp"
 
 namespace sdw::hlsl
 {

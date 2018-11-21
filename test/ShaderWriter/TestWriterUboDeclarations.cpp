@@ -1,16 +1,6 @@
 #include "../Common.hpp"
 #include "WriterCommon.hpp"
 
-#include <ASTGenerator/Debug/DebugCommon.hpp>
-#include <ASTGenerator/Debug/DebugStmtVisitor.hpp>
-#include <ASTGenerator/Var/Variable.hpp>
-#include <ShaderWriter/Intrinsics.hpp>
-#include <ShaderWriter/Sampler.hpp>
-#include <ShaderWriter/Shader.hpp>
-#include <ShaderWriter/WriterGlsl.hpp>
-#include <ShaderWriter/WriterHlsl.hpp>
-#include <ShaderWriter/WriterSpirV.hpp>
-
 namespace
 {
 #define DummyMain writer.implementFunction< void >( "main", [](){} )
@@ -19,28 +9,28 @@ namespace
 	void testUbo( test::TestCounts & testCounts )
 	{
 		testBegin( "testUbo" + ast::debug::getName( sdw::typeEnum< T > ) );
-		//{
-		//	sdw::FragmentWriter writer{ false };
-		//	auto & shader = writer.getShader();
-		//	std::string const name = "m_member" + sdw::debug::getName( sdw::typeEnum< T > );
-		//	sdw::Ubo bo{ writer, "UBO", 1u, 1u };
-		//	auto value = bo.template declMember< T >( name );
-		//	bo.end();
-		//	check( getNonArrayKind( value.getType() ) == sdw::typeEnum< T > );
-		//	check( getArraySize( value.getType() ) == sdw::type::NotArray );
-		//	require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
-		//	auto retrieved = bo.template getMember< T >( name );
-		//	check( getNonArrayKind( retrieved.getType() ) == sdw::typeEnum< T > );
-		//	check( getArraySize( retrieved.getType() ) == sdw::type::NotArray );
-		//	require( retrieved.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
-		//	check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
-		//	auto & stmt = *shader.getStatements()->back();
-		//	require( stmt.getKind() == sdw::stmt::Kind::eConstantBufferDecl );
-		//	check( static_cast< sdw::stmt::ConstantBufferDecl const & >( stmt ).getBindingPoint() == 1u );
-		//	check( static_cast< sdw::stmt::ConstantBufferDecl const & >( stmt ).getDescriptorSet() == 1u );
-		//	DummyMain;
-		//	test::writeShader( writer, testCounts );
-		//}
+		{
+			sdw::FragmentWriter writer{ false };
+			auto & shader = writer.getShader();
+			std::string const name = "m_member" + sdw::debug::getName( sdw::typeEnum< T > );
+			sdw::Ubo bo{ writer, "UBO", 1u, 1u };
+			auto value = bo.template declMember< T >( name );
+			bo.end();
+			check( getNonArrayKind( value.getType() ) == sdw::typeEnum< T > );
+			check( getArraySize( value.getType() ) == sdw::type::NotArray );
+			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			auto retrieved = bo.template getMember< T >( name );
+			check( getNonArrayKind( retrieved.getType() ) == sdw::typeEnum< T > );
+			check( getArraySize( retrieved.getType() ) == sdw::type::NotArray );
+			require( retrieved.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
+			auto & stmt = *shader.getStatements()->back();
+			require( stmt.getKind() == sdw::stmt::Kind::eConstantBufferDecl );
+			check( static_cast< sdw::stmt::ConstantBufferDecl const & >( stmt ).getBindingPoint() == 1u );
+			check( static_cast< sdw::stmt::ConstantBufferDecl const & >( stmt ).getDescriptorSet() == 1u );
+			DummyMain;
+			test::writeShader( writer, testCounts );
+		}
 		{
 			sdw::FragmentWriter writer{ false };
 			auto & shader = writer.getShader();

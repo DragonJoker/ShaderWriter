@@ -5,11 +5,9 @@ See LICENSE file in root folder
 #define ___SDW_HlslStmtAdapter_H___
 #pragma once
 
-#include "ShaderWriter/CloneStmt.hpp"
+#include "ShaderWriter/Visitors/CloneStmt.hpp"
 #include "ShaderWriter/HLSL/HlslHelpers.hpp"
 #include "ShaderWriter/HLSL/HlslShader.hpp"
-
-#include <sstream>
 
 namespace sdw::hlsl
 {
@@ -18,12 +16,10 @@ namespace sdw::hlsl
 	{
 	public:
 		static stmt::ContainerPtr submit( Shader const & shader
-			, ShaderType type
 			, IntrinsicsConfig const & config );
 
 	private:
 		StmtAdapter( Shader const & shader
-			, ShaderType type
 			, IntrinsicsConfig const & config
 			, stmt::ContainerPtr & result );
 
@@ -61,7 +57,6 @@ namespace sdw::hlsl
 		stmt::InputComputeLayout * m_inputComputeLayout{ nullptr };
 		stmt::InputGeometryLayout * m_inputGeometryLayout{ nullptr };
 		stmt::OutputGeometryLayout * m_outputGeometryLayout{ nullptr };
-		ShaderType m_type;
 	};
 }
 

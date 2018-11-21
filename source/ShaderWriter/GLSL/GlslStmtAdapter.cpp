@@ -12,22 +12,19 @@ See LICENSE file in root folder
 namespace sdw::glsl
 {
 	stmt::ContainerPtr StmtAdapter::submit( Shader const & shader
-		, ShaderType type
 		, IntrinsicsConfig const & config )
 	{
 		auto result = stmt::makeContainer();
-		StmtAdapter vis{ shader, type, config, result };
+		StmtAdapter vis{ shader, config, result };
 		shader.getStatements()->accept( &vis );
 		return result;
 	}
 
 	StmtAdapter::StmtAdapter( Shader const & shader
-		, ShaderType type
 		, IntrinsicsConfig const & config
 		, stmt::ContainerPtr & result )
 		: StmtCloner{ result }
 		, m_config{ config }
-		, m_type{ type }
 	{
 	}
 	

@@ -3,8 +3,8 @@ See LICENSE file in root folder
 */
 #include "ShaderWriter/Writer.hpp"
 
-#include "ShaderWriter/Intrinsics.hpp"
-#include "ShaderWriter/Vec2.hpp"
+#include "ShaderWriter/Intrinsics/Intrinsics.hpp"
+#include "ShaderWriter/VecTypes/Vec2.hpp"
 
 #include <ASTGenerator/Stmt/PreprocExtension.hpp>
 #include <ASTGenerator/Stmt/PreprocVersion.hpp>
@@ -26,8 +26,8 @@ namespace sdw
 	ShaderWriter::ShaderWriter( ShaderType type
 		, bool writeInvertFuncs
 		, Config config )
-		: m_type{ type }
-		, m_config{ std::move( config ) }
+		: m_config{ std::move( config ) }
+		, m_shader{ type }
 	{
 		addStmt( stmt::makePreprocVersion( std::to_string( config.shaderLanguageVersion ) ) );
 		enableExtension( "GL_ARB_explicit_attrib_location", 330u );

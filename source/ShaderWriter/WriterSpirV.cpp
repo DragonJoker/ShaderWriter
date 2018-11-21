@@ -2382,27 +2382,25 @@ namespace sdw
 			serialize( module.functions, result );
 		}
 
-		spirv::Module compileSpirV( Shader const & shader, ShaderType type )
+		spirv::Module compileSpirV( Shader const & shader )
 		{
-			auto container = spirv::StmtAdapter::submit( shader, type );
-			return spirv::StmtVisitor::submit( container.get(), type );
+			auto container = spirv::StmtAdapter::submit( shader );
+			return spirv::StmtVisitor::submit( container.get(), shader.getType() );
 		}
 	}
 
 	std::string writeSpirv( Shader const & shader
-		, ShaderType type
 		, bool writeHeader )
 	{
-		auto module = compileSpirV( shader, type );
+		auto module = compileSpirV( shader );
 		std::stringstream stream;
 		write( module, writeHeader, stream );
 		return stream.str();
 	}
 
-	std::vector< uint32_t > serialiseSpirv( Shader const & shader
-		, ShaderType type )
+	std::vector< uint32_t > serialiseSpirv( Shader const & shader )
 	{
-		auto module = compileSpirV( shader, type );
+		auto module = compileSpirV( shader );
 		std::vector< uint32_t > result;
 		result.reserve( count( module ) );
 		serialize( module, result );

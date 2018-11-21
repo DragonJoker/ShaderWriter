@@ -9,8 +9,6 @@ See LICENSE file in root folder
 
 #include <ASTGenerator/Expr/EnumImageAccess.hpp>
 
-#include <string>
-
 namespace sdw::hlsl
 {
 	inline void getHlslConfig( ast::expr::ImageAccess value

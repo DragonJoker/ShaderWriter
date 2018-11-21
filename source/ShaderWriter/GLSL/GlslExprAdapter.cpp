@@ -6,7 +6,7 @@ See LICENSE file in root folder
 #include "ShaderWriter/GLSL/GlslHelpers.hpp"
 #include "ShaderWriter/GLSL/GlslTextureAccessConfig.hpp"
 
-#include "ShaderWriter/Intrinsics.hpp"
+#include "ShaderWriter/Intrinsics/Intrinsics.hpp"
 
 #include <ASTGenerator/Type/TypeImage.hpp>
 #include <ASTGenerator/Type/TypeSampledImage.hpp>

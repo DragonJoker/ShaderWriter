@@ -112,23 +112,20 @@ namespace sdw::hlsl
 	}
 
 	stmt::ContainerPtr StmtAdapter::submit( Shader const & shader
-		, ShaderType type
 		, IntrinsicsConfig const & config )
 	{
 		auto result = stmt::makeContainer();
-		StmtAdapter vis{ shader, type, config, result };
+		StmtAdapter vis{ shader, config, result };
 		shader.getStatements()->accept( &vis );
 		return result;
 	}
 
 	StmtAdapter::StmtAdapter( Shader const & shader
-		, ShaderType type
 		, IntrinsicsConfig const & config
 		, stmt::ContainerPtr & result )
 		: StmtCloner{ result }
 		, m_config{ config }
 		, m_shader{ shader }
-		, m_type{ type }
 	{
 		m_adaptationData.inputStruct = type::makeStructType( type::MemoryLayout::eStd430, "HLSL_SDW_Input" );
 		m_adaptationData.outputStruct = type::makeStructType( type::MemoryLayout::eStd430, "HLSL_SDW_Output" );
@@ -351,7 +348,7 @@ namespace sdw::hlsl
 	{
 		auto & var = stmt->getVariable();
 
-		if ( isShaderInOut( var->getName(), m_type ) )
+		if ( isShaderInOut( var->getName(), m_shader.getType() ) )
 		{
 			m_adaptationData.inputVars.emplace( 128u, var );
 			m_adaptationData.inputMembers.emplace( var
@@ -364,7 +361,7 @@ namespace sdw::hlsl
 					, uint32_t( m_adaptationData.outputMembers.size() )
 					, makeIdent( var ) ) );
 		}
-		else if ( isShaderInput( var->getName(), m_type ) )
+		else if ( isShaderInput( var->getName(), m_shader.getType() ) )
 		{
 			m_adaptationData.inputVars.emplace( 128u, var );
 			m_adaptationData.inputMembers.emplace( var
@@ -372,7 +369,7 @@ namespace sdw::hlsl
 					, uint32_t( m_adaptationData.inputMembers.size() )
 					, makeIdent( var ) ) );
 		}
-		else if ( isShaderOutput( var->getName(), m_type ) )
+		else if ( isShaderOutput( var->getName(), m_shader.getType() ) )
 		{
 			m_adaptationData.outputVars.emplace( 128u, var );
 			m_adaptationData.outputMembers.emplace( var
@@ -451,11 +448,11 @@ namespace sdw::hlsl
 
 		index = 0u;
 
-		if ( m_type == ShaderType::eFragment )
+		if ( m_shader.getType() == ShaderType::eFragment )
 		{
 			outputName = "SV_Target";
 		}
-		else if ( m_type == ShaderType::eCompute )
+		else if ( m_shader.getType() == ShaderType::eCompute )
 		{
 		}
 

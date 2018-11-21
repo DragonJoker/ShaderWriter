@@ -3,7 +3,7 @@ See LICENSE file in root folder
 */
 #include "ShaderWriter/HLSL/HlslExprAdapter.hpp"
 
-#include "ShaderWriter/Intrinsics.hpp"
+#include "ShaderWriter/Intrinsics/Intrinsics.hpp"
 #include "ShaderWriter/HLSL/HlslHelpers.hpp"
 #include "ShaderWriter/HLSL/HlslVariableReplacer.hpp"
 #include "ShaderWriter/HLSL/HlslImageAccessConfig.hpp"

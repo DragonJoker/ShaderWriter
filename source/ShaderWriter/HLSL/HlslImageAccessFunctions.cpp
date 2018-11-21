@@ -4,34 +4,13 @@ See LICENSE file in root folder
 #include "ShaderWriter/HLSL/HlslIntrinsicFunctions.hpp"
 #include "ShaderWriter/HLSL/HlslExprAdapter.hpp"
 
-#include <ASTGenerator/Expr/EnumIntrinsic.hpp>
-#include <ASTGenerator/Expr/ExprBitAnd.hpp>
-#include <ASTGenerator/Expr/ExprBitOr.hpp>
-#include <ASTGenerator/Expr/ExprCast.hpp>
-#include <ASTGenerator/Expr/ExprDivide.hpp>
-#include <ASTGenerator/Expr/ExprEqual.hpp>
-#include <ASTGenerator/Expr/ExprInit.hpp>
-#include <ASTGenerator/Expr/ExprIntrinsicCall.hpp>
-#include <ASTGenerator/expr/ExprLiteral.hpp>
-#include <ASTGenerator/expr/ExprLShift.hpp>
-#include <ASTGenerator/expr/ExprLShiftAssign.hpp>
-#include <ASTGenerator/expr/ExprMbrSelect.hpp>
-#include <ASTGenerator/expr/ExprOrAssign.hpp>
-#include <ASTGenerator/expr/ExprRShift.hpp>
-#include <ASTGenerator/expr/ExprRShiftAssign.hpp>
-#include <ASTGenerator/expr/ExprTimes.hpp>
-
-#include <ASTGenerator/Stmt/StmtFunctionDecl.hpp>
-#include <ASTGenerator/Stmt/StmtReturn.hpp>
-#include <ASTGenerator/Stmt/StmtSimple.hpp>
-#include <ASTGenerator/Stmt/StmtVariableDecl.hpp>
-
-#include <ASTGenerator/Type/TypeImage.hpp>
-
-#include <string>
+#include <ASTGenerator/Stmt/StmtContainer.hpp>
+#include <ASTGenerator/Stmt/StmtComment.hpp>
 
 namespace sdw::hlsl
 {
+	namespace details
+	{
 		using namespace ast;
 
 		inline void writeImageSamples2DMS( stmt::Container * container, std::string const & type )
@@ -62,6 +41,7 @@ namespace sdw::hlsl
 			cont->addStmt( stmt::makeComment( "}" ) );
 			container->addStmt( std::move( cont ) );
 		}
+	}
 
 	void compileHlslImageAccessFunctions( ast::stmt::Container * container
 		, IntrinsicsConfig const & config )

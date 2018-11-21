@@ -10,8 +10,6 @@ See LICENSE file in root folder
 
 #include <ASTGenerator/Stmt/StmtVisitor.hpp>
 
-#include <sstream>
-
 namespace sdw::hlsl
 {
 	class StmtConfigFiller

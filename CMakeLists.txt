@@ -305,10 +305,17 @@ if ( MSVC OR NOT "${CMAKE_BUILD_TYPE}" STREQUAL "" )
 		source/${PROJECT_NAME}/*.c
 		source/${PROJECT_NAME}/*.cpp
 	)
-	parse_subdir_files( ${PROJECT_NAME}/HLSL "HLSL" )
+	parse_subdir_files( ${PROJECT_NAME}/BaseTypes "BaseTypes" )
+	parse_subdir_files( ${PROJECT_NAME}/CompositeTypes "CompositeTypes" )
 	parse_subdir_files( ${PROJECT_NAME}/GLSL "GLSL" )
+	parse_subdir_files( ${PROJECT_NAME}/HLSL "HLSL" )
+	parse_subdir_files( ${PROJECT_NAME}/Intrinsics "Intrinsics" )
+	parse_subdir_files( ${PROJECT_NAME}/MatTypes "MatTypes" )
+	parse_subdir_files( ${PROJECT_NAME}/Optional "Optional" )
 	parse_subdir_files( ${PROJECT_NAME}/SPIRV "SPIRV" )
 	parse_subdir_files( ${PROJECT_NAME}/SPIRV/spirv "SPIRV\\\\spirv" )
+	parse_subdir_files( ${PROJECT_NAME}/VecTypes "VecTypes" )
+	parse_subdir_files( ${PROJECT_NAME}/Visitors "Visitors" )
 
 	set( INCLUDE_DIR ${CMAKE_SOURCE_DIR}/include/${PROJECT_NAME} )
 	set( SOURCE_DIR ${CMAKE_SOURCE_DIR}/source/${PROJECT_NAME} )
@@ -319,59 +326,59 @@ if ( MSVC OR NOT "${CMAKE_BUILD_TYPE}" STREQUAL "" )
 			${SCRIPT_DIR}/*.py
 		)
 		set( GENERATED_DIR ${CMAKE_BINARY_DIR}/generated/${PROJECT_NAME} )
-		add_custom_command( OUTPUT ${INCLUDE_DIR}/ImageAccessFunctions.hpp
+		add_custom_command( OUTPUT ${INCLUDE_DIR}/Intrinsics/ImageAccessFunctions.hpp
 			COMMAND ${CMAKE_COMMAND} -E make_directory ${GENERATED_DIR}
 			COMMAND ${Python_EXECUTABLE} ${SCRIPT_DIR}/genFunctionHeaderFromEnum.py ${CMAKE_SOURCE_DIR}/include/ASTGenerator/Expr/ImageAccess.enum ${GENERATED_DIR}/ImageAccessFunctions.hpp
-			COMMAND ${CMAKE_COMMAND} -E copy_if_different ${GENERATED_DIR}/ImageAccessFunctions.hpp ${INCLUDE_DIR}/ImageAccessFunctions.hpp
+			COMMAND ${CMAKE_COMMAND} -E copy_if_different ${GENERATED_DIR}/ImageAccessFunctions.hpp ${INCLUDE_DIR}/Intrinsics/ImageAccessFunctions.hpp
 			COMMENT "Generating ImageAccessFunctions.hpp"
 			DEPENDS ${SCRIPT_DIR}/genFunctionHeaderFromEnum.py ${CMAKE_SOURCE_DIR}/include/ASTGenerator/Expr/ImageAccess.enum
 		)
-		add_custom_command( OUTPUT ${INCLUDE_DIR}/TextureAccessFunctions.hpp
+		add_custom_command( OUTPUT ${INCLUDE_DIR}/Intrinsics/TextureAccessFunctions.hpp
 			COMMAND ${CMAKE_COMMAND} -E make_directory ${GENERATED_DIR}
 			COMMAND ${Python_EXECUTABLE} ${SCRIPT_DIR}/genFunctionHeaderFromEnum.py ${CMAKE_SOURCE_DIR}/include/ASTGenerator/Expr/TextureAccess.enum ${GENERATED_DIR}/TextureAccessFunctions.hpp
-			COMMAND ${CMAKE_COMMAND} -E copy_if_different ${GENERATED_DIR}/TextureAccessFunctions.hpp ${INCLUDE_DIR}/TextureAccessFunctions.hpp
+			COMMAND ${CMAKE_COMMAND} -E copy_if_different ${GENERATED_DIR}/TextureAccessFunctions.hpp ${INCLUDE_DIR}/Intrinsics/TextureAccessFunctions.hpp
 			COMMENT "Generating TextureAccessFunctions.hpp"
 			DEPENDS ${SCRIPT_DIR}/genFunctionHeaderFromEnum.py ${CMAKE_SOURCE_DIR}/include/ASTGenerator/Expr/TextureAccess.enum
 		)
-		add_custom_command( OUTPUT ${INCLUDE_DIR}/IntrinsicFunctions.hpp
+		add_custom_command( OUTPUT ${INCLUDE_DIR}/Intrinsics/IntrinsicFunctions.hpp
 			COMMAND ${CMAKE_COMMAND} -E make_directory ${GENERATED_DIR}
 			COMMAND ${Python_EXECUTABLE} ${SCRIPT_DIR}/genFunctionHeaderFromEnum.py ${CMAKE_SOURCE_DIR}/include/ASTGenerator/Expr/Intrinsic.enum ${GENERATED_DIR}/IntrinsicFunctions.hpp
-			COMMAND ${CMAKE_COMMAND} -E copy_if_different ${GENERATED_DIR}/IntrinsicFunctions.hpp ${INCLUDE_DIR}/IntrinsicFunctions.hpp
+			COMMAND ${CMAKE_COMMAND} -E copy_if_different ${GENERATED_DIR}/IntrinsicFunctions.hpp ${INCLUDE_DIR}/Intrinsics/IntrinsicFunctions.hpp
 			COMMENT "Generating IntrinsicFunctions.hpp"
 			DEPENDS ${SCRIPT_DIR}/genFunctionHeaderFromEnum.py ${CMAKE_SOURCE_DIR}/include/ASTGenerator/Expr/Intrinsic.enum
 		)
-		add_custom_command( OUTPUT ${SOURCE_DIR}/ImageAccessFunctions.cpp
+		add_custom_command( OUTPUT ${SOURCE_DIR}/Intrinsics/ImageAccessFunctions.cpp
 			COMMAND ${CMAKE_COMMAND} -E make_directory ${GENERATED_DIR}
 			COMMAND ${Python_EXECUTABLE} ${SCRIPT_DIR}/genFunctionSourceFromEnum.py ${CMAKE_SOURCE_DIR}/include/ASTGenerator/Expr/ImageAccess.enum ${GENERATED_DIR}/ImageAccessFunctions.cpp
-			COMMAND ${CMAKE_COMMAND} -E copy_if_different ${GENERATED_DIR}/ImageAccessFunctions.cpp ${SOURCE_DIR}/ImageAccessFunctions.cpp
+			COMMAND ${CMAKE_COMMAND} -E copy_if_different ${GENERATED_DIR}/ImageAccessFunctions.cpp ${SOURCE_DIR}/Intrinsics/ImageAccessFunctions.cpp
 			COMMENT "Generating ImageAccessFunctions.cpp"
 			DEPENDS ${SCRIPT_DIR}/genFunctionSourceFromEnum.py ${CMAKE_SOURCE_DIR}/include/ASTGenerator/Expr/ImageAccess.enum
 		)
-		add_custom_command( OUTPUT ${SOURCE_DIR}/TextureAccessFunctions.cpp
+		add_custom_command( OUTPUT ${SOURCE_DIR}/Intrinsics/TextureAccessFunctions.cpp
 			COMMAND ${CMAKE_COMMAND} -E make_directory ${GENERATED_DIR}
 			COMMAND ${Python_EXECUTABLE} ${SCRIPT_DIR}/genFunctionSourceFromEnum.py ${CMAKE_SOURCE_DIR}/include/ASTGenerator/Expr/TextureAccess.enum ${GENERATED_DIR}/TextureAccessFunctions.cpp
-			COMMAND ${CMAKE_COMMAND} -E copy_if_different ${GENERATED_DIR}/TextureAccessFunctions.cpp ${SOURCE_DIR}/TextureAccessFunctions.cpp
+			COMMAND ${CMAKE_COMMAND} -E copy_if_different ${GENERATED_DIR}/TextureAccessFunctions.cpp ${SOURCE_DIR}/Intrinsics/TextureAccessFunctions.cpp
 			COMMENT "Generating TextureAccessFunctions.cpp"
 			DEPENDS ${SCRIPT_DIR}/genFunctionSourceFromEnum.py ${CMAKE_SOURCE_DIR}/include/ASTGenerator/Expr/TextureAccess.enum
 		)
-		add_custom_command( OUTPUT ${SOURCE_DIR}/IntrinsicFunctions.cpp
+		add_custom_command( OUTPUT ${SOURCE_DIR}/Intrinsics/IntrinsicFunctions.cpp
 			COMMAND ${CMAKE_COMMAND} -E make_directory ${GENERATED_DIR}
 			COMMAND ${Python_EXECUTABLE} ${SCRIPT_DIR}/genFunctionSourceFromEnum.py ${CMAKE_SOURCE_DIR}/include/ASTGenerator/Expr/Intrinsic.enum ${GENERATED_DIR}/IntrinsicFunctions.cpp
-			COMMAND ${CMAKE_COMMAND} -E copy_if_different ${GENERATED_DIR}/IntrinsicFunctions.cpp ${SOURCE_DIR}/IntrinsicFunctions.cpp
+			COMMAND ${CMAKE_COMMAND} -E copy_if_different ${GENERATED_DIR}/IntrinsicFunctions.cpp ${SOURCE_DIR}/Intrinsics/IntrinsicFunctions.cpp
 			COMMENT "Generating IntrinsicFunctions.cpp"
 			DEPENDS ${SCRIPT_DIR}/genFunctionSourceFromEnum.py ${CMAKE_SOURCE_DIR}/include/ASTGenerator/Expr/Intrinsic.enum
 		)
-		add_custom_command( OUTPUT ${INCLUDE_DIR}/GLSL/GlslImageAccessNames.hpp
+		add_custom_command( OUTPUT ${INCLUDE_DIR}/Intrinsics/GLSL/GlslImageAccessNames.hpp
 			COMMAND ${CMAKE_COMMAND} -E make_directory ${GENERATED_DIR}
 			COMMAND ${Python_EXECUTABLE} ${SCRIPT_DIR}/genGlslNameFromEnum.py ${CMAKE_SOURCE_DIR}/include/ASTGenerator/Expr/ImageAccess.enum ${GENERATED_DIR}/GlslImageAccessNames.hpp
-			COMMAND ${CMAKE_COMMAND} -E copy_if_different ${GENERATED_DIR}/GlslImageAccessNames.hpp ${INCLUDE_DIR}/GLSL/GlslImageAccessNames.hpp
+			COMMAND ${CMAKE_COMMAND} -E copy_if_different ${GENERATED_DIR}/GlslImageAccessNames.hpp ${INCLUDE_DIR}/Intrinsics/GLSL/GlslImageAccessNames.hpp
 			COMMENT "Generating GlslImageAccessNames.hpp"
 			DEPENDS ${SCRIPT_DIR}/genGlslNameFromEnum.py ${CMAKE_SOURCE_DIR}/include/ASTGenerator/Expr/ImageAccess.enum
 		)
-		add_custom_command( OUTPUT ${INCLUDE_DIR}/GLSL/GlslIntrinsicNames.hpp
+		add_custom_command( OUTPUT ${INCLUDE_DIR}/Intrinsics/GLSL/GlslIntrinsicNames.hpp
 			COMMAND ${CMAKE_COMMAND} -E make_directory ${GENERATED_DIR}
 			COMMAND ${Python_EXECUTABLE} ${SCRIPT_DIR}/genGlslNameFromEnum.py ${CMAKE_SOURCE_DIR}/include/ASTGenerator/Expr/Intrinsic.enum ${GENERATED_DIR}/GlslIntrinsicNames.hpp
-			COMMAND ${CMAKE_COMMAND} -E copy_if_different ${GENERATED_DIR}/GlslIntrinsicNames.hpp ${INCLUDE_DIR}/GLSL/GlslIntrinsicNames.hpp
+			COMMAND ${CMAKE_COMMAND} -E copy_if_different ${GENERATED_DIR}/GlslIntrinsicNames.hpp ${INCLUDE_DIR}/Intrinsics/GLSL/GlslIntrinsicNames.hpp
 			COMMENT "Generating GlslIntrinsicNames.hpp"
 			DEPENDS ${SCRIPT_DIR}/genGlslNameFromEnum.py ${CMAKE_SOURCE_DIR}/include/ASTGenerator/Expr/Intrinsic.enum
 		)
@@ -382,15 +389,15 @@ if ( MSVC OR NOT "${CMAKE_BUILD_TYPE}" STREQUAL "" )
 			${INCLUDE_DIR}/GLSL/GlslImageAccessNames.hpp
 			${INCLUDE_DIR}/GLSL/GlslIntrinsicNames.hpp
 		)
-		source_group( "Header Files" FILES
-			${INCLUDE_DIR}/ImageAccessFunctions.hpp
-			${INCLUDE_DIR}/TextureAccessFunctions.hpp
-			${INCLUDE_DIR}/IntrinsicFunctions.hpp
+		source_group( "Header Files\\Intrinsics" FILES
+			${INCLUDE_DIR}/Intrinsics/ImageAccessFunctions.hpp
+			${INCLUDE_DIR}/Intrinsics/TextureAccessFunctions.hpp
+			${INCLUDE_DIR}/Intrinsics/IntrinsicFunctions.hpp
 		)
-		source_group( "Source Files" FILES
-			${SOURCE_DIR}/ImageAccessFunctions.cpp
-			${SOURCE_DIR}/TextureAccessFunctions.cpp
-			${SOURCE_DIR}/IntrinsicFunctions.cpp
+		source_group( "Source Files\\Intrinsics" FILES
+			${SOURCE_DIR}/Intrinsics/ImageAccessFunctions.cpp
+			${SOURCE_DIR}/Intrinsics/TextureAccessFunctions.cpp
+			${SOURCE_DIR}/Intrinsics/IntrinsicFunctions.cpp
 		)
 	endif ()
 
@@ -398,12 +405,12 @@ if ( MSVC OR NOT "${CMAKE_BUILD_TYPE}" STREQUAL "" )
 		STATIC
 		${INCLUDE_DIR}/GLSL/GlslImageAccessNames.hpp
 		${INCLUDE_DIR}/GLSL/GlslIntrinsicNames.hpp
-		${INCLUDE_DIR}/ImageAccessFunctions.hpp
-		${INCLUDE_DIR}/TextureAccessFunctions.hpp
-		${INCLUDE_DIR}/IntrinsicFunctions.hpp
-		${SOURCE_DIR}/ImageAccessFunctions.cpp
-		${SOURCE_DIR}/TextureAccessFunctions.cpp
-		${SOURCE_DIR}/IntrinsicFunctions.cpp
+		${INCLUDE_DIR}/Intrinsics/ImageAccessFunctions.hpp
+		${INCLUDE_DIR}/Intrinsics/TextureAccessFunctions.hpp
+		${INCLUDE_DIR}/Intrinsics/IntrinsicFunctions.hpp
+		${SOURCE_DIR}/Intrinsics/ImageAccessFunctions.cpp
+		${SOURCE_DIR}/Intrinsics/TextureAccessFunctions.cpp
+		${SOURCE_DIR}/Intrinsics/IntrinsicFunctions.cpp
 		${${PROJECT_NAME}_FOLDER_HEADER_FILES}
 		${${PROJECT_NAME}_FOLDER_SOURCE_FILES}
 		${${PROJECT_NAME}_FOLDER_SCRIPT_FILES}

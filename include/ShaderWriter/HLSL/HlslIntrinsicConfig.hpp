@@ -9,8 +9,6 @@ See LICENSE file in root folder
 
 #include <ASTGenerator/Expr/EnumIntrinsic.hpp>
 
-#include <string>
-
 namespace sdw::hlsl
 {
 	struct InstantChange

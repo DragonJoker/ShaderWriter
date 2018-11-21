@@ -1,10 +1,6 @@
 #include "../Common.hpp"
 #include "WriterCommon.hpp"
 
-#include <ShaderWriter/WriterGlsl.hpp>
-#include <ShaderWriter/WriterHlsl.hpp>
-#include <ShaderWriter/WriterSpirV.hpp>
-
 namespace
 {
 #pragma region Helpers

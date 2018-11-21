@@ -1,15 +1,6 @@
 #include "../Common.hpp"
 #include "WriterCommon.hpp"
 
-#include <ShaderWriter/WriterGlsl.hpp>
-#include <ShaderWriter/WriterHlsl.hpp>
-#include <ShaderWriter/WriterSpirV.hpp>
-#include <ShaderWriter/PerVertex.hpp>
-
-#include <ShaderWriter/StructuredSsbo.hpp>
-
-#include <fstream>
-
 namespace
 {
 	void reference( test::TestCounts & testCounts )

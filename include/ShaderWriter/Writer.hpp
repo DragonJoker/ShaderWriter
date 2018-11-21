@@ -4,7 +4,7 @@ See LICENSE file in root folder
 #ifndef ___SDW_Writer_H___
 #define ___SDW_Writer_H___
 
-#include "Builtins.hpp"
+#include "ShaderWriter/CompositeTypes/Builtins.hpp"
 #include "Shader.hpp"
 
 namespace sdw
@@ -427,11 +427,6 @@ namespace sdw
 		{
 			return m_shader;
 		}
-
-		inline ShaderType getShaderType()const
-		{
-			return m_type;
-		}
 		/**@}*/
 #pragma endregion
 
@@ -464,7 +459,6 @@ namespace sdw
 			, var::Flag flag );
 
 	private:
-		ShaderType m_type;
 		Config m_config;
 		Shader m_shader;
 		Function< Vec2, InVec2 > m_invertVec2Y;

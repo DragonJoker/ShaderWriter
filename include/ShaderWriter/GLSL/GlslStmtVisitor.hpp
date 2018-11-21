@@ -5,9 +5,7 @@ See LICENSE file in root folder
 #define ___SDW_GLSLStmtVisitor_H___
 #pragma once
 
-#include "ShaderWriter/CloneStmt.hpp"
-
-#include <ASTGenerator/Stmt/StmtVisitor.hpp>
+#include "ShaderWriter/Visitors/CloneStmt.hpp"
 
 namespace sdw::glsl
 {

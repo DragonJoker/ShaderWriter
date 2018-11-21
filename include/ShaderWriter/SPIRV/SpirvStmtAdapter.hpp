@@ -8,9 +8,7 @@ See LICENSE file in root folder
 #include "SpirvHelpers.hpp"
 #include "SpirvShader.hpp"
 
-#include "ShaderWriter/CloneStmt.hpp"
-
-#include <sstream>
+#include "ShaderWriter/Visitors/CloneStmt.hpp"
 
 namespace sdw::spirv
 {
@@ -18,12 +16,10 @@ namespace sdw::spirv
 		: public StmtCloner
 	{
 	public:
-		static stmt::ContainerPtr submit( Shader const & shader
-			, ShaderType type );
+		static stmt::ContainerPtr submit( Shader const & shader );
 
 	private:
 		StmtAdapter( Shader const & shader
-			, ShaderType type
 			, stmt::ContainerPtr & result );
 		
 		expr::ExprPtr doSubmit( expr::Expr * expr )override;
@@ -40,7 +36,6 @@ namespace sdw::spirv
 
 	private:
 		SpirvShader m_shader;
-		ShaderType m_type;
 		PreprocContext m_context;
 		std::vector< stmt::Switch * > m_switchStmts;
 	};

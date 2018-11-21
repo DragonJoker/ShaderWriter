@@ -4,7 +4,7 @@ See LICENSE file in root folder
 #include "ShaderWriter/Value.hpp"
 
 #include "ShaderWriter/Shader.hpp"
-#include "ShaderWriter/Optional.hpp"
+#include "ShaderWriter/Optional/Optional.hpp"
 
 #include <ASTGenerator/Expr/ExprAddAssign.hpp>
 #include <ASTGenerator/Expr/ExprAssign.hpp>
