@@ -32,15 +32,11 @@ void vertex()
 
 	// Select your weapon !
 	auto glsl = compileGlsl( writer.getShader()
-		, ShaderType::eVertex
 		, SpecialisationInfo{} );
 	auto hlsl = compileHlsl( writer.getShader()
-		, ShaderType::eVertex
 		, SpecialisationInfo{} );
-	auto binSpirV = serialiseSpirv( writer.getShader()
-		, ShaderType::eVertex );
-	auto textSpirV = writeSpirv( writer.getShader()
-		, ShaderType::eVertex );
+	auto binSpirV = serialiseSpirv( writer.getShader() );
+	auto textSpirV = writeSpirv( writer.getShader() );
 }
 ```
 
