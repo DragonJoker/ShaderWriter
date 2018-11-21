@@ -5,15 +5,20 @@ namespace sdw
 {
 	namespace details
 	{
+		inline bool areOptionalEnabledRec()
+		{
+			return true;
+		}
+
 		template< typename ParamT >
-		bool areOptionalEnabledRec( ParamT const & value )
+		inline bool areOptionalEnabledRec( ParamT const & value )
 		{
 			return isOptionalEnabled( value );
 		}
 
 		template< typename ParamT
 			, typename ... ParamsT >
-			bool areOptionalEnabledRec( ParamT const & value
+		inline bool areOptionalEnabledRec( ParamT const & value
 				, ParamsT const & ... values )
 		{
 			return isOptionalEnabled( value )
@@ -81,7 +86,7 @@ namespace sdw
 	}
 
 	template< typename T >
-	expr::ExprPtr makeExpr( Optional< T > const & value
+	inline expr::ExprPtr makeExpr( Optional< T > const & value
 		, bool force )
 	{
 		if ( value.isEnabled() || force )
@@ -93,19 +98,19 @@ namespace sdw
 	}
 
 	template< typename T >
-	bool isOptionalEnabled( T const & value )
+	inline bool isOptionalEnabled( T const & value )
 	{
 		return true;
 	}
 
 	template< typename T >
-	bool isOptionalEnabled( Optional< T > const & value )
+	inline bool isOptionalEnabled( Optional< T > const & value )
 	{
 		return value.isEnabled();
 	}
 
 	template< typename ... ParamsT >
-	bool areOptionalEnabled( ParamsT const & ... values )
+	inline bool areOptionalEnabled( ParamsT const & ... values )
 	{
 		return details::areOptionalEnabledRec( values... );
 	}

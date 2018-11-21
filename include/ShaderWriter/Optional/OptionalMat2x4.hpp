@@ -14,7 +14,7 @@ namespace sdw
 		: public Mat2x4T< ValueT >
 	{
 		using ValueType = ValueT;
-		using my_vec = Optional< Vec2T< ValueT > >;
+		using my_vec = Optional< Vec4T< ValueT > >;
 		using my_mat = Optional< Mat2x4T< ValueT > >;
 
 		inline Optional( Shader * shader
@@ -25,7 +25,7 @@ namespace sdw
 		inline Optional( Optional< Mat2x4T< ValueT > > const & rhs );
 		inline Optional< Mat2x4T< ValueT > > & operator=( Optional< Mat2x4T< ValueT > > const & rhs );
 		template< typename IndexT >
-		inline Optional< Vec2T< ValueT > > operator[]( IndexT const & rhs )const;
+		inline Optional< Vec4T< ValueT > > operator[]( IndexT const & rhs )const;
 		inline bool isEnabled()const;
 
 	private:

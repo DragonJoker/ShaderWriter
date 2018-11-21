@@ -52,15 +52,16 @@ def printHeader( outs, match ):
 	outs.write( '\n#include "ShaderWriter/BaseTypes/Sampler.hpp"' )
 	outs.write( '\n#include "ShaderWriter/CompositeTypes/Function.hpp"' )
 	outs.write( '\n#include "ShaderWriter/CompositeTypes/FunctionParam.hpp"' )
-	outs.write( '\n#include "ShaderWriter/Optional/OptionalMat2.hpp"' )
-	outs.write( '\n#include "ShaderWriter/Optional/OptionalMat2x3.hpp"' )
-	outs.write( '\n#include "ShaderWriter/Optional/OptionalMat2x4.hpp"' )
-	outs.write( '\n#include "ShaderWriter/Optional/OptionalMat3.hpp"' )
-	outs.write( '\n#include "ShaderWriter/Optional/OptionalMat3x2.hpp"' )
-	outs.write( '\n#include "ShaderWriter/Optional/OptionalMat3x4.hpp"' )
-	outs.write( '\n#include "ShaderWriter/Optional/OptionalMat4.hpp"' )
-	outs.write( '\n#include "ShaderWriter/Optional/OptionalMat4x2.hpp"' )
-	outs.write( '\n#include "ShaderWriter/Optional/OptionalMat4x3.hpp"' )
+	outs.write( '\n#include "ShaderWriter/MaybeOptional/MaybeOptional.hpp"' )
+	outs.write( '\n#include "ShaderWriter/MaybeOptional/MaybeOptionalMat2.hpp"' )
+	outs.write( '\n#include "ShaderWriter/MaybeOptional/MaybeOptionalMat2x3.hpp"' )
+	outs.write( '\n#include "ShaderWriter/MaybeOptional/MaybeOptionalMat2x4.hpp"' )
+	outs.write( '\n#include "ShaderWriter/MaybeOptional/MaybeOptionalMat3.hpp"' )
+	outs.write( '\n#include "ShaderWriter/MaybeOptional/MaybeOptionalMat3x2.hpp"' )
+	outs.write( '\n#include "ShaderWriter/MaybeOptional/MaybeOptionalMat3x4.hpp"' )
+	outs.write( '\n#include "ShaderWriter/MaybeOptional/MaybeOptionalMat4.hpp"' )
+	outs.write( '\n#include "ShaderWriter/MaybeOptional/MaybeOptionalMat4x2.hpp"' )
+	outs.write( '\n#include "ShaderWriter/MaybeOptional/MaybeOptionalMat4x3.hpp"' )
 	outs.write( "\n" )
 	outs.write( '\n#include <ASTGenerator/Expr/Make' + enumName + '.hpp>' )
 	outs.write( "\n" )
@@ -185,9 +186,9 @@ def computeParams( params, sep ):
 			paramType = typeKindToSdwType( resParam[index] )
 			index = index + 1
 			if isArray( resParam[index] ):
-				result += sep + " Array< " + paramType + " > const & " + discardArray( resParam[index] )
+				result += sep + " MaybeOptional< Array< " + paramType + " > > const & " + discardArray( resParam[index] )
 			else:
-				result += sep + " " + paramType + " const & " + resParam[index]
+				result += sep + " MaybeOptional< " + paramType + " > const & " + resParam[index]
 			sep = ","
 			index += 2
 	return result
@@ -352,17 +353,17 @@ def printImageFunction( outs, returnGroup, functionGroup, paramsGroup, imageType
 			formats.append( ( 'R16', 'Float' ) )
 	for fmt, ret in formats:
 		# Write function name and return
-		outs.write( "\n\t" + ret + " " + intrinsicName + "(" )
+		outs.write( "\n\tMaybeOptional< " + ret + " > " + intrinsicName + "(" )
 		# Write parameters
 		#	Image parameter
-		outs.write( " " + computeImageFullType( imageType, postfix, sampled, depth ) + fmt + " const & image" )
+		outs.write( " MaybeOptional< " + computeImageFullType( imageType, postfix, sampled, depth ) + fmt + " > const & image" )
 		#	Remaining function parameters
 		outs.write( computeParams( paramsGroup, "," ) + " );" )
 
 def printIntrinsicFunction( outs, returnGroup, functionGroup, paramsGroup ):
 	retType = typeKindToSdwType( returnGroup )
 	# Write function name and return
-	outs.write( "\n\t" + retType + " " + computeIntrinsicName( functionGroup ) + "(" )
+	outs.write( "\n\tMaybeOptional< " + retType + " > " + computeIntrinsicName( functionGroup ) + "(" )
 	# Write function parameters
 	outs.write( computeParams( paramsGroup, "" ) + " );" )
 	

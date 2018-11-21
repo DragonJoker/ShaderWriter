@@ -48,9 +48,9 @@ namespace sdw
 
 	template< typename ValueT >
 	template< typename IndexT >
-	Vec2T< ValueT > Mat2x4T< ValueT >::operator[]( IndexT const & rhs )const
+	Vec4T< ValueT > Mat2x4T< ValueT >::operator[]( IndexT const & rhs )const
 	{
-		return Vec2T< ValueT >{ findShader( *this, rhs )
+		return Vec4T< ValueT >{ findShader( *this, rhs )
 			, sdw::makeArrayAccess( makeType( typeEnum< Vec2T< ValueT > > )
 				, makeExpr( *this )
 				, makeExpr( rhs ) ) };

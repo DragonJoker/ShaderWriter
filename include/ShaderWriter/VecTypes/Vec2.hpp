@@ -6,9 +6,6 @@ See LICENSE file in root folder
 #pragma once
 
 #include "ShaderWriter/BaseTypes/Bool.hpp"
-#include "ShaderWriter/BaseTypes/Float.hpp"
-#include "ShaderWriter/BaseTypes/Int.hpp"
-#include "ShaderWriter/BaseTypes/UInt.hpp"
 #include "Swizzle.hpp"
 
 namespace sdw

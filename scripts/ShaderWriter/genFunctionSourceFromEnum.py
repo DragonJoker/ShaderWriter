@@ -168,9 +168,9 @@ def computeParams( params, sep ):
 			paramType = typeKindToSdwType( resParam[index] )
 			index = index + 1
 			if isArray( resParam[index] ):
-				result += sep + " Array< " + paramType + " > const & " + discardArray( resParam[index] )
+				result += sep + " MaybeOptional< Array< " + paramType + " > > const & " + discardArray( resParam[index] )
 			else:
-				result += sep + " " + paramType + " const & " + resParam[index]
+				result += sep + " MaybeOptional< " + paramType + " > const & " + resParam[index]
 			sep = "\n\t\t,"
 			index += 2
 	return result
@@ -189,7 +189,7 @@ def listParams( params, sep ):
 			index += 3
 	return result
 
-def computeArgs( args, sep ):
+def computeArgs( args, indent, sep ):
 	result = ""
 	intrArgs = re.compile("[, ]*ASTIntrParams\( ([\w, :()\[\]]*) \)$")
 	resArgs = intrArgs.match( args )
@@ -199,7 +199,7 @@ def computeArgs( args, sep ):
 		index = 2
 		while len( resArg ) > index:
 			result += sep + " makeExpr( " + discardArray( resArg[index] ) + " )"
-			sep = "\n\t\t\t\t,"
+			sep = "\n" + indent + ","
 			index += 3
 	return result
 
@@ -336,35 +336,55 @@ def printImageFunction( outs, returnGroup, functionGroup, paramsGroup, imageType
 			formats.append( ( 'R16', 'Float' ) )
 	for fmt, ret in formats:
 		# Write function name and return
-		outs.write( "\n\t" + ret + " " + computeIntrinsicName( functionGroup ) + "(" )
+		outs.write( "\n\tMaybeOptional< " + ret + " > " + computeIntrinsicName( functionGroup ) + "(" )
 		# Write parameters
 		#	Image parameter
-		outs.write( " " + computeImageFullType( imageType, postfix, sampled, depth ) + fmt + " const & image" )
+		outs.write( " MaybeOptional< " + computeImageFullType( imageType, postfix, sampled, depth ) + fmt + " > const & image" )
 		#	Remaining function parameters
 		outs.write( computeParams( paramsGroup, "\n\t\t," ) + " )" )
 		# Header finished, write content
 		outs.write( "\n\t{" )
+		outs.write( "\n\t\tif ( isAnyOptional( image" + listParams( paramsGroup, "," ) + " ) )" )
+		outs.write( "\n\t\t{" )
+		outs.write( "\n\t\t\treturn Optional< " + ret + " >{ findShader( image" + listParams( paramsGroup, "," ) + " )" )
+		# Write arguments
+		outs.write( "\n\t\t\t\t, expr::make" + fullName + fmt + "(" )
+		#	Image argument
+		outs.write( " makeExpr( image )" )
+		#	Remaining arguments
+		outs.write( computeArgs( paramsGroup, "\t\t\t\t\t", "\n\t\t\t\t\t," ) + " )" )
+		outs.write( "\n\t\t\t\t, areOptionalEnabled( image" + listParams( paramsGroup, "," ) + " ) };" )
+		outs.write( "\n\t\t}" )
+		outs.write( "\n" )
 		outs.write( "\n\t\treturn " + ret + "{ findShader( image" + listParams( paramsGroup, "," ) + " )" )
 		# Write arguments
 		outs.write( "\n\t\t\t, expr::make" + fullName + fmt + "(" )
 		#	Image argument
 		outs.write( " makeExpr( image )" )
 		#	Remaining arguments
-		outs.write( computeArgs( paramsGroup, "\n\t\t\t\t," ) + " ) };" )
+		outs.write( computeArgs( paramsGroup, "\t\t\t\t", "\n\t\t\t\t," ) + " ) };" )
 		outs.write( "\n\t}" )
 
 def printIntrinsicFunction( outs, returnGroup, functionGroup, paramsGroup ):
 	retType = typeKindToSdwType( returnGroup )
 	fullName = computeFullName( functionGroup )
 	# Write function name and return
-	outs.write( "\n\t" + retType + " " + computeIntrinsicName( functionGroup ) + "(" )
+	outs.write( "\n\tMaybeOptional< " + retType + " > " + computeIntrinsicName( functionGroup ) + "(" )
 	# Write function parameters
 	outs.write( computeParams( paramsGroup, "" ) + " )" )
 	# Header finished, write content
 	outs.write( "\n\t{" )
+	outs.write( "\n\t\tif ( isAnyOptional(" + listParams( paramsGroup, "" ) + " ) )" )
+	outs.write( "\n\t\t{" )
+	outs.write( "\n\t\t\treturn Optional< " + retType + " >{ findShader(" + listParams( paramsGroup, "" ) + " )" )
+	outs.write( "\n\t\t\t\t, expr::make" + fullName + "(" )
+	outs.write( computeArgs( paramsGroup, "\t\t\t\t\t", "" ) + " )" )
+	outs.write( "\n\t\t\t\t, areOptionalEnabled(" + listParams( paramsGroup, "" ) + " ) };" )
+	outs.write( "\n\t\t}" )
+	outs.write( "\n" )
 	outs.write( "\n\t\treturn " + retType + "{ findShader(" + listParams( paramsGroup, "" ) + " )" )
 	outs.write( "\n\t\t\t, expr::make" + fullName + "(" )
-	outs.write( computeArgs( paramsGroup, "" ) + " ) };" )
+	outs.write( computeArgs( paramsGroup, "\t\t\t\t", "" ) + " ) };" )
 	outs.write( "\n\t}" )
 	
 def endFunctionGroup( outs ):

@@ -78,16 +78,28 @@ namespace ast::debug
 				: falseTxt;
 		}
 
+		std::string join( std::string const & lhs
+			, std::string const & rhs )
+		{
+			if ( !rhs.empty() && !lhs.empty() )
+			{
+				return lhs + rhs;
+			}
+
+			return std::string{};
+		}
+
 		std::string getName( type::ImageConfiguration const & config )
 		{
+			static std::string const empty;
 			std::string result;
 			result += getName( config.dimension );
 			result += "," + debug::getName( config.format );
-			result += "," + getName( config.isDepth );
-			result += "," + getName( config.isSampled );
-			result += "," + getName( config.isArrayed );
-			result += "," + getName( config.isMS );
-			result += "," + getName( config.accessKind );
+			result += join( ",", getName( config.isDepth, "Depth", empty, empty ) );
+			result += join( ",", getName( config.isSampled, "Sampled", empty, empty ) );
+			result += join( ",", getName( config.isArrayed, "Array", empty ) );
+			result += join( ",", getName( config.isMS, "MS", empty ) );
+			result += join( ",", getName( config.accessKind ) );
 			return result;
 		}
 
@@ -392,6 +404,7 @@ namespace ast::debug
 			result += "(" + getName( static_cast< type::SampledImage const & >( type ).getConfig() ) + ")";
 			break;
 		default:
+			result = getName( type.getKind() );
 			break;
 		}
 

@@ -12,15 +12,16 @@ See LICENSE file in root folder
 #include "ShaderWriter/BaseTypes/Sampler.hpp"
 #include "ShaderWriter/CompositeTypes/Function.hpp"
 #include "ShaderWriter/CompositeTypes/FunctionParam.hpp"
-#include "ShaderWriter/Optional/OptionalMat2.hpp"
-#include "ShaderWriter/Optional/OptionalMat2x3.hpp"
-#include "ShaderWriter/Optional/OptionalMat2x4.hpp"
-#include "ShaderWriter/Optional/OptionalMat3.hpp"
-#include "ShaderWriter/Optional/OptionalMat3x2.hpp"
-#include "ShaderWriter/Optional/OptionalMat3x4.hpp"
-#include "ShaderWriter/Optional/OptionalMat4.hpp"
-#include "ShaderWriter/Optional/OptionalMat4x2.hpp"
-#include "ShaderWriter/Optional/OptionalMat4x3.hpp"
+#include "ShaderWriter/MaybeOptional/MaybeOptional.hpp"
+#include "ShaderWriter/MaybeOptional/MaybeOptionalMat2.hpp"
+#include "ShaderWriter/MaybeOptional/MaybeOptionalMat2x3.hpp"
+#include "ShaderWriter/MaybeOptional/MaybeOptionalMat2x4.hpp"
+#include "ShaderWriter/MaybeOptional/MaybeOptionalMat3.hpp"
+#include "ShaderWriter/MaybeOptional/MaybeOptionalMat3x2.hpp"
+#include "ShaderWriter/MaybeOptional/MaybeOptionalMat3x4.hpp"
+#include "ShaderWriter/MaybeOptional/MaybeOptionalMat4.hpp"
+#include "ShaderWriter/MaybeOptional/MaybeOptionalMat4x2.hpp"
+#include "ShaderWriter/MaybeOptional/MaybeOptionalMat4x3.hpp"
 
 #include <ASTGenerator/Expr/MakeIntrinsic.hpp>
 
@@ -32,10 +33,10 @@ namespace sdw
 	*	degrees
 	*/
 	/**@{*/
-	Float degrees( Float const & radians );
-	Vec2 degrees( Vec2 const & radians );
-	Vec3 degrees( Vec3 const & radians );
-	Vec4 degrees( Vec4 const & radians );
+	MaybeOptional< Float > degrees( MaybeOptional< Float > const & radians );
+	MaybeOptional< Vec2 > degrees( MaybeOptional< Vec2 > const & radians );
+	MaybeOptional< Vec3 > degrees( MaybeOptional< Vec3 > const & radians );
+	MaybeOptional< Vec4 > degrees( MaybeOptional< Vec4 > const & radians );
 	/**@}*/
 #pragma endregion
 #pragma region radians
@@ -44,10 +45,10 @@ namespace sdw
 	*	radians
 	*/
 	/**@{*/
-	Float radians( Float const & degrees );
-	Vec2 radians( Vec2 const & degrees );
-	Vec3 radians( Vec3 const & degrees );
-	Vec4 radians( Vec4 const & degrees );
+	MaybeOptional< Float > radians( MaybeOptional< Float > const & degrees );
+	MaybeOptional< Vec2 > radians( MaybeOptional< Vec2 > const & degrees );
+	MaybeOptional< Vec3 > radians( MaybeOptional< Vec3 > const & degrees );
+	MaybeOptional< Vec4 > radians( MaybeOptional< Vec4 > const & degrees );
 	/**@}*/
 #pragma endregion
 #pragma region cos
@@ -56,10 +57,10 @@ namespace sdw
 	*	cos
 	*/
 	/**@{*/
-	Float cos( Float const & x );
-	Vec2 cos( Vec2 const & x );
-	Vec3 cos( Vec3 const & x );
-	Vec4 cos( Vec4 const & x );
+	MaybeOptional< Float > cos( MaybeOptional< Float > const & x );
+	MaybeOptional< Vec2 > cos( MaybeOptional< Vec2 > const & x );
+	MaybeOptional< Vec3 > cos( MaybeOptional< Vec3 > const & x );
+	MaybeOptional< Vec4 > cos( MaybeOptional< Vec4 > const & x );
 	/**@}*/
 #pragma endregion
 #pragma region sin
@@ -68,10 +69,10 @@ namespace sdw
 	*	sin
 	*/
 	/**@{*/
-	Float sin( Float const & x );
-	Vec2 sin( Vec2 const & x );
-	Vec3 sin( Vec3 const & x );
-	Vec4 sin( Vec4 const & x );
+	MaybeOptional< Float > sin( MaybeOptional< Float > const & x );
+	MaybeOptional< Vec2 > sin( MaybeOptional< Vec2 > const & x );
+	MaybeOptional< Vec3 > sin( MaybeOptional< Vec3 > const & x );
+	MaybeOptional< Vec4 > sin( MaybeOptional< Vec4 > const & x );
 	/**@}*/
 #pragma endregion
 #pragma region tan
@@ -80,10 +81,10 @@ namespace sdw
 	*	tan
 	*/
 	/**@{*/
-	Float tan( Float const & x );
-	Vec2 tan( Vec2 const & x );
-	Vec3 tan( Vec3 const & x );
-	Vec4 tan( Vec4 const & x );
+	MaybeOptional< Float > tan( MaybeOptional< Float > const & x );
+	MaybeOptional< Vec2 > tan( MaybeOptional< Vec2 > const & x );
+	MaybeOptional< Vec3 > tan( MaybeOptional< Vec3 > const & x );
+	MaybeOptional< Vec4 > tan( MaybeOptional< Vec4 > const & x );
 	/**@}*/
 #pragma endregion
 #pragma region cosh
@@ -92,10 +93,10 @@ namespace sdw
 	*	cosh
 	*/
 	/**@{*/
-	Float cosh( Float const & x );
-	Vec2 cosh( Vec2 const & x );
-	Vec3 cosh( Vec3 const & x );
-	Vec4 cosh( Vec4 const & x );
+	MaybeOptional< Float > cosh( MaybeOptional< Float > const & x );
+	MaybeOptional< Vec2 > cosh( MaybeOptional< Vec2 > const & x );
+	MaybeOptional< Vec3 > cosh( MaybeOptional< Vec3 > const & x );
+	MaybeOptional< Vec4 > cosh( MaybeOptional< Vec4 > const & x );
 	/**@}*/
 #pragma endregion
 #pragma region sinh
@@ -104,10 +105,10 @@ namespace sdw
 	*	sinh
 	*/
 	/**@{*/
-	Float sinh( Float const & x );
-	Vec2 sinh( Vec2 const & x );
-	Vec3 sinh( Vec3 const & x );
-	Vec4 sinh( Vec4 const & x );
+	MaybeOptional< Float > sinh( MaybeOptional< Float > const & x );
+	MaybeOptional< Vec2 > sinh( MaybeOptional< Vec2 > const & x );
+	MaybeOptional< Vec3 > sinh( MaybeOptional< Vec3 > const & x );
+	MaybeOptional< Vec4 > sinh( MaybeOptional< Vec4 > const & x );
 	/**@}*/
 #pragma endregion
 #pragma region tanh
@@ -116,10 +117,10 @@ namespace sdw
 	*	tanh
 	*/
 	/**@{*/
-	Float tanh( Float const & x );
-	Vec2 tanh( Vec2 const & x );
-	Vec3 tanh( Vec3 const & x );
-	Vec4 tanh( Vec4 const & x );
+	MaybeOptional< Float > tanh( MaybeOptional< Float > const & x );
+	MaybeOptional< Vec2 > tanh( MaybeOptional< Vec2 > const & x );
+	MaybeOptional< Vec3 > tanh( MaybeOptional< Vec3 > const & x );
+	MaybeOptional< Vec4 > tanh( MaybeOptional< Vec4 > const & x );
 	/**@}*/
 #pragma endregion
 #pragma region acos
@@ -128,10 +129,10 @@ namespace sdw
 	*	acos
 	*/
 	/**@{*/
-	Float acos( Float const & x );
-	Vec2 acos( Vec2 const & x );
-	Vec3 acos( Vec3 const & x );
-	Vec4 acos( Vec4 const & x );
+	MaybeOptional< Float > acos( MaybeOptional< Float > const & x );
+	MaybeOptional< Vec2 > acos( MaybeOptional< Vec2 > const & x );
+	MaybeOptional< Vec3 > acos( MaybeOptional< Vec3 > const & x );
+	MaybeOptional< Vec4 > acos( MaybeOptional< Vec4 > const & x );
 	/**@}*/
 #pragma endregion
 #pragma region asin
@@ -140,10 +141,10 @@ namespace sdw
 	*	asin
 	*/
 	/**@{*/
-	Float asin( Float const & x );
-	Vec2 asin( Vec2 const & x );
-	Vec3 asin( Vec3 const & x );
-	Vec4 asin( Vec4 const & x );
+	MaybeOptional< Float > asin( MaybeOptional< Float > const & x );
+	MaybeOptional< Vec2 > asin( MaybeOptional< Vec2 > const & x );
+	MaybeOptional< Vec3 > asin( MaybeOptional< Vec3 > const & x );
+	MaybeOptional< Vec4 > asin( MaybeOptional< Vec4 > const & x );
 	/**@}*/
 #pragma endregion
 #pragma region atan
@@ -152,10 +153,10 @@ namespace sdw
 	*	atan
 	*/
 	/**@{*/
-	Float atan( Float const & x );
-	Vec2 atan( Vec2 const & x );
-	Vec3 atan( Vec3 const & x );
-	Vec4 atan( Vec4 const & x );
+	MaybeOptional< Float > atan( MaybeOptional< Float > const & x );
+	MaybeOptional< Vec2 > atan( MaybeOptional< Vec2 > const & x );
+	MaybeOptional< Vec3 > atan( MaybeOptional< Vec3 > const & x );
+	MaybeOptional< Vec4 > atan( MaybeOptional< Vec4 > const & x );
 	/**@}*/
 #pragma endregion
 #pragma region acosh
@@ -164,10 +165,10 @@ namespace sdw
 	*	acosh
 	*/
 	/**@{*/
-	Float acosh( Float const & x );
-	Vec2 acosh( Vec2 const & x );
-	Vec3 acosh( Vec3 const & x );
-	Vec4 acosh( Vec4 const & x );
+	MaybeOptional< Float > acosh( MaybeOptional< Float > const & x );
+	MaybeOptional< Vec2 > acosh( MaybeOptional< Vec2 > const & x );
+	MaybeOptional< Vec3 > acosh( MaybeOptional< Vec3 > const & x );
+	MaybeOptional< Vec4 > acosh( MaybeOptional< Vec4 > const & x );
 	/**@}*/
 #pragma endregion
 #pragma region asinh
@@ -176,10 +177,10 @@ namespace sdw
 	*	asinh
 	*/
 	/**@{*/
-	Float asinh( Float const & x );
-	Vec2 asinh( Vec2 const & x );
-	Vec3 asinh( Vec3 const & x );
-	Vec4 asinh( Vec4 const & x );
+	MaybeOptional< Float > asinh( MaybeOptional< Float > const & x );
+	MaybeOptional< Vec2 > asinh( MaybeOptional< Vec2 > const & x );
+	MaybeOptional< Vec3 > asinh( MaybeOptional< Vec3 > const & x );
+	MaybeOptional< Vec4 > asinh( MaybeOptional< Vec4 > const & x );
 	/**@}*/
 #pragma endregion
 #pragma region atanh
@@ -188,10 +189,10 @@ namespace sdw
 	*	atanh
 	*/
 	/**@{*/
-	Float atanh( Float const & x );
-	Vec2 atanh( Vec2 const & x );
-	Vec3 atanh( Vec3 const & x );
-	Vec4 atanh( Vec4 const & x );
+	MaybeOptional< Float > atanh( MaybeOptional< Float > const & x );
+	MaybeOptional< Vec2 > atanh( MaybeOptional< Vec2 > const & x );
+	MaybeOptional< Vec3 > atanh( MaybeOptional< Vec3 > const & x );
+	MaybeOptional< Vec4 > atanh( MaybeOptional< Vec4 > const & x );
 	/**@}*/
 #pragma endregion
 #pragma region pow
@@ -200,10 +201,10 @@ namespace sdw
 	*	pow
 	*/
 	/**@{*/
-	Float pow( Float const & x, Float const & y );
-	Vec2 pow( Vec2 const & x, Vec2 const & y );
-	Vec3 pow( Vec3 const & x, Vec3 const & y );
-	Vec4 pow( Vec4 const & x, Vec4 const & y );
+	MaybeOptional< Float > pow( MaybeOptional< Float > const & x, MaybeOptional< Float > const & y );
+	MaybeOptional< Vec2 > pow( MaybeOptional< Vec2 > const & x, MaybeOptional< Vec2 > const & y );
+	MaybeOptional< Vec3 > pow( MaybeOptional< Vec3 > const & x, MaybeOptional< Vec3 > const & y );
+	MaybeOptional< Vec4 > pow( MaybeOptional< Vec4 > const & x, MaybeOptional< Vec4 > const & y );
 	/**@}*/
 #pragma endregion
 #pragma region exp
@@ -212,10 +213,10 @@ namespace sdw
 	*	exp
 	*/
 	/**@{*/
-	Float exp( Float const & x );
-	Vec2 exp( Vec2 const & x );
-	Vec3 exp( Vec3 const & x );
-	Vec4 exp( Vec4 const & x );
+	MaybeOptional< Float > exp( MaybeOptional< Float > const & x );
+	MaybeOptional< Vec2 > exp( MaybeOptional< Vec2 > const & x );
+	MaybeOptional< Vec3 > exp( MaybeOptional< Vec3 > const & x );
+	MaybeOptional< Vec4 > exp( MaybeOptional< Vec4 > const & x );
 	/**@}*/
 #pragma endregion
 #pragma region log
@@ -224,10 +225,10 @@ namespace sdw
 	*	log
 	*/
 	/**@{*/
-	Float log( Float const & x );
-	Vec2 log( Vec2 const & x );
-	Vec3 log( Vec3 const & x );
-	Vec4 log( Vec4 const & x );
+	MaybeOptional< Float > log( MaybeOptional< Float > const & x );
+	MaybeOptional< Vec2 > log( MaybeOptional< Vec2 > const & x );
+	MaybeOptional< Vec3 > log( MaybeOptional< Vec3 > const & x );
+	MaybeOptional< Vec4 > log( MaybeOptional< Vec4 > const & x );
 	/**@}*/
 #pragma endregion
 #pragma region exp2
@@ -236,10 +237,10 @@ namespace sdw
 	*	exp2
 	*/
 	/**@{*/
-	Float exp2( Float const & x );
-	Vec2 exp2( Vec2 const & x );
-	Vec3 exp2( Vec3 const & x );
-	Vec4 exp2( Vec4 const & x );
+	MaybeOptional< Float > exp2( MaybeOptional< Float > const & x );
+	MaybeOptional< Vec2 > exp2( MaybeOptional< Vec2 > const & x );
+	MaybeOptional< Vec3 > exp2( MaybeOptional< Vec3 > const & x );
+	MaybeOptional< Vec4 > exp2( MaybeOptional< Vec4 > const & x );
 	/**@}*/
 #pragma endregion
 #pragma region log2
@@ -248,10 +249,10 @@ namespace sdw
 	*	log2
 	*/
 	/**@{*/
-	Float log2( Float const & x );
-	Vec2 log2( Vec2 const & x );
-	Vec3 log2( Vec3 const & x );
-	Vec4 log2( Vec4 const & x );
+	MaybeOptional< Float > log2( MaybeOptional< Float > const & x );
+	MaybeOptional< Vec2 > log2( MaybeOptional< Vec2 > const & x );
+	MaybeOptional< Vec3 > log2( MaybeOptional< Vec3 > const & x );
+	MaybeOptional< Vec4 > log2( MaybeOptional< Vec4 > const & x );
 	/**@}*/
 #pragma endregion
 #pragma region sqrt
@@ -260,14 +261,14 @@ namespace sdw
 	*	sqrt
 	*/
 	/**@{*/
-	Float sqrt( Float const & x );
-	Vec2 sqrt( Vec2 const & x );
-	Vec3 sqrt( Vec3 const & x );
-	Vec4 sqrt( Vec4 const & x );
-	Double sqrt( Double const & x );
-	DVec2 sqrt( DVec2 const & x );
-	DVec3 sqrt( DVec3 const & x );
-	DVec4 sqrt( DVec4 const & x );
+	MaybeOptional< Float > sqrt( MaybeOptional< Float > const & x );
+	MaybeOptional< Vec2 > sqrt( MaybeOptional< Vec2 > const & x );
+	MaybeOptional< Vec3 > sqrt( MaybeOptional< Vec3 > const & x );
+	MaybeOptional< Vec4 > sqrt( MaybeOptional< Vec4 > const & x );
+	MaybeOptional< Double > sqrt( MaybeOptional< Double > const & x );
+	MaybeOptional< DVec2 > sqrt( MaybeOptional< DVec2 > const & x );
+	MaybeOptional< DVec3 > sqrt( MaybeOptional< DVec3 > const & x );
+	MaybeOptional< DVec4 > sqrt( MaybeOptional< DVec4 > const & x );
 	/**@}*/
 #pragma endregion
 #pragma region inverseSqrt
@@ -276,14 +277,14 @@ namespace sdw
 	*	inverseSqrt
 	*/
 	/**@{*/
-	Float inverseSqrt( Float const & x );
-	Vec2 inverseSqrt( Vec2 const & x );
-	Vec3 inverseSqrt( Vec3 const & x );
-	Vec4 inverseSqrt( Vec4 const & x );
-	Double inverseSqrt( Double const & x );
-	DVec2 inverseSqrt( DVec2 const & x );
-	DVec3 inverseSqrt( DVec3 const & x );
-	DVec4 inverseSqrt( DVec4 const & x );
+	MaybeOptional< Float > inverseSqrt( MaybeOptional< Float > const & x );
+	MaybeOptional< Vec2 > inverseSqrt( MaybeOptional< Vec2 > const & x );
+	MaybeOptional< Vec3 > inverseSqrt( MaybeOptional< Vec3 > const & x );
+	MaybeOptional< Vec4 > inverseSqrt( MaybeOptional< Vec4 > const & x );
+	MaybeOptional< Double > inverseSqrt( MaybeOptional< Double > const & x );
+	MaybeOptional< DVec2 > inverseSqrt( MaybeOptional< DVec2 > const & x );
+	MaybeOptional< DVec3 > inverseSqrt( MaybeOptional< DVec3 > const & x );
+	MaybeOptional< DVec4 > inverseSqrt( MaybeOptional< DVec4 > const & x );
 	/**@}*/
 #pragma endregion
 #pragma region abs
@@ -292,18 +293,18 @@ namespace sdw
 	*	abs
 	*/
 	/**@{*/
-	Float abs( Float const & x );
-	Vec2 abs( Vec2 const & x );
-	Vec3 abs( Vec3 const & x );
-	Vec4 abs( Vec4 const & x );
-	Int abs( Int const & x );
-	IVec2 abs( IVec2 const & x );
-	IVec3 abs( IVec3 const & x );
-	IVec4 abs( IVec4 const & x );
-	Double abs( Double const & x );
-	DVec2 abs( DVec2 const & x );
-	DVec3 abs( DVec3 const & x );
-	DVec4 abs( DVec4 const & x );
+	MaybeOptional< Float > abs( MaybeOptional< Float > const & x );
+	MaybeOptional< Vec2 > abs( MaybeOptional< Vec2 > const & x );
+	MaybeOptional< Vec3 > abs( MaybeOptional< Vec3 > const & x );
+	MaybeOptional< Vec4 > abs( MaybeOptional< Vec4 > const & x );
+	MaybeOptional< Int > abs( MaybeOptional< Int > const & x );
+	MaybeOptional< IVec2 > abs( MaybeOptional< IVec2 > const & x );
+	MaybeOptional< IVec3 > abs( MaybeOptional< IVec3 > const & x );
+	MaybeOptional< IVec4 > abs( MaybeOptional< IVec4 > const & x );
+	MaybeOptional< Double > abs( MaybeOptional< Double > const & x );
+	MaybeOptional< DVec2 > abs( MaybeOptional< DVec2 > const & x );
+	MaybeOptional< DVec3 > abs( MaybeOptional< DVec3 > const & x );
+	MaybeOptional< DVec4 > abs( MaybeOptional< DVec4 > const & x );
 	/**@}*/
 #pragma endregion
 #pragma region sign
@@ -312,18 +313,18 @@ namespace sdw
 	*	sign
 	*/
 	/**@{*/
-	Float sign( Float const & x );
-	Vec2 sign( Vec2 const & x );
-	Vec3 sign( Vec3 const & x );
-	Vec4 sign( Vec4 const & x );
-	Int sign( Int const & x );
-	IVec2 sign( IVec2 const & x );
-	IVec3 sign( IVec3 const & x );
-	IVec4 sign( IVec4 const & x );
-	Double sign( Double const & x );
-	DVec2 sign( DVec2 const & x );
-	DVec3 sign( DVec3 const & x );
-	DVec4 sign( DVec4 const & x );
+	MaybeOptional< Float > sign( MaybeOptional< Float > const & x );
+	MaybeOptional< Vec2 > sign( MaybeOptional< Vec2 > const & x );
+	MaybeOptional< Vec3 > sign( MaybeOptional< Vec3 > const & x );
+	MaybeOptional< Vec4 > sign( MaybeOptional< Vec4 > const & x );
+	MaybeOptional< Int > sign( MaybeOptional< Int > const & x );
+	MaybeOptional< IVec2 > sign( MaybeOptional< IVec2 > const & x );
+	MaybeOptional< IVec3 > sign( MaybeOptional< IVec3 > const & x );
+	MaybeOptional< IVec4 > sign( MaybeOptional< IVec4 > const & x );
+	MaybeOptional< Double > sign( MaybeOptional< Double > const & x );
+	MaybeOptional< DVec2 > sign( MaybeOptional< DVec2 > const & x );
+	MaybeOptional< DVec3 > sign( MaybeOptional< DVec3 > const & x );
+	MaybeOptional< DVec4 > sign( MaybeOptional< DVec4 > const & x );
 	/**@}*/
 #pragma endregion
 #pragma region floor
@@ -332,14 +333,14 @@ namespace sdw
 	*	floor
 	*/
 	/**@{*/
-	Float floor( Float const & x );
-	Vec2 floor( Vec2 const & x );
-	Vec3 floor( Vec3 const & x );
-	Vec4 floor( Vec4 const & x );
-	Double floor( Double const & x );
-	DVec2 floor( DVec2 const & x );
-	DVec3 floor( DVec3 const & x );
-	DVec4 floor( DVec4 const & x );
+	MaybeOptional< Float > floor( MaybeOptional< Float > const & x );
+	MaybeOptional< Vec2 > floor( MaybeOptional< Vec2 > const & x );
+	MaybeOptional< Vec3 > floor( MaybeOptional< Vec3 > const & x );
+	MaybeOptional< Vec4 > floor( MaybeOptional< Vec4 > const & x );
+	MaybeOptional< Double > floor( MaybeOptional< Double > const & x );
+	MaybeOptional< DVec2 > floor( MaybeOptional< DVec2 > const & x );
+	MaybeOptional< DVec3 > floor( MaybeOptional< DVec3 > const & x );
+	MaybeOptional< DVec4 > floor( MaybeOptional< DVec4 > const & x );
 	/**@}*/
 #pragma endregion
 #pragma region trunc
@@ -348,14 +349,14 @@ namespace sdw
 	*	trunc
 	*/
 	/**@{*/
-	Float trunc( Float const & x );
-	Vec2 trunc( Vec2 const & x );
-	Vec3 trunc( Vec3 const & x );
-	Vec4 trunc( Vec4 const & x );
-	Double trunc( Double const & x );
-	DVec2 trunc( DVec2 const & x );
-	DVec3 trunc( DVec3 const & x );
-	DVec4 trunc( DVec4 const & x );
+	MaybeOptional< Float > trunc( MaybeOptional< Float > const & x );
+	MaybeOptional< Vec2 > trunc( MaybeOptional< Vec2 > const & x );
+	MaybeOptional< Vec3 > trunc( MaybeOptional< Vec3 > const & x );
+	MaybeOptional< Vec4 > trunc( MaybeOptional< Vec4 > const & x );
+	MaybeOptional< Double > trunc( MaybeOptional< Double > const & x );
+	MaybeOptional< DVec2 > trunc( MaybeOptional< DVec2 > const & x );
+	MaybeOptional< DVec3 > trunc( MaybeOptional< DVec3 > const & x );
+	MaybeOptional< DVec4 > trunc( MaybeOptional< DVec4 > const & x );
 	/**@}*/
 #pragma endregion
 #pragma region round
@@ -364,14 +365,14 @@ namespace sdw
 	*	round
 	*/
 	/**@{*/
-	Float round( Float const & x );
-	Vec2 round( Vec2 const & x );
-	Vec3 round( Vec3 const & x );
-	Vec4 round( Vec4 const & x );
-	Double round( Double const & x );
-	DVec2 round( DVec2 const & x );
-	DVec3 round( DVec3 const & x );
-	DVec4 round( DVec4 const & x );
+	MaybeOptional< Float > round( MaybeOptional< Float > const & x );
+	MaybeOptional< Vec2 > round( MaybeOptional< Vec2 > const & x );
+	MaybeOptional< Vec3 > round( MaybeOptional< Vec3 > const & x );
+	MaybeOptional< Vec4 > round( MaybeOptional< Vec4 > const & x );
+	MaybeOptional< Double > round( MaybeOptional< Double > const & x );
+	MaybeOptional< DVec2 > round( MaybeOptional< DVec2 > const & x );
+	MaybeOptional< DVec3 > round( MaybeOptional< DVec3 > const & x );
+	MaybeOptional< DVec4 > round( MaybeOptional< DVec4 > const & x );
 	/**@}*/
 #pragma endregion
 #pragma region roundEven
@@ -380,14 +381,14 @@ namespace sdw
 	*	roundEven
 	*/
 	/**@{*/
-	Float roundEven( Float const & x );
-	Vec2 roundEven( Vec2 const & x );
-	Vec3 roundEven( Vec3 const & x );
-	Vec4 roundEven( Vec4 const & x );
-	Double roundEven( Double const & x );
-	DVec2 roundEven( DVec2 const & x );
-	DVec3 roundEven( DVec3 const & x );
-	DVec4 roundEven( DVec4 const & x );
+	MaybeOptional< Float > roundEven( MaybeOptional< Float > const & x );
+	MaybeOptional< Vec2 > roundEven( MaybeOptional< Vec2 > const & x );
+	MaybeOptional< Vec3 > roundEven( MaybeOptional< Vec3 > const & x );
+	MaybeOptional< Vec4 > roundEven( MaybeOptional< Vec4 > const & x );
+	MaybeOptional< Double > roundEven( MaybeOptional< Double > const & x );
+	MaybeOptional< DVec2 > roundEven( MaybeOptional< DVec2 > const & x );
+	MaybeOptional< DVec3 > roundEven( MaybeOptional< DVec3 > const & x );
+	MaybeOptional< DVec4 > roundEven( MaybeOptional< DVec4 > const & x );
 	/**@}*/
 #pragma endregion
 #pragma region ceil
@@ -396,14 +397,14 @@ namespace sdw
 	*	ceil
 	*/
 	/**@{*/
-	Float ceil( Float const & x );
-	Vec2 ceil( Vec2 const & x );
-	Vec3 ceil( Vec3 const & x );
-	Vec4 ceil( Vec4 const & x );
-	Double ceil( Double const & x );
-	DVec2 ceil( DVec2 const & x );
-	DVec3 ceil( DVec3 const & x );
-	DVec4 ceil( DVec4 const & x );
+	MaybeOptional< Float > ceil( MaybeOptional< Float > const & x );
+	MaybeOptional< Vec2 > ceil( MaybeOptional< Vec2 > const & x );
+	MaybeOptional< Vec3 > ceil( MaybeOptional< Vec3 > const & x );
+	MaybeOptional< Vec4 > ceil( MaybeOptional< Vec4 > const & x );
+	MaybeOptional< Double > ceil( MaybeOptional< Double > const & x );
+	MaybeOptional< DVec2 > ceil( MaybeOptional< DVec2 > const & x );
+	MaybeOptional< DVec3 > ceil( MaybeOptional< DVec3 > const & x );
+	MaybeOptional< DVec4 > ceil( MaybeOptional< DVec4 > const & x );
 	/**@}*/
 #pragma endregion
 #pragma region fract
@@ -412,14 +413,14 @@ namespace sdw
 	*	fract
 	*/
 	/**@{*/
-	Float fract( Float const & x );
-	Vec2 fract( Vec2 const & x );
-	Vec3 fract( Vec3 const & x );
-	Vec4 fract( Vec4 const & x );
-	Double fract( Double const & x );
-	DVec2 fract( DVec2 const & x );
-	DVec3 fract( DVec3 const & x );
-	DVec4 fract( DVec4 const & x );
+	MaybeOptional< Float > fract( MaybeOptional< Float > const & x );
+	MaybeOptional< Vec2 > fract( MaybeOptional< Vec2 > const & x );
+	MaybeOptional< Vec3 > fract( MaybeOptional< Vec3 > const & x );
+	MaybeOptional< Vec4 > fract( MaybeOptional< Vec4 > const & x );
+	MaybeOptional< Double > fract( MaybeOptional< Double > const & x );
+	MaybeOptional< DVec2 > fract( MaybeOptional< DVec2 > const & x );
+	MaybeOptional< DVec3 > fract( MaybeOptional< DVec3 > const & x );
+	MaybeOptional< DVec4 > fract( MaybeOptional< DVec4 > const & x );
 	/**@}*/
 #pragma endregion
 #pragma region mod
@@ -428,20 +429,20 @@ namespace sdw
 	*	mod
 	*/
 	/**@{*/
-	Float mod( Float const & x, Float const & y );
-	Vec2 mod( Vec2 const & x, Vec2 const & y );
-	Vec3 mod( Vec3 const & x, Vec3 const & y );
-	Vec4 mod( Vec4 const & x, Vec4 const & y );
-	Vec2 mod( Vec2 const & x, Float const & y );
-	Vec3 mod( Vec3 const & x, Float const & y );
-	Vec4 mod( Vec4 const & x, Float const & y );
-	Double mod( Double const & x, Double const & y );
-	DVec2 mod( DVec2 const & x, DVec2 const & y );
-	DVec3 mod( DVec3 const & x, DVec3 const & y );
-	DVec4 mod( DVec4 const & x, DVec4 const & y );
-	DVec2 mod( DVec2 const & x, Double const & y );
-	DVec3 mod( DVec3 const & x, Double const & y );
-	DVec4 mod( DVec4 const & x, Double const & y );
+	MaybeOptional< Float > mod( MaybeOptional< Float > const & x, MaybeOptional< Float > const & y );
+	MaybeOptional< Vec2 > mod( MaybeOptional< Vec2 > const & x, MaybeOptional< Vec2 > const & y );
+	MaybeOptional< Vec3 > mod( MaybeOptional< Vec3 > const & x, MaybeOptional< Vec3 > const & y );
+	MaybeOptional< Vec4 > mod( MaybeOptional< Vec4 > const & x, MaybeOptional< Vec4 > const & y );
+	MaybeOptional< Vec2 > mod( MaybeOptional< Vec2 > const & x, MaybeOptional< Float > const & y );
+	MaybeOptional< Vec3 > mod( MaybeOptional< Vec3 > const & x, MaybeOptional< Float > const & y );
+	MaybeOptional< Vec4 > mod( MaybeOptional< Vec4 > const & x, MaybeOptional< Float > const & y );
+	MaybeOptional< Double > mod( MaybeOptional< Double > const & x, MaybeOptional< Double > const & y );
+	MaybeOptional< DVec2 > mod( MaybeOptional< DVec2 > const & x, MaybeOptional< DVec2 > const & y );
+	MaybeOptional< DVec3 > mod( MaybeOptional< DVec3 > const & x, MaybeOptional< DVec3 > const & y );
+	MaybeOptional< DVec4 > mod( MaybeOptional< DVec4 > const & x, MaybeOptional< DVec4 > const & y );
+	MaybeOptional< DVec2 > mod( MaybeOptional< DVec2 > const & x, MaybeOptional< Double > const & y );
+	MaybeOptional< DVec3 > mod( MaybeOptional< DVec3 > const & x, MaybeOptional< Double > const & y );
+	MaybeOptional< DVec4 > mod( MaybeOptional< DVec4 > const & x, MaybeOptional< Double > const & y );
 	/**@}*/
 #pragma endregion
 #pragma region modf
@@ -450,14 +451,14 @@ namespace sdw
 	*	modf
 	*/
 	/**@{*/
-	Float modf( Float const & x, Float const & i );
-	Vec2 modf( Vec2 const & x, Vec2 const & i );
-	Vec3 modf( Vec3 const & x, Vec3 const & i );
-	Vec4 modf( Vec4 const & x, Vec4 const & i );
-	Double modf( Double const & x, Double const & i );
-	DVec2 modf( DVec2 const & x, DVec2 const & i );
-	DVec3 modf( DVec3 const & x, DVec3 const & i );
-	DVec4 modf( DVec4 const & x, DVec4 const & i );
+	MaybeOptional< Float > modf( MaybeOptional< Float > const & x, MaybeOptional< Float > const & i );
+	MaybeOptional< Vec2 > modf( MaybeOptional< Vec2 > const & x, MaybeOptional< Vec2 > const & i );
+	MaybeOptional< Vec3 > modf( MaybeOptional< Vec3 > const & x, MaybeOptional< Vec3 > const & i );
+	MaybeOptional< Vec4 > modf( MaybeOptional< Vec4 > const & x, MaybeOptional< Vec4 > const & i );
+	MaybeOptional< Double > modf( MaybeOptional< Double > const & x, MaybeOptional< Double > const & i );
+	MaybeOptional< DVec2 > modf( MaybeOptional< DVec2 > const & x, MaybeOptional< DVec2 > const & i );
+	MaybeOptional< DVec3 > modf( MaybeOptional< DVec3 > const & x, MaybeOptional< DVec3 > const & i );
+	MaybeOptional< DVec4 > modf( MaybeOptional< DVec4 > const & x, MaybeOptional< DVec4 > const & i );
 	/**@}*/
 #pragma endregion
 #pragma region min
@@ -466,34 +467,34 @@ namespace sdw
 	*	min
 	*/
 	/**@{*/
-	Float min( Float const & x, Float const & y );
-	Vec2 min( Vec2 const & x, Vec2 const & y );
-	Vec3 min( Vec3 const & x, Vec3 const & y );
-	Vec4 min( Vec4 const & x, Vec4 const & y );
-	Vec2 min( Vec2 const & x, Float const & y );
-	Vec3 min( Vec3 const & x, Float const & y );
-	Vec4 min( Vec4 const & x, Float const & y );
-	Double min( Double const & x, Double const & y );
-	DVec2 min( DVec2 const & x, DVec2 const & y );
-	DVec3 min( DVec3 const & x, DVec3 const & y );
-	DVec4 min( DVec4 const & x, DVec4 const & y );
-	DVec2 min( DVec2 const & x, Double const & y );
-	DVec3 min( DVec3 const & x, Double const & y );
-	DVec4 min( DVec4 const & x, Double const & y );
-	Int min( Int const & x, Int const & y );
-	IVec2 min( IVec2 const & x, IVec2 const & y );
-	IVec3 min( IVec3 const & x, IVec3 const & y );
-	IVec4 min( IVec4 const & x, IVec4 const & y );
-	IVec2 min( IVec2 const & x, Int const & y );
-	IVec3 min( IVec3 const & x, Int const & y );
-	IVec4 min( IVec4 const & x, Int const & y );
-	UInt min( UInt const & x, UInt const & y );
-	UVec2 min( UVec2 const & x, UVec2 const & y );
-	UVec3 min( UVec3 const & x, UVec3 const & y );
-	UVec4 min( UVec4 const & x, UVec4 const & y );
-	UVec2 min( UVec2 const & x, UInt const & y );
-	UVec3 min( UVec3 const & x, UInt const & y );
-	UVec4 min( UVec4 const & x, UInt const & y );
+	MaybeOptional< Float > min( MaybeOptional< Float > const & x, MaybeOptional< Float > const & y );
+	MaybeOptional< Vec2 > min( MaybeOptional< Vec2 > const & x, MaybeOptional< Vec2 > const & y );
+	MaybeOptional< Vec3 > min( MaybeOptional< Vec3 > const & x, MaybeOptional< Vec3 > const & y );
+	MaybeOptional< Vec4 > min( MaybeOptional< Vec4 > const & x, MaybeOptional< Vec4 > const & y );
+	MaybeOptional< Vec2 > min( MaybeOptional< Vec2 > const & x, MaybeOptional< Float > const & y );
+	MaybeOptional< Vec3 > min( MaybeOptional< Vec3 > const & x, MaybeOptional< Float > const & y );
+	MaybeOptional< Vec4 > min( MaybeOptional< Vec4 > const & x, MaybeOptional< Float > const & y );
+	MaybeOptional< Double > min( MaybeOptional< Double > const & x, MaybeOptional< Double > const & y );
+	MaybeOptional< DVec2 > min( MaybeOptional< DVec2 > const & x, MaybeOptional< DVec2 > const & y );
+	MaybeOptional< DVec3 > min( MaybeOptional< DVec3 > const & x, MaybeOptional< DVec3 > const & y );
+	MaybeOptional< DVec4 > min( MaybeOptional< DVec4 > const & x, MaybeOptional< DVec4 > const & y );
+	MaybeOptional< DVec2 > min( MaybeOptional< DVec2 > const & x, MaybeOptional< Double > const & y );
+	MaybeOptional< DVec3 > min( MaybeOptional< DVec3 > const & x, MaybeOptional< Double > const & y );
+	MaybeOptional< DVec4 > min( MaybeOptional< DVec4 > const & x, MaybeOptional< Double > const & y );
+	MaybeOptional< Int > min( MaybeOptional< Int > const & x, MaybeOptional< Int > const & y );
+	MaybeOptional< IVec2 > min( MaybeOptional< IVec2 > const & x, MaybeOptional< IVec2 > const & y );
+	MaybeOptional< IVec3 > min( MaybeOptional< IVec3 > const & x, MaybeOptional< IVec3 > const & y );
+	MaybeOptional< IVec4 > min( MaybeOptional< IVec4 > const & x, MaybeOptional< IVec4 > const & y );
+	MaybeOptional< IVec2 > min( MaybeOptional< IVec2 > const & x, MaybeOptional< Int > const & y );
+	MaybeOptional< IVec3 > min( MaybeOptional< IVec3 > const & x, MaybeOptional< Int > const & y );
+	MaybeOptional< IVec4 > min( MaybeOptional< IVec4 > const & x, MaybeOptional< Int > const & y );
+	MaybeOptional< UInt > min( MaybeOptional< UInt > const & x, MaybeOptional< UInt > const & y );
+	MaybeOptional< UVec2 > min( MaybeOptional< UVec2 > const & x, MaybeOptional< UVec2 > const & y );
+	MaybeOptional< UVec3 > min( MaybeOptional< UVec3 > const & x, MaybeOptional< UVec3 > const & y );
+	MaybeOptional< UVec4 > min( MaybeOptional< UVec4 > const & x, MaybeOptional< UVec4 > const & y );
+	MaybeOptional< UVec2 > min( MaybeOptional< UVec2 > const & x, MaybeOptional< UInt > const & y );
+	MaybeOptional< UVec3 > min( MaybeOptional< UVec3 > const & x, MaybeOptional< UInt > const & y );
+	MaybeOptional< UVec4 > min( MaybeOptional< UVec4 > const & x, MaybeOptional< UInt > const & y );
 	/**@}*/
 #pragma endregion
 #pragma region max
@@ -502,34 +503,34 @@ namespace sdw
 	*	max
 	*/
 	/**@{*/
-	Float max( Float const & x, Float const & y );
-	Vec2 max( Vec2 const & x, Vec2 const & y );
-	Vec3 max( Vec3 const & x, Vec3 const & y );
-	Vec4 max( Vec4 const & x, Vec4 const & y );
-	Vec2 max( Vec2 const & x, Float const & y );
-	Vec3 max( Vec3 const & x, Float const & y );
-	Vec4 max( Vec4 const & x, Float const & y );
-	Double max( Double const & x, Double const & y );
-	DVec2 max( DVec2 const & x, DVec2 const & y );
-	DVec3 max( DVec3 const & x, DVec3 const & y );
-	DVec4 max( DVec4 const & x, DVec4 const & y );
-	DVec2 max( DVec2 const & x, Double const & y );
-	DVec3 max( DVec3 const & x, Double const & y );
-	DVec4 max( DVec4 const & x, Double const & y );
-	Int max( Int const & x, Int const & y );
-	IVec2 max( IVec2 const & x, IVec2 const & y );
-	IVec3 max( IVec3 const & x, IVec3 const & y );
-	IVec4 max( IVec4 const & x, IVec4 const & y );
-	IVec2 max( IVec2 const & x, Int const & y );
-	IVec3 max( IVec3 const & x, Int const & y );
-	IVec4 max( IVec4 const & x, Int const & y );
-	UInt max( UInt const & x, UInt const & y );
-	UVec2 max( UVec2 const & x, UVec2 const & y );
-	UVec3 max( UVec3 const & x, UVec3 const & y );
-	UVec4 max( UVec4 const & x, UVec4 const & y );
-	UVec2 max( UVec2 const & x, UInt const & y );
-	UVec3 max( UVec3 const & x, UInt const & y );
-	UVec4 max( UVec4 const & x, UInt const & y );
+	MaybeOptional< Float > max( MaybeOptional< Float > const & x, MaybeOptional< Float > const & y );
+	MaybeOptional< Vec2 > max( MaybeOptional< Vec2 > const & x, MaybeOptional< Vec2 > const & y );
+	MaybeOptional< Vec3 > max( MaybeOptional< Vec3 > const & x, MaybeOptional< Vec3 > const & y );
+	MaybeOptional< Vec4 > max( MaybeOptional< Vec4 > const & x, MaybeOptional< Vec4 > const & y );
+	MaybeOptional< Vec2 > max( MaybeOptional< Vec2 > const & x, MaybeOptional< Float > const & y );
+	MaybeOptional< Vec3 > max( MaybeOptional< Vec3 > const & x, MaybeOptional< Float > const & y );
+	MaybeOptional< Vec4 > max( MaybeOptional< Vec4 > const & x, MaybeOptional< Float > const & y );
+	MaybeOptional< Double > max( MaybeOptional< Double > const & x, MaybeOptional< Double > const & y );
+	MaybeOptional< DVec2 > max( MaybeOptional< DVec2 > const & x, MaybeOptional< DVec2 > const & y );
+	MaybeOptional< DVec3 > max( MaybeOptional< DVec3 > const & x, MaybeOptional< DVec3 > const & y );
+	MaybeOptional< DVec4 > max( MaybeOptional< DVec4 > const & x, MaybeOptional< DVec4 > const & y );
+	MaybeOptional< DVec2 > max( MaybeOptional< DVec2 > const & x, MaybeOptional< Double > const & y );
+	MaybeOptional< DVec3 > max( MaybeOptional< DVec3 > const & x, MaybeOptional< Double > const & y );
+	MaybeOptional< DVec4 > max( MaybeOptional< DVec4 > const & x, MaybeOptional< Double > const & y );
+	MaybeOptional< Int > max( MaybeOptional< Int > const & x, MaybeOptional< Int > const & y );
+	MaybeOptional< IVec2 > max( MaybeOptional< IVec2 > const & x, MaybeOptional< IVec2 > const & y );
+	MaybeOptional< IVec3 > max( MaybeOptional< IVec3 > const & x, MaybeOptional< IVec3 > const & y );
+	MaybeOptional< IVec4 > max( MaybeOptional< IVec4 > const & x, MaybeOptional< IVec4 > const & y );
+	MaybeOptional< IVec2 > max( MaybeOptional< IVec2 > const & x, MaybeOptional< Int > const & y );
+	MaybeOptional< IVec3 > max( MaybeOptional< IVec3 > const & x, MaybeOptional< Int > const & y );
+	MaybeOptional< IVec4 > max( MaybeOptional< IVec4 > const & x, MaybeOptional< Int > const & y );
+	MaybeOptional< UInt > max( MaybeOptional< UInt > const & x, MaybeOptional< UInt > const & y );
+	MaybeOptional< UVec2 > max( MaybeOptional< UVec2 > const & x, MaybeOptional< UVec2 > const & y );
+	MaybeOptional< UVec3 > max( MaybeOptional< UVec3 > const & x, MaybeOptional< UVec3 > const & y );
+	MaybeOptional< UVec4 > max( MaybeOptional< UVec4 > const & x, MaybeOptional< UVec4 > const & y );
+	MaybeOptional< UVec2 > max( MaybeOptional< UVec2 > const & x, MaybeOptional< UInt > const & y );
+	MaybeOptional< UVec3 > max( MaybeOptional< UVec3 > const & x, MaybeOptional< UInt > const & y );
+	MaybeOptional< UVec4 > max( MaybeOptional< UVec4 > const & x, MaybeOptional< UInt > const & y );
 	/**@}*/
 #pragma endregion
 #pragma region clamp
@@ -538,34 +539,34 @@ namespace sdw
 	*	clamp
 	*/
 	/**@{*/
-	Float clamp( Float const & x, Float const & minVal, Float const & maxVal );
-	Vec2 clamp( Vec2 const & x, Vec2 const & minVal, Vec2 const & maxVal );
-	Vec3 clamp( Vec3 const & x, Vec3 const & minVal, Vec3 const & maxVal );
-	Vec4 clamp( Vec4 const & x, Vec4 const & minVal, Vec4 const & maxVal );
-	Vec2 clamp( Vec2 const & x, Float const & minVal, Float const & maxVal );
-	Vec3 clamp( Vec3 const & x, Float const & minVal, Float const & maxVal );
-	Vec4 clamp( Vec4 const & x, Float const & minVal, Float const & maxVal );
-	Double clamp( Double const & x, Double const & minVal, Double const & maxVal );
-	DVec2 clamp( DVec2 const & x, DVec2 const & minVal, DVec2 const & maxVal );
-	DVec3 clamp( DVec3 const & x, DVec3 const & minVal, DVec3 const & maxVal );
-	DVec4 clamp( DVec4 const & x, DVec4 const & minVal, DVec4 const & maxVal );
-	DVec2 clamp( DVec2 const & x, Double const & minVal, Double const & maxVal );
-	DVec3 clamp( DVec3 const & x, Double const & minVal, Double const & maxVal );
-	DVec4 clamp( DVec4 const & x, Double const & minVal, Double const & maxVal );
-	Int clamp( Int const & x, Int const & minVal, Int const & maxVal );
-	IVec2 clamp( IVec2 const & x, IVec2 const & minVal, IVec2 const & maxVal );
-	IVec3 clamp( IVec3 const & x, IVec3 const & minVal, IVec3 const & maxVal );
-	IVec4 clamp( IVec4 const & x, IVec4 const & minVal, IVec4 const & maxVal );
-	IVec2 clamp( IVec2 const & x, Int const & minVal, Int const & maxVal );
-	IVec3 clamp( IVec3 const & x, Int const & minVal, Int const & maxVal );
-	IVec4 clamp( IVec4 const & x, Int const & minVal, Int const & maxVal );
-	UInt clamp( UInt const & x, UInt const & minVal, UInt const & maxVal );
-	UVec2 clamp( UVec2 const & x, UVec2 const & minVal, UVec2 const & maxVal );
-	UVec3 clamp( UVec3 const & x, UVec3 const & minVal, UVec3 const & maxVal );
-	UVec4 clamp( UVec4 const & x, UVec4 const & minVal, UVec4 const & maxVal );
-	UVec2 clamp( UVec2 const & x, UInt const & minVal, UInt const & maxVal );
-	UVec3 clamp( UVec3 const & x, UInt const & minVal, UInt const & maxVal );
-	UVec4 clamp( UVec4 const & x, UInt const & minVal, UInt const & maxVal );
+	MaybeOptional< Float > clamp( MaybeOptional< Float > const & x, MaybeOptional< Float > const & minVal, MaybeOptional< Float > const & maxVal );
+	MaybeOptional< Vec2 > clamp( MaybeOptional< Vec2 > const & x, MaybeOptional< Vec2 > const & minVal, MaybeOptional< Vec2 > const & maxVal );
+	MaybeOptional< Vec3 > clamp( MaybeOptional< Vec3 > const & x, MaybeOptional< Vec3 > const & minVal, MaybeOptional< Vec3 > const & maxVal );
+	MaybeOptional< Vec4 > clamp( MaybeOptional< Vec4 > const & x, MaybeOptional< Vec4 > const & minVal, MaybeOptional< Vec4 > const & maxVal );
+	MaybeOptional< Vec2 > clamp( MaybeOptional< Vec2 > const & x, MaybeOptional< Float > const & minVal, MaybeOptional< Float > const & maxVal );
+	MaybeOptional< Vec3 > clamp( MaybeOptional< Vec3 > const & x, MaybeOptional< Float > const & minVal, MaybeOptional< Float > const & maxVal );
+	MaybeOptional< Vec4 > clamp( MaybeOptional< Vec4 > const & x, MaybeOptional< Float > const & minVal, MaybeOptional< Float > const & maxVal );
+	MaybeOptional< Double > clamp( MaybeOptional< Double > const & x, MaybeOptional< Double > const & minVal, MaybeOptional< Double > const & maxVal );
+	MaybeOptional< DVec2 > clamp( MaybeOptional< DVec2 > const & x, MaybeOptional< DVec2 > const & minVal, MaybeOptional< DVec2 > const & maxVal );
+	MaybeOptional< DVec3 > clamp( MaybeOptional< DVec3 > const & x, MaybeOptional< DVec3 > const & minVal, MaybeOptional< DVec3 > const & maxVal );
+	MaybeOptional< DVec4 > clamp( MaybeOptional< DVec4 > const & x, MaybeOptional< DVec4 > const & minVal, MaybeOptional< DVec4 > const & maxVal );
+	MaybeOptional< DVec2 > clamp( MaybeOptional< DVec2 > const & x, MaybeOptional< Double > const & minVal, MaybeOptional< Double > const & maxVal );
+	MaybeOptional< DVec3 > clamp( MaybeOptional< DVec3 > const & x, MaybeOptional< Double > const & minVal, MaybeOptional< Double > const & maxVal );
+	MaybeOptional< DVec4 > clamp( MaybeOptional< DVec4 > const & x, MaybeOptional< Double > const & minVal, MaybeOptional< Double > const & maxVal );
+	MaybeOptional< Int > clamp( MaybeOptional< Int > const & x, MaybeOptional< Int > const & minVal, MaybeOptional< Int > const & maxVal );
+	MaybeOptional< IVec2 > clamp( MaybeOptional< IVec2 > const & x, MaybeOptional< IVec2 > const & minVal, MaybeOptional< IVec2 > const & maxVal );
+	MaybeOptional< IVec3 > clamp( MaybeOptional< IVec3 > const & x, MaybeOptional< IVec3 > const & minVal, MaybeOptional< IVec3 > const & maxVal );
+	MaybeOptional< IVec4 > clamp( MaybeOptional< IVec4 > const & x, MaybeOptional< IVec4 > const & minVal, MaybeOptional< IVec4 > const & maxVal );
+	MaybeOptional< IVec2 > clamp( MaybeOptional< IVec2 > const & x, MaybeOptional< Int > const & minVal, MaybeOptional< Int > const & maxVal );
+	MaybeOptional< IVec3 > clamp( MaybeOptional< IVec3 > const & x, MaybeOptional< Int > const & minVal, MaybeOptional< Int > const & maxVal );
+	MaybeOptional< IVec4 > clamp( MaybeOptional< IVec4 > const & x, MaybeOptional< Int > const & minVal, MaybeOptional< Int > const & maxVal );
+	MaybeOptional< UInt > clamp( MaybeOptional< UInt > const & x, MaybeOptional< UInt > const & minVal, MaybeOptional< UInt > const & maxVal );
+	MaybeOptional< UVec2 > clamp( MaybeOptional< UVec2 > const & x, MaybeOptional< UVec2 > const & minVal, MaybeOptional< UVec2 > const & maxVal );
+	MaybeOptional< UVec3 > clamp( MaybeOptional< UVec3 > const & x, MaybeOptional< UVec3 > const & minVal, MaybeOptional< UVec3 > const & maxVal );
+	MaybeOptional< UVec4 > clamp( MaybeOptional< UVec4 > const & x, MaybeOptional< UVec4 > const & minVal, MaybeOptional< UVec4 > const & maxVal );
+	MaybeOptional< UVec2 > clamp( MaybeOptional< UVec2 > const & x, MaybeOptional< UInt > const & minVal, MaybeOptional< UInt > const & maxVal );
+	MaybeOptional< UVec3 > clamp( MaybeOptional< UVec3 > const & x, MaybeOptional< UInt > const & minVal, MaybeOptional< UInt > const & maxVal );
+	MaybeOptional< UVec4 > clamp( MaybeOptional< UVec4 > const & x, MaybeOptional< UInt > const & minVal, MaybeOptional< UInt > const & maxVal );
 	/**@}*/
 #pragma endregion
 #pragma region mix
@@ -574,28 +575,28 @@ namespace sdw
 	*	mix
 	*/
 	/**@{*/
-	Float mix( Float const & x, Float const & y, Float const & a );
-	Vec2 mix( Vec2 const & x, Vec2 const & y, Vec2 const & a );
-	Vec3 mix( Vec3 const & x, Vec3 const & y, Vec3 const & a );
-	Vec4 mix( Vec4 const & x, Vec4 const & y, Vec4 const & a );
-	Vec2 mix( Vec2 const & x, Vec2 const & y, Float const & a );
-	Vec3 mix( Vec3 const & x, Vec3 const & y, Float const & a );
-	Vec4 mix( Vec4 const & x, Vec4 const & y, Float const & a );
-	Float mix( Float const & x, Float const & y, Boolean const & a );
-	Vec2 mix( Vec2 const & x, Vec2 const & y, BVec2 const & a );
-	Vec3 mix( Vec3 const & x, Vec3 const & y, BVec3 const & a );
-	Vec4 mix( Vec4 const & x, Vec4 const & y, BVec4 const & a );
-	Double mix( Double const & x, Double const & y, Double const & a );
-	DVec2 mix( DVec2 const & x, DVec2 const & y, DVec2 const & a );
-	DVec3 mix( DVec3 const & x, DVec3 const & y, DVec3 const & a );
-	DVec4 mix( DVec4 const & x, DVec4 const & y, DVec4 const & a );
-	DVec2 mix( DVec2 const & x, DVec2 const & y, Double const & a );
-	DVec3 mix( DVec3 const & x, DVec3 const & y, Double const & a );
-	DVec4 mix( DVec4 const & x, DVec4 const & y, Double const & a );
-	Double mix( Double const & x, Double const & y, Boolean const & a );
-	DVec2 mix( DVec2 const & x, DVec2 const & y, BVec2 const & a );
-	DVec3 mix( DVec3 const & x, DVec3 const & y, BVec3 const & a );
-	DVec4 mix( DVec4 const & x, DVec4 const & y, BVec4 const & a );
+	MaybeOptional< Float > mix( MaybeOptional< Float > const & x, MaybeOptional< Float > const & y, MaybeOptional< Float > const & a );
+	MaybeOptional< Vec2 > mix( MaybeOptional< Vec2 > const & x, MaybeOptional< Vec2 > const & y, MaybeOptional< Vec2 > const & a );
+	MaybeOptional< Vec3 > mix( MaybeOptional< Vec3 > const & x, MaybeOptional< Vec3 > const & y, MaybeOptional< Vec3 > const & a );
+	MaybeOptional< Vec4 > mix( MaybeOptional< Vec4 > const & x, MaybeOptional< Vec4 > const & y, MaybeOptional< Vec4 > const & a );
+	MaybeOptional< Vec2 > mix( MaybeOptional< Vec2 > const & x, MaybeOptional< Vec2 > const & y, MaybeOptional< Float > const & a );
+	MaybeOptional< Vec3 > mix( MaybeOptional< Vec3 > const & x, MaybeOptional< Vec3 > const & y, MaybeOptional< Float > const & a );
+	MaybeOptional< Vec4 > mix( MaybeOptional< Vec4 > const & x, MaybeOptional< Vec4 > const & y, MaybeOptional< Float > const & a );
+	MaybeOptional< Float > mix( MaybeOptional< Float > const & x, MaybeOptional< Float > const & y, MaybeOptional< Boolean > const & a );
+	MaybeOptional< Vec2 > mix( MaybeOptional< Vec2 > const & x, MaybeOptional< Vec2 > const & y, MaybeOptional< BVec2 > const & a );
+	MaybeOptional< Vec3 > mix( MaybeOptional< Vec3 > const & x, MaybeOptional< Vec3 > const & y, MaybeOptional< BVec3 > const & a );
+	MaybeOptional< Vec4 > mix( MaybeOptional< Vec4 > const & x, MaybeOptional< Vec4 > const & y, MaybeOptional< BVec4 > const & a );
+	MaybeOptional< Double > mix( MaybeOptional< Double > const & x, MaybeOptional< Double > const & y, MaybeOptional< Double > const & a );
+	MaybeOptional< DVec2 > mix( MaybeOptional< DVec2 > const & x, MaybeOptional< DVec2 > const & y, MaybeOptional< DVec2 > const & a );
+	MaybeOptional< DVec3 > mix( MaybeOptional< DVec3 > const & x, MaybeOptional< DVec3 > const & y, MaybeOptional< DVec3 > const & a );
+	MaybeOptional< DVec4 > mix( MaybeOptional< DVec4 > const & x, MaybeOptional< DVec4 > const & y, MaybeOptional< DVec4 > const & a );
+	MaybeOptional< DVec2 > mix( MaybeOptional< DVec2 > const & x, MaybeOptional< DVec2 > const & y, MaybeOptional< Double > const & a );
+	MaybeOptional< DVec3 > mix( MaybeOptional< DVec3 > const & x, MaybeOptional< DVec3 > const & y, MaybeOptional< Double > const & a );
+	MaybeOptional< DVec4 > mix( MaybeOptional< DVec4 > const & x, MaybeOptional< DVec4 > const & y, MaybeOptional< Double > const & a );
+	MaybeOptional< Double > mix( MaybeOptional< Double > const & x, MaybeOptional< Double > const & y, MaybeOptional< Boolean > const & a );
+	MaybeOptional< DVec2 > mix( MaybeOptional< DVec2 > const & x, MaybeOptional< DVec2 > const & y, MaybeOptional< BVec2 > const & a );
+	MaybeOptional< DVec3 > mix( MaybeOptional< DVec3 > const & x, MaybeOptional< DVec3 > const & y, MaybeOptional< BVec3 > const & a );
+	MaybeOptional< DVec4 > mix( MaybeOptional< DVec4 > const & x, MaybeOptional< DVec4 > const & y, MaybeOptional< BVec4 > const & a );
 	/**@}*/
 #pragma endregion
 #pragma region step
@@ -604,20 +605,20 @@ namespace sdw
 	*	step
 	*/
 	/**@{*/
-	Float step( Float const & edge, Float const & x );
-	Vec2 step( Vec2 const & edge, Vec2 const & x );
-	Vec3 step( Vec3 const & edge, Vec3 const & x );
-	Vec4 step( Vec4 const & edge, Vec4 const & x );
-	Vec2 step( Float const & edge, Vec2 const & x );
-	Vec3 step( Float const & edge, Vec3 const & x );
-	Vec4 step( Float const & edge, Vec4 const & x );
-	Double step( Double const & edge, Double const & x );
-	DVec2 step( DVec2 const & edge, DVec2 const & x );
-	DVec3 step( DVec3 const & edge, DVec3 const & x );
-	DVec4 step( DVec4 const & edge, DVec4 const & x );
-	DVec2 step( Double const & edge, DVec2 const & x );
-	DVec3 step( Double const & edge, DVec3 const & x );
-	DVec4 step( Double const & edge, DVec4 const & x );
+	MaybeOptional< Float > step( MaybeOptional< Float > const & edge, MaybeOptional< Float > const & x );
+	MaybeOptional< Vec2 > step( MaybeOptional< Vec2 > const & edge, MaybeOptional< Vec2 > const & x );
+	MaybeOptional< Vec3 > step( MaybeOptional< Vec3 > const & edge, MaybeOptional< Vec3 > const & x );
+	MaybeOptional< Vec4 > step( MaybeOptional< Vec4 > const & edge, MaybeOptional< Vec4 > const & x );
+	MaybeOptional< Vec2 > step( MaybeOptional< Float > const & edge, MaybeOptional< Vec2 > const & x );
+	MaybeOptional< Vec3 > step( MaybeOptional< Float > const & edge, MaybeOptional< Vec3 > const & x );
+	MaybeOptional< Vec4 > step( MaybeOptional< Float > const & edge, MaybeOptional< Vec4 > const & x );
+	MaybeOptional< Double > step( MaybeOptional< Double > const & edge, MaybeOptional< Double > const & x );
+	MaybeOptional< DVec2 > step( MaybeOptional< DVec2 > const & edge, MaybeOptional< DVec2 > const & x );
+	MaybeOptional< DVec3 > step( MaybeOptional< DVec3 > const & edge, MaybeOptional< DVec3 > const & x );
+	MaybeOptional< DVec4 > step( MaybeOptional< DVec4 > const & edge, MaybeOptional< DVec4 > const & x );
+	MaybeOptional< DVec2 > step( MaybeOptional< Double > const & edge, MaybeOptional< DVec2 > const & x );
+	MaybeOptional< DVec3 > step( MaybeOptional< Double > const & edge, MaybeOptional< DVec3 > const & x );
+	MaybeOptional< DVec4 > step( MaybeOptional< Double > const & edge, MaybeOptional< DVec4 > const & x );
 	/**@}*/
 #pragma endregion
 #pragma region smoothStep
@@ -626,20 +627,20 @@ namespace sdw
 	*	smoothStep
 	*/
 	/**@{*/
-	Float smoothStep( Float const & edge0, Float const & edge1, Float const & x );
-	Vec2 smoothStep( Vec2 const & edge0, Vec2 const & edge1, Vec2 const & x );
-	Vec3 smoothStep( Vec3 const & edge0, Vec3 const & edge1, Vec3 const & x );
-	Vec4 smoothStep( Vec4 const & edge0, Vec4 const & edge1, Vec4 const & x );
-	Vec2 smoothStep( Float const & edge0, Float const & edge1, Vec2 const & x );
-	Vec3 smoothStep( Float const & edge0, Float const & edge1, Vec3 const & x );
-	Vec4 smoothStep( Float const & edge0, Float const & edge1, Vec4 const & x );
-	Double smoothStep( Double const & edge0, Double const & edge1, Double const & x );
-	DVec2 smoothStep( DVec2 const & edge0, DVec2 const & edge1, DVec2 const & x );
-	DVec3 smoothStep( DVec3 const & edge0, DVec3 const & edge1, DVec3 const & x );
-	DVec4 smoothStep( DVec4 const & edge0, DVec4 const & edge1, DVec4 const & x );
-	DVec2 smoothStep( Double const & edge0, Double const & edge1, DVec2 const & x );
-	DVec3 smoothStep( Double const & edge0, Double const & edge1, DVec3 const & x );
-	DVec4 smoothStep( Double const & edge0, Double const & edge1, DVec4 const & x );
+	MaybeOptional< Float > smoothStep( MaybeOptional< Float > const & edge0, MaybeOptional< Float > const & edge1, MaybeOptional< Float > const & x );
+	MaybeOptional< Vec2 > smoothStep( MaybeOptional< Vec2 > const & edge0, MaybeOptional< Vec2 > const & edge1, MaybeOptional< Vec2 > const & x );
+	MaybeOptional< Vec3 > smoothStep( MaybeOptional< Vec3 > const & edge0, MaybeOptional< Vec3 > const & edge1, MaybeOptional< Vec3 > const & x );
+	MaybeOptional< Vec4 > smoothStep( MaybeOptional< Vec4 > const & edge0, MaybeOptional< Vec4 > const & edge1, MaybeOptional< Vec4 > const & x );
+	MaybeOptional< Vec2 > smoothStep( MaybeOptional< Float > const & edge0, MaybeOptional< Float > const & edge1, MaybeOptional< Vec2 > const & x );
+	MaybeOptional< Vec3 > smoothStep( MaybeOptional< Float > const & edge0, MaybeOptional< Float > const & edge1, MaybeOptional< Vec3 > const & x );
+	MaybeOptional< Vec4 > smoothStep( MaybeOptional< Float > const & edge0, MaybeOptional< Float > const & edge1, MaybeOptional< Vec4 > const & x );
+	MaybeOptional< Double > smoothStep( MaybeOptional< Double > const & edge0, MaybeOptional< Double > const & edge1, MaybeOptional< Double > const & x );
+	MaybeOptional< DVec2 > smoothStep( MaybeOptional< DVec2 > const & edge0, MaybeOptional< DVec2 > const & edge1, MaybeOptional< DVec2 > const & x );
+	MaybeOptional< DVec3 > smoothStep( MaybeOptional< DVec3 > const & edge0, MaybeOptional< DVec3 > const & edge1, MaybeOptional< DVec3 > const & x );
+	MaybeOptional< DVec4 > smoothStep( MaybeOptional< DVec4 > const & edge0, MaybeOptional< DVec4 > const & edge1, MaybeOptional< DVec4 > const & x );
+	MaybeOptional< DVec2 > smoothStep( MaybeOptional< Double > const & edge0, MaybeOptional< Double > const & edge1, MaybeOptional< DVec2 > const & x );
+	MaybeOptional< DVec3 > smoothStep( MaybeOptional< Double > const & edge0, MaybeOptional< Double > const & edge1, MaybeOptional< DVec3 > const & x );
+	MaybeOptional< DVec4 > smoothStep( MaybeOptional< Double > const & edge0, MaybeOptional< Double > const & edge1, MaybeOptional< DVec4 > const & x );
 	/**@}*/
 #pragma endregion
 #pragma region isnan
@@ -648,14 +649,14 @@ namespace sdw
 	*	isnan
 	*/
 	/**@{*/
-	Boolean isnan( Float const & x );
-	BVec2 isnan( Vec2 const & x );
-	BVec3 isnan( Vec3 const & x );
-	BVec4 isnan( Vec4 const & x );
-	Boolean isnan( Double const & x );
-	BVec2 isnan( DVec2 const & x );
-	BVec3 isnan( DVec3 const & x );
-	BVec4 isnan( DVec4 const & x );
+	MaybeOptional< Boolean > isnan( MaybeOptional< Float > const & x );
+	MaybeOptional< BVec2 > isnan( MaybeOptional< Vec2 > const & x );
+	MaybeOptional< BVec3 > isnan( MaybeOptional< Vec3 > const & x );
+	MaybeOptional< BVec4 > isnan( MaybeOptional< Vec4 > const & x );
+	MaybeOptional< Boolean > isnan( MaybeOptional< Double > const & x );
+	MaybeOptional< BVec2 > isnan( MaybeOptional< DVec2 > const & x );
+	MaybeOptional< BVec3 > isnan( MaybeOptional< DVec3 > const & x );
+	MaybeOptional< BVec4 > isnan( MaybeOptional< DVec4 > const & x );
 	/**@}*/
 #pragma endregion
 #pragma region isinf
@@ -664,14 +665,14 @@ namespace sdw
 	*	isinf
 	*/
 	/**@{*/
-	Boolean isinf( Float const & x );
-	BVec2 isinf( Vec2 const & x );
-	BVec3 isinf( Vec3 const & x );
-	BVec4 isinf( Vec4 const & x );
-	Boolean isinf( Double const & x );
-	BVec2 isinf( DVec2 const & x );
-	BVec3 isinf( DVec3 const & x );
-	BVec4 isinf( DVec4 const & x );
+	MaybeOptional< Boolean > isinf( MaybeOptional< Float > const & x );
+	MaybeOptional< BVec2 > isinf( MaybeOptional< Vec2 > const & x );
+	MaybeOptional< BVec3 > isinf( MaybeOptional< Vec3 > const & x );
+	MaybeOptional< BVec4 > isinf( MaybeOptional< Vec4 > const & x );
+	MaybeOptional< Boolean > isinf( MaybeOptional< Double > const & x );
+	MaybeOptional< BVec2 > isinf( MaybeOptional< DVec2 > const & x );
+	MaybeOptional< BVec3 > isinf( MaybeOptional< DVec3 > const & x );
+	MaybeOptional< BVec4 > isinf( MaybeOptional< DVec4 > const & x );
 	/**@}*/
 #pragma endregion
 #pragma region floatBitsToInt
@@ -680,10 +681,10 @@ namespace sdw
 	*	floatBitsToInt
 	*/
 	/**@{*/
-	Int floatBitsToInt( Float const & value );
-	IVec2 floatBitsToInt( Vec2 const & value );
-	IVec3 floatBitsToInt( Vec3 const & value );
-	IVec4 floatBitsToInt( Vec4 const & value );
+	MaybeOptional< Int > floatBitsToInt( MaybeOptional< Float > const & value );
+	MaybeOptional< IVec2 > floatBitsToInt( MaybeOptional< Vec2 > const & value );
+	MaybeOptional< IVec3 > floatBitsToInt( MaybeOptional< Vec3 > const & value );
+	MaybeOptional< IVec4 > floatBitsToInt( MaybeOptional< Vec4 > const & value );
 	/**@}*/
 #pragma endregion
 #pragma region floatBitsToUInt
@@ -692,10 +693,10 @@ namespace sdw
 	*	floatBitsToUInt
 	*/
 	/**@{*/
-	UInt floatBitsToUInt( Float const & value );
-	UVec2 floatBitsToUInt( Vec2 const & value );
-	UVec3 floatBitsToUInt( Vec3 const & value );
-	UVec4 floatBitsToUInt( Vec4 const & value );
+	MaybeOptional< UInt > floatBitsToUInt( MaybeOptional< Float > const & value );
+	MaybeOptional< UVec2 > floatBitsToUInt( MaybeOptional< Vec2 > const & value );
+	MaybeOptional< UVec3 > floatBitsToUInt( MaybeOptional< Vec3 > const & value );
+	MaybeOptional< UVec4 > floatBitsToUInt( MaybeOptional< Vec4 > const & value );
 	/**@}*/
 #pragma endregion
 #pragma region intBitsToFloat
@@ -704,10 +705,10 @@ namespace sdw
 	*	intBitsToFloat
 	*/
 	/**@{*/
-	Float intBitsToFloat( Int const & x );
-	Vec2 intBitsToFloat( IVec2 const & x );
-	Vec3 intBitsToFloat( IVec3 const & x );
-	Vec4 intBitsToFloat( IVec4 const & x );
+	MaybeOptional< Float > intBitsToFloat( MaybeOptional< Int > const & x );
+	MaybeOptional< Vec2 > intBitsToFloat( MaybeOptional< IVec2 > const & x );
+	MaybeOptional< Vec3 > intBitsToFloat( MaybeOptional< IVec3 > const & x );
+	MaybeOptional< Vec4 > intBitsToFloat( MaybeOptional< IVec4 > const & x );
 	/**@}*/
 #pragma endregion
 #pragma region uintBitsToFloat
@@ -716,10 +717,10 @@ namespace sdw
 	*	uintBitsToFloat
 	*/
 	/**@{*/
-	Float uintBitsToFloat( UInt const & x );
-	Vec2 uintBitsToFloat( UVec2 const & x );
-	Vec3 uintBitsToFloat( UVec3 const & x );
-	Vec4 uintBitsToFloat( UVec4 const & x );
+	MaybeOptional< Float > uintBitsToFloat( MaybeOptional< UInt > const & x );
+	MaybeOptional< Vec2 > uintBitsToFloat( MaybeOptional< UVec2 > const & x );
+	MaybeOptional< Vec3 > uintBitsToFloat( MaybeOptional< UVec3 > const & x );
+	MaybeOptional< Vec4 > uintBitsToFloat( MaybeOptional< UVec4 > const & x );
 	/**@}*/
 #pragma endregion
 #pragma region fma
@@ -728,14 +729,14 @@ namespace sdw
 	*	fma
 	*/
 	/**@{*/
-	Float fma( Float const & a, Float const & b, Float const & c );
-	Vec2 fma( Vec2 const & a, Vec2 const & b, Vec2 const & c );
-	Vec3 fma( Vec3 const & a, Vec3 const & b, Vec3 const & c );
-	Vec4 fma( Vec4 const & a, Vec4 const & b, Vec4 const & c );
-	Double fma( Double const & a, Double const & b, Double const & c );
-	DVec2 fma( DVec2 const & a, DVec2 const & b, DVec2 const & c );
-	DVec3 fma( DVec3 const & a, DVec3 const & b, DVec3 const & c );
-	DVec4 fma( DVec4 const & a, DVec4 const & b, DVec4 const & c );
+	MaybeOptional< Float > fma( MaybeOptional< Float > const & a, MaybeOptional< Float > const & b, MaybeOptional< Float > const & c );
+	MaybeOptional< Vec2 > fma( MaybeOptional< Vec2 > const & a, MaybeOptional< Vec2 > const & b, MaybeOptional< Vec2 > const & c );
+	MaybeOptional< Vec3 > fma( MaybeOptional< Vec3 > const & a, MaybeOptional< Vec3 > const & b, MaybeOptional< Vec3 > const & c );
+	MaybeOptional< Vec4 > fma( MaybeOptional< Vec4 > const & a, MaybeOptional< Vec4 > const & b, MaybeOptional< Vec4 > const & c );
+	MaybeOptional< Double > fma( MaybeOptional< Double > const & a, MaybeOptional< Double > const & b, MaybeOptional< Double > const & c );
+	MaybeOptional< DVec2 > fma( MaybeOptional< DVec2 > const & a, MaybeOptional< DVec2 > const & b, MaybeOptional< DVec2 > const & c );
+	MaybeOptional< DVec3 > fma( MaybeOptional< DVec3 > const & a, MaybeOptional< DVec3 > const & b, MaybeOptional< DVec3 > const & c );
+	MaybeOptional< DVec4 > fma( MaybeOptional< DVec4 > const & a, MaybeOptional< DVec4 > const & b, MaybeOptional< DVec4 > const & c );
 	/**@}*/
 #pragma endregion
 #pragma region frexp
@@ -744,14 +745,14 @@ namespace sdw
 	*	frexp
 	*/
 	/**@{*/
-	Float frexp( Float const & x, Int const & exp );
-	Vec2 frexp( Vec2 const & x, IVec2 const & exp );
-	Vec3 frexp( Vec3 const & x, IVec3 const & exp );
-	Vec4 frexp( Vec4 const & x, IVec4 const & exp );
-	Double frexp( Double const & x, Int const & exp );
-	DVec2 frexp( DVec2 const & x, IVec2 const & exp );
-	DVec3 frexp( DVec3 const & x, IVec3 const & exp );
-	DVec4 frexp( DVec4 const & x, IVec4 const & exp );
+	MaybeOptional< Float > frexp( MaybeOptional< Float > const & x, MaybeOptional< Int > const & exp );
+	MaybeOptional< Vec2 > frexp( MaybeOptional< Vec2 > const & x, MaybeOptional< IVec2 > const & exp );
+	MaybeOptional< Vec3 > frexp( MaybeOptional< Vec3 > const & x, MaybeOptional< IVec3 > const & exp );
+	MaybeOptional< Vec4 > frexp( MaybeOptional< Vec4 > const & x, MaybeOptional< IVec4 > const & exp );
+	MaybeOptional< Double > frexp( MaybeOptional< Double > const & x, MaybeOptional< Int > const & exp );
+	MaybeOptional< DVec2 > frexp( MaybeOptional< DVec2 > const & x, MaybeOptional< IVec2 > const & exp );
+	MaybeOptional< DVec3 > frexp( MaybeOptional< DVec3 > const & x, MaybeOptional< IVec3 > const & exp );
+	MaybeOptional< DVec4 > frexp( MaybeOptional< DVec4 > const & x, MaybeOptional< IVec4 > const & exp );
 	/**@}*/
 #pragma endregion
 #pragma region ldexp
@@ -760,14 +761,14 @@ namespace sdw
 	*	ldexp
 	*/
 	/**@{*/
-	Float ldexp( Float const & x, Int const & exp );
-	Vec2 ldexp( Vec2 const & x, IVec2 const & exp );
-	Vec3 ldexp( Vec3 const & x, IVec3 const & exp );
-	Vec4 ldexp( Vec4 const & x, IVec4 const & exp );
-	Double ldexp( Double const & x, Int const & exp );
-	DVec2 ldexp( DVec2 const & x, IVec2 const & exp );
-	DVec3 ldexp( DVec3 const & x, IVec3 const & exp );
-	DVec4 ldexp( DVec4 const & x, IVec4 const & exp );
+	MaybeOptional< Float > ldexp( MaybeOptional< Float > const & x, MaybeOptional< Int > const & exp );
+	MaybeOptional< Vec2 > ldexp( MaybeOptional< Vec2 > const & x, MaybeOptional< IVec2 > const & exp );
+	MaybeOptional< Vec3 > ldexp( MaybeOptional< Vec3 > const & x, MaybeOptional< IVec3 > const & exp );
+	MaybeOptional< Vec4 > ldexp( MaybeOptional< Vec4 > const & x, MaybeOptional< IVec4 > const & exp );
+	MaybeOptional< Double > ldexp( MaybeOptional< Double > const & x, MaybeOptional< Int > const & exp );
+	MaybeOptional< DVec2 > ldexp( MaybeOptional< DVec2 > const & x, MaybeOptional< IVec2 > const & exp );
+	MaybeOptional< DVec3 > ldexp( MaybeOptional< DVec3 > const & x, MaybeOptional< IVec3 > const & exp );
+	MaybeOptional< DVec4 > ldexp( MaybeOptional< DVec4 > const & x, MaybeOptional< IVec4 > const & exp );
 	/**@}*/
 #pragma endregion
 #pragma region packDouble2x32
@@ -776,7 +777,7 @@ namespace sdw
 	*	packDouble2x32
 	*/
 	/**@{*/
-	Double packDouble2x32( UVec2 const & v );
+	MaybeOptional< Double > packDouble2x32( MaybeOptional< UVec2 > const & v );
 	/**@}*/
 #pragma endregion
 #pragma region packHalf2x16
@@ -785,7 +786,7 @@ namespace sdw
 	*	packHalf2x16
 	*/
 	/**@{*/
-	UInt packHalf2x16( Vec2 const & v );
+	MaybeOptional< UInt > packHalf2x16( MaybeOptional< Vec2 > const & v );
 	/**@}*/
 #pragma endregion
 #pragma region packSnorm2x16
@@ -794,7 +795,7 @@ namespace sdw
 	*	packSnorm2x16
 	*/
 	/**@{*/
-	UInt packSnorm2x16( Vec2 const & v );
+	MaybeOptional< UInt > packSnorm2x16( MaybeOptional< Vec2 > const & v );
 	/**@}*/
 #pragma endregion
 #pragma region packSnorm4x8
@@ -803,7 +804,7 @@ namespace sdw
 	*	packSnorm4x8
 	*/
 	/**@{*/
-	UInt packSnorm4x8( Vec4 const & v );
+	MaybeOptional< UInt > packSnorm4x8( MaybeOptional< Vec4 > const & v );
 	/**@}*/
 #pragma endregion
 #pragma region packUnorm2x16
@@ -812,7 +813,7 @@ namespace sdw
 	*	packUnorm2x16
 	*/
 	/**@{*/
-	UInt packUnorm2x16( Vec2 const & v );
+	MaybeOptional< UInt > packUnorm2x16( MaybeOptional< Vec2 > const & v );
 	/**@}*/
 #pragma endregion
 #pragma region packUnorm4x8
@@ -821,7 +822,7 @@ namespace sdw
 	*	packUnorm4x8
 	*/
 	/**@{*/
-	UInt packUnorm4x8( Vec4 const & v );
+	MaybeOptional< UInt > packUnorm4x8( MaybeOptional< Vec4 > const & v );
 	/**@}*/
 #pragma endregion
 #pragma region unpackDouble2x32
@@ -830,7 +831,7 @@ namespace sdw
 	*	unpackDouble2x32
 	*/
 	/**@{*/
-	UVec2 unpackDouble2x32( Double const & d );
+	MaybeOptional< UVec2 > unpackDouble2x32( MaybeOptional< Double > const & d );
 	/**@}*/
 #pragma endregion
 #pragma region unpackHalf2x16
@@ -839,7 +840,7 @@ namespace sdw
 	*	unpackHalf2x16
 	*/
 	/**@{*/
-	Vec2 unpackHalf2x16( UInt const & v );
+	MaybeOptional< Vec2 > unpackHalf2x16( MaybeOptional< UInt > const & v );
 	/**@}*/
 #pragma endregion
 #pragma region unpackSnorm2x16
@@ -848,7 +849,7 @@ namespace sdw
 	*	unpackSnorm2x16
 	*/
 	/**@{*/
-	Vec2 unpackSnorm2x16( UInt const & p );
+	MaybeOptional< Vec2 > unpackSnorm2x16( MaybeOptional< UInt > const & p );
 	/**@}*/
 #pragma endregion
 #pragma region unpackSnorm4x8
@@ -857,7 +858,7 @@ namespace sdw
 	*	unpackSnorm4x8
 	*/
 	/**@{*/
-	Vec4 unpackSnorm4x8( UInt const & p );
+	MaybeOptional< Vec4 > unpackSnorm4x8( MaybeOptional< UInt > const & p );
 	/**@}*/
 #pragma endregion
 #pragma region unpackUnorm2x16
@@ -866,7 +867,7 @@ namespace sdw
 	*	unpackUnorm2x16
 	*/
 	/**@{*/
-	Vec2 unpackUnorm2x16( UInt const & p );
+	MaybeOptional< Vec2 > unpackUnorm2x16( MaybeOptional< UInt > const & p );
 	/**@}*/
 #pragma endregion
 #pragma region unpackUnorm4x8
@@ -875,7 +876,7 @@ namespace sdw
 	*	unpackUnorm4x8
 	*/
 	/**@{*/
-	Vec4 unpackUnorm4x8( UInt const & p );
+	MaybeOptional< Vec4 > unpackUnorm4x8( MaybeOptional< UInt > const & p );
 	/**@}*/
 #pragma endregion
 #pragma region length
@@ -884,14 +885,14 @@ namespace sdw
 	*	length
 	*/
 	/**@{*/
-	Float length( Float const & x );
-	Float length( Vec2 const & x );
-	Float length( Vec3 const & x );
-	Float length( Vec4 const & x );
-	Double length( Double const & x );
-	Double length( DVec2 const & x );
-	Double length( DVec3 const & x );
-	Double length( DVec4 const & x );
+	MaybeOptional< Float > length( MaybeOptional< Float > const & x );
+	MaybeOptional< Float > length( MaybeOptional< Vec2 > const & x );
+	MaybeOptional< Float > length( MaybeOptional< Vec3 > const & x );
+	MaybeOptional< Float > length( MaybeOptional< Vec4 > const & x );
+	MaybeOptional< Double > length( MaybeOptional< Double > const & x );
+	MaybeOptional< Double > length( MaybeOptional< DVec2 > const & x );
+	MaybeOptional< Double > length( MaybeOptional< DVec3 > const & x );
+	MaybeOptional< Double > length( MaybeOptional< DVec4 > const & x );
 	/**@}*/
 #pragma endregion
 #pragma region distance
@@ -900,14 +901,14 @@ namespace sdw
 	*	distance
 	*/
 	/**@{*/
-	Float distance( Float const & p0, Float const & p1 );
-	Vec2 distance( Vec2 const & p0, Vec2 const & p1 );
-	Vec3 distance( Vec3 const & p0, Vec3 const & p1 );
-	Vec4 distance( Vec4 const & p0, Vec4 const & p1 );
-	Double distance( Double const & p0, Double const & p1 );
-	Double distance( DVec2 const & p0, DVec2 const & p1 );
-	Double distance( DVec3 const & p0, DVec3 const & p1 );
-	Double distance( DVec4 const & p0, DVec4 const & p1 );
+	MaybeOptional< Float > distance( MaybeOptional< Float > const & p0, MaybeOptional< Float > const & p1 );
+	MaybeOptional< Vec2 > distance( MaybeOptional< Vec2 > const & p0, MaybeOptional< Vec2 > const & p1 );
+	MaybeOptional< Vec3 > distance( MaybeOptional< Vec3 > const & p0, MaybeOptional< Vec3 > const & p1 );
+	MaybeOptional< Vec4 > distance( MaybeOptional< Vec4 > const & p0, MaybeOptional< Vec4 > const & p1 );
+	MaybeOptional< Double > distance( MaybeOptional< Double > const & p0, MaybeOptional< Double > const & p1 );
+	MaybeOptional< Double > distance( MaybeOptional< DVec2 > const & p0, MaybeOptional< DVec2 > const & p1 );
+	MaybeOptional< Double > distance( MaybeOptional< DVec3 > const & p0, MaybeOptional< DVec3 > const & p1 );
+	MaybeOptional< Double > distance( MaybeOptional< DVec4 > const & p0, MaybeOptional< DVec4 > const & p1 );
 	/**@}*/
 #pragma endregion
 #pragma region dot
@@ -916,14 +917,14 @@ namespace sdw
 	*	dot
 	*/
 	/**@{*/
-	Float dot( Float const & x, Float const & y );
-	Float dot( Vec2 const & x, Vec2 const & y );
-	Float dot( Vec3 const & x, Vec3 const & y );
-	Float dot( Vec4 const & x, Vec4 const & y );
-	Double dot( Double const & x, Double const & y );
-	Double dot( DVec2 const & x, DVec2 const & y );
-	Double dot( DVec3 const & x, DVec3 const & y );
-	Double dot( DVec4 const & x, DVec4 const & y );
+	MaybeOptional< Float > dot( MaybeOptional< Float > const & x, MaybeOptional< Float > const & y );
+	MaybeOptional< Float > dot( MaybeOptional< Vec2 > const & x, MaybeOptional< Vec2 > const & y );
+	MaybeOptional< Float > dot( MaybeOptional< Vec3 > const & x, MaybeOptional< Vec3 > const & y );
+	MaybeOptional< Float > dot( MaybeOptional< Vec4 > const & x, MaybeOptional< Vec4 > const & y );
+	MaybeOptional< Double > dot( MaybeOptional< Double > const & x, MaybeOptional< Double > const & y );
+	MaybeOptional< Double > dot( MaybeOptional< DVec2 > const & x, MaybeOptional< DVec2 > const & y );
+	MaybeOptional< Double > dot( MaybeOptional< DVec3 > const & x, MaybeOptional< DVec3 > const & y );
+	MaybeOptional< Double > dot( MaybeOptional< DVec4 > const & x, MaybeOptional< DVec4 > const & y );
 	/**@}*/
 #pragma endregion
 #pragma region cross
@@ -932,8 +933,8 @@ namespace sdw
 	*	cross
 	*/
 	/**@{*/
-	Vec3 cross( Vec3 const & x, Vec3 const & y );
-	DVec3 cross( DVec3 const & x, DVec3 const & y );
+	MaybeOptional< Vec3 > cross( MaybeOptional< Vec3 > const & x, MaybeOptional< Vec3 > const & y );
+	MaybeOptional< DVec3 > cross( MaybeOptional< DVec3 > const & x, MaybeOptional< DVec3 > const & y );
 	/**@}*/
 #pragma endregion
 #pragma region normalize
@@ -942,14 +943,14 @@ namespace sdw
 	*	normalize
 	*/
 	/**@{*/
-	Float normalize( Float const & x );
-	Vec2 normalize( Vec2 const & x );
-	Vec3 normalize( Vec3 const & x );
-	Vec4 normalize( Vec4 const & x );
-	Double normalize( Double const & x );
-	DVec2 normalize( DVec2 const & x );
-	DVec3 normalize( DVec3 const & x );
-	DVec4 normalize( DVec4 const & x );
+	MaybeOptional< Float > normalize( MaybeOptional< Float > const & x );
+	MaybeOptional< Vec2 > normalize( MaybeOptional< Vec2 > const & x );
+	MaybeOptional< Vec3 > normalize( MaybeOptional< Vec3 > const & x );
+	MaybeOptional< Vec4 > normalize( MaybeOptional< Vec4 > const & x );
+	MaybeOptional< Double > normalize( MaybeOptional< Double > const & x );
+	MaybeOptional< DVec2 > normalize( MaybeOptional< DVec2 > const & x );
+	MaybeOptional< DVec3 > normalize( MaybeOptional< DVec3 > const & x );
+	MaybeOptional< DVec4 > normalize( MaybeOptional< DVec4 > const & x );
 	/**@}*/
 #pragma endregion
 #pragma region faceForward
@@ -958,14 +959,14 @@ namespace sdw
 	*	faceForward
 	*/
 	/**@{*/
-	Float faceForward( Float const & N, Float const & I, Float const & Nref );
-	Vec2 faceForward( Vec2 const & N, Vec2 const & I, Vec2 const & Nref );
-	Vec3 faceForward( Vec3 const & N, Vec3 const & I, Vec3 const & Nref );
-	Vec4 faceForward( Vec4 const & N, Vec4 const & I, Vec4 const & Nref );
-	Double faceForward( Double const & N, Double const & I, Double const & Nref );
-	DVec2 faceForward( DVec2 const & N, DVec2 const & I, DVec2 const & Nref );
-	DVec3 faceForward( DVec3 const & N, DVec3 const & I, DVec3 const & Nref );
-	DVec4 faceForward( DVec4 const & N, DVec4 const & I, DVec4 const & Nref );
+	MaybeOptional< Float > faceForward( MaybeOptional< Float > const & N, MaybeOptional< Float > const & I, MaybeOptional< Float > const & Nref );
+	MaybeOptional< Vec2 > faceForward( MaybeOptional< Vec2 > const & N, MaybeOptional< Vec2 > const & I, MaybeOptional< Vec2 > const & Nref );
+	MaybeOptional< Vec3 > faceForward( MaybeOptional< Vec3 > const & N, MaybeOptional< Vec3 > const & I, MaybeOptional< Vec3 > const & Nref );
+	MaybeOptional< Vec4 > faceForward( MaybeOptional< Vec4 > const & N, MaybeOptional< Vec4 > const & I, MaybeOptional< Vec4 > const & Nref );
+	MaybeOptional< Double > faceForward( MaybeOptional< Double > const & N, MaybeOptional< Double > const & I, MaybeOptional< Double > const & Nref );
+	MaybeOptional< DVec2 > faceForward( MaybeOptional< DVec2 > const & N, MaybeOptional< DVec2 > const & I, MaybeOptional< DVec2 > const & Nref );
+	MaybeOptional< DVec3 > faceForward( MaybeOptional< DVec3 > const & N, MaybeOptional< DVec3 > const & I, MaybeOptional< DVec3 > const & Nref );
+	MaybeOptional< DVec4 > faceForward( MaybeOptional< DVec4 > const & N, MaybeOptional< DVec4 > const & I, MaybeOptional< DVec4 > const & Nref );
 	/**@}*/
 #pragma endregion
 #pragma region reflect
@@ -974,14 +975,14 @@ namespace sdw
 	*	reflect
 	*/
 	/**@{*/
-	Float reflect( Float const & I, Float const & N );
-	Vec2 reflect( Vec2 const & I, Vec2 const & N );
-	Vec3 reflect( Vec3 const & I, Vec3 const & N );
-	Vec4 reflect( Vec4 const & I, Vec4 const & N );
-	Double reflect( Float const & I, Double const & N );
-	DVec2 reflect( DVec2 const & I, DVec2 const & N );
-	DVec3 reflect( DVec3 const & I, DVec3 const & N );
-	DVec4 reflect( DVec4 const & I, DVec4 const & N );
+	MaybeOptional< Float > reflect( MaybeOptional< Float > const & I, MaybeOptional< Float > const & N );
+	MaybeOptional< Vec2 > reflect( MaybeOptional< Vec2 > const & I, MaybeOptional< Vec2 > const & N );
+	MaybeOptional< Vec3 > reflect( MaybeOptional< Vec3 > const & I, MaybeOptional< Vec3 > const & N );
+	MaybeOptional< Vec4 > reflect( MaybeOptional< Vec4 > const & I, MaybeOptional< Vec4 > const & N );
+	MaybeOptional< Double > reflect( MaybeOptional< Float > const & I, MaybeOptional< Double > const & N );
+	MaybeOptional< DVec2 > reflect( MaybeOptional< DVec2 > const & I, MaybeOptional< DVec2 > const & N );
+	MaybeOptional< DVec3 > reflect( MaybeOptional< DVec3 > const & I, MaybeOptional< DVec3 > const & N );
+	MaybeOptional< DVec4 > reflect( MaybeOptional< DVec4 > const & I, MaybeOptional< DVec4 > const & N );
 	/**@}*/
 #pragma endregion
 #pragma region refract
@@ -990,14 +991,14 @@ namespace sdw
 	*	refract
 	*/
 	/**@{*/
-	Float refract( Float const & I, Float const & N );
-	Vec2 refract( Vec2 const & I, Vec2 const & N );
-	Vec3 refract( Vec3 const & I, Vec3 const & N );
-	Vec4 refract( Vec4 const & I, Vec4 const & N );
-	Double refract( Double const & I, Double const & N );
-	DVec2 refract( DVec2 const & I, DVec2 const & N );
-	DVec3 refract( DVec3 const & I, DVec3 const & N );
-	DVec4 refract( DVec4 const & I, DVec4 const & N );
+	MaybeOptional< Float > refract( MaybeOptional< Float > const & I, MaybeOptional< Float > const & N );
+	MaybeOptional< Vec2 > refract( MaybeOptional< Vec2 > const & I, MaybeOptional< Vec2 > const & N );
+	MaybeOptional< Vec3 > refract( MaybeOptional< Vec3 > const & I, MaybeOptional< Vec3 > const & N );
+	MaybeOptional< Vec4 > refract( MaybeOptional< Vec4 > const & I, MaybeOptional< Vec4 > const & N );
+	MaybeOptional< Double > refract( MaybeOptional< Double > const & I, MaybeOptional< Double > const & N );
+	MaybeOptional< DVec2 > refract( MaybeOptional< DVec2 > const & I, MaybeOptional< DVec2 > const & N );
+	MaybeOptional< DVec3 > refract( MaybeOptional< DVec3 > const & I, MaybeOptional< DVec3 > const & N );
+	MaybeOptional< DVec4 > refract( MaybeOptional< DVec4 > const & I, MaybeOptional< DVec4 > const & N );
 	/**@}*/
 #pragma endregion
 #pragma region matrixCompMult
@@ -1006,24 +1007,24 @@ namespace sdw
 	*	matrixCompMult
 	*/
 	/**@{*/
-	Mat2 matrixCompMult( Mat2 const & x, Mat2 const & y );
-	Mat2x3 matrixCompMult( Mat2x3 const & x, Mat2x3 const & y );
-	Mat2x4 matrixCompMult( Mat2x4 const & x, Mat2x4 const & y );
-	Mat3x2 matrixCompMult( Mat3x2 const & x, Mat3x2 const & y );
-	Mat3 matrixCompMult( Mat3 const & x, Mat3 const & y );
-	Mat3x4 matrixCompMult( Mat3x4 const & x, Mat3x4 const & y );
-	Mat4x2 matrixCompMult( Mat4x2 const & x, Mat4x2 const & y );
-	Mat4x3 matrixCompMult( Mat4x3 const & x, Mat4x3 const & y );
-	Mat4 matrixCompMult( Mat4 const & x, Mat4 const & y );
-	DMat2 matrixCompMult( DMat2 const & x, DMat2 const & y );
-	DMat2x3 matrixCompMult( DMat2x3 const & x, DMat2x3 const & y );
-	DMat2x4 matrixCompMult( DMat2x4 const & x, DMat2x4 const & y );
-	DMat3x2 matrixCompMult( DMat3x2 const & x, DMat3x2 const & y );
-	DMat3 matrixCompMult( DMat3 const & x, DMat3 const & y );
-	DMat3x4 matrixCompMult( DMat3x4 const & x, DMat3x4 const & y );
-	DMat4x2 matrixCompMult( DMat4x2 const & x, DMat4x2 const & y );
-	DMat4x3 matrixCompMult( DMat4x3 const & x, DMat4x3 const & y );
-	DMat4 matrixCompMult( DMat4 const & x, DMat4 const & y );
+	MaybeOptional< Mat2 > matrixCompMult( MaybeOptional< Mat2 > const & x, MaybeOptional< Mat2 > const & y );
+	MaybeOptional< Mat2x3 > matrixCompMult( MaybeOptional< Mat2x3 > const & x, MaybeOptional< Mat2x3 > const & y );
+	MaybeOptional< Mat2x4 > matrixCompMult( MaybeOptional< Mat2x4 > const & x, MaybeOptional< Mat2x4 > const & y );
+	MaybeOptional< Mat3x2 > matrixCompMult( MaybeOptional< Mat3x2 > const & x, MaybeOptional< Mat3x2 > const & y );
+	MaybeOptional< Mat3 > matrixCompMult( MaybeOptional< Mat3 > const & x, MaybeOptional< Mat3 > const & y );
+	MaybeOptional< Mat3x4 > matrixCompMult( MaybeOptional< Mat3x4 > const & x, MaybeOptional< Mat3x4 > const & y );
+	MaybeOptional< Mat4x2 > matrixCompMult( MaybeOptional< Mat4x2 > const & x, MaybeOptional< Mat4x2 > const & y );
+	MaybeOptional< Mat4x3 > matrixCompMult( MaybeOptional< Mat4x3 > const & x, MaybeOptional< Mat4x3 > const & y );
+	MaybeOptional< Mat4 > matrixCompMult( MaybeOptional< Mat4 > const & x, MaybeOptional< Mat4 > const & y );
+	MaybeOptional< DMat2 > matrixCompMult( MaybeOptional< DMat2 > const & x, MaybeOptional< DMat2 > const & y );
+	MaybeOptional< DMat2x3 > matrixCompMult( MaybeOptional< DMat2x3 > const & x, MaybeOptional< DMat2x3 > const & y );
+	MaybeOptional< DMat2x4 > matrixCompMult( MaybeOptional< DMat2x4 > const & x, MaybeOptional< DMat2x4 > const & y );
+	MaybeOptional< DMat3x2 > matrixCompMult( MaybeOptional< DMat3x2 > const & x, MaybeOptional< DMat3x2 > const & y );
+	MaybeOptional< DMat3 > matrixCompMult( MaybeOptional< DMat3 > const & x, MaybeOptional< DMat3 > const & y );
+	MaybeOptional< DMat3x4 > matrixCompMult( MaybeOptional< DMat3x4 > const & x, MaybeOptional< DMat3x4 > const & y );
+	MaybeOptional< DMat4x2 > matrixCompMult( MaybeOptional< DMat4x2 > const & x, MaybeOptional< DMat4x2 > const & y );
+	MaybeOptional< DMat4x3 > matrixCompMult( MaybeOptional< DMat4x3 > const & x, MaybeOptional< DMat4x3 > const & y );
+	MaybeOptional< DMat4 > matrixCompMult( MaybeOptional< DMat4 > const & x, MaybeOptional< DMat4 > const & y );
 	/**@}*/
 #pragma endregion
 #pragma region outerProduct
@@ -1032,24 +1033,24 @@ namespace sdw
 	*	outerProduct
 	*/
 	/**@{*/
-	Mat2 outerProduct( Vec2 const & c, Vec2 const & r );
-	Mat3 outerProduct( Vec3 const & c, Vec3 const & r );
-	Mat4 outerProduct( Vec4 const & c, Vec4 const & r );
-	Mat2x3 outerProduct( Vec3 const & c, Vec2 const & r );
-	Mat3x2 outerProduct( Vec2 const & c, Vec3 const & r );
-	Mat2x4 outerProduct( Vec4 const & c, Vec2 const & r );
-	Mat4x2 outerProduct( Vec2 const & c, Vec4 const & r );
-	Mat3x4 outerProduct( Vec4 const & c, Vec3 const & r );
-	Mat4x3 outerProduct( Vec3 const & c, Vec4 const & r );
-	DMat2 outerProduct( DVec2 const & c, DVec2 const & r );
-	DMat3 outerProduct( DVec3 const & c, DVec3 const & r );
-	DMat4 outerProduct( DVec4 const & c, DVec4 const & r );
-	DMat2x3 outerProduct( DVec3 const & c, DVec2 const & r );
-	DMat3x2 outerProduct( DVec2 const & c, DVec3 const & r );
-	DMat2x4 outerProduct( DVec4 const & c, DVec2 const & r );
-	DMat4x2 outerProduct( DVec2 const & c, DVec4 const & r );
-	DMat3x4 outerProduct( DVec4 const & c, DVec3 const & r );
-	DMat4x3 outerProduct( DVec3 const & c, DVec4 const & r );
+	MaybeOptional< Mat2 > outerProduct( MaybeOptional< Vec2 > const & c, MaybeOptional< Vec2 > const & r );
+	MaybeOptional< Mat3 > outerProduct( MaybeOptional< Vec3 > const & c, MaybeOptional< Vec3 > const & r );
+	MaybeOptional< Mat4 > outerProduct( MaybeOptional< Vec4 > const & c, MaybeOptional< Vec4 > const & r );
+	MaybeOptional< Mat2x3 > outerProduct( MaybeOptional< Vec3 > const & c, MaybeOptional< Vec2 > const & r );
+	MaybeOptional< Mat3x2 > outerProduct( MaybeOptional< Vec2 > const & c, MaybeOptional< Vec3 > const & r );
+	MaybeOptional< Mat2x4 > outerProduct( MaybeOptional< Vec4 > const & c, MaybeOptional< Vec2 > const & r );
+	MaybeOptional< Mat4x2 > outerProduct( MaybeOptional< Vec2 > const & c, MaybeOptional< Vec4 > const & r );
+	MaybeOptional< Mat3x4 > outerProduct( MaybeOptional< Vec4 > const & c, MaybeOptional< Vec3 > const & r );
+	MaybeOptional< Mat4x3 > outerProduct( MaybeOptional< Vec3 > const & c, MaybeOptional< Vec4 > const & r );
+	MaybeOptional< DMat2 > outerProduct( MaybeOptional< DVec2 > const & c, MaybeOptional< DVec2 > const & r );
+	MaybeOptional< DMat3 > outerProduct( MaybeOptional< DVec3 > const & c, MaybeOptional< DVec3 > const & r );
+	MaybeOptional< DMat4 > outerProduct( MaybeOptional< DVec4 > const & c, MaybeOptional< DVec4 > const & r );
+	MaybeOptional< DMat2x3 > outerProduct( MaybeOptional< DVec3 > const & c, MaybeOptional< DVec2 > const & r );
+	MaybeOptional< DMat3x2 > outerProduct( MaybeOptional< DVec2 > const & c, MaybeOptional< DVec3 > const & r );
+	MaybeOptional< DMat2x4 > outerProduct( MaybeOptional< DVec4 > const & c, MaybeOptional< DVec2 > const & r );
+	MaybeOptional< DMat4x2 > outerProduct( MaybeOptional< DVec2 > const & c, MaybeOptional< DVec4 > const & r );
+	MaybeOptional< DMat3x4 > outerProduct( MaybeOptional< DVec4 > const & c, MaybeOptional< DVec3 > const & r );
+	MaybeOptional< DMat4x3 > outerProduct( MaybeOptional< DVec3 > const & c, MaybeOptional< DVec4 > const & r );
 	/**@}*/
 #pragma endregion
 #pragma region transpose
@@ -1058,24 +1059,24 @@ namespace sdw
 	*	transpose
 	*/
 	/**@{*/
-	Mat2 transpose( Mat2 const & x );
-	Mat3x2 transpose( Mat2x3 const & x );
-	Mat4x2 transpose( Mat2x4 const & x );
-	Mat2x3 transpose( Mat3x2 const & x );
-	Mat3 transpose( Mat3 const & x );
-	Mat4x3 transpose( Mat3x4 const & x );
-	Mat2x4 transpose( Mat4x2 const & x );
-	Mat3x4 transpose( Mat4x3 const & x );
-	Mat4 transpose( Mat4 const & x );
-	DMat2 transpose( DMat2 const & x );
-	DMat3x2 transpose( DMat2x3 const & x );
-	DMat4x2 transpose( DMat2x4 const & x );
-	DMat2x3 transpose( DMat3x2 const & x );
-	DMat3 transpose( DMat3 const & x );
-	DMat4x3 transpose( DMat3x4 const & x );
-	DMat2x4 transpose( DMat4x2 const & x );
-	DMat3x4 transpose( DMat4x3 const & x );
-	DMat4 transpose( DMat4 const & x );
+	MaybeOptional< Mat2 > transpose( MaybeOptional< Mat2 > const & x );
+	MaybeOptional< Mat3x2 > transpose( MaybeOptional< Mat2x3 > const & x );
+	MaybeOptional< Mat4x2 > transpose( MaybeOptional< Mat2x4 > const & x );
+	MaybeOptional< Mat2x3 > transpose( MaybeOptional< Mat3x2 > const & x );
+	MaybeOptional< Mat3 > transpose( MaybeOptional< Mat3 > const & x );
+	MaybeOptional< Mat4x3 > transpose( MaybeOptional< Mat3x4 > const & x );
+	MaybeOptional< Mat2x4 > transpose( MaybeOptional< Mat4x2 > const & x );
+	MaybeOptional< Mat3x4 > transpose( MaybeOptional< Mat4x3 > const & x );
+	MaybeOptional< Mat4 > transpose( MaybeOptional< Mat4 > const & x );
+	MaybeOptional< DMat2 > transpose( MaybeOptional< DMat2 > const & x );
+	MaybeOptional< DMat3x2 > transpose( MaybeOptional< DMat2x3 > const & x );
+	MaybeOptional< DMat4x2 > transpose( MaybeOptional< DMat2x4 > const & x );
+	MaybeOptional< DMat2x3 > transpose( MaybeOptional< DMat3x2 > const & x );
+	MaybeOptional< DMat3 > transpose( MaybeOptional< DMat3 > const & x );
+	MaybeOptional< DMat4x3 > transpose( MaybeOptional< DMat3x4 > const & x );
+	MaybeOptional< DMat2x4 > transpose( MaybeOptional< DMat4x2 > const & x );
+	MaybeOptional< DMat3x4 > transpose( MaybeOptional< DMat4x3 > const & x );
+	MaybeOptional< DMat4 > transpose( MaybeOptional< DMat4 > const & x );
 	/**@}*/
 #pragma endregion
 #pragma region determinant
@@ -1084,12 +1085,12 @@ namespace sdw
 	*	determinant
 	*/
 	/**@{*/
-	Float determinant( Mat2 const & m );
-	Float determinant( Mat3 const & m );
-	Float determinant( Mat4 const & m );
-	Double determinant( DMat2 const & m );
-	Double determinant( DMat3 const & m );
-	Double determinant( DMat4 const & m );
+	MaybeOptional< Float > determinant( MaybeOptional< Mat2 > const & m );
+	MaybeOptional< Float > determinant( MaybeOptional< Mat3 > const & m );
+	MaybeOptional< Float > determinant( MaybeOptional< Mat4 > const & m );
+	MaybeOptional< Double > determinant( MaybeOptional< DMat2 > const & m );
+	MaybeOptional< Double > determinant( MaybeOptional< DMat3 > const & m );
+	MaybeOptional< Double > determinant( MaybeOptional< DMat4 > const & m );
 	/**@}*/
 #pragma endregion
 #pragma region inverse
@@ -1098,12 +1099,12 @@ namespace sdw
 	*	inverse
 	*/
 	/**@{*/
-	Mat2 inverse( Mat2 const & m );
-	Mat3 inverse( Mat3 const & m );
-	Mat4 inverse( Mat4 const & m );
-	DMat2 inverse( DMat2 const & m );
-	DMat3 inverse( DMat3 const & m );
-	DMat4 inverse( DMat4 const & m );
+	MaybeOptional< Mat2 > inverse( MaybeOptional< Mat2 > const & m );
+	MaybeOptional< Mat3 > inverse( MaybeOptional< Mat3 > const & m );
+	MaybeOptional< Mat4 > inverse( MaybeOptional< Mat4 > const & m );
+	MaybeOptional< DMat2 > inverse( MaybeOptional< DMat2 > const & m );
+	MaybeOptional< DMat3 > inverse( MaybeOptional< DMat3 > const & m );
+	MaybeOptional< DMat4 > inverse( MaybeOptional< DMat4 > const & m );
 	/**@}*/
 #pragma endregion
 #pragma region lessThan
@@ -1112,18 +1113,18 @@ namespace sdw
 	*	lessThan
 	*/
 	/**@{*/
-	BVec2 lessThan( Vec2 const & x, Vec2 const & y );
-	BVec3 lessThan( Vec3 const & x, Vec3 const & y );
-	BVec4 lessThan( Vec4 const & x, Vec4 const & y );
-	BVec2 lessThan( DVec2 const & x, DVec2 const & y );
-	BVec3 lessThan( DVec3 const & x, DVec3 const & y );
-	BVec4 lessThan( DVec4 const & x, DVec4 const & y );
-	BVec2 lessThan( IVec2 const & x, IVec2 const & y );
-	BVec3 lessThan( IVec3 const & x, IVec3 const & y );
-	BVec4 lessThan( IVec4 const & x, IVec4 const & y );
-	BVec2 lessThan( UVec2 const & x, UVec2 const & y );
-	BVec3 lessThan( UVec3 const & x, UVec3 const & y );
-	BVec4 lessThan( UVec4 const & x, UVec4 const & y );
+	MaybeOptional< BVec2 > lessThan( MaybeOptional< Vec2 > const & x, MaybeOptional< Vec2 > const & y );
+	MaybeOptional< BVec3 > lessThan( MaybeOptional< Vec3 > const & x, MaybeOptional< Vec3 > const & y );
+	MaybeOptional< BVec4 > lessThan( MaybeOptional< Vec4 > const & x, MaybeOptional< Vec4 > const & y );
+	MaybeOptional< BVec2 > lessThan( MaybeOptional< DVec2 > const & x, MaybeOptional< DVec2 > const & y );
+	MaybeOptional< BVec3 > lessThan( MaybeOptional< DVec3 > const & x, MaybeOptional< DVec3 > const & y );
+	MaybeOptional< BVec4 > lessThan( MaybeOptional< DVec4 > const & x, MaybeOptional< DVec4 > const & y );
+	MaybeOptional< BVec2 > lessThan( MaybeOptional< IVec2 > const & x, MaybeOptional< IVec2 > const & y );
+	MaybeOptional< BVec3 > lessThan( MaybeOptional< IVec3 > const & x, MaybeOptional< IVec3 > const & y );
+	MaybeOptional< BVec4 > lessThan( MaybeOptional< IVec4 > const & x, MaybeOptional< IVec4 > const & y );
+	MaybeOptional< BVec2 > lessThan( MaybeOptional< UVec2 > const & x, MaybeOptional< UVec2 > const & y );
+	MaybeOptional< BVec3 > lessThan( MaybeOptional< UVec3 > const & x, MaybeOptional< UVec3 > const & y );
+	MaybeOptional< BVec4 > lessThan( MaybeOptional< UVec4 > const & x, MaybeOptional< UVec4 > const & y );
 	/**@}*/
 #pragma endregion
 #pragma region lessThanEqual
@@ -1132,18 +1133,18 @@ namespace sdw
 	*	lessThanEqual
 	*/
 	/**@{*/
-	BVec2 lessThanEqual( Vec2 const & x, Vec2 const & y );
-	BVec3 lessThanEqual( Vec3 const & x, Vec3 const & y );
-	BVec4 lessThanEqual( Vec4 const & x, Vec4 const & y );
-	BVec2 lessThanEqual( DVec2 const & x, DVec2 const & y );
-	BVec3 lessThanEqual( DVec3 const & x, DVec3 const & y );
-	BVec4 lessThanEqual( DVec4 const & x, DVec4 const & y );
-	BVec2 lessThanEqual( IVec2 const & x, IVec2 const & y );
-	BVec3 lessThanEqual( IVec3 const & x, IVec3 const & y );
-	BVec4 lessThanEqual( IVec4 const & x, IVec4 const & y );
-	BVec2 lessThanEqual( UVec2 const & x, UVec2 const & y );
-	BVec3 lessThanEqual( UVec3 const & x, UVec3 const & y );
-	BVec4 lessThanEqual( UVec4 const & x, UVec4 const & y );
+	MaybeOptional< BVec2 > lessThanEqual( MaybeOptional< Vec2 > const & x, MaybeOptional< Vec2 > const & y );
+	MaybeOptional< BVec3 > lessThanEqual( MaybeOptional< Vec3 > const & x, MaybeOptional< Vec3 > const & y );
+	MaybeOptional< BVec4 > lessThanEqual( MaybeOptional< Vec4 > const & x, MaybeOptional< Vec4 > const & y );
+	MaybeOptional< BVec2 > lessThanEqual( MaybeOptional< DVec2 > const & x, MaybeOptional< DVec2 > const & y );
+	MaybeOptional< BVec3 > lessThanEqual( MaybeOptional< DVec3 > const & x, MaybeOptional< DVec3 > const & y );
+	MaybeOptional< BVec4 > lessThanEqual( MaybeOptional< DVec4 > const & x, MaybeOptional< DVec4 > const & y );
+	MaybeOptional< BVec2 > lessThanEqual( MaybeOptional< IVec2 > const & x, MaybeOptional< IVec2 > const & y );
+	MaybeOptional< BVec3 > lessThanEqual( MaybeOptional< IVec3 > const & x, MaybeOptional< IVec3 > const & y );
+	MaybeOptional< BVec4 > lessThanEqual( MaybeOptional< IVec4 > const & x, MaybeOptional< IVec4 > const & y );
+	MaybeOptional< BVec2 > lessThanEqual( MaybeOptional< UVec2 > const & x, MaybeOptional< UVec2 > const & y );
+	MaybeOptional< BVec3 > lessThanEqual( MaybeOptional< UVec3 > const & x, MaybeOptional< UVec3 > const & y );
+	MaybeOptional< BVec4 > lessThanEqual( MaybeOptional< UVec4 > const & x, MaybeOptional< UVec4 > const & y );
 	/**@}*/
 #pragma endregion
 #pragma region greaterThan
@@ -1152,18 +1153,18 @@ namespace sdw
 	*	greaterThan
 	*/
 	/**@{*/
-	BVec2 greaterThan( Vec2 const & x, Vec2 const & y );
-	BVec3 greaterThan( Vec3 const & x, Vec3 const & y );
-	BVec4 greaterThan( Vec4 const & x, Vec4 const & y );
-	BVec2 greaterThan( DVec2 const & x, DVec2 const & y );
-	BVec3 greaterThan( DVec3 const & x, DVec3 const & y );
-	BVec4 greaterThan( DVec4 const & x, DVec4 const & y );
-	BVec2 greaterThan( IVec2 const & x, IVec2 const & y );
-	BVec3 greaterThan( IVec3 const & x, IVec3 const & y );
-	BVec4 greaterThan( IVec4 const & x, IVec4 const & y );
-	BVec2 greaterThan( UVec2 const & x, UVec2 const & y );
-	BVec3 greaterThan( UVec3 const & x, UVec3 const & y );
-	BVec4 greaterThan( UVec4 const & x, UVec4 const & y );
+	MaybeOptional< BVec2 > greaterThan( MaybeOptional< Vec2 > const & x, MaybeOptional< Vec2 > const & y );
+	MaybeOptional< BVec3 > greaterThan( MaybeOptional< Vec3 > const & x, MaybeOptional< Vec3 > const & y );
+	MaybeOptional< BVec4 > greaterThan( MaybeOptional< Vec4 > const & x, MaybeOptional< Vec4 > const & y );
+	MaybeOptional< BVec2 > greaterThan( MaybeOptional< DVec2 > const & x, MaybeOptional< DVec2 > const & y );
+	MaybeOptional< BVec3 > greaterThan( MaybeOptional< DVec3 > const & x, MaybeOptional< DVec3 > const & y );
+	MaybeOptional< BVec4 > greaterThan( MaybeOptional< DVec4 > const & x, MaybeOptional< DVec4 > const & y );
+	MaybeOptional< BVec2 > greaterThan( MaybeOptional< IVec2 > const & x, MaybeOptional< IVec2 > const & y );
+	MaybeOptional< BVec3 > greaterThan( MaybeOptional< IVec3 > const & x, MaybeOptional< IVec3 > const & y );
+	MaybeOptional< BVec4 > greaterThan( MaybeOptional< IVec4 > const & x, MaybeOptional< IVec4 > const & y );
+	MaybeOptional< BVec2 > greaterThan( MaybeOptional< UVec2 > const & x, MaybeOptional< UVec2 > const & y );
+	MaybeOptional< BVec3 > greaterThan( MaybeOptional< UVec3 > const & x, MaybeOptional< UVec3 > const & y );
+	MaybeOptional< BVec4 > greaterThan( MaybeOptional< UVec4 > const & x, MaybeOptional< UVec4 > const & y );
 	/**@}*/
 #pragma endregion
 #pragma region greaterThanEqual
@@ -1172,18 +1173,18 @@ namespace sdw
 	*	greaterThanEqual
 	*/
 	/**@{*/
-	BVec2 greaterThanEqual( Vec2 const & x, Vec2 const & y );
-	BVec3 greaterThanEqual( Vec3 const & x, Vec3 const & y );
-	BVec4 greaterThanEqual( Vec4 const & x, Vec4 const & y );
-	BVec2 greaterThanEqual( DVec2 const & x, DVec2 const & y );
-	BVec3 greaterThanEqual( DVec3 const & x, DVec3 const & y );
-	BVec4 greaterThanEqual( DVec4 const & x, DVec4 const & y );
-	BVec2 greaterThanEqual( IVec2 const & x, IVec2 const & y );
-	BVec3 greaterThanEqual( IVec3 const & x, IVec3 const & y );
-	BVec4 greaterThanEqual( IVec4 const & x, IVec4 const & y );
-	BVec2 greaterThanEqual( UVec2 const & x, UVec2 const & y );
-	BVec3 greaterThanEqual( UVec3 const & x, UVec3 const & y );
-	BVec4 greaterThanEqual( UVec4 const & x, UVec4 const & y );
+	MaybeOptional< BVec2 > greaterThanEqual( MaybeOptional< Vec2 > const & x, MaybeOptional< Vec2 > const & y );
+	MaybeOptional< BVec3 > greaterThanEqual( MaybeOptional< Vec3 > const & x, MaybeOptional< Vec3 > const & y );
+	MaybeOptional< BVec4 > greaterThanEqual( MaybeOptional< Vec4 > const & x, MaybeOptional< Vec4 > const & y );
+	MaybeOptional< BVec2 > greaterThanEqual( MaybeOptional< DVec2 > const & x, MaybeOptional< DVec2 > const & y );
+	MaybeOptional< BVec3 > greaterThanEqual( MaybeOptional< DVec3 > const & x, MaybeOptional< DVec3 > const & y );
+	MaybeOptional< BVec4 > greaterThanEqual( MaybeOptional< DVec4 > const & x, MaybeOptional< DVec4 > const & y );
+	MaybeOptional< BVec2 > greaterThanEqual( MaybeOptional< IVec2 > const & x, MaybeOptional< IVec2 > const & y );
+	MaybeOptional< BVec3 > greaterThanEqual( MaybeOptional< IVec3 > const & x, MaybeOptional< IVec3 > const & y );
+	MaybeOptional< BVec4 > greaterThanEqual( MaybeOptional< IVec4 > const & x, MaybeOptional< IVec4 > const & y );
+	MaybeOptional< BVec2 > greaterThanEqual( MaybeOptional< UVec2 > const & x, MaybeOptional< UVec2 > const & y );
+	MaybeOptional< BVec3 > greaterThanEqual( MaybeOptional< UVec3 > const & x, MaybeOptional< UVec3 > const & y );
+	MaybeOptional< BVec4 > greaterThanEqual( MaybeOptional< UVec4 > const & x, MaybeOptional< UVec4 > const & y );
 	/**@}*/
 #pragma endregion
 #pragma region equal
@@ -1192,18 +1193,18 @@ namespace sdw
 	*	equal
 	*/
 	/**@{*/
-	BVec2 equal( Vec2 const & x, Vec2 const & y );
-	BVec3 equal( Vec3 const & x, Vec3 const & y );
-	BVec4 equal( Vec4 const & x, Vec4 const & y );
-	BVec2 equal( DVec2 const & x, DVec2 const & y );
-	BVec3 equal( DVec3 const & x, DVec3 const & y );
-	BVec4 equal( DVec4 const & x, DVec4 const & y );
-	BVec2 equal( IVec2 const & x, IVec2 const & y );
-	BVec3 equal( IVec3 const & x, IVec3 const & y );
-	BVec4 equal( IVec4 const & x, IVec4 const & y );
-	BVec2 equal( UVec2 const & x, UVec2 const & y );
-	BVec3 equal( UVec3 const & x, UVec3 const & y );
-	BVec4 equal( UVec4 const & x, UVec4 const & y );
+	MaybeOptional< BVec2 > equal( MaybeOptional< Vec2 > const & x, MaybeOptional< Vec2 > const & y );
+	MaybeOptional< BVec3 > equal( MaybeOptional< Vec3 > const & x, MaybeOptional< Vec3 > const & y );
+	MaybeOptional< BVec4 > equal( MaybeOptional< Vec4 > const & x, MaybeOptional< Vec4 > const & y );
+	MaybeOptional< BVec2 > equal( MaybeOptional< DVec2 > const & x, MaybeOptional< DVec2 > const & y );
+	MaybeOptional< BVec3 > equal( MaybeOptional< DVec3 > const & x, MaybeOptional< DVec3 > const & y );
+	MaybeOptional< BVec4 > equal( MaybeOptional< DVec4 > const & x, MaybeOptional< DVec4 > const & y );
+	MaybeOptional< BVec2 > equal( MaybeOptional< IVec2 > const & x, MaybeOptional< IVec2 > const & y );
+	MaybeOptional< BVec3 > equal( MaybeOptional< IVec3 > const & x, MaybeOptional< IVec3 > const & y );
+	MaybeOptional< BVec4 > equal( MaybeOptional< IVec4 > const & x, MaybeOptional< IVec4 > const & y );
+	MaybeOptional< BVec2 > equal( MaybeOptional< UVec2 > const & x, MaybeOptional< UVec2 > const & y );
+	MaybeOptional< BVec3 > equal( MaybeOptional< UVec3 > const & x, MaybeOptional< UVec3 > const & y );
+	MaybeOptional< BVec4 > equal( MaybeOptional< UVec4 > const & x, MaybeOptional< UVec4 > const & y );
 	/**@}*/
 #pragma endregion
 #pragma region notEqual
@@ -1212,18 +1213,18 @@ namespace sdw
 	*	notEqual
 	*/
 	/**@{*/
-	BVec2 notEqual( Vec2 const & x, Vec2 const & y );
-	BVec3 notEqual( Vec3 const & x, Vec3 const & y );
-	BVec4 notEqual( Vec4 const & x, Vec4 const & y );
-	BVec2 notEqual( DVec2 const & x, DVec2 const & y );
-	BVec3 notEqual( DVec3 const & x, DVec3 const & y );
-	BVec4 notEqual( DVec4 const & x, DVec4 const & y );
-	BVec2 notEqual( IVec2 const & x, IVec2 const & y );
-	BVec3 notEqual( IVec3 const & x, IVec3 const & y );
-	BVec4 notEqual( IVec4 const & x, IVec4 const & y );
-	BVec2 notEqual( UVec2 const & x, UVec2 const & y );
-	BVec3 notEqual( UVec3 const & x, UVec3 const & y );
-	BVec4 notEqual( UVec4 const & x, UVec4 const & y );
+	MaybeOptional< BVec2 > notEqual( MaybeOptional< Vec2 > const & x, MaybeOptional< Vec2 > const & y );
+	MaybeOptional< BVec3 > notEqual( MaybeOptional< Vec3 > const & x, MaybeOptional< Vec3 > const & y );
+	MaybeOptional< BVec4 > notEqual( MaybeOptional< Vec4 > const & x, MaybeOptional< Vec4 > const & y );
+	MaybeOptional< BVec2 > notEqual( MaybeOptional< DVec2 > const & x, MaybeOptional< DVec2 > const & y );
+	MaybeOptional< BVec3 > notEqual( MaybeOptional< DVec3 > const & x, MaybeOptional< DVec3 > const & y );
+	MaybeOptional< BVec4 > notEqual( MaybeOptional< DVec4 > const & x, MaybeOptional< DVec4 > const & y );
+	MaybeOptional< BVec2 > notEqual( MaybeOptional< IVec2 > const & x, MaybeOptional< IVec2 > const & y );
+	MaybeOptional< BVec3 > notEqual( MaybeOptional< IVec3 > const & x, MaybeOptional< IVec3 > const & y );
+	MaybeOptional< BVec4 > notEqual( MaybeOptional< IVec4 > const & x, MaybeOptional< IVec4 > const & y );
+	MaybeOptional< BVec2 > notEqual( MaybeOptional< UVec2 > const & x, MaybeOptional< UVec2 > const & y );
+	MaybeOptional< BVec3 > notEqual( MaybeOptional< UVec3 > const & x, MaybeOptional< UVec3 > const & y );
+	MaybeOptional< BVec4 > notEqual( MaybeOptional< UVec4 > const & x, MaybeOptional< UVec4 > const & y );
 	/**@}*/
 #pragma endregion
 #pragma region all
@@ -1232,9 +1233,9 @@ namespace sdw
 	*	all
 	*/
 	/**@{*/
-	Boolean all( BVec2 const & x );
-	Boolean all( BVec3 const & x );
-	Boolean all( BVec4 const & x );
+	MaybeOptional< Boolean > all( MaybeOptional< BVec2 > const & x );
+	MaybeOptional< Boolean > all( MaybeOptional< BVec3 > const & x );
+	MaybeOptional< Boolean > all( MaybeOptional< BVec4 > const & x );
 	/**@}*/
 #pragma endregion
 #pragma region any
@@ -1243,9 +1244,9 @@ namespace sdw
 	*	any
 	*/
 	/**@{*/
-	Boolean any( BVec2 const & x );
-	Boolean any( BVec3 const & x );
-	Boolean any( BVec4 const & x );
+	MaybeOptional< Boolean > any( MaybeOptional< BVec2 > const & x );
+	MaybeOptional< Boolean > any( MaybeOptional< BVec3 > const & x );
+	MaybeOptional< Boolean > any( MaybeOptional< BVec4 > const & x );
 	/**@}*/
 #pragma endregion
 #pragma region not
@@ -1254,9 +1255,9 @@ namespace sdw
 	*	not
 	*/
 	/**@{*/
-	BVec2 not( BVec2 const & x );
-	BVec3 not( BVec3 const & x );
-	BVec4 not( BVec4 const & x );
+	MaybeOptional< BVec2 > not( MaybeOptional< BVec2 > const & x );
+	MaybeOptional< BVec3 > not( MaybeOptional< BVec3 > const & x );
+	MaybeOptional< BVec4 > not( MaybeOptional< BVec4 > const & x );
 	/**@}*/
 #pragma endregion
 #pragma region uaddCarry
@@ -1265,10 +1266,10 @@ namespace sdw
 	*	uaddCarry
 	*/
 	/**@{*/
-	UInt uaddCarry( UInt const & x, UInt const & y, UInt const & carry );
-	UVec2 uaddCarry( UVec2 const & x, UVec2 const & y, UVec2 const & carry );
-	UVec3 uaddCarry( UVec3 const & x, UVec3 const & y, UVec3 const & carry );
-	UVec4 uaddCarry( UVec4 const & x, UVec4 const & y, UVec4 const & carry );
+	MaybeOptional< UInt > uaddCarry( MaybeOptional< UInt > const & x, MaybeOptional< UInt > const & y, MaybeOptional< UInt > const & carry );
+	MaybeOptional< UVec2 > uaddCarry( MaybeOptional< UVec2 > const & x, MaybeOptional< UVec2 > const & y, MaybeOptional< UVec2 > const & carry );
+	MaybeOptional< UVec3 > uaddCarry( MaybeOptional< UVec3 > const & x, MaybeOptional< UVec3 > const & y, MaybeOptional< UVec3 > const & carry );
+	MaybeOptional< UVec4 > uaddCarry( MaybeOptional< UVec4 > const & x, MaybeOptional< UVec4 > const & y, MaybeOptional< UVec4 > const & carry );
 	/**@}*/
 #pragma endregion
 #pragma region usubBorrow
@@ -1277,10 +1278,10 @@ namespace sdw
 	*	usubBorrow
 	*/
 	/**@{*/
-	UInt usubBorrow( UInt const & x, UInt const & y, UInt const & borrow );
-	UVec2 usubBorrow( UVec2 const & x, UVec2 const & y, UVec2 const & borrow );
-	UVec3 usubBorrow( UVec3 const & x, UVec3 const & y, UVec3 const & borrow );
-	UVec4 usubBorrow( UVec4 const & x, UVec4 const & y, UVec4 const & borrow );
+	MaybeOptional< UInt > usubBorrow( MaybeOptional< UInt > const & x, MaybeOptional< UInt > const & y, MaybeOptional< UInt > const & borrow );
+	MaybeOptional< UVec2 > usubBorrow( MaybeOptional< UVec2 > const & x, MaybeOptional< UVec2 > const & y, MaybeOptional< UVec2 > const & borrow );
+	MaybeOptional< UVec3 > usubBorrow( MaybeOptional< UVec3 > const & x, MaybeOptional< UVec3 > const & y, MaybeOptional< UVec3 > const & borrow );
+	MaybeOptional< UVec4 > usubBorrow( MaybeOptional< UVec4 > const & x, MaybeOptional< UVec4 > const & y, MaybeOptional< UVec4 > const & borrow );
 	/**@}*/
 #pragma endregion
 #pragma region umulExtended
@@ -1289,10 +1290,10 @@ namespace sdw
 	*	umulExtended
 	*/
 	/**@{*/
-	Void umulExtended( UInt const & x, UInt const & y, UInt const & msb, UInt const & lsb );
-	Void umulExtended( UVec2 const & x, UVec2 const & y, UVec2 const & msb, UVec2 const & lsb );
-	Void umulExtended( UVec3 const & x, UVec3 const & y, UVec3 const & msb, UVec3 const & lsb );
-	Void umulExtended( UVec4 const & x, UVec4 const & y, UVec4 const & msb, UVec4 const & lsb );
+	MaybeOptional< Void > umulExtended( MaybeOptional< UInt > const & x, MaybeOptional< UInt > const & y, MaybeOptional< UInt > const & msb, MaybeOptional< UInt > const & lsb );
+	MaybeOptional< Void > umulExtended( MaybeOptional< UVec2 > const & x, MaybeOptional< UVec2 > const & y, MaybeOptional< UVec2 > const & msb, MaybeOptional< UVec2 > const & lsb );
+	MaybeOptional< Void > umulExtended( MaybeOptional< UVec3 > const & x, MaybeOptional< UVec3 > const & y, MaybeOptional< UVec3 > const & msb, MaybeOptional< UVec3 > const & lsb );
+	MaybeOptional< Void > umulExtended( MaybeOptional< UVec4 > const & x, MaybeOptional< UVec4 > const & y, MaybeOptional< UVec4 > const & msb, MaybeOptional< UVec4 > const & lsb );
 	/**@}*/
 #pragma endregion
 #pragma region imulExtended
@@ -1301,10 +1302,10 @@ namespace sdw
 	*	imulExtended
 	*/
 	/**@{*/
-	Void imulExtended( Int const & x, Int const & y, Int const & msb, Int const & lsb );
-	Void imulExtended( IVec2 const & x, IVec2 const & y, IVec2 const & msb, IVec2 const & lsb );
-	Void imulExtended( IVec3 const & x, IVec3 const & y, IVec3 const & msb, IVec3 const & lsb );
-	Void imulExtended( IVec4 const & x, IVec4 const & y, IVec4 const & msb, IVec4 const & lsb );
+	MaybeOptional< Void > imulExtended( MaybeOptional< Int > const & x, MaybeOptional< Int > const & y, MaybeOptional< Int > const & msb, MaybeOptional< Int > const & lsb );
+	MaybeOptional< Void > imulExtended( MaybeOptional< IVec2 > const & x, MaybeOptional< IVec2 > const & y, MaybeOptional< IVec2 > const & msb, MaybeOptional< IVec2 > const & lsb );
+	MaybeOptional< Void > imulExtended( MaybeOptional< IVec3 > const & x, MaybeOptional< IVec3 > const & y, MaybeOptional< IVec3 > const & msb, MaybeOptional< IVec3 > const & lsb );
+	MaybeOptional< Void > imulExtended( MaybeOptional< IVec4 > const & x, MaybeOptional< IVec4 > const & y, MaybeOptional< IVec4 > const & msb, MaybeOptional< IVec4 > const & lsb );
 	/**@}*/
 #pragma endregion
 #pragma region bitfieldExtract
@@ -1313,14 +1314,14 @@ namespace sdw
 	*	bitfieldExtract
 	*/
 	/**@{*/
-	Int bitfieldExtract( Int const & value, Int const & offset, Int const & bits );
-	IVec2 bitfieldExtract( IVec2 const & value, Int const & offset, Int const & bits );
-	IVec3 bitfieldExtract( IVec3 const & value, Int const & offset, Int const & bits );
-	IVec4 bitfieldExtract( IVec4 const & value, Int const & offset, Int const & bits );
-	UInt bitfieldExtract( UInt const & value, Int const & offset, Int const & bits );
-	UVec2 bitfieldExtract( UVec2 const & value, Int const & offset, Int const & bits );
-	UVec3 bitfieldExtract( UVec3 const & value, Int const & offset, Int const & bits );
-	UVec4 bitfieldExtract( UVec4 const & value, Int const & offset, Int const & bits );
+	MaybeOptional< Int > bitfieldExtract( MaybeOptional< Int > const & value, MaybeOptional< Int > const & offset, MaybeOptional< Int > const & bits );
+	MaybeOptional< IVec2 > bitfieldExtract( MaybeOptional< IVec2 > const & value, MaybeOptional< Int > const & offset, MaybeOptional< Int > const & bits );
+	MaybeOptional< IVec3 > bitfieldExtract( MaybeOptional< IVec3 > const & value, MaybeOptional< Int > const & offset, MaybeOptional< Int > const & bits );
+	MaybeOptional< IVec4 > bitfieldExtract( MaybeOptional< IVec4 > const & value, MaybeOptional< Int > const & offset, MaybeOptional< Int > const & bits );
+	MaybeOptional< UInt > bitfieldExtract( MaybeOptional< UInt > const & value, MaybeOptional< Int > const & offset, MaybeOptional< Int > const & bits );
+	MaybeOptional< UVec2 > bitfieldExtract( MaybeOptional< UVec2 > const & value, MaybeOptional< Int > const & offset, MaybeOptional< Int > const & bits );
+	MaybeOptional< UVec3 > bitfieldExtract( MaybeOptional< UVec3 > const & value, MaybeOptional< Int > const & offset, MaybeOptional< Int > const & bits );
+	MaybeOptional< UVec4 > bitfieldExtract( MaybeOptional< UVec4 > const & value, MaybeOptional< Int > const & offset, MaybeOptional< Int > const & bits );
 	/**@}*/
 #pragma endregion
 #pragma region bitfieldInsert
@@ -1329,14 +1330,14 @@ namespace sdw
 	*	bitfieldInsert
 	*/
 	/**@{*/
-	Int bitfieldInsert( Int const & base, Int const & insert, Int const & offset, Int const & bits );
-	IVec2 bitfieldInsert( IVec2 const & base, IVec2 const & insert, Int const & offset, Int const & bits );
-	IVec3 bitfieldInsert( IVec3 const & base, IVec3 const & insert, Int const & offset, Int const & bits );
-	IVec4 bitfieldInsert( IVec4 const & base, IVec4 const & insert, Int const & offset, Int const & bits );
-	UInt bitfieldInsert( UInt const & base, UInt const & insert, Int const & offset, Int const & bits );
-	UVec2 bitfieldInsert( UVec2 const & base, UVec2 const & insert, Int const & offset, Int const & bits );
-	UVec3 bitfieldInsert( UVec3 const & base, UVec3 const & insert, Int const & offset, Int const & bits );
-	UVec4 bitfieldInsert( UVec4 const & base, UVec4 const & insert, Int const & offset, Int const & bits );
+	MaybeOptional< Int > bitfieldInsert( MaybeOptional< Int > const & base, MaybeOptional< Int > const & insert, MaybeOptional< Int > const & offset, MaybeOptional< Int > const & bits );
+	MaybeOptional< IVec2 > bitfieldInsert( MaybeOptional< IVec2 > const & base, MaybeOptional< IVec2 > const & insert, MaybeOptional< Int > const & offset, MaybeOptional< Int > const & bits );
+	MaybeOptional< IVec3 > bitfieldInsert( MaybeOptional< IVec3 > const & base, MaybeOptional< IVec3 > const & insert, MaybeOptional< Int > const & offset, MaybeOptional< Int > const & bits );
+	MaybeOptional< IVec4 > bitfieldInsert( MaybeOptional< IVec4 > const & base, MaybeOptional< IVec4 > const & insert, MaybeOptional< Int > const & offset, MaybeOptional< Int > const & bits );
+	MaybeOptional< UInt > bitfieldInsert( MaybeOptional< UInt > const & base, MaybeOptional< UInt > const & insert, MaybeOptional< Int > const & offset, MaybeOptional< Int > const & bits );
+	MaybeOptional< UVec2 > bitfieldInsert( MaybeOptional< UVec2 > const & base, MaybeOptional< UVec2 > const & insert, MaybeOptional< Int > const & offset, MaybeOptional< Int > const & bits );
+	MaybeOptional< UVec3 > bitfieldInsert( MaybeOptional< UVec3 > const & base, MaybeOptional< UVec3 > const & insert, MaybeOptional< Int > const & offset, MaybeOptional< Int > const & bits );
+	MaybeOptional< UVec4 > bitfieldInsert( MaybeOptional< UVec4 > const & base, MaybeOptional< UVec4 > const & insert, MaybeOptional< Int > const & offset, MaybeOptional< Int > const & bits );
 	/**@}*/
 #pragma endregion
 #pragma region bitfieldReverse
@@ -1345,14 +1346,14 @@ namespace sdw
 	*	bitfieldReverse
 	*/
 	/**@{*/
-	Int bitfieldReverse( Int const & value );
-	IVec2 bitfieldReverse( IVec2 const & value );
-	IVec3 bitfieldReverse( IVec3 const & value );
-	IVec4 bitfieldReverse( IVec4 const & value );
-	UInt bitfieldReverse( UInt const & value );
-	UVec2 bitfieldReverse( UVec2 const & value );
-	UVec3 bitfieldReverse( UVec3 const & value );
-	UVec4 bitfieldReverse( UVec4 const & value );
+	MaybeOptional< Int > bitfieldReverse( MaybeOptional< Int > const & value );
+	MaybeOptional< IVec2 > bitfieldReverse( MaybeOptional< IVec2 > const & value );
+	MaybeOptional< IVec3 > bitfieldReverse( MaybeOptional< IVec3 > const & value );
+	MaybeOptional< IVec4 > bitfieldReverse( MaybeOptional< IVec4 > const & value );
+	MaybeOptional< UInt > bitfieldReverse( MaybeOptional< UInt > const & value );
+	MaybeOptional< UVec2 > bitfieldReverse( MaybeOptional< UVec2 > const & value );
+	MaybeOptional< UVec3 > bitfieldReverse( MaybeOptional< UVec3 > const & value );
+	MaybeOptional< UVec4 > bitfieldReverse( MaybeOptional< UVec4 > const & value );
 	/**@}*/
 #pragma endregion
 #pragma region bitCount
@@ -1361,14 +1362,14 @@ namespace sdw
 	*	bitCount
 	*/
 	/**@{*/
-	Int bitCount( Int const & value );
-	IVec2 bitCount( IVec2 const & value );
-	IVec3 bitCount( IVec3 const & value );
-	IVec4 bitCount( IVec4 const & value );
-	UInt bitCount( UInt const & value );
-	UVec2 bitCount( UVec2 const & value );
-	UVec3 bitCount( UVec3 const & value );
-	UVec4 bitCount( UVec4 const & value );
+	MaybeOptional< Int > bitCount( MaybeOptional< Int > const & value );
+	MaybeOptional< IVec2 > bitCount( MaybeOptional< IVec2 > const & value );
+	MaybeOptional< IVec3 > bitCount( MaybeOptional< IVec3 > const & value );
+	MaybeOptional< IVec4 > bitCount( MaybeOptional< IVec4 > const & value );
+	MaybeOptional< UInt > bitCount( MaybeOptional< UInt > const & value );
+	MaybeOptional< UVec2 > bitCount( MaybeOptional< UVec2 > const & value );
+	MaybeOptional< UVec3 > bitCount( MaybeOptional< UVec3 > const & value );
+	MaybeOptional< UVec4 > bitCount( MaybeOptional< UVec4 > const & value );
 	/**@}*/
 #pragma endregion
 #pragma region findLSB
@@ -1377,14 +1378,14 @@ namespace sdw
 	*	findLSB
 	*/
 	/**@{*/
-	Int findLSB( Int const & value );
-	IVec2 findLSB( IVec2 const & value );
-	IVec3 findLSB( IVec3 const & value );
-	IVec4 findLSB( IVec4 const & value );
-	Int findLSB( UInt const & value );
-	IVec2 findLSB( UVec2 const & value );
-	IVec3 findLSB( UVec3 const & value );
-	IVec4 findLSB( UVec4 const & value );
+	MaybeOptional< Int > findLSB( MaybeOptional< Int > const & value );
+	MaybeOptional< IVec2 > findLSB( MaybeOptional< IVec2 > const & value );
+	MaybeOptional< IVec3 > findLSB( MaybeOptional< IVec3 > const & value );
+	MaybeOptional< IVec4 > findLSB( MaybeOptional< IVec4 > const & value );
+	MaybeOptional< Int > findLSB( MaybeOptional< UInt > const & value );
+	MaybeOptional< IVec2 > findLSB( MaybeOptional< UVec2 > const & value );
+	MaybeOptional< IVec3 > findLSB( MaybeOptional< UVec3 > const & value );
+	MaybeOptional< IVec4 > findLSB( MaybeOptional< UVec4 > const & value );
 	/**@}*/
 #pragma endregion
 #pragma region findMSB
@@ -1393,14 +1394,14 @@ namespace sdw
 	*	findMSB
 	*/
 	/**@{*/
-	Int findMSB( Int const & value );
-	IVec2 findMSB( IVec2 const & value );
-	IVec3 findMSB( IVec3 const & value );
-	IVec4 findMSB( IVec4 const & value );
-	Int findMSB( UInt const & value );
-	IVec2 findMSB( UVec2 const & value );
-	IVec3 findMSB( UVec3 const & value );
-	IVec4 findMSB( UVec4 const & value );
+	MaybeOptional< Int > findMSB( MaybeOptional< Int > const & value );
+	MaybeOptional< IVec2 > findMSB( MaybeOptional< IVec2 > const & value );
+	MaybeOptional< IVec3 > findMSB( MaybeOptional< IVec3 > const & value );
+	MaybeOptional< IVec4 > findMSB( MaybeOptional< IVec4 > const & value );
+	MaybeOptional< Int > findMSB( MaybeOptional< UInt > const & value );
+	MaybeOptional< IVec2 > findMSB( MaybeOptional< UVec2 > const & value );
+	MaybeOptional< IVec3 > findMSB( MaybeOptional< UVec3 > const & value );
+	MaybeOptional< IVec4 > findMSB( MaybeOptional< UVec4 > const & value );
 	/**@}*/
 #pragma endregion
 #pragma region atomicAdd
@@ -1409,8 +1410,8 @@ namespace sdw
 	*	atomicAdd
 	*/
 	/**@{*/
-	Int atomicAdd( Int const & mem, Int const & data );
-	UInt atomicAdd( UInt const & mem, UInt const & data );
+	MaybeOptional< Int > atomicAdd( MaybeOptional< Int > const & mem, MaybeOptional< Int > const & data );
+	MaybeOptional< UInt > atomicAdd( MaybeOptional< UInt > const & mem, MaybeOptional< UInt > const & data );
 	/**@}*/
 #pragma endregion
 #pragma region atomicMin
@@ -1419,8 +1420,8 @@ namespace sdw
 	*	atomicMin
 	*/
 	/**@{*/
-	Int atomicMin( Int const & mem, Int const & data );
-	UInt atomicMin( UInt const & mem, UInt const & data );
+	MaybeOptional< Int > atomicMin( MaybeOptional< Int > const & mem, MaybeOptional< Int > const & data );
+	MaybeOptional< UInt > atomicMin( MaybeOptional< UInt > const & mem, MaybeOptional< UInt > const & data );
 	/**@}*/
 #pragma endregion
 #pragma region atomicMax
@@ -1429,8 +1430,8 @@ namespace sdw
 	*	atomicMax
 	*/
 	/**@{*/
-	Int atomicMax( Int const & mem, Int const & data );
-	UInt atomicMax( UInt const & mem, UInt const & data );
+	MaybeOptional< Int > atomicMax( MaybeOptional< Int > const & mem, MaybeOptional< Int > const & data );
+	MaybeOptional< UInt > atomicMax( MaybeOptional< UInt > const & mem, MaybeOptional< UInt > const & data );
 	/**@}*/
 #pragma endregion
 #pragma region atomicAnd
@@ -1439,8 +1440,8 @@ namespace sdw
 	*	atomicAnd
 	*/
 	/**@{*/
-	Int atomicAnd( Int const & mem, Int const & data );
-	UInt atomicAnd( UInt const & mem, UInt const & data );
+	MaybeOptional< Int > atomicAnd( MaybeOptional< Int > const & mem, MaybeOptional< Int > const & data );
+	MaybeOptional< UInt > atomicAnd( MaybeOptional< UInt > const & mem, MaybeOptional< UInt > const & data );
 	/**@}*/
 #pragma endregion
 #pragma region atomicOr
@@ -1449,8 +1450,8 @@ namespace sdw
 	*	atomicOr
 	*/
 	/**@{*/
-	Int atomicOr( Int const & mem, Int const & data );
-	UInt atomicOr( UInt const & mem, UInt const & data );
+	MaybeOptional< Int > atomicOr( MaybeOptional< Int > const & mem, MaybeOptional< Int > const & data );
+	MaybeOptional< UInt > atomicOr( MaybeOptional< UInt > const & mem, MaybeOptional< UInt > const & data );
 	/**@}*/
 #pragma endregion
 #pragma region atomicXor
@@ -1459,8 +1460,8 @@ namespace sdw
 	*	atomicXor
 	*/
 	/**@{*/
-	Int atomicXor( Int const & mem, Int const & data );
-	UInt atomicXor( UInt const & mem, UInt const & data );
+	MaybeOptional< Int > atomicXor( MaybeOptional< Int > const & mem, MaybeOptional< Int > const & data );
+	MaybeOptional< UInt > atomicXor( MaybeOptional< UInt > const & mem, MaybeOptional< UInt > const & data );
 	/**@}*/
 #pragma endregion
 #pragma region atomicExchange
@@ -1469,8 +1470,8 @@ namespace sdw
 	*	atomicExchange
 	*/
 	/**@{*/
-	Int atomicExchange( Int const & mem, Int const & data );
-	UInt atomicExchange( UInt const & mem, UInt const & data );
+	MaybeOptional< Int > atomicExchange( MaybeOptional< Int > const & mem, MaybeOptional< Int > const & data );
+	MaybeOptional< UInt > atomicExchange( MaybeOptional< UInt > const & mem, MaybeOptional< UInt > const & data );
 	/**@}*/
 #pragma endregion
 #pragma region atomicCompSwap
@@ -1479,8 +1480,8 @@ namespace sdw
 	*	atomicCompSwap
 	*/
 	/**@{*/
-	Int atomicCompSwap( Int const & mem, UInt const & compare );
-	UInt atomicCompSwap( UInt const & mem, UInt const & compare );
+	MaybeOptional< Int > atomicCompSwap( MaybeOptional< Int > const & mem, MaybeOptional< UInt > const & compare );
+	MaybeOptional< UInt > atomicCompSwap( MaybeOptional< UInt > const & mem, MaybeOptional< UInt > const & compare );
 	/**@}*/
 #pragma endregion
 #pragma region dFdx
@@ -1489,10 +1490,10 @@ namespace sdw
 	*	dFdx
 	*/
 	/**@{*/
-	Float dFdx( Float const & p );
-	Vec2 dFdx( Vec2 const & p );
-	Vec3 dFdx( Vec3 const & p );
-	Vec4 dFdx( Vec4 const & p );
+	MaybeOptional< Float > dFdx( MaybeOptional< Float > const & p );
+	MaybeOptional< Vec2 > dFdx( MaybeOptional< Vec2 > const & p );
+	MaybeOptional< Vec3 > dFdx( MaybeOptional< Vec3 > const & p );
+	MaybeOptional< Vec4 > dFdx( MaybeOptional< Vec4 > const & p );
 	/**@}*/
 #pragma endregion
 #pragma region dFdxCoarse
@@ -1501,10 +1502,10 @@ namespace sdw
 	*	dFdxCoarse
 	*/
 	/**@{*/
-	Float dFdxCoarse( Float const & p );
-	Vec2 dFdxCoarse( Vec2 const & p );
-	Vec3 dFdxCoarse( Vec3 const & p );
-	Vec4 dFdxCoarse( Vec4 const & p );
+	MaybeOptional< Float > dFdxCoarse( MaybeOptional< Float > const & p );
+	MaybeOptional< Vec2 > dFdxCoarse( MaybeOptional< Vec2 > const & p );
+	MaybeOptional< Vec3 > dFdxCoarse( MaybeOptional< Vec3 > const & p );
+	MaybeOptional< Vec4 > dFdxCoarse( MaybeOptional< Vec4 > const & p );
 	/**@}*/
 #pragma endregion
 #pragma region dFdxFine
@@ -1513,10 +1514,10 @@ namespace sdw
 	*	dFdxFine
 	*/
 	/**@{*/
-	Float dFdxFine( Float const & p );
-	Vec2 dFdxFine( Vec2 const & p );
-	Vec3 dFdxFine( Vec3 const & p );
-	Vec4 dFdxFine( Vec4 const & p );
+	MaybeOptional< Float > dFdxFine( MaybeOptional< Float > const & p );
+	MaybeOptional< Vec2 > dFdxFine( MaybeOptional< Vec2 > const & p );
+	MaybeOptional< Vec3 > dFdxFine( MaybeOptional< Vec3 > const & p );
+	MaybeOptional< Vec4 > dFdxFine( MaybeOptional< Vec4 > const & p );
 	/**@}*/
 #pragma endregion
 #pragma region dFdy
@@ -1525,10 +1526,10 @@ namespace sdw
 	*	dFdy
 	*/
 	/**@{*/
-	Float dFdy( Float const & p );
-	Vec2 dFdy( Vec2 const & p );
-	Vec3 dFdy( Vec3 const & p );
-	Vec4 dFdy( Vec4 const & p );
+	MaybeOptional< Float > dFdy( MaybeOptional< Float > const & p );
+	MaybeOptional< Vec2 > dFdy( MaybeOptional< Vec2 > const & p );
+	MaybeOptional< Vec3 > dFdy( MaybeOptional< Vec3 > const & p );
+	MaybeOptional< Vec4 > dFdy( MaybeOptional< Vec4 > const & p );
 	/**@}*/
 #pragma endregion
 #pragma region dFdyCoarse
@@ -1537,10 +1538,10 @@ namespace sdw
 	*	dFdyCoarse
 	*/
 	/**@{*/
-	Float dFdyCoarse( Float const & p );
-	Vec2 dFdyCoarse( Vec2 const & p );
-	Vec3 dFdyCoarse( Vec3 const & p );
-	Vec4 dFdyCoarse( Vec4 const & p );
+	MaybeOptional< Float > dFdyCoarse( MaybeOptional< Float > const & p );
+	MaybeOptional< Vec2 > dFdyCoarse( MaybeOptional< Vec2 > const & p );
+	MaybeOptional< Vec3 > dFdyCoarse( MaybeOptional< Vec3 > const & p );
+	MaybeOptional< Vec4 > dFdyCoarse( MaybeOptional< Vec4 > const & p );
 	/**@}*/
 #pragma endregion
 #pragma region dFdyFine
@@ -1549,10 +1550,10 @@ namespace sdw
 	*	dFdyFine
 	*/
 	/**@{*/
-	Float dFdyFine( Float const & p );
-	Vec2 dFdyFine( Vec2 const & p );
-	Vec3 dFdyFine( Vec3 const & p );
-	Vec4 dFdyFine( Vec4 const & p );
+	MaybeOptional< Float > dFdyFine( MaybeOptional< Float > const & p );
+	MaybeOptional< Vec2 > dFdyFine( MaybeOptional< Vec2 > const & p );
+	MaybeOptional< Vec3 > dFdyFine( MaybeOptional< Vec3 > const & p );
+	MaybeOptional< Vec4 > dFdyFine( MaybeOptional< Vec4 > const & p );
 	/**@}*/
 #pragma endregion
 #pragma region fwidth
@@ -1561,10 +1562,10 @@ namespace sdw
 	*	fwidth
 	*/
 	/**@{*/
-	Float fwidth( Float const & p );
-	Vec2 fwidth( Vec2 const & p );
-	Vec3 fwidth( Vec3 const & p );
-	Vec4 fwidth( Vec4 const & p );
+	MaybeOptional< Float > fwidth( MaybeOptional< Float > const & p );
+	MaybeOptional< Vec2 > fwidth( MaybeOptional< Vec2 > const & p );
+	MaybeOptional< Vec3 > fwidth( MaybeOptional< Vec3 > const & p );
+	MaybeOptional< Vec4 > fwidth( MaybeOptional< Vec4 > const & p );
 	/**@}*/
 #pragma endregion
 #pragma region interpolateAtCentroid
@@ -1573,10 +1574,10 @@ namespace sdw
 	*	interpolateAtCentroid
 	*/
 	/**@{*/
-	Float interpolateAtCentroid( Float const & x );
-	Vec2 interpolateAtCentroid( Vec2 const & x );
-	Vec3 interpolateAtCentroid( Vec3 const & x );
-	Vec4 interpolateAtCentroid( Vec4 const & x );
+	MaybeOptional< Float > interpolateAtCentroid( MaybeOptional< Float > const & x );
+	MaybeOptional< Vec2 > interpolateAtCentroid( MaybeOptional< Vec2 > const & x );
+	MaybeOptional< Vec3 > interpolateAtCentroid( MaybeOptional< Vec3 > const & x );
+	MaybeOptional< Vec4 > interpolateAtCentroid( MaybeOptional< Vec4 > const & x );
 	/**@}*/
 #pragma endregion
 #pragma region interpolateAtSample
@@ -1585,10 +1586,10 @@ namespace sdw
 	*	interpolateAtSample
 	*/
 	/**@{*/
-	Float interpolateAtSample( Float const & interpolant, Int const & sample );
-	Vec2 interpolateAtSample( Vec2 const & interpolant, Int const & sample );
-	Vec3 interpolateAtSample( Vec3 const & interpolant, Int const & sample );
-	Vec4 interpolateAtSample( Vec4 const & interpolant, Int const & sample );
+	MaybeOptional< Float > interpolateAtSample( MaybeOptional< Float > const & interpolant, MaybeOptional< Int > const & sample );
+	MaybeOptional< Vec2 > interpolateAtSample( MaybeOptional< Vec2 > const & interpolant, MaybeOptional< Int > const & sample );
+	MaybeOptional< Vec3 > interpolateAtSample( MaybeOptional< Vec3 > const & interpolant, MaybeOptional< Int > const & sample );
+	MaybeOptional< Vec4 > interpolateAtSample( MaybeOptional< Vec4 > const & interpolant, MaybeOptional< Int > const & sample );
 	/**@}*/
 #pragma endregion
 #pragma region interpolateAtOffset
@@ -1597,10 +1598,10 @@ namespace sdw
 	*	interpolateAtOffset
 	*/
 	/**@{*/
-	Float interpolateAtOffset( Float const & interpolant, Vec2 const & offset );
-	Vec2 interpolateAtOffset( Vec2 const & interpolant, Vec2 const & offset );
-	Vec3 interpolateAtOffset( Vec3 const & interpolant, Vec2 const & offset );
-	Vec4 interpolateAtOffset( Vec4 const & interpolant, Vec2 const & offset );
+	MaybeOptional< Float > interpolateAtOffset( MaybeOptional< Float > const & interpolant, MaybeOptional< Vec2 > const & offset );
+	MaybeOptional< Vec2 > interpolateAtOffset( MaybeOptional< Vec2 > const & interpolant, MaybeOptional< Vec2 > const & offset );
+	MaybeOptional< Vec3 > interpolateAtOffset( MaybeOptional< Vec3 > const & interpolant, MaybeOptional< Vec2 > const & offset );
+	MaybeOptional< Vec4 > interpolateAtOffset( MaybeOptional< Vec4 > const & interpolant, MaybeOptional< Vec2 > const & offset );
 	/**@}*/
 #pragma endregion
 #pragma region EmitStreamVertex
@@ -1609,7 +1610,7 @@ namespace sdw
 	*	EmitStreamVertex
 	*/
 	/**@{*/
-	Void EmitStreamVertex( Int const & stream );
+	MaybeOptional< Void > EmitStreamVertex( MaybeOptional< Int > const & stream );
 	/**@}*/
 #pragma endregion
 #pragma region EndStreamPrimitive
@@ -1618,7 +1619,7 @@ namespace sdw
 	*	EndStreamPrimitive
 	*/
 	/**@{*/
-	Void EndStreamPrimitive( Int const & stream );
+	MaybeOptional< Void > EndStreamPrimitive( MaybeOptional< Int > const & stream );
 	/**@}*/
 #pragma endregion
 #pragma region EmitVertex
@@ -1627,7 +1628,7 @@ namespace sdw
 	*	EmitVertex
 	*/
 	/**@{*/
-	Void EmitVertex( );
+	MaybeOptional< Void > EmitVertex( );
 	/**@}*/
 #pragma endregion
 #pragma region EndPrimitive
@@ -1636,7 +1637,7 @@ namespace sdw
 	*	EndPrimitive
 	*/
 	/**@{*/
-	Void EndPrimitive( );
+	MaybeOptional< Void > EndPrimitive( );
 	/**@}*/
 #pragma endregion
 #pragma region barrier
@@ -1645,7 +1646,7 @@ namespace sdw
 	*	barrier
 	*/
 	/**@{*/
-	Void barrier( );
+	MaybeOptional< Void > barrier( );
 	/**@}*/
 #pragma endregion
 #pragma region memoryBarrier
@@ -1654,7 +1655,7 @@ namespace sdw
 	*	memoryBarrier
 	*/
 	/**@{*/
-	UInt memoryBarrier( );
+	MaybeOptional< UInt > memoryBarrier( );
 	/**@}*/
 #pragma endregion
 #pragma region memoryBarrierBuffer
@@ -1663,7 +1664,7 @@ namespace sdw
 	*	memoryBarrierBuffer
 	*/
 	/**@{*/
-	Void memoryBarrierBuffer( );
+	MaybeOptional< Void > memoryBarrierBuffer( );
 	/**@}*/
 #pragma endregion
 #pragma region memoryBarrierShared
@@ -1672,7 +1673,7 @@ namespace sdw
 	*	memoryBarrierShared
 	*/
 	/**@{*/
-	Void memoryBarrierShared( );
+	MaybeOptional< Void > memoryBarrierShared( );
 	/**@}*/
 #pragma endregion
 #pragma region memoryBarrierImage
@@ -1681,7 +1682,7 @@ namespace sdw
 	*	memoryBarrierImage
 	*/
 	/**@{*/
-	Void memoryBarrierImage( );
+	MaybeOptional< Void > memoryBarrierImage( );
 	/**@}*/
 #pragma endregion
 #pragma region groupMemoryBarrier
@@ -1690,7 +1691,7 @@ namespace sdw
 	*	groupMemoryBarrier
 	*/
 	/**@{*/
-	Void groupMemoryBarrier( );
+	MaybeOptional< Void > groupMemoryBarrier( );
 	/**@}*/
 #pragma endregion
 }

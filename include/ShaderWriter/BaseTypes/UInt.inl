@@ -13,7 +13,7 @@ namespace sdw
 				, makeExpr( *this )
 				, ( rhsExpr->getType() == type::getInt()
 					? std::move( rhsExpr )
-					: makeCast( type::getInt(), std::move( rhsExpr ) ) ) ) ) );
+					: sdw::makeCast( type::getInt(), std::move( rhsExpr ) ) ) ) ) );
 		return *this;
 	}
 }

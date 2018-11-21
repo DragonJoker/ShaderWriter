@@ -62,6 +62,8 @@ namespace sdw
 	template< typename TypeT >
 	struct Optional;
 	template< typename TypeT >
+	struct MaybeOptional;
+	template< typename TypeT >
 	struct Vec2T;
 	template< typename TypeT >
 	struct Vec3T;

@@ -844,6 +844,12 @@ namespace sdw
 	};
 
 	template< typename T >
+	struct TypeTraits< MaybeOptional< T > >
+	{
+		static ast::type::Kind const TypeEnum = TypeTraits< T >::TypeEnum;
+	};
+
+	template< typename T >
 	struct TypeTraits< OutParam< T > >
 	{
 		static ast::type::Kind const TypeEnum = TypeTraits< T >::TypeEnum;
@@ -872,6 +878,12 @@ namespace sdw
 
 	template< typename T >
 	struct RealTypeGetter< Optional< T > >
+	{
+		using Type = T;
+	};
+
+	template< typename T >
+	struct RealTypeGetter< MaybeOptional< T > >
 	{
 		using Type = T;
 	};

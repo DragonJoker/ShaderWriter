@@ -29,7 +29,9 @@ namespace sdw::hlsl
 		bool noParen = expr->getKind() == expr::Kind::eFnCall
 			|| expr->getKind() == expr::Kind::eIdentifier
 			|| expr->getKind() == expr::Kind::eLiteral
-			|| expr->getKind() == expr::Kind::eMbrSelect;
+			|| expr->getKind() == expr::Kind::eMbrSelect
+			|| expr->getKind() == expr::Kind::eCast
+			|| expr->getKind() == expr::Kind::eSwizzle;
 
 		if ( noParen )
 		{

@@ -788,6 +788,31 @@ namespace sdw
 	}
 
 	template< typename T >
+	inline MaybeOptional< T > ShaderWriter::declLocale( std::string const & name
+		, MaybeOptional< T > const & rhs )
+	{
+		auto type = type::makeType( typeEnum< T > );
+		auto var = registerLocale( name
+			, type );
+
+		if ( rhs.isEnabled() )
+		{
+			addStmt( sdw::makeSimple( sdw::makeInit( var
+				, makeExpr( rhs ) ) ) );
+		}
+
+		if ( rhs.isOptional() )
+		{
+			return MaybeOptional< T >{ &m_shader
+				, makeExpr( var )
+				, rhs.isEnabled() };
+		}
+
+		return MaybeOptional< T >{ &m_shader
+			, makeExpr( var ) };
+	}
+
+	template< typename T >
 	inline Optional< T > ShaderWriter::declLocale( std::string const & name
 		, bool enabled )
 	{

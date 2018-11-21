@@ -332,6 +332,9 @@ namespace sdw
 		inline T declLocale( std::string const & name
 			, T const & rhs );
 		template< typename T >
+		inline MaybeOptional< T > declLocale( std::string const & name
+			, MaybeOptional< T > const & rhs );
+		template< typename T >
 		inline Optional< T > declLocale( std::string const & name
 			, bool enabled );
 		template< typename T >
@@ -348,6 +351,9 @@ namespace sdw
 		inline Array< T > declLocaleArray( std::string const & name
 			, uint32_t dimension
 			, std::vector< T > const & rhs );
+		template< typename T >
+		inline MaybeOptional< Array< T > > declLocale( std::string const & name
+			, MaybeOptional< Array< T > > const & rhs );
 		template< typename T >
 		inline Optional< Array< T > > declLocaleArray( std::string const & name
 			, uint32_t dimension

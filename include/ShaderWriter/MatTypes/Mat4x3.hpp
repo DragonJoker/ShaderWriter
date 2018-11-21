@@ -14,7 +14,7 @@ namespace sdw
 		: public Value
 	{
 		using ValueType = ValueT;
-		using my_vec = Vec4T< ValueT >;
+		using my_vec = Vec3T< ValueT >;
 		using my_mat = Mat4x3T< ValueT >;
 
 		inline Mat4x3T( Shader * shader
@@ -24,14 +24,8 @@ namespace sdw
 		template< typename RhsT >
 		inline Mat4x3T< ValueT > & operator=( RhsT const & rhs );
 		template< typename IndexT >
-		inline Vec4T< ValueT > operator[]( IndexT const & rhs )const;
+		inline Vec3T< ValueT > operator[]( IndexT const & rhs )const;
 	};
-	template< typename ValueT >
-	Vec4T< ValueT > operator*( Vec4T< ValueT > const & lhs,
-		Mat4x3T< ValueT > const & rhs );
-	template< typename ValueT >
-	Vec4T< ValueT > operator*( Mat4x3T< ValueT > const & lhs
-		, Vec4T< ValueT > const & rhs );
 }
 
 #include "Mat4x3.inl"

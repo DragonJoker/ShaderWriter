@@ -60,14 +60,14 @@ namespace sdw
 	using RealTypeT = typename RealTypeOf< T >::Type;
 
 	template< typename T >
-	expr::ExprPtr makeExpr( Optional< T > const & value
+	inline expr::ExprPtr makeExpr( Optional< T > const & value
 		, bool force = false );
 
 	template< typename T >
-	bool isOptionalEnabled( T const & value );
+	inline bool isOptionalEnabled( T const & value );
 
 	template< typename ... ParamsT >
-	bool areOptionalEnabled( ParamsT const & ... values );
+	inline bool areOptionalEnabled( ParamsT const & ... values );
 }
 
 #include "Optional.inl"

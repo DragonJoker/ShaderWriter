@@ -311,6 +311,7 @@ if ( MSVC OR NOT "${CMAKE_BUILD_TYPE}" STREQUAL "" )
 	parse_subdir_files( ${PROJECT_NAME}/HLSL "HLSL" )
 	parse_subdir_files( ${PROJECT_NAME}/Intrinsics "Intrinsics" )
 	parse_subdir_files( ${PROJECT_NAME}/MatTypes "MatTypes" )
+	parse_subdir_files( ${PROJECT_NAME}/MaybeOptional "MaybeOptional" )
 	parse_subdir_files( ${PROJECT_NAME}/Optional "Optional" )
 	parse_subdir_files( ${PROJECT_NAME}/SPIRV "SPIRV" )
 	parse_subdir_files( ${PROJECT_NAME}/SPIRV/spirv "SPIRV\\\\spirv" )
@@ -399,6 +400,10 @@ if ( MSVC OR NOT "${CMAKE_BUILD_TYPE}" STREQUAL "" )
 			${SOURCE_DIR}/Intrinsics/TextureAccessFunctions.cpp
 			${SOURCE_DIR}/Intrinsics/IntrinsicFunctions.cpp
 		)
+	endif ()
+
+	if ( MSVC )
+		add_compile_options( -bigobj )
 	endif ()
 
 	add_library( ${PROJECT_NAME}

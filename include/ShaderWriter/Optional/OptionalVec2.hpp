@@ -5,7 +5,6 @@ See LICENSE file in root folder
 #define ___SDW_OptionalVec2_H___
 #pragma once
 
-#include "Optional.hpp"
 #include "ShaderWriter/VecTypes/Vec2.hpp"
 
 namespace sdw

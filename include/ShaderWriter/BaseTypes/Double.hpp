@@ -5,7 +5,7 @@ See LICENSE file in root folder
 #define ___SDW_Double_H___
 #pragma once
 
-#include "ShaderWriter/Optional/Optional.hpp"
+#include "ShaderWriter/MaybeOptional/MaybeOptional.hpp"
 
 namespace sdw
 {

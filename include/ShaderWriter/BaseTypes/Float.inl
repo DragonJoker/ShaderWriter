@@ -8,8 +8,8 @@ namespace sdw
 	{
 		updateContainer( rhs );
 		addStmt( *findContainer( *this, rhs )
-			, makeSimple( makeAssign( type::getFloat()
-				, makeExpr( m_expr )
+			, makeSimple( sdw::makeAssign( type::getFloat()
+				, makeExpr( *this )
 				, makeExpr( rhs ) ) ) );
 		return *this;
 	}

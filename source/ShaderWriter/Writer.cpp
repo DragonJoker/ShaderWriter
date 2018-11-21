@@ -432,7 +432,7 @@ namespace sdw
 		m_invertVec3Y = implementFunction< Vec3 >( "invertVec3Y"
 			, [this]( Vec3 const & v )
 			{
-				returnStmt( vec2( v.x(), 1.0_f - v.y(), v.z() ) );
+				returnStmt( vec3( v.x(), 1.0_f - v.y(), v.z() ) );
 			}
 			, InVec3{ *this, "v" } );
 	}

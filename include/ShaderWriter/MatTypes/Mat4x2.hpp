@@ -14,7 +14,7 @@ namespace sdw
 		: public Value
 	{
 		using ValueType = ValueT;
-		using my_vec = Vec4T< ValueT >;
+		using my_vec = Vec2T< ValueT >;
 		using my_mat = Mat4x2T< ValueT >;
 
 		inline Mat4x2T( Shader * shader
@@ -24,7 +24,7 @@ namespace sdw
 		template< typename RhsT >
 		inline Mat4x2T< ValueT > & operator=( RhsT const & rhs );
 		template< typename IndexT >
-		inline Vec4T< ValueT > operator[]( IndexT const & rhs )const;
+		inline Vec2T< ValueT > operator[]( IndexT const & rhs )const;
 	};
 }
 

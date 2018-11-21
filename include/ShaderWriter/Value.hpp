@@ -1,8 +1,8 @@
 /*
 See LICENSE file in root folder
 */
-#ifndef ___SDW_TYPE_H___
-#define ___SDW_TYPE_H___
+#ifndef ___SDW_Value_H___
+#define ___SDW_Value_H___
 
 #include "ShaderWriterPrerequisites.hpp"
 
