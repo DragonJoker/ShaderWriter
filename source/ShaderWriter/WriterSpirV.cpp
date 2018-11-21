@@ -1918,7 +1918,15 @@ namespace sdw
 			, std::ostream & stream )
 		{
 			write( instruction.operands[0], names, stream );
-			write( instruction.operands[1], names, stream );
+
+			if ( instruction.operands[1] == spv::Id( spv::Op::OpUndef ) )
+			{
+				stream << " Undef";
+			}
+			else
+			{
+				write( instruction.operands[1], names, stream );
+			}
 
 			for ( size_t i = 2u; i < instruction.operands.size(); ++i )
 			{

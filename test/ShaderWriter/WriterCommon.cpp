@@ -234,7 +234,7 @@ namespace test
 			, bool validateSpirV
 			, test::TestCounts & testCounts )
 		{
-			auto textSpirv = sdw::writeSpirv( shader, stage, true );
+			auto textSpirv = sdw::writeSpirv( shader, stage );
 			displayShader( "SPIR-V", textSpirv );
 			std::vector< uint32_t > spirv;
 

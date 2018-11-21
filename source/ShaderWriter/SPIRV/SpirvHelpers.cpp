@@ -381,7 +381,7 @@ namespace sdw::spirv
 	{
 		IdList shuffle;
 		shuffle.push_back( vector );
-		shuffle.push_back( vector );
+		shuffle.push_back( spv::Id( spv::Op::OpUndef ) );
 		shuffle.insert( shuffle.end(), components.begin(), components.end() );
 		return makeVectorShuffle( resultId
 			, typeId

@@ -717,6 +717,7 @@ namespace sdw::spirv
 			auto swizzleComponents = getSwizzleComponents( swizzle );
 			IdList shuffle;
 			shuffle.push_back( outerId );
+			shuffle.push_back( spv::Id( spv::Op::OpUndef ) );
 			shuffle.insert( shuffle.end(), swizzleComponents.begin(), swizzleComponents.end() );
 			auto it = currentBlock.vectorShuffles.find( shuffle );
 
