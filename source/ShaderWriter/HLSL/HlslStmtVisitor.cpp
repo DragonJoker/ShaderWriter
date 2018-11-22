@@ -284,14 +284,20 @@ namespace sdw::hlsl
 
 	void StmtVisitor::visitShaderBufferDeclStmt( stmt::ShaderBufferDecl * stmt )
 	{
-		if ( stmt->empty() )
-		{
-			m_appendLineEnd = true;
-			doAppendLineEnd();
-			m_result += m_indent + "RWStructuredBuffer<" + getTypeName( stmt->getData()->getType() ) + "> "
-				+ stmt->getData()->getName()
-				+ ": register(u" + std::to_string( stmt->getBindingPoint() ) + ");\n";
-		}
+		m_appendLineEnd = true;
+		doAppendLineEnd();
+		m_result += m_indent + "RWByteAddressBuffer "
+			+ stmt->getSsboName()
+			+ ": register(u" + std::to_string( stmt->getBindingPoint() ) + ");\n";
+	}
+
+	void StmtVisitor::visitShaderStructBufferDeclStmt( stmt::ShaderStructBufferDecl * stmt )
+	{
+		m_appendLineEnd = true;
+		doAppendLineEnd();
+		m_result += m_indent + "RWStructuredBuffer<" + getTypeName( stmt->getData()->getType() ) + "> "
+			+ stmt->getData()->getName()
+			+ ": register(u" + std::to_string( stmt->getBindingPoint() ) + ");\n";
 	}
 
 	void StmtVisitor::visitSimpleStmt( stmt::Simple * stmt )

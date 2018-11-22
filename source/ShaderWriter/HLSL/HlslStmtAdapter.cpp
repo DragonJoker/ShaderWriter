@@ -331,17 +331,25 @@ namespace sdw::hlsl
 
 	void StmtAdapter::visitShaderBufferDeclStmt( stmt::ShaderBufferDecl * stmt )
 	{
-		m_adaptationData.ssboList.push_back( stmt->getSsboInstance() );
-		auto save = m_current;
 		auto cont = stmt::makeShaderBufferDecl( stmt->getSsboName()
-			, stmt->getSsboInstance()
-			, stmt->getData()
+			, stmt->getMemoryLayout()
 			, stmt->getBindingPoint()
 			, stmt->getDescriptorSet() );
+		auto save = m_current;
 		m_current = cont.get();
 		visitContainerStmt( stmt );
 		m_current = save;
 		m_current->addStmt( std::move( cont ) );
+	}
+
+	void StmtAdapter::visitShaderStructBufferDeclStmt( stmt::ShaderStructBufferDecl * stmt )
+	{
+		m_adaptationData.ssboList.push_back( stmt->getSsboInstance() );
+		m_current->addStmt( stmt::makeShaderStructBufferDecl( stmt->getSsboName()
+			, stmt->getSsboInstance()
+			, stmt->getData()
+			, stmt->getBindingPoint()
+			, stmt->getDescriptorSet() ) );
 	}
 
 	void StmtAdapter::visitVariableDeclStmt( stmt::VariableDecl * stmt )

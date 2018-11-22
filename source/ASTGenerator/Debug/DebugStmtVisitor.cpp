@@ -10,6 +10,27 @@ namespace ast::debug
 {
 	namespace
 	{
+		std::string getName( type::MemoryLayout layout )
+		{
+			std::string result;
+
+			switch ( layout )
+			{
+			case ast::type::MemoryLayout::eStd140:
+				result = "STD140";
+				break;
+			case ast::type::MemoryLayout::eStd430:
+				result = "STD430";
+				break;
+			default:
+				assert( false && "Unsupported type::MemoryLayout" );
+				result = "UNDEFINED";
+				break;
+			}
+
+			return result;
+		}
+
 		std::string getName( stmt::Kind kind )
 		{
 			std::string result;
@@ -467,19 +488,23 @@ namespace ast::debug
 		displayStmtName( stmt, false );
 		m_result += " B(";
 		m_result += std::to_string( stmt->getBindingPoint() ) + ") D(";
-		m_result += std::to_string( stmt->getDescriptorSet() ) + ") ";
+		m_result += std::to_string( stmt->getDescriptorSet() ) + ") L(";
+		m_result += getName( stmt->getMemoryLayout() ) + ") ";
+		m_result += stmt->getSsboName() + "\n";
+		m_compoundName = false;
+		visitCompoundStmt( stmt );
+	}
+
+	void StmtVisitor::visitShaderStructBufferDeclStmt( stmt::ShaderStructBufferDecl * stmt )
+	{
+		displayStmtName( stmt, false );
+		m_result += " B(";
+		m_result += std::to_string( stmt->getBindingPoint() ) + ") D(";
+		m_result += std::to_string( stmt->getDescriptorSet() ) + ") L(";
+		m_result += getName( stmt->getMemoryLayout() ) + ") ";
 		m_result += stmt->getSsboName() + ", ";
 		m_result += displayVar( stmt->getSsboInstance() ) + "\n";
-
-		if ( !stmt->empty() )
-		{
-			m_compoundName = false;
-			visitCompoundStmt( stmt );
-		}
-		else
-		{
-			m_result += "\t" + displayVar( stmt->getData() ) + "\n";
-		}
+		m_result += "\t" + displayVar( stmt->getData() ) + "\n";
 	}
 
 	void StmtVisitor::visitSimpleStmt( stmt::Simple * stmt )

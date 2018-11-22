@@ -37,6 +37,7 @@ namespace sdw::hlsl
 		void visitPerVertexDeclStmt( stmt::PerVertexDecl * stmt )override;
 		void visitSampledImageDeclStmt( stmt::SampledImageDecl * stmt )override;
 		void visitShaderBufferDeclStmt( stmt::ShaderBufferDecl * stmt )override;
+		void visitShaderStructBufferDeclStmt( stmt::ShaderStructBufferDecl * stmt )override;
 		void visitVariableDeclStmt( stmt::VariableDecl * stmt )override;
 		void visitPreprocDefine( stmt::PreprocDefine * preproc )override;
 		void visitPreprocEndif( stmt::PreprocEndif * preproc )override;

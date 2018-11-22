@@ -8,14 +8,12 @@ See LICENSE file in root folder
 namespace ast::stmt
 {
 	ShaderBufferDecl::ShaderBufferDecl( std::string const & ssboName
-		, var::VariablePtr ssboInstance
-		, var::VariablePtr data
+		, type::MemoryLayout layout
 		, uint32_t bindingPoint
 		, uint32_t bindingSet )
 		: Compound{ Kind::eShaderBufferDecl }
 		, m_ssboName{ std::move( ssboName ) }
-		, m_ssboInstance{ std::move( ssboInstance ) }
-		, m_data{ std::move( data ) }
+		, m_layout{ layout }
 		, m_bindingPoint{ bindingPoint }
 		, m_bindingSet{ bindingSet }
 	{

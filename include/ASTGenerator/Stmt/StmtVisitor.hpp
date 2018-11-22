@@ -35,6 +35,7 @@ See LICENSE file in root folder
 #include "StmtSampledImageDecl.hpp"
 #include "StmtSamplerDecl.hpp"
 #include "StmtShaderBufferDecl.hpp"
+#include "StmtShaderStructBufferDecl.hpp"
 #include "StmtSimple.hpp"
 #include "StmtSpecialisationConstantDecl.hpp"
 #include "StmtStructureDecl.hpp"
@@ -79,6 +80,7 @@ namespace ast::stmt
 		virtual void visitSampledImageDeclStmt( SampledImageDecl * ) = 0;
 		virtual void visitSamplerDeclStmt( SamplerDecl * ) = 0;
 		virtual void visitShaderBufferDeclStmt( ShaderBufferDecl * ) = 0;
+		virtual void visitShaderStructBufferDeclStmt( ShaderStructBufferDecl * ) = 0;
 		virtual void visitSimpleStmt( Simple * ) = 0;
 		virtual void visitSpecialisationConstantDeclStmt( SpecialisationConstantDecl * ) = 0;
 		virtual void visitStructureDeclStmt( StructureDecl * ) = 0;

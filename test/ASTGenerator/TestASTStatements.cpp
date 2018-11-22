@@ -198,19 +198,44 @@ namespace
 	{
 		testBegin( "testShaderBufferDeclStatement" );
 		{
-			auto baseType = ast::type::makeStructType( ast::type::MemoryLayout::eStd430, "BaseType" );
-			auto array = ast::type::makeArrayType( baseType );
-			auto type = ast::type::makeStructType( ast::type::MemoryLayout::eStd430, "BufferType" );
-			type->declMember( "Data", array );
-			auto data = ast::var::makeVariable( type->getMember( "Data" ).type, "Data", ast::var::Flag::eUniform );
-			auto instance = ast::var::makeVariable( type, "Inst", ast::var::Flag::eUniform );
-			auto stmt = ast::stmt::makeShaderBufferDecl( "Buffer", instance, data, 1u, 2u );
+			auto stmt = ast::stmt::makeShaderBufferDecl( "Buffer", ast::type::MemoryLayout::eStd430, 1u, 2u );
 			std::cout << "StmtShaderBufferDecl (empty):\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
 
 			require( stmt->getKind() == ast::stmt::Kind::eShaderBufferDecl );
 			check( stmt->getBindingPoint() == 1u );
 			check( stmt->getDescriptorSet() == 2u );
 			check( stmt->empty() );
+		}
+		{
+			auto stmt = ast::stmt::makeShaderBufferDecl( "Buffer", ast::type::MemoryLayout::eStd430, 1u, 2u );
+			stmt->add( ast::stmt::makeVariableDecl( ast::var::makeVariable( ast::type::getInt(), "i" ) ) );
+			stmt->add( ast::stmt::makeVariableDecl( ast::var::makeVariable( ast::type::getInt(), "j" ) ) );
+			std::cout << "StmtShaderBufferDecl:\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
+
+			require( stmt->getKind() == ast::stmt::Kind::eShaderBufferDecl );
+			check( stmt->getBindingPoint() == 1u );
+			check( stmt->getDescriptorSet() == 2u );
+			check( stmt->size() == 2u );
+		}
+		testEnd();
+	}
+
+	void testShaderStructBufferDeclStatement( test::TestCounts & testCounts )
+	{
+		testBegin( "testShaderStructBufferDeclStatement" );
+		{
+			auto baseType = ast::type::makeStructType( ast::type::MemoryLayout::eStd430, "BaseType" );
+			auto array = ast::type::makeArrayType( baseType );
+			auto type = ast::type::makeStructType( ast::type::MemoryLayout::eStd430, "BufferType" );
+			type->declMember( "Data", array );
+			auto data = ast::var::makeVariable( type->getMember( "Data" ).type, "Data", ast::var::Flag::eUniform );
+			auto instance = ast::var::makeVariable( type, "Inst", ast::var::Flag::eUniform );
+			auto stmt = ast::stmt::makeShaderStructBufferDecl( "Buffer", instance, data, 1u, 2u );
+			std::cout << "StmtShaderStructBufferDecl (empty):\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
+
+			require( stmt->getKind() == ast::stmt::Kind::eShaderStructBufferDecl );
+			check( stmt->getBindingPoint() == 1u );
+			check( stmt->getDescriptorSet() == 2u );
 		}
 		{
 			auto baseType = ast::type::makeStructType( ast::type::MemoryLayout::eStd430, "BaseType" );
@@ -221,13 +246,12 @@ namespace
 			type->declMember( "Data", array );
 			auto data = ast::var::makeVariable( type->getMember( "Data" ).type, "Data", ast::var::Flag::eUniform );
 			auto instance = ast::var::makeVariable( type, "Inst", ast::var::Flag::eUniform );
-			auto stmt = ast::stmt::makeShaderBufferDecl( "Buffer", instance, data, 1u, 2u );
-			std::cout << "StmtShaderBufferDecl:\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
+			auto stmt = ast::stmt::makeShaderStructBufferDecl( "Buffer", instance, data, 1u, 2u );
+			std::cout << "StmtShaderStructBufferDecl:\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
 
-			require( stmt->getKind() == ast::stmt::Kind::eShaderBufferDecl );
+			require( stmt->getKind() == ast::stmt::Kind::eShaderStructBufferDecl );
 			check( stmt->getBindingPoint() == 1u );
 			check( stmt->getDescriptorSet() == 2u );
-			check( stmt->empty() );
 		}
 		testEnd();
 	}
@@ -729,6 +753,7 @@ int main( int argc, char ** argv )
 	testImageDeclStatement( testCounts );
 	testConstantBufferDeclStatement( testCounts );
 	testShaderBufferDeclStatement( testCounts );
+	testShaderStructBufferDeclStatement( testCounts );
 	testInOutVariableDeclStatement( testCounts );
 	testContainerStatement( testCounts );
 	testCompoundStatement( testCounts );

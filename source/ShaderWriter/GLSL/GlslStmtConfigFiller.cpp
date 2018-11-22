@@ -149,6 +149,10 @@ namespace sdw::glsl
 		visitContainerStmt( stmt );
 	}
 
+	void StmtConfigFiller::visitShaderStructBufferDeclStmt( stmt::ShaderStructBufferDecl * stmt )
+	{
+	}
+
 	void StmtConfigFiller::visitSimpleStmt( stmt::Simple * stmt )
 	{
 		ExprConfigFiller::submit( stmt->getExpr(), m_result );

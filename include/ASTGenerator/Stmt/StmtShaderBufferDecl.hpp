@@ -8,6 +8,8 @@ See LICENSE file in root folder
 #include "StmtCompound.hpp"
 #include "StmtVariableDecl.hpp"
 
+#include "ASTGenerator/Type/TypeStruct.hpp"
+
 namespace ast::stmt
 {
 	class ShaderBufferDecl
@@ -15,8 +17,7 @@ namespace ast::stmt
 	{
 	public:
 		ShaderBufferDecl( std::string const & ssboName
-			, var::VariablePtr ssboInstance
-			, var::VariablePtr data
+			, type::MemoryLayout layout
 			, uint32_t bindingPoint
 			, uint32_t bindingSet );
 		void add( VariableDeclPtr decl );
@@ -28,14 +29,9 @@ namespace ast::stmt
 			return m_ssboName;
 		}
 
-		inline var::VariablePtr const & getSsboInstance()const
+		inline type::MemoryLayout getMemoryLayout()const
 		{
-			return m_ssboInstance;
-		}
-
-		inline var::VariablePtr getData()const
-		{
-			return m_data;
+			return m_layout;
 		}
 
 		inline uint32_t getBindingPoint()const
@@ -53,22 +49,19 @@ namespace ast::stmt
 
 	private:
 		std::string m_ssboName;
-		var::VariablePtr m_ssboInstance;
-		var::VariablePtr m_data;
+		type::MemoryLayout m_layout;
 		uint32_t m_bindingPoint;
 		uint32_t m_bindingSet;
 	};
 	using ShaderBufferDeclPtr = std::unique_ptr< ShaderBufferDecl >;
 
 	inline ShaderBufferDeclPtr makeShaderBufferDecl( std::string const & ssboName
-		, var::VariablePtr ssboInstance
-		, var::VariablePtr data
+		, type::MemoryLayout layout
 		, uint32_t bindingPoint
 		, uint32_t bindingSet )
 	{
 		return std::make_unique< ShaderBufferDecl >( std::move( ssboName )
-			, std::move( ssboInstance )
-			, std::move( data )
+			, layout
 			, bindingPoint
 			, bindingSet );
 	}

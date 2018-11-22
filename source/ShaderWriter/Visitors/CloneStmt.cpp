@@ -225,14 +225,22 @@ namespace sdw
 	{
 		auto save = m_current;
 		auto cont = stmt::makeShaderBufferDecl( stmt->getSsboName()
-			, stmt->getSsboInstance()
-			, stmt->getData()
+			, stmt->getMemoryLayout()
 			, stmt->getBindingPoint()
 			, stmt->getDescriptorSet() );
 		m_current = cont.get();
 		visitContainerStmt( stmt );
 		m_current = save;
 		m_current->addStmt( std::move( cont ) );
+	}
+
+	void StmtCloner::visitShaderStructBufferDeclStmt( stmt::ShaderStructBufferDecl * stmt )
+	{
+		m_current->addStmt( stmt::makeShaderStructBufferDecl( stmt->getSsboName()
+			, stmt->getSsboInstance()
+			, stmt->getData()
+			, stmt->getBindingPoint()
+			, stmt->getDescriptorSet() ) );
 	}
 
 	void StmtCloner::visitSimpleStmt( stmt::Simple * stmt )

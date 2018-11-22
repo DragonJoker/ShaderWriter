@@ -43,6 +43,7 @@ namespace sdw::glsl
 		void visitSampledImageDeclStmt( stmt::SampledImageDecl * stmt )override;
 		void visitSamplerDeclStmt( stmt::SamplerDecl * stmt )override;
 		void visitShaderBufferDeclStmt( stmt::ShaderBufferDecl * stmt )override;
+		void visitShaderStructBufferDeclStmt( stmt::ShaderStructBufferDecl * stmt )override;
 		void visitSimpleStmt( stmt::Simple * stmt )override;
 		void visitStructureDeclStmt( stmt::StructureDecl * stmt )override;
 		void visitSwitchCaseStmt( stmt::SwitchCase * stmt )override;

@@ -32,7 +32,11 @@ namespace sdw
 		, m_dataVar{ var::makeVariable( m_ssboType->getMember( m_name + "Data" ).type, m_name + "Data", var::Flag::eUniform ) }
 		, m_ssboVar{ var::makeVariable( m_ssboType, m_name + "Inst", var::Flag::eUniform ) }
 	{
-		auto stmt = stmt::makeShaderBufferDecl( m_name, m_ssboVar, m_dataVar, bind, set );
+		auto stmt = stmt::makeShaderStructBufferDecl( m_name
+			, m_ssboVar
+			, m_dataVar
+			, bind
+			, set );
 		addStmt( m_shader, std::move( stmt ) );
 		m_shader.registerSsbo( m_name, m_info );
 	}

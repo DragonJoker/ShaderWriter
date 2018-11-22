@@ -404,6 +404,14 @@ namespace sdw::spirv
 	void StmtVisitor::visitShaderBufferDeclStmt( stmt::ShaderBufferDecl * stmt )
 	{
 		visitContainerStmt( stmt );
+		m_result.bindBufferVariable( stmt->getSsboName()
+			, stmt->getBindingPoint()
+			, stmt->getDescriptorSet()
+			, spv::Decoration::BufferBlock );
+	}
+
+	void StmtVisitor::visitShaderStructBufferDeclStmt( stmt::ShaderStructBufferDecl * stmt )
+	{
 		visitVariable( stmt->getSsboInstance() );
 		m_result.bindBufferVariable( stmt->getSsboInstance()->getName()
 			, stmt->getBindingPoint()

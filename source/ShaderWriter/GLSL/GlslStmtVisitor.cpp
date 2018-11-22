@@ -157,6 +157,20 @@ namespace sdw::glsl
 				return "rgba32f";
 			}
 		}
+
+		std::string getName( type::MemoryLayout layout )
+		{
+			switch ( layout )
+			{
+			case ast::type::MemoryLayout::eStd140:
+				return "std140";
+			case ast::type::MemoryLayout::eStd430:
+				return "std430";
+			default:
+				assert( false && "Unsupported type::MemoryLayout" );
+				return "std140";
+			}
+		}
 	}
 
 	//*************************************************************************
@@ -546,26 +560,32 @@ namespace sdw::glsl
 		m_appendLineEnd = true;
 		doAppendLineEnd();
 		m_result += m_indent;
-		m_result += "layout(binding=" + std::to_string( stmt->getBindingPoint() ) + ", set=" + std::to_string( stmt->getDescriptorSet() ) + ") ";
+		m_result += "layout(binding=" + std::to_string( stmt->getBindingPoint() )
+			+ ", set=" + std::to_string( stmt->getDescriptorSet() )
+			+ ", " + getName( stmt->getMemoryLayout() ) + ") ";
 		m_result += "buffer " + stmt->getSsboName();
+		m_appendSemiColon = false;
+		visitCompoundStmt( stmt );
+		m_result += ";\n";
+		m_appendLineEnd = true;
+	}
 
-		if ( !stmt->empty() )
-		{
-			m_appendSemiColon = false;
-			visitCompoundStmt( stmt );
-			m_result += " " + stmt->getSsboInstance()->getName() + ";\n";
-			m_appendLineEnd = true;
-		}
-		else
-		{
-			auto data = stmt->getData();
-			auto arrayType = std::static_pointer_cast< type::Array >( data->getType() );
-			auto structType = std::static_pointer_cast< type::Struct >( arrayType->getType() );
-			m_result += "\n{";
-			m_result += "\n\t" + structType->getName() + " " + data->getName() + "[];";
-			m_result += "\n} " + stmt->getSsboInstance()->getName() + ";\n";
-			m_appendLineEnd = true;
-		}
+	void StmtVisitor::visitShaderStructBufferDeclStmt( stmt::ShaderStructBufferDecl * stmt )
+	{
+		m_appendLineEnd = true;
+		doAppendLineEnd();
+		m_result += m_indent;
+		m_result += "layout(binding=" + std::to_string( stmt->getBindingPoint() )
+			+ ", set=" + std::to_string( stmt->getDescriptorSet() )
+			+ ", " + getName( stmt->getMemoryLayout() ) + ") ";
+		m_result += "buffer " + stmt->getSsboName();
+		auto data = stmt->getData();
+		auto arrayType = std::static_pointer_cast< type::Array >( data->getType() );
+		auto structType = std::static_pointer_cast< type::Struct >( arrayType->getType() );
+		m_result += "\n{";
+		m_result += "\n\t" + structType->getName() + " " + data->getName() + "[];";
+		m_result += "\n} " + stmt->getSsboInstance()->getName() + ";\n";
+		m_appendLineEnd = true;
 	}
 
 	void StmtVisitor::visitSimpleStmt( stmt::Simple * stmt )
