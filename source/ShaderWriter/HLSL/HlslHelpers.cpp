@@ -3,8 +3,8 @@ See LICENSE file in root folder
 */
 #include "ShaderWriter/HLSL/HlslHelpers.hpp"
 
-#include "ASTGenerator/Type/TypeImage.hpp"
-#include "ASTGenerator/Type/TypeSampler.hpp"
+#include "ShaderAST/Type/TypeImage.hpp"
+#include "ShaderAST/Type/TypeSampler.hpp"
 
 namespace sdw::hlsl
 {

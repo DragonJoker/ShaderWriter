@@ -7,7 +7,7 @@ See LICENSE file in root folder
 
 #include "HlslHelpers.hpp"
 
-#include <ASTGenerator/Expr/EnumIntrinsic.hpp>
+#include <ShaderAST/Expr/EnumIntrinsic.hpp>
 
 namespace sdw::hlsl
 {

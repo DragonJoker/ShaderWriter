@@ -5,7 +5,7 @@ See LICENSE file in root folder
 #define ___SDW_GlslImageAccessNames_H___
 #pragma once
 
-#include <ASTGenerator/Expr/EnumImageAccess.hpp>
+#include <ShaderAST/Expr/EnumImageAccess.hpp>
 
 #include <string>
 

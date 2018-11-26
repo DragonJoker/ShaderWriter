@@ -8,7 +8,7 @@ See LICENSE file in root folder
 #include "SpirvHelpers.hpp"
 #include "SpirvShader.hpp"
 
-#include <ASTGenerator/Visitors/CloneStmt.hpp>
+#include <ShaderAST/Visitors/CloneStmt.hpp>
 
 namespace sdw::spirv
 {

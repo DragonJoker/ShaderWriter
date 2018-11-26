@@ -23,7 +23,7 @@ See LICENSE file in root folder
 #include "ShaderWriter/MaybeOptional/MaybeOptionalMat4x2.hpp"
 #include "ShaderWriter/MaybeOptional/MaybeOptionalMat4x3.hpp"
 
-#include <ASTGenerator/Expr/MakeIntrinsic.hpp>
+#include <ShaderAST/Expr/MakeIntrinsic.hpp>
 
 namespace sdw
 {

@@ -9,8 +9,8 @@ See LICENSE file in root folder
 #include "ShaderWriter/BaseTypes/Float.hpp"
 #include "ShaderWriter/VecTypes/Vec4.hpp"
 
-#include <ASTGenerator/Stmt/StmtPerVertexDecl.hpp>
-#include <ASTGenerator/Var/VariableList.hpp>
+#include <ShaderAST/Stmt/StmtPerVertexDecl.hpp>
+#include <ShaderAST/Var/VariableList.hpp>
 
 namespace sdw
 {

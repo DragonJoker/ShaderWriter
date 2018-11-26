@@ -5,7 +5,7 @@ See LICENSE file in root folder
 #define ___SDW_SpirvIntrinsicNames_H___
 #pragma once
 
-#include <ASTGenerator/Expr/EnumIntrinsic.hpp>
+#include <ShaderAST/Expr/EnumIntrinsic.hpp>
 
 #include "spirv/GLSL.std.450.hpp"
 

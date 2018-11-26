@@ -6,7 +6,7 @@ See LICENSE file in root folder
 
 #include "BoInfo.hpp"
 
-#include <ASTGenerator/Stmt/StmtConstantBufferDecl.hpp>
+#include <ShaderAST/Stmt/StmtConstantBufferDecl.hpp>
 
 namespace sdw
 {

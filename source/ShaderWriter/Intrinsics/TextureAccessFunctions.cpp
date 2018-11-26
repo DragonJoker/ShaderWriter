@@ -5,7 +5,7 @@ See LICENSE file in root folder
 
 #include "ShaderWriter/Intrinsics/TextureAccessFunctions.hpp"
 
-#include <ASTGenerator/Expr/MakeTextureAccess.hpp>
+#include <ShaderAST/Expr/MakeTextureAccess.hpp>
 
 namespace sdw
 {

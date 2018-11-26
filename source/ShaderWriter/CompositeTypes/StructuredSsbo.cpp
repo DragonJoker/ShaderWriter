@@ -5,7 +5,7 @@ See LICENSE file in root folder
 
 #include "ShaderWriter/Writer.hpp"
 
-#include <ASTGenerator/Type/TypeArray.hpp>
+#include <ShaderAST/Type/TypeArray.hpp>
 
 namespace sdw
 {

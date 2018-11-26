@@ -6,7 +6,7 @@ See LICENSE file in root folder
 
 #include "ShaderWriter/Value.hpp"
 
-#include <ASTGenerator/Type/TypeStruct.hpp>
+#include <ShaderAST/Type/TypeStruct.hpp>
 
 namespace sdw
 {

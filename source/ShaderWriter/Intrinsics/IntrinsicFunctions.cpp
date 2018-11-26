@@ -5,7 +5,7 @@ See LICENSE file in root folder
 
 #include "ShaderWriter/Intrinsics/IntrinsicFunctions.hpp"
 
-#include <ASTGenerator/Expr/MakeIntrinsic.hpp>
+#include <ShaderAST/Expr/MakeIntrinsic.hpp>
 
 namespace sdw
 {

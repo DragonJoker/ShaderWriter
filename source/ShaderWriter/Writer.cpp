@@ -6,18 +6,18 @@ See LICENSE file in root folder
 #include "ShaderWriter/Intrinsics/Intrinsics.hpp"
 #include "ShaderWriter/VecTypes/Vec2.hpp"
 
-#include <ASTGenerator/Stmt/PreprocExtension.hpp>
-#include <ASTGenerator/Stmt/PreprocVersion.hpp>
-#include <ASTGenerator/Stmt/StmtDiscard.hpp>
-#include <ASTGenerator/Stmt/StmtDoWhile.hpp>
-#include <ASTGenerator/Stmt/StmtElse.hpp>
-#include <ASTGenerator/Stmt/StmtElseIf.hpp>
-#include <ASTGenerator/Stmt/StmtFor.hpp>
-#include <ASTGenerator/Stmt/StmtIf.hpp>
-#include <ASTGenerator/Stmt/StmtInputComputeLayout.hpp>
-#include <ASTGenerator/Stmt/StmtInputGeometryLayout.hpp>
-#include <ASTGenerator/Stmt/StmtOutputGeometryLayout.hpp>
-#include <ASTGenerator/Stmt/StmtWhile.hpp>
+#include <ShaderAST/Stmt/PreprocExtension.hpp>
+#include <ShaderAST/Stmt/PreprocVersion.hpp>
+#include <ShaderAST/Stmt/StmtDiscard.hpp>
+#include <ShaderAST/Stmt/StmtDoWhile.hpp>
+#include <ShaderAST/Stmt/StmtElse.hpp>
+#include <ShaderAST/Stmt/StmtElseIf.hpp>
+#include <ShaderAST/Stmt/StmtFor.hpp>
+#include <ShaderAST/Stmt/StmtIf.hpp>
+#include <ShaderAST/Stmt/StmtInputComputeLayout.hpp>
+#include <ShaderAST/Stmt/StmtInputGeometryLayout.hpp>
+#include <ShaderAST/Stmt/StmtOutputGeometryLayout.hpp>
+#include <ShaderAST/Stmt/StmtWhile.hpp>
 
 namespace sdw
 {

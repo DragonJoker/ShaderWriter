@@ -5,27 +5,27 @@ See LICENSE file in root folder
 
 #include "ShaderWriter/BaseTypes/Bool.hpp"
 
-#include <ASTGenerator/Expr/ExprAddAssign.hpp>
-#include <ASTGenerator/Expr/ExprAndAssign.hpp>
-#include <ASTGenerator/Expr/ExprBitAnd.hpp>
-#include <ASTGenerator/Expr/ExprBitNot.hpp>
-#include <ASTGenerator/Expr/ExprBitOr.hpp>
-#include <ASTGenerator/Expr/ExprDivideAssign.hpp>
-#include <ASTGenerator/Expr/ExprIdentifier.hpp>
-#include <ASTGenerator/Expr/ExprLiteral.hpp>
-#include <ASTGenerator/Expr/ExprLShift.hpp>
-#include <ASTGenerator/Expr/ExprLShiftAssign.hpp>
-#include <ASTGenerator/Expr/ExprMinusAssign.hpp>
-#include <ASTGenerator/Expr/ExprModulo.hpp>
-#include <ASTGenerator/Expr/ExprModuloAssign.hpp>
-#include <ASTGenerator/Expr/ExprOrAssign.hpp>
-#include <ASTGenerator/Expr/ExprPostDecrement.hpp>
-#include <ASTGenerator/Expr/ExprPostIncrement.hpp>
-#include <ASTGenerator/Expr/ExprPreDecrement.hpp>
-#include <ASTGenerator/Expr/ExprPreIncrement.hpp>
-#include <ASTGenerator/Expr/ExprRShift.hpp>
-#include <ASTGenerator/Expr/ExprRShiftAssign.hpp>
-#include <ASTGenerator/Expr/ExprTimesAssign.hpp>
+#include <ShaderAST/Expr/ExprAddAssign.hpp>
+#include <ShaderAST/Expr/ExprAndAssign.hpp>
+#include <ShaderAST/Expr/ExprBitAnd.hpp>
+#include <ShaderAST/Expr/ExprBitNot.hpp>
+#include <ShaderAST/Expr/ExprBitOr.hpp>
+#include <ShaderAST/Expr/ExprDivideAssign.hpp>
+#include <ShaderAST/Expr/ExprIdentifier.hpp>
+#include <ShaderAST/Expr/ExprLiteral.hpp>
+#include <ShaderAST/Expr/ExprLShift.hpp>
+#include <ShaderAST/Expr/ExprLShiftAssign.hpp>
+#include <ShaderAST/Expr/ExprMinusAssign.hpp>
+#include <ShaderAST/Expr/ExprModulo.hpp>
+#include <ShaderAST/Expr/ExprModuloAssign.hpp>
+#include <ShaderAST/Expr/ExprOrAssign.hpp>
+#include <ShaderAST/Expr/ExprPostDecrement.hpp>
+#include <ShaderAST/Expr/ExprPostIncrement.hpp>
+#include <ShaderAST/Expr/ExprPreDecrement.hpp>
+#include <ShaderAST/Expr/ExprPreIncrement.hpp>
+#include <ShaderAST/Expr/ExprRShift.hpp>
+#include <ShaderAST/Expr/ExprRShiftAssign.hpp>
+#include <ShaderAST/Expr/ExprTimesAssign.hpp>
 
 namespace sdw
 {

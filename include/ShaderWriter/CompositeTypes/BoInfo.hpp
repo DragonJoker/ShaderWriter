@@ -7,8 +7,8 @@ See LICENSE file in root folder
 
 #include "ShaderWriter/ShaderWriterPrerequisites.hpp"
 
-#include <ASTGenerator/Type/TypeArray.hpp>
-#include <ASTGenerator/Type/TypeStruct.hpp>
+#include <ShaderAST/Type/TypeArray.hpp>
+#include <ShaderAST/Type/TypeStruct.hpp>
 
 namespace sdw
 {

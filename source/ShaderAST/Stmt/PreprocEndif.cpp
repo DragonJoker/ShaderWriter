@@ -1,0 +1,19 @@
+/*
+See LICENSE file in root folder
+*/
+#include "ShaderAST/Stmt/PreprocEndif.hpp"
+
+#include "ShaderAST/Stmt/StmtVisitor.hpp"
+
+namespace ast::stmt
+{
+	PreprocEndif::PreprocEndif()
+		: Stmt{ Kind::ePreprocEndif }
+	{
+	}
+
+	void PreprocEndif::accept( VisitorPtr vis )
+	{
+		vis->visitPreprocEndif( this );
+	}
+}

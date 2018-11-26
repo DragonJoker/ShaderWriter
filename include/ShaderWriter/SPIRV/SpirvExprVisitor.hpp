@@ -7,7 +7,7 @@ See LICENSE file in root folder
 
 #include "SpirvHelpers.hpp"
 
-#include <ASTGenerator/Expr/ExprVisitor.hpp>
+#include <ShaderAST/Expr/ExprVisitor.hpp>
 
 #include <array>
 

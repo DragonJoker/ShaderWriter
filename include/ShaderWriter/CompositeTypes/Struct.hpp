@@ -6,7 +6,7 @@ See LICENSE file in root folder
 
 #include "StructInstance.hpp"
 
-#include <ASTGenerator/Stmt/StmtStructureDecl.hpp>
+#include <ShaderAST/Stmt/StmtStructureDecl.hpp>
 
 namespace sdw
 {

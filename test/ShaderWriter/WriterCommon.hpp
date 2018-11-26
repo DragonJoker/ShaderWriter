@@ -2,9 +2,9 @@
 
 #include "../Common.hpp"
 
-#include <ASTGenerator/Debug/DebugCommon.hpp>
-#include <ASTGenerator/Debug/DebugStmtVisitor.hpp>
-#include <ASTGenerator/Var/Variable.hpp>
+#include <ShaderAST/Debug/DebugCommon.hpp>
+#include <ShaderAST/Debug/DebugStmtVisitor.hpp>
+#include <ShaderAST/Var/Variable.hpp>
 #include <ShaderWriter/BaseTypes/Sampler.hpp>
 #include <ShaderWriter/BaseTypes/Image.hpp>
 #include <ShaderWriter/Intrinsics/Intrinsics.hpp>

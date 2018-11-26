@@ -39,7 +39,7 @@ set_property( TARGET TestWriterCommon PROPERTY CXX_STANDARD 17 )
 set_property( TARGET TestWriterCommon PROPERTY FOLDER "Tests/ShaderWriter" )
 
 add_dependencies( TestWriterCommon
-	ASTGenerator
+	ShaderAST
 	ShaderWriter
 )
 
@@ -52,7 +52,7 @@ foreach ( TEST_FILE ${TEST_FILES} )
 		${TEST_FILE}
 	)
 	target_link_libraries( ${TEST_NAME}
-		ASTGenerator
+		ShaderAST
 		ShaderWriter
 		TestWriterCommon
 		${BinLibraries}

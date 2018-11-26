@@ -6,14 +6,14 @@ See LICENSE file in root folder
 #include "ShaderWriter/Shader.hpp"
 #include "ShaderWriter/MaybeOptional/MaybeOptional.hpp"
 
-#include <ASTGenerator/Expr/ExprAddAssign.hpp>
-#include <ASTGenerator/Expr/ExprAssign.hpp>
-#include <ASTGenerator/Expr/ExprDivideAssign.hpp>
-#include <ASTGenerator/Expr/ExprIdentifier.hpp>
-#include <ASTGenerator/Expr/ExprLiteral.hpp>
-#include <ASTGenerator/Expr/ExprMinusAssign.hpp>
-#include <ASTGenerator/Expr/ExprTimesAssign.hpp>
-#include <ASTGenerator/Stmt/StmtSimple.hpp>
+#include <ShaderAST/Expr/ExprAddAssign.hpp>
+#include <ShaderAST/Expr/ExprAssign.hpp>
+#include <ShaderAST/Expr/ExprDivideAssign.hpp>
+#include <ShaderAST/Expr/ExprIdentifier.hpp>
+#include <ShaderAST/Expr/ExprLiteral.hpp>
+#include <ShaderAST/Expr/ExprMinusAssign.hpp>
+#include <ShaderAST/Expr/ExprTimesAssign.hpp>
+#include <ShaderAST/Stmt/StmtSimple.hpp>
 
 namespace sdw
 {

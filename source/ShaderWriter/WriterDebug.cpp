@@ -5,7 +5,7 @@ See LICENSE file in root folder
 
 #include "ShaderWriter/Shader.hpp"
 
-#include <ASTGenerator/Debug/DebugStmtVisitor.hpp>
+#include <ShaderAST/Debug/DebugStmtVisitor.hpp>
 
 namespace sdw
 {

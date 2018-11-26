@@ -6,9 +6,9 @@ See LICENSE file in root folder
 
 #include <map>
 
-#include <ASTGenerator/Type/Type.hpp>
-#include <ASTGenerator/Type/TypeArray.hpp>
-#include <ASTGenerator/Type/ImageConfiguration.hpp>
+#include <ShaderAST/Type/Type.hpp>
+#include <ShaderAST/Type/TypeArray.hpp>
+#include <ShaderAST/Type/ImageConfiguration.hpp>
 
 #define Writer_Parameter( TypeName )\
 	using In##TypeName = InParam< TypeName >;\

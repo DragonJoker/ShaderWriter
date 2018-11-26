@@ -5,7 +5,7 @@ See LICENSE file in root folder
 #define ___AST_GlslIntrinsicNames_H___
 #pragma once
 
-#include <ASTGenerator/Expr/EnumIntrinsic.hpp>
+#include <ShaderAST/Expr/EnumIntrinsic.hpp>
 
 #include <string>
 

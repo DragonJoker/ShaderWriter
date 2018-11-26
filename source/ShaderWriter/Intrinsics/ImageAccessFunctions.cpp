@@ -5,7 +5,7 @@ See LICENSE file in root folder
 
 #include "ShaderWriter/Intrinsics/ImageAccessFunctions.hpp"
 
-#include <ASTGenerator/Expr/MakeImageAccess.hpp>
+#include <ShaderAST/Expr/MakeImageAccess.hpp>
 
 namespace sdw
 {

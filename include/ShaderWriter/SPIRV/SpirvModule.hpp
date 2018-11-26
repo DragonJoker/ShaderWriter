@@ -8,7 +8,7 @@ See LICENSE file in root folder
 #include "ShaderWriter/ShaderWriterPrerequisites.hpp"
 #include "spirv/spirv.hpp"
 
-#include <ASTGenerator/Type/TypeStruct.hpp>
+#include <ShaderAST/Type/TypeStruct.hpp>
 
 #include <optional>
 #include <set>

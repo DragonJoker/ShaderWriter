@@ -7,7 +7,7 @@ See LICENSE file in root folder
 
 #include "BoInfo.hpp"
 
-#include <ASTGenerator/Stmt/StmtPushConstantsBufferDecl.hpp>
+#include <ShaderAST/Stmt/StmtPushConstantsBufferDecl.hpp>
 
 namespace sdw
 {

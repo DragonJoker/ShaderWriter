@@ -3,7 +3,7 @@ See LICENSE file in root folder
 */
 #include "ShaderWriter/SPIRV/SpirvExprEvaluator.hpp"
 
-#include <ASTGenerator/Expr/ExprVisitor.hpp>
+#include <ShaderAST/Expr/ExprVisitor.hpp>
 
 #include <sstream>
 

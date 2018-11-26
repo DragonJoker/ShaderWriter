@@ -7,7 +7,7 @@ See LICENSE file in root folder
 
 #include "ShaderWriter/HLSL/HlslHelpers.hpp"
 
-#include <ASTGenerator/Expr/ExprVisitor.hpp>
+#include <ShaderAST/Expr/ExprVisitor.hpp>
 
 namespace sdw::hlsl
 {

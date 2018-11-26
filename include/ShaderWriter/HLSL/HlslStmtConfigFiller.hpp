@@ -8,7 +8,7 @@ See LICENSE file in root folder
 #include "ShaderWriter/HLSL/HlslHelpers.hpp"
 #include "ShaderWriter/HLSL/HlslShader.hpp"
 
-#include <ASTGenerator/Stmt/StmtVisitor.hpp>
+#include <ShaderAST/Stmt/StmtVisitor.hpp>
 
 namespace sdw::hlsl
 {

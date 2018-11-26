@@ -5,7 +5,7 @@ See LICENSE file in root folder
 #define ___AST_HlslVariableReplacer_H___
 #pragma once
 
-#include <ASTGenerator/Visitors/CloneExpr.hpp>
+#include <ShaderAST/Visitors/CloneExpr.hpp>
 
 namespace sdw::hlsl
 {

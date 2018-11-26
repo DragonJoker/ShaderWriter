@@ -7,7 +7,7 @@ See LICENSE file in root folder
 
 #include "HlslHelpers.hpp"
 
-#include <ASTGenerator/Stmt/StmtVisitor.hpp>
+#include <ShaderAST/Stmt/StmtVisitor.hpp>
 
 namespace sdw::hlsl
 {

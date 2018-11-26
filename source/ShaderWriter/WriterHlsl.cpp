@@ -7,7 +7,7 @@ See LICENSE file in root folder
 #include "ShaderWriter/HLSL/HlslStmtConfigFiller.hpp"
 #include "ShaderWriter/HLSL/HlslStmtVisitor.hpp"
 
-#include <ASTGenerator/Visitors/StmtSpecialiser.hpp>
+#include <ShaderAST/Visitors/StmtSpecialiser.hpp>
 
 namespace sdw
 {

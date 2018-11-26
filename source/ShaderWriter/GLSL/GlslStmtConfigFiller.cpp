@@ -7,8 +7,8 @@ See LICENSE file in root folder
 
 #include "ShaderWriter/Shader.hpp"
 
-#include <ASTGenerator/Type/TypeImage.hpp>
-#include <ASTGenerator/Type/TypeSampledImage.hpp>
+#include <ShaderAST/Type/TypeImage.hpp>
+#include <ShaderAST/Type/TypeSampledImage.hpp>
 
 namespace sdw::glsl
 {

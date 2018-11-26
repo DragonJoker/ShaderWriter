@@ -132,8 +132,8 @@ find_package( Python )
 
 if ( MSVC OR NOT "${CMAKE_BUILD_TYPE}" STREQUAL "" )
 	# Build projects
-	# ASTGenerator library
-	project( ASTGenerator )
+	# ShaderAST library
+	project( ShaderAST )
 	file( GLOB_RECURSE ${PROJECT_NAME}_FOLDER_HEADER_FILES
 		include/${PROJECT_NAME}/*.h
 		include/${PROJECT_NAME}/*.hpp
@@ -287,8 +287,8 @@ if ( MSVC OR NOT "${CMAKE_BUILD_TYPE}" STREQUAL "" )
 		${${PROJECT_NAME}_FOLDER_SCRIPT_FILES}
 	)
 	add_target_precompiled_header( ${PROJECT_NAME}
-		${CMAKE_SOURCE_DIR}/include/${PROJECT_NAME}/ASTGeneratorPch.hpp
-		${CMAKE_SOURCE_DIR}/source/${PROJECT_NAME}/ASTGeneratorPch.cpp
+		${CMAKE_SOURCE_DIR}/include/${PROJECT_NAME}/ShaderASTPch.hpp
+		${CMAKE_SOURCE_DIR}/source/${PROJECT_NAME}/ShaderASTPch.cpp
 		"${CMAKE_CXX_FLAGS}"
 		${${PROJECT_NAME}_FOLDER_SOURCE_FILES}
 	)
@@ -330,59 +330,59 @@ if ( MSVC OR NOT "${CMAKE_BUILD_TYPE}" STREQUAL "" )
 		set( GENERATED_DIR ${CMAKE_BINARY_DIR}/generated/${PROJECT_NAME} )
 		add_custom_command( OUTPUT ${INCLUDE_DIR}/Intrinsics/ImageAccessFunctions.hpp
 			COMMAND ${CMAKE_COMMAND} -E make_directory ${GENERATED_DIR}
-			COMMAND ${Python_EXECUTABLE} ${SCRIPT_DIR}/genFunctionHeaderFromEnum.py ${CMAKE_SOURCE_DIR}/include/ASTGenerator/Expr/ImageAccess.enum ${GENERATED_DIR}/ImageAccessFunctions.hpp
+			COMMAND ${Python_EXECUTABLE} ${SCRIPT_DIR}/genFunctionHeaderFromEnum.py ${CMAKE_SOURCE_DIR}/include/ShaderAST/Expr/ImageAccess.enum ${GENERATED_DIR}/ImageAccessFunctions.hpp
 			COMMAND ${CMAKE_COMMAND} -E copy_if_different ${GENERATED_DIR}/ImageAccessFunctions.hpp ${INCLUDE_DIR}/Intrinsics/ImageAccessFunctions.hpp
 			COMMENT "Generating ImageAccessFunctions.hpp"
-			DEPENDS ${SCRIPT_DIR}/genFunctionHeaderFromEnum.py ${CMAKE_SOURCE_DIR}/include/ASTGenerator/Expr/ImageAccess.enum
+			DEPENDS ${SCRIPT_DIR}/genFunctionHeaderFromEnum.py ${CMAKE_SOURCE_DIR}/include/ShaderAST/Expr/ImageAccess.enum
 		)
 		add_custom_command( OUTPUT ${INCLUDE_DIR}/Intrinsics/TextureAccessFunctions.hpp
 			COMMAND ${CMAKE_COMMAND} -E make_directory ${GENERATED_DIR}
-			COMMAND ${Python_EXECUTABLE} ${SCRIPT_DIR}/genFunctionHeaderFromEnum.py ${CMAKE_SOURCE_DIR}/include/ASTGenerator/Expr/TextureAccess.enum ${GENERATED_DIR}/TextureAccessFunctions.hpp
+			COMMAND ${Python_EXECUTABLE} ${SCRIPT_DIR}/genFunctionHeaderFromEnum.py ${CMAKE_SOURCE_DIR}/include/ShaderAST/Expr/TextureAccess.enum ${GENERATED_DIR}/TextureAccessFunctions.hpp
 			COMMAND ${CMAKE_COMMAND} -E copy_if_different ${GENERATED_DIR}/TextureAccessFunctions.hpp ${INCLUDE_DIR}/Intrinsics/TextureAccessFunctions.hpp
 			COMMENT "Generating TextureAccessFunctions.hpp"
-			DEPENDS ${SCRIPT_DIR}/genFunctionHeaderFromEnum.py ${CMAKE_SOURCE_DIR}/include/ASTGenerator/Expr/TextureAccess.enum
+			DEPENDS ${SCRIPT_DIR}/genFunctionHeaderFromEnum.py ${CMAKE_SOURCE_DIR}/include/ShaderAST/Expr/TextureAccess.enum
 		)
 		add_custom_command( OUTPUT ${INCLUDE_DIR}/Intrinsics/IntrinsicFunctions.hpp
 			COMMAND ${CMAKE_COMMAND} -E make_directory ${GENERATED_DIR}
-			COMMAND ${Python_EXECUTABLE} ${SCRIPT_DIR}/genFunctionHeaderFromEnum.py ${CMAKE_SOURCE_DIR}/include/ASTGenerator/Expr/Intrinsic.enum ${GENERATED_DIR}/IntrinsicFunctions.hpp
+			COMMAND ${Python_EXECUTABLE} ${SCRIPT_DIR}/genFunctionHeaderFromEnum.py ${CMAKE_SOURCE_DIR}/include/ShaderAST/Expr/Intrinsic.enum ${GENERATED_DIR}/IntrinsicFunctions.hpp
 			COMMAND ${CMAKE_COMMAND} -E copy_if_different ${GENERATED_DIR}/IntrinsicFunctions.hpp ${INCLUDE_DIR}/Intrinsics/IntrinsicFunctions.hpp
 			COMMENT "Generating IntrinsicFunctions.hpp"
-			DEPENDS ${SCRIPT_DIR}/genFunctionHeaderFromEnum.py ${CMAKE_SOURCE_DIR}/include/ASTGenerator/Expr/Intrinsic.enum
+			DEPENDS ${SCRIPT_DIR}/genFunctionHeaderFromEnum.py ${CMAKE_SOURCE_DIR}/include/ShaderAST/Expr/Intrinsic.enum
 		)
 		add_custom_command( OUTPUT ${SOURCE_DIR}/Intrinsics/ImageAccessFunctions.cpp
 			COMMAND ${CMAKE_COMMAND} -E make_directory ${GENERATED_DIR}
-			COMMAND ${Python_EXECUTABLE} ${SCRIPT_DIR}/genFunctionSourceFromEnum.py ${CMAKE_SOURCE_DIR}/include/ASTGenerator/Expr/ImageAccess.enum ${GENERATED_DIR}/ImageAccessFunctions.cpp
+			COMMAND ${Python_EXECUTABLE} ${SCRIPT_DIR}/genFunctionSourceFromEnum.py ${CMAKE_SOURCE_DIR}/include/ShaderAST/Expr/ImageAccess.enum ${GENERATED_DIR}/ImageAccessFunctions.cpp
 			COMMAND ${CMAKE_COMMAND} -E copy_if_different ${GENERATED_DIR}/ImageAccessFunctions.cpp ${SOURCE_DIR}/Intrinsics/ImageAccessFunctions.cpp
 			COMMENT "Generating ImageAccessFunctions.cpp"
-			DEPENDS ${SCRIPT_DIR}/genFunctionSourceFromEnum.py ${CMAKE_SOURCE_DIR}/include/ASTGenerator/Expr/ImageAccess.enum
+			DEPENDS ${SCRIPT_DIR}/genFunctionSourceFromEnum.py ${CMAKE_SOURCE_DIR}/include/ShaderAST/Expr/ImageAccess.enum
 		)
 		add_custom_command( OUTPUT ${SOURCE_DIR}/Intrinsics/TextureAccessFunctions.cpp
 			COMMAND ${CMAKE_COMMAND} -E make_directory ${GENERATED_DIR}
-			COMMAND ${Python_EXECUTABLE} ${SCRIPT_DIR}/genFunctionSourceFromEnum.py ${CMAKE_SOURCE_DIR}/include/ASTGenerator/Expr/TextureAccess.enum ${GENERATED_DIR}/TextureAccessFunctions.cpp
+			COMMAND ${Python_EXECUTABLE} ${SCRIPT_DIR}/genFunctionSourceFromEnum.py ${CMAKE_SOURCE_DIR}/include/ShaderAST/Expr/TextureAccess.enum ${GENERATED_DIR}/TextureAccessFunctions.cpp
 			COMMAND ${CMAKE_COMMAND} -E copy_if_different ${GENERATED_DIR}/TextureAccessFunctions.cpp ${SOURCE_DIR}/Intrinsics/TextureAccessFunctions.cpp
 			COMMENT "Generating TextureAccessFunctions.cpp"
-			DEPENDS ${SCRIPT_DIR}/genFunctionSourceFromEnum.py ${CMAKE_SOURCE_DIR}/include/ASTGenerator/Expr/TextureAccess.enum
+			DEPENDS ${SCRIPT_DIR}/genFunctionSourceFromEnum.py ${CMAKE_SOURCE_DIR}/include/ShaderAST/Expr/TextureAccess.enum
 		)
 		add_custom_command( OUTPUT ${SOURCE_DIR}/Intrinsics/IntrinsicFunctions.cpp
 			COMMAND ${CMAKE_COMMAND} -E make_directory ${GENERATED_DIR}
-			COMMAND ${Python_EXECUTABLE} ${SCRIPT_DIR}/genFunctionSourceFromEnum.py ${CMAKE_SOURCE_DIR}/include/ASTGenerator/Expr/Intrinsic.enum ${GENERATED_DIR}/IntrinsicFunctions.cpp
+			COMMAND ${Python_EXECUTABLE} ${SCRIPT_DIR}/genFunctionSourceFromEnum.py ${CMAKE_SOURCE_DIR}/include/ShaderAST/Expr/Intrinsic.enum ${GENERATED_DIR}/IntrinsicFunctions.cpp
 			COMMAND ${CMAKE_COMMAND} -E copy_if_different ${GENERATED_DIR}/IntrinsicFunctions.cpp ${SOURCE_DIR}/Intrinsics/IntrinsicFunctions.cpp
 			COMMENT "Generating IntrinsicFunctions.cpp"
-			DEPENDS ${SCRIPT_DIR}/genFunctionSourceFromEnum.py ${CMAKE_SOURCE_DIR}/include/ASTGenerator/Expr/Intrinsic.enum
+			DEPENDS ${SCRIPT_DIR}/genFunctionSourceFromEnum.py ${CMAKE_SOURCE_DIR}/include/ShaderAST/Expr/Intrinsic.enum
 		)
 		add_custom_command( OUTPUT ${INCLUDE_DIR}/Intrinsics/GLSL/GlslImageAccessNames.hpp
 			COMMAND ${CMAKE_COMMAND} -E make_directory ${GENERATED_DIR}
-			COMMAND ${Python_EXECUTABLE} ${SCRIPT_DIR}/genGlslNameFromEnum.py ${CMAKE_SOURCE_DIR}/include/ASTGenerator/Expr/ImageAccess.enum ${GENERATED_DIR}/GlslImageAccessNames.hpp
+			COMMAND ${Python_EXECUTABLE} ${SCRIPT_DIR}/genGlslNameFromEnum.py ${CMAKE_SOURCE_DIR}/include/ShaderAST/Expr/ImageAccess.enum ${GENERATED_DIR}/GlslImageAccessNames.hpp
 			COMMAND ${CMAKE_COMMAND} -E copy_if_different ${GENERATED_DIR}/GlslImageAccessNames.hpp ${INCLUDE_DIR}/Intrinsics/GLSL/GlslImageAccessNames.hpp
 			COMMENT "Generating GlslImageAccessNames.hpp"
-			DEPENDS ${SCRIPT_DIR}/genGlslNameFromEnum.py ${CMAKE_SOURCE_DIR}/include/ASTGenerator/Expr/ImageAccess.enum
+			DEPENDS ${SCRIPT_DIR}/genGlslNameFromEnum.py ${CMAKE_SOURCE_DIR}/include/ShaderAST/Expr/ImageAccess.enum
 		)
 		add_custom_command( OUTPUT ${INCLUDE_DIR}/Intrinsics/GLSL/GlslIntrinsicNames.hpp
 			COMMAND ${CMAKE_COMMAND} -E make_directory ${GENERATED_DIR}
-			COMMAND ${Python_EXECUTABLE} ${SCRIPT_DIR}/genGlslNameFromEnum.py ${CMAKE_SOURCE_DIR}/include/ASTGenerator/Expr/Intrinsic.enum ${GENERATED_DIR}/GlslIntrinsicNames.hpp
+			COMMAND ${Python_EXECUTABLE} ${SCRIPT_DIR}/genGlslNameFromEnum.py ${CMAKE_SOURCE_DIR}/include/ShaderAST/Expr/Intrinsic.enum ${GENERATED_DIR}/GlslIntrinsicNames.hpp
 			COMMAND ${CMAKE_COMMAND} -E copy_if_different ${GENERATED_DIR}/GlslIntrinsicNames.hpp ${INCLUDE_DIR}/Intrinsics/GLSL/GlslIntrinsicNames.hpp
 			COMMENT "Generating GlslIntrinsicNames.hpp"
-			DEPENDS ${SCRIPT_DIR}/genGlslNameFromEnum.py ${CMAKE_SOURCE_DIR}/include/ASTGenerator/Expr/Intrinsic.enum
+			DEPENDS ${SCRIPT_DIR}/genGlslNameFromEnum.py ${CMAKE_SOURCE_DIR}/include/ShaderAST/Expr/Intrinsic.enum
 		)
 		source_group( "Script Files" FILES
 			${${PROJECT_NAME}_FOLDER_SCRIPT_FILES}
@@ -428,7 +428,7 @@ if ( MSVC OR NOT "${CMAKE_BUILD_TYPE}" STREQUAL "" )
 		${${PROJECT_NAME}_FOLDER_SOURCE_FILES}
 	)
 	target_link_libraries( ${PROJECT_NAME}
-		ASTGenerator
+		ShaderAST
 	)
 	set_property( TARGET ${PROJECT_NAME} PROPERTY CXX_STANDARD 17 )
 	set_property( TARGET ${PROJECT_NAME} PROPERTY FOLDER "Core" )

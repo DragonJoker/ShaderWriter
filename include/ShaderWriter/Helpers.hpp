@@ -6,19 +6,19 @@ See LICENSE file in root folder
 
 #include "ShaderWriterPrerequisites.hpp"
 
-#include <ASTGenerator/Expr/ExprIdentifier.hpp>
-#include <ASTGenerator/Expr/ExprList.hpp>
-#include <ASTGenerator/Expr/ExprLiteral.hpp>
-#include <ASTGenerator/Type/Type.hpp>
-#include <ASTGenerator/Stmt/Stmt.hpp>
-#include <ASTGenerator/Stmt/StmtContainer.hpp>
-#include <ASTGenerator/Stmt/StmtFunctionDecl.hpp>
-#include <ASTGenerator/Stmt/StmtInputGeometryLayout.hpp>
-#include <ASTGenerator/Stmt/StmtOutputGeometryLayout.hpp>
-#include <ASTGenerator/Stmt/StmtPerVertexDecl.hpp>
-#include <ASTGenerator/Type/TypeStruct.hpp>
-#include <ASTGenerator/Var/Variable.hpp>
-#include <ASTGenerator/Visitors/GetExprName.hpp>
+#include <ShaderAST/Expr/ExprIdentifier.hpp>
+#include <ShaderAST/Expr/ExprList.hpp>
+#include <ShaderAST/Expr/ExprLiteral.hpp>
+#include <ShaderAST/Type/Type.hpp>
+#include <ShaderAST/Stmt/Stmt.hpp>
+#include <ShaderAST/Stmt/StmtContainer.hpp>
+#include <ShaderAST/Stmt/StmtFunctionDecl.hpp>
+#include <ShaderAST/Stmt/StmtInputGeometryLayout.hpp>
+#include <ShaderAST/Stmt/StmtOutputGeometryLayout.hpp>
+#include <ShaderAST/Stmt/StmtPerVertexDecl.hpp>
+#include <ShaderAST/Type/TypeStruct.hpp>
+#include <ShaderAST/Var/Variable.hpp>
+#include <ShaderAST/Visitors/GetExprName.hpp>
 
 namespace sdw
 {

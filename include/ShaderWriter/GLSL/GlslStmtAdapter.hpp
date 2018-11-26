@@ -8,7 +8,7 @@ See LICENSE file in root folder
 #include "ShaderWriter/WriterGlsl.hpp"
 #include "ShaderWriter/GLSL/GlslHelpers.hpp"
 
-#include <ASTGenerator/Visitors/CloneStmt.hpp>
+#include <ShaderAST/Visitors/CloneStmt.hpp>
 
 namespace sdw::glsl
 {

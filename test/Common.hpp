@@ -1,9 +1,9 @@
 #pragma once
 
-#include <ASTGenerator/Expr/ExprVisitor.hpp>
-#include <ASTGenerator/Stmt/StmtVisitor.hpp>
-#include <ASTGenerator/Type/ImageConfiguration.hpp>
-#include <ASTGenerator/Type/TypeArray.hpp>
+#include <ShaderAST/Expr/ExprVisitor.hpp>
+#include <ShaderAST/Stmt/StmtVisitor.hpp>
+#include <ShaderAST/Type/ImageConfiguration.hpp>
+#include <ShaderAST/Type/TypeArray.hpp>
 
 #include <iostream>
 #include <stdexcept>

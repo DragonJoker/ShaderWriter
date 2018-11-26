@@ -4,8 +4,8 @@ See LICENSE file in root folder
 #include "ShaderWriter/HLSL/HlslIntrinsicFunctions.hpp"
 #include "ShaderWriter/HLSL/HlslExprAdapter.hpp"
 
-#include <ASTGenerator/Stmt/StmtContainer.hpp>
-#include <ASTGenerator/Stmt/StmtComment.hpp>
+#include <ShaderAST/Stmt/StmtContainer.hpp>
+#include <ShaderAST/Stmt/StmtComment.hpp>
 
 namespace sdw::hlsl
 {

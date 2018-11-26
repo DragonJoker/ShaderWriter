@@ -16,8 +16,8 @@ set_property( TARGET TestCommon PROPERTY CXX_STANDARD 17 )
 set_property( TARGET TestCommon PROPERTY FOLDER "Tests" )
 
 add_dependencies( TestCommon
-	ASTGenerator
+	ShaderAST
 )
 
-add_subdirectory( ASTGenerator )
+add_subdirectory( ShaderAST )
 add_subdirectory( ShaderWriter )
