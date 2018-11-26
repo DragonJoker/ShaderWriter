@@ -2,10 +2,10 @@ ShaderWriter
 ============
 
 This library is used to write shaders directly from C++ code.
-It is split in two libraries : ASTGenerator and ShaderWriter.
-ASTGenerator holds the base architecture (expressions and statements, roughly) used to describe a shader.
-ShaderWriter is based on ASTGenerator, and is fully typed, to be able to write GLSL-like shaders in C++.
-It contains three writers : GLSL, HLSL and SPIR-V, to allow exporting the generated AST in either of these shader languages.
+It is split in two main libraries (ShaderAST and ShaderWriter) and a "compiler" library for each front end language (CompilerGLSL, CompilerHLSL and CompilerSpirV).
+ShaderAST holds the base architecture (expressions and statements, roughly) used to describe a shader.
+ShaderWriter is based on ShaderAST, and is fully typed, to be able to write GLSL-like shaders in C++.
+The compiler libraries allow exporting the generated AST in either of these shader languages.
 
 Examples
 --------
