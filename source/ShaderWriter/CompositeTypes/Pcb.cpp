@@ -8,11 +8,12 @@ See LICENSE file in root folder
 namespace sdw
 {
 	Pcb::Pcb( ShaderWriter & writer
-		, std::string const & name )
+		, std::string const & name
+		, ast::type::MemoryLayout layout )
 		: m_shader{ writer.getShader() }
-		, m_stmt{ stmt::makePushConstantsBufferDecl( name ) }
+		, m_stmt{ stmt::makePushConstantsBufferDecl( name, layout ) }
 		, m_name{ name }
-		, m_info{ type::MemoryLayout::eStd430, name, 0u, 0u }
+		, m_info{ layout, name, 0u, 0u }
 		, m_var{ var::makeVariable( m_info.getType(), m_name, var::Flag::ePushConstant ) }
 	{
 	}

@@ -169,10 +169,10 @@ namespace
 		using namespace sdw;
 		ComputeWriter writer;
 		auto in = writer.getIn();
-		Struct ssboType{ writer, "SSBOType", type::MemoryLayout::eStd430 };
+		Struct ssboType{ writer, "SSBOType", type::MemoryLayout::eStd140 };
 		ssboType.declMember< UInt >( "value" );
 		ssboType.end();
-		StructuredSsbo ssbo{ writer, "SSBO", ssboType, 0u, 0u };
+		StructuredSsbo ssbo{ writer, "Datas", ssboType, 0u, 0u };
 
 		writer.inputLayout( 16 );
 		writer.implementFunction< void >( "main"

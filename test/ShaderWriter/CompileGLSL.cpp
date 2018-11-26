@@ -140,12 +140,12 @@ namespace test
 			static std::map< uint32_t, std::string > const errors
 			{
 				{ InvalidEnum, "Invalid Enum" },
-			{ InvalidValue, "Invalid Value" },
-			{ InvalidOperation, "Invalid Operation" },
-			{ StackOverflow, "Stack Overflow" },
-			{ StackUnderflow, "Stack Underflow" },
-			{ OutOfMemory, "Out of memory" },
-			{ InvalidFramebufferOperation, "Invalid frame buffer operation" },
+				{ InvalidValue, "Invalid Value" },
+				{ InvalidOperation, "Invalid Operation" },
+				{ StackOverflow, "Stack Overflow" },
+				{ StackUnderflow, "Stack Underflow" },
+				{ OutOfMemory, "Out of memory" },
+				{ InvalidFramebufferOperation, "Invalid frame buffer operation" },
 			};
 
 			if ( category == GL_DEBUG_CATEGORY_API_ERROR_AMD
@@ -180,11 +180,6 @@ namespace test
 				auto version = int( fversion * 10 );
 				result.major = version / 10;
 				result.minor = version % 10;
-
-				if ( version < 42 )
-				{
-					throw std::runtime_error{ "OpenGL >= 4.2 is needed for this renderer." };
-				}
 			}
 
 			return result;
@@ -743,7 +738,7 @@ namespace test
 			}
 			else if ( !compiled )
 			{
-				errors = "GLSL Shader compilation failed";
+				errors = "GLSL Shader compilation failed - Unknown reason";
 			}
 
 			return compiled;

@@ -17,7 +17,8 @@ namespace sdw
 		using Info = BoInfo;
 
 		Pcb( ShaderWriter & writer
-			, std::string const & name );
+			, std::string const & name
+			, ast::type::MemoryLayout layout = ast::type::MemoryLayout::eStd430 );
 		void end();
 
 		StructInstance declMember( std::string const & name, Struct const & s );

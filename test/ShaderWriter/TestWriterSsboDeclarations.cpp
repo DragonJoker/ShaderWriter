@@ -11,7 +11,7 @@ namespace
 			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
 			std::string const name = "m_member" + sdw::debug::getName( sdw::typeEnum< T > );
-			sdw::Ssbo bo{ writer, "SSBO", 1u, 1u };
+			sdw::Ssbo bo{ writer, "Datas", 1u, 1u, ast::type::MemoryLayout::eStd140 };
 			auto value = bo.template declMember< T >( name );
 			bo.end();
 			check( getNonArrayKind( value.getType() ) == sdw::typeEnum< T > );
@@ -36,7 +36,7 @@ namespace
 			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
 			std::string const name = "m_memberArray" + sdw::debug::getName( sdw::typeEnum< T > );
-			sdw::Ssbo bo{ writer, "SSBO", 1u, 1u };
+			sdw::Ssbo bo{ writer, "Datas", 1u, 1u, ast::type::MemoryLayout::eStd140 };
 			auto value = bo.template declMember< T >( name, 4u );
 			bo.end();
 			check( getNonArrayKind( value.getType() ) == sdw::typeEnum< T > );
@@ -61,7 +61,7 @@ namespace
 			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
 			std::string const name = "m_memberArrayUnknown" + sdw::debug::getName( sdw::typeEnum< T > );
-			sdw::Ssbo bo{ writer, "SSBO", 1u, 1u };
+			sdw::Ssbo bo{ writer, "Datas", 1u, 1u, ast::type::MemoryLayout::eStd140 };
 			auto value = bo.template declMemberArray< T >( name );
 			bo.end();
 			check( getNonArrayKind( value.getType() ) == sdw::typeEnum< T > );

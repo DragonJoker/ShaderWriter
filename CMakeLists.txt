@@ -109,10 +109,17 @@ macro( parse_subdir_files _FOLDER _GROUP )
 	file( GLOB _FOLDER_ENUM_FILES
 		${CMAKE_SOURCE_DIR}/include/${_FOLDER}/*.enum
 	)
+	file( GLOB _FOLDER_SCRIPT_FILES
+		${CMAKE_SOURCE_DIR}/scripts/${_FOLDER}/*.py
+	)
 	file( GLOB _FOLDER_SOURCE_FILES
+		${CMAKE_SOURCE_DIR}/source/${_FOLDER}/*.h
+		${CMAKE_SOURCE_DIR}/source/${_FOLDER}/*.hpp
+		${CMAKE_SOURCE_DIR}/source/${_FOLDER}/*.inl
 		${CMAKE_SOURCE_DIR}/source/${_FOLDER}/*.c
 		${CMAKE_SOURCE_DIR}/source/${_FOLDER}/*.cpp
 	)
+	source_group( "Script Files\\${_GROUP}" FILES ${_FOLDER_SCRIPT_FILES} )
 	source_group( "Enum Files\\${_GROUP}" FILES ${_FOLDER_ENUM_FILES} )
 	source_group( "Header Files\\${_GROUP}" FILES ${_FOLDER_HEADER_FILES} )
 	source_group( "Source Files\\${_GROUP}" FILES ${_FOLDER_SOURCE_FILES} )
@@ -308,14 +315,11 @@ if ( MSVC OR NOT "${CMAKE_BUILD_TYPE}" STREQUAL "" )
 	)
 	parse_subdir_files( ${PROJECT_NAME}/BaseTypes "BaseTypes" )
 	parse_subdir_files( ${PROJECT_NAME}/CompositeTypes "CompositeTypes" )
-	parse_subdir_files( ${PROJECT_NAME}/GLSL "GLSL" )
 	parse_subdir_files( ${PROJECT_NAME}/HLSL "HLSL" )
 	parse_subdir_files( ${PROJECT_NAME}/Intrinsics "Intrinsics" )
 	parse_subdir_files( ${PROJECT_NAME}/MatTypes "MatTypes" )
 	parse_subdir_files( ${PROJECT_NAME}/MaybeOptional "MaybeOptional" )
 	parse_subdir_files( ${PROJECT_NAME}/Optional "Optional" )
-	parse_subdir_files( ${PROJECT_NAME}/SPIRV "SPIRV" )
-	parse_subdir_files( ${PROJECT_NAME}/SPIRV/spirv "SPIRV\\\\spirv" )
 	parse_subdir_files( ${PROJECT_NAME}/VecTypes "VecTypes" )
 	parse_subdir_files( ${PROJECT_NAME}/Visitors "Visitors" )
 
@@ -370,26 +374,8 @@ if ( MSVC OR NOT "${CMAKE_BUILD_TYPE}" STREQUAL "" )
 			COMMENT "Generating IntrinsicFunctions.cpp"
 			DEPENDS ${SCRIPT_DIR}/genFunctionSourceFromEnum.py ${CMAKE_SOURCE_DIR}/include/ShaderAST/Expr/Intrinsic.enum
 		)
-		add_custom_command( OUTPUT ${INCLUDE_DIR}/Intrinsics/GLSL/GlslImageAccessNames.hpp
-			COMMAND ${CMAKE_COMMAND} -E make_directory ${GENERATED_DIR}
-			COMMAND ${Python_EXECUTABLE} ${SCRIPT_DIR}/genGlslNameFromEnum.py ${CMAKE_SOURCE_DIR}/include/ShaderAST/Expr/ImageAccess.enum ${GENERATED_DIR}/GlslImageAccessNames.hpp
-			COMMAND ${CMAKE_COMMAND} -E copy_if_different ${GENERATED_DIR}/GlslImageAccessNames.hpp ${INCLUDE_DIR}/Intrinsics/GLSL/GlslImageAccessNames.hpp
-			COMMENT "Generating GlslImageAccessNames.hpp"
-			DEPENDS ${SCRIPT_DIR}/genGlslNameFromEnum.py ${CMAKE_SOURCE_DIR}/include/ShaderAST/Expr/ImageAccess.enum
-		)
-		add_custom_command( OUTPUT ${INCLUDE_DIR}/Intrinsics/GLSL/GlslIntrinsicNames.hpp
-			COMMAND ${CMAKE_COMMAND} -E make_directory ${GENERATED_DIR}
-			COMMAND ${Python_EXECUTABLE} ${SCRIPT_DIR}/genGlslNameFromEnum.py ${CMAKE_SOURCE_DIR}/include/ShaderAST/Expr/Intrinsic.enum ${GENERATED_DIR}/GlslIntrinsicNames.hpp
-			COMMAND ${CMAKE_COMMAND} -E copy_if_different ${GENERATED_DIR}/GlslIntrinsicNames.hpp ${INCLUDE_DIR}/Intrinsics/GLSL/GlslIntrinsicNames.hpp
-			COMMENT "Generating GlslIntrinsicNames.hpp"
-			DEPENDS ${SCRIPT_DIR}/genGlslNameFromEnum.py ${CMAKE_SOURCE_DIR}/include/ShaderAST/Expr/Intrinsic.enum
-		)
 		source_group( "Script Files" FILES
 			${${PROJECT_NAME}_FOLDER_SCRIPT_FILES}
-		)
-		source_group( "Header Files\\GLSL" FILES
-			${INCLUDE_DIR}/GLSL/GlslImageAccessNames.hpp
-			${INCLUDE_DIR}/GLSL/GlslIntrinsicNames.hpp
 		)
 		source_group( "Header Files\\Intrinsics" FILES
 			${INCLUDE_DIR}/Intrinsics/ImageAccessFunctions.hpp
@@ -409,8 +395,6 @@ if ( MSVC OR NOT "${CMAKE_BUILD_TYPE}" STREQUAL "" )
 
 	add_library( ${PROJECT_NAME}
 		STATIC
-		${INCLUDE_DIR}/GLSL/GlslImageAccessNames.hpp
-		${INCLUDE_DIR}/GLSL/GlslIntrinsicNames.hpp
 		${INCLUDE_DIR}/Intrinsics/ImageAccessFunctions.hpp
 		${INCLUDE_DIR}/Intrinsics/TextureAccessFunctions.hpp
 		${INCLUDE_DIR}/Intrinsics/IntrinsicFunctions.hpp
@@ -433,9 +417,139 @@ if ( MSVC OR NOT "${CMAKE_BUILD_TYPE}" STREQUAL "" )
 	set_property( TARGET ${PROJECT_NAME} PROPERTY CXX_STANDARD 17 )
 	set_property( TARGET ${PROJECT_NAME} PROPERTY FOLDER "Core" )
 
+	# CompilerGlsl library
+	project( CompilerGlsl )
+	file( GLOB_RECURSE ${PROJECT_NAME}_FOLDER_HEADER_FILES
+		include/${PROJECT_NAME}/*.h
+		include/${PROJECT_NAME}/*.hpp
+		include/${PROJECT_NAME}/*.inl
+	)
+	file( GLOB_RECURSE ${PROJECT_NAME}_FOLDER_SOURCE_FILES
+		source/${PROJECT_NAME}/*.h
+		source/${PROJECT_NAME}/*.hpp
+		source/${PROJECT_NAME}/*.inl
+		source/${PROJECT_NAME}/*.c
+		source/${PROJECT_NAME}/*.cpp
+	)
+
+	set( INCLUDE_DIR ${CMAKE_SOURCE_DIR}/include/${PROJECT_NAME} )
+	set( SOURCE_DIR ${CMAKE_SOURCE_DIR}/source/${PROJECT_NAME} )
+
+	if ( Python_FOUND )
+		set( SCRIPT_DIR ${CMAKE_SOURCE_DIR}/scripts/${PROJECT_NAME} )
+		file( GLOB_RECURSE ${PROJECT_NAME}_FOLDER_SCRIPT_FILES
+			${SCRIPT_DIR}/*.py
+		)
+		set( GENERATED_DIR ${CMAKE_BINARY_DIR}/generated/${PROJECT_NAME} )
+		add_custom_command( OUTPUT ${SOURCE_DIR}/GlslImageAccessNames.hpp
+			COMMAND ${CMAKE_COMMAND} -E make_directory ${GENERATED_DIR}
+			COMMAND ${Python_EXECUTABLE} ${SCRIPT_DIR}/genGlslNameFromEnum.py ${CMAKE_SOURCE_DIR}/include/ShaderAST/Expr/ImageAccess.enum ${GENERATED_DIR}/GlslImageAccessNames.hpp
+			COMMAND ${CMAKE_COMMAND} -E copy_if_different ${GENERATED_DIR}/GlslImageAccessNames.hpp ${SOURCE_DIR}/GlslImageAccessNames.hpp
+			COMMENT "Generating GlslImageAccessNames.hpp"
+			DEPENDS ${SCRIPT_DIR}/genGlslNameFromEnum.py ${CMAKE_SOURCE_DIR}/include/ShaderAST/Expr/ImageAccess.enum
+		)
+		add_custom_command( OUTPUT ${SOURCE_DIR}/GlslIntrinsicNames.hpp
+			COMMAND ${CMAKE_COMMAND} -E make_directory ${GENERATED_DIR}
+			COMMAND ${Python_EXECUTABLE} ${SCRIPT_DIR}/genGlslNameFromEnum.py ${CMAKE_SOURCE_DIR}/include/ShaderAST/Expr/Intrinsic.enum ${GENERATED_DIR}/GlslIntrinsicNames.hpp
+			COMMAND ${CMAKE_COMMAND} -E copy_if_different ${GENERATED_DIR}/GlslIntrinsicNames.hpp ${SOURCE_DIR}/GlslIntrinsicNames.hpp
+			COMMENT "Generating GlslIntrinsicNames.hpp"
+			DEPENDS ${SCRIPT_DIR}/genGlslNameFromEnum.py ${CMAKE_SOURCE_DIR}/include/ShaderAST/Expr/Intrinsic.enum
+		)
+		source_group( "Script Files" FILES
+			${${PROJECT_NAME}_FOLDER_SCRIPT_FILES}
+		)
+		source_group( "Header Files" FILES
+			${SOURCE_DIR}/GLSL/GlslImageAccessNames.hpp
+			${SOURCE_DIR}/GLSL/GlslIntrinsicNames.hpp
+		)
+	endif ()
+
+	add_library( ${PROJECT_NAME}
+		STATIC
+		${SOURCE_DIR}/GlslImageAccessNames.hpp
+		${SOURCE_DIR}/GlslIntrinsicNames.hpp
+		${${PROJECT_NAME}_FOLDER_HEADER_FILES}
+		${${PROJECT_NAME}_FOLDER_SOURCE_FILES}
+		${${PROJECT_NAME}_FOLDER_SCRIPT_FILES}
+	)
+	target_link_libraries( ${PROJECT_NAME}
+		ShaderAST
+		ShaderWriter
+	)
+	target_include_directories( ${PROJECT_NAME} PRIVATE ${SOURCE_DIR} )
+	set_property( TARGET ${PROJECT_NAME} PROPERTY CXX_STANDARD 17 )
+	set_property( TARGET ${PROJECT_NAME} PROPERTY FOLDER "Compilers" )
+
+	# CompilerHlsl library
+	project( CompilerHlsl )
+	file( GLOB_RECURSE ${PROJECT_NAME}_FOLDER_HEADER_FILES
+		include/${PROJECT_NAME}/*.h
+		include/${PROJECT_NAME}/*.hpp
+		include/${PROJECT_NAME}/*.inl
+	)
+	file( GLOB_RECURSE ${PROJECT_NAME}_FOLDER_SOURCE_FILES
+		source/${PROJECT_NAME}/*.h
+		source/${PROJECT_NAME}/*.hpp
+		source/${PROJECT_NAME}/*.inl
+		source/${PROJECT_NAME}/*.c
+		source/${PROJECT_NAME}/*.cpp
+	)
+
+	set( INCLUDE_DIR ${CMAKE_SOURCE_DIR}/include/${PROJECT_NAME} )
+	set( SOURCE_DIR ${CMAKE_SOURCE_DIR}/source/${PROJECT_NAME} )
+
+	add_library( ${PROJECT_NAME}
+		STATIC
+		${${PROJECT_NAME}_FOLDER_HEADER_FILES}
+		${${PROJECT_NAME}_FOLDER_SOURCE_FILES}
+		${${PROJECT_NAME}_FOLDER_SCRIPT_FILES}
+	)
+	target_link_libraries( ${PROJECT_NAME}
+		ShaderAST
+		ShaderWriter
+	)
+	target_include_directories( ${PROJECT_NAME} PRIVATE ${SOURCE_DIR} )
+	set_property( TARGET ${PROJECT_NAME} PROPERTY CXX_STANDARD 17 )
+	set_property( TARGET ${PROJECT_NAME} PROPERTY FOLDER "Compilers" )
+
+	# CompilerSpirV library
+	project( CompilerSpirV )
+	file( GLOB_RECURSE ${PROJECT_NAME}_FOLDER_HEADER_FILES
+		include/${PROJECT_NAME}/*.h
+		include/${PROJECT_NAME}/*.hpp
+		include/${PROJECT_NAME}/*.inl
+	)
+	file( GLOB_RECURSE ${PROJECT_NAME}_FOLDER_SOURCE_FILES
+		source/${PROJECT_NAME}/*.h
+		source/${PROJECT_NAME}/*.hpp
+		source/${PROJECT_NAME}/*.inl
+		source/${PROJECT_NAME}/*.c
+		source/${PROJECT_NAME}/*.cpp
+	)
+	parse_subdir_files( ${PROJECT_NAME}/spirv "spirv" )
+
+	set( INCLUDE_DIR ${CMAKE_SOURCE_DIR}/include/${PROJECT_NAME} )
+	set( SOURCE_DIR ${CMAKE_SOURCE_DIR}/source/${PROJECT_NAME} )
+
+	add_library( ${PROJECT_NAME}
+		STATIC
+		${${PROJECT_NAME}_FOLDER_HEADER_FILES}
+		${${PROJECT_NAME}_FOLDER_SOURCE_FILES}
+		${${PROJECT_NAME}_FOLDER_SCRIPT_FILES}
+	)
+	target_link_libraries( ${PROJECT_NAME}
+		ShaderAST
+		ShaderWriter
+	)
+	target_include_directories( ${PROJECT_NAME} PRIVATE ${SOURCE_DIR} )
+	set_property( TARGET ${PROJECT_NAME} PROPERTY CXX_STANDARD 17 )
+	set_property( TARGET ${PROJECT_NAME} PROPERTY FOLDER "Compilers" )
+
 	if ( SDW_BUILD_TESTS )
 		add_subdirectory( test )
 	endif ()
+	
+	project( ShaderWriter )
 else()
 	message( SEND_ERROR "Please select a build type (Debug, Release or RelWithDebInfo)" )
 endif()

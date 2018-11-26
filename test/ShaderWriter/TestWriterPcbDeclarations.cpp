@@ -13,7 +13,7 @@ namespace
 			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
 			std::string const name = "m_member" + sdw::debug::getName( sdw::typeEnum< T > );
-			sdw::Pcb bo{ writer, "PCB" };
+			sdw::Pcb bo{ writer, "PCB", ast::type::MemoryLayout::eStd140 };
 			auto value = bo.template declMember< T >( name );
 			bo.end();
 			check( getNonArrayKind( value.getType() ) == sdw::typeEnum< T > );
@@ -33,7 +33,7 @@ namespace
 			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
 			std::string const name = "m_memberArray" + sdw::debug::getName( sdw::typeEnum< T > );
-			sdw::Pcb bo{ writer, "PCB" };
+			sdw::Pcb bo{ writer, "PCB", ast::type::MemoryLayout::eStd140 };
 			auto value = bo.template declMember< T >( name, 4u );
 			bo.end();
 			check( getNonArrayKind( value.getType() ) == sdw::typeEnum< T > );
@@ -53,7 +53,7 @@ namespace
 			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
 			std::string const name = "m_memberOptDis" + sdw::debug::getName( sdw::typeEnum< T > );
-			sdw::Pcb bo{ writer, "PCB" };
+			sdw::Pcb bo{ writer, "PCB", ast::type::MemoryLayout::eStd140 };
 			auto value = bo.template declMember< T >( name, false );
 			bo.end();
 			check( !value.isEnabled() );
@@ -75,7 +75,7 @@ namespace
 			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
 			std::string const name = "m_memberOptDisArray" + sdw::debug::getName( sdw::typeEnum< T > );
-			sdw::Pcb bo{ writer, "PCB" };
+			sdw::Pcb bo{ writer, "PCB", ast::type::MemoryLayout::eStd140 };
 			auto value = bo.template declMember< T >( name, 4u, false );
 			bo.end();
 			check( !value.isEnabled() );
@@ -99,7 +99,7 @@ namespace
 			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
 			std::string const name = "m_memberOptEn" + sdw::debug::getName( sdw::typeEnum< T > );
-			sdw::Pcb bo{ writer, "PCB" };
+			sdw::Pcb bo{ writer, "PCB", ast::type::MemoryLayout::eStd140 };
 			auto value = bo.template declMember< T >( name, true );
 			bo.end();
 			check( value.isEnabled() );
@@ -121,7 +121,7 @@ namespace
 			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
 			std::string const name = "m_memberOptEnArray" + sdw::debug::getName( sdw::typeEnum< T > );
-			sdw::Pcb bo{ writer, "PCB" };
+			sdw::Pcb bo{ writer, "PCB", ast::type::MemoryLayout::eStd140 };
 			auto value = bo.template declMember< T >( name, 4u, true );
 			bo.end();
 			check( value.isEnabled() );

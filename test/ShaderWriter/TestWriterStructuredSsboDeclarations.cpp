@@ -13,10 +13,10 @@ namespace
 			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
 			std::string const name = "m_member" + sdw::debug::getName( sdw::typeEnum< T > );
-			sdw::Struct type{ writer, "Type", ast::type::MemoryLayout::eStd430 };
+			sdw::Struct type{ writer, "Type", ast::type::MemoryLayout::eStd140 };
 			type.declMember< T >( name );
 			type.end();
-			sdw::StructuredSsbo bo{ writer, "SSBO", type, 1u, 1u };
+			sdw::StructuredSsbo bo{ writer, "Datas", type, 1u, 1u };
 			auto value = bo[0].getMember< T >( name );
 			check( getNonArrayKind( value.getType() ) == sdw::typeEnum< T > );
 			check( getArraySize( value.getType() ) == sdw::type::NotArray );
@@ -32,10 +32,10 @@ namespace
 			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
 			std::string const name = "m_memberArray" + sdw::debug::getName( sdw::typeEnum< T > );
-			sdw::Struct type{ writer, "Type", ast::type::MemoryLayout::eStd430 };
+			sdw::Struct type{ writer, "Type", ast::type::MemoryLayout::eStd140 };
 			type.declMember< T >( name, 4u );
 			type.end();
-			sdw::StructuredSsbo bo{ writer, "SSBO", type, 1u, 1u };
+			sdw::StructuredSsbo bo{ writer, "Datas", type, 1u, 1u };
 			auto value = bo[0].getMember< T >( name );
 			check( getNonArrayKind( value.getType() ) == sdw::typeEnum< T > );
 			check( getArraySize( value.getType() ) == 4u );

@@ -55,7 +55,7 @@ namespace ast
 	void StmtCloner::visitPushConstantsBufferDeclStmt( stmt::PushConstantsBufferDecl * stmt )
 	{
 		auto save = m_current;
-		auto cont = stmt::makePushConstantsBufferDecl( stmt->getName() );
+		auto cont = stmt::makePushConstantsBufferDecl( stmt->getName(), stmt->getMemoryLayout() );
 		m_current = cont.get();
 		visitContainerStmt( stmt );
 		m_current = save;

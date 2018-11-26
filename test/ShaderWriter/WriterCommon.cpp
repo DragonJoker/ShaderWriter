@@ -3,9 +3,9 @@
 #include "CompileGLSL.hpp"
 #include "CompileHLSL.hpp"
 
-#include <ShaderWriter/WriterGlsl.hpp>
-#include <ShaderWriter/WriterHlsl.hpp>
-#include <ShaderWriter/WriterSpirV.hpp>
+#include <CompilerGlsl/compileGlsl.hpp>
+#include <CompilerHlsl/compileHlsl.hpp>
+#include <CompilerSpirV/compileSpirV.hpp>
 
 #include "spirv_cpp.hpp"
 #include "spirv_cross_util.hpp"
@@ -191,9 +191,9 @@ namespace test
 			, test::TestCounts & testCounts )
 		{
 			std::string errors;
-			auto glsl = sdw::compileGlsl( shader
+			auto glsl = glsl::compileGlsl( shader
 				, specialisation
-				, sdw::GlslConfig{} );
+				, glsl::GlslConfig{} );
 
 			if ( validateGlsl && !compileGlsl( glsl, shader.getType(), errors ) )
 			{
@@ -213,7 +213,7 @@ namespace test
 			, test::TestCounts & testCounts )
 		{
 			std::string errors;
-			auto hlsl = sdw::compileHlsl( shader, specialisation );
+			auto hlsl = hlsl::compileHlsl( shader, specialisation );
 
 			if ( validateHlsl && !compileHlsl( hlsl, shader.getType(), errors ) )
 			{
@@ -232,13 +232,13 @@ namespace test
 			, bool validateSpirV
 			, test::TestCounts & testCounts )
 		{
-			auto textSpirv = sdw::writeSpirv( shader );
+			auto textSpirv = spirv::writeSpirv( shader );
 			displayShader( "SPIR-V", textSpirv );
 			std::vector< uint32_t > spirv;
 
 			try
 			{
-				spirv = sdw::serialiseSpirv( shader );
+				spirv = spirv::serialiseSpirv( shader );
 			}
 			catch ( ... )
 			{

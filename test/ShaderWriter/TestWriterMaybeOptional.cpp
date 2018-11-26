@@ -3,17 +3,7 @@
 #include "CompileGLSL.hpp"
 #include "CompileHLSL.hpp"
 
-#include <ShaderWriter/WriterGlsl.hpp>
-#include <ShaderWriter/WriterHlsl.hpp>
-#include <ShaderWriter/WriterSpirV.hpp>
 #include <ShaderWriter/MaybeOptional/MaybeOptional.hpp>
-
-#include "spirv_cpp.hpp"
-#include "spirv_cross_util.hpp"
-#include "spirv_glsl.hpp"
-#include "spirv_hlsl.hpp"
-
-#define SDW_Test_DisplayShaders 0
 
 namespace test
 {

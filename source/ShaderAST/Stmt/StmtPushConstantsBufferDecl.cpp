@@ -7,9 +7,11 @@ See LICENSE file in root folder
 
 namespace ast::stmt
 {
-	PushConstantsBufferDecl::PushConstantsBufferDecl( std::string name )
+	PushConstantsBufferDecl::PushConstantsBufferDecl( std::string name
+		, type::MemoryLayout layout )
 		: Compound{ Kind::ePushConstantsBufferDecl }
 		, m_name{ std::move( name ) }
+		, m_layout{ layout }
 	{
 	}
 

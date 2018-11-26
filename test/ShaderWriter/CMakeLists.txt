@@ -41,6 +41,9 @@ set_property( TARGET TestWriterCommon PROPERTY FOLDER "Tests/ShaderWriter" )
 add_dependencies( TestWriterCommon
 	ShaderAST
 	ShaderWriter
+	CompilerGlsl
+	CompilerHlsl
+	CompilerSpirV
 )
 
 find_package( OpenGL )
@@ -54,6 +57,9 @@ foreach ( TEST_FILE ${TEST_FILES} )
 	target_link_libraries( ${TEST_NAME}
 		ShaderAST
 		ShaderWriter
+		CompilerGlsl
+		CompilerHlsl
+		CompilerSpirV
 		TestWriterCommon
 		${BinLibraries}
 		${OPENGL_gl_LIBRARY}

@@ -2460,10 +2460,11 @@ namespace
 			{
 				FragmentWriter writer;
 				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
+				auto offsets = writer.declConstantArray< OffsetT >( "offsets"
+					, test::getDefaultVector< OffsetT >( writer.getShader(), 4u ) );
 				writer.implementFunction< void >( "main"
 					, [&]()
 					{
-						auto offsets = writer.declLocaleArray< OffsetT >( "offsets", 4u );
 						auto c = writer.declLocale( "c"
 							, textureGatherOffsets( s
 								, test::getDefault< GatherT >( writer.getShader() )
