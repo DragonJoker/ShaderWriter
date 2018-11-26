@@ -194,7 +194,8 @@ namespace ast::debug
 		displayStmtName( stmt, false );
 		m_result += stmt->getName() + " B(";
 		m_result += std::to_string( stmt->getBindingPoint() ) + ") D(";
-		m_result += std::to_string( stmt->getDescriptorSet() ) + ")\n";
+		m_result += std::to_string( stmt->getDescriptorSet() ) + ") L(";
+		m_result += getName( stmt->getMemoryLayout() ) + ")\n";
 		m_compoundName = false;
 		visitCompoundStmt( stmt );
 	}

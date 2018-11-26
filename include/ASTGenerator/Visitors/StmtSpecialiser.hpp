@@ -5,9 +5,11 @@ See LICENSE file in root folder
 #define ___SDW_StmtSpecialiser_H___
 #pragma once
 
-#include "ShaderWriter/Visitors/CloneStmt.hpp"
+#include "ASTGenerator/Visitors/CloneStmt.hpp"
 
-namespace sdw
+#include <map>
+
+namespace ast
 {
 	class StmtSpecialiser
 		: public StmtCloner

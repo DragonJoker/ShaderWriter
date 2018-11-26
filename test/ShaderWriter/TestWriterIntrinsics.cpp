@@ -8,7 +8,7 @@ namespace
 		testBegin( "testRoundEven1F" );
 		using namespace sdw;
 		{
-			ComputeWriter writer{ false };
+			ComputeWriter writer;
 			writer.inputLayout( 1u );
 			writer.implementFunction< void >( "main"
 				, [&]()
@@ -27,7 +27,7 @@ namespace
 		testBegin( "testRoundEven2F" );
 		using namespace sdw;
 		{
-			ComputeWriter writer{ false };
+			ComputeWriter writer;
 			writer.inputLayout( 1u );
 			writer.implementFunction< void >( "main"
 				, [&]()
@@ -46,7 +46,7 @@ namespace
 		testBegin( "testRoundEven3F" );
 		using namespace sdw;
 		{
-			ComputeWriter writer{ false };
+			ComputeWriter writer;
 			writer.inputLayout( 1u );
 			writer.implementFunction< void >( "main"
 				, [&]()
@@ -65,7 +65,7 @@ namespace
 		testBegin( "testRoundEven4F" );
 		using namespace sdw;
 		{
-			ComputeWriter writer{ false };
+			ComputeWriter writer;
 			writer.inputLayout( 1u );
 			writer.implementFunction< void >( "main"
 				, [&]()
@@ -84,7 +84,7 @@ namespace
 		testBegin( "testRoundEven1D" );
 		using namespace sdw;
 		{
-			ComputeWriter writer{ false };
+			ComputeWriter writer;
 			writer.inputLayout( 1u );
 			writer.implementFunction< void >( "main"
 				, [&]()
@@ -103,7 +103,7 @@ namespace
 		testBegin( "testRoundEven2D" );
 		using namespace sdw;
 		{
-			ComputeWriter writer{ false };
+			ComputeWriter writer;
 			writer.inputLayout( 1u );
 			writer.implementFunction< void >( "main"
 				, [&]()
@@ -122,7 +122,7 @@ namespace
 		testBegin( "testRoundEven3D" );
 		using namespace sdw;
 		{
-			ComputeWriter writer{ false };
+			ComputeWriter writer;
 			writer.inputLayout( 1u );
 			writer.implementFunction< void >( "main"
 				, [&]()
@@ -141,7 +141,7 @@ namespace
 		testBegin( "testRoundEven4D" );
 		using namespace sdw;
 		{
-			ComputeWriter writer{ false };
+			ComputeWriter writer;
 			writer.inputLayout( 1u );
 			writer.implementFunction< void >( "main"
 				, [&]()
@@ -160,7 +160,7 @@ namespace
 		testBegin( "testPackDouble2x32" );
 		using namespace sdw;
 		{
-			ComputeWriter writer{ false };
+			ComputeWriter writer;
 			writer.inputLayout( 1u );
 			writer.implementFunction< void >( "main"
 				, [&]()
@@ -180,7 +180,7 @@ namespace
 		testBegin( "testPackHalf2x16" );
 		using namespace sdw;
 		{
-			ComputeWriter writer{ false };
+			ComputeWriter writer;
 			writer.inputLayout( 1u );
 			writer.implementFunction< void >( "main"
 				, [&]()
@@ -200,7 +200,7 @@ namespace
 		testBegin( "testPackSnorm2x16" );
 		using namespace sdw;
 		{
-			ComputeWriter writer{ false };
+			ComputeWriter writer;
 			writer.inputLayout( 1u );
 			writer.implementFunction< void >( "main"
 				, [&]()
@@ -220,7 +220,7 @@ namespace
 		testBegin( "testPackUnorm2x16" );
 		using namespace sdw;
 		{
-			ComputeWriter writer{ false };
+			ComputeWriter writer;
 			writer.inputLayout( 1u );
 			writer.implementFunction< void >( "main"
 				, [&]()
@@ -240,7 +240,7 @@ namespace
 		testBegin( "testPackSnorm4x8" );
 		using namespace sdw;
 		{
-			ComputeWriter writer{ false };
+			ComputeWriter writer;
 			writer.inputLayout( 1u );
 			writer.implementFunction< void >( "main"
 				, [&]()
@@ -260,7 +260,7 @@ namespace
 		testBegin( "testPackUnorm4x8" );
 		using namespace sdw;
 		{
-			ComputeWriter writer{ false };
+			ComputeWriter writer;
 			writer.inputLayout( 1u );
 			writer.implementFunction< void >( "main"
 				, [&]()
@@ -280,7 +280,7 @@ namespace
 		testBegin( "testUnpackDouble2x32" );
 		using namespace sdw;
 		{
-			ComputeWriter writer{ false };
+			ComputeWriter writer;
 			writer.inputLayout( 1u );
 			writer.implementFunction< void >( "main"
 				, [&]()
@@ -300,7 +300,7 @@ namespace
 		testBegin( "testUnpackHalf2x16" );
 		using namespace sdw;
 		{
-			ComputeWriter writer{ false };
+			ComputeWriter writer;
 			writer.inputLayout( 1u );
 			writer.implementFunction< void >( "main"
 				, [&]()
@@ -320,7 +320,7 @@ namespace
 		testBegin( "testUnpackSnorm2x16" );
 		using namespace sdw;
 		{
-			ComputeWriter writer{ false };
+			ComputeWriter writer;
 			writer.inputLayout( 1u );
 			writer.implementFunction< void >( "main"
 				, [&]()
@@ -340,7 +340,7 @@ namespace
 		testBegin( "testUnpackUnorm2x16" );
 		using namespace sdw;
 		{
-			ComputeWriter writer{ false };
+			ComputeWriter writer;
 			writer.inputLayout( 1u );
 			writer.implementFunction< void >( "main"
 				, [&]()
@@ -360,7 +360,7 @@ namespace
 		testBegin( "testUnpackSnorm4x8" );
 		using namespace sdw;
 		{
-			ComputeWriter writer{ false };
+			ComputeWriter writer;
 			writer.inputLayout( 1u );
 			writer.implementFunction< void >( "main"
 				, [&]()
@@ -380,7 +380,7 @@ namespace
 		testBegin( "testUnpackUnorm4x8" );
 		using namespace sdw;
 		{
-			ComputeWriter writer{ false };
+			ComputeWriter writer;
 			writer.inputLayout( 1u );
 			writer.implementFunction< void >( "main"
 				, [&]()
@@ -401,7 +401,7 @@ namespace
 	{
 		using namespace sdw;
 		{
-			ComputeWriter writer{ false };
+			ComputeWriter writer;
 			writer.inputLayout( 1u );
 			writer.implementFunction< void >( "main"
 				, [&]()
@@ -506,7 +506,7 @@ namespace
 	{
 		using namespace sdw;
 		{
-			ComputeWriter writer{ false };
+			ComputeWriter writer;
 			writer.inputLayout( 1u );
 			writer.implementFunction< void >( "main"
 				, [&]()
@@ -611,7 +611,7 @@ namespace
 	{
 		using namespace sdw;
 		{
-			ComputeWriter writer{ false };
+			ComputeWriter writer;
 			writer.inputLayout( 1u );
 			writer.implementFunction< void >( "main"
 				, [&]()
@@ -716,7 +716,7 @@ namespace
 	{
 		using namespace sdw;
 		{
-			ComputeWriter writer{ false };
+			ComputeWriter writer;
 			writer.inputLayout( 1u );
 			writer.implementFunction< void >( "main"
 				, [&]()
@@ -821,7 +821,7 @@ namespace
 	{
 		using namespace sdw;
 		{
-			ComputeWriter writer{ false };
+			ComputeWriter writer;
 			writer.inputLayout( 1u );
 			writer.implementFunction< void >( "main"
 				, [&]()
@@ -926,7 +926,7 @@ namespace
 	{
 		using namespace sdw;
 		{
-			ComputeWriter writer{ false };
+			ComputeWriter writer;
 			writer.inputLayout( 1u );
 			writer.implementFunction< void >( "main"
 				, [&]()
@@ -1031,7 +1031,7 @@ namespace
 	{
 		using namespace sdw;
 		{
-			ComputeWriter writer{ false };
+			ComputeWriter writer;
 			writer.inputLayout( 1u );
 			writer.implementFunction< void >( "main"
 				, [&]()
@@ -1072,7 +1072,7 @@ namespace
 	{
 		using namespace sdw;
 		{
-			ComputeWriter writer{ false };
+			ComputeWriter writer;
 			writer.inputLayout( 1u );
 			writer.implementFunction< void >( "main"
 				, [&]()
@@ -1219,7 +1219,7 @@ namespace
 	{
 		using namespace sdw;
 		{
-			ComputeWriter writer{ false };
+			ComputeWriter writer;
 			writer.inputLayout( 1u );
 			writer.implementFunction< void >( "main"
 				, [&]()
@@ -1281,7 +1281,7 @@ namespace
 		testBegin( "testInverse2x2F" );
 		using namespace sdw;
 		{
-			ComputeWriter writer{ false };
+			ComputeWriter writer;
 			writer.inputLayout( 1u );
 			writer.implementFunction< void >( "main"
 				, [&]()
@@ -1300,7 +1300,7 @@ namespace
 		testBegin( "testInverse2x2D" );
 		using namespace sdw;
 		{
-			ComputeWriter writer{ false };
+			ComputeWriter writer;
 			writer.inputLayout( 1u );
 			writer.implementFunction< void >( "main"
 				, [&]()
@@ -1319,7 +1319,7 @@ namespace
 		testBegin( "testInverse3x3F" );
 		using namespace sdw;
 		{
-			ComputeWriter writer{ false };
+			ComputeWriter writer;
 			writer.inputLayout( 1u );
 			writer.implementFunction< void >( "main"
 				, [&]()
@@ -1338,7 +1338,7 @@ namespace
 		testBegin( "testInverse3x3D" );
 		using namespace sdw;
 		{
-			ComputeWriter writer{ false };
+			ComputeWriter writer;
 			writer.inputLayout( 1u );
 			writer.implementFunction< void >( "main"
 				, [&]()
@@ -1357,7 +1357,7 @@ namespace
 		testBegin( "testInverse4x4F" );
 		using namespace sdw;
 		{
-			ComputeWriter writer{ false };
+			ComputeWriter writer;
 			writer.inputLayout( 1u );
 			writer.implementFunction< void >( "main"
 				, [&]()
@@ -1376,7 +1376,7 @@ namespace
 		testBegin( "testInverse4x4D" );
 		using namespace sdw;
 		{
-			ComputeWriter writer{ false };
+			ComputeWriter writer;
 			writer.inputLayout( 1u );
 			writer.implementFunction< void >( "main"
 				, [&]()
@@ -1395,7 +1395,7 @@ namespace
 		testBegin( "testUaddCarry1" );
 		using namespace sdw;
 		{
-			ComputeWriter writer{ false };
+			ComputeWriter writer;
 			writer.inputLayout( 1u );
 			writer.implementFunction< void >( "main"
 				, [&]()
@@ -1419,7 +1419,7 @@ namespace
 		testBegin( "testUaddCarry2" );
 		using namespace sdw;
 		{
-			ComputeWriter writer{ false };
+			ComputeWriter writer;
 			writer.inputLayout( 1u );
 			writer.implementFunction< void >( "main"
 				, [&]()
@@ -1443,7 +1443,7 @@ namespace
 		testBegin( "testUaddCarry3" );
 		using namespace sdw;
 		{
-			ComputeWriter writer{ false };
+			ComputeWriter writer;
 			writer.inputLayout( 1u );
 			writer.implementFunction< void >( "main"
 				, [&]()
@@ -1467,7 +1467,7 @@ namespace
 		testBegin( "testUaddCarry4" );
 		using namespace sdw;
 		{
-			ComputeWriter writer{ false };
+			ComputeWriter writer;
 			writer.inputLayout( 1u );
 			writer.implementFunction< void >( "main"
 				, [&]()
@@ -1491,7 +1491,7 @@ namespace
 		testBegin( "testUsubBorrow1" );
 		using namespace sdw;
 		{
-			ComputeWriter writer{ false };
+			ComputeWriter writer;
 			writer.inputLayout( 1u );
 			writer.implementFunction< void >( "main"
 				, [&]()
@@ -1515,7 +1515,7 @@ namespace
 		testBegin( "testUsubBorrow2" );
 		using namespace sdw;
 		{
-			ComputeWriter writer{ false };
+			ComputeWriter writer;
 			writer.inputLayout( 1u );
 			writer.implementFunction< void >( "main"
 				, [&]()
@@ -1539,7 +1539,7 @@ namespace
 		testBegin( "testUsubBorrow3" );
 		using namespace sdw;
 		{
-			ComputeWriter writer{ false };
+			ComputeWriter writer;
 			writer.inputLayout( 1u );
 			writer.implementFunction< void >( "main"
 				, [&]()
@@ -1563,7 +1563,7 @@ namespace
 		testBegin( "testUsubBorrow4" );
 		using namespace sdw;
 		{
-			ComputeWriter writer{ false };
+			ComputeWriter writer;
 			writer.inputLayout( 1u );
 			writer.implementFunction< void >( "main"
 				, [&]()
@@ -1587,7 +1587,7 @@ namespace
 		testBegin( "testUmulExtended1" );
 		using namespace sdw;
 		{
-			ComputeWriter writer{ false };
+			ComputeWriter writer;
 			writer.inputLayout( 1u );
 			writer.implementFunction< void >( "main"
 				, [&]()
@@ -1611,7 +1611,7 @@ namespace
 		testBegin( "testUmulExtended2" );
 		using namespace sdw;
 		{
-			ComputeWriter writer{ false };
+			ComputeWriter writer;
 			writer.inputLayout( 1u );
 			writer.implementFunction< void >( "main"
 				, [&]()
@@ -1635,7 +1635,7 @@ namespace
 		testBegin( "testUmulExtended3" );
 		using namespace sdw;
 		{
-			ComputeWriter writer{ false };
+			ComputeWriter writer;
 			writer.inputLayout( 1u );
 			writer.implementFunction< void >( "main"
 				, [&]()
@@ -1659,7 +1659,7 @@ namespace
 		testBegin( "testUmulExtended4" );
 		using namespace sdw;
 		{
-			ComputeWriter writer{ false };
+			ComputeWriter writer;
 			writer.inputLayout( 1u );
 			writer.implementFunction< void >( "main"
 				, [&]()
@@ -1683,7 +1683,7 @@ namespace
 		testBegin( "testImulExtended1" );
 		using namespace sdw;
 		{
-			ComputeWriter writer{ false };
+			ComputeWriter writer;
 			writer.inputLayout( 1u );
 			writer.implementFunction< void >( "main"
 				, [&]()
@@ -1707,7 +1707,7 @@ namespace
 		testBegin( "testImulExtended2" );
 		using namespace sdw;
 		{
-			ComputeWriter writer{ false };
+			ComputeWriter writer;
 			writer.inputLayout( 1u );
 			writer.implementFunction< void >( "main"
 				, [&]()
@@ -1731,7 +1731,7 @@ namespace
 		testBegin( "testImulExtended3" );
 		using namespace sdw;
 		{
-			ComputeWriter writer{ false };
+			ComputeWriter writer;
 			writer.inputLayout( 1u );
 			writer.implementFunction< void >( "main"
 				, [&]()
@@ -1755,7 +1755,7 @@ namespace
 		testBegin( "testImulExtended4" );
 		using namespace sdw;
 		{
-			ComputeWriter writer{ false };
+			ComputeWriter writer;
 			writer.inputLayout( 1u );
 			writer.implementFunction< void >( "main"
 				, [&]()
@@ -1779,7 +1779,7 @@ namespace
 		testBegin( "testBitfieldInsert1I" );
 		using namespace sdw;
 		{
-			ComputeWriter writer{ false };
+			ComputeWriter writer;
 			writer.inputLayout( 1u );
 			writer.implementFunction< void >( "main"
 				, [&]()
@@ -1802,7 +1802,7 @@ namespace
 		testBegin( "testBitfieldInsert2I" );
 		using namespace sdw;
 		{
-			ComputeWriter writer{ false };
+			ComputeWriter writer;
 			writer.inputLayout( 1u );
 			writer.implementFunction< void >( "main"
 				, [&]()
@@ -1825,7 +1825,7 @@ namespace
 		testBegin( "testBitfieldInsert3I" );
 		using namespace sdw;
 		{
-			ComputeWriter writer{ false };
+			ComputeWriter writer;
 			writer.inputLayout( 1u );
 			writer.implementFunction< void >( "main"
 				, [&]()
@@ -1848,7 +1848,7 @@ namespace
 		testBegin( "testBitfieldInsert4I" );
 		using namespace sdw;
 		{
-			ComputeWriter writer{ false };
+			ComputeWriter writer;
 			writer.inputLayout( 1u );
 			writer.implementFunction< void >( "main"
 				, [&]()
@@ -1871,7 +1871,7 @@ namespace
 		testBegin( "testBitfieldInsert1U" );
 		using namespace sdw;
 		{
-			ComputeWriter writer{ false };
+			ComputeWriter writer;
 			writer.inputLayout( 1u );
 			writer.implementFunction< void >( "main"
 				, [&]()
@@ -1894,7 +1894,7 @@ namespace
 		testBegin( "testBitfieldInsert2U" );
 		using namespace sdw;
 		{
-			ComputeWriter writer{ false };
+			ComputeWriter writer;
 			writer.inputLayout( 1u );
 			writer.implementFunction< void >( "main"
 				, [&]()
@@ -1917,7 +1917,7 @@ namespace
 		testBegin( "testBitfieldInsert3U" );
 		using namespace sdw;
 		{
-			ComputeWriter writer{ false };
+			ComputeWriter writer;
 			writer.inputLayout( 1u );
 			writer.implementFunction< void >( "main"
 				, [&]()
@@ -1940,7 +1940,7 @@ namespace
 		testBegin( "testBitfieldInsert4U" );
 		using namespace sdw;
 		{
-			ComputeWriter writer{ false };
+			ComputeWriter writer;
 			writer.inputLayout( 1u );
 			writer.implementFunction< void >( "main"
 				, [&]()
@@ -1963,7 +1963,7 @@ namespace
 		testBegin( "testBitfieldExtract1I" );
 		using namespace sdw;
 		{
-			ComputeWriter writer{ false };
+			ComputeWriter writer;
 			writer.inputLayout( 1u );
 			writer.implementFunction< void >( "main"
 				, [&]()
@@ -1985,7 +1985,7 @@ namespace
 		testBegin( "testBitfieldExtract2I" );
 		using namespace sdw;
 		{
-			ComputeWriter writer{ false };
+			ComputeWriter writer;
 			writer.inputLayout( 1u );
 			writer.implementFunction< void >( "main"
 				, [&]()
@@ -2007,7 +2007,7 @@ namespace
 		testBegin( "testBitfieldExtract3I" );
 		using namespace sdw;
 		{
-			ComputeWriter writer{ false };
+			ComputeWriter writer;
 			writer.inputLayout( 1u );
 			writer.implementFunction< void >( "main"
 				, [&]()
@@ -2029,7 +2029,7 @@ namespace
 		testBegin( "testBitfieldExtract4I" );
 		using namespace sdw;
 		{
-			ComputeWriter writer{ false };
+			ComputeWriter writer;
 			writer.inputLayout( 1u );
 			writer.implementFunction< void >( "main"
 				, [&]()
@@ -2051,7 +2051,7 @@ namespace
 		testBegin( "testBitfieldExtract1U" );
 		using namespace sdw;
 		{
-			ComputeWriter writer{ false };
+			ComputeWriter writer;
 			writer.inputLayout( 1u );
 			writer.implementFunction< void >( "main"
 				, [&]()
@@ -2073,7 +2073,7 @@ namespace
 		testBegin( "testBitfieldExtract2U" );
 		using namespace sdw;
 		{
-			ComputeWriter writer{ false };
+			ComputeWriter writer;
 			writer.inputLayout( 1u );
 			writer.implementFunction< void >( "main"
 				, [&]()
@@ -2095,7 +2095,7 @@ namespace
 		testBegin( "testBitfieldExtract3U" );
 		using namespace sdw;
 		{
-			ComputeWriter writer{ false };
+			ComputeWriter writer;
 			writer.inputLayout( 1u );
 			writer.implementFunction< void >( "main"
 				, [&]()
@@ -2117,7 +2117,7 @@ namespace
 		testBegin( "testBitfieldExtract4U" );
 		using namespace sdw;
 		{
-			ComputeWriter writer{ false };
+			ComputeWriter writer;
 			writer.inputLayout( 1u );
 			writer.implementFunction< void >( "main"
 				, [&]()

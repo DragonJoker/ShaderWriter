@@ -15,7 +15,7 @@ namespace
 		auto nameBase = sdw::debug::getName( sdw::typeEnum< sdw::Image > )
 			+ sdw::debug::getName( FormatT, DimT, ArrayedT, DepthT, MsT );
 		{
-			sdw::FragmentWriter writer{ false };
+			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
 			auto name = nameBase + "Value_1_1";
 			auto value = writer.declImage< FormatT, DimT, ArrayedT, DepthT, MsT >( name, 1u, 1u );
@@ -31,7 +31,7 @@ namespace
 			test::writeShader( writer, testCounts );
 		}
 		{
-			sdw::FragmentWriter writer{ false };
+			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
 			auto name = nameBase + "Value_2_2";
 			auto value = writer.declImageArray< FormatT, DimT, ArrayedT, DepthT, MsT >( name, 2u, 2u, 6u );
@@ -47,7 +47,7 @@ namespace
 			test::writeShader( writer, testCounts );
 		}
 		{
-			sdw::FragmentWriter writer{ false };
+			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
 			auto count = shader.getStatements()->size();
 			auto value = writer.declImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "value", 1u, 1u, false );
@@ -61,7 +61,7 @@ namespace
 			test::writeShader( writer, testCounts );
 		}
 		{
-			sdw::FragmentWriter writer{ false };
+			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
 			auto count = shader.getStatements()->size();
 			auto value = writer.declImageArray< FormatT, DimT, ArrayedT, DepthT, MsT >( "value", 1u, 1u, 6u, false );
@@ -76,7 +76,7 @@ namespace
 			test::writeShader( writer, testCounts );
 		}
 		{
-			sdw::FragmentWriter writer{ false };
+			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
 			auto name = nameBase + "Value_1_1_opt";
 			auto value = writer.declImage< FormatT, DimT, ArrayedT, DepthT, MsT >( name, 1u, 1u, true );
@@ -93,7 +93,7 @@ namespace
 			test::writeShader( writer, testCounts );
 		}
 		{
-			sdw::FragmentWriter writer{ false };
+			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
 			auto name = nameBase + "Value_2_2_opt";
 			auto value = writer.declImageArray< FormatT, DimT, ArrayedT, DepthT, MsT >( name, 2u, 2u, 6u, true );

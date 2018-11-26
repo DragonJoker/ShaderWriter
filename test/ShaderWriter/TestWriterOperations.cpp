@@ -504,7 +504,7 @@ namespace
 		sdw::expr::Expr * expr;
 		{
 			testBegin( "testBool" );
-			sdw::FragmentWriter writer{ false };
+			sdw::FragmentWriter writer;
 			writer.implementFunction< void >( "main"
 				, [&]()
 				{
@@ -543,7 +543,7 @@ namespace
 		}
 		{
 			testBegin( "testBoolOptEnabled" );
-			sdw::FragmentWriter writer{ false };
+			sdw::FragmentWriter writer;
 			writer.implementFunction< void >( "main"
 				, [&]()
 				{
@@ -582,7 +582,7 @@ namespace
 		}
 		{
 			testBegin( "testBoolOptDisabled" );
-			sdw::FragmentWriter writer{ false };
+			sdw::FragmentWriter writer;
 			writer.implementFunction< void >( "main"
 				, [&]()
 				{
@@ -604,7 +604,7 @@ namespace
 	{
 		{
 			testBegin( "testFloat" );
-			sdw::FragmentWriter writer{ false };
+			sdw::FragmentWriter writer;
 			writer.implementFunction< void >( "main"
 				, [&]()
 				{
@@ -640,7 +640,7 @@ namespace
 		}
 		{
 			testBegin( "testFloatOptEnabled" );
-			sdw::FragmentWriter writer{ false };
+			sdw::FragmentWriter writer;
 			writer.implementFunction< void >( "main"
 				, [&]()
 				{
@@ -674,7 +674,7 @@ namespace
 		}
 		{
 			testBegin( "testFloatOptDisabled" );
-			sdw::FragmentWriter writer{ false };
+			sdw::FragmentWriter writer;
 			writer.implementFunction< void >( "main"
 				, [&]()
 				{
@@ -712,7 +712,7 @@ namespace
 	{
 		{
 			testBegin( "testInt" );
-			sdw::FragmentWriter writer{ false };
+			sdw::FragmentWriter writer;
 			writer.implementFunction< void >( "main"
 				, [&]()
 				{
@@ -753,7 +753,7 @@ namespace
 		}
 		{
 			testBegin( "testIntOptEnabled" );
-			sdw::FragmentWriter writer{ false };
+			sdw::FragmentWriter writer;
 			writer.implementFunction< void >( "main"
 				, [&]()
 				{
@@ -790,7 +790,7 @@ namespace
 		}
 		{
 			testBegin( "testIntOptDisabled" );
-			sdw::FragmentWriter writer{ false };
+			sdw::FragmentWriter writer;
 			writer.implementFunction< void >( "main"
 				, [&]()
 				{
@@ -831,7 +831,7 @@ namespace
 	{
 		{
 			testBegin( "testUInt" );
-			sdw::FragmentWriter writer{ false };
+			sdw::FragmentWriter writer;
 			writer.implementFunction< void >( "main"
 				, [&]()
 				{
@@ -872,7 +872,7 @@ namespace
 		}
 		{
 			testBegin( "testUIntOptEnabled" );
-			sdw::FragmentWriter writer{ false };
+			sdw::FragmentWriter writer;
 			writer.implementFunction< void >( "main"
 				, [&]()
 				{
@@ -909,7 +909,7 @@ namespace
 		}
 		{
 			testBegin( "testUIntOptDisabled" );
-			sdw::FragmentWriter writer{ false };
+			sdw::FragmentWriter writer;
 			writer.implementFunction< void >( "main"
 				, [&]()
 				{
@@ -950,7 +950,7 @@ namespace
 	{
 		{
 			testBegin( "testVec2" );
-			sdw::FragmentWriter writer{ false };
+			sdw::FragmentWriter writer;
 			writer.implementFunction< void >( "main"
 				, [&]()
 				{
@@ -969,7 +969,7 @@ namespace
 		}
 		{
 			testBegin( "testVec2OptEnabled" );
-			sdw::FragmentWriter writer{ false };
+			sdw::FragmentWriter writer;
 			writer.implementFunction< void >( "main"
 				, [&]()
 				{
@@ -987,7 +987,7 @@ namespace
 		}
 		{
 			testBegin( "testVec2OptDisabled" );
-			sdw::FragmentWriter writer{ false };
+			sdw::FragmentWriter writer;
 			writer.implementFunction< void >( "main"
 				, [&]()
 				{
@@ -1009,7 +1009,7 @@ namespace
 	{
 		{
 			testBegin( "testVec3" );
-			sdw::FragmentWriter writer{ false };
+			sdw::FragmentWriter writer;
 			writer.implementFunction< void >( "main"
 				, [&]()
 				{
@@ -1028,7 +1028,7 @@ namespace
 		}
 		{
 			testBegin( "testVec3OptEnabled" );
-			sdw::FragmentWriter writer{ false };
+			sdw::FragmentWriter writer;
 			writer.implementFunction< void >( "main"
 				, [&]()
 				{
@@ -1046,7 +1046,7 @@ namespace
 		}
 		{
 			testBegin( "testVec3OptDisabled" );
-			sdw::FragmentWriter writer{ false };
+			sdw::FragmentWriter writer;
 			writer.implementFunction< void >( "main"
 				, [&]()
 				{
@@ -1068,7 +1068,7 @@ namespace
 	{
 		{
 			testBegin( "testVec4" );
-			sdw::FragmentWriter writer{ false };
+			sdw::FragmentWriter writer;
 			writer.implementFunction< void >( "main"
 				, [&]()
 				{
@@ -1087,7 +1087,7 @@ namespace
 		}
 		{
 			testBegin( "testVec4OptEnabled" );
-			sdw::FragmentWriter writer{ false };
+			sdw::FragmentWriter writer;
 			writer.implementFunction< void >( "main"
 				, [&]()
 				{
@@ -1105,7 +1105,7 @@ namespace
 		}
 		{
 			testBegin( "testVec4OptDisabled" );
-			sdw::FragmentWriter writer{ false };
+			sdw::FragmentWriter writer;
 			writer.implementFunction< void >( "main"
 				, [&]()
 				{

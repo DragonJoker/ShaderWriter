@@ -9,26 +9,10 @@ See LICENSE file in root folder
 
 namespace sdw
 {
-	struct Config
-	{
-		uint32_t shaderLanguageVersion{ 450 };
-		bool hasConstantsBuffers{ true };
-		bool hasTextureBuffers{ true };
-		bool hasShaderStorageBuffers{ true };
-		bool hasPushConstants{ true };
-		bool zeroToOneDepth{ true };
-		bool isTopDown{ true };
-		bool hasInstanceIndex{ true };
-		bool hasVertexIndex{ true };
-		bool hasSpecialisationConstants{ true };
-	};
-
 	class ShaderWriter
 	{
 	protected:
-		ShaderWriter( ShaderType type
-			, bool writeInvertFuncs = true
-			, Config config = Config{} );
+		ShaderWriter( ShaderType type );
 
 	public:
 #pragma region Variables registration
@@ -58,12 +42,7 @@ namespace sdw
 #pragma endregion
 		void inlineComment( std::string const & comment );
 		void multilineComment( std::string const & comment );
-		void enableExtension( std::string const & name, uint32_t inCoreVersion );
 		void discard();
-		sdw::Vec2 bottomUpToTopDown( sdw::Vec2 const & texCoord );
-		sdw::Vec2 topDownToBottomUp( sdw::Vec2 const & texCoord );
-		sdw::Vec3 bottomUpToTopDown( sdw::Vec3 const & texCoord );
-		sdw::Vec3 topDownToBottomUp( sdw::Vec3 const & texCoord );
 		template< typename ReturnT, typename ... ParamsT >
 		inline Function< ReturnT, ParamsT... > implementFunction( std::string const & name
 			, std::function< void( ParamTranslaterT< ParamsT >... ) > const & function
@@ -389,41 +368,6 @@ namespace sdw
 		*	Getters.
 		*/
 		/**@{*/
-		inline uint32_t getShaderLanguageVersion()const
-		{
-			return m_config.shaderLanguageVersion;
-		}
-
-		inline bool hasConstantsBuffers()const
-		{
-			return m_config.hasConstantsBuffers;
-		}
-
-		inline bool hasTextureBuffers()const
-		{
-			return m_config.hasTextureBuffers;
-		}
-
-		inline bool hasShaderStorageBuffers()const
-		{
-			return m_config.hasShaderStorageBuffers;
-		}
-
-		inline bool hasPushConstants()const
-		{
-			return m_config.hasPushConstants;
-		}
-
-		inline bool isZeroToOneDepth()const
-		{
-			return m_config.zeroToOneDepth;
-		}
-
-		inline bool isTopDown()const
-		{
-			return m_config.isTopDown;
-		}
-
 		inline Shader const & getShader()const
 		{
 			return m_shader;
@@ -437,8 +381,6 @@ namespace sdw
 #pragma endregion
 
 	private:
-		void declareInvertVec2Y();
-		void declareInvertVec3Y();
 		var::VariablePtr registerConstant( std::string const & name
 			, type::TypePtr type );
 		var::VariablePtr registerSpecConstant( std::string const & name
@@ -465,7 +407,6 @@ namespace sdw
 			, var::Flag flag );
 
 	private:
-		Config m_config;
 		Shader m_shader;
 		Function< Vec2, InVec2 > m_invertVec2Y;
 		Function< Vec3, InVec3 > m_invertVec3Y;
@@ -476,8 +417,7 @@ namespace sdw
 		: public ShaderWriter
 	{
 	public:
-		VertexWriter( bool writeInvertFuncs = true
-			, Config config = Config{} );
+		VertexWriter();
 
 		InVertex getIn();
 		OutVertex getOut();
@@ -487,8 +427,7 @@ namespace sdw
 		: public ShaderWriter
 	{
 	public:
-		TessellationControlWriter( bool writeInvertFuncs = true
-			, Config config = Config{} );
+		TessellationControlWriter();
 
 		InTessellationControl getIn();
 		OutTessellationControl getOut();
@@ -498,8 +437,7 @@ namespace sdw
 		: public ShaderWriter
 	{
 	public:
-		TessellationEvaluationWriter( bool writeInvertFuncs = true
-			, Config config = Config{} );
+		TessellationEvaluationWriter();
 
 		InTessellationEvaluation getIn();
 		OutTessellationEvaluation getOut();
@@ -509,8 +447,7 @@ namespace sdw
 		: public ShaderWriter
 	{
 	public:
-		GeometryWriter( bool writeInvertFuncs = true
-			, Config config = Config{} );
+		GeometryWriter();
 
 		void inputLayout( stmt::InputLayout layout );
 		void outputLayout( stmt::OutputLayout layout, uint32_t count );
@@ -522,8 +459,7 @@ namespace sdw
 		: public ShaderWriter
 	{
 	public:
-		FragmentWriter( bool writeInvertFuncs = true
-			, Config config = Config{} );
+		FragmentWriter();
 
 		InFragment getIn();
 		OutFragment getOut();
@@ -533,8 +469,7 @@ namespace sdw
 		: public ShaderWriter
 	{
 	public:
-		ComputeWriter( bool writeInvertFuncs = true
-			, Config config = Config{} );
+		ComputeWriter();
 
 		void inputLayout( uint32_t localSizeX );
 		void inputLayout( uint32_t localSizeX, uint32_t localSizeY );

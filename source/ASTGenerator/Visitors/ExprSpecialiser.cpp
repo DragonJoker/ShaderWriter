@@ -1,9 +1,9 @@
 /*
 See LICENSE file in root folder
 */
-#include "ShaderWriter/Visitors/ExprSpecialiser.hpp"
+#include "ASTGenerator/Visitors/ExprSpecialiser.hpp"
 
-namespace sdw
+namespace ast
 {
 	expr::ExprPtr ExprSpecialiser::submit( expr::Expr * expr
 		, std::map< var::VariablePtr, expr::LiteralPtr > const & specialisations )
@@ -46,7 +46,7 @@ namespace sdw
 		}
 		else
 		{
-			m_result = makeIdent( expr->getVariable() );
+			m_result = expr::makeIdentifier( expr->getVariable() );
 		}
 	}
 }

@@ -100,32 +100,47 @@ namespace sdw::glsl
 		}
 	}
 	expr::ExprPtr ExprAdapter::submit( expr::Expr * expr
-		, IntrinsicsConfig const & config )
+		, GlslConfig const & writerConfig
+		, IntrinsicsConfig const & intrinsicsConfig )
 	{
 		expr::ExprPtr result;
-		ExprAdapter vis{ result, config };
+		ExprAdapter vis
+		{
+			writerConfig,
+			intrinsicsConfig,
+			result,
+		};
 		expr->accept( &vis );
 		return result;
 	}
 			
 	expr::ExprPtr ExprAdapter::submit( expr::ExprPtr const & expr
-		, IntrinsicsConfig const & config )
+		, GlslConfig const & writerConfig
+		, IntrinsicsConfig const & intrinsicsConfig )
 	{
 		return submit( expr.get()
-			, config );
+			, writerConfig
+			, intrinsicsConfig );
 	}
 
-	ExprAdapter::ExprAdapter( expr::ExprPtr & result
-		, IntrinsicsConfig const & config )
+	ExprAdapter::ExprAdapter( GlslConfig const & writerConfig
+		, IntrinsicsConfig const & intrinsicsConfig
+		, expr::ExprPtr & result )
 		: ExprCloner{ result }
-		, m_config{ config }
+		, m_writerConfig{ writerConfig }
+		, m_intrinsicsConfig{ intrinsicsConfig }
 	{
 	}
 
 	ast::expr::ExprPtr ExprAdapter::doSubmit( ast::expr::Expr * expr )
 	{
 		expr::ExprPtr result;
-		ExprAdapter vis{ result, m_config };
+		ExprAdapter vis
+		{
+			m_writerConfig,
+			m_intrinsicsConfig,
+			result,
+		};
 		expr->accept( &vis );
 		return result;
 	}

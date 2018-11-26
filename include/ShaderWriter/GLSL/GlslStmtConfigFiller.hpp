@@ -60,6 +60,7 @@ namespace sdw::glsl
 		void visitPreprocIfDef( stmt::PreprocIfDef * preproc )override;
 		void visitPreprocVersion( stmt::PreprocVersion * preproc )override;
 
+		void doParseImageConfig( type::ImageConfiguration const & config );
 	private:
 		IntrinsicsConfig & m_result;
 	};

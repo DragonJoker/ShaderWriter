@@ -5,9 +5,11 @@ See LICENSE file in root folder
 #define ___SDW_GlslExprAdapter_H___
 #pragma once
 
-#include "ShaderWriter/Visitors/CloneExpr.hpp"
+#include "ASTGenerator/Visitors/CloneExpr.hpp"
 
-namespace sdw
+#include <map>
+
+namespace ast
 {
 	class ExprSpecialiser
 		: public ExprCloner
@@ -22,9 +24,9 @@ namespace sdw
 		ExprSpecialiser( expr::ExprPtr & result
 			, std::map< var::VariablePtr, expr::LiteralPtr > const & specialisations );
 
-		ast::expr::ExprPtr doSubmit( ast::expr::Expr * expr )override;
+		expr::ExprPtr doSubmit( expr::Expr * expr )override;
 
-		void visitIdentifierExpr( ast::expr::Identifier * expr )override;
+		void visitIdentifierExpr( expr::Identifier * expr )override;
 
 	private:
 		std::map< var::VariablePtr, expr::LiteralPtr > const & m_specialisations;

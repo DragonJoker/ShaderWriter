@@ -5,7 +5,7 @@ See LICENSE file in root folder
 #define ___SDW_HlslStmtAdapter_H___
 #pragma once
 
-#include "ShaderWriter/Visitors/CloneStmt.hpp"
+#include <ASTGenerator/Visitors/CloneStmt.hpp>
 #include "ShaderWriter/HLSL/HlslHelpers.hpp"
 #include "ShaderWriter/HLSL/HlslShader.hpp"
 

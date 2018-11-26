@@ -8,10 +8,12 @@ See LICENSE file in root folder
 namespace ast::stmt
 {
 	ConstantBufferDecl::ConstantBufferDecl( std::string name
+		, type::MemoryLayout layout
 		, uint32_t bindingPoint
 		, uint32_t bindingSet )
 		: Compound{ Kind::eConstantBufferDecl }
 		, m_name{ std::move( name ) }
+		, m_layout{ layout }
 		, m_bindingPoint{ bindingPoint }
 		, m_bindingSet{ bindingSet }
 	{

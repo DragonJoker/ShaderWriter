@@ -8,7 +8,7 @@ namespace
 		testBegin( "reference" );
 		using namespace sdw;
 
-		FragmentWriter writer{ false };
+		FragmentWriter writer;
 		auto color1 = writer.declInput< Vec4 >( "color1", 0u );
 		auto multiplier = writer.declInput< Vec4 >( "multiplier", 1u );
 		auto color2 = writer.declInput< Vec4 >( "color2", 2u );
@@ -60,7 +60,7 @@ namespace
 		testBegin( "vertex" );
 		using namespace sdw;
 
-		VertexWriter writer{ false };
+		VertexWriter writer;
 		auto position = writer.declInput< Vec2 >( "position", 0u );
 		auto texcoord = writer.declInput< Vec2 >( "texcoord", 1u );
 
@@ -84,7 +84,7 @@ namespace
 		testBegin( "fragment" );
 		using namespace sdw;
 
-		FragmentWriter writer{ false };
+		FragmentWriter writer;
 		// Shader inputs
 		Ubo hdrConfig{ writer, "BufferHdrConfig", 0u, 0u };
 		auto c3d_exposure = hdrConfig.declMember< Float >( "c3d_exposure" );
@@ -167,7 +167,7 @@ namespace
 	{
 		testBegin( "compute" );
 		using namespace sdw;
-		ComputeWriter writer{ false };
+		ComputeWriter writer;
 		auto in = writer.getIn();
 		Struct ssboType{ writer, "SSBOType", type::MemoryLayout::eStd430 };
 		ssboType.declMember< UInt >( "value" );

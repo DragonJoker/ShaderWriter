@@ -172,7 +172,7 @@ namespace
 	{
 		testBegin( "testConstantBufferDeclStatement" );
 		{
-			auto stmt = ast::stmt::makeConstantBufferDecl( "Buffer", 1u, 2u );
+			auto stmt = ast::stmt::makeConstantBufferDecl( "Buffer", ast::type::MemoryLayout::eStd140, 1u, 2u );
 			std::cout << "StmtConstantBufferDecl (empty):\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
 
 			require( stmt->getKind() == ast::stmt::Kind::eConstantBufferDecl );
@@ -181,7 +181,7 @@ namespace
 			check( stmt->empty() );
 		}
 		{
-			auto stmt = ast::stmt::makeConstantBufferDecl( "Buffer", 1u, 2u );
+			auto stmt = ast::stmt::makeConstantBufferDecl( "Buffer", ast::type::MemoryLayout::eStd140, 1u, 2u );
 			stmt->add( ast::stmt::makeVariableDecl( ast::var::makeVariable( ast::type::getInt(), "i" ) ) );
 			stmt->add( ast::stmt::makeVariableDecl( ast::var::makeVariable( ast::type::getInt(), "j" ) ) );
 			std::cout << "StmtConstantBufferDecl:\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;

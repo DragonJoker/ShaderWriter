@@ -10,7 +10,7 @@ namespace
 	{
 		testBegin( "testConstant" + ast::debug::getName( sdw::typeEnum< T > ) );
 		{
-			sdw::FragmentWriter writer{ false };
+			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
 			auto name = sdw::debug::getName( sdw::typeEnum< T > ) + "ConstantValue";
 			auto value = writer.declConstant< T >( name, test::getDefault< T >( shader ) );
@@ -22,7 +22,7 @@ namespace
 			test::writeShader( writer, testCounts );
 		}
 		{
-			sdw::FragmentWriter writer{ false };
+			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
 			auto count = shader.getStatements()->size();
 			auto value = writer.declConstant< T >( "value", test::getDefault< T >( shader ), false );
@@ -34,7 +34,7 @@ namespace
 			test::writeShader( writer, testCounts );
 		}
 		{
-			sdw::FragmentWriter writer{ false };
+			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
 			auto name = sdw::debug::getName( sdw::typeEnum< T > ) + "ConstantValue_opt";
 			auto value = writer.declConstant< T >( name, test::getDefault< T >( shader ), true );
@@ -47,7 +47,7 @@ namespace
 			test::writeShader( writer, testCounts );
 		}
 		{
-			sdw::FragmentWriter writer{ false };
+			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
 			auto name = sdw::debug::getName( sdw::typeEnum< T > ) + "ConstantValue4";
 			auto value = writer.declConstantArray< T >( name, test::getDefaultVector< T >( shader, 4u ) );
@@ -59,7 +59,7 @@ namespace
 			test::writeShader( writer, testCounts );
 		}
 		{
-			sdw::FragmentWriter writer{ false };
+			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
 			auto count = shader.getStatements()->size();
 			auto value = writer.declConstantArray< T >( "value", test::getDefaultVector< T >( shader, 4u ), false );
@@ -71,7 +71,7 @@ namespace
 			test::writeShader( writer, testCounts );
 		}
 		{
-			sdw::FragmentWriter writer{ false };
+			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
 			auto name = sdw::debug::getName( sdw::typeEnum< T > ) + "ConstantValue4_opt";
 			auto value = writer.declConstantArray< T >( name, test::getDefaultVector< T >( shader, 4u ), true );

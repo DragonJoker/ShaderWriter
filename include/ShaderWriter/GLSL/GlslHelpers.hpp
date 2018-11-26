@@ -77,6 +77,8 @@ namespace sdw::glsl
 		bool requiresTextureProjGradOffset1DShadowF{ false };
 		bool requiresTextureProjGradOffset2DShadowF{ false };
 		bool requiresTextureProjGradOffset2DRectShadowF{ false };
+
+		bool requiresCubeMapArray{ false };
 	};
 }
 

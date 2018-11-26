@@ -1,11 +1,11 @@
 /*
 See LICENSE file in root folder
 */
-#include "ShaderWriter/Visitors/CloneStmt.hpp"
+#include "ASTGenerator/Visitors/CloneStmt.hpp"
 
-#include "ShaderWriter/Visitors/CloneExpr.hpp"
+#include "ASTGenerator/Visitors/CloneExpr.hpp"
 
-namespace sdw
+namespace ast
 {
 	stmt::ContainerPtr StmtCloner::submit( stmt::Container * stmt )
 	{
@@ -38,6 +38,7 @@ namespace sdw
 	{
 		auto save = m_current;
 		auto cont = stmt::makeConstantBufferDecl( stmt->getName()
+			, stmt->getMemoryLayout()
 			, stmt->getBindingPoint()
 			, stmt->getDescriptorSet() );
 		m_current = cont.get();
@@ -388,7 +389,7 @@ namespace sdw
 
 	void StmtCloner::visitPreprocIfDef( stmt::PreprocIfDef * preproc )
 	{
-		auto cont = stmt::makePreprocIfDef( makeIdent( preproc->getIdentExpr()->getVariable() ) );
+		auto cont = stmt::makePreprocIfDef( expr::makeIdentifier( preproc->getIdentExpr()->getVariable() ) );
 		m_preprocIfDefStmts.push_back( cont.get() );
 		m_preprocIfDefs.push_back( true );
 

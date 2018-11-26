@@ -135,7 +135,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				FragmentWriter writer{ false };
+				FragmentWriter writer;
 				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementFunction< void >( "main"
 					, [&]()
@@ -166,7 +166,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				FragmentWriter writer{ false };
+				FragmentWriter writer;
 				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementFunction< void >( "main"
 					, [&]()
@@ -229,7 +229,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				FragmentWriter writer{ false };
+				FragmentWriter writer;
 				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementFunction< void >( "main"
 					, [&]()
@@ -290,7 +290,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				FragmentWriter writer{ false };
+				FragmentWriter writer;
 				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementFunction< void >( "main"
 					, [&]()
@@ -348,7 +348,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				FragmentWriter writer{ false };
+				FragmentWriter writer;
 				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementFunction< void >( "main"
 					, [&]()
@@ -386,7 +386,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				FragmentWriter writer{ false };
+				FragmentWriter writer;
 				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementFunction< void >( "main"
 					, [&]()
@@ -445,7 +445,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				FragmentWriter writer{ false };
+				FragmentWriter writer;
 				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementFunction< void >( "main"
 					, [&]()
@@ -482,7 +482,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				FragmentWriter writer{ false };
+				FragmentWriter writer;
 				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementFunction< void >( "main"
 					, [&]()
@@ -539,7 +539,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				FragmentWriter writer{ false };
+				FragmentWriter writer;
 				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementFunction< void >( "main"
 					, [&]()
@@ -573,7 +573,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				FragmentWriter writer{ false };
+				FragmentWriter writer;
 				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementFunction< void >( "main"
 					, [&]()
@@ -628,7 +628,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				FragmentWriter writer{ false };
+				FragmentWriter writer;
 				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementFunction< void >( "main"
 					, [&]()
@@ -662,7 +662,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				FragmentWriter writer{ false };
+				FragmentWriter writer;
 				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementFunction< void >( "main"
 					, [&]()
@@ -722,7 +722,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				FragmentWriter writer{ false };
+				FragmentWriter writer;
 				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementFunction< void >( "main"
 					, [&]()
@@ -757,7 +757,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				FragmentWriter writer{ false };
+				FragmentWriter writer;
 				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementFunction< void >( "main"
 					, [&]()
@@ -817,7 +817,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				FragmentWriter writer{ false };
+				FragmentWriter writer;
 				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementFunction< void >( "main"
 					, [&]()
@@ -855,7 +855,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				FragmentWriter writer{ false };
+				FragmentWriter writer;
 				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementFunction< void >( "main"
 					, [&]()
@@ -914,7 +914,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				FragmentWriter writer{ false };
+				FragmentWriter writer;
 				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementFunction< void >( "main"
 					, [&]()
@@ -950,7 +950,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				FragmentWriter writer{ false };
+				FragmentWriter writer;
 				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementFunction< void >( "main"
 					, [&]()
@@ -1009,7 +1009,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				FragmentWriter writer{ false };
+				FragmentWriter writer;
 				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementFunction< void >( "main"
 					, [&]()
@@ -1043,7 +1043,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				FragmentWriter writer{ false };
+				FragmentWriter writer;
 				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementFunction< void >( "main"
 					, [&]()
@@ -1100,7 +1100,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				FragmentWriter writer{ false };
+				FragmentWriter writer;
 				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementFunction< void >( "main"
 					, [&]()
@@ -1135,7 +1135,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				FragmentWriter writer{ false };
+				FragmentWriter writer;
 				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementFunction< void >( "main"
 					, [&]()
@@ -1192,7 +1192,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				FragmentWriter writer{ false };
+				FragmentWriter writer;
 				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementFunction< void >( "main"
 					, [&]()
@@ -1228,7 +1228,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				FragmentWriter writer{ false };
+				FragmentWriter writer;
 				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementFunction< void >( "main"
 					, [&]()
@@ -1285,7 +1285,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				FragmentWriter writer{ false };
+				FragmentWriter writer;
 				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementFunction< void >( "main"
 					, [&]()
@@ -1321,7 +1321,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				FragmentWriter writer{ false };
+				FragmentWriter writer;
 				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementFunction< void >( "main"
 					, [&]()
@@ -1381,7 +1381,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				FragmentWriter writer{ false };
+				FragmentWriter writer;
 				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementFunction< void >( "main"
 					, [&]()
@@ -1418,7 +1418,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				FragmentWriter writer{ false };
+				FragmentWriter writer;
 				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementFunction< void >( "main"
 					, [&]()
@@ -1475,7 +1475,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				FragmentWriter writer{ false };
+				FragmentWriter writer;
 				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementFunction< void >( "main"
 					, [&]()
@@ -1509,7 +1509,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				FragmentWriter writer{ false };
+				FragmentWriter writer;
 				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementFunction< void >( "main"
 					, [&]()
@@ -1566,7 +1566,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				FragmentWriter writer{ false };
+				FragmentWriter writer;
 				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementFunction< void >( "main"
 					, [&]()
@@ -1602,7 +1602,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				FragmentWriter writer{ false };
+				FragmentWriter writer;
 				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementFunction< void >( "main"
 					, [&]()
@@ -1665,7 +1665,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				FragmentWriter writer{ false };
+				FragmentWriter writer;
 				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementFunction< void >( "main"
 					, [&]()
@@ -1703,7 +1703,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				FragmentWriter writer{ false };
+				FragmentWriter writer;
 				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementFunction< void >( "main"
 					, [&]()
@@ -1765,7 +1765,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				FragmentWriter writer{ false };
+				FragmentWriter writer;
 				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementFunction< void >( "main"
 					, [&]()
@@ -1806,7 +1806,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				FragmentWriter writer{ false };
+				FragmentWriter writer;
 				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementFunction< void >( "main"
 					, [&]()
@@ -1866,7 +1866,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				FragmentWriter writer{ false };
+				FragmentWriter writer;
 				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementFunction< void >( "main"
 					, [&]()
@@ -1903,7 +1903,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				FragmentWriter writer{ false };
+				FragmentWriter writer;
 				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementFunction< void >( "main"
 					, [&]()
@@ -1963,7 +1963,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				FragmentWriter writer{ false };
+				FragmentWriter writer;
 				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementFunction< void >( "main"
 					, [&]()
@@ -2002,7 +2002,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				FragmentWriter writer{ false };
+				FragmentWriter writer;
 				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementFunction< void >( "main"
 					, [&]()
@@ -2062,7 +2062,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				FragmentWriter writer{ false };
+				FragmentWriter writer;
 				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementFunction< void >( "main"
 					, [&]()
@@ -2098,7 +2098,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				FragmentWriter writer{ false };
+				FragmentWriter writer;
 				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementFunction< void >( "main"
 					, [&]()
@@ -2155,7 +2155,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				FragmentWriter writer{ false };
+				FragmentWriter writer;
 				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementFunction< void >( "main"
 					, [&]()
@@ -2211,7 +2211,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				FragmentWriter writer{ false };
+				FragmentWriter writer;
 				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementFunction< void >( "main"
 					, [&]()
@@ -2247,7 +2247,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				FragmentWriter writer{ false };
+				FragmentWriter writer;
 				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementFunction< void >( "main"
 					, [&]()
@@ -2304,7 +2304,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				FragmentWriter writer{ false };
+				FragmentWriter writer;
 				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementFunction< void >( "main"
 					, [&]()
@@ -2361,7 +2361,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				FragmentWriter writer{ false };
+				FragmentWriter writer;
 				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				auto offsets = writer.declConstantArray< OffsetT >( "offsets"
 					, test::getDefaultVector< OffsetT >( writer.getShader(), 4u ) );
@@ -2399,7 +2399,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				FragmentWriter writer{ false };
+				FragmentWriter writer;
 				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				auto offsets = writer.declConstantArray< OffsetT >( "offsets"
 					, test::getDefaultVector< OffsetT >( writer.getShader(), 4u ) );
@@ -2458,7 +2458,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				FragmentWriter writer{ false };
+				FragmentWriter writer;
 				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementFunction< void >( "main"
 					, [&]()

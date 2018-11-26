@@ -1,15 +1,13 @@
 /*
 See LICENSE file in root folder
 */
-#include "ShaderWriter/Visitors/GetExprName.hpp"
+#include "ASTGenerator/Visitors/GetExprName.hpp"
 
-#include <ASTGenerator/Expr/ExprVisitor.hpp>
-#include <ASTGenerator/Var/Variable.hpp>
+#include "ASTGenerator/Expr/ExprVisitor.hpp"
+#include "ASTGenerator/Var/Variable.hpp"
 
-namespace sdw
+namespace ast
 {
-	using namespace ast;
-
 	namespace
 	{
 		class IdentifierExtractor

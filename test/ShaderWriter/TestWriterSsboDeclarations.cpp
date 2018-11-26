@@ -8,7 +8,7 @@ namespace
 	{
 		testBegin( "testSsbo" + ast::debug::getName( sdw::typeEnum< T > ) );
 		{
-			sdw::FragmentWriter writer{ false };
+			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
 			std::string const name = "m_member" + sdw::debug::getName( sdw::typeEnum< T > );
 			sdw::Ssbo bo{ writer, "SSBO", 1u, 1u };
@@ -33,7 +33,7 @@ namespace
 			test::writeShader( writer, testCounts );
 		}
 		{
-			sdw::FragmentWriter writer{ false };
+			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
 			std::string const name = "m_memberArray" + sdw::debug::getName( sdw::typeEnum< T > );
 			sdw::Ssbo bo{ writer, "SSBO", 1u, 1u };
@@ -58,7 +58,7 @@ namespace
 			test::writeShader( writer, testCounts );
 		}
 		{
-			sdw::FragmentWriter writer{ false };
+			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
 			std::string const name = "m_memberArrayUnknown" + sdw::debug::getName( sdw::typeEnum< T > );
 			sdw::Ssbo bo{ writer, "SSBO", 1u, 1u };

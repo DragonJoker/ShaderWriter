@@ -10,7 +10,7 @@ namespace
 	{
 		testBegin( "testShaderOutput" + ast::debug::getName( sdw::typeEnum< T > ) );
 		{
-			sdw::VertexWriter writer{ false };
+			sdw::VertexWriter writer;
 			auto & shader = writer.getShader();
 			auto name = sdw::debug::getName( sdw::typeEnum< T > ) + "OutputValue_0";
 			auto value = writer.declOutput< T >( name, 0u );
@@ -26,7 +26,7 @@ namespace
 			test::writeShader( writer, testCounts );
 		}
 		{
-			sdw::VertexWriter writer{ false };
+			sdw::VertexWriter writer;
 			auto & shader = writer.getShader();
 			auto name = sdw::debug::getName( sdw::typeEnum< T > ) + "OutputValue_1";
 			auto value = writer.declOutputArray< T >( name, 1u, 6u );
@@ -42,7 +42,7 @@ namespace
 			test::writeShader( writer, testCounts );
 		}
 		{
-			sdw::VertexWriter writer{ false };
+			sdw::VertexWriter writer;
 			auto & shader = writer.getShader();
 			auto count = shader.getStatements()->size();
 			auto value = writer.declOutput< T >( "value", 0u, false );
@@ -57,7 +57,7 @@ namespace
 			test::writeShader( writer, testCounts );
 		}
 		{
-			sdw::VertexWriter writer{ false };
+			sdw::VertexWriter writer;
 			auto & shader = writer.getShader();
 			auto count = shader.getStatements()->size();
 			auto value = writer.declOutputArray< T >( "value", 1u, 6u, false );
@@ -73,7 +73,7 @@ namespace
 			test::writeShader( writer, testCounts );
 		}
 		{
-			sdw::VertexWriter writer{ false };
+			sdw::VertexWriter writer;
 			auto & shader = writer.getShader();
 			auto name = sdw::debug::getName( sdw::typeEnum< T > ) + "OutputValue_0_opt";
 			auto value = writer.declOutput< T >( name, 0u, true );
@@ -90,7 +90,7 @@ namespace
 			test::writeShader( writer, testCounts );
 		}
 		{
-			sdw::VertexWriter writer{ false };
+			sdw::VertexWriter writer;
 			auto & shader = writer.getShader();
 			auto name = sdw::debug::getName( sdw::typeEnum< T > ) + "OutputValue_1_opt";
 			auto value = writer.declOutputArray< T >( name, 1u, 6u, true );

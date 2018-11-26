@@ -216,7 +216,14 @@ namespace sdw::glsl
 			m_appendLineEnd = true;
 			doAppendLineEnd();
 			m_result += m_indent;
-			m_result += "layout(binding=" + std::to_string( stmt->getBindingPoint() ) + ", set=" + std::to_string( stmt->getDescriptorSet() ) + ") ";
+			m_result += "layout(binding=" + std::to_string( stmt->getBindingPoint() );
+
+			if ( m_hasDescriptorSet )
+			{
+				m_result += ", set=" + std::to_string( stmt->getDescriptorSet() );
+			}
+
+			m_result += ", " + getName( stmt->getMemoryLayout() ) + ") ";
 			m_result += "uniform " + stmt->getName();
 			m_appendSemiColon = true;
 			visitCompoundStmt( stmt );
@@ -409,7 +416,11 @@ namespace sdw::glsl
 		auto image = std::static_pointer_cast< type::Image >( type );
 		m_result += m_indent;
 		m_result += "layout(binding=" + std::to_string( stmt->getBindingPoint() );
-		m_result += ", set=" + std::to_string( stmt->getDescriptorSet() );
+
+		if ( m_hasDescriptorSet )
+		{
+			m_result += ", set=" + std::to_string( stmt->getDescriptorSet() );
+		}
 
 		if ( image->getConfig().accessKind == type::AccessKind::eRead )
 		{
@@ -543,7 +554,14 @@ namespace sdw::glsl
 		}
 
 		m_result += m_indent;
-		m_result += "layout(binding=" + std::to_string( stmt->getBindingPoint() ) + ", set=" + std::to_string( stmt->getDescriptorSet() ) + ") ";
+		m_result += "layout(binding=" + std::to_string( stmt->getBindingPoint() );
+
+		if ( m_hasDescriptorSet )
+		{
+			m_result += ", set=" + std::to_string( stmt->getDescriptorSet() );
+		}
+
+		m_result += ") ";
 		assert( type->getKind() == type::Kind::eSampledImage );
 		auto sampledImage = std::static_pointer_cast< type::SampledImage >( type );
 		m_result += "uniform " + getQualifiedName( type::Kind::eSampledImage, sampledImage->getConfig() ) + " " + stmt->getVariable()->getName();
@@ -560,9 +578,14 @@ namespace sdw::glsl
 		m_appendLineEnd = true;
 		doAppendLineEnd();
 		m_result += m_indent;
-		m_result += "layout(binding=" + std::to_string( stmt->getBindingPoint() )
-			+ ", set=" + std::to_string( stmt->getDescriptorSet() )
-			+ ", " + getName( stmt->getMemoryLayout() ) + ") ";
+		m_result += "layout(binding=" + std::to_string( stmt->getBindingPoint() );
+
+		if ( m_hasDescriptorSet )
+		{
+			+", set=" + std::to_string( stmt->getDescriptorSet() );
+		}
+
+		m_result += ", " + getName( stmt->getMemoryLayout() ) + ") ";
 		m_result += "buffer " + stmt->getSsboName();
 		m_appendSemiColon = false;
 		visitCompoundStmt( stmt );
@@ -575,9 +598,14 @@ namespace sdw::glsl
 		m_appendLineEnd = true;
 		doAppendLineEnd();
 		m_result += m_indent;
-		m_result += "layout(binding=" + std::to_string( stmt->getBindingPoint() )
-			+ ", set=" + std::to_string( stmt->getDescriptorSet() )
-			+ ", " + getName( stmt->getMemoryLayout() ) + ") ";
+		m_result += "layout(binding=" + std::to_string( stmt->getBindingPoint() );
+
+		if ( m_hasDescriptorSet )
+		{
+			m_result += ", set=" + std::to_string( stmt->getDescriptorSet() );
+		}
+
+		m_result += ", " + getName( stmt->getMemoryLayout() ) + ") ";
 		m_result += "buffer " + stmt->getSsboName();
 		auto data = stmt->getData();
 		auto arrayType = std::static_pointer_cast< type::Array >( data->getType() );
@@ -735,7 +763,12 @@ namespace sdw::glsl
 	{
 		doAppendLineEnd();
 		m_result += "#version " + preproc->getName() + "\n";
-		m_result += "#extension GL_KHR_vulkan_glsl : enable\n";
+		m_hasDescriptorSet = std::stoi( preproc->getName() ) >= 450;
+
+		if ( m_hasDescriptorSet )
+		{
+			m_result += "#extension GL_KHR_vulkan_glsl : enable\n";
+		}
 	}
 
 	//*************************************************************************

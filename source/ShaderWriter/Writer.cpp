@@ -23,24 +23,9 @@ namespace sdw
 {
 	//*************************************************************************
 
-	ShaderWriter::ShaderWriter( ShaderType type
-		, bool writeInvertFuncs
-		, Config config )
-		: m_config{ std::move( config ) }
-		, m_shader{ type }
+	ShaderWriter::ShaderWriter( ShaderType type )
+		: m_shader{ type }
 	{
-		addStmt( stmt::makePreprocVersion( std::to_string( config.shaderLanguageVersion ) ) );
-		enableExtension( "GL_ARB_explicit_attrib_location", 330u );
-		enableExtension( "GL_ARB_explicit_uniform_location", 430u );
-		enableExtension( "GL_ARB_separate_shader_objects", 410u );
-		enableExtension( "GL_ARB_shading_language_420pack", 420u );
-		enableExtension( "GL_ARB_texture_cube_map_array", 400u );
-
-		if ( writeInvertFuncs )
-		{
-			declareInvertVec2Y();
-			declareInvertVec3Y();
-		}
 	}
 
 	var::VariablePtr ShaderWriter::registerName( std::string const & name
@@ -104,57 +89,9 @@ namespace sdw
 	{
 	}
 
-	void ShaderWriter::enableExtension( std::string const & name, uint32_t inCoreVersion )
-	{
-		if ( getShaderLanguageVersion() < inCoreVersion )
-		{
-			addStmt( stmt::makePreprocExtension( name, stmt::PreprocExtension::Status::eEnabled ) );
-		}
-	}
-
 	void ShaderWriter::discard()
 	{
 		addStmt( stmt::makeDiscard() );
-	}
-
-	sdw::Vec2 ShaderWriter::bottomUpToTopDown( sdw::Vec2 const & texCoord )
-	{
-		if ( !isTopDown() )
-		{
-			return m_invertVec2Y( texCoord );
-		}
-
-		return texCoord;
-	}
-
-	sdw::Vec2 ShaderWriter::topDownToBottomUp( sdw::Vec2 const & texCoord )
-	{
-		if ( isTopDown() )
-		{
-			return m_invertVec2Y( texCoord );
-		}
-
-		return texCoord;
-	}
-
-	sdw::Vec3 ShaderWriter::bottomUpToTopDown( sdw::Vec3 const & texCoord )
-	{
-		if ( !isTopDown() )
-		{
-			return m_invertVec3Y( texCoord );
-		}
-
-		return texCoord;
-	}
-
-	sdw::Vec3 ShaderWriter::topDownToBottomUp( sdw::Vec3 const & texCoord )
-	{
-		if ( isTopDown() )
-		{
-			return m_invertVec3Y( texCoord );
-		}
-
-		return texCoord;
 	}
 
 	void ShaderWriter::returnStmt()
@@ -417,26 +354,6 @@ namespace sdw
 			, enabled };
 	}
 
-	void ShaderWriter::declareInvertVec2Y()
-	{
-		m_invertVec2Y = implementFunction< Vec2 >( "invertVec2Y"
-			, [this]( Vec2 const & v )
-			{
-				returnStmt( vec2( v.x(), 1.0_f - v.y() ) );
-			}
-			, InVec2{ *this, "v" } );
-	}
-
-	void ShaderWriter::declareInvertVec3Y()
-	{
-		m_invertVec3Y = implementFunction< Vec3 >( "invertVec3Y"
-			, [this]( Vec3 const & v )
-			{
-				returnStmt( vec3( v.x(), 1.0_f - v.y(), v.z() ) );
-			}
-			, InVec3{ *this, "v" } );
-	}
-
 	var::VariablePtr ShaderWriter::registerConstant( std::string const & name
 		, type::TypePtr type )
 	{
@@ -491,9 +408,8 @@ namespace sdw
 
 	//*************************************************************************
 
-	VertexWriter::VertexWriter( bool writeInvertFuncs
-		, Config config )
-		: ShaderWriter{ ShaderType::eVertex, writeInvertFuncs, config }
+	VertexWriter::VertexWriter()
+		: ShaderWriter{ ShaderType::eVertex }
 	{
 	}
 
@@ -509,9 +425,8 @@ namespace sdw
 
 	//*************************************************************************
 
-	TessellationControlWriter::TessellationControlWriter( bool writeInvertFuncs
-		, Config config )
-		: ShaderWriter{ ShaderType::eTessellationControl, writeInvertFuncs, config }
+	TessellationControlWriter::TessellationControlWriter()
+		: ShaderWriter{ ShaderType::eTessellationControl }
 	{
 	}
 
@@ -527,9 +442,8 @@ namespace sdw
 
 	//*************************************************************************
 
-	TessellationEvaluationWriter::TessellationEvaluationWriter( bool writeInvertFuncs
-		, Config config )
-		: ShaderWriter{ ShaderType::eTessellationControl, writeInvertFuncs, config }
+	TessellationEvaluationWriter::TessellationEvaluationWriter()
+		: ShaderWriter{ ShaderType::eTessellationControl }
 	{
 	}
 
@@ -545,9 +459,8 @@ namespace sdw
 
 	//*************************************************************************
 
-	GeometryWriter::GeometryWriter( bool writeInvertFuncs
-		, Config config )
-		: ShaderWriter{ ShaderType::eGeometry, writeInvertFuncs, config }
+	GeometryWriter::GeometryWriter()
+		: ShaderWriter{ ShaderType::eGeometry }
 	{
 	}
 
@@ -573,9 +486,8 @@ namespace sdw
 
 	//*************************************************************************
 
-	FragmentWriter::FragmentWriter( bool writeInvertFuncs
-		, Config config )
-		: ShaderWriter{ ShaderType::eFragment, writeInvertFuncs, config }
+	FragmentWriter::FragmentWriter()
+		: ShaderWriter{ ShaderType::eFragment }
 	{
 	}
 
@@ -591,9 +503,8 @@ namespace sdw
 
 	//*************************************************************************
 
-	ComputeWriter::ComputeWriter( bool writeInvertFuncs
-		, Config config )
-		: ShaderWriter{ ShaderType::eCompute, writeInvertFuncs, config }
+	ComputeWriter::ComputeWriter()
+		: ShaderWriter{ ShaderType::eCompute }
 	{
 	}
 

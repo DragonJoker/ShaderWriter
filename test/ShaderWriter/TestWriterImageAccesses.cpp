@@ -16,7 +16,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				ComputeWriter writer{ false };
+				ComputeWriter writer;
 				auto s = writer.declImage< FormatT, DimT, ArrayedT, false, MsT >( "s", 0u, 0u );
 				writer.inputLayout( 1u );
 				writer.implementFunction< void >( "main"
@@ -44,7 +44,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				ComputeWriter writer{ false };
+				ComputeWriter writer;
 				auto s = writer.declImage< FormatT, DimT, ArrayedT, false, MsT >( "s", 0u, 0u );
 				writer.inputLayout( 1u );
 				writer.implementFunction< void >( "main"
@@ -98,7 +98,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				ComputeWriter writer{ false };
+				ComputeWriter writer;
 				auto s = writer.declImage< FormatT, DimT, ArrayedT, false, MsT >( "s", 0u, 0u );
 				writer.inputLayout( 1u );
 				writer.implementFunction< void >( "main"
@@ -128,7 +128,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				ComputeWriter writer{ false };
+				ComputeWriter writer;
 				auto s = writer.declImage< FormatT, DimT, ArrayedT, false, MsT >( "s", 0u, 0u );
 				writer.inputLayout( 1u );
 				writer.implementFunction< void >( "main"
@@ -172,7 +172,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				ComputeWriter writer{ false };
+				ComputeWriter writer;
 				auto s = writer.declImage< FormatT, DimT, ArrayedT, false, MsT >( "s", 0u, 0u );
 				writer.inputLayout( 1u );
 				writer.implementFunction< void >( "main"
@@ -203,7 +203,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				ComputeWriter writer{ false };
+				ComputeWriter writer;
 				auto s = writer.declImage< FormatT, DimT, ArrayedT, false, MsT >( "s", 0u, 0u );
 				writer.inputLayout( 1u );
 				writer.implementFunction< void >( "main"
@@ -247,7 +247,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				ComputeWriter writer{ false };
+				ComputeWriter writer;
 				auto s = writer.declImage< FormatT, DimT, ArrayedT, false, MsT >( "s", 0u, 0u );
 				writer.inputLayout( 1u );
 				writer.implementFunction< void >( "main"
@@ -278,7 +278,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				ComputeWriter writer{ false };
+				ComputeWriter writer;
 				auto s = writer.declImage< FormatT, DimT, ArrayedT, false, MsT >( "s", 0u, 0u );
 				writer.inputLayout( 1u );
 				writer.implementFunction< void >( "main"
@@ -322,7 +322,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				ComputeWriter writer{ false };
+				ComputeWriter writer;
 				auto s = writer.declImage< FormatT, DimT, ArrayedT, false, MsT >( "s", 0u, 0u );
 				writer.inputLayout( 1u );
 				writer.implementFunction< void >( "main"
@@ -353,7 +353,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				ComputeWriter writer{ false };
+				ComputeWriter writer;
 				auto s = writer.declImage< FormatT, DimT, ArrayedT, false, MsT >( "s", 0u, 0u );
 				writer.inputLayout( 1u );
 				writer.implementFunction< void >( "main"
@@ -397,7 +397,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				ComputeWriter writer{ false };
+				ComputeWriter writer;
 				auto s = writer.declImage< FormatT, DimT, ArrayedT, false, MsT >( "s", 0u, 0u );
 				writer.inputLayout( 1u );
 				writer.implementFunction< void >( "main"
@@ -428,7 +428,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				ComputeWriter writer{ false };
+				ComputeWriter writer;
 				auto s = writer.declImage< FormatT, DimT, ArrayedT, false, MsT >( "s", 0u, 0u );
 				writer.inputLayout( 1u );
 				writer.implementFunction< void >( "main"
@@ -472,7 +472,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				ComputeWriter writer{ false };
+				ComputeWriter writer;
 				auto s = writer.declImage< FormatT, DimT, ArrayedT, false, MsT >( "s", 0u, 0u );
 				writer.inputLayout( 1u );
 				writer.implementFunction< void >( "main"
@@ -503,7 +503,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				ComputeWriter writer{ false };
+				ComputeWriter writer;
 				auto s = writer.declImage< FormatT, DimT, ArrayedT, false, MsT >( "s", 0u, 0u );
 				writer.inputLayout( 1u );
 				writer.implementFunction< void >( "main"
@@ -547,7 +547,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				ComputeWriter writer{ false };
+				ComputeWriter writer;
 				auto s = writer.declImage< FormatT, DimT, ArrayedT, false, MsT >( "s", 0u, 0u );
 				writer.inputLayout( 1u );
 				writer.implementFunction< void >( "main"
@@ -578,7 +578,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				ComputeWriter writer{ false };
+				ComputeWriter writer;
 				auto s = writer.declImage< FormatT, DimT, ArrayedT, false, MsT >( "s", 0u, 0u );
 				writer.inputLayout( 1u );
 				writer.implementFunction< void >( "main"
@@ -622,7 +622,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				ComputeWriter writer{ false };
+				ComputeWriter writer;
 				auto s = writer.declImage< FormatT, DimT, ArrayedT, false, MsT >( "s", 0u, 0u );
 				writer.inputLayout( 1u );
 				writer.implementFunction< void >( "main"
@@ -653,7 +653,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				ComputeWriter writer{ false };
+				ComputeWriter writer;
 				auto s = writer.declImage< FormatT, DimT, ArrayedT, false, MsT >( "s", 0u, 0u );
 				writer.inputLayout( 1u );
 				writer.implementFunction< void >( "main"
@@ -697,7 +697,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				ComputeWriter writer{ false };
+				ComputeWriter writer;
 				auto s = writer.declImage< FormatT, DimT, ArrayedT, false, MsT >( "s", 0u, 0u );
 				writer.inputLayout( 1u );
 				writer.implementFunction< void >( "main"
@@ -728,7 +728,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				ComputeWriter writer{ false };
+				ComputeWriter writer;
 				auto s = writer.declImage< FormatT, DimT, ArrayedT, false, MsT >( "s", 0u, 0u );
 				writer.inputLayout( 1u );
 				writer.implementFunction< void >( "main"
@@ -772,7 +772,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				ComputeWriter writer{ false };
+				ComputeWriter writer;
 				auto s = writer.declImage< FormatT, DimT, ArrayedT, false, MsT >( "s", 0u, 0u );
 				writer.inputLayout( 1u );
 				writer.implementFunction< void >( "main"
@@ -803,7 +803,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				ComputeWriter writer{ false };
+				ComputeWriter writer;
 				auto s = writer.declImage< FormatT, DimT, ArrayedT, false, MsT >( "s", 0u, 0u );
 				writer.inputLayout( 1u );
 				writer.implementFunction< void >( "main"
@@ -847,7 +847,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				ComputeWriter writer{ false };
+				ComputeWriter writer;
 				auto s = writer.declImage< FormatT, DimT, ArrayedT, false, MsT >( "s", 0u, 0u );
 				writer.inputLayout( 1u );
 				writer.implementFunction< void >( "main"
@@ -878,7 +878,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				ComputeWriter writer{ false };
+				ComputeWriter writer;
 				auto s = writer.declImage< FormatT, DimT, ArrayedT, false, MsT >( "s", 0u, 0u );
 				writer.inputLayout( 1u );
 				writer.implementFunction< void >( "main"
@@ -922,7 +922,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				ComputeWriter writer{ false };
+				ComputeWriter writer;
 				auto s = writer.declImage< FormatT, DimT, ArrayedT, false, MsT >( "s", 0u, 0u );
 				writer.inputLayout( 1u );
 				writer.implementFunction< void >( "main"
@@ -953,7 +953,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				ComputeWriter writer{ false };
+				ComputeWriter writer;
 				auto s = writer.declImage< FormatT, DimT, ArrayedT, false, MsT >( "s", 0u, 0u );
 				writer.inputLayout( 1u );
 				writer.implementFunction< void >( "main"
@@ -997,7 +997,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				ComputeWriter writer{ false };
+				ComputeWriter writer;
 				auto s = writer.declImage< FormatT, DimT, ArrayedT, false, MsT >( "s", 0u, 0u );
 				writer.inputLayout( 1u );
 				writer.implementFunction< void >( "main"
@@ -1028,7 +1028,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				ComputeWriter writer{ false };
+				ComputeWriter writer;
 				auto s = writer.declImage< FormatT, DimT, ArrayedT, false, MsT >( "s", 0u, 0u );
 				writer.inputLayout( 1u );
 				writer.implementFunction< void >( "main"
@@ -1072,7 +1072,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				ComputeWriter writer{ false };
+				ComputeWriter writer;
 				auto s = writer.declImage< FormatT, DimT, ArrayedT, false, MsT >( "s", 0u, 0u );
 				writer.inputLayout( 1u );
 				writer.implementFunction< void >( "main"
@@ -1103,7 +1103,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				ComputeWriter writer{ false };
+				ComputeWriter writer;
 				auto s = writer.declImage< FormatT, DimT, ArrayedT, false, MsT >( "s", 0u, 0u );
 				writer.inputLayout( 1u );
 				writer.implementFunction< void >( "main"
@@ -1147,7 +1147,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				ComputeWriter writer{ false };
+				ComputeWriter writer;
 				auto s = writer.declImage< FormatT, DimT, ArrayedT, false, MsT >( "s", 0u, 0u );
 				writer.inputLayout( 1u );
 				writer.implementFunction< void >( "main"
@@ -1178,7 +1178,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				ComputeWriter writer{ false };
+				ComputeWriter writer;
 				auto s = writer.declImage< FormatT, DimT, ArrayedT, false, MsT >( "s", 0u, 0u );
 				writer.inputLayout( 1u );
 				writer.implementFunction< void >( "main"
@@ -1222,7 +1222,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				ComputeWriter writer{ false };
+				ComputeWriter writer;
 				auto s = writer.declImage< FormatT, DimT, ArrayedT, false, MsT >( "s", 0u, 0u );
 				writer.inputLayout( 1u );
 				writer.implementFunction< void >( "main"
@@ -1253,7 +1253,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				ComputeWriter writer{ false };
+				ComputeWriter writer;
 				auto s = writer.declImage< FormatT, DimT, ArrayedT, false, MsT >( "s", 0u, 0u );
 				writer.inputLayout( 1u );
 				writer.implementFunction< void >( "main"
@@ -1297,7 +1297,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				ComputeWriter writer{ false };
+				ComputeWriter writer;
 				auto s = writer.declImage< FormatT, DimT, ArrayedT, false, MsT >( "s", 0u, 0u );
 				writer.inputLayout( 1u );
 				writer.implementFunction< void >( "main"
@@ -1328,7 +1328,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				ComputeWriter writer{ false };
+				ComputeWriter writer;
 				auto s = writer.declImage< FormatT, DimT, ArrayedT, false, MsT >( "s", 0u, 0u );
 				writer.inputLayout( 1u );
 				writer.implementFunction< void >( "main"

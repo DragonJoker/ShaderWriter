@@ -8,8 +8,18 @@ See LICENSE file in root folder
 
 namespace sdw
 {
+	struct GlslConfig
+	{
+		uint32_t shaderLanguageVersion{ 420 };
+		bool hasStd430Layout{ false };
+		bool hasShaderStorageBuffers{ false };
+		bool hasDescriptorSets{ false };
+		bool hasBaseInstance{ false };
+	};
+
 	std::string compileGlsl( Shader const & shader
-		, SpecialisationInfo const & specialisation );
+		, SpecialisationInfo const & specialisation
+		, GlslConfig const & config );
 }
 
 #endif

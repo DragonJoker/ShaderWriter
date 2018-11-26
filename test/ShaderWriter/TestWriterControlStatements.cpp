@@ -6,7 +6,7 @@ namespace
 	void testIf( test::TestCounts & testCounts )
 	{
 		testBegin( "testIf" );
-		sdw::VertexWriter writer{ false };
+		sdw::VertexWriter writer;
 		writer.implementFunction< void >( "main"
 			, [&]()
 			{
@@ -25,7 +25,7 @@ namespace
 	void testIfElse( test::TestCounts & testCounts )
 	{
 		testBegin( "testIfElse" );
-		sdw::VertexWriter writer{ false };
+		sdw::VertexWriter writer;
 		writer.implementFunction< void >( "main"
 			, [&]()
 			{
@@ -48,7 +48,7 @@ namespace
 	void testIfElseIf( test::TestCounts & testCounts )
 	{
 		testBegin( "testIfElseIf" );
-		sdw::VertexWriter writer{ false };
+		sdw::VertexWriter writer;
 		writer.implementFunction< void >( "main"
 			, [&]()
 			{
@@ -72,7 +72,7 @@ namespace
 	void testIfElseIfElse( test::TestCounts & testCounts )
 	{
 		testBegin( "testIfElseIfElse" );
-		sdw::VertexWriter writer{ false };
+		sdw::VertexWriter writer;
 		writer.implementFunction< void >( "main"
 			, [&]()
 			{
@@ -100,7 +100,7 @@ namespace
 	void testFor( test::TestCounts & testCounts )
 	{
 		testBegin( "testFor" );
-		sdw::VertexWriter writer{ false };
+		sdw::VertexWriter writer;
 		writer.implementFunction< void >( "main"
 			, [&]()
 			{
@@ -118,7 +118,7 @@ namespace
 	void testWhile( test::TestCounts & testCounts )
 	{
 		testBegin( "testWhile" );
-		sdw::VertexWriter writer{ false };
+		sdw::VertexWriter writer;
 		writer.implementFunction< void >( "main"
 			, [&]()
 			{
@@ -137,7 +137,7 @@ namespace
 	void testDoWhile( test::TestCounts & testCounts )
 	{
 		testBegin( "testDoWhile" );
-		sdw::VertexWriter writer{ false };
+		sdw::VertexWriter writer;
 		writer.implementFunction< void >( "main"
 			, [&]()
 			{
@@ -156,7 +156,7 @@ namespace
 	void testNestedIf( test::TestCounts & testCounts )
 	{
 		testBegin( "testNestedIf" );
-		sdw::VertexWriter writer{ false };
+		sdw::VertexWriter writer;
 		writer.implementFunction< void >( "main"
 			, [&]()
 			{
@@ -180,7 +180,7 @@ namespace
 	void testNestedIfElse( test::TestCounts & testCounts )
 	{
 		testBegin( "testNestedIfElse" );
-		sdw::VertexWriter writer{ false };
+		sdw::VertexWriter writer;
 		writer.implementFunction< void >( "main"
 			, [&]()
 			{
@@ -221,7 +221,7 @@ namespace
 	void testNestedIfElseIf( test::TestCounts & testCounts )
 	{
 		testBegin( "testNestedIfElseIf" );
-		sdw::VertexWriter writer{ false };
+		sdw::VertexWriter writer;
 		writer.implementFunction< void >( "main"
 			, [&]()
 			{
@@ -265,7 +265,7 @@ namespace
 	void testNestedIfElseIfElse( test::TestCounts & testCounts )
 	{
 		testBegin( "testNestedIfElseIfElse" );
-		sdw::VertexWriter writer{ false };
+		sdw::VertexWriter writer;
 		writer.implementFunction< void >( "main"
 			, [&]()
 			{
@@ -335,7 +335,7 @@ namespace
 	void testNestedFor( test::TestCounts & testCounts )
 	{
 		testBegin( "testNestedFor" );
-		sdw::VertexWriter writer{ false };
+		sdw::VertexWriter writer;
 		writer.implementFunction< void >( "main"
 			, [&]()
 			{
@@ -357,7 +357,7 @@ namespace
 	void testNestedWhile( test::TestCounts & testCounts )
 	{
 		testBegin( "testNestedWhile" );
-		sdw::VertexWriter writer{ false };
+		sdw::VertexWriter writer;
 		writer.implementFunction< void >( "main"
 			, [&]()
 			{
@@ -382,7 +382,7 @@ namespace
 	void testNestedDoWhile( test::TestCounts & testCounts )
 	{
 		testBegin( "testNestedDoWhile" );
-		sdw::VertexWriter writer{ false };
+		sdw::VertexWriter writer;
 		writer.implementFunction< void >( "main"
 			, [&]()
 			{

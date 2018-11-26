@@ -50,7 +50,7 @@ namespace test
 		testBegin( "testMaybeOptional" );
 		using namespace sdw;
 		{
-			VertexWriter writer{ false };
+			VertexWriter writer;
 			writer.implementFunction< void >( "main"
 				, [&]()
 				{
@@ -63,7 +63,7 @@ namespace test
 			test::writeShader( writer, testCounts );
 		}
 		{
-			VertexWriter writer{ false };
+			VertexWriter writer;
 			writer.implementFunction< void >( "main"
 				, [&]()
 				{
@@ -76,7 +76,7 @@ namespace test
 			test::writeShader( writer, testCounts );
 		}
 		{
-			VertexWriter writer{ false };
+			VertexWriter writer;
 			writer.implementFunction< void >( "main"
 				, [&]()
 				{
@@ -89,7 +89,7 @@ namespace test
 			test::writeShader( writer, testCounts );
 		}
 		{
-			VertexWriter writer{ false };
+			VertexWriter writer;
 			writer.implementFunction< void >( "main"
 				, [&]()
 				{
@@ -102,7 +102,7 @@ namespace test
 			test::writeShader( writer, testCounts );
 		}
 		{
-			VertexWriter writer{ false };
+			VertexWriter writer;
 			writer.implementFunction< void >( "main"
 				, [&]()
 				{
@@ -115,7 +115,7 @@ namespace test
 			test::writeShader( writer, testCounts );
 		}
 		{
-			VertexWriter writer{ false };
+			VertexWriter writer;
 			writer.implementFunction< void >( "main"
 				, [&]()
 				{
@@ -128,7 +128,7 @@ namespace test
 			test::writeShader( writer, testCounts );
 		}
 		{
-			VertexWriter writer{ false };
+			VertexWriter writer;
 			writer.implementFunction< void >( "main"
 				, [&]()
 				{
@@ -141,7 +141,7 @@ namespace test
 			test::writeShader( writer, testCounts );
 		}
 		{
-			VertexWriter writer{ false };
+			VertexWriter writer;
 			writer.implementFunction< void >( "main"
 				, [&]()
 				{
@@ -154,7 +154,7 @@ namespace test
 			test::writeShader( writer, testCounts );
 		}
 		{
-			VertexWriter writer{ false };
+			VertexWriter writer;
 			writer.implementFunction< void >( "main"
 				, [&]()
 				{
@@ -174,7 +174,7 @@ namespace test
 		testBegin( "testMaybeOptionalArray" );
 		using namespace sdw;
 		{
-			VertexWriter writer{ false };
+			VertexWriter writer;
 			writer.implementFunction< void >( "main"
 				, [&]()
 				{
@@ -187,7 +187,7 @@ namespace test
 			test::writeShader( writer, testCounts );
 		}
 		{
-			VertexWriter writer{ false };
+			VertexWriter writer;
 			writer.implementFunction< void >( "main"
 				, [&]()
 				{
@@ -200,7 +200,7 @@ namespace test
 			test::writeShader( writer, testCounts );
 		}
 		{
-			VertexWriter writer{ false };
+			VertexWriter writer;
 			writer.implementFunction< void >( "main"
 				, [&]()
 				{
@@ -213,7 +213,7 @@ namespace test
 			test::writeShader( writer, testCounts );
 		}
 		{
-			VertexWriter writer{ false };
+			VertexWriter writer;
 			writer.implementFunction< void >( "main"
 				, [&]()
 				{
@@ -226,7 +226,7 @@ namespace test
 			test::writeShader( writer, testCounts );
 		}
 		{
-			VertexWriter writer{ false };
+			VertexWriter writer;
 			writer.implementFunction< void >( "main"
 				, [&]()
 				{
@@ -239,7 +239,7 @@ namespace test
 			test::writeShader( writer, testCounts );
 		}
 		{
-			VertexWriter writer{ false };
+			VertexWriter writer;
 			writer.implementFunction< void >( "main"
 				, [&]()
 				{
@@ -252,7 +252,7 @@ namespace test
 			test::writeShader( writer, testCounts );
 		}
 		{
-			VertexWriter writer{ false };
+			VertexWriter writer;
 			writer.implementFunction< void >( "main"
 				, [&]()
 				{
@@ -265,7 +265,7 @@ namespace test
 			test::writeShader( writer, testCounts );
 		}
 		{
-			VertexWriter writer{ false };
+			VertexWriter writer;
 			writer.implementFunction< void >( "main"
 				, [&]()
 				{
@@ -278,7 +278,7 @@ namespace test
 			test::writeShader( writer, testCounts );
 		}
 		{
-			VertexWriter writer{ false };
+			VertexWriter writer;
 			writer.implementFunction< void >( "main"
 				, [&]()
 				{

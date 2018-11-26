@@ -151,6 +151,7 @@ if ( MSVC OR NOT "${CMAKE_BUILD_TYPE}" STREQUAL "" )
 	parse_subdir_files( ${PROJECT_NAME}/Stmt "Stmt" )
 	parse_subdir_files( ${PROJECT_NAME}/Type "Type" )
 	parse_subdir_files( ${PROJECT_NAME}/Var "Var" )
+	parse_subdir_files( ${PROJECT_NAME}/Visitors "Visitors" )
 
 	set( INCLUDE_DIR ${CMAKE_SOURCE_DIR}/include/${PROJECT_NAME} )
 	set( SOURCE_DIR ${CMAKE_SOURCE_DIR}/source/${PROJECT_NAME} )

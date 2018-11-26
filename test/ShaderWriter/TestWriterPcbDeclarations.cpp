@@ -10,7 +10,7 @@ namespace
 	{
 		testBegin( "testPcb" + ast::debug::getName( sdw::typeEnum< T > ) );
 		{
-			sdw::FragmentWriter writer{ false };
+			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
 			std::string const name = "m_member" + sdw::debug::getName( sdw::typeEnum< T > );
 			sdw::Pcb bo{ writer, "PCB" };
@@ -30,7 +30,7 @@ namespace
 			test::writeShader( writer, testCounts );
 		}
 		{
-			sdw::FragmentWriter writer{ false };
+			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
 			std::string const name = "m_memberArray" + sdw::debug::getName( sdw::typeEnum< T > );
 			sdw::Pcb bo{ writer, "PCB" };
@@ -50,7 +50,7 @@ namespace
 			test::writeShader( writer, testCounts );
 		}
 		{
-			sdw::FragmentWriter writer{ false };
+			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
 			std::string const name = "m_memberOptDis" + sdw::debug::getName( sdw::typeEnum< T > );
 			sdw::Pcb bo{ writer, "PCB" };
@@ -72,7 +72,7 @@ namespace
 			test::writeShader( writer, testCounts );
 		}
 		{
-			sdw::FragmentWriter writer{ false };
+			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
 			std::string const name = "m_memberOptDisArray" + sdw::debug::getName( sdw::typeEnum< T > );
 			sdw::Pcb bo{ writer, "PCB" };
@@ -96,7 +96,7 @@ namespace
 			test::writeShader( writer, testCounts );
 		}
 		{
-			sdw::FragmentWriter writer{ false };
+			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
 			std::string const name = "m_memberOptEn" + sdw::debug::getName( sdw::typeEnum< T > );
 			sdw::Pcb bo{ writer, "PCB" };
@@ -118,7 +118,7 @@ namespace
 			test::writeShader( writer, testCounts );
 		}
 		{
-			sdw::FragmentWriter writer{ false };
+			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
 			std::string const name = "m_memberOptEnArray" + sdw::debug::getName( sdw::typeEnum< T > );
 			sdw::Pcb bo{ writer, "PCB" };

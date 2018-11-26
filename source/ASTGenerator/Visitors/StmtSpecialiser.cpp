@@ -1,13 +1,13 @@
 /*
 See LICENSE file in root folder
 */
-#include "ShaderWriter/Visitors/StmtSpecialiser.hpp"
+#include "ASTGenerator/Visitors/StmtSpecialiser.hpp"
 
-#include "ShaderWriter/Visitors/ExprSpecialiser.hpp"
+#include "ASTGenerator/Visitors/ExprSpecialiser.hpp"
 
 #include <algorithm>
 
-namespace sdw
+namespace ast
 {
 	stmt::ContainerPtr StmtSpecialiser::submit( stmt::Container * container
 		, SpecialisationInfo const & specialisation )

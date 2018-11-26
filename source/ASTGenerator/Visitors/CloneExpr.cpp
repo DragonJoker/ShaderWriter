@@ -1,12 +1,10 @@
 /*
 See LICENSE file in root folder
 */
-#include "ShaderWriter/Visitors/CloneExpr.hpp"
+#include "ASTGenerator/Visitors/CloneExpr.hpp"
 
-namespace sdw
+namespace ast
 {
-	using namespace ast;
-
 	expr::ExprPtr ExprCloner::submit( expr::Expr * expr )
 	{
 		expr::ExprPtr result;

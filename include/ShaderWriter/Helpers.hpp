@@ -6,7 +6,6 @@ See LICENSE file in root folder
 
 #include "ShaderWriterPrerequisites.hpp"
 
-#include "ShaderWriter/Visitors/GetExprName.hpp"
 #include <ASTGenerator/Expr/ExprIdentifier.hpp>
 #include <ASTGenerator/Expr/ExprList.hpp>
 #include <ASTGenerator/Expr/ExprLiteral.hpp>
@@ -19,6 +18,7 @@ See LICENSE file in root folder
 #include <ASTGenerator/Stmt/StmtPerVertexDecl.hpp>
 #include <ASTGenerator/Type/TypeStruct.hpp>
 #include <ASTGenerator/Var/Variable.hpp>
+#include <ASTGenerator/Visitors/GetExprName.hpp>
 
 namespace sdw
 {

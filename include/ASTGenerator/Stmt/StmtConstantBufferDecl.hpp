@@ -8,6 +8,8 @@ See LICENSE file in root folder
 #include "StmtCompound.hpp"
 #include "StmtVariableDecl.hpp"
 
+#include "ASTGenerator/Type/TypeStruct.hpp"
+
 namespace ast::stmt
 {
 	class ConstantBufferDecl
@@ -15,6 +17,7 @@ namespace ast::stmt
 	{
 	public:
 		ConstantBufferDecl( std::string name
+			, type::MemoryLayout layout
 			, uint32_t bindingPoint
 			, uint32_t bindingSet );
 		void add( VariableDeclPtr decl );
@@ -24,6 +27,11 @@ namespace ast::stmt
 		inline std::string const & getName()const
 		{
 			return m_name;
+		}
+
+		inline type::MemoryLayout getMemoryLayout()const
+		{
+			return m_layout;
 		}
 
 		inline uint32_t getBindingPoint()const
@@ -41,16 +49,19 @@ namespace ast::stmt
 
 	private:
 		std::string m_name;
+		type::MemoryLayout m_layout;
 		uint32_t m_bindingPoint;
 		uint32_t m_bindingSet;
 	};
 	using ConstantBufferDeclPtr = std::unique_ptr< ConstantBufferDecl >;
 
 	inline ConstantBufferDeclPtr makeConstantBufferDecl( std::string name
+		, type::MemoryLayout layout
 		, uint32_t bindingPoint
 		, uint32_t bindingSet )
 	{
 		return std::make_unique< ConstantBufferDecl >( std::move( name )
+			, layout
 			, bindingPoint
 			, bindingSet );
 	}

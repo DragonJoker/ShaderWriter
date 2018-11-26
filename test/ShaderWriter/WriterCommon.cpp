@@ -191,7 +191,9 @@ namespace test
 			, test::TestCounts & testCounts )
 		{
 			std::string errors;
-			auto glsl = sdw::compileGlsl( shader, specialisation );
+			auto glsl = sdw::compileGlsl( shader
+				, specialisation
+				, sdw::GlslConfig{} );
 
 			if ( validateGlsl && !compileGlsl( glsl, shader.getType(), errors ) )
 			{

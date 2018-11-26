@@ -7,6 +7,9 @@ See LICENSE file in root folder
 
 #include "ShaderWriter/Shader.hpp"
 
+#include <ASTGenerator/Type/TypeImage.hpp>
+#include <ASTGenerator/Type/TypeSampledImage.hpp>
+
 namespace sdw::glsl
 {
 	IntrinsicsConfig StmtConfigFiller::submit( Shader const & shader )
@@ -102,6 +105,8 @@ namespace sdw::glsl
 
 	void StmtConfigFiller::visitImageDeclStmt( stmt::ImageDecl * stmt )
 	{
+		auto image = std::static_pointer_cast< type::Image >( stmt->getVariable()->getType() );
+		doParseImageConfig( image->getConfig() );
 	}
 
 	void StmtConfigFiller::visitInOutVariableDeclStmt( stmt::InOutVariableDecl * stmt )
@@ -138,6 +143,8 @@ namespace sdw::glsl
 
 	void StmtConfigFiller::visitSampledImageDeclStmt( stmt::SampledImageDecl * stmt )
 	{
+		auto image = std::static_pointer_cast< type::SampledImage >( stmt->getVariable()->getType() );
+		doParseImageConfig( image->getConfig() );
 	}
 
 	void StmtConfigFiller::visitSamplerDeclStmt( stmt::SamplerDecl * stmt )
@@ -220,5 +227,14 @@ namespace sdw::glsl
 
 	void StmtConfigFiller::visitPreprocVersion( stmt::PreprocVersion * preproc )
 	{
+	}
+
+	void StmtConfigFiller::doParseImageConfig( type::ImageConfiguration const & config )
+	{
+		if ( config.dimension == type::ImageDim::eCube
+			&& config.isArrayed )
+		{
+			m_result.requiresCubeMapArray = true;
+		}
 	}
 }

@@ -34,23 +34,6 @@ namespace sdw
 		eFragment,
 	};
 
-	struct SpecConstantInfo
-	{
-		ast::type::TypePtr type;
-		uint32_t location;
-	};
-
-	struct SpecConstantData
-	{
-		SpecConstantInfo info;
-		std::vector< uint8_t > data;
-	};
-
-	struct SpecialisationInfo
-	{
-		std::vector< SpecConstantData > data;
-	};
-
 	template< typename T >
 	struct Array;
 	template< typename TypeT >

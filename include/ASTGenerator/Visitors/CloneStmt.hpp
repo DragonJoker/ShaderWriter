@@ -5,20 +5,18 @@ See LICENSE file in root folder
 #define ___SDW_CloneStmt_H___
 #pragma once
 
-#include "ShaderWriter/ShaderWriterPrerequisites.hpp"
+#include "ASTGenerator/Stmt/StmtVisitor.hpp"
 
-#include <ASTGenerator/Stmt/StmtVisitor.hpp>
-
-namespace sdw
+namespace ast
 {
 	class StmtCloner
-		: public ast::stmt::Visitor
+		: public stmt::Visitor
 	{
 	public:
-		static ast::stmt::ContainerPtr submit( ast::stmt::Container * stmt );
+		static stmt::ContainerPtr submit( stmt::Container * stmt );
 
 	protected:
-		StmtCloner( ast::stmt::ContainerPtr & result );
+		StmtCloner( stmt::ContainerPtr & result );
 
 	protected:
 		virtual expr::ExprPtr doSubmit( expr::Expr * expr );
@@ -63,8 +61,8 @@ namespace sdw
 		void visitPreprocVersion( stmt::PreprocVersion * preproc )override;
 
 	protected:
-		ast::stmt::ContainerPtr & m_result;
-		ast::stmt::Container * m_current;
+		stmt::ContainerPtr & m_result;
+		stmt::Container * m_current;
 		std::vector< stmt::If * > m_ifStmts;
 		std::vector< stmt::Switch * > m_switchStmts;
 		std::vector< stmt::PreprocIf * > m_preprocIfStmts;

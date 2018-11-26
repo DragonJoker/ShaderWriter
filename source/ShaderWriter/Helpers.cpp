@@ -3,7 +3,6 @@ See LICENSE file in root folder
 */
 #include "ShaderWriter/Helpers.hpp"
 
-#include "ShaderWriter/Visitors/CloneExpr.hpp"
 #include "ShaderWriter/Shader.hpp"
 
 #include <ASTGenerator/Expr/ExprAdd.hpp>
@@ -65,6 +64,8 @@ See LICENSE file in root folder
 #include <ASTGenerator/Type/TypeImage.hpp>
 #include <ASTGenerator/Type/TypeSampledImage.hpp>
 #include <ASTGenerator/Type/TypeStruct.hpp>
+
+#include <ASTGenerator/Visitors/CloneExpr.hpp>
 
 namespace sdw
 {
