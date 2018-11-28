@@ -6,7 +6,6 @@ See LICENSE file in root folder
 #pragma once
 
 #include "SpirvHelpers.hpp"
-#include "SpirvShader.hpp"
 
 #include <ShaderAST/Visitors/CloneStmt.hpp>
 
@@ -16,11 +15,10 @@ namespace spirv
 		: public ast::StmtCloner
 	{
 	public:
-		static ast::stmt::ContainerPtr submit( sdw::Shader const & shader );
+		static ast::stmt::ContainerPtr submit( ast::stmt::Container * container );
 
 	private:
-		StmtAdapter( sdw::Shader const & shader
-			, ast::stmt::ContainerPtr & result );
+		StmtAdapter( ast::stmt::ContainerPtr & result );
 		
 		ast::expr::ExprPtr doSubmit( ast::expr::Expr * expr )override;
 
@@ -35,7 +33,6 @@ namespace spirv
 		void visitPreprocIfDef( ast::stmt::PreprocIfDef * preproc )override;
 
 	private:
-		SpirvShader m_shader;
 		PreprocContext m_context;
 		std::vector< ast::stmt::Switch * > m_switchStmts;
 	};

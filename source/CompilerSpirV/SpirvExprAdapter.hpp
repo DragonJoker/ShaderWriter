@@ -6,7 +6,7 @@ See LICENSE file in root folder
 #pragma once
 
 #include "SpirvHelpers.hpp"
-#include "SpirvShader.hpp"
+
 #include <ShaderAST/Visitors/CloneExpr.hpp>
 
 namespace spirv

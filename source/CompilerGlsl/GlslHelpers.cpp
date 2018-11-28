@@ -6,155 +6,153 @@ See LICENSE file in root folder
 #include <ShaderAST/Type/TypeImage.hpp>
 #include <ShaderAST/Type/TypeSampledImage.hpp>
 
-using namespace ast;
-
 namespace glsl
 {
-	std::string getTypeName( type::Kind kind )
+	std::string getTypeName( ast::type::Kind kind )
 	{
 		std::string result;
 
 		switch ( kind )
 		{
-		case type::Kind::eUndefined:
+		case ast::type::Kind::eUndefined:
 			result = "undefined";
 			break;
-		case type::Kind::eVoid:
+		case ast::type::Kind::eVoid:
 			result = "void";
 			break;
-		case type::Kind::eStruct:
+		case ast::type::Kind::eStruct:
 			result = "struct";
 			break;
-		case type::Kind::eFunction:
+		case ast::type::Kind::eFunction:
 			result = "function";
 			break;
-		case type::Kind::eBoolean:
+		case ast::type::Kind::eBoolean:
 			result = "bool";
 			break;
-		case type::Kind::eInt:
+		case ast::type::Kind::eInt:
 			result = "int";
 			break;
-		case type::Kind::eUInt:
+		case ast::type::Kind::eUInt:
 			result = "uint";
 			break;
-		case type::Kind::eFloat:
+		case ast::type::Kind::eFloat:
 			result = "float";
 			break;
-		case type::Kind::eDouble:
+		case ast::type::Kind::eDouble:
 			result = "double";
 			break;
-		case type::Kind::eVec2B:
+		case ast::type::Kind::eVec2B:
 			result = "bvec2";
 			break;
-		case type::Kind::eVec3B:
+		case ast::type::Kind::eVec3B:
 			result = "bvec3";
 			break;
-		case type::Kind::eVec4B:
+		case ast::type::Kind::eVec4B:
 			result = "bvec4";
 			break;
-		case type::Kind::eVec2I:
+		case ast::type::Kind::eVec2I:
 			result = "ivec2";
 			break;
-		case type::Kind::eVec3I:
+		case ast::type::Kind::eVec3I:
 			result = "ivec3";
 			break;
-		case type::Kind::eVec4I:
+		case ast::type::Kind::eVec4I:
 			result = "ivec4";
 			break;
-		case type::Kind::eVec2U:
+		case ast::type::Kind::eVec2U:
 			result = "uvec2";
 			break;
-		case type::Kind::eVec3U:
+		case ast::type::Kind::eVec3U:
 			result = "uvec3";
 			break;
-		case type::Kind::eVec4U:
+		case ast::type::Kind::eVec4U:
 			result = "uvec4";
 			break;
-		case type::Kind::eVec2F:
+		case ast::type::Kind::eVec2F:
 			result = "vec2";
 			break;
-		case type::Kind::eVec3F:
+		case ast::type::Kind::eVec3F:
 			result = "vec3";
 			break;
-		case type::Kind::eVec4F:
+		case ast::type::Kind::eVec4F:
 			result = "vec4";
 			break;
-		case type::Kind::eVec2D:
+		case ast::type::Kind::eVec2D:
 			result = "dvec2";
 			break;
-		case type::Kind::eVec3D:
+		case ast::type::Kind::eVec3D:
 			result = "dvec3";
 			break;
-		case type::Kind::eVec4D:
+		case ast::type::Kind::eVec4D:
 			result = "dvec4";
 			break;
-		case type::Kind::eMat2x2F:
+		case ast::type::Kind::eMat2x2F:
 			result = "mat2";
 			break;
-		case type::Kind::eMat2x3F:
+		case ast::type::Kind::eMat2x3F:
 			result = "mat2x3";
 			break;
-		case type::Kind::eMat2x4F:
+		case ast::type::Kind::eMat2x4F:
 			result = "mat2x4";
 			break;
-		case type::Kind::eMat3x3F:
+		case ast::type::Kind::eMat3x3F:
 			result = "mat3";
 			break;
-		case type::Kind::eMat3x2F:
+		case ast::type::Kind::eMat3x2F:
 			result = "mat3x2";
 			break;
-		case type::Kind::eMat3x4F:
+		case ast::type::Kind::eMat3x4F:
 			result = "mat3x4";
 			break;
-		case type::Kind::eMat4x4F:
+		case ast::type::Kind::eMat4x4F:
 			result = "mat4";
 			break;
-		case type::Kind::eMat4x2F:
+		case ast::type::Kind::eMat4x2F:
 			result = "mat4x2";
 			break;
-		case type::Kind::eMat4x3F:
+		case ast::type::Kind::eMat4x3F:
 			result = "mat4x3";
 			break;
-		case type::Kind::eMat2x2D:
+		case ast::type::Kind::eMat2x2D:
 			result = "dmat2";
 			break;
-		case type::Kind::eMat2x3D:
+		case ast::type::Kind::eMat2x3D:
 			result = "dmat2x3";
 			break;
-		case type::Kind::eMat2x4D:
+		case ast::type::Kind::eMat2x4D:
 			result = "dmat2x4";
 			break;
-		case type::Kind::eMat3x3D:
+		case ast::type::Kind::eMat3x3D:
 			result = "dmat3";
 			break;
-		case type::Kind::eMat3x2D:
+		case ast::type::Kind::eMat3x2D:
 			result = "dmat3x2";
 			break;
-		case type::Kind::eMat3x4D:
+		case ast::type::Kind::eMat3x4D:
 			result = "dmat3x4";
 			break;
-		case type::Kind::eMat4x4D:
+		case ast::type::Kind::eMat4x4D:
 			result = "dmat4";
 			break;
-		case type::Kind::eMat4x2D:
+		case ast::type::Kind::eMat4x2D:
 			result = "dmat4x2";
 			break;
-		case type::Kind::eMat4x3D:
+		case ast::type::Kind::eMat4x3D:
 			result = "dmat4x3";
 			break;
-		case type::Kind::eConstantsBuffer:
+		case ast::type::Kind::eConstantsBuffer:
 			result = "uniform";
 			break;
-		case type::Kind::eShaderBuffer:
+		case ast::type::Kind::eShaderBuffer:
 			result = "buffer";
 			break;
-		case type::Kind::eImage:
+		case ast::type::Kind::eImage:
 			result = "image";
 			break;
-		case type::Kind::eSampler:
+		case ast::type::Kind::eSampler:
 			result = "sampler";
 			break;
-		case type::Kind::eSampledImage:
+		case ast::type::Kind::eSampledImage:
 			result = "sampledImage";
 			break;
 		}
@@ -162,7 +160,7 @@ namespace glsl
 		return result;
 	}
 
-	std::string getName( type::ImageDim value )
+	std::string getName( ast::type::ImageDim value )
 	{
 		std::string result;
 
@@ -187,7 +185,7 @@ namespace glsl
 			result = "Buffer";
 			break;
 		default:
-			assert( false && "Unsupported type::ImageDim" );
+			assert( false && "Unsupported ast::type::ImageDim" );
 			result = "Undefined";
 			break;
 		}
@@ -195,7 +193,7 @@ namespace glsl
 		return result;
 	}
 
-	std::string getTypeName( type::ImagePtr type )
+	std::string getTypeName( ast::type::ImagePtr type )
 	{
 		std::string result;
 		auto & config = type->getConfig();
@@ -207,16 +205,16 @@ namespace glsl
 			result += "Array";
 		}
 
-		if ( config.isDepth == type::Trinary::eTrue )
+		if ( config.isDepth == ast::type::Trinary::eTrue )
 		{
-			assert( config.isSampled == type::Trinary::eTrue );
+			assert( config.isSampled == ast::type::Trinary::eTrue );
 			result += "Shadow";
 		}
 
 		return result;
 	}
 
-	std::string getTypeName( type::SampledImagePtr type )
+	std::string getTypeName( ast::type::SampledImagePtr type )
 	{
 		std::string result;
 		auto & config = type->getConfig();
@@ -228,32 +226,32 @@ namespace glsl
 			result += "Array";
 		}
 
-		if ( config.isDepth == type::Trinary::eTrue )
+		if ( config.isDepth == ast::type::Trinary::eTrue )
 		{
-			assert( config.isSampled == type::Trinary::eTrue );
+			assert( config.isSampled == ast::type::Trinary::eTrue );
 			result += "Shadow";
 		}
 
 		return result;
 	}
 
-	std::string getTypeName( type::TypePtr type )
+	std::string getTypeName( ast::type::TypePtr type )
 	{
 		std::string result;
 
 		switch ( type->getKind() )
 		{
-		case type::Kind::eStruct:
-			result = static_cast< type::Struct const & >( *type ).getName();
+		case ast::type::Kind::eStruct:
+			result = static_cast< ast::type::Struct const & >( *type ).getName();
 			break;
-		case type::Kind::eImage:
-			result = getTypeName( std::static_pointer_cast< type::Image >( type ) );
+		case ast::type::Kind::eImage:
+			result = getTypeName( std::static_pointer_cast< ast::type::Image >( type ) );
 			break;
-		case type::Kind::eSampledImage:
-			result = getTypeName( std::static_pointer_cast< type::SampledImage >( type ) );
+		case ast::type::Kind::eSampledImage:
+			result = getTypeName( std::static_pointer_cast< ast::type::SampledImage >( type ) );
 			break;
-		case type::Kind::eArray:
-			result = getTypeName( std::static_pointer_cast< type::Array >( type )->getType() );
+		case ast::type::Kind::eArray:
+			result = getTypeName( std::static_pointer_cast< ast::type::Array >( type )->getType() );
 			break;
 		default:
 			result = getTypeName( type->getKind() );
@@ -263,14 +261,14 @@ namespace glsl
 		return result;
 	}
 
-	std::string getTypeArraySize( type::TypePtr type )
+	std::string getTypeArraySize( ast::type::TypePtr type )
 	{
 		std::string result;
 		auto arraySize = getArraySize( type );
 
-		if ( arraySize != type::NotArray )
+		if ( arraySize != ast::type::NotArray )
 		{
-			if ( arraySize == type::UnknownArraySize )
+			if ( arraySize == ast::type::UnknownArraySize )
 			{
 				result += "[]";
 			}
@@ -283,7 +281,7 @@ namespace glsl
 		return result;
 	}
 
-	std::string getLocationName( var::Variable const & var )
+	std::string getLocationName( ast::var::Variable const & var )
 	{
 		std::string result;
 
@@ -300,7 +298,7 @@ namespace glsl
 		return result;
 	}
 
-	std::string getDirectionName( var::Variable const & var )
+	std::string getDirectionName( ast::var::Variable const & var )
 	{
 		std::string result;
 
@@ -327,21 +325,21 @@ namespace glsl
 		return result;
 	}
 
-	std::string getStatusName( stmt::PreprocExtension::Status status )
+	std::string getStatusName( ast::stmt::PreprocExtension::Status status )
 	{
 		std::string result;
 
 		switch ( status )
 		{
-		case stmt::PreprocExtension::Status::eDisabled:
+		case ast::stmt::PreprocExtension::Status::eDisabled:
 			result = "disable";
 			break;
 
-		case stmt::PreprocExtension::Status::eEnabled:
+		case ast::stmt::PreprocExtension::Status::eEnabled:
 			result = "enable";
 			break;
 
-		case stmt::PreprocExtension::Status::eRequired:
+		case ast::stmt::PreprocExtension::Status::eRequired:
 			result = "require";
 			break;
 
@@ -350,133 +348,133 @@ namespace glsl
 		return result;
 	}
 
-	std::string getOperatorName( expr::Kind kind )
+	std::string getOperatorName( ast::expr::Kind kind )
 	{
 		std::string result;
 
 		switch ( kind )
 		{
-		case expr::Kind::eAdd:
+		case ast::expr::Kind::eAdd:
 			result = "+";
 			break;
-		case expr::Kind::eMinus:
+		case ast::expr::Kind::eMinus:
 			result = "-";
 			break;
-		case expr::Kind::eTimes:
+		case ast::expr::Kind::eTimes:
 			result = "*";
 			break;
-		case expr::Kind::eDivide:
+		case ast::expr::Kind::eDivide:
 			result = "/";
 			break;
-		case expr::Kind::eModulo:
+		case ast::expr::Kind::eModulo:
 			result = "%";
 			break;
-		case expr::Kind::eLShift:
+		case ast::expr::Kind::eLShift:
 			result = "<<";
 			break;
-		case expr::Kind::eRShift:
+		case ast::expr::Kind::eRShift:
 			result = ">>";
 			break;
-		case expr::Kind::eBitAnd:
+		case ast::expr::Kind::eBitAnd:
 			result = "&";
 			break;
-		case expr::Kind::eBitNot:
+		case ast::expr::Kind::eBitNot:
 			result = "~";
 			break;
-		case expr::Kind::eBitOr:
+		case ast::expr::Kind::eBitOr:
 			result = "|";
 			break;
-		case expr::Kind::eBitXor:
+		case ast::expr::Kind::eBitXor:
 			result = "^";
 			break;
-		case expr::Kind::eLogAnd:
+		case ast::expr::Kind::eLogAnd:
 			result = "&&";
 			break;
-		case expr::Kind::eLogNot:
+		case ast::expr::Kind::eLogNot:
 			result = "!";
 			break;
-		case expr::Kind::eLogOr:
+		case ast::expr::Kind::eLogOr:
 			result = "||";
 			break;
-		case expr::Kind::eCast:
+		case ast::expr::Kind::eCast:
 			result = "cast";
 			break;
-		case expr::Kind::eEqual:
+		case ast::expr::Kind::eEqual:
 			result = "==";
 			break;
-		case expr::Kind::eGreater:
+		case ast::expr::Kind::eGreater:
 			result = ">";
 			break;
-		case expr::Kind::eGreaterEqual:
+		case ast::expr::Kind::eGreaterEqual:
 			result = ">=";
 			break;
-		case expr::Kind::eLess:
+		case ast::expr::Kind::eLess:
 			result = "<";
 			break;
-		case expr::Kind::eLessEqual:
+		case ast::expr::Kind::eLessEqual:
 			result = "<=";
 			break;
-		case expr::Kind::eNotEqual:
+		case ast::expr::Kind::eNotEqual:
 			result = "!=";
 			break;
-		case expr::Kind::eComma:
+		case ast::expr::Kind::eComma:
 			result = ",";
 			break;
-		case expr::Kind::eMbrSelect:
+		case ast::expr::Kind::eMbrSelect:
 			result = ".";
 			break;
-		case expr::Kind::ePreIncrement:
+		case ast::expr::Kind::ePreIncrement:
 			result = "++";
 			break;
-		case expr::Kind::ePreDecrement:
+		case ast::expr::Kind::ePreDecrement:
 			result = "--";
 			break;
-		case expr::Kind::ePostIncrement:
+		case ast::expr::Kind::ePostIncrement:
 			result = "++";
 			break;
-		case expr::Kind::ePostDecrement:
+		case ast::expr::Kind::ePostDecrement:
 			result = "--";
 			break;
-		case expr::Kind::eUnaryMinus:
+		case ast::expr::Kind::eUnaryMinus:
 			result = "-";
 			break;
-		case expr::Kind::eUnaryPlus:
+		case ast::expr::Kind::eUnaryPlus:
 			result = "+";
 			break;
-		case expr::Kind::eAssign:
+		case ast::expr::Kind::eAssign:
 			result = "=";
 			break;
-		case expr::Kind::eAddAssign:
+		case ast::expr::Kind::eAddAssign:
 			result = "+=";
 			break;
-		case expr::Kind::eMinusAssign:
+		case ast::expr::Kind::eMinusAssign:
 			result = "-=";
 			break;
-		case expr::Kind::eTimesAssign:
+		case ast::expr::Kind::eTimesAssign:
 			result = "*=";
 			break;
-		case expr::Kind::eDivideAssign:
+		case ast::expr::Kind::eDivideAssign:
 			result = "/=";
 			break;
-		case expr::Kind::eModuloAssign:
+		case ast::expr::Kind::eModuloAssign:
 			result = "%=";
 			break;
-		case expr::Kind::eLShiftAssign:
+		case ast::expr::Kind::eLShiftAssign:
 			result = "<<=";
 			break;
-		case expr::Kind::eRShiftAssign:
+		case ast::expr::Kind::eRShiftAssign:
 			result = ">>=";
 			break;
-		case expr::Kind::eAndAssign:
+		case ast::expr::Kind::eAndAssign:
 			result = "&=";
 			break;
-		case expr::Kind::eNotAssign:
+		case ast::expr::Kind::eNotAssign:
 			result = "!=";
 			break;
-		case expr::Kind::eOrAssign:
+		case ast::expr::Kind::eOrAssign:
 			result = "|=";
 			break;
-		case expr::Kind::eXorAssign:
+		case ast::expr::Kind::eXorAssign:
 			result = "^=";
 			break;
 		default:
@@ -486,7 +484,7 @@ namespace glsl
 		return result;
 	}
 
-	std::string getLayoutName( stmt::InputLayout layout )
+	std::string getLayoutName( ast::stmt::InputLayout layout )
 	{
 		std::string result;
 
@@ -529,7 +527,7 @@ namespace glsl
 		return result;
 	}
 
-	std::string getLayoutName( stmt::OutputLayout layout )
+	std::string getLayoutName( ast::stmt::OutputLayout layout )
 	{
 		std::string result;
 
@@ -551,8 +549,8 @@ namespace glsl
 		return result;
 	}
 
-	std::string getCtorName( expr::CompositeType composite
-		, type::Kind component )
+	std::string getCtorName( ast::expr::CompositeType composite
+		, ast::type::Kind component )
 	{
 		std::string result;
 
@@ -731,24 +729,24 @@ namespace glsl
 		return result;
 	}
 
-	bool isUnaryPre( expr::Kind kind )
+	bool isUnaryPre( ast::expr::Kind kind )
 	{
 		bool result;
 
 		switch ( kind )
 		{
-		case expr::Kind::eMbrSelect:
-		case expr::Kind::ePostIncrement:
-		case expr::Kind::ePostDecrement:
+		case ast::expr::Kind::eMbrSelect:
+		case ast::expr::Kind::ePostIncrement:
+		case ast::expr::Kind::ePostDecrement:
 			result = false;
 			break;
-		case expr::Kind::eBitNot:
-		case expr::Kind::eLogNot:
-		case expr::Kind::eCast:
-		case expr::Kind::ePreIncrement:
-		case expr::Kind::ePreDecrement:
-		case expr::Kind::eUnaryMinus:
-		case expr::Kind::eUnaryPlus:
+		case ast::expr::Kind::eBitNot:
+		case ast::expr::Kind::eLogNot:
+		case ast::expr::Kind::eCast:
+		case ast::expr::Kind::ePreIncrement:
+		case ast::expr::Kind::ePreDecrement:
+		case ast::expr::Kind::eUnaryMinus:
+		case ast::expr::Kind::eUnaryPlus:
 			result = true;
 			break;
 		default:

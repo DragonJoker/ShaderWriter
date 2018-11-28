@@ -15,11 +15,10 @@ namespace glsl
 		: public ast::stmt::Visitor
 	{
 	public:
-		static IntrinsicsConfig submit( sdw::Shader const & shader );
+		static IntrinsicsConfig submit( ast::stmt::Container * container );
 
 	private:
-		StmtConfigFiller( sdw::Shader const & shader
-			, IntrinsicsConfig & result );
+		StmtConfigFiller( IntrinsicsConfig & result );
 
 		void visitContainerStmt( ast::stmt::Container * cont )override;
 		void visitConstantBufferDeclStmt( ast::stmt::ConstantBufferDecl * stmt )override;

@@ -11,17 +11,15 @@ See LICENSE file in root folder
 #include <ShaderAST/Type/TypeImage.hpp>
 #include <ShaderAST/Type/TypeSampledImage.hpp>
 
-using namespace ast;
-
 namespace glsl
 {
 	namespace
 	{
-		expr::ExprPtr swizzleConvert( type::TypePtr dst
-			, type::TypePtr src
-			, expr::ExprPtr expr )
+		ast::expr::ExprPtr swizzleConvert( ast::type::TypePtr dst
+			, ast::type::TypePtr src
+			, ast::expr::ExprPtr expr )
 		{
-			expr::SwizzleKind swizzle;
+			ast::expr::SwizzleKind swizzle;
 			auto srcCount = getComponentCount( src->getKind() );
 			auto dstCount = getComponentCount( dst->getKind() );
 
@@ -31,16 +29,16 @@ namespace glsl
 				switch ( dstCount )
 				{
 				case 1:
-					swizzle = expr::SwizzleKind::e0;
+					swizzle = ast::expr::SwizzleKind::e0;
 					break;
 				case 2:
-					swizzle = expr::SwizzleKind::e00;
+					swizzle = ast::expr::SwizzleKind::e00;
 					break;
 				case 3:
-					swizzle = expr::SwizzleKind::e000;
+					swizzle = ast::expr::SwizzleKind::e000;
 					break;
 				case 4:
-					swizzle = expr::SwizzleKind::e0000;
+					swizzle = ast::expr::SwizzleKind::e0000;
 					break;
 				}
 				break;
@@ -48,16 +46,16 @@ namespace glsl
 				switch ( dstCount )
 				{
 				case 1:
-					swizzle = expr::SwizzleKind::e0;
+					swizzle = ast::expr::SwizzleKind::e0;
 					break;
 				case 2:
-					swizzle = expr::SwizzleKind::e01;
+					swizzle = ast::expr::SwizzleKind::e01;
 					break;
 				case 3:
-					swizzle = expr::SwizzleKind::e011;
+					swizzle = ast::expr::SwizzleKind::e011;
 					break;
 				case 4:
-					swizzle = expr::SwizzleKind::e0111;
+					swizzle = ast::expr::SwizzleKind::e0111;
 					break;
 				}
 				break;
@@ -65,16 +63,16 @@ namespace glsl
 				switch ( dstCount )
 				{
 				case 1:
-					swizzle = expr::SwizzleKind::e0;
+					swizzle = ast::expr::SwizzleKind::e0;
 					break;
 				case 2:
-					swizzle = expr::SwizzleKind::e01;
+					swizzle = ast::expr::SwizzleKind::e01;
 					break;
 				case 3:
-					swizzle = expr::SwizzleKind::e012;
+					swizzle = ast::expr::SwizzleKind::e012;
 					break;
 				case 4:
-					swizzle = expr::SwizzleKind::e0122;
+					swizzle = ast::expr::SwizzleKind::e0122;
 					break;
 				}
 				break;
@@ -82,30 +80,30 @@ namespace glsl
 				switch ( dstCount )
 				{
 				case 1:
-					swizzle = expr::SwizzleKind::e0;
+					swizzle = ast::expr::SwizzleKind::e0;
 					break;
 				case 2:
-					swizzle = expr::SwizzleKind::e01;
+					swizzle = ast::expr::SwizzleKind::e01;
 					break;
 				case 3:
-					swizzle = expr::SwizzleKind::e012;
+					swizzle = ast::expr::SwizzleKind::e012;
 					break;
 				case 4:
-					swizzle = expr::SwizzleKind::e0123;
+					swizzle = ast::expr::SwizzleKind::e0123;
 					break;
 				}
 				break;
 			}
 
-			return std::make_unique< expr::Swizzle >( std::move( expr )
+			return std::make_unique< ast::expr::Swizzle >( std::move( expr )
 				, swizzle );
 		}
 	}
-	expr::ExprPtr ExprAdapter::submit( expr::Expr * expr
+	ast::expr::ExprPtr ExprAdapter::submit( ast::expr::Expr * expr
 		, GlslConfig const & writerConfig
 		, IntrinsicsConfig const & intrinsicsConfig )
 	{
-		expr::ExprPtr result;
+		ast::expr::ExprPtr result;
 		ExprAdapter vis
 		{
 			writerConfig,
@@ -116,7 +114,7 @@ namespace glsl
 		return result;
 	}
 			
-	expr::ExprPtr ExprAdapter::submit( expr::ExprPtr const & expr
+	ast::expr::ExprPtr ExprAdapter::submit( ast::expr::ExprPtr const & expr
 		, GlslConfig const & writerConfig
 		, IntrinsicsConfig const & intrinsicsConfig )
 	{
@@ -127,7 +125,7 @@ namespace glsl
 
 	ExprAdapter::ExprAdapter( GlslConfig const & writerConfig
 		, IntrinsicsConfig const & intrinsicsConfig
-		, expr::ExprPtr & result )
+		, ast::expr::ExprPtr & result )
 		: ExprCloner{ result }
 		, m_writerConfig{ writerConfig }
 		, m_intrinsicsConfig{ intrinsicsConfig }
@@ -136,7 +134,7 @@ namespace glsl
 
 	ast::expr::ExprPtr ExprAdapter::doSubmit( ast::expr::Expr * expr )
 	{
-		expr::ExprPtr result;
+		ast::expr::ExprPtr result;
 		ExprAdapter vis
 		{
 			m_writerConfig,
@@ -147,77 +145,77 @@ namespace glsl
 		return result;
 	}
 
-	void ExprAdapter::visitImageAccessCallExpr( expr::ImageAccessCall * expr )
+	void ExprAdapter::visitImageAccessCallExpr( ast::expr::ImageAccessCall * expr )
 	{
-		if ( expr->getImageAccess() >= expr::ImageAccess::eImageLoad1DF
-			&& expr->getImageAccess() <= expr::ImageAccess::eImageLoad2DMSArrayU )
+		if ( expr->getImageAccess() >= ast::expr::ImageAccess::eImageLoad1DF
+			&& expr->getImageAccess() <= ast::expr::ImageAccess::eImageLoad2DMSArrayU )
 		{
 			doProcessImageLoad( expr );
 		}
 		else
 		{
-			expr::ExprList args;
+			ast::expr::ExprList args;
 
 			for ( auto & arg : expr->getArgList() )
 			{
 				args.emplace_back( doSubmit( arg.get() ) );
 			}
 
-			m_result = expr::makeImageAccessCall( expr->getType()
+			m_result = ast::expr::makeImageAccessCall( expr->getType()
 				, expr->getImageAccess()
 				, std::move( args ) );
 		}
 	}
 
-	void ExprAdapter::visitTextureAccessCallExpr( expr::TextureAccessCall * expr )
+	void ExprAdapter::visitTextureAccessCallExpr( ast::expr::TextureAccessCall * expr )
 	{
-		if ( expr->getTextureAccess() >= expr::TextureAccess::eTexture1DShadowF
-			&& expr->getTextureAccess() <= expr::TextureAccess::eTextureProjGradOffset2DRectShadowF )
+		if ( expr->getTextureAccess() >= ast::expr::TextureAccess::eTexture1DShadowF
+			&& expr->getTextureAccess() <= ast::expr::TextureAccess::eTextureProjGradOffset2DRectShadowF )
 		{
 			doProcessTextureShadow( expr );
 		}
-		else if ( expr->getTextureAccess() >= expr::TextureAccess::eTexture1DF
-			&& expr->getTextureAccess() <= expr::TextureAccess::eTextureProjGradOffset2DRectU4 )
+		else if ( expr->getTextureAccess() >= ast::expr::TextureAccess::eTexture1DF
+			&& expr->getTextureAccess() <= ast::expr::TextureAccess::eTextureProjGradOffset2DRectU4 )
 		{
 			doProcessTextureSample( expr );
 		}
-		else if ( expr->getTextureAccess() >= expr::TextureAccess::eTextureGather2DF
-			&& expr->getTextureAccess() <= expr::TextureAccess::eTextureGatherOffsets2DRectUComp )
+		else if ( expr->getTextureAccess() >= ast::expr::TextureAccess::eTextureGather2DF
+			&& expr->getTextureAccess() <= ast::expr::TextureAccess::eTextureGatherOffsets2DRectUComp )
 		{
 			doProcessTextureGather( expr );
 		}
 		else
 		{
-			expr::ExprList args;
+			ast::expr::ExprList args;
 
 			for ( auto & arg : expr->getArgList() )
 			{
 				args.emplace_back( doSubmit( arg.get() ) );
 			}
 
-			m_result = expr::makeTextureAccessCall( expr->getType()
+			m_result = ast::expr::makeTextureAccessCall( expr->getType()
 				, expr->getTextureAccess()
 				, std::move( args ) );
 		}
 	}
 
-	void ExprAdapter::doProcessImageLoad( expr::ImageAccessCall * expr )
+	void ExprAdapter::doProcessImageLoad( ast::expr::ImageAccessCall * expr )
 	{
-		auto imgArgType = std::static_pointer_cast< type::Image >( expr->getArgList()[0]->getType() );
+		auto imgArgType = std::static_pointer_cast< ast::type::Image >( expr->getArgList()[0]->getType() );
 		auto config = imgArgType->getConfig();
 		auto callRetType = getType( config.format );
-		expr::ExprList args;
+		ast::expr::ExprList args;
 
 		for ( auto & arg : expr->getArgList() )
 		{
 			args.emplace_back( doSubmit( arg.get() ) );
 		}
 
-		m_result = expr::makeImageAccessCall( expr->getType()
+		m_result = ast::expr::makeImageAccessCall( expr->getType()
 			, expr->getImageAccess()
 			, std::move( args ) );
 
-		auto glslRetType = type::getVec4Type( getScalarType( callRetType->getKind() ) );
+		auto glslRetType = ast::type::getVec4Type( getScalarType( callRetType->getKind() ) );
 
 		if ( callRetType != glslRetType )
 		{
@@ -225,36 +223,36 @@ namespace glsl
 		}
 	}
 
-	void ExprAdapter::doProcessTextureShadow( expr::TextureAccessCall * expr )
+	void ExprAdapter::doProcessTextureShadow( ast::expr::TextureAccessCall * expr )
 	{
-		expr::ExprList args;
+		ast::expr::ExprList args;
 		// First parameter is the sampled image
 		args.emplace_back( doSubmit( expr->getArgList()[0].get() ) );
 		// For texture shadow functions, dref value is put inside the coords parameter, instead of being aside.
 		assert( expr->getArgList().size() >= 3u );
 		// Merge second and third parameters to the appropriate vector type (float=>vec2, vec2=>vec3, vec3=>vec4).
-		expr::ExprList merged;
+		ast::expr::ExprList merged;
 		merged.emplace_back( doSubmit( expr->getArgList()[1].get() ) );
 		merged.emplace_back( doSubmit( expr->getArgList()[2].get() ) );
 
 		switch ( merged[0]->getType()->getKind() )
 		{
-		case type::Kind::eFloat:
-			args.emplace_back( sdw::makeCompositeCtor( expr::CompositeType::eVec2
-				, type::Kind::eFloat
+		case ast::type::Kind::eFloat:
+			args.emplace_back( sdw::makeCompositeCtor( ast::expr::CompositeType::eVec2
+				, ast::type::Kind::eFloat
 				, std::move( merged ) ) );
 			break;
-		case type::Kind::eVec2F:
-			args.emplace_back( sdw::makeCompositeCtor( expr::CompositeType::eVec3
-				, type::Kind::eFloat
+		case ast::type::Kind::eVec2F:
+			args.emplace_back( sdw::makeCompositeCtor( ast::expr::CompositeType::eVec3
+				, ast::type::Kind::eFloat
 				, std::move( merged ) ) );
 			break;
-		case type::Kind::eVec3F:
-			args.emplace_back( sdw::makeCompositeCtor( expr::CompositeType::eVec4
-				, type::Kind::eFloat
+		case ast::type::Kind::eVec3F:
+			args.emplace_back( sdw::makeCompositeCtor( ast::expr::CompositeType::eVec4
+				, ast::type::Kind::eFloat
 				, std::move( merged ) ) );
 			break;
-		case type::Kind::eVec4F:
+		case ast::type::Kind::eVec4F:
 			// If the first type was a vec4, forget about merging
 			args.emplace_back( doSubmit( expr->getArgList()[1].get() ) );
 			args.emplace_back( doSubmit( expr->getArgList()[2].get() ) );
@@ -267,28 +265,28 @@ namespace glsl
 			args.emplace_back( doSubmit( expr->getArgList()[i].get() ) );
 		}
 
-		m_result = expr::makeTextureAccessCall( expr->getType()
+		m_result = ast::expr::makeTextureAccessCall( expr->getType()
 			, expr->getTextureAccess()
 			, std::move( args ) );
 	}
 
-	void ExprAdapter::doProcessTextureSample( expr::TextureAccessCall * expr )
+	void ExprAdapter::doProcessTextureSample( ast::expr::TextureAccessCall * expr )
 	{
-		auto imgArgType = std::static_pointer_cast< type::SampledImage >( expr->getArgList()[0]->getType() );
+		auto imgArgType = std::static_pointer_cast< ast::type::SampledImage >( expr->getArgList()[0]->getType() );
 		auto config = imgArgType->getConfig();
 		auto callRetType = getType( config.format );
-		expr::ExprList args;
+		ast::expr::ExprList args;
 
 		for ( auto & arg : expr->getArgList() )
 		{
 			args.emplace_back( doSubmit( arg.get() ) );
 		}
 
-		m_result = expr::makeTextureAccessCall( expr->getType()
+		m_result = ast::expr::makeTextureAccessCall( expr->getType()
 			, expr->getTextureAccess()
 			, std::move( args ) );
 
-		auto glslRetType = type::getVec4Type( getScalarType( callRetType->getKind() ) );
+		auto glslRetType = ast::type::getVec4Type( getScalarType( callRetType->getKind() ) );
 
 		if ( callRetType != glslRetType )
 		{
@@ -296,18 +294,18 @@ namespace glsl
 		}
 	}
 
-	void ExprAdapter::doProcessTextureGather( expr::TextureAccessCall * expr )
+	void ExprAdapter::doProcessTextureGather( ast::expr::TextureAccessCall * expr )
 	{
-		auto imgArgType = std::static_pointer_cast< type::SampledImage >( expr->getArgList()[0]->getType() );
+		auto imgArgType = std::static_pointer_cast< ast::type::SampledImage >( expr->getArgList()[0]->getType() );
 		auto config = imgArgType->getConfig();
-		expr::ExprList args;
+		ast::expr::ExprList args;
 
 		for ( auto & arg : expr->getArgList() )
 		{
 			args.emplace_back( doSubmit( arg.get() ) );
 		}
 
-		m_result = expr::makeTextureAccessCall( expr->getType()
+		m_result = ast::expr::makeTextureAccessCall( expr->getType()
 			, expr->getTextureAccess()
 			, std::move( args ) );
 	}

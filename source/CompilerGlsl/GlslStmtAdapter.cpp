@@ -11,51 +11,47 @@ See LICENSE file in root folder
 
 #include <algorithm>
 
-using namespace ast;
-using namespace sdw;
-
 namespace glsl
 {
-	void doEnableCoreExtension( stmt::ContainerPtr & cont
+	void doEnableCoreExtension( ast::stmt::ContainerPtr & cont
 		, std::string const & extensionName
 		, uint32_t coreInVersion
 		, uint32_t shaderVersion )
 	{
 		if ( coreInVersion > shaderVersion )
 		{
-			cont->addStmt( stmt::makePreprocExtension( extensionName
-				, stmt::PreprocExtension::Status::eRequired ) );
+			cont->addStmt( ast::stmt::makePreprocExtension( extensionName
+				, ast::stmt::PreprocExtension::Status::eRequired ) );
 		}
 	}
 	
-	void doEnableExtension( stmt::ContainerPtr & cont
+	void doEnableExtension( ast::stmt::ContainerPtr & cont
 		, std::string const & extensionName
 		, uint32_t requiredVersion
 		, uint32_t shaderVersion )
 	{
 		if ( requiredVersion <= shaderVersion )
 		{
-			cont->addStmt( stmt::makePreprocExtension( extensionName
-				, stmt::PreprocExtension::Status::eEnabled ) );
+			cont->addStmt( ast::stmt::makePreprocExtension( extensionName
+				, ast::stmt::PreprocExtension::Status::eEnabled ) );
 		}
 	}
 
-	stmt::ContainerPtr StmtAdapter::submit( Shader const & shader
+	ast::stmt::ContainerPtr StmtAdapter::submit( ast::stmt::Container * container
 		, GlslConfig const & writerConfig
 		, IntrinsicsConfig const & intrinsicsConfig )
 	{
-		auto result = stmt::makeContainer();
-		auto cont = shader.getStatements();
-		auto it = std::find_if ( cont->begin()
-			, cont->end()
-			, []( stmt::StmtPtr const & lookup )
+		auto result = ast::stmt::makeContainer();
+		auto it = std::find_if ( container->begin()
+			, container->end()
+			, []( ast::stmt::StmtPtr const & lookup )
 			{
-				return lookup->getKind() == stmt::Kind::ePreprocVersion;
+				return lookup->getKind() == ast::stmt::Kind::ePreprocVersion;
 			} );
 
-		if ( it == cont->end() )
+		if ( it == container->end() )
 		{
-			result->addStmt( stmt::makePreprocVersion( std::to_string( writerConfig.shaderLanguageVersion ) ) );
+			result->addStmt( ast::stmt::makePreprocVersion( std::to_string( writerConfig.shaderLanguageVersion ) ) );
 			doEnableCoreExtension( result, "GL_ARB_explicit_attrib_location", 330u, writerConfig.shaderLanguageVersion );
 			doEnableCoreExtension( result, "GL_ARB_explicit_uniform_location", 430u, writerConfig.shaderLanguageVersion );
 			doEnableCoreExtension( result, "GL_ARB_separate_shader_objects", 410u, writerConfig.shaderLanguageVersion );
@@ -64,22 +60,21 @@ namespace glsl
 			doEnableExtension( result, "GL_KHR_vulkan_glsl", 450u, writerConfig.shaderLanguageVersion );
 		}
 
-		StmtAdapter vis{ shader, writerConfig, intrinsicsConfig, result };
-		cont->accept( &vis );
+		StmtAdapter vis{ writerConfig, intrinsicsConfig, result };
+		container->accept( &vis );
 		return result;
 	}
 
-	StmtAdapter::StmtAdapter( Shader const & shader
-		, GlslConfig const & writerConfig
+	StmtAdapter::StmtAdapter( GlslConfig const & writerConfig
 		, IntrinsicsConfig const & intrinsicsConfig
-		, stmt::ContainerPtr & result )
+		, ast::stmt::ContainerPtr & result )
 		: ast::StmtCloner{ result }
 		, m_writerConfig{ writerConfig }
 		, m_intrinsicsConfig{ intrinsicsConfig }
 	{
 	}
 	
-	expr::ExprPtr StmtAdapter::doSubmit( expr::Expr * expr )
+	ast::expr::ExprPtr StmtAdapter::doSubmit( ast::expr::Expr * expr )
 	{
 		return ExprAdapter::submit( expr, m_writerConfig, m_intrinsicsConfig );
 	}
@@ -99,7 +94,7 @@ namespace glsl
 		else
 		{
 			auto save = m_current;
-			auto cont = stmt::makeConstantBufferDecl( stmt->getName()
+			auto cont = ast::stmt::makeConstantBufferDecl( stmt->getName()
 				, stmt->getMemoryLayout()
 				, stmt->getBindingPoint()
 				, ~( 0u ) );
@@ -118,7 +113,7 @@ namespace glsl
 		}
 		else
 		{
-			m_current->addStmt( stmt::makeImageDecl( stmt->getVariable()
+			m_current->addStmt( ast::stmt::makeImageDecl( stmt->getVariable()
 				, stmt->getBindingPoint()
 				, ~( 0u ) ) );
 		}
@@ -140,7 +135,7 @@ namespace glsl
 		{
 			// PCB are not supported, implement them as UBO.
 			auto save = m_current;
-			auto cont = stmt::makeConstantBufferDecl( stmt->getName()
+			auto cont = ast::stmt::makeConstantBufferDecl( stmt->getName()
 				, stmt->getMemoryLayout()
 				, ~( 0u )
 				, ~( 0u ) );
@@ -159,7 +154,7 @@ namespace glsl
 		}
 		else
 		{
-			m_current->addStmt( stmt::makeSampledImageDecl( stmt->getVariable()
+			m_current->addStmt( ast::stmt::makeSampledImageDecl( stmt->getVariable()
 				, stmt->getBindingPoint()
 				, ~( 0u ) ) );
 		}
@@ -180,7 +175,7 @@ namespace glsl
 		else
 		{
 			auto save = m_current;
-			auto cont = stmt::makeShaderBufferDecl( stmt->getSsboName()
+			auto cont = ast::stmt::makeShaderBufferDecl( stmt->getSsboName()
 				, stmt->getMemoryLayout()
 				, stmt->getBindingPoint()
 				, ~( 0u ) );
@@ -205,7 +200,7 @@ namespace glsl
 		}
 		else
 		{
-			m_current->addStmt( stmt::makeShaderStructBufferDecl( stmt->getSsboName()
+			m_current->addStmt( ast::stmt::makeShaderStructBufferDecl( stmt->getSsboName()
 				, stmt->getSsboInstance()
 				, stmt->getData()
 				, stmt->getBindingPoint()
@@ -213,10 +208,10 @@ namespace glsl
 		}
 	}
 
-	void StmtAdapter::visitPreprocVersion( stmt::PreprocVersion * preproc )
+	void StmtAdapter::visitPreprocVersion( ast::stmt::PreprocVersion * preproc )
 	{
-		m_result->addStmt( stmt::makePreprocVersion( preproc->getName() ) );
-		auto cont = stmt::makeContainer();
+		m_result->addStmt( ast::stmt::makePreprocVersion( preproc->getName() ) );
+		auto cont = ast::stmt::makeContainer();
 		compileGlslTextureAccessFunctions( cont.get(), m_intrinsicsConfig );
 
 		if ( !cont->empty() )

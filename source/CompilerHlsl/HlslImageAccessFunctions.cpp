@@ -11,8 +11,6 @@ namespace hlsl
 {
 	namespace details
 	{
-		using namespace ast;
-
 		inline void writeImageSamples2DMS( ast::stmt::Container * container, std::string const & type )
 		{
 			auto cont = ast::stmt::makeContainer();

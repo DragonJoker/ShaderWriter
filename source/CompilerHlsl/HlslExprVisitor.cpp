@@ -31,7 +31,8 @@ namespace hlsl
 			|| expr->getKind() == ast::expr::Kind::eLiteral
 			|| expr->getKind() == ast::expr::Kind::eMbrSelect
 			|| expr->getKind() == ast::expr::Kind::eCast
-			|| expr->getKind() == ast::expr::Kind::eSwizzle;
+			|| expr->getKind() == ast::expr::Kind::eSwizzle
+			|| expr->getKind() == ast::expr::Kind::eArrayAccess;
 
 		if ( noParen )
 		{

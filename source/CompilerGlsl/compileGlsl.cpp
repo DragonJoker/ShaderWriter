@@ -17,8 +17,8 @@ namespace glsl
 		, ast::SpecialisationInfo const & specialisation
 		, GlslConfig const & writerConfig )
 	{
-		auto intrinsicsConfig = glsl::StmtConfigFiller::submit( shader );
-		auto glStatements = glsl::StmtAdapter::submit( shader
+		auto intrinsicsConfig = glsl::StmtConfigFiller::submit( shader.getStatements() );
+		auto glStatements = glsl::StmtAdapter::submit( shader.getStatements()
 			, writerConfig
 			, intrinsicsConfig );
 		glStatements = ast::StmtSpecialiser::submit( glStatements.get(), specialisation );

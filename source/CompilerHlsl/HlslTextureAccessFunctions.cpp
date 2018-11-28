@@ -10,8 +10,6 @@ namespace hlsl
 {
 	namespace details
 	{
-		using namespace ast;
-
 		inline void writeProjectTexCoords2( ast::stmt::Container * container )
 		{
 			auto cont = ast::stmt::makeContainer();

@@ -10,11 +10,9 @@ See LICENSE file in root folder
 
 #include <sstream>
 
-using namespace ast;
-
 namespace glsl
 {
-	std::string ExprVisitor::submit( expr::Expr * expr )
+	std::string ExprVisitor::submit( ast::expr::Expr * expr )
 	{
 		std::string result;
 		ExprVisitor vis{ result };
@@ -27,14 +25,15 @@ namespace glsl
 	{
 	}
 
-	void ExprVisitor::wrap( expr::Expr * expr )
+	void ExprVisitor::wrap( ast::expr::Expr * expr )
 	{
-		bool noParen = expr->getKind() == expr::Kind::eFnCall
-			|| expr->getKind() == expr::Kind::eIdentifier
-			|| expr->getKind() == expr::Kind::eLiteral
-			|| expr->getKind() == expr::Kind::eMbrSelect
-			|| expr->getKind() == expr::Kind::eCast
-			|| expr->getKind() == expr::Kind::eSwizzle;
+		bool noParen = expr->getKind() == ast::expr::Kind::eFnCall
+			|| expr->getKind() == ast::expr::Kind::eIdentifier
+			|| expr->getKind() == ast::expr::Kind::eLiteral
+			|| expr->getKind() == ast::expr::Kind::eMbrSelect
+			|| expr->getKind() == ast::expr::Kind::eCast
+			|| expr->getKind() == ast::expr::Kind::eSwizzle
+			|| expr->getKind() == ast::expr::Kind::eArrayAccess;
 
 		if ( noParen )
 		{
@@ -48,14 +47,14 @@ namespace glsl
 		}
 	}
 
-	void ExprVisitor::visitAssignmentExpr( expr::Binary * expr )
+	void ExprVisitor::visitAssignmentExpr( ast::expr::Binary * expr )
 	{
 		wrap( expr->getLHS() );
 		m_result += " " + getOperatorName( expr->getKind() ) + " ";
 		expr->getRHS()->accept( this );
 	}
 
-	void ExprVisitor::visitUnaryExpr( expr::Unary * expr )
+	void ExprVisitor::visitUnaryExpr( ast::expr::Unary * expr )
 	{
 		if ( isUnaryPre( expr->getKind() ) )
 		{
@@ -69,59 +68,59 @@ namespace glsl
 		}
 	}
 
-	void ExprVisitor::visitBinaryExpr( expr::Binary * expr )
+	void ExprVisitor::visitBinaryExpr( ast::expr::Binary * expr )
 	{
 		wrap( expr->getLHS() );
 		m_result += " " + getOperatorName( expr->getKind() ) + " ";
 		wrap( expr->getRHS() );
 	}
 
-	void ExprVisitor::visitAddAssignExpr( expr::AddAssign * expr )
+	void ExprVisitor::visitAddAssignExpr( ast::expr::AddAssign * expr )
 	{
 		visitAssignmentExpr( expr );
 	}
-	void ExprVisitor::visitAndAssignExpr( expr::AndAssign * expr )
+	void ExprVisitor::visitAndAssignExpr( ast::expr::AndAssign * expr )
 	{
 		visitAssignmentExpr( expr );
 	}
-	void ExprVisitor::visitAssignExpr( expr::Assign * expr )
+	void ExprVisitor::visitAssignExpr( ast::expr::Assign * expr )
 	{
 		visitAssignmentExpr( expr );
 	}
-	void ExprVisitor::visitDivideAssignExpr( expr::DivideAssign * expr )
+	void ExprVisitor::visitDivideAssignExpr( ast::expr::DivideAssign * expr )
 	{
 		visitAssignmentExpr( expr );
 	}
-	void ExprVisitor::visitLShiftAssignExpr( expr::LShiftAssign * expr )
+	void ExprVisitor::visitLShiftAssignExpr( ast::expr::LShiftAssign * expr )
 	{
 		visitAssignmentExpr( expr );
 	}
-	void ExprVisitor::visitMinusAssignExpr( expr::MinusAssign * expr )
+	void ExprVisitor::visitMinusAssignExpr( ast::expr::MinusAssign * expr )
 	{
 		visitAssignmentExpr( expr );
 	}
-	void ExprVisitor::visitModuloAssignExpr( expr::ModuloAssign * expr )
+	void ExprVisitor::visitModuloAssignExpr( ast::expr::ModuloAssign * expr )
 	{
 		visitAssignmentExpr( expr );
 	}
-	void ExprVisitor::visitOrAssignExpr( expr::OrAssign * expr )
+	void ExprVisitor::visitOrAssignExpr( ast::expr::OrAssign * expr )
 	{
 		visitAssignmentExpr( expr );
 	}
-	void ExprVisitor::visitRShiftAssignExpr( expr::RShiftAssign * expr )
+	void ExprVisitor::visitRShiftAssignExpr( ast::expr::RShiftAssign * expr )
 	{
 		visitAssignmentExpr( expr );
 	}
-	void ExprVisitor::visitTimesAssignExpr( expr::TimesAssign * expr )
+	void ExprVisitor::visitTimesAssignExpr( ast::expr::TimesAssign * expr )
 	{
 		visitAssignmentExpr( expr );
 	}
-	void ExprVisitor::visitXorAssignExpr( expr::XorAssign * expr )
+	void ExprVisitor::visitXorAssignExpr( ast::expr::XorAssign * expr )
 	{
 		visitAssignmentExpr( expr );
 	}
 
-	void ExprVisitor::visitAggrInitExpr( expr::AggrInit * expr )
+	void ExprVisitor::visitAggrInitExpr( ast::expr::AggrInit * expr )
 	{
 		if ( expr->getIdentifier() )
 		{
@@ -143,7 +142,7 @@ namespace glsl
 		m_result += ")";
 	}
 
-	void ExprVisitor::visitArrayAccessExpr( expr::ArrayAccess * expr )
+	void ExprVisitor::visitArrayAccessExpr( ast::expr::ArrayAccess * expr )
 	{
 		wrap( expr->getLHS() );
 		m_result += "[";
@@ -151,14 +150,14 @@ namespace glsl
 		m_result += "]";
 	}
 
-	void ExprVisitor::visitCastExpr( expr::Cast * expr )
+	void ExprVisitor::visitCastExpr( ast::expr::Cast * expr )
 	{
 		m_result += getTypeName( expr->getType() ) + "(";
 		expr->getOperand()->accept( this );
 		m_result += ")";
 	}
 
-	void ExprVisitor::visitCompositeConstructExpr( expr::CompositeConstruct * expr )
+	void ExprVisitor::visitCompositeConstructExpr( ast::expr::CompositeConstruct * expr )
 	{
 		m_result += getCtorName( expr->getComposite(), expr->getComponent() ) + "(";
 		std::string sep;
@@ -173,14 +172,14 @@ namespace glsl
 		m_result += ")";
 	}
 
-	void ExprVisitor::visitMbrSelectExpr( expr::MbrSelect * expr )
+	void ExprVisitor::visitMbrSelectExpr( ast::expr::MbrSelect * expr )
 	{
 		wrap( expr->getOuterExpr() );
 		m_result += ".";
 		expr->getOperand()->accept( this );
 	}
 
-	void ExprVisitor::visitFnCallExpr( expr::FnCall * expr )
+	void ExprVisitor::visitFnCallExpr( ast::expr::FnCall * expr )
 	{
 		if ( expr->isMember() )
 		{
@@ -202,12 +201,12 @@ namespace glsl
 		m_result += ")";
 	}
 
-	void ExprVisitor::visitIdentifierExpr( expr::Identifier * expr )
+	void ExprVisitor::visitIdentifierExpr( ast::expr::Identifier * expr )
 	{
 		m_result += expr->getVariable()->getName();
 	}
 
-	void ExprVisitor::visitImageAccessCallExpr( expr::ImageAccessCall * expr )
+	void ExprVisitor::visitImageAccessCallExpr( ast::expr::ImageAccessCall * expr )
 	{
 		m_result += getGlslName( expr->getImageAccess() ) + "(";
 		std::string sep;
@@ -222,7 +221,7 @@ namespace glsl
 		m_result += ")";
 	}
 
-	void ExprVisitor::visitInitExpr( expr::Init * expr )
+	void ExprVisitor::visitInitExpr( ast::expr::Init * expr )
 	{
 		m_result += getTypeName( expr->getType() ) + " ";
 		expr->getIdentifier()->accept( this );
@@ -231,7 +230,7 @@ namespace glsl
 		expr->getInitialiser()->accept( this );
 	}
 
-	void ExprVisitor::visitIntrinsicCallExpr( expr::IntrinsicCall * expr )
+	void ExprVisitor::visitIntrinsicCallExpr( ast::expr::IntrinsicCall * expr )
 	{
 		m_result += getGlslName( expr->getIntrinsic() ) + "(";
 		std::string sep;
@@ -246,7 +245,7 @@ namespace glsl
 		m_result += ")";
 	}
 
-	void ExprVisitor::visitLiteralExpr( expr::Literal * expr )
+	void ExprVisitor::visitLiteralExpr( ast::expr::Literal * expr )
 	{
 		std::locale loc{ "C" };
 		std::stringstream stream;
@@ -254,20 +253,20 @@ namespace glsl
 
 		switch ( expr->getLiteralType() )
 		{
-		case expr::LiteralType::eBool:
-			stream << ( expr->getValue< expr::LiteralType::eBool >()
+		case ast::expr::LiteralType::eBool:
+			stream << ( expr->getValue< ast::expr::LiteralType::eBool >()
 				? std::string{ "true" }
 			: std::string{ "false" } );
 			break;
-		case expr::LiteralType::eInt:
-			stream << expr->getValue< expr::LiteralType::eInt >();
+		case ast::expr::LiteralType::eInt:
+			stream << expr->getValue< ast::expr::LiteralType::eInt >();
 			break;
-		case expr::LiteralType::eUInt:
-			stream << expr->getValue< expr::LiteralType::eUInt >() << "u";
+		case ast::expr::LiteralType::eUInt:
+			stream << expr->getValue< ast::expr::LiteralType::eUInt >() << "u";
 			break;
-		case expr::LiteralType::eFloat:
+		case ast::expr::LiteralType::eFloat:
 			{
-				auto v = expr->getValue< expr::LiteralType::eFloat >();
+				auto v = expr->getValue< ast::expr::LiteralType::eFloat >();
 				stream << v;
 
 				if ( v == int64_t( v ) )
@@ -276,9 +275,9 @@ namespace glsl
 				}
 			}
 			break;
-		case expr::LiteralType::eDouble:
+		case ast::expr::LiteralType::eDouble:
 			{
-				auto v = expr->getValue< expr::LiteralType::eDouble >();
+				auto v = expr->getValue< ast::expr::LiteralType::eDouble >();
 				stream << v;
 
 				if ( v == int64_t( v ) )
@@ -295,7 +294,7 @@ namespace glsl
 		m_result += stream.str();
 	}
 
-	void ExprVisitor::visitQuestionExpr( expr::Question *expr )
+	void ExprVisitor::visitQuestionExpr( ast::expr::Question *expr )
 	{
 		m_result += "(";
 		wrap( expr->getCtrlExpr() );
@@ -306,23 +305,23 @@ namespace glsl
 		m_result += ")";
 	}
 
-	void ExprVisitor::visitSwitchCaseExpr( expr::SwitchCase *expr )
+	void ExprVisitor::visitSwitchCaseExpr( ast::expr::SwitchCase *expr )
 	{
 		expr->getLabel()->accept( this );
 	}
 
-	void ExprVisitor::visitSwitchTestExpr( expr::SwitchTest *expr )
+	void ExprVisitor::visitSwitchTestExpr( ast::expr::SwitchTest *expr )
 	{
 		expr->getValue()->accept( this );
 	}
 
-	void ExprVisitor::visitSwizzleExpr( expr::Swizzle * expr )
+	void ExprVisitor::visitSwizzleExpr( ast::expr::Swizzle * expr )
 	{
 		wrap( expr->getOuterExpr() );
 		m_result += "." + getName( expr->getSwizzle() );
 	}
 
-	void ExprVisitor::visitTextureAccessCallExpr( expr::TextureAccessCall * expr )
+	void ExprVisitor::visitTextureAccessCallExpr( ast::expr::TextureAccessCall * expr )
 	{
 		m_result += getGlslName( expr->getTextureAccess() ) + "(";
 		std::string sep;

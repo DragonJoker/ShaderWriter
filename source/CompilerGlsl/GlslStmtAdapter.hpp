@@ -16,13 +16,12 @@ namespace glsl
 		: public ast::StmtCloner
 	{
 	public:
-		static ast::stmt::ContainerPtr submit( sdw::Shader const & shader
+		static ast::stmt::ContainerPtr submit( ast::stmt::Container * container
 			, GlslConfig const & writerConfig
 			, IntrinsicsConfig const & intrinsicsConfig );
 
 	private:
-		StmtAdapter( sdw::Shader const & shader
-			, GlslConfig const & writerConfig
+		StmtAdapter( GlslConfig const & writerConfig
 			, IntrinsicsConfig const & intrinsicsConfig
 			, ast::stmt::ContainerPtr & result );
 

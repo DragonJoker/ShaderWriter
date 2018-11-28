@@ -10,8 +10,6 @@ namespace hlsl
 {
 	namespace details
 	{
-		using namespace ast;
-
 		inline void writeRoundEven1F( ast::stmt::Container * container )
 		{
 			auto cont = ast::stmt::makeContainer();

@@ -6,27 +6,25 @@ See LICENSE file in root folder
 #include "GlslHelpers.hpp"
 #include "GlslTextureAccessConfig.hpp"
 
-using namespace ast;
-
 namespace glsl
 {
-	expr::ExprPtr ExprConfigFiller::submit( expr::Expr * expr
+	ast::expr::ExprPtr ExprConfigFiller::submit( ast::expr::Expr * expr
 		, IntrinsicsConfig & config )
 	{
-		expr::ExprPtr result;
+		ast::expr::ExprPtr result;
 		ExprConfigFiller vis{ result, config };
 		expr->accept( &vis );
 		return result;
 	}
 			
-	expr::ExprPtr ExprConfigFiller::submit( expr::ExprPtr const & expr
+	ast::expr::ExprPtr ExprConfigFiller::submit( ast::expr::ExprPtr const & expr
 		, IntrinsicsConfig & config )
 	{
 		return submit( expr.get()
 			, config );
 	}
 
-	ExprConfigFiller::ExprConfigFiller( expr::ExprPtr & result
+	ExprConfigFiller::ExprConfigFiller( ast::expr::ExprPtr & result
 		, IntrinsicsConfig & config )
 		: ExprCloner{ result }
 		, m_config{ config }
@@ -35,13 +33,13 @@ namespace glsl
 
 	ast::expr::ExprPtr ExprConfigFiller::doSubmit( ast::expr::Expr * expr )
 	{
-		expr::ExprPtr result;
+		ast::expr::ExprPtr result;
 		ExprConfigFiller vis{ result, m_config };
 		expr->accept( &vis );
 		return result;
 	}
 
-	void ExprConfigFiller::visitTextureAccessCallExpr( expr::TextureAccessCall * expr )
+	void ExprConfigFiller::visitTextureAccessCallExpr( ast::expr::TextureAccessCall * expr )
 	{
 		getGlslConfig( expr->getTextureAccess(), m_config );
 		m_result = ExprCloner::submit( expr );

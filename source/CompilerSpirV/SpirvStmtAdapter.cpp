@@ -10,18 +10,16 @@ See LICENSE file in root folder
 
 namespace spirv
 {
-	ast::stmt::ContainerPtr StmtAdapter::submit( sdw::Shader const & shader )
+	ast::stmt::ContainerPtr StmtAdapter::submit( ast::stmt::Container * container )
 	{
 		auto result = ast::stmt::makeContainer();
-		StmtAdapter vis{ shader, result };
-		shader.getStatements()->accept( &vis );
+		StmtAdapter vis{ result };
+		container->accept( &vis );
 		return result;
 	}
 
-	StmtAdapter::StmtAdapter( sdw::Shader const & shader
-		, ast::stmt::ContainerPtr & result )
+	StmtAdapter::StmtAdapter( ast::stmt::ContainerPtr & result )
 		: StmtCloner{ result }
-		, m_shader{ shader }
 	{
 	}
 

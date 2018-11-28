@@ -10,26 +10,22 @@ See LICENSE file in root folder
 #include <ShaderAST/Type/TypeImage.hpp>
 #include <ShaderAST/Type/TypeSampledImage.hpp>
 
-using namespace ast;
-using namespace sdw;
-
 namespace glsl
 {
-	IntrinsicsConfig StmtConfigFiller::submit( Shader const & shader )
+	IntrinsicsConfig StmtConfigFiller::submit( ast::stmt::Container * container )
 	{
 		IntrinsicsConfig result;
-		StmtConfigFiller vis{ shader, result };
-		shader.getStatements()->accept( &vis );
+		StmtConfigFiller vis{ result };
+		container->accept( &vis );
 		return result;
 	}
 
-	StmtConfigFiller::StmtConfigFiller( Shader const & shader
-		, IntrinsicsConfig & result )
+	StmtConfigFiller::StmtConfigFiller( IntrinsicsConfig & result )
 		: m_result{ result }
 	{
 	}
 
-	void StmtConfigFiller::visitContainerStmt( stmt::Container * cont )
+	void StmtConfigFiller::visitContainerStmt( ast::stmt::Container * cont )
 	{
 		for ( auto & stmt : *cont )
 		{
@@ -37,47 +33,47 @@ namespace glsl
 		}
 	}
 
-	void StmtConfigFiller::visitConstantBufferDeclStmt( stmt::ConstantBufferDecl * stmt )
+	void StmtConfigFiller::visitConstantBufferDeclStmt( ast::stmt::ConstantBufferDecl * stmt )
 	{
 		visitContainerStmt( stmt );
 	}
 
-	void StmtConfigFiller::visitDiscardStmt( stmt::Discard * stmt )
+	void StmtConfigFiller::visitDiscardStmt( ast::stmt::Discard * stmt )
 	{
 	}
 
-	void StmtConfigFiller::visitPushConstantsBufferDeclStmt( stmt::PushConstantsBufferDecl * stmt )
-	{
-		visitContainerStmt( stmt );
-	}
-
-	void StmtConfigFiller::visitCommentStmt( stmt::Comment * stmt )
-	{
-	}
-
-	void StmtConfigFiller::visitCompoundStmt( stmt::Compound * stmt )
+	void StmtConfigFiller::visitPushConstantsBufferDeclStmt( ast::stmt::PushConstantsBufferDecl * stmt )
 	{
 		visitContainerStmt( stmt );
 	}
 
-	void StmtConfigFiller::visitDoWhileStmt( stmt::DoWhile * stmt )
+	void StmtConfigFiller::visitCommentStmt( ast::stmt::Comment * stmt )
+	{
+	}
+
+	void StmtConfigFiller::visitCompoundStmt( ast::stmt::Compound * stmt )
+	{
+		visitContainerStmt( stmt );
+	}
+
+	void StmtConfigFiller::visitDoWhileStmt( ast::stmt::DoWhile * stmt )
 	{
 		ExprConfigFiller::submit( stmt->getCtrlExpr(), m_result );
 		visitContainerStmt( stmt );
 	}
 
-	void StmtConfigFiller::visitElseIfStmt( stmt::ElseIf * stmt )
+	void StmtConfigFiller::visitElseIfStmt( ast::stmt::ElseIf * stmt )
 	{
 		ExprConfigFiller::submit( stmt->getCtrlExpr(), m_result );
 		visitContainerStmt( stmt );
 	}
 
-	void StmtConfigFiller::visitElseStmt( stmt::Else * stmt )
+	void StmtConfigFiller::visitElseStmt( ast::stmt::Else * stmt )
 	{
 		visitContainerStmt( stmt );
 	}
 
-	void StmtConfigFiller::visitForStmt( stmt::For * stmt )
+	void StmtConfigFiller::visitForStmt( ast::stmt::For * stmt )
 	{
 		ExprConfigFiller::submit( stmt->getInitExpr(), m_result );
 		ExprConfigFiller::submit( stmt->getCtrlExpr(), m_result );
@@ -85,12 +81,12 @@ namespace glsl
 		visitContainerStmt( stmt );
 	}
 
-	void StmtConfigFiller::visitFunctionDeclStmt( stmt::FunctionDecl * stmt )
+	void StmtConfigFiller::visitFunctionDeclStmt( ast::stmt::FunctionDecl * stmt )
 	{
 		visitContainerStmt( stmt );
 	}
 
-	void StmtConfigFiller::visitIfStmt( stmt::If * stmt )
+	void StmtConfigFiller::visitIfStmt( ast::stmt::If * stmt )
 	{
 		ExprConfigFiller::submit( stmt->getCtrlExpr(), m_result );
 		visitContainerStmt( stmt );
@@ -106,37 +102,37 @@ namespace glsl
 		}
 	}
 
-	void StmtConfigFiller::visitImageDeclStmt( stmt::ImageDecl * stmt )
+	void StmtConfigFiller::visitImageDeclStmt( ast::stmt::ImageDecl * stmt )
 	{
-		auto image = std::static_pointer_cast< type::Image >( stmt->getVariable()->getType() );
+		auto image = std::static_pointer_cast< ast::type::Image >( stmt->getVariable()->getType() );
 		doParseImageConfig( image->getConfig() );
 	}
 
-	void StmtConfigFiller::visitInOutVariableDeclStmt( stmt::InOutVariableDecl * stmt )
+	void StmtConfigFiller::visitInOutVariableDeclStmt( ast::stmt::InOutVariableDecl * stmt )
 	{
 	}
 
-	void StmtConfigFiller::visitSpecialisationConstantDeclStmt( stmt::SpecialisationConstantDecl * stmt )
+	void StmtConfigFiller::visitSpecialisationConstantDeclStmt( ast::stmt::SpecialisationConstantDecl * stmt )
 	{
 	}
 
-	void StmtConfigFiller::visitInputComputeLayoutStmt( stmt::InputComputeLayout * stmt )
+	void StmtConfigFiller::visitInputComputeLayoutStmt( ast::stmt::InputComputeLayout * stmt )
 	{
 	}
 
-	void StmtConfigFiller::visitInputGeometryLayoutStmt( stmt::InputGeometryLayout * stmt )
+	void StmtConfigFiller::visitInputGeometryLayoutStmt( ast::stmt::InputGeometryLayout * stmt )
 	{
 	}
 
-	void StmtConfigFiller::visitOutputGeometryLayoutStmt( stmt::OutputGeometryLayout * stmt )
+	void StmtConfigFiller::visitOutputGeometryLayoutStmt( ast::stmt::OutputGeometryLayout * stmt )
 	{
 	}
 
-	void StmtConfigFiller::visitPerVertexDeclStmt( stmt::PerVertexDecl * stmt )
+	void StmtConfigFiller::visitPerVertexDeclStmt( ast::stmt::PerVertexDecl * stmt )
 	{
 	}
 
-	void StmtConfigFiller::visitReturnStmt( stmt::Return * stmt )
+	void StmtConfigFiller::visitReturnStmt( ast::stmt::Return * stmt )
 	{
 		if ( stmt->getExpr() )
 		{
@@ -144,97 +140,97 @@ namespace glsl
 		}
 	}
 
-	void StmtConfigFiller::visitSampledImageDeclStmt( stmt::SampledImageDecl * stmt )
+	void StmtConfigFiller::visitSampledImageDeclStmt( ast::stmt::SampledImageDecl * stmt )
 	{
-		auto image = std::static_pointer_cast< type::SampledImage >( stmt->getVariable()->getType() );
+		auto image = std::static_pointer_cast< ast::type::SampledImage >( stmt->getVariable()->getType() );
 		doParseImageConfig( image->getConfig() );
 	}
 
-	void StmtConfigFiller::visitSamplerDeclStmt( stmt::SamplerDecl * stmt )
+	void StmtConfigFiller::visitSamplerDeclStmt( ast::stmt::SamplerDecl * stmt )
 	{
 	}
 
-	void StmtConfigFiller::visitShaderBufferDeclStmt( stmt::ShaderBufferDecl * stmt )
+	void StmtConfigFiller::visitShaderBufferDeclStmt( ast::stmt::ShaderBufferDecl * stmt )
 	{
 		visitContainerStmt( stmt );
 	}
 
-	void StmtConfigFiller::visitShaderStructBufferDeclStmt( stmt::ShaderStructBufferDecl * stmt )
+	void StmtConfigFiller::visitShaderStructBufferDeclStmt( ast::stmt::ShaderStructBufferDecl * stmt )
 	{
 	}
 
-	void StmtConfigFiller::visitSimpleStmt( stmt::Simple * stmt )
+	void StmtConfigFiller::visitSimpleStmt( ast::stmt::Simple * stmt )
 	{
 		ExprConfigFiller::submit( stmt->getExpr(), m_result );
 	}
 
-	void StmtConfigFiller::visitStructureDeclStmt( stmt::StructureDecl * stmt )
+	void StmtConfigFiller::visitStructureDeclStmt( ast::stmt::StructureDecl * stmt )
 	{
 	}
 
-	void StmtConfigFiller::visitSwitchCaseStmt( stmt::SwitchCase * stmt )
+	void StmtConfigFiller::visitSwitchCaseStmt( ast::stmt::SwitchCase * stmt )
 	{
 		visitContainerStmt( stmt );
 	}
 
-	void StmtConfigFiller::visitSwitchStmt( stmt::Switch * stmt )
+	void StmtConfigFiller::visitSwitchStmt( ast::stmt::Switch * stmt )
 	{
 		ExprConfigFiller::submit( stmt->getTestExpr()->getValue(), m_result );
 		visitContainerStmt( stmt );
 	}
 
-	void StmtConfigFiller::visitVariableDeclStmt( stmt::VariableDecl * stmt )
+	void StmtConfigFiller::visitVariableDeclStmt( ast::stmt::VariableDecl * stmt )
 	{
 	}
 
-	void StmtConfigFiller::visitWhileStmt( stmt::While * stmt )
+	void StmtConfigFiller::visitWhileStmt( ast::stmt::While * stmt )
 	{
 		ExprConfigFiller::submit( stmt->getCtrlExpr(), m_result );
 		visitContainerStmt( stmt );
 	}
 
-	void StmtConfigFiller::visitPreprocDefine( stmt::PreprocDefine * preproc )
+	void StmtConfigFiller::visitPreprocDefine( ast::stmt::PreprocDefine * preproc )
 	{
 		ExprConfigFiller::submit( preproc->getExpr(), m_result );
 	}
 
-	void StmtConfigFiller::visitPreprocElif( stmt::PreprocElif * preproc )
+	void StmtConfigFiller::visitPreprocElif( ast::stmt::PreprocElif * preproc )
 	{
 		ExprConfigFiller::submit( preproc->getCtrlExpr(), m_result );
 		visitContainerStmt( preproc );
 	}
 
-	void StmtConfigFiller::visitPreprocElse( stmt::PreprocElse * preproc )
+	void StmtConfigFiller::visitPreprocElse( ast::stmt::PreprocElse * preproc )
 	{
 		visitContainerStmt( preproc );
 	}
 
-	void StmtConfigFiller::visitPreprocEndif( stmt::PreprocEndif * preproc )
+	void StmtConfigFiller::visitPreprocEndif( ast::stmt::PreprocEndif * preproc )
 	{
 	}
 
-	void StmtConfigFiller::visitPreprocExtension( stmt::PreprocExtension * preproc )
+	void StmtConfigFiller::visitPreprocExtension( ast::stmt::PreprocExtension * preproc )
 	{
 	}
 
-	void StmtConfigFiller::visitPreprocIf( stmt::PreprocIf * preproc )
+	void StmtConfigFiller::visitPreprocIf( ast::stmt::PreprocIf * preproc )
 	{
 		ExprConfigFiller::submit( preproc->getCtrlExpr(), m_result );
 		visitContainerStmt( preproc );
 	}
 
-	void StmtConfigFiller::visitPreprocIfDef( stmt::PreprocIfDef * preproc )
+	void StmtConfigFiller::visitPreprocIfDef( ast::stmt::PreprocIfDef * preproc )
 	{
 		visitContainerStmt( preproc );
 	}
 
-	void StmtConfigFiller::visitPreprocVersion( stmt::PreprocVersion * preproc )
+	void StmtConfigFiller::visitPreprocVersion( ast::stmt::PreprocVersion * preproc )
 	{
 	}
 
-	void StmtConfigFiller::doParseImageConfig( type::ImageConfiguration const & config )
+	void StmtConfigFiller::doParseImageConfig( ast::type::ImageConfiguration const & config )
 	{
-		if ( config.dimension == type::ImageDim::eCube
+		if ( config.dimension == ast::type::ImageDim::eCube
 			&& config.isArrayed )
 		{
 			m_result.requiresCubeMapArray = true;

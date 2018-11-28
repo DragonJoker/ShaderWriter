@@ -11,37 +11,35 @@ See LICENSE file in root folder
 
 #include <sstream>
 
-using namespace ast;
-
 namespace glsl
 {
 	//*************************************************************************
 
 	namespace
 	{
-		std::string getDimension( type::ImageDim value )
+		std::string getDimension( ast::type::ImageDim value )
 		{
 			switch ( value )
 			{
-			case type::ImageDim::e1D:
+			case ast::type::ImageDim::e1D:
 				return "1D";
-			case type::ImageDim::e2D:
+			case ast::type::ImageDim::e2D:
 				return "2D";
-			case type::ImageDim::e3D:
+			case ast::type::ImageDim::e3D:
 				return "3D";
-			case type::ImageDim::eCube:
+			case ast::type::ImageDim::eCube:
 				return "Cube";
-			case type::ImageDim::eRect:
+			case ast::type::ImageDim::eRect:
 				return "2DRect";
-			case type::ImageDim::eBuffer:
+			case ast::type::ImageDim::eBuffer:
 				return "Buffer";
 			default:
-				assert( false && "Unsupported type::ImageDim" );
+				assert( false && "Unsupported ast::type::ImageDim" );
 				return "Undefined";
 			}
 		}
 		
-		std::string getPrefix( type::Kind value )
+		std::string getPrefix( ast::type::Kind value )
 		{
 			switch ( value )
 			{
@@ -55,7 +53,7 @@ namespace glsl
 				return std::string{};
 
 			default:
-				assert( false && "Unsupported type::Kind" );
+				assert( false && "Unsupported ast::type::Kind" );
 				return std::string{};
 			}
 		}
@@ -74,23 +72,23 @@ namespace glsl
 				: std::string{};
 		}
 
-		std::string getShadow( type::Trinary value )
+		std::string getShadow( ast::type::Trinary value )
 		{
-			return value == type::Trinary::eTrue
+			return value == ast::type::Trinary::eTrue
 				? "Shadow"
 				: std::string{};
 		}
 
-		std::string getType( type::Kind kind
-			, type::ImageConfiguration const & config )
+		std::string getType( ast::type::Kind kind
+			, ast::type::ImageConfiguration const & config )
 		{
-			return ( kind == type::Kind::eSampledImage )
+			return ( kind == ast::type::Kind::eSampledImage )
 				? "sampler"
 				: "image";
 		}
 
-		std::string getQualifiedName( type::Kind kind
-			, type::ImageConfiguration const & config )
+		std::string getQualifiedName( ast::type::Kind kind
+			, ast::type::ImageConfiguration const & config )
 		{
 			return getPrefix( config.sampledType )
 				+ getType( kind, config )
@@ -100,7 +98,7 @@ namespace glsl
 				+ getShadow( config.isDepth );
 		}
 
-		std::string getFormatName( type::ImageFormat format )
+		std::string getFormatName( ast::type::ImageFormat format )
 		{
 			switch ( format )
 			{
@@ -155,12 +153,12 @@ namespace glsl
 			case ast::type::ImageFormat::eR8u:
 				return "r8ui";
 			default:
-				assert( false && "Unsupported type::ImageFormat" );
+				assert( false && "Unsupported ast::type::ImageFormat" );
 				return "rgba32f";
 			}
 		}
 
-		std::string getName( type::MemoryLayout layout )
+		std::string getName( ast::type::MemoryLayout layout )
 		{
 			switch ( layout )
 			{
@@ -169,7 +167,7 @@ namespace glsl
 			case ast::type::MemoryLayout::eStd430:
 				return "std430";
 			default:
-				assert( false && "Unsupported type::MemoryLayout" );
+				assert( false && "Unsupported ast::type::MemoryLayout" );
 				return "std140";
 			}
 		}
@@ -177,7 +175,7 @@ namespace glsl
 
 	//*************************************************************************
 
-	std::string StmtVisitor::submit( stmt::Stmt * stmt
+	std::string StmtVisitor::submit( ast::stmt::Stmt * stmt
 		, std::string indent )
 	{
 		std::string result;
@@ -203,7 +201,7 @@ namespace glsl
 		m_appendLineEnd = false;
 	}
 
-	void StmtVisitor::visitContainerStmt( stmt::Container * stmt )
+	void StmtVisitor::visitContainerStmt( ast::stmt::Container * stmt )
 	{
 		for ( auto & stmt : *stmt )
 		{
@@ -211,7 +209,7 @@ namespace glsl
 		}
 	}
 
-	void StmtVisitor::visitConstantBufferDeclStmt( stmt::ConstantBufferDecl * stmt )
+	void StmtVisitor::visitConstantBufferDeclStmt( ast::stmt::ConstantBufferDecl * stmt )
 	{
 		if ( !stmt->empty() )
 		{
@@ -231,13 +229,13 @@ namespace glsl
 		}
 	}
 
-	void StmtVisitor::visitDiscardStmt( stmt::Discard * stmt )
+	void StmtVisitor::visitDiscardStmt( ast::stmt::Discard * stmt )
 	{
 		doAppendLineEnd();
 		m_result += m_indent + "discard;\n";
 	}
 
-	void StmtVisitor::visitPushConstantsBufferDeclStmt( stmt::PushConstantsBufferDecl * stmt )
+	void StmtVisitor::visitPushConstantsBufferDeclStmt( ast::stmt::PushConstantsBufferDecl * stmt )
 	{
 		if ( !stmt->empty() )
 		{
@@ -252,13 +250,13 @@ namespace glsl
 		}
 	}
 
-	void StmtVisitor::visitCommentStmt( stmt::Comment * stmt )
+	void StmtVisitor::visitCommentStmt( ast::stmt::Comment * stmt )
 	{
 		doAppendLineEnd();
 		m_result += m_indent + stmt->getText() + "\n";
 	}
 
-	void StmtVisitor::visitCompoundStmt( stmt::Compound * stmt )
+	void StmtVisitor::visitCompoundStmt( ast::stmt::Compound * stmt )
 	{
 		doAppendLineEnd();
 		m_result += "\n" + m_indent + "{\n";
@@ -277,7 +275,7 @@ namespace glsl
 		}
 	}
 
-	void StmtVisitor::visitDoWhileStmt( stmt::DoWhile * stmt )
+	void StmtVisitor::visitDoWhileStmt( ast::stmt::DoWhile * stmt )
 	{
 		m_appendLineEnd = true;
 		doAppendLineEnd();
@@ -286,7 +284,7 @@ namespace glsl
 		visitCompoundStmt( stmt );
 		m_result += "\n";
 
-		if ( stmt->getCtrlExpr()->getType()->getKind() != type::Kind::eBoolean )
+		if ( stmt->getCtrlExpr()->getType()->getKind() != ast::type::Kind::eBoolean )
 		{
 			m_result += m_indent + "while (bool(" + ExprVisitor::submit( stmt->getCtrlExpr() ) + "));\n";
 		}
@@ -298,9 +296,9 @@ namespace glsl
 		m_appendLineEnd = true;
 	}
 
-	void StmtVisitor::visitElseIfStmt( stmt::ElseIf * stmt )
+	void StmtVisitor::visitElseIfStmt( ast::stmt::ElseIf * stmt )
 	{
-		if ( stmt->getCtrlExpr()->getType()->getKind() != type::Kind::eBoolean )
+		if ( stmt->getCtrlExpr()->getType()->getKind() != ast::type::Kind::eBoolean )
 		{
 			m_result += m_indent + "else if (bool(" + ExprVisitor::submit( stmt->getCtrlExpr() ) + "))";
 		}
@@ -316,7 +314,7 @@ namespace glsl
 		m_appendLineEnd = true;
 	}
 
-	void StmtVisitor::visitElseStmt( stmt::Else * stmt )
+	void StmtVisitor::visitElseStmt( ast::stmt::Else * stmt )
 	{
 		m_result += m_indent + "else";
 		m_appendSemiColon = false;
@@ -326,13 +324,13 @@ namespace glsl
 		m_appendLineEnd = true;
 	}
 
-	void StmtVisitor::visitForStmt( stmt::For * stmt )
+	void StmtVisitor::visitForStmt( ast::stmt::For * stmt )
 	{
 		m_appendLineEnd = true;
 		doAppendLineEnd();
 		m_result += m_indent + "for (" + ExprVisitor::submit( stmt->getInitExpr() ) + "; ";
 
-		if ( stmt->getCtrlExpr()->getType()->getKind() != type::Kind::eBoolean )
+		if ( stmt->getCtrlExpr()->getType()->getKind() != ast::type::Kind::eBoolean )
 		{
 			m_result += "bool(" + ExprVisitor::submit( stmt->getCtrlExpr() ) + "); ";
 		}
@@ -348,7 +346,7 @@ namespace glsl
 		m_appendLineEnd = true;
 	}
 
-	void StmtVisitor::visitFunctionDeclStmt( stmt::FunctionDecl * stmt )
+	void StmtVisitor::visitFunctionDeclStmt( ast::stmt::FunctionDecl * stmt )
 	{
 		m_appendLineEnd = true;
 		doAppendLineEnd();
@@ -371,12 +369,12 @@ namespace glsl
 		m_appendLineEnd = true;
 	}
 
-	void StmtVisitor::visitIfStmt( stmt::If * stmt )
+	void StmtVisitor::visitIfStmt( ast::stmt::If * stmt )
 	{
 		m_appendLineEnd = true;
 		doAppendLineEnd();
 
-		if ( stmt->getCtrlExpr()->getType()->getKind() != type::Kind::eBoolean )
+		if ( stmt->getCtrlExpr()->getType()->getKind() != ast::type::Kind::eBoolean )
 		{
 			m_result += m_indent + "if (bool(" + ExprVisitor::submit( stmt->getCtrlExpr() ) + "))";
 		}
@@ -402,27 +400,27 @@ namespace glsl
 		m_appendLineEnd = true;
 	}
 
-	void StmtVisitor::visitImageDeclStmt( stmt::ImageDecl * stmt )
+	void StmtVisitor::visitImageDeclStmt( ast::stmt::ImageDecl * stmt )
 	{
 		doAppendLineEnd();
 		auto type = stmt->getVariable()->getType();
 
-		if ( type->getKind() == type::Kind::eArray )
+		if ( type->getKind() == ast::type::Kind::eArray )
 		{
-			type = std::static_pointer_cast< type::Array >( type )->getType();
+			type = std::static_pointer_cast< ast::type::Array >( type )->getType();
 		}
 
-		assert( type->getKind() == type::Kind::eImage );
-		auto image = std::static_pointer_cast< type::Image >( type );
+		assert( type->getKind() == ast::type::Kind::eImage );
+		auto image = std::static_pointer_cast< ast::type::Image >( type );
 		m_result += m_indent;
 		m_result += "layout(";
 
-		if ( image->getConfig().accessKind == type::AccessKind::eRead )
+		if ( image->getConfig().accessKind == ast::type::AccessKind::eRead )
 		{
 			m_result += "readonly";
 			m_result += ", " + getFormatName( image->getConfig().format );
 		}
-		else if ( image->getConfig().accessKind == type::AccessKind::eWrite )
+		else if ( image->getConfig().accessKind == ast::type::AccessKind::eWrite )
 		{
 			m_result += "writeonly";
 		}
@@ -436,12 +434,12 @@ namespace glsl
 			, ", " );
 
 		m_result += ") uniform ";
-		m_result += getQualifiedName( type::Kind::eImage, image->getConfig() ) + " " + stmt->getVariable()->getName();
+		m_result += getQualifiedName( ast::type::Kind::eImage, image->getConfig() ) + " " + stmt->getVariable()->getName();
 		m_result += getTypeArraySize( stmt->getVariable()->getType() );
 		m_result += ";\n";
 	}
 
-	void StmtVisitor::visitInOutVariableDeclStmt( stmt::InOutVariableDecl * stmt )
+	void StmtVisitor::visitInOutVariableDeclStmt( ast::stmt::InOutVariableDecl * stmt )
 	{
 		doAppendLineEnd();
 		m_result += m_indent;
@@ -461,12 +459,12 @@ namespace glsl
 		m_result += ";\n";
 	}
 
-	void StmtVisitor::visitSpecialisationConstantDeclStmt( stmt::SpecialisationConstantDecl * stmt )
+	void StmtVisitor::visitSpecialisationConstantDeclStmt( ast::stmt::SpecialisationConstantDecl * stmt )
 	{
 		assert( false && "No specialisation constant should remain at this stage" );
 	}
 
-	void StmtVisitor::visitInputComputeLayoutStmt( stmt::InputComputeLayout * stmt )
+	void StmtVisitor::visitInputComputeLayoutStmt( ast::stmt::InputComputeLayout * stmt )
 	{
 		doAppendLineEnd();
 
@@ -490,19 +488,19 @@ namespace glsl
 		}
 	}
 
-	void StmtVisitor::visitInputGeometryLayoutStmt( stmt::InputGeometryLayout * stmt )
+	void StmtVisitor::visitInputGeometryLayoutStmt( ast::stmt::InputGeometryLayout * stmt )
 	{
 		doAppendLineEnd();
 		m_result += m_indent + "layout(" + getLayoutName( stmt->getLayout() ) + ") in;\n";
 	}
 
-	void StmtVisitor::visitOutputGeometryLayoutStmt( stmt::OutputGeometryLayout * stmt )
+	void StmtVisitor::visitOutputGeometryLayoutStmt( ast::stmt::OutputGeometryLayout * stmt )
 	{
 		doAppendLineEnd();
 		m_result += m_indent + "layout(" + getLayoutName( stmt->getLayout() ) + ", max_vertices = " + std::to_string( stmt->getPrimCount() ) + ") out;\n";
 	}
 
-	void StmtVisitor::visitPerVertexDeclStmt( stmt::PerVertexDecl * stmt )
+	void StmtVisitor::visitPerVertexDeclStmt( ast::stmt::PerVertexDecl * stmt )
 	{
 		m_appendLineEnd = true;
 		doAppendLineEnd();
@@ -515,29 +513,29 @@ namespace glsl
 		decl += m_indent + "}";
 		switch ( stmt->getSource() )
 		{
-		case stmt::PerVertexDecl::Source::eVertexOutput:
+		case ast::stmt::PerVertexDecl::Source::eVertexOutput:
 			m_result += m_indent + "out " + decl + ";\n";
 			break;
-		case stmt::PerVertexDecl::Source::eTessellationControlInput:
-		case stmt::PerVertexDecl::Source::eTessellationEvaluationInput:
+		case ast::stmt::PerVertexDecl::Source::eTessellationControlInput:
+		case ast::stmt::PerVertexDecl::Source::eTessellationEvaluationInput:
 			m_result += m_indent + "in " + decl + " gl_in[gl_MaxPatchVertices];\n";
 			break;
-		case stmt::PerVertexDecl::Source::eTessellationControlOutput:
+		case ast::stmt::PerVertexDecl::Source::eTessellationControlOutput:
 			m_result += m_indent + "out " + decl + " gl_out[];\n";
 			break;
-		case stmt::PerVertexDecl::Source::eTessellationEvaluationOutput:
+		case ast::stmt::PerVertexDecl::Source::eTessellationEvaluationOutput:
 			m_result += m_indent + "out " + decl + ";\n";
 			break;
-		case stmt::PerVertexDecl::Source::eGeometryInput:
+		case ast::stmt::PerVertexDecl::Source::eGeometryInput:
 			m_result += m_indent + "in " + decl + " gl_in[];\n";
 			break;
-		case stmt::PerVertexDecl::Source::eGeometryOutput:
+		case ast::stmt::PerVertexDecl::Source::eGeometryOutput:
 			m_result += m_indent + "out " + decl + ";\n";
 			break;
 		}
 	}
 
-	void StmtVisitor::visitReturnStmt( stmt::Return * stmt )
+	void StmtVisitor::visitReturnStmt( ast::stmt::Return * stmt )
 	{
 		doAppendLineEnd();
 
@@ -551,14 +549,14 @@ namespace glsl
 		}
 	}
 
-	void StmtVisitor::visitSampledImageDeclStmt( stmt::SampledImageDecl * stmt )
+	void StmtVisitor::visitSampledImageDeclStmt( ast::stmt::SampledImageDecl * stmt )
 	{
 		doAppendLineEnd();
 		auto type = stmt->getVariable()->getType();
 
-		if ( type->getKind() == type::Kind::eArray )
+		if ( type->getKind() == ast::type::Kind::eArray )
 		{
-			type = std::static_pointer_cast< type::Array >( type )->getType();
+			type = std::static_pointer_cast< ast::type::Array >( type )->getType();
 		}
 
 		m_result += m_indent;
@@ -569,18 +567,18 @@ namespace glsl
 			, "" );
 
 		m_result += ") ";
-		assert( type->getKind() == type::Kind::eSampledImage );
-		auto sampledImage = std::static_pointer_cast< type::SampledImage >( type );
-		m_result += "uniform " + getQualifiedName( type::Kind::eSampledImage, sampledImage->getConfig() ) + " " + stmt->getVariable()->getName();
+		assert( type->getKind() == ast::type::Kind::eSampledImage );
+		auto sampledImage = std::static_pointer_cast< ast::type::SampledImage >( type );
+		m_result += "uniform " + getQualifiedName( ast::type::Kind::eSampledImage, sampledImage->getConfig() ) + " " + stmt->getVariable()->getName();
 		m_result += getTypeArraySize( stmt->getVariable()->getType() );
 		m_result += ";\n";
 	}
 
-	void StmtVisitor::visitSamplerDeclStmt( stmt::SamplerDecl * stmt )
+	void StmtVisitor::visitSamplerDeclStmt( ast::stmt::SamplerDecl * stmt )
 	{
 	}
 
-	void StmtVisitor::visitShaderBufferDeclStmt( stmt::ShaderBufferDecl * stmt )
+	void StmtVisitor::visitShaderBufferDeclStmt( ast::stmt::ShaderBufferDecl * stmt )
 	{
 		m_appendLineEnd = true;
 		doAppendLineEnd();
@@ -597,7 +595,7 @@ namespace glsl
 		m_appendLineEnd = true;
 	}
 
-	void StmtVisitor::visitShaderStructBufferDeclStmt( stmt::ShaderStructBufferDecl * stmt )
+	void StmtVisitor::visitShaderStructBufferDeclStmt( ast::stmt::ShaderStructBufferDecl * stmt )
 	{
 		m_appendLineEnd = true;
 		doAppendLineEnd();
@@ -609,21 +607,21 @@ namespace glsl
 			, ", " );
 		m_result += ") buffer " + stmt->getSsboName();
 		auto data = stmt->getData();
-		auto arrayType = std::static_pointer_cast< type::Array >( data->getType() );
-		auto structType = std::static_pointer_cast< type::Struct >( arrayType->getType() );
+		auto arrayType = std::static_pointer_cast< ast::type::Array >( data->getType() );
+		auto structType = std::static_pointer_cast< ast::type::Struct >( arrayType->getType() );
 		m_result += "\n{";
 		m_result += "\n\t" + structType->getName() + " " + data->getName() + "[];";
 		m_result += "\n} " + stmt->getSsboInstance()->getName() + ";\n";
 		m_appendLineEnd = true;
 	}
 
-	void StmtVisitor::visitSimpleStmt( stmt::Simple * stmt )
+	void StmtVisitor::visitSimpleStmt( ast::stmt::Simple * stmt )
 	{
 		doAppendLineEnd();
 		m_result += m_indent + ExprVisitor::submit( stmt->getExpr() ) + ";\n";
 	}
 
-	void StmtVisitor::visitStructureDeclStmt( stmt::StructureDecl * stmt )
+	void StmtVisitor::visitStructureDeclStmt( ast::stmt::StructureDecl * stmt )
 	{
 		m_appendLineEnd = true;
 		doAppendLineEnd();
@@ -651,7 +649,7 @@ namespace glsl
 		}
 	}
 
-	void StmtVisitor::visitSwitchCaseStmt( stmt::SwitchCase * stmt )
+	void StmtVisitor::visitSwitchCaseStmt( ast::stmt::SwitchCase * stmt )
 	{
 		doAppendLineEnd();
 
@@ -676,7 +674,7 @@ namespace glsl
 		m_appendLineEnd = true;
 	}
 
-	void StmtVisitor::visitSwitchStmt( stmt::Switch * stmt )
+	void StmtVisitor::visitSwitchStmt( ast::stmt::Switch * stmt )
 	{
 		m_appendLineEnd = true;
 		doAppendLineEnd();
@@ -687,7 +685,7 @@ namespace glsl
 		m_appendLineEnd = true;
 	}
 
-	void StmtVisitor::visitVariableDeclStmt( stmt::VariableDecl * stmt )
+	void StmtVisitor::visitVariableDeclStmt( ast::stmt::VariableDecl * stmt )
 	{
 		if ( !stmt->getVariable()->isBuiltin() )
 		{
@@ -698,12 +696,12 @@ namespace glsl
 		}
 	}
 
-	void StmtVisitor::visitWhileStmt( stmt::While * stmt )
+	void StmtVisitor::visitWhileStmt( ast::stmt::While * stmt )
 	{
 		m_appendLineEnd = true;
 		doAppendLineEnd();
 
-		if ( stmt->getCtrlExpr()->getType()->getKind() != type::Kind::eBoolean )
+		if ( stmt->getCtrlExpr()->getType()->getKind() != ast::type::Kind::eBoolean )
 		{
 			m_result += m_indent + "while (bool(" + ExprVisitor::submit( stmt->getCtrlExpr() ) + "))";
 		}
@@ -718,49 +716,49 @@ namespace glsl
 		m_appendLineEnd = true;
 	}
 
-	void StmtVisitor::visitPreprocDefine( stmt::PreprocDefine * preproc )
+	void StmtVisitor::visitPreprocDefine( ast::stmt::PreprocDefine * preproc )
 	{
 		doAppendLineEnd();
 		m_result += "#define " + preproc->getName() + " " + ExprVisitor::submit( preproc->getExpr() ) + "\n";
 	}
 
-	void StmtVisitor::visitPreprocElif( stmt::PreprocElif * preproc )
+	void StmtVisitor::visitPreprocElif( ast::stmt::PreprocElif * preproc )
 	{
 		doAppendLineEnd();
 		m_result += "#elif " + ExprVisitor::submit( preproc->getCtrlExpr() ) + "\n";
 	}
 
-	void StmtVisitor::visitPreprocElse( stmt::PreprocElse * preproc )
+	void StmtVisitor::visitPreprocElse( ast::stmt::PreprocElse * preproc )
 	{
 		doAppendLineEnd();
 		m_result += "#else\n";
 	}
 
-	void StmtVisitor::visitPreprocEndif( stmt::PreprocEndif * preproc )
+	void StmtVisitor::visitPreprocEndif( ast::stmt::PreprocEndif * preproc )
 	{
 		doAppendLineEnd();
 		m_result += "#endif\n";
 	}
 
-	void StmtVisitor::visitPreprocExtension( stmt::PreprocExtension * preproc )
+	void StmtVisitor::visitPreprocExtension( ast::stmt::PreprocExtension * preproc )
 	{
 		doAppendLineEnd();
 		m_result += "#extension " + preproc->getName() + ": " + getStatusName( preproc->getStatus() ) + "\n";
 	}
 
-	void StmtVisitor::visitPreprocIf( stmt::PreprocIf * preproc )
+	void StmtVisitor::visitPreprocIf( ast::stmt::PreprocIf * preproc )
 	{
 		doAppendLineEnd();
 		m_result += "#if " + ExprVisitor::submit( preproc->getCtrlExpr() ) + "\n";
 	}
 
-	void StmtVisitor::visitPreprocIfDef( stmt::PreprocIfDef * preproc )
+	void StmtVisitor::visitPreprocIfDef( ast::stmt::PreprocIfDef * preproc )
 	{
 		doAppendLineEnd();
 		m_result += "#ifdef " + ExprVisitor::submit( preproc->getIdentExpr() ) + "\n";
 	}
 
-	void StmtVisitor::visitPreprocVersion( stmt::PreprocVersion * preproc )
+	void StmtVisitor::visitPreprocVersion( ast::stmt::PreprocVersion * preproc )
 	{
 		doAppendLineEnd();
 		m_result += "#version " + preproc->getName() + "\n";

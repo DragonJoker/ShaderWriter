@@ -2384,8 +2384,8 @@ namespace spirv
 
 		spirv::Module compileSpirV( sdw::Shader const & shader )
 		{
-			auto container = spirv::StmtAdapter::submit( shader );
-			return spirv::StmtVisitor::submit( container.get(), shader.getType() );
+			auto spirvStatements = spirv::StmtAdapter::submit( shader.getStatements() );
+			return spirv::StmtVisitor::submit( spirvStatements.get(), shader.getType() );
 		}
 	}
 
