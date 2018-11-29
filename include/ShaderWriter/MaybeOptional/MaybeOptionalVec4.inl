@@ -68,7 +68,7 @@ namespace sdw
 	template< typename IndexT >
 	inline MaybeOptional< ValueT > MaybeOptional< Vec4T< ValueT > >::operator[]( IndexT const & rhs )const
 	{
-		if ( isAnyOptional( *this, offset )
+		if ( isAnyOptional( *this, rhs ) )
 		{
 			return MaybeOptional< ValueT >{ findShader( *this, rhs )
 				, sdw::makeArrayAccess( makeType( typeEnum< ValueT > )
@@ -338,7 +338,7 @@ namespace sdw
 	inline MaybeOptional< Vec4T< ValueT > > operator+( MaybeOptional< ValueT > const & lhs
 		, Vec4T< ValueT > const & rhs )
 	{
-		if ( isAnyOptional( *this, offset )
+		if ( isAnyOptional( lhs, rhs ) )
 		{
 			return MaybeOptional< Vec4T< ValueT > >{ findShader( lhs, rhs )
 				, sdw::makeAdd( makeType( typeEnum< Vec4T< ValueT > > )
@@ -357,7 +357,7 @@ namespace sdw
 	inline MaybeOptional< Vec4T< ValueT > > operator+( MaybeOptional< Vec4T< ValueT > > const & lhs
 		, ValueT const & rhs )
 	{
-		if ( isAnyOptional( *this, offset )
+		if ( isAnyOptional( lhs, rhs ) )
 		{
 			return MaybeOptional< Vec4T< ValueT > >{ findShader( lhs, rhs )
 				, sdw::makeAdd( makeType( typeEnum< Vec4T< ValueT > > )
@@ -376,7 +376,7 @@ namespace sdw
 	inline MaybeOptional< Vec4T< ValueT > > operator+( MaybeOptional< Vec4T< ValueT > > const & lhs
 		, Vec4T< ValueT > const & rhs )
 	{
-		if ( isAnyOptional( *this, offset )
+		if ( isAnyOptional( lhs, rhs ) )
 		{
 			return MaybeOptional< Vec4T< ValueT > >{ findShader( lhs, rhs )
 				, sdw::makeAdd( makeType( typeEnum< Vec4T< ValueT > > )
@@ -395,12 +395,12 @@ namespace sdw
 	inline MaybeOptional< Vec4T< ValueT > > operator+( ValueT const & lhs
 		, MaybeOptional< Vec4T< ValueT > > const & rhs )
 	{
-		if ( isAnyOptional( *this, offset )
+		if ( isAnyOptional( lhs, rhs ) )
 		{
 			return MaybeOptional< Vec4T< ValueT > >{ findShader( lhs, rhs )
 				, sdw::makeAdd( makeType( typeEnum< Vec4T< ValueT > > )
-					, makeExpr( lhs, true )
-					, makeExpr( rhs ) )
+					, makeExpr( lhs )
+					, makeExpr( rhs, true ) )
 				, areOptionalEnabled( lhs, rhs ) };
 		}
 
@@ -414,12 +414,12 @@ namespace sdw
 	inline MaybeOptional< Vec4T< ValueT > > operator+( Vec4T< ValueT > const & lhs
 		, MaybeOptional< ValueT > const & rhs )
 	{
-		if ( isAnyOptional( *this, offset )
+		if ( isAnyOptional( lhs, rhs ) )
 		{
 			return MaybeOptional< Vec4T< ValueT > >{ findShader( lhs, rhs )
 				, sdw::makeAdd( makeType( typeEnum< Vec4T< ValueT > > )
-					, makeExpr( lhs, true )
-					, makeExpr( rhs ) )
+					, makeExpr( lhs )
+					, makeExpr( rhs, true ) )
 				, areOptionalEnabled( lhs, rhs ) };
 		}
 
@@ -433,12 +433,12 @@ namespace sdw
 	inline MaybeOptional< Vec4T< ValueT > > operator+( Vec4T< ValueT > const & lhs
 		, MaybeOptional< Vec4T< ValueT > > const & rhs )
 	{
-		if ( isAnyOptional( *this, offset )
+		if ( isAnyOptional( lhs, rhs ) )
 		{
 			return MaybeOptional< Vec4T< ValueT > >{ findShader( lhs, rhs )
 				, sdw::makeAdd( makeType( typeEnum< Vec4T< ValueT > > )
-					, makeExpr( lhs, true )
-					, makeExpr( rhs ) )
+					, makeExpr( lhs )
+					, makeExpr( rhs, true ) )
 				, areOptionalEnabled( lhs, rhs ) };
 		}
 
@@ -452,7 +452,7 @@ namespace sdw
 	inline MaybeOptional< Vec4T< ValueT > > operator+( MaybeOptional< ValueT > const & lhs
 		, MaybeOptional< Vec4T< ValueT > > const & rhs )
 	{
-		if ( isAnyOptional( *this, offset )
+		if ( isAnyOptional( lhs, rhs ) )
 		{
 			return MaybeOptional< Vec4T< ValueT > >{ findShader( lhs, rhs )
 				, sdw::makeAdd( makeType( typeEnum< Vec4T< ValueT > > )
@@ -471,12 +471,12 @@ namespace sdw
 	inline MaybeOptional< Vec4T< ValueT > > operator+( MaybeOptional< Vec4T< ValueT > > const & lhs
 		, MaybeOptional< ValueT > const & rhs )
 	{
-		if ( isAnyOptional( *this, offset )
+		if ( isAnyOptional( lhs, rhs ) )
 		{
 			return MaybeOptional< Vec4T< ValueT > >{ findShader( lhs, rhs )
 				, sdw::makeAdd( makeType( typeEnum< Vec4T< ValueT > > )
 					, makeExpr( lhs, true )
-					, makeExpr( rhs ) )
+					, makeExpr( rhs, true ) )
 				, areOptionalEnabled( lhs, rhs ) };
 		}
 
@@ -490,12 +490,12 @@ namespace sdw
 	inline MaybeOptional< Vec4T< ValueT > > operator+( MaybeOptional< Vec4T< ValueT > > const & lhs
 		, MaybeOptional< Vec4T< ValueT > > const & rhs )
 	{
-		if ( isAnyOptional( *this, offset )
+		if ( isAnyOptional( lhs, rhs ) )
 		{
 			return MaybeOptional< Vec4T< ValueT > >{ findShader( lhs, rhs )
 				, sdw::makeAdd( makeType( typeEnum< Vec4T< ValueT > > )
 					, makeExpr( lhs, true )
-					, makeExpr( rhs ) )
+					, makeExpr( rhs, true ) )
 				, areOptionalEnabled( lhs, rhs ) };
 		}
 
@@ -509,7 +509,7 @@ namespace sdw
 	inline MaybeOptional< Vec4T< ValueT > > operator-( MaybeOptional< ValueT > const & lhs
 		, Vec4T< ValueT > const & rhs )
 	{
-		if ( isAnyOptional( *this, offset )
+		if ( isAnyOptional( lhs, rhs ) )
 		{
 			return MaybeOptional< Vec4T< ValueT > >{ findShader( lhs, rhs )
 				, sdw::makeMinus( makeType( typeEnum< Vec4T< ValueT > > )
@@ -528,7 +528,7 @@ namespace sdw
 	inline MaybeOptional< Vec4T< ValueT > > operator-( MaybeOptional< Vec4T< ValueT > > const & lhs
 		, ValueT const & rhs )
 	{
-		if ( isAnyOptional( *this, offset )
+		if ( isAnyOptional( lhs, rhs ) )
 		{
 			return MaybeOptional< Vec4T< ValueT > >{ findShader( lhs, rhs )
 				, sdw::makeMinus( makeType( typeEnum< Vec4T< ValueT > > )
@@ -547,7 +547,7 @@ namespace sdw
 	inline MaybeOptional< Vec4T< ValueT > > operator-( MaybeOptional< Vec4T< ValueT > > const & lhs
 		, Vec4T< ValueT > const & rhs )
 	{
-		if ( isAnyOptional( *this, offset )
+		if ( isAnyOptional( lhs, rhs ) )
 		{
 			return MaybeOptional< Vec4T< ValueT > >{ findShader( lhs, rhs )
 				, sdw::makeMinus( makeType( typeEnum< Vec4T< ValueT > > )
@@ -566,12 +566,12 @@ namespace sdw
 	inline MaybeOptional< Vec4T< ValueT > > operator-( ValueT const & lhs
 		, MaybeOptional< Vec4T< ValueT > > const & rhs )
 	{
-		if ( isAnyOptional( *this, offset )
+		if ( isAnyOptional( lhs, rhs ) )
 		{
 			return MaybeOptional< Vec4T< ValueT > >{ findShader( lhs, rhs )
 				, sdw::makeMinus( makeType( typeEnum< Vec4T< ValueT > > )
-					, makeExpr( lhs, true )
-					, makeExpr( rhs ) )
+					, makeExpr( lhs )
+					, makeExpr( rhs, true ) )
 				, areOptionalEnabled( lhs, rhs ) };
 		}
 
@@ -585,12 +585,12 @@ namespace sdw
 	inline MaybeOptional< Vec4T< ValueT > > operator-( Vec4T< ValueT > const & lhs
 		, MaybeOptional< ValueT > const & rhs )
 	{
-		if ( isAnyOptional( *this, offset )
+		if ( isAnyOptional( lhs, rhs ) )
 		{
 			return MaybeOptional< Vec4T< ValueT > >{ findShader( lhs, rhs )
 				, sdw::makeMinus( makeType( typeEnum< Vec4T< ValueT > > )
-					, makeExpr( lhs, true )
-					, makeExpr( rhs ) )
+					, makeExpr( lhs )
+					, makeExpr( rhs, true ) )
 				, areOptionalEnabled( lhs, rhs ) };
 		}
 
@@ -604,12 +604,12 @@ namespace sdw
 	inline MaybeOptional< Vec4T< ValueT > > operator-( Vec4T< ValueT > const & lhs
 		, MaybeOptional< Vec4T< ValueT > > const & rhs )
 	{
-		if ( isAnyOptional( *this, offset )
+		if ( isAnyOptional( lhs, rhs ) )
 		{
 			return MaybeOptional< Vec4T< ValueT > >{ findShader( lhs, rhs )
 				, sdw::makeMinus( makeType( typeEnum< Vec4T< ValueT > > )
-					, makeExpr( lhs, true )
-					, makeExpr( rhs ) )
+					, makeExpr( lhs )
+					, makeExpr( rhs, true ) )
 				, areOptionalEnabled( lhs, rhs ) };
 		}
 
@@ -623,12 +623,12 @@ namespace sdw
 	inline MaybeOptional< Vec4T< ValueT > > operator-( MaybeOptional< ValueT > const & lhs
 		, MaybeOptional< Vec4T< ValueT > > const & rhs )
 	{
-		if ( isAnyOptional( *this, offset )
+		if ( isAnyOptional( lhs, rhs ) )
 		{
 			return MaybeOptional< Vec4T< ValueT > >{ findShader( lhs, rhs )
 				, sdw::makeMinus( makeType( typeEnum< Vec4T< ValueT > > )
 					, makeExpr( lhs, true )
-					, makeExpr( rhs ) )
+					, makeExpr( rhs, true ) )
 				, areOptionalEnabled( lhs, rhs ) };
 		}
 
@@ -642,12 +642,12 @@ namespace sdw
 	inline MaybeOptional< Vec4T< ValueT > > operator-( MaybeOptional< Vec4T< ValueT > > const & lhs
 		, MaybeOptional< ValueT > const & rhs )
 	{
-		if ( isAnyOptional( *this, offset )
+		if ( isAnyOptional( lhs, rhs ) )
 		{
 			return MaybeOptional< Vec4T< ValueT > >{ findShader( lhs, rhs )
 				, sdw::makeMinus( makeType( typeEnum< Vec4T< ValueT > > )
 					, makeExpr( lhs, true )
-					, makeExpr( rhs ) )
+					, makeExpr( rhs, true ) )
 				, areOptionalEnabled( lhs, rhs ) };
 		}
 
@@ -661,12 +661,12 @@ namespace sdw
 	inline MaybeOptional< Vec4T< ValueT > > operator-( MaybeOptional< Vec4T< ValueT > > const & lhs
 		, MaybeOptional< Vec4T< ValueT > > const & rhs )
 	{
-		if ( isAnyOptional( *this, offset )
+		if ( isAnyOptional( lhs, rhs ) )
 		{
 			return MaybeOptional< Vec4T< ValueT > >{ findShader( lhs, rhs )
 				, sdw::makeMinus( makeType( typeEnum< Vec4T< ValueT > > )
 					, makeExpr( lhs, true )
-					, makeExpr( rhs ) )
+					, makeExpr( rhs, true ) )
 				, areOptionalEnabled( lhs, rhs ) };
 		}
 
@@ -680,7 +680,7 @@ namespace sdw
 	inline MaybeOptional< Vec4T< ValueT > > operator*( MaybeOptional< ValueT > const & lhs
 		, Vec4T< ValueT > const & rhs )
 	{
-		if ( isAnyOptional( *this, offset )
+		if ( isAnyOptional( lhs, rhs ) )
 		{
 			return MaybeOptional< Vec4T< ValueT > >{ findShader( lhs, rhs )
 				, sdw::makeTimes( makeType( typeEnum< Vec4T< ValueT > > )
@@ -699,7 +699,7 @@ namespace sdw
 	inline MaybeOptional< Vec4T< ValueT > > operator*( MaybeOptional< Vec4T< ValueT > > const & lhs
 		, ValueT const & rhs )
 	{
-		if ( isAnyOptional( *this, offset )
+		if ( isAnyOptional( lhs, rhs ) )
 		{
 			return MaybeOptional< Vec4T< ValueT > >{ findShader( lhs, rhs )
 				, sdw::makeTimes( makeType( typeEnum< Vec4T< ValueT > > )
@@ -718,7 +718,7 @@ namespace sdw
 	inline MaybeOptional< Vec4T< ValueT > > operator*( MaybeOptional< Vec4T< ValueT > > const & lhs
 		, Vec4T< ValueT > const & rhs )
 	{
-		if ( isAnyOptional( *this, offset )
+		if ( isAnyOptional( lhs, rhs ) )
 		{
 			return MaybeOptional< Vec4T< ValueT > >{ findShader( lhs, rhs )
 				, sdw::makeTimes( makeType( typeEnum< Vec4T< ValueT > > )
@@ -737,12 +737,12 @@ namespace sdw
 	inline MaybeOptional< Vec4T< ValueT > > operator*( ValueT const & lhs
 		, MaybeOptional< Vec4T< ValueT > > const & rhs )
 	{
-		if ( isAnyOptional( *this, offset )
+		if ( isAnyOptional( lhs, rhs ) )
 		{
 			return MaybeOptional< Vec4T< ValueT > >{ findShader( lhs, rhs )
 				, sdw::makeTimes( makeType( typeEnum< Vec4T< ValueT > > )
-					, makeExpr( lhs, true )
-					, makeExpr( rhs ) )
+					, makeExpr( lhs )
+					, makeExpr( rhs, true ) )
 				, areOptionalEnabled( lhs, rhs ) };
 		}
 
@@ -756,12 +756,12 @@ namespace sdw
 	inline MaybeOptional< Vec4T< ValueT > > operator*( Vec4T< ValueT > const & lhs
 		, MaybeOptional< ValueT > const & rhs )
 	{
-		if ( isAnyOptional( *this, offset )
+		if ( isAnyOptional( lhs, rhs ) )
 		{
 			return MaybeOptional< Vec4T< ValueT > >{ findShader( lhs, rhs )
 				, sdw::makeTimes( makeType( typeEnum< Vec4T< ValueT > > )
-					, makeExpr( lhs, true )
-					, makeExpr( rhs ) )
+					, makeExpr( lhs )
+					, makeExpr( rhs, true ) )
 				, areOptionalEnabled( lhs, rhs ) };
 		}
 
@@ -775,12 +775,12 @@ namespace sdw
 	inline MaybeOptional< Vec4T< ValueT > > operator*( Vec4T< ValueT > const & lhs
 		, MaybeOptional< Vec4T< ValueT > > const & rhs )
 	{
-		if ( isAnyOptional( *this, offset )
+		if ( isAnyOptional( lhs, rhs ) )
 		{
 			return MaybeOptional< Vec4T< ValueT > >{ findShader( lhs, rhs )
 				, sdw::makeTimes( makeType( typeEnum< Vec4T< ValueT > > )
-					, makeExpr( lhs, true )
-					, makeExpr( rhs ) )
+					, makeExpr( lhs )
+					, makeExpr( rhs, true ) )
 				, areOptionalEnabled( lhs, rhs ) };
 		}
 
@@ -794,12 +794,12 @@ namespace sdw
 	inline MaybeOptional< Vec4T< ValueT > > operator*( MaybeOptional< ValueT > const & lhs
 		, MaybeOptional< Vec4T< ValueT > > const & rhs )
 	{
-		if ( isAnyOptional( *this, offset )
+		if ( isAnyOptional( lhs, rhs ) )
 		{
 			return MaybeOptional< Vec4T< ValueT > >{ findShader( lhs, rhs )
 				, sdw::makeTimes( makeType( typeEnum< Vec4T< ValueT > > )
 					, makeExpr( lhs, true )
-					, makeExpr( rhs ) )
+					, makeExpr( rhs, true ) )
 				, areOptionalEnabled( lhs, rhs ) };
 		}
 
@@ -813,12 +813,12 @@ namespace sdw
 	inline MaybeOptional< Vec4T< ValueT > > operator*( MaybeOptional< Vec4T< ValueT > > const & lhs
 		, MaybeOptional< ValueT > const & rhs )
 	{
-		if ( isAnyOptional( *this, offset )
+		if ( isAnyOptional( lhs, rhs ) )
 		{
 			return MaybeOptional< Vec4T< ValueT > >{ findShader( lhs, rhs )
 				, sdw::makeTimes( makeType( typeEnum< Vec4T< ValueT > > )
 					, makeExpr( lhs, true )
-					, makeExpr( rhs ) )
+					, makeExpr( rhs, true ) )
 				, areOptionalEnabled( lhs, rhs ) };
 		}
 
@@ -832,12 +832,12 @@ namespace sdw
 	inline MaybeOptional< Vec4T< ValueT > > operator*( MaybeOptional< Vec4T< ValueT > > const & lhs
 		, MaybeOptional< Vec4T< ValueT > > const & rhs )
 	{
-		if ( isAnyOptional( *this, offset )
+		if ( isAnyOptional( lhs, rhs ) )
 		{
 			return MaybeOptional< Vec4T< ValueT > >{ findShader( lhs, rhs )
 				, sdw::makeTimes( makeType( typeEnum< Vec4T< ValueT > > )
 					, makeExpr( lhs, true )
-					, makeExpr( rhs ) )
+					, makeExpr( rhs, true ) )
 				, areOptionalEnabled( lhs, rhs ) };
 		}
 
@@ -851,7 +851,7 @@ namespace sdw
 	inline MaybeOptional< Vec4T< ValueT > > operator/( MaybeOptional< Vec4T< ValueT > > const & lhs
 		, Vec4T< ValueT > const & rhs )
 	{
-		if ( isAnyOptional( *this, offset )
+		if ( isAnyOptional( lhs, rhs ) )
 		{
 			return MaybeOptional< Vec4T< ValueT > >{ findShader( lhs, rhs )
 				, sdw::makeDivide( makeType( typeEnum< Vec4T< ValueT > > )
@@ -870,12 +870,12 @@ namespace sdw
 	inline MaybeOptional< Vec4T< ValueT > > operator/( Vec4T< ValueT > const & lhs
 		, MaybeOptional< ValueT > const & rhs )
 	{
-		if ( isAnyOptional( *this, offset )
+		if ( isAnyOptional( lhs, rhs ) )
 		{
 			return MaybeOptional< Vec4T< ValueT > >{ findShader( lhs, rhs )
 				, sdw::makeDivide( makeType( typeEnum< Vec4T< ValueT > > )
-					, makeExpr( lhs, true )
-					, makeExpr( rhs ) )
+					, makeExpr( lhs )
+					, makeExpr( rhs, true ) )
 				, areOptionalEnabled( lhs, rhs ) };
 		}
 
@@ -889,12 +889,12 @@ namespace sdw
 	inline MaybeOptional< Vec4T< ValueT > > operator/( Vec4T< ValueT > const & lhs
 		, MaybeOptional< Vec4T< ValueT > > const & rhs )
 	{
-		if ( isAnyOptional( *this, offset )
+		if ( isAnyOptional( lhs, rhs ) )
 		{
 			return MaybeOptional< Vec4T< ValueT > >{ findShader( lhs, rhs )
 				, sdw::makeDivide( makeType( typeEnum< Vec4T< ValueT > > )
-					, makeExpr( lhs, true )
-					, makeExpr( rhs ) )
+					, makeExpr( lhs )
+					, makeExpr( rhs, true ) )
 				, areOptionalEnabled( lhs, rhs ) };
 		}
 
@@ -908,12 +908,12 @@ namespace sdw
 	inline MaybeOptional< Vec4T< ValueT > > operator/( MaybeOptional< Vec4T< ValueT > > const & lhs
 		, MaybeOptional< ValueT > const & rhs )
 	{
-		if ( isAnyOptional( *this, offset )
+		if ( isAnyOptional( lhs, rhs ) )
 		{
 			return MaybeOptional< Vec4T< ValueT > >{ findShader( lhs, rhs )
 				, sdw::makeDivide( makeType( typeEnum< Vec4T< ValueT > > )
 					, makeExpr( lhs, true )
-					, makeExpr( rhs ) )
+					, makeExpr( rhs, true ) )
 				, areOptionalEnabled( lhs, rhs ) };
 		}
 
@@ -927,12 +927,12 @@ namespace sdw
 	inline MaybeOptional< Vec4T< ValueT > > operator/( MaybeOptional< Vec4T< ValueT > > const & lhs
 		, MaybeOptional< Vec4T< ValueT > > const & rhs )
 	{
-		if ( isAnyOptional( *this, offset )
+		if ( isAnyOptional( lhs, rhs ) )
 		{
 			return MaybeOptional< Vec4T< ValueT > >{ findShader( lhs, rhs )
 				, sdw::makeDivide( makeType( typeEnum< Vec4T< ValueT > > )
 					, makeExpr( lhs, true )
-					, makeExpr( rhs ) )
+					, makeExpr( rhs, true ) )
 				, areOptionalEnabled( lhs, rhs ) };
 		}
 

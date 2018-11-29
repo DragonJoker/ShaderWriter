@@ -6,6 +6,7 @@ See LICENSE file in root folder
 
 #include "ShaderWriter/CompositeTypes/Builtins.hpp"
 #include "Shader.hpp"
+#include <ShaderAST/Stmt/StmtIf.hpp>
 
 namespace sdw
 {
@@ -52,6 +53,9 @@ namespace sdw
 		void returnStmt( RetType const & value );
 		template< typename ValueT >
 		inline ValueT paren( ValueT const & content );
+		template< typename FunctionT, typename ... ParamsT >
+		void callFunction( FunctionT const & function
+			, ParamsT && ... params );
 #pragma region Cast
 		/**
 		*name
@@ -82,6 +86,10 @@ namespace sdw
 		ExprType ternary( expr::ExprPtr condition
 			, expr::ExprPtr left
 			, expr::ExprPtr right );
+		template< typename ExprType >
+		ExprType ternary( Boolean condition
+			, ExprType left
+			, ExprType right );
 		void forStmt( expr::ExprPtr init
 			, expr::ExprPtr condition
 			, expr::ExprPtr increment
@@ -525,7 +533,7 @@ namespace sdw
  ).endIf();
 
 #define TERNARY( Writer, ExprType, Condition, Left, Right )\
-	( Writer ).ternary< ExprType >( Condition, Left, Right )
+	( Writer ).ternary< ExprType >( sdw::makeExpr( Condition ), sdw::makeExpr( Left ), sdw::makeExpr( Right ) )
 
 #include "Writer.inl"
 

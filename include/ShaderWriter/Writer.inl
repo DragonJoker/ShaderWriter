@@ -170,12 +170,32 @@ namespace sdw
 				, std::move( right ) ) };
 	}
 
+	template< typename ExprType >
+	ExprType ShaderWriter::ternary( Boolean condition
+		, ExprType left
+		, ExprType right )
+	{
+		return ExprType{ &m_shader
+			, sdw::makeQuestion( left.getType()
+				, makeExpr( condition )
+				, makeExpr( left )
+				, makeExpr( right ) ) };
+	}
+
 	template< typename ValueT >
 	inline ValueT ShaderWriter::paren( ValueT const & content )
 	{
 		return ValueT{ &m_shader
 			, makeExpr( content ) };
 	}
+
+	template< typename FunctionT, typename ... ParamsT >
+	void ShaderWriter::callFunction( FunctionT const & function
+		, ParamsT && ... params )
+	{
+		addStmt( sdw::makeSimple( sdw::makeExpr( function( std::forward< ParamsT >( params )... ) ) ) );
+	}
+
 #pragma region Cast
 		/**
 		*name

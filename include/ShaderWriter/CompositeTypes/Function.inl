@@ -155,9 +155,13 @@ namespace sdw
 	inline void getFunctionHeaderArgsRec( var::VariableList & args
 		, ParamT && last )
 	{
-		auto ident = findIdentifier( last.getExpr() );
-		assert( ident != nullptr );
-		args.emplace_back( ident->getVariable() );
+		auto idents = listIdentifiers( last.getExpr() );
+		assert( !idents.empty() );
+
+		for ( auto & ident : idents )
+		{
+			args.emplace_back( ident->getVariable() );
+		}
 	}
 
 	template< typename ParamT
@@ -166,9 +170,14 @@ namespace sdw
 		, ParamT && current
 		, ParamsT && ... params )
 	{
-		auto ident = findIdentifier( current.getExpr() );
-		assert( ident != nullptr );
-		args.emplace_back( ident->getVariable() );
+		auto idents = listIdentifiers( current.getExpr() );
+		assert( !idents.empty() );
+
+		for ( auto & ident : idents )
+		{
+			args.emplace_back( ident->getVariable() );
+		}
+
 		getFunctionHeaderArgsRec( args, std::forward< ParamsT >( params )... );
 	}
 
@@ -206,7 +215,7 @@ namespace sdw
 
 	template< typename ReturnT
 		, typename ... ParamsT >
-		ReturnT Function< ReturnT, ParamsT... >::operator()( ParamsT && ... params )const
+	ReturnT Function< ReturnT, ParamsT... >::operator()( ParamsT && ... params )const
 	{
 		assert( !m_name.empty() );
 		return getFunctionCall< ReturnT >( m_name

@@ -54,24 +54,24 @@ namespace sdw
 		inline MaybeOptional< Vec2T< ValueT > > & operator*=( MaybeOptional< ValueT > const & rhs );
 		inline MaybeOptional< Vec2T< ValueT > > & operator/=( MaybeOptional< ValueT > const & rhs );
 
-		Writer_FirstOptSwizzle( Vec2Type, ValueType, x );
-		Writer_OptSwizzle( Vec2Type, ValueType, y );
-		Writer_OptSwizzle( Vec2Type, ValueType, s );
-		Writer_OptSwizzle( Vec2Type, ValueType, t );
-		Writer_OptSwizzle( Vec2Type, ValueType, r );
-		Writer_LastOptSwizzle( Vec2Type, ValueType, g );
-		Writer_FirstOptSwizzle( Vec2Type, Vec2Type, xy );
-		Writer_OptSwizzle( Vec2Type, Vec2Type, yx );
-		Writer_OptSwizzle( Vec2Type, Vec2Type, xx );
-		Writer_OptSwizzle( Vec2Type, Vec2Type, yy );
-		Writer_OptSwizzle( Vec2Type, ValueType, st );
-		Writer_OptSwizzle( Vec2Type, ValueType, ts );
-		Writer_OptSwizzle( Vec2Type, ValueType, ss );
-		Writer_OptSwizzle( Vec2Type, ValueType, tt );
-		Writer_OptSwizzle( Vec2Type, Vec2Type, rg );
-		Writer_OptSwizzle( Vec2Type, Vec2Type, gr );
-		Writer_OptSwizzle( Vec2Type, Vec2Type, rr );
-		Writer_LastOptSwizzle( Vec2Type, Vec2Type, gg );
+		Writer_FirstMayOptSwizzle( Vec2Type, ValueType, x );
+		Writer_MayOptSwizzle( Vec2Type, ValueType, y );
+		Writer_MayOptSwizzle( Vec2Type, ValueType, s );
+		Writer_MayOptSwizzle( Vec2Type, ValueType, t );
+		Writer_MayOptSwizzle( Vec2Type, ValueType, r );
+		Writer_LastMayOptSwizzle( Vec2Type, ValueType, g );
+		Writer_FirstMayOptSwizzle( Vec2Type, Vec2Type, xy );
+		Writer_MayOptSwizzle( Vec2Type, Vec2Type, yx );
+		Writer_MayOptSwizzle( Vec2Type, Vec2Type, xx );
+		Writer_MayOptSwizzle( Vec2Type, Vec2Type, yy );
+		Writer_MayOptSwizzle( Vec2Type, ValueType, st );
+		Writer_MayOptSwizzle( Vec2Type, ValueType, ts );
+		Writer_MayOptSwizzle( Vec2Type, ValueType, ss );
+		Writer_MayOptSwizzle( Vec2Type, ValueType, tt );
+		Writer_MayOptSwizzle( Vec2Type, Vec2Type, rg );
+		Writer_MayOptSwizzle( Vec2Type, Vec2Type, gr );
+		Writer_MayOptSwizzle( Vec2Type, Vec2Type, rr );
+		Writer_LastMayOptSwizzle( Vec2Type, Vec2Type, gg );
 
 	private:
 		bool m_optional;

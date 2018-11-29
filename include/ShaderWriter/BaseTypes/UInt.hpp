@@ -19,7 +19,7 @@ namespace sdw
 		explicit UInt( uint16_t rhs );
 		explicit UInt( uint32_t rhs );
 		explicit UInt( uint64_t rhs );
-		UInt( Value const & value );
+		explicit UInt( Value const & rhs );
 		UInt & operator=( UInt const & rhs );
 		template< typename T >
 		inline UInt & operator=( T const & rhs );

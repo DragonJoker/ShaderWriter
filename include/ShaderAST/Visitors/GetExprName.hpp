@@ -9,6 +9,7 @@ See LICENSE file in root folder
 
 namespace ast
 {
+	std::vector< expr::Identifier * > listIdentifiers( expr::Expr * expr );
 	expr::Identifier * findIdentifier( expr::Expr * expr );
 	expr::Identifier * findIdentifier( expr::ExprPtr const & expr );
 	std::string findName( expr::Expr * expr );

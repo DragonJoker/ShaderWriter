@@ -21,6 +21,12 @@ namespace sdw
 	};
 
 	template< typename ValueT >
+	InParam< ValueT > makeInParam( ValueT const & other )
+	{
+		return InParam< ValueT >( other );
+	}
+
+	template< typename ValueT >
 	struct OutParam
 		: public ValueT
 	{
@@ -32,6 +38,12 @@ namespace sdw
 	};
 
 	template< typename ValueT >
+	OutParam< ValueT > makeOutParam( ValueT const & other )
+	{
+		return OutParam< ValueT >( other );
+	}
+
+	template< typename ValueT >
 	struct InOutParam
 		: public ValueT
 	{
@@ -41,6 +53,12 @@ namespace sdw
 		template< typename T >
 		inline InOutParam< ValueT > operator=( T const & rhs );
 	};
+
+	template< typename ValueT >
+	InOutParam< ValueT > makeInOutParam( ValueT const & other )
+	{
+		return InOutParam< ValueT >( other );
+	}
 }
 
 #include "FunctionParam.inl"

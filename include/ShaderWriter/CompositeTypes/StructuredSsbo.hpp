@@ -22,7 +22,12 @@ namespace sdw
 			, uint32_t set );
 
 		StructInstance operator[]( uint32_t index );
-		StructInstance operator[]( UInt index );
+		StructInstance operator[]( UInt const & index );
+
+		template< typename InstanceT >
+		inline InstanceT at( uint32_t index );
+		template< typename InstanceT >
+		inline InstanceT at( UInt const & index );
 
 	private:
 		Shader & m_shader;

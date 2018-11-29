@@ -11,13 +11,19 @@ See LICENSE file in root folder
 #include <ShaderAST/Type/ImageConfiguration.hpp>
 
 #define Writer_Parameter( TypeName )\
-	using In##TypeName = InParam< TypeName >;\
-	using Out##TypeName = OutParam< TypeName >;\
-	using InOut##TypeName = InOutParam< TypeName >
+	using In##TypeName = sdw::InParam< TypeName >;\
+	using Out##TypeName = sdw::OutParam< TypeName >;\
+	using InOut##TypeName = sdw::InOutParam< TypeName >
+
+#define Writer_ArrayParameter( TypeName )\
+	using In##TypeName##Array = sdw::InParam< sdw::Array< TypeName > >;\
+	using Out##TypeName##Array = sdw::OutParam< sdw::Array< TypeName > >;\
+	using InOut##TypeName##Array = sdw::InOutParam< sdw::Array< TypeName > >
 
 #define Writer_Image( Prefix, TypeName, Format, Postfix )\
 	using Prefix##TypeName##Format = TypeName##T< ast::type::ImageFormat::e##Format##Postfix >;\
-	Writer_Parameter( Prefix##TypeName##Format )
+	Writer_Parameter( Prefix##TypeName##Format );\
+	Writer_ArrayParameter( Prefix##TypeName##Format )
 
 namespace sdw
 {
@@ -354,6 +360,45 @@ namespace sdw
 	Writer_Parameter( DMat4 );
 	Writer_Parameter( DMat4x2 );
 	Writer_Parameter( DMat4x3 );
+
+	Writer_ArrayParameter( Double );
+	Writer_ArrayParameter( Float );
+	Writer_ArrayParameter( Int );
+	Writer_ArrayParameter( UInt );
+	Writer_ArrayParameter( Boolean );
+	Writer_ArrayParameter( Vec2 );
+	Writer_ArrayParameter( Vec3 );
+	Writer_ArrayParameter( Vec4 );
+	Writer_ArrayParameter( DVec2 );
+	Writer_ArrayParameter( DVec3 );
+	Writer_ArrayParameter( DVec4 );
+	Writer_ArrayParameter( IVec2 );
+	Writer_ArrayParameter( IVec3 );
+	Writer_ArrayParameter( IVec4 );
+	Writer_ArrayParameter( UVec2 );
+	Writer_ArrayParameter( UVec3 );
+	Writer_ArrayParameter( UVec4 );
+	Writer_ArrayParameter( BVec2 );
+	Writer_ArrayParameter( BVec3 );
+	Writer_ArrayParameter( BVec4 );
+	Writer_ArrayParameter( Mat2 );
+	Writer_ArrayParameter( Mat2x3 );
+	Writer_ArrayParameter( Mat2x4 );
+	Writer_ArrayParameter( Mat3 );
+	Writer_ArrayParameter( Mat3x2 );
+	Writer_ArrayParameter( Mat3x4 );
+	Writer_ArrayParameter( Mat4 );
+	Writer_ArrayParameter( Mat4x2 );
+	Writer_ArrayParameter( Mat4x3 );
+	Writer_ArrayParameter( DMat2 );
+	Writer_ArrayParameter( DMat2x3 );
+	Writer_ArrayParameter( DMat2x4 );
+	Writer_ArrayParameter( DMat3 );
+	Writer_ArrayParameter( DMat3x2 );
+	Writer_ArrayParameter( DMat3x4 );
+	Writer_ArrayParameter( DMat4 );
+	Writer_ArrayParameter( DMat4x2 );
+	Writer_ArrayParameter( DMat4x3 );
 
 	Writer_Image( , ImageBuffer, Rgba32, f );
 	Writer_Image( , Image1D, Rgba32, f );
@@ -903,7 +948,6 @@ namespace sdw
 }
 
 #undef Writer_Image
-#undef Writer_Parameter
 
 #include "ShaderWriterPrerequisites.inl"
 #include "Helpers.hpp"

@@ -399,8 +399,8 @@ namespace sdw
 		{
 			return MaybeOptional< Vec2T< ValueT > >{ findShader( lhs, rhs )
 				, sdw::makeAdd( makeType( typeEnum< Vec2T< ValueT > > )
-					, makeExpr( lhs, true )
-					, makeExpr( rhs ) )
+					, makeExpr( lhs )
+					, makeExpr( rhs, true ) )
 				, areOptionalEnabled( lhs, rhs ) };
 		}
 
@@ -418,8 +418,8 @@ namespace sdw
 		{
 			return MaybeOptional< Vec2T< ValueT > >{ findShader( lhs, rhs )
 				, sdw::makeAdd( makeType( typeEnum< Vec2T< ValueT > > )
-					, makeExpr( lhs, true )
-					, makeExpr( rhs ) )
+					, makeExpr( lhs )
+					, makeExpr( rhs, true ) )
 				, areOptionalEnabled( lhs, rhs ) };
 		}
 
@@ -437,8 +437,8 @@ namespace sdw
 		{
 			return MaybeOptional< Vec2T< ValueT > >{ findShader( lhs, rhs )
 				, sdw::makeAdd( makeType( typeEnum< Vec2T< ValueT > > )
-					, makeExpr( lhs, true )
-					, makeExpr( rhs ) )
+					, makeExpr( lhs )
+					, makeExpr( rhs, true ) )
 				, areOptionalEnabled( lhs, rhs ) };
 		}
 
@@ -476,7 +476,7 @@ namespace sdw
 			return MaybeOptional< Vec2T< ValueT > >{ findShader( lhs, rhs )
 				, sdw::makeAdd( makeType( typeEnum< Vec2T< ValueT > > )
 					, makeExpr( lhs, true )
-					, makeExpr( rhs ) )
+					, makeExpr( rhs, true ) )
 				, areOptionalEnabled( lhs, rhs ) };
 		}
 
@@ -495,7 +495,7 @@ namespace sdw
 			return MaybeOptional< Vec2T< ValueT > >{ findShader( lhs, rhs )
 				, sdw::makeAdd( makeType( typeEnum< Vec2T< ValueT > > )
 					, makeExpr( lhs, true )
-					, makeExpr( rhs ) )
+					, makeExpr( rhs, true ) )
 				, areOptionalEnabled( lhs, rhs ) };
 		}
 
@@ -570,8 +570,8 @@ namespace sdw
 		{
 			return MaybeOptional< Vec2T< ValueT > >{ findShader( lhs, rhs )
 				, sdw::makeMinus( makeType( typeEnum< Vec2T< ValueT > > )
-					, makeExpr( lhs, true )
-					, makeExpr( rhs ) )
+					, makeExpr( lhs )
+					, makeExpr( rhs, true ) )
 				, areOptionalEnabled( lhs, rhs ) };
 		}
 
@@ -589,8 +589,8 @@ namespace sdw
 		{
 			return MaybeOptional< Vec2T< ValueT > >{ findShader( lhs, rhs )
 				, sdw::makeMinus( makeType( typeEnum< Vec2T< ValueT > > )
-					, makeExpr( lhs, true )
-					, makeExpr( rhs ) )
+					, makeExpr( lhs )
+					, makeExpr( rhs, true ) )
 				, areOptionalEnabled( lhs, rhs ) };
 		}
 
@@ -608,8 +608,8 @@ namespace sdw
 		{
 			return MaybeOptional< Vec2T< ValueT > >{ findShader( lhs, rhs )
 				, sdw::makeMinus( makeType( typeEnum< Vec2T< ValueT > > )
-					, makeExpr( lhs, true )
-					, makeExpr( rhs ) )
+					, makeExpr( lhs )
+					, makeExpr( rhs, true ) )
 				, areOptionalEnabled( lhs, rhs ) };
 		}
 
@@ -628,7 +628,7 @@ namespace sdw
 			return MaybeOptional< Vec2T< ValueT > >{ findShader( lhs, rhs )
 				, sdw::makeMinus( makeType( typeEnum< Vec2T< ValueT > > )
 					, makeExpr( lhs, true )
-					, makeExpr( rhs ) )
+					, makeExpr( rhs, true ) )
 				, areOptionalEnabled( lhs, rhs ) };
 		}
 
@@ -647,7 +647,7 @@ namespace sdw
 			return MaybeOptional< Vec2T< ValueT > >{ findShader( lhs, rhs )
 				, sdw::makeMinus( makeType( typeEnum< Vec2T< ValueT > > )
 					, makeExpr( lhs, true )
-					, makeExpr( rhs ) )
+					, makeExpr( rhs, true ) )
 				, areOptionalEnabled( lhs, rhs ) };
 		}
 
@@ -666,7 +666,7 @@ namespace sdw
 			return MaybeOptional< Vec2T< ValueT > >{ findShader( lhs, rhs )
 				, sdw::makeMinus( makeType( typeEnum< Vec2T< ValueT > > )
 					, makeExpr( lhs, true )
-					, makeExpr( rhs ) )
+					, makeExpr( rhs, true ) )
 				, areOptionalEnabled( lhs, rhs ) };
 		}
 
@@ -741,8 +741,8 @@ namespace sdw
 		{
 			return MaybeOptional< Vec2T< ValueT > >{ findShader( lhs, rhs )
 				, sdw::makeTimes( makeType( typeEnum< Vec2T< ValueT > > )
-					, makeExpr( lhs, true )
-					, makeExpr( rhs ) )
+					, makeExpr( lhs )
+					, makeExpr( rhs, true ) )
 				, areOptionalEnabled( lhs, rhs ) };
 		}
 
@@ -760,8 +760,8 @@ namespace sdw
 		{
 			return MaybeOptional< Vec2T< ValueT > >{ findShader( lhs, rhs )
 				, sdw::makeTimes( makeType( typeEnum< Vec2T< ValueT > > )
-					, makeExpr( lhs, true )
-					, makeExpr( rhs ) )
+					, makeExpr( lhs )
+					, makeExpr( rhs, true ) )
 				, areOptionalEnabled( lhs, rhs ) };
 		}
 
@@ -779,8 +779,8 @@ namespace sdw
 		{
 			return MaybeOptional< Vec2T< ValueT > >{ findShader( lhs, rhs )
 				, sdw::makeTimes( makeType( typeEnum< Vec2T< ValueT > > )
-					, makeExpr( lhs, true )
-					, makeExpr( rhs ) )
+					, makeExpr( lhs )
+					, makeExpr( rhs, true ) )
 				, areOptionalEnabled( lhs, rhs ) };
 		}
 
@@ -799,7 +799,7 @@ namespace sdw
 			return MaybeOptional< Vec2T< ValueT > >{ findShader( lhs, rhs )
 				, sdw::makeTimes( makeType( typeEnum< Vec2T< ValueT > > )
 					, makeExpr( lhs, true )
-					, makeExpr( rhs ) )
+					, makeExpr( rhs, true ) )
 				, areOptionalEnabled( lhs, rhs ) };
 		}
 
@@ -818,7 +818,7 @@ namespace sdw
 			return MaybeOptional< Vec2T< ValueT > >{ findShader( lhs, rhs )
 				, sdw::makeTimes( makeType( typeEnum< Vec2T< ValueT > > )
 					, makeExpr( lhs, true )
-					, makeExpr( rhs ) )
+					, makeExpr( rhs, true ) )
 				, areOptionalEnabled( lhs, rhs ) };
 		}
 
@@ -837,7 +837,7 @@ namespace sdw
 			return MaybeOptional< Vec2T< ValueT > >{ findShader( lhs, rhs )
 				, sdw::makeTimes( makeType( typeEnum< Vec2T< ValueT > > )
 					, makeExpr( lhs, true )
-					, makeExpr( rhs ) )
+					, makeExpr( rhs, true ) )
 				, areOptionalEnabled( lhs, rhs ) };
 		}
 
@@ -874,8 +874,8 @@ namespace sdw
 		{
 			return MaybeOptional< Vec2T< ValueT > >{ findShader( lhs, rhs )
 				, sdw::makeDivide( makeType( typeEnum< Vec2T< ValueT > > )
-					, makeExpr( lhs, true )
-					, makeExpr( rhs ) )
+					, makeExpr( lhs )
+					, makeExpr( rhs, true ) )
 				, areOptionalEnabled( lhs, rhs ) };
 		}
 
@@ -893,8 +893,8 @@ namespace sdw
 		{
 			return MaybeOptional< Vec2T< ValueT > >{ findShader( lhs, rhs )
 				, sdw::makeDivide( makeType( typeEnum< Vec2T< ValueT > > )
-					, makeExpr( lhs, true )
-					, makeExpr( rhs ) )
+					, makeExpr( lhs )
+					, makeExpr( rhs, true ) )
 				, areOptionalEnabled( lhs, rhs ) };
 		}
 
@@ -913,7 +913,7 @@ namespace sdw
 			return MaybeOptional< Vec2T< ValueT > >{ findShader( lhs, rhs )
 				, sdw::makeDivide( makeType( typeEnum< Vec2T< ValueT > > )
 					, makeExpr( lhs, true )
-					, makeExpr( rhs ) )
+					, makeExpr( rhs, true ) )
 				, areOptionalEnabled( lhs, rhs ) };
 		}
 
@@ -932,7 +932,7 @@ namespace sdw
 			return MaybeOptional< Vec2T< ValueT > >{ findShader( lhs, rhs )
 				, sdw::makeDivide( makeType( typeEnum< Vec2T< ValueT > > )
 					, makeExpr( lhs, true )
-					, makeExpr( rhs ) )
+					, makeExpr( rhs, true ) )
 				, areOptionalEnabled( lhs, rhs ) };
 		}
 

@@ -293,31 +293,31 @@ namespace ast::expr
 	/**
 	*@return
 	*	float
-	*@param x
+	*@param y_over_x
 	*	float
 	*/
-	IntrinsicCallPtr makeAtan1( ExprPtr x );
+	IntrinsicCallPtr makeAtan1( ExprPtr y_over_x );
 	/**
 	*@return
 	*	vec2f
-	*@param x
+	*@param y_over_x
 	*	vec2f
 	*/
-	IntrinsicCallPtr makeAtan2( ExprPtr x );
+	IntrinsicCallPtr makeAtan2( ExprPtr y_over_x );
 	/**
 	*@return
 	*	vec3f
-	*@param x
+	*@param y_over_x
 	*	vec3f
 	*/
-	IntrinsicCallPtr makeAtan3( ExprPtr x );
+	IntrinsicCallPtr makeAtan3( ExprPtr y_over_x );
 	/**
 	*@return
 	*	vec4f
-	*@param x
+	*@param y_over_x
 	*	vec4f
 	*/
-	IntrinsicCallPtr makeAtan4( ExprPtr x );
+	IntrinsicCallPtr makeAtan4( ExprPtr y_over_x );
 	/**
 	*@return
 	*	float
@@ -3687,8 +3687,10 @@ namespace ast::expr
 	*	float
 	*@param N
 	*	float
+	*@param eta
+	*	float
 	*/
-	IntrinsicCallPtr makeRefract1F( ExprPtr I, ExprPtr N );
+	IntrinsicCallPtr makeRefract1F( ExprPtr I, ExprPtr N, ExprPtr eta );
 	/**
 	*@return
 	*	vec2f
@@ -3696,8 +3698,10 @@ namespace ast::expr
 	*	vec2f
 	*@param N
 	*	vec2f
+	*@param eta
+	*	float
 	*/
-	IntrinsicCallPtr makeRefract2F( ExprPtr I, ExprPtr N );
+	IntrinsicCallPtr makeRefract2F( ExprPtr I, ExprPtr N, ExprPtr eta );
 	/**
 	*@return
 	*	vec3f
@@ -3705,8 +3709,10 @@ namespace ast::expr
 	*	vec3f
 	*@param N
 	*	vec3f
+	*@param eta
+	*	float
 	*/
-	IntrinsicCallPtr makeRefract3F( ExprPtr I, ExprPtr N );
+	IntrinsicCallPtr makeRefract3F( ExprPtr I, ExprPtr N, ExprPtr eta );
 	/**
 	*@return
 	*	vec4f
@@ -3714,8 +3720,10 @@ namespace ast::expr
 	*	vec4f
 	*@param N
 	*	vec4f
+	*@param eta
+	*	float
 	*/
-	IntrinsicCallPtr makeRefract4F( ExprPtr I, ExprPtr N );
+	IntrinsicCallPtr makeRefract4F( ExprPtr I, ExprPtr N, ExprPtr eta );
 	/**
 	*@return
 	*	double
@@ -3723,8 +3731,10 @@ namespace ast::expr
 	*	double
 	*@param N
 	*	double
+	*@param eta
+	*	float
 	*/
-	IntrinsicCallPtr makeRefract1D( ExprPtr I, ExprPtr N );
+	IntrinsicCallPtr makeRefract1D( ExprPtr I, ExprPtr N, ExprPtr eta );
 	/**
 	*@return
 	*	vec2d
@@ -3732,8 +3742,10 @@ namespace ast::expr
 	*	vec2d
 	*@param N
 	*	vec2d
+	*@param eta
+	*	float
 	*/
-	IntrinsicCallPtr makeRefract2D( ExprPtr I, ExprPtr N );
+	IntrinsicCallPtr makeRefract2D( ExprPtr I, ExprPtr N, ExprPtr eta );
 	/**
 	*@return
 	*	vec3d
@@ -3741,8 +3753,10 @@ namespace ast::expr
 	*	vec3d
 	*@param N
 	*	vec3d
+	*@param eta
+	*	float
 	*/
-	IntrinsicCallPtr makeRefract3D( ExprPtr I, ExprPtr N );
+	IntrinsicCallPtr makeRefract3D( ExprPtr I, ExprPtr N, ExprPtr eta );
 	/**
 	*@return
 	*	vec4d
@@ -3750,8 +3764,10 @@ namespace ast::expr
 	*	vec4d
 	*@param N
 	*	vec4d
+	*@param eta
+	*	float
 	*/
-	IntrinsicCallPtr makeRefract4D( ExprPtr I, ExprPtr N );
+	IntrinsicCallPtr makeRefract4D( ExprPtr I, ExprPtr N, ExprPtr eta );
 	// Matrix Functions
 
 	/**

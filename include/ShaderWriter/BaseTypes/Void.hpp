@@ -16,7 +16,7 @@ namespace sdw
 			, expr::ExprPtr expr );
 		Void( Void && rhs );
 		Void( Void const & rhs );
-		Void( Value const & rhs );
+		explicit Void( Value const & rhs );
 	};
 
 }

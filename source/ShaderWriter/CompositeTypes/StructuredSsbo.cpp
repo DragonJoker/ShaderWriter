@@ -43,21 +43,11 @@ namespace sdw
 
 	StructInstance StructuredSsbo::operator[]( uint32_t index )
 	{
-		return StructInstance{ &m_shader
-			, sdw::makeArrayAccess( m_info.getType()
-				, sdw::makeMbrSelect( makeIdent( m_ssboVar )
-					, 0u
-					, makeIdent( m_dataVar ) )
-				, expr::makeLiteral( index ) ) };
+		return at< StructInstance >( index );
 	}
 
-	StructInstance StructuredSsbo::operator[]( UInt index )
+	StructInstance StructuredSsbo::operator[]( UInt const & index )
 	{
-		return StructInstance{ &m_shader
-			, sdw::makeArrayAccess( m_info.getType()
-				, sdw::makeMbrSelect( makeIdent( m_ssboVar )
-					, 0u
-					, makeIdent( m_dataVar ) )
-				, makeExpr( index ) ) };
+		return at< StructInstance >( index );
 	}
 }
