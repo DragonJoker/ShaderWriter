@@ -10,7 +10,7 @@ namespace glsl
 {
 	struct GlslConfig
 	{
-		uint32_t shaderLanguageVersion{ 420 };
+		uint32_t shaderLanguageVersion{ 430 };
 		uint32_t vulkanGlsl{ false };
 		bool hasStd430Layout{ false };
 		bool hasShaderStorageBuffers{ false };

@@ -7,7 +7,7 @@ def typeKindToGlslType( kind ):
 
 def printHeader( outs, match ):
 	enumName = match.group( 1 )
-	outs.write( '#include "ASTGenerator/Expr/Make' + enumName + '.hpp"\n' )
+	outs.write( '#include "ShaderAST/Expr/Make' + enumName + '.hpp"\n' )
 	outs.write( "\n" )
 	outs.write( "namespace ast::expr\n" )
 	outs.write( "{" )

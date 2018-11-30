@@ -45,7 +45,7 @@ def printHeader( outs, match ):
 	outs.write( "\n" )
 	outs.write( '\n#include "ShaderWriter/Intrinsics/' + enumName + 'Functions.hpp"' )
 	outs.write( "\n" )
-	outs.write( '\n#include <ASTGenerator/Expr/Make' + enumName + '.hpp>' )
+	outs.write( '\n#include <ShaderAST/Expr/Make' + enumName + '.hpp>' )
 	outs.write( "\n" )
 	outs.write( "\nnamespace sdw" )
 	outs.write( "\n{" )

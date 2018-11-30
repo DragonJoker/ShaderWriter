@@ -63,7 +63,7 @@ def printHeader( outs, match ):
 	outs.write( '\n#include "ShaderWriter/MaybeOptional/MaybeOptionalMat4x2.hpp"' )
 	outs.write( '\n#include "ShaderWriter/MaybeOptional/MaybeOptionalMat4x3.hpp"' )
 	outs.write( "\n" )
-	outs.write( '\n#include <ASTGenerator/Expr/Make' + enumName + '.hpp>' )
+	outs.write( '\n#include <ShaderAST/Expr/Make' + enumName + '.hpp>' )
 	outs.write( "\n" )
 	outs.write( "\nnamespace sdw" )
 	outs.write( "\n{" )
