@@ -608,9 +608,8 @@ namespace glsl
 		m_result += ") buffer " + stmt->getSsboName();
 		auto data = stmt->getData();
 		auto arrayType = std::static_pointer_cast< ast::type::Array >( data->getType() );
-		auto structType = std::static_pointer_cast< ast::type::Struct >( arrayType->getType() );
 		m_result += "\n{";
-		m_result += "\n\t" + structType->getName() + " " + data->getName() + "[];";
+		m_result += "\n\t" + getTypeName( arrayType->getType() ) + " " + data->getName() + "[];";
 		m_result += "\n} " + stmt->getSsboInstance()->getName() + ";\n";
 		m_appendLineEnd = true;
 	}

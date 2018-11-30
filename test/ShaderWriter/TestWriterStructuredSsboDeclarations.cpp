@@ -6,9 +6,9 @@ namespace
 #define DummyMain writer.implementFunction< void >( "main", [](){} )
 
 	template< typename T >
-	void testSsbo( test::TestCounts & testCounts )
+	void testStructuredSsbo( test::TestCounts & testCounts )
 	{
-		testBegin( "testSsbo" + ast::debug::getName( sdw::typeEnum< T > ) );
+		testBegin( "testStructuredSsbo" + ast::debug::getName( sdw::typeEnum< T > ) );
 		{
 			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
@@ -16,7 +16,7 @@ namespace
 			sdw::Struct type{ writer, "Type", ast::type::MemoryLayout::eStd140 };
 			type.declMember< T >( name );
 			type.end();
-			sdw::StructuredSsbo bo{ writer, "Datas", type, 1u, 1u };
+			sdw::StructuredSsbo bo{ writer, "Datas", type.getType(), 1u, 1u };
 			auto value = bo[0].getMember< T >( name );
 			check( getNonArrayKind( value.getType() ) == sdw::typeEnum< T > );
 			check( getArraySize( value.getType() ) == sdw::type::NotArray );
@@ -35,7 +35,7 @@ namespace
 			sdw::Struct type{ writer, "Type", ast::type::MemoryLayout::eStd140 };
 			type.declMember< T >( name, 4u );
 			type.end();
-			sdw::StructuredSsbo bo{ writer, "Datas", type, 1u, 1u };
+			sdw::StructuredSsbo bo{ writer, "Datas", type.getType(), 1u, 1u };
 			auto value = bo[0].getMember< T >( name );
 			check( getNonArrayKind( value.getType() ) == sdw::typeEnum< T > );
 			check( getArraySize( value.getType() ) == 4u );
@@ -54,39 +54,39 @@ namespace
 int main( int argc, char ** argv )
 {
 	testSuiteBegin( "TestWriterSsboDeclarations" );
-	testSsbo< sdw::Int >( testCounts );
-	testSsbo< sdw::UInt >( testCounts );
-	testSsbo< sdw::Float >( testCounts );
-	testSsbo< sdw::Double >( testCounts );
-	testSsbo< sdw::Vec2 >( testCounts );
-	testSsbo< sdw::Vec3 >( testCounts );
-	testSsbo< sdw::Vec4 >( testCounts );
-	testSsbo< sdw::DVec2 >( testCounts );
-	testSsbo< sdw::DVec3 >( testCounts );
-	testSsbo< sdw::DVec4 >( testCounts );
-	testSsbo< sdw::IVec2 >( testCounts );
-	testSsbo< sdw::IVec3 >( testCounts );
-	testSsbo< sdw::IVec4 >( testCounts );
-	testSsbo< sdw::UVec2 >( testCounts );
-	testSsbo< sdw::UVec3 >( testCounts );
-	testSsbo< sdw::UVec4 >( testCounts );
-	testSsbo< sdw::Mat2 >( testCounts );
-	testSsbo< sdw::Mat2x3 >( testCounts );
-	testSsbo< sdw::Mat2x4 >( testCounts );
-	testSsbo< sdw::Mat3 >( testCounts );
-	testSsbo< sdw::Mat3x2 >( testCounts );
-	testSsbo< sdw::Mat3x4 >( testCounts );
-	testSsbo< sdw::Mat4 >( testCounts );
-	testSsbo< sdw::Mat4x2 >( testCounts );
-	testSsbo< sdw::Mat4x3 >( testCounts );
-	testSsbo< sdw::DMat2 >( testCounts );
-	testSsbo< sdw::DMat2x3 >( testCounts );
-	testSsbo< sdw::DMat2x4 >( testCounts );
-	testSsbo< sdw::DMat3 >( testCounts );
-	testSsbo< sdw::DMat3x2 >( testCounts );
-	testSsbo< sdw::DMat3x4 >( testCounts );
-	testSsbo< sdw::DMat4 >( testCounts );
-	testSsbo< sdw::DMat4x2 >( testCounts );
-	testSsbo< sdw::DMat4x3 >( testCounts );
+	testStructuredSsbo< sdw::Int >( testCounts );
+	testStructuredSsbo< sdw::UInt >( testCounts );
+	testStructuredSsbo< sdw::Float >( testCounts );
+	testStructuredSsbo< sdw::Double >( testCounts );
+	testStructuredSsbo< sdw::Vec2 >( testCounts );
+	testStructuredSsbo< sdw::Vec3 >( testCounts );
+	testStructuredSsbo< sdw::Vec4 >( testCounts );
+	testStructuredSsbo< sdw::DVec2 >( testCounts );
+	testStructuredSsbo< sdw::DVec3 >( testCounts );
+	testStructuredSsbo< sdw::DVec4 >( testCounts );
+	testStructuredSsbo< sdw::IVec2 >( testCounts );
+	testStructuredSsbo< sdw::IVec3 >( testCounts );
+	testStructuredSsbo< sdw::IVec4 >( testCounts );
+	testStructuredSsbo< sdw::UVec2 >( testCounts );
+	testStructuredSsbo< sdw::UVec3 >( testCounts );
+	testStructuredSsbo< sdw::UVec4 >( testCounts );
+	testStructuredSsbo< sdw::Mat2 >( testCounts );
+	testStructuredSsbo< sdw::Mat2x3 >( testCounts );
+	testStructuredSsbo< sdw::Mat2x4 >( testCounts );
+	testStructuredSsbo< sdw::Mat3 >( testCounts );
+	testStructuredSsbo< sdw::Mat3x2 >( testCounts );
+	testStructuredSsbo< sdw::Mat3x4 >( testCounts );
+	testStructuredSsbo< sdw::Mat4 >( testCounts );
+	testStructuredSsbo< sdw::Mat4x2 >( testCounts );
+	testStructuredSsbo< sdw::Mat4x3 >( testCounts );
+	testStructuredSsbo< sdw::DMat2 >( testCounts );
+	testStructuredSsbo< sdw::DMat2x3 >( testCounts );
+	testStructuredSsbo< sdw::DMat2x4 >( testCounts );
+	testStructuredSsbo< sdw::DMat3 >( testCounts );
+	testStructuredSsbo< sdw::DMat3x2 >( testCounts );
+	testStructuredSsbo< sdw::DMat3x4 >( testCounts );
+	testStructuredSsbo< sdw::DMat4 >( testCounts );
+	testStructuredSsbo< sdw::DMat4x2 >( testCounts );
+	testStructuredSsbo< sdw::DMat4x3 >( testCounts );
 	testSuiteEnd();
 }

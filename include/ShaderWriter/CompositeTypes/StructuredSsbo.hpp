@@ -10,24 +10,27 @@ See LICENSE file in root folder
 
 namespace sdw
 {
-	class StructuredSsbo
+	template< typename InstanceT >
+	class ArraySsboT
 	{
 	public:
 		using Info = BoInfo;
 
-		StructuredSsbo( ShaderWriter & writer
+		ArraySsboT( ShaderWriter & writer
 			, std::string const & name
-			, Struct const & dataType
+			, ast::type::TypePtr dataType
+			, ast::type::MemoryLayout layout
 			, uint32_t bind
 			, uint32_t set );
 
-		StructInstance operator[]( uint32_t index );
-		StructInstance operator[]( UInt const & index );
+		ArraySsboT( ShaderWriter & writer
+			, std::string const & name
+			, ast::type::StructPtr dataType
+			, uint32_t bind
+			, uint32_t set );
 
-		template< typename InstanceT >
-		inline InstanceT at( uint32_t index );
-		template< typename InstanceT >
-		inline InstanceT at( UInt const & index );
+		InstanceT operator[]( uint32_t index );
+		InstanceT operator[]( UInt const & index );
 
 	private:
 		Shader & m_shader;
@@ -37,6 +40,8 @@ namespace sdw
 		var::VariablePtr m_dataVar;
 		var::VariablePtr m_ssboVar;
 	};
+
+	using StructuredSsbo = ArraySsboT< StructInstance >;
 }
 
 #include "StructuredSsbo.inl"
