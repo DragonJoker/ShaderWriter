@@ -36,9 +36,9 @@ namespace sdw
 		var::VariablePtr getVar( std::string const & name );
 		void addStmt( stmt::StmtPtr stmt );
 		void registerSsbo( std::string const & name
-			, Ssbo::Info const & info );
+			, SsboInfo const & info );
 		void registerUbo( std::string const & name
-			, Ubo::Info const & info );
+			, UboInfo const & info );
 		/**@}*/
 #pragma endregion
 		void inlineComment( std::string const & comment );

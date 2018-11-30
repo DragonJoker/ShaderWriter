@@ -605,9 +605,9 @@ ASTIntrDecl( Intrinsic )
 	ASTIntrValue( type::Kind::eBoolean, ASTIntrName( any, Any, 2 ), ASTIntrParams( ASTIntrParam( type::Kind::eVec2B, x ) ) )
 	ASTIntrValue( type::Kind::eBoolean, ASTIntrName( any, Any, 3 ), ASTIntrParams( ASTIntrParam( type::Kind::eVec3B, x ) ) )
 	ASTIntrValue( type::Kind::eBoolean, ASTIntrName( any, Any, 4 ), ASTIntrParams( ASTIntrParam( type::Kind::eVec4B, x ) ) )
-	ASTIntrValue( type::Kind::eVec2B, ASTIntrName( not, Not, 2 ), ASTIntrParams( ASTIntrParam( type::Kind::eVec2B, x ) ) )
-	ASTIntrValue( type::Kind::eVec3B, ASTIntrName( not, Not, 3 ), ASTIntrParams( ASTIntrParam( type::Kind::eVec3B, x ) ) )
-	ASTIntrValue( type::Kind::eVec4B, ASTIntrName( not, Not, 4 ), ASTIntrParams( ASTIntrParam( type::Kind::eVec4B, x ) ) )
+	ASTIntrValue( type::Kind::eVec2B, ASTIntrName( binNot, Not, 2 ), ASTIntrParams( ASTIntrParam( type::Kind::eVec2B, x ) ) )
+	ASTIntrValue( type::Kind::eVec3B, ASTIntrName( binNot, Not, 3 ), ASTIntrParams( ASTIntrParam( type::Kind::eVec3B, x ) ) )
+	ASTIntrValue( type::Kind::eVec4B, ASTIntrName( binNot, Not, 4 ), ASTIntrParams( ASTIntrParam( type::Kind::eVec4B, x ) ) )
 
 	// Integer Functions
 	ASTIntrValue( type::Kind::eUInt, ASTIntrName( uaddCarry, UaddCarry, 1 ), ASTIntrParams( ASTIntrParam( type::Kind::eUInt, x ), ASTIntrParam( type::Kind::eUInt, y ), ASTIntrParam( type::Kind::eUInt, carry ) ) )

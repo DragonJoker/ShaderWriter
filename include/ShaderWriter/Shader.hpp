@@ -110,18 +110,18 @@ namespace sdw
 		var::VariablePtr getVar( std::string const & name )const;
 		void addStmt( stmt::StmtPtr stmt );
 		void registerSsbo( std::string const & name
-			, Ssbo::Info const & info );
+			, SsboInfo const & info );
 		void registerUbo( std::string const & name
-			, Ubo::Info const & info );
+			, UboInfo const & info );
 		/**@}*/
 #pragma endregion
 
-		inline Ssbo::Info const & getSsboInfo( std::string const & name )const
+		inline SsboInfo const & getSsboInfo( std::string const & name )const
 		{
 			return m_ssbos.at( name );
 		}
 
-		inline Ubo::Info const & getUboInfo( std::string const & name )const
+		inline UboInfo const & getUboInfo( std::string const & name )const
 		{
 			return m_ubos.at( name );
 		}
@@ -141,12 +141,12 @@ namespace sdw
 			return m_specConstants;
 		}
 
-		inline std::map< std::string, Ubo::Info > const & getUbos()const
+		inline std::map< std::string, UboInfo > const & getUbos()const
 		{
 			return m_ubos;
 		}
 
-		inline std::map< std::string, Ssbo::Info > const & getSsbos()const
+		inline std::map< std::string, SsboInfo > const & getSsbos()const
 		{
 			return m_ssbos;
 		}
@@ -185,8 +185,8 @@ namespace sdw
 		ShaderType m_type;
 		std::vector< Block > m_blocks;
 		stmt::ContainerPtr m_container;
-		std::map< std::string, Ssbo::Info > m_ssbos;
-		std::map< std::string, Ubo::Info > m_ubos;
+		std::map< std::string, SsboInfo > m_ssbos;
+		std::map< std::string, UboInfo > m_ubos;
 		std::map< std::string, type::TypePtr > m_constants;
 		std::map< std::string, SpecConstantInfo > m_specConstants;
 		std::map< std::string, SamplerInfo > m_samplers;

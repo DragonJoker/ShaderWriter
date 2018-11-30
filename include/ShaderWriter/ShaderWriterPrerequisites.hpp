@@ -945,6 +945,9 @@ namespace sdw
 
 	template< typename T >
 	struct TypeTraits;
+
+	template< typename T, typename U >
+	static bool constexpr IsSameV = std::is_same< T, U >::value;
 }
 
 #undef Writer_Image

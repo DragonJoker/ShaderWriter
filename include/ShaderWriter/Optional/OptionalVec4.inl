@@ -15,9 +15,9 @@ namespace sdw
 	}
 
 	template< typename ValueT >
-	Optional< Vec4T< ValueT > >::Optional( Vec4T< ValueT > const & other
+	Optional< Vec4T< ValueT > >::Optional( Vec4T< ValueT > const & rhs
 		, bool enabled )
-		: Vec4T< ValueT >{ other }
+		: Vec4T< ValueT >{ rhs }
 		, m_enabled{ enabled }
 	{
 	}
@@ -25,7 +25,7 @@ namespace sdw
 	template< typename ValueT >
 	Optional< Vec4T< ValueT > >::Optional( Optional< Vec4T< ValueT > > const & rhs )
 		: Vec4T< ValueT >{ rhs }
-		, m_enabled{ other.m_enabled }
+		, m_enabled{ rhs.m_enabled }
 	{
 	}
 

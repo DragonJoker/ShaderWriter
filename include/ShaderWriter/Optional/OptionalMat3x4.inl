@@ -13,9 +13,9 @@ namespace sdw
 	}
 
 	template< typename ValueT >
-	Optional< Mat3x4T< ValueT > >::Optional( Mat3x4T< ValueT > const & other
+	Optional< Mat3x4T< ValueT > >::Optional( Mat3x4T< ValueT > const & rhs
 		, bool enabled )
-		: Mat3x4T< ValueT >{ other }
+		: Mat3x4T< ValueT >{ rhs }
 		, m_enabled{ enabled }
 	{
 	}
@@ -23,7 +23,7 @@ namespace sdw
 	template< typename ValueT >
 	Optional< Mat3x4T< ValueT > >::Optional( Optional< Mat3x4T< ValueT > > const & rhs )
 		: Mat3x4T< ValueT >{ rhs }
-		, m_enabled{ other.m_enabled }
+		, m_enabled{ rhs.m_enabled }
 	{
 	}
 

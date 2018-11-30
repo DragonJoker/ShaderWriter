@@ -65,6 +65,12 @@ foreach ( TEST_FILE ${TEST_FILES} )
 		${OPENGL_gl_LIBRARY}
 	)
 
+	if ( NOT WIN32 )
+		target_link_libraries( ${TEST_NAME}
+			${OPENGL_glx_LIBRARY}
+		)
+	endif ()
+
 	if ( MSVC )
 		add_compile_options( -bigobj )
 	endif ()

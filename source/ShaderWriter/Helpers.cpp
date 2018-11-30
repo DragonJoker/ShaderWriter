@@ -4,6 +4,7 @@ See LICENSE file in root folder
 #include "ShaderWriter/Helpers.hpp"
 
 #include "ShaderWriter/Shader.hpp"
+#include "ShaderWriter/Writer.hpp"
 
 #include <ShaderAST/Expr/ExprAdd.hpp>
 #include <ShaderAST/Expr/ExprAddAssign.hpp>
@@ -83,6 +84,16 @@ namespace sdw
 	stmt::Container * getContainer( Shader & shader )
 	{
 		return shader.getContainer();
+	}
+
+	Shader & getShader( ShaderWriter & writer )
+	{
+		return writer.getShader();
+	}
+
+	Shader const & getShader( ShaderWriter const & writer )
+	{
+		return writer.getShader();
 	}
 
 	expr::ExprPtr makeExpr( var::VariablePtr const & var )
@@ -521,6 +532,19 @@ namespace sdw
 	stmt::StmtPtr makeStructDecl( type::StructPtr type )
 	{
 		return stmt::makeStructureDecl( std::move( type ) );
+	}
+
+	stmt::StmtPtr makeShaderStructBufferDecl( std::string const & ssboName
+		, var::VariablePtr ssboInstance
+		, var::VariablePtr data
+		, uint32_t bindingPoint
+		, uint32_t bindingSet )
+	{
+		return stmt::makeShaderStructBufferDecl( ssboName
+			, ssboInstance
+			, data
+			, bindingPoint
+			, bindingSet );
 	}
 
 	stmt::StmtPtr makeReturn( expr::ExprPtr expr )

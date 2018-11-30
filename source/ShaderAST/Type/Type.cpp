@@ -951,7 +951,7 @@ namespace ast::type
 
 		while ( tmp->getKind() == type::Kind::eArray )
 		{
-			tmp = static_cast< Array const & >( type ).getType().get();
+			tmp = static_cast< Array const & >( *tmp ).getType().get();
 		}
 
 		return tmp->getKind();

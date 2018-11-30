@@ -1038,7 +1038,7 @@ namespace
 				{
 					auto operand = writer.declLocale< ValueT >( "operand" );
 					auto res = writer.declLocale( "res"
-						, not( operand ) );
+						, binNot( operand ) );
 				} );
 			test::writeShader( writer
 				, testCounts );

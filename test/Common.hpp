@@ -164,13 +164,13 @@ namespace test
 	#x
 
 #define testConcat2( x, y )\
-	testStringify( x )##testStringify( y )
+	testStringify( x ) testStringify( y )
 
 #define testConcat3( x, y, z )\
-	testConcat2( x, y )##testStringify( z )
+	testConcat2( x, y ) testStringify( z )
 
 #define testConcat4( x, y, z, w )\
-	testConcat3( x, y, z )##testStringify( w )
+	testConcat3( x, y, z ) testStringify( w )
 
 #define testSuiteBegin( name )\
 	test::TestCounts testCounts;\
@@ -213,7 +213,7 @@ namespace test
 
 #define failure( x )\
 	++testCounts.totalCount;\
-	test::reportFailure( #x##" failed.", __FUNCTION__, __LINE__, testCounts );\
+	test::reportFailure( x " failed.", __FUNCTION__, __LINE__, testCounts );\
 
 #define require( x )\
 	try\

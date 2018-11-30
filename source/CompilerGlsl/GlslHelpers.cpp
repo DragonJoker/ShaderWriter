@@ -217,7 +217,7 @@ namespace glsl
 	std::string getTypeName( ast::type::SampledImagePtr type )
 	{
 		std::string result;
-		auto & config = type->getConfig();
+		auto config = type->getConfig();
 		result += "sampler";
 		result += getName( config.dimension );
 
@@ -261,7 +261,9 @@ namespace glsl
 		return result;
 	}
 
-	std::string getTypeArraySize( ast::type::TypePtr type )
+	std::string getTypeArraySize( ast::type::TypePtr type );
+
+	std::string getTypeArraySize( ast::type::ArrayPtr type )
 	{
 		std::string result;
 		auto arraySize = getArraySize( type );
@@ -276,6 +278,18 @@ namespace glsl
 			{
 				result += "[" + std::to_string( arraySize ) + "]";
 			}
+		}
+
+		return getTypeArraySize( type->getType() ) + result;
+	}
+
+	std::string getTypeArraySize( ast::type::TypePtr type )
+	{
+		std::string result;
+
+		if ( type->getKind() == ast::type::Kind::eArray )
+		{
+			result = getTypeArraySize( std::static_pointer_cast< ast::type::Array >( type ) );
 		}
 
 		return result;

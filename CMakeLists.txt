@@ -453,26 +453,17 @@ if ( MSVC OR NOT "${CMAKE_BUILD_TYPE}" STREQUAL "" )
 			COMMENT "Generating GlslImageAccessNames.hpp"
 			DEPENDS ${SCRIPT_DIR}/genGlslNameFromEnum.py ${CMAKE_CURRENT_SOURCE_DIR}/include/ShaderAST/Expr/ImageAccess.enum
 		)
-		add_custom_command( OUTPUT ${SOURCE_DIR}/GlslIntrinsicNames.hpp
-			COMMAND ${CMAKE_COMMAND} -E make_directory ${GENERATED_DIR}
-			COMMAND ${Python_EXECUTABLE} ${SCRIPT_DIR}/genGlslNameFromEnum.py ${CMAKE_CURRENT_SOURCE_DIR}/include/ShaderAST/Expr/Intrinsic.enum ${GENERATED_DIR}/GlslIntrinsicNames.hpp
-			COMMAND ${CMAKE_COMMAND} -E copy_if_different ${GENERATED_DIR}/GlslIntrinsicNames.hpp ${SOURCE_DIR}/GlslIntrinsicNames.hpp
-			COMMENT "Generating GlslIntrinsicNames.hpp"
-			DEPENDS ${SCRIPT_DIR}/genGlslNameFromEnum.py ${CMAKE_CURRENT_SOURCE_DIR}/include/ShaderAST/Expr/Intrinsic.enum
-		)
 		source_group( "Script Files" FILES
 			${${PROJECT_NAME}_FOLDER_SCRIPT_FILES}
 		)
 		source_group( "Header Files" FILES
 			${SOURCE_DIR}/GLSL/GlslImageAccessNames.hpp
-			${SOURCE_DIR}/GLSL/GlslIntrinsicNames.hpp
 		)
 	endif ()
 
 	add_library( ${PROJECT_NAME}
 		STATIC
 		${SOURCE_DIR}/GlslImageAccessNames.hpp
-		${SOURCE_DIR}/GlslIntrinsicNames.hpp
 		${${PROJECT_NAME}_FOLDER_HEADER_FILES}
 		${${PROJECT_NAME}_FOLDER_SOURCE_FILES}
 		${${PROJECT_NAME}_FOLDER_SCRIPT_FILES}

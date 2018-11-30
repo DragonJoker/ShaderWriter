@@ -16,6 +16,8 @@ See LICENSE file in root folder
 #include <ShaderAST/Stmt/StmtInputGeometryLayout.hpp>
 #include <ShaderAST/Stmt/StmtOutputGeometryLayout.hpp>
 #include <ShaderAST/Stmt/StmtPerVertexDecl.hpp>
+#include <ShaderAST/Type/TypeImage.hpp>
+#include <ShaderAST/Type/TypeSampledImage.hpp>
 #include <ShaderAST/Type/TypeStruct.hpp>
 #include <ShaderAST/Var/Variable.hpp>
 #include <ShaderAST/Visitors/GetExprName.hpp>
@@ -30,6 +32,8 @@ namespace sdw
 	ast::type::ImageConfiguration makeConfig();
 	ast::type::TypePtr getNonArrayType( ast::type::TypePtr type );
 	stmt::Container * getContainer( Shader & shader );
+	Shader & getShader( ShaderWriter & writer );
+	Shader const & getShader( ShaderWriter const & writer );
 	expr::ExprPtr makeExpr( var::VariablePtr const & var );
 	expr::ExprPtr makeExpr( bool value );
 	expr::ExprPtr makeExpr( int32_t value );
@@ -160,6 +164,11 @@ namespace sdw
 	stmt::StmtPtr makePerVertexDecl( stmt::PerVertexDecl::Source source
 		, type::TypePtr type );
 	stmt::StmtPtr makeStructDecl( type::StructPtr type );
+	stmt::StmtPtr makeShaderStructBufferDecl( std::string const & ssboName
+		, var::VariablePtr ssboInstance
+		, var::VariablePtr data
+		, uint32_t bindingPoint
+		, uint32_t bindingSet );
 	stmt::StmtPtr makeReturn( expr::ExprPtr expr );
 	stmt::StmtPtr makePreprocDefine( std::string name
 		, expr::ExprPtr expr );

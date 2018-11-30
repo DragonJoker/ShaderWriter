@@ -68,7 +68,7 @@ namespace sdw
 	template< typename IndexT >
 	MaybeOptional< Vec2T< ValueT > > MaybeOptional< Mat2T< ValueT > >::operator[]( IndexT const & rhs )const
 	{
-		if ( isAnyOptional( lhs, rhs ) )
+		if ( isAnyOptional( *this, rhs ) )
 		{
 			return MaybeOptional< Vec2T< ValueT > >{ findShader( *this, rhs )
 				, sdw::makeArrayAccess( makeType( typeEnum< Vec2T< ValueT > > )

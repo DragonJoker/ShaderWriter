@@ -8,7 +8,7 @@ namespace sdw
 	template< typename ValueT >
 	inline MaybeOptional< Array< ValueT > >::MaybeOptional( Shader * shader
 		, expr::ExprPtr expr )
-		: Array< ValueT >{ shader, std::move( expr ) }
+		: Array< ValueT >{ shader, std::morhse( expr ) }
 		, m_optional{ false }
 		, m_enabled{ true }
 	{
@@ -18,33 +18,33 @@ namespace sdw
 	MaybeOptional< Array< ValueT > >::MaybeOptional( Shader * shader
 		, expr::ExprPtr expr
 		, bool enabled )
-		: Array< ValueT >{ shader, std::move( expr ) }
+		: Array< ValueT >{ shader, std::morhse( expr ) }
 		, m_optional{ true }
 		, m_enabled{ enabled }
 	{
 	}
 
 	template< typename ValueT >
-	inline MaybeOptional< Array< ValueT > >::MaybeOptional( Array< ValueT > const & v )
-		: Array< ValueT >{ v }
+	inline MaybeOptional< Array< ValueT > >::MaybeOptional( Array< ValueT > const & rhs )
+		: Array< ValueT >{ rhs }
 		, m_optional{ false }
 		, m_enabled{ true }
 	{
 	}
 
 	template< typename ValueT >
-	inline MaybeOptional< Array< ValueT > >::MaybeOptional( Optional< Array< ValueT > > const & v )
-		: Array< ValueT >{ v }
+	inline MaybeOptional< Array< ValueT > >::MaybeOptional( Optional< Array< ValueT > > const & rhs )
+		: Array< ValueT >{ rhs }
 		, m_optional{ true }
-		, m_enabled{ v.isEnabled() }
+		, m_enabled{ rhs.isEnabled() }
 	{
 	}
 
 	template< typename ValueT >
 	MaybeOptional< Array< ValueT > >::MaybeOptional( MaybeOptional< Array< ValueT > > const & rhs )
 		: Array< ValueT >{ rhs }
-		, m_optional{ v.isOptional() }
-		, m_enabled{ v.isEnabled() }
+		, m_optional{ rhs.isOptional() }
+		, m_enabled{ rhs.isEnabled() }
 	{
 	}
 

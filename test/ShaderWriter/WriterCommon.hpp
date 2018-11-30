@@ -336,7 +336,7 @@ namespace test
 		}
 
 		return sdw::Array< T >{ &shader
-			, ast::expr::makeAggrInit( nullptr
+			, ast::expr::makeAggrInit( ast::type::TypePtr{}
 				, std::move( initialisers ) ) };
 	}
 

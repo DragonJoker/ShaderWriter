@@ -5,6 +5,7 @@ See LICENSE file in root folder
 #define ___SDW_StructuredSsbo_H___
 
 #include "BoInfo.hpp"
+#include "ShaderWriter/BaseTypes/UInt.hpp"
 
 #include <ShaderAST/Stmt/StmtShaderBufferDecl.hpp>
 
@@ -14,8 +15,6 @@ namespace sdw
 	class ArraySsboT
 	{
 	public:
-		using Info = BoInfo;
-
 		ArraySsboT( ShaderWriter & writer
 			, std::string const & name
 			, ast::type::TypePtr dataType
@@ -35,13 +34,15 @@ namespace sdw
 	private:
 		Shader & m_shader;
 		std::string m_name;
-		Info m_info;
+		SsboInfo m_info;
 		type::StructPtr m_ssboType;
 		var::VariablePtr m_dataVar;
 		var::VariablePtr m_ssboVar;
 	};
 
 	using StructuredSsbo = ArraySsboT< StructInstance >;
+
+	void registerSsbo( Shader & shader, std::string const & name, SsboInfo const & info );
 }
 
 #include "StructuredSsbo.inl"

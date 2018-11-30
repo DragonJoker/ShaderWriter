@@ -14,8 +14,6 @@ namespace sdw
 	class Pcb
 	{
 	public:
-		using Info = BoInfo;
-
 		Pcb( ShaderWriter & writer
 			, std::string const & name
 			, ast::type::MemoryLayout layout = ast::type::MemoryLayout::eStd430 );
@@ -49,7 +47,7 @@ namespace sdw
 		Shader & m_shader;
 		stmt::PushConstantsBufferDeclPtr m_stmt;
 		std::string m_name;
-		Info m_info;
+		PcbInfo m_info;
 		var::VariablePtr m_var;
 	};
 }

@@ -1,9 +1,11 @@
+#include "CompileHLSL.hpp"
+
+#if defined( _WIN32 )
+
 #define _WIN32_WINNT 0x600
 
-#include <stdio.h>
+#include <cstdio>
 #include <d3dcompiler.h>
-
-#include <ShaderWriter/ShaderWriterPrerequisites.hpp>
 
 #include <string>
 #include <iostream>
@@ -73,3 +75,17 @@ namespace test
 		return !FAILED( hr );
 	}
 }
+
+#else
+
+namespace test
+{
+	bool compileHlsl( std::string const & shader
+		, sdw::ShaderType type
+		, std::string & errors )
+	{
+		return true;
+	}
+}
+
+#endif

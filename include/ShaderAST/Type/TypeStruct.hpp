@@ -31,7 +31,7 @@ namespace ast::type
 		};
 
 	private:
-		Struct::Struct( Struct const & rhs );
+		Struct( Struct const & rhs );
 		Struct( Struct * parent
 			, uint32_t index
 			, Struct const & copy );
@@ -46,6 +46,9 @@ namespace ast::type
 			, type::TypePtr type );
 		Member declMember( std::string name
 			, type::StructPtr type );
+		Member declMember( std::string name
+			, type::ArrayPtr type
+			, uint32_t arraySize );
 		Member declMember( std::string name
 			, type::StructPtr type
 			, uint32_t arraySize );

@@ -31,20 +31,20 @@ namespace sdw
 		, ast::type::MemoryLayout layout
 		, uint32_t bind
 		, uint32_t set )
-		: m_shader{ writer.getShader() }
+		: m_shader{ sdw::getShader( writer ) }
 		, m_name{ name }
 		, m_info{ details::getSsboType( m_name, dataType, layout ), bind, set }
 		, m_ssboType{ m_info.getType() }
 		, m_dataVar{ var::makeVariable( m_ssboType->getMember( m_name + "Data" ).type, m_name + "Data", var::Flag::eUniform ) }
 		, m_ssboVar{ var::makeVariable( m_ssboType, m_name + "Inst", var::Flag::eUniform ) }
 	{
-		auto stmt = stmt::makeShaderStructBufferDecl( m_name
-			, m_ssboVar
-			, m_dataVar
-			, bind
-			, set );
-		addStmt( m_shader, std::move( stmt ) );
-		m_shader.registerSsbo( m_name, m_info );
+		addStmt( m_shader
+			, sdw::makeShaderStructBufferDecl( m_name
+				, m_ssboVar
+				, m_dataVar
+				, bind
+				, set ) );
+		registerSsbo( m_shader, m_name, m_info );
 	}
 
 	template< typename InstanceT >
@@ -53,20 +53,20 @@ namespace sdw
 		, ast::type::StructPtr dataType
 		, uint32_t bind
 		, uint32_t set )
-		: m_shader{ writer.getShader() }
+		: m_shader{ sdw::getShader( writer ) }
 		, m_name{ name }
 		, m_info{ details::getSsboType( m_name, dataType ), bind, set }
 		, m_ssboType{ m_info.getType() }
 		, m_dataVar{ var::makeVariable( m_ssboType->getMember( m_name + "Data" ).type, m_name + "Data", var::Flag::eUniform ) }
 		, m_ssboVar{ var::makeVariable( m_ssboType, m_name + "Inst", var::Flag::eUniform ) }
 	{
-		auto stmt = stmt::makeShaderStructBufferDecl( m_name
-			, m_ssboVar
-			, m_dataVar
-			, bind
-			, set );
-		addStmt( m_shader, std::move( stmt ) );
-		m_shader.registerSsbo( m_name, m_info );
+		addStmt( m_shader
+			, sdw::makeShaderStructBufferDecl( m_name
+				, m_ssboVar
+				, m_dataVar
+				, bind
+				, set ) );
+		registerSsbo( m_shader, m_name, m_info );
 	}
 
 	template< typename InstanceT >

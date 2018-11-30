@@ -8987,13 +8987,13 @@ namespace sdw
 	}
 	/**@}*/
 #pragma endregion
-#pragma region not
+#pragma region binNot
 	/**
 	*name
-	*	not
+	*	binNot
 	*/
 	/**@{*/
-	MaybeOptional< BVec2 > not( MaybeOptional< BVec2 > const & x )
+	MaybeOptional< BVec2 > binNot( MaybeOptional< BVec2 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
@@ -9005,7 +9005,7 @@ namespace sdw
 		return BVec2{ findShader( x )
 			, expr::makeNot2( makeExpr( x ) ) };
 	}
-	MaybeOptional< BVec3 > not( MaybeOptional< BVec3 > const & x )
+	MaybeOptional< BVec3 > binNot( MaybeOptional< BVec3 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
@@ -9017,7 +9017,7 @@ namespace sdw
 		return BVec3{ findShader( x )
 			, expr::makeNot3( makeExpr( x ) ) };
 	}
-	MaybeOptional< BVec4 > not( MaybeOptional< BVec4 > const & x )
+	MaybeOptional< BVec4 > binNot( MaybeOptional< BVec4 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{

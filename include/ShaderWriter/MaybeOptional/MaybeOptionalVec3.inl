@@ -45,8 +45,8 @@ namespace sdw
 	template< typename ValueT >
 	MaybeOptional< Vec3T< ValueT > >::MaybeOptional( MaybeOptional< Vec3T< ValueT > > const & rhs )
 		: Vec3T< ValueT >{ rhs }
-		, m_optional{ other.isOptional() }
-		, m_enabled{ other.isEnabled() }
+		, m_optional{ rhs.isOptional() }
+		, m_enabled{ rhs.isEnabled() }
 	{
 	}
 

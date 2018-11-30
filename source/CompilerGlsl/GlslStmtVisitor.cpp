@@ -609,7 +609,8 @@ namespace glsl
 		auto data = stmt->getData();
 		auto arrayType = std::static_pointer_cast< ast::type::Array >( data->getType() );
 		m_result += "\n{";
-		m_result += "\n\t" + getTypeName( arrayType->getType() ) + " " + data->getName() + "[];";
+		m_result += "\n\t" + getTypeName( arrayType->getType() ) + " " + data->getName();
+		m_result += getTypeArraySize( arrayType ) + ";";
 		m_result += "\n} " + stmt->getSsboInstance()->getName() + ";\n";
 		m_appendLineEnd = true;
 	}

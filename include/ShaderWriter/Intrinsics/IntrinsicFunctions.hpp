@@ -1249,15 +1249,15 @@ namespace sdw
 	MaybeOptional< Boolean > any( MaybeOptional< BVec4 > const & x );
 	/**@}*/
 #pragma endregion
-#pragma region not
+#pragma region binNot
 	/**
 	*name
-	*	not
+	*	binNot
 	*/
 	/**@{*/
-	MaybeOptional< BVec2 > not( MaybeOptional< BVec2 > const & x );
-	MaybeOptional< BVec3 > not( MaybeOptional< BVec3 > const & x );
-	MaybeOptional< BVec4 > not( MaybeOptional< BVec4 > const & x );
+	MaybeOptional< BVec2 > binNot( MaybeOptional< BVec2 > const & x );
+	MaybeOptional< BVec3 > binNot( MaybeOptional< BVec3 > const & x );
+	MaybeOptional< BVec4 > binNot( MaybeOptional< BVec4 > const & x );
 	/**@}*/
 #pragma endregion
 #pragma region uaddCarry
