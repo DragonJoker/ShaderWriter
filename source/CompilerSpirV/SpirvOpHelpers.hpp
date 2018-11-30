@@ -7,7 +7,6 @@ See LICENSE file in root folder
 
 #include "SpirvModule.hpp"
 
-#include <optional>
 #include <string>
 #include <vector>
 

@@ -20,7 +20,7 @@ namespace sdw
 			, expr::ExprPtr expr );
 		Boolean( Boolean && rhs );
 		Boolean( Boolean const & rhs );
-		Boolean( Value const & rhs );
+		explicit Boolean( Value const & rhs );
 		Boolean & operator=( Boolean const & rhs );
 		template< typename T >
 		inline Boolean & operator=( T const & rhs );

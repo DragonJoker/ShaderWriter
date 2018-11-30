@@ -153,10 +153,10 @@ namespace sdw
 	*	atan
 	*/
 	/**@{*/
-	MaybeOptional< Float > atan( MaybeOptional< Float > const & x );
-	MaybeOptional< Vec2 > atan( MaybeOptional< Vec2 > const & x );
-	MaybeOptional< Vec3 > atan( MaybeOptional< Vec3 > const & x );
-	MaybeOptional< Vec4 > atan( MaybeOptional< Vec4 > const & x );
+	MaybeOptional< Float > atan( MaybeOptional< Float > const & y_over_x );
+	MaybeOptional< Vec2 > atan( MaybeOptional< Vec2 > const & y_over_x );
+	MaybeOptional< Vec3 > atan( MaybeOptional< Vec3 > const & y_over_x );
+	MaybeOptional< Vec4 > atan( MaybeOptional< Vec4 > const & y_over_x );
 	/**@}*/
 #pragma endregion
 #pragma region acosh
@@ -991,14 +991,14 @@ namespace sdw
 	*	refract
 	*/
 	/**@{*/
-	MaybeOptional< Float > refract( MaybeOptional< Float > const & I, MaybeOptional< Float > const & N );
-	MaybeOptional< Vec2 > refract( MaybeOptional< Vec2 > const & I, MaybeOptional< Vec2 > const & N );
-	MaybeOptional< Vec3 > refract( MaybeOptional< Vec3 > const & I, MaybeOptional< Vec3 > const & N );
-	MaybeOptional< Vec4 > refract( MaybeOptional< Vec4 > const & I, MaybeOptional< Vec4 > const & N );
-	MaybeOptional< Double > refract( MaybeOptional< Double > const & I, MaybeOptional< Double > const & N );
-	MaybeOptional< DVec2 > refract( MaybeOptional< DVec2 > const & I, MaybeOptional< DVec2 > const & N );
-	MaybeOptional< DVec3 > refract( MaybeOptional< DVec3 > const & I, MaybeOptional< DVec3 > const & N );
-	MaybeOptional< DVec4 > refract( MaybeOptional< DVec4 > const & I, MaybeOptional< DVec4 > const & N );
+	MaybeOptional< Float > refract( MaybeOptional< Float > const & I, MaybeOptional< Float > const & N, MaybeOptional< Float > const & eta );
+	MaybeOptional< Vec2 > refract( MaybeOptional< Vec2 > const & I, MaybeOptional< Vec2 > const & N, MaybeOptional< Float > const & eta );
+	MaybeOptional< Vec3 > refract( MaybeOptional< Vec3 > const & I, MaybeOptional< Vec3 > const & N, MaybeOptional< Float > const & eta );
+	MaybeOptional< Vec4 > refract( MaybeOptional< Vec4 > const & I, MaybeOptional< Vec4 > const & N, MaybeOptional< Float > const & eta );
+	MaybeOptional< Double > refract( MaybeOptional< Double > const & I, MaybeOptional< Double > const & N, MaybeOptional< Float > const & eta );
+	MaybeOptional< DVec2 > refract( MaybeOptional< DVec2 > const & I, MaybeOptional< DVec2 > const & N, MaybeOptional< Float > const & eta );
+	MaybeOptional< DVec3 > refract( MaybeOptional< DVec3 > const & I, MaybeOptional< DVec3 > const & N, MaybeOptional< Float > const & eta );
+	MaybeOptional< DVec4 > refract( MaybeOptional< DVec4 > const & I, MaybeOptional< DVec4 > const & N, MaybeOptional< Float > const & eta );
 	/**@}*/
 #pragma endregion
 #pragma region matrixCompMult
@@ -1249,15 +1249,15 @@ namespace sdw
 	MaybeOptional< Boolean > any( MaybeOptional< BVec4 > const & x );
 	/**@}*/
 #pragma endregion
-#pragma region not
+#pragma region binNot
 	/**
 	*name
-	*	not
+	*	binNot
 	*/
 	/**@{*/
-	MaybeOptional< BVec2 > not( MaybeOptional< BVec2 > const & x );
-	MaybeOptional< BVec3 > not( MaybeOptional< BVec3 > const & x );
-	MaybeOptional< BVec4 > not( MaybeOptional< BVec4 > const & x );
+	MaybeOptional< BVec2 > binNot( MaybeOptional< BVec2 > const & x );
+	MaybeOptional< BVec3 > binNot( MaybeOptional< BVec3 > const & x );
+	MaybeOptional< BVec4 > binNot( MaybeOptional< BVec4 > const & x );
 	/**@}*/
 #pragma endregion
 #pragma region uaddCarry

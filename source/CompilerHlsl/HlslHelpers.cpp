@@ -843,7 +843,7 @@ namespace hlsl
 	}
 
 	std::string getSemantic( std::string const & name
-		, std::string const & default
+		, std::string const & defaultName
 		, uint32_t & index )
 	{
 		static std::map< std::string, std::string > const NamesMap
@@ -883,7 +883,7 @@ namespace hlsl
 		}
 		else
 		{
-			result = default + std::to_string( index++ );
+			result = defaultName + std::to_string( index++ );
 		}
 
 		return result;

@@ -70,6 +70,25 @@ namespace sdw
 	template< typename ValueT >
 	MaybeOptional< Mat4T< ValueT > > operator*( MaybeOptional< Mat4T< ValueT > > const & lhs
 		, MaybeOptional< Mat4T< ValueT > > const & rhs );
+
+	template< typename ValueT >
+	MaybeOptional< Mat4T< ValueT > > operator*( MaybeOptional< ValueT > const & lhs
+		, Mat4T< ValueT > const & rhs );
+	template< typename ValueT >
+	MaybeOptional< Mat4T< ValueT > > operator*( MaybeOptional< Mat4T< ValueT > > const & lhs
+		, ValueT const & rhs );
+	template< typename ValueT >
+	MaybeOptional< Mat4T< ValueT > > operator*( ValueT const & lhs
+		, MaybeOptional< Mat4T< ValueT > > const & rhs );
+	template< typename ValueT >
+	MaybeOptional< Mat4T< ValueT > > operator*( Mat4T< ValueT > const & lhs
+		, MaybeOptional< ValueT > const & rhs );
+	template< typename ValueT >
+	MaybeOptional< Mat4T< ValueT > > operator*( MaybeOptional< ValueT > const & lhs
+		, MaybeOptional< Mat4T< ValueT > > const & rhs );
+	template< typename ValueT >
+	MaybeOptional< Mat4T< ValueT > > operator*( MaybeOptional< Mat4T< ValueT > > const & lhs
+		, MaybeOptional< ValueT > const & rhs );
 }
 
 #include "MaybeOptionalMat4.inl"

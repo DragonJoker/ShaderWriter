@@ -5,7 +5,7 @@ See LICENSE file in root folder
 #define ___SDW_Mat4x3_H___
 #pragma once
 
-#include "ShaderWriter/Optional/OptionalVec4.hpp"
+#include "ShaderWriter/Optional/OptionalVec3.hpp"
 
 namespace sdw
 {

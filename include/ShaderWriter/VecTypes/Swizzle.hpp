@@ -231,6 +231,27 @@ namespace sdw
 #	define Writer_LastOptSwizzle( Input, Output, Name )\
 	Writer_OptSwizzle( Input, Output, Name )
 
+#	define Writer_MayOptSwizzle( Input, Output, Name )\
+	inline Output Name()const\
+	{\
+		if ( isAnyOptional( *this ) )\
+		{\
+			return Output{ findShader( *this )\
+				, sdw::makeSwizzle( makeExpr( this->getExpr() )\
+					, expr::SwizzleKind::e##Name )\
+				, this->isEnabled() };\
+		}\
+		return Output{ findShader( *this )\
+			, sdw::makeSwizzle( makeExpr( this->getExpr() )\
+				, expr::SwizzleKind::e##Name ) };\
+	}
+
+#	define Writer_FirstMayOptSwizzle( Input, Output, Name )\
+	Writer_MayOptSwizzle( Input, Output, Name )
+
+#	define Writer_LastMayOptSwizzle( Input, Output, Name )\
+	Writer_MayOptSwizzle( Input, Output, Name )
+
 
 #	define Swizzle_X x()
 #	define Swizzle_Y y()

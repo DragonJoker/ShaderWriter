@@ -13,8 +13,6 @@ namespace sdw
 	class Ssbo
 	{
 	public:
-		using Info = BoInfo;
-
 		Ssbo( ShaderWriter & writer
 			, std::string const & name
 			, uint32_t bind
@@ -38,7 +36,7 @@ namespace sdw
 	private:
 		Shader & m_shader;
 		std::string m_name;
-		Info m_info;
+		SsboInfo m_info;
 		var::VariablePtr m_var;
 		stmt::ShaderBufferDeclPtr m_stmt;
 	};

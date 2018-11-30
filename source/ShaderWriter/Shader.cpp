@@ -238,13 +238,13 @@ namespace sdw
 	}
 
 	void Shader::registerSsbo( std::string const & name
-		, Ssbo::Info const & info )
+		, SsboInfo const & info )
 	{
 		m_ssbos.emplace( name, info );
 	}
 
 	void Shader::registerUbo( std::string const & name
-		, Ubo::Info const & info )
+		, UboInfo const & info )
 	{
 		m_ubos.emplace( name, info );
 	}

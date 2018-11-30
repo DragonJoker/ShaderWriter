@@ -98,6 +98,10 @@ namespace sdw
 		uint32_t m_bind;
 		uint32_t m_set;
 	};
+
+	using PcbInfo = BoInfo;
+	using UboInfo = BoInfo;
+	using SsboInfo = BoInfo;
 }
 
 #endif

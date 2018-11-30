@@ -52,9 +52,9 @@ namespace hlsl
 		void visitSwizzleExpr( ast::expr::Swizzle * expr )override;
 		void visitTextureAccessCallExpr( ast::expr::TextureAccessCall * expr )override;
 
-		void ExprVisitor::doProcessMemberTexture( ast::expr::TextureAccessCall * expr );
-		void ExprVisitor::doProcessNonMemberTexture( ast::expr::TextureAccessCall * expr );
-		void ExprVisitor::doProcessTextureGather( ast::expr::TextureAccessCall * expr );
+		void doProcessMemberTexture( ast::expr::TextureAccessCall * expr );
+		void doProcessNonMemberTexture( ast::expr::TextureAccessCall * expr );
+		void doProcessTextureGather( ast::expr::TextureAccessCall * expr );
 
 	private:
 		std::string & m_result;

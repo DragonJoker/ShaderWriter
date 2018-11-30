@@ -13,85 +13,92 @@ set( VERSION_MINOR 1 )
 set( VERSION_BUILD 0 )
 set( VERSION_YEAR 2018 )
 
-# Used to look for external modules
-set( CMAKE_MODULE_PATH
-	${CMAKE_SOURCE_DIR}/CMake
-	${CMAKE_SOURCE_DIR}/CMake/Modules
-	${CMAKE_SOURCE_DIR}/CMake/Toolchains
-)
-set( CMAKE_TEMPLATES_DIR ${CMAKE_SOURCE_DIR}/CMake/Templates )
+if ( NOT DEFINED SDW_BUILD_SDW )
+	set( SDW_BUILD_SDW TRUE )
+endif () 
 
-set(CMAKE_POSITION_INDEPENDENT_CODE ON)
-
-# Experimental Precompiled headers support for GCC
-include( PCHSupport )
-
-set( CMAKE_CONFIGURATION_TYPES "Debug;Release;RelWithDebInfo" CACHE STRING "The configuration types" FORCE )
-
-# Declare the project
-project( ${MAIN_PROJECT_NAME} )
-
-include( Setup )
-include( Project )
-include( CompilerVersion )
-include( UnitTest )
-include( CompilationFlags )
-include( AStyleUtils )
-include( ExternalDependencies )
-
-# Organize projects into folders
-set_property( GLOBAL PROPERTY USE_FOLDERS ON )
-
-if ( WIN32 )
-	set( BinLibraries
-		Dbghelp
+if ( SDW_BUILD_SDW )
+	# Used to look for external modules
+	set( CMAKE_MODULE_PATH
+		${CMAKE_SOURCE_DIR}/CMake
+		${CMAKE_SOURCE_DIR}/CMake/Modules
+		${CMAKE_SOURCE_DIR}/CMake/Toolchains
 	)
-else ()
-	set( BinLibraries
-		dl
-	)
-endif ()
+	set( CMAKE_TEMPLATES_DIR ${CMAKE_SOURCE_DIR}/CMake/Templates )
 
-#--------------------------------------------------------------------------------------------------
-#	Looking for needed libraries
-#--------------------------------------------------------------------------------------------------
-if ( CMAKE_COMPILER_IS_GNUCXX )
-	DumpCompilerVersion( ${PROJECT_NAME}_COMPILER_VERSION )
-	msg_debug( "GCC version : ${${PROJECT_NAME}_COMPILER_VERSION}" )
-	if ( ${${PROJECT_NAME}_COMPILER_VERSION} LESS "49" )
-		message( FATAL_ERROR "Your compiler is too old (${${PROJECT_NAME}_COMPILER_VERSION}), consider an update." )
+	set(CMAKE_POSITION_INDEPENDENT_CODE ON)
+
+	# Experimental Precompiled headers support for GCC
+	include( PCHSupport )
+
+	set( CMAKE_CONFIGURATION_TYPES "Debug;Release;RelWithDebInfo" CACHE STRING "The configuration types" FORCE )
+
+	# Declare the project
+	project( ${MAIN_PROJECT_NAME} )
+
+	include( Setup )
+	include( Project )
+	include( CompilerVersion )
+	include( UnitTest )
+	include( CompilationFlags )
+	include( AStyleUtils )
+	include( ExternalDependencies )
+
+	# Organize projects into folders
+	set_property( GLOBAL PROPERTY USE_FOLDERS ON )
+
+	if ( WIN32 )
+		set( BinLibraries
+			Dbghelp
+		)
+	else ()
+		set( BinLibraries
+			dl
+		)
 	endif ()
-elseif ( ${CMAKE_CXX_COMPILER_ID} MATCHES "Clang" )
-	DumpCompilerVersion( ${PROJECT_NAME}_COMPILER_VERSION )
-	msg_debug( "clang version : ${${PROJECT_NAME}_COMPILER_VERSION}" )
-elseif ( MSVC )
-	if ( MSVC60 OR MSVC70 OR MSVC71 OR MSVC80 OR MSVC10 OR MSVC11 OR MSVC12 )
-		message( FATAL_ERROR "Your compiler is too old, consider an update." )
+
+	#--------------------------------------------------------------------------------------------------
+	#	Looking for needed libraries
+	#--------------------------------------------------------------------------------------------------
+	if ( CMAKE_COMPILER_IS_GNUCXX )
+		DumpCompilerVersion( ${PROJECT_NAME}_COMPILER_VERSION )
+		msg_debug( "GCC version : ${${PROJECT_NAME}_COMPILER_VERSION}" )
+		if ( ${${PROJECT_NAME}_COMPILER_VERSION} LESS "49" )
+			message( FATAL_ERROR "Your compiler is too old (${${PROJECT_NAME}_COMPILER_VERSION}), consider an update." )
+		endif ()
+	elseif ( ${CMAKE_CXX_COMPILER_ID} MATCHES "Clang" )
+		DumpCompilerVersion( ${PROJECT_NAME}_COMPILER_VERSION )
+		msg_debug( "clang version : ${${PROJECT_NAME}_COMPILER_VERSION}" )
+	elseif ( MSVC )
+		if ( MSVC60 OR MSVC70 OR MSVC71 OR MSVC80 OR MSVC10 OR MSVC11 OR MSVC12 )
+			message( FATAL_ERROR "Your compiler is too old, consider an update." )
+		endif ()
+	else ()
+		message( FATAL_ERROR "Unsupported compiler." )
 	endif ()
-else ()
-	message( FATAL_ERROR "Unsupported compiler." )
+
+	find_package( Doxygen )
+
+	if( DOXYGEN_FOUND )
+		message( STATUS "+ Found Doxygen (version ${DOXYGEN_VERSION})" )
+	endif ()
+
+	#--------------------------------------------------------------------------------------------------
+	#	MSVC specifics
+	#--------------------------------------------------------------------------------------------------
+	if( MSVC )
+		# We remove the existing /Zm flag to replace it by /Zm300
+		string( REGEX REPLACE ".*(/Zm[0-9]+).*" "\\1" ZmFlag ${CMAKE_CXX_FLAGS} )
+		if( (NOT "${ZmFlag}" STREQUAL "") AND (NOT "${CMAKE_CXX_FLAGS}" STREQUAL "${ZmFlag}") )
+			string( REPLACE ${ZmFlag} "" CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} )
+		endif()
+		set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /Zm300" )
+		add_definitions( -D_CRT_SECURE_NO_WARNINGS )
+	endif()
 endif ()
 
 add_compile_options( $<$<CXX_COMPILER_ID:MSVC>:/MP> )
-
-find_package( Doxygen )
-
-if( DOXYGEN_FOUND )
-	message( STATUS "+ Found Doxygen (version ${DOXYGEN_VERSION})" )
-endif ()
-
-#--------------------------------------------------------------------------------------------------
-#	MSVC specifics
-#--------------------------------------------------------------------------------------------------
-if( MSVC )
-	# We remove the existing /Zm flag to replace it by /Zm300
-	string( REGEX REPLACE ".*(/Zm[0-9]+).*" "\\1" ZmFlag ${CMAKE_CXX_FLAGS} )
-	if( (NOT "${ZmFlag}" STREQUAL "") AND (NOT "${CMAKE_CXX_FLAGS}" STREQUAL "${ZmFlag}") )
-		string( REPLACE ${ZmFlag} "" CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} )
-	endif()
-	set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /Zm300" )
-	add_definitions( -D_CRT_SECURE_NO_WARNINGS )
-endif()
+add_compile_options( $<$<CXX_COMPILER_ID:MSVC>:/bigobj> )
 
 add_definitions(
  -DVERSION_MAJOR=${VERSION_MAJOR}
@@ -100,24 +107,24 @@ add_definitions(
 )
 
 # Small macro to add subdirectory files to current target source and header files
-macro( parse_subdir_files _FOLDER _GROUP )
+macro( sdw_parse_subdir_files _FOLDER _GROUP )
 	file( GLOB _FOLDER_HEADER_FILES
-		${CMAKE_SOURCE_DIR}/include/${_FOLDER}/*.h
-		${CMAKE_SOURCE_DIR}/include/${_FOLDER}/*.hpp
-		${CMAKE_SOURCE_DIR}/include/${_FOLDER}/*.inl
+		${CMAKE_CURRENT_SOURCE_DIR}/include/${_FOLDER}/*.h
+		${CMAKE_CURRENT_SOURCE_DIR}/include/${_FOLDER}/*.hpp
+		${CMAKE_CURRENT_SOURCE_DIR}/include/${_FOLDER}/*.inl
 	)
 	file( GLOB _FOLDER_ENUM_FILES
-		${CMAKE_SOURCE_DIR}/include/${_FOLDER}/*.enum
+		${CMAKE_CURRENT_SOURCE_DIR}/include/${_FOLDER}/*.enum
 	)
 	file( GLOB _FOLDER_SCRIPT_FILES
-		${CMAKE_SOURCE_DIR}/scripts/${_FOLDER}/*.py
+		${CMAKE_CURRENT_SOURCE_DIR}/scripts/${_FOLDER}/*.py
 	)
 	file( GLOB _FOLDER_SOURCE_FILES
-		${CMAKE_SOURCE_DIR}/source/${_FOLDER}/*.h
-		${CMAKE_SOURCE_DIR}/source/${_FOLDER}/*.hpp
-		${CMAKE_SOURCE_DIR}/source/${_FOLDER}/*.inl
-		${CMAKE_SOURCE_DIR}/source/${_FOLDER}/*.c
-		${CMAKE_SOURCE_DIR}/source/${_FOLDER}/*.cpp
+		${CMAKE_CURRENT_SOURCE_DIR}/source/${_FOLDER}/*.h
+		${CMAKE_CURRENT_SOURCE_DIR}/source/${_FOLDER}/*.hpp
+		${CMAKE_CURRENT_SOURCE_DIR}/source/${_FOLDER}/*.inl
+		${CMAKE_CURRENT_SOURCE_DIR}/source/${_FOLDER}/*.c
+		${CMAKE_CURRENT_SOURCE_DIR}/source/${_FOLDER}/*.cpp
 	)
 	source_group( "Script Files\\${_GROUP}" FILES ${_FOLDER_SCRIPT_FILES} )
 	source_group( "Enum Files\\${_GROUP}" FILES ${_FOLDER_ENUM_FILES} )
@@ -129,13 +136,15 @@ endmacro()
 #	Adding include dirs to include search path
 #--------------------------------------------------------------------------------------------------
 include_directories(
-	${CMAKE_SOURCE_DIR}/include
-	${CMAKE_BINARY_DIR}/include
+	${CMAKE_CURRENT_SOURCE_DIR}/include
+	${CMAKE_CURRENT_BINARY_DIR}/include
 )
 
 option( SDW_BUILD_TESTS "Build ShaderWriter test applications" OFF )
 
-find_package( Python )
+if ( SDW_BUILD_SDW )
+	find_package( Python )
+endif ()
 
 if ( MSVC OR NOT "${CMAKE_BUILD_TYPE}" STREQUAL "" )
 	# Build projects
@@ -153,22 +162,22 @@ if ( MSVC OR NOT "${CMAKE_BUILD_TYPE}" STREQUAL "" )
 		source/${PROJECT_NAME}/*.c
 		source/${PROJECT_NAME}/*.cpp
 	)
-	parse_subdir_files( ${PROJECT_NAME}/Debug "Debug" )
-	parse_subdir_files( ${PROJECT_NAME}/Expr "Expr" )
-	parse_subdir_files( ${PROJECT_NAME}/Stmt "Stmt" )
-	parse_subdir_files( ${PROJECT_NAME}/Type "Type" )
-	parse_subdir_files( ${PROJECT_NAME}/Var "Var" )
-	parse_subdir_files( ${PROJECT_NAME}/Visitors "Visitors" )
+	sdw_parse_subdir_files( ${PROJECT_NAME}/Debug "Debug" )
+	sdw_parse_subdir_files( ${PROJECT_NAME}/Expr "Expr" )
+	sdw_parse_subdir_files( ${PROJECT_NAME}/Stmt "Stmt" )
+	sdw_parse_subdir_files( ${PROJECT_NAME}/Type "Type" )
+	sdw_parse_subdir_files( ${PROJECT_NAME}/Var "Var" )
+	sdw_parse_subdir_files( ${PROJECT_NAME}/Visitors "Visitors" )
 
-	set( INCLUDE_DIR ${CMAKE_SOURCE_DIR}/include/${PROJECT_NAME} )
-	set( SOURCE_DIR ${CMAKE_SOURCE_DIR}/source/${PROJECT_NAME} )
+	set( INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/include/${PROJECT_NAME} )
+	set( SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/source/${PROJECT_NAME} )
 
-	if ( Python_FOUND )
-		set( SCRIPT_DIR ${CMAKE_SOURCE_DIR}/scripts/${PROJECT_NAME} )
+	if ( SDW_BUILD_SDW AND Python_FOUND )
+		set( SCRIPT_DIR ${CMAKE_CURRENT_SOURCE_DIR}/scripts/${PROJECT_NAME} )
 		file( GLOB_RECURSE ${PROJECT_NAME}_FOLDER_SCRIPT_FILES
 			${SCRIPT_DIR}/*.py
 		)
-		set( GENERATED_DIR ${CMAKE_BINARY_DIR}/generated/${PROJECT_NAME} )
+		set( GENERATED_DIR ${CMAKE_CURRENT_BINARY_DIR}/generated/${PROJECT_NAME} )
 		add_custom_command( OUTPUT ${INCLUDE_DIR}/Expr/EnumImageAccess.hpp
 			COMMAND ${CMAKE_COMMAND} -E make_directory ${GENERATED_DIR}
 			COMMAND ${Python_EXECUTABLE} ${SCRIPT_DIR}/genEnumFromEnum.py ${INCLUDE_DIR}/Expr/ImageAccess.enum ${GENERATED_DIR}/EnumImageAccess.hpp
@@ -294,8 +303,8 @@ if ( MSVC OR NOT "${CMAKE_BUILD_TYPE}" STREQUAL "" )
 		${${PROJECT_NAME}_FOLDER_SCRIPT_FILES}
 	)
 	add_target_precompiled_header( ${PROJECT_NAME}
-		${CMAKE_SOURCE_DIR}/include/${PROJECT_NAME}/ShaderASTPch.hpp
-		${CMAKE_SOURCE_DIR}/source/${PROJECT_NAME}/ShaderASTPch.cpp
+		${CMAKE_CURRENT_SOURCE_DIR}/include/${PROJECT_NAME}/ShaderASTPch.hpp
+		${CMAKE_CURRENT_SOURCE_DIR}/source/${PROJECT_NAME}/ShaderASTPch.cpp
 		"${CMAKE_CXX_FLAGS}"
 		${${PROJECT_NAME}_FOLDER_SOURCE_FILES}
 	)
@@ -313,66 +322,66 @@ if ( MSVC OR NOT "${CMAKE_BUILD_TYPE}" STREQUAL "" )
 		source/${PROJECT_NAME}/*.c
 		source/${PROJECT_NAME}/*.cpp
 	)
-	parse_subdir_files( ${PROJECT_NAME}/BaseTypes "BaseTypes" )
-	parse_subdir_files( ${PROJECT_NAME}/CompositeTypes "CompositeTypes" )
-	parse_subdir_files( ${PROJECT_NAME}/HLSL "HLSL" )
-	parse_subdir_files( ${PROJECT_NAME}/Intrinsics "Intrinsics" )
-	parse_subdir_files( ${PROJECT_NAME}/MatTypes "MatTypes" )
-	parse_subdir_files( ${PROJECT_NAME}/MaybeOptional "MaybeOptional" )
-	parse_subdir_files( ${PROJECT_NAME}/Optional "Optional" )
-	parse_subdir_files( ${PROJECT_NAME}/VecTypes "VecTypes" )
-	parse_subdir_files( ${PROJECT_NAME}/Visitors "Visitors" )
+	sdw_parse_subdir_files( ${PROJECT_NAME}/BaseTypes "BaseTypes" )
+	sdw_parse_subdir_files( ${PROJECT_NAME}/CompositeTypes "CompositeTypes" )
+	sdw_parse_subdir_files( ${PROJECT_NAME}/HLSL "HLSL" )
+	sdw_parse_subdir_files( ${PROJECT_NAME}/Intrinsics "Intrinsics" )
+	sdw_parse_subdir_files( ${PROJECT_NAME}/MatTypes "MatTypes" )
+	sdw_parse_subdir_files( ${PROJECT_NAME}/MaybeOptional "MaybeOptional" )
+	sdw_parse_subdir_files( ${PROJECT_NAME}/Optional "Optional" )
+	sdw_parse_subdir_files( ${PROJECT_NAME}/VecTypes "VecTypes" )
+	sdw_parse_subdir_files( ${PROJECT_NAME}/Visitors "Visitors" )
 
-	set( INCLUDE_DIR ${CMAKE_SOURCE_DIR}/include/${PROJECT_NAME} )
-	set( SOURCE_DIR ${CMAKE_SOURCE_DIR}/source/${PROJECT_NAME} )
+	set( INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/include/${PROJECT_NAME} )
+	set( SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/source/${PROJECT_NAME} )
 
-	if ( Python_FOUND )
-		set( SCRIPT_DIR ${CMAKE_SOURCE_DIR}/scripts/${PROJECT_NAME} )
+	if ( SDW_BUILD_SDW AND Python_FOUND )
+		set( SCRIPT_DIR ${CMAKE_CURRENT_SOURCE_DIR}/scripts/${PROJECT_NAME} )
 		file( GLOB_RECURSE ${PROJECT_NAME}_FOLDER_SCRIPT_FILES
 			${SCRIPT_DIR}/*.py
 		)
-		set( GENERATED_DIR ${CMAKE_BINARY_DIR}/generated/${PROJECT_NAME} )
+		set( GENERATED_DIR ${CMAKE_CURRENT_BINARY_DIR}/generated/${PROJECT_NAME} )
 		add_custom_command( OUTPUT ${INCLUDE_DIR}/Intrinsics/ImageAccessFunctions.hpp
 			COMMAND ${CMAKE_COMMAND} -E make_directory ${GENERATED_DIR}
-			COMMAND ${Python_EXECUTABLE} ${SCRIPT_DIR}/genFunctionHeaderFromEnum.py ${CMAKE_SOURCE_DIR}/include/ShaderAST/Expr/ImageAccess.enum ${GENERATED_DIR}/ImageAccessFunctions.hpp
+			COMMAND ${Python_EXECUTABLE} ${SCRIPT_DIR}/genFunctionHeaderFromEnum.py ${CMAKE_CURRENT_SOURCE_DIR}/include/ShaderAST/Expr/ImageAccess.enum ${GENERATED_DIR}/ImageAccessFunctions.hpp
 			COMMAND ${CMAKE_COMMAND} -E copy_if_different ${GENERATED_DIR}/ImageAccessFunctions.hpp ${INCLUDE_DIR}/Intrinsics/ImageAccessFunctions.hpp
 			COMMENT "Generating ImageAccessFunctions.hpp"
-			DEPENDS ${SCRIPT_DIR}/genFunctionHeaderFromEnum.py ${CMAKE_SOURCE_DIR}/include/ShaderAST/Expr/ImageAccess.enum
+			DEPENDS ${SCRIPT_DIR}/genFunctionHeaderFromEnum.py ${CMAKE_CURRENT_SOURCE_DIR}/include/ShaderAST/Expr/ImageAccess.enum
 		)
 		add_custom_command( OUTPUT ${INCLUDE_DIR}/Intrinsics/TextureAccessFunctions.hpp
 			COMMAND ${CMAKE_COMMAND} -E make_directory ${GENERATED_DIR}
-			COMMAND ${Python_EXECUTABLE} ${SCRIPT_DIR}/genFunctionHeaderFromEnum.py ${CMAKE_SOURCE_DIR}/include/ShaderAST/Expr/TextureAccess.enum ${GENERATED_DIR}/TextureAccessFunctions.hpp
+			COMMAND ${Python_EXECUTABLE} ${SCRIPT_DIR}/genFunctionHeaderFromEnum.py ${CMAKE_CURRENT_SOURCE_DIR}/include/ShaderAST/Expr/TextureAccess.enum ${GENERATED_DIR}/TextureAccessFunctions.hpp
 			COMMAND ${CMAKE_COMMAND} -E copy_if_different ${GENERATED_DIR}/TextureAccessFunctions.hpp ${INCLUDE_DIR}/Intrinsics/TextureAccessFunctions.hpp
 			COMMENT "Generating TextureAccessFunctions.hpp"
-			DEPENDS ${SCRIPT_DIR}/genFunctionHeaderFromEnum.py ${CMAKE_SOURCE_DIR}/include/ShaderAST/Expr/TextureAccess.enum
+			DEPENDS ${SCRIPT_DIR}/genFunctionHeaderFromEnum.py ${CMAKE_CURRENT_SOURCE_DIR}/include/ShaderAST/Expr/TextureAccess.enum
 		)
 		add_custom_command( OUTPUT ${INCLUDE_DIR}/Intrinsics/IntrinsicFunctions.hpp
 			COMMAND ${CMAKE_COMMAND} -E make_directory ${GENERATED_DIR}
-			COMMAND ${Python_EXECUTABLE} ${SCRIPT_DIR}/genFunctionHeaderFromEnum.py ${CMAKE_SOURCE_DIR}/include/ShaderAST/Expr/Intrinsic.enum ${GENERATED_DIR}/IntrinsicFunctions.hpp
+			COMMAND ${Python_EXECUTABLE} ${SCRIPT_DIR}/genFunctionHeaderFromEnum.py ${CMAKE_CURRENT_SOURCE_DIR}/include/ShaderAST/Expr/Intrinsic.enum ${GENERATED_DIR}/IntrinsicFunctions.hpp
 			COMMAND ${CMAKE_COMMAND} -E copy_if_different ${GENERATED_DIR}/IntrinsicFunctions.hpp ${INCLUDE_DIR}/Intrinsics/IntrinsicFunctions.hpp
 			COMMENT "Generating IntrinsicFunctions.hpp"
-			DEPENDS ${SCRIPT_DIR}/genFunctionHeaderFromEnum.py ${CMAKE_SOURCE_DIR}/include/ShaderAST/Expr/Intrinsic.enum
+			DEPENDS ${SCRIPT_DIR}/genFunctionHeaderFromEnum.py ${CMAKE_CURRENT_SOURCE_DIR}/include/ShaderAST/Expr/Intrinsic.enum
 		)
 		add_custom_command( OUTPUT ${SOURCE_DIR}/Intrinsics/ImageAccessFunctions.cpp
 			COMMAND ${CMAKE_COMMAND} -E make_directory ${GENERATED_DIR}
-			COMMAND ${Python_EXECUTABLE} ${SCRIPT_DIR}/genFunctionSourceFromEnum.py ${CMAKE_SOURCE_DIR}/include/ShaderAST/Expr/ImageAccess.enum ${GENERATED_DIR}/ImageAccessFunctions.cpp
+			COMMAND ${Python_EXECUTABLE} ${SCRIPT_DIR}/genFunctionSourceFromEnum.py ${CMAKE_CURRENT_SOURCE_DIR}/include/ShaderAST/Expr/ImageAccess.enum ${GENERATED_DIR}/ImageAccessFunctions.cpp
 			COMMAND ${CMAKE_COMMAND} -E copy_if_different ${GENERATED_DIR}/ImageAccessFunctions.cpp ${SOURCE_DIR}/Intrinsics/ImageAccessFunctions.cpp
 			COMMENT "Generating ImageAccessFunctions.cpp"
-			DEPENDS ${SCRIPT_DIR}/genFunctionSourceFromEnum.py ${CMAKE_SOURCE_DIR}/include/ShaderAST/Expr/ImageAccess.enum
+			DEPENDS ${SCRIPT_DIR}/genFunctionSourceFromEnum.py ${CMAKE_CURRENT_SOURCE_DIR}/include/ShaderAST/Expr/ImageAccess.enum
 		)
 		add_custom_command( OUTPUT ${SOURCE_DIR}/Intrinsics/TextureAccessFunctions.cpp
 			COMMAND ${CMAKE_COMMAND} -E make_directory ${GENERATED_DIR}
-			COMMAND ${Python_EXECUTABLE} ${SCRIPT_DIR}/genFunctionSourceFromEnum.py ${CMAKE_SOURCE_DIR}/include/ShaderAST/Expr/TextureAccess.enum ${GENERATED_DIR}/TextureAccessFunctions.cpp
+			COMMAND ${Python_EXECUTABLE} ${SCRIPT_DIR}/genFunctionSourceFromEnum.py ${CMAKE_CURRENT_SOURCE_DIR}/include/ShaderAST/Expr/TextureAccess.enum ${GENERATED_DIR}/TextureAccessFunctions.cpp
 			COMMAND ${CMAKE_COMMAND} -E copy_if_different ${GENERATED_DIR}/TextureAccessFunctions.cpp ${SOURCE_DIR}/Intrinsics/TextureAccessFunctions.cpp
 			COMMENT "Generating TextureAccessFunctions.cpp"
-			DEPENDS ${SCRIPT_DIR}/genFunctionSourceFromEnum.py ${CMAKE_SOURCE_DIR}/include/ShaderAST/Expr/TextureAccess.enum
+			DEPENDS ${SCRIPT_DIR}/genFunctionSourceFromEnum.py ${CMAKE_CURRENT_SOURCE_DIR}/include/ShaderAST/Expr/TextureAccess.enum
 		)
 		add_custom_command( OUTPUT ${SOURCE_DIR}/Intrinsics/IntrinsicFunctions.cpp
 			COMMAND ${CMAKE_COMMAND} -E make_directory ${GENERATED_DIR}
-			COMMAND ${Python_EXECUTABLE} ${SCRIPT_DIR}/genFunctionSourceFromEnum.py ${CMAKE_SOURCE_DIR}/include/ShaderAST/Expr/Intrinsic.enum ${GENERATED_DIR}/IntrinsicFunctions.cpp
+			COMMAND ${Python_EXECUTABLE} ${SCRIPT_DIR}/genFunctionSourceFromEnum.py ${CMAKE_CURRENT_SOURCE_DIR}/include/ShaderAST/Expr/Intrinsic.enum ${GENERATED_DIR}/IntrinsicFunctions.cpp
 			COMMAND ${CMAKE_COMMAND} -E copy_if_different ${GENERATED_DIR}/IntrinsicFunctions.cpp ${SOURCE_DIR}/Intrinsics/IntrinsicFunctions.cpp
 			COMMENT "Generating IntrinsicFunctions.cpp"
-			DEPENDS ${SCRIPT_DIR}/genFunctionSourceFromEnum.py ${CMAKE_SOURCE_DIR}/include/ShaderAST/Expr/Intrinsic.enum
+			DEPENDS ${SCRIPT_DIR}/genFunctionSourceFromEnum.py ${CMAKE_CURRENT_SOURCE_DIR}/include/ShaderAST/Expr/Intrinsic.enum
 		)
 		source_group( "Script Files" FILES
 			${${PROJECT_NAME}_FOLDER_SCRIPT_FILES}
@@ -389,10 +398,6 @@ if ( MSVC OR NOT "${CMAKE_BUILD_TYPE}" STREQUAL "" )
 		)
 	endif ()
 
-	if ( MSVC )
-		add_compile_options( -bigobj )
-	endif ()
-
 	add_library( ${PROJECT_NAME}
 		STATIC
 		${INCLUDE_DIR}/Intrinsics/ImageAccessFunctions.hpp
@@ -406,8 +411,8 @@ if ( MSVC OR NOT "${CMAKE_BUILD_TYPE}" STREQUAL "" )
 		${${PROJECT_NAME}_FOLDER_SCRIPT_FILES}
 	)
 	add_target_precompiled_header( ${PROJECT_NAME}
-		${CMAKE_SOURCE_DIR}/include/${PROJECT_NAME}/ShaderWriterPch.hpp
-		${CMAKE_SOURCE_DIR}/source/${PROJECT_NAME}/ShaderWriterPch.cpp
+		${CMAKE_CURRENT_SOURCE_DIR}/include/${PROJECT_NAME}/ShaderWriterPch.hpp
+		${CMAKE_CURRENT_SOURCE_DIR}/source/${PROJECT_NAME}/ShaderWriterPch.cpp
 		"${CMAKE_CXX_FLAGS}"
 		${${PROJECT_NAME}_FOLDER_SOURCE_FILES}
 	)
@@ -432,42 +437,33 @@ if ( MSVC OR NOT "${CMAKE_BUILD_TYPE}" STREQUAL "" )
 		source/${PROJECT_NAME}/*.cpp
 	)
 
-	set( INCLUDE_DIR ${CMAKE_SOURCE_DIR}/include/${PROJECT_NAME} )
-	set( SOURCE_DIR ${CMAKE_SOURCE_DIR}/source/${PROJECT_NAME} )
+	set( INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/include/${PROJECT_NAME} )
+	set( SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/source/${PROJECT_NAME} )
 
-	if ( Python_FOUND )
-		set( SCRIPT_DIR ${CMAKE_SOURCE_DIR}/scripts/${PROJECT_NAME} )
+	if ( SDW_BUILD_SDW AND Python_FOUND )
+		set( SCRIPT_DIR ${CMAKE_CURRENT_SOURCE_DIR}/scripts/${PROJECT_NAME} )
 		file( GLOB_RECURSE ${PROJECT_NAME}_FOLDER_SCRIPT_FILES
 			${SCRIPT_DIR}/*.py
 		)
-		set( GENERATED_DIR ${CMAKE_BINARY_DIR}/generated/${PROJECT_NAME} )
+		set( GENERATED_DIR ${CMAKE_CURRENT_BINARY_DIR}/generated/${PROJECT_NAME} )
 		add_custom_command( OUTPUT ${SOURCE_DIR}/GlslImageAccessNames.hpp
 			COMMAND ${CMAKE_COMMAND} -E make_directory ${GENERATED_DIR}
-			COMMAND ${Python_EXECUTABLE} ${SCRIPT_DIR}/genGlslNameFromEnum.py ${CMAKE_SOURCE_DIR}/include/ShaderAST/Expr/ImageAccess.enum ${GENERATED_DIR}/GlslImageAccessNames.hpp
+			COMMAND ${Python_EXECUTABLE} ${SCRIPT_DIR}/genGlslNameFromEnum.py ${CMAKE_CURRENT_SOURCE_DIR}/include/ShaderAST/Expr/ImageAccess.enum ${GENERATED_DIR}/GlslImageAccessNames.hpp
 			COMMAND ${CMAKE_COMMAND} -E copy_if_different ${GENERATED_DIR}/GlslImageAccessNames.hpp ${SOURCE_DIR}/GlslImageAccessNames.hpp
 			COMMENT "Generating GlslImageAccessNames.hpp"
-			DEPENDS ${SCRIPT_DIR}/genGlslNameFromEnum.py ${CMAKE_SOURCE_DIR}/include/ShaderAST/Expr/ImageAccess.enum
-		)
-		add_custom_command( OUTPUT ${SOURCE_DIR}/GlslIntrinsicNames.hpp
-			COMMAND ${CMAKE_COMMAND} -E make_directory ${GENERATED_DIR}
-			COMMAND ${Python_EXECUTABLE} ${SCRIPT_DIR}/genGlslNameFromEnum.py ${CMAKE_SOURCE_DIR}/include/ShaderAST/Expr/Intrinsic.enum ${GENERATED_DIR}/GlslIntrinsicNames.hpp
-			COMMAND ${CMAKE_COMMAND} -E copy_if_different ${GENERATED_DIR}/GlslIntrinsicNames.hpp ${SOURCE_DIR}/GlslIntrinsicNames.hpp
-			COMMENT "Generating GlslIntrinsicNames.hpp"
-			DEPENDS ${SCRIPT_DIR}/genGlslNameFromEnum.py ${CMAKE_SOURCE_DIR}/include/ShaderAST/Expr/Intrinsic.enum
+			DEPENDS ${SCRIPT_DIR}/genGlslNameFromEnum.py ${CMAKE_CURRENT_SOURCE_DIR}/include/ShaderAST/Expr/ImageAccess.enum
 		)
 		source_group( "Script Files" FILES
 			${${PROJECT_NAME}_FOLDER_SCRIPT_FILES}
 		)
 		source_group( "Header Files" FILES
 			${SOURCE_DIR}/GLSL/GlslImageAccessNames.hpp
-			${SOURCE_DIR}/GLSL/GlslIntrinsicNames.hpp
 		)
 	endif ()
 
 	add_library( ${PROJECT_NAME}
 		STATIC
 		${SOURCE_DIR}/GlslImageAccessNames.hpp
-		${SOURCE_DIR}/GlslIntrinsicNames.hpp
 		${${PROJECT_NAME}_FOLDER_HEADER_FILES}
 		${${PROJECT_NAME}_FOLDER_SOURCE_FILES}
 		${${PROJECT_NAME}_FOLDER_SCRIPT_FILES}
@@ -495,8 +491,8 @@ if ( MSVC OR NOT "${CMAKE_BUILD_TYPE}" STREQUAL "" )
 		source/${PROJECT_NAME}/*.cpp
 	)
 
-	set( INCLUDE_DIR ${CMAKE_SOURCE_DIR}/include/${PROJECT_NAME} )
-	set( SOURCE_DIR ${CMAKE_SOURCE_DIR}/source/${PROJECT_NAME} )
+	set( INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/include/${PROJECT_NAME} )
+	set( SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/source/${PROJECT_NAME} )
 
 	add_library( ${PROJECT_NAME}
 		STATIC
@@ -526,10 +522,10 @@ if ( MSVC OR NOT "${CMAKE_BUILD_TYPE}" STREQUAL "" )
 		source/${PROJECT_NAME}/*.c
 		source/${PROJECT_NAME}/*.cpp
 	)
-	parse_subdir_files( ${PROJECT_NAME}/spirv "spirv" )
+	sdw_parse_subdir_files( ${PROJECT_NAME}/spirv "spirv" )
 
-	set( INCLUDE_DIR ${CMAKE_SOURCE_DIR}/include/${PROJECT_NAME} )
-	set( SOURCE_DIR ${CMAKE_SOURCE_DIR}/source/${PROJECT_NAME} )
+	set( INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/include/${PROJECT_NAME} )
+	set( SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/source/${PROJECT_NAME} )
 
 	add_library( ${PROJECT_NAME}
 		STATIC

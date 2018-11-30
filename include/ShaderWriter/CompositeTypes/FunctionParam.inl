@@ -8,7 +8,7 @@ namespace sdw
 	template< typename ValueT >
 	InParam< ValueT >::InParam( ShaderWriter & writer
 		, std::string name )
-		: ValueT{ &writer.getShader(), makeExpr( var::makeVariable( makeType< ValueT >(), std::move( name ), var::Flag::eInputParam ) ) }
+		: ValueT{ &sdw::getShader( writer ), makeExpr( var::makeVariable( makeType< ValueT >(), std::move( name ), var::Flag::eInputParam ) ) }
 	{
 	}
 
@@ -34,7 +34,7 @@ namespace sdw
 	template< typename ValueT >
 	OutParam< ValueT >::OutParam( ShaderWriter & writer
 		, std::string name )
-		: ValueT{ &writer.getShader(), makeExpr( var::makeVariable( makeType< ValueT >(), std::move( name ), var::Flag::eOutputParam ) ) }
+		: ValueT{ &sdw::getShader( writer ), makeExpr( var::makeVariable( makeType< ValueT >(), std::move( name ), var::Flag::eOutputParam ) ) }
 	{
 	}
 
@@ -60,7 +60,7 @@ namespace sdw
 	template< typename ValueT >
 	InOutParam< ValueT >::InOutParam( ShaderWriter & writer
 		, std::string name )
-		: ValueT{ &writer.getShader(), makeExpr( var::makeVariable( makeType< ValueT >(), std::move( name ), var::Flag::eInputParam | var::Flag::eOutputParam ) ) }
+		: ValueT{ &sdw::getShader( writer ), makeExpr( var::makeVariable( makeType< ValueT >(), std::move( name ), var::Flag::eInputParam | var::Flag::eOutputParam ) ) }
 	{
 	}
 

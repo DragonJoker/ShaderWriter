@@ -1188,7 +1188,7 @@ namespace spirv
 			, IdNames const & names
 			, std::ostream & stream )
 		{
-			if ( id.has_value() )
+			if ( bool( id ) )
 			{
 				stream << write( id.value(), names );
 			}
@@ -1244,9 +1244,9 @@ namespace spirv
 			if ( opCode == spv::Op::OpName )
 			{
 				names.emplace( instruction.resultId.value(), instruction.name.value() );
-				assert( instruction.resultId.has_value() );
+				assert( bool( instruction.resultId ) );
 				write( instruction.resultId, names, stream );
-				assert( instruction.name.has_value() );
+				assert( bool( instruction.name ) );
 				stream << " \"" << instruction.name.value() << "\"";
 			}
 			else if ( opCode == spv::Op::OpMemberName )
@@ -1254,7 +1254,7 @@ namespace spirv
 				assert( instruction.operands.size() == 2u );
 				write( instruction.operands.front(), names, stream );
 				stream << " " << instruction.operands.back();
-				assert( instruction.name.has_value() );
+				assert( bool( instruction.name ) );
 				stream << " \"" << instruction.name.value() << "\"";
 			}
 			else if ( opCode == spv::Op::OpSource )
@@ -1268,7 +1268,7 @@ namespace spirv
 					stream << " " << instruction.operands[2];
 				}
 
-				if ( instruction.name.has_value() )
+				if ( bool( instruction.name ) )
 				{
 					stream << " \"" << instruction.name.value() << "\"";
 				}
@@ -1490,8 +1490,8 @@ namespace spirv
 			, IdNames & names
 			, std::ostream & stream )
 		{
-			assert( instruction.resultId.has_value() );
-			assert( instruction.resultType.has_value() );
+			assert( bool( instruction.resultId ) );
+			assert( bool( instruction.resultType ) );
 			stream << writeId( instruction.resultId.value() ) << " =";
 			auto opCode = spv::Op( instruction.op.opCode );
 			stream << " " << spirv::getOperatorName( opCode );
@@ -1540,8 +1540,8 @@ namespace spirv
 			, IdNames & names
 			, std::ostream & stream )
 		{
-			assert( instruction.resultId.has_value() );
-			assert( instruction.resultType.has_value() );
+			assert( bool( instruction.resultId ) );
+			assert( bool( instruction.resultType ) );
 			stream << writeId( instruction.resultId.value() ) << " =";
 			auto opCode = spv::Op( instruction.op.opCode );
 			stream << " " << spirv::getOperatorName( opCode );
@@ -1639,7 +1639,7 @@ namespace spirv
 				write( instruction.operands[i], names, stream );
 			}
 
-			if ( instruction.name.has_value() )
+			if ( bool( instruction.name ) )
 			{
 				stream << " \"" << instruction.name.value() << "\"";
 			}
@@ -1658,7 +1658,7 @@ namespace spirv
 				write( instruction.operands[i], names, stream );
 			}
 
-			if ( instruction.name.has_value() )
+			if ( bool( instruction.name ) )
 			{
 				stream << " \"" << instruction.name.value() << "\"";
 			}
@@ -1686,7 +1686,7 @@ namespace spirv
 				}
 			}
 
-			if ( instruction.name.has_value() )
+			if ( bool( instruction.name ) )
 			{
 				stream << " \"" << instruction.name.value() << "\"";
 			}
@@ -1716,7 +1716,7 @@ namespace spirv
 				}
 			}
 
-			if ( instruction.name.has_value() )
+			if ( bool( instruction.name ) )
 			{
 				stream << " \"" << instruction.name.value() << "\"";
 			}
@@ -1744,7 +1744,7 @@ namespace spirv
 				}
 			}
 
-			if ( instruction.name.has_value() )
+			if ( bool( instruction.name ) )
 			{
 				stream << " \"" << instruction.name.value() << "\"";
 			}
@@ -1774,7 +1774,7 @@ namespace spirv
 				}
 			}
 
-			if ( instruction.name.has_value() )
+			if ( bool( instruction.name ) )
 			{
 				stream << " \"" << instruction.name.value() << "\"";
 			}
@@ -1802,7 +1802,7 @@ namespace spirv
 				}
 			}
 
-			if ( instruction.name.has_value() )
+			if ( bool( instruction.name ) )
 			{
 				stream << " \"" << instruction.name.value() << "\"";
 			}
@@ -1832,7 +1832,7 @@ namespace spirv
 				}
 			}
 
-			if ( instruction.name.has_value() )
+			if ( bool( instruction.name ) )
 			{
 				stream << " \"" << instruction.name.value() << "\"";
 			}
@@ -1862,7 +1862,7 @@ namespace spirv
 				}
 			}
 
-			if ( instruction.name.has_value() )
+			if ( bool( instruction.name ) )
 			{
 				stream << " \"" << instruction.name.value() << "\"";
 			}
@@ -1877,7 +1877,7 @@ namespace spirv
 			write( instruction.operands[0], names, stream );
 			write( instruction.operands[1], names, stream );
 
-			if ( instruction.name.has_value() )
+			if ( bool( instruction.name ) )
 			{
 				stream << " \"" << instruction.name.value() << "\"";
 			}
@@ -1891,7 +1891,7 @@ namespace spirv
 		{
 			write( instruction.operands[0], names, stream );
 
-			if ( instruction.name.has_value() )
+			if ( bool( instruction.name ) )
 			{
 				stream << " \"" << instruction.name.value() << "\"";
 			}
@@ -1905,7 +1905,7 @@ namespace spirv
 		{
 			write( instruction.operands[0], names, stream );
 
-			if ( instruction.name.has_value() )
+			if ( bool( instruction.name ) )
 			{
 				stream << " \"" << instruction.name.value() << "\"";
 			}
@@ -1933,7 +1933,7 @@ namespace spirv
 				stream << " " << instruction.operands[i];
 			}
 
-			if ( instruction.name.has_value() )
+			if ( bool( instruction.name ) )
 			{
 				stream << " \"" << instruction.name.value() << "\"";
 			}
@@ -1970,7 +1970,7 @@ namespace spirv
 		{
 			auto opCode = spv::Op( instruction.op.opCode );
 
-			if ( instruction.resultId.has_value() )
+			if ( bool( instruction.resultId ) )
 			{
 				stream << writeId( instruction.resultId.value() ) << " =";
 			}
@@ -1981,7 +1981,7 @@ namespace spirv
 
 			stream << " " << spirv::getOperatorName( opCode );
 
-			if ( instruction.resultType.has_value() )
+			if ( bool( instruction.resultType ) )
 			{
 				stream << write( instruction.resultType.value(), names );
 			}
@@ -2050,7 +2050,7 @@ namespace spirv
 			{
 				write( instruction.operands, names, stream );
 
-				if ( instruction.name.has_value() )
+				if ( bool( instruction.name ) )
 				{
 					stream << " \"" << instruction.name.value() << "\"";
 				}
@@ -2220,23 +2220,11 @@ namespace spirv
 
 		template< typename T >
 		void count( std::vector< T > const & values
-			, size_t & result )
-		{
-			for ( auto & value : values )
-			{
-				count( value, result );
-			}
-		}
+			, size_t & result );
 
 		template< typename T >
 		void count( std::optional< T > const & value
-			, size_t & result )
-		{
-			if ( value.has_value() )
-			{
-				count( value.value(), result );
-			}
-		}
+			, size_t & result );
 
 		void count( spv::Id const & id
 			, size_t & result )
@@ -2298,24 +2286,32 @@ namespace spirv
 		}
 
 		template< typename T >
-		void serialize( std::vector< T > const & values
-			, std::vector< uint32_t > & result )
+		void count( std::vector< T > const & values
+			, size_t & result )
 		{
 			for ( auto & value : values )
 			{
-				serialize( value, result );
+				count( value, result );
 			}
 		}
 
 		template< typename T >
-		void serialize( std::optional< T > const & value
-			, std::vector< uint32_t > & result )
+		void count( std::optional< T > const & value
+			, size_t & result )
 		{
-			if ( value.has_value() )
+			if ( bool( value ) )
 			{
-				serialize( value.value(), result );
+				count( value.value(), result );
 			}
 		}
+
+		template< typename T >
+		void serialize( std::vector< T > const & values
+			, std::vector< uint32_t > & result );
+
+		template< typename T >
+		void serialize( std::optional< T > const & value
+			, std::vector< uint32_t > & result );
 
 		void serialize( spv::Id const & id
 			, std::vector< uint32_t > & result )
@@ -2380,6 +2376,26 @@ namespace spirv
 			serialize( module.decorations, result );
 			serialize( module.globalDeclarations, result );
 			serialize( module.functions, result );
+		}
+
+		template< typename T >
+		void serialize( std::vector< T > const & values
+			, std::vector< uint32_t > & result )
+		{
+			for ( auto & value : values )
+			{
+				serialize( value, result );
+			}
+		}
+
+		template< typename T >
+		void serialize( std::optional< T > const & value
+			, std::vector< uint32_t > & result )
+		{
+			if ( bool( value ) )
+			{
+				serialize( value.value(), result );
+			}
 		}
 
 		spirv::Module compileSpirV( sdw::Shader const & shader )

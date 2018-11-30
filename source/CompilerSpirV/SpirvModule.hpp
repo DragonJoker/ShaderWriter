@@ -11,11 +11,28 @@ See LICENSE file in root folder
 
 #include <ShaderAST/Type/TypeStruct.hpp>
 
-#include <optional>
 #include <set>
 #include <string>
 #include <vector>
 #include <unordered_map>
+
+#if defined( __GNUG__ )
+#	define SDW_COMPILER_VERSION (__GNUC__ * 10000 + __GNUC_MINOR__ * 100 + __GNUC_PATCHLEVEL__)
+#	if SDW_COMPILER_VERSION < 40900
+#		error "Unsupported version of GCC"
+#	elif SDW_COMPILER_VERSION < 70100
+#		include <experimental/optional>
+namespace std
+{
+	using experimental::optional;
+	using experimental::nullopt;
+}
+#	else
+#		include <optional>
+#	endif
+#else
+#	include <optional>
+#endif
 
 namespace spirv
 {
@@ -120,7 +137,7 @@ namespace spirv
 			, ast::type::TypePtr type
 			, ast::expr::Literal const & value );
 		spv::Id registerParameter( ast::type::TypePtr type );
-		spv::Id Module::registerMemberVariableIndex( ast::type::TypePtr type );
+		spv::Id registerMemberVariableIndex( ast::type::TypePtr type );
 		spv::Id registerMemberVariable( spv::Id outer
 			, std::string name
 			, ast::type::TypePtr type );

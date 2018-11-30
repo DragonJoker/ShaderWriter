@@ -169,18 +169,15 @@ namespace
 		using namespace sdw;
 		ComputeWriter writer;
 		auto in = writer.getIn();
-		Struct ssboType{ writer, "SSBOType", type::MemoryLayout::eStd140 };
-		ssboType.declMember< UInt >( "value" );
-		ssboType.end();
-		StructuredSsbo ssbo{ writer, "Datas", ssboType, 0u, 0u };
+		ArraySsboT< UInt > ssbo{ writer, "Datas", ast::type::getUInt(), ast::type::MemoryLayout::eStd140 , 0u, 0u };
 
 		writer.inputLayout( 16 );
 		writer.implementFunction< void >( "main"
 			, [&]()
 			{
-				ssbo[in.gl_GlobalInvocationID.x()].getMember< UInt >( "value" )
-					= ssbo[in.gl_GlobalInvocationID.x()].getMember< UInt >( "value" )
-					* ssbo[in.gl_GlobalInvocationID.x()].getMember< UInt >( "value" );
+				ssbo[in.gl_GlobalInvocationID.x()]
+					= ssbo[in.gl_GlobalInvocationID.x()]
+					* ssbo[in.gl_GlobalInvocationID.x()];
 			} );
 
 		test::writeShader( writer

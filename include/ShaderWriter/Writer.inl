@@ -23,7 +23,7 @@ namespace sdw
 
 		template< typename DstT, typename SrcT >
 		struct Cast< DstT, SrcT
-			, std::enable_if_t< std::is_same_v< DstT, SrcT > > >
+			, std::enable_if_t< IsSameV< DstT, SrcT > > >
 		{
 			static inline DstT cast( Shader & shader
 				, DstT const & from )
@@ -34,7 +34,7 @@ namespace sdw
 
 		template< typename DstT, typename SrcT >
 			struct Cast< DstT, SrcT
-				, std::enable_if_t< !std::is_same_v< DstT, SrcT > && !isOptional< DstT > && !isOptional< SrcT > > >
+				, std::enable_if_t< !IsSameV< DstT, SrcT > && !isOptional< DstT > && !isOptional< SrcT > > >
 		{
 			static inline DstT cast( Shader & shader
 				, SrcT const & from )
@@ -57,7 +57,7 @@ namespace sdw
 
 		template< typename DstT, typename SrcT >
 		struct Cast< DstT, SrcT
-			, std::enable_if_t< !std::is_same_v< DstT, SrcT > && !isOptional< DstT > && isOptional< SrcT > > >
+			, std::enable_if_t< !IsSameV< DstT, SrcT > && !isOptional< DstT > && isOptional< SrcT > > >
 		{
 			static inline Optional< DstT > cast( Shader & shader
 				, SrcT const & from )
@@ -82,7 +82,7 @@ namespace sdw
 
 		template< typename DstT, typename SrcT >
 		struct Cast< DstT, SrcT
-			, std::enable_if_t< !std::is_same_v< DstT, SrcT > && isOptional< DstT > && !isOptional< SrcT > > >
+			, std::enable_if_t< !IsSameV< DstT, SrcT > && isOptional< DstT > && !isOptional< SrcT > > >
 		{
 			static inline DstT cast( Shader & shader
 				, SrcT const & from )
@@ -107,7 +107,7 @@ namespace sdw
 
 		template< typename DstT, typename SrcT >
 		struct Cast< DstT, SrcT
-			, std::enable_if_t< !std::is_same_v< DstT, SrcT > && isOptional< DstT > && isOptional< SrcT > > >
+			, std::enable_if_t< !IsSameV< DstT, SrcT > && isOptional< DstT > && isOptional< SrcT > > >
 		{
 			static inline DstT cast( Shader & shader
 				, SrcT const & from )
@@ -170,12 +170,32 @@ namespace sdw
 				, std::move( right ) ) };
 	}
 
+	template< typename ExprType >
+	ExprType ShaderWriter::ternary( Boolean condition
+		, ExprType left
+		, ExprType right )
+	{
+		return ExprType{ &m_shader
+			, sdw::makeQuestion( left.getType()
+				, makeExpr( condition )
+				, makeExpr( left )
+				, makeExpr( right ) ) };
+	}
+
 	template< typename ValueT >
 	inline ValueT ShaderWriter::paren( ValueT const & content )
 	{
 		return ValueT{ &m_shader
 			, makeExpr( content ) };
 	}
+
+	template< typename FunctionT, typename ... ParamsT >
+	void ShaderWriter::callFunction( FunctionT const & function
+		, ParamsT && ... params )
+	{
+		addStmt( sdw::makeSimple( sdw::makeExpr( function( std::forward< ParamsT >( params )... ) ) ) );
+	}
+
 #pragma region Cast
 		/**
 		*name
@@ -541,14 +561,14 @@ namespace sdw
 	inline T ShaderWriter::declInput( std::string const & name
 		, uint32_t location )
 	{
-		static_assert( !std::is_same_v< T, Boolean >, "Boolean is not supported as input type" );
-		static_assert( !std::is_same_v< T, BVec2 >, "BVec2 is not supported as input type" );
-		static_assert( !std::is_same_v< T, BVec3 >, "BVec3 is not supported as input type" );
-		static_assert( !std::is_same_v< T, BVec4 >, "BVec4 is not supported as input type" );
-		static_assert( !std::is_same_v< T, Double >, "Double is not supported as input type" );
-		static_assert( !std::is_same_v< T, DVec2 >, "DVec2 is not supported as input type" );
-		static_assert( !std::is_same_v< T, DVec3 >, "DVec3 is not supported as input type" );
-		static_assert( !std::is_same_v< T, DVec4 >, "DVec4 is not supported as input type" );
+		static_assert( !IsSameV< T, Boolean >, "Boolean is not supported as input type" );
+		static_assert( !IsSameV< T, BVec2 >, "BVec2 is not supported as input type" );
+		static_assert( !IsSameV< T, BVec3 >, "BVec3 is not supported as input type" );
+		static_assert( !IsSameV< T, BVec4 >, "BVec4 is not supported as input type" );
+		static_assert( !IsSameV< T, Double >, "Double is not supported as input type" );
+		static_assert( !IsSameV< T, DVec2 >, "DVec2 is not supported as input type" );
+		static_assert( !IsSameV< T, DVec3 >, "DVec3 is not supported as input type" );
+		static_assert( !IsSameV< T, DVec4 >, "DVec4 is not supported as input type" );
 		auto type = type::makeType( typeEnum< T > );
 		auto var = registerInput( name
 			, location
@@ -564,14 +584,14 @@ namespace sdw
 		, uint32_t location
 		, bool enabled )
 	{
-		static_assert( !std::is_same_v< T, Boolean >, "Boolean is not supported as input type" );
-		static_assert( !std::is_same_v< T, BVec2 >, "BVec2 is not supported as input type" );
-		static_assert( !std::is_same_v< T, BVec3 >, "BVec3 is not supported as input type" );
-		static_assert( !std::is_same_v< T, BVec4 >, "BVec4 is not supported as input type" );
-		static_assert( !std::is_same_v< T, Double >, "Double is not supported as input type" );
-		static_assert( !std::is_same_v< T, DVec2 >, "DVec2 is not supported as input type" );
-		static_assert( !std::is_same_v< T, DVec3 >, "DVec3 is not supported as input type" );
-		static_assert( !std::is_same_v< T, DVec4 >, "DVec4 is not supported as input type" );
+		static_assert( !IsSameV< T, Boolean >, "Boolean is not supported as input type" );
+		static_assert( !IsSameV< T, BVec2 >, "BVec2 is not supported as input type" );
+		static_assert( !IsSameV< T, BVec3 >, "BVec3 is not supported as input type" );
+		static_assert( !IsSameV< T, BVec4 >, "BVec4 is not supported as input type" );
+		static_assert( !IsSameV< T, Double >, "Double is not supported as input type" );
+		static_assert( !IsSameV< T, DVec2 >, "DVec2 is not supported as input type" );
+		static_assert( !IsSameV< T, DVec3 >, "DVec3 is not supported as input type" );
+		static_assert( !IsSameV< T, DVec4 >, "DVec4 is not supported as input type" );
 		auto type = type::makeType( typeEnum< T > );
 		auto var = registerInput( name
 			, location
@@ -593,14 +613,14 @@ namespace sdw
 		, uint32_t location
 		, uint32_t dimension )
 	{
-		static_assert( !std::is_same_v< T, Boolean >, "Boolean is not supported as input type" );
-		static_assert( !std::is_same_v< T, BVec2 >, "BVec2 is not supported as input type" );
-		static_assert( !std::is_same_v< T, BVec3 >, "BVec3 is not supported as input type" );
-		static_assert( !std::is_same_v< T, BVec4 >, "BVec4 is not supported as input type" );
-		static_assert( !std::is_same_v< T, Double >, "Double is not supported as input type" );
-		static_assert( !std::is_same_v< T, DVec2 >, "DVec2 is not supported as input type" );
-		static_assert( !std::is_same_v< T, DVec3 >, "DVec3 is not supported as input type" );
-		static_assert( !std::is_same_v< T, DVec4 >, "DVec4 is not supported as input type" );
+		static_assert( !IsSameV< T, Boolean >, "Boolean is not supported as input type" );
+		static_assert( !IsSameV< T, BVec2 >, "BVec2 is not supported as input type" );
+		static_assert( !IsSameV< T, BVec3 >, "BVec3 is not supported as input type" );
+		static_assert( !IsSameV< T, BVec4 >, "BVec4 is not supported as input type" );
+		static_assert( !IsSameV< T, Double >, "Double is not supported as input type" );
+		static_assert( !IsSameV< T, DVec2 >, "DVec2 is not supported as input type" );
+		static_assert( !IsSameV< T, DVec3 >, "DVec3 is not supported as input type" );
+		static_assert( !IsSameV< T, DVec4 >, "DVec4 is not supported as input type" );
 		auto type = type::makeArrayType( type::makeType( typeEnum< T > )
 			, dimension );
 		auto var = registerInput( name
@@ -618,14 +638,14 @@ namespace sdw
 		, uint32_t dimension
 		, bool enabled )
 	{
-		static_assert( !std::is_same_v< T, Boolean >, "Boolean is not supported as input type" );
-		static_assert( !std::is_same_v< T, BVec2 >, "BVec2 is not supported as input type" );
-		static_assert( !std::is_same_v< T, BVec3 >, "BVec3 is not supported as input type" );
-		static_assert( !std::is_same_v< T, BVec4 >, "BVec4 is not supported as input type" );
-		static_assert( !std::is_same_v< T, Double >, "Double is not supported as input type" );
-		static_assert( !std::is_same_v< T, DVec2 >, "DVec2 is not supported as input type" );
-		static_assert( !std::is_same_v< T, DVec3 >, "DVec3 is not supported as input type" );
-		static_assert( !std::is_same_v< T, DVec4 >, "DVec4 is not supported as input type" );
+		static_assert( !IsSameV< T, Boolean >, "Boolean is not supported as input type" );
+		static_assert( !IsSameV< T, BVec2 >, "BVec2 is not supported as input type" );
+		static_assert( !IsSameV< T, BVec3 >, "BVec3 is not supported as input type" );
+		static_assert( !IsSameV< T, BVec4 >, "BVec4 is not supported as input type" );
+		static_assert( !IsSameV< T, Double >, "Double is not supported as input type" );
+		static_assert( !IsSameV< T, DVec2 >, "DVec2 is not supported as input type" );
+		static_assert( !IsSameV< T, DVec3 >, "DVec3 is not supported as input type" );
+		static_assert( !IsSameV< T, DVec4 >, "DVec4 is not supported as input type" );
 		auto type = type::makeArrayType( type::makeType( typeEnum< T > )
 			, dimension );
 		auto var = registerInput( name
@@ -654,14 +674,14 @@ namespace sdw
 	inline T ShaderWriter::declOutput( std::string const & name
 		, uint32_t location )
 	{
-		static_assert( !std::is_same_v< T, Boolean >, "Boolean is not supported as output type" );
-		static_assert( !std::is_same_v< T, BVec2 >, "BVec2 is not supported as output type" );
-		static_assert( !std::is_same_v< T, BVec3 >, "BVec3 is not supported as output type" );
-		static_assert( !std::is_same_v< T, BVec4 >, "BVec4 is not supported as output type" );
-		static_assert( !std::is_same_v< T, Double >, "Double is not supported as output type" );
-		static_assert( !std::is_same_v< T, DVec2 >, "DVec2 is not supported as output type" );
-		static_assert( !std::is_same_v< T, DVec3 >, "DVec3 is not supported as output type" );
-		static_assert( !std::is_same_v< T, DVec4 >, "DVec4 is not supported as output type" );
+		static_assert( !IsSameV< T, Boolean >, "Boolean is not supported as output type" );
+		static_assert( !IsSameV< T, BVec2 >, "BVec2 is not supported as output type" );
+		static_assert( !IsSameV< T, BVec3 >, "BVec3 is not supported as output type" );
+		static_assert( !IsSameV< T, BVec4 >, "BVec4 is not supported as output type" );
+		static_assert( !IsSameV< T, Double >, "Double is not supported as output type" );
+		static_assert( !IsSameV< T, DVec2 >, "DVec2 is not supported as output type" );
+		static_assert( !IsSameV< T, DVec3 >, "DVec3 is not supported as output type" );
+		static_assert( !IsSameV< T, DVec4 >, "DVec4 is not supported as output type" );
 		auto type = type::makeType( typeEnum< T > );
 		auto var = registerOutput( name
 			, location
@@ -677,14 +697,14 @@ namespace sdw
 		, uint32_t location
 		, bool enabled )
 	{
-		static_assert( !std::is_same_v< T, Boolean >, "Boolean is not supported as output type" );
-		static_assert( !std::is_same_v< T, BVec2 >, "BVec2 is not supported as output type" );
-		static_assert( !std::is_same_v< T, BVec3 >, "BVec3 is not supported as output type" );
-		static_assert( !std::is_same_v< T, BVec4 >, "BVec4 is not supported as output type" );
-		static_assert( !std::is_same_v< T, Double >, "Double is not supported as output type" );
-		static_assert( !std::is_same_v< T, DVec2 >, "DVec2 is not supported as output type" );
-		static_assert( !std::is_same_v< T, DVec3 >, "DVec3 is not supported as output type" );
-		static_assert( !std::is_same_v< T, DVec4 >, "DVec4 is not supported as output type" );
+		static_assert( !IsSameV< T, Boolean >, "Boolean is not supported as output type" );
+		static_assert( !IsSameV< T, BVec2 >, "BVec2 is not supported as output type" );
+		static_assert( !IsSameV< T, BVec3 >, "BVec3 is not supported as output type" );
+		static_assert( !IsSameV< T, BVec4 >, "BVec4 is not supported as output type" );
+		static_assert( !IsSameV< T, Double >, "Double is not supported as output type" );
+		static_assert( !IsSameV< T, DVec2 >, "DVec2 is not supported as output type" );
+		static_assert( !IsSameV< T, DVec3 >, "DVec3 is not supported as output type" );
+		static_assert( !IsSameV< T, DVec4 >, "DVec4 is not supported as output type" );
 		auto type = type::makeType( typeEnum< T > );
 		auto var = registerOutput( name
 			, location
@@ -706,14 +726,14 @@ namespace sdw
 		, uint32_t location
 		, uint32_t dimension )
 	{
-		static_assert( !std::is_same_v< T, Boolean >, "Boolean is not supported as output type" );
-		static_assert( !std::is_same_v< T, BVec2 >, "BVec2 is not supported as output type" );
-		static_assert( !std::is_same_v< T, BVec3 >, "BVec3 is not supported as output type" );
-		static_assert( !std::is_same_v< T, BVec4 >, "BVec4 is not supported as output type" );
-		static_assert( !std::is_same_v< T, Double >, "Double is not supported as output type" );
-		static_assert( !std::is_same_v< T, DVec2 >, "DVec2 is not supported as output type" );
-		static_assert( !std::is_same_v< T, DVec3 >, "DVec3 is not supported as output type" );
-		static_assert( !std::is_same_v< T, DVec4 >, "DVec4 is not supported as output type" );
+		static_assert( !IsSameV< T, Boolean >, "Boolean is not supported as output type" );
+		static_assert( !IsSameV< T, BVec2 >, "BVec2 is not supported as output type" );
+		static_assert( !IsSameV< T, BVec3 >, "BVec3 is not supported as output type" );
+		static_assert( !IsSameV< T, BVec4 >, "BVec4 is not supported as output type" );
+		static_assert( !IsSameV< T, Double >, "Double is not supported as output type" );
+		static_assert( !IsSameV< T, DVec2 >, "DVec2 is not supported as output type" );
+		static_assert( !IsSameV< T, DVec3 >, "DVec3 is not supported as output type" );
+		static_assert( !IsSameV< T, DVec4 >, "DVec4 is not supported as output type" );
 		auto type = type::makeArrayType( type::makeType( typeEnum< T > )
 			, dimension );
 		auto var = registerOutput( name
@@ -731,14 +751,14 @@ namespace sdw
 		, uint32_t dimension
 		, bool enabled )
 	{
-		static_assert( !std::is_same_v< T, Boolean >, "Boolean is not supported as output type" );
-		static_assert( !std::is_same_v< T, BVec2 >, "BVec2 is not supported as output type" );
-		static_assert( !std::is_same_v< T, BVec3 >, "BVec3 is not supported as output type" );
-		static_assert( !std::is_same_v< T, BVec4 >, "BVec4 is not supported as output type" );
-		static_assert( !std::is_same_v< T, Double >, "Double is not supported as output type" );
-		static_assert( !std::is_same_v< T, DVec2 >, "DVec2 is not supported as output type" );
-		static_assert( !std::is_same_v< T, DVec3 >, "DVec3 is not supported as output type" );
-		static_assert( !std::is_same_v< T, DVec4 >, "DVec4 is not supported as output type" );
+		static_assert( !IsSameV< T, Boolean >, "Boolean is not supported as output type" );
+		static_assert( !IsSameV< T, BVec2 >, "BVec2 is not supported as output type" );
+		static_assert( !IsSameV< T, BVec3 >, "BVec3 is not supported as output type" );
+		static_assert( !IsSameV< T, BVec4 >, "BVec4 is not supported as output type" );
+		static_assert( !IsSameV< T, Double >, "Double is not supported as output type" );
+		static_assert( !IsSameV< T, DVec2 >, "DVec2 is not supported as output type" );
+		static_assert( !IsSameV< T, DVec3 >, "DVec3 is not supported as output type" );
+		static_assert( !IsSameV< T, DVec4 >, "DVec4 is not supported as output type" );
 		auto type = type::makeArrayType( type::makeType( typeEnum< T > )
 			, dimension );
 		auto var = registerOutput( name

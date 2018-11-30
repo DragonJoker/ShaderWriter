@@ -25,6 +25,7 @@ namespace sdw
 		inline Mat3T< ValueT > & operator=( RhsT const & rhs );
 		template< typename IndexT >
 		inline Vec3T< ValueT > operator[]( IndexT const & rhs )const;
+		inline Mat3T< ValueT > & operator+=( Mat3T< ValueT > const & rhs );
 	};
 	template< typename ValueT >
 	Vec3T< ValueT > operator*( Vec3T< ValueT > const & lhs,
@@ -35,6 +36,13 @@ namespace sdw
 	template< typename ValueT >
 	Mat3T< ValueT > operator*( Mat3T< ValueT > const & lhs
 		, Mat3T< ValueT > const & rhs );
+
+	template< typename ValueT >
+	Mat3T< ValueT > operator*( ValueT const & lhs,
+		Mat3T< ValueT > const & rhs );
+	template< typename ValueT >
+	Mat3T< ValueT > operator*( Mat3T< ValueT > const & lhs
+		, ValueT const & rhs );
 }
 
 #include "Mat3.inl"

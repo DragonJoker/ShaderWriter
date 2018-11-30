@@ -17,7 +17,7 @@ namespace sdw
 	template< typename ValueT >
 	Optional< Array< ValueT > >::Optional( Optional< Array< ValueT > > const & rhs )
 		: Array< ValueT >{ rhs }
-		, m_enabled{ other.m_enabled }
+		, m_enabled{ rhs.m_enabled }
 	{
 	}
 

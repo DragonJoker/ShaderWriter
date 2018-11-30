@@ -57,6 +57,16 @@ namespace sdw
 	}
 
 	template< typename ValueT >
+	inline Mat3T< ValueT > & Mat3T< ValueT >::operator+=( Mat3T< ValueT > const & rhs )
+	{
+		addStmt( *findContainer( *this, rhs )
+			, sdw::makeSimple( sdw::makeAddAssign( makeType( this->getType()->getKind() )
+				, makeExpr( *this )
+				, makeExpr( rhs ) ) ) );
+		return *this;
+	}
+
+	template< typename ValueT >
 	Vec3T< ValueT > operator*( Vec3T< ValueT > const & lhs,
 		Mat3T< ValueT > const & rhs )
 	{
@@ -79,6 +89,26 @@ namespace sdw
 	template< typename ValueT >
 	Mat3T< ValueT > operator*( Mat3T< ValueT > const & lhs
 		, Mat3T< ValueT > const & rhs )
+	{
+		return Mat3T< ValueT >{ findShader( lhs, rhs )
+			, sdw::makeTimes( makeType( typeEnum< Mat3T< ValueT > > )
+				, makeExpr( lhs )
+				, makeExpr( rhs ) ) };
+	}
+
+	template< typename ValueT >
+	Mat3T< ValueT > operator*( ValueT const & lhs,
+		Mat3T< ValueT > const & rhs )
+	{
+		return Mat3T< ValueT >{ findShader( lhs, rhs )
+			, sdw::makeTimes( makeType( typeEnum< Mat3T< ValueT > > )
+				, makeExpr( lhs )
+				, makeExpr( rhs ) ) };
+	}
+
+	template< typename ValueT >
+	Mat3T< ValueT > operator*( Mat3T< ValueT > const & lhs
+		, ValueT const & rhs )
 	{
 		return Mat3T< ValueT >{ findShader( lhs, rhs )
 			, sdw::makeTimes( makeType( typeEnum< Mat3T< ValueT > > )

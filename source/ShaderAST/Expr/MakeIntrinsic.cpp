@@ -286,32 +286,32 @@ namespace ast::expr
 			, std::move( x ) );
 	}
 
-	IntrinsicCallPtr makeAtan1( ExprPtr x )
+	IntrinsicCallPtr makeAtan1( ExprPtr y_over_x )
 	{
 		return makeIntrinsicCall( makeType( type::Kind::eFloat )
 			, Intrinsic::eAtan1
-			, std::move( x ) );
+			, std::move( y_over_x ) );
 	}
 
-	IntrinsicCallPtr makeAtan2( ExprPtr x )
+	IntrinsicCallPtr makeAtan2( ExprPtr y_over_x )
 	{
 		return makeIntrinsicCall( makeType( type::Kind::eVec2F )
 			, Intrinsic::eAtan2
-			, std::move( x ) );
+			, std::move( y_over_x ) );
 	}
 
-	IntrinsicCallPtr makeAtan3( ExprPtr x )
+	IntrinsicCallPtr makeAtan3( ExprPtr y_over_x )
 	{
 		return makeIntrinsicCall( makeType( type::Kind::eVec3F )
 			, Intrinsic::eAtan3
-			, std::move( x ) );
+			, std::move( y_over_x ) );
 	}
 
-	IntrinsicCallPtr makeAtan4( ExprPtr x )
+	IntrinsicCallPtr makeAtan4( ExprPtr y_over_x )
 	{
 		return makeIntrinsicCall( makeType( type::Kind::eVec4F )
 			, Intrinsic::eAtan4
-			, std::move( x ) );
+			, std::move( y_over_x ) );
 	}
 
 	IntrinsicCallPtr makeAcosh1( ExprPtr x )
@@ -3677,75 +3677,91 @@ namespace ast::expr
 	}
 
 	IntrinsicCallPtr makeRefract1F( ExprPtr I
-		, ExprPtr N )
+		, ExprPtr N
+		, ExprPtr eta )
 	{
 		return makeIntrinsicCall( makeType( type::Kind::eFloat )
 			, Intrinsic::eRefract1F
 			, std::move( I )
-			, std::move( N ) );
+			, std::move( N )
+			, std::move( eta ) );
 	}
 
 	IntrinsicCallPtr makeRefract2F( ExprPtr I
-		, ExprPtr N )
+		, ExprPtr N
+		, ExprPtr eta )
 	{
 		return makeIntrinsicCall( makeType( type::Kind::eVec2F )
 			, Intrinsic::eRefract2F
 			, std::move( I )
-			, std::move( N ) );
+			, std::move( N )
+			, std::move( eta ) );
 	}
 
 	IntrinsicCallPtr makeRefract3F( ExprPtr I
-		, ExprPtr N )
+		, ExprPtr N
+		, ExprPtr eta )
 	{
 		return makeIntrinsicCall( makeType( type::Kind::eVec3F )
 			, Intrinsic::eRefract3F
 			, std::move( I )
-			, std::move( N ) );
+			, std::move( N )
+			, std::move( eta ) );
 	}
 
 	IntrinsicCallPtr makeRefract4F( ExprPtr I
-		, ExprPtr N )
+		, ExprPtr N
+		, ExprPtr eta )
 	{
 		return makeIntrinsicCall( makeType( type::Kind::eVec4F )
 			, Intrinsic::eRefract4F
 			, std::move( I )
-			, std::move( N ) );
+			, std::move( N )
+			, std::move( eta ) );
 	}
 
 	IntrinsicCallPtr makeRefract1D( ExprPtr I
-		, ExprPtr N )
+		, ExprPtr N
+		, ExprPtr eta )
 	{
 		return makeIntrinsicCall( makeType( type::Kind::eDouble )
 			, Intrinsic::eRefract1D
 			, std::move( I )
-			, std::move( N ) );
+			, std::move( N )
+			, std::move( eta ) );
 	}
 
 	IntrinsicCallPtr makeRefract2D( ExprPtr I
-		, ExprPtr N )
+		, ExprPtr N
+		, ExprPtr eta )
 	{
 		return makeIntrinsicCall( makeType( type::Kind::eVec2D )
 			, Intrinsic::eRefract2D
 			, std::move( I )
-			, std::move( N ) );
+			, std::move( N )
+			, std::move( eta ) );
 	}
 
 	IntrinsicCallPtr makeRefract3D( ExprPtr I
-		, ExprPtr N )
+		, ExprPtr N
+		, ExprPtr eta )
 	{
 		return makeIntrinsicCall( makeType( type::Kind::eVec3D )
 			, Intrinsic::eRefract3D
 			, std::move( I )
-			, std::move( N ) );
+			, std::move( N )
+			, std::move( eta ) );
 	}
 
 	IntrinsicCallPtr makeRefract4D( ExprPtr I
-		, ExprPtr N )
+		, ExprPtr N
+		, ExprPtr eta )
 	{
 		return makeIntrinsicCall( makeType( type::Kind::eVec4D )
 			, Intrinsic::eRefract4D
 			, std::move( I )
-			, std::move( N ) );
+			, std::move( N )
+			, std::move( eta ) );
 	}
 
 	// Matrix Functions

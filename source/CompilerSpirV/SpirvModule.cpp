@@ -572,17 +572,17 @@ namespace spirv
 		, name{ name }
 		, labels{ labels }
 	{
-		if ( this->name.has_value() )
+		if ( bool( this->name ) )
 		{
 			packedName = packString( this->name.value() );
 		}
 
 		this->op.op = op;
 		this->op.opCount = uint16_t( 1u
-			+ ( this->resultType.has_value() ? 1u : 0u )
-			+ ( this->resultId.has_value() ? 1u : 0u )
+			+ ( bool( this->resultType ) ? 1u : 0u )
+			+ ( bool( this->resultId ) ? 1u : 0u )
 			+ this->operands.size()
-			+ ( this->packedName.has_value() ? this->packedName.value().size() : 0u ) );
+			+ ( bool( this->packedName ) ? this->packedName.value().size() : 0u ) );
 	}
 
 	//*************************************************************************

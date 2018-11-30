@@ -7,7 +7,8 @@ namespace sdw
 
 	namespace details
 	{
-		inline Shader * getShader( Value const & value )
+		template< typename ValueT >
+		inline Shader * getShader( ValueT const & value )
 		{
 			return value.getShader();
 		}

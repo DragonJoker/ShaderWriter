@@ -65,13 +65,13 @@ namespace sdw
 	}
 
 	void ShaderWriter::registerSsbo( std::string const & name
-		, Ssbo::Info const & info )
+		, SsboInfo const & info )
 	{
 		m_shader.registerSsbo( name, info );
 	}
 
 	void ShaderWriter::registerUbo( std::string const & name
-		, Ubo::Info const & info )
+		, UboInfo const & info )
 	{
 		m_shader.registerUbo( name, info );
 	}

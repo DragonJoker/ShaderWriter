@@ -195,7 +195,7 @@ namespace hlsl
 
 	void StmtAdapter::visitInOutVariableDeclStmt( ast::stmt::InOutVariableDecl * stmt )
 	{
-		auto & var = stmt->getVariable();
+		auto var = stmt->getVariable();
 
 		if ( var->isShaderInput() )
 		{
@@ -354,7 +354,7 @@ namespace hlsl
 
 	void StmtAdapter::visitVariableDeclStmt( ast::stmt::VariableDecl * stmt )
 	{
-		auto & var = stmt->getVariable();
+		auto var = stmt->getVariable();
 
 		if ( isShaderInOut( var->getName(), m_shader.getType() ) )
 		{

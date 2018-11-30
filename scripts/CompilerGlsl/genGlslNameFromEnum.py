@@ -6,7 +6,7 @@ def printHeader( outs, match ):
 	outs.write( '#define ___AST_Glsl' + enumName + 'Names_H___\n' )
 	outs.write( '#pragma once\n' )
 	outs.write( "\n" )
-	outs.write( '#include <ASTGenerator/Expr/Enum' + enumName + '.hpp>\n' )
+	outs.write( '#include <ShaderAST/Expr/Enum' + enumName + '.hpp>\n' )
 	outs.write( "\n" )
 	outs.write( '#include <string>\n' )
 	outs.write( "\n" )

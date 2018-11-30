@@ -8,7 +8,7 @@
 #	include <GL/glx.h>
 #endif
 
-#include <gl/GL.h>
+#include <GL/gl.h>
 
 #include <iostream>
 #include <sstream>
@@ -17,9 +17,7 @@ namespace test
 {
 #if _WIN32
 #	define GLAPIENTRY __stdcall
-#else
-#	define GLAPIENTRY
-#endif
+
 
 	enum ContextFlag
 	{
@@ -34,21 +32,21 @@ namespace test
 
 	enum GlShaderInfo
 	{
-		GL_INFO_COMPILE_STATUS = 0x8B81,
-		GL_INFO_LINK_STATUS = 0x8B82,
-		GL_INFO_VALIDATE_STATUS = 0x8B83,
+		GL_COMPILE_STATUS = 0x8B81,
+		GL_LINK_STATUS = 0x8B82,
+		GL_VALIDATE_STATUS = 0x8B83,
 		GL_INFO_LOG_LENGTH = 0x8B84,
-		GL_INFO_ATTACHED_SHADERS = 0x8B85,
+		GL_ATTACHED_SHADERS = 0x8B85,
 	};
 
 	enum GlShaderStageFlag
 	{
-		GL_SHADER_STAGE_FRAGMENT = 0x8B30,
-		GL_SHADER_STAGE_VERTEX = 0x8B31,
-		GL_SHADER_STAGE_GEOMETRY = 0x8DD9,
-		GL_SHADER_STAGE_TESS_CONTROL = 0x8E88,
-		GL_SHADER_STAGE_TESS_EVALUATION = 0x8E87,
-		GL_SHADER_STAGE_COMPUTE = 0x91B9,
+		GL_FRAGMENT_SHADER = 0x8B30,
+		GL_VERTEX_SHADER = 0x8B31,
+		GL_GEOMETRY_SHADER = 0x8DD9,
+		GL_TESS_CONTROL_SHADER = 0x8E88,
+		GL_TESS_EVALUATION_SHADER = 0x8E87,
+		GL_COMPUTE_SHADER = 0x91B9,
 	};
 
 	enum GlDebugOutput
@@ -101,6 +99,10 @@ namespace test
 		GL_DEBUG_CATEGORY_OTHER_AMD = 0x9150,
 	};
 
+#else
+#	define GLAPIENTRY
+#endif
+
 	static const int GL_CONTEXT_CREATION_DEFAULT_FLAGS = GL_CONTEXT_FLAG_FORWARD_COMPATIBLE_BIT | GL_CONTEXT_FLAG_DEBUG_BIT;
 	static const int GL_CONTEXT_CREATION_DEFAULT_MASK = GL_CONTEXT_CORE_PROFILE_BIT;
 
@@ -111,10 +113,10 @@ namespace test
 	using PFN_glGetShaderiv = void ( GLAPIENTRY * )( GLuint shader, GLenum pname, GLint * param );
 	using PFN_glShaderSource = void ( GLAPIENTRY * )( GLuint shader, GLsizei count, const char * const * string, const GLint * length );
 
-	using PFNGLDEBUGPROC = void ( CALLBACK * )( uint32_t source, uint32_t type, uint32_t id, uint32_t severity, int length, const char * message, void * userParam );
-	using PFNGLDEBUGAMDPROC = void ( CALLBACK * )( uint32_t id, uint32_t category, uint32_t severity, int length, const char* message, void* userParam );
-	using PFNGLDEBUGMESSAGECALLBACK = void ( CALLBACK * )( PFNGLDEBUGPROC callback, void * userParam );
-	using PFNGLDEBUGMESSAGECALLBACKAMD = void ( CALLBACK * )( PFNGLDEBUGAMDPROC callback, void * userParam );
+	using PFNGLDEBUGPROC = void ( GLAPIENTRY * )( uint32_t source, uint32_t type, uint32_t id, uint32_t severity, int length, const char * message, void * userParam );
+	using PFNGLDEBUGAMDPROC = void ( GLAPIENTRY * )( uint32_t id, uint32_t category, uint32_t severity, int length, const char* message, void* userParam );
+	using PFNGLDEBUGMESSAGECALLBACK = void ( GLAPIENTRY * )( PFNGLDEBUGPROC callback, void * userParam );
+	using PFNGLDEBUGMESSAGECALLBACKAMD = void ( GLAPIENTRY * )( PFNGLDEBUGAMDPROC callback, void * userParam );
 
 	PFNGLDEBUGMESSAGECALLBACK glDebugMessageCallback = nullptr;
 	PFNGLDEBUGMESSAGECALLBACKAMD glDebugMessageCallbackAMD = nullptr;
@@ -185,7 +187,7 @@ namespace test
 			return result;
 		}
 
-		void CALLBACK callbackDebugLog( uint32_t source, uint32_t type, uint32_t id, uint32_t severity, int length, const char * message, void * userParam )
+		void GLAPIENTRY callbackDebugLog( uint32_t source, uint32_t type, uint32_t id, uint32_t severity, int length, const char * message, void * userParam )
 		{
 			std::locale loc{ "C" };
 			std::stringstream stream;
@@ -660,26 +662,21 @@ namespace test
 			setCurrent();
 			::glGetError();
 
-			if ( getFunction( "glXCreateContextAttribsARB", glCreateContextAttribs ) )
-			{
-				auto glxContext = glCreateContextAttribs( m_display
-					, m_fbConfig[0]
-					, nullptr
-					, true
-					, attribList.data() );
-				glXDestroyContext( m_display, m_glxContext );
-				m_glxContext = glxContext;
+			getFunction( "glXCreateContextAttribsARB", glCreateContextAttribs );
 
-				if ( m_glxContext == nullptr )
-				{
-					std::stringstream stream;
-					stream << "Failed to create an OpenGL " << version.major << "." << version.minor << " context.";
-					throw std::runtime_error{ stream.str() };
-				}
-			}
-			else
+			auto glxContext = glCreateContextAttribs( m_display
+				, m_fbConfig
+				, nullptr
+				, true
+				, attribList.data() );
+			glXDestroyContext( m_display, m_glxContext );
+			m_glxContext = glxContext;
+
+			if ( m_glxContext == nullptr )
 			{
-				throw std::runtime_error{ "Couldn't load glXCreateContextAttribsARB function." };
+				std::stringstream stream;
+				stream << "Failed to create an OpenGL " << version.major << "." << version.minor << " context.";
+				throw std::runtime_error{ stream.str() };
 			}
 		}
 
@@ -749,26 +746,26 @@ namespace test
 			switch ( stage )
 			{
 			case sdw::ShaderType::eVertex:
-				return GL_SHADER_STAGE_VERTEX;
+				return GL_VERTEX_SHADER;
 				break;
 			case sdw::ShaderType::eTessellationControl:
-				return GL_SHADER_STAGE_TESS_CONTROL;
+				return GL_TESS_CONTROL_SHADER;
 				break;
 			case sdw::ShaderType::eTessellationEvaluation:
-				return GL_SHADER_STAGE_TESS_EVALUATION;
+				return GL_TESS_EVALUATION_SHADER;
 				break;
 			case sdw::ShaderType::eGeometry:
-				return GL_SHADER_STAGE_GEOMETRY;
+				return GL_GEOMETRY_SHADER;
 				break;
 			case sdw::ShaderType::eCompute:
-				return GL_SHADER_STAGE_COMPUTE;
+				return GL_COMPUTE_SHADER;
 				break;
 			case sdw::ShaderType::eFragment:
-				return GL_SHADER_STAGE_FRAGMENT;
+				return GL_FRAGMENT_SHADER;
 				break;
 			default:
 				assert( false && "Unsupported ShaderType." );
-				return GL_SHADER_STAGE_VERTEX;
+				return GL_VERTEX_SHADER;
 			}
 		}
 	}
@@ -795,7 +792,7 @@ namespace test
 		window.glCompileShader( shader );
 		int compiled = 0;
 		window.glGetShaderiv( shader
-			, GL_INFO_COMPILE_STATUS
+			, GL_COMPILE_STATUS
 			, &compiled );
 
 		result = doCheckCompileErrors( window

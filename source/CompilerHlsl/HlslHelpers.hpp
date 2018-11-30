@@ -22,7 +22,7 @@ namespace hlsl
 	std::string getSampledName( ast::type::ImageFormat value );
 	std::string getName( ast::type::ImageDim value );
 	std::string getSemantic( std::string const & name
-		, std::string const & default
+		, std::string const & defaultName
 		, uint32_t & index );
 	bool isUnaryPre( ast::expr::Kind kind );
 

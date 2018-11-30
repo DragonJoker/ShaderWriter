@@ -575,53 +575,53 @@ namespace sdw
 	*	atan
 	*/
 	/**@{*/
-	MaybeOptional< Float > atan( MaybeOptional< Float > const & x )
+	MaybeOptional< Float > atan( MaybeOptional< Float > const & y_over_x )
 	{
-		if ( isAnyOptional( x ) )
+		if ( isAnyOptional( y_over_x ) )
 		{
-			return Optional< Float >{ findShader( x )
-				, expr::makeAtan1( makeExpr( x ) )
-				, areOptionalEnabled( x ) };
+			return Optional< Float >{ findShader( y_over_x )
+				, expr::makeAtan1( makeExpr( y_over_x ) )
+				, areOptionalEnabled( y_over_x ) };
 		}
 
-		return Float{ findShader( x )
-			, expr::makeAtan1( makeExpr( x ) ) };
+		return Float{ findShader( y_over_x )
+			, expr::makeAtan1( makeExpr( y_over_x ) ) };
 	}
-	MaybeOptional< Vec2 > atan( MaybeOptional< Vec2 > const & x )
+	MaybeOptional< Vec2 > atan( MaybeOptional< Vec2 > const & y_over_x )
 	{
-		if ( isAnyOptional( x ) )
+		if ( isAnyOptional( y_over_x ) )
 		{
-			return Optional< Vec2 >{ findShader( x )
-				, expr::makeAtan2( makeExpr( x ) )
-				, areOptionalEnabled( x ) };
+			return Optional< Vec2 >{ findShader( y_over_x )
+				, expr::makeAtan2( makeExpr( y_over_x ) )
+				, areOptionalEnabled( y_over_x ) };
 		}
 
-		return Vec2{ findShader( x )
-			, expr::makeAtan2( makeExpr( x ) ) };
+		return Vec2{ findShader( y_over_x )
+			, expr::makeAtan2( makeExpr( y_over_x ) ) };
 	}
-	MaybeOptional< Vec3 > atan( MaybeOptional< Vec3 > const & x )
+	MaybeOptional< Vec3 > atan( MaybeOptional< Vec3 > const & y_over_x )
 	{
-		if ( isAnyOptional( x ) )
+		if ( isAnyOptional( y_over_x ) )
 		{
-			return Optional< Vec3 >{ findShader( x )
-				, expr::makeAtan3( makeExpr( x ) )
-				, areOptionalEnabled( x ) };
+			return Optional< Vec3 >{ findShader( y_over_x )
+				, expr::makeAtan3( makeExpr( y_over_x ) )
+				, areOptionalEnabled( y_over_x ) };
 		}
 
-		return Vec3{ findShader( x )
-			, expr::makeAtan3( makeExpr( x ) ) };
+		return Vec3{ findShader( y_over_x )
+			, expr::makeAtan3( makeExpr( y_over_x ) ) };
 	}
-	MaybeOptional< Vec4 > atan( MaybeOptional< Vec4 > const & x )
+	MaybeOptional< Vec4 > atan( MaybeOptional< Vec4 > const & y_over_x )
 	{
-		if ( isAnyOptional( x ) )
+		if ( isAnyOptional( y_over_x ) )
 		{
-			return Optional< Vec4 >{ findShader( x )
-				, expr::makeAtan4( makeExpr( x ) )
-				, areOptionalEnabled( x ) };
+			return Optional< Vec4 >{ findShader( y_over_x )
+				, expr::makeAtan4( makeExpr( y_over_x ) )
+				, areOptionalEnabled( y_over_x ) };
 		}
 
-		return Vec4{ findShader( x )
-			, expr::makeAtan4( makeExpr( x ) ) };
+		return Vec4{ findShader( y_over_x )
+			, expr::makeAtan4( makeExpr( y_over_x ) ) };
 	}
 	/**@}*/
 #pragma endregion
@@ -6686,124 +6686,148 @@ namespace sdw
 	*/
 	/**@{*/
 	MaybeOptional< Float > refract( MaybeOptional< Float > const & I
-		, MaybeOptional< Float > const & N )
+		, MaybeOptional< Float > const & N
+		, MaybeOptional< Float > const & eta )
 	{
-		if ( isAnyOptional( I, N ) )
+		if ( isAnyOptional( I, N, eta ) )
 		{
-			return Optional< Float >{ findShader( I, N )
+			return Optional< Float >{ findShader( I, N, eta )
 				, expr::makeRefract1F( makeExpr( I )
-					, makeExpr( N ) )
-				, areOptionalEnabled( I, N ) };
+					, makeExpr( N )
+					, makeExpr( eta ) )
+				, areOptionalEnabled( I, N, eta ) };
 		}
 
-		return Float{ findShader( I, N )
+		return Float{ findShader( I, N, eta )
 			, expr::makeRefract1F( makeExpr( I )
-				, makeExpr( N ) ) };
+				, makeExpr( N )
+				, makeExpr( eta ) ) };
 	}
 	MaybeOptional< Vec2 > refract( MaybeOptional< Vec2 > const & I
-		, MaybeOptional< Vec2 > const & N )
+		, MaybeOptional< Vec2 > const & N
+		, MaybeOptional< Float > const & eta )
 	{
-		if ( isAnyOptional( I, N ) )
+		if ( isAnyOptional( I, N, eta ) )
 		{
-			return Optional< Vec2 >{ findShader( I, N )
+			return Optional< Vec2 >{ findShader( I, N, eta )
 				, expr::makeRefract2F( makeExpr( I )
-					, makeExpr( N ) )
-				, areOptionalEnabled( I, N ) };
+					, makeExpr( N )
+					, makeExpr( eta ) )
+				, areOptionalEnabled( I, N, eta ) };
 		}
 
-		return Vec2{ findShader( I, N )
+		return Vec2{ findShader( I, N, eta )
 			, expr::makeRefract2F( makeExpr( I )
-				, makeExpr( N ) ) };
+				, makeExpr( N )
+				, makeExpr( eta ) ) };
 	}
 	MaybeOptional< Vec3 > refract( MaybeOptional< Vec3 > const & I
-		, MaybeOptional< Vec3 > const & N )
+		, MaybeOptional< Vec3 > const & N
+		, MaybeOptional< Float > const & eta )
 	{
-		if ( isAnyOptional( I, N ) )
+		if ( isAnyOptional( I, N, eta ) )
 		{
-			return Optional< Vec3 >{ findShader( I, N )
+			return Optional< Vec3 >{ findShader( I, N, eta )
 				, expr::makeRefract3F( makeExpr( I )
-					, makeExpr( N ) )
-				, areOptionalEnabled( I, N ) };
+					, makeExpr( N )
+					, makeExpr( eta ) )
+				, areOptionalEnabled( I, N, eta ) };
 		}
 
-		return Vec3{ findShader( I, N )
+		return Vec3{ findShader( I, N, eta )
 			, expr::makeRefract3F( makeExpr( I )
-				, makeExpr( N ) ) };
+				, makeExpr( N )
+				, makeExpr( eta ) ) };
 	}
 	MaybeOptional< Vec4 > refract( MaybeOptional< Vec4 > const & I
-		, MaybeOptional< Vec4 > const & N )
+		, MaybeOptional< Vec4 > const & N
+		, MaybeOptional< Float > const & eta )
 	{
-		if ( isAnyOptional( I, N ) )
+		if ( isAnyOptional( I, N, eta ) )
 		{
-			return Optional< Vec4 >{ findShader( I, N )
+			return Optional< Vec4 >{ findShader( I, N, eta )
 				, expr::makeRefract4F( makeExpr( I )
-					, makeExpr( N ) )
-				, areOptionalEnabled( I, N ) };
+					, makeExpr( N )
+					, makeExpr( eta ) )
+				, areOptionalEnabled( I, N, eta ) };
 		}
 
-		return Vec4{ findShader( I, N )
+		return Vec4{ findShader( I, N, eta )
 			, expr::makeRefract4F( makeExpr( I )
-				, makeExpr( N ) ) };
+				, makeExpr( N )
+				, makeExpr( eta ) ) };
 	}
 	MaybeOptional< Double > refract( MaybeOptional< Double > const & I
-		, MaybeOptional< Double > const & N )
+		, MaybeOptional< Double > const & N
+		, MaybeOptional< Float > const & eta )
 	{
-		if ( isAnyOptional( I, N ) )
+		if ( isAnyOptional( I, N, eta ) )
 		{
-			return Optional< Double >{ findShader( I, N )
+			return Optional< Double >{ findShader( I, N, eta )
 				, expr::makeRefract1D( makeExpr( I )
-					, makeExpr( N ) )
-				, areOptionalEnabled( I, N ) };
+					, makeExpr( N )
+					, makeExpr( eta ) )
+				, areOptionalEnabled( I, N, eta ) };
 		}
 
-		return Double{ findShader( I, N )
+		return Double{ findShader( I, N, eta )
 			, expr::makeRefract1D( makeExpr( I )
-				, makeExpr( N ) ) };
+				, makeExpr( N )
+				, makeExpr( eta ) ) };
 	}
 	MaybeOptional< DVec2 > refract( MaybeOptional< DVec2 > const & I
-		, MaybeOptional< DVec2 > const & N )
+		, MaybeOptional< DVec2 > const & N
+		, MaybeOptional< Float > const & eta )
 	{
-		if ( isAnyOptional( I, N ) )
+		if ( isAnyOptional( I, N, eta ) )
 		{
-			return Optional< DVec2 >{ findShader( I, N )
+			return Optional< DVec2 >{ findShader( I, N, eta )
 				, expr::makeRefract2D( makeExpr( I )
-					, makeExpr( N ) )
-				, areOptionalEnabled( I, N ) };
+					, makeExpr( N )
+					, makeExpr( eta ) )
+				, areOptionalEnabled( I, N, eta ) };
 		}
 
-		return DVec2{ findShader( I, N )
+		return DVec2{ findShader( I, N, eta )
 			, expr::makeRefract2D( makeExpr( I )
-				, makeExpr( N ) ) };
+				, makeExpr( N )
+				, makeExpr( eta ) ) };
 	}
 	MaybeOptional< DVec3 > refract( MaybeOptional< DVec3 > const & I
-		, MaybeOptional< DVec3 > const & N )
+		, MaybeOptional< DVec3 > const & N
+		, MaybeOptional< Float > const & eta )
 	{
-		if ( isAnyOptional( I, N ) )
+		if ( isAnyOptional( I, N, eta ) )
 		{
-			return Optional< DVec3 >{ findShader( I, N )
+			return Optional< DVec3 >{ findShader( I, N, eta )
 				, expr::makeRefract3D( makeExpr( I )
-					, makeExpr( N ) )
-				, areOptionalEnabled( I, N ) };
+					, makeExpr( N )
+					, makeExpr( eta ) )
+				, areOptionalEnabled( I, N, eta ) };
 		}
 
-		return DVec3{ findShader( I, N )
+		return DVec3{ findShader( I, N, eta )
 			, expr::makeRefract3D( makeExpr( I )
-				, makeExpr( N ) ) };
+				, makeExpr( N )
+				, makeExpr( eta ) ) };
 	}
 	MaybeOptional< DVec4 > refract( MaybeOptional< DVec4 > const & I
-		, MaybeOptional< DVec4 > const & N )
+		, MaybeOptional< DVec4 > const & N
+		, MaybeOptional< Float > const & eta )
 	{
-		if ( isAnyOptional( I, N ) )
+		if ( isAnyOptional( I, N, eta ) )
 		{
-			return Optional< DVec4 >{ findShader( I, N )
+			return Optional< DVec4 >{ findShader( I, N, eta )
 				, expr::makeRefract4D( makeExpr( I )
-					, makeExpr( N ) )
-				, areOptionalEnabled( I, N ) };
+					, makeExpr( N )
+					, makeExpr( eta ) )
+				, areOptionalEnabled( I, N, eta ) };
 		}
 
-		return DVec4{ findShader( I, N )
+		return DVec4{ findShader( I, N, eta )
 			, expr::makeRefract4D( makeExpr( I )
-				, makeExpr( N ) ) };
+				, makeExpr( N )
+				, makeExpr( eta ) ) };
 	}
 	/**@}*/
 #pragma endregion
@@ -8963,13 +8987,13 @@ namespace sdw
 	}
 	/**@}*/
 #pragma endregion
-#pragma region not
+#pragma region binNot
 	/**
 	*name
-	*	not
+	*	binNot
 	*/
 	/**@{*/
-	MaybeOptional< BVec2 > not( MaybeOptional< BVec2 > const & x )
+	MaybeOptional< BVec2 > binNot( MaybeOptional< BVec2 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
@@ -8981,7 +9005,7 @@ namespace sdw
 		return BVec2{ findShader( x )
 			, expr::makeNot2( makeExpr( x ) ) };
 	}
-	MaybeOptional< BVec3 > not( MaybeOptional< BVec3 > const & x )
+	MaybeOptional< BVec3 > binNot( MaybeOptional< BVec3 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
@@ -8993,7 +9017,7 @@ namespace sdw
 		return BVec3{ findShader( x )
 			, expr::makeNot3( makeExpr( x ) ) };
 	}
-	MaybeOptional< BVec4 > not( MaybeOptional< BVec4 > const & x )
+	MaybeOptional< BVec4 > binNot( MaybeOptional< BVec4 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{

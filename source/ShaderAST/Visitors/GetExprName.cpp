@@ -154,6 +154,30 @@ namespace ast
 		};
 	}
 
+	std::vector< expr::Identifier * > listIdentifiers( expr::Expr * expr )
+	{
+		std::vector< expr::Identifier * > result;
+
+		if ( expr->getKind() == expr::Kind::eComma )
+		{
+			auto comma = static_cast< expr::Comma * >( expr );
+			result = listIdentifiers( comma->getLHS() );
+			auto rhsIdents = listIdentifiers( comma->getRHS() );
+			result.insert( result.end(), rhsIdents.begin(), rhsIdents.end() );
+		}
+		else
+		{
+			auto ident = findIdentifier( expr );
+
+			if ( ident )
+			{
+				result.emplace_back( ident );
+			}
+		}
+
+		return result;
+	}
+
 	expr::Identifier * findIdentifier( ast::expr::Expr * expr )
 	{
 		return IdentifierExtractor::submit( expr );

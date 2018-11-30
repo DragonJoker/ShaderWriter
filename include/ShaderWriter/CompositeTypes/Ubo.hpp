@@ -13,8 +13,6 @@ namespace sdw
 	class Ubo
 	{
 	public:
-		using Info = BoInfo;
-
 		Ubo( ShaderWriter & writer
 			, std::string const & name
 			, uint32_t bind
@@ -50,7 +48,7 @@ namespace sdw
 		Shader & m_shader;
 		stmt::ConstantBufferDeclPtr m_stmt;
 		std::string m_name;
-		Info m_info;
+		UboInfo m_info;
 		var::VariablePtr m_var;
 	};
 }

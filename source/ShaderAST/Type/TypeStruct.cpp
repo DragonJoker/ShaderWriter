@@ -406,6 +406,17 @@ namespace ast::type
 	}
 
 	Struct::Member Struct::declMember( std::string name
+		, ArrayPtr type
+		, uint32_t arraySize )
+	{
+		auto mbrType = std::make_shared< Array >( this
+			, uint32_t( m_members.size() )
+			, type
+			, arraySize );
+		return doAddMember( mbrType, name );
+	}
+
+	Struct::Member Struct::declMember( std::string name
 		, TypePtr type )
 	{
 		return declMember( name
@@ -431,6 +442,12 @@ namespace ast::type
 		{
 			result = declMember( name
 				, std::static_pointer_cast< Struct >( type->getType() )
+				, type->getArraySize() );
+		}
+		else if ( kind == type::Kind::eArray )
+		{
+			result = declMember( name
+				, std::static_pointer_cast< Array >( type->getType() )
 				, type->getArraySize() );
 		}
 		else
