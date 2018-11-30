@@ -40,8 +40,6 @@ namespace sdw
 		var::VariablePtr m_ssboVar;
 	};
 
-	using StructuredSsbo = ArraySsboT< StructInstance >;
-
 	void registerSsbo( Shader & shader, std::string const & name, SsboInfo const & info );
 }
 

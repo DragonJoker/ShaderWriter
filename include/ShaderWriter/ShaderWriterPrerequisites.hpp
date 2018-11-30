@@ -91,6 +91,8 @@ namespace sdw
 		, bool DepthT
 		, bool MsT >
 	struct SampledImageT;
+	template< typename InstanceT >
+	class ArraySsboT;
 
 	struct Value;
 	struct Void;
@@ -136,6 +138,8 @@ namespace sdw
 	using DMat4 = Mat4T< Double >;
 	using DMat4x2 = Mat4x2T< Double >;
 	using DMat4x3 = Mat4x3T< Double >;
+
+	using StructuredSsbo = ArraySsboT< StructInstance >;
 
 	template< ast::type::ImageFormat FormatT >
 	using ImageBufferT = ImageT< FormatT
