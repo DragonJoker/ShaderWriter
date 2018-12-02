@@ -15,6 +15,7 @@ See LICENSE file in root folder
 #include <ShaderAST/Expr/ExprBitAnd.hpp>
 #include <ShaderAST/Expr/ExprBitNot.hpp>
 #include <ShaderAST/Expr/ExprBitOr.hpp>
+#include <ShaderAST/Expr/ExprBitXor.hpp>
 #include <ShaderAST/Expr/ExprCast.hpp>
 #include <ShaderAST/Expr/ExprCompositeConstruct.hpp>
 #include <ShaderAST/Expr/ExprDivide.hpp>
@@ -51,6 +52,7 @@ See LICENSE file in root folder
 #include <ShaderAST/Expr/ExprTimesAssign.hpp>
 #include <ShaderAST/Expr/ExprUnaryMinus.hpp>
 #include <ShaderAST/Expr/ExprUnaryPlus.hpp>
+#include <ShaderAST/Expr/ExprXorAssign.hpp>
 
 #include <ShaderAST/Stmt/PreprocDefine.hpp>
 #include <ShaderAST/Stmt/StmtContainer.hpp>
@@ -151,6 +153,76 @@ namespace sdw
 		return ExprCloner::submit( expr );
 	}
 
+	expr::ExprList makeFnArg( bool value )
+	{
+		expr::ExprList result;
+		result.emplace_back( makeExpr( value ) );
+		return result;
+	}
+
+	expr::ExprList makeFnArg( int32_t value )
+	{
+		expr::ExprList result;
+		result.emplace_back( makeExpr( value ) );
+		return result;
+	}
+
+	expr::ExprList makeFnArg( int64_t value )
+	{
+		expr::ExprList result;
+		result.emplace_back( makeExpr( value ) );
+		return result;
+	}
+
+	expr::ExprList makeFnArg( uint32_t value )
+	{
+		expr::ExprList result;
+		result.emplace_back( makeExpr( value ) );
+		return result;
+	}
+
+	expr::ExprList makeFnArg( uint64_t value )
+	{
+		expr::ExprList result;
+		result.emplace_back( makeExpr( value ) );
+		return result;
+	}
+
+	expr::ExprList makeFnArg( float value )
+	{
+		expr::ExprList result;
+		result.emplace_back( makeExpr( value ) );
+		return result;
+	}
+
+	expr::ExprList makeFnArg( double value )
+	{
+		expr::ExprList result;
+		result.emplace_back( makeExpr( value ) );
+		return result;
+	}
+
+	expr::ExprList makeFnArg( long double value )
+	{
+		expr::ExprList result;
+		result.emplace_back( makeExpr( value ) );
+		return result;
+	}
+
+	expr::ExprList makeFnArg( expr::ExprPtr const & expr )
+	{
+		expr::ExprList result;
+		result.emplace_back( makeExpr( expr ) );
+		return result;
+	}
+
+	expr::ExprList makeFnArg( expr::Expr * expr )
+	{
+		expr::ExprList result;
+		result.emplace_back( makeExpr( expr ) );
+		return result;
+	}
+
 	expr::ExprPtr makeInit( var::VariablePtr var
 		, expr::ExprPtr init )
 	{
@@ -249,6 +321,15 @@ namespace sdw
 		, expr::ExprPtr rhs )
 	{
 		return expr::makeBitOr( std::move( type )
+			, std::move( lhs )
+			, std::move( rhs ) );
+	}
+
+	expr::ExprPtr makeBitXor( type::TypePtr type
+		, expr::ExprPtr lhs
+		, expr::ExprPtr rhs )
+	{
+		return expr::makeBitXor( std::move( type )
 			, std::move( lhs )
 			, std::move( rhs ) );
 	}
@@ -365,6 +446,15 @@ namespace sdw
 		, expr::ExprPtr rhs )
 	{
 		return expr::makeOrAssign( std::move( type )
+			, std::move( lhs )
+			, std::move( rhs ) );
+	}
+
+	expr::ExprPtr makeXorAssign( type::TypePtr type
+		, expr::ExprPtr lhs
+		, expr::ExprPtr rhs )
+	{
+		return expr::makeXorAssign( std::move( type )
 			, std::move( lhs )
 			, std::move( rhs ) );
 	}

@@ -1,4 +1,4 @@
-﻿/*
+/*
 See LICENSE file in root folder
 */
 #ifndef ___SDW_Struct_H___
@@ -16,6 +16,8 @@ namespace sdw
 		Struct( ShaderWriter & writer
 			, std::string name
 			, type::MemoryLayout layout = type::MemoryLayout::eStd140 );
+		Struct( ShaderWriter & writer
+			, ast::type::StructPtr type );
 		void end();
 		StructInstance getInstance( std::string const & name )const;
 
@@ -29,6 +31,8 @@ namespace sdw
 		template< typename T >
 		inline void declMember( std::string const & name
 			, uint32_t dimension );
+		void declMember( std::string name
+			, Struct const & type );
 
 	private:
 		Shader * m_shader;

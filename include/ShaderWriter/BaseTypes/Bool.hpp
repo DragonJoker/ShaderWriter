@@ -26,6 +26,8 @@ namespace sdw
 		inline Boolean & operator=( T const & rhs );
 		Boolean & operator=( bool rhs );
 		operator bool();
+
+		static ast::type::TypePtr makeType();
 	};
 
 	Boolean operator==( Boolean const & lhs

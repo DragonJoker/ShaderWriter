@@ -71,14 +71,14 @@ namespace sdw
 		if ( isAnyOptional( *this, rhs ) )
 		{
 			return MaybeOptional< Vec3T< ValueT > >{ findShader( *this, rhs )
-				, sdw::makeArrayAccess( makeType( typeEnum< Vec3T< ValueT > > )
+				, sdw::makeArrayAccess( Vec3T< ValueT >::makeType()
 					, makeExpr( *this, true )
 					, makeExpr( rhs ) )
 				, areOptionalEnabled( *this, rhs ) };
 		}
 
 		return MaybeOptional< Vec3T< ValueT > >{ findShader( *this, rhs )
-			, sdw::makeArrayAccess( makeType( typeEnum< Vec3T< ValueT > > )
+			, sdw::makeArrayAccess( Vec3T< ValueT >::makeType()
 				, makeExpr( *this )
 				, makeExpr( rhs ) ) };
 	}
@@ -117,14 +117,14 @@ namespace sdw
 		if ( isAnyOptional( lhs, rhs ) )
 		{
 			return MaybeOptional< Vec3T< ValueT > >{ findShader( lhs, rhs )
-				, sdw::makeTimes( makeType( typeEnum< Vec3T< ValueT > > )
+				, sdw::makeTimes( Vec3T< ValueT >::makeType()
 					, makeExpr( lhs, true )
 					, makeExpr( rhs ) )
 				, areOptionalEnabled( lhs, rhs ) };
 		}
 
 		return MaybeOptional< Vec3T< ValueT > >{ findShader( lhs, rhs )
-			, sdw::makeTimes( makeType( typeEnum< Vec3T< ValueT > > )
+			, sdw::makeTimes( Vec3T< ValueT >::makeType()
 				, makeExpr( lhs )
 				, makeExpr( rhs ) ) };
 	}
@@ -136,14 +136,14 @@ namespace sdw
 		if ( isAnyOptional( lhs, rhs ) )
 		{
 			return MaybeOptional< Vec3T< ValueT > >{ findShader( lhs, rhs )
-				, sdw::makeTimes( makeType( typeEnum< Vec3T< ValueT > > )
+				, sdw::makeTimes( Vec3T< ValueT >::makeType()
 					, makeExpr( lhs, true )
 					, makeExpr( rhs ) )
 				, areOptionalEnabled( lhs, rhs ) };
 		}
 
 		return MaybeOptional< Vec3T< ValueT > >{ findShader( lhs, rhs )
-			, sdw::makeTimes( makeType( typeEnum< Vec3T< ValueT > > )
+			, sdw::makeTimes( Vec3T< ValueT >::makeType()
 				, makeExpr( lhs )
 				, makeExpr( rhs ) ) };
 	}
@@ -155,14 +155,14 @@ namespace sdw
 		if ( isAnyOptional( lhs, rhs ) )
 		{
 			return MaybeOptional< Mat3T< ValueT > >{ findShader( lhs, rhs )
-				, sdw::makeTimes( makeType( typeEnum< Mat3T< ValueT > > )
+				, sdw::makeTimes( Mat3T< ValueT >::makeType()
 					, makeExpr( lhs, true )
 					, makeExpr( rhs ) )
 				, areOptionalEnabled( lhs, rhs ) };
 		}
 
 		return MaybeOptional< Mat3T< ValueT > >{ findShader( lhs, rhs )
-			, sdw::makeTimes( makeType( typeEnum< Mat3T< ValueT > > )
+			, sdw::makeTimes( Mat3T< ValueT >::makeType()
 				, makeExpr( lhs )
 				, makeExpr( rhs ) ) };
 	}
@@ -174,14 +174,14 @@ namespace sdw
 		if ( isAnyOptional( lhs, rhs ) )
 		{
 			return MaybeOptional< Vec3T< ValueT > >{ findShader( lhs, rhs )
-				, sdw::makeTimes( makeType( typeEnum< Vec3T< ValueT > > )
+				, sdw::makeTimes( Vec3T< ValueT >::makeType()
 					, makeExpr( lhs, true )
 					, makeExpr( rhs ) )
 				, areOptionalEnabled( lhs, rhs ) };
 		}
 
 		return MaybeOptional< Vec3T< ValueT > >{ findShader( lhs, rhs )
-			, sdw::makeTimes( makeType( typeEnum< Vec3T< ValueT > > )
+			, sdw::makeTimes( Vec3T< ValueT >::makeType()
 				, makeExpr( lhs )
 				, makeExpr( rhs ) ) };
 	}
@@ -193,14 +193,14 @@ namespace sdw
 		if ( isAnyOptional( lhs, rhs ) )
 		{
 			return MaybeOptional< Vec3T< ValueT > >{ findShader( lhs, rhs )
-				, sdw::makeTimes( makeType( typeEnum< Vec3T< ValueT > > )
+				, sdw::makeTimes( Vec3T< ValueT >::makeType()
 					, makeExpr( lhs, true )
 					, makeExpr( rhs ) )
 				, areOptionalEnabled( lhs, rhs ) };
 		}
 
 		return MaybeOptional< Vec3T< ValueT > >{ findShader( lhs, rhs )
-			, sdw::makeTimes( makeType( typeEnum< Vec3T< ValueT > > )
+			, sdw::makeTimes( Vec3T< ValueT >::makeType()
 				, makeExpr( lhs )
 				, makeExpr( rhs ) ) };
 	}
@@ -212,14 +212,14 @@ namespace sdw
 		if ( isAnyOptional( lhs, rhs ) )
 		{
 			return MaybeOptional< Mat3T< ValueT > >{ findShader( lhs, rhs )
-				, sdw::makeTimes( makeType( typeEnum< Mat3T< ValueT > > )
+				, sdw::makeTimes( Mat3T< ValueT >::makeType()
 					, makeExpr( lhs, true )
 					, makeExpr( rhs ) )
 				, areOptionalEnabled( lhs, rhs ) };
 		}
 
 		return MaybeOptional< Mat3T< ValueT > >{ findShader( lhs, rhs )
-			, sdw::makeTimes( makeType( typeEnum< Mat3T< ValueT > > )
+			, sdw::makeTimes( Mat3T< ValueT >::makeType()
 				, makeExpr( lhs )
 				, makeExpr( rhs ) ) };
 	}
@@ -231,14 +231,14 @@ namespace sdw
 		if ( isAnyOptional( lhs, rhs ) )
 		{
 			return MaybeOptional< Vec3T< ValueT > >{ findShader( lhs, rhs )
-				, sdw::makeTimes( makeType( typeEnum< Vec3T< ValueT > > )
+				, sdw::makeTimes( Vec3T< ValueT >::makeType()
 					, makeExpr( lhs, true )
 					, makeExpr( rhs ) )
 				, areOptionalEnabled( lhs, rhs ) };
 		}
 
 		return MaybeOptional< Vec3T< ValueT > >{ findShader( lhs, rhs )
-			, sdw::makeTimes( makeType( typeEnum< Vec3T< ValueT > > )
+			, sdw::makeTimes( Vec3T< ValueT >::makeType()
 				, makeExpr( lhs )
 				, makeExpr( rhs ) ) };
 	}
@@ -250,14 +250,14 @@ namespace sdw
 		if ( isAnyOptional( lhs, rhs ) )
 		{
 			return MaybeOptional< Vec3T< ValueT > >{ findShader( lhs, rhs )
-				, sdw::makeTimes( makeType( typeEnum< Vec3T< ValueT > > )
+				, sdw::makeTimes( Vec3T< ValueT >::makeType()
 					, makeExpr( lhs, true )
 					, makeExpr( rhs ) )
 				, areOptionalEnabled( lhs, rhs ) };
 		}
 
 		return MaybeOptional< Vec3T< ValueT > >{ findShader( lhs, rhs )
-			, sdw::makeTimes( makeType( typeEnum< Vec3T< ValueT > > )
+			, sdw::makeTimes( Vec3T< ValueT >::makeType()
 				, makeExpr( lhs )
 				, makeExpr( rhs ) ) };
 	}
@@ -269,14 +269,14 @@ namespace sdw
 		if ( isAnyOptional( lhs, rhs ) )
 		{
 			return MaybeOptional< Mat3T< ValueT > >{ findShader( lhs, rhs )
-				, sdw::makeTimes( makeType( typeEnum< Mat3T< ValueT > > )
+				, sdw::makeTimes( Mat3T< ValueT >::makeType()
 					, makeExpr( lhs, true )
 					, makeExpr( rhs ) )
 				, areOptionalEnabled( lhs, rhs ) };
 		}
 
 		return MaybeOptional< Mat3T< ValueT > >{ findShader( lhs, rhs )
-			, sdw::makeTimes( makeType( typeEnum< Mat3T< ValueT > > )
+			, sdw::makeTimes( Mat3T< ValueT >::makeType()
 				, makeExpr( lhs )
 				, makeExpr( rhs ) ) };
 	}
@@ -288,14 +288,14 @@ namespace sdw
 		if ( isAnyOptional( lhs, rhs ) )
 		{
 			return MaybeOptional< Mat3T< ValueT > >{ findShader( lhs, rhs )
-				, sdw::makeTimes( makeType( typeEnum< Mat3T< ValueT > > )
+				, sdw::makeTimes( Mat3T< ValueT >::makeType()
 					, makeExpr( lhs, true )
 					, makeExpr( rhs ) )
 				, areOptionalEnabled( lhs, rhs ) };
 		}
 
 		return MaybeOptional< Mat3T< ValueT > >{ findShader( lhs, rhs )
-			, sdw::makeTimes( makeType( typeEnum< Mat3T< ValueT > > )
+			, sdw::makeTimes( Mat3T< ValueT >::makeType()
 				, makeExpr( lhs )
 				, makeExpr( rhs ) ) };
 	}
@@ -307,14 +307,14 @@ namespace sdw
 		if ( isAnyOptional( lhs, rhs ) )
 		{
 			return MaybeOptional< Mat3T< ValueT > >{ findShader( lhs, rhs )
-				, sdw::makeTimes( makeType( typeEnum< Mat3T< ValueT > > )
+				, sdw::makeTimes( Mat3T< ValueT >::makeType()
 					, makeExpr( lhs, true )
 					, makeExpr( rhs ) )
 				, areOptionalEnabled( lhs, rhs ) };
 		}
 
 		return MaybeOptional< Mat3T< ValueT > >{ findShader( lhs, rhs )
-			, sdw::makeTimes( makeType( typeEnum< Mat3T< ValueT > > )
+			, sdw::makeTimes( Mat3T< ValueT >::makeType()
 				, makeExpr( lhs )
 				, makeExpr( rhs ) ) };
 	}
@@ -326,14 +326,14 @@ namespace sdw
 		if ( isAnyOptional( lhs, rhs ) )
 		{
 			return MaybeOptional< Mat3T< ValueT > >{ findShader( lhs, rhs )
-				, sdw::makeTimes( makeType( typeEnum< Mat3T< ValueT > > )
+				, sdw::makeTimes( Mat3T< ValueT >::makeType()
 					, makeExpr( lhs )
 					, makeExpr( rhs, true ) )
 				, areOptionalEnabled( lhs, rhs ) };
 		}
 
 		return MaybeOptional< Mat3T< ValueT > >{ findShader( lhs, rhs )
-			, sdw::makeTimes( makeType( typeEnum< Mat3T< ValueT > > )
+			, sdw::makeTimes( Mat3T< ValueT >::makeType()
 				, makeExpr( lhs )
 				, makeExpr( rhs ) ) };
 	}
@@ -345,14 +345,14 @@ namespace sdw
 		if ( isAnyOptional( lhs, rhs ) )
 		{
 			return MaybeOptional< Mat3T< ValueT > >{ findShader( lhs, rhs )
-				, sdw::makeTimes( makeType( typeEnum< Mat3T< ValueT > > )
+				, sdw::makeTimes( Mat3T< ValueT >::makeType()
 					, makeExpr( lhs )
 					, makeExpr( rhs, true ) )
 				, areOptionalEnabled( lhs, rhs ) };
 		}
 
 		return MaybeOptional< Mat3T< ValueT > >{ findShader( lhs, rhs )
-			, sdw::makeTimes( makeType( typeEnum< Mat3T< ValueT > > )
+			, sdw::makeTimes( Mat3T< ValueT >::makeType()
 				, makeExpr( lhs )
 				, makeExpr( rhs ) ) };
 	}
@@ -364,14 +364,14 @@ namespace sdw
 		if ( isAnyOptional( lhs, rhs ) )
 		{
 			return MaybeOptional< Mat3T< ValueT > >{ findShader( lhs, rhs )
-				, sdw::makeTimes( makeType( typeEnum< Mat3T< ValueT > > )
+				, sdw::makeTimes( Mat3T< ValueT >::makeType()
 					, makeExpr( lhs, true )
 					, makeExpr( rhs, true ) )
 				, areOptionalEnabled( lhs, rhs ) };
 		}
 
 		return MaybeOptional< Mat3T< ValueT > >{ findShader( lhs, rhs )
-			, sdw::makeTimes( makeType( typeEnum< Mat3T< ValueT > > )
+			, sdw::makeTimes( Mat3T< ValueT >::makeType()
 				, makeExpr( lhs )
 				, makeExpr( rhs ) ) };
 	}
@@ -383,14 +383,14 @@ namespace sdw
 		if ( isAnyOptional( lhs, rhs ) )
 		{
 			return MaybeOptional< Mat3T< ValueT > >{ findShader( lhs, rhs )
-				, sdw::makeTimes( makeType( typeEnum< Mat3T< ValueT > > )
+				, sdw::makeTimes( Mat3T< ValueT >::makeType()
 					, makeExpr( lhs, true )
 					, makeExpr( rhs, true ) )
 				, areOptionalEnabled( lhs, rhs ) };
 		}
 
 		return MaybeOptional< Mat3T< ValueT > >{ findShader( lhs, rhs )
-			, sdw::makeTimes( makeType( typeEnum< Mat3T< ValueT > > )
+			, sdw::makeTimes( Mat3T< ValueT >::makeType()
 				, makeExpr( lhs )
 				, makeExpr( rhs ) ) };
 	}

@@ -101,6 +101,8 @@ namespace sdw
 			, var::Flag flag );
 		var::VariablePtr registerLocale( std::string const & name
 			, type::TypePtr type );
+		var::VariablePtr registerParam( std::string const & name
+			, type::TypePtr type );
 		var::VariablePtr registerInParam( std::string const & name
 			, type::TypePtr type );
 		var::VariablePtr registerOutParam( std::string const & name

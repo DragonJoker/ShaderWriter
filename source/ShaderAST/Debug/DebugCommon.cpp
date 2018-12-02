@@ -428,6 +428,12 @@ namespace ast::debug
 			sep = ",";
 		}
 
+		if ( var.isParam() )
+		{
+			result += sep + "ARG";
+			sep = ",";
+		}
+
 		if ( var.isShaderInput() )
 		{
 			result += sep + "INATTR";

@@ -53,9 +53,12 @@ namespace sdw
 		void returnStmt( RetType const & value );
 		template< typename ValueT >
 		inline ValueT paren( ValueT const & content );
-		template< typename FunctionT, typename ... ParamsT >
-		void callFunction( FunctionT const & function
-			, ParamsT && ... params );
+		template< typename ValueT >
+		inline Optional< ValueT > paren( Optional< ValueT > const & content );
+		template< typename ValueT >
+		inline MaybeOptional< ValueT > paren( MaybeOptional< ValueT > const & content );
+		template< typename ReturnT >
+		void callFunction( ReturnT const & functionResult );
 #pragma region Cast
 		/**
 		*name
@@ -488,7 +491,7 @@ namespace sdw
 
 #define FOR( Writer, Type, Name, Init, Cond, Incr )\
 	{\
-		auto ctrlVar##Name = ( Writer ).registerLocale( #Name, sdw::type::makeType( sdw::typeEnum<Type> ) );\
+		auto ctrlVar##Name = ( Writer ).registerLocale( #Name, Type::makeType() );\
 		Type Name{ &( Writer ).getShader()\
 			, sdw::makeExpr( ctrlVar##Name ) };\
 		Type incr##Name{ &( Writer ).getShader(), sdw::makeExpr( Incr ) };\

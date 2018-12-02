@@ -39,6 +39,8 @@ namespace sdw
 		Double & operator-=( float const & rhs );
 		Double & operator*=( float const & rhs );
 		Double & operator/=( float const & rhs );
+
+		static ast::type::TypePtr makeType();
 	};
 
 	Double operator+( Double const & lhs, Double const & rhs );

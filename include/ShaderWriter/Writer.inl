@@ -39,7 +39,7 @@ namespace sdw
 			static inline DstT cast( Shader & shader
 				, SrcT const & from )
 			{
-				auto dstType = makeType( typeEnum< DstT > );
+				auto dstType = DstT::makeType();
 				auto expr = makeExpr( from );
 				auto srcType = expr->getType();
 
@@ -62,7 +62,7 @@ namespace sdw
 			static inline Optional< DstT > cast( Shader & shader
 				, SrcT const & from )
 			{
-				auto dstType = makeType( typeEnum< DstT > );
+				auto dstType = DstT::makeType();
 				auto expr = makeExpr( from );
 				auto srcType = from.getType();
 
@@ -87,7 +87,7 @@ namespace sdw
 			static inline DstT cast( Shader & shader
 				, SrcT const & from )
 			{
-				auto dstType = makeType( typeEnum< DstT > );
+				auto dstType = DstT::makeType();
 				auto expr = makeExpr( from );
 				auto srcType = expr->getType();
 
@@ -112,7 +112,7 @@ namespace sdw
 			static inline DstT cast( Shader & shader
 				, SrcT const & from )
 			{
-				auto dstType = makeType( typeEnum< DstT > );
+				auto dstType = DstT::makeType();
 				auto expr = makeExpr( from );
 				auto srcType = from.getType();
 
@@ -189,11 +189,32 @@ namespace sdw
 			, makeExpr( content ) };
 	}
 
-	template< typename FunctionT, typename ... ParamsT >
-	void ShaderWriter::callFunction( FunctionT const & function
-		, ParamsT && ... params )
+	template< typename ValueT >
+	inline Optional< ValueT > ShaderWriter::paren( Optional< ValueT > const & content )
 	{
-		addStmt( sdw::makeSimple( sdw::makeExpr( function( std::forward< ParamsT >( params )... ) ) ) );
+		return Optional< ValueT >{ &m_shader
+			, makeExpr( content )
+			, areOptionalEnabled( content ) };
+	}
+
+	template< typename ValueT >
+	inline MaybeOptional< ValueT > ShaderWriter::paren( MaybeOptional< ValueT > const & content )
+	{
+		if ( isAnyOptional( content ) )
+		{
+			return MaybeOptional< ValueT >{ &m_shader
+				, makeExpr( content )
+				, areOptionalEnabled( content ) };
+		}
+
+		return MaybeOptional< ValueT >{ &m_shader
+			, makeExpr( content ) };
+	}
+
+	template< typename ReturnT >
+	void ShaderWriter::callFunction( ReturnT const & functionResult )
+	{
+		sdw::details::StmtAdder< ReturnT >::submit( functionResult );
 	}
 
 #pragma region Cast
@@ -254,7 +275,7 @@ namespace sdw
 	inline T ShaderWriter::declConstant( std::string const & name
 		, T const & rhs )
 	{
-		auto type = type::makeType( typeEnum< T > );
+		auto type = T::makeType();
 		auto var = registerConstant( name
 			, type );
 		addStmt( sdw::makePreprocDefine( name
@@ -268,7 +289,7 @@ namespace sdw
 		, T const & rhs
 		, bool enabled )
 	{
-		auto type = type::makeType( typeEnum< T > );
+		auto type = T::makeType();
 		auto var = registerConstant( name
 			, type );
 
@@ -287,7 +308,7 @@ namespace sdw
 	inline Array< T > ShaderWriter::declConstantArray( std::string const & name
 		, std::vector< T > const & rhs )
 	{
-		auto type = type::makeArrayType( type::makeType( typeEnum< T > )
+		auto type = type::makeArrayType( T::makeType()
 			, uint32_t( rhs.size() ) );
 		auto var = registerConstant( name
 			, type );
@@ -303,7 +324,7 @@ namespace sdw
 		, std::vector< T > const & rhs
 		, bool enabled )
 	{
-		auto type = type::makeArrayType( type::makeType( typeEnum< T > )
+		auto type = type::makeArrayType( T::makeType()
 			, uint32_t( rhs.size() ) );
 		auto var = registerConstant( name
 			, type );
@@ -569,7 +590,7 @@ namespace sdw
 		static_assert( !IsSameV< T, DVec2 >, "DVec2 is not supported as input type" );
 		static_assert( !IsSameV< T, DVec3 >, "DVec3 is not supported as input type" );
 		static_assert( !IsSameV< T, DVec4 >, "DVec4 is not supported as input type" );
-		auto type = type::makeType( typeEnum< T > );
+		auto type = T::makeType();
 		auto var = registerInput( name
 			, location
 			, type );
@@ -592,7 +613,7 @@ namespace sdw
 		static_assert( !IsSameV< T, DVec2 >, "DVec2 is not supported as input type" );
 		static_assert( !IsSameV< T, DVec3 >, "DVec3 is not supported as input type" );
 		static_assert( !IsSameV< T, DVec4 >, "DVec4 is not supported as input type" );
-		auto type = type::makeType( typeEnum< T > );
+		auto type = T::makeType();
 		auto var = registerInput( name
 			, location
 			, type );
@@ -621,7 +642,7 @@ namespace sdw
 		static_assert( !IsSameV< T, DVec2 >, "DVec2 is not supported as input type" );
 		static_assert( !IsSameV< T, DVec3 >, "DVec3 is not supported as input type" );
 		static_assert( !IsSameV< T, DVec4 >, "DVec4 is not supported as input type" );
-		auto type = type::makeArrayType( type::makeType( typeEnum< T > )
+		auto type = type::makeArrayType( T::makeType()
 			, dimension );
 		auto var = registerInput( name
 			, location
@@ -646,7 +667,7 @@ namespace sdw
 		static_assert( !IsSameV< T, DVec2 >, "DVec2 is not supported as input type" );
 		static_assert( !IsSameV< T, DVec3 >, "DVec3 is not supported as input type" );
 		static_assert( !IsSameV< T, DVec4 >, "DVec4 is not supported as input type" );
-		auto type = type::makeArrayType( type::makeType( typeEnum< T > )
+		auto type = type::makeArrayType( T::makeType()
 			, dimension );
 		auto var = registerInput( name
 			, location
@@ -682,7 +703,7 @@ namespace sdw
 		static_assert( !IsSameV< T, DVec2 >, "DVec2 is not supported as output type" );
 		static_assert( !IsSameV< T, DVec3 >, "DVec3 is not supported as output type" );
 		static_assert( !IsSameV< T, DVec4 >, "DVec4 is not supported as output type" );
-		auto type = type::makeType( typeEnum< T > );
+		auto type = T::makeType();
 		auto var = registerOutput( name
 			, location
 			, type );
@@ -705,7 +726,7 @@ namespace sdw
 		static_assert( !IsSameV< T, DVec2 >, "DVec2 is not supported as output type" );
 		static_assert( !IsSameV< T, DVec3 >, "DVec3 is not supported as output type" );
 		static_assert( !IsSameV< T, DVec4 >, "DVec4 is not supported as output type" );
-		auto type = type::makeType( typeEnum< T > );
+		auto type = T::makeType();
 		auto var = registerOutput( name
 			, location
 			, type );
@@ -734,7 +755,7 @@ namespace sdw
 		static_assert( !IsSameV< T, DVec2 >, "DVec2 is not supported as output type" );
 		static_assert( !IsSameV< T, DVec3 >, "DVec3 is not supported as output type" );
 		static_assert( !IsSameV< T, DVec4 >, "DVec4 is not supported as output type" );
-		auto type = type::makeArrayType( type::makeType( typeEnum< T > )
+		auto type = type::makeArrayType( T::makeType()
 			, dimension );
 		auto var = registerOutput( name
 			, location
@@ -759,7 +780,7 @@ namespace sdw
 		static_assert( !IsSameV< T, DVec2 >, "DVec2 is not supported as output type" );
 		static_assert( !IsSameV< T, DVec3 >, "DVec3 is not supported as output type" );
 		static_assert( !IsSameV< T, DVec4 >, "DVec4 is not supported as output type" );
-		auto type = type::makeArrayType( type::makeType( typeEnum< T > )
+		auto type = type::makeArrayType( T::makeType()
 			, dimension );
 		auto var = registerOutput( name
 			, location
@@ -786,7 +807,7 @@ namespace sdw
 	template< typename T >
 	inline T ShaderWriter::declLocale( std::string const & name )
 	{
-		auto type = type::makeType( typeEnum< T > );
+		auto type = T::makeType();
 		auto var = registerLocale( name
 			, type );
 		addStmt( sdw::makeVariableDecl( var ) );
@@ -798,7 +819,7 @@ namespace sdw
 	inline T ShaderWriter::declLocale( std::string const & name
 		, T const & rhs )
 	{
-		auto type = type::makeType( typeEnum< T > );
+		auto type = T::makeType();
 		auto var = registerLocale( name
 			, type );
 		addStmt( sdw::makeSimple( sdw::makeInit( var
@@ -811,7 +832,7 @@ namespace sdw
 	inline MaybeOptional< T > ShaderWriter::declLocale( std::string const & name
 		, MaybeOptional< T > const & rhs )
 	{
-		auto type = type::makeType( typeEnum< T > );
+		auto type = T::makeType();
 		auto var = registerLocale( name
 			, type );
 
@@ -836,7 +857,7 @@ namespace sdw
 	inline Optional< T > ShaderWriter::declLocale( std::string const & name
 		, bool enabled )
 	{
-		auto type = type::makeType( typeEnum< T > );
+		auto type = T::makeType();
 		auto var = registerLocale( name
 			, type );
 
@@ -854,7 +875,7 @@ namespace sdw
 	inline Optional< T > ShaderWriter::declLocale( std::string const & name
 		, Optional< T > const & rhs )
 	{
-		auto type = type::makeType( typeEnum< T > );
+		auto type = T::makeType();
 		auto var = registerLocale( name
 			, type );
 
@@ -874,7 +895,7 @@ namespace sdw
 		, T const & rhs
 		, bool enabled )
 	{
-		auto type = type::makeType( typeEnum< T > );
+		auto type = T::makeType();
 		auto var = registerLocale( name
 			, type );
 
@@ -893,7 +914,7 @@ namespace sdw
 	inline Array< T > ShaderWriter::declLocaleArray( std::string const & name
 		, uint32_t dimension )
 	{
-		auto type = type::makeArrayType( type::makeType( typeEnum< T > )
+		auto type = type::makeArrayType( T::makeType()
 			, dimension );
 		auto var = registerLocale( name
 			, type );
@@ -907,7 +928,7 @@ namespace sdw
 		, uint32_t dimension
 		, std::vector< T > const & rhs )
 	{
-		auto type = type::makeArrayType( type::makeType( typeEnum< T > )
+		auto type = type::makeArrayType( T::makeType()
 			, dimension );
 		auto var = registerLocale( name
 			, type );
@@ -922,7 +943,7 @@ namespace sdw
 		, uint32_t dimension
 		, bool enabled )
 	{
-		auto type = type::makeArrayType( type::makeType( typeEnum< T > )
+		auto type = type::makeArrayType( T::makeType()
 			, dimension );
 		auto var = registerLocale( name
 			, type );
@@ -943,7 +964,7 @@ namespace sdw
 		, std::vector< T > const & rhs
 		, bool enabled )
 	{
-		auto type = type::makeArrayType( type::makeType( typeEnum< T > )
+		auto type = type::makeArrayType( T::makeType()
 			, dimension );
 		auto var = registerLocale( name
 			, type );

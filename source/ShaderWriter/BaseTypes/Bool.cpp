@@ -5,6 +5,8 @@ See LICENSE file in root folder
 
 namespace sdw
 {
+	//*************************************************************************
+
 	Boolean::Boolean( Shader * shader
 		, expr::ExprPtr expr )
 		: Value{ shader, std::move( expr ) }
@@ -56,6 +58,13 @@ namespace sdw
 	{
 		return false;
 	}
+
+	ast::type::TypePtr Boolean::makeType()
+	{
+		return ast::type::getBool();
+	}
+
+	//*************************************************************************
 
 	Boolean operator==( Boolean const & lhs, Boolean const & rhs )
 	{
@@ -132,4 +141,6 @@ namespace sdw
 				, makeExpr( rhs ) )
 			, areOptionalEnabled( lhs, rhs ) };
 	}
+
+	//*************************************************************************
 }

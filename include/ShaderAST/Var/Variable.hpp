@@ -13,19 +13,20 @@ namespace ast::var
 		: uint32_t
 	{
 		eNone = 0,
-		eInputParam = 1 << 0,
-		eOutputParam = 1 << 1,
-		eUniform = 1 << 2,
-		eConstant = 1 << 3,
-		eShaderInput = 1 << 4,
-		eShaderOutput = 1 << 5,
-		eShaderConstant = 1 << 6,
-		eSpecialisationConstant = 1 << 7,
-		ePushConstant = 1 << 8,
-		eLocale = 1 << 9,
-		eBuiltin = 1 << 10,
-		eImplicit = 1 << 11,
-		eMember = 1 << 12,
+		eParam = 1 << 0,
+		eInputParam = 1 << 1,
+		eOutputParam = 1 << 2,
+		eUniform = 1 << 3,
+		eConstant = 1 << 4,
+		eShaderInput = 1 << 5,
+		eShaderOutput = 1 << 6,
+		eShaderConstant = 1 << 7,
+		eSpecialisationConstant = 1 << 8,
+		ePushConstant = 1 << 9,
+		eLocale = 1 << 10,
+		eBuiltin = 1 << 11,
+		eImplicit = 1 << 12,
+		eMember = 1 << 13,
 	};
 
 	class Variable
@@ -87,6 +88,13 @@ namespace ast::var
 			}
 
 			return m_outer;
+		}
+
+		inline bool isParam()const
+		{
+			return hasFlag( Flag::eParam )
+				|| hasFlag( Flag::eInputParam )
+				|| hasFlag( Flag::eOutputParam );
 		}
 
 		inline bool isInputParam()const

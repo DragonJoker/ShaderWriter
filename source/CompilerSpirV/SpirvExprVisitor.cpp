@@ -1836,7 +1836,7 @@ namespace spirv
 		m_module.registerType( expr->getType() );
 		auto init = submit( expr->getInitialiser(), m_currentBlock, m_module );
 		m_result = m_module.registerVariable( expr->getIdentifier()->getVariable()->getName()
-			, ( ( expr->getIdentifier()->getVariable()->isLocale() || expr->getIdentifier()->getVariable()->isInputParam() )
+			, ( ( expr->getIdentifier()->getVariable()->isLocale() || expr->getIdentifier()->getVariable()->isParam() )
 				? spv::StorageClass::Function
 				: spv::StorageClass::UniformConstant )
 			, expr->getType() );

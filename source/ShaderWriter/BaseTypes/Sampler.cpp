@@ -15,4 +15,9 @@ namespace sdw
 	{
 		return 0u;
 	}
+
+	ast::type::TypePtr Sampler::makeType()
+	{
+		return ast::type::getSampler();
+	}
 }

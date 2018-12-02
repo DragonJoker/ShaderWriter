@@ -37,6 +37,8 @@ namespace sdw
 		inline Vec3T< ValueT > & operator*=( ValueT rhs );
 		inline Vec3T< ValueT > & operator/=( ValueT rhs );
 
+		static inline ast::type::TypePtr makeType();
+
 		Writer_FirstSwizzle( Vec3Type, ValueType, x );
 		Writer_Swizzle( Vec3Type, ValueType, y );
 		Writer_Swizzle( Vec3Type, ValueType, z );

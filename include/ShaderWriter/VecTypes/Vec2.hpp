@@ -41,6 +41,8 @@ namespace sdw
 		inline Vec2T< ValueT > & operator*=( Optional< ValueT > const & rhs );
 		inline Vec2T< ValueT > & operator/=( Optional< ValueT > const & rhs );
 
+		static inline ast::type::TypePtr makeType();
+
 		Writer_FirstSwizzle( Vec2Type, ValueType, x );
 		Writer_Swizzle( Vec2Type, ValueType, y );
 		Writer_Swizzle( Vec2Type, ValueType, s );

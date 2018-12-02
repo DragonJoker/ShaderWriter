@@ -52,10 +52,15 @@ namespace sdw
 		Int & operator>>=( Optional< Int > const & rhs );
 		Int & operator&=( int32_t const & rhs );
 		Int & operator|=( int32_t const & rhs );
+		Int & operator^=( int32_t const & rhs );
 		Int & operator&=( Int const & rhs );
 		Int & operator|=( Int const & rhs );
+		Int & operator^=( Int const & rhs );
 		Int & operator&=( Optional< Int > const & rhs );
 		Int & operator|=( Optional< Int > const & rhs );
+		Int & operator^=( Optional< Int > const & rhs );
+
+		static ast::type::TypePtr makeType();
 	};
 
 	Int operator+( Int const & lhs, Int const & rhs );
@@ -83,8 +88,10 @@ namespace sdw
 	Int operator>>( Int const & lhs, Int const & rhs );
 	Int operator&( Int const & lhs, int32_t const & rhs );
 	Int operator|( Int const & lhs, int32_t const & rhs );
+	Int operator^( Int const & lhs, int32_t const & rhs );
 	Int operator&( Int const & lhs, Int const & rhs );
 	Int operator|( Int const & lhs, Int const & rhs );
+	Int operator^( Int const & lhs, Int const & rhs );
 	Int operator~( Int const & value );
 
 	Optional< Int > operator+( Optional< Int > const & lhs, Int const & rhs );
@@ -122,12 +129,16 @@ namespace sdw
 	Optional< Int > operator>>( Optional< Int > const & lhs, Optional< Int > const & rhs );
 	Optional< Int > operator&( Optional< Int > const & lhs, int32_t const & rhs );
 	Optional< Int > operator|( Optional< Int > const & lhs, int32_t const & rhs );
+	Optional< Int > operator^( Optional< Int > const & lhs, int32_t const & rhs );
 	Optional< Int > operator&( Optional< Int > const & lhs, Int const & rhs );
 	Optional< Int > operator|( Optional< Int > const & lhs, Int const & rhs );
+	Optional< Int > operator^( Optional< Int > const & lhs, Int const & rhs );
 	Optional< Int > operator&( Int const & lhs, Optional< Int > const & rhs );
 	Optional< Int > operator|( Int const & lhs, Optional< Int > const & rhs );
+	Optional< Int > operator^( Int const & lhs, Optional< Int > const & rhs );
 	Optional< Int > operator&( Optional< Int > const & lhs, Optional< Int > const & rhs );
 	Optional< Int > operator|( Optional< Int > const & lhs, Optional< Int > const & rhs );
+	Optional< Int > operator^( Optional< Int > const & lhs, Optional< Int > const & rhs );
 	Optional< Int > operator~( Optional< Int > const & value );
 
 	Boolean operator==( Int const & lhs, Int const & rhs );

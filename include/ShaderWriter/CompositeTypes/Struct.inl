@@ -7,7 +7,7 @@ namespace sdw
 	inline void Struct::declMember( std::string const & name )
 	{
 		m_type->declMember( name
-			, type::makeType( typeEnum< T > ) );
+			, T::makeType() );
 	}
 
 	template< typename T >

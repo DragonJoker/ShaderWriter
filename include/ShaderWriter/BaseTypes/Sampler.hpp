@@ -16,6 +16,8 @@ namespace sdw
 		template< typename T >
 		inline Sampler & operator=( T const & rhs );
 		operator uint32_t();
+
+		static ast::type::TypePtr makeType();
 	};
 }
 

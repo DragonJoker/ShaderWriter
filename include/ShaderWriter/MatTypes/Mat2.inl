@@ -22,7 +22,7 @@ namespace sdw
 		if ( this->getContainer() )
 		{
 			addStmt( *findContainer( *this, rhs )
-				, sdw::makeSimple( sdw::makeAssign( makeType( this->getType()->getKind() )
+				, sdw::makeSimple( sdw::makeAssign( Mat2T< ValueT >::makeType()
 					, makeExpr( *this )
 					, makeExpr( rhs ) ) ) );
 		}
@@ -38,7 +38,7 @@ namespace sdw
 	inline Mat2T< ValueT > & Mat2T< ValueT >::operator+=( Mat2T< ValueT > const & rhs )
 	{
 		addStmt( *findContainer( *this, rhs )
-			, sdw::makeSimple( sdw::makeAddAssign( makeType( this->getType()->getKind() )
+			, sdw::makeSimple( sdw::makeAddAssign( Mat2T< ValueT >::makeType()
 				, makeExpr( *this )
 				, makeExpr( rhs ) ) ) );
 		return *this;
@@ -50,7 +50,7 @@ namespace sdw
 	{
 		updateContainer( rhs );
 		addStmt( *findContainer( *this, rhs )
-			, sdw::makeSimple( sdw::makeAssign( makeType( this->getType()->getKind() )
+			, sdw::makeSimple( sdw::makeAssign( Mat2T< ValueT >::makeType()
 				, makeExpr( *this )
 				, makeExpr( rhs ) ) ) );
 		return *this;
@@ -61,7 +61,7 @@ namespace sdw
 	Vec2T< ValueT > Mat2T< ValueT >::operator[]( IndexT const & rhs )const
 	{
 		return Vec2T< ValueT >{ findShader( *this, rhs )
-			, sdw::makeArrayAccess( makeType( typeEnum< Vec2T< ValueT > > )
+			, sdw::makeArrayAccess( Vec2T< ValueT >::makeType()
 				, makeExpr( *this )
 				, makeExpr( rhs ) ) };
 	}
@@ -71,7 +71,7 @@ namespace sdw
 		Mat2T< ValueT > const & rhs )
 	{
 		return Vec2T< ValueT >{ findShader( lhs, rhs )
-			, sdw::makeTimes( makeType( typeEnum< Vec2T< ValueT > > )
+			, sdw::makeTimes( Vec2T< ValueT >::makeType()
 				, makeExpr( lhs )
 				, makeExpr( rhs ) ) };
 	}
@@ -81,7 +81,7 @@ namespace sdw
 		, Vec2T< ValueT > const & rhs )
 	{
 		return Vec2T< ValueT >{ findShader( lhs, rhs )
-			, sdw::makeTimes( makeType( typeEnum< Vec2T< ValueT > > )
+			, sdw::makeTimes( Vec2T< ValueT >::makeType()
 				, makeExpr( lhs )
 				, makeExpr( rhs ) ) };
 	}
@@ -91,7 +91,7 @@ namespace sdw
 		, Mat2T< ValueT > const & rhs )
 	{
 		return Mat2T< ValueT >{ findShader( lhs, rhs )
-			, sdw::makeTimes( makeType( typeEnum< Mat2T< ValueT > > )
+			, sdw::makeTimes( Mat2T< ValueT >::makeType()
 				, makeExpr( lhs )
 				, makeExpr( rhs ) ) };
 	}
@@ -101,7 +101,7 @@ namespace sdw
 		Mat2T< ValueT > const & rhs )
 	{
 		return Mat2T< ValueT >{ findShader( lhs, rhs )
-			, sdw::makeTimes( makeType( typeEnum< Mat2T< ValueT > > )
+			, sdw::makeTimes( Mat2T< ValueT >::makeType()
 				, makeExpr( lhs )
 				, makeExpr( rhs ) ) };
 	}
@@ -111,8 +111,14 @@ namespace sdw
 		, ValueT const & rhs )
 	{
 		return Mat2T< ValueT >{ findShader( lhs, rhs )
-			, sdw::makeTimes( makeType( typeEnum< Mat2T< ValueT > > )
+			, sdw::makeTimes( Mat2T< ValueT >::makeType()
 				, makeExpr( lhs )
 				, makeExpr( rhs ) ) };
+	}
+
+	template< typename ValueT >
+	inline ast::type::TypePtr Mat2T< ValueT >::makeType()
+	{
+		return sdw::makeType< Mat2T< ValueT > >();
 	}
 }

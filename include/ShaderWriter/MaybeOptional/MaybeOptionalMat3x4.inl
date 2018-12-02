@@ -69,14 +69,14 @@ namespace sdw
 		if ( isAnyOptional( *this, rhs ) )
 		{
 			return MaybeOptional< Vec4T< ValueT > >{ findShader( *this, rhs )
-				, sdw::makeArrayAccess( makeType( typeEnum< Vec4T< ValueT > > )
+				, sdw::makeArrayAccess( Vec4T< ValueT >::makeType()
 					, makeExpr( *this, true )
 					, makeExpr( rhs ) )
 				, areOptionalEnabled( *this, rhs ) };
 		}
 
 		return MaybeOptional< Vec4T< ValueT > >{ findShader( *this, rhs )
-			, sdw::makeArrayAccess( makeType( typeEnum< Vec4T< ValueT > > )
+			, sdw::makeArrayAccess( Vec4T< ValueT >::makeType()
 				, makeExpr( *this )
 				, makeExpr( rhs ) ) };
 	}

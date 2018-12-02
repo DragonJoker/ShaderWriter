@@ -37,6 +37,8 @@ namespace sdw
 		inline Vec4T< ValueT > & operator*=( ValueT rhs );
 		inline Vec4T< ValueT > & operator/=( ValueT rhs );
 
+		static inline ast::type::TypePtr makeType();
+
 		Writer_FirstSwizzle( Vec4Type, ValueType, x );
 		Writer_Swizzle( Vec4Type, ValueType, y );
 		Writer_Swizzle( Vec4Type, ValueType, z );
@@ -175,6 +177,7 @@ namespace sdw
 		Writer_LastSwizzle( Vec4Type, Vec3Type, abg );
 		Writer_FirstSwizzle( Vec4Type, Vec4Type, xyzw );
 		Writer_Swizzle( Vec4Type, Vec4Type, xyxy );
+		Writer_Swizzle( Vec4Type, Vec4Type, xxyy );
 		Writer_Swizzle( Vec4Type, Vec4Type, xxzz );
 		Writer_Swizzle( Vec4Type, Vec4Type, xyww );
 		Writer_Swizzle( Vec4Type, Vec4Type, xywz );

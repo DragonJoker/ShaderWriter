@@ -22,7 +22,7 @@ namespace sdw
 		if ( this->getContainer() )
 		{
 			addStmt( *findContainer( *this, rhs )
-				, sdw::makeSimple( sdw::makeAssign( makeType( this->getType()->getKind() )
+				, sdw::makeSimple( sdw::makeAssign( Mat3x4T< ValueT >::makeType()
 					, makeExpr( *this )
 					, makeExpr( rhs ) ) ) );
 		}
@@ -40,7 +40,7 @@ namespace sdw
 	{
 		updateContainer( rhs );
 		addStmt( *findContainer( *this, rhs )
-			, sdw::makeSimple( sdw::makeAssign( makeType( this->getType()->getKind() )
+			, sdw::makeSimple( sdw::makeAssign( Mat3x4T< ValueT >::makeType()
 				, makeExpr( *this )
 				, makeExpr( rhs ) ) ) );
 		return *this;
@@ -51,8 +51,14 @@ namespace sdw
 	Vec4T< ValueT > Mat3x4T< ValueT >::operator[]( IndexT const & rhs )const
 	{
 		return Vec4T< ValueT >{ findShader( *this, rhs )
-			, sdw::makeArrayAccess( makeType( typeEnum< Vec4T< ValueT > > )
+			, sdw::makeArrayAccess( Vec4T< ValueT >::makeType()
 				, makeExpr( *this )
 				, makeExpr( rhs ) ) };
+	}
+
+	template< typename ValueT >
+	inline ast::type::TypePtr Mat3x4T< ValueT >::makeType()
+	{
+		return sdw::makeType< Mat3x4T< ValueT > >();
 	}
 }

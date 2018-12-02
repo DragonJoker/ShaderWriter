@@ -31,4 +31,9 @@ namespace sdw
 		: Value{ rhs }
 	{
 	}
+
+	ast::type::TypePtr Void::makeType()
+	{
+		return ast::type::getVoid();
+	}
 }

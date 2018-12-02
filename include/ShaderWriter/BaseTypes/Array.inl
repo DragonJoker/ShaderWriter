@@ -29,6 +29,14 @@ namespace sdw
 	}
 
 	template< typename ValueT >
+	inline ast::type::ArrayPtr Array< ValueT >::makeType( uint32_t arraySize )
+	{
+		return ast::type::makeArrayType( ValueT::makeType(), arraySize );
+	}
+
+	//*********************************************************************************************
+
+	template< typename ValueT >
 	expr::ExprPtr makeExpr( Array< ValueT > const & value )
 	{
 		return makeExpr( value.getExpr() );

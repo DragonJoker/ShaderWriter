@@ -51,10 +51,15 @@ namespace sdw
 		UInt & operator>>=( Optional< UInt > const & rhs );
 		UInt & operator&=( uint32_t const & rhs );
 		UInt & operator|=( uint32_t const & rhs );
+		UInt & operator^=( uint32_t const & rhs );
 		UInt & operator&=( UInt const & rhs );
 		UInt & operator|=( UInt const & rhs );
+		UInt & operator^=( UInt const & rhs );
 		UInt & operator&=( Optional< UInt > const & rhs );
 		UInt & operator|=( Optional< UInt > const & rhs );
+		UInt & operator^=( Optional< UInt > const & rhs );
+
+		static ast::type::TypePtr makeType();
 	};
 
 	UInt operator+( UInt const & rhs, UInt const & lhs );
@@ -78,8 +83,10 @@ namespace sdw
 	UInt operator>>( UInt const & lhs, UInt const & rhs );
 	UInt operator&( UInt const & lhs, uint32_t const & rhs );
 	UInt operator|( UInt const & lhs, uint32_t const & rhs );
+	UInt operator^( UInt const & lhs, uint32_t const & rhs );
 	UInt operator&( UInt const & lhs, UInt const & rhs );
 	UInt operator|( UInt const & lhs, UInt const & rhs );
+	UInt operator^( UInt const & lhs, UInt const & rhs );
 	UInt operator~( UInt const & value );
 
 	Optional< UInt > operator+( Optional< UInt > const & lhs, UInt const & rhs );
@@ -117,12 +124,16 @@ namespace sdw
 	Optional< UInt > operator>>( Optional< UInt > const & lhs, Optional< UInt > const & rhs );
 	Optional< UInt > operator&( Optional< UInt > const & lhs, uint32_t const & rhs );
 	Optional< UInt > operator|( Optional< UInt > const & lhs, uint32_t const & rhs );
+	Optional< UInt > operator^( Optional< UInt > const & lhs, uint32_t const & rhs );
 	Optional< UInt > operator&( Optional< UInt > const & lhs, UInt const & rhs );
 	Optional< UInt > operator|( Optional< UInt > const & lhs, UInt const & rhs );
+	Optional< UInt > operator^( Optional< UInt > const & lhs, UInt const & rhs );
 	Optional< UInt > operator&( UInt const & lhs, Optional< UInt > const & rhs );
 	Optional< UInt > operator|( UInt const & lhs, Optional< UInt > const & rhs );
+	Optional< UInt > operator^( UInt const & lhs, Optional< UInt > const & rhs );
 	Optional< UInt > operator&( Optional< UInt > const & lhs, Optional< UInt > const & rhs );
 	Optional< UInt > operator|( Optional< UInt > const & lhs, Optional< UInt > const & rhs );
+	Optional< UInt > operator^( Optional< UInt > const & lhs, Optional< UInt > const & rhs );
 	Optional< UInt > operator~( Optional< UInt > const & value );
 
 	Boolean operator==( UInt const & lhs, UInt const & rhs );

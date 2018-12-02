@@ -184,6 +184,30 @@ namespace
 			, testCounts );
 		testEnd();
 	}
+
+	void params( test::TestCounts & testCounts )
+	{
+		testBegin( "params" );
+		using namespace sdw;
+		ComputeWriter writer;
+
+		auto foo1 = writer.implementFunction< Void >( "foo01"
+			, [&]( Array< Vec4 > const & p )
+			{
+			}
+			, InVec4Array{ writer, "p", 4u } );
+
+		writer.implementFunction< Void >( "main"
+			, [&]()
+			{
+				auto v = writer.declLocaleArray< Vec4 >( "v", 4u );
+				foo1( v );
+			} );
+
+		test::writeShader( writer
+			, testCounts );
+		testEnd();
+	}
 }
 
 int main( int argc, char ** argv )
@@ -193,5 +217,6 @@ int main( int argc, char ** argv )
 	vertex( testCounts );
 	fragment( testCounts );
 	compute( testCounts );
+	params( testCounts );
 	testSuiteEnd();
 }

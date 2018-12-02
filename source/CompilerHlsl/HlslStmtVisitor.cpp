@@ -154,7 +154,7 @@ namespace hlsl
 		{
 			m_result += sep + getDirectionName( *param )
 				+ getTypeName( param->getType() ) + " "
-				+ param->getName();
+				+ param->getName() + getTypeArraySize( param->getType() );
 			sep = ", ";
 		}
 

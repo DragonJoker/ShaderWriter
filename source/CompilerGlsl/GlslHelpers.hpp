@@ -81,6 +81,7 @@ namespace glsl
 		bool requiresTextureProjGradOffset2DRectShadowF{ false };
 
 		bool requiresCubeMapArray{ false };
+		bool requiresTextureGather{ false };
 	};
 }
 

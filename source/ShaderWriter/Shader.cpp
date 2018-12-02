@@ -188,6 +188,14 @@ namespace sdw
 			, var::Flag::eLocale );
 	}
 
+	var::VariablePtr Shader::registerParam( std::string const & name
+		, type::TypePtr type )
+	{
+		return registerName( name
+			, type
+			, var::Flag::eParam );
+	}
+
 	var::VariablePtr Shader::registerInParam( std::string const & name
 		, type::TypePtr type )
 	{

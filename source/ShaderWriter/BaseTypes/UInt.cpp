@@ -5,28 +5,6 @@ See LICENSE file in root folder
 
 #include "ShaderWriter/BaseTypes/Bool.hpp"
 
-#include <ShaderAST/Expr/ExprAddAssign.hpp>
-#include <ShaderAST/Expr/ExprAndAssign.hpp>
-#include <ShaderAST/Expr/ExprBitAnd.hpp>
-#include <ShaderAST/Expr/ExprBitNot.hpp>
-#include <ShaderAST/Expr/ExprBitOr.hpp>
-#include <ShaderAST/Expr/ExprDivideAssign.hpp>
-#include <ShaderAST/Expr/ExprIdentifier.hpp>
-#include <ShaderAST/Expr/ExprLiteral.hpp>
-#include <ShaderAST/Expr/ExprLShift.hpp>
-#include <ShaderAST/Expr/ExprLShiftAssign.hpp>
-#include <ShaderAST/Expr/ExprMinusAssign.hpp>
-#include <ShaderAST/Expr/ExprModulo.hpp>
-#include <ShaderAST/Expr/ExprModuloAssign.hpp>
-#include <ShaderAST/Expr/ExprOrAssign.hpp>
-#include <ShaderAST/Expr/ExprPostDecrement.hpp>
-#include <ShaderAST/Expr/ExprPostIncrement.hpp>
-#include <ShaderAST/Expr/ExprPreDecrement.hpp>
-#include <ShaderAST/Expr/ExprPreIncrement.hpp>
-#include <ShaderAST/Expr/ExprRShift.hpp>
-#include <ShaderAST/Expr/ExprRShiftAssign.hpp>
-#include <ShaderAST/Expr/ExprTimesAssign.hpp>
-
 namespace sdw
 {
 	//*************************************************************************
@@ -350,6 +328,15 @@ namespace sdw
 		return *this;
 	}
 
+	UInt & UInt::operator^=( uint32_t const & rhs )
+	{
+		addStmt( *findContainer( *this, rhs )
+			, sdw::makeSimple( sdw::makeXorAssign( type::getUInt()
+				, makeExpr( *this )
+				, makeExpr( rhs ) ) ) );
+		return *this;
+	}
+
 	UInt & UInt::operator&=( UInt const & rhs )
 	{
 		addStmt( *findContainer( *this, rhs )
@@ -363,6 +350,15 @@ namespace sdw
 	{
 		addStmt( *findContainer( *this, rhs )
 			, sdw::makeSimple( sdw::makeOrAssign( type::getUInt()
+				, makeExpr( *this )
+				, makeExpr( rhs ) ) ) );
+		return *this;
+	}
+
+	UInt & UInt::operator^=( UInt const & rhs )
+	{
+		addStmt( *findContainer( *this, rhs )
+			, sdw::makeSimple( sdw::makeXorAssign( type::getUInt()
 				, makeExpr( *this )
 				, makeExpr( rhs ) ) ) );
 		return *this;
@@ -392,6 +388,24 @@ namespace sdw
 		}
 
 		return *this;
+	}
+
+	UInt & UInt::operator^=( Optional< UInt > const & rhs )
+	{
+		if ( rhs.isEnabled() )
+		{
+			addStmt( *findContainer( *this, rhs )
+				, sdw::makeSimple( sdw::makeXorAssign( type::getUInt()
+					, makeExpr( *this )
+					, makeExpr( rhs ) ) ) );
+		}
+
+		return *this;
+	}
+
+	ast::type::TypePtr UInt::makeType()
+	{
+		return ast::type::getUInt();
 	}
 
 	//*************************************************************************
@@ -556,6 +570,14 @@ namespace sdw
 				, makeExpr( rhs ) ) };
 	}
 
+	UInt operator^( UInt const & lhs, uint32_t const & rhs )
+	{
+		return UInt{ findShader( lhs, rhs )
+			, sdw::makeBitXor( type::getUInt()
+				, makeExpr( lhs )
+				, makeExpr( rhs ) ) };
+	}
+
 	UInt operator&( UInt const & lhs, UInt const & rhs )
 	{
 		return UInt{ findShader( lhs, rhs )
@@ -568,6 +590,14 @@ namespace sdw
 	{
 		return UInt{ findShader( lhs, rhs )
 			, sdw::makeBitOr( type::getUInt()
+				, makeExpr( lhs )
+				, makeExpr( rhs ) ) };
+	}
+
+	UInt operator^( UInt const & lhs, UInt const & rhs )
+	{
+		return UInt{ findShader( lhs, rhs )
+			, sdw::makeBitXor( type::getUInt()
 				, makeExpr( lhs )
 				, makeExpr( rhs ) ) };
 	}
@@ -887,6 +917,15 @@ namespace sdw
 			, areOptionalEnabled( lhs, rhs ) };
 	}
 
+	Optional< UInt > operator^( Optional< UInt > const & lhs, uint32_t const & rhs )
+	{
+		return Optional< UInt >{ findShader( lhs, rhs )
+			, sdw::makeBitXor( type::getUInt()
+				, makeExpr( lhs )
+				, makeExpr( rhs ) )
+			, areOptionalEnabled( lhs, rhs ) };
+	}
+
 	Optional< UInt > operator&( Optional< UInt > const & lhs, UInt const & rhs )
 	{
 		return Optional< UInt >{ findShader( lhs, rhs )
@@ -900,6 +939,15 @@ namespace sdw
 	{
 		return Optional< UInt >{ findShader( lhs, rhs )
 			, sdw::makeBitOr( type::getUInt()
+				, makeExpr( lhs )
+				, makeExpr( rhs ) )
+			, areOptionalEnabled( lhs, rhs ) };
+	}
+
+	Optional< UInt > operator^( Optional< UInt > const & lhs, UInt const & rhs )
+	{
+		return Optional< UInt >{ findShader( lhs, rhs )
+			, sdw::makeBitXor( type::getUInt()
 				, makeExpr( lhs )
 				, makeExpr( rhs ) )
 			, areOptionalEnabled( lhs, rhs ) };
@@ -923,6 +971,15 @@ namespace sdw
 			, areOptionalEnabled( lhs, rhs ) };
 	}
 
+	Optional< UInt > operator^( UInt const & lhs, Optional< UInt > const & rhs )
+	{
+		return Optional< UInt >{ findShader( lhs, rhs )
+			, sdw::makeBitXor( type::getUInt()
+				, makeExpr( lhs )
+				, makeExpr( rhs ) )
+			, areOptionalEnabled( lhs, rhs ) };
+	}
+
 	Optional< UInt > operator&( Optional< UInt > const & lhs, Optional< UInt > const & rhs )
 	{
 		return Optional< UInt >{ findShader( lhs, rhs )
@@ -936,6 +993,15 @@ namespace sdw
 	{
 		return Optional< UInt >{ findShader( lhs, rhs )
 			, sdw::makeBitOr( type::getUInt()
+				, makeExpr( lhs )
+				, makeExpr( rhs ) )
+			, areOptionalEnabled( lhs, rhs ) };
+	}
+
+	Optional< UInt > operator^( Optional< UInt > const & lhs, Optional< UInt > const & rhs )
+	{
+		return Optional< UInt >{ findShader( lhs, rhs )
+			, sdw::makeBitXor( type::getUInt()
 				, makeExpr( lhs )
 				, makeExpr( rhs ) )
 			, areOptionalEnabled( lhs, rhs ) };

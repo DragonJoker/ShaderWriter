@@ -43,8 +43,18 @@ namespace sdw
 	expr::ExprPtr makeExpr( float value );
 	expr::ExprPtr makeExpr( double value );
 	expr::ExprPtr makeExpr( long double value );
-	ast::expr::ExprPtr makeExpr( ast::expr::Expr * expr );
-	ast::expr::ExprPtr makeExpr( ast::expr::ExprPtr const & expr );
+	expr::ExprPtr makeExpr( ast::expr::Expr * expr );
+	expr::ExprPtr makeExpr( ast::expr::ExprPtr const & expr );
+	expr::ExprList makeFnArg( bool value );
+	expr::ExprList makeFnArg( int32_t value );
+	expr::ExprList makeFnArg( int64_t value );
+	expr::ExprList makeFnArg( uint32_t value );
+	expr::ExprList makeFnArg( uint64_t value );
+	expr::ExprList makeFnArg( float value );
+	expr::ExprList makeFnArg( double value );
+	expr::ExprList makeFnArg( long double value );
+	expr::ExprList makeFnArg( ast::expr::Expr * expr );
+	expr::ExprList makeFnArg( ast::expr::ExprPtr const & expr );
 
 	expr::ExprPtr makeInit( var::VariablePtr var
 		, expr::ExprPtr init );
@@ -77,6 +87,9 @@ namespace sdw
 		, expr::ExprPtr lhs
 		, expr::ExprPtr rhs );
 	expr::ExprPtr makeBitOr( type::TypePtr type
+		, expr::ExprPtr lhs
+		, expr::ExprPtr rhs );
+	expr::ExprPtr makeBitXor( type::TypePtr type
 		, expr::ExprPtr lhs
 		, expr::ExprPtr rhs );
 	expr::ExprPtr makeBitNot( type::TypePtr type
@@ -114,6 +127,9 @@ namespace sdw
 		, expr::ExprPtr lhs
 		, expr::ExprPtr rhs );
 	expr::ExprPtr makeOrAssign( type::TypePtr type
+		, expr::ExprPtr lhs
+		, expr::ExprPtr rhs );
+	expr::ExprPtr makeXorAssign( type::TypePtr type
 		, expr::ExprPtr lhs
 		, expr::ExprPtr rhs );
 	expr::ExprPtr makeArrayAccess( type::TypePtr type

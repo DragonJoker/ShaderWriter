@@ -23,7 +23,12 @@ namespace sdw
 		, Param const & last )
 	{
 		isEnabled = isEnabled && isOptionalEnabled( last );
-		args.emplace_back( makeExpr( last ) );
+		auto lastArgs = makeFnArg( last );
+
+		for ( auto & expr : lastArgs )
+		{
+			args.emplace_back( std::move( expr ) );
+		}
 	}
 
 	template< typename Param
@@ -34,7 +39,13 @@ namespace sdw
 		, Params const & ... params )
 	{
 		isEnabled = isEnabled && isOptionalEnabled( current );
-		args.emplace_back( makeExpr( current ) );
+		auto currentArgs = makeFnArg( current );
+
+		for ( auto & expr : currentArgs )
+		{
+			args.emplace_back( std::move( expr ) );
+		}
+
 		getFunctionCallParamsRec( args, isEnabled, params... );
 	}
 
@@ -84,7 +95,7 @@ namespace sdw
 				bool isEnabled = true;
 				getFunctionCallParamsRec( args, isEnabled, params... );
 				return ReturnT{ findShader( params... )
-					, sdw::makeFnCall( type::makeType( typeEnum< ReturnT > )
+					, sdw::makeFnCall( ReturnT::makeType()
 						, sdw::makeIdent( var::makeFunction( name ) )
 						, std::move( args ) ) };
 			}
@@ -101,7 +112,7 @@ namespace sdw
 				bool isEnabled = true;
 				getFunctionCallParamsRec( args, isEnabled, params... );
 				return Optional< ReturnT >{ findShader( params... )
-					, sdw::makeFnCall( type::makeType( typeEnum< ReturnT > )
+					, sdw::makeFnCall( ReturnT::makeType()
 						, sdw::makeIdent( var::makeFunction( name ) )
 						, std::move( args ) )
 					, isEnabled };
@@ -188,7 +199,7 @@ namespace sdw
 	{
 		var::VariableList args;
 		getFunctionHeaderArgsRec( args, std::forward< ParamsT >( params )... );
-		return stmt::makeFunctionDecl( type::makeType( typeEnum< ReturnT > )
+		return stmt::makeFunctionDecl( ReturnT::makeType()
 			, name
 			, args );
 	}
@@ -200,6 +211,26 @@ namespace sdw
 		return stmt::makeFunctionDecl( type::getVoid()
 			, name
 			, args );
+	}
+
+	namespace details
+	{
+		template< typename ReturnT >
+		struct StmtAdder
+		{
+			static void submit( Shader & shader, ReturnT const & result )
+			{
+			}
+		};
+
+		template<>
+		struct StmtAdder< Void >
+		{
+			static void submit( Shader & shader, Void const & result )
+			{
+				sdw::addStmt( shader, sdw::makeSimple( sdw::makeExpr( result ) ) );
+			}
+		};
 	}
 
 	//***********************************************************************************************
@@ -218,8 +249,10 @@ namespace sdw
 	ReturnT Function< ReturnT, ParamsT... >::operator()( ParamsT && ... params )const
 	{
 		assert( !m_name.empty() );
-		return getFunctionCall< ReturnT >( m_name
-				, std::forward< ParamsT >( params )... );
+		auto result = getFunctionCall< ReturnT >( m_name
+			, std::forward< ParamsT >( params )... );
+		details::StmtAdder< ReturnT >::submit( *m_shader, result );
+		return result;
 	}
 
 	//***********************************************************************************************

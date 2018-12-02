@@ -157,5 +157,15 @@ namespace sdw
 		return ast::type::makeConfig< FormatT, DimT, ArrayedT, DepthT, MsT >( true, true );
 	}
 
+	template< ast::type::ImageFormat FormatT
+		, ast::type::ImageDim DimT
+		, bool ArrayedT
+		, bool DepthT
+		, bool MsT >
+	inline ast::type::TypePtr SampledImageT< FormatT, DimT, ArrayedT, DepthT, MsT >::makeType()
+	{
+		return ast::type::makeSampledImageType( makeConfig() );
+	}
+
 	//*************************************************************************
 }

@@ -25,6 +25,8 @@ namespace sdw
 		inline Mat3x2T< ValueT > & operator=( RhsT const & rhs );
 		template< typename IndexT >
 		inline Vec2T< ValueT > operator[]( IndexT const & rhs )const;
+
+		static inline ast::type::TypePtr makeType();
 	};
 }
 

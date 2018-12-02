@@ -79,5 +79,12 @@ namespace sdw
 		return makeExpr( variable.getExpr() );
 	}
 
+	expr::ExprList makeFnArg( Value const & variable )
+	{
+		expr::ExprList result;
+		result.emplace_back( makeExpr( variable.getExpr() ) );
+		return result;
+	}
+
 	//*****************************************************************************************
 }

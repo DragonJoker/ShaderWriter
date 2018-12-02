@@ -79,7 +79,7 @@ namespace sdw
 		ReturnT operator()( ParamsT && ... params )const;
 
 	private:
-		Shader * m_shader{ nullptr };
+		mutable Shader * m_shader{ nullptr };
 		std::string m_name;
 	};
 

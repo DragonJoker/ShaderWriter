@@ -57,7 +57,18 @@ namespace glsl
 			doEnableCoreExtension( result, "GL_ARB_separate_shader_objects", 410u, writerConfig.shaderLanguageVersion );
 			doEnableCoreExtension( result, "GL_ARB_shading_language_420pack", 420u, writerConfig.shaderLanguageVersion );
 			doEnableCoreExtension( result, "GL_ARB_shading_language_420pack", 420u, writerConfig.shaderLanguageVersion );
+			doEnableCoreExtension( result, "GL_ARB_shading_language_420pack", 420u, writerConfig.shaderLanguageVersion );
 			doEnableExtension( result, "GL_KHR_vulkan_glsl", 450u, writerConfig.shaderLanguageVersion );
+
+			if ( intrinsicsConfig.requiresCubeMapArray )
+			{
+				doEnableCoreExtension( result, "GL_ARB_texture_cube_map_array", 400u, writerConfig.shaderLanguageVersion );
+			}
+
+			if ( intrinsicsConfig.requiresTextureGather )
+			{
+				doEnableCoreExtension( result, "GL_ARB_texture_gather", 400u, writerConfig.shaderLanguageVersion );
+			}
 		}
 
 		StmtAdapter vis{ writerConfig, intrinsicsConfig, result };

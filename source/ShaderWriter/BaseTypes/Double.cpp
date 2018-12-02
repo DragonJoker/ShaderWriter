@@ -218,6 +218,11 @@ namespace sdw
 		return *this;
 	}
 
+	ast::type::TypePtr Double::makeType()
+	{
+		return ast::type::getDouble();
+	}
+
 	//*************************************************************************
 
 	Double operator+( Double const & lhs, Double const & rhs )

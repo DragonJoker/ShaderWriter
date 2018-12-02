@@ -68,6 +68,8 @@ namespace sdw
 		inline operator uint32_t();
 
 		static inline ast::type::ImageConfiguration makeConfig();
+
+		static inline ast::type::TypePtr makeType();
 	};
 }
 

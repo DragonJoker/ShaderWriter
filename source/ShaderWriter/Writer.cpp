@@ -173,7 +173,7 @@ namespace sdw
 		, uint32_t location
 		, bool rhs )
 	{
-		auto type = type::makeType( typeEnum< Boolean > );
+		auto type = Boolean::makeType();
 		auto var = registerSpecConstant( name
 			, location
 			, type );
@@ -189,7 +189,7 @@ namespace sdw
 		, bool rhs
 		, bool enabled )
 	{
-		auto type = type::makeType( typeEnum< Boolean > );
+		auto type = Boolean::makeType();
 		auto var = registerSpecConstant( name
 			, location
 			, type );
@@ -210,7 +210,7 @@ namespace sdw
 		, uint32_t location
 		, int32_t rhs )
 	{
-		auto type = type::makeType( typeEnum< Int > );
+		auto type = Int::makeType();
 		auto var = registerSpecConstant( name
 			, location
 			, type );
@@ -226,7 +226,7 @@ namespace sdw
 		, int32_t rhs
 		, bool enabled )
 	{
-		auto type = type::makeType( typeEnum< Int > );
+		auto type = Int::makeType();
 		auto var = registerSpecConstant( name
 			, location
 			, type );
@@ -247,7 +247,7 @@ namespace sdw
 		, uint32_t location
 		, uint32_t rhs )
 	{
-		auto type = type::makeType( typeEnum< UInt > );
+		auto type = UInt::makeType();
 		auto var = registerSpecConstant( name
 			, location
 			, type );
@@ -263,7 +263,7 @@ namespace sdw
 		, uint32_t rhs
 		, bool enabled )
 	{
-		auto type = type::makeType( typeEnum< UInt > );
+		auto type = UInt::makeType();
 		auto var = registerSpecConstant( name
 			, location
 			, type );
@@ -284,7 +284,7 @@ namespace sdw
 		, uint32_t location
 		, float rhs )
 	{
-		auto type = type::makeType( typeEnum< Float > );
+		auto type = Float::makeType();
 		auto var = registerSpecConstant( name
 			, location
 			, type );
@@ -300,7 +300,7 @@ namespace sdw
 		, float rhs
 		, bool enabled )
 	{
-		auto type = type::makeType( typeEnum< Float > );
+		auto type = Float::makeType();
 		auto var = registerSpecConstant( name
 			, location
 			, type );
@@ -321,7 +321,7 @@ namespace sdw
 		, uint32_t location
 		, double rhs )
 	{
-		auto type = type::makeType( typeEnum< Double > );
+		auto type = Double::makeType();
 		auto var = registerSpecConstant( name
 			, location
 			, type );
@@ -337,7 +337,7 @@ namespace sdw
 		, double rhs
 		, bool enabled )
 	{
-		auto type = type::makeType( typeEnum< Double > );
+		auto type = Double::makeType();
 		auto var = registerSpecConstant( name
 			, location
 			, type );

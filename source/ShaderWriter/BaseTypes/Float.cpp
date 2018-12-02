@@ -218,6 +218,11 @@ namespace sdw
 		return *this;
 	}
 
+	ast::type::TypePtr Float::makeType()
+	{
+		return ast::type::getFloat();
+	}
+
 	//*************************************************************************
 
 	Float operator+( Float const & lhs, Float const & rhs )
