@@ -2,6 +2,7 @@
 
 #include "CompileGLSL.hpp"
 #include "CompileHLSL.hpp"
+#include "CompileSPIRV.hpp"
 
 #include <CompilerGlsl/compileGlsl.hpp>
 #include <CompilerHlsl/compileHlsl.hpp>
@@ -167,14 +168,24 @@ namespace test
 			}
 		}
 
-		void validateSpirV( std::vector< uint32_t > const & spirv
-			, sdw::ShaderType stage
+		void validateSpirV( sdw::Shader const & shader
+			, std::vector< uint32_t > const & spirv
+			, std::string const & text
 			, test::TestCounts & testCounts )
 		{
-			auto crossGlsl = test::validateSpirVToGlsl( spirv, stage, testCounts );
-			displayShader( "SPIRV-Cross GLSL", crossGlsl );
-			auto crossHlsl = test::validateSpirVToHlsl( spirv, stage, testCounts );
-			displayShader( "SPIRV-Cross HLSL", crossHlsl );
+			std::string errors;
+
+			if ( test::compileSpirV( shader, spirv, errors ) )
+			{
+				auto crossGlsl = test::validateSpirVToGlsl( spirv, shader.getType(), testCounts );
+				displayShader( "SPIRV-Cross GLSL", crossGlsl );
+				auto crossHlsl = test::validateSpirVToHlsl( spirv, shader.getType(), testCounts );
+				displayShader( "SPIRV-Cross HLSL", crossHlsl );
+			}
+			else
+			{
+				displayShader( "SPIR-V", text, true );
+			}
 		}
 
 		void testWriteDebug( sdw::Shader const & shader
@@ -250,8 +261,9 @@ namespace test
 			{
 				try
 				{
-					test::validateSpirV( spirv
-						, shader.getType()
+					test::validateSpirV( shader
+						, spirv
+						, textSpirv
 						, testCounts );
 				}
 				catch ( spirv_cross::CompilerError & exc )
@@ -264,6 +276,10 @@ namespace test
 					{
 						displayShader( "SPIR-V", textSpirv, true );
 					}
+				}
+				catch ( std::exception & exc )
+				{
+					displayShader( "SPIR-V", textSpirv, true );
 				}
 			}
 		}

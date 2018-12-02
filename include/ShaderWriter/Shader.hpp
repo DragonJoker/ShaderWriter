@@ -153,6 +153,16 @@ namespace sdw
 			return m_ssbos;
 		}
 
+		inline std::map< std::string, PcbInfo > const & getPcbs()const
+		{
+			return m_pcbs;
+		}
+
+		inline std::map< std::string, SamplerInfo > const & getSamplers()const
+		{
+			return m_samplers;
+		}
+
 		inline std::map< std::string, InputInfo > const & getInputs()const
 		{
 			return m_inputs;
@@ -189,6 +199,7 @@ namespace sdw
 		stmt::ContainerPtr m_container;
 		std::map< std::string, SsboInfo > m_ssbos;
 		std::map< std::string, UboInfo > m_ubos;
+		std::map< std::string, PcbInfo > m_pcbs;
 		std::map< std::string, type::TypePtr > m_constants;
 		std::map< std::string, SpecConstantInfo > m_specConstants;
 		std::map< std::string, SamplerInfo > m_samplers;

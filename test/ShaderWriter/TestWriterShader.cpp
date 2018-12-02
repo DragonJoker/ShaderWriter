@@ -197,6 +197,7 @@ namespace
 			}
 			, InVec4Array{ writer, "p", 4u } );
 
+		writer.inputLayout( 16 );
 		writer.implementFunction< Void >( "main"
 			, [&]()
 			{

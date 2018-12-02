@@ -10,7 +10,8 @@ namespace sdw
 	Struct::Struct( ShaderWriter & writer
 		, std::string name
 		, type::MemoryLayout layout )
-		: Struct{ writer, type::makeStructType( layout, std::move( name ) ) }
+		: m_shader{ &writer.getShader() }
+		, m_type{ type::makeStructType( layout, std::move( name ) ) }
 	{
 	}
 
