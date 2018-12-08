@@ -13,17 +13,20 @@ namespace ast::expr
 		: public Binary
 	{
 	public:
-		Less( ExprPtr lhs
+		Less( type::TypePtr type
+			, ExprPtr lhs
 			, ExprPtr rhs );
 
 		void accept( VisitorPtr vis )override;
 	};
 	using LessPtr = std::unique_ptr< Less >;
 
-	inline LessPtr makeLess( ExprPtr lhs
+	inline LessPtr makeLess( type::TypesCache & cache
+		, ExprPtr lhs
 		, ExprPtr rhs )
 	{
-		return std::make_unique< Less >( std::move( lhs )
+		return std::make_unique< Less >( cache.getBool()
+			, std::move( lhs )
 			, std::move( rhs ) );
 	}
 }

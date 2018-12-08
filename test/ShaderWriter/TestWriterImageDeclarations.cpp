@@ -10,7 +10,7 @@ namespace
 		, bool ArrayedT
 		, bool DepthT
 		, bool MsT >
-	void testImage( test::TestCounts & testCounts )
+	void testImage( test::sdw_test::TestCounts & testCounts )
 	{
 		auto nameBase = sdw::debug::getName( sdw::typeEnum< sdw::Image > )
 			+ sdw::debug::getName( FormatT, DimT, ArrayedT, DepthT, MsT );
@@ -113,7 +113,7 @@ namespace
 	}
 
 	template< ast::type::ImageFormat FormatT >
-	void testImageFormat( test::TestCounts & testCounts )
+	void testImageFormat( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testImage" + ast::debug::getName( FormatT ) );
 		if ( isFloatFormat( FormatT ) )
@@ -164,7 +164,7 @@ namespace
 
 int main( int argc, char ** argv )
 {
-	testSuiteBegin( "TestWriterImageDeclarations" );
+	sdwTestSuiteBegin( "TestWriterImageDeclarations" );
 	testImageFormat< ast::type::ImageFormat::eRgba32f >( testCounts );
 	testImageFormat< ast::type::ImageFormat::eRgba16f >( testCounts );
 	testImageFormat< ast::type::ImageFormat::eRg32f >( testCounts );
@@ -189,5 +189,5 @@ int main( int argc, char ** argv )
 	testImageFormat< ast::type::ImageFormat::eR32u >( testCounts );
 	testImageFormat< ast::type::ImageFormat::eR16u >( testCounts );
 	testImageFormat< ast::type::ImageFormat::eR8u >( testCounts );
-	testSuiteEnd();
+	sdwTestSuiteEnd();
 }

@@ -10,7 +10,7 @@ namespace
 		, bool MsT >
 	struct ImageSizeTester
 	{
-		static void test( test::TestCounts & testCounts )
+		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testImageSize" + sdw::debug::getName( FormatT, DimT, ArrayedT, false, MsT );
 			testBegin( name );
@@ -38,7 +38,7 @@ namespace
 		, bool MsT >
 	struct ImageSamplesTester
 	{
-		static void test( test::TestCounts & testCounts )
+		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testImageSamples" + sdw::debug::getName( FormatT, DimT, ArrayedT, false, MsT );
 			testBegin( name );
@@ -65,7 +65,7 @@ namespace
 		, bool DepthT >
 	struct ImageSamplesTester< FormatT, DimT, ArrayedT, DepthT, false >
 	{
-		static void test( test::TestCounts & testCounts )
+		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 		};
 	};
@@ -78,7 +78,7 @@ namespace
 		, typename Enable = void >
 	struct ImageLoadTester
 	{
-		static void test( test::TestCounts & testCounts )
+		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 		}
 	};
@@ -92,7 +92,7 @@ namespace
 	{
 		using Coords = sdw::ImageCoordsT< DimT, ArrayedT >;
 
-		static void test( test::TestCounts & testCounts )
+		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testImageLoad" + sdw::debug::getName( FormatT, DimT, ArrayedT, false, MsT );
 			testBegin( name );
@@ -122,7 +122,7 @@ namespace
 	{
 		using Coords = sdw::ImageCoordsT< DimT, ArrayedT >;
 
-		static void test( test::TestCounts & testCounts )
+		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testImageLoad" + sdw::debug::getName( FormatT, DimT, ArrayedT, false, MsT );
 			testBegin( name );
@@ -151,7 +151,7 @@ namespace
 		, typename Enable = void >
 	struct ImageIAtomicAddTester
 	{
-		static void test( test::TestCounts & testCounts )
+		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 		}
 	};
@@ -166,7 +166,7 @@ namespace
 	{
 		using Coords = sdw::ImageCoordsT< DimT, ArrayedT >;
 
-		static void test( test::TestCounts & testCounts )
+		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testImageAtomicAdd" + sdw::debug::getName( FormatT, DimT, ArrayedT, false, MsT );
 			testBegin( name );
@@ -197,7 +197,7 @@ namespace
 	{
 		using Coords = sdw::ImageCoordsT< DimT, ArrayedT >;
 
-		static void test( test::TestCounts & testCounts )
+		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testImageAtomicAdd" + sdw::debug::getName( FormatT, DimT, ArrayedT, false, MsT );
 			testBegin( name );
@@ -226,7 +226,7 @@ namespace
 		, typename Enable = void >
 	struct ImageUAtomicAddTester
 	{
-		static void test( test::TestCounts & testCounts )
+		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 		}
 	};
@@ -241,7 +241,7 @@ namespace
 	{
 		using Coords = sdw::ImageCoordsT< DimT, ArrayedT >;
 
-		static void test( test::TestCounts & testCounts )
+		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testImageAtomicAdd" + sdw::debug::getName( FormatT, DimT, ArrayedT, false, MsT );
 			testBegin( name );
@@ -272,7 +272,7 @@ namespace
 	{
 		using Coords = sdw::ImageCoordsT< DimT, ArrayedT >;
 
-		static void test( test::TestCounts & testCounts )
+		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testImageAtomicAdd" + sdw::debug::getName( FormatT, DimT, ArrayedT, false, MsT );
 			testBegin( name );
@@ -301,7 +301,7 @@ namespace
 		, typename Enable = void >
 	struct ImageIAtomicMinTester
 	{
-		static void test( test::TestCounts & testCounts )
+		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 		}
 	};
@@ -316,7 +316,7 @@ namespace
 	{
 		using Coords = sdw::ImageCoordsT< DimT, ArrayedT >;
 
-		static void test( test::TestCounts & testCounts )
+		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testImageAtomicMin" + sdw::debug::getName( FormatT, DimT, ArrayedT, false, MsT );
 			testBegin( name );
@@ -347,7 +347,7 @@ namespace
 	{
 		using Coords = sdw::ImageCoordsT< DimT, ArrayedT >;
 
-		static void test( test::TestCounts & testCounts )
+		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testImageAtomicMin" + sdw::debug::getName( FormatT, DimT, ArrayedT, false, MsT );
 			testBegin( name );
@@ -376,7 +376,7 @@ namespace
 		, typename Enable = void >
 	struct ImageUAtomicMinTester
 	{
-		static void test( test::TestCounts & testCounts )
+		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 		}
 	};
@@ -391,7 +391,7 @@ namespace
 	{
 		using Coords = sdw::ImageCoordsT< DimT, ArrayedT >;
 
-		static void test( test::TestCounts & testCounts )
+		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testImageAtomicMin" + sdw::debug::getName( FormatT, DimT, ArrayedT, false, MsT );
 			testBegin( name );
@@ -422,7 +422,7 @@ namespace
 	{
 		using Coords = sdw::ImageCoordsT< DimT, ArrayedT >;
 
-		static void test( test::TestCounts & testCounts )
+		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testImageAtomicMin" + sdw::debug::getName( FormatT, DimT, ArrayedT, false, MsT );
 			testBegin( name );
@@ -451,7 +451,7 @@ namespace
 		, typename Enable = void >
 	struct ImageIAtomicMaxTester
 	{
-		static void test( test::TestCounts & testCounts )
+		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 		}
 	};
@@ -466,7 +466,7 @@ namespace
 	{
 		using Coords = sdw::ImageCoordsT< DimT, ArrayedT >;
 
-		static void test( test::TestCounts & testCounts )
+		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testImageAtomicMax" + sdw::debug::getName( FormatT, DimT, ArrayedT, false, MsT );
 			testBegin( name );
@@ -497,7 +497,7 @@ namespace
 	{
 		using Coords = sdw::ImageCoordsT< DimT, ArrayedT >;
 
-		static void test( test::TestCounts & testCounts )
+		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testImageAtomicMax" + sdw::debug::getName( FormatT, DimT, ArrayedT, false, MsT );
 			testBegin( name );
@@ -526,7 +526,7 @@ namespace
 		, typename Enable = void >
 	struct ImageUAtomicMaxTester
 	{
-		static void test( test::TestCounts & testCounts )
+		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 		}
 	};
@@ -541,7 +541,7 @@ namespace
 	{
 		using Coords = sdw::ImageCoordsT< DimT, ArrayedT >;
 
-		static void test( test::TestCounts & testCounts )
+		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testImageAtomicMax" + sdw::debug::getName( FormatT, DimT, ArrayedT, false, MsT );
 			testBegin( name );
@@ -572,7 +572,7 @@ namespace
 	{
 		using Coords = sdw::ImageCoordsT< DimT, ArrayedT >;
 
-		static void test( test::TestCounts & testCounts )
+		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testImageAtomicMax" + sdw::debug::getName( FormatT, DimT, ArrayedT, false, MsT );
 			testBegin( name );
@@ -601,7 +601,7 @@ namespace
 		, typename Enable = void >
 	struct ImageIAtomicAndTester
 	{
-		static void test( test::TestCounts & testCounts )
+		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 		}
 	};
@@ -616,7 +616,7 @@ namespace
 	{
 		using Coords = sdw::ImageCoordsT< DimT, ArrayedT >;
 
-		static void test( test::TestCounts & testCounts )
+		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testImageAtomicAnd" + sdw::debug::getName( FormatT, DimT, ArrayedT, false, MsT );
 			testBegin( name );
@@ -647,7 +647,7 @@ namespace
 	{
 		using Coords = sdw::ImageCoordsT< DimT, ArrayedT >;
 
-		static void test( test::TestCounts & testCounts )
+		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testImageAtomicAnd" + sdw::debug::getName( FormatT, DimT, ArrayedT, false, MsT );
 			testBegin( name );
@@ -676,7 +676,7 @@ namespace
 		, typename Enable = void >
 	struct ImageUAtomicAndTester
 	{
-		static void test( test::TestCounts & testCounts )
+		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 		}
 	};
@@ -691,7 +691,7 @@ namespace
 	{
 		using Coords = sdw::ImageCoordsT< DimT, ArrayedT >;
 
-		static void test( test::TestCounts & testCounts )
+		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testImageAtomicAnd" + sdw::debug::getName( FormatT, DimT, ArrayedT, false, MsT );
 			testBegin( name );
@@ -722,7 +722,7 @@ namespace
 	{
 		using Coords = sdw::ImageCoordsT< DimT, ArrayedT >;
 
-		static void test( test::TestCounts & testCounts )
+		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testImageAtomicAnd" + sdw::debug::getName( FormatT, DimT, ArrayedT, false, MsT );
 			testBegin( name );
@@ -751,7 +751,7 @@ namespace
 		, typename Enable = void >
 	struct ImageIAtomicOrTester
 	{
-		static void test( test::TestCounts & testCounts )
+		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 		}
 	};
@@ -766,7 +766,7 @@ namespace
 	{
 		using Coords = sdw::ImageCoordsT< DimT, ArrayedT >;
 
-		static void test( test::TestCounts & testCounts )
+		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testImageAtomicOr" + sdw::debug::getName( FormatT, DimT, ArrayedT, false, MsT );
 			testBegin( name );
@@ -797,7 +797,7 @@ namespace
 	{
 		using Coords = sdw::ImageCoordsT< DimT, ArrayedT >;
 
-		static void test( test::TestCounts & testCounts )
+		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testImageAtomicOr" + sdw::debug::getName( FormatT, DimT, ArrayedT, false, MsT );
 			testBegin( name );
@@ -826,7 +826,7 @@ namespace
 		, typename Enable = void >
 	struct ImageUAtomicOrTester
 	{
-		static void test( test::TestCounts & testCounts )
+		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 		}
 	};
@@ -841,7 +841,7 @@ namespace
 	{
 		using Coords = sdw::ImageCoordsT< DimT, ArrayedT >;
 
-		static void test( test::TestCounts & testCounts )
+		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testImageAtomicOr" + sdw::debug::getName( FormatT, DimT, ArrayedT, false, MsT );
 			testBegin( name );
@@ -872,7 +872,7 @@ namespace
 	{
 		using Coords = sdw::ImageCoordsT< DimT, ArrayedT >;
 
-		static void test( test::TestCounts & testCounts )
+		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testImageAtomicOr" + sdw::debug::getName( FormatT, DimT, ArrayedT, false, MsT );
 			testBegin( name );
@@ -901,7 +901,7 @@ namespace
 		, typename Enable = void >
 	struct ImageIAtomicXorTester
 	{
-		static void test( test::TestCounts & testCounts )
+		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 		}
 	};
@@ -916,7 +916,7 @@ namespace
 	{
 		using Coords = sdw::ImageCoordsT< DimT, ArrayedT >;
 
-		static void test( test::TestCounts & testCounts )
+		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testImageAtomicXor" + sdw::debug::getName( FormatT, DimT, ArrayedT, false, MsT );
 			testBegin( name );
@@ -947,7 +947,7 @@ namespace
 	{
 		using Coords = sdw::ImageCoordsT< DimT, ArrayedT >;
 
-		static void test( test::TestCounts & testCounts )
+		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testImageAtomicXor" + sdw::debug::getName( FormatT, DimT, ArrayedT, false, MsT );
 			testBegin( name );
@@ -976,7 +976,7 @@ namespace
 		, typename Enable = void >
 	struct ImageUAtomicXorTester
 	{
-		static void test( test::TestCounts & testCounts )
+		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 		}
 	};
@@ -991,7 +991,7 @@ namespace
 	{
 		using Coords = sdw::ImageCoordsT< DimT, ArrayedT >;
 
-		static void test( test::TestCounts & testCounts )
+		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testImageAtomicXor" + sdw::debug::getName( FormatT, DimT, ArrayedT, false, MsT );
 			testBegin( name );
@@ -1022,7 +1022,7 @@ namespace
 	{
 		using Coords = sdw::ImageCoordsT< DimT, ArrayedT >;
 
-		static void test( test::TestCounts & testCounts )
+		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testImageAtomicXor" + sdw::debug::getName( FormatT, DimT, ArrayedT, false, MsT );
 			testBegin( name );
@@ -1051,7 +1051,7 @@ namespace
 		, typename Enable = void >
 	struct ImageIAtomicExchangeTester
 	{
-		static void test( test::TestCounts & testCounts )
+		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 		}
 	};
@@ -1066,7 +1066,7 @@ namespace
 	{
 		using Coords = sdw::ImageCoordsT< DimT, ArrayedT >;
 
-		static void test( test::TestCounts & testCounts )
+		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testImageAtomicExchange" + sdw::debug::getName( FormatT, DimT, ArrayedT, false, MsT );
 			testBegin( name );
@@ -1097,7 +1097,7 @@ namespace
 	{
 		using Coords = sdw::ImageCoordsT< DimT, ArrayedT >;
 
-		static void test( test::TestCounts & testCounts )
+		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testImageAtomicExchange" + sdw::debug::getName( FormatT, DimT, ArrayedT, false, MsT );
 			testBegin( name );
@@ -1126,7 +1126,7 @@ namespace
 		, typename Enable = void >
 	struct ImageUAtomicExchangeTester
 	{
-		static void test( test::TestCounts & testCounts )
+		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 		}
 	};
@@ -1141,7 +1141,7 @@ namespace
 	{
 		using Coords = sdw::ImageCoordsT< DimT, ArrayedT >;
 
-		static void test( test::TestCounts & testCounts )
+		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testImageAtomicExchange" + sdw::debug::getName( FormatT, DimT, ArrayedT, false, MsT );
 			testBegin( name );
@@ -1172,7 +1172,7 @@ namespace
 	{
 		using Coords = sdw::ImageCoordsT< DimT, ArrayedT >;
 
-		static void test( test::TestCounts & testCounts )
+		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testImageAtomicExchange" + sdw::debug::getName( FormatT, DimT, ArrayedT, false, MsT );
 			testBegin( name );
@@ -1201,7 +1201,7 @@ namespace
 		, typename Enable = void >
 	struct ImageIAtomicCompSwapTester
 	{
-		static void test( test::TestCounts & testCounts )
+		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 		}
 	};
@@ -1216,7 +1216,7 @@ namespace
 	{
 		using Coords = sdw::ImageCoordsT< DimT, ArrayedT >;
 
-		static void test( test::TestCounts & testCounts )
+		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testImageAtomicCompSwap" + sdw::debug::getName( FormatT, DimT, ArrayedT, false, MsT );
 			testBegin( name );
@@ -1247,7 +1247,7 @@ namespace
 	{
 		using Coords = sdw::ImageCoordsT< DimT, ArrayedT >;
 
-		static void test( test::TestCounts & testCounts )
+		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testImageAtomicCompSwap" + sdw::debug::getName( FormatT, DimT, ArrayedT, false, MsT );
 			testBegin( name );
@@ -1276,7 +1276,7 @@ namespace
 		, typename Enable = void >
 	struct ImageUAtomicCompSwapTester
 	{
-		static void test( test::TestCounts & testCounts )
+		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 		}
 	};
@@ -1291,7 +1291,7 @@ namespace
 	{
 		using Coords = sdw::ImageCoordsT< DimT, ArrayedT >;
 
-		static void test( test::TestCounts & testCounts )
+		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testImageAtomicCompSwap" + sdw::debug::getName( FormatT, DimT, ArrayedT, false, MsT );
 			testBegin( name );
@@ -1322,7 +1322,7 @@ namespace
 	{
 		using Coords = sdw::ImageCoordsT< DimT, ArrayedT >;
 
-		static void test( test::TestCounts & testCounts )
+		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testImageAtomicCompSwap" + sdw::debug::getName( FormatT, DimT, ArrayedT, false, MsT );
 			testBegin( name );
@@ -1345,7 +1345,7 @@ namespace
 
 	template< ast::type::ImageFormat FormatT
 		, template< ast::type::Kind, ast::type::ImageDim, bool, bool, bool > typename TesterT >
-	void testsImageFormats( test::TestCounts & testCounts )
+	void testsImageFormats( test::sdw_test::TestCounts & testCounts )
 	{
 		if ( isFloatFormat( FormatT ) )
 		{
@@ -1398,7 +1398,7 @@ namespace
 	}
 
 	template< template< ast::type::ImageFormat, ast::type::ImageDim, bool, bool, bool > typename TesterT >
-	void testsImage( test::TestCounts & testCounts )
+	void testsImage( test::sdw_test::TestCounts & testCounts )
 	{
 		testsImageFormats< ast::type::ImageFormat::eRgba32f, TesterT >( testCounts );
 		testsImageFormats< ast::type::ImageFormat::eRgba16f, TesterT >( testCounts );
@@ -1427,7 +1427,7 @@ namespace
 	}
 
 	template< template< ast::type::ImageFormat, ast::type::ImageDim, bool, bool, bool > typename TesterT >
-	void testsImageAtomic( test::TestCounts & testCounts )
+	void testsImageAtomic( test::sdw_test::TestCounts & testCounts )
 	{
 		testsImageFormats< ast::type::ImageFormat::eR32i, TesterT >( testCounts );
 		testsImageFormats< ast::type::ImageFormat::eR32u, TesterT >( testCounts );
@@ -1436,7 +1436,7 @@ namespace
 
 int main( int argc, char ** argv )
 {
-	testSuiteBegin( "TestWriterImageAccesses" );
+	sdwTestSuiteBegin( "TestWriterImageAccesses" );
 	testsImage< ImageSizeTester >( testCounts );
 	testsImage< ImageSamplesTester >( testCounts );
 	testsImage< ImageLoadTester >( testCounts );
@@ -1456,5 +1456,5 @@ int main( int argc, char ** argv )
 	testsImageAtomic< ImageUAtomicExchangeTester >( testCounts );
 	testsImageAtomic< ImageIAtomicCompSwapTester >( testCounts );
 	testsImageAtomic< ImageUAtomicCompSwapTester >( testCounts );
-	testSuiteEnd();
+	sdwTestSuiteEnd();
 }

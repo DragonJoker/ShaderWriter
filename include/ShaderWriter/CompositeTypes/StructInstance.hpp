@@ -1,4 +1,4 @@
-﻿/*
+/*
 See LICENSE file in root folder
 */
 #ifndef ___SDW_StructInstance_H___
@@ -16,6 +16,7 @@ namespace sdw
 	public:
 		StructInstance( Shader * shader
 			, expr::ExprPtr expr );
+		StructInstance & operator=( StructInstance const & rhs );
 
 		template< typename T >
 		inline T getMember( std::string const & name );

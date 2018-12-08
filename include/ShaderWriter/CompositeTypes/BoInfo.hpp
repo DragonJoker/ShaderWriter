@@ -14,9 +14,10 @@ namespace sdw
 {
 	struct InterfaceBlock
 	{
-		inline InterfaceBlock( type::MemoryLayout layout
+		inline InterfaceBlock( type::TypesCache & cache
+			, type::MemoryLayout layout
 			, std::string name )
-			: m_type{ type::makeStructType( layout, std::move( name ) ) }
+			: m_type{ cache.getStruct( layout, std::move( name ) ) }
 		{
 		}
 		
@@ -65,11 +66,12 @@ namespace sdw
 	struct BoInfo
 		: public InterfaceBlock
 	{
-		BoInfo( type::MemoryLayout layout
+		BoInfo( type::TypesCache & cache
+			, type::MemoryLayout layout
 			, std::string name
 			, uint32_t bind
 			, uint32_t set )
-			: InterfaceBlock{ layout, std::move( name ) }
+			: InterfaceBlock{ cache, layout, std::move( name ) }
 			, m_bind{ bind }
 			, m_set{ set }
 		{

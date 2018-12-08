@@ -6,7 +6,7 @@ namespace
 #define DummyMain writer.implementFunction< void >( "main", [](){} )
 
 	template< typename T >
-	void testConstant( test::TestCounts & testCounts )
+	void testConstant( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testConstant" + ast::debug::getName( sdw::typeEnum< T > ) );
 		{
@@ -89,7 +89,7 @@ namespace
 
 int main( int argc, char ** argv )
 {
-	testSuiteBegin( "TestWriterConstantDeclarations" );
+	sdwTestSuiteBegin( "TestWriterConstantDeclarations" );
 	testConstant< sdw::Boolean >( testCounts );
 	testConstant< sdw::Int >( testCounts );
 	testConstant< sdw::UInt >( testCounts );
@@ -128,5 +128,5 @@ int main( int argc, char ** argv )
 	testConstant< sdw::DMat4 >( testCounts );
 	testConstant< sdw::DMat4x2 >( testCounts );
 	testConstant< sdw::DMat4x3 >( testCounts );
-	testSuiteEnd();
+	sdwTestSuiteEnd();
 }

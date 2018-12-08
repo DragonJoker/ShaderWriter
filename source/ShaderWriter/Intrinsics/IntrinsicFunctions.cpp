@@ -20,48 +20,56 @@ namespace sdw
 		if ( isAnyOptional( radians ) )
 		{
 			return Optional< Float >{ findShader( radians )
-				, expr::makeDegrees1( makeExpr( radians ) )
+				, expr::makeDegrees1( findTypesCache( radians )
+					, makeExpr( radians ) )
 				, areOptionalEnabled( radians ) };
 		}
 
 		return Float{ findShader( radians )
-			, expr::makeDegrees1( makeExpr( radians ) ) };
+			, expr::makeDegrees1( findTypesCache( radians )
+					, makeExpr( radians ) ) };
 	}
 	MaybeOptional< Vec2 > degrees( MaybeOptional< Vec2 > const & radians )
 	{
 		if ( isAnyOptional( radians ) )
 		{
 			return Optional< Vec2 >{ findShader( radians )
-				, expr::makeDegrees2( makeExpr( radians ) )
+				, expr::makeDegrees2( findTypesCache( radians )
+					, makeExpr( radians ) )
 				, areOptionalEnabled( radians ) };
 		}
 
 		return Vec2{ findShader( radians )
-			, expr::makeDegrees2( makeExpr( radians ) ) };
+			, expr::makeDegrees2( findTypesCache( radians )
+					, makeExpr( radians ) ) };
 	}
 	MaybeOptional< Vec3 > degrees( MaybeOptional< Vec3 > const & radians )
 	{
 		if ( isAnyOptional( radians ) )
 		{
 			return Optional< Vec3 >{ findShader( radians )
-				, expr::makeDegrees3( makeExpr( radians ) )
+				, expr::makeDegrees3( findTypesCache( radians )
+					, makeExpr( radians ) )
 				, areOptionalEnabled( radians ) };
 		}
 
 		return Vec3{ findShader( radians )
-			, expr::makeDegrees3( makeExpr( radians ) ) };
+			, expr::makeDegrees3( findTypesCache( radians )
+					, makeExpr( radians ) ) };
 	}
 	MaybeOptional< Vec4 > degrees( MaybeOptional< Vec4 > const & radians )
 	{
 		if ( isAnyOptional( radians ) )
 		{
 			return Optional< Vec4 >{ findShader( radians )
-				, expr::makeDegrees4( makeExpr( radians ) )
+				, expr::makeDegrees4( findTypesCache( radians )
+					, makeExpr( radians ) )
 				, areOptionalEnabled( radians ) };
 		}
 
 		return Vec4{ findShader( radians )
-			, expr::makeDegrees4( makeExpr( radians ) ) };
+			, expr::makeDegrees4( findTypesCache( radians )
+					, makeExpr( radians ) ) };
 	}
 	/**@}*/
 #pragma endregion
@@ -76,48 +84,56 @@ namespace sdw
 		if ( isAnyOptional( degrees ) )
 		{
 			return Optional< Float >{ findShader( degrees )
-				, expr::makeRadians1F( makeExpr( degrees ) )
+				, expr::makeRadians1F( findTypesCache( degrees )
+					, makeExpr( degrees ) )
 				, areOptionalEnabled( degrees ) };
 		}
 
 		return Float{ findShader( degrees )
-			, expr::makeRadians1F( makeExpr( degrees ) ) };
+			, expr::makeRadians1F( findTypesCache( degrees )
+					, makeExpr( degrees ) ) };
 	}
 	MaybeOptional< Vec2 > radians( MaybeOptional< Vec2 > const & degrees )
 	{
 		if ( isAnyOptional( degrees ) )
 		{
 			return Optional< Vec2 >{ findShader( degrees )
-				, expr::makeRadians2F( makeExpr( degrees ) )
+				, expr::makeRadians2F( findTypesCache( degrees )
+					, makeExpr( degrees ) )
 				, areOptionalEnabled( degrees ) };
 		}
 
 		return Vec2{ findShader( degrees )
-			, expr::makeRadians2F( makeExpr( degrees ) ) };
+			, expr::makeRadians2F( findTypesCache( degrees )
+					, makeExpr( degrees ) ) };
 	}
 	MaybeOptional< Vec3 > radians( MaybeOptional< Vec3 > const & degrees )
 	{
 		if ( isAnyOptional( degrees ) )
 		{
 			return Optional< Vec3 >{ findShader( degrees )
-				, expr::makeRadians3F( makeExpr( degrees ) )
+				, expr::makeRadians3F( findTypesCache( degrees )
+					, makeExpr( degrees ) )
 				, areOptionalEnabled( degrees ) };
 		}
 
 		return Vec3{ findShader( degrees )
-			, expr::makeRadians3F( makeExpr( degrees ) ) };
+			, expr::makeRadians3F( findTypesCache( degrees )
+					, makeExpr( degrees ) ) };
 	}
 	MaybeOptional< Vec4 > radians( MaybeOptional< Vec4 > const & degrees )
 	{
 		if ( isAnyOptional( degrees ) )
 		{
 			return Optional< Vec4 >{ findShader( degrees )
-				, expr::makeRadians4F( makeExpr( degrees ) )
+				, expr::makeRadians4F( findTypesCache( degrees )
+					, makeExpr( degrees ) )
 				, areOptionalEnabled( degrees ) };
 		}
 
 		return Vec4{ findShader( degrees )
-			, expr::makeRadians4F( makeExpr( degrees ) ) };
+			, expr::makeRadians4F( findTypesCache( degrees )
+					, makeExpr( degrees ) ) };
 	}
 	/**@}*/
 #pragma endregion
@@ -132,48 +148,56 @@ namespace sdw
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< Float >{ findShader( x )
-				, expr::makeCos1( makeExpr( x ) )
+				, expr::makeCos1( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return Float{ findShader( x )
-			, expr::makeCos1( makeExpr( x ) ) };
+			, expr::makeCos1( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< Vec2 > cos( MaybeOptional< Vec2 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< Vec2 >{ findShader( x )
-				, expr::makeCos2( makeExpr( x ) )
+				, expr::makeCos2( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return Vec2{ findShader( x )
-			, expr::makeCos2( makeExpr( x ) ) };
+			, expr::makeCos2( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< Vec3 > cos( MaybeOptional< Vec3 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< Vec3 >{ findShader( x )
-				, expr::makeCos3( makeExpr( x ) )
+				, expr::makeCos3( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return Vec3{ findShader( x )
-			, expr::makeCos3( makeExpr( x ) ) };
+			, expr::makeCos3( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< Vec4 > cos( MaybeOptional< Vec4 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< Vec4 >{ findShader( x )
-				, expr::makeCos4( makeExpr( x ) )
+				, expr::makeCos4( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return Vec4{ findShader( x )
-			, expr::makeCos4( makeExpr( x ) ) };
+			, expr::makeCos4( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	/**@}*/
 #pragma endregion
@@ -188,48 +212,56 @@ namespace sdw
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< Float >{ findShader( x )
-				, expr::makeSin1( makeExpr( x ) )
+				, expr::makeSin1( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return Float{ findShader( x )
-			, expr::makeSin1( makeExpr( x ) ) };
+			, expr::makeSin1( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< Vec2 > sin( MaybeOptional< Vec2 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< Vec2 >{ findShader( x )
-				, expr::makeSin2( makeExpr( x ) )
+				, expr::makeSin2( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return Vec2{ findShader( x )
-			, expr::makeSin2( makeExpr( x ) ) };
+			, expr::makeSin2( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< Vec3 > sin( MaybeOptional< Vec3 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< Vec3 >{ findShader( x )
-				, expr::makeSin3( makeExpr( x ) )
+				, expr::makeSin3( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return Vec3{ findShader( x )
-			, expr::makeSin3( makeExpr( x ) ) };
+			, expr::makeSin3( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< Vec4 > sin( MaybeOptional< Vec4 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< Vec4 >{ findShader( x )
-				, expr::makeSin4( makeExpr( x ) )
+				, expr::makeSin4( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return Vec4{ findShader( x )
-			, expr::makeSin4( makeExpr( x ) ) };
+			, expr::makeSin4( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	/**@}*/
 #pragma endregion
@@ -244,48 +276,56 @@ namespace sdw
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< Float >{ findShader( x )
-				, expr::makeTan1( makeExpr( x ) )
+				, expr::makeTan1( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return Float{ findShader( x )
-			, expr::makeTan1( makeExpr( x ) ) };
+			, expr::makeTan1( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< Vec2 > tan( MaybeOptional< Vec2 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< Vec2 >{ findShader( x )
-				, expr::makeTan2( makeExpr( x ) )
+				, expr::makeTan2( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return Vec2{ findShader( x )
-			, expr::makeTan2( makeExpr( x ) ) };
+			, expr::makeTan2( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< Vec3 > tan( MaybeOptional< Vec3 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< Vec3 >{ findShader( x )
-				, expr::makeTan3( makeExpr( x ) )
+				, expr::makeTan3( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return Vec3{ findShader( x )
-			, expr::makeTan3( makeExpr( x ) ) };
+			, expr::makeTan3( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< Vec4 > tan( MaybeOptional< Vec4 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< Vec4 >{ findShader( x )
-				, expr::makeTan4( makeExpr( x ) )
+				, expr::makeTan4( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return Vec4{ findShader( x )
-			, expr::makeTan4( makeExpr( x ) ) };
+			, expr::makeTan4( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	/**@}*/
 #pragma endregion
@@ -300,48 +340,56 @@ namespace sdw
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< Float >{ findShader( x )
-				, expr::makeCosh1( makeExpr( x ) )
+				, expr::makeCosh1( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return Float{ findShader( x )
-			, expr::makeCosh1( makeExpr( x ) ) };
+			, expr::makeCosh1( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< Vec2 > cosh( MaybeOptional< Vec2 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< Vec2 >{ findShader( x )
-				, expr::makeCosh2( makeExpr( x ) )
+				, expr::makeCosh2( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return Vec2{ findShader( x )
-			, expr::makeCosh2( makeExpr( x ) ) };
+			, expr::makeCosh2( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< Vec3 > cosh( MaybeOptional< Vec3 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< Vec3 >{ findShader( x )
-				, expr::makeCosh3( makeExpr( x ) )
+				, expr::makeCosh3( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return Vec3{ findShader( x )
-			, expr::makeCosh3( makeExpr( x ) ) };
+			, expr::makeCosh3( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< Vec4 > cosh( MaybeOptional< Vec4 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< Vec4 >{ findShader( x )
-				, expr::makeCosh4( makeExpr( x ) )
+				, expr::makeCosh4( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return Vec4{ findShader( x )
-			, expr::makeCosh4( makeExpr( x ) ) };
+			, expr::makeCosh4( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	/**@}*/
 #pragma endregion
@@ -356,48 +404,56 @@ namespace sdw
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< Float >{ findShader( x )
-				, expr::makeSinh1( makeExpr( x ) )
+				, expr::makeSinh1( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return Float{ findShader( x )
-			, expr::makeSinh1( makeExpr( x ) ) };
+			, expr::makeSinh1( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< Vec2 > sinh( MaybeOptional< Vec2 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< Vec2 >{ findShader( x )
-				, expr::makeSinh2( makeExpr( x ) )
+				, expr::makeSinh2( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return Vec2{ findShader( x )
-			, expr::makeSinh2( makeExpr( x ) ) };
+			, expr::makeSinh2( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< Vec3 > sinh( MaybeOptional< Vec3 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< Vec3 >{ findShader( x )
-				, expr::makeSinh3( makeExpr( x ) )
+				, expr::makeSinh3( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return Vec3{ findShader( x )
-			, expr::makeSinh3( makeExpr( x ) ) };
+			, expr::makeSinh3( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< Vec4 > sinh( MaybeOptional< Vec4 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< Vec4 >{ findShader( x )
-				, expr::makeSinh4( makeExpr( x ) )
+				, expr::makeSinh4( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return Vec4{ findShader( x )
-			, expr::makeSinh4( makeExpr( x ) ) };
+			, expr::makeSinh4( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	/**@}*/
 #pragma endregion
@@ -412,48 +468,56 @@ namespace sdw
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< Float >{ findShader( x )
-				, expr::makeTanh1( makeExpr( x ) )
+				, expr::makeTanh1( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return Float{ findShader( x )
-			, expr::makeTanh1( makeExpr( x ) ) };
+			, expr::makeTanh1( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< Vec2 > tanh( MaybeOptional< Vec2 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< Vec2 >{ findShader( x )
-				, expr::makeTanh2( makeExpr( x ) )
+				, expr::makeTanh2( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return Vec2{ findShader( x )
-			, expr::makeTanh2( makeExpr( x ) ) };
+			, expr::makeTanh2( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< Vec3 > tanh( MaybeOptional< Vec3 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< Vec3 >{ findShader( x )
-				, expr::makeTanh3( makeExpr( x ) )
+				, expr::makeTanh3( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return Vec3{ findShader( x )
-			, expr::makeTanh3( makeExpr( x ) ) };
+			, expr::makeTanh3( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< Vec4 > tanh( MaybeOptional< Vec4 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< Vec4 >{ findShader( x )
-				, expr::makeTanh4( makeExpr( x ) )
+				, expr::makeTanh4( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return Vec4{ findShader( x )
-			, expr::makeTanh4( makeExpr( x ) ) };
+			, expr::makeTanh4( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	/**@}*/
 #pragma endregion
@@ -468,48 +532,56 @@ namespace sdw
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< Float >{ findShader( x )
-				, expr::makeAcos1( makeExpr( x ) )
+				, expr::makeAcos1( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return Float{ findShader( x )
-			, expr::makeAcos1( makeExpr( x ) ) };
+			, expr::makeAcos1( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< Vec2 > acos( MaybeOptional< Vec2 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< Vec2 >{ findShader( x )
-				, expr::makeAcos2( makeExpr( x ) )
+				, expr::makeAcos2( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return Vec2{ findShader( x )
-			, expr::makeAcos2( makeExpr( x ) ) };
+			, expr::makeAcos2( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< Vec3 > acos( MaybeOptional< Vec3 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< Vec3 >{ findShader( x )
-				, expr::makeAcos3( makeExpr( x ) )
+				, expr::makeAcos3( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return Vec3{ findShader( x )
-			, expr::makeAcos3( makeExpr( x ) ) };
+			, expr::makeAcos3( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< Vec4 > acos( MaybeOptional< Vec4 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< Vec4 >{ findShader( x )
-				, expr::makeAcos4( makeExpr( x ) )
+				, expr::makeAcos4( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return Vec4{ findShader( x )
-			, expr::makeAcos4( makeExpr( x ) ) };
+			, expr::makeAcos4( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	/**@}*/
 #pragma endregion
@@ -524,48 +596,56 @@ namespace sdw
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< Float >{ findShader( x )
-				, expr::makeAsin1( makeExpr( x ) )
+				, expr::makeAsin1( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return Float{ findShader( x )
-			, expr::makeAsin1( makeExpr( x ) ) };
+			, expr::makeAsin1( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< Vec2 > asin( MaybeOptional< Vec2 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< Vec2 >{ findShader( x )
-				, expr::makeAsin2( makeExpr( x ) )
+				, expr::makeAsin2( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return Vec2{ findShader( x )
-			, expr::makeAsin2( makeExpr( x ) ) };
+			, expr::makeAsin2( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< Vec3 > asin( MaybeOptional< Vec3 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< Vec3 >{ findShader( x )
-				, expr::makeAsin3( makeExpr( x ) )
+				, expr::makeAsin3( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return Vec3{ findShader( x )
-			, expr::makeAsin3( makeExpr( x ) ) };
+			, expr::makeAsin3( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< Vec4 > asin( MaybeOptional< Vec4 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< Vec4 >{ findShader( x )
-				, expr::makeAsin4( makeExpr( x ) )
+				, expr::makeAsin4( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return Vec4{ findShader( x )
-			, expr::makeAsin4( makeExpr( x ) ) };
+			, expr::makeAsin4( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	/**@}*/
 #pragma endregion
@@ -580,48 +660,56 @@ namespace sdw
 		if ( isAnyOptional( y_over_x ) )
 		{
 			return Optional< Float >{ findShader( y_over_x )
-				, expr::makeAtan1( makeExpr( y_over_x ) )
+				, expr::makeAtan1( findTypesCache( y_over_x )
+					, makeExpr( y_over_x ) )
 				, areOptionalEnabled( y_over_x ) };
 		}
 
 		return Float{ findShader( y_over_x )
-			, expr::makeAtan1( makeExpr( y_over_x ) ) };
+			, expr::makeAtan1( findTypesCache( y_over_x )
+					, makeExpr( y_over_x ) ) };
 	}
 	MaybeOptional< Vec2 > atan( MaybeOptional< Vec2 > const & y_over_x )
 	{
 		if ( isAnyOptional( y_over_x ) )
 		{
 			return Optional< Vec2 >{ findShader( y_over_x )
-				, expr::makeAtan2( makeExpr( y_over_x ) )
+				, expr::makeAtan2( findTypesCache( y_over_x )
+					, makeExpr( y_over_x ) )
 				, areOptionalEnabled( y_over_x ) };
 		}
 
 		return Vec2{ findShader( y_over_x )
-			, expr::makeAtan2( makeExpr( y_over_x ) ) };
+			, expr::makeAtan2( findTypesCache( y_over_x )
+					, makeExpr( y_over_x ) ) };
 	}
 	MaybeOptional< Vec3 > atan( MaybeOptional< Vec3 > const & y_over_x )
 	{
 		if ( isAnyOptional( y_over_x ) )
 		{
 			return Optional< Vec3 >{ findShader( y_over_x )
-				, expr::makeAtan3( makeExpr( y_over_x ) )
+				, expr::makeAtan3( findTypesCache( y_over_x )
+					, makeExpr( y_over_x ) )
 				, areOptionalEnabled( y_over_x ) };
 		}
 
 		return Vec3{ findShader( y_over_x )
-			, expr::makeAtan3( makeExpr( y_over_x ) ) };
+			, expr::makeAtan3( findTypesCache( y_over_x )
+					, makeExpr( y_over_x ) ) };
 	}
 	MaybeOptional< Vec4 > atan( MaybeOptional< Vec4 > const & y_over_x )
 	{
 		if ( isAnyOptional( y_over_x ) )
 		{
 			return Optional< Vec4 >{ findShader( y_over_x )
-				, expr::makeAtan4( makeExpr( y_over_x ) )
+				, expr::makeAtan4( findTypesCache( y_over_x )
+					, makeExpr( y_over_x ) )
 				, areOptionalEnabled( y_over_x ) };
 		}
 
 		return Vec4{ findShader( y_over_x )
-			, expr::makeAtan4( makeExpr( y_over_x ) ) };
+			, expr::makeAtan4( findTypesCache( y_over_x )
+					, makeExpr( y_over_x ) ) };
 	}
 	/**@}*/
 #pragma endregion
@@ -636,48 +724,56 @@ namespace sdw
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< Float >{ findShader( x )
-				, expr::makeAcosh1( makeExpr( x ) )
+				, expr::makeAcosh1( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return Float{ findShader( x )
-			, expr::makeAcosh1( makeExpr( x ) ) };
+			, expr::makeAcosh1( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< Vec2 > acosh( MaybeOptional< Vec2 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< Vec2 >{ findShader( x )
-				, expr::makeAcosh2( makeExpr( x ) )
+				, expr::makeAcosh2( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return Vec2{ findShader( x )
-			, expr::makeAcosh2( makeExpr( x ) ) };
+			, expr::makeAcosh2( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< Vec3 > acosh( MaybeOptional< Vec3 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< Vec3 >{ findShader( x )
-				, expr::makeAcosh3( makeExpr( x ) )
+				, expr::makeAcosh3( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return Vec3{ findShader( x )
-			, expr::makeAcosh3( makeExpr( x ) ) };
+			, expr::makeAcosh3( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< Vec4 > acosh( MaybeOptional< Vec4 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< Vec4 >{ findShader( x )
-				, expr::makeAcosh4( makeExpr( x ) )
+				, expr::makeAcosh4( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return Vec4{ findShader( x )
-			, expr::makeAcosh4( makeExpr( x ) ) };
+			, expr::makeAcosh4( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	/**@}*/
 #pragma endregion
@@ -692,48 +788,56 @@ namespace sdw
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< Float >{ findShader( x )
-				, expr::makeAsinh1( makeExpr( x ) )
+				, expr::makeAsinh1( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return Float{ findShader( x )
-			, expr::makeAsinh1( makeExpr( x ) ) };
+			, expr::makeAsinh1( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< Vec2 > asinh( MaybeOptional< Vec2 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< Vec2 >{ findShader( x )
-				, expr::makeAsinh2( makeExpr( x ) )
+				, expr::makeAsinh2( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return Vec2{ findShader( x )
-			, expr::makeAsinh2( makeExpr( x ) ) };
+			, expr::makeAsinh2( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< Vec3 > asinh( MaybeOptional< Vec3 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< Vec3 >{ findShader( x )
-				, expr::makeAsinh3( makeExpr( x ) )
+				, expr::makeAsinh3( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return Vec3{ findShader( x )
-			, expr::makeAsinh3( makeExpr( x ) ) };
+			, expr::makeAsinh3( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< Vec4 > asinh( MaybeOptional< Vec4 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< Vec4 >{ findShader( x )
-				, expr::makeAsinh4( makeExpr( x ) )
+				, expr::makeAsinh4( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return Vec4{ findShader( x )
-			, expr::makeAsinh4( makeExpr( x ) ) };
+			, expr::makeAsinh4( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	/**@}*/
 #pragma endregion
@@ -748,48 +852,56 @@ namespace sdw
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< Float >{ findShader( x )
-				, expr::makeAtanh1( makeExpr( x ) )
+				, expr::makeAtanh1( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return Float{ findShader( x )
-			, expr::makeAtanh1( makeExpr( x ) ) };
+			, expr::makeAtanh1( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< Vec2 > atanh( MaybeOptional< Vec2 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< Vec2 >{ findShader( x )
-				, expr::makeAtanh2( makeExpr( x ) )
+				, expr::makeAtanh2( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return Vec2{ findShader( x )
-			, expr::makeAtanh2( makeExpr( x ) ) };
+			, expr::makeAtanh2( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< Vec3 > atanh( MaybeOptional< Vec3 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< Vec3 >{ findShader( x )
-				, expr::makeAtanh3( makeExpr( x ) )
+				, expr::makeAtanh3( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return Vec3{ findShader( x )
-			, expr::makeAtanh3( makeExpr( x ) ) };
+			, expr::makeAtanh3( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< Vec4 > atanh( MaybeOptional< Vec4 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< Vec4 >{ findShader( x )
-				, expr::makeAtanh4( makeExpr( x ) )
+				, expr::makeAtanh4( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return Vec4{ findShader( x )
-			, expr::makeAtanh4( makeExpr( x ) ) };
+			, expr::makeAtanh4( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	/**@}*/
 #pragma endregion
@@ -805,13 +917,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< Float >{ findShader( x, y )
-				, expr::makePow1( makeExpr( x )
+				, expr::makePow1( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return Float{ findShader( x, y )
-			, expr::makePow1( makeExpr( x )
+			, expr::makePow1( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	MaybeOptional< Vec2 > pow( MaybeOptional< Vec2 > const & x
@@ -820,13 +934,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< Vec2 >{ findShader( x, y )
-				, expr::makePow2( makeExpr( x )
+				, expr::makePow2( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return Vec2{ findShader( x, y )
-			, expr::makePow2( makeExpr( x )
+			, expr::makePow2( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	MaybeOptional< Vec3 > pow( MaybeOptional< Vec3 > const & x
@@ -835,13 +951,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< Vec3 >{ findShader( x, y )
-				, expr::makePow3( makeExpr( x )
+				, expr::makePow3( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return Vec3{ findShader( x, y )
-			, expr::makePow3( makeExpr( x )
+			, expr::makePow3( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	MaybeOptional< Vec4 > pow( MaybeOptional< Vec4 > const & x
@@ -850,13 +968,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< Vec4 >{ findShader( x, y )
-				, expr::makePow4( makeExpr( x )
+				, expr::makePow4( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return Vec4{ findShader( x, y )
-			, expr::makePow4( makeExpr( x )
+			, expr::makePow4( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	/**@}*/
@@ -872,48 +992,56 @@ namespace sdw
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< Float >{ findShader( x )
-				, expr::makeExp1( makeExpr( x ) )
+				, expr::makeExp1( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return Float{ findShader( x )
-			, expr::makeExp1( makeExpr( x ) ) };
+			, expr::makeExp1( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< Vec2 > exp( MaybeOptional< Vec2 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< Vec2 >{ findShader( x )
-				, expr::makeExp2( makeExpr( x ) )
+				, expr::makeExp2( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return Vec2{ findShader( x )
-			, expr::makeExp2( makeExpr( x ) ) };
+			, expr::makeExp2( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< Vec3 > exp( MaybeOptional< Vec3 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< Vec3 >{ findShader( x )
-				, expr::makeExp3( makeExpr( x ) )
+				, expr::makeExp3( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return Vec3{ findShader( x )
-			, expr::makeExp3( makeExpr( x ) ) };
+			, expr::makeExp3( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< Vec4 > exp( MaybeOptional< Vec4 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< Vec4 >{ findShader( x )
-				, expr::makeExp4( makeExpr( x ) )
+				, expr::makeExp4( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return Vec4{ findShader( x )
-			, expr::makeExp4( makeExpr( x ) ) };
+			, expr::makeExp4( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	/**@}*/
 #pragma endregion
@@ -928,48 +1056,56 @@ namespace sdw
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< Float >{ findShader( x )
-				, expr::makeLog1( makeExpr( x ) )
+				, expr::makeLog1( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return Float{ findShader( x )
-			, expr::makeLog1( makeExpr( x ) ) };
+			, expr::makeLog1( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< Vec2 > log( MaybeOptional< Vec2 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< Vec2 >{ findShader( x )
-				, expr::makeLog2( makeExpr( x ) )
+				, expr::makeLog2( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return Vec2{ findShader( x )
-			, expr::makeLog2( makeExpr( x ) ) };
+			, expr::makeLog2( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< Vec3 > log( MaybeOptional< Vec3 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< Vec3 >{ findShader( x )
-				, expr::makeLog3( makeExpr( x ) )
+				, expr::makeLog3( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return Vec3{ findShader( x )
-			, expr::makeLog3( makeExpr( x ) ) };
+			, expr::makeLog3( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< Vec4 > log( MaybeOptional< Vec4 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< Vec4 >{ findShader( x )
-				, expr::makeLog4( makeExpr( x ) )
+				, expr::makeLog4( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return Vec4{ findShader( x )
-			, expr::makeLog4( makeExpr( x ) ) };
+			, expr::makeLog4( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	/**@}*/
 #pragma endregion
@@ -984,48 +1120,56 @@ namespace sdw
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< Float >{ findShader( x )
-				, expr::makeExp21( makeExpr( x ) )
+				, expr::makeExp21( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return Float{ findShader( x )
-			, expr::makeExp21( makeExpr( x ) ) };
+			, expr::makeExp21( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< Vec2 > exp2( MaybeOptional< Vec2 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< Vec2 >{ findShader( x )
-				, expr::makeExp22( makeExpr( x ) )
+				, expr::makeExp22( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return Vec2{ findShader( x )
-			, expr::makeExp22( makeExpr( x ) ) };
+			, expr::makeExp22( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< Vec3 > exp2( MaybeOptional< Vec3 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< Vec3 >{ findShader( x )
-				, expr::makeExp23( makeExpr( x ) )
+				, expr::makeExp23( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return Vec3{ findShader( x )
-			, expr::makeExp23( makeExpr( x ) ) };
+			, expr::makeExp23( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< Vec4 > exp2( MaybeOptional< Vec4 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< Vec4 >{ findShader( x )
-				, expr::makeExp24( makeExpr( x ) )
+				, expr::makeExp24( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return Vec4{ findShader( x )
-			, expr::makeExp24( makeExpr( x ) ) };
+			, expr::makeExp24( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	/**@}*/
 #pragma endregion
@@ -1040,48 +1184,56 @@ namespace sdw
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< Float >{ findShader( x )
-				, expr::makeLog21( makeExpr( x ) )
+				, expr::makeLog21( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return Float{ findShader( x )
-			, expr::makeLog21( makeExpr( x ) ) };
+			, expr::makeLog21( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< Vec2 > log2( MaybeOptional< Vec2 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< Vec2 >{ findShader( x )
-				, expr::makeLog22( makeExpr( x ) )
+				, expr::makeLog22( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return Vec2{ findShader( x )
-			, expr::makeLog22( makeExpr( x ) ) };
+			, expr::makeLog22( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< Vec3 > log2( MaybeOptional< Vec3 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< Vec3 >{ findShader( x )
-				, expr::makeLog23( makeExpr( x ) )
+				, expr::makeLog23( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return Vec3{ findShader( x )
-			, expr::makeLog23( makeExpr( x ) ) };
+			, expr::makeLog23( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< Vec4 > log2( MaybeOptional< Vec4 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< Vec4 >{ findShader( x )
-				, expr::makeLog24( makeExpr( x ) )
+				, expr::makeLog24( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return Vec4{ findShader( x )
-			, expr::makeLog24( makeExpr( x ) ) };
+			, expr::makeLog24( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	/**@}*/
 #pragma endregion
@@ -1096,96 +1248,112 @@ namespace sdw
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< Float >{ findShader( x )
-				, expr::makeSqrt1F( makeExpr( x ) )
+				, expr::makeSqrt1F( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return Float{ findShader( x )
-			, expr::makeSqrt1F( makeExpr( x ) ) };
+			, expr::makeSqrt1F( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< Vec2 > sqrt( MaybeOptional< Vec2 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< Vec2 >{ findShader( x )
-				, expr::makeSqrt2F( makeExpr( x ) )
+				, expr::makeSqrt2F( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return Vec2{ findShader( x )
-			, expr::makeSqrt2F( makeExpr( x ) ) };
+			, expr::makeSqrt2F( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< Vec3 > sqrt( MaybeOptional< Vec3 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< Vec3 >{ findShader( x )
-				, expr::makeSqrt3F( makeExpr( x ) )
+				, expr::makeSqrt3F( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return Vec3{ findShader( x )
-			, expr::makeSqrt3F( makeExpr( x ) ) };
+			, expr::makeSqrt3F( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< Vec4 > sqrt( MaybeOptional< Vec4 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< Vec4 >{ findShader( x )
-				, expr::makeSqrt4F( makeExpr( x ) )
+				, expr::makeSqrt4F( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return Vec4{ findShader( x )
-			, expr::makeSqrt4F( makeExpr( x ) ) };
+			, expr::makeSqrt4F( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< Double > sqrt( MaybeOptional< Double > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< Double >{ findShader( x )
-				, expr::makeSqrt1D( makeExpr( x ) )
+				, expr::makeSqrt1D( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return Double{ findShader( x )
-			, expr::makeSqrt1D( makeExpr( x ) ) };
+			, expr::makeSqrt1D( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< DVec2 > sqrt( MaybeOptional< DVec2 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< DVec2 >{ findShader( x )
-				, expr::makeSqrt2D( makeExpr( x ) )
+				, expr::makeSqrt2D( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return DVec2{ findShader( x )
-			, expr::makeSqrt2D( makeExpr( x ) ) };
+			, expr::makeSqrt2D( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< DVec3 > sqrt( MaybeOptional< DVec3 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< DVec3 >{ findShader( x )
-				, expr::makeSqrt3D( makeExpr( x ) )
+				, expr::makeSqrt3D( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return DVec3{ findShader( x )
-			, expr::makeSqrt3D( makeExpr( x ) ) };
+			, expr::makeSqrt3D( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< DVec4 > sqrt( MaybeOptional< DVec4 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< DVec4 >{ findShader( x )
-				, expr::makeSqrt4D( makeExpr( x ) )
+				, expr::makeSqrt4D( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return DVec4{ findShader( x )
-			, expr::makeSqrt4D( makeExpr( x ) ) };
+			, expr::makeSqrt4D( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	/**@}*/
 #pragma endregion
@@ -1200,96 +1368,112 @@ namespace sdw
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< Float >{ findShader( x )
-				, expr::makeInverseSqrt1F( makeExpr( x ) )
+				, expr::makeInverseSqrt1F( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return Float{ findShader( x )
-			, expr::makeInverseSqrt1F( makeExpr( x ) ) };
+			, expr::makeInverseSqrt1F( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< Vec2 > inverseSqrt( MaybeOptional< Vec2 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< Vec2 >{ findShader( x )
-				, expr::makeInverseSqrt2F( makeExpr( x ) )
+				, expr::makeInverseSqrt2F( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return Vec2{ findShader( x )
-			, expr::makeInverseSqrt2F( makeExpr( x ) ) };
+			, expr::makeInverseSqrt2F( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< Vec3 > inverseSqrt( MaybeOptional< Vec3 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< Vec3 >{ findShader( x )
-				, expr::makeInverseSqrt3F( makeExpr( x ) )
+				, expr::makeInverseSqrt3F( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return Vec3{ findShader( x )
-			, expr::makeInverseSqrt3F( makeExpr( x ) ) };
+			, expr::makeInverseSqrt3F( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< Vec4 > inverseSqrt( MaybeOptional< Vec4 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< Vec4 >{ findShader( x )
-				, expr::makeInverseSqrt4F( makeExpr( x ) )
+				, expr::makeInverseSqrt4F( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return Vec4{ findShader( x )
-			, expr::makeInverseSqrt4F( makeExpr( x ) ) };
+			, expr::makeInverseSqrt4F( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< Double > inverseSqrt( MaybeOptional< Double > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< Double >{ findShader( x )
-				, expr::makeInverseSqrt1D( makeExpr( x ) )
+				, expr::makeInverseSqrt1D( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return Double{ findShader( x )
-			, expr::makeInverseSqrt1D( makeExpr( x ) ) };
+			, expr::makeInverseSqrt1D( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< DVec2 > inverseSqrt( MaybeOptional< DVec2 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< DVec2 >{ findShader( x )
-				, expr::makeInverseSqrt2D( makeExpr( x ) )
+				, expr::makeInverseSqrt2D( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return DVec2{ findShader( x )
-			, expr::makeInverseSqrt2D( makeExpr( x ) ) };
+			, expr::makeInverseSqrt2D( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< DVec3 > inverseSqrt( MaybeOptional< DVec3 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< DVec3 >{ findShader( x )
-				, expr::makeInverseSqrt3D( makeExpr( x ) )
+				, expr::makeInverseSqrt3D( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return DVec3{ findShader( x )
-			, expr::makeInverseSqrt3D( makeExpr( x ) ) };
+			, expr::makeInverseSqrt3D( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< DVec4 > inverseSqrt( MaybeOptional< DVec4 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< DVec4 >{ findShader( x )
-				, expr::makeInverseSqrt4D( makeExpr( x ) )
+				, expr::makeInverseSqrt4D( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return DVec4{ findShader( x )
-			, expr::makeInverseSqrt4D( makeExpr( x ) ) };
+			, expr::makeInverseSqrt4D( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	/**@}*/
 #pragma endregion
@@ -1304,144 +1488,168 @@ namespace sdw
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< Float >{ findShader( x )
-				, expr::makeAbs1F( makeExpr( x ) )
+				, expr::makeAbs1F( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return Float{ findShader( x )
-			, expr::makeAbs1F( makeExpr( x ) ) };
+			, expr::makeAbs1F( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< Vec2 > abs( MaybeOptional< Vec2 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< Vec2 >{ findShader( x )
-				, expr::makeAbs2F( makeExpr( x ) )
+				, expr::makeAbs2F( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return Vec2{ findShader( x )
-			, expr::makeAbs2F( makeExpr( x ) ) };
+			, expr::makeAbs2F( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< Vec3 > abs( MaybeOptional< Vec3 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< Vec3 >{ findShader( x )
-				, expr::makeAbs3F( makeExpr( x ) )
+				, expr::makeAbs3F( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return Vec3{ findShader( x )
-			, expr::makeAbs3F( makeExpr( x ) ) };
+			, expr::makeAbs3F( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< Vec4 > abs( MaybeOptional< Vec4 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< Vec4 >{ findShader( x )
-				, expr::makeAbs4F( makeExpr( x ) )
+				, expr::makeAbs4F( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return Vec4{ findShader( x )
-			, expr::makeAbs4F( makeExpr( x ) ) };
+			, expr::makeAbs4F( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< Int > abs( MaybeOptional< Int > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< Int >{ findShader( x )
-				, expr::makeAbs1I( makeExpr( x ) )
+				, expr::makeAbs1I( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return Int{ findShader( x )
-			, expr::makeAbs1I( makeExpr( x ) ) };
+			, expr::makeAbs1I( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< IVec2 > abs( MaybeOptional< IVec2 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< IVec2 >{ findShader( x )
-				, expr::makeAbs2I( makeExpr( x ) )
+				, expr::makeAbs2I( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return IVec2{ findShader( x )
-			, expr::makeAbs2I( makeExpr( x ) ) };
+			, expr::makeAbs2I( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< IVec3 > abs( MaybeOptional< IVec3 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< IVec3 >{ findShader( x )
-				, expr::makeAbs3I( makeExpr( x ) )
+				, expr::makeAbs3I( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return IVec3{ findShader( x )
-			, expr::makeAbs3I( makeExpr( x ) ) };
+			, expr::makeAbs3I( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< IVec4 > abs( MaybeOptional< IVec4 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< IVec4 >{ findShader( x )
-				, expr::makeAbs4I( makeExpr( x ) )
+				, expr::makeAbs4I( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return IVec4{ findShader( x )
-			, expr::makeAbs4I( makeExpr( x ) ) };
+			, expr::makeAbs4I( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< Double > abs( MaybeOptional< Double > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< Double >{ findShader( x )
-				, expr::makeAbs1D( makeExpr( x ) )
+				, expr::makeAbs1D( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return Double{ findShader( x )
-			, expr::makeAbs1D( makeExpr( x ) ) };
+			, expr::makeAbs1D( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< DVec2 > abs( MaybeOptional< DVec2 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< DVec2 >{ findShader( x )
-				, expr::makeAbs2D( makeExpr( x ) )
+				, expr::makeAbs2D( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return DVec2{ findShader( x )
-			, expr::makeAbs2D( makeExpr( x ) ) };
+			, expr::makeAbs2D( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< DVec3 > abs( MaybeOptional< DVec3 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< DVec3 >{ findShader( x )
-				, expr::makeAbs3D( makeExpr( x ) )
+				, expr::makeAbs3D( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return DVec3{ findShader( x )
-			, expr::makeAbs3D( makeExpr( x ) ) };
+			, expr::makeAbs3D( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< DVec4 > abs( MaybeOptional< DVec4 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< DVec4 >{ findShader( x )
-				, expr::makeAbs4D( makeExpr( x ) )
+				, expr::makeAbs4D( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return DVec4{ findShader( x )
-			, expr::makeAbs4D( makeExpr( x ) ) };
+			, expr::makeAbs4D( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	/**@}*/
 #pragma endregion
@@ -1456,144 +1664,168 @@ namespace sdw
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< Float >{ findShader( x )
-				, expr::makeSign1F( makeExpr( x ) )
+				, expr::makeSign1F( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return Float{ findShader( x )
-			, expr::makeSign1F( makeExpr( x ) ) };
+			, expr::makeSign1F( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< Vec2 > sign( MaybeOptional< Vec2 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< Vec2 >{ findShader( x )
-				, expr::makeSign2F( makeExpr( x ) )
+				, expr::makeSign2F( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return Vec2{ findShader( x )
-			, expr::makeSign2F( makeExpr( x ) ) };
+			, expr::makeSign2F( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< Vec3 > sign( MaybeOptional< Vec3 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< Vec3 >{ findShader( x )
-				, expr::makeSign3F( makeExpr( x ) )
+				, expr::makeSign3F( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return Vec3{ findShader( x )
-			, expr::makeSign3F( makeExpr( x ) ) };
+			, expr::makeSign3F( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< Vec4 > sign( MaybeOptional< Vec4 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< Vec4 >{ findShader( x )
-				, expr::makeSign4F( makeExpr( x ) )
+				, expr::makeSign4F( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return Vec4{ findShader( x )
-			, expr::makeSign4F( makeExpr( x ) ) };
+			, expr::makeSign4F( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< Int > sign( MaybeOptional< Int > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< Int >{ findShader( x )
-				, expr::makeSign1I( makeExpr( x ) )
+				, expr::makeSign1I( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return Int{ findShader( x )
-			, expr::makeSign1I( makeExpr( x ) ) };
+			, expr::makeSign1I( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< IVec2 > sign( MaybeOptional< IVec2 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< IVec2 >{ findShader( x )
-				, expr::makeSign2I( makeExpr( x ) )
+				, expr::makeSign2I( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return IVec2{ findShader( x )
-			, expr::makeSign2I( makeExpr( x ) ) };
+			, expr::makeSign2I( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< IVec3 > sign( MaybeOptional< IVec3 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< IVec3 >{ findShader( x )
-				, expr::makeSign3I( makeExpr( x ) )
+				, expr::makeSign3I( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return IVec3{ findShader( x )
-			, expr::makeSign3I( makeExpr( x ) ) };
+			, expr::makeSign3I( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< IVec4 > sign( MaybeOptional< IVec4 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< IVec4 >{ findShader( x )
-				, expr::makeSign4I( makeExpr( x ) )
+				, expr::makeSign4I( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return IVec4{ findShader( x )
-			, expr::makeSign4I( makeExpr( x ) ) };
+			, expr::makeSign4I( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< Double > sign( MaybeOptional< Double > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< Double >{ findShader( x )
-				, expr::makeSign1D( makeExpr( x ) )
+				, expr::makeSign1D( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return Double{ findShader( x )
-			, expr::makeSign1D( makeExpr( x ) ) };
+			, expr::makeSign1D( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< DVec2 > sign( MaybeOptional< DVec2 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< DVec2 >{ findShader( x )
-				, expr::makeSign2D( makeExpr( x ) )
+				, expr::makeSign2D( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return DVec2{ findShader( x )
-			, expr::makeSign2D( makeExpr( x ) ) };
+			, expr::makeSign2D( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< DVec3 > sign( MaybeOptional< DVec3 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< DVec3 >{ findShader( x )
-				, expr::makeSign3D( makeExpr( x ) )
+				, expr::makeSign3D( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return DVec3{ findShader( x )
-			, expr::makeSign3D( makeExpr( x ) ) };
+			, expr::makeSign3D( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< DVec4 > sign( MaybeOptional< DVec4 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< DVec4 >{ findShader( x )
-				, expr::makeSign4D( makeExpr( x ) )
+				, expr::makeSign4D( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return DVec4{ findShader( x )
-			, expr::makeSign4D( makeExpr( x ) ) };
+			, expr::makeSign4D( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	/**@}*/
 #pragma endregion
@@ -1608,96 +1840,112 @@ namespace sdw
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< Float >{ findShader( x )
-				, expr::makeFloor1F( makeExpr( x ) )
+				, expr::makeFloor1F( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return Float{ findShader( x )
-			, expr::makeFloor1F( makeExpr( x ) ) };
+			, expr::makeFloor1F( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< Vec2 > floor( MaybeOptional< Vec2 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< Vec2 >{ findShader( x )
-				, expr::makeFloor2F( makeExpr( x ) )
+				, expr::makeFloor2F( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return Vec2{ findShader( x )
-			, expr::makeFloor2F( makeExpr( x ) ) };
+			, expr::makeFloor2F( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< Vec3 > floor( MaybeOptional< Vec3 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< Vec3 >{ findShader( x )
-				, expr::makeFloor3F( makeExpr( x ) )
+				, expr::makeFloor3F( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return Vec3{ findShader( x )
-			, expr::makeFloor3F( makeExpr( x ) ) };
+			, expr::makeFloor3F( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< Vec4 > floor( MaybeOptional< Vec4 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< Vec4 >{ findShader( x )
-				, expr::makeFloor4F( makeExpr( x ) )
+				, expr::makeFloor4F( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return Vec4{ findShader( x )
-			, expr::makeFloor4F( makeExpr( x ) ) };
+			, expr::makeFloor4F( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< Double > floor( MaybeOptional< Double > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< Double >{ findShader( x )
-				, expr::makeFloor1D( makeExpr( x ) )
+				, expr::makeFloor1D( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return Double{ findShader( x )
-			, expr::makeFloor1D( makeExpr( x ) ) };
+			, expr::makeFloor1D( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< DVec2 > floor( MaybeOptional< DVec2 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< DVec2 >{ findShader( x )
-				, expr::makeFloor2D( makeExpr( x ) )
+				, expr::makeFloor2D( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return DVec2{ findShader( x )
-			, expr::makeFloor2D( makeExpr( x ) ) };
+			, expr::makeFloor2D( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< DVec3 > floor( MaybeOptional< DVec3 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< DVec3 >{ findShader( x )
-				, expr::makeFloor3D( makeExpr( x ) )
+				, expr::makeFloor3D( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return DVec3{ findShader( x )
-			, expr::makeFloor3D( makeExpr( x ) ) };
+			, expr::makeFloor3D( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< DVec4 > floor( MaybeOptional< DVec4 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< DVec4 >{ findShader( x )
-				, expr::makeFloor4D( makeExpr( x ) )
+				, expr::makeFloor4D( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return DVec4{ findShader( x )
-			, expr::makeFloor4D( makeExpr( x ) ) };
+			, expr::makeFloor4D( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	/**@}*/
 #pragma endregion
@@ -1712,96 +1960,112 @@ namespace sdw
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< Float >{ findShader( x )
-				, expr::makeTrunc1F( makeExpr( x ) )
+				, expr::makeTrunc1F( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return Float{ findShader( x )
-			, expr::makeTrunc1F( makeExpr( x ) ) };
+			, expr::makeTrunc1F( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< Vec2 > trunc( MaybeOptional< Vec2 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< Vec2 >{ findShader( x )
-				, expr::makeTrunc2F( makeExpr( x ) )
+				, expr::makeTrunc2F( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return Vec2{ findShader( x )
-			, expr::makeTrunc2F( makeExpr( x ) ) };
+			, expr::makeTrunc2F( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< Vec3 > trunc( MaybeOptional< Vec3 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< Vec3 >{ findShader( x )
-				, expr::makeTrunc3F( makeExpr( x ) )
+				, expr::makeTrunc3F( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return Vec3{ findShader( x )
-			, expr::makeTrunc3F( makeExpr( x ) ) };
+			, expr::makeTrunc3F( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< Vec4 > trunc( MaybeOptional< Vec4 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< Vec4 >{ findShader( x )
-				, expr::makeTrunc4F( makeExpr( x ) )
+				, expr::makeTrunc4F( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return Vec4{ findShader( x )
-			, expr::makeTrunc4F( makeExpr( x ) ) };
+			, expr::makeTrunc4F( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< Double > trunc( MaybeOptional< Double > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< Double >{ findShader( x )
-				, expr::makeTrunc1D( makeExpr( x ) )
+				, expr::makeTrunc1D( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return Double{ findShader( x )
-			, expr::makeTrunc1D( makeExpr( x ) ) };
+			, expr::makeTrunc1D( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< DVec2 > trunc( MaybeOptional< DVec2 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< DVec2 >{ findShader( x )
-				, expr::makeTrunc2D( makeExpr( x ) )
+				, expr::makeTrunc2D( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return DVec2{ findShader( x )
-			, expr::makeTrunc2D( makeExpr( x ) ) };
+			, expr::makeTrunc2D( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< DVec3 > trunc( MaybeOptional< DVec3 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< DVec3 >{ findShader( x )
-				, expr::makeTrunc3D( makeExpr( x ) )
+				, expr::makeTrunc3D( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return DVec3{ findShader( x )
-			, expr::makeTrunc3D( makeExpr( x ) ) };
+			, expr::makeTrunc3D( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< DVec4 > trunc( MaybeOptional< DVec4 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< DVec4 >{ findShader( x )
-				, expr::makeTrunc4D( makeExpr( x ) )
+				, expr::makeTrunc4D( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return DVec4{ findShader( x )
-			, expr::makeTrunc4D( makeExpr( x ) ) };
+			, expr::makeTrunc4D( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	/**@}*/
 #pragma endregion
@@ -1816,96 +2080,112 @@ namespace sdw
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< Float >{ findShader( x )
-				, expr::makeRound1F( makeExpr( x ) )
+				, expr::makeRound1F( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return Float{ findShader( x )
-			, expr::makeRound1F( makeExpr( x ) ) };
+			, expr::makeRound1F( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< Vec2 > round( MaybeOptional< Vec2 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< Vec2 >{ findShader( x )
-				, expr::makeRound2F( makeExpr( x ) )
+				, expr::makeRound2F( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return Vec2{ findShader( x )
-			, expr::makeRound2F( makeExpr( x ) ) };
+			, expr::makeRound2F( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< Vec3 > round( MaybeOptional< Vec3 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< Vec3 >{ findShader( x )
-				, expr::makeRound3F( makeExpr( x ) )
+				, expr::makeRound3F( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return Vec3{ findShader( x )
-			, expr::makeRound3F( makeExpr( x ) ) };
+			, expr::makeRound3F( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< Vec4 > round( MaybeOptional< Vec4 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< Vec4 >{ findShader( x )
-				, expr::makeRound4F( makeExpr( x ) )
+				, expr::makeRound4F( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return Vec4{ findShader( x )
-			, expr::makeRound4F( makeExpr( x ) ) };
+			, expr::makeRound4F( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< Double > round( MaybeOptional< Double > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< Double >{ findShader( x )
-				, expr::makeRound1D( makeExpr( x ) )
+				, expr::makeRound1D( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return Double{ findShader( x )
-			, expr::makeRound1D( makeExpr( x ) ) };
+			, expr::makeRound1D( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< DVec2 > round( MaybeOptional< DVec2 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< DVec2 >{ findShader( x )
-				, expr::makeRound2D( makeExpr( x ) )
+				, expr::makeRound2D( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return DVec2{ findShader( x )
-			, expr::makeRound2D( makeExpr( x ) ) };
+			, expr::makeRound2D( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< DVec3 > round( MaybeOptional< DVec3 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< DVec3 >{ findShader( x )
-				, expr::makeRound3D( makeExpr( x ) )
+				, expr::makeRound3D( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return DVec3{ findShader( x )
-			, expr::makeRound3D( makeExpr( x ) ) };
+			, expr::makeRound3D( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< DVec4 > round( MaybeOptional< DVec4 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< DVec4 >{ findShader( x )
-				, expr::makeRound4D( makeExpr( x ) )
+				, expr::makeRound4D( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return DVec4{ findShader( x )
-			, expr::makeRound4D( makeExpr( x ) ) };
+			, expr::makeRound4D( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	/**@}*/
 #pragma endregion
@@ -1920,96 +2200,112 @@ namespace sdw
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< Float >{ findShader( x )
-				, expr::makeRoundEven1F( makeExpr( x ) )
+				, expr::makeRoundEven1F( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return Float{ findShader( x )
-			, expr::makeRoundEven1F( makeExpr( x ) ) };
+			, expr::makeRoundEven1F( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< Vec2 > roundEven( MaybeOptional< Vec2 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< Vec2 >{ findShader( x )
-				, expr::makeRoundEven2F( makeExpr( x ) )
+				, expr::makeRoundEven2F( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return Vec2{ findShader( x )
-			, expr::makeRoundEven2F( makeExpr( x ) ) };
+			, expr::makeRoundEven2F( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< Vec3 > roundEven( MaybeOptional< Vec3 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< Vec3 >{ findShader( x )
-				, expr::makeRoundEven3F( makeExpr( x ) )
+				, expr::makeRoundEven3F( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return Vec3{ findShader( x )
-			, expr::makeRoundEven3F( makeExpr( x ) ) };
+			, expr::makeRoundEven3F( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< Vec4 > roundEven( MaybeOptional< Vec4 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< Vec4 >{ findShader( x )
-				, expr::makeRoundEven4F( makeExpr( x ) )
+				, expr::makeRoundEven4F( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return Vec4{ findShader( x )
-			, expr::makeRoundEven4F( makeExpr( x ) ) };
+			, expr::makeRoundEven4F( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< Double > roundEven( MaybeOptional< Double > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< Double >{ findShader( x )
-				, expr::makeRoundEven1D( makeExpr( x ) )
+				, expr::makeRoundEven1D( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return Double{ findShader( x )
-			, expr::makeRoundEven1D( makeExpr( x ) ) };
+			, expr::makeRoundEven1D( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< DVec2 > roundEven( MaybeOptional< DVec2 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< DVec2 >{ findShader( x )
-				, expr::makeRoundEven2D( makeExpr( x ) )
+				, expr::makeRoundEven2D( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return DVec2{ findShader( x )
-			, expr::makeRoundEven2D( makeExpr( x ) ) };
+			, expr::makeRoundEven2D( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< DVec3 > roundEven( MaybeOptional< DVec3 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< DVec3 >{ findShader( x )
-				, expr::makeRoundEven3D( makeExpr( x ) )
+				, expr::makeRoundEven3D( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return DVec3{ findShader( x )
-			, expr::makeRoundEven3D( makeExpr( x ) ) };
+			, expr::makeRoundEven3D( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< DVec4 > roundEven( MaybeOptional< DVec4 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< DVec4 >{ findShader( x )
-				, expr::makeRoundEven4D( makeExpr( x ) )
+				, expr::makeRoundEven4D( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return DVec4{ findShader( x )
-			, expr::makeRoundEven4D( makeExpr( x ) ) };
+			, expr::makeRoundEven4D( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	/**@}*/
 #pragma endregion
@@ -2024,96 +2320,112 @@ namespace sdw
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< Float >{ findShader( x )
-				, expr::makeCeil1F( makeExpr( x ) )
+				, expr::makeCeil1F( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return Float{ findShader( x )
-			, expr::makeCeil1F( makeExpr( x ) ) };
+			, expr::makeCeil1F( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< Vec2 > ceil( MaybeOptional< Vec2 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< Vec2 >{ findShader( x )
-				, expr::makeCeil2F( makeExpr( x ) )
+				, expr::makeCeil2F( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return Vec2{ findShader( x )
-			, expr::makeCeil2F( makeExpr( x ) ) };
+			, expr::makeCeil2F( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< Vec3 > ceil( MaybeOptional< Vec3 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< Vec3 >{ findShader( x )
-				, expr::makeCeil3F( makeExpr( x ) )
+				, expr::makeCeil3F( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return Vec3{ findShader( x )
-			, expr::makeCeil3F( makeExpr( x ) ) };
+			, expr::makeCeil3F( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< Vec4 > ceil( MaybeOptional< Vec4 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< Vec4 >{ findShader( x )
-				, expr::makeCeil4F( makeExpr( x ) )
+				, expr::makeCeil4F( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return Vec4{ findShader( x )
-			, expr::makeCeil4F( makeExpr( x ) ) };
+			, expr::makeCeil4F( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< Double > ceil( MaybeOptional< Double > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< Double >{ findShader( x )
-				, expr::makeCeil1D( makeExpr( x ) )
+				, expr::makeCeil1D( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return Double{ findShader( x )
-			, expr::makeCeil1D( makeExpr( x ) ) };
+			, expr::makeCeil1D( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< DVec2 > ceil( MaybeOptional< DVec2 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< DVec2 >{ findShader( x )
-				, expr::makeCeil2D( makeExpr( x ) )
+				, expr::makeCeil2D( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return DVec2{ findShader( x )
-			, expr::makeCeil2D( makeExpr( x ) ) };
+			, expr::makeCeil2D( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< DVec3 > ceil( MaybeOptional< DVec3 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< DVec3 >{ findShader( x )
-				, expr::makeCeil3D( makeExpr( x ) )
+				, expr::makeCeil3D( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return DVec3{ findShader( x )
-			, expr::makeCeil3D( makeExpr( x ) ) };
+			, expr::makeCeil3D( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< DVec4 > ceil( MaybeOptional< DVec4 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< DVec4 >{ findShader( x )
-				, expr::makeCeil4D( makeExpr( x ) )
+				, expr::makeCeil4D( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return DVec4{ findShader( x )
-			, expr::makeCeil4D( makeExpr( x ) ) };
+			, expr::makeCeil4D( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	/**@}*/
 #pragma endregion
@@ -2128,96 +2440,112 @@ namespace sdw
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< Float >{ findShader( x )
-				, expr::makeFract1F( makeExpr( x ) )
+				, expr::makeFract1F( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return Float{ findShader( x )
-			, expr::makeFract1F( makeExpr( x ) ) };
+			, expr::makeFract1F( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< Vec2 > fract( MaybeOptional< Vec2 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< Vec2 >{ findShader( x )
-				, expr::makeFract2F( makeExpr( x ) )
+				, expr::makeFract2F( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return Vec2{ findShader( x )
-			, expr::makeFract2F( makeExpr( x ) ) };
+			, expr::makeFract2F( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< Vec3 > fract( MaybeOptional< Vec3 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< Vec3 >{ findShader( x )
-				, expr::makeFract3F( makeExpr( x ) )
+				, expr::makeFract3F( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return Vec3{ findShader( x )
-			, expr::makeFract3F( makeExpr( x ) ) };
+			, expr::makeFract3F( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< Vec4 > fract( MaybeOptional< Vec4 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< Vec4 >{ findShader( x )
-				, expr::makeFract4F( makeExpr( x ) )
+				, expr::makeFract4F( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return Vec4{ findShader( x )
-			, expr::makeFract4F( makeExpr( x ) ) };
+			, expr::makeFract4F( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< Double > fract( MaybeOptional< Double > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< Double >{ findShader( x )
-				, expr::makeFract1D( makeExpr( x ) )
+				, expr::makeFract1D( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return Double{ findShader( x )
-			, expr::makeFract1D( makeExpr( x ) ) };
+			, expr::makeFract1D( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< DVec2 > fract( MaybeOptional< DVec2 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< DVec2 >{ findShader( x )
-				, expr::makeFract2D( makeExpr( x ) )
+				, expr::makeFract2D( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return DVec2{ findShader( x )
-			, expr::makeFract2D( makeExpr( x ) ) };
+			, expr::makeFract2D( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< DVec3 > fract( MaybeOptional< DVec3 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< DVec3 >{ findShader( x )
-				, expr::makeFract3D( makeExpr( x ) )
+				, expr::makeFract3D( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return DVec3{ findShader( x )
-			, expr::makeFract3D( makeExpr( x ) ) };
+			, expr::makeFract3D( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< DVec4 > fract( MaybeOptional< DVec4 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< DVec4 >{ findShader( x )
-				, expr::makeFract4D( makeExpr( x ) )
+				, expr::makeFract4D( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return DVec4{ findShader( x )
-			, expr::makeFract4D( makeExpr( x ) ) };
+			, expr::makeFract4D( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	/**@}*/
 #pragma endregion
@@ -2233,13 +2561,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< Float >{ findShader( x, y )
-				, expr::makeMod11F( makeExpr( x )
+				, expr::makeMod11F( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return Float{ findShader( x, y )
-			, expr::makeMod11F( makeExpr( x )
+			, expr::makeMod11F( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	MaybeOptional< Vec2 > mod( MaybeOptional< Vec2 > const & x
@@ -2248,13 +2578,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< Vec2 >{ findShader( x, y )
-				, expr::makeMod22F( makeExpr( x )
+				, expr::makeMod22F( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return Vec2{ findShader( x, y )
-			, expr::makeMod22F( makeExpr( x )
+			, expr::makeMod22F( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	MaybeOptional< Vec3 > mod( MaybeOptional< Vec3 > const & x
@@ -2263,13 +2595,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< Vec3 >{ findShader( x, y )
-				, expr::makeMod33F( makeExpr( x )
+				, expr::makeMod33F( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return Vec3{ findShader( x, y )
-			, expr::makeMod33F( makeExpr( x )
+			, expr::makeMod33F( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	MaybeOptional< Vec4 > mod( MaybeOptional< Vec4 > const & x
@@ -2278,13 +2612,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< Vec4 >{ findShader( x, y )
-				, expr::makeMod44F( makeExpr( x )
+				, expr::makeMod44F( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return Vec4{ findShader( x, y )
-			, expr::makeMod44F( makeExpr( x )
+			, expr::makeMod44F( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	MaybeOptional< Vec2 > mod( MaybeOptional< Vec2 > const & x
@@ -2293,13 +2629,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< Vec2 >{ findShader( x, y )
-				, expr::makeMod21F( makeExpr( x )
+				, expr::makeMod21F( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return Vec2{ findShader( x, y )
-			, expr::makeMod21F( makeExpr( x )
+			, expr::makeMod21F( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	MaybeOptional< Vec3 > mod( MaybeOptional< Vec3 > const & x
@@ -2308,13 +2646,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< Vec3 >{ findShader( x, y )
-				, expr::makeMod31F( makeExpr( x )
+				, expr::makeMod31F( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return Vec3{ findShader( x, y )
-			, expr::makeMod31F( makeExpr( x )
+			, expr::makeMod31F( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	MaybeOptional< Vec4 > mod( MaybeOptional< Vec4 > const & x
@@ -2323,13 +2663,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< Vec4 >{ findShader( x, y )
-				, expr::makeMod41F( makeExpr( x )
+				, expr::makeMod41F( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return Vec4{ findShader( x, y )
-			, expr::makeMod41F( makeExpr( x )
+			, expr::makeMod41F( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	MaybeOptional< Double > mod( MaybeOptional< Double > const & x
@@ -2338,13 +2680,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< Double >{ findShader( x, y )
-				, expr::makeMod11D( makeExpr( x )
+				, expr::makeMod11D( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return Double{ findShader( x, y )
-			, expr::makeMod11D( makeExpr( x )
+			, expr::makeMod11D( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	MaybeOptional< DVec2 > mod( MaybeOptional< DVec2 > const & x
@@ -2353,13 +2697,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< DVec2 >{ findShader( x, y )
-				, expr::makeMod22D( makeExpr( x )
+				, expr::makeMod22D( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return DVec2{ findShader( x, y )
-			, expr::makeMod22D( makeExpr( x )
+			, expr::makeMod22D( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	MaybeOptional< DVec3 > mod( MaybeOptional< DVec3 > const & x
@@ -2368,13 +2714,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< DVec3 >{ findShader( x, y )
-				, expr::makeMod33D( makeExpr( x )
+				, expr::makeMod33D( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return DVec3{ findShader( x, y )
-			, expr::makeMod33D( makeExpr( x )
+			, expr::makeMod33D( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	MaybeOptional< DVec4 > mod( MaybeOptional< DVec4 > const & x
@@ -2383,13 +2731,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< DVec4 >{ findShader( x, y )
-				, expr::makeMod44D( makeExpr( x )
+				, expr::makeMod44D( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return DVec4{ findShader( x, y )
-			, expr::makeMod44D( makeExpr( x )
+			, expr::makeMod44D( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	MaybeOptional< DVec2 > mod( MaybeOptional< DVec2 > const & x
@@ -2398,13 +2748,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< DVec2 >{ findShader( x, y )
-				, expr::makeMod21D( makeExpr( x )
+				, expr::makeMod21D( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return DVec2{ findShader( x, y )
-			, expr::makeMod21D( makeExpr( x )
+			, expr::makeMod21D( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	MaybeOptional< DVec3 > mod( MaybeOptional< DVec3 > const & x
@@ -2413,13 +2765,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< DVec3 >{ findShader( x, y )
-				, expr::makeMod31D( makeExpr( x )
+				, expr::makeMod31D( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return DVec3{ findShader( x, y )
-			, expr::makeMod31D( makeExpr( x )
+			, expr::makeMod31D( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	MaybeOptional< DVec4 > mod( MaybeOptional< DVec4 > const & x
@@ -2428,13 +2782,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< DVec4 >{ findShader( x, y )
-				, expr::makeMod41D( makeExpr( x )
+				, expr::makeMod41D( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return DVec4{ findShader( x, y )
-			, expr::makeMod41D( makeExpr( x )
+			, expr::makeMod41D( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	/**@}*/
@@ -2451,13 +2807,15 @@ namespace sdw
 		if ( isAnyOptional( x, i ) )
 		{
 			return Optional< Float >{ findShader( x, i )
-				, expr::makeModf1F( makeExpr( x )
+				, expr::makeModf1F( findTypesCache( x, i )
+					, makeExpr( x )
 					, makeExpr( i ) )
 				, areOptionalEnabled( x, i ) };
 		}
 
 		return Float{ findShader( x, i )
-			, expr::makeModf1F( makeExpr( x )
+			, expr::makeModf1F( findTypesCache( x, i )
+					, makeExpr( x )
 				, makeExpr( i ) ) };
 	}
 	MaybeOptional< Vec2 > modf( MaybeOptional< Vec2 > const & x
@@ -2466,13 +2824,15 @@ namespace sdw
 		if ( isAnyOptional( x, i ) )
 		{
 			return Optional< Vec2 >{ findShader( x, i )
-				, expr::makeModf2F( makeExpr( x )
+				, expr::makeModf2F( findTypesCache( x, i )
+					, makeExpr( x )
 					, makeExpr( i ) )
 				, areOptionalEnabled( x, i ) };
 		}
 
 		return Vec2{ findShader( x, i )
-			, expr::makeModf2F( makeExpr( x )
+			, expr::makeModf2F( findTypesCache( x, i )
+					, makeExpr( x )
 				, makeExpr( i ) ) };
 	}
 	MaybeOptional< Vec3 > modf( MaybeOptional< Vec3 > const & x
@@ -2481,13 +2841,15 @@ namespace sdw
 		if ( isAnyOptional( x, i ) )
 		{
 			return Optional< Vec3 >{ findShader( x, i )
-				, expr::makeModf3F( makeExpr( x )
+				, expr::makeModf3F( findTypesCache( x, i )
+					, makeExpr( x )
 					, makeExpr( i ) )
 				, areOptionalEnabled( x, i ) };
 		}
 
 		return Vec3{ findShader( x, i )
-			, expr::makeModf3F( makeExpr( x )
+			, expr::makeModf3F( findTypesCache( x, i )
+					, makeExpr( x )
 				, makeExpr( i ) ) };
 	}
 	MaybeOptional< Vec4 > modf( MaybeOptional< Vec4 > const & x
@@ -2496,13 +2858,15 @@ namespace sdw
 		if ( isAnyOptional( x, i ) )
 		{
 			return Optional< Vec4 >{ findShader( x, i )
-				, expr::makeModf4F( makeExpr( x )
+				, expr::makeModf4F( findTypesCache( x, i )
+					, makeExpr( x )
 					, makeExpr( i ) )
 				, areOptionalEnabled( x, i ) };
 		}
 
 		return Vec4{ findShader( x, i )
-			, expr::makeModf4F( makeExpr( x )
+			, expr::makeModf4F( findTypesCache( x, i )
+					, makeExpr( x )
 				, makeExpr( i ) ) };
 	}
 	MaybeOptional< Double > modf( MaybeOptional< Double > const & x
@@ -2511,13 +2875,15 @@ namespace sdw
 		if ( isAnyOptional( x, i ) )
 		{
 			return Optional< Double >{ findShader( x, i )
-				, expr::makeModf1D( makeExpr( x )
+				, expr::makeModf1D( findTypesCache( x, i )
+					, makeExpr( x )
 					, makeExpr( i ) )
 				, areOptionalEnabled( x, i ) };
 		}
 
 		return Double{ findShader( x, i )
-			, expr::makeModf1D( makeExpr( x )
+			, expr::makeModf1D( findTypesCache( x, i )
+					, makeExpr( x )
 				, makeExpr( i ) ) };
 	}
 	MaybeOptional< DVec2 > modf( MaybeOptional< DVec2 > const & x
@@ -2526,13 +2892,15 @@ namespace sdw
 		if ( isAnyOptional( x, i ) )
 		{
 			return Optional< DVec2 >{ findShader( x, i )
-				, expr::makeModf2D( makeExpr( x )
+				, expr::makeModf2D( findTypesCache( x, i )
+					, makeExpr( x )
 					, makeExpr( i ) )
 				, areOptionalEnabled( x, i ) };
 		}
 
 		return DVec2{ findShader( x, i )
-			, expr::makeModf2D( makeExpr( x )
+			, expr::makeModf2D( findTypesCache( x, i )
+					, makeExpr( x )
 				, makeExpr( i ) ) };
 	}
 	MaybeOptional< DVec3 > modf( MaybeOptional< DVec3 > const & x
@@ -2541,13 +2909,15 @@ namespace sdw
 		if ( isAnyOptional( x, i ) )
 		{
 			return Optional< DVec3 >{ findShader( x, i )
-				, expr::makeModf3D( makeExpr( x )
+				, expr::makeModf3D( findTypesCache( x, i )
+					, makeExpr( x )
 					, makeExpr( i ) )
 				, areOptionalEnabled( x, i ) };
 		}
 
 		return DVec3{ findShader( x, i )
-			, expr::makeModf3D( makeExpr( x )
+			, expr::makeModf3D( findTypesCache( x, i )
+					, makeExpr( x )
 				, makeExpr( i ) ) };
 	}
 	MaybeOptional< DVec4 > modf( MaybeOptional< DVec4 > const & x
@@ -2556,13 +2926,15 @@ namespace sdw
 		if ( isAnyOptional( x, i ) )
 		{
 			return Optional< DVec4 >{ findShader( x, i )
-				, expr::makeModf4D( makeExpr( x )
+				, expr::makeModf4D( findTypesCache( x, i )
+					, makeExpr( x )
 					, makeExpr( i ) )
 				, areOptionalEnabled( x, i ) };
 		}
 
 		return DVec4{ findShader( x, i )
-			, expr::makeModf4D( makeExpr( x )
+			, expr::makeModf4D( findTypesCache( x, i )
+					, makeExpr( x )
 				, makeExpr( i ) ) };
 	}
 	/**@}*/
@@ -2579,13 +2951,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< Float >{ findShader( x, y )
-				, expr::makeMin11F( makeExpr( x )
+				, expr::makeMin11F( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return Float{ findShader( x, y )
-			, expr::makeMin11F( makeExpr( x )
+			, expr::makeMin11F( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	MaybeOptional< Vec2 > min( MaybeOptional< Vec2 > const & x
@@ -2594,13 +2968,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< Vec2 >{ findShader( x, y )
-				, expr::makeMin22F( makeExpr( x )
+				, expr::makeMin22F( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return Vec2{ findShader( x, y )
-			, expr::makeMin22F( makeExpr( x )
+			, expr::makeMin22F( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	MaybeOptional< Vec3 > min( MaybeOptional< Vec3 > const & x
@@ -2609,13 +2985,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< Vec3 >{ findShader( x, y )
-				, expr::makeMin33F( makeExpr( x )
+				, expr::makeMin33F( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return Vec3{ findShader( x, y )
-			, expr::makeMin33F( makeExpr( x )
+			, expr::makeMin33F( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	MaybeOptional< Vec4 > min( MaybeOptional< Vec4 > const & x
@@ -2624,13 +3002,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< Vec4 >{ findShader( x, y )
-				, expr::makeMin44F( makeExpr( x )
+				, expr::makeMin44F( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return Vec4{ findShader( x, y )
-			, expr::makeMin44F( makeExpr( x )
+			, expr::makeMin44F( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	MaybeOptional< Vec2 > min( MaybeOptional< Vec2 > const & x
@@ -2639,13 +3019,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< Vec2 >{ findShader( x, y )
-				, expr::makeMin21F( makeExpr( x )
+				, expr::makeMin21F( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return Vec2{ findShader( x, y )
-			, expr::makeMin21F( makeExpr( x )
+			, expr::makeMin21F( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	MaybeOptional< Vec3 > min( MaybeOptional< Vec3 > const & x
@@ -2654,13 +3036,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< Vec3 >{ findShader( x, y )
-				, expr::makeMin31F( makeExpr( x )
+				, expr::makeMin31F( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return Vec3{ findShader( x, y )
-			, expr::makeMin31F( makeExpr( x )
+			, expr::makeMin31F( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	MaybeOptional< Vec4 > min( MaybeOptional< Vec4 > const & x
@@ -2669,13 +3053,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< Vec4 >{ findShader( x, y )
-				, expr::makeMin41F( makeExpr( x )
+				, expr::makeMin41F( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return Vec4{ findShader( x, y )
-			, expr::makeMin41F( makeExpr( x )
+			, expr::makeMin41F( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	MaybeOptional< Double > min( MaybeOptional< Double > const & x
@@ -2684,13 +3070,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< Double >{ findShader( x, y )
-				, expr::makeMin11D( makeExpr( x )
+				, expr::makeMin11D( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return Double{ findShader( x, y )
-			, expr::makeMin11D( makeExpr( x )
+			, expr::makeMin11D( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	MaybeOptional< DVec2 > min( MaybeOptional< DVec2 > const & x
@@ -2699,13 +3087,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< DVec2 >{ findShader( x, y )
-				, expr::makeMin22D( makeExpr( x )
+				, expr::makeMin22D( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return DVec2{ findShader( x, y )
-			, expr::makeMin22D( makeExpr( x )
+			, expr::makeMin22D( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	MaybeOptional< DVec3 > min( MaybeOptional< DVec3 > const & x
@@ -2714,13 +3104,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< DVec3 >{ findShader( x, y )
-				, expr::makeMin33D( makeExpr( x )
+				, expr::makeMin33D( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return DVec3{ findShader( x, y )
-			, expr::makeMin33D( makeExpr( x )
+			, expr::makeMin33D( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	MaybeOptional< DVec4 > min( MaybeOptional< DVec4 > const & x
@@ -2729,13 +3121,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< DVec4 >{ findShader( x, y )
-				, expr::makeMin44D( makeExpr( x )
+				, expr::makeMin44D( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return DVec4{ findShader( x, y )
-			, expr::makeMin44D( makeExpr( x )
+			, expr::makeMin44D( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	MaybeOptional< DVec2 > min( MaybeOptional< DVec2 > const & x
@@ -2744,13 +3138,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< DVec2 >{ findShader( x, y )
-				, expr::makeMin21D( makeExpr( x )
+				, expr::makeMin21D( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return DVec2{ findShader( x, y )
-			, expr::makeMin21D( makeExpr( x )
+			, expr::makeMin21D( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	MaybeOptional< DVec3 > min( MaybeOptional< DVec3 > const & x
@@ -2759,13 +3155,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< DVec3 >{ findShader( x, y )
-				, expr::makeMin31D( makeExpr( x )
+				, expr::makeMin31D( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return DVec3{ findShader( x, y )
-			, expr::makeMin31D( makeExpr( x )
+			, expr::makeMin31D( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	MaybeOptional< DVec4 > min( MaybeOptional< DVec4 > const & x
@@ -2774,13 +3172,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< DVec4 >{ findShader( x, y )
-				, expr::makeMin41D( makeExpr( x )
+				, expr::makeMin41D( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return DVec4{ findShader( x, y )
-			, expr::makeMin41D( makeExpr( x )
+			, expr::makeMin41D( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	MaybeOptional< Int > min( MaybeOptional< Int > const & x
@@ -2789,13 +3189,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< Int >{ findShader( x, y )
-				, expr::makeMin11I( makeExpr( x )
+				, expr::makeMin11I( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return Int{ findShader( x, y )
-			, expr::makeMin11I( makeExpr( x )
+			, expr::makeMin11I( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	MaybeOptional< IVec2 > min( MaybeOptional< IVec2 > const & x
@@ -2804,13 +3206,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< IVec2 >{ findShader( x, y )
-				, expr::makeMin22I( makeExpr( x )
+				, expr::makeMin22I( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return IVec2{ findShader( x, y )
-			, expr::makeMin22I( makeExpr( x )
+			, expr::makeMin22I( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	MaybeOptional< IVec3 > min( MaybeOptional< IVec3 > const & x
@@ -2819,13 +3223,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< IVec3 >{ findShader( x, y )
-				, expr::makeMin33I( makeExpr( x )
+				, expr::makeMin33I( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return IVec3{ findShader( x, y )
-			, expr::makeMin33I( makeExpr( x )
+			, expr::makeMin33I( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	MaybeOptional< IVec4 > min( MaybeOptional< IVec4 > const & x
@@ -2834,13 +3240,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< IVec4 >{ findShader( x, y )
-				, expr::makeMin44I( makeExpr( x )
+				, expr::makeMin44I( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return IVec4{ findShader( x, y )
-			, expr::makeMin44I( makeExpr( x )
+			, expr::makeMin44I( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	MaybeOptional< IVec2 > min( MaybeOptional< IVec2 > const & x
@@ -2849,13 +3257,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< IVec2 >{ findShader( x, y )
-				, expr::makeMin21I( makeExpr( x )
+				, expr::makeMin21I( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return IVec2{ findShader( x, y )
-			, expr::makeMin21I( makeExpr( x )
+			, expr::makeMin21I( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	MaybeOptional< IVec3 > min( MaybeOptional< IVec3 > const & x
@@ -2864,13 +3274,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< IVec3 >{ findShader( x, y )
-				, expr::makeMin31I( makeExpr( x )
+				, expr::makeMin31I( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return IVec3{ findShader( x, y )
-			, expr::makeMin31I( makeExpr( x )
+			, expr::makeMin31I( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	MaybeOptional< IVec4 > min( MaybeOptional< IVec4 > const & x
@@ -2879,13 +3291,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< IVec4 >{ findShader( x, y )
-				, expr::makeMin41I( makeExpr( x )
+				, expr::makeMin41I( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return IVec4{ findShader( x, y )
-			, expr::makeMin41I( makeExpr( x )
+			, expr::makeMin41I( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	MaybeOptional< UInt > min( MaybeOptional< UInt > const & x
@@ -2894,13 +3308,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< UInt >{ findShader( x, y )
-				, expr::makeMin11U( makeExpr( x )
+				, expr::makeMin11U( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return UInt{ findShader( x, y )
-			, expr::makeMin11U( makeExpr( x )
+			, expr::makeMin11U( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	MaybeOptional< UVec2 > min( MaybeOptional< UVec2 > const & x
@@ -2909,13 +3325,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< UVec2 >{ findShader( x, y )
-				, expr::makeMin22U( makeExpr( x )
+				, expr::makeMin22U( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return UVec2{ findShader( x, y )
-			, expr::makeMin22U( makeExpr( x )
+			, expr::makeMin22U( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	MaybeOptional< UVec3 > min( MaybeOptional< UVec3 > const & x
@@ -2924,13 +3342,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< UVec3 >{ findShader( x, y )
-				, expr::makeMin33U( makeExpr( x )
+				, expr::makeMin33U( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return UVec3{ findShader( x, y )
-			, expr::makeMin33U( makeExpr( x )
+			, expr::makeMin33U( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	MaybeOptional< UVec4 > min( MaybeOptional< UVec4 > const & x
@@ -2939,13 +3359,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< UVec4 >{ findShader( x, y )
-				, expr::makeMin44U( makeExpr( x )
+				, expr::makeMin44U( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return UVec4{ findShader( x, y )
-			, expr::makeMin44U( makeExpr( x )
+			, expr::makeMin44U( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	MaybeOptional< UVec2 > min( MaybeOptional< UVec2 > const & x
@@ -2954,13 +3376,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< UVec2 >{ findShader( x, y )
-				, expr::makeMin21U( makeExpr( x )
+				, expr::makeMin21U( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return UVec2{ findShader( x, y )
-			, expr::makeMin21U( makeExpr( x )
+			, expr::makeMin21U( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	MaybeOptional< UVec3 > min( MaybeOptional< UVec3 > const & x
@@ -2969,13 +3393,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< UVec3 >{ findShader( x, y )
-				, expr::makeMin31U( makeExpr( x )
+				, expr::makeMin31U( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return UVec3{ findShader( x, y )
-			, expr::makeMin31U( makeExpr( x )
+			, expr::makeMin31U( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	MaybeOptional< UVec4 > min( MaybeOptional< UVec4 > const & x
@@ -2984,13 +3410,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< UVec4 >{ findShader( x, y )
-				, expr::makeMin41U( makeExpr( x )
+				, expr::makeMin41U( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return UVec4{ findShader( x, y )
-			, expr::makeMin41U( makeExpr( x )
+			, expr::makeMin41U( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	/**@}*/
@@ -3007,13 +3435,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< Float >{ findShader( x, y )
-				, expr::makeMax11F( makeExpr( x )
+				, expr::makeMax11F( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return Float{ findShader( x, y )
-			, expr::makeMax11F( makeExpr( x )
+			, expr::makeMax11F( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	MaybeOptional< Vec2 > max( MaybeOptional< Vec2 > const & x
@@ -3022,13 +3452,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< Vec2 >{ findShader( x, y )
-				, expr::makeMax22F( makeExpr( x )
+				, expr::makeMax22F( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return Vec2{ findShader( x, y )
-			, expr::makeMax22F( makeExpr( x )
+			, expr::makeMax22F( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	MaybeOptional< Vec3 > max( MaybeOptional< Vec3 > const & x
@@ -3037,13 +3469,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< Vec3 >{ findShader( x, y )
-				, expr::makeMax33F( makeExpr( x )
+				, expr::makeMax33F( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return Vec3{ findShader( x, y )
-			, expr::makeMax33F( makeExpr( x )
+			, expr::makeMax33F( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	MaybeOptional< Vec4 > max( MaybeOptional< Vec4 > const & x
@@ -3052,13 +3486,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< Vec4 >{ findShader( x, y )
-				, expr::makeMax44F( makeExpr( x )
+				, expr::makeMax44F( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return Vec4{ findShader( x, y )
-			, expr::makeMax44F( makeExpr( x )
+			, expr::makeMax44F( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	MaybeOptional< Vec2 > max( MaybeOptional< Vec2 > const & x
@@ -3067,13 +3503,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< Vec2 >{ findShader( x, y )
-				, expr::makeMax21F( makeExpr( x )
+				, expr::makeMax21F( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return Vec2{ findShader( x, y )
-			, expr::makeMax21F( makeExpr( x )
+			, expr::makeMax21F( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	MaybeOptional< Vec3 > max( MaybeOptional< Vec3 > const & x
@@ -3082,13 +3520,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< Vec3 >{ findShader( x, y )
-				, expr::makeMax31F( makeExpr( x )
+				, expr::makeMax31F( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return Vec3{ findShader( x, y )
-			, expr::makeMax31F( makeExpr( x )
+			, expr::makeMax31F( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	MaybeOptional< Vec4 > max( MaybeOptional< Vec4 > const & x
@@ -3097,13 +3537,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< Vec4 >{ findShader( x, y )
-				, expr::makeMax41F( makeExpr( x )
+				, expr::makeMax41F( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return Vec4{ findShader( x, y )
-			, expr::makeMax41F( makeExpr( x )
+			, expr::makeMax41F( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	MaybeOptional< Double > max( MaybeOptional< Double > const & x
@@ -3112,13 +3554,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< Double >{ findShader( x, y )
-				, expr::makeMax11D( makeExpr( x )
+				, expr::makeMax11D( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return Double{ findShader( x, y )
-			, expr::makeMax11D( makeExpr( x )
+			, expr::makeMax11D( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	MaybeOptional< DVec2 > max( MaybeOptional< DVec2 > const & x
@@ -3127,13 +3571,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< DVec2 >{ findShader( x, y )
-				, expr::makeMax22D( makeExpr( x )
+				, expr::makeMax22D( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return DVec2{ findShader( x, y )
-			, expr::makeMax22D( makeExpr( x )
+			, expr::makeMax22D( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	MaybeOptional< DVec3 > max( MaybeOptional< DVec3 > const & x
@@ -3142,13 +3588,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< DVec3 >{ findShader( x, y )
-				, expr::makeMax33D( makeExpr( x )
+				, expr::makeMax33D( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return DVec3{ findShader( x, y )
-			, expr::makeMax33D( makeExpr( x )
+			, expr::makeMax33D( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	MaybeOptional< DVec4 > max( MaybeOptional< DVec4 > const & x
@@ -3157,13 +3605,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< DVec4 >{ findShader( x, y )
-				, expr::makeMax44D( makeExpr( x )
+				, expr::makeMax44D( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return DVec4{ findShader( x, y )
-			, expr::makeMax44D( makeExpr( x )
+			, expr::makeMax44D( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	MaybeOptional< DVec2 > max( MaybeOptional< DVec2 > const & x
@@ -3172,13 +3622,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< DVec2 >{ findShader( x, y )
-				, expr::makeMax21D( makeExpr( x )
+				, expr::makeMax21D( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return DVec2{ findShader( x, y )
-			, expr::makeMax21D( makeExpr( x )
+			, expr::makeMax21D( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	MaybeOptional< DVec3 > max( MaybeOptional< DVec3 > const & x
@@ -3187,13 +3639,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< DVec3 >{ findShader( x, y )
-				, expr::makeMax31D( makeExpr( x )
+				, expr::makeMax31D( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return DVec3{ findShader( x, y )
-			, expr::makeMax31D( makeExpr( x )
+			, expr::makeMax31D( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	MaybeOptional< DVec4 > max( MaybeOptional< DVec4 > const & x
@@ -3202,13 +3656,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< DVec4 >{ findShader( x, y )
-				, expr::makeMax41D( makeExpr( x )
+				, expr::makeMax41D( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return DVec4{ findShader( x, y )
-			, expr::makeMax41D( makeExpr( x )
+			, expr::makeMax41D( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	MaybeOptional< Int > max( MaybeOptional< Int > const & x
@@ -3217,13 +3673,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< Int >{ findShader( x, y )
-				, expr::makeMax11I( makeExpr( x )
+				, expr::makeMax11I( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return Int{ findShader( x, y )
-			, expr::makeMax11I( makeExpr( x )
+			, expr::makeMax11I( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	MaybeOptional< IVec2 > max( MaybeOptional< IVec2 > const & x
@@ -3232,13 +3690,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< IVec2 >{ findShader( x, y )
-				, expr::makeMax22I( makeExpr( x )
+				, expr::makeMax22I( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return IVec2{ findShader( x, y )
-			, expr::makeMax22I( makeExpr( x )
+			, expr::makeMax22I( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	MaybeOptional< IVec3 > max( MaybeOptional< IVec3 > const & x
@@ -3247,13 +3707,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< IVec3 >{ findShader( x, y )
-				, expr::makeMax33I( makeExpr( x )
+				, expr::makeMax33I( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return IVec3{ findShader( x, y )
-			, expr::makeMax33I( makeExpr( x )
+			, expr::makeMax33I( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	MaybeOptional< IVec4 > max( MaybeOptional< IVec4 > const & x
@@ -3262,13 +3724,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< IVec4 >{ findShader( x, y )
-				, expr::makeMax44I( makeExpr( x )
+				, expr::makeMax44I( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return IVec4{ findShader( x, y )
-			, expr::makeMax44I( makeExpr( x )
+			, expr::makeMax44I( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	MaybeOptional< IVec2 > max( MaybeOptional< IVec2 > const & x
@@ -3277,13 +3741,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< IVec2 >{ findShader( x, y )
-				, expr::makeMax21I( makeExpr( x )
+				, expr::makeMax21I( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return IVec2{ findShader( x, y )
-			, expr::makeMax21I( makeExpr( x )
+			, expr::makeMax21I( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	MaybeOptional< IVec3 > max( MaybeOptional< IVec3 > const & x
@@ -3292,13 +3758,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< IVec3 >{ findShader( x, y )
-				, expr::makeMax31I( makeExpr( x )
+				, expr::makeMax31I( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return IVec3{ findShader( x, y )
-			, expr::makeMax31I( makeExpr( x )
+			, expr::makeMax31I( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	MaybeOptional< IVec4 > max( MaybeOptional< IVec4 > const & x
@@ -3307,13 +3775,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< IVec4 >{ findShader( x, y )
-				, expr::makeMax41I( makeExpr( x )
+				, expr::makeMax41I( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return IVec4{ findShader( x, y )
-			, expr::makeMax41I( makeExpr( x )
+			, expr::makeMax41I( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	MaybeOptional< UInt > max( MaybeOptional< UInt > const & x
@@ -3322,13 +3792,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< UInt >{ findShader( x, y )
-				, expr::makeMax11U( makeExpr( x )
+				, expr::makeMax11U( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return UInt{ findShader( x, y )
-			, expr::makeMax11U( makeExpr( x )
+			, expr::makeMax11U( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	MaybeOptional< UVec2 > max( MaybeOptional< UVec2 > const & x
@@ -3337,13 +3809,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< UVec2 >{ findShader( x, y )
-				, expr::makeMax22U( makeExpr( x )
+				, expr::makeMax22U( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return UVec2{ findShader( x, y )
-			, expr::makeMax22U( makeExpr( x )
+			, expr::makeMax22U( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	MaybeOptional< UVec3 > max( MaybeOptional< UVec3 > const & x
@@ -3352,13 +3826,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< UVec3 >{ findShader( x, y )
-				, expr::makeMax33U( makeExpr( x )
+				, expr::makeMax33U( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return UVec3{ findShader( x, y )
-			, expr::makeMax33U( makeExpr( x )
+			, expr::makeMax33U( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	MaybeOptional< UVec4 > max( MaybeOptional< UVec4 > const & x
@@ -3367,13 +3843,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< UVec4 >{ findShader( x, y )
-				, expr::makeMax44U( makeExpr( x )
+				, expr::makeMax44U( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return UVec4{ findShader( x, y )
-			, expr::makeMax44U( makeExpr( x )
+			, expr::makeMax44U( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	MaybeOptional< UVec2 > max( MaybeOptional< UVec2 > const & x
@@ -3382,13 +3860,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< UVec2 >{ findShader( x, y )
-				, expr::makeMax21U( makeExpr( x )
+				, expr::makeMax21U( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return UVec2{ findShader( x, y )
-			, expr::makeMax21U( makeExpr( x )
+			, expr::makeMax21U( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	MaybeOptional< UVec3 > max( MaybeOptional< UVec3 > const & x
@@ -3397,13 +3877,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< UVec3 >{ findShader( x, y )
-				, expr::makeMax31U( makeExpr( x )
+				, expr::makeMax31U( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return UVec3{ findShader( x, y )
-			, expr::makeMax31U( makeExpr( x )
+			, expr::makeMax31U( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	MaybeOptional< UVec4 > max( MaybeOptional< UVec4 > const & x
@@ -3412,13 +3894,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< UVec4 >{ findShader( x, y )
-				, expr::makeMax41U( makeExpr( x )
+				, expr::makeMax41U( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return UVec4{ findShader( x, y )
-			, expr::makeMax41U( makeExpr( x )
+			, expr::makeMax41U( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	/**@}*/
@@ -3436,14 +3920,16 @@ namespace sdw
 		if ( isAnyOptional( x, minVal, maxVal ) )
 		{
 			return Optional< Float >{ findShader( x, minVal, maxVal )
-				, expr::makeClamp11F( makeExpr( x )
+				, expr::makeClamp11F( findTypesCache( x, minVal, maxVal )
+					, makeExpr( x )
 					, makeExpr( minVal )
 					, makeExpr( maxVal ) )
 				, areOptionalEnabled( x, minVal, maxVal ) };
 		}
 
 		return Float{ findShader( x, minVal, maxVal )
-			, expr::makeClamp11F( makeExpr( x )
+			, expr::makeClamp11F( findTypesCache( x, minVal, maxVal )
+					, makeExpr( x )
 				, makeExpr( minVal )
 				, makeExpr( maxVal ) ) };
 	}
@@ -3454,14 +3940,16 @@ namespace sdw
 		if ( isAnyOptional( x, minVal, maxVal ) )
 		{
 			return Optional< Vec2 >{ findShader( x, minVal, maxVal )
-				, expr::makeClamp22F( makeExpr( x )
+				, expr::makeClamp22F( findTypesCache( x, minVal, maxVal )
+					, makeExpr( x )
 					, makeExpr( minVal )
 					, makeExpr( maxVal ) )
 				, areOptionalEnabled( x, minVal, maxVal ) };
 		}
 
 		return Vec2{ findShader( x, minVal, maxVal )
-			, expr::makeClamp22F( makeExpr( x )
+			, expr::makeClamp22F( findTypesCache( x, minVal, maxVal )
+					, makeExpr( x )
 				, makeExpr( minVal )
 				, makeExpr( maxVal ) ) };
 	}
@@ -3472,14 +3960,16 @@ namespace sdw
 		if ( isAnyOptional( x, minVal, maxVal ) )
 		{
 			return Optional< Vec3 >{ findShader( x, minVal, maxVal )
-				, expr::makeClamp33F( makeExpr( x )
+				, expr::makeClamp33F( findTypesCache( x, minVal, maxVal )
+					, makeExpr( x )
 					, makeExpr( minVal )
 					, makeExpr( maxVal ) )
 				, areOptionalEnabled( x, minVal, maxVal ) };
 		}
 
 		return Vec3{ findShader( x, minVal, maxVal )
-			, expr::makeClamp33F( makeExpr( x )
+			, expr::makeClamp33F( findTypesCache( x, minVal, maxVal )
+					, makeExpr( x )
 				, makeExpr( minVal )
 				, makeExpr( maxVal ) ) };
 	}
@@ -3490,14 +3980,16 @@ namespace sdw
 		if ( isAnyOptional( x, minVal, maxVal ) )
 		{
 			return Optional< Vec4 >{ findShader( x, minVal, maxVal )
-				, expr::makeClamp44F( makeExpr( x )
+				, expr::makeClamp44F( findTypesCache( x, minVal, maxVal )
+					, makeExpr( x )
 					, makeExpr( minVal )
 					, makeExpr( maxVal ) )
 				, areOptionalEnabled( x, minVal, maxVal ) };
 		}
 
 		return Vec4{ findShader( x, minVal, maxVal )
-			, expr::makeClamp44F( makeExpr( x )
+			, expr::makeClamp44F( findTypesCache( x, minVal, maxVal )
+					, makeExpr( x )
 				, makeExpr( minVal )
 				, makeExpr( maxVal ) ) };
 	}
@@ -3508,14 +4000,16 @@ namespace sdw
 		if ( isAnyOptional( x, minVal, maxVal ) )
 		{
 			return Optional< Vec2 >{ findShader( x, minVal, maxVal )
-				, expr::makeClamp21F( makeExpr( x )
+				, expr::makeClamp21F( findTypesCache( x, minVal, maxVal )
+					, makeExpr( x )
 					, makeExpr( minVal )
 					, makeExpr( maxVal ) )
 				, areOptionalEnabled( x, minVal, maxVal ) };
 		}
 
 		return Vec2{ findShader( x, minVal, maxVal )
-			, expr::makeClamp21F( makeExpr( x )
+			, expr::makeClamp21F( findTypesCache( x, minVal, maxVal )
+					, makeExpr( x )
 				, makeExpr( minVal )
 				, makeExpr( maxVal ) ) };
 	}
@@ -3526,14 +4020,16 @@ namespace sdw
 		if ( isAnyOptional( x, minVal, maxVal ) )
 		{
 			return Optional< Vec3 >{ findShader( x, minVal, maxVal )
-				, expr::makeClamp31F( makeExpr( x )
+				, expr::makeClamp31F( findTypesCache( x, minVal, maxVal )
+					, makeExpr( x )
 					, makeExpr( minVal )
 					, makeExpr( maxVal ) )
 				, areOptionalEnabled( x, minVal, maxVal ) };
 		}
 
 		return Vec3{ findShader( x, minVal, maxVal )
-			, expr::makeClamp31F( makeExpr( x )
+			, expr::makeClamp31F( findTypesCache( x, minVal, maxVal )
+					, makeExpr( x )
 				, makeExpr( minVal )
 				, makeExpr( maxVal ) ) };
 	}
@@ -3544,14 +4040,16 @@ namespace sdw
 		if ( isAnyOptional( x, minVal, maxVal ) )
 		{
 			return Optional< Vec4 >{ findShader( x, minVal, maxVal )
-				, expr::makeClamp41F( makeExpr( x )
+				, expr::makeClamp41F( findTypesCache( x, minVal, maxVal )
+					, makeExpr( x )
 					, makeExpr( minVal )
 					, makeExpr( maxVal ) )
 				, areOptionalEnabled( x, minVal, maxVal ) };
 		}
 
 		return Vec4{ findShader( x, minVal, maxVal )
-			, expr::makeClamp41F( makeExpr( x )
+			, expr::makeClamp41F( findTypesCache( x, minVal, maxVal )
+					, makeExpr( x )
 				, makeExpr( minVal )
 				, makeExpr( maxVal ) ) };
 	}
@@ -3562,14 +4060,16 @@ namespace sdw
 		if ( isAnyOptional( x, minVal, maxVal ) )
 		{
 			return Optional< Double >{ findShader( x, minVal, maxVal )
-				, expr::makeClamp11D( makeExpr( x )
+				, expr::makeClamp11D( findTypesCache( x, minVal, maxVal )
+					, makeExpr( x )
 					, makeExpr( minVal )
 					, makeExpr( maxVal ) )
 				, areOptionalEnabled( x, minVal, maxVal ) };
 		}
 
 		return Double{ findShader( x, minVal, maxVal )
-			, expr::makeClamp11D( makeExpr( x )
+			, expr::makeClamp11D( findTypesCache( x, minVal, maxVal )
+					, makeExpr( x )
 				, makeExpr( minVal )
 				, makeExpr( maxVal ) ) };
 	}
@@ -3580,14 +4080,16 @@ namespace sdw
 		if ( isAnyOptional( x, minVal, maxVal ) )
 		{
 			return Optional< DVec2 >{ findShader( x, minVal, maxVal )
-				, expr::makeClamp22D( makeExpr( x )
+				, expr::makeClamp22D( findTypesCache( x, minVal, maxVal )
+					, makeExpr( x )
 					, makeExpr( minVal )
 					, makeExpr( maxVal ) )
 				, areOptionalEnabled( x, minVal, maxVal ) };
 		}
 
 		return DVec2{ findShader( x, minVal, maxVal )
-			, expr::makeClamp22D( makeExpr( x )
+			, expr::makeClamp22D( findTypesCache( x, minVal, maxVal )
+					, makeExpr( x )
 				, makeExpr( minVal )
 				, makeExpr( maxVal ) ) };
 	}
@@ -3598,14 +4100,16 @@ namespace sdw
 		if ( isAnyOptional( x, minVal, maxVal ) )
 		{
 			return Optional< DVec3 >{ findShader( x, minVal, maxVal )
-				, expr::makeClamp33D( makeExpr( x )
+				, expr::makeClamp33D( findTypesCache( x, minVal, maxVal )
+					, makeExpr( x )
 					, makeExpr( minVal )
 					, makeExpr( maxVal ) )
 				, areOptionalEnabled( x, minVal, maxVal ) };
 		}
 
 		return DVec3{ findShader( x, minVal, maxVal )
-			, expr::makeClamp33D( makeExpr( x )
+			, expr::makeClamp33D( findTypesCache( x, minVal, maxVal )
+					, makeExpr( x )
 				, makeExpr( minVal )
 				, makeExpr( maxVal ) ) };
 	}
@@ -3616,14 +4120,16 @@ namespace sdw
 		if ( isAnyOptional( x, minVal, maxVal ) )
 		{
 			return Optional< DVec4 >{ findShader( x, minVal, maxVal )
-				, expr::makeClamp44D( makeExpr( x )
+				, expr::makeClamp44D( findTypesCache( x, minVal, maxVal )
+					, makeExpr( x )
 					, makeExpr( minVal )
 					, makeExpr( maxVal ) )
 				, areOptionalEnabled( x, minVal, maxVal ) };
 		}
 
 		return DVec4{ findShader( x, minVal, maxVal )
-			, expr::makeClamp44D( makeExpr( x )
+			, expr::makeClamp44D( findTypesCache( x, minVal, maxVal )
+					, makeExpr( x )
 				, makeExpr( minVal )
 				, makeExpr( maxVal ) ) };
 	}
@@ -3634,14 +4140,16 @@ namespace sdw
 		if ( isAnyOptional( x, minVal, maxVal ) )
 		{
 			return Optional< DVec2 >{ findShader( x, minVal, maxVal )
-				, expr::makeClamp21D( makeExpr( x )
+				, expr::makeClamp21D( findTypesCache( x, minVal, maxVal )
+					, makeExpr( x )
 					, makeExpr( minVal )
 					, makeExpr( maxVal ) )
 				, areOptionalEnabled( x, minVal, maxVal ) };
 		}
 
 		return DVec2{ findShader( x, minVal, maxVal )
-			, expr::makeClamp21D( makeExpr( x )
+			, expr::makeClamp21D( findTypesCache( x, minVal, maxVal )
+					, makeExpr( x )
 				, makeExpr( minVal )
 				, makeExpr( maxVal ) ) };
 	}
@@ -3652,14 +4160,16 @@ namespace sdw
 		if ( isAnyOptional( x, minVal, maxVal ) )
 		{
 			return Optional< DVec3 >{ findShader( x, minVal, maxVal )
-				, expr::makeClamp31D( makeExpr( x )
+				, expr::makeClamp31D( findTypesCache( x, minVal, maxVal )
+					, makeExpr( x )
 					, makeExpr( minVal )
 					, makeExpr( maxVal ) )
 				, areOptionalEnabled( x, minVal, maxVal ) };
 		}
 
 		return DVec3{ findShader( x, minVal, maxVal )
-			, expr::makeClamp31D( makeExpr( x )
+			, expr::makeClamp31D( findTypesCache( x, minVal, maxVal )
+					, makeExpr( x )
 				, makeExpr( minVal )
 				, makeExpr( maxVal ) ) };
 	}
@@ -3670,14 +4180,16 @@ namespace sdw
 		if ( isAnyOptional( x, minVal, maxVal ) )
 		{
 			return Optional< DVec4 >{ findShader( x, minVal, maxVal )
-				, expr::makeClamp41D( makeExpr( x )
+				, expr::makeClamp41D( findTypesCache( x, minVal, maxVal )
+					, makeExpr( x )
 					, makeExpr( minVal )
 					, makeExpr( maxVal ) )
 				, areOptionalEnabled( x, minVal, maxVal ) };
 		}
 
 		return DVec4{ findShader( x, minVal, maxVal )
-			, expr::makeClamp41D( makeExpr( x )
+			, expr::makeClamp41D( findTypesCache( x, minVal, maxVal )
+					, makeExpr( x )
 				, makeExpr( minVal )
 				, makeExpr( maxVal ) ) };
 	}
@@ -3688,14 +4200,16 @@ namespace sdw
 		if ( isAnyOptional( x, minVal, maxVal ) )
 		{
 			return Optional< Int >{ findShader( x, minVal, maxVal )
-				, expr::makeClamp11I( makeExpr( x )
+				, expr::makeClamp11I( findTypesCache( x, minVal, maxVal )
+					, makeExpr( x )
 					, makeExpr( minVal )
 					, makeExpr( maxVal ) )
 				, areOptionalEnabled( x, minVal, maxVal ) };
 		}
 
 		return Int{ findShader( x, minVal, maxVal )
-			, expr::makeClamp11I( makeExpr( x )
+			, expr::makeClamp11I( findTypesCache( x, minVal, maxVal )
+					, makeExpr( x )
 				, makeExpr( minVal )
 				, makeExpr( maxVal ) ) };
 	}
@@ -3706,14 +4220,16 @@ namespace sdw
 		if ( isAnyOptional( x, minVal, maxVal ) )
 		{
 			return Optional< IVec2 >{ findShader( x, minVal, maxVal )
-				, expr::makeClamp22I( makeExpr( x )
+				, expr::makeClamp22I( findTypesCache( x, minVal, maxVal )
+					, makeExpr( x )
 					, makeExpr( minVal )
 					, makeExpr( maxVal ) )
 				, areOptionalEnabled( x, minVal, maxVal ) };
 		}
 
 		return IVec2{ findShader( x, minVal, maxVal )
-			, expr::makeClamp22I( makeExpr( x )
+			, expr::makeClamp22I( findTypesCache( x, minVal, maxVal )
+					, makeExpr( x )
 				, makeExpr( minVal )
 				, makeExpr( maxVal ) ) };
 	}
@@ -3724,14 +4240,16 @@ namespace sdw
 		if ( isAnyOptional( x, minVal, maxVal ) )
 		{
 			return Optional< IVec3 >{ findShader( x, minVal, maxVal )
-				, expr::makeClamp33I( makeExpr( x )
+				, expr::makeClamp33I( findTypesCache( x, minVal, maxVal )
+					, makeExpr( x )
 					, makeExpr( minVal )
 					, makeExpr( maxVal ) )
 				, areOptionalEnabled( x, minVal, maxVal ) };
 		}
 
 		return IVec3{ findShader( x, minVal, maxVal )
-			, expr::makeClamp33I( makeExpr( x )
+			, expr::makeClamp33I( findTypesCache( x, minVal, maxVal )
+					, makeExpr( x )
 				, makeExpr( minVal )
 				, makeExpr( maxVal ) ) };
 	}
@@ -3742,14 +4260,16 @@ namespace sdw
 		if ( isAnyOptional( x, minVal, maxVal ) )
 		{
 			return Optional< IVec4 >{ findShader( x, minVal, maxVal )
-				, expr::makeClamp44I( makeExpr( x )
+				, expr::makeClamp44I( findTypesCache( x, minVal, maxVal )
+					, makeExpr( x )
 					, makeExpr( minVal )
 					, makeExpr( maxVal ) )
 				, areOptionalEnabled( x, minVal, maxVal ) };
 		}
 
 		return IVec4{ findShader( x, minVal, maxVal )
-			, expr::makeClamp44I( makeExpr( x )
+			, expr::makeClamp44I( findTypesCache( x, minVal, maxVal )
+					, makeExpr( x )
 				, makeExpr( minVal )
 				, makeExpr( maxVal ) ) };
 	}
@@ -3760,14 +4280,16 @@ namespace sdw
 		if ( isAnyOptional( x, minVal, maxVal ) )
 		{
 			return Optional< IVec2 >{ findShader( x, minVal, maxVal )
-				, expr::makeClamp21I( makeExpr( x )
+				, expr::makeClamp21I( findTypesCache( x, minVal, maxVal )
+					, makeExpr( x )
 					, makeExpr( minVal )
 					, makeExpr( maxVal ) )
 				, areOptionalEnabled( x, minVal, maxVal ) };
 		}
 
 		return IVec2{ findShader( x, minVal, maxVal )
-			, expr::makeClamp21I( makeExpr( x )
+			, expr::makeClamp21I( findTypesCache( x, minVal, maxVal )
+					, makeExpr( x )
 				, makeExpr( minVal )
 				, makeExpr( maxVal ) ) };
 	}
@@ -3778,14 +4300,16 @@ namespace sdw
 		if ( isAnyOptional( x, minVal, maxVal ) )
 		{
 			return Optional< IVec3 >{ findShader( x, minVal, maxVal )
-				, expr::makeClamp31I( makeExpr( x )
+				, expr::makeClamp31I( findTypesCache( x, minVal, maxVal )
+					, makeExpr( x )
 					, makeExpr( minVal )
 					, makeExpr( maxVal ) )
 				, areOptionalEnabled( x, minVal, maxVal ) };
 		}
 
 		return IVec3{ findShader( x, minVal, maxVal )
-			, expr::makeClamp31I( makeExpr( x )
+			, expr::makeClamp31I( findTypesCache( x, minVal, maxVal )
+					, makeExpr( x )
 				, makeExpr( minVal )
 				, makeExpr( maxVal ) ) };
 	}
@@ -3796,14 +4320,16 @@ namespace sdw
 		if ( isAnyOptional( x, minVal, maxVal ) )
 		{
 			return Optional< IVec4 >{ findShader( x, minVal, maxVal )
-				, expr::makeClamp41I( makeExpr( x )
+				, expr::makeClamp41I( findTypesCache( x, minVal, maxVal )
+					, makeExpr( x )
 					, makeExpr( minVal )
 					, makeExpr( maxVal ) )
 				, areOptionalEnabled( x, minVal, maxVal ) };
 		}
 
 		return IVec4{ findShader( x, minVal, maxVal )
-			, expr::makeClamp41I( makeExpr( x )
+			, expr::makeClamp41I( findTypesCache( x, minVal, maxVal )
+					, makeExpr( x )
 				, makeExpr( minVal )
 				, makeExpr( maxVal ) ) };
 	}
@@ -3814,14 +4340,16 @@ namespace sdw
 		if ( isAnyOptional( x, minVal, maxVal ) )
 		{
 			return Optional< UInt >{ findShader( x, minVal, maxVal )
-				, expr::makeClamp11U( makeExpr( x )
+				, expr::makeClamp11U( findTypesCache( x, minVal, maxVal )
+					, makeExpr( x )
 					, makeExpr( minVal )
 					, makeExpr( maxVal ) )
 				, areOptionalEnabled( x, minVal, maxVal ) };
 		}
 
 		return UInt{ findShader( x, minVal, maxVal )
-			, expr::makeClamp11U( makeExpr( x )
+			, expr::makeClamp11U( findTypesCache( x, minVal, maxVal )
+					, makeExpr( x )
 				, makeExpr( minVal )
 				, makeExpr( maxVal ) ) };
 	}
@@ -3832,14 +4360,16 @@ namespace sdw
 		if ( isAnyOptional( x, minVal, maxVal ) )
 		{
 			return Optional< UVec2 >{ findShader( x, minVal, maxVal )
-				, expr::makeClamp22U( makeExpr( x )
+				, expr::makeClamp22U( findTypesCache( x, minVal, maxVal )
+					, makeExpr( x )
 					, makeExpr( minVal )
 					, makeExpr( maxVal ) )
 				, areOptionalEnabled( x, minVal, maxVal ) };
 		}
 
 		return UVec2{ findShader( x, minVal, maxVal )
-			, expr::makeClamp22U( makeExpr( x )
+			, expr::makeClamp22U( findTypesCache( x, minVal, maxVal )
+					, makeExpr( x )
 				, makeExpr( minVal )
 				, makeExpr( maxVal ) ) };
 	}
@@ -3850,14 +4380,16 @@ namespace sdw
 		if ( isAnyOptional( x, minVal, maxVal ) )
 		{
 			return Optional< UVec3 >{ findShader( x, minVal, maxVal )
-				, expr::makeClamp33U( makeExpr( x )
+				, expr::makeClamp33U( findTypesCache( x, minVal, maxVal )
+					, makeExpr( x )
 					, makeExpr( minVal )
 					, makeExpr( maxVal ) )
 				, areOptionalEnabled( x, minVal, maxVal ) };
 		}
 
 		return UVec3{ findShader( x, minVal, maxVal )
-			, expr::makeClamp33U( makeExpr( x )
+			, expr::makeClamp33U( findTypesCache( x, minVal, maxVal )
+					, makeExpr( x )
 				, makeExpr( minVal )
 				, makeExpr( maxVal ) ) };
 	}
@@ -3868,14 +4400,16 @@ namespace sdw
 		if ( isAnyOptional( x, minVal, maxVal ) )
 		{
 			return Optional< UVec4 >{ findShader( x, minVal, maxVal )
-				, expr::makeClamp44U( makeExpr( x )
+				, expr::makeClamp44U( findTypesCache( x, minVal, maxVal )
+					, makeExpr( x )
 					, makeExpr( minVal )
 					, makeExpr( maxVal ) )
 				, areOptionalEnabled( x, minVal, maxVal ) };
 		}
 
 		return UVec4{ findShader( x, minVal, maxVal )
-			, expr::makeClamp44U( makeExpr( x )
+			, expr::makeClamp44U( findTypesCache( x, minVal, maxVal )
+					, makeExpr( x )
 				, makeExpr( minVal )
 				, makeExpr( maxVal ) ) };
 	}
@@ -3886,14 +4420,16 @@ namespace sdw
 		if ( isAnyOptional( x, minVal, maxVal ) )
 		{
 			return Optional< UVec2 >{ findShader( x, minVal, maxVal )
-				, expr::makeClamp21U( makeExpr( x )
+				, expr::makeClamp21U( findTypesCache( x, minVal, maxVal )
+					, makeExpr( x )
 					, makeExpr( minVal )
 					, makeExpr( maxVal ) )
 				, areOptionalEnabled( x, minVal, maxVal ) };
 		}
 
 		return UVec2{ findShader( x, minVal, maxVal )
-			, expr::makeClamp21U( makeExpr( x )
+			, expr::makeClamp21U( findTypesCache( x, minVal, maxVal )
+					, makeExpr( x )
 				, makeExpr( minVal )
 				, makeExpr( maxVal ) ) };
 	}
@@ -3904,14 +4440,16 @@ namespace sdw
 		if ( isAnyOptional( x, minVal, maxVal ) )
 		{
 			return Optional< UVec3 >{ findShader( x, minVal, maxVal )
-				, expr::makeClamp31U( makeExpr( x )
+				, expr::makeClamp31U( findTypesCache( x, minVal, maxVal )
+					, makeExpr( x )
 					, makeExpr( minVal )
 					, makeExpr( maxVal ) )
 				, areOptionalEnabled( x, minVal, maxVal ) };
 		}
 
 		return UVec3{ findShader( x, minVal, maxVal )
-			, expr::makeClamp31U( makeExpr( x )
+			, expr::makeClamp31U( findTypesCache( x, minVal, maxVal )
+					, makeExpr( x )
 				, makeExpr( minVal )
 				, makeExpr( maxVal ) ) };
 	}
@@ -3922,14 +4460,16 @@ namespace sdw
 		if ( isAnyOptional( x, minVal, maxVal ) )
 		{
 			return Optional< UVec4 >{ findShader( x, minVal, maxVal )
-				, expr::makeClamp41U( makeExpr( x )
+				, expr::makeClamp41U( findTypesCache( x, minVal, maxVal )
+					, makeExpr( x )
 					, makeExpr( minVal )
 					, makeExpr( maxVal ) )
 				, areOptionalEnabled( x, minVal, maxVal ) };
 		}
 
 		return UVec4{ findShader( x, minVal, maxVal )
-			, expr::makeClamp41U( makeExpr( x )
+			, expr::makeClamp41U( findTypesCache( x, minVal, maxVal )
+					, makeExpr( x )
 				, makeExpr( minVal )
 				, makeExpr( maxVal ) ) };
 	}
@@ -3948,14 +4488,16 @@ namespace sdw
 		if ( isAnyOptional( x, y, a ) )
 		{
 			return Optional< Float >{ findShader( x, y, a )
-				, expr::makeMix11F( makeExpr( x )
+				, expr::makeMix11F( findTypesCache( x, y, a )
+					, makeExpr( x )
 					, makeExpr( y )
 					, makeExpr( a ) )
 				, areOptionalEnabled( x, y, a ) };
 		}
 
 		return Float{ findShader( x, y, a )
-			, expr::makeMix11F( makeExpr( x )
+			, expr::makeMix11F( findTypesCache( x, y, a )
+					, makeExpr( x )
 				, makeExpr( y )
 				, makeExpr( a ) ) };
 	}
@@ -3966,14 +4508,16 @@ namespace sdw
 		if ( isAnyOptional( x, y, a ) )
 		{
 			return Optional< Vec2 >{ findShader( x, y, a )
-				, expr::makeMix22F( makeExpr( x )
+				, expr::makeMix22F( findTypesCache( x, y, a )
+					, makeExpr( x )
 					, makeExpr( y )
 					, makeExpr( a ) )
 				, areOptionalEnabled( x, y, a ) };
 		}
 
 		return Vec2{ findShader( x, y, a )
-			, expr::makeMix22F( makeExpr( x )
+			, expr::makeMix22F( findTypesCache( x, y, a )
+					, makeExpr( x )
 				, makeExpr( y )
 				, makeExpr( a ) ) };
 	}
@@ -3984,14 +4528,16 @@ namespace sdw
 		if ( isAnyOptional( x, y, a ) )
 		{
 			return Optional< Vec3 >{ findShader( x, y, a )
-				, expr::makeMix33F( makeExpr( x )
+				, expr::makeMix33F( findTypesCache( x, y, a )
+					, makeExpr( x )
 					, makeExpr( y )
 					, makeExpr( a ) )
 				, areOptionalEnabled( x, y, a ) };
 		}
 
 		return Vec3{ findShader( x, y, a )
-			, expr::makeMix33F( makeExpr( x )
+			, expr::makeMix33F( findTypesCache( x, y, a )
+					, makeExpr( x )
 				, makeExpr( y )
 				, makeExpr( a ) ) };
 	}
@@ -4002,14 +4548,16 @@ namespace sdw
 		if ( isAnyOptional( x, y, a ) )
 		{
 			return Optional< Vec4 >{ findShader( x, y, a )
-				, expr::makeMix44F( makeExpr( x )
+				, expr::makeMix44F( findTypesCache( x, y, a )
+					, makeExpr( x )
 					, makeExpr( y )
 					, makeExpr( a ) )
 				, areOptionalEnabled( x, y, a ) };
 		}
 
 		return Vec4{ findShader( x, y, a )
-			, expr::makeMix44F( makeExpr( x )
+			, expr::makeMix44F( findTypesCache( x, y, a )
+					, makeExpr( x )
 				, makeExpr( y )
 				, makeExpr( a ) ) };
 	}
@@ -4020,14 +4568,16 @@ namespace sdw
 		if ( isAnyOptional( x, y, a ) )
 		{
 			return Optional< Vec2 >{ findShader( x, y, a )
-				, expr::makeMix21F( makeExpr( x )
+				, expr::makeMix21F( findTypesCache( x, y, a )
+					, makeExpr( x )
 					, makeExpr( y )
 					, makeExpr( a ) )
 				, areOptionalEnabled( x, y, a ) };
 		}
 
 		return Vec2{ findShader( x, y, a )
-			, expr::makeMix21F( makeExpr( x )
+			, expr::makeMix21F( findTypesCache( x, y, a )
+					, makeExpr( x )
 				, makeExpr( y )
 				, makeExpr( a ) ) };
 	}
@@ -4038,14 +4588,16 @@ namespace sdw
 		if ( isAnyOptional( x, y, a ) )
 		{
 			return Optional< Vec3 >{ findShader( x, y, a )
-				, expr::makeMix31F( makeExpr( x )
+				, expr::makeMix31F( findTypesCache( x, y, a )
+					, makeExpr( x )
 					, makeExpr( y )
 					, makeExpr( a ) )
 				, areOptionalEnabled( x, y, a ) };
 		}
 
 		return Vec3{ findShader( x, y, a )
-			, expr::makeMix31F( makeExpr( x )
+			, expr::makeMix31F( findTypesCache( x, y, a )
+					, makeExpr( x )
 				, makeExpr( y )
 				, makeExpr( a ) ) };
 	}
@@ -4056,14 +4608,16 @@ namespace sdw
 		if ( isAnyOptional( x, y, a ) )
 		{
 			return Optional< Vec4 >{ findShader( x, y, a )
-				, expr::makeMix41F( makeExpr( x )
+				, expr::makeMix41F( findTypesCache( x, y, a )
+					, makeExpr( x )
 					, makeExpr( y )
 					, makeExpr( a ) )
 				, areOptionalEnabled( x, y, a ) };
 		}
 
 		return Vec4{ findShader( x, y, a )
-			, expr::makeMix41F( makeExpr( x )
+			, expr::makeMix41F( findTypesCache( x, y, a )
+					, makeExpr( x )
 				, makeExpr( y )
 				, makeExpr( a ) ) };
 	}
@@ -4074,14 +4628,16 @@ namespace sdw
 		if ( isAnyOptional( x, y, a ) )
 		{
 			return Optional< Float >{ findShader( x, y, a )
-				, expr::makeMix11FB( makeExpr( x )
+				, expr::makeMix11FB( findTypesCache( x, y, a )
+					, makeExpr( x )
 					, makeExpr( y )
 					, makeExpr( a ) )
 				, areOptionalEnabled( x, y, a ) };
 		}
 
 		return Float{ findShader( x, y, a )
-			, expr::makeMix11FB( makeExpr( x )
+			, expr::makeMix11FB( findTypesCache( x, y, a )
+					, makeExpr( x )
 				, makeExpr( y )
 				, makeExpr( a ) ) };
 	}
@@ -4092,14 +4648,16 @@ namespace sdw
 		if ( isAnyOptional( x, y, a ) )
 		{
 			return Optional< Vec2 >{ findShader( x, y, a )
-				, expr::makeMix22FB( makeExpr( x )
+				, expr::makeMix22FB( findTypesCache( x, y, a )
+					, makeExpr( x )
 					, makeExpr( y )
 					, makeExpr( a ) )
 				, areOptionalEnabled( x, y, a ) };
 		}
 
 		return Vec2{ findShader( x, y, a )
-			, expr::makeMix22FB( makeExpr( x )
+			, expr::makeMix22FB( findTypesCache( x, y, a )
+					, makeExpr( x )
 				, makeExpr( y )
 				, makeExpr( a ) ) };
 	}
@@ -4110,14 +4668,16 @@ namespace sdw
 		if ( isAnyOptional( x, y, a ) )
 		{
 			return Optional< Vec3 >{ findShader( x, y, a )
-				, expr::makeMix33FB( makeExpr( x )
+				, expr::makeMix33FB( findTypesCache( x, y, a )
+					, makeExpr( x )
 					, makeExpr( y )
 					, makeExpr( a ) )
 				, areOptionalEnabled( x, y, a ) };
 		}
 
 		return Vec3{ findShader( x, y, a )
-			, expr::makeMix33FB( makeExpr( x )
+			, expr::makeMix33FB( findTypesCache( x, y, a )
+					, makeExpr( x )
 				, makeExpr( y )
 				, makeExpr( a ) ) };
 	}
@@ -4128,14 +4688,16 @@ namespace sdw
 		if ( isAnyOptional( x, y, a ) )
 		{
 			return Optional< Vec4 >{ findShader( x, y, a )
-				, expr::makeMix44FB( makeExpr( x )
+				, expr::makeMix44FB( findTypesCache( x, y, a )
+					, makeExpr( x )
 					, makeExpr( y )
 					, makeExpr( a ) )
 				, areOptionalEnabled( x, y, a ) };
 		}
 
 		return Vec4{ findShader( x, y, a )
-			, expr::makeMix44FB( makeExpr( x )
+			, expr::makeMix44FB( findTypesCache( x, y, a )
+					, makeExpr( x )
 				, makeExpr( y )
 				, makeExpr( a ) ) };
 	}
@@ -4146,14 +4708,16 @@ namespace sdw
 		if ( isAnyOptional( x, y, a ) )
 		{
 			return Optional< Double >{ findShader( x, y, a )
-				, expr::makeMix11D( makeExpr( x )
+				, expr::makeMix11D( findTypesCache( x, y, a )
+					, makeExpr( x )
 					, makeExpr( y )
 					, makeExpr( a ) )
 				, areOptionalEnabled( x, y, a ) };
 		}
 
 		return Double{ findShader( x, y, a )
-			, expr::makeMix11D( makeExpr( x )
+			, expr::makeMix11D( findTypesCache( x, y, a )
+					, makeExpr( x )
 				, makeExpr( y )
 				, makeExpr( a ) ) };
 	}
@@ -4164,14 +4728,16 @@ namespace sdw
 		if ( isAnyOptional( x, y, a ) )
 		{
 			return Optional< DVec2 >{ findShader( x, y, a )
-				, expr::makeMix22D( makeExpr( x )
+				, expr::makeMix22D( findTypesCache( x, y, a )
+					, makeExpr( x )
 					, makeExpr( y )
 					, makeExpr( a ) )
 				, areOptionalEnabled( x, y, a ) };
 		}
 
 		return DVec2{ findShader( x, y, a )
-			, expr::makeMix22D( makeExpr( x )
+			, expr::makeMix22D( findTypesCache( x, y, a )
+					, makeExpr( x )
 				, makeExpr( y )
 				, makeExpr( a ) ) };
 	}
@@ -4182,14 +4748,16 @@ namespace sdw
 		if ( isAnyOptional( x, y, a ) )
 		{
 			return Optional< DVec3 >{ findShader( x, y, a )
-				, expr::makeMix33D( makeExpr( x )
+				, expr::makeMix33D( findTypesCache( x, y, a )
+					, makeExpr( x )
 					, makeExpr( y )
 					, makeExpr( a ) )
 				, areOptionalEnabled( x, y, a ) };
 		}
 
 		return DVec3{ findShader( x, y, a )
-			, expr::makeMix33D( makeExpr( x )
+			, expr::makeMix33D( findTypesCache( x, y, a )
+					, makeExpr( x )
 				, makeExpr( y )
 				, makeExpr( a ) ) };
 	}
@@ -4200,14 +4768,16 @@ namespace sdw
 		if ( isAnyOptional( x, y, a ) )
 		{
 			return Optional< DVec4 >{ findShader( x, y, a )
-				, expr::makeMix44D( makeExpr( x )
+				, expr::makeMix44D( findTypesCache( x, y, a )
+					, makeExpr( x )
 					, makeExpr( y )
 					, makeExpr( a ) )
 				, areOptionalEnabled( x, y, a ) };
 		}
 
 		return DVec4{ findShader( x, y, a )
-			, expr::makeMix44D( makeExpr( x )
+			, expr::makeMix44D( findTypesCache( x, y, a )
+					, makeExpr( x )
 				, makeExpr( y )
 				, makeExpr( a ) ) };
 	}
@@ -4218,14 +4788,16 @@ namespace sdw
 		if ( isAnyOptional( x, y, a ) )
 		{
 			return Optional< DVec2 >{ findShader( x, y, a )
-				, expr::makeMix21D( makeExpr( x )
+				, expr::makeMix21D( findTypesCache( x, y, a )
+					, makeExpr( x )
 					, makeExpr( y )
 					, makeExpr( a ) )
 				, areOptionalEnabled( x, y, a ) };
 		}
 
 		return DVec2{ findShader( x, y, a )
-			, expr::makeMix21D( makeExpr( x )
+			, expr::makeMix21D( findTypesCache( x, y, a )
+					, makeExpr( x )
 				, makeExpr( y )
 				, makeExpr( a ) ) };
 	}
@@ -4236,14 +4808,16 @@ namespace sdw
 		if ( isAnyOptional( x, y, a ) )
 		{
 			return Optional< DVec3 >{ findShader( x, y, a )
-				, expr::makeMix31D( makeExpr( x )
+				, expr::makeMix31D( findTypesCache( x, y, a )
+					, makeExpr( x )
 					, makeExpr( y )
 					, makeExpr( a ) )
 				, areOptionalEnabled( x, y, a ) };
 		}
 
 		return DVec3{ findShader( x, y, a )
-			, expr::makeMix31D( makeExpr( x )
+			, expr::makeMix31D( findTypesCache( x, y, a )
+					, makeExpr( x )
 				, makeExpr( y )
 				, makeExpr( a ) ) };
 	}
@@ -4254,14 +4828,16 @@ namespace sdw
 		if ( isAnyOptional( x, y, a ) )
 		{
 			return Optional< DVec4 >{ findShader( x, y, a )
-				, expr::makeMix41D( makeExpr( x )
+				, expr::makeMix41D( findTypesCache( x, y, a )
+					, makeExpr( x )
 					, makeExpr( y )
 					, makeExpr( a ) )
 				, areOptionalEnabled( x, y, a ) };
 		}
 
 		return DVec4{ findShader( x, y, a )
-			, expr::makeMix41D( makeExpr( x )
+			, expr::makeMix41D( findTypesCache( x, y, a )
+					, makeExpr( x )
 				, makeExpr( y )
 				, makeExpr( a ) ) };
 	}
@@ -4272,14 +4848,16 @@ namespace sdw
 		if ( isAnyOptional( x, y, a ) )
 		{
 			return Optional< Double >{ findShader( x, y, a )
-				, expr::makeMix11DB( makeExpr( x )
+				, expr::makeMix11DB( findTypesCache( x, y, a )
+					, makeExpr( x )
 					, makeExpr( y )
 					, makeExpr( a ) )
 				, areOptionalEnabled( x, y, a ) };
 		}
 
 		return Double{ findShader( x, y, a )
-			, expr::makeMix11DB( makeExpr( x )
+			, expr::makeMix11DB( findTypesCache( x, y, a )
+					, makeExpr( x )
 				, makeExpr( y )
 				, makeExpr( a ) ) };
 	}
@@ -4290,14 +4868,16 @@ namespace sdw
 		if ( isAnyOptional( x, y, a ) )
 		{
 			return Optional< DVec2 >{ findShader( x, y, a )
-				, expr::makeMix22DB( makeExpr( x )
+				, expr::makeMix22DB( findTypesCache( x, y, a )
+					, makeExpr( x )
 					, makeExpr( y )
 					, makeExpr( a ) )
 				, areOptionalEnabled( x, y, a ) };
 		}
 
 		return DVec2{ findShader( x, y, a )
-			, expr::makeMix22DB( makeExpr( x )
+			, expr::makeMix22DB( findTypesCache( x, y, a )
+					, makeExpr( x )
 				, makeExpr( y )
 				, makeExpr( a ) ) };
 	}
@@ -4308,14 +4888,16 @@ namespace sdw
 		if ( isAnyOptional( x, y, a ) )
 		{
 			return Optional< DVec3 >{ findShader( x, y, a )
-				, expr::makeMix33DB( makeExpr( x )
+				, expr::makeMix33DB( findTypesCache( x, y, a )
+					, makeExpr( x )
 					, makeExpr( y )
 					, makeExpr( a ) )
 				, areOptionalEnabled( x, y, a ) };
 		}
 
 		return DVec3{ findShader( x, y, a )
-			, expr::makeMix33DB( makeExpr( x )
+			, expr::makeMix33DB( findTypesCache( x, y, a )
+					, makeExpr( x )
 				, makeExpr( y )
 				, makeExpr( a ) ) };
 	}
@@ -4326,14 +4908,16 @@ namespace sdw
 		if ( isAnyOptional( x, y, a ) )
 		{
 			return Optional< DVec4 >{ findShader( x, y, a )
-				, expr::makeMix44DB( makeExpr( x )
+				, expr::makeMix44DB( findTypesCache( x, y, a )
+					, makeExpr( x )
 					, makeExpr( y )
 					, makeExpr( a ) )
 				, areOptionalEnabled( x, y, a ) };
 		}
 
 		return DVec4{ findShader( x, y, a )
-			, expr::makeMix44DB( makeExpr( x )
+			, expr::makeMix44DB( findTypesCache( x, y, a )
+					, makeExpr( x )
 				, makeExpr( y )
 				, makeExpr( a ) ) };
 	}
@@ -4351,13 +4935,15 @@ namespace sdw
 		if ( isAnyOptional( edge, x ) )
 		{
 			return Optional< Float >{ findShader( edge, x )
-				, expr::makeStep11F( makeExpr( edge )
+				, expr::makeStep11F( findTypesCache( edge, x )
+					, makeExpr( edge )
 					, makeExpr( x ) )
 				, areOptionalEnabled( edge, x ) };
 		}
 
 		return Float{ findShader( edge, x )
-			, expr::makeStep11F( makeExpr( edge )
+			, expr::makeStep11F( findTypesCache( edge, x )
+					, makeExpr( edge )
 				, makeExpr( x ) ) };
 	}
 	MaybeOptional< Vec2 > step( MaybeOptional< Vec2 > const & edge
@@ -4366,13 +4952,15 @@ namespace sdw
 		if ( isAnyOptional( edge, x ) )
 		{
 			return Optional< Vec2 >{ findShader( edge, x )
-				, expr::makeStep22F( makeExpr( edge )
+				, expr::makeStep22F( findTypesCache( edge, x )
+					, makeExpr( edge )
 					, makeExpr( x ) )
 				, areOptionalEnabled( edge, x ) };
 		}
 
 		return Vec2{ findShader( edge, x )
-			, expr::makeStep22F( makeExpr( edge )
+			, expr::makeStep22F( findTypesCache( edge, x )
+					, makeExpr( edge )
 				, makeExpr( x ) ) };
 	}
 	MaybeOptional< Vec3 > step( MaybeOptional< Vec3 > const & edge
@@ -4381,13 +4969,15 @@ namespace sdw
 		if ( isAnyOptional( edge, x ) )
 		{
 			return Optional< Vec3 >{ findShader( edge, x )
-				, expr::makeStep33F( makeExpr( edge )
+				, expr::makeStep33F( findTypesCache( edge, x )
+					, makeExpr( edge )
 					, makeExpr( x ) )
 				, areOptionalEnabled( edge, x ) };
 		}
 
 		return Vec3{ findShader( edge, x )
-			, expr::makeStep33F( makeExpr( edge )
+			, expr::makeStep33F( findTypesCache( edge, x )
+					, makeExpr( edge )
 				, makeExpr( x ) ) };
 	}
 	MaybeOptional< Vec4 > step( MaybeOptional< Vec4 > const & edge
@@ -4396,13 +4986,15 @@ namespace sdw
 		if ( isAnyOptional( edge, x ) )
 		{
 			return Optional< Vec4 >{ findShader( edge, x )
-				, expr::makeStep44F( makeExpr( edge )
+				, expr::makeStep44F( findTypesCache( edge, x )
+					, makeExpr( edge )
 					, makeExpr( x ) )
 				, areOptionalEnabled( edge, x ) };
 		}
 
 		return Vec4{ findShader( edge, x )
-			, expr::makeStep44F( makeExpr( edge )
+			, expr::makeStep44F( findTypesCache( edge, x )
+					, makeExpr( edge )
 				, makeExpr( x ) ) };
 	}
 	MaybeOptional< Vec2 > step( MaybeOptional< Float > const & edge
@@ -4411,13 +5003,15 @@ namespace sdw
 		if ( isAnyOptional( edge, x ) )
 		{
 			return Optional< Vec2 >{ findShader( edge, x )
-				, expr::makeStep12F( makeExpr( edge )
+				, expr::makeStep12F( findTypesCache( edge, x )
+					, makeExpr( edge )
 					, makeExpr( x ) )
 				, areOptionalEnabled( edge, x ) };
 		}
 
 		return Vec2{ findShader( edge, x )
-			, expr::makeStep12F( makeExpr( edge )
+			, expr::makeStep12F( findTypesCache( edge, x )
+					, makeExpr( edge )
 				, makeExpr( x ) ) };
 	}
 	MaybeOptional< Vec3 > step( MaybeOptional< Float > const & edge
@@ -4426,13 +5020,15 @@ namespace sdw
 		if ( isAnyOptional( edge, x ) )
 		{
 			return Optional< Vec3 >{ findShader( edge, x )
-				, expr::makeStep13F( makeExpr( edge )
+				, expr::makeStep13F( findTypesCache( edge, x )
+					, makeExpr( edge )
 					, makeExpr( x ) )
 				, areOptionalEnabled( edge, x ) };
 		}
 
 		return Vec3{ findShader( edge, x )
-			, expr::makeStep13F( makeExpr( edge )
+			, expr::makeStep13F( findTypesCache( edge, x )
+					, makeExpr( edge )
 				, makeExpr( x ) ) };
 	}
 	MaybeOptional< Vec4 > step( MaybeOptional< Float > const & edge
@@ -4441,13 +5037,15 @@ namespace sdw
 		if ( isAnyOptional( edge, x ) )
 		{
 			return Optional< Vec4 >{ findShader( edge, x )
-				, expr::makeStep14F( makeExpr( edge )
+				, expr::makeStep14F( findTypesCache( edge, x )
+					, makeExpr( edge )
 					, makeExpr( x ) )
 				, areOptionalEnabled( edge, x ) };
 		}
 
 		return Vec4{ findShader( edge, x )
-			, expr::makeStep14F( makeExpr( edge )
+			, expr::makeStep14F( findTypesCache( edge, x )
+					, makeExpr( edge )
 				, makeExpr( x ) ) };
 	}
 	MaybeOptional< Double > step( MaybeOptional< Double > const & edge
@@ -4456,13 +5054,15 @@ namespace sdw
 		if ( isAnyOptional( edge, x ) )
 		{
 			return Optional< Double >{ findShader( edge, x )
-				, expr::makeStep11D( makeExpr( edge )
+				, expr::makeStep11D( findTypesCache( edge, x )
+					, makeExpr( edge )
 					, makeExpr( x ) )
 				, areOptionalEnabled( edge, x ) };
 		}
 
 		return Double{ findShader( edge, x )
-			, expr::makeStep11D( makeExpr( edge )
+			, expr::makeStep11D( findTypesCache( edge, x )
+					, makeExpr( edge )
 				, makeExpr( x ) ) };
 	}
 	MaybeOptional< DVec2 > step( MaybeOptional< DVec2 > const & edge
@@ -4471,13 +5071,15 @@ namespace sdw
 		if ( isAnyOptional( edge, x ) )
 		{
 			return Optional< DVec2 >{ findShader( edge, x )
-				, expr::makeStep22D( makeExpr( edge )
+				, expr::makeStep22D( findTypesCache( edge, x )
+					, makeExpr( edge )
 					, makeExpr( x ) )
 				, areOptionalEnabled( edge, x ) };
 		}
 
 		return DVec2{ findShader( edge, x )
-			, expr::makeStep22D( makeExpr( edge )
+			, expr::makeStep22D( findTypesCache( edge, x )
+					, makeExpr( edge )
 				, makeExpr( x ) ) };
 	}
 	MaybeOptional< DVec3 > step( MaybeOptional< DVec3 > const & edge
@@ -4486,13 +5088,15 @@ namespace sdw
 		if ( isAnyOptional( edge, x ) )
 		{
 			return Optional< DVec3 >{ findShader( edge, x )
-				, expr::makeStep33D( makeExpr( edge )
+				, expr::makeStep33D( findTypesCache( edge, x )
+					, makeExpr( edge )
 					, makeExpr( x ) )
 				, areOptionalEnabled( edge, x ) };
 		}
 
 		return DVec3{ findShader( edge, x )
-			, expr::makeStep33D( makeExpr( edge )
+			, expr::makeStep33D( findTypesCache( edge, x )
+					, makeExpr( edge )
 				, makeExpr( x ) ) };
 	}
 	MaybeOptional< DVec4 > step( MaybeOptional< DVec4 > const & edge
@@ -4501,13 +5105,15 @@ namespace sdw
 		if ( isAnyOptional( edge, x ) )
 		{
 			return Optional< DVec4 >{ findShader( edge, x )
-				, expr::makeStep44D( makeExpr( edge )
+				, expr::makeStep44D( findTypesCache( edge, x )
+					, makeExpr( edge )
 					, makeExpr( x ) )
 				, areOptionalEnabled( edge, x ) };
 		}
 
 		return DVec4{ findShader( edge, x )
-			, expr::makeStep44D( makeExpr( edge )
+			, expr::makeStep44D( findTypesCache( edge, x )
+					, makeExpr( edge )
 				, makeExpr( x ) ) };
 	}
 	MaybeOptional< DVec2 > step( MaybeOptional< Double > const & edge
@@ -4516,13 +5122,15 @@ namespace sdw
 		if ( isAnyOptional( edge, x ) )
 		{
 			return Optional< DVec2 >{ findShader( edge, x )
-				, expr::makeStep12D( makeExpr( edge )
+				, expr::makeStep12D( findTypesCache( edge, x )
+					, makeExpr( edge )
 					, makeExpr( x ) )
 				, areOptionalEnabled( edge, x ) };
 		}
 
 		return DVec2{ findShader( edge, x )
-			, expr::makeStep12D( makeExpr( edge )
+			, expr::makeStep12D( findTypesCache( edge, x )
+					, makeExpr( edge )
 				, makeExpr( x ) ) };
 	}
 	MaybeOptional< DVec3 > step( MaybeOptional< Double > const & edge
@@ -4531,13 +5139,15 @@ namespace sdw
 		if ( isAnyOptional( edge, x ) )
 		{
 			return Optional< DVec3 >{ findShader( edge, x )
-				, expr::makeStep13D( makeExpr( edge )
+				, expr::makeStep13D( findTypesCache( edge, x )
+					, makeExpr( edge )
 					, makeExpr( x ) )
 				, areOptionalEnabled( edge, x ) };
 		}
 
 		return DVec3{ findShader( edge, x )
-			, expr::makeStep13D( makeExpr( edge )
+			, expr::makeStep13D( findTypesCache( edge, x )
+					, makeExpr( edge )
 				, makeExpr( x ) ) };
 	}
 	MaybeOptional< DVec4 > step( MaybeOptional< Double > const & edge
@@ -4546,13 +5156,15 @@ namespace sdw
 		if ( isAnyOptional( edge, x ) )
 		{
 			return Optional< DVec4 >{ findShader( edge, x )
-				, expr::makeStep14D( makeExpr( edge )
+				, expr::makeStep14D( findTypesCache( edge, x )
+					, makeExpr( edge )
 					, makeExpr( x ) )
 				, areOptionalEnabled( edge, x ) };
 		}
 
 		return DVec4{ findShader( edge, x )
-			, expr::makeStep14D( makeExpr( edge )
+			, expr::makeStep14D( findTypesCache( edge, x )
+					, makeExpr( edge )
 				, makeExpr( x ) ) };
 	}
 	/**@}*/
@@ -4570,14 +5182,16 @@ namespace sdw
 		if ( isAnyOptional( edge0, edge1, x ) )
 		{
 			return Optional< Float >{ findShader( edge0, edge1, x )
-				, expr::makeSmoothStep11F( makeExpr( edge0 )
+				, expr::makeSmoothStep11F( findTypesCache( edge0, edge1, x )
+					, makeExpr( edge0 )
 					, makeExpr( edge1 )
 					, makeExpr( x ) )
 				, areOptionalEnabled( edge0, edge1, x ) };
 		}
 
 		return Float{ findShader( edge0, edge1, x )
-			, expr::makeSmoothStep11F( makeExpr( edge0 )
+			, expr::makeSmoothStep11F( findTypesCache( edge0, edge1, x )
+					, makeExpr( edge0 )
 				, makeExpr( edge1 )
 				, makeExpr( x ) ) };
 	}
@@ -4588,14 +5202,16 @@ namespace sdw
 		if ( isAnyOptional( edge0, edge1, x ) )
 		{
 			return Optional< Vec2 >{ findShader( edge0, edge1, x )
-				, expr::makeSmoothStep22F( makeExpr( edge0 )
+				, expr::makeSmoothStep22F( findTypesCache( edge0, edge1, x )
+					, makeExpr( edge0 )
 					, makeExpr( edge1 )
 					, makeExpr( x ) )
 				, areOptionalEnabled( edge0, edge1, x ) };
 		}
 
 		return Vec2{ findShader( edge0, edge1, x )
-			, expr::makeSmoothStep22F( makeExpr( edge0 )
+			, expr::makeSmoothStep22F( findTypesCache( edge0, edge1, x )
+					, makeExpr( edge0 )
 				, makeExpr( edge1 )
 				, makeExpr( x ) ) };
 	}
@@ -4606,14 +5222,16 @@ namespace sdw
 		if ( isAnyOptional( edge0, edge1, x ) )
 		{
 			return Optional< Vec3 >{ findShader( edge0, edge1, x )
-				, expr::makeSmoothStep33F( makeExpr( edge0 )
+				, expr::makeSmoothStep33F( findTypesCache( edge0, edge1, x )
+					, makeExpr( edge0 )
 					, makeExpr( edge1 )
 					, makeExpr( x ) )
 				, areOptionalEnabled( edge0, edge1, x ) };
 		}
 
 		return Vec3{ findShader( edge0, edge1, x )
-			, expr::makeSmoothStep33F( makeExpr( edge0 )
+			, expr::makeSmoothStep33F( findTypesCache( edge0, edge1, x )
+					, makeExpr( edge0 )
 				, makeExpr( edge1 )
 				, makeExpr( x ) ) };
 	}
@@ -4624,14 +5242,16 @@ namespace sdw
 		if ( isAnyOptional( edge0, edge1, x ) )
 		{
 			return Optional< Vec4 >{ findShader( edge0, edge1, x )
-				, expr::makeSmoothStep44F( makeExpr( edge0 )
+				, expr::makeSmoothStep44F( findTypesCache( edge0, edge1, x )
+					, makeExpr( edge0 )
 					, makeExpr( edge1 )
 					, makeExpr( x ) )
 				, areOptionalEnabled( edge0, edge1, x ) };
 		}
 
 		return Vec4{ findShader( edge0, edge1, x )
-			, expr::makeSmoothStep44F( makeExpr( edge0 )
+			, expr::makeSmoothStep44F( findTypesCache( edge0, edge1, x )
+					, makeExpr( edge0 )
 				, makeExpr( edge1 )
 				, makeExpr( x ) ) };
 	}
@@ -4642,14 +5262,16 @@ namespace sdw
 		if ( isAnyOptional( edge0, edge1, x ) )
 		{
 			return Optional< Vec2 >{ findShader( edge0, edge1, x )
-				, expr::makeSmoothStep12F( makeExpr( edge0 )
+				, expr::makeSmoothStep12F( findTypesCache( edge0, edge1, x )
+					, makeExpr( edge0 )
 					, makeExpr( edge1 )
 					, makeExpr( x ) )
 				, areOptionalEnabled( edge0, edge1, x ) };
 		}
 
 		return Vec2{ findShader( edge0, edge1, x )
-			, expr::makeSmoothStep12F( makeExpr( edge0 )
+			, expr::makeSmoothStep12F( findTypesCache( edge0, edge1, x )
+					, makeExpr( edge0 )
 				, makeExpr( edge1 )
 				, makeExpr( x ) ) };
 	}
@@ -4660,14 +5282,16 @@ namespace sdw
 		if ( isAnyOptional( edge0, edge1, x ) )
 		{
 			return Optional< Vec3 >{ findShader( edge0, edge1, x )
-				, expr::makeSmoothStep13F( makeExpr( edge0 )
+				, expr::makeSmoothStep13F( findTypesCache( edge0, edge1, x )
+					, makeExpr( edge0 )
 					, makeExpr( edge1 )
 					, makeExpr( x ) )
 				, areOptionalEnabled( edge0, edge1, x ) };
 		}
 
 		return Vec3{ findShader( edge0, edge1, x )
-			, expr::makeSmoothStep13F( makeExpr( edge0 )
+			, expr::makeSmoothStep13F( findTypesCache( edge0, edge1, x )
+					, makeExpr( edge0 )
 				, makeExpr( edge1 )
 				, makeExpr( x ) ) };
 	}
@@ -4678,14 +5302,16 @@ namespace sdw
 		if ( isAnyOptional( edge0, edge1, x ) )
 		{
 			return Optional< Vec4 >{ findShader( edge0, edge1, x )
-				, expr::makeSmoothStep14F( makeExpr( edge0 )
+				, expr::makeSmoothStep14F( findTypesCache( edge0, edge1, x )
+					, makeExpr( edge0 )
 					, makeExpr( edge1 )
 					, makeExpr( x ) )
 				, areOptionalEnabled( edge0, edge1, x ) };
 		}
 
 		return Vec4{ findShader( edge0, edge1, x )
-			, expr::makeSmoothStep14F( makeExpr( edge0 )
+			, expr::makeSmoothStep14F( findTypesCache( edge0, edge1, x )
+					, makeExpr( edge0 )
 				, makeExpr( edge1 )
 				, makeExpr( x ) ) };
 	}
@@ -4696,14 +5322,16 @@ namespace sdw
 		if ( isAnyOptional( edge0, edge1, x ) )
 		{
 			return Optional< Double >{ findShader( edge0, edge1, x )
-				, expr::makeSmoothStep11D( makeExpr( edge0 )
+				, expr::makeSmoothStep11D( findTypesCache( edge0, edge1, x )
+					, makeExpr( edge0 )
 					, makeExpr( edge1 )
 					, makeExpr( x ) )
 				, areOptionalEnabled( edge0, edge1, x ) };
 		}
 
 		return Double{ findShader( edge0, edge1, x )
-			, expr::makeSmoothStep11D( makeExpr( edge0 )
+			, expr::makeSmoothStep11D( findTypesCache( edge0, edge1, x )
+					, makeExpr( edge0 )
 				, makeExpr( edge1 )
 				, makeExpr( x ) ) };
 	}
@@ -4714,14 +5342,16 @@ namespace sdw
 		if ( isAnyOptional( edge0, edge1, x ) )
 		{
 			return Optional< DVec2 >{ findShader( edge0, edge1, x )
-				, expr::makeSmoothStep22D( makeExpr( edge0 )
+				, expr::makeSmoothStep22D( findTypesCache( edge0, edge1, x )
+					, makeExpr( edge0 )
 					, makeExpr( edge1 )
 					, makeExpr( x ) )
 				, areOptionalEnabled( edge0, edge1, x ) };
 		}
 
 		return DVec2{ findShader( edge0, edge1, x )
-			, expr::makeSmoothStep22D( makeExpr( edge0 )
+			, expr::makeSmoothStep22D( findTypesCache( edge0, edge1, x )
+					, makeExpr( edge0 )
 				, makeExpr( edge1 )
 				, makeExpr( x ) ) };
 	}
@@ -4732,14 +5362,16 @@ namespace sdw
 		if ( isAnyOptional( edge0, edge1, x ) )
 		{
 			return Optional< DVec3 >{ findShader( edge0, edge1, x )
-				, expr::makeSmoothStep33D( makeExpr( edge0 )
+				, expr::makeSmoothStep33D( findTypesCache( edge0, edge1, x )
+					, makeExpr( edge0 )
 					, makeExpr( edge1 )
 					, makeExpr( x ) )
 				, areOptionalEnabled( edge0, edge1, x ) };
 		}
 
 		return DVec3{ findShader( edge0, edge1, x )
-			, expr::makeSmoothStep33D( makeExpr( edge0 )
+			, expr::makeSmoothStep33D( findTypesCache( edge0, edge1, x )
+					, makeExpr( edge0 )
 				, makeExpr( edge1 )
 				, makeExpr( x ) ) };
 	}
@@ -4750,14 +5382,16 @@ namespace sdw
 		if ( isAnyOptional( edge0, edge1, x ) )
 		{
 			return Optional< DVec4 >{ findShader( edge0, edge1, x )
-				, expr::makeSmoothStep44D( makeExpr( edge0 )
+				, expr::makeSmoothStep44D( findTypesCache( edge0, edge1, x )
+					, makeExpr( edge0 )
 					, makeExpr( edge1 )
 					, makeExpr( x ) )
 				, areOptionalEnabled( edge0, edge1, x ) };
 		}
 
 		return DVec4{ findShader( edge0, edge1, x )
-			, expr::makeSmoothStep44D( makeExpr( edge0 )
+			, expr::makeSmoothStep44D( findTypesCache( edge0, edge1, x )
+					, makeExpr( edge0 )
 				, makeExpr( edge1 )
 				, makeExpr( x ) ) };
 	}
@@ -4768,14 +5402,16 @@ namespace sdw
 		if ( isAnyOptional( edge0, edge1, x ) )
 		{
 			return Optional< DVec2 >{ findShader( edge0, edge1, x )
-				, expr::makeSmoothStep12D( makeExpr( edge0 )
+				, expr::makeSmoothStep12D( findTypesCache( edge0, edge1, x )
+					, makeExpr( edge0 )
 					, makeExpr( edge1 )
 					, makeExpr( x ) )
 				, areOptionalEnabled( edge0, edge1, x ) };
 		}
 
 		return DVec2{ findShader( edge0, edge1, x )
-			, expr::makeSmoothStep12D( makeExpr( edge0 )
+			, expr::makeSmoothStep12D( findTypesCache( edge0, edge1, x )
+					, makeExpr( edge0 )
 				, makeExpr( edge1 )
 				, makeExpr( x ) ) };
 	}
@@ -4786,14 +5422,16 @@ namespace sdw
 		if ( isAnyOptional( edge0, edge1, x ) )
 		{
 			return Optional< DVec3 >{ findShader( edge0, edge1, x )
-				, expr::makeSmoothStep13D( makeExpr( edge0 )
+				, expr::makeSmoothStep13D( findTypesCache( edge0, edge1, x )
+					, makeExpr( edge0 )
 					, makeExpr( edge1 )
 					, makeExpr( x ) )
 				, areOptionalEnabled( edge0, edge1, x ) };
 		}
 
 		return DVec3{ findShader( edge0, edge1, x )
-			, expr::makeSmoothStep13D( makeExpr( edge0 )
+			, expr::makeSmoothStep13D( findTypesCache( edge0, edge1, x )
+					, makeExpr( edge0 )
 				, makeExpr( edge1 )
 				, makeExpr( x ) ) };
 	}
@@ -4804,14 +5442,16 @@ namespace sdw
 		if ( isAnyOptional( edge0, edge1, x ) )
 		{
 			return Optional< DVec4 >{ findShader( edge0, edge1, x )
-				, expr::makeSmoothStep14D( makeExpr( edge0 )
+				, expr::makeSmoothStep14D( findTypesCache( edge0, edge1, x )
+					, makeExpr( edge0 )
 					, makeExpr( edge1 )
 					, makeExpr( x ) )
 				, areOptionalEnabled( edge0, edge1, x ) };
 		}
 
 		return DVec4{ findShader( edge0, edge1, x )
-			, expr::makeSmoothStep14D( makeExpr( edge0 )
+			, expr::makeSmoothStep14D( findTypesCache( edge0, edge1, x )
+					, makeExpr( edge0 )
 				, makeExpr( edge1 )
 				, makeExpr( x ) ) };
 	}
@@ -4828,96 +5468,112 @@ namespace sdw
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< Boolean >{ findShader( x )
-				, expr::makeIsnan1F( makeExpr( x ) )
+				, expr::makeIsnan1F( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return Boolean{ findShader( x )
-			, expr::makeIsnan1F( makeExpr( x ) ) };
+			, expr::makeIsnan1F( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< BVec2 > isnan( MaybeOptional< Vec2 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< BVec2 >{ findShader( x )
-				, expr::makeIsnan2F( makeExpr( x ) )
+				, expr::makeIsnan2F( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return BVec2{ findShader( x )
-			, expr::makeIsnan2F( makeExpr( x ) ) };
+			, expr::makeIsnan2F( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< BVec3 > isnan( MaybeOptional< Vec3 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< BVec3 >{ findShader( x )
-				, expr::makeIsnan3F( makeExpr( x ) )
+				, expr::makeIsnan3F( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return BVec3{ findShader( x )
-			, expr::makeIsnan3F( makeExpr( x ) ) };
+			, expr::makeIsnan3F( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< BVec4 > isnan( MaybeOptional< Vec4 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< BVec4 >{ findShader( x )
-				, expr::makeIsnan4F( makeExpr( x ) )
+				, expr::makeIsnan4F( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return BVec4{ findShader( x )
-			, expr::makeIsnan4F( makeExpr( x ) ) };
+			, expr::makeIsnan4F( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< Boolean > isnan( MaybeOptional< Double > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< Boolean >{ findShader( x )
-				, expr::makeIsnan1D( makeExpr( x ) )
+				, expr::makeIsnan1D( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return Boolean{ findShader( x )
-			, expr::makeIsnan1D( makeExpr( x ) ) };
+			, expr::makeIsnan1D( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< BVec2 > isnan( MaybeOptional< DVec2 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< BVec2 >{ findShader( x )
-				, expr::makeIsnan2D( makeExpr( x ) )
+				, expr::makeIsnan2D( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return BVec2{ findShader( x )
-			, expr::makeIsnan2D( makeExpr( x ) ) };
+			, expr::makeIsnan2D( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< BVec3 > isnan( MaybeOptional< DVec3 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< BVec3 >{ findShader( x )
-				, expr::makeIsnan3D( makeExpr( x ) )
+				, expr::makeIsnan3D( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return BVec3{ findShader( x )
-			, expr::makeIsnan3D( makeExpr( x ) ) };
+			, expr::makeIsnan3D( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< BVec4 > isnan( MaybeOptional< DVec4 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< BVec4 >{ findShader( x )
-				, expr::makeIsnan4D( makeExpr( x ) )
+				, expr::makeIsnan4D( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return BVec4{ findShader( x )
-			, expr::makeIsnan4D( makeExpr( x ) ) };
+			, expr::makeIsnan4D( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	/**@}*/
 #pragma endregion
@@ -4932,96 +5588,112 @@ namespace sdw
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< Boolean >{ findShader( x )
-				, expr::makeIsinf1F( makeExpr( x ) )
+				, expr::makeIsinf1F( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return Boolean{ findShader( x )
-			, expr::makeIsinf1F( makeExpr( x ) ) };
+			, expr::makeIsinf1F( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< BVec2 > isinf( MaybeOptional< Vec2 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< BVec2 >{ findShader( x )
-				, expr::makeIsinf2F( makeExpr( x ) )
+				, expr::makeIsinf2F( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return BVec2{ findShader( x )
-			, expr::makeIsinf2F( makeExpr( x ) ) };
+			, expr::makeIsinf2F( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< BVec3 > isinf( MaybeOptional< Vec3 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< BVec3 >{ findShader( x )
-				, expr::makeIsinf3F( makeExpr( x ) )
+				, expr::makeIsinf3F( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return BVec3{ findShader( x )
-			, expr::makeIsinf3F( makeExpr( x ) ) };
+			, expr::makeIsinf3F( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< BVec4 > isinf( MaybeOptional< Vec4 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< BVec4 >{ findShader( x )
-				, expr::makeIsinf4F( makeExpr( x ) )
+				, expr::makeIsinf4F( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return BVec4{ findShader( x )
-			, expr::makeIsinf4F( makeExpr( x ) ) };
+			, expr::makeIsinf4F( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< Boolean > isinf( MaybeOptional< Double > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< Boolean >{ findShader( x )
-				, expr::makeIsinf1D( makeExpr( x ) )
+				, expr::makeIsinf1D( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return Boolean{ findShader( x )
-			, expr::makeIsinf1D( makeExpr( x ) ) };
+			, expr::makeIsinf1D( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< BVec2 > isinf( MaybeOptional< DVec2 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< BVec2 >{ findShader( x )
-				, expr::makeIsinf2D( makeExpr( x ) )
+				, expr::makeIsinf2D( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return BVec2{ findShader( x )
-			, expr::makeIsinf2D( makeExpr( x ) ) };
+			, expr::makeIsinf2D( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< BVec3 > isinf( MaybeOptional< DVec3 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< BVec3 >{ findShader( x )
-				, expr::makeIsinf3D( makeExpr( x ) )
+				, expr::makeIsinf3D( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return BVec3{ findShader( x )
-			, expr::makeIsinf3D( makeExpr( x ) ) };
+			, expr::makeIsinf3D( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< BVec4 > isinf( MaybeOptional< DVec4 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< BVec4 >{ findShader( x )
-				, expr::makeIsinf4D( makeExpr( x ) )
+				, expr::makeIsinf4D( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return BVec4{ findShader( x )
-			, expr::makeIsinf4D( makeExpr( x ) ) };
+			, expr::makeIsinf4D( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	/**@}*/
 #pragma endregion
@@ -5036,48 +5708,56 @@ namespace sdw
 		if ( isAnyOptional( value ) )
 		{
 			return Optional< Int >{ findShader( value )
-				, expr::makeFloatBitsToInt1( makeExpr( value ) )
+				, expr::makeFloatBitsToInt1( findTypesCache( value )
+					, makeExpr( value ) )
 				, areOptionalEnabled( value ) };
 		}
 
 		return Int{ findShader( value )
-			, expr::makeFloatBitsToInt1( makeExpr( value ) ) };
+			, expr::makeFloatBitsToInt1( findTypesCache( value )
+					, makeExpr( value ) ) };
 	}
 	MaybeOptional< IVec2 > floatBitsToInt( MaybeOptional< Vec2 > const & value )
 	{
 		if ( isAnyOptional( value ) )
 		{
 			return Optional< IVec2 >{ findShader( value )
-				, expr::makeFloatBitsToInt2( makeExpr( value ) )
+				, expr::makeFloatBitsToInt2( findTypesCache( value )
+					, makeExpr( value ) )
 				, areOptionalEnabled( value ) };
 		}
 
 		return IVec2{ findShader( value )
-			, expr::makeFloatBitsToInt2( makeExpr( value ) ) };
+			, expr::makeFloatBitsToInt2( findTypesCache( value )
+					, makeExpr( value ) ) };
 	}
 	MaybeOptional< IVec3 > floatBitsToInt( MaybeOptional< Vec3 > const & value )
 	{
 		if ( isAnyOptional( value ) )
 		{
 			return Optional< IVec3 >{ findShader( value )
-				, expr::makeFloatBitsToInt3( makeExpr( value ) )
+				, expr::makeFloatBitsToInt3( findTypesCache( value )
+					, makeExpr( value ) )
 				, areOptionalEnabled( value ) };
 		}
 
 		return IVec3{ findShader( value )
-			, expr::makeFloatBitsToInt3( makeExpr( value ) ) };
+			, expr::makeFloatBitsToInt3( findTypesCache( value )
+					, makeExpr( value ) ) };
 	}
 	MaybeOptional< IVec4 > floatBitsToInt( MaybeOptional< Vec4 > const & value )
 	{
 		if ( isAnyOptional( value ) )
 		{
 			return Optional< IVec4 >{ findShader( value )
-				, expr::makeFloatBitsToInt4( makeExpr( value ) )
+				, expr::makeFloatBitsToInt4( findTypesCache( value )
+					, makeExpr( value ) )
 				, areOptionalEnabled( value ) };
 		}
 
 		return IVec4{ findShader( value )
-			, expr::makeFloatBitsToInt4( makeExpr( value ) ) };
+			, expr::makeFloatBitsToInt4( findTypesCache( value )
+					, makeExpr( value ) ) };
 	}
 	/**@}*/
 #pragma endregion
@@ -5092,48 +5772,56 @@ namespace sdw
 		if ( isAnyOptional( value ) )
 		{
 			return Optional< UInt >{ findShader( value )
-				, expr::makeFloatBitsToUInt1( makeExpr( value ) )
+				, expr::makeFloatBitsToUInt1( findTypesCache( value )
+					, makeExpr( value ) )
 				, areOptionalEnabled( value ) };
 		}
 
 		return UInt{ findShader( value )
-			, expr::makeFloatBitsToUInt1( makeExpr( value ) ) };
+			, expr::makeFloatBitsToUInt1( findTypesCache( value )
+					, makeExpr( value ) ) };
 	}
 	MaybeOptional< UVec2 > floatBitsToUInt( MaybeOptional< Vec2 > const & value )
 	{
 		if ( isAnyOptional( value ) )
 		{
 			return Optional< UVec2 >{ findShader( value )
-				, expr::makeFloatBitsToUInt2( makeExpr( value ) )
+				, expr::makeFloatBitsToUInt2( findTypesCache( value )
+					, makeExpr( value ) )
 				, areOptionalEnabled( value ) };
 		}
 
 		return UVec2{ findShader( value )
-			, expr::makeFloatBitsToUInt2( makeExpr( value ) ) };
+			, expr::makeFloatBitsToUInt2( findTypesCache( value )
+					, makeExpr( value ) ) };
 	}
 	MaybeOptional< UVec3 > floatBitsToUInt( MaybeOptional< Vec3 > const & value )
 	{
 		if ( isAnyOptional( value ) )
 		{
 			return Optional< UVec3 >{ findShader( value )
-				, expr::makeFloatBitsToUInt3( makeExpr( value ) )
+				, expr::makeFloatBitsToUInt3( findTypesCache( value )
+					, makeExpr( value ) )
 				, areOptionalEnabled( value ) };
 		}
 
 		return UVec3{ findShader( value )
-			, expr::makeFloatBitsToUInt3( makeExpr( value ) ) };
+			, expr::makeFloatBitsToUInt3( findTypesCache( value )
+					, makeExpr( value ) ) };
 	}
 	MaybeOptional< UVec4 > floatBitsToUInt( MaybeOptional< Vec4 > const & value )
 	{
 		if ( isAnyOptional( value ) )
 		{
 			return Optional< UVec4 >{ findShader( value )
-				, expr::makeFloatBitsToUInt4( makeExpr( value ) )
+				, expr::makeFloatBitsToUInt4( findTypesCache( value )
+					, makeExpr( value ) )
 				, areOptionalEnabled( value ) };
 		}
 
 		return UVec4{ findShader( value )
-			, expr::makeFloatBitsToUInt4( makeExpr( value ) ) };
+			, expr::makeFloatBitsToUInt4( findTypesCache( value )
+					, makeExpr( value ) ) };
 	}
 	/**@}*/
 #pragma endregion
@@ -5148,48 +5836,56 @@ namespace sdw
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< Float >{ findShader( x )
-				, expr::makeIntBitsToFloat1( makeExpr( x ) )
+				, expr::makeIntBitsToFloat1( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return Float{ findShader( x )
-			, expr::makeIntBitsToFloat1( makeExpr( x ) ) };
+			, expr::makeIntBitsToFloat1( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< Vec2 > intBitsToFloat( MaybeOptional< IVec2 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< Vec2 >{ findShader( x )
-				, expr::makeIntBitsToFloat2( makeExpr( x ) )
+				, expr::makeIntBitsToFloat2( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return Vec2{ findShader( x )
-			, expr::makeIntBitsToFloat2( makeExpr( x ) ) };
+			, expr::makeIntBitsToFloat2( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< Vec3 > intBitsToFloat( MaybeOptional< IVec3 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< Vec3 >{ findShader( x )
-				, expr::makeIntBitsToFloat3( makeExpr( x ) )
+				, expr::makeIntBitsToFloat3( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return Vec3{ findShader( x )
-			, expr::makeIntBitsToFloat3( makeExpr( x ) ) };
+			, expr::makeIntBitsToFloat3( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< Vec4 > intBitsToFloat( MaybeOptional< IVec4 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< Vec4 >{ findShader( x )
-				, expr::makeIntBitsToFloat4( makeExpr( x ) )
+				, expr::makeIntBitsToFloat4( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return Vec4{ findShader( x )
-			, expr::makeIntBitsToFloat4( makeExpr( x ) ) };
+			, expr::makeIntBitsToFloat4( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	/**@}*/
 #pragma endregion
@@ -5204,48 +5900,56 @@ namespace sdw
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< Float >{ findShader( x )
-				, expr::makeUintBitsToFloat1( makeExpr( x ) )
+				, expr::makeUintBitsToFloat1( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return Float{ findShader( x )
-			, expr::makeUintBitsToFloat1( makeExpr( x ) ) };
+			, expr::makeUintBitsToFloat1( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< Vec2 > uintBitsToFloat( MaybeOptional< UVec2 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< Vec2 >{ findShader( x )
-				, expr::makeUintBitsToFloat2( makeExpr( x ) )
+				, expr::makeUintBitsToFloat2( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return Vec2{ findShader( x )
-			, expr::makeUintBitsToFloat2( makeExpr( x ) ) };
+			, expr::makeUintBitsToFloat2( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< Vec3 > uintBitsToFloat( MaybeOptional< UVec3 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< Vec3 >{ findShader( x )
-				, expr::makeUintBitsToFloat3( makeExpr( x ) )
+				, expr::makeUintBitsToFloat3( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return Vec3{ findShader( x )
-			, expr::makeUintBitsToFloat3( makeExpr( x ) ) };
+			, expr::makeUintBitsToFloat3( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< Vec4 > uintBitsToFloat( MaybeOptional< UVec4 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< Vec4 >{ findShader( x )
-				, expr::makeUintBitsToFloat4( makeExpr( x ) )
+				, expr::makeUintBitsToFloat4( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return Vec4{ findShader( x )
-			, expr::makeUintBitsToFloat4( makeExpr( x ) ) };
+			, expr::makeUintBitsToFloat4( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	/**@}*/
 #pragma endregion
@@ -5262,14 +5966,16 @@ namespace sdw
 		if ( isAnyOptional( a, b, c ) )
 		{
 			return Optional< Float >{ findShader( a, b, c )
-				, expr::makeFma1F( makeExpr( a )
+				, expr::makeFma1F( findTypesCache( a, b, c )
+					, makeExpr( a )
 					, makeExpr( b )
 					, makeExpr( c ) )
 				, areOptionalEnabled( a, b, c ) };
 		}
 
 		return Float{ findShader( a, b, c )
-			, expr::makeFma1F( makeExpr( a )
+			, expr::makeFma1F( findTypesCache( a, b, c )
+					, makeExpr( a )
 				, makeExpr( b )
 				, makeExpr( c ) ) };
 	}
@@ -5280,14 +5986,16 @@ namespace sdw
 		if ( isAnyOptional( a, b, c ) )
 		{
 			return Optional< Vec2 >{ findShader( a, b, c )
-				, expr::makeFma2F( makeExpr( a )
+				, expr::makeFma2F( findTypesCache( a, b, c )
+					, makeExpr( a )
 					, makeExpr( b )
 					, makeExpr( c ) )
 				, areOptionalEnabled( a, b, c ) };
 		}
 
 		return Vec2{ findShader( a, b, c )
-			, expr::makeFma2F( makeExpr( a )
+			, expr::makeFma2F( findTypesCache( a, b, c )
+					, makeExpr( a )
 				, makeExpr( b )
 				, makeExpr( c ) ) };
 	}
@@ -5298,14 +6006,16 @@ namespace sdw
 		if ( isAnyOptional( a, b, c ) )
 		{
 			return Optional< Vec3 >{ findShader( a, b, c )
-				, expr::makeFma3F( makeExpr( a )
+				, expr::makeFma3F( findTypesCache( a, b, c )
+					, makeExpr( a )
 					, makeExpr( b )
 					, makeExpr( c ) )
 				, areOptionalEnabled( a, b, c ) };
 		}
 
 		return Vec3{ findShader( a, b, c )
-			, expr::makeFma3F( makeExpr( a )
+			, expr::makeFma3F( findTypesCache( a, b, c )
+					, makeExpr( a )
 				, makeExpr( b )
 				, makeExpr( c ) ) };
 	}
@@ -5316,14 +6026,16 @@ namespace sdw
 		if ( isAnyOptional( a, b, c ) )
 		{
 			return Optional< Vec4 >{ findShader( a, b, c )
-				, expr::makeFma4F( makeExpr( a )
+				, expr::makeFma4F( findTypesCache( a, b, c )
+					, makeExpr( a )
 					, makeExpr( b )
 					, makeExpr( c ) )
 				, areOptionalEnabled( a, b, c ) };
 		}
 
 		return Vec4{ findShader( a, b, c )
-			, expr::makeFma4F( makeExpr( a )
+			, expr::makeFma4F( findTypesCache( a, b, c )
+					, makeExpr( a )
 				, makeExpr( b )
 				, makeExpr( c ) ) };
 	}
@@ -5334,14 +6046,16 @@ namespace sdw
 		if ( isAnyOptional( a, b, c ) )
 		{
 			return Optional< Double >{ findShader( a, b, c )
-				, expr::makeFma1D( makeExpr( a )
+				, expr::makeFma1D( findTypesCache( a, b, c )
+					, makeExpr( a )
 					, makeExpr( b )
 					, makeExpr( c ) )
 				, areOptionalEnabled( a, b, c ) };
 		}
 
 		return Double{ findShader( a, b, c )
-			, expr::makeFma1D( makeExpr( a )
+			, expr::makeFma1D( findTypesCache( a, b, c )
+					, makeExpr( a )
 				, makeExpr( b )
 				, makeExpr( c ) ) };
 	}
@@ -5352,14 +6066,16 @@ namespace sdw
 		if ( isAnyOptional( a, b, c ) )
 		{
 			return Optional< DVec2 >{ findShader( a, b, c )
-				, expr::makeFma2D( makeExpr( a )
+				, expr::makeFma2D( findTypesCache( a, b, c )
+					, makeExpr( a )
 					, makeExpr( b )
 					, makeExpr( c ) )
 				, areOptionalEnabled( a, b, c ) };
 		}
 
 		return DVec2{ findShader( a, b, c )
-			, expr::makeFma2D( makeExpr( a )
+			, expr::makeFma2D( findTypesCache( a, b, c )
+					, makeExpr( a )
 				, makeExpr( b )
 				, makeExpr( c ) ) };
 	}
@@ -5370,14 +6086,16 @@ namespace sdw
 		if ( isAnyOptional( a, b, c ) )
 		{
 			return Optional< DVec3 >{ findShader( a, b, c )
-				, expr::makeFma3D( makeExpr( a )
+				, expr::makeFma3D( findTypesCache( a, b, c )
+					, makeExpr( a )
 					, makeExpr( b )
 					, makeExpr( c ) )
 				, areOptionalEnabled( a, b, c ) };
 		}
 
 		return DVec3{ findShader( a, b, c )
-			, expr::makeFma3D( makeExpr( a )
+			, expr::makeFma3D( findTypesCache( a, b, c )
+					, makeExpr( a )
 				, makeExpr( b )
 				, makeExpr( c ) ) };
 	}
@@ -5388,14 +6106,16 @@ namespace sdw
 		if ( isAnyOptional( a, b, c ) )
 		{
 			return Optional< DVec4 >{ findShader( a, b, c )
-				, expr::makeFma4D( makeExpr( a )
+				, expr::makeFma4D( findTypesCache( a, b, c )
+					, makeExpr( a )
 					, makeExpr( b )
 					, makeExpr( c ) )
 				, areOptionalEnabled( a, b, c ) };
 		}
 
 		return DVec4{ findShader( a, b, c )
-			, expr::makeFma4D( makeExpr( a )
+			, expr::makeFma4D( findTypesCache( a, b, c )
+					, makeExpr( a )
 				, makeExpr( b )
 				, makeExpr( c ) ) };
 	}
@@ -5413,13 +6133,15 @@ namespace sdw
 		if ( isAnyOptional( x, exp ) )
 		{
 			return Optional< Float >{ findShader( x, exp )
-				, expr::makeFrexp1F( makeExpr( x )
+				, expr::makeFrexp1F( findTypesCache( x, exp )
+					, makeExpr( x )
 					, makeExpr( exp ) )
 				, areOptionalEnabled( x, exp ) };
 		}
 
 		return Float{ findShader( x, exp )
-			, expr::makeFrexp1F( makeExpr( x )
+			, expr::makeFrexp1F( findTypesCache( x, exp )
+					, makeExpr( x )
 				, makeExpr( exp ) ) };
 	}
 	MaybeOptional< Vec2 > frexp( MaybeOptional< Vec2 > const & x
@@ -5428,13 +6150,15 @@ namespace sdw
 		if ( isAnyOptional( x, exp ) )
 		{
 			return Optional< Vec2 >{ findShader( x, exp )
-				, expr::makeFrexp2F( makeExpr( x )
+				, expr::makeFrexp2F( findTypesCache( x, exp )
+					, makeExpr( x )
 					, makeExpr( exp ) )
 				, areOptionalEnabled( x, exp ) };
 		}
 
 		return Vec2{ findShader( x, exp )
-			, expr::makeFrexp2F( makeExpr( x )
+			, expr::makeFrexp2F( findTypesCache( x, exp )
+					, makeExpr( x )
 				, makeExpr( exp ) ) };
 	}
 	MaybeOptional< Vec3 > frexp( MaybeOptional< Vec3 > const & x
@@ -5443,13 +6167,15 @@ namespace sdw
 		if ( isAnyOptional( x, exp ) )
 		{
 			return Optional< Vec3 >{ findShader( x, exp )
-				, expr::makeFrexp3F( makeExpr( x )
+				, expr::makeFrexp3F( findTypesCache( x, exp )
+					, makeExpr( x )
 					, makeExpr( exp ) )
 				, areOptionalEnabled( x, exp ) };
 		}
 
 		return Vec3{ findShader( x, exp )
-			, expr::makeFrexp3F( makeExpr( x )
+			, expr::makeFrexp3F( findTypesCache( x, exp )
+					, makeExpr( x )
 				, makeExpr( exp ) ) };
 	}
 	MaybeOptional< Vec4 > frexp( MaybeOptional< Vec4 > const & x
@@ -5458,13 +6184,15 @@ namespace sdw
 		if ( isAnyOptional( x, exp ) )
 		{
 			return Optional< Vec4 >{ findShader( x, exp )
-				, expr::makeFrexp4F( makeExpr( x )
+				, expr::makeFrexp4F( findTypesCache( x, exp )
+					, makeExpr( x )
 					, makeExpr( exp ) )
 				, areOptionalEnabled( x, exp ) };
 		}
 
 		return Vec4{ findShader( x, exp )
-			, expr::makeFrexp4F( makeExpr( x )
+			, expr::makeFrexp4F( findTypesCache( x, exp )
+					, makeExpr( x )
 				, makeExpr( exp ) ) };
 	}
 	MaybeOptional< Double > frexp( MaybeOptional< Double > const & x
@@ -5473,13 +6201,15 @@ namespace sdw
 		if ( isAnyOptional( x, exp ) )
 		{
 			return Optional< Double >{ findShader( x, exp )
-				, expr::makeFrexp1D( makeExpr( x )
+				, expr::makeFrexp1D( findTypesCache( x, exp )
+					, makeExpr( x )
 					, makeExpr( exp ) )
 				, areOptionalEnabled( x, exp ) };
 		}
 
 		return Double{ findShader( x, exp )
-			, expr::makeFrexp1D( makeExpr( x )
+			, expr::makeFrexp1D( findTypesCache( x, exp )
+					, makeExpr( x )
 				, makeExpr( exp ) ) };
 	}
 	MaybeOptional< DVec2 > frexp( MaybeOptional< DVec2 > const & x
@@ -5488,13 +6218,15 @@ namespace sdw
 		if ( isAnyOptional( x, exp ) )
 		{
 			return Optional< DVec2 >{ findShader( x, exp )
-				, expr::makeFrexp2D( makeExpr( x )
+				, expr::makeFrexp2D( findTypesCache( x, exp )
+					, makeExpr( x )
 					, makeExpr( exp ) )
 				, areOptionalEnabled( x, exp ) };
 		}
 
 		return DVec2{ findShader( x, exp )
-			, expr::makeFrexp2D( makeExpr( x )
+			, expr::makeFrexp2D( findTypesCache( x, exp )
+					, makeExpr( x )
 				, makeExpr( exp ) ) };
 	}
 	MaybeOptional< DVec3 > frexp( MaybeOptional< DVec3 > const & x
@@ -5503,13 +6235,15 @@ namespace sdw
 		if ( isAnyOptional( x, exp ) )
 		{
 			return Optional< DVec3 >{ findShader( x, exp )
-				, expr::makeFrexp3D( makeExpr( x )
+				, expr::makeFrexp3D( findTypesCache( x, exp )
+					, makeExpr( x )
 					, makeExpr( exp ) )
 				, areOptionalEnabled( x, exp ) };
 		}
 
 		return DVec3{ findShader( x, exp )
-			, expr::makeFrexp3D( makeExpr( x )
+			, expr::makeFrexp3D( findTypesCache( x, exp )
+					, makeExpr( x )
 				, makeExpr( exp ) ) };
 	}
 	MaybeOptional< DVec4 > frexp( MaybeOptional< DVec4 > const & x
@@ -5518,13 +6252,15 @@ namespace sdw
 		if ( isAnyOptional( x, exp ) )
 		{
 			return Optional< DVec4 >{ findShader( x, exp )
-				, expr::makeFrexp4D( makeExpr( x )
+				, expr::makeFrexp4D( findTypesCache( x, exp )
+					, makeExpr( x )
 					, makeExpr( exp ) )
 				, areOptionalEnabled( x, exp ) };
 		}
 
 		return DVec4{ findShader( x, exp )
-			, expr::makeFrexp4D( makeExpr( x )
+			, expr::makeFrexp4D( findTypesCache( x, exp )
+					, makeExpr( x )
 				, makeExpr( exp ) ) };
 	}
 	/**@}*/
@@ -5541,13 +6277,15 @@ namespace sdw
 		if ( isAnyOptional( x, exp ) )
 		{
 			return Optional< Float >{ findShader( x, exp )
-				, expr::makeLdexp1F( makeExpr( x )
+				, expr::makeLdexp1F( findTypesCache( x, exp )
+					, makeExpr( x )
 					, makeExpr( exp ) )
 				, areOptionalEnabled( x, exp ) };
 		}
 
 		return Float{ findShader( x, exp )
-			, expr::makeLdexp1F( makeExpr( x )
+			, expr::makeLdexp1F( findTypesCache( x, exp )
+					, makeExpr( x )
 				, makeExpr( exp ) ) };
 	}
 	MaybeOptional< Vec2 > ldexp( MaybeOptional< Vec2 > const & x
@@ -5556,13 +6294,15 @@ namespace sdw
 		if ( isAnyOptional( x, exp ) )
 		{
 			return Optional< Vec2 >{ findShader( x, exp )
-				, expr::makeLdexp2F( makeExpr( x )
+				, expr::makeLdexp2F( findTypesCache( x, exp )
+					, makeExpr( x )
 					, makeExpr( exp ) )
 				, areOptionalEnabled( x, exp ) };
 		}
 
 		return Vec2{ findShader( x, exp )
-			, expr::makeLdexp2F( makeExpr( x )
+			, expr::makeLdexp2F( findTypesCache( x, exp )
+					, makeExpr( x )
 				, makeExpr( exp ) ) };
 	}
 	MaybeOptional< Vec3 > ldexp( MaybeOptional< Vec3 > const & x
@@ -5571,13 +6311,15 @@ namespace sdw
 		if ( isAnyOptional( x, exp ) )
 		{
 			return Optional< Vec3 >{ findShader( x, exp )
-				, expr::makeLdexp3F( makeExpr( x )
+				, expr::makeLdexp3F( findTypesCache( x, exp )
+					, makeExpr( x )
 					, makeExpr( exp ) )
 				, areOptionalEnabled( x, exp ) };
 		}
 
 		return Vec3{ findShader( x, exp )
-			, expr::makeLdexp3F( makeExpr( x )
+			, expr::makeLdexp3F( findTypesCache( x, exp )
+					, makeExpr( x )
 				, makeExpr( exp ) ) };
 	}
 	MaybeOptional< Vec4 > ldexp( MaybeOptional< Vec4 > const & x
@@ -5586,13 +6328,15 @@ namespace sdw
 		if ( isAnyOptional( x, exp ) )
 		{
 			return Optional< Vec4 >{ findShader( x, exp )
-				, expr::makeLdexp4F( makeExpr( x )
+				, expr::makeLdexp4F( findTypesCache( x, exp )
+					, makeExpr( x )
 					, makeExpr( exp ) )
 				, areOptionalEnabled( x, exp ) };
 		}
 
 		return Vec4{ findShader( x, exp )
-			, expr::makeLdexp4F( makeExpr( x )
+			, expr::makeLdexp4F( findTypesCache( x, exp )
+					, makeExpr( x )
 				, makeExpr( exp ) ) };
 	}
 	MaybeOptional< Double > ldexp( MaybeOptional< Double > const & x
@@ -5601,13 +6345,15 @@ namespace sdw
 		if ( isAnyOptional( x, exp ) )
 		{
 			return Optional< Double >{ findShader( x, exp )
-				, expr::makeLdexp1D( makeExpr( x )
+				, expr::makeLdexp1D( findTypesCache( x, exp )
+					, makeExpr( x )
 					, makeExpr( exp ) )
 				, areOptionalEnabled( x, exp ) };
 		}
 
 		return Double{ findShader( x, exp )
-			, expr::makeLdexp1D( makeExpr( x )
+			, expr::makeLdexp1D( findTypesCache( x, exp )
+					, makeExpr( x )
 				, makeExpr( exp ) ) };
 	}
 	MaybeOptional< DVec2 > ldexp( MaybeOptional< DVec2 > const & x
@@ -5616,13 +6362,15 @@ namespace sdw
 		if ( isAnyOptional( x, exp ) )
 		{
 			return Optional< DVec2 >{ findShader( x, exp )
-				, expr::makeLdexp2D( makeExpr( x )
+				, expr::makeLdexp2D( findTypesCache( x, exp )
+					, makeExpr( x )
 					, makeExpr( exp ) )
 				, areOptionalEnabled( x, exp ) };
 		}
 
 		return DVec2{ findShader( x, exp )
-			, expr::makeLdexp2D( makeExpr( x )
+			, expr::makeLdexp2D( findTypesCache( x, exp )
+					, makeExpr( x )
 				, makeExpr( exp ) ) };
 	}
 	MaybeOptional< DVec3 > ldexp( MaybeOptional< DVec3 > const & x
@@ -5631,13 +6379,15 @@ namespace sdw
 		if ( isAnyOptional( x, exp ) )
 		{
 			return Optional< DVec3 >{ findShader( x, exp )
-				, expr::makeLdexp3D( makeExpr( x )
+				, expr::makeLdexp3D( findTypesCache( x, exp )
+					, makeExpr( x )
 					, makeExpr( exp ) )
 				, areOptionalEnabled( x, exp ) };
 		}
 
 		return DVec3{ findShader( x, exp )
-			, expr::makeLdexp3D( makeExpr( x )
+			, expr::makeLdexp3D( findTypesCache( x, exp )
+					, makeExpr( x )
 				, makeExpr( exp ) ) };
 	}
 	MaybeOptional< DVec4 > ldexp( MaybeOptional< DVec4 > const & x
@@ -5646,13 +6396,15 @@ namespace sdw
 		if ( isAnyOptional( x, exp ) )
 		{
 			return Optional< DVec4 >{ findShader( x, exp )
-				, expr::makeLdexp4D( makeExpr( x )
+				, expr::makeLdexp4D( findTypesCache( x, exp )
+					, makeExpr( x )
 					, makeExpr( exp ) )
 				, areOptionalEnabled( x, exp ) };
 		}
 
 		return DVec4{ findShader( x, exp )
-			, expr::makeLdexp4D( makeExpr( x )
+			, expr::makeLdexp4D( findTypesCache( x, exp )
+					, makeExpr( x )
 				, makeExpr( exp ) ) };
 	}
 	/**@}*/
@@ -5668,12 +6420,14 @@ namespace sdw
 		if ( isAnyOptional( v ) )
 		{
 			return Optional< Double >{ findShader( v )
-				, expr::makePackDouble2x32( makeExpr( v ) )
+				, expr::makePackDouble2x32( findTypesCache( v )
+					, makeExpr( v ) )
 				, areOptionalEnabled( v ) };
 		}
 
 		return Double{ findShader( v )
-			, expr::makePackDouble2x32( makeExpr( v ) ) };
+			, expr::makePackDouble2x32( findTypesCache( v )
+					, makeExpr( v ) ) };
 	}
 	/**@}*/
 #pragma endregion
@@ -5688,12 +6442,14 @@ namespace sdw
 		if ( isAnyOptional( v ) )
 		{
 			return Optional< UInt >{ findShader( v )
-				, expr::makePackHalf2x16( makeExpr( v ) )
+				, expr::makePackHalf2x16( findTypesCache( v )
+					, makeExpr( v ) )
 				, areOptionalEnabled( v ) };
 		}
 
 		return UInt{ findShader( v )
-			, expr::makePackHalf2x16( makeExpr( v ) ) };
+			, expr::makePackHalf2x16( findTypesCache( v )
+					, makeExpr( v ) ) };
 	}
 	/**@}*/
 #pragma endregion
@@ -5708,12 +6464,14 @@ namespace sdw
 		if ( isAnyOptional( v ) )
 		{
 			return Optional< UInt >{ findShader( v )
-				, expr::makePackSnorm2x16( makeExpr( v ) )
+				, expr::makePackSnorm2x16( findTypesCache( v )
+					, makeExpr( v ) )
 				, areOptionalEnabled( v ) };
 		}
 
 		return UInt{ findShader( v )
-			, expr::makePackSnorm2x16( makeExpr( v ) ) };
+			, expr::makePackSnorm2x16( findTypesCache( v )
+					, makeExpr( v ) ) };
 	}
 	/**@}*/
 #pragma endregion
@@ -5728,12 +6486,14 @@ namespace sdw
 		if ( isAnyOptional( v ) )
 		{
 			return Optional< UInt >{ findShader( v )
-				, expr::makePackSnorm4x8( makeExpr( v ) )
+				, expr::makePackSnorm4x8( findTypesCache( v )
+					, makeExpr( v ) )
 				, areOptionalEnabled( v ) };
 		}
 
 		return UInt{ findShader( v )
-			, expr::makePackSnorm4x8( makeExpr( v ) ) };
+			, expr::makePackSnorm4x8( findTypesCache( v )
+					, makeExpr( v ) ) };
 	}
 	/**@}*/
 #pragma endregion
@@ -5748,12 +6508,14 @@ namespace sdw
 		if ( isAnyOptional( v ) )
 		{
 			return Optional< UInt >{ findShader( v )
-				, expr::makePackUnorm2x16( makeExpr( v ) )
+				, expr::makePackUnorm2x16( findTypesCache( v )
+					, makeExpr( v ) )
 				, areOptionalEnabled( v ) };
 		}
 
 		return UInt{ findShader( v )
-			, expr::makePackUnorm2x16( makeExpr( v ) ) };
+			, expr::makePackUnorm2x16( findTypesCache( v )
+					, makeExpr( v ) ) };
 	}
 	/**@}*/
 #pragma endregion
@@ -5768,12 +6530,14 @@ namespace sdw
 		if ( isAnyOptional( v ) )
 		{
 			return Optional< UInt >{ findShader( v )
-				, expr::makePackUnorm4x8( makeExpr( v ) )
+				, expr::makePackUnorm4x8( findTypesCache( v )
+					, makeExpr( v ) )
 				, areOptionalEnabled( v ) };
 		}
 
 		return UInt{ findShader( v )
-			, expr::makePackUnorm4x8( makeExpr( v ) ) };
+			, expr::makePackUnorm4x8( findTypesCache( v )
+					, makeExpr( v ) ) };
 	}
 	/**@}*/
 #pragma endregion
@@ -5788,12 +6552,14 @@ namespace sdw
 		if ( isAnyOptional( d ) )
 		{
 			return Optional< UVec2 >{ findShader( d )
-				, expr::makeUnpackDouble2x32( makeExpr( d ) )
+				, expr::makeUnpackDouble2x32( findTypesCache( d )
+					, makeExpr( d ) )
 				, areOptionalEnabled( d ) };
 		}
 
 		return UVec2{ findShader( d )
-			, expr::makeUnpackDouble2x32( makeExpr( d ) ) };
+			, expr::makeUnpackDouble2x32( findTypesCache( d )
+					, makeExpr( d ) ) };
 	}
 	/**@}*/
 #pragma endregion
@@ -5808,12 +6574,14 @@ namespace sdw
 		if ( isAnyOptional( v ) )
 		{
 			return Optional< Vec2 >{ findShader( v )
-				, expr::makeUnpackHalf2x16( makeExpr( v ) )
+				, expr::makeUnpackHalf2x16( findTypesCache( v )
+					, makeExpr( v ) )
 				, areOptionalEnabled( v ) };
 		}
 
 		return Vec2{ findShader( v )
-			, expr::makeUnpackHalf2x16( makeExpr( v ) ) };
+			, expr::makeUnpackHalf2x16( findTypesCache( v )
+					, makeExpr( v ) ) };
 	}
 	/**@}*/
 #pragma endregion
@@ -5828,12 +6596,14 @@ namespace sdw
 		if ( isAnyOptional( p ) )
 		{
 			return Optional< Vec2 >{ findShader( p )
-				, expr::makeUnpackSnorm2x16( makeExpr( p ) )
+				, expr::makeUnpackSnorm2x16( findTypesCache( p )
+					, makeExpr( p ) )
 				, areOptionalEnabled( p ) };
 		}
 
 		return Vec2{ findShader( p )
-			, expr::makeUnpackSnorm2x16( makeExpr( p ) ) };
+			, expr::makeUnpackSnorm2x16( findTypesCache( p )
+					, makeExpr( p ) ) };
 	}
 	/**@}*/
 #pragma endregion
@@ -5848,12 +6618,14 @@ namespace sdw
 		if ( isAnyOptional( p ) )
 		{
 			return Optional< Vec4 >{ findShader( p )
-				, expr::makeUnpackSnorm4x8( makeExpr( p ) )
+				, expr::makeUnpackSnorm4x8( findTypesCache( p )
+					, makeExpr( p ) )
 				, areOptionalEnabled( p ) };
 		}
 
 		return Vec4{ findShader( p )
-			, expr::makeUnpackSnorm4x8( makeExpr( p ) ) };
+			, expr::makeUnpackSnorm4x8( findTypesCache( p )
+					, makeExpr( p ) ) };
 	}
 	/**@}*/
 #pragma endregion
@@ -5868,12 +6640,14 @@ namespace sdw
 		if ( isAnyOptional( p ) )
 		{
 			return Optional< Vec2 >{ findShader( p )
-				, expr::makeUnpackUnorm2x16( makeExpr( p ) )
+				, expr::makeUnpackUnorm2x16( findTypesCache( p )
+					, makeExpr( p ) )
 				, areOptionalEnabled( p ) };
 		}
 
 		return Vec2{ findShader( p )
-			, expr::makeUnpackUnorm2x16( makeExpr( p ) ) };
+			, expr::makeUnpackUnorm2x16( findTypesCache( p )
+					, makeExpr( p ) ) };
 	}
 	/**@}*/
 #pragma endregion
@@ -5888,12 +6662,14 @@ namespace sdw
 		if ( isAnyOptional( p ) )
 		{
 			return Optional< Vec4 >{ findShader( p )
-				, expr::makeUnpackUnorm4x8( makeExpr( p ) )
+				, expr::makeUnpackUnorm4x8( findTypesCache( p )
+					, makeExpr( p ) )
 				, areOptionalEnabled( p ) };
 		}
 
 		return Vec4{ findShader( p )
-			, expr::makeUnpackUnorm4x8( makeExpr( p ) ) };
+			, expr::makeUnpackUnorm4x8( findTypesCache( p )
+					, makeExpr( p ) ) };
 	}
 	/**@}*/
 #pragma endregion
@@ -5908,96 +6684,112 @@ namespace sdw
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< Float >{ findShader( x )
-				, expr::makeLength1F( makeExpr( x ) )
+				, expr::makeLength1F( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return Float{ findShader( x )
-			, expr::makeLength1F( makeExpr( x ) ) };
+			, expr::makeLength1F( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< Float > length( MaybeOptional< Vec2 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< Float >{ findShader( x )
-				, expr::makeLength2F( makeExpr( x ) )
+				, expr::makeLength2F( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return Float{ findShader( x )
-			, expr::makeLength2F( makeExpr( x ) ) };
+			, expr::makeLength2F( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< Float > length( MaybeOptional< Vec3 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< Float >{ findShader( x )
-				, expr::makeLength3F( makeExpr( x ) )
+				, expr::makeLength3F( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return Float{ findShader( x )
-			, expr::makeLength3F( makeExpr( x ) ) };
+			, expr::makeLength3F( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< Float > length( MaybeOptional< Vec4 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< Float >{ findShader( x )
-				, expr::makeLength4F( makeExpr( x ) )
+				, expr::makeLength4F( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return Float{ findShader( x )
-			, expr::makeLength4F( makeExpr( x ) ) };
+			, expr::makeLength4F( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< Double > length( MaybeOptional< Double > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< Double >{ findShader( x )
-				, expr::makeLength1D( makeExpr( x ) )
+				, expr::makeLength1D( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return Double{ findShader( x )
-			, expr::makeLength1D( makeExpr( x ) ) };
+			, expr::makeLength1D( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< Double > length( MaybeOptional< DVec2 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< Double >{ findShader( x )
-				, expr::makeLength2D( makeExpr( x ) )
+				, expr::makeLength2D( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return Double{ findShader( x )
-			, expr::makeLength2D( makeExpr( x ) ) };
+			, expr::makeLength2D( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< Double > length( MaybeOptional< DVec3 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< Double >{ findShader( x )
-				, expr::makeLength3D( makeExpr( x ) )
+				, expr::makeLength3D( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return Double{ findShader( x )
-			, expr::makeLength3D( makeExpr( x ) ) };
+			, expr::makeLength3D( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< Double > length( MaybeOptional< DVec4 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< Double >{ findShader( x )
-				, expr::makeLength4D( makeExpr( x ) )
+				, expr::makeLength4D( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return Double{ findShader( x )
-			, expr::makeLength4D( makeExpr( x ) ) };
+			, expr::makeLength4D( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	/**@}*/
 #pragma endregion
@@ -6013,13 +6805,15 @@ namespace sdw
 		if ( isAnyOptional( p0, p1 ) )
 		{
 			return Optional< Float >{ findShader( p0, p1 )
-				, expr::makeDistance1F( makeExpr( p0 )
+				, expr::makeDistance1F( findTypesCache( p0, p1 )
+					, makeExpr( p0 )
 					, makeExpr( p1 ) )
 				, areOptionalEnabled( p0, p1 ) };
 		}
 
 		return Float{ findShader( p0, p1 )
-			, expr::makeDistance1F( makeExpr( p0 )
+			, expr::makeDistance1F( findTypesCache( p0, p1 )
+					, makeExpr( p0 )
 				, makeExpr( p1 ) ) };
 	}
 	MaybeOptional< Vec2 > distance( MaybeOptional< Vec2 > const & p0
@@ -6028,13 +6822,15 @@ namespace sdw
 		if ( isAnyOptional( p0, p1 ) )
 		{
 			return Optional< Vec2 >{ findShader( p0, p1 )
-				, expr::makeDistance2F( makeExpr( p0 )
+				, expr::makeDistance2F( findTypesCache( p0, p1 )
+					, makeExpr( p0 )
 					, makeExpr( p1 ) )
 				, areOptionalEnabled( p0, p1 ) };
 		}
 
 		return Vec2{ findShader( p0, p1 )
-			, expr::makeDistance2F( makeExpr( p0 )
+			, expr::makeDistance2F( findTypesCache( p0, p1 )
+					, makeExpr( p0 )
 				, makeExpr( p1 ) ) };
 	}
 	MaybeOptional< Vec3 > distance( MaybeOptional< Vec3 > const & p0
@@ -6043,13 +6839,15 @@ namespace sdw
 		if ( isAnyOptional( p0, p1 ) )
 		{
 			return Optional< Vec3 >{ findShader( p0, p1 )
-				, expr::makeDistance3F( makeExpr( p0 )
+				, expr::makeDistance3F( findTypesCache( p0, p1 )
+					, makeExpr( p0 )
 					, makeExpr( p1 ) )
 				, areOptionalEnabled( p0, p1 ) };
 		}
 
 		return Vec3{ findShader( p0, p1 )
-			, expr::makeDistance3F( makeExpr( p0 )
+			, expr::makeDistance3F( findTypesCache( p0, p1 )
+					, makeExpr( p0 )
 				, makeExpr( p1 ) ) };
 	}
 	MaybeOptional< Vec4 > distance( MaybeOptional< Vec4 > const & p0
@@ -6058,13 +6856,15 @@ namespace sdw
 		if ( isAnyOptional( p0, p1 ) )
 		{
 			return Optional< Vec4 >{ findShader( p0, p1 )
-				, expr::makeDistance4F( makeExpr( p0 )
+				, expr::makeDistance4F( findTypesCache( p0, p1 )
+					, makeExpr( p0 )
 					, makeExpr( p1 ) )
 				, areOptionalEnabled( p0, p1 ) };
 		}
 
 		return Vec4{ findShader( p0, p1 )
-			, expr::makeDistance4F( makeExpr( p0 )
+			, expr::makeDistance4F( findTypesCache( p0, p1 )
+					, makeExpr( p0 )
 				, makeExpr( p1 ) ) };
 	}
 	MaybeOptional< Double > distance( MaybeOptional< Double > const & p0
@@ -6073,13 +6873,15 @@ namespace sdw
 		if ( isAnyOptional( p0, p1 ) )
 		{
 			return Optional< Double >{ findShader( p0, p1 )
-				, expr::makeDistance1D( makeExpr( p0 )
+				, expr::makeDistance1D( findTypesCache( p0, p1 )
+					, makeExpr( p0 )
 					, makeExpr( p1 ) )
 				, areOptionalEnabled( p0, p1 ) };
 		}
 
 		return Double{ findShader( p0, p1 )
-			, expr::makeDistance1D( makeExpr( p0 )
+			, expr::makeDistance1D( findTypesCache( p0, p1 )
+					, makeExpr( p0 )
 				, makeExpr( p1 ) ) };
 	}
 	MaybeOptional< Double > distance( MaybeOptional< DVec2 > const & p0
@@ -6088,13 +6890,15 @@ namespace sdw
 		if ( isAnyOptional( p0, p1 ) )
 		{
 			return Optional< Double >{ findShader( p0, p1 )
-				, expr::makeDistance2D( makeExpr( p0 )
+				, expr::makeDistance2D( findTypesCache( p0, p1 )
+					, makeExpr( p0 )
 					, makeExpr( p1 ) )
 				, areOptionalEnabled( p0, p1 ) };
 		}
 
 		return Double{ findShader( p0, p1 )
-			, expr::makeDistance2D( makeExpr( p0 )
+			, expr::makeDistance2D( findTypesCache( p0, p1 )
+					, makeExpr( p0 )
 				, makeExpr( p1 ) ) };
 	}
 	MaybeOptional< Double > distance( MaybeOptional< DVec3 > const & p0
@@ -6103,13 +6907,15 @@ namespace sdw
 		if ( isAnyOptional( p0, p1 ) )
 		{
 			return Optional< Double >{ findShader( p0, p1 )
-				, expr::makeDistance3D( makeExpr( p0 )
+				, expr::makeDistance3D( findTypesCache( p0, p1 )
+					, makeExpr( p0 )
 					, makeExpr( p1 ) )
 				, areOptionalEnabled( p0, p1 ) };
 		}
 
 		return Double{ findShader( p0, p1 )
-			, expr::makeDistance3D( makeExpr( p0 )
+			, expr::makeDistance3D( findTypesCache( p0, p1 )
+					, makeExpr( p0 )
 				, makeExpr( p1 ) ) };
 	}
 	MaybeOptional< Double > distance( MaybeOptional< DVec4 > const & p0
@@ -6118,13 +6924,15 @@ namespace sdw
 		if ( isAnyOptional( p0, p1 ) )
 		{
 			return Optional< Double >{ findShader( p0, p1 )
-				, expr::makeDistance4D( makeExpr( p0 )
+				, expr::makeDistance4D( findTypesCache( p0, p1 )
+					, makeExpr( p0 )
 					, makeExpr( p1 ) )
 				, areOptionalEnabled( p0, p1 ) };
 		}
 
 		return Double{ findShader( p0, p1 )
-			, expr::makeDistance4D( makeExpr( p0 )
+			, expr::makeDistance4D( findTypesCache( p0, p1 )
+					, makeExpr( p0 )
 				, makeExpr( p1 ) ) };
 	}
 	/**@}*/
@@ -6141,13 +6949,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< Float >{ findShader( x, y )
-				, expr::makeDot1F( makeExpr( x )
+				, expr::makeDot1F( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return Float{ findShader( x, y )
-			, expr::makeDot1F( makeExpr( x )
+			, expr::makeDot1F( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	MaybeOptional< Float > dot( MaybeOptional< Vec2 > const & x
@@ -6156,13 +6966,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< Float >{ findShader( x, y )
-				, expr::makeDot2F( makeExpr( x )
+				, expr::makeDot2F( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return Float{ findShader( x, y )
-			, expr::makeDot2F( makeExpr( x )
+			, expr::makeDot2F( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	MaybeOptional< Float > dot( MaybeOptional< Vec3 > const & x
@@ -6171,13 +6983,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< Float >{ findShader( x, y )
-				, expr::makeDot3F( makeExpr( x )
+				, expr::makeDot3F( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return Float{ findShader( x, y )
-			, expr::makeDot3F( makeExpr( x )
+			, expr::makeDot3F( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	MaybeOptional< Float > dot( MaybeOptional< Vec4 > const & x
@@ -6186,13 +7000,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< Float >{ findShader( x, y )
-				, expr::makeDot4F( makeExpr( x )
+				, expr::makeDot4F( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return Float{ findShader( x, y )
-			, expr::makeDot4F( makeExpr( x )
+			, expr::makeDot4F( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	MaybeOptional< Double > dot( MaybeOptional< Double > const & x
@@ -6201,13 +7017,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< Double >{ findShader( x, y )
-				, expr::makeDot1D( makeExpr( x )
+				, expr::makeDot1D( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return Double{ findShader( x, y )
-			, expr::makeDot1D( makeExpr( x )
+			, expr::makeDot1D( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	MaybeOptional< Double > dot( MaybeOptional< DVec2 > const & x
@@ -6216,13 +7034,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< Double >{ findShader( x, y )
-				, expr::makeDot2D( makeExpr( x )
+				, expr::makeDot2D( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return Double{ findShader( x, y )
-			, expr::makeDot2D( makeExpr( x )
+			, expr::makeDot2D( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	MaybeOptional< Double > dot( MaybeOptional< DVec3 > const & x
@@ -6231,13 +7051,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< Double >{ findShader( x, y )
-				, expr::makeDot3D( makeExpr( x )
+				, expr::makeDot3D( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return Double{ findShader( x, y )
-			, expr::makeDot3D( makeExpr( x )
+			, expr::makeDot3D( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	MaybeOptional< Double > dot( MaybeOptional< DVec4 > const & x
@@ -6246,13 +7068,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< Double >{ findShader( x, y )
-				, expr::makeDot4D( makeExpr( x )
+				, expr::makeDot4D( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return Double{ findShader( x, y )
-			, expr::makeDot4D( makeExpr( x )
+			, expr::makeDot4D( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	/**@}*/
@@ -6269,13 +7093,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< Vec3 >{ findShader( x, y )
-				, expr::makeCrossF( makeExpr( x )
+				, expr::makeCrossF( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return Vec3{ findShader( x, y )
-			, expr::makeCrossF( makeExpr( x )
+			, expr::makeCrossF( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	MaybeOptional< DVec3 > cross( MaybeOptional< DVec3 > const & x
@@ -6284,13 +7110,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< DVec3 >{ findShader( x, y )
-				, expr::makeCrossD( makeExpr( x )
+				, expr::makeCrossD( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return DVec3{ findShader( x, y )
-			, expr::makeCrossD( makeExpr( x )
+			, expr::makeCrossD( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	/**@}*/
@@ -6306,96 +7134,112 @@ namespace sdw
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< Float >{ findShader( x )
-				, expr::makeNormalize1F( makeExpr( x ) )
+				, expr::makeNormalize1F( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return Float{ findShader( x )
-			, expr::makeNormalize1F( makeExpr( x ) ) };
+			, expr::makeNormalize1F( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< Vec2 > normalize( MaybeOptional< Vec2 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< Vec2 >{ findShader( x )
-				, expr::makeNormalize2F( makeExpr( x ) )
+				, expr::makeNormalize2F( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return Vec2{ findShader( x )
-			, expr::makeNormalize2F( makeExpr( x ) ) };
+			, expr::makeNormalize2F( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< Vec3 > normalize( MaybeOptional< Vec3 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< Vec3 >{ findShader( x )
-				, expr::makeNormalize3F( makeExpr( x ) )
+				, expr::makeNormalize3F( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return Vec3{ findShader( x )
-			, expr::makeNormalize3F( makeExpr( x ) ) };
+			, expr::makeNormalize3F( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< Vec4 > normalize( MaybeOptional< Vec4 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< Vec4 >{ findShader( x )
-				, expr::makeNormalize4F( makeExpr( x ) )
+				, expr::makeNormalize4F( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return Vec4{ findShader( x )
-			, expr::makeNormalize4F( makeExpr( x ) ) };
+			, expr::makeNormalize4F( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< Double > normalize( MaybeOptional< Double > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< Double >{ findShader( x )
-				, expr::makeNormalize1D( makeExpr( x ) )
+				, expr::makeNormalize1D( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return Double{ findShader( x )
-			, expr::makeNormalize1D( makeExpr( x ) ) };
+			, expr::makeNormalize1D( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< DVec2 > normalize( MaybeOptional< DVec2 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< DVec2 >{ findShader( x )
-				, expr::makeNormalize2D( makeExpr( x ) )
+				, expr::makeNormalize2D( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return DVec2{ findShader( x )
-			, expr::makeNormalize2D( makeExpr( x ) ) };
+			, expr::makeNormalize2D( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< DVec3 > normalize( MaybeOptional< DVec3 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< DVec3 >{ findShader( x )
-				, expr::makeNormalize3D( makeExpr( x ) )
+				, expr::makeNormalize3D( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return DVec3{ findShader( x )
-			, expr::makeNormalize3D( makeExpr( x ) ) };
+			, expr::makeNormalize3D( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< DVec4 > normalize( MaybeOptional< DVec4 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< DVec4 >{ findShader( x )
-				, expr::makeNormalize4D( makeExpr( x ) )
+				, expr::makeNormalize4D( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return DVec4{ findShader( x )
-			, expr::makeNormalize4D( makeExpr( x ) ) };
+			, expr::makeNormalize4D( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	/**@}*/
 #pragma endregion
@@ -6412,14 +7256,16 @@ namespace sdw
 		if ( isAnyOptional( N, I, Nref ) )
 		{
 			return Optional< Float >{ findShader( N, I, Nref )
-				, expr::makeFaceForward1F( makeExpr( N )
+				, expr::makeFaceForward1F( findTypesCache( N, I, Nref )
+					, makeExpr( N )
 					, makeExpr( I )
 					, makeExpr( Nref ) )
 				, areOptionalEnabled( N, I, Nref ) };
 		}
 
 		return Float{ findShader( N, I, Nref )
-			, expr::makeFaceForward1F( makeExpr( N )
+			, expr::makeFaceForward1F( findTypesCache( N, I, Nref )
+					, makeExpr( N )
 				, makeExpr( I )
 				, makeExpr( Nref ) ) };
 	}
@@ -6430,14 +7276,16 @@ namespace sdw
 		if ( isAnyOptional( N, I, Nref ) )
 		{
 			return Optional< Vec2 >{ findShader( N, I, Nref )
-				, expr::makeFaceForward2F( makeExpr( N )
+				, expr::makeFaceForward2F( findTypesCache( N, I, Nref )
+					, makeExpr( N )
 					, makeExpr( I )
 					, makeExpr( Nref ) )
 				, areOptionalEnabled( N, I, Nref ) };
 		}
 
 		return Vec2{ findShader( N, I, Nref )
-			, expr::makeFaceForward2F( makeExpr( N )
+			, expr::makeFaceForward2F( findTypesCache( N, I, Nref )
+					, makeExpr( N )
 				, makeExpr( I )
 				, makeExpr( Nref ) ) };
 	}
@@ -6448,14 +7296,16 @@ namespace sdw
 		if ( isAnyOptional( N, I, Nref ) )
 		{
 			return Optional< Vec3 >{ findShader( N, I, Nref )
-				, expr::makeFaceForward3F( makeExpr( N )
+				, expr::makeFaceForward3F( findTypesCache( N, I, Nref )
+					, makeExpr( N )
 					, makeExpr( I )
 					, makeExpr( Nref ) )
 				, areOptionalEnabled( N, I, Nref ) };
 		}
 
 		return Vec3{ findShader( N, I, Nref )
-			, expr::makeFaceForward3F( makeExpr( N )
+			, expr::makeFaceForward3F( findTypesCache( N, I, Nref )
+					, makeExpr( N )
 				, makeExpr( I )
 				, makeExpr( Nref ) ) };
 	}
@@ -6466,14 +7316,16 @@ namespace sdw
 		if ( isAnyOptional( N, I, Nref ) )
 		{
 			return Optional< Vec4 >{ findShader( N, I, Nref )
-				, expr::makeFaceForward4F( makeExpr( N )
+				, expr::makeFaceForward4F( findTypesCache( N, I, Nref )
+					, makeExpr( N )
 					, makeExpr( I )
 					, makeExpr( Nref ) )
 				, areOptionalEnabled( N, I, Nref ) };
 		}
 
 		return Vec4{ findShader( N, I, Nref )
-			, expr::makeFaceForward4F( makeExpr( N )
+			, expr::makeFaceForward4F( findTypesCache( N, I, Nref )
+					, makeExpr( N )
 				, makeExpr( I )
 				, makeExpr( Nref ) ) };
 	}
@@ -6484,14 +7336,16 @@ namespace sdw
 		if ( isAnyOptional( N, I, Nref ) )
 		{
 			return Optional< Double >{ findShader( N, I, Nref )
-				, expr::makeFaceForward1D( makeExpr( N )
+				, expr::makeFaceForward1D( findTypesCache( N, I, Nref )
+					, makeExpr( N )
 					, makeExpr( I )
 					, makeExpr( Nref ) )
 				, areOptionalEnabled( N, I, Nref ) };
 		}
 
 		return Double{ findShader( N, I, Nref )
-			, expr::makeFaceForward1D( makeExpr( N )
+			, expr::makeFaceForward1D( findTypesCache( N, I, Nref )
+					, makeExpr( N )
 				, makeExpr( I )
 				, makeExpr( Nref ) ) };
 	}
@@ -6502,14 +7356,16 @@ namespace sdw
 		if ( isAnyOptional( N, I, Nref ) )
 		{
 			return Optional< DVec2 >{ findShader( N, I, Nref )
-				, expr::makeFaceForward2D( makeExpr( N )
+				, expr::makeFaceForward2D( findTypesCache( N, I, Nref )
+					, makeExpr( N )
 					, makeExpr( I )
 					, makeExpr( Nref ) )
 				, areOptionalEnabled( N, I, Nref ) };
 		}
 
 		return DVec2{ findShader( N, I, Nref )
-			, expr::makeFaceForward2D( makeExpr( N )
+			, expr::makeFaceForward2D( findTypesCache( N, I, Nref )
+					, makeExpr( N )
 				, makeExpr( I )
 				, makeExpr( Nref ) ) };
 	}
@@ -6520,14 +7376,16 @@ namespace sdw
 		if ( isAnyOptional( N, I, Nref ) )
 		{
 			return Optional< DVec3 >{ findShader( N, I, Nref )
-				, expr::makeFaceForward3D( makeExpr( N )
+				, expr::makeFaceForward3D( findTypesCache( N, I, Nref )
+					, makeExpr( N )
 					, makeExpr( I )
 					, makeExpr( Nref ) )
 				, areOptionalEnabled( N, I, Nref ) };
 		}
 
 		return DVec3{ findShader( N, I, Nref )
-			, expr::makeFaceForward3D( makeExpr( N )
+			, expr::makeFaceForward3D( findTypesCache( N, I, Nref )
+					, makeExpr( N )
 				, makeExpr( I )
 				, makeExpr( Nref ) ) };
 	}
@@ -6538,14 +7396,16 @@ namespace sdw
 		if ( isAnyOptional( N, I, Nref ) )
 		{
 			return Optional< DVec4 >{ findShader( N, I, Nref )
-				, expr::makeFaceForward4D( makeExpr( N )
+				, expr::makeFaceForward4D( findTypesCache( N, I, Nref )
+					, makeExpr( N )
 					, makeExpr( I )
 					, makeExpr( Nref ) )
 				, areOptionalEnabled( N, I, Nref ) };
 		}
 
 		return DVec4{ findShader( N, I, Nref )
-			, expr::makeFaceForward4D( makeExpr( N )
+			, expr::makeFaceForward4D( findTypesCache( N, I, Nref )
+					, makeExpr( N )
 				, makeExpr( I )
 				, makeExpr( Nref ) ) };
 	}
@@ -6563,13 +7423,15 @@ namespace sdw
 		if ( isAnyOptional( I, N ) )
 		{
 			return Optional< Float >{ findShader( I, N )
-				, expr::makeReflect1F( makeExpr( I )
+				, expr::makeReflect1F( findTypesCache( I, N )
+					, makeExpr( I )
 					, makeExpr( N ) )
 				, areOptionalEnabled( I, N ) };
 		}
 
 		return Float{ findShader( I, N )
-			, expr::makeReflect1F( makeExpr( I )
+			, expr::makeReflect1F( findTypesCache( I, N )
+					, makeExpr( I )
 				, makeExpr( N ) ) };
 	}
 	MaybeOptional< Vec2 > reflect( MaybeOptional< Vec2 > const & I
@@ -6578,13 +7440,15 @@ namespace sdw
 		if ( isAnyOptional( I, N ) )
 		{
 			return Optional< Vec2 >{ findShader( I, N )
-				, expr::makeReflect2F( makeExpr( I )
+				, expr::makeReflect2F( findTypesCache( I, N )
+					, makeExpr( I )
 					, makeExpr( N ) )
 				, areOptionalEnabled( I, N ) };
 		}
 
 		return Vec2{ findShader( I, N )
-			, expr::makeReflect2F( makeExpr( I )
+			, expr::makeReflect2F( findTypesCache( I, N )
+					, makeExpr( I )
 				, makeExpr( N ) ) };
 	}
 	MaybeOptional< Vec3 > reflect( MaybeOptional< Vec3 > const & I
@@ -6593,13 +7457,15 @@ namespace sdw
 		if ( isAnyOptional( I, N ) )
 		{
 			return Optional< Vec3 >{ findShader( I, N )
-				, expr::makeReflect3F( makeExpr( I )
+				, expr::makeReflect3F( findTypesCache( I, N )
+					, makeExpr( I )
 					, makeExpr( N ) )
 				, areOptionalEnabled( I, N ) };
 		}
 
 		return Vec3{ findShader( I, N )
-			, expr::makeReflect3F( makeExpr( I )
+			, expr::makeReflect3F( findTypesCache( I, N )
+					, makeExpr( I )
 				, makeExpr( N ) ) };
 	}
 	MaybeOptional< Vec4 > reflect( MaybeOptional< Vec4 > const & I
@@ -6608,13 +7474,15 @@ namespace sdw
 		if ( isAnyOptional( I, N ) )
 		{
 			return Optional< Vec4 >{ findShader( I, N )
-				, expr::makeReflect4F( makeExpr( I )
+				, expr::makeReflect4F( findTypesCache( I, N )
+					, makeExpr( I )
 					, makeExpr( N ) )
 				, areOptionalEnabled( I, N ) };
 		}
 
 		return Vec4{ findShader( I, N )
-			, expr::makeReflect4F( makeExpr( I )
+			, expr::makeReflect4F( findTypesCache( I, N )
+					, makeExpr( I )
 				, makeExpr( N ) ) };
 	}
 	MaybeOptional< Double > reflect( MaybeOptional< Float > const & I
@@ -6623,13 +7491,15 @@ namespace sdw
 		if ( isAnyOptional( I, N ) )
 		{
 			return Optional< Double >{ findShader( I, N )
-				, expr::makeReflect1D( makeExpr( I )
+				, expr::makeReflect1D( findTypesCache( I, N )
+					, makeExpr( I )
 					, makeExpr( N ) )
 				, areOptionalEnabled( I, N ) };
 		}
 
 		return Double{ findShader( I, N )
-			, expr::makeReflect1D( makeExpr( I )
+			, expr::makeReflect1D( findTypesCache( I, N )
+					, makeExpr( I )
 				, makeExpr( N ) ) };
 	}
 	MaybeOptional< DVec2 > reflect( MaybeOptional< DVec2 > const & I
@@ -6638,13 +7508,15 @@ namespace sdw
 		if ( isAnyOptional( I, N ) )
 		{
 			return Optional< DVec2 >{ findShader( I, N )
-				, expr::makeReflect2D( makeExpr( I )
+				, expr::makeReflect2D( findTypesCache( I, N )
+					, makeExpr( I )
 					, makeExpr( N ) )
 				, areOptionalEnabled( I, N ) };
 		}
 
 		return DVec2{ findShader( I, N )
-			, expr::makeReflect2D( makeExpr( I )
+			, expr::makeReflect2D( findTypesCache( I, N )
+					, makeExpr( I )
 				, makeExpr( N ) ) };
 	}
 	MaybeOptional< DVec3 > reflect( MaybeOptional< DVec3 > const & I
@@ -6653,13 +7525,15 @@ namespace sdw
 		if ( isAnyOptional( I, N ) )
 		{
 			return Optional< DVec3 >{ findShader( I, N )
-				, expr::makeReflect3D( makeExpr( I )
+				, expr::makeReflect3D( findTypesCache( I, N )
+					, makeExpr( I )
 					, makeExpr( N ) )
 				, areOptionalEnabled( I, N ) };
 		}
 
 		return DVec3{ findShader( I, N )
-			, expr::makeReflect3D( makeExpr( I )
+			, expr::makeReflect3D( findTypesCache( I, N )
+					, makeExpr( I )
 				, makeExpr( N ) ) };
 	}
 	MaybeOptional< DVec4 > reflect( MaybeOptional< DVec4 > const & I
@@ -6668,13 +7542,15 @@ namespace sdw
 		if ( isAnyOptional( I, N ) )
 		{
 			return Optional< DVec4 >{ findShader( I, N )
-				, expr::makeReflect4D( makeExpr( I )
+				, expr::makeReflect4D( findTypesCache( I, N )
+					, makeExpr( I )
 					, makeExpr( N ) )
 				, areOptionalEnabled( I, N ) };
 		}
 
 		return DVec4{ findShader( I, N )
-			, expr::makeReflect4D( makeExpr( I )
+			, expr::makeReflect4D( findTypesCache( I, N )
+					, makeExpr( I )
 				, makeExpr( N ) ) };
 	}
 	/**@}*/
@@ -6692,14 +7568,16 @@ namespace sdw
 		if ( isAnyOptional( I, N, eta ) )
 		{
 			return Optional< Float >{ findShader( I, N, eta )
-				, expr::makeRefract1F( makeExpr( I )
+				, expr::makeRefract1F( findTypesCache( I, N, eta )
+					, makeExpr( I )
 					, makeExpr( N )
 					, makeExpr( eta ) )
 				, areOptionalEnabled( I, N, eta ) };
 		}
 
 		return Float{ findShader( I, N, eta )
-			, expr::makeRefract1F( makeExpr( I )
+			, expr::makeRefract1F( findTypesCache( I, N, eta )
+					, makeExpr( I )
 				, makeExpr( N )
 				, makeExpr( eta ) ) };
 	}
@@ -6710,14 +7588,16 @@ namespace sdw
 		if ( isAnyOptional( I, N, eta ) )
 		{
 			return Optional< Vec2 >{ findShader( I, N, eta )
-				, expr::makeRefract2F( makeExpr( I )
+				, expr::makeRefract2F( findTypesCache( I, N, eta )
+					, makeExpr( I )
 					, makeExpr( N )
 					, makeExpr( eta ) )
 				, areOptionalEnabled( I, N, eta ) };
 		}
 
 		return Vec2{ findShader( I, N, eta )
-			, expr::makeRefract2F( makeExpr( I )
+			, expr::makeRefract2F( findTypesCache( I, N, eta )
+					, makeExpr( I )
 				, makeExpr( N )
 				, makeExpr( eta ) ) };
 	}
@@ -6728,14 +7608,16 @@ namespace sdw
 		if ( isAnyOptional( I, N, eta ) )
 		{
 			return Optional< Vec3 >{ findShader( I, N, eta )
-				, expr::makeRefract3F( makeExpr( I )
+				, expr::makeRefract3F( findTypesCache( I, N, eta )
+					, makeExpr( I )
 					, makeExpr( N )
 					, makeExpr( eta ) )
 				, areOptionalEnabled( I, N, eta ) };
 		}
 
 		return Vec3{ findShader( I, N, eta )
-			, expr::makeRefract3F( makeExpr( I )
+			, expr::makeRefract3F( findTypesCache( I, N, eta )
+					, makeExpr( I )
 				, makeExpr( N )
 				, makeExpr( eta ) ) };
 	}
@@ -6746,14 +7628,16 @@ namespace sdw
 		if ( isAnyOptional( I, N, eta ) )
 		{
 			return Optional< Vec4 >{ findShader( I, N, eta )
-				, expr::makeRefract4F( makeExpr( I )
+				, expr::makeRefract4F( findTypesCache( I, N, eta )
+					, makeExpr( I )
 					, makeExpr( N )
 					, makeExpr( eta ) )
 				, areOptionalEnabled( I, N, eta ) };
 		}
 
 		return Vec4{ findShader( I, N, eta )
-			, expr::makeRefract4F( makeExpr( I )
+			, expr::makeRefract4F( findTypesCache( I, N, eta )
+					, makeExpr( I )
 				, makeExpr( N )
 				, makeExpr( eta ) ) };
 	}
@@ -6764,14 +7648,16 @@ namespace sdw
 		if ( isAnyOptional( I, N, eta ) )
 		{
 			return Optional< Double >{ findShader( I, N, eta )
-				, expr::makeRefract1D( makeExpr( I )
+				, expr::makeRefract1D( findTypesCache( I, N, eta )
+					, makeExpr( I )
 					, makeExpr( N )
 					, makeExpr( eta ) )
 				, areOptionalEnabled( I, N, eta ) };
 		}
 
 		return Double{ findShader( I, N, eta )
-			, expr::makeRefract1D( makeExpr( I )
+			, expr::makeRefract1D( findTypesCache( I, N, eta )
+					, makeExpr( I )
 				, makeExpr( N )
 				, makeExpr( eta ) ) };
 	}
@@ -6782,14 +7668,16 @@ namespace sdw
 		if ( isAnyOptional( I, N, eta ) )
 		{
 			return Optional< DVec2 >{ findShader( I, N, eta )
-				, expr::makeRefract2D( makeExpr( I )
+				, expr::makeRefract2D( findTypesCache( I, N, eta )
+					, makeExpr( I )
 					, makeExpr( N )
 					, makeExpr( eta ) )
 				, areOptionalEnabled( I, N, eta ) };
 		}
 
 		return DVec2{ findShader( I, N, eta )
-			, expr::makeRefract2D( makeExpr( I )
+			, expr::makeRefract2D( findTypesCache( I, N, eta )
+					, makeExpr( I )
 				, makeExpr( N )
 				, makeExpr( eta ) ) };
 	}
@@ -6800,14 +7688,16 @@ namespace sdw
 		if ( isAnyOptional( I, N, eta ) )
 		{
 			return Optional< DVec3 >{ findShader( I, N, eta )
-				, expr::makeRefract3D( makeExpr( I )
+				, expr::makeRefract3D( findTypesCache( I, N, eta )
+					, makeExpr( I )
 					, makeExpr( N )
 					, makeExpr( eta ) )
 				, areOptionalEnabled( I, N, eta ) };
 		}
 
 		return DVec3{ findShader( I, N, eta )
-			, expr::makeRefract3D( makeExpr( I )
+			, expr::makeRefract3D( findTypesCache( I, N, eta )
+					, makeExpr( I )
 				, makeExpr( N )
 				, makeExpr( eta ) ) };
 	}
@@ -6818,14 +7708,16 @@ namespace sdw
 		if ( isAnyOptional( I, N, eta ) )
 		{
 			return Optional< DVec4 >{ findShader( I, N, eta )
-				, expr::makeRefract4D( makeExpr( I )
+				, expr::makeRefract4D( findTypesCache( I, N, eta )
+					, makeExpr( I )
 					, makeExpr( N )
 					, makeExpr( eta ) )
 				, areOptionalEnabled( I, N, eta ) };
 		}
 
 		return DVec4{ findShader( I, N, eta )
-			, expr::makeRefract4D( makeExpr( I )
+			, expr::makeRefract4D( findTypesCache( I, N, eta )
+					, makeExpr( I )
 				, makeExpr( N )
 				, makeExpr( eta ) ) };
 	}
@@ -6843,13 +7735,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< Mat2 >{ findShader( x, y )
-				, expr::makeMatrixCompMult2x2F( makeExpr( x )
+				, expr::makeMatrixCompMult2x2F( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return Mat2{ findShader( x, y )
-			, expr::makeMatrixCompMult2x2F( makeExpr( x )
+			, expr::makeMatrixCompMult2x2F( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	MaybeOptional< Mat2x3 > matrixCompMult( MaybeOptional< Mat2x3 > const & x
@@ -6858,13 +7752,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< Mat2x3 >{ findShader( x, y )
-				, expr::makeMatrixCompMult2x3F( makeExpr( x )
+				, expr::makeMatrixCompMult2x3F( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return Mat2x3{ findShader( x, y )
-			, expr::makeMatrixCompMult2x3F( makeExpr( x )
+			, expr::makeMatrixCompMult2x3F( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	MaybeOptional< Mat2x4 > matrixCompMult( MaybeOptional< Mat2x4 > const & x
@@ -6873,13 +7769,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< Mat2x4 >{ findShader( x, y )
-				, expr::makeMatrixCompMult2x4F( makeExpr( x )
+				, expr::makeMatrixCompMult2x4F( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return Mat2x4{ findShader( x, y )
-			, expr::makeMatrixCompMult2x4F( makeExpr( x )
+			, expr::makeMatrixCompMult2x4F( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	MaybeOptional< Mat3x2 > matrixCompMult( MaybeOptional< Mat3x2 > const & x
@@ -6888,13 +7786,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< Mat3x2 >{ findShader( x, y )
-				, expr::makeMatrixCompMult3x2F( makeExpr( x )
+				, expr::makeMatrixCompMult3x2F( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return Mat3x2{ findShader( x, y )
-			, expr::makeMatrixCompMult3x2F( makeExpr( x )
+			, expr::makeMatrixCompMult3x2F( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	MaybeOptional< Mat3 > matrixCompMult( MaybeOptional< Mat3 > const & x
@@ -6903,13 +7803,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< Mat3 >{ findShader( x, y )
-				, expr::makeMatrixCompMult3x3F( makeExpr( x )
+				, expr::makeMatrixCompMult3x3F( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return Mat3{ findShader( x, y )
-			, expr::makeMatrixCompMult3x3F( makeExpr( x )
+			, expr::makeMatrixCompMult3x3F( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	MaybeOptional< Mat3x4 > matrixCompMult( MaybeOptional< Mat3x4 > const & x
@@ -6918,13 +7820,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< Mat3x4 >{ findShader( x, y )
-				, expr::makeMatrixCompMult3x4F( makeExpr( x )
+				, expr::makeMatrixCompMult3x4F( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return Mat3x4{ findShader( x, y )
-			, expr::makeMatrixCompMult3x4F( makeExpr( x )
+			, expr::makeMatrixCompMult3x4F( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	MaybeOptional< Mat4x2 > matrixCompMult( MaybeOptional< Mat4x2 > const & x
@@ -6933,13 +7837,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< Mat4x2 >{ findShader( x, y )
-				, expr::makeMatrixCompMult4x2F( makeExpr( x )
+				, expr::makeMatrixCompMult4x2F( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return Mat4x2{ findShader( x, y )
-			, expr::makeMatrixCompMult4x2F( makeExpr( x )
+			, expr::makeMatrixCompMult4x2F( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	MaybeOptional< Mat4x3 > matrixCompMult( MaybeOptional< Mat4x3 > const & x
@@ -6948,13 +7854,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< Mat4x3 >{ findShader( x, y )
-				, expr::makeMatrixCompMult4x3F( makeExpr( x )
+				, expr::makeMatrixCompMult4x3F( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return Mat4x3{ findShader( x, y )
-			, expr::makeMatrixCompMult4x3F( makeExpr( x )
+			, expr::makeMatrixCompMult4x3F( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	MaybeOptional< Mat4 > matrixCompMult( MaybeOptional< Mat4 > const & x
@@ -6963,13 +7871,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< Mat4 >{ findShader( x, y )
-				, expr::makeMatrixCompMult4x4F( makeExpr( x )
+				, expr::makeMatrixCompMult4x4F( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return Mat4{ findShader( x, y )
-			, expr::makeMatrixCompMult4x4F( makeExpr( x )
+			, expr::makeMatrixCompMult4x4F( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	MaybeOptional< DMat2 > matrixCompMult( MaybeOptional< DMat2 > const & x
@@ -6978,13 +7888,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< DMat2 >{ findShader( x, y )
-				, expr::makeMatrixCompMult2x2D( makeExpr( x )
+				, expr::makeMatrixCompMult2x2D( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return DMat2{ findShader( x, y )
-			, expr::makeMatrixCompMult2x2D( makeExpr( x )
+			, expr::makeMatrixCompMult2x2D( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	MaybeOptional< DMat2x3 > matrixCompMult( MaybeOptional< DMat2x3 > const & x
@@ -6993,13 +7905,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< DMat2x3 >{ findShader( x, y )
-				, expr::makeMatrixCompMult2x3D( makeExpr( x )
+				, expr::makeMatrixCompMult2x3D( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return DMat2x3{ findShader( x, y )
-			, expr::makeMatrixCompMult2x3D( makeExpr( x )
+			, expr::makeMatrixCompMult2x3D( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	MaybeOptional< DMat2x4 > matrixCompMult( MaybeOptional< DMat2x4 > const & x
@@ -7008,13 +7922,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< DMat2x4 >{ findShader( x, y )
-				, expr::makeMatrixCompMult2x4D( makeExpr( x )
+				, expr::makeMatrixCompMult2x4D( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return DMat2x4{ findShader( x, y )
-			, expr::makeMatrixCompMult2x4D( makeExpr( x )
+			, expr::makeMatrixCompMult2x4D( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	MaybeOptional< DMat3x2 > matrixCompMult( MaybeOptional< DMat3x2 > const & x
@@ -7023,13 +7939,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< DMat3x2 >{ findShader( x, y )
-				, expr::makeMatrixCompMult3x2D( makeExpr( x )
+				, expr::makeMatrixCompMult3x2D( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return DMat3x2{ findShader( x, y )
-			, expr::makeMatrixCompMult3x2D( makeExpr( x )
+			, expr::makeMatrixCompMult3x2D( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	MaybeOptional< DMat3 > matrixCompMult( MaybeOptional< DMat3 > const & x
@@ -7038,13 +7956,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< DMat3 >{ findShader( x, y )
-				, expr::makeMatrixCompMult3x3D( makeExpr( x )
+				, expr::makeMatrixCompMult3x3D( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return DMat3{ findShader( x, y )
-			, expr::makeMatrixCompMult3x3D( makeExpr( x )
+			, expr::makeMatrixCompMult3x3D( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	MaybeOptional< DMat3x4 > matrixCompMult( MaybeOptional< DMat3x4 > const & x
@@ -7053,13 +7973,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< DMat3x4 >{ findShader( x, y )
-				, expr::makeMatrixCompMult3x4D( makeExpr( x )
+				, expr::makeMatrixCompMult3x4D( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return DMat3x4{ findShader( x, y )
-			, expr::makeMatrixCompMult3x4D( makeExpr( x )
+			, expr::makeMatrixCompMult3x4D( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	MaybeOptional< DMat4x2 > matrixCompMult( MaybeOptional< DMat4x2 > const & x
@@ -7068,13 +7990,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< DMat4x2 >{ findShader( x, y )
-				, expr::makeMatrixCompMult4x2D( makeExpr( x )
+				, expr::makeMatrixCompMult4x2D( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return DMat4x2{ findShader( x, y )
-			, expr::makeMatrixCompMult4x2D( makeExpr( x )
+			, expr::makeMatrixCompMult4x2D( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	MaybeOptional< DMat4x3 > matrixCompMult( MaybeOptional< DMat4x3 > const & x
@@ -7083,13 +8007,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< DMat4x3 >{ findShader( x, y )
-				, expr::makeMatrixCompMult4x3D( makeExpr( x )
+				, expr::makeMatrixCompMult4x3D( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return DMat4x3{ findShader( x, y )
-			, expr::makeMatrixCompMult4x3D( makeExpr( x )
+			, expr::makeMatrixCompMult4x3D( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	MaybeOptional< DMat4 > matrixCompMult( MaybeOptional< DMat4 > const & x
@@ -7098,13 +8024,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< DMat4 >{ findShader( x, y )
-				, expr::makeMatrixCompMult4x4D( makeExpr( x )
+				, expr::makeMatrixCompMult4x4D( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return DMat4{ findShader( x, y )
-			, expr::makeMatrixCompMult4x4D( makeExpr( x )
+			, expr::makeMatrixCompMult4x4D( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	/**@}*/
@@ -7121,13 +8049,15 @@ namespace sdw
 		if ( isAnyOptional( c, r ) )
 		{
 			return Optional< Mat2 >{ findShader( c, r )
-				, expr::makeOuterProduct2x2F( makeExpr( c )
+				, expr::makeOuterProduct2x2F( findTypesCache( c, r )
+					, makeExpr( c )
 					, makeExpr( r ) )
 				, areOptionalEnabled( c, r ) };
 		}
 
 		return Mat2{ findShader( c, r )
-			, expr::makeOuterProduct2x2F( makeExpr( c )
+			, expr::makeOuterProduct2x2F( findTypesCache( c, r )
+					, makeExpr( c )
 				, makeExpr( r ) ) };
 	}
 	MaybeOptional< Mat3 > outerProduct( MaybeOptional< Vec3 > const & c
@@ -7136,13 +8066,15 @@ namespace sdw
 		if ( isAnyOptional( c, r ) )
 		{
 			return Optional< Mat3 >{ findShader( c, r )
-				, expr::makeOuterProduct3x3F( makeExpr( c )
+				, expr::makeOuterProduct3x3F( findTypesCache( c, r )
+					, makeExpr( c )
 					, makeExpr( r ) )
 				, areOptionalEnabled( c, r ) };
 		}
 
 		return Mat3{ findShader( c, r )
-			, expr::makeOuterProduct3x3F( makeExpr( c )
+			, expr::makeOuterProduct3x3F( findTypesCache( c, r )
+					, makeExpr( c )
 				, makeExpr( r ) ) };
 	}
 	MaybeOptional< Mat4 > outerProduct( MaybeOptional< Vec4 > const & c
@@ -7151,13 +8083,15 @@ namespace sdw
 		if ( isAnyOptional( c, r ) )
 		{
 			return Optional< Mat4 >{ findShader( c, r )
-				, expr::makeOuterProduct4x4F( makeExpr( c )
+				, expr::makeOuterProduct4x4F( findTypesCache( c, r )
+					, makeExpr( c )
 					, makeExpr( r ) )
 				, areOptionalEnabled( c, r ) };
 		}
 
 		return Mat4{ findShader( c, r )
-			, expr::makeOuterProduct4x4F( makeExpr( c )
+			, expr::makeOuterProduct4x4F( findTypesCache( c, r )
+					, makeExpr( c )
 				, makeExpr( r ) ) };
 	}
 	MaybeOptional< Mat2x3 > outerProduct( MaybeOptional< Vec3 > const & c
@@ -7166,13 +8100,15 @@ namespace sdw
 		if ( isAnyOptional( c, r ) )
 		{
 			return Optional< Mat2x3 >{ findShader( c, r )
-				, expr::makeOuterProduct3x2F( makeExpr( c )
+				, expr::makeOuterProduct3x2F( findTypesCache( c, r )
+					, makeExpr( c )
 					, makeExpr( r ) )
 				, areOptionalEnabled( c, r ) };
 		}
 
 		return Mat2x3{ findShader( c, r )
-			, expr::makeOuterProduct3x2F( makeExpr( c )
+			, expr::makeOuterProduct3x2F( findTypesCache( c, r )
+					, makeExpr( c )
 				, makeExpr( r ) ) };
 	}
 	MaybeOptional< Mat3x2 > outerProduct( MaybeOptional< Vec2 > const & c
@@ -7181,13 +8117,15 @@ namespace sdw
 		if ( isAnyOptional( c, r ) )
 		{
 			return Optional< Mat3x2 >{ findShader( c, r )
-				, expr::makeOuterProduct2x3F( makeExpr( c )
+				, expr::makeOuterProduct2x3F( findTypesCache( c, r )
+					, makeExpr( c )
 					, makeExpr( r ) )
 				, areOptionalEnabled( c, r ) };
 		}
 
 		return Mat3x2{ findShader( c, r )
-			, expr::makeOuterProduct2x3F( makeExpr( c )
+			, expr::makeOuterProduct2x3F( findTypesCache( c, r )
+					, makeExpr( c )
 				, makeExpr( r ) ) };
 	}
 	MaybeOptional< Mat2x4 > outerProduct( MaybeOptional< Vec4 > const & c
@@ -7196,13 +8134,15 @@ namespace sdw
 		if ( isAnyOptional( c, r ) )
 		{
 			return Optional< Mat2x4 >{ findShader( c, r )
-				, expr::makeOuterProduct4x2F( makeExpr( c )
+				, expr::makeOuterProduct4x2F( findTypesCache( c, r )
+					, makeExpr( c )
 					, makeExpr( r ) )
 				, areOptionalEnabled( c, r ) };
 		}
 
 		return Mat2x4{ findShader( c, r )
-			, expr::makeOuterProduct4x2F( makeExpr( c )
+			, expr::makeOuterProduct4x2F( findTypesCache( c, r )
+					, makeExpr( c )
 				, makeExpr( r ) ) };
 	}
 	MaybeOptional< Mat4x2 > outerProduct( MaybeOptional< Vec2 > const & c
@@ -7211,13 +8151,15 @@ namespace sdw
 		if ( isAnyOptional( c, r ) )
 		{
 			return Optional< Mat4x2 >{ findShader( c, r )
-				, expr::makeOuterProduct2x4F( makeExpr( c )
+				, expr::makeOuterProduct2x4F( findTypesCache( c, r )
+					, makeExpr( c )
 					, makeExpr( r ) )
 				, areOptionalEnabled( c, r ) };
 		}
 
 		return Mat4x2{ findShader( c, r )
-			, expr::makeOuterProduct2x4F( makeExpr( c )
+			, expr::makeOuterProduct2x4F( findTypesCache( c, r )
+					, makeExpr( c )
 				, makeExpr( r ) ) };
 	}
 	MaybeOptional< Mat3x4 > outerProduct( MaybeOptional< Vec4 > const & c
@@ -7226,13 +8168,15 @@ namespace sdw
 		if ( isAnyOptional( c, r ) )
 		{
 			return Optional< Mat3x4 >{ findShader( c, r )
-				, expr::makeOuterProduct4x3F( makeExpr( c )
+				, expr::makeOuterProduct4x3F( findTypesCache( c, r )
+					, makeExpr( c )
 					, makeExpr( r ) )
 				, areOptionalEnabled( c, r ) };
 		}
 
 		return Mat3x4{ findShader( c, r )
-			, expr::makeOuterProduct4x3F( makeExpr( c )
+			, expr::makeOuterProduct4x3F( findTypesCache( c, r )
+					, makeExpr( c )
 				, makeExpr( r ) ) };
 	}
 	MaybeOptional< Mat4x3 > outerProduct( MaybeOptional< Vec3 > const & c
@@ -7241,13 +8185,15 @@ namespace sdw
 		if ( isAnyOptional( c, r ) )
 		{
 			return Optional< Mat4x3 >{ findShader( c, r )
-				, expr::makeOuterProduct3x4F( makeExpr( c )
+				, expr::makeOuterProduct3x4F( findTypesCache( c, r )
+					, makeExpr( c )
 					, makeExpr( r ) )
 				, areOptionalEnabled( c, r ) };
 		}
 
 		return Mat4x3{ findShader( c, r )
-			, expr::makeOuterProduct3x4F( makeExpr( c )
+			, expr::makeOuterProduct3x4F( findTypesCache( c, r )
+					, makeExpr( c )
 				, makeExpr( r ) ) };
 	}
 	MaybeOptional< DMat2 > outerProduct( MaybeOptional< DVec2 > const & c
@@ -7256,13 +8202,15 @@ namespace sdw
 		if ( isAnyOptional( c, r ) )
 		{
 			return Optional< DMat2 >{ findShader( c, r )
-				, expr::makeOuterProduct2x2D( makeExpr( c )
+				, expr::makeOuterProduct2x2D( findTypesCache( c, r )
+					, makeExpr( c )
 					, makeExpr( r ) )
 				, areOptionalEnabled( c, r ) };
 		}
 
 		return DMat2{ findShader( c, r )
-			, expr::makeOuterProduct2x2D( makeExpr( c )
+			, expr::makeOuterProduct2x2D( findTypesCache( c, r )
+					, makeExpr( c )
 				, makeExpr( r ) ) };
 	}
 	MaybeOptional< DMat3 > outerProduct( MaybeOptional< DVec3 > const & c
@@ -7271,13 +8219,15 @@ namespace sdw
 		if ( isAnyOptional( c, r ) )
 		{
 			return Optional< DMat3 >{ findShader( c, r )
-				, expr::makeOuterProduct3x3D( makeExpr( c )
+				, expr::makeOuterProduct3x3D( findTypesCache( c, r )
+					, makeExpr( c )
 					, makeExpr( r ) )
 				, areOptionalEnabled( c, r ) };
 		}
 
 		return DMat3{ findShader( c, r )
-			, expr::makeOuterProduct3x3D( makeExpr( c )
+			, expr::makeOuterProduct3x3D( findTypesCache( c, r )
+					, makeExpr( c )
 				, makeExpr( r ) ) };
 	}
 	MaybeOptional< DMat4 > outerProduct( MaybeOptional< DVec4 > const & c
@@ -7286,13 +8236,15 @@ namespace sdw
 		if ( isAnyOptional( c, r ) )
 		{
 			return Optional< DMat4 >{ findShader( c, r )
-				, expr::makeOuterProduct4x4D( makeExpr( c )
+				, expr::makeOuterProduct4x4D( findTypesCache( c, r )
+					, makeExpr( c )
 					, makeExpr( r ) )
 				, areOptionalEnabled( c, r ) };
 		}
 
 		return DMat4{ findShader( c, r )
-			, expr::makeOuterProduct4x4D( makeExpr( c )
+			, expr::makeOuterProduct4x4D( findTypesCache( c, r )
+					, makeExpr( c )
 				, makeExpr( r ) ) };
 	}
 	MaybeOptional< DMat2x3 > outerProduct( MaybeOptional< DVec3 > const & c
@@ -7301,13 +8253,15 @@ namespace sdw
 		if ( isAnyOptional( c, r ) )
 		{
 			return Optional< DMat2x3 >{ findShader( c, r )
-				, expr::makeOuterProduct3x2D( makeExpr( c )
+				, expr::makeOuterProduct3x2D( findTypesCache( c, r )
+					, makeExpr( c )
 					, makeExpr( r ) )
 				, areOptionalEnabled( c, r ) };
 		}
 
 		return DMat2x3{ findShader( c, r )
-			, expr::makeOuterProduct3x2D( makeExpr( c )
+			, expr::makeOuterProduct3x2D( findTypesCache( c, r )
+					, makeExpr( c )
 				, makeExpr( r ) ) };
 	}
 	MaybeOptional< DMat3x2 > outerProduct( MaybeOptional< DVec2 > const & c
@@ -7316,13 +8270,15 @@ namespace sdw
 		if ( isAnyOptional( c, r ) )
 		{
 			return Optional< DMat3x2 >{ findShader( c, r )
-				, expr::makeOuterProduct2x3D( makeExpr( c )
+				, expr::makeOuterProduct2x3D( findTypesCache( c, r )
+					, makeExpr( c )
 					, makeExpr( r ) )
 				, areOptionalEnabled( c, r ) };
 		}
 
 		return DMat3x2{ findShader( c, r )
-			, expr::makeOuterProduct2x3D( makeExpr( c )
+			, expr::makeOuterProduct2x3D( findTypesCache( c, r )
+					, makeExpr( c )
 				, makeExpr( r ) ) };
 	}
 	MaybeOptional< DMat2x4 > outerProduct( MaybeOptional< DVec4 > const & c
@@ -7331,13 +8287,15 @@ namespace sdw
 		if ( isAnyOptional( c, r ) )
 		{
 			return Optional< DMat2x4 >{ findShader( c, r )
-				, expr::makeOuterProduct4x2D( makeExpr( c )
+				, expr::makeOuterProduct4x2D( findTypesCache( c, r )
+					, makeExpr( c )
 					, makeExpr( r ) )
 				, areOptionalEnabled( c, r ) };
 		}
 
 		return DMat2x4{ findShader( c, r )
-			, expr::makeOuterProduct4x2D( makeExpr( c )
+			, expr::makeOuterProduct4x2D( findTypesCache( c, r )
+					, makeExpr( c )
 				, makeExpr( r ) ) };
 	}
 	MaybeOptional< DMat4x2 > outerProduct( MaybeOptional< DVec2 > const & c
@@ -7346,13 +8304,15 @@ namespace sdw
 		if ( isAnyOptional( c, r ) )
 		{
 			return Optional< DMat4x2 >{ findShader( c, r )
-				, expr::makeOuterProduct2x4D( makeExpr( c )
+				, expr::makeOuterProduct2x4D( findTypesCache( c, r )
+					, makeExpr( c )
 					, makeExpr( r ) )
 				, areOptionalEnabled( c, r ) };
 		}
 
 		return DMat4x2{ findShader( c, r )
-			, expr::makeOuterProduct2x4D( makeExpr( c )
+			, expr::makeOuterProduct2x4D( findTypesCache( c, r )
+					, makeExpr( c )
 				, makeExpr( r ) ) };
 	}
 	MaybeOptional< DMat3x4 > outerProduct( MaybeOptional< DVec4 > const & c
@@ -7361,13 +8321,15 @@ namespace sdw
 		if ( isAnyOptional( c, r ) )
 		{
 			return Optional< DMat3x4 >{ findShader( c, r )
-				, expr::makeOuterProduct4x3D( makeExpr( c )
+				, expr::makeOuterProduct4x3D( findTypesCache( c, r )
+					, makeExpr( c )
 					, makeExpr( r ) )
 				, areOptionalEnabled( c, r ) };
 		}
 
 		return DMat3x4{ findShader( c, r )
-			, expr::makeOuterProduct4x3D( makeExpr( c )
+			, expr::makeOuterProduct4x3D( findTypesCache( c, r )
+					, makeExpr( c )
 				, makeExpr( r ) ) };
 	}
 	MaybeOptional< DMat4x3 > outerProduct( MaybeOptional< DVec3 > const & c
@@ -7376,13 +8338,15 @@ namespace sdw
 		if ( isAnyOptional( c, r ) )
 		{
 			return Optional< DMat4x3 >{ findShader( c, r )
-				, expr::makeOuterProduct3x4D( makeExpr( c )
+				, expr::makeOuterProduct3x4D( findTypesCache( c, r )
+					, makeExpr( c )
 					, makeExpr( r ) )
 				, areOptionalEnabled( c, r ) };
 		}
 
 		return DMat4x3{ findShader( c, r )
-			, expr::makeOuterProduct3x4D( makeExpr( c )
+			, expr::makeOuterProduct3x4D( findTypesCache( c, r )
+					, makeExpr( c )
 				, makeExpr( r ) ) };
 	}
 	/**@}*/
@@ -7398,216 +8362,252 @@ namespace sdw
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< Mat2 >{ findShader( x )
-				, expr::makeTranspose2x2F( makeExpr( x ) )
+				, expr::makeTranspose2x2F( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return Mat2{ findShader( x )
-			, expr::makeTranspose2x2F( makeExpr( x ) ) };
+			, expr::makeTranspose2x2F( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< Mat3x2 > transpose( MaybeOptional< Mat2x3 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< Mat3x2 >{ findShader( x )
-				, expr::makeTranspose2x3F( makeExpr( x ) )
+				, expr::makeTranspose2x3F( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return Mat3x2{ findShader( x )
-			, expr::makeTranspose2x3F( makeExpr( x ) ) };
+			, expr::makeTranspose2x3F( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< Mat4x2 > transpose( MaybeOptional< Mat2x4 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< Mat4x2 >{ findShader( x )
-				, expr::makeTranspose2x4F( makeExpr( x ) )
+				, expr::makeTranspose2x4F( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return Mat4x2{ findShader( x )
-			, expr::makeTranspose2x4F( makeExpr( x ) ) };
+			, expr::makeTranspose2x4F( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< Mat2x3 > transpose( MaybeOptional< Mat3x2 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< Mat2x3 >{ findShader( x )
-				, expr::makeTranspose3x2F( makeExpr( x ) )
+				, expr::makeTranspose3x2F( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return Mat2x3{ findShader( x )
-			, expr::makeTranspose3x2F( makeExpr( x ) ) };
+			, expr::makeTranspose3x2F( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< Mat3 > transpose( MaybeOptional< Mat3 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< Mat3 >{ findShader( x )
-				, expr::makeTranspose3x3F( makeExpr( x ) )
+				, expr::makeTranspose3x3F( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return Mat3{ findShader( x )
-			, expr::makeTranspose3x3F( makeExpr( x ) ) };
+			, expr::makeTranspose3x3F( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< Mat4x3 > transpose( MaybeOptional< Mat3x4 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< Mat4x3 >{ findShader( x )
-				, expr::makeTranspose3x4F( makeExpr( x ) )
+				, expr::makeTranspose3x4F( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return Mat4x3{ findShader( x )
-			, expr::makeTranspose3x4F( makeExpr( x ) ) };
+			, expr::makeTranspose3x4F( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< Mat2x4 > transpose( MaybeOptional< Mat4x2 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< Mat2x4 >{ findShader( x )
-				, expr::makeTranspose4x2F( makeExpr( x ) )
+				, expr::makeTranspose4x2F( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return Mat2x4{ findShader( x )
-			, expr::makeTranspose4x2F( makeExpr( x ) ) };
+			, expr::makeTranspose4x2F( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< Mat3x4 > transpose( MaybeOptional< Mat4x3 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< Mat3x4 >{ findShader( x )
-				, expr::makeTranspose4x3F( makeExpr( x ) )
+				, expr::makeTranspose4x3F( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return Mat3x4{ findShader( x )
-			, expr::makeTranspose4x3F( makeExpr( x ) ) };
+			, expr::makeTranspose4x3F( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< Mat4 > transpose( MaybeOptional< Mat4 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< Mat4 >{ findShader( x )
-				, expr::makeTranspose4x4F( makeExpr( x ) )
+				, expr::makeTranspose4x4F( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return Mat4{ findShader( x )
-			, expr::makeTranspose4x4F( makeExpr( x ) ) };
+			, expr::makeTranspose4x4F( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< DMat2 > transpose( MaybeOptional< DMat2 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< DMat2 >{ findShader( x )
-				, expr::makeTranspose2x2D( makeExpr( x ) )
+				, expr::makeTranspose2x2D( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return DMat2{ findShader( x )
-			, expr::makeTranspose2x2D( makeExpr( x ) ) };
+			, expr::makeTranspose2x2D( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< DMat3x2 > transpose( MaybeOptional< DMat2x3 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< DMat3x2 >{ findShader( x )
-				, expr::makeTranspose2x3D( makeExpr( x ) )
+				, expr::makeTranspose2x3D( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return DMat3x2{ findShader( x )
-			, expr::makeTranspose2x3D( makeExpr( x ) ) };
+			, expr::makeTranspose2x3D( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< DMat4x2 > transpose( MaybeOptional< DMat2x4 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< DMat4x2 >{ findShader( x )
-				, expr::makeTranspose2x4D( makeExpr( x ) )
+				, expr::makeTranspose2x4D( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return DMat4x2{ findShader( x )
-			, expr::makeTranspose2x4D( makeExpr( x ) ) };
+			, expr::makeTranspose2x4D( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< DMat2x3 > transpose( MaybeOptional< DMat3x2 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< DMat2x3 >{ findShader( x )
-				, expr::makeTranspose3x2D( makeExpr( x ) )
+				, expr::makeTranspose3x2D( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return DMat2x3{ findShader( x )
-			, expr::makeTranspose3x2D( makeExpr( x ) ) };
+			, expr::makeTranspose3x2D( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< DMat3 > transpose( MaybeOptional< DMat3 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< DMat3 >{ findShader( x )
-				, expr::makeTranspose3x3D( makeExpr( x ) )
+				, expr::makeTranspose3x3D( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return DMat3{ findShader( x )
-			, expr::makeTranspose3x3D( makeExpr( x ) ) };
+			, expr::makeTranspose3x3D( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< DMat4x3 > transpose( MaybeOptional< DMat3x4 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< DMat4x3 >{ findShader( x )
-				, expr::makeTranspose3x4D( makeExpr( x ) )
+				, expr::makeTranspose3x4D( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return DMat4x3{ findShader( x )
-			, expr::makeTranspose3x4D( makeExpr( x ) ) };
+			, expr::makeTranspose3x4D( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< DMat2x4 > transpose( MaybeOptional< DMat4x2 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< DMat2x4 >{ findShader( x )
-				, expr::makeTranspose4x2D( makeExpr( x ) )
+				, expr::makeTranspose4x2D( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return DMat2x4{ findShader( x )
-			, expr::makeTranspose4x2D( makeExpr( x ) ) };
+			, expr::makeTranspose4x2D( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< DMat3x4 > transpose( MaybeOptional< DMat4x3 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< DMat3x4 >{ findShader( x )
-				, expr::makeTranspose4x3D( makeExpr( x ) )
+				, expr::makeTranspose4x3D( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return DMat3x4{ findShader( x )
-			, expr::makeTranspose4x3D( makeExpr( x ) ) };
+			, expr::makeTranspose4x3D( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< DMat4 > transpose( MaybeOptional< DMat4 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< DMat4 >{ findShader( x )
-				, expr::makeTranspose4x4D( makeExpr( x ) )
+				, expr::makeTranspose4x4D( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return DMat4{ findShader( x )
-			, expr::makeTranspose4x4D( makeExpr( x ) ) };
+			, expr::makeTranspose4x4D( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	/**@}*/
 #pragma endregion
@@ -7622,72 +8622,84 @@ namespace sdw
 		if ( isAnyOptional( m ) )
 		{
 			return Optional< Float >{ findShader( m )
-				, expr::makeDeterminant2x2F( makeExpr( m ) )
+				, expr::makeDeterminant2x2F( findTypesCache( m )
+					, makeExpr( m ) )
 				, areOptionalEnabled( m ) };
 		}
 
 		return Float{ findShader( m )
-			, expr::makeDeterminant2x2F( makeExpr( m ) ) };
+			, expr::makeDeterminant2x2F( findTypesCache( m )
+					, makeExpr( m ) ) };
 	}
 	MaybeOptional< Float > determinant( MaybeOptional< Mat3 > const & m )
 	{
 		if ( isAnyOptional( m ) )
 		{
 			return Optional< Float >{ findShader( m )
-				, expr::makeDeterminant3x3F( makeExpr( m ) )
+				, expr::makeDeterminant3x3F( findTypesCache( m )
+					, makeExpr( m ) )
 				, areOptionalEnabled( m ) };
 		}
 
 		return Float{ findShader( m )
-			, expr::makeDeterminant3x3F( makeExpr( m ) ) };
+			, expr::makeDeterminant3x3F( findTypesCache( m )
+					, makeExpr( m ) ) };
 	}
 	MaybeOptional< Float > determinant( MaybeOptional< Mat4 > const & m )
 	{
 		if ( isAnyOptional( m ) )
 		{
 			return Optional< Float >{ findShader( m )
-				, expr::makeDeterminant4x4F( makeExpr( m ) )
+				, expr::makeDeterminant4x4F( findTypesCache( m )
+					, makeExpr( m ) )
 				, areOptionalEnabled( m ) };
 		}
 
 		return Float{ findShader( m )
-			, expr::makeDeterminant4x4F( makeExpr( m ) ) };
+			, expr::makeDeterminant4x4F( findTypesCache( m )
+					, makeExpr( m ) ) };
 	}
 	MaybeOptional< Double > determinant( MaybeOptional< DMat2 > const & m )
 	{
 		if ( isAnyOptional( m ) )
 		{
 			return Optional< Double >{ findShader( m )
-				, expr::makeDeterminant2x2D( makeExpr( m ) )
+				, expr::makeDeterminant2x2D( findTypesCache( m )
+					, makeExpr( m ) )
 				, areOptionalEnabled( m ) };
 		}
 
 		return Double{ findShader( m )
-			, expr::makeDeterminant2x2D( makeExpr( m ) ) };
+			, expr::makeDeterminant2x2D( findTypesCache( m )
+					, makeExpr( m ) ) };
 	}
 	MaybeOptional< Double > determinant( MaybeOptional< DMat3 > const & m )
 	{
 		if ( isAnyOptional( m ) )
 		{
 			return Optional< Double >{ findShader( m )
-				, expr::makeDeterminant3x3D( makeExpr( m ) )
+				, expr::makeDeterminant3x3D( findTypesCache( m )
+					, makeExpr( m ) )
 				, areOptionalEnabled( m ) };
 		}
 
 		return Double{ findShader( m )
-			, expr::makeDeterminant3x3D( makeExpr( m ) ) };
+			, expr::makeDeterminant3x3D( findTypesCache( m )
+					, makeExpr( m ) ) };
 	}
 	MaybeOptional< Double > determinant( MaybeOptional< DMat4 > const & m )
 	{
 		if ( isAnyOptional( m ) )
 		{
 			return Optional< Double >{ findShader( m )
-				, expr::makeDeterminant4x4D( makeExpr( m ) )
+				, expr::makeDeterminant4x4D( findTypesCache( m )
+					, makeExpr( m ) )
 				, areOptionalEnabled( m ) };
 		}
 
 		return Double{ findShader( m )
-			, expr::makeDeterminant4x4D( makeExpr( m ) ) };
+			, expr::makeDeterminant4x4D( findTypesCache( m )
+					, makeExpr( m ) ) };
 	}
 	/**@}*/
 #pragma endregion
@@ -7702,72 +8714,84 @@ namespace sdw
 		if ( isAnyOptional( m ) )
 		{
 			return Optional< Mat2 >{ findShader( m )
-				, expr::makeInverse2x2F( makeExpr( m ) )
+				, expr::makeInverse2x2F( findTypesCache( m )
+					, makeExpr( m ) )
 				, areOptionalEnabled( m ) };
 		}
 
 		return Mat2{ findShader( m )
-			, expr::makeInverse2x2F( makeExpr( m ) ) };
+			, expr::makeInverse2x2F( findTypesCache( m )
+					, makeExpr( m ) ) };
 	}
 	MaybeOptional< Mat3 > inverse( MaybeOptional< Mat3 > const & m )
 	{
 		if ( isAnyOptional( m ) )
 		{
 			return Optional< Mat3 >{ findShader( m )
-				, expr::makeInverse3x3F( makeExpr( m ) )
+				, expr::makeInverse3x3F( findTypesCache( m )
+					, makeExpr( m ) )
 				, areOptionalEnabled( m ) };
 		}
 
 		return Mat3{ findShader( m )
-			, expr::makeInverse3x3F( makeExpr( m ) ) };
+			, expr::makeInverse3x3F( findTypesCache( m )
+					, makeExpr( m ) ) };
 	}
 	MaybeOptional< Mat4 > inverse( MaybeOptional< Mat4 > const & m )
 	{
 		if ( isAnyOptional( m ) )
 		{
 			return Optional< Mat4 >{ findShader( m )
-				, expr::makeInverse4x4F( makeExpr( m ) )
+				, expr::makeInverse4x4F( findTypesCache( m )
+					, makeExpr( m ) )
 				, areOptionalEnabled( m ) };
 		}
 
 		return Mat4{ findShader( m )
-			, expr::makeInverse4x4F( makeExpr( m ) ) };
+			, expr::makeInverse4x4F( findTypesCache( m )
+					, makeExpr( m ) ) };
 	}
 	MaybeOptional< DMat2 > inverse( MaybeOptional< DMat2 > const & m )
 	{
 		if ( isAnyOptional( m ) )
 		{
 			return Optional< DMat2 >{ findShader( m )
-				, expr::makeInverse2x2D( makeExpr( m ) )
+				, expr::makeInverse2x2D( findTypesCache( m )
+					, makeExpr( m ) )
 				, areOptionalEnabled( m ) };
 		}
 
 		return DMat2{ findShader( m )
-			, expr::makeInverse2x2D( makeExpr( m ) ) };
+			, expr::makeInverse2x2D( findTypesCache( m )
+					, makeExpr( m ) ) };
 	}
 	MaybeOptional< DMat3 > inverse( MaybeOptional< DMat3 > const & m )
 	{
 		if ( isAnyOptional( m ) )
 		{
 			return Optional< DMat3 >{ findShader( m )
-				, expr::makeInverse3x3D( makeExpr( m ) )
+				, expr::makeInverse3x3D( findTypesCache( m )
+					, makeExpr( m ) )
 				, areOptionalEnabled( m ) };
 		}
 
 		return DMat3{ findShader( m )
-			, expr::makeInverse3x3D( makeExpr( m ) ) };
+			, expr::makeInverse3x3D( findTypesCache( m )
+					, makeExpr( m ) ) };
 	}
 	MaybeOptional< DMat4 > inverse( MaybeOptional< DMat4 > const & m )
 	{
 		if ( isAnyOptional( m ) )
 		{
 			return Optional< DMat4 >{ findShader( m )
-				, expr::makeInverse4x4D( makeExpr( m ) )
+				, expr::makeInverse4x4D( findTypesCache( m )
+					, makeExpr( m ) )
 				, areOptionalEnabled( m ) };
 		}
 
 		return DMat4{ findShader( m )
-			, expr::makeInverse4x4D( makeExpr( m ) ) };
+			, expr::makeInverse4x4D( findTypesCache( m )
+					, makeExpr( m ) ) };
 	}
 	/**@}*/
 #pragma endregion
@@ -7783,13 +8807,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< BVec2 >{ findShader( x, y )
-				, expr::makeLessThan2F( makeExpr( x )
+				, expr::makeLessThan2F( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return BVec2{ findShader( x, y )
-			, expr::makeLessThan2F( makeExpr( x )
+			, expr::makeLessThan2F( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	MaybeOptional< BVec3 > lessThan( MaybeOptional< Vec3 > const & x
@@ -7798,13 +8824,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< BVec3 >{ findShader( x, y )
-				, expr::makeLessThan3F( makeExpr( x )
+				, expr::makeLessThan3F( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return BVec3{ findShader( x, y )
-			, expr::makeLessThan3F( makeExpr( x )
+			, expr::makeLessThan3F( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	MaybeOptional< BVec4 > lessThan( MaybeOptional< Vec4 > const & x
@@ -7813,13 +8841,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< BVec4 >{ findShader( x, y )
-				, expr::makeLessThan4F( makeExpr( x )
+				, expr::makeLessThan4F( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return BVec4{ findShader( x, y )
-			, expr::makeLessThan4F( makeExpr( x )
+			, expr::makeLessThan4F( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	MaybeOptional< BVec2 > lessThan( MaybeOptional< DVec2 > const & x
@@ -7828,13 +8858,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< BVec2 >{ findShader( x, y )
-				, expr::makeLessThan2D( makeExpr( x )
+				, expr::makeLessThan2D( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return BVec2{ findShader( x, y )
-			, expr::makeLessThan2D( makeExpr( x )
+			, expr::makeLessThan2D( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	MaybeOptional< BVec3 > lessThan( MaybeOptional< DVec3 > const & x
@@ -7843,13 +8875,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< BVec3 >{ findShader( x, y )
-				, expr::makeLessThan3D( makeExpr( x )
+				, expr::makeLessThan3D( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return BVec3{ findShader( x, y )
-			, expr::makeLessThan3D( makeExpr( x )
+			, expr::makeLessThan3D( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	MaybeOptional< BVec4 > lessThan( MaybeOptional< DVec4 > const & x
@@ -7858,13 +8892,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< BVec4 >{ findShader( x, y )
-				, expr::makeLessThan4D( makeExpr( x )
+				, expr::makeLessThan4D( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return BVec4{ findShader( x, y )
-			, expr::makeLessThan4D( makeExpr( x )
+			, expr::makeLessThan4D( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	MaybeOptional< BVec2 > lessThan( MaybeOptional< IVec2 > const & x
@@ -7873,13 +8909,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< BVec2 >{ findShader( x, y )
-				, expr::makeLessThan2I( makeExpr( x )
+				, expr::makeLessThan2I( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return BVec2{ findShader( x, y )
-			, expr::makeLessThan2I( makeExpr( x )
+			, expr::makeLessThan2I( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	MaybeOptional< BVec3 > lessThan( MaybeOptional< IVec3 > const & x
@@ -7888,13 +8926,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< BVec3 >{ findShader( x, y )
-				, expr::makeLessThan3I( makeExpr( x )
+				, expr::makeLessThan3I( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return BVec3{ findShader( x, y )
-			, expr::makeLessThan3I( makeExpr( x )
+			, expr::makeLessThan3I( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	MaybeOptional< BVec4 > lessThan( MaybeOptional< IVec4 > const & x
@@ -7903,13 +8943,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< BVec4 >{ findShader( x, y )
-				, expr::makeLessThan4I( makeExpr( x )
+				, expr::makeLessThan4I( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return BVec4{ findShader( x, y )
-			, expr::makeLessThan4I( makeExpr( x )
+			, expr::makeLessThan4I( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	MaybeOptional< BVec2 > lessThan( MaybeOptional< UVec2 > const & x
@@ -7918,13 +8960,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< BVec2 >{ findShader( x, y )
-				, expr::makeLessThan2U( makeExpr( x )
+				, expr::makeLessThan2U( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return BVec2{ findShader( x, y )
-			, expr::makeLessThan2U( makeExpr( x )
+			, expr::makeLessThan2U( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	MaybeOptional< BVec3 > lessThan( MaybeOptional< UVec3 > const & x
@@ -7933,13 +8977,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< BVec3 >{ findShader( x, y )
-				, expr::makeLessThan3U( makeExpr( x )
+				, expr::makeLessThan3U( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return BVec3{ findShader( x, y )
-			, expr::makeLessThan3U( makeExpr( x )
+			, expr::makeLessThan3U( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	MaybeOptional< BVec4 > lessThan( MaybeOptional< UVec4 > const & x
@@ -7948,13 +8994,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< BVec4 >{ findShader( x, y )
-				, expr::makeLessThan4U( makeExpr( x )
+				, expr::makeLessThan4U( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return BVec4{ findShader( x, y )
-			, expr::makeLessThan4U( makeExpr( x )
+			, expr::makeLessThan4U( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	/**@}*/
@@ -7971,13 +9019,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< BVec2 >{ findShader( x, y )
-				, expr::makeLessThanEqual2F( makeExpr( x )
+				, expr::makeLessThanEqual2F( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return BVec2{ findShader( x, y )
-			, expr::makeLessThanEqual2F( makeExpr( x )
+			, expr::makeLessThanEqual2F( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	MaybeOptional< BVec3 > lessThanEqual( MaybeOptional< Vec3 > const & x
@@ -7986,13 +9036,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< BVec3 >{ findShader( x, y )
-				, expr::makeLessThanEqual3F( makeExpr( x )
+				, expr::makeLessThanEqual3F( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return BVec3{ findShader( x, y )
-			, expr::makeLessThanEqual3F( makeExpr( x )
+			, expr::makeLessThanEqual3F( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	MaybeOptional< BVec4 > lessThanEqual( MaybeOptional< Vec4 > const & x
@@ -8001,13 +9053,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< BVec4 >{ findShader( x, y )
-				, expr::makeLessThanEqual4F( makeExpr( x )
+				, expr::makeLessThanEqual4F( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return BVec4{ findShader( x, y )
-			, expr::makeLessThanEqual4F( makeExpr( x )
+			, expr::makeLessThanEqual4F( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	MaybeOptional< BVec2 > lessThanEqual( MaybeOptional< DVec2 > const & x
@@ -8016,13 +9070,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< BVec2 >{ findShader( x, y )
-				, expr::makeLessThanEqual2D( makeExpr( x )
+				, expr::makeLessThanEqual2D( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return BVec2{ findShader( x, y )
-			, expr::makeLessThanEqual2D( makeExpr( x )
+			, expr::makeLessThanEqual2D( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	MaybeOptional< BVec3 > lessThanEqual( MaybeOptional< DVec3 > const & x
@@ -8031,13 +9087,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< BVec3 >{ findShader( x, y )
-				, expr::makeLessThanEqual3D( makeExpr( x )
+				, expr::makeLessThanEqual3D( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return BVec3{ findShader( x, y )
-			, expr::makeLessThanEqual3D( makeExpr( x )
+			, expr::makeLessThanEqual3D( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	MaybeOptional< BVec4 > lessThanEqual( MaybeOptional< DVec4 > const & x
@@ -8046,13 +9104,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< BVec4 >{ findShader( x, y )
-				, expr::makeLessThanEqual4D( makeExpr( x )
+				, expr::makeLessThanEqual4D( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return BVec4{ findShader( x, y )
-			, expr::makeLessThanEqual4D( makeExpr( x )
+			, expr::makeLessThanEqual4D( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	MaybeOptional< BVec2 > lessThanEqual( MaybeOptional< IVec2 > const & x
@@ -8061,13 +9121,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< BVec2 >{ findShader( x, y )
-				, expr::makeLessThanEqual2I( makeExpr( x )
+				, expr::makeLessThanEqual2I( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return BVec2{ findShader( x, y )
-			, expr::makeLessThanEqual2I( makeExpr( x )
+			, expr::makeLessThanEqual2I( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	MaybeOptional< BVec3 > lessThanEqual( MaybeOptional< IVec3 > const & x
@@ -8076,13 +9138,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< BVec3 >{ findShader( x, y )
-				, expr::makeLessThanEqual3I( makeExpr( x )
+				, expr::makeLessThanEqual3I( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return BVec3{ findShader( x, y )
-			, expr::makeLessThanEqual3I( makeExpr( x )
+			, expr::makeLessThanEqual3I( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	MaybeOptional< BVec4 > lessThanEqual( MaybeOptional< IVec4 > const & x
@@ -8091,13 +9155,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< BVec4 >{ findShader( x, y )
-				, expr::makeLessThanEqual4I( makeExpr( x )
+				, expr::makeLessThanEqual4I( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return BVec4{ findShader( x, y )
-			, expr::makeLessThanEqual4I( makeExpr( x )
+			, expr::makeLessThanEqual4I( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	MaybeOptional< BVec2 > lessThanEqual( MaybeOptional< UVec2 > const & x
@@ -8106,13 +9172,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< BVec2 >{ findShader( x, y )
-				, expr::makeLessThanEqual2U( makeExpr( x )
+				, expr::makeLessThanEqual2U( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return BVec2{ findShader( x, y )
-			, expr::makeLessThanEqual2U( makeExpr( x )
+			, expr::makeLessThanEqual2U( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	MaybeOptional< BVec3 > lessThanEqual( MaybeOptional< UVec3 > const & x
@@ -8121,13 +9189,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< BVec3 >{ findShader( x, y )
-				, expr::makeLessThanEqual3U( makeExpr( x )
+				, expr::makeLessThanEqual3U( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return BVec3{ findShader( x, y )
-			, expr::makeLessThanEqual3U( makeExpr( x )
+			, expr::makeLessThanEqual3U( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	MaybeOptional< BVec4 > lessThanEqual( MaybeOptional< UVec4 > const & x
@@ -8136,13 +9206,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< BVec4 >{ findShader( x, y )
-				, expr::makeLessThanEqual4U( makeExpr( x )
+				, expr::makeLessThanEqual4U( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return BVec4{ findShader( x, y )
-			, expr::makeLessThanEqual4U( makeExpr( x )
+			, expr::makeLessThanEqual4U( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	/**@}*/
@@ -8159,13 +9231,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< BVec2 >{ findShader( x, y )
-				, expr::makeGreaterThan2F( makeExpr( x )
+				, expr::makeGreaterThan2F( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return BVec2{ findShader( x, y )
-			, expr::makeGreaterThan2F( makeExpr( x )
+			, expr::makeGreaterThan2F( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	MaybeOptional< BVec3 > greaterThan( MaybeOptional< Vec3 > const & x
@@ -8174,13 +9248,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< BVec3 >{ findShader( x, y )
-				, expr::makeGreaterThan3F( makeExpr( x )
+				, expr::makeGreaterThan3F( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return BVec3{ findShader( x, y )
-			, expr::makeGreaterThan3F( makeExpr( x )
+			, expr::makeGreaterThan3F( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	MaybeOptional< BVec4 > greaterThan( MaybeOptional< Vec4 > const & x
@@ -8189,13 +9265,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< BVec4 >{ findShader( x, y )
-				, expr::makeGreaterThan4F( makeExpr( x )
+				, expr::makeGreaterThan4F( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return BVec4{ findShader( x, y )
-			, expr::makeGreaterThan4F( makeExpr( x )
+			, expr::makeGreaterThan4F( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	MaybeOptional< BVec2 > greaterThan( MaybeOptional< DVec2 > const & x
@@ -8204,13 +9282,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< BVec2 >{ findShader( x, y )
-				, expr::makeGreaterThan2D( makeExpr( x )
+				, expr::makeGreaterThan2D( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return BVec2{ findShader( x, y )
-			, expr::makeGreaterThan2D( makeExpr( x )
+			, expr::makeGreaterThan2D( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	MaybeOptional< BVec3 > greaterThan( MaybeOptional< DVec3 > const & x
@@ -8219,13 +9299,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< BVec3 >{ findShader( x, y )
-				, expr::makeGreaterThan3D( makeExpr( x )
+				, expr::makeGreaterThan3D( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return BVec3{ findShader( x, y )
-			, expr::makeGreaterThan3D( makeExpr( x )
+			, expr::makeGreaterThan3D( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	MaybeOptional< BVec4 > greaterThan( MaybeOptional< DVec4 > const & x
@@ -8234,13 +9316,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< BVec4 >{ findShader( x, y )
-				, expr::makeGreaterThan4D( makeExpr( x )
+				, expr::makeGreaterThan4D( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return BVec4{ findShader( x, y )
-			, expr::makeGreaterThan4D( makeExpr( x )
+			, expr::makeGreaterThan4D( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	MaybeOptional< BVec2 > greaterThan( MaybeOptional< IVec2 > const & x
@@ -8249,13 +9333,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< BVec2 >{ findShader( x, y )
-				, expr::makeGreaterThan2I( makeExpr( x )
+				, expr::makeGreaterThan2I( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return BVec2{ findShader( x, y )
-			, expr::makeGreaterThan2I( makeExpr( x )
+			, expr::makeGreaterThan2I( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	MaybeOptional< BVec3 > greaterThan( MaybeOptional< IVec3 > const & x
@@ -8264,13 +9350,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< BVec3 >{ findShader( x, y )
-				, expr::makeGreaterThan3I( makeExpr( x )
+				, expr::makeGreaterThan3I( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return BVec3{ findShader( x, y )
-			, expr::makeGreaterThan3I( makeExpr( x )
+			, expr::makeGreaterThan3I( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	MaybeOptional< BVec4 > greaterThan( MaybeOptional< IVec4 > const & x
@@ -8279,13 +9367,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< BVec4 >{ findShader( x, y )
-				, expr::makeGreaterThan4I( makeExpr( x )
+				, expr::makeGreaterThan4I( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return BVec4{ findShader( x, y )
-			, expr::makeGreaterThan4I( makeExpr( x )
+			, expr::makeGreaterThan4I( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	MaybeOptional< BVec2 > greaterThan( MaybeOptional< UVec2 > const & x
@@ -8294,13 +9384,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< BVec2 >{ findShader( x, y )
-				, expr::makeGreaterThan2U( makeExpr( x )
+				, expr::makeGreaterThan2U( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return BVec2{ findShader( x, y )
-			, expr::makeGreaterThan2U( makeExpr( x )
+			, expr::makeGreaterThan2U( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	MaybeOptional< BVec3 > greaterThan( MaybeOptional< UVec3 > const & x
@@ -8309,13 +9401,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< BVec3 >{ findShader( x, y )
-				, expr::makeGreaterThan3U( makeExpr( x )
+				, expr::makeGreaterThan3U( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return BVec3{ findShader( x, y )
-			, expr::makeGreaterThan3U( makeExpr( x )
+			, expr::makeGreaterThan3U( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	MaybeOptional< BVec4 > greaterThan( MaybeOptional< UVec4 > const & x
@@ -8324,13 +9418,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< BVec4 >{ findShader( x, y )
-				, expr::makeGreaterThan4U( makeExpr( x )
+				, expr::makeGreaterThan4U( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return BVec4{ findShader( x, y )
-			, expr::makeGreaterThan4U( makeExpr( x )
+			, expr::makeGreaterThan4U( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	/**@}*/
@@ -8347,13 +9443,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< BVec2 >{ findShader( x, y )
-				, expr::makeGreaterThanEqual2F( makeExpr( x )
+				, expr::makeGreaterThanEqual2F( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return BVec2{ findShader( x, y )
-			, expr::makeGreaterThanEqual2F( makeExpr( x )
+			, expr::makeGreaterThanEqual2F( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	MaybeOptional< BVec3 > greaterThanEqual( MaybeOptional< Vec3 > const & x
@@ -8362,13 +9460,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< BVec3 >{ findShader( x, y )
-				, expr::makeGreaterThanEqual3F( makeExpr( x )
+				, expr::makeGreaterThanEqual3F( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return BVec3{ findShader( x, y )
-			, expr::makeGreaterThanEqual3F( makeExpr( x )
+			, expr::makeGreaterThanEqual3F( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	MaybeOptional< BVec4 > greaterThanEqual( MaybeOptional< Vec4 > const & x
@@ -8377,13 +9477,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< BVec4 >{ findShader( x, y )
-				, expr::makeGreaterThanEqual4F( makeExpr( x )
+				, expr::makeGreaterThanEqual4F( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return BVec4{ findShader( x, y )
-			, expr::makeGreaterThanEqual4F( makeExpr( x )
+			, expr::makeGreaterThanEqual4F( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	MaybeOptional< BVec2 > greaterThanEqual( MaybeOptional< DVec2 > const & x
@@ -8392,13 +9494,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< BVec2 >{ findShader( x, y )
-				, expr::makeGreaterThanEqual2D( makeExpr( x )
+				, expr::makeGreaterThanEqual2D( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return BVec2{ findShader( x, y )
-			, expr::makeGreaterThanEqual2D( makeExpr( x )
+			, expr::makeGreaterThanEqual2D( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	MaybeOptional< BVec3 > greaterThanEqual( MaybeOptional< DVec3 > const & x
@@ -8407,13 +9511,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< BVec3 >{ findShader( x, y )
-				, expr::makeGreaterThanEqual3D( makeExpr( x )
+				, expr::makeGreaterThanEqual3D( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return BVec3{ findShader( x, y )
-			, expr::makeGreaterThanEqual3D( makeExpr( x )
+			, expr::makeGreaterThanEqual3D( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	MaybeOptional< BVec4 > greaterThanEqual( MaybeOptional< DVec4 > const & x
@@ -8422,13 +9528,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< BVec4 >{ findShader( x, y )
-				, expr::makeGreaterThanEqual4D( makeExpr( x )
+				, expr::makeGreaterThanEqual4D( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return BVec4{ findShader( x, y )
-			, expr::makeGreaterThanEqual4D( makeExpr( x )
+			, expr::makeGreaterThanEqual4D( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	MaybeOptional< BVec2 > greaterThanEqual( MaybeOptional< IVec2 > const & x
@@ -8437,13 +9545,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< BVec2 >{ findShader( x, y )
-				, expr::makeGreaterThanEqual2I( makeExpr( x )
+				, expr::makeGreaterThanEqual2I( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return BVec2{ findShader( x, y )
-			, expr::makeGreaterThanEqual2I( makeExpr( x )
+			, expr::makeGreaterThanEqual2I( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	MaybeOptional< BVec3 > greaterThanEqual( MaybeOptional< IVec3 > const & x
@@ -8452,13 +9562,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< BVec3 >{ findShader( x, y )
-				, expr::makeGreaterThanEqual3I( makeExpr( x )
+				, expr::makeGreaterThanEqual3I( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return BVec3{ findShader( x, y )
-			, expr::makeGreaterThanEqual3I( makeExpr( x )
+			, expr::makeGreaterThanEqual3I( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	MaybeOptional< BVec4 > greaterThanEqual( MaybeOptional< IVec4 > const & x
@@ -8467,13 +9579,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< BVec4 >{ findShader( x, y )
-				, expr::makeGreaterThanEqual4I( makeExpr( x )
+				, expr::makeGreaterThanEqual4I( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return BVec4{ findShader( x, y )
-			, expr::makeGreaterThanEqual4I( makeExpr( x )
+			, expr::makeGreaterThanEqual4I( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	MaybeOptional< BVec2 > greaterThanEqual( MaybeOptional< UVec2 > const & x
@@ -8482,13 +9596,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< BVec2 >{ findShader( x, y )
-				, expr::makeGreaterThanEqual2U( makeExpr( x )
+				, expr::makeGreaterThanEqual2U( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return BVec2{ findShader( x, y )
-			, expr::makeGreaterThanEqual2U( makeExpr( x )
+			, expr::makeGreaterThanEqual2U( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	MaybeOptional< BVec3 > greaterThanEqual( MaybeOptional< UVec3 > const & x
@@ -8497,13 +9613,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< BVec3 >{ findShader( x, y )
-				, expr::makeGreaterThanEqual3U( makeExpr( x )
+				, expr::makeGreaterThanEqual3U( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return BVec3{ findShader( x, y )
-			, expr::makeGreaterThanEqual3U( makeExpr( x )
+			, expr::makeGreaterThanEqual3U( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	MaybeOptional< BVec4 > greaterThanEqual( MaybeOptional< UVec4 > const & x
@@ -8512,13 +9630,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< BVec4 >{ findShader( x, y )
-				, expr::makeGreaterThanEqual4U( makeExpr( x )
+				, expr::makeGreaterThanEqual4U( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return BVec4{ findShader( x, y )
-			, expr::makeGreaterThanEqual4U( makeExpr( x )
+			, expr::makeGreaterThanEqual4U( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	/**@}*/
@@ -8535,13 +9655,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< BVec2 >{ findShader( x, y )
-				, expr::makeEqual2F( makeExpr( x )
+				, expr::makeEqual2F( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return BVec2{ findShader( x, y )
-			, expr::makeEqual2F( makeExpr( x )
+			, expr::makeEqual2F( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	MaybeOptional< BVec3 > equal( MaybeOptional< Vec3 > const & x
@@ -8550,13 +9672,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< BVec3 >{ findShader( x, y )
-				, expr::makeEqual3F( makeExpr( x )
+				, expr::makeEqual3F( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return BVec3{ findShader( x, y )
-			, expr::makeEqual3F( makeExpr( x )
+			, expr::makeEqual3F( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	MaybeOptional< BVec4 > equal( MaybeOptional< Vec4 > const & x
@@ -8565,13 +9689,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< BVec4 >{ findShader( x, y )
-				, expr::makeEqual4F( makeExpr( x )
+				, expr::makeEqual4F( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return BVec4{ findShader( x, y )
-			, expr::makeEqual4F( makeExpr( x )
+			, expr::makeEqual4F( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	MaybeOptional< BVec2 > equal( MaybeOptional< DVec2 > const & x
@@ -8580,13 +9706,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< BVec2 >{ findShader( x, y )
-				, expr::makeEqual2D( makeExpr( x )
+				, expr::makeEqual2D( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return BVec2{ findShader( x, y )
-			, expr::makeEqual2D( makeExpr( x )
+			, expr::makeEqual2D( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	MaybeOptional< BVec3 > equal( MaybeOptional< DVec3 > const & x
@@ -8595,13 +9723,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< BVec3 >{ findShader( x, y )
-				, expr::makeEqual3D( makeExpr( x )
+				, expr::makeEqual3D( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return BVec3{ findShader( x, y )
-			, expr::makeEqual3D( makeExpr( x )
+			, expr::makeEqual3D( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	MaybeOptional< BVec4 > equal( MaybeOptional< DVec4 > const & x
@@ -8610,13 +9740,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< BVec4 >{ findShader( x, y )
-				, expr::makeEqual4D( makeExpr( x )
+				, expr::makeEqual4D( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return BVec4{ findShader( x, y )
-			, expr::makeEqual4D( makeExpr( x )
+			, expr::makeEqual4D( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	MaybeOptional< BVec2 > equal( MaybeOptional< IVec2 > const & x
@@ -8625,13 +9757,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< BVec2 >{ findShader( x, y )
-				, expr::makeEqual2I( makeExpr( x )
+				, expr::makeEqual2I( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return BVec2{ findShader( x, y )
-			, expr::makeEqual2I( makeExpr( x )
+			, expr::makeEqual2I( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	MaybeOptional< BVec3 > equal( MaybeOptional< IVec3 > const & x
@@ -8640,13 +9774,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< BVec3 >{ findShader( x, y )
-				, expr::makeEqual3I( makeExpr( x )
+				, expr::makeEqual3I( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return BVec3{ findShader( x, y )
-			, expr::makeEqual3I( makeExpr( x )
+			, expr::makeEqual3I( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	MaybeOptional< BVec4 > equal( MaybeOptional< IVec4 > const & x
@@ -8655,13 +9791,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< BVec4 >{ findShader( x, y )
-				, expr::makeEqual4I( makeExpr( x )
+				, expr::makeEqual4I( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return BVec4{ findShader( x, y )
-			, expr::makeEqual4I( makeExpr( x )
+			, expr::makeEqual4I( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	MaybeOptional< BVec2 > equal( MaybeOptional< UVec2 > const & x
@@ -8670,13 +9808,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< BVec2 >{ findShader( x, y )
-				, expr::makeEqual2U( makeExpr( x )
+				, expr::makeEqual2U( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return BVec2{ findShader( x, y )
-			, expr::makeEqual2U( makeExpr( x )
+			, expr::makeEqual2U( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	MaybeOptional< BVec3 > equal( MaybeOptional< UVec3 > const & x
@@ -8685,13 +9825,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< BVec3 >{ findShader( x, y )
-				, expr::makeEqual3U( makeExpr( x )
+				, expr::makeEqual3U( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return BVec3{ findShader( x, y )
-			, expr::makeEqual3U( makeExpr( x )
+			, expr::makeEqual3U( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	MaybeOptional< BVec4 > equal( MaybeOptional< UVec4 > const & x
@@ -8700,13 +9842,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< BVec4 >{ findShader( x, y )
-				, expr::makeEqual4U( makeExpr( x )
+				, expr::makeEqual4U( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return BVec4{ findShader( x, y )
-			, expr::makeEqual4U( makeExpr( x )
+			, expr::makeEqual4U( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	/**@}*/
@@ -8723,13 +9867,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< BVec2 >{ findShader( x, y )
-				, expr::makeNotEqual2F( makeExpr( x )
+				, expr::makeNotEqual2F( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return BVec2{ findShader( x, y )
-			, expr::makeNotEqual2F( makeExpr( x )
+			, expr::makeNotEqual2F( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	MaybeOptional< BVec3 > notEqual( MaybeOptional< Vec3 > const & x
@@ -8738,13 +9884,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< BVec3 >{ findShader( x, y )
-				, expr::makeNotEqual3F( makeExpr( x )
+				, expr::makeNotEqual3F( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return BVec3{ findShader( x, y )
-			, expr::makeNotEqual3F( makeExpr( x )
+			, expr::makeNotEqual3F( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	MaybeOptional< BVec4 > notEqual( MaybeOptional< Vec4 > const & x
@@ -8753,13 +9901,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< BVec4 >{ findShader( x, y )
-				, expr::makeNotEqual4F( makeExpr( x )
+				, expr::makeNotEqual4F( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return BVec4{ findShader( x, y )
-			, expr::makeNotEqual4F( makeExpr( x )
+			, expr::makeNotEqual4F( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	MaybeOptional< BVec2 > notEqual( MaybeOptional< DVec2 > const & x
@@ -8768,13 +9918,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< BVec2 >{ findShader( x, y )
-				, expr::makeNotEqual2D( makeExpr( x )
+				, expr::makeNotEqual2D( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return BVec2{ findShader( x, y )
-			, expr::makeNotEqual2D( makeExpr( x )
+			, expr::makeNotEqual2D( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	MaybeOptional< BVec3 > notEqual( MaybeOptional< DVec3 > const & x
@@ -8783,13 +9935,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< BVec3 >{ findShader( x, y )
-				, expr::makeNotEqual3D( makeExpr( x )
+				, expr::makeNotEqual3D( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return BVec3{ findShader( x, y )
-			, expr::makeNotEqual3D( makeExpr( x )
+			, expr::makeNotEqual3D( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	MaybeOptional< BVec4 > notEqual( MaybeOptional< DVec4 > const & x
@@ -8798,13 +9952,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< BVec4 >{ findShader( x, y )
-				, expr::makeNotEqual4D( makeExpr( x )
+				, expr::makeNotEqual4D( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return BVec4{ findShader( x, y )
-			, expr::makeNotEqual4D( makeExpr( x )
+			, expr::makeNotEqual4D( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	MaybeOptional< BVec2 > notEqual( MaybeOptional< IVec2 > const & x
@@ -8813,13 +9969,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< BVec2 >{ findShader( x, y )
-				, expr::makeNotEqual2I( makeExpr( x )
+				, expr::makeNotEqual2I( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return BVec2{ findShader( x, y )
-			, expr::makeNotEqual2I( makeExpr( x )
+			, expr::makeNotEqual2I( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	MaybeOptional< BVec3 > notEqual( MaybeOptional< IVec3 > const & x
@@ -8828,13 +9986,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< BVec3 >{ findShader( x, y )
-				, expr::makeNotEqual3I( makeExpr( x )
+				, expr::makeNotEqual3I( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return BVec3{ findShader( x, y )
-			, expr::makeNotEqual3I( makeExpr( x )
+			, expr::makeNotEqual3I( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	MaybeOptional< BVec4 > notEqual( MaybeOptional< IVec4 > const & x
@@ -8843,13 +10003,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< BVec4 >{ findShader( x, y )
-				, expr::makeNotEqual4I( makeExpr( x )
+				, expr::makeNotEqual4I( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return BVec4{ findShader( x, y )
-			, expr::makeNotEqual4I( makeExpr( x )
+			, expr::makeNotEqual4I( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	MaybeOptional< BVec2 > notEqual( MaybeOptional< UVec2 > const & x
@@ -8858,13 +10020,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< BVec2 >{ findShader( x, y )
-				, expr::makeNotEqual2U( makeExpr( x )
+				, expr::makeNotEqual2U( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return BVec2{ findShader( x, y )
-			, expr::makeNotEqual2U( makeExpr( x )
+			, expr::makeNotEqual2U( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	MaybeOptional< BVec3 > notEqual( MaybeOptional< UVec3 > const & x
@@ -8873,13 +10037,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< BVec3 >{ findShader( x, y )
-				, expr::makeNotEqual3U( makeExpr( x )
+				, expr::makeNotEqual3U( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return BVec3{ findShader( x, y )
-			, expr::makeNotEqual3U( makeExpr( x )
+			, expr::makeNotEqual3U( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	MaybeOptional< BVec4 > notEqual( MaybeOptional< UVec4 > const & x
@@ -8888,13 +10054,15 @@ namespace sdw
 		if ( isAnyOptional( x, y ) )
 		{
 			return Optional< BVec4 >{ findShader( x, y )
-				, expr::makeNotEqual4U( makeExpr( x )
+				, expr::makeNotEqual4U( findTypesCache( x, y )
+					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
 		return BVec4{ findShader( x, y )
-			, expr::makeNotEqual4U( makeExpr( x )
+			, expr::makeNotEqual4U( findTypesCache( x, y )
+					, makeExpr( x )
 				, makeExpr( y ) ) };
 	}
 	/**@}*/
@@ -8910,36 +10078,42 @@ namespace sdw
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< Boolean >{ findShader( x )
-				, expr::makeAll2( makeExpr( x ) )
+				, expr::makeAll2( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return Boolean{ findShader( x )
-			, expr::makeAll2( makeExpr( x ) ) };
+			, expr::makeAll2( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< Boolean > all( MaybeOptional< BVec3 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< Boolean >{ findShader( x )
-				, expr::makeAll3( makeExpr( x ) )
+				, expr::makeAll3( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return Boolean{ findShader( x )
-			, expr::makeAll3( makeExpr( x ) ) };
+			, expr::makeAll3( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< Boolean > all( MaybeOptional< BVec4 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< Boolean >{ findShader( x )
-				, expr::makeAll4( makeExpr( x ) )
+				, expr::makeAll4( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return Boolean{ findShader( x )
-			, expr::makeAll4( makeExpr( x ) ) };
+			, expr::makeAll4( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	/**@}*/
 #pragma endregion
@@ -8954,36 +10128,42 @@ namespace sdw
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< Boolean >{ findShader( x )
-				, expr::makeAny2( makeExpr( x ) )
+				, expr::makeAny2( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return Boolean{ findShader( x )
-			, expr::makeAny2( makeExpr( x ) ) };
+			, expr::makeAny2( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< Boolean > any( MaybeOptional< BVec3 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< Boolean >{ findShader( x )
-				, expr::makeAny3( makeExpr( x ) )
+				, expr::makeAny3( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return Boolean{ findShader( x )
-			, expr::makeAny3( makeExpr( x ) ) };
+			, expr::makeAny3( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< Boolean > any( MaybeOptional< BVec4 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< Boolean >{ findShader( x )
-				, expr::makeAny4( makeExpr( x ) )
+				, expr::makeAny4( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return Boolean{ findShader( x )
-			, expr::makeAny4( makeExpr( x ) ) };
+			, expr::makeAny4( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	/**@}*/
 #pragma endregion
@@ -8998,36 +10178,42 @@ namespace sdw
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< BVec2 >{ findShader( x )
-				, expr::makeNot2( makeExpr( x ) )
+				, expr::makeNot2( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return BVec2{ findShader( x )
-			, expr::makeNot2( makeExpr( x ) ) };
+			, expr::makeNot2( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< BVec3 > binNot( MaybeOptional< BVec3 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< BVec3 >{ findShader( x )
-				, expr::makeNot3( makeExpr( x ) )
+				, expr::makeNot3( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return BVec3{ findShader( x )
-			, expr::makeNot3( makeExpr( x ) ) };
+			, expr::makeNot3( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< BVec4 > binNot( MaybeOptional< BVec4 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< BVec4 >{ findShader( x )
-				, expr::makeNot4( makeExpr( x ) )
+				, expr::makeNot4( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return BVec4{ findShader( x )
-			, expr::makeNot4( makeExpr( x ) ) };
+			, expr::makeNot4( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	/**@}*/
 #pragma endregion
@@ -9044,14 +10230,16 @@ namespace sdw
 		if ( isAnyOptional( x, y, carry ) )
 		{
 			return Optional< UInt >{ findShader( x, y, carry )
-				, expr::makeUaddCarry1( makeExpr( x )
+				, expr::makeUaddCarry1( findTypesCache( x, y, carry )
+					, makeExpr( x )
 					, makeExpr( y )
 					, makeExpr( carry ) )
 				, areOptionalEnabled( x, y, carry ) };
 		}
 
 		return UInt{ findShader( x, y, carry )
-			, expr::makeUaddCarry1( makeExpr( x )
+			, expr::makeUaddCarry1( findTypesCache( x, y, carry )
+					, makeExpr( x )
 				, makeExpr( y )
 				, makeExpr( carry ) ) };
 	}
@@ -9062,14 +10250,16 @@ namespace sdw
 		if ( isAnyOptional( x, y, carry ) )
 		{
 			return Optional< UVec2 >{ findShader( x, y, carry )
-				, expr::makeUaddCarry2( makeExpr( x )
+				, expr::makeUaddCarry2( findTypesCache( x, y, carry )
+					, makeExpr( x )
 					, makeExpr( y )
 					, makeExpr( carry ) )
 				, areOptionalEnabled( x, y, carry ) };
 		}
 
 		return UVec2{ findShader( x, y, carry )
-			, expr::makeUaddCarry2( makeExpr( x )
+			, expr::makeUaddCarry2( findTypesCache( x, y, carry )
+					, makeExpr( x )
 				, makeExpr( y )
 				, makeExpr( carry ) ) };
 	}
@@ -9080,14 +10270,16 @@ namespace sdw
 		if ( isAnyOptional( x, y, carry ) )
 		{
 			return Optional< UVec3 >{ findShader( x, y, carry )
-				, expr::makeUaddCarry3( makeExpr( x )
+				, expr::makeUaddCarry3( findTypesCache( x, y, carry )
+					, makeExpr( x )
 					, makeExpr( y )
 					, makeExpr( carry ) )
 				, areOptionalEnabled( x, y, carry ) };
 		}
 
 		return UVec3{ findShader( x, y, carry )
-			, expr::makeUaddCarry3( makeExpr( x )
+			, expr::makeUaddCarry3( findTypesCache( x, y, carry )
+					, makeExpr( x )
 				, makeExpr( y )
 				, makeExpr( carry ) ) };
 	}
@@ -9098,14 +10290,16 @@ namespace sdw
 		if ( isAnyOptional( x, y, carry ) )
 		{
 			return Optional< UVec4 >{ findShader( x, y, carry )
-				, expr::makeUaddCarry4( makeExpr( x )
+				, expr::makeUaddCarry4( findTypesCache( x, y, carry )
+					, makeExpr( x )
 					, makeExpr( y )
 					, makeExpr( carry ) )
 				, areOptionalEnabled( x, y, carry ) };
 		}
 
 		return UVec4{ findShader( x, y, carry )
-			, expr::makeUaddCarry4( makeExpr( x )
+			, expr::makeUaddCarry4( findTypesCache( x, y, carry )
+					, makeExpr( x )
 				, makeExpr( y )
 				, makeExpr( carry ) ) };
 	}
@@ -9124,14 +10318,16 @@ namespace sdw
 		if ( isAnyOptional( x, y, borrow ) )
 		{
 			return Optional< UInt >{ findShader( x, y, borrow )
-				, expr::makeUsubBorrow1( makeExpr( x )
+				, expr::makeUsubBorrow1( findTypesCache( x, y, borrow )
+					, makeExpr( x )
 					, makeExpr( y )
 					, makeExpr( borrow ) )
 				, areOptionalEnabled( x, y, borrow ) };
 		}
 
 		return UInt{ findShader( x, y, borrow )
-			, expr::makeUsubBorrow1( makeExpr( x )
+			, expr::makeUsubBorrow1( findTypesCache( x, y, borrow )
+					, makeExpr( x )
 				, makeExpr( y )
 				, makeExpr( borrow ) ) };
 	}
@@ -9142,14 +10338,16 @@ namespace sdw
 		if ( isAnyOptional( x, y, borrow ) )
 		{
 			return Optional< UVec2 >{ findShader( x, y, borrow )
-				, expr::makeUsubBorrow2( makeExpr( x )
+				, expr::makeUsubBorrow2( findTypesCache( x, y, borrow )
+					, makeExpr( x )
 					, makeExpr( y )
 					, makeExpr( borrow ) )
 				, areOptionalEnabled( x, y, borrow ) };
 		}
 
 		return UVec2{ findShader( x, y, borrow )
-			, expr::makeUsubBorrow2( makeExpr( x )
+			, expr::makeUsubBorrow2( findTypesCache( x, y, borrow )
+					, makeExpr( x )
 				, makeExpr( y )
 				, makeExpr( borrow ) ) };
 	}
@@ -9160,14 +10358,16 @@ namespace sdw
 		if ( isAnyOptional( x, y, borrow ) )
 		{
 			return Optional< UVec3 >{ findShader( x, y, borrow )
-				, expr::makeUsubBorrow3( makeExpr( x )
+				, expr::makeUsubBorrow3( findTypesCache( x, y, borrow )
+					, makeExpr( x )
 					, makeExpr( y )
 					, makeExpr( borrow ) )
 				, areOptionalEnabled( x, y, borrow ) };
 		}
 
 		return UVec3{ findShader( x, y, borrow )
-			, expr::makeUsubBorrow3( makeExpr( x )
+			, expr::makeUsubBorrow3( findTypesCache( x, y, borrow )
+					, makeExpr( x )
 				, makeExpr( y )
 				, makeExpr( borrow ) ) };
 	}
@@ -9178,14 +10378,16 @@ namespace sdw
 		if ( isAnyOptional( x, y, borrow ) )
 		{
 			return Optional< UVec4 >{ findShader( x, y, borrow )
-				, expr::makeUsubBorrow4( makeExpr( x )
+				, expr::makeUsubBorrow4( findTypesCache( x, y, borrow )
+					, makeExpr( x )
 					, makeExpr( y )
 					, makeExpr( borrow ) )
 				, areOptionalEnabled( x, y, borrow ) };
 		}
 
 		return UVec4{ findShader( x, y, borrow )
-			, expr::makeUsubBorrow4( makeExpr( x )
+			, expr::makeUsubBorrow4( findTypesCache( x, y, borrow )
+					, makeExpr( x )
 				, makeExpr( y )
 				, makeExpr( borrow ) ) };
 	}
@@ -9205,7 +10407,8 @@ namespace sdw
 		if ( isAnyOptional( x, y, msb, lsb ) )
 		{
 			return Optional< Void >{ findShader( x, y, msb, lsb )
-				, expr::makeUmulExtended1( makeExpr( x )
+				, expr::makeUmulExtended1( findTypesCache( x, y, msb, lsb )
+					, makeExpr( x )
 					, makeExpr( y )
 					, makeExpr( msb )
 					, makeExpr( lsb ) )
@@ -9213,7 +10416,8 @@ namespace sdw
 		}
 
 		return Void{ findShader( x, y, msb, lsb )
-			, expr::makeUmulExtended1( makeExpr( x )
+			, expr::makeUmulExtended1( findTypesCache( x, y, msb, lsb )
+					, makeExpr( x )
 				, makeExpr( y )
 				, makeExpr( msb )
 				, makeExpr( lsb ) ) };
@@ -9226,7 +10430,8 @@ namespace sdw
 		if ( isAnyOptional( x, y, msb, lsb ) )
 		{
 			return Optional< Void >{ findShader( x, y, msb, lsb )
-				, expr::makeUmulExtended2( makeExpr( x )
+				, expr::makeUmulExtended2( findTypesCache( x, y, msb, lsb )
+					, makeExpr( x )
 					, makeExpr( y )
 					, makeExpr( msb )
 					, makeExpr( lsb ) )
@@ -9234,7 +10439,8 @@ namespace sdw
 		}
 
 		return Void{ findShader( x, y, msb, lsb )
-			, expr::makeUmulExtended2( makeExpr( x )
+			, expr::makeUmulExtended2( findTypesCache( x, y, msb, lsb )
+					, makeExpr( x )
 				, makeExpr( y )
 				, makeExpr( msb )
 				, makeExpr( lsb ) ) };
@@ -9247,7 +10453,8 @@ namespace sdw
 		if ( isAnyOptional( x, y, msb, lsb ) )
 		{
 			return Optional< Void >{ findShader( x, y, msb, lsb )
-				, expr::makeUmulExtended3( makeExpr( x )
+				, expr::makeUmulExtended3( findTypesCache( x, y, msb, lsb )
+					, makeExpr( x )
 					, makeExpr( y )
 					, makeExpr( msb )
 					, makeExpr( lsb ) )
@@ -9255,7 +10462,8 @@ namespace sdw
 		}
 
 		return Void{ findShader( x, y, msb, lsb )
-			, expr::makeUmulExtended3( makeExpr( x )
+			, expr::makeUmulExtended3( findTypesCache( x, y, msb, lsb )
+					, makeExpr( x )
 				, makeExpr( y )
 				, makeExpr( msb )
 				, makeExpr( lsb ) ) };
@@ -9268,7 +10476,8 @@ namespace sdw
 		if ( isAnyOptional( x, y, msb, lsb ) )
 		{
 			return Optional< Void >{ findShader( x, y, msb, lsb )
-				, expr::makeUmulExtended4( makeExpr( x )
+				, expr::makeUmulExtended4( findTypesCache( x, y, msb, lsb )
+					, makeExpr( x )
 					, makeExpr( y )
 					, makeExpr( msb )
 					, makeExpr( lsb ) )
@@ -9276,7 +10485,8 @@ namespace sdw
 		}
 
 		return Void{ findShader( x, y, msb, lsb )
-			, expr::makeUmulExtended4( makeExpr( x )
+			, expr::makeUmulExtended4( findTypesCache( x, y, msb, lsb )
+					, makeExpr( x )
 				, makeExpr( y )
 				, makeExpr( msb )
 				, makeExpr( lsb ) ) };
@@ -9297,7 +10507,8 @@ namespace sdw
 		if ( isAnyOptional( x, y, msb, lsb ) )
 		{
 			return Optional< Void >{ findShader( x, y, msb, lsb )
-				, expr::makeImulExtended1( makeExpr( x )
+				, expr::makeImulExtended1( findTypesCache( x, y, msb, lsb )
+					, makeExpr( x )
 					, makeExpr( y )
 					, makeExpr( msb )
 					, makeExpr( lsb ) )
@@ -9305,7 +10516,8 @@ namespace sdw
 		}
 
 		return Void{ findShader( x, y, msb, lsb )
-			, expr::makeImulExtended1( makeExpr( x )
+			, expr::makeImulExtended1( findTypesCache( x, y, msb, lsb )
+					, makeExpr( x )
 				, makeExpr( y )
 				, makeExpr( msb )
 				, makeExpr( lsb ) ) };
@@ -9318,7 +10530,8 @@ namespace sdw
 		if ( isAnyOptional( x, y, msb, lsb ) )
 		{
 			return Optional< Void >{ findShader( x, y, msb, lsb )
-				, expr::makeImulExtended2( makeExpr( x )
+				, expr::makeImulExtended2( findTypesCache( x, y, msb, lsb )
+					, makeExpr( x )
 					, makeExpr( y )
 					, makeExpr( msb )
 					, makeExpr( lsb ) )
@@ -9326,7 +10539,8 @@ namespace sdw
 		}
 
 		return Void{ findShader( x, y, msb, lsb )
-			, expr::makeImulExtended2( makeExpr( x )
+			, expr::makeImulExtended2( findTypesCache( x, y, msb, lsb )
+					, makeExpr( x )
 				, makeExpr( y )
 				, makeExpr( msb )
 				, makeExpr( lsb ) ) };
@@ -9339,7 +10553,8 @@ namespace sdw
 		if ( isAnyOptional( x, y, msb, lsb ) )
 		{
 			return Optional< Void >{ findShader( x, y, msb, lsb )
-				, expr::makeImulExtended3( makeExpr( x )
+				, expr::makeImulExtended3( findTypesCache( x, y, msb, lsb )
+					, makeExpr( x )
 					, makeExpr( y )
 					, makeExpr( msb )
 					, makeExpr( lsb ) )
@@ -9347,7 +10562,8 @@ namespace sdw
 		}
 
 		return Void{ findShader( x, y, msb, lsb )
-			, expr::makeImulExtended3( makeExpr( x )
+			, expr::makeImulExtended3( findTypesCache( x, y, msb, lsb )
+					, makeExpr( x )
 				, makeExpr( y )
 				, makeExpr( msb )
 				, makeExpr( lsb ) ) };
@@ -9360,7 +10576,8 @@ namespace sdw
 		if ( isAnyOptional( x, y, msb, lsb ) )
 		{
 			return Optional< Void >{ findShader( x, y, msb, lsb )
-				, expr::makeImulExtended4( makeExpr( x )
+				, expr::makeImulExtended4( findTypesCache( x, y, msb, lsb )
+					, makeExpr( x )
 					, makeExpr( y )
 					, makeExpr( msb )
 					, makeExpr( lsb ) )
@@ -9368,7 +10585,8 @@ namespace sdw
 		}
 
 		return Void{ findShader( x, y, msb, lsb )
-			, expr::makeImulExtended4( makeExpr( x )
+			, expr::makeImulExtended4( findTypesCache( x, y, msb, lsb )
+					, makeExpr( x )
 				, makeExpr( y )
 				, makeExpr( msb )
 				, makeExpr( lsb ) ) };
@@ -9388,14 +10606,16 @@ namespace sdw
 		if ( isAnyOptional( value, offset, bits ) )
 		{
 			return Optional< Int >{ findShader( value, offset, bits )
-				, expr::makeBitfieldExtract1I( makeExpr( value )
+				, expr::makeBitfieldExtract1I( findTypesCache( value, offset, bits )
+					, makeExpr( value )
 					, makeExpr( offset )
 					, makeExpr( bits ) )
 				, areOptionalEnabled( value, offset, bits ) };
 		}
 
 		return Int{ findShader( value, offset, bits )
-			, expr::makeBitfieldExtract1I( makeExpr( value )
+			, expr::makeBitfieldExtract1I( findTypesCache( value, offset, bits )
+					, makeExpr( value )
 				, makeExpr( offset )
 				, makeExpr( bits ) ) };
 	}
@@ -9406,14 +10626,16 @@ namespace sdw
 		if ( isAnyOptional( value, offset, bits ) )
 		{
 			return Optional< IVec2 >{ findShader( value, offset, bits )
-				, expr::makeBitfieldExtract2I( makeExpr( value )
+				, expr::makeBitfieldExtract2I( findTypesCache( value, offset, bits )
+					, makeExpr( value )
 					, makeExpr( offset )
 					, makeExpr( bits ) )
 				, areOptionalEnabled( value, offset, bits ) };
 		}
 
 		return IVec2{ findShader( value, offset, bits )
-			, expr::makeBitfieldExtract2I( makeExpr( value )
+			, expr::makeBitfieldExtract2I( findTypesCache( value, offset, bits )
+					, makeExpr( value )
 				, makeExpr( offset )
 				, makeExpr( bits ) ) };
 	}
@@ -9424,14 +10646,16 @@ namespace sdw
 		if ( isAnyOptional( value, offset, bits ) )
 		{
 			return Optional< IVec3 >{ findShader( value, offset, bits )
-				, expr::makeBitfieldExtract3I( makeExpr( value )
+				, expr::makeBitfieldExtract3I( findTypesCache( value, offset, bits )
+					, makeExpr( value )
 					, makeExpr( offset )
 					, makeExpr( bits ) )
 				, areOptionalEnabled( value, offset, bits ) };
 		}
 
 		return IVec3{ findShader( value, offset, bits )
-			, expr::makeBitfieldExtract3I( makeExpr( value )
+			, expr::makeBitfieldExtract3I( findTypesCache( value, offset, bits )
+					, makeExpr( value )
 				, makeExpr( offset )
 				, makeExpr( bits ) ) };
 	}
@@ -9442,14 +10666,16 @@ namespace sdw
 		if ( isAnyOptional( value, offset, bits ) )
 		{
 			return Optional< IVec4 >{ findShader( value, offset, bits )
-				, expr::makeBitfieldExtract4I( makeExpr( value )
+				, expr::makeBitfieldExtract4I( findTypesCache( value, offset, bits )
+					, makeExpr( value )
 					, makeExpr( offset )
 					, makeExpr( bits ) )
 				, areOptionalEnabled( value, offset, bits ) };
 		}
 
 		return IVec4{ findShader( value, offset, bits )
-			, expr::makeBitfieldExtract4I( makeExpr( value )
+			, expr::makeBitfieldExtract4I( findTypesCache( value, offset, bits )
+					, makeExpr( value )
 				, makeExpr( offset )
 				, makeExpr( bits ) ) };
 	}
@@ -9460,14 +10686,16 @@ namespace sdw
 		if ( isAnyOptional( value, offset, bits ) )
 		{
 			return Optional< UInt >{ findShader( value, offset, bits )
-				, expr::makeBitfieldExtract1U( makeExpr( value )
+				, expr::makeBitfieldExtract1U( findTypesCache( value, offset, bits )
+					, makeExpr( value )
 					, makeExpr( offset )
 					, makeExpr( bits ) )
 				, areOptionalEnabled( value, offset, bits ) };
 		}
 
 		return UInt{ findShader( value, offset, bits )
-			, expr::makeBitfieldExtract1U( makeExpr( value )
+			, expr::makeBitfieldExtract1U( findTypesCache( value, offset, bits )
+					, makeExpr( value )
 				, makeExpr( offset )
 				, makeExpr( bits ) ) };
 	}
@@ -9478,14 +10706,16 @@ namespace sdw
 		if ( isAnyOptional( value, offset, bits ) )
 		{
 			return Optional< UVec2 >{ findShader( value, offset, bits )
-				, expr::makeBitfieldExtract2U( makeExpr( value )
+				, expr::makeBitfieldExtract2U( findTypesCache( value, offset, bits )
+					, makeExpr( value )
 					, makeExpr( offset )
 					, makeExpr( bits ) )
 				, areOptionalEnabled( value, offset, bits ) };
 		}
 
 		return UVec2{ findShader( value, offset, bits )
-			, expr::makeBitfieldExtract2U( makeExpr( value )
+			, expr::makeBitfieldExtract2U( findTypesCache( value, offset, bits )
+					, makeExpr( value )
 				, makeExpr( offset )
 				, makeExpr( bits ) ) };
 	}
@@ -9496,14 +10726,16 @@ namespace sdw
 		if ( isAnyOptional( value, offset, bits ) )
 		{
 			return Optional< UVec3 >{ findShader( value, offset, bits )
-				, expr::makeBitfieldExtract3U( makeExpr( value )
+				, expr::makeBitfieldExtract3U( findTypesCache( value, offset, bits )
+					, makeExpr( value )
 					, makeExpr( offset )
 					, makeExpr( bits ) )
 				, areOptionalEnabled( value, offset, bits ) };
 		}
 
 		return UVec3{ findShader( value, offset, bits )
-			, expr::makeBitfieldExtract3U( makeExpr( value )
+			, expr::makeBitfieldExtract3U( findTypesCache( value, offset, bits )
+					, makeExpr( value )
 				, makeExpr( offset )
 				, makeExpr( bits ) ) };
 	}
@@ -9514,14 +10746,16 @@ namespace sdw
 		if ( isAnyOptional( value, offset, bits ) )
 		{
 			return Optional< UVec4 >{ findShader( value, offset, bits )
-				, expr::makeBitfieldExtract4U( makeExpr( value )
+				, expr::makeBitfieldExtract4U( findTypesCache( value, offset, bits )
+					, makeExpr( value )
 					, makeExpr( offset )
 					, makeExpr( bits ) )
 				, areOptionalEnabled( value, offset, bits ) };
 		}
 
 		return UVec4{ findShader( value, offset, bits )
-			, expr::makeBitfieldExtract4U( makeExpr( value )
+			, expr::makeBitfieldExtract4U( findTypesCache( value, offset, bits )
+					, makeExpr( value )
 				, makeExpr( offset )
 				, makeExpr( bits ) ) };
 	}
@@ -9541,7 +10775,8 @@ namespace sdw
 		if ( isAnyOptional( base, insert, offset, bits ) )
 		{
 			return Optional< Int >{ findShader( base, insert, offset, bits )
-				, expr::makeBitfieldInsert1I( makeExpr( base )
+				, expr::makeBitfieldInsert1I( findTypesCache( base, insert, offset, bits )
+					, makeExpr( base )
 					, makeExpr( insert )
 					, makeExpr( offset )
 					, makeExpr( bits ) )
@@ -9549,7 +10784,8 @@ namespace sdw
 		}
 
 		return Int{ findShader( base, insert, offset, bits )
-			, expr::makeBitfieldInsert1I( makeExpr( base )
+			, expr::makeBitfieldInsert1I( findTypesCache( base, insert, offset, bits )
+					, makeExpr( base )
 				, makeExpr( insert )
 				, makeExpr( offset )
 				, makeExpr( bits ) ) };
@@ -9562,7 +10798,8 @@ namespace sdw
 		if ( isAnyOptional( base, insert, offset, bits ) )
 		{
 			return Optional< IVec2 >{ findShader( base, insert, offset, bits )
-				, expr::makeBitfieldInsert2I( makeExpr( base )
+				, expr::makeBitfieldInsert2I( findTypesCache( base, insert, offset, bits )
+					, makeExpr( base )
 					, makeExpr( insert )
 					, makeExpr( offset )
 					, makeExpr( bits ) )
@@ -9570,7 +10807,8 @@ namespace sdw
 		}
 
 		return IVec2{ findShader( base, insert, offset, bits )
-			, expr::makeBitfieldInsert2I( makeExpr( base )
+			, expr::makeBitfieldInsert2I( findTypesCache( base, insert, offset, bits )
+					, makeExpr( base )
 				, makeExpr( insert )
 				, makeExpr( offset )
 				, makeExpr( bits ) ) };
@@ -9583,7 +10821,8 @@ namespace sdw
 		if ( isAnyOptional( base, insert, offset, bits ) )
 		{
 			return Optional< IVec3 >{ findShader( base, insert, offset, bits )
-				, expr::makeBitfieldInsert3I( makeExpr( base )
+				, expr::makeBitfieldInsert3I( findTypesCache( base, insert, offset, bits )
+					, makeExpr( base )
 					, makeExpr( insert )
 					, makeExpr( offset )
 					, makeExpr( bits ) )
@@ -9591,7 +10830,8 @@ namespace sdw
 		}
 
 		return IVec3{ findShader( base, insert, offset, bits )
-			, expr::makeBitfieldInsert3I( makeExpr( base )
+			, expr::makeBitfieldInsert3I( findTypesCache( base, insert, offset, bits )
+					, makeExpr( base )
 				, makeExpr( insert )
 				, makeExpr( offset )
 				, makeExpr( bits ) ) };
@@ -9604,7 +10844,8 @@ namespace sdw
 		if ( isAnyOptional( base, insert, offset, bits ) )
 		{
 			return Optional< IVec4 >{ findShader( base, insert, offset, bits )
-				, expr::makeBitfieldInsert4I( makeExpr( base )
+				, expr::makeBitfieldInsert4I( findTypesCache( base, insert, offset, bits )
+					, makeExpr( base )
 					, makeExpr( insert )
 					, makeExpr( offset )
 					, makeExpr( bits ) )
@@ -9612,7 +10853,8 @@ namespace sdw
 		}
 
 		return IVec4{ findShader( base, insert, offset, bits )
-			, expr::makeBitfieldInsert4I( makeExpr( base )
+			, expr::makeBitfieldInsert4I( findTypesCache( base, insert, offset, bits )
+					, makeExpr( base )
 				, makeExpr( insert )
 				, makeExpr( offset )
 				, makeExpr( bits ) ) };
@@ -9625,7 +10867,8 @@ namespace sdw
 		if ( isAnyOptional( base, insert, offset, bits ) )
 		{
 			return Optional< UInt >{ findShader( base, insert, offset, bits )
-				, expr::makeBitfieldInsert1U( makeExpr( base )
+				, expr::makeBitfieldInsert1U( findTypesCache( base, insert, offset, bits )
+					, makeExpr( base )
 					, makeExpr( insert )
 					, makeExpr( offset )
 					, makeExpr( bits ) )
@@ -9633,7 +10876,8 @@ namespace sdw
 		}
 
 		return UInt{ findShader( base, insert, offset, bits )
-			, expr::makeBitfieldInsert1U( makeExpr( base )
+			, expr::makeBitfieldInsert1U( findTypesCache( base, insert, offset, bits )
+					, makeExpr( base )
 				, makeExpr( insert )
 				, makeExpr( offset )
 				, makeExpr( bits ) ) };
@@ -9646,7 +10890,8 @@ namespace sdw
 		if ( isAnyOptional( base, insert, offset, bits ) )
 		{
 			return Optional< UVec2 >{ findShader( base, insert, offset, bits )
-				, expr::makeBitfieldInsert2U( makeExpr( base )
+				, expr::makeBitfieldInsert2U( findTypesCache( base, insert, offset, bits )
+					, makeExpr( base )
 					, makeExpr( insert )
 					, makeExpr( offset )
 					, makeExpr( bits ) )
@@ -9654,7 +10899,8 @@ namespace sdw
 		}
 
 		return UVec2{ findShader( base, insert, offset, bits )
-			, expr::makeBitfieldInsert2U( makeExpr( base )
+			, expr::makeBitfieldInsert2U( findTypesCache( base, insert, offset, bits )
+					, makeExpr( base )
 				, makeExpr( insert )
 				, makeExpr( offset )
 				, makeExpr( bits ) ) };
@@ -9667,7 +10913,8 @@ namespace sdw
 		if ( isAnyOptional( base, insert, offset, bits ) )
 		{
 			return Optional< UVec3 >{ findShader( base, insert, offset, bits )
-				, expr::makeBitfieldInsert3U( makeExpr( base )
+				, expr::makeBitfieldInsert3U( findTypesCache( base, insert, offset, bits )
+					, makeExpr( base )
 					, makeExpr( insert )
 					, makeExpr( offset )
 					, makeExpr( bits ) )
@@ -9675,7 +10922,8 @@ namespace sdw
 		}
 
 		return UVec3{ findShader( base, insert, offset, bits )
-			, expr::makeBitfieldInsert3U( makeExpr( base )
+			, expr::makeBitfieldInsert3U( findTypesCache( base, insert, offset, bits )
+					, makeExpr( base )
 				, makeExpr( insert )
 				, makeExpr( offset )
 				, makeExpr( bits ) ) };
@@ -9688,7 +10936,8 @@ namespace sdw
 		if ( isAnyOptional( base, insert, offset, bits ) )
 		{
 			return Optional< UVec4 >{ findShader( base, insert, offset, bits )
-				, expr::makeBitfieldInsert4U( makeExpr( base )
+				, expr::makeBitfieldInsert4U( findTypesCache( base, insert, offset, bits )
+					, makeExpr( base )
 					, makeExpr( insert )
 					, makeExpr( offset )
 					, makeExpr( bits ) )
@@ -9696,7 +10945,8 @@ namespace sdw
 		}
 
 		return UVec4{ findShader( base, insert, offset, bits )
-			, expr::makeBitfieldInsert4U( makeExpr( base )
+			, expr::makeBitfieldInsert4U( findTypesCache( base, insert, offset, bits )
+					, makeExpr( base )
 				, makeExpr( insert )
 				, makeExpr( offset )
 				, makeExpr( bits ) ) };
@@ -9714,96 +10964,112 @@ namespace sdw
 		if ( isAnyOptional( value ) )
 		{
 			return Optional< Int >{ findShader( value )
-				, expr::makeBitfieldReverse1I( makeExpr( value ) )
+				, expr::makeBitfieldReverse1I( findTypesCache( value )
+					, makeExpr( value ) )
 				, areOptionalEnabled( value ) };
 		}
 
 		return Int{ findShader( value )
-			, expr::makeBitfieldReverse1I( makeExpr( value ) ) };
+			, expr::makeBitfieldReverse1I( findTypesCache( value )
+					, makeExpr( value ) ) };
 	}
 	MaybeOptional< IVec2 > bitfieldReverse( MaybeOptional< IVec2 > const & value )
 	{
 		if ( isAnyOptional( value ) )
 		{
 			return Optional< IVec2 >{ findShader( value )
-				, expr::makeBitfieldReverse2I( makeExpr( value ) )
+				, expr::makeBitfieldReverse2I( findTypesCache( value )
+					, makeExpr( value ) )
 				, areOptionalEnabled( value ) };
 		}
 
 		return IVec2{ findShader( value )
-			, expr::makeBitfieldReverse2I( makeExpr( value ) ) };
+			, expr::makeBitfieldReverse2I( findTypesCache( value )
+					, makeExpr( value ) ) };
 	}
 	MaybeOptional< IVec3 > bitfieldReverse( MaybeOptional< IVec3 > const & value )
 	{
 		if ( isAnyOptional( value ) )
 		{
 			return Optional< IVec3 >{ findShader( value )
-				, expr::makeBitfieldReverse3I( makeExpr( value ) )
+				, expr::makeBitfieldReverse3I( findTypesCache( value )
+					, makeExpr( value ) )
 				, areOptionalEnabled( value ) };
 		}
 
 		return IVec3{ findShader( value )
-			, expr::makeBitfieldReverse3I( makeExpr( value ) ) };
+			, expr::makeBitfieldReverse3I( findTypesCache( value )
+					, makeExpr( value ) ) };
 	}
 	MaybeOptional< IVec4 > bitfieldReverse( MaybeOptional< IVec4 > const & value )
 	{
 		if ( isAnyOptional( value ) )
 		{
 			return Optional< IVec4 >{ findShader( value )
-				, expr::makeBitfieldReverse4I( makeExpr( value ) )
+				, expr::makeBitfieldReverse4I( findTypesCache( value )
+					, makeExpr( value ) )
 				, areOptionalEnabled( value ) };
 		}
 
 		return IVec4{ findShader( value )
-			, expr::makeBitfieldReverse4I( makeExpr( value ) ) };
+			, expr::makeBitfieldReverse4I( findTypesCache( value )
+					, makeExpr( value ) ) };
 	}
 	MaybeOptional< UInt > bitfieldReverse( MaybeOptional< UInt > const & value )
 	{
 		if ( isAnyOptional( value ) )
 		{
 			return Optional< UInt >{ findShader( value )
-				, expr::makeBitfieldReverse1U( makeExpr( value ) )
+				, expr::makeBitfieldReverse1U( findTypesCache( value )
+					, makeExpr( value ) )
 				, areOptionalEnabled( value ) };
 		}
 
 		return UInt{ findShader( value )
-			, expr::makeBitfieldReverse1U( makeExpr( value ) ) };
+			, expr::makeBitfieldReverse1U( findTypesCache( value )
+					, makeExpr( value ) ) };
 	}
 	MaybeOptional< UVec2 > bitfieldReverse( MaybeOptional< UVec2 > const & value )
 	{
 		if ( isAnyOptional( value ) )
 		{
 			return Optional< UVec2 >{ findShader( value )
-				, expr::makeBitfieldReverse2U( makeExpr( value ) )
+				, expr::makeBitfieldReverse2U( findTypesCache( value )
+					, makeExpr( value ) )
 				, areOptionalEnabled( value ) };
 		}
 
 		return UVec2{ findShader( value )
-			, expr::makeBitfieldReverse2U( makeExpr( value ) ) };
+			, expr::makeBitfieldReverse2U( findTypesCache( value )
+					, makeExpr( value ) ) };
 	}
 	MaybeOptional< UVec3 > bitfieldReverse( MaybeOptional< UVec3 > const & value )
 	{
 		if ( isAnyOptional( value ) )
 		{
 			return Optional< UVec3 >{ findShader( value )
-				, expr::makeBitfieldReverse3U( makeExpr( value ) )
+				, expr::makeBitfieldReverse3U( findTypesCache( value )
+					, makeExpr( value ) )
 				, areOptionalEnabled( value ) };
 		}
 
 		return UVec3{ findShader( value )
-			, expr::makeBitfieldReverse3U( makeExpr( value ) ) };
+			, expr::makeBitfieldReverse3U( findTypesCache( value )
+					, makeExpr( value ) ) };
 	}
 	MaybeOptional< UVec4 > bitfieldReverse( MaybeOptional< UVec4 > const & value )
 	{
 		if ( isAnyOptional( value ) )
 		{
 			return Optional< UVec4 >{ findShader( value )
-				, expr::makeBitfieldReverse4U( makeExpr( value ) )
+				, expr::makeBitfieldReverse4U( findTypesCache( value )
+					, makeExpr( value ) )
 				, areOptionalEnabled( value ) };
 		}
 
 		return UVec4{ findShader( value )
-			, expr::makeBitfieldReverse4U( makeExpr( value ) ) };
+			, expr::makeBitfieldReverse4U( findTypesCache( value )
+					, makeExpr( value ) ) };
 	}
 	/**@}*/
 #pragma endregion
@@ -9818,96 +11084,112 @@ namespace sdw
 		if ( isAnyOptional( value ) )
 		{
 			return Optional< Int >{ findShader( value )
-				, expr::makeBitCount1I( makeExpr( value ) )
+				, expr::makeBitCount1I( findTypesCache( value )
+					, makeExpr( value ) )
 				, areOptionalEnabled( value ) };
 		}
 
 		return Int{ findShader( value )
-			, expr::makeBitCount1I( makeExpr( value ) ) };
+			, expr::makeBitCount1I( findTypesCache( value )
+					, makeExpr( value ) ) };
 	}
 	MaybeOptional< IVec2 > bitCount( MaybeOptional< IVec2 > const & value )
 	{
 		if ( isAnyOptional( value ) )
 		{
 			return Optional< IVec2 >{ findShader( value )
-				, expr::makeBitCount2I( makeExpr( value ) )
+				, expr::makeBitCount2I( findTypesCache( value )
+					, makeExpr( value ) )
 				, areOptionalEnabled( value ) };
 		}
 
 		return IVec2{ findShader( value )
-			, expr::makeBitCount2I( makeExpr( value ) ) };
+			, expr::makeBitCount2I( findTypesCache( value )
+					, makeExpr( value ) ) };
 	}
 	MaybeOptional< IVec3 > bitCount( MaybeOptional< IVec3 > const & value )
 	{
 		if ( isAnyOptional( value ) )
 		{
 			return Optional< IVec3 >{ findShader( value )
-				, expr::makeBitCount3I( makeExpr( value ) )
+				, expr::makeBitCount3I( findTypesCache( value )
+					, makeExpr( value ) )
 				, areOptionalEnabled( value ) };
 		}
 
 		return IVec3{ findShader( value )
-			, expr::makeBitCount3I( makeExpr( value ) ) };
+			, expr::makeBitCount3I( findTypesCache( value )
+					, makeExpr( value ) ) };
 	}
 	MaybeOptional< IVec4 > bitCount( MaybeOptional< IVec4 > const & value )
 	{
 		if ( isAnyOptional( value ) )
 		{
 			return Optional< IVec4 >{ findShader( value )
-				, expr::makeBitCount4I( makeExpr( value ) )
+				, expr::makeBitCount4I( findTypesCache( value )
+					, makeExpr( value ) )
 				, areOptionalEnabled( value ) };
 		}
 
 		return IVec4{ findShader( value )
-			, expr::makeBitCount4I( makeExpr( value ) ) };
+			, expr::makeBitCount4I( findTypesCache( value )
+					, makeExpr( value ) ) };
 	}
 	MaybeOptional< UInt > bitCount( MaybeOptional< UInt > const & value )
 	{
 		if ( isAnyOptional( value ) )
 		{
 			return Optional< UInt >{ findShader( value )
-				, expr::makeBitCount1U( makeExpr( value ) )
+				, expr::makeBitCount1U( findTypesCache( value )
+					, makeExpr( value ) )
 				, areOptionalEnabled( value ) };
 		}
 
 		return UInt{ findShader( value )
-			, expr::makeBitCount1U( makeExpr( value ) ) };
+			, expr::makeBitCount1U( findTypesCache( value )
+					, makeExpr( value ) ) };
 	}
 	MaybeOptional< UVec2 > bitCount( MaybeOptional< UVec2 > const & value )
 	{
 		if ( isAnyOptional( value ) )
 		{
 			return Optional< UVec2 >{ findShader( value )
-				, expr::makeBitCount2U( makeExpr( value ) )
+				, expr::makeBitCount2U( findTypesCache( value )
+					, makeExpr( value ) )
 				, areOptionalEnabled( value ) };
 		}
 
 		return UVec2{ findShader( value )
-			, expr::makeBitCount2U( makeExpr( value ) ) };
+			, expr::makeBitCount2U( findTypesCache( value )
+					, makeExpr( value ) ) };
 	}
 	MaybeOptional< UVec3 > bitCount( MaybeOptional< UVec3 > const & value )
 	{
 		if ( isAnyOptional( value ) )
 		{
 			return Optional< UVec3 >{ findShader( value )
-				, expr::makeBitCount3U( makeExpr( value ) )
+				, expr::makeBitCount3U( findTypesCache( value )
+					, makeExpr( value ) )
 				, areOptionalEnabled( value ) };
 		}
 
 		return UVec3{ findShader( value )
-			, expr::makeBitCount3U( makeExpr( value ) ) };
+			, expr::makeBitCount3U( findTypesCache( value )
+					, makeExpr( value ) ) };
 	}
 	MaybeOptional< UVec4 > bitCount( MaybeOptional< UVec4 > const & value )
 	{
 		if ( isAnyOptional( value ) )
 		{
 			return Optional< UVec4 >{ findShader( value )
-				, expr::makeBitCount4U( makeExpr( value ) )
+				, expr::makeBitCount4U( findTypesCache( value )
+					, makeExpr( value ) )
 				, areOptionalEnabled( value ) };
 		}
 
 		return UVec4{ findShader( value )
-			, expr::makeBitCount4U( makeExpr( value ) ) };
+			, expr::makeBitCount4U( findTypesCache( value )
+					, makeExpr( value ) ) };
 	}
 	/**@}*/
 #pragma endregion
@@ -9922,96 +11204,112 @@ namespace sdw
 		if ( isAnyOptional( value ) )
 		{
 			return Optional< Int >{ findShader( value )
-				, expr::makeFindLSB1I( makeExpr( value ) )
+				, expr::makeFindLSB1I( findTypesCache( value )
+					, makeExpr( value ) )
 				, areOptionalEnabled( value ) };
 		}
 
 		return Int{ findShader( value )
-			, expr::makeFindLSB1I( makeExpr( value ) ) };
+			, expr::makeFindLSB1I( findTypesCache( value )
+					, makeExpr( value ) ) };
 	}
 	MaybeOptional< IVec2 > findLSB( MaybeOptional< IVec2 > const & value )
 	{
 		if ( isAnyOptional( value ) )
 		{
 			return Optional< IVec2 >{ findShader( value )
-				, expr::makeFindLSB2I( makeExpr( value ) )
+				, expr::makeFindLSB2I( findTypesCache( value )
+					, makeExpr( value ) )
 				, areOptionalEnabled( value ) };
 		}
 
 		return IVec2{ findShader( value )
-			, expr::makeFindLSB2I( makeExpr( value ) ) };
+			, expr::makeFindLSB2I( findTypesCache( value )
+					, makeExpr( value ) ) };
 	}
 	MaybeOptional< IVec3 > findLSB( MaybeOptional< IVec3 > const & value )
 	{
 		if ( isAnyOptional( value ) )
 		{
 			return Optional< IVec3 >{ findShader( value )
-				, expr::makeFindLSB3I( makeExpr( value ) )
+				, expr::makeFindLSB3I( findTypesCache( value )
+					, makeExpr( value ) )
 				, areOptionalEnabled( value ) };
 		}
 
 		return IVec3{ findShader( value )
-			, expr::makeFindLSB3I( makeExpr( value ) ) };
+			, expr::makeFindLSB3I( findTypesCache( value )
+					, makeExpr( value ) ) };
 	}
 	MaybeOptional< IVec4 > findLSB( MaybeOptional< IVec4 > const & value )
 	{
 		if ( isAnyOptional( value ) )
 		{
 			return Optional< IVec4 >{ findShader( value )
-				, expr::makeFindLSB4I( makeExpr( value ) )
+				, expr::makeFindLSB4I( findTypesCache( value )
+					, makeExpr( value ) )
 				, areOptionalEnabled( value ) };
 		}
 
 		return IVec4{ findShader( value )
-			, expr::makeFindLSB4I( makeExpr( value ) ) };
+			, expr::makeFindLSB4I( findTypesCache( value )
+					, makeExpr( value ) ) };
 	}
 	MaybeOptional< Int > findLSB( MaybeOptional< UInt > const & value )
 	{
 		if ( isAnyOptional( value ) )
 		{
 			return Optional< Int >{ findShader( value )
-				, expr::makeFindLSB1U( makeExpr( value ) )
+				, expr::makeFindLSB1U( findTypesCache( value )
+					, makeExpr( value ) )
 				, areOptionalEnabled( value ) };
 		}
 
 		return Int{ findShader( value )
-			, expr::makeFindLSB1U( makeExpr( value ) ) };
+			, expr::makeFindLSB1U( findTypesCache( value )
+					, makeExpr( value ) ) };
 	}
 	MaybeOptional< IVec2 > findLSB( MaybeOptional< UVec2 > const & value )
 	{
 		if ( isAnyOptional( value ) )
 		{
 			return Optional< IVec2 >{ findShader( value )
-				, expr::makeFindLSB2U( makeExpr( value ) )
+				, expr::makeFindLSB2U( findTypesCache( value )
+					, makeExpr( value ) )
 				, areOptionalEnabled( value ) };
 		}
 
 		return IVec2{ findShader( value )
-			, expr::makeFindLSB2U( makeExpr( value ) ) };
+			, expr::makeFindLSB2U( findTypesCache( value )
+					, makeExpr( value ) ) };
 	}
 	MaybeOptional< IVec3 > findLSB( MaybeOptional< UVec3 > const & value )
 	{
 		if ( isAnyOptional( value ) )
 		{
 			return Optional< IVec3 >{ findShader( value )
-				, expr::makeFindLSB3U( makeExpr( value ) )
+				, expr::makeFindLSB3U( findTypesCache( value )
+					, makeExpr( value ) )
 				, areOptionalEnabled( value ) };
 		}
 
 		return IVec3{ findShader( value )
-			, expr::makeFindLSB3U( makeExpr( value ) ) };
+			, expr::makeFindLSB3U( findTypesCache( value )
+					, makeExpr( value ) ) };
 	}
 	MaybeOptional< IVec4 > findLSB( MaybeOptional< UVec4 > const & value )
 	{
 		if ( isAnyOptional( value ) )
 		{
 			return Optional< IVec4 >{ findShader( value )
-				, expr::makeFindLSB4U( makeExpr( value ) )
+				, expr::makeFindLSB4U( findTypesCache( value )
+					, makeExpr( value ) )
 				, areOptionalEnabled( value ) };
 		}
 
 		return IVec4{ findShader( value )
-			, expr::makeFindLSB4U( makeExpr( value ) ) };
+			, expr::makeFindLSB4U( findTypesCache( value )
+					, makeExpr( value ) ) };
 	}
 	/**@}*/
 #pragma endregion
@@ -10026,96 +11324,112 @@ namespace sdw
 		if ( isAnyOptional( value ) )
 		{
 			return Optional< Int >{ findShader( value )
-				, expr::makeFindMSB1I( makeExpr( value ) )
+				, expr::makeFindMSB1I( findTypesCache( value )
+					, makeExpr( value ) )
 				, areOptionalEnabled( value ) };
 		}
 
 		return Int{ findShader( value )
-			, expr::makeFindMSB1I( makeExpr( value ) ) };
+			, expr::makeFindMSB1I( findTypesCache( value )
+					, makeExpr( value ) ) };
 	}
 	MaybeOptional< IVec2 > findMSB( MaybeOptional< IVec2 > const & value )
 	{
 		if ( isAnyOptional( value ) )
 		{
 			return Optional< IVec2 >{ findShader( value )
-				, expr::makeFindMSB2I( makeExpr( value ) )
+				, expr::makeFindMSB2I( findTypesCache( value )
+					, makeExpr( value ) )
 				, areOptionalEnabled( value ) };
 		}
 
 		return IVec2{ findShader( value )
-			, expr::makeFindMSB2I( makeExpr( value ) ) };
+			, expr::makeFindMSB2I( findTypesCache( value )
+					, makeExpr( value ) ) };
 	}
 	MaybeOptional< IVec3 > findMSB( MaybeOptional< IVec3 > const & value )
 	{
 		if ( isAnyOptional( value ) )
 		{
 			return Optional< IVec3 >{ findShader( value )
-				, expr::makeFindMSB3I( makeExpr( value ) )
+				, expr::makeFindMSB3I( findTypesCache( value )
+					, makeExpr( value ) )
 				, areOptionalEnabled( value ) };
 		}
 
 		return IVec3{ findShader( value )
-			, expr::makeFindMSB3I( makeExpr( value ) ) };
+			, expr::makeFindMSB3I( findTypesCache( value )
+					, makeExpr( value ) ) };
 	}
 	MaybeOptional< IVec4 > findMSB( MaybeOptional< IVec4 > const & value )
 	{
 		if ( isAnyOptional( value ) )
 		{
 			return Optional< IVec4 >{ findShader( value )
-				, expr::makeFindMSB4I( makeExpr( value ) )
+				, expr::makeFindMSB4I( findTypesCache( value )
+					, makeExpr( value ) )
 				, areOptionalEnabled( value ) };
 		}
 
 		return IVec4{ findShader( value )
-			, expr::makeFindMSB4I( makeExpr( value ) ) };
+			, expr::makeFindMSB4I( findTypesCache( value )
+					, makeExpr( value ) ) };
 	}
 	MaybeOptional< Int > findMSB( MaybeOptional< UInt > const & value )
 	{
 		if ( isAnyOptional( value ) )
 		{
 			return Optional< Int >{ findShader( value )
-				, expr::makeFindMSB1U( makeExpr( value ) )
+				, expr::makeFindMSB1U( findTypesCache( value )
+					, makeExpr( value ) )
 				, areOptionalEnabled( value ) };
 		}
 
 		return Int{ findShader( value )
-			, expr::makeFindMSB1U( makeExpr( value ) ) };
+			, expr::makeFindMSB1U( findTypesCache( value )
+					, makeExpr( value ) ) };
 	}
 	MaybeOptional< IVec2 > findMSB( MaybeOptional< UVec2 > const & value )
 	{
 		if ( isAnyOptional( value ) )
 		{
 			return Optional< IVec2 >{ findShader( value )
-				, expr::makeFindMSB2U( makeExpr( value ) )
+				, expr::makeFindMSB2U( findTypesCache( value )
+					, makeExpr( value ) )
 				, areOptionalEnabled( value ) };
 		}
 
 		return IVec2{ findShader( value )
-			, expr::makeFindMSB2U( makeExpr( value ) ) };
+			, expr::makeFindMSB2U( findTypesCache( value )
+					, makeExpr( value ) ) };
 	}
 	MaybeOptional< IVec3 > findMSB( MaybeOptional< UVec3 > const & value )
 	{
 		if ( isAnyOptional( value ) )
 		{
 			return Optional< IVec3 >{ findShader( value )
-				, expr::makeFindMSB3U( makeExpr( value ) )
+				, expr::makeFindMSB3U( findTypesCache( value )
+					, makeExpr( value ) )
 				, areOptionalEnabled( value ) };
 		}
 
 		return IVec3{ findShader( value )
-			, expr::makeFindMSB3U( makeExpr( value ) ) };
+			, expr::makeFindMSB3U( findTypesCache( value )
+					, makeExpr( value ) ) };
 	}
 	MaybeOptional< IVec4 > findMSB( MaybeOptional< UVec4 > const & value )
 	{
 		if ( isAnyOptional( value ) )
 		{
 			return Optional< IVec4 >{ findShader( value )
-				, expr::makeFindMSB4U( makeExpr( value ) )
+				, expr::makeFindMSB4U( findTypesCache( value )
+					, makeExpr( value ) )
 				, areOptionalEnabled( value ) };
 		}
 
 		return IVec4{ findShader( value )
-			, expr::makeFindMSB4U( makeExpr( value ) ) };
+			, expr::makeFindMSB4U( findTypesCache( value )
+					, makeExpr( value ) ) };
 	}
 	/**@}*/
 #pragma endregion
@@ -10131,13 +11445,15 @@ namespace sdw
 		if ( isAnyOptional( mem, data ) )
 		{
 			return Optional< Int >{ findShader( mem, data )
-				, expr::makeAtomicAddI( makeExpr( mem )
+				, expr::makeAtomicAddI( findTypesCache( mem, data )
+					, makeExpr( mem )
 					, makeExpr( data ) )
 				, areOptionalEnabled( mem, data ) };
 		}
 
 		return Int{ findShader( mem, data )
-			, expr::makeAtomicAddI( makeExpr( mem )
+			, expr::makeAtomicAddI( findTypesCache( mem, data )
+					, makeExpr( mem )
 				, makeExpr( data ) ) };
 	}
 	MaybeOptional< UInt > atomicAdd( MaybeOptional< UInt > const & mem
@@ -10146,13 +11462,15 @@ namespace sdw
 		if ( isAnyOptional( mem, data ) )
 		{
 			return Optional< UInt >{ findShader( mem, data )
-				, expr::makeAtomicAddU( makeExpr( mem )
+				, expr::makeAtomicAddU( findTypesCache( mem, data )
+					, makeExpr( mem )
 					, makeExpr( data ) )
 				, areOptionalEnabled( mem, data ) };
 		}
 
 		return UInt{ findShader( mem, data )
-			, expr::makeAtomicAddU( makeExpr( mem )
+			, expr::makeAtomicAddU( findTypesCache( mem, data )
+					, makeExpr( mem )
 				, makeExpr( data ) ) };
 	}
 	/**@}*/
@@ -10169,13 +11487,15 @@ namespace sdw
 		if ( isAnyOptional( mem, data ) )
 		{
 			return Optional< Int >{ findShader( mem, data )
-				, expr::makeAtomicMinI( makeExpr( mem )
+				, expr::makeAtomicMinI( findTypesCache( mem, data )
+					, makeExpr( mem )
 					, makeExpr( data ) )
 				, areOptionalEnabled( mem, data ) };
 		}
 
 		return Int{ findShader( mem, data )
-			, expr::makeAtomicMinI( makeExpr( mem )
+			, expr::makeAtomicMinI( findTypesCache( mem, data )
+					, makeExpr( mem )
 				, makeExpr( data ) ) };
 	}
 	MaybeOptional< UInt > atomicMin( MaybeOptional< UInt > const & mem
@@ -10184,13 +11504,15 @@ namespace sdw
 		if ( isAnyOptional( mem, data ) )
 		{
 			return Optional< UInt >{ findShader( mem, data )
-				, expr::makeAtomicMinU( makeExpr( mem )
+				, expr::makeAtomicMinU( findTypesCache( mem, data )
+					, makeExpr( mem )
 					, makeExpr( data ) )
 				, areOptionalEnabled( mem, data ) };
 		}
 
 		return UInt{ findShader( mem, data )
-			, expr::makeAtomicMinU( makeExpr( mem )
+			, expr::makeAtomicMinU( findTypesCache( mem, data )
+					, makeExpr( mem )
 				, makeExpr( data ) ) };
 	}
 	/**@}*/
@@ -10207,13 +11529,15 @@ namespace sdw
 		if ( isAnyOptional( mem, data ) )
 		{
 			return Optional< Int >{ findShader( mem, data )
-				, expr::makeAtomicMaxI( makeExpr( mem )
+				, expr::makeAtomicMaxI( findTypesCache( mem, data )
+					, makeExpr( mem )
 					, makeExpr( data ) )
 				, areOptionalEnabled( mem, data ) };
 		}
 
 		return Int{ findShader( mem, data )
-			, expr::makeAtomicMaxI( makeExpr( mem )
+			, expr::makeAtomicMaxI( findTypesCache( mem, data )
+					, makeExpr( mem )
 				, makeExpr( data ) ) };
 	}
 	MaybeOptional< UInt > atomicMax( MaybeOptional< UInt > const & mem
@@ -10222,13 +11546,15 @@ namespace sdw
 		if ( isAnyOptional( mem, data ) )
 		{
 			return Optional< UInt >{ findShader( mem, data )
-				, expr::makeAtomicMaxU( makeExpr( mem )
+				, expr::makeAtomicMaxU( findTypesCache( mem, data )
+					, makeExpr( mem )
 					, makeExpr( data ) )
 				, areOptionalEnabled( mem, data ) };
 		}
 
 		return UInt{ findShader( mem, data )
-			, expr::makeAtomicMaxU( makeExpr( mem )
+			, expr::makeAtomicMaxU( findTypesCache( mem, data )
+					, makeExpr( mem )
 				, makeExpr( data ) ) };
 	}
 	/**@}*/
@@ -10245,13 +11571,15 @@ namespace sdw
 		if ( isAnyOptional( mem, data ) )
 		{
 			return Optional< Int >{ findShader( mem, data )
-				, expr::makeAtomicAndI( makeExpr( mem )
+				, expr::makeAtomicAndI( findTypesCache( mem, data )
+					, makeExpr( mem )
 					, makeExpr( data ) )
 				, areOptionalEnabled( mem, data ) };
 		}
 
 		return Int{ findShader( mem, data )
-			, expr::makeAtomicAndI( makeExpr( mem )
+			, expr::makeAtomicAndI( findTypesCache( mem, data )
+					, makeExpr( mem )
 				, makeExpr( data ) ) };
 	}
 	MaybeOptional< UInt > atomicAnd( MaybeOptional< UInt > const & mem
@@ -10260,13 +11588,15 @@ namespace sdw
 		if ( isAnyOptional( mem, data ) )
 		{
 			return Optional< UInt >{ findShader( mem, data )
-				, expr::makeAtomicAndU( makeExpr( mem )
+				, expr::makeAtomicAndU( findTypesCache( mem, data )
+					, makeExpr( mem )
 					, makeExpr( data ) )
 				, areOptionalEnabled( mem, data ) };
 		}
 
 		return UInt{ findShader( mem, data )
-			, expr::makeAtomicAndU( makeExpr( mem )
+			, expr::makeAtomicAndU( findTypesCache( mem, data )
+					, makeExpr( mem )
 				, makeExpr( data ) ) };
 	}
 	/**@}*/
@@ -10283,13 +11613,15 @@ namespace sdw
 		if ( isAnyOptional( mem, data ) )
 		{
 			return Optional< Int >{ findShader( mem, data )
-				, expr::makeAtomicOrI( makeExpr( mem )
+				, expr::makeAtomicOrI( findTypesCache( mem, data )
+					, makeExpr( mem )
 					, makeExpr( data ) )
 				, areOptionalEnabled( mem, data ) };
 		}
 
 		return Int{ findShader( mem, data )
-			, expr::makeAtomicOrI( makeExpr( mem )
+			, expr::makeAtomicOrI( findTypesCache( mem, data )
+					, makeExpr( mem )
 				, makeExpr( data ) ) };
 	}
 	MaybeOptional< UInt > atomicOr( MaybeOptional< UInt > const & mem
@@ -10298,13 +11630,15 @@ namespace sdw
 		if ( isAnyOptional( mem, data ) )
 		{
 			return Optional< UInt >{ findShader( mem, data )
-				, expr::makeAtomicOrU( makeExpr( mem )
+				, expr::makeAtomicOrU( findTypesCache( mem, data )
+					, makeExpr( mem )
 					, makeExpr( data ) )
 				, areOptionalEnabled( mem, data ) };
 		}
 
 		return UInt{ findShader( mem, data )
-			, expr::makeAtomicOrU( makeExpr( mem )
+			, expr::makeAtomicOrU( findTypesCache( mem, data )
+					, makeExpr( mem )
 				, makeExpr( data ) ) };
 	}
 	/**@}*/
@@ -10321,13 +11655,15 @@ namespace sdw
 		if ( isAnyOptional( mem, data ) )
 		{
 			return Optional< Int >{ findShader( mem, data )
-				, expr::makeAtomicXorI( makeExpr( mem )
+				, expr::makeAtomicXorI( findTypesCache( mem, data )
+					, makeExpr( mem )
 					, makeExpr( data ) )
 				, areOptionalEnabled( mem, data ) };
 		}
 
 		return Int{ findShader( mem, data )
-			, expr::makeAtomicXorI( makeExpr( mem )
+			, expr::makeAtomicXorI( findTypesCache( mem, data )
+					, makeExpr( mem )
 				, makeExpr( data ) ) };
 	}
 	MaybeOptional< UInt > atomicXor( MaybeOptional< UInt > const & mem
@@ -10336,13 +11672,15 @@ namespace sdw
 		if ( isAnyOptional( mem, data ) )
 		{
 			return Optional< UInt >{ findShader( mem, data )
-				, expr::makeAtomicXorU( makeExpr( mem )
+				, expr::makeAtomicXorU( findTypesCache( mem, data )
+					, makeExpr( mem )
 					, makeExpr( data ) )
 				, areOptionalEnabled( mem, data ) };
 		}
 
 		return UInt{ findShader( mem, data )
-			, expr::makeAtomicXorU( makeExpr( mem )
+			, expr::makeAtomicXorU( findTypesCache( mem, data )
+					, makeExpr( mem )
 				, makeExpr( data ) ) };
 	}
 	/**@}*/
@@ -10359,13 +11697,15 @@ namespace sdw
 		if ( isAnyOptional( mem, data ) )
 		{
 			return Optional< Int >{ findShader( mem, data )
-				, expr::makeAtomicExchangeI( makeExpr( mem )
+				, expr::makeAtomicExchangeI( findTypesCache( mem, data )
+					, makeExpr( mem )
 					, makeExpr( data ) )
 				, areOptionalEnabled( mem, data ) };
 		}
 
 		return Int{ findShader( mem, data )
-			, expr::makeAtomicExchangeI( makeExpr( mem )
+			, expr::makeAtomicExchangeI( findTypesCache( mem, data )
+					, makeExpr( mem )
 				, makeExpr( data ) ) };
 	}
 	MaybeOptional< UInt > atomicExchange( MaybeOptional< UInt > const & mem
@@ -10374,13 +11714,15 @@ namespace sdw
 		if ( isAnyOptional( mem, data ) )
 		{
 			return Optional< UInt >{ findShader( mem, data )
-				, expr::makeAtomicExchangeU( makeExpr( mem )
+				, expr::makeAtomicExchangeU( findTypesCache( mem, data )
+					, makeExpr( mem )
 					, makeExpr( data ) )
 				, areOptionalEnabled( mem, data ) };
 		}
 
 		return UInt{ findShader( mem, data )
-			, expr::makeAtomicExchangeU( makeExpr( mem )
+			, expr::makeAtomicExchangeU( findTypesCache( mem, data )
+					, makeExpr( mem )
 				, makeExpr( data ) ) };
 	}
 	/**@}*/
@@ -10397,13 +11739,15 @@ namespace sdw
 		if ( isAnyOptional( mem, compare ) )
 		{
 			return Optional< Int >{ findShader( mem, compare )
-				, expr::makeAtomicCompSwapI( makeExpr( mem )
+				, expr::makeAtomicCompSwapI( findTypesCache( mem, compare )
+					, makeExpr( mem )
 					, makeExpr( compare ) )
 				, areOptionalEnabled( mem, compare ) };
 		}
 
 		return Int{ findShader( mem, compare )
-			, expr::makeAtomicCompSwapI( makeExpr( mem )
+			, expr::makeAtomicCompSwapI( findTypesCache( mem, compare )
+					, makeExpr( mem )
 				, makeExpr( compare ) ) };
 	}
 	MaybeOptional< UInt > atomicCompSwap( MaybeOptional< UInt > const & mem
@@ -10412,13 +11756,15 @@ namespace sdw
 		if ( isAnyOptional( mem, compare ) )
 		{
 			return Optional< UInt >{ findShader( mem, compare )
-				, expr::makeAtomicCompSwapU( makeExpr( mem )
+				, expr::makeAtomicCompSwapU( findTypesCache( mem, compare )
+					, makeExpr( mem )
 					, makeExpr( compare ) )
 				, areOptionalEnabled( mem, compare ) };
 		}
 
 		return UInt{ findShader( mem, compare )
-			, expr::makeAtomicCompSwapU( makeExpr( mem )
+			, expr::makeAtomicCompSwapU( findTypesCache( mem, compare )
+					, makeExpr( mem )
 				, makeExpr( compare ) ) };
 	}
 	/**@}*/
@@ -10434,48 +11780,56 @@ namespace sdw
 		if ( isAnyOptional( p ) )
 		{
 			return Optional< Float >{ findShader( p )
-				, expr::makeDFdx1( makeExpr( p ) )
+				, expr::makeDFdx1( findTypesCache( p )
+					, makeExpr( p ) )
 				, areOptionalEnabled( p ) };
 		}
 
 		return Float{ findShader( p )
-			, expr::makeDFdx1( makeExpr( p ) ) };
+			, expr::makeDFdx1( findTypesCache( p )
+					, makeExpr( p ) ) };
 	}
 	MaybeOptional< Vec2 > dFdx( MaybeOptional< Vec2 > const & p )
 	{
 		if ( isAnyOptional( p ) )
 		{
 			return Optional< Vec2 >{ findShader( p )
-				, expr::makeDFdx2( makeExpr( p ) )
+				, expr::makeDFdx2( findTypesCache( p )
+					, makeExpr( p ) )
 				, areOptionalEnabled( p ) };
 		}
 
 		return Vec2{ findShader( p )
-			, expr::makeDFdx2( makeExpr( p ) ) };
+			, expr::makeDFdx2( findTypesCache( p )
+					, makeExpr( p ) ) };
 	}
 	MaybeOptional< Vec3 > dFdx( MaybeOptional< Vec3 > const & p )
 	{
 		if ( isAnyOptional( p ) )
 		{
 			return Optional< Vec3 >{ findShader( p )
-				, expr::makeDFdx3( makeExpr( p ) )
+				, expr::makeDFdx3( findTypesCache( p )
+					, makeExpr( p ) )
 				, areOptionalEnabled( p ) };
 		}
 
 		return Vec3{ findShader( p )
-			, expr::makeDFdx3( makeExpr( p ) ) };
+			, expr::makeDFdx3( findTypesCache( p )
+					, makeExpr( p ) ) };
 	}
 	MaybeOptional< Vec4 > dFdx( MaybeOptional< Vec4 > const & p )
 	{
 		if ( isAnyOptional( p ) )
 		{
 			return Optional< Vec4 >{ findShader( p )
-				, expr::makeDFdx4( makeExpr( p ) )
+				, expr::makeDFdx4( findTypesCache( p )
+					, makeExpr( p ) )
 				, areOptionalEnabled( p ) };
 		}
 
 		return Vec4{ findShader( p )
-			, expr::makeDFdx4( makeExpr( p ) ) };
+			, expr::makeDFdx4( findTypesCache( p )
+					, makeExpr( p ) ) };
 	}
 	/**@}*/
 #pragma endregion
@@ -10490,48 +11844,56 @@ namespace sdw
 		if ( isAnyOptional( p ) )
 		{
 			return Optional< Float >{ findShader( p )
-				, expr::makeDFdxCoarse1( makeExpr( p ) )
+				, expr::makeDFdxCoarse1( findTypesCache( p )
+					, makeExpr( p ) )
 				, areOptionalEnabled( p ) };
 		}
 
 		return Float{ findShader( p )
-			, expr::makeDFdxCoarse1( makeExpr( p ) ) };
+			, expr::makeDFdxCoarse1( findTypesCache( p )
+					, makeExpr( p ) ) };
 	}
 	MaybeOptional< Vec2 > dFdxCoarse( MaybeOptional< Vec2 > const & p )
 	{
 		if ( isAnyOptional( p ) )
 		{
 			return Optional< Vec2 >{ findShader( p )
-				, expr::makeDFdxCoarse2( makeExpr( p ) )
+				, expr::makeDFdxCoarse2( findTypesCache( p )
+					, makeExpr( p ) )
 				, areOptionalEnabled( p ) };
 		}
 
 		return Vec2{ findShader( p )
-			, expr::makeDFdxCoarse2( makeExpr( p ) ) };
+			, expr::makeDFdxCoarse2( findTypesCache( p )
+					, makeExpr( p ) ) };
 	}
 	MaybeOptional< Vec3 > dFdxCoarse( MaybeOptional< Vec3 > const & p )
 	{
 		if ( isAnyOptional( p ) )
 		{
 			return Optional< Vec3 >{ findShader( p )
-				, expr::makeDFdxCoarse3( makeExpr( p ) )
+				, expr::makeDFdxCoarse3( findTypesCache( p )
+					, makeExpr( p ) )
 				, areOptionalEnabled( p ) };
 		}
 
 		return Vec3{ findShader( p )
-			, expr::makeDFdxCoarse3( makeExpr( p ) ) };
+			, expr::makeDFdxCoarse3( findTypesCache( p )
+					, makeExpr( p ) ) };
 	}
 	MaybeOptional< Vec4 > dFdxCoarse( MaybeOptional< Vec4 > const & p )
 	{
 		if ( isAnyOptional( p ) )
 		{
 			return Optional< Vec4 >{ findShader( p )
-				, expr::makeDFdxCoarse4( makeExpr( p ) )
+				, expr::makeDFdxCoarse4( findTypesCache( p )
+					, makeExpr( p ) )
 				, areOptionalEnabled( p ) };
 		}
 
 		return Vec4{ findShader( p )
-			, expr::makeDFdxCoarse4( makeExpr( p ) ) };
+			, expr::makeDFdxCoarse4( findTypesCache( p )
+					, makeExpr( p ) ) };
 	}
 	/**@}*/
 #pragma endregion
@@ -10546,48 +11908,56 @@ namespace sdw
 		if ( isAnyOptional( p ) )
 		{
 			return Optional< Float >{ findShader( p )
-				, expr::makeDFdxFine1( makeExpr( p ) )
+				, expr::makeDFdxFine1( findTypesCache( p )
+					, makeExpr( p ) )
 				, areOptionalEnabled( p ) };
 		}
 
 		return Float{ findShader( p )
-			, expr::makeDFdxFine1( makeExpr( p ) ) };
+			, expr::makeDFdxFine1( findTypesCache( p )
+					, makeExpr( p ) ) };
 	}
 	MaybeOptional< Vec2 > dFdxFine( MaybeOptional< Vec2 > const & p )
 	{
 		if ( isAnyOptional( p ) )
 		{
 			return Optional< Vec2 >{ findShader( p )
-				, expr::makeDFdxFine2( makeExpr( p ) )
+				, expr::makeDFdxFine2( findTypesCache( p )
+					, makeExpr( p ) )
 				, areOptionalEnabled( p ) };
 		}
 
 		return Vec2{ findShader( p )
-			, expr::makeDFdxFine2( makeExpr( p ) ) };
+			, expr::makeDFdxFine2( findTypesCache( p )
+					, makeExpr( p ) ) };
 	}
 	MaybeOptional< Vec3 > dFdxFine( MaybeOptional< Vec3 > const & p )
 	{
 		if ( isAnyOptional( p ) )
 		{
 			return Optional< Vec3 >{ findShader( p )
-				, expr::makeDFdxFine3( makeExpr( p ) )
+				, expr::makeDFdxFine3( findTypesCache( p )
+					, makeExpr( p ) )
 				, areOptionalEnabled( p ) };
 		}
 
 		return Vec3{ findShader( p )
-			, expr::makeDFdxFine3( makeExpr( p ) ) };
+			, expr::makeDFdxFine3( findTypesCache( p )
+					, makeExpr( p ) ) };
 	}
 	MaybeOptional< Vec4 > dFdxFine( MaybeOptional< Vec4 > const & p )
 	{
 		if ( isAnyOptional( p ) )
 		{
 			return Optional< Vec4 >{ findShader( p )
-				, expr::makeDFdxFine4( makeExpr( p ) )
+				, expr::makeDFdxFine4( findTypesCache( p )
+					, makeExpr( p ) )
 				, areOptionalEnabled( p ) };
 		}
 
 		return Vec4{ findShader( p )
-			, expr::makeDFdxFine4( makeExpr( p ) ) };
+			, expr::makeDFdxFine4( findTypesCache( p )
+					, makeExpr( p ) ) };
 	}
 	/**@}*/
 #pragma endregion
@@ -10602,48 +11972,56 @@ namespace sdw
 		if ( isAnyOptional( p ) )
 		{
 			return Optional< Float >{ findShader( p )
-				, expr::makeDFdy1( makeExpr( p ) )
+				, expr::makeDFdy1( findTypesCache( p )
+					, makeExpr( p ) )
 				, areOptionalEnabled( p ) };
 		}
 
 		return Float{ findShader( p )
-			, expr::makeDFdy1( makeExpr( p ) ) };
+			, expr::makeDFdy1( findTypesCache( p )
+					, makeExpr( p ) ) };
 	}
 	MaybeOptional< Vec2 > dFdy( MaybeOptional< Vec2 > const & p )
 	{
 		if ( isAnyOptional( p ) )
 		{
 			return Optional< Vec2 >{ findShader( p )
-				, expr::makeDFdy2( makeExpr( p ) )
+				, expr::makeDFdy2( findTypesCache( p )
+					, makeExpr( p ) )
 				, areOptionalEnabled( p ) };
 		}
 
 		return Vec2{ findShader( p )
-			, expr::makeDFdy2( makeExpr( p ) ) };
+			, expr::makeDFdy2( findTypesCache( p )
+					, makeExpr( p ) ) };
 	}
 	MaybeOptional< Vec3 > dFdy( MaybeOptional< Vec3 > const & p )
 	{
 		if ( isAnyOptional( p ) )
 		{
 			return Optional< Vec3 >{ findShader( p )
-				, expr::makeDFdy3( makeExpr( p ) )
+				, expr::makeDFdy3( findTypesCache( p )
+					, makeExpr( p ) )
 				, areOptionalEnabled( p ) };
 		}
 
 		return Vec3{ findShader( p )
-			, expr::makeDFdy3( makeExpr( p ) ) };
+			, expr::makeDFdy3( findTypesCache( p )
+					, makeExpr( p ) ) };
 	}
 	MaybeOptional< Vec4 > dFdy( MaybeOptional< Vec4 > const & p )
 	{
 		if ( isAnyOptional( p ) )
 		{
 			return Optional< Vec4 >{ findShader( p )
-				, expr::makeDFdy4( makeExpr( p ) )
+				, expr::makeDFdy4( findTypesCache( p )
+					, makeExpr( p ) )
 				, areOptionalEnabled( p ) };
 		}
 
 		return Vec4{ findShader( p )
-			, expr::makeDFdy4( makeExpr( p ) ) };
+			, expr::makeDFdy4( findTypesCache( p )
+					, makeExpr( p ) ) };
 	}
 	/**@}*/
 #pragma endregion
@@ -10658,48 +12036,56 @@ namespace sdw
 		if ( isAnyOptional( p ) )
 		{
 			return Optional< Float >{ findShader( p )
-				, expr::makeDFdyCoarse1( makeExpr( p ) )
+				, expr::makeDFdyCoarse1( findTypesCache( p )
+					, makeExpr( p ) )
 				, areOptionalEnabled( p ) };
 		}
 
 		return Float{ findShader( p )
-			, expr::makeDFdyCoarse1( makeExpr( p ) ) };
+			, expr::makeDFdyCoarse1( findTypesCache( p )
+					, makeExpr( p ) ) };
 	}
 	MaybeOptional< Vec2 > dFdyCoarse( MaybeOptional< Vec2 > const & p )
 	{
 		if ( isAnyOptional( p ) )
 		{
 			return Optional< Vec2 >{ findShader( p )
-				, expr::makeDFdyCoarse2( makeExpr( p ) )
+				, expr::makeDFdyCoarse2( findTypesCache( p )
+					, makeExpr( p ) )
 				, areOptionalEnabled( p ) };
 		}
 
 		return Vec2{ findShader( p )
-			, expr::makeDFdyCoarse2( makeExpr( p ) ) };
+			, expr::makeDFdyCoarse2( findTypesCache( p )
+					, makeExpr( p ) ) };
 	}
 	MaybeOptional< Vec3 > dFdyCoarse( MaybeOptional< Vec3 > const & p )
 	{
 		if ( isAnyOptional( p ) )
 		{
 			return Optional< Vec3 >{ findShader( p )
-				, expr::makeDFdyCoarse3( makeExpr( p ) )
+				, expr::makeDFdyCoarse3( findTypesCache( p )
+					, makeExpr( p ) )
 				, areOptionalEnabled( p ) };
 		}
 
 		return Vec3{ findShader( p )
-			, expr::makeDFdyCoarse3( makeExpr( p ) ) };
+			, expr::makeDFdyCoarse3( findTypesCache( p )
+					, makeExpr( p ) ) };
 	}
 	MaybeOptional< Vec4 > dFdyCoarse( MaybeOptional< Vec4 > const & p )
 	{
 		if ( isAnyOptional( p ) )
 		{
 			return Optional< Vec4 >{ findShader( p )
-				, expr::makeDFdyCoarse4( makeExpr( p ) )
+				, expr::makeDFdyCoarse4( findTypesCache( p )
+					, makeExpr( p ) )
 				, areOptionalEnabled( p ) };
 		}
 
 		return Vec4{ findShader( p )
-			, expr::makeDFdyCoarse4( makeExpr( p ) ) };
+			, expr::makeDFdyCoarse4( findTypesCache( p )
+					, makeExpr( p ) ) };
 	}
 	/**@}*/
 #pragma endregion
@@ -10714,48 +12100,56 @@ namespace sdw
 		if ( isAnyOptional( p ) )
 		{
 			return Optional< Float >{ findShader( p )
-				, expr::makeDFdyFine1( makeExpr( p ) )
+				, expr::makeDFdyFine1( findTypesCache( p )
+					, makeExpr( p ) )
 				, areOptionalEnabled( p ) };
 		}
 
 		return Float{ findShader( p )
-			, expr::makeDFdyFine1( makeExpr( p ) ) };
+			, expr::makeDFdyFine1( findTypesCache( p )
+					, makeExpr( p ) ) };
 	}
 	MaybeOptional< Vec2 > dFdyFine( MaybeOptional< Vec2 > const & p )
 	{
 		if ( isAnyOptional( p ) )
 		{
 			return Optional< Vec2 >{ findShader( p )
-				, expr::makeDFdyFine2( makeExpr( p ) )
+				, expr::makeDFdyFine2( findTypesCache( p )
+					, makeExpr( p ) )
 				, areOptionalEnabled( p ) };
 		}
 
 		return Vec2{ findShader( p )
-			, expr::makeDFdyFine2( makeExpr( p ) ) };
+			, expr::makeDFdyFine2( findTypesCache( p )
+					, makeExpr( p ) ) };
 	}
 	MaybeOptional< Vec3 > dFdyFine( MaybeOptional< Vec3 > const & p )
 	{
 		if ( isAnyOptional( p ) )
 		{
 			return Optional< Vec3 >{ findShader( p )
-				, expr::makeDFdyFine3( makeExpr( p ) )
+				, expr::makeDFdyFine3( findTypesCache( p )
+					, makeExpr( p ) )
 				, areOptionalEnabled( p ) };
 		}
 
 		return Vec3{ findShader( p )
-			, expr::makeDFdyFine3( makeExpr( p ) ) };
+			, expr::makeDFdyFine3( findTypesCache( p )
+					, makeExpr( p ) ) };
 	}
 	MaybeOptional< Vec4 > dFdyFine( MaybeOptional< Vec4 > const & p )
 	{
 		if ( isAnyOptional( p ) )
 		{
 			return Optional< Vec4 >{ findShader( p )
-				, expr::makeDFdyFine4( makeExpr( p ) )
+				, expr::makeDFdyFine4( findTypesCache( p )
+					, makeExpr( p ) )
 				, areOptionalEnabled( p ) };
 		}
 
 		return Vec4{ findShader( p )
-			, expr::makeDFdyFine4( makeExpr( p ) ) };
+			, expr::makeDFdyFine4( findTypesCache( p )
+					, makeExpr( p ) ) };
 	}
 	/**@}*/
 #pragma endregion
@@ -10770,48 +12164,56 @@ namespace sdw
 		if ( isAnyOptional( p ) )
 		{
 			return Optional< Float >{ findShader( p )
-				, expr::makeFwidth1( makeExpr( p ) )
+				, expr::makeFwidth1( findTypesCache( p )
+					, makeExpr( p ) )
 				, areOptionalEnabled( p ) };
 		}
 
 		return Float{ findShader( p )
-			, expr::makeFwidth1( makeExpr( p ) ) };
+			, expr::makeFwidth1( findTypesCache( p )
+					, makeExpr( p ) ) };
 	}
 	MaybeOptional< Vec2 > fwidth( MaybeOptional< Vec2 > const & p )
 	{
 		if ( isAnyOptional( p ) )
 		{
 			return Optional< Vec2 >{ findShader( p )
-				, expr::makeFwidth2( makeExpr( p ) )
+				, expr::makeFwidth2( findTypesCache( p )
+					, makeExpr( p ) )
 				, areOptionalEnabled( p ) };
 		}
 
 		return Vec2{ findShader( p )
-			, expr::makeFwidth2( makeExpr( p ) ) };
+			, expr::makeFwidth2( findTypesCache( p )
+					, makeExpr( p ) ) };
 	}
 	MaybeOptional< Vec3 > fwidth( MaybeOptional< Vec3 > const & p )
 	{
 		if ( isAnyOptional( p ) )
 		{
 			return Optional< Vec3 >{ findShader( p )
-				, expr::makeFwidth3( makeExpr( p ) )
+				, expr::makeFwidth3( findTypesCache( p )
+					, makeExpr( p ) )
 				, areOptionalEnabled( p ) };
 		}
 
 		return Vec3{ findShader( p )
-			, expr::makeFwidth3( makeExpr( p ) ) };
+			, expr::makeFwidth3( findTypesCache( p )
+					, makeExpr( p ) ) };
 	}
 	MaybeOptional< Vec4 > fwidth( MaybeOptional< Vec4 > const & p )
 	{
 		if ( isAnyOptional( p ) )
 		{
 			return Optional< Vec4 >{ findShader( p )
-				, expr::makeFwidth4( makeExpr( p ) )
+				, expr::makeFwidth4( findTypesCache( p )
+					, makeExpr( p ) )
 				, areOptionalEnabled( p ) };
 		}
 
 		return Vec4{ findShader( p )
-			, expr::makeFwidth4( makeExpr( p ) ) };
+			, expr::makeFwidth4( findTypesCache( p )
+					, makeExpr( p ) ) };
 	}
 	/**@}*/
 #pragma endregion
@@ -10826,48 +12228,56 @@ namespace sdw
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< Float >{ findShader( x )
-				, expr::makeInterpolateAtCentroid1( makeExpr( x ) )
+				, expr::makeInterpolateAtCentroid1( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return Float{ findShader( x )
-			, expr::makeInterpolateAtCentroid1( makeExpr( x ) ) };
+			, expr::makeInterpolateAtCentroid1( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< Vec2 > interpolateAtCentroid( MaybeOptional< Vec2 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< Vec2 >{ findShader( x )
-				, expr::makeInterpolateAtCentroid2( makeExpr( x ) )
+				, expr::makeInterpolateAtCentroid2( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return Vec2{ findShader( x )
-			, expr::makeInterpolateAtCentroid2( makeExpr( x ) ) };
+			, expr::makeInterpolateAtCentroid2( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< Vec3 > interpolateAtCentroid( MaybeOptional< Vec3 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< Vec3 >{ findShader( x )
-				, expr::makeInterpolateAtCentroid3( makeExpr( x ) )
+				, expr::makeInterpolateAtCentroid3( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return Vec3{ findShader( x )
-			, expr::makeInterpolateAtCentroid3( makeExpr( x ) ) };
+			, expr::makeInterpolateAtCentroid3( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	MaybeOptional< Vec4 > interpolateAtCentroid( MaybeOptional< Vec4 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
 			return Optional< Vec4 >{ findShader( x )
-				, expr::makeInterpolateAtCentroid4( makeExpr( x ) )
+				, expr::makeInterpolateAtCentroid4( findTypesCache( x )
+					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
 		return Vec4{ findShader( x )
-			, expr::makeInterpolateAtCentroid4( makeExpr( x ) ) };
+			, expr::makeInterpolateAtCentroid4( findTypesCache( x )
+					, makeExpr( x ) ) };
 	}
 	/**@}*/
 #pragma endregion
@@ -10883,13 +12293,15 @@ namespace sdw
 		if ( isAnyOptional( interpolant, sample ) )
 		{
 			return Optional< Float >{ findShader( interpolant, sample )
-				, expr::makeInterpolateAtSample1( makeExpr( interpolant )
+				, expr::makeInterpolateAtSample1( findTypesCache( interpolant, sample )
+					, makeExpr( interpolant )
 					, makeExpr( sample ) )
 				, areOptionalEnabled( interpolant, sample ) };
 		}
 
 		return Float{ findShader( interpolant, sample )
-			, expr::makeInterpolateAtSample1( makeExpr( interpolant )
+			, expr::makeInterpolateAtSample1( findTypesCache( interpolant, sample )
+					, makeExpr( interpolant )
 				, makeExpr( sample ) ) };
 	}
 	MaybeOptional< Vec2 > interpolateAtSample( MaybeOptional< Vec2 > const & interpolant
@@ -10898,13 +12310,15 @@ namespace sdw
 		if ( isAnyOptional( interpolant, sample ) )
 		{
 			return Optional< Vec2 >{ findShader( interpolant, sample )
-				, expr::makeInterpolateAtSample2( makeExpr( interpolant )
+				, expr::makeInterpolateAtSample2( findTypesCache( interpolant, sample )
+					, makeExpr( interpolant )
 					, makeExpr( sample ) )
 				, areOptionalEnabled( interpolant, sample ) };
 		}
 
 		return Vec2{ findShader( interpolant, sample )
-			, expr::makeInterpolateAtSample2( makeExpr( interpolant )
+			, expr::makeInterpolateAtSample2( findTypesCache( interpolant, sample )
+					, makeExpr( interpolant )
 				, makeExpr( sample ) ) };
 	}
 	MaybeOptional< Vec3 > interpolateAtSample( MaybeOptional< Vec3 > const & interpolant
@@ -10913,13 +12327,15 @@ namespace sdw
 		if ( isAnyOptional( interpolant, sample ) )
 		{
 			return Optional< Vec3 >{ findShader( interpolant, sample )
-				, expr::makeInterpolateAtSample3( makeExpr( interpolant )
+				, expr::makeInterpolateAtSample3( findTypesCache( interpolant, sample )
+					, makeExpr( interpolant )
 					, makeExpr( sample ) )
 				, areOptionalEnabled( interpolant, sample ) };
 		}
 
 		return Vec3{ findShader( interpolant, sample )
-			, expr::makeInterpolateAtSample3( makeExpr( interpolant )
+			, expr::makeInterpolateAtSample3( findTypesCache( interpolant, sample )
+					, makeExpr( interpolant )
 				, makeExpr( sample ) ) };
 	}
 	MaybeOptional< Vec4 > interpolateAtSample( MaybeOptional< Vec4 > const & interpolant
@@ -10928,13 +12344,15 @@ namespace sdw
 		if ( isAnyOptional( interpolant, sample ) )
 		{
 			return Optional< Vec4 >{ findShader( interpolant, sample )
-				, expr::makeInterpolateAtSample4( makeExpr( interpolant )
+				, expr::makeInterpolateAtSample4( findTypesCache( interpolant, sample )
+					, makeExpr( interpolant )
 					, makeExpr( sample ) )
 				, areOptionalEnabled( interpolant, sample ) };
 		}
 
 		return Vec4{ findShader( interpolant, sample )
-			, expr::makeInterpolateAtSample4( makeExpr( interpolant )
+			, expr::makeInterpolateAtSample4( findTypesCache( interpolant, sample )
+					, makeExpr( interpolant )
 				, makeExpr( sample ) ) };
 	}
 	/**@}*/
@@ -10951,13 +12369,15 @@ namespace sdw
 		if ( isAnyOptional( interpolant, offset ) )
 		{
 			return Optional< Float >{ findShader( interpolant, offset )
-				, expr::makeInterpolateAtOffset1( makeExpr( interpolant )
+				, expr::makeInterpolateAtOffset1( findTypesCache( interpolant, offset )
+					, makeExpr( interpolant )
 					, makeExpr( offset ) )
 				, areOptionalEnabled( interpolant, offset ) };
 		}
 
 		return Float{ findShader( interpolant, offset )
-			, expr::makeInterpolateAtOffset1( makeExpr( interpolant )
+			, expr::makeInterpolateAtOffset1( findTypesCache( interpolant, offset )
+					, makeExpr( interpolant )
 				, makeExpr( offset ) ) };
 	}
 	MaybeOptional< Vec2 > interpolateAtOffset( MaybeOptional< Vec2 > const & interpolant
@@ -10966,13 +12386,15 @@ namespace sdw
 		if ( isAnyOptional( interpolant, offset ) )
 		{
 			return Optional< Vec2 >{ findShader( interpolant, offset )
-				, expr::makeInterpolateAtOffset2( makeExpr( interpolant )
+				, expr::makeInterpolateAtOffset2( findTypesCache( interpolant, offset )
+					, makeExpr( interpolant )
 					, makeExpr( offset ) )
 				, areOptionalEnabled( interpolant, offset ) };
 		}
 
 		return Vec2{ findShader( interpolant, offset )
-			, expr::makeInterpolateAtOffset2( makeExpr( interpolant )
+			, expr::makeInterpolateAtOffset2( findTypesCache( interpolant, offset )
+					, makeExpr( interpolant )
 				, makeExpr( offset ) ) };
 	}
 	MaybeOptional< Vec3 > interpolateAtOffset( MaybeOptional< Vec3 > const & interpolant
@@ -10981,13 +12403,15 @@ namespace sdw
 		if ( isAnyOptional( interpolant, offset ) )
 		{
 			return Optional< Vec3 >{ findShader( interpolant, offset )
-				, expr::makeInterpolateAtOffset3( makeExpr( interpolant )
+				, expr::makeInterpolateAtOffset3( findTypesCache( interpolant, offset )
+					, makeExpr( interpolant )
 					, makeExpr( offset ) )
 				, areOptionalEnabled( interpolant, offset ) };
 		}
 
 		return Vec3{ findShader( interpolant, offset )
-			, expr::makeInterpolateAtOffset3( makeExpr( interpolant )
+			, expr::makeInterpolateAtOffset3( findTypesCache( interpolant, offset )
+					, makeExpr( interpolant )
 				, makeExpr( offset ) ) };
 	}
 	MaybeOptional< Vec4 > interpolateAtOffset( MaybeOptional< Vec4 > const & interpolant
@@ -10996,13 +12420,15 @@ namespace sdw
 		if ( isAnyOptional( interpolant, offset ) )
 		{
 			return Optional< Vec4 >{ findShader( interpolant, offset )
-				, expr::makeInterpolateAtOffset4( makeExpr( interpolant )
+				, expr::makeInterpolateAtOffset4( findTypesCache( interpolant, offset )
+					, makeExpr( interpolant )
 					, makeExpr( offset ) )
 				, areOptionalEnabled( interpolant, offset ) };
 		}
 
 		return Vec4{ findShader( interpolant, offset )
-			, expr::makeInterpolateAtOffset4( makeExpr( interpolant )
+			, expr::makeInterpolateAtOffset4( findTypesCache( interpolant, offset )
+					, makeExpr( interpolant )
 				, makeExpr( offset ) ) };
 	}
 	/**@}*/
@@ -11018,12 +12444,14 @@ namespace sdw
 		if ( isAnyOptional( stream ) )
 		{
 			return Optional< Void >{ findShader( stream )
-				, expr::makeEmitStreamVertex( makeExpr( stream ) )
+				, expr::makeEmitStreamVertex( findTypesCache( stream )
+					, makeExpr( stream ) )
 				, areOptionalEnabled( stream ) };
 		}
 
 		return Void{ findShader( stream )
-			, expr::makeEmitStreamVertex( makeExpr( stream ) ) };
+			, expr::makeEmitStreamVertex( findTypesCache( stream )
+					, makeExpr( stream ) ) };
 	}
 	/**@}*/
 #pragma endregion
@@ -11038,12 +12466,14 @@ namespace sdw
 		if ( isAnyOptional( stream ) )
 		{
 			return Optional< Void >{ findShader( stream )
-				, expr::makeEndStreamPrimitive( makeExpr( stream ) )
+				, expr::makeEndStreamPrimitive( findTypesCache( stream )
+					, makeExpr( stream ) )
 				, areOptionalEnabled( stream ) };
 		}
 
 		return Void{ findShader( stream )
-			, expr::makeEndStreamPrimitive( makeExpr( stream ) ) };
+			, expr::makeEndStreamPrimitive( findTypesCache( stream )
+					, makeExpr( stream ) ) };
 	}
 	/**@}*/
 #pragma endregion
@@ -11058,12 +12488,12 @@ namespace sdw
 		if ( isAnyOptional( ) )
 		{
 			return Optional< Void >{ findShader( )
-				, expr::makeEmitVertex( )
+				, expr::makeEmitVertex( findTypesCache( ) )
 				, areOptionalEnabled( ) };
 		}
 
 		return Void{ findShader( )
-			, expr::makeEmitVertex( ) };
+			, expr::makeEmitVertex( findTypesCache( ) ) };
 	}
 	/**@}*/
 #pragma endregion
@@ -11078,12 +12508,12 @@ namespace sdw
 		if ( isAnyOptional( ) )
 		{
 			return Optional< Void >{ findShader( )
-				, expr::makeEndPrimitive( )
+				, expr::makeEndPrimitive( findTypesCache( ) )
 				, areOptionalEnabled( ) };
 		}
 
 		return Void{ findShader( )
-			, expr::makeEndPrimitive( ) };
+			, expr::makeEndPrimitive( findTypesCache( ) ) };
 	}
 	/**@}*/
 #pragma endregion
@@ -11098,12 +12528,12 @@ namespace sdw
 		if ( isAnyOptional( ) )
 		{
 			return Optional< Void >{ findShader( )
-				, expr::makeBarrier( )
+				, expr::makeBarrier( findTypesCache( ) )
 				, areOptionalEnabled( ) };
 		}
 
 		return Void{ findShader( )
-			, expr::makeBarrier( ) };
+			, expr::makeBarrier( findTypesCache( ) ) };
 	}
 	/**@}*/
 #pragma endregion
@@ -11118,12 +12548,12 @@ namespace sdw
 		if ( isAnyOptional( ) )
 		{
 			return Optional< UInt >{ findShader( )
-				, expr::makeMemoryBarrier( )
+				, expr::makeMemoryBarrier( findTypesCache( ) )
 				, areOptionalEnabled( ) };
 		}
 
 		return UInt{ findShader( )
-			, expr::makeMemoryBarrier( ) };
+			, expr::makeMemoryBarrier( findTypesCache( ) ) };
 	}
 	/**@}*/
 #pragma endregion
@@ -11138,12 +12568,12 @@ namespace sdw
 		if ( isAnyOptional( ) )
 		{
 			return Optional< Void >{ findShader( )
-				, expr::makeMemoryBarrierBuffer( )
+				, expr::makeMemoryBarrierBuffer( findTypesCache( ) )
 				, areOptionalEnabled( ) };
 		}
 
 		return Void{ findShader( )
-			, expr::makeMemoryBarrierBuffer( ) };
+			, expr::makeMemoryBarrierBuffer( findTypesCache( ) ) };
 	}
 	/**@}*/
 #pragma endregion
@@ -11158,12 +12588,12 @@ namespace sdw
 		if ( isAnyOptional( ) )
 		{
 			return Optional< Void >{ findShader( )
-				, expr::makeMemoryBarrierShared( )
+				, expr::makeMemoryBarrierShared( findTypesCache( ) )
 				, areOptionalEnabled( ) };
 		}
 
 		return Void{ findShader( )
-			, expr::makeMemoryBarrierShared( ) };
+			, expr::makeMemoryBarrierShared( findTypesCache( ) ) };
 	}
 	/**@}*/
 #pragma endregion
@@ -11178,12 +12608,12 @@ namespace sdw
 		if ( isAnyOptional( ) )
 		{
 			return Optional< Void >{ findShader( )
-				, expr::makeMemoryBarrierImage( )
+				, expr::makeMemoryBarrierImage( findTypesCache( ) )
 				, areOptionalEnabled( ) };
 		}
 
 		return Void{ findShader( )
-			, expr::makeMemoryBarrierImage( ) };
+			, expr::makeMemoryBarrierImage( findTypesCache( ) ) };
 	}
 	/**@}*/
 #pragma endregion
@@ -11198,12 +12628,12 @@ namespace sdw
 		if ( isAnyOptional( ) )
 		{
 			return Optional< Void >{ findShader( )
-				, expr::makeGroupMemoryBarrier( )
+				, expr::makeGroupMemoryBarrier( findTypesCache( ) )
 				, areOptionalEnabled( ) };
 		}
 
 		return Void{ findShader( )
-			, expr::makeGroupMemoryBarrier( ) };
+			, expr::makeGroupMemoryBarrier( findTypesCache( ) ) };
 	}
 	/**@}*/
 #pragma endregion

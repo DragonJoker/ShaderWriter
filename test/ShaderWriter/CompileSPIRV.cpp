@@ -53,6 +53,7 @@ namespace test
 			std::vector< const char * > instance_extension_names;
 			std::vector< LayerProperties > instance_layer_properties;
 			VkInstance inst;
+			uint32_t apiVersion;
 
 			std::vector< const char *> device_extension_names;
 			std::vector< VkPhysicalDevice > gpus;
@@ -64,6 +65,9 @@ namespace test
 			PFN_vkDestroyDebugReportCallbackEXT dbgDestroyDebugReportCallback;
 			PFN_vkDebugReportMessageEXT dbgBreakCallback;
 			std::vector< VkDebugReportCallbackEXT > debug_report_callbacks;
+
+			bool compiling{ false };
+			std::vector< std::string > errors;
 		};
 
 		VkBool32 VKAPI_CALL dbgFunc( VkDebugReportFlagsEXT msgFlags
@@ -98,7 +102,16 @@ namespace test
 				message << "DEBUG: ";
 			}
 			message << "[" << pLayerPrefix << "] Code " << msgCode << " : " << pMsg;
-			std::cout << message.str() << std::endl;
+			auto info = reinterpret_cast< Info * >( pUserData );
+
+			if ( info->compiling )
+			{
+				info->errors.push_back( message.str() );
+			}
+			else
+			{
+				std::cout << message.str() << std::endl;
+			}
 
 		/*
 		 * false indicates that layer should not bail-out of an
@@ -179,29 +192,40 @@ namespace test
 		initGlobalLayerProperties( info );
 		info.instance_layer_names.push_back( "VK_LAYER_LUNARG_standard_validation" );
 		info.instance_extension_names.push_back( VK_EXT_DEBUG_REPORT_EXTENSION_NAME );
+
+		vkEnumerateInstanceVersion( &info.apiVersion );
+
 		// initialize the VkApplicationInfo structure
-		VkApplicationInfo app_info = {};
-		app_info.sType = VK_STRUCTURE_TYPE_APPLICATION_INFO;
-		app_info.pNext = nullptr;
-		app_info.pApplicationName = "Test";
-		app_info.applicationVersion = 1;
-		app_info.pEngineName = "Test";
-		app_info.engineVersion = 1;
-		app_info.apiVersion = VK_API_VERSION_1_0;
+		VkApplicationInfo appInfo = {};
+		appInfo.sType = VK_STRUCTURE_TYPE_APPLICATION_INFO;
+		appInfo.pNext = nullptr;
+		appInfo.pApplicationName = "Test";
+		appInfo.applicationVersion = 1;
+		appInfo.pEngineName = "Test";
+		appInfo.engineVersion = 1;
+
+		if ( info.apiVersion >= VK_MAKE_VERSION( 1, 1, 0 ) )
+		{
+			appInfo.apiVersion = VK_MAKE_VERSION( 1, 1, 0 );
+		}
+		else
+		{
+			appInfo.apiVersion = VK_MAKE_VERSION( 1, 0, 0 );
+		}
 
 		// initialize the VkInstanceCreateInfo structure
-		VkInstanceCreateInfo inst_info = {};
-		inst_info.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
-		inst_info.pNext = nullptr;
-		inst_info.flags = 0;
-		inst_info.pApplicationInfo = &app_info;
-		inst_info.enabledExtensionCount = uint32_t( info.instance_extension_names.size() );
-		inst_info.ppEnabledExtensionNames = info.instance_extension_names.data();
-		inst_info.enabledLayerCount = uint32_t( info.instance_layer_names.size() );
-		inst_info.ppEnabledLayerNames = info.instance_layer_names.data();
+		VkInstanceCreateInfo instInfo = {};
+		instInfo.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
+		instInfo.pNext = nullptr;
+		instInfo.flags = 0;
+		instInfo.pApplicationInfo = &appInfo;
+		instInfo.enabledExtensionCount = uint32_t( info.instance_extension_names.size() );
+		instInfo.ppEnabledExtensionNames = info.instance_extension_names.data();
+		instInfo.enabledLayerCount = uint32_t( info.instance_layer_names.size() );
+		instInfo.ppEnabledLayerNames = info.instance_layer_names.data();
 		VkResult res;
 
-		res = vkCreateInstance( &inst_info, nullptr, &info.inst );
+		res = vkCreateInstance( &instInfo, nullptr, &info.inst );
 
 		if ( res == VK_ERROR_INCOMPATIBLE_DRIVER )
 		{
@@ -239,7 +263,7 @@ namespace test
 			create_info.pNext = nullptr;
 			create_info.flags = VK_DEBUG_REPORT_ERROR_BIT_EXT | VK_DEBUG_REPORT_WARNING_BIT_EXT;
 			create_info.pfnCallback = dbgFunc;
-			create_info.pUserData = nullptr;
+			create_info.pUserData = &info;
 
 			info.debug_report_callbacks.resize( 1u );
 			res = info.dbgCreateDebugReportCallback( info.inst, &create_info, nullptr, info.debug_report_callbacks.data() );
@@ -263,25 +287,40 @@ namespace test
 
 	bool createDevice( Info & info )
 	{
-		uint32_t gpu_count = 1;
-		auto res = vkEnumeratePhysicalDevices( info.inst, &gpu_count, nullptr );
+		uint32_t gpuCount = 1;
+		auto res = vkEnumeratePhysicalDevices( info.inst, &gpuCount, nullptr );
 
 		if ( res == VK_SUCCESS )
 		{
-			assert( gpu_count );
-			info.gpus.resize( gpu_count );
-			res = vkEnumeratePhysicalDevices( info.inst, &gpu_count, info.gpus.data() );
+			assert( gpuCount );
+			info.gpus.resize( gpuCount );
+			res = vkEnumeratePhysicalDevices( info.inst, &gpuCount, info.gpus.data() );
 
 			if ( res == VK_SUCCESS )
 			{
-				assert( !res && gpu_count >= 1 );
+				assert( gpuCount >= 1 );
+				uint32_t gpuIndex = 0u;
+
+				while ( gpuIndex < gpuCount )
+				{
+					VkPhysicalDeviceProperties properties = {};
+					vkGetPhysicalDeviceProperties( info.gpus[gpuIndex], &properties );
+
+					if ( properties.apiVersion >= info.apiVersion )
+					{
+						break;
+					}
+
+					++gpuIndex;
+				}
+
 				VkDeviceQueueCreateInfo queue_info = {};
 
-				vkGetPhysicalDeviceQueueFamilyProperties( info.gpus[0], &info.queue_family_count, nullptr );
+				vkGetPhysicalDeviceQueueFamilyProperties( info.gpus[gpuIndex], &info.queue_family_count, nullptr );
 				assert( info.queue_family_count >= 1 );
 
 				info.queue_props.resize( info.queue_family_count );
-				vkGetPhysicalDeviceQueueFamilyProperties( info.gpus[0], &info.queue_family_count, info.queue_props.data() );
+				vkGetPhysicalDeviceQueueFamilyProperties( info.gpus[gpuIndex], &info.queue_family_count, info.queue_props.data() );
 				assert( info.queue_family_count >= 1 );
 
 				bool found = false;
@@ -314,7 +353,7 @@ namespace test
 				device_info.ppEnabledLayerNames = nullptr;
 				device_info.pEnabledFeatures = nullptr;
 
-				res = vkCreateDevice( info.gpus[0], &device_info, nullptr, &info.device );
+				res = vkCreateDevice( info.gpus[gpuIndex], &device_info, nullptr, &info.device );
 			}
 		}
 
@@ -340,23 +379,71 @@ namespace test
 		return result;
 	}
 
-	bool compileSpirV( sdw::Shader const & shader
-		, std::vector< uint32_t > const & spirv
-		, std::string & errors )
+	namespace sdw_test
 	{
-		Info info{};
-		bool result{ true };
-
-		if ( createInstance( info ) )
+		struct SPIRVContext
 		{
-			if ( createDevice( info ) )
+			SPIRVContext()
 			{
-				result = createShaderModule( info, spirv );
+				if ( !createInstance( info ) )
+				{
+					throw std::runtime_error{ "Can't initialise Vulkan instance" };
+				}
+
+				if ( !createDevice( info ) )
+				{
+					info.dbgDestroyDebugReportCallback( info.inst, *info.debug_report_callbacks.data(), nullptr );
+					vkDestroyInstance( info.inst, nullptr );
+					throw std::runtime_error{ "Can't initialise Vulkan device" };
+				}
+			}
+
+			~SPIRVContext()
+			{
 				vkDestroyDevice( info.device, nullptr );
 			}
 
-			info.dbgDestroyDebugReportCallback( info.inst, *info.debug_report_callbacks.data(), nullptr );
-			vkDestroyInstance( info.inst, nullptr );
+			Info info{};
+		};
+	}
+
+	bool createSPIRVContext( sdw_test::TestCounts & testCounts )
+	{
+		bool result = false;
+
+		try
+		{
+			testCounts.spirv = std::make_shared< sdw_test::SPIRVContext >();
+			result = true;
+		}
+		catch ( std::exception & exc )
+		{
+			std::cout << exc.what() << std::endl;
+		}
+
+		return result;
+	}
+
+	void destroySPIRVContext( sdw_test::TestCounts & testCounts )
+	{
+		testCounts.spirv.reset();
+	}
+
+	bool compileSpirV( sdw::Shader const & shader
+		, std::vector< uint32_t > const & spirv
+		, std::string & errors
+		, sdw_test::TestCounts & testCounts )
+	{
+		bool result{ true };
+		auto & info = testCounts.spirv->info;
+		info.compiling = true;
+		info.errors.clear();
+		errors = std::string{};
+		result = createShaderModule( info, spirv );
+
+		for ( auto & error : info.errors )
+		{
+			errors += error + "\n";
 		}
 
 		return result;

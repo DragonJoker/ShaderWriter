@@ -21,8 +21,8 @@ namespace sdw
 	{
 		if ( this->getContainer() )
 		{
-			addStmt( *findContainer( *this, rhs )
-				, sdw::makeSimple( sdw::makeAssign( Mat4T< ValueT >::makeType()
+			addStmt( *findShader( *this, rhs )
+				, sdw::makeSimple( sdw::makeAssign( Mat4T< ValueT >::makeType( findTypesCache( *this, rhs ) )
 					, makeExpr( *this )
 					, makeExpr( rhs ) ) ) );
 		}
@@ -39,8 +39,8 @@ namespace sdw
 	Mat4T< ValueT > & Mat4T< ValueT >::operator=( RhsT const & rhs )
 	{
 		updateContainer( rhs );
-		addStmt( *findContainer( *this, rhs )
-			, sdw::makeSimple( sdw::makeAssign( Mat4T< ValueT >::makeType()
+		addStmt( *findShader( *this, rhs )
+			, sdw::makeSimple( sdw::makeAssign( Mat4T< ValueT >::makeType( findTypesCache( *this, rhs ) )
 				, makeExpr( *this )
 				, makeExpr( rhs ) ) ) );
 		return *this;
@@ -51,25 +51,43 @@ namespace sdw
 	Vec4T< ValueT > Mat4T< ValueT >::operator[]( IndexT const & rhs )const
 	{
 		return Vec4T< ValueT >{ findShader( *this, rhs )
-			, sdw::makeArrayAccess( Vec4T< ValueT >::makeType()
+			, sdw::makeArrayAccess( Vec4T< ValueT >::makeType( findTypesCache( *this, rhs ) )
 				, makeExpr( *this )
 				, makeExpr( rhs ) ) };
 	}
 
 	template< typename ValueT >
+	inline Vec4T< ValueT > Mat4T< ValueT >::operator[]( int32_t offset )const
+	{
+		return Vec4T< ValueT >{ findShader( *this, offset )
+			, sdw::makeArrayAccess( Vec4T< ValueT >::makeType( findTypesCache( *this ) )
+				, makeExpr( *this )
+				, makeExpr( offset ) ) };
+	}
+
+	template< typename ValueT >
+	inline Vec4T< ValueT > Mat4T< ValueT >::operator[]( uint32_t offset )const
+	{
+		return Vec4T< ValueT >{ findShader( *this, offset )
+			, sdw::makeArrayAccess( Vec4T< ValueT >::makeType( findTypesCache( *this ) )
+				, makeExpr( *this )
+				, makeExpr( offset ) ) };
+	}
+
+	template< typename ValueT >
 	inline Mat4T< ValueT > & Mat4T< ValueT >::operator+=( Mat4T< ValueT > const & rhs )
 	{
-		addStmt( *findContainer( *this, rhs )
-			, sdw::makeSimple( sdw::makeAddAssign( Mat4T< ValueT >::makeType()
+		addStmt( *findShader( *this, rhs )
+			, sdw::makeSimple( sdw::makeAddAssign( Mat4T< ValueT >::makeType( findTypesCache( *this, rhs ) )
 				, makeExpr( *this )
 				, makeExpr( rhs ) ) ) );
 		return *this;
 	}
 
 	template< typename ValueT >
-	inline ast::type::TypePtr Mat4T< ValueT >::makeType()
+	inline ast::type::TypePtr Mat4T< ValueT >::makeType( ast::type::TypesCache & cache )
 	{
-		return sdw::makeType< Mat4T< ValueT > >();
+		return sdw::makeType< Mat4T< ValueT > >( cache );
 	}
 
 	template< typename ValueT >
@@ -77,7 +95,7 @@ namespace sdw
 		Mat4T< ValueT > const & rhs )
 	{
 		return Vec4T< ValueT >{ findShader( lhs, rhs )
-			, sdw::makeTimes( Vec4T< ValueT >::makeType()
+			, sdw::makeTimes( Vec4T< ValueT >::makeType( findTypesCache( lhs, rhs ) )
 				, makeExpr( lhs )
 				, makeExpr( rhs ) ) };
 	}
@@ -87,7 +105,7 @@ namespace sdw
 		, Vec4T< ValueT > const & rhs )
 	{
 		return Vec4T< ValueT >{ findShader( lhs, rhs )
-			, sdw::makeTimes( Vec4T< ValueT >::makeType()
+			, sdw::makeTimes( Vec4T< ValueT >::makeType( findTypesCache( lhs, rhs ) )
 				, makeExpr( lhs )
 				, makeExpr( rhs ) ) };
 	}
@@ -97,7 +115,7 @@ namespace sdw
 		, Mat4T< ValueT > const & rhs )
 	{
 		return Mat4T< ValueT >{ findShader( lhs, rhs )
-			, sdw::makeTimes( Mat4T< ValueT >::makeType()
+			, sdw::makeTimes( Mat4T< ValueT >::makeType( findTypesCache( lhs, rhs ) )
 				, makeExpr( lhs )
 				, makeExpr( rhs ) ) };
 	}
@@ -107,7 +125,7 @@ namespace sdw
 		Mat4T< ValueT > const & rhs )
 	{
 		return Mat4T< ValueT >{ findShader( lhs, rhs )
-			, sdw::makeTimes( Mat4T< ValueT >::makeType()
+			, sdw::makeTimes( Mat4T< ValueT >::makeType( findTypesCache( lhs, rhs ) )
 				, makeExpr( lhs )
 				, makeExpr( rhs ) ) };
 	}
@@ -117,7 +135,7 @@ namespace sdw
 		, ValueT const & rhs )
 	{
 		return Mat4T< ValueT >{ findShader( lhs, rhs )
-			, sdw::makeTimes( Mat4T< ValueT >::makeType()
+			, sdw::makeTimes( Mat4T< ValueT >::makeType( findTypesCache( lhs, rhs ) )
 				, makeExpr( lhs )
 				, makeExpr( rhs ) ) };
 	}

@@ -18,8 +18,11 @@ namespace sdw
 		Array( Array const & rhs );
 		template< typename IndexT >
 		ValueT operator[]( IndexT const & offset )const;
+		ValueT operator[]( int32_t offset )const;
+		ValueT operator[]( uint32_t offset )const;
 
-		static inline ast::type::ArrayPtr makeType( uint32_t arraySize );
+		static inline ast::type::ArrayPtr makeType( ast::type::TypesCache & cache
+			, uint32_t arraySize = ast::type::UnknownArraySize );
 	};
 
 	template< typename ValueT >

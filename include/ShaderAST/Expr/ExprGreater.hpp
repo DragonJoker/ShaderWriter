@@ -13,17 +13,20 @@ namespace ast::expr
 		: public Binary
 	{
 	public:
-		Greater( ExprPtr lhs
+		Greater( type::TypePtr type
+			, ExprPtr lhs
 			, ExprPtr rhs );
 
 		void accept( VisitorPtr vis )override;
 	};
 	using GreaterPtr = std::unique_ptr< Greater >;
 
-	inline GreaterPtr makeGreater( ExprPtr lhs
+	inline GreaterPtr makeGreater( type::TypesCache & cache
+		, ExprPtr lhs
 		, ExprPtr rhs )
 	{
-		return std::make_unique< Greater >( std::move( lhs )
+		return std::make_unique< Greater >( cache.getBool()
+			, std::move( lhs )
 			, std::move( rhs ) );
 	}
 }

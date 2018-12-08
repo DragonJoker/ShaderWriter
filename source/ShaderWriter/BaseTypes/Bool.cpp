@@ -32,8 +32,8 @@ namespace sdw
 	{
 		if ( getContainer() )
 		{
-			addStmt( *findContainer( *this, rhs )
-				, sdw::makeSimple( sdw::makeAssign( type::getBool()
+			addStmt( *findShader( *this, rhs )
+				, sdw::makeSimple( sdw::makeAssign( findTypesCache( *this, rhs ).getBool()
 					, makeExpr( *this )
 					, makeExpr( rhs ) ) ) );
 		}
@@ -45,10 +45,15 @@ namespace sdw
 		return *this;
 	}
 
+	expr::ExprPtr Boolean::makeCondition()const
+	{
+		return makeExpr( *this );
+	}
+
 	Boolean & Boolean::operator=( bool rhs )
 	{
-		addStmt( *findContainer( *this, rhs )
-			, sdw::makeSimple( sdw::makeAssign( type::getBool()
+		addStmt( *findShader( *this, rhs )
+			, sdw::makeSimple( sdw::makeAssign( findTypesCache( *this, rhs ).getBool()
 				, makeExpr( *this )
 				, makeExpr( rhs ) ) ) );
 		return *this;
@@ -59,9 +64,9 @@ namespace sdw
 		return false;
 	}
 
-	ast::type::TypePtr Boolean::makeType()
+	ast::type::TypePtr Boolean::makeType( ast::type::TypesCache & cache )
 	{
-		return ast::type::getBool();
+		return cache.getBool();
 	}
 
 	//*************************************************************************
@@ -97,7 +102,7 @@ namespace sdw
 	Optional< Boolean > operator||( Optional< Boolean > const & lhs, Boolean const & rhs )
 	{
 		return Optional< Boolean >{ findShader( lhs, rhs )
-			, sdw::makeLogOr( makeExpr( lhs )
+			, sdw::makeLogOr( makeExpr( lhs, true )
 				, makeExpr( rhs ) )
 			, areOptionalEnabled( lhs, rhs ) };
 	}
@@ -105,7 +110,7 @@ namespace sdw
 	Optional< Boolean > operator&&( Optional< Boolean > const & lhs, Boolean const & rhs )
 	{
 		return Optional< Boolean >{ findShader( lhs, rhs )
-			, sdw::makeLogAnd( makeExpr( lhs )
+			, sdw::makeLogAnd( makeExpr( lhs, true )
 				, makeExpr( rhs ) )
 			, areOptionalEnabled( lhs, rhs ) };
 	}
@@ -114,7 +119,7 @@ namespace sdw
 	{
 		return Optional< Boolean >{ findShader( lhs, rhs )
 			, sdw::makeLogOr( makeExpr( lhs )
-				, makeExpr( rhs ) )
+				, makeExpr( rhs, true ) )
 			, areOptionalEnabled( lhs, rhs ) };
 	}
 
@@ -122,23 +127,23 @@ namespace sdw
 	{
 		return Optional< Boolean >{ findShader( lhs, rhs )
 			, sdw::makeLogAnd( makeExpr( lhs )
-				, makeExpr( rhs ) )
+				, makeExpr( rhs, true ) )
 			, areOptionalEnabled( lhs, rhs ) };
 	}
 
 	Optional< Boolean > operator||( Optional< Boolean > const & lhs, Optional< Boolean > const & rhs )
 	{
 		return Optional< Boolean >{ findShader( lhs, rhs )
-			, sdw::makeLogOr( makeExpr( lhs )
-				, makeExpr( rhs ) )
+			, sdw::makeLogOr( makeExpr( lhs, true )
+				, makeExpr( rhs, true ) )
 			, areOptionalEnabled( lhs, rhs ) };
 	}
 
 	Optional< Boolean > operator&&( Optional< Boolean > const & lhs, Optional< Boolean > const & rhs )
 	{
 		return Optional< Boolean >{ findShader( lhs, rhs )
-			, sdw::makeLogAnd( makeExpr( lhs )
-				, makeExpr( rhs ) )
+			, sdw::makeLogAnd( makeExpr( lhs, true )
+				, makeExpr( rhs, true ) )
 			, areOptionalEnabled( lhs, rhs ) };
 	}
 

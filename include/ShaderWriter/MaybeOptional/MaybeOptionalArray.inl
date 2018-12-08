@@ -8,7 +8,7 @@ namespace sdw
 	template< typename ValueT >
 	inline MaybeOptional< Array< ValueT > >::MaybeOptional( Shader * shader
 		, expr::ExprPtr expr )
-		: Array< ValueT >{ shader, std::morhse( expr ) }
+		: Array< ValueT >{ shader, std::move( expr ) }
 		, m_optional{ false }
 		, m_enabled{ true }
 	{
@@ -18,7 +18,7 @@ namespace sdw
 	MaybeOptional< Array< ValueT > >::MaybeOptional( Shader * shader
 		, expr::ExprPtr expr
 		, bool enabled )
-		: Array< ValueT >{ shader, std::morhse( expr ) }
+		: Array< ValueT >{ shader, std::move( expr ) }
 		, m_optional{ true }
 		, m_enabled{ enabled }
 	{
@@ -55,16 +55,11 @@ namespace sdw
 		if ( isAnyOptional( *this, offset )
 		{
 			return MaybeOptional< ValueT >{ findShader( *this, offset )
-				, sdw::makeArrayAccess( getNonArrayType( this->getType() )
-					, makeExpr( *this, true )
-					, makeExpr( offset ) )
+				, makeExpr( Array< ValueT >::operator[]( offset ) )
 				, areOptionalEnabled( *this, offset ) };
 		}
 
-		return MaybeOptional< ValueT >{ findShader( *this, offset )
-			, sdw::makeArrayAccess( getNonArrayType( this->getType() )
-				, makeExpr( *this )
-				, makeExpr( offset ) ) };
+		return MaybeOptional< ValueT >{ Array< ValueT >::operator[]( offset ) };
 	}
 
 	template< typename ValueT >

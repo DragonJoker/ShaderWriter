@@ -6,7 +6,7 @@ namespace
 #define DummyMain writer.implementFunction< void >( "main", [](){} )
 
 	template< typename T >
-	void testShaderOutput( test::TestCounts & testCounts )
+	void testShaderOutput( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testShaderOutput" + ast::debug::getName( sdw::typeEnum< T > ) );
 		{
@@ -113,7 +113,7 @@ namespace
 
 int main( int argc, char ** argv )
 {
-	testSuiteBegin( "TestWriterShaderOutputDeclarations" );
+	sdwTestSuiteBegin( "TestWriterShaderOutputDeclarations" );
 	testShaderOutput< sdw::Int >( testCounts );
 	testShaderOutput< sdw::UInt >( testCounts );
 	testShaderOutput< sdw::Float >( testCounts );
@@ -135,5 +135,5 @@ int main( int argc, char ** argv )
 	testShaderOutput< sdw::Mat4 >( testCounts );
 	testShaderOutput< sdw::Mat4x2 >( testCounts );
 	testShaderOutput< sdw::Mat4x3 >( testCounts );
-	testSuiteEnd();
+	sdwTestSuiteEnd();
 }

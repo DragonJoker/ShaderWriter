@@ -8,6 +8,7 @@ See LICENSE file in root folder
 
 #include <ShaderAST/Type/Type.hpp>
 #include <ShaderAST/Type/TypeArray.hpp>
+#include <ShaderAST/Type/TypeCache.hpp>
 #include <ShaderAST/Type/ImageConfiguration.hpp>
 
 #define Writer_Parameter( TypeName )\

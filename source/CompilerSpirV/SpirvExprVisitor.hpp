@@ -15,24 +15,63 @@ namespace spirv
 {
 	spv::StorageClass getStorageClass( ast::var::VariablePtr var );
 
+	struct LoadedVariable
+	{
+		spv::Id varId;
+		spv::Id loadedId;
+	};
+
+	using LoadedVariableArray = std::vector< LoadedVariable >;
+
 	class ExprVisitor
 		: public ast::expr::SimpleVisitor
 	{
 	public:
 		static spv::Id submit( ast::expr::Expr * expr
 			, Block & currentBlock
-			, Module & module );
+			, Module & module
+			, bool loadVariable = true );
+		static spv::Id submit( ast::expr::Expr * expr
+			, Block & currentBlock
+			, Module & module
+			, bool loadVariable
+			, LoadedVariableArray & loadedVariables );
 
 	private:
 		static spv::Id submit( ast::expr::Expr * expr
 			, Block & currentBlock
 			, Module & module
-			, bool & allLiterals );
+			, bool & allLiterals
+			, bool loadVariable );
+		static spv::Id submit( ast::expr::Expr * expr
+			, Block & currentBlock
+			, Module & module
+			, bool & allLiterals
+			, bool loadVariable
+			, LoadedVariableArray & loadedVariables );
 
 		ExprVisitor( spv::Id & result
 			, Block & currentBlock
 			, Module & module
-			, bool & allLiterals );
+			, bool & allLiterals
+			, bool loadVariable
+			, LoadedVariableArray & loadedVariables );
+		spv::Id doSubmit( ast::expr::Expr * expr );
+		spv::Id doSubmit( ast::expr::Expr * expr
+			, LoadedVariableArray & loadedVariables );
+		spv::Id doSubmit( ast::expr::Expr * expr
+			, bool loadVariable );
+		spv::Id doSubmit( ast::expr::Expr * expr
+			, bool loadVariable
+			, LoadedVariableArray & loadedVariables );
+		spv::Id doSubmit( ast::expr::Expr * expr
+			, bool & allLiterals
+			, bool loadVariable );
+		spv::Id doSubmit( ast::expr::Expr * expr
+			, bool & allLiterals
+			, bool loadVariable
+			, LoadedVariableArray & loadedVariables );
+
 		void visitAssignmentExpr( ast::expr::Assign * expr );
 		void visitOpAssignmentExpr( ast::expr::Assign * expr );
 
@@ -80,12 +119,23 @@ namespace spirv
 		spv::Id getUnsignedExtendedResultTypeId( uint32_t count );
 		spv::Id getSignedExtendedResultTypeId( uint32_t count );
 		spv::Id getVariableIdNoLoad( ast::expr::Expr * expr );
+		spv::Id loadVariable( spv::Id varId
+			, ast::type::TypePtr type );
 
+		spv::Id writeBinOpExpr( ast::expr::Kind exprKind
+			, ast::type::Kind lhsTypeKind
+			, ast::type::Kind rhsTypeKind
+			, spv::Id typeId
+			, spv::Id lhsId
+			, spv::Id rhsId
+			, bool isLhsSpecConstant );
 	private:
 		spv::Id & m_result;
 		Block & m_currentBlock;
 		Module & m_module;
 		bool & m_allLiterals;
+		bool m_loadVariable;
+		LoadedVariableArray & m_loadedVariables;
 		std::array< ast::type::StructPtr, 4u > m_unsignedExtendedTypes;
 		std::array< ast::type::StructPtr, 4u > m_signedExtendedTypes;
 	};

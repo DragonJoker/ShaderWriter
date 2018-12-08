@@ -88,6 +88,11 @@ namespace sdw
 		return shader.getContainer();
 	}
 
+	type::TypesCache & getTypesCache( Shader & shader )
+	{
+		return shader.getTypesCache();
+	}
+
 	Shader & getShader( ShaderWriter & writer )
 	{
 		return writer.getShader();
@@ -105,42 +110,42 @@ namespace sdw
 
 	expr::ExprPtr makeExpr( bool value )
 	{
-		return expr::makeLiteral( value );
+		return expr::makeLiteral( *ast::type::TypesCache::get(), value );
 	}
 
 	expr::ExprPtr makeExpr( int32_t value )
 	{
-		return expr::makeLiteral( value );
+		return expr::makeLiteral( *ast::type::TypesCache::get(), value );
 	}
 
 	expr::ExprPtr makeExpr( int64_t value )
 	{
-		return expr::makeLiteral( int32_t( value ) );
+		return expr::makeLiteral( *ast::type::TypesCache::get(), int32_t( value ) );
 	}
 
 	expr::ExprPtr makeExpr( uint32_t value )
 	{
-		return expr::makeLiteral( value );
+		return expr::makeLiteral( *ast::type::TypesCache::get(), value );
 	}
 
 	expr::ExprPtr makeExpr( uint64_t value )
 	{
-		return expr::makeLiteral( uint32_t( value ) );
+		return expr::makeLiteral( *ast::type::TypesCache::get(), uint32_t( value ) );
 	}
 
 	expr::ExprPtr makeExpr( float value )
 	{
-		return expr::makeLiteral( value );
+		return expr::makeLiteral( *ast::type::TypesCache::get(), value );
 	}
 
 	expr::ExprPtr makeExpr( double value )
 	{
-		return expr::makeLiteral( value );
+		return expr::makeLiteral( *ast::type::TypesCache::get(), value );
 	}
 
 	expr::ExprPtr makeExpr( long double value )
 	{
-		return expr::makeLiteral( double( value ) );
+		return expr::makeLiteral( *ast::type::TypesCache::get(), double( value ) );
 	}
 
 	expr::ExprPtr makeExpr( expr::ExprPtr const & expr )
@@ -344,20 +349,26 @@ namespace sdw
 	expr::ExprPtr makeLogAnd( expr::ExprPtr lhs
 		, expr::ExprPtr rhs )
 	{
-		return expr::makeLogAnd( std::move( lhs )
+		auto & cache = lhs->getType()->getCache();
+		return expr::makeLogAnd( cache
+			, std::move( lhs )
 			, std::move( rhs ) );
 	}
 
 	expr::ExprPtr makeLogOr( expr::ExprPtr lhs
 		, expr::ExprPtr rhs )
 	{
-		return expr::makeLogOr( std::move( lhs )
+		auto & cache = lhs->getType()->getCache();
+		return expr::makeLogOr( cache
+			, std::move( lhs )
 			, std::move( rhs ) );
 	}
 
 	expr::ExprPtr makeLogNot( expr::ExprPtr operand )
 	{
-		return expr::makeLogNot( std::move( operand ) );
+		auto & cache = operand->getType()->getCache();
+		return expr::makeLogNot( cache
+			, std::move( operand ) );
 	}
 
 	expr::ExprPtr makeAssign( type::TypePtr type
@@ -501,42 +512,54 @@ namespace sdw
 	expr::ExprPtr makeEqual( expr::ExprPtr lhs
 		, expr::ExprPtr rhs )
 	{
-		return expr::makeEqual( std::move( lhs )
+		auto & cache = lhs->getType()->getCache();
+		return expr::makeEqual( cache
+			, std::move( lhs )
 			, std::move( rhs ) );
 	}
 
 	expr::ExprPtr makeNEqual( expr::ExprPtr lhs
 		, expr::ExprPtr rhs )
 	{
-		return expr::makeNotEqual( std::move( lhs )
+		auto & cache = lhs->getType()->getCache();
+		return expr::makeNotEqual( cache
+			, std::move( lhs )
 			, std::move( rhs ) );
 	}
 
 	expr::ExprPtr makeLess( expr::ExprPtr lhs
 		, expr::ExprPtr rhs )
 	{
-		return expr::makeLess( std::move( lhs )
+		auto & cache = lhs->getType()->getCache();
+		return expr::makeLess( cache
+			, std::move( lhs )
 			, std::move( rhs ) );
 	}
 
 	expr::ExprPtr makeLEqual( expr::ExprPtr lhs
 		, expr::ExprPtr rhs )
 	{
-		return expr::makeLessEqual( std::move( lhs )
+		auto & cache = lhs->getType()->getCache();
+		return expr::makeLessEqual( cache
+			, std::move( lhs )
 			, std::move( rhs ) );
 	}
 
 	expr::ExprPtr makeGreater( expr::ExprPtr lhs
 		, expr::ExprPtr rhs )
 	{
-		return expr::makeGreater( std::move( lhs )
+		auto & cache = lhs->getType()->getCache();
+		return expr::makeGreater( cache
+			, std::move( lhs )
 			, std::move( rhs ) );
 	}
 
 	expr::ExprPtr makeGEqual( expr::ExprPtr lhs
 		, expr::ExprPtr rhs )
 	{
-		return expr::makeGreaterEqual( std::move( lhs )
+		auto & cache = lhs->getType()->getCache();
+		return expr::makeGreaterEqual( cache
+			, std::move( lhs )
 			, std::move( rhs ) );
 	}
 
@@ -564,7 +587,8 @@ namespace sdw
 		, type::Kind component
 		, expr::ExprList && args )
 	{
-		return expr::makeCompositeConstruct( composite
+		return expr::makeCompositeConstruct( *ast::type::TypesCache::get()
+			, composite
 			, component
 			, std::move( args ) );
 	}

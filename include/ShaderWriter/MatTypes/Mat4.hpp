@@ -25,9 +25,11 @@ namespace sdw
 		inline Mat4T< ValueT > & operator=( RhsT const & rhs );
 		template< typename IndexT >
 		inline Vec4T< ValueT > operator[]( IndexT const & rhs )const;
+		inline Vec4T< ValueT > operator[]( int32_t offset )const;
+		inline Vec4T< ValueT > operator[]( uint32_t offset )const;
 		inline Mat4T< ValueT > & operator+=( Mat4T< ValueT > const & rhs );
 
-		static inline ast::type::TypePtr makeType();
+		static inline ast::type::TypePtr makeType( ast::type::TypesCache & cache );
 	};
 	template< typename ValueT >
 	Vec4T< ValueT > operator*( Vec4T< ValueT > const & lhs,

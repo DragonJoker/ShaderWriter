@@ -348,9 +348,9 @@ def printImageFunction( outs, returnGroup, functionGroup, paramsGroup, imageType
 		outs.write( "\n\t\t{" )
 		outs.write( "\n\t\t\treturn Optional< " + ret + " >{ findShader( image" + listParams( paramsGroup, "," ) + " )" )
 		# Write arguments
-		outs.write( "\n\t\t\t\t, expr::make" + fullName + fmt + "(" )
+		outs.write( "\n\t\t\t\t, expr::make" + fullName + fmt + "( findTypesCache( image" + listParams( paramsGroup, "," ) + " )" )
 		#	Image argument
-		outs.write( " makeExpr( image )" )
+		outs.write( "\n\t\t\t\t\t, makeExpr( image )" )
 		#	Remaining arguments
 		outs.write( computeArgs( paramsGroup, "\t\t\t\t\t", "\n\t\t\t\t\t," ) + " )" )
 		outs.write( "\n\t\t\t\t, areOptionalEnabled( image" + listParams( paramsGroup, "," ) + " ) };" )
@@ -358,9 +358,9 @@ def printImageFunction( outs, returnGroup, functionGroup, paramsGroup, imageType
 		outs.write( "\n" )
 		outs.write( "\n\t\treturn " + ret + "{ findShader( image" + listParams( paramsGroup, "," ) + " )" )
 		# Write arguments
-		outs.write( "\n\t\t\t, expr::make" + fullName + fmt + "(" )
+		outs.write( "\n\t\t\t, expr::make" + fullName + fmt + "( findTypesCache( image" + listParams( paramsGroup, "," ) + " )" )
 		#	Image argument
-		outs.write( " makeExpr( image )" )
+		outs.write( "\n\t\t\t\t, makeExpr( image )" )
 		#	Remaining arguments
 		outs.write( computeArgs( paramsGroup, "\t\t\t\t", "\n\t\t\t\t," ) + " ) };" )
 		outs.write( "\n\t}" )
@@ -377,14 +377,14 @@ def printIntrinsicFunction( outs, returnGroup, functionGroup, paramsGroup ):
 	outs.write( "\n\t\tif ( isAnyOptional(" + listParams( paramsGroup, "" ) + " ) )" )
 	outs.write( "\n\t\t{" )
 	outs.write( "\n\t\t\treturn Optional< " + retType + " >{ findShader(" + listParams( paramsGroup, "" ) + " )" )
-	outs.write( "\n\t\t\t\t, expr::make" + fullName + "(" )
-	outs.write( computeArgs( paramsGroup, "\t\t\t\t\t", "" ) + " )" )
+	outs.write( "\n\t\t\t\t, expr::make" + fullName + "( findTypesCache(" + listParams( paramsGroup, "" ) + " )" )
+	outs.write( computeArgs( paramsGroup, "\t\t\t\t\t", "\n\t\t\t\t\t," ) + " )" )
 	outs.write( "\n\t\t\t\t, areOptionalEnabled(" + listParams( paramsGroup, "" ) + " ) };" )
 	outs.write( "\n\t\t}" )
 	outs.write( "\n" )
 	outs.write( "\n\t\treturn " + retType + "{ findShader(" + listParams( paramsGroup, "" ) + " )" )
-	outs.write( "\n\t\t\t, expr::make" + fullName + "(" )
-	outs.write( computeArgs( paramsGroup, "\t\t\t\t", "" ) + " ) };" )
+	outs.write( "\n\t\t\t, expr::make" + fullName + "( findTypesCache(" + listParams( paramsGroup, "" ) + " )" )
+	outs.write( computeArgs( paramsGroup, "\t\t\t\t", "\n\t\t\t\t\t," ) + " ) };" )
 	outs.write( "\n\t}" )
 	
 def endFunctionGroup( outs ):

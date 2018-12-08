@@ -17,20 +17,24 @@ namespace glsl
 		: public ast::ExprCloner
 	{
 	public:
-		static ast::expr::ExprPtr submit( ast::expr::Expr * expr
+		static ast::expr::ExprPtr submit( ast::type::TypesCache & cache
+			, ast::expr::Expr * expr
 			, GlslConfig const & writerConfig
 			, IntrinsicsConfig const & intrinsicsConfig );
-		static ast::expr::ExprPtr submit( ast::expr::ExprPtr const & expr
+		static ast::expr::ExprPtr submit( ast::type::TypesCache & cache
+			, ast::expr::ExprPtr const & expr
 			, GlslConfig const & writerConfig
 			, IntrinsicsConfig const & intrinsicsConfig );
 
 	private:
-		ExprAdapter( GlslConfig const & writerConfig
+		ExprAdapter( ast::type::TypesCache & cache
+			, GlslConfig const & writerConfig
 			, IntrinsicsConfig const & intrinsicsConfig
 			, ast::expr::ExprPtr & result );
 
 		ast::expr::ExprPtr doSubmit( ast::expr::Expr * expr )override;
 		void visitImageAccessCallExpr( ast::expr::ImageAccessCall * expr )override;
+		void visitIntrinsicCallExpr( ast::expr::IntrinsicCall * expr )override;
 		void visitTextureAccessCallExpr( ast::expr::TextureAccessCall * expr )override;
 
 		void doProcessImageLoad( ast::expr::ImageAccessCall * expr );
@@ -39,6 +43,7 @@ namespace glsl
 		void doProcessTextureGather( ast::expr::TextureAccessCall * expr );
 
 	private:
+		ast::type::TypesCache & m_cache;
 		GlslConfig const & m_writerConfig;
 		IntrinsicsConfig const & m_intrinsicsConfig;
 	};

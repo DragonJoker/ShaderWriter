@@ -48,42 +48,256 @@ namespace spirv
 	};
 
 	using IdList = std::vector< spv::Id >;
+	using UInt32List = std::vector< uint32_t >;
+	using UInt32ListIt = UInt32List::iterator;
+	using UInt32ListCIt = UInt32List::const_iterator;
+
+	static uint32_t constexpr dynamicOperandCount = ~( 0u );
 
 	struct IdListHasher
 	{
 		size_t operator()( IdList const & list )const;
 	};
 
+	struct Instruction;
+	using InstructionPtr = std::unique_ptr< Instruction >;
+
 	struct Instruction
 	{
-		Instruction( spv::Op op = spv::Op::OpNop
-			, std::optional< spv::Id > resultType = std::nullopt
+		struct Config
+		{
+			spv::Op op;
+			bool hasReturnTypeId;
+			bool hasResultId;
+			uint32_t operandsCount;
+			bool hasName;
+			bool hasLabels;
+		};
+		Instruction( Config const & config
+			, spv::Op op = spv::Op::OpNop
+			, std::optional< spv::Id > returnTypeId = std::nullopt
 			, std::optional< spv::Id > resultId = std::nullopt
 			, IdList operands = IdList{}
 			, std::optional< std::string > name = std::nullopt
-			, std::optional< std::map< int64_t, spv::Id > > labels = std::nullopt );
+			, std::optional< std::map< int32_t, spv::Id > > labels = std::nullopt );
+		static void serialize( UInt32List & buffer
+			, Instruction const & instruction );
+		static InstructionPtr deserialize( UInt32ListCIt & buffer
+			, bool returnTypeId
+			, bool resultId
+			, uint32_t operandsCount
+			, bool name
+			, bool labels );
+		virtual ~Instruction();
 
 		// Serialisable.
 		Op op;
-		std::optional< spv::Id > resultType;
+		std::optional< spv::Id > returnTypeId;
 		std::optional< spv::Id > resultId;
 		IdList operands;
-		std::optional< std::vector< uint32_t > > packedName;
+		std::optional< UInt32List > packedName;
 		// Used during construction.
+		Config const & config;
 		std::optional< std::string > name;
-		std::optional< std::map< int64_t, spv::Id > > labels;
+		std::optional< std::map< int32_t, spv::Id > > labels;
 	};
 
-	using InstructionList = std::vector< Instruction >;
+	using InstructionPtr = std::unique_ptr< Instruction >;
+	using InstructionList = std::vector< InstructionPtr >;
+
+	template< spv::Op Operator
+		, bool HasReturnTypeId
+		, bool HasResultId
+		, uint32_t OperandsCount
+		, bool HasName
+		, bool HasLabels >
+	Instruction::Config makeConfig()
+	{
+		return Instruction::Config
+		{
+			Operator,
+			HasReturnTypeId,
+			HasResultId,
+			OperandsCount,
+			HasName,
+			HasLabels,
+		};
+	}
+
+	template< spv::Op Operator
+		, bool HasReturnTypeId
+		, bool HasResultId
+		, uint32_t OperandsCount
+		, bool HasName
+		, bool HasLabels >
+	struct InstructionT
+		: public Instruction
+	{
+		static spv::Op constexpr op = Operator;
+		static bool constexpr hasReturnTypeId = HasReturnTypeId;
+		static bool constexpr hasResultId = HasResultId;
+		static uint32_t constexpr operandsCount = OperandsCount;
+		static bool constexpr hasName = HasName;
+		static bool constexpr hasLabels = HasLabels;
+		static Config const config;
+
+		inline InstructionT( std::optional< spv::Id > returnTypeId = std::nullopt
+			, std::optional< spv::Id > resultId = std::nullopt
+			, IdList operands = IdList{}
+			, std::optional< std::string > name = std::nullopt
+			, std::optional< std::map< int32_t, spv::Id > > labels = std::nullopt );
+		inline InstructionT( UInt32ListIt & buffer );
+		inline InstructionT( UInt32ListCIt & buffer );
+	};
+
+	template< spv::Op Operator
+		, bool HasReturnTypeId
+		, bool HasResultId
+		, uint32_t OperandsCount
+		, bool HasName
+		, bool HasLabels >
+	Instruction::Config const InstructionT< Operator, HasReturnTypeId, HasResultId, OperandsCount, HasName, HasLabels >::config = makeConfig< Operator, HasReturnTypeId, HasResultId, OperandsCount, HasName, HasLabels >();
+
+	template< spv::Op Operator
+		, bool HasReturnTypeId
+		, bool HasResultId >
+	struct VariadicInstructionT
+		: public InstructionT< Operator, HasReturnTypeId, HasResultId, dynamicOperandCount, false, false >
+	{
+		static spv::Op constexpr op = Operator;
+		static bool constexpr hasReturnTypeId = HasReturnTypeId;
+		static bool constexpr hasResultId = HasResultId;
+		static uint32_t constexpr operandsCount = dynamicOperandCount;
+		static bool constexpr hasName = false;
+		static bool constexpr hasLabels = false;
+
+		inline VariadicInstructionT( std::optional< spv::Id > returnTypeId = std::nullopt
+			, std::optional< spv::Id > resultId = std::nullopt
+			, IdList operands = IdList{} );
+		inline VariadicInstructionT( UInt32ListIt & buffer );
+		inline VariadicInstructionT( UInt32ListCIt & buffer );
+	};
+
+	template< spv::Op Operator >
+	using UnInstructionT = InstructionT< Operator, true, true, 1u, false, false >;
+
+	template< spv::Op Operator >
+	using BinInstructionT = InstructionT< Operator, true, true, 2u, false, false >;
+
+	template< spv::Op Operator >
+	using ImageAccessInstructionT = VariadicInstructionT< Operator, true, true >;
+
+	template< spv::Op Operator >
+	using TextureAccessInstructionT = VariadicInstructionT< Operator, true, true >;
+
+	template< spv::Op Operator >
+	using IntrinsicInstructionT = VariadicInstructionT< Operator, true, true >;
+
+	template< spv::Op Operator
+		, bool HasReturnTypeId
+		, bool HasResultId
+		, uint32_t OperandsCount
+		, bool HasName
+		, bool HasLabels >
+	using InstructionTPtr = std::unique_ptr< InstructionT< Operator, HasReturnTypeId, HasResultId, OperandsCount, HasName, HasLabels > >;
+
+	template< spv::Op Operator
+		, bool HasReturnTypeId
+		, bool HasResultId
+		, uint32_t OperandsCount
+		, bool HasName
+		, bool HasLabels >
+	struct InstructionTMaker;
+
+	template< typename InstructionType, typename ... Params >
+	inline std::unique_ptr< InstructionType > makeInstruction( Params && ... params );
+	template< spv::Op Operator
+		, bool HasReturnTypeId
+		, bool HasResultId
+		, uint32_t OperandsCount
+		, bool HasName
+		, bool HasLabels >
+	inline void assertType( Instruction const & instruction );
+	inline void assertType( Instruction const & instruction
+		, Instruction::Config const & config );
+	inline void assertType( Instruction const & instruction
+		, spv::Op op
+		, bool hasReturnTypeId
+		, bool hasResultId
+		, uint32_t operandsCount
+		, bool hasName
+		, bool hasLabels );
 
 	struct Block
 	{
 		spv::Id label;
 		InstructionList instructions;
-		Instruction blockEnd;
+		InstructionPtr blockEnd;
 		std::unordered_map< IdList, spv::Id, IdListHasher > accessChains;
 		std::unordered_map< IdList, spv::Id, IdListHasher > vectorShuffles;
 	};
+
+	using ExtensionInstruction = InstructionT< spv::Op::OpExtension, false, false, 0u, true, false >;
+	using ExtInstImportInstruction = InstructionT< spv::Op::OpExtInstImport, false, true, 0u, true, false >;
+	using SourceInstruction = InstructionT< spv::Op::OpSource, false, false, 2u, false, false >;
+	using MemoryModelInstruction = InstructionT< spv::Op::OpMemoryModel, false, false, 2u, false, false >;
+	using EntryPointInstruction = InstructionT< spv::Op::OpEntryPoint, false, false, dynamicOperandCount, true, false >;
+	using ExecutionModeInstruction = VariadicInstructionT< spv::Op::OpExecutionMode, false, false >;
+	using CapabilityInstruction = InstructionT< spv::Op::OpCapability, false, false, 1u, false, false >;
+	using DecorateInstruction = VariadicInstructionT< spv::Op::OpDecorate, false, false >;
+	using MemberDecorateInstruction = VariadicInstructionT< spv::Op::OpMemberDecorate, false, false >;
+	using NameInstruction = InstructionT< spv::Op::OpName, false, false, 1u, true, false >;
+	using MemberNameInstruction = InstructionT< spv::Op::OpMemberName, false, false, 2u, true, false >;
+
+	using VoidTypeInstruction = InstructionT< spv::Op::OpTypeVoid, false, true, 0u, false, false >;
+	using BooleanTypeInstruction = InstructionT< spv::Op::OpTypeBool, false, true, 0u, false, false >;
+	using IntTypeInstruction = InstructionT< spv::Op::OpTypeInt, false, true, 2u, false, false >;
+	using FloatTypeInstruction = InstructionT< spv::Op::OpTypeFloat, false, true, 1u, false, false >;
+	using VectorTypeInstruction = InstructionT< spv::Op::OpTypeVector, false, true, 2u, false, false >;
+	using MatrixTypeInstruction = InstructionT< spv::Op::OpTypeMatrix, false, true, 2u, false, false >;
+	using SamplerTypeInstruction = InstructionT< spv::Op::OpTypeSampler, false, true, 0u, false, false >;
+	using SampledImageTypeInstruction = InstructionT< spv::Op::OpTypeSampledImage, false, true, 1u, false, false >;
+	using RuntimeArrayTypeInstruction = InstructionT< spv::Op::OpTypeRuntimeArray, false, true, 1u, false, false >;
+	using ArrayTypeInstruction = InstructionT< spv::Op::OpTypeArray, false, true, 2u, false, false >;
+	using PointerTypeInstruction = InstructionT< spv::Op::OpTypePointer, false, true, 2u, false, false >;
+	using FunctionTypeInstruction = VariadicInstructionT< spv::Op::OpTypeFunction, false, true >;
+	using ImageTypeInstruction = VariadicInstructionT< spv::Op::OpTypeImage, false, true >;
+	using StructTypeInstruction = VariadicInstructionT< spv::Op::OpTypeStruct, false, true >;
+
+	using ConstantInstruction = VariadicInstructionT< spv::Op::OpConstant, true, true >;
+	using ConstantCompositeInstruction = VariadicInstructionT< spv::Op::OpConstantComposite, true, true >;
+	using ConstantTrueInstruction = InstructionT< spv::Op::OpConstantTrue, true, true, 0u, false, false >;
+	using ConstantFalseInstruction = InstructionT< spv::Op::OpConstantFalse, true, true, 0u, false, false >;
+	using SpecConstantOpInstruction = VariadicInstructionT< spv::Op::OpSpecConstantOp, true, true >;
+	using SpecConstantInstruction = VariadicInstructionT< spv::Op::OpSpecConstant, true, true >;
+	using SpecConstantCompositeInstruction = VariadicInstructionT< spv::Op::OpSpecConstantComposite, true, true >;
+	using SpecConstantTrueInstruction = InstructionT< spv::Op::OpSpecConstantTrue, true, true, 0u, false, false >;
+	using SpecConstantFalseInstruction = InstructionT< spv::Op::OpSpecConstantFalse, true, true, 0u, false, false >;
+	using SwitchInstruction = InstructionT< spv::Op::OpSwitch, false, false, 2u, false, true >;
+	using SelectInstruction = InstructionT< spv::Op::OpSelect, true, true, 3u, false, false >;
+	using LoadInstruction = InstructionT< spv::Op::OpLoad, true, true, 1u, false, false >;
+	using StoreInstruction = InstructionT< spv::Op::OpStore, false, false, 2u, false, false >;
+	using VariableInstruction = InstructionT< spv::Op::OpVariable, true, true, 1u, false, false >;
+	using CompositeExtractInstruction = VariadicInstructionT< spv::Op::OpCompositeExtract, true, true >;
+	using CompositeConstructInstruction = VariadicInstructionT< spv::Op::OpCompositeConstruct, true, true >;
+	using VectorShuffleInstruction = VariadicInstructionT< spv::Op::OpVectorShuffle, true, true >;
+	using AccessChainInstruction = VariadicInstructionT< spv::Op::OpAccessChain, true, true >;
+	using FunctionCallInstruction = VariadicInstructionT< spv::Op::OpFunctionCall, true, true >;
+	using ImageTexelPointerInstruction = VariadicInstructionT< spv::Op::OpImageTexelPointer, true, true >;
+	using ImageInstruction = InstructionT< spv::Op::OpImage, true, true, 1u, false, false >;
+	using ExtInstInstruction = VariadicInstructionT< spv::Op::OpExtInst, true, true >;
+	using FunctionParameterInstruction = InstructionT< spv::Op::OpFunctionParameter, true, true, 0u, false, false >;
+	using LabelInstruction = InstructionT< spv::Op::OpLabel, false, true, 0u, false, false >;
+	using FunctionInstruction = InstructionT< spv::Op::OpFunction, true, true, 2u, false, false >;
+
+	using KillInstruction = InstructionT< spv::Op::OpKill, false, false, 0u, false, false >;
+	using BranchInstruction = InstructionT< spv::Op::OpBranch, false, false, 1u, false, false >;
+	using BranchConditionalInstruction = VariadicInstructionT< spv::Op::OpBranchConditional, false, false >;
+	using SelectionMergeInstruction = InstructionT< spv::Op::OpSelectionMerge, false, false, 2u, false, false >;
+	using LoopMergeInstruction = InstructionT< spv::Op::OpLoopMerge, false, false, 3u, false, false >;
+	using ReturnInstruction = InstructionT< spv::Op::OpReturn, false, false, 0u, false, false >;
+	using ReturnValueInstruction = InstructionT< spv::Op::OpReturnValue, false, false, 1u, false, false >;
+	using FunctionEndInstruction = InstructionT< spv::Op::OpFunctionEnd, false, false, 0u, false, false >;
 
 	using BlockList = std::vector< Block >;
 
@@ -114,7 +328,8 @@ namespace spirv
 	class Module
 	{
 	public:
-		Module( spv::MemoryModel memoryModel
+		Module( ast::type::TypesCache & cache
+			, spv::MemoryModel memoryModel
 			, spv::ExecutionModel executionModel );
 		spv::Id registerType( ast::type::TypePtr type );
 		spv::Id registerPointerType( spv::Id type
@@ -180,13 +395,18 @@ namespace spirv
 		Block newBlock();
 		void endFunction();
 
+		inline ast::type::TypesCache & getCache()
+		{
+			return m_cache;
+		}
+
 	public:
 		IdList header;
 		InstructionList capabilities;
 		InstructionList extensions;
 		InstructionList imports;
-		Instruction memoryModel;
-		Instruction entryPoint;
+		InstructionPtr memoryModel;
+		InstructionPtr entryPoint;
 		InstructionList executionModes;
 		InstructionList debug;
 		InstructionList decorations;
@@ -221,6 +441,7 @@ namespace spirv
 			, uint32_t arrayStride );
 
 	private:
+		ast::type::TypesCache & m_cache;
 		spv::Id * m_currentId;
 		Function * m_currentFunction{ nullptr };
 		std::map< ast::type::TypePtr, spv::Id > m_registeredTypes;
@@ -243,5 +464,7 @@ namespace spirv
 		InstructionList m_pendingExecutionModes;
 	};
 }
+
+#include "SpirvModule.inl"
 
 #endif

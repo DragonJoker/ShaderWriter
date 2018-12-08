@@ -6,6 +6,7 @@ See LICENSE file in root folder
 #pragma once
 
 #include "ShaderAST/Type/Type.hpp"
+#include "ShaderAST/Type/TypeCache.hpp"
 
 namespace ast::var
 {
@@ -215,9 +216,10 @@ namespace ast::var
 			, name );
 	}
 
-	inline VariablePtr makeFunction( std::string name )
+	inline VariablePtr makeFunction( type::TypesCache & cache
+		, std::string name )
 	{
-		return std::make_shared< Variable >( type::getFunction()
+		return std::make_shared< Variable >( cache.getFunction()
 			, name );
 	}
 

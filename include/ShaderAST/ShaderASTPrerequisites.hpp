@@ -1417,6 +1417,7 @@ namespace ast
 	}
 	namespace type
 	{
+		class TypesCache;
 		class Type;
 		using TypePtr = std::shared_ptr< Type >;
 
@@ -1433,6 +1434,8 @@ namespace ast
 		using ImagePtr = std::shared_ptr< Image >;
 		class SampledImage;
 		using SampledImagePtr = std::shared_ptr< SampledImage >;
+		class Sampler;
+		using SamplerPtr = std::shared_ptr< Sampler >;
 	}
 
 	struct SpecConstantInfo

@@ -13,7 +13,7 @@ namespace sdw
 		: m_shader{ writer.getShader() }
 		, m_stmt{ stmt::makePushConstantsBufferDecl( name, layout ) }
 		, m_name{ name }
-		, m_info{ layout, name, 0u, 0u }
+		, m_info{ writer.getTypesCache(), layout, name, 0u, 0u }
 		, m_var{ var::makeVariable( m_info.getType(), m_name, var::Flag::ePushConstant ) }
 	{
 	}

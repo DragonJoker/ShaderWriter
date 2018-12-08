@@ -95,10 +95,64 @@ namespace sdw
 		return result;
 	}
 
+	template< typename Value, typename ... Values >
+	inline void findExprRec( ast::expr::ExprPtr & result
+		, Value const & current
+		, Values const & ... values );
+
+	inline void findExprRec( ast::expr::ExprPtr & result )
+	{
+	}
+
+	template< typename Value >
+	inline void findExprRec( ast::expr::ExprPtr & result
+		, Value const & last )
+	{
+		if ( !result )
+		{
+			result = makeExpr( last );
+		}
+	}
+
+	template< typename Value, typename ... Values >
+	inline void findExprRec( ast::expr::ExprPtr & result
+		, Value const & current
+		, Values const & ... values )
+	{
+		if ( !result )
+		{
+			result = makeExpr( current );
+			findExprRec( result, values... );
+		}
+	}
+
+	template< typename ... ValuesT >
+	inline ast::expr::ExprPtr findExpr( ValuesT const & ... values )
+	{
+		ast::expr::ExprPtr result{ nullptr };
+		findExprRec( result, values... );
+		return result;
+	}
+
+	template< typename ... ValuesT >
+	inline ast::type::TypesCache & findTypesCache( ValuesT const & ... values )
+	{
+		Shader * shader = findShader( values... );
+
+		if ( shader )
+		{
+			return getTypesCache( *shader );
+		}
+
+		ast::expr::ExprPtr expr = findExpr( values... );
+		assert( expr );
+		return expr->getType()->getCache();
+	}
+
 	template< typename ... ValuesT >
 	inline stmt::Container * findContainer( ValuesT const & ... values )
 	{
-		auto shader = findShader( values... );
+		Shader * shader = findShader( values... );
 		stmt::Container * result{ nullptr };
 
 		if ( shader )

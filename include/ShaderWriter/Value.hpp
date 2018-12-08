@@ -52,6 +52,8 @@ namespace sdw
 	inline stmt::Container * findContainer( ValuesT const & ... values );
 	template< typename ... ValuesT >
 	inline Shader * findShader( ValuesT const & ... values );
+	template< typename ... ValuesT >
+	inline ast::type::TypesCache & findTypesCache( ValuesT const & ... values );
 
 	expr::ExprPtr makeExpr( Value const & variable );
 	expr::ExprList makeFnArg( Value const & variable );

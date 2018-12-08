@@ -32,8 +32,8 @@ namespace sdw
 	{
 		if ( this->getContainer() )
 		{
-			addStmt( *findContainer( *this, rhs )
-				, sdw::makeSimple( sdw::makeAssign( Mat4T< ValueT >::makeType()
+			addStmt( *findShader( *this, rhs )
+				, sdw::makeSimple( sdw::makeAssign( Mat4T< ValueT >::makeType( findTypesCache( *this, rhs ) )
 					, makeExpr( *this )
 					, makeExpr( rhs ) ) ) );
 		}
@@ -50,7 +50,7 @@ namespace sdw
 	Optional< Vec4T< ValueT > > Optional< Mat4T< ValueT > >::operator[]( IndexT const & rhs )const
 	{
 		return Optional< Vec4T< ValueT > >{ findShader( *this, rhs )
-			, sdw::makeArrayAccess( Vec4T< ValueT >::makeType()
+			, sdw::makeArrayAccess( Vec4T< ValueT >::makeType( findTypesCache( *this, rhs ) )
 				, makeExpr( *this )
 				, makeExpr( rhs ) )
 			, areOptionalEnabled( *this, rhs ) };
@@ -67,7 +67,7 @@ namespace sdw
 		Mat4T< ValueT > const & rhs )
 	{
 		return Optional< Vec4T< ValueT > >{ findShader( lhs, rhs )
-			, sdw::makeTimes( Vec4T< ValueT >::makeType()
+			, sdw::makeTimes( Vec4T< ValueT >::makeType( findTypesCache( lhs, rhs ) )
 				, makeExpr( lhs )
 				, makeExpr( rhs ) )
 			, areOptionalEnabled( lhs, rhs ) };
@@ -78,7 +78,7 @@ namespace sdw
 		, Vec4T< ValueT > const & rhs )
 	{
 		return Optional< Vec4T< ValueT > >{ findShader( lhs, rhs )
-			, sdw::makeTimes( Vec4T< ValueT >::makeType()
+			, sdw::makeTimes( Vec4T< ValueT >::makeType( findTypesCache( lhs, rhs ) )
 				, makeExpr( lhs )
 				, makeExpr( rhs ) )
 			, areOptionalEnabled( lhs, rhs ) };
@@ -89,7 +89,7 @@ namespace sdw
 		, Mat4T< ValueT > const & rhs )
 	{
 		return Optional< Mat4T< ValueT > >{ findShader( lhs, rhs )
-			, sdw::makeTimes( Mat4T< ValueT >::makeType()
+			, sdw::makeTimes( Mat4T< ValueT >::makeType( findTypesCache( lhs, rhs ) )
 				, makeExpr( lhs )
 				, makeExpr( rhs ) )
 			, areOptionalEnabled( lhs, rhs ) };
@@ -100,7 +100,7 @@ namespace sdw
 		, Optional< Mat4T< ValueT > > const & rhs )
 	{
 		return Optional< Vec4T< ValueT > >{ findShader( lhs, rhs )
-			, sdw::makeTimes( Vec4T< ValueT >::makeType()
+			, sdw::makeTimes( Vec4T< ValueT >::makeType( findTypesCache( lhs, rhs ) )
 				, makeExpr( lhs )
 				, makeExpr( rhs ) )
 			, areOptionalEnabled( lhs, rhs ) };
@@ -111,7 +111,7 @@ namespace sdw
 		, Optional< Vec4T< ValueT > > const & rhs )
 	{
 		return Optional< Vec4T< ValueT > >{ findShader( lhs, rhs )
-			, sdw::makeTimes( Vec4T< ValueT >::makeType()
+			, sdw::makeTimes( Vec4T< ValueT >::makeType( findTypesCache( lhs, rhs ) )
 				, makeExpr( lhs )
 				, makeExpr( rhs ) )
 			, areOptionalEnabled( lhs, rhs ) };
@@ -122,7 +122,7 @@ namespace sdw
 		, Optional< Mat4T< ValueT > > const & rhs )
 	{
 		return Optional< Mat4T< ValueT > >{ findShader( lhs, rhs )
-			, sdw::makeTimes( Mat4T< ValueT >::makeType()
+			, sdw::makeTimes( Mat4T< ValueT >::makeType( findTypesCache( lhs, rhs ) )
 				, makeExpr( lhs )
 				, makeExpr( rhs ) )
 			, areOptionalEnabled( lhs, rhs ) };
@@ -133,7 +133,7 @@ namespace sdw
 		, Optional< Mat4T< ValueT > > const & rhs )
 	{
 		return Optional< Vec4T< ValueT > >{ findShader( lhs, rhs )
-			, sdw::makeTimes( Vec4T< ValueT >::makeType()
+			, sdw::makeTimes( Vec4T< ValueT >::makeType( findTypesCache( lhs, rhs ) )
 				, makeExpr( lhs )
 				, makeExpr( rhs ) )
 			, areOptionalEnabled( lhs, rhs ) };
@@ -144,7 +144,7 @@ namespace sdw
 		, Optional< Vec4T< ValueT > > const & rhs )
 	{
 		return Optional< Vec4T< ValueT > >{ findShader( lhs, rhs )
-			, sdw::makeTimes( Vec4T< ValueT >::makeType()
+			, sdw::makeTimes( Vec4T< ValueT >::makeType( findTypesCache( lhs, rhs ) )
 				, makeExpr( lhs )
 				, makeExpr( rhs ) )
 			, areOptionalEnabled( lhs, rhs ) };
@@ -155,7 +155,7 @@ namespace sdw
 		, Optional< Mat4T< ValueT > > const & rhs )
 	{
 		return Optional< Mat4T< ValueT > >{ findShader( lhs, rhs )
-			, sdw::makeTimes( Mat4T< ValueT >::makeType()
+			, sdw::makeTimes( Mat4T< ValueT >::makeType( findTypesCache( lhs, rhs ) )
 				, makeExpr( lhs )
 				, makeExpr( rhs ) )
 			, areOptionalEnabled( lhs, rhs ) };

@@ -12,20 +12,20 @@ namespace spirv
 {
 	namespace
 	{
-		int64_t getInt64Value( ast::expr::Literal const & lit )
+		int32_t getInt32Value( ast::expr::Literal const & lit )
 		{
-			int64_t result{};
+			int32_t result{};
 
 			switch ( lit.getLiteralType() )
 			{
 			case ast::expr::LiteralType::eBool:
-				result = int64_t( lit.getValue< ast::expr::LiteralType::eBool >() );
+				result = int32_t( lit.getValue< ast::expr::LiteralType::eBool >() );
 				break;
 			case ast::expr::LiteralType::eInt:
-				result = int64_t( lit.getValue< ast::expr::LiteralType::eInt >() );
+				result = int32_t( lit.getValue< ast::expr::LiteralType::eInt >() );
 				break;
 			case ast::expr::LiteralType::eUInt:
-				result = int64_t( lit.getValue< ast::expr::LiteralType::eUInt >() );
+				result = int32_t( lit.getValue< ast::expr::LiteralType::eUInt >() );
 				break;
 			}
 
@@ -33,12 +33,15 @@ namespace spirv
 		}
 	}
 
-	Module StmtVisitor::submit( ast::stmt::Stmt * stmt
-		, sdw::ShaderType type )
+	Module StmtVisitor::submit( ast::type::TypesCache & cache
+		, ast::stmt::Stmt * stmt
+		, sdw::ShaderType type
+		, ModuleConfig const & config )
 	{
-		Module result{ getMemoryModel()
+		Module result{ cache
+			, getMemoryModel()
 			, getExecutionModel( type ) };
-		StmtVisitor vis{ result, type };
+		StmtVisitor vis{ result, type, config };
 		stmt->accept( &vis );
 		// Increment total ID count.
 		++result.header[3];
@@ -46,9 +49,14 @@ namespace spirv
 	}
 
 	StmtVisitor::StmtVisitor( Module & result
-		, sdw::ShaderType type )
+		, sdw::ShaderType type
+		, ModuleConfig const & config )
 		: m_result{ result }
 	{
+		for ( auto & capability : config.requiredCapabilities )
+		{
+			m_result.capabilities.emplace_back( makeInstruction< CapabilityInstruction >( spv::Id( capability ) ) );
+		}
 	}
 
 	void StmtVisitor::visitContainerStmt( ast::stmt::Container * stmt )
@@ -70,7 +78,7 @@ namespace spirv
 
 	void StmtVisitor::visitDiscardStmt( ast::stmt::Discard * stmt )
 	{
-		m_currentBlock.blockEnd = makeInstruction( spv::Op::OpKill, {} );
+		m_currentBlock.blockEnd = makeInstruction< KillInstruction >();
 		m_function->cfg.blocks.emplace_back( std::move( m_currentBlock ) );
 		m_currentBlock = m_result.newBlock();
 	}
@@ -97,31 +105,32 @@ namespace spirv
 		auto contentBlock = m_result.newBlock();
 
 		// End current block, to branch to the loop header block.
-		m_currentBlock.blockEnd = makeInstruction( spv::Op::OpBranch, IdList{ loopBlock.label } );
-		m_function->cfg.blocks.push_back( m_currentBlock );
+		m_currentBlock.blockEnd = makeInstruction< BranchInstruction >( loopBlock.label );
+		m_function->cfg.blocks.emplace_back( std::move( m_currentBlock ) );
 
 		// The loop header block, to which continue target will branch, branches to the loop content block.
-		loopBlock.instructions.emplace_back( makeInstruction( spv::Op::OpLoopMerge, { mergeBlock.label, ifBlock.label } ) );
-		loopBlock.blockEnd = makeInstruction( spv::Op::OpBranch, IdList{ contentBlock.label } );
-		m_function->cfg.blocks.push_back( loopBlock );
+		auto loopBlockLabel = loopBlock.label;
+		loopBlock.instructions.emplace_back( makeInstruction< LoopMergeInstruction >( makeOperands( mergeBlock.label, ifBlock.label, 0u ) ) );
+		loopBlock.blockEnd = makeInstruction< BranchInstruction >( contentBlock.label );
+		m_function->cfg.blocks.emplace_back( std::move( loopBlock ) );
 
 		// The current block becomes the loop content block.
-		m_currentBlock = contentBlock;
+		m_currentBlock = std::move( contentBlock );
 
 		// Instructions go to loop content block.
 		visitContainerStmt( stmt );
 
 		// Branch current block to the continue target block.
-		m_currentBlock.blockEnd = makeInstruction( spv::Op::OpBranch, IdList{ ifBlock.label } );
-		m_function->cfg.blocks.push_back( m_currentBlock );
+		m_currentBlock.blockEnd = makeInstruction< BranchInstruction >( ifBlock.label );
+		m_function->cfg.blocks.emplace_back( std::move( m_currentBlock ) );
 
 		// The if block, branches either back to the loop header block (true) or to the loop merge block (false).
 		auto intermediateIfId = ExprVisitor::submit( stmt->getCtrlExpr(), ifBlock, m_result );
-		ifBlock.blockEnd = makeInstruction( spv::Op::OpBranchConditional, { intermediateIfId, loopBlock.label, mergeBlock.label } );
-		m_function->cfg.blocks.push_back( ifBlock );
+		ifBlock.blockEnd = makeInstruction< BranchConditionalInstruction >( makeOperands( intermediateIfId, loopBlockLabel, mergeBlock.label ) );
+		m_function->cfg.blocks.emplace_back( std::move( ifBlock ) );
 
 		// Current block becomes the merge block.
-		m_currentBlock = mergeBlock;
+		m_currentBlock = std::move( mergeBlock );
 	}
 
 	void StmtVisitor::visitElseIfStmt( ast::stmt::ElseIf * stmt )
@@ -143,36 +152,37 @@ namespace spirv
 
 		// End current block, to branch to the loop header block.
 		auto intermediateInitId = ExprVisitor::submit( stmt->getInitExpr(), m_currentBlock, m_result );
-		m_currentBlock.blockEnd = makeInstruction( spv::Op::OpBranch, IdList{ loopBlock.label } );
-		m_function->cfg.blocks.push_back( m_currentBlock );
+		m_currentBlock.blockEnd = makeInstruction< BranchInstruction >( loopBlock.label );
+		m_function->cfg.blocks.emplace_back( std::move( m_currentBlock ) );
 
 		// The current block becomes the loop content block.
 		m_currentBlock = m_result.newBlock();
 
 		// The loop header block, to which continue target will branch, branches to the if block.
-		loopBlock.instructions.emplace_back( makeInstruction( spv::Op::OpLoopMerge, { mergeBlock.label, continueBlock.label } ) );
-		loopBlock.blockEnd = makeInstruction( spv::Op::OpBranch, IdList{ ifBlock.label } );
-		m_function->cfg.blocks.push_back( loopBlock );
+		auto loopBlockLabel = loopBlock.label;
+		loopBlock.instructions.emplace_back( makeInstruction< LoopMergeInstruction >( makeOperands( mergeBlock.label, continueBlock.label, 0u ) ) );
+		loopBlock.blockEnd = makeInstruction< BranchInstruction >( ifBlock.label );
+		m_function->cfg.blocks.emplace_back( std::move( loopBlock ) );
 
 		// The if block, branches to either loop content block (true) or loop merge block (false).
 		auto intermediateIfId = ExprVisitor::submit( stmt->getCtrlExpr(), ifBlock, m_result );
-		ifBlock.blockEnd = makeInstruction( spv::Op::OpBranchConditional, { intermediateIfId, m_currentBlock.label, mergeBlock.label } );
-		m_function->cfg.blocks.push_back( ifBlock );
+		ifBlock.blockEnd = makeInstruction< BranchConditionalInstruction >( makeOperands( intermediateIfId, m_currentBlock.label, mergeBlock.label ) );
+		m_function->cfg.blocks.emplace_back( std::move( ifBlock ) );
 
 		// Instructions go to loop content block.
 		visitContainerStmt( stmt );
 
 		// Branch current block to the continue target block.
-		m_currentBlock.blockEnd = makeInstruction( spv::Op::OpBranch, IdList{ continueBlock.label } );
-		m_function->cfg.blocks.push_back( m_currentBlock );
+		m_currentBlock.blockEnd = makeInstruction< BranchInstruction >( continueBlock.label );
+		m_function->cfg.blocks.emplace_back( std::move( m_currentBlock ) );
 
 		// The continue target block, branches back to loop header.
-		auto intermediateIncrId = ExprVisitor::submit( stmt->getIncrExpr(), continueBlock, m_result );
-		continueBlock.blockEnd = makeInstruction( spv::Op::OpBranch, IdList{ loopBlock.label } );
-		m_function->cfg.blocks.push_back( continueBlock );
+		auto intermediateIncrId = ExprVisitor::submit( stmt->getIncrExpr(), continueBlock, m_result, false );
+		continueBlock.blockEnd = makeInstruction< BranchInstruction >( loopBlockLabel );
+		m_function->cfg.blocks.emplace_back( std::move( continueBlock ) );
 
 		// Current block becomes the merge block.
-		m_currentBlock = mergeBlock;
+		m_currentBlock = std::move( mergeBlock );
 	}
 
 	void StmtVisitor::visitFunctionDeclStmt( ast::stmt::FunctionDecl * stmt )
@@ -185,7 +195,7 @@ namespace spirv
 
 		if ( stmt->getName() == "main" )
 		{
-			m_result.registerEntryPoint( m_function->declaration.front().resultId.value()
+			m_result.registerEntryPoint( m_function->declaration.front()->resultId.value()
 				, stmt->getName()
 				, m_inputs
 				, m_outputs );
@@ -195,11 +205,11 @@ namespace spirv
 
 		if ( !m_function->hasReturn )
 		{
-			m_currentBlock.instructions.push_back( makeInstruction( spv::Op::OpReturn ) );
+			m_currentBlock.instructions.emplace_back( makeInstruction< ReturnInstruction >() );
 		}
 
-		m_currentBlock.blockEnd = makeInstruction( spv::Op::OpFunctionEnd );
-		m_function->cfg.blocks.push_back( m_currentBlock );
+		m_currentBlock.blockEnd = makeInstruction< FunctionEndInstruction >();
+		m_function->cfg.blocks.emplace_back( std::move( m_currentBlock ) );
 		m_result.endFunction();
 		m_function = nullptr;
 	}
@@ -224,26 +234,26 @@ namespace spirv
 
 		// End current block, to branch to the if content block (true) or to the false branch block (false).
 		auto intermediateIfId = ExprVisitor::submit( stmt->getCtrlExpr(), m_currentBlock, m_result );
-		m_currentBlock.instructions.emplace_back( makeInstruction( spv::Op::OpSelectionMerge, IdList{ mergeBlock.label } ) );
-		m_currentBlock.blockEnd = makeInstruction( spv::Op::OpBranchConditional, { intermediateIfId, contentBlock.label, falseBlockLabel } );
-		m_function->cfg.blocks.push_back( m_currentBlock );
+		m_currentBlock.instructions.emplace_back( makeInstruction< SelectionMergeInstruction >( mergeBlock.label, 0u ) );
+		m_currentBlock.blockEnd = makeInstruction< BranchConditionalInstruction >( makeOperands( intermediateIfId, contentBlock.label, falseBlockLabel ) );
+		m_function->cfg.blocks.emplace_back( std::move( m_currentBlock ) );
 
 		// The current block becomes the if content block.
-		m_currentBlock = contentBlock;
+		m_currentBlock = std::move( contentBlock );
 		visitContainerStmt( stmt );
-		m_currentBlock.blockEnd = makeInstruction( spv::Op::OpBranch, IdList{ mergeBlock.label } );
-		m_function->cfg.blocks.push_back( m_currentBlock );
+		m_currentBlock.blockEnd = makeInstruction< BranchInstruction >( mergeBlock.label );
+		m_function->cfg.blocks.emplace_back( std::move( m_currentBlock ) );
 
 		if ( stmt->getElse() )
 		{
-			m_currentBlock = elseBlock;
+			m_currentBlock = std::move( elseBlock );
 			stmt->getElse()->accept( this );
-			m_currentBlock.blockEnd = makeInstruction( spv::Op::OpBranch, IdList{ mergeBlock.label } );
-			m_function->cfg.blocks.push_back( m_currentBlock );
+			m_currentBlock.blockEnd = makeInstruction< BranchInstruction >( mergeBlock.label );
+			m_function->cfg.blocks.emplace_back( std::move( m_currentBlock ) );
 		}
 
 		// Current block becomes the merge block.
-		m_currentBlock = mergeBlock;
+		m_currentBlock = std::move( mergeBlock );
 	}
 
 	void StmtVisitor::visitImageDeclStmt( ast::stmt::ImageDecl * stmt )
@@ -295,7 +305,7 @@ namespace spirv
 		ids.push_back( m_result.registerLiteral( stmt->getWorkGroupsX() ) );
 		ids.push_back( m_result.registerLiteral( stmt->getWorkGroupsY() ) );
 		ids.push_back( m_result.registerLiteral( stmt->getWorkGroupsZ() ) );
-		auto id = m_result.registerLiteral( ids, ast::type::getVec3I() );
+		auto id = m_result.registerLiteral( ids, m_result.getCache().getVec3I() );
 		m_result.decorate( id, { spv::Id( spv::Decoration::BuiltIn ), spv::Id( spv::BuiltIn::WorkgroupSize ) } );
 	}
 
@@ -377,11 +387,11 @@ namespace spirv
 		if ( stmt->getExpr() )
 		{
 			auto result = ExprVisitor::submit( stmt->getExpr(), m_currentBlock, m_result );
-			m_currentBlock.instructions.push_back( makeInstruction( spv::Op::OpReturnValue, { result } ) );
+			m_currentBlock.instructions.emplace_back( makeInstruction< ReturnValueInstruction >( result ) );
 		}
 		else
 		{
-			m_currentBlock.instructions.push_back( makeInstruction( spv::Op::OpReturn, {} ) );
+			m_currentBlock.instructions.emplace_back( makeInstruction< ReturnInstruction >() );
 		}
 
 		m_function->hasReturn = true;
@@ -437,7 +447,7 @@ namespace spirv
 	void StmtVisitor::visitSwitchStmt( ast::stmt::Switch * stmt )
 	{
 		std::map< ast::expr::Literal *, Block > caseBlocks;
-		std::map< int64_t, spv::Id > caseBlocksIds;
+		std::map< int32_t, spv::Id > caseBlocksIds;
 		Block defaultBlock;
 		spv::Id defaultId{};
 
@@ -448,7 +458,7 @@ namespace spirv
 			if ( caseStmt.getCaseExpr() )
 			{
 				auto block = m_result.newBlock();
-				caseBlocksIds.emplace( getInt64Value( caseStmt.getCaseExpr()->getLabel() ), block.label );
+				caseBlocksIds.emplace( getInt32Value( *caseStmt.getCaseExpr()->getLabel() ), block.label );
 				caseBlocks.emplace( caseStmt.getCaseExpr()->getLabel(), std::move( block ) );
 			}
 			else
@@ -460,7 +470,7 @@ namespace spirv
 		}
 
 		auto intermediate = ExprVisitor::submit( stmt->getTestExpr()->getValue(), m_currentBlock, m_result );
-		m_currentBlock.blockEnd = makeSwitch( intermediate, defaultId, caseBlocksIds );
+		m_currentBlock.blockEnd = makeInstruction< SwitchInstruction >( intermediate, defaultId, caseBlocksIds );
 
 		visitContainerStmt( stmt );
 	}
@@ -478,35 +488,36 @@ namespace spirv
 		auto mergeBlock = m_result.newBlock();
 
 		// End current block, to branch to the loop header block.
-		m_currentBlock.blockEnd = makeInstruction( spv::Op::OpBranch, IdList{ loopBlock.label } );
-		m_function->cfg.blocks.push_back( m_currentBlock );
+		m_currentBlock.blockEnd = makeInstruction< BranchInstruction >( loopBlock.label );
+		m_function->cfg.blocks.emplace_back( std::move( m_currentBlock ) );
 
 		// The current block becomes the loop content block.
 		m_currentBlock = m_result.newBlock();
 
 		// The loop header block, to which continue target will branch, branches to the if block.
-		loopBlock.instructions.emplace_back( makeInstruction( spv::Op::OpLoopMerge, { mergeBlock.label, continueBlock.label } ) );
-		loopBlock.blockEnd = makeInstruction( spv::Op::OpBranch, IdList{ ifBlock.label } );
-		m_function->cfg.blocks.push_back( loopBlock );
+		auto loopBlockLabel = loopBlock.label;
+		loopBlock.instructions.emplace_back( makeInstruction< LoopMergeInstruction >( makeOperands( mergeBlock.label, continueBlock.label, 0u ) ) );
+		loopBlock.blockEnd = makeInstruction< BranchInstruction >( ifBlock.label );
+		m_function->cfg.blocks.emplace_back( std::move( loopBlock ) );
 
 		// The if block, branches to either loop content block (true) or loop merge block (false).
 		auto intermediateIfId = ExprVisitor::submit( stmt->getCtrlExpr(), ifBlock, m_result );
-		ifBlock.blockEnd = makeInstruction( spv::Op::OpBranchConditional, { intermediateIfId, m_currentBlock.label, mergeBlock.label } );
-		m_function->cfg.blocks.push_back( ifBlock );
+		ifBlock.blockEnd = makeInstruction< BranchConditionalInstruction >( makeOperands( intermediateIfId, m_currentBlock.label, mergeBlock.label ) );
+		m_function->cfg.blocks.emplace_back( std::move( ifBlock ) );
 
 		// Instructions go to loop content block.
 		visitContainerStmt( stmt );
 
 		// Branch current block to the continue target block.
-		m_currentBlock.blockEnd = makeInstruction( spv::Op::OpBranch, IdList{ continueBlock.label } );
-		m_function->cfg.blocks.push_back( m_currentBlock );
+		m_currentBlock.blockEnd = makeInstruction< BranchInstruction >( continueBlock.label );
+		m_function->cfg.blocks.emplace_back( std::move( m_currentBlock ) );
 
 		// The continue target block, branches back to loop header.
-		continueBlock.blockEnd = makeInstruction( spv::Op::OpBranch, IdList{ loopBlock.label } );
-		m_function->cfg.blocks.push_back( continueBlock );
+		continueBlock.blockEnd = makeInstruction< BranchInstruction >( loopBlockLabel );
+		m_function->cfg.blocks.emplace_back( std::move( continueBlock ) );
 
 		// Current block becomes the merge block.
-		m_currentBlock = mergeBlock;
+		m_currentBlock = std::move( mergeBlock );
 	}
 
 	void StmtVisitor::visitPreprocDefine( ast::stmt::PreprocDefine * preproc )

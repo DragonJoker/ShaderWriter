@@ -49,6 +49,8 @@ namespace sdw
 		Shader( ShaderType type );
 		void push( stmt::Container * container );
 		void pop();
+		void saveNextExpr();
+		ast::expr::ExprPtr loadExpr( ast::expr::ExprPtr expr );
 #pragma region Variables registration
 		/**
 		*name
@@ -99,6 +101,8 @@ namespace sdw
 		var::VariablePtr registerBuiltin( std::string const & name
 			, type::TypePtr type
 			, var::Flag flag );
+		var::VariablePtr registerBlockVariable( std::string const & name
+			, type::TypePtr type );
 		var::VariablePtr registerLocale( std::string const & name
 			, type::TypePtr type );
 		var::VariablePtr registerParam( std::string const & name
@@ -188,6 +192,11 @@ namespace sdw
 			return m_type;
 		}
 
+		inline ast::type::TypesCache & getTypesCache()const
+		{
+			return m_typesCache;
+		}
+
 	private:
 		struct Block
 		{
@@ -195,6 +204,7 @@ namespace sdw
 			stmt::Container * container;
 		};
 		ShaderType m_type;
+		mutable ast::type::TypesCache m_typesCache;
 		std::vector< Block > m_blocks;
 		stmt::ContainerPtr m_container;
 		std::map< std::string, SsboInfo > m_ssbos;
@@ -206,6 +216,8 @@ namespace sdw
 		std::map< std::string, ImageInfo > m_images;
 		std::map< std::string, InputInfo > m_inputs;
 		std::map< std::string, OutputInfo > m_outputs;
+		bool m_ignore{ false };
+		ast::stmt::StmtPtr m_savedStmt;
 	};
 }
 

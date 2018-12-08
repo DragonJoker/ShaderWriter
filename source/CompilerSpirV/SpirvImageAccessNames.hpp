@@ -13,8 +13,7 @@ See LICENSE file in root folder
 
 namespace spirv
 {
-	inline spv::Op getSpirVName( ast::expr::ImageAccess value
-		, bool & needsTexelPointer )
+	inline spv::Op getSpirVName( ast::expr::ImageAccess value )
 	{
 		spv::Op result;
 
@@ -53,7 +52,6 @@ namespace spirv
 		case ast::expr::ImageAccess::eImageSizeBufferU:
 		case ast::expr::ImageAccess::eImageSize2DMSU:
 		case ast::expr::ImageAccess::eImageSize2DMSArrayU:
-			needsTexelPointer = false;
 			result = spv::Op::OpImageQuerySize;
 			break;
 
@@ -63,7 +61,6 @@ namespace spirv
 		case ast::expr::ImageAccess::eImageSamples2DMSArrayI:
 		case ast::expr::ImageAccess::eImageSamples2DMSU:
 		case ast::expr::ImageAccess::eImageSamples2DMSArrayU:
-			needsTexelPointer = false;
 			result = spv::Op::OpImageQuerySamples;
 			break;
 
@@ -125,7 +122,6 @@ namespace spirv
 		case ast::expr::ImageAccess::eImageAtomicAddCubeArrayI:
 		case ast::expr::ImageAccess::eImageAtomicAdd2DMSI:
 		case ast::expr::ImageAccess::eImageAtomicAdd2DMSArrayI:
-			needsTexelPointer = true;
 			result = spv::Op::OpAtomicIAdd;
 			break;
 
@@ -140,7 +136,6 @@ namespace spirv
 		case ast::expr::ImageAccess::eImageAtomicMinCubeArrayU:
 		case ast::expr::ImageAccess::eImageAtomicMin2DMSU:
 		case ast::expr::ImageAccess::eImageAtomicMin2DMSArrayU:
-			needsTexelPointer = true;
 			result = spv::Op::OpAtomicUMin;
 			break;
 
@@ -155,7 +150,6 @@ namespace spirv
 		case ast::expr::ImageAccess::eImageAtomicMinCubeArrayI:
 		case ast::expr::ImageAccess::eImageAtomicMin2DMSI:
 		case ast::expr::ImageAccess::eImageAtomicMin2DMSArrayI:
-			needsTexelPointer = true;
 			result = spv::Op::OpAtomicSMin;
 			break;
 
@@ -170,7 +164,6 @@ namespace spirv
 		case ast::expr::ImageAccess::eImageAtomicMaxCubeArrayU:
 		case ast::expr::ImageAccess::eImageAtomicMax2DMSU:
 		case ast::expr::ImageAccess::eImageAtomicMax2DMSArrayU:
-			needsTexelPointer = true;
 			result = spv::Op::OpAtomicUMax;
 			break;
 
@@ -185,7 +178,6 @@ namespace spirv
 		case ast::expr::ImageAccess::eImageAtomicMaxCubeArrayI:
 		case ast::expr::ImageAccess::eImageAtomicMax2DMSI:
 		case ast::expr::ImageAccess::eImageAtomicMax2DMSArrayI:
-			needsTexelPointer = true;
 			result = spv::Op::OpAtomicSMax;
 			break;
 
@@ -211,7 +203,6 @@ namespace spirv
 		case ast::expr::ImageAccess::eImageAtomicAndCubeArrayI:
 		case ast::expr::ImageAccess::eImageAtomicAnd2DMSI:
 		case ast::expr::ImageAccess::eImageAtomicAnd2DMSArrayI:
-			needsTexelPointer = true;
 			result = spv::Op::OpAtomicAnd;
 			break;
 
@@ -237,7 +228,6 @@ namespace spirv
 		case ast::expr::ImageAccess::eImageAtomicOrCubeArrayI:
 		case ast::expr::ImageAccess::eImageAtomicOr2DMSI:
 		case ast::expr::ImageAccess::eImageAtomicOr2DMSArrayI:
-			needsTexelPointer = true;
 			result = spv::Op::OpAtomicOr;
 			break;
 
@@ -263,7 +253,6 @@ namespace spirv
 		case ast::expr::ImageAccess::eImageAtomicXorCubeArrayI:
 		case ast::expr::ImageAccess::eImageAtomicXor2DMSI:
 		case ast::expr::ImageAccess::eImageAtomicXor2DMSArrayI:
-			needsTexelPointer = true;
 			result = spv::Op::OpAtomicXor;
 			break;
 
@@ -289,7 +278,6 @@ namespace spirv
 		case ast::expr::ImageAccess::eImageAtomicExchangeCubeArrayI:
 		case ast::expr::ImageAccess::eImageAtomicExchange2DMSI:
 		case ast::expr::ImageAccess::eImageAtomicExchange2DMSArrayI:
-			needsTexelPointer = true;
 			result = spv::Op::OpAtomicExchange;
 			break;
 
@@ -315,7 +303,6 @@ namespace spirv
 		case ast::expr::ImageAccess::eImageAtomicCompSwapCubeArrayI:
 		case ast::expr::ImageAccess::eImageAtomicCompSwap2DMSI:
 		case ast::expr::ImageAccess::eImageAtomicCompSwap2DMSArrayI:
-			needsTexelPointer = true;
 			result = spv::Op::OpAtomicCompareExchange;
 			break;
 

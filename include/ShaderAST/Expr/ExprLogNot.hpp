@@ -13,15 +13,18 @@ namespace ast::expr
 		: public Unary
 	{
 	public:
-		LogNot( ExprPtr operand );
+		LogNot( type::TypePtr type
+			, ExprPtr operand );
 
 		void accept( VisitorPtr vis )override;
 	};
 	using LogNotPtr = std::unique_ptr< LogNot >;
 
-	inline LogNotPtr makeLogNot( ExprPtr operand )
+	inline LogNotPtr makeLogNot( type::TypesCache & cache
+		, ExprPtr operand )
 	{
-		return std::make_unique< LogNot >( std::move( operand ) );
+		return std::make_unique< LogNot >( cache.getBool()
+			, std::move( operand ) );
 	}
 }
 

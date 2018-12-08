@@ -74,7 +74,6 @@ namespace ast::type
 	template< ImageFormat FormatT >
 	static Kind sampledType = ImageFormatTraits< FormatT >::SampledType;
 
-	TypePtr getType( ImageFormat format );
 	bool isFloatFormat( ImageFormat format );
 	bool isSIntFormat( ImageFormat format );
 	bool isUIntFormat( ImageFormat format );

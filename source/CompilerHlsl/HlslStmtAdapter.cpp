@@ -126,9 +126,10 @@ namespace hlsl
 		: StmtCloner{ result }
 		, m_config{ config }
 		, m_shader{ shader }
+		, m_cache{ shader.getTypesCache() }
 	{
-		m_adaptationData.inputStruct = ast::type::makeStructType( ast::type::MemoryLayout::eStd430, "HLSL_SDW_Input" );
-		m_adaptationData.outputStruct = ast::type::makeStructType( ast::type::MemoryLayout::eStd430, "HLSL_SDW_Output" );
+		m_adaptationData.inputStruct = shader.getTypesCache().getStruct( ast::type::MemoryLayout::eStd430, "HLSL_SDW_Input" );
+		m_adaptationData.outputStruct = shader.getTypesCache().getStruct( ast::type::MemoryLayout::eStd430, "HLSL_SDW_Output" );
 		m_current->addStmt( ast::stmt::makeStructureDecl( m_adaptationData.inputStruct ) );
 		m_current->addStmt( ast::stmt::makeStructureDecl( m_adaptationData.outputStruct ) );
 
@@ -145,7 +146,8 @@ namespace hlsl
 
 	ast::expr::ExprPtr StmtAdapter::doSubmit( ast::expr::Expr * expr )
 	{
-		return ExprAdapter::submit( expr
+		return ExprAdapter::submit( m_cache
+			, expr
 			, m_config
 			, m_adaptationData
 			, m_intrinsics );
@@ -258,19 +260,20 @@ namespace hlsl
 
 		if ( stmt->getVariable()->getType()->getKind() == ast::type::Kind::eArray )
 		{
+			auto & cache = stmt->getVariable()->getType()->getCache();
 			auto arrayType = std::static_pointer_cast< ast::type::Array >( stmt->getVariable()->getType() );
 			auto realSampledType = std::static_pointer_cast< ast::type::SampledImage >( arrayType->getType() );
-			imageType = ast::type::makeArrayType( realSampledType->getImageType(), arrayType->getArraySize() );
-			sampledType = ast::type::makeArrayType( realSampledType, arrayType->getArraySize() );
+			imageType = cache.getArray( realSampledType->getImageType(), arrayType->getArraySize() );
+			sampledType = cache.getArray( realSampledType, arrayType->getArraySize() );
 			config = realSampledType->getConfig();
 
 			if ( !m_config.requiresShadowSampler )
 			{
-				samplerType = ast::type::makeArrayType( ast::type::makeSamplerType( false ), arrayType->getArraySize() );
+				samplerType = cache.getArray( m_cache.getSampler( false ), arrayType->getArraySize() );
 			}
 			else
 			{
-				samplerType = ast::type::makeArrayType( realSampledType->getSamplerType(), arrayType->getArraySize() );
+				samplerType = cache.getArray( realSampledType->getSamplerType(), arrayType->getArraySize() );
 			}
 		}
 		else
@@ -282,7 +285,7 @@ namespace hlsl
 
 			if ( !m_config.requiresShadowSampler )
 			{
-				samplerType = ast::type::makeSamplerType( false );
+				samplerType = m_cache.getSampler( false );
 			}
 			else
 			{

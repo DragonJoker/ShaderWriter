@@ -234,10 +234,11 @@ def printTextureFunction( outs, enumName, match ):
 			formats.append( ( 'R16', 'type::Kind::eFloat' ) )
 	for fmt, ret in formats:
 		outs.write( "\n\t" + enumName + "CallPtr make" + intrinsicName + fmt + "(" )
-		outs.write( " ExprPtr image" )
+		outs.write( " type::TypesCache & cache" )
+		outs.write( "\n\t\t, ExprPtr image" )
 		outs.write( computeParams( paramsGroup, "\n\t\t," ) + " )\n" )
 		outs.write( "\t{\n" )
-		outs.write( "\t\treturn make" + enumName + "Call( makeType( " + ret + " )\n" )
+		outs.write( "\t\treturn make" + enumName + "Call( cache.makeType( " + ret + " )\n" )
 		outs.write( "\t\t\t, " + computeEnum( enumName, functionGroup ) )
 		outs.write( "\n\t\t\t, std::move( image )" )
 		outs.write( computeArgs( paramsGroup ) + " );\n" )
@@ -245,9 +246,10 @@ def printTextureFunction( outs, enumName, match ):
 
 def printIntrinsic( outs, enumName, match ):
 	outs.write( "\n\t" + enumName + "CallPtr make" + computeIntrinsicName( match.group( 2 ) ) + "(" )
-	outs.write( computeParams( match.group( 3 ), "" ) + " )\n" )
+	outs.write( " type::TypesCache & cache" )
+	outs.write( computeParams( match.group( 3 ), "\n\t\t," ) + " )\n" )
 	outs.write( "\t{\n" )
-	outs.write( "\t\treturn make" + enumName + "Call( makeType( " + match.group( 1 ) + " )\n" )
+	outs.write( "\t\treturn make" + enumName + "Call( cache.makeType( " + match.group( 1 ) + " )\n" )
 	outs.write( "\t\t\t, " + computeEnum( enumName, match.group( 2 ) ) )
 	if enumName == "TextureAccess":
 		outs.write( "\n\t\t\t, std::move( texture )" )

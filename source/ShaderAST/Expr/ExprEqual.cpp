@@ -8,9 +8,10 @@ See LICENSE file in root folder
 
 namespace ast::expr
 {
-	Equal::Equal( ExprPtr lhs
+	Equal::Equal( type::TypePtr type
+		, ExprPtr lhs
 		, ExprPtr rhs )
-		: Binary{ std::move( type::getBool() )
+		: Binary{ std::move( type )
 			, std::move( lhs )
 			, std::move( rhs )
 			, Kind::eEqual }

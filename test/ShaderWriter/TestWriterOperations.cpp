@@ -88,34 +88,34 @@ namespace
 
 	template< typename RET, typename RHS >
 	void testBaseAssignOperators( sdw::ShaderWriter & writer
-		, test::TestCounts & testCounts
+		, test::sdw_test::TestCounts & testCounts
 		, RET & ret
 		, RHS const & rhs )
 	{
 		auto & shader = writer.getShader();
 		auto & statements = *shader.getContainer();
 		sdw::expr::Expr * expr;
-		ret += writer.cast< sdw::RealTypeT< RET > >( rhs );
-		if ( sdw::isOptionalEnabled( ret ) )
-		{
-			require( statements.back()->getKind() == sdw::stmt::Kind::eSimple );
-			expr = static_cast< sdw::stmt::Simple const & >( *statements.back() ).getExpr();
-			check( expr->getKind() == sdw::expr::Kind::eAddAssign );
-		}
-		ret -= writer.cast< sdw::RealTypeT< RET > >( rhs );
-		if ( sdw::isOptionalEnabled( ret ) )
-		{
-			require( statements.back()->getKind() == sdw::stmt::Kind::eSimple );
-			expr = static_cast< sdw::stmt::Simple const & >( *statements.back() ).getExpr();
-			check( expr->getKind() == sdw::expr::Kind::eMinusAssign );
-		}
-		ret *= writer.cast< sdw::RealTypeT< RET > >( rhs );
-		if ( sdw::isOptionalEnabled( ret ) )
-		{
-			require( statements.back()->getKind() == sdw::stmt::Kind::eSimple );
-			expr = static_cast< sdw::stmt::Simple const & >( *statements.back() ).getExpr();
-			check( expr->getKind() == sdw::expr::Kind::eTimesAssign );
-		}
+		//ret += writer.cast< sdw::RealTypeT< RET > >( rhs );
+		//if ( sdw::isOptionalEnabled( ret ) )
+		//{
+		//	require( statements.back()->getKind() == sdw::stmt::Kind::eSimple );
+		//	expr = static_cast< sdw::stmt::Simple const & >( *statements.back() ).getExpr();
+		//	check( expr->getKind() == sdw::expr::Kind::eAddAssign );
+		//}
+		//ret -= writer.cast< sdw::RealTypeT< RET > >( rhs );
+		//if ( sdw::isOptionalEnabled( ret ) )
+		//{
+		//	require( statements.back()->getKind() == sdw::stmt::Kind::eSimple );
+		//	expr = static_cast< sdw::stmt::Simple const & >( *statements.back() ).getExpr();
+		//	check( expr->getKind() == sdw::expr::Kind::eMinusAssign );
+		//}
+		//ret *= writer.cast< sdw::RealTypeT< RET > >( rhs );
+		//if ( sdw::isOptionalEnabled( ret ) )
+		//{
+		//	require( statements.back()->getKind() == sdw::stmt::Kind::eSimple );
+		//	expr = static_cast< sdw::stmt::Simple const & >( *statements.back() ).getExpr();
+		//	check( expr->getKind() == sdw::expr::Kind::eTimesAssign );
+		//}
 		ret /= writer.cast< sdw::RealTypeT< RET > >( rhs );
 		if ( sdw::isOptionalEnabled( ret ) )
 		{
@@ -127,54 +127,54 @@ namespace
 
 	template< typename RET, typename RHS >
 	void testIntAssignOperators( sdw::ShaderWriter & writer
-		, test::TestCounts & testCounts
+		, test::sdw_test::TestCounts & testCounts
 		, RET & ret
 		, RHS const & rhs )
 	{
-		auto & shader = writer.getShader();
 		testBaseAssignOperators( writer, testCounts, ret, rhs );
-		auto & statements = *shader.getContainer();
-		sdw::expr::Expr * expr;
-		ret %= writer.cast< sdw::RealTypeT< RET > >( rhs );
-		if ( sdw::isOptionalEnabled( ret ) )
-		{
-			require( statements.back()->getKind() == sdw::stmt::Kind::eSimple );
-			expr = static_cast< sdw::stmt::Simple const & >( *statements.back() ).getExpr();
-			check( expr->getKind() == sdw::expr::Kind::eModuloAssign );
-		}
-		ret <<= writer.cast< sdw::RealTypeT< RET > >( rhs );
-		if ( sdw::isOptionalEnabled( ret ) )
-		{
-			require( statements.back()->getKind() == sdw::stmt::Kind::eSimple );
-			expr = static_cast< sdw::stmt::Simple const & >( *statements.back() ).getExpr();
-			check( expr->getKind() == sdw::expr::Kind::eLShiftAssign );
-		}
-		ret >>= writer.cast< sdw::RealTypeT< RET > >( rhs );
-		if ( sdw::isOptionalEnabled( ret ) )
-		{
-			require( statements.back()->getKind() == sdw::stmt::Kind::eSimple );
-			expr = static_cast< sdw::stmt::Simple const & >( *statements.back() ).getExpr();
-			check( expr->getKind() == sdw::expr::Kind::eRShiftAssign );
-		}
-		ret |= writer.cast< sdw::RealTypeT< RET > >( rhs );
-		if ( sdw::isOptionalEnabled( ret ) )
-		{
-			require( statements.back()->getKind() == sdw::stmt::Kind::eSimple );
-			expr = static_cast< sdw::stmt::Simple const & >( *statements.back() ).getExpr();
-			check( expr->getKind() == sdw::expr::Kind::eOrAssign );
-		}
-		ret &= writer.cast< sdw::RealTypeT< RET > >( rhs );
-		if ( sdw::isOptionalEnabled( ret ) )
-		{
-			require( statements.back()->getKind() == sdw::stmt::Kind::eSimple );
-			expr = static_cast< sdw::stmt::Simple const & >( *statements.back() ).getExpr();
-			check( expr->getKind() == sdw::expr::Kind::eAndAssign );
-		}
+		//auto & shader = writer.getShader();
+		//auto & statements = *shader.getContainer();
+		//sdw::expr::Expr * expr;
+		//ret %= writer.cast< sdw::RealTypeT< RET > >( rhs );
+		//if ( sdw::isOptionalEnabled( ret ) )
+		//{
+		//	require( statements.back()->getKind() == sdw::stmt::Kind::eSimple );
+		//	expr = static_cast< sdw::stmt::Simple const & >( *statements.back() ).getExpr();
+		//	check( expr->getKind() == sdw::expr::Kind::eModuloAssign );
+		//}
+		//ret <<= writer.cast< sdw::RealTypeT< RET > >( rhs );
+		//if ( sdw::isOptionalEnabled( ret ) )
+		//{
+		//	require( statements.back()->getKind() == sdw::stmt::Kind::eSimple );
+		//	expr = static_cast< sdw::stmt::Simple const & >( *statements.back() ).getExpr();
+		//	check( expr->getKind() == sdw::expr::Kind::eLShiftAssign );
+		//}
+		//ret >>= writer.cast< sdw::RealTypeT< RET > >( rhs );
+		//if ( sdw::isOptionalEnabled( ret ) )
+		//{
+		//	require( statements.back()->getKind() == sdw::stmt::Kind::eSimple );
+		//	expr = static_cast< sdw::stmt::Simple const & >( *statements.back() ).getExpr();
+		//	check( expr->getKind() == sdw::expr::Kind::eRShiftAssign );
+		//}
+		//ret |= writer.cast< sdw::RealTypeT< RET > >( rhs );
+		//if ( sdw::isOptionalEnabled( ret ) )
+		//{
+		//	require( statements.back()->getKind() == sdw::stmt::Kind::eSimple );
+		//	expr = static_cast< sdw::stmt::Simple const & >( *statements.back() ).getExpr();
+		//	check( expr->getKind() == sdw::expr::Kind::eOrAssign );
+		//}
+		//ret &= writer.cast< sdw::RealTypeT< RET > >( rhs );
+		//if ( sdw::isOptionalEnabled( ret ) )
+		//{
+		//	require( statements.back()->getKind() == sdw::stmt::Kind::eSimple );
+		//	expr = static_cast< sdw::stmt::Simple const & >( *statements.back() ).getExpr();
+		//	check( expr->getKind() == sdw::expr::Kind::eAndAssign );
+		//}
 	}
 
 	template< typename RET, typename LHS, typename RHS >
 	void testComparators( sdw::ShaderWriter & writer
-		, test::TestCounts & testCounts
+		, test::sdw_test::TestCounts & testCounts
 		, RET & ret
 		, LHS const & lhs
 		, RHS const & rhs )
@@ -235,7 +235,7 @@ namespace
 
 	template< typename RET, typename LHS, typename RHS >
 	void testBaseOperators( sdw::ShaderWriter & writer
-		, test::TestCounts & testCounts
+		, test::sdw_test::TestCounts & testCounts
 		, RET & ret
 		, LHS const & lhs
 		, RHS const & rhs )
@@ -283,7 +283,7 @@ namespace
 
 	template< typename RET, typename LHS, typename RHS >
 	void testIntOperators( sdw::ShaderWriter & writer
-		, test::TestCounts & testCounts
+		, test::sdw_test::TestCounts & testCounts
 		, RET & ret
 		, LHS const & lhs
 		, RHS const & rhs )
@@ -350,7 +350,7 @@ namespace
 
 	template< typename RET, typename RHS >
 	void testVecAssignOperators( sdw::ShaderWriter & writer
-		, test::TestCounts & testCounts
+		, test::sdw_test::TestCounts & testCounts
 		, RET & ret
 		, RHS const & rhs )
 	{
@@ -417,7 +417,7 @@ namespace
 
 	template< typename RET, typename LHS, typename RHS >
 	void testVecOperators( sdw::ShaderWriter & writer
-		, test::TestCounts & testCounts
+		, test::sdw_test::TestCounts & testCounts
 		, RET & ret
 		, LHS const & lhs
 		, RHS const & rhs )
@@ -499,7 +499,7 @@ namespace
 		}
 	}
 
-	void testBool( test::TestCounts & testCounts )
+	void testBool( test::sdw_test::TestCounts & testCounts )
 	{
 		sdw::expr::Expr * expr;
 		{
@@ -600,7 +600,7 @@ namespace
 		}
 	}
 
-	void testFloat( test::TestCounts & testCounts )
+	void testFloat( test::sdw_test::TestCounts & testCounts )
 	{
 		{
 			testBegin( "testFloat" );
@@ -708,7 +708,7 @@ namespace
 		}
 	}
 
-	void testInt( test::TestCounts & testCounts )
+	void testInt( test::sdw_test::TestCounts & testCounts )
 	{
 		{
 			testBegin( "testInt" );
@@ -827,7 +827,7 @@ namespace
 		}
 	}
 
-	void testUInt( test::TestCounts & testCounts )
+	void testUInt( test::sdw_test::TestCounts & testCounts )
 	{
 		{
 			testBegin( "testUInt" );
@@ -946,7 +946,7 @@ namespace
 		}
 	}
 
-	void testVec2( test::TestCounts & testCounts )
+	void testVec2( test::sdw_test::TestCounts & testCounts )
 	{
 		{
 			testBegin( "testVec2" );
@@ -1005,7 +1005,7 @@ namespace
 		}
 	}
 
-	void testVec3( test::TestCounts & testCounts )
+	void testVec3( test::sdw_test::TestCounts & testCounts )
 	{
 		{
 			testBegin( "testVec3" );
@@ -1064,7 +1064,7 @@ namespace
 		}
 	}
 
-	void testVec4( test::TestCounts & testCounts )
+	void testVec4( test::sdw_test::TestCounts & testCounts )
 	{
 		{
 			testBegin( "testVec4" );
@@ -1126,7 +1126,7 @@ namespace
 
 int main( int argc, char ** argv )
 {
-	testSuiteBegin( "TestWriterOperations" );
+	sdwTestSuiteBegin( "TestWriterOperations" );
 	testBool( testCounts );
 	testFloat( testCounts );
 	testInt( testCounts );
@@ -1134,5 +1134,5 @@ int main( int argc, char ** argv )
 	testVec2( testCounts );
 	testVec3( testCounts );
 	testVec4( testCounts );
-	testSuiteEnd();
+	sdwTestSuiteEnd();
 }

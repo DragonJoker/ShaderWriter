@@ -99,13 +99,15 @@ namespace glsl
 				, swizzle );
 		}
 	}
-	ast::expr::ExprPtr ExprAdapter::submit( ast::expr::Expr * expr
+	ast::expr::ExprPtr ExprAdapter::submit( ast::type::TypesCache & cache
+		, ast::expr::Expr * expr
 		, GlslConfig const & writerConfig
 		, IntrinsicsConfig const & intrinsicsConfig )
 	{
 		ast::expr::ExprPtr result;
 		ExprAdapter vis
 		{
+			cache,
 			writerConfig,
 			intrinsicsConfig,
 			result,
@@ -114,21 +116,25 @@ namespace glsl
 		return result;
 	}
 			
-	ast::expr::ExprPtr ExprAdapter::submit( ast::expr::ExprPtr const & expr
+	ast::expr::ExprPtr ExprAdapter::submit( ast::type::TypesCache & cache
+		, ast::expr::ExprPtr const & expr
 		, GlslConfig const & writerConfig
 		, IntrinsicsConfig const & intrinsicsConfig )
 	{
-		return submit( expr.get()
+		return submit( cache
+			, expr.get()
 			, writerConfig
 			, intrinsicsConfig );
 	}
 
-	ExprAdapter::ExprAdapter( GlslConfig const & writerConfig
+	ExprAdapter::ExprAdapter( ast::type::TypesCache & cache
+		, GlslConfig const & writerConfig
 		, IntrinsicsConfig const & intrinsicsConfig
 		, ast::expr::ExprPtr & result )
 		: ExprCloner{ result }
 		, m_writerConfig{ writerConfig }
 		, m_intrinsicsConfig{ intrinsicsConfig }
+		, m_cache{ cache }
 	{
 	}
 
@@ -137,6 +143,7 @@ namespace glsl
 		ast::expr::ExprPtr result;
 		ExprAdapter vis
 		{
+			m_cache,
 			m_writerConfig,
 			m_intrinsicsConfig,
 			result,
@@ -163,6 +170,34 @@ namespace glsl
 
 			m_result = ast::expr::makeImageAccessCall( expr->getType()
 				, expr->getImageAccess()
+				, std::move( args ) );
+		}
+	}
+
+	void ExprAdapter::visitIntrinsicCallExpr( ast::expr::IntrinsicCall * expr )
+	{
+		if ( expr->getIntrinsic() >= ast::expr::Intrinsic::eFma1F
+			&& expr->getIntrinsic() <= ast::expr::Intrinsic::eFma4D
+			&& m_writerConfig.shaderLanguageVersion < 430 )
+		{
+			assert( expr->getArgList().size() == 3u );
+			m_result = sdw::makeAdd( expr->getType()
+				, sdw::makeTimes( expr->getType()
+					, doSubmit( expr->getArgList()[0].get() )
+					, doSubmit( expr->getArgList()[1].get() ) )
+				, doSubmit( expr->getArgList()[2].get() ) );
+		}
+		else
+		{
+			ast::expr::ExprList args;
+
+			for ( auto & arg : expr->getArgList() )
+			{
+				args.emplace_back( doSubmit( arg.get() ) );
+			}
+
+			m_result = ast::expr::makeIntrinsicCall( expr->getType()
+				, expr->getIntrinsic()
 				, std::move( args ) );
 		}
 	}
@@ -203,7 +238,7 @@ namespace glsl
 	{
 		auto imgArgType = std::static_pointer_cast< ast::type::Image >( expr->getArgList()[0]->getType() );
 		auto config = imgArgType->getConfig();
-		auto callRetType = getType( config.format );
+		auto callRetType = m_cache.getSampledType( config.format );
 		ast::expr::ExprList args;
 
 		for ( auto & arg : expr->getArgList() )
@@ -215,7 +250,7 @@ namespace glsl
 			, expr->getImageAccess()
 			, std::move( args ) );
 
-		auto glslRetType = ast::type::getVec4Type( getScalarType( callRetType->getKind() ) );
+		auto glslRetType = m_cache.getVec4Type( getScalarType( callRetType->getKind() ) );
 
 		if ( callRetType != glslRetType )
 		{
@@ -274,7 +309,7 @@ namespace glsl
 	{
 		auto imgArgType = std::static_pointer_cast< ast::type::SampledImage >( expr->getArgList()[0]->getType() );
 		auto config = imgArgType->getConfig();
-		auto callRetType = getType( config.format );
+		auto callRetType = m_cache.getSampledType( config.format );
 		ast::expr::ExprList args;
 
 		for ( auto & arg : expr->getArgList() )
@@ -286,7 +321,7 @@ namespace glsl
 			, expr->getTextureAccess()
 			, std::move( args ) );
 
-		auto glslRetType = ast::type::getVec4Type( getScalarType( callRetType->getKind() ) );
+		auto glslRetType = m_cache.getVec4Type( getScalarType( callRetType->getKind() ) );
 
 		if ( callRetType != glslRetType )
 		{

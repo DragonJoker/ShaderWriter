@@ -15,12 +15,15 @@ namespace spirv
 		: public ast::stmt::Visitor
 	{
 	public:
-		static Module submit( ast::stmt::Stmt * stmt
-			, sdw::ShaderType type );
+		static Module submit( ast::type::TypesCache & cache
+			, ast::stmt::Stmt * stmt
+			, sdw::ShaderType type
+			, ModuleConfig const & config );
 
 	private:
 		StmtVisitor( Module & result
-			, sdw::ShaderType type );
+			, sdw::ShaderType type
+			, ModuleConfig const & config );
 		void visitContainerStmt( ast::stmt::Container * stmt )override;
 		void visitConstantBufferDeclStmt( ast::stmt::ConstantBufferDecl * stmt )override;
 		void visitDiscardStmt( ast::stmt::Discard * stmt )override;

@@ -85,6 +85,10 @@ namespace sdw
 		*	Control statements.
 		*/
 		/**@{*/
+		void pushScope();
+		void popScope();
+		void saveNextExpr();
+		ast::expr::ExprPtr loadExpr( Value const & value );
 		template< typename ExprType >
 		ExprType ternary( expr::ExprPtr condition
 			, expr::ExprPtr left
@@ -316,6 +320,9 @@ namespace sdw
 		*	Locale variable declaration.
 		*/
 		/**@{*/
+		template< typename InstanceT >
+		inline InstanceT declLocale( std::string const & name
+			, Struct const & type );
 		template< typename T >
 		inline T declLocale( std::string const & name );
 		template< typename T >
@@ -388,10 +395,18 @@ namespace sdw
 		{
 			return m_shader;
 		}
+
+		inline ast::type::TypesCache & getTypesCache()
+		{
+			return m_shader.getTypesCache();
+		}
 		/**@}*/
 #pragma endregion
 
 	private:
+		void doPushScope( ast::stmt::ContainerPtr && container );
+		void doPushScope( ast::stmt::Container * container );
+		void doPopScope();
 		var::VariablePtr registerConstant( std::string const & name
 			, type::TypePtr type );
 		var::VariablePtr registerSpecConstant( std::string const & name
@@ -422,6 +437,7 @@ namespace sdw
 		Function< Vec2, InVec2 > m_invertVec2Y;
 		Function< Vec3, InVec3 > m_invertVec3Y;
 		std::vector< stmt::If * > m_ifStmt;
+		std::vector< ast::stmt::ContainerPtr > m_currentStmts;
 	};
 
 	class VertexWriter
@@ -491,13 +507,16 @@ namespace sdw
 
 #define FOR( Writer, Type, Name, Init, Cond, Incr )\
 	{\
-		auto ctrlVar##Name = ( Writer ).registerLocale( #Name, Type::makeType() );\
-		Type Name{ &( Writer ).getShader()\
+		auto & writer_int = ( Writer );\
+		writer_int.pushScope();\
+		auto ctrlVar##Name = writer_int.registerLocale( #Name, Type::makeType( writer_int.getShader().getTypesCache() ) );\
+		Type Name{ &writer_int.getShader()\
 			, sdw::makeExpr( ctrlVar##Name ) };\
-		Type incr##Name{ &( Writer ).getShader(), sdw::makeExpr( Incr ) };\
+		writer_int.saveNextExpr();\
+		Type incr##Name{ &writer_int.getShader(), writer_int.loadExpr( Incr ) };\
 		Name.updateExpr( sdw::makeExpr( ctrlVar##Name ) );\
-		Type cond##Name{ &( Writer ).getShader(), sdw::makeExpr( Cond ) };\
-		( Writer ).forStmt( sdw::makeInit( ctrlVar##Name\
+		Type cond##Name{ &writer_int.getShader(), sdw::makeCondition( Cond ) };\
+		writer_int.forStmt( sdw::makeInit( ctrlVar##Name\
 				, sdw::makeExpr( Init ) )\
 			, sdw::makeExpr( cond##Name )\
 			, sdw::makeExpr( incr##Name )\
@@ -505,38 +524,39 @@ namespace sdw
 
 #define ROF\
  );\
+		writer_int.popScope();\
 	}
 
 #define WHILE( Writer, Condition )\
-	( Writer ).whileStmt( sdw::makeExpr( Condition )\
+	( Writer ).whileStmt( sdw::makeCondition( Condition )\
 		, [&]()
 
 #define ELIHW\
  );
 
 #define DOWHILE( Writer, Condition )\
-	( Writer ).doWhileStmt( sdw::makeExpr( Condition )\
+	( Writer ).doWhileStmt( sdw::makeCondition( Condition )\
 		, [&]()
 
 #define ELIHWOD\
  );
 
 #define IF( Writer, Condition )\
-	( Writer ).ifStmt( sdw::makeExpr( Condition )\
+	( Writer ).ifStmt( sdw::makeCondition( Condition )\
 		, [&]()
 
 #define ELSE\
  ).elseStmt( [&]()
 
 #define ELSEIF( Condition )\
- ).elseIfStmt( sdw::makeExpr( Condition )\
+ ).elseIfStmt( sdw::makeCondition( Condition )\
 		, [&]()
 
 #define FI\
  ).endIf();
 
 #define TERNARY( Writer, ExprType, Condition, Left, Right )\
-	( Writer ).ternary< ExprType >( sdw::makeExpr( Condition ), sdw::makeExpr( Left ), sdw::makeExpr( Right ) )
+	( Writer ).ternary< ExprType >( sdw::makeCondition( Condition ), sdw::makeExpr( Left ), sdw::makeExpr( Right ) )
 
 #include "Writer.inl"
 

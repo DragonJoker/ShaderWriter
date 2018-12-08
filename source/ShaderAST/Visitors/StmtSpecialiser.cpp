@@ -46,27 +46,32 @@ namespace ast
 		case type::Kind::eBoolean:
 			assert( it->data.size() == sizeof( bool ) );
 			m_specialisations.emplace( stmt->getVariable()
-				, expr::makeLiteral( *reinterpret_cast< bool const * >( it->data.data() ) ) );
+				, expr::makeLiteral( stmt->getVariable()->getType()->getCache()
+					, *reinterpret_cast< bool const * >( it->data.data() ) ) );
 			break;
 		case type::Kind::eInt:
 			assert( it->data.size() == sizeof( int32_t ) );
 			m_specialisations.emplace( stmt->getVariable()
-				, expr::makeLiteral( *reinterpret_cast< int32_t const * >( it->data.data() ) ) );
+				, expr::makeLiteral( stmt->getVariable()->getType()->getCache()
+					, *reinterpret_cast< int32_t const * >( it->data.data() ) ) );
 			break;
 		case type::Kind::eUInt:
 			assert( it->data.size() == sizeof( uint32_t ) );
 			m_specialisations.emplace( stmt->getVariable()
-				, expr::makeLiteral( *reinterpret_cast< uint32_t const * >( it->data.data() ) ) );
+				, expr::makeLiteral( stmt->getVariable()->getType()->getCache()
+					, *reinterpret_cast< uint32_t const * >( it->data.data() ) ) );
 			break;
 		case type::Kind::eFloat:
 			assert( it->data.size() == sizeof( float ) );
 			m_specialisations.emplace( stmt->getVariable()
-				, expr::makeLiteral( *reinterpret_cast< float const * >( it->data.data() ) ) );
+				, expr::makeLiteral( stmt->getVariable()->getType()->getCache()
+					, *reinterpret_cast< float const * >( it->data.data() ) ) );
 			break;
 		case type::Kind::eDouble:
 			assert( it->data.size() == sizeof( double ) );
 			m_specialisations.emplace( stmt->getVariable()
-				, expr::makeLiteral( *reinterpret_cast< double const * >( it->data.data() ) ) );
+				, expr::makeLiteral( stmt->getVariable()->getType()->getCache()
+					, *reinterpret_cast< double const * >( it->data.data() ) ) );
 			break;
 		default:
 			assert( false && "Specialisation can only be scalar type." );

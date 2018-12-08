@@ -49,8 +49,8 @@ namespace sdw
 	{
 		if ( getContainer() )
 		{
-			addStmt( *findContainer( *this, rhs )
-				, sdw::makeSimple( sdw::makeAssign( type::getUInt()
+			addStmt( *findShader( *this, rhs )
+				, sdw::makeSimple( sdw::makeAssign( findTypesCache( *this, rhs ).getUInt()
 					, makeExpr( *this )
 					, makeExpr( rhs ) ) ) );
 		}
@@ -62,10 +62,16 @@ namespace sdw
 		return *this;
 	}
 
+	expr::ExprPtr UInt::makeCondition()const
+	{
+		return sdw::makeNEqual( makeExpr( *this )
+			, makeExpr( 0u ) );
+	}
+
 	UInt & UInt::operator=( uint32_t const & rhs )
 	{
-		addStmt( *findContainer( *this, rhs )
-			, sdw::makeSimple( sdw::makeAssign( type::getUInt()
+		addStmt( *findShader( *this, rhs )
+			, sdw::makeSimple( sdw::makeAssign( findTypesCache( *this, rhs ).getUInt()
 				, makeExpr( *this )
 				, makeExpr( rhs ) ) ) );
 		return *this;
@@ -73,8 +79,8 @@ namespace sdw
 
 	UInt & UInt::operator=( uint64_t const & rhs )
 	{
-		addStmt( *findContainer( *this, rhs )
-			, sdw::makeSimple( sdw::makeAssign( type::getUInt()
+		addStmt( *findShader( *this, rhs )
+			, sdw::makeSimple( sdw::makeAssign( findTypesCache( *this, rhs ).getUInt()
 				, makeExpr( *this )
 				, makeExpr( rhs ) ) ) );
 		return *this;
@@ -104,8 +110,8 @@ namespace sdw
 
 	UInt & UInt::operator+=( UInt const & rhs )
 	{
-		addStmt( *findContainer( *this, rhs )
-			, sdw::makeSimple( sdw::makeAddAssign( type::getUInt()
+		addStmt( *findShader( *this, rhs )
+			, sdw::makeSimple( sdw::makeAddAssign( findTypesCache( *this, rhs ).getUInt()
 				, makeExpr( *this )
 				, makeExpr( rhs ) ) ) );
 		return *this;
@@ -113,8 +119,8 @@ namespace sdw
 
 	UInt & UInt::operator-=( UInt const & rhs )
 	{
-		addStmt( *findContainer( *this, rhs )
-			, sdw::makeSimple( sdw::makeMinusAssign( type::getUInt()
+		addStmt( *findShader( *this, rhs )
+			, sdw::makeSimple( sdw::makeMinusAssign( findTypesCache( *this, rhs ).getUInt()
 				, makeExpr( *this )
 				, makeExpr( rhs ) ) ) );
 		return *this;
@@ -122,8 +128,8 @@ namespace sdw
 
 	UInt & UInt::operator*=( UInt const & rhs )
 	{
-		addStmt( *findContainer( *this, rhs )
-			, sdw::makeSimple( sdw::makeTimesAssign( type::getUInt()
+		addStmt( *findShader( *this, rhs )
+			, sdw::makeSimple( sdw::makeTimesAssign( findTypesCache( *this, rhs ).getUInt()
 				, makeExpr( *this )
 				, makeExpr( rhs ) ) ) );
 		return *this;
@@ -131,8 +137,8 @@ namespace sdw
 
 	UInt & UInt::operator/=( UInt const & rhs )
 	{
-		addStmt( *findContainer( *this, rhs )
-			, sdw::makeSimple( sdw::makeDivideAssign( type::getUInt()
+		addStmt( *findShader( *this, rhs )
+			, sdw::makeSimple( sdw::makeDivideAssign( findTypesCache( *this, rhs ).getUInt()
 				, makeExpr( *this )
 				, makeExpr( rhs ) ) ) );
 		return *this;
@@ -142,8 +148,8 @@ namespace sdw
 	{
 		if ( rhs.isEnabled() )
 		{
-			addStmt( *findContainer( *this, rhs )
-				, sdw::makeSimple( sdw::makeAddAssign( type::getUInt()
+			addStmt( *findShader( *this, rhs )
+				, sdw::makeSimple( sdw::makeAddAssign( findTypesCache( *this, rhs ).getUInt()
 					, makeExpr( *this )
 					, makeExpr( rhs ) ) ) );
 		}
@@ -155,8 +161,8 @@ namespace sdw
 	{
 		if ( rhs.isEnabled() )
 		{
-			addStmt( *findContainer( *this, rhs )
-				, sdw::makeSimple( sdw::makeMinusAssign( type::getUInt()
+			addStmt( *findShader( *this, rhs )
+				, sdw::makeSimple( sdw::makeMinusAssign( findTypesCache( *this, rhs ).getUInt()
 					, makeExpr( *this )
 					, makeExpr( rhs ) ) ) );
 		}
@@ -168,8 +174,8 @@ namespace sdw
 	{
 		if ( rhs.isEnabled() )
 		{
-			addStmt( *findContainer( *this, rhs )
-				, sdw::makeSimple( sdw::makeTimesAssign( type::getUInt()
+			addStmt( *findShader( *this, rhs )
+				, sdw::makeSimple( sdw::makeTimesAssign( findTypesCache( *this, rhs ).getUInt()
 					, makeExpr( *this )
 					, makeExpr( rhs ) ) ) );
 		}
@@ -181,8 +187,8 @@ namespace sdw
 	{
 		if ( rhs.isEnabled() )
 		{
-			addStmt( *findContainer( *this, rhs )
-				, sdw::makeSimple( sdw::makeDivideAssign( type::getUInt()
+			addStmt( *findShader( *this, rhs )
+				, sdw::makeSimple( sdw::makeDivideAssign( findTypesCache( *this, rhs ).getUInt()
 					, makeExpr( *this )
 					, makeExpr( rhs ) ) ) );
 		}
@@ -192,8 +198,8 @@ namespace sdw
 
 	UInt & UInt::operator+=( uint32_t const & rhs )
 	{
-		addStmt( *findContainer( *this, rhs )
-			, sdw::makeSimple( sdw::makeAddAssign( type::getUInt()
+		addStmt( *findShader( *this, rhs )
+			, sdw::makeSimple( sdw::makeAddAssign( findTypesCache( *this, rhs ).getUInt()
 				, makeExpr( *this )
 				, makeExpr( rhs ) ) ) );
 		return *this;
@@ -201,8 +207,8 @@ namespace sdw
 
 	UInt & UInt::operator-=( uint32_t const & rhs )
 	{
-		addStmt( *findContainer( *this, rhs )
-			, sdw::makeSimple( sdw::makeMinusAssign( type::getUInt()
+		addStmt( *findShader( *this, rhs )
+			, sdw::makeSimple( sdw::makeMinusAssign( findTypesCache( *this, rhs ).getUInt()
 				, makeExpr( *this )
 				, makeExpr( rhs ) ) ) );
 		return *this;
@@ -210,8 +216,8 @@ namespace sdw
 
 	UInt & UInt::operator*=( uint32_t const & rhs )
 	{
-		addStmt( *findContainer( *this, rhs )
-			, sdw::makeSimple( sdw::makeTimesAssign( type::getUInt()
+		addStmt( *findShader( *this, rhs )
+			, sdw::makeSimple( sdw::makeTimesAssign( findTypesCache( *this, rhs ).getUInt()
 				, makeExpr( *this )
 				, makeExpr( rhs ) ) ) );
 		return *this;
@@ -219,8 +225,8 @@ namespace sdw
 
 	UInt & UInt::operator/=( uint32_t const & rhs )
 	{
-		addStmt( *findContainer( *this, rhs )
-			, sdw::makeSimple( sdw::makeDivideAssign( type::getUInt()
+		addStmt( *findShader( *this, rhs )
+			, sdw::makeSimple( sdw::makeDivideAssign( findTypesCache( *this, rhs ).getUInt()
 				, makeExpr( *this )
 				, makeExpr( rhs ) ) ) );
 		return *this;
@@ -228,8 +234,8 @@ namespace sdw
 
 	UInt & UInt::operator%=( UInt const & rhs )
 	{
-		addStmt( *findContainer( *this, rhs )
-			, sdw::makeSimple( sdw::makeModuloAssign( type::getUInt()
+		addStmt( *findShader( *this, rhs )
+			, sdw::makeSimple( sdw::makeModuloAssign( findTypesCache( *this, rhs ).getUInt()
 				, makeExpr( *this )
 				, makeExpr( rhs ) ) ) );
 		return *this;
@@ -239,8 +245,8 @@ namespace sdw
 	{
 		if ( rhs.isEnabled() )
 		{
-			addStmt( *findContainer( *this, rhs )
-				, sdw::makeSimple( sdw::makeModuloAssign( type::getUInt()
+			addStmt( *findShader( *this, rhs )
+				, sdw::makeSimple( sdw::makeModuloAssign( findTypesCache( *this, rhs ).getUInt()
 					, makeExpr( *this )
 					, makeExpr( rhs ) ) ) );
 		}
@@ -250,8 +256,8 @@ namespace sdw
 
 	UInt & UInt::operator<<=( uint32_t const & rhs )
 	{
-		addStmt( *findContainer( *this, rhs )
-			, sdw::makeSimple( sdw::makeLShiftAssign( type::getUInt()
+		addStmt( *findShader( *this, rhs )
+			, sdw::makeSimple( sdw::makeLShiftAssign( findTypesCache( *this, rhs ).getUInt()
 				, makeExpr( *this )
 				, makeExpr( rhs ) ) ) );
 		return *this;
@@ -259,8 +265,8 @@ namespace sdw
 
 	UInt & UInt::operator>>=( uint32_t const & rhs )
 	{
-		addStmt( *findContainer( *this, rhs )
-			, sdw::makeSimple( sdw::makeRShiftAssign( type::getUInt()
+		addStmt( *findShader( *this, rhs )
+			, sdw::makeSimple( sdw::makeRShiftAssign( findTypesCache( *this, rhs ).getUInt()
 				, makeExpr( *this )
 				, makeExpr( rhs ) ) ) );
 		return *this;
@@ -268,8 +274,8 @@ namespace sdw
 
 	UInt & UInt::operator<<=( UInt const & rhs )
 	{
-		addStmt( *findContainer( *this, rhs )
-			, sdw::makeSimple( sdw::makeLShiftAssign( type::getUInt()
+		addStmt( *findShader( *this, rhs )
+			, sdw::makeSimple( sdw::makeLShiftAssign( findTypesCache( *this, rhs ).getUInt()
 				, makeExpr( *this )
 				, makeExpr( rhs ) ) ) );
 		return *this;
@@ -277,8 +283,8 @@ namespace sdw
 
 	UInt & UInt::operator>>=( UInt const & rhs )
 	{
-		addStmt( *findContainer( *this, rhs )
-			, sdw::makeSimple( sdw::makeRShiftAssign( type::getUInt()
+		addStmt( *findShader( *this, rhs )
+			, sdw::makeSimple( sdw::makeRShiftAssign( findTypesCache( *this, rhs ).getUInt()
 				, makeExpr( *this )
 				, makeExpr( rhs ) ) ) );
 		return *this;
@@ -288,8 +294,8 @@ namespace sdw
 	{
 		if ( rhs.isEnabled() )
 		{
-			addStmt( *findContainer( *this, rhs )
-				, sdw::makeSimple( sdw::makeLShiftAssign( type::getUInt()
+			addStmt( *findShader( *this, rhs )
+				, sdw::makeSimple( sdw::makeLShiftAssign( findTypesCache( *this, rhs ).getUInt()
 					, makeExpr( *this )
 					, makeExpr( rhs ) ) ) );
 		}
@@ -301,8 +307,8 @@ namespace sdw
 	{
 		if ( rhs.isEnabled() )
 		{
-			addStmt( *findContainer( *this, rhs )
-				, sdw::makeSimple( sdw::makeRShiftAssign( type::getUInt()
+			addStmt( *findShader( *this, rhs )
+				, sdw::makeSimple( sdw::makeRShiftAssign( findTypesCache( *this, rhs ).getUInt()
 					, makeExpr( *this )
 					, makeExpr( rhs ) ) ) );
 		}
@@ -312,8 +318,8 @@ namespace sdw
 
 	UInt & UInt::operator&=( uint32_t const & rhs )
 	{
-		addStmt( *findContainer( *this, rhs )
-			, sdw::makeSimple( sdw::makeAndAssign( type::getUInt()
+		addStmt( *findShader( *this, rhs )
+			, sdw::makeSimple( sdw::makeAndAssign( findTypesCache( *this, rhs ).getUInt()
 				, makeExpr( *this )
 				, makeExpr( rhs ) ) ) );
 		return *this;
@@ -321,8 +327,8 @@ namespace sdw
 
 	UInt & UInt::operator|=( uint32_t const & rhs )
 	{
-		addStmt( *findContainer( *this, rhs )
-			, sdw::makeSimple( sdw::makeOrAssign( type::getUInt()
+		addStmt( *findShader( *this, rhs )
+			, sdw::makeSimple( sdw::makeOrAssign( findTypesCache( *this, rhs ).getUInt()
 				, makeExpr( *this )
 				, makeExpr( rhs ) ) ) );
 		return *this;
@@ -330,8 +336,8 @@ namespace sdw
 
 	UInt & UInt::operator^=( uint32_t const & rhs )
 	{
-		addStmt( *findContainer( *this, rhs )
-			, sdw::makeSimple( sdw::makeXorAssign( type::getUInt()
+		addStmt( *findShader( *this, rhs )
+			, sdw::makeSimple( sdw::makeXorAssign( findTypesCache( *this, rhs ).getUInt()
 				, makeExpr( *this )
 				, makeExpr( rhs ) ) ) );
 		return *this;
@@ -339,8 +345,8 @@ namespace sdw
 
 	UInt & UInt::operator&=( UInt const & rhs )
 	{
-		addStmt( *findContainer( *this, rhs )
-			, sdw::makeSimple( sdw::makeAndAssign( type::getUInt()
+		addStmt( *findShader( *this, rhs )
+			, sdw::makeSimple( sdw::makeAndAssign( findTypesCache( *this, rhs ).getUInt()
 				, makeExpr( *this )
 				, makeExpr( rhs ) ) ) );
 		return *this;
@@ -348,8 +354,8 @@ namespace sdw
 
 	UInt & UInt::operator|=( UInt const & rhs )
 	{
-		addStmt( *findContainer( *this, rhs )
-			, sdw::makeSimple( sdw::makeOrAssign( type::getUInt()
+		addStmt( *findShader( *this, rhs )
+			, sdw::makeSimple( sdw::makeOrAssign( findTypesCache( *this, rhs ).getUInt()
 				, makeExpr( *this )
 				, makeExpr( rhs ) ) ) );
 		return *this;
@@ -357,8 +363,8 @@ namespace sdw
 
 	UInt & UInt::operator^=( UInt const & rhs )
 	{
-		addStmt( *findContainer( *this, rhs )
-			, sdw::makeSimple( sdw::makeXorAssign( type::getUInt()
+		addStmt( *findShader( *this, rhs )
+			, sdw::makeSimple( sdw::makeXorAssign( findTypesCache( *this, rhs ).getUInt()
 				, makeExpr( *this )
 				, makeExpr( rhs ) ) ) );
 		return *this;
@@ -368,8 +374,8 @@ namespace sdw
 	{
 		if ( rhs.isEnabled() )
 		{
-			addStmt( *findContainer( *this, rhs )
-				, sdw::makeSimple( sdw::makeAndAssign( type::getUInt()
+			addStmt( *findShader( *this, rhs )
+				, sdw::makeSimple( sdw::makeAndAssign( findTypesCache( *this, rhs ).getUInt()
 					, makeExpr( *this )
 					, makeExpr( rhs ) ) ) );
 		}
@@ -381,8 +387,8 @@ namespace sdw
 	{
 		if ( rhs.isEnabled() )
 		{
-			addStmt( *findContainer( *this, rhs )
-				, sdw::makeSimple( sdw::makeOrAssign( type::getUInt()
+			addStmt( *findShader( *this, rhs )
+				, sdw::makeSimple( sdw::makeOrAssign( findTypesCache( *this, rhs ).getUInt()
 					, makeExpr( *this )
 					, makeExpr( rhs ) ) ) );
 		}
@@ -394,8 +400,8 @@ namespace sdw
 	{
 		if ( rhs.isEnabled() )
 		{
-			addStmt( *findContainer( *this, rhs )
-				, sdw::makeSimple( sdw::makeXorAssign( type::getUInt()
+			addStmt( *findShader( *this, rhs )
+				, sdw::makeSimple( sdw::makeXorAssign( findTypesCache( *this, rhs ).getUInt()
 					, makeExpr( *this )
 					, makeExpr( rhs ) ) ) );
 		}
@@ -403,9 +409,9 @@ namespace sdw
 		return *this;
 	}
 
-	ast::type::TypePtr UInt::makeType()
+	ast::type::TypePtr UInt::makeType( ast::type::TypesCache & cache )
 	{
-		return ast::type::getUInt();
+		return cache.getUInt();
 	}
 
 	//*************************************************************************
@@ -413,7 +419,7 @@ namespace sdw
 	UInt operator+( UInt const & lhs, UInt const & rhs )
 	{
 		return UInt{ findShader( lhs, rhs )
-			, sdw::makeAdd( type::getUInt()
+			, sdw::makeAdd( findTypesCache( lhs, rhs ).getUInt()
 				, makeExpr( lhs )
 				, makeExpr( rhs ) ) };
 	}
@@ -421,7 +427,7 @@ namespace sdw
 	UInt operator-( UInt const & lhs, UInt const & rhs )
 	{
 		return UInt{ findShader( lhs, rhs )
-			, sdw::makeMinus( type::getUInt()
+			, sdw::makeMinus( findTypesCache( lhs, rhs ).getUInt()
 				, makeExpr( lhs )
 				, makeExpr( rhs ) ) };
 	}
@@ -429,7 +435,7 @@ namespace sdw
 	UInt operator*( UInt const & lhs, UInt const & rhs )
 	{
 		return UInt{ findShader( lhs, rhs )
-			, sdw::makeTimes( type::getUInt()
+			, sdw::makeTimes( findTypesCache( lhs, rhs ).getUInt()
 				, makeExpr( lhs )
 				, makeExpr( rhs ) ) };
 	}
@@ -437,7 +443,7 @@ namespace sdw
 	UInt operator/( UInt const & lhs, UInt const & rhs )
 	{
 		return UInt{ findShader( lhs, rhs )
-			, sdw::makeDivide( type::getUInt()
+			, sdw::makeDivide( findTypesCache( lhs, rhs ).getUInt()
 				, makeExpr( lhs )
 				, makeExpr( rhs ) ) };
 	}
@@ -445,7 +451,7 @@ namespace sdw
 	UInt operator+( UInt const & lhs, uint32_t const & rhs )
 	{
 		return UInt{ findShader( lhs, rhs )
-			, sdw::makeAdd( type::getUInt()
+			, sdw::makeAdd( findTypesCache( lhs, rhs ).getUInt()
 				, makeExpr( lhs )
 				, makeExpr( rhs ) ) };
 	}
@@ -453,7 +459,7 @@ namespace sdw
 	UInt operator-( UInt const & lhs, uint32_t const & rhs )
 	{
 		return UInt{ findShader( lhs, rhs )
-			, sdw::makeMinus( type::getUInt()
+			, sdw::makeMinus( findTypesCache( lhs, rhs ).getUInt()
 				, makeExpr( lhs )
 				, makeExpr( rhs ) ) };
 	}
@@ -461,7 +467,7 @@ namespace sdw
 	UInt operator*( UInt const & lhs, uint32_t const & rhs )
 	{
 		return UInt{ findShader( lhs, rhs )
-			, sdw::makeTimes( type::getUInt()
+			, sdw::makeTimes( findTypesCache( lhs, rhs ).getUInt()
 				, makeExpr( lhs )
 				, makeExpr( rhs ) ) };
 	}
@@ -469,7 +475,7 @@ namespace sdw
 	UInt operator/( UInt const & lhs, uint32_t const & rhs )
 	{
 		return UInt{ findShader( lhs, rhs )
-			, sdw::makeDivide( type::getUInt()
+			, sdw::makeDivide( findTypesCache( lhs, rhs ).getUInt()
 				, makeExpr( lhs )
 				, makeExpr( rhs ) ) };
 	}
@@ -477,7 +483,7 @@ namespace sdw
 	UInt operator+( uint32_t const & lhs, UInt const & rhs )
 	{
 		return UInt{ findShader( lhs, rhs )
-			, sdw::makeAdd( type::getUInt()
+			, sdw::makeAdd( rhs.getType()->getCache().getUInt()
 				, makeExpr( lhs )
 				, makeExpr( rhs ) ) };
 	}
@@ -485,7 +491,7 @@ namespace sdw
 	UInt operator-( uint32_t const & lhs, UInt const & rhs )
 	{
 		return UInt{ findShader( lhs, rhs )
-			, sdw::makeMinus( type::getUInt()
+			, sdw::makeMinus( rhs.getType()->getCache().getUInt()
 				, makeExpr( lhs )
 				, makeExpr( rhs ) ) };
 	}
@@ -493,7 +499,7 @@ namespace sdw
 	UInt operator*( uint32_t const & lhs, UInt const & rhs )
 	{
 		return UInt{ findShader( lhs, rhs )
-			, sdw::makeTimes( type::getUInt()
+			, sdw::makeTimes( rhs.getType()->getCache().getUInt()
 				, makeExpr( lhs )
 				, makeExpr( rhs ) ) };
 	}
@@ -501,7 +507,7 @@ namespace sdw
 	UInt operator/( uint32_t const & lhs, UInt const & rhs )
 	{
 		return UInt{ findShader( lhs, rhs )
-			, sdw::makeDivide( type::getUInt()
+			, sdw::makeDivide( rhs.getType()->getCache().getUInt()
 				, makeExpr( lhs )
 				, makeExpr( rhs ) ) };
 	}
@@ -509,7 +515,7 @@ namespace sdw
 	UInt operator%( UInt const & lhs, uint32_t const & rhs )
 	{
 		return UInt{ findShader( lhs, rhs )
-			, sdw::makeModulo( type::getUInt()
+			, sdw::makeModulo( findTypesCache( lhs, rhs ).getUInt()
 				, makeExpr( lhs )
 				, makeExpr( rhs ) ) };
 	}
@@ -517,7 +523,7 @@ namespace sdw
 	UInt operator%( UInt const & lhs, UInt const & rhs )
 	{
 		return UInt{ findShader( lhs, rhs )
-			, sdw::makeModulo( type::getUInt()
+			, sdw::makeModulo( findTypesCache( lhs, rhs ).getUInt()
 				, makeExpr( lhs )
 				, makeExpr( rhs ) ) };
 	}
@@ -525,7 +531,7 @@ namespace sdw
 	UInt operator<<( UInt const & lhs, uint32_t const & rhs )
 	{
 		return UInt{ findShader( lhs, rhs )
-			, sdw::makeLShift( type::getUInt()
+			, sdw::makeLShift( findTypesCache( lhs, rhs ).getUInt()
 				, makeExpr( lhs )
 				, makeExpr( rhs ) ) };
 	}
@@ -533,7 +539,7 @@ namespace sdw
 	UInt operator>>( UInt const & lhs, uint32_t const & rhs )
 	{
 		return UInt{ findShader( lhs, rhs )
-			, sdw::makeRShift( type::getUInt()
+			, sdw::makeRShift( findTypesCache( lhs, rhs ).getUInt()
 				, makeExpr( lhs )
 				, makeExpr( rhs ) ) };
 	}
@@ -541,7 +547,7 @@ namespace sdw
 	UInt operator<<( UInt const & lhs, UInt const & rhs )
 	{
 		return UInt{ findShader( lhs, rhs )
-			, sdw::makeLShift( type::getUInt()
+			, sdw::makeLShift( findTypesCache( lhs, rhs ).getUInt()
 				, makeExpr( lhs )
 				, makeExpr( rhs ) ) };
 	}
@@ -549,7 +555,7 @@ namespace sdw
 	UInt operator>>( UInt const & lhs, UInt const & rhs )
 	{
 		return UInt{ findShader( lhs, rhs )
-			, sdw::makeRShift( type::getUInt()
+			, sdw::makeRShift( findTypesCache( lhs, rhs ).getUInt()
 				, makeExpr( lhs )
 				, makeExpr( rhs ) ) };
 	}
@@ -557,7 +563,7 @@ namespace sdw
 	UInt operator&( UInt const & lhs, uint32_t const & rhs )
 	{
 		return UInt{ findShader( lhs, rhs )
-			, sdw::makeBitAnd( type::getUInt()
+			, sdw::makeBitAnd( findTypesCache( lhs, rhs ).getUInt()
 				, makeExpr( lhs )
 				, makeExpr( rhs ) ) };
 	}
@@ -565,7 +571,7 @@ namespace sdw
 	UInt operator|( UInt const & lhs, uint32_t const & rhs )
 	{
 		return UInt{ findShader( lhs, rhs )
-			, sdw::makeBitOr( type::getUInt()
+			, sdw::makeBitOr( findTypesCache( lhs, rhs ).getUInt()
 				, makeExpr( lhs )
 				, makeExpr( rhs ) ) };
 	}
@@ -573,7 +579,7 @@ namespace sdw
 	UInt operator^( UInt const & lhs, uint32_t const & rhs )
 	{
 		return UInt{ findShader( lhs, rhs )
-			, sdw::makeBitXor( type::getUInt()
+			, sdw::makeBitXor( findTypesCache( lhs, rhs ).getUInt()
 				, makeExpr( lhs )
 				, makeExpr( rhs ) ) };
 	}
@@ -581,7 +587,7 @@ namespace sdw
 	UInt operator&( UInt const & lhs, UInt const & rhs )
 	{
 		return UInt{ findShader( lhs, rhs )
-			, sdw::makeBitAnd( type::getUInt()
+			, sdw::makeBitAnd( findTypesCache( lhs, rhs ).getUInt()
 				, makeExpr( lhs )
 				, makeExpr( rhs ) ) };
 	}
@@ -589,7 +595,7 @@ namespace sdw
 	UInt operator|( UInt const & lhs, UInt const & rhs )
 	{
 		return UInt{ findShader( lhs, rhs )
-			, sdw::makeBitOr( type::getUInt()
+			, sdw::makeBitOr( findTypesCache( lhs, rhs ).getUInt()
 				, makeExpr( lhs )
 				, makeExpr( rhs ) ) };
 	}
@@ -597,7 +603,7 @@ namespace sdw
 	UInt operator^( UInt const & lhs, UInt const & rhs )
 	{
 		return UInt{ findShader( lhs, rhs )
-			, sdw::makeBitXor( type::getUInt()
+			, sdw::makeBitXor( findTypesCache( lhs, rhs ).getUInt()
 				, makeExpr( lhs )
 				, makeExpr( rhs ) ) };
 	}
@@ -605,7 +611,7 @@ namespace sdw
 	UInt operator~( UInt const & expr )
 	{
 		return UInt{ findShader( expr )
-			, sdw::makeBitNot( type::getUInt()
+			, sdw::makeBitNot( expr.getType()->getCache().getUInt()
 				, makeExpr( expr ) ) };
 	}
 
@@ -614,7 +620,7 @@ namespace sdw
 	Optional< UInt > operator+( UInt const & lhs, Optional< UInt > const & rhs )
 	{
 		return Optional< UInt >{ findShader( rhs )
-			, sdw::makeAdd( type::getUInt()
+			, sdw::makeAdd( findTypesCache( lhs, rhs ).getUInt()
 				, makeExpr( lhs )
 				, makeExpr( rhs ) )
 			, areOptionalEnabled( lhs, rhs ) };
@@ -623,7 +629,7 @@ namespace sdw
 	Optional< UInt > operator-( UInt const & lhs, Optional< UInt > const & rhs )
 	{
 		return Optional< UInt >{ findShader( rhs )
-			, sdw::makeMinus( type::getUInt()
+			, sdw::makeMinus( findTypesCache( lhs, rhs ).getUInt()
 				, makeExpr( lhs )
 				, makeExpr( rhs ) )
 			, areOptionalEnabled( lhs, rhs ) };
@@ -632,7 +638,7 @@ namespace sdw
 	Optional< UInt > operator*( UInt const & lhs, Optional< UInt > const & rhs )
 	{
 		return Optional< UInt >{ findShader( rhs )
-			, sdw::makeTimes( type::getUInt()
+			, sdw::makeTimes( findTypesCache( lhs, rhs ).getUInt()
 				, makeExpr( lhs )
 				, makeExpr( rhs ) )
 			, areOptionalEnabled( lhs, rhs ) };
@@ -641,7 +647,7 @@ namespace sdw
 	Optional< UInt > operator/( UInt const & lhs, Optional< UInt > const & rhs )
 	{
 		return Optional< UInt >{ findShader( rhs )
-			, sdw::makeDivide( type::getUInt()
+			, sdw::makeDivide( findTypesCache( lhs, rhs ).getUInt()
 				, makeExpr( lhs )
 				, makeExpr( rhs ) )
 			, areOptionalEnabled( lhs, rhs ) };
@@ -650,7 +656,7 @@ namespace sdw
 	Optional< UInt > operator+( Optional< UInt > const & lhs, UInt const & rhs )
 	{
 		return Optional< UInt >{ findShader( lhs, rhs )
-			, sdw::makeAdd( type::getUInt()
+			, sdw::makeAdd( findTypesCache( lhs, rhs ).getUInt()
 				, makeExpr( lhs )
 				, makeExpr( rhs ) )
 			, areOptionalEnabled( lhs, rhs ) };
@@ -659,7 +665,7 @@ namespace sdw
 	Optional< UInt > operator-( Optional< UInt > const & lhs, UInt const & rhs )
 	{
 		return Optional< UInt >{ findShader( lhs, rhs )
-			, sdw::makeMinus( type::getUInt()
+			, sdw::makeMinus( findTypesCache( lhs, rhs ).getUInt()
 				, makeExpr( lhs )
 				, makeExpr( rhs ) )
 			, areOptionalEnabled( lhs, rhs ) };
@@ -668,7 +674,7 @@ namespace sdw
 	Optional< UInt > operator*( Optional< UInt > const & lhs, UInt const & rhs )
 	{
 		return Optional< UInt >{ findShader( lhs, rhs )
-			, sdw::makeTimes( type::getUInt()
+			, sdw::makeTimes( findTypesCache( lhs, rhs ).getUInt()
 				, makeExpr( lhs )
 				, makeExpr( rhs ) )
 			, areOptionalEnabled( lhs, rhs ) };
@@ -677,7 +683,7 @@ namespace sdw
 	Optional< UInt > operator/( Optional< UInt > const & lhs, UInt const & rhs )
 	{
 		return Optional< UInt >{ findShader( lhs, rhs )
-			, sdw::makeDivide( type::getUInt()
+			, sdw::makeDivide( findTypesCache( lhs, rhs ).getUInt()
 				, makeExpr( lhs )
 				, makeExpr( rhs ) )
 			, areOptionalEnabled( lhs, rhs ) };
@@ -686,7 +692,7 @@ namespace sdw
 	Optional< UInt > operator+( Optional< UInt > const & lhs, Optional< UInt > const & rhs )
 	{
 		return Optional< UInt >{ findShader( lhs, rhs )
-			, sdw::makeAdd( type::getUInt()
+			, sdw::makeAdd( findTypesCache( lhs, rhs ).getUInt()
 				, makeExpr( lhs )
 				, makeExpr( rhs ) )
 			, areOptionalEnabled( lhs, rhs ) };
@@ -695,7 +701,7 @@ namespace sdw
 	Optional< UInt > operator-( Optional< UInt > const & lhs, Optional< UInt > const & rhs )
 	{
 		return Optional< UInt >{ findShader( lhs, rhs )
-			, sdw::makeMinus( type::getUInt()
+			, sdw::makeMinus( findTypesCache( lhs, rhs ).getUInt()
 				, makeExpr( lhs )
 				, makeExpr( rhs ) )
 			, areOptionalEnabled( lhs, rhs ) };
@@ -704,7 +710,7 @@ namespace sdw
 	Optional< UInt > operator*( Optional< UInt > const & lhs, Optional< UInt > const & rhs )
 	{
 		return Optional< UInt >{ findShader( lhs, rhs )
-			, sdw::makeTimes( type::getUInt()
+			, sdw::makeTimes( findTypesCache( lhs, rhs ).getUInt()
 				, makeExpr( lhs )
 				, makeExpr( rhs ) )
 			, areOptionalEnabled( lhs, rhs ) };
@@ -713,7 +719,7 @@ namespace sdw
 	Optional< UInt > operator/( Optional< UInt > const & lhs, Optional< UInt > const & rhs )
 	{
 		return Optional< UInt >{ findShader( lhs, rhs )
-			, sdw::makeDivide( type::getUInt()
+			, sdw::makeDivide( findTypesCache( lhs, rhs ).getUInt()
 				, makeExpr( lhs )
 				, makeExpr( rhs ) )
 			, areOptionalEnabled( lhs, rhs ) };
@@ -722,7 +728,7 @@ namespace sdw
 	Optional< UInt > operator+( Optional< UInt > const & lhs, uint32_t const & rhs )
 	{
 		return Optional< UInt >{ findShader( lhs, rhs )
-			, sdw::makeAdd( type::getUInt()
+			, sdw::makeAdd( findTypesCache( lhs, rhs ).getUInt()
 				, makeExpr( lhs )
 				, makeExpr( rhs ) )
 			, areOptionalEnabled( lhs, rhs ) };
@@ -731,7 +737,7 @@ namespace sdw
 	Optional< UInt > operator-( Optional< UInt > const & lhs, uint32_t const & rhs )
 	{
 		return Optional< UInt >{ findShader( lhs, rhs )
-			, sdw::makeMinus( type::getUInt()
+			, sdw::makeMinus( findTypesCache( lhs, rhs ).getUInt()
 				, makeExpr( lhs )
 				, makeExpr( rhs ) )
 			, areOptionalEnabled( lhs, rhs ) };
@@ -740,7 +746,7 @@ namespace sdw
 	Optional< UInt > operator*( Optional< UInt > const & lhs, uint32_t const & rhs )
 	{
 		return Optional< UInt >{ findShader( lhs, rhs )
-			, sdw::makeTimes( type::getUInt()
+			, sdw::makeTimes( findTypesCache( lhs, rhs ).getUInt()
 				, makeExpr( lhs )
 				, makeExpr( rhs ) )
 			, areOptionalEnabled( lhs, rhs ) };
@@ -749,7 +755,7 @@ namespace sdw
 	Optional< UInt > operator/( Optional< UInt > const & lhs, uint32_t const & rhs )
 	{
 		return Optional< UInt >{ findShader( lhs, rhs )
-			, sdw::makeDivide( type::getUInt()
+			, sdw::makeDivide( findTypesCache( lhs, rhs ).getUInt()
 				, makeExpr( lhs )
 				, makeExpr( rhs ) )
 			, areOptionalEnabled( lhs, rhs ) };
@@ -758,7 +764,7 @@ namespace sdw
 	Optional< UInt > operator+( uint32_t const & lhs, Optional< UInt > const & rhs )
 	{
 		return Optional< UInt >{ findShader( rhs )
-			, sdw::makeAdd( type::getUInt()
+			, sdw::makeAdd( rhs.getType()->getCache().getUInt()
 				, makeExpr( lhs )
 				, makeExpr( rhs ) )
 			, areOptionalEnabled( lhs, rhs ) };
@@ -767,7 +773,7 @@ namespace sdw
 	Optional< UInt > operator-( uint32_t const & lhs, Optional< UInt > const & rhs )
 	{
 		return Optional< UInt >{ findShader( rhs )
-			, sdw::makeMinus( type::getUInt()
+			, sdw::makeMinus( rhs.getType()->getCache().getUInt()
 				, makeExpr( lhs )
 				, makeExpr( rhs ) )
 			, areOptionalEnabled( lhs, rhs ) };
@@ -776,7 +782,7 @@ namespace sdw
 	Optional< UInt > operator*( uint32_t const & lhs, Optional< UInt > const & rhs )
 	{
 		return Optional< UInt >{ findShader( rhs )
-			, sdw::makeTimes( type::getUInt()
+			, sdw::makeTimes( rhs.getType()->getCache().getUInt()
 				, makeExpr( lhs )
 				, makeExpr( rhs ) )
 			, areOptionalEnabled( lhs, rhs ) };
@@ -785,7 +791,7 @@ namespace sdw
 	Optional< UInt > operator/( uint32_t const & lhs, Optional< UInt > const & rhs )
 	{
 		return Optional< UInt >{ findShader( rhs )
-			, sdw::makeDivide( type::getUInt()
+			, sdw::makeDivide( rhs.getType()->getCache().getUInt()
 				, makeExpr( lhs )
 				, makeExpr( rhs ) )
 			, areOptionalEnabled( lhs, rhs ) };
@@ -794,7 +800,7 @@ namespace sdw
 	Optional< UInt > operator%( Optional< UInt > const & lhs, uint32_t const & rhs )
 	{
 		return Optional< UInt >{ findShader( lhs )
-			, sdw::makeModulo( type::getUInt()
+			, sdw::makeModulo( findTypesCache( lhs, rhs ).getUInt()
 				, makeExpr( lhs )
 				, makeExpr( rhs ) )
 			, areOptionalEnabled( lhs, rhs ) };
@@ -803,7 +809,7 @@ namespace sdw
 	Optional< UInt > operator%( Optional< UInt > const & lhs, UInt const & rhs )
 	{
 		return Optional< UInt >{ findShader( lhs, rhs )
-			, sdw::makeModulo( type::getUInt()
+			, sdw::makeModulo( findTypesCache( lhs, rhs ).getUInt()
 				, makeExpr( lhs )
 				, makeExpr( rhs ) )
 			, areOptionalEnabled( lhs, rhs ) };
@@ -812,7 +818,7 @@ namespace sdw
 	Optional< UInt > operator%( UInt const & lhs, Optional< UInt > const & rhs )
 	{
 		return Optional< UInt >{ findShader( lhs, rhs )
-			, sdw::makeModulo( type::getUInt()
+			, sdw::makeModulo( findTypesCache( lhs, rhs ).getUInt()
 				, makeExpr( lhs )
 				, makeExpr( rhs ) )
 			, areOptionalEnabled( lhs, rhs ) };
@@ -821,7 +827,7 @@ namespace sdw
 	Optional< UInt > operator%( Optional< UInt > const & lhs, Optional< UInt > const & rhs )
 	{
 		return Optional< UInt >{ findShader( lhs, rhs )
-			, sdw::makeModulo( type::getUInt()
+			, sdw::makeModulo( findTypesCache( lhs, rhs ).getUInt()
 				, makeExpr( lhs )
 				, makeExpr( rhs ) )
 			, areOptionalEnabled( lhs, rhs ) };
@@ -830,7 +836,7 @@ namespace sdw
 	Optional< UInt > operator<<( Optional< UInt > const & lhs, uint32_t const & rhs )
 	{
 		return Optional< UInt >{ findShader( lhs, rhs )
-			, sdw::makeLShift( type::getUInt()
+			, sdw::makeLShift( findTypesCache( lhs, rhs ).getUInt()
 				, makeExpr( lhs )
 				, makeExpr( rhs ) )
 			, areOptionalEnabled( lhs, rhs ) };
@@ -839,7 +845,7 @@ namespace sdw
 	Optional< UInt > operator>>( Optional< UInt > const & lhs, uint32_t const & rhs )
 	{
 		return Optional< UInt >{ findShader( lhs, rhs )
-			, sdw::makeRShift( type::getUInt()
+			, sdw::makeRShift( findTypesCache( lhs, rhs ).getUInt()
 				, makeExpr( lhs )
 				, makeExpr( rhs ) )
 			, areOptionalEnabled( lhs, rhs ) };
@@ -848,7 +854,7 @@ namespace sdw
 	Optional< UInt > operator<<( Optional< UInt > const & lhs, UInt const & rhs )
 	{
 		return Optional< UInt >{ findShader( lhs, rhs )
-			, sdw::makeLShift( type::getUInt()
+			, sdw::makeLShift( findTypesCache( lhs, rhs ).getUInt()
 				, makeExpr( lhs )
 				, makeExpr( rhs ) )
 			, areOptionalEnabled( lhs, rhs ) };
@@ -857,7 +863,7 @@ namespace sdw
 	Optional< UInt > operator>>( Optional< UInt > const & lhs, UInt const & rhs )
 	{
 		return Optional< UInt >{ findShader( lhs, rhs )
-			, sdw::makeRShift( type::getUInt()
+			, sdw::makeRShift( findTypesCache( lhs, rhs ).getUInt()
 				, makeExpr( lhs )
 				, makeExpr( rhs ) )
 			, areOptionalEnabled( lhs, rhs ) };
@@ -866,7 +872,7 @@ namespace sdw
 	Optional< UInt > operator<<( UInt const & lhs, Optional< UInt > const & rhs )
 	{
 		return Optional< UInt >{ findShader( lhs, rhs )
-			, sdw::makeLShift( type::getUInt()
+			, sdw::makeLShift( findTypesCache( lhs, rhs ).getUInt()
 				, makeExpr( lhs )
 				, makeExpr( rhs ) )
 			, areOptionalEnabled( lhs, rhs ) };
@@ -875,7 +881,7 @@ namespace sdw
 	Optional< UInt > operator>>( UInt const & lhs, Optional< UInt > const & rhs )
 	{
 		return Optional< UInt >{ findShader( lhs, rhs )
-			, sdw::makeRShift( type::getUInt()
+			, sdw::makeRShift( findTypesCache( lhs, rhs ).getUInt()
 				, makeExpr( lhs )
 				, makeExpr( rhs ) )
 			, areOptionalEnabled( lhs, rhs ) };
@@ -884,7 +890,7 @@ namespace sdw
 	Optional< UInt > operator<<( Optional< UInt > const & lhs, Optional< UInt > const & rhs )
 	{
 		return Optional< UInt >{ findShader( lhs, rhs )
-			, sdw::makeLShift( type::getUInt()
+			, sdw::makeLShift( findTypesCache( lhs, rhs ).getUInt()
 				, makeExpr( lhs )
 				, makeExpr( rhs ) )
 			, areOptionalEnabled( lhs, rhs ) };
@@ -893,7 +899,7 @@ namespace sdw
 	Optional< UInt > operator>>( Optional< UInt > const & lhs, Optional< UInt > const & rhs )
 	{
 		return Optional< UInt >{ findShader( lhs, rhs )
-			, sdw::makeRShift( type::getUInt()
+			, sdw::makeRShift( findTypesCache( lhs, rhs ).getUInt()
 				, makeExpr( lhs )
 				, makeExpr( rhs ) )
 			, areOptionalEnabled( lhs, rhs ) };
@@ -902,7 +908,7 @@ namespace sdw
 	Optional< UInt > operator&( Optional< UInt > const & lhs, uint32_t const & rhs )
 	{
 		return Optional< UInt >{ findShader( lhs, rhs )
-			, sdw::makeBitAnd( type::getUInt()
+			, sdw::makeBitAnd( findTypesCache( lhs, rhs ).getUInt()
 				, makeExpr( lhs )
 				, makeExpr( rhs ) )
 			, areOptionalEnabled( lhs, rhs ) };
@@ -911,7 +917,7 @@ namespace sdw
 	Optional< UInt > operator|( Optional< UInt > const & lhs, uint32_t const & rhs )
 	{
 		return Optional< UInt >{ findShader( lhs, rhs )
-			, sdw::makeBitOr( type::getUInt()
+			, sdw::makeBitOr( findTypesCache( lhs, rhs ).getUInt()
 				, makeExpr( lhs )
 				, makeExpr( rhs ) )
 			, areOptionalEnabled( lhs, rhs ) };
@@ -920,7 +926,7 @@ namespace sdw
 	Optional< UInt > operator^( Optional< UInt > const & lhs, uint32_t const & rhs )
 	{
 		return Optional< UInt >{ findShader( lhs, rhs )
-			, sdw::makeBitXor( type::getUInt()
+			, sdw::makeBitXor( findTypesCache( lhs, rhs ).getUInt()
 				, makeExpr( lhs )
 				, makeExpr( rhs ) )
 			, areOptionalEnabled( lhs, rhs ) };
@@ -929,7 +935,7 @@ namespace sdw
 	Optional< UInt > operator&( Optional< UInt > const & lhs, UInt const & rhs )
 	{
 		return Optional< UInt >{ findShader( lhs, rhs )
-			, sdw::makeBitAnd( type::getUInt()
+			, sdw::makeBitAnd( findTypesCache( lhs, rhs ).getUInt()
 				, makeExpr( lhs )
 				, makeExpr( rhs ) )
 			, areOptionalEnabled( lhs, rhs ) };
@@ -938,7 +944,7 @@ namespace sdw
 	Optional< UInt > operator|( Optional< UInt > const & lhs, UInt const & rhs )
 	{
 		return Optional< UInt >{ findShader( lhs, rhs )
-			, sdw::makeBitOr( type::getUInt()
+			, sdw::makeBitOr( findTypesCache( lhs, rhs ).getUInt()
 				, makeExpr( lhs )
 				, makeExpr( rhs ) )
 			, areOptionalEnabled( lhs, rhs ) };
@@ -947,7 +953,7 @@ namespace sdw
 	Optional< UInt > operator^( Optional< UInt > const & lhs, UInt const & rhs )
 	{
 		return Optional< UInt >{ findShader( lhs, rhs )
-			, sdw::makeBitXor( type::getUInt()
+			, sdw::makeBitXor( findTypesCache( lhs, rhs ).getUInt()
 				, makeExpr( lhs )
 				, makeExpr( rhs ) )
 			, areOptionalEnabled( lhs, rhs ) };
@@ -956,7 +962,7 @@ namespace sdw
 	Optional< UInt > operator&( UInt const & lhs, Optional< UInt > const & rhs )
 	{
 		return Optional< UInt >{ findShader( lhs, rhs )
-			, sdw::makeBitAnd( type::getUInt()
+			, sdw::makeBitAnd( findTypesCache( lhs, rhs ).getUInt()
 				, makeExpr( lhs )
 				, makeExpr( rhs ) )
 			, areOptionalEnabled( lhs, rhs ) };
@@ -965,7 +971,7 @@ namespace sdw
 	Optional< UInt > operator|( UInt const & lhs, Optional< UInt > const & rhs )
 	{
 		return Optional< UInt >{ findShader( lhs, rhs )
-			, sdw::makeBitOr( type::getUInt()
+			, sdw::makeBitOr( findTypesCache( lhs, rhs ).getUInt()
 				, makeExpr( lhs )
 				, makeExpr( rhs ) )
 			, areOptionalEnabled( lhs, rhs ) };
@@ -974,7 +980,7 @@ namespace sdw
 	Optional< UInt > operator^( UInt const & lhs, Optional< UInt > const & rhs )
 	{
 		return Optional< UInt >{ findShader( lhs, rhs )
-			, sdw::makeBitXor( type::getUInt()
+			, sdw::makeBitXor( findTypesCache( lhs, rhs ).getUInt()
 				, makeExpr( lhs )
 				, makeExpr( rhs ) )
 			, areOptionalEnabled( lhs, rhs ) };
@@ -983,7 +989,7 @@ namespace sdw
 	Optional< UInt > operator&( Optional< UInt > const & lhs, Optional< UInt > const & rhs )
 	{
 		return Optional< UInt >{ findShader( lhs, rhs )
-			, sdw::makeBitAnd( type::getUInt()
+			, sdw::makeBitAnd( findTypesCache( lhs, rhs ).getUInt()
 				, makeExpr( lhs )
 				, makeExpr( rhs ) )
 			, areOptionalEnabled( lhs, rhs ) };
@@ -992,7 +998,7 @@ namespace sdw
 	Optional< UInt > operator|( Optional< UInt > const & lhs, Optional< UInt > const & rhs )
 	{
 		return Optional< UInt >{ findShader( lhs, rhs )
-			, sdw::makeBitOr( type::getUInt()
+			, sdw::makeBitOr( findTypesCache( lhs, rhs ).getUInt()
 				, makeExpr( lhs )
 				, makeExpr( rhs ) )
 			, areOptionalEnabled( lhs, rhs ) };
@@ -1001,7 +1007,7 @@ namespace sdw
 	Optional< UInt > operator^( Optional< UInt > const & lhs, Optional< UInt > const & rhs )
 	{
 		return Optional< UInt >{ findShader( lhs, rhs )
-			, sdw::makeBitXor( type::getUInt()
+			, sdw::makeBitXor( findTypesCache( lhs, rhs ).getUInt()
 				, makeExpr( lhs )
 				, makeExpr( rhs ) )
 			, areOptionalEnabled( lhs, rhs ) };
@@ -1010,7 +1016,7 @@ namespace sdw
 	Optional< UInt > operator~( Optional< UInt > const & expr )
 	{
 		return Optional< UInt >{ findShader( expr )
-			, sdw::makeBitNot( type::getUInt()
+			, sdw::makeBitNot( expr.getType()->getCache().getUInt()
 				, makeExpr( expr ) )
 			, areOptionalEnabled( expr ) };
 	}

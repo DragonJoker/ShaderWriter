@@ -15,7 +15,8 @@ namespace ast::type
 		: public Type
 	{
 	public:
-		Sampler( bool comparison );
+		Sampler( TypesCache * cache
+			, bool comparison );
 
 		bool isComparison()const
 		{
@@ -26,11 +27,6 @@ namespace ast::type
 		bool m_comparison;
 	};
 	using SamplerPtr = std::shared_ptr< Sampler >;
-
-	inline SamplerPtr makeSamplerType( bool comparison )
-	{
-		return std::make_shared< Sampler >( comparison );
-	}
 }
 
 #endif

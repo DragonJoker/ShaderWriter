@@ -104,7 +104,7 @@ namespace
 		, typename Enable = void >
 	struct TextureSizeTester
 	{
-		static void test( test::TestCounts & testCounts )
+		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 		}
 	};
@@ -129,7 +129,7 @@ namespace
 			|| is2DArrayShadow< DimT, ArrayedT, DepthT >
 			|| isCubeArrayShadow< DimT, ArrayedT, DepthT > > >
 	{
-		static void test( test::TestCounts & testCounts )
+		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testTextureSizeLod" + sdw::debug::getName( FormatT, DimT, ArrayedT, DepthT, MsT );
 			testBegin( name );
@@ -160,7 +160,7 @@ namespace
 			|| isRect< DimT, ArrayedT, DepthT >
 			|| isRectShadow< DimT, ArrayedT, DepthT > > >
 	{
-		static void test( test::TestCounts & testCounts )
+		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testTextureSize" + sdw::debug::getName( FormatT, DimT, ArrayedT, DepthT, MsT );
 			testBegin( name );
@@ -196,7 +196,7 @@ namespace
 		, typename Enable = void >
 	struct TextureQueryLodTester
 	{
-		static void test( test::TestCounts & testCounts )
+		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 		}
 	};
@@ -223,7 +223,7 @@ namespace
 	{
 		using QueryLodT = typename sdw::SampledImageQueryLodT< DimT, ArrayedT >;
 
-		static void test( test::TestCounts & testCounts )
+		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testTextureQueryLod" + sdw::debug::getName( FormatT, DimT, ArrayedT, DepthT, MsT );
 			testBegin( name );
@@ -259,7 +259,7 @@ namespace
 		, typename Enable = void >
 	struct TextureQueryLevelsTester
 	{
-		static void test( test::TestCounts & testCounts )
+		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 		}
 	};
@@ -284,7 +284,7 @@ namespace
 			|| is2DArrayShadow< DimT, ArrayedT, DepthT >
 			|| isCubeArrayShadow< DimT, ArrayedT, DepthT > > >
 	{
-		static void test( test::TestCounts & testCounts )
+		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testTextureQueryLevels" + sdw::debug::getName( FormatT, DimT, ArrayedT, DepthT, MsT );
 			testBegin( name );
@@ -320,7 +320,7 @@ namespace
 		, typename Enable = void >
 	struct TextureTester
 	{
-		static void test( test::TestCounts & testCounts )
+		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 		}
 	};
@@ -342,7 +342,7 @@ namespace
 	{
 		using SampleT = typename sdw::SampledImageSampleT< DimT, ArrayedT >;
 
-		static void test( test::TestCounts & testCounts )
+		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testTexture" + sdw::debug::getName( FormatT, DimT, ArrayedT, DepthT, MsT );
 			testBegin( name );
@@ -380,7 +380,7 @@ namespace
 	{
 		using SampleT = typename sdw::SampledImageSampleT< DimT, ArrayedT >;
 
-		static void test( test::TestCounts & testCounts )
+		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testTextureShadow" + sdw::debug::getName( FormatT, DimT, ArrayedT, DepthT, MsT );
 			testBegin( name );
@@ -418,7 +418,7 @@ namespace
 		, typename Enable = void >
 	struct TextureBiasTester
 	{
-		static void test( test::TestCounts & testCounts )
+		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 		}
 	};
@@ -439,7 +439,7 @@ namespace
 	{
 		using SampleT = typename sdw::SampledImageSampleT< DimT, ArrayedT >;
 
-		static void test( test::TestCounts & testCounts )
+		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testTextureBias" + sdw::debug::getName( FormatT, DimT, ArrayedT, DepthT, MsT );
 			testBegin( name );
@@ -476,7 +476,7 @@ namespace
 	{
 		using SampleT = typename sdw::SampledImageSampleT< DimT, ArrayedT >;
 
-		static void test( test::TestCounts & testCounts )
+		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testTextureShadowBias" + sdw::debug::getName( FormatT, DimT, ArrayedT, DepthT, MsT );
 			testBegin( name );
@@ -515,7 +515,7 @@ namespace
 		, typename Enable = void >
 	struct TextureProjTester
 	{
-		static void test( test::TestCounts & testCounts )
+		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 		}
 	};
@@ -533,7 +533,7 @@ namespace
 	{
 		using SampleProjT = typename sdw::SampledImageSampleProjT< DimT, ArrayedT >;
 
-		static void test( test::TestCounts & testCounts )
+		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testTextureProj" + sdw::debug::getName( FormatT, DimT, ArrayedT, DepthT, MsT );
 			testBegin( name );
@@ -567,7 +567,7 @@ namespace
 	{
 		using SampleProjT = typename sdw::SampledImageSampleProjT< DimT, ArrayedT >;
 
-		static void test( test::TestCounts & testCounts )
+		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testTextureProjShadow" + sdw::debug::getName( FormatT, DimT, ArrayedT, DepthT, MsT );
 			testBegin( name );
@@ -605,7 +605,7 @@ namespace
 		, typename Enable = void >
 	struct TextureProjBiasTester
 	{
-		static void test( test::TestCounts & testCounts )
+		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 		}
 	};
@@ -622,7 +622,7 @@ namespace
 	{
 		using SampleProjT = typename sdw::SampledImageSampleProjT< DimT, ArrayedT >;
 
-		static void test( test::TestCounts & testCounts )
+		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testTextureProjBias" + sdw::debug::getName( FormatT, DimT, ArrayedT, DepthT, MsT );
 			testBegin( name );
@@ -656,7 +656,7 @@ namespace
 	{
 		using SampleProjT = typename sdw::SampledImageSampleProjT< DimT, ArrayedT >;
 
-		static void test( test::TestCounts & testCounts )
+		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testTextureProjShadowBias" + sdw::debug::getName( FormatT, DimT, ArrayedT, DepthT, MsT );
 			testBegin( name );
@@ -695,7 +695,7 @@ namespace
 		, typename Enable = void >
 	struct TextureLodTester
 	{
-		static void test( test::TestCounts & testCounts )
+		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 		}
 	};
@@ -716,7 +716,7 @@ namespace
 	{
 		using SampleT = typename sdw::SampledImageSampleT< DimT, ArrayedT >;
 
-		static void test( test::TestCounts & testCounts )
+		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testTextureLod" + sdw::debug::getName( FormatT, DimT, ArrayedT, DepthT, MsT );
 			testBegin( name );
@@ -751,7 +751,7 @@ namespace
 	{
 		using SampleT = typename sdw::SampledImageSampleT< DimT, ArrayedT >;
 
-		static void test( test::TestCounts & testCounts )
+		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testTextureLodShadow" + sdw::debug::getName( FormatT, DimT, ArrayedT, DepthT, MsT );
 			testBegin( name );
@@ -790,7 +790,7 @@ namespace
 		, typename Enable = void >
 	struct TextureOffsetTester
 	{
-		static void test( test::TestCounts & testCounts )
+		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 		}
 	};
@@ -811,7 +811,7 @@ namespace
 		using SampleT = typename sdw::SampledImageSampleT< DimT, ArrayedT >;
 		using OffsetT = typename sdw::SampledImageOffsetT< DimT, ArrayedT >;
 
-		static void test( test::TestCounts & testCounts )
+		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testTextureOffset" + sdw::debug::getName( FormatT, DimT, ArrayedT, DepthT, MsT );
 			testBegin( name );
@@ -849,7 +849,7 @@ namespace
 		using SampleT = typename sdw::SampledImageSampleT< DimT, ArrayedT >;
 		using OffsetT = typename sdw::SampledImageOffsetT< DimT, ArrayedT >;
 
-		static void test( test::TestCounts & testCounts )
+		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testTextureOffsetShadow" + sdw::debug::getName( FormatT, DimT, ArrayedT, DepthT, MsT );
 			testBegin( name );
@@ -888,7 +888,7 @@ namespace
 		, typename Enable = void >
 	struct TextureOffsetBiasTester
 	{
-		static void test( test::TestCounts & testCounts )
+		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 		}
 	};
@@ -908,7 +908,7 @@ namespace
 		using SampleT = typename sdw::SampledImageSampleT< DimT, ArrayedT >;
 		using OffsetT = typename sdw::SampledImageOffsetT< DimT, ArrayedT >;
 
-		static void test( test::TestCounts & testCounts )
+		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testTextureOffsetBias" + sdw::debug::getName( FormatT, DimT, ArrayedT, DepthT, MsT );
 			testBegin( name );
@@ -944,7 +944,7 @@ namespace
 		using SampleT = typename sdw::SampledImageSampleT< DimT, ArrayedT >;
 		using OffsetT = typename sdw::SampledImageOffsetT< DimT, ArrayedT >;
 
-		static void test( test::TestCounts & testCounts )
+		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testTextureOffsetShadowBias" + sdw::debug::getName( FormatT, DimT, ArrayedT, DepthT, MsT );
 			testBegin( name );
@@ -984,7 +984,7 @@ namespace
 		, typename Enable = void >
 	struct TexelFetchTester
 	{
-		static void test( test::TestCounts & testCounts )
+		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 		}
 	};
@@ -1003,7 +1003,7 @@ namespace
 	{
 		using FetchT = typename sdw::SampledImageFetchT< DimT, ArrayedT >;
 
-		static void test( test::TestCounts & testCounts )
+		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testTexelFetchLod" + sdw::debug::getName( FormatT, DimT, ArrayedT, DepthT, MsT );
 			testBegin( name );
@@ -1037,7 +1037,7 @@ namespace
 	{
 		using FetchT = typename sdw::SampledImageFetchT< DimT, ArrayedT >;
 
-		static void test( test::TestCounts & testCounts )
+		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testTexelFetch" + sdw::debug::getName( FormatT, DimT, ArrayedT, DepthT, MsT );
 			testBegin( name );
@@ -1074,7 +1074,7 @@ namespace
 		, typename Enable = void >
 	struct TexelFetchOffsetTester
 	{
-		static void test( test::TestCounts & testCounts )
+		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 		}
 	};
@@ -1094,7 +1094,7 @@ namespace
 		using FetchT = typename sdw::SampledImageFetchT< DimT, ArrayedT >;
 		using OffsetT = typename sdw::SampledImageOffsetT< DimT, ArrayedT >;
 
-		static void test( test::TestCounts & testCounts )
+		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testTexelFetchOffsetLod" + sdw::debug::getName( FormatT, DimT, ArrayedT, DepthT, MsT );
 			testBegin( name );
@@ -1129,7 +1129,7 @@ namespace
 		using FetchT = typename sdw::SampledImageFetchT< DimT, ArrayedT >;
 		using OffsetT = typename sdw::SampledImageOffsetT< DimT, ArrayedT >;
 
-		static void test( test::TestCounts & testCounts )
+		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testTexelFetchOffsetRect" + sdw::debug::getName( FormatT, DimT, ArrayedT, DepthT, MsT );
 			testBegin( name );
@@ -1167,7 +1167,7 @@ namespace
 		, typename Enable = void >
 	struct TextureProjOffsetTester
 	{
-		static void test( test::TestCounts & testCounts )
+		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 		}
 	};
@@ -1186,7 +1186,7 @@ namespace
 		using SampleProjT = typename sdw::SampledImageSampleProjT< DimT, ArrayedT >;
 		using OffsetT = typename sdw::SampledImageOffsetT< DimT, ArrayedT >;
 
-		static void test( test::TestCounts & testCounts )
+		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testTextureProjOffset" + sdw::debug::getName( FormatT, DimT, ArrayedT, DepthT, MsT );
 			testBegin( name );
@@ -1222,7 +1222,7 @@ namespace
 		using SampleProjT = typename sdw::SampledImageSampleProjT< DimT, ArrayedT >;
 		using OffsetT = typename sdw::SampledImageOffsetT< DimT, ArrayedT >;
 
-		static void test( test::TestCounts & testCounts )
+		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testTextureProjOffsetShadow" + sdw::debug::getName( FormatT, DimT, ArrayedT, DepthT, MsT );
 			testBegin( name );
@@ -1261,7 +1261,7 @@ namespace
 		, typename Enable = void >
 	struct TextureProjOffsetBiasTester
 	{
-		static void test( test::TestCounts & testCounts )
+		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 		}
 	};
@@ -1279,7 +1279,7 @@ namespace
 		using SampleProjT = typename sdw::SampledImageSampleProjT< DimT, ArrayedT >;
 		using OffsetT = typename sdw::SampledImageOffsetT< DimT, ArrayedT >;
 
-		static void test( test::TestCounts & testCounts )
+		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testTextureProjOffsetBias" + sdw::debug::getName( FormatT, DimT, ArrayedT, DepthT, MsT );
 			testBegin( name );
@@ -1315,7 +1315,7 @@ namespace
 		using SampleProjT = typename sdw::SampledImageSampleProjT< DimT, ArrayedT >;
 		using OffsetT = typename sdw::SampledImageOffsetT< DimT, ArrayedT >;
 
-		static void test( test::TestCounts & testCounts )
+		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testTextureProjOffsetShadowBias" + sdw::debug::getName( FormatT, DimT, ArrayedT, DepthT, MsT );
 			testBegin( name );
@@ -1355,7 +1355,7 @@ namespace
 		, typename Enable = void >
 	struct TextureLodOffsetTester
 	{
-		static void test( test::TestCounts & testCounts )
+		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 		}
 	};
@@ -1375,7 +1375,7 @@ namespace
 		using SampleT = typename sdw::SampledImageSampleT< DimT, ArrayedT >;
 		using OffsetT = typename sdw::SampledImageOffsetT< DimT, ArrayedT >;
 
-		static void test( test::TestCounts & testCounts )
+		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testTextureLodOffset" + sdw::debug::getName( FormatT, DimT, ArrayedT, DepthT, MsT );
 			testBegin( name );
@@ -1412,7 +1412,7 @@ namespace
 		using SampleT = typename sdw::SampledImageSampleT< DimT, ArrayedT >;
 		using OffsetT = typename sdw::SampledImageOffsetT< DimT, ArrayedT >;
 
-		static void test( test::TestCounts & testCounts )
+		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testTextureLodShadowOffset" + sdw::debug::getName( FormatT, DimT, ArrayedT, DepthT, MsT );
 			testBegin( name );
@@ -1452,7 +1452,7 @@ namespace
 		, typename Enable = void >
 	struct TextureProjLodTester
 	{
-		static void test( test::TestCounts & testCounts )
+		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 		}
 	};
@@ -1469,7 +1469,7 @@ namespace
 	{
 		using SampleProjT = typename sdw::SampledImageSampleProjT< DimT, ArrayedT >;
 
-		static void test( test::TestCounts & testCounts )
+		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testTextureProjLod" + sdw::debug::getName( FormatT, DimT, ArrayedT, DepthT, MsT );
 			testBegin( name );
@@ -1503,7 +1503,7 @@ namespace
 	{
 		using SampleProjT = typename sdw::SampledImageSampleProjT< DimT, ArrayedT >;
 
-		static void test( test::TestCounts & testCounts )
+		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testTextureProjShadowLod" + sdw::debug::getName( FormatT, DimT, ArrayedT, DepthT, MsT );
 			testBegin( name );
@@ -1542,7 +1542,7 @@ namespace
 		, typename Enable = void >
 	struct TextureProjLodOffsetTester
 	{
-		static void test( test::TestCounts & testCounts )
+		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 		}
 	};
@@ -1560,7 +1560,7 @@ namespace
 		using SampleProjT = typename sdw::SampledImageSampleProjT< DimT, ArrayedT >;
 		using OffsetT = typename sdw::SampledImageOffsetT< DimT, ArrayedT >;
 
-		static void test( test::TestCounts & testCounts )
+		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testTextureProjLodOffset" + sdw::debug::getName( FormatT, DimT, ArrayedT, DepthT, MsT );
 			testBegin( name );
@@ -1596,7 +1596,7 @@ namespace
 		using SampleProjT = typename sdw::SampledImageSampleProjT< DimT, ArrayedT >;
 		using OffsetT = typename sdw::SampledImageOffsetT< DimT, ArrayedT >;
 
-		static void test( test::TestCounts & testCounts )
+		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testTextureProjShadowLodOffset" + sdw::debug::getName( FormatT, DimT, ArrayedT, DepthT, MsT );
 			testBegin( name );
@@ -1636,7 +1636,7 @@ namespace
 		, typename Enable = void >
 	struct TextureGradTester
 	{
-		static void test( test::TestCounts & testCounts )
+		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 		}
 	};
@@ -1659,7 +1659,7 @@ namespace
 		using SampleT = typename sdw::SampledImageSampleT< DimT, ArrayedT >;
 		using DerivativeT = typename sdw::SampledImageDerivativeT< DimT, ArrayedT >;
 
-		static void test( test::TestCounts & testCounts )
+		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testTextureGrad" + sdw::debug::getName( FormatT, DimT, ArrayedT, DepthT, MsT );
 			testBegin( name );
@@ -1697,7 +1697,7 @@ namespace
 		using SampleT = typename sdw::SampledImageSampleT< DimT, ArrayedT >;
 		using DerivativeT = typename sdw::SampledImageDerivativeT< DimT, ArrayedT >;
 
-		static void test( test::TestCounts & testCounts )
+		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testTextureShadowGrad" + sdw::debug::getName( FormatT, DimT, ArrayedT, DepthT, MsT );
 			testBegin( name );
@@ -1737,7 +1737,7 @@ namespace
 		, typename Enable = void >
 	struct TextureGradOffsetTester
 	{
-		static void test( test::TestCounts & testCounts )
+		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 		}
 	};
@@ -1759,7 +1759,7 @@ namespace
 		using DerivativeT = typename sdw::SampledImageDerivativeT< DimT, ArrayedT >;
 		using OffsetT = typename sdw::SampledImageOffsetT< DimT, ArrayedT >;
 
-		static void test( test::TestCounts & testCounts )
+		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testTextureGradOffset" + sdw::debug::getName( FormatT, DimT, ArrayedT, DepthT, MsT );
 			testBegin( name );
@@ -1800,7 +1800,7 @@ namespace
 		using DerivativeT = typename sdw::SampledImageDerivativeT< DimT, ArrayedT >;
 		using OffsetT = typename sdw::SampledImageOffsetT< DimT, ArrayedT >;
 
-		static void test( test::TestCounts & testCounts )
+		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testTextureShadowGradOffset" + sdw::debug::getName( FormatT, DimT, ArrayedT, DepthT, MsT );
 			testBegin( name );
@@ -1841,7 +1841,7 @@ namespace
 		, typename Enable = void >
 	struct TextureProjGradTester
 	{
-		static void test( test::TestCounts & testCounts )
+		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 		}
 	};
@@ -1860,7 +1860,7 @@ namespace
 		using SampleProjT = typename sdw::SampledImageSampleProjT< DimT, ArrayedT >;
 		using DerivativeT = typename sdw::SampledImageDerivativeT< DimT, ArrayedT >;
 
-		static void test( test::TestCounts & testCounts )
+		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testTextureProjGrad" + sdw::debug::getName( FormatT, DimT, ArrayedT, DepthT, MsT );
 			testBegin( name );
@@ -1897,7 +1897,7 @@ namespace
 		using SampleProjT = typename sdw::SampledImageSampleProjT< DimT, ArrayedT >;
 		using DerivativeT = typename sdw::SampledImageDerivativeT< DimT, ArrayedT >;
 
-		static void test( test::TestCounts & testCounts )
+		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testTextureProjShadowGrad" + sdw::debug::getName( FormatT, DimT, ArrayedT, DepthT, MsT );
 			testBegin( name );
@@ -1937,7 +1937,7 @@ namespace
 		, typename Enable = void >
 	struct TextureProjGradOffsetTester
 	{
-		static void test( test::TestCounts & testCounts )
+		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 		}
 	};
@@ -1957,7 +1957,7 @@ namespace
 		using DerivativeT = typename sdw::SampledImageDerivativeT< DimT, ArrayedT >;
 		using OffsetT = typename sdw::SampledImageOffsetT< DimT, ArrayedT >;
 
-		static void test( test::TestCounts & testCounts )
+		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testTextureProjGradOffset" + sdw::debug::getName( FormatT, DimT, ArrayedT, DepthT, MsT );
 			testBegin( name );
@@ -1996,7 +1996,7 @@ namespace
 		using DerivativeT = typename sdw::SampledImageDerivativeT< DimT, ArrayedT >;
 		using OffsetT = typename sdw::SampledImageOffsetT< DimT, ArrayedT >;
 
-		static void test( test::TestCounts & testCounts )
+		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testTextureProjShadowGradOffset" + sdw::debug::getName( FormatT, DimT, ArrayedT, DepthT, MsT );
 			testBegin( name );
@@ -2037,7 +2037,7 @@ namespace
 		, typename Enable = void >
 	struct TextureGatherTester
 	{
-		static void test( test::TestCounts & testCounts )
+		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 		}
 	};
@@ -2056,7 +2056,7 @@ namespace
 	{
 		using GatherT = typename sdw::SampledImageGatherT< DimT, ArrayedT >;
 
-		static void test( test::TestCounts & testCounts )
+		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testTextureGather" + sdw::debug::getName( FormatT, DimT, ArrayedT, DepthT, MsT );
 			testBegin( name );
@@ -2092,7 +2092,7 @@ namespace
 	{
 		using GatherT = typename sdw::SampledImageGatherT< DimT, ArrayedT >;
 
-		static void test( test::TestCounts & testCounts )
+		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testTextureGatherShadow" + sdw::debug::getName( FormatT, DimT, ArrayedT, DepthT, MsT );
 			testBegin( name );
@@ -2130,7 +2130,7 @@ namespace
 		, typename Enable = void >
 	struct TextureGatherCompTester
 	{
-		static void test( test::TestCounts & testCounts )
+		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 		}
 	};
@@ -2149,7 +2149,7 @@ namespace
 	{
 		using GatherT = typename sdw::SampledImageGatherT< DimT, ArrayedT >;
 
-		static void test( test::TestCounts & testCounts )
+		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testTextureGatherComp" + sdw::debug::getName( FormatT, DimT, ArrayedT, DepthT, MsT );
 			testBegin( name );
@@ -2187,7 +2187,7 @@ namespace
 		, typename Enable = void >
 	struct TextureGatherOffsetTester
 	{
-		static void test( test::TestCounts & testCounts )
+		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 		}
 	};
@@ -2205,7 +2205,7 @@ namespace
 		using GatherT = typename sdw::SampledImageGatherT< DimT, ArrayedT >;
 		using OffsetT = typename sdw::SampledImageOffsetT< DimT, ArrayedT >;
 
-		static void test( test::TestCounts & testCounts )
+		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testTextureGatherOffset" + sdw::debug::getName( FormatT, DimT, ArrayedT, DepthT, MsT );
 			testBegin( name );
@@ -2241,7 +2241,7 @@ namespace
 		using GatherT = typename sdw::SampledImageGatherT< DimT, ArrayedT >;
 		using OffsetT = typename sdw::SampledImageOffsetT< DimT, ArrayedT >;
 
-		static void test( test::TestCounts & testCounts )
+		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testTextureGatherShadowOffset" + sdw::debug::getName( FormatT, DimT, ArrayedT, DepthT, MsT );
 			testBegin( name );
@@ -2280,7 +2280,7 @@ namespace
 		, typename Enable = void >
 	struct TextureGatherOffsetCompTester
 	{
-		static void test( test::TestCounts & testCounts )
+		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 		}
 	};
@@ -2298,7 +2298,7 @@ namespace
 		using GatherT = typename sdw::SampledImageGatherT< DimT, ArrayedT >;
 		using OffsetT = typename sdw::SampledImageOffsetT< DimT, ArrayedT >;
 
-		static void test( test::TestCounts & testCounts )
+		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testTextureGatherOffsetComp" + sdw::debug::getName( FormatT, DimT, ArrayedT, DepthT, MsT );
 			testBegin( name );
@@ -2337,7 +2337,7 @@ namespace
 		, typename Enable = void >
 	struct TextureGatherOffsetsTester
 	{
-		static void test( test::TestCounts & testCounts )
+		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 		}
 	};
@@ -2355,7 +2355,7 @@ namespace
 		using GatherT = typename sdw::SampledImageGatherT< DimT, ArrayedT >;
 		using OffsetT = typename sdw::SampledImageOffsetT< DimT, ArrayedT >;
 
-		static void test( test::TestCounts & testCounts )
+		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testTextureGatherOffsets" + sdw::debug::getName( FormatT, DimT, ArrayedT, DepthT, MsT );
 			testBegin( name );
@@ -2393,7 +2393,7 @@ namespace
 		using GatherT = typename sdw::SampledImageGatherT< DimT, ArrayedT >;
 		using OffsetT = typename sdw::SampledImageOffsetT< DimT, ArrayedT >;
 
-		static void test( test::TestCounts & testCounts )
+		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testTextureGatherShadowOffsets" + sdw::debug::getName( FormatT, DimT, ArrayedT, DepthT, MsT );
 			testBegin( name );
@@ -2434,7 +2434,7 @@ namespace
 		, typename Enable = void >
 	struct TextureGatherOffsetsCompTester
 	{
-		static void test( test::TestCounts & testCounts )
+		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 		}
 	};
@@ -2452,7 +2452,7 @@ namespace
 		using GatherT = typename sdw::SampledImageGatherT< DimT, ArrayedT >;
 		using OffsetT = typename sdw::SampledImageOffsetT< DimT, ArrayedT >;
 
-		static void test( test::TestCounts & testCounts )
+		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testTextureGatherOffsetsComp" + sdw::debug::getName( FormatT, DimT, ArrayedT, DepthT, MsT );
 			testBegin( name );
@@ -2486,7 +2486,7 @@ namespace
 	*/
 	/**@{*/
 	template< ast::type::ImageFormat FormatT, template< ast::type::ImageFormat, ast::type::ImageDim, bool, bool, bool > typename TesterT >
-	void testsTexture( test::TestCounts & testCounts )
+	void testsTexture( test::sdw_test::TestCounts & testCounts )
 	{
 		if ( isFloatFormat( FormatT ) )
 		{
@@ -2538,7 +2538,7 @@ namespace
 		}
 	}
 	template< template< ast::type::ImageFormat, ast::type::ImageDim, bool, bool, bool > typename TesterT >
-	void testsTextures( test::TestCounts & testCounts )
+	void testsTextures( test::sdw_test::TestCounts & testCounts )
 	{
 		testsTexture< ast::type::ImageFormat::eRgba32f, TesterT >( testCounts );
 		testsTexture< ast::type::ImageFormat::eRgba16f, TesterT >( testCounts );
@@ -2571,7 +2571,7 @@ namespace
 
 int main( int argc, char ** argv )
 {
-	testSuiteBegin( "TestWriterTextureAccesses" );
+	sdwTestSuiteBegin( "TestWriterTextureAccesses" );
 	testsTextures< TextureSizeTester >( testCounts );
 	testsTextures< TextureQueryLodTester >( testCounts );
 	testsTextures< TextureQueryLevelsTester >( testCounts );
@@ -2599,5 +2599,5 @@ int main( int argc, char ** argv )
 	testsTextures< TextureGatherOffsetCompTester >( testCounts );
 	testsTextures< TextureGatherOffsetsTester >( testCounts );
 	testsTextures< TextureGatherOffsetsCompTester >( testCounts );
-	testSuiteEnd();
+	sdwTestSuiteEnd();
 }

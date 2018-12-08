@@ -22,6 +22,25 @@ namespace sdw
 		m_blocks.erase( m_blocks.begin() + m_blocks.size() - 1u );
 	}
 
+	void Shader::saveNextExpr()
+	{
+		assert( m_savedStmt == nullptr );
+		m_ignore = true;
+	}
+
+	ast::expr::ExprPtr Shader::loadExpr( ast::expr::ExprPtr expr )
+	{
+		if ( m_savedStmt != nullptr )
+		{
+			auto result = makeExpr( static_cast< ast::stmt::Simple const & >( *m_savedStmt ).getExpr() );
+			m_savedStmt = nullptr;
+			return result;
+		}
+
+		m_ignore = false;
+		return std::move( expr );
+	}
+
 	void Shader::registerVariable( var::VariablePtr var )
 	{
 		auto & block = m_blocks.back();
@@ -180,6 +199,17 @@ namespace sdw
 		return result;
 	}
 
+	var::VariablePtr Shader::registerBlockVariable( std::string const & name
+		, type::TypePtr type )
+	{
+		if ( m_blocks.size() > 1u )
+		{
+			return registerLocale( name, type );
+		}
+
+		return registerConstant( name, type );
+	}
+
 	var::VariablePtr Shader::registerLocale( std::string const & name
 		, type::TypePtr type )
 	{
@@ -242,7 +272,19 @@ namespace sdw
 
 	void Shader::addStmt( stmt::StmtPtr stmt )
 	{
-		getContainer()->addStmt( std::move( stmt ) );
+		if ( m_ignore )
+		{
+			if ( stmt->getKind() == ast::stmt::Kind::eSimple )
+			{
+				m_savedStmt = std::move( stmt );
+			}
+
+			m_ignore = false;
+		}
+		else
+		{
+			getContainer()->addStmt( std::move( stmt ) );
+		}
 	}
 
 	void Shader::registerSsbo( std::string const & name

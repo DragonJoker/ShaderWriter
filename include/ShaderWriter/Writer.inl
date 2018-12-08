@@ -39,7 +39,7 @@ namespace sdw
 			static inline DstT cast( Shader & shader
 				, SrcT const & from )
 			{
-				auto dstType = DstT::makeType();
+				auto dstType = DstT::makeType( shader.getTypesCache() );
 				auto expr = makeExpr( from );
 				auto srcType = expr->getType();
 
@@ -62,7 +62,7 @@ namespace sdw
 			static inline Optional< DstT > cast( Shader & shader
 				, SrcT const & from )
 			{
-				auto dstType = DstT::makeType();
+				auto dstType = DstT::makeType( shader.getTypesCache() );
 				auto expr = makeExpr( from );
 				auto srcType = from.getType();
 
@@ -87,7 +87,7 @@ namespace sdw
 			static inline DstT cast( Shader & shader
 				, SrcT const & from )
 			{
-				auto dstType = DstT::makeType();
+				auto dstType = DstT::makeType( shader.getTypesCache() );
 				auto expr = makeExpr( from );
 				auto srcType = expr->getType();
 
@@ -112,7 +112,7 @@ namespace sdw
 			static inline DstT cast( Shader & shader
 				, SrcT const & from )
 			{
-				auto dstType = DstT::makeType();
+				auto dstType = DstT::makeType( shader.getTypesCache() );
 				auto expr = makeExpr( from );
 				auto srcType = from.getType();
 
@@ -138,8 +138,8 @@ namespace sdw
 		, std::function< void( ParamTranslaterT< ParamsT >... ) > const & function
 		, ParamsT && ... params )
 	{
-		auto decl = getFunctionHeader< ReturnT >( name, params... );
-		m_shader.push( decl.get() );
+		auto decl = getFunctionHeader< ReturnT >( getTypesCache(), name, params... );
+		doPushScope( decl.get() );
 
 		for ( auto & var : decl->getParameters() )
 		{
@@ -147,7 +147,7 @@ namespace sdw
 		}
 
 		function( std::forward< ParamsT && >( params )... );
-		m_shader.pop();
+		doPopScope();
 		addStmt( std::move( decl ) );
 		return Function< ReturnT, ParamsT... >{ &m_shader, name };
 	}
@@ -275,7 +275,7 @@ namespace sdw
 	inline T ShaderWriter::declConstant( std::string const & name
 		, T const & rhs )
 	{
-		auto type = T::makeType();
+		auto type = T::makeType( getTypesCache() );
 		auto var = registerConstant( name
 			, type );
 		addStmt( sdw::makePreprocDefine( name
@@ -289,7 +289,7 @@ namespace sdw
 		, T const & rhs
 		, bool enabled )
 	{
-		auto type = T::makeType();
+		auto type = T::makeType( getTypesCache() );
 		auto var = registerConstant( name
 			, type );
 
@@ -308,7 +308,7 @@ namespace sdw
 	inline Array< T > ShaderWriter::declConstantArray( std::string const & name
 		, std::vector< T > const & rhs )
 	{
-		auto type = type::makeArrayType( T::makeType()
+		auto type = Array< T >::makeType( getTypesCache()
 			, uint32_t( rhs.size() ) );
 		auto var = registerConstant( name
 			, type );
@@ -324,7 +324,7 @@ namespace sdw
 		, std::vector< T > const & rhs
 		, bool enabled )
 	{
-		auto type = type::makeArrayType( T::makeType()
+		auto type = Array< T >::makeType( getTypesCache()
 			, uint32_t( rhs.size() ) );
 		auto var = registerConstant( name
 			, type );
@@ -358,7 +358,7 @@ namespace sdw
 		, uint32_t set )
 	{
 		using T = SampledImageT< FormatT, DimT, ArrayedT, DepthT, MsT >;
-		auto type = type::makeSampledImageType( T::makeConfig() );
+		auto type = T::makeType( getTypesCache() );
 		auto var = registerSampledImage( name
 			, type
 			, binding
@@ -381,7 +381,7 @@ namespace sdw
 		, bool enabled )
 	{
 		using T = SampledImageT< FormatT, DimT, ArrayedT, DepthT, MsT >;
-		auto type = type::makeSampledImageType( T::makeConfig() );
+		auto type = T::makeType( getTypesCache() );
 		auto var = registerSampledImage( name
 			, type
 			, binding
@@ -411,7 +411,7 @@ namespace sdw
 		, uint32_t dimension )
 	{
 		using T = SampledImageT< FormatT, DimT, ArrayedT, DepthT, MsT >;
-		auto type = type::makeArrayType( type::makeSampledImageType( T::makeConfig() )
+		auto type = Array< T >::makeType( getTypesCache()
 			, dimension );
 		auto var = registerSampledImage( name
 			, type
@@ -436,7 +436,7 @@ namespace sdw
 		, bool enabled )
 	{
 		using T = SampledImageT< FormatT, DimT, ArrayedT, DepthT, MsT >;
-		auto type = type::makeArrayType( type::makeSampledImageType( T::makeConfig() )
+		auto type = Array< T >::makeType( getTypesCache()
 			, dimension );
 		auto var = registerSampledImage( name
 			, type
@@ -473,7 +473,7 @@ namespace sdw
 		, uint32_t set )
 	{
 		using T = ImageT< FormatT, DimT, ArrayedT, DepthT, MsT >;
-		auto type = type::makeImageType( T::makeConfig() );
+		auto type = T::makeType( getTypesCache() );
 		auto var = registerImage( name
 			, type
 			, binding
@@ -496,7 +496,7 @@ namespace sdw
 		, bool enabled )
 	{
 		using T = ImageT< FormatT, DimT, ArrayedT, DepthT, MsT >;
-		auto type = type::makeImageType( T::makeConfig() );
+		auto type = T::makeType( getTypesCache() );
 		auto var = registerImage( name
 			, type
 			, binding
@@ -526,7 +526,7 @@ namespace sdw
 		, uint32_t dimension )
 	{
 		using T = ImageT< FormatT, DimT, ArrayedT, DepthT, MsT >;
-		auto type = type::makeArrayType( type::makeImageType( T::makeConfig() )
+		auto type = Array< T >::makeType( getTypesCache()
 			, dimension );
 		auto var = registerImage( name
 			, type
@@ -551,7 +551,7 @@ namespace sdw
 		, bool enabled )
 	{
 		using T = ImageT< FormatT, DimT, ArrayedT, DepthT, MsT >;
-		auto type = type::makeArrayType( type::makeImageType( T::makeConfig() )
+		auto type = Array< T >::makeType( getTypesCache()
 			, dimension );
 		auto var = registerImage( name
 			, type
@@ -590,7 +590,7 @@ namespace sdw
 		static_assert( !IsSameV< T, DVec2 >, "DVec2 is not supported as input type" );
 		static_assert( !IsSameV< T, DVec3 >, "DVec3 is not supported as input type" );
 		static_assert( !IsSameV< T, DVec4 >, "DVec4 is not supported as input type" );
-		auto type = T::makeType();
+		auto type = T::makeType( getTypesCache() );
 		auto var = registerInput( name
 			, location
 			, type );
@@ -613,7 +613,7 @@ namespace sdw
 		static_assert( !IsSameV< T, DVec2 >, "DVec2 is not supported as input type" );
 		static_assert( !IsSameV< T, DVec3 >, "DVec3 is not supported as input type" );
 		static_assert( !IsSameV< T, DVec4 >, "DVec4 is not supported as input type" );
-		auto type = T::makeType();
+		auto type = T::makeType( getTypesCache() );
 		auto var = registerInput( name
 			, location
 			, type );
@@ -642,7 +642,7 @@ namespace sdw
 		static_assert( !IsSameV< T, DVec2 >, "DVec2 is not supported as input type" );
 		static_assert( !IsSameV< T, DVec3 >, "DVec3 is not supported as input type" );
 		static_assert( !IsSameV< T, DVec4 >, "DVec4 is not supported as input type" );
-		auto type = type::makeArrayType( T::makeType()
+		auto type = Array< T >::makeType( getTypesCache()
 			, dimension );
 		auto var = registerInput( name
 			, location
@@ -667,7 +667,7 @@ namespace sdw
 		static_assert( !IsSameV< T, DVec2 >, "DVec2 is not supported as input type" );
 		static_assert( !IsSameV< T, DVec3 >, "DVec3 is not supported as input type" );
 		static_assert( !IsSameV< T, DVec4 >, "DVec4 is not supported as input type" );
-		auto type = type::makeArrayType( T::makeType()
+		auto type = Array< T >::makeType( getTypesCache()
 			, dimension );
 		auto var = registerInput( name
 			, location
@@ -703,7 +703,7 @@ namespace sdw
 		static_assert( !IsSameV< T, DVec2 >, "DVec2 is not supported as output type" );
 		static_assert( !IsSameV< T, DVec3 >, "DVec3 is not supported as output type" );
 		static_assert( !IsSameV< T, DVec4 >, "DVec4 is not supported as output type" );
-		auto type = T::makeType();
+		auto type = T::makeType( getTypesCache() );
 		auto var = registerOutput( name
 			, location
 			, type );
@@ -726,7 +726,7 @@ namespace sdw
 		static_assert( !IsSameV< T, DVec2 >, "DVec2 is not supported as output type" );
 		static_assert( !IsSameV< T, DVec3 >, "DVec3 is not supported as output type" );
 		static_assert( !IsSameV< T, DVec4 >, "DVec4 is not supported as output type" );
-		auto type = T::makeType();
+		auto type = T::makeType( getTypesCache() );
 		auto var = registerOutput( name
 			, location
 			, type );
@@ -755,7 +755,7 @@ namespace sdw
 		static_assert( !IsSameV< T, DVec2 >, "DVec2 is not supported as output type" );
 		static_assert( !IsSameV< T, DVec3 >, "DVec3 is not supported as output type" );
 		static_assert( !IsSameV< T, DVec4 >, "DVec4 is not supported as output type" );
-		auto type = type::makeArrayType( T::makeType()
+		auto type = Array< T >::makeType( getTypesCache()
 			, dimension );
 		auto var = registerOutput( name
 			, location
@@ -780,7 +780,7 @@ namespace sdw
 		static_assert( !IsSameV< T, DVec2 >, "DVec2 is not supported as output type" );
 		static_assert( !IsSameV< T, DVec3 >, "DVec3 is not supported as output type" );
 		static_assert( !IsSameV< T, DVec4 >, "DVec4 is not supported as output type" );
-		auto type = type::makeArrayType( T::makeType()
+		auto type = Array< T >::makeType( getTypesCache()
 			, dimension );
 		auto var = registerOutput( name
 			, location
@@ -804,10 +804,17 @@ namespace sdw
 	*	Locale declaration.
 	*/
 	/**@{*/
+	template< typename InstanceT >
+	inline InstanceT ShaderWriter::declLocale( std::string const & name
+		, Struct const & type )
+	{
+		return type.getInstance< InstanceT >( name );
+	}
+
 	template< typename T >
 	inline T ShaderWriter::declLocale( std::string const & name )
 	{
-		auto type = T::makeType();
+		auto type = T::makeType( getTypesCache() );
 		auto var = registerLocale( name
 			, type );
 		addStmt( sdw::makeVariableDecl( var ) );
@@ -819,7 +826,7 @@ namespace sdw
 	inline T ShaderWriter::declLocale( std::string const & name
 		, T const & rhs )
 	{
-		auto type = T::makeType();
+		auto type = T::makeType( getTypesCache() );
 		auto var = registerLocale( name
 			, type );
 		addStmt( sdw::makeSimple( sdw::makeInit( var
@@ -832,7 +839,7 @@ namespace sdw
 	inline MaybeOptional< T > ShaderWriter::declLocale( std::string const & name
 		, MaybeOptional< T > const & rhs )
 	{
-		auto type = T::makeType();
+		auto type = T::makeType( getTypesCache() );
 		auto var = registerLocale( name
 			, type );
 
@@ -857,7 +864,7 @@ namespace sdw
 	inline Optional< T > ShaderWriter::declLocale( std::string const & name
 		, bool enabled )
 	{
-		auto type = T::makeType();
+		auto type = T::makeType( getTypesCache() );
 		auto var = registerLocale( name
 			, type );
 
@@ -875,7 +882,7 @@ namespace sdw
 	inline Optional< T > ShaderWriter::declLocale( std::string const & name
 		, Optional< T > const & rhs )
 	{
-		auto type = T::makeType();
+		auto type = T::makeType( getTypesCache() );
 		auto var = registerLocale( name
 			, type );
 
@@ -895,7 +902,7 @@ namespace sdw
 		, T const & rhs
 		, bool enabled )
 	{
-		auto type = T::makeType();
+		auto type = T::makeType( getTypesCache() );
 		auto var = registerLocale( name
 			, type );
 
@@ -914,7 +921,7 @@ namespace sdw
 	inline Array< T > ShaderWriter::declLocaleArray( std::string const & name
 		, uint32_t dimension )
 	{
-		auto type = type::makeArrayType( T::makeType()
+		auto type = Array< T >::makeType( getTypesCache()
 			, dimension );
 		auto var = registerLocale( name
 			, type );
@@ -928,7 +935,7 @@ namespace sdw
 		, uint32_t dimension
 		, std::vector< T > const & rhs )
 	{
-		auto type = type::makeArrayType( T::makeType()
+		auto type = Array< T >::makeType( getTypesCache()
 			, dimension );
 		auto var = registerLocale( name
 			, type );
@@ -943,7 +950,7 @@ namespace sdw
 		, uint32_t dimension
 		, bool enabled )
 	{
-		auto type = type::makeArrayType( T::makeType()
+		auto type = Array< T >::makeType( getTypesCache()
 			, dimension );
 		auto var = registerLocale( name
 			, type );
@@ -964,7 +971,7 @@ namespace sdw
 		, std::vector< T > const & rhs
 		, bool enabled )
 	{
-		auto type = type::makeArrayType( T::makeType()
+		auto type = Array< T >::makeType( getTypesCache()
 			, dimension );
 		auto var = registerLocale( name
 			, type );

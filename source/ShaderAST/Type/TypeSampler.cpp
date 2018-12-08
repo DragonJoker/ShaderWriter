@@ -5,8 +5,9 @@ See LICENSE file in root folder
 
 namespace ast::type
 {
-	Sampler::Sampler( bool comparison )
-		: Type{ Kind::eSampler }
+	Sampler::Sampler( TypesCache * cache
+		, bool comparison )
+		: Type{ cache, Kind::eSampler }
 		, m_comparison{ comparison }
 	{
 	}

@@ -16,30 +16,31 @@ namespace
 		, uint32_t arraySize
 		, test::TestCounts & testCounts )
 	{
+		ast::type::TypesCache cache;
 		ast::type::TypePtr type;
 
 		switch ( kind )
 		{
 		case ast::type::Kind::eStruct:
-			type = ast::type::makeStructType( ast::type::MemoryLayout::eStd140, "Dummy" );
+			type = cache.getStruct( ast::type::MemoryLayout::eStd140, "Dummy" );
 			break;
 		case ast::type::Kind::eImage:
-			type = ast::type::getImage( ast::type::ImageConfiguration{} );
+			type = cache.getImage( ast::type::ImageConfiguration{} );
 			break;
 		case ast::type::Kind::eSampledImage:
-			type = ast::type::getSampledImage( ast::type::ImageConfiguration{} );
+			type = cache.getSampledImage( ast::type::ImageConfiguration{} );
 			break;
 		case ast::type::Kind::eSampler:
-			type = ast::type::getSampler();
+			type = cache.getSampler();
 			break;
 		default:
-			type = ast::type::makeType( kind );
+			type = cache.makeType( kind );
 			break;
 		}
 
 		if ( arraySize != ast::type::NotArray )
 		{
-			type = ast::type::makeArrayType( type, arraySize );
+			type = type->getCache().getArray( type, arraySize );
 		}
 
 		ast::var::Variable dummyVar{ type, "dummyVar" };

@@ -23,7 +23,7 @@ namespace sdw
 	{
 		if ( getContainer() )
 		{
-			addStmt( *findContainer( *this, rhs )
+			addStmt( *findShader( *this, rhs )
 				, sdw::makeSimple( sdw::makeAssign( getType()
 					, makeExpr( *this )
 					, makeExpr( rhs ) ) ) );
@@ -41,15 +41,33 @@ namespace sdw
 	inline ValueT Vec2T< ValueT >::operator[]( IndexT const & rhs )const
 	{
 		return ValueT{ findShader( *this, rhs )
-			, sdw::makeArrayAccess( ValueT::makeType()
+			, sdw::makeArrayAccess( ValueT::makeType( findTypesCache( *this, rhs ) )
 				, makeExpr( *this )
 				, makeExpr( rhs ) ) };
 	}
 
 	template< typename ValueT >
+	inline ValueT Vec2T< ValueT >::operator[]( int32_t offset )const
+	{
+		return ValueT{ findShader( *this, offset )
+			, sdw::makeArrayAccess( ValueT::makeType( findTypesCache( *this ) )
+				, makeExpr( *this )
+				, makeExpr( offset ) ) };
+	}
+
+	template< typename ValueT >
+	inline ValueT Vec2T< ValueT >::operator[]( uint32_t offset )const
+	{
+		return ValueT{ findShader( *this, offset )
+			, sdw::makeArrayAccess( ValueT::makeType( findTypesCache( *this ) )
+				, makeExpr( *this )
+				, makeExpr( offset ) ) };
+	}
+
+	template< typename ValueT >
 	Vec2T< ValueT > & Vec2T< ValueT >::operator+=( Vec2T< ValueT > const & rhs )
 	{
-		addStmt( *findContainer( *this, rhs )
+		addStmt( *findShader( *this, rhs )
 			, sdw::makeSimple( sdw::makeAddAssign( getType()
 				, makeExpr( *this )
 				, makeExpr( rhs ) ) ) );
@@ -59,7 +77,7 @@ namespace sdw
 	template< typename ValueT >
 	Vec2T< ValueT > & Vec2T< ValueT >::operator-=( Vec2T< ValueT > const & rhs )
 	{
-		addStmt( *findContainer( *this, rhs )
+		addStmt( *findShader( *this, rhs )
 			, sdw::makeSimple( sdw::makeMinusAssign( getType()
 				, makeExpr( *this )
 				, makeExpr( rhs ) ) ) );
@@ -69,7 +87,7 @@ namespace sdw
 	template< typename ValueT >
 	Vec2T< ValueT > & Vec2T< ValueT >::operator*=( Vec2T< ValueT > const & rhs )
 	{
-		addStmt( *findContainer( *this, rhs )
+		addStmt( *findShader( *this, rhs )
 			, sdw::makeSimple( sdw::makeTimesAssign( getType()
 				, makeExpr( *this )
 				, makeExpr( rhs ) ) ) );
@@ -79,7 +97,7 @@ namespace sdw
 	template< typename ValueT >
 	Vec2T< ValueT > & Vec2T< ValueT >::operator/=( Vec2T< ValueT > const & rhs )
 	{
-		addStmt( *findContainer( *this, rhs )
+		addStmt( *findShader( *this, rhs )
 			, sdw::makeSimple( sdw::makeDivideAssign( getType()
 				, makeExpr( *this )
 				, makeExpr( rhs ) ) ) );
@@ -91,7 +109,7 @@ namespace sdw
 	{
 		if ( rhs.isEnabled() )
 		{
-			addStmt( *findContainer( *this, rhs )
+			addStmt( *findShader( *this, rhs )
 				, sdw::makeSimple( sdw::makeAddAssign( getType()
 					, makeExpr( *this )
 					, makeExpr( rhs ) ) ) );
@@ -104,7 +122,7 @@ namespace sdw
 	{
 		if ( rhs.isEnabled() )
 		{
-			addStmt( *findContainer( *this, rhs )
+			addStmt( *findShader( *this, rhs )
 				, sdw::makeSimple( sdw::makeMinusAssign( getType()
 					, makeExpr( *this )
 					, makeExpr( rhs ) ) ) );
@@ -117,7 +135,7 @@ namespace sdw
 	{
 		if ( rhs.isEnabled() )
 		{
-			addStmt( *findContainer( *this, rhs )
+			addStmt( *findShader( *this, rhs )
 				, sdw::makeSimple( sdw::makeTimesAssign( getType()
 					, makeExpr( *this )
 					, makeExpr( rhs ) ) ) );
@@ -130,7 +148,7 @@ namespace sdw
 	{
 		if ( rhs.isEnabled() )
 		{
-			addStmt( *findContainer( *this, rhs )
+			addStmt( *findShader( *this, rhs )
 				, sdw::makeSimple( sdw::makeDivideAssign( getType()
 					, makeExpr( *this )
 					, makeExpr( rhs ) ) ) );
@@ -141,7 +159,7 @@ namespace sdw
 	template< typename ValueT >
 	Vec2T< ValueT > & Vec2T< ValueT >::operator+=( ValueT const & rhs )
 	{
-		addStmt( *findContainer( *this, rhs )
+		addStmt( *findShader( *this, rhs )
 			, sdw::makeSimple( sdw::makeAddAssign( getType()
 				, makeExpr( *this )
 				, makeExpr( rhs ) ) ) );
@@ -151,7 +169,7 @@ namespace sdw
 	template< typename ValueT >
 	Vec2T< ValueT > & Vec2T< ValueT >::operator-=( ValueT const & rhs )
 	{
-		addStmt( *findContainer( *this, rhs )
+		addStmt( *findShader( *this, rhs )
 			, sdw::makeSimple( sdw::makeMinusAssign( getType()
 				, makeExpr( *this )
 				, makeExpr( rhs ) ) ) );
@@ -161,7 +179,7 @@ namespace sdw
 	template< typename ValueT >
 	Vec2T< ValueT > & Vec2T< ValueT >::operator*=( ValueT const & rhs )
 	{
-		addStmt( *findContainer( *this, rhs )
+		addStmt( *findShader( *this, rhs )
 			, sdw::makeSimple( sdw::makeTimesAssign( getType()
 				, makeExpr( *this )
 				, makeExpr( rhs ) ) ) );
@@ -171,7 +189,7 @@ namespace sdw
 	template< typename ValueT >
 	Vec2T< ValueT > & Vec2T< ValueT >::operator/=( ValueT const & rhs )
 	{
-		addStmt( *findContainer( *this, rhs )
+		addStmt( *findShader( *this, rhs )
 			, sdw::makeSimple( sdw::makeDivideAssign( getType()
 				, makeExpr( *this )
 				, makeExpr( rhs ) ) ) );
@@ -181,7 +199,7 @@ namespace sdw
 	template< typename ValueT >
 	Vec2T< ValueT > & Vec2T< ValueT >::operator+=( Optional< ValueT > const & rhs )
 	{
-		addStmt( *findContainer( *this, rhs )
+		addStmt( *findShader( *this, rhs )
 			, sdw::makeSimple( sdw::makeAddAssign( getType()
 				, makeExpr( *this )
 				, makeExpr( rhs ) ) ) );
@@ -193,7 +211,7 @@ namespace sdw
 	{
 		if ( rhs.isEnabled() )
 		{
-			addStmt( *findContainer( *this, rhs )
+			addStmt( *findShader( *this, rhs )
 				, sdw::makeSimple( sdw::makeMinusAssign( getType()
 					, makeExpr( *this )
 					, makeExpr( rhs ) ) ) );
@@ -206,7 +224,7 @@ namespace sdw
 	{
 		if ( rhs.isEnabled() )
 		{
-			addStmt( *findContainer( *this, rhs )
+			addStmt( *findShader( *this, rhs )
 				, sdw::makeSimple( sdw::makeTimesAssign( getType()
 					, makeExpr( *this )
 					, makeExpr( rhs ) ) ) );
@@ -219,7 +237,7 @@ namespace sdw
 	{
 		if ( rhs.isEnabled() )
 		{
-			addStmt( *findContainer( *this, rhs )
+			addStmt( *findShader( *this, rhs )
 				, sdw::makeSimple( sdw::makeDivideAssign( getType()
 					, makeExpr( *this )
 					, makeExpr( rhs ) ) ) );
@@ -228,9 +246,9 @@ namespace sdw
 	}
 
 	template< typename ValueT >
-	inline ast::type::TypePtr Vec2T< ValueT >::makeType()
+	inline ast::type::TypePtr Vec2T< ValueT >::makeType( ast::type::TypesCache & cache )
 	{
-		return sdw::makeType< Vec2T< ValueT > >();
+		return sdw::makeType< Vec2T< ValueT > >( cache );
 	}
 
 	//*************************************************************************

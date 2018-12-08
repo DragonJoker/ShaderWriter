@@ -49,8 +49,8 @@ namespace sdw
 	{
 		if ( getContainer() )
 		{
-			addStmt( *findContainer( *this, rhs )
-				, sdw::makeSimple( sdw::makeAssign( type::getFloat()
+			addStmt( *findShader( *this, rhs )
+				, sdw::makeSimple( sdw::makeAssign( findTypesCache( *this, rhs ).getFloat()
 					, makeExpr( *this )
 					, makeExpr( rhs ) ) ) );
 		}
@@ -62,10 +62,16 @@ namespace sdw
 		return *this;
 	}
 
+	expr::ExprPtr Float::makeCondition()const
+	{
+		return sdw::makeNEqual( makeExpr( *this )
+			, makeExpr( 0.0f ) );
+	}
+
 	Float & Float::operator=( float const & rhs )
 	{
-		addStmt( *findContainer( *this, rhs )
-			, sdw::makeSimple( sdw::makeAssign( type::getFloat()
+		addStmt( *findShader( *this, rhs )
+			, sdw::makeSimple( sdw::makeAssign( findTypesCache( *this, rhs ).getFloat()
 				, makeExpr( *this )
 				, makeExpr( rhs ) ) ) );
 		return *this;
@@ -73,8 +79,8 @@ namespace sdw
 
 	Float & Float::operator=( double const & rhs )
 	{
-		addStmt( *findContainer( *this, rhs )
-			, sdw::makeSimple( sdw::makeAssign( type::getFloat()
+		addStmt( *findShader( *this, rhs )
+			, sdw::makeSimple( sdw::makeAssign( findTypesCache( *this, rhs ).getFloat()
 				, makeExpr( *this )
 				, makeExpr( rhs ) ) ) );
 		return *this;
@@ -82,8 +88,8 @@ namespace sdw
 
 	Float & Float::operator=( long double const & rhs )
 	{
-		addStmt( *findContainer( *this, rhs )
-			, sdw::makeSimple( sdw::makeAssign( type::getFloat()
+		addStmt( *findShader( *this, rhs )
+			, sdw::makeSimple( sdw::makeAssign( findTypesCache( *this, rhs ).getFloat()
 				, makeExpr( *this )
 				, makeExpr( rhs ) ) ) );
 		return *this;
@@ -96,8 +102,8 @@ namespace sdw
 
 	Float & Float::operator+=( Float const & rhs )
 	{
-		addStmt( *findContainer( *this, rhs )
-			, sdw::makeSimple( sdw::makeAddAssign( type::getFloat()
+		addStmt( *findShader( *this, rhs )
+			, sdw::makeSimple( sdw::makeAddAssign( findTypesCache( *this, rhs ).getFloat()
 				, makeExpr( *this )
 				, makeExpr( rhs ) ) ) );
 		return *this;
@@ -105,8 +111,8 @@ namespace sdw
 
 	Float & Float::operator-=( Float const & rhs )
 	{
-		addStmt( *findContainer( *this, rhs )
-			, sdw::makeSimple( sdw::makeMinusAssign( type::getFloat()
+		addStmt( *findShader( *this, rhs )
+			, sdw::makeSimple( sdw::makeMinusAssign( findTypesCache( *this, rhs ).getFloat()
 				, makeExpr( *this )
 				, makeExpr( rhs ) ) ) );
 		return *this;
@@ -114,8 +120,8 @@ namespace sdw
 
 	Float & Float::operator*=( Float const & rhs )
 	{
-		addStmt( *findContainer( *this, rhs )
-			, sdw::makeSimple( sdw::makeTimesAssign( type::getFloat()
+		addStmt( *findShader( *this, rhs )
+			, sdw::makeSimple( sdw::makeTimesAssign( findTypesCache( *this, rhs ).getFloat()
 				, makeExpr( *this )
 				, makeExpr( rhs ) ) ) );
 		return *this;
@@ -123,8 +129,8 @@ namespace sdw
 
 	Float & Float::operator/=( Float const & rhs )
 	{
-		addStmt( *findContainer( *this, rhs )
-			, sdw::makeSimple( sdw::makeDivideAssign( type::getFloat()
+		addStmt( *findShader( *this, rhs )
+			, sdw::makeSimple( sdw::makeDivideAssign( findTypesCache( *this, rhs ).getFloat()
 				, makeExpr( *this )
 				, makeExpr( rhs ) ) ) );
 		return *this;
@@ -132,8 +138,8 @@ namespace sdw
 
 	Float & Float::operator+=( float const & rhs )
 	{
-		addStmt( *findContainer( *this, rhs )
-			, sdw::makeSimple( sdw::makeAddAssign( type::getFloat()
+		addStmt( *findShader( *this, rhs )
+			, sdw::makeSimple( sdw::makeAddAssign( findTypesCache( *this, rhs ).getFloat()
 				, makeExpr( *this )
 				, makeExpr( rhs ) ) ) );
 		return *this;
@@ -141,8 +147,8 @@ namespace sdw
 
 	Float & Float::operator-=( float const & rhs )
 	{
-		addStmt( *findContainer( *this, rhs )
-			, sdw::makeSimple( sdw::makeMinusAssign( type::getFloat()
+		addStmt( *findShader( *this, rhs )
+			, sdw::makeSimple( sdw::makeMinusAssign( findTypesCache( *this, rhs ).getFloat()
 				, makeExpr( *this )
 				, makeExpr( rhs ) ) ) );
 		return *this;
@@ -150,8 +156,8 @@ namespace sdw
 
 	Float & Float::operator*=( float const & rhs )
 	{
-		addStmt( *findContainer( *this, rhs )
-			, sdw::makeSimple( sdw::makeTimesAssign( type::getFloat()
+		addStmt( *findShader( *this, rhs )
+			, sdw::makeSimple( sdw::makeTimesAssign( findTypesCache( *this, rhs ).getFloat()
 				, makeExpr( *this )
 				, makeExpr( rhs ) ) ) );
 		return *this;
@@ -159,8 +165,8 @@ namespace sdw
 
 	Float & Float::operator/=( float const & rhs )
 	{
-		addStmt( *findContainer( *this, rhs )
-			, sdw::makeSimple( sdw::makeDivideAssign( type::getFloat()
+		addStmt( *findShader( *this, rhs )
+			, sdw::makeSimple( sdw::makeDivideAssign( findTypesCache( *this, rhs ).getFloat()
 				, makeExpr( *this )
 				, makeExpr( rhs ) ) ) );
 		return *this;
@@ -170,8 +176,8 @@ namespace sdw
 	{
 		if ( rhs.isEnabled() )
 		{
-			addStmt( *findContainer( *this, rhs )
-				, sdw::makeSimple( sdw::makeAddAssign( type::getFloat()
+			addStmt( *findShader( *this, rhs )
+				, sdw::makeSimple( sdw::makeAddAssign( findTypesCache( *this, rhs ).getFloat()
 					, makeExpr( *this )
 					, makeExpr( rhs ) ) ) );
 		}
@@ -183,8 +189,8 @@ namespace sdw
 	{
 		if ( rhs.isEnabled() )
 		{
-			addStmt( *findContainer( *this, rhs )
-				, sdw::makeSimple( sdw::makeMinusAssign( type::getFloat()
+			addStmt( *findShader( *this, rhs )
+				, sdw::makeSimple( sdw::makeMinusAssign( findTypesCache( *this, rhs ).getFloat()
 					, makeExpr( *this )
 					, makeExpr( rhs ) ) ) );
 		}
@@ -196,8 +202,8 @@ namespace sdw
 	{
 		if ( rhs.isEnabled() )
 		{
-			addStmt( *findContainer( *this, rhs )
-				, sdw::makeSimple( sdw::makeTimesAssign( type::getFloat()
+			addStmt( *findShader( *this, rhs )
+				, sdw::makeSimple( sdw::makeTimesAssign( findTypesCache( *this, rhs ).getFloat()
 					, makeExpr( *this )
 					, makeExpr( rhs ) ) ) );
 		}
@@ -209,8 +215,8 @@ namespace sdw
 	{
 		if ( rhs.isEnabled() )
 		{
-			addStmt( *findContainer( *this, rhs )
-				, sdw::makeSimple( sdw::makeDivideAssign( type::getFloat()
+			addStmt( *findShader( *this, rhs )
+				, sdw::makeSimple( sdw::makeDivideAssign( findTypesCache( *this, rhs ).getFloat()
 					, makeExpr( *this )
 					, makeExpr( rhs ) ) ) );
 		}
@@ -218,9 +224,9 @@ namespace sdw
 		return *this;
 	}
 
-	ast::type::TypePtr Float::makeType()
+	ast::type::TypePtr Float::makeType( ast::type::TypesCache & cache )
 	{
-		return ast::type::getFloat();
+		return cache.getFloat();
 	}
 
 	//*************************************************************************
@@ -228,7 +234,7 @@ namespace sdw
 	Float operator+( Float const & lhs, Float const & rhs )
 	{
 		return Float{ findShader( lhs, rhs )
-			, sdw::makeAdd( type::getFloat()
+			, sdw::makeAdd( findTypesCache( lhs, rhs ).getFloat()
 				, makeExpr( lhs )
 				, makeExpr( rhs ) ) };
 	}
@@ -236,7 +242,7 @@ namespace sdw
 	Float operator-( Float const & lhs, Float const & rhs )
 	{
 		return Float{ findShader( lhs, rhs )
-			, sdw::makeMinus( type::getFloat()
+			, sdw::makeMinus( findTypesCache( lhs, rhs ).getFloat()
 				, makeExpr( lhs )
 				, makeExpr( rhs ) ) };
 	}
@@ -244,7 +250,7 @@ namespace sdw
 	Float operator*( Float const & lhs, Float const & rhs )
 	{
 		return Float{ findShader( lhs, rhs )
-			, sdw::makeTimes( type::getFloat()
+			, sdw::makeTimes( findTypesCache( lhs, rhs ).getFloat()
 				, makeExpr( lhs )
 				, makeExpr( rhs ) ) };
 	}
@@ -252,7 +258,7 @@ namespace sdw
 	Float operator/( Float const & lhs, Float const & rhs )
 	{
 		return Float{ findShader( lhs, rhs )
-			, sdw::makeDivide( type::getFloat()
+			, sdw::makeDivide( findTypesCache( lhs, rhs ).getFloat()
 				, makeExpr( lhs )
 				, makeExpr( rhs ) ) };
 	}
@@ -260,7 +266,7 @@ namespace sdw
 	Float operator+( Float const & lhs, float const & rhs )
 	{
 		return Float{ findShader( lhs, rhs )
-			, sdw::makeAdd( type::getFloat()
+			, sdw::makeAdd( findTypesCache( lhs, rhs ).getFloat()
 				, makeExpr( lhs )
 				, makeExpr( rhs ) ) };
 	}
@@ -268,7 +274,7 @@ namespace sdw
 	Float operator-( Float const & lhs, float const & rhs )
 	{
 		return Float{ findShader( lhs, rhs )
-			, sdw::makeMinus( type::getFloat()
+			, sdw::makeMinus( findTypesCache( lhs, rhs ).getFloat()
 				, makeExpr( lhs )
 				, makeExpr( rhs ) ) };
 	}
@@ -276,7 +282,7 @@ namespace sdw
 	Float operator*( Float const & lhs, float const & rhs )
 	{
 		return Float{ findShader( lhs, rhs )
-			, sdw::makeTimes( type::getFloat()
+			, sdw::makeTimes( findTypesCache( lhs, rhs ).getFloat()
 				, makeExpr( lhs )
 				, makeExpr( rhs ) ) };
 	}
@@ -284,7 +290,7 @@ namespace sdw
 	Float operator/( Float const & lhs, float const & rhs )
 	{
 		return Float{ findShader( lhs, rhs )
-			, sdw::makeDivide( type::getFloat()
+			, sdw::makeDivide( findTypesCache( lhs, rhs ).getFloat()
 				, makeExpr( lhs )
 				, makeExpr( rhs ) ) };
 	}
@@ -292,7 +298,7 @@ namespace sdw
 	Float operator+( float const & lhs, Float const & rhs )
 	{
 		return Float{ findShader( rhs )
-			, sdw::makeAdd( type::getFloat()
+			, sdw::makeAdd( findTypesCache( lhs, rhs ).getFloat()
 				, makeExpr( lhs )
 				, makeExpr( rhs ) ) };
 	}
@@ -300,7 +306,7 @@ namespace sdw
 	Float operator-( float const & lhs, Float const & rhs )
 	{
 		return Float{ findShader( rhs )
-			, sdw::makeMinus( type::getFloat()
+			, sdw::makeMinus( findTypesCache( lhs, rhs ).getFloat()
 				, makeExpr( lhs )
 				, makeExpr( rhs ) ) };
 	}
@@ -308,7 +314,7 @@ namespace sdw
 	Float operator*( float const & lhs, Float const & rhs )
 	{
 		return Float{ findShader( rhs )
-			, sdw::makeTimes( type::getFloat()
+			, sdw::makeTimes( findTypesCache( lhs, rhs ).getFloat()
 				, makeExpr( lhs )
 				, makeExpr( rhs ) ) };
 	}
@@ -316,7 +322,7 @@ namespace sdw
 	Float operator/( float const & lhs, Float const & rhs )
 	{
 		return Float{ findShader( rhs )
-			, sdw::makeDivide( type::getFloat()
+			, sdw::makeDivide( findTypesCache( lhs, rhs ).getFloat()
 				, makeExpr( lhs )
 				, makeExpr( rhs ) ) };
 	}
@@ -326,7 +332,7 @@ namespace sdw
 	Optional< Float > operator+( Float const & lhs, Optional< Float > const & rhs )
 	{
 		return Optional< Float >{ findShader( rhs )
-			, sdw::makeAdd( type::getFloat()
+			, sdw::makeAdd( findTypesCache( lhs, rhs ).getFloat()
 				, makeExpr( lhs )
 				, makeExpr( rhs ) )
 			, areOptionalEnabled( lhs, rhs ) };
@@ -335,7 +341,7 @@ namespace sdw
 	Optional< Float > operator-( Float const & lhs, Optional< Float > const & rhs )
 	{
 		return Optional< Float >{ findShader( rhs )
-			, sdw::makeMinus( type::getFloat()
+			, sdw::makeMinus( findTypesCache( lhs, rhs ).getFloat()
 				, makeExpr( lhs )
 				, makeExpr( rhs ) )
 			, areOptionalEnabled( lhs, rhs ) };
@@ -344,7 +350,7 @@ namespace sdw
 	Optional< Float > operator*( Float const & lhs, Optional< Float > const & rhs )
 	{
 		return Optional< Float >{ findShader( rhs )
-			, sdw::makeTimes( type::getFloat()
+			, sdw::makeTimes( findTypesCache( lhs, rhs ).getFloat()
 				, makeExpr( lhs )
 				, makeExpr( rhs ) )
 			, areOptionalEnabled( lhs, rhs ) };
@@ -353,7 +359,7 @@ namespace sdw
 	Optional< Float > operator/( Float const & lhs, Optional< Float > const & rhs )
 	{
 		return Optional< Float >{ findShader( rhs )
-			, sdw::makeDivide( type::getFloat()
+			, sdw::makeDivide( findTypesCache( lhs, rhs ).getFloat()
 				, makeExpr( lhs )
 				, makeExpr( rhs ) )
 			, areOptionalEnabled( lhs, rhs ) };
@@ -362,8 +368,8 @@ namespace sdw
 	Optional< Float > operator+( Optional< Float > const & lhs, Float const & rhs )
 	{
 		return Optional< Float >{ findShader( lhs, rhs )
-			, sdw::makeAdd( type::getFloat()
-				, makeExpr( lhs )
+			, sdw::makeAdd( findTypesCache( lhs, rhs ).getFloat()
+				, makeExpr( lhs, true )
 				, makeExpr( rhs ) )
 			, areOptionalEnabled( lhs, rhs ) };
 	}
@@ -371,8 +377,8 @@ namespace sdw
 	Optional< Float > operator-( Optional< Float > const & lhs, Float const & rhs )
 	{
 		return Optional< Float >{ findShader( lhs, rhs )
-			, sdw::makeMinus( type::getFloat()
-				, makeExpr( lhs )
+			, sdw::makeMinus( findTypesCache( lhs, rhs ).getFloat()
+				, makeExpr( lhs, true )
 				, makeExpr( rhs ) )
 			, areOptionalEnabled( lhs, rhs ) };
 	}
@@ -380,8 +386,8 @@ namespace sdw
 	Optional< Float > operator*( Optional< Float > const & lhs, Float const & rhs )
 	{
 		return Optional< Float >{ findShader( lhs, rhs )
-			, sdw::makeTimes( type::getFloat()
-				, makeExpr( lhs )
+			, sdw::makeTimes( findTypesCache( lhs, rhs ).getFloat()
+				, makeExpr( lhs, true )
 				, makeExpr( rhs ) )
 			, areOptionalEnabled( lhs, rhs ) };
 	}
@@ -389,8 +395,8 @@ namespace sdw
 	Optional< Float > operator/( Optional< Float > const & lhs, Float const & rhs )
 	{
 		return Optional< Float >{ findShader( lhs, rhs )
-			, sdw::makeDivide( type::getFloat()
-				, makeExpr( lhs )
+			, sdw::makeDivide( findTypesCache( lhs, rhs ).getFloat()
+				, makeExpr( lhs, true )
 				, makeExpr( rhs ) )
 			, areOptionalEnabled( lhs, rhs ) };
 	}
@@ -398,80 +404,80 @@ namespace sdw
 	Optional< Float > operator+( Optional< Float > const & lhs, Optional< Float > const & rhs )
 	{
 		return Optional< Float >{ findShader( lhs, rhs )
-			, sdw::makeAdd( type::getFloat()
+			, sdw::makeAdd( findTypesCache( lhs, rhs ).getFloat()
 				, makeExpr( lhs )
-				, makeExpr( rhs ) )
+				, makeExpr( rhs, true ) )
 			, areOptionalEnabled( lhs, rhs ) };
 	}
 
 	Optional< Float > operator-( Optional< Float > const & lhs, Optional< Float > const & rhs )
 	{
 		return Optional< Float >{ findShader( lhs, rhs )
-			, sdw::makeMinus( type::getFloat()
+			, sdw::makeMinus( findTypesCache( lhs, rhs ).getFloat()
 				, makeExpr( lhs )
-				, makeExpr( rhs ) )
+				, makeExpr( rhs, true ) )
 			, areOptionalEnabled( lhs, rhs ) };
 	}
 
 	Optional< Float > operator*( Optional< Float > const & lhs, Optional< Float > const & rhs )
 	{
 		return Optional< Float >{ findShader( lhs, rhs )
-			, sdw::makeTimes( type::getFloat()
+			, sdw::makeTimes( findTypesCache( lhs, rhs ).getFloat()
 				, makeExpr( lhs )
-				, makeExpr( rhs ) )
+				, makeExpr( rhs, true ) )
 			, areOptionalEnabled( lhs, rhs ) };
 	}
 
 	Optional< Float > operator/( Optional< Float > const & lhs, Optional< Float > const & rhs )
 	{
 		return Optional< Float >{ findShader( lhs, rhs )
-			, sdw::makeDivide( type::getFloat()
+			, sdw::makeDivide( findTypesCache( lhs, rhs ).getFloat()
 				, makeExpr( lhs )
-				, makeExpr( rhs ) )
+				, makeExpr( rhs, true ) )
 			, areOptionalEnabled( lhs, rhs ) };
 	}
 
 	Optional< Float > operator+( float const & lhs, Optional< Float > const & rhs )
 	{
 		return Optional< Float >{ findShader( rhs )
-			, sdw::makeAdd( type::getFloat()
+			, sdw::makeAdd( findTypesCache( lhs, rhs ).getFloat()
 				, makeExpr( lhs )
-				, makeExpr( rhs ) )
+				, makeExpr( rhs, true ) )
 			, areOptionalEnabled( lhs, rhs ) };
 	}
 
 	Optional< Float > operator-( float const & lhs, Optional< Float > const & rhs )
 	{
 		return Optional< Float >{ findShader( rhs )
-			, sdw::makeMinus( type::getFloat()
+			, sdw::makeMinus( findTypesCache( lhs, rhs ).getFloat()
 				, makeExpr( lhs )
-				, makeExpr( rhs ) )
+				, makeExpr( rhs, true ) )
 			, areOptionalEnabled( lhs, rhs ) };
 	}
 
 	Optional< Float > operator*( float const & lhs, Optional< Float > const & rhs )
 	{
 		return Optional< Float >{ findShader( rhs )
-			, sdw::makeTimes( type::getFloat()
+			, sdw::makeTimes( findTypesCache( lhs, rhs ).getFloat()
 				, makeExpr( lhs )
-				, makeExpr( rhs ) )
+				, makeExpr( rhs, true ) )
 			, areOptionalEnabled( lhs, rhs ) };
 	}
 
 	Optional< Float > operator/( float const & lhs, Optional< Float > const & rhs )
 	{
 		return Optional< Float >{ findShader( rhs )
-			, sdw::makeDivide( type::getFloat()
+			, sdw::makeDivide( findTypesCache( lhs, rhs ).getFloat()
 				, makeExpr( lhs )
-				, makeExpr( rhs ) )
+				, makeExpr( rhs, true ) )
 			, areOptionalEnabled( lhs, rhs ) };
 	}
 
 	Optional< Float > operator+( Optional< Float > const & lhs, float const & rhs )
 	{
 		return Optional< Float >{ findShader( lhs, rhs )
-			, sdw::makeAdd( type::getFloat()
-				, makeExpr( lhs )
+			, sdw::makeAdd( findTypesCache( lhs, rhs ).getFloat()
+				, makeExpr( lhs, true )
 				, makeExpr( rhs ) )
 			, areOptionalEnabled( lhs, rhs ) };
 	}
@@ -479,8 +485,8 @@ namespace sdw
 	Optional< Float > operator-( Optional< Float > const & lhs, float const & rhs )
 	{
 		return Optional< Float >{ findShader( lhs, rhs )
-			, sdw::makeMinus( type::getFloat()
-				, makeExpr( lhs )
+			, sdw::makeMinus( findTypesCache( lhs, rhs ).getFloat()
+				, makeExpr( lhs, true )
 				, makeExpr( rhs ) )
 			, areOptionalEnabled( lhs, rhs ) };
 	}
@@ -488,8 +494,8 @@ namespace sdw
 	Optional< Float > operator*( Optional< Float > const & lhs, float const & rhs )
 	{
 		return Optional< Float >{ findShader( lhs, rhs )
-			, sdw::makeTimes( type::getFloat()
-				, makeExpr( lhs )
+			, sdw::makeTimes( findTypesCache( lhs, rhs ).getFloat()
+				, makeExpr( lhs, true )
 				, makeExpr( rhs ) )
 			, areOptionalEnabled( lhs, rhs ) };
 	}
@@ -497,8 +503,8 @@ namespace sdw
 	Optional< Float > operator/( Optional< Float > const & lhs, float const & rhs )
 	{
 		return Optional< Float >{ findShader( lhs, rhs )
-			, sdw::makeDivide( type::getFloat()
-				, makeExpr( lhs )
+			, sdw::makeDivide( findTypesCache( lhs, rhs ).getFloat()
+				, makeExpr( lhs, true )
 				, makeExpr( rhs ) )
 			, areOptionalEnabled( lhs, rhs ) };
 	}
@@ -544,42 +550,42 @@ namespace sdw
 	Optional< Boolean > operator==( Optional< Float > const & lhs, Float const & rhs )
 	{
 		return Optional< Boolean >{ findShader( lhs, rhs )
-			, sdw::makeEqual( makeExpr( lhs ), makeExpr( rhs ) )
+			, sdw::makeEqual( makeExpr( lhs, true ), makeExpr( rhs ) )
 			, areOptionalEnabled( lhs, rhs ) };
 	}
 
 	Optional< Boolean > operator!=( Optional< Float > const & lhs, Float const & rhs )
 	{
 		return Optional< Boolean >{ findShader( lhs, rhs )
-			, sdw::makeNEqual( makeExpr( lhs ), makeExpr( rhs ) )
+			, sdw::makeNEqual( makeExpr( lhs, true ), makeExpr( rhs ) )
 			, areOptionalEnabled( lhs, rhs ) };
 	}
 
 	Optional< Boolean > operator<( Optional< Float > const & lhs, Float const & rhs )
 	{
 		return Optional< Boolean >{ findShader( lhs, rhs )
-			, sdw::makeLess( makeExpr( lhs ), makeExpr( rhs ) )
+			, sdw::makeLess( makeExpr( lhs, true ), makeExpr( rhs ) )
 			, areOptionalEnabled( lhs, rhs ) };
 	}
 
 	Optional< Boolean > operator<=( Optional< Float > const & lhs, Float const & rhs )
 	{
 		return Optional< Boolean >{ findShader( lhs, rhs )
-			, sdw::makeLEqual( makeExpr( lhs ), makeExpr( rhs ) )
+			, sdw::makeLEqual( makeExpr( lhs, true ), makeExpr( rhs ) )
 			, areOptionalEnabled( lhs, rhs ) };
 	}
 
 	Optional< Boolean > operator>( Optional< Float > const & lhs, Float const & rhs )
 	{
 		return Optional< Boolean >{ findShader( lhs, rhs )
-			, sdw::makeGreater( makeExpr( lhs ), makeExpr( rhs ) )
+			, sdw::makeGreater( makeExpr( lhs, true ), makeExpr( rhs ) )
 			, areOptionalEnabled( lhs, rhs ) };
 	}
 
 	Optional< Boolean > operator>=( Optional< Float > const & lhs, Float const & rhs )
 	{
 		return Optional< Boolean >{ findShader( lhs, rhs )
-			, sdw::makeGEqual( makeExpr( lhs ), makeExpr( rhs ) )
+			, sdw::makeGEqual( makeExpr( lhs, true ), makeExpr( rhs ) )
 			, areOptionalEnabled( lhs, rhs ) };
 	}
 

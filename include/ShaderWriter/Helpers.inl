@@ -55,7 +55,7 @@ namespace sdw
 	}
 
 	template< typename ValueT >
-	ast::type::TypePtr makeType()
+	ast::type::TypePtr makeType( ast::type::TypesCache & cache )
 	{
 		auto kind = typeEnum< ValueT >;
 
@@ -65,12 +65,18 @@ namespace sdw
 			assert( false );
 			return nullptr;
 		case ast::type::Kind::eImage:
-			return type::makeImageType( makeConfig< ValueT >() );
+			return cache.getImage( makeConfig< ValueT >() );
 		case ast::type::Kind::eSampledImage:
-			return type::makeSampledImageType( makeConfig< ValueT >() );
+			return cache.getSampledImage( makeConfig< ValueT >() );
 		default:
-			return type::makeType( kind );
+			return cache.makeType( kind );
 		}
+	}
+
+	template< typename ValueT >
+	expr::ExprPtr makeCondition( ValueT const & value )
+	{
+		return value.makeCondition();
 	}
 
 	template< typename ValueT >

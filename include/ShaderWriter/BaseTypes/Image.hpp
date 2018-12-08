@@ -49,7 +49,7 @@ namespace sdw
 
 		static inline ast::type::ImageConfiguration makeConfig();
 
-		static ast::type::TypePtr makeType();
+		static ast::type::TypePtr makeType( ast::type::TypesCache & cache );
 	};
 }
 

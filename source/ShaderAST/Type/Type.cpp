@@ -5,9 +5,6 @@ See LICENSE file in root folder
 
 #include "ShaderAST/Type/ImageConfiguration.hpp"
 #include "ShaderAST/Type/TypeCache.hpp"
-#include "ShaderAST/Type/TypeImage.hpp"
-#include "ShaderAST/Type/TypeSampledImage.hpp"
-#include "ShaderAST/Type/TypeSampler.hpp"
 #include "ShaderAST/Type/TypeStruct.hpp"
 
 #include <algorithm>
@@ -16,45 +13,37 @@ namespace ast::type
 {
 	//*************************************************************************
 
-	namespace
+	Type::Type( TypesCache * cache
+		, Kind kind )
+		: Type{ cache, nullptr, NotMember, kind }
 	{
-		template< typename T >
-		inline size_t hashCombine( size_t & hash
-			, T const & rhs )
-		{
-			const uint64_t kMul = 0x9ddfea08eb382d69ULL;
-			auto seed = hash;
-
-			std::hash< T > hasher;
-			uint64_t a = ( hasher( rhs ) ^ seed ) * kMul;
-			a ^= ( a >> 47 );
-
-			uint64_t b = ( seed ^ a ) * kMul;
-			b ^= ( b >> 47 );
-
-			hash = static_cast< std::size_t >( b * kMul );
-			return hash;
-		}
 	}
 
-	//*************************************************************************
-
-	Type::Type( Struct * parent
+	Type::Type( TypesCache * cache
+		, Struct * parent
 		, uint32_t index
 		, Kind kind )
 		: m_kind{ kind }
+		, m_cache{ cache }
 		, m_parent{ parent }
 		, m_index{ index }
 	{
 	}
 
-	Type::Type( Kind kind )
-		: Type{ nullptr, NotMember, kind }
+	Type::Type( Struct & parent
+		, uint32_t index
+		, Kind kind )
+		: Type{ parent.m_cache, &parent, index, kind }
 	{
 	}
 
 	Type::~Type()
 	{
+	}
+
+	TypePtr Type::getMemberType( Struct & parent, uint32_t index )const
+	{
+		return std::make_shared< Type >( parent, index, getKind() );
 	}
 
 	//*************************************************************************
@@ -70,464 +59,6 @@ namespace ast::type
 		}
 
 		return result;
-	}
-
-	//*************************************************************************
-
-	TypePtr getUndefined()
-	{
-		static TypePtr cache = std::make_shared< Type >( Kind::eUndefined );
-		return cache;
-	}
-
-	TypePtr getVoid()
-	{
-		static TypePtr cache = std::make_shared< Type >( Kind::eVoid );
-		return cache;
-	}
-
-	TypePtr getFunction()
-	{
-		static TypePtr cache = std::make_shared< Type >( Kind::eFunction );
-		return cache;
-	}
-
-	TypePtr getBool()
-	{
-		static TypePtr cache = std::make_shared< Type >( Kind::eBoolean );
-		return cache;
-	}
-
-	TypePtr getInt()
-	{
-		static TypePtr cache = std::make_shared< Type >( Kind::eInt );
-		return cache;
-	}
-
-	TypePtr getUInt()
-	{
-		static TypePtr cache = std::make_shared< Type >( Kind::eUInt );
-		return cache;
-	}
-
-	TypePtr getFloat()
-	{
-		static TypePtr cache = std::make_shared< Type >( Kind::eFloat );
-		return cache;
-	}
-
-	TypePtr getDouble()
-	{
-		static TypePtr cache = std::make_shared< Type >( Kind::eDouble );
-		return cache;
-	}
-
-	TypePtr getVec2Type( Kind kind )
-	{
-		switch ( kind )
-		{
-		case Kind::eBoolean:
-			return getVec2B();
-		case Kind::eInt:
-			return getVec2I();
-		case Kind::eUInt:
-			return getVec2U();
-		case Kind::eFloat:
-			return getVec2F();
-		case Kind::eDouble:
-			return getVec2D();
-		default:
-			assert( false && "Unsupported component type." );
-			return nullptr;
-		}
-	}
-
-	TypePtr getVec3Type( Kind kind )
-	{
-		switch ( kind )
-		{
-		case Kind::eBoolean:
-			return getVec3B();
-		case Kind::eInt:
-			return getVec3I();
-		case Kind::eUInt:
-			return getVec3U();
-		case Kind::eFloat:
-			return getVec3F();
-		case Kind::eDouble:
-			return getVec3D();
-		default:
-			assert( false && "Unsupported component type." );
-			return nullptr;
-		}
-	}
-
-	TypePtr getVec4Type( Kind kind )
-	{
-		switch ( kind )
-		{
-		case Kind::eBoolean:
-			return getVec4B();
-		case Kind::eInt:
-			return getVec4I();
-		case Kind::eUInt:
-			return getVec4U();
-		case Kind::eFloat:
-			return getVec4F();
-		case Kind::eDouble:
-			return getVec4D();
-		default:
-			assert( false && "Unsupported component type." );
-			return nullptr;
-		}
-	}
-
-	TypePtr getVec2B()
-	{
-		static TypePtr cache = std::make_shared< Type >( Kind::eVec2B );
-		return cache;
-	}
-
-	TypePtr getVec3B()
-	{
-		static TypePtr cache = std::make_shared< Type >( Kind::eVec3B );
-		return cache;
-	}
-
-	TypePtr getVec4B()
-	{
-		static TypePtr cache = std::make_shared< Type >( Kind::eVec4B );
-		return cache;
-	}
-
-	TypePtr getVec2I()
-	{
-		static TypePtr cache = std::make_shared< Type >( Kind::eVec2I );
-		return cache;
-	}
-
-	TypePtr getVec3I()
-	{
-		static TypePtr cache = std::make_shared< Type >( Kind::eVec3I );
-		return cache;
-	}
-
-	TypePtr getVec4I()
-	{
-		static TypePtr cache = std::make_shared< Type >( Kind::eVec4I );
-		return cache;
-	}
-
-	TypePtr getVec2U()
-	{
-		static TypePtr cache = std::make_shared< Type >( Kind::eVec2U );
-		return cache;
-	}
-
-	TypePtr getVec3U()
-	{
-		static TypePtr cache = std::make_shared< Type >( Kind::eVec3U );
-		return cache;
-	}
-
-	TypePtr getVec4U()
-	{
-		static TypePtr cache = std::make_shared< Type >( Kind::eVec4U );
-		return cache;
-	}
-
-	TypePtr getVec2F()
-	{
-		static TypePtr cache = std::make_shared< Type >( Kind::eVec2F );
-		return cache;
-	}
-
-	TypePtr getVec3F()
-	{
-		static TypePtr cache = std::make_shared< Type >( Kind::eVec3F );
-		return cache;
-	}
-
-	TypePtr getVec4F()
-	{
-		static TypePtr cache = std::make_shared< Type >( Kind::eVec4F );
-		return cache;
-	}
-
-	TypePtr getVec2D()
-	{
-		static TypePtr cache = std::make_shared< Type >( Kind::eVec2D );
-		return cache;
-	}
-
-	TypePtr getVec3D()
-	{
-		static TypePtr cache = std::make_shared< Type >( Kind::eVec3D );
-		return cache;
-	}
-
-	TypePtr getVec4D()
-	{
-		static TypePtr cache = std::make_shared< Type >( Kind::eVec4D );
-		return cache;
-	}
-
-	TypePtr getMat2x2F()
-	{
-		static TypePtr cache = std::make_shared< Type >( Kind::eMat2x2F );
-		return cache;
-	}
-
-	TypePtr getMat2x3F()
-	{
-		static TypePtr cache = std::make_shared< Type >( Kind::eMat2x3F );
-		return cache;
-	}
-
-	TypePtr getMat2x4F()
-	{
-		static TypePtr cache = std::make_shared< Type >( Kind::eMat2x4F );
-		return cache;
-	}
-
-	TypePtr getMat3x2F()
-	{
-		static TypePtr cache = std::make_shared< Type >( Kind::eMat3x2F );
-		return cache;
-	}
-
-	TypePtr getMat3x3F()
-	{
-		static TypePtr cache = std::make_shared< Type >( Kind::eMat3x3F );
-		return cache;
-	}
-
-	TypePtr getMat3x4F()
-	{
-		static TypePtr cache = std::make_shared< Type >( Kind::eMat3x4F );
-		return cache;
-	}
-
-	TypePtr getMat4x2F()
-	{
-		static TypePtr cache = std::make_shared< Type >( Kind::eMat4x2F );
-		return cache;
-	}
-
-	TypePtr getMat4x3F()
-	{
-		static TypePtr cache = std::make_shared< Type >( Kind::eMat4x3F );
-		return cache;
-	}
-
-	TypePtr getMat4x4F()
-	{
-		static TypePtr cache = std::make_shared< Type >( Kind::eMat4x4F );
-		return cache;
-	}
-
-	TypePtr getMat2x2D()
-	{
-		static TypePtr cache = std::make_shared< Type >( Kind::eMat2x2D );
-		return cache;
-	}
-
-	TypePtr getMat2x3D()
-	{
-		static TypePtr cache = std::make_shared< Type >( Kind::eMat2x3D );
-		return cache;
-	}
-
-	TypePtr getMat2x4D()
-	{
-		static TypePtr cache = std::make_shared< Type >( Kind::eMat2x4D );
-		return cache;
-	}
-
-	TypePtr getMat3x2D()
-	{
-		static TypePtr cache = std::make_shared< Type >( Kind::eMat3x2D );
-		return cache;
-	}
-
-	TypePtr getMat3x3D()
-	{
-		static TypePtr cache = std::make_shared< Type >( Kind::eMat3x3D );
-		return cache;
-	}
-
-	TypePtr getMat3x4D()
-	{
-		static TypePtr cache = std::make_shared< Type >( Kind::eMat3x4D );
-		return cache;
-	}
-
-	TypePtr getMat4x2D()
-	{
-		static TypePtr cache = std::make_shared< Type >( Kind::eMat4x2D );
-		return cache;
-	}
-
-	TypePtr getMat4x3D()
-	{
-		static TypePtr cache = std::make_shared< Type >( Kind::eMat4x3D );
-		return cache;
-	}
-
-	TypePtr getMat4x4D()
-	{
-		static TypePtr cache = std::make_shared< Type >( Kind::eMat4x4D );
-		return cache;
-	}
-
-	TypePtr getConstantsBuffer()
-	{
-		static TypePtr cache = std::make_shared< Type >( Kind::eConstantsBuffer );
-		return cache;
-	}
-
-	TypePtr getShaderBuffer()
-	{
-		static TypePtr cache = std::make_shared< Type >( Kind::eShaderBuffer );
-		return cache;
-	}
-
-	TypePtr getSampler()
-	{
-		static TypePtr cache = std::make_shared< Type >( Kind::eSampler );
-		return cache;
-	}
-
-	TypePtr getImage( ImageConfiguration config )
-	{
-		static auto cache{ makeTypeCache< Image >( makeImageType
-			, []( ImageConfiguration const & config )
-			{
-				return getHash( config );
-			} ) };
-		return cache.getType( config );
-	}
-
-	TypePtr getSampledImage( ImageConfiguration config )
-	{
-		static auto cache{ makeTypeCache< SampledImage >( makeSampledImageType
-			, []( ImageConfiguration const & config )
-			{
-				return getHash( config );
-			} ) };
-		return cache.getType( config );
-	}
-
-	TypePtr getSampler( bool comparison )
-	{
-		static auto cache{ makeTypeCache< Sampler >( makeSamplerType
-			, []( bool comparison )
-			{
-				return comparison ? 1u : 0u;
-			} ) };
-		return cache.getType( comparison );
-	}
-
-	//*************************************************************************
-
-	TypePtr makeType( Kind kind )
-	{
-		assert( kind != Kind::eImage
-			&& kind != Kind::eSampledImage
-			&& kind != Kind::eSampler );
-
-		switch ( kind )
-		{
-		case Kind::eUndefined:
-			return getUndefined();
-		case Kind::eVoid:
-			return getVoid();
-		case Kind::eFunction:
-			return getFunction();
-		case Kind::eBoolean:
-			return getBool();
-		case Kind::eInt:
-			return getInt();
-		case Kind::eUInt:
-			return getUInt();
-		case Kind::eFloat:
-			return getFloat();
-		case Kind::eDouble:
-			return getDouble();
-		case Kind::eVec2B:
-			return getVec2B();
-		case Kind::eVec3B:
-			return getVec3B();
-		case Kind::eVec4B:
-			return getVec4B();
-		case Kind::eVec2I:
-			return getVec2I();
-		case Kind::eVec3I:
-			return getVec3I();
-		case Kind::eVec4I:
-			return getVec4I();
-		case Kind::eVec2U:
-			return getVec2U();
-		case Kind::eVec3U:
-			return getVec3U();
-		case Kind::eVec4U:
-			return getVec4U();
-		case Kind::eVec2F:
-			return getVec2F();
-		case Kind::eVec3F:
-			return getVec3F();
-		case Kind::eVec4F:
-			return getVec4F();
-		case Kind::eVec2D:
-			return getVec2D();
-		case Kind::eVec3D:
-			return getVec3D();
-		case Kind::eVec4D:
-			return getVec4D();
-		case Kind::eMat2x2F:
-			return getMat2x2F();
-		case Kind::eMat2x3F:
-			return getMat2x3F();
-		case Kind::eMat2x4F:
-			return getMat2x4F();
-		case Kind::eMat3x2F:
-			return getMat3x2F();
-		case Kind::eMat3x3F:
-			return getMat3x3F();
-		case Kind::eMat3x4F:
-			return getMat3x4F();
-		case Kind::eMat4x2F:
-			return getMat4x2F();
-		case Kind::eMat4x3F:
-			return getMat4x3F();
-		case Kind::eMat4x4F:
-			return getMat4x4F();
-		case Kind::eMat2x2D:
-			return getMat2x2D();
-		case Kind::eMat2x3D:
-			return getMat2x3D();
-		case Kind::eMat2x4D:
-			return getMat2x4D();
-		case Kind::eMat3x2D:
-			return getMat3x2D();
-		case Kind::eMat3x3D:
-			return getMat3x3D();
-		case Kind::eMat3x4D:
-			return getMat3x4D();
-		case Kind::eMat4x2D:
-			return getMat4x2D();
-		case Kind::eMat4x3D:
-			return getMat4x3D();
-		case Kind::eMat4x4D:
-			return getMat4x4D();
-		case Kind::eConstantsBuffer:
-			return getConstantsBuffer();
-		case Kind::eShaderBuffer:
-			return getShaderBuffer();
-		default:
-			assert( false && "Unexpected Kind" );
-			return nullptr;
-		}
 	}
 
 	//*************************************************************************
@@ -715,6 +246,16 @@ namespace ast::type
 		}
 	}
 
+	bool isArrayType( Kind kind )
+	{
+		return kind == Kind::eArray;
+	}
+
+	bool isStructType( Kind kind )
+	{
+		return kind == Kind::eStruct;
+	}
+
 	bool isSamplerType( Kind kind )
 	{
 		return kind == Kind::eSampler;
@@ -783,9 +324,6 @@ namespace ast::type
 
 	Kind getComponentType( Kind kind )
 	{
-		assert( isMatrixType( kind )
-			|| isVectorType( kind ) );
-
 		switch ( kind )
 		{
 		case Kind::eVec2B:
@@ -849,8 +387,7 @@ namespace ast::type
 			return Kind::eHalf;
 
 		default:
-			assert( "Unsupported type::Kind" );
-			return Kind::eUndefined;
+			return kind;
 		}
 	}
 

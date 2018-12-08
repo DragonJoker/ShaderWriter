@@ -19,21 +19,21 @@ namespace test
 {
 	namespace
 	{
-		std::string getName( sdw::ShaderType stage )
+		std::string getName( ::sdw::ShaderType stage )
 		{
 			switch ( stage )
 			{
-			case sdw::ShaderType::eVertex:
+			case ::sdw::ShaderType::eVertex:
 				return "Vertex";
-			case sdw::ShaderType::eGeometry:
+			case ::sdw::ShaderType::eGeometry:
 				return "Geometry";
-			case sdw::ShaderType::eTessellationControl:
+			case ::sdw::ShaderType::eTessellationControl:
 				return "TessellationControl";
-			case sdw::ShaderType::eTessellationEvaluation:
+			case ::sdw::ShaderType::eTessellationEvaluation:
 				return "TessellationEvaluation";
-			case sdw::ShaderType::eFragment:
+			case ::sdw::ShaderType::eFragment:
 				return "Fragment";
-			case sdw::ShaderType::eCompute:
+			case ::sdw::ShaderType::eCompute:
 				return "Compute";
 			default:
 				assert( false && "Unsupported shader stage flag" );
@@ -41,28 +41,28 @@ namespace test
 			}
 		}
 		
-		spv::ExecutionModel getExecutionModel( sdw::ShaderType stage )
+		spv::ExecutionModel getExecutionModel( ::sdw::ShaderType stage )
 		{
 			spv::ExecutionModel result{};
 
 			switch ( stage )
 			{
-			case sdw::ShaderType::eVertex:
+			case ::sdw::ShaderType::eVertex:
 				result = spv::ExecutionModelVertex;
 				break;
-			case sdw::ShaderType::eGeometry:
+			case ::sdw::ShaderType::eGeometry:
 				result = spv::ExecutionModelGeometry;
 				break;
-			case sdw::ShaderType::eTessellationControl:
+			case ::sdw::ShaderType::eTessellationControl:
 				result = spv::ExecutionModelTessellationControl;
 				break;
-			case sdw::ShaderType::eTessellationEvaluation:
+			case ::sdw::ShaderType::eTessellationEvaluation:
 				result = spv::ExecutionModelTessellationEvaluation;
 				break;
-			case sdw::ShaderType::eFragment:
+			case ::sdw::ShaderType::eFragment:
 				result = spv::ExecutionModelFragment;
 				break;
-			case sdw::ShaderType::eCompute:
+			case ::sdw::ShaderType::eCompute:
 				result = spv::ExecutionModelGLCompute;
 				break;
 			default:
@@ -73,7 +73,7 @@ namespace test
 			return result;
 		}
 
-		void doSetEntryPoint( sdw::ShaderType stage
+		void doSetEntryPoint( ::sdw::ShaderType stage
 			, spirv_cross::CompilerGLSL & compiler )
 		{
 			auto model = getExecutionModel( stage );
@@ -135,8 +135,8 @@ namespace test
 		}
 
 		std::string validateSpirVToGlsl( std::vector< uint32_t > const & spirv
-			, sdw::ShaderType stage
-			, test::TestCounts & testCounts )
+			, ::sdw::ShaderType stage
+			, sdw_test::TestCounts & testCounts )
 		{
 			auto compiler = std::make_unique< spirv_cross::CompilerGLSL >( spirv );
 			doSetEntryPoint( stage, *compiler );
@@ -145,8 +145,8 @@ namespace test
 		}
 
 		std::string validateSpirVToHlsl( std::vector< uint32_t > const & spirv
-			, sdw::ShaderType stage
-			, test::TestCounts & testCounts )
+			, ::sdw::ShaderType stage
+			, sdw_test::TestCounts & testCounts )
 		{
 			auto compiler = std::make_unique< spirv_cross::CompilerHLSL >( spirv );
 			doSetEntryPoint( stage, *compiler );
@@ -168,14 +168,71 @@ namespace test
 			}
 		}
 
-		void validateSpirV( sdw::Shader const & shader
-			, std::vector< uint32_t > const & spirv
+		bool validateSpirV( ::sdw::Shader const & shader
+			, std::vector< uint32_t > spirv
 			, std::string const & text
-			, test::TestCounts & testCounts )
+			, sdw_test::TestCounts & testCounts
+			, bool checkRef )
 		{
 			std::string errors;
+			auto result = test::compileSpirV( shader, spirv, errors, testCounts );
 
-			if ( test::compileSpirV( shader, spirv, errors ) )
+			if ( !errors.empty() )
+			{
+				std::cout << "VkShaderModule creation raised messages:" << std::endl;
+				std::cout << errors << std::endl;
+				checkRef = checkRef
+					&& ( errors.find( "Capability SampledRect is not allowed by Vulkan 1.1" ) == std::string::npos
+						&& errors.find( "Capability ImageRect is not allowed by Vulkan 1.1" ) == std::string::npos );
+
+				if ( checkRef )
+				{
+					failure( "compileSpirV( spirv, stage )" );
+					auto fileName = getExecutableDirectory() + testCounts.testName + std::to_string( testCounts.totalCount ) + ".spv";
+					FILE * fileOut = fopen( fileName.c_str(), "wb" );
+
+					if ( fileOut )
+					{
+						fwrite( spirv.data()
+							, sizeof( uint32_t )
+							, spirv.size()
+							, fileOut );
+						fclose( fileOut );
+					}
+
+					fileName = getExecutableDirectory() + testCounts.testName + std::to_string( testCounts.totalCount ) + ".ref.spv";
+					FILE * fileIn = fopen( fileName.c_str(), "rb" );
+
+					if ( fileIn )
+					{
+						fseek( fileIn, 0, SEEK_END );
+						auto size = ftell( fileIn );
+						fseek( fileIn, 0, SEEK_SET );
+
+						if ( size > 0 && ( size % sizeof( uint32_t ) ) == 0 )
+						{
+							spirv.resize( size / sizeof( uint32_t ) );
+							fread( spirv.data()
+								, sizeof( uint32_t )
+								, spirv.size()
+								, fileIn );
+						}
+
+						fclose( fileIn );
+						validateSpirV( shader, spirv, errors, testCounts, false );
+					}
+				}
+			}
+
+			return result;
+		}
+
+		void validateSpirV( ::sdw::Shader const & shader
+			, std::vector< uint32_t > spirv
+			, std::string const & text
+			, sdw_test::TestCounts & testCounts )
+		{
+			if ( validateSpirV( shader, spirv, text, testCounts, true ) )
 			{
 				auto crossGlsl = test::validateSpirVToGlsl( spirv, shader.getType(), testCounts );
 				displayShader( "SPIRV-Cross GLSL", crossGlsl );
@@ -188,25 +245,28 @@ namespace test
 			}
 		}
 
-		void testWriteDebug( sdw::Shader const & shader
-			, sdw::SpecialisationInfo const & specialisation
-			, test::TestCounts & testCounts )
+		void testWriteDebug( ::sdw::Shader const & shader
+			, ::sdw::SpecialisationInfo const & specialisation
+			, sdw_test::TestCounts & testCounts )
 		{
-			auto debug = sdw::writeDebug( shader );
+			auto debug = ::sdw::writeDebug( shader );
 			displayShader( "Statements", debug );
 		}
 
-		void testWriteGlsl( sdw::Shader const & shader
-			, sdw::SpecialisationInfo const & specialisation
+		void testWriteGlsl( ::sdw::Shader const & shader
+			, ::sdw::SpecialisationInfo const & specialisation
 			, bool validateGlsl
-			, test::TestCounts & testCounts )
+			, sdw_test::TestCounts & testCounts )
 		{
 			std::string errors;
 			auto glsl = glsl::compileGlsl( shader
 				, specialisation
 				, glsl::GlslConfig{} );
 
-			if ( validateGlsl && !compileGlsl( glsl, shader.getType(), errors ) )
+			if ( validateGlsl && !compileGlsl( glsl
+				, shader.getType()
+				, errors
+				, testCounts ) )
 			{
 				displayShader( "GLSL", glsl, true );
 				std::cout << errors << std::endl;
@@ -218,15 +278,18 @@ namespace test
 			}
 		}
 
-		void testWriteHlsl( sdw::Shader const & shader
-			, sdw::SpecialisationInfo const & specialisation
+		void testWriteHlsl( ::sdw::Shader const & shader
+			, ::sdw::SpecialisationInfo const & specialisation
 			, bool validateHlsl
-			, test::TestCounts & testCounts )
+			, sdw_test::TestCounts & testCounts )
 		{
 			std::string errors;
 			auto hlsl = hlsl::compileHlsl( shader, specialisation );
 
-			if ( validateHlsl && !compileHlsl( hlsl, shader.getType(), errors ) )
+			if ( validateHlsl && !compileHlsl( hlsl
+				, shader.getType()
+				, errors
+				, testCounts ) )
 			{
 				displayShader( "HLSL", hlsl, true );
 				std::cout << errors << std::endl;
@@ -238,10 +301,10 @@ namespace test
 			}
 		}
 
-		void testWriteSpirV( sdw::Shader const & shader
-			, sdw::SpecialisationInfo const & specialisation
+		void testWriteSpirV( ::sdw::Shader const & shader
+			, ::sdw::SpecialisationInfo const & specialisation
 			, bool validateSpirV
-			, test::TestCounts & testCounts )
+			, sdw_test::TestCounts & testCounts )
 		{
 			auto textSpirv = spirv::writeSpirv( shader );
 			displayShader( "SPIR-V", textSpirv );
@@ -270,9 +333,9 @@ namespace test
 				{
 					std::string text = exc.what();
 
-					if ( text.find( "is not supported in HLSL" ) == std::string::npos
-						&& text.find( "is not supported on HLSL" ) == std::string::npos
-						&& text.find( "does not exist in HLSL" ) == std::string::npos )
+					if ( text.find( "not supported in HLSL" ) == std::string::npos
+						&& text.find( "not supported on HLSL" ) == std::string::npos
+						&& text.find( "exist in HLSL" ) == std::string::npos )
 					{
 						displayShader( "SPIR-V", textSpirv, true );
 					}
@@ -280,21 +343,22 @@ namespace test
 				catch ( std::exception & exc )
 				{
 					displayShader( "SPIR-V", textSpirv, true );
+					std::cout << exc.what() << std::endl;
 				}
 			}
 		}
 
-		std::vector< uint8_t > getSpecData( sdw::SpecConstantInfo const & info )
+		std::vector< uint8_t > getSpecData( ::sdw::SpecConstantInfo const & info )
 		{
 			return std::vector< uint8_t >( size_t( getSize( info.type
 					, ast::type::MemoryLayout::eStd430 ) )
 				, 0 );
 		}
 
-		sdw::SpecialisationInfo getSpecialisationInfo( sdw::Shader const & shader )
+		::sdw::SpecialisationInfo getSpecialisationInfo( ::sdw::Shader const & shader )
 		{
 			auto & specInfo = shader.getSpecConstants();
-			sdw::SpecialisationInfo result;
+			::sdw::SpecialisationInfo result;
 
 			for ( auto & info : specInfo )
 			{
@@ -305,8 +369,27 @@ namespace test
 		}
 	}
 
-	void writeShader( sdw::ShaderWriter const & writer
-		, test::TestCounts & testCounts
+	namespace sdw_test
+	{
+		void TestCounts::initialise( std::string const & name )
+		{
+			test::TestCounts::initialise( name );
+			createGLSLContext( *this );
+			createHLSLContext( *this );
+			createSPIRVContext( *this );
+		}
+
+		void TestCounts::cleanup()
+		{
+			destroySPIRVContext( *this );
+			destroyHLSLContext( *this );
+			destroyGLSLContext( *this );
+			test::TestCounts::cleanup();
+		}
+	}
+
+	void writeShader( ::sdw::ShaderWriter const & writer
+		, sdw_test::TestCounts & testCounts
 		, bool validateSpirV
 		, bool validateHlsl
 		, bool validateGlsl )

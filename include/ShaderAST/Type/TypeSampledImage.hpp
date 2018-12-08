@@ -16,7 +16,8 @@ namespace ast::type
 		: public Type
 	{
 	public:
-		SampledImage( ImageConfiguration config );
+		SampledImage( TypesCache * cache
+			, ImageConfiguration config );
 
 		ImagePtr getImageType()const
 		{
@@ -38,11 +39,6 @@ namespace ast::type
 		SamplerPtr m_samplerType;
 	};
 	using SampledImagePtr = std::shared_ptr< SampledImage >;
-
-	inline SampledImagePtr makeSampledImageType( ImageConfiguration config )
-	{
-		return std::make_shared< SampledImage >( std::move( config ) );
-	}
 }
 
 #endif

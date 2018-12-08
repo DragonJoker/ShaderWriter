@@ -21,6 +21,7 @@ namespace sdw
 		explicit Float( long double rhs );
 		explicit Float( Value const & value );
 		Float & operator=( Float const & rhs );
+		expr::ExprPtr makeCondition()const;
 		template< typename T >
 		inline Float & operator=( T const & rhs );
 		Float & operator=( float const & rhs );
@@ -40,7 +41,7 @@ namespace sdw
 		Float & operator*=( float const & rhs );
 		Float & operator/=( float const & rhs );
 
-		static ast::type::TypePtr makeType();
+		static ast::type::TypePtr makeType( ast::type::TypesCache & cache );
 	};
 
 	Float operator+( Float const & lhs, Float const & rhs );

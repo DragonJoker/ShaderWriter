@@ -53,6 +53,7 @@ namespace hlsl
 	private:
 		IntrinsicsConfig const & m_config;
 		HlslShader m_shader;
+		ast::type::TypesCache & m_cache;
 		ast::stmt::Container * m_intrinsics;
 		AdaptationData m_adaptationData;
 		ast::stmt::InputComputeLayout * m_inputComputeLayout{ nullptr };

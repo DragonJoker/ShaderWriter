@@ -21,6 +21,7 @@ namespace sdw
 		explicit Int( int64_t rhs );
 		explicit Int( Value const & rhs );
 		Int & operator=( Int const & rhs );
+		expr::ExprPtr makeCondition()const;
 		template< typename T >
 		inline Int & operator=( T const & rhs );
 		Int & operator=( int32_t const & rhs );
@@ -60,7 +61,7 @@ namespace sdw
 		Int & operator|=( Optional< Int > const & rhs );
 		Int & operator^=( Optional< Int > const & rhs );
 
-		static ast::type::TypePtr makeType();
+		static ast::type::TypePtr makeType( ast::type::TypesCache & cache );
 	};
 
 	Int operator+( Int const & lhs, Int const & rhs );

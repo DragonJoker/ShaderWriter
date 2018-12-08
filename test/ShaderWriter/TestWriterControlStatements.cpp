@@ -3,7 +3,7 @@
 
 namespace
 {
-	void testIf( test::TestCounts & testCounts )
+	void testIf( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testIf" );
 		sdw::VertexWriter writer;
@@ -22,7 +22,7 @@ namespace
 		testEnd();
 	}
 
-	void testIfElse( test::TestCounts & testCounts )
+	void testIfElse( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testIfElse" );
 		sdw::VertexWriter writer;
@@ -45,7 +45,7 @@ namespace
 		testEnd();
 	}
 
-	void testIfElseIf( test::TestCounts & testCounts )
+	void testIfElseIf( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testIfElseIf" );
 		sdw::VertexWriter writer;
@@ -69,7 +69,7 @@ namespace
 		testEnd();
 	}
 
-	void testIfElseIfElse( test::TestCounts & testCounts )
+	void testIfElseIfElse( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testIfElseIfElse" );
 		sdw::VertexWriter writer;
@@ -97,14 +97,34 @@ namespace
 		testEnd();
 	}
 
-	void testFor( test::TestCounts & testCounts )
+	void testFor( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testFor" );
 		sdw::VertexWriter writer;
 		writer.implementFunction< void >( "main"
 			, [&]()
 			{
+				FOR( writer, sdw::Int, ctrlVar, 0_i, ctrlVar < 20_i, ctrlVar += 10_i )
+				{
+					auto i = writer.declLocale( "i", ctrlVar );
+				}
+				ROF;
 				FOR( writer, sdw::Int, ctrlVar, 0_i, ctrlVar < 20_i, ++ctrlVar )
+				{
+					auto i = writer.declLocale( "i", ctrlVar );
+				}
+				ROF;
+				FOR( writer, sdw::Int, ctrlVar, 0_i, ctrlVar < 20_i, ctrlVar++ )
+				{
+					auto i = writer.declLocale( "i", ctrlVar );
+				}
+				ROF;
+				FOR( writer, sdw::Int, ctrlVar, 20_i, ctrlVar >= 0_i, --ctrlVar )
+				{
+					auto i = writer.declLocale( "i", ctrlVar );
+				}
+				ROF;
+				FOR( writer, sdw::Int, ctrlVar, 20_i, ctrlVar >= 0_i, ctrlVar-- )
 				{
 					auto i = writer.declLocale( "i", ctrlVar );
 				}
@@ -115,7 +135,7 @@ namespace
 		testEnd();
 	}
 
-	void testWhile( test::TestCounts & testCounts )
+	void testWhile( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testWhile" );
 		sdw::VertexWriter writer;
@@ -134,7 +154,7 @@ namespace
 		testEnd();
 	}
 
-	void testDoWhile( test::TestCounts & testCounts )
+	void testDoWhile( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testDoWhile" );
 		sdw::VertexWriter writer;
@@ -153,7 +173,7 @@ namespace
 		testEnd();
 	}
 
-	void testNestedIf( test::TestCounts & testCounts )
+	void testNestedIf( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testNestedIf" );
 		sdw::VertexWriter writer;
@@ -177,7 +197,7 @@ namespace
 		testEnd();
 	}
 
-	void testNestedIfElse( test::TestCounts & testCounts )
+	void testNestedIfElse( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testNestedIfElse" );
 		sdw::VertexWriter writer;
@@ -218,7 +238,7 @@ namespace
 		testEnd();
 	}
 
-	void testNestedIfElseIf( test::TestCounts & testCounts )
+	void testNestedIfElseIf( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testNestedIfElseIf" );
 		sdw::VertexWriter writer;
@@ -262,7 +282,7 @@ namespace
 		testEnd();
 	}
 
-	void testNestedIfElseIfElse( test::TestCounts & testCounts )
+	void testNestedIfElseIfElse( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testNestedIfElseIfElse" );
 		sdw::VertexWriter writer;
@@ -332,7 +352,7 @@ namespace
 		testEnd();
 	}
 
-	void testNestedFor( test::TestCounts & testCounts )
+	void testNestedFor( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testNestedFor" );
 		sdw::VertexWriter writer;
@@ -354,7 +374,7 @@ namespace
 		testEnd();
 	}
 
-	void testNestedWhile( test::TestCounts & testCounts )
+	void testNestedWhile( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testNestedWhile" );
 		sdw::VertexWriter writer;
@@ -379,7 +399,7 @@ namespace
 		testEnd();
 	}
 
-	void testNestedDoWhile( test::TestCounts & testCounts )
+	void testNestedDoWhile( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testNestedDoWhile" );
 		sdw::VertexWriter writer;
@@ -407,7 +427,7 @@ namespace
 
 int main( int argc, char ** argv )	
 {
-	testSuiteBegin( "TestWriterControlStatements" );
+	sdwTestSuiteBegin( "TestWriterControlStatements" );
 	testIf(  testCounts );
 	testIfElse(  testCounts );
 	testIfElseIf(  testCounts );
@@ -422,5 +442,5 @@ int main( int argc, char ** argv )
 	testNestedFor(  testCounts );
 	testNestedWhile(  testCounts );
 	testNestedDoWhile(  testCounts );
-	testSuiteEnd();
+	sdwTestSuiteEnd();
 }

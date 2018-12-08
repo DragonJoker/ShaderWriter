@@ -6,7 +6,7 @@ namespace
 #define DummyMain writer.implementFunction< void >( "main", [](){} )
 
 	template< typename T >
-	void testStructuredSsbo( test::TestCounts & testCounts )
+	void testStructuredSsbo( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testStructuredSsbo" + ast::debug::getName( sdw::typeEnum< T > ) );
 		{
@@ -51,14 +51,14 @@ namespace
 	}
 
 	template< typename T >
-	void testArraySsbo( test::TestCounts & testCounts )
+	void testArraySsbo( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testArraySsbo" + ast::debug::getName( sdw::typeEnum< T > ) );
 		{
 			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
 			std::string const name = "m_member" + sdw::debug::getName( sdw::typeEnum< T > );
-			sdw::ArraySsboT< T > bo{ writer, "Datas", ast::type::makeType( sdw::typeEnum< T > ), ast::type::MemoryLayout::eStd140, 1u, 1u };
+			sdw::ArraySsboT< T > bo{ writer, "Datas", T::makeType( shader.getTypesCache() ), ast::type::MemoryLayout::eStd140, 1u, 1u };
 			auto value = bo[0];
 			check( getNonArrayKind( value.getType() ) == sdw::typeEnum< T > );
 			check( getArraySize( value.getType() ) == sdw::type::NotArray );
@@ -76,7 +76,7 @@ namespace
 
 int main( int argc, char ** argv )
 {
-	testSuiteBegin( "TestWriterSsboDeclarations" );
+	sdwTestSuiteBegin( "TestWriterSsboDeclarations" );
 	testStructuredSsbo< sdw::Int >( testCounts );
 	testStructuredSsbo< sdw::UInt >( testCounts );
 	testStructuredSsbo< sdw::Float >( testCounts );
@@ -145,5 +145,5 @@ int main( int argc, char ** argv )
 	testArraySsbo< sdw::DMat4 >( testCounts );
 	testArraySsbo< sdw::DMat4x2 >( testCounts );
 	testArraySsbo< sdw::DMat4x3 >( testCounts );
-	testSuiteEnd();
+	sdwTestSuiteEnd();
 }

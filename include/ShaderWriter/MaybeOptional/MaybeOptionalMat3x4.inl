@@ -53,7 +53,7 @@ namespace sdw
 	{
 		if ( areOptionalEnabled( *this, rhs ) )
 		{
-			addStmt( *findContainer( *this, rhs )
+			addStmt( *findShader( *this, rhs )
 				, sdw::makeSimple( sdw::makeAssign( this->getType()
 					, makeExpr( *this )
 					, makeExpr( rhs ) ) ) );
@@ -69,14 +69,14 @@ namespace sdw
 		if ( isAnyOptional( *this, rhs ) )
 		{
 			return MaybeOptional< Vec4T< ValueT > >{ findShader( *this, rhs )
-				, sdw::makeArrayAccess( Vec4T< ValueT >::makeType()
+				, sdw::makeArrayAccess( Vec4T< ValueT >::makeType( findTypesCache( *this, rhs ) )
 					, makeExpr( *this, true )
 					, makeExpr( rhs ) )
 				, areOptionalEnabled( *this, rhs ) };
 		}
 
 		return MaybeOptional< Vec4T< ValueT > >{ findShader( *this, rhs )
-			, sdw::makeArrayAccess( Vec4T< ValueT >::makeType()
+			, sdw::makeArrayAccess( Vec4T< ValueT >::makeType( findTypesCache( *this, rhs ) )
 				, makeExpr( *this )
 				, makeExpr( rhs ) ) };
 	}

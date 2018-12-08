@@ -12,13 +12,9 @@ See LICENSE file in root folder
 
 namespace spirv
 {
-	inline spv::Id getSpirVName( ast::expr::Intrinsic value
-		, bool & isExtension
-		, bool & isAtomic )
+	inline spv::Id getSpirVName( ast::expr::Intrinsic value )
 	{
 		spv::Id result;
-		isExtension = true;
-		isAtomic = false;
 
 		switch ( value )
 		{
@@ -299,7 +295,6 @@ namespace spirv
 		case ast::expr::Intrinsic::eMod31D:
 		case ast::expr::Intrinsic::eMod41D:
 			result = spv::Id( spv::Op::OpFMod );
-			isExtension = false;
 			break;
 
 		case ast::expr::Intrinsic::eModf1F:
@@ -492,7 +487,6 @@ namespace spirv
 		case ast::expr::Intrinsic::eIsnan3D:
 		case ast::expr::Intrinsic::eIsnan4D:
 			result = spv::Id( spv::Op::OpIsNan );
-			isExtension = false;
 			break;
 
 		case ast::expr::Intrinsic::eIsinf1F:
@@ -504,7 +498,6 @@ namespace spirv
 		case ast::expr::Intrinsic::eIsinf3D:
 		case ast::expr::Intrinsic::eIsinf4D:
 			result = spv::Id( spv::Op::OpIsInf );
-			isExtension = false;
 			break;
 
 		case ast::expr::Intrinsic::eFloatBitsToInt1:
@@ -524,7 +517,6 @@ namespace spirv
 		case ast::expr::Intrinsic::eUintBitsToFloat3:
 		case ast::expr::Intrinsic::eUintBitsToFloat4:
 			result = spv::Id( spv::Op::OpBitcast );
-			isExtension = false;
 			break;
 
 		case ast::expr::Intrinsic::eFma1F:
@@ -643,7 +635,6 @@ namespace spirv
 		case ast::expr::Intrinsic::eDot3D:
 		case ast::expr::Intrinsic::eDot4D:
 			result = spv::Id( spv::Op::OpDot );
-			isExtension = false;
 			break;
 
 		case ast::expr::Intrinsic::eCrossF:
@@ -716,7 +707,6 @@ namespace spirv
 		case ast::expr::Intrinsic::eMatrixCompMult4x3D:
 		case ast::expr::Intrinsic::eMatrixCompMult4x4D:
 			result = spv::Id( spv::Op::OpMatrixTimesMatrix );
-			isExtension = false;
 			break;
 
 		case ast::expr::Intrinsic::eOuterProduct2x2F:
@@ -738,7 +728,6 @@ namespace spirv
 		case ast::expr::Intrinsic::eOuterProduct4x3D:
 		case ast::expr::Intrinsic::eOuterProduct3x4D:
 			result = spv::Id( spv::Op::OpOuterProduct );
-			isExtension = false;
 			break;
 
 		case ast::expr::Intrinsic::eTranspose2x2F:
@@ -760,7 +749,6 @@ namespace spirv
 		case ast::expr::Intrinsic::eTranspose4x3D:
 		case ast::expr::Intrinsic::eTranspose4x4D:
 			result = spv::Id( spv::Op::OpTranspose );
-			isExtension = false;
 			break;
 
 		case ast::expr::Intrinsic::eDeterminant2x2F:
@@ -790,21 +778,18 @@ namespace spirv
 		case ast::expr::Intrinsic::eLessThan3D:
 		case ast::expr::Intrinsic::eLessThan4D:
 			result = spv::Id( spv::Op::OpFOrdLessThan );
-			isExtension = false;
 			break;
 
 		case ast::expr::Intrinsic::eLessThan2I:
 		case ast::expr::Intrinsic::eLessThan3I:
 		case ast::expr::Intrinsic::eLessThan4I:
 			result = spv::Id( spv::Op::OpSLessThan );
-			isExtension = false;
 			break;
 
 		case ast::expr::Intrinsic::eLessThan2U:
 		case ast::expr::Intrinsic::eLessThan3U:
 		case ast::expr::Intrinsic::eLessThan4U:
 			result = spv::Id( spv::Op::OpULessThan );
-			isExtension = false;
 			break;
 
 		case ast::expr::Intrinsic::eLessThanEqual2F:
@@ -814,21 +799,18 @@ namespace spirv
 		case ast::expr::Intrinsic::eLessThanEqual3D:
 		case ast::expr::Intrinsic::eLessThanEqual4D:
 			result = spv::Id( spv::Op::OpFOrdLessThanEqual );
-			isExtension = false;
 			break;
 
 		case ast::expr::Intrinsic::eLessThanEqual2I:
 		case ast::expr::Intrinsic::eLessThanEqual3I:
 		case ast::expr::Intrinsic::eLessThanEqual4I:
 			result = spv::Id( spv::Op::OpSLessThanEqual );
-			isExtension = false;
 			break;
 
 		case ast::expr::Intrinsic::eLessThanEqual2U:
 		case ast::expr::Intrinsic::eLessThanEqual3U:
 		case ast::expr::Intrinsic::eLessThanEqual4U:
 			result = spv::Id( spv::Op::OpULessThanEqual );
-			isExtension = false;
 			break;
 
 		case ast::expr::Intrinsic::eGreaterThan2F:
@@ -838,21 +820,18 @@ namespace spirv
 		case ast::expr::Intrinsic::eGreaterThan3D:
 		case ast::expr::Intrinsic::eGreaterThan4D:
 			result = spv::Id( spv::Op::OpFOrdGreaterThan );
-			isExtension = false;
 			break;
 
 		case ast::expr::Intrinsic::eGreaterThan2I:
 		case ast::expr::Intrinsic::eGreaterThan3I:
 		case ast::expr::Intrinsic::eGreaterThan4I:
 			result = spv::Id( spv::Op::OpSGreaterThan );
-			isExtension = false;
 			break;
 
 		case ast::expr::Intrinsic::eGreaterThan2U:
 		case ast::expr::Intrinsic::eGreaterThan3U:
 		case ast::expr::Intrinsic::eGreaterThan4U:
 			result = spv::Id( spv::Op::OpUGreaterThan );
-			isExtension = false;
 			break;
 
 		case ast::expr::Intrinsic::eGreaterThanEqual2F:
@@ -862,21 +841,18 @@ namespace spirv
 		case ast::expr::Intrinsic::eGreaterThanEqual3D:
 		case ast::expr::Intrinsic::eGreaterThanEqual4D:
 			result = spv::Id( spv::Op::OpFOrdGreaterThanEqual );
-			isExtension = false;
 			break;
 
 		case ast::expr::Intrinsic::eGreaterThanEqual2I:
 		case ast::expr::Intrinsic::eGreaterThanEqual3I:
 		case ast::expr::Intrinsic::eGreaterThanEqual4I:
 			result = spv::Id( spv::Op::OpSGreaterThanEqual );
-			isExtension = false;
 			break;
 
 		case ast::expr::Intrinsic::eGreaterThanEqual2U:
 		case ast::expr::Intrinsic::eGreaterThanEqual3U:
 		case ast::expr::Intrinsic::eGreaterThanEqual4U:
 			result = spv::Id( spv::Op::OpUGreaterThanEqual );
-			isExtension = false;
 			break;
 
 		case ast::expr::Intrinsic::eEqual2F:
@@ -886,7 +862,6 @@ namespace spirv
 		case ast::expr::Intrinsic::eEqual3D:
 		case ast::expr::Intrinsic::eEqual4D:
 			result = spv::Id( spv::Op::OpFOrdEqual );
-			isExtension = false;
 			break;
 
 		case ast::expr::Intrinsic::eEqual2I:
@@ -896,7 +871,6 @@ namespace spirv
 		case ast::expr::Intrinsic::eEqual3U:
 		case ast::expr::Intrinsic::eEqual4U:
 			result = spv::Id( spv::Op::OpIEqual );
-			isExtension = false;
 			break;
 
 		case ast::expr::Intrinsic::eNotEqual2F:
@@ -906,7 +880,6 @@ namespace spirv
 		case ast::expr::Intrinsic::eNotEqual3D:
 		case ast::expr::Intrinsic::eNotEqual4D:
 			result = spv::Id( spv::Op::OpFOrdNotEqual );
-			isExtension = false;
 			break;
 
 		case ast::expr::Intrinsic::eNotEqual2I:
@@ -916,28 +889,24 @@ namespace spirv
 		case ast::expr::Intrinsic::eNotEqual3U:
 		case ast::expr::Intrinsic::eNotEqual4U:
 			result = spv::Id( spv::Op::OpINotEqual );
-			isExtension = false;
 			break;
 
 		case ast::expr::Intrinsic::eAll2:
 		case ast::expr::Intrinsic::eAll3:
 		case ast::expr::Intrinsic::eAll4:
 			result = spv::Id( spv::Op::OpAll );
-			isExtension = false;
 			break;
 
 		case ast::expr::Intrinsic::eAny2:
 		case ast::expr::Intrinsic::eAny3:
 		case ast::expr::Intrinsic::eAny4:
 			result = spv::Id( spv::Op::OpAny );
-			isExtension = false;
 			break;
 
 		case ast::expr::Intrinsic::eNot2:
 		case ast::expr::Intrinsic::eNot3:
 		case ast::expr::Intrinsic::eNot4:
-			result = spv::Id( spv::Op::OpNot );
-			isExtension = false;
+			result = spv::Id( spv::Op::OpLogicalNot );
 			break;
 
 
@@ -947,7 +916,6 @@ namespace spirv
 		case ast::expr::Intrinsic::eUaddCarry3:
 		case ast::expr::Intrinsic::eUaddCarry4:
 			result = spv::Id( spv::Op::OpIAddCarry );
-			isExtension = false;
 			break;
 
 		case ast::expr::Intrinsic::eUsubBorrow1:
@@ -955,7 +923,6 @@ namespace spirv
 		case ast::expr::Intrinsic::eUsubBorrow3:
 		case ast::expr::Intrinsic::eUsubBorrow4:
 			result = spv::Id( spv::Op::OpISubBorrow );
-			isExtension = false;
 			break;
 
 		case ast::expr::Intrinsic::eUmulExtended1:
@@ -967,7 +934,6 @@ namespace spirv
 		case ast::expr::Intrinsic::eImulExtended3:
 		case ast::expr::Intrinsic::eImulExtended4:
 			result = spv::Id( spv::Op::OpUMulExtended );
-			isExtension = false;
 			break;
 
 		case ast::expr::Intrinsic::eBitfieldExtract1I:
@@ -975,7 +941,6 @@ namespace spirv
 		case ast::expr::Intrinsic::eBitfieldExtract3I:
 		case ast::expr::Intrinsic::eBitfieldExtract4I:
 			result = spv::Id( spv::Op::OpBitFieldSExtract );
-			isExtension = false;
 			break;
 
 		case ast::expr::Intrinsic::eBitfieldExtract1U:
@@ -983,7 +948,6 @@ namespace spirv
 		case ast::expr::Intrinsic::eBitfieldExtract3U:
 		case ast::expr::Intrinsic::eBitfieldExtract4U:
 			result = spv::Id( spv::Op::OpBitFieldUExtract );
-			isExtension = false;
 			break;
 
 		case ast::expr::Intrinsic::eBitfieldInsert1I:
@@ -995,7 +959,6 @@ namespace spirv
 		case ast::expr::Intrinsic::eBitfieldInsert3U:
 		case ast::expr::Intrinsic::eBitfieldInsert4U:
 			result = spv::Id( spv::Op::OpBitFieldInsert );
-			isExtension = false;
 			break;
 
 		case ast::expr::Intrinsic::eBitfieldReverse1I:
@@ -1007,7 +970,6 @@ namespace spirv
 		case ast::expr::Intrinsic::eBitfieldReverse3U:
 		case ast::expr::Intrinsic::eBitfieldReverse4U:
 			result = spv::Id( spv::Op::OpBitReverse );
-			isExtension = false;
 			break;
 
 		case ast::expr::Intrinsic::eBitCount1I:
@@ -1019,7 +981,6 @@ namespace spirv
 		case ast::expr::Intrinsic::eBitCount3U:
 		case ast::expr::Intrinsic::eBitCount4U:
 			result = spv::Id( spv::Op::OpBitCount );
-			isExtension = false;
 			break;
 
 		case ast::expr::Intrinsic::eFindLSB1I:
@@ -1052,67 +1013,47 @@ namespace spirv
 		case ast::expr::Intrinsic::eAtomicAddI:
 		case ast::expr::Intrinsic::eAtomicAddU:
 			result = spv::Id( spv::Op::OpAtomicIAdd );
-			isAtomic = true;
-			isExtension = false;
 			break;
 
 		case ast::expr::Intrinsic::eAtomicMinI:
 			result = spv::Id( spv::Op::OpAtomicSMin );
-			isAtomic = true;
-			isExtension = false;
 			break;
 
 		case ast::expr::Intrinsic::eAtomicMinU:
 			result = spv::Id( spv::Op::OpAtomicUMin );
-			isAtomic = true;
-			isExtension = false;
 			break;
 
 		case ast::expr::Intrinsic::eAtomicMaxI:
 			result = spv::Id( spv::Op::OpAtomicSMax );
-			isAtomic = true;
-			isExtension = false;
 			break;
 
 		case ast::expr::Intrinsic::eAtomicMaxU:
 			result = spv::Id( spv::Op::OpAtomicUMax );
-			isAtomic = true;
-			isExtension = false;
 			break;
 
 		case ast::expr::Intrinsic::eAtomicAndI:
 		case ast::expr::Intrinsic::eAtomicAndU:
 			result = spv::Id( spv::Op::OpAtomicAnd );
-			isAtomic = true;
-			isExtension = false;
 			break;
 
 		case ast::expr::Intrinsic::eAtomicOrI:
 		case ast::expr::Intrinsic::eAtomicOrU:
 			result = spv::Id( spv::Op::OpAtomicOr );
-			isAtomic = true;
-			isExtension = false;
 			break;
 
 		case ast::expr::Intrinsic::eAtomicXorI:
 		case ast::expr::Intrinsic::eAtomicXorU:
 			result = spv::Id( spv::Op::OpAtomicXor );
-			isAtomic = true;
-			isExtension = false;
 			break;
 
 		case ast::expr::Intrinsic::eAtomicExchangeI:
 		case ast::expr::Intrinsic::eAtomicExchangeU:
 			result = spv::Id( spv::Op::OpAtomicExchange );
-			isAtomic = true;
-			isExtension = false;
 			break;
 
 		case ast::expr::Intrinsic::eAtomicCompSwapI:
 		case ast::expr::Intrinsic::eAtomicCompSwapU:
 			result = spv::Id( spv::Op::OpAtomicCompareExchange );
-			isAtomic = true;
-			isExtension = false;
 			break;
 
 
@@ -1122,7 +1063,6 @@ namespace spirv
 		case ast::expr::Intrinsic::eDFdx3:
 		case ast::expr::Intrinsic::eDFdx4:
 			result = spv::Id( spv::Op::OpDPdx );
-			isExtension = false;
 			break;
 
 		case ast::expr::Intrinsic::eDFdxCoarse1:
@@ -1130,7 +1070,6 @@ namespace spirv
 		case ast::expr::Intrinsic::eDFdxCoarse3:
 		case ast::expr::Intrinsic::eDFdxCoarse4:
 			result = spv::Id( spv::Op::OpDPdxCoarse );
-			isExtension = false;
 			break;
 
 		case ast::expr::Intrinsic::eDFdxFine1:
@@ -1138,7 +1077,6 @@ namespace spirv
 		case ast::expr::Intrinsic::eDFdxFine3:
 		case ast::expr::Intrinsic::eDFdxFine4:
 			result = spv::Id( spv::Op::OpDPdxFine );
-			isExtension = false;
 			break;
 
 		case ast::expr::Intrinsic::eDFdy1:
@@ -1146,7 +1084,6 @@ namespace spirv
 		case ast::expr::Intrinsic::eDFdy3:
 		case ast::expr::Intrinsic::eDFdy4:
 			result = spv::Id( spv::Op::OpDPdy );
-			isExtension = false;
 			break;
 
 		case ast::expr::Intrinsic::eDFdyCoarse1:
@@ -1154,7 +1091,6 @@ namespace spirv
 		case ast::expr::Intrinsic::eDFdyCoarse3:
 		case ast::expr::Intrinsic::eDFdyCoarse4:
 			result = spv::Id( spv::Op::OpDPdyCoarse );
-			isExtension = false;
 			break;
 
 		case ast::expr::Intrinsic::eDFdyFine1:
@@ -1162,7 +1098,6 @@ namespace spirv
 		case ast::expr::Intrinsic::eDFdyFine3:
 		case ast::expr::Intrinsic::eDFdyFine4:
 			result = spv::Id( spv::Op::OpDPdyFine );
-			isExtension = false;
 			break;
 
 		case ast::expr::Intrinsic::eFwidth1:
@@ -1170,7 +1105,6 @@ namespace spirv
 		case ast::expr::Intrinsic::eFwidth3:
 		case ast::expr::Intrinsic::eFwidth4:
 			result = spv::Id( spv::Op::OpFwidth );
-			isExtension = false;
 			break;
 
 
@@ -1200,30 +1134,24 @@ namespace spirv
 	// Geometry Shader Functions
 		case ast::expr::Intrinsic::eEmitStreamVertex:
 			result = spv::Id( spv::Op::OpEmitStreamVertex );
-			isExtension = false;
 			break;
 
 		case ast::expr::Intrinsic::eEndStreamPrimitive:
 			result = spv::Id( spv::Op::OpEndStreamPrimitive );
-			isExtension = false;
 			break;
 
 		case ast::expr::Intrinsic::eEmitVertex:
 			result = spv::Id( spv::Op::OpEmitVertex );
-			isExtension = false;
 			break;
 
 		case ast::expr::Intrinsic::eEndPrimitive:
 			result = spv::Id( spv::Op::OpEndPrimitive );
-			isExtension = false;
 			break;
 
 
 	// Shader Invocation Control Functions
 		case ast::expr::Intrinsic::eBarrier:
 			result = spv::Id( spv::Op::OpControlBarrier );
-			isAtomic = true;
-			isExtension = false;
 			break;
 
 
@@ -1234,8 +1162,6 @@ namespace spirv
 		case ast::expr::Intrinsic::eMemoryBarrierImage:
 		case ast::expr::Intrinsic::eGroupMemoryBarrier:
 			result = spv::Id( spv::Op::OpMemoryBarrier );
-			isAtomic = true;
-			isExtension = false;
 			break;
 
 		default:

@@ -7,8 +7,8 @@ namespace sdw
 	Float & Float::operator=( T const & rhs )
 	{
 		updateContainer( rhs );
-		addStmt( *findContainer( *this, rhs )
-			, makeSimple( sdw::makeAssign( type::getFloat()
+		addStmt( *findShader( *this, rhs )
+			, makeSimple( sdw::makeAssign( findTypesCache( *this, rhs ).getFloat()
 				, makeExpr( *this )
 				, makeExpr( rhs ) ) ) );
 		return *this;

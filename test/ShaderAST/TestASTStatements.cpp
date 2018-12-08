@@ -9,7 +9,8 @@ namespace
 	void testPreprocIf( test::TestCounts & testCounts )
 	{
 		testBegin( "testPreprocIf" );
-		auto stmt = ast::stmt::makePreprocIf( ast::expr::makeIdentifier( ast::var::makeVariable( ast::type::getBool(), "ItIsDefined" ) ) );
+		ast::type::TypesCache cache;
+		auto stmt = ast::stmt::makePreprocIf( ast::expr::makeIdentifier( ast::var::makeVariable( cache.getBool(), "ItIsDefined" ) ) );
 		std::cout << "PreprocIf:\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
 
 		require( stmt->getKind() == ast::stmt::Kind::ePreprocIf );
@@ -21,7 +22,8 @@ namespace
 	void testPreprocIfDef( test::TestCounts & testCounts )
 	{
 		testBegin( "testPreprocIfDef" );
-		auto stmt = ast::stmt::makePreprocIfDef( ast::expr::makeIdentifier( ast::var::makeVariable( ast::type::getBool(), "IsItDefined" ) ) );
+		ast::type::TypesCache cache;
+		auto stmt = ast::stmt::makePreprocIfDef( ast::expr::makeIdentifier( ast::var::makeVariable( cache.getBool(), "IsItDefined" ) ) );
 		std::cout << "PreprocIfDef:\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
 
 		require( stmt->getKind() == ast::stmt::Kind::ePreprocIfDef );
@@ -33,8 +35,9 @@ namespace
 	void testPreprocElif( test::TestCounts & testCounts )
 	{
 		testBegin( "testPreprocElif" );
-		auto ifStmt = ast::stmt::makePreprocIf( ast::expr::makeIdentifier( ast::var::makeVariable( ast::type::getBool(), "ItIsNotDefined" ) ) );
-		auto stmt = ifStmt->createElif( ast::expr::makeIdentifier( ast::var::makeVariable( ast::type::getBool(), "ItIsDefined" ) ) );
+		ast::type::TypesCache cache;
+		auto ifStmt = ast::stmt::makePreprocIf( ast::expr::makeIdentifier( ast::var::makeVariable( cache.getBool(), "ItIsNotDefined" ) ) );
+		auto stmt = ifStmt->createElif( ast::expr::makeIdentifier( ast::var::makeVariable( cache.getBool(), "ItIsDefined" ) ) );
 		std::cout << "PreprocElif:\n" << ast::debug::StmtVisitor::submit( stmt ) << std::endl;
 
 		require( stmt->getKind() == ast::stmt::Kind::ePreprocElif );
@@ -46,7 +49,8 @@ namespace
 	void testPreprocElse( test::TestCounts & testCounts )
 	{
 		testBegin( "testPreprocElse" );
-		auto ifStmt = ast::stmt::makePreprocIf( ast::expr::makeIdentifier( ast::var::makeVariable( ast::type::getBool(), "ItIsDefined" ) ) );
+		ast::type::TypesCache cache;
+		auto ifStmt = ast::stmt::makePreprocIf( ast::expr::makeIdentifier( ast::var::makeVariable( cache.getBool(), "ItIsDefined" ) ) );
 		auto stmt = ifStmt->createElse();
 		std::cout << "PreprocElse:\n" << ast::debug::StmtVisitor::submit( stmt ) << std::endl;
 
@@ -57,6 +61,7 @@ namespace
 	void testPreprocEndif( test::TestCounts & testCounts )
 	{
 		testBegin( "testPreprocEndif" );
+		ast::type::TypesCache cache;
 		auto stmt = ast::stmt::makePreprocEndif();
 		std::cout << "PreprocEndif:\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
 
@@ -67,7 +72,8 @@ namespace
 	void testPreprocDefine( test::TestCounts & testCounts )
 	{
 		testBegin( "testPreprocDefine" );
-		auto stmt = ast::stmt::makePreprocDefine( "DefineIt", ast::expr::makeLiteral( 1 ) );
+		ast::type::TypesCache cache;
+		auto stmt = ast::stmt::makePreprocDefine( "DefineIt", ast::expr::makeLiteral( cache, 1 ) );
 		std::cout << "PreprocDefine:\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
 
 		require( stmt->getKind() == ast::stmt::Kind::ePreprocDefine );
@@ -79,6 +85,7 @@ namespace
 	void testPreprocExtension( test::TestCounts & testCounts )
 	{
 		testBegin( "testPreprocExtension" );
+		ast::type::TypesCache cache;
 		auto stmt = ast::stmt::makePreprocExtension( "GL_arb_coin", ast::stmt::PreprocExtension::Status::eEnabled );
 		std::cout << "PreprocExtension:\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
 
@@ -91,6 +98,7 @@ namespace
 	void testPreprocVersion( test::TestCounts & testCounts )
 	{
 		testBegin( "testPreprocVersion" );
+		ast::type::TypesCache cache;
 		auto stmt = ast::stmt::makePreprocVersion( "430 core" );
 		std::cout << "PreprocVersion:\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
 
@@ -102,8 +110,9 @@ namespace
 	void testSimpleStatement( test::TestCounts & testCounts )
 	{
 		testBegin( "testSimpleStatement" );
-		auto lhs = ast::expr::makeIdentifier( ast::var::makeVariable( ast::type::getInt(), "lhs" ) );
-		auto rhs = ast::expr::makeLiteral( 10 );
+		ast::type::TypesCache cache;
+		auto lhs = ast::expr::makeIdentifier( ast::var::makeVariable( cache.getInt(), "lhs" ) );
+		auto rhs = ast::expr::makeLiteral( cache, 10 );
 		auto stmt = ast::stmt::makeSimple( ast::expr::makeInit( std::move( lhs ), std::move( rhs ) ) );
 		std::cout << "StmtSimple:\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
 
@@ -115,7 +124,8 @@ namespace
 	void testVariableDeclStatement( test::TestCounts & testCounts )
 	{
 		testBegin( "testVariableDeclStatement" );
-		auto stmt = ast::stmt::makeVariableDecl( ast::var::makeVariable( ast::type::getInt(), "lhs" ) );
+		ast::type::TypesCache cache;
+		auto stmt = ast::stmt::makeVariableDecl( ast::var::makeVariable( cache.getInt(), "lhs" ) );
 		std::cout << "StmtVariableDecl:\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
 
 		require( stmt->getKind() == ast::stmt::Kind::eVariableDecl );
@@ -127,8 +137,9 @@ namespace
 	void testSampledImageDeclStatement( test::TestCounts & testCounts )
 	{
 		testBegin( "testSampledImageDeclStatement" );
+		ast::type::TypesCache cache;
 		ast::type::ImageConfiguration config{};
-		auto stmt = ast::stmt::makeSampledImageDecl( ast::var::makeVariable( ast::type::getSampledImage( config ), "lhs" ), 1u, 2u );
+		auto stmt = ast::stmt::makeSampledImageDecl( ast::var::makeVariable( cache.getSampledImage( config ), "lhs" ), 1u, 2u );
 		std::cout << "StmtSamplerDecl:\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
 
 		require( stmt->getKind() == ast::stmt::Kind::eSampledImageDecl );
@@ -142,7 +153,8 @@ namespace
 	void testSamplerDeclStatement( test::TestCounts & testCounts )
 	{
 		testBegin( "testSamplerDeclStatement" );
-		auto stmt = ast::stmt::makeSamplerDecl( ast::var::makeVariable( ast::type::getSampler(), "lhs" ), 1u, 2u );
+		ast::type::TypesCache cache;
+		auto stmt = ast::stmt::makeSamplerDecl( ast::var::makeVariable( cache.getSampler(), "lhs" ), 1u, 2u );
 		std::cout << "StmtSamplerDecl:\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
 
 		require( stmt->getKind() == ast::stmt::Kind::eSamplerDecl );
@@ -156,8 +168,9 @@ namespace
 	void testImageDeclStatement( test::TestCounts & testCounts )
 	{
 		testBegin( "testImageDeclStatement" );
+		ast::type::TypesCache cache;
 		ast::type::ImageConfiguration config{};
-		auto stmt = ast::stmt::makeImageDecl( ast::var::makeVariable( ast::type::getImage( config ), "lhs" ), 1u, 2u );
+		auto stmt = ast::stmt::makeImageDecl( ast::var::makeVariable( cache.getImage( config ), "lhs" ), 1u, 2u );
 		std::cout << "StmtImageDecl:\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
 
 		require( stmt->getKind() == ast::stmt::Kind::eImageDecl );
@@ -172,6 +185,7 @@ namespace
 	{
 		testBegin( "testConstantBufferDeclStatement" );
 		{
+			ast::type::TypesCache cache;
 			auto stmt = ast::stmt::makeConstantBufferDecl( "Buffer", ast::type::MemoryLayout::eStd140, 1u, 2u );
 			std::cout << "StmtConstantBufferDecl (empty):\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
 
@@ -181,9 +195,10 @@ namespace
 			check( stmt->empty() );
 		}
 		{
+			ast::type::TypesCache cache;
 			auto stmt = ast::stmt::makeConstantBufferDecl( "Buffer", ast::type::MemoryLayout::eStd140, 1u, 2u );
-			stmt->add( ast::stmt::makeVariableDecl( ast::var::makeVariable( ast::type::getInt(), "i" ) ) );
-			stmt->add( ast::stmt::makeVariableDecl( ast::var::makeVariable( ast::type::getInt(), "j" ) ) );
+			stmt->add( ast::stmt::makeVariableDecl( ast::var::makeVariable( cache.getInt(), "i" ) ) );
+			stmt->add( ast::stmt::makeVariableDecl( ast::var::makeVariable( cache.getInt(), "j" ) ) );
 			std::cout << "StmtConstantBufferDecl:\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
 
 			require( stmt->getKind() == ast::stmt::Kind::eConstantBufferDecl );
@@ -198,6 +213,7 @@ namespace
 	{
 		testBegin( "testShaderBufferDeclStatement" );
 		{
+			ast::type::TypesCache cache;
 			auto stmt = ast::stmt::makeShaderBufferDecl( "Buffer", ast::type::MemoryLayout::eStd430, 1u, 2u );
 			std::cout << "StmtShaderBufferDecl (empty):\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
 
@@ -207,9 +223,10 @@ namespace
 			check( stmt->empty() );
 		}
 		{
+			ast::type::TypesCache cache;
 			auto stmt = ast::stmt::makeShaderBufferDecl( "Buffer", ast::type::MemoryLayout::eStd430, 1u, 2u );
-			stmt->add( ast::stmt::makeVariableDecl( ast::var::makeVariable( ast::type::getInt(), "i" ) ) );
-			stmt->add( ast::stmt::makeVariableDecl( ast::var::makeVariable( ast::type::getInt(), "j" ) ) );
+			stmt->add( ast::stmt::makeVariableDecl( ast::var::makeVariable( cache.getInt(), "i" ) ) );
+			stmt->add( ast::stmt::makeVariableDecl( ast::var::makeVariable( cache.getInt(), "j" ) ) );
 			std::cout << "StmtShaderBufferDecl:\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
 
 			require( stmt->getKind() == ast::stmt::Kind::eShaderBufferDecl );
@@ -224,9 +241,10 @@ namespace
 	{
 		testBegin( "testShaderStructBufferDeclStatement" );
 		{
-			auto baseType = ast::type::makeStructType( ast::type::MemoryLayout::eStd430, "BaseType" );
-			auto array = ast::type::makeArrayType( baseType );
-			auto type = ast::type::makeStructType( ast::type::MemoryLayout::eStd430, "BufferType" );
+			ast::type::TypesCache cache;
+			auto baseType = cache.getStruct( ast::type::MemoryLayout::eStd430, "BaseType" );
+			auto array = cache.getArray( baseType );
+			auto type = cache.getStruct( ast::type::MemoryLayout::eStd430, "BufferType" );
 			type->declMember( "Data", array );
 			auto data = ast::var::makeVariable( type->getMember( "Data" ).type, "Data", ast::var::Flag::eUniform );
 			auto instance = ast::var::makeVariable( type, "Inst", ast::var::Flag::eUniform );
@@ -238,11 +256,12 @@ namespace
 			check( stmt->getDescriptorSet() == 2u );
 		}
 		{
-			auto baseType = ast::type::makeStructType( ast::type::MemoryLayout::eStd430, "BaseType" );
-			baseType->declMember( "i", ast::type::getInt() );
-			baseType->declMember( "j", ast::type::getInt() );
-			auto array = ast::type::makeArrayType( baseType );
-			auto type = ast::type::makeStructType( ast::type::MemoryLayout::eStd430, "BufferType" );
+			ast::type::TypesCache cache;
+			auto baseType = cache.getStruct( ast::type::MemoryLayout::eStd430, "BaseType" );
+			baseType->declMember( "i", cache.getInt() );
+			baseType->declMember( "j", cache.getInt() );
+			auto array = cache.getArray( baseType );
+			auto type = cache.getStruct( ast::type::MemoryLayout::eStd430, "BufferType" );
 			type->declMember( "Data", array );
 			auto data = ast::var::makeVariable( type->getMember( "Data" ).type, "Data", ast::var::Flag::eUniform );
 			auto instance = ast::var::makeVariable( type, "Inst", ast::var::Flag::eUniform );
@@ -259,7 +278,8 @@ namespace
 	void testInOutVariableDeclStatement( test::TestCounts & testCounts )
 	{
 		testBegin( "testInOutVariableDeclStatement" );
-		auto stmt = ast::stmt::makeInOutVariableDecl( ast::var::makeVariable( ast::type::getInt(), "lhs", ast::var::Flag::eShaderInput ), 1u );
+		ast::type::TypesCache cache;
+		auto stmt = ast::stmt::makeInOutVariableDecl( ast::var::makeVariable( cache.getInt(), "lhs", ast::var::Flag::eShaderInput ), 1u );
 		std::cout << "StmtInOutVariableDecl:\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
 
 		require( stmt->getKind() == ast::stmt::Kind::eInOutVariableDecl );
@@ -273,6 +293,7 @@ namespace
 	{
 		testBegin( "testContainerStatement" );
 		{
+			ast::type::TypesCache cache;
 			auto stmt = ast::stmt::makeContainer();
 			std::cout << "StmtContainer (empty):\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
 
@@ -280,11 +301,12 @@ namespace
 			check( stmt->empty() );
 		}
 		{
-			auto i = ast::expr::makeIdentifier( ast::var::makeVariable( ast::type::getInt(), "i" ) );
-			auto j = ast::expr::makeIdentifier( ast::var::makeVariable( ast::type::getInt(), "j" ) );
+			ast::type::TypesCache cache;
+			auto i = ast::expr::makeIdentifier( ast::var::makeVariable( cache.getInt(), "i" ) );
+			auto j = ast::expr::makeIdentifier( ast::var::makeVariable( cache.getInt(), "j" ) );
 			auto stmt = ast::stmt::makeContainer();
-			stmt->addStmt( ast::stmt::makeSimple( ast::expr::makeInit( std::move( i ), ast::expr::makeLiteral( 10 ) ) ) );
-			stmt->addStmt( ast::stmt::makeSimple( ast::expr::makeInit( std::move( j ), ast::expr::makeLiteral( 20 ) ) ) );
+			stmt->addStmt( ast::stmt::makeSimple( ast::expr::makeInit( std::move( i ), ast::expr::makeLiteral( cache, 10 ) ) ) );
+			stmt->addStmt( ast::stmt::makeSimple( ast::expr::makeInit( std::move( j ), ast::expr::makeLiteral( cache, 20 ) ) ) );
 			std::cout << "StmtContainer:\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
 
 			require( stmt->getKind() == ast::stmt::Kind::eContainer );
@@ -297,6 +319,7 @@ namespace
 	{
 		testBegin( "testCompoundStatement" );
 		{
+			ast::type::TypesCache cache;
 			auto stmt = ast::stmt::makeCompound();
 			std::cout << "StmtCompound (empty):\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
 
@@ -304,11 +327,12 @@ namespace
 			check( stmt->empty() );
 		}
 		{
-			auto i = ast::expr::makeIdentifier( ast::var::makeVariable( ast::type::getInt(), "i" ) );
-			auto j = ast::expr::makeIdentifier( ast::var::makeVariable( ast::type::getInt(), "j" ) );
+			ast::type::TypesCache cache;
+			auto i = ast::expr::makeIdentifier( ast::var::makeVariable( cache.getInt(), "i" ) );
+			auto j = ast::expr::makeIdentifier( ast::var::makeVariable( cache.getInt(), "j" ) );
 			auto stmt = ast::stmt::makeCompound();
-			stmt->addStmt( ast::stmt::makeSimple( ast::expr::makeInit( std::move( i ), ast::expr::makeLiteral( 10 ) ) ) );
-			stmt->addStmt( ast::stmt::makeSimple( ast::expr::makeInit( std::move( j ), ast::expr::makeLiteral( 20 ) ) ) );
+			stmt->addStmt( ast::stmt::makeSimple( ast::expr::makeInit( std::move( i ), ast::expr::makeLiteral( cache, 10 ) ) ) );
+			stmt->addStmt( ast::stmt::makeSimple( ast::expr::makeInit( std::move( j ), ast::expr::makeLiteral( cache, 20 ) ) ) );
 			std::cout << "StmtCompound:" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
 
 			require( stmt->getKind() == ast::stmt::Kind::eCompound );
@@ -321,7 +345,8 @@ namespace
 	{
 		testBegin( "testIfStatement" );
 		{
-			auto stmt = ast::stmt::makeIf( ast::expr::makeIdentifier( ast::var::makeVariable( ast::type::getBool(), "k" ) ) );
+			ast::type::TypesCache cache;
+			auto stmt = ast::stmt::makeIf( ast::expr::makeIdentifier( ast::var::makeVariable( cache.getBool(), "k" ) ) );
 			std::cout << "StmtIf (empty):\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
 
 			require( stmt->getKind() == ast::stmt::Kind::eIf );
@@ -330,11 +355,12 @@ namespace
 			check( stmt->empty() );
 		}
 		{
-			auto i = ast::expr::makeIdentifier( ast::var::makeVariable( ast::type::getInt(), "i" ) );
-			auto j = ast::expr::makeIdentifier( ast::var::makeVariable( ast::type::getInt(), "j" ) );
-			auto stmt = ast::stmt::makeIf( ast::expr::makeIdentifier( ast::var::makeVariable( ast::type::getBool(), "k" ) ) );
-			stmt->addStmt( ast::stmt::makeSimple( ast::expr::makeInit( std::move( i ), ast::expr::makeLiteral( 10 ) ) ) );
-			stmt->addStmt( ast::stmt::makeSimple( ast::expr::makeInit( std::move( j ), ast::expr::makeLiteral( 20 ) ) ) );
+			ast::type::TypesCache cache;
+			auto i = ast::expr::makeIdentifier( ast::var::makeVariable( cache.getInt(), "i" ) );
+			auto j = ast::expr::makeIdentifier( ast::var::makeVariable( cache.getInt(), "j" ) );
+			auto stmt = ast::stmt::makeIf( ast::expr::makeIdentifier( ast::var::makeVariable( cache.getBool(), "k" ) ) );
+			stmt->addStmt( ast::stmt::makeSimple( ast::expr::makeInit( std::move( i ), ast::expr::makeLiteral( cache, 10 ) ) ) );
+			stmt->addStmt( ast::stmt::makeSimple( ast::expr::makeInit( std::move( j ), ast::expr::makeLiteral( cache, 20 ) ) ) );
 			std::cout << "StmtIf:\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
 
 			require( stmt->getKind() == ast::stmt::Kind::eIf );
@@ -349,9 +375,10 @@ namespace
 	{
 		testBegin( "testElseStatement" );
 		{
-			auto i = ast::var::makeVariable( ast::type::getInt(), "i" );
-			auto j = ast::var::makeVariable( ast::type::getInt(), "j" );
-			auto stmt = ast::stmt::makeIf( ast::expr::makeIdentifier( ast::var::makeVariable( ast::type::getBool(), "k" ) ) );
+			ast::type::TypesCache cache;
+			auto i = ast::var::makeVariable( cache.getInt(), "i" );
+			auto j = ast::var::makeVariable( cache.getInt(), "j" );
+			auto stmt = ast::stmt::makeIf( ast::expr::makeIdentifier( ast::var::makeVariable( cache.getBool(), "k" ) ) );
 			auto elseStmt = stmt->createElse();
 			std::cout << "StmtElse (empty):\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
 
@@ -359,14 +386,15 @@ namespace
 			check( elseStmt->empty() );
 		}
 		{
-			auto i = ast::var::makeVariable( ast::type::getInt(), "i" );
-			auto j = ast::var::makeVariable( ast::type::getInt(), "j" );
-			auto stmt = ast::stmt::makeIf( ast::expr::makeIdentifier( ast::var::makeVariable( ast::type::getBool(), "k" ) ) );
-			stmt->addStmt( ast::stmt::makeSimple( ast::expr::makeInit( ast::expr::makeIdentifier( i ), ast::expr::makeLiteral( 10 ) ) ) );
-			stmt->addStmt( ast::stmt::makeSimple( ast::expr::makeInit( ast::expr::makeIdentifier( j ), ast::expr::makeLiteral( 20 ) ) ) );
+			ast::type::TypesCache cache;
+			auto i = ast::var::makeVariable( cache.getInt(), "i" );
+			auto j = ast::var::makeVariable( cache.getInt(), "j" );
+			auto stmt = ast::stmt::makeIf( ast::expr::makeIdentifier( ast::var::makeVariable( cache.getBool(), "k" ) ) );
+			stmt->addStmt( ast::stmt::makeSimple( ast::expr::makeInit( ast::expr::makeIdentifier( i ), ast::expr::makeLiteral( cache, 10 ) ) ) );
+			stmt->addStmt( ast::stmt::makeSimple( ast::expr::makeInit( ast::expr::makeIdentifier( j ), ast::expr::makeLiteral( cache, 20 ) ) ) );
 			auto elseStmt = stmt->createElse();
-			elseStmt->addStmt( ast::stmt::makeSimple( ast::expr::makeInit( ast::expr::makeIdentifier( i ), ast::expr::makeLiteral( 20 ) ) ) );
-			elseStmt->addStmt( ast::stmt::makeSimple( ast::expr::makeInit( ast::expr::makeIdentifier( j ), ast::expr::makeLiteral( 10 ) ) ) );
+			elseStmt->addStmt( ast::stmt::makeSimple( ast::expr::makeInit( ast::expr::makeIdentifier( i ), ast::expr::makeLiteral( cache, 20 ) ) ) );
+			elseStmt->addStmt( ast::stmt::makeSimple( ast::expr::makeInit( ast::expr::makeIdentifier( j ), ast::expr::makeLiteral( cache, 10 ) ) ) );
 			std::cout << "StmtElse:\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
 
 			require( elseStmt->getKind() == ast::stmt::Kind::eElse );
@@ -379,24 +407,26 @@ namespace
 	{
 		testBegin( "testElseIfStatement" );
 		{
-			auto i = ast::var::makeVariable( ast::type::getInt(), "i" );
-			auto j = ast::var::makeVariable( ast::type::getInt(), "j" );
-			auto stmt = ast::stmt::makeIf( ast::expr::makeIdentifier( ast::var::makeVariable( ast::type::getBool(), "k" ) ) );
-			auto elseIfStmt = stmt->createElseIf( ast::expr::makeIdentifier( ast::var::makeVariable( ast::type::getBool(), "l" ) ) );
+			ast::type::TypesCache cache;
+			auto i = ast::var::makeVariable( cache.getInt(), "i" );
+			auto j = ast::var::makeVariable( cache.getInt(), "j" );
+			auto stmt = ast::stmt::makeIf( ast::expr::makeIdentifier( ast::var::makeVariable( cache.getBool(), "k" ) ) );
+			auto elseIfStmt = stmt->createElseIf( ast::expr::makeIdentifier( ast::var::makeVariable( cache.getBool(), "l" ) ) );
 			std::cout << "StmtElseIf (empty):\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
 
 			require( elseIfStmt->getKind() == ast::stmt::Kind::eElseIf );
 			check( elseIfStmt->empty() );
 		}
 		{
-			auto i = ast::var::makeVariable( ast::type::getInt(), "i" );
-			auto j = ast::var::makeVariable( ast::type::getInt(), "j" );
-			auto stmt = ast::stmt::makeIf( ast::expr::makeIdentifier( ast::var::makeVariable( ast::type::getBool(), "k" ) ) );
-			stmt->addStmt( ast::stmt::makeSimple( ast::expr::makeInit( ast::expr::makeIdentifier( i ), ast::expr::makeLiteral( 10 ) ) ) );
-			stmt->addStmt( ast::stmt::makeSimple( ast::expr::makeInit( ast::expr::makeIdentifier( j ), ast::expr::makeLiteral( 20 ) ) ) );
-			auto elseIfStmt = stmt->createElseIf( ast::expr::makeIdentifier( ast::var::makeVariable( ast::type::getBool(), "l" ) ) );
-			elseIfStmt->addStmt( ast::stmt::makeSimple( ast::expr::makeInit( ast::expr::makeIdentifier( i ), ast::expr::makeLiteral( 20 ) ) ) );
-			elseIfStmt->addStmt( ast::stmt::makeSimple( ast::expr::makeInit( ast::expr::makeIdentifier( j ), ast::expr::makeLiteral( 10 ) ) ) );
+			ast::type::TypesCache cache;
+			auto i = ast::var::makeVariable( cache.getInt(), "i" );
+			auto j = ast::var::makeVariable( cache.getInt(), "j" );
+			auto stmt = ast::stmt::makeIf( ast::expr::makeIdentifier( ast::var::makeVariable( cache.getBool(), "k" ) ) );
+			stmt->addStmt( ast::stmt::makeSimple( ast::expr::makeInit( ast::expr::makeIdentifier( i ), ast::expr::makeLiteral( cache, 10 ) ) ) );
+			stmt->addStmt( ast::stmt::makeSimple( ast::expr::makeInit( ast::expr::makeIdentifier( j ), ast::expr::makeLiteral( cache, 20 ) ) ) );
+			auto elseIfStmt = stmt->createElseIf( ast::expr::makeIdentifier( ast::var::makeVariable( cache.getBool(), "l" ) ) );
+			elseIfStmt->addStmt( ast::stmt::makeSimple( ast::expr::makeInit( ast::expr::makeIdentifier( i ), ast::expr::makeLiteral( cache, 20 ) ) ) );
+			elseIfStmt->addStmt( ast::stmt::makeSimple( ast::expr::makeInit( ast::expr::makeIdentifier( j ), ast::expr::makeLiteral( cache, 10 ) ) ) );
 			std::cout << "StmtElseIf:\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
 
 			require( elseIfStmt->getKind() == ast::stmt::Kind::eElseIf );
@@ -409,25 +439,27 @@ namespace
 	{
 		testBegin( "testElseIfStatement" );
 		{
-			auto i = ast::var::makeVariable( ast::type::getInt(), "i" );
-			auto j = ast::var::makeVariable( ast::type::getInt(), "j" );
-			auto stmt = ast::stmt::makeIf( ast::expr::makeIdentifier( ast::var::makeVariable( ast::type::getBool(), "k" ) ) );
-			auto elseIfStmt = stmt->createElseIf( ast::expr::makeIdentifier( ast::var::makeVariable( ast::type::getBool(), "l" ) ) );
+			ast::type::TypesCache cache;
+			auto i = ast::var::makeVariable( cache.getInt(), "i" );
+			auto j = ast::var::makeVariable( cache.getInt(), "j" );
+			auto stmt = ast::stmt::makeIf( ast::expr::makeIdentifier( ast::var::makeVariable( cache.getBool(), "k" ) ) );
+			auto elseIfStmt = stmt->createElseIf( ast::expr::makeIdentifier( ast::var::makeVariable( cache.getBool(), "l" ) ) );
 			auto elseStmt = stmt->createElse();
 			std::cout << "StmtElse (empty):\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
 		}
 		{
-			auto i = ast::var::makeVariable( ast::type::getInt(), "i" );
-			auto j = ast::var::makeVariable( ast::type::getInt(), "j" );
-			auto stmt = ast::stmt::makeIf( ast::expr::makeIdentifier( ast::var::makeVariable( ast::type::getBool(), "k" ) ) );
-			stmt->addStmt( ast::stmt::makeSimple( ast::expr::makeInit( ast::expr::makeIdentifier( i ), ast::expr::makeLiteral( 10 ) ) ) );
-			stmt->addStmt( ast::stmt::makeSimple( ast::expr::makeInit( ast::expr::makeIdentifier( j ), ast::expr::makeLiteral( 20 ) ) ) );
-			auto elseIfStmt = stmt->createElseIf( ast::expr::makeIdentifier( ast::var::makeVariable( ast::type::getBool(), "l" ) ) );
-			elseIfStmt->addStmt( ast::stmt::makeSimple( ast::expr::makeInit( ast::expr::makeIdentifier( i ), ast::expr::makeLiteral( 20 ) ) ) );
-			elseIfStmt->addStmt( ast::stmt::makeSimple( ast::expr::makeInit( ast::expr::makeIdentifier( j ), ast::expr::makeLiteral( 10 ) ) ) );
+			ast::type::TypesCache cache;
+			auto i = ast::var::makeVariable( cache.getInt(), "i" );
+			auto j = ast::var::makeVariable( cache.getInt(), "j" );
+			auto stmt = ast::stmt::makeIf( ast::expr::makeIdentifier( ast::var::makeVariable( cache.getBool(), "k" ) ) );
+			stmt->addStmt( ast::stmt::makeSimple( ast::expr::makeInit( ast::expr::makeIdentifier( i ), ast::expr::makeLiteral( cache, 10 ) ) ) );
+			stmt->addStmt( ast::stmt::makeSimple( ast::expr::makeInit( ast::expr::makeIdentifier( j ), ast::expr::makeLiteral( cache, 20 ) ) ) );
+			auto elseIfStmt = stmt->createElseIf( ast::expr::makeIdentifier( ast::var::makeVariable( cache.getBool(), "l" ) ) );
+			elseIfStmt->addStmt( ast::stmt::makeSimple( ast::expr::makeInit( ast::expr::makeIdentifier( i ), ast::expr::makeLiteral( cache, 20 ) ) ) );
+			elseIfStmt->addStmt( ast::stmt::makeSimple( ast::expr::makeInit( ast::expr::makeIdentifier( j ), ast::expr::makeLiteral( cache, 10 ) ) ) );
 			auto elseStmt = stmt->createElse();
-			elseStmt->addStmt( ast::stmt::makeSimple( ast::expr::makeInit( ast::expr::makeIdentifier( i ), ast::expr::makeLiteral( 20 ) ) ) );
-			elseStmt->addStmt( ast::stmt::makeSimple( ast::expr::makeInit( ast::expr::makeIdentifier( j ), ast::expr::makeLiteral( 10 ) ) ) );
+			elseStmt->addStmt( ast::stmt::makeSimple( ast::expr::makeInit( ast::expr::makeIdentifier( i ), ast::expr::makeLiteral( cache, 20 ) ) ) );
+			elseStmt->addStmt( ast::stmt::makeSimple( ast::expr::makeInit( ast::expr::makeIdentifier( j ), ast::expr::makeLiteral( cache, 10 ) ) ) );
 			std::cout << "StmtElse:\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
 		}
 		testEnd();
@@ -437,7 +469,8 @@ namespace
 	{
 		testBegin( "testWhileStatement" );
 		{
-			auto stmt = ast::stmt::makeWhile( ast::expr::makeIdentifier( ast::var::makeVariable( ast::type::getBool(), "k" ) ) );
+			ast::type::TypesCache cache;
+			auto stmt = ast::stmt::makeWhile( ast::expr::makeIdentifier( ast::var::makeVariable( cache.getBool(), "k" ) ) );
 			std::cout << "StmtWhile (empty):\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
 
 			require( stmt->getKind() == ast::stmt::Kind::eWhile );
@@ -446,11 +479,12 @@ namespace
 			check( stmt->empty() );
 		}
 		{
-			auto i = ast::expr::makeIdentifier( ast::var::makeVariable( ast::type::getInt(), "i" ) );
-			auto j = ast::expr::makeIdentifier( ast::var::makeVariable( ast::type::getInt(), "j" ) );
-			auto stmt = ast::stmt::makeWhile( ast::expr::makeIdentifier( ast::var::makeVariable( ast::type::getBool(), "k" ) ) );
-			stmt->addStmt( ast::stmt::makeSimple( ast::expr::makeInit( std::move( i ), ast::expr::makeLiteral( 10 ) ) ) );
-			stmt->addStmt( ast::stmt::makeSimple( ast::expr::makeInit( std::move( j ), ast::expr::makeLiteral( 20 ) ) ) );
+			ast::type::TypesCache cache;
+			auto i = ast::expr::makeIdentifier( ast::var::makeVariable( cache.getInt(), "i" ) );
+			auto j = ast::expr::makeIdentifier( ast::var::makeVariable( cache.getInt(), "j" ) );
+			auto stmt = ast::stmt::makeWhile( ast::expr::makeIdentifier( ast::var::makeVariable( cache.getBool(), "k" ) ) );
+			stmt->addStmt( ast::stmt::makeSimple( ast::expr::makeInit( std::move( i ), ast::expr::makeLiteral( cache, 10 ) ) ) );
+			stmt->addStmt( ast::stmt::makeSimple( ast::expr::makeInit( std::move( j ), ast::expr::makeLiteral( cache, 20 ) ) ) );
 			std::cout << "StmtWhile:\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
 
 			require( stmt->getKind() == ast::stmt::Kind::eWhile );
@@ -465,7 +499,8 @@ namespace
 	{
 		testBegin( "testDoWhileStatement" );
 		{
-			auto stmt = ast::stmt::makeDoWhile( ast::expr::makeIdentifier( ast::var::makeVariable( ast::type::getBool(), "k" ) ) );
+			ast::type::TypesCache cache;
+			auto stmt = ast::stmt::makeDoWhile( ast::expr::makeIdentifier( ast::var::makeVariable( cache.getBool(), "k" ) ) );
 			std::cout << "StmtDoWhile (empty):\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
 
 			require( stmt->getKind() == ast::stmt::Kind::eDoWhile );
@@ -474,11 +509,12 @@ namespace
 			check( stmt->empty() );
 		}
 		{
-			auto i = ast::expr::makeIdentifier( ast::var::makeVariable( ast::type::getInt(), "i" ) );
-			auto j = ast::expr::makeIdentifier( ast::var::makeVariable( ast::type::getInt(), "j" ) );
-			auto stmt = ast::stmt::makeDoWhile( ast::expr::makeIdentifier( ast::var::makeVariable( ast::type::getBool(), "k" ) ) );
-			stmt->addStmt( ast::stmt::makeSimple( ast::expr::makeInit( std::move( i ), ast::expr::makeLiteral( 10 ) ) ) );
-			stmt->addStmt( ast::stmt::makeSimple( ast::expr::makeInit( std::move( j ), ast::expr::makeLiteral( 20 ) ) ) );
+			ast::type::TypesCache cache;
+			auto i = ast::expr::makeIdentifier( ast::var::makeVariable( cache.getInt(), "i" ) );
+			auto j = ast::expr::makeIdentifier( ast::var::makeVariable( cache.getInt(), "j" ) );
+			auto stmt = ast::stmt::makeDoWhile( ast::expr::makeIdentifier( ast::var::makeVariable( cache.getBool(), "k" ) ) );
+			stmt->addStmt( ast::stmt::makeSimple( ast::expr::makeInit( std::move( i ), ast::expr::makeLiteral( cache, 10 ) ) ) );
+			stmt->addStmt( ast::stmt::makeSimple( ast::expr::makeInit( std::move( j ), ast::expr::makeLiteral( cache, 20 ) ) ) );
 			std::cout << "StmtDoWhile:\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
 
 			require( stmt->getKind() == ast::stmt::Kind::eDoWhile );
@@ -493,9 +529,10 @@ namespace
 	{
 		testBegin( "testForStatement" );
 		{
-			auto k = ast::var::makeVariable( ast::type::getInt(), "k" );
-			auto stmt = ast::stmt::makeFor( ast::expr::makeInit( ast::expr::makeIdentifier( k ), ast::expr::makeLiteral( 0 ) )
-				, ast::expr::makeLessEqual( ast::expr::makeIdentifier( k ), ast::expr::makeLiteral( 10 ) )
+			ast::type::TypesCache cache;
+			auto k = ast::var::makeVariable( cache.getInt(), "k" );
+			auto stmt = ast::stmt::makeFor( ast::expr::makeInit( ast::expr::makeIdentifier( k ), ast::expr::makeLiteral( cache, 0 ) )
+				, ast::expr::makeLessEqual( cache, ast::expr::makeIdentifier( k ), ast::expr::makeLiteral( cache, 10 ) )
 				, ast::expr::makePreIncrement( ast::expr::makeIdentifier( k ) ) );
 			std::cout << "StmtFor (empty):\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
 
@@ -509,14 +546,15 @@ namespace
 			check( stmt->empty() );
 		}
 		{
-			auto i = ast::expr::makeIdentifier( ast::var::makeVariable( ast::type::getInt(), "i" ) );
-			auto j = ast::expr::makeIdentifier( ast::var::makeVariable( ast::type::getInt(), "j" ) );
-			auto k = ast::var::makeVariable( ast::type::getInt(), "k" );
-			auto stmt = ast::stmt::makeFor( ast::expr::makeInit( ast::expr::makeIdentifier( k ), ast::expr::makeLiteral( 0 ) )
-				, ast::expr::makeLessEqual( ast::expr::makeIdentifier( k ), ast::expr::makeLiteral( 10 ) )
+			ast::type::TypesCache cache;
+			auto i = ast::expr::makeIdentifier( ast::var::makeVariable( cache.getInt(), "i" ) );
+			auto j = ast::expr::makeIdentifier( ast::var::makeVariable( cache.getInt(), "j" ) );
+			auto k = ast::var::makeVariable( cache.getInt(), "k" );
+			auto stmt = ast::stmt::makeFor( ast::expr::makeInit( ast::expr::makeIdentifier( k ), ast::expr::makeLiteral( cache, 0 ) )
+				, ast::expr::makeLessEqual( cache, ast::expr::makeIdentifier( k ), ast::expr::makeLiteral( cache, 10 ) )
 				, ast::expr::makePreIncrement( ast::expr::makeIdentifier( k ) ) );
-			stmt->addStmt( ast::stmt::makeSimple( ast::expr::makeInit( std::move( i ), ast::expr::makeLiteral( 10 ) ) ) );
-			stmt->addStmt( ast::stmt::makeSimple( ast::expr::makeInit( std::move( j ), ast::expr::makeLiteral( 20 ) ) ) );
+			stmt->addStmt( ast::stmt::makeSimple( ast::expr::makeInit( std::move( i ), ast::expr::makeLiteral( cache, 10 ) ) ) );
+			stmt->addStmt( ast::stmt::makeSimple( ast::expr::makeInit( std::move( j ), ast::expr::makeLiteral( cache, 20 ) ) ) );
 			std::cout << "StmtFor:\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
 
 			require( stmt->getKind() == ast::stmt::Kind::eFor );
@@ -535,7 +573,8 @@ namespace
 	{
 		testBegin( "testStructureDeclStatement" );
 		{
-			auto type = ast::type::makeStructType( ast::type::MemoryLayout::eStd140, "MyStruct" );
+			ast::type::TypesCache cache;
+			auto type = cache.getStruct( ast::type::MemoryLayout::eStd140, "MyStruct" );
 			auto stmt = ast::stmt::makeStructureDecl( type );
 			std::cout << "StmtStructureDecl (empty):\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
 
@@ -544,9 +583,10 @@ namespace
 			check( stmt->getType()->empty() );
 		}
 		{
-			auto type = ast::type::makeStructType( ast::type::MemoryLayout::eStd140, "MyStruct" );
-			type->declMember( "i", ast::type::getInt() );
-			type->declMember( "j", ast::type::getInt() );
+			ast::type::TypesCache cache;
+			auto type = cache.getStruct( ast::type::MemoryLayout::eStd140, "MyStruct" );
+			type->declMember( "i", cache.getInt() );
+			type->declMember( "j", cache.getInt() );
 			auto stmt = ast::stmt::makeStructureDecl( type );
 			std::cout << "StmtStructureDecl:\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
 
@@ -561,7 +601,8 @@ namespace
 	{
 		testBegin( "testSwitchStatement" );
 		{
-			auto i = ast::var::makeVariable( ast::type::getInt(), "i" );
+			ast::type::TypesCache cache;
+			auto i = ast::var::makeVariable( cache.getInt(), "i" );
 			auto stmt = ast::stmt::makeSwitch( ast::expr::makeSwitchTest( ast::expr::makeIdentifier( i ) ) );
 			std::cout << "StmtSwitch (empty):\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
 
@@ -570,9 +611,10 @@ namespace
 			check( stmt->empty() );
 		}
 		{
-			auto i = ast::var::makeVariable( ast::type::getInt(), "i" );
+			ast::type::TypesCache cache;
+			auto i = ast::var::makeVariable( cache.getInt(), "i" );
 			auto stmt = ast::stmt::makeSwitch( ast::expr::makeSwitchTest( ast::expr::makeIdentifier( i ) ) );
-			stmt->createCase( ast::expr::makeSwitchCase( ast::expr::makeLiteral( 10 ) ) );
+			stmt->createCase( ast::expr::makeSwitchCase( ast::expr::makeLiteral( cache, 10 ) ) );
 			stmt->createDefault();
 			std::cout << "StmtSwitch (empty cases):\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
 
@@ -581,16 +623,17 @@ namespace
 			check( stmt->size() == 2u );
 		}
 		{
-			auto i = ast::var::makeVariable( ast::type::getInt(), "i" );
-			auto j = ast::var::makeVariable( ast::type::getInt(), "j" );
-			auto k = ast::var::makeVariable( ast::type::getInt(), "k" );
+			ast::type::TypesCache cache;
+			auto i = ast::var::makeVariable( cache.getInt(), "i" );
+			auto j = ast::var::makeVariable( cache.getInt(), "j" );
+			auto k = ast::var::makeVariable( cache.getInt(), "k" );
 			auto stmt = ast::stmt::makeSwitch( ast::expr::makeSwitchTest( ast::expr::makeIdentifier( i ) ) );
-			auto caseStmt = stmt->createCase( ast::expr::makeSwitchCase( ast::expr::makeLiteral( 10 ) ) );
-			caseStmt->addStmt( ast::stmt::makeSimple( ast::expr::makeInit( ast::expr::makeIdentifier( j ), ast::expr::makeLiteral( 10 ) ) ) );
-			caseStmt->addStmt( ast::stmt::makeSimple( ast::expr::makeInit( ast::expr::makeIdentifier( k ), ast::expr::makeLiteral( 20 ) ) ) );
+			auto caseStmt = stmt->createCase( ast::expr::makeSwitchCase( ast::expr::makeLiteral( cache, 10 ) ) );
+			caseStmt->addStmt( ast::stmt::makeSimple( ast::expr::makeInit( ast::expr::makeIdentifier( j ), ast::expr::makeLiteral( cache, 10 ) ) ) );
+			caseStmt->addStmt( ast::stmt::makeSimple( ast::expr::makeInit( ast::expr::makeIdentifier( k ), ast::expr::makeLiteral( cache, 20 ) ) ) );
 			auto defaultStmt = stmt->createDefault();
-			defaultStmt->addStmt( ast::stmt::makeSimple( ast::expr::makeInit( ast::expr::makeIdentifier( k ), ast::expr::makeLiteral( 10 ) ) ) );
-			defaultStmt->addStmt( ast::stmt::makeSimple( ast::expr::makeInit( ast::expr::makeIdentifier( j ), ast::expr::makeLiteral( 20 ) ) ) );
+			defaultStmt->addStmt( ast::stmt::makeSimple( ast::expr::makeInit( ast::expr::makeIdentifier( k ), ast::expr::makeLiteral( cache, 10 ) ) ) );
+			defaultStmt->addStmt( ast::stmt::makeSimple( ast::expr::makeInit( ast::expr::makeIdentifier( j ), ast::expr::makeLiteral( cache, 20 ) ) ) );
 			std::cout << "StmtSwitch:\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
 
 			require( stmt->getKind() == ast::stmt::Kind::eSwitch );
@@ -604,13 +647,15 @@ namespace
 	{
 		testBegin( "testReturnStatement" );
 		{
+			ast::type::TypesCache cache;
 			auto stmt = ast::stmt::makeReturn();
 			std::cout << "StmtReturn:\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
 
 			require( stmt->getKind() == ast::stmt::Kind::eReturn );
 		}
 		{
-			auto stmt = ast::stmt::makeReturn( ast::expr::makeLiteral( 10 ) );
+			ast::type::TypesCache cache;
+			auto stmt = ast::stmt::makeReturn( ast::expr::makeLiteral( cache, 10 ) );
 			std::cout << "StmtReturn:\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
 
 			require( stmt->getKind() == ast::stmt::Kind::eReturn );
@@ -622,6 +667,7 @@ namespace
 	void testDiscardStatement( test::TestCounts & testCounts )
 	{
 		testBegin( "testDiscardStatement" );
+		ast::type::TypesCache cache;
 		auto stmt = ast::stmt::makeDiscard();
 		std::cout << "StmtDiscard:\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
 
@@ -632,6 +678,7 @@ namespace
 	void testInputComputeLayout( test::TestCounts & testCounts )
 	{
 		testBegin( "testInputComputeLayout" );
+		ast::type::TypesCache cache;
 		auto stmt = ast::stmt::makeInputComputeLayout( 16, 32, 64 );
 		std::cout << "StmtInputComputeLayout:\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
 
@@ -645,6 +692,7 @@ namespace
 	void testInputGeometryLayout( test::TestCounts & testCounts )
 	{
 		testBegin( "testInputGeometryLayout" );
+		ast::type::TypesCache cache;
 		auto stmt = ast::stmt::makeInputGeometryLayout( ast::stmt::InputLayout::eLineStripWithAdjacency );
 		std::cout << "StmtInputGeometryLayout:\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
 
@@ -656,6 +704,7 @@ namespace
 	void testOutputGeometryLayout( test::TestCounts & testCounts )
 	{
 		testBegin( "testOutputGeometryLayout" );
+		ast::type::TypesCache cache;
 		auto stmt = ast::stmt::makeOutputGeometryLayout( ast::stmt::OutputLayout::eTriangleStrip, 15u );
 		std::cout << "StmtOutputGeometryLayout:\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
 
@@ -669,7 +718,8 @@ namespace
 	{
 		testBegin( "testFunctionDeclStatement" );
 		{
-			auto stmt = ast::stmt::makeFunctionDecl( ast::type::getInt(), "foo", {} );
+			ast::type::TypesCache cache;
+			auto stmt = ast::stmt::makeFunctionDecl( cache.getInt(), "foo", {} );
 			std::cout << "StmtFunctionDecl (empty):\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
 
 			require( stmt->getKind() == ast::stmt::Kind::eFunctionDecl );
@@ -678,7 +728,8 @@ namespace
 			check( stmt->empty() );
 		}
 		{
-			auto stmt = ast::stmt::makeFunctionDecl( ast::type::getInt(), "foo", { ast::var::makeVariable( ast::type::getInt(), "i" ) } );
+			ast::type::TypesCache cache;
+			auto stmt = ast::stmt::makeFunctionDecl( cache.getInt(), "foo", { ast::var::makeVariable( cache.getInt(), "i" ) } );
 			std::cout << "StmtFunctionDecl (empty body):\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
 
 			require( stmt->getKind() == ast::stmt::Kind::eFunctionDecl );
@@ -687,7 +738,8 @@ namespace
 			check( stmt->empty() );
 		}
 		{
-			auto stmt = ast::stmt::makeFunctionDecl( ast::type::getInt(), "foo", { ast::var::makeVariable( ast::type::getInt(), "i" ), ast::var::makeVariable( ast::type::getInt(), "j" ) } );
+			ast::type::TypesCache cache;
+			auto stmt = ast::stmt::makeFunctionDecl( cache.getInt(), "foo", { ast::var::makeVariable( cache.getInt(), "i" ), ast::var::makeVariable( cache.getInt(), "j" ) } );
 			std::cout << "StmtFunctionDecl (empty body):\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
 
 			require( stmt->getKind() == ast::stmt::Kind::eFunctionDecl );
@@ -696,8 +748,9 @@ namespace
 			check( stmt->empty() );
 		}
 		{
-			auto stmt = ast::stmt::makeFunctionDecl( ast::type::getInt(), "foo", {} );
-			stmt->addStmt( ast::stmt::makeReturn( ast::expr::makeLiteral( 10 ) ) );
+			ast::type::TypesCache cache;
+			auto stmt = ast::stmt::makeFunctionDecl( cache.getInt(), "foo", {} );
+			stmt->addStmt( ast::stmt::makeReturn( ast::expr::makeLiteral( cache, 10 ) ) );
 			std::cout << "StmtFunctionDecl (empty parameters list):\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
 
 			require( stmt->getKind() == ast::stmt::Kind::eFunctionDecl );
@@ -706,11 +759,12 @@ namespace
 			check( stmt->size() == 1u );
 		}
 		{
-			auto stmt = ast::stmt::makeFunctionDecl( ast::type::getInt(), "foo", { ast::var::makeVariable( ast::type::getInt(), "i" ) } );
+			ast::type::TypesCache cache;
+			auto stmt = ast::stmt::makeFunctionDecl( cache.getInt(), "foo", { ast::var::makeVariable( cache.getInt(), "i" ) } );
 			stmt->addStmt( ast::stmt::makeReturn(
-				ast::expr::makeAdd( ast::type::getInt(),
+				ast::expr::makeAdd( cache.getInt(),
 					ast::expr::makeIdentifier( stmt->getParameters()[0] ),
-					ast::expr::makeLiteral( 10 ) ) ) );
+					ast::expr::makeLiteral( cache, 10 ) ) ) );
 			std::cout << "StmtFunctionDecl:\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
 
 			require( stmt->getKind() == ast::stmt::Kind::eFunctionDecl );
@@ -719,9 +773,10 @@ namespace
 			check( stmt->size() == 1u );
 		}
 		{
-			auto stmt = ast::stmt::makeFunctionDecl( ast::type::getInt(), "foo", { ast::var::makeVariable( ast::type::getInt(), "i" ), ast::var::makeVariable( ast::type::getInt(), "j" ) } );
+			ast::type::TypesCache cache;
+			auto stmt = ast::stmt::makeFunctionDecl( cache.getInt(), "foo", { ast::var::makeVariable( cache.getInt(), "i" ), ast::var::makeVariable( cache.getInt(), "j" ) } );
 			stmt->addStmt( ast::stmt::makeReturn( 
-				ast::expr::makeAdd( ast::type::getInt(), 
+				ast::expr::makeAdd( cache.getInt(), 
 					ast::expr::makeIdentifier( stmt->getParameters()[0] ),
 					ast::expr::makeIdentifier( stmt->getParameters()[1] ) ) ) );
 			std::cout << "StmtFunctionDecl:\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;

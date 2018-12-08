@@ -5,7 +5,7 @@ See LICENSE file in root folder
 #define ___AST_Expr_H___
 #pragma once
 
-#include "ShaderAST/Type/Type.hpp"
+#include "ShaderAST/Type/TypeCache.hpp"
 
 namespace ast::expr
 {

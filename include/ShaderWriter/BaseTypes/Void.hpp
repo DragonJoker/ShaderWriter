@@ -18,7 +18,7 @@ namespace sdw
 		Void( Void const & rhs );
 		explicit Void( Value const & rhs );
 
-		static ast::type::TypePtr makeType();
+		static ast::type::TypePtr makeType( ast::type::TypesCache & cache );
 	};
 
 }

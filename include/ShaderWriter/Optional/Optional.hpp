@@ -61,7 +61,7 @@ namespace sdw
 
 	template< typename T >
 	inline expr::ExprPtr makeExpr( Optional< T > const & value
-		, bool force = false );
+		, bool force = true );
 
 	template< typename T >
 	inline bool isOptionalEnabled( T const & value );

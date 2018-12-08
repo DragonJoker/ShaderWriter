@@ -21,6 +21,7 @@ namespace sdw
 		explicit UInt( uint64_t rhs );
 		explicit UInt( Value const & rhs );
 		UInt & operator=( UInt const & rhs );
+		expr::ExprPtr makeCondition()const;
 		template< typename T >
 		inline UInt & operator=( T const & rhs );
 		UInt & operator=( uint32_t const & rhs );
@@ -59,7 +60,7 @@ namespace sdw
 		UInt & operator|=( Optional< UInt > const & rhs );
 		UInt & operator^=( Optional< UInt > const & rhs );
 
-		static ast::type::TypePtr makeType();
+		static ast::type::TypePtr makeType( ast::type::TypesCache & cache );
 	};
 
 	UInt operator+( UInt const & rhs, UInt const & lhs );

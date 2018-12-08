@@ -66,12 +66,19 @@ namespace ast::expr
 	class Literal
 		: public Expr
 	{
+	private:
+		Literal( type::TypePtr type, bool value );
+		Literal( type::TypePtr type, int32_t value );
+		Literal( type::TypePtr type, uint32_t value );
+		Literal( type::TypePtr type, float value );
+		Literal( type::TypePtr type, double value );
+
 	public:
-		Literal( bool value );
-		Literal( int32_t value );
-		Literal( uint32_t value );
-		Literal( float value );
-		Literal( double value );
+		Literal( type::TypesCache & cache, bool value );
+		Literal( type::TypesCache & cache, int32_t value );
+		Literal( type::TypesCache & cache, uint32_t value );
+		Literal( type::TypesCache & cache, float value );
+		Literal( type::TypesCache & cache, double value );
 
 		void accept( VisitorPtr vis )override;
 
@@ -90,9 +97,10 @@ namespace ast::expr
 	using LiteralPtr = std::unique_ptr< Literal >;
 
 	template< typename T >
-	inline LiteralPtr makeLiteral( T value )
+	inline LiteralPtr makeLiteral( type::TypesCache & cache
+		, T value )
 	{
-		return std::make_unique< Literal >( value );
+		return std::make_unique< Literal >( cache, value );
 	}
 
 	LiteralPtr operator~( Literal const & operand );

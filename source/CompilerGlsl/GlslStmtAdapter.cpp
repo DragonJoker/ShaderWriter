@@ -37,7 +37,8 @@ namespace glsl
 		}
 	}
 
-	ast::stmt::ContainerPtr StmtAdapter::submit( ast::stmt::Container * container
+	ast::stmt::ContainerPtr StmtAdapter::submit( ast::type::TypesCache & cache
+		, ast::stmt::Container * container
 		, GlslConfig const & writerConfig
 		, IntrinsicsConfig const & intrinsicsConfig )
 	{
@@ -71,15 +72,17 @@ namespace glsl
 			}
 		}
 
-		StmtAdapter vis{ writerConfig, intrinsicsConfig, result };
+		StmtAdapter vis{ cache, writerConfig, intrinsicsConfig, result };
 		container->accept( &vis );
 		return result;
 	}
 
-	StmtAdapter::StmtAdapter( GlslConfig const & writerConfig
+	StmtAdapter::StmtAdapter( ast::type::TypesCache & cache
+		, GlslConfig const & writerConfig
 		, IntrinsicsConfig const & intrinsicsConfig
 		, ast::stmt::ContainerPtr & result )
 		: ast::StmtCloner{ result }
+		, m_cache{ cache }
 		, m_writerConfig{ writerConfig }
 		, m_intrinsicsConfig{ intrinsicsConfig }
 	{
@@ -87,7 +90,10 @@ namespace glsl
 	
 	ast::expr::ExprPtr StmtAdapter::doSubmit( ast::expr::Expr * expr )
 	{
-		return ExprAdapter::submit( expr, m_writerConfig, m_intrinsicsConfig );
+		return ExprAdapter::submit( m_cache
+			, expr
+			, m_writerConfig
+			, m_intrinsicsConfig );
 	}
 
 	void StmtAdapter::visitConstantBufferDeclStmt( ast::stmt::ConstantBufferDecl * stmt )

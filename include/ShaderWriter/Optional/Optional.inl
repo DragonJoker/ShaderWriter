@@ -55,7 +55,7 @@ namespace sdw
 	{
 		if ( m_enabled )
 		{
-			addStmt( *findContainer( *this, rhs )
+			addStmt( *findShader( *this, rhs )
 				, sdw::makeSimple( sdw::makeAssign( this->getType()
 					, makeExpr( *this )
 					, makeExpr( rhs ) ) ) );
@@ -70,7 +70,7 @@ namespace sdw
 	{
 		if ( m_enabled )
 		{
-			addStmt( *findContainer( *this, rhs )
+			addStmt( *findShader( *this, rhs )
 				, sdw::makeSimple( sdw::makeAssign( this->getType()
 					, makeExpr( *this )
 					, makeExpr( rhs ) ) ) );

@@ -14,17 +14,20 @@ namespace hlsl
 		: public ast::ExprCloner
 	{
 	public:
-		static ast::expr::ExprPtr submit( ast::expr::Expr * expr
+		static ast::expr::ExprPtr submit( ast::type::TypesCache & cache
+			, ast::expr::Expr * expr
 			, IntrinsicsConfig const & config
 			, AdaptationData & adaptationData
 			, ast::stmt::Container * intrinsics );
-		static ast::expr::ExprPtr submit( ast::expr::ExprPtr const & expr
+		static ast::expr::ExprPtr submit( ast::type::TypesCache & cache
+			, ast::expr::ExprPtr const & expr
 			, IntrinsicsConfig const & config
 			, AdaptationData & adaptationData
 			, ast::stmt::Container * intrinsics );
 
 	private:
-		ExprAdapter( ast::expr::ExprPtr & result
+		ExprAdapter( ast::type::TypesCache & cache
+			, ast::expr::ExprPtr & result
 			, IntrinsicsConfig const & config
 			, AdaptationData & adaptationData
 			, ast::stmt::Container * intrinsics );
@@ -65,6 +68,7 @@ namespace hlsl
 		void doProcessTexture( ast::expr::TextureAccessCall * expr );
 
 	private:
+		ast::type::TypesCache & m_cache;
 		IntrinsicsConfig const & m_config;
 		AdaptationData & m_adaptationData;
 		ast::stmt::Container * m_intrinsics;

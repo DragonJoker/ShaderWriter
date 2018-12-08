@@ -27,11 +27,14 @@ namespace sdw
 	using namespace ::ast;
 
 	template< typename ValueT >
-	ast::type::TypePtr makeType();
+	ast::type::TypePtr makeType( ast::type::TypesCache & cache );
+	template< typename ValueT >
+	expr::ExprPtr makeCondition( ValueT const & value );
 	template< typename ValueT >
 	ast::type::ImageConfiguration makeConfig();
 	ast::type::TypePtr getNonArrayType( ast::type::TypePtr type );
-	stmt::Container * getContainer( Shader & shader );
+	ast::stmt::Container * getContainer( Shader & shader );
+	ast::type::TypesCache & getTypesCache( Shader & shader );
 	Shader & getShader( ShaderWriter & writer );
 	Shader const & getShader( ShaderWriter const & writer );
 	expr::ExprPtr makeExpr( var::VariablePtr const & var );

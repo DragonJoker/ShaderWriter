@@ -13,17 +13,20 @@ namespace ast::expr
 		: public Binary
 	{
 	public:
-		NotEqual( ExprPtr lhs
+		NotEqual( type::TypePtr type
+			, ExprPtr lhs
 			, ExprPtr rhs );
 
 		void accept( VisitorPtr vis )override;
 	};
 	using NotEqualPtr = std::unique_ptr< NotEqual >;
 
-	inline NotEqualPtr makeNotEqual( ExprPtr lhs
+	inline NotEqualPtr makeNotEqual( type::TypesCache & cache
+		, ExprPtr lhs
 		, ExprPtr rhs )
 	{
-		return std::make_unique< NotEqual >( std::move( lhs )
+		return std::make_unique< NotEqual >( cache.getBool()
+			, std::move( lhs )
 			, std::move( rhs ) );
 	}
 }

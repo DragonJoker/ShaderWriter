@@ -35,7 +35,7 @@ namespace test
 			, sdw::makeExpr( a[0] + b[0] ) };
 	}
 
-	void testMaybeOptional( test::TestCounts & testCounts )
+	void testMaybeOptional( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testMaybeOptional" );
 		using namespace sdw;
@@ -159,7 +159,7 @@ namespace test
 		testEnd();
 	}
 
-	void testMaybeOptionalArray( test::TestCounts & testCounts )
+	void testMaybeOptionalArray( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testMaybeOptionalArray" );
 		using namespace sdw;
@@ -286,8 +286,8 @@ namespace test
 
 int main( int argc, char ** argv )
 {
-	testSuiteBegin( "TestWriterMaybeOptional" );
+	sdwTestSuiteBegin( "TestWriterMaybeOptional" );
 	testMaybeOptional( testCounts );
 	testMaybeOptionalArray( testCounts );
-	testSuiteEnd();
+	sdwTestSuiteEnd();
 }

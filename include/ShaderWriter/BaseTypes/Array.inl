@@ -29,9 +29,27 @@ namespace sdw
 	}
 
 	template< typename ValueT >
-	inline ast::type::ArrayPtr Array< ValueT >::makeType( uint32_t arraySize )
+	ValueT Array< ValueT >::operator[]( int32_t offset )const
 	{
-		return ast::type::makeArrayType( ValueT::makeType(), arraySize );
+		return ValueT{ findShader( *this, offset )
+			, sdw::makeArrayAccess( getNonArrayType( this->getType() )
+				, makeExpr( *this )
+				, makeExpr( offset ) ) };
+	}
+
+	template< typename ValueT >
+	ValueT Array< ValueT >::operator[]( uint32_t offset )const
+	{
+		return ValueT{ findShader( *this, offset )
+			, sdw::makeArrayAccess( getNonArrayType( this->getType() )
+				, makeExpr( *this )
+				, makeExpr( offset ) ) };
+	}
+
+	template< typename ValueT >
+	inline ast::type::ArrayPtr Array< ValueT >::makeType( ast::type::TypesCache & cache, uint32_t arraySize )
+	{
+		return cache.getArray( ValueT::makeType( cache ), arraySize );
 	}
 
 	//*********************************************************************************************

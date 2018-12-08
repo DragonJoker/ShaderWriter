@@ -4,6 +4,7 @@ See LICENSE file in root folder
 #include "CompilerSpirV/compileSpirV.hpp"
 
 #include "SpirvStmtAdapter.hpp"
+#include "SpirvStmtConfigFiller.hpp"
 #include "SpirvStmtVisitor.hpp"
 
 #include "spirv/GLSL.std.450.hpp"
@@ -1019,6 +1020,72 @@ namespace spirv
 			}
 		}
 
+		std::string getSelectionControlName( uint32_t value )
+		{
+			std::stringstream stream;
+			std::string sep;
+			stream << "[";
+
+			if ( value & uint32_t( spv::SelectionControlMask::Flatten ) )
+			{
+				stream << sep << "Flatten";
+				sep = "|";
+			}
+
+			if ( value & uint32_t( spv::SelectionControlMask::DontFlatten ) )
+			{
+				stream << sep << "DontFlatten";
+				sep = "|";
+			}
+
+			if ( value == uint32_t( spv::SelectionControlMask::MaskNone ) )
+			{
+				stream << sep << "None";
+			}
+
+			stream << "]";
+			return stream.str();
+		}
+
+		std::string getLoopControlName( uint32_t value )
+		{
+			std::stringstream stream;
+			std::string sep;
+			stream << "[";
+
+			if ( value & uint32_t( spv::LoopControlMask::DependencyInfinite ) )
+			{
+				stream << sep << "DependencyInfinite";
+				sep = "|";
+			}
+
+			if ( value & uint32_t( spv::LoopControlMask::DependencyLength ) )
+			{
+				stream << sep << "DependencyLength";
+				sep = "|";
+			}
+
+			if ( value & uint32_t( spv::LoopControlMask::DontUnroll ) )
+			{
+				stream << sep << "DontUnroll";
+				sep = "|";
+			}
+
+			if ( value & uint32_t( spv::LoopControlMask::Unroll ) )
+			{
+				stream << sep << "Unroll";
+				sep = "|";
+			}
+
+			if ( value == uint32_t( spv::LoopControlMask::MaskNone ) )
+			{
+				stream << sep << "None";
+			}
+
+			stream << "]";
+			return stream.str();
+		}
+
 		std::string getImageOperandsName( uint32_t value )
 		{
 			std::stringstream stream;
@@ -1162,6 +1229,17 @@ namespace spirv
 
 		using IdNames = std::map< spv::Id, std::string >;
 
+		template< typename InstructionType >
+		inline void checkType( Instruction const & instruction )
+		{
+			return assertType< InstructionType::op
+				, InstructionType::hasReturnTypeId
+				, InstructionType::hasResultId
+				, InstructionType::operandsCount
+				, InstructionType::hasName
+				, InstructionType::hasLabels >( instruction );
+		}
+
 		std::string writeId( spv::Id const & id )
 		{
 			std::stringstream stream;
@@ -1208,34 +1286,36 @@ namespace spirv
 			return stream;
 		}
 
-		std::ostream & writeExtension( spirv::Instruction const & instruction
+		std::ostream & writeExtension( spirv::InstructionPtr const & instruction
 			, IdNames & names
 			, std::ostream & stream )
 		{
-			auto opCode = spv::Op( instruction.op.opCode );
+			auto opCode = spv::Op( instruction->op.opCode );
 
 			if ( opCode == spv::Op::OpExtInstImport )
 			{
-				names.emplace( instruction.resultId.value(), instruction.name.value() );
-				stream << writeId( instruction.resultId.value() ) << " =";
+				checkType< ExtInstImportInstruction >( *instruction );
+				names.emplace( instruction->resultId.value(), instruction->name.value() );
+				stream << writeId( instruction->resultId.value() ) << " =";
 				stream << " " << spirv::getOperatorName( opCode );
-				stream << " \"" << instruction.name.value() << "\"";
-				write( instruction.operands, names, stream );
+				stream << " \"" << instruction->name.value() << "\"";
+				write( instruction->operands, names, stream );
 			}
 			else if ( opCode == spv::Op::OpExtension )
 			{
+				checkType< ExtensionInstruction >( *instruction );
 				stream << "        " << spirv::getOperatorName( opCode );
-				stream << " \"" << instruction.name.value() << "\"";
+				stream << " \"" << instruction->name.value() << "\"";
 			}
 
 			return stream;
 		}
 
-		std::ostream & writeDebug( spirv::Instruction const & instruction
+		std::ostream & writeDebug( spirv::InstructionPtr const & instruction
 			, IdNames & names
 			, std::ostream & stream )
 		{
-			auto opCode = spv::Op( instruction.op.opCode );
+			auto opCode = spv::Op( instruction->op.opCode );
 			assert( opCode == spv::Op::OpName
 				|| opCode == spv::Op::OpMemberName
 				|| opCode == spv::Op::OpSource );
@@ -1243,56 +1323,61 @@ namespace spirv
 
 			if ( opCode == spv::Op::OpName )
 			{
-				names.emplace( instruction.resultId.value(), instruction.name.value() );
-				assert( bool( instruction.resultId ) );
-				write( instruction.resultId, names, stream );
-				assert( bool( instruction.name ) );
-				stream << " \"" << instruction.name.value() << "\"";
+				checkType< NameInstruction >( *instruction );
+				assert( instruction->operands.size() == 1u );
+				names.emplace( instruction->operands[0], instruction->name.value() );
+				write( instruction->operands.front(), names, stream );
+				assert( bool( instruction->name ) );
+				stream << " \"" << instruction->name.value() << "\"";
 			}
 			else if ( opCode == spv::Op::OpMemberName )
 			{
-				assert( instruction.operands.size() == 2u );
-				write( instruction.operands.front(), names, stream );
-				stream << " " << instruction.operands.back();
-				assert( bool( instruction.name ) );
-				stream << " \"" << instruction.name.value() << "\"";
+				checkType< MemberNameInstruction >( *instruction );
+				assert( instruction->operands.size() == 2u );
+				write( instruction->operands.front(), names, stream );
+				stream << " " << instruction->operands.back();
+				assert( bool( instruction->name ) );
+				stream << " \"" << instruction->name.value() << "\"";
 			}
 			else if ( opCode == spv::Op::OpSource )
 			{
-				assert( instruction.operands.size() >= 2u );
-				stream << " " << getSourceLanguageName( instruction.operands[0] );
-				stream << " " << instruction.operands[1];
+				checkType< SourceInstruction >( *instruction );
+				assert( instruction->operands.size() >= 2u );
+				stream << " " << getSourceLanguageName( instruction->operands[0] );
+				stream << " " << instruction->operands[1];
 
-				if ( instruction.operands.size() > 2 )
+				if ( instruction->operands.size() > 2 )
 				{
-					stream << " " << instruction.operands[2];
+					stream << " " << instruction->operands[2];
 				}
 
-				if ( bool( instruction.name ) )
+				if ( bool( instruction->name ) )
 				{
-					stream << " \"" << instruction.name.value() << "\"";
+					stream << " \"" << instruction->name.value() << "\"";
 				}
 			}
 
 			return stream;
 		}
 
-		std::ostream & writeDecoration( spirv::Instruction const & instruction
+		std::ostream & writeDecoration( spirv::InstructionPtr const & instruction
 			, IdNames & names
 			, std::ostream & stream )
 		{
-			auto opCode = spv::Op( instruction.op.opCode );
+			auto opCode = spv::Op( instruction->op.opCode );
 			assert( opCode == spv::Op::OpDecorate || opCode == spv::Op::OpMemberDecorate );
 			stream << "        " << spirv::getOperatorName( opCode );
-			auto it = instruction.operands.begin();
+			auto it = instruction->operands.begin();
 
 			if ( opCode == spv::Op::OpDecorate )
 			{
+				checkType< DecorateInstruction >( *instruction );
 				write( *it, names, stream );
 				++it;
 			}
 			else if ( opCode == spv::Op::OpMemberDecorate )
 			{
+				checkType< MemberDecorateInstruction >( *instruction );
 				write( *it, names, stream );
 				++it;
 				stream << " " << *it;
@@ -1325,7 +1410,7 @@ namespace spirv
 			}
 			else if ( decoration == spv::Decoration::LinkageAttributes )
 			{
-				stream << " \"" << instruction.name.value() << "\"";
+				stream << " \"" << instruction->name.value() << "\"";
 				stream << " " << getName( spv::LinkageType( *it ) );
 				++it;
 			}
@@ -1352,19 +1437,20 @@ namespace spirv
 			return stream;
 		}
 
-		std::ostream & writeType( spirv::Instruction const & instruction
+		std::ostream & writeType( spirv::InstructionPtr const & instruction
 			, IdNames & names
 			, std::ostream & stream )
 		{
-			stream << writeId( instruction.resultId.value() ) << " =";
-			auto opCode = spv::Op( instruction.op.opCode );
+			stream << writeId( instruction->resultId.value() ) << " =";
+			auto opCode = spv::Op( instruction->op.opCode );
 			stream << " " << spirv::getOperatorName( opCode );
 
 			if ( opCode == spv::Op::OpTypeFunction )
 			{
-				names.emplace( instruction.resultId.value(), "func" );
+				checkType< FunctionTypeInstruction >( *instruction );
+				names.emplace( instruction->resultId.value(), "func" );
 				// First being return type ID, other ones being parameters type ID.
-				for ( auto & operand : instruction.operands )
+				for ( auto & operand : instruction->operands )
 				{
 					write( operand, names, stream );
 				}
@@ -1372,235 +1458,250 @@ namespace spirv
 			else if ( opCode == spv::Op::OpTypePointer )
 			{
 				// Storage class then Type ID.
-				names.emplace( instruction.resultId.value(), "ptr" );
-				stream << " " << getName( spv::StorageClass( instruction.operands[0] ) );
-				write( instruction.operands[1], names, stream );
+				checkType< PointerTypeInstruction >( *instruction );
+				names.emplace( instruction->resultId.value(), "ptr" );
+				stream << " " << getName( spv::StorageClass( instruction->operands[0] ) );
+				write( instruction->operands[1], names, stream );
 			}
 			else if ( opCode == spv::Op::OpTypeStruct )
 			{
-				names.emplace( instruction.resultId.value(), "struct" );
+				names.emplace( instruction->resultId.value(), "struct" );
 				// Members IDs.
-				for ( auto & operand : instruction.operands )
+				for ( auto & operand : instruction->operands )
 				{
 					write( operand, names, stream );
 				}
 			}
 			else if ( opCode == spv::Op::OpTypeBool )
 			{
-				names.emplace( instruction.resultId.value(), "bool" );
+				checkType< BooleanTypeInstruction >( *instruction );
+				names.emplace( instruction->resultId.value(), "bool" );
 			}
 			else if ( opCode == spv::Op::OpTypeInt )
 			{
-				names.emplace( instruction.resultId.value(), "int" );
+				checkType< IntTypeInstruction >( *instruction );
+				names.emplace( instruction->resultId.value(), "int" );
 				// Width then Signedness.
-				stream << " " << instruction.operands[0];
-				stream << " " << instruction.operands[1];
+				stream << " " << instruction->operands[0];
+				stream << " " << instruction->operands[1];
 			}
 			else if ( opCode == spv::Op::OpTypeFloat )
 			{
-				names.emplace( instruction.resultId.value(), "float" );
+				checkType< FloatTypeInstruction >( *instruction );
+				names.emplace( instruction->resultId.value(), "float" );
 				// Width.
-				stream << " " << instruction.operands[0];
+				stream << " " << instruction->operands[0];
 			}
 			else if ( opCode == spv::Op::OpTypeVector )
 			{
-				names.emplace( instruction.resultId.value(), "vec" );
+				checkType< VectorTypeInstruction >( *instruction );
+				names.emplace( instruction->resultId.value(), "vec" );
 				// Component type and components count.
-				if ( !instruction.operands.empty() )
+				if ( !instruction->operands.empty() )
 				{
-					write( instruction.operands[0], names, stream );
-					stream << " " << instruction.operands[1];
+					write( instruction->operands[0], names, stream );
+					stream << " " << instruction->operands[1];
 				}
 			}
 			else if ( opCode == spv::Op::OpTypeMatrix )
 			{
-				names.emplace( instruction.resultId.value(), "mat" );
+				checkType< MatrixTypeInstruction >( *instruction );
+				names.emplace( instruction->resultId.value(), "mat" );
 				// Component type and components count.
-				if ( !instruction.operands.empty() )
+				if ( !instruction->operands.empty() )
 				{
-					write( instruction.operands[0], names, stream );
-					stream << " " << instruction.operands[1];
+					write( instruction->operands[0], names, stream );
+					stream << " " << instruction->operands[1];
 				}
 			}
 			else if ( opCode == spv::Op::OpTypeArray )
 			{
-				names.emplace( instruction.resultId.value(), "array" );
+				checkType< ArrayTypeInstruction >( *instruction );
+				names.emplace( instruction->resultId.value(), "array" );
 				// Component type and components count.
-				if ( !instruction.operands.empty() )
+				if ( !instruction->operands.empty() )
 				{
-					write( instruction.operands[0], names, stream );
-					write( instruction.operands[1], names, stream );
+					write( instruction->operands[0], names, stream );
+					write( instruction->operands[1], names, stream );
 				}
 			}
 			else if ( opCode == spv::Op::OpTypeImage )
 			{
-				names.emplace( instruction.resultId.value(), "img" );
+				checkType< ImageTypeInstruction >( *instruction );
+				names.emplace( instruction->resultId.value(), "img" );
 				// Sampled Type, Dim, Depth, Arrayed, MS, Sampled, Format.
-				write( instruction.operands[0], names, stream );
-				stream << " " << getName( spv::Dim( instruction.operands[1] ) );
-				stream << " " << instruction.operands[2];
-				stream << " " << instruction.operands[3];
-				stream << " " << instruction.operands[4];
-				stream << " " << instruction.operands[5];
-				stream << " " << getName( spv::ImageFormat( instruction.operands[6] ) );
+				write( instruction->operands[0], names, stream );
+				stream << " " << getName( spv::Dim( instruction->operands[1] ) );
+				stream << " " << instruction->operands[2];
+				stream << " " << instruction->operands[3];
+				stream << " " << instruction->operands[4];
+				stream << " " << instruction->operands[5];
+				stream << " " << getName( spv::ImageFormat( instruction->operands[6] ) );
 
 				// Optional Access Qualifier
-				if ( instruction.operands.size() > 7 )
+				if ( instruction->operands.size() > 7 )
 				{
-					stream << " " << getName( spv::AccessQualifier( instruction.operands[7] ) );
+					stream << " " << getName( spv::AccessQualifier( instruction->operands[7] ) );
 				}
 			}
 			else if ( opCode == spv::Op::OpTypeSampledImage )
 			{
-				names.emplace( instruction.resultId.value(), "simg" );
+				checkType< SampledImageTypeInstruction >( *instruction );
+				names.emplace( instruction->resultId.value(), "simg" );
 				// Image type.
-				write( instruction.operands[0], names, stream );
+				write( instruction->operands[0], names, stream );
 			}
 			else if ( opCode == spv::Op::OpTypeRuntimeArray )
 			{
-				names.emplace( instruction.resultId.value(), "dynarray" );
+				checkType< RuntimeArrayTypeInstruction >( *instruction );
+				names.emplace( instruction->resultId.value(), "dynarray" );
 				// Element type.
-				write( instruction.operands[0], names, stream );
+				write( instruction->operands[0], names, stream );
 			}
 
 			return stream;
 		}
 
-		std::ostream & writeGlobalVariable( spirv::Instruction const & instruction
+		std::ostream & writeGlobalVariable( spirv::InstructionPtr const & instruction
 			, IdNames & names
 			, std::ostream & stream )
 		{
+			checkType< VariableInstruction >( *instruction );
 			std::string result;
-			auto opCode = spv::Op( instruction.op.opCode );
-			stream << writeId( instruction.resultId.value() ) << " =";
+			auto opCode = spv::Op( instruction->op.opCode );
+			stream << writeId( instruction->resultId.value() ) << " =";
 			stream << " " << spirv::getOperatorName( opCode );
-			write( instruction.resultType.value(), names, stream );
-			stream << " " << getName( spv::StorageClass( instruction.operands[0] ) );
+			write( instruction->returnTypeId.value(), names, stream );
+			stream << " " << getName( spv::StorageClass( instruction->operands[0] ) );
 
-			for ( size_t i = 1u; i < instruction.operands.size(); ++i )
+			for ( size_t i = 1u; i < instruction->operands.size(); ++i )
 			{
-				write( instruction.operands[i], names, stream );
+				write( instruction->operands[i], names, stream );
 			}
 
 			return stream;
 		}
 
-		std::ostream & writeConstant( spirv::Instruction const & instruction
+		std::ostream & writeConstant( spirv::InstructionPtr const & instruction
 			, ast::type::Kind type
 			, IdNames & names
 			, std::ostream & stream )
 		{
-			assert( bool( instruction.resultId ) );
-			assert( bool( instruction.resultType ) );
-			stream << writeId( instruction.resultId.value() ) << " =";
-			auto opCode = spv::Op( instruction.op.opCode );
+			assert( bool( instruction->resultId ) );
+			assert( bool( instruction->returnTypeId ) );
+			stream << writeId( instruction->resultId.value() ) << " =";
+			auto opCode = spv::Op( instruction->op.opCode );
 			stream << " " << spirv::getOperatorName( opCode );
-			write( instruction.resultType.value(), names, stream );
+			write( instruction->returnTypeId.value(), names, stream );
 
 			if ( opCode == spv::Op::OpConstant )
 			{
+				checkType< ConstantInstruction >( *instruction );
 				switch ( type )
 				{
 				case ast::type::Kind::eBoolean:
-					names.emplace( instruction.resultId.value(), std::to_string( bool( instruction.operands[0] ) ) );
-					stream << " " << bool( instruction.operands[0] );
+					names.emplace( instruction->resultId.value(), std::to_string( bool( instruction->operands[0] ) ) );
+					stream << " " << bool( instruction->operands[0] );
 					break;
 				case ast::type::Kind::eInt:
-					names.emplace( instruction.resultId.value(), std::to_string( int32_t( instruction.operands[0] ) ) );
-					stream << " " << int32_t( instruction.operands[0] );
+					names.emplace( instruction->resultId.value(), std::to_string( int32_t( instruction->operands[0] ) ) );
+					stream << " " << int32_t( instruction->operands[0] );
 					break;
 				case ast::type::Kind::eUInt:
-					names.emplace( instruction.resultId.value(), std::to_string( instruction.operands[0] ) );
-					stream << " " << instruction.operands[0];
+					names.emplace( instruction->resultId.value(), std::to_string( instruction->operands[0] ) );
+					stream << " " << instruction->operands[0];
 					break;
 				case ast::type::Kind::eFloat:
-					names.emplace( instruction.resultId.value(), std::to_string( *reinterpret_cast< float const * >( instruction.operands.data() ) ) );
-					stream << " " << *reinterpret_cast< float const * >( instruction.operands.data() );
+					names.emplace( instruction->resultId.value(), std::to_string( *reinterpret_cast< float const * >( instruction->operands.data() ) ) );
+					stream << " " << *reinterpret_cast< float const * >( instruction->operands.data() );
 					break;
 				case ast::type::Kind::eDouble:
-					assert( instruction.operands.size() >= 2 );
+					assert( instruction->operands.size() >= 2 );
 					{
-						names.emplace( instruction.resultId.value(), std::to_string( *reinterpret_cast< double const * >( instruction.operands.data() ) ) );
-						stream << " " << *reinterpret_cast< double const * >( instruction.operands.data() );
+						names.emplace( instruction->resultId.value(), std::to_string( *reinterpret_cast< double const * >( instruction->operands.data() ) ) );
+						stream << " " << *reinterpret_cast< double const * >( instruction->operands.data() );
 					}
 					break;
 				}
 			}
 			else if ( opCode == spv::Op::OpConstantComposite )
 			{
-				names.emplace( instruction.resultId.value(), "const" );
-				write( instruction.operands, names, stream );
+				checkType< ConstantCompositeInstruction >( *instruction );
+				names.emplace( instruction->resultId.value(), "const" );
+				write( instruction->operands, names, stream );
 			}
 
 			return stream;
 		}
 
-		std::ostream & writeSpecConstant( spirv::Instruction const & instruction
+		std::ostream & writeSpecConstant( spirv::InstructionPtr const & instruction
 			, ast::type::Kind type
 			, IdNames & names
 			, std::ostream & stream )
 		{
-			assert( bool( instruction.resultId ) );
-			assert( bool( instruction.resultType ) );
-			stream << writeId( instruction.resultId.value() ) << " =";
-			auto opCode = spv::Op( instruction.op.opCode );
+			assert( bool( instruction->resultId ) );
+			assert( bool( instruction->returnTypeId ) );
+			stream << writeId( instruction->resultId.value() ) << " =";
+			auto opCode = spv::Op( instruction->op.opCode );
 			stream << " " << spirv::getOperatorName( opCode );
-			write( instruction.resultType.value(), names, stream );
+			write( instruction->returnTypeId.value(), names, stream );
 
 			if ( opCode == spv::Op::OpSpecConstant )
 			{
+				checkType< SpecConstantInstruction >( *instruction );
 				switch ( type )
 				{
 				case ast::type::Kind::eBoolean:
-					names.emplace( instruction.resultId.value(), std::to_string( bool( instruction.operands[0] ) ) );
-					stream << " " << bool( instruction.operands[0] );
+					names.emplace( instruction->resultId.value(), std::to_string( bool( instruction->operands[0] ) ) );
+					stream << " " << bool( instruction->operands[0] );
 					break;
 				case ast::type::Kind::eInt:
-					names.emplace( instruction.resultId.value(), std::to_string( int32_t( instruction.operands[0] ) ) );
-					stream << " " << int32_t( instruction.operands[0] );
+					names.emplace( instruction->resultId.value(), std::to_string( int32_t( instruction->operands[0] ) ) );
+					stream << " " << int32_t( instruction->operands[0] );
 					break;
 				case ast::type::Kind::eUInt:
-					names.emplace( instruction.resultId.value(), std::to_string( instruction.operands[0] ) );
-					stream << " " << instruction.operands[0];
+					names.emplace( instruction->resultId.value(), std::to_string( instruction->operands[0] ) );
+					stream << " " << instruction->operands[0];
 					break;
 				case ast::type::Kind::eFloat:
-					names.emplace( instruction.resultId.value(), std::to_string( *reinterpret_cast< float const * >( instruction.operands.data() ) ) );
-					stream << " " << *reinterpret_cast< float const * >( instruction.operands.data() );
+					names.emplace( instruction->resultId.value(), std::to_string( *reinterpret_cast< float const * >( instruction->operands.data() ) ) );
+					stream << " " << *reinterpret_cast< float const * >( instruction->operands.data() );
 					break;
 				case ast::type::Kind::eDouble:
-					assert( instruction.operands.size() >= 2 );
+					assert( instruction->operands.size() >= 2 );
 					{
-						names.emplace( instruction.resultId.value(), std::to_string( *reinterpret_cast< double const * >( instruction.operands.data() ) ) );
-						stream << " " << *reinterpret_cast< double const * >( instruction.operands.data() );
+						names.emplace( instruction->resultId.value(), std::to_string( *reinterpret_cast< double const * >( instruction->operands.data() ) ) );
+						stream << " " << *reinterpret_cast< double const * >( instruction->operands.data() );
 					}
 					break;
 				}
 			}
 			else if ( opCode == spv::Op::OpSpecConstantComposite )
 			{
-				names.emplace( instruction.resultId.value(), "specconst" );
-				write( instruction.operands, names, stream );
+				checkType< SpecConstantCompositeInstruction >( *instruction );
+				names.emplace( instruction->resultId.value(), "specconst" );
+				write( instruction->operands, names, stream );
 			}
 
 			return stream;
 		}
 
-		std::ostream & writeGlobalDeclaration( spirv::Instruction const & instruction
+		std::ostream & writeGlobalDeclaration( spirv::InstructionPtr const & instruction
 			, IdNames & names
 			, spirv::Module const & module
 			, std::ostream & stream )
 		{
-			auto opCode = spv::Op( instruction.op.opCode );
+			auto opCode = spv::Op( instruction->op.opCode );
 
 			if ( opCode == spv::Op::OpConstant
 				|| opCode == spv::Op::OpConstantComposite )
 			{
-				writeConstant( instruction, module.getLiteralType( instruction.resultId.value() ), names, stream ) << "\n";
+				writeConstant( instruction, module.getLiteralType( instruction->resultId.value() ), names, stream ) << "\n";
 			}
 			else if ( opCode == spv::Op::OpSpecConstant
 				|| opCode == spv::Op::OpSpecConstantComposite )
 			{
-				writeSpecConstant( instruction, module.getLiteralType( instruction.resultId.value() ), names, stream ) << "\n";
+				writeSpecConstant( instruction, module.getLiteralType( instruction->resultId.value() ), names, stream ) << "\n";
 			}
 			else if ( opCode == spv::Op::OpVariable )
 			{
@@ -1627,352 +1728,398 @@ namespace spirv
 			return stream;
 		}
 
-		std::ostream & writeExtInst( spirv::Instruction const & instruction
+		std::ostream & writeExtInst( spirv::InstructionPtr const & instruction
 			, IdNames & names
 			, std::ostream & stream )
 		{
-			write( instruction.operands[0], names, stream );
-			stream << " " << getName( spv::GLSLstd450( instruction.operands[1] ) );
+			checkType< ExtInstInstruction >( *instruction );
+			write( instruction->operands[0], names, stream );
+			stream << " " << getName( spv::GLSLstd450( instruction->operands[1] ) );
 
-			for ( size_t i = 2u; i < instruction.operands.size(); ++i )
+			for ( size_t i = 2u; i < instruction->operands.size(); ++i )
 			{
-				write( instruction.operands[i], names, stream );
+				write( instruction->operands[i], names, stream );
 			}
 
-			if ( bool( instruction.name ) )
+			if ( bool( instruction->name ) )
 			{
-				stream << " \"" << instruction.name.value() << "\"";
+				stream << " \"" << instruction->name.value() << "\"";
 			}
 
 			return stream;
 		}
 
-		std::ostream & writeFuncVariable( spirv::Instruction const & instruction
+		std::ostream & writeFuncVariable( spirv::InstructionPtr const & instruction
 			, IdNames & names
 			, std::ostream & stream )
 		{
-			stream << " " << getName( spv::StorageClass( instruction.operands[0] ) );
+			checkType< VariableInstruction >( *instruction );
+			stream << " " << getName( spv::StorageClass( instruction->operands[0] ) );
 
-			for ( size_t i = 1u; i < instruction.operands.size(); ++i )
+			for ( size_t i = 1u; i < instruction->operands.size(); ++i )
 			{
-				write( instruction.operands[i], names, stream );
+				write( instruction->operands[i], names, stream );
 			}
 
-			if ( bool( instruction.name ) )
+			if ( bool( instruction->name ) )
 			{
-				stream << " \"" << instruction.name.value() << "\"";
+				stream << " \"" << instruction->name.value() << "\"";
 			}
 
 			return stream;
 		}
 
-		std::ostream & writeImageSample( spirv::Instruction const & instruction
+		std::ostream & writeImageSample( spirv::InstructionPtr const & instruction
 			, IdNames & names
 			, std::ostream & stream )
 		{
 			// Sampled Image
-			write( instruction.operands[0], names, stream );
+			write( instruction->operands[0], names, stream );
 			// Coordinate
-			write( instruction.operands[1], names, stream );
+			write( instruction->operands[1], names, stream );
 
-			if ( instruction.operands.size() > 3u )
+			if ( instruction->operands.size() > 3u )
 			{
 				// Optional ImageOperands
-				stream << " " << getImageOperandsName( instruction.operands[2] );
+				stream << " " << getImageOperandsName( instruction->operands[2] );
 
-				for ( size_t i = 3u; i < instruction.operands.size(); ++i )
+				for ( size_t i = 3u; i < instruction->operands.size(); ++i )
 				{
-					write( instruction.operands[i], names, stream );
+					write( instruction->operands[i], names, stream );
 				}
 			}
 
-			if ( bool( instruction.name ) )
+			if ( bool( instruction->name ) )
 			{
-				stream << " \"" << instruction.name.value() << "\"";
+				stream << " \"" << instruction->name.value() << "\"";
 			}
 
 			return stream;
 		}
 
-		std::ostream & writeImageSampleDref( spirv::Instruction const & instruction
+		std::ostream & writeImageSampleDref( spirv::InstructionPtr const & instruction
 			, IdNames & names
 			, std::ostream & stream )
 		{
 			// Sampled Image
-			write( instruction.operands[0], names, stream );
+			write( instruction->operands[0], names, stream );
 			// Coordinate
-			write( instruction.operands[1], names, stream );
+			write( instruction->operands[1], names, stream );
 			// Dref
-			write( instruction.operands[2], names, stream );
+			write( instruction->operands[2], names, stream );
 
-			if ( instruction.operands.size() > 4u )
+			if ( instruction->operands.size() > 4u )
 			{
 				// Optional ImageOperands
-				stream << " " << getImageOperandsName( instruction.operands[3] );
+				stream << " " << getImageOperandsName( instruction->operands[3] );
 
-				for ( size_t i = 4u; i < instruction.operands.size(); ++i )
+				for ( size_t i = 4u; i < instruction->operands.size(); ++i )
 				{
-					write( instruction.operands[i], names, stream );
+					write( instruction->operands[i], names, stream );
 				}
 			}
 
-			if ( bool( instruction.name ) )
+			if ( bool( instruction->name ) )
 			{
-				stream << " \"" << instruction.name.value() << "\"";
+				stream << " \"" << instruction->name.value() << "\"";
 			}
 
 			return stream;
 		}
 
-		std::ostream & writeImageSampleProj( spirv::Instruction const & instruction
+		std::ostream & writeImageSampleProj( spirv::InstructionPtr const & instruction
 			, IdNames & names
 			, std::ostream & stream )
 		{
 			// Sampled Image
-			write( instruction.operands[0], names, stream );
+			write( instruction->operands[0], names, stream );
 			// Coordinate
-			write( instruction.operands[1], names, stream );
+			write( instruction->operands[1], names, stream );
 
-			if ( instruction.operands.size() > 3u )
+			if ( instruction->operands.size() > 3u )
 			{
 				// Optional ImageOperands
-				stream << " " << getImageOperandsName( instruction.operands[2] );
+				stream << " " << getImageOperandsName( instruction->operands[2] );
 
-				for ( size_t i = 3u; i < instruction.operands.size(); ++i )
+				for ( size_t i = 3u; i < instruction->operands.size(); ++i )
 				{
-					write( instruction.operands[i], names, stream );
+					write( instruction->operands[i], names, stream );
 				}
 			}
 
-			if ( bool( instruction.name ) )
+			if ( bool( instruction->name ) )
 			{
-				stream << " \"" << instruction.name.value() << "\"";
+				stream << " \"" << instruction->name.value() << "\"";
 			}
 
 			return stream;
 		}
 
-		std::ostream & writeImageSampleProjDref( spirv::Instruction const & instruction
+		std::ostream & writeImageSampleProjDref( spirv::InstructionPtr const & instruction
 			, IdNames & names
 			, std::ostream & stream )
 		{
 			// Sampled Image
-			write( instruction.operands[0], names, stream );
+			write( instruction->operands[0], names, stream );
 			// Coordinate
-			write( instruction.operands[1], names, stream );
+			write( instruction->operands[1], names, stream );
 			// Dref
-			write( instruction.operands[2], names, stream );
+			write( instruction->operands[2], names, stream );
 
-			if ( instruction.operands.size() > 4u )
+			if ( instruction->operands.size() > 4u )
 			{
 				// Optional ImageOperands
-				stream << " " << getImageOperandsName( instruction.operands[3] );
+				stream << " " << getImageOperandsName( instruction->operands[3] );
 
-				for ( size_t i = 4u; i < instruction.operands.size(); ++i )
+				for ( size_t i = 4u; i < instruction->operands.size(); ++i )
 				{
-					write( instruction.operands[i], names, stream );
+					write( instruction->operands[i], names, stream );
 				}
 			}
 
-			if ( bool( instruction.name ) )
+			if ( bool( instruction->name ) )
 			{
-				stream << " \"" << instruction.name.value() << "\"";
+				stream << " \"" << instruction->name.value() << "\"";
 			}
 
 			return stream;
 		}
 
-		std::ostream & writeImageFetch( spirv::Instruction const & instruction
+		std::ostream & writeImageFetch( spirv::InstructionPtr const & instruction
 			, IdNames & names
 			, std::ostream & stream )
 		{
 			// Image
-			write( instruction.operands[0], names, stream );
+			write( instruction->operands[0], names, stream );
 			// Coordinate
-			write( instruction.operands[1], names, stream );
+			write( instruction->operands[1], names, stream );
 
-			if ( instruction.operands.size() > 3u )
+			if ( instruction->operands.size() > 3u )
 			{
 				// Optional ImageOperands
-				stream << " " << getImageOperandsName( instruction.operands[2] );
+				stream << " " << getImageOperandsName( instruction->operands[2] );
 
-				for ( size_t i = 3u; i < instruction.operands.size(); ++i )
+				for ( size_t i = 3u; i < instruction->operands.size(); ++i )
 				{
-					write( instruction.operands[i], names, stream );
+					write( instruction->operands[i], names, stream );
 				}
 			}
 
-			if ( bool( instruction.name ) )
+			if ( bool( instruction->name ) )
 			{
-				stream << " \"" << instruction.name.value() << "\"";
+				stream << " \"" << instruction->name.value() << "\"";
 			}
 
 			return stream;
 		}
 
-		std::ostream & writeImageGather( spirv::Instruction const & instruction
+		std::ostream & writeImageGather( spirv::InstructionPtr const & instruction
 			, IdNames & names
 			, std::ostream & stream )
 		{
 			// Image
-			write( instruction.operands[0], names, stream );
+			write( instruction->operands[0], names, stream );
 			// Coordinate
-			write( instruction.operands[1], names, stream );
+			write( instruction->operands[1], names, stream );
 			// Component
-			write( instruction.operands[2], names, stream );
+			write( instruction->operands[2], names, stream );
 
-			if ( instruction.operands.size() > 4u )
+			if ( instruction->operands.size() > 4u )
 			{
 				// Optional ImageOperands
-				stream << " " << getImageOperandsName( instruction.operands[3] );
+				stream << " " << getImageOperandsName( instruction->operands[3] );
 
-				for ( size_t i = 4u; i < instruction.operands.size(); ++i )
+				for ( size_t i = 4u; i < instruction->operands.size(); ++i )
 				{
-					write( instruction.operands[i], names, stream );
+					write( instruction->operands[i], names, stream );
 				}
 			}
 
-			if ( bool( instruction.name ) )
+			if ( bool( instruction->name ) )
 			{
-				stream << " \"" << instruction.name.value() << "\"";
+				stream << " \"" << instruction->name.value() << "\"";
 			}
 
 			return stream;
 		}
 
-		std::ostream & writeImageDrefGather( spirv::Instruction const & instruction
+		std::ostream & writeImageDrefGather( spirv::InstructionPtr const & instruction
 			, IdNames & names
 			, std::ostream & stream )
 		{
 			// Image
-			write( instruction.operands[0], names, stream );
+			write( instruction->operands[0], names, stream );
 			// Coordinate
-			write( instruction.operands[1], names, stream );
+			write( instruction->operands[1], names, stream );
 			// Dref
-			write( instruction.operands[2], names, stream );
+			write( instruction->operands[2], names, stream );
 
-			if ( instruction.operands.size() > 4u )
+			if ( instruction->operands.size() > 4u )
 			{
 				// Optional ImageOperands
-				stream << " " << getImageOperandsName( instruction.operands[3] );
+				stream << " " << getImageOperandsName( instruction->operands[3] );
 
-				for ( size_t i = 4u; i < instruction.operands.size(); ++i )
+				for ( size_t i = 4u; i < instruction->operands.size(); ++i )
 				{
-					write( instruction.operands[i], names, stream );
+					write( instruction->operands[i], names, stream );
 				}
 			}
 
-			if ( bool( instruction.name ) )
+			if ( bool( instruction->name ) )
 			{
-				stream << " \"" << instruction.name.value() << "\"";
+				stream << " \"" << instruction->name.value() << "\"";
 			}
 
 			return stream;
 		}
 
-		std::ostream & writeStore( spirv::Instruction const & instruction
+		std::ostream & writeStore( spirv::InstructionPtr const & instruction
 			, IdNames & names
 			, std::ostream & stream )
 		{
-			write( instruction.operands[0], names, stream );
-			write( instruction.operands[1], names, stream );
+			checkType< StoreInstruction >( *instruction );
+			write( instruction->operands[0], names, stream );
+			write( instruction->operands[1], names, stream );
 
-			if ( bool( instruction.name ) )
+			if ( bool( instruction->name ) )
 			{
-				stream << " \"" << instruction.name.value() << "\"";
+				stream << " \"" << instruction->name.value() << "\"";
 			}
 
 			return stream;
 		}
 
-		std::ostream & writeLoad( spirv::Instruction const & instruction
+		std::ostream & writeLoad( spirv::InstructionPtr const & instruction
 			, IdNames & names
 			, std::ostream & stream )
 		{
-			write( instruction.operands[0], names, stream );
+			checkType< LoadInstruction >( *instruction );
+			write( instruction->operands[0], names, stream );
 
-			if ( bool( instruction.name ) )
+			if ( bool( instruction->name ) )
 			{
-				stream << " \"" << instruction.name.value() << "\"";
+				stream << " \"" << instruction->name.value() << "\"";
 			}
 
 			return stream;
 		}
 
-		std::ostream & writeBranch( spirv::Instruction const & instruction
+		std::ostream & writeVectorShuffle( spirv::InstructionPtr const & instruction
 			, IdNames & names
 			, std::ostream & stream )
 		{
-			write( instruction.operands[0], names, stream );
+			checkType< VectorShuffleInstruction >( *instruction );
+			write( instruction->operands[0], names, stream );
 
-			if ( bool( instruction.name ) )
-			{
-				stream << " \"" << instruction.name.value() << "\"";
-			}
-
-			return stream;
-		}
-
-		std::ostream & writeVectorShuffle( spirv::Instruction const & instruction
-			, IdNames & names
-			, std::ostream & stream )
-		{
-			write( instruction.operands[0], names, stream );
-
-			if ( instruction.operands[1] == spv::Id( spv::Op::OpUndef ) )
+			if ( instruction->operands[1] == spv::Id( spv::Op::OpUndef ) )
 			{
 				stream << " Undef";
 			}
 			else
 			{
-				write( instruction.operands[1], names, stream );
+				write( instruction->operands[1], names, stream );
 			}
 
-			for ( size_t i = 2u; i < instruction.operands.size(); ++i )
+			for ( size_t i = 2u; i < instruction->operands.size(); ++i )
 			{
-				stream << " " << instruction.operands[i];
+				stream << " " << instruction->operands[i];
 			}
 
-			if ( bool( instruction.name ) )
+			if ( bool( instruction->name ) )
 			{
-				stream << " \"" << instruction.name.value() << "\"";
-			}
-
-			return stream;
-		}
-
-		std::ostream & writeCompositeExtract( spirv::Instruction const & instruction
-			, IdNames & names
-			, std::ostream & stream )
-		{
-			write( instruction.operands[0], names, stream );
-			stream << " " << instruction.operands[1];
-			return stream;
-		}
-
-		std::ostream & writeSpecConstantOp( spirv::Instruction const & instruction
-			, IdNames & names
-			, std::ostream & stream )
-		{
-			stream << " " << spirv::getOperatorName( spv::Op( instruction.operands[0] ) );
-
-			for ( size_t i = 1u; i < instruction.operands.size(); ++i )
-			{
-				write( instruction.operands[i], names, stream );
+				stream << " \"" << instruction->name.value() << "\"";
 			}
 
 			return stream;
 		}
 
-		std::ostream & writeBlockInstruction( spirv::Instruction const & instruction
+		std::ostream & writeCompositeExtract( spirv::InstructionPtr const & instruction
 			, IdNames & names
 			, std::ostream & stream )
 		{
-			auto opCode = spv::Op( instruction.op.opCode );
+			checkType< CompositeExtractInstruction >( *instruction );
+			write( instruction->operands[0], names, stream );
+			stream << " " << instruction->operands[1];
+			return stream;
+		}
 
-			if ( bool( instruction.resultId ) )
+		std::ostream & writeSpecConstantOp( spirv::InstructionPtr const & instruction
+			, IdNames & names
+			, std::ostream & stream )
+		{
+			checkType< SpecConstantInstruction >( *instruction );
+			stream << " " << spirv::getOperatorName( spv::Op( instruction->operands[0] ) );
+
+			for ( size_t i = 1u; i < instruction->operands.size(); ++i )
 			{
-				stream << writeId( instruction.resultId.value() ) << " =";
+				write( instruction->operands[i], names, stream );
+			}
+
+			return stream;
+		}
+
+		std::ostream & writeLoopMergeOp( spirv::InstructionPtr const & instruction
+			, IdNames & names
+			, std::ostream & stream )
+		{
+			checkType< LoopMergeInstruction >( *instruction );
+			write( instruction->operands[0], names, stream );
+			write( instruction->operands[1], names, stream );
+			stream << " " << getLoopControlName( instruction->operands[2] );
+			return stream;
+		}
+
+		std::ostream & writeSelectionMergeOp( spirv::InstructionPtr const & instruction
+			, IdNames & names
+			, std::ostream & stream )
+		{
+			checkType< SelectionMergeInstruction >( *instruction );
+			write( instruction->operands[0], names, stream );
+			stream << " " << getSelectionControlName( instruction->operands[1] );
+			return stream;
+		}
+
+		std::ostream & writeBranch( spirv::InstructionPtr const & instruction
+			, IdNames & names
+			, std::ostream & stream )
+		{
+			checkType< BranchInstruction >( *instruction );
+			write( instruction->operands[0], names, stream );
+			return stream;
+		}
+
+		std::ostream & writeBranchConditional( spirv::InstructionPtr const & instruction
+			, IdNames & names
+			, std::ostream & stream )
+		{
+			checkType< BranchConditionalInstruction >( *instruction );
+			// Condition
+			write( instruction->operands[0], names, stream );
+			// True label
+			write( instruction->operands[1], names, stream );
+			// False label
+			write( instruction->operands[2], names, stream );
+
+			if ( instruction->operands.size() > 3u )
+			{
+				// Optional Weights.
+				assert( instruction->operands.size() == 5u );
+				stream << " " << instruction->operands[3];
+				stream << " " << instruction->operands[4];
+			}
+
+			return stream;
+		}
+
+		std::ostream & writeBlockInstruction( spirv::InstructionPtr const & instruction
+			, IdNames & names
+			, std::ostream & stream )
+		{
+			auto opCode = spv::Op( instruction->op.opCode );
+
+			if ( bool( instruction->resultId ) )
+			{
+				stream << writeId( instruction->resultId.value() ) << " =";
 			}
 			else
 			{
@@ -1981,9 +2128,9 @@ namespace spirv
 
 			stream << " " << spirv::getOperatorName( opCode );
 
-			if ( bool( instruction.resultType ) )
+			if ( bool( instruction->returnTypeId ) )
 			{
-				stream << write( instruction.resultType.value(), names );
+				stream << write( instruction->returnTypeId.value(), names );
 			}
 
 			if ( opCode == spv::Op::OpExtInst )
@@ -2046,13 +2193,29 @@ namespace spirv
 			{
 				writeSpecConstantOp( instruction, names, stream );
 			}
+			else if ( opCode == spv::Op::OpLoopMerge )
+			{
+				writeLoopMergeOp( instruction, names, stream );
+			}
+			else if ( opCode == spv::Op::OpSelectionMerge )
+			{
+				writeSelectionMergeOp( instruction, names, stream );
+			}
+			else if ( opCode == spv::Op::OpBranch )
+			{
+				writeBranch( instruction, names, stream );
+			}
+			else if ( opCode == spv::Op::OpBranchConditional )
+			{
+				writeBranchConditional( instruction, names, stream );
+			}
 			else
 			{
-				write( instruction.operands, names, stream );
+				write( instruction->operands, names, stream );
 
-				if ( bool( instruction.name ) )
+				if ( bool( instruction->name ) )
 				{
-					stream << " \"" << instruction.name.value() << "\"";
+					stream << " \"" << instruction->name.value() << "\"";
 				}
 			}
 
@@ -2082,19 +2245,19 @@ namespace spirv
 			return stream;
 		}
 
-		std::ostream & writeFunctionDecl( spirv::Instruction const & instruction
+		std::ostream & writeFunctionDecl( spirv::InstructionPtr const & instruction
 			, IdNames & names
 			, std::ostream & stream )
 		{
-			auto opCode = spv::Op( instruction.op.opCode );
-			stream << writeId( instruction.resultId.value() ) << " =";
+			auto opCode = spv::Op( instruction->op.opCode );
+			stream << writeId( instruction->resultId.value() ) << " =";
 			stream << " " << spirv::getOperatorName( opCode );
-			stream << write( instruction.resultType.value(), names );
+			stream << write( instruction->returnTypeId.value(), names );
 
 			if ( opCode == spv::Op::OpFunction )
 			{
-				stream << " " << getFunctionControlMaskName( instruction.operands[0] );
-				stream << " " << write( instruction.operands[1], names );
+				stream << " " << getFunctionControlMaskName( instruction->operands[0] );
+				stream << " " << write( instruction->operands[1], names );
 			}
 
 			return stream;
@@ -2109,69 +2272,69 @@ namespace spirv
 			return stream;
 		}
 
-		std::ostream & writeCapability( spirv::Instruction const & instruction
+		std::ostream & writeCapability( spirv::InstructionPtr const & instruction
 			, IdNames & names
 			, std::ostream & stream )
 		{
-			auto opCode = spv::Op( instruction.op.opCode );
+			auto opCode = spv::Op( instruction->op.opCode );
 			stream << "        " << spirv::getOperatorName( opCode );
-			stream << " " << getName( spv::Capability( instruction.operands[0] ) );
+			stream << " " << getName( spv::Capability( instruction->operands[0] ) );
 			return stream;
 		}
 
-		std::ostream & writeImport( spirv::Instruction const & instruction
+		std::ostream & writeImport( spirv::InstructionPtr const & instruction
 			, IdNames & names
 			, std::ostream & stream )
 		{
 			return stream;
 		}
 
-		std::ostream & writeMemoryModel( spirv::Instruction const & instruction
+		std::ostream & writeMemoryModel( spirv::InstructionPtr const & instruction
 			, IdNames & names
 			, std::ostream & stream )
 		{
-			auto opCode = spv::Op( instruction.op.opCode );
+			auto opCode = spv::Op( instruction->op.opCode );
 			stream << "        " + spirv::getOperatorName( opCode );
-			stream << " " + getName( spv::AddressingModel( instruction.operands[0] ) );
-			stream << " " + getName( spv::MemoryModel( instruction.operands[1] ) );
+			stream << " " + getName( spv::AddressingModel( instruction->operands[0] ) );
+			stream << " " + getName( spv::MemoryModel( instruction->operands[1] ) );
 			stream << "\n";
 			return stream;
 		}
 
-		std::ostream & writeEntryPoint( spirv::Instruction const & instruction
+		std::ostream & writeEntryPoint( spirv::InstructionPtr const & instruction
 			, IdNames & names
 			, std::ostream & stream )
 		{
-			auto opCode = spv::Op( instruction.op.opCode );
+			auto opCode = spv::Op( instruction->op.opCode );
 			stream << "        " + spirv::getOperatorName( opCode );
-			stream << " " + getName( spv::ExecutionModel( instruction.operands[0] ) );
-			stream << " %" + std::to_string( instruction.operands[1] );
-			stream << " \"" + instruction.name.value() + "\"";
+			stream << " " + getName( spv::ExecutionModel( instruction->operands[0] ) );
+			stream << " %" + std::to_string( instruction->operands[1] );
+			stream << " \"" + instruction->name.value() + "\"";
 
-			for ( size_t i = 2u; i < instruction.operands.size(); ++i )
+			for ( size_t i = 2u; i < instruction->operands.size(); ++i )
 			{
-				stream << " %" + std::to_string( instruction.operands[i] );
+				stream << " %" + std::to_string( instruction->operands[i] );
 			}
 
 			stream << "\n";
 			return stream;
 		}
 
-		std::ostream & writeExecutionMode( spirv::Instruction const & instruction
+		std::ostream & writeExecutionMode( spirv::InstructionPtr const & instruction
 			, IdNames & names
 			, std::ostream & stream )
 		{
-			auto opCode = spv::Op( instruction.op.opCode );
+			auto opCode = spv::Op( instruction->op.opCode );
 
 			if ( opCode == spv::Op::OpExecutionMode )
 			{
 				stream << "        " + spirv::getOperatorName( opCode );
-				stream << " %" + std::to_string( instruction.operands[0] );
-				stream << " " + getName( spv::ExecutionMode( instruction.operands[1] ) );
+				stream << " %" + std::to_string( instruction->operands[0] );
+				stream << " " + getName( spv::ExecutionMode( instruction->operands[1] ) );
 
-				for ( size_t i = 2u; i < instruction.operands.size(); ++i )
+				for ( size_t i = 2u; i < instruction->operands.size(); ++i )
 				{
-					stream << " " + std::to_string( instruction.operands[i] );
+					stream << " " + std::to_string( instruction->operands[i] );
 				}
 			}
 
@@ -2238,14 +2401,14 @@ namespace spirv
 			++result;
 		}
 
-		void count( spirv::Instruction const & instruction
+		void count( spirv::InstructionPtr const & instruction
 			, size_t & result )
 		{
-			count( instruction.op, result );
-			count( instruction.resultType, result );
-			count( instruction.resultId, result );
-			count( instruction.operands, result );
-			count( instruction.packedName, result );
+			count( instruction->op, result );
+			count( instruction->returnTypeId, result );
+			count( instruction->resultId, result );
+			count( instruction->operands, result );
+			count( instruction->packedName, result );
 		}
 
 		void count( spirv::Block const & block
@@ -2325,21 +2488,17 @@ namespace spirv
 			result.push_back( uint32_t( op.op ) );
 		}
 
-		void serialize( spirv::Instruction const & instruction
+		void serialize( spirv::InstructionPtr const & instruction
 			, std::vector< uint32_t > & result )
 		{
-			assert( instruction.op.opCount != 0 );
+			Instruction::serialize( result, *instruction );
+			//assert( instruction->op.opCount != 0 );
 
-			if ( instruction.op.opCode == 0 )
-			{
-				throw std::runtime_error{ "Invalid OpNop opCode found in an instruction." };
-			}
+			//if ( instruction->op.opCode == 0 )
+			//{
+			//	throw std::runtime_error{ "Invalid OpNop opCode found in an instruction->" };
+			//}
 
-			serialize( instruction.op, result );
-			serialize( instruction.resultType, result );
-			serialize( instruction.resultId, result );
-			serialize( instruction.operands, result );
-			serialize( instruction.packedName, result );
 		}
 
 		void serialize( spirv::Block const & block
@@ -2400,8 +2559,9 @@ namespace spirv
 
 		spirv::Module compileSpirV( sdw::Shader const & shader )
 		{
-			auto spirvStatements = spirv::StmtAdapter::submit( shader.getStatements() );
-			return spirv::StmtVisitor::submit( spirvStatements.get(), shader.getType() );
+			ModuleConfig config = spirv::StmtConfigFiller::submit( shader.getStatements() );
+			auto spirvStatements = spirv::StmtAdapter::submit( shader.getStatements(), config );
+			return spirv::StmtVisitor::submit( shader.getTypesCache(), spirvStatements.get(), shader.getType(), config );
 		}
 	}
 

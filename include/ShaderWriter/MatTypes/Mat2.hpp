@@ -25,9 +25,11 @@ namespace sdw
 		inline Mat2T< ValueT > & operator=( RhsT const & rhs );
 		template< typename IndexT >
 		inline Vec2T< ValueT > operator[]( IndexT const & rhs )const;
+		inline Vec2T< ValueT > operator[]( int32_t offset )const;
+		inline Vec2T< ValueT > operator[]( uint32_t offset )const;
 		inline Mat2T< ValueT > & operator+=( Mat2T< ValueT > const & rhs );
 
-		static inline ast::type::TypePtr makeType();
+		static inline ast::type::TypePtr makeType( ast::type::TypesCache & cache );
 	};
 	template< typename ValueT >
 	Vec2T< ValueT > operator*( Vec2T< ValueT > const & lhs,

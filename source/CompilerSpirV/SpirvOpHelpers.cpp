@@ -46,6 +46,22 @@ namespace spirv
 				|| kind == ast::type::Kind::eVec3I
 				|| kind == ast::type::Kind::eVec4I;
 		}
+
+		bool isUnsigned( ast::type::Kind kind )
+		{
+			return kind == ast::type::Kind::eUInt
+				|| kind == ast::type::Kind::eVec2U
+				|| kind == ast::type::Kind::eVec3U
+				|| kind == ast::type::Kind::eVec4U;
+		}
+
+		bool isBool( ast::type::Kind kind )
+		{
+			return kind == ast::type::Kind::eBoolean
+				|| kind == ast::type::Kind::eVec2B
+				|| kind == ast::type::Kind::eVec3B
+				|| kind == ast::type::Kind::eVec4B;
+		}
 	}
 
 	//*************************************************************************
@@ -1555,9 +1571,26 @@ namespace spirv
 		return result;
 	}
 
+	bool isAnyBool( ast::type::Kind typeKind )
+	{
+		return isBool( typeKind );
+	}
+
 	bool isAnySigned( ast::type::Kind typeKind )
 	{
 		return isSigned( typeKind );
+	}
+
+	bool isAnyUnsigned( ast::type::Kind typeKind )
+	{
+		return isUnsigned( typeKind );
+	}
+
+	bool isAnyBool( ast::type::Kind lhsTypeKind
+		, ast::type::Kind rhsTypeKind )
+	{
+		return isBool( lhsTypeKind )
+			|| isBool( rhsTypeKind );
 	}
 
 	bool isAnySigned( ast::type::Kind lhsTypeKind
@@ -1565,6 +1598,13 @@ namespace spirv
 	{
 		return isSigned( lhsTypeKind )
 			|| isSigned( rhsTypeKind );
+	}
+
+	bool isAnyUnsigned( ast::type::Kind lhsTypeKind
+		, ast::type::Kind rhsTypeKind )
+	{
+		return isUnsigned( lhsTypeKind )
+			|| isUnsigned( rhsTypeKind );
 	}
 
 	bool isAnyFloating( ast::type::Kind typeKind )
@@ -1582,8 +1622,10 @@ namespace spirv
 	spv::Op getBinOpCode( ast::expr::Kind exprKind
 		, ast::type::Kind lhsTypeKind
 		, ast::type::Kind rhsTypeKind
-		, bool & switchParams )
+		, bool & switchParams
+		, bool & needMatchingVectors )
 	{
+		needMatchingVectors = true;
 		assert( exprKind != ast::expr::Kind::eImageAccessCall
 			&& exprKind != ast::expr::Kind::eIntrinsicCall
 			&& exprKind != ast::expr::Kind::eTextureAccessCall
@@ -1627,6 +1669,8 @@ namespace spirv
 							: ( isAnyFloating( lhsTypeKind, rhsTypeKind )
 								? spv::Op::OpFMul
 								: spv::Op::OpIMul ) ) ) );
+			needMatchingVectors = !( ( isFloatType( getScalarType( lhsTypeKind ) ) || isFloatType( getScalarType( rhsTypeKind ) ) )
+				&& ( isVectorType( lhsTypeKind ) || isVectorType( rhsTypeKind ) ) );
 			break;
 		case ast::expr::Kind::eDivide:
 		case ast::expr::Kind::eDivideAssign:
@@ -1672,12 +1716,14 @@ namespace spirv
 			break;
 		case ast::expr::Kind::eLogAnd:
 			result = spv::Op::OpLogicalAnd;
+			needMatchingVectors = false;
 			break;
 		case ast::expr::Kind::eLogNot:
 			assert( "Unexpected ast::expr::Kind::eBitNot" );
 			break;
 		case ast::expr::Kind::eLogOr:
 			result = spv::Op::OpLogicalOr;
+			needMatchingVectors = false;
 			break;
 		case ast::expr::Kind::eCast:
 			assert( "Unexpected ast::expr::Kind::eCast" );
@@ -1694,6 +1740,8 @@ namespace spirv
 		case ast::expr::Kind::eEqual:
 			result = isAnyFloating( lhsTypeKind, rhsTypeKind )
 				? spv::Op::OpFOrdEqual
+				: isAnyBool( lhsTypeKind, rhsTypeKind )
+				? spv::Op::OpLogicalEqual
 				: spv::Op::OpIEqual;
 			break;
 		case ast::expr::Kind::eGreater:
@@ -1727,6 +1775,8 @@ namespace spirv
 		case ast::expr::Kind::eNotEqual:
 			result = isAnyFloating( lhsTypeKind, rhsTypeKind )
 				? spv::Op::OpFOrdNotEqual
+				: isAnyBool( lhsTypeKind, rhsTypeKind )
+				? spv::Op::OpLogicalNotEqual
 				: spv::Op::OpINotEqual;
 			break;
 		case ast::expr::Kind::eComma:
@@ -1782,6 +1832,63 @@ namespace spirv
 		switchParams = ( exprKind == ast::expr::Kind::eTimes || exprKind == ast::expr::Kind::eTimesAssign )
 			&& ( ( isVectorType( lhsTypeKind ) && isMatrixType( rhsTypeKind ) )
 				|| ( isScalarType( lhsTypeKind ) && ( isVectorType( rhsTypeKind ) || isMatrixType( rhsTypeKind ) ) ) );
+		return result;
+	}
+
+	spv::Op getUnOpCode( ast::expr::Kind exprKind
+		, ast::type::Kind typeKind )
+	{
+		assert( exprKind != ast::expr::Kind::eImageAccessCall
+			&& exprKind != ast::expr::Kind::eIntrinsicCall
+			&& exprKind != ast::expr::Kind::eTextureAccessCall
+			&& "Unsupported ast::expr::Kind" );
+		spv::Op result{ spv::Op::OpNop };
+
+		switch ( exprKind )
+		{
+		case ast::expr::Kind::eBitNot:
+		case ast::expr::Kind::eNotAssign:
+			result = spv::Op::OpNot;
+			break;
+		case ast::expr::Kind::eLogNot:
+			result = spv::Op::OpLogicalNot;
+			break;
+		case ast::expr::Kind::eCast:
+			assert( false && "Unexpected ast::expr::Kind::eCast" );
+			break;
+		case ast::expr::Kind::eComma:
+			assert( false && "Unexpected ast::expr::Kind::eComma" );
+			break;
+		case ast::expr::Kind::eIdentifier:
+			assert( false && "Unexpected ast::expr::Kind::eIdentifier" );
+			break;
+		case ast::expr::Kind::eLiteral:
+			assert( false && "Unexpected ast::expr::Kind::eLiteral" );
+			break;
+		case ast::expr::Kind::ePreIncrement:
+			assert( false && "Unexpected ast::expr::Kind::ePreIncrement" );
+			break;
+		case ast::expr::Kind::ePreDecrement:
+			assert( false && "Unexpected ast::expr::Kind::ePreDecrement" );
+			break;
+		case ast::expr::Kind::ePostIncrement:
+			assert( false && "Unexpected ast::expr::Kind::ePostIncrement" );
+			break;
+		case ast::expr::Kind::ePostDecrement:
+			assert( false && "Unexpected ast::expr::Kind::ePostDecrement" );
+			break;
+		case ast::expr::Kind::eUnaryMinus:
+			result = isFloating( typeKind )
+				? spv::Op::OpFNegate
+				: spv::Op::OpSNegate;
+			break;
+		case ast::expr::Kind::eUnaryPlus:
+			assert( false && "Unexpected ast::expr::Kind::eUnaryPlus" );
+			break;
+		default:
+			break;
+		}
+
 		return result;
 	}
 

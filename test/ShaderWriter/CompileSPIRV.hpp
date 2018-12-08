@@ -1,10 +1,13 @@
 #pragma once
 
-#include <ShaderWriter/ShaderWriterPrerequisites.hpp>
+#include "WriterCommon.hpp"
 
 namespace test
 {
-	bool compileSpirV( sdw::Shader const & shader
+	bool createSPIRVContext( sdw_test::TestCounts & testCounts );
+	void destroySPIRVContext( sdw_test::TestCounts & testCounts );
+	bool compileSpirV( ::sdw::Shader const & shader
 		, std::vector< uint32_t > const & spirv
-		,std::string & errors );
+		, std::string & errors
+		, sdw_test::TestCounts & testCounts );
 }

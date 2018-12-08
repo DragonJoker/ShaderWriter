@@ -32,8 +32,8 @@ namespace sdw
 	{
 		if ( this->getContainer() )
 		{
-			addStmt( *findContainer( *this, rhs )
-				, sdw::makeSimple( sdw::makeAssign( Mat3x4T< ValueT >::makeType()
+			addStmt( *findShader( *this, rhs )
+				, sdw::makeSimple( sdw::makeAssign( Mat3x4T< ValueT >::makeType( findTypesCache( *this, rhs ) )
 					, makeExpr( *this )
 					, makeExpr( rhs ) ) ) );
 		}
@@ -50,7 +50,7 @@ namespace sdw
 	Optional< Vec4T< ValueT > > Optional< Mat3x4T< ValueT > >::operator[]( IndexT const & rhs )const
 	{
 		return Optional< Vec4T< ValueT > >{ findShader( *this, rhs )
-			, sdw::makeArrayAccess( Vec4T< ValueT >::makeType()
+			, sdw::makeArrayAccess( Vec4T< ValueT >::makeType( findTypesCache( *this, rhs ) )
 				, makeExpr( *this )
 				, makeExpr( rhs ) )
 			, areOptionalEnabled( *this, rhs ) };

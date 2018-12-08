@@ -9,10 +9,30 @@ namespace ast::expr
 {
 	//*************************************************************************
 
-	CompositeConstruct::CompositeConstruct( CompositeType composite
+	namespace
+	{
+		uint32_t getTotalComponentCount( type::Kind kind )
+		{
+			auto result = 1u;
+
+			do
+			{
+				result *= getComponentCount( kind );
+				kind = getComponentType( kind );
+			}
+			while ( isVectorType( kind ) );
+
+			return result;
+		}
+	}
+
+	//*************************************************************************
+
+	CompositeConstruct::CompositeConstruct( type::TypesCache & cache
+		, CompositeType composite
 		, type::Kind component
 		, ExprList && argList )
-		: Expr{ getCompositeType( composite, component ), Kind::eCompositeConstruct }
+		: Expr{ getCompositeType( cache, composite, component ), Kind::eCompositeConstruct }
 		, m_composite{ composite }
 		, m_component{ component }
 		, m_argList{ std::move( argList ) }
@@ -21,11 +41,11 @@ namespace ast::expr
 
 		for ( auto & arg : m_argList )
 		{
-			paramsComponentsCount += getComponentCount( arg->getType()->getKind() );
+			paramsComponentsCount += getTotalComponentCount( arg->getType()->getKind() );
 		}
 
 		if ( paramsComponentsCount != 1u
-			&& paramsComponentsCount != getComponentCount( m_composite ) )
+			&& paramsComponentsCount < getComponentCount( m_composite ) )
 		{
 			throw std::runtime_error{ "The total arguments components count must match the composite type components count" };
 		}
@@ -85,7 +105,8 @@ namespace ast::expr
 		return result;
 	}
 
-	type::TypePtr getCompositeType( CompositeType composite
+	type::TypePtr getCompositeType( type::TypesCache & cache
+		, CompositeType composite
 		, type::Kind component )
 	{
 		assert( isScalarType( component ) );
@@ -93,26 +114,49 @@ namespace ast::expr
 
 		switch ( composite )
 		{
+		case expr::CompositeType::eScalar:
+			switch ( component )
+			{
+			case type::Kind::eBoolean:
+				result = cache.getBool();
+				break;
+			case type::Kind::eInt:
+				result = cache.getInt();
+				break;
+			case type::Kind::eUInt:
+				result = cache.getUInt();
+				break;
+			case type::Kind::eFloat:
+				result = cache.getFloat();
+				break;
+			case type::Kind::eDouble:
+				result = cache.getDouble();
+				break;
+			case type::Kind::eHalf:
+				result = cache.makeType( type::Kind::eHalf );
+				break;
+			}
+			break;
 		case expr::CompositeType::eVec2:
 			switch ( component )
 			{
 			case type::Kind::eBoolean:
-				result = type::getVec2B();
+				result = cache.getVec2B();
 				break;
 			case type::Kind::eInt:
-				result = type::getVec2I();
+				result = cache.getVec2I();
 				break;
 			case type::Kind::eUInt:
-				result = type::getVec2U();
+				result = cache.getVec2U();
 				break;
 			case type::Kind::eFloat:
-				result = type::getVec2F();
+				result = cache.getVec2F();
 				break;
 			case type::Kind::eDouble:
-				result = type::getVec2D();
+				result = cache.getVec2D();
 				break;
 			case type::Kind::eHalf:
-				result = type::makeType( type::Kind::eVec2H );
+				result = cache.makeType( type::Kind::eVec2H );
 				break;
 			}
 			break;
@@ -120,22 +164,22 @@ namespace ast::expr
 			switch ( component )
 			{
 			case type::Kind::eBoolean:
-				result = type::getVec3B();
+				result = cache.getVec3B();
 				break;
 			case type::Kind::eInt:
-				result = type::getVec3I();
+				result = cache.getVec3I();
 				break;
 			case type::Kind::eUInt:
-				result = type::getVec3U();
+				result = cache.getVec3U();
 				break;
 			case type::Kind::eFloat:
-				result = type::getVec3F();
+				result = cache.getVec3F();
 				break;
 			case type::Kind::eDouble:
-				result = type::getVec3D();
+				result = cache.getVec3D();
 				break;
 			case type::Kind::eHalf:
-				result = type::makeType( type::Kind::eVec3H );
+				result = cache.makeType( type::Kind::eVec3H );
 				break;
 			}
 			break;
@@ -143,22 +187,22 @@ namespace ast::expr
 			switch ( component )
 			{
 			case type::Kind::eBoolean:
-				result = type::getVec4B();
+				result = cache.getVec4B();
 				break;
 			case type::Kind::eInt:
-				result = type::getVec4I();
+				result = cache.getVec4I();
 				break;
 			case type::Kind::eUInt:
-				result = type::getVec4U();
+				result = cache.getVec4U();
 				break;
 			case type::Kind::eFloat:
-				result = type::getVec4F();
+				result = cache.getVec4F();
 				break;
 			case type::Kind::eDouble:
-				result = type::getVec4D();
+				result = cache.getVec4D();
 				break;
 			case type::Kind::eHalf:
-				result = type::makeType( type::Kind::eVec4H );
+				result = cache.makeType( type::Kind::eVec4H );
 				break;
 			}
 			break;
@@ -168,10 +212,10 @@ namespace ast::expr
 			switch ( component )
 			{
 			case type::Kind::eFloat:
-				result = type::getMat2x2F();
+				result = cache.getMat2x2F();
 				break;
 			case type::Kind::eDouble:
-				result = type::getMat2x2D();
+				result = cache.getMat2x2D();
 				break;
 			}
 			break;
@@ -181,10 +225,10 @@ namespace ast::expr
 			switch ( component )
 			{
 			case type::Kind::eFloat:
-				result = type::getMat2x3F();
+				result = cache.getMat2x3F();
 				break;
 			case type::Kind::eDouble:
-				result = type::getMat2x3D();
+				result = cache.getMat2x3D();
 				break;
 			}
 			break;
@@ -194,10 +238,10 @@ namespace ast::expr
 			switch ( component )
 			{
 			case type::Kind::eFloat:
-				result = type::getMat2x4F();
+				result = cache.getMat2x4F();
 				break;
 			case type::Kind::eDouble:
-				result = type::getMat2x4D();
+				result = cache.getMat2x4D();
 				break;
 			}
 			break;
@@ -207,10 +251,10 @@ namespace ast::expr
 			switch ( component )
 			{
 			case type::Kind::eFloat:
-				result = type::getMat3x2F();
+				result = cache.getMat3x2F();
 				break;
 			case type::Kind::eDouble:
-				result = type::getMat3x2D();
+				result = cache.getMat3x2D();
 				break;
 			}
 			break;
@@ -220,10 +264,10 @@ namespace ast::expr
 			switch ( component )
 			{
 			case type::Kind::eFloat:
-				result = type::getMat3x3F();
+				result = cache.getMat3x3F();
 				break;
 			case type::Kind::eDouble:
-				result = type::getMat3x3D();
+				result = cache.getMat3x3D();
 				break;
 			}
 			break;
@@ -233,10 +277,10 @@ namespace ast::expr
 			switch ( component )
 			{
 			case type::Kind::eFloat:
-				result = type::getMat3x4F();
+				result = cache.getMat3x4F();
 				break;
 			case type::Kind::eDouble:
-				result = type::getMat3x4D();
+				result = cache.getMat3x4D();
 				break;
 			}
 			break;
@@ -246,10 +290,10 @@ namespace ast::expr
 			switch ( component )
 			{
 			case type::Kind::eFloat:
-				result = type::getMat4x2F();
+				result = cache.getMat4x2F();
 				break;
 			case type::Kind::eDouble:
-				result = type::getMat4x2D();
+				result = cache.getMat4x2D();
 				break;
 			}
 			break;
@@ -259,10 +303,10 @@ namespace ast::expr
 			switch ( component )
 			{
 			case type::Kind::eFloat:
-				result = type::getMat4x3F();
+				result = cache.getMat4x3F();
 				break;
 			case type::Kind::eDouble:
-				result = type::getMat4x3D();
+				result = cache.getMat4x3D();
 				break;
 			}
 			break;
@@ -272,10 +316,10 @@ namespace ast::expr
 			switch ( component )
 			{
 			case type::Kind::eFloat:
-				result = type::getMat4x4F();
+				result = cache.getMat4x4F();
 				break;
 			case type::Kind::eDouble:
-				result = type::getMat4x4D();
+				result = cache.getMat4x4D();
 				break;
 			}
 			break;

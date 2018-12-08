@@ -56,42 +56,6 @@ namespace spirv
 
 	//*************************************************************************
 
-	Instruction makeExtension( std::string const & name )
-	{
-		return Instruction
-		{
-			spv::Op::OpExtension,
-			std::nullopt,
-			std::nullopt,
-			{},
-			name,
-		};
-	}
-
-	Instruction makeName( spv::Op op, spv::Id id, std::string const & name )
-	{
-		return Instruction
-		{
-			op,
-			std::nullopt,
-			id,
-			{},
-			name,
-		};
-	}
-
-	Instruction makeName( spv::Op op, spv::Id outerId, spv::Id memberIndex, std::string const & name )
-	{
-		return Instruction
-		{
-			op,
-			std::nullopt,
-			std::nullopt,
-			{ outerId, memberIndex },
-			name,
-		};
-	}
-
 	spv::ImageFormat getImageFormat( ast::type::ImageFormat value )
 	{
 		switch ( value )
@@ -152,58 +116,56 @@ namespace spirv
 		}
 	}
 
-	Instruction makeType( ast::type::Kind kind
-		, spv::Id id )
+	InstructionPtr makeExtension( std::string const & name )
 	{
-		assert( !isSamplerType( kind )
-			&& !isImageType( kind ) );
-		IdList operands;
+		return makeInstruction< ExtensionInstruction >( name );
+	}
 
-		switch ( kind )
+	InstructionPtr makeFunctionType( spv::Id returnTypeId
+		, IdList const & functionTypesId )
+	{
+		return makeInstruction< FunctionTypeInstruction >( returnTypeId
+			, functionTypesId );
+	}
+
+	void getBinOpOperands( ast::expr::Kind exprKind
+		, ast::type::Kind lhsTypeKind
+		, ast::type::Kind rhsTypeKind
+		, spv::Id lhs
+		, spv::Id rhs
+		, IdList & operands
+		, spv::Op & opCode )
+	{
+		bool needsMatchingVector;
+		bool switchParams{ false };
+		opCode = getBinOpCode( exprKind
+			, lhsTypeKind
+			, rhsTypeKind
+			, switchParams
+			, needsMatchingVector );
+
+		if ( switchParams )
 		{
-		case ast::type::Kind::eInt:
-			operands.push_back( 32u );
-			operands.push_back( 1u );
-			break;
-		case ast::type::Kind::eUInt:
-			operands.push_back( 32u );
-			operands.push_back( 0u );
-			break;
-		case ast::type::Kind::eFloat:
-			operands.push_back( 32u );
-			break;
-		case ast::type::Kind::eDouble:
-			operands.push_back( 64u );
-			break;
-		case ast::type::Kind::eHalf:
-			operands.push_back( 16u );
-			break;
+			std::swap( lhs, rhs );
 		}
 
-		return Instruction
-		{
-			getOpCode( kind ),
-			std::nullopt,
-			id,
-			operands,
-		};
+		operands = makeOperands( lhs, rhs );
 	}
 
-	Instruction makeType( ast::type::Kind kind
-		, spv::Id id
-		, IdList const & subTypes )
+	IdList makeBinOpOperands( ast::expr::Kind exprKind
+		, ast::type::Kind lhsTypeKind
+		, ast::type::Kind rhsTypeKind
+		, spv::Id lhs
+		, spv::Id rhs )
 	{
-		return Instruction
-		{
-			getOpCode( kind ),
-			std::nullopt,
-			id,
-			subTypes
-		};
+		IdList result;
+		spv::Op opCode;
+		getBinOpOperands( exprKind, lhsTypeKind, rhsTypeKind, lhs, rhs, result, opCode );
+		return makeOperands( spv::Id( opCode ), result );
 	}
 
-	Instruction makeImageType( ast::type::ImageConfiguration const & config
-		, spv::Id id
+	InstructionPtr makeImageTypeInstruction( ast::type::ImageConfiguration const & config
+		, spv::Id resultId
 		, spv::Id sampledTypeId )
 	{
 		IdList operands;
@@ -222,531 +184,434 @@ namespace spirv
 				? 2u
 				: 0u ) );
 		operands.push_back( uint32_t( getImageFormat( config.format ) ) );
-		operands.push_back( uint32_t( config.accessKind ) );
+		// Only available in kernel mode.
+		//operands.push_back( uint32_t( config.accessKind ) );
 
-		return Instruction
-		{
-			spv::Op::OpTypeImage,
-			std::nullopt,
-			id,
-			operands,
-		};
-	}
-
-	Instruction makeSamplerType( spv::Id id )
-	{
-		return Instruction
-		{
-			spv::Op::OpTypeSampler,
-			std::nullopt,
-			id,
-		};
-	}
-
-	Instruction makeSampledImageType( spv::Id id
-		, spv::Id imgTypeId )
-	{
-		IdList operands
-		{
-			imgTypeId
-		};
-		return Instruction
-		{
-			spv::Op::OpTypeSampledImage,
-			std::nullopt,
-			id,
-			operands,
-		};
-	}
-
-	Instruction makeStructType( spv::Id id, IdList const & subTypes )
-	{
-		return Instruction
-		{
-			spv::Op::OpTypeStruct,
-			std::nullopt,
-			id,
-			subTypes
-		};
-	}
-
-	Instruction makeArrayType( ast::type::Kind kind, spv::Id id, spv::Id elementTypeId )
-	{
-		return Instruction
-		{
-			spv::Op::OpTypeRuntimeArray,
-			std::nullopt,
-			id,
-			{ elementTypeId }
-		};
-	}
-
-	Instruction makeArrayType( ast::type::Kind kind
-		, spv::Id id
-		, spv::Id elementTypeId
-		, spv::Id lengthId )
-	{
-		return Instruction
-		{
-			spv::Op::OpTypeArray,
-			std::nullopt,
-			id,
-			{ elementTypeId, lengthId }
-		};
-	}
-
-	Instruction makeType( ast::type::TypePtr type, spv::Id id )
-	{
-		return Instruction
-		{
-			getOpCode( type ),
-			std::nullopt,
-			id,
-		};
-	}
-
-	Instruction makeSwitch( spv::Id selector
-		, spv::Id defaultId
-		, std::map< int64_t, spv::Id > const & cases )
-	{
-		return Instruction
-		{
-			spv::Op::OpSwitch,
-			std::nullopt,
-			std::nullopt,
-			{},
-			{},
-			cases
-		};
-	}
-
-	Instruction makeVariable( spv::Id resultId
-		, spv::Id typeId
-		, spv::StorageClass storage )
-	{
-		return Instruction
-		{
-			spv::Op::OpVariable,
-			typeId,
-			resultId,
-			{ spv::Id( storage ) },
-		};
-	}
-
-	Instruction makeVariable( spv::Id resultId
-		, spv::Id typeId
-		, spv::StorageClass storage
-		, spv::Id initialiser )
-	{
-		return Instruction
-		{
-			spv::Op::OpVariable,
-			typeId,
-			resultId,
-			{ spv::Id( storage ), initialiser },
-		};
-	}
-
-	Instruction makeAccessChain( spv::Op op
-		, spv::Id resultId
-		, spv::Id typeId
-		, IdList const & accessChain )
-	{
-		return Instruction
-		{
-			op,
-			typeId,
-			resultId,
-			accessChain,
-		};
-	}
-
-	Instruction makeVectorShuffle( spv::Id resultId
-		, spv::Id typeId
-		, IdList const & shuffle )
-	{
-		return Instruction
-		{
-			spv::Op::OpVectorShuffle,
-			typeId,
-			resultId,
-			shuffle,
-		};
-	}
-
-	Instruction makeVectorShuffle( spv::Id resultId
-		, spv::Id typeId
-		, spv::Id vector
-		, IdList const & components )
-	{
-		IdList shuffle;
-		shuffle.push_back( vector );
-		shuffle.push_back( spv::Id( spv::Op::OpUndef ) );
-		shuffle.insert( shuffle.end(), components.begin(), components.end() );
-		return makeVectorShuffle( resultId
-			, typeId
-			, shuffle );
-	}
-
-	Instruction makeVectorShuffle( spv::Id resultId
-		, spv::Id typeId
-		, spv::Id vector1
-		, spv::Id vector2
-		, IdList const & components )
-	{
-		IdList shuffle;
-		shuffle.push_back( vector1 );
-		shuffle.push_back( vector2 );
-		shuffle.insert( shuffle.end(), components.begin(), components.end() );
-		return makeVectorShuffle( resultId
-			, typeId
-			, shuffle );
-	}
-
-	Instruction makeInstruction( spv::Op op )
-	{
-		return Instruction
-		{
-			op,
-			std::nullopt,
-			std::nullopt,
-			{},
-		};
-	}
-
-	Instruction makeInstruction( spv::Op op
-		, spv::Id resultId )
-	{
-		return Instruction
-		{
-			op,
-			std::nullopt,
-			resultId,
-		};
-	}
-
-	Instruction makeInstruction( spv::Op op
-		, spv::Id resultId
-		, spv::Id typeId )
-	{
-		return Instruction
-		{
-			op,
-			typeId,
-			resultId,
-		};
-	}
-
-	Instruction makeInstruction( ast::expr::Kind exprKind
-		, ast::type::Kind typeKind )
-	{
-		return makeInstruction( getOpCode( exprKind, typeKind ) );
-	}
-
-	Instruction makeInstruction( spv::Op op
-		, IdList const & operands )
-	{
-		return Instruction
-		{
-			op,
-			std::nullopt,
-			std::nullopt,
-			operands,
-		};
-	}
-
-	Instruction makeInstruction( ast::expr::Kind exprKind
-		, ast::type::Kind typeKind
-		, IdList const & operands )
-	{
-		return makeInstruction( getOpCode( exprKind, typeKind )
+		return makeInstruction< ImageTypeInstruction >( resultId
 			, operands );
 	}
 
-	Instruction makeInstruction( spv::Op op
-		, IdList const & operands
-		, std::string const & name )
+	InstructionPtr makeBaseTypeInstruction( ast::type::Kind kind
+		, spv::Id id )
 	{
-		return Instruction
+		assert( !isStructType( kind )
+			&& !isSamplerType( kind )
+			&& !isImageType( kind )
+			&& !isSampledImageType( kind ) );
+		IdList operands;
+
+		switch ( kind )
 		{
-			op,
-			std::nullopt,
-			std::nullopt,
-			operands,
-			name,
-		};
+		case ast::type::Kind::eVoid:
+			return makeInstruction< VoidTypeInstruction >( id );
+		case ast::type::Kind::eBoolean:
+			return makeInstruction< BooleanTypeInstruction >( id );
+		case ast::type::Kind::eInt:
+			return makeInstruction< IntTypeInstruction >( id, 32u, 1u );
+		case ast::type::Kind::eUInt:
+			return makeInstruction< IntTypeInstruction >( id, 32u, 0u );
+		case ast::type::Kind::eFloat:
+			return makeInstruction< FloatTypeInstruction >( id, 32u );
+		case ast::type::Kind::eDouble:
+			return makeInstruction< FloatTypeInstruction >( id, 64u );
+		case ast::type::Kind::eHalf:
+			return makeInstruction< FloatTypeInstruction >( id, 16u );
+		default:
+			assert( false && "Unexpected type kind" );
+		}
+
+		return nullptr;
 	}
 
-	Instruction makeInstruction( ast::expr::Kind exprKind
-		, ast::type::Kind typeKind
-		, IdList const & operands
-		, std::string const & name )
-	{
-		return makeInstruction( getOpCode( exprKind, typeKind )
-			, operands
-			, name );
-	}
-
-	Instruction makeInstruction( spv::Op op
+	InstructionPtr makeIntrinsicInstruction( spv::Id returnTypeId
 		, spv::Id resultId
+		, spv::Op op
 		, IdList const & operands )
 	{
-		return Instruction
+		switch ( op )
 		{
-			op,
-			std::nullopt,
-			resultId,
-			operands,
-		};
+		case spv::Op::OpFMod:
+			return makeInstruction< IntrinsicInstructionT< spv::Op::OpFMod > >( returnTypeId, resultId, operands );
+		case spv::Op::OpIsNan:
+			return makeInstruction< IntrinsicInstructionT< spv::Op::OpIsNan > >( returnTypeId, resultId, operands );
+		case spv::Op::OpIsInf:
+			return makeInstruction< IntrinsicInstructionT< spv::Op::OpIsInf > >( returnTypeId, resultId, operands );
+		case spv::Op::OpBitcast:
+			return makeInstruction< IntrinsicInstructionT< spv::Op::OpBitcast > >( returnTypeId, resultId, operands );
+		case spv::Op::OpDot:
+			return makeInstruction< IntrinsicInstructionT< spv::Op::OpDot > >( returnTypeId, resultId, operands );
+		case spv::Op::OpMatrixTimesMatrix:
+			return makeInstruction< IntrinsicInstructionT< spv::Op::OpMatrixTimesMatrix > >( returnTypeId, resultId, operands );
+		case spv::Op::OpOuterProduct:
+			return makeInstruction< IntrinsicInstructionT< spv::Op::OpOuterProduct > >( returnTypeId, resultId, operands );
+		case spv::Op::OpTranspose:
+			return makeInstruction< IntrinsicInstructionT< spv::Op::OpTranspose > >( returnTypeId, resultId, operands );
+		case spv::Op::OpFOrdLessThan:
+			return makeInstruction< IntrinsicInstructionT< spv::Op::OpFOrdLessThan > >( returnTypeId, resultId, operands );
+		case spv::Op::OpSLessThan:
+			return makeInstruction< IntrinsicInstructionT< spv::Op::OpSLessThan > >( returnTypeId, resultId, operands );
+		case spv::Op::OpULessThan:
+			return makeInstruction< IntrinsicInstructionT< spv::Op::OpULessThan > >( returnTypeId, resultId, operands );
+		case spv::Op::OpFOrdLessThanEqual:
+			return makeInstruction< IntrinsicInstructionT< spv::Op::OpFOrdLessThanEqual > >( returnTypeId, resultId, operands );
+		case spv::Op::OpSLessThanEqual:
+			return makeInstruction< IntrinsicInstructionT< spv::Op::OpSLessThanEqual > >( returnTypeId, resultId, operands );
+		case spv::Op::OpULessThanEqual:
+			return makeInstruction< IntrinsicInstructionT< spv::Op::OpULessThanEqual > >( returnTypeId, resultId, operands );
+		case spv::Op::OpFOrdGreaterThan:
+			return makeInstruction< IntrinsicInstructionT< spv::Op::OpFOrdGreaterThan > >( returnTypeId, resultId, operands );
+		case spv::Op::OpSGreaterThan:
+			return makeInstruction< IntrinsicInstructionT< spv::Op::OpSGreaterThan > >( returnTypeId, resultId, operands );
+		case spv::Op::OpUGreaterThan:
+			return makeInstruction< IntrinsicInstructionT< spv::Op::OpUGreaterThan > >( returnTypeId, resultId, operands );
+		case spv::Op::OpFOrdGreaterThanEqual:
+			return makeInstruction< IntrinsicInstructionT< spv::Op::OpFOrdGreaterThanEqual > >( returnTypeId, resultId, operands );
+		case spv::Op::OpSGreaterThanEqual:
+			return makeInstruction< IntrinsicInstructionT< spv::Op::OpSGreaterThanEqual > >( returnTypeId, resultId, operands );
+		case spv::Op::OpUGreaterThanEqual:
+			return makeInstruction< IntrinsicInstructionT< spv::Op::OpUGreaterThanEqual > >( returnTypeId, resultId, operands );
+		case spv::Op::OpFOrdEqual:
+			return makeInstruction< IntrinsicInstructionT< spv::Op::OpFOrdEqual > >( returnTypeId, resultId, operands );
+		case spv::Op::OpIEqual:
+			return makeInstruction< IntrinsicInstructionT< spv::Op::OpIEqual > >( returnTypeId, resultId, operands );
+		case spv::Op::OpFOrdNotEqual:
+			return makeInstruction< IntrinsicInstructionT< spv::Op::OpFOrdNotEqual > >( returnTypeId, resultId, operands );
+		case spv::Op::OpINotEqual:
+			return makeInstruction< IntrinsicInstructionT< spv::Op::OpINotEqual > >( returnTypeId, resultId, operands );
+		case spv::Op::OpAll:
+			return makeInstruction< IntrinsicInstructionT< spv::Op::OpAll > >( returnTypeId, resultId, operands );
+		case spv::Op::OpAny:
+			return makeInstruction< IntrinsicInstructionT< spv::Op::OpAny > >( returnTypeId, resultId, operands );
+		case spv::Op::OpLogicalNot:
+			return makeInstruction< IntrinsicInstructionT< spv::Op::OpLogicalNot > >( returnTypeId, resultId, operands );
+		case spv::Op::OpIAddCarry:
+			return makeInstruction< IntrinsicInstructionT< spv::Op::OpIAddCarry > >( returnTypeId, resultId, operands );
+		case spv::Op::OpISubBorrow:
+			return makeInstruction< IntrinsicInstructionT< spv::Op::OpISubBorrow > >( returnTypeId, resultId, operands );
+		case spv::Op::OpUMulExtended:
+			return makeInstruction< IntrinsicInstructionT< spv::Op::OpUMulExtended > >( returnTypeId, resultId, operands );
+		case spv::Op::OpBitFieldSExtract:
+			return makeInstruction< IntrinsicInstructionT< spv::Op::OpBitFieldSExtract > >( returnTypeId, resultId, operands );
+		case spv::Op::OpBitFieldUExtract:
+			return makeInstruction< IntrinsicInstructionT< spv::Op::OpBitFieldUExtract > >( returnTypeId, resultId, operands );
+		case spv::Op::OpBitFieldInsert:
+			return makeInstruction< IntrinsicInstructionT< spv::Op::OpBitFieldInsert > >( returnTypeId, resultId, operands );
+		case spv::Op::OpBitReverse:
+			return makeInstruction< IntrinsicInstructionT< spv::Op::OpBitReverse > >( returnTypeId, resultId, operands );
+		case spv::Op::OpBitCount:
+			return makeInstruction< IntrinsicInstructionT< spv::Op::OpBitCount > >( returnTypeId, resultId, operands );
+		case spv::Op::OpAtomicIAdd:
+			return makeInstruction< IntrinsicInstructionT< spv::Op::OpAtomicIAdd > >( returnTypeId, resultId, operands );
+		case spv::Op::OpAtomicSMin:
+			return makeInstruction< IntrinsicInstructionT< spv::Op::OpAtomicSMin > >( returnTypeId, resultId, operands );
+		case spv::Op::OpAtomicUMin:
+			return makeInstruction< IntrinsicInstructionT< spv::Op::OpAtomicUMin > >( returnTypeId, resultId, operands );
+		case spv::Op::OpAtomicSMax:
+			return makeInstruction< IntrinsicInstructionT< spv::Op::OpAtomicSMax > >( returnTypeId, resultId, operands );
+		case spv::Op::OpAtomicUMax:
+			return makeInstruction< IntrinsicInstructionT< spv::Op::OpAtomicUMax > >( returnTypeId, resultId, operands );
+		case spv::Op::OpAtomicAnd:
+			return makeInstruction< IntrinsicInstructionT< spv::Op::OpAtomicAnd > >( returnTypeId, resultId, operands );
+		case spv::Op::OpAtomicOr:
+			return makeInstruction< IntrinsicInstructionT< spv::Op::OpAtomicOr > >( returnTypeId, resultId, operands );
+		case spv::Op::OpAtomicXor:
+			return makeInstruction< IntrinsicInstructionT< spv::Op::OpAtomicXor > >( returnTypeId, resultId, operands );
+		case spv::Op::OpAtomicExchange:
+			return makeInstruction< IntrinsicInstructionT< spv::Op::OpAtomicExchange > >( returnTypeId, resultId, operands );
+		case spv::Op::OpAtomicCompareExchange:
+			return makeInstruction< IntrinsicInstructionT< spv::Op::OpAtomicCompareExchange > >( returnTypeId, resultId, operands );
+		case spv::Op::OpDPdx:
+			return makeInstruction< IntrinsicInstructionT< spv::Op::OpDPdx > >( returnTypeId, resultId, operands );
+		case spv::Op::OpDPdxCoarse:
+			return makeInstruction< IntrinsicInstructionT< spv::Op::OpDPdxCoarse > >( returnTypeId, resultId, operands );
+		case spv::Op::OpDPdxFine:
+			return makeInstruction< IntrinsicInstructionT< spv::Op::OpDPdxFine > >( returnTypeId, resultId, operands );
+		case spv::Op::OpDPdy:
+			return makeInstruction< IntrinsicInstructionT< spv::Op::OpDPdy > >( returnTypeId, resultId, operands );
+		case spv::Op::OpDPdyCoarse:
+			return makeInstruction< IntrinsicInstructionT< spv::Op::OpDPdyCoarse > >( returnTypeId, resultId, operands );
+		case spv::Op::OpDPdyFine:
+			return makeInstruction< IntrinsicInstructionT< spv::Op::OpDPdyFine > >( returnTypeId, resultId, operands );
+		case spv::Op::OpFwidth:
+			return makeInstruction< IntrinsicInstructionT< spv::Op::OpFwidth > >( returnTypeId, resultId, operands );
+		case spv::Op::OpEmitStreamVertex:
+			return makeInstruction< IntrinsicInstructionT< spv::Op::OpEmitStreamVertex > >( returnTypeId, resultId, operands );
+		case spv::Op::OpEndStreamPrimitive:
+			return makeInstruction< IntrinsicInstructionT< spv::Op::OpEndStreamPrimitive > >( returnTypeId, resultId, operands );
+		case spv::Op::OpEmitVertex:
+			return makeInstruction< IntrinsicInstructionT< spv::Op::OpEmitVertex > >( returnTypeId, resultId, operands );
+		case spv::Op::OpEndPrimitive:
+			return makeInstruction< IntrinsicInstructionT< spv::Op::OpEndPrimitive > >( returnTypeId, resultId, operands );
+		case spv::Op::OpControlBarrier:
+			return makeInstruction< IntrinsicInstructionT< spv::Op::OpControlBarrier > >( returnTypeId, resultId, operands );
+		case spv::Op::OpMemoryBarrier:
+			return makeInstruction< IntrinsicInstructionT< spv::Op::OpMemoryBarrier > >( returnTypeId, resultId, operands );
+		default:
+			assert( false && "Unexpected intrinsic call Op" );
+		}
+
+		return nullptr;
 	}
 
-	Instruction makeInstruction( ast::expr::Kind exprKind
-		, ast::type::Kind typeKind
+	InstructionPtr makeTextureAccessInstruction( spv::Id returnTypeId
 		, spv::Id resultId
+		, spv::Op op
 		, IdList const & operands )
 	{
-		return makeInstruction( getOpCode( exprKind, typeKind )
-			, resultId
-			, operands );
+		switch ( op )
+		{
+		case spv::Op::OpImageQuerySizeLod:
+			return makeInstruction< TextureAccessInstructionT< spv::Op::OpImageQuerySizeLod > >( returnTypeId, resultId, operands );
+		case spv::Op::OpImageQuerySize:
+			return makeInstruction< TextureAccessInstructionT< spv::Op::OpImageQuerySize > >( returnTypeId, resultId, operands );
+		case spv::Op::OpImageQueryLod:
+			return makeInstruction< TextureAccessInstructionT< spv::Op::OpImageQueryLod > >( returnTypeId, resultId, operands );
+		case spv::Op::OpImageQueryLevels:
+			return makeInstruction< TextureAccessInstructionT< spv::Op::OpImageQueryLevels > >( returnTypeId, resultId, operands );
+		case spv::Op::OpImageSampleImplicitLod:
+			return makeInstruction< TextureAccessInstructionT< spv::Op::OpImageSampleImplicitLod > >( returnTypeId, resultId, operands );
+		case spv::Op::OpImageSampleDrefImplicitLod:
+			return makeInstruction< TextureAccessInstructionT< spv::Op::OpImageSampleDrefImplicitLod > >( returnTypeId, resultId, operands );
+		case spv::Op::OpImageSampleProjImplicitLod:
+			return makeInstruction< TextureAccessInstructionT< spv::Op::OpImageSampleProjImplicitLod > >( returnTypeId, resultId, operands );
+		case spv::Op::OpImageSampleProjDrefImplicitLod:
+			return makeInstruction< TextureAccessInstructionT< spv::Op::OpImageSampleProjDrefImplicitLod > >( returnTypeId, resultId, operands );
+		case spv::Op::OpImageSampleExplicitLod:
+			return makeInstruction< TextureAccessInstructionT< spv::Op::OpImageSampleExplicitLod > >( returnTypeId, resultId, operands );
+		case spv::Op::OpImageSampleDrefExplicitLod:
+			return makeInstruction< TextureAccessInstructionT< spv::Op::OpImageSampleDrefExplicitLod > >( returnTypeId, resultId, operands );
+		case spv::Op::OpImageSampleProjExplicitLod:
+			return makeInstruction< TextureAccessInstructionT< spv::Op::OpImageSampleProjExplicitLod > >( returnTypeId, resultId, operands );
+		case spv::Op::OpImageSampleProjDrefExplicitLod:
+			return makeInstruction< TextureAccessInstructionT< spv::Op::OpImageSampleProjDrefExplicitLod > >( returnTypeId, resultId, operands );
+		case spv::Op::OpImageFetch:
+			return makeInstruction< TextureAccessInstructionT< spv::Op::OpImageFetch > >( returnTypeId, resultId, operands );
+		case spv::Op::OpImageGather:
+			return makeInstruction< TextureAccessInstructionT< spv::Op::OpImageGather > >( returnTypeId, resultId, operands );
+		case spv::Op::OpImageDrefGather:
+			return makeInstruction< TextureAccessInstructionT< spv::Op::OpImageDrefGather > >( returnTypeId, resultId, operands );
+		default:
+			assert( false && "Unexpected texture access Op" );
+		}
+
+		return nullptr;
 	}
 
-	Instruction makeInstruction( spv::Op op
+	InstructionPtr makeImageAccessInstruction( spv::Id returnTypeId
 		, spv::Id resultId
-		, spv::Id typeId
+		, spv::Op op
 		, IdList const & operands )
 	{
-		return Instruction
+		switch ( op )
 		{
-			op,
-			typeId,
-			resultId,
-			operands,
-		};
+		case spv::Op::OpImageQuerySize:
+			return makeInstruction< ImageAccessInstructionT< spv::Op::OpImageQuerySize > >( returnTypeId, resultId, operands );
+		case spv::Op::OpImageQuerySamples:
+			return makeInstruction< ImageAccessInstructionT< spv::Op::OpImageQuerySamples > >( returnTypeId, resultId, operands );
+		case spv::Op::OpImageRead:
+			return makeInstruction< ImageAccessInstructionT< spv::Op::OpImageRead > >( returnTypeId, resultId, operands );
+		case spv::Op::OpAtomicIAdd:
+			return makeInstruction< ImageAccessInstructionT< spv::Op::OpAtomicIAdd > >( returnTypeId, resultId, operands );
+		case spv::Op::OpAtomicUMin:
+			return makeInstruction< ImageAccessInstructionT< spv::Op::OpAtomicUMin > >( returnTypeId, resultId, operands );
+		case spv::Op::OpAtomicSMin:
+			return makeInstruction< ImageAccessInstructionT< spv::Op::OpAtomicSMin > >( returnTypeId, resultId, operands );
+		case spv::Op::OpAtomicUMax:
+			return makeInstruction< ImageAccessInstructionT< spv::Op::OpAtomicUMax > >( returnTypeId, resultId, operands );
+		case spv::Op::OpAtomicSMax:
+			return makeInstruction< ImageAccessInstructionT< spv::Op::OpAtomicSMax > >( returnTypeId, resultId, operands );
+		case spv::Op::OpAtomicAnd:
+			return makeInstruction< ImageAccessInstructionT< spv::Op::OpAtomicAnd > >( returnTypeId, resultId, operands );
+		case spv::Op::OpAtomicOr:
+			return makeInstruction< ImageAccessInstructionT< spv::Op::OpAtomicOr > >( returnTypeId, resultId, operands );
+		case spv::Op::OpAtomicXor:
+			return makeInstruction< ImageAccessInstructionT< spv::Op::OpAtomicXor > >( returnTypeId, resultId, operands );
+		case spv::Op::OpAtomicExchange:
+			return makeInstruction< ImageAccessInstructionT< spv::Op::OpAtomicExchange > >( returnTypeId, resultId, operands );
+		case spv::Op::OpAtomicCompareExchange:
+			return makeInstruction< ImageAccessInstructionT< spv::Op::OpAtomicCompareExchange > >( returnTypeId, resultId, operands );
+		default:
+			assert( false && "Unexpected image access Op" );
+		}
+
+		return nullptr;
 	}
 
-	Instruction makeInstruction( ast::expr::Kind exprKind
-		, ast::type::Kind typeKind
+	InstructionPtr makeCastInstruction( spv::Id returnTypeId
 		, spv::Id resultId
-		, spv::Id typeId
-		, IdList const & operands )
+		, spv::Op op
+		, spv::Id operandId )
 	{
-		return makeInstruction( getOpCode( exprKind, typeKind )
-			, resultId
-			, typeId
-			, operands );
-	}
-
-	Instruction makeInstruction( spv::Op op
-		, spv::Id resultId
-		, spv::Id typeId
-		, IdList const & operands
-		, std::string const & name )
-	{
-		return Instruction
+		switch ( op )
 		{
-			op,
-			typeId,
-			resultId,
-			operands,
-			name,
-		};
+		case spv::Op::OpFConvert:
+			return makeInstruction< UnInstructionT< spv::Op::OpFConvert > >( returnTypeId, resultId, operandId );
+		case spv::Op::OpConvertFToS:
+			return makeInstruction< UnInstructionT< spv::Op::OpConvertFToS > >( returnTypeId, resultId, operandId );
+		case spv::Op::OpConvertFToU:
+			return makeInstruction< UnInstructionT< spv::Op::OpConvertFToU > >( returnTypeId, resultId, operandId );
+		case spv::Op::OpConvertSToF:
+			return makeInstruction< UnInstructionT< spv::Op::OpConvertSToF > >( returnTypeId, resultId, operandId );
+		case spv::Op::OpConvertUToF:
+			return makeInstruction< UnInstructionT< spv::Op::OpConvertUToF > >( returnTypeId, resultId, operandId );
+		case spv::Op::OpBitcast:
+			return makeInstruction< UnInstructionT< spv::Op::OpBitcast > >( returnTypeId, resultId, operandId );
+		default:
+			assert( false && "Unexpected cast Op" );
+		}
+
+		return nullptr;
 	}
 
-	Instruction makeInstruction( ast::expr::Kind exprKind
+	InstructionPtr makeUnInstruction( spv::Op op
+		, spv::Id returnTypeId
+		, spv::Id resultId
+		, spv::Id operandId )
+	{
+		switch ( op )
+		{
+		case spv::Op::OpNot:
+			return makeInstruction< UnInstructionT< spv::Op::OpNot > >( returnTypeId, resultId, operandId );
+		case spv::Op::OpLogicalNot:
+			return makeInstruction< UnInstructionT< spv::Op::OpLogicalNot > >( returnTypeId, resultId, operandId );
+		case spv::Op::OpFNegate:
+			return makeInstruction< UnInstructionT< spv::Op::OpFNegate > >( returnTypeId, resultId, operandId );
+		case spv::Op::OpSNegate:
+			return makeInstruction< UnInstructionT< spv::Op::OpSNegate > >( returnTypeId, resultId, operandId );
+		default:
+			assert( false && "Unexpected unary operation Op" );
+		}
+
+		return nullptr;
+	}
+
+	InstructionPtr makeUnInstruction( spv::Id returnTypeId
+		, spv::Id resultId
+		, ast::expr::Kind exprKind
 		, ast::type::Kind typeKind
-		, spv::Id resultId
-		, spv::Id typeId
-		, IdList const & operands
-		, std::string const & name )
-	{
-		return makeInstruction( getOpCode( exprKind, typeKind )
-			, resultId
-			, typeId
-			, operands
-			, name );
-	}
-
-	Instruction makeUnInstruction( spv::Op op
-		, spv::Id resultId
-		, spv::Id const & operand )
-	{
-		return makeInstruction( op
-			, resultId
-			, { operand } );
-	}
-
-	Instruction makeBinInstruction( spv::Op op
-		, spv::Id resultId
-		, spv::Id lhs
-		, spv::Id rhs )
-	{
-		return makeInstruction( op
-			, resultId
-			, { lhs, rhs } );
-	}
-
-	Instruction makeUnSpecConstantInstruction( spv::Op op
-		, spv::Id resultId
-		, spv::Id typeId
 		, spv::Id operand )
 	{
-		return makeInstruction( spv::Op::OpSpecConstantOp
-			, resultId
-			, typeId
-			, IdList{ spv::Id( op ), operand } );
-	}
-
-	Instruction makeBinSpecConstantInstruction( spv::Op op
-		, spv::Id resultId
-		, spv::Id typeId
-		, spv::Id lhs
-		, spv::Id rhs )
-	{
-		return makeInstruction( spv::Op::OpSpecConstantOp
-			, resultId
-			, typeId
-			, IdList{ spv::Id( op ), lhs, rhs } );
-	}
-
-	Instruction makeUnInstruction( spv::Op op
-		, spv::Id resultId
-		, spv::Id typeId
-		, spv::Id operand )
-	{
-		return makeInstruction( op
-			, resultId
-			, typeId
-			, IdList{ operand } );
-	}
-
-	Instruction makeBinInstruction( spv::Op op
-		, spv::Id resultId
-		, spv::Id typeId
-		, spv::Id lhs
-		, spv::Id rhs )
-	{
-		return makeInstruction( op
-			, resultId
-			, typeId
-			, { lhs, rhs } );
-	}
-
-	Instruction makeUnInstruction( ast::expr::Kind exprKind
-		, ast::type::Kind typeKind
-		, spv::Id resultId
-		, spv::Id const & operand )
-	{
-		return makeUnInstruction( getOpCode( exprKind, typeKind )
+		return makeUnInstruction( getUnOpCode( exprKind, typeKind )
+			, returnTypeId
 			, resultId
 			, operand );
 	}
 
-	Instruction makeBinInstruction( ast::expr::Kind exprKind
+	InstructionPtr makeBinInstruction( spv::Op op
+		, spv::Id returnTypeId
+		, spv::Id resultId
+		, IdList const & operands )
+	{
+		switch ( op )
+		{
+		case spv::Op::OpFAdd:
+			return makeInstruction< BinInstructionT< spv::Op::OpFAdd > >( returnTypeId, resultId, operands );
+		case spv::Op::OpIAdd:
+			return makeInstruction< BinInstructionT< spv::Op::OpIAdd > >( returnTypeId, resultId, operands );
+		case spv::Op::OpFSub:
+			return makeInstruction< BinInstructionT< spv::Op::OpFSub > >( returnTypeId, resultId, operands );
+		case spv::Op::OpISub:
+			return makeInstruction< BinInstructionT< spv::Op::OpISub > >( returnTypeId, resultId, operands );
+		case spv::Op::OpFMul:
+			return makeInstruction< BinInstructionT< spv::Op::OpFMul > >( returnTypeId, resultId, operands );
+		case spv::Op::OpIMul:
+			return makeInstruction< BinInstructionT< spv::Op::OpIMul > >( returnTypeId, resultId, operands );
+		case spv::Op::OpFDiv:
+			return makeInstruction< BinInstructionT< spv::Op::OpFDiv > >( returnTypeId, resultId, operands );
+		case spv::Op::OpSDiv:
+			return makeInstruction< BinInstructionT< spv::Op::OpSDiv > >( returnTypeId, resultId, operands );
+		case spv::Op::OpUDiv:
+			return makeInstruction< BinInstructionT< spv::Op::OpUDiv > >( returnTypeId, resultId, operands );
+		case spv::Op::OpFMod:
+			return makeInstruction< BinInstructionT< spv::Op::OpFMod > >( returnTypeId, resultId, operands );
+		case spv::Op::OpSMod:
+			return makeInstruction< BinInstructionT< spv::Op::OpSMod > >( returnTypeId, resultId, operands );
+		case spv::Op::OpUMod:
+			return makeInstruction< BinInstructionT< spv::Op::OpUMod > >( returnTypeId, resultId, operands );
+		case spv::Op::OpMatrixTimesMatrix:
+			return makeInstruction< BinInstructionT< spv::Op::OpMatrixTimesMatrix > >( returnTypeId, resultId, operands );
+		case spv::Op::OpMatrixTimesVector:
+			return makeInstruction< BinInstructionT< spv::Op::OpMatrixTimesVector > >( returnTypeId, resultId, operands );
+		case spv::Op::OpMatrixTimesScalar:
+			return makeInstruction< BinInstructionT< spv::Op::OpMatrixTimesScalar > >( returnTypeId, resultId, operands );
+		case spv::Op::OpVectorTimesScalar:
+			return makeInstruction< BinInstructionT< spv::Op::OpVectorTimesScalar > >( returnTypeId, resultId, operands );
+		case spv::Op::OpShiftLeftLogical:
+			return makeInstruction< BinInstructionT< spv::Op::OpShiftLeftLogical > >( returnTypeId, resultId, operands );
+		case spv::Op::OpShiftRightArithmetic:
+			return makeInstruction< BinInstructionT< spv::Op::OpShiftRightArithmetic > >( returnTypeId, resultId, operands );
+		case spv::Op::OpBitwiseAnd:
+			return makeInstruction< BinInstructionT< spv::Op::OpBitwiseAnd > >( returnTypeId, resultId, operands );
+		case spv::Op::OpNot:
+			return makeInstruction< BinInstructionT< spv::Op::OpNot > >( returnTypeId, resultId, operands );
+		case spv::Op::OpBitwiseOr:
+			return makeInstruction< BinInstructionT< spv::Op::OpBitwiseOr > >( returnTypeId, resultId, operands );
+		case spv::Op::OpBitwiseXor:
+			return makeInstruction< BinInstructionT< spv::Op::OpBitwiseXor > >( returnTypeId, resultId, operands );
+		case spv::Op::OpLogicalAnd:
+			return makeInstruction< BinInstructionT< spv::Op::OpLogicalAnd > >( returnTypeId, resultId, operands );
+		case spv::Op::OpLogicalOr:
+			return makeInstruction< BinInstructionT< spv::Op::OpLogicalOr > >( returnTypeId, resultId, operands );
+		case spv::Op::OpStore:
+			return makeInstruction< BinInstructionT< spv::Op::OpStore > >( returnTypeId, resultId, operands );
+		case spv::Op::OpFOrdEqual:
+			return makeInstruction< BinInstructionT< spv::Op::OpFOrdEqual > >( returnTypeId, resultId, operands );
+		case spv::Op::OpLogicalEqual:
+			return makeInstruction< BinInstructionT< spv::Op::OpLogicalEqual > >( returnTypeId, resultId, operands );
+		case spv::Op::OpIEqual:
+			return makeInstruction< BinInstructionT< spv::Op::OpIEqual > >( returnTypeId, resultId, operands );
+		case spv::Op::OpFOrdNotEqual:
+			return makeInstruction< BinInstructionT< spv::Op::OpFOrdNotEqual > >( returnTypeId, resultId, operands );
+		case spv::Op::OpLogicalNotEqual:
+			return makeInstruction< BinInstructionT< spv::Op::OpLogicalNotEqual > >( returnTypeId, resultId, operands );
+		case spv::Op::OpINotEqual:
+			return makeInstruction< BinInstructionT< spv::Op::OpINotEqual > >( returnTypeId, resultId, operands );
+		case spv::Op::OpFOrdGreaterThan:
+			return makeInstruction< BinInstructionT< spv::Op::OpFOrdGreaterThan > >( returnTypeId, resultId, operands );
+		case spv::Op::OpSGreaterThan:
+			return makeInstruction< BinInstructionT< spv::Op::OpSGreaterThan > >( returnTypeId, resultId, operands );
+		case spv::Op::OpUGreaterThan:
+			return makeInstruction< BinInstructionT< spv::Op::OpUGreaterThan > >( returnTypeId, resultId, operands );
+		case spv::Op::OpFOrdGreaterThanEqual:
+			return makeInstruction< BinInstructionT< spv::Op::OpFOrdGreaterThanEqual > >( returnTypeId, resultId, operands );
+		case spv::Op::OpSGreaterThanEqual:
+			return makeInstruction< BinInstructionT< spv::Op::OpSGreaterThanEqual > >( returnTypeId, resultId, operands );
+		case spv::Op::OpUGreaterThanEqual:
+			return makeInstruction< BinInstructionT< spv::Op::OpUGreaterThanEqual > >( returnTypeId, resultId, operands );
+		case spv::Op::OpFOrdLessThan:
+			return makeInstruction< BinInstructionT< spv::Op::OpFOrdLessThan > >( returnTypeId, resultId, operands );
+		case spv::Op::OpSLessThan:
+			return makeInstruction< BinInstructionT< spv::Op::OpSLessThan > >( returnTypeId, resultId, operands );
+		case spv::Op::OpULessThan:
+			return makeInstruction< BinInstructionT< spv::Op::OpULessThan > >( returnTypeId, resultId, operands );
+		case spv::Op::OpFOrdLessThanEqual:
+			return makeInstruction< BinInstructionT< spv::Op::OpFOrdLessThanEqual > >( returnTypeId, resultId, operands );
+		case spv::Op::OpSLessThanEqual:
+			return makeInstruction< BinInstructionT< spv::Op::OpSLessThanEqual > >( returnTypeId, resultId, operands );
+		case spv::Op::OpULessThanEqual:
+			return makeInstruction< BinInstructionT< spv::Op::OpULessThanEqual > >( returnTypeId, resultId, operands );
+		default:
+			assert( false && "Unexpected binary operation Op" );
+		}
+
+		return nullptr;
+	}
+
+	InstructionPtr makeBinInstruction( spv::Id typeId
+		, spv::Id resultId
+		, ast::expr::Kind exprKind
 		, ast::type::Kind lhsTypeKind
 		, ast::type::Kind rhsTypeKind
-		, spv::Id resultId
 		, spv::Id lhs
 		, spv::Id rhs )
 	{
-		bool switchParams;
-		auto opCode = getBinOpCode( exprKind, lhsTypeKind, rhsTypeKind, switchParams );
-
-		if ( switchParams )
-		{
-			std::swap( lhs, rhs );
-		}
-
+		IdList operands;
+		spv::Op opCode;
+		getBinOpOperands( exprKind, lhsTypeKind, rhsTypeKind, lhs, rhs, operands, opCode );
 		return makeBinInstruction( opCode
-			, resultId
-			, lhs
-			, rhs );
-	}
-
-	Instruction makeUnSpecConstantInstruction( ast::expr::Kind exprKind
-		, ast::type::Kind typeKind
-		, spv::Id resultId
-		, spv::Id typeId
-		, spv::Id operand )
-	{
-		return makeUnSpecConstantInstruction( getOpCode( exprKind, typeKind )
-			, resultId
 			, typeId
-			, operand );
-	}
-
-	Instruction makeBinSpecConstantInstruction( ast::expr::Kind exprKind
-		, ast::type::Kind lhsTypeKind
-		, ast::type::Kind rhsTypeKind
-		, spv::Id resultId
-		, spv::Id typeId
-		, spv::Id lhs
-		, spv::Id rhs )
-	{
-		bool switchParams{ false };
-		auto opCode = getBinOpCode( exprKind, lhsTypeKind, rhsTypeKind, switchParams );
-
-		if ( switchParams )
-		{
-			std::swap( lhs, rhs );
-		}
-
-		return makeBinSpecConstantInstruction( opCode
 			, resultId
-			, typeId
-			, lhs
-			, rhs );
-	}
-
-	Instruction makeUnInstruction( ast::expr::Kind exprKind
-		, ast::type::Kind typeKind
-		, spv::Id resultId
-		, spv::Id typeId
-		, spv::Id operand )
-	{
-		return makeUnInstruction( getOpCode( exprKind, typeKind )
-			, resultId
-			, typeId
-			, operand );
-	}
-
-	Instruction makeBinInstruction( ast::expr::Kind exprKind
-		, ast::type::Kind lhsTypeKind
-		, ast::type::Kind rhsTypeKind
-		, spv::Id resultId
-		, spv::Id typeId
-		, spv::Id lhs
-		, spv::Id rhs )
-	{
-		bool switchParams{ false };
-		auto opCode = getBinOpCode( exprKind, lhsTypeKind, rhsTypeKind, switchParams );
-
-		if ( switchParams )
-		{
-			std::swap( lhs, rhs );
-		}
-
-		return makeBinInstruction( opCode
-			, resultId
-			, typeId
-			, lhs
-			, rhs );
-	}
-
-	Instruction makeLoad( spv::Id resultId
-		, spv::Id typeId
-		, spv::Id varId )
-	{
-		return makeInstruction( spv::Op::OpLoad
-			, resultId
-			, typeId
-			, { varId } );
-	}
-
-	Instruction makeStore( spv::Id lhs
-		, spv::Id rhs )
-	{
-		return makeInstruction( spv::Op::OpStore
-			, { lhs, rhs } );
+			, operands );
 	}
 
 	//*************************************************************************

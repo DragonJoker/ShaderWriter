@@ -13,52 +13,122 @@ See LICENSE file in root folder
 
 namespace hlsl
 {
-	ast::expr::ExprPtr ExprConfigFiller::submit( ast::expr::Expr * expr
+	void ExprConfigFiller::submit( ast::expr::Expr * expr
 		, IntrinsicsConfig & config )
 	{
-		ast::expr::ExprPtr result;
-		ExprConfigFiller vis{ result, config };
+		ExprConfigFiller vis{ config };
 		expr->accept( &vis );
-		return result;
 	}
-			
-	ast::expr::ExprPtr ExprConfigFiller::submit( ast::expr::ExprPtr const & expr
+
+	void ExprConfigFiller::submit( ast::expr::ExprPtr const & expr
 		, IntrinsicsConfig & config )
 	{
-		return submit( expr.get()
+		submit( expr.get()
 			, config );
 	}
 
-	ExprConfigFiller::ExprConfigFiller( ast::expr::ExprPtr & result
-		, IntrinsicsConfig & config )
-		: ExprCloner{ result }
+	ExprConfigFiller::ExprConfigFiller( IntrinsicsConfig & config )
+		: ast::expr::SimpleVisitor{}
 		, m_config{ config }
 	{
 	}
 
-	ast::expr::ExprPtr ExprConfigFiller::doSubmit( ast::expr::Expr * expr )
+	void ExprConfigFiller::visitUnaryExpr( ast::expr::Unary * expr )
 	{
-		ast::expr::ExprPtr result;
-		ExprConfigFiller vis{ result, m_config };
-		expr->accept( &vis );
-		return result;
+		expr->getOperand()->accept( this );
+	}
+
+	void ExprConfigFiller::visitBinaryExpr( ast::expr::Binary * expr )
+	{
+		expr->getLHS()->accept( this );
+		expr->getRHS()->accept( this );
+	}
+
+	void ExprConfigFiller::visitAggrInitExpr( ast::expr::AggrInit * expr )
+	{
+		if ( expr->getIdentifier() )
+		{
+			expr->getIdentifier()->accept( this );
+		}
+
+		for ( auto & init : expr->getInitialisers() )
+		{
+			init->accept( this );
+		}
+	}
+
+	void ExprConfigFiller::visitCompositeConstructExpr( ast::expr::CompositeConstruct * expr )
+	{
+		for ( auto & arg : expr->getArgList() )
+		{
+			arg->accept( this );
+		}
+	}
+
+	void ExprConfigFiller::visitMbrSelectExpr( ast::expr::MbrSelect * expr )
+	{
+		expr->getOuterExpr()->accept( this );
+		expr->getMember()->accept( this );
+	}
+
+	void ExprConfigFiller::visitFnCallExpr( ast::expr::FnCall * expr )
+	{
+		expr->getFn()->accept( this );
+
+		for ( auto & arg : expr->getArgList() )
+		{
+			arg->accept( this );
+		}
 	}
 
 	void ExprConfigFiller::visitImageAccessCallExpr( ast::expr::ImageAccessCall * expr )
 	{
 		getHlslConfig( expr->getImageAccess(), m_config );
-		m_result = ExprCloner::submit( expr );
 	}
 
 	void ExprConfigFiller::visitIntrinsicCallExpr( ast::expr::IntrinsicCall * expr )
 	{
 		getHlslConfig( expr->getIntrinsic(), m_config );
-		m_result = ExprCloner::submit( expr );
 	}
 
 	void ExprConfigFiller::visitTextureAccessCallExpr( ast::expr::TextureAccessCall * expr )
 	{
 		getHlslConfig( expr->getTextureAccess(), m_config );
-		m_result = ExprCloner::submit( expr );
+	}
+
+	void ExprConfigFiller::visitIdentifierExpr( ast::expr::Identifier * expr )
+	{
+	}
+
+	void ExprConfigFiller::visitInitExpr( ast::expr::Init * expr )
+	{
+		expr->getIdentifier()->accept( this );
+		expr->getInitialiser()->accept( this );
+	}
+
+	void ExprConfigFiller::visitLiteralExpr( ast::expr::Literal * expr )
+	{
+	}
+
+	void ExprConfigFiller::visitQuestionExpr( ast::expr::Question * expr )
+	{
+		expr->getCtrlExpr()->accept( this );
+		expr->getTrueExpr()->accept( this );
+		expr->getFalseExpr()->accept( this );
+	}
+
+	void ExprConfigFiller::visitSwitchCaseExpr( ast::expr::SwitchCase * expr )
+	{
+		expr->getLabel()->accept( this );
+	}
+
+	void ExprConfigFiller::visitSwitchTestExpr( ast::expr::SwitchTest * expr )
+	{
+		expr->getValue()->accept( this );
+	}
+
+	void ExprConfigFiller::visitSwizzleExpr( ast::expr::Swizzle * expr )
+	{
+		expr->getOuterExpr()->accept( this );
 	}
 }

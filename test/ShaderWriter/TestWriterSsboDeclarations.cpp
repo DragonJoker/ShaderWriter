@@ -4,7 +4,7 @@
 namespace
 {
 	template< typename T >
-	void testSsbo( test::TestCounts & testCounts )
+	void testSsbo( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testSsbo" + ast::debug::getName( sdw::typeEnum< T > ) );
 		{
@@ -88,7 +88,7 @@ namespace
 
 int main( int argc, char ** argv )
 {
-	testSuiteBegin( "TestWriterSsboDeclarations" );
+	sdwTestSuiteBegin( "TestWriterSsboDeclarations" );
 	testSsbo< sdw::Int >( testCounts );
 	testSsbo< sdw::UInt >( testCounts );
 	testSsbo< sdw::Float >( testCounts );
@@ -123,5 +123,5 @@ int main( int argc, char ** argv )
 	testSsbo< sdw::DMat4 >( testCounts );
 	testSsbo< sdw::DMat4x2 >( testCounts );
 	testSsbo< sdw::DMat4x3 >( testCounts );
-	testSuiteEnd();
+	sdwTestSuiteEnd();
 }

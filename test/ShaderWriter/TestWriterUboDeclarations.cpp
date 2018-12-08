@@ -6,7 +6,7 @@ namespace
 #define DummyMain writer.implementFunction< void >( "main", [](){} )
 
 	template< typename T >
-	void testUbo( test::TestCounts & testCounts )
+	void testUbo( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testUbo" + ast::debug::getName( sdw::typeEnum< T > ) );
 		{
@@ -159,7 +159,7 @@ namespace
 
 int main( int argc, char ** argv )
 {
-	testSuiteBegin( "TestWriterUboDeclarations" );
+	sdwTestSuiteBegin( "TestWriterUboDeclarations" );
 	testUbo< sdw::Int >( testCounts );
 	testUbo< sdw::UInt >( testCounts );
 	testUbo< sdw::Float >( testCounts );
@@ -194,5 +194,5 @@ int main( int argc, char ** argv )
 	testUbo< sdw::DMat4 >( testCounts );
 	testUbo< sdw::DMat4x2 >( testCounts );
 	testUbo< sdw::DMat4x3 >( testCounts );
-	testSuiteEnd();
+	sdwTestSuiteEnd();
 }

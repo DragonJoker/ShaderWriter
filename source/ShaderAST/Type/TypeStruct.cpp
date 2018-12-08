@@ -3,6 +3,8 @@ See LICENSE file in root folder
 */
 #include "ShaderAST/Type/TypeStruct.hpp"
 
+#include "ShaderAST/Type/TypeCache.hpp"
+
 #include <algorithm>
 
 namespace ast::type
@@ -293,7 +295,7 @@ namespace ast::type
 	//*************************************************************************
 
 	Struct::Struct( Struct const & rhs )
-		: Type{ Kind::eStruct }
+		: Type{ &rhs.getCache(), Kind::eStruct }
 		, m_name{ rhs.getName() }
 		, m_layout{ rhs.m_layout }
 	{
@@ -317,10 +319,11 @@ namespace ast::type
 		}
 	}
 
-	Struct::Struct( Struct * parent
+	Struct::Struct( TypesCache * cache
+		, Struct * parent
 		, uint32_t index
 		, Struct const & copy )
-		: Type{ parent, index, Kind::eStruct }
+		: Type{ cache, parent, index, Kind::eStruct }
 		, m_name{ copy.getName() }
 		, m_layout{ copy.m_layout }
 	{
@@ -344,9 +347,17 @@ namespace ast::type
 		}
 	}
 
-	Struct::Struct( MemoryLayout layout
+	Struct::Struct( Struct & parent
+		, uint32_t index
+		, Struct const & copy )
+		: Struct{ &parent.getCache(), &parent, index, copy }
+	{
+	}
+
+	Struct::Struct( TypesCache * cache
+		, MemoryLayout layout
 		, std::string name )
-		: Type{ Kind::eStruct }
+		: Type{ cache, Kind::eStruct }
 		, m_name{ std::move( name ) }
 		, m_layout{ layout }
 	{
@@ -357,22 +368,19 @@ namespace ast::type
 		, uint32_t arraySize )
 	{
 		type::TypePtr mbrType;
+		auto type = getCache().makeType( kind );
 
 		if ( arraySize != NotArray )
 		{
-			mbrType = std::make_shared< Array >( this
-				, uint32_t( m_members.size() )
-				, makeType( kind )
-				, arraySize );
+			mbrType = getCache().getMemberType( getCache().getArray( type, arraySize )
+				, *this
+				, uint32_t( m_members.size() ) );
 		}
 		else
 		{
-			mbrType = std::shared_ptr< Type >( new Type
-				{
-					this,
-					uint32_t( m_members.size() ),
-					kind,
-				} );
+			mbrType = getCache().getMemberType( type
+				, *this
+				, uint32_t( m_members.size() ) );
 		}
 
 		return doAddMember( mbrType, name );
@@ -386,20 +394,17 @@ namespace ast::type
 
 		if ( arraySize != NotArray )
 		{
-			mbrType = std::shared_ptr< Struct >( new Struct{ *type } );
-			mbrType = std::make_shared< Array >( this
-				, uint32_t( m_members.size() )
-				, std::move( mbrType )
-				, arraySize );
+			mbrType = getCache().getStruct( type->getMemoryLayout(), type->getName() );
+			mbrType = getCache().getMemberType( getCache().getArray( mbrType, arraySize )
+				, *this
+				, uint32_t( m_members.size() ) );
 		}
 		else
 		{
-			mbrType = std::shared_ptr< Struct >( new Struct
-				{
-					this,
-					uint32_t( m_members.size() ),
-					*type,
-				} );
+			mbrType = getCache().getStruct( type->getMemoryLayout(), type->getName() );
+			mbrType = getCache().getMemberType( type
+				, *this
+				, uint32_t( m_members.size() ) );
 		}
 
 		return doAddMember( mbrType, name );
@@ -409,10 +414,9 @@ namespace ast::type
 		, ArrayPtr type
 		, uint32_t arraySize )
 	{
-		auto mbrType = std::make_shared< Array >( this
-			, uint32_t( m_members.size() )
-			, type
-			, arraySize );
+		auto mbrType = getCache().getMemberType( getCache().getArray( type, arraySize )
+			, *this
+			, uint32_t( m_members.size() ) );
 		return doAddMember( mbrType, name );
 	}
 
@@ -477,12 +481,12 @@ namespace ast::type
 		return *it;
 	}
 
-	StructPtr Struct::getUnqualifiedType()const
+	TypePtr Struct::getMemberType( Struct & parent, uint32_t index )const
 	{
-		return StructPtr( new Struct
+		return std::shared_ptr< Struct >( new Struct
 			{
-				nullptr,
-				NotMember,
+				parent,
+				index,
 				*this,
 			} );
 	}
@@ -502,7 +506,7 @@ namespace ast::type
 			throw std::runtime_error{ "Struct member [" + name + "] already exists." };
 		}
 
-		auto size = getPackedSize( type, m_layout );
+		auto size = getPackedSize( *type, m_layout );
 		auto offset = m_members.empty()
 			? 0u
 			: m_members.back().offset + m_members.back().size;
@@ -535,6 +539,13 @@ namespace ast::type
 	}
 
 	//*************************************************************************
+
+	size_t getHash( type::MemoryLayout layout, std::string const & name )
+	{
+		size_t result = std::hash< std::string >{}( name );
+		result = hashCombine( result, layout );
+		return result;
+	}
 
 	bool operator==( Struct const & lhs, Struct const & rhs )
 	{

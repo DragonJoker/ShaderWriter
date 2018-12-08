@@ -15,12 +15,13 @@ namespace spirv
 	uint16_t getOpBaseSize( spv::Op op );
 	std::string getOpName( spv::Op op );
 	spv::Op getOpCode( ast::type::Kind kind );
-	spv::Op getOpCode( ast::expr::Kind exprKind
+	spv::Op getUnOpCode( ast::expr::Kind exprKind
 		, ast::type::Kind typeKind );
 	spv::Op getBinOpCode( ast::expr::Kind exprKind
 		, ast::type::Kind lhsTypeKind
 		, ast::type::Kind rhsTypeKind
-		, bool & switchParams );
+		, bool & switchParams
+		, bool & needMatchingVectors );
 	spv::Op getOpCode( ast::type::TypePtr type );
 }
 

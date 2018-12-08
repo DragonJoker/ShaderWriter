@@ -3,10 +3,15 @@
 
 namespace
 {
-#define DummyMain writer.implementFunction< void >( "main", [](){} )
+#define DummyMain( value ) \
+	writer.implementFunction< void >( "main"\
+		, [&]()\
+		{\
+			auto v = writer.declLocale( "v", value );\
+		} )
 
 	template< typename T >
-	void testShaderInput( test::TestCounts & testCounts )
+	void testShaderInput( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testShaderInput" + ast::debug::getName( sdw::typeEnum< T > ) );
 		{
@@ -22,7 +27,7 @@ namespace
 			auto & stmt = *shader.getStatements()->back();
 			require( stmt.getKind() == sdw::stmt::Kind::eInOutVariableDecl );
 			check( static_cast< sdw::stmt::InOutVariableDecl const & >( stmt ).getLocation() == 0u );
-			DummyMain;
+			DummyMain( value );
 			test::writeShader( writer, testCounts );
 		}
 		{
@@ -38,7 +43,7 @@ namespace
 			auto & stmt = *shader.getStatements()->back();
 			require( stmt.getKind() == sdw::stmt::Kind::eInOutVariableDecl );
 			check( static_cast< sdw::stmt::InOutVariableDecl const & >( stmt ).getLocation() == 1u );
-			DummyMain;
+			DummyMain( value );
 			test::writeShader( writer, testCounts );
 		}
 		{
@@ -53,7 +58,7 @@ namespace
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == "value" );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isShaderInput() );
 			check( shader.getStatements()->size() == count );
-			DummyMain;
+			DummyMain( value );
 			test::writeShader( writer, testCounts );
 		}
 		{
@@ -69,7 +74,7 @@ namespace
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == "value" );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isShaderInput() );
 			check( shader.getStatements()->size() == count );
-			DummyMain;
+			DummyMain( value );
 			test::writeShader( writer, testCounts );
 		}
 		{
@@ -86,7 +91,7 @@ namespace
 			auto & stmt = *shader.getStatements()->back();
 			require( stmt.getKind() == sdw::stmt::Kind::eInOutVariableDecl );
 			check( static_cast< sdw::stmt::InOutVariableDecl const & >( stmt ).getLocation() == 0u );
-			DummyMain;
+			DummyMain( value );
 			test::writeShader( writer, testCounts );
 		}
 		{
@@ -104,7 +109,7 @@ namespace
 			auto & stmt = *shader.getStatements()->back();
 			require( stmt.getKind() == sdw::stmt::Kind::eInOutVariableDecl );
 			check( static_cast< sdw::stmt::InOutVariableDecl const & >( stmt ).getLocation() == 1u );
-			DummyMain;
+			DummyMain( value );
 			test::writeShader( writer, testCounts );
 		}
 		testEnd();
@@ -113,9 +118,9 @@ namespace
 
 int main( int argc, char ** argv )
 {
-	testSuiteBegin( "TestWriterShaderInputDeclarations" );
-	testShaderInput< sdw::Int >( testCounts );
-	testShaderInput< sdw::UInt >( testCounts );
+	sdwTestSuiteBegin( "TestWriterShaderInputDeclarations" );
+	//testShaderInput< sdw::Int >( testCounts );
+	//testShaderInput< sdw::UInt >( testCounts );
 	testShaderInput< sdw::Float >( testCounts );
 	testShaderInput< sdw::Vec2 >( testCounts );
 	testShaderInput< sdw::Vec3 >( testCounts );
@@ -135,5 +140,5 @@ int main( int argc, char ** argv )
 	testShaderInput< sdw::Mat4 >( testCounts );
 	testShaderInput< sdw::Mat4x2 >( testCounts );
 	testShaderInput< sdw::Mat4x3 >( testCounts );
-	testSuiteEnd();
+	sdwTestSuiteEnd();
 }

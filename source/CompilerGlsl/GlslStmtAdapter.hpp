@@ -16,12 +16,14 @@ namespace glsl
 		: public ast::StmtCloner
 	{
 	public:
-		static ast::stmt::ContainerPtr submit( ast::stmt::Container * container
+		static ast::stmt::ContainerPtr submit( ast::type::TypesCache & cache
+			, ast::stmt::Container * container
 			, GlslConfig const & writerConfig
 			, IntrinsicsConfig const & intrinsicsConfig );
 
 	private:
-		StmtAdapter( GlslConfig const & writerConfig
+		StmtAdapter( ast::type::TypesCache & cache
+			, GlslConfig const & writerConfig
 			, IntrinsicsConfig const & intrinsicsConfig
 			, ast::stmt::ContainerPtr & result );
 
@@ -36,6 +38,7 @@ namespace glsl
 		void visitPreprocVersion( ast::stmt::PreprocVersion * preproc )override;
 
 	private:
+		ast::type::TypesCache & m_cache;
 		GlslConfig const & m_writerConfig;
 		IntrinsicsConfig const & m_intrinsicsConfig;
 		ast::stmt::Container * m_intrinsics;

@@ -14,7 +14,8 @@ namespace ast::expr
 		: public Expr
 	{
 	public:
-		CompositeConstruct( CompositeType composite
+		CompositeConstruct( type::TypesCache & cache
+			, CompositeType composite
 			, type::Kind component
 			, ExprList && argList );
 
@@ -43,14 +44,17 @@ namespace ast::expr
 	using CompositeConstructPtr = std::unique_ptr< CompositeConstruct >;
 
 	uint32_t getComponentCount( CompositeType value );
-	type::TypePtr getCompositeType( CompositeType composite
+	type::TypePtr getCompositeType( type::TypesCache & cache
+		, CompositeType composite
 		, type::Kind component );
 
-	inline CompositeConstructPtr makeCompositeConstruct( CompositeType composite
+	inline CompositeConstructPtr makeCompositeConstruct( type::TypesCache & cache
+		, CompositeType composite
 		, type::Kind component
 		, ExprList && argList )
 	{
-		return std::make_unique< CompositeConstruct >( composite
+		return std::make_unique< CompositeConstruct >( cache
+			, composite
 			, component
 			, std::move( argList ) );
 	}

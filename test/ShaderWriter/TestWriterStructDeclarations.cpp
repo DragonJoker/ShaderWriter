@@ -6,7 +6,7 @@ namespace
 #define DummyMain writer.implementFunction< void >( "main", [](){} )
 
 	template< typename T >
-	void testStruct( test::TestCounts & testCounts )
+	void testStruct( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testStruct" + ast::debug::getName( sdw::typeEnum< T > ) );
 		{
@@ -16,13 +16,13 @@ namespace
 			sdw::Struct st{ writer, "ST" + sdw::debug::getName( sdw::typeEnum< T > ) };
 			st.declMember< T >( name );
 			st.end();
+			auto & stmt = *shader.getStatements()->back();
+			check( stmt.getKind() == sdw::stmt::Kind::eStructureDecl );
 			auto instance = st.getInstance( "st" + sdw::debug::getName( sdw::typeEnum< T > ) );
 			auto retrieved = instance.getMember< T >( name );
 			check( getNonArrayKind( retrieved.getType() ) == sdw::typeEnum< T > );
 			check( getArraySize( retrieved.getType() ) == sdw::type::NotArray );
 			check( retrieved.getExpr()->getKind() == sdw::expr::Kind::eMbrSelect );
-			auto & stmt = *shader.getStatements()->back();
-			check( stmt.getKind() == sdw::stmt::Kind::eStructureDecl );
 			DummyMain;
 			test::writeShader( writer, testCounts );
 		}
@@ -33,13 +33,13 @@ namespace
 			sdw::Struct st{ writer, "ST" + sdw::debug::getName( sdw::typeEnum< T > ) };
 			st.declMember< T >( name, 4u );
 			st.end();
+			auto & stmt = *shader.getStatements()->back();
+			check( stmt.getKind() == sdw::stmt::Kind::eStructureDecl );
 			auto instance = st.getInstance( "stArray4" + sdw::debug::getName( sdw::typeEnum< T > ) );
 			auto retrieved = instance.getMemberArray< T >( name );
 			check( getNonArrayKind( retrieved.getType() ) == sdw::typeEnum< T > );
 			check( getArraySize( retrieved.getType() ) == 4u );
 			check( retrieved.getExpr()->getKind() == sdw::expr::Kind::eMbrSelect );
-			auto & stmt = *shader.getStatements()->back();
-			check( stmt.getKind() == sdw::stmt::Kind::eStructureDecl );
 			DummyMain;
 			test::writeShader( writer, testCounts );
 		}
@@ -49,7 +49,7 @@ namespace
 
 int main( int argc, char ** argv )
 {
-	testSuiteBegin( "TestWriterStructDeclarations" );
+	sdwTestSuiteBegin( "TestWriterStructDeclarations" );
 	testStruct< sdw::Boolean >( testCounts );
 	testStruct< sdw::Int >( testCounts );
 	testStruct< sdw::UInt >( testCounts );
@@ -88,5 +88,5 @@ int main( int argc, char ** argv )
 	testStruct< sdw::DMat4 >( testCounts );
 	testStruct< sdw::DMat4x2 >( testCounts );
 	testStruct< sdw::DMat4x3 >( testCounts );
-	testSuiteEnd();
+	sdwTestSuiteEnd();
 }

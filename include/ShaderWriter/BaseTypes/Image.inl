@@ -65,7 +65,7 @@ namespace sdw
 	Image & Image::operator=( T const & rhs )
 	{
 		this->updateContainer( rhs );
-		addStmt( *findContainer( *this, rhs )
+		addStmt( *findShader( *this, rhs )
 			, sdw::makeSimple( sdw::makeAssign( m_expr->getType()
 				, makeExpr( m_expr )
 				, makeExpr( rhs ) ) ) );
@@ -104,7 +104,7 @@ namespace sdw
 	ImageT< FormatT, DimT, ArrayedT, DepthT, MsT > & ImageT< FormatT, DimT, ArrayedT, DepthT, MsT >::operator=( T const & rhs )
 	{
 		this->updateContainer( rhs );
-		addStmt( *findContainer( *this, rhs )
+		addStmt( *findShader( *this, rhs )
 			, sdw::makeSimple( sdw::makeAssign( m_expr->getType()
 				, makeExpr( m_expr )
 				, makeExpr( rhs ) ) ) );
@@ -136,9 +136,9 @@ namespace sdw
 		, bool ArrayedT
 		, bool DepthT
 		, bool MsT >
-	inline ast::type::TypePtr ImageT< FormatT, DimT, ArrayedT, DepthT, MsT >::makeType()
+	inline ast::type::TypePtr ImageT< FormatT, DimT, ArrayedT, DepthT, MsT >::makeType( ast::type::TypesCache & cache )
 	{
-		return ast::type::makeImageType( makeConfig() );
+		return cache.getImage( makeConfig() );
 	}
 
 	//*****************************************************************************************

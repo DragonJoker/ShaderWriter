@@ -7,8 +7,9 @@ See LICENSE file in root folder
 
 namespace ast::expr
 {
-	LogNot::LogNot( ExprPtr operand )
-		: Unary{ std::move( type::getBool() )
+	LogNot::LogNot( type::TypePtr type
+		, ExprPtr operand )
+		: Unary{ std::move( type )
 			, std::move( operand )
 			, Kind::eLogNot }
 	{

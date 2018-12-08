@@ -7,8 +7,8 @@ namespace sdw
 	Double & Double::operator=( T const & rhs )
 	{
 		updateContainer( rhs );
-		addStmt( *findContainer( *this, rhs )
-			, makeSimple( sdw::makeAssign( type::getDouble()
+		addStmt( *findShader( *this, rhs )
+			, makeSimple( sdw::makeAssign( findTypesCache( *this, rhs ).getDouble()
 				, makeExpr( *this )
 				, makeExpr( rhs ) ) ) );
 		return *this;

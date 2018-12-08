@@ -16,7 +16,8 @@ namespace ast::type
 		: public Type
 	{
 	public:
-		Image( ImageConfiguration config );
+		Image( TypesCache * cache
+			, ImageConfiguration config );
 
 		ImageConfiguration const & getConfig()const
 		{
@@ -27,11 +28,6 @@ namespace ast::type
 		ImageConfiguration m_config;
 	};
 	using ImagePtr = std::shared_ptr< Image >;
-
-	inline ImagePtr makeImageType( ImageConfiguration config )
-	{
-		return std::make_shared< Image >( std::move( config ) );
-	}
 }
 
 #endif

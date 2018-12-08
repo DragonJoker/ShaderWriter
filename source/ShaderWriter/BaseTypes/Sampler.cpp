@@ -16,8 +16,8 @@ namespace sdw
 		return 0u;
 	}
 
-	ast::type::TypePtr Sampler::makeType()
+	ast::type::TypePtr Sampler::makeType( ast::type::TypesCache & cache )
 	{
-		return ast::type::getSampler();
+		return cache.getSampler();
 	}
 }

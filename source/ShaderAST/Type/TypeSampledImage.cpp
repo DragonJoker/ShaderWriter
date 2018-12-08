@@ -3,12 +3,15 @@ See LICENSE file in root folder
 */
 #include "ShaderAST/Type/TypeSampledImage.hpp"
 
+#include "ShaderAST/Type/TypeCache.hpp"
+
 namespace ast::type
 {
-	SampledImage::SampledImage( ImageConfiguration config )
-		: Type{ Kind::eSampledImage }
-		, m_imageType{ makeImageType( std::move( config ) ) }
-		, m_samplerType{ makeSamplerType( getConfig().isDepth == Trinary::eTrue ) }
+	SampledImage::SampledImage( TypesCache * cache
+		, ImageConfiguration config )
+		: Type{ cache, Kind::eSampledImage }
+		, m_imageType{ cache->getImage( std::move( config ) ) }
+		, m_samplerType{ cache->getSampler( getConfig().isDepth == Trinary::eTrue ) }
 	{
 	}
 }

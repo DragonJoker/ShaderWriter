@@ -32,12 +32,17 @@ namespace ast::type
 
 	private:
 		Struct( Struct const & rhs );
-		Struct( Struct * parent
+		Struct( TypesCache * cache
+			, Struct * parent
+			, uint32_t index
+			, Struct const & copy );
+		Struct( Struct & parent
 			, uint32_t index
 			, Struct const & copy );
 
 	public:
-		Struct( MemoryLayout layout
+		Struct( TypesCache * cache
+			, MemoryLayout layout
 			, std::string name );
 		Member declMember( std::string name
 			, type::Kind kind
@@ -55,7 +60,7 @@ namespace ast::type
 		Member declMember( std::string name
 			, type::ArrayPtr type );
 		Member getMember( std::string const & name );
-		StructPtr getUnqualifiedType()const;
+		TypePtr getMemberType( Struct & parent, uint32_t index )const override;
 
 		std::string const & getName()const
 		{
@@ -109,12 +114,7 @@ namespace ast::type
 	};
 	using StructPtr = std::shared_ptr< Struct >;
 
-	inline StructPtr makeStructType( MemoryLayout layout
-		, std::string name )
-	{
-		return std::make_shared< Struct >( layout
-			, std::move( name ) );
-	}
+	size_t getHash( type::MemoryLayout layout, std::string const & name );
 
 	bool operator==( Struct const & lhs, Struct const & rhs );
 

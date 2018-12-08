@@ -15,16 +15,24 @@ namespace spirv
 		: public ast::StmtCloner
 	{
 	public:
-		static ast::stmt::ContainerPtr submit( ast::stmt::Container * container );
+		static ast::stmt::ContainerPtr submit( ast::stmt::Container * container
+			, ModuleConfig const & config );
 
 	private:
-		StmtAdapter( ast::stmt::ContainerPtr & result );
+		StmtAdapter( ast::stmt::ContainerPtr & result
+			, ModuleConfig const & config );
 		
 		ast::expr::ExprPtr doSubmit( ast::expr::Expr * expr )override;
 
 		void visitElseIfStmt( ast::stmt::ElseIf * stmt )override;
 		void visitElseStmt( ast::stmt::Else * stmt )override;
 		void visitIfStmt( ast::stmt::If * stmt )override;
+		void visitImageDeclStmt( ast::stmt::ImageDecl * stmt )override;
+		void visitSampledImageDeclStmt( ast::stmt::SampledImageDecl * stmt )override;
+		void visitShaderStructBufferDeclStmt( ast::stmt::ShaderStructBufferDecl * stmt )override;
+		void visitSimpleStmt( ast::stmt::Simple * stmt )override;
+		void visitStructureDeclStmt( ast::stmt::StructureDecl * stmt )override;
+		void visitVariableDeclStmt( ast::stmt::VariableDecl * stmt )override;
 		void visitPreprocDefine( ast::stmt::PreprocDefine * preproc )override;
 		void visitPreprocElif( ast::stmt::PreprocElif * preproc )override;
 		void visitPreprocElse( ast::stmt::PreprocElse * preproc )override;
@@ -34,6 +42,7 @@ namespace spirv
 
 	private:
 		PreprocContext m_context;
+		ModuleConfig const & m_config;
 		std::vector< ast::stmt::Switch * > m_switchStmts;
 	};
 }

@@ -13,17 +13,20 @@ namespace ast::expr
 		: public Binary
 	{
 	public:
-		LogAnd( ExprPtr lhs
+		LogAnd( type::TypePtr type
+			, ExprPtr lhs
 			, ExprPtr rhs );
 
 		void accept( VisitorPtr vis )override;
 	};
 	using LogAndPtr = std::unique_ptr< LogAnd >;
 
-	inline LogAndPtr makeLogAnd( ExprPtr lhs
+	inline LogAndPtr makeLogAnd( type::TypesCache & cache
+		, ExprPtr lhs
 		, ExprPtr rhs )
 	{
-		return std::make_unique< LogAnd >( std::move( lhs )
+		return std::make_unique< LogAnd >( cache.getBool()
+			, std::move( lhs )
 			, std::move( rhs ) );
 	}
 }

@@ -267,7 +267,8 @@ def printTextureFunction( outs, enumName, match ):
 	for fmt, ret in formats:
 		printTextureFunctionDoc( outs, enumName, ret, functionGroup, paramsGroup )
 		outs.write( "\n\t" + enumName + "CallPtr make" + intrinsicName + fmt + "(" )
-		outs.write( " ExprPtr image" )
+		outs.write( " type::TypesCache & cache" )
+		outs.write( ", ExprPtr image" )
 		outs.write( computeParams( paramsGroup, "," ) + " );" )
 
 def printIntrinsicDoc( outs, enumName, returnGroup, functionGroup, paramsGroup ):
@@ -292,7 +293,8 @@ def printIntrinsic( outs, enumName, match ):
 	paramsGroup = match.group( 3 )
 	printIntrinsicDoc( outs, enumName, returnGroup, functionGroup, paramsGroup )
 	outs.write( "\n\t" + enumName + "CallPtr make" + computeIntrinsicName( functionGroup ) + "(" )
-	outs.write( computeParams( paramsGroup, "" ) + " );" )
+	outs.write( " type::TypesCache & cache" )
+	outs.write( computeParams( paramsGroup, "," ) + " );" )
 
 def printFunction( outs, enumName, match ):
 	if enumName == "TextureAccess" or enumName == "ImageAccess":

@@ -21,6 +21,7 @@ namespace sdw
 		explicit Double( long double rhs );
 		explicit Double( Value const & value );
 		Double & operator=( Double const & rhs );
+		expr::ExprPtr makeCondition()const;
 		template< typename T >
 		inline Double & operator=( T const & rhs );
 		Double & operator=( float const & rhs );
@@ -40,7 +41,7 @@ namespace sdw
 		Double & operator*=( float const & rhs );
 		Double & operator/=( float const & rhs );
 
-		static ast::type::TypePtr makeType();
+		static ast::type::TypePtr makeType( ast::type::TypesCache & cache );
 	};
 
 	Double operator+( Double const & lhs, Double const & rhs );

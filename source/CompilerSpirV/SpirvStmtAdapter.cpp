@@ -10,22 +10,25 @@ See LICENSE file in root folder
 
 namespace spirv
 {
-	ast::stmt::ContainerPtr StmtAdapter::submit( ast::stmt::Container * container )
+	ast::stmt::ContainerPtr StmtAdapter::submit( ast::stmt::Container * container
+		, ModuleConfig const & config )
 	{
 		auto result = ast::stmt::makeContainer();
-		StmtAdapter vis{ result };
+		StmtAdapter vis{ result, config };
 		container->accept( &vis );
 		return result;
 	}
 
-	StmtAdapter::StmtAdapter( ast::stmt::ContainerPtr & result )
+	StmtAdapter::StmtAdapter( ast::stmt::ContainerPtr & result
+		, ModuleConfig const & config )
 		: StmtCloner{ result }
+		, m_config{ config }
 	{
 	}
 
 	ast::expr::ExprPtr StmtAdapter::doSubmit( ast::expr::Expr * expr )
 	{
-		return ExprAdapter::submit( expr, m_context );
+		return ExprAdapter::submit( expr, m_context, m_config );
 	}
 
 	void StmtAdapter::visitElseIfStmt( ast::stmt::ElseIf * stmt )
@@ -41,7 +44,7 @@ namespace spirv
 	void StmtAdapter::visitIfStmt( ast::stmt::If * stmt )
 	{
 		auto save = m_current;
-		auto cont = ast::stmt::makeIf( ExprAdapter::submit( stmt->getCtrlExpr(), m_context ) );
+		auto cont = ast::stmt::makeIf( ExprAdapter::submit( stmt->getCtrlExpr(), m_context, m_config ) );
 		m_current = cont.get();
 		visitContainerStmt( stmt );
 		m_current = save;
@@ -71,7 +74,7 @@ namespace spirv
 			{
 				auto elseStmt = currentIf->createElse();
 				auto & elseIf = *it;
-				cont = ast::stmt::makeIf( ExprAdapter::submit( elseIf->getCtrlExpr(), m_context ) );
+				cont = ast::stmt::makeIf( ExprAdapter::submit( elseIf->getCtrlExpr(), m_context, m_config ) );
 				m_current = cont.get();
 				visitContainerStmt( elseIf.get() );
 				m_current = save;
@@ -88,6 +91,36 @@ namespace spirv
 				m_current = save;
 			}
 		}
+	}
+
+	void StmtAdapter::visitImageDeclStmt( ast::stmt::ImageDecl * stmt )
+	{
+		StmtCloner::visitImageDeclStmt( stmt );
+	}
+
+	void StmtAdapter::visitSampledImageDeclStmt( ast::stmt::SampledImageDecl * stmt )
+	{
+		StmtCloner::visitSampledImageDeclStmt( stmt );
+	}
+
+	void StmtAdapter::visitShaderStructBufferDeclStmt( ast::stmt::ShaderStructBufferDecl * stmt )
+	{
+		StmtCloner::visitShaderStructBufferDeclStmt( stmt );
+	}
+
+	void StmtAdapter::visitSimpleStmt( ast::stmt::Simple * stmt )
+	{
+		StmtCloner::visitSimpleStmt( stmt );
+	}
+
+	void StmtAdapter::visitStructureDeclStmt( ast::stmt::StructureDecl * stmt )
+	{
+		StmtCloner::visitStructureDeclStmt( stmt );
+	}
+
+	void StmtAdapter::visitVariableDeclStmt( ast::stmt::VariableDecl * stmt )
+	{
+		StmtCloner::visitVariableDeclStmt( stmt );
 	}
 
 	void StmtAdapter::visitPreprocDefine( ast::stmt::PreprocDefine * preproc )

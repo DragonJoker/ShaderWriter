@@ -9,8 +9,8 @@ namespace sdw
 			, ast::type::TypePtr dataType
 			, ast::type::MemoryLayout layout )
 		{
-			ast::type::ArrayPtr arrayType = type::makeArrayType( dataType, type::UnknownArraySize );
-			ast::type::StructPtr result = type::makeStructType( layout, name );
+			ast::type::ArrayPtr arrayType = dataType->getCache().getArray( dataType, type::UnknownArraySize );
+			ast::type::StructPtr result = dataType->getCache().getStruct( layout, name );
 			result->declMember( name + "Data", arrayType );
 			return result;
 		}
@@ -18,7 +18,7 @@ namespace sdw
 		inline ast::type::StructPtr getSsboType( std::string const & name
 			, ast::type::StructPtr dataType )
 		{
-			ast::type::StructPtr result = type::makeStructType( dataType->getMemoryLayout(), name );
+			ast::type::StructPtr result = dataType->getCache().getStruct( dataType->getMemoryLayout(), name );
 			result->declMember( name + "Data", dataType, type::UnknownArraySize );
 			return result;
 		}

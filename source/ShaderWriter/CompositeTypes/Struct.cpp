@@ -11,7 +11,7 @@ namespace sdw
 		, std::string name
 		, type::MemoryLayout layout )
 		: m_shader{ &writer.getShader() }
-		, m_type{ type::makeStructType( layout, std::move( name ) ) }
+		, m_type{ writer.getTypesCache().getStruct( layout, std::move( name ) ) }
 	{
 	}
 
@@ -26,12 +26,6 @@ namespace sdw
 	void Struct::end()
 	{
 		addStmt( *m_shader, sdw::makeStructDecl( m_type ) );
-	}
-
-	StructInstance Struct::getInstance( std::string const & name )const
-	{
-		return StructInstance{ m_shader
-			, makeExpr( m_shader->registerLocale( name, m_type ) ) };
 	}
 
 	void Struct::declMember( std::string name

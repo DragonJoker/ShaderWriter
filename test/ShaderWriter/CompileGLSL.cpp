@@ -775,13 +775,45 @@ namespace test
 		return std::make_shared< RenderWindow >();
 	}
 
+	namespace sdw_test
+	{
+		struct GLSLContext
+		{
+			RenderWindow window;
+		};
+	}
+
+	bool createGLSLContext( sdw_test::TestCounts & testCounts )
+	{
+		bool result = false;
+
+		try
+		{
+			testCounts.glsl = std::make_shared< sdw_test::GLSLContext >();
+			result = true;
+		}
+		catch ( std::exception & exc )
+		{
+			std::cout << exc.what() << std::endl;
+		}
+
+		return result;
+	}
+
+	void destroyGLSLContext( sdw_test::TestCounts & testCounts )
+	{
+		testCounts.glsl.reset();
+	}
+
 	bool compileGlsl( std::string const & source
 		, sdw::ShaderType stage
-		, std::string & errors )
+		, std::string & errors
+		, sdw_test::TestCounts & testCounts )
 	{
-		RenderWindow window;
 		bool result = false;
-		window.setCurrent();
+		auto & window = testCounts.glsl->window;
+
+		testCounts.glsl->window.setCurrent();
 		auto length = int( source.size() );
 		char const * data = source.data();
 		auto shader = window.glCreateShader( convert( stage ) );

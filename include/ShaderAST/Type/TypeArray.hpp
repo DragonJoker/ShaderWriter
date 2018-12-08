@@ -16,12 +16,19 @@ namespace ast::type
 		: public Type
 	{
 	public:
-		Array( Struct * parent
+		Array( TypesCache * cache
+			, TypePtr type
+			, uint32_t arraySize = UnknownArraySize );
+		Array( TypesCache * cache
+			, Struct * parent
 			, uint32_t index
 			, TypePtr type
 			, uint32_t arraySize = UnknownArraySize );
-		Array( TypePtr type
+		Array( Struct & parent
+			, uint32_t index
+			, TypePtr type
 			, uint32_t arraySize = UnknownArraySize );
+		TypePtr getMemberType( Struct & parent, uint32_t index )const override;
 
 		inline TypePtr getType()const
 		{
@@ -39,12 +46,8 @@ namespace ast::type
 	};
 	using ArrayPtr = std::shared_ptr< Array >;
 
-	inline ArrayPtr makeArrayType( TypePtr type
-		, uint32_t arraySize = UnknownArraySize )
-	{
-		return std::make_shared< Array >( std::move( type )
-			, arraySize );
-	}
+	size_t getHash( TypePtr type
+		, uint32_t arraySize );
 
 	bool operator==( Array const & lhs, Array const & rhs );
 }

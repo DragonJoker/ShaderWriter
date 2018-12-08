@@ -14,7 +14,7 @@ namespace sdw
 		, ast::type::MemoryLayout layout )
 		: m_shader{ writer.getShader() }
 		, m_name{ name }
-		, m_info{ layout, name, bind, set }
+		, m_info{ writer.getTypesCache(), layout, name, bind, set }
 		, m_var{ var::makeVariable( m_info.getType(), m_name, var::Flag::eUniform ) }
 		, m_stmt{ stmt::makeShaderBufferDecl( m_name, layout, bind, set ) }
 	{

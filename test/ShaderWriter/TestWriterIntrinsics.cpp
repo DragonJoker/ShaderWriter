@@ -3,7 +3,7 @@
 
 namespace
 {
-	void testRoundEven1F( test::TestCounts & testCounts )
+	void testRoundEven1F( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testRoundEven1F" );
 		using namespace sdw;
@@ -22,7 +22,7 @@ namespace
 		testEnd();
 	}
 
-	void testRoundEven2F( test::TestCounts & testCounts )
+	void testRoundEven2F( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testRoundEven2F" );
 		using namespace sdw;
@@ -41,7 +41,7 @@ namespace
 		testEnd();
 	}
 
-	void testRoundEven3F( test::TestCounts & testCounts )
+	void testRoundEven3F( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testRoundEven3F" );
 		using namespace sdw;
@@ -60,7 +60,7 @@ namespace
 		testEnd();
 	}
 
-	void testRoundEven4F( test::TestCounts & testCounts )
+	void testRoundEven4F( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testRoundEven4F" );
 		using namespace sdw;
@@ -79,7 +79,7 @@ namespace
 		testEnd();
 	}
 
-	void testRoundEven1D( test::TestCounts & testCounts )
+	void testRoundEven1D( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testRoundEven1D" );
 		using namespace sdw;
@@ -98,7 +98,7 @@ namespace
 		testEnd();
 	}
 
-	void testRoundEven2D( test::TestCounts & testCounts )
+	void testRoundEven2D( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testRoundEven2D" );
 		using namespace sdw;
@@ -117,7 +117,7 @@ namespace
 		testEnd();
 	}
 
-	void testRoundEven3D( test::TestCounts & testCounts )
+	void testRoundEven3D( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testRoundEven3D" );
 		using namespace sdw;
@@ -136,7 +136,7 @@ namespace
 		testEnd();
 	}
 
-	void testRoundEven4D( test::TestCounts & testCounts )
+	void testRoundEven4D( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testRoundEven4D" );
 		using namespace sdw;
@@ -155,7 +155,7 @@ namespace
 		testEnd();
 	}
 
-	void testPackDouble2x32( test::TestCounts & testCounts )
+	void testPackDouble2x32( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testPackDouble2x32" );
 		using namespace sdw;
@@ -175,7 +175,7 @@ namespace
 		testEnd();
 	}
 
-	void testPackHalf2x16( test::TestCounts & testCounts )
+	void testPackHalf2x16( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testPackHalf2x16" );
 		using namespace sdw;
@@ -195,7 +195,7 @@ namespace
 		testEnd();
 	}
 
-	void testPackSnorm2x16( test::TestCounts & testCounts )
+	void testPackSnorm2x16( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testPackSnorm2x16" );
 		using namespace sdw;
@@ -215,7 +215,7 @@ namespace
 		testEnd();
 	}
 
-	void testPackUnorm2x16( test::TestCounts & testCounts )
+	void testPackUnorm2x16( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testPackUnorm2x16" );
 		using namespace sdw;
@@ -235,7 +235,7 @@ namespace
 		testEnd();
 	}
 
-	void testPackSnorm4x8( test::TestCounts & testCounts )
+	void testPackSnorm4x8( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testPackSnorm4x8" );
 		using namespace sdw;
@@ -255,7 +255,7 @@ namespace
 		testEnd();
 	}
 
-	void testPackUnorm4x8( test::TestCounts & testCounts )
+	void testPackUnorm4x8( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testPackUnorm4x8" );
 		using namespace sdw;
@@ -275,7 +275,7 @@ namespace
 		testEnd();
 	}
 
-	void testUnpackDouble2x32( test::TestCounts & testCounts )
+	void testUnpackDouble2x32( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testUnpackDouble2x32" );
 		using namespace sdw;
@@ -295,7 +295,7 @@ namespace
 		testEnd();
 	}
 
-	void testUnpackHalf2x16( test::TestCounts & testCounts )
+	void testUnpackHalf2x16( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testUnpackHalf2x16" );
 		using namespace sdw;
@@ -315,7 +315,7 @@ namespace
 		testEnd();
 	}
 
-	void testUnpackSnorm2x16( test::TestCounts & testCounts )
+	void testUnpackSnorm2x16( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testUnpackSnorm2x16" );
 		using namespace sdw;
@@ -335,7 +335,7 @@ namespace
 		testEnd();
 	}
 
-	void testUnpackUnorm2x16( test::TestCounts & testCounts )
+	void testUnpackUnorm2x16( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testUnpackUnorm2x16" );
 		using namespace sdw;
@@ -355,7 +355,7 @@ namespace
 		testEnd();
 	}
 
-	void testUnpackSnorm4x8( test::TestCounts & testCounts )
+	void testUnpackSnorm4x8( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testUnpackSnorm4x8" );
 		using namespace sdw;
@@ -375,7 +375,7 @@ namespace
 		testEnd();
 	}
 
-	void testUnpackUnorm4x8( test::TestCounts & testCounts )
+	void testUnpackUnorm4x8( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testUnpackUnorm4x8" );
 		using namespace sdw;
@@ -397,7 +397,7 @@ namespace
 
 	template< typename ValueT >
 	void testLessThan( std::string const & testName
-		, test::TestCounts & testCounts )
+		, test::sdw_test::TestCounts & testCounts )
 	{
 		using namespace sdw;
 		{
@@ -416,84 +416,84 @@ namespace
 		}
 	}
 
-	void testLessThan2F( test::TestCounts & testCounts )
+	void testLessThan2F( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testLessThan2F" );
 		testLessThan< sdw::Vec2 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testLessThan3F( test::TestCounts & testCounts )
+	void testLessThan3F( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testLessThan3F" );
 		testLessThan< sdw::Vec3 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testLessThan4F( test::TestCounts & testCounts )
+	void testLessThan4F( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testLessThan4F" );
 		testLessThan< sdw::Vec4 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testLessThan2D( test::TestCounts & testCounts )
+	void testLessThan2D( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testLessThan2D" );
 		testLessThan< sdw::DVec2 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testLessThan3D( test::TestCounts & testCounts )
+	void testLessThan3D( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testLessThan3D" );
 		testLessThan< sdw::DVec3 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testLessThan4D( test::TestCounts & testCounts )
+	void testLessThan4D( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testLessThan4D" );
 		testLessThan< sdw::DVec4 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testLessThan2I( test::TestCounts & testCounts )
+	void testLessThan2I( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testLessThan2I" );
 		testLessThan< sdw::IVec2 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testLessThan3I( test::TestCounts & testCounts )
+	void testLessThan3I( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testLessThan3I" );
 		testLessThan< sdw::IVec3 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testLessThan4I( test::TestCounts & testCounts )
+	void testLessThan4I( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testLessThan4I" );
 		testLessThan< sdw::IVec4 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testLessThan2U( test::TestCounts & testCounts )
+	void testLessThan2U( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testLessThan2U" );
 		testLessThan< sdw::UVec2 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testLessThan3U( test::TestCounts & testCounts )
+	void testLessThan3U( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testLessThan3U" );
 		testLessThan< sdw::UVec3 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testLessThan4U( test::TestCounts & testCounts )
+	void testLessThan4U( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testLessThan4U" );
 		testLessThan< sdw::UVec4 >( testName, testCounts );
@@ -502,7 +502,7 @@ namespace
 
 	template< typename ValueT >
 	void testLessThanEqual( std::string const & testName
-		, test::TestCounts & testCounts )
+		, test::sdw_test::TestCounts & testCounts )
 	{
 		using namespace sdw;
 		{
@@ -521,84 +521,84 @@ namespace
 		}
 	}
 
-	void testLessThanEqual2F( test::TestCounts & testCounts )
+	void testLessThanEqual2F( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testLessThanEqual2F" );
 		testLessThanEqual< sdw::Vec2 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testLessThanEqual3F( test::TestCounts & testCounts )
+	void testLessThanEqual3F( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testLessThanEqual3F" );
 		testLessThanEqual< sdw::Vec3 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testLessThanEqual4F( test::TestCounts & testCounts )
+	void testLessThanEqual4F( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testLessThanEqual4F" );
 		testLessThanEqual< sdw::Vec4 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testLessThanEqual2D( test::TestCounts & testCounts )
+	void testLessThanEqual2D( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testLessThanEqual2D" );
 		testLessThanEqual< sdw::DVec2 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testLessThanEqual3D( test::TestCounts & testCounts )
+	void testLessThanEqual3D( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testLessThanEqual3D" );
 		testLessThanEqual< sdw::DVec3 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testLessThanEqual4D( test::TestCounts & testCounts )
+	void testLessThanEqual4D( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testLessThanEqual4D" );
 		testLessThanEqual< sdw::DVec4 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testLessThanEqual2I( test::TestCounts & testCounts )
+	void testLessThanEqual2I( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testLessThanEqual2I" );
 		testLessThanEqual< sdw::IVec2 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testLessThanEqual3I( test::TestCounts & testCounts )
+	void testLessThanEqual3I( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testLessThanEqual3I" );
 		testLessThanEqual< sdw::IVec3 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testLessThanEqual4I( test::TestCounts & testCounts )
+	void testLessThanEqual4I( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testLessThanEqual4I" );
 		testLessThanEqual< sdw::IVec4 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testLessThanEqual2U( test::TestCounts & testCounts )
+	void testLessThanEqual2U( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testLessThanEqual2U" );
 		testLessThanEqual< sdw::UVec2 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testLessThanEqual3U( test::TestCounts & testCounts )
+	void testLessThanEqual3U( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testLessThanEqual3U" );
 		testLessThanEqual< sdw::UVec3 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testLessThanEqual4U( test::TestCounts & testCounts )
+	void testLessThanEqual4U( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testLessThanEqual4U" );
 		testLessThanEqual< sdw::UVec4 >( testName, testCounts );
@@ -607,7 +607,7 @@ namespace
 
 	template< typename ValueT >
 	void testGreaterThan( std::string const & testName
-		, test::TestCounts & testCounts )
+		, test::sdw_test::TestCounts & testCounts )
 	{
 		using namespace sdw;
 		{
@@ -626,84 +626,84 @@ namespace
 		}
 	}
 
-	void testGreaterThan2F( test::TestCounts & testCounts )
+	void testGreaterThan2F( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testGreaterThan2F" );
 		testGreaterThan< sdw::Vec2 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testGreaterThan3F( test::TestCounts & testCounts )
+	void testGreaterThan3F( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testGreaterThan3F" );
 		testGreaterThan< sdw::Vec3 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testGreaterThan4F( test::TestCounts & testCounts )
+	void testGreaterThan4F( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testGreaterThan4F" );
 		testGreaterThan< sdw::Vec4 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testGreaterThan2D( test::TestCounts & testCounts )
+	void testGreaterThan2D( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testGreaterThan2D" );
 		testGreaterThan< sdw::DVec2 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testGreaterThan3D( test::TestCounts & testCounts )
+	void testGreaterThan3D( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testGreaterThan3D" );
 		testGreaterThan< sdw::DVec3 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testGreaterThan4D( test::TestCounts & testCounts )
+	void testGreaterThan4D( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testGreaterThan4D" );
 		testGreaterThan< sdw::DVec4 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testGreaterThan2I( test::TestCounts & testCounts )
+	void testGreaterThan2I( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testGreaterThan2I" );
 		testGreaterThan< sdw::IVec2 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testGreaterThan3I( test::TestCounts & testCounts )
+	void testGreaterThan3I( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testGreaterThan3I" );
 		testGreaterThan< sdw::IVec3 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testGreaterThan4I( test::TestCounts & testCounts )
+	void testGreaterThan4I( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testGreaterThan4I" );
 		testGreaterThan< sdw::IVec4 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testGreaterThan2U( test::TestCounts & testCounts )
+	void testGreaterThan2U( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testGreaterThan2U" );
 		testGreaterThan< sdw::UVec2 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testGreaterThan3U( test::TestCounts & testCounts )
+	void testGreaterThan3U( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testGreaterThan3U" );
 		testGreaterThan< sdw::UVec3 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testGreaterThan4U( test::TestCounts & testCounts )
+	void testGreaterThan4U( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testGreaterThan4U" );
 		testGreaterThan< sdw::UVec4 >( testName, testCounts );
@@ -712,7 +712,7 @@ namespace
 
 	template< typename ValueT >
 	void testGreaterThanEqual( std::string const & testName
-		, test::TestCounts & testCounts )
+		, test::sdw_test::TestCounts & testCounts )
 	{
 		using namespace sdw;
 		{
@@ -731,84 +731,84 @@ namespace
 		}
 	}
 
-	void testGreaterThanEqual2F( test::TestCounts & testCounts )
+	void testGreaterThanEqual2F( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testGreaterThanEqual2F" );
 		testGreaterThanEqual< sdw::Vec2 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testGreaterThanEqual3F( test::TestCounts & testCounts )
+	void testGreaterThanEqual3F( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testGreaterThanEqual3F" );
 		testGreaterThanEqual< sdw::Vec3 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testGreaterThanEqual4F( test::TestCounts & testCounts )
+	void testGreaterThanEqual4F( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testGreaterThanEqual4F" );
 		testGreaterThanEqual< sdw::Vec4 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testGreaterThanEqual2D( test::TestCounts & testCounts )
+	void testGreaterThanEqual2D( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testGreaterThanEqual2D" );
 		testGreaterThanEqual< sdw::DVec2 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testGreaterThanEqual3D( test::TestCounts & testCounts )
+	void testGreaterThanEqual3D( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testGreaterThanEqual3D" );
 		testGreaterThanEqual< sdw::DVec3 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testGreaterThanEqual4D( test::TestCounts & testCounts )
+	void testGreaterThanEqual4D( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testGreaterThanEqual4D" );
 		testGreaterThanEqual< sdw::DVec4 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testGreaterThanEqual2I( test::TestCounts & testCounts )
+	void testGreaterThanEqual2I( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testGreaterThanEqual2I" );
 		testGreaterThanEqual< sdw::IVec2 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testGreaterThanEqual3I( test::TestCounts & testCounts )
+	void testGreaterThanEqual3I( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testGreaterThanEqual3I" );
 		testGreaterThanEqual< sdw::IVec3 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testGreaterThanEqual4I( test::TestCounts & testCounts )
+	void testGreaterThanEqual4I( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testGreaterThanEqual4I" );
 		testGreaterThanEqual< sdw::IVec4 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testGreaterThanEqual2U( test::TestCounts & testCounts )
+	void testGreaterThanEqual2U( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testGreaterThanEqual2U" );
 		testGreaterThanEqual< sdw::UVec2 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testGreaterThanEqual3U( test::TestCounts & testCounts )
+	void testGreaterThanEqual3U( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testGreaterThanEqual3U" );
 		testGreaterThanEqual< sdw::UVec3 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testGreaterThanEqual4U( test::TestCounts & testCounts )
+	void testGreaterThanEqual4U( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testGreaterThanEqual4U" );
 		testGreaterThanEqual< sdw::UVec4 >( testName, testCounts );
@@ -817,7 +817,7 @@ namespace
 
 	template< typename ValueT >
 	void testEqual( std::string const & testName
-		, test::TestCounts & testCounts )
+		, test::sdw_test::TestCounts & testCounts )
 	{
 		using namespace sdw;
 		{
@@ -836,84 +836,84 @@ namespace
 		}
 	}
 
-	void testEqual2F( test::TestCounts & testCounts )
+	void testEqual2F( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testEqual2F" );
 		testEqual< sdw::Vec2 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testEqual3F( test::TestCounts & testCounts )
+	void testEqual3F( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testEqual3F" );
 		testEqual< sdw::Vec3 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testEqual4F( test::TestCounts & testCounts )
+	void testEqual4F( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testEqual4F" );
 		testEqual< sdw::Vec4 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testEqual2D( test::TestCounts & testCounts )
+	void testEqual2D( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testEqual2D" );
 		testEqual< sdw::DVec2 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testEqual3D( test::TestCounts & testCounts )
+	void testEqual3D( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testEqual3D" );
 		testEqual< sdw::DVec3 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testEqual4D( test::TestCounts & testCounts )
+	void testEqual4D( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testEqual4D" );
 		testEqual< sdw::DVec4 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testEqual2I( test::TestCounts & testCounts )
+	void testEqual2I( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testEqual2I" );
 		testEqual< sdw::IVec2 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testEqual3I( test::TestCounts & testCounts )
+	void testEqual3I( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testEqual3I" );
 		testEqual< sdw::IVec3 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testEqual4I( test::TestCounts & testCounts )
+	void testEqual4I( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testEqual4I" );
 		testEqual< sdw::IVec4 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testEqual2U( test::TestCounts & testCounts )
+	void testEqual2U( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testEqual2U" );
 		testEqual< sdw::UVec2 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testEqual3U( test::TestCounts & testCounts )
+	void testEqual3U( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testEqual3U" );
 		testEqual< sdw::UVec3 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testEqual4U( test::TestCounts & testCounts )
+	void testEqual4U( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testEqual4U" );
 		testEqual< sdw::UVec4 >( testName, testCounts );
@@ -922,7 +922,7 @@ namespace
 
 	template< typename ValueT >
 	void testNotEqual( std::string const & testName
-		, test::TestCounts & testCounts )
+		, test::sdw_test::TestCounts & testCounts )
 	{
 		using namespace sdw;
 		{
@@ -941,84 +941,84 @@ namespace
 		}
 	}
 
-	void testNotEqual2F( test::TestCounts & testCounts )
+	void testNotEqual2F( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testNotEqual2F" );
 		testNotEqual< sdw::Vec2 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testNotEqual3F( test::TestCounts & testCounts )
+	void testNotEqual3F( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testNotEqual3F" );
 		testNotEqual< sdw::Vec3 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testNotEqual4F( test::TestCounts & testCounts )
+	void testNotEqual4F( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testNotEqual4F" );
 		testNotEqual< sdw::Vec4 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testNotEqual2D( test::TestCounts & testCounts )
+	void testNotEqual2D( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testNotEqual2D" );
 		testNotEqual< sdw::DVec2 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testNotEqual3D( test::TestCounts & testCounts )
+	void testNotEqual3D( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testNotEqual3D" );
 		testNotEqual< sdw::DVec3 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testNotEqual4D( test::TestCounts & testCounts )
+	void testNotEqual4D( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testNotEqual4D" );
 		testNotEqual< sdw::DVec4 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testNotEqual2I( test::TestCounts & testCounts )
+	void testNotEqual2I( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testNotEqual2I" );
 		testNotEqual< sdw::IVec2 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testNotEqual3I( test::TestCounts & testCounts )
+	void testNotEqual3I( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testNotEqual3I" );
 		testNotEqual< sdw::IVec3 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testNotEqual4I( test::TestCounts & testCounts )
+	void testNotEqual4I( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testNotEqual4I" );
 		testNotEqual< sdw::IVec4 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testNotEqual2U( test::TestCounts & testCounts )
+	void testNotEqual2U( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testNotEqual2U" );
 		testNotEqual< sdw::UVec2 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testNotEqual3U( test::TestCounts & testCounts )
+	void testNotEqual3U( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testNotEqual3U" );
 		testNotEqual< sdw::UVec3 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testNotEqual4U( test::TestCounts & testCounts )
+	void testNotEqual4U( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testNotEqual4U" );
 		testNotEqual< sdw::UVec4 >( testName, testCounts );
@@ -1027,7 +1027,7 @@ namespace
 
 	template< typename ValueT >
 	void testNot( std::string const & testName
-		, test::TestCounts & testCounts )
+		, test::sdw_test::TestCounts & testCounts )
 	{
 		using namespace sdw;
 		{
@@ -1045,21 +1045,21 @@ namespace
 		}
 	}
 
-	void testNot2( test::TestCounts & testCounts )
+	void testNot2( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testNot2" );
 		testNot< sdw::BVec2 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testNot3( test::TestCounts & testCounts )
+	void testNot3( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testNot3" );
 		testNot< sdw::BVec3 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testNot4( test::TestCounts & testCounts )
+	void testNot4( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testNot4" );
 		testNot< sdw::BVec4 >( testName, testCounts );
@@ -1068,7 +1068,7 @@ namespace
 
 	template< typename ValueT >
 	void testMatrixCompMult( std::string const & testName
-		, test::TestCounts & testCounts )
+		, test::sdw_test::TestCounts & testCounts )
 	{
 		using namespace sdw;
 		{
@@ -1087,126 +1087,126 @@ namespace
 		}
 	}
 
-	void testMatrixCompMult2x2F( test::TestCounts & testCounts )
+	void testMatrixCompMult2x2F( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testMatrixCompMult2x2F" );
 		testMatrixCompMult< sdw::Mat2 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testMatrixCompMult2x3F( test::TestCounts & testCounts )
+	void testMatrixCompMult2x3F( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testMatrixCompMult2x3F" );
 		testMatrixCompMult< sdw::Mat2x3 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testMatrixCompMult2x4F( test::TestCounts & testCounts )
+	void testMatrixCompMult2x4F( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testMatrixCompMult2x4F" );
 		testMatrixCompMult< sdw::Mat2x4 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testMatrixCompMult3x2F( test::TestCounts & testCounts )
+	void testMatrixCompMult3x2F( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testMatrixCompMult3x2F" );
 		testMatrixCompMult< sdw::Mat3x2 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testMatrixCompMult3x3F( test::TestCounts & testCounts )
+	void testMatrixCompMult3x3F( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testMatrixCompMult3x3F" );
 		testMatrixCompMult< sdw::Mat3 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testMatrixCompMult3x4F( test::TestCounts & testCounts )
+	void testMatrixCompMult3x4F( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testMatrixCompMult3x4F" );
 		testMatrixCompMult< sdw::Mat3x4 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testMatrixCompMult4x2F( test::TestCounts & testCounts )
+	void testMatrixCompMult4x2F( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testMatrixCompMult4x2F" );
 		testMatrixCompMult< sdw::Mat4x2 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testMatrixCompMult4x3F( test::TestCounts & testCounts )
+	void testMatrixCompMult4x3F( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testMatrixCompMult4x3F" );
 		testMatrixCompMult< sdw::Mat4x3 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testMatrixCompMult4x4F( test::TestCounts & testCounts )
+	void testMatrixCompMult4x4F( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testMatrixCompMult4x4F" );
 		testMatrixCompMult< sdw::Mat4 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testMatrixCompMult2x2D( test::TestCounts & testCounts )
+	void testMatrixCompMult2x2D( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testMatrixCompMult2x2D" );
 		testMatrixCompMult< sdw::DMat2 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testMatrixCompMult2x3D( test::TestCounts & testCounts )
+	void testMatrixCompMult2x3D( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testMatrixCompMult2x3D" );
 		testMatrixCompMult< sdw::DMat2x3 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testMatrixCompMult2x4D( test::TestCounts & testCounts )
+	void testMatrixCompMult2x4D( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testMatrixCompMult2x4D" );
 		testMatrixCompMult< sdw::DMat2x4 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testMatrixCompMult3x2D( test::TestCounts & testCounts )
+	void testMatrixCompMult3x2D( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testMatrixCompMult3x2D" );
 		testMatrixCompMult< sdw::DMat3x2 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testMatrixCompMult3x3D( test::TestCounts & testCounts )
+	void testMatrixCompMult3x3D( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testMatrixCompMult3x3D" );
 		testMatrixCompMult< sdw::DMat3 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testMatrixCompMult3x4D( test::TestCounts & testCounts )
+	void testMatrixCompMult3x4D( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testMatrixCompMult3x4D" );
 		testMatrixCompMult< sdw::DMat3x4 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testMatrixCompMult4x2D( test::TestCounts & testCounts )
+	void testMatrixCompMult4x2D( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testMatrixCompMult4x2D" );
 		testMatrixCompMult< sdw::DMat4x2 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testMatrixCompMult4x3D( test::TestCounts & testCounts )
+	void testMatrixCompMult4x3D( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testMatrixCompMult4x3D" );
 		testMatrixCompMult< sdw::DMat4x3 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testMatrixCompMult4x4D( test::TestCounts & testCounts )
+	void testMatrixCompMult4x4D( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testMatrixCompMult4x4D" );
 		testMatrixCompMult< sdw::DMat4 >( testName, testCounts );
@@ -1215,7 +1215,7 @@ namespace
 
 	template< typename ValueT >
 	void testMatrixMult( std::string const & testName
-		, test::TestCounts & testCounts )
+		, test::sdw_test::TestCounts & testCounts )
 	{
 		using namespace sdw;
 		{
@@ -1234,49 +1234,49 @@ namespace
 		}
 	}
 
-	void testMatrixMult2x2F( test::TestCounts & testCounts )
+	void testMatrixMult2x2F( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testMatrixMult2x2F" );
 		testMatrixMult< sdw::Mat2 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testMatrixMult3x3F( test::TestCounts & testCounts )
+	void testMatrixMult3x3F( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testMatrixMult3x3F" );
 		testMatrixMult< sdw::Mat3 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testMatrixMult4x4F( test::TestCounts & testCounts )
+	void testMatrixMult4x4F( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testMatrixMult4x4F" );
 		testMatrixMult< sdw::Mat4 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testMatrixMult2x2D( test::TestCounts & testCounts )
+	void testMatrixMult2x2D( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testMatrixMult2x2D" );
 		testMatrixMult< sdw::DMat2 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testMatrixMult3x3D( test::TestCounts & testCounts )
+	void testMatrixMult3x3D( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testMatrixMult3x3D" );
 		testMatrixMult< sdw::DMat3 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testMatrixMult4x4D( test::TestCounts & testCounts )
+	void testMatrixMult4x4D( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testMatrixMult4x4D" );
 		testMatrixMult< sdw::DMat4 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testInverse2x2F( test::TestCounts & testCounts )
+	void testInverse2x2F( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testInverse2x2F" );
 		using namespace sdw;
@@ -1295,7 +1295,7 @@ namespace
 		testEnd();
 	}
 
-	void testInverse2x2D( test::TestCounts & testCounts )
+	void testInverse2x2D( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testInverse2x2D" );
 		using namespace sdw;
@@ -1314,7 +1314,7 @@ namespace
 		testEnd();
 	}
 
-	void testInverse3x3F( test::TestCounts & testCounts )
+	void testInverse3x3F( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testInverse3x3F" );
 		using namespace sdw;
@@ -1333,7 +1333,7 @@ namespace
 		testEnd();
 	}
 
-	void testInverse3x3D( test::TestCounts & testCounts )
+	void testInverse3x3D( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testInverse3x3D" );
 		using namespace sdw;
@@ -1352,7 +1352,7 @@ namespace
 		testEnd();
 	}
 
-	void testInverse4x4F( test::TestCounts & testCounts )
+	void testInverse4x4F( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testInverse4x4F" );
 		using namespace sdw;
@@ -1371,7 +1371,7 @@ namespace
 		testEnd();
 	}
 
-	void testInverse4x4D( test::TestCounts & testCounts )
+	void testInverse4x4D( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testInverse4x4D" );
 		using namespace sdw;
@@ -1390,7 +1390,7 @@ namespace
 		testEnd();
 	}
 
-	void testUaddCarry1( test::TestCounts & testCounts )
+	void testUaddCarry1( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testUaddCarry1" );
 		using namespace sdw;
@@ -1414,7 +1414,7 @@ namespace
 		testEnd();
 	}
 
-	void testUaddCarry2( test::TestCounts & testCounts )
+	void testUaddCarry2( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testUaddCarry2" );
 		using namespace sdw;
@@ -1438,7 +1438,7 @@ namespace
 		testEnd();
 	}
 
-	void testUaddCarry3( test::TestCounts & testCounts )
+	void testUaddCarry3( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testUaddCarry3" );
 		using namespace sdw;
@@ -1462,7 +1462,7 @@ namespace
 		testEnd();
 	}
 
-	void testUaddCarry4( test::TestCounts & testCounts )
+	void testUaddCarry4( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testUaddCarry4" );
 		using namespace sdw;
@@ -1486,7 +1486,7 @@ namespace
 		testEnd();
 	}
 
-	void testUsubBorrow1( test::TestCounts & testCounts )
+	void testUsubBorrow1( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testUsubBorrow1" );
 		using namespace sdw;
@@ -1510,7 +1510,7 @@ namespace
 		testEnd();
 	}
 
-	void testUsubBorrow2( test::TestCounts & testCounts )
+	void testUsubBorrow2( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testUsubBorrow2" );
 		using namespace sdw;
@@ -1534,7 +1534,7 @@ namespace
 		testEnd();
 	}
 
-	void testUsubBorrow3( test::TestCounts & testCounts )
+	void testUsubBorrow3( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testUsubBorrow3" );
 		using namespace sdw;
@@ -1558,7 +1558,7 @@ namespace
 		testEnd();
 	}
 
-	void testUsubBorrow4( test::TestCounts & testCounts )
+	void testUsubBorrow4( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testUsubBorrow4" );
 		using namespace sdw;
@@ -1582,7 +1582,7 @@ namespace
 		testEnd();
 	}
 
-	void testUmulExtended1( test::TestCounts & testCounts )
+	void testUmulExtended1( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testUmulExtended1" );
 		using namespace sdw;
@@ -1606,7 +1606,7 @@ namespace
 		testEnd();
 	}
 
-	void testUmulExtended2( test::TestCounts & testCounts )
+	void testUmulExtended2( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testUmulExtended2" );
 		using namespace sdw;
@@ -1630,7 +1630,7 @@ namespace
 		testEnd();
 	}
 
-	void testUmulExtended3( test::TestCounts & testCounts )
+	void testUmulExtended3( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testUmulExtended3" );
 		using namespace sdw;
@@ -1654,7 +1654,7 @@ namespace
 		testEnd();
 	}
 
-	void testUmulExtended4( test::TestCounts & testCounts )
+	void testUmulExtended4( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testUmulExtended4" );
 		using namespace sdw;
@@ -1678,7 +1678,7 @@ namespace
 		testEnd();
 	}
 
-	void testImulExtended1( test::TestCounts & testCounts )
+	void testImulExtended1( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testImulExtended1" );
 		using namespace sdw;
@@ -1702,7 +1702,7 @@ namespace
 		testEnd();
 	}
 
-	void testImulExtended2( test::TestCounts & testCounts )
+	void testImulExtended2( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testImulExtended2" );
 		using namespace sdw;
@@ -1726,7 +1726,7 @@ namespace
 		testEnd();
 	}
 
-	void testImulExtended3( test::TestCounts & testCounts )
+	void testImulExtended3( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testImulExtended3" );
 		using namespace sdw;
@@ -1750,7 +1750,7 @@ namespace
 		testEnd();
 	}
 
-	void testImulExtended4( test::TestCounts & testCounts )
+	void testImulExtended4( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testImulExtended4" );
 		using namespace sdw;
@@ -1774,7 +1774,7 @@ namespace
 		testEnd();
 	}
 
-	void testBitfieldInsert1I( test::TestCounts & testCounts )
+	void testBitfieldInsert1I( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testBitfieldInsert1I" );
 		using namespace sdw;
@@ -1797,7 +1797,7 @@ namespace
 		testEnd();
 	}
 
-	void testBitfieldInsert2I( test::TestCounts & testCounts )
+	void testBitfieldInsert2I( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testBitfieldInsert2I" );
 		using namespace sdw;
@@ -1820,7 +1820,7 @@ namespace
 		testEnd();
 	}
 
-	void testBitfieldInsert3I( test::TestCounts & testCounts )
+	void testBitfieldInsert3I( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testBitfieldInsert3I" );
 		using namespace sdw;
@@ -1843,7 +1843,7 @@ namespace
 		testEnd();
 	}
 
-	void testBitfieldInsert4I( test::TestCounts & testCounts )
+	void testBitfieldInsert4I( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testBitfieldInsert4I" );
 		using namespace sdw;
@@ -1866,7 +1866,7 @@ namespace
 		testEnd();
 	}
 
-	void testBitfieldInsert1U( test::TestCounts & testCounts )
+	void testBitfieldInsert1U( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testBitfieldInsert1U" );
 		using namespace sdw;
@@ -1889,7 +1889,7 @@ namespace
 		testEnd();
 	}
 
-	void testBitfieldInsert2U( test::TestCounts & testCounts )
+	void testBitfieldInsert2U( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testBitfieldInsert2U" );
 		using namespace sdw;
@@ -1912,7 +1912,7 @@ namespace
 		testEnd();
 	}
 
-	void testBitfieldInsert3U( test::TestCounts & testCounts )
+	void testBitfieldInsert3U( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testBitfieldInsert3U" );
 		using namespace sdw;
@@ -1935,7 +1935,7 @@ namespace
 		testEnd();
 	}
 
-	void testBitfieldInsert4U( test::TestCounts & testCounts )
+	void testBitfieldInsert4U( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testBitfieldInsert4U" );
 		using namespace sdw;
@@ -1958,7 +1958,7 @@ namespace
 		testEnd();
 	}
 
-	void testBitfieldExtract1I( test::TestCounts & testCounts )
+	void testBitfieldExtract1I( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testBitfieldExtract1I" );
 		using namespace sdw;
@@ -1980,7 +1980,7 @@ namespace
 		testEnd();
 	}
 
-	void testBitfieldExtract2I( test::TestCounts & testCounts )
+	void testBitfieldExtract2I( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testBitfieldExtract2I" );
 		using namespace sdw;
@@ -2002,7 +2002,7 @@ namespace
 		testEnd();
 	}
 
-	void testBitfieldExtract3I( test::TestCounts & testCounts )
+	void testBitfieldExtract3I( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testBitfieldExtract3I" );
 		using namespace sdw;
@@ -2024,7 +2024,7 @@ namespace
 		testEnd();
 	}
 
-	void testBitfieldExtract4I( test::TestCounts & testCounts )
+	void testBitfieldExtract4I( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testBitfieldExtract4I" );
 		using namespace sdw;
@@ -2046,7 +2046,7 @@ namespace
 		testEnd();
 	}
 
-	void testBitfieldExtract1U( test::TestCounts & testCounts )
+	void testBitfieldExtract1U( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testBitfieldExtract1U" );
 		using namespace sdw;
@@ -2068,7 +2068,7 @@ namespace
 		testEnd();
 	}
 
-	void testBitfieldExtract2U( test::TestCounts & testCounts )
+	void testBitfieldExtract2U( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testBitfieldExtract2U" );
 		using namespace sdw;
@@ -2090,7 +2090,7 @@ namespace
 		testEnd();
 	}
 
-	void testBitfieldExtract3U( test::TestCounts & testCounts )
+	void testBitfieldExtract3U( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testBitfieldExtract3U" );
 		using namespace sdw;
@@ -2112,7 +2112,7 @@ namespace
 		testEnd();
 	}
 
-	void testBitfieldExtract4U( test::TestCounts & testCounts )
+	void testBitfieldExtract4U( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testBitfieldExtract4U" );
 		using namespace sdw;
@@ -2137,7 +2137,7 @@ namespace
 
 int main( int argc, char ** argv )
 {
-	testSuiteBegin( "TestWriterIntrinsics" );
+	sdwTestSuiteBegin( "TestWriterIntrinsics" );
 	testRoundEven1F( testCounts );
 	testRoundEven2F( testCounts );
 	testRoundEven3F( testCounts );
@@ -2295,5 +2295,5 @@ int main( int argc, char ** argv )
 	testBitfieldExtract2U( testCounts );
 	testBitfieldExtract3U( testCounts );
 	testBitfieldExtract4U( testCounts );
-	testSuiteEnd();
+	sdwTestSuiteEnd();
 }

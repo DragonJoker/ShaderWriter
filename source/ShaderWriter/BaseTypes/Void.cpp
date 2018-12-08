@@ -11,10 +11,6 @@ namespace sdw
 		, expr::ExprPtr expr )
 		: Value{ shader, std::move( expr ) }
 	{
-		if ( shader )
-		{
-			shader->addStmt( makeSimple( makeExpr( *this ) ) );
-		}
 	}
 
 	Void::Void( Void && rhs )
@@ -32,8 +28,8 @@ namespace sdw
 	{
 	}
 
-	ast::type::TypePtr Void::makeType()
+	ast::type::TypePtr Void::makeType( ast::type::TypesCache & cache )
 	{
-		return ast::type::getVoid();
+		return cache.getVoid();
 	}
 }

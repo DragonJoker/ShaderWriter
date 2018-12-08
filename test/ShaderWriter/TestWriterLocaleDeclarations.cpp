@@ -6,7 +6,7 @@ namespace
 #define DummyMain writer.implementFunction< void >( "main", [](){} )
 
 	template< typename T >
-	void testLocale( test::TestCounts & testCounts )
+	void testLocale( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testLocale" + ast::debug::getName( sdw::typeEnum< T > ) );
 		{
@@ -276,7 +276,7 @@ namespace
 
 int main( int argc, char ** argv )
 {
-	testSuiteBegin( "TestWriterLocaleDeclarations" );
+	sdwTestSuiteBegin( "TestWriterLocaleDeclarations" );
 	testLocale< sdw::Boolean >( testCounts );
 	testLocale< sdw::Int >( testCounts );
 	testLocale< sdw::UInt >( testCounts );
@@ -315,5 +315,6 @@ int main( int argc, char ** argv )
 	testLocale< sdw::DMat4 >( testCounts );
 	testLocale< sdw::DMat4x2 >( testCounts );
 	testLocale< sdw::DMat4x3 >( testCounts );
-	testSuiteEnd();
+	sdwTestSuiteEnd();
 }
+

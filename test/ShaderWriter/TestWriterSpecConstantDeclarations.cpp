@@ -4,7 +4,7 @@
 namespace
 {
 	template< typename T >
-	void testSpecConstant( test::TestCounts & testCounts )
+	void testSpecConstant( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testSpecConstant" + ast::debug::getName( sdw::typeEnum< T > ) );
 		{
@@ -78,11 +78,11 @@ namespace
 
 int main( int argc, char ** argv )
 {
-	testSuiteBegin( "TestWriterSpecConstantDeclarations" );
+	sdwTestSuiteBegin( "TestWriterSpecConstantDeclarations" );
 	testSpecConstant< bool >( testCounts );
 	testSpecConstant< int32_t >( testCounts );
 	testSpecConstant< uint32_t >( testCounts );
 	testSpecConstant< float >( testCounts );
 	testSpecConstant< double >( testCounts );
-	testSuiteEnd();
+	sdwTestSuiteEnd();
 }

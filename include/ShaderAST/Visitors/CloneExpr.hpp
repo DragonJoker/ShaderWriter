@@ -23,6 +23,7 @@ namespace ast
 		virtual expr::ExprPtr doSubmit( expr::Expr * expr );
 		expr::ExprPtr doSubmit( expr::ExprPtr const & expr );
 
+	protected:
 		void visitAddExpr( expr::Add * expr )override;
 		void visitAddAssignExpr( expr::AddAssign * expr )override;
 		void visitAggrInitExpr( expr::AggrInit * expr )override;

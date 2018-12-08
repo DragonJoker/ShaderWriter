@@ -3,7 +3,7 @@
 
 namespace
 {
-	void reference( test::TestCounts & testCounts )
+	void reference( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "reference" );
 		using namespace sdw;
@@ -55,7 +55,7 @@ namespace
 		testEnd();
 	}
 
-	void vertex( test::TestCounts & testCounts )
+	void vertex( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "vertex" );
 		using namespace sdw;
@@ -79,7 +79,7 @@ namespace
 		testEnd();
 	}
 
-	void fragment( test::TestCounts & testCounts )
+	void fragment( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "fragment" );
 		using namespace sdw;
@@ -163,13 +163,13 @@ namespace
 		testEnd();
 	}
 
-	void compute( test::TestCounts & testCounts )
+	void compute( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "compute" );
 		using namespace sdw;
 		ComputeWriter writer;
 		auto in = writer.getIn();
-		ArraySsboT< UInt > ssbo{ writer, "Datas", ast::type::getUInt(), ast::type::MemoryLayout::eStd140 , 0u, 0u };
+		ArraySsboT< UInt > ssbo{ writer, "Datas", writer.getTypesCache().getUInt(), ast::type::MemoryLayout::eStd140 , 0u, 0u };
 
 		writer.inputLayout( 16 );
 		writer.implementFunction< void >( "main"
@@ -185,7 +185,7 @@ namespace
 		testEnd();
 	}
 
-	void params( test::TestCounts & testCounts )
+	void params( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "params" );
 		using namespace sdw;
@@ -213,11 +213,11 @@ namespace
 
 int main( int argc, char ** argv )
 {
-	testSuiteBegin( "TestWriterShader" );
+	sdwTestSuiteBegin( "TestWriterShader" );
 	reference( testCounts );
 	vertex( testCounts );
 	fragment( testCounts );
 	compute( testCounts );
 	params( testCounts );
-	testSuiteEnd();
+	sdwTestSuiteEnd();
 }

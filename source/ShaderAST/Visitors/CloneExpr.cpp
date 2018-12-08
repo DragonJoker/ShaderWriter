@@ -150,7 +150,8 @@ namespace ast
 			args.emplace_back( doSubmit( arg ) );
 		}
 
-		m_result = expr::makeCompositeConstruct( expr->getComposite()
+		m_result = expr::makeCompositeConstruct( expr->getType()->getCache()
+			, expr->getComposite()
 			, expr->getComponent()
 			, std::move( args ) );
 	}
@@ -171,7 +172,8 @@ namespace ast
 
 	void ExprCloner::visitEqualExpr( expr::Equal * expr )
 	{
-		m_result = expr::makeEqual( doSubmit( expr->getLHS() )
+		m_result = std::make_unique< expr::Equal >( expr->getType()
+			, doSubmit( expr->getLHS() )
 			, doSubmit( expr->getRHS() ) );
 	}
 
@@ -201,13 +203,15 @@ namespace ast
 
 	void ExprCloner::visitGreaterExpr( expr::Greater * expr )
 	{
-		m_result = expr::makeGreater( doSubmit( expr->getLHS() )
+		m_result = std::make_unique< expr::Greater >( expr->getType()
+			, doSubmit( expr->getLHS() )
 			, doSubmit( expr->getRHS() ) );
 	}
 
 	void ExprCloner::visitGreaterEqualExpr( expr::GreaterEqual * expr )
 	{
-		m_result = expr::makeGreaterEqual( doSubmit( expr->getLHS() )
+		m_result = std::make_unique< expr::GreaterEqual >( expr->getType()
+			, doSubmit( expr->getLHS() )
 			, doSubmit( expr->getRHS() ) );
 	}
 
@@ -252,13 +256,15 @@ namespace ast
 
 	void ExprCloner::visitLessExpr( expr::Less * expr )
 	{
-		m_result = expr::makeLess( doSubmit( expr->getLHS() )
+		m_result = std::make_unique< expr::Less >( expr->getType()
+			, doSubmit( expr->getLHS() )
 			, doSubmit( expr->getRHS() ) );
 	}
 
 	void ExprCloner::visitLessEqualExpr( expr::LessEqual * expr )
 	{
-		m_result = expr::makeLessEqual( doSubmit( expr->getLHS() )
+		m_result = std::make_unique< expr::LessEqual >( expr->getType()
+			, doSubmit( expr->getLHS() )
 			, doSubmit( expr->getRHS() ) );
 	}
 
@@ -269,18 +275,21 @@ namespace ast
 
 	void ExprCloner::visitLogAndExpr( expr::LogAnd * expr )
 	{
-		m_result = expr::makeLogAnd( doSubmit( expr->getLHS() )
+		m_result = std::make_unique< expr::LogAnd >( expr->getType()
+			, doSubmit( expr->getLHS() )
 			, doSubmit( expr->getRHS() ) );
 	}
 
 	void ExprCloner::visitLogNotExpr( expr::LogNot * expr )
 	{
-		m_result = expr::makeLogNot( doSubmit( expr->getOperand() ) );
+		m_result = std::make_unique< expr::LogNot >( expr->getType()
+			, doSubmit( expr->getOperand() ) );
 	}
 
 	void ExprCloner::visitLogOrExpr( expr::LogOr * expr )
 	{
-		m_result = expr::makeLogOr( doSubmit( expr->getLHS() )
+		m_result = std::make_unique< expr::LogOr >( expr->getType()
+			, doSubmit( expr->getLHS() )
 			, doSubmit( expr->getRHS() ) );
 	}
 
@@ -335,7 +344,8 @@ namespace ast
 
 	void ExprCloner::visitNotEqualExpr( expr::NotEqual * expr )
 	{
-		m_result = expr::makeNotEqual( doSubmit( expr->getLHS() )
+		m_result = std::make_unique< expr::NotEqual >( expr->getType()
+			, doSubmit( expr->getLHS() )
 			, doSubmit( expr->getRHS() ) );
 	}
 

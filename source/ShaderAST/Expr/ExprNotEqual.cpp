@@ -7,9 +7,10 @@ See LICENSE file in root folder
 
 namespace ast::expr
 {
-	NotEqual::NotEqual( ExprPtr lhs
+	NotEqual::NotEqual( type::TypePtr type
+		, ExprPtr lhs
 		, ExprPtr rhs )
-		: Binary{ std::move( type::getBool() )
+		: Binary{ std::move( type )
 			, std::move( lhs )
 			, std::move( rhs )
 			, Kind::eNotEqual }

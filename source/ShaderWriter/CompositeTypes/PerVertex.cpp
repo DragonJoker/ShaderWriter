@@ -9,9 +9,9 @@ namespace sdw
 {
 	namespace
 	{
-		InterfaceBlock doGetInfo()
+		InterfaceBlock doGetInfo( ast::type::TypesCache & cache )
 		{
-			InterfaceBlock result{ type::MemoryLayout::eStd430, "gl_PerVertex" };
+			InterfaceBlock result{ cache, type::MemoryLayout::eStd430, "gl_PerVertex" };
 			result.registerMember< type::Kind::eVec4F >( "gl_Position" );
 			result.registerMember< type::Kind::eFloat >( "gl_PointSize" );
 			result.registerMember< type::Kind::eFloat >( "gl_ClipDistance", type::UnknownArraySize );
@@ -35,7 +35,7 @@ namespace sdw
 
 	gl_PerVertex::gl_PerVertex( ShaderWriter & writer
 		, stmt::PerVertexDecl::Source source )
-		: Value{ &writer.getShader(), makeExpr( var::makeVariable( doGetInfo().getType(), "" ) ) }
+		: Value{ &writer.getShader(), makeExpr( var::makeVariable( doGetInfo( writer.getTypesCache() ).getType(), "" ) ) }
 		, gl_Position{ &writer.getShader()
 			, makeIdent( writer.getShader().registerBuiltin( "gl_Position"
 				, std::static_pointer_cast< type::Struct >( getType() )->getMember( "gl_Position" ).type
@@ -49,7 +49,7 @@ namespace sdw
 				, std::static_pointer_cast< type::Struct >( getType() )->getMember( "gl_ClipDistance" ).type
 				, getBuiltinFlag( source ) ) ) }
 	{
-		addStmt( *findContainer( *this )
+		addStmt( *findShader( *this )
 			, sdw::makePerVertexDecl( source, getType() ) );
 	}
 }

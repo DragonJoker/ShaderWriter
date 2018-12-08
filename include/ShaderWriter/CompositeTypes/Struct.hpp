@@ -19,7 +19,8 @@ namespace sdw
 		Struct( ShaderWriter & writer
 			, ast::type::StructPtr type );
 		void end();
-		StructInstance getInstance( std::string const & name )const;
+		template< typename InstanceT = StructInstance >
+		InstanceT getInstance( std::string const & name )const;
 
 		inline type::StructPtr getType()const
 		{

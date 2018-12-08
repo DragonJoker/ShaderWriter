@@ -8,12 +8,12 @@ namespace sdw
 	{
 		updateContainer( rhs );
 		auto rhsExpr = makeExpr( rhs );
-		addStmt( *findContainer( *this, rhs )
-			, sdw::makeSimple( makeAssign( type::getInt()
+		addStmt( *findShader( *this, rhs )
+			, sdw::makeSimple( makeAssign( findTypesCache( *this, rhs ).getInt()
 				, makeExpr( *this )
-				, ( rhsExpr->getType() == type::getInt()
+				, ( rhsExpr->getType() == findTypesCache( *this, rhs ).getInt()
 					? std::move( rhsExpr )
-					: makeCast( type::getInt(), std::move( rhsExpr ) ) ) ) ) );
+					: makeCast( findTypesCache( *this, rhs ).getInt(), std::move( rhsExpr ) ) ) ) ) );
 		return *this;
 	}
 }

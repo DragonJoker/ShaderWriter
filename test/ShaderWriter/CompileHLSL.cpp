@@ -14,9 +14,26 @@
 
 namespace test
 {
+	namespace sdw_test
+	{
+		struct HLSLContext
+		{
+		};
+	}
+
+	bool createHLSLContext( sdw_test::TestCounts & testCounts )
+	{
+		return true;
+	}
+
+	void destroyHLSLContext( sdw_test::TestCounts & testCounts )
+	{
+	}
+
 	bool compileHlsl( std::string const & shader
 		, sdw::ShaderType type
-		, std::string & errors )
+		, std::string & errors
+		, sdw_test::TestCounts & testCounts )
 	{
 		ID3DBlob * result{ nullptr };
 		std::string model;

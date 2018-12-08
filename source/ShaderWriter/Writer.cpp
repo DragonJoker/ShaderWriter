@@ -99,38 +99,55 @@ namespace sdw
 		addStmt( stmt::makeReturn() );
 	}
 
+	void ShaderWriter::pushScope()
+	{
+		m_currentStmts.emplace_back( stmt::makeContainer() );
+		doPushScope( m_currentStmts.back().get() );
+	}
+
+	void ShaderWriter::popScope()
+	{
+		doPopScope();
+		addStmt( std::move( m_currentStmts.back() ) );
+		m_currentStmts.erase( m_currentStmts.begin() + m_currentStmts.size() - 1u );
+	}
+
+	void ShaderWriter::saveNextExpr()
+	{
+		m_shader.saveNextExpr();
+	}
+
+	ast::expr::ExprPtr ShaderWriter::loadExpr( Value const & value )
+	{
+		return m_shader.loadExpr( makeExpr( value ) );
+	}
+
 	void ShaderWriter::forStmt( expr::ExprPtr init
 		, expr::ExprPtr cond
 		, expr::ExprPtr incr
 		, std::function< void() > function )
 	{
-		auto stmt = stmt::makeFor( makeExpr( init )
+		doPushScope( stmt::makeFor( makeExpr( init )
 			, makeExpr( cond )
-			, makeExpr( incr ) );
-		m_shader.push( stmt.get() );
+			, makeExpr( incr ) ) );
 		function();
-		m_shader.pop();
-		addStmt( std::move( stmt ) );
+		popScope();
 	}
 
 	void ShaderWriter::doWhileStmt( expr::ExprPtr condition
 		, std::function< void() > function )
 	{
-		auto stmt = stmt::makeDoWhile( std::move( condition ) );
-		m_shader.push( stmt.get() );
+		doPushScope( stmt::makeDoWhile( std::move( condition ) ) );
 		function();
-		m_shader.pop();
-		addStmt( std::move( stmt ) );
+		popScope();
 	}
 
 	void ShaderWriter::whileStmt( expr::ExprPtr condition
 		, std::function< void() > function )
 	{
-		auto stmt = stmt::makeWhile( std::move( condition ) );
-		m_shader.push( stmt.get() );
+		doPushScope( stmt::makeWhile( std::move( condition ) ) );
 		function();
-		m_shader.pop();
-		addStmt( std::move( stmt ) );
+		popScope();
 	}
 
 	ShaderWriter & ShaderWriter::ifStmt( expr::ExprPtr condition
@@ -138,29 +155,26 @@ namespace sdw
 	{
 		auto stmt = stmt::makeIf( std::move( condition ) );
 		m_ifStmt.push_back( stmt.get() );
-		m_shader.push( stmt.get() );
+		doPushScope( std::move( stmt ) );
 		function();
-		m_shader.pop();
-		addStmt( std::move( stmt ) );
+		popScope();
 		return *this;
 	}
 
 	ShaderWriter & ShaderWriter::elseIfStmt( expr::ExprPtr condition
 		, std::function< void() > function )
 	{
-		auto stmt = m_ifStmt.back()->createElseIf( std::move( condition ) );
-		m_shader.push( stmt );
+		doPushScope( m_ifStmt.back()->createElseIf( std::move( condition ) ) );
 		function();
-		m_shader.pop();
+		doPopScope();
 		return *this;
 	}
 
 	ShaderWriter & ShaderWriter::elseStmt( std::function< void() > function )
 	{
-		auto stmt = m_ifStmt.back()->createElse();
-		m_shader.push( stmt );
+		doPushScope( m_ifStmt.back()->createElse() );
 		function();
-		m_shader.pop();
+		doPopScope();
 		return *this;
 	}
 
@@ -173,13 +187,13 @@ namespace sdw
 		, uint32_t location
 		, bool rhs )
 	{
-		auto type = Boolean::makeType();
+		auto type = Boolean::makeType( getTypesCache() );
 		auto var = registerSpecConstant( name
 			, location
 			, type );
 		addStmt( sdw::makeSpecConstantDecl( var
 			, location
-			, ast::expr::makeLiteral( rhs ) ) );
+			, ast::expr::makeLiteral( getTypesCache(), rhs ) ) );
 		return Boolean{ &m_shader
 			, makeExpr( var ) };
 	}
@@ -189,7 +203,7 @@ namespace sdw
 		, bool rhs
 		, bool enabled )
 	{
-		auto type = Boolean::makeType();
+		auto type = Boolean::makeType( getTypesCache() );
 		auto var = registerSpecConstant( name
 			, location
 			, type );
@@ -198,7 +212,7 @@ namespace sdw
 		{
 			addStmt( sdw::makeSpecConstantDecl( var
 				, location
-				, ast::expr::makeLiteral( rhs ) ) );
+				, ast::expr::makeLiteral( getTypesCache(), rhs ) ) );
 		}
 
 		return Optional< Boolean >{ &m_shader
@@ -210,13 +224,13 @@ namespace sdw
 		, uint32_t location
 		, int32_t rhs )
 	{
-		auto type = Int::makeType();
+		auto type = Int::makeType( getTypesCache() );
 		auto var = registerSpecConstant( name
 			, location
 			, type );
 		addStmt( sdw::makeSpecConstantDecl( var
 			, location
-			, ast::expr::makeLiteral( rhs ) ) );
+			, ast::expr::makeLiteral( getTypesCache(), rhs ) ) );
 		return Int{ &m_shader
 			, makeExpr( var ) };
 	}
@@ -226,7 +240,7 @@ namespace sdw
 		, int32_t rhs
 		, bool enabled )
 	{
-		auto type = Int::makeType();
+		auto type = Int::makeType( getTypesCache() );
 		auto var = registerSpecConstant( name
 			, location
 			, type );
@@ -235,7 +249,7 @@ namespace sdw
 		{
 			addStmt( sdw::makeSpecConstantDecl( var
 				, location
-				, ast::expr::makeLiteral( rhs ) ) );
+				, ast::expr::makeLiteral( getTypesCache(), rhs ) ) );
 		}
 
 		return Optional< Int >{ &m_shader
@@ -247,13 +261,13 @@ namespace sdw
 		, uint32_t location
 		, uint32_t rhs )
 	{
-		auto type = UInt::makeType();
+		auto type = UInt::makeType( getTypesCache() );
 		auto var = registerSpecConstant( name
 			, location
 			, type );
 		addStmt( sdw::makeSpecConstantDecl( var
 			, location
-			, ast::expr::makeLiteral( rhs ) ) );
+			, ast::expr::makeLiteral( getTypesCache(), rhs ) ) );
 		return UInt{ &m_shader
 			, makeExpr( var ) };
 	}
@@ -263,7 +277,7 @@ namespace sdw
 		, uint32_t rhs
 		, bool enabled )
 	{
-		auto type = UInt::makeType();
+		auto type = UInt::makeType( getTypesCache() );
 		auto var = registerSpecConstant( name
 			, location
 			, type );
@@ -272,7 +286,7 @@ namespace sdw
 		{
 			addStmt( sdw::makeSpecConstantDecl( var
 				, location
-				, ast::expr::makeLiteral( rhs ) ) );
+				, ast::expr::makeLiteral( getTypesCache(), rhs ) ) );
 		}
 
 		return Optional< UInt >{ &m_shader
@@ -284,13 +298,13 @@ namespace sdw
 		, uint32_t location
 		, float rhs )
 	{
-		auto type = Float::makeType();
+		auto type = Float::makeType( getTypesCache() );
 		auto var = registerSpecConstant( name
 			, location
 			, type );
 		addStmt( sdw::makeSpecConstantDecl( var
 			, location
-			, ast::expr::makeLiteral( rhs ) ) );
+			, ast::expr::makeLiteral( getTypesCache(), rhs ) ) );
 		return Float{ &m_shader
 			, makeExpr( var ) };
 	}
@@ -300,7 +314,7 @@ namespace sdw
 		, float rhs
 		, bool enabled )
 	{
-		auto type = Float::makeType();
+		auto type = Float::makeType( getTypesCache() );
 		auto var = registerSpecConstant( name
 			, location
 			, type );
@@ -309,7 +323,7 @@ namespace sdw
 		{
 			addStmt( sdw::makeSpecConstantDecl( var
 				, location
-				, ast::expr::makeLiteral( rhs ) ) );
+				, ast::expr::makeLiteral( getTypesCache(), rhs ) ) );
 		}
 
 		return Optional< Float >{ &m_shader
@@ -321,13 +335,13 @@ namespace sdw
 		, uint32_t location
 		, double rhs )
 	{
-		auto type = Double::makeType();
+		auto type = Double::makeType( getTypesCache() );
 		auto var = registerSpecConstant( name
 			, location
 			, type );
 		addStmt( sdw::makeSpecConstantDecl( var
 			, location
-			, ast::expr::makeLiteral( rhs ) ) );
+			, ast::expr::makeLiteral( getTypesCache(), rhs ) ) );
 		return Double{ &m_shader
 			, makeExpr( var ) };
 	}
@@ -337,7 +351,7 @@ namespace sdw
 		, double rhs
 		, bool enabled )
 	{
-		auto type = Double::makeType();
+		auto type = Double::makeType( getTypesCache() );
 		auto var = registerSpecConstant( name
 			, location
 			, type );
@@ -346,12 +360,28 @@ namespace sdw
 		{
 			addStmt( sdw::makeSpecConstantDecl( var
 				, location
-				, ast::expr::makeLiteral( rhs ) ) );
+				, ast::expr::makeLiteral( getTypesCache(), rhs ) ) );
 		}
 
 		return Optional< Double >{ &m_shader
 			, makeExpr( var )
 			, enabled };
+	}
+
+	void ShaderWriter::doPushScope( ast::stmt::ContainerPtr && container )
+	{
+		m_currentStmts.emplace_back( std::move( container ) );
+		doPushScope( m_currentStmts.back().get() );
+	}
+
+	void ShaderWriter::doPushScope( ast::stmt::Container * container )
+	{
+		m_shader.push( container );
+	}
+
+	void ShaderWriter::doPopScope()
+	{
+		m_shader.pop();
 	}
 
 	var::VariablePtr ShaderWriter::registerConstant( std::string const & name

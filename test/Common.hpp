@@ -137,6 +137,7 @@ namespace test
 		void initialise( std::string const & name );
 		void cleanup();
 
+		std::string testName;
 		uint32_t totalCount = 0u;
 		uint32_t errorCount = 0u;
 
@@ -172,8 +173,7 @@ namespace test
 #define testConcat4( x, y, z, w )\
 	testConcat3( x, y, z ) testStringify( w )
 
-#define testSuiteBegin( name )\
-	test::TestCounts testCounts;\
+#define testSuiteBeginEx( name, testCounts )\
 	testCounts.initialise( name );\
 	try\
 	{\
@@ -192,8 +192,13 @@ namespace test
 	testCounts.cleanup();\
 	return result;
 
+#define testSuiteBegin( name )\
+	test::TestCounts testCounts;\
+	testSuiteBeginEx( name, testCounts )
+
 #define testBegin( name )\
-	std::string testName = name;\
+	testCounts.testName = name;\
+	auto testName = testCounts.testName;\
 	std::cout << "********************************************************************************" << std::endl;\
 	std::cout << "TEST: " << name << std::endl;\
 	std::cout << "********************************************************************************" << std::endl;\
@@ -204,11 +209,11 @@ namespace test
 	}\
 	catch ( std::exception & exc )\
 	{\
-		std::cout << testName << " Failed: " << exc.what() << std::endl;\
+		std::cout << testCounts.testName << " Failed: " << exc.what() << std::endl;\
 	}\
 	catch ( ... )\
 	{\
-		std::cout << testName << " Failed: Unknown unhandled exception" << std::endl;\
+		std::cout << testCounts.testName << " Failed: Unknown unhandled exception" << std::endl;\
 	}
 
 #define failure( x )\

@@ -80,16 +80,27 @@ namespace ast::type
 		friend class Struct;
 
 	public:
-		Type( Kind kind );
-		Type( Struct * parent
+		Type( TypesCache * cache
+			, Kind kind );
+		Type( TypesCache * cache
+			, Struct * parent
 			, uint32_t index
 			, Kind kind );
+		Type( Struct & parent
+			, uint32_t index
+			, Kind kind );
+		virtual TypePtr getMemberType( Struct & parent, uint32_t index )const;
 
 		virtual ~Type();
 
 		inline Kind getKind()const
 		{
 			return m_kind;
+		}
+
+		inline TypesCache & getCache()const
+		{
+			return *m_cache;
 		}
 
 		inline bool isMember()const
@@ -109,65 +120,12 @@ namespace ast::type
 
 	private:
 		Kind m_kind;
+		TypesCache * m_cache;
 		Struct * m_parent;
 		uint32_t m_index;
 	};
 
 	bool operator==( Type const & lhs, Type const & rhs );
-
-	TypePtr getUndefined();
-	TypePtr getVoid();
-	TypePtr getFunction();
-	TypePtr getBool();
-	TypePtr getInt();
-	TypePtr getUInt();
-	TypePtr getFloat();
-	TypePtr getDouble();
-	TypePtr getVec2Type( Kind kind );
-	TypePtr getVec3Type( Kind kind );
-	TypePtr getVec4Type( Kind kind );
-	TypePtr getVec2B();
-	TypePtr getVec3B();
-	TypePtr getVec4B();
-	TypePtr getVec2I();
-	TypePtr getVec3I();
-	TypePtr getVec4I();
-	TypePtr getVec2U();
-	TypePtr getVec3U();
-	TypePtr getVec4U();
-	TypePtr getVec2F();
-	TypePtr getVec3F();
-	TypePtr getVec4F();
-	TypePtr getVec2D();
-	TypePtr getVec3D();
-	TypePtr getVec4D();
-	TypePtr getMat2x2F();
-	TypePtr getMat2x3F();
-	TypePtr getMat2x4F();
-	TypePtr getMat3x2F();
-	TypePtr getMat3x3F();
-	TypePtr getMat3x4F();
-	TypePtr getMat4x2F();
-	TypePtr getMat4x3F();
-	TypePtr getMat4x4F();
-	TypePtr getMat2x2D();
-	TypePtr getMat2x3D();
-	TypePtr getMat2x4D();
-	TypePtr getMat3x2D();
-	TypePtr getMat3x3D();
-	TypePtr getMat3x4D();
-	TypePtr getMat4x2D();
-	TypePtr getMat4x3D();
-	TypePtr getMat4x4D();
-	TypePtr getConstantsBuffer();
-	TypePtr getShaderBuffer();
-	TypePtr getSampler();
-
-	TypePtr getImage( ImageConfiguration config );
-	TypePtr getSampledImage( ImageConfiguration config );
-	TypePtr getSampler( bool comparison );
-
-	TypePtr makeType( Kind kind );
 
 	bool isBoolType( Kind kind );
 	bool isUnsignedIntType( Kind kind );
@@ -178,10 +136,16 @@ namespace ast::type
 	bool isScalarType( Kind kind );
 	bool isVectorType( Kind kind );
 	bool isMatrixType( Kind kind );
+	bool isArrayType( Kind kind );
+	bool isStructType( Kind kind );
 	bool isSamplerType( Kind kind );
 	bool isImageType( Kind kind );
 	bool isSampledImageType( Kind kind );
 	uint32_t getComponentCount( Kind kind );
+	/**
+	*\remarks
+	*	Returns \p kind if it is not a matrix or vector type.
+	*/
 	Kind getComponentType( Kind kind );
 	Kind getScalarType( Kind kind );
 	expr::CompositeType getCompositeType( Kind kind );

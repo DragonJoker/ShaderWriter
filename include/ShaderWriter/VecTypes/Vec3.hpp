@@ -24,6 +24,8 @@ namespace sdw
 		inline Vec3T< ValueT > & operator=( Vec3T< ValueT > const & rhs );
 		template< typename IndexT >
 		inline ValueT operator[]( IndexT const & rhs )const;
+		inline ValueT operator[]( int32_t offset )const;
+		inline ValueT operator[]( uint32_t offset )const;
 		inline Vec3T< ValueT > & operator+=( Vec3T< ValueT > const & rhs );
 		inline Vec3T< ValueT > & operator-=( Vec3T< ValueT > const & rhs );
 		inline Vec3T< ValueT > & operator*=( Vec3T< ValueT > const & rhs );
@@ -37,7 +39,7 @@ namespace sdw
 		inline Vec3T< ValueT > & operator*=( ValueT rhs );
 		inline Vec3T< ValueT > & operator/=( ValueT rhs );
 
-		static inline ast::type::TypePtr makeType();
+		static inline ast::type::TypePtr makeType( ast::type::TypesCache & cache );
 
 		Writer_FirstSwizzle( Vec3Type, ValueType, x );
 		Writer_Swizzle( Vec3Type, ValueType, y );

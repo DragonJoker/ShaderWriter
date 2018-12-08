@@ -13,17 +13,20 @@ namespace ast::expr
 		: public Binary
 	{
 	public:
-		Equal( ExprPtr lhs
+		Equal( type::TypePtr type
+			, ExprPtr lhs
 			, ExprPtr rhs );
 
 		void accept( VisitorPtr vis )override;
 	};
 	using EqualPtr = std::unique_ptr< Equal >;
 
-	inline EqualPtr makeEqual( ExprPtr lhs
+	inline EqualPtr makeEqual( type::TypesCache & cache
+		, ExprPtr lhs
 		, ExprPtr rhs )
 	{
-		return std::make_unique< Equal >( std::move( lhs )
+		return std::make_unique< Equal >( cache.getBool()
+			, std::move( lhs )
 			, std::move( rhs ) );
 	}
 }

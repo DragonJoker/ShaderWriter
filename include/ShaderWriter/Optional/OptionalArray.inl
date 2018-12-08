@@ -25,10 +25,7 @@ namespace sdw
 	template< typename IndexT >
 	Optional< ValueT > Optional< Array< ValueT > >::operator[]( IndexT const & offset )const
 	{
-		return Optional< ValueT >{ findShader( *this, offset )
-			, sdw::makeArrayAccess( getNonArrayType( this->getType() )
-				, makeExpr( *this, true )
-				, makeExpr( offset ) )
+		return Optional< ValueT >{ Array< ValueT >::operator[]( offset )
 			, areOptionalEnabled( *this, offset ) };
 	}
 
