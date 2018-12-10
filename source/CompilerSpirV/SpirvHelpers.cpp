@@ -9,7 +9,7 @@ namespace spirv
 
 	spv::MemoryModel getMemoryModel()
 	{
-		return spv::MemoryModel::GLSL450;
+		return spv::MemoryModelGLSL450;
 	}
 
 	spv::ExecutionModel getExecutionModel( sdw::ShaderType kind )
@@ -19,22 +19,22 @@ namespace spirv
 		switch ( kind )
 		{
 		case sdw::ShaderType::eVertex:
-			result = spv::ExecutionModel::Vertex;
+			result = spv::ExecutionModelVertex;
 			break;
 		case sdw::ShaderType::eTessellationControl:
-			result = spv::ExecutionModel::TessellationControl;
+			result = spv::ExecutionModelTessellationControl;
 			break;
 		case sdw::ShaderType::eTessellationEvaluation:
-			result = spv::ExecutionModel::TessellationEvaluation;
+			result = spv::ExecutionModelTessellationEvaluation;
 			break;
 		case sdw::ShaderType::eGeometry:
-			result = spv::ExecutionModel::Geometry;
+			result = spv::ExecutionModelGeometry;
 			break;
 		case sdw::ShaderType::eCompute:
-			result = spv::ExecutionModel::GLCompute;
+			result = spv::ExecutionModelGLCompute;
 			break;
 		case sdw::ShaderType::eFragment:
-			result = spv::ExecutionModel::Fragment;
+			result = spv::ExecutionModelFragment;
 			break;
 		default:
 			assert( false && "Unsupported sdw::ShaderType." );
@@ -61,58 +61,58 @@ namespace spirv
 		switch ( value )
 		{
 		case ast::type::ImageFormat::eUnknown:
-			return spv::ImageFormat::Unknown;
+			return spv::ImageFormatUnknown;
 		case ast::type::ImageFormat::eRgba32f:
-			return spv::ImageFormat::Rgba32f;
+			return spv::ImageFormatRgba32f;
 		case ast::type::ImageFormat::eRgba16f:
-			return spv::ImageFormat::Rgba16f;
+			return spv::ImageFormatRgba16f;
 		case ast::type::ImageFormat::eRg32f:
-			return spv::ImageFormat::Rg32f;
+			return spv::ImageFormatRg32f;
 		case ast::type::ImageFormat::eRg16f:
-			return spv::ImageFormat::Rg16f;
+			return spv::ImageFormatRg16f;
 		case ast::type::ImageFormat::eR32f:
-			return spv::ImageFormat::R32f;
+			return spv::ImageFormatR32f;
 		case ast::type::ImageFormat::eR16f:
-			return spv::ImageFormat::R16f;
+			return spv::ImageFormatR16f;
 		case ast::type::ImageFormat::eRgba32i:
-			return spv::ImageFormat::Rgba32i;
+			return spv::ImageFormatRgba32i;
 		case ast::type::ImageFormat::eRgba16i:
-			return spv::ImageFormat::Rgba16i;
+			return spv::ImageFormatRgba16i;
 		case ast::type::ImageFormat::eRgba8i:
-			return spv::ImageFormat::Rgba8i;
+			return spv::ImageFormatRgba8i;
 		case ast::type::ImageFormat::eRg32i:
-			return spv::ImageFormat::Rg32i;
+			return spv::ImageFormatRg32i;
 		case ast::type::ImageFormat::eRg16i:
-			return spv::ImageFormat::Rg16i;
+			return spv::ImageFormatRg16i;
 		case ast::type::ImageFormat::eRg8i:
-			return spv::ImageFormat::Rg8i;
+			return spv::ImageFormatRg8i;
 		case ast::type::ImageFormat::eR32i:
-			return spv::ImageFormat::R32i;
+			return spv::ImageFormatR32i;
 		case ast::type::ImageFormat::eR16i:
-			return spv::ImageFormat::R16i;
+			return spv::ImageFormatR16i;
 		case ast::type::ImageFormat::eR8i:
-			return spv::ImageFormat::R8i;
+			return spv::ImageFormatR8i;
 		case ast::type::ImageFormat::eRgba32u:
-			return spv::ImageFormat::Rgba32ui;
+			return spv::ImageFormatRgba32ui;
 		case ast::type::ImageFormat::eRgba16u:
-			return spv::ImageFormat::Rgba16ui;
+			return spv::ImageFormatRgba16ui;
 		case ast::type::ImageFormat::eRgba8u:
-			return spv::ImageFormat::Rgba8ui;
+			return spv::ImageFormatRgba8ui;
 		case ast::type::ImageFormat::eRg32u:
-			return spv::ImageFormat::Rg32ui;
+			return spv::ImageFormatRg32ui;
 		case ast::type::ImageFormat::eRg16u:
-			return spv::ImageFormat::Rg16ui;
+			return spv::ImageFormatRg16ui;
 		case ast::type::ImageFormat::eRg8u:
-			return spv::ImageFormat::Rg8ui;
+			return spv::ImageFormatRg8ui;
 		case ast::type::ImageFormat::eR32u:
-			return spv::ImageFormat::R32ui;
+			return spv::ImageFormatR32ui;
 		case ast::type::ImageFormat::eR16u:
-			return spv::ImageFormat::R16ui;
+			return spv::ImageFormatR16ui;
 		case ast::type::ImageFormat::eR8u:
-			return spv::ImageFormat::R8ui;
+			return spv::ImageFormatR8ui;
 		default:
 			assert( false && "Unsupported ast::type::ImageFormat" );
-			return spv::ImageFormat::Rgba32f;
+			return spv::ImageFormatRgba32f;
 		}
 	}
 

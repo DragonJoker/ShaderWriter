@@ -28,6 +28,7 @@ namespace spirv
 		void visitElseStmt( ast::stmt::Else * stmt )override;
 		void visitIfStmt( ast::stmt::If * stmt )override;
 		void visitImageDeclStmt( ast::stmt::ImageDecl * stmt )override;
+		void visitPerVertexDeclStmt( ast::stmt::PerVertexDecl * stmt )override;
 		void visitSampledImageDeclStmt( ast::stmt::SampledImageDecl * stmt )override;
 		void visitShaderStructBufferDeclStmt( ast::stmt::ShaderStructBufferDecl * stmt )override;
 		void visitSimpleStmt( ast::stmt::Simple * stmt )override;

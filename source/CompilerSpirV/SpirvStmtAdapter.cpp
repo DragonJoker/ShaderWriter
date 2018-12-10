@@ -98,6 +98,11 @@ namespace spirv
 		StmtCloner::visitImageDeclStmt( stmt );
 	}
 
+	void StmtAdapter::visitPerVertexDeclStmt( ast::stmt::PerVertexDecl * stmt )
+	{
+		StmtCloner::visitPerVertexDeclStmt( stmt );
+	}
+
 	void StmtAdapter::visitSampledImageDeclStmt( ast::stmt::SampledImageDecl * stmt )
 	{
 		StmtCloner::visitSampledImageDeclStmt( stmt );

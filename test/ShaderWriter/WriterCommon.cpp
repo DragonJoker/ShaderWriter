@@ -7,6 +7,7 @@
 #include <CompilerGlsl/compileGlsl.hpp>
 #include <CompilerHlsl/compileHlsl.hpp>
 #include <CompilerSpirV/compileSpirV.hpp>
+#include <CompilerSpirV/SpirvModule.hpp>
 
 #include "spirv_cpp.hpp"
 #include "spirv_cross_util.hpp"
@@ -200,6 +201,7 @@ namespace test
 						fclose( fileOut );
 					}
 
+					auto moduleOut = spirv::Module::deserialize( spirv );
 					fileName = getExecutableDirectory() + testCounts.testName + std::to_string( testCounts.totalCount ) + ".ref.spv";
 					FILE * fileIn = fopen( fileName.c_str(), "rb" );
 
@@ -220,6 +222,7 @@ namespace test
 
 						fclose( fileIn );
 						validateSpirV( shader, spirv, errors, testCounts, false );
+						auto moduleIn = spirv::Module::deserialize( spirv );
 					}
 				}
 			}
@@ -230,14 +233,23 @@ namespace test
 		void validateSpirV( ::sdw::Shader const & shader
 			, std::vector< uint32_t > spirv
 			, std::string const & text
+			, bool validateHlsl
+			, bool validateGlsl
 			, sdw_test::TestCounts & testCounts )
 		{
 			if ( validateSpirV( shader, spirv, text, testCounts, true ) )
 			{
-				auto crossGlsl = test::validateSpirVToGlsl( spirv, shader.getType(), testCounts );
-				displayShader( "SPIRV-Cross GLSL", crossGlsl );
-				auto crossHlsl = test::validateSpirVToHlsl( spirv, shader.getType(), testCounts );
-				displayShader( "SPIRV-Cross HLSL", crossHlsl );
+				if ( validateGlsl )
+				{
+					auto crossGlsl = test::validateSpirVToGlsl( spirv, shader.getType(), testCounts );
+					displayShader( "SPIRV-Cross GLSL", crossGlsl );
+				}
+
+				if ( validateHlsl )
+				{
+					auto crossHlsl = test::validateSpirVToHlsl( spirv, shader.getType(), testCounts );
+					displayShader( "SPIRV-Cross HLSL", crossHlsl );
+				}
 			}
 			else
 			{
@@ -304,6 +316,8 @@ namespace test
 		void testWriteSpirV( ::sdw::Shader const & shader
 			, ::sdw::SpecialisationInfo const & specialisation
 			, bool validateSpirV
+			, bool validateHlsl
+			, bool validateGlsl
 			, sdw_test::TestCounts & testCounts )
 		{
 			auto textSpirv = spirv::writeSpirv( shader );
@@ -327,6 +341,8 @@ namespace test
 					test::validateSpirV( shader
 						, spirv
 						, textSpirv
+						, validateHlsl
+						, validateGlsl
 						, testCounts );
 				}
 				catch ( spirv_cross::CompilerError & exc )
@@ -396,7 +412,7 @@ namespace test
 	{
 		auto specialisation = getSpecialisationInfo( writer.getShader() );
 		checkNoThrow( testWriteDebug( writer.getShader(), specialisation, testCounts ) );
-		checkNoThrow( testWriteSpirV( writer.getShader(), specialisation, validateSpirV, testCounts ) );
+		checkNoThrow( testWriteSpirV( writer.getShader(), specialisation, validateSpirV, validateHlsl, validateGlsl, testCounts ) );
 		checkNoThrow( testWriteGlsl( writer.getShader(), specialisation, validateGlsl, testCounts ) );
 		checkNoThrow( testWriteHlsl( writer.getShader(), specialisation, validateHlsl, testCounts ) );
 	}

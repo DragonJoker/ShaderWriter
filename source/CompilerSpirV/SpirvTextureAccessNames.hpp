@@ -5,7 +5,7 @@ See LICENSE file in root folder
 #define ___SDW_SpirvTextureAccessNames_H___
 #pragma once
 
-#include <spirv/spirv.hpp>
+#include "CompilerSpirV/spirv/spirv.hpp"
 
 #include <ShaderAST/Expr/EnumTextureAccess.hpp>
 

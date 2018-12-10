@@ -112,17 +112,17 @@ namespace spirv
 
 		if ( imgType->getConfig().dimension == ast::type::ImageDim::e1D )
 		{
-			m_result.requiredCapabilities.insert( spv::Capability::Sampled1D );
+			m_result.requiredCapabilities.insert( spv::CapabilitySampled1D );
 		}
 
 		if ( imgType->getConfig().dimension == ast::type::ImageDim::eRect )
 		{
-			m_result.requiredCapabilities.insert( spv::Capability::SampledRect );
+			m_result.requiredCapabilities.insert( spv::CapabilitySampledRect );
 		}
 
 		if ( imgType->getConfig().dimension == ast::type::ImageDim::eBuffer )
 		{
-			m_result.requiredCapabilities.insert( spv::Capability::SampledBuffer );
+			m_result.requiredCapabilities.insert( spv::CapabilitySampledBuffer );
 		}
 
 		switch ( imgType->getConfig().format )
@@ -143,13 +143,27 @@ namespace spirv
 		case ast::type::ImageFormat::eR32u:
 		case ast::type::ImageFormat::eR16u:
 		case ast::type::ImageFormat::eR8u:
-			m_result.requiredCapabilities.insert( spv::Capability::StorageImageExtendedFormats );
+			m_result.requiredCapabilities.insert( spv::CapabilityStorageImageExtendedFormats );
 			break;
 		}
 	}
 
 	void StmtConfigFiller::visitInOutVariableDeclStmt( ast::stmt::InOutVariableDecl * stmt )
 	{
+		auto var = stmt->getVariable();
+
+		if ( !var->isShaderConstant() )
+		{
+			if ( stmt->getVariable()->isShaderInput() )
+			{
+				m_result.m_inputs.insert( var );
+			}
+
+			if ( stmt->getVariable()->isShaderOutput() )
+			{
+				m_result.m_outputs.insert( var );
+			}
+		}
 	}
 
 	void StmtConfigFiller::visitSpecialisationConstantDeclStmt( ast::stmt::SpecialisationConstantDecl * stmt )
@@ -170,6 +184,28 @@ namespace spirv
 
 	void StmtConfigFiller::visitPerVertexDeclStmt( ast::stmt::PerVertexDecl * stmt )
 	{
+		switch ( stmt->getSource() )
+		{
+		case ast::stmt::PerVertexDecl::Source::eVertexOutput:
+			m_result.m_outputs.insert( ast::var::makeVariable( stmt->getType()->getMember( "gl_Position" ).type
+				, "gl_Position"
+				, ast::var::Flag::eShaderOutput | ast::var::Flag::eBuiltin ) );
+			m_result.m_outputs.insert( ast::var::makeVariable( stmt->getType()->getMember( "gl_PointSize" ).type
+				, "gl_PointSize"
+				, ast::var::Flag::eShaderOutput | ast::var::Flag::eBuiltin ) );
+			m_result.m_outputs.insert( ast::var::makeVariable( stmt->getType()->getMember( "gl_ClipDistance" ).type
+				, "gl_ClipDistance"
+				, ast::var::Flag::eShaderOutput | ast::var::Flag::eBuiltin ) );
+			break;
+		case ast::stmt::PerVertexDecl::Source::eTessellationControlInput:
+		case ast::stmt::PerVertexDecl::Source::eTessellationControlOutput:
+		case ast::stmt::PerVertexDecl::Source::eTessellationEvaluationInput:
+		case ast::stmt::PerVertexDecl::Source::eTessellationEvaluationOutput:
+		case ast::stmt::PerVertexDecl::Source::eGeometryInput:
+		case ast::stmt::PerVertexDecl::Source::eGeometryOutput:
+		default:
+			break;
+		}
 	}
 
 	void StmtConfigFiller::visitReturnStmt( ast::stmt::Return * stmt )
@@ -186,17 +222,17 @@ namespace spirv
 
 		if ( imgType->getConfig().dimension == ast::type::ImageDim::e1D )
 		{
-			m_result.requiredCapabilities.insert( spv::Capability::Sampled1D );
+			m_result.requiredCapabilities.insert( spv::CapabilitySampled1D );
 		}
 
 		if ( imgType->getConfig().dimension == ast::type::ImageDim::eRect )
 		{
-			m_result.requiredCapabilities.insert( spv::Capability::SampledRect );
+			m_result.requiredCapabilities.insert( spv::CapabilitySampledRect );
 		}
 
 		if ( imgType->getConfig().dimension == ast::type::ImageDim::eBuffer )
 		{
-			m_result.requiredCapabilities.insert( spv::Capability::SampledBuffer );
+			m_result.requiredCapabilities.insert( spv::CapabilitySampledBuffer );
 		}
 
 		switch ( imgType->getConfig().format )
@@ -217,7 +253,7 @@ namespace spirv
 		case ast::type::ImageFormat::eR32u:
 		case ast::type::ImageFormat::eR16u:
 		case ast::type::ImageFormat::eR8u:
-			m_result.requiredCapabilities.insert( spv::Capability::StorageImageExtendedFormats );
+			m_result.requiredCapabilities.insert( spv::CapabilityStorageImageExtendedFormats );
 			break;
 		}
 	}
@@ -323,7 +359,7 @@ namespace spirv
 
 			if ( kind == ast::type::Kind::eDouble )
 			{
-				m_result.requiredCapabilities.insert( spv::Capability::Float64 );
+				m_result.requiredCapabilities.insert( spv::CapabilityFloat64 );
 			}
 		}
 	}

@@ -138,6 +138,7 @@ namespace spirv
 		LoadedVariableArray & m_loadedVariables;
 		std::array< ast::type::StructPtr, 4u > m_unsignedExtendedTypes;
 		std::array< ast::type::StructPtr, 4u > m_signedExtendedTypes;
+		VariableInfo m_info;
 	};
 }
 

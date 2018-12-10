@@ -119,8 +119,8 @@ namespace
 int main( int argc, char ** argv )
 {
 	sdwTestSuiteBegin( "TestWriterShaderInputDeclarations" );
-	//testShaderInput< sdw::Int >( testCounts );
-	//testShaderInput< sdw::UInt >( testCounts );
+	testShaderInput< sdw::Int >( testCounts );
+	testShaderInput< sdw::UInt >( testCounts );
 	testShaderInput< sdw::Float >( testCounts );
 	testShaderInput< sdw::Vec2 >( testCounts );
 	testShaderInput< sdw::Vec3 >( testCounts );

@@ -53,11 +53,9 @@ namespace sdw
 		, type::TypePtr type
 		, uint32_t flags )
 	{
-		auto & block = m_blocks.back();
-		auto it = block.registered.find( name );
-		assert( it == block.registered.end() );
-		it = block.registered.emplace( name, var::makeVariable( type, name, flags ) ).first;
-		return it->second;
+		auto var = var::makeVariable( type, name, flags );
+		registerVariable( var );
+		return var;
 	}
 
 	var::VariablePtr Shader::registerName( std::string const & name

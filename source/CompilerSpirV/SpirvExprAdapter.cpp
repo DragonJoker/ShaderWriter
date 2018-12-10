@@ -139,6 +139,36 @@ namespace spirv
 			, expr->getRHS() );
 	}
 
+	void ExprAdapter::visitCompositeConstructExpr( ast::expr::CompositeConstruct * expr )
+	{
+		auto scalarType = expr->getComponent();
+		ast::expr::ExprList args;
+		auto & cache = expr->getType()->getCache();
+
+		for ( auto & arg : expr->getArgList() )
+		{
+			auto newArg = doSubmit( arg.get() );
+
+			if ( isScalarType( newArg->getType()->getKind() ) )
+			{
+				auto argTypeKind = getScalarType( newArg->getType()->getKind() );
+
+				if ( argTypeKind != scalarType )
+				{
+					newArg = ast::expr::makeCast( cache.makeType( scalarType )
+						, std::move( newArg ) );
+				}
+			}
+
+			args.emplace_back( std::move( newArg ) );
+		}
+
+		m_result = ast::expr::makeCompositeConstruct( expr->getType()->getCache()
+			, expr->getComposite()
+			, expr->getComponent()
+			, std::move( args ) );
+	}
+
 	void ExprAdapter::visitIdentifierExpr( ast::expr::Identifier * expr )
 	{
 		auto it = m_context.defines.find( expr->getVariable()->getName() );
@@ -230,7 +260,7 @@ namespace spirv
 			args.emplace( args.begin() + config.imageOperandsIndex - 1u, std::move( args.back() ) );
 			args.pop_back();
 		}
-		else if ( getBias( kind ) == spv::ImageOperandsMask::Bias )
+		else if ( getBias( kind ) == spv::ImageOperandsBiasMask )
 		{
 			// Bias is the last parameter in GLSL, but it has to be the first one after the ImageOperands in SPIR-V.
 			if ( args.size() > config.imageOperandsIndex + 1u )

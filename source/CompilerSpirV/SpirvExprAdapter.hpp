@@ -33,6 +33,7 @@ namespace spirv
 		void visitMinusExpr( ast::expr::Minus * expr )override;
 		void visitTimesAssignExpr( ast::expr::TimesAssign * expr )override;
 		void visitTimesExpr( ast::expr::Times * expr )override;
+		void visitCompositeConstructExpr( ast::expr::CompositeConstruct * expr )override;
 		void visitIdentifierExpr( ast::expr::Identifier * expr )override;
 		void visitImageAccessCallExpr( ast::expr::ImageAccessCall * expr )override;
 		void visitIntrinsicCallExpr( ast::expr::IntrinsicCall * expr )override;

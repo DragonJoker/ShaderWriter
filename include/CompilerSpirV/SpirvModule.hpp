@@ -80,14 +80,12 @@ namespace spirv
 			, IdList operands = IdList{}
 			, std::optional< std::string > name = std::nullopt
 			, std::optional< std::map< int32_t, spv::Id > > labels = std::nullopt );
+		Instruction( Config const & config
+			, Op op
+			, UInt32ListCIt & buffer );
 		static void serialize( UInt32List & buffer
 			, Instruction const & instruction );
-		static InstructionPtr deserialize( UInt32ListCIt & buffer
-			, bool returnTypeId
-			, bool resultId
-			, uint32_t operandsCount
-			, bool name
-			, bool labels );
+		static InstructionPtr deserialize( UInt32ListCIt & buffer );
 		virtual ~Instruction();
 
 		// Serialisable.
@@ -104,6 +102,7 @@ namespace spirv
 
 	using InstructionPtr = std::unique_ptr< Instruction >;
 	using InstructionList = std::vector< InstructionPtr >;
+	using InstructionListIt = InstructionList::iterator;
 
 	template< spv::Op Operator
 		, bool HasReturnTypeId
@@ -228,26 +227,17 @@ namespace spirv
 		, bool hasName
 		, bool hasLabels );
 
-	struct Block
-	{
-		spv::Id label;
-		InstructionList instructions;
-		InstructionPtr blockEnd;
-		std::unordered_map< IdList, spv::Id, IdListHasher > accessChains;
-		std::unordered_map< IdList, spv::Id, IdListHasher > vectorShuffles;
-	};
-
 	using ExtensionInstruction = InstructionT< spv::Op::OpExtension, false, false, 0u, true, false >;
 	using ExtInstImportInstruction = InstructionT< spv::Op::OpExtInstImport, false, true, 0u, true, false >;
 	using SourceInstruction = InstructionT< spv::Op::OpSource, false, false, 2u, false, false >;
 	using MemoryModelInstruction = InstructionT< spv::Op::OpMemoryModel, false, false, 2u, false, false >;
-	using EntryPointInstruction = InstructionT< spv::Op::OpEntryPoint, false, false, dynamicOperandCount, true, false >;
+	using EntryPointInstruction = InstructionT< spv::Op::OpEntryPoint, true, true, dynamicOperandCount, true, false >;
 	using ExecutionModeInstruction = VariadicInstructionT< spv::Op::OpExecutionMode, false, false >;
 	using CapabilityInstruction = InstructionT< spv::Op::OpCapability, false, false, 1u, false, false >;
 	using DecorateInstruction = VariadicInstructionT< spv::Op::OpDecorate, false, false >;
 	using MemberDecorateInstruction = VariadicInstructionT< spv::Op::OpMemberDecorate, false, false >;
-	using NameInstruction = InstructionT< spv::Op::OpName, false, false, 1u, true, false >;
-	using MemberNameInstruction = InstructionT< spv::Op::OpMemberName, false, false, 2u, true, false >;
+	using NameInstruction = InstructionT< spv::Op::OpName, false, true, 0u, true, false >;
+	using MemberNameInstruction = InstructionT< spv::Op::OpMemberName, true, true, 0u, true, false >;
 
 	using VoidTypeInstruction = InstructionT< spv::Op::OpTypeVoid, false, true, 0u, false, false >;
 	using BooleanTypeInstruction = InstructionT< spv::Op::OpTypeBool, false, true, 0u, false, false >;
@@ -299,6 +289,26 @@ namespace spirv
 	using ReturnValueInstruction = InstructionT< spv::Op::OpReturnValue, false, false, 1u, false, false >;
 	using FunctionEndInstruction = InstructionT< spv::Op::OpFunctionEnd, false, false, 0u, false, false >;
 
+	struct VariableInfo
+	{
+		spv::Id id{ 0u };
+		bool lvalue{ false };
+		bool rvalue{ false };
+	};
+
+	struct Block
+	{
+		static Block deserialize( InstructionPtr firstInstruction
+			, InstructionListIt & buffer
+			, InstructionListIt & end );
+
+		spv::Id label;
+		InstructionList instructions;
+		InstructionPtr blockEnd;
+		std::unordered_map< IdList, spv::Id, IdListHasher > accessChains;
+		std::unordered_map< IdList, spv::Id, IdListHasher > vectorShuffles;
+	};
+
 	using BlockList = std::vector< Block >;
 
 	struct ControlFlowGraph
@@ -320,10 +330,21 @@ namespace spirv
 		ControlFlowGraph cfg;
 		// Used during construction.
 		InstructionList variables;
-		spv::Id * currentId;
 		bool hasReturn{ false };
+
+		static Function deserialize( InstructionListIt & buffer
+			, InstructionListIt & end );
 	};
 	using FunctionList = std::vector< Function >;
+
+	struct Header
+	{
+		uint32_t magic;
+		uint32_t version;
+		uint32_t builder;
+		uint32_t boundIds;
+		uint32_t schema;
+	};
 
 	class Module
 	{
@@ -331,6 +352,11 @@ namespace spirv
 		Module( ast::type::TypesCache & cache
 			, spv::MemoryModel memoryModel
 			, spv::ExecutionModel executionModel );
+		Module( Header const & header
+			, InstructionList && instructions );
+
+		static Module deserialize( UInt32List const & spirv );
+
 		spv::Id registerType( ast::type::TypePtr type );
 		spv::Id registerPointerType( spv::Id type
 			, spv::StorageClass storage );
@@ -344,9 +370,10 @@ namespace spirv
 		void decorateMember( spv::Id id
 			, uint32_t index
 			, IdList const & decoration );
-		spv::Id registerVariable( std::string const & name
+		VariableInfo & registerVariable( std::string const & name
 			, spv::StorageClass storage
-			, ast::type::TypePtr type );
+			, ast::type::TypePtr type
+			, VariableInfo & info );
 		spv::Id registerSpecConstant( std::string name
 			, uint32_t location
 			, ast::type::TypePtr type
@@ -397,7 +424,7 @@ namespace spirv
 
 		inline ast::type::TypesCache & getCache()
 		{
-			return m_cache;
+			return *m_cache;
 		}
 
 	public:
@@ -441,7 +468,10 @@ namespace spirv
 			, uint32_t arrayStride );
 
 	private:
-		ast::type::TypesCache & m_cache;
+		spv::Id getNextId();
+
+	private:
+		ast::type::TypesCache * m_cache;
 		spv::Id * m_currentId;
 		Function * m_currentFunction{ nullptr };
 		std::map< ast::type::TypePtr, spv::Id > m_registeredTypes;

@@ -19,7 +19,7 @@ namespace spirv
 		{
 			if ( isDoubleType( kind ) )
 			{
-				config.requiredCapabilities.insert( spv::Capability::Float64 );
+				config.requiredCapabilities.insert( spv::CapabilityFloat64 );
 			}
 		}
 
@@ -124,33 +124,33 @@ namespace spirv
 			|| ( kind >= ast::expr::ImageAccess::eImageSamples2DMSF
 				&& kind <= ast::expr::ImageAccess::eImageSamples2DMSArrayU ) )
 		{
-			m_config.requiredCapabilities.insert( spv::Capability::ImageQuery );
+			m_config.requiredCapabilities.insert( spv::CapabilityImageQuery );
 		}
 		else if ( ( kind >= ast::expr::ImageAccess::eImageLoad1DF
 			&& kind <= ast::expr::ImageAccess::eImageLoad2DMSArrayU ) )
 		{
 			if ( config.dimension == ast::type::ImageDim::e1D )
 			{
-				m_config.requiredCapabilities.insert( spv::Capability::Image1D );
+				m_config.requiredCapabilities.insert( spv::CapabilityImage1D );
 			}
 			else if ( config.dimension == ast::type::ImageDim::eRect )
 			{
-				m_config.requiredCapabilities.insert( spv::Capability::ImageRect );
+				m_config.requiredCapabilities.insert( spv::CapabilityImageRect );
 			}
 			else if ( config.dimension == ast::type::ImageDim::eBuffer )
 			{
-				m_config.requiredCapabilities.insert( spv::Capability::ImageBuffer );
+				m_config.requiredCapabilities.insert( spv::CapabilityImageBuffer );
 			}
 
 			if ( config.isArrayed )
 			{
 				if ( config.dimension == ast::type::ImageDim::eCube )
 				{
-					m_config.requiredCapabilities.insert( spv::Capability::ImageCubeArray );
+					m_config.requiredCapabilities.insert( spv::CapabilityImageCubeArray );
 				}
 				else if ( config.isMS )
 				{
-					m_config.requiredCapabilities.insert( spv::Capability::ImageMSArray );
+					m_config.requiredCapabilities.insert( spv::CapabilityImageMSArray );
 				}
 			}
 		}
@@ -184,19 +184,29 @@ namespace spirv
 			|| ( kind >= ast::expr::TextureAccess::eTextureQueryLevels1DF
 				&& kind <= ast::expr::TextureAccess::eTextureQueryLevelsCubeArrayU ) )
 		{
-			m_config.requiredCapabilities.insert( spv::Capability::ImageQuery );
+			m_config.requiredCapabilities.insert( spv::CapabilityImageQuery );
 		}
 
-		if ( getOffset( kind ) == spv::ImageOperandsMask::Offset
-			|| getConstOffsets( kind ) == spv::ImageOperandsMask::ConstOffsets )
+		if ( getOffset( kind ) == spv::ImageOperandsOffsetMask
+			|| getConstOffsets( kind ) == spv::ImageOperandsConstOffsetsMask )
 		{
-			m_config.requiredCapabilities.insert( spv::Capability::ImageGatherExtended );
+			m_config.requiredCapabilities.insert( spv::CapabilityImageGatherExtended );
 		}
 	}
 
 	void ExprConfigFiller::visitIdentifierExpr( ast::expr::Identifier * expr )
 	{
 		checkType( expr, m_config );
+
+		if ( expr->getVariable()->isShaderInput() )
+		{
+			m_config.m_inputs.insert( expr->getVariable() );
+		}
+
+		if ( expr->getVariable()->isShaderOutput() )
+		{
+			m_config.m_outputs.insert( expr->getVariable() );
+		}
 	}
 
 	void ExprConfigFiller::visitInitExpr( ast::expr::Init * expr )

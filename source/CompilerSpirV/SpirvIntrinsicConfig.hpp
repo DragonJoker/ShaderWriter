@@ -9,7 +9,7 @@ See LICENSE file in root folder
 
 #include <ShaderAST/Expr/EnumIntrinsic.hpp>
 
-#include "spirv/GLSL.std.450.hpp"
+#include "CompilerSpirV/spirv/GLSL.std.450.hpp"
 
 namespace spirv
 {

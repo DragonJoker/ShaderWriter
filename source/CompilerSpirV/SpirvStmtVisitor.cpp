@@ -43,8 +43,6 @@ namespace spirv
 			, getExecutionModel( type ) };
 		StmtVisitor vis{ result, type, config };
 		stmt->accept( &vis );
-		// Increment total ID count.
-		++result.header[3];
 		return result;
 	}
 
@@ -56,6 +54,18 @@ namespace spirv
 		for ( auto & capability : config.requiredCapabilities )
 		{
 			m_result.capabilities.emplace_back( makeInstruction< CapabilityInstruction >( spv::Id( capability ) ) );
+		}
+
+		VariableInfo info;
+
+		for ( auto & input : config.m_inputs )
+		{
+			m_inputs.push_back( m_result.registerVariable( input->getName(), spv::StorageClassInput, input->getType(), info ).id );
+		}
+
+		for ( auto & output : config.m_outputs )
+		{
+			m_outputs.push_back( m_result.registerVariable( output->getName(), spv::StorageClassOutput, output->getType(), info ).id );
 		}
 	}
 
@@ -73,7 +83,7 @@ namespace spirv
 		m_result.bindBufferVariable( stmt->getName()
 			, stmt->getBindingPoint()
 			, stmt->getDescriptorSet()
-			, spv::Decoration::Block );
+			, spv::DecorationBlock );
 	}
 
 	void StmtVisitor::visitDiscardStmt( ast::stmt::Discard * stmt )
@@ -270,21 +280,11 @@ namespace spirv
 
 		if ( var->isShaderConstant() )
 		{
-			m_result.decorate( varId, { spv::Id( spv::Decoration::SpecId ), stmt->getLocation() } );
+			m_result.decorate( varId, { spv::Id( spv::DecorationSpecId ), stmt->getLocation() } );
 		}
 		else
 		{
-			m_result.decorate( varId, { spv::Id( spv::Decoration::Location ), stmt->getLocation() } );
-
-			if ( stmt->getVariable()->isShaderInput() )
-			{
-				m_inputs.push_back( varId );
-			}
-
-			if ( stmt->getVariable()->isShaderOutput() )
-			{
-				m_outputs.push_back( varId );
-			}
+			m_result.decorate( varId, { spv::Id( spv::DecorationLocation ), stmt->getLocation() } );
 		}
 	}
 
@@ -299,14 +299,14 @@ namespace spirv
 
 	void StmtVisitor::visitInputComputeLayoutStmt( ast::stmt::InputComputeLayout * stmt )
 	{
-		m_result.registerExecutionMode( spv::ExecutionMode::LocalSize
+		m_result.registerExecutionMode( spv::ExecutionModeLocalSize
 			, { stmt->getWorkGroupsX(), stmt->getWorkGroupsY(), stmt->getWorkGroupsZ() } );
 		IdList ids;
 		ids.push_back( m_result.registerLiteral( stmt->getWorkGroupsX() ) );
 		ids.push_back( m_result.registerLiteral( stmt->getWorkGroupsY() ) );
 		ids.push_back( m_result.registerLiteral( stmt->getWorkGroupsZ() ) );
 		auto id = m_result.registerLiteral( ids, m_result.getCache().getVec3I() );
-		m_result.decorate( id, { spv::Id( spv::Decoration::BuiltIn ), spv::Id( spv::BuiltIn::WorkgroupSize ) } );
+		m_result.decorate( id, { spv::Id( spv::DecorationBuiltIn ), spv::Id( spv::BuiltInWorkgroupSize ) } );
 	}
 
 	void StmtVisitor::visitInputGeometryLayoutStmt( ast::stmt::InputGeometryLayout * stmt )
@@ -316,24 +316,24 @@ namespace spirv
 		switch ( layout )
 		{
 		case ast::stmt::InputLayout::ePointList:
-			m_result.registerExecutionMode( spv::ExecutionMode::InputPoints );
+			m_result.registerExecutionMode( spv::ExecutionModeInputPoints );
 			break;
 		case ast::stmt::InputLayout::eLineList:
 		case ast::stmt::InputLayout::eLineStrip:
-			m_result.registerExecutionMode( spv::ExecutionMode::InputLines );
+			m_result.registerExecutionMode( spv::ExecutionModeInputLines );
 			break;
 		case ast::stmt::InputLayout::eTriangleList:
 		case ast::stmt::InputLayout::eTriangleStrip:
 		case ast::stmt::InputLayout::eTriangleFan:
-			m_result.registerExecutionMode( spv::ExecutionMode::Triangles );
+			m_result.registerExecutionMode( spv::ExecutionModeTriangles );
 			break;
 		case ast::stmt::InputLayout::eTriangleListWithAdjacency:
 		case ast::stmt::InputLayout::eTriangleStripWithAdjacency:
-			m_result.registerExecutionMode( spv::ExecutionMode::InputTrianglesAdjacency );
+			m_result.registerExecutionMode( spv::ExecutionModeInputTrianglesAdjacency );
 			break;
 		case ast::stmt::InputLayout::eLineListWithAdjacency:
 		case ast::stmt::InputLayout::eLineStripWithAdjacency:
-			m_result.registerExecutionMode( spv::ExecutionMode::InputLinesAdjacency );
+			m_result.registerExecutionMode( spv::ExecutionModeInputLinesAdjacency );
 			break;
 		default:
 			assert( false && "Unsupported InputLayout" );
@@ -348,13 +348,13 @@ namespace spirv
 		switch ( layout )
 		{
 		case ast::stmt::OutputLayout::ePointList:
-			m_result.registerExecutionMode( spv::ExecutionMode::OutputPoints );
+			m_result.registerExecutionMode( spv::ExecutionModeOutputPoints );
 			break;
 		case ast::stmt::OutputLayout::eLineStrip:
-			m_result.registerExecutionMode( spv::ExecutionMode::OutputLineStrip );
+			m_result.registerExecutionMode( spv::ExecutionModeOutputLineStrip );
 			break;
 		case ast::stmt::OutputLayout::eTriangleStrip:
-			m_result.registerExecutionMode( spv::ExecutionMode::OutputTriangleStrip );
+			m_result.registerExecutionMode( spv::ExecutionModeOutputTriangleStrip );
 			break;
 		default:
 			assert( false && "Unsupported OutputLayout" );
@@ -367,10 +367,6 @@ namespace spirv
 		switch ( stmt->getSource() )
 		{
 		case ast::stmt::PerVertexDecl::Source::eVertexOutput:
-			//m_result.registerVariable( "gl_Position", spv::StorageClass::Output, stmt->getType()->getMember( "gl_Position" ).type );
-			//m_result.registerVariable( "gl_PointSize", spv::StorageClass::Output, stmt->getType()->getMember( "gl_PointSize" ).type );
-			//m_result.registerVariable( "gl_ClipDistance", spv::StorageClass::Output, stmt->getType()->getMember( "gl_ClipDistance" ).type );
-			break;
 		case ast::stmt::PerVertexDecl::Source::eTessellationControlInput:
 		case ast::stmt::PerVertexDecl::Source::eTessellationControlOutput:
 		case ast::stmt::PerVertexDecl::Source::eTessellationEvaluationInput:
@@ -417,7 +413,7 @@ namespace spirv
 		m_result.bindBufferVariable( stmt->getSsboName()
 			, stmt->getBindingPoint()
 			, stmt->getDescriptorSet()
-			, spv::Decoration::BufferBlock );
+			, spv::DecorationBufferBlock );
 	}
 
 	void StmtVisitor::visitShaderStructBufferDeclStmt( ast::stmt::ShaderStructBufferDecl * stmt )
@@ -426,7 +422,7 @@ namespace spirv
 		m_result.bindBufferVariable( stmt->getSsboInstance()->getName()
 			, stmt->getBindingPoint()
 			, stmt->getDescriptorSet()
-			, spv::Decoration::BufferBlock );
+			, spv::DecorationBufferBlock );
 	}
 
 	void StmtVisitor::visitSimpleStmt( ast::stmt::Simple * stmt )
@@ -563,12 +559,14 @@ namespace spirv
 	spv::Id StmtVisitor::visitVariable( ast::var::VariablePtr var )
 	{
 		spv::Id result;
+		VariableInfo info;
 
 		if ( var->isMember() )
 		{
 			auto outer = m_result.registerVariable( var->getOuter()->getName()
 				, getStorageClass( var )
-				, var->getOuter()->getType() );
+				, var->getOuter()->getType()
+				, info ).id;
 			result = m_result.registerMemberVariable( outer
 				, var->getName()
 				, var->getType() );
@@ -577,7 +575,8 @@ namespace spirv
 		{
 			result = m_result.registerVariable( var->getName()
 				, getStorageClass( var )
-				, var->getType() );
+				, var->getType()
+				, info ).id;
 		}
 
 		return result;

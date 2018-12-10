@@ -859,20 +859,85 @@ namespace spirv
 	};
 
 	template< spv::Op Operator >
-	struct InstructionTMaker< Operator, false, false, dynamicOperandCount, true, false >
+	struct InstructionTMaker< Operator, true, true, 0u, true, false >
 	{
-		static bool constexpr HasReturnTypeId = false;
-		static bool constexpr HasResultId = false;
-		static uint32_t constexpr OperandsCount = dynamicOperandCount;
+		static bool constexpr HasReturnTypeId = true;
+		static bool constexpr HasResultId = true;
+		static uint32_t constexpr OperandsCount = 0u;
 		static bool constexpr HasName = true;
 		static bool constexpr HasLabels = false;
-		using InstructionType = InstructionT< Operator, HasReturnTypeId, HasResultId, dynamicOperandCount, HasName, HasLabels >;
+		using InstructionType = InstructionT< Operator, HasReturnTypeId, HasResultId, OperandsCount, HasName, HasLabels >;
 		using InstructionTypePtr = std::unique_ptr< InstructionType >;
 
-		static inline InstructionTypePtr make( IdList const & operands, std::string const & name )
+		static inline InstructionTypePtr make( spv::Id returnTypeId, spv::Id resultTypeId, std::string const & name )
 		{
-			return std::make_unique< InstructionType >( std::nullopt
-				, std::nullopt
+			return std::make_unique< InstructionType >( returnTypeId
+				, resultTypeId
+				, IdList{}
+				, name
+				, std::nullopt );
+		}
+	};
+
+	template< spv::Op Operator >
+	struct InstructionTMaker< Operator, true, true, 1u, true, false >
+	{
+		static bool constexpr HasReturnTypeId = true;
+		static bool constexpr HasResultId = true;
+		static uint32_t constexpr OperandsCount = 1u;
+		static bool constexpr HasName = true;
+		static bool constexpr HasLabels = false;
+		using InstructionType = InstructionT< Operator, HasReturnTypeId, HasResultId, OperandsCount, HasName, HasLabels >;
+		using InstructionTypePtr = std::unique_ptr< InstructionType >;
+
+		static inline InstructionTypePtr make( spv::Id returnTypeId, spv::Id resultTypeId, spv::Id operand, std::string const & name )
+		{
+			return std::make_unique< InstructionType >( returnTypeId
+				, resultTypeId
+				, IdList{ operand }
+				, name
+				, std::nullopt );
+		}
+	};
+
+	template< spv::Op Operator >
+	struct InstructionTMaker< Operator, true, true, 2u, true, false >
+	{
+		static bool constexpr HasReturnTypeId = true;
+		static bool constexpr HasResultId = true;
+		static uint32_t constexpr OperandsCount = 2u;
+		static bool constexpr HasName = true;
+		static bool constexpr HasLabels = false;
+		using InstructionType = InstructionT< Operator, HasReturnTypeId, HasResultId, OperandsCount, HasName, HasLabels >;
+		using InstructionTypePtr = std::unique_ptr< InstructionType >;
+
+		static inline InstructionTypePtr make( spv::Id returnTypeId, spv::Id resultTypeId, spv::Id operand0, spv::Id operand1, std::string const & name )
+		{
+			return std::make_unique< InstructionType >( returnTypeId
+				, resultTypeId
+				, IdList{ operand0, operand1 }
+				, name
+				, std::nullopt );
+		}
+	};
+
+	template< spv::Op Operator, uint32_t OperandsCount >
+	struct InstructionTMaker< Operator, true, true, OperandsCount, true, false >
+	{
+		static bool constexpr HasReturnTypeId = true;
+		static bool constexpr HasResultId = true;
+		static bool constexpr HasName = true;
+		static bool constexpr HasLabels = false;
+		using InstructionType = InstructionT< Operator, HasReturnTypeId, HasResultId, OperandsCount, HasName, HasLabels >;
+		using InstructionTypePtr = std::unique_ptr< InstructionType >;
+
+		static inline InstructionTypePtr make( spv::Id returnTypeId
+			, spv::Id resultTypeId
+			, IdList const & operands
+			, std::string const & name )
+		{
+			return std::make_unique< InstructionType >( returnTypeId
+				, resultTypeId
 				, operands
 				, name
 				, std::nullopt );
@@ -918,6 +983,7 @@ namespace spirv
 		, bool hasName
 		, bool hasLabels )
 	{
+		assert( spv::Op::OpNop != op );
 		assert( spv::Op( instruction.op.opCode ) == op );
 		assert( bool( instruction.returnTypeId ) == hasReturnTypeId );
 		assert( bool( instruction.resultId ) == hasResultId );

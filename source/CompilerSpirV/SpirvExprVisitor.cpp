@@ -741,7 +741,8 @@ namespace spirv
 			, spv::Id pointerTypeId
 			, spv::Id rawTypeId
 			, spv::Id outerId
-			, ast::expr::SwizzleKind swizzle )
+			, ast::expr::SwizzleKind swizzle
+			, bool & needsLoad )
 		{
 			spv::Id result;
 			auto swizzleComponents = getSwizzleComponents( swizzle );
@@ -762,6 +763,7 @@ namespace spirv
 					it = currentBlock.vectorShuffles.emplace( shuffle, intermediateId ).first;
 				}
 
+				needsLoad = false;
 				result = it->second;
 			}
 			else
@@ -781,6 +783,7 @@ namespace spirv
 					it = currentBlock.vectorShuffles.emplace( shuffle, intermediateId ).first;
 				}
 
+				needsLoad = true;
 				result = it->second;
 			}
 
@@ -791,8 +794,10 @@ namespace spirv
 		{
 			return expr->getKind() == ast::expr::Kind::eArrayAccess
 				|| expr->getKind() == ast::expr::Kind::eMbrSelect
-				|| (expr->getKind() == ast::expr::Kind::eSwizzle
-					&& !isScalarType( expr->getType()->getKind() ) );
+				|| ( expr->getKind() == ast::expr::Kind::eSwizzle
+					&& !isScalarType( expr->getType()->getKind() ) )
+				|| ( expr->getKind() == ast::expr::Kind::eIdentifier
+					&& static_cast< ast::expr::Identifier const & >( *expr ).getVariable()->isMember() );
 		}
 
 		spv::Id makeAccessChain( ast::expr::Expr * expr
@@ -935,6 +940,7 @@ namespace spirv
 			{
 				IdList result;
 				assert( exprs.size() >= 2u );
+				VariableInfo info;
 				result.push_back( submit( exprs[0]
 					, module
 					, currentBlock
@@ -948,7 +954,8 @@ namespace spirv
 						, expr
 						, module
 						, currentBlock
-						, loadedVariables ) );
+						, loadedVariables
+						, info ) );
 				}
 
 				return result;
@@ -960,12 +967,14 @@ namespace spirv
 				, spv::Id parentId
 				, Module & module
 				, Block & currentBlock
-				, LoadedVariableArray & loadedVariables )
+				, LoadedVariableArray & loadedVariables
+				, VariableInfo & info )
 				: m_result{ result }
 				, m_module{ module }
 				, m_currentBlock{ currentBlock }
 				, m_loadedVariables{ loadedVariables }
 				, m_parentId{ parentId }
+				, m_info{ info }
 			{
 			}
 
@@ -975,7 +984,8 @@ namespace spirv
 				, LoadedVariableArray & loadedVariables )
 			{
 				spv::Id result;
-				AccessChainCreator vis{ result, nullptr, 0u, module, currentBlock, loadedVariables };
+				VariableInfo info;
+				AccessChainCreator vis{ result, nullptr, 0u, module, currentBlock, loadedVariables, info };
 				expr->accept( &vis );
 				return result;
 			}
@@ -985,10 +995,11 @@ namespace spirv
 				, ast::expr::Expr * expr
 				, Module & module
 				, Block & currentBlock
-				, LoadedVariableArray & loadedVariables )
+				, LoadedVariableArray & loadedVariables
+				, VariableInfo & info )
 			{
 				spv::Id result;
-				AccessChainCreator vis{ result, parentExpr, parentId, module, currentBlock, loadedVariables };
+				AccessChainCreator vis{ result, parentExpr, parentId, module, currentBlock, loadedVariables, info };
 				expr->accept( &vis );
 				return result;
 			}
@@ -1038,7 +1049,8 @@ namespace spirv
 					// Head identifier
 					m_result = m_module.registerVariable( var->getName()
 						, getStorageClass( var )
-						, expr->getType() );
+						, expr->getType()
+						, m_info ).id;
 				}
 			}
 
@@ -1089,13 +1101,15 @@ namespace spirv
 				}
 
 				auto rawTypeId = m_module.registerType( expr->getType() );
-				auto pointerTypeId = m_module.registerPointerType( rawTypeId, spv::StorageClass::Function );
-				auto shuffleId = writeShuffle( m_module, m_currentBlock, pointerTypeId, rawTypeId, parentId, expr->getSwizzle() );
-				m_result = loadVariable( shuffleId
-					, expr->getType()
-					, m_module
-					, m_currentBlock
-					, m_loadedVariables );
+				auto pointerTypeId = m_module.registerPointerType( rawTypeId, spv::StorageClassFunction );
+				bool needsLoad = false;
+				auto shuffleId = writeShuffle( m_module, m_currentBlock, pointerTypeId, rawTypeId, parentId, expr->getSwizzle(), needsLoad );
+				//m_result = loadVariable( shuffleId
+				//	, expr->getType()
+				//	, m_module
+				//	, m_currentBlock
+				//	, m_loadedVariables );
+				m_result = shuffleId;
 			}
 
 			void visitAggrInitExpr( ast::expr::AggrInit * )override
@@ -1155,6 +1169,7 @@ namespace spirv
 			LoadedVariableArray & m_loadedVariables;
 			spv::Id m_parentId;
 			ast::expr::Expr * m_parentExpr;
+			VariableInfo & m_info;
 		};
 
 		spv::Id writeAccessChain( Block & currentBlock
@@ -1168,7 +1183,7 @@ namespace spirv
 			if ( it == currentBlock.accessChains.end() )
 			{
 			// Reserve the ID for the result.
-				auto intermediateId = module.getIntermediateResult();
+				auto resultId = module.getIntermediateResult();
 				// Register the type pointed to.
 				auto rawTypeId = module.registerType( expr->getType() );
 				// Register the pointer to the type.
@@ -1176,15 +1191,9 @@ namespace spirv
 					, getStorageClass( ast::findIdentifier( expr )->getVariable() ) );
 				// Write access chain => resultId = pointerTypeId( outer.members + index ).
 				currentBlock.instructions.emplace_back( makeInstruction< AccessChainInstruction >( pointerTypeId
-					, intermediateId
+					, resultId
 					, accessChain ) );
-				auto result = loadVariable( intermediateId
-					, expr->getType()
-					, module
-					, currentBlock
-					, loadedVariables );
-				module.putIntermediateResult( intermediateId );
-				it = currentBlock.accessChains.emplace( accessChain, result ).first;
+				it = currentBlock.accessChains.emplace( accessChain, resultId ).first;
 			}
 
 			return it->second;
@@ -1301,28 +1310,28 @@ namespace spirv
 	spv::StorageClass getStorageClass( ast::var::VariablePtr var )
 	{
 		var = getOutermost( var );
-		spv::StorageClass result = spv::StorageClass::Function;
+		spv::StorageClass result = spv::StorageClassFunction;
 
 		if ( var->isUniform() )
 		{
 			if ( var->isConstant() )
 			{
-				result = spv::StorageClass::UniformConstant;
+				result = spv::StorageClassUniformConstant;
 			}
 			else
 			{
-				result = spv::StorageClass::Uniform;
+				result = spv::StorageClassUniform;
 			}
 		}
 		else if ( var->isBuiltin() )
 		{
 			if ( var->isShaderInput() )
 			{
-				result = spv::StorageClass::Input;
+				result = spv::StorageClassInput;
 			}
 			else if ( var->isShaderOutput() )
 			{
-				result = spv::StorageClass::Output;
+				result = spv::StorageClassOutput;
 			}
 			else
 			{
@@ -1331,15 +1340,15 @@ namespace spirv
 		}
 		else if ( var->isShaderInput() )
 		{
-			result = spv::StorageClass::Input;
+			result = spv::StorageClassInput;
 		}
 		else if ( var->isShaderOutput() )
 		{
-			result = spv::StorageClass::Output;
+			result = spv::StorageClassOutput;
 		}
 		else if ( var->isShaderConstant() )
 		{
-			result = spv::StorageClass::Input;
+			result = spv::StorageClassInput;
 		}
 		else if ( var->isSpecialisationConstant() )
 		{
@@ -1347,7 +1356,7 @@ namespace spirv
 		}
 		else if ( var->isPushConstant() )
 		{
-			result = spv::StorageClass::PushConstant;
+			result = spv::StorageClassPushConstant;
 		}
 
 		return result;
@@ -1781,18 +1790,35 @@ namespace spirv
 	{
 		m_allLiterals = false;
 		m_result = makeAccessChain( expr, m_module, m_currentBlock, m_loadedVariables );
+
+		if ( m_loadVariable )
+		{
+			auto result = loadVariable( m_result
+				, expr->getType() );
+			m_module.putIntermediateResult( m_result );
+			m_result = result;
+		}
 	}
 
 	void ExprVisitor::visitMbrSelectExpr( ast::expr::MbrSelect * expr )
 	{
 		m_allLiterals = false;
 		m_result = makeAccessChain( expr, m_module, m_currentBlock, m_loadedVariables );
+
+		if ( m_loadVariable )
+		{
+			auto result = loadVariable( m_result
+				, expr->getType() );
+			m_module.putIntermediateResult( m_result );
+			m_result = result;
+		}
 	}
 
 	void ExprVisitor::visitCompositeConstructExpr( ast::expr::CompositeConstruct * expr )
 	{
 		IdList params;
 		bool allLiterals = true;
+		auto paramsCount = 0u;
 
 		for ( auto & arg : expr->getArgList() )
 		{
@@ -1800,32 +1826,23 @@ namespace spirv
 			auto id = doSubmit( arg.get(), allLitsInit, m_loadVariable );
 			params.push_back( id );
 			allLiterals = allLiterals && allLitsInit;
+			paramsCount += ast::type::getComponentCount( arg->getType()->getKind() );
 		}
 
+		auto retCount = ast::type::getComponentCount( expr->getType()->getKind() )
+			* ast::type::getComponentCount( ast::type::getComponentType( expr->getType()->getKind() ) );
 		auto typeId = m_module.registerType( expr->getType() );
+
+		if ( paramsCount == 1u && retCount != 1u )
+		{
+			params.resize( retCount, params.back() );
+			paramsCount = retCount;
+		}
 
 		if ( allLiterals )
 		{
-			auto paramsCount = std::accumulate( expr->getArgList().begin()
-				, expr->getArgList().end()
-				, 0u
-				, []( uint32_t current, ast::expr::ExprPtr const & lookup )
-				{
-					return current + ast::type::getComponentCount( lookup->getType()->getKind() );
-				} );
-			auto retCount = ast::type::getComponentCount( expr->getType()->getKind() )
-				* ast::type::getComponentCount( ast::type::getComponentType( expr->getType()->getKind() ) );
-
-			if ( paramsCount == 1u && retCount != 1u )
-			{
-				params.resize( retCount, params.back() );
-				m_result = m_module.registerLiteral( params, expr->getType() );
-			}
-			else
-			{
-				assert( paramsCount == retCount );
-				m_result = m_module.registerLiteral( params, expr->getType() );
-			}
+			assert( paramsCount == retCount );
+			m_result = m_module.registerLiteral( params, expr->getType() );
 		}
 		else
 		{
@@ -1846,9 +1863,23 @@ namespace spirv
 		for ( auto & arg : expr->getArgList() )
 		{
 			auto id = doSubmit( arg.get() );
-			params.push_back( id );
 			allLiterals = allLiterals
 				&& ( arg->getKind() == ast::expr::Kind::eLiteral );
+
+			if ( isImageType( arg->getType()->getKind() )
+				|| isSampledImageType( arg->getType()->getKind() ) )
+			{
+				VariableInfo info;
+				info.rvalue = true;
+				id = m_module.registerVariable( "temp_" + static_cast< ast::expr::Identifier const & >( *arg ).getVariable()->getName()
+					, spv::StorageClassFunction
+					, arg->getType()
+					, info ).id;
+				auto loadedImageId = m_module.loadVariable( id, arg->getType(), m_currentBlock );
+				m_currentBlock.instructions.emplace_back( makeInstruction< StoreInstruction >( id, loadedImageId ) );
+			}
+
+			params.push_back( id );
 		}
 
 		auto typeId = m_module.registerType( expr->getType() );
@@ -1873,24 +1904,34 @@ namespace spirv
 				, m_module
 				, m_currentBlock
 				, m_loadedVariables );
+
+			if ( m_loadVariable )
+			{
+				auto result = loadVariable( m_result
+					, expr->getType() );
+				m_module.putIntermediateResult( m_result );
+				m_result = result;
+			}
 		}
 		else
 		{
 			if ( var->isSpecialisationConstant() )
 			{
 				m_result = m_module.registerVariable( var->getName()
-					, spv::StorageClass::Input
-					, expr->getType() );
+					, spv::StorageClassInput
+					, expr->getType()
+					, m_info ).id;
 			}
 			else
 			{
 				m_result = m_module.registerVariable( var->getName()
 					, getStorageClass( var )
-					, expr->getType() );
+					, expr->getType()
+					, m_info ).id;
 			}
 
 			if ( m_loadVariable
-				&& ( var->isLocale() || var->isShaderInput() ) )
+				&& ( var->isLocale() || var->isShaderInput() || var->isShaderOutput() ) )
 			{
 				m_result = loadVariable( m_result
 					, expr->getType() );
@@ -1943,27 +1984,27 @@ namespace spirv
 			auto image = std::static_pointer_cast< ast::type::Image >( imgParam );
 			auto sampledId = m_module.registerType( image->getCache().makeType( image->getConfig().sampledType ) );
 			auto pointerTypeId = m_module.registerPointerType( sampledId
-				, spv::StorageClass::Image );
+				, spv::StorageClassImage );
 			auto pointerId = m_module.getIntermediateResult();
 			m_currentBlock.instructions.emplace_back( makeInstruction< ImageTexelPointerInstruction >( pointerTypeId
 				, pointerId
 				, texelPointerParams ) );
 
-			auto scopeId = m_module.registerLiteral( uint32_t( spv::Scope::Device ) );
+			auto scopeId = m_module.registerLiteral( uint32_t( spv::ScopeDevice ) );
 			IdList accessParams;
 			accessParams.push_back( pointerId );
 			accessParams.push_back( scopeId );
 
 			if ( op == spv::Op::OpAtomicCompareExchange )
 			{
-				auto equalMemorySemanticsId = m_module.registerLiteral( uint32_t( spv::MemorySemanticsMask::ImageMemory ) );
-				auto unequalMemorySemanticsId = m_module.registerLiteral( uint32_t( spv::MemorySemanticsMask::ImageMemory ) );
+				auto equalMemorySemanticsId = m_module.registerLiteral( uint32_t( spv::MemorySemanticsImageMemoryMask ) );
+				auto unequalMemorySemanticsId = m_module.registerLiteral( uint32_t( spv::MemorySemanticsImageMemoryMask ) );
 				accessParams.push_back( equalMemorySemanticsId );
 				accessParams.push_back( unequalMemorySemanticsId );
 			}
 			else
 			{
-				auto memorySemanticsId = m_module.registerLiteral( uint32_t( spv::MemorySemanticsMask::ImageMemory ) );
+				auto memorySemanticsId = m_module.registerLiteral( uint32_t( spv::MemorySemanticsImageMemoryMask ) );
 				accessParams.push_back( memorySemanticsId );
 			}
 
@@ -1996,11 +2037,13 @@ namespace spirv
 		m_allLiterals = false;
 		m_module.registerType( expr->getType() );
 		auto init = doSubmit( expr->getInitialiser() );
+		m_info.lvalue = true;
 		m_result = m_module.registerVariable( expr->getIdentifier()->getVariable()->getName()
 			, ( ( expr->getIdentifier()->getVariable()->isLocale() || expr->getIdentifier()->getVariable()->isParam() )
-				? spv::StorageClass::Function
-				: spv::StorageClass::UniformConstant )
-			, expr->getType() );
+				? spv::StorageClassFunction
+				: spv::StorageClassUniformConstant )
+			, expr->getType()
+			, m_info ).id;
 		m_currentBlock.instructions.emplace_back( makeInstruction< StoreInstruction >( m_result, init ) );
 	}
 
@@ -2104,8 +2147,9 @@ namespace spirv
 		m_allLiterals = false;
 		auto outerId = doSubmit( expr->getOuterExpr() );
 		auto rawTypeId = m_module.registerType( expr->getType() );
-		auto pointerTypeId = m_module.registerPointerType( rawTypeId, spv::StorageClass::Function );
-		m_result = writeShuffle( m_module, m_currentBlock, pointerTypeId, rawTypeId, outerId, expr->getSwizzle() );
+		auto pointerTypeId = m_module.registerPointerType( rawTypeId, spv::StorageClassFunction );
+		bool needsLoad = false;
+		m_result = writeShuffle( m_module, m_currentBlock, pointerTypeId, rawTypeId, outerId, expr->getSwizzle(), needsLoad );
 	}
 
 	void ExprVisitor::visitTextureAccessCallExpr( ast::expr::TextureAccessCall * expr )
@@ -2260,8 +2304,8 @@ namespace spirv
 		}
 
 		auto typeId = m_module.registerType( expr->getType() );
-		auto scopeId = m_module.registerLiteral( uint32_t( spv::Scope::Device ) );
-		auto memorySemanticsId = m_module.registerLiteral( uint32_t( spv::MemorySemanticsMask::AcquireRelease ) );
+		auto scopeId = m_module.registerLiteral( uint32_t( spv::ScopeDevice ) );
+		auto memorySemanticsId = m_module.registerLiteral( uint32_t( spv::MemorySemanticsAcquireReleaseMask ) );
 		uint32_t index{ 1u };
 		params.insert( params.begin() + ( index++ ), scopeId );
 		params.insert( params.begin() + ( index++ ), memorySemanticsId );
@@ -2367,7 +2411,10 @@ namespace spirv
 
 		if ( isAccessChain( expr ) )
 		{
+			auto save = m_loadVariable;
+			m_loadVariable = false;
 			result = doSubmit( expr );
+			m_loadVariable = save;
 		}
 		else
 		{
@@ -2379,15 +2426,19 @@ namespace spirv
 
 				if ( var->isSpecialisationConstant() )
 				{
+					m_info.lvalue = false;
+					m_info.rvalue = true;
 					result = m_module.registerVariable( var->getName()
-						, spv::StorageClass::Input
-						, expr->getType() );
+						, spv::StorageClassInput
+						, expr->getType()
+						, m_info ).id;
 				}
 				else
 				{
 					result = m_module.registerVariable( var->getName()
 						, getStorageClass( var )
-						, expr->getType() );
+						, expr->getType()
+						, m_info ).id;
 				}
 			}
 			else

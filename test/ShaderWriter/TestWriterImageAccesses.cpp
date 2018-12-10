@@ -1349,7 +1349,7 @@ namespace
 	{
 		if ( isFloatFormat( FormatT ) )
 		{
-			TesterT< FormatT, Img1D >::test( testCounts );
+			//TesterT< FormatT, Img1D >::test( testCounts );
 			TesterT< FormatT, Img2D >::test( testCounts );
 			TesterT< FormatT, Img3D >::test( testCounts );
 			TesterT< FormatT, ImgRect >::test( testCounts );
@@ -1437,8 +1437,8 @@ namespace
 int main( int argc, char ** argv )
 {
 	sdwTestSuiteBegin( "TestWriterImageAccesses" );
-	testsImage< ImageSizeTester >( testCounts );
-	testsImage< ImageSamplesTester >( testCounts );
+	//testsImage< ImageSizeTester >( testCounts );
+	//testsImage< ImageSamplesTester >( testCounts );
 	testsImage< ImageLoadTester >( testCounts );
 	testsImageAtomic< ImageIAtomicAddTester >( testCounts );
 	testsImageAtomic< ImageUAtomicAddTester >( testCounts );

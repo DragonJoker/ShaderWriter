@@ -5,7 +5,7 @@ See LICENSE file in root folder
 #define ___SDW_SpirvOpHelpers_H___
 #pragma once
 
-#include "SpirvModule.hpp"
+#include "CompilerSpirV/SpirvModule.hpp"
 
 #include <string>
 #include <vector>

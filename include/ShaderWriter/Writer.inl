@@ -826,7 +826,7 @@ namespace sdw
 	inline T ShaderWriter::declLocale( std::string const & name
 		, T const & rhs )
 	{
-		auto type = T::makeType( getTypesCache() );
+		auto type = rhs.getType();
 		auto var = registerLocale( name
 			, type );
 		addStmt( sdw::makeSimple( sdw::makeInit( var
@@ -839,7 +839,7 @@ namespace sdw
 	inline MaybeOptional< T > ShaderWriter::declLocale( std::string const & name
 		, MaybeOptional< T > const & rhs )
 	{
-		auto type = T::makeType( getTypesCache() );
+		auto type = rhs.getType();
 		auto var = registerLocale( name
 			, type );
 
@@ -882,7 +882,7 @@ namespace sdw
 	inline Optional< T > ShaderWriter::declLocale( std::string const & name
 		, Optional< T > const & rhs )
 	{
-		auto type = T::makeType( getTypesCache() );
+		auto type = rhs.getType();
 		auto var = registerLocale( name
 			, type );
 
@@ -902,7 +902,7 @@ namespace sdw
 		, T const & rhs
 		, bool enabled )
 	{
-		auto type = T::makeType( getTypesCache() );
+		auto type = rhs.getType();
 		auto var = registerLocale( name
 			, type );
 
