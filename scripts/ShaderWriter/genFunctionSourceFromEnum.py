@@ -334,36 +334,39 @@ def printImageFunction( outs, returnGroup, functionGroup, paramsGroup, imageType
 			formats.append( ( 'Rg16', 'Vec2' ) )
 			formats.append( ( 'R32', 'Float' ) )
 			formats.append( ( 'R16', 'Float' ) )
-	for fmt, ret in formats:
-		# Write function name and return
-		outs.write( "\n\tMaybeOptional< " + ret + " > " + computeIntrinsicName( functionGroup ) + "(" )
-		# Write parameters
-		#	Image parameter
-		outs.write( " MaybeOptional< " + computeImageFullType( imageType, postfix, sampled, depth ) + fmt + " > const & image" )
-		#	Remaining function parameters
-		outs.write( computeParams( paramsGroup, "\n\t\t," ) + " )" )
-		# Header finished, write content
-		outs.write( "\n\t{" )
-		outs.write( "\n\t\tif ( isAnyOptional( image" + listParams( paramsGroup, "," ) + " ) )" )
-		outs.write( "\n\t\t{" )
-		outs.write( "\n\t\t\treturn Optional< " + ret + " >{ findShader( image" + listParams( paramsGroup, "," ) + " )" )
-		# Write arguments
-		outs.write( "\n\t\t\t\t, expr::make" + fullName + fmt + "( findTypesCache( image" + listParams( paramsGroup, "," ) + " )" )
-		#	Image argument
-		outs.write( "\n\t\t\t\t\t, makeExpr( image )" )
-		#	Remaining arguments
-		outs.write( computeArgs( paramsGroup, "\t\t\t\t\t", "\n\t\t\t\t\t," ) + " )" )
-		outs.write( "\n\t\t\t\t, areOptionalEnabled( image" + listParams( paramsGroup, "," ) + " ) };" )
-		outs.write( "\n\t\t}" )
-		outs.write( "\n" )
-		outs.write( "\n\t\treturn " + ret + "{ findShader( image" + listParams( paramsGroup, "," ) + " )" )
-		# Write arguments
-		outs.write( "\n\t\t\t, expr::make" + fullName + fmt + "( findTypesCache( image" + listParams( paramsGroup, "," ) + " )" )
-		#	Image argument
-		outs.write( "\n\t\t\t\t, makeExpr( image )" )
-		#	Remaining arguments
-		outs.write( computeArgs( paramsGroup, "\t\t\t\t", "\n\t\t\t\t," ) + " ) };" )
-		outs.write( "\n\t}" )
+	dim = getImageDim( postfix )
+	if dim != "2DRect":
+		imageFullType = computeImageFullType( imageType, postfix, sampled, depth )
+		for fmt, ret in formats:
+			# Write function name and return
+			outs.write( "\n\tMaybeOptional< " + ret + " > " + computeIntrinsicName( functionGroup ) + "(" )
+			# Write parameters
+			#	Image parameter
+			outs.write( " MaybeOptional< " + imageFullType + fmt + " > const & image" )
+			#	Remaining function parameters
+			outs.write( computeParams( paramsGroup, "\n\t\t," ) + " )" )
+			# Header finished, write content
+			outs.write( "\n\t{" )
+			outs.write( "\n\t\tif ( isAnyOptional( image" + listParams( paramsGroup, "," ) + " ) )" )
+			outs.write( "\n\t\t{" )
+			outs.write( "\n\t\t\treturn Optional< " + ret + " >{ findShader( image" + listParams( paramsGroup, "," ) + " )" )
+			# Write arguments
+			outs.write( "\n\t\t\t\t, expr::make" + fullName + fmt + "( findTypesCache( image" + listParams( paramsGroup, "," ) + " )" )
+			#	Image argument
+			outs.write( "\n\t\t\t\t\t, makeExpr( image )" )
+			#	Remaining arguments
+			outs.write( computeArgs( paramsGroup, "\t\t\t\t\t", "\n\t\t\t\t\t," ) + " )" )
+			outs.write( "\n\t\t\t\t, areOptionalEnabled( image" + listParams( paramsGroup, "," ) + " ) };" )
+			outs.write( "\n\t\t}" )
+			outs.write( "\n" )
+			outs.write( "\n\t\treturn " + ret + "{ findShader( image" + listParams( paramsGroup, "," ) + " )" )
+			# Write arguments
+			outs.write( "\n\t\t\t, expr::make" + fullName + fmt + "( findTypesCache( image" + listParams( paramsGroup, "," ) + " )" )
+			#	Image argument
+			outs.write( "\n\t\t\t\t, makeExpr( image )" )
+			#	Remaining arguments
+			outs.write( computeArgs( paramsGroup, "\t\t\t\t", "\n\t\t\t\t," ) + " ) };" )
+			outs.write( "\n\t}" )
 
 def printIntrinsicFunction( outs, returnGroup, functionGroup, paramsGroup ):
 	retType = typeKindToSdwType( returnGroup )

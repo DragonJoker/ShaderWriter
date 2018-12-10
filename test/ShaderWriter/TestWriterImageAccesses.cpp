@@ -1349,10 +1349,9 @@ namespace
 	{
 		if ( isFloatFormat( FormatT ) )
 		{
-			//TesterT< FormatT, Img1D >::test( testCounts );
+			TesterT< FormatT, Img1D >::test( testCounts );
 			TesterT< FormatT, Img2D >::test( testCounts );
 			TesterT< FormatT, Img3D >::test( testCounts );
-			TesterT< FormatT, ImgRect >::test( testCounts );
 			TesterT< FormatT, ImgCube >::test( testCounts );
 			TesterT< FormatT, ImgBuffer >::test( testCounts );
 			TesterT< FormatT, Img1DArray >::test( testCounts );
@@ -1362,9 +1361,8 @@ namespace
 			if constexpr ( FormatT == ast::type::ImageFormat::eR32f
 				|| FormatT == ast::type::ImageFormat::eR16f )
 			{
-				TesterT< FormatT, ImgRectShadow >::test( testCounts );
+				TesterT< FormatT, Img1DShadow >::test( testCounts );
 				TesterT< FormatT, Img2DShadow >::test( testCounts );
-				TesterT< FormatT, ImgRectShadow >::test( testCounts );
 				TesterT< FormatT, ImgCubeShadow >::test( testCounts );
 				TesterT< FormatT, Img1DArrayShadow >::test( testCounts );
 				TesterT< FormatT, Img2DArrayShadow >::test( testCounts );
@@ -1376,7 +1374,6 @@ namespace
 			TesterT< FormatT, Img1D >::test( testCounts );
 			TesterT< FormatT, Img2D >::test( testCounts );
 			TesterT< FormatT, Img3D >::test( testCounts );
-			TesterT< FormatT, ImgRect >::test( testCounts );
 			TesterT< FormatT, ImgCube >::test( testCounts );
 			TesterT< FormatT, ImgBuffer >::test( testCounts );
 			TesterT< FormatT, Img1DArray >::test( testCounts );
@@ -1388,7 +1385,6 @@ namespace
 			TesterT< FormatT, Img1D >::test( testCounts );
 			TesterT< FormatT, Img2D >::test( testCounts );
 			TesterT< FormatT, Img3D >::test( testCounts );
-			TesterT< FormatT, ImgRect >::test( testCounts );
 			TesterT< FormatT, ImgCube >::test( testCounts );
 			TesterT< FormatT, ImgBuffer >::test( testCounts );
 			TesterT< FormatT, Img1DArray >::test( testCounts );
@@ -1437,8 +1433,8 @@ namespace
 int main( int argc, char ** argv )
 {
 	sdwTestSuiteBegin( "TestWriterImageAccesses" );
-	//testsImage< ImageSizeTester >( testCounts );
-	//testsImage< ImageSamplesTester >( testCounts );
+	testsImage< ImageSizeTester >( testCounts );
+	testsImage< ImageSamplesTester >( testCounts );
 	testsImage< ImageLoadTester >( testCounts );
 	testsImageAtomic< ImageIAtomicAddTester >( testCounts );
 	testsImageAtomic< ImageUAtomicAddTester >( testCounts );

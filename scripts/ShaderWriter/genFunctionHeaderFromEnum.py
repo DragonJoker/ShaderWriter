@@ -351,14 +351,17 @@ def printImageFunction( outs, returnGroup, functionGroup, paramsGroup, imageType
 			formats.append( ( 'Rg16', 'Vec2' ) )
 			formats.append( ( 'R32', 'Float' ) )
 			formats.append( ( 'R16', 'Float' ) )
-	for fmt, ret in formats:
-		# Write function name and return
-		outs.write( "\n\tMaybeOptional< " + ret + " > " + intrinsicName + "(" )
-		# Write parameters
-		#	Image parameter
-		outs.write( " MaybeOptional< " + computeImageFullType( imageType, postfix, sampled, depth ) + fmt + " > const & image" )
-		#	Remaining function parameters
-		outs.write( computeParams( paramsGroup, "," ) + " );" )
+	dim = getImageDim( postfix )
+	if dim != "2DRect":
+		imageFullType = computeImageFullType( imageType, postfix, sampled, depth )
+		for fmt, ret in formats:
+			# Write function name and return
+			outs.write( "\n\tMaybeOptional< " + ret + " > " + intrinsicName + "(" )
+			# Write parameters
+			#	Image parameter
+			outs.write( " MaybeOptional< " + imageFullType + fmt + " > const & image" )
+			#	Remaining function parameters
+			outs.write( computeParams( paramsGroup, "," ) + " );" )
 
 def printIntrinsicFunction( outs, returnGroup, functionGroup, paramsGroup ):
 	retType = typeKindToSdwType( returnGroup )

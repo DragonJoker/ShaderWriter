@@ -121,7 +121,6 @@ namespace
 			testSampledImage< FormatT, Img1D >( testCounts );
 			testSampledImage< FormatT, Img2D >( testCounts );
 			testSampledImage< FormatT, Img3D >( testCounts );
-			testSampledImage< FormatT, ImgRect >( testCounts );
 			testSampledImage< FormatT, ImgCube >( testCounts );
 			testSampledImage< FormatT, ImgBuffer >( testCounts );
 			testSampledImage< FormatT, Img1DArray >( testCounts );
@@ -133,9 +132,8 @@ namespace
 			if constexpr ( FormatT == ast::type::ImageFormat::eR32f
 				|| FormatT == ast::type::ImageFormat::eR16f )
 			{
-				testSampledImage< FormatT, ImgRectShadow >( testCounts );
+				testSampledImage< FormatT, Img1DShadow >( testCounts );
 				testSampledImage< FormatT, Img2DShadow >( testCounts );
-				testSampledImage< FormatT, ImgRectShadow >( testCounts );
 				testSampledImage< FormatT, ImgCubeShadow >( testCounts );
 				testSampledImage< FormatT, Img1DArrayShadow >( testCounts );
 				testSampledImage< FormatT, Img2DArrayShadow >( testCounts );
@@ -147,7 +145,6 @@ namespace
 			testSampledImage< FormatT, Img1D >( testCounts );
 			testSampledImage< FormatT, Img2D >( testCounts );
 			testSampledImage< FormatT, Img3D >( testCounts );
-			testSampledImage< FormatT, ImgRect >( testCounts );
 			testSampledImage< FormatT, ImgCube >( testCounts );
 			testSampledImage< FormatT, ImgBuffer >( testCounts );
 			testSampledImage< FormatT, Img1DArray >( testCounts );
@@ -161,7 +158,6 @@ namespace
 			testSampledImage< FormatT, Img1D >( testCounts );
 			testSampledImage< FormatT, Img2D >( testCounts );
 			testSampledImage< FormatT, Img3D >( testCounts );
-			testSampledImage< FormatT, ImgRect >( testCounts );
 			testSampledImage< FormatT, ImgCube >( testCounts );
 			testSampledImage< FormatT, ImgBuffer >( testCounts );
 			testSampledImage< FormatT, Img1DArray >( testCounts );

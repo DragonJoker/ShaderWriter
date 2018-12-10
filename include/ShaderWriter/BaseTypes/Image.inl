@@ -24,12 +24,6 @@ namespace sdw
 	};
 
 	template<>
-	struct ImageCoordsGetter< ast::type::ImageDim::eRect, false >
-	{
-		using Type = sdw::IVec2;
-	};
-
-	template<>
 	struct ImageCoordsGetter< ast::type::ImageDim::eCube, false >
 	{
 		using Type = sdw::IVec3;

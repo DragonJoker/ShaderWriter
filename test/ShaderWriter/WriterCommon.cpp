@@ -182,9 +182,6 @@ namespace test
 			{
 				std::cout << "VkShaderModule creation raised messages:" << std::endl;
 				std::cout << errors << std::endl;
-				checkRef = checkRef
-					&& ( errors.find( "Capability SampledRect is not allowed by Vulkan 1.1" ) == std::string::npos
-						&& errors.find( "Capability ImageRect is not allowed by Vulkan 1.1" ) == std::string::npos );
 
 				if ( checkRef )
 				{

@@ -32,11 +32,6 @@ namespace
 	template< ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool DepthT >
-	static bool constexpr isRect = ( !DepthT ) && ( !ArrayedT ) && ( DimT == ast::type::ImageDim::eRect );
-	
-	template< ast::type::ImageDim DimT
-		, bool ArrayedT
-		, bool DepthT >
 	static bool constexpr isCube = ( !DepthT ) && ( !ArrayedT ) && ( DimT == ast::type::ImageDim::eCube );
 	
 	template< ast::type::ImageDim DimT
@@ -157,7 +152,6 @@ namespace
 		, bool MsT >
 	struct TextureSizeTester< FormatT, DimT, ArrayedT, DepthT, MsT
 		, std::enable_if_t< isBuffer< DimT, ArrayedT, DepthT >
-			|| isRect< DimT, ArrayedT, DepthT >
 			|| isRectShadow< DimT, ArrayedT, DepthT > > >
 	{
 		static void test( test::sdw_test::TestCounts & testCounts )
@@ -334,7 +328,6 @@ namespace
 		, std::enable_if_t< is1D< DimT, ArrayedT, DepthT >
 			|| is2D< DimT, ArrayedT, DepthT >
 			|| is3D< DimT, ArrayedT, DepthT >
-			|| isRect< DimT, ArrayedT, DepthT >
 			|| isCube< DimT, ArrayedT, DepthT >
 			|| is1DArray< DimT, ArrayedT, DepthT >
 			|| is2DArray< DimT, ArrayedT, DepthT >
@@ -528,8 +521,7 @@ namespace
 	struct TextureProjTester< FormatT, DimT, ArrayedT, DepthT, MsT
 		, std::enable_if_t< is1D< DimT, ArrayedT, DepthT >
 			|| is2D< DimT, ArrayedT, DepthT >
-			|| is3D< DimT, ArrayedT, DepthT >
-			|| isRect< DimT, ArrayedT, DepthT > > >
+			|| is3D< DimT, ArrayedT, DepthT > > >
 	{
 		using SampleProjT = typename sdw::SampledImageSampleProjT< DimT, ArrayedT >;
 
@@ -804,7 +796,6 @@ namespace
 		, std::enable_if_t< is1D< DimT, ArrayedT, DepthT >
 			|| is2D< DimT, ArrayedT, DepthT >
 			|| is3D< DimT, ArrayedT, DepthT >
-			|| isRect< DimT, ArrayedT, DepthT >
 			|| is1DArray< DimT, ArrayedT, DepthT >
 			|| is2DArray< DimT, ArrayedT, DepthT > > >
 	{
@@ -1032,8 +1023,7 @@ namespace
 		, bool DepthT
 		, bool MsT >
 	struct TexelFetchTester < FormatT, DimT, ArrayedT, DepthT, MsT
-		, std::enable_if_t< isRect< DimT, ArrayedT, DepthT >
-			|| isBuffer< DimT, ArrayedT, DepthT > > >
+		, std::enable_if_t< isBuffer< DimT, ArrayedT, DepthT > > >
 	{
 		using FetchT = typename sdw::SampledImageFetchT< DimT, ArrayedT >;
 
@@ -1117,40 +1107,6 @@ namespace
 			testEnd();
 		}
 	};
-
-	template< ast::type::ImageFormat FormatT
-		, ast::type::ImageDim DimT
-		, bool ArrayedT
-		, bool DepthT
-		, bool MsT >
-	struct TexelFetchOffsetTester< FormatT, DimT, ArrayedT, DepthT, MsT
-		, std::enable_if_t< isRect< DimT, ArrayedT, DepthT > > >
-	{
-		using FetchT = typename sdw::SampledImageFetchT< DimT, ArrayedT >;
-		using OffsetT = typename sdw::SampledImageOffsetT< DimT, ArrayedT >;
-
-		static void test( test::sdw_test::TestCounts & testCounts )
-		{
-			auto name = "testTexelFetchOffsetRect" + sdw::debug::getName( FormatT, DimT, ArrayedT, DepthT, MsT );
-			testBegin( name );
-			using namespace sdw;
-			{
-				FragmentWriter writer;
-				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
-				writer.implementFunction< void >( "main"
-					, [&]()
-					{
-						auto c = writer.declLocale( "c"
-							, texelFetchOffset( s
-								, test::getDefault< FetchT >( writer.getShader() )
-								, test::getDefault< OffsetT >( writer.getShader() ) ) );
-					} );
-				test::writeShader( writer
-					, testCounts );
-			}
-			testEnd();
-		}
-	};
 	/**@}*/
 #pragma endregion
 #pragma region textureProjOffset
@@ -1180,8 +1136,7 @@ namespace
 	struct TextureProjOffsetTester< FormatT, DimT, ArrayedT, DepthT, MsT
 		, std::enable_if_t< is1D< DimT, ArrayedT, DepthT >
 			|| is2D< DimT, ArrayedT, DepthT >
-			|| is3D< DimT, ArrayedT, DepthT >
-			|| isRect< DimT, ArrayedT, DepthT > > >
+			|| is3D< DimT, ArrayedT, DepthT > > >
 	{
 		using SampleProjT = typename sdw::SampledImageSampleProjT< DimT, ArrayedT >;
 		using OffsetT = typename sdw::SampledImageOffsetT< DimT, ArrayedT >;
@@ -1650,7 +1605,6 @@ namespace
 		, std::enable_if_t< is1D< DimT, ArrayedT, DepthT >
 			|| is2D< DimT, ArrayedT, DepthT >
 			|| is3D< DimT, ArrayedT, DepthT >
-			|| isRect< DimT, ArrayedT, DepthT >
 			|| isCube< DimT, ArrayedT, DepthT >
 			|| is1DArray< DimT, ArrayedT, DepthT >
 			|| is2DArray< DimT, ArrayedT, DepthT >
@@ -1751,7 +1705,6 @@ namespace
 		, std::enable_if_t< is1D< DimT, ArrayedT, DepthT >
 			|| is2D< DimT, ArrayedT, DepthT >
 			|| is3D< DimT, ArrayedT, DepthT >
-			|| isRect< DimT, ArrayedT, DepthT >
 			|| is1DArray< DimT, ArrayedT, DepthT >
 			|| is2DArray< DimT, ArrayedT, DepthT > > >
 	{
@@ -1854,8 +1807,7 @@ namespace
 	struct TextureProjGradTester < FormatT, DimT, ArrayedT, DepthT, MsT
 		, std::enable_if_t< is1D< DimT, ArrayedT, DepthT >
 			|| is2D< DimT, ArrayedT, DepthT >
-			|| is3D< DimT, ArrayedT, DepthT >
-			|| isRect< DimT, ArrayedT, DepthT > > >
+			|| is3D< DimT, ArrayedT, DepthT > > >
 	{
 		using SampleProjT = typename sdw::SampledImageSampleProjT< DimT, ArrayedT >;
 		using DerivativeT = typename sdw::SampledImageDerivativeT< DimT, ArrayedT >;
@@ -1950,8 +1902,7 @@ namespace
 	struct TextureProjGradOffsetTester < FormatT, DimT, ArrayedT, DepthT, MsT
 		, std::enable_if_t< is1D< DimT, ArrayedT, DepthT >
 			|| is2D< DimT, ArrayedT, DepthT >
-			|| is3D< DimT, ArrayedT, DepthT >
-			|| isRect< DimT, ArrayedT, DepthT > > >
+			|| is3D< DimT, ArrayedT, DepthT > > >
 	{
 		using SampleProjT = typename sdw::SampledImageSampleProjT< DimT, ArrayedT >;
 		using DerivativeT = typename sdw::SampledImageDerivativeT< DimT, ArrayedT >;
@@ -2049,7 +2000,6 @@ namespace
 		, bool MsT >
 	struct TextureGatherTester< FormatT, DimT, ArrayedT, DepthT, MsT
 		, std::enable_if_t< is2D< DimT, ArrayedT, DepthT >
-			|| isRect< DimT, ArrayedT, DepthT >
 			|| isCube< DimT, ArrayedT, DepthT >
 			|| is2DArray< DimT, ArrayedT, DepthT >
 			|| isCubeArray< DimT, ArrayedT, DepthT > > >
@@ -2142,7 +2092,6 @@ namespace
 		, bool MsT >
 	struct TextureGatherCompTester< FormatT, DimT, ArrayedT, DepthT, MsT
 		, std::enable_if_t< is2D< DimT, ArrayedT, DepthT >
-			|| isRect< DimT, ArrayedT, DepthT >
 			|| isCube< DimT, ArrayedT, DepthT >
 			|| is2DArray< DimT, ArrayedT, DepthT >
 			|| isCubeArray< DimT, ArrayedT, DepthT > > >
@@ -2199,7 +2148,6 @@ namespace
 		, bool MsT >
 	struct TextureGatherOffsetTester< FormatT, DimT, ArrayedT, DepthT, MsT
 		, std::enable_if_t< is2D< DimT, ArrayedT, DepthT >
-			|| isRect< DimT, ArrayedT, DepthT >
 			|| is2DArray< DimT, ArrayedT, DepthT > > >
 	{
 		using GatherT = typename sdw::SampledImageGatherT< DimT, ArrayedT >;
@@ -2292,7 +2240,6 @@ namespace
 		, bool MsT >
 	struct TextureGatherOffsetCompTester< FormatT, DimT, ArrayedT, DepthT, MsT
 		, std::enable_if_t< is2D< DimT, ArrayedT, DepthT >
-			|| isRect< DimT, ArrayedT, DepthT >
 			|| is2DArray< DimT, ArrayedT, DepthT > > >
 	{
 		using GatherT = typename sdw::SampledImageGatherT< DimT, ArrayedT >;
@@ -2349,7 +2296,6 @@ namespace
 		, bool MsT >
 	struct TextureGatherOffsetsTester< FormatT, DimT, ArrayedT, DepthT, MsT
 		, std::enable_if_t< is2D< DimT, ArrayedT, DepthT >
-			|| isRect< DimT, ArrayedT, DepthT >
 			|| is2DArray< DimT, ArrayedT, DepthT > > >
 	{
 		using GatherT = typename sdw::SampledImageGatherT< DimT, ArrayedT >;
@@ -2446,7 +2392,6 @@ namespace
 		, bool MsT >
 	struct TextureGatherOffsetsCompTester< FormatT, DimT, ArrayedT, DepthT, MsT
 		, std::enable_if_t< is2D< DimT, ArrayedT, DepthT >
-			|| isRect< DimT, ArrayedT, DepthT >
 			|| is2DArray< DimT, ArrayedT, DepthT > > >
 	{
 		using GatherT = typename sdw::SampledImageGatherT< DimT, ArrayedT >;
@@ -2493,7 +2438,6 @@ namespace
 			TesterT< FormatT, Img1D >::test( testCounts );
 			TesterT< FormatT, Img2D >::test( testCounts );
 			TesterT< FormatT, Img3D >::test( testCounts );
-			TesterT< FormatT, ImgRect >::test( testCounts );
 			TesterT< FormatT, ImgCube >::test( testCounts );
 			TesterT< FormatT, ImgBuffer >::test( testCounts );
 			TesterT< FormatT, Img1DArray >::test( testCounts );
@@ -2503,9 +2447,8 @@ namespace
 			if constexpr ( FormatT == ast::type::ImageFormat::eR32f
 				|| FormatT == ast::type::ImageFormat::eR16f )
 			{
-				TesterT< FormatT, ImgRectShadow >::test( testCounts );
+				TesterT< FormatT, Img1DShadow >::test( testCounts );
 				TesterT< FormatT, Img2DShadow >::test( testCounts );
-				TesterT< FormatT, ImgRectShadow >::test( testCounts );
 				TesterT< FormatT, ImgCubeShadow >::test( testCounts );
 				TesterT< FormatT, Img1DArrayShadow >::test( testCounts );
 				TesterT< FormatT, Img2DArrayShadow >::test( testCounts );
@@ -2517,7 +2460,6 @@ namespace
 			TesterT< FormatT, Img1D >::test( testCounts );
 			TesterT< FormatT, Img2D >::test( testCounts );
 			TesterT< FormatT, Img3D >::test( testCounts );
-			TesterT< FormatT, ImgRect >::test( testCounts );
 			TesterT< FormatT, ImgCube >::test( testCounts );
 			TesterT< FormatT, ImgBuffer >::test( testCounts );
 			TesterT< FormatT, Img1DArray >::test( testCounts );
@@ -2529,7 +2471,6 @@ namespace
 			TesterT< FormatT, Img1D >::test( testCounts );
 			TesterT< FormatT, Img2D >::test( testCounts );
 			TesterT< FormatT, Img3D >::test( testCounts );
-			TesterT< FormatT, ImgRect >::test( testCounts );
 			TesterT< FormatT, ImgCube >::test( testCounts );
 			TesterT< FormatT, ImgBuffer >::test( testCounts );
 			TesterT< FormatT, Img1DArray >::test( testCounts );

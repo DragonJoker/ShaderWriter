@@ -55,17 +55,6 @@ namespace sdw
 	};
 
 	template<>
-	struct SampledImageCoordsGetter< ast::type::ImageDim::eRect, false >
-	{
-		using SampleType = sdw::Vec2;
-		using ProjType = sdw::Vec3;
-		using OffsetType = sdw::IVec2;
-		using FetchType = sdw::IVec2;
-		using DerivativeType = sdw::Vec2;
-		using GatherType = sdw::Vec2;
-	};
-
-	template<>
 	struct SampledImageCoordsGetter< ast::type::ImageDim::e1D, true >
 	{
 		using QueryLodType = sdw::Float;

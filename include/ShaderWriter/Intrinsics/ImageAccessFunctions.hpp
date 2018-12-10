@@ -63,12 +63,6 @@ namespace sdw
 	MaybeOptional< IVec3 > imageSize( MaybeOptional< ImageCubeArrayRg16 > const & image );
 	MaybeOptional< IVec3 > imageSize( MaybeOptional< ImageCubeArrayR32 > const & image );
 	MaybeOptional< IVec3 > imageSize( MaybeOptional< ImageCubeArrayR16 > const & image );
-	MaybeOptional< IVec2 > imageSize( MaybeOptional< Image2DRectRgba32 > const & image );
-	MaybeOptional< IVec2 > imageSize( MaybeOptional< Image2DRectRgba16 > const & image );
-	MaybeOptional< IVec2 > imageSize( MaybeOptional< Image2DRectRg32 > const & image );
-	MaybeOptional< IVec2 > imageSize( MaybeOptional< Image2DRectRg16 > const & image );
-	MaybeOptional< IVec2 > imageSize( MaybeOptional< Image2DRectR32 > const & image );
-	MaybeOptional< IVec2 > imageSize( MaybeOptional< Image2DRectR16 > const & image );
 	MaybeOptional< IVec2 > imageSize( MaybeOptional< Image1DArrayRgba32 > const & image );
 	MaybeOptional< IVec2 > imageSize( MaybeOptional< Image1DArrayRgba16 > const & image );
 	MaybeOptional< IVec2 > imageSize( MaybeOptional< Image1DArrayRg32 > const & image );
@@ -144,15 +138,6 @@ namespace sdw
 	MaybeOptional< IVec3 > imageSize( MaybeOptional< IImageCubeArrayR32 > const & image );
 	MaybeOptional< IVec3 > imageSize( MaybeOptional< IImageCubeArrayR16 > const & image );
 	MaybeOptional< IVec3 > imageSize( MaybeOptional< IImageCubeArrayR8 > const & image );
-	MaybeOptional< IVec2 > imageSize( MaybeOptional< IImage2DRectRgba32 > const & image );
-	MaybeOptional< IVec2 > imageSize( MaybeOptional< IImage2DRectRgba16 > const & image );
-	MaybeOptional< IVec2 > imageSize( MaybeOptional< IImage2DRectRgba8 > const & image );
-	MaybeOptional< IVec2 > imageSize( MaybeOptional< IImage2DRectRg32 > const & image );
-	MaybeOptional< IVec2 > imageSize( MaybeOptional< IImage2DRectRg16 > const & image );
-	MaybeOptional< IVec2 > imageSize( MaybeOptional< IImage2DRectRg8 > const & image );
-	MaybeOptional< IVec2 > imageSize( MaybeOptional< IImage2DRectR32 > const & image );
-	MaybeOptional< IVec2 > imageSize( MaybeOptional< IImage2DRectR16 > const & image );
-	MaybeOptional< IVec2 > imageSize( MaybeOptional< IImage2DRectR8 > const & image );
 	MaybeOptional< IVec2 > imageSize( MaybeOptional< IImage1DArrayRgba32 > const & image );
 	MaybeOptional< IVec2 > imageSize( MaybeOptional< IImage1DArrayRgba16 > const & image );
 	MaybeOptional< IVec2 > imageSize( MaybeOptional< IImage1DArrayRgba8 > const & image );
@@ -243,15 +228,6 @@ namespace sdw
 	MaybeOptional< IVec3 > imageSize( MaybeOptional< UImageCubeArrayR32 > const & image );
 	MaybeOptional< IVec3 > imageSize( MaybeOptional< UImageCubeArrayR16 > const & image );
 	MaybeOptional< IVec3 > imageSize( MaybeOptional< UImageCubeArrayR8 > const & image );
-	MaybeOptional< IVec2 > imageSize( MaybeOptional< UImage2DRectRgba32 > const & image );
-	MaybeOptional< IVec2 > imageSize( MaybeOptional< UImage2DRectRgba16 > const & image );
-	MaybeOptional< IVec2 > imageSize( MaybeOptional< UImage2DRectRgba8 > const & image );
-	MaybeOptional< IVec2 > imageSize( MaybeOptional< UImage2DRectRg32 > const & image );
-	MaybeOptional< IVec2 > imageSize( MaybeOptional< UImage2DRectRg16 > const & image );
-	MaybeOptional< IVec2 > imageSize( MaybeOptional< UImage2DRectRg8 > const & image );
-	MaybeOptional< IVec2 > imageSize( MaybeOptional< UImage2DRectR32 > const & image );
-	MaybeOptional< IVec2 > imageSize( MaybeOptional< UImage2DRectR16 > const & image );
-	MaybeOptional< IVec2 > imageSize( MaybeOptional< UImage2DRectR8 > const & image );
 	MaybeOptional< IVec2 > imageSize( MaybeOptional< UImage1DArrayRgba32 > const & image );
 	MaybeOptional< IVec2 > imageSize( MaybeOptional< UImage1DArrayRgba16 > const & image );
 	MaybeOptional< IVec2 > imageSize( MaybeOptional< UImage1DArrayRgba8 > const & image );
@@ -379,12 +355,6 @@ namespace sdw
 	MaybeOptional< Vec2 > imageLoad( MaybeOptional< Image3DRg16 > const & image, MaybeOptional< IVec3 > const & P );
 	MaybeOptional< Float > imageLoad( MaybeOptional< Image3DR32 > const & image, MaybeOptional< IVec3 > const & P );
 	MaybeOptional< Float > imageLoad( MaybeOptional< Image3DR16 > const & image, MaybeOptional< IVec3 > const & P );
-	MaybeOptional< Vec4 > imageLoad( MaybeOptional< Image2DRectRgba32 > const & image, MaybeOptional< IVec2 > const & P );
-	MaybeOptional< Vec4 > imageLoad( MaybeOptional< Image2DRectRgba16 > const & image, MaybeOptional< IVec2 > const & P );
-	MaybeOptional< Vec2 > imageLoad( MaybeOptional< Image2DRectRg32 > const & image, MaybeOptional< IVec2 > const & P );
-	MaybeOptional< Vec2 > imageLoad( MaybeOptional< Image2DRectRg16 > const & image, MaybeOptional< IVec2 > const & P );
-	MaybeOptional< Float > imageLoad( MaybeOptional< Image2DRectR32 > const & image, MaybeOptional< IVec2 > const & P );
-	MaybeOptional< Float > imageLoad( MaybeOptional< Image2DRectR16 > const & image, MaybeOptional< IVec2 > const & P );
 	MaybeOptional< Vec4 > imageLoad( MaybeOptional< ImageCubeRgba32 > const & image, MaybeOptional< IVec3 > const & P );
 	MaybeOptional< Vec4 > imageLoad( MaybeOptional< ImageCubeRgba16 > const & image, MaybeOptional< IVec3 > const & P );
 	MaybeOptional< Vec2 > imageLoad( MaybeOptional< ImageCubeRg32 > const & image, MaybeOptional< IVec3 > const & P );
@@ -442,15 +412,6 @@ namespace sdw
 	MaybeOptional< Int > imageLoad( MaybeOptional< IImage3DR32 > const & image, MaybeOptional< IVec3 > const & P );
 	MaybeOptional< Int > imageLoad( MaybeOptional< IImage3DR16 > const & image, MaybeOptional< IVec3 > const & P );
 	MaybeOptional< Int > imageLoad( MaybeOptional< IImage3DR8 > const & image, MaybeOptional< IVec3 > const & P );
-	MaybeOptional< IVec4 > imageLoad( MaybeOptional< IImage2DRectRgba32 > const & image, MaybeOptional< IVec2 > const & P );
-	MaybeOptional< IVec4 > imageLoad( MaybeOptional< IImage2DRectRgba16 > const & image, MaybeOptional< IVec2 > const & P );
-	MaybeOptional< IVec4 > imageLoad( MaybeOptional< IImage2DRectRgba8 > const & image, MaybeOptional< IVec2 > const & P );
-	MaybeOptional< IVec2 > imageLoad( MaybeOptional< IImage2DRectRg32 > const & image, MaybeOptional< IVec2 > const & P );
-	MaybeOptional< IVec2 > imageLoad( MaybeOptional< IImage2DRectRg16 > const & image, MaybeOptional< IVec2 > const & P );
-	MaybeOptional< IVec2 > imageLoad( MaybeOptional< IImage2DRectRg8 > const & image, MaybeOptional< IVec2 > const & P );
-	MaybeOptional< Int > imageLoad( MaybeOptional< IImage2DRectR32 > const & image, MaybeOptional< IVec2 > const & P );
-	MaybeOptional< Int > imageLoad( MaybeOptional< IImage2DRectR16 > const & image, MaybeOptional< IVec2 > const & P );
-	MaybeOptional< Int > imageLoad( MaybeOptional< IImage2DRectR8 > const & image, MaybeOptional< IVec2 > const & P );
 	MaybeOptional< IVec4 > imageLoad( MaybeOptional< IImageCubeRgba32 > const & image, MaybeOptional< IVec3 > const & P );
 	MaybeOptional< IVec4 > imageLoad( MaybeOptional< IImageCubeRgba16 > const & image, MaybeOptional< IVec3 > const & P );
 	MaybeOptional< IVec4 > imageLoad( MaybeOptional< IImageCubeRgba8 > const & image, MaybeOptional< IVec3 > const & P );
@@ -523,15 +484,6 @@ namespace sdw
 	MaybeOptional< UInt > imageLoad( MaybeOptional< UImage3DR32 > const & image, MaybeOptional< IVec3 > const & P );
 	MaybeOptional< UInt > imageLoad( MaybeOptional< UImage3DR16 > const & image, MaybeOptional< IVec3 > const & P );
 	MaybeOptional< UInt > imageLoad( MaybeOptional< UImage3DR8 > const & image, MaybeOptional< IVec3 > const & P );
-	MaybeOptional< UVec4 > imageLoad( MaybeOptional< UImage2DRectRgba32 > const & image, MaybeOptional< IVec2 > const & P );
-	MaybeOptional< UVec4 > imageLoad( MaybeOptional< UImage2DRectRgba16 > const & image, MaybeOptional< IVec2 > const & P );
-	MaybeOptional< UVec4 > imageLoad( MaybeOptional< UImage2DRectRgba8 > const & image, MaybeOptional< IVec2 > const & P );
-	MaybeOptional< UVec2 > imageLoad( MaybeOptional< UImage2DRectRg32 > const & image, MaybeOptional< IVec2 > const & P );
-	MaybeOptional< UVec2 > imageLoad( MaybeOptional< UImage2DRectRg16 > const & image, MaybeOptional< IVec2 > const & P );
-	MaybeOptional< UVec2 > imageLoad( MaybeOptional< UImage2DRectRg8 > const & image, MaybeOptional< IVec2 > const & P );
-	MaybeOptional< UInt > imageLoad( MaybeOptional< UImage2DRectR32 > const & image, MaybeOptional< IVec2 > const & P );
-	MaybeOptional< UInt > imageLoad( MaybeOptional< UImage2DRectR16 > const & image, MaybeOptional< IVec2 > const & P );
-	MaybeOptional< UInt > imageLoad( MaybeOptional< UImage2DRectR8 > const & image, MaybeOptional< IVec2 > const & P );
 	MaybeOptional< UVec4 > imageLoad( MaybeOptional< UImageCubeRgba32 > const & image, MaybeOptional< IVec3 > const & P );
 	MaybeOptional< UVec4 > imageLoad( MaybeOptional< UImageCubeRgba16 > const & image, MaybeOptional< IVec3 > const & P );
 	MaybeOptional< UVec4 > imageLoad( MaybeOptional< UImageCubeRgba8 > const & image, MaybeOptional< IVec3 > const & P );
@@ -636,7 +588,6 @@ namespace sdw
 	MaybeOptional< UInt > imageAtomicAdd( MaybeOptional< UImage1DR32 > const & image, MaybeOptional< Int > const & P, MaybeOptional< UInt > const & data );
 	MaybeOptional< UInt > imageAtomicAdd( MaybeOptional< UImage2DR32 > const & image, MaybeOptional< IVec2 > const & P, MaybeOptional< UInt > const & data );
 	MaybeOptional< UInt > imageAtomicAdd( MaybeOptional< UImage3DR32 > const & image, MaybeOptional< IVec3 > const & P, MaybeOptional< UInt > const & data );
-	MaybeOptional< UInt > imageAtomicAdd( MaybeOptional< UImage2DRectR32 > const & image, MaybeOptional< IVec2 > const & P, MaybeOptional< UInt > const & data );
 	MaybeOptional< UInt > imageAtomicAdd( MaybeOptional< UImageCubeR32 > const & image, MaybeOptional< IVec3 > const & P, MaybeOptional< UInt > const & data );
 	MaybeOptional< UInt > imageAtomicAdd( MaybeOptional< UImageBufferR32 > const & image, MaybeOptional< Int > const & P, MaybeOptional< UInt > const & data );
 	MaybeOptional< UInt > imageAtomicAdd( MaybeOptional< UImage1DArrayR32 > const & image, MaybeOptional< IVec2 > const & P, MaybeOptional< UInt > const & data );
@@ -645,7 +596,6 @@ namespace sdw
 	MaybeOptional< Int > imageAtomicAdd( MaybeOptional< IImage1DR32 > const & image, MaybeOptional< Int > const & P, MaybeOptional< Int > const & data );
 	MaybeOptional< Int > imageAtomicAdd( MaybeOptional< IImage2DR32 > const & image, MaybeOptional< IVec2 > const & P, MaybeOptional< Int > const & data );
 	MaybeOptional< Int > imageAtomicAdd( MaybeOptional< IImage3DR32 > const & image, MaybeOptional< IVec3 > const & P, MaybeOptional< Int > const & data );
-	MaybeOptional< Int > imageAtomicAdd( MaybeOptional< IImage2DRectR32 > const & image, MaybeOptional< IVec2 > const & P, MaybeOptional< Int > const & data );
 	MaybeOptional< Int > imageAtomicAdd( MaybeOptional< IImageCubeR32 > const & image, MaybeOptional< IVec3 > const & P, MaybeOptional< Int > const & data );
 	MaybeOptional< Int > imageAtomicAdd( MaybeOptional< IImageBufferR32 > const & image, MaybeOptional< Int > const & P, MaybeOptional< Int > const & data );
 	MaybeOptional< Int > imageAtomicAdd( MaybeOptional< IImage1DArrayR32 > const & image, MaybeOptional< IVec2 > const & P, MaybeOptional< Int > const & data );
@@ -666,7 +616,6 @@ namespace sdw
 	MaybeOptional< UInt > imageAtomicMin( MaybeOptional< UImage1DR32 > const & image, MaybeOptional< Int > const & P, MaybeOptional< UInt > const & data );
 	MaybeOptional< UInt > imageAtomicMin( MaybeOptional< UImage2DR32 > const & image, MaybeOptional< IVec2 > const & P, MaybeOptional< UInt > const & data );
 	MaybeOptional< UInt > imageAtomicMin( MaybeOptional< UImage3DR32 > const & image, MaybeOptional< IVec3 > const & P, MaybeOptional< UInt > const & data );
-	MaybeOptional< UInt > imageAtomicMin( MaybeOptional< UImage2DRectR32 > const & image, MaybeOptional< IVec2 > const & P, MaybeOptional< UInt > const & data );
 	MaybeOptional< UInt > imageAtomicMin( MaybeOptional< UImageCubeR32 > const & image, MaybeOptional< IVec3 > const & P, MaybeOptional< UInt > const & data );
 	MaybeOptional< UInt > imageAtomicMin( MaybeOptional< UImageBufferR32 > const & image, MaybeOptional< Int > const & P, MaybeOptional< UInt > const & data );
 	MaybeOptional< UInt > imageAtomicMin( MaybeOptional< UImage1DArrayR32 > const & image, MaybeOptional< IVec2 > const & P, MaybeOptional< UInt > const & data );
@@ -675,7 +624,6 @@ namespace sdw
 	MaybeOptional< Int > imageAtomicMin( MaybeOptional< IImage1DR32 > const & image, MaybeOptional< Int > const & P, MaybeOptional< Int > const & data );
 	MaybeOptional< Int > imageAtomicMin( MaybeOptional< IImage2DR32 > const & image, MaybeOptional< IVec2 > const & P, MaybeOptional< Int > const & data );
 	MaybeOptional< Int > imageAtomicMin( MaybeOptional< IImage3DR32 > const & image, MaybeOptional< IVec3 > const & P, MaybeOptional< Int > const & data );
-	MaybeOptional< Int > imageAtomicMin( MaybeOptional< IImage2DRectR32 > const & image, MaybeOptional< IVec2 > const & P, MaybeOptional< Int > const & data );
 	MaybeOptional< Int > imageAtomicMin( MaybeOptional< IImageCubeR32 > const & image, MaybeOptional< IVec3 > const & P, MaybeOptional< Int > const & data );
 	MaybeOptional< Int > imageAtomicMin( MaybeOptional< IImageBufferR32 > const & image, MaybeOptional< Int > const & P, MaybeOptional< Int > const & data );
 	MaybeOptional< Int > imageAtomicMin( MaybeOptional< IImage1DArrayR32 > const & image, MaybeOptional< IVec2 > const & P, MaybeOptional< Int > const & data );
@@ -696,7 +644,6 @@ namespace sdw
 	MaybeOptional< UInt > imageAtomicMax( MaybeOptional< UImage1DR32 > const & image, MaybeOptional< Int > const & P, MaybeOptional< UInt > const & data );
 	MaybeOptional< UInt > imageAtomicMax( MaybeOptional< UImage2DR32 > const & image, MaybeOptional< IVec2 > const & P, MaybeOptional< UInt > const & data );
 	MaybeOptional< UInt > imageAtomicMax( MaybeOptional< UImage3DR32 > const & image, MaybeOptional< IVec3 > const & P, MaybeOptional< UInt > const & data );
-	MaybeOptional< UInt > imageAtomicMax( MaybeOptional< UImage2DRectR32 > const & image, MaybeOptional< IVec2 > const & P, MaybeOptional< UInt > const & data );
 	MaybeOptional< UInt > imageAtomicMax( MaybeOptional< UImageCubeR32 > const & image, MaybeOptional< IVec3 > const & P, MaybeOptional< UInt > const & data );
 	MaybeOptional< UInt > imageAtomicMax( MaybeOptional< UImageBufferR32 > const & image, MaybeOptional< Int > const & P, MaybeOptional< UInt > const & data );
 	MaybeOptional< UInt > imageAtomicMax( MaybeOptional< UImage1DArrayR32 > const & image, MaybeOptional< IVec2 > const & P, MaybeOptional< UInt > const & data );
@@ -705,7 +652,6 @@ namespace sdw
 	MaybeOptional< Int > imageAtomicMax( MaybeOptional< IImage1DR32 > const & image, MaybeOptional< Int > const & P, MaybeOptional< Int > const & data );
 	MaybeOptional< Int > imageAtomicMax( MaybeOptional< IImage2DR32 > const & image, MaybeOptional< IVec2 > const & P, MaybeOptional< Int > const & data );
 	MaybeOptional< Int > imageAtomicMax( MaybeOptional< IImage3DR32 > const & image, MaybeOptional< IVec3 > const & P, MaybeOptional< Int > const & data );
-	MaybeOptional< Int > imageAtomicMax( MaybeOptional< IImage2DRectR32 > const & image, MaybeOptional< IVec2 > const & P, MaybeOptional< Int > const & data );
 	MaybeOptional< Int > imageAtomicMax( MaybeOptional< IImageCubeR32 > const & image, MaybeOptional< IVec3 > const & P, MaybeOptional< Int > const & data );
 	MaybeOptional< Int > imageAtomicMax( MaybeOptional< IImageBufferR32 > const & image, MaybeOptional< Int > const & P, MaybeOptional< Int > const & data );
 	MaybeOptional< Int > imageAtomicMax( MaybeOptional< IImage1DArrayR32 > const & image, MaybeOptional< IVec2 > const & P, MaybeOptional< Int > const & data );
@@ -726,7 +672,6 @@ namespace sdw
 	MaybeOptional< UInt > imageAtomicAnd( MaybeOptional< UImage1DR32 > const & image, MaybeOptional< Int > const & P, MaybeOptional< UInt > const & data );
 	MaybeOptional< UInt > imageAtomicAnd( MaybeOptional< UImage2DR32 > const & image, MaybeOptional< IVec2 > const & P, MaybeOptional< UInt > const & data );
 	MaybeOptional< UInt > imageAtomicAnd( MaybeOptional< UImage3DR32 > const & image, MaybeOptional< IVec3 > const & P, MaybeOptional< UInt > const & data );
-	MaybeOptional< UInt > imageAtomicAnd( MaybeOptional< UImage2DRectR32 > const & image, MaybeOptional< IVec2 > const & P, MaybeOptional< UInt > const & data );
 	MaybeOptional< UInt > imageAtomicAnd( MaybeOptional< UImageCubeR32 > const & image, MaybeOptional< IVec3 > const & P, MaybeOptional< UInt > const & data );
 	MaybeOptional< UInt > imageAtomicAnd( MaybeOptional< UImageBufferR32 > const & image, MaybeOptional< Int > const & P, MaybeOptional< UInt > const & data );
 	MaybeOptional< UInt > imageAtomicAnd( MaybeOptional< UImage1DArrayR32 > const & image, MaybeOptional< IVec2 > const & P, MaybeOptional< UInt > const & data );
@@ -735,7 +680,6 @@ namespace sdw
 	MaybeOptional< Int > imageAtomicAnd( MaybeOptional< IImage1DR32 > const & image, MaybeOptional< Int > const & P, MaybeOptional< Int > const & data );
 	MaybeOptional< Int > imageAtomicAnd( MaybeOptional< IImage2DR32 > const & image, MaybeOptional< IVec2 > const & P, MaybeOptional< Int > const & data );
 	MaybeOptional< Int > imageAtomicAnd( MaybeOptional< IImage3DR32 > const & image, MaybeOptional< IVec3 > const & P, MaybeOptional< Int > const & data );
-	MaybeOptional< Int > imageAtomicAnd( MaybeOptional< IImage2DRectR32 > const & image, MaybeOptional< IVec2 > const & P, MaybeOptional< Int > const & data );
 	MaybeOptional< Int > imageAtomicAnd( MaybeOptional< IImageCubeR32 > const & image, MaybeOptional< IVec3 > const & P, MaybeOptional< Int > const & data );
 	MaybeOptional< Int > imageAtomicAnd( MaybeOptional< IImageBufferR32 > const & image, MaybeOptional< Int > const & P, MaybeOptional< Int > const & data );
 	MaybeOptional< Int > imageAtomicAnd( MaybeOptional< IImage1DArrayR32 > const & image, MaybeOptional< IVec2 > const & P, MaybeOptional< Int > const & data );
@@ -756,7 +700,6 @@ namespace sdw
 	MaybeOptional< UInt > imageAtomicOr( MaybeOptional< UImage1DR32 > const & image, MaybeOptional< Int > const & P, MaybeOptional< UInt > const & data );
 	MaybeOptional< UInt > imageAtomicOr( MaybeOptional< UImage2DR32 > const & image, MaybeOptional< IVec2 > const & P, MaybeOptional< UInt > const & data );
 	MaybeOptional< UInt > imageAtomicOr( MaybeOptional< UImage3DR32 > const & image, MaybeOptional< IVec3 > const & P, MaybeOptional< UInt > const & data );
-	MaybeOptional< UInt > imageAtomicOr( MaybeOptional< UImage2DRectR32 > const & image, MaybeOptional< IVec2 > const & P, MaybeOptional< UInt > const & data );
 	MaybeOptional< UInt > imageAtomicOr( MaybeOptional< UImageCubeR32 > const & image, MaybeOptional< IVec3 > const & P, MaybeOptional< UInt > const & data );
 	MaybeOptional< UInt > imageAtomicOr( MaybeOptional< UImageBufferR32 > const & image, MaybeOptional< Int > const & P, MaybeOptional< UInt > const & data );
 	MaybeOptional< UInt > imageAtomicOr( MaybeOptional< UImage1DArrayR32 > const & image, MaybeOptional< IVec2 > const & P, MaybeOptional< UInt > const & data );
@@ -765,7 +708,6 @@ namespace sdw
 	MaybeOptional< Int > imageAtomicOr( MaybeOptional< IImage1DR32 > const & image, MaybeOptional< Int > const & P, MaybeOptional< Int > const & data );
 	MaybeOptional< Int > imageAtomicOr( MaybeOptional< IImage2DR32 > const & image, MaybeOptional< IVec2 > const & P, MaybeOptional< Int > const & data );
 	MaybeOptional< Int > imageAtomicOr( MaybeOptional< IImage3DR32 > const & image, MaybeOptional< IVec3 > const & P, MaybeOptional< Int > const & data );
-	MaybeOptional< Int > imageAtomicOr( MaybeOptional< IImage2DRectR32 > const & image, MaybeOptional< IVec2 > const & P, MaybeOptional< Int > const & data );
 	MaybeOptional< Int > imageAtomicOr( MaybeOptional< IImageCubeR32 > const & image, MaybeOptional< IVec3 > const & P, MaybeOptional< Int > const & data );
 	MaybeOptional< Int > imageAtomicOr( MaybeOptional< IImageBufferR32 > const & image, MaybeOptional< Int > const & P, MaybeOptional< Int > const & data );
 	MaybeOptional< Int > imageAtomicOr( MaybeOptional< IImage1DArrayR32 > const & image, MaybeOptional< IVec2 > const & P, MaybeOptional< Int > const & data );
@@ -786,7 +728,6 @@ namespace sdw
 	MaybeOptional< UInt > imageAtomicXor( MaybeOptional< UImage1DR32 > const & image, MaybeOptional< Int > const & P, MaybeOptional< UInt > const & data );
 	MaybeOptional< UInt > imageAtomicXor( MaybeOptional< UImage2DR32 > const & image, MaybeOptional< IVec2 > const & P, MaybeOptional< UInt > const & data );
 	MaybeOptional< UInt > imageAtomicXor( MaybeOptional< UImage3DR32 > const & image, MaybeOptional< IVec3 > const & P, MaybeOptional< UInt > const & data );
-	MaybeOptional< UInt > imageAtomicXor( MaybeOptional< UImage2DRectR32 > const & image, MaybeOptional< IVec2 > const & P, MaybeOptional< UInt > const & data );
 	MaybeOptional< UInt > imageAtomicXor( MaybeOptional< UImageCubeR32 > const & image, MaybeOptional< IVec3 > const & P, MaybeOptional< UInt > const & data );
 	MaybeOptional< UInt > imageAtomicXor( MaybeOptional< UImageBufferR32 > const & image, MaybeOptional< Int > const & P, MaybeOptional< UInt > const & data );
 	MaybeOptional< UInt > imageAtomicXor( MaybeOptional< UImage1DArrayR32 > const & image, MaybeOptional< IVec2 > const & P, MaybeOptional< UInt > const & data );
@@ -795,7 +736,6 @@ namespace sdw
 	MaybeOptional< Int > imageAtomicXor( MaybeOptional< IImage1DR32 > const & image, MaybeOptional< Int > const & P, MaybeOptional< Int > const & data );
 	MaybeOptional< Int > imageAtomicXor( MaybeOptional< IImage2DR32 > const & image, MaybeOptional< IVec2 > const & P, MaybeOptional< Int > const & data );
 	MaybeOptional< Int > imageAtomicXor( MaybeOptional< IImage3DR32 > const & image, MaybeOptional< IVec3 > const & P, MaybeOptional< Int > const & data );
-	MaybeOptional< Int > imageAtomicXor( MaybeOptional< IImage2DRectR32 > const & image, MaybeOptional< IVec2 > const & P, MaybeOptional< Int > const & data );
 	MaybeOptional< Int > imageAtomicXor( MaybeOptional< IImageCubeR32 > const & image, MaybeOptional< IVec3 > const & P, MaybeOptional< Int > const & data );
 	MaybeOptional< Int > imageAtomicXor( MaybeOptional< IImageBufferR32 > const & image, MaybeOptional< Int > const & P, MaybeOptional< Int > const & data );
 	MaybeOptional< Int > imageAtomicXor( MaybeOptional< IImage1DArrayR32 > const & image, MaybeOptional< IVec2 > const & P, MaybeOptional< Int > const & data );
@@ -816,7 +756,6 @@ namespace sdw
 	MaybeOptional< UInt > imageAtomicExchange( MaybeOptional< UImage1DR32 > const & image, MaybeOptional< Int > const & P, MaybeOptional< UInt > const & data );
 	MaybeOptional< UInt > imageAtomicExchange( MaybeOptional< UImage2DR32 > const & image, MaybeOptional< IVec2 > const & P, MaybeOptional< UInt > const & data );
 	MaybeOptional< UInt > imageAtomicExchange( MaybeOptional< UImage3DR32 > const & image, MaybeOptional< IVec3 > const & P, MaybeOptional< UInt > const & data );
-	MaybeOptional< UInt > imageAtomicExchange( MaybeOptional< UImage2DRectR32 > const & image, MaybeOptional< IVec2 > const & P, MaybeOptional< UInt > const & data );
 	MaybeOptional< UInt > imageAtomicExchange( MaybeOptional< UImageCubeR32 > const & image, MaybeOptional< IVec3 > const & P, MaybeOptional< UInt > const & data );
 	MaybeOptional< UInt > imageAtomicExchange( MaybeOptional< UImageBufferR32 > const & image, MaybeOptional< Int > const & P, MaybeOptional< UInt > const & data );
 	MaybeOptional< UInt > imageAtomicExchange( MaybeOptional< UImage1DArrayR32 > const & image, MaybeOptional< IVec2 > const & P, MaybeOptional< UInt > const & data );
@@ -825,7 +764,6 @@ namespace sdw
 	MaybeOptional< Int > imageAtomicExchange( MaybeOptional< IImage1DR32 > const & image, MaybeOptional< Int > const & P, MaybeOptional< Int > const & data );
 	MaybeOptional< Int > imageAtomicExchange( MaybeOptional< IImage2DR32 > const & image, MaybeOptional< IVec2 > const & P, MaybeOptional< Int > const & data );
 	MaybeOptional< Int > imageAtomicExchange( MaybeOptional< IImage3DR32 > const & image, MaybeOptional< IVec3 > const & P, MaybeOptional< Int > const & data );
-	MaybeOptional< Int > imageAtomicExchange( MaybeOptional< IImage2DRectR32 > const & image, MaybeOptional< IVec2 > const & P, MaybeOptional< Int > const & data );
 	MaybeOptional< Int > imageAtomicExchange( MaybeOptional< IImageCubeR32 > const & image, MaybeOptional< IVec3 > const & P, MaybeOptional< Int > const & data );
 	MaybeOptional< Int > imageAtomicExchange( MaybeOptional< IImageBufferR32 > const & image, MaybeOptional< Int > const & P, MaybeOptional< Int > const & data );
 	MaybeOptional< Int > imageAtomicExchange( MaybeOptional< IImage1DArrayR32 > const & image, MaybeOptional< IVec2 > const & P, MaybeOptional< Int > const & data );
@@ -846,7 +784,6 @@ namespace sdw
 	MaybeOptional< UInt > imageAtomicCompSwap( MaybeOptional< UImage1DR32 > const & image, MaybeOptional< Int > const & P, MaybeOptional< UInt > const & compare, MaybeOptional< UInt > const & data );
 	MaybeOptional< UInt > imageAtomicCompSwap( MaybeOptional< UImage2DR32 > const & image, MaybeOptional< IVec2 > const & P, MaybeOptional< UInt > const & compare, MaybeOptional< UInt > const & data );
 	MaybeOptional< UInt > imageAtomicCompSwap( MaybeOptional< UImage3DR32 > const & image, MaybeOptional< IVec3 > const & P, MaybeOptional< UInt > const & compare, MaybeOptional< UInt > const & data );
-	MaybeOptional< UInt > imageAtomicCompSwap( MaybeOptional< UImage2DRectR32 > const & image, MaybeOptional< IVec2 > const & P, MaybeOptional< UInt > const & compare, MaybeOptional< UInt > const & data );
 	MaybeOptional< UInt > imageAtomicCompSwap( MaybeOptional< UImageCubeR32 > const & image, MaybeOptional< IVec3 > const & P, MaybeOptional< UInt > const & compare, MaybeOptional< UInt > const & data );
 	MaybeOptional< UInt > imageAtomicCompSwap( MaybeOptional< UImageBufferR32 > const & image, MaybeOptional< Int > const & P, MaybeOptional< UInt > const & compare, MaybeOptional< UInt > const & data );
 	MaybeOptional< UInt > imageAtomicCompSwap( MaybeOptional< UImage1DArrayR32 > const & image, MaybeOptional< IVec2 > const & P, MaybeOptional< UInt > const & compare, MaybeOptional< UInt > const & data );
@@ -855,7 +792,6 @@ namespace sdw
 	MaybeOptional< Int > imageAtomicCompSwap( MaybeOptional< IImage1DR32 > const & image, MaybeOptional< Int > const & P, MaybeOptional< Int > const & compare, MaybeOptional< Int > const & data );
 	MaybeOptional< Int > imageAtomicCompSwap( MaybeOptional< IImage2DR32 > const & image, MaybeOptional< IVec2 > const & P, MaybeOptional< Int > const & compare, MaybeOptional< Int > const & data );
 	MaybeOptional< Int > imageAtomicCompSwap( MaybeOptional< IImage3DR32 > const & image, MaybeOptional< IVec3 > const & P, MaybeOptional< Int > const & compare, MaybeOptional< Int > const & data );
-	MaybeOptional< Int > imageAtomicCompSwap( MaybeOptional< IImage2DRectR32 > const & image, MaybeOptional< IVec2 > const & P, MaybeOptional< Int > const & compare, MaybeOptional< Int > const & data );
 	MaybeOptional< Int > imageAtomicCompSwap( MaybeOptional< IImageCubeR32 > const & image, MaybeOptional< IVec3 > const & P, MaybeOptional< Int > const & compare, MaybeOptional< Int > const & data );
 	MaybeOptional< Int > imageAtomicCompSwap( MaybeOptional< IImageBufferR32 > const & image, MaybeOptional< Int > const & P, MaybeOptional< Int > const & compare, MaybeOptional< Int > const & data );
 	MaybeOptional< Int > imageAtomicCompSwap( MaybeOptional< IImage1DArrayR32 > const & image, MaybeOptional< IVec2 > const & P, MaybeOptional< Int > const & compare, MaybeOptional< Int > const & data );

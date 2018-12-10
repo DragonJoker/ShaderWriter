@@ -302,7 +302,6 @@ namespace sdw
 	Writer_Image( , Image1D, Rgba32, eImage );
 	Writer_Image( , Image2D, Rgba32, eImage );
 	Writer_Image( , Image3D, Rgba32, eImage );
-	Writer_Image( , Image2DRect, Rgba32, eImage );
 	Writer_Image( , ImageCube, Rgba32, eImage );
 	Writer_Image( , Image1DArray, Rgba32, eImage );
 	Writer_Image( , Image2DArray, Rgba32, eImage );
@@ -313,7 +312,6 @@ namespace sdw
 	Writer_Image( , SampledImage1D, Rgba32, eSampledImage );
 	Writer_Image( , SampledImage2D, Rgba32, eSampledImage );
 	Writer_Image( , SampledImage3D, Rgba32, eSampledImage );
-	Writer_Image( , SampledImage2DRect, Rgba32, eSampledImage );
 	Writer_Image( , SampledImageCube, Rgba32, eSampledImage );
 	Writer_Image( , SampledImage1DArray, Rgba32, eSampledImage );
 	Writer_Image( , SampledImage2DArray, Rgba32, eSampledImage );
@@ -324,7 +322,6 @@ namespace sdw
 	Writer_Image( , Image1D, Rgba16, eImage );
 	Writer_Image( , Image2D, Rgba16, eImage );
 	Writer_Image( , Image3D, Rgba16, eImage );
-	Writer_Image( , Image2DRect, Rgba16, eImage );
 	Writer_Image( , ImageCube, Rgba16, eImage );
 	Writer_Image( , Image1DArray, Rgba16, eImage );
 	Writer_Image( , Image2DArray, Rgba16, eImage );
@@ -335,7 +332,6 @@ namespace sdw
 	Writer_Image( , SampledImage1D, Rgba16, eSampledImage );
 	Writer_Image( , SampledImage2D, Rgba16, eSampledImage );
 	Writer_Image( , SampledImage3D, Rgba16, eSampledImage );
-	Writer_Image( , SampledImage2DRect, Rgba16, eSampledImage );
 	Writer_Image( , SampledImageCube, Rgba16, eSampledImage );
 	Writer_Image( , SampledImage1DArray, Rgba16, eSampledImage );
 	Writer_Image( , SampledImage2DArray, Rgba16, eSampledImage );
@@ -346,7 +342,6 @@ namespace sdw
 	Writer_Image( , Image1D, Rg32, eImage );
 	Writer_Image( , Image2D, Rg32, eImage );
 	Writer_Image( , Image3D, Rg32, eImage );
-	Writer_Image( , Image2DRect, Rg32, eImage );
 	Writer_Image( , ImageCube, Rg32, eImage );
 	Writer_Image( , Image1DArray, Rg32, eImage );
 	Writer_Image( , Image2DArray, Rg32, eImage );
@@ -357,7 +352,6 @@ namespace sdw
 	Writer_Image( , SampledImage1D, Rg32, eSampledImage );
 	Writer_Image( , SampledImage2D, Rg32, eSampledImage );
 	Writer_Image( , SampledImage3D, Rg32, eSampledImage );
-	Writer_Image( , SampledImage2DRect, Rg32, eSampledImage );
 	Writer_Image( , SampledImageCube, Rg32, eSampledImage );
 	Writer_Image( , SampledImage1DArray, Rg32, eSampledImage );
 	Writer_Image( , SampledImage2DArray, Rg32, eSampledImage );
@@ -368,7 +362,6 @@ namespace sdw
 	Writer_Image( , Image1D, Rg16, eImage );
 	Writer_Image( , Image2D, Rg16, eImage );
 	Writer_Image( , Image3D, Rg16, eImage );
-	Writer_Image( , Image2DRect, Rg16, eImage );
 	Writer_Image( , ImageCube, Rg16, eImage );
 	Writer_Image( , Image1DArray, Rg16, eImage );
 	Writer_Image( , Image2DArray, Rg16, eImage );
@@ -379,7 +372,6 @@ namespace sdw
 	Writer_Image( , SampledImage1D, Rg16, eSampledImage );
 	Writer_Image( , SampledImage2D, Rg16, eSampledImage );
 	Writer_Image( , SampledImage3D, Rg16, eSampledImage );
-	Writer_Image( , SampledImage2DRect, Rg16, eSampledImage );
 	Writer_Image( , SampledImageCube, Rg16, eSampledImage );
 	Writer_Image( , SampledImage1DArray, Rg16, eSampledImage );
 	Writer_Image( , SampledImage2DArray, Rg16, eSampledImage );
@@ -390,7 +382,6 @@ namespace sdw
 	Writer_Image( , Image1D, R32, eImage );
 	Writer_Image( , Image2D, R32, eImage );
 	Writer_Image( , Image3D, R32, eImage );
-	Writer_Image( , Image2DRect, R32, eImage );
 	Writer_Image( , ImageCube, R32, eImage );
 	Writer_Image( , Image1DArray, R32, eImage );
 	Writer_Image( , Image2DArray, R32, eImage );
@@ -401,7 +392,6 @@ namespace sdw
 	Writer_Image( , SampledImage1D, R32, eSampledImage );
 	Writer_Image( , SampledImage2D, R32, eSampledImage );
 	Writer_Image( , SampledImage3D, R32, eSampledImage );
-	Writer_Image( , SampledImage2DRect, R32, eSampledImage );
 	Writer_Image( , SampledImageCube, R32, eSampledImage );
 	Writer_Image( , SampledImage1DArray, R32, eSampledImage );
 	Writer_Image( , SampledImage2DArray, R32, eSampledImage );
@@ -412,7 +402,6 @@ namespace sdw
 	Writer_Image( , Image1D, R16, eImage );
 	Writer_Image( , Image2D, R16, eImage );
 	Writer_Image( , Image3D, R16, eImage );
-	Writer_Image( , Image2DRect, R16, eImage );
 	Writer_Image( , ImageCube, R16, eImage );
 	Writer_Image( , Image1DArray, R16, eImage );
 	Writer_Image( , Image2DArray, R16, eImage );
@@ -423,7 +412,6 @@ namespace sdw
 	Writer_Image( , SampledImage1D, R16, eSampledImage );
 	Writer_Image( , SampledImage2D, R16, eSampledImage );
 	Writer_Image( , SampledImage3D, R16, eSampledImage );
-	Writer_Image( , SampledImage2DRect, R16, eSampledImage );
 	Writer_Image( , SampledImageCube, R16, eSampledImage );
 	Writer_Image( , SampledImage1DArray, R16, eSampledImage );
 	Writer_Image( , SampledImage2DArray, R16, eSampledImage );
@@ -432,14 +420,12 @@ namespace sdw
 	Writer_Image( , SampledImage2DMSArray, R16, eSampledImage );
 	Writer_Image( , SampledImage1DShadow, R32, eSampledImage );
 	Writer_Image( , SampledImage2DShadow, R32, eSampledImage );
-	Writer_Image( , SampledImage2DRectShadow, R32, eSampledImage );
 	Writer_Image( , SampledImageCubeShadow, R32, eSampledImage );
 	Writer_Image( , SampledImage1DArrayShadow, R32, eSampledImage );
 	Writer_Image( , SampledImage2DArrayShadow, R32, eSampledImage );
 	Writer_Image( , SampledImageCubeArrayShadow, R32, eSampledImage );
 	Writer_Image( , SampledImage1DShadow, R16, eSampledImage );
 	Writer_Image( , SampledImage2DShadow, R16, eSampledImage );
-	Writer_Image( , SampledImage2DRectShadow, R16, eSampledImage );
 	Writer_Image( , SampledImageCubeShadow, R16, eSampledImage );
 	Writer_Image( , SampledImage1DArrayShadow, R16, eSampledImage );
 	Writer_Image( , SampledImage2DArrayShadow, R16, eSampledImage );
@@ -448,7 +434,6 @@ namespace sdw
 	Writer_Image( I, Image1D, Rgba32, eImage );
 	Writer_Image( I, Image2D, Rgba32, eImage );
 	Writer_Image( I, Image3D, Rgba32, eImage );
-	Writer_Image( I, Image2DRect, Rgba32, eImage );
 	Writer_Image( I, ImageCube, Rgba32, eImage );
 	Writer_Image( I, Image1DArray, Rgba32, eImage );
 	Writer_Image( I, Image2DArray, Rgba32, eImage );
@@ -459,7 +444,6 @@ namespace sdw
 	Writer_Image( I, SampledImage1D, Rgba32, eSampledImage );
 	Writer_Image( I, SampledImage2D, Rgba32, eSampledImage );
 	Writer_Image( I, SampledImage3D, Rgba32, eSampledImage );
-	Writer_Image( I, SampledImage2DRect, Rgba32, eSampledImage );
 	Writer_Image( I, SampledImageCube, Rgba32, eSampledImage );
 	Writer_Image( I, SampledImage1DArray, Rgba32, eSampledImage );
 	Writer_Image( I, SampledImage2DArray, Rgba32, eSampledImage );
@@ -470,7 +454,6 @@ namespace sdw
 	Writer_Image( I, Image1D, Rgba16, eImage );
 	Writer_Image( I, Image2D, Rgba16, eImage );
 	Writer_Image( I, Image3D, Rgba16, eImage );
-	Writer_Image( I, Image2DRect, Rgba16, eImage );
 	Writer_Image( I, ImageCube, Rgba16, eImage );
 	Writer_Image( I, Image1DArray, Rgba16, eImage );
 	Writer_Image( I, Image2DArray, Rgba16, eImage );
@@ -481,7 +464,6 @@ namespace sdw
 	Writer_Image( I, SampledImage1D, Rgba16, eSampledImage );
 	Writer_Image( I, SampledImage2D, Rgba16, eSampledImage );
 	Writer_Image( I, SampledImage3D, Rgba16, eSampledImage );
-	Writer_Image( I, SampledImage2DRect, Rgba16, eSampledImage );
 	Writer_Image( I, SampledImageCube, Rgba16, eSampledImage );
 	Writer_Image( I, SampledImage1DArray, Rgba16, eSampledImage );
 	Writer_Image( I, SampledImage2DArray, Rgba16, eSampledImage );
@@ -492,7 +474,6 @@ namespace sdw
 	Writer_Image( I, Image1D, Rgba8, eImage );
 	Writer_Image( I, Image2D, Rgba8, eImage );
 	Writer_Image( I, Image3D, Rgba8, eImage );
-	Writer_Image( I, Image2DRect, Rgba8, eImage );
 	Writer_Image( I, ImageCube, Rgba8, eImage );
 	Writer_Image( I, Image1DArray, Rgba8, eImage );
 	Writer_Image( I, Image2DArray, Rgba8, eImage );
@@ -503,7 +484,6 @@ namespace sdw
 	Writer_Image( I, SampledImage1D, Rgba8, eSampledImage );
 	Writer_Image( I, SampledImage2D, Rgba8, eSampledImage );
 	Writer_Image( I, SampledImage3D, Rgba8, eSampledImage );
-	Writer_Image( I, SampledImage2DRect, Rgba8, eSampledImage );
 	Writer_Image( I, SampledImageCube, Rgba8, eSampledImage );
 	Writer_Image( I, SampledImage1DArray, Rgba8, eSampledImage );
 	Writer_Image( I, SampledImage2DArray, Rgba8, eSampledImage );
@@ -514,7 +494,6 @@ namespace sdw
 	Writer_Image( I, Image1D, Rg32, eImage );
 	Writer_Image( I, Image2D, Rg32, eImage );
 	Writer_Image( I, Image3D, Rg32, eImage );
-	Writer_Image( I, Image2DRect, Rg32, eImage );
 	Writer_Image( I, ImageCube, Rg32, eImage );
 	Writer_Image( I, Image1DArray, Rg32, eImage );
 	Writer_Image( I, Image2DArray, Rg32, eImage );
@@ -525,7 +504,6 @@ namespace sdw
 	Writer_Image( I, SampledImage1D, Rg32, eSampledImage );
 	Writer_Image( I, SampledImage2D, Rg32, eSampledImage );
 	Writer_Image( I, SampledImage3D, Rg32, eSampledImage );
-	Writer_Image( I, SampledImage2DRect, Rg32, eSampledImage );
 	Writer_Image( I, SampledImageCube, Rg32, eSampledImage );
 	Writer_Image( I, SampledImage1DArray, Rg32, eSampledImage );
 	Writer_Image( I, SampledImage2DArray, Rg32, eSampledImage );
@@ -536,7 +514,6 @@ namespace sdw
 	Writer_Image( I, Image1D, Rg16, eImage );
 	Writer_Image( I, Image2D, Rg16, eImage );
 	Writer_Image( I, Image3D, Rg16, eImage );
-	Writer_Image( I, Image2DRect, Rg16, eImage );
 	Writer_Image( I, ImageCube, Rg16, eImage );
 	Writer_Image( I, Image1DArray, Rg16, eImage );
 	Writer_Image( I, Image2DArray, Rg16, eImage );
@@ -547,7 +524,6 @@ namespace sdw
 	Writer_Image( I, SampledImage1D, Rg16, eSampledImage );
 	Writer_Image( I, SampledImage2D, Rg16, eSampledImage );
 	Writer_Image( I, SampledImage3D, Rg16, eSampledImage );
-	Writer_Image( I, SampledImage2DRect, Rg16, eSampledImage );
 	Writer_Image( I, SampledImageCube, Rg16, eSampledImage );
 	Writer_Image( I, SampledImage1DArray, Rg16, eSampledImage );
 	Writer_Image( I, SampledImage2DArray, Rg16, eSampledImage );
@@ -558,7 +534,6 @@ namespace sdw
 	Writer_Image( I, Image1D, Rg8, eImage );
 	Writer_Image( I, Image2D, Rg8, eImage );
 	Writer_Image( I, Image3D, Rg8, eImage );
-	Writer_Image( I, Image2DRect, Rg8, eImage );
 	Writer_Image( I, ImageCube, Rg8, eImage );
 	Writer_Image( I, Image1DArray, Rg8, eImage );
 	Writer_Image( I, Image2DArray, Rg8, eImage );
@@ -569,7 +544,6 @@ namespace sdw
 	Writer_Image( I, SampledImage1D, Rg8, eSampledImage );
 	Writer_Image( I, SampledImage2D, Rg8, eSampledImage );
 	Writer_Image( I, SampledImage3D, Rg8, eSampledImage );
-	Writer_Image( I, SampledImage2DRect, Rg8, eSampledImage );
 	Writer_Image( I, SampledImageCube, Rg8, eSampledImage );
 	Writer_Image( I, SampledImage1DArray, Rg8, eSampledImage );
 	Writer_Image( I, SampledImage2DArray, Rg8, eSampledImage );
@@ -580,7 +554,6 @@ namespace sdw
 	Writer_Image( I, Image1D, R32, eImage );
 	Writer_Image( I, Image2D, R32, eImage );
 	Writer_Image( I, Image3D, R32, eImage );
-	Writer_Image( I, Image2DRect, R32, eImage );
 	Writer_Image( I, ImageCube, R32, eImage );
 	Writer_Image( I, Image1DArray, R32, eImage );
 	Writer_Image( I, Image2DArray, R32, eImage );
@@ -591,7 +564,6 @@ namespace sdw
 	Writer_Image( I, SampledImage1D, R32, eSampledImage );
 	Writer_Image( I, SampledImage2D, R32, eSampledImage );
 	Writer_Image( I, SampledImage3D, R32, eSampledImage );
-	Writer_Image( I, SampledImage2DRect, R32, eSampledImage );
 	Writer_Image( I, SampledImageCube, R32, eSampledImage );
 	Writer_Image( I, SampledImage1DArray, R32, eSampledImage );
 	Writer_Image( I, SampledImage2DArray, R32, eSampledImage );
@@ -602,7 +574,6 @@ namespace sdw
 	Writer_Image( I, Image1D, R16, eImage );
 	Writer_Image( I, Image2D, R16, eImage );
 	Writer_Image( I, Image3D, R16, eImage );
-	Writer_Image( I, Image2DRect, R16, eImage );
 	Writer_Image( I, ImageCube, R16, eImage );
 	Writer_Image( I, Image1DArray, R16, eImage );
 	Writer_Image( I, Image2DArray, R16, eImage );
@@ -613,7 +584,6 @@ namespace sdw
 	Writer_Image( I, SampledImage1D, R16, eSampledImage );
 	Writer_Image( I, SampledImage2D, R16, eSampledImage );
 	Writer_Image( I, SampledImage3D, R16, eSampledImage );
-	Writer_Image( I, SampledImage2DRect, R16, eSampledImage );
 	Writer_Image( I, SampledImageCube, R16, eSampledImage );
 	Writer_Image( I, SampledImage1DArray, R16, eSampledImage );
 	Writer_Image( I, SampledImage2DArray, R16, eSampledImage );
@@ -624,7 +594,6 @@ namespace sdw
 	Writer_Image( I, Image1D, R8, eImage );
 	Writer_Image( I, Image2D, R8, eImage );
 	Writer_Image( I, Image3D, R8, eImage );
-	Writer_Image( I, Image2DRect, R8, eImage );
 	Writer_Image( I, ImageCube, R8, eImage );
 	Writer_Image( I, Image1DArray, R8, eImage );
 	Writer_Image( I, Image2DArray, R8, eImage );
@@ -635,7 +604,6 @@ namespace sdw
 	Writer_Image( I, SampledImage1D, R8, eSampledImage );
 	Writer_Image( I, SampledImage2D, R8, eSampledImage );
 	Writer_Image( I, SampledImage3D, R8, eSampledImage );
-	Writer_Image( I, SampledImage2DRect, R8, eSampledImage );
 	Writer_Image( I, SampledImageCube, R8, eSampledImage );
 	Writer_Image( I, SampledImage1DArray, R8, eSampledImage );
 	Writer_Image( I, SampledImage2DArray, R8, eSampledImage );
@@ -646,7 +614,6 @@ namespace sdw
 	Writer_Image( U, Image1D, Rgba32, eImage );
 	Writer_Image( U, Image2D, Rgba32, eImage );
 	Writer_Image( U, Image3D, Rgba32, eImage );
-	Writer_Image( U, Image2DRect, Rgba32, eImage );
 	Writer_Image( U, ImageCube, Rgba32, eImage );
 	Writer_Image( U, Image1DArray, Rgba32, eImage );
 	Writer_Image( U, Image2DArray, Rgba32, eImage );
@@ -657,7 +624,6 @@ namespace sdw
 	Writer_Image( U, SampledImage1D, Rgba32, eSampledImage );
 	Writer_Image( U, SampledImage2D, Rgba32, eSampledImage );
 	Writer_Image( U, SampledImage3D, Rgba32, eSampledImage );
-	Writer_Image( U, SampledImage2DRect, Rgba32, eSampledImage );
 	Writer_Image( U, SampledImageCube, Rgba32, eSampledImage );
 	Writer_Image( U, SampledImage1DArray, Rgba32, eSampledImage );
 	Writer_Image( U, SampledImage2DArray, Rgba32, eSampledImage );
@@ -668,7 +634,6 @@ namespace sdw
 	Writer_Image( U, Image1D, Rgba16, eImage );
 	Writer_Image( U, Image2D, Rgba16, eImage );
 	Writer_Image( U, Image3D, Rgba16, eImage );
-	Writer_Image( U, Image2DRect, Rgba16, eImage );
 	Writer_Image( U, ImageCube, Rgba16, eImage );
 	Writer_Image( U, Image1DArray, Rgba16, eImage );
 	Writer_Image( U, Image2DArray, Rgba16, eImage );
@@ -679,7 +644,6 @@ namespace sdw
 	Writer_Image( U, SampledImage1D, Rgba16, eSampledImage );
 	Writer_Image( U, SampledImage2D, Rgba16, eSampledImage );
 	Writer_Image( U, SampledImage3D, Rgba16, eSampledImage );
-	Writer_Image( U, SampledImage2DRect, Rgba16, eSampledImage );
 	Writer_Image( U, SampledImageCube, Rgba16, eSampledImage );
 	Writer_Image( U, SampledImage1DArray, Rgba16, eSampledImage );
 	Writer_Image( U, SampledImage2DArray, Rgba16, eSampledImage );
@@ -690,7 +654,6 @@ namespace sdw
 	Writer_Image( U, Image1D, Rgba8, eImage );
 	Writer_Image( U, Image2D, Rgba8, eImage );
 	Writer_Image( U, Image3D, Rgba8, eImage );
-	Writer_Image( U, Image2DRect, Rgba8, eImage );
 	Writer_Image( U, ImageCube, Rgba8, eImage );
 	Writer_Image( U, Image1DArray, Rgba8, eImage );
 	Writer_Image( U, Image2DArray, Rgba8, eImage );
@@ -701,7 +664,6 @@ namespace sdw
 	Writer_Image( U, SampledImage1D, Rgba8, eSampledImage );
 	Writer_Image( U, SampledImage2D, Rgba8, eSampledImage );
 	Writer_Image( U, SampledImage3D, Rgba8, eSampledImage );
-	Writer_Image( U, SampledImage2DRect, Rgba8, eSampledImage );
 	Writer_Image( U, SampledImageCube, Rgba8, eSampledImage );
 	Writer_Image( U, SampledImage1DArray, Rgba8, eSampledImage );
 	Writer_Image( U, SampledImage2DArray, Rgba8, eSampledImage );
@@ -712,7 +674,6 @@ namespace sdw
 	Writer_Image( U, Image1D, Rg32, eImage );
 	Writer_Image( U, Image2D, Rg32, eImage );
 	Writer_Image( U, Image3D, Rg32, eImage );
-	Writer_Image( U, Image2DRect, Rg32, eImage );
 	Writer_Image( U, ImageCube, Rg32, eImage );
 	Writer_Image( U, Image1DArray, Rg32, eImage );
 	Writer_Image( U, Image2DArray, Rg32, eImage );
@@ -723,7 +684,6 @@ namespace sdw
 	Writer_Image( U, SampledImage1D, Rg32, eSampledImage );
 	Writer_Image( U, SampledImage2D, Rg32, eSampledImage );
 	Writer_Image( U, SampledImage3D, Rg32, eSampledImage );
-	Writer_Image( U, SampledImage2DRect, Rg32, eSampledImage );
 	Writer_Image( U, SampledImageCube, Rg32, eSampledImage );
 	Writer_Image( U, SampledImage1DArray, Rg32, eSampledImage );
 	Writer_Image( U, SampledImage2DArray, Rg32, eSampledImage );
@@ -734,7 +694,6 @@ namespace sdw
 	Writer_Image( U, Image1D, Rg16, eImage );
 	Writer_Image( U, Image2D, Rg16, eImage );
 	Writer_Image( U, Image3D, Rg16, eImage );
-	Writer_Image( U, Image2DRect, Rg16, eImage );
 	Writer_Image( U, ImageCube, Rg16, eImage );
 	Writer_Image( U, Image1DArray, Rg16, eImage );
 	Writer_Image( U, Image2DArray, Rg16, eImage );
@@ -745,7 +704,6 @@ namespace sdw
 	Writer_Image( U, SampledImage1D, Rg16, eSampledImage );
 	Writer_Image( U, SampledImage2D, Rg16, eSampledImage );
 	Writer_Image( U, SampledImage3D, Rg16, eSampledImage );
-	Writer_Image( U, SampledImage2DRect, Rg16, eSampledImage );
 	Writer_Image( U, SampledImageCube, Rg16, eSampledImage );
 	Writer_Image( U, SampledImage1DArray, Rg16, eSampledImage );
 	Writer_Image( U, SampledImage2DArray, Rg16, eSampledImage );
@@ -756,7 +714,6 @@ namespace sdw
 	Writer_Image( U, Image1D, Rg8, eImage );
 	Writer_Image( U, Image2D, Rg8, eImage );
 	Writer_Image( U, Image3D, Rg8, eImage );
-	Writer_Image( U, Image2DRect, Rg8, eImage );
 	Writer_Image( U, ImageCube, Rg8, eImage );
 	Writer_Image( U, Image1DArray, Rg8, eImage );
 	Writer_Image( U, Image2DArray, Rg8, eImage );
@@ -767,7 +724,6 @@ namespace sdw
 	Writer_Image( U, SampledImage1D, Rg8, eSampledImage );
 	Writer_Image( U, SampledImage2D, Rg8, eSampledImage );
 	Writer_Image( U, SampledImage3D, Rg8, eSampledImage );
-	Writer_Image( U, SampledImage2DRect, Rg8, eSampledImage );
 	Writer_Image( U, SampledImageCube, Rg8, eSampledImage );
 	Writer_Image( U, SampledImage1DArray, Rg8, eSampledImage );
 	Writer_Image( U, SampledImage2DArray, Rg8, eSampledImage );
@@ -778,7 +734,6 @@ namespace sdw
 	Writer_Image( U, Image1D, R32, eImage );
 	Writer_Image( U, Image2D, R32, eImage );
 	Writer_Image( U, Image3D, R32, eImage );
-	Writer_Image( U, Image2DRect, R32, eImage );
 	Writer_Image( U, ImageCube, R32, eImage );
 	Writer_Image( U, Image1DArray, R32, eImage );
 	Writer_Image( U, Image2DArray, R32, eImage );
@@ -789,7 +744,6 @@ namespace sdw
 	Writer_Image( U, SampledImage1D, R32, eSampledImage );
 	Writer_Image( U, SampledImage2D, R32, eSampledImage );
 	Writer_Image( U, SampledImage3D, R32, eSampledImage );
-	Writer_Image( U, SampledImage2DRect, R32, eSampledImage );
 	Writer_Image( U, SampledImageCube, R32, eSampledImage );
 	Writer_Image( U, SampledImage1DArray, R32, eSampledImage );
 	Writer_Image( U, SampledImage2DArray, R32, eSampledImage );
@@ -800,7 +754,6 @@ namespace sdw
 	Writer_Image( U, Image1D, R16, eImage );
 	Writer_Image( U, Image2D, R16, eImage );
 	Writer_Image( U, Image3D, R16, eImage );
-	Writer_Image( U, Image2DRect, R16, eImage );
 	Writer_Image( U, ImageCube, R16, eImage );
 	Writer_Image( U, Image1DArray, R16, eImage );
 	Writer_Image( U, Image2DArray, R16, eImage );
@@ -811,7 +764,6 @@ namespace sdw
 	Writer_Image( U, SampledImage1D, R16, eSampledImage );
 	Writer_Image( U, SampledImage2D, R16, eSampledImage );
 	Writer_Image( U, SampledImage3D, R16, eSampledImage );
-	Writer_Image( U, SampledImage2DRect, R16, eSampledImage );
 	Writer_Image( U, SampledImageCube, R16, eSampledImage );
 	Writer_Image( U, SampledImage1DArray, R16, eSampledImage );
 	Writer_Image( U, SampledImage2DArray, R16, eSampledImage );
@@ -822,7 +774,6 @@ namespace sdw
 	Writer_Image( U, Image1D, R8, eImage );
 	Writer_Image( U, Image2D, R8, eImage );
 	Writer_Image( U, Image3D, R8, eImage );
-	Writer_Image( U, Image2DRect, R8, eImage );
 	Writer_Image( U, ImageCube, R8, eImage );
 	Writer_Image( U, Image1DArray, R8, eImage );
 	Writer_Image( U, Image2DArray, R8, eImage );
@@ -833,7 +784,6 @@ namespace sdw
 	Writer_Image( U, SampledImage1D, R8, eSampledImage );
 	Writer_Image( U, SampledImage2D, R8, eSampledImage );
 	Writer_Image( U, SampledImage3D, R8, eSampledImage );
-	Writer_Image( U, SampledImage2DRect, R8, eSampledImage );
 	Writer_Image( U, SampledImageCube, R8, eSampledImage );
 	Writer_Image( U, SampledImage1DArray, R8, eSampledImage );
 	Writer_Image( U, SampledImage2DArray, R8, eSampledImage );

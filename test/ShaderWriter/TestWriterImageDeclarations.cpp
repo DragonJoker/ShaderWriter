@@ -121,7 +121,6 @@ namespace
 			testImage< FormatT, Img1D >( testCounts );
 			testImage< FormatT, Img2D >( testCounts );
 			testImage< FormatT, Img3D >( testCounts );
-			testImage< FormatT, ImgRect >( testCounts );
 			testImage< FormatT, ImgCube >( testCounts );
 			testImage< FormatT, ImgBuffer >( testCounts );
 			testImage< FormatT, Img1DArray >( testCounts );
@@ -135,7 +134,6 @@ namespace
 			testImage< FormatT, Img1D >( testCounts );
 			testImage< FormatT, Img2D >( testCounts );
 			testImage< FormatT, Img3D >( testCounts );
-			testImage< FormatT, ImgRect >( testCounts );
 			testImage< FormatT, ImgCube >( testCounts );
 			testImage< FormatT, ImgBuffer >( testCounts );
 			testImage< FormatT, Img1DArray >( testCounts );
@@ -149,7 +147,6 @@ namespace
 			testImage< FormatT, Img1D >( testCounts );
 			testImage< FormatT, Img2D >( testCounts );
 			testImage< FormatT, Img3D >( testCounts );
-			testImage< FormatT, ImgRect >( testCounts );
 			testImage< FormatT, ImgCube >( testCounts );
 			testImage< FormatT, ImgBuffer >( testCounts );
 			testImage< FormatT, Img1DArray >( testCounts );

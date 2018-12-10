@@ -435,90 +435,6 @@ namespace sdw
 			, expr::makeImageSizeCubeArrayFR16( findTypesCache( image )
 				, makeExpr( image ) ) };
 	}
-	MaybeOptional< IVec2 > imageSize( MaybeOptional< Image2DRectRgba32 > const & image )
-	{
-		if ( isAnyOptional( image ) )
-		{
-			return Optional< IVec2 >{ findShader( image )
-				, expr::makeImageSize2DRectFRgba32( findTypesCache( image )
-					, makeExpr( image ) )
-				, areOptionalEnabled( image ) };
-		}
-
-		return IVec2{ findShader( image )
-			, expr::makeImageSize2DRectFRgba32( findTypesCache( image )
-				, makeExpr( image ) ) };
-	}
-	MaybeOptional< IVec2 > imageSize( MaybeOptional< Image2DRectRgba16 > const & image )
-	{
-		if ( isAnyOptional( image ) )
-		{
-			return Optional< IVec2 >{ findShader( image )
-				, expr::makeImageSize2DRectFRgba16( findTypesCache( image )
-					, makeExpr( image ) )
-				, areOptionalEnabled( image ) };
-		}
-
-		return IVec2{ findShader( image )
-			, expr::makeImageSize2DRectFRgba16( findTypesCache( image )
-				, makeExpr( image ) ) };
-	}
-	MaybeOptional< IVec2 > imageSize( MaybeOptional< Image2DRectRg32 > const & image )
-	{
-		if ( isAnyOptional( image ) )
-		{
-			return Optional< IVec2 >{ findShader( image )
-				, expr::makeImageSize2DRectFRg32( findTypesCache( image )
-					, makeExpr( image ) )
-				, areOptionalEnabled( image ) };
-		}
-
-		return IVec2{ findShader( image )
-			, expr::makeImageSize2DRectFRg32( findTypesCache( image )
-				, makeExpr( image ) ) };
-	}
-	MaybeOptional< IVec2 > imageSize( MaybeOptional< Image2DRectRg16 > const & image )
-	{
-		if ( isAnyOptional( image ) )
-		{
-			return Optional< IVec2 >{ findShader( image )
-				, expr::makeImageSize2DRectFRg16( findTypesCache( image )
-					, makeExpr( image ) )
-				, areOptionalEnabled( image ) };
-		}
-
-		return IVec2{ findShader( image )
-			, expr::makeImageSize2DRectFRg16( findTypesCache( image )
-				, makeExpr( image ) ) };
-	}
-	MaybeOptional< IVec2 > imageSize( MaybeOptional< Image2DRectR32 > const & image )
-	{
-		if ( isAnyOptional( image ) )
-		{
-			return Optional< IVec2 >{ findShader( image )
-				, expr::makeImageSize2DRectFR32( findTypesCache( image )
-					, makeExpr( image ) )
-				, areOptionalEnabled( image ) };
-		}
-
-		return IVec2{ findShader( image )
-			, expr::makeImageSize2DRectFR32( findTypesCache( image )
-				, makeExpr( image ) ) };
-	}
-	MaybeOptional< IVec2 > imageSize( MaybeOptional< Image2DRectR16 > const & image )
-	{
-		if ( isAnyOptional( image ) )
-		{
-			return Optional< IVec2 >{ findShader( image )
-				, expr::makeImageSize2DRectFR16( findTypesCache( image )
-					, makeExpr( image ) )
-				, areOptionalEnabled( image ) };
-		}
-
-		return IVec2{ findShader( image )
-			, expr::makeImageSize2DRectFR16( findTypesCache( image )
-				, makeExpr( image ) ) };
-	}
 	MaybeOptional< IVec2 > imageSize( MaybeOptional< Image1DArrayRgba32 > const & image )
 	{
 		if ( isAnyOptional( image ) )
@@ -1567,132 +1483,6 @@ namespace sdw
 
 		return IVec3{ findShader( image )
 			, expr::makeImageSizeCubeArrayIR8( findTypesCache( image )
-				, makeExpr( image ) ) };
-	}
-	MaybeOptional< IVec2 > imageSize( MaybeOptional< IImage2DRectRgba32 > const & image )
-	{
-		if ( isAnyOptional( image ) )
-		{
-			return Optional< IVec2 >{ findShader( image )
-				, expr::makeImageSize2DRectIRgba32( findTypesCache( image )
-					, makeExpr( image ) )
-				, areOptionalEnabled( image ) };
-		}
-
-		return IVec2{ findShader( image )
-			, expr::makeImageSize2DRectIRgba32( findTypesCache( image )
-				, makeExpr( image ) ) };
-	}
-	MaybeOptional< IVec2 > imageSize( MaybeOptional< IImage2DRectRgba16 > const & image )
-	{
-		if ( isAnyOptional( image ) )
-		{
-			return Optional< IVec2 >{ findShader( image )
-				, expr::makeImageSize2DRectIRgba16( findTypesCache( image )
-					, makeExpr( image ) )
-				, areOptionalEnabled( image ) };
-		}
-
-		return IVec2{ findShader( image )
-			, expr::makeImageSize2DRectIRgba16( findTypesCache( image )
-				, makeExpr( image ) ) };
-	}
-	MaybeOptional< IVec2 > imageSize( MaybeOptional< IImage2DRectRgba8 > const & image )
-	{
-		if ( isAnyOptional( image ) )
-		{
-			return Optional< IVec2 >{ findShader( image )
-				, expr::makeImageSize2DRectIRgba8( findTypesCache( image )
-					, makeExpr( image ) )
-				, areOptionalEnabled( image ) };
-		}
-
-		return IVec2{ findShader( image )
-			, expr::makeImageSize2DRectIRgba8( findTypesCache( image )
-				, makeExpr( image ) ) };
-	}
-	MaybeOptional< IVec2 > imageSize( MaybeOptional< IImage2DRectRg32 > const & image )
-	{
-		if ( isAnyOptional( image ) )
-		{
-			return Optional< IVec2 >{ findShader( image )
-				, expr::makeImageSize2DRectIRg32( findTypesCache( image )
-					, makeExpr( image ) )
-				, areOptionalEnabled( image ) };
-		}
-
-		return IVec2{ findShader( image )
-			, expr::makeImageSize2DRectIRg32( findTypesCache( image )
-				, makeExpr( image ) ) };
-	}
-	MaybeOptional< IVec2 > imageSize( MaybeOptional< IImage2DRectRg16 > const & image )
-	{
-		if ( isAnyOptional( image ) )
-		{
-			return Optional< IVec2 >{ findShader( image )
-				, expr::makeImageSize2DRectIRg16( findTypesCache( image )
-					, makeExpr( image ) )
-				, areOptionalEnabled( image ) };
-		}
-
-		return IVec2{ findShader( image )
-			, expr::makeImageSize2DRectIRg16( findTypesCache( image )
-				, makeExpr( image ) ) };
-	}
-	MaybeOptional< IVec2 > imageSize( MaybeOptional< IImage2DRectRg8 > const & image )
-	{
-		if ( isAnyOptional( image ) )
-		{
-			return Optional< IVec2 >{ findShader( image )
-				, expr::makeImageSize2DRectIRg8( findTypesCache( image )
-					, makeExpr( image ) )
-				, areOptionalEnabled( image ) };
-		}
-
-		return IVec2{ findShader( image )
-			, expr::makeImageSize2DRectIRg8( findTypesCache( image )
-				, makeExpr( image ) ) };
-	}
-	MaybeOptional< IVec2 > imageSize( MaybeOptional< IImage2DRectR32 > const & image )
-	{
-		if ( isAnyOptional( image ) )
-		{
-			return Optional< IVec2 >{ findShader( image )
-				, expr::makeImageSize2DRectIR32( findTypesCache( image )
-					, makeExpr( image ) )
-				, areOptionalEnabled( image ) };
-		}
-
-		return IVec2{ findShader( image )
-			, expr::makeImageSize2DRectIR32( findTypesCache( image )
-				, makeExpr( image ) ) };
-	}
-	MaybeOptional< IVec2 > imageSize( MaybeOptional< IImage2DRectR16 > const & image )
-	{
-		if ( isAnyOptional( image ) )
-		{
-			return Optional< IVec2 >{ findShader( image )
-				, expr::makeImageSize2DRectIR16( findTypesCache( image )
-					, makeExpr( image ) )
-				, areOptionalEnabled( image ) };
-		}
-
-		return IVec2{ findShader( image )
-			, expr::makeImageSize2DRectIR16( findTypesCache( image )
-				, makeExpr( image ) ) };
-	}
-	MaybeOptional< IVec2 > imageSize( MaybeOptional< IImage2DRectR8 > const & image )
-	{
-		if ( isAnyOptional( image ) )
-		{
-			return Optional< IVec2 >{ findShader( image )
-				, expr::makeImageSize2DRectIR8( findTypesCache( image )
-					, makeExpr( image ) )
-				, areOptionalEnabled( image ) };
-		}
-
-		return IVec2{ findShader( image )
-			, expr::makeImageSize2DRectIR8( findTypesCache( image )
 				, makeExpr( image ) ) };
 	}
 	MaybeOptional< IVec2 > imageSize( MaybeOptional< IImage1DArrayRgba32 > const & image )
@@ -2953,132 +2743,6 @@ namespace sdw
 
 		return IVec3{ findShader( image )
 			, expr::makeImageSizeCubeArrayUR8( findTypesCache( image )
-				, makeExpr( image ) ) };
-	}
-	MaybeOptional< IVec2 > imageSize( MaybeOptional< UImage2DRectRgba32 > const & image )
-	{
-		if ( isAnyOptional( image ) )
-		{
-			return Optional< IVec2 >{ findShader( image )
-				, expr::makeImageSize2DRectURgba32( findTypesCache( image )
-					, makeExpr( image ) )
-				, areOptionalEnabled( image ) };
-		}
-
-		return IVec2{ findShader( image )
-			, expr::makeImageSize2DRectURgba32( findTypesCache( image )
-				, makeExpr( image ) ) };
-	}
-	MaybeOptional< IVec2 > imageSize( MaybeOptional< UImage2DRectRgba16 > const & image )
-	{
-		if ( isAnyOptional( image ) )
-		{
-			return Optional< IVec2 >{ findShader( image )
-				, expr::makeImageSize2DRectURgba16( findTypesCache( image )
-					, makeExpr( image ) )
-				, areOptionalEnabled( image ) };
-		}
-
-		return IVec2{ findShader( image )
-			, expr::makeImageSize2DRectURgba16( findTypesCache( image )
-				, makeExpr( image ) ) };
-	}
-	MaybeOptional< IVec2 > imageSize( MaybeOptional< UImage2DRectRgba8 > const & image )
-	{
-		if ( isAnyOptional( image ) )
-		{
-			return Optional< IVec2 >{ findShader( image )
-				, expr::makeImageSize2DRectURgba8( findTypesCache( image )
-					, makeExpr( image ) )
-				, areOptionalEnabled( image ) };
-		}
-
-		return IVec2{ findShader( image )
-			, expr::makeImageSize2DRectURgba8( findTypesCache( image )
-				, makeExpr( image ) ) };
-	}
-	MaybeOptional< IVec2 > imageSize( MaybeOptional< UImage2DRectRg32 > const & image )
-	{
-		if ( isAnyOptional( image ) )
-		{
-			return Optional< IVec2 >{ findShader( image )
-				, expr::makeImageSize2DRectURg32( findTypesCache( image )
-					, makeExpr( image ) )
-				, areOptionalEnabled( image ) };
-		}
-
-		return IVec2{ findShader( image )
-			, expr::makeImageSize2DRectURg32( findTypesCache( image )
-				, makeExpr( image ) ) };
-	}
-	MaybeOptional< IVec2 > imageSize( MaybeOptional< UImage2DRectRg16 > const & image )
-	{
-		if ( isAnyOptional( image ) )
-		{
-			return Optional< IVec2 >{ findShader( image )
-				, expr::makeImageSize2DRectURg16( findTypesCache( image )
-					, makeExpr( image ) )
-				, areOptionalEnabled( image ) };
-		}
-
-		return IVec2{ findShader( image )
-			, expr::makeImageSize2DRectURg16( findTypesCache( image )
-				, makeExpr( image ) ) };
-	}
-	MaybeOptional< IVec2 > imageSize( MaybeOptional< UImage2DRectRg8 > const & image )
-	{
-		if ( isAnyOptional( image ) )
-		{
-			return Optional< IVec2 >{ findShader( image )
-				, expr::makeImageSize2DRectURg8( findTypesCache( image )
-					, makeExpr( image ) )
-				, areOptionalEnabled( image ) };
-		}
-
-		return IVec2{ findShader( image )
-			, expr::makeImageSize2DRectURg8( findTypesCache( image )
-				, makeExpr( image ) ) };
-	}
-	MaybeOptional< IVec2 > imageSize( MaybeOptional< UImage2DRectR32 > const & image )
-	{
-		if ( isAnyOptional( image ) )
-		{
-			return Optional< IVec2 >{ findShader( image )
-				, expr::makeImageSize2DRectUR32( findTypesCache( image )
-					, makeExpr( image ) )
-				, areOptionalEnabled( image ) };
-		}
-
-		return IVec2{ findShader( image )
-			, expr::makeImageSize2DRectUR32( findTypesCache( image )
-				, makeExpr( image ) ) };
-	}
-	MaybeOptional< IVec2 > imageSize( MaybeOptional< UImage2DRectR16 > const & image )
-	{
-		if ( isAnyOptional( image ) )
-		{
-			return Optional< IVec2 >{ findShader( image )
-				, expr::makeImageSize2DRectUR16( findTypesCache( image )
-					, makeExpr( image ) )
-				, areOptionalEnabled( image ) };
-		}
-
-		return IVec2{ findShader( image )
-			, expr::makeImageSize2DRectUR16( findTypesCache( image )
-				, makeExpr( image ) ) };
-	}
-	MaybeOptional< IVec2 > imageSize( MaybeOptional< UImage2DRectR8 > const & image )
-	{
-		if ( isAnyOptional( image ) )
-		{
-			return Optional< IVec2 >{ findShader( image )
-				, expr::makeImageSize2DRectUR8( findTypesCache( image )
-					, makeExpr( image ) )
-				, areOptionalEnabled( image ) };
-		}
-
-		return IVec2{ findShader( image )
-			, expr::makeImageSize2DRectUR8( findTypesCache( image )
 				, makeExpr( image ) ) };
 	}
 	MaybeOptional< IVec2 > imageSize( MaybeOptional< UImage1DArrayRgba32 > const & image )
@@ -4705,108 +4369,6 @@ namespace sdw
 				, makeExpr( image )
 				, makeExpr( P ) ) };
 	}
-	MaybeOptional< Vec4 > imageLoad( MaybeOptional< Image2DRectRgba32 > const & image
-		, MaybeOptional< IVec2 > const & P )
-	{
-		if ( isAnyOptional( image, P ) )
-		{
-			return Optional< Vec4 >{ findShader( image, P )
-				, expr::makeImageLoad2DRectFRgba32( findTypesCache( image, P )
-					, makeExpr( image )
-					, makeExpr( P ) )
-				, areOptionalEnabled( image, P ) };
-		}
-
-		return Vec4{ findShader( image, P )
-			, expr::makeImageLoad2DRectFRgba32( findTypesCache( image, P )
-				, makeExpr( image )
-				, makeExpr( P ) ) };
-	}
-	MaybeOptional< Vec4 > imageLoad( MaybeOptional< Image2DRectRgba16 > const & image
-		, MaybeOptional< IVec2 > const & P )
-	{
-		if ( isAnyOptional( image, P ) )
-		{
-			return Optional< Vec4 >{ findShader( image, P )
-				, expr::makeImageLoad2DRectFRgba16( findTypesCache( image, P )
-					, makeExpr( image )
-					, makeExpr( P ) )
-				, areOptionalEnabled( image, P ) };
-		}
-
-		return Vec4{ findShader( image, P )
-			, expr::makeImageLoad2DRectFRgba16( findTypesCache( image, P )
-				, makeExpr( image )
-				, makeExpr( P ) ) };
-	}
-	MaybeOptional< Vec2 > imageLoad( MaybeOptional< Image2DRectRg32 > const & image
-		, MaybeOptional< IVec2 > const & P )
-	{
-		if ( isAnyOptional( image, P ) )
-		{
-			return Optional< Vec2 >{ findShader( image, P )
-				, expr::makeImageLoad2DRectFRg32( findTypesCache( image, P )
-					, makeExpr( image )
-					, makeExpr( P ) )
-				, areOptionalEnabled( image, P ) };
-		}
-
-		return Vec2{ findShader( image, P )
-			, expr::makeImageLoad2DRectFRg32( findTypesCache( image, P )
-				, makeExpr( image )
-				, makeExpr( P ) ) };
-	}
-	MaybeOptional< Vec2 > imageLoad( MaybeOptional< Image2DRectRg16 > const & image
-		, MaybeOptional< IVec2 > const & P )
-	{
-		if ( isAnyOptional( image, P ) )
-		{
-			return Optional< Vec2 >{ findShader( image, P )
-				, expr::makeImageLoad2DRectFRg16( findTypesCache( image, P )
-					, makeExpr( image )
-					, makeExpr( P ) )
-				, areOptionalEnabled( image, P ) };
-		}
-
-		return Vec2{ findShader( image, P )
-			, expr::makeImageLoad2DRectFRg16( findTypesCache( image, P )
-				, makeExpr( image )
-				, makeExpr( P ) ) };
-	}
-	MaybeOptional< Float > imageLoad( MaybeOptional< Image2DRectR32 > const & image
-		, MaybeOptional< IVec2 > const & P )
-	{
-		if ( isAnyOptional( image, P ) )
-		{
-			return Optional< Float >{ findShader( image, P )
-				, expr::makeImageLoad2DRectFR32( findTypesCache( image, P )
-					, makeExpr( image )
-					, makeExpr( P ) )
-				, areOptionalEnabled( image, P ) };
-		}
-
-		return Float{ findShader( image, P )
-			, expr::makeImageLoad2DRectFR32( findTypesCache( image, P )
-				, makeExpr( image )
-				, makeExpr( P ) ) };
-	}
-	MaybeOptional< Float > imageLoad( MaybeOptional< Image2DRectR16 > const & image
-		, MaybeOptional< IVec2 > const & P )
-	{
-		if ( isAnyOptional( image, P ) )
-		{
-			return Optional< Float >{ findShader( image, P )
-				, expr::makeImageLoad2DRectFR16( findTypesCache( image, P )
-					, makeExpr( image )
-					, makeExpr( P ) )
-				, areOptionalEnabled( image, P ) };
-		}
-
-		return Float{ findShader( image, P )
-			, expr::makeImageLoad2DRectFR16( findTypesCache( image, P )
-				, makeExpr( image )
-				, makeExpr( P ) ) };
-	}
 	MaybeOptional< Vec4 > imageLoad( MaybeOptional< ImageCubeRgba32 > const & image
 		, MaybeOptional< IVec3 > const & P )
 	{
@@ -5773,159 +5335,6 @@ namespace sdw
 
 		return Int{ findShader( image, P )
 			, expr::makeImageLoad3DIR8( findTypesCache( image, P )
-				, makeExpr( image )
-				, makeExpr( P ) ) };
-	}
-	MaybeOptional< IVec4 > imageLoad( MaybeOptional< IImage2DRectRgba32 > const & image
-		, MaybeOptional< IVec2 > const & P )
-	{
-		if ( isAnyOptional( image, P ) )
-		{
-			return Optional< IVec4 >{ findShader( image, P )
-				, expr::makeImageLoad2DRectIRgba32( findTypesCache( image, P )
-					, makeExpr( image )
-					, makeExpr( P ) )
-				, areOptionalEnabled( image, P ) };
-		}
-
-		return IVec4{ findShader( image, P )
-			, expr::makeImageLoad2DRectIRgba32( findTypesCache( image, P )
-				, makeExpr( image )
-				, makeExpr( P ) ) };
-	}
-	MaybeOptional< IVec4 > imageLoad( MaybeOptional< IImage2DRectRgba16 > const & image
-		, MaybeOptional< IVec2 > const & P )
-	{
-		if ( isAnyOptional( image, P ) )
-		{
-			return Optional< IVec4 >{ findShader( image, P )
-				, expr::makeImageLoad2DRectIRgba16( findTypesCache( image, P )
-					, makeExpr( image )
-					, makeExpr( P ) )
-				, areOptionalEnabled( image, P ) };
-		}
-
-		return IVec4{ findShader( image, P )
-			, expr::makeImageLoad2DRectIRgba16( findTypesCache( image, P )
-				, makeExpr( image )
-				, makeExpr( P ) ) };
-	}
-	MaybeOptional< IVec4 > imageLoad( MaybeOptional< IImage2DRectRgba8 > const & image
-		, MaybeOptional< IVec2 > const & P )
-	{
-		if ( isAnyOptional( image, P ) )
-		{
-			return Optional< IVec4 >{ findShader( image, P )
-				, expr::makeImageLoad2DRectIRgba8( findTypesCache( image, P )
-					, makeExpr( image )
-					, makeExpr( P ) )
-				, areOptionalEnabled( image, P ) };
-		}
-
-		return IVec4{ findShader( image, P )
-			, expr::makeImageLoad2DRectIRgba8( findTypesCache( image, P )
-				, makeExpr( image )
-				, makeExpr( P ) ) };
-	}
-	MaybeOptional< IVec2 > imageLoad( MaybeOptional< IImage2DRectRg32 > const & image
-		, MaybeOptional< IVec2 > const & P )
-	{
-		if ( isAnyOptional( image, P ) )
-		{
-			return Optional< IVec2 >{ findShader( image, P )
-				, expr::makeImageLoad2DRectIRg32( findTypesCache( image, P )
-					, makeExpr( image )
-					, makeExpr( P ) )
-				, areOptionalEnabled( image, P ) };
-		}
-
-		return IVec2{ findShader( image, P )
-			, expr::makeImageLoad2DRectIRg32( findTypesCache( image, P )
-				, makeExpr( image )
-				, makeExpr( P ) ) };
-	}
-	MaybeOptional< IVec2 > imageLoad( MaybeOptional< IImage2DRectRg16 > const & image
-		, MaybeOptional< IVec2 > const & P )
-	{
-		if ( isAnyOptional( image, P ) )
-		{
-			return Optional< IVec2 >{ findShader( image, P )
-				, expr::makeImageLoad2DRectIRg16( findTypesCache( image, P )
-					, makeExpr( image )
-					, makeExpr( P ) )
-				, areOptionalEnabled( image, P ) };
-		}
-
-		return IVec2{ findShader( image, P )
-			, expr::makeImageLoad2DRectIRg16( findTypesCache( image, P )
-				, makeExpr( image )
-				, makeExpr( P ) ) };
-	}
-	MaybeOptional< IVec2 > imageLoad( MaybeOptional< IImage2DRectRg8 > const & image
-		, MaybeOptional< IVec2 > const & P )
-	{
-		if ( isAnyOptional( image, P ) )
-		{
-			return Optional< IVec2 >{ findShader( image, P )
-				, expr::makeImageLoad2DRectIRg8( findTypesCache( image, P )
-					, makeExpr( image )
-					, makeExpr( P ) )
-				, areOptionalEnabled( image, P ) };
-		}
-
-		return IVec2{ findShader( image, P )
-			, expr::makeImageLoad2DRectIRg8( findTypesCache( image, P )
-				, makeExpr( image )
-				, makeExpr( P ) ) };
-	}
-	MaybeOptional< Int > imageLoad( MaybeOptional< IImage2DRectR32 > const & image
-		, MaybeOptional< IVec2 > const & P )
-	{
-		if ( isAnyOptional( image, P ) )
-		{
-			return Optional< Int >{ findShader( image, P )
-				, expr::makeImageLoad2DRectIR32( findTypesCache( image, P )
-					, makeExpr( image )
-					, makeExpr( P ) )
-				, areOptionalEnabled( image, P ) };
-		}
-
-		return Int{ findShader( image, P )
-			, expr::makeImageLoad2DRectIR32( findTypesCache( image, P )
-				, makeExpr( image )
-				, makeExpr( P ) ) };
-	}
-	MaybeOptional< Int > imageLoad( MaybeOptional< IImage2DRectR16 > const & image
-		, MaybeOptional< IVec2 > const & P )
-	{
-		if ( isAnyOptional( image, P ) )
-		{
-			return Optional< Int >{ findShader( image, P )
-				, expr::makeImageLoad2DRectIR16( findTypesCache( image, P )
-					, makeExpr( image )
-					, makeExpr( P ) )
-				, areOptionalEnabled( image, P ) };
-		}
-
-		return Int{ findShader( image, P )
-			, expr::makeImageLoad2DRectIR16( findTypesCache( image, P )
-				, makeExpr( image )
-				, makeExpr( P ) ) };
-	}
-	MaybeOptional< Int > imageLoad( MaybeOptional< IImage2DRectR8 > const & image
-		, MaybeOptional< IVec2 > const & P )
-	{
-		if ( isAnyOptional( image, P ) )
-		{
-			return Optional< Int >{ findShader( image, P )
-				, expr::makeImageLoad2DRectIR8( findTypesCache( image, P )
-					, makeExpr( image )
-					, makeExpr( P ) )
-				, areOptionalEnabled( image, P ) };
-		}
-
-		return Int{ findShader( image, P )
-			, expr::makeImageLoad2DRectIR8( findTypesCache( image, P )
 				, makeExpr( image )
 				, makeExpr( P ) ) };
 	}
@@ -7150,159 +6559,6 @@ namespace sdw
 
 		return UInt{ findShader( image, P )
 			, expr::makeImageLoad3DUR8( findTypesCache( image, P )
-				, makeExpr( image )
-				, makeExpr( P ) ) };
-	}
-	MaybeOptional< UVec4 > imageLoad( MaybeOptional< UImage2DRectRgba32 > const & image
-		, MaybeOptional< IVec2 > const & P )
-	{
-		if ( isAnyOptional( image, P ) )
-		{
-			return Optional< UVec4 >{ findShader( image, P )
-				, expr::makeImageLoad2DRectURgba32( findTypesCache( image, P )
-					, makeExpr( image )
-					, makeExpr( P ) )
-				, areOptionalEnabled( image, P ) };
-		}
-
-		return UVec4{ findShader( image, P )
-			, expr::makeImageLoad2DRectURgba32( findTypesCache( image, P )
-				, makeExpr( image )
-				, makeExpr( P ) ) };
-	}
-	MaybeOptional< UVec4 > imageLoad( MaybeOptional< UImage2DRectRgba16 > const & image
-		, MaybeOptional< IVec2 > const & P )
-	{
-		if ( isAnyOptional( image, P ) )
-		{
-			return Optional< UVec4 >{ findShader( image, P )
-				, expr::makeImageLoad2DRectURgba16( findTypesCache( image, P )
-					, makeExpr( image )
-					, makeExpr( P ) )
-				, areOptionalEnabled( image, P ) };
-		}
-
-		return UVec4{ findShader( image, P )
-			, expr::makeImageLoad2DRectURgba16( findTypesCache( image, P )
-				, makeExpr( image )
-				, makeExpr( P ) ) };
-	}
-	MaybeOptional< UVec4 > imageLoad( MaybeOptional< UImage2DRectRgba8 > const & image
-		, MaybeOptional< IVec2 > const & P )
-	{
-		if ( isAnyOptional( image, P ) )
-		{
-			return Optional< UVec4 >{ findShader( image, P )
-				, expr::makeImageLoad2DRectURgba8( findTypesCache( image, P )
-					, makeExpr( image )
-					, makeExpr( P ) )
-				, areOptionalEnabled( image, P ) };
-		}
-
-		return UVec4{ findShader( image, P )
-			, expr::makeImageLoad2DRectURgba8( findTypesCache( image, P )
-				, makeExpr( image )
-				, makeExpr( P ) ) };
-	}
-	MaybeOptional< UVec2 > imageLoad( MaybeOptional< UImage2DRectRg32 > const & image
-		, MaybeOptional< IVec2 > const & P )
-	{
-		if ( isAnyOptional( image, P ) )
-		{
-			return Optional< UVec2 >{ findShader( image, P )
-				, expr::makeImageLoad2DRectURg32( findTypesCache( image, P )
-					, makeExpr( image )
-					, makeExpr( P ) )
-				, areOptionalEnabled( image, P ) };
-		}
-
-		return UVec2{ findShader( image, P )
-			, expr::makeImageLoad2DRectURg32( findTypesCache( image, P )
-				, makeExpr( image )
-				, makeExpr( P ) ) };
-	}
-	MaybeOptional< UVec2 > imageLoad( MaybeOptional< UImage2DRectRg16 > const & image
-		, MaybeOptional< IVec2 > const & P )
-	{
-		if ( isAnyOptional( image, P ) )
-		{
-			return Optional< UVec2 >{ findShader( image, P )
-				, expr::makeImageLoad2DRectURg16( findTypesCache( image, P )
-					, makeExpr( image )
-					, makeExpr( P ) )
-				, areOptionalEnabled( image, P ) };
-		}
-
-		return UVec2{ findShader( image, P )
-			, expr::makeImageLoad2DRectURg16( findTypesCache( image, P )
-				, makeExpr( image )
-				, makeExpr( P ) ) };
-	}
-	MaybeOptional< UVec2 > imageLoad( MaybeOptional< UImage2DRectRg8 > const & image
-		, MaybeOptional< IVec2 > const & P )
-	{
-		if ( isAnyOptional( image, P ) )
-		{
-			return Optional< UVec2 >{ findShader( image, P )
-				, expr::makeImageLoad2DRectURg8( findTypesCache( image, P )
-					, makeExpr( image )
-					, makeExpr( P ) )
-				, areOptionalEnabled( image, P ) };
-		}
-
-		return UVec2{ findShader( image, P )
-			, expr::makeImageLoad2DRectURg8( findTypesCache( image, P )
-				, makeExpr( image )
-				, makeExpr( P ) ) };
-	}
-	MaybeOptional< UInt > imageLoad( MaybeOptional< UImage2DRectR32 > const & image
-		, MaybeOptional< IVec2 > const & P )
-	{
-		if ( isAnyOptional( image, P ) )
-		{
-			return Optional< UInt >{ findShader( image, P )
-				, expr::makeImageLoad2DRectUR32( findTypesCache( image, P )
-					, makeExpr( image )
-					, makeExpr( P ) )
-				, areOptionalEnabled( image, P ) };
-		}
-
-		return UInt{ findShader( image, P )
-			, expr::makeImageLoad2DRectUR32( findTypesCache( image, P )
-				, makeExpr( image )
-				, makeExpr( P ) ) };
-	}
-	MaybeOptional< UInt > imageLoad( MaybeOptional< UImage2DRectR16 > const & image
-		, MaybeOptional< IVec2 > const & P )
-	{
-		if ( isAnyOptional( image, P ) )
-		{
-			return Optional< UInt >{ findShader( image, P )
-				, expr::makeImageLoad2DRectUR16( findTypesCache( image, P )
-					, makeExpr( image )
-					, makeExpr( P ) )
-				, areOptionalEnabled( image, P ) };
-		}
-
-		return UInt{ findShader( image, P )
-			, expr::makeImageLoad2DRectUR16( findTypesCache( image, P )
-				, makeExpr( image )
-				, makeExpr( P ) ) };
-	}
-	MaybeOptional< UInt > imageLoad( MaybeOptional< UImage2DRectR8 > const & image
-		, MaybeOptional< IVec2 > const & P )
-	{
-		if ( isAnyOptional( image, P ) )
-		{
-			return Optional< UInt >{ findShader( image, P )
-				, expr::makeImageLoad2DRectUR8( findTypesCache( image, P )
-					, makeExpr( image )
-					, makeExpr( P ) )
-				, areOptionalEnabled( image, P ) };
-		}
-
-		return UInt{ findShader( image, P )
-			, expr::makeImageLoad2DRectUR8( findTypesCache( image, P )
 				, makeExpr( image )
 				, makeExpr( P ) ) };
 	}
@@ -9099,26 +8355,6 @@ namespace sdw
 				, makeExpr( P )
 				, makeExpr( data ) ) };
 	}
-	MaybeOptional< UInt > imageAtomicAdd( MaybeOptional< UImage2DRectR32 > const & image
-		, MaybeOptional< IVec2 > const & P
-		, MaybeOptional< UInt > const & data )
-	{
-		if ( isAnyOptional( image, P, data ) )
-		{
-			return Optional< UInt >{ findShader( image, P, data )
-				, expr::makeImageAtomicAdd2DRectUR32( findTypesCache( image, P, data )
-					, makeExpr( image )
-					, makeExpr( P )
-					, makeExpr( data ) )
-				, areOptionalEnabled( image, P, data ) };
-		}
-
-		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicAdd2DRectUR32( findTypesCache( image, P, data )
-				, makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
 	MaybeOptional< UInt > imageAtomicAdd( MaybeOptional< UImageCubeR32 > const & image
 		, MaybeOptional< IVec3 > const & P
 		, MaybeOptional< UInt > const & data )
@@ -9275,26 +8511,6 @@ namespace sdw
 
 		return Int{ findShader( image, P, data )
 			, expr::makeImageAtomicAdd3DIR32( findTypesCache( image, P, data )
-				, makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	MaybeOptional< Int > imageAtomicAdd( MaybeOptional< IImage2DRectR32 > const & image
-		, MaybeOptional< IVec2 > const & P
-		, MaybeOptional< Int > const & data )
-	{
-		if ( isAnyOptional( image, P, data ) )
-		{
-			return Optional< Int >{ findShader( image, P, data )
-				, expr::makeImageAtomicAdd2DRectIR32( findTypesCache( image, P, data )
-					, makeExpr( image )
-					, makeExpr( P )
-					, makeExpr( data ) )
-				, areOptionalEnabled( image, P, data ) };
-		}
-
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicAdd2DRectIR32( findTypesCache( image, P, data )
 				, makeExpr( image )
 				, makeExpr( P )
 				, makeExpr( data ) ) };
@@ -9559,26 +8775,6 @@ namespace sdw
 				, makeExpr( P )
 				, makeExpr( data ) ) };
 	}
-	MaybeOptional< UInt > imageAtomicMin( MaybeOptional< UImage2DRectR32 > const & image
-		, MaybeOptional< IVec2 > const & P
-		, MaybeOptional< UInt > const & data )
-	{
-		if ( isAnyOptional( image, P, data ) )
-		{
-			return Optional< UInt >{ findShader( image, P, data )
-				, expr::makeImageAtomicMin2DRectUR32( findTypesCache( image, P, data )
-					, makeExpr( image )
-					, makeExpr( P )
-					, makeExpr( data ) )
-				, areOptionalEnabled( image, P, data ) };
-		}
-
-		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicMin2DRectUR32( findTypesCache( image, P, data )
-				, makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
 	MaybeOptional< UInt > imageAtomicMin( MaybeOptional< UImageCubeR32 > const & image
 		, MaybeOptional< IVec3 > const & P
 		, MaybeOptional< UInt > const & data )
@@ -9735,26 +8931,6 @@ namespace sdw
 
 		return Int{ findShader( image, P, data )
 			, expr::makeImageAtomicMin3DIR32( findTypesCache( image, P, data )
-				, makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	MaybeOptional< Int > imageAtomicMin( MaybeOptional< IImage2DRectR32 > const & image
-		, MaybeOptional< IVec2 > const & P
-		, MaybeOptional< Int > const & data )
-	{
-		if ( isAnyOptional( image, P, data ) )
-		{
-			return Optional< Int >{ findShader( image, P, data )
-				, expr::makeImageAtomicMin2DRectIR32( findTypesCache( image, P, data )
-					, makeExpr( image )
-					, makeExpr( P )
-					, makeExpr( data ) )
-				, areOptionalEnabled( image, P, data ) };
-		}
-
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicMin2DRectIR32( findTypesCache( image, P, data )
 				, makeExpr( image )
 				, makeExpr( P )
 				, makeExpr( data ) ) };
@@ -10019,26 +9195,6 @@ namespace sdw
 				, makeExpr( P )
 				, makeExpr( data ) ) };
 	}
-	MaybeOptional< UInt > imageAtomicMax( MaybeOptional< UImage2DRectR32 > const & image
-		, MaybeOptional< IVec2 > const & P
-		, MaybeOptional< UInt > const & data )
-	{
-		if ( isAnyOptional( image, P, data ) )
-		{
-			return Optional< UInt >{ findShader( image, P, data )
-				, expr::makeImageAtomicMax2DRectUR32( findTypesCache( image, P, data )
-					, makeExpr( image )
-					, makeExpr( P )
-					, makeExpr( data ) )
-				, areOptionalEnabled( image, P, data ) };
-		}
-
-		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicMax2DRectUR32( findTypesCache( image, P, data )
-				, makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
 	MaybeOptional< UInt > imageAtomicMax( MaybeOptional< UImageCubeR32 > const & image
 		, MaybeOptional< IVec3 > const & P
 		, MaybeOptional< UInt > const & data )
@@ -10195,26 +9351,6 @@ namespace sdw
 
 		return Int{ findShader( image, P, data )
 			, expr::makeImageAtomicMax3DIR32( findTypesCache( image, P, data )
-				, makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	MaybeOptional< Int > imageAtomicMax( MaybeOptional< IImage2DRectR32 > const & image
-		, MaybeOptional< IVec2 > const & P
-		, MaybeOptional< Int > const & data )
-	{
-		if ( isAnyOptional( image, P, data ) )
-		{
-			return Optional< Int >{ findShader( image, P, data )
-				, expr::makeImageAtomicMax2DRectIR32( findTypesCache( image, P, data )
-					, makeExpr( image )
-					, makeExpr( P )
-					, makeExpr( data ) )
-				, areOptionalEnabled( image, P, data ) };
-		}
-
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicMax2DRectIR32( findTypesCache( image, P, data )
 				, makeExpr( image )
 				, makeExpr( P )
 				, makeExpr( data ) ) };
@@ -10479,26 +9615,6 @@ namespace sdw
 				, makeExpr( P )
 				, makeExpr( data ) ) };
 	}
-	MaybeOptional< UInt > imageAtomicAnd( MaybeOptional< UImage2DRectR32 > const & image
-		, MaybeOptional< IVec2 > const & P
-		, MaybeOptional< UInt > const & data )
-	{
-		if ( isAnyOptional( image, P, data ) )
-		{
-			return Optional< UInt >{ findShader( image, P, data )
-				, expr::makeImageAtomicAnd2DRectUR32( findTypesCache( image, P, data )
-					, makeExpr( image )
-					, makeExpr( P )
-					, makeExpr( data ) )
-				, areOptionalEnabled( image, P, data ) };
-		}
-
-		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicAnd2DRectUR32( findTypesCache( image, P, data )
-				, makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
 	MaybeOptional< UInt > imageAtomicAnd( MaybeOptional< UImageCubeR32 > const & image
 		, MaybeOptional< IVec3 > const & P
 		, MaybeOptional< UInt > const & data )
@@ -10655,26 +9771,6 @@ namespace sdw
 
 		return Int{ findShader( image, P, data )
 			, expr::makeImageAtomicAnd3DIR32( findTypesCache( image, P, data )
-				, makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	MaybeOptional< Int > imageAtomicAnd( MaybeOptional< IImage2DRectR32 > const & image
-		, MaybeOptional< IVec2 > const & P
-		, MaybeOptional< Int > const & data )
-	{
-		if ( isAnyOptional( image, P, data ) )
-		{
-			return Optional< Int >{ findShader( image, P, data )
-				, expr::makeImageAtomicAnd2DRectIR32( findTypesCache( image, P, data )
-					, makeExpr( image )
-					, makeExpr( P )
-					, makeExpr( data ) )
-				, areOptionalEnabled( image, P, data ) };
-		}
-
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicAnd2DRectIR32( findTypesCache( image, P, data )
 				, makeExpr( image )
 				, makeExpr( P )
 				, makeExpr( data ) ) };
@@ -10939,26 +10035,6 @@ namespace sdw
 				, makeExpr( P )
 				, makeExpr( data ) ) };
 	}
-	MaybeOptional< UInt > imageAtomicOr( MaybeOptional< UImage2DRectR32 > const & image
-		, MaybeOptional< IVec2 > const & P
-		, MaybeOptional< UInt > const & data )
-	{
-		if ( isAnyOptional( image, P, data ) )
-		{
-			return Optional< UInt >{ findShader( image, P, data )
-				, expr::makeImageAtomicOr2DRectUR32( findTypesCache( image, P, data )
-					, makeExpr( image )
-					, makeExpr( P )
-					, makeExpr( data ) )
-				, areOptionalEnabled( image, P, data ) };
-		}
-
-		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicOr2DRectUR32( findTypesCache( image, P, data )
-				, makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
 	MaybeOptional< UInt > imageAtomicOr( MaybeOptional< UImageCubeR32 > const & image
 		, MaybeOptional< IVec3 > const & P
 		, MaybeOptional< UInt > const & data )
@@ -11115,26 +10191,6 @@ namespace sdw
 
 		return Int{ findShader( image, P, data )
 			, expr::makeImageAtomicOr3DIR32( findTypesCache( image, P, data )
-				, makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	MaybeOptional< Int > imageAtomicOr( MaybeOptional< IImage2DRectR32 > const & image
-		, MaybeOptional< IVec2 > const & P
-		, MaybeOptional< Int > const & data )
-	{
-		if ( isAnyOptional( image, P, data ) )
-		{
-			return Optional< Int >{ findShader( image, P, data )
-				, expr::makeImageAtomicOr2DRectIR32( findTypesCache( image, P, data )
-					, makeExpr( image )
-					, makeExpr( P )
-					, makeExpr( data ) )
-				, areOptionalEnabled( image, P, data ) };
-		}
-
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicOr2DRectIR32( findTypesCache( image, P, data )
 				, makeExpr( image )
 				, makeExpr( P )
 				, makeExpr( data ) ) };
@@ -11399,26 +10455,6 @@ namespace sdw
 				, makeExpr( P )
 				, makeExpr( data ) ) };
 	}
-	MaybeOptional< UInt > imageAtomicXor( MaybeOptional< UImage2DRectR32 > const & image
-		, MaybeOptional< IVec2 > const & P
-		, MaybeOptional< UInt > const & data )
-	{
-		if ( isAnyOptional( image, P, data ) )
-		{
-			return Optional< UInt >{ findShader( image, P, data )
-				, expr::makeImageAtomicXor2DRectUR32( findTypesCache( image, P, data )
-					, makeExpr( image )
-					, makeExpr( P )
-					, makeExpr( data ) )
-				, areOptionalEnabled( image, P, data ) };
-		}
-
-		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicXor2DRectUR32( findTypesCache( image, P, data )
-				, makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
 	MaybeOptional< UInt > imageAtomicXor( MaybeOptional< UImageCubeR32 > const & image
 		, MaybeOptional< IVec3 > const & P
 		, MaybeOptional< UInt > const & data )
@@ -11575,26 +10611,6 @@ namespace sdw
 
 		return Int{ findShader( image, P, data )
 			, expr::makeImageAtomicXor3DIR32( findTypesCache( image, P, data )
-				, makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	MaybeOptional< Int > imageAtomicXor( MaybeOptional< IImage2DRectR32 > const & image
-		, MaybeOptional< IVec2 > const & P
-		, MaybeOptional< Int > const & data )
-	{
-		if ( isAnyOptional( image, P, data ) )
-		{
-			return Optional< Int >{ findShader( image, P, data )
-				, expr::makeImageAtomicXor2DRectIR32( findTypesCache( image, P, data )
-					, makeExpr( image )
-					, makeExpr( P )
-					, makeExpr( data ) )
-				, areOptionalEnabled( image, P, data ) };
-		}
-
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicXor2DRectIR32( findTypesCache( image, P, data )
 				, makeExpr( image )
 				, makeExpr( P )
 				, makeExpr( data ) ) };
@@ -11859,26 +10875,6 @@ namespace sdw
 				, makeExpr( P )
 				, makeExpr( data ) ) };
 	}
-	MaybeOptional< UInt > imageAtomicExchange( MaybeOptional< UImage2DRectR32 > const & image
-		, MaybeOptional< IVec2 > const & P
-		, MaybeOptional< UInt > const & data )
-	{
-		if ( isAnyOptional( image, P, data ) )
-		{
-			return Optional< UInt >{ findShader( image, P, data )
-				, expr::makeImageAtomicExchange2DRectUR32( findTypesCache( image, P, data )
-					, makeExpr( image )
-					, makeExpr( P )
-					, makeExpr( data ) )
-				, areOptionalEnabled( image, P, data ) };
-		}
-
-		return UInt{ findShader( image, P, data )
-			, expr::makeImageAtomicExchange2DRectUR32( findTypesCache( image, P, data )
-				, makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
 	MaybeOptional< UInt > imageAtomicExchange( MaybeOptional< UImageCubeR32 > const & image
 		, MaybeOptional< IVec3 > const & P
 		, MaybeOptional< UInt > const & data )
@@ -12035,26 +11031,6 @@ namespace sdw
 
 		return Int{ findShader( image, P, data )
 			, expr::makeImageAtomicExchange3DIR32( findTypesCache( image, P, data )
-				, makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( data ) ) };
-	}
-	MaybeOptional< Int > imageAtomicExchange( MaybeOptional< IImage2DRectR32 > const & image
-		, MaybeOptional< IVec2 > const & P
-		, MaybeOptional< Int > const & data )
-	{
-		if ( isAnyOptional( image, P, data ) )
-		{
-			return Optional< Int >{ findShader( image, P, data )
-				, expr::makeImageAtomicExchange2DRectIR32( findTypesCache( image, P, data )
-					, makeExpr( image )
-					, makeExpr( P )
-					, makeExpr( data ) )
-				, areOptionalEnabled( image, P, data ) };
-		}
-
-		return Int{ findShader( image, P, data )
-			, expr::makeImageAtomicExchange2DRectIR32( findTypesCache( image, P, data )
 				, makeExpr( image )
 				, makeExpr( P )
 				, makeExpr( data ) ) };
@@ -12328,29 +11304,6 @@ namespace sdw
 				, makeExpr( compare )
 				, makeExpr( data ) ) };
 	}
-	MaybeOptional< UInt > imageAtomicCompSwap( MaybeOptional< UImage2DRectR32 > const & image
-		, MaybeOptional< IVec2 > const & P
-		, MaybeOptional< UInt > const & compare
-		, MaybeOptional< UInt > const & data )
-	{
-		if ( isAnyOptional( image, P, compare, data ) )
-		{
-			return Optional< UInt >{ findShader( image, P, compare, data )
-				, expr::makeImageAtomicCompSwap2DRectUR32( findTypesCache( image, P, compare, data )
-					, makeExpr( image )
-					, makeExpr( P )
-					, makeExpr( compare )
-					, makeExpr( data ) )
-				, areOptionalEnabled( image, P, compare, data ) };
-		}
-
-		return UInt{ findShader( image, P, compare, data )
-			, expr::makeImageAtomicCompSwap2DRectUR32( findTypesCache( image, P, compare, data )
-				, makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( compare )
-				, makeExpr( data ) ) };
-	}
 	MaybeOptional< UInt > imageAtomicCompSwap( MaybeOptional< UImageCubeR32 > const & image
 		, MaybeOptional< IVec3 > const & P
 		, MaybeOptional< UInt > const & compare
@@ -12530,29 +11483,6 @@ namespace sdw
 
 		return Int{ findShader( image, P, compare, data )
 			, expr::makeImageAtomicCompSwap3DIR32( findTypesCache( image, P, compare, data )
-				, makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( compare )
-				, makeExpr( data ) ) };
-	}
-	MaybeOptional< Int > imageAtomicCompSwap( MaybeOptional< IImage2DRectR32 > const & image
-		, MaybeOptional< IVec2 > const & P
-		, MaybeOptional< Int > const & compare
-		, MaybeOptional< Int > const & data )
-	{
-		if ( isAnyOptional( image, P, compare, data ) )
-		{
-			return Optional< Int >{ findShader( image, P, compare, data )
-				, expr::makeImageAtomicCompSwap2DRectIR32( findTypesCache( image, P, compare, data )
-					, makeExpr( image )
-					, makeExpr( P )
-					, makeExpr( compare )
-					, makeExpr( data ) )
-				, areOptionalEnabled( image, P, compare, data ) };
-		}
-
-		return Int{ findShader( image, P, compare, data )
-			, expr::makeImageAtomicCompSwap2DRectIR32( findTypesCache( image, P, compare, data )
 				, makeExpr( image )
 				, makeExpr( P )
 				, makeExpr( compare )

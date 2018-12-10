@@ -265,33 +265,94 @@ namespace glsl
 		args.emplace_back( doSubmit( expr->getArgList()[0].get() ) );
 		// For texture shadow functions, dref value is put inside the coords parameter, instead of being aside.
 		assert( expr->getArgList().size() >= 3u );
-		// Merge second and third parameters to the appropriate vector type (float=>vec2, vec2=>vec3, vec3=>vec4).
-		ast::expr::ExprList merged;
-		merged.emplace_back( doSubmit( expr->getArgList()[1].get() ) );
-		merged.emplace_back( doSubmit( expr->getArgList()[2].get() ) );
-
-		switch ( merged[0]->getType()->getKind() )
+		
+		if ( expr->getTextureAccess() == ast::expr::TextureAccess::eTexture1DShadowF
+			|| expr->getTextureAccess() == ast::expr::TextureAccess::eTexture1DShadowFBias
+			|| expr->getTextureAccess() == ast::expr::TextureAccess::eTextureProj1DShadowF
+			|| expr->getTextureAccess() == ast::expr::TextureAccess::eTextureProj1DShadowFBias
+			|| expr->getTextureAccess() == ast::expr::TextureAccess::eTextureLod1DShadowF
+			|| expr->getTextureAccess() == ast::expr::TextureAccess::eTextureOffset1DShadowF
+			|| expr->getTextureAccess() == ast::expr::TextureAccess::eTextureOffset1DShadowFBias
+			|| expr->getTextureAccess() == ast::expr::TextureAccess::eTextureProjOffset1DShadowF
+			|| expr->getTextureAccess() == ast::expr::TextureAccess::eTextureProjOffset1DShadowFBias
+			|| expr->getTextureAccess() == ast::expr::TextureAccess::eTextureLodOffset1DShadowF
+			|| expr->getTextureAccess() == ast::expr::TextureAccess::eTextureProjLod1DShadowF
+			|| expr->getTextureAccess() == ast::expr::TextureAccess::eTextureProjLodOffset1DShadowF
+			|| expr->getTextureAccess() == ast::expr::TextureAccess::eTextureGrad1DShadowF
+			|| expr->getTextureAccess() == ast::expr::TextureAccess::eTextureGradOffset1DShadowF
+			|| expr->getTextureAccess() == ast::expr::TextureAccess::eTextureProjGrad1DShadowF
+			|| expr->getTextureAccess() == ast::expr::TextureAccess::eTextureProjGradOffset1DShadowF )
 		{
-		case ast::type::Kind::eFloat:
-			args.emplace_back( sdw::makeCompositeCtor( ast::expr::CompositeType::eVec2
-				, ast::type::Kind::eFloat
-				, std::move( merged ) ) );
-			break;
-		case ast::type::Kind::eVec2F:
-			args.emplace_back( sdw::makeCompositeCtor( ast::expr::CompositeType::eVec3
-				, ast::type::Kind::eFloat
-				, std::move( merged ) ) );
-			break;
-		case ast::type::Kind::eVec3F:
-			args.emplace_back( sdw::makeCompositeCtor( ast::expr::CompositeType::eVec4
-				, ast::type::Kind::eFloat
-				, std::move( merged ) ) );
-			break;
-		case ast::type::Kind::eVec4F:
-			// If the first type was a vec4, forget about merging
-			args.emplace_back( doSubmit( expr->getArgList()[1].get() ) );
-			args.emplace_back( doSubmit( expr->getArgList()[2].get() ) );
-			break;
+			ast::expr::ExprList merged;
+
+			switch ( expr->getArgList()[1]->getType()->getKind() )
+			{
+			case ast::type::Kind::eFloat:
+				// Texture1DShadow accesses.
+				// Merge second and third parameters to the appropriate vector type (float=>vec2, vec2=>vec3, vec3=>vec4).
+				merged.emplace_back( doSubmit( expr->getArgList()[1].get() ) );
+				merged.emplace_back( doSubmit( expr->getArgList()[1].get() ) );
+				merged.emplace_back( doSubmit( expr->getArgList()[2].get() ) );
+				args.emplace_back( sdw::makeCompositeCtor( ast::expr::CompositeType::eVec3
+					, ast::type::Kind::eFloat
+					, std::move( merged ) ) );
+				break;
+			case ast::type::Kind::eVec2F:
+				{
+					// TextureProj1DShadow accesses.
+					merged.emplace_back( sdw::makeSwizzle( doSubmit( expr->getArgList()[1].get() ), ast::expr::SwizzleKind::e0 ) );
+					merged.emplace_back( sdw::makeSwizzle( doSubmit( expr->getArgList()[1].get() ), ast::expr::SwizzleKind::e0 ) );
+					merged.emplace_back( doSubmit( expr->getArgList()[2].get() ) );
+					merged.emplace_back( sdw::makeSwizzle( doSubmit( expr->getArgList()[1].get() ), ast::expr::SwizzleKind::e1 ) );
+					args.emplace_back( sdw::makeCompositeCtor( ast::expr::CompositeType::eVec4
+						, ast::type::Kind::eFloat
+						, std::move( merged ) ) );
+				}
+				break;
+			case ast::type::Kind::eVec3F:
+				merged.emplace_back( doSubmit( expr->getArgList()[1].get() ) );
+				merged.emplace_back( doSubmit( expr->getArgList()[2].get() ) );
+				args.emplace_back( sdw::makeCompositeCtor( ast::expr::CompositeType::eVec4
+					, ast::type::Kind::eFloat
+					, std::move( merged ) ) );
+				break;
+			case ast::type::Kind::eVec4F:
+				// If the first type was a vec4, forget about merging
+				args.emplace_back( doSubmit( expr->getArgList()[1].get() ) );
+				args.emplace_back( doSubmit( expr->getArgList()[2].get() ) );
+				break;
+			}
+		}
+		else
+		{
+			// Merge second and third parameters to the appropriate vector type (float=>vec2, vec2=>vec3, vec3=>vec4).
+			ast::expr::ExprList merged;
+			merged.emplace_back( doSubmit( expr->getArgList()[1].get() ) );
+			merged.emplace_back( doSubmit( expr->getArgList()[2].get() ) );
+
+			switch ( merged[0]->getType()->getKind() )
+			{
+			case ast::type::Kind::eFloat:
+				args.emplace_back( sdw::makeCompositeCtor( ast::expr::CompositeType::eVec2
+					, ast::type::Kind::eFloat
+					, std::move( merged ) ) );
+				break;
+			case ast::type::Kind::eVec2F:
+				args.emplace_back( sdw::makeCompositeCtor( ast::expr::CompositeType::eVec3
+					, ast::type::Kind::eFloat
+					, std::move( merged ) ) );
+				break;
+			case ast::type::Kind::eVec3F:
+				args.emplace_back( sdw::makeCompositeCtor( ast::expr::CompositeType::eVec4
+					, ast::type::Kind::eFloat
+					, std::move( merged ) ) );
+				break;
+			case ast::type::Kind::eVec4F:
+				// If the first type was a vec4, forget about merging
+				args.emplace_back( doSubmit( expr->getArgList()[1].get() ) );
+				args.emplace_back( doSubmit( expr->getArgList()[2].get() ) );
+				break;
+			}
 		}
 
 		// Other parameters remain unchanged.
