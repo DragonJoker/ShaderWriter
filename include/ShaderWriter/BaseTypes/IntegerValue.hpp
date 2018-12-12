@@ -11,211 +11,453 @@ namespace sdw
 {
 	template< ast::type::Kind KindT >
 	struct IntegerValue
-		: public ArithmeticValue< KindT >
+		: public Value
 	{
-		inline IntegerValue( Shader * shader
+		IntegerValue( Shader * shader
 			, expr::ExprPtr expr );
-		inline IntegerValue( IntegerValue && rhs );
-		inline IntegerValue( IntegerValue const & rhs );
-		inline explicit IntegerValue( Value const & value );
-		inline explicit IntegerValue( CppTypeT< KindT > rhs );
-		inline IntegerValue & operator=( IntegerValue const & rhs );
+		IntegerValue( IntegerValue && rhs );
+		IntegerValue( IntegerValue const & rhs );
+		explicit IntegerValue( Value const & value );
+		explicit IntegerValue( CppTypeT< IntegerValue< KindT > > rhs );
+		IntegerValue & operator=( IntegerValue const & rhs );
 		template< typename T >
-		inline IntegerValue & operator=( T const & rhs );
-		inline IntegerValue & operator=( CppTypeT< KindT > const & rhs );
-		inline IntegerValue & operator++();
-		inline IntegerValue operator++( int );
-		inline IntegerValue & operator--();
-		inline IntegerValue operator--( int );
-		inline IntegerValue & operator+=( IntegerValue const & rhs );
-		inline IntegerValue & operator-=( IntegerValue const & rhs );
-		inline IntegerValue & operator*=( IntegerValue const & rhs );
-		inline IntegerValue & operator/=( IntegerValue const & rhs );
-		inline IntegerValue & operator%=( IntegerValue const & rhs );
-		inline IntegerValue & operator<<=( IntegerValue const & rhs );
-		inline IntegerValue & operator>>=( IntegerValue const & rhs );
-		inline IntegerValue & operator&=( IntegerValue const & rhs );
-		inline IntegerValue & operator|=( IntegerValue const & rhs );
-		inline IntegerValue & operator^=( IntegerValue const & rhs );
-		inline IntegerValue & operator+=( Optional< IntegerValue > const & rhs );
-		inline IntegerValue & operator-=( Optional< IntegerValue > const & rhs );
-		inline IntegerValue & operator*=( Optional< IntegerValue > const & rhs );
-		inline IntegerValue & operator/=( Optional< IntegerValue > const & rhs );
-		inline IntegerValue & operator%=( Optional< IntegerValue > const & rhs );
-		inline IntegerValue & operator<<=( Optional< IntegerValue > const & rhs );
-		inline IntegerValue & operator>>=( Optional< IntegerValue > const & rhs );
-		inline IntegerValue & operator&=( Optional< IntegerValue > const & rhs );
-		inline IntegerValue & operator|=( Optional< IntegerValue > const & rhs );
-		inline IntegerValue & operator^=( Optional< IntegerValue > const & rhs );
-		inline IntegerValue & operator+=( CppTypeT< KindT > const & rhs );
-		inline IntegerValue & operator-=( CppTypeT< KindT > const & rhs );
-		inline IntegerValue & operator*=( CppTypeT< KindT > const & rhs );
-		inline IntegerValue & operator/=( CppTypeT< KindT > const & rhs );
-		inline IntegerValue & operator-();
-		inline IntegerValue & operator%=( CppTypeT< KindT > const & rhs );
-		inline IntegerValue & operator<<=( CppTypeT< KindT > const & rhs );
-		inline IntegerValue & operator>>=( CppTypeT< KindT > const & rhs );
-		inline IntegerValue & operator&=( CppTypeT< KindT > const & rhs );
-		inline IntegerValue & operator|=( CppTypeT< KindT > const & rhs );
-		inline IntegerValue & operator^=( CppTypeT< KindT > const & rhs );
+		IntegerValue & operator=( T const & rhs );
+		IntegerValue & operator=( CppTypeT< IntegerValue< KindT > > const & rhs );
+		expr::ExprPtr makeCondition()const;
+		IntegerValue & operator++();
+		IntegerValue operator++( int );
+		IntegerValue & operator--();
+		IntegerValue operator--( int );
+		IntegerValue & operator+=( IntegerValue const & rhs );
+		IntegerValue & operator-=( IntegerValue const & rhs );
+		IntegerValue & operator*=( IntegerValue const & rhs );
+		IntegerValue & operator/=( IntegerValue const & rhs );
+		IntegerValue & operator%=( IntegerValue const & rhs );
+		IntegerValue & operator<<=( IntegerValue const & rhs );
+		IntegerValue & operator>>=( IntegerValue const & rhs );
+		IntegerValue & operator&=( IntegerValue const & rhs );
+		IntegerValue & operator|=( IntegerValue const & rhs );
+		IntegerValue & operator^=( IntegerValue const & rhs );
+		IntegerValue & operator+=( Optional< IntegerValue > const & rhs );
+		IntegerValue & operator-=( Optional< IntegerValue > const & rhs );
+		IntegerValue & operator*=( Optional< IntegerValue > const & rhs );
+		IntegerValue & operator/=( Optional< IntegerValue > const & rhs );
+		IntegerValue & operator%=( Optional< IntegerValue > const & rhs );
+		IntegerValue & operator<<=( Optional< IntegerValue > const & rhs );
+		IntegerValue & operator>>=( Optional< IntegerValue > const & rhs );
+		IntegerValue & operator&=( Optional< IntegerValue > const & rhs );
+		IntegerValue & operator|=( Optional< IntegerValue > const & rhs );
+		IntegerValue & operator^=( Optional< IntegerValue > const & rhs );
+		IntegerValue & operator+=( CppTypeT< IntegerValue< KindT > > const & rhs );
+		IntegerValue & operator-=( CppTypeT< IntegerValue< KindT > > const & rhs );
+		IntegerValue & operator*=( CppTypeT< IntegerValue< KindT > > const & rhs );
+		IntegerValue & operator/=( CppTypeT< IntegerValue< KindT > > const & rhs );
+		IntegerValue & operator%=( CppTypeT< IntegerValue< KindT > > const & rhs );
+		IntegerValue & operator<<=( CppTypeT< IntegerValue< KindT > > const & rhs );
+		IntegerValue & operator>>=( CppTypeT< IntegerValue< KindT > > const & rhs );
+		IntegerValue & operator&=( CppTypeT< IntegerValue< KindT > > const & rhs );
+		IntegerValue & operator|=( CppTypeT< IntegerValue< KindT > > const & rhs );
+		IntegerValue & operator^=( CppTypeT< IntegerValue< KindT > > const & rhs );
+		IntegerValue operator-()const;
+		IntegerValue operator+()const;
 
-		static inline ast::type::TypePtr makeType( ast::type::TypesCache & cache );
+		static ast::type::TypePtr makeType( ast::type::TypesCache & cache );
 	};
 
 	template< ast::type::Kind KindT >
-	inline IntegerValue< KindT > operator%( IntegerValue< KindT > const & lhs
+	IntegerValue< KindT > operator+( IntegerValue< KindT > const & lhs
 		, IntegerValue< KindT > const & rhs );
 	template< ast::type::Kind KindT >
-	inline IntegerValue< KindT > operator<<( IntegerValue< KindT > const & lhs
+	IntegerValue< KindT > operator-( IntegerValue< KindT > const & lhs
 		, IntegerValue< KindT > const & rhs );
 	template< ast::type::Kind KindT >
-	inline IntegerValue< KindT > operator>>( IntegerValue< KindT > const & lhs
+	IntegerValue< KindT > operator*( IntegerValue< KindT > const & lhs
 		, IntegerValue< KindT > const & rhs );
 	template< ast::type::Kind KindT >
-	inline IntegerValue< KindT > operator&( IntegerValue< KindT > const & lhs
+	IntegerValue< KindT > operator/( IntegerValue< KindT > const & lhs
 		, IntegerValue< KindT > const & rhs );
 	template< ast::type::Kind KindT >
-	inline IntegerValue< KindT > operator|( IntegerValue< KindT > const & lhs
+	IntegerValue< KindT > operator%( IntegerValue< KindT > const & lhs
 		, IntegerValue< KindT > const & rhs );
 	template< ast::type::Kind KindT >
-	inline IntegerValue< KindT > operator^( IntegerValue< KindT > const & lhs
+	IntegerValue< KindT > operator<<( IntegerValue< KindT > const & lhs
 		, IntegerValue< KindT > const & rhs );
 	template< ast::type::Kind KindT >
-	inline IntegerValue< KindT > operator~( IntegerValue< KindT > const & value );
-
-	template< ast::type::Kind KindT >
-	inline Optional< IntegerValue< KindT > > operator%( Optional< IntegerValue< KindT > > const & lhs
+	IntegerValue< KindT > operator>>( IntegerValue< KindT > const & lhs
 		, IntegerValue< KindT > const & rhs );
 	template< ast::type::Kind KindT >
-	inline Optional< IntegerValue< KindT > > operator<<( Optional< IntegerValue< KindT > > const & lhs
+	IntegerValue< KindT > operator&( IntegerValue< KindT > const & lhs
 		, IntegerValue< KindT > const & rhs );
 	template< ast::type::Kind KindT >
-	inline Optional< IntegerValue< KindT > > operator>>( Optional< IntegerValue< KindT > > const & lhs
+	IntegerValue< KindT > operator|( IntegerValue< KindT > const & lhs
 		, IntegerValue< KindT > const & rhs );
 	template< ast::type::Kind KindT >
-	inline Optional< IntegerValue< KindT > > operator&( Optional< IntegerValue< KindT > > const & lhs
+	IntegerValue< KindT > operator^( IntegerValue< KindT > const & lhs
 		, IntegerValue< KindT > const & rhs );
 	template< ast::type::Kind KindT >
-	inline Optional< IntegerValue< KindT > > operator|( Optional< IntegerValue< KindT > > const & lhs
+	IntegerValue< KindT > operator~( IntegerValue< KindT > const & value );
+	template< ast::type::Kind KindT >
+	Bool operator==( IntegerValue< KindT > const & lhs
 		, IntegerValue< KindT > const & rhs );
 	template< ast::type::Kind KindT >
-	inline Optional< IntegerValue< KindT > > operator^( Optional< IntegerValue< KindT > > const & lhs
-		, IntegerValue< KindT > const & rhs );
-
-	template< ast::type::Kind KindT >
-	inline Optional< IntegerValue< KindT > > operator%( IntegerValue< KindT > const & lhs
-		, Optional< IntegerValue< KindT > > const & rhs );
-	template< ast::type::Kind KindT >
-	inline Optional< IntegerValue< KindT > > operator<<( IntegerValue< KindT > const & lhs
-		, Optional< IntegerValue< KindT > > const & rhs );
-	template< ast::type::Kind KindT >
-	inline Optional< IntegerValue< KindT > > operator>>( IntegerValue< KindT > const & lhs
-		, Optional< IntegerValue< KindT > > const & rhs );
-	template< ast::type::Kind KindT >
-	inline Optional< IntegerValue< KindT > > operator&( IntegerValue< KindT > const & lhs
-		, Optional< IntegerValue< KindT > > const & rhs );
-	template< ast::type::Kind KindT >
-	inline Optional< IntegerValue< KindT > > operator|( IntegerValue< KindT > const & lhs
-		, Optional< IntegerValue< KindT > > const & rhs );
-	template< ast::type::Kind KindT >
-	inline Optional< IntegerValue< KindT > > operator^( IntegerValue< KindT > const & lhs
-		, Optional< IntegerValue< KindT > > const & rhs );
-
-	template< ast::type::Kind KindT >
-	inline Optional< IntegerValue< KindT > > operator%( Optional< IntegerValue< KindT > > const & lhs
-		, Optional< IntegerValue< KindT > > const & rhs );
-	template< ast::type::Kind KindT >
-	inline Optional< IntegerValue< KindT > > operator<<( Optional< IntegerValue< KindT > > const & lhs
-		, Optional< IntegerValue< KindT > > const & rhs );
-	template< ast::type::Kind KindT >
-	inline Optional< IntegerValue< KindT > > operator>>( Optional< IntegerValue< KindT > > const & lhs
-		, Optional< IntegerValue< KindT > > const & rhs );
-	template< ast::type::Kind KindT >
-	inline Optional< IntegerValue< KindT > > operator&( Optional< IntegerValue< KindT > > const & lhs
-		, Optional< IntegerValue< KindT > > const & rhs );
-	template< ast::type::Kind KindT >
-	inline Optional< IntegerValue< KindT > > operator|( Optional< IntegerValue< KindT > > const & lhs
-		, Optional< IntegerValue< KindT > > const & rhs );
-	template< ast::type::Kind KindT >
-	inline Optional< IntegerValue< KindT > > operator^( Optional< IntegerValue< KindT > > const & lhs
-		, Optional< IntegerValue< KindT > > const & rhs );
-	template< ast::type::Kind KindT >
-	inline Optional< IntegerValue< KindT > > operator~( Optional< IntegerValue< KindT > > const & value );
-
-	template< ast::type::Kind KindT >
-	inline IntegerValue< KindT > operator%( CppTypeT< KindT > const & lhs
+	Bool operator!=( IntegerValue< KindT > const & lhs
 		, IntegerValue< KindT > const & rhs );
 	template< ast::type::Kind KindT >
-	inline IntegerValue< KindT > operator<<( CppTypeT< KindT > const & lhs
+	Bool operator<( IntegerValue< KindT > const & lhs
 		, IntegerValue< KindT > const & rhs );
 	template< ast::type::Kind KindT >
-	inline IntegerValue< KindT > operator>>( CppTypeT< KindT > const & lhs
+	Bool operator<=( IntegerValue< KindT > const & lhs
 		, IntegerValue< KindT > const & rhs );
 	template< ast::type::Kind KindT >
-	inline IntegerValue< KindT > operator&( CppTypeT< KindT > const & lhs
+	Bool operator>( IntegerValue< KindT > const & lhs
 		, IntegerValue< KindT > const & rhs );
 	template< ast::type::Kind KindT >
-	inline IntegerValue< KindT > operator|( CppTypeT< KindT > const & lhs
-		, IntegerValue< KindT > const & rhs );
-	template< ast::type::Kind KindT >
-	inline IntegerValue< KindT > operator^( CppTypeT< KindT > const & lhs
+	Bool operator>=( IntegerValue< KindT > const & lhs
 		, IntegerValue< KindT > const & rhs );
 
 	template< ast::type::Kind KindT >
-	inline IntegerValue< KindT > operator%( IntegerValue< KindT > const & lhs
-		, CppTypeT< KindT > const & rhs );
+	Optional< IntegerValue< KindT > > operator+( Optional< IntegerValue< KindT > > const & lhs
+		, IntegerValue< KindT > const & rhs );
 	template< ast::type::Kind KindT >
-	inline IntegerValue< KindT > operator<<( IntegerValue< KindT > const & lhs
-		, CppTypeT< KindT > const & rhs );
+	Optional< IntegerValue< KindT > > operator-( Optional< IntegerValue< KindT > > const & lhs
+		, IntegerValue< KindT > const & rhs );
 	template< ast::type::Kind KindT >
-	inline IntegerValue< KindT > operator>>( IntegerValue< KindT > const & lhs
-		, CppTypeT< KindT > const & rhs );
+	Optional< IntegerValue< KindT > > operator*( Optional< IntegerValue< KindT > > const & lhs
+		, IntegerValue< KindT > const & rhs );
 	template< ast::type::Kind KindT >
-	inline IntegerValue< KindT > operator&( IntegerValue< KindT > const & lhs
-		, CppTypeT< KindT > const & rhs );
+	Optional< IntegerValue< KindT > > operator/( Optional< IntegerValue< KindT > > const & lhs
+		, IntegerValue< KindT > const & rhs );
 	template< ast::type::Kind KindT >
-	inline IntegerValue< KindT > operator|( IntegerValue< KindT > const & lhs
-		, CppTypeT< KindT > const & rhs );
+	Optional< IntegerValue< KindT > > operator%( Optional< IntegerValue< KindT > > const & lhs
+		, IntegerValue< KindT > const & rhs );
 	template< ast::type::Kind KindT >
-	inline IntegerValue< KindT > operator^( IntegerValue< KindT > const & lhs
-		, CppTypeT< KindT > const & rhs );
+	Optional< IntegerValue< KindT > > operator<<( Optional< IntegerValue< KindT > > const & lhs
+		, IntegerValue< KindT > const & rhs );
+	template< ast::type::Kind KindT >
+	Optional< IntegerValue< KindT > > operator>>( Optional< IntegerValue< KindT > > const & lhs
+		, IntegerValue< KindT > const & rhs );
+	template< ast::type::Kind KindT >
+	Optional< IntegerValue< KindT > > operator&( Optional< IntegerValue< KindT > > const & lhs
+		, IntegerValue< KindT > const & rhs );
+	template< ast::type::Kind KindT >
+	Optional< IntegerValue< KindT > > operator|( Optional< IntegerValue< KindT > > const & lhs
+		, IntegerValue< KindT > const & rhs );
+	template< ast::type::Kind KindT >
+	Optional< IntegerValue< KindT > > operator^( Optional< IntegerValue< KindT > > const & lhs
+		, IntegerValue< KindT > const & rhs );
+	template< ast::type::Kind KindT >
+	Optional< Bool > operator==( Optional< IntegerValue< KindT > > const & lhs
+		, IntegerValue< KindT > const & rhs );
+	template< ast::type::Kind KindT >
+	Optional< Bool > operator!=( Optional< IntegerValue< KindT > > const & lhs
+		, IntegerValue< KindT > const & rhs );
+	template< ast::type::Kind KindT >
+	Optional< Bool > operator<( Optional< IntegerValue< KindT > > const & lhs
+		, IntegerValue< KindT > const & rhs );
+	template< ast::type::Kind KindT >
+	Optional< Bool > operator<=( Optional< IntegerValue< KindT > > const & lhs
+		, IntegerValue< KindT > const & rhs );
+	template< ast::type::Kind KindT >
+	Optional< Bool > operator>( Optional< IntegerValue< KindT > > const & lhs
+		, IntegerValue< KindT > const & rhs );
+	template< ast::type::Kind KindT >
+	Optional< Bool > operator>=( Optional< IntegerValue< KindT > > const & lhs
+		, IntegerValue< KindT > const & rhs );
 
 	template< ast::type::Kind KindT >
-	inline Optional< IntegerValue< KindT > > operator%( Optional< IntegerValue< KindT > > const & lhs
-		, CppTypeT< KindT > const & rhs );
+	Optional< IntegerValue< KindT > > operator+( IntegerValue< KindT > const & lhs
+		, Optional< IntegerValue< KindT > > const & rhs );
 	template< ast::type::Kind KindT >
-	inline Optional< IntegerValue< KindT > > operator<<( Optional< IntegerValue< KindT > > const & lhs
-		, CppTypeT< KindT > const & rhs );
+	Optional< IntegerValue< KindT > > operator-( IntegerValue< KindT > const & lhs
+		, Optional< IntegerValue< KindT > > const & rhs );
 	template< ast::type::Kind KindT >
-	inline Optional< IntegerValue< KindT > > operator>>( Optional< IntegerValue< KindT > > const & lhs
-		, CppTypeT< KindT > const & rhs );
+	Optional< IntegerValue< KindT > > operator*( IntegerValue< KindT > const & lhs
+		, Optional< IntegerValue< KindT > > const & rhs );
 	template< ast::type::Kind KindT >
-	inline Optional< IntegerValue< KindT > > operator&( Optional< IntegerValue< KindT > > const & lhs
-		, CppTypeT< KindT > const & rhs );
+	Optional< IntegerValue< KindT > > operator/( IntegerValue< KindT > const & lhs
+		, Optional< IntegerValue< KindT > > const & rhs );
 	template< ast::type::Kind KindT >
-	inline Optional< IntegerValue< KindT > > operator|( Optional< IntegerValue< KindT > > const & lhs
-		, CppTypeT< KindT > const & rhs );
+	Optional< IntegerValue< KindT > > operator%( IntegerValue< KindT > const & lhs
+		, Optional< IntegerValue< KindT > > const & rhs );
 	template< ast::type::Kind KindT >
-	inline Optional< IntegerValue< KindT > > operator^( Optional< IntegerValue< KindT > > const & lhs
-		, CppTypeT< KindT > const & rhs );
+	Optional< IntegerValue< KindT > > operator<<( IntegerValue< KindT > const & lhs
+		, Optional< IntegerValue< KindT > > const & rhs );
+	template< ast::type::Kind KindT >
+	Optional< IntegerValue< KindT > > operator>>( IntegerValue< KindT > const & lhs
+		, Optional< IntegerValue< KindT > > const & rhs );
+	template< ast::type::Kind KindT >
+	Optional< IntegerValue< KindT > > operator&( IntegerValue< KindT > const & lhs
+		, Optional< IntegerValue< KindT > > const & rhs );
+	template< ast::type::Kind KindT >
+	Optional< IntegerValue< KindT > > operator|( IntegerValue< KindT > const & lhs
+		, Optional< IntegerValue< KindT > > const & rhs );
+	template< ast::type::Kind KindT >
+	Optional< IntegerValue< KindT > > operator^( IntegerValue< KindT > const & lhs
+		, Optional< IntegerValue< KindT > > const & rhs );
+	template< ast::type::Kind KindT >
+	Optional< Bool > operator==( IntegerValue< KindT > const & lhs
+		, Optional< IntegerValue< KindT > > const & rhs );
+	template< ast::type::Kind KindT >
+	Optional< Bool > operator!=( IntegerValue< KindT > const & lhs
+		, Optional< IntegerValue< KindT > > const & rhs );
+	template< ast::type::Kind KindT >
+	Optional< Bool > operator<( IntegerValue< KindT > const & lhs
+		, Optional< IntegerValue< KindT > > const & rhs );
+	template< ast::type::Kind KindT >
+	Optional< Bool > operator<=( IntegerValue< KindT > const & lhs
+		, Optional< IntegerValue< KindT > > const & rhs );
+	template< ast::type::Kind KindT >
+	Optional< Bool > operator>( IntegerValue< KindT > const & lhs
+		, Optional< IntegerValue< KindT > > const & rhs );
+	template< ast::type::Kind KindT >
+	Optional< Bool > operator>=( IntegerValue< KindT > const & lhs
+		, Optional< IntegerValue< KindT > > const & rhs );
 
 	template< ast::type::Kind KindT >
-	inline Optional< IntegerValue< KindT > > operator%( CppTypeT< KindT > const & lhs
+	Optional< IntegerValue< KindT > > operator+( Optional< IntegerValue< KindT > > const & lhs
 		, Optional< IntegerValue< KindT > > const & rhs );
 	template< ast::type::Kind KindT >
-	inline Optional< IntegerValue< KindT > > operator<<( CppTypeT< KindT > const & lhs
+	Optional< IntegerValue< KindT > > operator-( Optional< IntegerValue< KindT > > const & lhs
 		, Optional< IntegerValue< KindT > > const & rhs );
 	template< ast::type::Kind KindT >
-	inline Optional< IntegerValue< KindT > > operator>>( CppTypeT< KindT > const & lhs
+	Optional< IntegerValue< KindT > > operator*( Optional< IntegerValue< KindT > > const & lhs
 		, Optional< IntegerValue< KindT > > const & rhs );
 	template< ast::type::Kind KindT >
-	inline Optional< IntegerValue< KindT > > operator&( CppTypeT< KindT > const & lhs
+	Optional< IntegerValue< KindT > > operator/( Optional< IntegerValue< KindT > > const & lhs
 		, Optional< IntegerValue< KindT > > const & rhs );
 	template< ast::type::Kind KindT >
-	inline Optional< IntegerValue< KindT > > operator|( CppTypeT< KindT > const & lhs
+	Optional< IntegerValue< KindT > > operator%( Optional< IntegerValue< KindT > > const & lhs
 		, Optional< IntegerValue< KindT > > const & rhs );
 	template< ast::type::Kind KindT >
-	inline Optional< IntegerValue< KindT > > operator^( CppTypeT< KindT > const & lhs
+	Optional< IntegerValue< KindT > > operator<<( Optional< IntegerValue< KindT > > const & lhs
+		, Optional< IntegerValue< KindT > > const & rhs );
+	template< ast::type::Kind KindT >
+	Optional< IntegerValue< KindT > > operator>>( Optional< IntegerValue< KindT > > const & lhs
+		, Optional< IntegerValue< KindT > > const & rhs );
+	template< ast::type::Kind KindT >
+	Optional< IntegerValue< KindT > > operator&( Optional< IntegerValue< KindT > > const & lhs
+		, Optional< IntegerValue< KindT > > const & rhs );
+	template< ast::type::Kind KindT >
+	Optional< IntegerValue< KindT > > operator|( Optional< IntegerValue< KindT > > const & lhs
+		, Optional< IntegerValue< KindT > > const & rhs );
+	template< ast::type::Kind KindT >
+	Optional< IntegerValue< KindT > > operator^( Optional< IntegerValue< KindT > > const & lhs
+		, Optional< IntegerValue< KindT > > const & rhs );
+	template< ast::type::Kind KindT >
+	Optional< IntegerValue< KindT > > operator~( Optional< IntegerValue< KindT > > const & value );
+	template< ast::type::Kind KindT >
+	Optional< Bool > operator==( Optional< IntegerValue< KindT > > const & lhs
+		, Optional< IntegerValue< KindT > > const & rhs );
+	template< ast::type::Kind KindT >
+	Optional< Bool > operator!=( Optional< IntegerValue< KindT > > const & lhs
+		, Optional< IntegerValue< KindT > > const & rhs );
+	template< ast::type::Kind KindT >
+	Optional< Bool > operator<( Optional< IntegerValue< KindT > > const & lhs
+		, Optional< IntegerValue< KindT > > const & rhs );
+	template< ast::type::Kind KindT >
+	Optional< Bool > operator<=( Optional< IntegerValue< KindT > > const & lhs
+		, Optional< IntegerValue< KindT > > const & rhs );
+	template< ast::type::Kind KindT >
+	Optional< Bool > operator>( Optional< IntegerValue< KindT > > const & lhs
+		, Optional< IntegerValue< KindT > > const & rhs );
+	template< ast::type::Kind KindT >
+	Optional< Bool > operator>=( Optional< IntegerValue< KindT > > const & lhs
+		, Optional< IntegerValue< KindT > > const & rhs );
+
+	template< ast::type::Kind KindT >
+	IntegerValue< KindT > operator+( CppTypeT< IntegerValue< KindT > > const & lhs
+		, IntegerValue< KindT > const & rhs );
+	template< ast::type::Kind KindT >
+	IntegerValue< KindT > operator-( CppTypeT< IntegerValue< KindT > > const & lhs
+		, IntegerValue< KindT > const & rhs );
+	template< ast::type::Kind KindT >
+	IntegerValue< KindT > operator*( CppTypeT< IntegerValue< KindT > > const & lhs
+		, IntegerValue< KindT > const & rhs );
+	template< ast::type::Kind KindT >
+	IntegerValue< KindT > operator/( CppTypeT< IntegerValue< KindT > > const & lhs
+		, IntegerValue< KindT > const & rhs );
+	template< ast::type::Kind KindT >
+	IntegerValue< KindT > operator%( CppTypeT< IntegerValue< KindT > > const & lhs
+		, IntegerValue< KindT > const & rhs );
+	template< ast::type::Kind KindT >
+	IntegerValue< KindT > operator<<( CppTypeT< IntegerValue< KindT > > const & lhs
+		, IntegerValue< KindT > const & rhs );
+	template< ast::type::Kind KindT >
+	IntegerValue< KindT > operator>>( CppTypeT< IntegerValue< KindT > > const & lhs
+		, IntegerValue< KindT > const & rhs );
+	template< ast::type::Kind KindT >
+	IntegerValue< KindT > operator&( CppTypeT< IntegerValue< KindT > > const & lhs
+		, IntegerValue< KindT > const & rhs );
+	template< ast::type::Kind KindT >
+	IntegerValue< KindT > operator|( CppTypeT< IntegerValue< KindT > > const & lhs
+		, IntegerValue< KindT > const & rhs );
+	template< ast::type::Kind KindT >
+	IntegerValue< KindT > operator^( CppTypeT< IntegerValue< KindT > > const & lhs
+		, IntegerValue< KindT > const & rhs );
+	template< ast::type::Kind KindT >
+	Bool operator==( CppTypeT< IntegerValue< KindT > > const & lhs
+		, IntegerValue< KindT > const & rhs );
+	template< ast::type::Kind KindT >
+	Bool operator!=( CppTypeT< IntegerValue< KindT > > const & lhs
+		, IntegerValue< KindT > const & rhs );
+	template< ast::type::Kind KindT >
+	Bool operator<( CppTypeT< IntegerValue< KindT > > const & lhs
+		, IntegerValue< KindT > const & rhs );
+	template< ast::type::Kind KindT >
+	Bool operator<=( CppTypeT< IntegerValue< KindT > > const & lhs
+		, IntegerValue< KindT > const & rhs );
+	template< ast::type::Kind KindT >
+	Bool operator>( CppTypeT< IntegerValue< KindT > > const & lhs
+		, IntegerValue< KindT > const & rhs );
+	template< ast::type::Kind KindT >
+	Bool operator>=( CppTypeT< IntegerValue< KindT > > const & lhs
+		, IntegerValue< KindT > const & rhs );
+
+	template< ast::type::Kind KindT >
+	IntegerValue< KindT > operator+( IntegerValue< KindT > const & lhs
+		, CppTypeT< IntegerValue< KindT > > const & rhs );
+	template< ast::type::Kind KindT >
+	IntegerValue< KindT > operator-( IntegerValue< KindT > const & lhs
+		, CppTypeT< IntegerValue< KindT > > const & rhs );
+	template< ast::type::Kind KindT >
+	IntegerValue< KindT > operator*( IntegerValue< KindT > const & lhs
+		, CppTypeT< IntegerValue< KindT > > const & rhs );
+	template< ast::type::Kind KindT >
+	IntegerValue< KindT > operator/( IntegerValue< KindT > const & lhs
+		, CppTypeT< IntegerValue< KindT > > const & rhs );
+	template< ast::type::Kind KindT >
+	IntegerValue< KindT > operator%( IntegerValue< KindT > const & lhs
+		, CppTypeT< IntegerValue< KindT > > const & rhs );
+	template< ast::type::Kind KindT >
+	IntegerValue< KindT > operator<<( IntegerValue< KindT > const & lhs
+		, CppTypeT< IntegerValue< KindT > > const & rhs );
+	template< ast::type::Kind KindT >
+	IntegerValue< KindT > operator>>( IntegerValue< KindT > const & lhs
+		, CppTypeT< IntegerValue< KindT > > const & rhs );
+	template< ast::type::Kind KindT >
+	IntegerValue< KindT > operator&( IntegerValue< KindT > const & lhs
+		, CppTypeT< IntegerValue< KindT > > const & rhs );
+	template< ast::type::Kind KindT >
+	IntegerValue< KindT > operator|( IntegerValue< KindT > const & lhs
+		, CppTypeT< IntegerValue< KindT > > const & rhs );
+	template< ast::type::Kind KindT >
+	IntegerValue< KindT > operator^( IntegerValue< KindT > const & lhs
+		, CppTypeT< IntegerValue< KindT > > const & rhs );
+	template< ast::type::Kind KindT >
+	Bool operator==( IntegerValue< KindT > const & lhs
+		, CppTypeT< IntegerValue< KindT > > const & rhs );
+	template< ast::type::Kind KindT >
+	Bool operator!=( IntegerValue< KindT > const & lhs
+		, CppTypeT< IntegerValue< KindT > > const & rhs );
+	template< ast::type::Kind KindT >
+	Bool operator<( IntegerValue< KindT > const & lhs
+		, CppTypeT< IntegerValue< KindT > > const & rhs );
+	template< ast::type::Kind KindT >
+	Bool operator<=( IntegerValue< KindT > const & lhs
+		, CppTypeT< IntegerValue< KindT > > const & rhs );
+	template< ast::type::Kind KindT >
+	Bool operator>( IntegerValue< KindT > const & lhs
+		, CppTypeT< IntegerValue< KindT > > const & rhs );
+	template< ast::type::Kind KindT >
+	Bool operator>=( IntegerValue< KindT > const & lhs
+		, CppTypeT< IntegerValue< KindT > > const & rhs );
+
+	template< ast::type::Kind KindT >
+	Optional< IntegerValue< KindT > > operator+( Optional< IntegerValue< KindT > > const & lhs
+		, CppTypeT< IntegerValue< KindT > > const & rhs );
+	template< ast::type::Kind KindT >
+	Optional< IntegerValue< KindT > > operator-( Optional< IntegerValue< KindT > > const & lhs
+		, CppTypeT< IntegerValue< KindT > > const & rhs );
+	template< ast::type::Kind KindT >
+	Optional< IntegerValue< KindT > > operator*( Optional< IntegerValue< KindT > > const & lhs
+		, CppTypeT< IntegerValue< KindT > > const & rhs );
+	template< ast::type::Kind KindT >
+	Optional< IntegerValue< KindT > > operator/( Optional< IntegerValue< KindT > > const & lhs
+		, CppTypeT< IntegerValue< KindT > > const & rhs );
+	template< ast::type::Kind KindT >
+	Optional< IntegerValue< KindT > > operator%( Optional< IntegerValue< KindT > > const & lhs
+		, CppTypeT< IntegerValue< KindT > > const & rhs );
+	template< ast::type::Kind KindT >
+	Optional< IntegerValue< KindT > > operator<<( Optional< IntegerValue< KindT > > const & lhs
+		, CppTypeT< IntegerValue< KindT > > const & rhs );
+	template< ast::type::Kind KindT >
+	Optional< IntegerValue< KindT > > operator>>( Optional< IntegerValue< KindT > > const & lhs
+		, CppTypeT< IntegerValue< KindT > > const & rhs );
+	template< ast::type::Kind KindT >
+	Optional< IntegerValue< KindT > > operator&( Optional< IntegerValue< KindT > > const & lhs
+		, CppTypeT< IntegerValue< KindT > > const & rhs );
+	template< ast::type::Kind KindT >
+	Optional< IntegerValue< KindT > > operator|( Optional< IntegerValue< KindT > > const & lhs
+		, CppTypeT< IntegerValue< KindT > > const & rhs );
+	template< ast::type::Kind KindT >
+	Optional< IntegerValue< KindT > > operator^( Optional< IntegerValue< KindT > > const & lhs
+		, CppTypeT< IntegerValue< KindT > > const & rhs );
+	template< ast::type::Kind KindT >
+	Optional< Bool > operator==( Optional< IntegerValue< KindT > > const & lhs
+		, CppTypeT< IntegerValue< KindT > > const & rhs );
+	template< ast::type::Kind KindT >
+	Optional< Bool > operator!=( Optional< IntegerValue< KindT > > const & lhs
+		, CppTypeT< IntegerValue< KindT > > const & rhs );
+	template< ast::type::Kind KindT >
+	Optional< Bool > operator<( Optional< IntegerValue< KindT > > const & lhs
+		, CppTypeT< IntegerValue< KindT > > const & rhs );
+	template< ast::type::Kind KindT >
+	Optional< Bool > operator<=( Optional< IntegerValue< KindT > > const & lhs
+		, CppTypeT< IntegerValue< KindT > > const & rhs );
+	template< ast::type::Kind KindT >
+	Optional< Bool > operator>( Optional< IntegerValue< KindT > > const & lhs
+		, CppTypeT< IntegerValue< KindT > > const & rhs );
+	template< ast::type::Kind KindT >
+	Optional< Bool > operator>=( Optional< IntegerValue< KindT > > const & lhs
+		, CppTypeT< IntegerValue< KindT > > const & rhs );
+
+	template< ast::type::Kind KindT >
+	Optional< IntegerValue< KindT > > operator+( CppTypeT< IntegerValue< KindT > > const & lhs
+		, Optional< IntegerValue< KindT > > const & rhs );
+	template< ast::type::Kind KindT >
+	Optional< IntegerValue< KindT > > operator-( CppTypeT< IntegerValue< KindT > > const & lhs
+		, Optional< IntegerValue< KindT > > const & rhs );
+	template< ast::type::Kind KindT >
+	Optional< IntegerValue< KindT > > operator*( CppTypeT< IntegerValue< KindT > > const & lhs
+		, Optional< IntegerValue< KindT > > const & rhs );
+	template< ast::type::Kind KindT >
+	Optional< IntegerValue< KindT > > operator/( CppTypeT< IntegerValue< KindT > > const & lhs
+		, Optional< IntegerValue< KindT > > const & rhs );
+	template< ast::type::Kind KindT >
+	Optional< IntegerValue< KindT > > operator%( CppTypeT< IntegerValue< KindT > > const & lhs
+		, Optional< IntegerValue< KindT > > const & rhs );
+	template< ast::type::Kind KindT >
+	Optional< IntegerValue< KindT > > operator<<( CppTypeT< IntegerValue< KindT > > const & lhs
+		, Optional< IntegerValue< KindT > > const & rhs );
+	template< ast::type::Kind KindT >
+	Optional< IntegerValue< KindT > > operator>>( CppTypeT< IntegerValue< KindT > > const & lhs
+		, Optional< IntegerValue< KindT > > const & rhs );
+	template< ast::type::Kind KindT >
+	Optional< IntegerValue< KindT > > operator&( CppTypeT< IntegerValue< KindT > > const & lhs
+		, Optional< IntegerValue< KindT > > const & rhs );
+	template< ast::type::Kind KindT >
+	Optional< IntegerValue< KindT > > operator|( CppTypeT< IntegerValue< KindT > > const & lhs
+		, Optional< IntegerValue< KindT > > const & rhs );
+	template< ast::type::Kind KindT >
+	Optional< IntegerValue< KindT > > operator^( CppTypeT< IntegerValue< KindT > > const & lhs
+		, Optional< IntegerValue< KindT > > const & rhs );
+	template< ast::type::Kind KindT >
+	Optional< Bool > operator==( CppTypeT< IntegerValue< KindT > > const & lhs
+		, Optional< IntegerValue< KindT > > const & rhs );
+	template< ast::type::Kind KindT >
+	Optional< Bool > operator!=( CppTypeT< IntegerValue< KindT > > const & lhs
+		, Optional< IntegerValue< KindT > > const & rhs );
+	template< ast::type::Kind KindT >
+	Optional< Bool > operator<( CppTypeT< IntegerValue< KindT > > const & lhs
+		, Optional< IntegerValue< KindT > > const & rhs );
+	template< ast::type::Kind KindT >
+	Optional< Bool > operator<=( CppTypeT< IntegerValue< KindT > > const & lhs
+		, Optional< IntegerValue< KindT > > const & rhs );
+	template< ast::type::Kind KindT >
+	Optional< Bool > operator>( CppTypeT< IntegerValue< KindT > > const & lhs
+		, Optional< IntegerValue< KindT > > const & rhs );
+	template< ast::type::Kind KindT >
+	Optional< Bool > operator>=( CppTypeT< IntegerValue< KindT > > const & lhs
 		, Optional< IntegerValue< KindT > > const & rhs );
 }
 

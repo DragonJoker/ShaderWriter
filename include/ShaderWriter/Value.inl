@@ -183,19 +183,4 @@ namespace sdw
 	}
 
 	//***********************************************************************************************
-
-	template< typename T >
-	T operator-( T const & value )
-	{
-		return T{ findShader( value )
-			, sdw::makeUnMinus( makeExpr( value ) ) };
-	}
-
-	template< typename T >
-	T operator+( T const & value )
-	{
-		return value;
-	}
-
-	//***********************************************************************************************
 }

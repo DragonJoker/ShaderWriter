@@ -3,293 +3,408 @@ See LICENSE file in root folder
 */
 namespace sdw
 {
+	//***********************************************************************************************
+
 	template<>
 	struct TypeTraits< void >
 	{
 		static ast::type::Kind constexpr TypeEnum = ast::type::Kind::eVoid;
+		using CppType = void;
 	};
 	
 	template<>
 	struct TypeTraits< bool >
 	{
 		static ast::type::Kind constexpr TypeEnum = ast::type::Kind::eBool;
+		using CppType = bool;
 	};
 
 	template<>
 	struct TypeTraits< int32_t >
 	{
 		static ast::type::Kind constexpr TypeEnum = ast::type::Kind::eInt;
+		using CppType = int32_t;
 	};
 
 	template<>
 	struct TypeTraits< uint32_t >
 	{
 		static ast::type::Kind constexpr TypeEnum = ast::type::Kind::eUInt;
+		using CppType = uint32_t;
 	};
 
 	template<>
 	struct TypeTraits< float >
 	{
 		static ast::type::Kind constexpr TypeEnum = ast::type::Kind::eFloat;
+		using CppType = float;
 	};
 
 	template<>
 	struct TypeTraits< double >
 	{
 		static ast::type::Kind constexpr TypeEnum = ast::type::Kind::eDouble;
+		using CppType = double;
 	};
 
 	template<>
 	struct TypeTraits< Void >
 	{
 		static ast::type::Kind constexpr TypeEnum = ast::type::Kind::eVoid;
+		using CppType = void;
 	};
 
 	template<>
 	struct TypeTraits< Bool >
 	{
 		static ast::type::Kind constexpr TypeEnum = ast::type::Kind::eBool;
+		using CppType = bool;
 	};
 
 	template<>
-	struct TypeTraits< Int >
+	struct TypeTraits< ArithmeticValue< ast::type::Kind::eInt > >
 	{
 		static ast::type::Kind constexpr TypeEnum = ast::type::Kind::eInt;
+		using CppType = int32_t;
 	};
 
 	template<>
-	struct TypeTraits< UInt >
+	struct TypeTraits< ArithmeticValue< ast::type::Kind::eUInt > >
 	{
 		static ast::type::Kind constexpr TypeEnum = ast::type::Kind::eUInt;
+		using CppType = uint32_t;
 	};
 
 	template<>
-	struct TypeTraits< Float >
+	struct TypeTraits< IntegerValue< ast::type::Kind::eInt > >
+	{
+		static ast::type::Kind constexpr TypeEnum = ast::type::Kind::eInt;
+		using CppType = int32_t;
+	};
+
+	template<>
+	struct TypeTraits< IntegerValue< ast::type::Kind::eUInt > >
+	{
+		static ast::type::Kind constexpr TypeEnum = ast::type::Kind::eUInt;
+		using CppType = uint32_t;
+	};
+
+	template<>
+	struct TypeTraits< ArithmeticValue< ast::type::Kind::eFloat > >
 	{
 		static ast::type::Kind constexpr TypeEnum = ast::type::Kind::eFloat;
+		using CppType = float;
 	};
 
 	template<>
-	struct TypeTraits< Double >
+	struct TypeTraits< ArithmeticValue< ast::type::Kind::eDouble > >
 	{
 		static ast::type::Kind constexpr TypeEnum = ast::type::Kind::eDouble;
+		using CppType = double;
 	};
 
 	template<>
 	struct TypeTraits< BVec2 >
 	{
 		static ast::type::Kind constexpr TypeEnum = ast::type::Kind::eVec2B;
+		using CppType = bool;
 	};
 
 	template<>
 	struct TypeTraits< BVec3 >
 	{
 		static ast::type::Kind constexpr TypeEnum = ast::type::Kind::eVec3B;
+		using CppType = bool;
 	};
 
 	template<>
 	struct TypeTraits< BVec4 >
 	{
 		static ast::type::Kind constexpr TypeEnum = ast::type::Kind::eVec4B;
+		using CppType = bool;
 	};
 
 	template<>
 	struct TypeTraits< IVec2 >
 	{
 		static ast::type::Kind constexpr TypeEnum = ast::type::Kind::eVec2I;
+		using CppType = int32_t;
 	};
 
 	template<>
 	struct TypeTraits< IVec3 >
 	{
 		static ast::type::Kind constexpr TypeEnum = ast::type::Kind::eVec3I;
+		using CppType = int32_t;
 	};
 
 	template<>
 	struct TypeTraits< IVec4 >
 	{
 		static ast::type::Kind constexpr TypeEnum = ast::type::Kind::eVec4I;
+		using CppType = int32_t;
 	};
 
 	template<>
 	struct TypeTraits< UVec2 >
 	{
 		static ast::type::Kind constexpr TypeEnum = ast::type::Kind::eVec2U;
+		using CppType = uint32_t;
 	};
 
 	template<>
 	struct TypeTraits< UVec3 >
 	{
 		static ast::type::Kind constexpr TypeEnum = ast::type::Kind::eVec3U;
+		using CppType = uint32_t;
 	};
 
 	template<>
 	struct TypeTraits< UVec4 >
 	{
 		static ast::type::Kind constexpr TypeEnum = ast::type::Kind::eVec4U;
+		using CppType = uint32_t;
 	};
 
 	template<>
 	struct TypeTraits< Vec2 >
 	{
 		static ast::type::Kind constexpr TypeEnum = ast::type::Kind::eVec2F;
+		using CppType = float;
 	};
 
 	template<>
 	struct TypeTraits< Vec3 >
 	{
 		static ast::type::Kind constexpr TypeEnum = ast::type::Kind::eVec3F;
+		using CppType = float;
 	};
 
 	template<>
 	struct TypeTraits< Vec4 >
 	{
 		static ast::type::Kind constexpr TypeEnum = ast::type::Kind::eVec4F;
+		using CppType = float;
 	};
 
 	template<>
 	struct TypeTraits< DVec2 >
 	{
 		static ast::type::Kind constexpr TypeEnum = ast::type::Kind::eVec2D;
+		using CppType = double;
 	};
 
 	template<>
 	struct TypeTraits< DVec3 >
 	{
 		static ast::type::Kind constexpr TypeEnum = ast::type::Kind::eVec3D;
+		using CppType = double;
 	};
 
 	template<>
 	struct TypeTraits< DVec4 >
 	{
 		static ast::type::Kind constexpr TypeEnum = ast::type::Kind::eVec4D;
+		using CppType = double;
 	};
 
 	template<>
 	struct TypeTraits< Mat2 >
 	{
 		static ast::type::Kind constexpr TypeEnum = ast::type::Kind::eMat2x2F;
+		using CppType = float;
 	};
 
 	template<>
 	struct TypeTraits< Mat2x3 >
 	{
 		static ast::type::Kind constexpr TypeEnum = ast::type::Kind::eMat2x3F;
+		using CppType = float;
 	};
 
 	template<>
 	struct TypeTraits< Mat2x4 >
 	{
 		static ast::type::Kind constexpr TypeEnum = ast::type::Kind::eMat2x4F;
+		using CppType = float;
 	};
 
 	template<>
 	struct TypeTraits< Mat3 >
 	{
 		static ast::type::Kind constexpr TypeEnum = ast::type::Kind::eMat3x3F;
+		using CppType = float;
 	};
 
 	template<>
 	struct TypeTraits< Mat3x2 >
 	{
 		static ast::type::Kind constexpr TypeEnum = ast::type::Kind::eMat3x2F;
+		using CppType = float;
 	};
 
 	template<>
 	struct TypeTraits< Mat3x4 >
 	{
 		static ast::type::Kind constexpr TypeEnum = ast::type::Kind::eMat3x4F;
+		using CppType = float;
 	};
 
 	template<>
 	struct TypeTraits< Mat4 >
 	{
 		static ast::type::Kind constexpr TypeEnum = ast::type::Kind::eMat4x4F;
+		using CppType = float;
 	};
 
 	template<>
 	struct TypeTraits< Mat4x2 >
 	{
 		static ast::type::Kind constexpr TypeEnum = ast::type::Kind::eMat4x2F;
+		using CppType = float;
 	};
 
 	template<>
 	struct TypeTraits< Mat4x3 >
 	{
 		static ast::type::Kind constexpr TypeEnum = ast::type::Kind::eMat4x3F;
+		using CppType = float;
 	};
 
 	template<>
 	struct TypeTraits< DMat2 >
 	{
 		static ast::type::Kind constexpr TypeEnum = ast::type::Kind::eMat2x2D;
+		using CppType = double;
 	};
 
 	template<>
 	struct TypeTraits< DMat2x3 >
 	{
 		static ast::type::Kind constexpr TypeEnum = ast::type::Kind::eMat2x3D;
+		using CppType = double;
 	};
 
 	template<>
 	struct TypeTraits< DMat2x4 >
 	{
 		static ast::type::Kind constexpr TypeEnum = ast::type::Kind::eMat2x4D;
+		using CppType = double;
 	};
 
 	template<>
 	struct TypeTraits< DMat3 >
 	{
 		static ast::type::Kind constexpr TypeEnum = ast::type::Kind::eMat3x3D;
+		using CppType = double;
 	};
 
 	template<>
 	struct TypeTraits< DMat3x2 >
 	{
 		static ast::type::Kind constexpr TypeEnum = ast::type::Kind::eMat3x2D;
+		using CppType = double;
 	};
 
 	template<>
 	struct TypeTraits< DMat3x4 >
 	{
 		static ast::type::Kind constexpr TypeEnum = ast::type::Kind::eMat3x4D;
+		using CppType = double;
 	};
 
 	template<>
 	struct TypeTraits< DMat4 >
 	{
 		static ast::type::Kind constexpr TypeEnum = ast::type::Kind::eMat4x4D;
+		using CppType = double;
 	};
 
 	template<>
 	struct TypeTraits< DMat4x2 >
 	{
 		static ast::type::Kind constexpr TypeEnum = ast::type::Kind::eMat4x2D;
+		using CppType = double;
 	};
 
 	template<>
 	struct TypeTraits< DMat4x3 >
 	{
 		static ast::type::Kind constexpr TypeEnum = ast::type::Kind::eMat4x3D;
+		using CppType = double;
 	};
 
 	template<>
 	struct TypeTraits< StructInstance >
 	{
 		static ast::type::Kind constexpr TypeEnum = ast::type::Kind::eStruct;
+		using CppType = void;
 	};
 
 	template<>
 	struct TypeTraits< SampledImage >
 	{
 		static ast::type::Kind constexpr TypeEnum = ast::type::Kind::eSampledImage;
+		using CppType = void;
+	};
+
+	template<>
+	struct TypeTraits< Sampler >
+	{
+		static ast::type::Kind constexpr TypeEnum = ast::type::Kind::eSampler;
+		using CppType = void;
 	};
 
 	template<>
 	struct TypeTraits< Image >
 	{
 		static ast::type::Kind constexpr TypeEnum = ast::type::Kind::eImage;
+		using CppType = void;
 	};
+
+	template< typename T >
+	struct TypeTraits< Array< T > >
+	{
+		static ast::type::Kind constexpr TypeEnum = TypeTraits< T >::TypeEnum;
+		using CppType = typename TypeTraits< T >::CppType;
+	};
+
+	template< typename T >
+	struct TypeTraits< Optional< T > >
+	{
+		static ast::type::Kind constexpr TypeEnum = TypeTraits< T >::TypeEnum;
+		using CppType = typename TypeTraits< T >::CppType;
+	};
+
+	template< typename T >
+	struct TypeTraits< MaybeOptional< T > >
+	{
+		static ast::type::Kind constexpr TypeEnum = TypeTraits< T >::TypeEnum;
+		using CppType = typename TypeTraits< T >::CppType;
+	};
+
+	template< typename T >
+	struct TypeTraits< InParam< T > >
+	{
+		static ast::type::Kind constexpr TypeEnum = TypeTraits< T >::TypeEnum;
+		using CppType = typename TypeTraits< T >::CppType;
+	};
+
+	template< typename T >
+	struct TypeTraits< OutParam< T > >
+	{
+		static ast::type::Kind constexpr TypeEnum = TypeTraits< T >::TypeEnum;
+		using CppType = typename TypeTraits< T >::CppType;
+	};
+
+	template< typename T >
+	struct TypeTraits< InOutParam< T > >
+	{
+		static ast::type::Kind constexpr TypeEnum = TypeTraits< T >::TypeEnum;
+		using CppType = typename TypeTraits< T >::CppType;
+	};
+
+	//***********************************************************************************************
 
 #define Writer_Image( Prefix, TypeName, Format, Value )\
 	template<>\
@@ -793,44 +908,7 @@ namespace sdw
 
 #undef Writer_Image
 
-	template< typename T >
-	struct TypeTraits< Array< T > >
-	{
-		static ast::type::Kind constexpr TypeEnum = TypeTraits< T >::TypeEnum;
-	};
-
-	template< typename T >
-	struct TypeTraits< Optional< T > >
-	{
-		static ast::type::Kind constexpr TypeEnum = TypeTraits< T >::TypeEnum;
-	};
-
-	template< typename T >
-	struct TypeTraits< MaybeOptional< T > >
-	{
-		static ast::type::Kind constexpr TypeEnum = TypeTraits< T >::TypeEnum;
-	};
-
-	template< typename T >
-	struct TypeTraits< InParam< T > >
-	{
-		static ast::type::Kind constexpr TypeEnum = TypeTraits< T >::TypeEnum;
-	};
-
-	template< typename T >
-	struct TypeTraits< OutParam< T > >
-	{
-		static ast::type::Kind constexpr TypeEnum = TypeTraits< T >::TypeEnum;
-	};
-
-	template< typename T >
-	struct TypeTraits< InOutParam< T > >
-	{
-		static ast::type::Kind constexpr TypeEnum = TypeTraits< T >::TypeEnum;
-	};
-
-	template< typename T >
-	static ast::type::Kind constexpr typeEnum = TypeTraits< T >::TypeEnum;
+	//***********************************************************************************************
 
 	template< typename T >
 	struct RealTypeGetter
@@ -867,9 +945,6 @@ namespace sdw
 	{
 		using Type = T;
 	};
-
-	template< typename T >
-	using RealType = typename RealTypeGetter< T >::Type;
 
 	//***********************************************************************************************
 }

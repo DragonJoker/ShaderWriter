@@ -43,11 +43,6 @@ namespace sdw
 		stmt::Container * m_container;
 	};
 
-	template< typename T >
-	T operator-( T const & value );
-	template< typename T >
-	T operator+( T const & value );
-
 	template< typename ... ValuesT >
 	inline stmt::Container * findContainer( ValuesT const & ... values );
 	template< typename ... ValuesT >

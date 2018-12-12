@@ -201,11 +201,30 @@ namespace sdw
 		return *this;
 	}
 
+	template< typename ValueT >
+	MaybeOptional< Vec2T< ValueT > > MaybeOptional< Vec2T< ValueT > >::operator-()const
+	{
+		return writeUnOperator< Vec2T< ValueT > >( *this, sdw::makeUnMinus );
+	}
+
+	template< typename ValueT >
+	MaybeOptional< Vec2T< ValueT > > MaybeOptional< Vec2T< ValueT > >::operator+()const
+	{
+		return writeUnOperator< Vec2T< ValueT > >( *this, sdw::makeUnPlus );
+	}
+
 	//*************************************************************************
 
 	template< typename ValueT >
 	inline MaybeOptional< Vec2T< ValueT > > operator+( MaybeOptional< ValueT > const & lhs
 		, Vec2T< ValueT > const & rhs )
+	{
+		return writeBinOperator< Vec2T< ValueT > >( lhs, rhs, sdw::makeAdd );
+	}
+
+	template< typename ValueT >
+	inline MaybeOptional< Vec2T< ValueT > > operator+( MaybeOptional< Vec2T< ValueT > > const & lhs
+		, CppTypeT< ValueT > const & rhs )
 	{
 		return writeBinOperator< Vec2T< ValueT > >( lhs, rhs, sdw::makeAdd );
 	}
@@ -220,6 +239,13 @@ namespace sdw
 	template< typename ValueT >
 	inline MaybeOptional< Vec2T< ValueT > > operator+( MaybeOptional< Vec2T< ValueT > > const & lhs
 		, Vec2T< ValueT > const & rhs )
+	{
+		return writeBinOperator< Vec2T< ValueT > >( lhs, rhs, sdw::makeAdd );
+	}
+
+	template< typename ValueT >
+	inline MaybeOptional< Vec2T< ValueT > > operator+( CppTypeT< ValueT > const & lhs
+		, MaybeOptional< Vec2T< ValueT > > const & rhs )
 	{
 		return writeBinOperator< Vec2T< ValueT > >( lhs, rhs, sdw::makeAdd );
 	}
@@ -275,6 +301,13 @@ namespace sdw
 
 	template< typename ValueT >
 	inline MaybeOptional< Vec2T< ValueT > > operator-( MaybeOptional< Vec2T< ValueT > > const & lhs
+		, CppTypeT< ValueT > const & rhs )
+	{
+		return writeBinOperator< Vec2T< ValueT > >( lhs, rhs, sdw::makeMinus );
+	}
+
+	template< typename ValueT >
+	inline MaybeOptional< Vec2T< ValueT > > operator-( MaybeOptional< Vec2T< ValueT > > const & lhs
 		, ValueT const & rhs )
 	{
 		return writeBinOperator< Vec2T< ValueT > >( lhs, rhs, sdw::makeMinus );
@@ -283,6 +316,13 @@ namespace sdw
 	template< typename ValueT >
 	inline MaybeOptional< Vec2T< ValueT > > operator-( MaybeOptional< Vec2T< ValueT > > const & lhs
 		, Vec2T< ValueT > const & rhs )
+	{
+		return writeBinOperator< Vec2T< ValueT > >( lhs, rhs, sdw::makeMinus );
+	}
+
+	template< typename ValueT >
+	inline MaybeOptional< Vec2T< ValueT > > operator-( CppTypeT< ValueT > const & lhs
+		, MaybeOptional< Vec2T< ValueT > > const & rhs )
 	{
 		return writeBinOperator< Vec2T< ValueT > >( lhs, rhs, sdw::makeMinus );
 	}
@@ -338,6 +378,13 @@ namespace sdw
 
 	template< typename ValueT >
 	inline MaybeOptional< Vec2T< ValueT > > operator*( MaybeOptional< Vec2T< ValueT > > const & lhs
+		, CppTypeT< ValueT > const & rhs )
+	{
+		return writeBinOperator< Vec2T< ValueT > >( lhs, rhs, sdw::makeTimes );
+	}
+
+	template< typename ValueT >
+	inline MaybeOptional< Vec2T< ValueT > > operator*( MaybeOptional< Vec2T< ValueT > > const & lhs
 		, ValueT const & rhs )
 	{
 		return writeBinOperator< Vec2T< ValueT > >( lhs, rhs, sdw::makeTimes );
@@ -346,6 +393,13 @@ namespace sdw
 	template< typename ValueT >
 	inline MaybeOptional< Vec2T< ValueT > > operator*( MaybeOptional< Vec2T< ValueT > > const & lhs
 		, Vec2T< ValueT > const & rhs )
+	{
+		return writeBinOperator< Vec2T< ValueT > >( lhs, rhs, sdw::makeTimes );
+	}
+
+	template< typename ValueT >
+	inline MaybeOptional< Vec2T< ValueT > > operator*( CppTypeT< ValueT > const & lhs
+		, MaybeOptional< Vec2T< ValueT > > const & rhs )
 	{
 		return writeBinOperator< Vec2T< ValueT > >( lhs, rhs, sdw::makeTimes );
 	}
@@ -390,6 +444,13 @@ namespace sdw
 		, MaybeOptional< Vec2T< ValueT > > const & rhs )
 	{
 		return writeBinOperator< Vec2T< ValueT > >( lhs, rhs, sdw::makeTimes );
+	}
+
+	template< typename ValueT >
+	inline MaybeOptional< Vec2T< ValueT > > operator/( MaybeOptional< Vec2T< ValueT > > const & lhs
+		, CppTypeT< ValueT > const & rhs )
+	{
+		return writeBinOperator< Vec2T< ValueT > >( lhs, rhs, sdw::makeDivide );
 	}
 
 	template< typename ValueT >

@@ -321,6 +321,7 @@ if ( MSVC OR NOT "${CMAKE_BUILD_TYPE}" STREQUAL "" )
 	file( GLOB_RECURSE ${PROJECT_NAME}_FOLDER_SOURCE_FILES
 		source/${PROJECT_NAME}/*.c
 		source/${PROJECT_NAME}/*.cpp
+		source/${PROJECT_NAME}/*.hpp
 	)
 	sdw_parse_subdir_files( ${PROJECT_NAME}/BaseTypes "BaseTypes" )
 	sdw_parse_subdir_files( ${PROJECT_NAME}/CompositeTypes "CompositeTypes" )

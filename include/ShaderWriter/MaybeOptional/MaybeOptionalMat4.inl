@@ -95,105 +95,105 @@ namespace sdw
 	MaybeOptional< Vec4T< ValueT > > operator*( MaybeOptional< Vec4T< ValueT > > const & lhs,
 		Mat4T< ValueT > const & rhs )
 	{
-		writeAssignOperator< Vec4T< ValueT > >( lhs, rhs, sdw::makeTimes );
+		return writeBinOperator< Vec4T< ValueT > >( lhs, rhs, sdw::makeTimes );
 	}
 
 	template< typename ValueT >
 	MaybeOptional< Vec4T< ValueT > > operator*( MaybeOptional< Mat4T< ValueT > > const & lhs
 		, Vec4T< ValueT > const & rhs )
 	{
-		writeAssignOperator< Vec4T< ValueT > >( lhs, rhs, sdw::makeTimes );
+		return writeBinOperator< Vec4T< ValueT > >( lhs, rhs, sdw::makeTimes );
 	}
 
 	template< typename ValueT >
 	MaybeOptional< Mat4T< ValueT > > operator*( MaybeOptional< Mat4T< ValueT > > const & lhs
 		, Mat4T< ValueT > const & rhs )
 	{
-		writeAssignOperator< Mat4T< ValueT > >( lhs, rhs, sdw::makeTimes );
+		return writeBinOperator< Mat4T< ValueT > >( lhs, rhs, sdw::makeTimes );
 	}
 
 	template< typename ValueT >
 	MaybeOptional< Vec4T< ValueT > > operator*( Vec4T< ValueT > const & lhs
 		, MaybeOptional< Mat4T< ValueT > > const & rhs )
 	{
-		writeAssignOperator< Vec4T< ValueT > >( lhs, rhs, sdw::makeTimes );
+		return writeBinOperator< Vec4T< ValueT > >( lhs, rhs, sdw::makeTimes );
 	}
 
 	template< typename ValueT >
 	MaybeOptional< Vec4T< ValueT > > operator*( Mat4T< ValueT > const & lhs
 		, MaybeOptional< Vec4T< ValueT > > const & rhs )
 	{
-		writeAssignOperator< Vec4T< ValueT > >( lhs, rhs, sdw::makeTimes );
+		return writeBinOperator< Vec4T< ValueT > >( lhs, rhs, sdw::makeTimes );
 	}
 
 	template< typename ValueT >
 	MaybeOptional< Mat4T< ValueT > > operator*( Mat4T< ValueT > const & lhs
 		, MaybeOptional< Mat4T< ValueT > > const & rhs )
 	{
-		writeAssignOperator< Mat4T< ValueT > >( lhs, rhs, sdw::makeTimes );
+		return writeBinOperator< Mat4T< ValueT > >( lhs, rhs, sdw::makeTimes );
 	}
 
 	template< typename ValueT >
 	MaybeOptional< Vec4T< ValueT > > operator*( MaybeOptional< Vec4T< ValueT > > const & lhs
 		, MaybeOptional< Mat4T< ValueT > > const & rhs )
 	{
-		writeAssignOperator< Vec4T< ValueT > >( lhs, rhs, sdw::makeTimes );
+		return writeBinOperator< Vec4T< ValueT > >( lhs, rhs, sdw::makeTimes );
 	}
 
 	template< typename ValueT >
 	MaybeOptional< Vec4T< ValueT > > operator*( MaybeOptional< Mat4T< ValueT > > const & lhs
 		, MaybeOptional< Vec4T< ValueT > > const & rhs )
 	{
-		writeAssignOperator< Vec4T< ValueT > >( lhs, rhs, sdw::makeTimes );
+		return writeBinOperator< Vec4T< ValueT > >( lhs, rhs, sdw::makeTimes );
 	}
 
 	template< typename ValueT >
 	MaybeOptional< Mat4T< ValueT > > operator*( MaybeOptional< Mat4T< ValueT > > const & lhs
 		, MaybeOptional< Mat4T< ValueT > > const & rhs )
 	{
-		writeAssignOperator< Mat4T< ValueT > >( lhs, rhs, sdw::makeTimes );
+		return writeBinOperator< Mat4T< ValueT > >( lhs, rhs, sdw::makeTimes );
 	}
 
 	template< typename ValueT >
 	MaybeOptional< Mat4T< ValueT > > operator*( MaybeOptional< ValueT > const & lhs
 		, Mat4T< ValueT > const & rhs )
 	{
-		writeAssignOperator< Mat4T< ValueT > >( lhs, rhs, sdw::makeTimes );
+		return writeBinOperator< Mat4T< ValueT > >( lhs, rhs, sdw::makeTimes );
 	}
 
 	template< typename ValueT >
 	MaybeOptional< Mat4T< ValueT > > operator*( MaybeOptional< Mat4T< ValueT > > const & lhs
 		, ValueT const & rhs )
 	{
-		writeAssignOperator< Mat4T< ValueT > >( lhs, rhs, sdw::makeTimes );
+		return writeBinOperator< Mat4T< ValueT > >( lhs, rhs, sdw::makeTimes );
 	}
 
 	template< typename ValueT >
 	MaybeOptional< Mat4T< ValueT > > operator*( ValueT const & lhs
 		, MaybeOptional< Mat4T< ValueT > > const & rhs )
 	{
-		writeAssignOperator< Mat4T< ValueT > >( lhs, rhs, sdw::makeTimes );
+		return writeBinOperator< Mat4T< ValueT > >( lhs, rhs, sdw::makeTimes );
 	}
 
 	template< typename ValueT >
 	MaybeOptional< Mat4T< ValueT > > operator*( Mat4T< ValueT > const & lhs
 		, MaybeOptional< ValueT > const & rhs )
 	{
-		writeAssignOperator< Mat4T< ValueT > >( lhs, rhs, sdw::makeTimes );
+		return writeBinOperator< Mat4T< ValueT > >( lhs, rhs, sdw::makeTimes );
 	}
 
 	template< typename ValueT >
 	MaybeOptional< Mat4T< ValueT > > operator*( MaybeOptional< ValueT > const & lhs
 		, MaybeOptional< Mat4T< ValueT > > const & rhs )
 	{
-		writeAssignOperator< Mat4T< ValueT > >( lhs, rhs, sdw::makeTimes );
+		return writeBinOperator< Mat4T< ValueT > >( lhs, rhs, sdw::makeTimes );
 	}
 
 	template< typename ValueT >
 	MaybeOptional< Mat4T< ValueT > > operator*( MaybeOptional< Mat4T< ValueT > > const & lhs
 		, MaybeOptional< ValueT > const & rhs )
 	{
-		writeAssignOperator< Mat4T< ValueT > >( lhs, rhs, sdw::makeTimes );
+		return writeBinOperator< Mat4T< ValueT > >( lhs, rhs, sdw::makeTimes );
 	}
 
 	//*************************************************************************

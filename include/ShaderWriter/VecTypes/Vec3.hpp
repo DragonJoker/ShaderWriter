@@ -42,6 +42,8 @@ namespace sdw
 		inline Vec3T< ValueT > & operator-=( Optional< ValueT > const & rhs );
 		inline Vec3T< ValueT > & operator*=( Optional< ValueT > const & rhs );
 		inline Vec3T< ValueT > & operator/=( Optional< ValueT > const & rhs );
+		inline Vec3T< ValueT > operator-()const;
+		inline Vec3T< ValueT > operator+()const;
 
 		static inline ast::type::TypePtr makeType( ast::type::TypesCache & cache );
 

@@ -169,11 +169,37 @@ namespace sdw
 		return *this;
 	}
 
+	template< typename ValueT >
+	Optional< Vec2T< ValueT > > Optional< Vec2T< ValueT > >::operator-()const
+	{
+		return writeUnOperator< Vec2T< ValueT > >( *this, sdw::makeUnMinus );
+	}
+
+	template< typename ValueT >
+	Optional< Vec2T< ValueT > > Optional< Vec2T< ValueT > >::operator+()const
+	{
+		return writeUnOperator< Vec2T< ValueT > >( *this, sdw::makeUnPlus );
+	}
+
 	//*************************************************************************
+
+	template< typename ValueT >
+	inline Vec2T< ValueT > operator+( CppTypeT< ValueT > const & lhs
+		, Vec2T< ValueT > const & rhs )
+	{
+		return writeBinOperator< Vec2T< ValueT > >( lhs, rhs, sdw::makeAdd );
+	}
 
 	template< typename ValueT >
 	inline Vec2T< ValueT > operator+( ValueT const & lhs
 		, Vec2T< ValueT > const & rhs )
+	{
+		return writeBinOperator< Vec2T< ValueT > >( lhs, rhs, sdw::makeAdd );
+	}
+
+	template< typename ValueT >
+	inline Vec2T< ValueT > operator+( Vec2T< ValueT > const & lhs
+		, CppTypeT< ValueT > const & rhs )
 	{
 		return writeBinOperator< Vec2T< ValueT > >( lhs, rhs, sdw::makeAdd );
 	}
@@ -201,6 +227,13 @@ namespace sdw
 
 	template< typename ValueT >
 	inline Optional< Vec2T< ValueT > > operator+( Optional< Vec2T< ValueT > > const & lhs
+		, CppTypeT< ValueT > const & rhs )
+	{
+		return writeBinOperator< Vec2T< ValueT > >( lhs, rhs, sdw::makeAdd );
+	}
+
+	template< typename ValueT >
+	inline Optional< Vec2T< ValueT > > operator+( Optional< Vec2T< ValueT > > const & lhs
 		, ValueT const & rhs )
 	{
 		return writeBinOperator< Vec2T< ValueT > >( lhs, rhs, sdw::makeAdd );
@@ -209,6 +242,13 @@ namespace sdw
 	template< typename ValueT >
 	inline Optional< Vec2T< ValueT > > operator+( Optional< Vec2T< ValueT > > const & lhs
 		, Vec2T< ValueT > const & rhs )
+	{
+		return writeBinOperator< Vec2T< ValueT > >( lhs, rhs, sdw::makeAdd );
+	}
+
+	template< typename ValueT >
+	inline Optional< Vec2T< ValueT > > operator+( CppTypeT< ValueT > const & lhs
+		, Optional< Vec2T< ValueT > > const & rhs )
 	{
 		return writeBinOperator< Vec2T< ValueT > >( lhs, rhs, sdw::makeAdd );
 	}
@@ -256,6 +296,13 @@ namespace sdw
 	}
 
 	template< typename ValueT >
+	inline Vec2T< ValueT > operator-( CppTypeT< ValueT > const & lhs
+		, Vec2T< ValueT > const & rhs )
+	{
+		return writeBinOperator< Vec2T< ValueT > >( lhs, rhs, sdw::makeMinus );
+	}
+
+	template< typename ValueT >
 	inline Vec2T< ValueT > operator-( ValueT const & lhs
 		, Vec2T< ValueT > const & rhs )
 	{
@@ -265,6 +312,13 @@ namespace sdw
 	template< typename ValueT >
 	inline Vec2T< ValueT > operator-( Vec2T< ValueT > const & lhs
 		, ValueT const & rhs )
+	{
+		return writeBinOperator< Vec2T< ValueT > >( lhs, rhs, sdw::makeMinus );
+	}
+
+	template< typename ValueT >
+	inline Vec2T< ValueT > operator-( Vec2T< ValueT > const & lhs
+		, CppTypeT< ValueT > const & rhs )
 	{
 		return writeBinOperator< Vec2T< ValueT > >( lhs, rhs, sdw::makeMinus );
 	}
@@ -285,6 +339,13 @@ namespace sdw
 
 	template< typename ValueT >
 	inline Optional< Vec2T< ValueT > > operator-( Optional< Vec2T< ValueT > > const & lhs
+		, CppTypeT< ValueT > const & rhs )
+	{
+		return writeBinOperator< Vec2T< ValueT > >( lhs, rhs, sdw::makeMinus );
+	}
+
+	template< typename ValueT >
+	inline Optional< Vec2T< ValueT > > operator-( Optional< Vec2T< ValueT > > const & lhs
 		, ValueT const & rhs )
 	{
 		return writeBinOperator< Vec2T< ValueT > >( lhs, rhs, sdw::makeMinus );
@@ -293,6 +354,13 @@ namespace sdw
 	template< typename ValueT >
 	inline Optional< Vec2T< ValueT > > operator-( Optional< Vec2T< ValueT > > const & lhs
 		, Vec2T< ValueT > const & rhs )
+	{
+		return writeBinOperator< Vec2T< ValueT > >( lhs, rhs, sdw::makeMinus );
+	}
+
+	template< typename ValueT >
+	inline Optional< Vec2T< ValueT > > operator-( CppTypeT< ValueT > const & lhs
+		, Optional< Vec2T< ValueT > > const & rhs )
 	{
 		return writeBinOperator< Vec2T< ValueT > >( lhs, rhs, sdw::makeMinus );
 	}
@@ -347,8 +415,22 @@ namespace sdw
 	}
 
 	template< typename ValueT >
+	inline Vec2T< ValueT > operator*( CppTypeT< ValueT > const & lhs
+		, Vec2T< ValueT > const & rhs )
+	{
+		return writeBinOperator< Vec2T< ValueT > >( lhs, rhs, sdw::makeTimes );
+	}
+
+	template< typename ValueT >
 	inline Vec2T< ValueT > operator*( Vec2T< ValueT > const & lhs
 		, ValueT const & rhs )
+	{
+		return writeBinOperator< Vec2T< ValueT > >( lhs, rhs, sdw::makeTimes );
+	}
+
+	template< typename ValueT >
+	inline Vec2T< ValueT > operator*( Vec2T< ValueT > const & lhs
+		, CppTypeT< ValueT > const & rhs )
 	{
 		return writeBinOperator< Vec2T< ValueT > >( lhs, rhs, sdw::makeTimes );
 	}
@@ -369,6 +451,13 @@ namespace sdw
 
 	template< typename ValueT >
 	inline Optional< Vec2T< ValueT > > operator*( Optional< Vec2T< ValueT > > const & lhs
+		, CppTypeT< ValueT > const & rhs )
+	{
+		return writeBinOperator< Vec2T< ValueT > >( lhs, rhs, sdw::makeTimes );
+	}
+
+	template< typename ValueT >
+	inline Optional< Vec2T< ValueT > > operator*( Optional< Vec2T< ValueT > > const & lhs
 		, ValueT const & rhs )
 	{
 		return writeBinOperator< Vec2T< ValueT > >( lhs, rhs, sdw::makeTimes );
@@ -377,6 +466,13 @@ namespace sdw
 	template< typename ValueT >
 	inline Optional< Vec2T< ValueT > > operator*( Optional< Vec2T< ValueT > > const & lhs
 		, Vec2T< ValueT > const & rhs )
+	{
+		return writeBinOperator< Vec2T< ValueT > >( lhs, rhs, sdw::makeTimes );
+	}
+
+	template< typename ValueT >
+	inline Optional< Vec2T< ValueT > > operator*( CppTypeT< ValueT > const & lhs
+		, Optional< Vec2T< ValueT > > const & rhs )
 	{
 		return writeBinOperator< Vec2T< ValueT > >( lhs, rhs, sdw::makeTimes );
 	}
@@ -424,6 +520,27 @@ namespace sdw
 	}
 
 	template< typename ValueT >
+	inline Optional< Vec2T< ValueT > > operator/( Optional< Vec2T< ValueT > > const & lhs
+		, CppTypeT< ValueT > const & rhs )
+	{
+		return writeBinOperator< Vec2T< ValueT > >( lhs, rhs, sdw::makeDivide );
+	}
+
+	template< typename ValueT >
+	inline Optional< Vec2T< ValueT > > operator/( Optional< Vec2T< ValueT > > const & lhs
+		, ValueT const & rhs )
+	{
+		return writeBinOperator< Vec2T< ValueT > >( lhs, rhs, sdw::makeDivide );
+	}
+
+	template< typename ValueT >
+	inline Vec2T< ValueT > operator/( Vec2T< ValueT > const & lhs
+		, CppTypeT< ValueT > const & rhs )
+	{
+		return writeBinOperator< Vec2T< ValueT > >( lhs, rhs, sdw::makeDivide );
+	}
+
+	template< typename ValueT >
 	inline Vec2T< ValueT > operator/( Vec2T< ValueT > const & lhs
 		, ValueT const & rhs )
 	{
@@ -433,13 +550,6 @@ namespace sdw
 	template< typename ValueT >
 	inline Vec2T< ValueT > operator/( Vec2T< ValueT > const & lhs
 		, Vec2T< ValueT > const & rhs )
-	{
-		return writeBinOperator< Vec2T< ValueT > >( lhs, rhs, sdw::makeDivide );
-	}
-
-	template< typename ValueT >
-	inline Optional< Vec2T< ValueT > > operator/( Optional< Vec2T< ValueT > > const & lhs
-		, ValueT const & rhs )
 	{
 		return writeBinOperator< Vec2T< ValueT > >( lhs, rhs, sdw::makeDivide );
 	}

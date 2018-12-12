@@ -45,6 +45,8 @@ namespace sdw
 		inline Optional< Vec2T< ValueT > > & operator-=( Optional< ValueT > const & rhs );
 		inline Optional< Vec2T< ValueT > > & operator*=( Optional< ValueT > const & rhs );
 		inline Optional< Vec2T< ValueT > > & operator/=( Optional< ValueT > const & rhs );
+		inline Optional< Vec2T< ValueT > > operator-()const;
+		inline Optional< Vec2T< ValueT > > operator+()const;
 
 		Writer_FirstOptSwizzle( Vec2Type, ValueType, x );
 		Writer_OptSwizzle( Vec2Type, ValueType, y );
@@ -70,11 +72,17 @@ namespace sdw
 	};
 
 	template< typename ValueT >
+	inline Vec2T< ValueT > operator+( CppTypeT< ValueT > const & lhs
+		, Vec2T< ValueT > const & rhs );
+	template< typename ValueT >
 	inline Vec2T< ValueT > operator+( ValueT const & lhs
 		, Vec2T< ValueT > const & rhs );
 	template< typename ValueT >
 	inline Vec2T< ValueT > operator+( Vec2T< ValueT > const & lhs
 		, ValueT const & rhs );
+	template< typename ValueT >
+	inline Vec2T< ValueT > operator+( Vec2T< ValueT > const & lhs
+		, CppTypeT< ValueT > const & rhs );
 	template< typename ValueT >
 	inline Vec2T< ValueT > operator+( Vec2T< ValueT > const & lhs
 		, Vec2T< ValueT > const & rhs );
@@ -83,10 +91,16 @@ namespace sdw
 		, Vec2T< ValueT > const & rhs );
 	template< typename ValueT >
 	inline Optional< Vec2T< ValueT > > operator+( Optional< Vec2T< ValueT > > const & lhs
+		, CppTypeT< ValueT > const & rhs );
+	template< typename ValueT >
+	inline Optional< Vec2T< ValueT > > operator+( Optional< Vec2T< ValueT > > const & lhs
 		, ValueT const & rhs );
 	template< typename ValueT >
 	inline Optional< Vec2T< ValueT > > operator+( Optional< Vec2T< ValueT > > const & lhs
 		, Vec2T< ValueT > const & rhs );
+	template< typename ValueT >
+	inline Optional< Vec2T< ValueT > > operator+( CppTypeT< ValueT > const & lhs
+		, Optional< Vec2T< ValueT > > const & rhs );
 	template< typename ValueT >
 	inline Optional< Vec2T< ValueT > > operator+( ValueT const & lhs
 		, Optional< Vec2T< ValueT > > const & rhs );
@@ -105,6 +119,10 @@ namespace sdw
 	template< typename ValueT >
 	inline Optional< Vec2T< ValueT > > operator+( Optional< Vec2T< ValueT > > const & lhs
 		, Optional< Vec2T< ValueT > > const & rhs );
+
+	template< typename ValueT >
+	inline Vec2T< ValueT > operator-( CppTypeT< ValueT > const & lhs
+		, Vec2T< ValueT > const & rhs );
 	template< typename ValueT >
 	inline Vec2T< ValueT > operator-( ValueT const & lhs
 		, Vec2T< ValueT > const & rhs );
@@ -113,16 +131,25 @@ namespace sdw
 		, ValueT const & rhs );
 	template< typename ValueT >
 	inline Vec2T< ValueT > operator-( Vec2T< ValueT > const & lhs
+		, CppTypeT< ValueT > const & rhs );
+	template< typename ValueT >
+	inline Vec2T< ValueT > operator-( Vec2T< ValueT > const & lhs
 		, Vec2T< ValueT > const & rhs );
 	template< typename ValueT >
 	inline Optional< Vec2T< ValueT > > operator-( Optional< ValueT > const & lhs
 		, Vec2T< ValueT > const & rhs );
 	template< typename ValueT >
 	inline Optional< Vec2T< ValueT > > operator-( Optional< Vec2T< ValueT > > const & lhs
+		, CppTypeT< ValueT > const & rhs );
+	template< typename ValueT >
+	inline Optional< Vec2T< ValueT > > operator-( Optional< Vec2T< ValueT > > const & lhs
 		, ValueT const & rhs );
 	template< typename ValueT >
 	inline Optional< Vec2T< ValueT > > operator-( Optional< Vec2T< ValueT > > const & lhs
 		, Vec2T< ValueT > const & rhs );
+	template< typename ValueT >
+	inline Optional< Vec2T< ValueT > > operator-( CppTypeT< ValueT > const & lhs
+		, Optional< Vec2T< ValueT > > const & rhs );
 	template< typename ValueT >
 	inline Optional< Vec2T< ValueT > > operator-( ValueT const & lhs
 		, Optional< Vec2T< ValueT > > const & rhs );
@@ -141,6 +168,10 @@ namespace sdw
 	template< typename ValueT >
 	inline Optional< Vec2T< ValueT > > operator-( Optional< Vec2T< ValueT > > const & lhs
 		, Optional< Vec2T< ValueT > > const & rhs );
+
+	template< typename ValueT >
+	inline Vec2T< ValueT > operator*( CppTypeT< ValueT > const & lhs
+		, Vec2T< ValueT > const & rhs );
 	template< typename ValueT >
 	inline Vec2T< ValueT > operator*( ValueT const & lhs
 		, Vec2T< ValueT > const & rhs );
@@ -149,16 +180,25 @@ namespace sdw
 		, ValueT const & rhs );
 	template< typename ValueT >
 	inline Vec2T< ValueT > operator*( Vec2T< ValueT > const & lhs
+		, CppTypeT< ValueT > const & rhs );
+	template< typename ValueT >
+	inline Vec2T< ValueT > operator*( Vec2T< ValueT > const & lhs
 		, Vec2T< ValueT > const & rhs );
 	template< typename ValueT >
 	inline Optional< Vec2T< ValueT > > operator*( Optional< ValueT > const & lhs
 		, Vec2T< ValueT > const & rhs );
 	template< typename ValueT >
 	inline Optional< Vec2T< ValueT > > operator*( Optional< Vec2T< ValueT > > const & lhs
+		, CppTypeT< ValueT > const & rhs );
+	template< typename ValueT >
+	inline Optional< Vec2T< ValueT > > operator*( Optional< Vec2T< ValueT > > const & lhs
 		, ValueT const & rhs );
 	template< typename ValueT >
 	inline Optional< Vec2T< ValueT > > operator*( Optional< Vec2T< ValueT > > const & lhs
 		, Vec2T< ValueT > const & rhs );
+	template< typename ValueT >
+	inline Optional< Vec2T< ValueT > > operator*( CppTypeT< ValueT > const & lhs
+		, Optional< Vec2T< ValueT > > const & rhs );
 	template< typename ValueT >
 	inline Optional< Vec2T< ValueT > > operator*( ValueT const & lhs
 		, Optional< Vec2T< ValueT > > const & rhs );
@@ -177,12 +217,19 @@ namespace sdw
 	template< typename ValueT >
 	inline Optional< Vec2T< ValueT > > operator*( Optional< Vec2T< ValueT > > const & lhs
 		, Optional< Vec2T< ValueT > > const & rhs );
+
 	template< typename ValueT >
 	inline Vec2T< ValueT > operator/( Vec2T< ValueT > const & lhs
 		, ValueT const & rhs );
 	template< typename ValueT >
 	inline Vec2T< ValueT > operator/( Vec2T< ValueT > const & lhs
+		, CppTypeT< ValueT > const & rhs );
+	template< typename ValueT >
+	inline Vec2T< ValueT > operator/( Vec2T< ValueT > const & lhs
 		, Vec2T< ValueT > const & rhs );
+	template< typename ValueT >
+	inline Optional< Vec2T< ValueT > > operator/( Optional< Vec2T< ValueT > > const & lhs
+		, CppTypeT< ValueT > const & rhs );
 	template< typename ValueT >
 	inline Optional< Vec2T< ValueT > > operator/( Optional< Vec2T< ValueT > > const & lhs
 		, ValueT const & rhs );

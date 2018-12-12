@@ -167,8 +167,7 @@ namespace sdw
 		}
 
 		return ReturnT{ &shader
-			, creator( ReturnT::makeType( findTypesCache( operand ) )
-				, makeExpr( shader, operand ) ) };
+			, creator( makeExpr( shader, operand ) ) };
 	}
 
 	//*************************************************************************

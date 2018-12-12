@@ -14,7 +14,7 @@ namespace sdw
 	{
 	protected:
 		ShaderWriter( ShaderType type );
-		~ShaderWriter();
+		virtual ~ShaderWriter();
 
 	public:
 #pragma region Variables registration
@@ -401,12 +401,6 @@ namespace sdw
 		{
 			return m_shader.getTypesCache();
 		}
-
-		static inline ShaderWriter & getCurrent()
-		{
-			assert( !m_writers.empty() );
-			return *m_writers.back();
-		}
 		/**@}*/
 #pragma endregion
 
@@ -445,7 +439,6 @@ namespace sdw
 		Function< Vec3, InVec3 > m_invertVec3Y;
 		std::vector< stmt::If * > m_ifStmt;
 		std::vector< ast::stmt::ContainerPtr > m_currentStmts;
-		static std::vector< ShaderWriter * > m_writers;
 	};
 
 	class VertexWriter

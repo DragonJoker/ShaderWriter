@@ -165,6 +165,18 @@ namespace sdw
 	}
 
 	template< typename ValueT >
+	Vec3T< ValueT > Vec3T< ValueT >::operator-()const
+	{
+		return writeUnOperator< Vec3T< ValueT > >( *this, sdw::makeUnMinus );
+	}
+
+	template< typename ValueT >
+	Vec3T< ValueT > Vec3T< ValueT >::operator+()const
+	{
+		return writeUnOperator< Vec3T< ValueT > >( *this, sdw::makeUnPlus );
+	}
+
+	template< typename ValueT >
 	inline ast::type::TypePtr Vec3T< ValueT >::makeType( ast::type::TypesCache & cache )
 	{
 		return sdw::makeType< Vec3T< ValueT > >( cache );

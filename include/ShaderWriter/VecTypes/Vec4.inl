@@ -35,21 +35,21 @@ namespace sdw
 
 	template< typename ValueT >
 	template< typename IndexT >
-	inline ValueT Vec4T< ValueT >::operator[]( IndexT const & rhs )const
+	inline ValueT Vec4T< ValueT >::operator[]( IndexT const & offset )const
 	{
-		return writeBinOperator< ValueT >( *this, rhs, sdw::makeArrayAccess );
+		return writeBinOperator< ValueT >( *this, offset, sdw::makeArrayAccess );
 	}
 
 	template< typename ValueT >
 	inline ValueT Vec4T< ValueT >::operator[]( int32_t offset )const
 	{
-		return writeBinOperator< ValueT >( *this, rhs, sdw::makeArrayAccess );
+		return writeBinOperator< ValueT >( *this, offset, sdw::makeArrayAccess );
 	}
 
 	template< typename ValueT >
 	inline ValueT Vec4T< ValueT >::operator[]( uint32_t offset )const
 	{
-		return writeBinOperator< ValueT >( *this, rhs, sdw::makeArrayAccess );
+		return writeBinOperator< ValueT >( *this, offset, sdw::makeArrayAccess );
 	}
 
 	template< typename ValueT >
@@ -162,6 +162,18 @@ namespace sdw
 	{
 		writeAssignOperator< Vec4T< ValueT > >( *this, rhs, sdw::makeDivideAssign );
 		return *this;
+	}
+
+	template< typename ValueT >
+	Vec4T< ValueT > Vec4T< ValueT >::operator-()const
+	{
+		return writeUnOperator< Vec4T< ValueT > >( *this, sdw::makeUnMinus );
+	}
+
+	template< typename ValueT >
+	Vec4T< ValueT > Vec4T< ValueT >::operator+()const
+	{
+		return writeUnOperator< Vec4T< ValueT > >( *this, sdw::makeUnPlus );
 	}
 
 	template< typename ValueT >

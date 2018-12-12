@@ -19,23 +19,29 @@ See LICENSE file in root folder
 #include <ShaderAST/Stmt/StmtOutputGeometryLayout.hpp>
 #include <ShaderAST/Stmt/StmtWhile.hpp>
 
+#include "WriterInt.hpp"
+
 namespace sdw
 {
 	//*************************************************************************
 
-	std::vector< ShaderWriter * > ShaderWriter::m_writers;
-
 	ShaderWriter::ShaderWriter( ShaderType type )
 		: m_shader{ type }
 	{
-		m_writers.push_back( this );
+		if ( doGetCurrentWriter() )
+		{
+			assert( false );
+			throw std::logic_error{ "Can't have more than one ShaderWriter instantiated at once" };
+		}
+
+		doGetCurrentWriter() = this;
+		assert( doGetCurrentWriter() );
 	}
 
 	ShaderWriter::~ShaderWriter()
 	{
-		auto it = std::find( m_writers.begin(), m_writers.end(), this );
-		assert( it != m_writers.end() && "Ooops..." );
-		m_writers.erase( it );
+		assert( doGetCurrentWriter() && "Ooops... 0xDDDDDDDD" );
+		doGetCurrentWriter() = nullptr;
 	}
 
 	var::VariablePtr ShaderWriter::registerName( std::string const & name

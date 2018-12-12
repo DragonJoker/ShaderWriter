@@ -70,6 +70,8 @@ See LICENSE file in root folder
 
 #include <ShaderAST/Visitors/CloneExpr.hpp>
 
+#include "WriterInt.hpp"
+
 namespace sdw
 {
 	ast::type::TypePtr getNonArrayType( ast::type::TypePtr type )
@@ -90,7 +92,8 @@ namespace sdw
 
 	ShaderWriter & getCurrentWriter()
 	{
-		return ShaderWriter::getCurrent();
+		assert( doGetCurrentWriter() );
+		return *doGetCurrentWriter();
 	}
 
 	type::TypesCache & getTypesCache( ShaderWriter & writer )

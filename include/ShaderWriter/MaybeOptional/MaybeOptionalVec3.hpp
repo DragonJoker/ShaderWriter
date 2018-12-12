@@ -54,6 +54,8 @@ namespace sdw
 		inline MaybeOptional< Vec3T< ValueT > > & operator-=( MaybeOptional< ValueT > const & rhs );
 		inline MaybeOptional< Vec3T< ValueT > > & operator*=( MaybeOptional< ValueT > const & rhs );
 		inline MaybeOptional< Vec3T< ValueT > > & operator/=( MaybeOptional< ValueT > const & rhs );
+		inline MaybeOptional< Vec3T< ValueT > > operator-()const;
+		inline MaybeOptional< Vec3T< ValueT > > operator+()const;
 
 		Writer_FirstMayOptSwizzle( Vec3Type, ValueType, x );
 		Writer_MayOptSwizzle( Vec3Type, ValueType, y );
@@ -120,10 +122,16 @@ namespace sdw
 		, Vec3T< ValueT > const & rhs );
 	template< typename ValueT >
 	inline MaybeOptional< Vec3T< ValueT > > operator+( MaybeOptional< Vec3T< ValueT > > const & lhs
+		, CppTypeT< ValueT > const & rhs );
+	template< typename ValueT >
+	inline MaybeOptional< Vec3T< ValueT > > operator+( MaybeOptional< Vec3T< ValueT > > const & lhs
 		, ValueT const & rhs );
 	template< typename ValueT >
 	inline MaybeOptional< Vec3T< ValueT > > operator+( MaybeOptional< Vec3T< ValueT > > const & lhs
 		, Vec3T< ValueT > const & rhs );
+	template< typename ValueT >
+	inline MaybeOptional< Vec3T< ValueT > > operator+( CppTypeT< ValueT > const & lhs
+		, MaybeOptional< Vec3T< ValueT > > const & rhs );
 	template< typename ValueT >
 	inline MaybeOptional< Vec3T< ValueT > > operator+( ValueT const & lhs
 		, MaybeOptional< Vec3T< ValueT > > const & rhs );
@@ -147,10 +155,16 @@ namespace sdw
 		, Vec3T< ValueT > const & rhs );
 	template< typename ValueT >
 	inline MaybeOptional< Vec3T< ValueT > > operator-( MaybeOptional< Vec3T< ValueT > > const & lhs
+		, CppTypeT< ValueT > const & rhs );
+	template< typename ValueT >
+	inline MaybeOptional< Vec3T< ValueT > > operator-( MaybeOptional< Vec3T< ValueT > > const & lhs
 		, ValueT const & rhs );
 	template< typename ValueT >
 	inline MaybeOptional< Vec3T< ValueT > > operator-( MaybeOptional< Vec3T< ValueT > > const & lhs
 		, Vec3T< ValueT > const & rhs );
+	template< typename ValueT >
+	inline MaybeOptional< Vec3T< ValueT > > operator-( CppTypeT< ValueT > const & lhs
+		, MaybeOptional< Vec3T< ValueT > > const & rhs );
 	template< typename ValueT >
 	inline MaybeOptional< Vec3T< ValueT > > operator-( ValueT const & lhs
 		, MaybeOptional< Vec3T< ValueT > > const & rhs );
@@ -174,10 +188,16 @@ namespace sdw
 		, Vec3T< ValueT > const & rhs );
 	template< typename ValueT >
 	inline MaybeOptional< Vec3T< ValueT > > operator*( MaybeOptional< Vec3T< ValueT > > const & lhs
+		, CppTypeT< ValueT > const & rhs );
+	template< typename ValueT >
+	inline MaybeOptional< Vec3T< ValueT > > operator*( MaybeOptional< Vec3T< ValueT > > const & lhs
 		, ValueT const & rhs );
 	template< typename ValueT >
 	inline MaybeOptional< Vec3T< ValueT > > operator*( MaybeOptional< Vec3T< ValueT > > const & lhs
 		, Vec3T< ValueT > const & rhs );
+	template< typename ValueT >
+	inline MaybeOptional< Vec3T< ValueT > > operator*( CppTypeT< ValueT > const & lhs
+		, MaybeOptional< Vec3T< ValueT > > const & rhs );
 	template< typename ValueT >
 	inline MaybeOptional< Vec3T< ValueT > > operator*( ValueT const & lhs
 		, MaybeOptional< Vec3T< ValueT > > const & rhs );
@@ -196,6 +216,9 @@ namespace sdw
 	template< typename ValueT >
 	inline MaybeOptional< Vec3T< ValueT > > operator*( MaybeOptional< Vec3T< ValueT > > const & lhs
 		, MaybeOptional< Vec3T< ValueT > > const & rhs );
+	template< typename ValueT >
+	inline MaybeOptional< Vec3T< ValueT > > operator/( MaybeOptional< Vec3T< ValueT > > const & lhs
+		, CppTypeT< ValueT > const & rhs );
 	template< typename ValueT >
 	inline MaybeOptional< Vec3T< ValueT > > operator/( MaybeOptional< Vec3T< ValueT > > const & lhs
 		, ValueT const & rhs );

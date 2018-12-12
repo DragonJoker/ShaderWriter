@@ -889,6 +889,18 @@ namespace sdw
 	template< typename T >
 	struct TypeTraits;
 
+	template< typename T >
+	using CppTypeT = typename TypeTraits< T >::CppType;
+
+	template< typename T >
+	static ast::type::Kind constexpr typeEnum = TypeTraits< T >::TypeEnum;
+
+	template< typename T >
+	struct RealTypeGetter;
+
+	template< typename T >
+	using RealTypeT = typename RealTypeGetter< T >::Type;
+
 	template< typename T, typename U >
 	static bool constexpr IsSameV = std::is_same< T, U >::value;
 }
