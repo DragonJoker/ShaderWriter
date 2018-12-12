@@ -111,8 +111,7 @@ namespace ast
 
 	void ExprCloner::visitBitNotExpr( expr::BitNot * expr )
 	{
-		m_result = expr::makeBitNot( expr->getType()
-			, doSubmit( expr->getOperand() ) );
+		m_result = expr::makeBitNot( doSubmit( expr->getOperand() ) );
 	}
 
 	void ExprCloner::visitBitOrExpr( expr::BitOr * expr )
@@ -150,8 +149,7 @@ namespace ast
 			args.emplace_back( doSubmit( arg ) );
 		}
 
-		m_result = expr::makeCompositeConstruct( expr->getType()->getCache()
-			, expr->getComposite()
+		m_result = expr::makeCompositeConstruct( expr->getComposite()
 			, expr->getComponent()
 			, std::move( args ) );
 	}
@@ -217,7 +215,7 @@ namespace ast
 
 	void ExprCloner::visitIdentifierExpr( expr::Identifier * expr )
 	{
-		m_result = expr::makeIdentifier( expr->getVariable() );
+		m_result = expr::makeIdentifier( expr->getCache(), expr->getVariable() );
 	}
 
 	void ExprCloner::visitImageAccessCallExpr( expr::ImageAccessCall * expr )

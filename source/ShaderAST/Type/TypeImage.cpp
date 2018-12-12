@@ -5,9 +5,8 @@ See LICENSE file in root folder
 
 namespace ast::type
 {
-	Image::Image( TypesCache * cache
-		, ImageConfiguration config )
-		: Type{ cache, Kind::eImage }
+	Image::Image( ImageConfiguration config )
+		: Type{ Kind::eImage }
 		, m_config{ std::move( config ) }
 	{
 	}

@@ -11,22 +11,20 @@ namespace ast::type
 {
 	//*************************************************************************
 
-	Array::Array( TypesCache * cache
-		, TypePtr type
+	Array::Array( TypePtr type
 		, uint32_t arraySize )
-		: Type{ cache, Kind::eArray }
+		: Type{ Kind::eArray }
 		, m_type{ std::move( type ) }
 		, m_arraySize{ arraySize }
 	{
 		assert( m_arraySize > NotArray && "Can't create a 0 sized array" );
 	}
 
-	Array::Array( TypesCache * cache
-		, Struct * parent
+	Array::Array( Struct * parent
 		, uint32_t index
 		, TypePtr type
 		, uint32_t arraySize )
-		: Type{ cache, parent, index, Kind::eArray }
+		: Type{ parent, index, Kind::eArray }
 		, m_type{ std::move( type ) }
 		, m_arraySize{ arraySize }
 	{
@@ -37,7 +35,7 @@ namespace ast::type
 		, uint32_t index
 		, TypePtr type
 		, uint32_t arraySize )
-		: Array{ &parent.getCache(), &parent, index, type, arraySize }
+		: Array{ &parent, index, type, arraySize }
 	{
 	}
 

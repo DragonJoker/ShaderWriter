@@ -50,7 +50,7 @@ namespace
 int main( int argc, char ** argv )
 {
 	sdwTestSuiteBegin( "TestWriterStructDeclarations" );
-	testStruct< sdw::Boolean >( testCounts );
+	testStruct< sdw::Bool >( testCounts );
 	testStruct< sdw::Int >( testCounts );
 	testStruct< sdw::UInt >( testCounts );
 	testStruct< sdw::Float >( testCounts );

@@ -8,6 +8,7 @@ namespace sdw
 	Shader::Shader( ShaderType type )
 		: m_container{ stmt::makeContainer() }
 		, m_type{ type }
+		, m_typesCache{ std::make_unique< ast::type::TypesCache >() }
 	{
 		push( m_container.get() );
 	}
@@ -32,7 +33,7 @@ namespace sdw
 	{
 		if ( m_savedStmt != nullptr )
 		{
-			auto result = makeExpr( static_cast< ast::stmt::Simple const & >( *m_savedStmt ).getExpr() );
+			auto result = makeExpr( *this, static_cast< ast::stmt::Simple const & >( *m_savedStmt ).getExpr() );
 			m_savedStmt = nullptr;
 			return result;
 		}

@@ -203,17 +203,17 @@ namespace hlsl
 		{
 			m_adaptationData.inputVars.emplace( stmt->getLocation(), var );
 			m_adaptationData.inputMembers.emplace( var
-				, ast::expr::makeMbrSelect( sdw::makeIdent( m_adaptationData.inputVar )
+				, ast::expr::makeMbrSelect( ast::expr::makeIdentifier( m_cache, m_adaptationData.inputVar )
 					, uint32_t( m_adaptationData.inputMembers.size() )
-					, sdw::makeIdent( var ) ) );
+					, ast::expr::makeIdentifier( m_cache, var ) ) );
 		}
 		else if ( var->isShaderOutput() )
 		{
 			m_adaptationData.outputVars.emplace( stmt->getLocation(), var );
 			m_adaptationData.outputMembers.emplace( var
-				, ast::expr::makeMbrSelect( sdw::makeIdent( m_adaptationData.outputVar )
+				, ast::expr::makeMbrSelect( ast::expr::makeIdentifier( m_cache, m_adaptationData.outputVar )
 					, uint32_t( m_adaptationData.outputMembers.size() )
-					, sdw::makeIdent( var ) ) );
+					, ast::expr::makeIdentifier( m_cache, var ) ) );
 		}
 	}
 
@@ -242,9 +242,9 @@ namespace hlsl
 			{
 				auto outputVar = m_shader.getVar( member.name, member.type );
 				m_adaptationData.outputMembers.emplace( outputVar
-					, ast::expr::makeMbrSelect( sdw::makeIdent( m_adaptationData.outputVar )
+					, ast::expr::makeMbrSelect( ast::expr::makeIdentifier( m_cache, m_adaptationData.outputVar )
 						, uint32_t( m_adaptationData.outputMembers.size() )
-						, sdw::makeIdent( outputVar ) ) );
+						, ast::expr::makeIdentifier( m_cache, outputVar ) ) );
 				m_adaptationData.outputVars.emplace( index, outputVar );
 			}
 		}
@@ -260,20 +260,19 @@ namespace hlsl
 
 		if ( stmt->getVariable()->getType()->getKind() == ast::type::Kind::eArray )
 		{
-			auto & cache = stmt->getVariable()->getType()->getCache();
 			auto arrayType = std::static_pointer_cast< ast::type::Array >( stmt->getVariable()->getType() );
 			auto realSampledType = std::static_pointer_cast< ast::type::SampledImage >( arrayType->getType() );
-			imageType = cache.getArray( realSampledType->getImageType(), arrayType->getArraySize() );
-			sampledType = cache.getArray( realSampledType, arrayType->getArraySize() );
+			imageType = m_cache.getArray( realSampledType->getImageType(), arrayType->getArraySize() );
+			sampledType = m_cache.getArray( realSampledType, arrayType->getArraySize() );
 			config = realSampledType->getConfig();
 
 			if ( !m_config.requiresShadowSampler )
 			{
-				samplerType = cache.getArray( m_cache.getSampler( false ), arrayType->getArraySize() );
+				samplerType = m_cache.getArray( m_cache.getSampler( false ), arrayType->getArraySize() );
 			}
 			else
 			{
-				samplerType = cache.getArray( realSampledType->getSamplerType(), arrayType->getArraySize() );
+				samplerType = m_cache.getArray( realSampledType->getSamplerType(), arrayType->getArraySize() );
 			}
 		}
 		else
@@ -363,30 +362,30 @@ namespace hlsl
 		{
 			m_adaptationData.inputVars.emplace( 128u, var );
 			m_adaptationData.inputMembers.emplace( var
-				, ast::expr::makeMbrSelect( sdw::makeIdent( m_adaptationData.inputVar )
+				, ast::expr::makeMbrSelect( ast::expr::makeIdentifier( m_cache, m_adaptationData.inputVar )
 					, uint32_t( m_adaptationData.inputMembers.size() )
-					, sdw::makeIdent( var ) ) );
+					, ast::expr::makeIdentifier( m_cache, var ) ) );
 			m_adaptationData.outputVars.emplace( 128u, var );
 			m_adaptationData.outputMembers.emplace( var
-				, ast::expr::makeMbrSelect( sdw::makeIdent( m_adaptationData.outputVar )
+				, ast::expr::makeMbrSelect( ast::expr::makeIdentifier( m_cache, m_adaptationData.outputVar )
 					, uint32_t( m_adaptationData.outputMembers.size() )
-					, sdw::makeIdent( var ) ) );
+					, ast::expr::makeIdentifier( m_cache, var ) ) );
 		}
 		else if ( isShaderInput( var->getName(), m_shader.getType() ) )
 		{
 			m_adaptationData.inputVars.emplace( 128u, var );
 			m_adaptationData.inputMembers.emplace( var
-				, ast::expr::makeMbrSelect( sdw::makeIdent( m_adaptationData.inputVar )
+				, ast::expr::makeMbrSelect( ast::expr::makeIdentifier( m_cache, m_adaptationData.inputVar )
 					, uint32_t( m_adaptationData.inputMembers.size() )
-					, sdw::makeIdent( var ) ) );
+					, ast::expr::makeIdentifier( m_cache, var ) ) );
 		}
 		else if ( isShaderOutput( var->getName(), m_shader.getType() ) )
 		{
 			m_adaptationData.outputVars.emplace( 128u, var );
 			m_adaptationData.outputMembers.emplace( var
-				, ast::expr::makeMbrSelect( sdw::makeIdent( m_adaptationData.outputVar )
+				, ast::expr::makeMbrSelect( ast::expr::makeIdentifier( m_cache, m_adaptationData.outputVar )
 					, uint32_t( m_adaptationData.outputMembers.size() )
-					, sdw::makeIdent( var ) ) );
+					, ast::expr::makeIdentifier( m_cache, var ) ) );
 		}
 		else
 		{
@@ -413,12 +412,12 @@ namespace hlsl
 						initialisers.emplace_back( doSubmit( expr.get() ) );
 					}
 
-					m_current->addStmt( ast::stmt::makeSimple( ast::expr::makeAggrInit( sdw::makeIdent( var )
+					m_current->addStmt( ast::stmt::makeSimple( ast::expr::makeAggrInit( ast::expr::makeIdentifier( m_cache, var )
 						, std::move( initialisers ) ) ) );
 				}
 				else
 				{
-					m_current->addStmt( ast::stmt::makeSimple( ast::expr::makeInit( sdw::makeIdent( var )
+					m_current->addStmt( ast::stmt::makeSimple( ast::expr::makeInit( ast::expr::makeIdentifier( m_cache, var )
 						, doSubmit( preproc->getExpr() ) ) ) );
 				}
 			}
@@ -551,7 +550,7 @@ namespace hlsl
 		if ( stmt->getName() == "main"
 			&& !m_adaptationData.outputStruct->empty() )
 		{
-			m_current->addStmt( ast::stmt::makeReturn( ast::expr::makeIdentifier( m_adaptationData.outputVar ) ) );
+			m_current->addStmt( ast::stmt::makeReturn( ast::expr::makeIdentifier( m_cache, m_adaptationData.outputVar ) ) );
 		}
 	}
 }

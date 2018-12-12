@@ -55,8 +55,20 @@ namespace sdw
 	template< typename ... ValuesT >
 	inline ast::type::TypesCache & findTypesCache( ValuesT const & ... values );
 
-	expr::ExprPtr makeExpr( Value const & variable );
-	expr::ExprList makeFnArg( Value const & variable );
+	expr::ExprPtr makeExpr( Shader const & shader
+		, Value const & variable
+		, bool force = true );
+	expr::ExprList makeFnArg( Shader const & shader
+		, Value const & variable );
+
+	template< typename ReturnT, typename OperandT, typename CreatorT >
+	inline ReturnT writeUnOperator( OperandT const & operand
+		, CreatorT creator );
+
+	template< typename ReturnT, typename LhsT, typename RhsT, typename CreatorT >
+	inline ReturnT writeBinOperator( LhsT const & lhs
+		, RhsT const & rhs
+		, CreatorT creator );
 }
 
 #include "Value.inl"

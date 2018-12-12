@@ -45,6 +45,28 @@ namespace sdw
 	template< typename T >
 	inline expr::ExprPtr makeExpr( MaybeOptional< T > const & value
 		, bool force = false );
+
+	template< typename ReturnT, typename OperandT, typename CreatorT >
+	inline MaybeOptional< ReturnT > writeUnOperator( MaybeOptional< OperandT > const & operand
+		, CreatorT creator );
+
+	template< typename ReturnT, typename LhsT, typename RhsT, typename CreatorT >
+	MaybeOptional< ReturnT > writeBinOperator( MaybeOptional< LhsT > const & lhs
+		, RhsT const & rhs
+		, CreatorT creator );
+	template< typename ReturnT, typename LhsT, typename RhsT, typename CreatorT >
+	MaybeOptional< ReturnT > writeBinOperator( LhsT const & lhs
+		, MaybeOptional< RhsT > const & rhs
+		, CreatorT creator );
+	template< typename ReturnT, typename LhsT, typename RhsT, typename CreatorT >
+	MaybeOptional< ReturnT > writeBinOperator( MaybeOptional< LhsT > const & lhs
+		, MaybeOptional< RhsT > const & rhs
+		, CreatorT creator );
+
+	template< typename ReturnT, typename LhsT, typename RhsT, typename CreatorT >
+	inline void writeAssignOperator( LhsT const & lhs
+		, RhsT const & rhs
+		, CreatorT creator );
 }
 
 #include "MaybeOptional.inl"

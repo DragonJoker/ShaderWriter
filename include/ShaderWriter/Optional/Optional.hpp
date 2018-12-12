@@ -60,7 +60,8 @@ namespace sdw
 	using RealTypeT = typename RealTypeOf< T >::Type;
 
 	template< typename T >
-	inline expr::ExprPtr makeExpr( Optional< T > const & value
+	inline expr::ExprPtr makeExpr( Shader & shader
+		, Optional< T > const & value
 		, bool force = true );
 
 	template< typename T >
@@ -68,6 +69,23 @@ namespace sdw
 
 	template< typename ... ParamsT >
 	inline bool areOptionalEnabled( ParamsT const & ... values );
+
+	template< typename ReturnT, typename OperandT, typename CreatorT >
+	inline Optional< ReturnT > writeUnOperator( Optional< OperandT > const & operand
+		, CreatorT creator );
+
+	template< typename ReturnT, typename LhsT, typename RhsT, typename CreatorT >
+	inline Optional< ReturnT > writeBinOperator( Optional< LhsT > const & lhs
+		, RhsT const & rhs
+		, CreatorT creator );
+	template< typename ReturnT, typename LhsT, typename RhsT, typename CreatorT >
+	inline Optional< ReturnT > writeBinOperator( LhsT const & lhs
+		, Optional< RhsT > const & rhs
+		, CreatorT creator );
+	template< typename ReturnT, typename LhsT, typename RhsT, typename CreatorT >
+	inline Optional< ReturnT > writeBinOperator( Optional< LhsT > const & lhs
+		, Optional< RhsT > const & rhs
+		, CreatorT creator );
 }
 
 #include "Optional.inl"

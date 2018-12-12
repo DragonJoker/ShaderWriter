@@ -16,7 +16,7 @@ namespace hlsl
 	{
 		auto config = hlsl::StmtConfigFiller::submit( shader );
 		auto dxStatements = hlsl::StmtAdapter::submit( shader, config );
-		dxStatements = ast::StmtSpecialiser::submit( dxStatements.get(), specialisation );
+		dxStatements = ast::StmtSpecialiser::submit( shader.getTypesCache(), dxStatements.get(), specialisation );
 		return hlsl::StmtVisitor::submit( dxStatements.get(), shader.getType() );
 	}
 }

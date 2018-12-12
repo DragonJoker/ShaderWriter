@@ -44,7 +44,7 @@ namespace spirv
 	void StmtAdapter::visitIfStmt( ast::stmt::If * stmt )
 	{
 		auto save = m_current;
-		auto cont = ast::stmt::makeIf( ExprAdapter::submit( stmt->getCtrlExpr(), m_context, m_config ) );
+		auto cont = ast::stmt::makeIf( doSubmit( stmt->getCtrlExpr() ) );
 		m_current = cont.get();
 		visitContainerStmt( stmt );
 		m_current = save;
@@ -74,7 +74,7 @@ namespace spirv
 			{
 				auto elseStmt = currentIf->createElse();
 				auto & elseIf = *it;
-				cont = ast::stmt::makeIf( ExprAdapter::submit( elseIf->getCtrlExpr(), m_context, m_config ) );
+				cont = ast::stmt::makeIf( doSubmit( elseIf->getCtrlExpr() ) );
 				m_current = cont.get();
 				visitContainerStmt( elseIf.get() );
 				m_current = save;

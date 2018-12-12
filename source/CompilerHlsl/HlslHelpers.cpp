@@ -26,7 +26,7 @@ namespace hlsl
 		case ast::type::Kind::eFunction:
 			result = "function";
 			break;
-		case ast::type::Kind::eBoolean:
+		case ast::type::Kind::eBool:
 			result = "bool";
 			break;
 		case ast::type::Kind::eInt:
@@ -139,12 +139,6 @@ namespace hlsl
 			break;
 		case ast::type::Kind::eMat4x3D:
 			result = "double4x3";
-			break;
-		case ast::type::Kind::eConstantsBuffer:
-			result = "cbuffer";
-			break;
-		case ast::type::Kind::eShaderBuffer:
-			result = "buffer";
 			break;
 		case ast::type::Kind::eImage:
 			result = "Texture";
@@ -645,7 +639,7 @@ namespace hlsl
 		case ast::expr::CompositeType::eVec2:
 			switch ( component )
 			{
-			case ast::type::Kind::eBoolean:
+			case ast::type::Kind::eBool:
 				result = "bool2";
 				break;
 			case ast::type::Kind::eInt:
@@ -668,7 +662,7 @@ namespace hlsl
 		case ast::expr::CompositeType::eVec3:
 			switch ( component )
 			{
-			case ast::type::Kind::eBoolean:
+			case ast::type::Kind::eBool:
 				result = "bool3";
 				break;
 			case ast::type::Kind::eInt:
@@ -691,7 +685,7 @@ namespace hlsl
 		case ast::expr::CompositeType::eVec4:
 			switch ( component )
 			{
-			case ast::type::Kind::eBoolean:
+			case ast::type::Kind::eBool:
 				result = "bool4";
 				break;
 			case ast::type::Kind::eInt:

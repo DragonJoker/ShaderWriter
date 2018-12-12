@@ -42,7 +42,7 @@ namespace ast::type
 				return 4u;
 			case Kind::eHalf:
 				return 2u;
-			case Kind::eBoolean:
+			case Kind::eBool:
 				return 1u;
 
 			default:
@@ -294,8 +294,10 @@ namespace ast::type
 
 	//*************************************************************************
 
-	Struct::Struct( Struct const & rhs )
-		: Type{ &rhs.getCache(), Kind::eStruct }
+	Struct::Struct( TypesCache & cache
+		, Struct const & rhs )
+		: Type{ Kind::eStruct }
+		, m_cache{ cache }
 		, m_name{ rhs.getName() }
 		, m_layout{ rhs.m_layout }
 	{
@@ -319,11 +321,12 @@ namespace ast::type
 		}
 	}
 
-	Struct::Struct( TypesCache * cache
+	Struct::Struct( TypesCache & cache
 		, Struct * parent
 		, uint32_t index
 		, Struct const & copy )
-		: Type{ cache, parent, index, Kind::eStruct }
+		: Type{ parent, index, Kind::eStruct }
+		, m_cache{ cache }
 		, m_name{ copy.getName() }
 		, m_layout{ copy.m_layout }
 	{
@@ -347,17 +350,19 @@ namespace ast::type
 		}
 	}
 
-	Struct::Struct( Struct & parent
+	Struct::Struct( TypesCache & cache
+		, Struct & parent
 		, uint32_t index
 		, Struct const & copy )
-		: Struct{ &parent.getCache(), &parent, index, copy }
+		: Struct{ cache, &parent, index, copy }
 	{
 	}
 
-	Struct::Struct( TypesCache * cache
+	Struct::Struct( TypesCache & cache
 		, MemoryLayout layout
 		, std::string name )
-		: Type{ cache, Kind::eStruct }
+		: Type{ Kind::eStruct }
+		, m_cache{ cache }
 		, m_name{ std::move( name ) }
 		, m_layout{ layout }
 	{
@@ -368,17 +373,17 @@ namespace ast::type
 		, uint32_t arraySize )
 	{
 		type::TypePtr mbrType;
-		auto type = getCache().makeType( kind );
+		auto type = m_cache.getBasicType( kind );
 
 		if ( arraySize != NotArray )
 		{
-			mbrType = getCache().getMemberType( getCache().getArray( type, arraySize )
+			mbrType = m_cache.getMemberType( m_cache.getArray( type, arraySize )
 				, *this
 				, uint32_t( m_members.size() ) );
 		}
 		else
 		{
-			mbrType = getCache().getMemberType( type
+			mbrType = m_cache.getMemberType( type
 				, *this
 				, uint32_t( m_members.size() ) );
 		}
@@ -394,15 +399,15 @@ namespace ast::type
 
 		if ( arraySize != NotArray )
 		{
-			mbrType = getCache().getStruct( type->getMemoryLayout(), type->getName() );
-			mbrType = getCache().getMemberType( getCache().getArray( mbrType, arraySize )
+			mbrType = m_cache.getStruct( type->getMemoryLayout(), type->getName() );
+			mbrType = m_cache.getMemberType( m_cache.getArray( mbrType, arraySize )
 				, *this
 				, uint32_t( m_members.size() ) );
 		}
 		else
 		{
-			mbrType = getCache().getStruct( type->getMemoryLayout(), type->getName() );
-			mbrType = getCache().getMemberType( type
+			mbrType = m_cache.getStruct( type->getMemoryLayout(), type->getName() );
+			mbrType = m_cache.getMemberType( type
 				, *this
 				, uint32_t( m_members.size() ) );
 		}
@@ -414,7 +419,7 @@ namespace ast::type
 		, ArrayPtr type
 		, uint32_t arraySize )
 	{
-		auto mbrType = getCache().getMemberType( getCache().getArray( type, arraySize )
+		auto mbrType = m_cache.getMemberType( m_cache.getArray( type, arraySize )
 			, *this
 			, uint32_t( m_members.size() ) );
 		return doAddMember( mbrType, name );
@@ -485,6 +490,7 @@ namespace ast::type
 	{
 		return std::shared_ptr< Struct >( new Struct
 			{
+				m_cache,
 				parent,
 				index,
 				*this,

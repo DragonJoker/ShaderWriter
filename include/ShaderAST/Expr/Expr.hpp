@@ -81,7 +81,9 @@ namespace ast::expr
 	class Expr
 	{
 	public:
-		Expr( type::TypePtr type, Kind kind );
+		Expr( type::TypesCache & cache
+			, type::TypePtr type
+			, Kind kind );
 		virtual ~Expr();
 
 		virtual void accept( VisitorPtr ) = 0;
@@ -89,6 +91,11 @@ namespace ast::expr
 		inline Kind getKind()const
 		{
 			return m_kind;
+		}
+
+		inline type::TypesCache & getCache()const
+		{
+			return m_cache;
 		}
 
 		inline type::TypePtr getType()const
@@ -130,6 +137,7 @@ namespace ast::expr
 		}
 
 	private:
+		type::TypesCache & m_cache;
 		Kind m_kind;
 		type::TypePtr m_type;
 		uint32_t m_flags;

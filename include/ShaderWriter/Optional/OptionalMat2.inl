@@ -32,10 +32,7 @@ namespace sdw
 	{
 		if ( this->getContainer() )
 		{
-			addStmt( *findShader( *this, rhs )
-				, sdw::makeSimple( sdw::makeAssign( Mat2T< ValueT >::makeType( findTypesCache( *this, rhs ) )
-					, makeExpr( *this )
-					, makeExpr( rhs ) ) ) );
+			writeAssignOperator< Mat2T< ValueT > >( *this, rhs, sdw::makeAssign );
 		}
 		else
 		{
@@ -47,13 +44,9 @@ namespace sdw
 
 	template< typename ValueT >
 	template< typename IndexT >
-	Optional< Vec2T< ValueT > > Optional< Mat2T< ValueT > >::operator[]( IndexT const & rhs )const
+	Optional< Vec2T< ValueT > > Optional< Mat2T< ValueT > >::operator[]( IndexT const & offset )const
 	{
-		return Optional< Vec2T< ValueT > >{ findShader( *this, rhs )
-			, sdw::makeArrayAccess( Vec2T< ValueT >::makeType( findTypesCache( *this, rhs ) )
-				, makeExpr( *this )
-				, makeExpr( rhs ) )
-			, areOptionalEnabled( *this, rhs ) };
+		return writeBinOperator< Vec2T< ValueT > >( *this, offset, sdw::makeArrayAccess );
 	}
 
 	template< typename ValueT >
@@ -66,98 +59,62 @@ namespace sdw
 	Optional< Vec2T< ValueT > > operator*( Optional< Vec2T< ValueT > > const & lhs,
 		Mat2T< ValueT > const & rhs )
 	{
-		return Optional< Vec2T< ValueT > >{ findShader( lhs, rhs )
-			, sdw::makeTimes( Vec2T< ValueT >::makeType( findTypesCache( lhs, rhs ) )
-				, makeExpr( lhs )
-				, makeExpr( rhs ) )
-			, areOptionalEnabled( lhs, rhs ) };
+		return writeBinOperator< Vec2T< ValueT > >( lhs, rhs, sdw::makeTimes );
 	}
 
 	template< typename ValueT >
 	Optional< Vec2T< ValueT > > operator*( Optional< Mat2T< ValueT > > const & lhs
 		, Vec2T< ValueT > const & rhs )
 	{
-		return Optional< Vec2T< ValueT > >{ findShader( lhs, rhs )
-			, sdw::makeTimes( Vec2T< ValueT >::makeType( findTypesCache( lhs, rhs ) )
-				, makeExpr( lhs )
-				, makeExpr( rhs ) )
-			, areOptionalEnabled( lhs, rhs ) };
+		return writeBinOperator< Vec2T< ValueT > >( lhs, rhs, sdw::makeTimes );
 	}
 
 	template< typename ValueT >
 	Optional< Mat2T< ValueT > > operator*( Optional< Mat2T< ValueT > > const & lhs
 		, Mat2T< ValueT > const & rhs )
 	{
-		return Optional< Mat2T< ValueT > >{ findShader( lhs, rhs )
-			, sdw::makeTimes( Mat2T< ValueT >::makeType( findTypesCache( lhs, rhs ) )
-				, makeExpr( lhs )
-				, makeExpr( rhs ) )
-			, areOptionalEnabled( lhs, rhs ) };
+		return writeBinOperator< Mat2T< ValueT > >( lhs, rhs, sdw::makeTimes );
 	}
 
 	template< typename ValueT >
 	Optional< Vec2T< ValueT > > operator*( Vec2T< ValueT > const & lhs
 		, Optional< Mat2T< ValueT > > const & rhs )
 	{
-		return Optional< Vec2T< ValueT > >{ findShader( lhs, rhs )
-			, sdw::makeTimes( Vec2T< ValueT >::makeType( findTypesCache( lhs, rhs ) )
-				, makeExpr( lhs )
-				, makeExpr( rhs ) )
-			, areOptionalEnabled( lhs, rhs ) };
+		return writeBinOperator< Vec2T< ValueT > >( lhs, rhs, sdw::makeTimes );
 	}
 
 	template< typename ValueT >
 	Optional< Vec2T< ValueT > > operator*( Mat2T< ValueT > const & lhs
 		, Optional< Vec2T< ValueT > > const & rhs )
 	{
-		return Optional< Vec2T< ValueT > >{ findShader( lhs, rhs )
-			, sdw::makeTimes( Vec2T< ValueT >::makeType( findTypesCache( lhs, rhs ) )
-				, makeExpr( lhs )
-				, makeExpr( rhs ) )
-			, areOptionalEnabled( lhs, rhs ) };
+		return writeBinOperator< Vec2T< ValueT > >( lhs, rhs, sdw::makeTimes );
 	}
 
 	template< typename ValueT >
 	Optional< Mat2T< ValueT > > operator*( Mat2T< ValueT > const & lhs
 		, Optional< Mat2T< ValueT > > const & rhs )
 	{
-		return Optional< Mat2T< ValueT > >{ findShader( lhs, rhs )
-			, sdw::makeTimes( Mat2T< ValueT >::makeType( findTypesCache( lhs, rhs ) )
-				, makeExpr( lhs )
-				, makeExpr( rhs ) )
-			, areOptionalEnabled( lhs, rhs ) };
+		return writeBinOperator< Mat2T< ValueT > >( lhs, rhs, sdw::makeTimes );
 	}
 
 	template< typename ValueT >
 	Optional< Vec2T< ValueT > > operator*( Optional< Vec2T< ValueT > > const & lhs
 		, Optional< Mat2T< ValueT > > const & rhs )
 	{
-		return Optional< Vec2T< ValueT > >{ findShader( lhs, rhs )
-			, sdw::makeTimes( Vec2T< ValueT >::makeType( findTypesCache( lhs, rhs ) )
-				, makeExpr( lhs )
-				, makeExpr( rhs ) )
-			, areOptionalEnabled( lhs, rhs ) };
+		return writeBinOperator< Vec2T< ValueT > >( lhs, rhs, sdw::makeTimes );
 	}
 
 	template< typename ValueT >
 	Optional< Vec2T< ValueT > > operator*( Optional< Mat2T< ValueT > > const & lhs
 		, Optional< Vec2T< ValueT > > const & rhs )
 	{
-		return Optional< Vec2T< ValueT > >{ findShader( lhs, rhs )
-			, sdw::makeTimes( Vec2T< ValueT >::makeType( findTypesCache( lhs, rhs ) )
-				, makeExpr( lhs )
-				, makeExpr( rhs ) )
-			, areOptionalEnabled( lhs, rhs ) };
+		return writeBinOperator< Vec2T< ValueT > >( lhs, rhs, sdw::makeTimes );
 	}
 
 	template< typename ValueT >
 	Optional< Mat2T< ValueT > > operator*( Optional< Mat2T< ValueT > > const & lhs
 		, Optional< Mat2T< ValueT > > const & rhs )
 	{
-		return Optional< Mat2T< ValueT > >{ findShader( lhs, rhs )
-			, sdw::makeTimes( Mat2T< ValueT >::makeType( findTypesCache( lhs, rhs ) )
-				, makeExpr( lhs )
-				, makeExpr( rhs ) )
-			, areOptionalEnabled( lhs, rhs ) };
+		return writeBinOperator< Mat2T< ValueT > >( lhs, rhs, sdw::makeTimes );
 	}
 }

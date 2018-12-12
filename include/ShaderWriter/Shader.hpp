@@ -194,7 +194,7 @@ namespace sdw
 
 		inline ast::type::TypesCache & getTypesCache()const
 		{
-			return m_typesCache;
+			return *m_typesCache;
 		}
 
 	private:
@@ -204,7 +204,7 @@ namespace sdw
 			stmt::Container * container;
 		};
 		ShaderType m_type;
-		mutable ast::type::TypesCache m_typesCache;
+		std::unique_ptr< ast::type::TypesCache > m_typesCache;
 		std::vector< Block > m_blocks;
 		stmt::ContainerPtr m_container;
 		std::map< std::string, SsboInfo > m_ssbos;

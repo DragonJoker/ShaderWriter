@@ -30,7 +30,7 @@ namespace sdw
 	Value::Value( Value const & rhs )
 		: m_shader{ rhs.m_shader }
 		, m_container{ m_shader ? m_shader->getContainer() : nullptr }
-		, m_expr{ makeExpr( rhs ) }
+		, m_expr{ makeExpr( *findShader( rhs ), rhs ) }
 	{
 	}
 
@@ -74,15 +74,22 @@ namespace sdw
 		m_expr = std::move( expr );
 	}
 
-	expr::ExprPtr makeExpr( Value const & variable )
+	expr::ExprPtr makeExpr( Shader const & shader
+		, Value const & variable
+		, bool force )
 	{
-		return makeExpr( variable.getExpr() );
+		return makeExpr( shader
+			, variable.getExpr()
+			, force );
 	}
 
-	expr::ExprList makeFnArg( Value const & variable )
+	expr::ExprList makeFnArg( Shader const & shader
+		, Value const & variable )
 	{
 		expr::ExprList result;
-		result.emplace_back( makeExpr( variable.getExpr() ) );
+		result.emplace_back( makeExpr( shader
+			, variable.getExpr()
+			, true ) );
 		return result;
 	}
 

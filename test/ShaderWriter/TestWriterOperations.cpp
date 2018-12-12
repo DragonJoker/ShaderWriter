@@ -95,27 +95,27 @@ namespace
 		auto & shader = writer.getShader();
 		auto & statements = *shader.getContainer();
 		sdw::expr::Expr * expr;
-		//ret += writer.cast< sdw::RealTypeT< RET > >( rhs );
-		//if ( sdw::isOptionalEnabled( ret ) )
-		//{
-		//	require( statements.back()->getKind() == sdw::stmt::Kind::eSimple );
-		//	expr = static_cast< sdw::stmt::Simple const & >( *statements.back() ).getExpr();
-		//	check( expr->getKind() == sdw::expr::Kind::eAddAssign );
-		//}
-		//ret -= writer.cast< sdw::RealTypeT< RET > >( rhs );
-		//if ( sdw::isOptionalEnabled( ret ) )
-		//{
-		//	require( statements.back()->getKind() == sdw::stmt::Kind::eSimple );
-		//	expr = static_cast< sdw::stmt::Simple const & >( *statements.back() ).getExpr();
-		//	check( expr->getKind() == sdw::expr::Kind::eMinusAssign );
-		//}
-		//ret *= writer.cast< sdw::RealTypeT< RET > >( rhs );
-		//if ( sdw::isOptionalEnabled( ret ) )
-		//{
-		//	require( statements.back()->getKind() == sdw::stmt::Kind::eSimple );
-		//	expr = static_cast< sdw::stmt::Simple const & >( *statements.back() ).getExpr();
-		//	check( expr->getKind() == sdw::expr::Kind::eTimesAssign );
-		//}
+		ret += writer.cast< sdw::RealTypeT< RET > >( rhs );
+		if ( sdw::isOptionalEnabled( ret ) )
+		{
+			require( statements.back()->getKind() == sdw::stmt::Kind::eSimple );
+			expr = static_cast< sdw::stmt::Simple const & >( *statements.back() ).getExpr();
+			check( expr->getKind() == sdw::expr::Kind::eAddAssign );
+		}
+		ret -= writer.cast< sdw::RealTypeT< RET > >( rhs );
+		if ( sdw::isOptionalEnabled( ret ) )
+		{
+			require( statements.back()->getKind() == sdw::stmt::Kind::eSimple );
+			expr = static_cast< sdw::stmt::Simple const & >( *statements.back() ).getExpr();
+			check( expr->getKind() == sdw::expr::Kind::eMinusAssign );
+		}
+		ret *= writer.cast< sdw::RealTypeT< RET > >( rhs );
+		if ( sdw::isOptionalEnabled( ret ) )
+		{
+			require( statements.back()->getKind() == sdw::stmt::Kind::eSimple );
+			expr = static_cast< sdw::stmt::Simple const & >( *statements.back() ).getExpr();
+			check( expr->getKind() == sdw::expr::Kind::eTimesAssign );
+		}
 		ret /= writer.cast< sdw::RealTypeT< RET > >( rhs );
 		if ( sdw::isOptionalEnabled( ret ) )
 		{
@@ -132,44 +132,44 @@ namespace
 		, RHS const & rhs )
 	{
 		testBaseAssignOperators( writer, testCounts, ret, rhs );
-		//auto & shader = writer.getShader();
-		//auto & statements = *shader.getContainer();
-		//sdw::expr::Expr * expr;
-		//ret %= writer.cast< sdw::RealTypeT< RET > >( rhs );
-		//if ( sdw::isOptionalEnabled( ret ) )
-		//{
-		//	require( statements.back()->getKind() == sdw::stmt::Kind::eSimple );
-		//	expr = static_cast< sdw::stmt::Simple const & >( *statements.back() ).getExpr();
-		//	check( expr->getKind() == sdw::expr::Kind::eModuloAssign );
-		//}
-		//ret <<= writer.cast< sdw::RealTypeT< RET > >( rhs );
-		//if ( sdw::isOptionalEnabled( ret ) )
-		//{
-		//	require( statements.back()->getKind() == sdw::stmt::Kind::eSimple );
-		//	expr = static_cast< sdw::stmt::Simple const & >( *statements.back() ).getExpr();
-		//	check( expr->getKind() == sdw::expr::Kind::eLShiftAssign );
-		//}
-		//ret >>= writer.cast< sdw::RealTypeT< RET > >( rhs );
-		//if ( sdw::isOptionalEnabled( ret ) )
-		//{
-		//	require( statements.back()->getKind() == sdw::stmt::Kind::eSimple );
-		//	expr = static_cast< sdw::stmt::Simple const & >( *statements.back() ).getExpr();
-		//	check( expr->getKind() == sdw::expr::Kind::eRShiftAssign );
-		//}
-		//ret |= writer.cast< sdw::RealTypeT< RET > >( rhs );
-		//if ( sdw::isOptionalEnabled( ret ) )
-		//{
-		//	require( statements.back()->getKind() == sdw::stmt::Kind::eSimple );
-		//	expr = static_cast< sdw::stmt::Simple const & >( *statements.back() ).getExpr();
-		//	check( expr->getKind() == sdw::expr::Kind::eOrAssign );
-		//}
-		//ret &= writer.cast< sdw::RealTypeT< RET > >( rhs );
-		//if ( sdw::isOptionalEnabled( ret ) )
-		//{
-		//	require( statements.back()->getKind() == sdw::stmt::Kind::eSimple );
-		//	expr = static_cast< sdw::stmt::Simple const & >( *statements.back() ).getExpr();
-		//	check( expr->getKind() == sdw::expr::Kind::eAndAssign );
-		//}
+		auto & shader = writer.getShader();
+		auto & statements = *shader.getContainer();
+		sdw::expr::Expr * expr;
+		ret %= writer.cast< sdw::RealTypeT< RET > >( rhs );
+		if ( sdw::isOptionalEnabled( ret ) )
+		{
+			require( statements.back()->getKind() == sdw::stmt::Kind::eSimple );
+			expr = static_cast< sdw::stmt::Simple const & >( *statements.back() ).getExpr();
+			check( expr->getKind() == sdw::expr::Kind::eModuloAssign );
+		}
+		ret <<= writer.cast< sdw::RealTypeT< RET > >( rhs );
+		if ( sdw::isOptionalEnabled( ret ) )
+		{
+			require( statements.back()->getKind() == sdw::stmt::Kind::eSimple );
+			expr = static_cast< sdw::stmt::Simple const & >( *statements.back() ).getExpr();
+			check( expr->getKind() == sdw::expr::Kind::eLShiftAssign );
+		}
+		ret >>= writer.cast< sdw::RealTypeT< RET > >( rhs );
+		if ( sdw::isOptionalEnabled( ret ) )
+		{
+			require( statements.back()->getKind() == sdw::stmt::Kind::eSimple );
+			expr = static_cast< sdw::stmt::Simple const & >( *statements.back() ).getExpr();
+			check( expr->getKind() == sdw::expr::Kind::eRShiftAssign );
+		}
+		ret |= writer.cast< sdw::RealTypeT< RET > >( rhs );
+		if ( sdw::isOptionalEnabled( ret ) )
+		{
+			require( statements.back()->getKind() == sdw::stmt::Kind::eSimple );
+			expr = static_cast< sdw::stmt::Simple const & >( *statements.back() ).getExpr();
+			check( expr->getKind() == sdw::expr::Kind::eOrAssign );
+		}
+		ret &= writer.cast< sdw::RealTypeT< RET > >( rhs );
+		if ( sdw::isOptionalEnabled( ret ) )
+		{
+			require( statements.back()->getKind() == sdw::stmt::Kind::eSimple );
+			expr = static_cast< sdw::stmt::Simple const & >( *statements.back() ).getExpr();
+			check( expr->getKind() == sdw::expr::Kind::eAndAssign );
+		}
 	}
 
 	template< typename RET, typename LHS, typename RHS >
@@ -509,33 +509,33 @@ namespace
 				, [&]()
 				{
 					auto & statements = *writer.getShader().getContainer();
-					auto a = writer.declLocale< sdw::Boolean >( "a" );
-					auto b = writer.declLocale< sdw::Boolean >( "b" );
-					auto c = writer.declLocale< sdw::Boolean >( "c" );
+					auto a = writer.declLocale< sdw::Bool >( "a" );
+					auto b = writer.declLocale< sdw::Bool >( "b" );
+					auto c = writer.declLocale< sdw::Bool >( "c" );
 					a = b == c;
 					require( statements.back()->getKind() == sdw::stmt::Kind::eSimple );
 					expr = static_cast< sdw::stmt::Simple const & >( *statements.back() ).getExpr();
 					require( expr->getKind() == sdw::expr::Kind::eAssign );
 					check( static_cast< sdw::expr::Assign const & >( *expr ).getRHS()->getKind() == sdw::expr::Kind::eEqual );
-					check( static_cast< sdw::expr::Assign const & >( *expr ).getRHS()->getType()->getKind() == sdw::type::Kind::eBoolean );
+					check( static_cast< sdw::expr::Assign const & >( *expr ).getRHS()->getType()->getKind() == sdw::type::Kind::eBool );
 					a = b != c;
 					require( statements.back()->getKind() == sdw::stmt::Kind::eSimple );
 					expr = static_cast< sdw::stmt::Simple const & >( *statements.back() ).getExpr();
 					require( expr->getKind() == sdw::expr::Kind::eAssign );
 					check( static_cast< sdw::expr::Assign const & >( *expr ).getRHS()->getKind() == sdw::expr::Kind::eNotEqual );
-					check( static_cast< sdw::expr::Assign const & >( *expr ).getRHS()->getType()->getKind() == sdw::type::Kind::eBoolean );
+					check( static_cast< sdw::expr::Assign const & >( *expr ).getRHS()->getType()->getKind() == sdw::type::Kind::eBool );
 					a = b || c;
 					require( statements.back()->getKind() == sdw::stmt::Kind::eSimple );
 					expr = static_cast< sdw::stmt::Simple const & >( *statements.back() ).getExpr();
 					require( expr->getKind() == sdw::expr::Kind::eAssign );
 					check( static_cast< sdw::expr::Assign const & >( *expr ).getRHS()->getKind() == sdw::expr::Kind::eLogOr );
-					check( static_cast< sdw::expr::Assign const & >( *expr ).getRHS()->getType()->getKind() == sdw::type::Kind::eBoolean );
+					check( static_cast< sdw::expr::Assign const & >( *expr ).getRHS()->getType()->getKind() == sdw::type::Kind::eBool );
 					a = b && c;
 					require( statements.back()->getKind() == sdw::stmt::Kind::eSimple );
 					expr = static_cast< sdw::stmt::Simple const & >( *statements.back() ).getExpr();
 					require( expr->getKind() == sdw::expr::Kind::eAssign );
 					check( static_cast< sdw::expr::Assign const & >( *expr ).getRHS()->getKind() == sdw::expr::Kind::eLogAnd );
-					check( static_cast< sdw::expr::Assign const & >( *expr ).getRHS()->getType()->getKind() == sdw::type::Kind::eBoolean );
+					check( static_cast< sdw::expr::Assign const & >( *expr ).getRHS()->getType()->getKind() == sdw::type::Kind::eBool );
 				} );
 			test::writeShader( writer
 				, testCounts );
@@ -548,33 +548,33 @@ namespace
 				, [&]()
 				{
 					auto & statements = *writer.getShader().getContainer();
-					auto a = writer.declLocale< sdw::Boolean >( "a", true );
-					auto b = writer.declLocale< sdw::Boolean >( "b", true );
-					auto c = writer.declLocale< sdw::Boolean >( "c", true );
+					auto a = writer.declLocale< sdw::Bool >( "a", true );
+					auto b = writer.declLocale< sdw::Bool >( "b", true );
+					auto c = writer.declLocale< sdw::Bool >( "c", true );
 					a = b == c;
 					require( statements.back()->getKind() == sdw::stmt::Kind::eSimple );
 					expr = static_cast< sdw::stmt::Simple const & >( *statements.back() ).getExpr();
 					require( expr->getKind() == sdw::expr::Kind::eAssign );
 					check( static_cast< sdw::expr::Assign const & >( *expr ).getRHS()->getKind() == sdw::expr::Kind::eEqual );
-					check( static_cast< sdw::expr::Assign const & >( *expr ).getRHS()->getType()->getKind() == sdw::type::Kind::eBoolean );
+					check( static_cast< sdw::expr::Assign const & >( *expr ).getRHS()->getType()->getKind() == sdw::type::Kind::eBool );
 					a = b != c;
 					require( statements.back()->getKind() == sdw::stmt::Kind::eSimple );
 					expr = static_cast< sdw::stmt::Simple const & >( *statements.back() ).getExpr();
 					require( expr->getKind() == sdw::expr::Kind::eAssign );
 					check( static_cast< sdw::expr::Assign const & >( *expr ).getRHS()->getKind() == sdw::expr::Kind::eNotEqual );
-					check( static_cast< sdw::expr::Assign const & >( *expr ).getRHS()->getType()->getKind() == sdw::type::Kind::eBoolean );
+					check( static_cast< sdw::expr::Assign const & >( *expr ).getRHS()->getType()->getKind() == sdw::type::Kind::eBool );
 					a = b || c;
 					require( statements.back()->getKind() == sdw::stmt::Kind::eSimple );
 					expr = static_cast< sdw::stmt::Simple const & >( *statements.back() ).getExpr();
 					require( expr->getKind() == sdw::expr::Kind::eAssign );
 					check( static_cast< sdw::expr::Assign const & >( *expr ).getRHS()->getKind() == sdw::expr::Kind::eLogOr );
-					check( static_cast< sdw::expr::Assign const & >( *expr ).getRHS()->getType()->getKind() == sdw::type::Kind::eBoolean );
+					check( static_cast< sdw::expr::Assign const & >( *expr ).getRHS()->getType()->getKind() == sdw::type::Kind::eBool );
 					a = b && c;
 					require( statements.back()->getKind() == sdw::stmt::Kind::eSimple );
 					expr = static_cast< sdw::stmt::Simple const & >( *statements.back() ).getExpr();
 					require( expr->getKind() == sdw::expr::Kind::eAssign );
 					check( static_cast< sdw::expr::Assign const & >( *expr ).getRHS()->getKind() == sdw::expr::Kind::eLogAnd );
-					check( static_cast< sdw::expr::Assign const & >( *expr ).getRHS()->getType()->getKind() == sdw::type::Kind::eBoolean );
+					check( static_cast< sdw::expr::Assign const & >( *expr ).getRHS()->getType()->getKind() == sdw::type::Kind::eBool );
 				} );
 			test::writeShader( writer
 				, testCounts );
@@ -586,9 +586,9 @@ namespace
 			writer.implementFunction< void >( "main"
 				, [&]()
 				{
-					auto a = writer.declLocale< sdw::Boolean >( "a", false );
-					auto b = writer.declLocale< sdw::Boolean >( "b", false );
-					auto c = writer.declLocale< sdw::Boolean >( "c", false );
+					auto a = writer.declLocale< sdw::Bool >( "a", false );
+					auto b = writer.declLocale< sdw::Bool >( "b", false );
+					auto c = writer.declLocale< sdw::Bool >( "c", false );
 					a = b == c;
 					a = b != c;
 					a = b || c;
@@ -619,7 +619,7 @@ namespace
 					testBaseOperators( writer, testCounts, c, 2.0f, a );
 					testBaseOperators( writer, testCounts, c, 2.0_f, a );
 					testBaseOperators( writer, testCounts, c, a, b );
-					auto d = writer.declLocale< sdw::Boolean >( "d" );
+					auto d = writer.declLocale< sdw::Bool >( "d" );
 					testComparators( writer, testCounts, d, c, 2.0f );
 					testComparators( writer, testCounts, d, c, 2.0_f );
 					testComparators( writer, testCounts, d, c, 2 );
@@ -653,7 +653,7 @@ namespace
 					testBaseOperators( writer, testCounts, c, 2.0f, a );
 					testBaseOperators( writer, testCounts, c, 2.0_f, a );
 					testBaseOperators( writer, testCounts, c, a, b );
-					auto d = writer.declLocale< sdw::Boolean >( "d", true );
+					auto d = writer.declLocale< sdw::Bool >( "d", true );
 					testComparators( writer, testCounts, d, c, 2.0f );
 					testComparators( writer, testCounts, d, c, 2.0_f );
 					testComparators( writer, testCounts, d, c, 2 );
@@ -687,7 +687,7 @@ namespace
 					testBaseOperators( writer, testCounts, c, 2.0f, a );
 					testBaseOperators( writer, testCounts, c, 2.0_f, a );
 					testBaseOperators( writer, testCounts, c, a, b );
-					auto d = writer.declLocale< sdw::Boolean >( "d", false );
+					auto d = writer.declLocale< sdw::Bool >( "d", false );
 					testComparators( writer, testCounts, d, c, 2.0f );
 					testComparators( writer, testCounts, d, c, 2.0_f );
 					testComparators( writer, testCounts, d, c, 2 );
@@ -732,7 +732,7 @@ namespace
 					testBaseOperators( writer, testCounts, c, 2u, a );
 					testIntOperators( writer, testCounts, c, 2_i, a );
 					testIntOperators( writer, testCounts, c, a, b );
-					auto d = writer.declLocale< sdw::Boolean >( "d" );
+					auto d = writer.declLocale< sdw::Bool >( "d" );
 					testComparators( writer, testCounts, d, c, 2.0f );
 					testComparators( writer, testCounts, d, c, 2.0_f );
 					testComparators( writer, testCounts, d, c, 2 );
@@ -769,7 +769,7 @@ namespace
 					testBaseOperators( writer, testCounts, c, 2u, a );
 					testIntOperators( writer, testCounts, c, 2_i, a );
 					testIntOperators( writer, testCounts, c, a, b );
-					auto d = writer.declLocale< sdw::Boolean >( "d", true );
+					auto d = writer.declLocale< sdw::Bool >( "d", true );
 					testComparators( writer, testCounts, d, c, 2.0f );
 					testComparators( writer, testCounts, d, c, 2.0_f );
 					testComparators( writer, testCounts, d, c, 2 );
@@ -806,7 +806,7 @@ namespace
 					testBaseOperators( writer, testCounts, c, 2u, a );
 					testIntOperators( writer, testCounts, c, 2_i, a );
 					testIntOperators( writer, testCounts, c, a, b );
-					auto d = writer.declLocale< sdw::Boolean >( "d", false );
+					auto d = writer.declLocale< sdw::Bool >( "d", false );
 					testComparators( writer, testCounts, d, c, 2.0f );
 					testComparators( writer, testCounts, d, c, 2.0_f );
 					testComparators( writer, testCounts, d, c, 2 );
@@ -851,7 +851,7 @@ namespace
 					testBaseOperators( writer, testCounts, c, 2u, a );
 					testIntOperators( writer, testCounts, c, 2_u, a );
 					testIntOperators( writer, testCounts, c, a, b );
-					auto d = writer.declLocale< sdw::Boolean >( "d" );
+					auto d = writer.declLocale< sdw::Bool >( "d" );
 					testComparators( writer, testCounts, d, c, 2.0f );
 					testComparators( writer, testCounts, d, c, 2.0_f );
 					testComparators( writer, testCounts, d, c, 2 );
@@ -888,7 +888,7 @@ namespace
 					testBaseOperators( writer, testCounts, c, 2u, a );
 					testIntOperators( writer, testCounts, c, 2_u, a );
 					testIntOperators( writer, testCounts, c, a, b );
-					auto d = writer.declLocale< sdw::Boolean >( "d", true );
+					auto d = writer.declLocale< sdw::Bool >( "d", true );
 					testComparators( writer, testCounts, d, c, 2.0f );
 					testComparators( writer, testCounts, d, c, 2.0_f );
 					testComparators( writer, testCounts, d, c, 2 );
@@ -925,7 +925,7 @@ namespace
 					testBaseOperators( writer, testCounts, c, 2u, a );
 					testIntOperators( writer, testCounts, c, 2_u, a );
 					testIntOperators( writer, testCounts, c, a, b );
-					auto d = writer.declLocale< sdw::Boolean >( "d", false );
+					auto d = writer.declLocale< sdw::Bool >( "d", false );
 					testComparators( writer, testCounts, d, c, 2.0f );
 					testComparators( writer, testCounts, d, c, 2.0_f );
 					testComparators( writer, testCounts, d, c, 2 );

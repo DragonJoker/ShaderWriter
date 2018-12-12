@@ -3,6 +3,13 @@
 See LICENSE file in root folder
 */
 
+#include "ShaderWriter/BaseTypes/Void.hpp"
+#include "ShaderWriter/BaseTypes/Array.hpp"
+#include "ShaderWriter/BaseTypes/Bool.hpp"
+#include "ShaderWriter/BaseTypes/Double.hpp"
+#include "ShaderWriter/BaseTypes/Float.hpp"
+#include "ShaderWriter/BaseTypes/Int.hpp"
+#include "ShaderWriter/BaseTypes/UInt.hpp"
 #include "ShaderWriter/Intrinsics/TextureAccessFunctions.hpp"
 
 #include <ShaderAST/Expr/MakeTextureAccess.hpp>

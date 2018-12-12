@@ -13,12 +13,12 @@ namespace test
 		if ( isAnyOptional( a, b ) )
 		{
 			return sdw::Optional< sdw::Int >{ sdw::findShader( a, b )
-				, sdw::makeExpr( a + b )
+				, sdw::makeExpr( *sdw::findShader( a, b ), a + b )
 				, areOptionalEnabled( a, b ) };
 		}
 
 		return sdw::Int{ sdw::findShader( a, b )
-			, sdw::makeExpr( a + b ) };
+			, sdw::makeExpr( *sdw::findShader( a, b ), a + b ) };
 	}
 	
 	sdw::MaybeOptional< sdw::Int > dummyFunc( sdw::MaybeOptional< sdw::Array< sdw::Int > > const & a
@@ -27,12 +27,12 @@ namespace test
 		if ( isAnyOptional( a, b ) )
 		{
 			return sdw::Optional< sdw::Int >{ sdw::findShader( a, b )
-				, sdw::makeExpr( a[0] + b[0] )
+				, sdw::makeExpr( *sdw::findShader( a, b ), a[0] + b[0] )
 				, areOptionalEnabled( a, b ) };
 		}
 
 		return sdw::Int{ sdw::findShader( a, b )
-			, sdw::makeExpr( a[0] + b[0] ) };
+			, sdw::makeExpr( *sdw::findShader( a, b ), a[0] + b[0] ) };
 	}
 
 	void testMaybeOptional( test::sdw_test::TestCounts & testCounts )

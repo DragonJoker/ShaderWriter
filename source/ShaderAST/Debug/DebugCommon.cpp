@@ -138,7 +138,7 @@ namespace ast::debug
 		case type::Kind::eFunction:
 			result = "FUNC";
 			break;
-		case type::Kind::eBoolean:
+		case type::Kind::eBool:
 			result = "BOOL";
 			break;
 		case type::Kind::eInt:
@@ -251,12 +251,6 @@ namespace ast::debug
 			break;
 		case type::Kind::eMat4x4D:
 			result = "DMAT4X4";
-			break;
-		case type::Kind::eConstantsBuffer:
-			result = "CBUFF";
-			break;
-		case type::Kind::eShaderBuffer:
-			result = "SBUFF";
 			break;
 		case type::Kind::eImage:
 			result = "IMAGE";

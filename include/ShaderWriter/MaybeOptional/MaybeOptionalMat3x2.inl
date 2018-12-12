@@ -51,34 +51,15 @@ namespace sdw
 	template< typename ValueT >
 	MaybeOptional< Mat3x2T< ValueT > > & MaybeOptional< Mat3x2T< ValueT > >::operator=( MaybeOptional< Mat3x2T< ValueT > > const & rhs )
 	{
-		if ( areOptionalEnabled( *this, rhs ) )
-		{
-			addStmt( *findShader( *this, rhs )
-				, sdw::makeSimple( sdw::makeAssign( this->getType()
-					, makeExpr( *this )
-					, makeExpr( rhs ) ) ) );
-		}
-
+		writeAssignOperator< Mat3x2T< ValueT > >( *this, rhs, sdw::makeAssign );
 		return *this;
 	}
 
 	template< typename ValueT >
 	template< typename IndexT >
-	MaybeOptional< Vec2T< ValueT > > MaybeOptional< Mat3x2T< ValueT > >::operator[]( IndexT const & rhs )const
+	MaybeOptional< Vec2T< ValueT > > MaybeOptional< Mat3x2T< ValueT > >::operator[]( IndexT const & offset )const
 	{
-		if ( isAnyOptional( *this, rhs ) )
-		{
-			return MaybeOptional< Vec2T< ValueT > >{ findShader( *this, rhs )
-				, sdw::makeArrayAccess( Vec2T< ValueT >::makeType( findTypesCache( *this, rhs ) )
-					, makeExpr( *this, true )
-					, makeExpr( rhs ) )
-				, areOptionalEnabled( *this, rhs ) };
-		}
-
-		return MaybeOptional< Vec2T< ValueT > >{ findShader( *this, rhs )
-			, sdw::makeArrayAccess( Vec2T< ValueT >::makeType( findTypesCache( *this, rhs ) )
-				, makeExpr( *this )
-				, makeExpr( rhs ) ) };
+		return writeBinOperator< Vec2T< ValueT > >( *this, offset, sdw::makeArrayAccess );
 	}
 
 	template< typename ValueT >

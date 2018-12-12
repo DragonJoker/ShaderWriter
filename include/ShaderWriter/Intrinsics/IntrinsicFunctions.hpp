@@ -582,7 +582,7 @@ namespace sdw
 	MaybeOptional< Vec2 > mix( MaybeOptional< Vec2 > const & x, MaybeOptional< Vec2 > const & y, MaybeOptional< Float > const & a );
 	MaybeOptional< Vec3 > mix( MaybeOptional< Vec3 > const & x, MaybeOptional< Vec3 > const & y, MaybeOptional< Float > const & a );
 	MaybeOptional< Vec4 > mix( MaybeOptional< Vec4 > const & x, MaybeOptional< Vec4 > const & y, MaybeOptional< Float > const & a );
-	MaybeOptional< Float > mix( MaybeOptional< Float > const & x, MaybeOptional< Float > const & y, MaybeOptional< Boolean > const & a );
+	MaybeOptional< Float > mix( MaybeOptional< Float > const & x, MaybeOptional< Float > const & y, MaybeOptional< Bool > const & a );
 	MaybeOptional< Vec2 > mix( MaybeOptional< Vec2 > const & x, MaybeOptional< Vec2 > const & y, MaybeOptional< BVec2 > const & a );
 	MaybeOptional< Vec3 > mix( MaybeOptional< Vec3 > const & x, MaybeOptional< Vec3 > const & y, MaybeOptional< BVec3 > const & a );
 	MaybeOptional< Vec4 > mix( MaybeOptional< Vec4 > const & x, MaybeOptional< Vec4 > const & y, MaybeOptional< BVec4 > const & a );
@@ -593,7 +593,7 @@ namespace sdw
 	MaybeOptional< DVec2 > mix( MaybeOptional< DVec2 > const & x, MaybeOptional< DVec2 > const & y, MaybeOptional< Double > const & a );
 	MaybeOptional< DVec3 > mix( MaybeOptional< DVec3 > const & x, MaybeOptional< DVec3 > const & y, MaybeOptional< Double > const & a );
 	MaybeOptional< DVec4 > mix( MaybeOptional< DVec4 > const & x, MaybeOptional< DVec4 > const & y, MaybeOptional< Double > const & a );
-	MaybeOptional< Double > mix( MaybeOptional< Double > const & x, MaybeOptional< Double > const & y, MaybeOptional< Boolean > const & a );
+	MaybeOptional< Double > mix( MaybeOptional< Double > const & x, MaybeOptional< Double > const & y, MaybeOptional< Bool > const & a );
 	MaybeOptional< DVec2 > mix( MaybeOptional< DVec2 > const & x, MaybeOptional< DVec2 > const & y, MaybeOptional< BVec2 > const & a );
 	MaybeOptional< DVec3 > mix( MaybeOptional< DVec3 > const & x, MaybeOptional< DVec3 > const & y, MaybeOptional< BVec3 > const & a );
 	MaybeOptional< DVec4 > mix( MaybeOptional< DVec4 > const & x, MaybeOptional< DVec4 > const & y, MaybeOptional< BVec4 > const & a );
@@ -649,11 +649,11 @@ namespace sdw
 	*	isnan
 	*/
 	/**@{*/
-	MaybeOptional< Boolean > isnan( MaybeOptional< Float > const & x );
+	MaybeOptional< Bool > isnan( MaybeOptional< Float > const & x );
 	MaybeOptional< BVec2 > isnan( MaybeOptional< Vec2 > const & x );
 	MaybeOptional< BVec3 > isnan( MaybeOptional< Vec3 > const & x );
 	MaybeOptional< BVec4 > isnan( MaybeOptional< Vec4 > const & x );
-	MaybeOptional< Boolean > isnan( MaybeOptional< Double > const & x );
+	MaybeOptional< Bool > isnan( MaybeOptional< Double > const & x );
 	MaybeOptional< BVec2 > isnan( MaybeOptional< DVec2 > const & x );
 	MaybeOptional< BVec3 > isnan( MaybeOptional< DVec3 > const & x );
 	MaybeOptional< BVec4 > isnan( MaybeOptional< DVec4 > const & x );
@@ -665,11 +665,11 @@ namespace sdw
 	*	isinf
 	*/
 	/**@{*/
-	MaybeOptional< Boolean > isinf( MaybeOptional< Float > const & x );
+	MaybeOptional< Bool > isinf( MaybeOptional< Float > const & x );
 	MaybeOptional< BVec2 > isinf( MaybeOptional< Vec2 > const & x );
 	MaybeOptional< BVec3 > isinf( MaybeOptional< Vec3 > const & x );
 	MaybeOptional< BVec4 > isinf( MaybeOptional< Vec4 > const & x );
-	MaybeOptional< Boolean > isinf( MaybeOptional< Double > const & x );
+	MaybeOptional< Bool > isinf( MaybeOptional< Double > const & x );
 	MaybeOptional< BVec2 > isinf( MaybeOptional< DVec2 > const & x );
 	MaybeOptional< BVec3 > isinf( MaybeOptional< DVec3 > const & x );
 	MaybeOptional< BVec4 > isinf( MaybeOptional< DVec4 > const & x );
@@ -1233,9 +1233,9 @@ namespace sdw
 	*	all
 	*/
 	/**@{*/
-	MaybeOptional< Boolean > all( MaybeOptional< BVec2 > const & x );
-	MaybeOptional< Boolean > all( MaybeOptional< BVec3 > const & x );
-	MaybeOptional< Boolean > all( MaybeOptional< BVec4 > const & x );
+	MaybeOptional< Bool > all( MaybeOptional< BVec2 > const & x );
+	MaybeOptional< Bool > all( MaybeOptional< BVec3 > const & x );
+	MaybeOptional< Bool > all( MaybeOptional< BVec4 > const & x );
 	/**@}*/
 #pragma endregion
 #pragma region any
@@ -1244,9 +1244,9 @@ namespace sdw
 	*	any
 	*/
 	/**@{*/
-	MaybeOptional< Boolean > any( MaybeOptional< BVec2 > const & x );
-	MaybeOptional< Boolean > any( MaybeOptional< BVec3 > const & x );
-	MaybeOptional< Boolean > any( MaybeOptional< BVec4 > const & x );
+	MaybeOptional< Bool > any( MaybeOptional< BVec2 > const & x );
+	MaybeOptional< Bool > any( MaybeOptional< BVec3 > const & x );
+	MaybeOptional< Bool > any( MaybeOptional< BVec4 > const & x );
 	/**@}*/
 #pragma endregion
 #pragma region binNot

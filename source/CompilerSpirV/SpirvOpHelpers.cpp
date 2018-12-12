@@ -57,7 +57,7 @@ namespace spirv
 
 		bool isBool( ast::type::Kind kind )
 		{
-			return kind == ast::type::Kind::eBoolean
+			return kind == ast::type::Kind::eBool
 				|| kind == ast::type::Kind::eVec2B
 				|| kind == ast::type::Kind::eVec3B
 				|| kind == ast::type::Kind::eVec4B;
@@ -1485,7 +1485,7 @@ namespace spirv
 		case ast::type::Kind::eStruct:
 			result = spv::Op::OpTypeStruct;
 			break;
-		case ast::type::Kind::eBoolean:
+		case ast::type::Kind::eBool:
 			result = spv::Op::OpTypeBool;
 			break;
 		case ast::type::Kind::eInt:

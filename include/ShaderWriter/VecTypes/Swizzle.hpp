@@ -205,8 +205,9 @@ namespace sdw
 #	define Writer_Swizzle( Input, Output, Name )\
 	inline Output Name()const\
 	{\
-		return Output{ findShader( *this )\
-			, sdw::makeSwizzle( makeExpr( this->getExpr() )\
+		auto & shader = *findShader( *this );\
+		return Output{ &shader\
+			, sdw::makeSwizzle( makeExpr( shader, this->getExpr() )\
 				, expr::SwizzleKind::e##Name ) };\
 	}
 
@@ -219,8 +220,9 @@ namespace sdw
 #	define Writer_OptSwizzle( Input, Output, Name )\
 	inline Output Name()const\
 	{\
-		return Output{ findShader( *this )\
-			, sdw::makeSwizzle( makeExpr( this->getExpr() )\
+		auto & shader = *findShader( *this );\
+		return Output{ &shader\
+			, sdw::makeSwizzle( makeExpr( shader, this->getExpr() )\
 				, expr::SwizzleKind::e##Name )\
 			, this->isEnabled() };\
 	}
@@ -234,15 +236,16 @@ namespace sdw
 #	define Writer_MayOptSwizzle( Input, Output, Name )\
 	inline Output Name()const\
 	{\
+		auto & shader = *findShader( *this );\
 		if ( isAnyOptional( *this ) )\
 		{\
-			return Output{ findShader( *this )\
-				, sdw::makeSwizzle( makeExpr( this->getExpr() )\
+			return Output{ &shader\
+				, sdw::makeSwizzle( makeExpr( shader, this->getExpr() )\
 					, expr::SwizzleKind::e##Name )\
 				, this->isEnabled() };\
 		}\
-		return Output{ findShader( *this )\
-			, sdw::makeSwizzle( makeExpr( this->getExpr() )\
+		return Output{ &shader\
+			, sdw::makeSwizzle( makeExpr( shader, this->getExpr() )\
 				, expr::SwizzleKind::e##Name ) };\
 	}
 

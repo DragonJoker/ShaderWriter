@@ -9,14 +9,14 @@ namespace sdw
 		auto var = m_shader->registerBlockVariable( name, m_type );
 		addStmt( *m_shader, sdw::makeVariableDecl( var ) );
 		return InstanceT{ m_shader
-			, makeExpr( var ) };
+			, makeExpr( *m_shader, var ) };
 	}
 
 	template< typename T >
 	inline void Struct::declMember( std::string const & name )
 	{
 		m_type->declMember( name
-			, T::makeType( getType()->getCache() ) );
+			, T::makeType( m_shader->getTypesCache() ) );
 	}
 
 	template< typename T >

@@ -13,18 +13,15 @@ namespace ast::type
 {
 	//*************************************************************************
 
-	Type::Type( TypesCache * cache
-		, Kind kind )
-		: Type{ cache, nullptr, NotMember, kind }
+	Type::Type( Kind kind )
+		: Type{ nullptr, NotMember, kind }
 	{
 	}
 
-	Type::Type( TypesCache * cache
-		, Struct * parent
+	Type::Type( Struct * parent
 		, uint32_t index
 		, Kind kind )
 		: m_kind{ kind }
-		, m_cache{ cache }
 		, m_parent{ parent }
 		, m_index{ index }
 	{
@@ -33,7 +30,7 @@ namespace ast::type
 	Type::Type( Struct & parent
 		, uint32_t index
 		, Kind kind )
-		: Type{ parent.m_cache, &parent, index, kind }
+		: Type{ &parent, index, kind }
 	{
 	}
 
@@ -67,7 +64,7 @@ namespace ast::type
 	{
 		switch ( kind )
 		{
-		case Kind::eBoolean:
+		case Kind::eBool:
 		case Kind::eVec2B:
 		case Kind::eVec3B:
 		case Kind::eVec4B:
@@ -175,7 +172,7 @@ namespace ast::type
 	{
 		switch ( kind )
 		{
-		case Kind::eBoolean:
+		case Kind::eBool:
 		case Kind::eInt:
 		case Kind::eUInt:
 		case Kind::eFloat:
@@ -329,7 +326,7 @@ namespace ast::type
 		case Kind::eVec2B:
 		case Kind::eVec3B:
 		case Kind::eVec4B:
-			return Kind::eBoolean;
+			return Kind::eBool;
 
 		case Kind::eVec2I:
 		case Kind::eVec3I:

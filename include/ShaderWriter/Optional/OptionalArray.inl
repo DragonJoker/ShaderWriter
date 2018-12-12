@@ -25,8 +25,7 @@ namespace sdw
 	template< typename IndexT >
 	Optional< ValueT > Optional< Array< ValueT > >::operator[]( IndexT const & offset )const
 	{
-		return Optional< ValueT >{ Array< ValueT >::operator[]( offset )
-			, areOptionalEnabled( *this, offset ) };
+		return writeBinOperator< ValueT >( *this, offset, sdw::makeArrayAccess );
 	}
 
 	template< typename ValueT >

@@ -32,10 +32,7 @@ namespace sdw
 	{
 		if ( this->getContainer() )
 		{
-			addStmt( *findShader( *this, rhs )
-				, sdw::makeSimple( sdw::makeAssign( Mat2x4T< ValueT >::makeType( findTypesCache( *this, rhs ) )
-					, makeExpr( *this )
-					, makeExpr( rhs ) ) ) );
+			writeAssignOperator< Mat2x4T< ValueT > >( *this, rhs, sdw::makeAssign );
 		}
 		else
 		{
@@ -47,13 +44,9 @@ namespace sdw
 
 	template< typename ValueT >
 	template< typename IndexT >
-	Optional< Vec4T< ValueT > > Optional< Mat2x4T< ValueT > >::operator[]( IndexT const & rhs )const
+	Optional< Vec4T< ValueT > > Optional< Mat2x4T< ValueT > >::operator[]( IndexT const & offset )const
 	{
-		return Optional< Vec4T< ValueT > >{ findShader( *this, rhs )
-			, sdw::makeArrayAccess( Vec4T< ValueT >::makeType( findTypesCache( *this, rhs ) )
-				, makeExpr( *this )
-				, makeExpr( rhs ) )
-			, areOptionalEnabled( *this, rhs ) };
+		return writeBinOperator< Vec4T< ValueT > >( *this, offset, sdw::makeArrayAccess );
 	}
 
 	template< typename ValueT >

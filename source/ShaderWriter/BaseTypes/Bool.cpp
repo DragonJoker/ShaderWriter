@@ -7,35 +7,36 @@ namespace sdw
 {
 	//*************************************************************************
 
-	Boolean::Boolean( Shader * shader
+	Bool::Bool( Shader * shader
 		, expr::ExprPtr expr )
 		: Value{ shader, std::move( expr ) }
 	{
 	}
 
-	Boolean::Boolean( Boolean && rhs )
+	Bool::Bool( Bool && rhs )
 		: Value{ std::move( rhs ) }
 	{
 	}
 
-	Boolean::Boolean( Boolean const & rhs )
+	Bool::Bool( Bool const & rhs )
 		: Value{ rhs }
 	{
 	}
 
-	Boolean::Boolean( Value const & rhs )
+	Bool::Bool( Value const & rhs )
 		: Value{ rhs }
 	{
 	}
 
-	Boolean & Boolean::operator=( Boolean const & rhs )
+	Bool & Bool::operator=( Bool const & rhs )
 	{
 		if ( getContainer() )
 		{
-			addStmt( *findShader( *this, rhs )
-				, sdw::makeSimple( sdw::makeAssign( findTypesCache( *this, rhs ).getBool()
-					, makeExpr( *this )
-					, makeExpr( rhs ) ) ) );
+			Shader & shader = *findShader( *this, rhs );
+			addStmt( shader
+				, sdw::makeSimple( sdw::makeAssign( getType()
+					, makeExpr( shader, *this )
+					, makeExpr( shader, rhs ) ) ) );
 		}
 		else
 		{
@@ -45,106 +46,81 @@ namespace sdw
 		return *this;
 	}
 
-	expr::ExprPtr Boolean::makeCondition()const
+	expr::ExprPtr Bool::makeCondition()const
 	{
-		return makeExpr( *this );
+		return makeExpr( *findShader( *this ), *this );
 	}
 
-	Boolean & Boolean::operator=( bool rhs )
+	Bool & Bool::operator=( bool rhs )
 	{
-		addStmt( *findShader( *this, rhs )
-			, sdw::makeSimple( sdw::makeAssign( findTypesCache( *this, rhs ).getBool()
-				, makeExpr( *this )
-				, makeExpr( rhs ) ) ) );
+		Shader & shader = *findShader( *this, rhs );
+		addStmt( shader
+			, sdw::makeSimple( sdw::makeAssign( getType()
+				, makeExpr( shader, *this )
+				, makeExpr( shader, rhs ) ) ) );
 		return *this;
 	}
 
-	Boolean::operator bool()
+	Bool::operator bool()
 	{
 		return false;
 	}
 
-	ast::type::TypePtr Boolean::makeType( ast::type::TypesCache & cache )
+	ast::type::TypePtr Bool::makeType( ast::type::TypesCache & cache )
 	{
 		return cache.getBool();
 	}
 
 	//*************************************************************************
 
-	Boolean operator==( Boolean const & lhs, Boolean const & rhs )
+	Bool operator==( Bool const & lhs, Bool const & rhs )
 	{
-		return Boolean{ findShader( lhs, rhs )
-			, sdw::makeEqual( makeExpr( lhs )
-				, makeExpr( rhs ) ) };
+		return writeComparator( lhs, rhs, sdw::makeEqual );
 	}
 
-	Boolean operator!=( Boolean const & lhs, Boolean const & rhs )
+	Bool operator!=( Bool const & lhs, Bool const & rhs )
 	{
-		return Boolean{ findShader( lhs, rhs )
-			, sdw::makeNEqual( makeExpr( lhs )
-				, makeExpr( rhs ) ) };
+		return writeComparator( lhs, rhs, sdw::makeNEqual );
 	}
 
-	Boolean operator||( Boolean const & lhs, Boolean const & rhs )
+	Bool operator||( Bool const & lhs, Bool const & rhs )
 	{
-		return Boolean{ findShader( lhs, rhs )
-			, sdw::makeLogOr( makeExpr( lhs )
-				, makeExpr( rhs ) ) };
+		return writeComparator( lhs, rhs, sdw::makeLogOr );
 	}
 
-	Boolean operator&&( Boolean const & lhs, Boolean const & rhs )
+	Bool operator&&( Bool const & lhs, Bool const & rhs )
 	{
-		return Boolean{ findShader( lhs, rhs )
-			, sdw::makeLogAnd( makeExpr( lhs )
-				, makeExpr( rhs ) ) };
+		return writeComparator( lhs, rhs, sdw::makeLogAnd );
 	}
 
-	Optional< Boolean > operator||( Optional< Boolean > const & lhs, Boolean const & rhs )
+	Optional< Bool > operator||( Optional< Bool > const & lhs, Bool const & rhs )
 	{
-		return Optional< Boolean >{ findShader( lhs, rhs )
-			, sdw::makeLogOr( makeExpr( lhs, true )
-				, makeExpr( rhs ) )
-			, areOptionalEnabled( lhs, rhs ) };
+		return writeComparator( lhs, rhs, sdw::makeLogOr );
 	}
 
-	Optional< Boolean > operator&&( Optional< Boolean > const & lhs, Boolean const & rhs )
+	Optional< Bool > operator&&( Optional< Bool > const & lhs, Bool const & rhs )
 	{
-		return Optional< Boolean >{ findShader( lhs, rhs )
-			, sdw::makeLogAnd( makeExpr( lhs, true )
-				, makeExpr( rhs ) )
-			, areOptionalEnabled( lhs, rhs ) };
+		return writeComparator( lhs, rhs, sdw::makeLogAnd );
 	}
 
-	Optional< Boolean > operator||( Boolean const & lhs, Optional< Boolean > const & rhs )
+	Optional< Bool > operator||( Bool const & lhs, Optional< Bool > const & rhs )
 	{
-		return Optional< Boolean >{ findShader( lhs, rhs )
-			, sdw::makeLogOr( makeExpr( lhs )
-				, makeExpr( rhs, true ) )
-			, areOptionalEnabled( lhs, rhs ) };
+		return writeComparator( lhs, rhs, sdw::makeLogOr );
 	}
 
-	Optional< Boolean > operator&&( Boolean const & lhs, Optional< Boolean > const & rhs )
+	Optional< Bool > operator&&( Bool const & lhs, Optional< Bool > const & rhs )
 	{
-		return Optional< Boolean >{ findShader( lhs, rhs )
-			, sdw::makeLogAnd( makeExpr( lhs )
-				, makeExpr( rhs, true ) )
-			, areOptionalEnabled( lhs, rhs ) };
+		return writeComparator( lhs, rhs, sdw::makeLogAnd );
 	}
 
-	Optional< Boolean > operator||( Optional< Boolean > const & lhs, Optional< Boolean > const & rhs )
+	Optional< Bool > operator||( Optional< Bool > const & lhs, Optional< Bool > const & rhs )
 	{
-		return Optional< Boolean >{ findShader( lhs, rhs )
-			, sdw::makeLogOr( makeExpr( lhs, true )
-				, makeExpr( rhs, true ) )
-			, areOptionalEnabled( lhs, rhs ) };
+		return writeComparator( lhs, rhs, sdw::makeLogOr );
 	}
 
-	Optional< Boolean > operator&&( Optional< Boolean > const & lhs, Optional< Boolean > const & rhs )
+	Optional< Bool > operator&&( Optional< Bool > const & lhs, Optional< Bool > const & rhs )
 	{
-		return Optional< Boolean >{ findShader( lhs, rhs )
-			, sdw::makeLogAnd( makeExpr( lhs, true )
-				, makeExpr( rhs, true ) )
-			, areOptionalEnabled( lhs, rhs ) };
+		return writeComparator( lhs, rhs, sdw::makeLogAnd );
 	}
 
 	//*************************************************************************

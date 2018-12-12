@@ -52,26 +52,19 @@ namespace sdw
 	template< typename IndexT >
 	MaybeOptional< ValueT > MaybeOptional< Array< ValueT > >::operator[]( IndexT const & offset )const
 	{
-		if ( isAnyOptional( *this, offset )
-		{
-			return MaybeOptional< ValueT >{ findShader( *this, offset )
-				, makeExpr( Array< ValueT >::operator[]( offset ) )
-				, areOptionalEnabled( *this, offset ) };
-		}
-
-		return MaybeOptional< ValueT >{ Array< ValueT >::operator[]( offset ) };
+		return writeBinOperator< MaybeOptional< ValueT > >( *this, offset, sdw::makeArrayAccess );
 	}
 
 	template< typename ValueT >
-	inline MaybeOptional< Array< ValueT > >::operator ValueT()const
+	inline MaybeOptional< Array< ValueT > >::operator Array< ValueT >()const
 	{
 		return *this;
 	}
 
 	template< typename ValueT >
-	inline MaybeOptional< Array< ValueT > >::operator Optional< ValueT >()const
+	inline MaybeOptional< Array< ValueT > >::operator Optional< Array< ValueT > >()const
 	{
-		return Optional< ValueT >{ *this
+		return Optional< Array< ValueT > >{ *this
 			, m_enabled };
 	}
 

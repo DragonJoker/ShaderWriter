@@ -22,28 +22,19 @@ namespace sdw
 	template< typename IndexT >
 	ValueT Array< ValueT >::operator[]( IndexT const & offset )const
 	{
-		return ValueT{ findShader( *this, offset )
-			, sdw::makeArrayAccess( getNonArrayType( this->getType() )
-				, makeExpr( *this )
-				, makeExpr( offset ) ) };
+		return writeBinOperator< ValueT >( *this, offset, sdw::makeArrayAccess );
 	}
 
 	template< typename ValueT >
 	ValueT Array< ValueT >::operator[]( int32_t offset )const
 	{
-		return ValueT{ findShader( *this, offset )
-			, sdw::makeArrayAccess( getNonArrayType( this->getType() )
-				, makeExpr( *this )
-				, makeExpr( offset ) ) };
+		return writeBinOperator< ValueT >( *this, offset, sdw::makeArrayAccess );
 	}
 
 	template< typename ValueT >
 	ValueT Array< ValueT >::operator[]( uint32_t offset )const
 	{
-		return ValueT{ findShader( *this, offset )
-			, sdw::makeArrayAccess( getNonArrayType( this->getType() )
-				, makeExpr( *this )
-				, makeExpr( offset ) ) };
+		return writeBinOperator< ValueT >( *this, offset, sdw::makeArrayAccess );
 	}
 
 	template< typename ValueT >

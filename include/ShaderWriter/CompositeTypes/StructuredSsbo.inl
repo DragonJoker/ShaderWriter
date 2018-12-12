@@ -5,20 +5,22 @@ namespace sdw
 {
 	namespace details
 	{
-		inline ast::type::StructPtr getSsboType( std::string const & name
+		inline ast::type::StructPtr getSsboType( ast::type::TypesCache & cache
+			, std::string const & name
 			, ast::type::TypePtr dataType
 			, ast::type::MemoryLayout layout )
 		{
-			ast::type::ArrayPtr arrayType = dataType->getCache().getArray( dataType, type::UnknownArraySize );
-			ast::type::StructPtr result = dataType->getCache().getStruct( layout, name );
+			ast::type::ArrayPtr arrayType = cache.getArray( dataType, type::UnknownArraySize );
+			ast::type::StructPtr result = cache.getStruct( layout, name );
 			result->declMember( name + "Data", arrayType );
 			return result;
 		}
 
-		inline ast::type::StructPtr getSsboType( std::string const & name
+		inline ast::type::StructPtr getSsboType( ast::type::TypesCache & cache
+			, std::string const & name
 			, ast::type::StructPtr dataType )
 		{
-			ast::type::StructPtr result = dataType->getCache().getStruct( dataType->getMemoryLayout(), name );
+			ast::type::StructPtr result = cache.getStruct( dataType->getMemoryLayout(), name );
 			result->declMember( name + "Data", dataType, type::UnknownArraySize );
 			return result;
 		}
@@ -33,7 +35,7 @@ namespace sdw
 		, uint32_t set )
 		: m_shader{ sdw::getShader( writer ) }
 		, m_name{ name }
-		, m_info{ details::getSsboType( m_name, dataType, layout ), bind, set }
+		, m_info{ details::getSsboType( writer.getTypesCache(), m_name, dataType, layout ), bind, set }
 		, m_ssboType{ m_info.getType() }
 		, m_dataVar{ var::makeVariable( m_ssboType->getMember( m_name + "Data" ).type, m_name + "Data", var::Flag::eUniform ) }
 		, m_ssboVar{ var::makeVariable( m_ssboType, m_name + "Inst", var::Flag::eUniform ) }
@@ -55,7 +57,7 @@ namespace sdw
 		, uint32_t set )
 		: m_shader{ sdw::getShader( writer ) }
 		, m_name{ name }
-		, m_info{ details::getSsboType( m_name, dataType ), bind, set }
+		, m_info{ details::getSsboType( writer.getTypesCache(), m_name, dataType ), bind, set }
 		, m_ssboType{ m_info.getType() }
 		, m_dataVar{ var::makeVariable( m_ssboType->getMember( m_name + "Data" ).type, m_name + "Data", var::Flag::eUniform ) }
 		, m_ssboVar{ var::makeVariable( m_ssboType, m_name + "Inst", var::Flag::eUniform ) }
@@ -74,10 +76,10 @@ namespace sdw
 	{
 		return InstanceT{ &m_shader
 			, sdw::makeArrayAccess( getNonArrayType( m_dataVar->getType() )
-				, sdw::makeMbrSelect( makeIdent( m_ssboVar )
+				, sdw::makeMbrSelect( sdw::makeIdent( m_shader.getTypesCache(), m_ssboVar )
 					, 0u
-					, makeIdent( m_dataVar ) )
-				, makeExpr( index ) ) };
+					, sdw::makeIdent( m_shader.getTypesCache(), m_dataVar ) )
+				, makeExpr( m_shader, index ) ) };
 	}
 
 	template< typename InstanceT >
@@ -85,9 +87,9 @@ namespace sdw
 	{
 		return InstanceT{ &m_shader
 			, sdw::makeArrayAccess( getNonArrayType( m_dataVar->getType() )
-				, sdw::makeMbrSelect( makeIdent( m_ssboVar )
+				, sdw::makeMbrSelect( sdw::makeIdent( m_shader.getTypesCache(), m_ssboVar )
 					, 0u
-					, makeIdent( m_dataVar ) )
-				, makeExpr( index ) ) };
+					, sdw::makeIdent( m_shader.getTypesCache(), m_dataVar ) )
+				, makeExpr( m_shader, index ) ) };
 	}
 }

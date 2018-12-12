@@ -67,11 +67,11 @@ namespace ast::expr
 		: public Expr
 	{
 	private:
-		Literal( type::TypePtr type, bool value );
-		Literal( type::TypePtr type, int32_t value );
-		Literal( type::TypePtr type, uint32_t value );
-		Literal( type::TypePtr type, float value );
-		Literal( type::TypePtr type, double value );
+		Literal( type::TypesCache & cache, type::TypePtr type, bool value );
+		Literal( type::TypesCache & cache, type::TypePtr type, int32_t value );
+		Literal( type::TypesCache & cache, type::TypePtr type, uint32_t value );
+		Literal( type::TypesCache & cache, type::TypePtr type, float value );
+		Literal( type::TypesCache & cache, type::TypePtr type, double value );
 
 	public:
 		Literal( type::TypesCache & cache, bool value );

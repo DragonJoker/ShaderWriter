@@ -16,10 +16,11 @@ namespace sdw
 	{
 		if ( getContainer() )
 		{
-			addStmt( *findShader( *this, rhs )
-				, sdw::makeSimple( sdw::makeAssign( findTypesCache( *this, rhs ).getFloat()
-					, makeExpr( *this )
-					, makeExpr( rhs ) ) ) );
+			auto & shader = *findShader( *this, rhs );
+			addStmt( shader
+				, sdw::makeSimple( sdw::makeAssign( getType()
+					, makeExpr( shader, *this )
+					, makeExpr( shader, rhs ) ) ) );
 		}
 		else
 		{

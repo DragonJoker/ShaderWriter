@@ -6,286 +6,237 @@ namespace sdw
 	//*************************************************************************
 
 	template< typename T >
-	inline Boolean & Boolean::operator=( T const & rhs )
+	inline Bool & Bool::operator=( T const & rhs )
 	{
 		updateContainer( rhs );
-		addStmt( *findShader( *this, rhs )
-			, sdw::makeSimple( sdw::makeAssign( findTypesCache( *this, rhs ).getBool()
-				, makeExpr( *this )
-				, makeExpr( rhs ) ) ) );
+		Shader & shader = *findShader( *this, rhs );
+		addStmt( shader
+			, sdw::makeSimple( sdw::makeAssign( getTypesCache( shader ).getBool()
+				, sdw::makeExpr( shader, *this )
+				, sdw::makeExpr( shader, rhs ) ) ) );
 		return *this;
 	}
 
 	//*************************************************************************
 
-	template< typename ValueT >
-	Optional< Boolean > operator==( Optional< ValueT > const & lhs, ValueT const & rhs )
+	namespace details
 	{
-		auto lhsExpr = makeExpr( lhs, true );
-		auto rhsExpr = makeExpr( rhs );
-		auto lhsType = lhs.getType();
-		auto rhsType = rhs.getType();
-		return Optional< Boolean >{ findShader( lhs, rhs )
-			, sdw::makeEqual( std::move( lhsExpr )
-				, ( rhsType == lhsType
-					? std::move( rhsExpr )
-					: sdw::makeCast( lhsType, std::move( rhsExpr ) ) ) )
+		template< typename TypeT >
+		struct TypeGetter
+		{
+			static inline ast::type::TypePtr get( Shader & shader, TypeT const & value )
+			{
+				return value.getType();
+			}
+		};
+
+		template<>
+		struct TypeGetter< int32_t >
+		{
+			static inline ast::type::TypePtr get( Shader & shader, int32_t )
+			{
+				return getTypesCache( shader ).getInt();
+			}
+		};
+
+		template<>
+		struct TypeGetter< uint32_t >
+		{
+			static inline ast::type::TypePtr get( Shader & shader, uint32_t )
+			{
+				return getTypesCache( shader ).getUInt();
+			}
+		};
+
+		template<>
+		struct TypeGetter< float >
+		{
+			static inline ast::type::TypePtr get( Shader & shader, float )
+			{
+				return getTypesCache( shader ).getFloat();
+			}
+		};
+
+		template<>
+		struct TypeGetter< double >
+		{
+			static inline ast::type::TypePtr get( Shader & shader, double )
+			{
+				return getTypesCache( shader ).getDouble();
+			}
+		};
+
+		template< typename TypeT >
+		inline ast::type::TypePtr getType( Shader & shader, TypeT const & value )
+		{
+			return TypeGetter< TypeT >::get( shader, value );
+		}
+	}
+
+	//*************************************************************************
+
+	template< typename LhsT, typename RhsT, typename CreatorT >
+	inline Bool writeComparator( LhsT const & lhs
+		, RhsT const & rhs
+		, CreatorT creator )
+	{
+		Shader & shader = *findShader( lhs, rhs );
+		ast::expr::ExprPtr lhsExpr = sdw::makeExpr( shader, lhs );
+		ast::expr::ExprPtr rhsExpr = sdw::makeExpr( shader, rhs );
+		ast::type::TypePtr lhsType = details::getType( shader, lhs );
+		ast::type::TypePtr rhsType = details::getType( shader, rhs );
+
+		if ( rhsType != lhsType )
+		{
+			rhsExpr = sdw::makeCast( lhsType, std::move( rhsExpr ) );
+		}
+
+		return Bool{ &shader
+			, creator( std::move( lhsExpr ), std::move( rhsExpr ) ) };
+	}
+
+	template< typename LhsT, typename RhsT, typename CreatorT >
+	Optional< Bool > writeComparator( Optional< LhsT > const & lhs
+		, RhsT const & rhs
+		, CreatorT creator )
+	{
+		Shader & shader = *findShader( lhs, rhs );
+		ast::expr::ExprPtr lhsExpr = sdw::makeExpr( shader, lhs, true );
+		ast::expr::ExprPtr rhsExpr = sdw::makeExpr( shader, rhs );
+		ast::type::TypePtr lhsType = details::getType( shader, lhs );
+		ast::type::TypePtr rhsType = details::getType( shader, rhs );
+
+		if ( rhsType != lhsType )
+		{
+			rhsExpr = sdw::makeCast( lhsType, std::move( rhsExpr ) );
+		}
+
+		return Optional< Bool >{ &shader
+			, creator( std::move( lhsExpr ), std::move( rhsExpr ) )
 			, areOptionalEnabled( lhs, rhs ) };
 	}
 
-	template< typename ValueT >
-	Optional< Boolean > operator!=( Optional< ValueT > const & lhs, ValueT const & rhs )
+	template< typename LhsT, typename RhsT, typename CreatorT >
+	Optional< Bool > writeComparator( LhsT const & lhs
+		, Optional< RhsT > const & rhs
+		, CreatorT creator )
 	{
-		auto lhsExpr = makeExpr( lhs, true );
-		auto rhsExpr = makeExpr( rhs );
-		auto lhsType = lhs.getType();
-		auto rhsType = rhs.getType();
-		return Optional< Boolean >{ findShader( lhs, rhs )
-			, sdw::makeNEqual( std::move( lhsExpr )
-				, ( rhsType == lhsType
-					? std::move( rhsExpr )
-					: sdw::makeCast( lhsType, std::move( rhsExpr ) ) ) )
+		Shader & shader = *findShader( lhs, rhs );
+		ast::expr::ExprPtr lhsExpr = sdw::makeExpr( shader, lhs );
+		ast::expr::ExprPtr rhsExpr = sdw::makeExpr( shader, rhs, true );
+		ast::type::TypePtr lhsType = details::getType( shader, lhs );
+		ast::type::TypePtr rhsType = details::getType( shader, rhs );
+
+		if ( rhsType != lhsType )
+		{
+			rhsExpr = sdw::makeCast( lhsType, std::move( rhsExpr ) );
+		}
+
+		return Optional< Bool >{ &shader
+			, creator( std::move( lhsExpr ), std::move( rhsExpr ) )
 			, areOptionalEnabled( lhs, rhs ) };
 	}
 
-	template< typename ValueT >
-	Optional< Boolean > operator<( Optional< ValueT > const & lhs, ValueT const & rhs )
+	template< typename LhsT, typename RhsT, typename CreatorT >
+	Optional< Bool > writeComparator( Optional< LhsT > const & lhs
+		, Optional< RhsT > const & rhs
+		, CreatorT creator )
 	{
-		auto lhsExpr = makeExpr( lhs, true );
-		auto rhsExpr = makeExpr( rhs );
-		auto lhsType = lhs.getType();
-		auto rhsType = rhs.getType();
-		return Optional< Boolean >{ findShader( lhs, rhs )
-			, sdw::makeLess( std::move( lhsExpr )
-				, ( rhsType == lhsType
-					? std::move( rhsExpr )
-					: sdw::makeCast( lhsType, std::move( rhsExpr ) ) ) )
+		Shader & shader = *findShader( lhs, rhs );
+		ast::expr::ExprPtr lhsExpr = sdw::makeExpr( shader, lhs, true );
+		ast::expr::ExprPtr rhsExpr = sdw::makeExpr( shader, rhs, true );
+		ast::type::TypePtr lhsType = details::getType( shader, lhs );
+		ast::type::TypePtr rhsType = details::getType( shader, rhs );
+
+		if ( rhsType != lhsType )
+		{
+			rhsExpr = sdw::makeCast( lhsType, std::move( rhsExpr ) );
+		}
+
+		return Optional< Bool >{ &shader
+			, creator( std::move( lhsExpr ), std::move( rhsExpr ) )
 			, areOptionalEnabled( lhs, rhs ) };
 	}
 
-	template< typename ValueT >
-	Optional< Boolean > operator<=( Optional< ValueT > const & lhs, ValueT const & rhs )
+	template< typename LhsT, typename RhsT, typename CreatorT >
+	MaybeOptional< Bool > writeComparator( MaybeOptional< LhsT > const & lhs
+		, RhsT const & rhs
+		, CreatorT creator )
 	{
-		auto lhsExpr = makeExpr( lhs, true );
-		auto rhsExpr = makeExpr( rhs );
-		auto lhsType = lhs.getType();
-		auto rhsType = rhs.getType();
-		return Optional< Boolean >{ findShader( lhs, rhs )
-			, sdw::makeLEqual( std::move( lhsExpr )
-				, ( rhsType == lhsType
-					? std::move( rhsExpr )
-					: sdw::makeCast( lhsType, std::move( rhsExpr ) ) ) )
-			, areOptionalEnabled( lhs, rhs ) };
+		Shader & shader = *findShader( lhs, rhs );
+		ast::expr::ExprPtr lhsExpr = sdw::makeExpr( shader, lhs, true );
+		ast::expr::ExprPtr rhsExpr = sdw::makeExpr( shader, rhs );
+		ast::type::TypePtr lhsType = details::getType( shader, lhs );
+		ast::type::TypePtr rhsType = details::getType( shader, rhs );
+
+		if ( rhsType != lhsType )
+		{
+			rhsExpr = sdw::makeCast( lhsType, std::move( rhsExpr ) );
+		}
+
+		if ( isAnyOptional( lhs, rhs ) )
+		{
+			return MaybeOptional< Bool >{ &shader
+				, creator( std::move( lhsExpr ), std::move( rhsExpr ) )
+				, areOptionalEnabled( lhs, rhs ) };
+		}
+
+		return Bool{ &shader
+			, creator( std::move( lhsExpr ), std::move( rhsExpr ) ) };
 	}
 
-	template< typename ValueT >
-	Optional< Boolean > operator>( Optional< ValueT > const & lhs, ValueT const & rhs )
+	template< typename LhsT, typename RhsT, typename CreatorT >
+	MaybeOptional< Bool > writeComparator( LhsT const & lhs
+		, MaybeOptional< RhsT > const & rhs
+		, CreatorT creator )
 	{
-		auto lhsExpr = makeExpr( lhs, true );
-		auto rhsExpr = makeExpr( rhs );
-		auto lhsType = lhs.getType();
-		auto rhsType = rhs.getType();
-		return Optional< Boolean >{ findShader( lhs, rhs )
-			, sdw::makeGreater( std::move( lhsExpr )
-				, ( rhsType == lhsType
-					? std::move( rhsExpr )
-					: sdw::makeCast( lhsType, std::move( rhsExpr ) ) ) )
-			, areOptionalEnabled( lhs, rhs ) };
+		Shader & shader = *findShader( lhs, rhs );
+		ast::expr::ExprPtr lhsExpr = sdw::makeExpr( shader, lhs );
+		ast::expr::ExprPtr rhsExpr = sdw::makeExpr( shader, rhs, true );
+		ast::type::TypePtr lhsType = details::getType( shader, lhs );
+		ast::type::TypePtr rhsType = details::getType( shader, rhs );
+
+		if ( rhsType != lhsType )
+		{
+			rhsExpr = sdw::makeCast( lhsType, std::move( rhsExpr ) );
+		}
+
+		if ( isAnyOptional( lhs, rhs ) )
+		{
+			return MaybeOptional< Bool >{ &shader
+				, creator( std::move( lhsExpr ), std::move( rhsExpr ) )
+				, areOptionalEnabled( lhs, rhs ) };
+		}
+
+		return Bool{ &shader
+			, creator( std::move( lhsExpr ), std::move( rhsExpr ) ) };
 	}
 
-	template< typename ValueT >
-	Optional< Boolean > operator>=( Optional< ValueT > const & lhs, ValueT const & rhs )
+	template< typename LhsT, typename RhsT, typename CreatorT >
+	MaybeOptional< Bool > writeComparator( MaybeOptional< LhsT > const & lhs
+		, MaybeOptional< RhsT > const & rhs
+		, CreatorT creator )
 	{
-		auto lhsExpr = makeExpr( lhs, true );
-		auto rhsExpr = makeExpr( rhs );
-		auto lhsType = lhs.getType();
-		auto rhsType = rhs.getType();
-		return Optional< Boolean >{ findShader( lhs, rhs )
-			, sdw::makeGEqual( std::move( lhsExpr )
-				, ( rhsType == lhsType
-					? std::move( rhsExpr )
-					: sdw::makeCast( lhsType, std::move( rhsExpr ) ) ) )
-			, areOptionalEnabled( lhs, rhs ) };
-	}
+		Shader & shader = *findShader( lhs, rhs );
+		ast::expr::ExprPtr lhsExpr = sdw::makeExpr( shader, lhs, true );
+		ast::expr::ExprPtr rhsExpr = sdw::makeExpr( shader, rhs, true );
+		ast::type::TypePtr lhsType = details::getType( shader, lhs );
+		ast::type::TypePtr rhsType = details::getType( shader, rhs );
 
-	template< typename ValueT >
-	Optional< Boolean > operator==( ValueT const & lhs, Optional< ValueT > const & rhs )
-	{
-		auto lhsExpr = makeExpr( lhs );
-		auto rhsExpr = makeExpr( rhs, true );
-		auto lhsType = lhs.getType();
-		auto rhsType = rhs.getType();
-		return Optional< Boolean >{ findShader( lhs, rhs )
-			, sdw::makeEqual( std::move( lhsExpr )
-				, ( rhsType == lhsType
-					? std::move( rhsExpr )
-					: sdw::makeCast( lhsType, std::move( rhsExpr ) ) ) )
-			, areOptionalEnabled( lhs, rhs ) };
-	}
+		if ( rhsType != lhsType )
+		{
+			rhsExpr = sdw::makeCast( lhsType, std::move( rhsExpr ) );
+		}
 
-	template< typename ValueT >
-	Optional< Boolean > operator!=( ValueT const & lhs, Optional< ValueT > const & rhs )
-	{
-		auto lhsExpr = makeExpr( lhs );
-		auto rhsExpr = makeExpr( rhs, true );
-		auto lhsType = lhs.getType();
-		auto rhsType = rhs.getType();
-		return Optional< Boolean >{ findShader( lhs, rhs )
-			, sdw::makeNEqual( std::move( lhsExpr )
-				, ( rhsType == lhsType
-					? std::move( rhsExpr )
-					: sdw::makeCast( lhsType, std::move( rhsExpr ) ) ) )
-			, areOptionalEnabled( lhs, rhs ) };
-	}
+		if ( isAnyOptional( lhs, rhs ) )
+		{
+			return MaybeOptional< Bool >{ &shader
+				, creator( std::move( lhsExpr ), std::move( rhsExpr ) )
+				, areOptionalEnabled( lhs, rhs ) };
+		}
 
-	template< typename ValueT >
-	Optional< Boolean > operator<( ValueT const & lhs, Optional< ValueT > const & rhs )
-	{
-		auto lhsExpr = makeExpr( lhs );
-		auto rhsExpr = makeExpr( rhs, true );
-		auto lhsType = lhs.getType();
-		auto rhsType = rhs.getType();
-		return Optional< Boolean >{ findShader( lhs, rhs )
-			, sdw::makeLess( std::move( lhsExpr )
-				, ( rhsType == lhsType
-					? std::move( rhsExpr )
-					: sdw::makeCast( lhsType, std::move( rhsExpr ) ) ) )
-			, areOptionalEnabled( lhs, rhs ) };
-	}
-
-	template< typename ValueT >
-	Optional< Boolean > operator<=( ValueT const & lhs, Optional< ValueT > const & rhs )
-	{
-		auto lhsExpr = makeExpr( lhs );
-		auto rhsExpr = makeExpr( rhs, true );
-		auto lhsType = lhs.getType();
-		auto rhsType = rhs.getType();
-		return Optional< Boolean >{ findShader( lhs, rhs )
-			, sdw::makeLEqual( std::move( lhsExpr )
-				, ( rhsType == lhsType
-					? std::move( rhsExpr )
-					: sdw::makeCast( lhsType, std::move( rhsExpr ) ) ) )
-			, areOptionalEnabled( lhs, rhs ) };
-	}
-
-	template< typename ValueT >
-	Optional< Boolean > operator>( ValueT const & lhs, Optional< ValueT > const & rhs )
-	{
-		auto lhsExpr = makeExpr( lhs );
-		auto rhsExpr = makeExpr( rhs, true );
-		auto lhsType = lhs.getType();
-		auto rhsType = rhs.getType();
-		return Optional< Boolean >{ findShader( lhs, rhs )
-			, sdw::makeGreater( std::move( lhsExpr )
-				, ( rhsType == lhsType
-					? std::move( rhsExpr )
-					: sdw::makeCast( lhsType, std::move( rhsExpr ) ) ) )
-			, areOptionalEnabled( lhs, rhs ) };
-	}
-
-	template< typename ValueT >
-	Optional< Boolean > operator>=( ValueT const & lhs, Optional< ValueT > const & rhs )
-	{
-		auto lhsExpr = makeExpr( lhs );
-		auto rhsExpr = makeExpr( rhs, true );
-		auto lhsType = lhs.getType();
-		auto rhsType = rhs.getType();
-		return Optional< Boolean >{ findShader( lhs, rhs )
-			, sdw::makeGEqual( std::move( lhsExpr )
-				, ( rhsType == lhsType
-					? std::move( rhsExpr )
-					: sdw::makeCast( lhsType, std::move( rhsExpr ) ) ) )
-			, areOptionalEnabled( lhs, rhs ) };
-	}
-
-	template< typename ValueT >
-	Optional< Boolean > operator==( Optional< ValueT > const & lhs, Optional< ValueT > const & rhs )
-	{
-		auto lhsExpr = makeExpr( lhs, true );
-		auto rhsExpr = makeExpr( rhs, true );
-		auto lhsType = lhs.getType();
-		auto rhsType = rhs.getType();
-		return Optional< Boolean >{ findShader( lhs, rhs )
-			, sdw::makeEqual( std::move( lhsExpr )
-				, ( rhsType == lhsType
-					? std::move( rhsExpr )
-					: sdw::makeCast( lhsType, std::move( rhsExpr ) ) ) )
-			, areOptionalEnabled( lhs, rhs ) };
-	}
-
-	template< typename ValueT >
-	Optional< Boolean > operator!=( Optional< ValueT > const & lhs, Optional< ValueT > const & rhs )
-	{
-		auto lhsExpr = makeExpr( lhs, true );
-		auto rhsExpr = makeExpr( rhs, true );
-		auto lhsType = lhs.getType();
-		auto rhsType = rhs.getType();
-		return Optional< Boolean >{ findShader( lhs, rhs )
-			, sdw::makeNEqual( std::move( lhsExpr )
-				, ( rhsType == lhsType
-					? std::move( rhsExpr )
-					: sdw::makeCast( lhsType, std::move( rhsExpr ) ) ) )
-			, areOptionalEnabled( lhs, rhs ) };
-	}
-
-	template< typename ValueT >
-	Optional< Boolean > operator<( Optional< ValueT > const & lhs, Optional< ValueT > const & rhs )
-	{
-		auto lhsExpr = makeExpr( lhs, true );
-		auto rhsExpr = makeExpr( rhs, true );
-		auto lhsType = lhs.getType();
-		auto rhsType = rhs.getType();
-		return Optional< Boolean >{ findShader( lhs, rhs )
-			, sdw::makeLess( std::move( lhsExpr )
-				, ( rhsType == lhsType
-					? std::move( rhsExpr )
-					: sdw::makeCast( lhsType, std::move( rhsExpr ) ) ) )
-			, areOptionalEnabled( lhs, rhs ) };
-	}
-
-	template< typename ValueT >
-	Optional< Boolean > operator<=( Optional< ValueT > const & lhs, Optional< ValueT > const & rhs )
-	{
-		auto lhsExpr = makeExpr( lhs, true );
-		auto rhsExpr = makeExpr( rhs, true );
-		auto lhsType = lhs.getType();
-		auto rhsType = rhs.getType();
-		return Optional< Boolean >{ findShader( lhs, rhs )
-			, sdw::makeLEqual( std::move( lhsExpr )
-				, ( rhsType == lhsType
-					? std::move( rhsExpr )
-					: sdw::makeCast( lhsType, std::move( rhsExpr ) ) ) )
-			, areOptionalEnabled( lhs, rhs ) };
-	}
-
-	template< typename ValueT >
-	Optional< Boolean > operator>( Optional< ValueT > const & lhs, Optional< ValueT > const & rhs )
-	{
-		auto lhsExpr = makeExpr( lhs, true );
-		auto rhsExpr = makeExpr( rhs, true );
-		auto lhsType = lhs.getType();
-		auto rhsType = rhs.getType();
-		return Optional< Boolean >{ findShader( lhs, rhs )
-			, sdw::makeGreater( std::move( lhsExpr )
-				, ( rhsType == lhsType
-					? std::move( rhsExpr )
-					: sdw::makeCast( lhsType, std::move( rhsExpr ) ) ) )
-			, areOptionalEnabled( lhs, rhs ) };
-	}
-
-	template< typename ValueT >
-	Optional< Boolean > operator>=( Optional< ValueT > const & lhs, Optional< ValueT > const & rhs )
-	{
-		auto lhsExpr = makeExpr( lhs, true );
-		auto rhsExpr = makeExpr( rhs, true );
-		auto lhsType = lhs.getType();
-		auto rhsType = rhs.getType();
-		return Optional< Boolean >{ findShader( lhs, rhs )
-			, sdw::makeGEqual( std::move( lhsExpr )
-				, ( rhsType == lhsType
-					? std::move( rhsExpr )
-					: sdw::makeCast( lhsType, std::move( rhsExpr ) ) ) )
-			, areOptionalEnabled( lhs, rhs ) };
+		return Bool{ &shader
+			, creator( std::move( lhsExpr ), std::move( rhsExpr ) ) };
 	}
 
 	//*************************************************************************

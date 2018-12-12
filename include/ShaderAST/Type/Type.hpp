@@ -16,10 +16,10 @@ namespace ast::type
 		eUndefined,
 		eVoid,
 		eFunction,
-		eStruct,
-		eBoolean,
+		eBool,
 		eInt,
 		eUInt,
+		eHalf,// Internal only, never use this !!!
 		eFloat,
 		eDouble,
 		eVec2B,
@@ -31,6 +31,9 @@ namespace ast::type
 		eVec2U,
 		eVec3U,
 		eVec4U,
+		eVec2H,// Internal only, never use this !!!
+		eVec3H,// Internal only, never use this !!!
+		eVec4H,// Internal only, never use this !!!
 		eVec2F,
 		eVec3F,
 		eVec4F,
@@ -55,19 +58,15 @@ namespace ast::type
 		eMat4x2D,
 		eMat4x3D,
 		eMat4x4D,
-		eConstantsBuffer,
-		eShaderBuffer,
+		eBasicTypesMax = eMat4x4D,
+		eArray,
+		eStruct,
 		eSampler,
 		eImage,
 		eSampledImage,
-		eArray,
 		eCount,
-		eHalf,// Internal only, never use this !!!
-		eVec2H,// Internal only, never use this !!!
-		eVec3H,// Internal only, never use this !!!
-		eVec4H,// Internal only, never use this !!!
 		eMin = eUndefined,
-		eMax = eSampledImage,
+		eMax = eArray,
 	};
 
 	class Type
@@ -80,10 +79,8 @@ namespace ast::type
 		friend class Struct;
 
 	public:
-		Type( TypesCache * cache
-			, Kind kind );
-		Type( TypesCache * cache
-			, Struct * parent
+		Type( Kind kind );
+		Type( Struct * parent
 			, uint32_t index
 			, Kind kind );
 		Type( Struct & parent
@@ -96,11 +93,6 @@ namespace ast::type
 		inline Kind getKind()const
 		{
 			return m_kind;
-		}
-
-		inline TypesCache & getCache()const
-		{
-			return *m_cache;
 		}
 
 		inline bool isMember()const
@@ -120,7 +112,6 @@ namespace ast::type
 
 	private:
 		Kind m_kind;
-		TypesCache * m_cache;
 		Struct * m_parent;
 		uint32_t m_index;
 	};

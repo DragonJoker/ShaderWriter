@@ -277,7 +277,7 @@ namespace
 int main( int argc, char ** argv )
 {
 	sdwTestSuiteBegin( "TestWriterLocaleDeclarations" );
-	testLocale< sdw::Boolean >( testCounts );
+	testLocale< sdw::Bool >( testCounts );
 	testLocale< sdw::Int >( testCounts );
 	testLocale< sdw::UInt >( testCounts );
 	testLocale< sdw::Float >( testCounts );

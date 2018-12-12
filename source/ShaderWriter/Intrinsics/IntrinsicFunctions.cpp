@@ -3,6 +3,13 @@
 See LICENSE file in root folder
 */
 
+#include "ShaderWriter/BaseTypes/Void.hpp"
+#include "ShaderWriter/BaseTypes/Array.hpp"
+#include "ShaderWriter/BaseTypes/Bool.hpp"
+#include "ShaderWriter/BaseTypes/Double.hpp"
+#include "ShaderWriter/BaseTypes/Float.hpp"
+#include "ShaderWriter/BaseTypes/Int.hpp"
+#include "ShaderWriter/BaseTypes/UInt.hpp"
 #include "ShaderWriter/Intrinsics/IntrinsicFunctions.hpp"
 
 #include <ShaderAST/Expr/MakeIntrinsic.hpp>
@@ -4623,7 +4630,7 @@ namespace sdw
 	}
 	MaybeOptional< Float > mix( MaybeOptional< Float > const & x
 		, MaybeOptional< Float > const & y
-		, MaybeOptional< Boolean > const & a )
+		, MaybeOptional< Bool > const & a )
 	{
 		if ( isAnyOptional( x, y, a ) )
 		{
@@ -4843,7 +4850,7 @@ namespace sdw
 	}
 	MaybeOptional< Double > mix( MaybeOptional< Double > const & x
 		, MaybeOptional< Double > const & y
-		, MaybeOptional< Boolean > const & a )
+		, MaybeOptional< Bool > const & a )
 	{
 		if ( isAnyOptional( x, y, a ) )
 		{
@@ -5463,17 +5470,17 @@ namespace sdw
 	*	isnan
 	*/
 	/**@{*/
-	MaybeOptional< Boolean > isnan( MaybeOptional< Float > const & x )
+	MaybeOptional< Bool > isnan( MaybeOptional< Float > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< Boolean >{ findShader( x )
+			return Optional< Bool >{ findShader( x )
 				, expr::makeIsnan1F( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return Boolean{ findShader( x )
+		return Bool{ findShader( x )
 			, expr::makeIsnan1F( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -5519,17 +5526,17 @@ namespace sdw
 			, expr::makeIsnan4F( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
-	MaybeOptional< Boolean > isnan( MaybeOptional< Double > const & x )
+	MaybeOptional< Bool > isnan( MaybeOptional< Double > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< Boolean >{ findShader( x )
+			return Optional< Bool >{ findShader( x )
 				, expr::makeIsnan1D( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return Boolean{ findShader( x )
+		return Bool{ findShader( x )
 			, expr::makeIsnan1D( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -5583,17 +5590,17 @@ namespace sdw
 	*	isinf
 	*/
 	/**@{*/
-	MaybeOptional< Boolean > isinf( MaybeOptional< Float > const & x )
+	MaybeOptional< Bool > isinf( MaybeOptional< Float > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< Boolean >{ findShader( x )
+			return Optional< Bool >{ findShader( x )
 				, expr::makeIsinf1F( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return Boolean{ findShader( x )
+		return Bool{ findShader( x )
 			, expr::makeIsinf1F( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -5639,17 +5646,17 @@ namespace sdw
 			, expr::makeIsinf4F( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
-	MaybeOptional< Boolean > isinf( MaybeOptional< Double > const & x )
+	MaybeOptional< Bool > isinf( MaybeOptional< Double > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< Boolean >{ findShader( x )
+			return Optional< Bool >{ findShader( x )
 				, expr::makeIsinf1D( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return Boolean{ findShader( x )
+		return Bool{ findShader( x )
 			, expr::makeIsinf1D( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -10073,45 +10080,45 @@ namespace sdw
 	*	all
 	*/
 	/**@{*/
-	MaybeOptional< Boolean > all( MaybeOptional< BVec2 > const & x )
+	MaybeOptional< Bool > all( MaybeOptional< BVec2 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< Boolean >{ findShader( x )
+			return Optional< Bool >{ findShader( x )
 				, expr::makeAll2( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return Boolean{ findShader( x )
+		return Bool{ findShader( x )
 			, expr::makeAll2( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
-	MaybeOptional< Boolean > all( MaybeOptional< BVec3 > const & x )
+	MaybeOptional< Bool > all( MaybeOptional< BVec3 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< Boolean >{ findShader( x )
+			return Optional< Bool >{ findShader( x )
 				, expr::makeAll3( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return Boolean{ findShader( x )
+		return Bool{ findShader( x )
 			, expr::makeAll3( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
-	MaybeOptional< Boolean > all( MaybeOptional< BVec4 > const & x )
+	MaybeOptional< Bool > all( MaybeOptional< BVec4 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< Boolean >{ findShader( x )
+			return Optional< Bool >{ findShader( x )
 				, expr::makeAll4( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return Boolean{ findShader( x )
+		return Bool{ findShader( x )
 			, expr::makeAll4( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -10123,45 +10130,45 @@ namespace sdw
 	*	any
 	*/
 	/**@{*/
-	MaybeOptional< Boolean > any( MaybeOptional< BVec2 > const & x )
+	MaybeOptional< Bool > any( MaybeOptional< BVec2 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< Boolean >{ findShader( x )
+			return Optional< Bool >{ findShader( x )
 				, expr::makeAny2( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return Boolean{ findShader( x )
+		return Bool{ findShader( x )
 			, expr::makeAny2( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
-	MaybeOptional< Boolean > any( MaybeOptional< BVec3 > const & x )
+	MaybeOptional< Bool > any( MaybeOptional< BVec3 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< Boolean >{ findShader( x )
+			return Optional< Bool >{ findShader( x )
 				, expr::makeAny3( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return Boolean{ findShader( x )
+		return Bool{ findShader( x )
 			, expr::makeAny3( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
-	MaybeOptional< Boolean > any( MaybeOptional< BVec4 > const & x )
+	MaybeOptional< Bool > any( MaybeOptional< BVec4 > const & x )
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< Boolean >{ findShader( x )
+			return Optional< Bool >{ findShader( x )
 				, expr::makeAny4( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return Boolean{ findShader( x )
+		return Bool{ findShader( x )
 			, expr::makeAny4( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}

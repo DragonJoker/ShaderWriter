@@ -34,30 +34,64 @@ namespace sdw
 	ast::type::ImageConfiguration makeConfig();
 	ast::type::TypePtr getNonArrayType( ast::type::TypePtr type );
 	ast::stmt::Container * getContainer( Shader & shader );
-	ast::type::TypesCache & getTypesCache( Shader & shader );
+	ShaderWriter & getCurrentWriter();
+	ast::type::TypesCache & getTypesCache( ShaderWriter & writer );
+	ast::type::TypesCache & getTypesCache( Shader const & shader );
 	Shader & getShader( ShaderWriter & writer );
 	Shader const & getShader( ShaderWriter const & writer );
-	expr::ExprPtr makeExpr( var::VariablePtr const & var );
-	expr::ExprPtr makeExpr( bool value );
-	expr::ExprPtr makeExpr( int32_t value );
-	expr::ExprPtr makeExpr( int64_t value );
-	expr::ExprPtr makeExpr( uint32_t value );
-	expr::ExprPtr makeExpr( uint64_t value );
-	expr::ExprPtr makeExpr( float value );
-	expr::ExprPtr makeExpr( double value );
-	expr::ExprPtr makeExpr( long double value );
-	expr::ExprPtr makeExpr( ast::expr::Expr * expr );
-	expr::ExprPtr makeExpr( ast::expr::ExprPtr const & expr );
-	expr::ExprList makeFnArg( bool value );
-	expr::ExprList makeFnArg( int32_t value );
-	expr::ExprList makeFnArg( int64_t value );
-	expr::ExprList makeFnArg( uint32_t value );
-	expr::ExprList makeFnArg( uint64_t value );
-	expr::ExprList makeFnArg( float value );
-	expr::ExprList makeFnArg( double value );
-	expr::ExprList makeFnArg( long double value );
-	expr::ExprList makeFnArg( ast::expr::Expr * expr );
-	expr::ExprList makeFnArg( ast::expr::ExprPtr const & expr );
+	expr::ExprPtr makeExpr( Shader const & shader
+		, var::VariablePtr const & var
+		, bool force = true );
+	expr::ExprPtr makeExpr( Shader const & shader
+		, bool value
+		, bool force = true );
+	expr::ExprPtr makeExpr( Shader const & shader
+		, int32_t value
+		, bool force = true );
+	expr::ExprPtr makeExpr( Shader const & shader
+		, int64_t value
+		, bool force = true );
+	expr::ExprPtr makeExpr( Shader const & shader
+		, uint32_t value
+		, bool force = true );
+	expr::ExprPtr makeExpr( Shader const & shader
+		, uint64_t value
+		, bool force = true );
+	expr::ExprPtr makeExpr( Shader const & shader
+		, float value
+		, bool force = true );
+	expr::ExprPtr makeExpr( Shader const & shader
+		, double value
+		, bool force = true );
+	expr::ExprPtr makeExpr( Shader const & shader
+		, long double value
+		, bool force = true );
+	expr::ExprPtr makeExpr( Shader const & shader
+		, ast::expr::Expr * expr
+		, bool force = true );
+	expr::ExprPtr makeExpr( Shader const & shader
+		, ast::expr::ExprPtr const & expr
+		, bool force = true );
+	expr::ExprList makeFnArg( Shader const & shader
+		, bool value );
+	expr::ExprList makeFnArg( Shader const & shader
+		, int32_t value );
+	expr::ExprList makeFnArg( Shader const & shader
+		, int64_t value );
+	expr::ExprList makeFnArg( Shader const & shader
+		, uint32_t value );
+	expr::ExprList makeFnArg( Shader const & shader
+		, uint64_t value );
+	expr::ExprList makeFnArg( Shader const & shader
+		, float value );
+	expr::ExprList makeFnArg( Shader const & shader
+		, double value );
+	expr::ExprList makeFnArg( Shader const & shader
+		, long double value );
+	expr::ExprList makeFnArg( Shader const & shader
+		, ast::expr::Expr * expr );
+	expr::ExprList makeFnArg( Shader const & shader
+		, ast::expr::ExprPtr const & expr );
 
 	expr::ExprPtr makeInit( var::VariablePtr var
 		, expr::ExprPtr init );
@@ -95,8 +129,7 @@ namespace sdw
 	expr::ExprPtr makeBitXor( type::TypePtr type
 		, expr::ExprPtr lhs
 		, expr::ExprPtr rhs );
-	expr::ExprPtr makeBitNot( type::TypePtr type
-		, expr::ExprPtr operand );
+	expr::ExprPtr makeBitNot( expr::ExprPtr operand );
 	expr::ExprPtr makeLogAnd( expr::ExprPtr lhs
 		, expr::ExprPtr rhs );
 	expr::ExprPtr makeLogOr( expr::ExprPtr lhs
@@ -177,7 +210,8 @@ namespace sdw
 		, expr::ExprPtr falseExpr );
 	expr::ExprPtr makeCast( type::TypePtr destType
 		, expr::ExprPtr operand );
-	expr::IdentifierPtr makeIdent( var::VariablePtr var );
+	expr::IdentifierPtr makeIdent( type::TypesCache & cache
+		, var::VariablePtr var );
 
 	stmt::StmtPtr makeSimple( expr::ExprPtr expr );
 	stmt::StmtPtr makePerVertexDecl( stmt::PerVertexDecl::Source source
@@ -208,7 +242,10 @@ namespace sdw
 		, var::VariableList args );
 
 	template< typename T >
-	expr::ExprList makeExpr( std::vector< T > const & values );
+	expr::ExprList makeExpr( Shader const & shader
+		, std::vector< T > const & values
+		, bool force = true );
+
 	void addStmt( Shader & shader
 		, stmt::StmtPtr stmt );
 	void addStmt( stmt::Container & container

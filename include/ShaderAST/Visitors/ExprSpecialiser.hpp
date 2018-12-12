@@ -15,20 +15,24 @@ namespace ast
 		: public ExprCloner
 	{
 	public:
-		static expr::ExprPtr submit( expr::Expr * expr
+		static expr::ExprPtr submit( type::TypesCache & cache
+			, expr::Expr * expr
 			, std::map< var::VariablePtr, expr::LiteralPtr > const & specialisations );
-		static expr::ExprPtr submit( expr::ExprPtr const & expr
+		static expr::ExprPtr submit( type::TypesCache & cache
+			, expr::ExprPtr const & expr
 			, std::map< var::VariablePtr, expr::LiteralPtr > const & specialisations );
 
 	private:
-		ExprSpecialiser( expr::ExprPtr & result
-			, std::map< var::VariablePtr, expr::LiteralPtr > const & specialisations );
+		ExprSpecialiser( type::TypesCache & cache
+			, std::map< var::VariablePtr, expr::LiteralPtr > const & specialisations
+			, expr::ExprPtr & result );
 
 		expr::ExprPtr doSubmit( expr::Expr * expr )override;
 
 		void visitIdentifierExpr( expr::Identifier * expr )override;
 
 	private:
+		type::TypesCache & m_cache;
 		std::map< var::VariablePtr, expr::LiteralPtr > const & m_specialisations;
 	};
 }

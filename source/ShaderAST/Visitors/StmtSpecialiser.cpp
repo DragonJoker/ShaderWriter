@@ -9,25 +9,28 @@ See LICENSE file in root folder
 
 namespace ast
 {
-	stmt::ContainerPtr StmtSpecialiser::submit( stmt::Container * container
+	stmt::ContainerPtr StmtSpecialiser::submit( type::TypesCache & cache
+		, stmt::Container * container
 		, SpecialisationInfo const & specialisation )
 	{
 		auto result = stmt::makeContainer();
-		StmtSpecialiser vis{ result, specialisation };
+		StmtSpecialiser vis{ cache, specialisation, result };
 		container->accept( &vis );
 		return result;
 	}
 
-	StmtSpecialiser::StmtSpecialiser( stmt::ContainerPtr & result
-		, SpecialisationInfo const & specialisation )
+	StmtSpecialiser::StmtSpecialiser( type::TypesCache & cache
+		, SpecialisationInfo const & specialisation
+		, stmt::ContainerPtr & result )
 		: StmtCloner{ result }
+		, m_cache{ cache }
 		, m_specialisation{ specialisation }
 	{
 	}
 
 	expr::ExprPtr StmtSpecialiser::doSubmit( expr::Expr * expr )
 	{
-		return ExprSpecialiser::submit( expr, m_specialisations );
+		return ExprSpecialiser::submit( m_cache, expr, m_specialisations );
 	}
 
 	void StmtSpecialiser::visitSpecialisationConstantDeclStmt( stmt::SpecialisationConstantDecl * stmt )
@@ -43,34 +46,34 @@ namespace ast
 
 		switch ( it->info.type->getKind() )
 		{
-		case type::Kind::eBoolean:
+		case type::Kind::eBool:
 			assert( it->data.size() == sizeof( bool ) );
 			m_specialisations.emplace( stmt->getVariable()
-				, expr::makeLiteral( stmt->getVariable()->getType()->getCache()
+				, expr::makeLiteral( m_cache
 					, *reinterpret_cast< bool const * >( it->data.data() ) ) );
 			break;
 		case type::Kind::eInt:
 			assert( it->data.size() == sizeof( int32_t ) );
 			m_specialisations.emplace( stmt->getVariable()
-				, expr::makeLiteral( stmt->getVariable()->getType()->getCache()
+				, expr::makeLiteral( m_cache
 					, *reinterpret_cast< int32_t const * >( it->data.data() ) ) );
 			break;
 		case type::Kind::eUInt:
 			assert( it->data.size() == sizeof( uint32_t ) );
 			m_specialisations.emplace( stmt->getVariable()
-				, expr::makeLiteral( stmt->getVariable()->getType()->getCache()
+				, expr::makeLiteral( m_cache
 					, *reinterpret_cast< uint32_t const * >( it->data.data() ) ) );
 			break;
 		case type::Kind::eFloat:
 			assert( it->data.size() == sizeof( float ) );
 			m_specialisations.emplace( stmt->getVariable()
-				, expr::makeLiteral( stmt->getVariable()->getType()->getCache()
+				, expr::makeLiteral( m_cache
 					, *reinterpret_cast< float const * >( it->data.data() ) ) );
 			break;
 		case type::Kind::eDouble:
 			assert( it->data.size() == sizeof( double ) );
 			m_specialisations.emplace( stmt->getVariable()
-				, expr::makeLiteral( stmt->getVariable()->getType()->getCache()
+				, expr::makeLiteral( m_cache
 					, *reinterpret_cast< double const * >( it->data.data() ) ) );
 			break;
 		default:

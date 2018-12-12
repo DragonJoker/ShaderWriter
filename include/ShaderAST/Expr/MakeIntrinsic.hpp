@@ -2265,7 +2265,7 @@ namespace ast::expr
 	*@param y
 	*	float
 	*@param a
-	*	boolean
+	*	bool
 	*/
 	IntrinsicCallPtr makeMix11FB( type::TypesCache & cache, ExprPtr x, ExprPtr y, ExprPtr a );
 	/**
@@ -2386,7 +2386,7 @@ namespace ast::expr
 	*@param y
 	*	double
 	*@param a
-	*	boolean
+	*	bool
 	*/
 	IntrinsicCallPtr makeMix11DB( type::TypesCache & cache, ExprPtr x, ExprPtr y, ExprPtr a );
 	/**
@@ -2704,7 +2704,7 @@ namespace ast::expr
 	IntrinsicCallPtr makeSmoothStep14D( type::TypesCache & cache, ExprPtr edge0, ExprPtr edge1, ExprPtr x );
 	/**
 	*@return
-	*	boolean
+	*	bool
 	*@param x
 	*	float
 	*/
@@ -2732,7 +2732,7 @@ namespace ast::expr
 	IntrinsicCallPtr makeIsnan4F( type::TypesCache & cache, ExprPtr x );
 	/**
 	*@return
-	*	boolean
+	*	bool
 	*@param x
 	*	double
 	*/
@@ -2760,7 +2760,7 @@ namespace ast::expr
 	IntrinsicCallPtr makeIsnan4D( type::TypesCache & cache, ExprPtr x );
 	/**
 	*@return
-	*	boolean
+	*	bool
 	*@param x
 	*	float
 	*/
@@ -2788,7 +2788,7 @@ namespace ast::expr
 	IntrinsicCallPtr makeIsinf4F( type::TypesCache & cache, ExprPtr x );
 	/**
 	*@return
-	*	boolean
+	*	bool
 	*@param x
 	*	double
 	*/
@@ -4956,42 +4956,42 @@ namespace ast::expr
 	IntrinsicCallPtr makeNotEqual4U( type::TypesCache & cache, ExprPtr x, ExprPtr y );
 	/**
 	*@return
-	*	boolean
+	*	bool
 	*@param x
 	*	vec2b
 	*/
 	IntrinsicCallPtr makeAll2( type::TypesCache & cache, ExprPtr x );
 	/**
 	*@return
-	*	boolean
+	*	bool
 	*@param x
 	*	vec3b
 	*/
 	IntrinsicCallPtr makeAll3( type::TypesCache & cache, ExprPtr x );
 	/**
 	*@return
-	*	boolean
+	*	bool
 	*@param x
 	*	vec4b
 	*/
 	IntrinsicCallPtr makeAll4( type::TypesCache & cache, ExprPtr x );
 	/**
 	*@return
-	*	boolean
+	*	bool
 	*@param x
 	*	vec2b
 	*/
 	IntrinsicCallPtr makeAny2( type::TypesCache & cache, ExprPtr x );
 	/**
 	*@return
-	*	boolean
+	*	bool
 	*@param x
 	*	vec3b
 	*/
 	IntrinsicCallPtr makeAny3( type::TypesCache & cache, ExprPtr x );
 	/**
 	*@return
-	*	boolean
+	*	bool
 	*@param x
 	*	vec4b
 	*/

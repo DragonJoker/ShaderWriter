@@ -809,19 +809,22 @@ namespace spirv
 			: public ast::expr::SimpleVisitor
 		{
 		public:
-			static std::vector< ast::expr::Expr * > submit( ast::expr::Expr * expr
+			static std::vector< ast::expr::Expr * > submit( ast::type::TypesCache & cache
+				, ast::expr::Expr * expr
 				, ast::expr::ExprList & idents )
 			{
 				std::vector< ast::expr::Expr * > result;
-				AccessChainLineariser vis{ result, idents };
+				AccessChainLineariser vis{ cache, result, idents };
 				expr->accept( &vis );
 				return result;
 			}
 
 		private:
-			AccessChainLineariser( std::vector< ast::expr::Expr * > & result
+			AccessChainLineariser( ast::type::TypesCache & cache
+				, std::vector< ast::expr::Expr * > & result
 				, ast::expr::ExprList & idents )
-				: m_result{ result }
+				: m_cache{ cache }
+				, m_result{ result }
 				, m_idents{ idents }
 			{
 			}
@@ -838,15 +841,15 @@ namespace spirv
 
 			void visitMbrSelectExpr( ast::expr::MbrSelect * expr )override
 			{
-				auto outer = submit( expr->getOuterExpr(), m_idents );
-				auto inner = submit( expr->getOperand(), m_idents );
+				auto outer = submit( m_cache, expr->getOuterExpr(), m_idents );
+				auto inner = submit( m_cache, expr->getOperand(), m_idents );
 				m_result = outer;
 				m_result.insert( m_result.end(), inner.begin(), inner.end() );
 			}
 
 			void visitArrayAccessExpr( ast::expr::ArrayAccess * expr )override
 			{
-				auto lhs = submit( expr->getLHS(), m_idents );
+				auto lhs = submit( m_cache, expr->getLHS(), m_idents );
 				m_result = lhs;
 				m_result.push_back( expr->getRHS() );
 			}
@@ -856,9 +859,9 @@ namespace spirv
 				if ( expr->getVariable()->isMember()
 					&& expr->getType()->isMember() )
 				{
-					m_idents.emplace_back( sdw::makeIdent( expr->getVariable()->getOuter() ) );
+					m_idents.emplace_back( ast::expr::makeIdentifier( m_cache, expr->getVariable()->getOuter() ) );
 					auto ident = m_idents.back().get();
-					m_result = submit( ident, m_idents );
+					m_result = submit( m_cache, ident, m_idents );
 				}
 
 				m_result.push_back( expr );
@@ -925,6 +928,7 @@ namespace spirv
 			}
 
 		private:
+			ast::type::TypesCache & m_cache;
 			std::vector< ast::expr::Expr * > & m_result;
 			ast::expr::ExprList & m_idents;
 		};
@@ -1206,7 +1210,7 @@ namespace spirv
 		{
 			// Create Access Chain.
 			ast::expr::ExprList idents;
-			auto accessChainExprs = AccessChainLineariser::submit( expr, idents );
+			auto accessChainExprs = AccessChainLineariser::submit( expr->getCache(), expr, idents );
 			auto accessChain = AccessChainCreator::submit( accessChainExprs
 				, module
 				, currentBlock
@@ -1982,7 +1986,7 @@ namespace spirv
 			auto imgParam = static_cast< ast::expr::Identifier const & >( *expr->getArgList()[0] ).getType();
 			assert( imgParam->getKind() == ast::type::Kind::eImage );
 			auto image = std::static_pointer_cast< ast::type::Image >( imgParam );
-			auto sampledId = m_module.registerType( image->getCache().makeType( image->getConfig().sampledType ) );
+			auto sampledId = m_module.registerType( m_module.getCache().getBasicType( image->getConfig().sampledType ) );
 			auto pointerTypeId = m_module.registerPointerType( sampledId
 				, spv::StorageClassImage );
 			auto pointerId = m_module.getIntermediateResult();

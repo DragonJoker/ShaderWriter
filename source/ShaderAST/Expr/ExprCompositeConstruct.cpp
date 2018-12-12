@@ -28,11 +28,10 @@ namespace ast::expr
 
 	//*************************************************************************
 
-	CompositeConstruct::CompositeConstruct( type::TypesCache & cache
-		, CompositeType composite
+	CompositeConstruct::CompositeConstruct( CompositeType composite
 		, type::Kind component
 		, ExprList && argList )
-		: Expr{ getCompositeType( cache, composite, component ), Kind::eCompositeConstruct }
+		: Expr{ getExprTypesCache( argList ), getCompositeType( getExprTypesCache( argList ), composite, component ), Kind::eCompositeConstruct }
 		, m_composite{ composite }
 		, m_component{ component }
 		, m_argList{ std::move( argList ) }
@@ -117,7 +116,7 @@ namespace ast::expr
 		case expr::CompositeType::eScalar:
 			switch ( component )
 			{
-			case type::Kind::eBoolean:
+			case type::Kind::eBool:
 				result = cache.getBool();
 				break;
 			case type::Kind::eInt:
@@ -126,21 +125,21 @@ namespace ast::expr
 			case type::Kind::eUInt:
 				result = cache.getUInt();
 				break;
+			case type::Kind::eHalf:
+				result = cache.getHalf();
+				break;
 			case type::Kind::eFloat:
 				result = cache.getFloat();
 				break;
 			case type::Kind::eDouble:
 				result = cache.getDouble();
 				break;
-			case type::Kind::eHalf:
-				result = cache.makeType( type::Kind::eHalf );
-				break;
 			}
 			break;
 		case expr::CompositeType::eVec2:
 			switch ( component )
 			{
-			case type::Kind::eBoolean:
+			case type::Kind::eBool:
 				result = cache.getVec2B();
 				break;
 			case type::Kind::eInt:
@@ -149,21 +148,21 @@ namespace ast::expr
 			case type::Kind::eUInt:
 				result = cache.getVec2U();
 				break;
+			case type::Kind::eHalf:
+				result = cache.getVec2H();
+				break;
 			case type::Kind::eFloat:
 				result = cache.getVec2F();
 				break;
 			case type::Kind::eDouble:
 				result = cache.getVec2D();
 				break;
-			case type::Kind::eHalf:
-				result = cache.makeType( type::Kind::eVec2H );
-				break;
 			}
 			break;
 		case expr::CompositeType::eVec3:
 			switch ( component )
 			{
-			case type::Kind::eBoolean:
+			case type::Kind::eBool:
 				result = cache.getVec3B();
 				break;
 			case type::Kind::eInt:
@@ -172,21 +171,21 @@ namespace ast::expr
 			case type::Kind::eUInt:
 				result = cache.getVec3U();
 				break;
+			case type::Kind::eHalf:
+				result = cache.getVec3H();
+				break;
 			case type::Kind::eFloat:
 				result = cache.getVec3F();
 				break;
 			case type::Kind::eDouble:
 				result = cache.getVec3D();
 				break;
-			case type::Kind::eHalf:
-				result = cache.makeType( type::Kind::eVec3H );
-				break;
 			}
 			break;
 		case expr::CompositeType::eVec4:
 			switch ( component )
 			{
-			case type::Kind::eBoolean:
+			case type::Kind::eBool:
 				result = cache.getVec4B();
 				break;
 			case type::Kind::eInt:
@@ -195,14 +194,14 @@ namespace ast::expr
 			case type::Kind::eUInt:
 				result = cache.getVec4U();
 				break;
+			case type::Kind::eHalf:
+				result = cache.getVec4H();
+				break;
 			case type::Kind::eFloat:
 				result = cache.getVec4F();
 				break;
 			case type::Kind::eDouble:
 				result = cache.getVec4D();
-				break;
-			case type::Kind::eHalf:
-				result = cache.makeType( type::Kind::eVec4H );
 				break;
 			}
 			break;

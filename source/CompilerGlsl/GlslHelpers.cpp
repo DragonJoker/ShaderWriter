@@ -26,7 +26,7 @@ namespace glsl
 		case ast::type::Kind::eFunction:
 			result = "function";
 			break;
-		case ast::type::Kind::eBoolean:
+		case ast::type::Kind::eBool:
 			result = "bool";
 			break;
 		case ast::type::Kind::eInt:
@@ -139,12 +139,6 @@ namespace glsl
 			break;
 		case ast::type::Kind::eMat4x3D:
 			result = "dmat4x3";
-			break;
-		case ast::type::Kind::eConstantsBuffer:
-			result = "uniform";
-			break;
-		case ast::type::Kind::eShaderBuffer:
-			result = "buffer";
 			break;
 		case ast::type::Kind::eImage:
 			result = "image";
@@ -573,7 +567,7 @@ namespace glsl
 		case ast::expr::CompositeType::eVec2:
 			switch ( component )
 			{
-			case ast::type::Kind::eBoolean:
+			case ast::type::Kind::eBool:
 				result = "bvec2";
 				break;
 			case ast::type::Kind::eInt:
@@ -596,7 +590,7 @@ namespace glsl
 		case ast::expr::CompositeType::eVec3:
 			switch ( component )
 			{
-			case ast::type::Kind::eBoolean:
+			case ast::type::Kind::eBool:
 				result = "bvec3";
 				break;
 			case ast::type::Kind::eInt:
@@ -619,7 +613,7 @@ namespace glsl
 		case ast::expr::CompositeType::eVec4:
 			switch ( component )
 			{
-			case ast::type::Kind::eBoolean:
+			case ast::type::Kind::eBool:
 				result = "bvec4";
 				break;
 			case ast::type::Kind::eInt:

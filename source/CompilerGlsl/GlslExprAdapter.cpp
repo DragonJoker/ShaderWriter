@@ -181,8 +181,8 @@ namespace glsl
 			&& m_writerConfig.shaderLanguageVersion < 430 )
 		{
 			assert( expr->getArgList().size() == 3u );
-			m_result = sdw::makeAdd( expr->getType()
-				, sdw::makeTimes( expr->getType()
+			m_result = ast::expr::makeAdd( expr->getType()
+				, ast::expr::makeTimes( expr->getType()
 					, doSubmit( expr->getArgList()[0].get() )
 					, doSubmit( expr->getArgList()[1].get() ) )
 				, doSubmit( expr->getArgList()[2].get() ) );
@@ -293,18 +293,18 @@ namespace glsl
 				merged.emplace_back( doSubmit( expr->getArgList()[1].get() ) );
 				merged.emplace_back( doSubmit( expr->getArgList()[1].get() ) );
 				merged.emplace_back( doSubmit( expr->getArgList()[2].get() ) );
-				args.emplace_back( sdw::makeCompositeCtor( ast::expr::CompositeType::eVec3
+				args.emplace_back( ast::expr::makeCompositeConstruct( ast::expr::CompositeType::eVec3
 					, ast::type::Kind::eFloat
 					, std::move( merged ) ) );
 				break;
 			case ast::type::Kind::eVec2F:
 				{
 					// TextureProj1DShadow accesses.
-					merged.emplace_back( sdw::makeSwizzle( doSubmit( expr->getArgList()[1].get() ), ast::expr::SwizzleKind::e0 ) );
-					merged.emplace_back( sdw::makeSwizzle( doSubmit( expr->getArgList()[1].get() ), ast::expr::SwizzleKind::e0 ) );
+					merged.emplace_back( ast::expr::makeSwizzle( doSubmit( expr->getArgList()[1].get() ), ast::expr::SwizzleKind::e0 ) );
+					merged.emplace_back( ast::expr::makeSwizzle( doSubmit( expr->getArgList()[1].get() ), ast::expr::SwizzleKind::e0 ) );
 					merged.emplace_back( doSubmit( expr->getArgList()[2].get() ) );
-					merged.emplace_back( sdw::makeSwizzle( doSubmit( expr->getArgList()[1].get() ), ast::expr::SwizzleKind::e1 ) );
-					args.emplace_back( sdw::makeCompositeCtor( ast::expr::CompositeType::eVec4
+					merged.emplace_back( ast::expr::makeSwizzle( doSubmit( expr->getArgList()[1].get() ), ast::expr::SwizzleKind::e1 ) );
+					args.emplace_back( ast::expr::makeCompositeConstruct( ast::expr::CompositeType::eVec4
 						, ast::type::Kind::eFloat
 						, std::move( merged ) ) );
 				}
@@ -312,7 +312,7 @@ namespace glsl
 			case ast::type::Kind::eVec3F:
 				merged.emplace_back( doSubmit( expr->getArgList()[1].get() ) );
 				merged.emplace_back( doSubmit( expr->getArgList()[2].get() ) );
-				args.emplace_back( sdw::makeCompositeCtor( ast::expr::CompositeType::eVec4
+				args.emplace_back( ast::expr::makeCompositeConstruct( ast::expr::CompositeType::eVec4
 					, ast::type::Kind::eFloat
 					, std::move( merged ) ) );
 				break;
@@ -333,17 +333,17 @@ namespace glsl
 			switch ( merged[0]->getType()->getKind() )
 			{
 			case ast::type::Kind::eFloat:
-				args.emplace_back( sdw::makeCompositeCtor( ast::expr::CompositeType::eVec2
+				args.emplace_back( ast::expr::makeCompositeConstruct( ast::expr::CompositeType::eVec2
 					, ast::type::Kind::eFloat
 					, std::move( merged ) ) );
 				break;
 			case ast::type::Kind::eVec2F:
-				args.emplace_back( sdw::makeCompositeCtor( ast::expr::CompositeType::eVec3
+				args.emplace_back( ast::expr::makeCompositeConstruct( ast::expr::CompositeType::eVec3
 					, ast::type::Kind::eFloat
 					, std::move( merged ) ) );
 				break;
 			case ast::type::Kind::eVec3F:
-				args.emplace_back( sdw::makeCompositeCtor( ast::expr::CompositeType::eVec4
+				args.emplace_back( ast::expr::makeCompositeConstruct( ast::expr::CompositeType::eVec4
 					, ast::type::Kind::eFloat
 					, std::move( merged ) ) );
 				break;

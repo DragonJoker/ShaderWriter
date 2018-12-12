@@ -23,9 +23,19 @@ namespace sdw
 {
 	//*************************************************************************
 
+	std::vector< ShaderWriter * > ShaderWriter::m_writers;
+
 	ShaderWriter::ShaderWriter( ShaderType type )
 		: m_shader{ type }
 	{
+		m_writers.push_back( this );
+	}
+
+	ShaderWriter::~ShaderWriter()
+	{
+		auto it = std::find( m_writers.begin(), m_writers.end(), this );
+		assert( it != m_writers.end() && "Ooops..." );
+		m_writers.erase( it );
 	}
 
 	var::VariablePtr ShaderWriter::registerName( std::string const & name
@@ -119,7 +129,7 @@ namespace sdw
 
 	ast::expr::ExprPtr ShaderWriter::loadExpr( Value const & value )
 	{
-		return m_shader.loadExpr( makeExpr( value ) );
+		return m_shader.loadExpr( makeExpr( m_shader, value ) );
 	}
 
 	void ShaderWriter::forStmt( expr::ExprPtr init
@@ -127,9 +137,9 @@ namespace sdw
 		, expr::ExprPtr incr
 		, std::function< void() > function )
 	{
-		doPushScope( stmt::makeFor( makeExpr( init )
-			, makeExpr( cond )
-			, makeExpr( incr ) ) );
+		doPushScope( stmt::makeFor( makeExpr( m_shader, init )
+			, makeExpr( m_shader, cond )
+			, makeExpr( m_shader, incr ) ) );
 		function();
 		popScope();
 	}
@@ -183,27 +193,27 @@ namespace sdw
 		m_ifStmt.pop_back();
 	}
 
-	Boolean ShaderWriter::declSpecConstant( std::string const & name
+	Bool ShaderWriter::declSpecConstant( std::string const & name
 		, uint32_t location
 		, bool rhs )
 	{
-		auto type = Boolean::makeType( getTypesCache() );
+		auto type = Bool::makeType( getTypesCache() );
 		auto var = registerSpecConstant( name
 			, location
 			, type );
 		addStmt( sdw::makeSpecConstantDecl( var
 			, location
 			, ast::expr::makeLiteral( getTypesCache(), rhs ) ) );
-		return Boolean{ &m_shader
-			, makeExpr( var ) };
+		return Bool{ &m_shader
+			, makeExpr( m_shader, var ) };
 	}
 
-	Optional< Boolean > ShaderWriter::declSpecConstant( std::string const & name
+	Optional< Bool > ShaderWriter::declSpecConstant( std::string const & name
 		, uint32_t location
 		, bool rhs
 		, bool enabled )
 	{
-		auto type = Boolean::makeType( getTypesCache() );
+		auto type = Bool::makeType( getTypesCache() );
 		auto var = registerSpecConstant( name
 			, location
 			, type );
@@ -215,8 +225,8 @@ namespace sdw
 				, ast::expr::makeLiteral( getTypesCache(), rhs ) ) );
 		}
 
-		return Optional< Boolean >{ &m_shader
-			, makeExpr( var )
+		return Optional< Bool >{ &m_shader
+			, makeExpr( m_shader, var )
 			, enabled };
 	}
 
@@ -232,7 +242,7 @@ namespace sdw
 			, location
 			, ast::expr::makeLiteral( getTypesCache(), rhs ) ) );
 		return Int{ &m_shader
-			, makeExpr( var ) };
+			, makeExpr( m_shader, var ) };
 	}
 
 	Optional< Int > ShaderWriter::declSpecConstant( std::string const & name
@@ -253,7 +263,7 @@ namespace sdw
 		}
 
 		return Optional< Int >{ &m_shader
-			, makeExpr( var )
+			, makeExpr( m_shader, var )
 			, enabled };
 	}
 
@@ -269,7 +279,7 @@ namespace sdw
 			, location
 			, ast::expr::makeLiteral( getTypesCache(), rhs ) ) );
 		return UInt{ &m_shader
-			, makeExpr( var ) };
+			, makeExpr( m_shader, var ) };
 	}
 
 	Optional< UInt > ShaderWriter::declSpecConstant( std::string const & name
@@ -290,7 +300,7 @@ namespace sdw
 		}
 
 		return Optional< UInt >{ &m_shader
-			, makeExpr( var )
+			, makeExpr( m_shader, var )
 			, enabled };
 	}
 
@@ -306,7 +316,7 @@ namespace sdw
 			, location
 			, ast::expr::makeLiteral( getTypesCache(), rhs ) ) );
 		return Float{ &m_shader
-			, makeExpr( var ) };
+			, makeExpr( m_shader, var ) };
 	}
 
 	Optional< Float > ShaderWriter::declSpecConstant( std::string const & name
@@ -327,7 +337,7 @@ namespace sdw
 		}
 
 		return Optional< Float >{ &m_shader
-			, makeExpr( var )
+			, makeExpr( m_shader, var )
 			, enabled };
 	}
 
@@ -343,7 +353,7 @@ namespace sdw
 			, location
 			, ast::expr::makeLiteral( getTypesCache(), rhs ) ) );
 		return Double{ &m_shader
-			, makeExpr( var ) };
+			, makeExpr( m_shader, var ) };
 	}
 
 	Optional< Double > ShaderWriter::declSpecConstant( std::string const & name
@@ -364,7 +374,7 @@ namespace sdw
 		}
 
 		return Optional< Double >{ &m_shader
-			, makeExpr( var )
+			, makeExpr( m_shader, var )
 			, enabled };
 	}
 

@@ -35,7 +35,7 @@ namespace hlsl
 			ast::expr::ExprList args;
 			args.emplace_back( std::move( texcoords ) );
 			return ast::expr::makeFnCall( cache.getFloat()
-				, ast::expr::makeIdentifier( ast::var::makeFunction( cache, "SDW_projectTexCoords2" ) )
+				, ast::expr::makeIdentifier( cache, ast::var::makeFunction( cache, "SDW_projectTexCoords2" ) )
 				, std::move( args ) );
 		}
 
@@ -45,7 +45,7 @@ namespace hlsl
 			ast::expr::ExprList args;
 			args.emplace_back( std::move( texcoords ) );
 			return ast::expr::makeFnCall( cache.getVec2F()
-				, ast::expr::makeIdentifier( ast::var::makeFunction( cache, "SDW_projectTexCoords3" ) )
+				, ast::expr::makeIdentifier( cache, ast::var::makeFunction( cache, "SDW_projectTexCoords3" ) )
 				, std::move( args ) );
 		}
 
@@ -55,7 +55,7 @@ namespace hlsl
 			ast::expr::ExprList args;
 			args.emplace_back( std::move( texcoords ) );
 			return ast::expr::makeFnCall( cache.getFloat()
-				, ast::expr::makeIdentifier( ast::var::makeFunction( cache, "SDW_projectTexCoords4To1" ) )
+				, ast::expr::makeIdentifier( cache, ast::var::makeFunction( cache, "SDW_projectTexCoords4To1" ) )
 				, std::move( args ) );
 		}
 
@@ -65,7 +65,7 @@ namespace hlsl
 			ast::expr::ExprList args;
 			args.emplace_back( std::move( texcoords ) );
 			return ast::expr::makeFnCall( cache.getVec2F()
-				, ast::expr::makeIdentifier( ast::var::makeFunction( cache, "SDW_projectTexCoords4To2" ) )
+				, ast::expr::makeIdentifier( cache, ast::var::makeFunction( cache, "SDW_projectTexCoords4To2" ) )
 				, std::move( args ) );
 		}
 
@@ -75,7 +75,7 @@ namespace hlsl
 			ast::expr::ExprList args;
 			args.emplace_back( std::move( texcoords ) );
 			return ast::expr::makeFnCall( cache.getVec3F()
-				, ast::expr::makeIdentifier( ast::var::makeFunction( cache, "SDW_projectTexCoords4" ) )
+				, ast::expr::makeIdentifier( cache, ast::var::makeFunction( cache, "SDW_projectTexCoords4" ) )
 				, std::move( args ) );
 		}
 
@@ -825,7 +825,8 @@ namespace hlsl
 			return result;
 		}
 
-		ast::expr::ExprPtr registerBuiltinInputVar( ast::var::VariablePtr var
+		ast::expr::ExprPtr registerBuiltinInputVar( ast::type::TypesCache & cache
+			, ast::var::VariablePtr var
 			, AdaptationData & adaptationData )
 		{
 			auto it = adaptationData.inputMembers.find( var );
@@ -834,15 +835,16 @@ namespace hlsl
 			{
 				adaptationData.inputVars.emplace( 128, var );
 				it = adaptationData.inputMembers.emplace( var
-					, ast::expr::makeMbrSelect( sdw::makeIdent( adaptationData.inputVar )
+					, ast::expr::makeMbrSelect( ast::expr::makeIdentifier( cache, adaptationData.inputVar )
 						, uint32_t( adaptationData.inputMembers.size() )
-						, sdw::makeIdent( var ) ) ).first;
+						, ast::expr::makeIdentifier( cache, var ) ) ).first;
 			}
 
-			return sdw::makeExpr( it->second );
+			return ast::ExprCloner::submit( it->second );
 		}
 
-		ast::expr::ExprPtr registerBuiltinOutputVar( ast::var::VariablePtr var
+		ast::expr::ExprPtr registerBuiltinOutputVar( ast::type::TypesCache & cache
+			, ast::var::VariablePtr var
 			, AdaptationData & adaptationData )
 		{
 			auto it = adaptationData.outputMembers.find( var );
@@ -851,26 +853,27 @@ namespace hlsl
 			{
 				adaptationData.outputVars.emplace( 128, var );
 				it = adaptationData.outputMembers.emplace( var
-					, ast::expr::makeMbrSelect( sdw::makeIdent( adaptationData.inputVar )
+					, ast::expr::makeMbrSelect( ast::expr::makeIdentifier( cache, adaptationData.inputVar )
 						, uint32_t( adaptationData.outputMembers.size() )
-						, sdw::makeIdent( var ) ) ).first;
+						, ast::expr::makeIdentifier( cache, var ) ) ).first;
 			}
 
-			return sdw::makeExpr( it->second );
+			return ast::ExprCloner::submit( it->second );
 		}
 
-		ast::expr::ExprPtr registerBuiltinVar( ast::var::VariablePtr var
+		ast::expr::ExprPtr registerBuiltinVar( ast::type::TypesCache & cache
+			, ast::var::VariablePtr var
 			, AdaptationData & adaptationData )
 		{
 			ast::expr::ExprPtr result;
 
 			if ( var->isShaderInput() )
 			{
-				result = registerBuiltinInputVar( var, adaptationData );
+				result = registerBuiltinInputVar( cache, var, adaptationData );
 			}
 			else
 			{
-				result = registerBuiltinOutputVar( var, adaptationData );
+				result = registerBuiltinOutputVar( cache, var, adaptationData );
 			}
 
 			return result;
@@ -943,7 +946,7 @@ namespace hlsl
 
 		if ( var->isBuiltin() )
 		{
-			m_result = registerBuiltinVar( var, m_adaptationData );
+			m_result = registerBuiltinVar( m_cache, var, m_adaptationData );
 		}
 		else
 		{
@@ -952,15 +955,15 @@ namespace hlsl
 
 			if ( m_adaptationData.inputMembers.end() != itInputs )
 			{
-				m_result = sdw::makeExpr( itInputs->second );
+				m_result = ast::ExprCloner::submit( itInputs->second );
 			}
 			else if ( m_adaptationData.outputMembers.end() != itOutputs )
 			{
-				m_result = sdw::makeExpr( itOutputs->second );
+				m_result = ast::ExprCloner::submit( itOutputs->second );
 			}
 			else
 			{
-				m_result = ast::expr::makeIdentifier( var );
+				m_result = ast::expr::makeIdentifier( m_cache, var );
 			}
 		}
 	}
@@ -988,8 +991,7 @@ namespace hlsl
 				args.emplace_back( doSubmit( arg.get() ) );
 			}
 
-			m_result = ast::expr::makeCompositeConstruct( m_cache
-				, expr->getComposite()
+			m_result = ast::expr::makeCompositeConstruct( expr->getComposite()
 				, expr->getComponent()
 				, std::move( args ) );
 		}
@@ -1024,7 +1026,7 @@ namespace hlsl
 		}
 
 		m_result = ast::expr::makeFnCall( expr->getType()
-			, sdw::makeIdent( expr->getFn()->getVariable() )
+			, ast::expr::makeIdentifier( m_cache, expr->getFn()->getVariable() )
 			, std::move( args ) );
 	}
 
@@ -1189,20 +1191,20 @@ namespace hlsl
 
 			if ( it != m_adaptationData.ssboList.end() )
 			{
-				m_result = ast::expr::makeIdentifier( expr->getMember()->getVariable() );
+				m_result = ast::expr::makeIdentifier( m_cache, expr->getMember()->getVariable() );
 			}
 			else
 			{
 				m_result = ast::expr::makeMbrSelect( doSubmit( expr->getOuterExpr() )
 					, expr->getMemberIndex()
-					, ast::expr::makeIdentifier( expr->getMember()->getVariable() ) );
+					, ast::expr::makeIdentifier( m_cache, expr->getMember()->getVariable() ) );
 			}
 		}
 		else
 		{
 			m_result = ast::expr::makeMbrSelect( doSubmit( expr->getOuterExpr() )
 				, expr->getMemberIndex()
-				, ast::expr::makeIdentifier( expr->getMember()->getVariable() ) );
+				, ast::expr::makeIdentifier( m_cache, expr->getMember()->getVariable() ) );
 		}
 	}
 
@@ -1262,7 +1264,7 @@ namespace hlsl
 			argsList.emplace_back( doSubmit( expr->getLHS() ) );
 			argsList.emplace_back( doSubmit( expr->getRHS() ) );
 			m_result = ast::expr::makeFnCall( expr->getType()
-				, ast::expr::makeIdentifier( ast::var::makeVariable( m_cache.getFunction(), "mul" ) )
+				, ast::expr::makeIdentifier( m_cache, ast::var::makeVariable( m_cache.getFunction(), "mul" ) )
 				, std::move( argsList ) );
 		}
 		else
@@ -1286,11 +1288,11 @@ namespace hlsl
 
 			if ( m_adaptationData.linkedVars.end() != it )
 			{
-				args.emplace_back( sdw::makeIdent( it->second.first ) );
+				args.emplace_back( ast::expr::makeIdentifier( m_cache, it->second.first ) );
 
 				if ( writeSampler )
 				{
-					args.emplace_back( sdw::makeIdent( it->second.second ) );
+					args.emplace_back( ast::expr::makeIdentifier( m_cache, it->second.second ) );
 				}
 			}
 			else
@@ -1357,7 +1359,7 @@ namespace hlsl
 
 			for ( auto & var : resVars )
 			{
-				callArgs.emplace_back( ast::expr::makeIdentifier( var ) );
+				callArgs.emplace_back( ast::expr::makeIdentifier( m_cache, var ) );
 			}
 
 			if ( config.dimension == ast::type::ImageDim::eCube
@@ -1365,12 +1367,12 @@ namespace hlsl
 			{
 				auto var = ast::var::makeVariable( uintType, "dummy" );
 				cont->addStmt( ast::stmt::makeVariableDecl( var ) );
-				callArgs.emplace_back( ast::expr::makeIdentifier( var ) );
+				callArgs.emplace_back( ast::expr::makeIdentifier( m_cache, var ) );
 			}
 
 			cont->addStmt( ast::stmt::makeSimple( ast::expr::makeMemberFnCall( m_cache.getVoid()
-				, sdw::makeIdent( ast::var::makeFunction( m_cache, "GetDimensions" ) )
-				, sdw::makeIdent( image )
+				, ast::expr::makeIdentifier( m_cache, ast::var::makeFunction( m_cache, "GetDimensions" ) )
+				, ast::expr::makeIdentifier( m_cache, image )
 				, std::move( callArgs ) ) ) );
 
 			// The return statement
@@ -1379,7 +1381,7 @@ namespace hlsl
 			for ( auto & var : resVars )
 			{
 				resArgs.emplace_back( ast::expr::makeCast( m_cache.getInt()
-					, ast::expr::makeIdentifier( var ) ) );
+					, ast::expr::makeIdentifier( m_cache, var ) ) );
 			}
 
 			if ( composite == ast::expr::CompositeType::eScalar )
@@ -1388,8 +1390,7 @@ namespace hlsl
 			}
 			else
 			{
-				cont->addStmt( ast::stmt::makeReturn( ast::expr::makeCompositeConstruct( m_cache
-					, composite
+				cont->addStmt( ast::stmt::makeReturn( ast::expr::makeCompositeConstruct( composite
 					, ast::type::Kind::eInt
 					, std::move( resArgs ) ) ) );
 			}
@@ -1402,7 +1403,7 @@ namespace hlsl
 		ast::expr::ExprList argList;
 		argList.emplace_back( doSubmit( expr->getArgList().front().get() ) );
 		m_result = ast::expr::makeFnCall( it->second
-			, ast::expr::makeIdentifier( ast::var::makeFunction( m_cache, funcName ) )
+			, ast::expr::makeIdentifier( m_cache, ast::var::makeFunction( m_cache, funcName ) )
 			, std::move( argList ) );
 	}
 
@@ -1419,7 +1420,7 @@ namespace hlsl
 		}
 
 		m_result = ast::expr::makeMemberFnCall( callRetType
-			, ast::expr::makeIdentifier( ast::var::makeFunction( m_cache, "Load" ) )
+			, ast::expr::makeIdentifier( m_cache, ast::var::makeFunction( m_cache, "Load" ) )
 			, doSubmit( expr->getArgList().front().get() )
 			, std::move( argList ) );
 	}
@@ -1454,17 +1455,17 @@ namespace hlsl
 			//	The call to Interlocked<name>
 			ast::expr::ExprList callArgs;
 			callArgs.emplace_back( std::make_unique< ast::expr::ArrayAccess >( m_cache.getSampledType( config.format )
-				, ast::expr::makeIdentifier( image )
-				, ast::expr::makeIdentifier( coord ) ) );
-			callArgs.emplace_back( ast::expr::makeIdentifier( data ) );
-			callArgs.emplace_back( ast::expr::makeIdentifier( res ) );
+				, ast::expr::makeIdentifier( m_cache, image )
+				, ast::expr::makeIdentifier( m_cache, coord ) ) );
+			callArgs.emplace_back( ast::expr::makeIdentifier( m_cache, data ) );
+			callArgs.emplace_back( ast::expr::makeIdentifier( m_cache, res ) );
 
 			cont->addStmt( ast::stmt::makeSimple( ast::expr::makeFnCall( m_cache.getVoid()
-				, sdw::makeIdent( ast::var::makeFunction( m_cache, "Interlocked" + name ) )
+				, ast::expr::makeIdentifier( m_cache, ast::var::makeFunction( m_cache, "Interlocked" + name ) )
 				, std::move( callArgs ) ) ) );
 
 			//	The return statement
-			cont->addStmt( ast::stmt::makeReturn( ast::expr::makeIdentifier( res ) ) );
+			cont->addStmt( ast::stmt::makeReturn( ast::expr::makeIdentifier( m_cache, res ) ) );
 
 			it = imageAtomicFuncs.emplace( funcName
 				, static_cast< ast::stmt::Return const & >( *cont->back() ).getExpr()->getType() ).first;
@@ -1479,7 +1480,7 @@ namespace hlsl
 		}
 
 		m_result = ast::expr::makeFnCall( it->second
-			, ast::expr::makeIdentifier( ast::var::makeFunction( m_cache, funcName ) )
+			, ast::expr::makeIdentifier( m_cache, ast::var::makeFunction( m_cache, funcName ) )
 			, std::move( argList ) );
 	}
 
@@ -1548,18 +1549,18 @@ namespace hlsl
 			//	The call to InterlockedCompareExchange
 			ast::expr::ExprList callArgs;
 			callArgs.emplace_back( std::make_unique< ast::expr::ArrayAccess >( m_cache.getSampledType( config.format )
-				, ast::expr::makeIdentifier( image )
-				, ast::expr::makeIdentifier( coord ) ) );
-			callArgs.emplace_back( ast::expr::makeIdentifier( compare ) );
-			callArgs.emplace_back( ast::expr::makeIdentifier( data ) );
-			callArgs.emplace_back( ast::expr::makeIdentifier( res ) );
+				, ast::expr::makeIdentifier( m_cache, image )
+				, ast::expr::makeIdentifier( m_cache, coord ) ) );
+			callArgs.emplace_back( ast::expr::makeIdentifier( m_cache, compare ) );
+			callArgs.emplace_back( ast::expr::makeIdentifier( m_cache, data ) );
+			callArgs.emplace_back( ast::expr::makeIdentifier( m_cache, res ) );
 
 			cont->addStmt( ast::stmt::makeSimple( ast::expr::makeFnCall( m_cache.getVoid()
-				, sdw::makeIdent( ast::var::makeFunction( m_cache, "InterlockedCompareExchange" ) )
+				, ast::expr::makeIdentifier( m_cache, ast::var::makeFunction( m_cache, "InterlockedCompareExchange" ) )
 				, std::move( callArgs ) ) ) );
 
 			//	The return statement
-			cont->addStmt( ast::stmt::makeReturn( ast::expr::makeIdentifier( res ) ) );
+			cont->addStmt( ast::stmt::makeReturn( ast::expr::makeIdentifier( m_cache, res ) ) );
 
 			it = m_imageAtomicCompSwapFuncs.emplace( funcName
 				, static_cast< ast::stmt::Return const & >( *cont->back() ).getExpr()->getType() ).first;
@@ -1574,7 +1575,7 @@ namespace hlsl
 		}
 
 		m_result = ast::expr::makeFnCall( it->second
-			, ast::expr::makeIdentifier( ast::var::makeFunction( m_cache, funcName ) )
+			, ast::expr::makeIdentifier( m_cache, ast::var::makeFunction( m_cache, funcName ) )
 			, std::move( argList ) );
 	}
 
@@ -1642,7 +1643,7 @@ namespace hlsl
 
 			if ( lod )
 			{
-				callArgs.emplace_back( ast::expr::makeIdentifier( lod ) );
+				callArgs.emplace_back( ast::expr::makeIdentifier( m_cache, lod ) );
 			}
 			else if ( config.dimension != ast::type::ImageDim::eBuffer )
 			{
@@ -1651,19 +1652,19 @@ namespace hlsl
 
 			for ( auto & var : resVars )
 			{
-				callArgs.emplace_back( ast::expr::makeIdentifier( var ) );
+				callArgs.emplace_back( ast::expr::makeIdentifier( m_cache, var ) );
 			}
 
 			if ( config.dimension != ast::type::ImageDim::eBuffer )
 			{
 				auto var = ast::var::makeVariable( uintType, "levels" );
 				cont->addStmt( ast::stmt::makeVariableDecl( var ) );
-				callArgs.emplace_back( ast::expr::makeIdentifier( var ) );
+				callArgs.emplace_back( ast::expr::makeIdentifier( m_cache, var ) );
 			}
 
 			cont->addStmt( ast::stmt::makeSimple( ast::expr::makeMemberFnCall( m_cache.getVoid()
-				, sdw::makeIdent( ast::var::makeFunction( m_cache, "GetDimensions" ) )
-				, sdw::makeIdent( image )
+				, ast::expr::makeIdentifier( m_cache, ast::var::makeFunction( m_cache, "GetDimensions" ) )
+				, ast::expr::makeIdentifier( m_cache, image )
 				, std::move( callArgs ) ) ) );
 
 			// The return statement
@@ -1672,7 +1673,7 @@ namespace hlsl
 			for ( auto & var : resVars )
 			{
 				resArgs.emplace_back( ast::expr::makeCast( m_cache.getInt()
-					, ast::expr::makeIdentifier( var ) ) );
+					, ast::expr::makeIdentifier( m_cache, var ) ) );
 			}
 
 			if ( composite == ast::expr::CompositeType::eScalar )
@@ -1681,8 +1682,7 @@ namespace hlsl
 			}
 			else
 			{
-				cont->addStmt( ast::stmt::makeReturn( ast::expr::makeCompositeConstruct( m_cache
-					, composite
+				cont->addStmt( ast::stmt::makeReturn( ast::expr::makeCompositeConstruct( composite
 					, ast::type::Kind::eInt
 					, std::move( resArgs ) ) ) );
 			}
@@ -1703,7 +1703,7 @@ namespace hlsl
 		}
 
 		m_result = ast::expr::makeFnCall( it->second
-			, ast::expr::makeIdentifier( ast::var::makeFunction( m_cache, funcName ) )
+			, ast::expr::makeIdentifier( m_cache, ast::var::makeFunction( m_cache, funcName ) )
 			, std::move( argList ) );
 	}
 
@@ -1731,19 +1731,18 @@ namespace hlsl
 
 			// The call to image.CalculateLevelOfDetail
 			ast::expr::ExprList callArgs;
-			callArgs.emplace_back( ast::expr::makeIdentifier( sampler ) );
-			callArgs.emplace_back( ast::expr::makeIdentifier( coord ) );
+			callArgs.emplace_back( ast::expr::makeIdentifier( m_cache, sampler ) );
+			callArgs.emplace_back( ast::expr::makeIdentifier( m_cache, coord ) );
 
 			// The return statement
 			ast::expr::ExprList resArgs;
 			resArgs.emplace_back( ast::expr::makeMemberFnCall( m_cache.getVoid()
-				, sdw::makeIdent( ast::var::makeFunction( m_cache, "CalculateLevelOfDetail" ) )
-				, sdw::makeIdent( image )
+				, ast::expr::makeIdentifier( m_cache, ast::var::makeFunction( m_cache, "CalculateLevelOfDetail" ) )
+				, ast::expr::makeIdentifier( m_cache, image )
 				, std::move( callArgs ) ) );
 			resArgs.emplace_back( ast::expr::makeLiteral( m_cache, 0.0f ) );
 
-			cont->addStmt( ast::stmt::makeReturn( ast::expr::makeCompositeConstruct( m_cache
-				, ast::expr::CompositeType::eVec2
+			cont->addStmt( ast::stmt::makeReturn( ast::expr::makeCompositeConstruct( ast::expr::CompositeType::eVec2
 				, ast::type::Kind::eFloat
 				, std::move( resArgs ) ) ) );
 
@@ -1763,7 +1762,7 @@ namespace hlsl
 		}
 
 		m_result = ast::expr::makeFnCall( it->second
-			, ast::expr::makeIdentifier( ast::var::makeFunction( m_cache, funcName ) )
+			, ast::expr::makeIdentifier( m_cache, ast::var::makeFunction( m_cache, funcName ) )
 			, std::move( argList ) );
 	}
 
@@ -1831,20 +1830,20 @@ namespace hlsl
 
 			for ( auto & var : resVars )
 			{
-				callArgs.emplace_back( ast::expr::makeIdentifier( var ) );
+				callArgs.emplace_back( ast::expr::makeIdentifier( m_cache, var ) );
 			}
 
 			auto levels = ast::var::makeVariable( uintType, "levels" );
 			cont->addStmt( ast::stmt::makeVariableDecl( levels ) );
-			callArgs.emplace_back( ast::expr::makeIdentifier( levels ) );
+			callArgs.emplace_back( ast::expr::makeIdentifier( m_cache, levels ) );
 
 			cont->addStmt( ast::stmt::makeSimple( ast::expr::makeMemberFnCall( m_cache.getVoid()
-				, sdw::makeIdent( ast::var::makeFunction( m_cache, "GetDimensions" ) )
-				, sdw::makeIdent( image )
+				, ast::expr::makeIdentifier( m_cache, ast::var::makeFunction( m_cache, "GetDimensions" ) )
+				, ast::expr::makeIdentifier( m_cache, image )
 				, std::move( callArgs ) ) ) );
 
 			// The return statement
-			cont->addStmt( ast::stmt::makeReturn( sdw::makeIdent( levels ) ) );
+			cont->addStmt( ast::stmt::makeReturn( ast::expr::makeIdentifier( m_cache, levels ) ) );
 
 			it = m_imageLevelsFuncs.emplace( funcName
 				, static_cast< ast::stmt::Return const & >( *cont->back() ).getExpr()->getType() ).first;
@@ -1855,7 +1854,7 @@ namespace hlsl
 		doProcessSampledImageArg( *expr->getArgList()[0], false, argList );
 
 		m_result = ast::expr::makeFnCall( it->second
-			, ast::expr::makeIdentifier( ast::var::makeFunction( m_cache, funcName ) )
+			, ast::expr::makeIdentifier( m_cache, ast::var::makeFunction( m_cache, funcName ) )
 			, std::move( argList ) );
 	}
 
@@ -1903,17 +1902,17 @@ namespace hlsl
 			switch ( merged[0]->getType()->getKind() )
 			{
 			case ast::type::Kind::eInt:
-				args.emplace_back( sdw::makeCompositeCtor( ast::expr::CompositeType::eVec2
+				args.emplace_back( ast::expr::makeCompositeConstruct( ast::expr::CompositeType::eVec2
 					, ast::type::Kind::eInt
 					, std::move( merged ) ) );
 				break;
 			case ast::type::Kind::eVec2I:
-				args.emplace_back( sdw::makeCompositeCtor( ast::expr::CompositeType::eVec3
+				args.emplace_back( ast::expr::makeCompositeConstruct( ast::expr::CompositeType::eVec3
 					, ast::type::Kind::eInt
 					, std::move( merged ) ) );
 				break;
 			case ast::type::Kind::eVec3I:
-				args.emplace_back( sdw::makeCompositeCtor( ast::expr::CompositeType::eVec4
+				args.emplace_back( ast::expr::makeCompositeConstruct( ast::expr::CompositeType::eVec4
 					, ast::type::Kind::eInt
 					, std::move( merged ) ) );
 				break;
@@ -2018,17 +2017,17 @@ namespace hlsl
 		auto & offset = *expr->getArgList()[index++];
 		assert( getArraySize( offset.getType() ) == 4u );
 		auto arrayType = std::static_pointer_cast< ast::type::Array >( offset.getType() );
-		args.emplace_back( ast::expr::makeArrayAccess( m_cache.makeType( arrayType->getType()->getKind() )
-			, sdw::makeExpr( &offset )
+		args.emplace_back( ast::expr::makeArrayAccess( m_cache.getBasicType( arrayType->getType()->getKind() )
+			, ast::ExprCloner::submit( &offset )
 			, ast::expr::makeLiteral( m_cache, 0u ) ) );
-		args.emplace_back( ast::expr::makeArrayAccess( m_cache.makeType( arrayType->getType()->getKind() )
-			, sdw::makeExpr( &offset )
+		args.emplace_back( ast::expr::makeArrayAccess( m_cache.getBasicType( arrayType->getType()->getKind() )
+			, ast::ExprCloner::submit( &offset )
 			, ast::expr::makeLiteral( m_cache, 1u ) ) );
-		args.emplace_back( ast::expr::makeArrayAccess( m_cache.makeType( arrayType->getType()->getKind() )
-			, sdw::makeExpr( &offset )
+		args.emplace_back( ast::expr::makeArrayAccess( m_cache.getBasicType( arrayType->getType()->getKind() )
+			, ast::ExprCloner::submit( &offset )
 			, ast::expr::makeLiteral( m_cache, 2u ) ) );
-		args.emplace_back( ast::expr::makeArrayAccess( m_cache.makeType( arrayType->getType()->getKind() )
-			, sdw::makeExpr( &offset )
+		args.emplace_back( ast::expr::makeArrayAccess( m_cache.getBasicType( arrayType->getType()->getKind() )
+			, ast::ExprCloner::submit( &offset )
 			, ast::expr::makeLiteral( m_cache, 3u ) ) );
 
 		if ( needsComp( kind ) )

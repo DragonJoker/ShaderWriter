@@ -5,8 +5,10 @@ See LICENSE file in root folder
 
 namespace ast::expr
 {
-	Expr::Expr( type::TypePtr type, Kind kind )
-		: m_kind{ kind }
+	Expr::Expr( type::TypesCache & cache
+		, type::TypePtr type, Kind kind )
+		: m_cache{ cache }
+		, m_kind{ kind }
 		, m_type{ std::move( type ) }
 		, m_flags{ 0u }
 	{

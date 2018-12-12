@@ -284,7 +284,7 @@ namespace glsl
 		visitCompoundStmt( stmt );
 		m_result += "\n";
 
-		if ( stmt->getCtrlExpr()->getType()->getKind() != ast::type::Kind::eBoolean )
+		if ( stmt->getCtrlExpr()->getType()->getKind() != ast::type::Kind::eBool )
 		{
 			m_result += m_indent + "while (bool(" + ExprVisitor::submit( stmt->getCtrlExpr() ) + "));\n";
 		}
@@ -298,7 +298,7 @@ namespace glsl
 
 	void StmtVisitor::visitElseIfStmt( ast::stmt::ElseIf * stmt )
 	{
-		if ( stmt->getCtrlExpr()->getType()->getKind() != ast::type::Kind::eBoolean )
+		if ( stmt->getCtrlExpr()->getType()->getKind() != ast::type::Kind::eBool )
 		{
 			m_result += m_indent + "else if (bool(" + ExprVisitor::submit( stmt->getCtrlExpr() ) + "))";
 		}
@@ -330,7 +330,7 @@ namespace glsl
 		doAppendLineEnd();
 		m_result += m_indent + "for (" + ExprVisitor::submit( stmt->getInitExpr() ) + "; ";
 
-		if ( stmt->getCtrlExpr()->getType()->getKind() != ast::type::Kind::eBoolean )
+		if ( stmt->getCtrlExpr()->getType()->getKind() != ast::type::Kind::eBool )
 		{
 			m_result += "bool(" + ExprVisitor::submit( stmt->getCtrlExpr() ) + "); ";
 		}
@@ -374,7 +374,7 @@ namespace glsl
 		m_appendLineEnd = true;
 		doAppendLineEnd();
 
-		if ( stmt->getCtrlExpr()->getType()->getKind() != ast::type::Kind::eBoolean )
+		if ( stmt->getCtrlExpr()->getType()->getKind() != ast::type::Kind::eBool )
 		{
 			m_result += m_indent + "if (bool(" + ExprVisitor::submit( stmt->getCtrlExpr() ) + "))";
 		}
@@ -701,7 +701,7 @@ namespace glsl
 		m_appendLineEnd = true;
 		doAppendLineEnd();
 
-		if ( stmt->getCtrlExpr()->getType()->getKind() != ast::type::Kind::eBoolean )
+		if ( stmt->getCtrlExpr()->getType()->getKind() != ast::type::Kind::eBool )
 		{
 			m_result += m_indent + "while (bool(" + ExprVisitor::submit( stmt->getCtrlExpr() ) + "))";
 		}

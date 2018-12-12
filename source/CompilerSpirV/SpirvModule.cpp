@@ -413,18 +413,20 @@ namespace spirv
 			return result;
 		}
 
-		ast::type::TypePtr getUnqualifiedType( ast::type::TypePtr qualified );
+		ast::type::TypePtr getUnqualifiedType( ast::type::TypesCache & cache
+			, ast::type::TypePtr qualified );
 
-		ast::type::StructPtr getUnqualifiedType( ast::type::Struct const & qualified )
+		ast::type::StructPtr getUnqualifiedType( ast::type::TypesCache & cache
+			, ast::type::Struct const & qualified )
 		{
-			auto result = qualified.getCache().getStruct( qualified.getMemoryLayout(), qualified.getName() );
+			auto result = cache.getStruct( qualified.getMemoryLayout(), qualified.getName() );
 			assert( result->empty() || ( result->size() == qualified.size() ) );
 
 			if ( result->empty() && !qualified.empty() )
 			{
 				for ( auto & member : qualified )
 				{
-					auto type = getUnqualifiedType( member.type );
+					auto type = getUnqualifiedType( cache, member.type );
 
 					if ( type->getKind() == ast::type::Kind::eArray )
 					{
@@ -447,61 +449,67 @@ namespace spirv
 			return result;
 		}
 
-		ast::type::ArrayPtr getUnqualifiedType( ast::type::Array const & qualified )
+		ast::type::ArrayPtr getUnqualifiedType( ast::type::TypesCache & cache
+			, ast::type::Array const & qualified )
 		{
-			return qualified.getCache().getArray( getUnqualifiedType( qualified.getType() ), qualified.getArraySize() );
+			return cache.getArray( getUnqualifiedType( cache, qualified.getType() ), qualified.getArraySize() );
 		}
 
-		ast::type::SamplerPtr getUnqualifiedType( ast::type::Sampler const & qualified )
+		ast::type::SamplerPtr getUnqualifiedType( ast::type::TypesCache & cache
+			, ast::type::Sampler const & qualified )
 		{
-			return qualified.getCache().getSampler( qualified.isComparison() );
+			return cache.getSampler( qualified.isComparison() );
 		}
 
-		ast::type::SampledImagePtr getUnqualifiedType( ast::type::SampledImage const & qualified )
+		ast::type::SampledImagePtr getUnqualifiedType( ast::type::TypesCache & cache
+			, ast::type::SampledImage const & qualified )
 		{
-			return qualified.getCache().getSampledImage( qualified.getConfig() );
+			return cache.getSampledImage( qualified.getConfig() );
 		}
 
-		ast::type::ImagePtr getUnqualifiedType( ast::type::Image const & qualified )
+		ast::type::ImagePtr getUnqualifiedType( ast::type::TypesCache & cache
+			, ast::type::Image const & qualified )
 		{
-			return qualified.getCache().getImage( qualified.getConfig() );
+			return cache.getImage( qualified.getConfig() );
 		}
 
-		ast::type::TypePtr getUnqualifiedType( ast::type::Type const & qualified )
+		ast::type::TypePtr getUnqualifiedType( ast::type::TypesCache & cache
+			, ast::type::Type const & qualified )
 		{
 			ast::type::TypePtr result;
 
 			if ( qualified.getKind() == ast::type::Kind::eArray )
 			{
-				result = getUnqualifiedType( static_cast< ast::type::Array const & >( qualified ) );
+				result = getUnqualifiedType( cache, static_cast< ast::type::Array const & >( qualified ) );
 			}
 			else if ( qualified.getKind() == ast::type::Kind::eStruct )
 			{
-				result = getUnqualifiedType( static_cast< ast::type::Struct const & >( qualified ) );
+				result = getUnqualifiedType( cache, static_cast< ast::type::Struct const & >( qualified ) );
 			}
 			else if ( qualified.getKind() == ast::type::Kind::eImage )
 			{
-				result = getUnqualifiedType( static_cast< ast::type::Image const & >( qualified ) );
+				result = getUnqualifiedType( cache, static_cast< ast::type::Image const & >( qualified ) );
 			}
 			else if ( qualified.getKind() == ast::type::Kind::eSampledImage )
 			{
-				result = getUnqualifiedType( static_cast< ast::type::SampledImage const & >( qualified ) );
+				result = getUnqualifiedType( cache, static_cast< ast::type::SampledImage const & >( qualified ) );
 			}
 			else if ( qualified.getKind() == ast::type::Kind::eSampler )
 			{
-				result = getUnqualifiedType( static_cast< ast::type::Sampler const & >( qualified ) );
+				result = getUnqualifiedType( cache, static_cast< ast::type::Sampler const & >( qualified ) );
 			}
 			else if ( qualified.isMember() )
 			{
-				result = qualified.getCache().makeType( qualified.getKind() );
+				result = cache.getBasicType( qualified.getKind() );
 			}
 
 			return result;
 		}
 
-		ast::type::TypePtr getUnqualifiedType( ast::type::TypePtr qualified )
+		ast::type::TypePtr getUnqualifiedType( ast::type::TypesCache & cache
+			, ast::type::TypePtr qualified )
 		{
-			ast::type::TypePtr result = getUnqualifiedType( *qualified );
+			ast::type::TypePtr result = getUnqualifiedType( cache, *qualified );
 			return result
 				? result
 				: qualified;
@@ -2068,7 +2076,7 @@ namespace spirv
 	{
 		spv::Id result;
 
-		auto unqualifiedType = getUnqualifiedType( type );
+		auto unqualifiedType = getUnqualifiedType( *m_cache, type );
 		auto it = m_registeredTypes.find( unqualifiedType );
 
 		if ( it == m_registeredTypes.end() )
@@ -2103,7 +2111,7 @@ namespace spirv
 				, parentId
 				, arrayStride );
 
-			auto unqualifiedType = getUnqualifiedType( type );
+			auto unqualifiedType = getUnqualifiedType( *m_cache, type );
 			auto it = m_registeredTypes.find( unqualifiedType );
 
 			if ( it == m_registeredTypes.end() )
@@ -2154,12 +2162,12 @@ namespace spirv
 		assert( kind != ast::type::Kind::eSampledImage );
 
 		spv::Id result{};
-		auto type = m_cache->makeType( kind );
+		auto type = m_cache->getBasicType( kind );
 
 		if ( isVectorType( kind )
 			|| isMatrixType( kind ) )
 		{
-			auto componentType = registerType( m_cache->makeType( getComponentType( kind ) ) );
+			auto componentType = registerType( m_cache->getBasicType( getComponentType( kind ) ) );
 			result = getNextId();
 
 			if ( isMatrixType( kind ) )
@@ -2212,7 +2220,7 @@ namespace spirv
 		, spv::Id parent )
 	{
 		// The Sampled Type.
-		auto sampledTypeId = registerType( m_cache->makeType( type->getConfig().sampledType ) );
+		auto sampledTypeId = registerType( m_cache->getBasicType( type->getConfig().sampledType ) );
 		// The Image Type.
 		auto result = getNextId();
 		globalDeclarations.push_back( makeImageTypeInstruction( type->getConfig(), result, sampledTypeId ) );
@@ -2248,7 +2256,7 @@ namespace spirv
 			if ( isMatrixType( member.type->getKind() ) )
 			{
 				auto colType = getComponentType( member.type->getKind() );
-				auto size = getSize( *member.type->getCache().makeType( colType )
+				auto size = getSize( *m_cache->getBasicType( colType )
 					, ast::type::MemoryLayout::eStd430 );
 				decorateMember( result
 					, index

@@ -15,18 +15,21 @@ namespace ast
 		: public StmtCloner
 	{
 	public:
-		static stmt::ContainerPtr submit( stmt::Container * container
+		static stmt::ContainerPtr submit( type::TypesCache & cache
+			, stmt::Container * container
 			, SpecialisationInfo const & specialisation );
 
 	private:
-		StmtSpecialiser( stmt::ContainerPtr & result
-			, SpecialisationInfo const & specialisation );
+		StmtSpecialiser( type::TypesCache & cache
+			, SpecialisationInfo const & specialisation
+			, stmt::ContainerPtr & result );
 
 		expr::ExprPtr doSubmit( expr::Expr * expr )override;
 
 		void visitSpecialisationConstantDeclStmt( stmt::SpecialisationConstantDecl * stmt )override;
 
 	private:
+		type::TypesCache & m_cache;
 		SpecialisationInfo const & m_specialisation;
 		std::map< var::VariablePtr, expr::LiteralPtr > m_specialisations;
 	};

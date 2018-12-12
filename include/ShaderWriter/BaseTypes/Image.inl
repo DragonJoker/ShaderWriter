@@ -62,7 +62,7 @@ namespace sdw
 		addStmt( *findShader( *this, rhs )
 			, sdw::makeSimple( sdw::makeAssign( m_expr->getType()
 				, makeExpr( m_expr )
-				, makeExpr( rhs ) ) ) );
+				, makeExpr( *findShader( *this, rhs ), rhs ) ) ) );
 		return *this;
 	}
 
@@ -101,7 +101,7 @@ namespace sdw
 		addStmt( *findShader( *this, rhs )
 			, sdw::makeSimple( sdw::makeAssign( m_expr->getType()
 				, makeExpr( m_expr )
-				, makeExpr( rhs ) ) ) );
+				, makeExpr( *findShader( *this, rhs ), rhs ) ) ) );
 		return *this;
 	}
 

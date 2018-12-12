@@ -43,11 +43,11 @@ namespace hlsl
 	{
 		if ( expr->getVariable() == m_origin )
 		{
-			m_result = ast::expr::makeIdentifier( m_replacement );
+			m_result = ast::expr::makeIdentifier( expr->getCache(), m_replacement );
 		}
 		else
 		{
-			m_result = ast::expr::makeIdentifier( expr->getVariable() );
+			m_result = ast::expr::makeIdentifier( expr->getCache(), expr->getVariable() );
 		}
 	}
 }

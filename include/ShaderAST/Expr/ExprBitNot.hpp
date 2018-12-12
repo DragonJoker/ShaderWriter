@@ -20,9 +20,9 @@ namespace ast::expr
 	};
 	using BitNotPtr = std::unique_ptr< BitNot >;
 
-	inline BitNotPtr makeBitNot( type::TypePtr type
-		, ExprPtr operand )
+	inline BitNotPtr makeBitNot( ExprPtr operand )
 	{
+		auto type = operand->getType();
 		return std::make_unique< BitNot >( std::move( type )
 			, std::move( operand ) );
 	}

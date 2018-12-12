@@ -8,7 +8,11 @@ namespace sdw
 	template< typename ValueT >
 	Param< ValueT >::Param( ShaderWriter & writer
 		, std::string name )
-		: ValueT{ &sdw::getShader( writer ), makeExpr( var::makeVariable( ValueT::makeType( writer.getTypesCache() ), std::move( name ), var::Flag::eParam ) ) }
+		: ValueT{ &sdw::getShader( writer )
+			, makeExpr( sdw::getShader( writer )
+				, var::makeVariable( ValueT::makeType( writer.getTypesCache() )
+					, std::move( name )
+					, var::Flag::eParam ) ) }
 	{
 	}
 
@@ -22,10 +26,7 @@ namespace sdw
 	template< typename T >
 	Param< ValueT > Param< ValueT >::operator=( T const & rhs )
 	{
-		addStmt( *findShader( *this, rhs )
-			, sdw::makeSimple( sdw::makeAssign( this->getType()
-				, makeExpr( *this )
-				, makeExpr( rhs ) ) ) );
+		writeAssignOperator< Param< ValueT > >( *this, rhs, sdw::makeAssign );
 		return *this;
 	}
 	
@@ -34,7 +35,11 @@ namespace sdw
 	template< typename ValueT >
 	InParam< ValueT >::InParam( ShaderWriter & writer
 		, std::string name )
-		: ValueT{ &sdw::getShader( writer ), makeExpr( var::makeVariable( ValueT::makeType( writer.getTypesCache() ), std::move( name ), var::Flag::eInputParam ) ) }
+		: ValueT{ &sdw::getShader( writer )
+			, makeExpr( sdw::getShader( writer )
+				, var::makeVariable( ValueT::makeType( writer.getTypesCache() )
+					, std::move( name )
+					, var::Flag::eInputParam ) ) }
 	{
 	}
 
@@ -48,10 +53,7 @@ namespace sdw
 	template< typename T >
 	InParam< ValueT > InParam< ValueT >::operator=( T const & rhs )
 	{
-		addStmt( *findShader( *this, rhs )
-			, sdw::makeSimple( sdw::makeAssign( this->getType()
-				, makeExpr( *this )
-				, makeExpr( rhs ) ) ) );
+		writeAssignOperator< InParam< ValueT > >( *this, rhs, sdw::makeAssign );
 		return *this;
 	}
 
@@ -60,7 +62,11 @@ namespace sdw
 	template< typename ValueT >
 	OutParam< ValueT >::OutParam( ShaderWriter & writer
 		, std::string name )
-		: ValueT{ &sdw::getShader( writer ), makeExpr( var::makeVariable( ValueT::makeType( writer.getTypesCache() ), std::move( name ), var::Flag::eOutputParam ) ) }
+		: ValueT{ &sdw::getShader( writer )
+			, makeExpr( sdw::getShader( writer )
+				, var::makeVariable( ValueT::makeType( writer.getTypesCache() )
+					, std::move( name )
+					, var::Flag::eOutputParam ) ) }
 	{
 	}
 
@@ -74,10 +80,7 @@ namespace sdw
 	template< typename T >
 	OutParam< ValueT > OutParam< ValueT >::operator=( T const & rhs )
 	{
-		addStmt( *findShader( *this, rhs )
-			, sdw::makeSimple( sdw::makeAssign( this->getType()
-				, makeExpr( *this )
-				, makeExpr( rhs ) ) ) );
+		writeAssignOperator< OutParam< ValueT > >( *this, rhs, sdw::makeAssign );
 		return *this;
 	}
 
@@ -86,7 +89,11 @@ namespace sdw
 	template< typename ValueT >
 	InOutParam< ValueT >::InOutParam( ShaderWriter & writer
 		, std::string name )
-		: ValueT{ &sdw::getShader( writer ), makeExpr( var::makeVariable( ValueT::makeType( writer.getTypesCache() ), std::move( name ), var::Flag::eInputParam | var::Flag::eOutputParam ) ) }
+		: ValueT{ &sdw::getShader( writer )
+			, makeExpr( sdw::getShader( writer )
+				, var::makeVariable( ValueT::makeType( writer.getTypesCache() )
+					, std::move( name )
+					, var::Flag::eInputParam | var::Flag::eOutputParam ) ) }
 	{
 	}
 
@@ -100,10 +107,7 @@ namespace sdw
 	template< typename T >
 	InOutParam< ValueT > InOutParam< ValueT >::operator=( T const & rhs )
 	{
-		addStmt( *findShader( *this, rhs )
-			, sdw::makeSimple( sdw::makeAssign( this->getType()
-				, makeExpr( *this )
-				, makeExpr( rhs ) ) ) );
+		writeAssignOperator< InOutParam< ValueT > >( *this, rhs, sdw::makeAssign );
 		return *this;
 	}
 	
@@ -113,7 +117,11 @@ namespace sdw
 	Param< Array< ValueT > >::Param( ShaderWriter & writer
 		, std::string name
 		, uint32_t arraySize )
-		: ValueT{ &sdw::getShader( writer ), makeExpr( var::makeVariable( Array< ValueT >::makeType( writer.getTypesCache(), arraySize ), std::move( name ), var::Flag::eParam ) ) }
+		: Array< ValueT >{ &sdw::getShader( writer )
+			, makeExpr( sdw::getShader( writer )
+				, var::makeVariable( Array< ValueT >::makeType( writer.getTypesCache(), arraySize )
+					, std::move( name )
+					, var::Flag::eParam ) ) }
 	{
 	}
 
@@ -127,10 +135,7 @@ namespace sdw
 	template< typename T >
 	Param< Array< ValueT > > Param< Array< ValueT > >::operator=( T const & rhs )
 	{
-		addStmt( *findShader( *this, rhs )
-			, sdw::makeSimple( sdw::makeAssign( this->getType()
-				, makeExpr( *this )
-				, makeExpr( rhs ) ) ) );
+		writeAssignOperator< Param< Array< ValueT > > >( *this, rhs, sdw::makeAssign );
 		return *this;
 	}
 	
@@ -140,7 +145,11 @@ namespace sdw
 	InParam< Array< ValueT > >::InParam( ShaderWriter & writer
 		, std::string name
 		, uint32_t arraySize )
-		: Array< ValueT >{ &sdw::getShader( writer ), makeExpr( var::makeVariable( Array< ValueT >::makeType( writer.getTypesCache(), arraySize ), std::move( name ), var::Flag::eInputParam ) ) }
+		: Array< ValueT >{ &sdw::getShader( writer )
+			, makeExpr( sdw::getShader( writer )
+				, var::makeVariable( Array< ValueT >::makeType( writer.getTypesCache(), arraySize )
+					, std::move( name )
+					, var::Flag::eInputParam ) ) }
 	{
 	}
 
@@ -154,10 +163,7 @@ namespace sdw
 	template< typename T >
 	InParam< Array< ValueT > > InParam< Array< ValueT > >::operator=( T const & rhs )
 	{
-		addStmt( *findShader( *this, rhs )
-			, sdw::makeSimple( sdw::makeAssign( this->getType()
-				, makeExpr( *this )
-				, makeExpr( rhs ) ) ) );
+		writeAssignOperator< InParam< Array< ValueT > > >( *this, rhs, sdw::makeAssign );
 		return *this;
 	}
 
@@ -167,7 +173,11 @@ namespace sdw
 	OutParam< Array< ValueT > >::OutParam( ShaderWriter & writer
 		, std::string name
 		, uint32_t arraySize )
-		: Array< ValueT >{ &sdw::getShader( writer ), makeExpr( var::makeVariable( Array< ValueT >::makeType( writer.getTypesCache(), arraySize ), std::move( name ), var::Flag::eOutputParam ) ) }
+		: Array< ValueT >{ &sdw::getShader( writer )
+			, makeExpr( sdw::getShader( writer )
+				, var::makeVariable( Array< ValueT >::makeType( writer.getTypesCache(), arraySize )
+					, std::move( name )
+					, var::Flag::eOutputParam ) ) }
 	{
 	}
 
@@ -181,10 +191,7 @@ namespace sdw
 	template< typename T >
 	OutParam< Array< ValueT > > OutParam< Array< ValueT > >::operator=( T const & rhs )
 	{
-		addStmt( *findShader( *this, rhs )
-			, sdw::makeSimple( sdw::makeAssign( this->getType()
-				, makeExpr( *this )
-				, makeExpr( rhs ) ) ) );
+		writeAssignOperator< OutParam< Array< ValueT > > >( *this, rhs, sdw::makeAssign );
 		return *this;
 	}
 
@@ -194,7 +201,11 @@ namespace sdw
 	InOutParam< Array< ValueT > >::InOutParam( ShaderWriter & writer
 		, std::string name
 		, uint32_t arraySize )
-		: Array< ValueT >{ &sdw::getShader( writer ), makeExpr( var::makeVariable( Array< ValueT >::makeType( writer.getTypesCache(), arraySize ), std::move( name ), var::Flag::eInputParam | var::Flag::eOutputParam ) ) }
+		: Array< ValueT >{ &sdw::getShader( writer )
+			, makeExpr( sdw::getShader( writer )
+				, var::makeVariable( Array< ValueT >::makeType( writer.getTypesCache(), arraySize )
+					, std::move( name )
+					, var::Flag::eInputParam | var::Flag::eOutputParam ) ) }
 	{
 	}
 
@@ -208,10 +219,7 @@ namespace sdw
 	template< typename T >
 	InOutParam< Array< ValueT > > InOutParam< Array< ValueT > >::operator=( T const & rhs )
 	{
-		addStmt( *findShader( *this, rhs )
-			, sdw::makeSimple( sdw::makeAssign( this->getType()
-				, makeExpr( *this )
-				, makeExpr( rhs ) ) ) );
+		writeAssignOperator< InOutParam< Array< ValueT > > >( *this, rhs, sdw::makeAssign );
 		return *this;
 	}
 

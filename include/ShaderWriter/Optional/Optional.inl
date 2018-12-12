@@ -3,6 +3,8 @@ See LICENSE file in root folder
 */
 namespace sdw
 {
+	//*************************************************************************
+
 	namespace details
 	{
 		inline bool areOptionalEnabledRec()
@@ -26,72 +28,64 @@ namespace sdw
 		}
 	}
 
-	template< typename TypeT >
-	Optional< TypeT >::Optional( Shader * shader
+	//*************************************************************************
+
+	template< typename ValueT >
+	Optional< ValueT >::Optional( Shader * shader
 		, expr::ExprPtr expr
 		, bool enabled )
-		: TypeT{ shader, std::move( expr ) }
+		: ValueT{ shader, std::move( expr ) }
 		, m_enabled{ enabled }
 	{
 	}
 
-	template< typename TypeT >
-	Optional< TypeT >::Optional( TypeT const & other
+	template< typename ValueT >
+	Optional< ValueT >::Optional( ValueT const & other
 		, bool enabled )
-		: TypeT{ other }
+		: ValueT{ other }
 		, m_enabled{ enabled }
 	{
 	}
 
-	template< typename TypeT >
-	Optional< TypeT >::Optional( Optional< TypeT > const & rhs )
-		: TypeT{ rhs }
+	template< typename ValueT >
+	Optional< ValueT >::Optional( Optional< ValueT > const & rhs )
+		: ValueT{ rhs }
 		, m_enabled{ rhs.m_enabled }
 	{
 	}
 
-	template< typename TypeT >
-	Optional< TypeT > Optional< TypeT >::operator=( Optional< TypeT > const & rhs )
+	template< typename ValueT >
+	Optional< ValueT > Optional< ValueT >::operator=( Optional< ValueT > const & rhs )
 	{
-		if ( m_enabled )
-		{
-			addStmt( *findShader( *this, rhs )
-				, sdw::makeSimple( sdw::makeAssign( this->getType()
-					, makeExpr( *this )
-					, makeExpr( rhs ) ) ) );
-		}
-
+		writeAssignOperator< ValueT >( *this, rhs, sdw::makeAssign );
 		return *this;
 	}
 
-	template< typename TypeT >
+	template< typename ValueT >
 	template< typename T >
-	Optional< TypeT > Optional< TypeT >::operator=( T const & rhs )
+	Optional< ValueT > Optional< ValueT >::operator=( T const & rhs )
 	{
-		if ( m_enabled )
-		{
-			addStmt( *findShader( *this, rhs )
-				, sdw::makeSimple( sdw::makeAssign( this->getType()
-					, makeExpr( *this )
-					, makeExpr( rhs ) ) ) );
-		}
-
+		writeAssignOperator< ValueT >( *this, rhs, sdw::makeAssign );
 		return *this;
 	}
 
-	template< typename TypeT >
-	bool Optional< TypeT >::isEnabled()const
+	template< typename ValueT >
+	bool Optional< ValueT >::isEnabled()const
 	{
 		return m_enabled;
 	}
 
+	//*************************************************************************
+
 	template< typename T >
-	inline expr::ExprPtr makeExpr( Optional< T > const & value
+	inline expr::ExprPtr makeExpr( Shader & shader
+		, Optional< T > const & value
 		, bool force )
 	{
 		if ( value.isEnabled() || force )
 		{
-			return makeExpr( static_cast< T const & >( value ) );
+			return makeExpr( shader
+				, static_cast< T const & >( value ) );
 		}
 
 		return nullptr;
@@ -114,4 +108,59 @@ namespace sdw
 	{
 		return details::areOptionalEnabledRec( values... );
 	}
+
+	//*************************************************************************
+
+	template< typename ReturnT, typename OperandT, typename CreatorT >
+	inline Optional< ReturnT > writeUnOperator( Optional< OperandT > const & operand
+		, CreatorT creator )
+	{
+		auto & shader = *findShader( operand );
+		return Optional< ReturnT >{ &shader
+			, creator( makeExpr( shader, operand ) )
+			, operand.isEnabled() };
+	}
+
+	//*************************************************************************
+
+	template< typename ReturnT, typename LhsT, typename RhsT, typename CreatorT >
+	Optional< ReturnT > writeBinOperator( Optional< LhsT > const & lhs
+		, RhsT const & rhs
+		, CreatorT creator )
+	{
+		auto & shader = *findShader( lhs, rhs );
+		return Optional< ReturnT >{ &shader
+			, creator( ReturnT::makeType( findTypesCache( lhs, rhs ) )
+				, makeExpr( shader, lhs, true )
+				, makeExpr( shader, rhs ) )
+			, areOptionalEnabled( lhs, rhs ) };
+	}
+
+	template< typename ReturnT, typename LhsT, typename RhsT, typename CreatorT >
+	Optional< ReturnT > writeBinOperator( LhsT const & lhs
+		, Optional< RhsT > const & rhs
+		, CreatorT creator )
+	{
+		auto & shader = *findShader( lhs, rhs );
+		return Optional< ReturnT >{ &shader
+			, creator( ReturnT::makeType( findTypesCache( lhs, rhs ) )
+				, makeExpr( shader, lhs )
+				, makeExpr( shader, rhs, true ) )
+			, areOptionalEnabled( lhs, rhs ) };
+	}
+
+	template< typename ReturnT, typename LhsT, typename RhsT, typename CreatorT >
+	Optional< ReturnT > writeBinOperator( Optional< LhsT > const & lhs
+		, Optional< RhsT > const & rhs
+		, CreatorT creator )
+	{
+		auto & shader = *findShader( lhs, rhs );
+		return Optional< ReturnT >{ &shader
+			, creator( ReturnT::makeType( findTypesCache( lhs, rhs ) )
+				, makeExpr( shader, lhs, true )
+				, makeExpr( shader, rhs, true ) )
+			, areOptionalEnabled( lhs, rhs ) };
+	}
+
+	//*************************************************************************
 }

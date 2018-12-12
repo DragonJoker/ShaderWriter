@@ -5,25 +5,30 @@ See LICENSE file in root folder
 
 namespace ast
 {
-	expr::ExprPtr ExprSpecialiser::submit( expr::Expr * expr
+	expr::ExprPtr ExprSpecialiser::submit( type::TypesCache & cache
+		, expr::Expr * expr
 		, std::map< var::VariablePtr, expr::LiteralPtr > const & specialisations )
 	{
 		expr::ExprPtr result;
-		ExprSpecialiser vis{ result, specialisations };
+		ExprSpecialiser vis{ cache, specialisations, result };
 		expr->accept( &vis );
 		return result;
 	}
 			
-	expr::ExprPtr ExprSpecialiser::submit( expr::ExprPtr const & expr
+	expr::ExprPtr ExprSpecialiser::submit( type::TypesCache & cache
+		, expr::ExprPtr const & expr
 		, std::map< var::VariablePtr, expr::LiteralPtr > const & specialisations )
 	{
-		return submit( expr.get()
+		return submit( cache
+			, expr.get()
 			, specialisations );
 	}
 
-	ExprSpecialiser::ExprSpecialiser( expr::ExprPtr & result
-		, std::map< var::VariablePtr, expr::LiteralPtr > const & specialisations )
+	ExprSpecialiser::ExprSpecialiser( type::TypesCache & cache
+		, std::map< var::VariablePtr, expr::LiteralPtr > const & specialisations
+		, expr::ExprPtr & result )
 		: ExprCloner{ result }
+		, m_cache{ cache }
 		, m_specialisations{ specialisations }
 	{
 	}
@@ -31,7 +36,7 @@ namespace ast
 	ast::expr::ExprPtr ExprSpecialiser::doSubmit( ast::expr::Expr * expr )
 	{
 		expr::ExprPtr result;
-		ExprSpecialiser vis{ result, m_specialisations };
+		ExprSpecialiser vis{ m_cache, m_specialisations, result };
 		expr->accept( &vis );
 		return result;
 	}
@@ -46,7 +51,7 @@ namespace ast
 		}
 		else
 		{
-			m_result = expr::makeIdentifier( expr->getVariable() );
+			m_result = expr::makeIdentifier( m_cache, expr->getVariable() );
 		}
 	}
 }

@@ -6,108 +6,77 @@ See LICENSE file in root folder
 #pragma once
 
 #include "Void.hpp"
-#include "Int.hpp"
-#include "UInt.hpp"
-#include "Float.hpp"
-#include "Double.hpp"
+#include "ShaderWriter/MaybeOptional/MaybeOptional.hpp"
 
 namespace sdw
 {
-	struct Boolean
+	struct Bool
 		: public Value
 	{
-		Boolean( Shader * shader
+		Bool( Shader * shader
 			, expr::ExprPtr expr );
-		Boolean( Boolean && rhs );
-		Boolean( Boolean const & rhs );
-		explicit Boolean( Value const & rhs );
-		Boolean & operator=( Boolean const & rhs );
+		Bool( Bool && rhs );
+		Bool( Bool const & rhs );
+		explicit Bool( Value const & rhs );
+		Bool & operator=( Bool const & rhs );
 		template< typename T >
-		inline Boolean & operator=( T const & rhs );
-		Boolean & operator=( bool rhs );
+		inline Bool & operator=( T const & rhs );
+		Bool & operator=( bool rhs );
 		operator bool();
 		expr::ExprPtr makeCondition()const;
 
 		static ast::type::TypePtr makeType( ast::type::TypesCache & cache );
 	};
 
-	Boolean operator==( Boolean const & lhs
-		, Boolean const & rhs );
-	Boolean operator!=( Boolean const & lhs
-		, Boolean const & rhs );
-	Boolean operator||( Boolean const & lhs
-		, Boolean const & rhs );
-	Boolean operator&&( Boolean const & lhs
-		, Boolean const & rhs );
-	Optional< Boolean > operator||( Optional< Boolean > const & lhs
-		, Boolean const & rhs );
-	Optional< Boolean > operator&&( Optional< Boolean > const & lhs
-		, Boolean const & rhs );
-	Optional< Boolean > operator||( Boolean const & lhs
-		, Optional< Boolean > const & rhs );
-	Optional< Boolean > operator&&( Boolean const & lhs
-		, Optional< Boolean > const & rhs );
-	Optional< Boolean > operator||( Optional< Boolean > const & lhs
-		, Optional< Boolean > const & rhs );
-	Optional< Boolean > operator&&( Optional< Boolean > const & lhs
-		, Optional< Boolean > const & rhs );
+	Bool operator==( Bool const & lhs
+		, Bool const & rhs );
+	Bool operator!=( Bool const & lhs
+		, Bool const & rhs );
+	Bool operator||( Bool const & lhs
+		, Bool const & rhs );
+	Bool operator&&( Bool const & lhs
+		, Bool const & rhs );
+	Optional< Bool > operator||( Optional< Bool > const & lhs
+		, Bool const & rhs );
+	Optional< Bool > operator&&( Optional< Bool > const & lhs
+		, Bool const & rhs );
+	Optional< Bool > operator||( Bool const & lhs
+		, Optional< Bool > const & rhs );
+	Optional< Bool > operator&&( Bool const & lhs
+		, Optional< Bool > const & rhs );
+	Optional< Bool > operator||( Optional< Bool > const & lhs
+		, Optional< Bool > const & rhs );
+	Optional< Bool > operator&&( Optional< Bool > const & lhs
+		, Optional< Bool > const & rhs );
 
-	template< typename ValueT >
-	Optional< Boolean > operator==( Optional< ValueT >  const & lhs
-		, ValueT const & rhs );
-	template< typename ValueT >
-	Optional< Boolean > operator!=( Optional< ValueT >  const & lhs
-		, ValueT const & rhs );
-	template< typename ValueT >
-	Optional< Boolean > operator<( Optional< ValueT >  const & lhs
-		, ValueT const & rhs );
-	template< typename ValueT >
-	Optional< Boolean > operator<=( Optional< ValueT >  const & lhs
-		, ValueT const & rhs );
-	template< typename ValueT >
-	Optional< Boolean > operator>( Optional< ValueT >  const & lhs
-		, ValueT const & rhs );
-	template< typename ValueT >
-	Optional< Boolean > operator>=( Optional< ValueT > const & lhs
-		, ValueT const & rhs );
-
-	template< typename ValueT >
-	Optional< Boolean > operator==( ValueT const & lhs
-		, Optional< ValueT > const & rhs );
-	template< typename ValueT >
-	Optional< Boolean > operator!=( ValueT const & lhs
-		, Optional< ValueT > const & rhs );
-	template< typename ValueT >
-	Optional< Boolean > operator<( ValueT const & lhs
-		, Optional< ValueT > const & rhs );
-	template< typename ValueT >
-	Optional< Boolean > operator<=( ValueT const & lhs
-		, Optional< ValueT > const & rhs );
-	template< typename ValueT >
-	Optional< Boolean > operator>( ValueT const & lhs
-		, Optional< ValueT > const & rhs );
-	template< typename ValueT >
-	Optional< Boolean > operator>=( ValueT const & lhs
-		, Optional< ValueT > const & rhs );
-
-	template< typename ValueT >
-	Optional< Boolean > operator==( Optional< ValueT > const & lhs
-		, Optional< ValueT > const & rhs );
-	template< typename ValueT >
-	Optional< Boolean > operator!=( Optional< ValueT > const & lhs
-		, Optional< ValueT > const & rhs );
-	template< typename ValueT >
-	Optional< Boolean > operator<( Optional< ValueT > const & lhs
-		, Optional< ValueT > const & rhs );
-	template< typename ValueT >
-	Optional< Boolean > operator<=( Optional< ValueT > const & lhs
-		, Optional< ValueT > const & rhs );
-	template< typename ValueT >
-	Optional< Boolean > operator>( Optional< ValueT > const & lhs
-		, Optional< ValueT > const & rhs );
-	template< typename ValueT >
-	Optional< Boolean > operator>=( Optional< ValueT > const & lhs
-		, Optional< ValueT > const & rhs );
+	template< typename LhsT, typename RhsT, typename CreatorT >
+	inline Bool writeComparator( LhsT const & lhs
+		, RhsT const & rhs
+		, CreatorT creator );
+	template< typename LhsT, typename RhsT, typename CreatorT >
+	Optional< Bool > writeComparator( Optional< LhsT > const & lhs
+		, RhsT const & rhs
+		, CreatorT creator );
+	template< typename LhsT, typename RhsT, typename CreatorT >
+	Optional< Bool > writeComparator( LhsT const & lhs
+		, Optional< RhsT > const & rhs
+		, CreatorT creator );
+	template< typename LhsT, typename RhsT, typename CreatorT >
+	Optional< Bool > writeComparator( Optional< LhsT > const & lhs
+		, Optional< RhsT > const & rhs
+		, CreatorT creator );
+	template< typename LhsT, typename RhsT, typename CreatorT >
+	MaybeOptional< Bool > writeComparator( MaybeOptional< LhsT > const & lhs
+		, RhsT const & rhs
+		, CreatorT creator );
+	template< typename LhsT, typename RhsT, typename CreatorT >
+	MaybeOptional< Bool > writeComparator( LhsT const & lhs
+		, MaybeOptional< RhsT > const & rhs
+		, CreatorT creator );
+	template< typename LhsT, typename RhsT, typename CreatorT >
+	MaybeOptional< Bool > writeComparator( MaybeOptional< LhsT > const & lhs
+		, MaybeOptional< RhsT > const & rhs
+		, CreatorT creator );
 }
 
 #include "Bool.inl"

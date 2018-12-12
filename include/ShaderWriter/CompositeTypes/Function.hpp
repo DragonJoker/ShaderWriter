@@ -43,41 +43,39 @@ namespace sdw
 
 	//***********************************************************************************************
 
-	template< typename ReturnT
-		, typename ... ParamsT >
-	ReturnT getCtorCall( ParamsT const & ... params );
-
-	template< typename ReturnT
-		, typename ... ParamsT >
-	Optional< ReturnT > getOptCtorCall( ParamsT const & ... params );
-
-	template< typename ReturnT
-		, typename ... ParamsT >
-	ReturnT getFunctionCall( std::string const & name
+	template< typename ReturnT, typename ... ParamsT >
+	inline ReturnT getCtorCall( Shader & shader
 		, ParamsT const & ... params );
 
-	template< typename ReturnT
-		, typename ... ParamsT >
-	Optional< ReturnT > getOptFunctionCall( std::string const & name
+	template< typename ReturnT, typename ... ParamsT >
+	inline Optional< ReturnT > getOptCtorCall( Shader & shader
 		, ParamsT const & ... params );
 
-	template< typename ReturnT
-		, typename ... ParamsT >
-	inline stmt::FunctionDeclPtr getFunctionHeader( ast::type::TypesCache & cache
+	template< typename ReturnT, typename ... ParamsT >
+	inline ReturnT getFunctionCall( Shader & shader
+		, std::string const & name
+		, ParamsT const & ... params );
+
+	template< typename ReturnT, typename ... ParamsT >
+	inline Optional< ReturnT > getOptFunctionCall( Shader & shader
+		, std::string const & name
+		, ParamsT const & ... params );
+
+	template< typename ReturnT, typename ... ParamsT >
+	inline stmt::FunctionDeclPtr getFunctionHeader( Shader & shader
 		, std::string const & name
 		, ParamsT && ... params );
 
 	//***********************************************************************************************
 
-	template< typename ReturnT
-		, typename ... ParamsT >
+	template< typename ReturnT, typename ... ParamsT >
 	struct Function
 	{
 	public:
-		Function() = default;
-		Function( Shader * shader
+		inline Function() = default;
+		inline Function( Shader * shader
 			, std::string const & name );
-		ReturnT operator()( ParamsT && ... params )const;
+		inline ReturnT operator()( ParamsT && ... params )const;
 
 	private:
 		mutable Shader * m_shader{ nullptr };

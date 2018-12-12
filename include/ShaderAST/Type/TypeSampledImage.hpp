@@ -16,7 +16,7 @@ namespace ast::type
 		: public Type
 	{
 	public:
-		SampledImage( TypesCache * cache
+		SampledImage( TypesCache & cache
 			, ImageConfiguration config );
 
 		ImagePtr getImageType()const

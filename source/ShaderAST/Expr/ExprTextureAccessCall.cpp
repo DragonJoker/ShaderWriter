@@ -10,7 +10,7 @@ namespace ast::expr
 	TextureAccessCall::TextureAccessCall( type::TypePtr type
 		, TextureAccess textureAccess
 		, ExprList && argList )
-		: Expr{ std::move( type ), Kind::eTextureAccessCall }
+		: Expr{ getExprTypesCache( argList ), std::move( type ), Kind::eTextureAccessCall }
 		, m_textureAccess{ textureAccess }
 		, m_argList{ std::move( argList ) }
 	{

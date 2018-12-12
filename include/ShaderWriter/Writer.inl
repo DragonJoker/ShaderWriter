@@ -40,7 +40,7 @@ namespace sdw
 				, SrcT const & from )
 			{
 				auto dstType = DstT::makeType( shader.getTypesCache() );
-				auto expr = makeExpr( from );
+				auto expr = makeExpr( shader, from );
 				auto srcType = expr->getType();
 
 				if ( dstType != srcType )
@@ -63,7 +63,7 @@ namespace sdw
 				, SrcT const & from )
 			{
 				auto dstType = DstT::makeType( shader.getTypesCache() );
-				auto expr = makeExpr( from );
+				auto expr = makeExpr( shader, from );
 				auto srcType = from.getType();
 
 				if ( dstType != srcType )
@@ -88,7 +88,7 @@ namespace sdw
 				, SrcT const & from )
 			{
 				auto dstType = DstT::makeType( shader.getTypesCache() );
-				auto expr = makeExpr( from );
+				auto expr = makeExpr( shader, from );
 				auto srcType = expr->getType();
 
 				if ( dstType != srcType )
@@ -113,7 +113,7 @@ namespace sdw
 				, SrcT const & from )
 			{
 				auto dstType = DstT::makeType( shader.getTypesCache() );
-				auto expr = makeExpr( from );
+				auto expr = makeExpr( shader, from );
 				auto srcType = from.getType();
 
 				if ( dstType != srcType )
@@ -138,7 +138,7 @@ namespace sdw
 		, std::function< void( ParamTranslaterT< ParamsT >... ) > const & function
 		, ParamsT && ... params )
 	{
-		auto decl = getFunctionHeader< ReturnT >( getTypesCache(), name, params... );
+		auto decl = getFunctionHeader< ReturnT >( getShader(), name, params... );
 		doPushScope( decl.get() );
 
 		for ( auto & var : decl->getParameters() )
@@ -155,7 +155,7 @@ namespace sdw
 	template< typename RetType >
 	void ShaderWriter::returnStmt( RetType const & value )
 	{
-		addStmt( sdw::makeReturn( makeExpr( value ) ) );
+		addStmt( sdw::makeReturn( makeExpr( getShader(), value ) ) );
 	}
 
 	template< typename ExprType >
@@ -171,29 +171,29 @@ namespace sdw
 	}
 
 	template< typename ExprType >
-	ExprType ShaderWriter::ternary( Boolean condition
+	ExprType ShaderWriter::ternary( Bool condition
 		, ExprType left
 		, ExprType right )
 	{
 		return ExprType{ &m_shader
 			, sdw::makeQuestion( left.getType()
-				, makeExpr( condition )
-				, makeExpr( left )
-				, makeExpr( right ) ) };
+				, makeExpr( getShader(), condition )
+				, makeExpr( getShader(), left )
+				, makeExpr( getShader(), right ) ) };
 	}
 
 	template< typename ValueT >
 	inline ValueT ShaderWriter::paren( ValueT const & content )
 	{
 		return ValueT{ &m_shader
-			, makeExpr( content ) };
+			, makeExpr( getShader(), content ) };
 	}
 
 	template< typename ValueT >
 	inline Optional< ValueT > ShaderWriter::paren( Optional< ValueT > const & content )
 	{
 		return Optional< ValueT >{ &m_shader
-			, makeExpr( content )
+			, makeExpr( getShader(), content )
 			, areOptionalEnabled( content ) };
 	}
 
@@ -203,12 +203,12 @@ namespace sdw
 		if ( isAnyOptional( content ) )
 		{
 			return MaybeOptional< ValueT >{ &m_shader
-				, makeExpr( content )
+				, makeExpr( getShader(), content )
 				, areOptionalEnabled( content ) };
 		}
 
 		return MaybeOptional< ValueT >{ &m_shader
-			, makeExpr( content ) };
+			, makeExpr( getShader(), content ) };
 	}
 
 	template< typename ReturnT >
@@ -279,9 +279,9 @@ namespace sdw
 		auto var = registerConstant( name
 			, type );
 		addStmt( sdw::makePreprocDefine( name
-			, makeExpr( rhs ) ) );
+			, makeExpr( getShader(), rhs ) ) );
 		return T{ &m_shader
-			, makeExpr( var ) };
+			, makeExpr( getShader(), var ) };
 	}
 
 	template< typename T >
@@ -296,11 +296,11 @@ namespace sdw
 		if ( enabled )
 		{
 			addStmt( sdw::makePreprocDefine( name
-				, makeExpr( rhs ) ) );
+				, makeExpr( getShader(), rhs ) ) );
 		}
 
 		return Optional< T >{ &m_shader
-			, makeExpr( var )
+			, makeExpr( getShader(), var )
 			, enabled };
 	}
 
@@ -314,9 +314,9 @@ namespace sdw
 			, type );
 		addStmt( sdw::makePreprocDefine( name
 			, sdw::makeAggrInit( var->getType()
-				, makeExpr( rhs ) ) ) );
+				, makeExpr( getShader(), rhs ) ) ) );
 		return Array< T >{ &m_shader
-			, makeExpr( var ) };
+			, makeExpr( getShader(), var ) };
 	}
 
 	template< typename T >
@@ -333,11 +333,11 @@ namespace sdw
 		{
 			addStmt( sdw::makePreprocDefine( name
 				, sdw::makeAggrInit( var->getType()
-					, makeExpr( rhs ) ) ) );
+					, makeExpr( getShader(), rhs ) ) ) );
 		}
 
 		return Optional< Array< T > >{ &m_shader
-			, makeExpr( var )
+			, makeExpr( getShader(), var )
 			, enabled };
 	}
 	/**@}*/
@@ -367,7 +367,7 @@ namespace sdw
 			, binding
 			, set ) );
 		return T{ &m_shader
-			, makeExpr( var ) };
+			, makeExpr( getShader(), var ) };
 	}
 
 	template< ast::type::ImageFormat FormatT
@@ -396,7 +396,7 @@ namespace sdw
 		}
 
 		return Optional< T >{ &m_shader
-			, makeExpr( var )
+			, makeExpr( getShader(), var )
 			, enabled };
 	}
 
@@ -421,7 +421,7 @@ namespace sdw
 			, binding
 			, set ) );
 		return Array< T >{ &m_shader
-			, makeExpr( var ) };
+			, makeExpr( getShader(), var ) };
 	}
 
 	template< ast::type::ImageFormat FormatT
@@ -452,7 +452,7 @@ namespace sdw
 		}
 
 		return Optional< Array< T > >{ &m_shader
-			, makeExpr( var )
+			, makeExpr( getShader(), var )
 			, enabled };
 	}
 	/**@}*/
@@ -482,7 +482,7 @@ namespace sdw
 			, binding
 			, set ) );
 		return T{ &m_shader
-			, makeExpr( var ) };
+			, makeExpr( getShader(), var ) };
 	}
 
 	template< ast::type::ImageFormat FormatT
@@ -511,7 +511,7 @@ namespace sdw
 		}
 
 		return Optional< T >{ &m_shader
-			, makeExpr( var )
+			, makeExpr( getShader(), var )
 			, enabled };
 	}
 
@@ -536,7 +536,7 @@ namespace sdw
 			, binding
 			, set ) );
 		return Array< T >{ &m_shader
-			, makeExpr( var ) };
+			, makeExpr( getShader(), var ) };
 	}
 
 	template< ast::type::ImageFormat FormatT
@@ -567,7 +567,7 @@ namespace sdw
 		}
 
 		return Optional< Array< T > >{ &m_shader
-			, makeExpr( var )
+			, makeExpr( getShader(), var )
 			, enabled };
 	}
 	/**@}*/
@@ -582,7 +582,7 @@ namespace sdw
 	inline T ShaderWriter::declInput( std::string const & name
 		, uint32_t location )
 	{
-		static_assert( !IsSameV< T, Boolean >, "Boolean is not supported as input type" );
+		static_assert( !IsSameV< T, Bool >, "Bool is not supported as input type" );
 		static_assert( !IsSameV< T, BVec2 >, "BVec2 is not supported as input type" );
 		static_assert( !IsSameV< T, BVec3 >, "BVec3 is not supported as input type" );
 		static_assert( !IsSameV< T, BVec4 >, "BVec4 is not supported as input type" );
@@ -597,7 +597,7 @@ namespace sdw
 		addStmt( sdw::makeInOutVariableDecl( var
 			, location ) );
 		return T{ &m_shader
-			, makeExpr( var ) };
+			, makeExpr( getShader(), var ) };
 	}
 
 	template< typename T >
@@ -605,7 +605,7 @@ namespace sdw
 		, uint32_t location
 		, bool enabled )
 	{
-		static_assert( !IsSameV< T, Boolean >, "Boolean is not supported as input type" );
+		static_assert( !IsSameV< T, Bool >, "Bool is not supported as input type" );
 		static_assert( !IsSameV< T, BVec2 >, "BVec2 is not supported as input type" );
 		static_assert( !IsSameV< T, BVec3 >, "BVec3 is not supported as input type" );
 		static_assert( !IsSameV< T, BVec4 >, "BVec4 is not supported as input type" );
@@ -625,7 +625,7 @@ namespace sdw
 		}
 
 		return Optional< T >{ &m_shader
-			, makeExpr( var )
+			, makeExpr( getShader(), var )
 			, enabled };
 	}
 
@@ -634,7 +634,7 @@ namespace sdw
 		, uint32_t location
 		, uint32_t dimension )
 	{
-		static_assert( !IsSameV< T, Boolean >, "Boolean is not supported as input type" );
+		static_assert( !IsSameV< T, Bool >, "Bool is not supported as input type" );
 		static_assert( !IsSameV< T, BVec2 >, "BVec2 is not supported as input type" );
 		static_assert( !IsSameV< T, BVec3 >, "BVec3 is not supported as input type" );
 		static_assert( !IsSameV< T, BVec4 >, "BVec4 is not supported as input type" );
@@ -650,7 +650,7 @@ namespace sdw
 		addStmt( sdw::makeInOutVariableDecl( var
 			, location ) );
 		return Array< T >{ &m_shader
-			, makeExpr( var ) };
+			, makeExpr( getShader(), var ) };
 	}
 
 	template< typename T >
@@ -659,7 +659,7 @@ namespace sdw
 		, uint32_t dimension
 		, bool enabled )
 	{
-		static_assert( !IsSameV< T, Boolean >, "Boolean is not supported as input type" );
+		static_assert( !IsSameV< T, Bool >, "Bool is not supported as input type" );
 		static_assert( !IsSameV< T, BVec2 >, "BVec2 is not supported as input type" );
 		static_assert( !IsSameV< T, BVec3 >, "BVec3 is not supported as input type" );
 		static_assert( !IsSameV< T, BVec4 >, "BVec4 is not supported as input type" );
@@ -680,7 +680,7 @@ namespace sdw
 		}
 
 		return Optional< Array< T > >{ &m_shader
-			, makeExpr( var )
+			, makeExpr( getShader(), var )
 			, enabled };
 	}
 	/**@}*/
@@ -695,7 +695,7 @@ namespace sdw
 	inline T ShaderWriter::declOutput( std::string const & name
 		, uint32_t location )
 	{
-		static_assert( !IsSameV< T, Boolean >, "Boolean is not supported as output type" );
+		static_assert( !IsSameV< T, Bool >, "Bool is not supported as output type" );
 		static_assert( !IsSameV< T, BVec2 >, "BVec2 is not supported as output type" );
 		static_assert( !IsSameV< T, BVec3 >, "BVec3 is not supported as output type" );
 		static_assert( !IsSameV< T, BVec4 >, "BVec4 is not supported as output type" );
@@ -710,7 +710,7 @@ namespace sdw
 		addStmt( sdw::makeInOutVariableDecl( var
 			, location ) );
 		return T{ &m_shader
-			, makeExpr( var ) };
+			, makeExpr( getShader(), var ) };
 	}
 
 	template< typename T >
@@ -718,7 +718,7 @@ namespace sdw
 		, uint32_t location
 		, bool enabled )
 	{
-		static_assert( !IsSameV< T, Boolean >, "Boolean is not supported as output type" );
+		static_assert( !IsSameV< T, Bool >, "Bool is not supported as output type" );
 		static_assert( !IsSameV< T, BVec2 >, "BVec2 is not supported as output type" );
 		static_assert( !IsSameV< T, BVec3 >, "BVec3 is not supported as output type" );
 		static_assert( !IsSameV< T, BVec4 >, "BVec4 is not supported as output type" );
@@ -738,7 +738,7 @@ namespace sdw
 		}
 
 		return Optional< T >{ &m_shader
-			, makeExpr( var )
+			, makeExpr( getShader(), var )
 			, enabled };
 	}
 
@@ -747,7 +747,7 @@ namespace sdw
 		, uint32_t location
 		, uint32_t dimension )
 	{
-		static_assert( !IsSameV< T, Boolean >, "Boolean is not supported as output type" );
+		static_assert( !IsSameV< T, Bool >, "Bool is not supported as output type" );
 		static_assert( !IsSameV< T, BVec2 >, "BVec2 is not supported as output type" );
 		static_assert( !IsSameV< T, BVec3 >, "BVec3 is not supported as output type" );
 		static_assert( !IsSameV< T, BVec4 >, "BVec4 is not supported as output type" );
@@ -763,7 +763,7 @@ namespace sdw
 		addStmt( sdw::makeInOutVariableDecl( var
 			, location ) );
 		return Array< T >{ &m_shader
-			, makeExpr( var ) };
+			, makeExpr( getShader(), var ) };
 	}
 
 	template< typename T >
@@ -772,7 +772,7 @@ namespace sdw
 		, uint32_t dimension
 		, bool enabled )
 	{
-		static_assert( !IsSameV< T, Boolean >, "Boolean is not supported as output type" );
+		static_assert( !IsSameV< T, Bool >, "Bool is not supported as output type" );
 		static_assert( !IsSameV< T, BVec2 >, "BVec2 is not supported as output type" );
 		static_assert( !IsSameV< T, BVec3 >, "BVec3 is not supported as output type" );
 		static_assert( !IsSameV< T, BVec4 >, "BVec4 is not supported as output type" );
@@ -793,7 +793,7 @@ namespace sdw
 		}
 
 		return Optional< Array< T > >{ &m_shader
-			, makeExpr( var )
+			, makeExpr( getShader(), var )
 			, enabled };
 	}
 	/**@}*/
@@ -819,7 +819,7 @@ namespace sdw
 			, type );
 		addStmt( sdw::makeVariableDecl( var ) );
 		return T{ &m_shader
-			, makeExpr( var ) };
+			, makeExpr( getShader(), var ) };
 	}
 
 	template< typename T >
@@ -830,9 +830,9 @@ namespace sdw
 		auto var = registerLocale( name
 			, type );
 		addStmt( sdw::makeSimple( sdw::makeInit( var
-			, makeExpr( rhs ) ) ) );
+			, makeExpr( getShader(), rhs ) ) ) );
 		return T{ &m_shader
-			, makeExpr( var ) };
+			, makeExpr( getShader(), var ) };
 	}
 
 	template< typename T >
@@ -846,18 +846,18 @@ namespace sdw
 		if ( rhs.isEnabled() )
 		{
 			addStmt( sdw::makeSimple( sdw::makeInit( var
-				, makeExpr( rhs ) ) ) );
+				, makeExpr( getShader(), rhs ) ) ) );
 		}
 
 		if ( rhs.isOptional() )
 		{
 			return MaybeOptional< T >{ &m_shader
-				, makeExpr( var )
+				, makeExpr( getShader(), var )
 				, rhs.isEnabled() };
 		}
 
 		return MaybeOptional< T >{ &m_shader
-			, makeExpr( var ) };
+			, makeExpr( getShader(), var ) };
 	}
 
 	template< typename T >
@@ -874,7 +874,7 @@ namespace sdw
 		}
 
 		return Optional< T >{ &m_shader
-			, makeExpr( var )
+			, makeExpr( getShader(), var )
 			, enabled };
 	}
 
@@ -889,11 +889,11 @@ namespace sdw
 		if ( rhs.isEnabled() )
 		{
 			addStmt( sdw::makeSimple( sdw::makeInit( var
-				, makeExpr( rhs ) ) ) );
+				, makeExpr( getShader(), rhs ) ) ) );
 		}
 
 		return Optional< T >{ &m_shader
-			, makeExpr( var )
+			, makeExpr( getShader(), var )
 			, rhs.isEnabled() };
 	}
 
@@ -909,11 +909,11 @@ namespace sdw
 		if ( enabled )
 		{
 			addStmt( sdw::makeSimple( sdw::makeInit( var
-				, makeExpr( rhs ) ) ) );
+				, makeExpr( getShader(), rhs ) ) ) );
 		}
 
 		return Optional< T >{ &m_shader
-			, makeExpr( var )
+			, makeExpr( getShader(), var )
 			, enabled };
 	}
 
@@ -927,7 +927,7 @@ namespace sdw
 			, type );
 		addStmt( sdw::makeVariableDecl( var ) );
 		return Array< T >{ &m_shader
-			, makeExpr( var ) };
+			, makeExpr( getShader(), var ) };
 	}
 
 	template< typename T >
@@ -940,9 +940,9 @@ namespace sdw
 		auto var = registerLocale( name
 			, type );
 		addStmt( sdw::makeSimple( sdw::makeAggrInit( var
-			, makeExpr( rhs ) ) ) );
+			, makeExpr( getShader(), rhs ) ) ) );
 		return Array< T >{ &m_shader
-			, makeExpr( var ) };
+			, makeExpr( getShader(), var ) };
 	}
 
 	template< typename T >
@@ -961,7 +961,7 @@ namespace sdw
 		}
 
 		return Optional< Array< T > >{ &m_shader
-			, makeExpr( var )
+			, makeExpr( getShader(), var )
 			, enabled };
 	}
 
@@ -979,11 +979,11 @@ namespace sdw
 		if ( enabled )
 		{
 			addStmt( sdw::makeSimple( sdw::makeAggrInit( var
-				, makeExpr( rhs ) ) ) );
+				, makeExpr( getShader(), rhs ) ) ) );
 		}
 
 		return Optional< Array< T > >{ &m_shader
-			, makeExpr( var )
+			, makeExpr( getShader(), var )
 			, enabled };
 	}
 	/**@}*/
@@ -999,7 +999,7 @@ namespace sdw
 	{
 		auto var = getVar( name );
 		return T{ &m_shader
-			, makeExpr( var ) };
+			, makeExpr( getShader(), var ) };
 	}
 
 	template< typename T >
@@ -1008,7 +1008,7 @@ namespace sdw
 	{
 		auto var = getVar( name );
 		return Optional< T >{ &m_shader
-			, makeExpr( var )
+			, makeExpr( getShader(), var )
 			, enabled };
 	}
 
@@ -1017,7 +1017,7 @@ namespace sdw
 	{
 		auto var = getVar( name );
 		return Array< T >{ &m_shader
-			, makeExpr( var ) };
+			, makeExpr( getShader(), var ) };
 	}
 
 	template< typename T >
@@ -1026,7 +1026,7 @@ namespace sdw
 	{
 		auto var = getVar( name );
 		return Optional< Array< T > >{ &m_shader
-			, makeExpr( var )
+			, makeExpr( getShader(), var )
 			, enabled };
 	}
 	/**@}*/

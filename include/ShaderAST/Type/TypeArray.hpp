@@ -16,11 +16,9 @@ namespace ast::type
 		: public Type
 	{
 	public:
-		Array( TypesCache * cache
-			, TypePtr type
+		Array( TypePtr type
 			, uint32_t arraySize = UnknownArraySize );
-		Array( TypesCache * cache
-			, Struct * parent
+		Array( Struct * parent
 			, uint32_t index
 			, TypePtr type
 			, uint32_t arraySize = UnknownArraySize );

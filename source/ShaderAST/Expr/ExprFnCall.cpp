@@ -18,7 +18,7 @@ namespace ast::expr
 		, IdentifierPtr fn
 		, ExprPtr instance
 		, ExprList && argList )
-		: Expr{ std::move( type ), Kind::eFnCall }
+		: Expr{ getExprTypesCache( *fn, instance, argList ), std::move( type ), Kind::eFnCall }
 		, m_fn{ std::move( fn ) }
 		, m_argList{ std::move( argList ) }
 		, m_instance{ std::move( instance ) }

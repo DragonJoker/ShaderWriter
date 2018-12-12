@@ -15,8 +15,7 @@ namespace ast::type
 		: public Type
 	{
 	public:
-		Sampler( TypesCache * cache
-			, bool comparison );
+		Sampler( bool comparison );
 
 		bool isComparison()const
 		{

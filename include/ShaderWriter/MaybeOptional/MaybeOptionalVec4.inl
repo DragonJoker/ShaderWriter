@@ -53,34 +53,15 @@ namespace sdw
 	template< typename ValueT >
 	inline MaybeOptional< Vec4T< ValueT > > & MaybeOptional< Vec4T< ValueT > >::operator=( MaybeOptional< Vec4T< ValueT > > const & rhs )
 	{
-		if ( areOptionalEnabled( *this, rhs ) )
-		{
-			addStmt( *findShader( *this, rhs )
-				, sdw::makeSimple( sdw::makeAssign( this->getType()
-					, makeExpr( *this )
-					, makeExpr( rhs ) ) ) );
-		}
-
+		writeAssignOperator< Vec4T< ValueT > >( *this, rhs, sdw::makeAssign );
 		return *this;
 	}
 
 	template< typename ValueT >
 	template< typename IndexT >
-	inline MaybeOptional< ValueT > MaybeOptional< Vec4T< ValueT > >::operator[]( IndexT const & rhs )const
+	inline MaybeOptional< ValueT > MaybeOptional< Vec4T< ValueT > >::operator[]( IndexT const & offset )const
 	{
-		if ( isAnyOptional( *this, rhs ) )
-		{
-			return MaybeOptional< ValueT >{ findShader( *this, rhs )
-				, sdw::makeArrayAccess( ValueT::makeType( findTypesCache( *this, rhs ) )
-					, makeExpr( *this, true )
-					, makeExpr( rhs ) )
-				, areOptionalEnabled( *this, rhs ) };
-		}
-
-		return MaybeOptional< ValueT >{ findShader( *this, rhs )
-			, sdw::makeArrayAccess( ValueT::makeType( findTypesCache( *this, rhs ) )
-				, makeExpr( this->getExpr() )
-				, makeExpr( rhs ) ) };
+		return writeBinOperator< ValueT >( *this, offset, sdw::makeArrayAccess );
 	}
 
 	template< typename ValueT >
@@ -111,224 +92,112 @@ namespace sdw
 	template< typename ValueT >
 	MaybeOptional< Vec4T< ValueT > > & MaybeOptional< Vec4T< ValueT > >::operator+=( Vec4T< ValueT > const & rhs )
 	{
-		if ( areOptionalEnabled( *this, rhs ) )
-		{
-			addStmt( *findShader( *this, rhs )
-				, sdw::makeSimple( sdw::makeAddAssign( this->getType()
-					, makeExpr( *this )
-					, makeExpr( rhs ) ) ) );
-		}
-
+		writeAssignOperator< Vec4T< ValueT > >( *this, rhs, sdw::makeAddAssign );
 		return *this;
 	}
 
 	template< typename ValueT >
 	MaybeOptional< Vec4T< ValueT > > & MaybeOptional< Vec4T< ValueT > >::operator-=( Vec4T< ValueT > const & rhs )
 	{
-		if ( areOptionalEnabled( *this, rhs ) )
-		{
-			addStmt( *findShader( *this, rhs )
-				, sdw::makeSimple( sdw::makeMinusAssign( this->getType()
-					, makeExpr( *this )
-					, makeExpr( rhs ) ) ) );
-		}
-
+		writeAssignOperator< Vec4T< ValueT > >( *this, rhs, sdw::makeMinusAssign );
 		return *this;
 	}
 
 	template< typename ValueT >
 	MaybeOptional< Vec4T< ValueT > > & MaybeOptional< Vec4T< ValueT > >::operator*=( Vec4T< ValueT > const & rhs )
 	{
-		if ( areOptionalEnabled( *this, rhs ) )
-		{
-			addStmt( *findShader( *this, rhs )
-				, sdw::makeSimple( sdw::makeTimesAssign( this->getType()
-					, makeExpr( *this )
-					, makeExpr( rhs ) ) ) );
-		}
-
+		writeAssignOperator< Vec4T< ValueT > >( *this, rhs, sdw::makeTimesAssign );
 		return *this;
 	}
 
 	template< typename ValueT >
 	MaybeOptional< Vec4T< ValueT > > & MaybeOptional< Vec4T< ValueT > >::operator/=( Vec4T< ValueT > const & rhs )
 	{
-		if ( areOptionalEnabled( *this, rhs ) )
-		{
-			addStmt( *findShader( *this, rhs )
-				, sdw::makeSimple( sdw::makeDivideAssign( this->getType()
-					, makeExpr( *this )
-					, makeExpr( rhs ) ) ) );
-		}
-
+		writeAssignOperator< Vec4T< ValueT > >( *this, rhs, sdw::makeDivideAssign );
 		return *this;
 	}
 
 	template< typename ValueT >
 	MaybeOptional< Vec4T< ValueT > > & MaybeOptional< Vec4T< ValueT > >::operator+=( MaybeOptional< Vec4T< ValueT > > const & rhs )
 	{
-		if ( areOptionalEnabled( *this, rhs ) )
-		{
-			addStmt( *findShader( *this, rhs )
-				, sdw::makeSimple( sdw::makeAddAssign( this->getType()
-					, makeExpr( *this )
-					, makeExpr( rhs ) ) ) );
-		}
-
+		writeAssignOperator< Vec4T< ValueT > >( *this, rhs, sdw::makeAddAssign );
 		return *this;
 	}
 
 	template< typename ValueT >
 	MaybeOptional< Vec4T< ValueT > > & MaybeOptional< Vec4T< ValueT > >::operator-=( MaybeOptional< Vec4T< ValueT > > const & rhs )
 	{
-		if ( areOptionalEnabled( *this, rhs ) )
-		{
-			addStmt( *findShader( *this, rhs )
-				, sdw::makeSimple( sdw::makeMinusAssign( this->getType()
-					, makeExpr( *this )
-					, makeExpr( rhs ) ) ) );
-		}
-
+		writeAssignOperator< Vec4T< ValueT > >( *this, rhs, sdw::makeMinusAssign );
 		return *this;
 	}
 
 	template< typename ValueT >
 	MaybeOptional< Vec4T< ValueT > > & MaybeOptional< Vec4T< ValueT > >::operator*=( MaybeOptional< Vec4T< ValueT > > const & rhs )
 	{
-		if ( areOptionalEnabled( *this, rhs ) )
-		{
-			addStmt( *findShader( *this, rhs )
-				, sdw::makeSimple( sdw::makeTimesAssign( this->getType()
-					, makeExpr( *this )
-					, makeExpr( rhs ) ) ) );
-		}
-
+		writeAssignOperator< Vec4T< ValueT > >( *this, rhs, sdw::makeTimesAssign );
 		return *this;
 	}
 
 	template< typename ValueT >
 	MaybeOptional< Vec4T< ValueT > > & MaybeOptional< Vec4T< ValueT > >::operator/=( MaybeOptional< Vec4T< ValueT > > const & rhs )
 	{
-		if ( areOptionalEnabled( *this, rhs ) )
-		{
-			addStmt( *findShader( *this, rhs )
-				, sdw::makeSimple( sdw::makeDivideAssign( this->getType()
-					, makeExpr( *this )
-					, makeExpr( rhs ) ) ) );
-		}
-
+		writeAssignOperator< Vec4T< ValueT > >( *this, rhs, sdw::makeDivideAssign );
 		return *this;
 	}
 
 	template< typename ValueT >
 	MaybeOptional< Vec4T< ValueT > > & MaybeOptional< Vec4T< ValueT > >::operator+=( ValueT const & rhs )
 	{
-		if ( areOptionalEnabled( *this, rhs ) )
-		{
-			addStmt( *findShader( *this, rhs )
-				, sdw::makeSimple( sdw::makeAddAssign( this->getType()
-					, makeExpr( *this )
-					, makeExpr( rhs ) ) ) );
-		}
-
+		writeAssignOperator< Vec4T< ValueT > >( *this, rhs, sdw::makeAddAssign );
 		return *this;
 	}
 
 	template< typename ValueT >
 	MaybeOptional< Vec4T< ValueT > > & MaybeOptional< Vec4T< ValueT > >::operator-=( ValueT const & rhs )
 	{
-		if ( areOptionalEnabled( *this, rhs ) )
-		{
-			addStmt( *findShader( *this, rhs )
-				, sdw::makeSimple( sdw::makeMinusAssign( this->getType()
-					, makeExpr( *this )
-					, makeExpr( rhs ) ) ) );
-		}
-
+		writeAssignOperator< Vec4T< ValueT > >( *this, rhs, sdw::makeMinusAssign );
 		return *this;
 	}
 
 	template< typename ValueT >
 	MaybeOptional< Vec4T< ValueT > > & MaybeOptional< Vec4T< ValueT > >::operator*=( ValueT const & rhs )
 	{
-		if ( areOptionalEnabled( *this, rhs ) )
-		{
-			addStmt( *findShader( *this, rhs )
-				, sdw::makeSimple( sdw::makeTimesAssign( this->getType()
-					, makeExpr( *this )
-					, makeExpr( rhs ) ) ) );
-		}
-
+		writeAssignOperator< Vec4T< ValueT > >( *this, rhs, sdw::makeTimesAssign );
 		return *this;
 	}
 
 	template< typename ValueT >
 	MaybeOptional< Vec4T< ValueT > > & MaybeOptional< Vec4T< ValueT > >::operator/=( ValueT const & rhs )
 	{
-		if ( areOptionalEnabled( *this, rhs ) )
-		{
-			addStmt( *findShader( *this, rhs )
-				, sdw::makeSimple( sdw::makeDivideAssign( this->getType()
-					, makeExpr( *this )
-					, makeExpr( rhs ) ) ) );
-		}
-
+		writeAssignOperator< Vec4T< ValueT > >( *this, rhs, sdw::makeDivideAssign );
 		return *this;
 	}
 
 	template< typename ValueT >
 	MaybeOptional< Vec4T< ValueT > > & MaybeOptional< Vec4T< ValueT > >::operator+=( MaybeOptional< ValueT > const & rhs )
 	{
-		if ( areOptionalEnabled( *this, rhs ) )
-		{
-			addStmt( *findShader( *this, rhs )
-				, sdw::makeSimple( sdw::makeAddAssign( this->getType()
-					, makeExpr( *this )
-					, makeExpr( rhs ) ) ) );
-		}
-
+		writeAssignOperator< Vec4T< ValueT > >( *this, rhs, sdw::makeAddAssign );
 		return *this;
 	}
 
 	template< typename ValueT >
 	MaybeOptional< Vec4T< ValueT > > & MaybeOptional< Vec4T< ValueT > >::operator-=( MaybeOptional< ValueT > const & rhs )
 	{
-		if ( areOptionalEnabled( *this, rhs ) )
-		{
-			addStmt( *findShader( *this, rhs )
-				, sdw::makeSimple( sdw::makeMinusAssign( this->getType()
-					, makeExpr( *this )
-					, makeExpr( rhs ) ) ) );
-		}
-
+		writeAssignOperator< Vec4T< ValueT > >( *this, rhs, sdw::makeMinusAssign );
 		return *this;
 	}
 
 	template< typename ValueT >
 	MaybeOptional< Vec4T< ValueT > > & MaybeOptional< Vec4T< ValueT > >::operator*=( MaybeOptional< ValueT > const & rhs )
 	{
-		if ( areOptionalEnabled( *this, rhs ) )
-		{
-			addStmt( *findShader( *this, rhs )
-				, sdw::makeSimple( sdw::makeTimesAssign( this->getType()
-					, makeExpr( *this )
-					, makeExpr( rhs ) ) ) );
-		}
-
+		writeAssignOperator< Vec4T< ValueT > >( *this, rhs, sdw::makeTimesAssign );
 		return *this;
 	}
 
 	template< typename ValueT >
 	MaybeOptional< Vec4T< ValueT > > & MaybeOptional< Vec4T< ValueT > >::operator/=( MaybeOptional< ValueT > const & rhs )
 	{
-		if ( areOptionalEnabled( *this, rhs ) )
-		{
-			addStmt( *findShader( *this, rhs )
-				, sdw::makeSimple( sdw::makeDivideAssign( this->getType()
-					, makeExpr( *this )
-					, makeExpr( rhs ) ) ) );
-		}
-
+		writeAssignOperator< Vec4T< ValueT > >( *this, rhs, sdw::makeDivideAssign );
 		return *this;
 	}
 
@@ -338,627 +207,231 @@ namespace sdw
 	inline MaybeOptional< Vec4T< ValueT > > operator+( MaybeOptional< ValueT > const & lhs
 		, Vec4T< ValueT > const & rhs )
 	{
-		if ( isAnyOptional( lhs, rhs ) )
-		{
-			return MaybeOptional< Vec4T< ValueT > >{ findShader( lhs, rhs )
-				, sdw::makeAdd( Vec4T< ValueT >::makeType( findTypesCache( lhs, rhs ) )
-					, makeExpr( lhs, true )
-					, makeExpr( rhs ) )
-				, areOptionalEnabled( lhs, rhs ) };
-		}
-
-		return MaybeOptional< Vec4T< ValueT > >{ findShader( lhs, rhs )
-			, sdw::makeAdd( Vec4T< ValueT >::makeType( findTypesCache( lhs, rhs ) )
-				, makeExpr( lhs )
-				, makeExpr( rhs ) ) };
+		return writeBinOperator< Vec4T< ValueT > >( lhs, rhs, sdw::makeAdd );
 	}
 
 	template< typename ValueT >
 	inline MaybeOptional< Vec4T< ValueT > > operator+( MaybeOptional< Vec4T< ValueT > > const & lhs
 		, ValueT const & rhs )
 	{
-		if ( isAnyOptional( lhs, rhs ) )
-		{
-			return MaybeOptional< Vec4T< ValueT > >{ findShader( lhs, rhs )
-				, sdw::makeAdd( Vec4T< ValueT >::makeType( findTypesCache( lhs, rhs ) )
-					, makeExpr( lhs, true )
-					, makeExpr( rhs ) )
-				, areOptionalEnabled( lhs, rhs ) };
-		}
-
-		return MaybeOptional< Vec4T< ValueT > >{ findShader( lhs, rhs )
-			, sdw::makeAdd( Vec4T< ValueT >::makeType( findTypesCache( lhs, rhs ) )
-				, makeExpr( lhs )
-				, makeExpr( rhs ) ) };
+		return writeBinOperator< Vec4T< ValueT > >( lhs, rhs, sdw::makeAdd );
 	}
 
 	template< typename ValueT >
 	inline MaybeOptional< Vec4T< ValueT > > operator+( MaybeOptional< Vec4T< ValueT > > const & lhs
 		, Vec4T< ValueT > const & rhs )
 	{
-		if ( isAnyOptional( lhs, rhs ) )
-		{
-			return MaybeOptional< Vec4T< ValueT > >{ findShader( lhs, rhs )
-				, sdw::makeAdd( Vec4T< ValueT >::makeType( findTypesCache( lhs, rhs ) )
-					, makeExpr( lhs, true )
-					, makeExpr( rhs ) )
-				, areOptionalEnabled( lhs, rhs ) };
-		}
-
-		return MaybeOptional< Vec4T< ValueT > >{ findShader( lhs, rhs )
-			, sdw::makeAdd( Vec4T< ValueT >::makeType( findTypesCache( lhs, rhs ) )
-				, makeExpr( lhs )
-				, makeExpr( rhs ) ) };
+		return writeBinOperator< Vec4T< ValueT > >( lhs, rhs, sdw::makeAdd );
 	}
 
 	template< typename ValueT >
 	inline MaybeOptional< Vec4T< ValueT > > operator+( ValueT const & lhs
 		, MaybeOptional< Vec4T< ValueT > > const & rhs )
 	{
-		if ( isAnyOptional( lhs, rhs ) )
-		{
-			return MaybeOptional< Vec4T< ValueT > >{ findShader( lhs, rhs )
-				, sdw::makeAdd( Vec4T< ValueT >::makeType( findTypesCache( lhs, rhs ) )
-					, makeExpr( lhs )
-					, makeExpr( rhs, true ) )
-				, areOptionalEnabled( lhs, rhs ) };
-		}
-
-		return MaybeOptional< Vec4T< ValueT > >{ findShader( lhs, rhs )
-			, sdw::makeAdd( Vec4T< ValueT >::makeType( findTypesCache( lhs, rhs ) )
-				, makeExpr( lhs )
-				, makeExpr( rhs ) ) };
+		return writeBinOperator< Vec4T< ValueT > >( lhs, rhs, sdw::makeAdd );
 	}
 
 	template< typename ValueT >
 	inline MaybeOptional< Vec4T< ValueT > > operator+( Vec4T< ValueT > const & lhs
 		, MaybeOptional< ValueT > const & rhs )
 	{
-		if ( isAnyOptional( lhs, rhs ) )
-		{
-			return MaybeOptional< Vec4T< ValueT > >{ findShader( lhs, rhs )
-				, sdw::makeAdd( Vec4T< ValueT >::makeType( findTypesCache( lhs, rhs ) )
-					, makeExpr( lhs )
-					, makeExpr( rhs, true ) )
-				, areOptionalEnabled( lhs, rhs ) };
-		}
-
-		return MaybeOptional< Vec4T< ValueT > >{ findShader( lhs, rhs )
-			, sdw::makeAdd( Vec4T< ValueT >::makeType( findTypesCache( lhs, rhs ) )
-				, makeExpr( lhs )
-				, makeExpr( rhs ) ) };
+		return writeBinOperator< Vec4T< ValueT > >( lhs, rhs, sdw::makeAdd );
 	}
 
 	template< typename ValueT >
 	inline MaybeOptional< Vec4T< ValueT > > operator+( Vec4T< ValueT > const & lhs
 		, MaybeOptional< Vec4T< ValueT > > const & rhs )
 	{
-		if ( isAnyOptional( lhs, rhs ) )
-		{
-			return MaybeOptional< Vec4T< ValueT > >{ findShader( lhs, rhs )
-				, sdw::makeAdd( Vec4T< ValueT >::makeType( findTypesCache( lhs, rhs ) )
-					, makeExpr( lhs )
-					, makeExpr( rhs, true ) )
-				, areOptionalEnabled( lhs, rhs ) };
-		}
-
-		return MaybeOptional< Vec4T< ValueT > >{ findShader( lhs, rhs )
-			, sdw::makeAdd( Vec4T< ValueT >::makeType( findTypesCache( lhs, rhs ) )
-				, makeExpr( lhs )
-				, makeExpr( rhs ) ) };
+		return writeBinOperator< Vec4T< ValueT > >( lhs, rhs, sdw::makeAdd );
 	}
 
 	template< typename ValueT >
 	inline MaybeOptional< Vec4T< ValueT > > operator+( MaybeOptional< ValueT > const & lhs
 		, MaybeOptional< Vec4T< ValueT > > const & rhs )
 	{
-		if ( isAnyOptional( lhs, rhs ) )
-		{
-			return MaybeOptional< Vec4T< ValueT > >{ findShader( lhs, rhs )
-				, sdw::makeAdd( Vec4T< ValueT >::makeType( findTypesCache( lhs, rhs ) )
-					, makeExpr( lhs, true )
-					, makeExpr( rhs ) )
-				, areOptionalEnabled( lhs, rhs ) };
-		}
-
-		return MaybeOptional< Vec4T< ValueT > >{ findShader( lhs, rhs )
-			, sdw::makeAdd( Vec4T< ValueT >::makeType( findTypesCache( lhs, rhs ) )
-				, makeExpr( lhs )
-				, makeExpr( rhs ) ) };
+		return writeBinOperator< Vec4T< ValueT > >( lhs, rhs, sdw::makeAdd );
 	}
 
 	template< typename ValueT >
 	inline MaybeOptional< Vec4T< ValueT > > operator+( MaybeOptional< Vec4T< ValueT > > const & lhs
 		, MaybeOptional< ValueT > const & rhs )
 	{
-		if ( isAnyOptional( lhs, rhs ) )
-		{
-			return MaybeOptional< Vec4T< ValueT > >{ findShader( lhs, rhs )
-				, sdw::makeAdd( Vec4T< ValueT >::makeType( findTypesCache( lhs, rhs ) )
-					, makeExpr( lhs, true )
-					, makeExpr( rhs, true ) )
-				, areOptionalEnabled( lhs, rhs ) };
-		}
-
-		return MaybeOptional< Vec4T< ValueT > >{ findShader( lhs, rhs )
-			, sdw::makeAdd( Vec4T< ValueT >::makeType( findTypesCache( lhs, rhs ) )
-				, makeExpr( lhs )
-				, makeExpr( rhs ) ) };
+		return writeBinOperator< Vec4T< ValueT > >( lhs, rhs, sdw::makeAdd );
 	}
 
 	template< typename ValueT >
 	inline MaybeOptional< Vec4T< ValueT > > operator+( MaybeOptional< Vec4T< ValueT > > const & lhs
 		, MaybeOptional< Vec4T< ValueT > > const & rhs )
 	{
-		if ( isAnyOptional( lhs, rhs ) )
-		{
-			return MaybeOptional< Vec4T< ValueT > >{ findShader( lhs, rhs )
-				, sdw::makeAdd( Vec4T< ValueT >::makeType( findTypesCache( lhs, rhs ) )
-					, makeExpr( lhs, true )
-					, makeExpr( rhs, true ) )
-				, areOptionalEnabled( lhs, rhs ) };
-		}
-
-		return MaybeOptional< Vec4T< ValueT > >{ findShader( lhs, rhs )
-			, sdw::makeAdd( Vec4T< ValueT >::makeType( findTypesCache( lhs, rhs ) )
-				, makeExpr( lhs )
-				, makeExpr( rhs ) ) };
+		return writeBinOperator< Vec4T< ValueT > >( lhs, rhs, sdw::makeAdd );
 	}
 
 	template< typename ValueT >
 	inline MaybeOptional< Vec4T< ValueT > > operator-( MaybeOptional< ValueT > const & lhs
 		, Vec4T< ValueT > const & rhs )
 	{
-		if ( isAnyOptional( lhs, rhs ) )
-		{
-			return MaybeOptional< Vec4T< ValueT > >{ findShader( lhs, rhs )
-				, sdw::makeMinus( Vec4T< ValueT >::makeType( findTypesCache( lhs, rhs ) )
-					, makeExpr( lhs, true )
-					, makeExpr( rhs ) )
-				, areOptionalEnabled( lhs, rhs ) };
-		}
-
-		return MaybeOptional< Vec4T< ValueT > >{ findShader( lhs, rhs )
-			, sdw::makeMinus( Vec4T< ValueT >::makeType( findTypesCache( lhs, rhs ) )
-				, makeExpr( lhs )
-				, makeExpr( rhs ) ) };
+		return writeBinOperator< Vec4T< ValueT > >( lhs, rhs, sdw::makeMinus );
 	}
 
 	template< typename ValueT >
 	inline MaybeOptional< Vec4T< ValueT > > operator-( MaybeOptional< Vec4T< ValueT > > const & lhs
 		, ValueT const & rhs )
 	{
-		if ( isAnyOptional( lhs, rhs ) )
-		{
-			return MaybeOptional< Vec4T< ValueT > >{ findShader( lhs, rhs )
-				, sdw::makeMinus( Vec4T< ValueT >::makeType( findTypesCache( lhs, rhs ) )
-					, makeExpr( lhs, true )
-					, makeExpr( rhs ) )
-				, areOptionalEnabled( lhs, rhs ) };
-		}
-
-		return MaybeOptional< Vec4T< ValueT > >{ findShader( lhs, rhs )
-			, sdw::makeMinus( Vec4T< ValueT >::makeType( findTypesCache( lhs, rhs ) )
-				, makeExpr( lhs )
-				, makeExpr( rhs ) ) };
+		return writeBinOperator< Vec4T< ValueT > >( lhs, rhs, sdw::makeMinus );
 	}
 
 	template< typename ValueT >
 	inline MaybeOptional< Vec4T< ValueT > > operator-( MaybeOptional< Vec4T< ValueT > > const & lhs
 		, Vec4T< ValueT > const & rhs )
 	{
-		if ( isAnyOptional( lhs, rhs ) )
-		{
-			return MaybeOptional< Vec4T< ValueT > >{ findShader( lhs, rhs )
-				, sdw::makeMinus( Vec4T< ValueT >::makeType( findTypesCache( lhs, rhs ) )
-					, makeExpr( lhs, true )
-					, makeExpr( rhs ) )
-				, areOptionalEnabled( lhs, rhs ) };
-		}
-
-		return MaybeOptional< Vec4T< ValueT > >{ findShader( lhs, rhs )
-			, sdw::makeMinus( Vec4T< ValueT >::makeType( findTypesCache( lhs, rhs ) )
-				, makeExpr( lhs )
-				, makeExpr( rhs ) ) };
+		return writeBinOperator< Vec4T< ValueT > >( lhs, rhs, sdw::makeMinus );
 	}
 
 	template< typename ValueT >
 	inline MaybeOptional< Vec4T< ValueT > > operator-( ValueT const & lhs
 		, MaybeOptional< Vec4T< ValueT > > const & rhs )
 	{
-		if ( isAnyOptional( lhs, rhs ) )
-		{
-			return MaybeOptional< Vec4T< ValueT > >{ findShader( lhs, rhs )
-				, sdw::makeMinus( Vec4T< ValueT >::makeType( findTypesCache( lhs, rhs ) )
-					, makeExpr( lhs )
-					, makeExpr( rhs, true ) )
-				, areOptionalEnabled( lhs, rhs ) };
-		}
-
-		return MaybeOptional< Vec4T< ValueT > >{ findShader( lhs, rhs )
-			, sdw::makeMinus( Vec4T< ValueT >::makeType( findTypesCache( lhs, rhs ) )
-				, makeExpr( lhs )
-				, makeExpr( rhs ) ) };
+		return writeBinOperator< Vec4T< ValueT > >( lhs, rhs, sdw::makeMinus );
 	}
 
 	template< typename ValueT >
 	inline MaybeOptional< Vec4T< ValueT > > operator-( Vec4T< ValueT > const & lhs
 		, MaybeOptional< ValueT > const & rhs )
 	{
-		if ( isAnyOptional( lhs, rhs ) )
-		{
-			return MaybeOptional< Vec4T< ValueT > >{ findShader( lhs, rhs )
-				, sdw::makeMinus( Vec4T< ValueT >::makeType( findTypesCache( lhs, rhs ) )
-					, makeExpr( lhs )
-					, makeExpr( rhs, true ) )
-				, areOptionalEnabled( lhs, rhs ) };
-		}
-
-		return MaybeOptional< Vec4T< ValueT > >{ findShader( lhs, rhs )
-			, sdw::makeMinus( Vec4T< ValueT >::makeType( findTypesCache( lhs, rhs ) )
-				, makeExpr( lhs )
-				, makeExpr( rhs ) ) };
+		return writeBinOperator< Vec4T< ValueT > >( lhs, rhs, sdw::makeMinus );
 	}
 
 	template< typename ValueT >
 	inline MaybeOptional< Vec4T< ValueT > > operator-( Vec4T< ValueT > const & lhs
 		, MaybeOptional< Vec4T< ValueT > > const & rhs )
 	{
-		if ( isAnyOptional( lhs, rhs ) )
-		{
-			return MaybeOptional< Vec4T< ValueT > >{ findShader( lhs, rhs )
-				, sdw::makeMinus( Vec4T< ValueT >::makeType( findTypesCache( lhs, rhs ) )
-					, makeExpr( lhs )
-					, makeExpr( rhs, true ) )
-				, areOptionalEnabled( lhs, rhs ) };
-		}
-
-		return MaybeOptional< Vec4T< ValueT > >{ findShader( lhs, rhs )
-			, sdw::makeMinus( Vec4T< ValueT >::makeType( findTypesCache( lhs, rhs ) )
-				, makeExpr( lhs )
-				, makeExpr( rhs ) ) };
+		return writeBinOperator< Vec4T< ValueT > >( lhs, rhs, sdw::makeMinus );
 	}
 
 	template< typename ValueT >
 	inline MaybeOptional< Vec4T< ValueT > > operator-( MaybeOptional< ValueT > const & lhs
 		, MaybeOptional< Vec4T< ValueT > > const & rhs )
 	{
-		if ( isAnyOptional( lhs, rhs ) )
-		{
-			return MaybeOptional< Vec4T< ValueT > >{ findShader( lhs, rhs )
-				, sdw::makeMinus( Vec4T< ValueT >::makeType( findTypesCache( lhs, rhs ) )
-					, makeExpr( lhs, true )
-					, makeExpr( rhs, true ) )
-				, areOptionalEnabled( lhs, rhs ) };
-		}
-
-		return MaybeOptional< Vec4T< ValueT > >{ findShader( lhs, rhs )
-			, sdw::makeMinus( Vec4T< ValueT >::makeType( findTypesCache( lhs, rhs ) )
-				, makeExpr( lhs )
-				, makeExpr( rhs ) ) };
+		return writeBinOperator< Vec4T< ValueT > >( lhs, rhs, sdw::makeMinus );
 	}
 
 	template< typename ValueT >
 	inline MaybeOptional< Vec4T< ValueT > > operator-( MaybeOptional< Vec4T< ValueT > > const & lhs
 		, MaybeOptional< ValueT > const & rhs )
 	{
-		if ( isAnyOptional( lhs, rhs ) )
-		{
-			return MaybeOptional< Vec4T< ValueT > >{ findShader( lhs, rhs )
-				, sdw::makeMinus( Vec4T< ValueT >::makeType( findTypesCache( lhs, rhs ) )
-					, makeExpr( lhs, true )
-					, makeExpr( rhs, true ) )
-				, areOptionalEnabled( lhs, rhs ) };
-		}
-
-		return MaybeOptional< Vec4T< ValueT > >{ findShader( lhs, rhs )
-			, sdw::makeMinus( Vec4T< ValueT >::makeType( findTypesCache( lhs, rhs ) )
-				, makeExpr( lhs )
-				, makeExpr( rhs ) ) };
+		return writeBinOperator< Vec4T< ValueT > >( lhs, rhs, sdw::makeMinus );
 	}
 
 	template< typename ValueT >
 	inline MaybeOptional< Vec4T< ValueT > > operator-( MaybeOptional< Vec4T< ValueT > > const & lhs
 		, MaybeOptional< Vec4T< ValueT > > const & rhs )
 	{
-		if ( isAnyOptional( lhs, rhs ) )
-		{
-			return MaybeOptional< Vec4T< ValueT > >{ findShader( lhs, rhs )
-				, sdw::makeMinus( Vec4T< ValueT >::makeType( findTypesCache( lhs, rhs ) )
-					, makeExpr( lhs, true )
-					, makeExpr( rhs, true ) )
-				, areOptionalEnabled( lhs, rhs ) };
-		}
-
-		return MaybeOptional< Vec4T< ValueT > >{ findShader( lhs, rhs )
-			, sdw::makeMinus( Vec4T< ValueT >::makeType( findTypesCache( lhs, rhs ) )
-				, makeExpr( lhs )
-				, makeExpr( rhs ) ) };
+		return writeBinOperator< Vec4T< ValueT > >( lhs, rhs, sdw::makeMinus );
 	}
 
 	template< typename ValueT >
 	inline MaybeOptional< Vec4T< ValueT > > operator*( MaybeOptional< ValueT > const & lhs
 		, Vec4T< ValueT > const & rhs )
 	{
-		if ( isAnyOptional( lhs, rhs ) )
-		{
-			return MaybeOptional< Vec4T< ValueT > >{ findShader( lhs, rhs )
-				, sdw::makeTimes( Vec4T< ValueT >::makeType( findTypesCache( lhs, rhs ) )
-					, makeExpr( lhs, true )
-					, makeExpr( rhs ) )
-				, areOptionalEnabled( lhs, rhs ) };
-		}
-
-		return MaybeOptional< Vec4T< ValueT > >{ findShader( lhs, rhs )
-			, sdw::makeTimes( Vec4T< ValueT >::makeType( findTypesCache( lhs, rhs ) )
-				, makeExpr( lhs )
-				, makeExpr( rhs ) ) };
+		return writeBinOperator< Vec4T< ValueT > >( lhs, rhs, sdw::makeTimes );
 	}
 
 	template< typename ValueT >
 	inline MaybeOptional< Vec4T< ValueT > > operator*( MaybeOptional< Vec4T< ValueT > > const & lhs
 		, ValueT const & rhs )
 	{
-		if ( isAnyOptional( lhs, rhs ) )
-		{
-			return MaybeOptional< Vec4T< ValueT > >{ findShader( lhs, rhs )
-				, sdw::makeTimes( Vec4T< ValueT >::makeType( findTypesCache( lhs, rhs ) )
-					, makeExpr( lhs, true )
-					, makeExpr( rhs ) )
-				, areOptionalEnabled( lhs, rhs ) };
-		}
-
-		return MaybeOptional< Vec4T< ValueT > >{ findShader( lhs, rhs )
-			, sdw::makeTimes( Vec4T< ValueT >::makeType( findTypesCache( lhs, rhs ) )
-				, makeExpr( lhs )
-				, makeExpr( rhs ) ) };
+		return writeBinOperator< Vec4T< ValueT > >( lhs, rhs, sdw::makeTimes );
 	}
 
 	template< typename ValueT >
 	inline MaybeOptional< Vec4T< ValueT > > operator*( MaybeOptional< Vec4T< ValueT > > const & lhs
 		, Vec4T< ValueT > const & rhs )
 	{
-		if ( isAnyOptional( lhs, rhs ) )
-		{
-			return MaybeOptional< Vec4T< ValueT > >{ findShader( lhs, rhs )
-				, sdw::makeTimes( Vec4T< ValueT >::makeType( findTypesCache( lhs, rhs ) )
-					, makeExpr( lhs, true )
-					, makeExpr( rhs ) )
-				, areOptionalEnabled( lhs, rhs ) };
-		}
-
-		return MaybeOptional< Vec4T< ValueT > >{ findShader( lhs, rhs )
-			, sdw::makeTimes( Vec4T< ValueT >::makeType( findTypesCache( lhs, rhs ) )
-				, makeExpr( lhs )
-				, makeExpr( rhs ) ) };
+		return writeBinOperator< Vec4T< ValueT > >( lhs, rhs, sdw::makeTimes );
 	}
 
 	template< typename ValueT >
 	inline MaybeOptional< Vec4T< ValueT > > operator*( ValueT const & lhs
 		, MaybeOptional< Vec4T< ValueT > > const & rhs )
 	{
-		if ( isAnyOptional( lhs, rhs ) )
-		{
-			return MaybeOptional< Vec4T< ValueT > >{ findShader( lhs, rhs )
-				, sdw::makeTimes( Vec4T< ValueT >::makeType( findTypesCache( lhs, rhs ) )
-					, makeExpr( lhs )
-					, makeExpr( rhs, true ) )
-				, areOptionalEnabled( lhs, rhs ) };
-		}
-
-		return MaybeOptional< Vec4T< ValueT > >{ findShader( lhs, rhs )
-			, sdw::makeTimes( Vec4T< ValueT >::makeType( findTypesCache( lhs, rhs ) )
-				, makeExpr( lhs )
-				, makeExpr( rhs ) ) };
+		return writeBinOperator< Vec4T< ValueT > >( lhs, rhs, sdw::makeTimes );
 	}
 
 	template< typename ValueT >
 	inline MaybeOptional< Vec4T< ValueT > > operator*( Vec4T< ValueT > const & lhs
 		, MaybeOptional< ValueT > const & rhs )
 	{
-		if ( isAnyOptional( lhs, rhs ) )
-		{
-			return MaybeOptional< Vec4T< ValueT > >{ findShader( lhs, rhs )
-				, sdw::makeTimes( Vec4T< ValueT >::makeType( findTypesCache( lhs, rhs ) )
-					, makeExpr( lhs )
-					, makeExpr( rhs, true ) )
-				, areOptionalEnabled( lhs, rhs ) };
-		}
-
-		return MaybeOptional< Vec4T< ValueT > >{ findShader( lhs, rhs )
-			, sdw::makeTimes( Vec4T< ValueT >::makeType( findTypesCache( lhs, rhs ) )
-				, makeExpr( lhs )
-				, makeExpr( rhs ) ) };
+		return writeBinOperator< Vec4T< ValueT > >( lhs, rhs, sdw::makeTimes );
 	}
 
 	template< typename ValueT >
 	inline MaybeOptional< Vec4T< ValueT > > operator*( Vec4T< ValueT > const & lhs
 		, MaybeOptional< Vec4T< ValueT > > const & rhs )
 	{
-		if ( isAnyOptional( lhs, rhs ) )
-		{
-			return MaybeOptional< Vec4T< ValueT > >{ findShader( lhs, rhs )
-				, sdw::makeTimes( Vec4T< ValueT >::makeType( findTypesCache( lhs, rhs ) )
-					, makeExpr( lhs )
-					, makeExpr( rhs, true ) )
-				, areOptionalEnabled( lhs, rhs ) };
-		}
-
-		return MaybeOptional< Vec4T< ValueT > >{ findShader( lhs, rhs )
-			, sdw::makeTimes( Vec4T< ValueT >::makeType( findTypesCache( lhs, rhs ) )
-				, makeExpr( lhs )
-				, makeExpr( rhs ) ) };
+		return writeBinOperator< Vec4T< ValueT > >( lhs, rhs, sdw::makeTimes );
 	}
 
 	template< typename ValueT >
 	inline MaybeOptional< Vec4T< ValueT > > operator*( MaybeOptional< ValueT > const & lhs
 		, MaybeOptional< Vec4T< ValueT > > const & rhs )
 	{
-		if ( isAnyOptional( lhs, rhs ) )
-		{
-			return MaybeOptional< Vec4T< ValueT > >{ findShader( lhs, rhs )
-				, sdw::makeTimes( Vec4T< ValueT >::makeType( findTypesCache( lhs, rhs ) )
-					, makeExpr( lhs, true )
-					, makeExpr( rhs, true ) )
-				, areOptionalEnabled( lhs, rhs ) };
-		}
-
-		return MaybeOptional< Vec4T< ValueT > >{ findShader( lhs, rhs )
-			, sdw::makeTimes( Vec4T< ValueT >::makeType( findTypesCache( lhs, rhs ) )
-				, makeExpr( lhs )
-				, makeExpr( rhs ) ) };
+		return writeBinOperator< Vec4T< ValueT > >( lhs, rhs, sdw::makeTimes );
 	}
 
 	template< typename ValueT >
 	inline MaybeOptional< Vec4T< ValueT > > operator*( MaybeOptional< Vec4T< ValueT > > const & lhs
 		, MaybeOptional< ValueT > const & rhs )
 	{
-		if ( isAnyOptional( lhs, rhs ) )
-		{
-			return MaybeOptional< Vec4T< ValueT > >{ findShader( lhs, rhs )
-				, sdw::makeTimes( Vec4T< ValueT >::makeType( findTypesCache( lhs, rhs ) )
-					, makeExpr( lhs, true )
-					, makeExpr( rhs, true ) )
-				, areOptionalEnabled( lhs, rhs ) };
-		}
-
-		return MaybeOptional< Vec4T< ValueT > >{ findShader( lhs, rhs )
-			, sdw::makeTimes( Vec4T< ValueT >::makeType( findTypesCache( lhs, rhs ) )
-				, makeExpr( lhs )
-				, makeExpr( rhs ) ) };
+		return writeBinOperator< Vec4T< ValueT > >( lhs, rhs, sdw::makeTimes );
 	}
 
 	template< typename ValueT >
 	inline MaybeOptional< Vec4T< ValueT > > operator*( MaybeOptional< Vec4T< ValueT > > const & lhs
 		, MaybeOptional< Vec4T< ValueT > > const & rhs )
 	{
-		if ( isAnyOptional( lhs, rhs ) )
-		{
-			return MaybeOptional< Vec4T< ValueT > >{ findShader( lhs, rhs )
-				, sdw::makeTimes( Vec4T< ValueT >::makeType( findTypesCache( lhs, rhs ) )
-					, makeExpr( lhs, true )
-					, makeExpr( rhs, true ) )
-				, areOptionalEnabled( lhs, rhs ) };
-		}
-
-		return MaybeOptional< Vec4T< ValueT > >{ findShader( lhs, rhs )
-			, sdw::makeTimes( Vec4T< ValueT >::makeType( findTypesCache( lhs, rhs ) )
-				, makeExpr( lhs )
-				, makeExpr( rhs ) ) };
+		return writeBinOperator< Vec4T< ValueT > >( lhs, rhs, sdw::makeTimes );
 	}
 
 	template< typename ValueT >
 	inline MaybeOptional< Vec4T< ValueT > > operator/( MaybeOptional< Vec4T< ValueT > > const & lhs
 		, ValueT const & rhs )
 	{
-		if ( isAnyOptional( lhs, rhs ) )
-		{
-			return MaybeOptional< Vec4T< ValueT > >{ findShader( lhs, rhs )
-				, sdw::makeDivide( Vec4T< ValueT >::makeType( findTypesCache( lhs, rhs ) )
-					, makeExpr( lhs, true )
-					, makeExpr( rhs ) )
-				, areOptionalEnabled( lhs, rhs ) };
-		}
-
-		return MaybeOptional< Vec4T< ValueT > >{ findShader( lhs, rhs )
-			, sdw::makeDivide( Vec4T< ValueT >::makeType( findTypesCache( lhs, rhs ) )
-				, makeExpr( lhs )
-				, makeExpr( rhs ) ) };
+		return writeBinOperator< Vec4T< ValueT > >( lhs, rhs, sdw::makeDivide );
 	}
 
 	template< typename ValueT >
 	inline MaybeOptional< Vec4T< ValueT > > operator/( MaybeOptional< Vec4T< ValueT > > const & lhs
 		, Vec4T< ValueT > const & rhs )
 	{
-		if ( isAnyOptional( lhs, rhs ) )
-		{
-			return MaybeOptional< Vec4T< ValueT > >{ findShader( lhs, rhs )
-				, sdw::makeDivide( Vec4T< ValueT >::makeType( findTypesCache( lhs, rhs ) )
-					, makeExpr( lhs, true )
-					, makeExpr( rhs ) )
-				, areOptionalEnabled( lhs, rhs ) };
-		}
-
-		return MaybeOptional< Vec4T< ValueT > >{ findShader( lhs, rhs )
-			, sdw::makeDivide( Vec4T< ValueT >::makeType( findTypesCache( lhs, rhs ) )
-				, makeExpr( lhs )
-				, makeExpr( rhs ) ) };
+		return writeBinOperator< Vec4T< ValueT > >( lhs, rhs, sdw::makeDivide );
 	}
 
 	template< typename ValueT >
 	inline MaybeOptional< Vec4T< ValueT > > operator/( Vec4T< ValueT > const & lhs
 		, MaybeOptional< ValueT > const & rhs )
 	{
-		if ( isAnyOptional( lhs, rhs ) )
-		{
-			return MaybeOptional< Vec4T< ValueT > >{ findShader( lhs, rhs )
-				, sdw::makeDivide( Vec4T< ValueT >::makeType( findTypesCache( lhs, rhs ) )
-					, makeExpr( lhs )
-					, makeExpr( rhs, true ) )
-				, areOptionalEnabled( lhs, rhs ) };
-		}
-
-		return MaybeOptional< Vec4T< ValueT > >{ findShader( lhs, rhs )
-			, sdw::makeDivide( Vec4T< ValueT >::makeType( findTypesCache( lhs, rhs ) )
-				, makeExpr( lhs )
-				, makeExpr( rhs ) ) };
+		return writeBinOperator< Vec4T< ValueT > >( lhs, rhs, sdw::makeDivide );
 	}
 
 	template< typename ValueT >
 	inline MaybeOptional< Vec4T< ValueT > > operator/( Vec4T< ValueT > const & lhs
 		, MaybeOptional< Vec4T< ValueT > > const & rhs )
 	{
-		if ( isAnyOptional( lhs, rhs ) )
-		{
-			return MaybeOptional< Vec4T< ValueT > >{ findShader( lhs, rhs )
-				, sdw::makeDivide( Vec4T< ValueT >::makeType( findTypesCache( lhs, rhs ) )
-					, makeExpr( lhs )
-					, makeExpr( rhs, true ) )
-				, areOptionalEnabled( lhs, rhs ) };
-		}
-
-		return MaybeOptional< Vec4T< ValueT > >{ findShader( lhs, rhs )
-			, sdw::makeDivide( Vec4T< ValueT >::makeType( findTypesCache( lhs, rhs ) )
-				, makeExpr( lhs )
-				, makeExpr( rhs ) ) };
+		return writeBinOperator< Vec4T< ValueT > >( lhs, rhs, sdw::makeDivide );
 	}
 
 	template< typename ValueT >
 	inline MaybeOptional< Vec4T< ValueT > > operator/( MaybeOptional< Vec4T< ValueT > > const & lhs
 		, MaybeOptional< ValueT > const & rhs )
 	{
-		if ( isAnyOptional( lhs, rhs ) )
-		{
-			return MaybeOptional< Vec4T< ValueT > >{ findShader( lhs, rhs )
-				, sdw::makeDivide( Vec4T< ValueT >::makeType( findTypesCache( lhs, rhs ) )
-					, makeExpr( lhs, true )
-					, makeExpr( rhs, true ) )
-				, areOptionalEnabled( lhs, rhs ) };
-		}
-
-		return MaybeOptional< Vec4T< ValueT > >{ findShader( lhs, rhs )
-			, sdw::makeDivide( Vec4T< ValueT >::makeType( findTypesCache( lhs, rhs ) )
-				, makeExpr( lhs )
-				, makeExpr( rhs ) ) };
+		return writeBinOperator< Vec4T< ValueT > >( lhs, rhs, sdw::makeDivide );
 	}
 
 	template< typename ValueT >
 	inline MaybeOptional< Vec4T< ValueT > > operator/( MaybeOptional< Vec4T< ValueT > > const & lhs
 		, MaybeOptional< Vec4T< ValueT > > const & rhs )
 	{
-		if ( isAnyOptional( lhs, rhs ) )
-		{
-			return MaybeOptional< Vec4T< ValueT > >{ findShader( lhs, rhs )
-				, sdw::makeDivide( Vec4T< ValueT >::makeType( findTypesCache( lhs, rhs ) )
-					, makeExpr( lhs, true )
-					, makeExpr( rhs, true ) )
-				, areOptionalEnabled( lhs, rhs ) };
-		}
-
-		return MaybeOptional< Vec4T< ValueT > >{ findShader( lhs, rhs )
-			, sdw::makeDivide( Vec4T< ValueT >::makeType( findTypesCache( lhs, rhs ) )
-				, makeExpr( lhs )
-				, makeExpr( rhs ) ) };
+		return writeBinOperator< Vec4T< ValueT > >( lhs, rhs, sdw::makeDivide );
 	}
 
 	//*************************************************************************

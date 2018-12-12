@@ -31,17 +31,19 @@ namespace ast::type
 		};
 
 	private:
-		Struct( Struct const & rhs );
-		Struct( TypesCache * cache
+		Struct( TypesCache & cache
+			, Struct const & rhs );
+		Struct( TypesCache & cache
 			, Struct * parent
 			, uint32_t index
 			, Struct const & copy );
-		Struct( Struct & parent
+		Struct( TypesCache & cache
+			, Struct & parent
 			, uint32_t index
 			, Struct const & copy );
 
 	public:
-		Struct( TypesCache * cache
+		Struct( TypesCache & cache
 			, MemoryLayout layout
 			, std::string name );
 		Member declMember( std::string name
@@ -65,6 +67,11 @@ namespace ast::type
 		std::string const & getName()const
 		{
 			return m_name;
+		}
+
+		TypesCache & getCache()const
+		{
+			return m_cache;
 		}
 
 		size_t size()const
@@ -108,6 +115,7 @@ namespace ast::type
 		void doUpdateOffsets();
 
 	private:
+		TypesCache & m_cache;
 		std::string m_name;
 		std::vector< Member > m_members;
 		MemoryLayout m_layout;

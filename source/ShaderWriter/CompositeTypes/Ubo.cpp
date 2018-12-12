@@ -34,6 +34,6 @@ namespace sdw
 		auto var = registerMember( m_shader, m_var, name, type );
 		m_stmt->add( stmt::makeVariableDecl( var ) );
 		return StructInstance{ &m_shader
-			, makeExpr( var ) };
+			, makeExpr( m_shader, var ) };
 	}
 }

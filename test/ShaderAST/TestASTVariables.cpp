@@ -34,13 +34,13 @@ namespace
 			type = cache.getSampler();
 			break;
 		default:
-			type = cache.makeType( kind );
+			type = cache.getBasicType( kind );
 			break;
 		}
 
 		if ( arraySize != ast::type::NotArray )
 		{
-			type = type->getCache().getArray( type, arraySize );
+			type = cache.getArray( type, arraySize );
 		}
 
 		ast::var::Variable dummyVar{ type, "dummyVar" };

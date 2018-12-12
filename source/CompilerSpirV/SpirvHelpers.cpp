@@ -204,7 +204,7 @@ namespace spirv
 		{
 		case ast::type::Kind::eVoid:
 			return makeInstruction< VoidTypeInstruction >( id );
-		case ast::type::Kind::eBoolean:
+		case ast::type::Kind::eBool:
 			return makeInstruction< BooleanTypeInstruction >( id );
 		case ast::type::Kind::eInt:
 			return makeInstruction< IntTypeInstruction >( id, 32u, 1u );

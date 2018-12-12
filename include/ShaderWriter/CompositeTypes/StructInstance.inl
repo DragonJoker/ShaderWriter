@@ -7,19 +7,23 @@ namespace sdw
 	inline T StructInstance::getMember( std::string const & name )
 	{
 		auto member = m_type->getMember( name );
-		return T{ findShader( *this )
-			, sdw::makeMbrSelect( makeExpr( *this )
+		auto & shader = *findShader( *this );
+		return T{ &shader
+			, sdw::makeMbrSelect( makeExpr( shader, *this )
 				, member.type->getIndex()
-				, sdw::makeIdent( var::makeVariable( member.type, member.name ) ) ) };
+				, sdw::makeIdent( shader.getTypesCache()
+					, var::makeVariable( member.type, member.name ) ) ) };
 	}
 
 	template< typename T >
 	inline Array< T > StructInstance::getMemberArray( std::string const & name )
 	{
 		auto member = m_type->getMember( name );
-		return Array< T >{ findShader( *this )
-			, sdw::makeMbrSelect( makeExpr( *this )
+		auto & shader = *findShader( *this );
+		return Array< T >{ &shader
+			, sdw::makeMbrSelect( makeExpr( shader, *this )
 				, member.type->getIndex()
-				, sdw::makeIdent( var::makeVariable( member.type, member.name ) ) ) };
+				, sdw::makeIdent( shader.getTypesCache()
+					, var::makeVariable( member.type, member.name ) ) ) };
 	}
 }

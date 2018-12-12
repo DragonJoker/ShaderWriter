@@ -9,34 +9,36 @@ namespace ast::expr
 {
 	namespace
 	{
-		type::TypePtr getSwizzleType( type::TypePtr outer
+		type::TypePtr getSwizzleType( type::TypesCache & cache
+			, type::Kind outer
 			, SwizzleKind swizzle )
 		{
 			if ( swizzle >= SwizzleKind::e0
 				&& swizzle <= SwizzleKind::e3 )
 			{
-				return outer->getCache().makeType( getScalarType( outer->getKind() ) );
+				return cache.getBasicType( getScalarType( outer ) );
 			}
 
 			if ( swizzle >= SwizzleKind::e00
 				&& swizzle <= SwizzleKind::e33 )
 			{
-				return outer->getCache().getVec2Type( getScalarType( outer->getKind() ) );
+				return cache.getVec2Type( getScalarType( outer ) );
 			}
 
 			if ( swizzle >= SwizzleKind::e000
 				&& swizzle <= SwizzleKind::e333 )
 			{
-				return outer->getCache().getVec3Type( getScalarType( outer->getKind() ) );
+				return cache.getVec3Type( getScalarType( outer ) );
 			}
 
-			return outer->getCache().getVec4Type( getScalarType( outer->getKind() ) );
+			return cache.getVec4Type( getScalarType( outer ) );
 		}
 	}
 
 	Swizzle::Swizzle( ExprPtr outer
 		, SwizzleKind swizzle )
-		: Expr{ getSwizzleType( outer->getType(), swizzle )
+		: Expr{ getExprTypesCache( outer )
+			, getSwizzleType( outer->getCache(), outer->getType()->getKind(), swizzle )
 			, Kind::eSwizzle }
 		, m_outer{ std::move( outer ) }
 		, m_swizzle{ swizzle }

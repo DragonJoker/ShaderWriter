@@ -35,7 +35,7 @@ namespace sdw
 		inline type::TypePtr registerMember( std::string const & name
 			, uint32_t arraySize = ast::type::NotArray )
 		{
-			static_assert( Kind != type::Kind::eBoolean, "Can't put a boolean type inside an interface block" );
+			static_assert( Kind != type::Kind::eBool, "Can't put a boolean type inside an interface block" );
 			static_assert( Kind != type::Kind::eVec2B, "Can't put a boolean type inside an interface block" );
 			static_assert( Kind != type::Kind::eVec3B, "Can't put a boolean type inside an interface block" );
 			static_assert( Kind != type::Kind::eVec4B, "Can't put a boolean type inside an interface block" );

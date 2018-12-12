@@ -97,11 +97,17 @@ namespace sdw
 
 	struct Value;
 	struct Void;
-	struct Boolean;
-	struct Int;
-	struct UInt;
-	struct Float;
-	struct Double;
+	struct Bool;
+
+	template< ast::type::Kind KindT >
+	struct ArithmeticValue;
+	template< ast::type::Kind KindT >
+	struct IntegerValue;
+
+	using Float = ArithmeticValue< ast::type::Kind::eFloat >;
+	using Double = ArithmeticValue< ast::type::Kind::eDouble >;
+	using Int = IntegerValue< ast::type::Kind::eInt >;
+	using UInt = IntegerValue< ast::type::Kind::eUInt >;
 
 	class Struct;
 	class StructInstance;
@@ -118,9 +124,9 @@ namespace sdw
 	using UVec2 = Vec2T< UInt >;
 	using UVec3 = Vec3T< UInt >;
 	using UVec4 = Vec4T< UInt >;
-	using BVec2 = Vec2T< Boolean >;
-	using BVec3 = Vec3T< Boolean >;
-	using BVec4 = Vec4T< Boolean >;
+	using BVec2 = Vec2T< Bool >;
+	using BVec3 = Vec3T< Bool >;
+	using BVec4 = Vec4T< Bool >;
 	using Mat2 = Mat2T< Float >;
 	using Mat2x3 = Mat2x3T< Float >;
 	using Mat2x4 = Mat2x4T< Float >;
@@ -313,7 +319,7 @@ namespace sdw
 	Writer_Parameter( Float );
 	Writer_Parameter( Int );
 	Writer_Parameter( UInt );
-	Writer_Parameter( Boolean );
+	Writer_Parameter( Bool );
 	Writer_Parameter( Vec2 );
 	Writer_Parameter( Vec3 );
 	Writer_Parameter( Vec4 );
@@ -352,7 +358,7 @@ namespace sdw
 	Writer_ArrayParameter( Float );
 	Writer_ArrayParameter( Int );
 	Writer_ArrayParameter( UInt );
-	Writer_ArrayParameter( Boolean );
+	Writer_ArrayParameter( Bool );
 	Writer_ArrayParameter( Vec2 );
 	Writer_ArrayParameter( Vec3 );
 	Writer_ArrayParameter( Vec4 );

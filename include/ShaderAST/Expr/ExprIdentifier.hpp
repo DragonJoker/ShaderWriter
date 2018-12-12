@@ -13,7 +13,8 @@ namespace ast::expr
 		: public Expr
 	{
 	public:
-		Identifier( var::VariablePtr var );
+		Identifier( type::TypesCache & cache
+			, var::VariablePtr var );
 
 		void accept( VisitorPtr vis )override;
 
@@ -27,9 +28,11 @@ namespace ast::expr
 	};
 	using IdentifierPtr = std::unique_ptr< Identifier >;
 
-	inline IdentifierPtr makeIdentifier( var::VariablePtr var )
+	inline IdentifierPtr makeIdentifier( type::TypesCache & cache
+		, var::VariablePtr var )
 	{
-		return std::make_unique< Identifier >( std::move( var ) );
+		return std::make_unique< Identifier >( cache
+			, std::move( var ) );
 	}
 }
 

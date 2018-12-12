@@ -14,6 +14,7 @@ namespace sdw
 	{
 	protected:
 		ShaderWriter( ShaderType type );
+		~ShaderWriter();
 
 	public:
 #pragma region Variables registration
@@ -94,7 +95,7 @@ namespace sdw
 			, expr::ExprPtr left
 			, expr::ExprPtr right );
 		template< typename ExprType >
-		ExprType ternary( Boolean condition
+		ExprType ternary( Bool condition
 			, ExprType left
 			, ExprType right );
 		void forStmt( expr::ExprPtr init
@@ -141,10 +142,10 @@ namespace sdw
 		*	Specialisation constant declaration.
 		*/
 		/**@{*/
-		Boolean declSpecConstant( std::string const & name
+		Bool declSpecConstant( std::string const & name
 			, uint32_t location
 			, bool rhs );
-		Optional< Boolean > declSpecConstant( std::string const & name
+		Optional< Bool > declSpecConstant( std::string const & name
 			, uint32_t location
 			, bool rhs
 			, bool enabled );
@@ -396,9 +397,15 @@ namespace sdw
 			return m_shader;
 		}
 
-		inline ast::type::TypesCache & getTypesCache()
+		inline ast::type::TypesCache & getTypesCache()const
 		{
 			return m_shader.getTypesCache();
+		}
+
+		static inline ShaderWriter & getCurrent()
+		{
+			assert( !m_writers.empty() );
+			return *m_writers.back();
 		}
 		/**@}*/
 #pragma endregion
@@ -438,6 +445,7 @@ namespace sdw
 		Function< Vec3, InVec3 > m_invertVec3Y;
 		std::vector< stmt::If * > m_ifStmt;
 		std::vector< ast::stmt::ContainerPtr > m_currentStmts;
+		static std::vector< ShaderWriter * > m_writers;
 	};
 
 	class VertexWriter
@@ -508,18 +516,19 @@ namespace sdw
 #define FOR( Writer, Type, Name, Init, Cond, Incr )\
 	{\
 		auto & writer_int = ( Writer );\
+		auto & shader_int = writer_int.getShader();\
 		writer_int.pushScope();\
-		auto ctrlVar##Name = writer_int.registerLocale( #Name, Type::makeType( writer_int.getShader().getTypesCache() ) );\
-		Type Name{ &writer_int.getShader()\
-			, sdw::makeExpr( ctrlVar##Name ) };\
+		auto ctrlVar##Name = writer_int.registerLocale( #Name, Type::makeType( shader_int.getTypesCache() ) );\
+		Type Name{ &shader_int\
+			, sdw::makeExpr( shader_int, ctrlVar##Name ) };\
 		writer_int.saveNextExpr();\
-		Type incr##Name{ &writer_int.getShader(), writer_int.loadExpr( Incr ) };\
-		Name.updateExpr( sdw::makeExpr( ctrlVar##Name ) );\
-		Type cond##Name{ &writer_int.getShader(), sdw::makeCondition( Cond ) };\
+		Type incr##Name{ &shader_int, writer_int.loadExpr( Incr ) };\
+		Name.updateExpr( sdw::makeExpr( shader_int, ctrlVar##Name ) );\
+		Type cond##Name{ &shader_int, sdw::makeCondition( Cond ) };\
 		writer_int.forStmt( sdw::makeInit( ctrlVar##Name\
-				, sdw::makeExpr( Init ) )\
-			, sdw::makeExpr( cond##Name )\
-			, sdw::makeExpr( incr##Name )\
+				, sdw::makeExpr( shader_int, Init ) )\
+			, sdw::makeExpr( shader_int, cond##Name )\
+			, sdw::makeExpr( shader_int, incr##Name )\
 			, [&]()
 
 #define ROF\
@@ -556,7 +565,9 @@ namespace sdw
  ).endIf();
 
 #define TERNARY( Writer, ExprType, Condition, Left, Right )\
-	( Writer ).ternary< ExprType >( sdw::makeCondition( Condition ), sdw::makeExpr( Left ), sdw::makeExpr( Right ) )
+	( Writer ).ternary< ExprType >( sdw::makeCondition( Condition )\
+		, sdw::makeExpr( Writer.getShader(), Left )\
+		, sdw::makeExpr( Writer.getShader(), Right ) )
 
 #include "Writer.inl"
 

@@ -12,7 +12,7 @@ namespace sdw
 
 	template< typename ValueT >
 	Mat2x4T< ValueT >::Mat2x4T( Mat2x4T const & rhs )
-		: Value{ rhs.getShader(), makeExpr( rhs ) }
+		: Value{ rhs.getShader(), makeExpr( *findShader( *this, rhs ), rhs ) }
 	{
 	}
 
@@ -21,10 +21,7 @@ namespace sdw
 	{
 		if ( this->getContainer() )
 		{
-			addStmt( *findShader( *this, rhs )
-				, sdw::makeSimple( sdw::makeAssign( Mat2x4T< ValueT >::makeType( findTypesCache( *this, rhs ) )
-					, makeExpr( *this )
-					, makeExpr( rhs ) ) ) );
+			writeAssignOperator< Mat2x4T< ValueT > >( *this, rhs, sdw::makeAssign );
 		}
 		else
 		{
@@ -39,39 +36,27 @@ namespace sdw
 	Mat2x4T< ValueT > & Mat2x4T< ValueT >::operator=( RhsT const & rhs )
 	{
 		updateContainer( rhs );
-		addStmt( *findShader( *this, rhs )
-			, sdw::makeSimple( sdw::makeAssign( Mat2x4T< ValueT >::makeType( findTypesCache( *this, rhs ) )
-				, makeExpr( *this )
-				, makeExpr( rhs ) ) ) );
+		writeAssignOperator< Mat2x4T< ValueT > >( *this, rhs, sdw::makeAssign );
 		return *this;
 	}
 
 	template< typename ValueT >
 	template< typename IndexT >
-	Vec4T< ValueT > Mat2x4T< ValueT >::operator[]( IndexT const & rhs )const
+	Vec4T< ValueT > Mat2x4T< ValueT >::operator[]( IndexT const & offset )const
 	{
-		return Vec4T< ValueT >{ findShader( *this, rhs )
-			, sdw::makeArrayAccess( Vec4T< ValueT >::makeType( findTypesCache( *this, rhs ) )
-				, makeExpr( *this )
-				, makeExpr( rhs ) ) };
+		return writeBinOperator< Vec4T< ValueT > >( *this, offset, sdw::makeArrayAccess );
 	}
 
 	template< typename ValueT >
 	inline Vec4T< ValueT > Mat2x4T< ValueT >::operator[]( int32_t offset )const
 	{
-		return Vec4T< ValueT >{ findShader( *this, offset )
-			, sdw::makeArrayAccess( Vec4T< ValueT >::makeType( findTypesCache( *this ) )
-				, makeExpr( *this )
-				, makeExpr( offset ) ) };
+		return writeBinOperator< Vec4T< ValueT > >( *this, offset, sdw::makeArrayAccess );
 	}
 
 	template< typename ValueT >
 	inline Vec4T< ValueT > Mat2x4T< ValueT >::operator[]( uint32_t offset )const
 	{
-		return Vec4T< ValueT >{ findShader( *this, offset )
-			, sdw::makeArrayAccess( Vec4T< ValueT >::makeType( findTypesCache( *this ) )
-				, makeExpr( *this )
-				, makeExpr( offset ) ) };
+		return writeBinOperator< Vec4T< ValueT > >( *this, offset, sdw::makeArrayAccess );
 	}
 
 	template< typename ValueT >

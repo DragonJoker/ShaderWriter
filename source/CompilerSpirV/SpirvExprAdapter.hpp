@@ -20,9 +20,10 @@ namespace spirv
 			, ModuleConfig const & config );
 
 	private:
-		ExprAdapter( ast::expr::ExprPtr & result
+		ExprAdapter( ast::type::TypesCache & cache
 			, PreprocContext const & context
-			, ModuleConfig const & config );
+			, ModuleConfig const & config
+			, ast::expr::ExprPtr & result );
 
 		ast::expr::ExprPtr doSubmit( ast::expr::Expr * expr )override;
 		void visitAddAssignExpr( ast::expr::AddAssign * expr )override;
@@ -50,6 +51,7 @@ namespace spirv
 			, ast::expr::Expr * lhs
 			, ast::expr::Expr * rhs );
 	private:
+		ast::type::TypesCache & m_cache;
 		PreprocContext const & m_context;
 		ModuleConfig const & m_config;
 	};

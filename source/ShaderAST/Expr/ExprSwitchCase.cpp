@@ -8,7 +8,7 @@ See LICENSE file in root folder
 namespace ast::expr
 {
 	SwitchCase::SwitchCase( LiteralPtr label )
-		: Expr{ std::move( label->getType() ), Kind::eSwitchCase }
+		: Expr{ getExprTypesCache( *label ), std::move( label->getType() ), Kind::eSwitchCase }
 		, m_label{ std::move( label ) }
 	{
 	}

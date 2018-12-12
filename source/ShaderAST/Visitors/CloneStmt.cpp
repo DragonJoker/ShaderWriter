@@ -389,7 +389,7 @@ namespace ast
 
 	void StmtCloner::visitPreprocIfDef( stmt::PreprocIfDef * preproc )
 	{
-		auto cont = stmt::makePreprocIfDef( expr::makeIdentifier( preproc->getIdentExpr()->getVariable() ) );
+		auto cont = stmt::makePreprocIfDef( expr::makeIdentifier( preproc->getIdentExpr()->getCache(), preproc->getIdentExpr()->getVariable() ) );
 		m_preprocIfDefStmts.push_back( cont.get() );
 		m_preprocIfDefs.push_back( true );
 

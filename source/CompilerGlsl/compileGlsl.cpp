@@ -22,7 +22,7 @@ namespace glsl
 			, shader.getStatements()
 			, writerConfig
 			, intrinsicsConfig );
-		glStatements = ast::StmtSpecialiser::submit( glStatements.get(), specialisation );
+		glStatements = ast::StmtSpecialiser::submit( shader.getTypesCache(), glStatements.get(), specialisation );
 		return glsl::StmtVisitor::submit( glStatements.get() );
 	}
 }

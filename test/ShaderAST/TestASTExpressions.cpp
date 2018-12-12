@@ -13,7 +13,7 @@ namespace
 			auto expr = ast::expr::makeLiteral( cache, false );
 
 			require( expr->getKind() == ast::expr::Kind::eLiteral );
-			check( expr->getType()->getKind() == ast::type::Kind::eBoolean );
+			check( expr->getType()->getKind() == ast::type::Kind::eBool );
 			require( expr->getLiteralType() == ast::expr::LiteralType::eBool );
 			check( expr->getValue< ast::expr::LiteralType::eBool >() == false );
 			std::cout << "ExprLiteral: " << ast::debug::ExprVisitor::submit( expr.get() ) << std::endl;
@@ -55,7 +55,7 @@ namespace
 	{
 		testBegin( "testExprIdentifier" );
 		ast::type::TypesCache cache;
-		auto expr = ast::expr::makeIdentifier( ast::var::makeVariable( cache.getInt(), "var0" ) );
+		auto expr = ast::expr::makeIdentifier( cache, ast::var::makeVariable( cache.getInt(), "var0" ) );
 
 		require( expr->getKind() == ast::expr::Kind::eIdentifier );
 		check( expr->getType()->getKind() == ast::type::Kind::eInt );
@@ -69,7 +69,7 @@ namespace
 	{
 		testBegin( "testExprAdd" );
 		ast::type::TypesCache cache;
-		auto lhs = ast::expr::makeIdentifier( ast::var::makeVariable( cache.getInt(), "lhs" ) );
+		auto lhs = ast::expr::makeIdentifier( cache, ast::var::makeVariable( cache.getInt(), "lhs" ) );
 		auto rhs = ast::expr::makeLiteral( cache, 10 );
 		auto expr = ast::expr::makeAdd( cache.getInt(), std::move( lhs ), std::move( rhs ) );
 
@@ -93,7 +93,7 @@ namespace
 	{
 		testBegin( "testExprMinus" );
 		ast::type::TypesCache cache;
-		auto lhs = ast::expr::makeIdentifier( ast::var::makeVariable( cache.getInt(), "lhs" ) );
+		auto lhs = ast::expr::makeIdentifier( cache, ast::var::makeVariable( cache.getInt(), "lhs" ) );
 		auto rhs = ast::expr::makeLiteral( cache, 10 );
 		auto expr = ast::expr::makeMinus( cache.getInt(), std::move( lhs ), std::move( rhs ) );
 
@@ -117,7 +117,7 @@ namespace
 	{
 		testBegin( "testExprTimes" );
 		ast::type::TypesCache cache;
-		auto lhs = ast::expr::makeIdentifier( ast::var::makeVariable( cache.getInt(), "lhs" ) );
+		auto lhs = ast::expr::makeIdentifier( cache, ast::var::makeVariable( cache.getInt(), "lhs" ) );
 		auto rhs = ast::expr::makeLiteral( cache, 10 );
 		auto expr = ast::expr::makeTimes( cache.getInt(), std::move( lhs ), std::move( rhs ) );
 
@@ -141,7 +141,7 @@ namespace
 	{
 		testBegin( "testExprTimes" );
 		ast::type::TypesCache cache;
-		auto lhs = ast::expr::makeIdentifier( ast::var::makeVariable( cache.getInt(), "lhs" ) );
+		auto lhs = ast::expr::makeIdentifier( cache, ast::var::makeVariable( cache.getInt(), "lhs" ) );
 		auto rhs = ast::expr::makeLiteral( cache, 10 );
 		auto expr= ast::expr::makeDivide( cache.getInt(), std::move( lhs ), std::move( rhs ) );
 
@@ -165,7 +165,7 @@ namespace
 	{
 		testBegin( "testExprBitAnd" );
 		ast::type::TypesCache cache;
-		auto lhs = ast::expr::makeIdentifier( ast::var::makeVariable( cache.getInt(), "lhs" ) );
+		auto lhs = ast::expr::makeIdentifier( cache, ast::var::makeVariable( cache.getInt(), "lhs" ) );
 		auto rhs = ast::expr::makeLiteral( cache, 10 );
 		auto expr = ast::expr::makeBitAnd( cache.getInt(), std::move( lhs ), std::move( rhs ) );
 
@@ -189,8 +189,8 @@ namespace
 	{
 		testBegin( "testExprBitNot" );
 		ast::type::TypesCache cache;
-		auto op = ast::expr::makeIdentifier( ast::var::makeVariable( cache.getInt(), "op" ) );
-		auto expr = ast::expr::makeBitNot( cache.getInt(), std::move( op ) );
+		auto op = ast::expr::makeIdentifier( cache, ast::var::makeVariable( cache.getInt(), "op" ) );
+		auto expr = ast::expr::makeBitNot( std::move( op ) );
 
 		check( expr->getKind() == ast::expr::Kind::eBitNot );
 		check( expr->getType()->getKind() == ast::type::Kind::eInt );
@@ -207,7 +207,7 @@ namespace
 	{
 		testBegin( "testExprBitOr" );
 		ast::type::TypesCache cache;
-		auto lhs = ast::expr::makeIdentifier( ast::var::makeVariable( cache.getInt(), "lhs" ) );
+		auto lhs = ast::expr::makeIdentifier( cache, ast::var::makeVariable( cache.getInt(), "lhs" ) );
 		auto rhs = ast::expr::makeLiteral( cache, 10 );
 		auto expr = ast::expr::makeBitOr( cache.getInt(), std::move( lhs ), std::move( rhs ) );
 
@@ -231,7 +231,7 @@ namespace
 	{
 		testBegin( "testExprBitXor" );
 		ast::type::TypesCache cache;
-		auto lhs = ast::expr::makeIdentifier( ast::var::makeVariable( cache.getInt(), "lhs" ) );
+		auto lhs = ast::expr::makeIdentifier( cache, ast::var::makeVariable( cache.getInt(), "lhs" ) );
 		auto rhs = ast::expr::makeLiteral( cache, 10 );
 		auto expr = ast::expr::makeBitXor( cache.getInt(), std::move( lhs ), std::move( rhs ) );
 
@@ -255,12 +255,12 @@ namespace
 	{
 		testBegin( "testExprLogAnd" );
 		ast::type::TypesCache cache;
-		auto lhs = ast::expr::makeIdentifier( ast::var::makeVariable( cache.getInt(), "lhs" ) );
+		auto lhs = ast::expr::makeIdentifier( cache, ast::var::makeVariable( cache.getInt(), "lhs" ) );
 		auto rhs = ast::expr::makeLiteral( cache, 10 );
 		auto expr = ast::expr::makeLogAnd( cache, std::move( lhs ), std::move( rhs ) );
 
 		check( expr->getKind() == ast::expr::Kind::eLogAnd );
-		check( expr->getType()->getKind() == ast::type::Kind::eBoolean );
+		check( expr->getType()->getKind() == ast::type::Kind::eBool );
 
 		require( expr->getLHS()->getKind() == ast::expr::Kind::eIdentifier );
 		check( expr->getLHS()->getType()->getKind() == ast::type::Kind::eInt );
@@ -279,12 +279,12 @@ namespace
 	{
 		testBegin( "testExprLogNot" );
 		ast::type::TypesCache cache;
-		auto op = ast::expr::makeIdentifier( ast::var::makeVariable( cache.getInt(), "op" ) );
+		auto op = ast::expr::makeIdentifier( cache, ast::var::makeVariable( cache.getInt(), "op" ) );
 		auto rhs = ast::expr::makeLiteral( cache, 10 );
 		auto expr = ast::expr::makeLogNot( cache, std::move( op ) );
 
 		check( expr->getKind() == ast::expr::Kind::eLogNot );
-		check( expr->getType()->getKind() == ast::type::Kind::eBoolean );
+		check( expr->getType()->getKind() == ast::type::Kind::eBool );
 
 		require( expr->getOperand()->getKind() == ast::expr::Kind::eIdentifier );
 		check( expr->getOperand()->getType()->getKind() == ast::type::Kind::eInt );
@@ -298,12 +298,12 @@ namespace
 	{
 		testBegin( "testExprLogOr" );
 		ast::type::TypesCache cache;
-		auto lhs = ast::expr::makeIdentifier( ast::var::makeVariable( cache.getInt(), "lhs" ) );
+		auto lhs = ast::expr::makeIdentifier( cache, ast::var::makeVariable( cache.getInt(), "lhs" ) );
 		auto rhs = ast::expr::makeLiteral( cache, 10 );
 		auto expr = ast::expr::makeLogOr( cache, std::move( lhs ), std::move( rhs ) );
 
 		check( expr->getKind() == ast::expr::Kind::eLogOr );
-		check( expr->getType()->getKind() == ast::type::Kind::eBoolean );
+		check( expr->getType()->getKind() == ast::type::Kind::eBool );
 
 		require( expr->getLHS()->getKind() == ast::expr::Kind::eIdentifier );
 		check( expr->getLHS()->getType()->getKind() == ast::type::Kind::eInt );
@@ -322,7 +322,7 @@ namespace
 	{
 		testBegin( "testExprModulo" );
 		ast::type::TypesCache cache;
-		auto lhs = ast::expr::makeIdentifier( ast::var::makeVariable( cache.getInt(), "lhs" ) );
+		auto lhs = ast::expr::makeIdentifier( cache, ast::var::makeVariable( cache.getInt(), "lhs" ) );
 		auto rhs = ast::expr::makeLiteral( cache, 10 );
 		auto expr = ast::expr::makeModulo( cache.getInt(), std::move( lhs ), std::move( rhs ) );
 
@@ -346,7 +346,7 @@ namespace
 	{
 		testBegin( "testExprLShift" );
 		ast::type::TypesCache cache;
-		auto lhs = ast::expr::makeIdentifier( ast::var::makeVariable( cache.getInt(), "lhs" ) );
+		auto lhs = ast::expr::makeIdentifier( cache, ast::var::makeVariable( cache.getInt(), "lhs" ) );
 		auto rhs = ast::expr::makeLiteral( cache, 10 );
 		auto expr = ast::expr::makeLShift( cache.getInt(), std::move( lhs ), std::move( rhs ) );
 
@@ -370,7 +370,7 @@ namespace
 	{
 		testBegin( "testExprRShift" );
 		ast::type::TypesCache cache;
-		auto lhs = ast::expr::makeIdentifier( ast::var::makeVariable( cache.getInt(), "lhs" ) );
+		auto lhs = ast::expr::makeIdentifier( cache, ast::var::makeVariable( cache.getInt(), "lhs" ) );
 		auto rhs = ast::expr::makeLiteral( cache, 10 );
 		auto expr = ast::expr::makeRShift( cache.getInt(), std::move( lhs ), std::move( rhs ) );
 
@@ -394,7 +394,7 @@ namespace
 	{
 		testBegin( "testExprComma" );
 		ast::type::TypesCache cache;
-		auto lhs = ast::expr::makeIdentifier( ast::var::makeVariable( cache.getInt(), "lhs" ) );
+		auto lhs = ast::expr::makeIdentifier( cache, ast::var::makeVariable( cache.getInt(), "lhs" ) );
 		auto rhs = ast::expr::makeLiteral( cache, 10 );
 		auto expr = ast::expr::makeComma( std::move( lhs ), std::move( rhs ) );
 
@@ -418,7 +418,7 @@ namespace
 	{
 		testBegin( "testExprArrayAccess" );
 		ast::type::TypesCache cache;
-		auto lhs = ast::expr::makeIdentifier( ast::var::makeVariable( cache.getArray( cache.getInt() ), "lhs" ) );
+		auto lhs = ast::expr::makeIdentifier( cache, ast::var::makeVariable( cache.getArray( cache.getInt() ), "lhs" ) );
 		auto rhs = ast::expr::makeLiteral( cache, 10 );
 		auto expr = ast::expr::makeArrayAccess( cache.getInt(), std::move( lhs ), std::move( rhs ) );
 
@@ -442,7 +442,7 @@ namespace
 	{
 		testBegin( "testExprAssign" );
 		ast::type::TypesCache cache;
-		auto lhs = ast::expr::makeIdentifier( ast::var::makeVariable( cache.getInt(), "lhs" ) );
+		auto lhs = ast::expr::makeIdentifier( cache, ast::var::makeVariable( cache.getInt(), "lhs" ) );
 		auto rhs = ast::expr::makeLiteral( cache, 10 );
 		auto expr = ast::expr::makeAssign( cache.getInt(), std::move( lhs ), std::move( rhs ) );
 
@@ -466,7 +466,7 @@ namespace
 	{
 		testBegin( "testExprAddAssign" );
 		ast::type::TypesCache cache;
-		auto lhs = ast::expr::makeIdentifier( ast::var::makeVariable( cache.getInt(), "lhs" ) );
+		auto lhs = ast::expr::makeIdentifier( cache, ast::var::makeVariable( cache.getInt(), "lhs" ) );
 		auto rhs = ast::expr::makeLiteral( cache, 10 );
 		auto expr = ast::expr::makeAddAssign( cache.getInt(), std::move( lhs ), std::move( rhs ) );
 
@@ -490,7 +490,7 @@ namespace
 	{
 		testBegin( "testExprDivideAssign" );
 		ast::type::TypesCache cache;
-		auto lhs = ast::expr::makeIdentifier( ast::var::makeVariable( cache.getInt(), "lhs" ) );
+		auto lhs = ast::expr::makeIdentifier( cache, ast::var::makeVariable( cache.getInt(), "lhs" ) );
 		auto rhs = ast::expr::makeLiteral( cache, 10 );
 		auto expr = ast::expr::makeDivideAssign( cache.getInt(), std::move( lhs ), std::move( rhs ) );
 
@@ -514,7 +514,7 @@ namespace
 	{
 		testBegin( "testExprMinusAssign" );
 		ast::type::TypesCache cache;
-		auto lhs = ast::expr::makeIdentifier( ast::var::makeVariable( cache.getInt(), "lhs" ) );
+		auto lhs = ast::expr::makeIdentifier( cache, ast::var::makeVariable( cache.getInt(), "lhs" ) );
 		auto rhs = ast::expr::makeLiteral( cache, 10 );
 		auto expr = ast::expr::makeMinusAssign( cache.getInt(), std::move( lhs ), std::move( rhs ) );
 
@@ -538,7 +538,7 @@ namespace
 	{
 		testBegin( "testExprTimesAssign" );
 		ast::type::TypesCache cache;
-		auto lhs = ast::expr::makeIdentifier( ast::var::makeVariable( cache.getInt(), "lhs" ) );
+		auto lhs = ast::expr::makeIdentifier( cache, ast::var::makeVariable( cache.getInt(), "lhs" ) );
 		auto rhs = ast::expr::makeLiteral( cache, 10 );
 		auto expr = ast::expr::makeTimesAssign( cache.getInt(), std::move( lhs ), std::move( rhs ) );
 
@@ -562,7 +562,7 @@ namespace
 	{
 		testBegin( "testExprModuloAssign" );
 		ast::type::TypesCache cache;
-		auto lhs = ast::expr::makeIdentifier( ast::var::makeVariable( cache.getInt(), "lhs" ) );
+		auto lhs = ast::expr::makeIdentifier( cache, ast::var::makeVariable( cache.getInt(), "lhs" ) );
 		auto rhs = ast::expr::makeLiteral( cache, 10 );
 		auto expr = ast::expr::makeModuloAssign( cache.getInt(), std::move( lhs ), std::move( rhs ) );
 
@@ -586,7 +586,7 @@ namespace
 	{
 		testBegin( "testExprLShiftAssign" );
 		ast::type::TypesCache cache;
-		auto lhs = ast::expr::makeIdentifier( ast::var::makeVariable( cache.getInt(), "lhs" ) );
+		auto lhs = ast::expr::makeIdentifier( cache, ast::var::makeVariable( cache.getInt(), "lhs" ) );
 		auto rhs = ast::expr::makeLiteral( cache, 10 );
 		auto expr = ast::expr::makeLShiftAssign( cache.getInt(), std::move( lhs ), std::move( rhs ) );
 
@@ -610,7 +610,7 @@ namespace
 	{
 		testBegin( "testExprRShiftAssign" );
 		ast::type::TypesCache cache;
-		auto lhs = ast::expr::makeIdentifier( ast::var::makeVariable( cache.getInt(), "lhs" ) );
+		auto lhs = ast::expr::makeIdentifier( cache, ast::var::makeVariable( cache.getInt(), "lhs" ) );
 		auto rhs = ast::expr::makeLiteral( cache, 10 );
 		auto expr = ast::expr::makeRShiftAssign( cache.getInt(), std::move( lhs ), std::move( rhs ) );
 
@@ -634,7 +634,7 @@ namespace
 	{
 		testBegin( "testExprAndAssign" );
 		ast::type::TypesCache cache;
-		auto lhs = ast::expr::makeIdentifier( ast::var::makeVariable( cache.getInt(), "lhs" ) );
+		auto lhs = ast::expr::makeIdentifier( cache, ast::var::makeVariable( cache.getInt(), "lhs" ) );
 		auto rhs = ast::expr::makeLiteral( cache, 10 );
 		auto expr = ast::expr::makeAndAssign( cache.getInt(), std::move( lhs ), std::move( rhs ) );
 
@@ -658,7 +658,7 @@ namespace
 	{
 		testBegin( "testExprOrAssign" );
 		ast::type::TypesCache cache;
-		auto lhs = ast::expr::makeIdentifier( ast::var::makeVariable( cache.getInt(), "lhs" ) );
+		auto lhs = ast::expr::makeIdentifier( cache, ast::var::makeVariable( cache.getInt(), "lhs" ) );
 		auto rhs = ast::expr::makeLiteral( cache, 10 );
 		auto expr = ast::expr::makeOrAssign( cache.getInt(), std::move( lhs ), std::move( rhs ) );
 
@@ -682,7 +682,7 @@ namespace
 	{
 		testBegin( "testExprXorAssign" );
 		ast::type::TypesCache cache;
-		auto lhs = ast::expr::makeIdentifier( ast::var::makeVariable( cache.getInt(), "lhs" ) );
+		auto lhs = ast::expr::makeIdentifier( cache, ast::var::makeVariable( cache.getInt(), "lhs" ) );
 		auto rhs = ast::expr::makeLiteral( cache, 10 );
 		auto expr = ast::expr::makeXorAssign( cache.getInt(), std::move( lhs ), std::move( rhs ) );
 
@@ -706,12 +706,12 @@ namespace
 	{
 		testBegin( "testExprEqual" );
 		ast::type::TypesCache cache;
-		auto lhs = ast::expr::makeIdentifier( ast::var::makeVariable( cache.getInt(), "lhs" ) );
+		auto lhs = ast::expr::makeIdentifier( cache, ast::var::makeVariable( cache.getInt(), "lhs" ) );
 		auto rhs = ast::expr::makeLiteral( cache, 10 );
 		auto expr = ast::expr::makeEqual( cache, std::move( lhs ), std::move( rhs ) );
 
 		check( expr->getKind() == ast::expr::Kind::eEqual );
-		check( expr->getType()->getKind() == ast::type::Kind::eBoolean );
+		check( expr->getType()->getKind() == ast::type::Kind::eBool );
 
 		require( expr->getLHS()->getKind() == ast::expr::Kind::eIdentifier );
 		check( expr->getLHS()->getType()->getKind() == ast::type::Kind::eInt );
@@ -730,12 +730,12 @@ namespace
 	{
 		testBegin( "testExprGreater" );
 		ast::type::TypesCache cache;
-		auto lhs = ast::expr::makeIdentifier( ast::var::makeVariable( cache.getInt(), "lhs" ) );
+		auto lhs = ast::expr::makeIdentifier( cache, ast::var::makeVariable( cache.getInt(), "lhs" ) );
 		auto rhs = ast::expr::makeLiteral( cache, 10 );
 		auto expr = ast::expr::makeGreater( cache, std::move( lhs ), std::move( rhs ) );
 
 		check( expr->getKind() == ast::expr::Kind::eGreater );
-		check( expr->getType()->getKind() == ast::type::Kind::eBoolean );
+		check( expr->getType()->getKind() == ast::type::Kind::eBool );
 
 		require( expr->getLHS()->getKind() == ast::expr::Kind::eIdentifier );
 		check( expr->getLHS()->getType()->getKind() == ast::type::Kind::eInt );
@@ -754,12 +754,12 @@ namespace
 	{
 		testBegin( "testExprGreaterEqual" );
 		ast::type::TypesCache cache;
-		auto lhs = ast::expr::makeIdentifier( ast::var::makeVariable( cache.getInt(), "lhs" ) );
+		auto lhs = ast::expr::makeIdentifier( cache, ast::var::makeVariable( cache.getInt(), "lhs" ) );
 		auto rhs = ast::expr::makeLiteral( cache, 10 );
 		auto expr = ast::expr::makeGreaterEqual( cache, std::move( lhs ), std::move( rhs ) );
 
 		check( expr->getKind() == ast::expr::Kind::eGreaterEqual );
-		check( expr->getType()->getKind() == ast::type::Kind::eBoolean );
+		check( expr->getType()->getKind() == ast::type::Kind::eBool );
 
 		require( expr->getLHS()->getKind() == ast::expr::Kind::eIdentifier );
 		check( expr->getLHS()->getType()->getKind() == ast::type::Kind::eInt );
@@ -778,12 +778,12 @@ namespace
 	{
 		testBegin( "testExprLess" );
 		ast::type::TypesCache cache;
-		auto lhs = ast::expr::makeIdentifier( ast::var::makeVariable( cache.getInt(), "lhs" ) );
+		auto lhs = ast::expr::makeIdentifier( cache, ast::var::makeVariable( cache.getInt(), "lhs" ) );
 		auto rhs = ast::expr::makeLiteral( cache, 10 );
 		auto expr = ast::expr::makeLess( cache, std::move( lhs ), std::move( rhs ) );
 
 		check( expr->getKind() == ast::expr::Kind::eLess );
-		check( expr->getType()->getKind() == ast::type::Kind::eBoolean );
+		check( expr->getType()->getKind() == ast::type::Kind::eBool );
 
 		require( expr->getLHS()->getKind() == ast::expr::Kind::eIdentifier );
 		check( expr->getLHS()->getType()->getKind() == ast::type::Kind::eInt );
@@ -802,12 +802,12 @@ namespace
 	{
 		testBegin( "testExprLessEqual" );
 		ast::type::TypesCache cache;
-		auto lhs = ast::expr::makeIdentifier( ast::var::makeVariable( cache.getInt(), "lhs" ) );
+		auto lhs = ast::expr::makeIdentifier( cache, ast::var::makeVariable( cache.getInt(), "lhs" ) );
 		auto rhs = ast::expr::makeLiteral( cache, 10 );
 		auto expr = ast::expr::makeLessEqual( cache, std::move( lhs ), std::move( rhs ) );
 
 		check( expr->getKind() == ast::expr::Kind::eLessEqual );
-		check( expr->getType()->getKind() == ast::type::Kind::eBoolean );
+		check( expr->getType()->getKind() == ast::type::Kind::eBool );
 
 		require( expr->getLHS()->getKind() == ast::expr::Kind::eIdentifier );
 		check( expr->getLHS()->getType()->getKind() == ast::type::Kind::eInt );
@@ -826,12 +826,12 @@ namespace
 	{
 		testBegin( "testExprNotEqual" );
 		ast::type::TypesCache cache;
-		auto lhs = ast::expr::makeIdentifier( ast::var::makeVariable( cache.getInt(), "lhs" ) );
+		auto lhs = ast::expr::makeIdentifier( cache, ast::var::makeVariable( cache.getInt(), "lhs" ) );
 		auto rhs = ast::expr::makeLiteral( cache, 10 );
 		auto expr = ast::expr::makeNotEqual( cache, std::move( lhs ), std::move( rhs ) );
 
 		check( expr->getKind() == ast::expr::Kind::eNotEqual );
-		check( expr->getType()->getKind() == ast::type::Kind::eBoolean );
+		check( expr->getType()->getKind() == ast::type::Kind::eBool );
 
 		require( expr->getLHS()->getKind() == ast::expr::Kind::eIdentifier );
 		check( expr->getLHS()->getType()->getKind() == ast::type::Kind::eInt );
@@ -850,7 +850,7 @@ namespace
 	{
 		testBegin( "testExprPostDecrement" );
 		ast::type::TypesCache cache;
-		auto op = ast::expr::makeIdentifier( ast::var::makeVariable( cache.getInt(), "op" ) );
+		auto op = ast::expr::makeIdentifier( cache, ast::var::makeVariable( cache.getInt(), "op" ) );
 		auto expr = ast::expr::makePostDecrement( std::move( op ) );
 
 		check( expr->getKind() == ast::expr::Kind::ePostDecrement );
@@ -868,7 +868,7 @@ namespace
 	{
 		testBegin( "testExprPostIncrement" );
 		ast::type::TypesCache cache;
-		auto op = ast::expr::makeIdentifier( ast::var::makeVariable( cache.getInt(), "op" ) );
+		auto op = ast::expr::makeIdentifier( cache, ast::var::makeVariable( cache.getInt(), "op" ) );
 		auto expr = ast::expr::makePostIncrement( std::move( op ) );
 
 		check( expr->getKind() == ast::expr::Kind::ePostIncrement );
@@ -886,7 +886,7 @@ namespace
 	{
 		testBegin( "testExprPreDecrement" );
 		ast::type::TypesCache cache;
-		auto op = ast::expr::makeIdentifier( ast::var::makeVariable( cache.getInt(), "op" ) );
+		auto op = ast::expr::makeIdentifier( cache, ast::var::makeVariable( cache.getInt(), "op" ) );
 		auto expr = ast::expr::makePreDecrement( std::move( op ) );
 
 		check( expr->getKind() == ast::expr::Kind::ePreDecrement );
@@ -904,7 +904,7 @@ namespace
 	{
 		testBegin( "testExprPreIncrement" );
 		ast::type::TypesCache cache;
-		auto op = ast::expr::makeIdentifier( ast::var::makeVariable( cache.getInt(), "op" ) );
+		auto op = ast::expr::makeIdentifier( cache, ast::var::makeVariable( cache.getInt(), "op" ) );
 		auto expr = ast::expr::makePreIncrement( std::move( op ) );
 
 		check( expr->getKind() == ast::expr::Kind::ePreIncrement );
@@ -922,7 +922,7 @@ namespace
 	{
 		testBegin( "testExprUnaryMinus" );
 		ast::type::TypesCache cache;
-		auto op = ast::expr::makeIdentifier( ast::var::makeVariable( cache.getInt(), "op" ) );
+		auto op = ast::expr::makeIdentifier( cache, ast::var::makeVariable( cache.getInt(), "op" ) );
 		auto expr = ast::expr::makeUnaryMinus( std::move( op ) );
 
 		check( expr->getKind() == ast::expr::Kind::eUnaryMinus );
@@ -940,7 +940,7 @@ namespace
 	{
 		testBegin( "testExprUnaryPlus" );
 		ast::type::TypesCache cache;
-		auto op = ast::expr::makeIdentifier( ast::var::makeVariable( cache.getInt(), "op" ) );
+		auto op = ast::expr::makeIdentifier( cache, ast::var::makeVariable( cache.getInt(), "op" ) );
 		auto expr = ast::expr::makeUnaryPlus( std::move( op ) );
 
 		check( expr->getKind() == ast::expr::Kind::eUnaryPlus );
@@ -958,7 +958,7 @@ namespace
 	{
 		testBegin( "testExprCast" );
 		ast::type::TypesCache cache;
-		auto op = ast::expr::makeIdentifier( ast::var::makeVariable( cache.getInt(), "op" ) );
+		auto op = ast::expr::makeIdentifier( cache, ast::var::makeVariable( cache.getInt(), "op" ) );
 		auto expr = ast::expr::makeCast( cache.getFloat(), std::move( op ) );
 
 		check( expr->getKind() == ast::expr::Kind::eCast );
@@ -977,10 +977,9 @@ namespace
 		testBegin( "testExprCompositeConstruct" );
 		ast::type::TypesCache cache;
 		ast::expr::ExprList args;
-		args.emplace_back( ast::expr::makeIdentifier( ast::var::makeVariable( cache.getVec4F(), "c1" ) ) );
-		args.emplace_back( ast::expr::makeIdentifier( ast::var::makeVariable( cache.getVec4F(), "c2" ) ) );
-		auto expr = ast::expr::makeCompositeConstruct( cache
-			, ast::expr::CompositeType::eMat2x4
+		args.emplace_back( ast::expr::makeIdentifier( cache, ast::var::makeVariable( cache.getVec4F(), "c1" ) ) );
+		args.emplace_back( ast::expr::makeIdentifier( cache, ast::var::makeVariable( cache.getVec4F(), "c2" ) ) );
+		auto expr = ast::expr::makeCompositeConstruct( ast::expr::CompositeType::eMat2x4
 			, ast::type::Kind::eFloat
 			, std::move( args ) );
 
@@ -999,7 +998,7 @@ namespace
 		testBegin( "testExprFnCall" );
 		{
 			ast::type::TypesCache cache;
-			auto funcName = ast::expr::makeIdentifier( ast::var::makeVariable( cache.getFunction(), "func" ) );
+			auto funcName = ast::expr::makeIdentifier( cache, ast::var::makeVariable( cache.getFunction(), "func" ) );
 			ast::expr::ExprList argList;
 			auto expr = ast::expr::makeFnCall( cache.getInt(), std::move( funcName ), std::move( argList ) );
 
@@ -1015,7 +1014,7 @@ namespace
 		}
 		{
 			ast::type::TypesCache cache;
-			auto funcName = ast::expr::makeIdentifier( ast::var::makeVariable( cache.getFunction(), "func" ) );
+			auto funcName = ast::expr::makeIdentifier( cache, ast::var::makeVariable( cache.getFunction(), "func" ) );
 			ast::expr::ExprList argList;
 			argList.emplace_back( ast::expr::makeLiteral( cache, 10 ) );
 			auto expr = ast::expr::makeFnCall( cache.getInt(), std::move( funcName ), std::move( argList ) );
@@ -1037,7 +1036,7 @@ namespace
 		}
 		{
 			ast::type::TypesCache cache;
-			auto funcName = ast::expr::makeIdentifier( ast::var::makeVariable( cache.getFunction(), "func" ) );
+			auto funcName = ast::expr::makeIdentifier( cache, ast::var::makeVariable( cache.getFunction(), "func" ) );
 			ast::expr::ExprList argList;
 			argList.emplace_back( ast::expr::makeLiteral( cache, 10 ) );
 			argList.emplace_back( ast::expr::makeLiteral( cache, 1.0f ) );
@@ -1072,7 +1071,7 @@ namespace
 		{
 			ast::type::TypesCache cache;
 			ast::expr::ExprList argList;
-			argList.emplace_back( ast::expr::makeIdentifier( ast::var::makeVariable( cache.getInt(), "x" ) ) );
+			argList.emplace_back( ast::expr::makeIdentifier( cache, ast::var::makeVariable( cache.getInt(), "x" ) ) );
 			auto expr = ast::expr::makeIntrinsicCall( cache.getInt(), ast::expr::Intrinsic::eAbs1I, std::move( argList ) );
 
 			require( expr->getKind() == ast::expr::Kind::eIntrinsicCall );
@@ -1095,7 +1094,7 @@ namespace
 			ast::type::TypesCache cache;
 			ast::expr::ExprList argList;
 			ast::type::ImageConfiguration config{};
-			argList.emplace_back( ast::expr::makeIdentifier( ast::var::makeVariable( cache.getImage( config ), "x" ) ) );
+			argList.emplace_back( ast::expr::makeIdentifier( cache, ast::var::makeVariable( cache.getImage( config ), "x" ) ) );
 			auto expr = ast::expr::makeImageAccessCall( cache.getInt(), ast::expr::ImageAccess::eImageSize1DI, std::move( argList ) );
 
 			require( expr->getKind() == ast::expr::Kind::eImageAccessCall );
@@ -1118,7 +1117,7 @@ namespace
 			ast::type::TypesCache cache;
 			ast::expr::ExprList argList;
 			ast::type::ImageConfiguration config{};
-			argList.emplace_back( ast::expr::makeIdentifier( ast::var::makeVariable( cache.getSampledImage( config ), "x" ) ) );
+			argList.emplace_back( ast::expr::makeIdentifier( cache, ast::var::makeVariable( cache.getSampledImage( config ), "x" ) ) );
 			auto expr = ast::expr::makeTextureAccessCall( cache.getInt(), ast::expr::TextureAccess::eTextureSize1DI, std::move( argList ) );
 
 			require( expr->getKind() == ast::expr::Kind::eTextureAccessCall );
@@ -1139,7 +1138,7 @@ namespace
 		testBegin( "testExprAggrInit" );
 		{
 			ast::type::TypesCache cache;
-			auto lhs = ast::expr::makeIdentifier( ast::var::makeVariable( cache.getArray( cache.getInt(), 4u ), "lhs" ) );
+			auto lhs = ast::expr::makeIdentifier( cache, ast::var::makeVariable( cache.getArray( cache.getInt(), 4u ), "lhs" ) );
 			ast::expr::ExprList rhs;
 			auto expr = ast::expr::makeAggrInit( std::move( lhs ), std::move( rhs ) );
 
@@ -1158,7 +1157,7 @@ namespace
 		}
 		{
 			ast::type::TypesCache cache;
-			auto lhs = ast::expr::makeIdentifier( ast::var::makeVariable( cache.getArray( cache.getInt(), 4u ), "lhs" ) );
+			auto lhs = ast::expr::makeIdentifier( cache, ast::var::makeVariable( cache.getArray( cache.getInt(), 4u ), "lhs" ) );
 			ast::expr::ExprList rhs;
 			rhs.emplace_back( ast::expr::makeLiteral( cache, 10 ) );
 			rhs.emplace_back( ast::expr::makeLiteral( cache, 20 ) );
@@ -1197,7 +1196,7 @@ namespace
 	{
 		testBegin( "testExprInit" );
 		ast::type::TypesCache cache;
-		auto lhs = ast::expr::makeIdentifier( ast::var::makeVariable( cache.getInt(), "lhs" ) );
+		auto lhs = ast::expr::makeIdentifier( cache, ast::var::makeVariable( cache.getInt(), "lhs" ) );
 		auto rhs = ast::expr::makeLiteral( cache, 10 );
 		auto expr = ast::expr::makeInit( std::move( lhs ), std::move( rhs ) );
 
@@ -1221,8 +1220,8 @@ namespace
 		testBegin( "testExprMbrSelect" );
 		ast::type::TypesCache cache;
 		auto outerVar = ast::var::makeVariable( cache.getInt(), "outerVar" );
-		auto member = ast::expr::makeIdentifier( ast::var::makeVariable( cache.getInt(), "innerVar" ) );
-		auto expr = ast::expr::makeMbrSelect( ast::expr::makeIdentifier( outerVar ), 0u, std::move( member ) );
+		auto member = ast::expr::makeIdentifier( cache, ast::var::makeVariable( cache.getInt(), "innerVar" ) );
+		auto expr = ast::expr::makeMbrSelect( ast::expr::makeIdentifier( cache, outerVar ), 0u, std::move( member ) );
 
 		require( expr->getKind() == ast::expr::Kind::eMbrSelect );
 		check( expr->getType()->getKind() == ast::type::Kind::eInt );
@@ -1243,8 +1242,8 @@ namespace
 	{
 		testBegin( "testExprQuestion" );
 		ast::type::TypesCache cache;
-		auto ctrlExpr = ast::expr::makeIdentifier( ast::var::makeVariable( cache.getBool(), "ctrl" ) );
-		auto trueExpr = ast::expr::makeIdentifier( ast::var::makeVariable( cache.getInt(), "lhs" ) );
+		auto ctrlExpr = ast::expr::makeIdentifier( cache, ast::var::makeVariable( cache.getBool(), "ctrl" ) );
+		auto trueExpr = ast::expr::makeIdentifier( cache, ast::var::makeVariable( cache.getInt(), "lhs" ) );
 		auto falseExpr = ast::expr::makeLiteral( cache, 10 );
 		auto expr = ast::expr::makeQuestion( cache.getInt(), std::move( ctrlExpr ), std::move( trueExpr ), std::move( falseExpr ) );
 
@@ -1252,8 +1251,8 @@ namespace
 		check( expr->getType()->getKind() == ast::type::Kind::eInt );
 
 		require( expr->getCtrlExpr()->getKind() == ast::expr::Kind::eIdentifier );
-		check( expr->getCtrlExpr()->getType()->getKind() == ast::type::Kind::eBoolean );
-		check( static_cast< ast::expr::Identifier const & >( *expr->getCtrlExpr() ).getVariable()->getType()->getKind() == ast::type::Kind::eBoolean );
+		check( expr->getCtrlExpr()->getType()->getKind() == ast::type::Kind::eBool );
+		check( static_cast< ast::expr::Identifier const & >( *expr->getCtrlExpr() ).getVariable()->getType()->getKind() == ast::type::Kind::eBool );
 		check( static_cast< ast::expr::Identifier const & >( *expr->getCtrlExpr() ).getVariable()->getName() == "ctrl" );
 
 		require( expr->getTrueExpr()->getKind() == ast::expr::Kind::eIdentifier );
@@ -1291,11 +1290,11 @@ namespace
 	{
 		testBegin( "testExprSwitchTest" );
 		ast::type::TypesCache cache;
-		auto value = ast::expr::makeIdentifier( ast::var::makeVariable( cache.getInt(), "lhs" ) );
+		auto value = ast::expr::makeIdentifier( cache, ast::var::makeVariable( cache.getInt(), "lhs" ) );
 		auto expr = ast::expr::makeSwitchTest( std::move( value ) );
 
 		require( expr->getKind() == ast::expr::Kind::eSwitchTest );
-		check( expr->getType()->getKind() == ast::type::Kind::eUndefined );
+		check( expr->getType()->getKind() == ast::type::Kind::eInt );
 
 		require( expr->getValue()->getKind() == ast::expr::Kind::eIdentifier );
 		check( expr->getValue()->getType()->getKind() == ast::type::Kind::eInt );

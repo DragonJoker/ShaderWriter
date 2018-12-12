@@ -88,7 +88,17 @@ namespace sdw
 		return shader.getContainer();
 	}
 
-	type::TypesCache & getTypesCache( Shader & shader )
+	ShaderWriter & getCurrentWriter()
+	{
+		return ShaderWriter::getCurrent();
+	}
+
+	type::TypesCache & getTypesCache( ShaderWriter & writer )
+	{
+		return writer.getTypesCache();
+	}
+
+	type::TypesCache & getTypesCache( Shader const & shader )
 	{
 		return shader.getTypesCache();
 	}
@@ -103,142 +113,176 @@ namespace sdw
 		return writer.getShader();
 	}
 
-	expr::ExprPtr makeExpr( var::VariablePtr const & var )
+	expr::ExprPtr makeExpr( Shader const & shader
+		, var::VariablePtr const & var
+		, bool force )
 	{
-		return expr::makeIdentifier( var );
+		return expr::makeIdentifier( shader.getTypesCache(), var );
 	}
 
-	expr::ExprPtr makeExpr( bool value )
+	expr::ExprPtr makeExpr( Shader const & shader
+		, bool value
+		, bool force )
 	{
-		return expr::makeLiteral( *ast::type::TypesCache::get(), value );
+		return expr::makeLiteral( shader.getTypesCache(), value );
 	}
 
-	expr::ExprPtr makeExpr( int32_t value )
+	expr::ExprPtr makeExpr( Shader const & shader
+		, int32_t value
+		, bool force )
 	{
-		return expr::makeLiteral( *ast::type::TypesCache::get(), value );
+		return expr::makeLiteral( shader.getTypesCache(), value );
 	}
 
-	expr::ExprPtr makeExpr( int64_t value )
+	expr::ExprPtr makeExpr( Shader const & shader
+		, int64_t value
+		, bool force )
 	{
-		return expr::makeLiteral( *ast::type::TypesCache::get(), int32_t( value ) );
+		return expr::makeLiteral( shader.getTypesCache(), int32_t( value ) );
 	}
 
-	expr::ExprPtr makeExpr( uint32_t value )
+	expr::ExprPtr makeExpr( Shader const & shader
+		, uint32_t value
+		, bool force )
 	{
-		return expr::makeLiteral( *ast::type::TypesCache::get(), value );
+		return expr::makeLiteral( shader.getTypesCache(), value );
 	}
 
-	expr::ExprPtr makeExpr( uint64_t value )
+	expr::ExprPtr makeExpr( Shader const & shader
+		, uint64_t value
+		, bool force )
 	{
-		return expr::makeLiteral( *ast::type::TypesCache::get(), uint32_t( value ) );
+		return expr::makeLiteral( shader.getTypesCache(), uint32_t( value ) );
 	}
 
-	expr::ExprPtr makeExpr( float value )
+	expr::ExprPtr makeExpr( Shader const & shader
+		, float value
+		, bool force )
 	{
-		return expr::makeLiteral( *ast::type::TypesCache::get(), value );
+		return expr::makeLiteral( shader.getTypesCache(), value );
 	}
 
-	expr::ExprPtr makeExpr( double value )
+	expr::ExprPtr makeExpr( Shader const & shader
+		, double value
+		, bool force )
 	{
-		return expr::makeLiteral( *ast::type::TypesCache::get(), value );
+		return expr::makeLiteral( shader.getTypesCache(), value );
 	}
 
-	expr::ExprPtr makeExpr( long double value )
+	expr::ExprPtr makeExpr( Shader const & shader
+		, long double value
+		, bool force )
 	{
-		return expr::makeLiteral( *ast::type::TypesCache::get(), double( value ) );
+		return expr::makeLiteral( shader.getTypesCache(), double( value ) );
 	}
 
-	expr::ExprPtr makeExpr( expr::ExprPtr const & expr )
+	expr::ExprPtr makeExpr( Shader const & shader
+		, expr::ExprPtr const & expr
+		, bool force )
 	{
 		return ExprCloner::submit( expr );
 	}
 
-	expr::ExprPtr makeExpr( expr::Expr * expr )
+	expr::ExprPtr makeExpr( Shader const & shader
+		, expr::Expr * expr
+		, bool force )
 	{
 		return ExprCloner::submit( expr );
 	}
 
-	expr::ExprList makeFnArg( bool value )
+	expr::ExprList makeFnArg( Shader const & shader
+		, bool value )
 	{
 		expr::ExprList result;
-		result.emplace_back( makeExpr( value ) );
+		result.emplace_back( makeExpr( shader, value ) );
 		return result;
 	}
 
-	expr::ExprList makeFnArg( int32_t value )
+	expr::ExprList makeFnArg( Shader const & shader
+		, int32_t value )
 	{
 		expr::ExprList result;
-		result.emplace_back( makeExpr( value ) );
+		result.emplace_back( makeExpr( shader, value ) );
 		return result;
 	}
 
-	expr::ExprList makeFnArg( int64_t value )
+	expr::ExprList makeFnArg( Shader const & shader
+		, int64_t value )
 	{
 		expr::ExprList result;
-		result.emplace_back( makeExpr( value ) );
+		result.emplace_back( makeExpr( shader, value ) );
 		return result;
 	}
 
-	expr::ExprList makeFnArg( uint32_t value )
+	expr::ExprList makeFnArg( Shader const & shader
+		, uint32_t value )
 	{
 		expr::ExprList result;
-		result.emplace_back( makeExpr( value ) );
+		result.emplace_back( makeExpr( shader, value ) );
 		return result;
 	}
 
-	expr::ExprList makeFnArg( uint64_t value )
+	expr::ExprList makeFnArg( Shader const & shader
+		, uint64_t value )
 	{
 		expr::ExprList result;
-		result.emplace_back( makeExpr( value ) );
+		result.emplace_back( makeExpr( shader, value ) );
 		return result;
 	}
 
-	expr::ExprList makeFnArg( float value )
+	expr::ExprList makeFnArg( Shader const & shader
+		, float value )
 	{
 		expr::ExprList result;
-		result.emplace_back( makeExpr( value ) );
+		result.emplace_back( makeExpr( shader, value ) );
 		return result;
 	}
 
-	expr::ExprList makeFnArg( double value )
+	expr::ExprList makeFnArg( Shader const & shader
+		, double value )
 	{
 		expr::ExprList result;
-		result.emplace_back( makeExpr( value ) );
+		result.emplace_back( makeExpr( shader, value ) );
 		return result;
 	}
 
-	expr::ExprList makeFnArg( long double value )
+	expr::ExprList makeFnArg( Shader const & shader
+		, long double value )
 	{
 		expr::ExprList result;
-		result.emplace_back( makeExpr( value ) );
+		result.emplace_back( makeExpr( shader, value ) );
 		return result;
 	}
 
-	expr::ExprList makeFnArg( expr::ExprPtr const & expr )
+	expr::ExprList makeFnArg( Shader const & shader
+		, expr::ExprPtr const & expr )
 	{
 		expr::ExprList result;
-		result.emplace_back( makeExpr( expr ) );
+		result.emplace_back( makeExpr( shader, expr ) );
 		return result;
 	}
 
-	expr::ExprList makeFnArg( expr::Expr * expr )
+	expr::ExprList makeFnArg( Shader const & shader
+		, expr::Expr * expr )
 	{
 		expr::ExprList result;
-		result.emplace_back( makeExpr( expr ) );
+		result.emplace_back( makeExpr( shader, expr ) );
 		return result;
 	}
 
 	expr::ExprPtr makeInit( var::VariablePtr var
 		, expr::ExprPtr init )
 	{
-		return expr::makeInit( makeIdent( std::move( var ) )
+		auto & cache = getExprTypesCache( init );
+		return expr::makeInit( makeIdent( cache, std::move( var ) )
 			, std::move( init ) );
 	}
 
 	expr::ExprPtr makeAggrInit( var::VariablePtr var
 		, expr::ExprList && init )
 	{
-		return expr::makeAggrInit( makeIdent( std::move( var ) )
+		auto & cache = getExprTypesCache( init );
+		return expr::makeAggrInit( makeIdent( cache, std::move( var ) )
 			, std::move( init ) );
 	}
 
@@ -339,17 +383,15 @@ namespace sdw
 			, std::move( rhs ) );
 	}
 
-	expr::ExprPtr makeBitNot( type::TypePtr type
-		, expr::ExprPtr operand )
+	expr::ExprPtr makeBitNot( expr::ExprPtr operand )
 	{
-		return expr::makeBitNot( std::move( type )
-			, std::move( operand ) );
+		return expr::makeBitNot( std::move( operand ) );
 	}
 
 	expr::ExprPtr makeLogAnd( expr::ExprPtr lhs
 		, expr::ExprPtr rhs )
 	{
-		auto & cache = lhs->getType()->getCache();
+		auto & cache = getExprTypesCache( lhs, rhs );
 		return expr::makeLogAnd( cache
 			, std::move( lhs )
 			, std::move( rhs ) );
@@ -358,7 +400,7 @@ namespace sdw
 	expr::ExprPtr makeLogOr( expr::ExprPtr lhs
 		, expr::ExprPtr rhs )
 	{
-		auto & cache = lhs->getType()->getCache();
+		auto & cache = getExprTypesCache( lhs, rhs );
 		return expr::makeLogOr( cache
 			, std::move( lhs )
 			, std::move( rhs ) );
@@ -366,7 +408,7 @@ namespace sdw
 
 	expr::ExprPtr makeLogNot( expr::ExprPtr operand )
 	{
-		auto & cache = operand->getType()->getCache();
+		auto & cache = getExprTypesCache( operand );
 		return expr::makeLogNot( cache
 			, std::move( operand ) );
 	}
@@ -512,7 +554,7 @@ namespace sdw
 	expr::ExprPtr makeEqual( expr::ExprPtr lhs
 		, expr::ExprPtr rhs )
 	{
-		auto & cache = lhs->getType()->getCache();
+		auto & cache = getExprTypesCache( lhs, rhs );
 		return expr::makeEqual( cache
 			, std::move( lhs )
 			, std::move( rhs ) );
@@ -521,7 +563,7 @@ namespace sdw
 	expr::ExprPtr makeNEqual( expr::ExprPtr lhs
 		, expr::ExprPtr rhs )
 	{
-		auto & cache = lhs->getType()->getCache();
+		auto & cache = getExprTypesCache( lhs, rhs );
 		return expr::makeNotEqual( cache
 			, std::move( lhs )
 			, std::move( rhs ) );
@@ -530,7 +572,7 @@ namespace sdw
 	expr::ExprPtr makeLess( expr::ExprPtr lhs
 		, expr::ExprPtr rhs )
 	{
-		auto & cache = lhs->getType()->getCache();
+		auto & cache = getExprTypesCache( lhs, rhs );
 		return expr::makeLess( cache
 			, std::move( lhs )
 			, std::move( rhs ) );
@@ -539,7 +581,7 @@ namespace sdw
 	expr::ExprPtr makeLEqual( expr::ExprPtr lhs
 		, expr::ExprPtr rhs )
 	{
-		auto & cache = lhs->getType()->getCache();
+		auto & cache = getExprTypesCache( lhs, rhs );
 		return expr::makeLessEqual( cache
 			, std::move( lhs )
 			, std::move( rhs ) );
@@ -548,7 +590,7 @@ namespace sdw
 	expr::ExprPtr makeGreater( expr::ExprPtr lhs
 		, expr::ExprPtr rhs )
 	{
-		auto & cache = lhs->getType()->getCache();
+		auto & cache = getExprTypesCache( lhs, rhs );
 		return expr::makeGreater( cache
 			, std::move( lhs )
 			, std::move( rhs ) );
@@ -557,7 +599,7 @@ namespace sdw
 	expr::ExprPtr makeGEqual( expr::ExprPtr lhs
 		, expr::ExprPtr rhs )
 	{
-		auto & cache = lhs->getType()->getCache();
+		auto & cache = getExprTypesCache( lhs, rhs );
 		return expr::makeGreaterEqual( cache
 			, std::move( lhs )
 			, std::move( rhs ) );
@@ -587,8 +629,7 @@ namespace sdw
 		, type::Kind component
 		, expr::ExprList && args )
 	{
-		return expr::makeCompositeConstruct( *ast::type::TypesCache::get()
-			, composite
+		return expr::makeCompositeConstruct( composite
 			, component
 			, std::move( args ) );
 	}
@@ -627,9 +668,10 @@ namespace sdw
 			, std::move( operand ) );
 	}
 
-	expr::IdentifierPtr makeIdent( var::VariablePtr var )
+	expr::IdentifierPtr makeIdent( type::TypesCache & cache
+		, var::VariablePtr var )
 	{
-		return expr::makeIdentifier( std::move( var ) );
+		return expr::makeIdentifier( cache, std::move( var ) );
 	}
 
 	stmt::StmtPtr makeSimple( expr::ExprPtr expr )

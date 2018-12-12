@@ -56,33 +56,26 @@ namespace sdw
 
 	//***********************************************************************************************
 
-	template< typename Value, typename ... Values >
-	inline void findShaderRec( Shader *& result
-		, Value const & current
-		, Values const & ... values );
-
 	inline void findShaderRec( Shader *& result )
 	{
 	}
 
-	template< typename Value >
+	template< typename ValueT >
 	inline void findShaderRec( Shader *& result
-		, Value const & last )
+		, ValueT const & last )
 	{
-		if ( !result )
-		{
-			result = details::getShader( last );
-		}
+		result = details::getShader( last );
 	}
 
-	template< typename Value, typename ... Values >
+	template< typename ValueT, typename ... ValuesT >
 	inline void findShaderRec( Shader *& result
-		, Value const & current
-		, Values const & ... values )
+		, ValueT const & current
+		, ValuesT const & ... values )
 	{
+		result = details::getShader( current );
+
 		if ( !result )
 		{
-			result = details::getShader( current );
 			findShaderRec( result, values... );
 		}
 	}
@@ -95,34 +88,32 @@ namespace sdw
 		return result;
 	}
 
-	template< typename Value, typename ... Values >
-	inline void findExprRec( ast::expr::ExprPtr & result
-		, Value const & current
-		, Values const & ... values );
+	//***********************************************************************************************
 
-	inline void findExprRec( ast::expr::ExprPtr & result )
+	inline void findExprRec( ast::expr::ExprPtr & result
+		, Shader & shader )
 	{
 	}
 
-	template< typename Value >
+	template< typename ValueT >
 	inline void findExprRec( ast::expr::ExprPtr & result
-		, Value const & last )
+		, Shader & shader
+		, ValueT const & last )
 	{
-		if ( !result )
-		{
-			result = makeExpr( last );
-		}
+		result = makeExpr( shader, last );
 	}
 
-	template< typename Value, typename ... Values >
+	template< typename ValueT, typename ... ValuesT >
 	inline void findExprRec( ast::expr::ExprPtr & result
-		, Value const & current
-		, Values const & ... values )
+		, Shader & shader
+		, ValueT const & current
+		, ValuesT const & ... values )
 	{
+		result = makeExpr( shader, current );
+
 		if ( !result )
 		{
-			result = makeExpr( current );
-			findExprRec( result, values... );
+			findExprRec( result, shader, values... );
 		}
 	}
 
@@ -130,9 +121,12 @@ namespace sdw
 	inline ast::expr::ExprPtr findExpr( ValuesT const & ... values )
 	{
 		ast::expr::ExprPtr result{ nullptr };
-		findExprRec( result, values... );
+		auto & shader = *findShader( values... );
+		findExprRec( result, shader, values... );
 		return result;
 	}
+
+	//***********************************************************************************************
 
 	template< typename ... ValuesT >
 	inline ast::type::TypesCache & findTypesCache( ValuesT const & ... values )
@@ -146,8 +140,10 @@ namespace sdw
 
 		ast::expr::ExprPtr expr = findExpr( values... );
 		assert( expr );
-		return expr->getType()->getCache();
+		return expr->getCache();
 	}
+
+	//***********************************************************************************************
 
 	template< typename ... ValuesT >
 	inline stmt::Container * findContainer( ValuesT const & ... values )
@@ -161,6 +157,29 @@ namespace sdw
 		}
 
 		return result;
+	}
+
+	//***********************************************************************************************
+
+	template< typename ReturnT, typename OperandT, typename CreatorT >
+	inline ReturnT writeUnOperator( OperandT const & operand
+		, CreatorT creator )
+	{
+		auto & shader = *findShader( operand );
+		return ReturnT{ &shader
+			, creator( makeExpr( shader, operand ) ) };
+	}
+
+	template< typename ReturnT, typename LhsT, typename RhsT, typename CreatorT >
+	inline ReturnT writeBinOperator( LhsT const & lhs
+		, RhsT const & rhs
+		, CreatorT creator )
+	{
+		auto & shader = *findShader( lhs, rhs );
+		return ReturnT{ &shader
+			, creator( ReturnT::makeType( findTypesCache( lhs, rhs ) )
+				, makeExpr( shader, lhs )
+				, makeExpr( shader, rhs ) ) };
 	}
 
 	//***********************************************************************************************

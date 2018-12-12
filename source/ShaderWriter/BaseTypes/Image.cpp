@@ -12,7 +12,7 @@ namespace sdw
 	}
 
 	Image::Image( Image const & rhs )
-		: Value{ rhs.getShader(), makeExpr( rhs ) }
+		: Value{ rhs.getShader(), makeExpr( *rhs.getShader(), rhs ) }
 	{
 	}
 

@@ -42,13 +42,15 @@ namespace sdw
 	}
 
 	template< typename T >
-	expr::ExprList makeExpr( std::vector< T > const & values )
+	expr::ExprList makeExpr( Shader const & shader
+		, std::vector< T > const & values
+		, bool force )
 	{
 		expr::ExprList result;
 
 		for ( auto & value : values )
 		{
-			result.emplace_back( makeExpr( value ) );
+			result.emplace_back( makeExpr( shader, value, force ) );
 		}
 
 		return result;
@@ -69,7 +71,7 @@ namespace sdw
 		case ast::type::Kind::eSampledImage:
 			return cache.getSampledImage( makeConfig< ValueT >() );
 		default:
-			return cache.makeType( kind );
+			return cache.getBasicType( kind );
 		}
 	}
 

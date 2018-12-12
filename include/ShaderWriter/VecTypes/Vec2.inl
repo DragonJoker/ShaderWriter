@@ -14,7 +14,7 @@ namespace sdw
 
 	template< typename ValueT >
 	Vec2T< ValueT >::Vec2T( Vec2T const & rhs )
-		: Value{ rhs.getShader(), makeExpr( rhs ) }
+		: Value{ rhs.getShader(), makeExpr( *findShader( *this, rhs ), rhs ) }
 	{
 	}
 
@@ -23,10 +23,7 @@ namespace sdw
 	{
 		if ( getContainer() )
 		{
-			addStmt( *findShader( *this, rhs )
-				, sdw::makeSimple( sdw::makeAssign( getType()
-					, makeExpr( *this )
-					, makeExpr( rhs ) ) ) );
+			writeAssignOperator< Vec2T< ValueT > >( *this, rhs, sdw::makeAssign );
 		}
 		else
 		{
@@ -40,208 +37,130 @@ namespace sdw
 	template< typename IndexT >
 	inline ValueT Vec2T< ValueT >::operator[]( IndexT const & rhs )const
 	{
-		return ValueT{ findShader( *this, rhs )
-			, sdw::makeArrayAccess( ValueT::makeType( findTypesCache( *this, rhs ) )
-				, makeExpr( *this )
-				, makeExpr( rhs ) ) };
+		return writeBinOperator< ValueT >( *this, rhs, sdw::makeArrayAccess );
 	}
 
 	template< typename ValueT >
 	inline ValueT Vec2T< ValueT >::operator[]( int32_t offset )const
 	{
-		return ValueT{ findShader( *this, offset )
-			, sdw::makeArrayAccess( ValueT::makeType( findTypesCache( *this ) )
-				, makeExpr( *this )
-				, makeExpr( offset ) ) };
+		return writeBinOperator< ValueT >( *this, rhs, sdw::makeArrayAccess );
 	}
 
 	template< typename ValueT >
 	inline ValueT Vec2T< ValueT >::operator[]( uint32_t offset )const
 	{
-		return ValueT{ findShader( *this, offset )
-			, sdw::makeArrayAccess( ValueT::makeType( findTypesCache( *this ) )
-				, makeExpr( *this )
-				, makeExpr( offset ) ) };
+		return writeBinOperator< ValueT >( *this, rhs, sdw::makeArrayAccess );
 	}
 
 	template< typename ValueT >
 	Vec2T< ValueT > & Vec2T< ValueT >::operator+=( Vec2T< ValueT > const & rhs )
 	{
-		addStmt( *findShader( *this, rhs )
-			, sdw::makeSimple( sdw::makeAddAssign( getType()
-				, makeExpr( *this )
-				, makeExpr( rhs ) ) ) );
+		writeAssignOperator< Vec2T< ValueT > >( *this, rhs, sdw::makeAddAssign );
 		return *this;
 	}
 
 	template< typename ValueT >
 	Vec2T< ValueT > & Vec2T< ValueT >::operator-=( Vec2T< ValueT > const & rhs )
 	{
-		addStmt( *findShader( *this, rhs )
-			, sdw::makeSimple( sdw::makeMinusAssign( getType()
-				, makeExpr( *this )
-				, makeExpr( rhs ) ) ) );
+		writeAssignOperator< Vec2T< ValueT > >( *this, rhs, sdw::makeMinusAssign );
 		return *this;
 	}
 
 	template< typename ValueT >
 	Vec2T< ValueT > & Vec2T< ValueT >::operator*=( Vec2T< ValueT > const & rhs )
 	{
-		addStmt( *findShader( *this, rhs )
-			, sdw::makeSimple( sdw::makeTimesAssign( getType()
-				, makeExpr( *this )
-				, makeExpr( rhs ) ) ) );
+		writeAssignOperator< Vec2T< ValueT > >( *this, rhs, sdw::makeTimesAssign );
 		return *this;
 	}
 
 	template< typename ValueT >
 	Vec2T< ValueT > & Vec2T< ValueT >::operator/=( Vec2T< ValueT > const & rhs )
 	{
-		addStmt( *findShader( *this, rhs )
-			, sdw::makeSimple( sdw::makeDivideAssign( getType()
-				, makeExpr( *this )
-				, makeExpr( rhs ) ) ) );
+		writeAssignOperator< Vec2T< ValueT > >( *this, rhs, sdw::makeDivideAssign );
 		return *this;
 	}
 
 	template< typename ValueT >
 	Vec2T< ValueT > & Vec2T< ValueT >::operator+=( Optional< Vec2T< ValueT > > const & rhs )
 	{
-		if ( rhs.isEnabled() )
-		{
-			addStmt( *findShader( *this, rhs )
-				, sdw::makeSimple( sdw::makeAddAssign( getType()
-					, makeExpr( *this )
-					, makeExpr( rhs ) ) ) );
-		}
+		writeAssignOperator< Vec2T< ValueT > >( *this, rhs, sdw::makeAddAssign );
 		return *this;
 	}
 
 	template< typename ValueT >
 	Vec2T< ValueT > & Vec2T< ValueT >::operator-=( Optional< Vec2T< ValueT > > const & rhs )
 	{
-		if ( rhs.isEnabled() )
-		{
-			addStmt( *findShader( *this, rhs )
-				, sdw::makeSimple( sdw::makeMinusAssign( getType()
-					, makeExpr( *this )
-					, makeExpr( rhs ) ) ) );
-		}
+		writeAssignOperator< Vec2T< ValueT > >( *this, rhs, sdw::makeMinusAssign );
 		return *this;
 	}
 
 	template< typename ValueT >
 	Vec2T< ValueT > & Vec2T< ValueT >::operator*=( Optional< Vec2T< ValueT > > const & rhs )
 	{
-		if ( rhs.isEnabled() )
-		{
-			addStmt( *findShader( *this, rhs )
-				, sdw::makeSimple( sdw::makeTimesAssign( getType()
-					, makeExpr( *this )
-					, makeExpr( rhs ) ) ) );
-		}
+		writeAssignOperator< Vec2T< ValueT > >( *this, rhs, sdw::makeTimesAssign );
 		return *this;
 	}
 
 	template< typename ValueT >
 	Vec2T< ValueT > & Vec2T< ValueT >::operator/=( Optional< Vec2T< ValueT > > const & rhs )
 	{
-		if ( rhs.isEnabled() )
-		{
-			addStmt( *findShader( *this, rhs )
-				, sdw::makeSimple( sdw::makeDivideAssign( getType()
-					, makeExpr( *this )
-					, makeExpr( rhs ) ) ) );
-		}
+		writeAssignOperator< Vec2T< ValueT > >( *this, rhs, sdw::makeDivideAssign );
 		return *this;
 	}
 
 	template< typename ValueT >
 	Vec2T< ValueT > & Vec2T< ValueT >::operator+=( ValueT const & rhs )
 	{
-		addStmt( *findShader( *this, rhs )
-			, sdw::makeSimple( sdw::makeAddAssign( getType()
-				, makeExpr( *this )
-				, makeExpr( rhs ) ) ) );
+		writeAssignOperator< Vec2T< ValueT > >( *this, rhs, sdw::makeAddAssign );
 		return *this;
 	}
 
 	template< typename ValueT >
 	Vec2T< ValueT > & Vec2T< ValueT >::operator-=( ValueT const & rhs )
 	{
-		addStmt( *findShader( *this, rhs )
-			, sdw::makeSimple( sdw::makeMinusAssign( getType()
-				, makeExpr( *this )
-				, makeExpr( rhs ) ) ) );
+		writeAssignOperator< Vec2T< ValueT > >( *this, rhs, sdw::makeMinusAssign );
 		return *this;
 	}
 
 	template< typename ValueT >
 	Vec2T< ValueT > & Vec2T< ValueT >::operator*=( ValueT const & rhs )
 	{
-		addStmt( *findShader( *this, rhs )
-			, sdw::makeSimple( sdw::makeTimesAssign( getType()
-				, makeExpr( *this )
-				, makeExpr( rhs ) ) ) );
+		writeAssignOperator< Vec2T< ValueT > >( *this, rhs, sdw::makeTimesAssign );
 		return *this;
 	}
 
 	template< typename ValueT >
 	Vec2T< ValueT > & Vec2T< ValueT >::operator/=( ValueT const & rhs )
 	{
-		addStmt( *findShader( *this, rhs )
-			, sdw::makeSimple( sdw::makeDivideAssign( getType()
-				, makeExpr( *this )
-				, makeExpr( rhs ) ) ) );
+		writeAssignOperator< Vec2T< ValueT > >( *this, rhs, sdw::makeDivideAssign );
 		return *this;
 	}
 
 	template< typename ValueT >
 	Vec2T< ValueT > & Vec2T< ValueT >::operator+=( Optional< ValueT > const & rhs )
 	{
-		addStmt( *findShader( *this, rhs )
-			, sdw::makeSimple( sdw::makeAddAssign( getType()
-				, makeExpr( *this )
-				, makeExpr( rhs ) ) ) );
+		writeAssignOperator< Vec2T< ValueT > >( *this, rhs, sdw::makeAddAssign );
 		return *this;
 	}
 
 	template< typename ValueT >
 	Vec2T< ValueT > & Vec2T< ValueT >::operator-=( Optional< ValueT > const & rhs )
 	{
-		if ( rhs.isEnabled() )
-		{
-			addStmt( *findShader( *this, rhs )
-				, sdw::makeSimple( sdw::makeMinusAssign( getType()
-					, makeExpr( *this )
-					, makeExpr( rhs ) ) ) );
-		}
+		writeAssignOperator< Vec2T< ValueT > >( *this, rhs, sdw::makeMinusAssign );
 		return *this;
 	}
 
 	template< typename ValueT >
 	Vec2T< ValueT > & Vec2T< ValueT >::operator*=( Optional< ValueT > const & rhs )
 	{
-		if ( rhs.isEnabled() )
-		{
-			addStmt( *findShader( *this, rhs )
-				, sdw::makeSimple( sdw::makeTimesAssign( getType()
-					, makeExpr( *this )
-					, makeExpr( rhs ) ) ) );
-		}
+		writeAssignOperator< Vec2T< ValueT > >( *this, rhs, sdw::makeTimesAssign );
 		return *this;
 	}
 
 	template< typename ValueT >
 	Vec2T< ValueT > & Vec2T< ValueT >::operator/=( Optional< ValueT > const & rhs )
 	{
-		if ( rhs.isEnabled() )
-		{
-			addStmt( *findShader( *this, rhs )
-				, sdw::makeSimple( sdw::makeDivideAssign( getType()
-					, makeExpr( *this )
-					, makeExpr( rhs ) ) ) );
-		}
+		writeAssignOperator< Vec2T< ValueT > >( *this, rhs, sdw::makeDivideAssign );
 		return *this;
 	}
 
@@ -254,189 +173,147 @@ namespace sdw
 	//*************************************************************************
 
 	template< typename ValueT >
-	Boolean operator==( Vec2T< ValueT > const & lhs, Vec2T< ValueT > const & rhs )
+	Bool operator==( Vec2T< ValueT > const & lhs, Vec2T< ValueT > const & rhs )
 	{
-		return Boolean{ findShader( lhs, rhs )
-			, sdw::makeEqual( makeExpr( lhs ), makeExpr( rhs ) ) };
+		return writeComparator( *this, rhs, sdw::makeEqual );
 	}
 
 	template< typename ValueT >
-	Boolean operator!=( Vec2T< ValueT > const & lhs, Vec2T< ValueT > const & rhs )
+	Bool operator!=( Vec2T< ValueT > const & lhs, Vec2T< ValueT > const & rhs )
 	{
-		return Boolean{ findShader( lhs, rhs )
-			, sdw::makeNEqual( makeExpr( lhs ), makeExpr( rhs ) ) };
+		return writeComparator( *this, rhs, sdw::makeNEqual );
 	}
 
 	template< typename ValueT >
-	Boolean operator<( Vec2T< ValueT > const & lhs, Vec2T< ValueT > const & rhs )
+	Bool operator<( Vec2T< ValueT > const & lhs, Vec2T< ValueT > const & rhs )
 	{
-		return Boolean{ findShader( lhs, rhs )
-			, sdw::makeLess( makeExpr( lhs ), makeExpr( rhs ) ) };
+		return writeComparator( *this, rhs, sdw::makeLess );
 	}
 
 	template< typename ValueT >
-	Boolean operator<=( Vec2T< ValueT > const & lhs, Vec2T< ValueT > const & rhs )
+	Bool operator<=( Vec2T< ValueT > const & lhs, Vec2T< ValueT > const & rhs )
 	{
-		return Boolean{ findShader( lhs, rhs )
-			, sdw::makeLEqual( makeExpr( lhs ), makeExpr( rhs ) ) };
+		return writeComparator( *this, rhs, sdw::makeLEqual );
 	}
 
 	template< typename ValueT >
-	Boolean operator>( Vec2T< ValueT > const & lhs, Vec2T< ValueT > const & rhs )
+	Bool operator>( Vec2T< ValueT > const & lhs, Vec2T< ValueT > const & rhs )
 	{
-		return Boolean{ findShader( lhs, rhs )
-			, sdw::makeGreater( makeExpr( lhs ), makeExpr( rhs ) ) };
+		return writeComparator( *this, rhs, sdw::makeGreater );
 	}
 
 	template< typename ValueT >
-	Boolean operator>=( Vec2T< ValueT > const & lhs, Vec2T< ValueT > const & rhs )
+	Bool operator>=( Vec2T< ValueT > const & lhs, Vec2T< ValueT > const & rhs )
 	{
-		return Boolean{ findShader( lhs, rhs )
-			, sdw::makeGEqual( makeExpr( lhs ), makeExpr( rhs ) ) };
+		return writeComparator( *this, rhs, sdw::makeGEqual );
 	}
 
 	template< typename ValueT >
-	Optional< Boolean > operator==( Optional< Vec2T< ValueT > > const & lhs, Vec2T< ValueT > const & rhs )
+	Optional< Bool > operator==( Optional< Vec2T< ValueT > > const & lhs, Vec2T< ValueT > const & rhs )
 	{
-		return Optional< Boolean >{ findShader( lhs, rhs )
-			, sdw::makeEqual( makeExpr( lhs ), makeExpr( rhs ) )
-			, areOptionalEnabled( lhs, rhs ) };
+		return writeComparator( *this, rhs, sdw::makeEqual );
 	}
 
 	template< typename ValueT >
-	Optional< Boolean > operator!=( Optional< Vec2T< ValueT > > const & lhs, Vec2T< ValueT > const & rhs )
+	Optional< Bool > operator!=( Optional< Vec2T< ValueT > > const & lhs, Vec2T< ValueT > const & rhs )
 	{
-		return Optional< Boolean >{ findShader( lhs, rhs )
-			, sdw::makeNEqual( makeExpr( lhs ), makeExpr( rhs ) )
-			, areOptionalEnabled( lhs, rhs ) };
+		return writeComparator( *this, rhs, sdw::makeNEqual );
 	}
 
 	template< typename ValueT >
-	Optional< Boolean > operator<( Optional< Vec2T< ValueT > > const & lhs, Vec2T< ValueT > const & rhs )
+	Optional< Bool > operator<( Optional< Vec2T< ValueT > > const & lhs, Vec2T< ValueT > const & rhs )
 	{
-		return Optional< Boolean >{ findShader( lhs, rhs )
-			, sdw::makeLess( makeExpr( lhs ), makeExpr( rhs ) )
-			, areOptionalEnabled( lhs, rhs ) };
+		return writeComparator( *this, rhs, sdw::makeLess );
 	}
 
 	template< typename ValueT >
-	Optional< Boolean > operator<=( Optional< Vec2T< ValueT > > const & lhs, Vec2T< ValueT > const & rhs )
+	Optional< Bool > operator<=( Optional< Vec2T< ValueT > > const & lhs, Vec2T< ValueT > const & rhs )
 	{
-		return Optional< Boolean >{ findShader( lhs, rhs )
-			, sdw::makeLEqual( makeExpr( lhs ), makeExpr( rhs ) )
-			, areOptionalEnabled( lhs, rhs ) };
+		return writeComparator( *this, rhs, sdw::makeLEqual );
 	}
 
 	template< typename ValueT >
-	Optional< Boolean > operator>( Optional< Vec2T< ValueT > > const & lhs, Vec2T< ValueT > const & rhs )
+	Optional< Bool > operator>( Optional< Vec2T< ValueT > > const & lhs, Vec2T< ValueT > const & rhs )
 	{
-		return Optional< Boolean >{ findShader( lhs, rhs )
-			, sdw::makeGreater( makeExpr( lhs ), makeExpr( rhs ) )
-			, areOptionalEnabled( lhs, rhs ) };
+		return writeComparator( *this, rhs, sdw::makeGreater );
 	}
 
 	template< typename ValueT >
-	Optional< Boolean > operator>=( Optional< Vec2T< ValueT > > const & lhs, Vec2T< ValueT > const & rhs )
+	Optional< Bool > operator>=( Optional< Vec2T< ValueT > > const & lhs, Vec2T< ValueT > const & rhs )
 	{
-		return Optional< Boolean >{ findShader( lhs, rhs )
-			, sdw::makeGEqual( makeExpr( lhs ), makeExpr( rhs ) )
-			, areOptionalEnabled( lhs, rhs ) };
+		return writeComparator( *this, rhs, sdw::makeGEqual );
 	}
 
 	template< typename ValueT >
-	Optional< Boolean > operator==( Vec2T< ValueT > const & lhs, Optional< Vec2T< ValueT > > const & rhs )
+	Optional< Bool > operator==( Vec2T< ValueT > const & lhs, Optional< Vec2T< ValueT > > const & rhs )
 	{
-		return Optional< Boolean >{ findShader( lhs, rhs )
-			, sdw::makeEqual( makeExpr( lhs ), makeExpr( rhs ) )
-			, areOptionalEnabled( lhs, rhs ) };
+		return writeComparator( *this, rhs, sdw::makeEqual );
 	}
 
 	template< typename ValueT >
-	Optional< Boolean > operator!=( Vec2T< ValueT > const & lhs, Optional< Vec2T< ValueT > > const & rhs )
+	Optional< Bool > operator!=( Vec2T< ValueT > const & lhs, Optional< Vec2T< ValueT > > const & rhs )
 	{
-		return Optional< Boolean >{ findShader( lhs, rhs )
-			, sdw::makeNEqual( makeExpr( lhs ), makeExpr( rhs ) )
-			, areOptionalEnabled( lhs, rhs ) };
+		return writeComparator( *this, rhs, sdw::makeNEqual );
 	}
 
 	template< typename ValueT >
-	Optional< Boolean > operator<( Vec2T< ValueT > const & lhs, Optional< Vec2T< ValueT > > const & rhs )
+	Optional< Bool > operator<( Vec2T< ValueT > const & lhs, Optional< Vec2T< ValueT > > const & rhs )
 	{
-		return Optional< Boolean >{ findShader( lhs, rhs )
-			, sdw::makeLess( makeExpr( lhs ), makeExpr( rhs ) )
-			, areOptionalEnabled( lhs, rhs ) };
+		return writeComparator( *this, rhs, sdw::makeLess );
 	}
 
 	template< typename ValueT >
-	Optional< Boolean > operator<=( Vec2T< ValueT > const & lhs, Optional< Vec2T< ValueT > > const & rhs )
+	Optional< Bool > operator<=( Vec2T< ValueT > const & lhs, Optional< Vec2T< ValueT > > const & rhs )
 	{
-		return Optional< Boolean >{ findShader( lhs, rhs )
-			, sdw::makeLEqual( makeExpr( lhs ), makeExpr( rhs ) )
-			, areOptionalEnabled( lhs, rhs ) };
+		return writeComparator( *this, rhs, sdw::makeLEqual );
 	}
 
 	template< typename ValueT >
-	Optional< Boolean > operator>( Vec2T< ValueT > const & lhs, Optional< Vec2T< ValueT > > const & rhs )
+	Optional< Bool > operator>( Vec2T< ValueT > const & lhs, Optional< Vec2T< ValueT > > const & rhs )
 	{
-		return Optional< Boolean >{ findShader( lhs, rhs )
-			, sdw::makeGreater( makeExpr( lhs ), makeExpr( rhs ) )
-			, areOptionalEnabled( lhs, rhs ) };
+		return writeComparator( *this, rhs, sdw::makeGreater );
 	}
 
 	template< typename ValueT >
-	Optional< Boolean > operator>=( Vec2T< ValueT > const & lhs, Optional< Vec2T< ValueT > > const & rhs )
+	Optional< Bool > operator>=( Vec2T< ValueT > const & lhs, Optional< Vec2T< ValueT > > const & rhs )
 	{
-		return Optional< Boolean >{ findShader( lhs, rhs )
-			, sdw::makeGEqual( makeExpr( lhs ), makeExpr( rhs ) )
-			, areOptionalEnabled( lhs, rhs ) };
+		return writeComparator( *this, rhs, sdw::makeGEqual );
 	}
 
 	template< typename ValueT >
-	Optional< Boolean > operator==( Optional< Vec2T< ValueT > > const & lhs, Optional< Vec2T< ValueT > > const & rhs )
+	Optional< Bool > operator==( Optional< Vec2T< ValueT > > const & lhs, Optional< Vec2T< ValueT > > const & rhs )
 	{
-		return Optional< Boolean >{ findShader( lhs, rhs )
-			, sdw::makeEqual( makeExpr( lhs ), makeExpr( rhs ) )
-			, areOptionalEnabled( lhs, rhs ) };
+		return writeComparator( *this, rhs, sdw::makeEqual );
 	}
 
 	template< typename ValueT >
-	Optional< Boolean > operator!=( Optional< Vec2T< ValueT > > const & lhs, Optional< Vec2T< ValueT > > const & rhs )
+	Optional< Bool > operator!=( Optional< Vec2T< ValueT > > const & lhs, Optional< Vec2T< ValueT > > const & rhs )
 	{
-		return Optional< Boolean >{ findShader( lhs, rhs )
-			, sdw::makeNEqual( makeExpr( lhs ), makeExpr( rhs ) )
-			, areOptionalEnabled( lhs, rhs ) };
+		return writeComparator( *this, rhs, sdw::makeNEqual );
 	}
 
 	template< typename ValueT >
-	Optional< Boolean > operator<( Optional< Vec2T< ValueT > > const & lhs, Optional< Vec2T< ValueT > > const & rhs )
+	Optional< Bool > operator<( Optional< Vec2T< ValueT > > const & lhs, Optional< Vec2T< ValueT > > const & rhs )
 	{
-		return Optional< Boolean >{ findShader( lhs, rhs )
-			, sdw::makeLess( makeExpr( lhs ), makeExpr( rhs ) )
-			, areOptionalEnabled( lhs, rhs ) };
+		return writeComparator( *this, rhs, sdw::makeLess );
 	}
 
 	template< typename ValueT >
-	Optional< Boolean > operator<=( Optional< Vec2T< ValueT > > const & lhs, Optional< Vec2T< ValueT > > const & rhs )
+	Optional< Bool > operator<=( Optional< Vec2T< ValueT > > const & lhs, Optional< Vec2T< ValueT > > const & rhs )
 	{
-		return Optional< Boolean >{ findShader( lhs, rhs )
-			, sdw::makeLEqual( makeExpr( lhs ), makeExpr( rhs ) )
-			, areOptionalEnabled( lhs, rhs ) };
+		return writeComparator( *this, rhs, sdw::makeLEqual );
 	}
 
 	template< typename ValueT >
-	Optional< Boolean > operator>( Optional< Vec2T< ValueT > > const & lhs, Optional< Vec2T< ValueT > > const & rhs )
+	Optional< Bool > operator>( Optional< Vec2T< ValueT > > const & lhs, Optional< Vec2T< ValueT > > const & rhs )
 	{
-		return Optional< Boolean >{ findShader( lhs, rhs )
-			, sdw::makeGreater( makeExpr( lhs ), makeExpr( rhs ) )
-			, areOptionalEnabled( lhs, rhs ) };
+		return writeComparator( *this, rhs, sdw::makeGreater );
 	}
 
 	template< typename ValueT >
-	Optional< Boolean > operator>=( Optional< Vec2T< ValueT > > const & lhs, Optional< Vec2T< ValueT > > const & rhs )
+	Optional< Bool > operator>=( Optional< Vec2T< ValueT > > const & lhs, Optional< Vec2T< ValueT > > const & rhs )
 	{
-		return Optional< Boolean >{ findShader( lhs, rhs )
-			, sdw::makeGEqual( makeExpr( lhs ), makeExpr( rhs ) )
-			, areOptionalEnabled( lhs, rhs ) };
+		return writeComparator( *this, rhs, sdw::makeGEqual );
 	}
 
 	//*************************************************************************

@@ -41,15 +41,17 @@ namespace spirv
 		, ModuleConfig const & config )
 	{
 		ast::expr::ExprPtr result;
-		ExprAdapter vis{ result, context, config };
+		ExprAdapter vis{ expr->getCache(), context, config, result };
 		expr->accept( &vis );
 		return result;
 	}
 
-	ExprAdapter::ExprAdapter( ast::expr::ExprPtr & result
+	ExprAdapter::ExprAdapter( ast::type::TypesCache & cache
 		, PreprocContext const & context
-		, ModuleConfig const & config )
+		, ModuleConfig const & config
+		, ast::expr::ExprPtr & result )
 		: ExprCloner{ result }
+		, m_cache{ cache }
 		, m_context{ context }
 		, m_config{ config }
 	{
@@ -58,7 +60,7 @@ namespace spirv
 	ast::expr::ExprPtr ExprAdapter::doSubmit( ast::expr::Expr * expr )
 	{
 		ast::expr::ExprPtr result;
-		ExprAdapter vis{ result, m_context, m_config };
+		ExprAdapter vis{ m_cache, m_context, m_config, result };
 		expr->accept( &vis );
 		return result;
 	}
@@ -69,7 +71,7 @@ namespace spirv
 			, expr->getType()
 			, expr->getLHS()
 			, expr->getRHS() );
-		m_result = sdw::makeAssign( expr->getType()
+		m_result = ast::expr::makeAssign( expr->getType()
 			, doSubmit( expr->getLHS() )
 			, std::move( m_result ) );
 	}
@@ -88,7 +90,7 @@ namespace spirv
 			, expr->getType()
 			, expr->getLHS()
 			, expr->getRHS() );
-		m_result = sdw::makeAssign( expr->getType()
+		m_result = ast::expr::makeAssign( expr->getType()
 			, doSubmit( expr->getLHS() )
 			, std::move( m_result ) );
 	}
@@ -107,7 +109,7 @@ namespace spirv
 			, expr->getType()
 			, expr->getLHS()
 			, expr->getRHS() );
-		m_result = sdw::makeAssign( expr->getType()
+		m_result = ast::expr::makeAssign( expr->getType()
 			, doSubmit( expr->getLHS() )
 			, std::move( m_result ) );
 	}
@@ -126,7 +128,7 @@ namespace spirv
 			, expr->getType()
 			, expr->getLHS()
 			, expr->getRHS() );
-		m_result = sdw::makeAssign( expr->getType()
+		m_result = ast::expr::makeAssign( expr->getType()
 			, doSubmit( expr->getLHS() )
 			, std::move( m_result ) );
 	}
@@ -143,7 +145,6 @@ namespace spirv
 	{
 		auto scalarType = expr->getComponent();
 		ast::expr::ExprList args;
-		auto & cache = expr->getType()->getCache();
 
 		for ( auto & arg : expr->getArgList() )
 		{
@@ -155,7 +156,7 @@ namespace spirv
 
 				if ( argTypeKind != scalarType )
 				{
-					newArg = ast::expr::makeCast( cache.makeType( scalarType )
+					newArg = ast::expr::makeCast( m_cache.getBasicType( scalarType )
 						, std::move( newArg ) );
 				}
 			}
@@ -163,8 +164,7 @@ namespace spirv
 			args.emplace_back( std::move( newArg ) );
 		}
 
-		m_result = ast::expr::makeCompositeConstruct( expr->getType()->getCache()
-			, expr->getComposite()
+		m_result = ast::expr::makeCompositeConstruct( expr->getComposite()
 			, expr->getComponent()
 			, std::move( args ) );
 	}
@@ -229,13 +229,12 @@ namespace spirv
 		getSpirVConfig( kind, config );
 		auto op = getSpirVName( kind );
 		auto returnType = expr->getType();
-		auto & cache = returnType->getCache();
 		auto count = getComponentCount( returnType->getKind() );
 
 		if ( config.returnComponentsCount != ~( 0u ) && config.returnComponentsCount != count )
 		{
 			assert( config.returnComponentsCount > count );
-			returnType = cache.getVector( getScalarType( returnType->getKind() ), config.returnComponentsCount );
+			returnType = m_cache.getVector( getScalarType( returnType->getKind() ), config.returnComponentsCount );
 		}
 
 		ast::expr::ExprList args;
@@ -251,7 +250,7 @@ namespace spirv
 			{
 				// Comp parameter of textureGather can be implicitly 0, in GLSL.
 				// Hence add it to args.
-				args.emplace_back( ast::expr::makeLiteral( cache, 0 ) );
+				args.emplace_back( ast::expr::makeLiteral( m_cache, 0 ) );
 				kind = getCompAccess( kind );
 			}
 
@@ -322,7 +321,7 @@ namespace spirv
 					args.emplace_back( doSubmit( lhs.get() ) );
 				}
 
-				lhs = sdw::makeCompositeCtor( getCompositeType( getComponentCount( result->getKind() ) )
+				lhs = ast::expr::makeCompositeConstruct( getCompositeType( getComponentCount( result->getKind() ) )
 					, args.back()->getType()->getKind()
 					, std::move( args ) );
 			}
@@ -337,7 +336,7 @@ namespace spirv
 					args.emplace_back( doSubmit( rhs.get() ) );
 				}
 
-				rhs = sdw::makeCompositeCtor( getCompositeType( getComponentCount( result->getKind() ) )
+				rhs = ast::expr::makeCompositeConstruct( getCompositeType( getComponentCount( result->getKind() ) )
 					, args.back()->getType()->getKind()
 					, std::move( args ) );
 			}
@@ -387,22 +386,22 @@ namespace spirv
 			switch ( operation )
 			{
 			case ast::expr::Kind::eAdd:
-				result = sdw::makeAdd( type
+				result = ast::expr::makeAdd( type
 					, std::move( lhsExpr )
 					, std::move( rhsExpr ) );
 				break;
 			case ast::expr::Kind::eDivide:
-				result = sdw::makeDivide( type
+				result = ast::expr::makeDivide( type
 					, std::move( lhsExpr )
 					, std::move( rhsExpr ) );
 				break;
 			case ast::expr::Kind::eMinus:
-				result = sdw::makeMinus( type
+				result = ast::expr::makeMinus( type
 					, std::move( lhsExpr )
 					, std::move( rhsExpr ) );
 				break;
 			case ast::expr::Kind::eTimes:
-				result = sdw::makeTimes( type
+				result = ast::expr::makeTimes( type
 					, std::move( lhsExpr )
 					, std::move( rhsExpr ) );
 				break;
@@ -432,7 +431,7 @@ namespace spirv
 		auto numCols = lhsMat ? lhsColumns : rhsColumns;
 		auto numRows = lhsMat ? lhsRows : rhsRows;
 		auto scalarType = getScalarType( resType->getKind() );
-		auto vecType = resType->getCache().getVector( scalarType, numRows );
+		auto vecType = m_cache.getVector( scalarType, numRows );
 		ast::expr::CompositeType composite;
 
 		switch ( numRows )
@@ -463,8 +462,7 @@ namespace spirv
 			{
 				ast::expr::ExprList params;
 				params.emplace_back( doSubmit( lhs ) );
-				smearVec = ast::expr::makeCompositeConstruct( resType->getCache()
-					, composite
+				smearVec = ast::expr::makeCompositeConstruct( composite
 					, lhsType->getKind()
 					, std::move( params ) );
 			}
@@ -479,8 +477,7 @@ namespace spirv
 			{
 				ast::expr::ExprList params;
 				params.emplace_back( doSubmit( rhs ) );
-				smearVec = ast::expr::makeCompositeConstruct( resType->getCache()
-					, composite
+				smearVec = ast::expr::makeCompositeConstruct( composite
 					, rhsType->getKind()
 					, std::move( params ) );
 			}
@@ -494,31 +491,31 @@ namespace spirv
 			std::vector<unsigned int> indexes;
 			indexes.push_back( c );
 			auto lhsVec = lhsMat
-				? sdw::makeArrayAccess( vecType, doSubmit( lhs ), ast::expr::makeLiteral( resType->getCache(), c ) )
-				: sdw::makeExpr( smearVec );
+				? ast::expr::makeArrayAccess( vecType, doSubmit( lhs ), ast::expr::makeLiteral( m_cache, c ) )
+				: ast::ExprCloner::submit( smearVec.get() );
 			auto rhsVec = rhsMat
-				? sdw::makeArrayAccess( vecType, doSubmit( rhs ), ast::expr::makeLiteral( resType->getCache(), c ) )
-				: sdw::makeExpr( smearVec );
+				? ast::expr::makeArrayAccess( vecType, doSubmit( rhs ), ast::expr::makeLiteral( m_cache, c ) )
+				: ast::ExprCloner::submit( smearVec.get() );
 
 			switch ( operation )
 			{
 			case ast::expr::Kind::eAdd:
-				args.emplace_back( sdw::makeAdd( vecType
+				args.emplace_back( ast::expr::makeAdd( vecType
 					, std::move( lhsVec )
 					, std::move( rhsVec ) ) );
 				break;
 			case ast::expr::Kind::eDivide:
-				args.emplace_back( sdw::makeDivide( vecType
+				args.emplace_back( ast::expr::makeDivide( vecType
 					, std::move( lhsVec )
 					, std::move( rhsVec ) ) );
 				break;
 			case ast::expr::Kind::eMinus:
-				args.emplace_back( sdw::makeMinus( vecType
+				args.emplace_back( ast::expr::makeMinus( vecType
 					, std::move( lhsVec )
 					, std::move( rhsVec ) ) );
 				break;
 			case ast::expr::Kind::eTimes:
-				args.emplace_back( sdw::makeTimes( vecType
+				args.emplace_back( ast::expr::makeTimes( vecType
 					, std::move( lhsVec )
 					, std::move( rhsVec ) ) );
 				break;
@@ -603,7 +600,7 @@ namespace spirv
 		// put the pieces together
 		if ( composite != ast::expr::CompositeType::eScalar )
 		{
-			return sdw::makeCompositeCtor( composite
+			return ast::expr::makeCompositeConstruct( composite
 				, scalarType
 				, std::move( args ) );
 		}
