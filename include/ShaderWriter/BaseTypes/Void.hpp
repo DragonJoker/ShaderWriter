@@ -12,13 +12,13 @@ namespace sdw
 	struct Void
 		: public Value
 	{
-		Void( Shader * shader
+		SDW_API Void( Shader * shader
 			, expr::ExprPtr expr );
-		Void( Void && rhs );
-		Void( Void const & rhs );
-		explicit Void( Value const & rhs );
+		SDW_API Void( Void && rhs );
+		SDW_API Void( Void const & rhs );
+		SDW_API explicit Void( Value const & rhs );
 
-		static ast::type::TypePtr makeType( ast::type::TypesCache & cache );
+		SDW_API static ast::type::TypePtr makeType( ast::type::TypesCache & cache );
 	};
 
 }

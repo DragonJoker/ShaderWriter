@@ -106,7 +106,7 @@ namespace sdw
 		, bool MsT >
 	SampledImageT< FormatT, DimT, ArrayedT, DepthT, MsT >::SampledImageT( Shader * shader
 		, expr::ExprPtr expr )
-		: SampledImage{ shader, std::move( expr ) }
+		: SampledImage{ FormatT, shader, std::move( expr ) }
 	{
 	}
 

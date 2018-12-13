@@ -13,14 +13,14 @@ namespace sdw
 	class Ssbo
 	{
 	public:
-		Ssbo( ShaderWriter & writer
+		SDW_API Ssbo( ShaderWriter & writer
 			, std::string const & name
 			, uint32_t bind
 			, uint32_t set
 			, ast::type::MemoryLayout layout = ast::type::MemoryLayout::eStd430 );
-		void end();
+		SDW_API void end();
 
-		StructInstance declMember( std::string const & name, Struct const & s );
+		SDW_API StructInstance declMember( std::string const & name, Struct const & s );
 		template< typename T >
 		inline T declMember( std::string const & name );
 		template< typename T >

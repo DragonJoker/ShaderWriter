@@ -26,7 +26,7 @@ namespace sdw
 	/**@{*/
 	struct InVertex
 	{
-		InVertex( ShaderWriter & writer );
+		SDW_API InVertex( ShaderWriter & writer );
 		//in int gl_VertexID;
 		Int const gl_VertexID;
 		//in int gl_InstanceID;
@@ -46,7 +46,7 @@ namespace sdw
 	/**@{*/
 	struct InTessellationControl
 	{
-		InTessellationControl( ShaderWriter & writer );
+		SDW_API InTessellationControl( ShaderWriter & writer );
 		//in int gl_PatchVerticesIn;
 		Int const gl_PatchVerticesIn;
 		//in int gl_PrimitiveID;
@@ -64,7 +64,7 @@ namespace sdw
 	/**@{*/
 	struct InTessellationEvaluation
 	{
-		InTessellationEvaluation( ShaderWriter & writer );
+		SDW_API InTessellationEvaluation( ShaderWriter & writer );
 		//in vec3 gl_TessCoord;
 		Vec3 const gl_TessCoord;
 		//in int gl_PatchVerticesIn;
@@ -86,7 +86,7 @@ namespace sdw
 	/**@{*/
 	struct InGeometry
 	{
-		InGeometry( ShaderWriter & writer );
+		SDW_API InGeometry( ShaderWriter & writer );
 		//in int gl_PrimitiveIDIn;
 		Int const gl_PrimitiveIDIn;
 		//in int gl_InvocationID;
@@ -102,7 +102,7 @@ namespace sdw
 	/**@{*/
 	struct InFragment
 	{
-		InFragment( ShaderWriter & writer );
+		SDW_API InFragment( ShaderWriter & writer );
 		//in vec4 gl_FragCoord;
 		Vec4 const gl_FragCoord;
 		//in bool gl_FrontFacing;
@@ -132,7 +132,7 @@ namespace sdw
 	/**@{*/
 	struct InCompute
 	{
-		InCompute( ShaderWriter & writer );
+		SDW_API InCompute( ShaderWriter & writer );
 		//in uvec3 gl_NumWorkGroups;
 		UVec3 const gl_NumWorkGroups;
 		//in uvec3 gl_WorkGroupID;
@@ -162,7 +162,7 @@ namespace sdw
 	/**@{*/
 	struct OutVertex
 	{
-		OutVertex( ShaderWriter & writer );
+		SDW_API OutVertex( ShaderWriter & writer );
 		//out gl_PerVertex;
 		gl_PerVertex gl_out;
 	};
@@ -174,7 +174,7 @@ namespace sdw
 	/**@{*/
 	struct OutTessellationControl
 	{
-		OutTessellationControl( ShaderWriter & writer );
+		SDW_API OutTessellationControl( ShaderWriter & writer );
 		//patch out float gl_TessLevelOuter[4];
 		Array< Float > gl_TessLevelOuter;
 		//patch out float gl_TessLevelInner[2];
@@ -190,7 +190,7 @@ namespace sdw
 	/**@{*/
 	struct OutTessellationEvaluation
 	{
-		OutTessellationEvaluation( ShaderWriter & writer );
+		SDW_API OutTessellationEvaluation( ShaderWriter & writer );
 		//out gl_PerVertex;
 		gl_PerVertex gl_out;
 	};
@@ -202,7 +202,7 @@ namespace sdw
 	/**@{*/
 	struct OutGeometry
 	{
-		OutGeometry( ShaderWriter & writer );
+		SDW_API OutGeometry( ShaderWriter & writer );
 		//out int gl_PrimitiveID;
 		Int gl_PrimitiveID;
 		//out int gl_Layer;
@@ -220,7 +220,7 @@ namespace sdw
 	/**@{*/
 	struct OutFragment
 	{
-		OutFragment( ShaderWriter & writer );
+		SDW_API OutFragment( ShaderWriter & writer );
 		//out float gl_FragDepth;
 		Float gl_FragDepth;
 		//out int gl_SampleMask[];

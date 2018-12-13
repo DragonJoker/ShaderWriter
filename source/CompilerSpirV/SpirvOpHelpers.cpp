@@ -1664,7 +1664,7 @@ namespace spirv
 							: spv::Op::OpVectorTimesScalar ) )
 					: ( isMatrixType( rhsTypeKind )
 						? spv::Op::OpMatrixTimesScalar
-						: ( isVectorType( lhsTypeKind )
+						: ( isVectorType( rhsTypeKind )
 							? spv::Op::OpVectorTimesScalar
 							: ( isAnyFloating( lhsTypeKind, rhsTypeKind )
 								? spv::Op::OpFMul

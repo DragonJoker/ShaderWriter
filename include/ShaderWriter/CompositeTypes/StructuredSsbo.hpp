@@ -40,7 +40,7 @@ namespace sdw
 		var::VariablePtr m_ssboVar;
 	};
 
-	void registerSsbo( Shader & shader, std::string const & name, SsboInfo const & info );
+	SDW_API void registerSsbo( Shader & shader, std::string const & name, SsboInfo const & info );
 }
 
 #include "StructuredSsbo.inl"

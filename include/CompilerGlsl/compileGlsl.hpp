@@ -6,6 +6,16 @@ See LICENSE file in root folder
 
 #include <ShaderWriter/ShaderWriterPrerequisites.hpp>
 
+#if defined( _WIN32 )
+#	if defined( CompilerGlsl_Exports )
+#		define SDWGLSL_API __declspec( dllexport )
+#	else
+#		define SDWGLSL_API __declspec( dllimport )
+#	endif
+#else
+#	define SDWGLSL_API
+#endif
+
 namespace glsl
 {
 	struct GlslConfig
@@ -18,7 +28,7 @@ namespace glsl
 		bool hasBaseInstance{ false };
 	};
 
-	std::string compileGlsl( sdw::Shader const & shader
+	SDWGLSL_API std::string compileGlsl( sdw::Shader const & shader
 		, ast::SpecialisationInfo const & specialisation
 		, GlslConfig const & config );
 }

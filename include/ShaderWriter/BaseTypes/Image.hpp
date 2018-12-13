@@ -21,12 +21,13 @@ namespace sdw
 	struct Image
 		: public Value
 	{
-		Image( Shader * shader
+		SDW_API Image( ast::type::ImageFormat format
+			, Shader * shader
 			, expr::ExprPtr expr );
-		Image( Image const & rhs );
+		SDW_API Image( Image const & rhs );
 		template< typename T >
 		inline Image & operator=( T const & rhs );
-		operator uint32_t();
+		SDW_API operator uint32_t();
 
 	private:
 		ast::type::ImageFormat m_format;

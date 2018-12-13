@@ -14,9 +14,9 @@ namespace sdw
 		: public Value
 	{
 	public:
-		StructInstance( Shader * shader
+		SDW_API StructInstance( Shader * shader
 			, expr::ExprPtr expr );
-		StructInstance & operator=( StructInstance const & rhs );
+		SDW_API StructInstance & operator=( StructInstance const & rhs );
 
 		template< typename T >
 		inline T getMember( std::string const & name );

@@ -16,8 +16,9 @@ namespace spirv
 	struct ModuleConfig
 	{
 		std::set< spv::Capability > requiredCapabilities;
-		std::set< ast::var::VariablePtr > m_inputs;
-		std::set< ast::var::VariablePtr > m_outputs;
+		std::set< ast::var::VariablePtr > inputs;
+		std::set< ast::var::VariablePtr > outputs;
+		mutable uint32_t aliasId{ 0u };
 	};
 
 	struct IntrinsicConfig

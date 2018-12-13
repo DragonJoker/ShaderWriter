@@ -12,15 +12,15 @@ namespace sdw
 
 	struct Value
 	{
-		Value( Shader * shader
+		SDW_API Value( Shader * shader
 			, expr::ExprPtr expr );
-		Value( Value && rhs );
-		Value( Value const & rhs );
-		virtual ~Value();
-		Value & operator=( Value const & rhs );
-		void updateContainer( Value const & variable );
-		stmt::Container * getContainer()const;
-		void updateExpr( expr::ExprPtr expr );
+		SDW_API Value( Value && rhs );
+		SDW_API Value( Value const & rhs );
+		SDW_API virtual ~Value();
+		SDW_API Value & operator=( Value const & rhs );
+		SDW_API void updateContainer( Value const & variable );
+		SDW_API stmt::Container * getContainer()const;
+		SDW_API void updateExpr( expr::ExprPtr expr );
 
 		inline type::TypePtr getType()const
 		{
@@ -50,10 +50,10 @@ namespace sdw
 	template< typename ... ValuesT >
 	inline ast::type::TypesCache & findTypesCache( ValuesT const & ... values );
 
-	expr::ExprPtr makeExpr( Shader const & shader
+	SDW_API expr::ExprPtr makeExpr( Shader const & shader
 		, Value const & variable
 		, bool force = true );
-	expr::ExprList makeFnArg( Shader const & shader
+	SDW_API expr::ExprList makeFnArg( Shader const & shader
 		, Value const & variable );
 
 	template< typename ReturnT, typename OperandT, typename CreatorT >

@@ -43,11 +43,12 @@ namespace sdw
 	struct SampledImage
 		: public Value
 	{
-		SampledImage( Shader * shader
+		SDW_API SampledImage( ast::type::ImageFormat format
+			, Shader * shader
 			, expr::ExprPtr expr );
 		template< typename T >
 		inline SampledImage & operator=( T const & rhs );
-		operator uint32_t();
+		SDW_API operator uint32_t();
 
 	private:
 		ast::type::ImageFormat m_format;

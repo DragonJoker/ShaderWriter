@@ -16,11 +16,13 @@ namespace spirv
 	{
 	public:
 		static ast::expr::ExprPtr submit( ast::expr::Expr * expr
+			, ast::stmt::Container * container
 			, PreprocContext const & context
 			, ModuleConfig const & config );
 
 	private:
 		ExprAdapter( ast::type::TypesCache & cache
+			, ast::stmt::Container * container
 			, PreprocContext const & context
 			, ModuleConfig const & config
 			, ast::expr::ExprPtr & result );
@@ -40,6 +42,7 @@ namespace spirv
 		void visitIntrinsicCallExpr( ast::expr::IntrinsicCall * expr )override;
 		void visitTextureAccessCallExpr( ast::expr::TextureAccessCall * expr )override;
 
+		ast::expr::ExprPtr doMakeAlias( ast::expr::ExprPtr expr );
 		ast::type::TypePtr doPromoteScalar( ast::expr::ExprPtr & lhs
 			, ast::expr::ExprPtr & rhs );
 		ast::expr::ExprPtr doWriteBinaryOperation( ast::expr::Kind operation
@@ -52,6 +55,7 @@ namespace spirv
 			, ast::expr::Expr * rhs );
 	private:
 		ast::type::TypesCache & m_cache;
+		ast::stmt::Container * m_container;
 		PreprocContext const & m_context;
 		ModuleConfig const & m_config;
 	};

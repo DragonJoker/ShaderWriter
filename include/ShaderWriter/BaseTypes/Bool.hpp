@@ -13,40 +13,40 @@ namespace sdw
 	struct Bool
 		: public Value
 	{
-		Bool( Shader * shader
+		SDW_API Bool( Shader * shader
 			, expr::ExprPtr expr );
-		Bool( Bool && rhs );
-		Bool( Bool const & rhs );
-		explicit Bool( Value const & rhs );
-		Bool & operator=( Bool const & rhs );
+		SDW_API Bool( Bool && rhs );
+		SDW_API Bool( Bool const & rhs );
+		SDW_API explicit Bool( Value const & rhs );
+		SDW_API Bool & operator=( Bool const & rhs );
 		template< typename T >
 		inline Bool & operator=( T const & rhs );
-		Bool & operator=( bool rhs );
-		operator bool();
-		expr::ExprPtr makeCondition()const;
+		SDW_API Bool & operator=( bool rhs );
+		SDW_API operator bool();
+		SDW_API expr::ExprPtr makeCondition()const;
 
-		static ast::type::TypePtr makeType( ast::type::TypesCache & cache );
+		SDW_API static ast::type::TypePtr makeType( ast::type::TypesCache & cache );
 	};
 
-	Bool operator==( Bool const & lhs
+	SDW_API Bool operator==( Bool const & lhs
 		, Bool const & rhs );
-	Bool operator!=( Bool const & lhs
+	SDW_API Bool operator!=( Bool const & lhs
 		, Bool const & rhs );
-	Bool operator||( Bool const & lhs
+	SDW_API Bool operator||( Bool const & lhs
 		, Bool const & rhs );
-	Bool operator&&( Bool const & lhs
+	SDW_API Bool operator&&( Bool const & lhs
 		, Bool const & rhs );
-	Optional< Bool > operator||( Optional< Bool > const & lhs
+	SDW_API Optional< Bool > operator||( Optional< Bool > const & lhs
 		, Bool const & rhs );
-	Optional< Bool > operator&&( Optional< Bool > const & lhs
+	SDW_API Optional< Bool > operator&&( Optional< Bool > const & lhs
 		, Bool const & rhs );
-	Optional< Bool > operator||( Bool const & lhs
+	SDW_API Optional< Bool > operator||( Bool const & lhs
 		, Optional< Bool > const & rhs );
-	Optional< Bool > operator&&( Bool const & lhs
+	SDW_API Optional< Bool > operator&&( Bool const & lhs
 		, Optional< Bool > const & rhs );
-	Optional< Bool > operator||( Optional< Bool > const & lhs
+	SDW_API Optional< Bool > operator||( Optional< Bool > const & lhs
 		, Optional< Bool > const & rhs );
-	Optional< Bool > operator&&( Optional< Bool > const & lhs
+	SDW_API Optional< Bool > operator&&( Optional< Bool > const & lhs
 		, Optional< Bool > const & rhs );
 
 	template< typename LhsT, typename RhsT, typename CreatorT >

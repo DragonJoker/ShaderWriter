@@ -26,6 +26,16 @@ See LICENSE file in root folder
 	Writer_Parameter( Prefix##TypeName##Format );\
 	Writer_ArrayParameter( Prefix##TypeName##Format )
 
+#if defined( _WIN32 )
+#	if defined( ShaderWriter_Exports )
+#		define SDW_API __declspec( dllexport )
+#	else
+#		define SDW_API __declspec( dllimport )
+#	endif
+#else
+#	define SDW_API
+#endif
+
 namespace sdw
 {
 	class Shader;

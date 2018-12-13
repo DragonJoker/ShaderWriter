@@ -6,6 +6,7 @@ See LICENSE file in root folder
 #pragma once
 
 #include "spirv/spirv.hpp"
+#include "compileSpirV.hpp"
 
 #include <ShaderWriter/ShaderWriterPrerequisites.hpp>
 
@@ -56,7 +57,7 @@ namespace spirv
 
 	struct IdListHasher
 	{
-		size_t operator()( IdList const & list )const;
+		SDWSPIRV_API size_t operator()( IdList const & list )const;
 	};
 
 	struct Instruction;
@@ -73,20 +74,20 @@ namespace spirv
 			bool hasName;
 			bool hasLabels;
 		};
-		Instruction( Config const & config
+		SDWSPIRV_API Instruction( Config const & config
 			, spv::Op op = spv::Op::OpNop
 			, std::optional< spv::Id > returnTypeId = std::nullopt
 			, std::optional< spv::Id > resultId = std::nullopt
 			, IdList operands = IdList{}
 			, std::optional< std::string > name = std::nullopt
 			, std::optional< std::map< int32_t, spv::Id > > labels = std::nullopt );
-		Instruction( Config const & config
+		SDWSPIRV_API Instruction( Config const & config
 			, Op op
 			, UInt32ListCIt & buffer );
-		static void serialize( UInt32List & buffer
+		SDWSPIRV_API static void serialize( UInt32List & buffer
 			, Instruction const & instruction );
-		static InstructionPtr deserialize( UInt32ListCIt & buffer );
-		virtual ~Instruction();
+		SDWSPIRV_API static InstructionPtr deserialize( UInt32ListCIt & buffer );
+		SDWSPIRV_API virtual ~Instruction();
 
 		// Serialisable.
 		Op op;
@@ -298,7 +299,13 @@ namespace spirv
 
 	struct Block
 	{
-		static Block deserialize( InstructionPtr firstInstruction
+		SDWSPIRV_API Block( Block const & rhs ) = delete;
+		SDWSPIRV_API Block & operator=( Block const & rhs ) = delete;
+		SDWSPIRV_API Block( Block && rhs ) = default;
+		SDWSPIRV_API Block & operator=( Block && rhs ) = default;
+		SDWSPIRV_API Block() = default;
+
+		SDWSPIRV_API static Block deserialize( InstructionPtr firstInstruction
 			, InstructionListIt & buffer
 			, InstructionListIt & end );
 
@@ -325,16 +332,24 @@ namespace spirv
 
 	struct Function
 	{
+		SDWSPIRV_API Function( Function const & rhs ) = delete;
+		SDWSPIRV_API Function & operator=( Function const & rhs ) = delete;
+		SDWSPIRV_API Function( Function && rhs ) = default;
+		SDWSPIRV_API Function & operator=( Function && rhs ) = default;
+		SDWSPIRV_API Function() = default;
+
+		SDWSPIRV_API static Function deserialize( InstructionListIt & buffer
+			, InstructionListIt & end );
+
 		// Serialisable.
 		InstructionList declaration;
 		ControlFlowGraph cfg;
 		// Used during construction.
 		InstructionList variables;
+		std::map< std::string, spv::Id > registeredVariables;
 		bool hasReturn{ false };
-
-		static Function deserialize( InstructionListIt & buffer
-			, InstructionListIt & end );
 	};
+
 	using FunctionList = std::vector< Function >;
 
 	struct Header
@@ -349,78 +364,78 @@ namespace spirv
 	class Module
 	{
 	public:
-		Module( ast::type::TypesCache & cache
+		SDWSPIRV_API Module( ast::type::TypesCache & cache
 			, spv::MemoryModel memoryModel
 			, spv::ExecutionModel executionModel );
-		Module( Header const & header
+		SDWSPIRV_API Module( Header const & header
 			, InstructionList && instructions );
 
-		static Module deserialize( UInt32List const & spirv );
+		SDWSPIRV_API static Module deserialize( UInt32List const & spirv );
 
-		spv::Id registerType( ast::type::TypePtr type );
-		spv::Id registerPointerType( spv::Id type
+		SDWSPIRV_API spv::Id registerType( ast::type::TypePtr type );
+		SDWSPIRV_API spv::Id registerPointerType( spv::Id type
 			, spv::StorageClass storage );
-		void decorate( spv::Id id
+		SDWSPIRV_API void decorate( spv::Id id
 			, spv::Decoration decoration );
-		void decorate( spv::Id id
+		SDWSPIRV_API void decorate( spv::Id id
 			, IdList const & decoration );
-		void decorateMember( spv::Id id
+		SDWSPIRV_API void decorateMember( spv::Id id
 			, uint32_t index
 			, spv::Decoration decoration );
-		void decorateMember( spv::Id id
+		SDWSPIRV_API void decorateMember( spv::Id id
 			, uint32_t index
 			, IdList const & decoration );
-		VariableInfo & registerVariable( std::string const & name
+		SDWSPIRV_API VariableInfo & registerVariable( std::string const & name
 			, spv::StorageClass storage
 			, ast::type::TypePtr type
 			, VariableInfo & info );
-		spv::Id registerSpecConstant( std::string name
+		SDWSPIRV_API spv::Id registerSpecConstant( std::string name
 			, uint32_t location
 			, ast::type::TypePtr type
 			, ast::expr::Literal const & value );
-		spv::Id registerParameter( ast::type::TypePtr type );
-		spv::Id registerMemberVariableIndex( ast::type::TypePtr type );
-		spv::Id registerMemberVariable( spv::Id outer
+		SDWSPIRV_API spv::Id registerParameter( ast::type::TypePtr type );
+		SDWSPIRV_API spv::Id registerMemberVariableIndex( ast::type::TypePtr type );
+		SDWSPIRV_API spv::Id registerMemberVariable( spv::Id outer
 			, std::string name
 			, ast::type::TypePtr type );
-		spv::Id registerLiteral( bool value );
-		spv::Id registerLiteral( int32_t value );
-		spv::Id registerLiteral( uint32_t value );
-		spv::Id registerLiteral( float value );
-		spv::Id registerLiteral( double value );
-		spv::Id registerLiteral( IdList const & initialisers
+		SDWSPIRV_API spv::Id registerLiteral( bool value );
+		SDWSPIRV_API spv::Id registerLiteral( int32_t value );
+		SDWSPIRV_API spv::Id registerLiteral( uint32_t value );
+		SDWSPIRV_API spv::Id registerLiteral( float value );
+		SDWSPIRV_API spv::Id registerLiteral( double value );
+		SDWSPIRV_API spv::Id registerLiteral( IdList const & initialisers
 			, ast::type::TypePtr type );
-		void registerExtension( std::string const & name );
-		void registerEntryPoint( spv::Id functionId
+		SDWSPIRV_API void registerExtension( std::string const & name );
+		SDWSPIRV_API void registerEntryPoint( spv::Id functionId
 			, std::string const & name
 			, IdList const & inputs
 			, IdList const & outputs );
-		void registerExecutionMode( spv::ExecutionMode mode );
-		void registerExecutionMode( spv::ExecutionMode mode
+		SDWSPIRV_API void registerExecutionMode( spv::ExecutionMode mode );
+		SDWSPIRV_API void registerExecutionMode( spv::ExecutionMode mode
 			, IdList const & operands );
-		spv::Id getIntermediateResult();
-		void lnkIntermediateResult( spv::Id intermediate, spv::Id var );
-		void putIntermediateResult( spv::Id id );
-		spv::Id getNonIntermediate( spv::Id id );
+		SDWSPIRV_API spv::Id getIntermediateResult();
+		SDWSPIRV_API void lnkIntermediateResult( spv::Id intermediate, spv::Id var );
+		SDWSPIRV_API void putIntermediateResult( spv::Id id );
+		SDWSPIRV_API spv::Id getNonIntermediate( spv::Id id );
 
-		ast::type::Kind getLiteralType( spv::Id litId )const;
-		spv::Id getOuterVariable( spv::Id mbrId )const;
-		spv::Id loadVariable( spv::Id variable
+		SDWSPIRV_API ast::type::Kind getLiteralType( spv::Id litId )const;
+		SDWSPIRV_API spv::Id getOuterVariable( spv::Id mbrId )const;
+		SDWSPIRV_API spv::Id loadVariable( spv::Id variable
 			, ast::type::TypePtr type
 			, Block & currentBlock );
-		void bindVariable( spv::Id varId
+		SDWSPIRV_API void bindVariable( spv::Id varId
 			, uint32_t bindingPoint
 			, uint32_t descriptorSet );
-		void bindBufferVariable( std::string const & name
+		SDWSPIRV_API void bindBufferVariable( std::string const & name
 			, uint32_t bindingPoint
 			, uint32_t descriptorSet
 			, spv::Decoration structDecoration );// BufferBlock for SSBO, Block for UBO
 
-		Function * beginFunction( std::string const & name
+		SDWSPIRV_API Function * beginFunction( std::string const & name
 			, spv::Id retType
 			, ast::var::VariableList const & params );
-		Block newBlock();
-		void endFunction();
+		SDWSPIRV_API Block newBlock();
+		SDWSPIRV_API void endFunction();
 
 		inline ast::type::TypesCache & getCache()
 		{
@@ -477,9 +492,11 @@ namespace spirv
 		std::map< ast::type::TypePtr, spv::Id > m_registeredTypes;
 		std::map< ast::type::TypePtr, spv::Id > m_registeredMemberTypes;
 		std::map< std::string, spv::Id > m_registeredVariables;
+		std::map< std::string, spv::Id > * m_currentScopeVariables;
 		std::map< spv::Id, spv::Id > m_registeredVariablesTypes;
 		std::map< std::string, std::pair< spv::Id, spv::Id > > m_registeredMemberVariables;
 		std::map< uint64_t, spv::Id > m_registeredPointerTypes;
+		std::unordered_map< IdList, spv::Id, IdListHasher > m_registeredFunctionTypes;
 		std::map< bool, spv::Id > m_registeredBoolConstants;
 		std::map< int32_t, spv::Id > m_registeredIntConstants;
 		std::map< uint32_t, spv::Id > m_registeredUIntConstants;

@@ -11,13 +11,13 @@ namespace sdw
 	struct Sampler
 		: public Value
 	{
-		Sampler( Shader * shader
+		SDW_API Sampler( Shader * shader
 			, expr::ExprPtr expr );
 		template< typename T >
 		inline Sampler & operator=( T const & rhs );
-		operator uint32_t();
+		SDW_API operator uint32_t();
 
-		static ast::type::TypePtr makeType( ast::type::TypesCache & cache );
+		SDW_API static ast::type::TypePtr makeType( ast::type::TypesCache & cache );
 	};
 }
 

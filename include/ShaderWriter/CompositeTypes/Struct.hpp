@@ -13,12 +13,12 @@ namespace sdw
 	class Struct
 	{
 	public:
-		Struct( ShaderWriter & writer
+		SDW_API Struct( ShaderWriter & writer
 			, std::string name
 			, type::MemoryLayout layout = type::MemoryLayout::eStd140 );
-		Struct( ShaderWriter & writer
+		SDW_API Struct( ShaderWriter & writer
 			, ast::type::StructPtr type );
-		void end();
+		SDW_API void end();
 		template< typename InstanceT = StructInstance >
 		InstanceT getInstance( std::string const & name )const;
 
@@ -32,7 +32,7 @@ namespace sdw
 		template< typename T >
 		inline void declMember( std::string const & name
 			, uint32_t dimension );
-		void declMember( std::string name
+		SDW_API void declMember( std::string name
 			, Struct const & type );
 
 	private:

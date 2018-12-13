@@ -13,8 +13,8 @@ namespace sdw
 	class ShaderWriter
 	{
 	protected:
-		ShaderWriter( ShaderType type );
-		virtual ~ShaderWriter();
+		SDW_API ShaderWriter( ShaderType type );
+		SDW_API virtual ~ShaderWriter();
 
 	public:
 #pragma region Variables registration
@@ -23,33 +23,33 @@ namespace sdw
 		*	Variables registration.
 		*/
 		/**@{*/
-		var::VariablePtr registerName( std::string const & name
+		SDW_API var::VariablePtr registerName( std::string const & name
 			, type::TypePtr type
 			, uint32_t flags );
-		var::VariablePtr registerLocale( std::string const & name
+		SDW_API var::VariablePtr registerLocale( std::string const & name
 			, type::TypePtr type );
-		var::VariablePtr registerInParam( std::string const & name
+		SDW_API var::VariablePtr registerInParam( std::string const & name
 			, type::TypePtr type );
-		var::VariablePtr registerOutParam( std::string const & name
+		SDW_API var::VariablePtr registerOutParam( std::string const & name
 			, type::TypePtr type );
-		var::VariablePtr registerInOutParam( std::string const & name
+		SDW_API var::VariablePtr registerInOutParam( std::string const & name
 			, type::TypePtr type );
-		var::VariablePtr getVar( std::string const & name );
-		void addStmt( stmt::StmtPtr stmt );
-		void registerSsbo( std::string const & name
+		SDW_API var::VariablePtr getVar( std::string const & name );
+		SDW_API void addStmt( stmt::StmtPtr stmt );
+		SDW_API void registerSsbo( std::string const & name
 			, SsboInfo const & info );
-		void registerUbo( std::string const & name
+		SDW_API void registerUbo( std::string const & name
 			, UboInfo const & info );
 		/**@}*/
 #pragma endregion
-		void inlineComment( std::string const & comment );
-		void multilineComment( std::string const & comment );
-		void discard();
+		SDW_API void inlineComment( std::string const & comment );
+		SDW_API void multilineComment( std::string const & comment );
+		SDW_API void discard();
 		template< typename ReturnT, typename ... ParamsT >
 		inline Function< ReturnT, ParamsT... > implementFunction( std::string const & name
 			, std::function< void( ParamTranslaterT< ParamsT >... ) > const & function
 			, ParamsT && ... params );
-		void returnStmt();
+		SDW_API void returnStmt();
 		template< typename RetType >
 		void returnStmt( RetType const & value );
 		template< typename ValueT >
@@ -86,10 +86,10 @@ namespace sdw
 		*	Control statements.
 		*/
 		/**@{*/
-		void pushScope();
-		void popScope();
-		void saveNextExpr();
-		ast::expr::ExprPtr loadExpr( Value const & value );
+		SDW_API void pushScope();
+		SDW_API void popScope();
+		SDW_API void saveNextExpr();
+		SDW_API ast::expr::ExprPtr loadExpr( Value const & value );
 		template< typename ExprType >
 		ExprType ternary( expr::ExprPtr condition
 			, expr::ExprPtr left
@@ -98,20 +98,20 @@ namespace sdw
 		ExprType ternary( Bool condition
 			, ExprType left
 			, ExprType right );
-		void forStmt( expr::ExprPtr init
+		SDW_API void forStmt( expr::ExprPtr init
 			, expr::ExprPtr condition
 			, expr::ExprPtr increment
 			, std::function< void() > function );
-		void doWhileStmt( expr::ExprPtr condition
+		SDW_API void doWhileStmt( expr::ExprPtr condition
 			, std::function< void() > function );
-		void whileStmt( expr::ExprPtr condition
+		SDW_API void whileStmt( expr::ExprPtr condition
 			, std::function< void() > function );
-		ShaderWriter & ifStmt( expr::ExprPtr condition
+		SDW_API ShaderWriter & ifStmt( expr::ExprPtr condition
 			, std::function< void() > function );
-		ShaderWriter & elseIfStmt( expr::ExprPtr condition
+		SDW_API ShaderWriter & elseIfStmt( expr::ExprPtr condition
 			, std::function< void() > function );
-		ShaderWriter & elseStmt( std::function< void() > function );
-		void endIf();
+		SDW_API ShaderWriter & elseStmt( std::function< void() > function );
+		SDW_API void endIf();
 		/**@}*/
 #pragma endregion
 #pragma region Constant declaration
@@ -142,38 +142,38 @@ namespace sdw
 		*	Specialisation constant declaration.
 		*/
 		/**@{*/
-		Bool declSpecConstant( std::string const & name
+		SDW_API Bool declSpecConstant( std::string const & name
 			, uint32_t location
 			, bool rhs );
-		Optional< Bool > declSpecConstant( std::string const & name
+		SDW_API Optional< Bool > declSpecConstant( std::string const & name
 			, uint32_t location
 			, bool rhs
 			, bool enabled );
-		Int declSpecConstant( std::string const & name
+		SDW_API Int declSpecConstant( std::string const & name
 			, uint32_t location
 			, int32_t rhs );
-		Optional< Int > declSpecConstant( std::string const & name
+		SDW_API Optional< Int > declSpecConstant( std::string const & name
 			, uint32_t location
 			, int32_t rhs
 			, bool enabled );
-		UInt declSpecConstant( std::string const & name
+		SDW_API UInt declSpecConstant( std::string const & name
 			, uint32_t location
 			, uint32_t rhs );
-		Optional< UInt > declSpecConstant( std::string const & name
+		SDW_API Optional< UInt > declSpecConstant( std::string const & name
 			, uint32_t location
 			, uint32_t rhs
 			, bool enabled );
-		Float declSpecConstant( std::string const & name
+		SDW_API Float declSpecConstant( std::string const & name
 			, uint32_t location
 			, float rhs );
-		Optional< Float > declSpecConstant( std::string const & name
+		SDW_API Optional< Float > declSpecConstant( std::string const & name
 			, uint32_t location
 			, float rhs
 			, bool enabled );
-		Double declSpecConstant( std::string const & name
+		SDW_API Double declSpecConstant( std::string const & name
 			, uint32_t location
 			, double rhs );
-		Optional< Double > declSpecConstant( std::string const & name
+		SDW_API Optional< Double > declSpecConstant( std::string const & name
 			, uint32_t location
 			, double rhs
 			, bool enabled );
@@ -405,31 +405,31 @@ namespace sdw
 #pragma endregion
 
 	private:
-		void doPushScope( ast::stmt::ContainerPtr && container );
-		void doPushScope( ast::stmt::Container * container );
-		void doPopScope();
-		var::VariablePtr registerConstant( std::string const & name
+		SDW_API void doPushScope( ast::stmt::ContainerPtr && container );
+		SDW_API void doPushScope( ast::stmt::Container * container );
+		SDW_API void doPopScope();
+		SDW_API var::VariablePtr registerConstant( std::string const & name
 			, type::TypePtr type );
-		var::VariablePtr registerSpecConstant( std::string const & name
+		SDW_API var::VariablePtr registerSpecConstant( std::string const & name
 			, uint32_t location
 			, type::TypePtr type );
-		var::VariablePtr registerSampledImage( std::string const & name
+		SDW_API var::VariablePtr registerSampledImage( std::string const & name
 			, type::TypePtr type
 			, uint32_t binding
 			, uint32_t set
 			, bool enabled = true );
-		var::VariablePtr registerImage( std::string const & name
+		SDW_API var::VariablePtr registerImage( std::string const & name
 			, type::TypePtr type
 			, uint32_t binding
 			, uint32_t set
 			, bool enabled = true );
-		var::VariablePtr registerInput( std::string const & name
+		SDW_API var::VariablePtr registerInput( std::string const & name
 			, uint32_t location
 			, type::TypePtr type );
-		var::VariablePtr registerOutput( std::string const & name
+		SDW_API var::VariablePtr registerOutput( std::string const & name
 			, uint32_t location
 			, type::TypePtr type );
-		var::VariablePtr registerBuiltin( std::string const & name
+		SDW_API var::VariablePtr registerBuiltin( std::string const & name
 			, type::TypePtr type
 			, var::Flag flag );
 
@@ -445,64 +445,64 @@ namespace sdw
 		: public ShaderWriter
 	{
 	public:
-		VertexWriter();
+		SDW_API VertexWriter();
 
-		InVertex getIn();
-		OutVertex getOut();
+		SDW_API InVertex getIn();
+		SDW_API OutVertex getOut();
 	};
 
 	class TessellationControlWriter
 		: public ShaderWriter
 	{
 	public:
-		TessellationControlWriter();
+		SDW_API TessellationControlWriter();
 
-		InTessellationControl getIn();
-		OutTessellationControl getOut();
+		SDW_API InTessellationControl getIn();
+		SDW_API OutTessellationControl getOut();
 	};
 
 	class TessellationEvaluationWriter
 		: public ShaderWriter
 	{
 	public:
-		TessellationEvaluationWriter();
+		SDW_API TessellationEvaluationWriter();
 
-		InTessellationEvaluation getIn();
-		OutTessellationEvaluation getOut();
+		SDW_API InTessellationEvaluation getIn();
+		SDW_API OutTessellationEvaluation getOut();
 	};
 
 	class GeometryWriter
 		: public ShaderWriter
 	{
 	public:
-		GeometryWriter();
+		SDW_API GeometryWriter();
 
-		void inputLayout( stmt::InputLayout layout );
-		void outputLayout( stmt::OutputLayout layout, uint32_t count );
-		InGeometry getIn();
-		OutGeometry getOut();
+		SDW_API void inputLayout( stmt::InputLayout layout );
+		SDW_API void outputLayout( stmt::OutputLayout layout, uint32_t count );
+		SDW_API InGeometry getIn();
+		SDW_API OutGeometry getOut();
 	};
 
 	class FragmentWriter
 		: public ShaderWriter
 	{
 	public:
-		FragmentWriter();
+		SDW_API FragmentWriter();
 
-		InFragment getIn();
-		OutFragment getOut();
+		SDW_API InFragment getIn();
+		SDW_API OutFragment getOut();
 	};
 
 	class ComputeWriter
 		: public ShaderWriter
 	{
 	public:
-		ComputeWriter();
+		SDW_API ComputeWriter();
 
-		void inputLayout( uint32_t localSizeX );
-		void inputLayout( uint32_t localSizeX, uint32_t localSizeY );
-		void inputLayout( uint32_t localSizeX, uint32_t localSizeY, uint32_t localSizeZ );
-		InCompute getIn();
+		SDW_API void inputLayout( uint32_t localSizeX );
+		SDW_API void inputLayout( uint32_t localSizeX, uint32_t localSizeY );
+		SDW_API void inputLayout( uint32_t localSizeX, uint32_t localSizeY, uint32_t localSizeZ );
+		SDW_API InCompute getIn();
 	};
 }
 

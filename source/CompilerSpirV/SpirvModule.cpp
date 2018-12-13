@@ -1262,6 +1262,7 @@ namespace spirv
 		, memoryModel{ makeInstruction< MemoryModelInstruction >( spv::Id( spv::AddressingModelLogical ), spv::Id( memoryModel ) ) }
 		, m_cache{ &cache }
 		, m_model{ executionModel }
+		, m_currentScopeVariables{ &m_registeredVariables }
 	{
 		header.push_back( spv::MagicNumber );
 		header.push_back( spv::Version );
@@ -1502,9 +1503,9 @@ namespace spirv
 		, uint32_t descriptorSet
 		, spv::Decoration structDecoration )
 	{
-		auto varIt = m_registeredVariables.find( name );
+		auto varIt = m_currentScopeVariables->find( name );
 
-		if ( varIt != m_registeredVariables.end() )
+		if ( varIt != m_currentScopeVariables->end() )
 		{
 			auto varId = varIt->second;
 			decorate( varId, { spv::Id( spv::DecorationBinding ), bindingPoint } );
@@ -1525,12 +1526,11 @@ namespace spirv
 		, ast::type::TypePtr type
 		, VariableInfo & info )
 	{
-		auto it = m_registeredVariables.find( name );
+		auto it = m_currentScopeVariables->find( name );
 
-		if ( it == m_registeredVariables.end() )
+		if ( it == m_currentScopeVariables->end() )
 		{
 			spv::Id id{ getNextId() };
-			it = m_registeredVariables.emplace( name, id ).first;
 
 			if ( type->getKind() != ast::type::Kind::eStruct
 				|| std::static_pointer_cast< ast::type::Struct >( type )->getName() != name )
@@ -1556,12 +1556,14 @@ namespace spirv
 			if ( storage == spv::StorageClassFunction
 				&& m_currentFunction )
 			{
+				it = m_currentScopeVariables->emplace( name, id ).first;
 				m_currentFunction->variables.push_back( makeInstruction< VariableInstruction >( varTypeId
 					, id
 					, spv::Id( storage ) ) );
 			}
 			else
 			{
+				it = m_registeredVariables.emplace( name, id ).first;
 				globalDeclarations.push_back( makeInstruction< VariableInstruction >( varTypeId
 					, id
 					, spv::Id( storage ) ) );
@@ -1579,12 +1581,12 @@ namespace spirv
 		, ast::type::TypePtr type
 		, ast::expr::Literal const & value )
 	{
-		auto it = m_registeredVariables.find( name );
+		auto it = m_currentScopeVariables->find( name );
 
-		if ( it == m_registeredVariables.end() )
+		if ( it == m_currentScopeVariables->end() )
 		{
 			spv::Id id{ getNextId() };
-			it = m_registeredVariables.emplace( name, id ).first;
+			it = m_currentScopeVariables->emplace( name, id ).first;
 			auto rawTypeId = registerType( type );
 			IdList operands;
 			debug.push_back( makeInstruction< NameInstruction >( id, name ) );
@@ -1656,23 +1658,23 @@ namespace spirv
 		, std::string name
 		, ast::type::TypePtr type )
 	{
-		auto it = std::find_if( m_registeredVariables.begin()
-			, m_registeredVariables.end()
+		auto it = std::find_if( m_currentScopeVariables->begin()
+			, m_currentScopeVariables->end()
 			, [outer]( std::map< std::string, spv::Id >::value_type const & pair )
 			{
 				return pair.second == outer;
 			} );
-		assert( it != m_registeredVariables.end() );
+		assert( it != m_currentScopeVariables->end() );
 		assert( type->isMember() );
 		auto fullName = it->first + "::" + name;
 		auto outerId = it->second;
-		it = m_registeredVariables.find( fullName );
+		it = m_currentScopeVariables->find( fullName );
 
-		if ( it == m_registeredVariables.end() )
+		if ( it == m_currentScopeVariables->end() )
 		{
 			spv::Id id{ getNextId() };
 			m_registeredMemberVariables.insert( { fullName, { outer, id } } );
-			it = m_registeredVariables.emplace( fullName, id ).first;
+			it = m_currentScopeVariables->emplace( fullName, id ).first;
 			registerLiteral( type->getIndex() );
 		}
 
@@ -1709,13 +1711,13 @@ namespace spirv
 			result = itOuter->second.first;
 		}
 
-		auto itOutermost = std::find_if( m_registeredVariables.begin()
-			, m_registeredVariables.end()
+		auto itOutermost = std::find_if( m_currentScopeVariables->begin()
+			, m_currentScopeVariables->end()
 			, [result]( std::map< std::string, spv::Id >::value_type const & pair )
 			{
 					return pair.second == result;
 			} );
-		assert( itOutermost != m_registeredVariables.end() );
+		assert( itOutermost != m_currentScopeVariables->end() );
 		result = itOutermost->second;
 		return result;
 	}
@@ -1981,9 +1983,16 @@ namespace spirv
 		, spv::Id retType
 		, ast::var::VariableList const & params )
 	{
+		spv::Id result{ getNextId() };
+		m_registeredVariables.emplace( name, result );
+
 		IdList funcTypes;
 		IdList funcParams;
 		funcTypes.push_back( retType );
+		Function func;
+		m_currentFunction = &functions.emplace_back( std::move( func ) );
+		m_currentFunction->registeredVariables = m_registeredVariables; // the function has access to global scope variables.
+		m_currentScopeVariables = &m_currentFunction->registeredVariables;
 
 		for ( auto & param : params )
 		{
@@ -1991,23 +2000,33 @@ namespace spirv
 			spv::Id paramId{ getNextId() };
 			funcParams.push_back( paramId );
 			debug.push_back( makeInstruction< NameInstruction >( paramId, param->getName() ) );
+			auto kind = param->getType()->getKind();
 
-			if ( isSampledImageType( param->getType()->getKind() )
-				|| isImageType( param->getType()->getKind() ) )
+			if ( isSampledImageType( kind )
+				|| isImageType( kind )
+				|| isSamplerType( kind )
+				|| isStructType( kind )
+				|| param->isOutputParam() )
 			{
 				funcTypes.back() = registerPointerType( funcTypes.back(), spv::StorageClassFunction );
 			}
 
-			m_registeredVariables.emplace( param->getName(), funcParams.back() );
+			m_currentScopeVariables->emplace( param->getName(), funcParams.back() );
 			m_registeredVariablesTypes.emplace( funcParams.back(), funcTypes.back() );
 		}
 
-		spv::Id funcType{ getNextId() };
-		globalDeclarations.push_back( makeInstruction< FunctionTypeInstruction >( funcType
-			, funcTypes ) );
-		spv::Id result{ getNextId() };
-		InstructionList declaration;
-		declaration.emplace_back( makeInstruction< FunctionInstruction >( retType
+		auto it = m_registeredFunctionTypes.find( funcTypes );
+
+		if ( it == m_registeredFunctionTypes.end() )
+		{
+			spv::Id funcType{ getNextId() };
+			globalDeclarations.push_back( makeInstruction< FunctionTypeInstruction >( funcType
+				, funcTypes ) );
+			it = m_registeredFunctionTypes.emplace( funcTypes, funcType ).first;
+		}
+
+		spv::Id funcType{ it->second };
+		m_currentFunction->declaration.emplace_back( makeInstruction< FunctionInstruction >( retType
 			, result
 			, spv::Id( spv::FunctionControlMaskNone )
 			, funcType ) );
@@ -2016,22 +2035,14 @@ namespace spirv
 
 		for ( auto & param : params )
 		{
-			declaration.emplace_back( makeInstruction< FunctionParameterInstruction >( *itType
+			m_currentFunction->declaration.emplace_back( makeInstruction< FunctionParameterInstruction >( *itType
 				, *itParam ) );
 			++itType;
 			++itParam;
 		}
 
-		m_registeredVariables.emplace( name, result );
 		m_registeredVariablesTypes.emplace( result, funcType );
-		functions.emplace_back( Function
-			{
-				std::move( declaration ),
-				{},
-				{},
-			} );
 		debug.push_back( makeInstruction< NameInstruction >( result, name ) );
-		m_currentFunction = &functions.back();
 		variables = &m_currentFunction->variables;
 
 		return m_currentFunction;
@@ -2067,6 +2078,7 @@ namespace spirv
 		}
 
 		variables = &globalDeclarations;
+		m_currentScopeVariables = &m_registeredVariables;
 		m_currentFunction = nullptr;
 	}
 

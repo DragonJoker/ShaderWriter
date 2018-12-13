@@ -46,78 +46,78 @@ namespace sdw
 	class Shader
 	{
 	public:
-		Shader( ShaderType type );
-		void push( stmt::Container * container );
-		void pop();
-		void saveNextExpr();
-		ast::expr::ExprPtr loadExpr( ast::expr::ExprPtr expr );
+		SDW_API Shader( ShaderType type );
+		SDW_API void push( stmt::Container * container );
+		SDW_API void pop();
+		SDW_API void saveNextExpr();
+		SDW_API ast::expr::ExprPtr loadExpr( ast::expr::ExprPtr expr );
 #pragma region Variables registration
 		/**
 		*name
 		*	Control statements.
 		*/
 		/**@{*/
-		void registerVariable( var::VariablePtr var );
-		var::VariablePtr registerName( std::string const & name
+		SDW_API void registerVariable( var::VariablePtr var );
+		SDW_API var::VariablePtr registerName( std::string const & name
 			, type::TypePtr type
 			, uint32_t flags );
-		var::VariablePtr registerName( std::string const & name
+		SDW_API var::VariablePtr registerName( std::string const & name
 			, type::TypePtr type
 			, var::Flag flag );
-		var::VariablePtr registerName( std::string const & name
+		SDW_API var::VariablePtr registerName( std::string const & name
 			, type::TypePtr type );
-		var::VariablePtr registerMember( var::VariablePtr outer
+		SDW_API var::VariablePtr registerMember( var::VariablePtr outer
 			, std::string const & name
 			, type::TypePtr type
 			, uint32_t flags );
-		var::VariablePtr registerMember( var::VariablePtr outer
+		SDW_API var::VariablePtr registerMember( var::VariablePtr outer
 			, std::string const & name
 			, type::TypePtr type
 			, var::Flag flag );
-		var::VariablePtr registerMember( var::VariablePtr outer
+		SDW_API var::VariablePtr registerMember( var::VariablePtr outer
 			, std::string const & name
 			, type::TypePtr type );
-		var::VariablePtr registerConstant( std::string const & name
+		SDW_API var::VariablePtr registerConstant( std::string const & name
 			, type::TypePtr type );
-		var::VariablePtr registerSpecConstant( std::string const & name
+		SDW_API var::VariablePtr registerSpecConstant( std::string const & name
 			, uint32_t location
 			, type::TypePtr type );
-		var::VariablePtr registerSampledImage( std::string const & name
+		SDW_API var::VariablePtr registerSampledImage( std::string const & name
 			, type::TypePtr type
 			, uint32_t binding
 			, uint32_t set
 			, bool enabled = true );
-		var::VariablePtr registerImage( std::string const & name
+		SDW_API var::VariablePtr registerImage( std::string const & name
 			, type::TypePtr type
 			, uint32_t binding
 			, uint32_t set
 			, bool enabled = true );
-		var::VariablePtr registerInput( std::string const & name
+		SDW_API var::VariablePtr registerInput( std::string const & name
 			, uint32_t location
 			, type::TypePtr type );
-		var::VariablePtr registerOutput( std::string const & name
+		SDW_API var::VariablePtr registerOutput( std::string const & name
 			, uint32_t location
 			, type::TypePtr type );
-		var::VariablePtr registerBuiltin( std::string const & name
+		SDW_API var::VariablePtr registerBuiltin( std::string const & name
 			, type::TypePtr type
 			, var::Flag flag );
-		var::VariablePtr registerBlockVariable( std::string const & name
+		SDW_API var::VariablePtr registerBlockVariable( std::string const & name
 			, type::TypePtr type );
-		var::VariablePtr registerLocale( std::string const & name
+		SDW_API var::VariablePtr registerLocale( std::string const & name
 			, type::TypePtr type );
-		var::VariablePtr registerParam( std::string const & name
+		SDW_API var::VariablePtr registerParam( std::string const & name
 			, type::TypePtr type );
-		var::VariablePtr registerInParam( std::string const & name
+		SDW_API var::VariablePtr registerInParam( std::string const & name
 			, type::TypePtr type );
-		var::VariablePtr registerOutParam( std::string const & name
+		SDW_API var::VariablePtr registerOutParam( std::string const & name
 			, type::TypePtr type );
-		var::VariablePtr registerInOutParam( std::string const & name
+		SDW_API var::VariablePtr registerInOutParam( std::string const & name
 			, type::TypePtr type );
-		var::VariablePtr getVar( std::string const & name )const;
-		void addStmt( stmt::StmtPtr stmt );
-		void registerSsbo( std::string const & name
+		SDW_API var::VariablePtr getVar( std::string const & name )const;
+		SDW_API void addStmt( stmt::StmtPtr stmt );
+		SDW_API void registerSsbo( std::string const & name
 			, SsboInfo const & info );
-		void registerUbo( std::string const & name
+		SDW_API void registerUbo( std::string const & name
 			, UboInfo const & info );
 		/**@}*/
 #pragma endregion

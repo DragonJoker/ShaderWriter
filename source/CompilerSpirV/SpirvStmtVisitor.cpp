@@ -58,12 +58,12 @@ namespace spirv
 
 		VariableInfo info;
 
-		for ( auto & input : config.m_inputs )
+		for ( auto & input : config.inputs )
 		{
 			m_inputs.push_back( m_result.registerVariable( input->getName(), spv::StorageClassInput, input->getType(), info ).id );
 		}
 
-		for ( auto & output : config.m_outputs )
+		for ( auto & output : config.outputs )
 		{
 			m_outputs.push_back( m_result.registerVariable( output->getName(), spv::StorageClassOutput, output->getType(), info ).id );
 		}

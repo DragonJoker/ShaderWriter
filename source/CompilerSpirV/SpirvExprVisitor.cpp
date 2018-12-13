@@ -1010,12 +1010,12 @@ namespace spirv
 
 			void visitUnaryExpr( ast::expr::Unary * expr )override
 			{
-				assert( false && "Unexpected ast::expr::Unary ?" );
+				m_result = ExprVisitor::submit( expr, m_currentBlock, m_module, true, m_loadedVariables );
 			}
 
 			void visitBinaryExpr( ast::expr::Binary * expr )override
 			{
-				assert( false && "Unexpected ast::expr::Binary ?" );
+				m_result = ExprVisitor::submit( expr, m_currentBlock, m_module, true, m_loadedVariables );
 			}
 
 			void visitMbrSelectExpr( ast::expr::MbrSelect * expr )override
@@ -1935,7 +1935,10 @@ namespace spirv
 			}
 
 			if ( m_loadVariable
-				&& ( var->isLocale() || var->isShaderInput() || var->isShaderOutput() ) )
+				&& ( var->isLocale()
+					|| var->isShaderInput()
+					|| var->isShaderOutput()
+					|| var->isOutputParam() ) )
 			{
 				m_result = loadVariable( m_result
 					, expr->getType() );

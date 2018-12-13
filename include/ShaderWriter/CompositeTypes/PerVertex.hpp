@@ -17,8 +17,8 @@ namespace sdw
 	struct gl_PerVertex
 		: public Value
 	{
-		gl_PerVertex();
-		gl_PerVertex( ShaderWriter & writer
+		SDW_API gl_PerVertex();
+		SDW_API gl_PerVertex( ShaderWriter & writer
 			, stmt::PerVertexDecl::Source source = stmt::PerVertexDecl::eVertexOutput );
 		Vec4 gl_Position;
 		Float gl_PointSize;

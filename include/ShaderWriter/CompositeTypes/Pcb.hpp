@@ -14,12 +14,12 @@ namespace sdw
 	class Pcb
 	{
 	public:
-		Pcb( ShaderWriter & writer
+		SDW_API Pcb( ShaderWriter & writer
 			, std::string const & name
 			, ast::type::MemoryLayout layout = ast::type::MemoryLayout::eStd430 );
-		void end();
+		SDW_API void end();
 
-		StructInstance declMember( std::string const & name, Struct const & s );
+		SDW_API StructInstance declMember( std::string const & name, Struct const & s );
 		template< typename T >
 		inline T declMember( std::string const & name );
 		template< typename T >

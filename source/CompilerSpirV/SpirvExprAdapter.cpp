@@ -7,6 +7,9 @@ See LICENSE file in root folder
 #include "SpirvTextureAccessConfig.hpp"
 #include "SpirvTextureAccessNames.hpp"
 
+#include <ShaderAST/Stmt/StmtSimple.hpp>
+#include <ShaderAST/Visitors/CloneExpr.hpp>
+
 namespace spirv
 {
 	//*************************************************************************
@@ -37,21 +40,31 @@ namespace spirv
 	//*************************************************************************
 
 	ast::expr::ExprPtr ExprAdapter::submit( ast::expr::Expr * expr
+		, ast::stmt::Container * container
 		, PreprocContext const & context
 		, ModuleConfig const & config )
 	{
 		ast::expr::ExprPtr result;
-		ExprAdapter vis{ expr->getCache(), context, config, result };
+		ExprAdapter vis
+		{
+			expr->getCache(),
+			container,
+			context,
+			config,
+			result
+		};
 		expr->accept( &vis );
 		return result;
 	}
 
 	ExprAdapter::ExprAdapter( ast::type::TypesCache & cache
+		, ast::stmt::Container * container
 		, PreprocContext const & context
 		, ModuleConfig const & config
 		, ast::expr::ExprPtr & result )
 		: ExprCloner{ result }
 		, m_cache{ cache }
+		, m_container{ container }
 		, m_context{ context }
 		, m_config{ config }
 	{
@@ -60,7 +73,7 @@ namespace spirv
 	ast::expr::ExprPtr ExprAdapter::doSubmit( ast::expr::Expr * expr )
 	{
 		ast::expr::ExprPtr result;
-		ExprAdapter vis{ m_cache, m_context, m_config, result };
+		ExprAdapter vis{ m_cache, m_container, m_context, m_config, result };
 		expr->accept( &vis );
 		return result;
 	}
@@ -241,7 +254,7 @@ namespace spirv
 
 		for ( auto & arg : expr->getArgList() )
 		{
-			args.emplace_back( submit( arg.get(), m_context, m_config ) );
+			args.emplace_back( submit( arg.get(), m_container, m_context, m_config ) );
 		}
 
 		if ( op == spv::Op::OpImageGather )
@@ -297,6 +310,15 @@ namespace spirv
 		}
 	}
 
+	ast::expr::ExprPtr ExprAdapter::doMakeAlias( ast::expr::ExprPtr expr )
+	{
+		auto var = ast::var::makeVariable( expr->getType()
+			, "tmp_" + std::to_string( m_config.aliasId++ )
+			, ast::var::Flag::eLocale | ast::var::Flag::eImplicit );
+		m_container->addStmt( ast::stmt::makeSimple( ast::expr::makeInit( ast::expr::makeIdentifier( m_cache, var ), std::move( expr ) ) ) );
+		return ast::expr::makeIdentifier( m_cache, var );
+	}
+
 	ast::type::TypePtr ExprAdapter::doPromoteScalar( ast::expr::ExprPtr & lhs
 		, ast::expr::ExprPtr & rhs )
 	{
@@ -315,10 +337,11 @@ namespace spirv
 				result = rhs->getType();
 				ast::expr::ExprList args;
 				auto count = getComponentCount( result->getKind() );
+				auto alias = doMakeAlias( doSubmit( lhs.get() ) );
 
 				for ( auto i = 0u; i < count; ++i )
 				{
-					args.emplace_back( doSubmit( lhs.get() ) );
+					args.emplace_back( doSubmit( alias.get() ) );
 				}
 
 				lhs = ast::expr::makeCompositeConstruct( getCompositeType( getComponentCount( result->getKind() ) )
@@ -330,10 +353,11 @@ namespace spirv
 				result = lhs->getType();
 				ast::expr::ExprList args;
 				auto count = getComponentCount( result->getKind() );
+				auto alias = doMakeAlias( doSubmit( rhs.get() ) );
 
 				for ( auto i = 0u; i < count; ++i )
 				{
-					args.emplace_back( doSubmit( rhs.get() ) );
+					args.emplace_back( doSubmit( alias.get() ) );
 				}
 
 				rhs = ast::expr::makeCompositeConstruct( getCompositeType( getComponentCount( result->getKind() ) )
@@ -357,25 +381,63 @@ namespace spirv
 			, rhs->getType()->getKind()
 			, switchParams
 			, needMatchingVectors );
+
+		if ( switchParams )
+		{
+			std::swap( lhs, rhs );
+		}
+
 		auto lhsType = lhs->getType();
 		auto rhsType = rhs->getType();
 		bool lhsMat = isMatrixType( lhsType->getKind() );
 		bool rhsMat = isMatrixType( rhsType->getKind() );
+		auto lhsExpr = doSubmit( lhs );
+		auto rhsExpr = doSubmit( rhs );
+		auto type = lhsExpr->getType();
 		ast::expr::ExprPtr result;
 
 		if ( lhsMat || rhsMat )
 		{
-			result = doWriteMatrixBinaryOperation( operation
-				, resType
-				, lhs
-				, rhs );
+			//result = doWriteMatrixBinaryOperation( operation
+			//	, resType
+			//	, lhs
+			//	, rhs );
+			if ( op == spv::Op::OpMatrixTimesVector )
+			{
+				type = rhsExpr->getType();
+			}
+
+			ast::expr::ExprList args;
+
+			switch ( operation )
+			{
+			case ast::expr::Kind::eAdd:
+				result = ast::expr::makeAdd( type
+					, std::move( lhsExpr )
+					, std::move( rhsExpr ) );
+				break;
+			case ast::expr::Kind::eDivide:
+				result = ast::expr::makeDivide( type
+					, std::move( lhsExpr )
+					, std::move( rhsExpr ) );
+				break;
+			case ast::expr::Kind::eMinus:
+				result = ast::expr::makeMinus( type
+					, std::move( lhsExpr )
+					, std::move( rhsExpr ) );
+				break;
+			case ast::expr::Kind::eTimes:
+				result = ast::expr::makeTimes( type
+					, std::move( lhsExpr )
+					, std::move( rhsExpr ) );
+				break;
+			default:
+				assert( false && "Unsupported binary operation" );
+				break;
+			}
 		}
 		else
 		{
-			auto lhsExpr = doSubmit( lhs );
-			auto rhsExpr = doSubmit( rhs );
-			auto type = lhsExpr->getType();
-
 			if ( needMatchingVectors )
 			{
 				type = doPromoteScalar( lhsExpr, rhsExpr );

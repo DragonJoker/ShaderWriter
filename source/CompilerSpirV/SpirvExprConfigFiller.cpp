@@ -200,12 +200,12 @@ namespace spirv
 
 		if ( expr->getVariable()->isShaderInput() )
 		{
-			m_config.m_inputs.insert( expr->getVariable() );
+			m_config.inputs.insert( expr->getVariable() );
 		}
 
 		if ( expr->getVariable()->isShaderOutput() )
 		{
-			m_config.m_outputs.insert( expr->getVariable() );
+			m_config.outputs.insert( expr->getVariable() );
 		}
 	}
 

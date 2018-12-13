@@ -75,7 +75,7 @@ namespace sdw
 		, bool MsT >
 	ImageT< FormatT, DimT, ArrayedT, DepthT, MsT >::ImageT( Shader * shader
 		, expr::ExprPtr expr )
-		: Image{ shader, std::move( expr ) }
+		: Image{ FormatT, shader, std::move( expr ) }
 	{
 	}
 

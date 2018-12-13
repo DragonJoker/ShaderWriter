@@ -400,7 +400,7 @@ if ( MSVC OR NOT "${CMAKE_BUILD_TYPE}" STREQUAL "" )
 	endif ()
 
 	add_library( ${PROJECT_NAME}
-		STATIC
+		SHARED
 		${INCLUDE_DIR}/Intrinsics/ImageAccessFunctions.hpp
 		${INCLUDE_DIR}/Intrinsics/TextureAccessFunctions.hpp
 		${INCLUDE_DIR}/Intrinsics/IntrinsicFunctions.hpp
@@ -417,6 +417,7 @@ if ( MSVC OR NOT "${CMAKE_BUILD_TYPE}" STREQUAL "" )
 		"${CMAKE_CXX_FLAGS}"
 		${${PROJECT_NAME}_FOLDER_SOURCE_FILES}
 	)
+	target_compile_options( ${PROJECT_NAME} PRIVATE -D${PROJECT_NAME}_Exports )
 	target_link_libraries( ${PROJECT_NAME}
 		ShaderAST
 	)
@@ -463,12 +464,13 @@ if ( MSVC OR NOT "${CMAKE_BUILD_TYPE}" STREQUAL "" )
 	endif ()
 
 	add_library( ${PROJECT_NAME}
-		STATIC
+		SHARED
 		${SOURCE_DIR}/GlslImageAccessNames.hpp
 		${${PROJECT_NAME}_FOLDER_HEADER_FILES}
 		${${PROJECT_NAME}_FOLDER_SOURCE_FILES}
 		${${PROJECT_NAME}_FOLDER_SCRIPT_FILES}
 	)
+	target_compile_options( ${PROJECT_NAME} PRIVATE -D${PROJECT_NAME}_Exports )
 	target_link_libraries( ${PROJECT_NAME}
 		ShaderAST
 		ShaderWriter
@@ -496,11 +498,12 @@ if ( MSVC OR NOT "${CMAKE_BUILD_TYPE}" STREQUAL "" )
 	set( SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/source/${PROJECT_NAME} )
 
 	add_library( ${PROJECT_NAME}
-		STATIC
+		SHARED
 		${${PROJECT_NAME}_FOLDER_HEADER_FILES}
 		${${PROJECT_NAME}_FOLDER_SOURCE_FILES}
 		${${PROJECT_NAME}_FOLDER_SCRIPT_FILES}
 	)
+	target_compile_options( ${PROJECT_NAME} PRIVATE -D${PROJECT_NAME}_Exports )
 	target_link_libraries( ${PROJECT_NAME}
 		ShaderAST
 		ShaderWriter
@@ -529,11 +532,12 @@ if ( MSVC OR NOT "${CMAKE_BUILD_TYPE}" STREQUAL "" )
 	set( SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/source/${PROJECT_NAME} )
 
 	add_library( ${PROJECT_NAME}
-		STATIC
+		SHARED
 		${${PROJECT_NAME}_FOLDER_HEADER_FILES}
 		${${PROJECT_NAME}_FOLDER_SOURCE_FILES}
 		${${PROJECT_NAME}_FOLDER_SCRIPT_FILES}
 	)
+	target_compile_options( ${PROJECT_NAME} PRIVATE -D${PROJECT_NAME}_Exports )
 	target_link_libraries( ${PROJECT_NAME}
 		ShaderAST
 		ShaderWriter

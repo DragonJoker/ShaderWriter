@@ -156,12 +156,12 @@ namespace spirv
 		{
 			if ( stmt->getVariable()->isShaderInput() )
 			{
-				m_result.m_inputs.insert( var );
+				m_result.inputs.insert( var );
 			}
 
 			if ( stmt->getVariable()->isShaderOutput() )
 			{
-				m_result.m_outputs.insert( var );
+				m_result.outputs.insert( var );
 			}
 		}
 	}
@@ -187,13 +187,13 @@ namespace spirv
 		switch ( stmt->getSource() )
 		{
 		case ast::stmt::PerVertexDecl::Source::eVertexOutput:
-			m_result.m_outputs.insert( ast::var::makeVariable( stmt->getType()->getMember( "gl_Position" ).type
+			m_result.outputs.insert( ast::var::makeVariable( stmt->getType()->getMember( "gl_Position" ).type
 				, "gl_Position"
 				, ast::var::Flag::eShaderOutput | ast::var::Flag::eBuiltin ) );
-			m_result.m_outputs.insert( ast::var::makeVariable( stmt->getType()->getMember( "gl_PointSize" ).type
+			m_result.outputs.insert( ast::var::makeVariable( stmt->getType()->getMember( "gl_PointSize" ).type
 				, "gl_PointSize"
 				, ast::var::Flag::eShaderOutput | ast::var::Flag::eBuiltin ) );
-			m_result.m_outputs.insert( ast::var::makeVariable( stmt->getType()->getMember( "gl_ClipDistance" ).type
+			m_result.outputs.insert( ast::var::makeVariable( stmt->getType()->getMember( "gl_ClipDistance" ).type
 				, "gl_ClipDistance"
 				, ast::var::Flag::eShaderOutput | ast::var::Flag::eBuiltin ) );
 			break;

@@ -6,9 +6,19 @@ See LICENSE file in root folder
 
 #include <ShaderWriter/ShaderWriterPrerequisites.hpp>
 
+#if defined( _WIN32 )
+#	if defined( CompilerHlsl_Exports )
+#		define SDWHLSL_API __declspec( dllexport )
+#	else
+#		define SDWHLSL_API __declspec( dllimport )
+#	endif
+#else
+#	define SDWHLSL_API
+#endif
+
 namespace hlsl
 {
-	std::string compileHlsl( sdw::Shader const & shader
+	SDWHLSL_API std::string compileHlsl( sdw::Shader const & shader
 		, ast::SpecialisationInfo const & specialisation );
 }
 

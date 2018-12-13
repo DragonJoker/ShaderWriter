@@ -8,8 +8,8 @@ See LICENSE file in root folder
 
 namespace sdw
 {
-	std::string writeDebug( Shader const & shader );
-	std::string writeDebug( stmt::Container * stmt );
+	SDW_API std::string writeDebug( Shader const & shader );
+	SDW_API std::string writeDebug( stmt::Container * stmt );
 }
 
 #endif
