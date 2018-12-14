@@ -197,10 +197,11 @@ namespace spirv
 
 	void StmtVisitor::visitFunctionDeclStmt( ast::stmt::FunctionDecl * stmt )
 	{
-		auto retType = m_result.registerType( stmt->getRet() );
+		auto type = stmt->getType();
+		auto retType = m_result.registerType( type->getReturnType() );
 		m_function = m_result.beginFunction( stmt->getName()
 			, retType
-			, stmt->getParameters() );
+			, ast::var::VariableList{ type->begin(), type->end() } );
 		m_currentBlock = m_result.newBlock();
 
 		if ( stmt->getName() == "main" )

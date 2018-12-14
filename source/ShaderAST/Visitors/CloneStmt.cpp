@@ -119,17 +119,9 @@ namespace ast
 
 	void StmtCloner::visitFunctionDeclStmt( stmt::FunctionDecl * stmt )
 	{
-		var::VariableList params;
-
-		for ( auto & param : stmt->getParameters() )
-		{
-			params.push_back( param );
-		}
-
 		auto save = m_current;
-		auto cont = stmt::makeFunctionDecl( stmt->getRet()
-			, stmt->getName()
-			, params );
+		auto cont = stmt::makeFunctionDecl( stmt->getType()
+			, stmt->getName() );
 		m_current = cont.get();
 		visitContainerStmt( stmt );
 		m_current = save;

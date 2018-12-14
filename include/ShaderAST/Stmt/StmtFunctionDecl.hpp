@@ -14,15 +14,14 @@ namespace ast::stmt
 		: public Compound
 	{
 	public:
-		FunctionDecl( type::TypePtr retType
-			, std::string name
-			, var::VariableList parameters );
+		FunctionDecl( type::FunctionPtr type
+			, std::string name );
 
 		void accept( VisitorPtr vis )override;
 
-		inline type::TypePtr getRet()const
+		inline type::FunctionPtr getType()const
 		{
-			return m_retType;
+			return m_type;
 		}
 
 		inline std::string const & getName()const
@@ -30,25 +29,17 @@ namespace ast::stmt
 			return m_name;
 		}
 
-		inline var::VariableList const & getParameters()const
-		{
-			return m_parameters;
-		}
-
 	private:
-		type::TypePtr m_retType;
+		type::FunctionPtr m_type;
 		std::string m_name;
-		var::VariableList m_parameters;
 	};
 	using FunctionDeclPtr = std::unique_ptr< FunctionDecl >;
 
-	inline FunctionDeclPtr makeFunctionDecl( type::TypePtr retType
-		, std::string name
-		, var::VariableList parameters )
+	inline FunctionDeclPtr makeFunctionDecl( type::FunctionPtr type
+		, std::string name )
 	{
-		return std::make_unique< FunctionDecl >( std::move( retType )
-			, std::move( name )
-			, std::move( parameters ) );
+		return std::make_unique< FunctionDecl >( std::move( type )
+			, std::move( name ) );
 	}
 }
 

@@ -7,6 +7,7 @@ See LICENSE file in root folder
 
 #include "Type.hpp"
 #include "TypeArray.hpp"
+#include "TypeFunction.hpp"
 #include "TypeImage.hpp"
 #include "TypeSampledImage.hpp"
 #include "TypeSampler.hpp"
@@ -61,7 +62,6 @@ namespace ast::type
 		~TypesCache();
 		TypePtr getUndefined();
 		TypePtr getVoid();
-		TypePtr getFunction();
 		TypePtr getBool();
 		TypePtr getInt();
 		TypePtr getUInt();
@@ -114,6 +114,7 @@ namespace ast::type
 		SampledImagePtr getSampledImage( ImageConfiguration const & config );
 		SamplerPtr getSampler( bool comparison = false );
 		TypePtr getSampledType( ImageFormat format );
+		FunctionPtr getFunction( TypePtr returnType, var::VariableList const & parameters );
 		StructPtr getStruct( MemoryLayout layout, std::string const & name );
 		ArrayPtr getArray( TypePtr type, uint32_t arraySize = UnknownArraySize );
 
@@ -124,6 +125,7 @@ namespace ast::type
 		TypeCache< Image, std::function< ImagePtr( ImageConfiguration ) >, std::function< size_t( ImageConfiguration const & ) > > m_image;
 		TypeCache< SampledImage, std::function< SampledImagePtr( ImageConfiguration ) >, std::function< size_t( ImageConfiguration const & ) > > m_sampledImage;
 		TypeCache< Sampler, std::function< SamplerPtr( bool ) >, std::function< size_t( bool ) > > m_sampler;
+		TypeCache< Function, std::function< FunctionPtr( TypePtr, var::VariableList ) >, std::function< size_t( TypePtr, var::VariableList ) > > m_function;
 		TypeCache< Struct, std::function< StructPtr( MemoryLayout, std::string ) >, std::function< size_t( MemoryLayout, std::string const & ) > > m_struct;
 		TypeCache< Array, std::function< ArrayPtr( TypePtr, uint32_t ) >, std::function< size_t( TypePtr, uint32_t ) > > m_array;
 		struct MemberTypeInfo

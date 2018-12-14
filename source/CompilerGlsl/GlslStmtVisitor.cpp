@@ -350,11 +350,12 @@ namespace glsl
 	{
 		m_appendLineEnd = true;
 		doAppendLineEnd();
-		m_result += m_indent + getTypeName( stmt->getRet() );
+		auto type = stmt->getType();
+		m_result += m_indent + getTypeName( type->getReturnType() );
 		m_result += " " + stmt->getName() + "(";
 		std::string sep;
 
-		for ( auto & param : stmt->getParameters() )
+		for ( auto & param : *type )
 		{
 			m_result += sep + getDirectionName( *param )
 				+ " " + getTypeName( param->getType() )

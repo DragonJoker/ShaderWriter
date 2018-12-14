@@ -15,7 +15,6 @@ namespace ast::type
 	{
 		eUndefined,
 		eVoid,
-		eFunction,
 		eBool,
 		eInt,
 		eUInt,
@@ -60,6 +59,7 @@ namespace ast::type
 		eMat4x4D,
 		eBasicTypesMax = eMat4x4D,
 		eArray,
+		eFunction,
 		eStruct,
 		eSampler,
 		eImage,

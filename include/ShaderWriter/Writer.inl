@@ -141,15 +141,16 @@ namespace sdw
 		auto decl = getFunctionHeader< ReturnT >( getShader(), name, params... );
 		doPushScope( decl.get() );
 
-		for ( auto & var : decl->getParameters() )
+		for ( auto & var : *decl->getType() )
 		{
 			m_shader.registerVariable( var );
 		}
 
 		function( std::forward< ParamsT && >( params )... );
 		doPopScope();
+		auto functionType = decl->getType();
 		addStmt( std::move( decl ) );
-		return Function< ReturnT, ParamsT... >{ &m_shader, name };
+		return Function< ReturnT, ParamsT... >{ &m_shader, functionType, name };
 	}
 
 	template< typename RetType >

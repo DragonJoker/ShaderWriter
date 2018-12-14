@@ -356,7 +356,7 @@ def printImageFunction( outs, returnGroup, functionGroup, paramsGroup, imageType
 		imageFullType = computeImageFullType( imageType, postfix, sampled, depth )
 		for fmt, ret in formats:
 			# Write function name and return
-			outs.write( "\n\tMaybeOptional< " + ret + " > " + intrinsicName + "(" )
+			outs.write( "\n\tSDW_API MaybeOptional< " + ret + " > " + intrinsicName + "(" )
 			# Write parameters
 			#	Image parameter
 			outs.write( " MaybeOptional< " + imageFullType + fmt + " > const & image" )
@@ -366,7 +366,7 @@ def printImageFunction( outs, returnGroup, functionGroup, paramsGroup, imageType
 def printIntrinsicFunction( outs, returnGroup, functionGroup, paramsGroup ):
 	retType = typeKindToSdwType( returnGroup )
 	# Write function name and return
-	outs.write( "\n\tMaybeOptional< " + retType + " > " + computeIntrinsicName( functionGroup ) + "(" )
+	outs.write( "\n\tSDW_API MaybeOptional< " + retType + " > " + computeIntrinsicName( functionGroup ) + "(" )
 	# Write function parameters
 	outs.write( computeParams( paramsGroup, "" ) + " );" )
 	

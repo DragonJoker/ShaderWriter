@@ -37266,32 +37266,6 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 2D, Array, Shadow>
-	*@param P
-	*	vec3f
-	*@param refZ
-	*	float
-	*@param bias
-	*	float
-	*/
-	TextureAccessCallPtr makeTexture2DArrayShadowFBiasR32( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr refZ, ExprPtr bias );
-	/**
-	*@return
-	*	float
-	*@param image
-	*	SampledImage<Float, 2D, Array, Shadow>
-	*@param P
-	*	vec3f
-	*@param refZ
-	*	float
-	*@param bias
-	*	float
-	*/
-	TextureAccessCallPtr makeTexture2DArrayShadowFBiasR16( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr refZ, ExprPtr bias );
-	/**
-	*@return
-	*	float
-	*@param image
 	*	SampledImage<Float, Rect, Shadow>
 	*@param P
 	*	vec2f

@@ -757,13 +757,11 @@ namespace sdw
 			, bindingSet );
 	}
 
-	stmt::ContainerPtr makeFuncDecl( type::TypePtr type
-		, std::string name
-		, var::VariableList args )
+	stmt::ContainerPtr makeFuncDecl( type::FunctionPtr type
+		, std::string name )
 	{
 		return stmt::makeFunctionDecl( std::move( type )
-			, std::move( name )
-			, std::move( args ) );
+			, std::move( name ) );
 	}
 
 	void addStmt( Shader & shader

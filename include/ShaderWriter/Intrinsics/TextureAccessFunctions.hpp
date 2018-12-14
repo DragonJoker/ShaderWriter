@@ -985,8 +985,6 @@ namespace sdw
 	SDW_API MaybeOptional< Float > texture( MaybeOptional< SampledImageCubeShadowR16 > const & image, MaybeOptional< Vec3 > const & P, MaybeOptional< Float > const & refZ, MaybeOptional< Float > const & bias );
 	SDW_API MaybeOptional< Float > texture( MaybeOptional< SampledImage1DArrayShadowR32 > const & image, MaybeOptional< Vec2 > const & P, MaybeOptional< Float > const & refZ, MaybeOptional< Float > const & bias );
 	SDW_API MaybeOptional< Float > texture( MaybeOptional< SampledImage1DArrayShadowR16 > const & image, MaybeOptional< Vec2 > const & P, MaybeOptional< Float > const & refZ, MaybeOptional< Float > const & bias );
-	SDW_API MaybeOptional< Float > texture( MaybeOptional< SampledImage2DArrayShadowR32 > const & image, MaybeOptional< Vec3 > const & P, MaybeOptional< Float > const & refZ, MaybeOptional< Float > const & bias );
-	SDW_API MaybeOptional< Float > texture( MaybeOptional< SampledImage2DArrayShadowR16 > const & image, MaybeOptional< Vec3 > const & P, MaybeOptional< Float > const & refZ, MaybeOptional< Float > const & bias );
 	/**@}*/
 #pragma endregion
 #pragma region textureProj

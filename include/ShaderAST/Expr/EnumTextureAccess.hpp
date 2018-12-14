@@ -450,7 +450,6 @@ namespace ast::expr
 		eTexture1DArrayShadowF,
 		eTexture1DArrayShadowFBias,
 		eTexture2DArrayShadowF,
-		eTexture2DArrayShadowFBias,
 		eTexture2DRectShadowF,
 		eTextureCubeArrayShadowF,
 		eTextureProj1DShadowF,

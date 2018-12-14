@@ -32,50 +32,70 @@ namespace hlsl
 		ast::expr::ExprPtr writeProjectTexCoords2( ast::type::TypesCache & cache
 			, ast::expr::ExprPtr texcoords )
 		{
+			ast::var::VariableList params;
+			params.push_back( ast::var::makeVariable( cache.getVec2F(), "texcoords" ) );
 			ast::expr::ExprList args;
 			args.emplace_back( std::move( texcoords ) );
 			return ast::expr::makeFnCall( cache.getFloat()
-				, ast::expr::makeIdentifier( cache, ast::var::makeFunction( cache, "SDW_projectTexCoords2" ) )
+				, ast::expr::makeIdentifier( cache
+					, ast::var::makeFunction( cache.getFunction( cache.getFloat(), params )
+					, "SDW_projectTexCoords2" ) )
 				, std::move( args ) );
 		}
 
 		ast::expr::ExprPtr writeProjectTexCoords3( ast::type::TypesCache & cache
 			, ast::expr::ExprPtr texcoords )
 		{
+			ast::var::VariableList params;
+			params.push_back( ast::var::makeVariable( cache.getVec3F(), "texcoords" ) );
 			ast::expr::ExprList args;
 			args.emplace_back( std::move( texcoords ) );
 			return ast::expr::makeFnCall( cache.getVec2F()
-				, ast::expr::makeIdentifier( cache, ast::var::makeFunction( cache, "SDW_projectTexCoords3" ) )
+				, ast::expr::makeIdentifier( cache
+					, ast::var::makeFunction( cache.getFunction( cache.getVec2F(), params )
+					, "SDW_projectTexCoords3" ) )
 				, std::move( args ) );
 		}
 
 		ast::expr::ExprPtr writeProjectTexCoords4To1( ast::type::TypesCache & cache
 			, ast::expr::ExprPtr texcoords )
 		{
+			ast::var::VariableList params;
+			params.push_back( ast::var::makeVariable( cache.getVec4F(), "texcoords" ) );
 			ast::expr::ExprList args;
 			args.emplace_back( std::move( texcoords ) );
 			return ast::expr::makeFnCall( cache.getFloat()
-				, ast::expr::makeIdentifier( cache, ast::var::makeFunction( cache, "SDW_projectTexCoords4To1" ) )
+				, ast::expr::makeIdentifier( cache
+					, ast::var::makeFunction( cache.getFunction( cache.getFloat(), params )
+					, "SDW_projectTexCoords4To1" ) )
 				, std::move( args ) );
 		}
 
 		ast::expr::ExprPtr writeProjectTexCoords4To2( ast::type::TypesCache & cache
 			, ast::expr::ExprPtr texcoords )
 		{
+			ast::var::VariableList params;
+			params.push_back( ast::var::makeVariable( cache.getVec4F(), "texcoords" ) );
 			ast::expr::ExprList args;
 			args.emplace_back( std::move( texcoords ) );
 			return ast::expr::makeFnCall( cache.getVec2F()
-				, ast::expr::makeIdentifier( cache, ast::var::makeFunction( cache, "SDW_projectTexCoords4To2" ) )
+				, ast::expr::makeIdentifier( cache
+					, ast::var::makeFunction( cache.getFunction( cache.getVec2F(), params )
+					, "SDW_projectTexCoords4To2" ) )
 				, std::move( args ) );
 		}
 
 		ast::expr::ExprPtr writeProjectTexCoords4( ast::type::TypesCache & cache
 			, ast::expr::ExprPtr texcoords )
 		{
+			ast::var::VariableList params;
+			params.push_back( ast::var::makeVariable( cache.getVec4F(), "texcoords" ) );
 			ast::expr::ExprList args;
 			args.emplace_back( std::move( texcoords ) );
 			return ast::expr::makeFnCall( cache.getVec3F()
-				, ast::expr::makeIdentifier( cache, ast::var::makeFunction( cache, "SDW_projectTexCoords4" ) )
+				, ast::expr::makeIdentifier( cache
+					, ast::var::makeFunction( cache.getFunction( cache.getVec3F(), params )
+					, "SDW_projectTexCoords4" ) )
 				, std::move( args ) );
 		}
 
@@ -641,7 +661,6 @@ namespace hlsl
 			case ast::expr::TextureAccess::eTexture1DArrayShadowF:
 			case ast::expr::TextureAccess::eTexture1DArrayShadowFBias:
 			case ast::expr::TextureAccess::eTexture2DArrayShadowF:
-			case ast::expr::TextureAccess::eTexture2DArrayShadowFBias:
 			case ast::expr::TextureAccess::eTexture2DRectShadowF:
 			case ast::expr::TextureAccess::eTextureCubeArrayShadowF:
 			case ast::expr::TextureAccess::eTextureProj1DShadowF:
@@ -1260,11 +1279,15 @@ namespace hlsl
 	{
 		if ( isMatrix( expr->getType()->getKind() ) )
 		{
+			ast::var::VariableList params;
+			params.push_back( ast::var::makeVariable( expr->getLHS()->getType(), "lhs" ) );
+			params.push_back( ast::var::makeVariable( expr->getRHS()->getType(), "ths" ) );
 			ast::expr::ExprList argsList;
 			argsList.emplace_back( doSubmit( expr->getLHS() ) );
 			argsList.emplace_back( doSubmit( expr->getRHS() ) );
 			m_result = ast::expr::makeFnCall( expr->getType()
-				, ast::expr::makeIdentifier( m_cache, ast::var::makeVariable( m_cache.getFunction(), "mul" ) )
+				, ast::expr::makeIdentifier( m_cache, ast::var::makeVariable( m_cache.getFunction( expr->getType(), params )
+					, "mul" ) )
 				, std::move( argsList ) );
 		}
 		else
@@ -1313,14 +1336,13 @@ namespace hlsl
 
 		if ( it == m_imageSizeFuncs.end() )
 		{
+			ast::var::VariableList resVars;
 			ast::var::VariableList parameters;
 			auto image = ast::var::makeVariable( expr->getArgList()[0]->getType(), "image" );
 			parameters.emplace_back( image );
-			auto cont = ast::stmt::makeFunctionDecl( expr->getType()
-				, funcName
-				, parameters );
+			auto functionType = m_cache.getFunction( expr->getType(), parameters );
+			auto cont = ast::stmt::makeFunctionDecl( functionType, funcName );
 			ast::type::TypePtr uintType = m_cache.getUInt();
-			ast::var::VariableList resVars;
 			ast::expr::CompositeType composite{};
 
 			switch ( getComponentCount( expr->getType()->getKind() ) )
@@ -1371,7 +1393,8 @@ namespace hlsl
 			}
 
 			cont->addStmt( ast::stmt::makeSimple( ast::expr::makeMemberFnCall( m_cache.getVoid()
-				, ast::expr::makeIdentifier( m_cache, ast::var::makeFunction( m_cache, "GetDimensions" ) )
+				, ast::expr::makeIdentifier( m_cache, ast::var::makeFunction( m_cache.getFunction( m_cache.getVoid(), resVars )
+					, "GetDimensions" ) )
 				, ast::expr::makeIdentifier( m_cache, image )
 				, std::move( callArgs ) ) ) );
 
@@ -1395,15 +1418,15 @@ namespace hlsl
 					, std::move( resArgs ) ) ) );
 			}
 
-			it = m_imageSizeFuncs.emplace( funcName
-				, static_cast< ast::stmt::Return const & >( *cont->back() ).getExpr()->getType() ).first;
+			it = m_imageSizeFuncs.emplace( funcName, functionType ).first;
 			m_intrinsics->addStmt( std::move( cont ) );
 		}
 
 		ast::expr::ExprList argList;
 		argList.emplace_back( doSubmit( expr->getArgList().front().get() ) );
-		m_result = ast::expr::makeFnCall( it->second
-			, ast::expr::makeIdentifier( m_cache, ast::var::makeFunction( m_cache, funcName ) )
+		m_result = ast::expr::makeFnCall( it->second->getReturnType()
+			, ast::expr::makeIdentifier( m_cache, ast::var::makeFunction( it->second
+				, funcName ) )
 			, std::move( argList ) );
 	}
 
@@ -1413,21 +1436,28 @@ namespace hlsl
 		auto config = imgArgType->getConfig();
 		auto callRetType = m_cache.getSampledType( config.format );
 		ast::expr::ExprList argList;
+		ast::var::VariableList paramList;
+		uint32_t index = 0u;
+		paramList.emplace_back( ast::var::makeVariable( expr->getArgList().front()->getType()
+			, "p" + std::to_string( index++ ) ) );
 
 		for ( auto it = expr->getArgList().begin() + 1u; it != expr->getArgList().end(); ++it )
 		{
 			argList.emplace_back( doSubmit( it->get() ) );
+			paramList.emplace_back( ast::var::makeVariable( argList.back()->getType()
+				, "p" + std::to_string( index++ ) ) );
 		}
 
 		m_result = ast::expr::makeMemberFnCall( callRetType
-			, ast::expr::makeIdentifier( m_cache, ast::var::makeFunction( m_cache, "Load" ) )
+			, ast::expr::makeIdentifier( m_cache, ast::var::makeFunction( m_cache.getFunction( expr->getType(), paramList )
+				, "Load" ) )
 			, doSubmit( expr->getArgList().front().get() )
 			, std::move( argList ) );
 	}
 
 	void ExprAdapter::doProcessImageAtomic( ast::expr::ImageAccessCall * expr
 		, std::string const & name
-		, std::map< std::string, ast::type::TypePtr > imageAtomicFuncs )
+		, std::map< std::string, ast::type::FunctionPtr > imageAtomicFuncs )
 	{
 		auto imgArgType = std::static_pointer_cast< ast::type::Image >( expr->getArgList()[0]->getType() );
 		auto config = imgArgType->getConfig();
@@ -1445,30 +1475,33 @@ namespace hlsl
 			parameters.emplace_back( image );
 			parameters.emplace_back( coord );
 			parameters.emplace_back( data );
-			auto cont = ast::stmt::makeFunctionDecl( expr->getType()
-				, funcName
-				, parameters );
+			auto functionType = m_cache.getFunction( expr->getType(), parameters );
+			auto cont = ast::stmt::makeFunctionDecl( functionType, funcName );
 			// Function content
 			auto res = ast::var::makeVariable( dataType, "res" );
 			cont->addStmt( ast::stmt::makeVariableDecl( res ) );
 
 			//	The call to Interlocked<name>
 			ast::expr::ExprList callArgs;
+			ast::var::VariableList callParameters;
 			callArgs.emplace_back( std::make_unique< ast::expr::ArrayAccess >( m_cache.getSampledType( config.format )
 				, ast::expr::makeIdentifier( m_cache, image )
 				, ast::expr::makeIdentifier( m_cache, coord ) ) );
+			callParameters.emplace_back( ast::var::makeVariable( callArgs.back()->getType(), "p0" ) );
 			callArgs.emplace_back( ast::expr::makeIdentifier( m_cache, data ) );
+			callParameters.emplace_back( ast::var::makeVariable( callArgs.back()->getType(), "p1" ) );
 			callArgs.emplace_back( ast::expr::makeIdentifier( m_cache, res ) );
+			callParameters.emplace_back( ast::var::makeVariable( callArgs.back()->getType(), "p2" ) );
 
 			cont->addStmt( ast::stmt::makeSimple( ast::expr::makeFnCall( m_cache.getVoid()
-				, ast::expr::makeIdentifier( m_cache, ast::var::makeFunction( m_cache, "Interlocked" + name ) )
+				, ast::expr::makeIdentifier( m_cache, ast::var::makeFunction( m_cache.getFunction( m_cache.getVoid(), callParameters )
+					, "Interlocked" + name ) )
 				, std::move( callArgs ) ) ) );
 
 			//	The return statement
 			cont->addStmt( ast::stmt::makeReturn( ast::expr::makeIdentifier( m_cache, res ) ) );
 
-			it = imageAtomicFuncs.emplace( funcName
-				, static_cast< ast::stmt::Return const & >( *cont->back() ).getExpr()->getType() ).first;
+			it = imageAtomicFuncs.emplace( funcName, functionType ).first;
 			m_intrinsics->addStmt( std::move( cont ) );
 		}
 
@@ -1479,8 +1512,8 @@ namespace hlsl
 			argList.emplace_back( doSubmit( arg.get() ) );
 		}
 
-		m_result = ast::expr::makeFnCall( it->second
-			, ast::expr::makeIdentifier( m_cache, ast::var::makeFunction( m_cache, funcName ) )
+		m_result = ast::expr::makeFnCall( it->second->getReturnType()
+			, ast::expr::makeIdentifier( m_cache, ast::var::makeFunction( it->second, funcName ) )
 			, std::move( argList ) );
 	}
 
@@ -1539,31 +1572,35 @@ namespace hlsl
 			parameters.emplace_back( coord );
 			parameters.emplace_back( compare );
 			parameters.emplace_back( data );
-			auto cont = ast::stmt::makeFunctionDecl( expr->getType()
-				, funcName
-				, parameters );
+			auto functionType = m_cache.getFunction( expr->getType(), parameters );
+			auto cont = ast::stmt::makeFunctionDecl( functionType, funcName );
 			// Function content
 			auto res = ast::var::makeVariable( dataType, "res" );
 			cont->addStmt( ast::stmt::makeVariableDecl( res ) );
 
 			//	The call to InterlockedCompareExchange
 			ast::expr::ExprList callArgs;
+			ast::var::VariableList callParameters;
 			callArgs.emplace_back( std::make_unique< ast::expr::ArrayAccess >( m_cache.getSampledType( config.format )
 				, ast::expr::makeIdentifier( m_cache, image )
 				, ast::expr::makeIdentifier( m_cache, coord ) ) );
+			callParameters.emplace_back( ast::var::makeVariable( callArgs.back()->getType(), "p0" ) );
 			callArgs.emplace_back( ast::expr::makeIdentifier( m_cache, compare ) );
+			callParameters.emplace_back( ast::var::makeVariable( callArgs.back()->getType(), "p1" ) );
 			callArgs.emplace_back( ast::expr::makeIdentifier( m_cache, data ) );
+			callParameters.emplace_back( ast::var::makeVariable( callArgs.back()->getType(), "p2" ) );
 			callArgs.emplace_back( ast::expr::makeIdentifier( m_cache, res ) );
+			callParameters.emplace_back( ast::var::makeVariable( callArgs.back()->getType(), "p3" ) );
 
 			cont->addStmt( ast::stmt::makeSimple( ast::expr::makeFnCall( m_cache.getVoid()
-				, ast::expr::makeIdentifier( m_cache, ast::var::makeFunction( m_cache, "InterlockedCompareExchange" ) )
+				, ast::expr::makeIdentifier( m_cache, ast::var::makeFunction( m_cache.getFunction( expr->getType(), callParameters )
+					, "InterlockedCompareExchange" ) )
 				, std::move( callArgs ) ) ) );
 
 			//	The return statement
 			cont->addStmt( ast::stmt::makeReturn( ast::expr::makeIdentifier( m_cache, res ) ) );
 
-			it = m_imageAtomicCompSwapFuncs.emplace( funcName
-				, static_cast< ast::stmt::Return const & >( *cont->back() ).getExpr()->getType() ).first;
+			it = m_imageAtomicCompSwapFuncs.emplace( funcName, functionType ).first;
 			m_intrinsics->addStmt( std::move( cont ) );
 		}
 
@@ -1574,8 +1611,8 @@ namespace hlsl
 			argList.emplace_back( doSubmit( arg.get() ) );
 		}
 
-		m_result = ast::expr::makeFnCall( it->second
-			, ast::expr::makeIdentifier( m_cache, ast::var::makeFunction( m_cache, funcName ) )
+		m_result = ast::expr::makeFnCall( it->second->getReturnType()
+			, ast::expr::makeIdentifier( m_cache, ast::var::makeFunction( it->second, funcName ) )
 			, std::move( argList ) );
 	}
 
@@ -1600,9 +1637,8 @@ namespace hlsl
 				parameters.emplace_back( lod );
 			}
 
-			auto cont = ast::stmt::makeFunctionDecl( expr->getType()
-				, funcName
-				, parameters );
+			auto functionType = m_cache.getFunction( expr->getType(), parameters );
+			auto cont = ast::stmt::makeFunctionDecl( functionType, funcName );
 			ast::type::TypePtr uintType = m_cache.getUInt();
 			ast::var::VariableList resVars;
 			ast::expr::CompositeType composite{};
@@ -1640,19 +1676,24 @@ namespace hlsl
 
 			// The call to image.GetDimensions
 			ast::expr::ExprList callArgs;
+			uint32_t index = 0u;
+			ast::var::VariableList callParameters;
 
 			if ( lod )
 			{
 				callArgs.emplace_back( ast::expr::makeIdentifier( m_cache, lod ) );
+				callParameters.emplace_back( ast::var::makeVariable( callArgs.back()->getType(), "p" + std::to_string( index++ ) ) );
 			}
 			else if ( config.dimension != ast::type::ImageDim::eBuffer )
 			{
 				callArgs.emplace_back( ast::expr::makeLiteral( m_cache, 0u ) );
+				callParameters.emplace_back( ast::var::makeVariable( callArgs.back()->getType(), "p" + std::to_string( index++ ) ) );
 			}
 
 			for ( auto & var : resVars )
 			{
 				callArgs.emplace_back( ast::expr::makeIdentifier( m_cache, var ) );
+				callParameters.emplace_back( ast::var::makeVariable( callArgs.back()->getType(), "p" + std::to_string( index++ ) ) );
 			}
 
 			if ( config.dimension != ast::type::ImageDim::eBuffer )
@@ -1660,10 +1701,13 @@ namespace hlsl
 				auto var = ast::var::makeVariable( uintType, "levels" );
 				cont->addStmt( ast::stmt::makeVariableDecl( var ) );
 				callArgs.emplace_back( ast::expr::makeIdentifier( m_cache, var ) );
+				callParameters.emplace_back( ast::var::makeVariable( callArgs.back()->getType(), "p" + std::to_string( index++ ) ) );
 			}
 
 			cont->addStmt( ast::stmt::makeSimple( ast::expr::makeMemberFnCall( m_cache.getVoid()
-				, ast::expr::makeIdentifier( m_cache, ast::var::makeFunction( m_cache, "GetDimensions" ) )
+				, ast::expr::makeIdentifier( m_cache
+					, ast::var::makeFunction( m_cache.getFunction( expr->getType(), callParameters )
+						, "GetDimensions" ) )
 				, ast::expr::makeIdentifier( m_cache, image )
 				, std::move( callArgs ) ) ) );
 
@@ -1687,8 +1731,7 @@ namespace hlsl
 					, std::move( resArgs ) ) ) );
 			}
 
-			it = m_imageSizeFuncs.emplace( funcName
-				, static_cast< ast::stmt::Return const & >( *cont->back() ).getExpr()->getType() ).first;
+			it = m_imageSizeFuncs.emplace( funcName, functionType ).first;
 			m_intrinsics->addStmt( std::move( cont ) );
 		}
 
@@ -1702,8 +1745,8 @@ namespace hlsl
 			}
 		}
 
-		m_result = ast::expr::makeFnCall( it->second
-			, ast::expr::makeIdentifier( m_cache, ast::var::makeFunction( m_cache, funcName ) )
+		m_result = ast::expr::makeFnCall( it->second->getReturnType()
+			, ast::expr::makeIdentifier( m_cache, ast::var::makeFunction( it->second, funcName ) )
 			, std::move( argList ) );
 	}
 
@@ -1724,20 +1767,24 @@ namespace hlsl
 			parameters.emplace_back( sampler );
 			parameters.emplace_back( coord );
 
-			auto cont = ast::stmt::makeFunctionDecl( expr->getType()
-				, funcName
-				, parameters );
+			auto functionType = m_cache.getFunction( expr->getType(), parameters );
+			auto cont = ast::stmt::makeFunctionDecl( functionType, funcName );
 			ast::type::TypePtr uintType = m_cache.getUInt();
 
 			// The call to image.CalculateLevelOfDetail
 			ast::expr::ExprList callArgs;
+			uint32_t index = 0u;
+			ast::var::VariableList callParameters;
 			callArgs.emplace_back( ast::expr::makeIdentifier( m_cache, sampler ) );
+			callParameters.emplace_back( ast::var::makeVariable( callArgs.back()->getType(), "p" + std::to_string( index++ ) ) );
 			callArgs.emplace_back( ast::expr::makeIdentifier( m_cache, coord ) );
+			callParameters.emplace_back( ast::var::makeVariable( callArgs.back()->getType(), "p" + std::to_string( index++ ) ) );
 
 			// The return statement
 			ast::expr::ExprList resArgs;
 			resArgs.emplace_back( ast::expr::makeMemberFnCall( m_cache.getVoid()
-				, ast::expr::makeIdentifier( m_cache, ast::var::makeFunction( m_cache, "CalculateLevelOfDetail" ) )
+				, ast::expr::makeIdentifier( m_cache, ast::var::makeFunction( m_cache.getFunction( expr->getType(), callParameters )
+					, "CalculateLevelOfDetail" ) )
 				, ast::expr::makeIdentifier( m_cache, image )
 				, std::move( callArgs ) ) );
 			resArgs.emplace_back( ast::expr::makeLiteral( m_cache, 0.0f ) );
@@ -1746,8 +1793,7 @@ namespace hlsl
 				, ast::type::Kind::eFloat
 				, std::move( resArgs ) ) ) );
 
-			it = m_imageLodFuncs.emplace( funcName
-				, static_cast< ast::stmt::Return const & >( *cont->back() ).getExpr()->getType() ).first;
+			it = m_imageLodFuncs.emplace( funcName, functionType ).first;
 			m_intrinsics->addStmt( std::move( cont ) );
 		}
 
@@ -1761,8 +1807,8 @@ namespace hlsl
 			}
 		}
 
-		m_result = ast::expr::makeFnCall( it->second
-			, ast::expr::makeIdentifier( m_cache, ast::var::makeFunction( m_cache, funcName ) )
+		m_result = ast::expr::makeFnCall( it->second->getReturnType()
+			, ast::expr::makeIdentifier( m_cache, ast::var::makeFunction( it->second, funcName ) )
 			, std::move( argList ) );
 	}
 
@@ -1779,9 +1825,8 @@ namespace hlsl
 			auto image = ast::var::makeVariable( imgArgType->getImageType(), "image" );
 			parameters.emplace_back( image );
 
-			auto cont = ast::stmt::makeFunctionDecl( expr->getType()
-				, funcName
-				, parameters );
+			auto functionType = m_cache.getFunction( expr->getType(), parameters );
+			auto cont = ast::stmt::makeFunctionDecl( functionType, funcName );
 			ast::type::TypePtr uintType = m_cache.getUInt();
 			ast::var::VariableList resVars;
 			ast::expr::CompositeType composite{};
@@ -1822,39 +1867,46 @@ namespace hlsl
 
 			// The call to image.GetDimensions
 			ast::expr::ExprList callArgs;
+			uint32_t index = 0u;
+			ast::var::VariableList callParameters;
 
 			if ( config.dimension != ast::type::ImageDim::eBuffer )
 			{
 				callArgs.emplace_back( ast::expr::makeLiteral( m_cache, 0u ) );
+				callParameters.emplace_back( ast::var::makeVariable( callArgs.back()->getType(), "p" + std::to_string( index++ ) ) );
 			}
 
 			for ( auto & var : resVars )
 			{
 				callArgs.emplace_back( ast::expr::makeIdentifier( m_cache, var ) );
+				callParameters.emplace_back( ast::var::makeVariable( callArgs.back()->getType(), "p" + std::to_string( index++ ) ) );
 			}
 
 			auto levels = ast::var::makeVariable( uintType, "levels" );
 			cont->addStmt( ast::stmt::makeVariableDecl( levels ) );
 			callArgs.emplace_back( ast::expr::makeIdentifier( m_cache, levels ) );
+			callParameters.emplace_back( ast::var::makeVariable( callArgs.back()->getType(), "p" + std::to_string( index++ ) ) );
 
 			cont->addStmt( ast::stmt::makeSimple( ast::expr::makeMemberFnCall( m_cache.getVoid()
-				, ast::expr::makeIdentifier( m_cache, ast::var::makeFunction( m_cache, "GetDimensions" ) )
+				, ast::expr::makeIdentifier( m_cache
+					, ast::var::makeFunction( m_cache.getFunction( expr->getType(), callParameters )
+						, "GetDimensions" ) )
 				, ast::expr::makeIdentifier( m_cache, image )
 				, std::move( callArgs ) ) ) );
 
 			// The return statement
 			cont->addStmt( ast::stmt::makeReturn( ast::expr::makeIdentifier( m_cache, levels ) ) );
 
-			it = m_imageLevelsFuncs.emplace( funcName
-				, static_cast< ast::stmt::Return const & >( *cont->back() ).getExpr()->getType() ).first;
+			it = m_imageLevelsFuncs.emplace( funcName, functionType ).first;
 			m_intrinsics->addStmt( std::move( cont ) );
 		}
 
 		ast::expr::ExprList argList;
 		doProcessSampledImageArg( *expr->getArgList()[0], false, argList );
 
-		m_result = ast::expr::makeFnCall( it->second
-			, ast::expr::makeIdentifier( m_cache, ast::var::makeFunction( m_cache, funcName ) )
+		m_result = ast::expr::makeFnCall( it->second->getReturnType()
+			, ast::expr::makeIdentifier( m_cache, ast::var::makeFunction( it->second
+				, funcName ) )
 			, std::move( argList ) );
 	}
 

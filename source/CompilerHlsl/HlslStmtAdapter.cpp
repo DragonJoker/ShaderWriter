@@ -480,8 +480,8 @@ namespace hlsl
 	ast::stmt::FunctionDeclPtr StmtAdapter::rewriteMainHeader( ast::stmt::FunctionDecl * stmt )
 	{
 		rewriteShaderIOVars();
-		assert( stmt->getParameters().empty() );
-		assert( stmt->getRet()->getKind() == ast::type::Kind::eVoid );
+		assert( stmt->getType()->empty() );
+		assert( stmt->getType()->getReturnType()->getKind() == ast::type::Kind::eVoid );
 		ast::var::VariableList parameters;
 
 		if ( !m_adaptationData.inputStruct->empty() )
@@ -502,16 +502,14 @@ namespace hlsl
 
 		if ( !m_adaptationData.outputStruct->empty() )
 		{
-			result = ast::stmt::makeFunctionDecl( m_adaptationData.outputStruct
-				, stmt->getName()
-				, parameters );
+			result = ast::stmt::makeFunctionDecl( m_cache.getFunction( m_adaptationData.outputStruct, parameters )
+				, stmt->getName() );
 			result->addStmt( ast::stmt::makeVariableDecl( m_adaptationData.outputVar ) );
 		}
 		else
 		{
-			result = ast::stmt::makeFunctionDecl( stmt->getRet()
-				, stmt->getName()
-				, parameters );
+			result = ast::stmt::makeFunctionDecl( m_cache.getFunction( stmt->getType()->getReturnType(), parameters )
+				, stmt->getName() );
 		}
 
 		return result;
@@ -521,7 +519,7 @@ namespace hlsl
 	{
 		ast::var::VariableList params;
 		// Split sampled textures in sampler + texture in parameters list.
-		for ( auto & param : stmt->getParameters() )
+		for ( auto & param : *stmt->getType() )
 		{
 			if ( isSampledImageType( param->getType()->getKind() ) )
 			{
@@ -540,9 +538,8 @@ namespace hlsl
 			}
 		}
 
-		return ast::stmt::makeFunctionDecl( stmt->getRet()
-			, stmt->getName()
-			, params );
+		return ast::stmt::makeFunctionDecl( m_cache.getFunction( stmt->getType()->getReturnType(), params )
+			, stmt->getName() );
 	}
 
 	void StmtAdapter::rewriteMainFooter( ast::stmt::FunctionDecl * stmt )

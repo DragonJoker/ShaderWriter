@@ -72,7 +72,17 @@ namespace ast::type
 			{
 				return getHash( layout, name );
 			} }
-			, m_array{ []( TypePtr type
+		, m_function{ [this]( TypePtr returnType
+				, var::VariableList const & parameters )
+			{
+				return std::make_shared< Function >( returnType, parameters );
+			}
+			, []( TypePtr returnType
+				, var::VariableList const & parameters )
+			{
+				return getHash( returnType, parameters );
+			} }
+		, m_array{ []( TypePtr type
 				, uint32_t arraySize )
 			{
 				return std::make_shared< Array >( std::move( type )
@@ -102,11 +112,6 @@ namespace ast::type
 	TypePtr TypesCache::getVoid()
 	{
 		return getBasicType( Kind::eVoid );
-	}
-
-	TypePtr TypesCache::getFunction()
-	{
-		return getBasicType( Kind::eFunction );
 	}
 
 	TypePtr TypesCache::getBool()
@@ -580,6 +585,11 @@ namespace ast::type
 			assert( false && "hlsl::getType: Unsupported ImageFormat" );
 			return nullptr;
 		}
+	}
+
+	FunctionPtr TypesCache::getFunction( TypePtr returnType, var::VariableList const & parameters )
+	{
+		return m_function.getType( std::move( returnType ), parameters );
 	}
 
 	StructPtr TypesCache::getStruct( MemoryLayout layout, std::string const & name )

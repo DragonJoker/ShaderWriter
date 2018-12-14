@@ -269,11 +269,12 @@ namespace ast::debug
 	void StmtVisitor::visitFunctionDeclStmt( stmt::FunctionDecl * stmt )
 	{
 		displayStmtName( stmt, false );
-		m_result += getName( *stmt->getRet() );
+		auto type = stmt->getType();
+		m_result += getName( *type->getReturnType() );
 		m_result += " " + stmt->getName() + "(";
 		std::string sep;
 
-		for ( auto & param : stmt->getParameters() )
+		for ( auto & param : *type )
 		{
 			m_result += sep;
 			m_result += displayVar( param );

@@ -191,11 +191,11 @@ namespace
 		using namespace sdw;
 		ComputeWriter writer;
 
-		//auto foo01 = writer.implementFunction< Void >( "foo01"
-		//	, [&]( Array< Vec4 > const & p )
-		//	{
-		//	}
-		//	, InVec4Array{ writer, "p", 4u } );
+		auto foo01 = writer.implementFunction< Void >( "foo01"
+			, [&]( Array< Vec4 > const & p )
+			{
+			}
+			, InVec4Array{ writer, "p", 4u } );
 
 		auto foo02 = writer.implementFunction< Void >( "foo02"
 			, [&]( Vec4 & p )
@@ -208,8 +208,8 @@ namespace
 		writer.implementFunction< Void >( "main"
 			, [&]()
 			{
-				//auto va = writer.declLocaleArray< Vec4 >( "va", 4u );
-				//foo01( va );
+				auto va = writer.declLocaleArray< Vec4 >( "va", 4u );
+				foo01( va );
 				auto v = writer.declLocale< Vec4 >( "v" );
 				foo02( v );
 			} );
@@ -223,10 +223,10 @@ namespace
 int main( int argc, char ** argv )
 {
 	sdwTestSuiteBegin( "TestWriterShader" );
-	//reference( testCounts );
-	//vertex( testCounts );
-	//fragment( testCounts );
-	//compute( testCounts );
+	reference( testCounts );
+	vertex( testCounts );
+	fragment( testCounts );
+	compute( testCounts );
 	params( testCounts );
 	sdwTestSuiteEnd();
 }

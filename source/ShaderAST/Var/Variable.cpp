@@ -3,6 +3,8 @@ See LICENSE file in root folder
 */
 #include "ShaderAST/Var/Variable.hpp"
 
+#include "ShaderAST/Type/TypeFunction.hpp"
+
 namespace ast::var
 {
 	Variable::Variable( VariablePtr outer
@@ -54,6 +56,12 @@ namespace ast::var
 		, std::string name
 		, uint32_t flags )
 		: Variable{ nullptr, std::move( type ), std::move( name ), flags }
+	{
+	}
+
+	Variable::Variable( type::FunctionPtr type
+		, std::string name )
+		: Variable{ nullptr, std::move( type ), std::move( name ), Flag::eFunction }
 	{
 	}
 

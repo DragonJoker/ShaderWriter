@@ -237,9 +237,8 @@ namespace sdw
 	SDW_API stmt::StmtPtr makeImageDecl( var::VariablePtr var
 		, uint32_t bindingPoint
 		, uint32_t bindingSet );
-	SDW_API stmt::ContainerPtr makeFuncDecl( type::TypePtr type
-		, std::string name
-		, var::VariableList args );
+	SDW_API stmt::ContainerPtr makeFuncDecl( type::FunctionPtr type
+		, std::string name );
 
 	template< typename T >
 	expr::ExprList makeExpr( Shader const & shader

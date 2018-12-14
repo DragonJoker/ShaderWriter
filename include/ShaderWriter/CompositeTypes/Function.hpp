@@ -74,11 +74,13 @@ namespace sdw
 	public:
 		inline Function() = default;
 		inline Function( Shader * shader
+			, ast::type::FunctionPtr type
 			, std::string const & name );
 		inline ReturnT operator()( ParamsT && ... params )const;
 
 	private:
 		mutable Shader * m_shader{ nullptr };
+		ast::type::FunctionPtr m_type;
 		std::string m_name;
 	};
 

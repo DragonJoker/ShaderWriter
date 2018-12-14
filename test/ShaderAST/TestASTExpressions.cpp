@@ -997,9 +997,10 @@ namespace
 	{
 		testBegin( "testExprFnCall" );
 		{
-			ast::type::TypesCache cache;
-			auto funcName = ast::expr::makeIdentifier( cache, ast::var::makeVariable( cache.getFunction(), "func" ) );
 			ast::expr::ExprList argList;
+			ast::type::TypesCache cache;
+			auto functionType = cache.getFunction( cache.getInt(), ast::var::VariableList{} );
+			auto funcName = ast::expr::makeIdentifier( cache, ast::var::makeVariable( functionType, "func" ) );
 			auto expr = ast::expr::makeFnCall( cache.getInt(), std::move( funcName ), std::move( argList ) );
 
 			require( expr->getKind() == ast::expr::Kind::eFnCall );
@@ -1014,9 +1015,13 @@ namespace
 		}
 		{
 			ast::type::TypesCache cache;
-			auto funcName = ast::expr::makeIdentifier( cache, ast::var::makeVariable( cache.getFunction(), "func" ) );
 			ast::expr::ExprList argList;
 			argList.emplace_back( ast::expr::makeLiteral( cache, 10 ) );
+			auto functionType = cache.getFunction( cache.getInt()
+				, {
+					ast::var::makeVariable( cache.getInt(), "p" ),
+				} );
+			auto funcName = ast::expr::makeIdentifier( cache, ast::var::makeVariable( functionType, "func" ) );
 			auto expr = ast::expr::makeFnCall( cache.getInt(), std::move( funcName ), std::move( argList ) );
 
 			require( expr->getKind() == ast::expr::Kind::eFnCall );
@@ -1036,10 +1041,15 @@ namespace
 		}
 		{
 			ast::type::TypesCache cache;
-			auto funcName = ast::expr::makeIdentifier( cache, ast::var::makeVariable( cache.getFunction(), "func" ) );
 			ast::expr::ExprList argList;
 			argList.emplace_back( ast::expr::makeLiteral( cache, 10 ) );
 			argList.emplace_back( ast::expr::makeLiteral( cache, 1.0f ) );
+			auto functionType = cache.getFunction( cache.getInt()
+				, {
+					ast::var::makeVariable( cache.getInt(), "p0" ),
+					ast::var::makeVariable( cache.getFloat(), "p1" ),
+				} );
+			auto funcName = ast::expr::makeIdentifier( cache, ast::var::makeVariable( functionType, "func" ) );
 			auto expr = ast::expr::makeFnCall( cache.getInt(), std::move( funcName ), std::move( argList ) );
 
 			require( expr->getKind() == ast::expr::Kind::eFnCall );

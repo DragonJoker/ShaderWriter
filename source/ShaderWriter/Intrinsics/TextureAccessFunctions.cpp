@@ -15670,52 +15670,6 @@ namespace sdw
 				, makeExpr( refZ )
 				, makeExpr( bias ) ) };
 	}
-	MaybeOptional< Float > texture( MaybeOptional< SampledImage2DArrayShadowR32 > const & image
-		, MaybeOptional< Vec3 > const & P
-		, MaybeOptional< Float > const & refZ
-		, MaybeOptional< Float > const & bias )
-	{
-		if ( isAnyOptional( image, P, refZ, bias ) )
-		{
-			return Optional< Float >{ findShader( image, P, refZ, bias )
-				, expr::makeTexture2DArrayShadowFBiasR32( findTypesCache( image, P, refZ, bias )
-					, makeExpr( image )
-					, makeExpr( P )
-					, makeExpr( refZ )
-					, makeExpr( bias ) )
-				, areOptionalEnabled( image, P, refZ, bias ) };
-		}
-
-		return Float{ findShader( image, P, refZ, bias )
-			, expr::makeTexture2DArrayShadowFBiasR32( findTypesCache( image, P, refZ, bias )
-				, makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( refZ )
-				, makeExpr( bias ) ) };
-	}
-	MaybeOptional< Float > texture( MaybeOptional< SampledImage2DArrayShadowR16 > const & image
-		, MaybeOptional< Vec3 > const & P
-		, MaybeOptional< Float > const & refZ
-		, MaybeOptional< Float > const & bias )
-	{
-		if ( isAnyOptional( image, P, refZ, bias ) )
-		{
-			return Optional< Float >{ findShader( image, P, refZ, bias )
-				, expr::makeTexture2DArrayShadowFBiasR16( findTypesCache( image, P, refZ, bias )
-					, makeExpr( image )
-					, makeExpr( P )
-					, makeExpr( refZ )
-					, makeExpr( bias ) )
-				, areOptionalEnabled( image, P, refZ, bias ) };
-		}
-
-		return Float{ findShader( image, P, refZ, bias )
-			, expr::makeTexture2DArrayShadowFBiasR16( findTypesCache( image, P, refZ, bias )
-				, makeExpr( image )
-				, makeExpr( P )
-				, makeExpr( refZ )
-				, makeExpr( bias ) ) };
-	}
 	/**@}*/
 #pragma endregion
 #pragma region textureProj

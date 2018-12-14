@@ -1425,6 +1425,8 @@ namespace ast
 			, typename CreatorT
 			, typename HasherT >
 		class TypeCache;
+		class Function;
+		using FunctionPtr = std::shared_ptr< Function >;
 		class Struct;
 		using StructPtr = std::shared_ptr< Struct >;
 		class Array;

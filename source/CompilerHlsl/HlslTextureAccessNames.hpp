@@ -519,7 +519,6 @@ namespace hlsl
 		case ast::expr::TextureAccess::eTexture2DShadowFBias:
 		case ast::expr::TextureAccess::eTextureCubeShadowFBias:
 		case ast::expr::TextureAccess::eTexture1DArrayShadowFBias:
-		case ast::expr::TextureAccess::eTexture2DArrayShadowFBias:
 		case ast::expr::TextureAccess::eTextureLod1DShadowF:
 		case ast::expr::TextureAccess::eTextureLod2DShadowF:
 		case ast::expr::TextureAccess::eTextureLod1DArrayShadowF:

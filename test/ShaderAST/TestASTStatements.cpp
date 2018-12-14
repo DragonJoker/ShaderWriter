@@ -719,71 +719,71 @@ namespace
 		testBegin( "testFunctionDeclStatement" );
 		{
 			ast::type::TypesCache cache;
-			auto stmt = ast::stmt::makeFunctionDecl( cache.getInt(), "foo", {} );
+			auto stmt = ast::stmt::makeFunctionDecl( cache.getFunction( cache.getInt(), {} ), "foo" );
 			std::cout << "StmtFunctionDecl (empty):\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
 
 			require( stmt->getKind() == ast::stmt::Kind::eFunctionDecl );
 			check( stmt->getName() == "foo" );
-			check( stmt->getParameters().empty() );
+			check( stmt->getType()->empty() );
 			check( stmt->empty() );
 		}
 		{
 			ast::type::TypesCache cache;
-			auto stmt = ast::stmt::makeFunctionDecl( cache.getInt(), "foo", { ast::var::makeVariable( cache.getInt(), "i" ) } );
+			auto stmt = ast::stmt::makeFunctionDecl( cache.getFunction( cache.getInt(), { ast::var::makeVariable( cache.getInt(), "i" ) } ), "foo" );
 			std::cout << "StmtFunctionDecl (empty body):\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
 
 			require( stmt->getKind() == ast::stmt::Kind::eFunctionDecl );
 			check( stmt->getName() == "foo" );
-			check( stmt->getParameters().size() == 1u );
+			check( stmt->getType()->size() == 1u );
 			check( stmt->empty() );
 		}
 		{
 			ast::type::TypesCache cache;
-			auto stmt = ast::stmt::makeFunctionDecl( cache.getInt(), "foo", { ast::var::makeVariable( cache.getInt(), "i" ), ast::var::makeVariable( cache.getInt(), "j" ) } );
+			auto stmt = ast::stmt::makeFunctionDecl( cache.getFunction( cache.getInt(), { ast::var::makeVariable( cache.getInt(), "i" ), ast::var::makeVariable( cache.getInt(), "j" ) } ), "foo" );
 			std::cout << "StmtFunctionDecl (empty body):\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
 
 			require( stmt->getKind() == ast::stmt::Kind::eFunctionDecl );
 			check( stmt->getName() == "foo" );
-			check( stmt->getParameters().size() == 2u );
+			check( stmt->getType()->size() == 2u );
 			check( stmt->empty() );
 		}
 		{
 			ast::type::TypesCache cache;
-			auto stmt = ast::stmt::makeFunctionDecl( cache.getInt(), "foo", {} );
+			auto stmt = ast::stmt::makeFunctionDecl( cache.getFunction( cache.getInt(), {} ), "foo" );
 			stmt->addStmt( ast::stmt::makeReturn( ast::expr::makeLiteral( cache, 10 ) ) );
 			std::cout << "StmtFunctionDecl (empty parameters list):\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
 
 			require( stmt->getKind() == ast::stmt::Kind::eFunctionDecl );
 			check( stmt->getName() == "foo" );
-			check( stmt->getParameters().empty() );
+			check( stmt->getType()->empty() );
 			check( stmt->size() == 1u );
 		}
 		{
 			ast::type::TypesCache cache;
-			auto stmt = ast::stmt::makeFunctionDecl( cache.getInt(), "foo", { ast::var::makeVariable( cache.getInt(), "i" ) } );
+			auto stmt = ast::stmt::makeFunctionDecl( cache.getFunction( cache.getInt(), { ast::var::makeVariable( cache.getInt(), "i" ) } ), "foo" );
 			stmt->addStmt( ast::stmt::makeReturn(
 				ast::expr::makeAdd( cache.getInt(),
-					ast::expr::makeIdentifier( cache, stmt->getParameters()[0] ),
+					ast::expr::makeIdentifier( cache, *( stmt->getType()->begin() + 0u ) ),
 					ast::expr::makeLiteral( cache, 10 ) ) ) );
 			std::cout << "StmtFunctionDecl:\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
 
 			require( stmt->getKind() == ast::stmt::Kind::eFunctionDecl );
 			check( stmt->getName() == "foo" );
-			check( stmt->getParameters().size() == 1u );
+			check( stmt->getType()->size() == 1u );
 			check( stmt->size() == 1u );
 		}
 		{
 			ast::type::TypesCache cache;
-			auto stmt = ast::stmt::makeFunctionDecl( cache.getInt(), "foo", { ast::var::makeVariable( cache.getInt(), "i" ), ast::var::makeVariable( cache.getInt(), "j" ) } );
+			auto stmt = ast::stmt::makeFunctionDecl( cache.getFunction( cache.getInt(), { ast::var::makeVariable( cache.getInt(), "i" ), ast::var::makeVariable( cache.getInt(), "j" ) } ), "foo" );
 			stmt->addStmt( ast::stmt::makeReturn( 
 				ast::expr::makeAdd( cache.getInt(), 
-					ast::expr::makeIdentifier( cache, stmt->getParameters()[0] ),
-					ast::expr::makeIdentifier( cache, stmt->getParameters()[1] ) ) ) );
+					ast::expr::makeIdentifier( cache, *( stmt->getType()->begin() + 0u ) ),
+					ast::expr::makeIdentifier( cache, *( stmt->getType()->begin() + 1u ) ) ) ) );
 			std::cout << "StmtFunctionDecl:\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
 
 			require( stmt->getKind() == ast::stmt::Kind::eFunctionDecl );
 			check( stmt->getName() == "foo" );
-			check( stmt->getParameters().size() == 2u );
+			check( stmt->getType()->size() == 2u );
 			check( stmt->size() == 1u );
 		}
 		testEnd();

@@ -40578,34 +40578,6 @@ namespace ast::expr
 			, std::move( refZ ) );
 	}
 
-	TextureAccessCallPtr makeTexture2DArrayShadowFBiasR32( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr refZ
-		, ExprPtr bias )
-	{
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eFloat )
-			, TextureAccess::eTexture2DArrayShadowFBias
-			, std::move( image )
-			, std::move( P )
-			, std::move( refZ )
-			, std::move( bias ) );
-	}
-
-	TextureAccessCallPtr makeTexture2DArrayShadowFBiasR16( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr refZ
-		, ExprPtr bias )
-	{
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eFloat )
-			, TextureAccess::eTexture2DArrayShadowFBias
-			, std::move( image )
-			, std::move( P )
-			, std::move( refZ )
-			, std::move( bias ) );
-	}
-
 	TextureAccessCallPtr makeTexture2DRectShadowFR32( type::TypesCache & cache
 		, ExprPtr image
 		, ExprPtr P

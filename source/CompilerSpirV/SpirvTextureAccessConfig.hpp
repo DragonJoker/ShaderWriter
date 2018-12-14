@@ -638,7 +638,6 @@ namespace spirv
 		case ast::expr::TextureAccess::eTexture2DArrayFBias:
 		case ast::expr::TextureAccess::eTextureCubeArrayFBias:
 		case ast::expr::TextureAccess::eTexture1DArrayShadowFBias:
-		case ast::expr::TextureAccess::eTexture2DArrayShadowFBias:
 		case ast::expr::TextureAccess::eTexture1DIBias:
 		case ast::expr::TextureAccess::eTexture2DIBias:
 		case ast::expr::TextureAccess::eTexture3DIBias:
@@ -965,7 +964,6 @@ namespace spirv
 		case ast::expr::TextureAccess::eTexture1DArrayShadowF:
 		case ast::expr::TextureAccess::eTexture1DArrayShadowFBias:
 		case ast::expr::TextureAccess::eTexture2DArrayShadowF:
-		case ast::expr::TextureAccess::eTexture2DArrayShadowFBias:
 		case ast::expr::TextureAccess::eTexture2DRectShadowF:
 		case ast::expr::TextureAccess::eTextureOffset2DRectShadowF:
 		case ast::expr::TextureAccess::eTextureOffset1DShadowF:

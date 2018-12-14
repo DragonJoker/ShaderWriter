@@ -464,8 +464,7 @@ namespace
 		, std::enable_if_t< is1DShadow< DimT, ArrayedT, DepthT >
 			|| is2DShadow< DimT, ArrayedT, DepthT >
 			|| isCubeShadow< DimT, ArrayedT, DepthT >
-			|| is1DArrayShadow< DimT, ArrayedT, DepthT >
-			|| is2DArrayShadow< DimT, ArrayedT, DepthT > > >
+			|| is1DArrayShadow< DimT, ArrayedT, DepthT > > >
 	{
 		using SampleT = typename sdw::SampledImageSampleT< DimT, ArrayedT >;
 

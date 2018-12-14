@@ -1766,10 +1766,6 @@ namespace ast::expr
 			result = "TEXTURE2DARRAYSHADOWF";
 			break;
 
-		case TextureAccess::eTexture2DArrayShadowFBias:
-			result = "TEXTURE2DARRAYSHADOWFBIAS";
-			break;
-
 		case TextureAccess::eTexture2DRectShadowF:
 			result = "TEXTURE2DRECTSHADOWF";
 			break;

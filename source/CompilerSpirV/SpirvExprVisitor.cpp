@@ -1863,10 +1863,18 @@ namespace spirv
 	{
 		IdList params;
 		bool allLiterals = true;
+		auto type = expr->getFn()->getType();
+		assert( type->getKind() == ast::type::Kind::eFunction );
+		auto fnType = std::static_pointer_cast< ast::type::Function >( type );
+		assert( expr->getArgList().size() == fnType->size() );
+		auto it = fnType->begin();
 
 		for ( auto & arg : expr->getArgList() )
 		{
+			auto save = m_loadVariable;
+			m_loadVariable = !( *it )->isOutputParam();
 			auto id = doSubmit( arg.get() );
+			m_loadVariable = save;
 			allLiterals = allLiterals
 				&& ( arg->getKind() == ast::expr::Kind::eLiteral );
 
@@ -1884,6 +1892,7 @@ namespace spirv
 			}
 
 			params.push_back( id );
+			++it;
 		}
 
 		auto typeId = m_module.registerType( expr->getType() );

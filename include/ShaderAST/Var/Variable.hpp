@@ -6,7 +6,6 @@ See LICENSE file in root folder
 #pragma once
 
 #include "ShaderAST/Type/Type.hpp"
-#include "ShaderAST/Type/TypeCache.hpp"
 
 namespace ast::var
 {
@@ -28,6 +27,7 @@ namespace ast::var
 		eBuiltin = 1 << 11,
 		eImplicit = 1 << 12,
 		eMember = 1 << 13,
+		eFunction = 1 << 14,
 	};
 
 	class Variable
@@ -52,6 +52,8 @@ namespace ast::var
 		Variable( type::TypePtr type
 			, std::string name
 			, uint32_t flags );
+		Variable( type::FunctionPtr type
+			, std::string name );
 		virtual ~Variable();
 
 		inline type::TypePtr getType()const
@@ -216,10 +218,10 @@ namespace ast::var
 			, name );
 	}
 
-	inline VariablePtr makeFunction( type::TypesCache & cache
+	inline VariablePtr makeFunction( type::FunctionPtr type
 		, std::string name )
 	{
-		return std::make_shared< Variable >( cache.getFunction()
+		return std::make_shared< Variable >( type
 			, name );
 	}
 

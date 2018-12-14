@@ -87,18 +87,16 @@ namespace sdw
 		};
 	}
 
-	template< typename ReturnT
-		, typename ... ParamsT >
-		inline ReturnT getCtorCall( Shader & shader
-			, ParamsT const & ... params )
+	template< typename ReturnT, typename ... ParamsT >
+	inline ReturnT getCtorCall( Shader & shader
+		, ParamsT const & ... params )
 	{
 		return details::CtorCallGetter< ReturnT >::submit( shader, params... );
 	}
 
-	template< typename ReturnT
-		, typename ... ParamsT >
-		inline Optional< ReturnT > getOptCtorCall( Shader & shader
-			, ParamsT const & ... params )
+	template< typename ReturnT, typename ... ParamsT >
+	inline Optional< ReturnT > getOptCtorCall( Shader & shader
+		, ParamsT const & ... params )
 	{
 		return details::CtorCallGetter< Optional< ReturnT > >::submit( shader, params... );
 	}
@@ -112,6 +110,7 @@ namespace sdw
 		{
 			template< typename ... ParamsT >
 			static inline ReturnT submit( Shader & shader
+				, ast::type::FunctionPtr type
 				, std::string const & name
 				, ParamsT const & ... params )
 			{
@@ -121,7 +120,7 @@ namespace sdw
 				auto & cache = getTypesCache( shader );
 				return ReturnT{ &shader
 					, sdw::makeFnCall( ReturnT::makeType( cache )
-						, sdw::makeIdent( cache, var::makeFunction( cache, name ) )
+						, sdw::makeIdent( cache, var::makeFunction( type, name ) )
 						, std::move( args ) ) };
 			}
 		};
@@ -131,6 +130,7 @@ namespace sdw
 		{
 			template< typename ... ParamsT >
 			static inline Optional< ReturnT > submit( Shader & shader
+				, ast::type::FunctionPtr type
 				, std::string const & name
 				, ParamsT const & ... params )
 			{
@@ -140,35 +140,40 @@ namespace sdw
 				auto & cache = getTypesCache( shader );
 				return Optional< ReturnT >{ &shader
 					, sdw::makeFnCall( ReturnT::makeType( cache )
-						, sdw::makeIdent( cache, var::makeFunction( cache, name ) )
+						, sdw::makeIdent( cache, var::makeFunction( type, name ) )
 						, std::move( args ) )
 					, isEnabled };
 			}
 		};
 	}
 
-	template< typename ReturnT
-		, typename ... ParamsT >
+	template< typename ReturnT, typename ... ParamsT >
 	inline ReturnT getFunctionCall( Shader & shader
+		, ast::type::FunctionPtr type
 		, std::string const & name
 		, ParamsT const & ... params )
 	{
-		return details::FunctionCallGetter< ReturnT >::submit( shader, name, params... );
+		return details::FunctionCallGetter< ReturnT >::submit( shader
+			, type
+			, name
+			, params... );
 	}
 
-	template< typename ReturnT
-		, typename ... ParamsT >
+	template< typename ReturnT, typename ... ParamsT >
 	inline Optional< ReturnT > getOptFunctionCall( Shader & shader
+		, ast::type::FunctionPtr type
 		, std::string const & name
 		, ParamsT const & ... params )
 	{
-		return details::FunctionCallGetter< Optional< ReturnT > >::submit( shader, name, params... );
+		return details::FunctionCallGetter< Optional< ReturnT > >::submit( shader
+			, type
+			, name
+			, params... );
 	}
 
 	//***********************************************************************************************
 
-	template< typename ParamT
-		, typename ... ParamsT >
+	template< typename ParamT, typename ... ParamsT >
 	inline void getFunctionHeaderArgsRec( var::VariableList & args
 		, ParamT && current
 		, ParamsT && ... params );
@@ -190,8 +195,7 @@ namespace sdw
 		}
 	}
 
-	template< typename ParamT
-		, typename ... ParamsT >
+	template< typename ParamT, typename ... ParamsT >
 	inline void getFunctionHeaderArgsRec( var::VariableList & args
 		, ParamT && current
 		, ParamsT && ... params )
@@ -207,27 +211,25 @@ namespace sdw
 		getFunctionHeaderArgsRec( args, std::forward< ParamsT >( params )... );
 	}
 
-	template< typename ReturnT
-		, typename ... ParamsT >
+	template< typename ReturnT, typename ... ParamsT >
 	inline stmt::FunctionDeclPtr getFunctionHeader( Shader & shader
 		, std::string const & name
 		, ParamsT && ... params )
 	{
+		auto & cache = getTypesCache( shader );
 		var::VariableList args;
 		getFunctionHeaderArgsRec( args, std::forward< ParamsT >( params )... );
-		return stmt::makeFunctionDecl( ReturnT::makeType( getTypesCache( shader ) )
-			, name
-			, args );
+		return stmt::makeFunctionDecl( cache.getFunction( ReturnT::makeType( cache ), args )
+			, name );
 	}
 
 	template<>
 	inline stmt::FunctionDeclPtr getFunctionHeader< void >( Shader & shader
 		, std::string const & name )
 	{
-		var::VariableList args;
-		return stmt::makeFunctionDecl( getTypesCache( shader ).getVoid()
-			, name
-			, args );
+		auto & cache = getTypesCache( shader );
+		return stmt::makeFunctionDecl( cache.getFunction( cache.getVoid(), var::VariableList{} )
+			, name );
 	}
 
 	//***********************************************************************************************
@@ -254,21 +256,22 @@ namespace sdw
 
 	//***********************************************************************************************
 
-	template< typename ReturnT
-		, typename ... ParamsT >
-		inline Function< ReturnT, ParamsT... >::Function( Shader * shader
+	template< typename ReturnT, typename ... ParamsT >
+	inline Function< ReturnT, ParamsT... >::Function( Shader * shader
+		, ast::type::FunctionPtr type
 		, std::string const & name )
 		: m_shader{ shader }
+		, m_type{ type }
 		, m_name{ name }
 	{
 	}
 
-	template< typename ReturnT
-		, typename ... ParamsT >
+	template< typename ReturnT, typename ... ParamsT >
 	inline ReturnT Function< ReturnT, ParamsT... >::operator()( ParamsT && ... params )const
 	{
 		assert( !m_name.empty() );
 		auto result = getFunctionCall< ReturnT >( *m_shader
+			, m_type
 			, m_name
 			, std::forward< ParamsT >( params )... );
 		details::StmtAdder< ReturnT >::submit( *m_shader, result );
