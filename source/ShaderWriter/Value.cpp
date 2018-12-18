@@ -74,6 +74,15 @@ namespace sdw
 		m_expr = std::move( expr );
 	}
 
+	expr::ExprPtr makeExpr( Value const & variable
+		, bool force )
+	{
+		assert( variable.getShader() && "Can't use this overload of makeExpr if the Value doesn't have a Shader" );
+		return makeExpr( *variable.getShader()
+			, variable.getExpr()
+			, force );
+	}
+
 	expr::ExprPtr makeExpr( Shader const & shader
 		, Value const & variable
 		, bool force )

@@ -1330,142 +1330,82 @@ namespace ast::expr
 			, std::move( x ) );
 	}
 
-	IntrinsicCallPtr makeMod11F( type::TypesCache & cache
+	IntrinsicCallPtr makeMod1F( type::TypesCache & cache
 		, ExprPtr x
 		, ExprPtr y )
 	{
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eFloat )
-			, Intrinsic::eMod11F
+			, Intrinsic::eMod1F
 			, std::move( x )
 			, std::move( y ) );
 	}
 
-	IntrinsicCallPtr makeMod22F( type::TypesCache & cache
+	IntrinsicCallPtr makeMod2F( type::TypesCache & cache
 		, ExprPtr x
 		, ExprPtr y )
 	{
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2F )
-			, Intrinsic::eMod22F
+			, Intrinsic::eMod2F
 			, std::move( x )
 			, std::move( y ) );
 	}
 
-	IntrinsicCallPtr makeMod33F( type::TypesCache & cache
+	IntrinsicCallPtr makeMod3F( type::TypesCache & cache
 		, ExprPtr x
 		, ExprPtr y )
 	{
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3F )
-			, Intrinsic::eMod33F
+			, Intrinsic::eMod3F
 			, std::move( x )
 			, std::move( y ) );
 	}
 
-	IntrinsicCallPtr makeMod44F( type::TypesCache & cache
+	IntrinsicCallPtr makeMod4F( type::TypesCache & cache
 		, ExprPtr x
 		, ExprPtr y )
 	{
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4F )
-			, Intrinsic::eMod44F
+			, Intrinsic::eMod4F
 			, std::move( x )
 			, std::move( y ) );
 	}
 
-	IntrinsicCallPtr makeMod21F( type::TypesCache & cache
-		, ExprPtr x
-		, ExprPtr y )
-	{
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2F )
-			, Intrinsic::eMod21F
-			, std::move( x )
-			, std::move( y ) );
-	}
-
-	IntrinsicCallPtr makeMod31F( type::TypesCache & cache
-		, ExprPtr x
-		, ExprPtr y )
-	{
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3F )
-			, Intrinsic::eMod31F
-			, std::move( x )
-			, std::move( y ) );
-	}
-
-	IntrinsicCallPtr makeMod41F( type::TypesCache & cache
-		, ExprPtr x
-		, ExprPtr y )
-	{
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4F )
-			, Intrinsic::eMod41F
-			, std::move( x )
-			, std::move( y ) );
-	}
-
-	IntrinsicCallPtr makeMod11D( type::TypesCache & cache
+	IntrinsicCallPtr makeMod1D( type::TypesCache & cache
 		, ExprPtr x
 		, ExprPtr y )
 	{
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eDouble )
-			, Intrinsic::eMod11D
+			, Intrinsic::eMod1D
 			, std::move( x )
 			, std::move( y ) );
 	}
 
-	IntrinsicCallPtr makeMod22D( type::TypesCache & cache
+	IntrinsicCallPtr makeMod2D( type::TypesCache & cache
 		, ExprPtr x
 		, ExprPtr y )
 	{
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2D )
-			, Intrinsic::eMod22D
+			, Intrinsic::eMod2D
 			, std::move( x )
 			, std::move( y ) );
 	}
 
-	IntrinsicCallPtr makeMod33D( type::TypesCache & cache
+	IntrinsicCallPtr makeMod3D( type::TypesCache & cache
 		, ExprPtr x
 		, ExprPtr y )
 	{
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3D )
-			, Intrinsic::eMod33D
+			, Intrinsic::eMod3D
 			, std::move( x )
 			, std::move( y ) );
 	}
 
-	IntrinsicCallPtr makeMod44D( type::TypesCache & cache
+	IntrinsicCallPtr makeMod4D( type::TypesCache & cache
 		, ExprPtr x
 		, ExprPtr y )
 	{
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4D )
-			, Intrinsic::eMod44D
-			, std::move( x )
-			, std::move( y ) );
-	}
-
-	IntrinsicCallPtr makeMod21D( type::TypesCache & cache
-		, ExprPtr x
-		, ExprPtr y )
-	{
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2D )
-			, Intrinsic::eMod21D
-			, std::move( x )
-			, std::move( y ) );
-	}
-
-	IntrinsicCallPtr makeMod31D( type::TypesCache & cache
-		, ExprPtr x
-		, ExprPtr y )
-	{
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3D )
-			, Intrinsic::eMod31D
-			, std::move( x )
-			, std::move( y ) );
-	}
-
-	IntrinsicCallPtr makeMod41D( type::TypesCache & cache
-		, ExprPtr x
-		, ExprPtr y )
-	{
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4D )
-			, Intrinsic::eMod41D
+			, Intrinsic::eMod4D
 			, std::move( x )
 			, std::move( y ) );
 	}
@@ -1550,1469 +1490,785 @@ namespace ast::expr
 			, std::move( i ) );
 	}
 
-	IntrinsicCallPtr makeMin11F( type::TypesCache & cache
+	IntrinsicCallPtr makeMin1F( type::TypesCache & cache
 		, ExprPtr x
 		, ExprPtr y )
 	{
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eFloat )
-			, Intrinsic::eMin11F
+			, Intrinsic::eMin1F
 			, std::move( x )
 			, std::move( y ) );
 	}
 
-	IntrinsicCallPtr makeMin22F( type::TypesCache & cache
+	IntrinsicCallPtr makeMin2F( type::TypesCache & cache
 		, ExprPtr x
 		, ExprPtr y )
 	{
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2F )
-			, Intrinsic::eMin22F
+			, Intrinsic::eMin2F
 			, std::move( x )
 			, std::move( y ) );
 	}
 
-	IntrinsicCallPtr makeMin33F( type::TypesCache & cache
+	IntrinsicCallPtr makeMin3F( type::TypesCache & cache
 		, ExprPtr x
 		, ExprPtr y )
 	{
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3F )
-			, Intrinsic::eMin33F
+			, Intrinsic::eMin3F
 			, std::move( x )
 			, std::move( y ) );
 	}
 
-	IntrinsicCallPtr makeMin44F( type::TypesCache & cache
+	IntrinsicCallPtr makeMin4F( type::TypesCache & cache
 		, ExprPtr x
 		, ExprPtr y )
 	{
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4F )
-			, Intrinsic::eMin44F
+			, Intrinsic::eMin4F
 			, std::move( x )
 			, std::move( y ) );
 	}
 
-	IntrinsicCallPtr makeMin21F( type::TypesCache & cache
-		, ExprPtr x
-		, ExprPtr y )
-	{
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2F )
-			, Intrinsic::eMin21F
-			, std::move( x )
-			, std::move( y ) );
-	}
-
-	IntrinsicCallPtr makeMin31F( type::TypesCache & cache
-		, ExprPtr x
-		, ExprPtr y )
-	{
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3F )
-			, Intrinsic::eMin31F
-			, std::move( x )
-			, std::move( y ) );
-	}
-
-	IntrinsicCallPtr makeMin41F( type::TypesCache & cache
-		, ExprPtr x
-		, ExprPtr y )
-	{
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4F )
-			, Intrinsic::eMin41F
-			, std::move( x )
-			, std::move( y ) );
-	}
-
-	IntrinsicCallPtr makeMin11D( type::TypesCache & cache
+	IntrinsicCallPtr makeMin1D( type::TypesCache & cache
 		, ExprPtr x
 		, ExprPtr y )
 	{
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eDouble )
-			, Intrinsic::eMin11D
+			, Intrinsic::eMin1D
 			, std::move( x )
 			, std::move( y ) );
 	}
 
-	IntrinsicCallPtr makeMin22D( type::TypesCache & cache
+	IntrinsicCallPtr makeMin2D( type::TypesCache & cache
 		, ExprPtr x
 		, ExprPtr y )
 	{
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2D )
-			, Intrinsic::eMin22D
+			, Intrinsic::eMin2D
 			, std::move( x )
 			, std::move( y ) );
 	}
 
-	IntrinsicCallPtr makeMin33D( type::TypesCache & cache
+	IntrinsicCallPtr makeMin3D( type::TypesCache & cache
 		, ExprPtr x
 		, ExprPtr y )
 	{
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3D )
-			, Intrinsic::eMin33D
+			, Intrinsic::eMin3D
 			, std::move( x )
 			, std::move( y ) );
 	}
 
-	IntrinsicCallPtr makeMin44D( type::TypesCache & cache
+	IntrinsicCallPtr makeMin4D( type::TypesCache & cache
 		, ExprPtr x
 		, ExprPtr y )
 	{
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4D )
-			, Intrinsic::eMin44D
+			, Intrinsic::eMin4D
 			, std::move( x )
 			, std::move( y ) );
 	}
 
-	IntrinsicCallPtr makeMin21D( type::TypesCache & cache
-		, ExprPtr x
-		, ExprPtr y )
-	{
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2D )
-			, Intrinsic::eMin21D
-			, std::move( x )
-			, std::move( y ) );
-	}
-
-	IntrinsicCallPtr makeMin31D( type::TypesCache & cache
-		, ExprPtr x
-		, ExprPtr y )
-	{
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3D )
-			, Intrinsic::eMin31D
-			, std::move( x )
-			, std::move( y ) );
-	}
-
-	IntrinsicCallPtr makeMin41D( type::TypesCache & cache
-		, ExprPtr x
-		, ExprPtr y )
-	{
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4D )
-			, Intrinsic::eMin41D
-			, std::move( x )
-			, std::move( y ) );
-	}
-
-	IntrinsicCallPtr makeMin11I( type::TypesCache & cache
+	IntrinsicCallPtr makeMin1I( type::TypesCache & cache
 		, ExprPtr x
 		, ExprPtr y )
 	{
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eInt )
-			, Intrinsic::eMin11I
+			, Intrinsic::eMin1I
 			, std::move( x )
 			, std::move( y ) );
 	}
 
-	IntrinsicCallPtr makeMin22I( type::TypesCache & cache
+	IntrinsicCallPtr makeMin2I( type::TypesCache & cache
 		, ExprPtr x
 		, ExprPtr y )
 	{
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2I )
-			, Intrinsic::eMin22I
+			, Intrinsic::eMin2I
 			, std::move( x )
 			, std::move( y ) );
 	}
 
-	IntrinsicCallPtr makeMin33I( type::TypesCache & cache
+	IntrinsicCallPtr makeMin3I( type::TypesCache & cache
 		, ExprPtr x
 		, ExprPtr y )
 	{
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3I )
-			, Intrinsic::eMin33I
+			, Intrinsic::eMin3I
 			, std::move( x )
 			, std::move( y ) );
 	}
 
-	IntrinsicCallPtr makeMin44I( type::TypesCache & cache
+	IntrinsicCallPtr makeMin4I( type::TypesCache & cache
 		, ExprPtr x
 		, ExprPtr y )
 	{
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4I )
-			, Intrinsic::eMin44I
+			, Intrinsic::eMin4I
 			, std::move( x )
 			, std::move( y ) );
 	}
 
-	IntrinsicCallPtr makeMin21I( type::TypesCache & cache
-		, ExprPtr x
-		, ExprPtr y )
-	{
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2I )
-			, Intrinsic::eMin21I
-			, std::move( x )
-			, std::move( y ) );
-	}
-
-	IntrinsicCallPtr makeMin31I( type::TypesCache & cache
-		, ExprPtr x
-		, ExprPtr y )
-	{
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3I )
-			, Intrinsic::eMin31I
-			, std::move( x )
-			, std::move( y ) );
-	}
-
-	IntrinsicCallPtr makeMin41I( type::TypesCache & cache
-		, ExprPtr x
-		, ExprPtr y )
-	{
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4I )
-			, Intrinsic::eMin41I
-			, std::move( x )
-			, std::move( y ) );
-	}
-
-	IntrinsicCallPtr makeMin11U( type::TypesCache & cache
+	IntrinsicCallPtr makeMin1U( type::TypesCache & cache
 		, ExprPtr x
 		, ExprPtr y )
 	{
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eUInt )
-			, Intrinsic::eMin11U
+			, Intrinsic::eMin1U
 			, std::move( x )
 			, std::move( y ) );
 	}
 
-	IntrinsicCallPtr makeMin22U( type::TypesCache & cache
+	IntrinsicCallPtr makeMin2U( type::TypesCache & cache
 		, ExprPtr x
 		, ExprPtr y )
 	{
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2U )
-			, Intrinsic::eMin22U
+			, Intrinsic::eMin2U
 			, std::move( x )
 			, std::move( y ) );
 	}
 
-	IntrinsicCallPtr makeMin33U( type::TypesCache & cache
+	IntrinsicCallPtr makeMin3U( type::TypesCache & cache
 		, ExprPtr x
 		, ExprPtr y )
 	{
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3U )
-			, Intrinsic::eMin33U
+			, Intrinsic::eMin3U
 			, std::move( x )
 			, std::move( y ) );
 	}
 
-	IntrinsicCallPtr makeMin44U( type::TypesCache & cache
+	IntrinsicCallPtr makeMin4U( type::TypesCache & cache
 		, ExprPtr x
 		, ExprPtr y )
 	{
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4U )
-			, Intrinsic::eMin44U
+			, Intrinsic::eMin4U
 			, std::move( x )
 			, std::move( y ) );
 	}
 
-	IntrinsicCallPtr makeMin21U( type::TypesCache & cache
-		, ExprPtr x
-		, ExprPtr y )
-	{
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2U )
-			, Intrinsic::eMin21U
-			, std::move( x )
-			, std::move( y ) );
-	}
-
-	IntrinsicCallPtr makeMin31U( type::TypesCache & cache
-		, ExprPtr x
-		, ExprPtr y )
-	{
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3U )
-			, Intrinsic::eMin31U
-			, std::move( x )
-			, std::move( y ) );
-	}
-
-	IntrinsicCallPtr makeMin41U( type::TypesCache & cache
-		, ExprPtr x
-		, ExprPtr y )
-	{
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4U )
-			, Intrinsic::eMin41U
-			, std::move( x )
-			, std::move( y ) );
-	}
-
-	IntrinsicCallPtr makeMax11F( type::TypesCache & cache
+	IntrinsicCallPtr makeMax1F( type::TypesCache & cache
 		, ExprPtr x
 		, ExprPtr y )
 	{
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eFloat )
-			, Intrinsic::eMax11F
+			, Intrinsic::eMax1F
 			, std::move( x )
 			, std::move( y ) );
 	}
 
-	IntrinsicCallPtr makeMax22F( type::TypesCache & cache
+	IntrinsicCallPtr makeMax2F( type::TypesCache & cache
 		, ExprPtr x
 		, ExprPtr y )
 	{
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2F )
-			, Intrinsic::eMax22F
+			, Intrinsic::eMax2F
 			, std::move( x )
 			, std::move( y ) );
 	}
 
-	IntrinsicCallPtr makeMax33F( type::TypesCache & cache
+	IntrinsicCallPtr makeMax3F( type::TypesCache & cache
 		, ExprPtr x
 		, ExprPtr y )
 	{
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3F )
-			, Intrinsic::eMax33F
+			, Intrinsic::eMax3F
 			, std::move( x )
 			, std::move( y ) );
 	}
 
-	IntrinsicCallPtr makeMax44F( type::TypesCache & cache
+	IntrinsicCallPtr makeMax4F( type::TypesCache & cache
 		, ExprPtr x
 		, ExprPtr y )
 	{
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4F )
-			, Intrinsic::eMax44F
+			, Intrinsic::eMax4F
 			, std::move( x )
 			, std::move( y ) );
 	}
 
-	IntrinsicCallPtr makeMax21F( type::TypesCache & cache
-		, ExprPtr x
-		, ExprPtr y )
-	{
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2F )
-			, Intrinsic::eMax21F
-			, std::move( x )
-			, std::move( y ) );
-	}
-
-	IntrinsicCallPtr makeMax31F( type::TypesCache & cache
-		, ExprPtr x
-		, ExprPtr y )
-	{
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3F )
-			, Intrinsic::eMax31F
-			, std::move( x )
-			, std::move( y ) );
-	}
-
-	IntrinsicCallPtr makeMax41F( type::TypesCache & cache
-		, ExprPtr x
-		, ExprPtr y )
-	{
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4F )
-			, Intrinsic::eMax41F
-			, std::move( x )
-			, std::move( y ) );
-	}
-
-	IntrinsicCallPtr makeMax11D( type::TypesCache & cache
+	IntrinsicCallPtr makeMax1D( type::TypesCache & cache
 		, ExprPtr x
 		, ExprPtr y )
 	{
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eDouble )
-			, Intrinsic::eMax11D
+			, Intrinsic::eMax1D
 			, std::move( x )
 			, std::move( y ) );
 	}
 
-	IntrinsicCallPtr makeMax22D( type::TypesCache & cache
+	IntrinsicCallPtr makeMax2D( type::TypesCache & cache
 		, ExprPtr x
 		, ExprPtr y )
 	{
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2D )
-			, Intrinsic::eMax22D
+			, Intrinsic::eMax2D
 			, std::move( x )
 			, std::move( y ) );
 	}
 
-	IntrinsicCallPtr makeMax33D( type::TypesCache & cache
+	IntrinsicCallPtr makeMax3D( type::TypesCache & cache
 		, ExprPtr x
 		, ExprPtr y )
 	{
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3D )
-			, Intrinsic::eMax33D
+			, Intrinsic::eMax3D
 			, std::move( x )
 			, std::move( y ) );
 	}
 
-	IntrinsicCallPtr makeMax44D( type::TypesCache & cache
+	IntrinsicCallPtr makeMax4D( type::TypesCache & cache
 		, ExprPtr x
 		, ExprPtr y )
 	{
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4D )
-			, Intrinsic::eMax44D
+			, Intrinsic::eMax4D
 			, std::move( x )
 			, std::move( y ) );
 	}
 
-	IntrinsicCallPtr makeMax21D( type::TypesCache & cache
-		, ExprPtr x
-		, ExprPtr y )
-	{
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2D )
-			, Intrinsic::eMax21D
-			, std::move( x )
-			, std::move( y ) );
-	}
-
-	IntrinsicCallPtr makeMax31D( type::TypesCache & cache
-		, ExprPtr x
-		, ExprPtr y )
-	{
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3D )
-			, Intrinsic::eMax31D
-			, std::move( x )
-			, std::move( y ) );
-	}
-
-	IntrinsicCallPtr makeMax41D( type::TypesCache & cache
-		, ExprPtr x
-		, ExprPtr y )
-	{
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4D )
-			, Intrinsic::eMax41D
-			, std::move( x )
-			, std::move( y ) );
-	}
-
-	IntrinsicCallPtr makeMax11I( type::TypesCache & cache
+	IntrinsicCallPtr makeMax1I( type::TypesCache & cache
 		, ExprPtr x
 		, ExprPtr y )
 	{
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eInt )
-			, Intrinsic::eMax11I
+			, Intrinsic::eMax1I
 			, std::move( x )
 			, std::move( y ) );
 	}
 
-	IntrinsicCallPtr makeMax22I( type::TypesCache & cache
+	IntrinsicCallPtr makeMax2I( type::TypesCache & cache
 		, ExprPtr x
 		, ExprPtr y )
 	{
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2I )
-			, Intrinsic::eMax22I
+			, Intrinsic::eMax2I
 			, std::move( x )
 			, std::move( y ) );
 	}
 
-	IntrinsicCallPtr makeMax33I( type::TypesCache & cache
+	IntrinsicCallPtr makeMax3I( type::TypesCache & cache
 		, ExprPtr x
 		, ExprPtr y )
 	{
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3I )
-			, Intrinsic::eMax33I
+			, Intrinsic::eMax3I
 			, std::move( x )
 			, std::move( y ) );
 	}
 
-	IntrinsicCallPtr makeMax44I( type::TypesCache & cache
+	IntrinsicCallPtr makeMax4I( type::TypesCache & cache
 		, ExprPtr x
 		, ExprPtr y )
 	{
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4I )
-			, Intrinsic::eMax44I
+			, Intrinsic::eMax4I
 			, std::move( x )
 			, std::move( y ) );
 	}
 
-	IntrinsicCallPtr makeMax21I( type::TypesCache & cache
-		, ExprPtr x
-		, ExprPtr y )
-	{
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2I )
-			, Intrinsic::eMax21I
-			, std::move( x )
-			, std::move( y ) );
-	}
-
-	IntrinsicCallPtr makeMax31I( type::TypesCache & cache
-		, ExprPtr x
-		, ExprPtr y )
-	{
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3I )
-			, Intrinsic::eMax31I
-			, std::move( x )
-			, std::move( y ) );
-	}
-
-	IntrinsicCallPtr makeMax41I( type::TypesCache & cache
-		, ExprPtr x
-		, ExprPtr y )
-	{
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4I )
-			, Intrinsic::eMax41I
-			, std::move( x )
-			, std::move( y ) );
-	}
-
-	IntrinsicCallPtr makeMax11U( type::TypesCache & cache
+	IntrinsicCallPtr makeMax1U( type::TypesCache & cache
 		, ExprPtr x
 		, ExprPtr y )
 	{
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eUInt )
-			, Intrinsic::eMax11U
+			, Intrinsic::eMax1U
 			, std::move( x )
 			, std::move( y ) );
 	}
 
-	IntrinsicCallPtr makeMax22U( type::TypesCache & cache
+	IntrinsicCallPtr makeMax2U( type::TypesCache & cache
 		, ExprPtr x
 		, ExprPtr y )
 	{
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2U )
-			, Intrinsic::eMax22U
+			, Intrinsic::eMax2U
 			, std::move( x )
 			, std::move( y ) );
 	}
 
-	IntrinsicCallPtr makeMax33U( type::TypesCache & cache
+	IntrinsicCallPtr makeMax3U( type::TypesCache & cache
 		, ExprPtr x
 		, ExprPtr y )
 	{
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3U )
-			, Intrinsic::eMax33U
+			, Intrinsic::eMax3U
 			, std::move( x )
 			, std::move( y ) );
 	}
 
-	IntrinsicCallPtr makeMax44U( type::TypesCache & cache
+	IntrinsicCallPtr makeMax4U( type::TypesCache & cache
 		, ExprPtr x
 		, ExprPtr y )
 	{
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4U )
-			, Intrinsic::eMax44U
+			, Intrinsic::eMax4U
 			, std::move( x )
 			, std::move( y ) );
 	}
 
-	IntrinsicCallPtr makeMax21U( type::TypesCache & cache
-		, ExprPtr x
-		, ExprPtr y )
-	{
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2U )
-			, Intrinsic::eMax21U
-			, std::move( x )
-			, std::move( y ) );
-	}
-
-	IntrinsicCallPtr makeMax31U( type::TypesCache & cache
-		, ExprPtr x
-		, ExprPtr y )
-	{
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3U )
-			, Intrinsic::eMax31U
-			, std::move( x )
-			, std::move( y ) );
-	}
-
-	IntrinsicCallPtr makeMax41U( type::TypesCache & cache
-		, ExprPtr x
-		, ExprPtr y )
-	{
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4U )
-			, Intrinsic::eMax41U
-			, std::move( x )
-			, std::move( y ) );
-	}
-
-	IntrinsicCallPtr makeClamp11F( type::TypesCache & cache
+	IntrinsicCallPtr makeClamp1F( type::TypesCache & cache
 		, ExprPtr x
 		, ExprPtr minVal
 		, ExprPtr maxVal )
 	{
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eFloat )
-			, Intrinsic::eClamp11F
+			, Intrinsic::eClamp1F
 			, std::move( x )
 			, std::move( minVal )
 			, std::move( maxVal ) );
 	}
 
-	IntrinsicCallPtr makeClamp22F( type::TypesCache & cache
+	IntrinsicCallPtr makeClamp2F( type::TypesCache & cache
 		, ExprPtr x
 		, ExprPtr minVal
 		, ExprPtr maxVal )
 	{
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2F )
-			, Intrinsic::eClamp22F
+			, Intrinsic::eClamp2F
 			, std::move( x )
 			, std::move( minVal )
 			, std::move( maxVal ) );
 	}
 
-	IntrinsicCallPtr makeClamp33F( type::TypesCache & cache
+	IntrinsicCallPtr makeClamp3F( type::TypesCache & cache
 		, ExprPtr x
 		, ExprPtr minVal
 		, ExprPtr maxVal )
 	{
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3F )
-			, Intrinsic::eClamp33F
+			, Intrinsic::eClamp3F
 			, std::move( x )
 			, std::move( minVal )
 			, std::move( maxVal ) );
 	}
 
-	IntrinsicCallPtr makeClamp44F( type::TypesCache & cache
+	IntrinsicCallPtr makeClamp4F( type::TypesCache & cache
 		, ExprPtr x
 		, ExprPtr minVal
 		, ExprPtr maxVal )
 	{
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4F )
-			, Intrinsic::eClamp44F
+			, Intrinsic::eClamp4F
 			, std::move( x )
 			, std::move( minVal )
 			, std::move( maxVal ) );
 	}
 
-	IntrinsicCallPtr makeClamp21F( type::TypesCache & cache
-		, ExprPtr x
-		, ExprPtr minVal
-		, ExprPtr maxVal )
-	{
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2F )
-			, Intrinsic::eClamp21F
-			, std::move( x )
-			, std::move( minVal )
-			, std::move( maxVal ) );
-	}
-
-	IntrinsicCallPtr makeClamp31F( type::TypesCache & cache
-		, ExprPtr x
-		, ExprPtr minVal
-		, ExprPtr maxVal )
-	{
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3F )
-			, Intrinsic::eClamp31F
-			, std::move( x )
-			, std::move( minVal )
-			, std::move( maxVal ) );
-	}
-
-	IntrinsicCallPtr makeClamp41F( type::TypesCache & cache
-		, ExprPtr x
-		, ExprPtr minVal
-		, ExprPtr maxVal )
-	{
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4F )
-			, Intrinsic::eClamp41F
-			, std::move( x )
-			, std::move( minVal )
-			, std::move( maxVal ) );
-	}
-
-	IntrinsicCallPtr makeClamp11D( type::TypesCache & cache
+	IntrinsicCallPtr makeClamp1D( type::TypesCache & cache
 		, ExprPtr x
 		, ExprPtr minVal
 		, ExprPtr maxVal )
 	{
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eDouble )
-			, Intrinsic::eClamp11D
+			, Intrinsic::eClamp1D
 			, std::move( x )
 			, std::move( minVal )
 			, std::move( maxVal ) );
 	}
 
-	IntrinsicCallPtr makeClamp22D( type::TypesCache & cache
+	IntrinsicCallPtr makeClamp2D( type::TypesCache & cache
 		, ExprPtr x
 		, ExprPtr minVal
 		, ExprPtr maxVal )
 	{
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2D )
-			, Intrinsic::eClamp22D
+			, Intrinsic::eClamp2D
 			, std::move( x )
 			, std::move( minVal )
 			, std::move( maxVal ) );
 	}
 
-	IntrinsicCallPtr makeClamp33D( type::TypesCache & cache
+	IntrinsicCallPtr makeClamp3D( type::TypesCache & cache
 		, ExprPtr x
 		, ExprPtr minVal
 		, ExprPtr maxVal )
 	{
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3D )
-			, Intrinsic::eClamp33D
+			, Intrinsic::eClamp3D
 			, std::move( x )
 			, std::move( minVal )
 			, std::move( maxVal ) );
 	}
 
-	IntrinsicCallPtr makeClamp44D( type::TypesCache & cache
+	IntrinsicCallPtr makeClamp4D( type::TypesCache & cache
 		, ExprPtr x
 		, ExprPtr minVal
 		, ExprPtr maxVal )
 	{
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4D )
-			, Intrinsic::eClamp44D
+			, Intrinsic::eClamp4D
 			, std::move( x )
 			, std::move( minVal )
 			, std::move( maxVal ) );
 	}
 
-	IntrinsicCallPtr makeClamp21D( type::TypesCache & cache
-		, ExprPtr x
-		, ExprPtr minVal
-		, ExprPtr maxVal )
-	{
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2D )
-			, Intrinsic::eClamp21D
-			, std::move( x )
-			, std::move( minVal )
-			, std::move( maxVal ) );
-	}
-
-	IntrinsicCallPtr makeClamp31D( type::TypesCache & cache
-		, ExprPtr x
-		, ExprPtr minVal
-		, ExprPtr maxVal )
-	{
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3D )
-			, Intrinsic::eClamp31D
-			, std::move( x )
-			, std::move( minVal )
-			, std::move( maxVal ) );
-	}
-
-	IntrinsicCallPtr makeClamp41D( type::TypesCache & cache
-		, ExprPtr x
-		, ExprPtr minVal
-		, ExprPtr maxVal )
-	{
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4D )
-			, Intrinsic::eClamp41D
-			, std::move( x )
-			, std::move( minVal )
-			, std::move( maxVal ) );
-	}
-
-	IntrinsicCallPtr makeClamp11I( type::TypesCache & cache
+	IntrinsicCallPtr makeClamp1I( type::TypesCache & cache
 		, ExprPtr x
 		, ExprPtr minVal
 		, ExprPtr maxVal )
 	{
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eInt )
-			, Intrinsic::eClamp11I
+			, Intrinsic::eClamp1I
 			, std::move( x )
 			, std::move( minVal )
 			, std::move( maxVal ) );
 	}
 
-	IntrinsicCallPtr makeClamp22I( type::TypesCache & cache
+	IntrinsicCallPtr makeClamp2I( type::TypesCache & cache
 		, ExprPtr x
 		, ExprPtr minVal
 		, ExprPtr maxVal )
 	{
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2I )
-			, Intrinsic::eClamp22I
+			, Intrinsic::eClamp2I
 			, std::move( x )
 			, std::move( minVal )
 			, std::move( maxVal ) );
 	}
 
-	IntrinsicCallPtr makeClamp33I( type::TypesCache & cache
+	IntrinsicCallPtr makeClamp3I( type::TypesCache & cache
 		, ExprPtr x
 		, ExprPtr minVal
 		, ExprPtr maxVal )
 	{
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3I )
-			, Intrinsic::eClamp33I
+			, Intrinsic::eClamp3I
 			, std::move( x )
 			, std::move( minVal )
 			, std::move( maxVal ) );
 	}
 
-	IntrinsicCallPtr makeClamp44I( type::TypesCache & cache
+	IntrinsicCallPtr makeClamp4I( type::TypesCache & cache
 		, ExprPtr x
 		, ExprPtr minVal
 		, ExprPtr maxVal )
 	{
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4I )
-			, Intrinsic::eClamp44I
+			, Intrinsic::eClamp4I
 			, std::move( x )
 			, std::move( minVal )
 			, std::move( maxVal ) );
 	}
 
-	IntrinsicCallPtr makeClamp21I( type::TypesCache & cache
-		, ExprPtr x
-		, ExprPtr minVal
-		, ExprPtr maxVal )
-	{
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2I )
-			, Intrinsic::eClamp21I
-			, std::move( x )
-			, std::move( minVal )
-			, std::move( maxVal ) );
-	}
-
-	IntrinsicCallPtr makeClamp31I( type::TypesCache & cache
-		, ExprPtr x
-		, ExprPtr minVal
-		, ExprPtr maxVal )
-	{
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3I )
-			, Intrinsic::eClamp31I
-			, std::move( x )
-			, std::move( minVal )
-			, std::move( maxVal ) );
-	}
-
-	IntrinsicCallPtr makeClamp41I( type::TypesCache & cache
-		, ExprPtr x
-		, ExprPtr minVal
-		, ExprPtr maxVal )
-	{
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4I )
-			, Intrinsic::eClamp41I
-			, std::move( x )
-			, std::move( minVal )
-			, std::move( maxVal ) );
-	}
-
-	IntrinsicCallPtr makeClamp11U( type::TypesCache & cache
+	IntrinsicCallPtr makeClamp1U( type::TypesCache & cache
 		, ExprPtr x
 		, ExprPtr minVal
 		, ExprPtr maxVal )
 	{
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eUInt )
-			, Intrinsic::eClamp11U
+			, Intrinsic::eClamp1U
 			, std::move( x )
 			, std::move( minVal )
 			, std::move( maxVal ) );
 	}
 
-	IntrinsicCallPtr makeClamp22U( type::TypesCache & cache
+	IntrinsicCallPtr makeClamp2U( type::TypesCache & cache
 		, ExprPtr x
 		, ExprPtr minVal
 		, ExprPtr maxVal )
 	{
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2U )
-			, Intrinsic::eClamp22U
+			, Intrinsic::eClamp2U
 			, std::move( x )
 			, std::move( minVal )
 			, std::move( maxVal ) );
 	}
 
-	IntrinsicCallPtr makeClamp33U( type::TypesCache & cache
+	IntrinsicCallPtr makeClamp3U( type::TypesCache & cache
 		, ExprPtr x
 		, ExprPtr minVal
 		, ExprPtr maxVal )
 	{
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3U )
-			, Intrinsic::eClamp33U
+			, Intrinsic::eClamp3U
 			, std::move( x )
 			, std::move( minVal )
 			, std::move( maxVal ) );
 	}
 
-	IntrinsicCallPtr makeClamp44U( type::TypesCache & cache
+	IntrinsicCallPtr makeClamp4U( type::TypesCache & cache
 		, ExprPtr x
 		, ExprPtr minVal
 		, ExprPtr maxVal )
 	{
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4U )
-			, Intrinsic::eClamp44U
+			, Intrinsic::eClamp4U
 			, std::move( x )
 			, std::move( minVal )
 			, std::move( maxVal ) );
 	}
 
-	IntrinsicCallPtr makeClamp21U( type::TypesCache & cache
-		, ExprPtr x
-		, ExprPtr minVal
-		, ExprPtr maxVal )
-	{
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2U )
-			, Intrinsic::eClamp21U
-			, std::move( x )
-			, std::move( minVal )
-			, std::move( maxVal ) );
-	}
-
-	IntrinsicCallPtr makeClamp31U( type::TypesCache & cache
-		, ExprPtr x
-		, ExprPtr minVal
-		, ExprPtr maxVal )
-	{
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3U )
-			, Intrinsic::eClamp31U
-			, std::move( x )
-			, std::move( minVal )
-			, std::move( maxVal ) );
-	}
-
-	IntrinsicCallPtr makeClamp41U( type::TypesCache & cache
-		, ExprPtr x
-		, ExprPtr minVal
-		, ExprPtr maxVal )
-	{
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4U )
-			, Intrinsic::eClamp41U
-			, std::move( x )
-			, std::move( minVal )
-			, std::move( maxVal ) );
-	}
-
-	IntrinsicCallPtr makeMix11F( type::TypesCache & cache
+	IntrinsicCallPtr makeMix1F( type::TypesCache & cache
 		, ExprPtr x
 		, ExprPtr y
 		, ExprPtr a )
 	{
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eFloat )
-			, Intrinsic::eMix11F
+			, Intrinsic::eMix1F
 			, std::move( x )
 			, std::move( y )
 			, std::move( a ) );
 	}
 
-	IntrinsicCallPtr makeMix22F( type::TypesCache & cache
+	IntrinsicCallPtr makeMix2F( type::TypesCache & cache
 		, ExprPtr x
 		, ExprPtr y
 		, ExprPtr a )
 	{
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2F )
-			, Intrinsic::eMix22F
+			, Intrinsic::eMix2F
 			, std::move( x )
 			, std::move( y )
 			, std::move( a ) );
 	}
 
-	IntrinsicCallPtr makeMix33F( type::TypesCache & cache
+	IntrinsicCallPtr makeMix3F( type::TypesCache & cache
 		, ExprPtr x
 		, ExprPtr y
 		, ExprPtr a )
 	{
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3F )
-			, Intrinsic::eMix33F
+			, Intrinsic::eMix3F
 			, std::move( x )
 			, std::move( y )
 			, std::move( a ) );
 	}
 
-	IntrinsicCallPtr makeMix44F( type::TypesCache & cache
+	IntrinsicCallPtr makeMix4F( type::TypesCache & cache
 		, ExprPtr x
 		, ExprPtr y
 		, ExprPtr a )
 	{
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4F )
-			, Intrinsic::eMix44F
+			, Intrinsic::eMix4F
 			, std::move( x )
 			, std::move( y )
 			, std::move( a ) );
 	}
 
-	IntrinsicCallPtr makeMix21F( type::TypesCache & cache
-		, ExprPtr x
-		, ExprPtr y
-		, ExprPtr a )
-	{
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2F )
-			, Intrinsic::eMix21F
-			, std::move( x )
-			, std::move( y )
-			, std::move( a ) );
-	}
-
-	IntrinsicCallPtr makeMix31F( type::TypesCache & cache
-		, ExprPtr x
-		, ExprPtr y
-		, ExprPtr a )
-	{
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3F )
-			, Intrinsic::eMix31F
-			, std::move( x )
-			, std::move( y )
-			, std::move( a ) );
-	}
-
-	IntrinsicCallPtr makeMix41F( type::TypesCache & cache
-		, ExprPtr x
-		, ExprPtr y
-		, ExprPtr a )
-	{
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4F )
-			, Intrinsic::eMix41F
-			, std::move( x )
-			, std::move( y )
-			, std::move( a ) );
-	}
-
-	IntrinsicCallPtr makeMix11FB( type::TypesCache & cache
-		, ExprPtr x
-		, ExprPtr y
-		, ExprPtr a )
-	{
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eFloat )
-			, Intrinsic::eMix11FB
-			, std::move( x )
-			, std::move( y )
-			, std::move( a ) );
-	}
-
-	IntrinsicCallPtr makeMix22FB( type::TypesCache & cache
-		, ExprPtr x
-		, ExprPtr y
-		, ExprPtr a )
-	{
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2F )
-			, Intrinsic::eMix22FB
-			, std::move( x )
-			, std::move( y )
-			, std::move( a ) );
-	}
-
-	IntrinsicCallPtr makeMix33FB( type::TypesCache & cache
-		, ExprPtr x
-		, ExprPtr y
-		, ExprPtr a )
-	{
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3F )
-			, Intrinsic::eMix33FB
-			, std::move( x )
-			, std::move( y )
-			, std::move( a ) );
-	}
-
-	IntrinsicCallPtr makeMix44FB( type::TypesCache & cache
-		, ExprPtr x
-		, ExprPtr y
-		, ExprPtr a )
-	{
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4F )
-			, Intrinsic::eMix44FB
-			, std::move( x )
-			, std::move( y )
-			, std::move( a ) );
-	}
-
-	IntrinsicCallPtr makeMix11D( type::TypesCache & cache
+	IntrinsicCallPtr makeMix1D( type::TypesCache & cache
 		, ExprPtr x
 		, ExprPtr y
 		, ExprPtr a )
 	{
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eDouble )
-			, Intrinsic::eMix11D
+			, Intrinsic::eMix1D
 			, std::move( x )
 			, std::move( y )
 			, std::move( a ) );
 	}
 
-	IntrinsicCallPtr makeMix22D( type::TypesCache & cache
+	IntrinsicCallPtr makeMix2D( type::TypesCache & cache
 		, ExprPtr x
 		, ExprPtr y
 		, ExprPtr a )
 	{
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2D )
-			, Intrinsic::eMix22D
+			, Intrinsic::eMix2D
 			, std::move( x )
 			, std::move( y )
 			, std::move( a ) );
 	}
 
-	IntrinsicCallPtr makeMix33D( type::TypesCache & cache
+	IntrinsicCallPtr makeMix3D( type::TypesCache & cache
 		, ExprPtr x
 		, ExprPtr y
 		, ExprPtr a )
 	{
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3D )
-			, Intrinsic::eMix33D
+			, Intrinsic::eMix3D
 			, std::move( x )
 			, std::move( y )
 			, std::move( a ) );
 	}
 
-	IntrinsicCallPtr makeMix44D( type::TypesCache & cache
+	IntrinsicCallPtr makeMix4D( type::TypesCache & cache
 		, ExprPtr x
 		, ExprPtr y
 		, ExprPtr a )
 	{
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4D )
-			, Intrinsic::eMix44D
+			, Intrinsic::eMix4D
 			, std::move( x )
 			, std::move( y )
 			, std::move( a ) );
 	}
 
-	IntrinsicCallPtr makeMix21D( type::TypesCache & cache
-		, ExprPtr x
-		, ExprPtr y
-		, ExprPtr a )
-	{
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2D )
-			, Intrinsic::eMix21D
-			, std::move( x )
-			, std::move( y )
-			, std::move( a ) );
-	}
-
-	IntrinsicCallPtr makeMix31D( type::TypesCache & cache
-		, ExprPtr x
-		, ExprPtr y
-		, ExprPtr a )
-	{
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3D )
-			, Intrinsic::eMix31D
-			, std::move( x )
-			, std::move( y )
-			, std::move( a ) );
-	}
-
-	IntrinsicCallPtr makeMix41D( type::TypesCache & cache
-		, ExprPtr x
-		, ExprPtr y
-		, ExprPtr a )
-	{
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4D )
-			, Intrinsic::eMix41D
-			, std::move( x )
-			, std::move( y )
-			, std::move( a ) );
-	}
-
-	IntrinsicCallPtr makeMix11DB( type::TypesCache & cache
-		, ExprPtr x
-		, ExprPtr y
-		, ExprPtr a )
-	{
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eDouble )
-			, Intrinsic::eMix11DB
-			, std::move( x )
-			, std::move( y )
-			, std::move( a ) );
-	}
-
-	IntrinsicCallPtr makeMix22DB( type::TypesCache & cache
-		, ExprPtr x
-		, ExprPtr y
-		, ExprPtr a )
-	{
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2D )
-			, Intrinsic::eMix22DB
-			, std::move( x )
-			, std::move( y )
-			, std::move( a ) );
-	}
-
-	IntrinsicCallPtr makeMix33DB( type::TypesCache & cache
-		, ExprPtr x
-		, ExprPtr y
-		, ExprPtr a )
-	{
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3D )
-			, Intrinsic::eMix33DB
-			, std::move( x )
-			, std::move( y )
-			, std::move( a ) );
-	}
-
-	IntrinsicCallPtr makeMix44DB( type::TypesCache & cache
-		, ExprPtr x
-		, ExprPtr y
-		, ExprPtr a )
-	{
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4D )
-			, Intrinsic::eMix44DB
-			, std::move( x )
-			, std::move( y )
-			, std::move( a ) );
-	}
-
-	IntrinsicCallPtr makeStep11F( type::TypesCache & cache
+	IntrinsicCallPtr makeStep1F( type::TypesCache & cache
 		, ExprPtr edge
 		, ExprPtr x )
 	{
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eFloat )
-			, Intrinsic::eStep11F
+			, Intrinsic::eStep1F
 			, std::move( edge )
 			, std::move( x ) );
 	}
 
-	IntrinsicCallPtr makeStep22F( type::TypesCache & cache
+	IntrinsicCallPtr makeStep2F( type::TypesCache & cache
 		, ExprPtr edge
 		, ExprPtr x )
 	{
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2F )
-			, Intrinsic::eStep22F
+			, Intrinsic::eStep2F
 			, std::move( edge )
 			, std::move( x ) );
 	}
 
-	IntrinsicCallPtr makeStep33F( type::TypesCache & cache
+	IntrinsicCallPtr makeStep3F( type::TypesCache & cache
 		, ExprPtr edge
 		, ExprPtr x )
 	{
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3F )
-			, Intrinsic::eStep33F
+			, Intrinsic::eStep3F
 			, std::move( edge )
 			, std::move( x ) );
 	}
 
-	IntrinsicCallPtr makeStep44F( type::TypesCache & cache
+	IntrinsicCallPtr makeStep4F( type::TypesCache & cache
 		, ExprPtr edge
 		, ExprPtr x )
 	{
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4F )
-			, Intrinsic::eStep44F
+			, Intrinsic::eStep4F
 			, std::move( edge )
 			, std::move( x ) );
 	}
 
-	IntrinsicCallPtr makeStep12F( type::TypesCache & cache
-		, ExprPtr edge
-		, ExprPtr x )
-	{
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2F )
-			, Intrinsic::eStep12F
-			, std::move( edge )
-			, std::move( x ) );
-	}
-
-	IntrinsicCallPtr makeStep13F( type::TypesCache & cache
-		, ExprPtr edge
-		, ExprPtr x )
-	{
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3F )
-			, Intrinsic::eStep13F
-			, std::move( edge )
-			, std::move( x ) );
-	}
-
-	IntrinsicCallPtr makeStep14F( type::TypesCache & cache
-		, ExprPtr edge
-		, ExprPtr x )
-	{
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4F )
-			, Intrinsic::eStep14F
-			, std::move( edge )
-			, std::move( x ) );
-	}
-
-	IntrinsicCallPtr makeStep11D( type::TypesCache & cache
+	IntrinsicCallPtr makeStep1D( type::TypesCache & cache
 		, ExprPtr edge
 		, ExprPtr x )
 	{
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eDouble )
-			, Intrinsic::eStep11D
+			, Intrinsic::eStep1D
 			, std::move( edge )
 			, std::move( x ) );
 	}
 
-	IntrinsicCallPtr makeStep22D( type::TypesCache & cache
+	IntrinsicCallPtr makeStep2D( type::TypesCache & cache
 		, ExprPtr edge
 		, ExprPtr x )
 	{
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2D )
-			, Intrinsic::eStep22D
+			, Intrinsic::eStep2D
 			, std::move( edge )
 			, std::move( x ) );
 	}
 
-	IntrinsicCallPtr makeStep33D( type::TypesCache & cache
+	IntrinsicCallPtr makeStep3D( type::TypesCache & cache
 		, ExprPtr edge
 		, ExprPtr x )
 	{
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3D )
-			, Intrinsic::eStep33D
+			, Intrinsic::eStep3D
 			, std::move( edge )
 			, std::move( x ) );
 	}
 
-	IntrinsicCallPtr makeStep44D( type::TypesCache & cache
+	IntrinsicCallPtr makeStep4D( type::TypesCache & cache
 		, ExprPtr edge
 		, ExprPtr x )
 	{
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4D )
-			, Intrinsic::eStep44D
+			, Intrinsic::eStep4D
 			, std::move( edge )
 			, std::move( x ) );
 	}
 
-	IntrinsicCallPtr makeStep12D( type::TypesCache & cache
-		, ExprPtr edge
-		, ExprPtr x )
-	{
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2D )
-			, Intrinsic::eStep12D
-			, std::move( edge )
-			, std::move( x ) );
-	}
-
-	IntrinsicCallPtr makeStep13D( type::TypesCache & cache
-		, ExprPtr edge
-		, ExprPtr x )
-	{
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3D )
-			, Intrinsic::eStep13D
-			, std::move( edge )
-			, std::move( x ) );
-	}
-
-	IntrinsicCallPtr makeStep14D( type::TypesCache & cache
-		, ExprPtr edge
-		, ExprPtr x )
-	{
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4D )
-			, Intrinsic::eStep14D
-			, std::move( edge )
-			, std::move( x ) );
-	}
-
-	IntrinsicCallPtr makeSmoothStep11F( type::TypesCache & cache
+	IntrinsicCallPtr makeSmoothStep1F( type::TypesCache & cache
 		, ExprPtr edge0
 		, ExprPtr edge1
 		, ExprPtr x )
 	{
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eFloat )
-			, Intrinsic::eSmoothStep11F
+			, Intrinsic::eSmoothStep1F
 			, std::move( edge0 )
 			, std::move( edge1 )
 			, std::move( x ) );
 	}
 
-	IntrinsicCallPtr makeSmoothStep22F( type::TypesCache & cache
+	IntrinsicCallPtr makeSmoothStep2F( type::TypesCache & cache
 		, ExprPtr edge0
 		, ExprPtr edge1
 		, ExprPtr x )
 	{
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2F )
-			, Intrinsic::eSmoothStep22F
+			, Intrinsic::eSmoothStep2F
 			, std::move( edge0 )
 			, std::move( edge1 )
 			, std::move( x ) );
 	}
 
-	IntrinsicCallPtr makeSmoothStep33F( type::TypesCache & cache
+	IntrinsicCallPtr makeSmoothStep3F( type::TypesCache & cache
 		, ExprPtr edge0
 		, ExprPtr edge1
 		, ExprPtr x )
 	{
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3F )
-			, Intrinsic::eSmoothStep33F
+			, Intrinsic::eSmoothStep3F
 			, std::move( edge0 )
 			, std::move( edge1 )
 			, std::move( x ) );
 	}
 
-	IntrinsicCallPtr makeSmoothStep44F( type::TypesCache & cache
+	IntrinsicCallPtr makeSmoothStep4F( type::TypesCache & cache
 		, ExprPtr edge0
 		, ExprPtr edge1
 		, ExprPtr x )
 	{
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4F )
-			, Intrinsic::eSmoothStep44F
+			, Intrinsic::eSmoothStep4F
 			, std::move( edge0 )
 			, std::move( edge1 )
 			, std::move( x ) );
 	}
 
-	IntrinsicCallPtr makeSmoothStep12F( type::TypesCache & cache
-		, ExprPtr edge0
-		, ExprPtr edge1
-		, ExprPtr x )
-	{
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2F )
-			, Intrinsic::eSmoothStep12F
-			, std::move( edge0 )
-			, std::move( edge1 )
-			, std::move( x ) );
-	}
-
-	IntrinsicCallPtr makeSmoothStep13F( type::TypesCache & cache
-		, ExprPtr edge0
-		, ExprPtr edge1
-		, ExprPtr x )
-	{
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3F )
-			, Intrinsic::eSmoothStep13F
-			, std::move( edge0 )
-			, std::move( edge1 )
-			, std::move( x ) );
-	}
-
-	IntrinsicCallPtr makeSmoothStep14F( type::TypesCache & cache
-		, ExprPtr edge0
-		, ExprPtr edge1
-		, ExprPtr x )
-	{
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4F )
-			, Intrinsic::eSmoothStep14F
-			, std::move( edge0 )
-			, std::move( edge1 )
-			, std::move( x ) );
-	}
-
-	IntrinsicCallPtr makeSmoothStep11D( type::TypesCache & cache
+	IntrinsicCallPtr makeSmoothStep1D( type::TypesCache & cache
 		, ExprPtr edge0
 		, ExprPtr edge1
 		, ExprPtr x )
 	{
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eDouble )
-			, Intrinsic::eSmoothStep11D
+			, Intrinsic::eSmoothStep1D
 			, std::move( edge0 )
 			, std::move( edge1 )
 			, std::move( x ) );
 	}
 
-	IntrinsicCallPtr makeSmoothStep22D( type::TypesCache & cache
+	IntrinsicCallPtr makeSmoothStep2D( type::TypesCache & cache
 		, ExprPtr edge0
 		, ExprPtr edge1
 		, ExprPtr x )
 	{
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2D )
-			, Intrinsic::eSmoothStep22D
+			, Intrinsic::eSmoothStep2D
 			, std::move( edge0 )
 			, std::move( edge1 )
 			, std::move( x ) );
 	}
 
-	IntrinsicCallPtr makeSmoothStep33D( type::TypesCache & cache
+	IntrinsicCallPtr makeSmoothStep3D( type::TypesCache & cache
 		, ExprPtr edge0
 		, ExprPtr edge1
 		, ExprPtr x )
 	{
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3D )
-			, Intrinsic::eSmoothStep33D
+			, Intrinsic::eSmoothStep3D
 			, std::move( edge0 )
 			, std::move( edge1 )
 			, std::move( x ) );
 	}
 
-	IntrinsicCallPtr makeSmoothStep44D( type::TypesCache & cache
+	IntrinsicCallPtr makeSmoothStep4D( type::TypesCache & cache
 		, ExprPtr edge0
 		, ExprPtr edge1
 		, ExprPtr x )
 	{
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4D )
-			, Intrinsic::eSmoothStep44D
-			, std::move( edge0 )
-			, std::move( edge1 )
-			, std::move( x ) );
-	}
-
-	IntrinsicCallPtr makeSmoothStep12D( type::TypesCache & cache
-		, ExprPtr edge0
-		, ExprPtr edge1
-		, ExprPtr x )
-	{
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2D )
-			, Intrinsic::eSmoothStep12D
-			, std::move( edge0 )
-			, std::move( edge1 )
-			, std::move( x ) );
-	}
-
-	IntrinsicCallPtr makeSmoothStep13D( type::TypesCache & cache
-		, ExprPtr edge0
-		, ExprPtr edge1
-		, ExprPtr x )
-	{
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3D )
-			, Intrinsic::eSmoothStep13D
-			, std::move( edge0 )
-			, std::move( edge1 )
-			, std::move( x ) );
-	}
-
-	IntrinsicCallPtr makeSmoothStep14D( type::TypesCache & cache
-		, ExprPtr edge0
-		, ExprPtr edge1
-		, ExprPtr x )
-	{
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4D )
-			, Intrinsic::eSmoothStep14D
+			, Intrinsic::eSmoothStep4D
 			, std::move( edge0 )
 			, std::move( edge1 )
 			, std::move( x ) );
@@ -6424,22 +5680,26 @@ namespace ast::expr
 
 	IntrinsicCallPtr makeAtomicCompSwapI( type::TypesCache & cache
 		, ExprPtr mem
-		, ExprPtr compare )
+		, ExprPtr compare
+		, ExprPtr data )
 	{
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eInt )
 			, Intrinsic::eAtomicCompSwapI
 			, std::move( mem )
-			, std::move( compare ) );
+			, std::move( compare )
+			, std::move( data ) );
 	}
 
 	IntrinsicCallPtr makeAtomicCompSwapU( type::TypesCache & cache
 		, ExprPtr mem
-		, ExprPtr compare )
+		, ExprPtr compare
+		, ExprPtr data )
 	{
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eUInt )
 			, Intrinsic::eAtomicCompSwapU
 			, std::move( mem )
-			, std::move( compare ) );
+			, std::move( compare )
+			, std::move( data ) );
 	}
 
 	// Derivative Functions

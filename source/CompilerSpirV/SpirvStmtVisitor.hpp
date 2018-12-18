@@ -64,6 +64,12 @@ namespace spirv
 		void visitPreprocVersion( ast::stmt::PreprocVersion * preproc )override;
 
 		spv::Id visitVariable( ast::var::VariablePtr var );
+		void endBlock( Block & block
+			, spv::Id nextBlockLabel );
+		void endBlock( Block & block
+			, spv::Id mergeBlockLabel
+			, spv::Id trueBlockLabel
+			, spv::Id falseBlockLabel );
 
 	private:
 		Module & m_result;

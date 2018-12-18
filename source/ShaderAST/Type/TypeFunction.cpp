@@ -31,6 +31,7 @@ namespace ast::type
 		for ( auto & parameter : parameters )
 		{
 			result = hashCombine( result, parameter->getType() );
+			result = hashCombine( result, parameter->getName() );
 			result = hashCombine( result, parameter->isParam() );
 			result = hashCombine( result, parameter->isInputParam() );
 			result = hashCombine( result, parameter->isOutputParam() );

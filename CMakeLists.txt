@@ -142,9 +142,7 @@ include_directories(
 
 option( SDW_BUILD_TESTS "Build ShaderWriter test applications" OFF )
 
-if ( SDW_BUILD_SDW )
-	find_package( Python )
-endif ()
+find_package( Python )
 
 if ( MSVC OR NOT "${CMAKE_BUILD_TYPE}" STREQUAL "" )
 	# Build projects
@@ -172,7 +170,7 @@ if ( MSVC OR NOT "${CMAKE_BUILD_TYPE}" STREQUAL "" )
 	set( INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/include/${PROJECT_NAME} )
 	set( SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/source/${PROJECT_NAME} )
 
-	if ( SDW_BUILD_SDW AND Python_FOUND )
+	if ( Python_FOUND )
 		set( SCRIPT_DIR ${CMAKE_CURRENT_SOURCE_DIR}/scripts/${PROJECT_NAME} )
 		file( GLOB_RECURSE ${PROJECT_NAME}_FOLDER_SCRIPT_FILES
 			${SCRIPT_DIR}/*.py
@@ -336,7 +334,7 @@ if ( MSVC OR NOT "${CMAKE_BUILD_TYPE}" STREQUAL "" )
 	set( INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/include/${PROJECT_NAME} )
 	set( SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/source/${PROJECT_NAME} )
 
-	if ( SDW_BUILD_SDW AND Python_FOUND )
+	if ( Python_FOUND )
 		set( SCRIPT_DIR ${CMAKE_CURRENT_SOURCE_DIR}/scripts/${PROJECT_NAME} )
 		file( GLOB_RECURSE ${PROJECT_NAME}_FOLDER_SCRIPT_FILES
 			${SCRIPT_DIR}/*.py
@@ -442,7 +440,7 @@ if ( MSVC OR NOT "${CMAKE_BUILD_TYPE}" STREQUAL "" )
 	set( INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/include/${PROJECT_NAME} )
 	set( SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/source/${PROJECT_NAME} )
 
-	if ( SDW_BUILD_SDW AND Python_FOUND )
+	if ( Python_FOUND )
 		set( SCRIPT_DIR ${CMAKE_CURRENT_SOURCE_DIR}/scripts/${PROJECT_NAME} )
 		file( GLOB_RECURSE ${PROJECT_NAME}_FOLDER_SCRIPT_FILES
 			${SCRIPT_DIR}/*.py

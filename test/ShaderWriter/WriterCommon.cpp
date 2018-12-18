@@ -182,6 +182,7 @@ namespace test
 			{
 				std::cout << "VkShaderModule creation raised messages:" << std::endl;
 				std::cout << errors << std::endl;
+				result = false;
 
 				if ( checkRef )
 				{

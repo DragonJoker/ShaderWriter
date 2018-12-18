@@ -53,6 +53,7 @@ namespace spirv
 			, ast::type::TypePtr resType
 			, ast::expr::Expr * lhs
 			, ast::expr::Expr * rhs );
+
 	private:
 		ast::type::TypesCache & m_cache;
 		ast::stmt::Container * m_container;

@@ -433,16 +433,10 @@ namespace sdw
 	SDW_API MaybeOptional< Vec2 > mod( MaybeOptional< Vec2 > const & x, MaybeOptional< Vec2 > const & y );
 	SDW_API MaybeOptional< Vec3 > mod( MaybeOptional< Vec3 > const & x, MaybeOptional< Vec3 > const & y );
 	SDW_API MaybeOptional< Vec4 > mod( MaybeOptional< Vec4 > const & x, MaybeOptional< Vec4 > const & y );
-	SDW_API MaybeOptional< Vec2 > mod( MaybeOptional< Vec2 > const & x, MaybeOptional< Float > const & y );
-	SDW_API MaybeOptional< Vec3 > mod( MaybeOptional< Vec3 > const & x, MaybeOptional< Float > const & y );
-	SDW_API MaybeOptional< Vec4 > mod( MaybeOptional< Vec4 > const & x, MaybeOptional< Float > const & y );
 	SDW_API MaybeOptional< Double > mod( MaybeOptional< Double > const & x, MaybeOptional< Double > const & y );
 	SDW_API MaybeOptional< DVec2 > mod( MaybeOptional< DVec2 > const & x, MaybeOptional< DVec2 > const & y );
 	SDW_API MaybeOptional< DVec3 > mod( MaybeOptional< DVec3 > const & x, MaybeOptional< DVec3 > const & y );
 	SDW_API MaybeOptional< DVec4 > mod( MaybeOptional< DVec4 > const & x, MaybeOptional< DVec4 > const & y );
-	SDW_API MaybeOptional< DVec2 > mod( MaybeOptional< DVec2 > const & x, MaybeOptional< Double > const & y );
-	SDW_API MaybeOptional< DVec3 > mod( MaybeOptional< DVec3 > const & x, MaybeOptional< Double > const & y );
-	SDW_API MaybeOptional< DVec4 > mod( MaybeOptional< DVec4 > const & x, MaybeOptional< Double > const & y );
 	/**@}*/
 #pragma endregion
 #pragma region modf
@@ -451,11 +445,11 @@ namespace sdw
 	*	modf
 	*/
 	/**@{*/
-	SDW_API MaybeOptional< Float > modf( MaybeOptional< Float > const & x, MaybeOptional< Float > const & i );
-	SDW_API MaybeOptional< Vec2 > modf( MaybeOptional< Vec2 > const & x, MaybeOptional< Vec2 > const & i );
-	SDW_API MaybeOptional< Vec3 > modf( MaybeOptional< Vec3 > const & x, MaybeOptional< Vec3 > const & i );
-	SDW_API MaybeOptional< Vec4 > modf( MaybeOptional< Vec4 > const & x, MaybeOptional< Vec4 > const & i );
-	SDW_API MaybeOptional< Double > modf( MaybeOptional< Double > const & x, MaybeOptional< Double > const & i );
+	SDW_API MaybeOptional< Float > modf( MaybeOptional< Float > const & x, Float & i );
+	SDW_API MaybeOptional< Vec2 > modf( MaybeOptional< Vec2 > const & x, Vec2 & i );
+	SDW_API MaybeOptional< Vec3 > modf( MaybeOptional< Vec3 > const & x, Vec3 & i );
+	SDW_API MaybeOptional< Vec4 > modf( MaybeOptional< Vec4 > const & x, Vec4 & i );
+	SDW_API MaybeOptional< Double > modf( MaybeOptional< Double > const & x, Double & i );
 	SDW_API MaybeOptional< DVec2 > modf( MaybeOptional< DVec2 > const & x, MaybeOptional< DVec2 > const & i );
 	SDW_API MaybeOptional< DVec3 > modf( MaybeOptional< DVec3 > const & x, MaybeOptional< DVec3 > const & i );
 	SDW_API MaybeOptional< DVec4 > modf( MaybeOptional< DVec4 > const & x, MaybeOptional< DVec4 > const & i );
@@ -471,30 +465,18 @@ namespace sdw
 	SDW_API MaybeOptional< Vec2 > min( MaybeOptional< Vec2 > const & x, MaybeOptional< Vec2 > const & y );
 	SDW_API MaybeOptional< Vec3 > min( MaybeOptional< Vec3 > const & x, MaybeOptional< Vec3 > const & y );
 	SDW_API MaybeOptional< Vec4 > min( MaybeOptional< Vec4 > const & x, MaybeOptional< Vec4 > const & y );
-	SDW_API MaybeOptional< Vec2 > min( MaybeOptional< Vec2 > const & x, MaybeOptional< Float > const & y );
-	SDW_API MaybeOptional< Vec3 > min( MaybeOptional< Vec3 > const & x, MaybeOptional< Float > const & y );
-	SDW_API MaybeOptional< Vec4 > min( MaybeOptional< Vec4 > const & x, MaybeOptional< Float > const & y );
 	SDW_API MaybeOptional< Double > min( MaybeOptional< Double > const & x, MaybeOptional< Double > const & y );
 	SDW_API MaybeOptional< DVec2 > min( MaybeOptional< DVec2 > const & x, MaybeOptional< DVec2 > const & y );
 	SDW_API MaybeOptional< DVec3 > min( MaybeOptional< DVec3 > const & x, MaybeOptional< DVec3 > const & y );
 	SDW_API MaybeOptional< DVec4 > min( MaybeOptional< DVec4 > const & x, MaybeOptional< DVec4 > const & y );
-	SDW_API MaybeOptional< DVec2 > min( MaybeOptional< DVec2 > const & x, MaybeOptional< Double > const & y );
-	SDW_API MaybeOptional< DVec3 > min( MaybeOptional< DVec3 > const & x, MaybeOptional< Double > const & y );
-	SDW_API MaybeOptional< DVec4 > min( MaybeOptional< DVec4 > const & x, MaybeOptional< Double > const & y );
 	SDW_API MaybeOptional< Int > min( MaybeOptional< Int > const & x, MaybeOptional< Int > const & y );
 	SDW_API MaybeOptional< IVec2 > min( MaybeOptional< IVec2 > const & x, MaybeOptional< IVec2 > const & y );
 	SDW_API MaybeOptional< IVec3 > min( MaybeOptional< IVec3 > const & x, MaybeOptional< IVec3 > const & y );
 	SDW_API MaybeOptional< IVec4 > min( MaybeOptional< IVec4 > const & x, MaybeOptional< IVec4 > const & y );
-	SDW_API MaybeOptional< IVec2 > min( MaybeOptional< IVec2 > const & x, MaybeOptional< Int > const & y );
-	SDW_API MaybeOptional< IVec3 > min( MaybeOptional< IVec3 > const & x, MaybeOptional< Int > const & y );
-	SDW_API MaybeOptional< IVec4 > min( MaybeOptional< IVec4 > const & x, MaybeOptional< Int > const & y );
 	SDW_API MaybeOptional< UInt > min( MaybeOptional< UInt > const & x, MaybeOptional< UInt > const & y );
 	SDW_API MaybeOptional< UVec2 > min( MaybeOptional< UVec2 > const & x, MaybeOptional< UVec2 > const & y );
 	SDW_API MaybeOptional< UVec3 > min( MaybeOptional< UVec3 > const & x, MaybeOptional< UVec3 > const & y );
 	SDW_API MaybeOptional< UVec4 > min( MaybeOptional< UVec4 > const & x, MaybeOptional< UVec4 > const & y );
-	SDW_API MaybeOptional< UVec2 > min( MaybeOptional< UVec2 > const & x, MaybeOptional< UInt > const & y );
-	SDW_API MaybeOptional< UVec3 > min( MaybeOptional< UVec3 > const & x, MaybeOptional< UInt > const & y );
-	SDW_API MaybeOptional< UVec4 > min( MaybeOptional< UVec4 > const & x, MaybeOptional< UInt > const & y );
 	/**@}*/
 #pragma endregion
 #pragma region max
@@ -507,30 +489,18 @@ namespace sdw
 	SDW_API MaybeOptional< Vec2 > max( MaybeOptional< Vec2 > const & x, MaybeOptional< Vec2 > const & y );
 	SDW_API MaybeOptional< Vec3 > max( MaybeOptional< Vec3 > const & x, MaybeOptional< Vec3 > const & y );
 	SDW_API MaybeOptional< Vec4 > max( MaybeOptional< Vec4 > const & x, MaybeOptional< Vec4 > const & y );
-	SDW_API MaybeOptional< Vec2 > max( MaybeOptional< Vec2 > const & x, MaybeOptional< Float > const & y );
-	SDW_API MaybeOptional< Vec3 > max( MaybeOptional< Vec3 > const & x, MaybeOptional< Float > const & y );
-	SDW_API MaybeOptional< Vec4 > max( MaybeOptional< Vec4 > const & x, MaybeOptional< Float > const & y );
 	SDW_API MaybeOptional< Double > max( MaybeOptional< Double > const & x, MaybeOptional< Double > const & y );
 	SDW_API MaybeOptional< DVec2 > max( MaybeOptional< DVec2 > const & x, MaybeOptional< DVec2 > const & y );
 	SDW_API MaybeOptional< DVec3 > max( MaybeOptional< DVec3 > const & x, MaybeOptional< DVec3 > const & y );
 	SDW_API MaybeOptional< DVec4 > max( MaybeOptional< DVec4 > const & x, MaybeOptional< DVec4 > const & y );
-	SDW_API MaybeOptional< DVec2 > max( MaybeOptional< DVec2 > const & x, MaybeOptional< Double > const & y );
-	SDW_API MaybeOptional< DVec3 > max( MaybeOptional< DVec3 > const & x, MaybeOptional< Double > const & y );
-	SDW_API MaybeOptional< DVec4 > max( MaybeOptional< DVec4 > const & x, MaybeOptional< Double > const & y );
 	SDW_API MaybeOptional< Int > max( MaybeOptional< Int > const & x, MaybeOptional< Int > const & y );
 	SDW_API MaybeOptional< IVec2 > max( MaybeOptional< IVec2 > const & x, MaybeOptional< IVec2 > const & y );
 	SDW_API MaybeOptional< IVec3 > max( MaybeOptional< IVec3 > const & x, MaybeOptional< IVec3 > const & y );
 	SDW_API MaybeOptional< IVec4 > max( MaybeOptional< IVec4 > const & x, MaybeOptional< IVec4 > const & y );
-	SDW_API MaybeOptional< IVec2 > max( MaybeOptional< IVec2 > const & x, MaybeOptional< Int > const & y );
-	SDW_API MaybeOptional< IVec3 > max( MaybeOptional< IVec3 > const & x, MaybeOptional< Int > const & y );
-	SDW_API MaybeOptional< IVec4 > max( MaybeOptional< IVec4 > const & x, MaybeOptional< Int > const & y );
 	SDW_API MaybeOptional< UInt > max( MaybeOptional< UInt > const & x, MaybeOptional< UInt > const & y );
 	SDW_API MaybeOptional< UVec2 > max( MaybeOptional< UVec2 > const & x, MaybeOptional< UVec2 > const & y );
 	SDW_API MaybeOptional< UVec3 > max( MaybeOptional< UVec3 > const & x, MaybeOptional< UVec3 > const & y );
 	SDW_API MaybeOptional< UVec4 > max( MaybeOptional< UVec4 > const & x, MaybeOptional< UVec4 > const & y );
-	SDW_API MaybeOptional< UVec2 > max( MaybeOptional< UVec2 > const & x, MaybeOptional< UInt > const & y );
-	SDW_API MaybeOptional< UVec3 > max( MaybeOptional< UVec3 > const & x, MaybeOptional< UInt > const & y );
-	SDW_API MaybeOptional< UVec4 > max( MaybeOptional< UVec4 > const & x, MaybeOptional< UInt > const & y );
 	/**@}*/
 #pragma endregion
 #pragma region clamp
@@ -543,30 +513,18 @@ namespace sdw
 	SDW_API MaybeOptional< Vec2 > clamp( MaybeOptional< Vec2 > const & x, MaybeOptional< Vec2 > const & minVal, MaybeOptional< Vec2 > const & maxVal );
 	SDW_API MaybeOptional< Vec3 > clamp( MaybeOptional< Vec3 > const & x, MaybeOptional< Vec3 > const & minVal, MaybeOptional< Vec3 > const & maxVal );
 	SDW_API MaybeOptional< Vec4 > clamp( MaybeOptional< Vec4 > const & x, MaybeOptional< Vec4 > const & minVal, MaybeOptional< Vec4 > const & maxVal );
-	SDW_API MaybeOptional< Vec2 > clamp( MaybeOptional< Vec2 > const & x, MaybeOptional< Float > const & minVal, MaybeOptional< Float > const & maxVal );
-	SDW_API MaybeOptional< Vec3 > clamp( MaybeOptional< Vec3 > const & x, MaybeOptional< Float > const & minVal, MaybeOptional< Float > const & maxVal );
-	SDW_API MaybeOptional< Vec4 > clamp( MaybeOptional< Vec4 > const & x, MaybeOptional< Float > const & minVal, MaybeOptional< Float > const & maxVal );
 	SDW_API MaybeOptional< Double > clamp( MaybeOptional< Double > const & x, MaybeOptional< Double > const & minVal, MaybeOptional< Double > const & maxVal );
 	SDW_API MaybeOptional< DVec2 > clamp( MaybeOptional< DVec2 > const & x, MaybeOptional< DVec2 > const & minVal, MaybeOptional< DVec2 > const & maxVal );
 	SDW_API MaybeOptional< DVec3 > clamp( MaybeOptional< DVec3 > const & x, MaybeOptional< DVec3 > const & minVal, MaybeOptional< DVec3 > const & maxVal );
 	SDW_API MaybeOptional< DVec4 > clamp( MaybeOptional< DVec4 > const & x, MaybeOptional< DVec4 > const & minVal, MaybeOptional< DVec4 > const & maxVal );
-	SDW_API MaybeOptional< DVec2 > clamp( MaybeOptional< DVec2 > const & x, MaybeOptional< Double > const & minVal, MaybeOptional< Double > const & maxVal );
-	SDW_API MaybeOptional< DVec3 > clamp( MaybeOptional< DVec3 > const & x, MaybeOptional< Double > const & minVal, MaybeOptional< Double > const & maxVal );
-	SDW_API MaybeOptional< DVec4 > clamp( MaybeOptional< DVec4 > const & x, MaybeOptional< Double > const & minVal, MaybeOptional< Double > const & maxVal );
 	SDW_API MaybeOptional< Int > clamp( MaybeOptional< Int > const & x, MaybeOptional< Int > const & minVal, MaybeOptional< Int > const & maxVal );
 	SDW_API MaybeOptional< IVec2 > clamp( MaybeOptional< IVec2 > const & x, MaybeOptional< IVec2 > const & minVal, MaybeOptional< IVec2 > const & maxVal );
 	SDW_API MaybeOptional< IVec3 > clamp( MaybeOptional< IVec3 > const & x, MaybeOptional< IVec3 > const & minVal, MaybeOptional< IVec3 > const & maxVal );
 	SDW_API MaybeOptional< IVec4 > clamp( MaybeOptional< IVec4 > const & x, MaybeOptional< IVec4 > const & minVal, MaybeOptional< IVec4 > const & maxVal );
-	SDW_API MaybeOptional< IVec2 > clamp( MaybeOptional< IVec2 > const & x, MaybeOptional< Int > const & minVal, MaybeOptional< Int > const & maxVal );
-	SDW_API MaybeOptional< IVec3 > clamp( MaybeOptional< IVec3 > const & x, MaybeOptional< Int > const & minVal, MaybeOptional< Int > const & maxVal );
-	SDW_API MaybeOptional< IVec4 > clamp( MaybeOptional< IVec4 > const & x, MaybeOptional< Int > const & minVal, MaybeOptional< Int > const & maxVal );
 	SDW_API MaybeOptional< UInt > clamp( MaybeOptional< UInt > const & x, MaybeOptional< UInt > const & minVal, MaybeOptional< UInt > const & maxVal );
 	SDW_API MaybeOptional< UVec2 > clamp( MaybeOptional< UVec2 > const & x, MaybeOptional< UVec2 > const & minVal, MaybeOptional< UVec2 > const & maxVal );
 	SDW_API MaybeOptional< UVec3 > clamp( MaybeOptional< UVec3 > const & x, MaybeOptional< UVec3 > const & minVal, MaybeOptional< UVec3 > const & maxVal );
 	SDW_API MaybeOptional< UVec4 > clamp( MaybeOptional< UVec4 > const & x, MaybeOptional< UVec4 > const & minVal, MaybeOptional< UVec4 > const & maxVal );
-	SDW_API MaybeOptional< UVec2 > clamp( MaybeOptional< UVec2 > const & x, MaybeOptional< UInt > const & minVal, MaybeOptional< UInt > const & maxVal );
-	SDW_API MaybeOptional< UVec3 > clamp( MaybeOptional< UVec3 > const & x, MaybeOptional< UInt > const & minVal, MaybeOptional< UInt > const & maxVal );
-	SDW_API MaybeOptional< UVec4 > clamp( MaybeOptional< UVec4 > const & x, MaybeOptional< UInt > const & minVal, MaybeOptional< UInt > const & maxVal );
 	/**@}*/
 #pragma endregion
 #pragma region mix
@@ -579,24 +537,10 @@ namespace sdw
 	SDW_API MaybeOptional< Vec2 > mix( MaybeOptional< Vec2 > const & x, MaybeOptional< Vec2 > const & y, MaybeOptional< Vec2 > const & a );
 	SDW_API MaybeOptional< Vec3 > mix( MaybeOptional< Vec3 > const & x, MaybeOptional< Vec3 > const & y, MaybeOptional< Vec3 > const & a );
 	SDW_API MaybeOptional< Vec4 > mix( MaybeOptional< Vec4 > const & x, MaybeOptional< Vec4 > const & y, MaybeOptional< Vec4 > const & a );
-	SDW_API MaybeOptional< Vec2 > mix( MaybeOptional< Vec2 > const & x, MaybeOptional< Vec2 > const & y, MaybeOptional< Float > const & a );
-	SDW_API MaybeOptional< Vec3 > mix( MaybeOptional< Vec3 > const & x, MaybeOptional< Vec3 > const & y, MaybeOptional< Float > const & a );
-	SDW_API MaybeOptional< Vec4 > mix( MaybeOptional< Vec4 > const & x, MaybeOptional< Vec4 > const & y, MaybeOptional< Float > const & a );
-	SDW_API MaybeOptional< Float > mix( MaybeOptional< Float > const & x, MaybeOptional< Float > const & y, MaybeOptional< Bool > const & a );
-	SDW_API MaybeOptional< Vec2 > mix( MaybeOptional< Vec2 > const & x, MaybeOptional< Vec2 > const & y, MaybeOptional< BVec2 > const & a );
-	SDW_API MaybeOptional< Vec3 > mix( MaybeOptional< Vec3 > const & x, MaybeOptional< Vec3 > const & y, MaybeOptional< BVec3 > const & a );
-	SDW_API MaybeOptional< Vec4 > mix( MaybeOptional< Vec4 > const & x, MaybeOptional< Vec4 > const & y, MaybeOptional< BVec4 > const & a );
 	SDW_API MaybeOptional< Double > mix( MaybeOptional< Double > const & x, MaybeOptional< Double > const & y, MaybeOptional< Double > const & a );
 	SDW_API MaybeOptional< DVec2 > mix( MaybeOptional< DVec2 > const & x, MaybeOptional< DVec2 > const & y, MaybeOptional< DVec2 > const & a );
 	SDW_API MaybeOptional< DVec3 > mix( MaybeOptional< DVec3 > const & x, MaybeOptional< DVec3 > const & y, MaybeOptional< DVec3 > const & a );
 	SDW_API MaybeOptional< DVec4 > mix( MaybeOptional< DVec4 > const & x, MaybeOptional< DVec4 > const & y, MaybeOptional< DVec4 > const & a );
-	SDW_API MaybeOptional< DVec2 > mix( MaybeOptional< DVec2 > const & x, MaybeOptional< DVec2 > const & y, MaybeOptional< Double > const & a );
-	SDW_API MaybeOptional< DVec3 > mix( MaybeOptional< DVec3 > const & x, MaybeOptional< DVec3 > const & y, MaybeOptional< Double > const & a );
-	SDW_API MaybeOptional< DVec4 > mix( MaybeOptional< DVec4 > const & x, MaybeOptional< DVec4 > const & y, MaybeOptional< Double > const & a );
-	SDW_API MaybeOptional< Double > mix( MaybeOptional< Double > const & x, MaybeOptional< Double > const & y, MaybeOptional< Bool > const & a );
-	SDW_API MaybeOptional< DVec2 > mix( MaybeOptional< DVec2 > const & x, MaybeOptional< DVec2 > const & y, MaybeOptional< BVec2 > const & a );
-	SDW_API MaybeOptional< DVec3 > mix( MaybeOptional< DVec3 > const & x, MaybeOptional< DVec3 > const & y, MaybeOptional< BVec3 > const & a );
-	SDW_API MaybeOptional< DVec4 > mix( MaybeOptional< DVec4 > const & x, MaybeOptional< DVec4 > const & y, MaybeOptional< BVec4 > const & a );
 	/**@}*/
 #pragma endregion
 #pragma region step
@@ -609,16 +553,10 @@ namespace sdw
 	SDW_API MaybeOptional< Vec2 > step( MaybeOptional< Vec2 > const & edge, MaybeOptional< Vec2 > const & x );
 	SDW_API MaybeOptional< Vec3 > step( MaybeOptional< Vec3 > const & edge, MaybeOptional< Vec3 > const & x );
 	SDW_API MaybeOptional< Vec4 > step( MaybeOptional< Vec4 > const & edge, MaybeOptional< Vec4 > const & x );
-	SDW_API MaybeOptional< Vec2 > step( MaybeOptional< Float > const & edge, MaybeOptional< Vec2 > const & x );
-	SDW_API MaybeOptional< Vec3 > step( MaybeOptional< Float > const & edge, MaybeOptional< Vec3 > const & x );
-	SDW_API MaybeOptional< Vec4 > step( MaybeOptional< Float > const & edge, MaybeOptional< Vec4 > const & x );
 	SDW_API MaybeOptional< Double > step( MaybeOptional< Double > const & edge, MaybeOptional< Double > const & x );
 	SDW_API MaybeOptional< DVec2 > step( MaybeOptional< DVec2 > const & edge, MaybeOptional< DVec2 > const & x );
 	SDW_API MaybeOptional< DVec3 > step( MaybeOptional< DVec3 > const & edge, MaybeOptional< DVec3 > const & x );
 	SDW_API MaybeOptional< DVec4 > step( MaybeOptional< DVec4 > const & edge, MaybeOptional< DVec4 > const & x );
-	SDW_API MaybeOptional< DVec2 > step( MaybeOptional< Double > const & edge, MaybeOptional< DVec2 > const & x );
-	SDW_API MaybeOptional< DVec3 > step( MaybeOptional< Double > const & edge, MaybeOptional< DVec3 > const & x );
-	SDW_API MaybeOptional< DVec4 > step( MaybeOptional< Double > const & edge, MaybeOptional< DVec4 > const & x );
 	/**@}*/
 #pragma endregion
 #pragma region smoothStep
@@ -631,16 +569,10 @@ namespace sdw
 	SDW_API MaybeOptional< Vec2 > smoothStep( MaybeOptional< Vec2 > const & edge0, MaybeOptional< Vec2 > const & edge1, MaybeOptional< Vec2 > const & x );
 	SDW_API MaybeOptional< Vec3 > smoothStep( MaybeOptional< Vec3 > const & edge0, MaybeOptional< Vec3 > const & edge1, MaybeOptional< Vec3 > const & x );
 	SDW_API MaybeOptional< Vec4 > smoothStep( MaybeOptional< Vec4 > const & edge0, MaybeOptional< Vec4 > const & edge1, MaybeOptional< Vec4 > const & x );
-	SDW_API MaybeOptional< Vec2 > smoothStep( MaybeOptional< Float > const & edge0, MaybeOptional< Float > const & edge1, MaybeOptional< Vec2 > const & x );
-	SDW_API MaybeOptional< Vec3 > smoothStep( MaybeOptional< Float > const & edge0, MaybeOptional< Float > const & edge1, MaybeOptional< Vec3 > const & x );
-	SDW_API MaybeOptional< Vec4 > smoothStep( MaybeOptional< Float > const & edge0, MaybeOptional< Float > const & edge1, MaybeOptional< Vec4 > const & x );
 	SDW_API MaybeOptional< Double > smoothStep( MaybeOptional< Double > const & edge0, MaybeOptional< Double > const & edge1, MaybeOptional< Double > const & x );
 	SDW_API MaybeOptional< DVec2 > smoothStep( MaybeOptional< DVec2 > const & edge0, MaybeOptional< DVec2 > const & edge1, MaybeOptional< DVec2 > const & x );
 	SDW_API MaybeOptional< DVec3 > smoothStep( MaybeOptional< DVec3 > const & edge0, MaybeOptional< DVec3 > const & edge1, MaybeOptional< DVec3 > const & x );
 	SDW_API MaybeOptional< DVec4 > smoothStep( MaybeOptional< DVec4 > const & edge0, MaybeOptional< DVec4 > const & edge1, MaybeOptional< DVec4 > const & x );
-	SDW_API MaybeOptional< DVec2 > smoothStep( MaybeOptional< Double > const & edge0, MaybeOptional< Double > const & edge1, MaybeOptional< DVec2 > const & x );
-	SDW_API MaybeOptional< DVec3 > smoothStep( MaybeOptional< Double > const & edge0, MaybeOptional< Double > const & edge1, MaybeOptional< DVec3 > const & x );
-	SDW_API MaybeOptional< DVec4 > smoothStep( MaybeOptional< Double > const & edge0, MaybeOptional< Double > const & edge1, MaybeOptional< DVec4 > const & x );
 	/**@}*/
 #pragma endregion
 #pragma region isnan
@@ -745,14 +677,14 @@ namespace sdw
 	*	frexp
 	*/
 	/**@{*/
-	SDW_API MaybeOptional< Float > frexp( MaybeOptional< Float > const & x, MaybeOptional< Int > const & exp );
-	SDW_API MaybeOptional< Vec2 > frexp( MaybeOptional< Vec2 > const & x, MaybeOptional< IVec2 > const & exp );
-	SDW_API MaybeOptional< Vec3 > frexp( MaybeOptional< Vec3 > const & x, MaybeOptional< IVec3 > const & exp );
-	SDW_API MaybeOptional< Vec4 > frexp( MaybeOptional< Vec4 > const & x, MaybeOptional< IVec4 > const & exp );
-	SDW_API MaybeOptional< Double > frexp( MaybeOptional< Double > const & x, MaybeOptional< Int > const & exp );
-	SDW_API MaybeOptional< DVec2 > frexp( MaybeOptional< DVec2 > const & x, MaybeOptional< IVec2 > const & exp );
-	SDW_API MaybeOptional< DVec3 > frexp( MaybeOptional< DVec3 > const & x, MaybeOptional< IVec3 > const & exp );
-	SDW_API MaybeOptional< DVec4 > frexp( MaybeOptional< DVec4 > const & x, MaybeOptional< IVec4 > const & exp );
+	SDW_API MaybeOptional< Float > frexp( MaybeOptional< Float > const & x, Int & exp );
+	SDW_API MaybeOptional< Vec2 > frexp( MaybeOptional< Vec2 > const & x, IVec2 & exp );
+	SDW_API MaybeOptional< Vec3 > frexp( MaybeOptional< Vec3 > const & x, IVec3 & exp );
+	SDW_API MaybeOptional< Vec4 > frexp( MaybeOptional< Vec4 > const & x, IVec4 & exp );
+	SDW_API MaybeOptional< Double > frexp( MaybeOptional< Double > const & x, Int & exp );
+	SDW_API MaybeOptional< DVec2 > frexp( MaybeOptional< DVec2 > const & x, IVec2 & exp );
+	SDW_API MaybeOptional< DVec3 > frexp( MaybeOptional< DVec3 > const & x, IVec3 & exp );
+	SDW_API MaybeOptional< DVec4 > frexp( MaybeOptional< DVec4 > const & x, IVec4 & exp );
 	/**@}*/
 #pragma endregion
 #pragma region ldexp
@@ -979,7 +911,7 @@ namespace sdw
 	SDW_API MaybeOptional< Vec2 > reflect( MaybeOptional< Vec2 > const & I, MaybeOptional< Vec2 > const & N );
 	SDW_API MaybeOptional< Vec3 > reflect( MaybeOptional< Vec3 > const & I, MaybeOptional< Vec3 > const & N );
 	SDW_API MaybeOptional< Vec4 > reflect( MaybeOptional< Vec4 > const & I, MaybeOptional< Vec4 > const & N );
-	SDW_API MaybeOptional< Double > reflect( MaybeOptional< Float > const & I, MaybeOptional< Double > const & N );
+	SDW_API MaybeOptional< Double > reflect( MaybeOptional< Double > const & I, MaybeOptional< Double > const & N );
 	SDW_API MaybeOptional< DVec2 > reflect( MaybeOptional< DVec2 > const & I, MaybeOptional< DVec2 > const & N );
 	SDW_API MaybeOptional< DVec3 > reflect( MaybeOptional< DVec3 > const & I, MaybeOptional< DVec3 > const & N );
 	SDW_API MaybeOptional< DVec4 > reflect( MaybeOptional< DVec4 > const & I, MaybeOptional< DVec4 > const & N );
@@ -1480,8 +1412,8 @@ namespace sdw
 	*	atomicCompSwap
 	*/
 	/**@{*/
-	SDW_API MaybeOptional< Int > atomicCompSwap( MaybeOptional< Int > const & mem, MaybeOptional< UInt > const & compare );
-	SDW_API MaybeOptional< UInt > atomicCompSwap( MaybeOptional< UInt > const & mem, MaybeOptional< UInt > const & compare );
+	SDW_API MaybeOptional< Int > atomicCompSwap( MaybeOptional< Int > const & mem, MaybeOptional< UInt > const & compare, MaybeOptional< UInt > const & data );
+	SDW_API MaybeOptional< UInt > atomicCompSwap( MaybeOptional< UInt > const & mem, MaybeOptional< UInt > const & compare, MaybeOptional< UInt > const & data );
 	/**@}*/
 #pragma endregion
 #pragma region dFdx

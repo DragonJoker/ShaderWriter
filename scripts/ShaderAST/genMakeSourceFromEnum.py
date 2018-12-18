@@ -78,12 +78,12 @@ def computeParams( params, sep ):
 	intrParams = re.compile("[, ]*ASTIntrParams\( ([\w, :()\[\]]*) \)$")
 	resParams = intrParams.match( params )
 	if resParams:
-		intrParam = re.compile("ASTIntrParam\( ([^,]*), ([^ ]*) \)")
+		intrParam = re.compile("(ASTIntrParam|ASTIntrOutParam)\( ([^,]*), ([^ ]*) \)")
 		resParam = intrParam.split( resParams.group( 1 ) )
 		index = 1
 		while len( resParam ) > index:
 			result += sep + " ExprPtr "
-			index += 1
+			index += 2
 			result += discardArray( resParam[index] )
 			sep = "\n\t\t,"
 			index += 2
@@ -94,10 +94,11 @@ def computeArgs( args ):
 	intrArgs = re.compile("[, ]*ASTIntrParams\( ([\w, :()\[\]]*) \)$")
 	resArgs = intrArgs.match( args )
 	if resArgs:
-		intrArg = re.compile("ASTIntrParam\( ([^,]*), ([^ ]*) \)")
+		intrArg = re.compile("(ASTIntrParam|ASTIntrOutParam)\( ([^,]*), ([^ ]*) \)")
 		resArg = intrArg.split( resArgs.group( 1 ) )
 		index = 2
 		while len( resArg ) > index:
+			index += 1
 			result += "\n\t\t\t, std::move( " + discardArray( resArg[index] ) + " )"
 			index += 3
 	return result

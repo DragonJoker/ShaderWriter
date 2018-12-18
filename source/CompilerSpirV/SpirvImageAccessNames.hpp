@@ -52,7 +52,7 @@ namespace spirv
 		case ast::expr::ImageAccess::eImageSizeBufferU:
 		case ast::expr::ImageAccess::eImageSize2DMSU:
 		case ast::expr::ImageAccess::eImageSize2DMSArrayU:
-			result = spv::Op::OpImageQuerySize;
+			result = spv::OpImageQuerySize;
 			break;
 
 		case ast::expr::ImageAccess::eImageSamples2DMSF:
@@ -61,7 +61,7 @@ namespace spirv
 		case ast::expr::ImageAccess::eImageSamples2DMSArrayI:
 		case ast::expr::ImageAccess::eImageSamples2DMSU:
 		case ast::expr::ImageAccess::eImageSamples2DMSArrayU:
-			result = spv::Op::OpImageQuerySamples;
+			result = spv::OpImageQuerySamples;
 			break;
 
 		case ast::expr::ImageAccess::eImageLoad1DF:
@@ -97,7 +97,7 @@ namespace spirv
 		case ast::expr::ImageAccess::eImageLoadCubeArrayU:
 		case ast::expr::ImageAccess::eImageLoad2DMSU:
 		case ast::expr::ImageAccess::eImageLoad2DMSArrayU:
-			result = spv::Op::OpImageRead;
+			result = spv::OpImageRead;
 			break;
 
 		case ast::expr::ImageAccess::eImageAtomicAdd1DU:
@@ -122,7 +122,7 @@ namespace spirv
 		case ast::expr::ImageAccess::eImageAtomicAddCubeArrayI:
 		case ast::expr::ImageAccess::eImageAtomicAdd2DMSI:
 		case ast::expr::ImageAccess::eImageAtomicAdd2DMSArrayI:
-			result = spv::Op::OpAtomicIAdd;
+			result = spv::OpAtomicIAdd;
 			break;
 
 		case ast::expr::ImageAccess::eImageAtomicMin1DU:
@@ -136,7 +136,7 @@ namespace spirv
 		case ast::expr::ImageAccess::eImageAtomicMinCubeArrayU:
 		case ast::expr::ImageAccess::eImageAtomicMin2DMSU:
 		case ast::expr::ImageAccess::eImageAtomicMin2DMSArrayU:
-			result = spv::Op::OpAtomicUMin;
+			result = spv::OpAtomicUMin;
 			break;
 
 		case ast::expr::ImageAccess::eImageAtomicMin1DI:
@@ -150,7 +150,7 @@ namespace spirv
 		case ast::expr::ImageAccess::eImageAtomicMinCubeArrayI:
 		case ast::expr::ImageAccess::eImageAtomicMin2DMSI:
 		case ast::expr::ImageAccess::eImageAtomicMin2DMSArrayI:
-			result = spv::Op::OpAtomicSMin;
+			result = spv::OpAtomicSMin;
 			break;
 
 		case ast::expr::ImageAccess::eImageAtomicMax1DU:
@@ -164,7 +164,7 @@ namespace spirv
 		case ast::expr::ImageAccess::eImageAtomicMaxCubeArrayU:
 		case ast::expr::ImageAccess::eImageAtomicMax2DMSU:
 		case ast::expr::ImageAccess::eImageAtomicMax2DMSArrayU:
-			result = spv::Op::OpAtomicUMax;
+			result = spv::OpAtomicUMax;
 			break;
 
 		case ast::expr::ImageAccess::eImageAtomicMax1DI:
@@ -178,7 +178,7 @@ namespace spirv
 		case ast::expr::ImageAccess::eImageAtomicMaxCubeArrayI:
 		case ast::expr::ImageAccess::eImageAtomicMax2DMSI:
 		case ast::expr::ImageAccess::eImageAtomicMax2DMSArrayI:
-			result = spv::Op::OpAtomicSMax;
+			result = spv::OpAtomicSMax;
 			break;
 
 		case ast::expr::ImageAccess::eImageAtomicAnd1DU:
@@ -203,7 +203,7 @@ namespace spirv
 		case ast::expr::ImageAccess::eImageAtomicAndCubeArrayI:
 		case ast::expr::ImageAccess::eImageAtomicAnd2DMSI:
 		case ast::expr::ImageAccess::eImageAtomicAnd2DMSArrayI:
-			result = spv::Op::OpAtomicAnd;
+			result = spv::OpAtomicAnd;
 			break;
 
 		case ast::expr::ImageAccess::eImageAtomicOr1DU:
@@ -228,7 +228,7 @@ namespace spirv
 		case ast::expr::ImageAccess::eImageAtomicOrCubeArrayI:
 		case ast::expr::ImageAccess::eImageAtomicOr2DMSI:
 		case ast::expr::ImageAccess::eImageAtomicOr2DMSArrayI:
-			result = spv::Op::OpAtomicOr;
+			result = spv::OpAtomicOr;
 			break;
 
 		case ast::expr::ImageAccess::eImageAtomicXor1DU:
@@ -253,7 +253,7 @@ namespace spirv
 		case ast::expr::ImageAccess::eImageAtomicXorCubeArrayI:
 		case ast::expr::ImageAccess::eImageAtomicXor2DMSI:
 		case ast::expr::ImageAccess::eImageAtomicXor2DMSArrayI:
-			result = spv::Op::OpAtomicXor;
+			result = spv::OpAtomicXor;
 			break;
 
 		case ast::expr::ImageAccess::eImageAtomicExchange1DU:
@@ -278,7 +278,7 @@ namespace spirv
 		case ast::expr::ImageAccess::eImageAtomicExchangeCubeArrayI:
 		case ast::expr::ImageAccess::eImageAtomicExchange2DMSI:
 		case ast::expr::ImageAccess::eImageAtomicExchange2DMSArrayI:
-			result = spv::Op::OpAtomicExchange;
+			result = spv::OpAtomicExchange;
 			break;
 
 		case ast::expr::ImageAccess::eImageAtomicCompSwap1DU:
@@ -303,7 +303,7 @@ namespace spirv
 		case ast::expr::ImageAccess::eImageAtomicCompSwapCubeArrayI:
 		case ast::expr::ImageAccess::eImageAtomicCompSwap2DMSI:
 		case ast::expr::ImageAccess::eImageAtomicCompSwap2DMSArrayI:
-			result = spv::Op::OpAtomicCompareExchange;
+			result = spv::OpAtomicCompareExchange;
 			break;
 
 		default:

@@ -82,12 +82,12 @@ def computeParams( paramsGroup, sep ):
 	intrParams = re.compile("[, ]*ASTIntrParams\( ([\w, :()\[\]]*) \)$")
 	resParams = intrParams.match( paramsGroup )
 	if resParams:
-		intrParam = re.compile("ASTIntrParam\( ([^,]*), ([^ ]*) \)")
+		intrParam = re.compile("(ASTIntrParam|ASTIntrOutParam)\( ([^,]*), ([^ ]*) \)")
 		resParam = intrParam.split( resParams.group( 1 ) )
 		index = 1
 		while len( resParam ) > index:
 			result += sep + " ExprPtr "
-			index += 1
+			index += 2
 			result += discardArray( resParam[index] )
 			sep = ","
 			index += 2
@@ -98,13 +98,18 @@ def computeParamsDoc( paramsGroup ):
 	intrParams = re.compile("[, ]*ASTIntrParams\( ([\w, :()\[\]]*) \)$")
 	resParams = intrParams.match( paramsGroup )
 	if resParams:
-		intrParam = re.compile("ASTIntrParam\( ([^,]*), ([^ ]*) \)")
+		intrParam = re.compile("(ASTIntrParam|ASTIntrOutParam)\( ([^,]*), ([^ ]*) \)")
 		resParam = intrParam.split( resParams.group( 1 ) )
 		index = 1
 		while len( resParam ) > index:
+			if resParam[index] == "ASTIntrOutParam":
+				typeQualifier = "[out]"
+			else:
+				typeQualifier = "[in]"
+			index += 1
 			typeName = typeKindToGlslType( resParam[index] )
 			index += 1
-			result += "\n\t*@param " + discardArray( resParam[index] )
+			result += "\n\t*@param" + typeQualifier + " " + discardArray( resParam[index] )
 			result += "\n\t*\t" + typeName
 			index += 2
 	return result

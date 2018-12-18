@@ -869,10 +869,10 @@ namespace spirv
 		using InstructionType = InstructionT< Operator, HasReturnTypeId, HasResultId, OperandsCount, HasName, HasLabels >;
 		using InstructionTypePtr = std::unique_ptr< InstructionType >;
 
-		static inline InstructionTypePtr make( spv::Id returnTypeId, spv::Id resultTypeId, std::string const & name )
+		static inline InstructionTypePtr make( spv::Id returnTypeId, spv::Id resultId, std::string const & name )
 		{
 			return std::make_unique< InstructionType >( returnTypeId
-				, resultTypeId
+				, resultId
 				, IdList{}
 				, name
 				, std::nullopt );
@@ -890,10 +890,10 @@ namespace spirv
 		using InstructionType = InstructionT< Operator, HasReturnTypeId, HasResultId, OperandsCount, HasName, HasLabels >;
 		using InstructionTypePtr = std::unique_ptr< InstructionType >;
 
-		static inline InstructionTypePtr make( spv::Id returnTypeId, spv::Id resultTypeId, spv::Id operand, std::string const & name )
+		static inline InstructionTypePtr make( spv::Id returnTypeId, spv::Id resultId, spv::Id operand, std::string const & name )
 		{
 			return std::make_unique< InstructionType >( returnTypeId
-				, resultTypeId
+				, resultId
 				, IdList{ operand }
 				, name
 				, std::nullopt );
@@ -911,10 +911,10 @@ namespace spirv
 		using InstructionType = InstructionT< Operator, HasReturnTypeId, HasResultId, OperandsCount, HasName, HasLabels >;
 		using InstructionTypePtr = std::unique_ptr< InstructionType >;
 
-		static inline InstructionTypePtr make( spv::Id returnTypeId, spv::Id resultTypeId, spv::Id operand0, spv::Id operand1, std::string const & name )
+		static inline InstructionTypePtr make( spv::Id returnTypeId, spv::Id resultId, spv::Id operand0, spv::Id operand1, std::string const & name )
 		{
 			return std::make_unique< InstructionType >( returnTypeId
-				, resultTypeId
+				, resultId
 				, IdList{ operand0, operand1 }
 				, name
 				, std::nullopt );
@@ -932,12 +932,12 @@ namespace spirv
 		using InstructionTypePtr = std::unique_ptr< InstructionType >;
 
 		static inline InstructionTypePtr make( spv::Id returnTypeId
-			, spv::Id resultTypeId
+			, spv::Id resultId
 			, IdList const & operands
 			, std::string const & name )
 		{
 			return std::make_unique< InstructionType >( returnTypeId
-				, resultTypeId
+				, resultId
 				, operands
 				, name
 				, std::nullopt );
@@ -983,7 +983,7 @@ namespace spirv
 		, bool hasName
 		, bool hasLabels )
 	{
-		assert( spv::Op::OpNop != op );
+		assert( spv::OpNop != op );
 		assert( spv::Op( instruction.op.opCode ) == op );
 		assert( bool( instruction.returnTypeId ) == hasReturnTypeId );
 		assert( bool( instruction.resultId ) == hasResultId );

@@ -678,60 +678,36 @@ namespace ast::expr
 			result = "FRACT4D";
 			break;
 
-		case Intrinsic::eMod11F:
-			result = "MOD11F";
+		case Intrinsic::eMod1F:
+			result = "MOD1F";
 			break;
 
-		case Intrinsic::eMod22F:
-			result = "MOD22F";
+		case Intrinsic::eMod2F:
+			result = "MOD2F";
 			break;
 
-		case Intrinsic::eMod33F:
-			result = "MOD33F";
+		case Intrinsic::eMod3F:
+			result = "MOD3F";
 			break;
 
-		case Intrinsic::eMod44F:
-			result = "MOD44F";
+		case Intrinsic::eMod4F:
+			result = "MOD4F";
 			break;
 
-		case Intrinsic::eMod21F:
-			result = "MOD21F";
+		case Intrinsic::eMod1D:
+			result = "MOD1D";
 			break;
 
-		case Intrinsic::eMod31F:
-			result = "MOD31F";
+		case Intrinsic::eMod2D:
+			result = "MOD2D";
 			break;
 
-		case Intrinsic::eMod41F:
-			result = "MOD41F";
+		case Intrinsic::eMod3D:
+			result = "MOD3D";
 			break;
 
-		case Intrinsic::eMod11D:
-			result = "MOD11D";
-			break;
-
-		case Intrinsic::eMod22D:
-			result = "MOD22D";
-			break;
-
-		case Intrinsic::eMod33D:
-			result = "MOD33D";
-			break;
-
-		case Intrinsic::eMod44D:
-			result = "MOD44D";
-			break;
-
-		case Intrinsic::eMod21D:
-			result = "MOD21D";
-			break;
-
-		case Intrinsic::eMod31D:
-			result = "MOD31D";
-			break;
-
-		case Intrinsic::eMod41D:
-			result = "MOD41D";
+		case Intrinsic::eMod4D:
+			result = "MOD4D";
 			break;
 
 		case Intrinsic::eModf1F:
@@ -766,540 +742,292 @@ namespace ast::expr
 			result = "MODF4D";
 			break;
 
-		case Intrinsic::eMin11F:
-			result = "MIN11F";
+		case Intrinsic::eMin1F:
+			result = "MIN1F";
 			break;
 
-		case Intrinsic::eMin22F:
-			result = "MIN22F";
+		case Intrinsic::eMin2F:
+			result = "MIN2F";
 			break;
 
-		case Intrinsic::eMin33F:
-			result = "MIN33F";
+		case Intrinsic::eMin3F:
+			result = "MIN3F";
 			break;
 
-		case Intrinsic::eMin44F:
-			result = "MIN44F";
+		case Intrinsic::eMin4F:
+			result = "MIN4F";
 			break;
 
-		case Intrinsic::eMin21F:
-			result = "MIN21F";
+		case Intrinsic::eMin1D:
+			result = "MIN1D";
 			break;
 
-		case Intrinsic::eMin31F:
-			result = "MIN31F";
+		case Intrinsic::eMin2D:
+			result = "MIN2D";
 			break;
 
-		case Intrinsic::eMin41F:
-			result = "MIN41F";
+		case Intrinsic::eMin3D:
+			result = "MIN3D";
 			break;
 
-		case Intrinsic::eMin11D:
-			result = "MIN11D";
+		case Intrinsic::eMin4D:
+			result = "MIN4D";
 			break;
 
-		case Intrinsic::eMin22D:
-			result = "MIN22D";
+		case Intrinsic::eMin1I:
+			result = "MIN1I";
 			break;
 
-		case Intrinsic::eMin33D:
-			result = "MIN33D";
+		case Intrinsic::eMin2I:
+			result = "MIN2I";
 			break;
 
-		case Intrinsic::eMin44D:
-			result = "MIN44D";
+		case Intrinsic::eMin3I:
+			result = "MIN3I";
 			break;
 
-		case Intrinsic::eMin21D:
-			result = "MIN21D";
+		case Intrinsic::eMin4I:
+			result = "MIN4I";
 			break;
 
-		case Intrinsic::eMin31D:
-			result = "MIN31D";
+		case Intrinsic::eMin1U:
+			result = "MIN1U";
 			break;
 
-		case Intrinsic::eMin41D:
-			result = "MIN41D";
+		case Intrinsic::eMin2U:
+			result = "MIN2U";
 			break;
 
-		case Intrinsic::eMin11I:
-			result = "MIN11I";
+		case Intrinsic::eMin3U:
+			result = "MIN3U";
 			break;
 
-		case Intrinsic::eMin22I:
-			result = "MIN22I";
+		case Intrinsic::eMin4U:
+			result = "MIN4U";
 			break;
 
-		case Intrinsic::eMin33I:
-			result = "MIN33I";
+		case Intrinsic::eMax1F:
+			result = "MAX1F";
 			break;
 
-		case Intrinsic::eMin44I:
-			result = "MIN44I";
+		case Intrinsic::eMax2F:
+			result = "MAX2F";
 			break;
 
-		case Intrinsic::eMin21I:
-			result = "MIN21I";
+		case Intrinsic::eMax3F:
+			result = "MAX3F";
 			break;
 
-		case Intrinsic::eMin31I:
-			result = "MIN31I";
+		case Intrinsic::eMax4F:
+			result = "MAX4F";
 			break;
 
-		case Intrinsic::eMin41I:
-			result = "MIN41I";
+		case Intrinsic::eMax1D:
+			result = "MAX1D";
 			break;
 
-		case Intrinsic::eMin11U:
-			result = "MIN11U";
+		case Intrinsic::eMax2D:
+			result = "MAX2D";
 			break;
 
-		case Intrinsic::eMin22U:
-			result = "MIN22U";
+		case Intrinsic::eMax3D:
+			result = "MAX3D";
 			break;
 
-		case Intrinsic::eMin33U:
-			result = "MIN33U";
+		case Intrinsic::eMax4D:
+			result = "MAX4D";
 			break;
 
-		case Intrinsic::eMin44U:
-			result = "MIN44U";
+		case Intrinsic::eMax1I:
+			result = "MAX1I";
 			break;
 
-		case Intrinsic::eMin21U:
-			result = "MIN21U";
+		case Intrinsic::eMax2I:
+			result = "MAX2I";
 			break;
 
-		case Intrinsic::eMin31U:
-			result = "MIN31U";
+		case Intrinsic::eMax3I:
+			result = "MAX3I";
 			break;
 
-		case Intrinsic::eMin41U:
-			result = "MIN41U";
+		case Intrinsic::eMax4I:
+			result = "MAX4I";
 			break;
 
-		case Intrinsic::eMax11F:
-			result = "MAX11F";
+		case Intrinsic::eMax1U:
+			result = "MAX1U";
 			break;
 
-		case Intrinsic::eMax22F:
-			result = "MAX22F";
+		case Intrinsic::eMax2U:
+			result = "MAX2U";
 			break;
 
-		case Intrinsic::eMax33F:
-			result = "MAX33F";
+		case Intrinsic::eMax3U:
+			result = "MAX3U";
 			break;
 
-		case Intrinsic::eMax44F:
-			result = "MAX44F";
+		case Intrinsic::eMax4U:
+			result = "MAX4U";
 			break;
 
-		case Intrinsic::eMax21F:
-			result = "MAX21F";
+		case Intrinsic::eClamp1F:
+			result = "CLAMP1F";
 			break;
 
-		case Intrinsic::eMax31F:
-			result = "MAX31F";
+		case Intrinsic::eClamp2F:
+			result = "CLAMP2F";
 			break;
 
-		case Intrinsic::eMax41F:
-			result = "MAX41F";
+		case Intrinsic::eClamp3F:
+			result = "CLAMP3F";
 			break;
 
-		case Intrinsic::eMax11D:
-			result = "MAX11D";
+		case Intrinsic::eClamp4F:
+			result = "CLAMP4F";
 			break;
 
-		case Intrinsic::eMax22D:
-			result = "MAX22D";
+		case Intrinsic::eClamp1D:
+			result = "CLAMP1D";
 			break;
 
-		case Intrinsic::eMax33D:
-			result = "MAX33D";
+		case Intrinsic::eClamp2D:
+			result = "CLAMP2D";
 			break;
 
-		case Intrinsic::eMax44D:
-			result = "MAX44D";
+		case Intrinsic::eClamp3D:
+			result = "CLAMP3D";
 			break;
 
-		case Intrinsic::eMax21D:
-			result = "MAX21D";
+		case Intrinsic::eClamp4D:
+			result = "CLAMP4D";
 			break;
 
-		case Intrinsic::eMax31D:
-			result = "MAX31D";
+		case Intrinsic::eClamp1I:
+			result = "CLAMP1I";
 			break;
 
-		case Intrinsic::eMax41D:
-			result = "MAX41D";
+		case Intrinsic::eClamp2I:
+			result = "CLAMP2I";
 			break;
 
-		case Intrinsic::eMax11I:
-			result = "MAX11I";
+		case Intrinsic::eClamp3I:
+			result = "CLAMP3I";
 			break;
 
-		case Intrinsic::eMax22I:
-			result = "MAX22I";
+		case Intrinsic::eClamp4I:
+			result = "CLAMP4I";
 			break;
 
-		case Intrinsic::eMax33I:
-			result = "MAX33I";
+		case Intrinsic::eClamp1U:
+			result = "CLAMP1U";
 			break;
 
-		case Intrinsic::eMax44I:
-			result = "MAX44I";
+		case Intrinsic::eClamp2U:
+			result = "CLAMP2U";
 			break;
 
-		case Intrinsic::eMax21I:
-			result = "MAX21I";
+		case Intrinsic::eClamp3U:
+			result = "CLAMP3U";
 			break;
 
-		case Intrinsic::eMax31I:
-			result = "MAX31I";
+		case Intrinsic::eClamp4U:
+			result = "CLAMP4U";
 			break;
 
-		case Intrinsic::eMax41I:
-			result = "MAX41I";
+		case Intrinsic::eMix1F:
+			result = "MIX1F";
 			break;
 
-		case Intrinsic::eMax11U:
-			result = "MAX11U";
+		case Intrinsic::eMix2F:
+			result = "MIX2F";
 			break;
 
-		case Intrinsic::eMax22U:
-			result = "MAX22U";
+		case Intrinsic::eMix3F:
+			result = "MIX3F";
 			break;
 
-		case Intrinsic::eMax33U:
-			result = "MAX33U";
+		case Intrinsic::eMix4F:
+			result = "MIX4F";
 			break;
 
-		case Intrinsic::eMax44U:
-			result = "MAX44U";
+		case Intrinsic::eMix1D:
+			result = "MIX1D";
 			break;
 
-		case Intrinsic::eMax21U:
-			result = "MAX21U";
+		case Intrinsic::eMix2D:
+			result = "MIX2D";
 			break;
 
-		case Intrinsic::eMax31U:
-			result = "MAX31U";
+		case Intrinsic::eMix3D:
+			result = "MIX3D";
 			break;
 
-		case Intrinsic::eMax41U:
-			result = "MAX41U";
+		case Intrinsic::eMix4D:
+			result = "MIX4D";
 			break;
 
-		case Intrinsic::eClamp11F:
-			result = "CLAMP11F";
+		case Intrinsic::eStep1F:
+			result = "STEP1F";
 			break;
 
-		case Intrinsic::eClamp22F:
-			result = "CLAMP22F";
+		case Intrinsic::eStep2F:
+			result = "STEP2F";
 			break;
 
-		case Intrinsic::eClamp33F:
-			result = "CLAMP33F";
+		case Intrinsic::eStep3F:
+			result = "STEP3F";
 			break;
 
-		case Intrinsic::eClamp44F:
-			result = "CLAMP44F";
+		case Intrinsic::eStep4F:
+			result = "STEP4F";
 			break;
 
-		case Intrinsic::eClamp21F:
-			result = "CLAMP21F";
+		case Intrinsic::eStep1D:
+			result = "STEP1D";
 			break;
 
-		case Intrinsic::eClamp31F:
-			result = "CLAMP31F";
+		case Intrinsic::eStep2D:
+			result = "STEP2D";
 			break;
 
-		case Intrinsic::eClamp41F:
-			result = "CLAMP41F";
+		case Intrinsic::eStep3D:
+			result = "STEP3D";
 			break;
 
-		case Intrinsic::eClamp11D:
-			result = "CLAMP11D";
+		case Intrinsic::eStep4D:
+			result = "STEP4D";
 			break;
 
-		case Intrinsic::eClamp22D:
-			result = "CLAMP22D";
+		case Intrinsic::eSmoothStep1F:
+			result = "SMOOTHSTEP1F";
 			break;
 
-		case Intrinsic::eClamp33D:
-			result = "CLAMP33D";
+		case Intrinsic::eSmoothStep2F:
+			result = "SMOOTHSTEP2F";
 			break;
 
-		case Intrinsic::eClamp44D:
-			result = "CLAMP44D";
+		case Intrinsic::eSmoothStep3F:
+			result = "SMOOTHSTEP3F";
 			break;
 
-		case Intrinsic::eClamp21D:
-			result = "CLAMP21D";
+		case Intrinsic::eSmoothStep4F:
+			result = "SMOOTHSTEP4F";
 			break;
 
-		case Intrinsic::eClamp31D:
-			result = "CLAMP31D";
+		case Intrinsic::eSmoothStep1D:
+			result = "SMOOTHSTEP1D";
 			break;
 
-		case Intrinsic::eClamp41D:
-			result = "CLAMP41D";
+		case Intrinsic::eSmoothStep2D:
+			result = "SMOOTHSTEP2D";
 			break;
 
-		case Intrinsic::eClamp11I:
-			result = "CLAMP11I";
+		case Intrinsic::eSmoothStep3D:
+			result = "SMOOTHSTEP3D";
 			break;
 
-		case Intrinsic::eClamp22I:
-			result = "CLAMP22I";
-			break;
-
-		case Intrinsic::eClamp33I:
-			result = "CLAMP33I";
-			break;
-
-		case Intrinsic::eClamp44I:
-			result = "CLAMP44I";
-			break;
-
-		case Intrinsic::eClamp21I:
-			result = "CLAMP21I";
-			break;
-
-		case Intrinsic::eClamp31I:
-			result = "CLAMP31I";
-			break;
-
-		case Intrinsic::eClamp41I:
-			result = "CLAMP41I";
-			break;
-
-		case Intrinsic::eClamp11U:
-			result = "CLAMP11U";
-			break;
-
-		case Intrinsic::eClamp22U:
-			result = "CLAMP22U";
-			break;
-
-		case Intrinsic::eClamp33U:
-			result = "CLAMP33U";
-			break;
-
-		case Intrinsic::eClamp44U:
-			result = "CLAMP44U";
-			break;
-
-		case Intrinsic::eClamp21U:
-			result = "CLAMP21U";
-			break;
-
-		case Intrinsic::eClamp31U:
-			result = "CLAMP31U";
-			break;
-
-		case Intrinsic::eClamp41U:
-			result = "CLAMP41U";
-			break;
-
-		case Intrinsic::eMix11F:
-			result = "MIX11F";
-			break;
-
-		case Intrinsic::eMix22F:
-			result = "MIX22F";
-			break;
-
-		case Intrinsic::eMix33F:
-			result = "MIX33F";
-			break;
-
-		case Intrinsic::eMix44F:
-			result = "MIX44F";
-			break;
-
-		case Intrinsic::eMix21F:
-			result = "MIX21F";
-			break;
-
-		case Intrinsic::eMix31F:
-			result = "MIX31F";
-			break;
-
-		case Intrinsic::eMix41F:
-			result = "MIX41F";
-			break;
-
-		case Intrinsic::eMix11FB:
-			result = "MIX11FB";
-			break;
-
-		case Intrinsic::eMix22FB:
-			result = "MIX22FB";
-			break;
-
-		case Intrinsic::eMix33FB:
-			result = "MIX33FB";
-			break;
-
-		case Intrinsic::eMix44FB:
-			result = "MIX44FB";
-			break;
-
-		case Intrinsic::eMix11D:
-			result = "MIX11D";
-			break;
-
-		case Intrinsic::eMix22D:
-			result = "MIX22D";
-			break;
-
-		case Intrinsic::eMix33D:
-			result = "MIX33D";
-			break;
-
-		case Intrinsic::eMix44D:
-			result = "MIX44D";
-			break;
-
-		case Intrinsic::eMix21D:
-			result = "MIX21D";
-			break;
-
-		case Intrinsic::eMix31D:
-			result = "MIX31D";
-			break;
-
-		case Intrinsic::eMix41D:
-			result = "MIX41D";
-			break;
-
-		case Intrinsic::eMix11DB:
-			result = "MIX11DB";
-			break;
-
-		case Intrinsic::eMix22DB:
-			result = "MIX22DB";
-			break;
-
-		case Intrinsic::eMix33DB:
-			result = "MIX33DB";
-			break;
-
-		case Intrinsic::eMix44DB:
-			result = "MIX44DB";
-			break;
-
-		case Intrinsic::eStep11F:
-			result = "STEP11F";
-			break;
-
-		case Intrinsic::eStep22F:
-			result = "STEP22F";
-			break;
-
-		case Intrinsic::eStep33F:
-			result = "STEP33F";
-			break;
-
-		case Intrinsic::eStep44F:
-			result = "STEP44F";
-			break;
-
-		case Intrinsic::eStep12F:
-			result = "STEP12F";
-			break;
-
-		case Intrinsic::eStep13F:
-			result = "STEP13F";
-			break;
-
-		case Intrinsic::eStep14F:
-			result = "STEP14F";
-			break;
-
-		case Intrinsic::eStep11D:
-			result = "STEP11D";
-			break;
-
-		case Intrinsic::eStep22D:
-			result = "STEP22D";
-			break;
-
-		case Intrinsic::eStep33D:
-			result = "STEP33D";
-			break;
-
-		case Intrinsic::eStep44D:
-			result = "STEP44D";
-			break;
-
-		case Intrinsic::eStep12D:
-			result = "STEP12D";
-			break;
-
-		case Intrinsic::eStep13D:
-			result = "STEP13D";
-			break;
-
-		case Intrinsic::eStep14D:
-			result = "STEP14D";
-			break;
-
-		case Intrinsic::eSmoothStep11F:
-			result = "SMOOTHSTEP11F";
-			break;
-
-		case Intrinsic::eSmoothStep22F:
-			result = "SMOOTHSTEP22F";
-			break;
-
-		case Intrinsic::eSmoothStep33F:
-			result = "SMOOTHSTEP33F";
-			break;
-
-		case Intrinsic::eSmoothStep44F:
-			result = "SMOOTHSTEP44F";
-			break;
-
-		case Intrinsic::eSmoothStep12F:
-			result = "SMOOTHSTEP12F";
-			break;
-
-		case Intrinsic::eSmoothStep13F:
-			result = "SMOOTHSTEP13F";
-			break;
-
-		case Intrinsic::eSmoothStep14F:
-			result = "SMOOTHSTEP14F";
-			break;
-
-		case Intrinsic::eSmoothStep11D:
-			result = "SMOOTHSTEP11D";
-			break;
-
-		case Intrinsic::eSmoothStep22D:
-			result = "SMOOTHSTEP22D";
-			break;
-
-		case Intrinsic::eSmoothStep33D:
-			result = "SMOOTHSTEP33D";
-			break;
-
-		case Intrinsic::eSmoothStep44D:
-			result = "SMOOTHSTEP44D";
-			break;
-
-		case Intrinsic::eSmoothStep12D:
-			result = "SMOOTHSTEP12D";
-			break;
-
-		case Intrinsic::eSmoothStep13D:
-			result = "SMOOTHSTEP13D";
-			break;
-
-		case Intrinsic::eSmoothStep14D:
-			result = "SMOOTHSTEP14D";
+		case Intrinsic::eSmoothStep4D:
+			result = "SMOOTHSTEP4D";
 			break;
 
 		case Intrinsic::eIsnan1F:

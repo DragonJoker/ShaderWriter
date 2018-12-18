@@ -48,6 +48,18 @@ namespace hlsl
 	{
 		bool requiresShadowSampler{ false };
 
+		bool requiresACosh1F{ false };
+		bool requiresACosh2F{ false };
+		bool requiresACosh3F{ false };
+		bool requiresACosh4F{ false };
+		bool requiresASinh1F{ false };
+		bool requiresASinh2F{ false };
+		bool requiresASinh3F{ false };
+		bool requiresASinh4F{ false };
+		bool requiresATanh1F{ false };
+		bool requiresATanh2F{ false };
+		bool requiresATanh3F{ false };
+		bool requiresATanh4F{ false };
 		bool requiresRoundEven1F{ false };
 		bool requiresRoundEven2F{ false };
 		bool requiresRoundEven3F{ false };
@@ -106,6 +118,10 @@ namespace hlsl
 		bool requiresBitfieldInsert2U{ false };
 		bool requiresBitfieldInsert3U{ false };
 		bool requiresBitfieldInsert4U{ false };
+		bool requiresBitfieldReverse1I{ false };
+		bool requiresBitfieldReverse2I{ false };
+		bool requiresBitfieldReverse3I{ false };
+		bool requiresBitfieldReverse4I{ false };
 
 		bool requiresTextureSizeBufferF{ false };
 		bool requiresTextureSize1DF{ false };

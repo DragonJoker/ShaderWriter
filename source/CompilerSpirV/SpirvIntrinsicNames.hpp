@@ -280,21 +280,15 @@ namespace spirv
 			result = spv::Id( spv::GLSLstd450::Fract );
 			break;
 
-		case ast::expr::Intrinsic::eMod11F:
-		case ast::expr::Intrinsic::eMod22F:
-		case ast::expr::Intrinsic::eMod33F:
-		case ast::expr::Intrinsic::eMod44F:
-		case ast::expr::Intrinsic::eMod21F:
-		case ast::expr::Intrinsic::eMod31F:
-		case ast::expr::Intrinsic::eMod41F:
-		case ast::expr::Intrinsic::eMod11D:
-		case ast::expr::Intrinsic::eMod22D:
-		case ast::expr::Intrinsic::eMod33D:
-		case ast::expr::Intrinsic::eMod44D:
-		case ast::expr::Intrinsic::eMod21D:
-		case ast::expr::Intrinsic::eMod31D:
-		case ast::expr::Intrinsic::eMod41D:
-			result = spv::Id( spv::Op::OpFMod );
+		case ast::expr::Intrinsic::eMod1F:
+		case ast::expr::Intrinsic::eMod2F:
+		case ast::expr::Intrinsic::eMod3F:
+		case ast::expr::Intrinsic::eMod4F:
+		case ast::expr::Intrinsic::eMod1D:
+		case ast::expr::Intrinsic::eMod2D:
+		case ast::expr::Intrinsic::eMod3D:
+		case ast::expr::Intrinsic::eMod4D:
+			result = spv::Id( spv::OpFMod );
 			break;
 
 		case ast::expr::Intrinsic::eModf1F:
@@ -308,173 +302,111 @@ namespace spirv
 			result = spv::Id( spv::GLSLstd450::Modf );
 			break;
 
-		case ast::expr::Intrinsic::eMin11F:
-		case ast::expr::Intrinsic::eMin22F:
-		case ast::expr::Intrinsic::eMin33F:
-		case ast::expr::Intrinsic::eMin44F:
-		case ast::expr::Intrinsic::eMin21F:
-		case ast::expr::Intrinsic::eMin31F:
-		case ast::expr::Intrinsic::eMin41F:
-		case ast::expr::Intrinsic::eMin11D:
-		case ast::expr::Intrinsic::eMin22D:
-		case ast::expr::Intrinsic::eMin33D:
-		case ast::expr::Intrinsic::eMin44D:
-		case ast::expr::Intrinsic::eMin21D:
-		case ast::expr::Intrinsic::eMin31D:
-		case ast::expr::Intrinsic::eMin41D:
+		case ast::expr::Intrinsic::eMin1F:
+		case ast::expr::Intrinsic::eMin2F:
+		case ast::expr::Intrinsic::eMin3F:
+		case ast::expr::Intrinsic::eMin4F:
+		case ast::expr::Intrinsic::eMin1D:
+		case ast::expr::Intrinsic::eMin2D:
+		case ast::expr::Intrinsic::eMin3D:
+		case ast::expr::Intrinsic::eMin4D:
 			result = spv::Id( spv::GLSLstd450::FMin );
 			break;
 
-		case ast::expr::Intrinsic::eMin11I:
-		case ast::expr::Intrinsic::eMin22I:
-		case ast::expr::Intrinsic::eMin33I:
-		case ast::expr::Intrinsic::eMin44I:
-		case ast::expr::Intrinsic::eMin21I:
-		case ast::expr::Intrinsic::eMin31I:
-		case ast::expr::Intrinsic::eMin41I:
+		case ast::expr::Intrinsic::eMin1I:
+		case ast::expr::Intrinsic::eMin2I:
+		case ast::expr::Intrinsic::eMin3I:
+		case ast::expr::Intrinsic::eMin4I:
 			result = spv::Id( spv::GLSLstd450::SMin );
 			break;
 
-		case ast::expr::Intrinsic::eMin11U:
-		case ast::expr::Intrinsic::eMin22U:
-		case ast::expr::Intrinsic::eMin33U:
-		case ast::expr::Intrinsic::eMin44U:
-		case ast::expr::Intrinsic::eMin21U:
-		case ast::expr::Intrinsic::eMin31U:
-		case ast::expr::Intrinsic::eMin41U:
+		case ast::expr::Intrinsic::eMin1U:
+		case ast::expr::Intrinsic::eMin2U:
+		case ast::expr::Intrinsic::eMin3U:
+		case ast::expr::Intrinsic::eMin4U:
 			result = spv::Id( spv::GLSLstd450::UMin );
 			break;
 
-		case ast::expr::Intrinsic::eMax11F:
-		case ast::expr::Intrinsic::eMax22F:
-		case ast::expr::Intrinsic::eMax33F:
-		case ast::expr::Intrinsic::eMax44F:
-		case ast::expr::Intrinsic::eMax21F:
-		case ast::expr::Intrinsic::eMax31F:
-		case ast::expr::Intrinsic::eMax41F:
-		case ast::expr::Intrinsic::eMax11D:
-		case ast::expr::Intrinsic::eMax22D:
-		case ast::expr::Intrinsic::eMax33D:
-		case ast::expr::Intrinsic::eMax44D:
-		case ast::expr::Intrinsic::eMax21D:
-		case ast::expr::Intrinsic::eMax31D:
-		case ast::expr::Intrinsic::eMax41D:
+		case ast::expr::Intrinsic::eMax1F:
+		case ast::expr::Intrinsic::eMax2F:
+		case ast::expr::Intrinsic::eMax3F:
+		case ast::expr::Intrinsic::eMax4F:
+		case ast::expr::Intrinsic::eMax1D:
+		case ast::expr::Intrinsic::eMax2D:
+		case ast::expr::Intrinsic::eMax3D:
+		case ast::expr::Intrinsic::eMax4D:
 			result = spv::Id( spv::GLSLstd450::FMax );
 			break;
 
-		case ast::expr::Intrinsic::eMax11I:
-		case ast::expr::Intrinsic::eMax22I:
-		case ast::expr::Intrinsic::eMax33I:
-		case ast::expr::Intrinsic::eMax44I:
-		case ast::expr::Intrinsic::eMax21I:
-		case ast::expr::Intrinsic::eMax31I:
-		case ast::expr::Intrinsic::eMax41I:
-		case ast::expr::Intrinsic::eMax11U:
+		case ast::expr::Intrinsic::eMax1I:
+		case ast::expr::Intrinsic::eMax2I:
+		case ast::expr::Intrinsic::eMax3I:
+		case ast::expr::Intrinsic::eMax4I:
 			result = spv::Id( spv::GLSLstd450::SMax );
 			break;
 
-		case ast::expr::Intrinsic::eMax22U:
-		case ast::expr::Intrinsic::eMax33U:
-		case ast::expr::Intrinsic::eMax44U:
-		case ast::expr::Intrinsic::eMax21U:
-		case ast::expr::Intrinsic::eMax31U:
-		case ast::expr::Intrinsic::eMax41U:
+		case ast::expr::Intrinsic::eMax1U:
+		case ast::expr::Intrinsic::eMax2U:
+		case ast::expr::Intrinsic::eMax3U:
+		case ast::expr::Intrinsic::eMax4U:
 			result = spv::Id( spv::GLSLstd450::UMax );
 			break;
 
-		case ast::expr::Intrinsic::eClamp11F:
-		case ast::expr::Intrinsic::eClamp22F:
-		case ast::expr::Intrinsic::eClamp33F:
-		case ast::expr::Intrinsic::eClamp44F:
-		case ast::expr::Intrinsic::eClamp21F:
-		case ast::expr::Intrinsic::eClamp31F:
-		case ast::expr::Intrinsic::eClamp41F:
-		case ast::expr::Intrinsic::eClamp11D:
-		case ast::expr::Intrinsic::eClamp22D:
-		case ast::expr::Intrinsic::eClamp33D:
-		case ast::expr::Intrinsic::eClamp44D:
-		case ast::expr::Intrinsic::eClamp21D:
-		case ast::expr::Intrinsic::eClamp31D:
-		case ast::expr::Intrinsic::eClamp41D:
+		case ast::expr::Intrinsic::eClamp1F:
+		case ast::expr::Intrinsic::eClamp2F:
+		case ast::expr::Intrinsic::eClamp3F:
+		case ast::expr::Intrinsic::eClamp4F:
+		case ast::expr::Intrinsic::eClamp1D:
+		case ast::expr::Intrinsic::eClamp2D:
+		case ast::expr::Intrinsic::eClamp3D:
+		case ast::expr::Intrinsic::eClamp4D:
 			result = spv::Id( spv::GLSLstd450::FClamp );
 			break;
 
-		case ast::expr::Intrinsic::eClamp11I:
-		case ast::expr::Intrinsic::eClamp22I:
-		case ast::expr::Intrinsic::eClamp33I:
-		case ast::expr::Intrinsic::eClamp44I:
-		case ast::expr::Intrinsic::eClamp21I:
-		case ast::expr::Intrinsic::eClamp31I:
-		case ast::expr::Intrinsic::eClamp41I:
+		case ast::expr::Intrinsic::eClamp1I:
+		case ast::expr::Intrinsic::eClamp2I:
+		case ast::expr::Intrinsic::eClamp3I:
+		case ast::expr::Intrinsic::eClamp4I:
 			result = spv::Id( spv::GLSLstd450::SClamp );
 			break;
 
-		case ast::expr::Intrinsic::eClamp11U:
-		case ast::expr::Intrinsic::eClamp22U:
-		case ast::expr::Intrinsic::eClamp33U:
-		case ast::expr::Intrinsic::eClamp44U:
-		case ast::expr::Intrinsic::eClamp21U:
-		case ast::expr::Intrinsic::eClamp31U:
-		case ast::expr::Intrinsic::eClamp41U:
+		case ast::expr::Intrinsic::eClamp1U:
+		case ast::expr::Intrinsic::eClamp2U:
+		case ast::expr::Intrinsic::eClamp3U:
+		case ast::expr::Intrinsic::eClamp4U:
 			result = spv::Id( spv::GLSLstd450::UClamp );
 			break;
 
-		case ast::expr::Intrinsic::eMix11F:
-		case ast::expr::Intrinsic::eMix22F:
-		case ast::expr::Intrinsic::eMix33F:
-		case ast::expr::Intrinsic::eMix44F:
-		case ast::expr::Intrinsic::eMix21F:
-		case ast::expr::Intrinsic::eMix31F:
-		case ast::expr::Intrinsic::eMix41F:
-		case ast::expr::Intrinsic::eMix11FB:
-		case ast::expr::Intrinsic::eMix22FB:
-		case ast::expr::Intrinsic::eMix33FB:
-		case ast::expr::Intrinsic::eMix44FB:
-		case ast::expr::Intrinsic::eMix11D:
-		case ast::expr::Intrinsic::eMix22D:
-		case ast::expr::Intrinsic::eMix33D:
-		case ast::expr::Intrinsic::eMix44D:
-		case ast::expr::Intrinsic::eMix21D:
-		case ast::expr::Intrinsic::eMix31D:
-		case ast::expr::Intrinsic::eMix41D:
-		case ast::expr::Intrinsic::eMix11DB:
-		case ast::expr::Intrinsic::eMix22DB:
-		case ast::expr::Intrinsic::eMix33DB:
-		case ast::expr::Intrinsic::eMix44DB:
+		case ast::expr::Intrinsic::eMix1F:
+		case ast::expr::Intrinsic::eMix2F:
+		case ast::expr::Intrinsic::eMix3F:
+		case ast::expr::Intrinsic::eMix4F:
+		case ast::expr::Intrinsic::eMix1D:
+		case ast::expr::Intrinsic::eMix2D:
+		case ast::expr::Intrinsic::eMix3D:
+		case ast::expr::Intrinsic::eMix4D:
 			result = spv::Id( spv::GLSLstd450::FMix );
 			break;
 
-		case ast::expr::Intrinsic::eStep11F:
-		case ast::expr::Intrinsic::eStep22F:
-		case ast::expr::Intrinsic::eStep33F:
-		case ast::expr::Intrinsic::eStep44F:
-		case ast::expr::Intrinsic::eStep12F:
-		case ast::expr::Intrinsic::eStep13F:
-		case ast::expr::Intrinsic::eStep14F:
-		case ast::expr::Intrinsic::eStep11D:
-		case ast::expr::Intrinsic::eStep22D:
-		case ast::expr::Intrinsic::eStep33D:
-		case ast::expr::Intrinsic::eStep44D:
-		case ast::expr::Intrinsic::eStep12D:
-		case ast::expr::Intrinsic::eStep13D:
-		case ast::expr::Intrinsic::eStep14D:
+		case ast::expr::Intrinsic::eStep1F:
+		case ast::expr::Intrinsic::eStep2F:
+		case ast::expr::Intrinsic::eStep3F:
+		case ast::expr::Intrinsic::eStep4F:
+		case ast::expr::Intrinsic::eStep1D:
+		case ast::expr::Intrinsic::eStep2D:
+		case ast::expr::Intrinsic::eStep3D:
+		case ast::expr::Intrinsic::eStep4D:
 			result = spv::Id( spv::GLSLstd450::Step );
 			break;
 
-		case ast::expr::Intrinsic::eSmoothStep11F:
-		case ast::expr::Intrinsic::eSmoothStep22F:
-		case ast::expr::Intrinsic::eSmoothStep33F:
-		case ast::expr::Intrinsic::eSmoothStep44F:
-		case ast::expr::Intrinsic::eSmoothStep12F:
-		case ast::expr::Intrinsic::eSmoothStep13F:
-		case ast::expr::Intrinsic::eSmoothStep14F:
-		case ast::expr::Intrinsic::eSmoothStep11D:
-		case ast::expr::Intrinsic::eSmoothStep22D:
-		case ast::expr::Intrinsic::eSmoothStep33D:
-		case ast::expr::Intrinsic::eSmoothStep44D:
-		case ast::expr::Intrinsic::eSmoothStep12D:
-		case ast::expr::Intrinsic::eSmoothStep13D:
-		case ast::expr::Intrinsic::eSmoothStep14D:
+		case ast::expr::Intrinsic::eSmoothStep1F:
+		case ast::expr::Intrinsic::eSmoothStep2F:
+		case ast::expr::Intrinsic::eSmoothStep3F:
+		case ast::expr::Intrinsic::eSmoothStep4F:
+		case ast::expr::Intrinsic::eSmoothStep1D:
+		case ast::expr::Intrinsic::eSmoothStep2D:
+		case ast::expr::Intrinsic::eSmoothStep3D:
+		case ast::expr::Intrinsic::eSmoothStep4D:
 			result = spv::Id( spv::GLSLstd450::SmoothStep );
 			break;
 
@@ -486,7 +418,7 @@ namespace spirv
 		case ast::expr::Intrinsic::eIsnan2D:
 		case ast::expr::Intrinsic::eIsnan3D:
 		case ast::expr::Intrinsic::eIsnan4D:
-			result = spv::Id( spv::Op::OpIsNan );
+			result = spv::Id( spv::OpIsNan );
 			break;
 
 		case ast::expr::Intrinsic::eIsinf1F:
@@ -497,7 +429,7 @@ namespace spirv
 		case ast::expr::Intrinsic::eIsinf2D:
 		case ast::expr::Intrinsic::eIsinf3D:
 		case ast::expr::Intrinsic::eIsinf4D:
-			result = spv::Id( spv::Op::OpIsInf );
+			result = spv::Id( spv::OpIsInf );
 			break;
 
 		case ast::expr::Intrinsic::eFloatBitsToInt1:
@@ -516,7 +448,7 @@ namespace spirv
 		case ast::expr::Intrinsic::eUintBitsToFloat2:
 		case ast::expr::Intrinsic::eUintBitsToFloat3:
 		case ast::expr::Intrinsic::eUintBitsToFloat4:
-			result = spv::Id( spv::Op::OpBitcast );
+			result = spv::Id( spv::OpBitcast );
 			break;
 
 		case ast::expr::Intrinsic::eFma1F:
@@ -634,7 +566,7 @@ namespace spirv
 		case ast::expr::Intrinsic::eDot2D:
 		case ast::expr::Intrinsic::eDot3D:
 		case ast::expr::Intrinsic::eDot4D:
-			result = spv::Id( spv::Op::OpDot );
+			result = spv::Id( spv::OpDot );
 			break;
 
 		case ast::expr::Intrinsic::eCrossF:
@@ -706,7 +638,7 @@ namespace spirv
 		case ast::expr::Intrinsic::eMatrixCompMult4x2D:
 		case ast::expr::Intrinsic::eMatrixCompMult4x3D:
 		case ast::expr::Intrinsic::eMatrixCompMult4x4D:
-			result = spv::Id( spv::Op::OpMatrixTimesMatrix );
+			result = spv::Id( spv::OpMatrixTimesMatrix );
 			break;
 
 		case ast::expr::Intrinsic::eOuterProduct2x2F:
@@ -727,7 +659,7 @@ namespace spirv
 		case ast::expr::Intrinsic::eOuterProduct2x4D:
 		case ast::expr::Intrinsic::eOuterProduct4x3D:
 		case ast::expr::Intrinsic::eOuterProduct3x4D:
-			result = spv::Id( spv::Op::OpOuterProduct );
+			result = spv::Id( spv::OpOuterProduct );
 			break;
 
 		case ast::expr::Intrinsic::eTranspose2x2F:
@@ -748,7 +680,7 @@ namespace spirv
 		case ast::expr::Intrinsic::eTranspose4x2D:
 		case ast::expr::Intrinsic::eTranspose4x3D:
 		case ast::expr::Intrinsic::eTranspose4x4D:
-			result = spv::Id( spv::Op::OpTranspose );
+			result = spv::Id( spv::OpTranspose );
 			break;
 
 		case ast::expr::Intrinsic::eDeterminant2x2F:
@@ -777,19 +709,19 @@ namespace spirv
 		case ast::expr::Intrinsic::eLessThan2D:
 		case ast::expr::Intrinsic::eLessThan3D:
 		case ast::expr::Intrinsic::eLessThan4D:
-			result = spv::Id( spv::Op::OpFOrdLessThan );
+			result = spv::Id( spv::OpFOrdLessThan );
 			break;
 
 		case ast::expr::Intrinsic::eLessThan2I:
 		case ast::expr::Intrinsic::eLessThan3I:
 		case ast::expr::Intrinsic::eLessThan4I:
-			result = spv::Id( spv::Op::OpSLessThan );
+			result = spv::Id( spv::OpSLessThan );
 			break;
 
 		case ast::expr::Intrinsic::eLessThan2U:
 		case ast::expr::Intrinsic::eLessThan3U:
 		case ast::expr::Intrinsic::eLessThan4U:
-			result = spv::Id( spv::Op::OpULessThan );
+			result = spv::Id( spv::OpULessThan );
 			break;
 
 		case ast::expr::Intrinsic::eLessThanEqual2F:
@@ -798,19 +730,19 @@ namespace spirv
 		case ast::expr::Intrinsic::eLessThanEqual2D:
 		case ast::expr::Intrinsic::eLessThanEqual3D:
 		case ast::expr::Intrinsic::eLessThanEqual4D:
-			result = spv::Id( spv::Op::OpFOrdLessThanEqual );
+			result = spv::Id( spv::OpFOrdLessThanEqual );
 			break;
 
 		case ast::expr::Intrinsic::eLessThanEqual2I:
 		case ast::expr::Intrinsic::eLessThanEqual3I:
 		case ast::expr::Intrinsic::eLessThanEqual4I:
-			result = spv::Id( spv::Op::OpSLessThanEqual );
+			result = spv::Id( spv::OpSLessThanEqual );
 			break;
 
 		case ast::expr::Intrinsic::eLessThanEqual2U:
 		case ast::expr::Intrinsic::eLessThanEqual3U:
 		case ast::expr::Intrinsic::eLessThanEqual4U:
-			result = spv::Id( spv::Op::OpULessThanEqual );
+			result = spv::Id( spv::OpULessThanEqual );
 			break;
 
 		case ast::expr::Intrinsic::eGreaterThan2F:
@@ -819,19 +751,19 @@ namespace spirv
 		case ast::expr::Intrinsic::eGreaterThan2D:
 		case ast::expr::Intrinsic::eGreaterThan3D:
 		case ast::expr::Intrinsic::eGreaterThan4D:
-			result = spv::Id( spv::Op::OpFOrdGreaterThan );
+			result = spv::Id( spv::OpFOrdGreaterThan );
 			break;
 
 		case ast::expr::Intrinsic::eGreaterThan2I:
 		case ast::expr::Intrinsic::eGreaterThan3I:
 		case ast::expr::Intrinsic::eGreaterThan4I:
-			result = spv::Id( spv::Op::OpSGreaterThan );
+			result = spv::Id( spv::OpSGreaterThan );
 			break;
 
 		case ast::expr::Intrinsic::eGreaterThan2U:
 		case ast::expr::Intrinsic::eGreaterThan3U:
 		case ast::expr::Intrinsic::eGreaterThan4U:
-			result = spv::Id( spv::Op::OpUGreaterThan );
+			result = spv::Id( spv::OpUGreaterThan );
 			break;
 
 		case ast::expr::Intrinsic::eGreaterThanEqual2F:
@@ -840,19 +772,19 @@ namespace spirv
 		case ast::expr::Intrinsic::eGreaterThanEqual2D:
 		case ast::expr::Intrinsic::eGreaterThanEqual3D:
 		case ast::expr::Intrinsic::eGreaterThanEqual4D:
-			result = spv::Id( spv::Op::OpFOrdGreaterThanEqual );
+			result = spv::Id( spv::OpFOrdGreaterThanEqual );
 			break;
 
 		case ast::expr::Intrinsic::eGreaterThanEqual2I:
 		case ast::expr::Intrinsic::eGreaterThanEqual3I:
 		case ast::expr::Intrinsic::eGreaterThanEqual4I:
-			result = spv::Id( spv::Op::OpSGreaterThanEqual );
+			result = spv::Id( spv::OpSGreaterThanEqual );
 			break;
 
 		case ast::expr::Intrinsic::eGreaterThanEqual2U:
 		case ast::expr::Intrinsic::eGreaterThanEqual3U:
 		case ast::expr::Intrinsic::eGreaterThanEqual4U:
-			result = spv::Id( spv::Op::OpUGreaterThanEqual );
+			result = spv::Id( spv::OpUGreaterThanEqual );
 			break;
 
 		case ast::expr::Intrinsic::eEqual2F:
@@ -861,7 +793,7 @@ namespace spirv
 		case ast::expr::Intrinsic::eEqual2D:
 		case ast::expr::Intrinsic::eEqual3D:
 		case ast::expr::Intrinsic::eEqual4D:
-			result = spv::Id( spv::Op::OpFOrdEqual );
+			result = spv::Id( spv::OpFOrdEqual );
 			break;
 
 		case ast::expr::Intrinsic::eEqual2I:
@@ -870,7 +802,7 @@ namespace spirv
 		case ast::expr::Intrinsic::eEqual2U:
 		case ast::expr::Intrinsic::eEqual3U:
 		case ast::expr::Intrinsic::eEqual4U:
-			result = spv::Id( spv::Op::OpIEqual );
+			result = spv::Id( spv::OpIEqual );
 			break;
 
 		case ast::expr::Intrinsic::eNotEqual2F:
@@ -879,7 +811,7 @@ namespace spirv
 		case ast::expr::Intrinsic::eNotEqual2D:
 		case ast::expr::Intrinsic::eNotEqual3D:
 		case ast::expr::Intrinsic::eNotEqual4D:
-			result = spv::Id( spv::Op::OpFOrdNotEqual );
+			result = spv::Id( spv::OpFOrdNotEqual );
 			break;
 
 		case ast::expr::Intrinsic::eNotEqual2I:
@@ -888,25 +820,25 @@ namespace spirv
 		case ast::expr::Intrinsic::eNotEqual2U:
 		case ast::expr::Intrinsic::eNotEqual3U:
 		case ast::expr::Intrinsic::eNotEqual4U:
-			result = spv::Id( spv::Op::OpINotEqual );
+			result = spv::Id( spv::OpINotEqual );
 			break;
 
 		case ast::expr::Intrinsic::eAll2:
 		case ast::expr::Intrinsic::eAll3:
 		case ast::expr::Intrinsic::eAll4:
-			result = spv::Id( spv::Op::OpAll );
+			result = spv::Id( spv::OpAll );
 			break;
 
 		case ast::expr::Intrinsic::eAny2:
 		case ast::expr::Intrinsic::eAny3:
 		case ast::expr::Intrinsic::eAny4:
-			result = spv::Id( spv::Op::OpAny );
+			result = spv::Id( spv::OpAny );
 			break;
 
 		case ast::expr::Intrinsic::eNot2:
 		case ast::expr::Intrinsic::eNot3:
 		case ast::expr::Intrinsic::eNot4:
-			result = spv::Id( spv::Op::OpLogicalNot );
+			result = spv::Id( spv::OpLogicalNot );
 			break;
 
 
@@ -915,14 +847,14 @@ namespace spirv
 		case ast::expr::Intrinsic::eUaddCarry2:
 		case ast::expr::Intrinsic::eUaddCarry3:
 		case ast::expr::Intrinsic::eUaddCarry4:
-			result = spv::Id( spv::Op::OpIAddCarry );
+			result = spv::Id( spv::OpIAddCarry );
 			break;
 
 		case ast::expr::Intrinsic::eUsubBorrow1:
 		case ast::expr::Intrinsic::eUsubBorrow2:
 		case ast::expr::Intrinsic::eUsubBorrow3:
 		case ast::expr::Intrinsic::eUsubBorrow4:
-			result = spv::Id( spv::Op::OpISubBorrow );
+			result = spv::Id( spv::OpISubBorrow );
 			break;
 
 		case ast::expr::Intrinsic::eUmulExtended1:
@@ -933,21 +865,21 @@ namespace spirv
 		case ast::expr::Intrinsic::eImulExtended2:
 		case ast::expr::Intrinsic::eImulExtended3:
 		case ast::expr::Intrinsic::eImulExtended4:
-			result = spv::Id( spv::Op::OpUMulExtended );
+			result = spv::Id( spv::OpUMulExtended );
 			break;
 
 		case ast::expr::Intrinsic::eBitfieldExtract1I:
 		case ast::expr::Intrinsic::eBitfieldExtract2I:
 		case ast::expr::Intrinsic::eBitfieldExtract3I:
 		case ast::expr::Intrinsic::eBitfieldExtract4I:
-			result = spv::Id( spv::Op::OpBitFieldSExtract );
+			result = spv::Id( spv::OpBitFieldSExtract );
 			break;
 
 		case ast::expr::Intrinsic::eBitfieldExtract1U:
 		case ast::expr::Intrinsic::eBitfieldExtract2U:
 		case ast::expr::Intrinsic::eBitfieldExtract3U:
 		case ast::expr::Intrinsic::eBitfieldExtract4U:
-			result = spv::Id( spv::Op::OpBitFieldUExtract );
+			result = spv::Id( spv::OpBitFieldUExtract );
 			break;
 
 		case ast::expr::Intrinsic::eBitfieldInsert1I:
@@ -958,7 +890,7 @@ namespace spirv
 		case ast::expr::Intrinsic::eBitfieldInsert2U:
 		case ast::expr::Intrinsic::eBitfieldInsert3U:
 		case ast::expr::Intrinsic::eBitfieldInsert4U:
-			result = spv::Id( spv::Op::OpBitFieldInsert );
+			result = spv::Id( spv::OpBitFieldInsert );
 			break;
 
 		case ast::expr::Intrinsic::eBitfieldReverse1I:
@@ -969,7 +901,7 @@ namespace spirv
 		case ast::expr::Intrinsic::eBitfieldReverse2U:
 		case ast::expr::Intrinsic::eBitfieldReverse3U:
 		case ast::expr::Intrinsic::eBitfieldReverse4U:
-			result = spv::Id( spv::Op::OpBitReverse );
+			result = spv::Id( spv::OpBitReverse );
 			break;
 
 		case ast::expr::Intrinsic::eBitCount1I:
@@ -980,7 +912,7 @@ namespace spirv
 		case ast::expr::Intrinsic::eBitCount2U:
 		case ast::expr::Intrinsic::eBitCount3U:
 		case ast::expr::Intrinsic::eBitCount4U:
-			result = spv::Id( spv::Op::OpBitCount );
+			result = spv::Id( spv::OpBitCount );
 			break;
 
 		case ast::expr::Intrinsic::eFindLSB1I:
@@ -1012,48 +944,48 @@ namespace spirv
 	// Atomic Memory Functions
 		case ast::expr::Intrinsic::eAtomicAddI:
 		case ast::expr::Intrinsic::eAtomicAddU:
-			result = spv::Id( spv::Op::OpAtomicIAdd );
+			result = spv::Id( spv::OpAtomicIAdd );
 			break;
 
 		case ast::expr::Intrinsic::eAtomicMinI:
-			result = spv::Id( spv::Op::OpAtomicSMin );
+			result = spv::Id( spv::OpAtomicSMin );
 			break;
 
 		case ast::expr::Intrinsic::eAtomicMinU:
-			result = spv::Id( spv::Op::OpAtomicUMin );
+			result = spv::Id( spv::OpAtomicUMin );
 			break;
 
 		case ast::expr::Intrinsic::eAtomicMaxI:
-			result = spv::Id( spv::Op::OpAtomicSMax );
+			result = spv::Id( spv::OpAtomicSMax );
 			break;
 
 		case ast::expr::Intrinsic::eAtomicMaxU:
-			result = spv::Id( spv::Op::OpAtomicUMax );
+			result = spv::Id( spv::OpAtomicUMax );
 			break;
 
 		case ast::expr::Intrinsic::eAtomicAndI:
 		case ast::expr::Intrinsic::eAtomicAndU:
-			result = spv::Id( spv::Op::OpAtomicAnd );
+			result = spv::Id( spv::OpAtomicAnd );
 			break;
 
 		case ast::expr::Intrinsic::eAtomicOrI:
 		case ast::expr::Intrinsic::eAtomicOrU:
-			result = spv::Id( spv::Op::OpAtomicOr );
+			result = spv::Id( spv::OpAtomicOr );
 			break;
 
 		case ast::expr::Intrinsic::eAtomicXorI:
 		case ast::expr::Intrinsic::eAtomicXorU:
-			result = spv::Id( spv::Op::OpAtomicXor );
+			result = spv::Id( spv::OpAtomicXor );
 			break;
 
 		case ast::expr::Intrinsic::eAtomicExchangeI:
 		case ast::expr::Intrinsic::eAtomicExchangeU:
-			result = spv::Id( spv::Op::OpAtomicExchange );
+			result = spv::Id( spv::OpAtomicExchange );
 			break;
 
 		case ast::expr::Intrinsic::eAtomicCompSwapI:
 		case ast::expr::Intrinsic::eAtomicCompSwapU:
-			result = spv::Id( spv::Op::OpAtomicCompareExchange );
+			result = spv::Id( spv::OpAtomicCompareExchange );
 			break;
 
 
@@ -1062,49 +994,49 @@ namespace spirv
 		case ast::expr::Intrinsic::eDFdx2:
 		case ast::expr::Intrinsic::eDFdx3:
 		case ast::expr::Intrinsic::eDFdx4:
-			result = spv::Id( spv::Op::OpDPdx );
+			result = spv::Id( spv::OpDPdx );
 			break;
 
 		case ast::expr::Intrinsic::eDFdxCoarse1:
 		case ast::expr::Intrinsic::eDFdxCoarse2:
 		case ast::expr::Intrinsic::eDFdxCoarse3:
 		case ast::expr::Intrinsic::eDFdxCoarse4:
-			result = spv::Id( spv::Op::OpDPdxCoarse );
+			result = spv::Id( spv::OpDPdxCoarse );
 			break;
 
 		case ast::expr::Intrinsic::eDFdxFine1:
 		case ast::expr::Intrinsic::eDFdxFine2:
 		case ast::expr::Intrinsic::eDFdxFine3:
 		case ast::expr::Intrinsic::eDFdxFine4:
-			result = spv::Id( spv::Op::OpDPdxFine );
+			result = spv::Id( spv::OpDPdxFine );
 			break;
 
 		case ast::expr::Intrinsic::eDFdy1:
 		case ast::expr::Intrinsic::eDFdy2:
 		case ast::expr::Intrinsic::eDFdy3:
 		case ast::expr::Intrinsic::eDFdy4:
-			result = spv::Id( spv::Op::OpDPdy );
+			result = spv::Id( spv::OpDPdy );
 			break;
 
 		case ast::expr::Intrinsic::eDFdyCoarse1:
 		case ast::expr::Intrinsic::eDFdyCoarse2:
 		case ast::expr::Intrinsic::eDFdyCoarse3:
 		case ast::expr::Intrinsic::eDFdyCoarse4:
-			result = spv::Id( spv::Op::OpDPdyCoarse );
+			result = spv::Id( spv::OpDPdyCoarse );
 			break;
 
 		case ast::expr::Intrinsic::eDFdyFine1:
 		case ast::expr::Intrinsic::eDFdyFine2:
 		case ast::expr::Intrinsic::eDFdyFine3:
 		case ast::expr::Intrinsic::eDFdyFine4:
-			result = spv::Id( spv::Op::OpDPdyFine );
+			result = spv::Id( spv::OpDPdyFine );
 			break;
 
 		case ast::expr::Intrinsic::eFwidth1:
 		case ast::expr::Intrinsic::eFwidth2:
 		case ast::expr::Intrinsic::eFwidth3:
 		case ast::expr::Intrinsic::eFwidth4:
-			result = spv::Id( spv::Op::OpFwidth );
+			result = spv::Id( spv::OpFwidth );
 			break;
 
 
@@ -1133,25 +1065,25 @@ namespace spirv
 
 	// Geometry Shader Functions
 		case ast::expr::Intrinsic::eEmitStreamVertex:
-			result = spv::Id( spv::Op::OpEmitStreamVertex );
+			result = spv::Id( spv::OpEmitStreamVertex );
 			break;
 
 		case ast::expr::Intrinsic::eEndStreamPrimitive:
-			result = spv::Id( spv::Op::OpEndStreamPrimitive );
+			result = spv::Id( spv::OpEndStreamPrimitive );
 			break;
 
 		case ast::expr::Intrinsic::eEmitVertex:
-			result = spv::Id( spv::Op::OpEmitVertex );
+			result = spv::Id( spv::OpEmitVertex );
 			break;
 
 		case ast::expr::Intrinsic::eEndPrimitive:
-			result = spv::Id( spv::Op::OpEndPrimitive );
+			result = spv::Id( spv::OpEndPrimitive );
 			break;
 
 
 	// Shader Invocation Control Functions
 		case ast::expr::Intrinsic::eBarrier:
-			result = spv::Id( spv::Op::OpControlBarrier );
+			result = spv::Id( spv::OpControlBarrier );
 			break;
 
 
@@ -1161,7 +1093,7 @@ namespace spirv
 		case ast::expr::Intrinsic::eMemoryBarrierShared:
 		case ast::expr::Intrinsic::eMemoryBarrierImage:
 		case ast::expr::Intrinsic::eGroupMemoryBarrier:
-			result = spv::Id( spv::Op::OpMemoryBarrier );
+			result = spv::Id( spv::OpMemoryBarrier );
 			break;
 
 		default:

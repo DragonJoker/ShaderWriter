@@ -47,7 +47,7 @@ namespace spirv
 		case ast::expr::TextureAccess::eTextureSizeCubeArrayU:
 		case ast::expr::TextureAccess::eTextureSize1DArrayU:
 		case ast::expr::TextureAccess::eTextureSize2DArrayU:
-			result = spv::Op::OpImageQuerySizeLod;
+			result = spv::OpImageQuerySizeLod;
 			break;
 
 		case ast::expr::TextureAccess::eTextureSize2DRectF:
@@ -57,7 +57,7 @@ namespace spirv
 		case ast::expr::TextureAccess::eTextureSizeBufferI:
 		case ast::expr::TextureAccess::eTextureSize2DRectU:
 		case ast::expr::TextureAccess::eTextureSizeBufferU:
-			result = spv::Op::OpImageQuerySize;
+			result = spv::OpImageQuerySize;
 			break;
 
 		case ast::expr::TextureAccess::eTextureQueryLod1DF:
@@ -87,7 +87,7 @@ namespace spirv
 		case ast::expr::TextureAccess::eTextureQueryLod1DArrayU:
 		case ast::expr::TextureAccess::eTextureQueryLod2DArrayU:
 		case ast::expr::TextureAccess::eTextureQueryLodCubeArrayU:
-			result = spv::Op::OpImageQueryLod;
+			result = spv::OpImageQueryLod;
 			break;
 
 		case ast::expr::TextureAccess::eTextureQueryLevels1DF:
@@ -117,7 +117,7 @@ namespace spirv
 		case ast::expr::TextureAccess::eTextureQueryLevels1DArrayU:
 		case ast::expr::TextureAccess::eTextureQueryLevels2DArrayU:
 		case ast::expr::TextureAccess::eTextureQueryLevelsCubeArrayU:
-			result = spv::Op::OpImageQueryLevels;
+			result = spv::OpImageQueryLevels;
 			break;
 
 
@@ -200,7 +200,7 @@ namespace spirv
 		case ast::expr::TextureAccess::eTextureOffset1DArrayUBias:
 		case ast::expr::TextureAccess::eTextureOffset2DArrayU:
 		case ast::expr::TextureAccess::eTextureOffset2DArrayUBias:
-			result = spv::Op::OpImageSampleImplicitLod;
+			result = spv::OpImageSampleImplicitLod;
 			break;
 
 		case ast::expr::TextureAccess::eTextureGrad1DF:
@@ -245,7 +245,7 @@ namespace spirv
 		case ast::expr::TextureAccess::eTextureGradOffset2DRectU:
 		case ast::expr::TextureAccess::eTextureGradOffset1DArrayU:
 		case ast::expr::TextureAccess::eTextureGradOffset2DArrayU:
-			result = spv::Op::OpImageSampleExplicitLod;
+			result = spv::OpImageSampleExplicitLod;
 			break;
 
 		case ast::expr::TextureAccess::eTexture1DShadowF:
@@ -265,7 +265,7 @@ namespace spirv
 		case ast::expr::TextureAccess::eTextureOffset2DShadowFBias:
 		case ast::expr::TextureAccess::eTextureOffset1DArrayShadowF:
 		case ast::expr::TextureAccess::eTextureOffset2DArrayShadowF:
-			result = spv::Op::OpImageSampleDrefImplicitLod;
+			result = spv::OpImageSampleDrefImplicitLod;
 			break;
 
 		case ast::expr::TextureAccess::eTextureGrad2DRectShadowF:
@@ -278,7 +278,7 @@ namespace spirv
 		case ast::expr::TextureAccess::eTextureGradOffset1DArrayShadowF:
 		case ast::expr::TextureAccess::eTextureGradOffset2DArrayShadowF:
 		case ast::expr::TextureAccess::eTextureCubeArrayShadowF:
-			result = spv::Op::OpImageSampleDrefExplicitLod;
+			result = spv::OpImageSampleDrefExplicitLod;
 			break;
 
 		case ast::expr::TextureAccess::eTextureProj1DF2:
@@ -353,7 +353,7 @@ namespace spirv
 		case ast::expr::TextureAccess::eTextureProjOffset3DUBias:
 		case ast::expr::TextureAccess::eTextureProjOffset2DRectU3:
 		case ast::expr::TextureAccess::eTextureProjOffset2DRectU4:
-			result = spv::Op::OpImageSampleProjImplicitLod;
+			result = spv::OpImageSampleProjImplicitLod;
 			break;
 
 		case ast::expr::TextureAccess::eTextureProjGrad1DF2:
@@ -398,7 +398,7 @@ namespace spirv
 		case ast::expr::TextureAccess::eTextureProjGradOffset3DU:
 		case ast::expr::TextureAccess::eTextureProjGradOffset2DRectU3:
 		case ast::expr::TextureAccess::eTextureProjGradOffset2DRectU4:
-			result = spv::Op::OpImageSampleProjExplicitLod;
+			result = spv::OpImageSampleProjExplicitLod;
 			break;
 
 		case ast::expr::TextureAccess::eTextureProj1DShadowF:
@@ -411,7 +411,7 @@ namespace spirv
 		case ast::expr::TextureAccess::eTextureProjOffset2DShadowF:
 		case ast::expr::TextureAccess::eTextureProjOffset2DShadowFBias:
 		case ast::expr::TextureAccess::eTextureProjOffset2DRectShadowF:
-			result = spv::Op::OpImageSampleProjDrefImplicitLod;
+			result = spv::OpImageSampleProjDrefImplicitLod;
 			break;
 
 		case ast::expr::TextureAccess::eTextureProjGrad1DShadowF:
@@ -420,7 +420,7 @@ namespace spirv
 		case ast::expr::TextureAccess::eTextureProjGradOffset1DShadowF:
 		case ast::expr::TextureAccess::eTextureProjGradOffset2DShadowF:
 		case ast::expr::TextureAccess::eTextureProjGradOffset2DRectShadowF:
-			result = spv::Op::OpImageSampleProjDrefExplicitLod;
+			result = spv::OpImageSampleProjDrefExplicitLod;
 			break;
 
 		case ast::expr::TextureAccess::eTextureLod1DF:
@@ -459,7 +459,7 @@ namespace spirv
 		case ast::expr::TextureAccess::eTextureLodOffset3DU:
 		case ast::expr::TextureAccess::eTextureLodOffset1DArrayU:
 		case ast::expr::TextureAccess::eTextureLodOffset2DArrayU:
-			result = spv::Op::OpImageSampleExplicitLod;
+			result = spv::OpImageSampleExplicitLod;
 			break;
 
 		case ast::expr::TextureAccess::eTextureLod1DShadowF:
@@ -468,7 +468,7 @@ namespace spirv
 		case ast::expr::TextureAccess::eTextureLodOffset1DShadowF:
 		case ast::expr::TextureAccess::eTextureLodOffset2DShadowF:
 		case ast::expr::TextureAccess::eTextureLodOffset1DArrayShadowF:
-			result = spv::Op::OpImageSampleDrefExplicitLod;
+			result = spv::OpImageSampleDrefExplicitLod;
 			break;
 
 		case ast::expr::TextureAccess::eTextureProjLod1DF2:
@@ -501,14 +501,14 @@ namespace spirv
 		case ast::expr::TextureAccess::eTextureProjLodOffset2DU3:
 		case ast::expr::TextureAccess::eTextureProjLodOffset2DU4:
 		case ast::expr::TextureAccess::eTextureProjLodOffset3DU:
-			result = spv::Op::OpImageSampleProjExplicitLod;
+			result = spv::OpImageSampleProjExplicitLod;
 			break;
 
 		case ast::expr::TextureAccess::eTextureProjLod1DShadowF:
 		case ast::expr::TextureAccess::eTextureProjLod2DShadowF:
 		case ast::expr::TextureAccess::eTextureProjLodOffset1DShadowF:
 		case ast::expr::TextureAccess::eTextureProjLodOffset2DShadowF:
-			result = spv::Op::OpImageSampleProjDrefExplicitLod;
+			result = spv::OpImageSampleProjDrefExplicitLod;
 			break;
 
 		case ast::expr::TextureAccess::eTexelFetch1DF:
@@ -550,7 +550,7 @@ namespace spirv
 		case ast::expr::TextureAccess::eTexelFetchOffset2DRectU:
 		case ast::expr::TextureAccess::eTexelFetchOffset1DArrayU:
 		case ast::expr::TextureAccess::eTexelFetchOffset2DArrayU:
-			result = spv::Op::OpImageFetch;
+			result = spv::OpImageFetch;
 			break;
 
 	// Texture Gather Functions
@@ -620,7 +620,7 @@ namespace spirv
 		case ast::expr::TextureAccess::eTextureGatherOffsets2DArrayUComp:
 		case ast::expr::TextureAccess::eTextureGatherOffsets2DRectU:
 		case ast::expr::TextureAccess::eTextureGatherOffsets2DRectUComp:
-			result = spv::Op::OpImageGather;
+			result = spv::OpImageGather;
 			break;
 
 		case ast::expr::TextureAccess::eTextureGather2DShadowF:
@@ -634,7 +634,7 @@ namespace spirv
 		case ast::expr::TextureAccess::eTextureGatherOffsets2DShadowF:
 		case ast::expr::TextureAccess::eTextureGatherOffsets2DArrayShadowF:
 		case ast::expr::TextureAccess::eTextureGatherOffsets2DRectShadowF:
-			result = spv::Op::OpImageDrefGather;
+			result = spv::OpImageDrefGather;
 			break;
 
 		default:

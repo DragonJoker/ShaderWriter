@@ -53,11 +53,13 @@ namespace sdw
 
 	template< typename ReturnT, typename ... ParamsT >
 	inline ReturnT getFunctionCall( Shader & shader
+		, ast::type::FunctionPtr type
 		, std::string const & name
 		, ParamsT const & ... params );
 
 	template< typename ReturnT, typename ... ParamsT >
 	inline Optional< ReturnT > getOptFunctionCall( Shader & shader
+		, ast::type::FunctionPtr type
 		, std::string const & name
 		, ParamsT const & ... params );
 

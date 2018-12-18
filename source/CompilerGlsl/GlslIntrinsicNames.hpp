@@ -172,7 +172,7 @@ namespace glsl
 		case ast::expr::Intrinsic::eInverseSqrt2D:
 		case ast::expr::Intrinsic::eInverseSqrt3D:
 		case ast::expr::Intrinsic::eInverseSqrt4D:
-			result = "inverseSqrt";
+			result = "inversesqrt";
 			break;
 
 
@@ -273,20 +273,14 @@ namespace glsl
 			result = "fract";
 			break;
 
-		case ast::expr::Intrinsic::eMod11F:
-		case ast::expr::Intrinsic::eMod22F:
-		case ast::expr::Intrinsic::eMod33F:
-		case ast::expr::Intrinsic::eMod44F:
-		case ast::expr::Intrinsic::eMod21F:
-		case ast::expr::Intrinsic::eMod31F:
-		case ast::expr::Intrinsic::eMod41F:
-		case ast::expr::Intrinsic::eMod11D:
-		case ast::expr::Intrinsic::eMod22D:
-		case ast::expr::Intrinsic::eMod33D:
-		case ast::expr::Intrinsic::eMod44D:
-		case ast::expr::Intrinsic::eMod21D:
-		case ast::expr::Intrinsic::eMod31D:
-		case ast::expr::Intrinsic::eMod41D:
+		case ast::expr::Intrinsic::eMod1F:
+		case ast::expr::Intrinsic::eMod2F:
+		case ast::expr::Intrinsic::eMod3F:
+		case ast::expr::Intrinsic::eMod4F:
+		case ast::expr::Intrinsic::eMod1D:
+		case ast::expr::Intrinsic::eMod2D:
+		case ast::expr::Intrinsic::eMod3D:
+		case ast::expr::Intrinsic::eMod4D:
 			result = "mod";
 			break;
 
@@ -301,156 +295,94 @@ namespace glsl
 			result = "modf";
 			break;
 
-		case ast::expr::Intrinsic::eMin11F:
-		case ast::expr::Intrinsic::eMin22F:
-		case ast::expr::Intrinsic::eMin33F:
-		case ast::expr::Intrinsic::eMin44F:
-		case ast::expr::Intrinsic::eMin21F:
-		case ast::expr::Intrinsic::eMin31F:
-		case ast::expr::Intrinsic::eMin41F:
-		case ast::expr::Intrinsic::eMin11D:
-		case ast::expr::Intrinsic::eMin22D:
-		case ast::expr::Intrinsic::eMin33D:
-		case ast::expr::Intrinsic::eMin44D:
-		case ast::expr::Intrinsic::eMin21D:
-		case ast::expr::Intrinsic::eMin31D:
-		case ast::expr::Intrinsic::eMin41D:
-		case ast::expr::Intrinsic::eMin11I:
-		case ast::expr::Intrinsic::eMin22I:
-		case ast::expr::Intrinsic::eMin33I:
-		case ast::expr::Intrinsic::eMin44I:
-		case ast::expr::Intrinsic::eMin21I:
-		case ast::expr::Intrinsic::eMin31I:
-		case ast::expr::Intrinsic::eMin41I:
-		case ast::expr::Intrinsic::eMin11U:
-		case ast::expr::Intrinsic::eMin22U:
-		case ast::expr::Intrinsic::eMin33U:
-		case ast::expr::Intrinsic::eMin44U:
-		case ast::expr::Intrinsic::eMin21U:
-		case ast::expr::Intrinsic::eMin31U:
-		case ast::expr::Intrinsic::eMin41U:
+		case ast::expr::Intrinsic::eMin1F:
+		case ast::expr::Intrinsic::eMin2F:
+		case ast::expr::Intrinsic::eMin3F:
+		case ast::expr::Intrinsic::eMin4F:
+		case ast::expr::Intrinsic::eMin1D:
+		case ast::expr::Intrinsic::eMin2D:
+		case ast::expr::Intrinsic::eMin3D:
+		case ast::expr::Intrinsic::eMin4D:
+		case ast::expr::Intrinsic::eMin1I:
+		case ast::expr::Intrinsic::eMin2I:
+		case ast::expr::Intrinsic::eMin3I:
+		case ast::expr::Intrinsic::eMin4I:
+		case ast::expr::Intrinsic::eMin1U:
+		case ast::expr::Intrinsic::eMin2U:
+		case ast::expr::Intrinsic::eMin3U:
+		case ast::expr::Intrinsic::eMin4U:
 			result = "min";
 			break;
 
-		case ast::expr::Intrinsic::eMax11F:
-		case ast::expr::Intrinsic::eMax22F:
-		case ast::expr::Intrinsic::eMax33F:
-		case ast::expr::Intrinsic::eMax44F:
-		case ast::expr::Intrinsic::eMax21F:
-		case ast::expr::Intrinsic::eMax31F:
-		case ast::expr::Intrinsic::eMax41F:
-		case ast::expr::Intrinsic::eMax11D:
-		case ast::expr::Intrinsic::eMax22D:
-		case ast::expr::Intrinsic::eMax33D:
-		case ast::expr::Intrinsic::eMax44D:
-		case ast::expr::Intrinsic::eMax21D:
-		case ast::expr::Intrinsic::eMax31D:
-		case ast::expr::Intrinsic::eMax41D:
-		case ast::expr::Intrinsic::eMax11I:
-		case ast::expr::Intrinsic::eMax22I:
-		case ast::expr::Intrinsic::eMax33I:
-		case ast::expr::Intrinsic::eMax44I:
-		case ast::expr::Intrinsic::eMax21I:
-		case ast::expr::Intrinsic::eMax31I:
-		case ast::expr::Intrinsic::eMax41I:
-		case ast::expr::Intrinsic::eMax11U:
-		case ast::expr::Intrinsic::eMax22U:
-		case ast::expr::Intrinsic::eMax33U:
-		case ast::expr::Intrinsic::eMax44U:
-		case ast::expr::Intrinsic::eMax21U:
-		case ast::expr::Intrinsic::eMax31U:
-		case ast::expr::Intrinsic::eMax41U:
+		case ast::expr::Intrinsic::eMax1F:
+		case ast::expr::Intrinsic::eMax2F:
+		case ast::expr::Intrinsic::eMax3F:
+		case ast::expr::Intrinsic::eMax4F:
+		case ast::expr::Intrinsic::eMax1D:
+		case ast::expr::Intrinsic::eMax2D:
+		case ast::expr::Intrinsic::eMax3D:
+		case ast::expr::Intrinsic::eMax4D:
+		case ast::expr::Intrinsic::eMax1I:
+		case ast::expr::Intrinsic::eMax2I:
+		case ast::expr::Intrinsic::eMax3I:
+		case ast::expr::Intrinsic::eMax4I:
+		case ast::expr::Intrinsic::eMax1U:
+		case ast::expr::Intrinsic::eMax2U:
+		case ast::expr::Intrinsic::eMax3U:
+		case ast::expr::Intrinsic::eMax4U:
 			result = "max";
 			break;
 
-		case ast::expr::Intrinsic::eClamp11F:
-		case ast::expr::Intrinsic::eClamp22F:
-		case ast::expr::Intrinsic::eClamp33F:
-		case ast::expr::Intrinsic::eClamp44F:
-		case ast::expr::Intrinsic::eClamp21F:
-		case ast::expr::Intrinsic::eClamp31F:
-		case ast::expr::Intrinsic::eClamp41F:
-		case ast::expr::Intrinsic::eClamp11D:
-		case ast::expr::Intrinsic::eClamp22D:
-		case ast::expr::Intrinsic::eClamp33D:
-		case ast::expr::Intrinsic::eClamp44D:
-		case ast::expr::Intrinsic::eClamp21D:
-		case ast::expr::Intrinsic::eClamp31D:
-		case ast::expr::Intrinsic::eClamp41D:
-		case ast::expr::Intrinsic::eClamp11I:
-		case ast::expr::Intrinsic::eClamp22I:
-		case ast::expr::Intrinsic::eClamp33I:
-		case ast::expr::Intrinsic::eClamp44I:
-		case ast::expr::Intrinsic::eClamp21I:
-		case ast::expr::Intrinsic::eClamp31I:
-		case ast::expr::Intrinsic::eClamp41I:
-		case ast::expr::Intrinsic::eClamp11U:
-		case ast::expr::Intrinsic::eClamp22U:
-		case ast::expr::Intrinsic::eClamp33U:
-		case ast::expr::Intrinsic::eClamp44U:
-		case ast::expr::Intrinsic::eClamp21U:
-		case ast::expr::Intrinsic::eClamp31U:
-		case ast::expr::Intrinsic::eClamp41U:
+		case ast::expr::Intrinsic::eClamp1F:
+		case ast::expr::Intrinsic::eClamp2F:
+		case ast::expr::Intrinsic::eClamp3F:
+		case ast::expr::Intrinsic::eClamp4F:
+		case ast::expr::Intrinsic::eClamp1D:
+		case ast::expr::Intrinsic::eClamp2D:
+		case ast::expr::Intrinsic::eClamp3D:
+		case ast::expr::Intrinsic::eClamp4D:
+		case ast::expr::Intrinsic::eClamp1I:
+		case ast::expr::Intrinsic::eClamp2I:
+		case ast::expr::Intrinsic::eClamp3I:
+		case ast::expr::Intrinsic::eClamp4I:
+		case ast::expr::Intrinsic::eClamp1U:
+		case ast::expr::Intrinsic::eClamp2U:
+		case ast::expr::Intrinsic::eClamp3U:
+		case ast::expr::Intrinsic::eClamp4U:
 			result = "clamp";
 			break;
 
-		case ast::expr::Intrinsic::eMix11F:
-		case ast::expr::Intrinsic::eMix22F:
-		case ast::expr::Intrinsic::eMix33F:
-		case ast::expr::Intrinsic::eMix44F:
-		case ast::expr::Intrinsic::eMix21F:
-		case ast::expr::Intrinsic::eMix31F:
-		case ast::expr::Intrinsic::eMix41F:
-		case ast::expr::Intrinsic::eMix11FB:
-		case ast::expr::Intrinsic::eMix22FB:
-		case ast::expr::Intrinsic::eMix33FB:
-		case ast::expr::Intrinsic::eMix44FB:
-		case ast::expr::Intrinsic::eMix11D:
-		case ast::expr::Intrinsic::eMix22D:
-		case ast::expr::Intrinsic::eMix33D:
-		case ast::expr::Intrinsic::eMix44D:
-		case ast::expr::Intrinsic::eMix21D:
-		case ast::expr::Intrinsic::eMix31D:
-		case ast::expr::Intrinsic::eMix41D:
-		case ast::expr::Intrinsic::eMix11DB:
-		case ast::expr::Intrinsic::eMix22DB:
-		case ast::expr::Intrinsic::eMix33DB:
-		case ast::expr::Intrinsic::eMix44DB:
+		case ast::expr::Intrinsic::eMix1F:
+		case ast::expr::Intrinsic::eMix2F:
+		case ast::expr::Intrinsic::eMix3F:
+		case ast::expr::Intrinsic::eMix4F:
+		case ast::expr::Intrinsic::eMix1D:
+		case ast::expr::Intrinsic::eMix2D:
+		case ast::expr::Intrinsic::eMix3D:
+		case ast::expr::Intrinsic::eMix4D:
 			result = "mix";
 			break;
 
-		case ast::expr::Intrinsic::eStep11F:
-		case ast::expr::Intrinsic::eStep22F:
-		case ast::expr::Intrinsic::eStep33F:
-		case ast::expr::Intrinsic::eStep44F:
-		case ast::expr::Intrinsic::eStep12F:
-		case ast::expr::Intrinsic::eStep13F:
-		case ast::expr::Intrinsic::eStep14F:
-		case ast::expr::Intrinsic::eStep11D:
-		case ast::expr::Intrinsic::eStep22D:
-		case ast::expr::Intrinsic::eStep33D:
-		case ast::expr::Intrinsic::eStep44D:
-		case ast::expr::Intrinsic::eStep12D:
-		case ast::expr::Intrinsic::eStep13D:
-		case ast::expr::Intrinsic::eStep14D:
+		case ast::expr::Intrinsic::eStep1F:
+		case ast::expr::Intrinsic::eStep2F:
+		case ast::expr::Intrinsic::eStep3F:
+		case ast::expr::Intrinsic::eStep4F:
+		case ast::expr::Intrinsic::eStep1D:
+		case ast::expr::Intrinsic::eStep2D:
+		case ast::expr::Intrinsic::eStep3D:
+		case ast::expr::Intrinsic::eStep4D:
 			result = "step";
 			break;
 
-		case ast::expr::Intrinsic::eSmoothStep11F:
-		case ast::expr::Intrinsic::eSmoothStep22F:
-		case ast::expr::Intrinsic::eSmoothStep33F:
-		case ast::expr::Intrinsic::eSmoothStep44F:
-		case ast::expr::Intrinsic::eSmoothStep12F:
-		case ast::expr::Intrinsic::eSmoothStep13F:
-		case ast::expr::Intrinsic::eSmoothStep14F:
-		case ast::expr::Intrinsic::eSmoothStep11D:
-		case ast::expr::Intrinsic::eSmoothStep22D:
-		case ast::expr::Intrinsic::eSmoothStep33D:
-		case ast::expr::Intrinsic::eSmoothStep44D:
-		case ast::expr::Intrinsic::eSmoothStep12D:
-		case ast::expr::Intrinsic::eSmoothStep13D:
-		case ast::expr::Intrinsic::eSmoothStep14D:
-			result = "smoothStep";
+		case ast::expr::Intrinsic::eSmoothStep1F:
+		case ast::expr::Intrinsic::eSmoothStep2F:
+		case ast::expr::Intrinsic::eSmoothStep3F:
+		case ast::expr::Intrinsic::eSmoothStep4F:
+		case ast::expr::Intrinsic::eSmoothStep1D:
+		case ast::expr::Intrinsic::eSmoothStep2D:
+		case ast::expr::Intrinsic::eSmoothStep3D:
+		case ast::expr::Intrinsic::eSmoothStep4D:
+			result = "smoothstep";
 			break;
 
 		case ast::expr::Intrinsic::eIsnan1F:
@@ -486,7 +418,7 @@ namespace glsl
 		case ast::expr::Intrinsic::eFloatBitsToUInt2:
 		case ast::expr::Intrinsic::eFloatBitsToUInt3:
 		case ast::expr::Intrinsic::eFloatBitsToUInt4:
-			result = "floatBitsToUInt";
+			result = "floatBitsToUint";
 			break;
 
 		case ast::expr::Intrinsic::eIntBitsToFloat1:

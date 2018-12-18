@@ -179,16 +179,27 @@ def computeParams( params, sep ):
 	intrParams = re.compile("[, ]*ASTIntrParams\( ([\w, :()\[\]]*) \)$")
 	resParams = intrParams.match( params )
 	if resParams:
-		intrParam = re.compile("ASTIntrParam\( ([^,]*), ([^ ]*) \)")
+		intrParam = re.compile("(ASTIntrParam|ASTIntrOutParam)\( ([^,]*), ([^ ]*) \)")
 		resParam = intrParam.split( resParams.group( 1 ) )
 		index = 1
 		while len( resParam ) > index:
-			paramType = typeKindToSdwType( resParam[index] )
-			index = index + 1
-			if isArray( resParam[index] ):
-				result += sep + " MaybeOptional< Array< " + paramType + " > > const & " + discardArray( resParam[index] )
+			if resParam[index] == "ASTIntrParam":
+				typeQualifier = "const "
 			else:
-				result += sep + " MaybeOptional< " + paramType + " > const & " + resParam[index]
+				typeQualifier = ""
+			index += 1
+			paramType = typeKindToSdwType( resParam[index] )
+			index += 1
+			if len(typeQualifier) > 0:
+				if isArray( resParam[index] ):
+					result += sep + " MaybeOptional< Array< " + paramType + " > > " + typeQualifier + "& " + discardArray( resParam[index] )
+				else:
+					result += sep + " MaybeOptional< " + paramType + " > " + typeQualifier + "& " + resParam[index]
+			else:
+				if isArray( resParam[index] ):
+					result += sep + " Array< " + paramType + " > " + typeQualifier + "& " + discardArray( resParam[index] )
+				else:
+					result += sep + " " + paramType + " " + typeQualifier + "& " + resParam[index]
 			sep = ","
 			index += 2
 	return result
@@ -198,10 +209,11 @@ def listParams( params, sep ):
 	intrParams = re.compile("[, ]*ASTIntrParams\( ([\w, :()\[\]]*) \)$")
 	resParams = intrParams.match( params )
 	if resParams:
-		intrParam = re.compile("ASTIntrParam\( ([^,]*), ([^ ]*) \)")
+		intrParam = re.compile("(ASTIntrParam|ASTIntrOutParam)\( ([^,]*), ([^ ]*) \)")
 		resParam = intrParam.split( resParams.group( 1 ) )
 		index = 2
 		while len( resParam ) > index:
+			index += 1
 			result += sep + " " + discardArray( resParam[index] )
 			sep = ","
 			index += 3
@@ -212,10 +224,11 @@ def computeArgs( args, sep ):
 	intrArgs = re.compile("[, ]*ASTIntrParams\( ([\w, :()\[\]]*) \)$")
 	resArgs = intrArgs.match( args )
 	if resArgs:
-		intrArg = re.compile("ASTIntrParam\( ([^,]*), ([^ ]*) \)")
+		intrArg = re.compile("(ASTIntrParam|ASTIntrOutParam)\( ([^,]*), ([^ ]*) \)")
 		resArg = intrArg.split( resArgs.group( 1 ) )
 		index = 2
 		while len( resArg ) > index:
+			index += 1
 			result += sep + " makeExpr( " + discardArray( resArg[index] ) + " )"
 			sep = "\n\t\t\t\t,"
 			index += 3

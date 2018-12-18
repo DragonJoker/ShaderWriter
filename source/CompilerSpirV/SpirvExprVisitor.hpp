@@ -15,14 +15,6 @@ namespace spirv
 {
 	spv::StorageClass getStorageClass( ast::var::VariablePtr var );
 
-	struct LoadedVariable
-	{
-		spv::Id varId;
-		spv::Id loadedId;
-	};
-
-	using LoadedVariableArray = std::vector< LoadedVariable >;
-
 	class ExprVisitor
 		: public ast::expr::SimpleVisitor
 	{

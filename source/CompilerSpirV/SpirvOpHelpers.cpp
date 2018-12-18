@@ -72,294 +72,294 @@ namespace spirv
 
 		switch ( op )
 		{
-		case spv::Op::OpNop:
-		case spv::Op::OpNoLine:
-		case spv::Op::OpFunctionEnd:
-		case spv::Op::OpKill:
-		case spv::Op::OpReturn:
-		case spv::Op::OpUnreachable:
-		case spv::Op::OpEmitVertex:
-		case spv::Op::OpEndPrimitive:
+		case spv::OpNop:
+		case spv::OpNoLine:
+		case spv::OpFunctionEnd:
+		case spv::OpKill:
+		case spv::OpReturn:
+		case spv::OpUnreachable:
+		case spv::OpEmitVertex:
+		case spv::OpEndPrimitive:
 			result = 1u;
 			break;
-		case spv::Op::OpSourceContinued:
-		case spv::Op::OpSourceExtension:
-		case spv::Op::OpDecorationGroup:
-		case spv::Op::OpGroupDecorate:
-		case spv::Op::OpGroupMemberDecorate:
-		case spv::Op::OpExtension:
-		case spv::Op::OpCapability:
-		case spv::Op::OpTypeVoid:
-		case spv::Op::OpTypeBool:
-		case spv::Op::OpTypeSampler:
-		case spv::Op::OpTypeStruct:
-		case spv::Op::OpTypeEvent:
-		case spv::Op::OpTypeDeviceEvent:
-		case spv::Op::OpTypeReserveId:
-		case spv::Op::OpTypeQueue:
-		case spv::Op::OpLabel:
-		case spv::Op::OpBranch:
-		case spv::Op::OpReturnValue:
-		case spv::Op::OpEmitStreamVertex:
-		case spv::Op::OpEndStreamPrimitive:
-		case spv::Op::OpTypeNamedBarrier:
-		case spv::Op::OpModuleProcessed:
+		case spv::OpSourceContinued:
+		case spv::OpSourceExtension:
+		case spv::OpDecorationGroup:
+		case spv::OpGroupDecorate:
+		case spv::OpGroupMemberDecorate:
+		case spv::OpExtension:
+		case spv::OpCapability:
+		case spv::OpTypeVoid:
+		case spv::OpTypeBool:
+		case spv::OpTypeSampler:
+		case spv::OpTypeStruct:
+		case spv::OpTypeEvent:
+		case spv::OpTypeDeviceEvent:
+		case spv::OpTypeReserveId:
+		case spv::OpTypeQueue:
+		case spv::OpLabel:
+		case spv::OpBranch:
+		case spv::OpReturnValue:
+		case spv::OpEmitStreamVertex:
+		case spv::OpEndStreamPrimitive:
+		case spv::OpTypeNamedBarrier:
+		case spv::OpModuleProcessed:
 			result = 2u;
 			break;
-		case spv::Op::OpUndef:
-		case spv::Op::OpSource:
-		case spv::Op::OpName:
-		case spv::Op::OpString:
-		case spv::Op::OpDecorate:
-		case spv::Op::OpExtInstImport:
-		case spv::Op::OpMemoryModel:
-		case spv::Op::OpExecutionMode:
-		case spv::Op::OpTypeFloat:
-		case spv::Op::OpTypeSampledImage:
-		case spv::Op::OpTypeRuntimeArray:
-		case spv::Op::OpTypeOpaque:
-		case spv::Op::OpTypeFunction:
-		case spv::Op::OpTypePipe:
-		case spv::Op::OpTypeForwardPointer:
-		case spv::Op::OpConstantTrue:
-		case spv::Op::OpConstantFalse:
-		case spv::Op::OpConstant:
-		case spv::Op::OpConstantComposite:
-		case spv::Op::OpConstantNull:
-		case spv::Op::OpSpecConstantTrue:
-		case spv::Op::OpSpecConstantFalse:
-		case spv::Op::OpSpecConstant:
-		case spv::Op::OpSpecConstantComposite:
-		case spv::Op::OpStore:
-		case spv::Op::OpCopyMemory:
-		case spv::Op::OpFunctionParameter:
-		case spv::Op::OpCompositeConstruct:
-		case spv::Op::OpPhi:
-		case spv::Op::OpSelectionMerge:
-		case spv::Op::OpSwitch:
-		case spv::Op::OpLifetimeStart:
-		case spv::Op::OpLifetimeStop:
-		case spv::Op::OpMemoryBarrier:
-		case spv::Op::OpExecutionModeId:
-		case spv::Op::OpDecorateId:
+		case spv::OpUndef:
+		case spv::OpSource:
+		case spv::OpName:
+		case spv::OpString:
+		case spv::OpDecorate:
+		case spv::OpExtInstImport:
+		case spv::OpMemoryModel:
+		case spv::OpExecutionMode:
+		case spv::OpTypeFloat:
+		case spv::OpTypeSampledImage:
+		case spv::OpTypeRuntimeArray:
+		case spv::OpTypeOpaque:
+		case spv::OpTypeFunction:
+		case spv::OpTypePipe:
+		case spv::OpTypeForwardPointer:
+		case spv::OpConstantTrue:
+		case spv::OpConstantFalse:
+		case spv::OpConstant:
+		case spv::OpConstantComposite:
+		case spv::OpConstantNull:
+		case spv::OpSpecConstantTrue:
+		case spv::OpSpecConstantFalse:
+		case spv::OpSpecConstant:
+		case spv::OpSpecConstantComposite:
+		case spv::OpStore:
+		case spv::OpCopyMemory:
+		case spv::OpFunctionParameter:
+		case spv::OpCompositeConstruct:
+		case spv::OpPhi:
+		case spv::OpSelectionMerge:
+		case spv::OpSwitch:
+		case spv::OpLifetimeStart:
+		case spv::OpLifetimeStop:
+		case spv::OpMemoryBarrier:
+		case spv::OpExecutionModeId:
+		case spv::OpDecorateId:
 			result = 3u;
 			break;
-		case spv::Op::OpMemberName:
-		case spv::Op::OpLine:
-		case spv::Op::OpMemberDecorate:
-		case spv::Op::OpEntryPoint:
-		case spv::Op::OpTypeInt:
-		case spv::Op::OpTypeVector:
-		case spv::Op::OpTypeMatrix:
-		case spv::Op::OpTypeArray:
-		case spv::Op::OpTypePointer:
-		case spv::Op::OpSpecConstantOp:
-		case spv::Op::OpVariable:
-		case spv::Op::OpLoad:
-		case spv::Op::OpCopyMemorySized:
-		case spv::Op::OpAccessChain:
-		case spv::Op::OpInBoundsAccessChain:
-		case spv::Op::OpGenericPtrMemSemantics:
-		case spv::Op::OpFunctionCall:
-		case spv::Op::OpImageWrite:
-		case spv::Op::OpImage:
-		case spv::Op::OpImageQueryFormat:
-		case spv::Op::OpImageQueryOrder:
-		case spv::Op::OpImageQuerySize:
-		case spv::Op::OpImageQueryLevels:
-		case spv::Op::OpImageQuerySamples:
-		case spv::Op::OpImageSparseTexelsResident:
-		case spv::Op::OpConvertFToU:
-		case spv::Op::OpConvertFToS:
-		case spv::Op::OpConvertSToF:
-		case spv::Op::OpConvertUToF:
-		case spv::Op::OpUConvert:
-		case spv::Op::OpSConvert:
-		case spv::Op::OpFConvert:
-		case spv::Op::OpQuantizeToF16:
-		case spv::Op::OpConvertPtrToU:
-		case spv::Op::OpSatConvertSToU:
-		case spv::Op::OpSatConvertUToS:
-		case spv::Op::OpConvertUToPtr:
-		case spv::Op::OpPtrCastToGeneric:
-		case spv::Op::OpGenericCastToPtr:
-		case spv::Op::OpBitcast:
-		case spv::Op::OpCompositeExtract:
-		case spv::Op::OpCopyObject:
-		case spv::Op::OpTranspose:
-		case spv::Op::OpSNegate:
-		case spv::Op::OpFNegate:
-		case spv::Op::OpNot:
-		case spv::Op::OpBitReverse:
-		case spv::Op::OpBitCount:
-		case spv::Op::OpAny:
-		case spv::Op::OpAll:
-		case spv::Op::OpIsNan:
-		case spv::Op::OpIsInf:
-		case spv::Op::OpIsFinite:
-		case spv::Op::OpIsNormal:
-		case spv::Op::OpSignBitSet:
-		case spv::Op::OpLogicalNot:
-		case spv::Op::OpDPdx:
-		case spv::Op::OpDPdy:
-		case spv::Op::OpFwidth:
-		case spv::Op::OpDPdxFine:
-		case spv::Op::OpDPdyFine:
-		case spv::Op::OpFwidthFine:
-		case spv::Op::OpDPdxCoarse:
-		case spv::Op::OpDPdyCoarse:
-		case spv::Op::OpFwidthCoarse:
-		case spv::Op::OpLoopMerge:
-		case spv::Op::OpBranchConditional:
-		case spv::Op::OpAtomicFlagClear:
-		case spv::Op::OpControlBarrier:
-		case spv::Op::OpGroupWaitEvents:
-		case spv::Op::OpSizeOf:
-		case spv::Op::OpNamedBarrierInitialize:
-		case spv::Op::OpMemoryNamedBarrier:
+		case spv::OpMemberName:
+		case spv::OpLine:
+		case spv::OpMemberDecorate:
+		case spv::OpEntryPoint:
+		case spv::OpTypeInt:
+		case spv::OpTypeVector:
+		case spv::OpTypeMatrix:
+		case spv::OpTypeArray:
+		case spv::OpTypePointer:
+		case spv::OpSpecConstantOp:
+		case spv::OpVariable:
+		case spv::OpLoad:
+		case spv::OpCopyMemorySized:
+		case spv::OpAccessChain:
+		case spv::OpInBoundsAccessChain:
+		case spv::OpGenericPtrMemSemantics:
+		case spv::OpFunctionCall:
+		case spv::OpImageWrite:
+		case spv::OpImage:
+		case spv::OpImageQueryFormat:
+		case spv::OpImageQueryOrder:
+		case spv::OpImageQuerySize:
+		case spv::OpImageQueryLevels:
+		case spv::OpImageQuerySamples:
+		case spv::OpImageSparseTexelsResident:
+		case spv::OpConvertFToU:
+		case spv::OpConvertFToS:
+		case spv::OpConvertSToF:
+		case spv::OpConvertUToF:
+		case spv::OpUConvert:
+		case spv::OpSConvert:
+		case spv::OpFConvert:
+		case spv::OpQuantizeToF16:
+		case spv::OpConvertPtrToU:
+		case spv::OpSatConvertSToU:
+		case spv::OpSatConvertUToS:
+		case spv::OpConvertUToPtr:
+		case spv::OpPtrCastToGeneric:
+		case spv::OpGenericCastToPtr:
+		case spv::OpBitcast:
+		case spv::OpCompositeExtract:
+		case spv::OpCopyObject:
+		case spv::OpTranspose:
+		case spv::OpSNegate:
+		case spv::OpFNegate:
+		case spv::OpNot:
+		case spv::OpBitReverse:
+		case spv::OpBitCount:
+		case spv::OpAny:
+		case spv::OpAll:
+		case spv::OpIsNan:
+		case spv::OpIsInf:
+		case spv::OpIsFinite:
+		case spv::OpIsNormal:
+		case spv::OpSignBitSet:
+		case spv::OpLogicalNot:
+		case spv::OpDPdx:
+		case spv::OpDPdy:
+		case spv::OpFwidth:
+		case spv::OpDPdxFine:
+		case spv::OpDPdyFine:
+		case spv::OpFwidthFine:
+		case spv::OpDPdxCoarse:
+		case spv::OpDPdyCoarse:
+		case spv::OpFwidthCoarse:
+		case spv::OpLoopMerge:
+		case spv::OpBranchConditional:
+		case spv::OpAtomicFlagClear:
+		case spv::OpControlBarrier:
+		case spv::OpGroupWaitEvents:
+		case spv::OpSizeOf:
+		case spv::OpNamedBarrierInitialize:
+		case spv::OpMemoryNamedBarrier:
 			result = 4u;
 			break;
-		case spv::Op::OpExtInst:
-		case spv::Op::OpPtrAccessChain:
-		case spv::Op::OpArrayLength:
-		case spv::Op::OpInBoundsPtrAccessChain:
-		case spv::Op::OpFunction:
-		case spv::Op::OpSampledImage:
-		case spv::Op::OpImageSampleImplicitLod:
-		case spv::Op::OpImageSampleProjImplicitLod:
-		case spv::Op::OpImageFetch:
-		case spv::Op::OpImageRead:
-		case spv::Op::OpImageQuerySizeLod:
-		case spv::Op::OpImageQueryLod:
-		case spv::Op::OpImageSparseSampleImplicitLod:
-		case spv::Op::OpImageSparseSampleProjImplicitLod:
-		case spv::Op::OpImageSparseFetch:
-		case spv::Op::OpImageSparseRead:
-		case spv::Op::OpGenericCastToPtrExplicit:
-		case spv::Op::OpVectorExtractDynamic:
-		case spv::Op::OpVectorShuffle:
-		case spv::Op::OpCompositeInsert:
-		case spv::Op::OpIAdd:
-		case spv::Op::OpFAdd:
-		case spv::Op::OpISub:
-		case spv::Op::OpFSub:
-		case spv::Op::OpIMul:
-		case spv::Op::OpFMul:
-		case spv::Op::OpUDiv:
-		case spv::Op::OpSDiv:
-		case spv::Op::OpFDiv:
-		case spv::Op::OpUMod:
-		case spv::Op::OpSRem:
-		case spv::Op::OpSMod:
-		case spv::Op::OpFRem:
-		case spv::Op::OpFMod:
-		case spv::Op::OpVectorTimesScalar:
-		case spv::Op::OpMatrixTimesScalar:
-		case spv::Op::OpVectorTimesMatrix:
-		case spv::Op::OpMatrixTimesVector:
-		case spv::Op::OpMatrixTimesMatrix:
-		case spv::Op::OpOuterProduct:
-		case spv::Op::OpDot:
-		case spv::Op::OpIAddCarry:
-		case spv::Op::OpISubBorrow:
-		case spv::Op::OpUMulExtended:
-		case spv::Op::OpSMulExtended:
-		case spv::Op::OpShiftRightLogical:
-		case spv::Op::OpShiftRightArithmetic:
-		case spv::Op::OpShiftLeftLogical:
-		case spv::Op::OpBitwiseOr:
-		case spv::Op::OpBitwiseXor:
-		case spv::Op::OpBitwiseAnd:
-		case spv::Op::OpLessOrGreater:
-		case spv::Op::OpOrdered:
-		case spv::Op::OpUnordered:
-		case spv::Op::OpLogicalEqual:
-		case spv::Op::OpLogicalNotEqual:
-		case spv::Op::OpLogicalOr:
-		case spv::Op::OpLogicalAnd:
-		case spv::Op::OpIEqual:
-		case spv::Op::OpINotEqual:
-		case spv::Op::OpUGreaterThan:
-		case spv::Op::OpSGreaterThan:
-		case spv::Op::OpUGreaterThanEqual:
-		case spv::Op::OpSGreaterThanEqual:
-		case spv::Op::OpULessThan:
-		case spv::Op::OpSLessThan:
-		case spv::Op::OpULessThanEqual:
-		case spv::Op::OpSLessThanEqual:
-		case spv::Op::OpFOrdEqual:
-		case spv::Op::OpFUnordEqual:
-		case spv::Op::OpFOrdNotEqual:
-		case spv::Op::OpFUnordNotEqual:
-		case spv::Op::OpFOrdLessThan:
-		case spv::Op::OpFUnordLessThan:
-		case spv::Op::OpFOrdGreaterThan:
-		case spv::Op::OpFUnordGreaterThan:
-		case spv::Op::OpFOrdLessThanEqual:
-		case spv::Op::OpFUnordLessThanEqual:
-		case spv::Op::OpFOrdGreaterThanEqual:
-		case spv::Op::OpFUnordGreaterThanEqual:
-		case spv::Op::OpAtomicStore:
-		case spv::Op::OpGroupAll:
-		case spv::Op::OpGroupAny:
+		case spv::OpExtInst:
+		case spv::OpPtrAccessChain:
+		case spv::OpArrayLength:
+		case spv::OpInBoundsPtrAccessChain:
+		case spv::OpFunction:
+		case spv::OpSampledImage:
+		case spv::OpImageSampleImplicitLod:
+		case spv::OpImageSampleProjImplicitLod:
+		case spv::OpImageFetch:
+		case spv::OpImageRead:
+		case spv::OpImageQuerySizeLod:
+		case spv::OpImageQueryLod:
+		case spv::OpImageSparseSampleImplicitLod:
+		case spv::OpImageSparseSampleProjImplicitLod:
+		case spv::OpImageSparseFetch:
+		case spv::OpImageSparseRead:
+		case spv::OpGenericCastToPtrExplicit:
+		case spv::OpVectorExtractDynamic:
+		case spv::OpVectorShuffle:
+		case spv::OpCompositeInsert:
+		case spv::OpIAdd:
+		case spv::OpFAdd:
+		case spv::OpISub:
+		case spv::OpFSub:
+		case spv::OpIMul:
+		case spv::OpFMul:
+		case spv::OpUDiv:
+		case spv::OpSDiv:
+		case spv::OpFDiv:
+		case spv::OpUMod:
+		case spv::OpSRem:
+		case spv::OpSMod:
+		case spv::OpFRem:
+		case spv::OpFMod:
+		case spv::OpVectorTimesScalar:
+		case spv::OpMatrixTimesScalar:
+		case spv::OpVectorTimesMatrix:
+		case spv::OpMatrixTimesVector:
+		case spv::OpMatrixTimesMatrix:
+		case spv::OpOuterProduct:
+		case spv::OpDot:
+		case spv::OpIAddCarry:
+		case spv::OpISubBorrow:
+		case spv::OpUMulExtended:
+		case spv::OpSMulExtended:
+		case spv::OpShiftRightLogical:
+		case spv::OpShiftRightArithmetic:
+		case spv::OpShiftLeftLogical:
+		case spv::OpBitwiseOr:
+		case spv::OpBitwiseXor:
+		case spv::OpBitwiseAnd:
+		case spv::OpLessOrGreater:
+		case spv::OpOrdered:
+		case spv::OpUnordered:
+		case spv::OpLogicalEqual:
+		case spv::OpLogicalNotEqual:
+		case spv::OpLogicalOr:
+		case spv::OpLogicalAnd:
+		case spv::OpIEqual:
+		case spv::OpINotEqual:
+		case spv::OpUGreaterThan:
+		case spv::OpSGreaterThan:
+		case spv::OpUGreaterThanEqual:
+		case spv::OpSGreaterThanEqual:
+		case spv::OpULessThan:
+		case spv::OpSLessThan:
+		case spv::OpULessThanEqual:
+		case spv::OpSLessThanEqual:
+		case spv::OpFOrdEqual:
+		case spv::OpFUnordEqual:
+		case spv::OpFOrdNotEqual:
+		case spv::OpFUnordNotEqual:
+		case spv::OpFOrdLessThan:
+		case spv::OpFUnordLessThan:
+		case spv::OpFOrdGreaterThan:
+		case spv::OpFUnordGreaterThan:
+		case spv::OpFOrdLessThanEqual:
+		case spv::OpFUnordLessThanEqual:
+		case spv::OpFOrdGreaterThanEqual:
+		case spv::OpFUnordGreaterThanEqual:
+		case spv::OpAtomicStore:
+		case spv::OpGroupAll:
+		case spv::OpGroupAny:
 			result = 5u;
 			break;
-		case spv::Op::OpConstantSampler:
-		case spv::Op::OpImageTexelPointer:
-		case spv::Op::OpImageSampleDrefImplicitLod:
-		case spv::Op::OpImageSampleProjDrefImplicitLod:
-		case spv::Op::OpImageGather:
-		case spv::Op::OpImageDrefGather:
-		case spv::Op::OpImageSparseSampleDrefImplicitLod:
-		case spv::Op::OpImageSparseSampleProjDrefImplicitLod:
-		case spv::Op::OpImageSparseGather:
-		case spv::Op::OpImageSparseDrefGather:
-		case spv::Op::OpVectorInsertDynamic:
-		case spv::Op::OpBitFieldSExtract:
-		case spv::Op::OpBitFieldUExtract:
-		case spv::Op::OpSelect:
-		case spv::Op::OpAtomicLoad:
-		case spv::Op::OpAtomicIIncrement:
-		case spv::Op::OpAtomicIDecrement:
-		case spv::Op::OpAtomicFlagTestAndSet:
-		case spv::Op::OpGroupBroadcast:
-		case spv::Op::OpGroupIAdd:
-		case spv::Op::OpGroupFAdd:
-		case spv::Op::OpGroupFMin:
-		case spv::Op::OpGroupUMin:
-		case spv::Op::OpGroupSMin:
-		case spv::Op::OpGroupFMax:
-		case spv::Op::OpGroupUMax:
-		case spv::Op::OpGroupSMax:
+		case spv::OpConstantSampler:
+		case spv::OpImageTexelPointer:
+		case spv::OpImageSampleDrefImplicitLod:
+		case spv::OpImageSampleProjDrefImplicitLod:
+		case spv::OpImageGather:
+		case spv::OpImageDrefGather:
+		case spv::OpImageSparseSampleDrefImplicitLod:
+		case spv::OpImageSparseSampleProjDrefImplicitLod:
+		case spv::OpImageSparseGather:
+		case spv::OpImageSparseDrefGather:
+		case spv::OpVectorInsertDynamic:
+		case spv::OpBitFieldSExtract:
+		case spv::OpBitFieldUExtract:
+		case spv::OpSelect:
+		case spv::OpAtomicLoad:
+		case spv::OpAtomicIIncrement:
+		case spv::OpAtomicIDecrement:
+		case spv::OpAtomicFlagTestAndSet:
+		case spv::OpGroupBroadcast:
+		case spv::OpGroupIAdd:
+		case spv::OpGroupFAdd:
+		case spv::OpGroupFMin:
+		case spv::OpGroupUMin:
+		case spv::OpGroupSMin:
+		case spv::OpGroupFMax:
+		case spv::OpGroupUMax:
+		case spv::OpGroupSMax:
 			result = 6u;
 			break;
-		case spv::Op::OpImageSampleExplicitLod:
-		case spv::Op::OpImageSampleProjExplicitLod:
-		case spv::Op::OpImageSparseSampleExplicitLod:
-		case spv::Op::OpImageSparseSampleProjExplicitLod:
-		case spv::Op::OpBitFieldInsert:
-		case spv::Op::OpAtomicExchange:
-		case spv::Op::OpAtomicIAdd:
-		case spv::Op::OpAtomicISub:
-		case spv::Op::OpAtomicSMin:
-		case spv::Op::OpAtomicUMin:
-		case spv::Op::OpAtomicSMax:
-		case spv::Op::OpAtomicUMax:
-		case spv::Op::OpAtomicAnd:
-		case spv::Op::OpAtomicOr:
-		case spv::Op::OpAtomicXor:
+		case spv::OpImageSampleExplicitLod:
+		case spv::OpImageSampleProjExplicitLod:
+		case spv::OpImageSparseSampleExplicitLod:
+		case spv::OpImageSparseSampleProjExplicitLod:
+		case spv::OpBitFieldInsert:
+		case spv::OpAtomicExchange:
+		case spv::OpAtomicIAdd:
+		case spv::OpAtomicISub:
+		case spv::OpAtomicSMin:
+		case spv::OpAtomicUMin:
+		case spv::OpAtomicSMax:
+		case spv::OpAtomicUMax:
+		case spv::OpAtomicAnd:
+		case spv::OpAtomicOr:
+		case spv::OpAtomicXor:
 			result = 7u;
 			break;
-		case spv::Op::OpImageSampleDrefExplicitLod:
-		case spv::Op::OpImageSampleProjDrefExplicitLod:
-		case spv::Op::OpImageSparseSampleDrefExplicitLod:
-		case spv::Op::OpImageSparseSampleProjDrefExplicitLod:
+		case spv::OpImageSampleDrefExplicitLod:
+		case spv::OpImageSampleProjDrefExplicitLod:
+		case spv::OpImageSparseSampleDrefExplicitLod:
+		case spv::OpImageSparseSampleProjDrefExplicitLod:
 			result = 8u;
 			break;
-		case spv::Op::OpTypeImage:
-		case spv::Op::OpAtomicCompareExchange:
-		case spv::Op::OpAtomicCompareExchangeWeak:
-		case spv::Op::OpGroupAsyncCopy:
+		case spv::OpTypeImage:
+		case spv::OpAtomicCompareExchange:
+		case spv::OpAtomicCompareExchangeWeak:
+		case spv::OpGroupAsyncCopy:
 			result = 9u;
 			break;
 
@@ -367,56 +367,56 @@ namespace spirv
 			// Kernels
 			///////////////////////////////////////////////////////////////
 
-		case spv::Op::OpRetainEvent:
-		case spv::Op::OpReleaseEvent:
-		case spv::Op::OpTypePipeStorage:
+		case spv::OpRetainEvent:
+		case spv::OpReleaseEvent:
+		case spv::OpTypePipeStorage:
 			result = 2u;
 			break;
-		case spv::Op::OpCreateUserEvent:
-		case spv::Op::OpSetUserEventStatus:
-		case spv::Op::OpGetDefaultQueue:
+		case spv::OpCreateUserEvent:
+		case spv::OpSetUserEventStatus:
+		case spv::OpGetDefaultQueue:
 			result = 3u;
 			break;
-		case spv::Op::OpIsValidEvent:
-		case spv::Op::OpCaptureEventProfilingInfo:
-		case spv::Op::OpIsValidReserveId:
-		case spv::Op::OpCreatePipeFromPipeStorage:
+		case spv::OpIsValidEvent:
+		case spv::OpCaptureEventProfilingInfo:
+		case spv::OpIsValidReserveId:
+		case spv::OpCreatePipeFromPipeStorage:
 			result = 4u;
 			break;
-		case spv::Op::OpCommitReadPipe:
-		case spv::Op::OpCommitWritePipe:
+		case spv::OpCommitReadPipe:
+		case spv::OpCommitWritePipe:
 			result = 5u;
 			break;
-		case spv::Op::OpBuildNDRange:
-		case spv::Op::OpGetNumPipePackets:
-		case spv::Op::OpGetMaxPipePackets:
-		case spv::Op::OpGroupCommitReadPipe:
-		case spv::Op::OpGroupCommitWritePipe:
-		case spv::Op::OpConstantPipeStorage:
+		case spv::OpBuildNDRange:
+		case spv::OpGetNumPipePackets:
+		case spv::OpGetMaxPipePackets:
+		case spv::OpGroupCommitReadPipe:
+		case spv::OpGroupCommitWritePipe:
+		case spv::OpConstantPipeStorage:
 			result = 6u;
 			break;
-		case spv::Op::OpEnqueueMarker:
-		case spv::Op::OpGetKernelWorkGroupSize:
-		case spv::Op::OpGetKernelPreferredWorkGroupSizeMultiple:
-		case spv::Op::OpReadPipe:
-		case spv::Op::OpWritePipe:
-		case spv::Op::OpReserveReadPipePackets:
-		case spv::Op::OpReserveWritePipePackets:
-		case spv::Op::OpGetKernelMaxNumSubgroups:
+		case spv::OpEnqueueMarker:
+		case spv::OpGetKernelWorkGroupSize:
+		case spv::OpGetKernelPreferredWorkGroupSizeMultiple:
+		case spv::OpReadPipe:
+		case spv::OpWritePipe:
+		case spv::OpReserveReadPipePackets:
+		case spv::OpReserveWritePipePackets:
+		case spv::OpGetKernelMaxNumSubgroups:
 			result = 7u;
 			break;
-		case spv::Op::OpGetKernelNDrangeSubGroupCount:
-		case spv::Op::OpGetKernelNDrangeMaxSubGroupSize:
-		case spv::Op::OpGroupReserveReadPipePackets:
-		case spv::Op::OpGroupReserveWritePipePackets:
-		case spv::Op::OpGetKernelLocalSizeForSubgroupCount:
+		case spv::OpGetKernelNDrangeSubGroupCount:
+		case spv::OpGetKernelNDrangeMaxSubGroupSize:
+		case spv::OpGroupReserveReadPipePackets:
+		case spv::OpGroupReserveWritePipePackets:
+		case spv::OpGetKernelLocalSizeForSubgroupCount:
 			result = 8u;
 			break;
-		case spv::Op::OpReservedReadPipe:
-		case spv::Op::OpReservedWritePipe:
+		case spv::OpReservedReadPipe:
+		case spv::OpReservedWritePipe:
 			result = 9u;
 			break;
-		case spv::Op::OpEnqueueKernel:
+		case spv::OpEnqueueKernel:
 			result = 13u;
 			break;
 
@@ -424,38 +424,38 @@ namespace spirv
 			// Extensions
 			///////////////////////////////////////////////////////////////
 
-		case spv::Op::OpSubgroupBlockWriteINTEL:
-		case spv::Op::OpDecorateStringGOOGLE:
+		case spv::OpSubgroupBlockWriteINTEL:
+		case spv::OpDecorateStringGOOGLE:
 			result = 3u;
 			break;
-		case spv::Op::OpSubgroupBallotKHR:
-		case spv::Op::OpSubgroupFirstInvocationKHR:
-		case spv::Op::OpSubgroupAllKHR:
-		case spv::Op::OpSubgroupAnyKHR:
-		case spv::Op::OpSubgroupAllEqualKHR:
-		case spv::Op::OpSubgroupBlockReadINTEL:
-		case spv::Op::OpSubgroupImageBlockWriteINTEL:
-		case spv::Op::OpMemberDecorateStringGOOGLE:
+		case spv::OpSubgroupBallotKHR:
+		case spv::OpSubgroupFirstInvocationKHR:
+		case spv::OpSubgroupAllKHR:
+		case spv::OpSubgroupAnyKHR:
+		case spv::OpSubgroupAllEqualKHR:
+		case spv::OpSubgroupBlockReadINTEL:
+		case spv::OpSubgroupImageBlockWriteINTEL:
+		case spv::OpMemberDecorateStringGOOGLE:
 			result = 4u;
 			break;
-		case spv::Op::OpSubgroupReadInvocationKHR:
-		case spv::Op::OpFragmentMaskFetchAMD:
-		case spv::Op::OpSubgroupShuffleINTEL:
-		case spv::Op::OpSubgroupShuffleXorINTEL:
-		case spv::Op::OpSubgroupImageBlockReadINTEL:
+		case spv::OpSubgroupReadInvocationKHR:
+		case spv::OpFragmentMaskFetchAMD:
+		case spv::OpSubgroupShuffleINTEL:
+		case spv::OpSubgroupShuffleXorINTEL:
+		case spv::OpSubgroupImageBlockReadINTEL:
 			result = 5u;
 			break;
-		case spv::Op::OpGroupIAddNonUniformAMD:
-		case spv::Op::OpGroupFAddNonUniformAMD:
-		case spv::Op::OpGroupFMinNonUniformAMD:
-		case spv::Op::OpGroupUMinNonUniformAMD:
-		case spv::Op::OpGroupSMinNonUniformAMD:
-		case spv::Op::OpGroupFMaxNonUniformAMD:
-		case spv::Op::OpGroupUMaxNonUniformAMD:
-		case spv::Op::OpGroupSMaxNonUniformAMD:
-		case spv::Op::OpFragmentFetchAMD:
-		case spv::Op::OpSubgroupShuffleDownINTEL:
-		case spv::Op::OpSubgroupShuffleUpINTEL:
+		case spv::OpGroupIAddNonUniformAMD:
+		case spv::OpGroupFAddNonUniformAMD:
+		case spv::OpGroupFMinNonUniformAMD:
+		case spv::OpGroupUMinNonUniformAMD:
+		case spv::OpGroupSMinNonUniformAMD:
+		case spv::OpGroupFMaxNonUniformAMD:
+		case spv::OpGroupUMaxNonUniformAMD:
+		case spv::OpGroupSMaxNonUniformAMD:
+		case spv::OpFragmentFetchAMD:
+		case spv::OpSubgroupShuffleDownINTEL:
+		case spv::OpSubgroupShuffleUpINTEL:
 			result = 6u;
 			break;
 		}
@@ -469,1000 +469,1000 @@ namespace spirv
 
 		switch ( op )
 		{
-		case spv::Op::OpNop:
+		case spv::OpNop:
 			result = "OpNop";
 			break;
-		case spv::Op::OpUndef:
+		case spv::OpUndef:
 			result = "OpUndef";
 			break;
-		case spv::Op::OpSourceContinued:
+		case spv::OpSourceContinued:
 			result = "OpSourceContinued";
 			break;
-		case spv::Op::OpSource:
+		case spv::OpSource:
 			result = "OpSource";
 			break;
-		case spv::Op::OpSourceExtension:
+		case spv::OpSourceExtension:
 			result = "OpSourceExtension";
 			break;
-		case spv::Op::OpName:
+		case spv::OpName:
 			result = "OpName";
 			break;
-		case spv::Op::OpMemberName:
+		case spv::OpMemberName:
 			result = "OpMemberName";
 			break;
-		case spv::Op::OpString:
+		case spv::OpString:
 			result = "OpString";
 			break;
-		case spv::Op::OpLine:
+		case spv::OpLine:
 			result = "OpLine";
 			break;
-		case spv::Op::OpExtension:
+		case spv::OpExtension:
 			result = "OpExtension";
 			break;
-		case spv::Op::OpExtInstImport:
+		case spv::OpExtInstImport:
 			result = "OpExtInstImport";
 			break;
-		case spv::Op::OpExtInst:
+		case spv::OpExtInst:
 			result = "OpExtInst";
 			break;
-		case spv::Op::OpMemoryModel:
+		case spv::OpMemoryModel:
 			result = "OpMemoryModel";
 			break;
-		case spv::Op::OpEntryPoint:
+		case spv::OpEntryPoint:
 			result = "OpEntryPoint";
 			break;
-		case spv::Op::OpExecutionMode:
+		case spv::OpExecutionMode:
 			result = "OpExecutionMode";
 			break;
-		case spv::Op::OpCapability:
+		case spv::OpCapability:
 			result = "OpCapability";
 			break;
-		case spv::Op::OpTypeVoid:
+		case spv::OpTypeVoid:
 			result = "OpTypeVoid";
 			break;
-		case spv::Op::OpTypeBool:
+		case spv::OpTypeBool:
 			result = "OpTypeBool";
 			break;
-		case spv::Op::OpTypeInt:
+		case spv::OpTypeInt:
 			result = "OpTypeInt";
 			break;
-		case spv::Op::OpTypeFloat:
+		case spv::OpTypeFloat:
 			result = "OpTypeFloat";
 			break;
-		case spv::Op::OpTypeVector:
+		case spv::OpTypeVector:
 			result = "OpTypeVector";
 			break;
-		case spv::Op::OpTypeMatrix:
+		case spv::OpTypeMatrix:
 			result = "OpTypeMatrix";
 			break;
-		case spv::Op::OpTypeImage:
+		case spv::OpTypeImage:
 			result = "OpTypeImage";
 			break;
-		case spv::Op::OpTypeSampler:
+		case spv::OpTypeSampler:
 			result = "OpTypeSampler";
 			break;
-		case spv::Op::OpTypeSampledImage:
+		case spv::OpTypeSampledImage:
 			result = "OpTypeSampledImage";
 			break;
-		case spv::Op::OpTypeArray:
+		case spv::OpTypeArray:
 			result = "OpTypeArray";
 			break;
-		case spv::Op::OpTypeRuntimeArray:
+		case spv::OpTypeRuntimeArray:
 			result = "OpTypeRuntimeArray";
 			break;
-		case spv::Op::OpTypeStruct:
+		case spv::OpTypeStruct:
 			result = "OpTypeStruct";
 			break;
-		case spv::Op::OpTypeOpaque:
+		case spv::OpTypeOpaque:
 			result = "OpTypeOpaque";
 			break;
-		case spv::Op::OpTypePointer:
+		case spv::OpTypePointer:
 			result = "OpTypePointer";
 			break;
-		case spv::Op::OpTypeFunction:
+		case spv::OpTypeFunction:
 			result = "OpTypeFunction";
 			break;
-		case spv::Op::OpTypeEvent:
+		case spv::OpTypeEvent:
 			result = "OpTypeEvent";
 			break;
-		case spv::Op::OpTypeDeviceEvent:
+		case spv::OpTypeDeviceEvent:
 			result = "OpTypeDeviceEvent";
 			break;
-		case spv::Op::OpTypeReserveId:
+		case spv::OpTypeReserveId:
 			result = "OpTypeReserveId";
 			break;
-		case spv::Op::OpTypeQueue:
+		case spv::OpTypeQueue:
 			result = "OpTypeQueue";
 			break;
-		case spv::Op::OpTypePipe:
+		case spv::OpTypePipe:
 			result = "OpTypePipe";
 			break;
-		case spv::Op::OpTypeForwardPointer:
+		case spv::OpTypeForwardPointer:
 			result = "OpTypeForwardPointer";
 			break;
-		case spv::Op::OpConstantTrue:
+		case spv::OpConstantTrue:
 			result = "OpConstantTrue";
 			break;
-		case spv::Op::OpConstantFalse:
+		case spv::OpConstantFalse:
 			result = "OpConstantFalse";
 			break;
-		case spv::Op::OpConstant:
+		case spv::OpConstant:
 			result = "OpConstant";
 			break;
-		case spv::Op::OpConstantComposite:
+		case spv::OpConstantComposite:
 			result = "OpConstantComposite";
 			break;
-		case spv::Op::OpConstantSampler:
+		case spv::OpConstantSampler:
 			result = "OpConstantSampler";
 			break;
-		case spv::Op::OpConstantNull:
+		case spv::OpConstantNull:
 			result = "OpConstantNull";
 			break;
-		case spv::Op::OpSpecConstantTrue:
+		case spv::OpSpecConstantTrue:
 			result = "OpSpecConstantTrue";
 			break;
-		case spv::Op::OpSpecConstantFalse:
+		case spv::OpSpecConstantFalse:
 			result = "OpSpecConstantFalse";
 			break;
-		case spv::Op::OpSpecConstant:
+		case spv::OpSpecConstant:
 			result = "OpSpecConstant";
 			break;
-		case spv::Op::OpSpecConstantComposite:
+		case spv::OpSpecConstantComposite:
 			result = "OpSpecConstantComposite";
 			break;
-		case spv::Op::OpSpecConstantOp:
+		case spv::OpSpecConstantOp:
 			result = "OpSpecConstantOp";
 			break;
-		case spv::Op::OpFunction:
+		case spv::OpFunction:
 			result = "OpFunction";
 			break;
-		case spv::Op::OpFunctionParameter:
+		case spv::OpFunctionParameter:
 			result = "OpFunctionParameter";
 			break;
-		case spv::Op::OpFunctionEnd:
+		case spv::OpFunctionEnd:
 			result = "OpFunctionEnd";
 			break;
-		case spv::Op::OpFunctionCall:
+		case spv::OpFunctionCall:
 			result = "OpFunctionCall";
 			break;
-		case spv::Op::OpVariable:
+		case spv::OpVariable:
 			result = "OpVariable";
 			break;
-		case spv::Op::OpImageTexelPointer:
+		case spv::OpImageTexelPointer:
 			result = "OpImageTexelPointer";
 			break;
-		case spv::Op::OpLoad:
+		case spv::OpLoad:
 			result = "OpLoad";
 			break;
-		case spv::Op::OpStore:
+		case spv::OpStore:
 			result = "OpStore";
 			break;
-		case spv::Op::OpCopyMemory:
+		case spv::OpCopyMemory:
 			result = "OpCopyMemory";
 			break;
-		case spv::Op::OpCopyMemorySized:
+		case spv::OpCopyMemorySized:
 			result = "OpCopyMemorySized";
 			break;
-		case spv::Op::OpAccessChain:
+		case spv::OpAccessChain:
 			result = "OpAccessChain";
 			break;
-		case spv::Op::OpInBoundsAccessChain:
+		case spv::OpInBoundsAccessChain:
 			result = "OpInBoundsAccessChain";
 			break;
-		case spv::Op::OpPtrAccessChain:
+		case spv::OpPtrAccessChain:
 			result = "OpPtrAccessChain";
 			break;
-		case spv::Op::OpArrayLength:
+		case spv::OpArrayLength:
 			result = "OpArrayLength";
 			break;
-		case spv::Op::OpGenericPtrMemSemantics:
+		case spv::OpGenericPtrMemSemantics:
 			result = "OpGenericPtrMemSemantics";
 			break;
-		case spv::Op::OpInBoundsPtrAccessChain:
+		case spv::OpInBoundsPtrAccessChain:
 			result = "OpInBoundsPtrAccessChain";
 			break;
-		case spv::Op::OpDecorate:
+		case spv::OpDecorate:
 			result = "OpDecorate";
 			break;
-		case spv::Op::OpMemberDecorate:
+		case spv::OpMemberDecorate:
 			result = "OpMemberDecorate";
 			break;
-		case spv::Op::OpDecorationGroup:
+		case spv::OpDecorationGroup:
 			result = "OpDecorationGroup";
 			break;
-		case spv::Op::OpGroupDecorate:
+		case spv::OpGroupDecorate:
 			result = "OpGroupDecorate";
 			break;
-		case spv::Op::OpGroupMemberDecorate:
+		case spv::OpGroupMemberDecorate:
 			result = "OpGroupMemberDecorate";
 			break;
-		case spv::Op::OpVectorExtractDynamic:
+		case spv::OpVectorExtractDynamic:
 			result = "OpVectorExtractDynamic";
 			break;
-		case spv::Op::OpVectorInsertDynamic:
+		case spv::OpVectorInsertDynamic:
 			result = "OpVectorInsertDynamic";
 			break;
-		case spv::Op::OpVectorShuffle:
+		case spv::OpVectorShuffle:
 			result = "OpVectorShuffle";
 			break;
-		case spv::Op::OpCompositeConstruct:
+		case spv::OpCompositeConstruct:
 			result = "OpCompositeConstruct";
 			break;
-		case spv::Op::OpCompositeExtract:
+		case spv::OpCompositeExtract:
 			result = "OpCompositeExtract";
 			break;
-		case spv::Op::OpCompositeInsert:
+		case spv::OpCompositeInsert:
 			result = "OpCompositeInsert";
 			break;
-		case spv::Op::OpCopyObject:
+		case spv::OpCopyObject:
 			result = "OpCopyObject";
 			break;
-		case spv::Op::OpTranspose:
+		case spv::OpTranspose:
 			result = "OpTranspose";
 			break;
-		case spv::Op::OpSampledImage:
+		case spv::OpSampledImage:
 			result = "OpSampledImage";
 			break;
-		case spv::Op::OpImageSampleImplicitLod:
+		case spv::OpImageSampleImplicitLod:
 			result = "OpImageSampleImplicitLod";
 			break;
-		case spv::Op::OpImageSampleExplicitLod:
+		case spv::OpImageSampleExplicitLod:
 			result = "OpImageSampleExplicitLod";
 			break;
-		case spv::Op::OpImageSampleDrefImplicitLod:
+		case spv::OpImageSampleDrefImplicitLod:
 			result = "OpImageSampleDrefImplicitLod";
 			break;
-		case spv::Op::OpImageSampleDrefExplicitLod:
+		case spv::OpImageSampleDrefExplicitLod:
 			result = "OpImageSampleDrefExplicitLod";
 			break;
-		case spv::Op::OpImageSampleProjImplicitLod:
+		case spv::OpImageSampleProjImplicitLod:
 			result = "OpImageSampleProjImplicitLod";
 			break;
-		case spv::Op::OpImageSampleProjExplicitLod:
+		case spv::OpImageSampleProjExplicitLod:
 			result = "OpImageSampleProjExplicitLod";
 			break;
-		case spv::Op::OpImageSampleProjDrefImplicitLod:
+		case spv::OpImageSampleProjDrefImplicitLod:
 			result = "OpImageSampleProjDrefImplicitLod";
 			break;
-		case spv::Op::OpImageSampleProjDrefExplicitLod:
+		case spv::OpImageSampleProjDrefExplicitLod:
 			result = "OpImageSampleProjDrefExplicitLod";
 			break;
-		case spv::Op::OpImageFetch:
+		case spv::OpImageFetch:
 			result = "OpImageFetch";
 			break;
-		case spv::Op::OpImageGather:
+		case spv::OpImageGather:
 			result = "OpImageGather";
 			break;
-		case spv::Op::OpImageDrefGather:
+		case spv::OpImageDrefGather:
 			result = "OpImageDrefGather";
 			break;
-		case spv::Op::OpImageRead:
+		case spv::OpImageRead:
 			result = "OpImageRead";
 			break;
-		case spv::Op::OpImageWrite:
+		case spv::OpImageWrite:
 			result = "OpImageWrite";
 			break;
-		case spv::Op::OpImage:
+		case spv::OpImage:
 			result = "OpImage";
 			break;
-		case spv::Op::OpImageQueryFormat:
+		case spv::OpImageQueryFormat:
 			result = "OpImageQueryFormat";
 			break;
-		case spv::Op::OpImageQueryOrder:
+		case spv::OpImageQueryOrder:
 			result = "OpImageQueryOrder";
 			break;
-		case spv::Op::OpImageQuerySizeLod:
+		case spv::OpImageQuerySizeLod:
 			result = "OpImageQuerySizeLod";
 			break;
-		case spv::Op::OpImageQuerySize:
+		case spv::OpImageQuerySize:
 			result = "OpImageQuerySize";
 			break;
-		case spv::Op::OpImageQueryLod:
+		case spv::OpImageQueryLod:
 			result = "OpImageQueryLod";
 			break;
-		case spv::Op::OpImageQueryLevels:
+		case spv::OpImageQueryLevels:
 			result = "OpImageQueryLevels";
 			break;
-		case spv::Op::OpImageQuerySamples:
+		case spv::OpImageQuerySamples:
 			result = "OpImageQuerySamples";
 			break;
-		case spv::Op::OpConvertFToU:
+		case spv::OpConvertFToU:
 			result = "OpConvertFToU";
 			break;
-		case spv::Op::OpConvertFToS:
+		case spv::OpConvertFToS:
 			result = "OpConvertFToS";
 			break;
-		case spv::Op::OpConvertSToF:
+		case spv::OpConvertSToF:
 			result = "OpConvertSToF";
 			break;
-		case spv::Op::OpConvertUToF:
+		case spv::OpConvertUToF:
 			result = "OpConvertUToF";
 			break;
-		case spv::Op::OpUConvert:
+		case spv::OpUConvert:
 			result = "OpUConvert";
 			break;
-		case spv::Op::OpSConvert:
+		case spv::OpSConvert:
 			result = "OpSConvert";
 			break;
-		case spv::Op::OpFConvert:
+		case spv::OpFConvert:
 			result = "OpFConvert";
 			break;
-		case spv::Op::OpQuantizeToF16:
+		case spv::OpQuantizeToF16:
 			result = "OpQuantizeToF16";
 			break;
-		case spv::Op::OpConvertPtrToU:
+		case spv::OpConvertPtrToU:
 			result = "OpConvertPtrToU";
 			break;
-		case spv::Op::OpSatConvertSToU:
+		case spv::OpSatConvertSToU:
 			result = "OpSatConvertSToU";
 			break;
-		case spv::Op::OpSatConvertUToS:
+		case spv::OpSatConvertUToS:
 			result = "OpSatConvertUToS";
 			break;
-		case spv::Op::OpConvertUToPtr:
+		case spv::OpConvertUToPtr:
 			result = "OpConvertUToPtr";
 			break;
-		case spv::Op::OpPtrCastToGeneric:
+		case spv::OpPtrCastToGeneric:
 			result = "OpPtrCastToGeneric";
 			break;
-		case spv::Op::OpGenericCastToPtr:
+		case spv::OpGenericCastToPtr:
 			result = "OpGenericCastToPtr";
 			break;
-		case spv::Op::OpGenericCastToPtrExplicit:
+		case spv::OpGenericCastToPtrExplicit:
 			result = "OpGenericCastToPtrExplicit";
 			break;
-		case spv::Op::OpBitcast:
+		case spv::OpBitcast:
 			result = "OpBitcast";
 			break;
-		case spv::Op::OpSNegate:
+		case spv::OpSNegate:
 			result = "OpSNegate";
 			break;
-		case spv::Op::OpFNegate:
+		case spv::OpFNegate:
 			result = "OpFNegate";
 			break;
-		case spv::Op::OpIAdd:
+		case spv::OpIAdd:
 			result = "OpIAdd";
 			break;
-		case spv::Op::OpFAdd:
+		case spv::OpFAdd:
 			result = "OpFAdd";
 			break;
-		case spv::Op::OpISub:
+		case spv::OpISub:
 			result = "OpISub";
 			break;
-		case spv::Op::OpFSub:
+		case spv::OpFSub:
 			result = "OpFSub";
 			break;
-		case spv::Op::OpIMul:
+		case spv::OpIMul:
 			result = "OpIMul";
 			break;
-		case spv::Op::OpFMul:
+		case spv::OpFMul:
 			result = "OpFMul";
 			break;
-		case spv::Op::OpUDiv:
+		case spv::OpUDiv:
 			result = "OpUDiv";
 			break;
-		case spv::Op::OpSDiv:
+		case spv::OpSDiv:
 			result = "OpSDiv";
 			break;
-		case spv::Op::OpFDiv:
+		case spv::OpFDiv:
 			result = "OpFDiv";
 			break;
-		case spv::Op::OpUMod:
+		case spv::OpUMod:
 			result = "OpUMod";
 			break;
-		case spv::Op::OpSRem:
+		case spv::OpSRem:
 			result = "OpSRem";
 			break;
-		case spv::Op::OpSMod:
+		case spv::OpSMod:
 			result = "OpSMod";
 			break;
-		case spv::Op::OpFRem:
+		case spv::OpFRem:
 			result = "OpFRem";
 			break;
-		case spv::Op::OpFMod:
+		case spv::OpFMod:
 			result = "OpFMod";
 			break;
-		case spv::Op::OpVectorTimesScalar:
+		case spv::OpVectorTimesScalar:
 			result = "OpVectorTimesScalar";
 			break;
-		case spv::Op::OpMatrixTimesScalar:
+		case spv::OpMatrixTimesScalar:
 			result = "OpMatrixTimesScalar";
 			break;
-		case spv::Op::OpVectorTimesMatrix:
+		case spv::OpVectorTimesMatrix:
 			result = "OpVectorTimesMatrix";
 			break;
-		case spv::Op::OpMatrixTimesVector:
+		case spv::OpMatrixTimesVector:
 			result = "OpMatrixTimesVector";
 			break;
-		case spv::Op::OpMatrixTimesMatrix:
+		case spv::OpMatrixTimesMatrix:
 			result = "OpMatrixTimesMatrix";
 			break;
-		case spv::Op::OpOuterProduct:
+		case spv::OpOuterProduct:
 			result = "OpOuterProduct";
 			break;
-		case spv::Op::OpDot:
+		case spv::OpDot:
 			result = "OpDot";
 			break;
-		case spv::Op::OpIAddCarry:
+		case spv::OpIAddCarry:
 			result = "OpIAddCarry";
 			break;
-		case spv::Op::OpISubBorrow:
+		case spv::OpISubBorrow:
 			result = "OpISubBorrow";
 			break;
-		case spv::Op::OpUMulExtended:
+		case spv::OpUMulExtended:
 			result = "OpUMulExtended";
 			break;
-		case spv::Op::OpSMulExtended:
+		case spv::OpSMulExtended:
 			result = "OpSMulExtended";
 			break;
-		case spv::Op::OpAny:
+		case spv::OpAny:
 			result = "OpAny";
 			break;
-		case spv::Op::OpAll:
+		case spv::OpAll:
 			result = "OpAll";
 			break;
-		case spv::Op::OpIsNan:
+		case spv::OpIsNan:
 			result = "OpIsNan";
 			break;
-		case spv::Op::OpIsInf:
+		case spv::OpIsInf:
 			result = "OpIsInf";
 			break;
-		case spv::Op::OpIsFinite:
+		case spv::OpIsFinite:
 			result = "OpIsFinite";
 			break;
-		case spv::Op::OpIsNormal:
+		case spv::OpIsNormal:
 			result = "OpIsNormal";
 			break;
-		case spv::Op::OpSignBitSet:
+		case spv::OpSignBitSet:
 			result = "OpSignBitSet";
 			break;
-		case spv::Op::OpLessOrGreater:
+		case spv::OpLessOrGreater:
 			result = "OpLessOrGreater";
 			break;
-		case spv::Op::OpOrdered:
+		case spv::OpOrdered:
 			result = "OpOrdered";
 			break;
-		case spv::Op::OpUnordered:
+		case spv::OpUnordered:
 			result = "OpUnordered";
 			break;
-		case spv::Op::OpLogicalEqual:
+		case spv::OpLogicalEqual:
 			result = "OpLogicalEqual";
 			break;
-		case spv::Op::OpLogicalNotEqual:
+		case spv::OpLogicalNotEqual:
 			result = "OpLogicalNotEqual";
 			break;
-		case spv::Op::OpLogicalOr:
+		case spv::OpLogicalOr:
 			result = "OpLogicalOr";
 			break;
-		case spv::Op::OpLogicalAnd:
+		case spv::OpLogicalAnd:
 			result = "OpLogicalAnd";
 			break;
-		case spv::Op::OpLogicalNot:
+		case spv::OpLogicalNot:
 			result = "OpLogicalNot";
 			break;
-		case spv::Op::OpSelect:
+		case spv::OpSelect:
 			result = "OpSelect";
 			break;
-		case spv::Op::OpIEqual:
+		case spv::OpIEqual:
 			result = "OpIEqual";
 			break;
-		case spv::Op::OpINotEqual:
+		case spv::OpINotEqual:
 			result = "OpINotEqual";
 			break;
-		case spv::Op::OpUGreaterThan:
+		case spv::OpUGreaterThan:
 			result = "OpUGreaterThan";
 			break;
-		case spv::Op::OpSGreaterThan:
+		case spv::OpSGreaterThan:
 			result = "OpSGreaterThan";
 			break;
-		case spv::Op::OpUGreaterThanEqual:
+		case spv::OpUGreaterThanEqual:
 			result = "OpUGreaterThanEqual";
 			break;
-		case spv::Op::OpSGreaterThanEqual:
+		case spv::OpSGreaterThanEqual:
 			result = "OpSGreaterThanEqual";
 			break;
-		case spv::Op::OpULessThan:
+		case spv::OpULessThan:
 			result = "OpULessThan";
 			break;
-		case spv::Op::OpSLessThan:
+		case spv::OpSLessThan:
 			result = "OpSLessThan";
 			break;
-		case spv::Op::OpULessThanEqual:
+		case spv::OpULessThanEqual:
 			result = "OpULessThanEqual";
 			break;
-		case spv::Op::OpSLessThanEqual:
+		case spv::OpSLessThanEqual:
 			result = "OpSLessThanEqual";
 			break;
-		case spv::Op::OpFOrdEqual:
+		case spv::OpFOrdEqual:
 			result = "OpFOrdEqual";
 			break;
-		case spv::Op::OpFUnordEqual:
+		case spv::OpFUnordEqual:
 			result = "OpFUnordEqual";
 			break;
-		case spv::Op::OpFOrdNotEqual:
+		case spv::OpFOrdNotEqual:
 			result = "OpFOrdNotEqual";
 			break;
-		case spv::Op::OpFUnordNotEqual:
+		case spv::OpFUnordNotEqual:
 			result = "OpFUnordNotEqual";
 			break;
-		case spv::Op::OpFOrdLessThan:
+		case spv::OpFOrdLessThan:
 			result = "OpFOrdLessThan";
 			break;
-		case spv::Op::OpFUnordLessThan:
+		case spv::OpFUnordLessThan:
 			result = "OpFUnordLessThan";
 			break;
-		case spv::Op::OpFOrdGreaterThan:
+		case spv::OpFOrdGreaterThan:
 			result = "OpFOrdGreaterThan";
 			break;
-		case spv::Op::OpFUnordGreaterThan:
+		case spv::OpFUnordGreaterThan:
 			result = "OpFUnordGreaterThan";
 			break;
-		case spv::Op::OpFOrdLessThanEqual:
+		case spv::OpFOrdLessThanEqual:
 			result = "OpFOrdLessThanEqual";
 			break;
-		case spv::Op::OpFUnordLessThanEqual:
+		case spv::OpFUnordLessThanEqual:
 			result = "OpFUnordLessThanEqual";
 			break;
-		case spv::Op::OpFOrdGreaterThanEqual:
+		case spv::OpFOrdGreaterThanEqual:
 			result = "OpFOrdGreaterThanEqual";
 			break;
-		case spv::Op::OpFUnordGreaterThanEqual:
+		case spv::OpFUnordGreaterThanEqual:
 			result = "OpFUnordGreaterThanEqual";
 			break;
-		case spv::Op::OpShiftRightLogical:
+		case spv::OpShiftRightLogical:
 			result = "OpShiftRightLogical";
 			break;
-		case spv::Op::OpShiftRightArithmetic:
+		case spv::OpShiftRightArithmetic:
 			result = "OpShiftRightArithmetic";
 			break;
-		case spv::Op::OpShiftLeftLogical:
+		case spv::OpShiftLeftLogical:
 			result = "OpShiftLeftLogical";
 			break;
-		case spv::Op::OpBitwiseOr:
+		case spv::OpBitwiseOr:
 			result = "OpBitwiseOr";
 			break;
-		case spv::Op::OpBitwiseXor:
+		case spv::OpBitwiseXor:
 			result = "OpBitwiseXor";
 			break;
-		case spv::Op::OpBitwiseAnd:
+		case spv::OpBitwiseAnd:
 			result = "OpBitwiseAnd";
 			break;
-		case spv::Op::OpNot:
+		case spv::OpNot:
 			result = "OpNot";
 			break;
-		case spv::Op::OpBitFieldInsert:
+		case spv::OpBitFieldInsert:
 			result = "OpBitFieldInsert";
 			break;
-		case spv::Op::OpBitFieldSExtract:
+		case spv::OpBitFieldSExtract:
 			result = "OpBitFieldSExtract";
 			break;
-		case spv::Op::OpBitFieldUExtract:
+		case spv::OpBitFieldUExtract:
 			result = "OpBitFieldUExtract";
 			break;
-		case spv::Op::OpBitReverse:
+		case spv::OpBitReverse:
 			result = "OpBitReverse";
 			break;
-		case spv::Op::OpBitCount:
+		case spv::OpBitCount:
 			result = "OpBitCount";
 			break;
-		case spv::Op::OpDPdx:
+		case spv::OpDPdx:
 			result = "OpDPdx";
 			break;
-		case spv::Op::OpDPdy:
+		case spv::OpDPdy:
 			result = "OpDPdy";
 			break;
-		case spv::Op::OpFwidth:
+		case spv::OpFwidth:
 			result = "OpFwidth";
 			break;
-		case spv::Op::OpDPdxFine:
+		case spv::OpDPdxFine:
 			result = "OpDPdxFine";
 			break;
-		case spv::Op::OpDPdyFine:
+		case spv::OpDPdyFine:
 			result = "OpDPdyFine";
 			break;
-		case spv::Op::OpFwidthFine:
+		case spv::OpFwidthFine:
 			result = "OpFwidthFine";
 			break;
-		case spv::Op::OpDPdxCoarse:
+		case spv::OpDPdxCoarse:
 			result = "OpDPdxCoarse";
 			break;
-		case spv::Op::OpDPdyCoarse:
+		case spv::OpDPdyCoarse:
 			result = "OpDPdyCoarse";
 			break;
-		case spv::Op::OpFwidthCoarse:
+		case spv::OpFwidthCoarse:
 			result = "OpFwidthCoarse";
 			break;
-		case spv::Op::OpEmitVertex:
+		case spv::OpEmitVertex:
 			result = "OpEmitVertex";
 			break;
-		case spv::Op::OpEndPrimitive:
+		case spv::OpEndPrimitive:
 			result = "OpEndPrimitive";
 			break;
-		case spv::Op::OpEmitStreamVertex:
+		case spv::OpEmitStreamVertex:
 			result = "OpEmitStreamVertex";
 			break;
-		case spv::Op::OpEndStreamPrimitive:
+		case spv::OpEndStreamPrimitive:
 			result = "OpEndStreamPrimitive";
 			break;
-		case spv::Op::OpControlBarrier:
+		case spv::OpControlBarrier:
 			result = "OpControlBarrier";
 			break;
-		case spv::Op::OpMemoryBarrier:
+		case spv::OpMemoryBarrier:
 			result = "OpMemoryBarrier";
 			break;
-		case spv::Op::OpAtomicLoad:
+		case spv::OpAtomicLoad:
 			result = "OpAtomicLoad";
 			break;
-		case spv::Op::OpAtomicStore:
+		case spv::OpAtomicStore:
 			result = "OpAtomicStore";
 			break;
-		case spv::Op::OpAtomicExchange:
+		case spv::OpAtomicExchange:
 			result = "OpAtomicExchange";
 			break;
-		case spv::Op::OpAtomicCompareExchange:
+		case spv::OpAtomicCompareExchange:
 			result = "OpAtomicCompareExchange";
 			break;
-		case spv::Op::OpAtomicCompareExchangeWeak:
+		case spv::OpAtomicCompareExchangeWeak:
 			result = "OpAtomicCompareExchangeWeak";
 			break;
-		case spv::Op::OpAtomicIIncrement:
+		case spv::OpAtomicIIncrement:
 			result = "OpAtomicIIncrement";
 			break;
-		case spv::Op::OpAtomicIDecrement:
+		case spv::OpAtomicIDecrement:
 			result = "OpAtomicIDecrement";
 			break;
-		case spv::Op::OpAtomicIAdd:
+		case spv::OpAtomicIAdd:
 			result = "OpAtomicIAdd";
 			break;
-		case spv::Op::OpAtomicISub:
+		case spv::OpAtomicISub:
 			result = "OpAtomicISub";
 			break;
-		case spv::Op::OpAtomicSMin:
+		case spv::OpAtomicSMin:
 			result = "OpAtomicSMin";
 			break;
-		case spv::Op::OpAtomicUMin:
+		case spv::OpAtomicUMin:
 			result = "OpAtomicUMin";
 			break;
-		case spv::Op::OpAtomicSMax:
+		case spv::OpAtomicSMax:
 			result = "OpAtomicSMax";
 			break;
-		case spv::Op::OpAtomicUMax:
+		case spv::OpAtomicUMax:
 			result = "OpAtomicUMax";
 			break;
-		case spv::Op::OpAtomicAnd:
+		case spv::OpAtomicAnd:
 			result = "OpAtomicAnd";
 			break;
-		case spv::Op::OpAtomicOr:
+		case spv::OpAtomicOr:
 			result = "OpAtomicOr";
 			break;
-		case spv::Op::OpAtomicXor:
+		case spv::OpAtomicXor:
 			result = "OpAtomicXor";
 			break;
-		case spv::Op::OpPhi:
+		case spv::OpPhi:
 			result = "OpPhi";
 			break;
-		case spv::Op::OpLoopMerge:
+		case spv::OpLoopMerge:
 			result = "OpLoopMerge";
 			break;
-		case spv::Op::OpSelectionMerge:
+		case spv::OpSelectionMerge:
 			result = "OpSelectionMerge";
 			break;
-		case spv::Op::OpLabel:
+		case spv::OpLabel:
 			result = "OpLabel";
 			break;
-		case spv::Op::OpBranch:
+		case spv::OpBranch:
 			result = "OpBranch";
 			break;
-		case spv::Op::OpBranchConditional:
+		case spv::OpBranchConditional:
 			result = "OpBranchConditional";
 			break;
-		case spv::Op::OpSwitch:
+		case spv::OpSwitch:
 			result = "OpSwitch";
 			break;
-		case spv::Op::OpKill:
+		case spv::OpKill:
 			result = "OpKill";
 			break;
-		case spv::Op::OpReturn:
+		case spv::OpReturn:
 			result = "OpReturn";
 			break;
-		case spv::Op::OpReturnValue:
+		case spv::OpReturnValue:
 			result = "OpReturnValue";
 			break;
-		case spv::Op::OpUnreachable:
+		case spv::OpUnreachable:
 			result = "OpUnreachable";
 			break;
-		case spv::Op::OpLifetimeStart:
+		case spv::OpLifetimeStart:
 			result = "OpLifetimeStart";
 			break;
-		case spv::Op::OpLifetimeStop:
+		case spv::OpLifetimeStop:
 			result = "OpLifetimeStop";
 			break;
-		case spv::Op::OpGroupAsyncCopy:
+		case spv::OpGroupAsyncCopy:
 			result = "OpGroupAsyncCopy";
 			break;
-		case spv::Op::OpGroupWaitEvents:
+		case spv::OpGroupWaitEvents:
 			result = "OpGroupWaitEvents";
 			break;
-		case spv::Op::OpGroupAll:
+		case spv::OpGroupAll:
 			result = "OpGroupAll";
 			break;
-		case spv::Op::OpGroupAny:
+		case spv::OpGroupAny:
 			result = "OpGroupAny";
 			break;
-		case spv::Op::OpGroupBroadcast:
+		case spv::OpGroupBroadcast:
 			result = "OpGroupBroadcast";
 			break;
-		case spv::Op::OpGroupIAdd:
+		case spv::OpGroupIAdd:
 			result = "OpGroupIAdd";
 			break;
-		case spv::Op::OpGroupFAdd:
+		case spv::OpGroupFAdd:
 			result = "OpGroupFAdd";
 			break;
-		case spv::Op::OpGroupFMin:
+		case spv::OpGroupFMin:
 			result = "OpGroupFMin";
 			break;
-		case spv::Op::OpGroupUMin:
+		case spv::OpGroupUMin:
 			result = "OpGroupUMin";
 			break;
-		case spv::Op::OpGroupSMin:
+		case spv::OpGroupSMin:
 			result = "OpGroupSMin";
 			break;
-		case spv::Op::OpGroupFMax:
+		case spv::OpGroupFMax:
 			result = "OpGroupFMax";
 			break;
-		case spv::Op::OpGroupUMax:
+		case spv::OpGroupUMax:
 			result = "OpGroupUMax";
 			break;
-		case spv::Op::OpGroupSMax:
+		case spv::OpGroupSMax:
 			result = "OpGroupSMax";
 			break;
-		case spv::Op::OpReadPipe:
+		case spv::OpReadPipe:
 			result = "OpReadPipe";
 			break;
-		case spv::Op::OpWritePipe:
+		case spv::OpWritePipe:
 			result = "OpWritePipe";
 			break;
-		case spv::Op::OpReservedReadPipe:
+		case spv::OpReservedReadPipe:
 			result = "OpReservedReadPipe";
 			break;
-		case spv::Op::OpReservedWritePipe:
+		case spv::OpReservedWritePipe:
 			result = "OpReservedWritePipe";
 			break;
-		case spv::Op::OpReserveReadPipePackets:
+		case spv::OpReserveReadPipePackets:
 			result = "OpReserveReadPipePackets";
 			break;
-		case spv::Op::OpReserveWritePipePackets:
+		case spv::OpReserveWritePipePackets:
 			result = "OpReserveWritePipePackets";
 			break;
-		case spv::Op::OpCommitReadPipe:
+		case spv::OpCommitReadPipe:
 			result = "OpCommitReadPipe";
 			break;
-		case spv::Op::OpCommitWritePipe:
+		case spv::OpCommitWritePipe:
 			result = "OpCommitWritePipe";
 			break;
-		case spv::Op::OpIsValidReserveId:
+		case spv::OpIsValidReserveId:
 			result = "OpIsValidReserveId";
 			break;
-		case spv::Op::OpGetNumPipePackets:
+		case spv::OpGetNumPipePackets:
 			result = "OpGetNumPipePackets";
 			break;
-		case spv::Op::OpGetMaxPipePackets:
+		case spv::OpGetMaxPipePackets:
 			result = "OpGetMaxPipePackets";
 			break;
-		case spv::Op::OpGroupReserveReadPipePackets:
+		case spv::OpGroupReserveReadPipePackets:
 			result = "OpGroupReserveReadPipePackets";
 			break;
-		case spv::Op::OpGroupReserveWritePipePackets:
+		case spv::OpGroupReserveWritePipePackets:
 			result = "OpGroupReserveWritePipePackets";
 			break;
-		case spv::Op::OpGroupCommitReadPipe:
+		case spv::OpGroupCommitReadPipe:
 			result = "OpGroupCommitReadPipe";
 			break;
-		case spv::Op::OpGroupCommitWritePipe:
+		case spv::OpGroupCommitWritePipe:
 			result = "OpGroupCommitWritePipe";
 			break;
-		case spv::Op::OpEnqueueMarker:
+		case spv::OpEnqueueMarker:
 			result = "OpEnqueueMarker";
 			break;
-		case spv::Op::OpEnqueueKernel:
+		case spv::OpEnqueueKernel:
 			result = "OpEnqueueKernel";
 			break;
-		case spv::Op::OpGetKernelNDrangeSubGroupCount:
+		case spv::OpGetKernelNDrangeSubGroupCount:
 			result = "OpGetKernelNDrangeSubGroupCount";
 			break;
-		case spv::Op::OpGetKernelNDrangeMaxSubGroupSize:
+		case spv::OpGetKernelNDrangeMaxSubGroupSize:
 			result = "OpGetKernelNDrangeMaxSubGroupSize";
 			break;
-		case spv::Op::OpGetKernelWorkGroupSize:
+		case spv::OpGetKernelWorkGroupSize:
 			result = "OpGetKernelWorkGroupSize";
 			break;
-		case spv::Op::OpGetKernelPreferredWorkGroupSizeMultiple:
+		case spv::OpGetKernelPreferredWorkGroupSizeMultiple:
 			result = "OpGetKernelPreferredWorkGroupSizeMultiple";
 			break;
-		case spv::Op::OpRetainEvent:
+		case spv::OpRetainEvent:
 			result = "OpRetainEvent";
 			break;
-		case spv::Op::OpReleaseEvent:
+		case spv::OpReleaseEvent:
 			result = "OpReleaseEvent";
 			break;
-		case spv::Op::OpCreateUserEvent:
+		case spv::OpCreateUserEvent:
 			result = "OpCreateUserEvent";
 			break;
-		case spv::Op::OpIsValidEvent:
+		case spv::OpIsValidEvent:
 			result = "OpIsValidEvent";
 			break;
-		case spv::Op::OpSetUserEventStatus:
+		case spv::OpSetUserEventStatus:
 			result = "OpSetUserEventStatus";
 			break;
-		case spv::Op::OpCaptureEventProfilingInfo:
+		case spv::OpCaptureEventProfilingInfo:
 			result = "OpCaptureEventProfilingInfo";
 			break;
-		case spv::Op::OpGetDefaultQueue:
+		case spv::OpGetDefaultQueue:
 			result = "OpGetDefaultQueue";
 			break;
-		case spv::Op::OpBuildNDRange:
+		case spv::OpBuildNDRange:
 			result = "OpBuildNDRange";
 			break;
-		case spv::Op::OpImageSparseSampleImplicitLod:
+		case spv::OpImageSparseSampleImplicitLod:
 			result = "OpImageSparseSampleImplicitLod";
 			break;
-		case spv::Op::OpImageSparseSampleExplicitLod:
+		case spv::OpImageSparseSampleExplicitLod:
 			result = "OpImageSparseSampleExplicitLod";
 			break;
-		case spv::Op::OpImageSparseSampleDrefImplicitLod:
+		case spv::OpImageSparseSampleDrefImplicitLod:
 			result = "OpImageSparseSampleDrefImplicitLod";
 			break;
-		case spv::Op::OpImageSparseSampleDrefExplicitLod:
+		case spv::OpImageSparseSampleDrefExplicitLod:
 			result = "OpImageSparseSampleDrefExplicitLod";
 			break;
-		case spv::Op::OpImageSparseSampleProjImplicitLod:
+		case spv::OpImageSparseSampleProjImplicitLod:
 			result = "OpImageSparseSampleProjImplicitLod";
 			break;
-		case spv::Op::OpImageSparseSampleProjExplicitLod:
+		case spv::OpImageSparseSampleProjExplicitLod:
 			result = "OpImageSparseSampleProjExplicitLod";
 			break;
-		case spv::Op::OpImageSparseSampleProjDrefImplicitLod:
+		case spv::OpImageSparseSampleProjDrefImplicitLod:
 			result = "OpImageSparseSampleProjDrefImplicitLod";
 			break;
-		case spv::Op::OpImageSparseSampleProjDrefExplicitLod:
+		case spv::OpImageSparseSampleProjDrefExplicitLod:
 			result = "OpImageSparseSampleProjDrefExplicitLod";
 			break;
-		case spv::Op::OpImageSparseFetch:
+		case spv::OpImageSparseFetch:
 			result = "OpImageSparseFetch";
 			break;
-		case spv::Op::OpImageSparseGather:
+		case spv::OpImageSparseGather:
 			result = "OpImageSparseGather";
 			break;
-		case spv::Op::OpImageSparseDrefGather:
+		case spv::OpImageSparseDrefGather:
 			result = "OpImageSparseDrefGather";
 			break;
-		case spv::Op::OpImageSparseTexelsResident:
+		case spv::OpImageSparseTexelsResident:
 			result = "OpImageSparseTexelsResident";
 			break;
-		case spv::Op::OpNoLine:
+		case spv::OpNoLine:
 			result = "OpNoLine";
 			break;
-		case spv::Op::OpAtomicFlagTestAndSet:
+		case spv::OpAtomicFlagTestAndSet:
 			result = "OpAtomicFlagTestAndSet";
 			break;
-		case spv::Op::OpAtomicFlagClear:
+		case spv::OpAtomicFlagClear:
 			result = "OpAtomicFlagClear";
 			break;
-		case spv::Op::OpImageSparseRead:
+		case spv::OpImageSparseRead:
 			result = "OpImageSparseRead";
 			break;
-		case spv::Op::OpSizeOf:
+		case spv::OpSizeOf:
 			result = "OpSizeOf";
 			break;
-		case spv::Op::OpTypePipeStorage:
+		case spv::OpTypePipeStorage:
 			result = "OpTypePipeStorage";
 			break;
-		case spv::Op::OpConstantPipeStorage:
+		case spv::OpConstantPipeStorage:
 			result = "OpConstantPipeStorage";
 			break;
-		case spv::Op::OpCreatePipeFromPipeStorage:
+		case spv::OpCreatePipeFromPipeStorage:
 			result = "OpCreatePipeFromPipeStorage";
 			break;
-		case spv::Op::OpGetKernelLocalSizeForSubgroupCount:
+		case spv::OpGetKernelLocalSizeForSubgroupCount:
 			result = "OpGetKernelLocalSizeForSubgroupCount";
 			break;
-		case spv::Op::OpGetKernelMaxNumSubgroups:
+		case spv::OpGetKernelMaxNumSubgroups:
 			result = "OpGetKernelMaxNumSubgroups";
 			break;
-		case spv::Op::OpTypeNamedBarrier:
+		case spv::OpTypeNamedBarrier:
 			result = "OpTypeNamedBarrier";
 			break;
-		case spv::Op::OpNamedBarrierInitialize:
+		case spv::OpNamedBarrierInitialize:
 			result = "OpNamedBarrierInitialize";
 			break;
-		case spv::Op::OpMemoryNamedBarrier:
+		case spv::OpMemoryNamedBarrier:
 			result = "OpMemoryNamedBarrier";
 			break;
-		case spv::Op::OpModuleProcessed:
+		case spv::OpModuleProcessed:
 			result = "OpModuleProcessed";
 			break;
-		case spv::Op::OpExecutionModeId:
+		case spv::OpExecutionModeId:
 			result = "OpExecutionModeId";
 			break;
-		case spv::Op::OpDecorateId:
+		case spv::OpDecorateId:
 			result = "OpDecorateId";
 			break;
-		case spv::Op::OpSubgroupBallotKHR:
+		case spv::OpSubgroupBallotKHR:
 			result = "OpSubgroupBallotKHR";
 			break;
-		case spv::Op::OpSubgroupFirstInvocationKHR:
+		case spv::OpSubgroupFirstInvocationKHR:
 			result = "OpSubgroupFirstInvocationKHR";
 			break;
-		case spv::Op::OpSubgroupAllKHR:
+		case spv::OpSubgroupAllKHR:
 			result = "OpSubgroupAllKHR";
 			break;
-		case spv::Op::OpSubgroupAnyKHR:
+		case spv::OpSubgroupAnyKHR:
 			result = "OpSubgroupAnyKHR";
 			break;
-		case spv::Op::OpSubgroupAllEqualKHR:
+		case spv::OpSubgroupAllEqualKHR:
 			result = "OpSubgroupAllEqualKHR";
 			break;
-		case spv::Op::OpSubgroupReadInvocationKHR:
+		case spv::OpSubgroupReadInvocationKHR:
 			result = "OpSubgroupReadInvocationKHR";
 			break;
-		case spv::Op::OpGroupIAddNonUniformAMD:
+		case spv::OpGroupIAddNonUniformAMD:
 			result = "OpGroupIAddNonUniformAMD";
 			break;
-		case spv::Op::OpGroupFAddNonUniformAMD:
+		case spv::OpGroupFAddNonUniformAMD:
 			result = "OpGroupFAddNonUniformAMD";
 			break;
-		case spv::Op::OpGroupFMinNonUniformAMD:
+		case spv::OpGroupFMinNonUniformAMD:
 			result = "OpGroupFMinNonUniformAMD";
 			break;
-		case spv::Op::OpGroupUMinNonUniformAMD:
+		case spv::OpGroupUMinNonUniformAMD:
 			result = "OpGroupUMinNonUniformAMD";
 			break;
-		case spv::Op::OpGroupSMinNonUniformAMD:
+		case spv::OpGroupSMinNonUniformAMD:
 			result = "OpGroupSMinNonUniformAMD";
 			break;
-		case spv::Op::OpGroupFMaxNonUniformAMD:
+		case spv::OpGroupFMaxNonUniformAMD:
 			result = "OpGroupFMaxNonUniformAMD";
 			break;
-		case spv::Op::OpGroupUMaxNonUniformAMD:
+		case spv::OpGroupUMaxNonUniformAMD:
 			result = "OpGroupUMaxNonUniformAMD";
 			break;
-		case spv::Op::OpGroupSMaxNonUniformAMD:
+		case spv::OpGroupSMaxNonUniformAMD:
 			result = "OpGroupSMaxNonUniformAMD";
 			break;
-		case spv::Op::OpFragmentMaskFetchAMD:
+		case spv::OpFragmentMaskFetchAMD:
 			result = "OpFragmentMaskFetchAMD";
 			break;
-		case spv::Op::OpFragmentFetchAMD:
+		case spv::OpFragmentFetchAMD:
 			result = "OpFragmentFetchAMD";
 			break;
-		case spv::Op::OpSubgroupShuffleINTEL:
+		case spv::OpSubgroupShuffleINTEL:
 			result = "OpSubgroupShuffleINTEL";
 			break;
-		case spv::Op::OpSubgroupShuffleDownINTEL:
+		case spv::OpSubgroupShuffleDownINTEL:
 			result = "OpSubgroupShuffleDownINTEL";
 			break;
-		case spv::Op::OpSubgroupShuffleUpINTEL:
+		case spv::OpSubgroupShuffleUpINTEL:
 			result = "OpSubgroupShuffleUpINTEL";
 			break;
-		case spv::Op::OpSubgroupShuffleXorINTEL:
+		case spv::OpSubgroupShuffleXorINTEL:
 			result = "OpSubgroupShuffleXorINTEL";
 			break;
-		case spv::Op::OpSubgroupBlockReadINTEL:
+		case spv::OpSubgroupBlockReadINTEL:
 			result = "OpSubgroupBlockReadINTEL";
 			break;
-		case spv::Op::OpSubgroupBlockWriteINTEL:
+		case spv::OpSubgroupBlockWriteINTEL:
 			result = "OpSubgroupBlockWriteINTEL";
 			break;
-		case spv::Op::OpSubgroupImageBlockReadINTEL:
+		case spv::OpSubgroupImageBlockReadINTEL:
 			result = "OpSubgroupImageBlockReadINTEL";
 			break;
-		case spv::Op::OpSubgroupImageBlockWriteINTEL:
+		case spv::OpSubgroupImageBlockWriteINTEL:
 			result = "OpSubgroupImageBlockWriteINTEL";
 			break;
-		case spv::Op::OpDecorateStringGOOGLE:
+		case spv::OpDecorateStringGOOGLE:
 			result = "OpDecorateStringGOOGLE";
 			break;
-		case spv::Op::OpMemberDecorateStringGOOGLE:
+		case spv::OpMemberDecorateStringGOOGLE:
 			result = "OpMemberDecorateStringGOOGLE";
 			break;
 		}
@@ -1477,24 +1477,24 @@ namespace spirv
 		switch ( kind )
 		{
 		case ast::type::Kind::eVoid:
-			result = spv::Op::OpTypeVoid;
+			result = spv::OpTypeVoid;
 			break;
 		case ast::type::Kind::eFunction:
-			result = spv::Op::OpTypeFunction;
+			result = spv::OpTypeFunction;
 			break;
 		case ast::type::Kind::eStruct:
-			result = spv::Op::OpTypeStruct;
+			result = spv::OpTypeStruct;
 			break;
 		case ast::type::Kind::eBool:
-			result = spv::Op::OpTypeBool;
+			result = spv::OpTypeBool;
 			break;
 		case ast::type::Kind::eInt:
 		case ast::type::Kind::eUInt:
-			result = spv::Op::OpTypeInt;
+			result = spv::OpTypeInt;
 			break;
 		case ast::type::Kind::eFloat:
 		case ast::type::Kind::eDouble:
-			result = spv::Op::OpTypeFloat;
+			result = spv::OpTypeFloat;
 			break;
 		case ast::type::Kind::eVec2B:
 		case ast::type::Kind::eVec3B:
@@ -1511,7 +1511,7 @@ namespace spirv
 		case ast::type::Kind::eVec2D:
 		case ast::type::Kind::eVec3D:
 		case ast::type::Kind::eVec4D:
-			result = spv::Op::OpTypeVector;
+			result = spv::OpTypeVector;
 			break;
 		case ast::type::Kind::eMat2x2F:
 		case ast::type::Kind::eMat2x3F:
@@ -1531,16 +1531,16 @@ namespace spirv
 		case ast::type::Kind::eMat4x2D:
 		case ast::type::Kind::eMat4x3D:
 		case ast::type::Kind::eMat4x4D:
-			result = spv::Op::OpTypeMatrix;
+			result = spv::OpTypeMatrix;
 			break;
 		case ast::type::Kind::eImage:
-			result = spv::Op::OpTypeImage;
+			result = spv::OpTypeImage;
 			break;
 		case ast::type::Kind::eSampledImage:
-			result = spv::Op::OpTypeSampledImage;
+			result = spv::OpTypeSampledImage;
 			break;
 		case ast::type::Kind::eSampler:
-			result = spv::Op::OpTypeSampler;
+			result = spv::OpTypeSampler;
 			break;
 		default:
 			assert( false && "Unsupported ast::type::Kind" );
@@ -1561,11 +1561,11 @@ namespace spirv
 		}
 		else if ( arraySize != ast::type::UnknownArraySize )
 		{
-			result = spv::Op::OpTypeArray;
+			result = spv::OpTypeArray;
 		}
 		else
 		{
-			result = spv::Op::OpTypeRuntimeArray;
+			result = spv::OpTypeRuntimeArray;
 		}
 
 		return result;
@@ -1630,154 +1630,154 @@ namespace spirv
 			&& exprKind != ast::expr::Kind::eIntrinsicCall
 			&& exprKind != ast::expr::Kind::eTextureAccessCall
 			&& "Unsupported ast::expr::Kind" );
-		spv::Op result{ spv::Op::OpNop };
+		spv::Op result{ spv::OpNop };
 
 		switch ( exprKind )
 		{
 		case ast::expr::Kind::eAdd:
 		case ast::expr::Kind::eAddAssign:
 			result = isAnyFloating( lhsTypeKind, rhsTypeKind )
-				? spv::Op::OpFAdd
-				: spv::Op::OpIAdd;
+				? spv::OpFAdd
+				: spv::OpIAdd;
 			break;
 		case ast::expr::Kind::eMinus:
 		case ast::expr::Kind::eMinusAssign:
 			result = isAnyFloating( lhsTypeKind, rhsTypeKind )
-				? spv::Op::OpFSub
-				: spv::Op::OpISub;
+				? spv::OpFSub
+				: spv::OpISub;
 			break;
 		case ast::expr::Kind::eTimes:
 		case ast::expr::Kind::eTimesAssign:
 			result = isMatrixType( lhsTypeKind )
 				? ( ( isMatrixType( rhsTypeKind )
-					? spv::Op::OpMatrixTimesMatrix
+					? spv::OpMatrixTimesMatrix
 					: ( isVectorType( rhsTypeKind )
-						? spv::Op::OpMatrixTimesVector
-						: spv::Op::OpMatrixTimesScalar ) ) )
+						? spv::OpMatrixTimesVector
+						: spv::OpMatrixTimesScalar ) ) )
 				: ( isVectorType( lhsTypeKind )
 					? ( isMatrixType( rhsTypeKind )
-						? spv::Op::OpMatrixTimesVector
+						? spv::OpMatrixTimesVector
 						: ( isVectorType( rhsTypeKind )
 							? ( isAnyFloating( lhsTypeKind, rhsTypeKind )
-								? spv::Op::OpFMul
-								: spv::Op::OpIMul )
-							: spv::Op::OpVectorTimesScalar ) )
+								? spv::OpFMul
+								: spv::OpIMul )
+							: spv::OpVectorTimesScalar ) )
 					: ( isMatrixType( rhsTypeKind )
-						? spv::Op::OpMatrixTimesScalar
+						? spv::OpMatrixTimesScalar
 						: ( isVectorType( rhsTypeKind )
-							? spv::Op::OpVectorTimesScalar
+							? spv::OpVectorTimesScalar
 							: ( isAnyFloating( lhsTypeKind, rhsTypeKind )
-								? spv::Op::OpFMul
-								: spv::Op::OpIMul ) ) ) );
+								? spv::OpFMul
+								: spv::OpIMul ) ) ) );
 			needMatchingVectors = !( ( isFloatType( getScalarType( lhsTypeKind ) ) || isFloatType( getScalarType( rhsTypeKind ) ) )
 				&& ( isVectorType( lhsTypeKind ) || isVectorType( rhsTypeKind ) ) );
 			break;
 		case ast::expr::Kind::eDivide:
 		case ast::expr::Kind::eDivideAssign:
 			result = isAnyFloating( lhsTypeKind, rhsTypeKind )
-				? spv::Op::OpFDiv
+				? spv::OpFDiv
 				: ( isAnySigned( lhsTypeKind, rhsTypeKind )
-					? spv::Op::OpSDiv
-					: spv::Op::OpUDiv );
+					? spv::OpSDiv
+					: spv::OpUDiv );
 			break;
 		case ast::expr::Kind::eModulo:
 		case ast::expr::Kind::eModuloAssign:
 			result = isAnyFloating( lhsTypeKind, rhsTypeKind )
-				? spv::Op::OpFMod
+				? spv::OpFMod
 				: ( isAnySigned( lhsTypeKind, rhsTypeKind )
-					? spv::Op::OpSMod
-					: spv::Op::OpUMod );
+					? spv::OpSMod
+					: spv::OpUMod );
 			break;
 		case ast::expr::Kind::eLShift:
 		case ast::expr::Kind::eLShiftAssign:
-			result = spv::Op::OpShiftLeftLogical;
+			result = spv::OpShiftLeftLogical;
 			break;
 		case ast::expr::Kind::eRShift:
 		case ast::expr::Kind::eRShiftAssign:
-			result = spv::Op::OpShiftRightArithmetic;
+			result = spv::OpShiftRightArithmetic;
 			break;
 		case ast::expr::Kind::eBitAnd:
 		case ast::expr::Kind::eAndAssign:
-			result = spv::Op::OpBitwiseAnd;
+			result = spv::OpBitwiseAnd;
 			break;
 		case ast::expr::Kind::eBitNot:
 			assert( "Unexpected ast::expr::Kind::eBitNot" );
 			break;
 		case ast::expr::Kind::eNotAssign:
-			result = spv::Op::OpNot;
+			result = spv::OpNot;
 			break;
 		case ast::expr::Kind::eBitOr:
 		case ast::expr::Kind::eOrAssign:
-			result = spv::Op::OpBitwiseOr;
+			result = spv::OpBitwiseOr;
 			break;
 		case ast::expr::Kind::eBitXor:
 		case ast::expr::Kind::eXorAssign:
-			result = spv::Op::OpBitwiseXor;
+			result = spv::OpBitwiseXor;
 			break;
 		case ast::expr::Kind::eLogAnd:
-			result = spv::Op::OpLogicalAnd;
+			result = spv::OpLogicalAnd;
 			needMatchingVectors = false;
 			break;
 		case ast::expr::Kind::eLogNot:
 			assert( "Unexpected ast::expr::Kind::eBitNot" );
 			break;
 		case ast::expr::Kind::eLogOr:
-			result = spv::Op::OpLogicalOr;
+			result = spv::OpLogicalOr;
 			needMatchingVectors = false;
 			break;
 		case ast::expr::Kind::eCast:
 			assert( "Unexpected ast::expr::Kind::eCast" );
 			break;
 		case ast::expr::Kind::eInit:
-			result = spv::Op::OpStore;
+			result = spv::OpStore;
 			break;
 		case ast::expr::Kind::eAggrInit:
-			result = spv::Op::OpStore;
+			result = spv::OpStore;
 			break;
 		case ast::expr::Kind::eFnCall:
 			assert( "Unexpected ast::expr::Kind::eFnCall" );
 			break;
 		case ast::expr::Kind::eEqual:
 			result = isAnyFloating( lhsTypeKind, rhsTypeKind )
-				? spv::Op::OpFOrdEqual
+				? spv::OpFOrdEqual
 				: isAnyBool( lhsTypeKind, rhsTypeKind )
-				? spv::Op::OpLogicalEqual
-				: spv::Op::OpIEqual;
+				? spv::OpLogicalEqual
+				: spv::OpIEqual;
 			break;
 		case ast::expr::Kind::eGreater:
 			result = isAnyFloating( lhsTypeKind, rhsTypeKind )
-				? spv::Op::OpFOrdGreaterThan
+				? spv::OpFOrdGreaterThan
 				: ( isAnySigned( lhsTypeKind, rhsTypeKind )
-					? spv::Op::OpSGreaterThan
-					: spv::Op::OpUGreaterThan );
+					? spv::OpSGreaterThan
+					: spv::OpUGreaterThan );
 			break;
 		case ast::expr::Kind::eGreaterEqual:
 			result = isAnyFloating( lhsTypeKind, rhsTypeKind )
-				? spv::Op::OpFOrdGreaterThanEqual
+				? spv::OpFOrdGreaterThanEqual
 				: ( isAnySigned( lhsTypeKind, rhsTypeKind )
-					? spv::Op::OpSGreaterThanEqual
-					: spv::Op::OpUGreaterThanEqual );
+					? spv::OpSGreaterThanEqual
+					: spv::OpUGreaterThanEqual );
 			break;
 		case ast::expr::Kind::eLess:
 			result = isAnyFloating( lhsTypeKind, rhsTypeKind )
-				? spv::Op::OpFOrdLessThan
+				? spv::OpFOrdLessThan
 				: ( isAnySigned( lhsTypeKind, rhsTypeKind )
-					? spv::Op::OpSLessThan
-					: spv::Op::OpULessThan );
+					? spv::OpSLessThan
+					: spv::OpULessThan );
 			break;
 		case ast::expr::Kind::eLessEqual:
 			result = isAnyFloating( lhsTypeKind, rhsTypeKind )
-				? spv::Op::OpFOrdLessThanEqual
+				? spv::OpFOrdLessThanEqual
 				: ( isAnySigned( lhsTypeKind, rhsTypeKind )
-					? spv::Op::OpSLessThanEqual
-					: spv::Op::OpULessThanEqual );
+					? spv::OpSLessThanEqual
+					: spv::OpULessThanEqual );
 			break;
 		case ast::expr::Kind::eNotEqual:
 			result = isAnyFloating( lhsTypeKind, rhsTypeKind )
-				? spv::Op::OpFOrdNotEqual
+				? spv::OpFOrdNotEqual
 				: isAnyBool( lhsTypeKind, rhsTypeKind )
-				? spv::Op::OpLogicalNotEqual
-				: spv::Op::OpINotEqual;
+				? spv::OpLogicalNotEqual
+				: spv::OpINotEqual;
 			break;
 		case ast::expr::Kind::eComma:
 			assert( "Unexpected ast::expr::Kind::eComma" );
@@ -1842,16 +1842,16 @@ namespace spirv
 			&& exprKind != ast::expr::Kind::eIntrinsicCall
 			&& exprKind != ast::expr::Kind::eTextureAccessCall
 			&& "Unsupported ast::expr::Kind" );
-		spv::Op result{ spv::Op::OpNop };
+		spv::Op result{ spv::OpNop };
 
 		switch ( exprKind )
 		{
 		case ast::expr::Kind::eBitNot:
 		case ast::expr::Kind::eNotAssign:
-			result = spv::Op::OpNot;
+			result = spv::OpNot;
 			break;
 		case ast::expr::Kind::eLogNot:
-			result = spv::Op::OpLogicalNot;
+			result = spv::OpLogicalNot;
 			break;
 		case ast::expr::Kind::eCast:
 			assert( false && "Unexpected ast::expr::Kind::eCast" );
@@ -1879,8 +1879,8 @@ namespace spirv
 			break;
 		case ast::expr::Kind::eUnaryMinus:
 			result = isFloating( typeKind )
-				? spv::Op::OpFNegate
-				: spv::Op::OpSNegate;
+				? spv::OpFNegate
+				: spv::OpSNegate;
 			break;
 		case ast::expr::Kind::eUnaryPlus:
 			assert( false && "Unexpected ast::expr::Kind::eUnaryPlus" );
@@ -1899,126 +1899,126 @@ namespace spirv
 			&& exprKind != ast::expr::Kind::eIntrinsicCall
 			&& exprKind != ast::expr::Kind::eTextureAccessCall
 			&& "Unsupported ast::expr::Kind" );
-		spv::Op result{ spv::Op::OpNop };
+		spv::Op result{ spv::OpNop };
 
 		switch ( exprKind )
 		{
 		case ast::expr::Kind::eAdd:
 		case ast::expr::Kind::eAddAssign:
 			result = isFloating( typeKind )
-				? spv::Op::OpFAdd
-				: spv::Op::OpIAdd;
+				? spv::OpFAdd
+				: spv::OpIAdd;
 			break;
 		case ast::expr::Kind::eMinus:
 		case ast::expr::Kind::eMinusAssign:
 			result = isFloating( typeKind )
-				? spv::Op::OpFSub
-				: spv::Op::OpISub;
+				? spv::OpFSub
+				: spv::OpISub;
 			break;
 		case ast::expr::Kind::eTimes:
 		case ast::expr::Kind::eTimesAssign:
 			result = isFloating( typeKind )
-				? spv::Op::OpFMul
-				: spv::Op::OpIMul;
+				? spv::OpFMul
+				: spv::OpIMul;
 			break;
 		case ast::expr::Kind::eDivide:
 		case ast::expr::Kind::eDivideAssign:
 			result = isFloating( typeKind )
-				? spv::Op::OpFDiv
+				? spv::OpFDiv
 				: ( isSigned( typeKind )
-					? spv::Op::OpSDiv
-					: spv::Op::OpUDiv );
+					? spv::OpSDiv
+					: spv::OpUDiv );
 			break;
 		case ast::expr::Kind::eModulo:
 		case ast::expr::Kind::eModuloAssign:
 			result = isFloating( typeKind )
-				? spv::Op::OpFMod
+				? spv::OpFMod
 				: ( isSigned( typeKind )
-					? spv::Op::OpSMod
-					: spv::Op::OpUMod );
+					? spv::OpSMod
+					: spv::OpUMod );
 			break;
 		case ast::expr::Kind::eLShift:
 		case ast::expr::Kind::eLShiftAssign:
-			result = spv::Op::OpShiftLeftLogical;
+			result = spv::OpShiftLeftLogical;
 			break;
 		case ast::expr::Kind::eRShift:
 		case ast::expr::Kind::eRShiftAssign:
-			result = spv::Op::OpShiftRightArithmetic;
+			result = spv::OpShiftRightArithmetic;
 			break;
 		case ast::expr::Kind::eBitAnd:
 		case ast::expr::Kind::eAndAssign:
-			result = spv::Op::OpBitwiseAnd;
+			result = spv::OpBitwiseAnd;
 			break;
 		case ast::expr::Kind::eBitNot:
 		case ast::expr::Kind::eNotAssign:
-			result = spv::Op::OpNot;
+			result = spv::OpNot;
 			break;
 		case ast::expr::Kind::eBitOr:
 		case ast::expr::Kind::eOrAssign:
-			result = spv::Op::OpBitwiseOr;
+			result = spv::OpBitwiseOr;
 			break;
 		case ast::expr::Kind::eBitXor:
 		case ast::expr::Kind::eXorAssign:
-			result = spv::Op::OpBitwiseXor;
+			result = spv::OpBitwiseXor;
 			break;
 		case ast::expr::Kind::eLogAnd:
-			result = spv::Op::OpLogicalAnd;
+			result = spv::OpLogicalAnd;
 			break;
 		case ast::expr::Kind::eLogNot:
-			result = spv::Op::OpLogicalNot;
+			result = spv::OpLogicalNot;
 			break;
 		case ast::expr::Kind::eLogOr:
-			result = spv::Op::OpLogicalOr;
+			result = spv::OpLogicalOr;
 			break;
 		case ast::expr::Kind::eCast:
 			assert( false && "Unexpected ast::expr::Kind::eCast" );
 			break;
 		case ast::expr::Kind::eInit:
-			result = spv::Op::OpStore;
+			result = spv::OpStore;
 			break;
 		case ast::expr::Kind::eAggrInit:
-			result = spv::Op::OpStore;
+			result = spv::OpStore;
 			break;
 		case ast::expr::Kind::eFnCall:
-			result = spv::Op::OpFunctionCall;
+			result = spv::OpFunctionCall;
 			break;
 		case ast::expr::Kind::eEqual:
 			result = isFloating( typeKind )
-				? spv::Op::OpFOrdEqual
-				: spv::Op::OpIEqual;
+				? spv::OpFOrdEqual
+				: spv::OpIEqual;
 			break;
 		case ast::expr::Kind::eGreater:
 			result = isFloating( typeKind )
-				? spv::Op::OpFOrdGreaterThan
+				? spv::OpFOrdGreaterThan
 				: ( isSigned( typeKind )
-					? spv::Op::OpSGreaterThan
-					: spv::Op::OpUGreaterThan );
+					? spv::OpSGreaterThan
+					: spv::OpUGreaterThan );
 			break;
 		case ast::expr::Kind::eGreaterEqual:
 			result = isFloating( typeKind )
-				? spv::Op::OpFOrdGreaterThanEqual
+				? spv::OpFOrdGreaterThanEqual
 				: ( isSigned( typeKind )
-					? spv::Op::OpSGreaterThanEqual
-					: spv::Op::OpUGreaterThanEqual );
+					? spv::OpSGreaterThanEqual
+					: spv::OpUGreaterThanEqual );
 			break;
 		case ast::expr::Kind::eLess:
 			result = isFloating( typeKind )
-				? spv::Op::OpFOrdLessThan
+				? spv::OpFOrdLessThan
 				: ( isSigned( typeKind )
-					? spv::Op::OpSLessThan
-					: spv::Op::OpULessThan );
+					? spv::OpSLessThan
+					: spv::OpULessThan );
 			break;
 		case ast::expr::Kind::eLessEqual:
 			result = isFloating( typeKind )
-				? spv::Op::OpFOrdLessThanEqual
+				? spv::OpFOrdLessThanEqual
 				: ( isSigned( typeKind )
-					? spv::Op::OpSLessThanEqual
-					: spv::Op::OpULessThanEqual );
+					? spv::OpSLessThanEqual
+					: spv::OpULessThanEqual );
 			break;
 		case ast::expr::Kind::eNotEqual:
 			result = isFloating( typeKind )
-				? spv::Op::OpFOrdNotEqual
-				: spv::Op::OpINotEqual;
+				? spv::OpFOrdNotEqual
+				: spv::OpINotEqual;
 			break;
 		case ast::expr::Kind::eComma:
 			assert( false && "Unexpected ast::expr::Kind::eComma" );
@@ -2030,16 +2030,16 @@ namespace spirv
 			assert( false && "Unexpected ast::expr::Kind::eLiteral" );
 			break;
 		case ast::expr::Kind::eMbrSelect:
-			result = spv::Op::OpAccessChain;
+			result = spv::OpAccessChain;
 			break;
 		case ast::expr::Kind::eSwitchTest:
-			result = spv::Op::OpSwitch;
+			result = spv::OpSwitch;
 			break;
 		case ast::expr::Kind::eSwitchCase:
-			result = spv::Op::OpLabel;
+			result = spv::OpLabel;
 			break;
 		case ast::expr::Kind::eQuestion:
-			result = spv::Op::OpSelect;
+			result = spv::OpSelect;
 			break;
 		case ast::expr::Kind::ePreIncrement:
 			assert( false && "Unexpected ast::expr::Kind::ePreIncrement" );
@@ -2055,17 +2055,17 @@ namespace spirv
 			break;
 		case ast::expr::Kind::eUnaryMinus:
 			result = isFloating( typeKind )
-				? spv::Op::OpFNegate
-				:  spv::Op::OpSNegate;
+				? spv::OpFNegate
+				:  spv::OpSNegate;
 			break;
 		case ast::expr::Kind::eUnaryPlus:
 			assert( false && "Unexpected ast::expr::Kind::eUnaryPlus" );
 			break;
 		case ast::expr::Kind::eAssign:
-			result = spv::Op::OpStore;
+			result = spv::OpStore;
 			break;
 		case ast::expr::Kind::eArrayAccess:
-			result = spv::Op::OpAccessChain;
+			result = spv::OpAccessChain;
 			break;
 		default:
 			break;

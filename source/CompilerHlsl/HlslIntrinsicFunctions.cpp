@@ -10,6 +10,126 @@ namespace hlsl
 {
 	namespace details
 	{
+		inline void writeACosh1F( ast::stmt::Container * container )
+		{
+			auto cont = ast::stmt::makeContainer();
+			cont->addStmt( ast::stmt::makeComment( "float SDW_acosh(float x)" ) );
+			cont->addStmt( ast::stmt::makeComment( "{" ) );
+			cont->addStmt( ast::stmt::makeComment( "	return log( x + sqrt( x * x - 1.0 ) );" ) );
+			cont->addStmt( ast::stmt::makeComment( "}" ) );
+			container->addStmt( std::move( cont ) );
+		}
+
+		inline void writeACosh2F( ast::stmt::Container * container )
+		{
+			auto cont = ast::stmt::makeContainer();
+			cont->addStmt( ast::stmt::makeComment( "float SDW_acosh(float2 x)" ) );
+			cont->addStmt( ast::stmt::makeComment( "{" ) );
+			cont->addStmt( ast::stmt::makeComment( "	return log( x + sqrt( x * x - 1.0.xx ) );" ) );
+			cont->addStmt( ast::stmt::makeComment( "}" ) );
+			container->addStmt( std::move( cont ) );
+		}
+
+		inline void writeACosh3F( ast::stmt::Container * container )
+		{
+			auto cont = ast::stmt::makeContainer();
+			cont->addStmt( ast::stmt::makeComment( "float SDW_acosh(float3 x)" ) );
+			cont->addStmt( ast::stmt::makeComment( "{" ) );
+			cont->addStmt( ast::stmt::makeComment( "	return log( x + sqrt( x * x - 1.0.xxx ) );" ) );
+			cont->addStmt( ast::stmt::makeComment( "}" ) );
+			container->addStmt( std::move( cont ) );
+		}
+
+		inline void writeACosh4F( ast::stmt::Container * container )
+		{
+			auto cont = ast::stmt::makeContainer();
+			cont->addStmt( ast::stmt::makeComment( "float SDW_acosh(float4 x)" ) );
+			cont->addStmt( ast::stmt::makeComment( "{" ) );
+			cont->addStmt( ast::stmt::makeComment( "	return log( x + sqrt( x * x - 1.0.xxxx ) );" ) );
+			cont->addStmt( ast::stmt::makeComment( "}" ) );
+			container->addStmt( std::move( cont ) );
+		}
+		
+		inline void writeASinh1F( ast::stmt::Container * container )
+		{
+			auto cont = ast::stmt::makeContainer();
+			cont->addStmt( ast::stmt::makeComment( "float SDW_asinh(float x)" ) );
+			cont->addStmt( ast::stmt::makeComment( "{" ) );
+			cont->addStmt( ast::stmt::makeComment( "	return log( x + sqrt( x * x + 1.0 ) );" ) );
+			cont->addStmt( ast::stmt::makeComment( "}" ) );
+			container->addStmt( std::move( cont ) );
+		}
+
+		inline void writeASinh2F( ast::stmt::Container * container )
+		{
+			auto cont = ast::stmt::makeContainer();
+			cont->addStmt( ast::stmt::makeComment( "float SDW_asinh(float2 x)" ) );
+			cont->addStmt( ast::stmt::makeComment( "{" ) );
+			cont->addStmt( ast::stmt::makeComment( "	return log( x + sqrt( x * x + 1.0.xx ) );" ) );
+			cont->addStmt( ast::stmt::makeComment( "}" ) );
+			container->addStmt( std::move( cont ) );
+		}
+
+		inline void writeASinh3F( ast::stmt::Container * container )
+		{
+			auto cont = ast::stmt::makeContainer();
+			cont->addStmt( ast::stmt::makeComment( "float SDW_asinh(float3 x)" ) );
+			cont->addStmt( ast::stmt::makeComment( "{" ) );
+			cont->addStmt( ast::stmt::makeComment( "	return log( x + sqrt( x * x + 1.0.xxx ) );" ) );
+			cont->addStmt( ast::stmt::makeComment( "}" ) );
+			container->addStmt( std::move( cont ) );
+		}
+
+		inline void writeASinh4F( ast::stmt::Container * container )
+		{
+			auto cont = ast::stmt::makeContainer();
+			cont->addStmt( ast::stmt::makeComment( "float SDW_asinh(float4 x)" ) );
+			cont->addStmt( ast::stmt::makeComment( "{" ) );
+			cont->addStmt( ast::stmt::makeComment( "	return log( x + sqrt( x * x + 1.0.xxxx ) );" ) );
+			cont->addStmt( ast::stmt::makeComment( "}" ) );
+			container->addStmt( std::move( cont ) );
+		}
+
+		inline void writeATanh1F( ast::stmt::Container * container )
+		{
+			auto cont = ast::stmt::makeContainer();
+			cont->addStmt( ast::stmt::makeComment( "float SDW_atanh(float x)" ) );
+			cont->addStmt( ast::stmt::makeComment( "{" ) );
+			cont->addStmt( ast::stmt::makeComment( "	return 0.5 * log( ( x + 1.0 ) / ( x - 1.0 ) );" ) );
+			cont->addStmt( ast::stmt::makeComment( "}" ) );
+			container->addStmt( std::move( cont ) );
+		}
+
+		inline void writeATanh2F( ast::stmt::Container * container )
+		{
+			auto cont = ast::stmt::makeContainer();
+			cont->addStmt( ast::stmt::makeComment( "float SDW_atanh(float2 x)" ) );
+			cont->addStmt( ast::stmt::makeComment( "{" ) );
+			cont->addStmt( ast::stmt::makeComment( "	return 0.5.xx * log( ( x + 1.0.xx ) / ( x - 1.0.xx ) );" ) );
+			cont->addStmt( ast::stmt::makeComment( "}" ) );
+			container->addStmt( std::move( cont ) );
+		}
+
+		inline void writeATanh3F( ast::stmt::Container * container )
+		{
+			auto cont = ast::stmt::makeContainer();
+			cont->addStmt( ast::stmt::makeComment( "float SDW_atanh(float3 x)" ) );
+			cont->addStmt( ast::stmt::makeComment( "{" ) );
+			cont->addStmt( ast::stmt::makeComment( "	return 0.5.xxx * log( ( x + 1.0.xxx ) / ( x - 1.0.xxx ) );" ) );
+			cont->addStmt( ast::stmt::makeComment( "}" ) );
+			container->addStmt( std::move( cont ) );
+		}
+
+		inline void writeATanh4F( ast::stmt::Container * container )
+		{
+			auto cont = ast::stmt::makeContainer();
+			cont->addStmt( ast::stmt::makeComment( "float SDW_atanh(float4 x)" ) );
+			cont->addStmt( ast::stmt::makeComment( "{" ) );
+			cont->addStmt( ast::stmt::makeComment( "	return 0.5.xxxx * log( ( x + 1.0.xxxx ) / ( x - 1.0.xxxx ) );" ) );
+			cont->addStmt( ast::stmt::makeComment( "}" ) );
+			container->addStmt( std::move( cont ) );
+		}
+
 		inline void writeRoundEven1F( ast::stmt::Container * container )
 		{
 			auto cont = ast::stmt::makeContainer();
@@ -794,11 +914,103 @@ namespace hlsl
 			cont->addStmt( ast::stmt::makeComment( "}" ) );
 			container->addStmt( std::move( cont ) );
 		}
+
+		inline void writeBitfieldReverse1I( ast::stmt::Container * container )
+		{
+			auto cont = ast::stmt::makeContainer();
+			cont->addStmt( ast::stmt::makeComment( "int SDW_reverseBits(int bits)" ) );
+			cont->addStmt( ast::stmt::makeComment( "{" ) );
+			cont->addStmt( ast::stmt::makeComment( "	uint tmp = reversebits(uint(bits));" ) );
+			cont->addStmt( ast::stmt::makeComment( "	return int(tmp);" ) );
+			cont->addStmt( ast::stmt::makeComment( "}" ) );
+			container->addStmt( std::move( cont ) );
+		}
+
+		inline void writeBitfieldReverse2I( ast::stmt::Container * container )
+		{
+			auto cont = ast::stmt::makeContainer();
+			cont->addStmt( ast::stmt::makeComment( "int2 SDW_reverseBits(int2 bits)" ) );
+			cont->addStmt( ast::stmt::makeComment( "{" ) );
+			cont->addStmt( ast::stmt::makeComment( "	uint2 tmp = reversebits(uint2(uint(bits.x), uint(bits.y)));" ) );
+			cont->addStmt( ast::stmt::makeComment( "	return int2(int(tmp.x), int(tmp.y));" ) );
+			cont->addStmt( ast::stmt::makeComment( "}" ) );
+			container->addStmt( std::move( cont ) );
+		}
+
+		inline void writeBitfieldReverse3I( ast::stmt::Container * container )
+		{
+			auto cont = ast::stmt::makeContainer();
+			cont->addStmt( ast::stmt::makeComment( "int3 SDW_reverseBits(int3 bits)" ) );
+			cont->addStmt( ast::stmt::makeComment( "{" ) );
+			cont->addStmt( ast::stmt::makeComment( "	uint3 tmp = reversebits(uint3(uint(bits.x), uint(bits.y), uint(bits.z)));" ) );
+			cont->addStmt( ast::stmt::makeComment( "	return int3(int(tmp.x), int(tmp.y), int(tmp.z));" ) );
+			cont->addStmt( ast::stmt::makeComment( "}" ) );
+			container->addStmt( std::move( cont ) );
+		}
+
+		inline void writeBitfieldReverse4I( ast::stmt::Container * container )
+		{
+			auto cont = ast::stmt::makeContainer();
+			cont->addStmt( ast::stmt::makeComment( "int4 SDW_reverseBits(int4 bits)" ) );
+			cont->addStmt( ast::stmt::makeComment( "{" ) );
+			cont->addStmt( ast::stmt::makeComment( "	uint4 tmp = reversebits(uint4(uint(bits.x), uint(bits.y), uint(bits.z), uint(bits.w)));" ) );
+			cont->addStmt( ast::stmt::makeComment( "	return int4(int(tmp.x), int(tmp.y), int(tmp.z), int(tmp.w));" ) );
+			cont->addStmt( ast::stmt::makeComment( "}" ) );
+			container->addStmt( std::move( cont ) );
+		}
 	}
 
 	void compileHlslIntrinsicFunctions( ast::stmt::Container * container
 		, IntrinsicsConfig const & config )
 	{
+		if ( config.requiresACosh1F )
+		{
+			details::writeACosh1F( container );
+		}
+		if ( config.requiresACosh2F )
+		{
+			details::writeACosh2F( container );
+		}
+		if ( config.requiresACosh3F )
+		{
+			details::writeACosh3F( container );
+		}
+		if ( config.requiresACosh4F )
+		{
+			details::writeACosh4F( container );
+		}
+		if ( config.requiresASinh1F )
+		{
+			details::writeASinh1F( container );
+		}
+		if ( config.requiresASinh2F )
+		{
+			details::writeASinh2F( container );
+		}
+		if ( config.requiresASinh3F )
+		{
+			details::writeASinh3F( container );
+		}
+		if ( config.requiresASinh4F )
+		{
+			details::writeASinh4F( container );
+		}
+		if ( config.requiresATanh1F )
+		{
+			details::writeATanh1F( container );
+		}
+		if ( config.requiresATanh2F )
+		{
+			details::writeATanh2F( container );
+		}
+		if ( config.requiresATanh3F )
+		{
+			details::writeATanh3F( container );
+		}
+		if ( config.requiresATanh4F )
+		{
+			details::writeATanh4F( container );
+		}
 		if ( config.requiresRoundEven1F )
 		{
 			details::writeRoundEven1F( container );
@@ -1030,6 +1242,22 @@ namespace hlsl
 		if ( config.requiresBitfieldExtract4U )
 		{
 			details::writeBitfieldExtract4U( container );
+		}
+		if ( config.requiresBitfieldReverse1I )
+		{
+			details::writeBitfieldReverse1I( container );
+		}
+		if ( config.requiresBitfieldReverse2I )
+		{
+			details::writeBitfieldReverse2I( container );
+		}
+		if ( config.requiresBitfieldReverse3I )
+		{
+			details::writeBitfieldReverse3I( container );
+		}
+		if ( config.requiresBitfieldReverse4I )
+		{
+			details::writeBitfieldReverse4I( container );
 		}
 	}
 }

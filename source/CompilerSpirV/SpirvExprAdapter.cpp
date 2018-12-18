@@ -159,22 +159,48 @@ namespace spirv
 		auto scalarType = expr->getComponent();
 		ast::expr::ExprList args;
 
-		for ( auto & arg : expr->getArgList() )
+		if ( expr->getArgList().size() == 1u
+			&& !isScalarType( expr->getArgList().front()->getType()->getKind() ) )
 		{
-			auto newArg = doSubmit( arg.get() );
+			auto newArg = doMakeAlias( doSubmit( expr->getArgList().front().get() ) );
+			auto count = getComponentCount( newArg->getType()->getKind() );
 
-			if ( isScalarType( newArg->getType()->getKind() ) )
+			for ( auto i = 0u; i < count; ++i )
 			{
-				auto argTypeKind = getScalarType( newArg->getType()->getKind() );
-
-				if ( argTypeKind != scalarType )
-				{
-					newArg = ast::expr::makeCast( m_cache.getBasicType( scalarType )
-						, std::move( newArg ) );
-				}
+				args.emplace_back( ast::expr::makeSwizzle( doSubmit( newArg.get() )
+					, ast::expr::SwizzleKind( i ) ) );
 			}
 
-			args.emplace_back( std::move( newArg ) );
+			if ( newArg->getType()->getKind() != expr->getType()->getKind() )
+			{
+				auto dstType = m_cache.getBasicType( getScalarType( expr->getType()->getKind() ) );
+
+				for ( auto & arg : args )
+				{
+					arg = ast::expr::makeCast( dstType
+						, std::move( arg ) );
+				}
+			}
+		}
+		else
+		{
+			for ( auto & arg : expr->getArgList() )
+			{
+				auto newArg = doSubmit( arg.get() );
+
+				if ( isScalarType( newArg->getType()->getKind() ) )
+				{
+					auto argTypeKind = getScalarType( newArg->getType()->getKind() );
+
+					if ( argTypeKind != scalarType )
+					{
+						newArg = ast::expr::makeCast( m_cache.getBasicType( scalarType )
+							, std::move( newArg ) );
+					}
+				}
+
+				args.emplace_back( std::move( newArg ) );
+			}
 		}
 
 		m_result = ast::expr::makeCompositeConstruct( expr->getComposite()
@@ -257,7 +283,7 @@ namespace spirv
 			args.emplace_back( submit( arg.get(), m_container, m_context, m_config ) );
 		}
 
-		if ( op == spv::Op::OpImageGather )
+		if ( op == spv::OpImageGather )
 		{
 			if ( !hasComp( kind ) )
 			{
@@ -310,8 +336,21 @@ namespace spirv
 		}
 	}
 
+	bool needsAlias( ast::expr::Kind kind )
+	{
+		return kind != ast::expr::Kind::eIdentifier
+			&& kind != ast::expr::Kind::eSwizzle
+			&& kind != ast::expr::Kind::eLiteral
+			&& kind != ast::expr::Kind::eMbrSelect;
+	}
+
 	ast::expr::ExprPtr ExprAdapter::doMakeAlias( ast::expr::ExprPtr expr )
 	{
+		if ( !needsAlias( expr->getKind() ) )
+		{
+			return expr;
+		}
+
 		auto var = ast::var::makeVariable( expr->getType()
 			, "tmp_" + std::to_string( m_config.aliasId++ )
 			, ast::var::Flag::eLocale | ast::var::Flag::eImplicit );
@@ -402,7 +441,7 @@ namespace spirv
 			//	, resType
 			//	, lhs
 			//	, rhs );
-			if ( op == spv::Op::OpMatrixTimesVector )
+			if ( op == spv::OpMatrixTimesVector )
 			{
 				type = rhsExpr->getType();
 			}

@@ -1277,11 +1277,13 @@ namespace hlsl
 
 	void ExprAdapter::visitTimesExpr( ast::expr::Times * expr )
 	{
-		if ( isMatrix( expr->getType()->getKind() ) )
+		if ( isMatrix( expr->getType()->getKind() )
+			|| isMatrix( expr->getLHS()->getType()->getKind() )
+			|| isMatrix( expr->getRHS()->getType()->getKind() ) )
 		{
 			ast::var::VariableList params;
 			params.push_back( ast::var::makeVariable( expr->getLHS()->getType(), "lhs" ) );
-			params.push_back( ast::var::makeVariable( expr->getRHS()->getType(), "ths" ) );
+			params.push_back( ast::var::makeVariable( expr->getRHS()->getType(), "rhs" ) );
 			ast::expr::ExprList argsList;
 			argsList.emplace_back( doSubmit( expr->getLHS() ) );
 			argsList.emplace_back( doSubmit( expr->getRHS() ) );

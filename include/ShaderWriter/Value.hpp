@@ -50,6 +50,8 @@ namespace sdw
 	template< typename ... ValuesT >
 	inline ast::type::TypesCache & findTypesCache( ValuesT const & ... values );
 
+	SDW_API expr::ExprPtr makeExpr( Value const & variable
+		, bool force = true );
 	SDW_API expr::ExprPtr makeExpr( Shader const & shader
 		, Value const & variable
 		, bool force = true );

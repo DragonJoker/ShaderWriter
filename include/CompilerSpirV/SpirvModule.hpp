@@ -75,7 +75,7 @@ namespace spirv
 			bool hasLabels;
 		};
 		SDWSPIRV_API Instruction( Config const & config
-			, spv::Op op = spv::Op::OpNop
+			, spv::Op op = spv::OpNop
 			, std::optional< spv::Id > returnTypeId = std::nullopt
 			, std::optional< spv::Id > resultId = std::nullopt
 			, IdList operands = IdList{}
@@ -228,67 +228,67 @@ namespace spirv
 		, bool hasName
 		, bool hasLabels );
 
-	using ExtensionInstruction = InstructionT< spv::Op::OpExtension, false, false, 0u, true, false >;
-	using ExtInstImportInstruction = InstructionT< spv::Op::OpExtInstImport, false, true, 0u, true, false >;
-	using SourceInstruction = InstructionT< spv::Op::OpSource, false, false, 2u, false, false >;
-	using MemoryModelInstruction = InstructionT< spv::Op::OpMemoryModel, false, false, 2u, false, false >;
-	using EntryPointInstruction = InstructionT< spv::Op::OpEntryPoint, true, true, dynamicOperandCount, true, false >;
-	using ExecutionModeInstruction = VariadicInstructionT< spv::Op::OpExecutionMode, false, false >;
-	using CapabilityInstruction = InstructionT< spv::Op::OpCapability, false, false, 1u, false, false >;
-	using DecorateInstruction = VariadicInstructionT< spv::Op::OpDecorate, false, false >;
-	using MemberDecorateInstruction = VariadicInstructionT< spv::Op::OpMemberDecorate, false, false >;
-	using NameInstruction = InstructionT< spv::Op::OpName, false, true, 0u, true, false >;
-	using MemberNameInstruction = InstructionT< spv::Op::OpMemberName, true, true, 0u, true, false >;
+	using ExtensionInstruction = InstructionT< spv::OpExtension, false, false, 0u, true, false >;
+	using ExtInstImportInstruction = InstructionT< spv::OpExtInstImport, false, true, 0u, true, false >;
+	using SourceInstruction = InstructionT< spv::OpSource, false, false, 2u, false, false >;
+	using MemoryModelInstruction = InstructionT< spv::OpMemoryModel, false, false, 2u, false, false >;
+	using EntryPointInstruction = InstructionT< spv::OpEntryPoint, true, true, dynamicOperandCount, true, false >;
+	using ExecutionModeInstruction = VariadicInstructionT< spv::OpExecutionMode, false, false >;
+	using CapabilityInstruction = InstructionT< spv::OpCapability, false, false, 1u, false, false >;
+	using DecorateInstruction = VariadicInstructionT< spv::OpDecorate, false, false >;
+	using MemberDecorateInstruction = VariadicInstructionT< spv::OpMemberDecorate, false, false >;
+	using NameInstruction = InstructionT< spv::OpName, false, true, 0u, true, false >;
+	using MemberNameInstruction = InstructionT< spv::OpMemberName, true, true, 0u, true, false >;
 
-	using VoidTypeInstruction = InstructionT< spv::Op::OpTypeVoid, false, true, 0u, false, false >;
-	using BooleanTypeInstruction = InstructionT< spv::Op::OpTypeBool, false, true, 0u, false, false >;
-	using IntTypeInstruction = InstructionT< spv::Op::OpTypeInt, false, true, 2u, false, false >;
-	using FloatTypeInstruction = InstructionT< spv::Op::OpTypeFloat, false, true, 1u, false, false >;
-	using VectorTypeInstruction = InstructionT< spv::Op::OpTypeVector, false, true, 2u, false, false >;
-	using MatrixTypeInstruction = InstructionT< spv::Op::OpTypeMatrix, false, true, 2u, false, false >;
-	using SamplerTypeInstruction = InstructionT< spv::Op::OpTypeSampler, false, true, 0u, false, false >;
-	using SampledImageTypeInstruction = InstructionT< spv::Op::OpTypeSampledImage, false, true, 1u, false, false >;
-	using RuntimeArrayTypeInstruction = InstructionT< spv::Op::OpTypeRuntimeArray, false, true, 1u, false, false >;
-	using ArrayTypeInstruction = InstructionT< spv::Op::OpTypeArray, false, true, 2u, false, false >;
-	using PointerTypeInstruction = InstructionT< spv::Op::OpTypePointer, false, true, 2u, false, false >;
-	using FunctionTypeInstruction = VariadicInstructionT< spv::Op::OpTypeFunction, false, true >;
-	using ImageTypeInstruction = VariadicInstructionT< spv::Op::OpTypeImage, false, true >;
-	using StructTypeInstruction = VariadicInstructionT< spv::Op::OpTypeStruct, false, true >;
+	using VoidTypeInstruction = InstructionT< spv::OpTypeVoid, false, true, 0u, false, false >;
+	using BooleanTypeInstruction = InstructionT< spv::OpTypeBool, false, true, 0u, false, false >;
+	using IntTypeInstruction = InstructionT< spv::OpTypeInt, false, true, 2u, false, false >;
+	using FloatTypeInstruction = InstructionT< spv::OpTypeFloat, false, true, 1u, false, false >;
+	using VectorTypeInstruction = InstructionT< spv::OpTypeVector, false, true, 2u, false, false >;
+	using MatrixTypeInstruction = InstructionT< spv::OpTypeMatrix, false, true, 2u, false, false >;
+	using SamplerTypeInstruction = InstructionT< spv::OpTypeSampler, false, true, 0u, false, false >;
+	using SampledImageTypeInstruction = InstructionT< spv::OpTypeSampledImage, false, true, 1u, false, false >;
+	using RuntimeArrayTypeInstruction = InstructionT< spv::OpTypeRuntimeArray, false, true, 1u, false, false >;
+	using ArrayTypeInstruction = InstructionT< spv::OpTypeArray, false, true, 2u, false, false >;
+	using PointerTypeInstruction = InstructionT< spv::OpTypePointer, false, true, 2u, false, false >;
+	using FunctionTypeInstruction = VariadicInstructionT< spv::OpTypeFunction, false, true >;
+	using ImageTypeInstruction = VariadicInstructionT< spv::OpTypeImage, false, true >;
+	using StructTypeInstruction = VariadicInstructionT< spv::OpTypeStruct, false, true >;
 
-	using ConstantInstruction = VariadicInstructionT< spv::Op::OpConstant, true, true >;
-	using ConstantCompositeInstruction = VariadicInstructionT< spv::Op::OpConstantComposite, true, true >;
-	using ConstantTrueInstruction = InstructionT< spv::Op::OpConstantTrue, true, true, 0u, false, false >;
-	using ConstantFalseInstruction = InstructionT< spv::Op::OpConstantFalse, true, true, 0u, false, false >;
-	using SpecConstantOpInstruction = VariadicInstructionT< spv::Op::OpSpecConstantOp, true, true >;
-	using SpecConstantInstruction = VariadicInstructionT< spv::Op::OpSpecConstant, true, true >;
-	using SpecConstantCompositeInstruction = VariadicInstructionT< spv::Op::OpSpecConstantComposite, true, true >;
-	using SpecConstantTrueInstruction = InstructionT< spv::Op::OpSpecConstantTrue, true, true, 0u, false, false >;
-	using SpecConstantFalseInstruction = InstructionT< spv::Op::OpSpecConstantFalse, true, true, 0u, false, false >;
-	using SwitchInstruction = InstructionT< spv::Op::OpSwitch, false, false, 2u, false, true >;
-	using SelectInstruction = InstructionT< spv::Op::OpSelect, true, true, 3u, false, false >;
-	using LoadInstruction = InstructionT< spv::Op::OpLoad, true, true, 1u, false, false >;
-	using StoreInstruction = InstructionT< spv::Op::OpStore, false, false, 2u, false, false >;
-	using VariableInstruction = InstructionT< spv::Op::OpVariable, true, true, 1u, false, false >;
-	using CompositeExtractInstruction = VariadicInstructionT< spv::Op::OpCompositeExtract, true, true >;
-	using CompositeConstructInstruction = VariadicInstructionT< spv::Op::OpCompositeConstruct, true, true >;
-	using VectorShuffleInstruction = VariadicInstructionT< spv::Op::OpVectorShuffle, true, true >;
-	using AccessChainInstruction = VariadicInstructionT< spv::Op::OpAccessChain, true, true >;
-	using FunctionCallInstruction = VariadicInstructionT< spv::Op::OpFunctionCall, true, true >;
-	using ImageTexelPointerInstruction = VariadicInstructionT< spv::Op::OpImageTexelPointer, true, true >;
-	using ImageInstruction = InstructionT< spv::Op::OpImage, true, true, 1u, false, false >;
-	using ExtInstInstruction = VariadicInstructionT< spv::Op::OpExtInst, true, true >;
-	using FunctionParameterInstruction = InstructionT< spv::Op::OpFunctionParameter, true, true, 0u, false, false >;
-	using LabelInstruction = InstructionT< spv::Op::OpLabel, false, true, 0u, false, false >;
-	using FunctionInstruction = InstructionT< spv::Op::OpFunction, true, true, 2u, false, false >;
+	using ConstantInstruction = VariadicInstructionT< spv::OpConstant, true, true >;
+	using ConstantCompositeInstruction = VariadicInstructionT< spv::OpConstantComposite, true, true >;
+	using ConstantTrueInstruction = InstructionT< spv::OpConstantTrue, true, true, 0u, false, false >;
+	using ConstantFalseInstruction = InstructionT< spv::OpConstantFalse, true, true, 0u, false, false >;
+	using SpecConstantOpInstruction = VariadicInstructionT< spv::OpSpecConstantOp, true, true >;
+	using SpecConstantInstruction = VariadicInstructionT< spv::OpSpecConstant, true, true >;
+	using SpecConstantCompositeInstruction = VariadicInstructionT< spv::OpSpecConstantComposite, true, true >;
+	using SpecConstantTrueInstruction = InstructionT< spv::OpSpecConstantTrue, true, true, 0u, false, false >;
+	using SpecConstantFalseInstruction = InstructionT< spv::OpSpecConstantFalse, true, true, 0u, false, false >;
+	using SwitchInstruction = InstructionT< spv::OpSwitch, false, false, 2u, false, true >;
+	using SelectInstruction = InstructionT< spv::OpSelect, true, true, 3u, false, false >;
+	using LoadInstruction = InstructionT< spv::OpLoad, true, true, 1u, false, false >;
+	using StoreInstruction = InstructionT< spv::OpStore, false, false, 2u, false, false >;
+	using VariableInstruction = InstructionT< spv::OpVariable, true, true, 1u, false, false >;
+	using CompositeExtractInstruction = VariadicInstructionT< spv::OpCompositeExtract, true, true >;
+	using CompositeConstructInstruction = VariadicInstructionT< spv::OpCompositeConstruct, true, true >;
+	using VectorShuffleInstruction = VariadicInstructionT< spv::OpVectorShuffle, true, true >;
+	using AccessChainInstruction = VariadicInstructionT< spv::OpAccessChain, true, true >;
+	using FunctionCallInstruction = VariadicInstructionT< spv::OpFunctionCall, true, true >;
+	using ImageTexelPointerInstruction = VariadicInstructionT< spv::OpImageTexelPointer, true, true >;
+	using ImageInstruction = InstructionT< spv::OpImage, true, true, 1u, false, false >;
+	using ExtInstInstruction = VariadicInstructionT< spv::OpExtInst, true, true >;
+	using FunctionParameterInstruction = InstructionT< spv::OpFunctionParameter, true, true, 0u, false, false >;
+	using LabelInstruction = InstructionT< spv::OpLabel, false, true, 0u, false, false >;
+	using FunctionInstruction = InstructionT< spv::OpFunction, true, true, 2u, false, false >;
 
-	using KillInstruction = InstructionT< spv::Op::OpKill, false, false, 0u, false, false >;
-	using BranchInstruction = InstructionT< spv::Op::OpBranch, false, false, 1u, false, false >;
-	using BranchConditionalInstruction = VariadicInstructionT< spv::Op::OpBranchConditional, false, false >;
-	using SelectionMergeInstruction = InstructionT< spv::Op::OpSelectionMerge, false, false, 2u, false, false >;
-	using LoopMergeInstruction = InstructionT< spv::Op::OpLoopMerge, false, false, 3u, false, false >;
-	using ReturnInstruction = InstructionT< spv::Op::OpReturn, false, false, 0u, false, false >;
-	using ReturnValueInstruction = InstructionT< spv::Op::OpReturnValue, false, false, 1u, false, false >;
-	using FunctionEndInstruction = InstructionT< spv::Op::OpFunctionEnd, false, false, 0u, false, false >;
+	using KillInstruction = InstructionT< spv::OpKill, false, false, 0u, false, false >;
+	using BranchInstruction = InstructionT< spv::OpBranch, false, false, 1u, false, false >;
+	using BranchConditionalInstruction = VariadicInstructionT< spv::OpBranchConditional, false, false >;
+	using SelectionMergeInstruction = InstructionT< spv::OpSelectionMerge, false, false, 2u, false, false >;
+	using LoopMergeInstruction = InstructionT< spv::OpLoopMerge, false, false, 3u, false, false >;
+	using ReturnInstruction = InstructionT< spv::OpReturn, false, false, 0u, false, false >;
+	using ReturnValueInstruction = InstructionT< spv::OpReturnValue, false, false, 1u, false, false >;
+	using FunctionEndInstruction = InstructionT< spv::OpFunctionEnd, false, false, 0u, false, false >;
 
 	struct VariableInfo
 	{
@@ -309,11 +309,14 @@ namespace spirv
 			, InstructionListIt & buffer
 			, InstructionListIt & end );
 
+		// Serialisable.
 		spv::Id label;
 		InstructionList instructions;
 		InstructionPtr blockEnd;
+		// Used during construction.
 		std::unordered_map< IdList, spv::Id, IdListHasher > accessChains;
 		std::unordered_map< IdList, spv::Id, IdListHasher > vectorShuffles;
+		bool hasReturn{ false };
 	};
 
 	using BlockList = std::vector< Block >;
@@ -347,7 +350,6 @@ namespace spirv
 		// Used during construction.
 		InstructionList variables;
 		std::map< std::string, spv::Id > registeredVariables;
-		bool hasReturn{ false };
 	};
 
 	using FunctionList = std::vector< Function >;

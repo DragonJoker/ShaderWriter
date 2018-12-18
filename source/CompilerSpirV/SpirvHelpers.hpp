@@ -13,6 +13,14 @@ See LICENSE file in root folder
 
 namespace spirv
 {
+	struct LoadedVariable
+	{
+		spv::Id varId;
+		spv::Id loadedId;
+	};
+
+	using LoadedVariableArray = std::vector< LoadedVariable >;
+
 	struct ModuleConfig
 	{
 		std::set< spv::Capability > requiredCapabilities;
@@ -24,15 +32,15 @@ namespace spirv
 	struct IntrinsicConfig
 	{
 		// Intrinsic
-		bool isExtension;
-		bool isAtomic;
+		bool isExtension{ false };
+		bool isAtomic{ false };
 		// Image
-		bool needsTexelPointer;
+		bool needsTexelPointer{ false };
 		// Texture
-		uint32_t imageOperandsIndex;
-		bool needsImage;
-		spv::ImageOperandsMask mask;
-		uint32_t returnComponentsCount;
+		uint32_t imageOperandsIndex{ 0u };
+		bool needsImage{ false };
+		spv::ImageOperandsMask mask{ spv::ImageOperandsMaskNone };
+		uint32_t returnComponentsCount{ 0u };
 	};
 
 	struct PreprocContext

@@ -185,11 +185,57 @@ namespace
 		testEnd();
 	}
 
+	struct St
+		: public sdw::StructInstance
+	{
+		St( sdw::Shader * shader
+			, ast::expr::ExprPtr expr )
+			: StructInstance{ shader, std::move( expr ) }
+			, a{ getMember< sdw::Vec4 >( "a" ) }
+			, b{ getMemberArray< sdw::Vec4 >( "b" ) }
+		{
+		}
+
+		St & operator=( St const & rhs )
+		{
+			sdw::StructInstance::operator=( rhs );
+			return *this;
+		}
+
+		static std::unique_ptr< sdw::Struct > declare( sdw::ShaderWriter & writer )
+		{
+			return std::make_unique< sdw::Struct >( writer, makeType( writer.getTypesCache() ) );
+		}
+
+		static ast::type::StructPtr makeType( ast::type::TypesCache & cache )
+		{
+			auto result = cache.getStruct( ast::type::MemoryLayout::eStd140, "st" );
+
+			if ( result->empty() )
+			{
+				result->declMember( "a", ast::type::Kind::eVec4F );
+				result->declMember( "b", ast::type::Kind::eVec4F, 4u );
+			}
+
+			return result;
+		}
+
+		sdw::Vec4 a;
+		sdw::Array< sdw::Vec4 > b;
+	};
+	using InSt = sdw::InParam< St >;
+
 	void params( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "params" );
 		using namespace sdw;
 		ComputeWriter writer;
+
+		Ubo ubo{ writer, "Matrices", 0u, 0u };
+		auto c3d_viewMatrix = ubo.declMember< Mat4 >( "c3d_viewMatrix" );
+		ubo.end();
+
+		auto st = St::declare( writer );
 
 		auto foo01 = writer.implementFunction< Void >( "foo01"
 			, [&]( Array< Vec4 > const & p )
@@ -204,14 +250,164 @@ namespace
 			}
 			, InOutVec4{ writer, "p" } );
 
+		auto foo03 = writer.implementFunction< Vec4 >( "foo03"
+			, [&]( Mat4 const & m
+				, Vec4 const & p )
+			{
+				writer.returnStmt( m * p );
+			}
+			, InMat4{ writer, "m" }
+			, InVec4{ writer, "p" } );
+
+		auto foo04 = writer.implementFunction< Vec4 >( "foo04"
+			, [&]( St const & m
+				, Vec4 const & p )
+			{
+				FOR( writer, UInt, i, 0_u, i < 4_u, ++i )
+				{
+					m.b[i] *= p;
+				}
+				ROF;
+				writer.returnStmt( m.a * p );
+			}
+			, InSt{ writer, "m" }
+			, InVec4{ writer, "p" } );
+
 		writer.inputLayout( 16 );
 		writer.implementFunction< Void >( "main"
 			, [&]()
 			{
-				auto va = writer.declLocaleArray< Vec4 >( "va", 4u );
-				foo01( va );
 				auto v = writer.declLocale< Vec4 >( "v" );
+				auto va = writer.declLocaleArray< Vec4 >( "va", 4u );
+				auto m = writer.declLocale< Mat4 >( "m" );
+				foo01( va );
 				foo02( v );
+				foo03( m, v );
+				auto r = writer.declLocale< Vec4 >( "r"
+					, foo03( c3d_viewMatrix, v ) );
+				auto inst = st->getInstance< St >( "inst" );
+				v = foo04( inst, v );
+			} );
+
+		test::writeShader( writer
+			, testCounts );
+		testEnd();
+	}
+
+	void swizzles( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "swizzles" );
+		using namespace sdw;
+		ComputeWriter writer;
+		auto c3d_mapDepth = writer.declSampledImage< FImg2DRgba32 >( "c3d_mapDepth", 1u, 0u );
+
+		writer.inputLayout( 16 );
+		writer.implementFunction< void >( "main"
+			, [&]()
+			{
+				auto csPosition = writer.declLocale< Vec4 >( "csPosition" );
+				csPosition.xyz() /= csPosition.w();
+				csPosition.x() /= fma( csPosition.x(), 0.5_f, 0.5_f );
+				auto csPositions = writer.declLocaleArray< Vec4 >( "csPositions", 4u );
+				csPositions[0].xyz() /= csPositions[1].w();
+				auto ssPosition = writer.declLocale< IVec2 >( "ssPosition" );
+				auto position = writer.declLocale< Vec3 >( "position" );
+				position.z() = texelFetch( c3d_mapDepth, ssPosition, 0_i ).r();
+			} );
+
+		test::writeShader( writer
+			, testCounts );
+		testEnd();
+	}
+
+	void arrayAccesses( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "arrayAccesses" );
+		using namespace sdw;
+		ComputeWriter writer;
+
+		auto foo01 = writer.implementFunction< Void >( "foo01"
+			, [&]( Array< Vec4 > const & p
+				, Vec4 & v
+				, Int const & i )
+			{
+				auto j = writer.declLocale< Int >( "j" );
+				v = p[j];
+			}
+			, InVec4Array{ writer, "p", 4u }
+			, OutVec4{ writer, "v" }
+			, InInt{ writer, "i" } );
+
+		writer.inputLayout( 16 );
+		writer.implementFunction< void >( "main"
+			, [&]()
+			{
+				auto p = writer.declLocaleArray< Vec4 >( "p", 4u );
+				auto v = writer.declLocale< Vec4 >( "v" );
+				auto i = writer.declLocale< Int >( "i" );
+				foo01( p, v, i );
+			} );
+
+		test::writeShader( writer
+			, testCounts );
+		testEnd();
+	}
+
+	void removeGamma( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "removeGamma" );
+		using namespace sdw;
+		ComputeWriter writer;
+
+		auto removeGamma = writer.implementFunction< Vec3 >( "removeGamma"
+			, [&]( Float const & gamma
+				, Vec3 const & srgb )
+			{
+				IF( writer, gamma < 0.0_f )
+				{
+					writer.returnStmt( srgb );
+				}
+				FI;
+
+				writer.returnStmt( pow( srgb, vec3( gamma ) ) );
+			}
+			, InFloat{ writer, "gamma" }
+			, InVec3{ writer, "srgb" } );
+
+		writer.inputLayout( 16 );
+		writer.implementFunction< void >( "main"
+			, [&]()
+			{
+				auto f = writer.declLocale< Float >( "f" );
+				auto v = writer.declLocale< Vec3 >( "v" );
+				v = removeGamma( f, v );
+			} );
+
+		test::writeShader( writer
+			, testCounts );
+		testEnd();
+	}
+
+	void conversions( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "conversions" );
+		using namespace sdw;
+		ComputeWriter writer;
+
+		writer.inputLayout( 16 );
+		writer.implementFunction< void >( "main"
+			, [&]()
+			{
+				auto o = writer.declLocaleArray( "o"
+					, 6u
+					, std::vector< Float >{
+						{
+							-1.0_f, -0.6667_f, -0.3333_f, 0.3333_f, 0.6667_f, 1.0_f
+						} } );
+				auto offset = writer.declLocale( "offset"
+					, sdw::fma( vec2( o[0] )
+						, vec2( 1.0_f )
+						, vec2( 0.0_f ) ) );
 			} );
 
 		test::writeShader( writer
@@ -223,10 +419,14 @@ namespace
 int main( int argc, char ** argv )
 {
 	sdwTestSuiteBegin( "TestWriterShader" );
-	reference( testCounts );
+	//reference( testCounts );
 	vertex( testCounts );
-	fragment( testCounts );
-	compute( testCounts );
-	params( testCounts );
+	//fragment( testCounts );
+	//compute( testCounts );
+	//params( testCounts );
+	//swizzles( testCounts );
+	//arrayAccesses( testCounts );
+	//removeGamma( testCounts );
+	conversions( testCounts );
 	sdwTestSuiteEnd();
 }

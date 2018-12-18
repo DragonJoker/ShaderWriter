@@ -19,9 +19,9 @@ namespace sdw
 		SDW_API StructInstance & operator=( StructInstance const & rhs );
 
 		template< typename T >
-		inline T getMember( std::string const & name );
+		inline T getMember( std::string const & name )const;
 		template< typename T >
-		inline Array< T > getMemberArray( std::string const & name );
+		inline Array< T > getMemberArray( std::string const & name )const;
 
 	private:
 		type::StructPtr m_type;

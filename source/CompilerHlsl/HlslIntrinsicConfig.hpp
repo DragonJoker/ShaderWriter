@@ -157,6 +157,54 @@ namespace hlsl
 	{
 		switch ( value )
 		{
+		case ast::expr::Intrinsic::eAcosh1:
+			config.requiresACosh1F = true;
+			break;
+
+		case ast::expr::Intrinsic::eAcosh2:
+			config.requiresACosh2F = true;
+			break;
+
+		case ast::expr::Intrinsic::eAcosh3:
+			config.requiresACosh3F = true;
+			break;
+
+		case ast::expr::Intrinsic::eAcosh4:
+			config.requiresACosh4F = true;
+			break;
+			
+		case ast::expr::Intrinsic::eAsinh1:
+			config.requiresASinh1F = true;
+			break;
+
+		case ast::expr::Intrinsic::eAsinh2:
+			config.requiresASinh2F = true;
+			break;
+
+		case ast::expr::Intrinsic::eAsinh3:
+			config.requiresASinh3F = true;
+			break;
+
+		case ast::expr::Intrinsic::eAsinh4:
+			config.requiresASinh4F = true;
+			break;
+			
+		case ast::expr::Intrinsic::eAtanh1:
+			config.requiresATanh1F = true;
+			break;
+
+		case ast::expr::Intrinsic::eAtanh2:
+			config.requiresATanh2F = true;
+			break;
+
+		case ast::expr::Intrinsic::eAtanh3:
+			config.requiresATanh3F = true;
+			break;
+
+		case ast::expr::Intrinsic::eAtanh4:
+			config.requiresATanh4F = true;
+			break;
+			
 		case ast::expr::Intrinsic::eRoundEven1F:
 			config.requiresRoundEven1F = true;
 			break;
@@ -387,6 +435,22 @@ namespace hlsl
 
 		case ast::expr::Intrinsic::eBitfieldInsert4U:
 			config.requiresBitfieldInsert4U = true;
+			break;
+
+		case ast::expr::Intrinsic::eBitfieldReverse1I:
+			config.requiresBitfieldReverse1I = true;
+			break;
+
+		case ast::expr::Intrinsic::eBitfieldReverse2I:
+			config.requiresBitfieldReverse2I = true;
+			break;
+
+		case ast::expr::Intrinsic::eBitfieldReverse3I:
+			config.requiresBitfieldReverse3I = true;
+			break;
+
+		case ast::expr::Intrinsic::eBitfieldReverse4I:
+			config.requiresBitfieldReverse4I = true;
 			break;
 		}
 	}

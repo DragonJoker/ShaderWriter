@@ -570,430 +570,430 @@ namespace spirv
 
 			switch ( opCode )
 			{
-			case spv::Op::OpSource:
+			case spv::OpSource:
 				return SourceInstruction::config;
-			case spv::Op::OpName:
+			case spv::OpName:
 				return NameInstruction::config;
-			case spv::Op::OpMemberName:
+			case spv::OpMemberName:
 				return MemberNameInstruction::config;
-			case spv::Op::OpExtension:
+			case spv::OpExtension:
 				return ExtensionInstruction::config;
-			case spv::Op::OpExtInstImport:
+			case spv::OpExtInstImport:
 				return ExtInstImportInstruction::config;
-			case spv::Op::OpExtInst:
+			case spv::OpExtInst:
 				return ExtInstInstruction::config;
-			case spv::Op::OpMemoryModel:
+			case spv::OpMemoryModel:
 				return MemoryModelInstruction::config;
-			case spv::Op::OpEntryPoint:
+			case spv::OpEntryPoint:
 				return EntryPointInstruction::config;
-			case spv::Op::OpExecutionMode:
+			case spv::OpExecutionMode:
 				return ExecutionModeInstruction::config;
-			case spv::Op::OpCapability:
+			case spv::OpCapability:
 				return CapabilityInstruction::config;
-			case spv::Op::OpTypeVoid:
+			case spv::OpTypeVoid:
 				return VoidTypeInstruction::config;
-			case spv::Op::OpTypeBool:
+			case spv::OpTypeBool:
 				return BooleanTypeInstruction::config;
-			case spv::Op::OpTypeInt:
+			case spv::OpTypeInt:
 				return IntTypeInstruction::config;
-			case spv::Op::OpTypeFloat:
+			case spv::OpTypeFloat:
 				return FloatTypeInstruction::config;
-			case spv::Op::OpTypeVector:
+			case spv::OpTypeVector:
 				return VectorTypeInstruction::config;
-			case spv::Op::OpTypeMatrix:
+			case spv::OpTypeMatrix:
 				return MatrixTypeInstruction::config;
-			case spv::Op::OpTypeImage:
+			case spv::OpTypeImage:
 				return ImageTypeInstruction::config;
-			case spv::Op::OpTypeSampler:
+			case spv::OpTypeSampler:
 				return SamplerTypeInstruction::config;
-			case spv::Op::OpTypeSampledImage:
+			case spv::OpTypeSampledImage:
 				return SampledImageTypeInstruction::config;
-			case spv::Op::OpTypeArray:
+			case spv::OpTypeArray:
 				return ArrayTypeInstruction::config;
-			case spv::Op::OpTypeRuntimeArray:
+			case spv::OpTypeRuntimeArray:
 				return RuntimeArrayTypeInstruction::config;
-			case spv::Op::OpTypeStruct:
+			case spv::OpTypeStruct:
 				return StructTypeInstruction::config;
-			case spv::Op::OpTypePointer:
+			case spv::OpTypePointer:
 				return PointerTypeInstruction::config;
-			case spv::Op::OpTypeFunction:
+			case spv::OpTypeFunction:
 				return FunctionTypeInstruction::config;
-			case spv::Op::OpConstantTrue:
+			case spv::OpConstantTrue:
 				return ConstantTrueInstruction::config;
-			case spv::Op::OpConstantFalse:
+			case spv::OpConstantFalse:
 				return ConstantFalseInstruction::config;
-			case spv::Op::OpConstant:
+			case spv::OpConstant:
 				return ConstantInstruction::config;
-			case spv::Op::OpConstantComposite:
+			case spv::OpConstantComposite:
 				return ConstantCompositeInstruction::config;
-			case spv::Op::OpSpecConstantTrue:
+			case spv::OpSpecConstantTrue:
 				return SpecConstantTrueInstruction::config;
-			case spv::Op::OpSpecConstantFalse:
+			case spv::OpSpecConstantFalse:
 				return SpecConstantFalseInstruction::config;
-			case spv::Op::OpSpecConstant:
+			case spv::OpSpecConstant:
 				return SpecConstantInstruction::config;
-			case spv::Op::OpSpecConstantComposite:
+			case spv::OpSpecConstantComposite:
 				return SpecConstantCompositeInstruction::config;
-			case spv::Op::OpSpecConstantOp:
+			case spv::OpSpecConstantOp:
 				return SpecConstantOpInstruction::config;
-			case spv::Op::OpFunction:
+			case spv::OpFunction:
 				return FunctionInstruction::config;
-			case spv::Op::OpFunctionParameter:
+			case spv::OpFunctionParameter:
 				return FunctionParameterInstruction::config;
-			case spv::Op::OpFunctionEnd:
+			case spv::OpFunctionEnd:
 				return FunctionEndInstruction::config;
-			case spv::Op::OpFunctionCall:
+			case spv::OpFunctionCall:
 				return FunctionCallInstruction::config;
-			case spv::Op::OpVariable:
+			case spv::OpVariable:
 				return VariableInstruction::config;
-			case spv::Op::OpImageTexelPointer:
+			case spv::OpImageTexelPointer:
 				return ImageTexelPointerInstruction::config;
-			case spv::Op::OpLoad:
+			case spv::OpLoad:
 				return LoadInstruction::config;
-			case spv::Op::OpStore:
+			case spv::OpStore:
 				return StoreInstruction::config;
-			case spv::Op::OpAccessChain:
+			case spv::OpAccessChain:
 				return AccessChainInstruction::config;
-			case spv::Op::OpDecorate:
+			case spv::OpDecorate:
 				return DecorateInstruction::config;
-			case spv::Op::OpMemberDecorate:
+			case spv::OpMemberDecorate:
 				return MemberDecorateInstruction::config;
-			case spv::Op::OpVectorShuffle:
+			case spv::OpVectorShuffle:
 				return VectorShuffleInstruction::config;
-			case spv::Op::OpCompositeConstruct:
+			case spv::OpCompositeConstruct:
 				return CompositeConstructInstruction::config;
-			case spv::Op::OpCompositeExtract:
+			case spv::OpCompositeExtract:
 				return CompositeExtractInstruction::config;
-			case spv::Op::OpTranspose:
-				return IntrinsicInstructionT< spv::Op::OpTranspose >::config;
-			case spv::Op::OpImageSampleImplicitLod:
-				return TextureAccessInstructionT< spv::Op::OpImageSampleImplicitLod >::config;
-			case spv::Op::OpImageSampleExplicitLod:
-				return TextureAccessInstructionT< spv::Op::OpImageSampleExplicitLod >::config;
-			case spv::Op::OpImageSampleDrefImplicitLod:
-				return TextureAccessInstructionT< spv::Op::OpImageSampleDrefImplicitLod >::config;
-			case spv::Op::OpImageSampleDrefExplicitLod:
-				return TextureAccessInstructionT< spv::Op::OpImageSampleDrefExplicitLod >::config;
-			case spv::Op::OpImageSampleProjImplicitLod:
-				return TextureAccessInstructionT< spv::Op::OpImageSampleProjImplicitLod >::config;
-			case spv::Op::OpImageSampleProjExplicitLod:
-				return TextureAccessInstructionT< spv::Op::OpImageSampleProjExplicitLod >::config;
-			case spv::Op::OpImageSampleProjDrefImplicitLod:
-				return TextureAccessInstructionT< spv::Op::OpImageSampleProjDrefImplicitLod >::config;
-			case spv::Op::OpImageSampleProjDrefExplicitLod:
-				return TextureAccessInstructionT< spv::Op::OpImageSampleProjDrefExplicitLod >::config;
-			case spv::Op::OpImageFetch:
-				return TextureAccessInstructionT< spv::Op::OpImageFetch >::config;
-			case spv::Op::OpImageGather:
-				return TextureAccessInstructionT< spv::Op::OpImageGather >::config;
-			case spv::Op::OpImageDrefGather:
-				return TextureAccessInstructionT< spv::Op::OpImageDrefGather >::config;
-			case spv::Op::OpImageRead:
-				return ImageAccessInstructionT< spv::Op::OpImageRead >::config;
-			case spv::Op::OpImageWrite:
-				return ImageAccessInstructionT< spv::Op::OpImageWrite >::config;
-			case spv::Op::OpImage:
+			case spv::OpTranspose:
+				return IntrinsicInstructionT< spv::OpTranspose >::config;
+			case spv::OpImageSampleImplicitLod:
+				return TextureAccessInstructionT< spv::OpImageSampleImplicitLod >::config;
+			case spv::OpImageSampleExplicitLod:
+				return TextureAccessInstructionT< spv::OpImageSampleExplicitLod >::config;
+			case spv::OpImageSampleDrefImplicitLod:
+				return TextureAccessInstructionT< spv::OpImageSampleDrefImplicitLod >::config;
+			case spv::OpImageSampleDrefExplicitLod:
+				return TextureAccessInstructionT< spv::OpImageSampleDrefExplicitLod >::config;
+			case spv::OpImageSampleProjImplicitLod:
+				return TextureAccessInstructionT< spv::OpImageSampleProjImplicitLod >::config;
+			case spv::OpImageSampleProjExplicitLod:
+				return TextureAccessInstructionT< spv::OpImageSampleProjExplicitLod >::config;
+			case spv::OpImageSampleProjDrefImplicitLod:
+				return TextureAccessInstructionT< spv::OpImageSampleProjDrefImplicitLod >::config;
+			case spv::OpImageSampleProjDrefExplicitLod:
+				return TextureAccessInstructionT< spv::OpImageSampleProjDrefExplicitLod >::config;
+			case spv::OpImageFetch:
+				return TextureAccessInstructionT< spv::OpImageFetch >::config;
+			case spv::OpImageGather:
+				return TextureAccessInstructionT< spv::OpImageGather >::config;
+			case spv::OpImageDrefGather:
+				return TextureAccessInstructionT< spv::OpImageDrefGather >::config;
+			case spv::OpImageRead:
+				return ImageAccessInstructionT< spv::OpImageRead >::config;
+			case spv::OpImageWrite:
+				return ImageAccessInstructionT< spv::OpImageWrite >::config;
+			case spv::OpImage:
 				return ImageInstruction::config;
-			case spv::Op::OpImageQueryFormat:
-				return ImageAccessInstructionT< spv::Op::OpImageQueryFormat >::config;
-			case spv::Op::OpImageQueryOrder:
-				return ImageAccessInstructionT< spv::Op::OpImageQueryOrder >::config;
-			case spv::Op::OpImageQuerySizeLod:
-				return ImageAccessInstructionT< spv::Op::OpImageQuerySizeLod >::config;
-			case spv::Op::OpImageQuerySize:
-				return ImageAccessInstructionT< spv::Op::OpImageQuerySize >::config;
-			case spv::Op::OpImageQueryLod:
-				return ImageAccessInstructionT< spv::Op::OpImageQueryLod >::config;
-			case spv::Op::OpImageQueryLevels:
-				return ImageAccessInstructionT< spv::Op::OpImageQueryLevels >::config;
-			case spv::Op::OpImageQuerySamples:
-				return ImageAccessInstructionT< spv::Op::OpImageQuerySamples >::config;
-			case spv::Op::OpConvertFToU:
-				return UnInstructionT< spv::Op::OpConvertFToU >::config;
-			case spv::Op::OpConvertFToS:
-				return UnInstructionT< spv::Op::OpConvertFToS >::config;
-			case spv::Op::OpConvertSToF:
-				return UnInstructionT< spv::Op::OpConvertSToF >::config;
-			case spv::Op::OpConvertUToF:
-				return UnInstructionT< spv::Op::OpConvertUToF >::config;
-			case spv::Op::OpUConvert:
-				return UnInstructionT< spv::Op::OpUConvert >::config;
-			case spv::Op::OpSConvert:
-				return UnInstructionT< spv::Op::OpSConvert >::config;
-			case spv::Op::OpFConvert:
-				return UnInstructionT< spv::Op::OpFConvert >::config;
-			case spv::Op::OpQuantizeToF16:
-				return UnInstructionT< spv::Op::OpQuantizeToF16 >::config;
-			case spv::Op::OpConvertPtrToU:
-				return UnInstructionT< spv::Op::OpConvertPtrToU >::config;
-			case spv::Op::OpSatConvertSToU:
-				return UnInstructionT< spv::Op::OpSatConvertSToU >::config;
-			case spv::Op::OpSatConvertUToS:
-				return UnInstructionT< spv::Op::OpSatConvertUToS >::config;
-			case spv::Op::OpConvertUToPtr:
-				return UnInstructionT< spv::Op::OpConvertUToPtr >::config;
-			case spv::Op::OpPtrCastToGeneric:
-				return UnInstructionT< spv::Op::OpPtrCastToGeneric >::config;
-			case spv::Op::OpGenericCastToPtr:
-				return UnInstructionT< spv::Op::OpGenericCastToPtr >::config;
-			case spv::Op::OpGenericCastToPtrExplicit:
-				return UnInstructionT< spv::Op::OpGenericCastToPtrExplicit >::config;
-			case spv::Op::OpBitcast:
-				return UnInstructionT< spv::Op::OpBitcast >::config;
-			case spv::Op::OpSNegate:
-				return UnInstructionT< spv::Op::OpSNegate >::config;
-			case spv::Op::OpFNegate:
-				return UnInstructionT< spv::Op::OpFNegate >::config;
-			case spv::Op::OpIAdd:
-				return UnInstructionT < spv::Op::OpIAdd >::config;
-			case spv::Op::OpFAdd:
-				return UnInstructionT < spv::Op::OpFAdd >::config;
-			case spv::Op::OpISub:
-				return UnInstructionT < spv::Op::OpISub >::config;
-			case spv::Op::OpFSub:
-				return UnInstructionT < spv::Op::OpFSub >::config;
-			case spv::Op::OpIMul:
-				return UnInstructionT < spv::Op::OpIMul >::config;
-			case spv::Op::OpFMul:
-				return UnInstructionT < spv::Op::OpFMul >::config;
-			case spv::Op::OpUDiv:
-				return UnInstructionT < spv::Op::OpUDiv >::config;
-			case spv::Op::OpSDiv:
-				return UnInstructionT < spv::Op::OpSDiv >::config;
-			case spv::Op::OpFDiv:
-				return UnInstructionT < spv::Op::OpFDiv >::config;
-			case spv::Op::OpUMod:
-				return UnInstructionT < spv::Op::OpUMod >::config;
-			case spv::Op::OpSRem:
-				return UnInstructionT < spv::Op::OpSRem >::config;
-			case spv::Op::OpSMod:
-				return UnInstructionT < spv::Op::OpSMod >::config;
-			case spv::Op::OpFRem:
-				return UnInstructionT < spv::Op::OpFRem >::config;
-			case spv::Op::OpFMod:
-				return UnInstructionT < spv::Op::OpFMod >::config;
-			case spv::Op::OpVectorTimesScalar:
-				return UnInstructionT < spv::Op::OpVectorTimesScalar >::config;
-			case spv::Op::OpMatrixTimesScalar:
-				return UnInstructionT < spv::Op::OpMatrixTimesScalar >::config;
-			case spv::Op::OpVectorTimesMatrix:
-				return UnInstructionT < spv::Op::OpVectorTimesMatrix >::config;
-			case spv::Op::OpMatrixTimesVector:
-				return UnInstructionT < spv::Op::OpMatrixTimesVector >::config;
-			case spv::Op::OpMatrixTimesMatrix:
-				return UnInstructionT < spv::Op::OpMatrixTimesMatrix >::config;
-			case spv::Op::OpOuterProduct:
-				return IntrinsicInstructionT< spv::Op::OpOuterProduct >::config;
-			case spv::Op::OpDot:
-				return IntrinsicInstructionT< spv::Op::OpDot >::config;
-			case spv::Op::OpIAddCarry:
-				return IntrinsicInstructionT< spv::Op::OpIAddCarry >::config;
-			case spv::Op::OpISubBorrow:
-				return IntrinsicInstructionT< spv::Op::OpISubBorrow >::config;
-			case spv::Op::OpUMulExtended:
-				return IntrinsicInstructionT< spv::Op::OpUMulExtended >::config;
-			case spv::Op::OpSMulExtended:
-				return IntrinsicInstructionT< spv::Op::OpSMulExtended >::config;
-			case spv::Op::OpAny:
-				return IntrinsicInstructionT< spv::Op::OpAny >::config;
-			case spv::Op::OpAll:
-				return IntrinsicInstructionT< spv::Op::OpAll >::config;
-			case spv::Op::OpIsNan:
-				return IntrinsicInstructionT< spv::Op::OpIsNan >::config;
-			case spv::Op::OpIsInf:
-				return IntrinsicInstructionT< spv::Op::OpIsInf >::config;
-			case spv::Op::OpIsFinite:
-				return IntrinsicInstructionT< spv::Op::OpIsFinite >::config;
-			case spv::Op::OpIsNormal:
-				return IntrinsicInstructionT< spv::Op::OpIsNormal >::config;
-			case spv::Op::OpSignBitSet:
-				return IntrinsicInstructionT< spv::Op::OpSignBitSet >::config;
-			case spv::Op::OpLogicalEqual:
-				return BinInstructionT < spv::Op::OpLogicalEqual >::config;
-			case spv::Op::OpLogicalNotEqual:
-				return BinInstructionT < spv::Op::OpLogicalNotEqual >::config;
-			case spv::Op::OpLogicalOr:
-				return BinInstructionT < spv::Op::OpLogicalOr >::config;
-			case spv::Op::OpLogicalAnd:
-				return BinInstructionT < spv::Op::OpLogicalAnd >::config;
-			case spv::Op::OpLogicalNot:
-				return BinInstructionT < spv::Op::OpLogicalNot >::config;
-			case spv::Op::OpSelect:
+			case spv::OpImageQueryFormat:
+				return ImageAccessInstructionT< spv::OpImageQueryFormat >::config;
+			case spv::OpImageQueryOrder:
+				return ImageAccessInstructionT< spv::OpImageQueryOrder >::config;
+			case spv::OpImageQuerySizeLod:
+				return ImageAccessInstructionT< spv::OpImageQuerySizeLod >::config;
+			case spv::OpImageQuerySize:
+				return ImageAccessInstructionT< spv::OpImageQuerySize >::config;
+			case spv::OpImageQueryLod:
+				return ImageAccessInstructionT< spv::OpImageQueryLod >::config;
+			case spv::OpImageQueryLevels:
+				return ImageAccessInstructionT< spv::OpImageQueryLevels >::config;
+			case spv::OpImageQuerySamples:
+				return ImageAccessInstructionT< spv::OpImageQuerySamples >::config;
+			case spv::OpConvertFToU:
+				return UnInstructionT< spv::OpConvertFToU >::config;
+			case spv::OpConvertFToS:
+				return UnInstructionT< spv::OpConvertFToS >::config;
+			case spv::OpConvertSToF:
+				return UnInstructionT< spv::OpConvertSToF >::config;
+			case spv::OpConvertUToF:
+				return UnInstructionT< spv::OpConvertUToF >::config;
+			case spv::OpUConvert:
+				return UnInstructionT< spv::OpUConvert >::config;
+			case spv::OpSConvert:
+				return UnInstructionT< spv::OpSConvert >::config;
+			case spv::OpFConvert:
+				return UnInstructionT< spv::OpFConvert >::config;
+			case spv::OpQuantizeToF16:
+				return UnInstructionT< spv::OpQuantizeToF16 >::config;
+			case spv::OpConvertPtrToU:
+				return UnInstructionT< spv::OpConvertPtrToU >::config;
+			case spv::OpSatConvertSToU:
+				return UnInstructionT< spv::OpSatConvertSToU >::config;
+			case spv::OpSatConvertUToS:
+				return UnInstructionT< spv::OpSatConvertUToS >::config;
+			case spv::OpConvertUToPtr:
+				return UnInstructionT< spv::OpConvertUToPtr >::config;
+			case spv::OpPtrCastToGeneric:
+				return UnInstructionT< spv::OpPtrCastToGeneric >::config;
+			case spv::OpGenericCastToPtr:
+				return UnInstructionT< spv::OpGenericCastToPtr >::config;
+			case spv::OpGenericCastToPtrExplicit:
+				return UnInstructionT< spv::OpGenericCastToPtrExplicit >::config;
+			case spv::OpBitcast:
+				return UnInstructionT< spv::OpBitcast >::config;
+			case spv::OpSNegate:
+				return UnInstructionT< spv::OpSNegate >::config;
+			case spv::OpFNegate:
+				return UnInstructionT< spv::OpFNegate >::config;
+			case spv::OpIAdd:
+				return UnInstructionT < spv::OpIAdd >::config;
+			case spv::OpFAdd:
+				return UnInstructionT < spv::OpFAdd >::config;
+			case spv::OpISub:
+				return UnInstructionT < spv::OpISub >::config;
+			case spv::OpFSub:
+				return UnInstructionT < spv::OpFSub >::config;
+			case spv::OpIMul:
+				return UnInstructionT < spv::OpIMul >::config;
+			case spv::OpFMul:
+				return UnInstructionT < spv::OpFMul >::config;
+			case spv::OpUDiv:
+				return UnInstructionT < spv::OpUDiv >::config;
+			case spv::OpSDiv:
+				return UnInstructionT < spv::OpSDiv >::config;
+			case spv::OpFDiv:
+				return UnInstructionT < spv::OpFDiv >::config;
+			case spv::OpUMod:
+				return UnInstructionT < spv::OpUMod >::config;
+			case spv::OpSRem:
+				return UnInstructionT < spv::OpSRem >::config;
+			case spv::OpSMod:
+				return UnInstructionT < spv::OpSMod >::config;
+			case spv::OpFRem:
+				return UnInstructionT < spv::OpFRem >::config;
+			case spv::OpFMod:
+				return UnInstructionT < spv::OpFMod >::config;
+			case spv::OpVectorTimesScalar:
+				return UnInstructionT < spv::OpVectorTimesScalar >::config;
+			case spv::OpMatrixTimesScalar:
+				return UnInstructionT < spv::OpMatrixTimesScalar >::config;
+			case spv::OpVectorTimesMatrix:
+				return UnInstructionT < spv::OpVectorTimesMatrix >::config;
+			case spv::OpMatrixTimesVector:
+				return UnInstructionT < spv::OpMatrixTimesVector >::config;
+			case spv::OpMatrixTimesMatrix:
+				return UnInstructionT < spv::OpMatrixTimesMatrix >::config;
+			case spv::OpOuterProduct:
+				return IntrinsicInstructionT< spv::OpOuterProduct >::config;
+			case spv::OpDot:
+				return IntrinsicInstructionT< spv::OpDot >::config;
+			case spv::OpIAddCarry:
+				return IntrinsicInstructionT< spv::OpIAddCarry >::config;
+			case spv::OpISubBorrow:
+				return IntrinsicInstructionT< spv::OpISubBorrow >::config;
+			case spv::OpUMulExtended:
+				return IntrinsicInstructionT< spv::OpUMulExtended >::config;
+			case spv::OpSMulExtended:
+				return IntrinsicInstructionT< spv::OpSMulExtended >::config;
+			case spv::OpAny:
+				return IntrinsicInstructionT< spv::OpAny >::config;
+			case spv::OpAll:
+				return IntrinsicInstructionT< spv::OpAll >::config;
+			case spv::OpIsNan:
+				return IntrinsicInstructionT< spv::OpIsNan >::config;
+			case spv::OpIsInf:
+				return IntrinsicInstructionT< spv::OpIsInf >::config;
+			case spv::OpIsFinite:
+				return IntrinsicInstructionT< spv::OpIsFinite >::config;
+			case spv::OpIsNormal:
+				return IntrinsicInstructionT< spv::OpIsNormal >::config;
+			case spv::OpSignBitSet:
+				return IntrinsicInstructionT< spv::OpSignBitSet >::config;
+			case spv::OpLogicalEqual:
+				return BinInstructionT < spv::OpLogicalEqual >::config;
+			case spv::OpLogicalNotEqual:
+				return BinInstructionT < spv::OpLogicalNotEqual >::config;
+			case spv::OpLogicalOr:
+				return BinInstructionT < spv::OpLogicalOr >::config;
+			case spv::OpLogicalAnd:
+				return BinInstructionT < spv::OpLogicalAnd >::config;
+			case spv::OpLogicalNot:
+				return BinInstructionT < spv::OpLogicalNot >::config;
+			case spv::OpSelect:
 				return SelectInstruction::config;
-			case spv::Op::OpIEqual:
-				return BinInstructionT < spv::Op::OpIEqual >::config;
-			case spv::Op::OpINotEqual:
-				return BinInstructionT < spv::Op::OpINotEqual >::config;
-			case spv::Op::OpUGreaterThan:
-				return BinInstructionT < spv::Op::OpUGreaterThan >::config;
-			case spv::Op::OpSGreaterThan:
-				return BinInstructionT < spv::Op::OpSGreaterThan >::config;
-			case spv::Op::OpUGreaterThanEqual:
-				return BinInstructionT < spv::Op::OpUGreaterThanEqual >::config;
-			case spv::Op::OpSGreaterThanEqual:
-				return BinInstructionT < spv::Op::OpSGreaterThanEqual >::config;
-			case spv::Op::OpULessThan:
-				return BinInstructionT < spv::Op::OpULessThan >::config;
-			case spv::Op::OpSLessThan:
-				return BinInstructionT < spv::Op::OpSLessThan >::config;
-			case spv::Op::OpULessThanEqual:
-				return BinInstructionT < spv::Op::OpULessThanEqual >::config;
-			case spv::Op::OpSLessThanEqual:
-				return BinInstructionT < spv::Op::OpSLessThanEqual >::config;
-			case spv::Op::OpFOrdEqual:
-				return BinInstructionT < spv::Op::OpFOrdEqual >::config;
-			case spv::Op::OpFUnordEqual:
-				return BinInstructionT < spv::Op::OpFUnordEqual >::config;
-			case spv::Op::OpFOrdNotEqual:
-				return BinInstructionT < spv::Op::OpFOrdNotEqual >::config;
-			case spv::Op::OpFUnordNotEqual:
-				return BinInstructionT < spv::Op::OpFUnordNotEqual >::config;
-			case spv::Op::OpFOrdLessThan:
-				return BinInstructionT < spv::Op::OpFOrdLessThan >::config;
-			case spv::Op::OpFUnordLessThan:
-				return BinInstructionT < spv::Op::OpFUnordLessThan >::config;
-			case spv::Op::OpFOrdGreaterThan:
-				return BinInstructionT < spv::Op::OpFOrdGreaterThan >::config;
-			case spv::Op::OpFUnordGreaterThan:
-				return BinInstructionT < spv::Op::OpFUnordGreaterThan >::config;
-			case spv::Op::OpFOrdLessThanEqual:
-				return BinInstructionT < spv::Op::OpFOrdLessThanEqual >::config;
-			case spv::Op::OpFUnordLessThanEqual:
-				return BinInstructionT < spv::Op::OpFUnordLessThanEqual >::config;
-			case spv::Op::OpFOrdGreaterThanEqual:
-				return BinInstructionT < spv::Op::OpFOrdGreaterThanEqual >::config;
-			case spv::Op::OpFUnordGreaterThanEqual:
-				return BinInstructionT < spv::Op::OpFUnordGreaterThanEqual >::config;
-			case spv::Op::OpShiftRightLogical:
-				return BinInstructionT < spv::Op::OpShiftRightLogical >::config;
-			case spv::Op::OpShiftRightArithmetic:
-				return BinInstructionT < spv::Op::OpShiftRightArithmetic >::config;
-			case spv::Op::OpShiftLeftLogical:
-				return BinInstructionT < spv::Op::OpShiftLeftLogical >::config;
-			case spv::Op::OpBitwiseOr:
-				return BinInstructionT < spv::Op::OpBitwiseOr >::config;
-			case spv::Op::OpBitwiseXor:
-				return BinInstructionT < spv::Op::OpBitwiseXor >::config;
-			case spv::Op::OpBitwiseAnd:
-				return BinInstructionT < spv::Op::OpBitwiseAnd >::config;
-			case spv::Op::OpNot:
-				return UnInstructionT < spv::Op::OpNot >::config;
-			case spv::Op::OpBitFieldInsert:
-				return IntrinsicInstructionT< spv::Op::OpBitFieldInsert >::config;
-			case spv::Op::OpBitFieldSExtract:
-				return IntrinsicInstructionT< spv::Op::OpBitFieldSExtract >::config;
-			case spv::Op::OpBitFieldUExtract:
-				return IntrinsicInstructionT< spv::Op::OpBitFieldUExtract >::config;
-			case spv::Op::OpBitReverse:
-				return IntrinsicInstructionT< spv::Op::OpBitReverse >::config;
-			case spv::Op::OpBitCount:
-				return IntrinsicInstructionT< spv::Op::OpBitCount >::config;
-			case spv::Op::OpDPdx:
-				return IntrinsicInstructionT< spv::Op::OpDPdx >::config;
-			case spv::Op::OpDPdy:
-				return IntrinsicInstructionT< spv::Op::OpDPdy >::config;
-			case spv::Op::OpFwidth:
-				return IntrinsicInstructionT< spv::Op::OpFwidth >::config;
-			case spv::Op::OpDPdxFine:
-				return IntrinsicInstructionT< spv::Op::OpDPdxFine >::config;
-			case spv::Op::OpDPdyFine:
-				return IntrinsicInstructionT< spv::Op::OpDPdyFine >::config;
-			case spv::Op::OpFwidthFine:
-				return IntrinsicInstructionT< spv::Op::OpFwidthFine >::config;
-			case spv::Op::OpDPdxCoarse:
-				return IntrinsicInstructionT< spv::Op::OpDPdxCoarse >::config;
-			case spv::Op::OpDPdyCoarse:
-				return IntrinsicInstructionT< spv::Op::OpDPdyCoarse >::config;
-			case spv::Op::OpFwidthCoarse:
-				return IntrinsicInstructionT< spv::Op::OpFwidthCoarse >::config;
-			case spv::Op::OpEmitVertex:
-				return IntrinsicInstructionT< spv::Op::OpEmitVertex >::config;
-			case spv::Op::OpEndPrimitive:
-				return IntrinsicInstructionT< spv::Op::OpEndPrimitive >::config;
-			case spv::Op::OpEmitStreamVertex:
-				return IntrinsicInstructionT< spv::Op::OpEmitStreamVertex >::config;
-			case spv::Op::OpEndStreamPrimitive:
-				return IntrinsicInstructionT< spv::Op::OpEndStreamPrimitive >::config;
-			case spv::Op::OpControlBarrier:
-				return IntrinsicInstructionT< spv::Op::OpControlBarrier >::config;
-			case spv::Op::OpMemoryBarrier:
-				return IntrinsicInstructionT< spv::Op::OpMemoryBarrier >::config;
-			case spv::Op::OpAtomicLoad:
-				return IntrinsicInstructionT< spv::Op::OpAtomicLoad >::config;
-			case spv::Op::OpAtomicStore:
-				return IntrinsicInstructionT< spv::Op::OpAtomicStore >::config;
-			case spv::Op::OpAtomicExchange:
-				return IntrinsicInstructionT< spv::Op::OpAtomicExchange >::config;
-			case spv::Op::OpAtomicCompareExchange:
-				return IntrinsicInstructionT< spv::Op::OpAtomicCompareExchange >::config;
-			case spv::Op::OpAtomicCompareExchangeWeak:
-				return IntrinsicInstructionT< spv::Op::OpAtomicCompareExchangeWeak >::config;
-			case spv::Op::OpAtomicIIncrement:
-				return IntrinsicInstructionT< spv::Op::OpAtomicIIncrement >::config;
-			case spv::Op::OpAtomicIDecrement:
-				return IntrinsicInstructionT< spv::Op::OpAtomicIDecrement >::config;
-			case spv::Op::OpAtomicIAdd:
-				return IntrinsicInstructionT< spv::Op::OpAtomicIAdd >::config;
-			case spv::Op::OpAtomicISub:
-				return IntrinsicInstructionT< spv::Op::OpAtomicISub >::config;
-			case spv::Op::OpAtomicSMin:
-				return IntrinsicInstructionT< spv::Op::OpAtomicSMin >::config;
-			case spv::Op::OpAtomicUMin:
-				return IntrinsicInstructionT< spv::Op::OpAtomicUMin >::config;
-			case spv::Op::OpAtomicSMax:
-				return IntrinsicInstructionT< spv::Op::OpAtomicSMax >::config;
-			case spv::Op::OpAtomicUMax:
-				return IntrinsicInstructionT< spv::Op::OpAtomicUMax >::config;
-			case spv::Op::OpAtomicAnd:
-				return IntrinsicInstructionT< spv::Op::OpAtomicAnd >::config;
-			case spv::Op::OpAtomicOr:
-				return IntrinsicInstructionT< spv::Op::OpAtomicOr >::config;
-			case spv::Op::OpAtomicXor:
-				return IntrinsicInstructionT< spv::Op::OpAtomicXor >::config;
-			case spv::Op::OpLoopMerge:
+			case spv::OpIEqual:
+				return BinInstructionT < spv::OpIEqual >::config;
+			case spv::OpINotEqual:
+				return BinInstructionT < spv::OpINotEqual >::config;
+			case spv::OpUGreaterThan:
+				return BinInstructionT < spv::OpUGreaterThan >::config;
+			case spv::OpSGreaterThan:
+				return BinInstructionT < spv::OpSGreaterThan >::config;
+			case spv::OpUGreaterThanEqual:
+				return BinInstructionT < spv::OpUGreaterThanEqual >::config;
+			case spv::OpSGreaterThanEqual:
+				return BinInstructionT < spv::OpSGreaterThanEqual >::config;
+			case spv::OpULessThan:
+				return BinInstructionT < spv::OpULessThan >::config;
+			case spv::OpSLessThan:
+				return BinInstructionT < spv::OpSLessThan >::config;
+			case spv::OpULessThanEqual:
+				return BinInstructionT < spv::OpULessThanEqual >::config;
+			case spv::OpSLessThanEqual:
+				return BinInstructionT < spv::OpSLessThanEqual >::config;
+			case spv::OpFOrdEqual:
+				return BinInstructionT < spv::OpFOrdEqual >::config;
+			case spv::OpFUnordEqual:
+				return BinInstructionT < spv::OpFUnordEqual >::config;
+			case spv::OpFOrdNotEqual:
+				return BinInstructionT < spv::OpFOrdNotEqual >::config;
+			case spv::OpFUnordNotEqual:
+				return BinInstructionT < spv::OpFUnordNotEqual >::config;
+			case spv::OpFOrdLessThan:
+				return BinInstructionT < spv::OpFOrdLessThan >::config;
+			case spv::OpFUnordLessThan:
+				return BinInstructionT < spv::OpFUnordLessThan >::config;
+			case spv::OpFOrdGreaterThan:
+				return BinInstructionT < spv::OpFOrdGreaterThan >::config;
+			case spv::OpFUnordGreaterThan:
+				return BinInstructionT < spv::OpFUnordGreaterThan >::config;
+			case spv::OpFOrdLessThanEqual:
+				return BinInstructionT < spv::OpFOrdLessThanEqual >::config;
+			case spv::OpFUnordLessThanEqual:
+				return BinInstructionT < spv::OpFUnordLessThanEqual >::config;
+			case spv::OpFOrdGreaterThanEqual:
+				return BinInstructionT < spv::OpFOrdGreaterThanEqual >::config;
+			case spv::OpFUnordGreaterThanEqual:
+				return BinInstructionT < spv::OpFUnordGreaterThanEqual >::config;
+			case spv::OpShiftRightLogical:
+				return BinInstructionT < spv::OpShiftRightLogical >::config;
+			case spv::OpShiftRightArithmetic:
+				return BinInstructionT < spv::OpShiftRightArithmetic >::config;
+			case spv::OpShiftLeftLogical:
+				return BinInstructionT < spv::OpShiftLeftLogical >::config;
+			case spv::OpBitwiseOr:
+				return BinInstructionT < spv::OpBitwiseOr >::config;
+			case spv::OpBitwiseXor:
+				return BinInstructionT < spv::OpBitwiseXor >::config;
+			case spv::OpBitwiseAnd:
+				return BinInstructionT < spv::OpBitwiseAnd >::config;
+			case spv::OpNot:
+				return UnInstructionT < spv::OpNot >::config;
+			case spv::OpBitFieldInsert:
+				return IntrinsicInstructionT< spv::OpBitFieldInsert >::config;
+			case spv::OpBitFieldSExtract:
+				return IntrinsicInstructionT< spv::OpBitFieldSExtract >::config;
+			case spv::OpBitFieldUExtract:
+				return IntrinsicInstructionT< spv::OpBitFieldUExtract >::config;
+			case spv::OpBitReverse:
+				return IntrinsicInstructionT< spv::OpBitReverse >::config;
+			case spv::OpBitCount:
+				return IntrinsicInstructionT< spv::OpBitCount >::config;
+			case spv::OpDPdx:
+				return IntrinsicInstructionT< spv::OpDPdx >::config;
+			case spv::OpDPdy:
+				return IntrinsicInstructionT< spv::OpDPdy >::config;
+			case spv::OpFwidth:
+				return IntrinsicInstructionT< spv::OpFwidth >::config;
+			case spv::OpDPdxFine:
+				return IntrinsicInstructionT< spv::OpDPdxFine >::config;
+			case spv::OpDPdyFine:
+				return IntrinsicInstructionT< spv::OpDPdyFine >::config;
+			case spv::OpFwidthFine:
+				return IntrinsicInstructionT< spv::OpFwidthFine >::config;
+			case spv::OpDPdxCoarse:
+				return IntrinsicInstructionT< spv::OpDPdxCoarse >::config;
+			case spv::OpDPdyCoarse:
+				return IntrinsicInstructionT< spv::OpDPdyCoarse >::config;
+			case spv::OpFwidthCoarse:
+				return IntrinsicInstructionT< spv::OpFwidthCoarse >::config;
+			case spv::OpEmitVertex:
+				return IntrinsicInstructionT< spv::OpEmitVertex >::config;
+			case spv::OpEndPrimitive:
+				return IntrinsicInstructionT< spv::OpEndPrimitive >::config;
+			case spv::OpEmitStreamVertex:
+				return IntrinsicInstructionT< spv::OpEmitStreamVertex >::config;
+			case spv::OpEndStreamPrimitive:
+				return IntrinsicInstructionT< spv::OpEndStreamPrimitive >::config;
+			case spv::OpControlBarrier:
+				return IntrinsicInstructionT< spv::OpControlBarrier >::config;
+			case spv::OpMemoryBarrier:
+				return IntrinsicInstructionT< spv::OpMemoryBarrier >::config;
+			case spv::OpAtomicLoad:
+				return IntrinsicInstructionT< spv::OpAtomicLoad >::config;
+			case spv::OpAtomicStore:
+				return IntrinsicInstructionT< spv::OpAtomicStore >::config;
+			case spv::OpAtomicExchange:
+				return IntrinsicInstructionT< spv::OpAtomicExchange >::config;
+			case spv::OpAtomicCompareExchange:
+				return IntrinsicInstructionT< spv::OpAtomicCompareExchange >::config;
+			case spv::OpAtomicCompareExchangeWeak:
+				return IntrinsicInstructionT< spv::OpAtomicCompareExchangeWeak >::config;
+			case spv::OpAtomicIIncrement:
+				return IntrinsicInstructionT< spv::OpAtomicIIncrement >::config;
+			case spv::OpAtomicIDecrement:
+				return IntrinsicInstructionT< spv::OpAtomicIDecrement >::config;
+			case spv::OpAtomicIAdd:
+				return IntrinsicInstructionT< spv::OpAtomicIAdd >::config;
+			case spv::OpAtomicISub:
+				return IntrinsicInstructionT< spv::OpAtomicISub >::config;
+			case spv::OpAtomicSMin:
+				return IntrinsicInstructionT< spv::OpAtomicSMin >::config;
+			case spv::OpAtomicUMin:
+				return IntrinsicInstructionT< spv::OpAtomicUMin >::config;
+			case spv::OpAtomicSMax:
+				return IntrinsicInstructionT< spv::OpAtomicSMax >::config;
+			case spv::OpAtomicUMax:
+				return IntrinsicInstructionT< spv::OpAtomicUMax >::config;
+			case spv::OpAtomicAnd:
+				return IntrinsicInstructionT< spv::OpAtomicAnd >::config;
+			case spv::OpAtomicOr:
+				return IntrinsicInstructionT< spv::OpAtomicOr >::config;
+			case spv::OpAtomicXor:
+				return IntrinsicInstructionT< spv::OpAtomicXor >::config;
+			case spv::OpLoopMerge:
 				return LoopMergeInstruction::config;
-			case spv::Op::OpSelectionMerge:
+			case spv::OpSelectionMerge:
 				return SelectionMergeInstruction::config;
-			case spv::Op::OpLabel:
+			case spv::OpLabel:
 				return LabelInstruction::config;
-			case spv::Op::OpBranch:
+			case spv::OpBranch:
 				return BranchInstruction::config;
-			case spv::Op::OpBranchConditional:
+			case spv::OpBranchConditional:
 				return BranchConditionalInstruction::config;
-			case spv::Op::OpSwitch:
+			case spv::OpSwitch:
 				return SwitchInstruction::config;
-			case spv::Op::OpKill:
+			case spv::OpKill:
 				return KillInstruction::config;
-			case spv::Op::OpReturn:
+			case spv::OpReturn:
 				return ReturnInstruction::config;
-			case spv::Op::OpReturnValue:
+			case spv::OpReturnValue:
 				return ReturnValueInstruction::config;
-			case spv::Op::OpImageSparseSampleImplicitLod:
-				return ImageAccessInstructionT< spv::Op::OpImageSparseSampleImplicitLod >::config;
-			case spv::Op::OpImageSparseSampleExplicitLod:
-				return ImageAccessInstructionT< spv::Op::OpImageSparseSampleExplicitLod >::config;
-			case spv::Op::OpImageSparseSampleDrefImplicitLod:
-				return ImageAccessInstructionT< spv::Op::OpImageSparseSampleDrefImplicitLod >::config;
-			case spv::Op::OpImageSparseSampleDrefExplicitLod:
-				return ImageAccessInstructionT< spv::Op::OpImageSparseSampleDrefExplicitLod >::config;
-			case spv::Op::OpImageSparseSampleProjImplicitLod:
-				return ImageAccessInstructionT< spv::Op::OpImageSparseSampleProjImplicitLod >::config;
-			case spv::Op::OpImageSparseSampleProjExplicitLod:
-				return ImageAccessInstructionT< spv::Op::OpImageSparseSampleProjExplicitLod >::config;
-			case spv::Op::OpImageSparseSampleProjDrefImplicitLod:
-				return ImageAccessInstructionT< spv::Op::OpImageSparseSampleProjDrefImplicitLod >::config;
-			case spv::Op::OpImageSparseSampleProjDrefExplicitLod:
-				return ImageAccessInstructionT< spv::Op::OpImageSparseSampleProjDrefExplicitLod >::config;
-			case spv::Op::OpImageSparseFetch:
-				return ImageAccessInstructionT< spv::Op::OpImageSparseFetch >::config;
-			case spv::Op::OpImageSparseGather:
-				return ImageAccessInstructionT< spv::Op::OpImageSparseGather >::config;
-			case spv::Op::OpImageSparseDrefGather:
-				return ImageAccessInstructionT< spv::Op::OpImageSparseDrefGather >::config;
-			case spv::Op::OpImageSparseTexelsResident:
-				return ImageAccessInstructionT< spv::Op::OpImageSparseTexelsResident >::config;
-			case spv::Op::OpImageSparseRead:
-				return ImageAccessInstructionT < spv::Op::OpImageSparseRead >::config;
+			case spv::OpImageSparseSampleImplicitLod:
+				return ImageAccessInstructionT< spv::OpImageSparseSampleImplicitLod >::config;
+			case spv::OpImageSparseSampleExplicitLod:
+				return ImageAccessInstructionT< spv::OpImageSparseSampleExplicitLod >::config;
+			case spv::OpImageSparseSampleDrefImplicitLod:
+				return ImageAccessInstructionT< spv::OpImageSparseSampleDrefImplicitLod >::config;
+			case spv::OpImageSparseSampleDrefExplicitLod:
+				return ImageAccessInstructionT< spv::OpImageSparseSampleDrefExplicitLod >::config;
+			case spv::OpImageSparseSampleProjImplicitLod:
+				return ImageAccessInstructionT< spv::OpImageSparseSampleProjImplicitLod >::config;
+			case spv::OpImageSparseSampleProjExplicitLod:
+				return ImageAccessInstructionT< spv::OpImageSparseSampleProjExplicitLod >::config;
+			case spv::OpImageSparseSampleProjDrefImplicitLod:
+				return ImageAccessInstructionT< spv::OpImageSparseSampleProjDrefImplicitLod >::config;
+			case spv::OpImageSparseSampleProjDrefExplicitLod:
+				return ImageAccessInstructionT< spv::OpImageSparseSampleProjDrefExplicitLod >::config;
+			case spv::OpImageSparseFetch:
+				return ImageAccessInstructionT< spv::OpImageSparseFetch >::config;
+			case spv::OpImageSparseGather:
+				return ImageAccessInstructionT< spv::OpImageSparseGather >::config;
+			case spv::OpImageSparseDrefGather:
+				return ImageAccessInstructionT< spv::OpImageSparseDrefGather >::config;
+			case spv::OpImageSparseTexelsResident:
+				return ImageAccessInstructionT< spv::OpImageSparseTexelsResident >::config;
+			case spv::OpImageSparseRead:
+				return ImageAccessInstructionT < spv::OpImageSparseRead >::config;
 			default:
 				assert( false && "Unsupported Instruction operator" );
 				return dummy;
@@ -1168,7 +1168,7 @@ namespace spirv
 		};
 		spirv::Op op;
 		op.opValue = popValue();
-		assert( op.opCode != spv::Op::OpNop );
+		assert( op.opCode != spv::OpNop );
 		auto & config = getConfig( spv::Op( op.opCode ) );
 		return std::make_unique< Instruction >( config, op, buffer );
 	}
@@ -1187,12 +1187,12 @@ namespace spirv
 		};
 		auto isLastBlockInstruction = []( spv::Op opCode )
 		{
-			return opCode == spv::Op::OpBranch
-				|| opCode == spv::Op::OpBranchConditional
-				|| opCode == spv::Op::OpFunctionEnd;
+			return opCode == spv::OpBranch
+				|| opCode == spv::OpBranchConditional
+				|| opCode == spv::OpFunctionEnd;
 		};
 
-		spv::Op op = spv::Op::OpNop;
+		spv::Op op = spv::OpNop;
 		Block result;
 		result.label = firstInstruction->resultId.value();
 		result.instructions.emplace_back( std::move( firstInstruction ) );
@@ -1229,9 +1229,9 @@ namespace spirv
 		};
 		auto isDeclarationInstruction = []( spv::Op opCode )
 		{
-			return opCode == spv::Op::OpFunction
-				|| opCode == spv::Op::OpFunctionParameter
-				|| opCode == spv::Op::OpVariable;
+			return opCode == spv::OpFunction
+				|| opCode == spv::OpFunctionParameter
+				|| opCode == spv::OpVariable;
 		};
 
 		Function result;
@@ -1321,65 +1321,65 @@ namespace spirv
 
 			switch ( spv::Op( ( *it )->op.opCode ) )
 			{
-			case spv::Op::OpSource:
-			case spv::Op::OpName:
-			case spv::Op::OpMemberName:
+			case spv::OpSource:
+			case spv::OpName:
+			case spv::OpMemberName:
 				list = &debug;
 				break;
-			case spv::Op::OpExtInstImport:
-			case spv::Op::OpExtension:
+			case spv::OpExtInstImport:
+			case spv::OpExtension:
 				list = &extensions;
 				break;
-			case spv::Op::OpCapability:
+			case spv::OpCapability:
 				list = &capabilities;
 				break;
-			case spv::Op::OpExecutionMode:
+			case spv::OpExecutionMode:
 				list = &executionModes;
 				break;
-			case spv::Op::OpDecorate:
-			case spv::Op::OpMemberDecorate:
+			case spv::OpDecorate:
+			case spv::OpMemberDecorate:
 				list = &decorations;
 				break;
-			case spv::Op::OpTypeVoid:
-			case spv::Op::OpTypeBool:
-			case spv::Op::OpTypeInt:
-			case spv::Op::OpTypeFloat:
-			case spv::Op::OpTypeVector:
-			case spv::Op::OpTypeMatrix:
-			case spv::Op::OpTypeImage:
-			case spv::Op::OpTypeSampler:
-			case spv::Op::OpTypeSampledImage:
-			case spv::Op::OpTypeArray:
-			case spv::Op::OpTypeRuntimeArray:
-			case spv::Op::OpTypeStruct:
-			case spv::Op::OpTypeOpaque:
-			case spv::Op::OpTypePointer:
-			case spv::Op::OpTypeFunction:
-			case spv::Op::OpTypeEvent:
-			case spv::Op::OpTypeDeviceEvent:
-			case spv::Op::OpTypeReserveId:
-			case spv::Op::OpTypeQueue:
-			case spv::Op::OpTypePipe:
-			case spv::Op::OpTypeForwardPointer:
-			case spv::Op::OpVariable:
-			case spv::Op::OpConstant:
-			case spv::Op::OpConstantComposite:
-			case spv::Op::OpConstantFalse:
-			case spv::Op::OpConstantTrue:
-			case spv::Op::OpSpecConstant:
-			case spv::Op::OpSpecConstantComposite:
-			case spv::Op::OpSpecConstantFalse:
-			case spv::Op::OpSpecConstantTrue:
+			case spv::OpTypeVoid:
+			case spv::OpTypeBool:
+			case spv::OpTypeInt:
+			case spv::OpTypeFloat:
+			case spv::OpTypeVector:
+			case spv::OpTypeMatrix:
+			case spv::OpTypeImage:
+			case spv::OpTypeSampler:
+			case spv::OpTypeSampledImage:
+			case spv::OpTypeArray:
+			case spv::OpTypeRuntimeArray:
+			case spv::OpTypeStruct:
+			case spv::OpTypeOpaque:
+			case spv::OpTypePointer:
+			case spv::OpTypeFunction:
+			case spv::OpTypeEvent:
+			case spv::OpTypeDeviceEvent:
+			case spv::OpTypeReserveId:
+			case spv::OpTypeQueue:
+			case spv::OpTypePipe:
+			case spv::OpTypeForwardPointer:
+			case spv::OpVariable:
+			case spv::OpConstant:
+			case spv::OpConstantComposite:
+			case spv::OpConstantFalse:
+			case spv::OpConstantTrue:
+			case spv::OpSpecConstant:
+			case spv::OpSpecConstantComposite:
+			case spv::OpSpecConstantFalse:
+			case spv::OpSpecConstantTrue:
 				list = &globalDeclarations;
 				break;
-			case spv::Op::OpFunction:
+			case spv::OpFunction:
 				functions.emplace_back( Function::deserialize( it, instructions.end() ) );
 				break;
-			case spv::Op::OpMemoryModel:
+			case spv::OpMemoryModel:
 				memoryModel = std::move( *it );
 				++it;
 				break;
-			case spv::Op::OpEntryPoint:
+			case spv::OpEntryPoint:
 				entryPoint = std::move( *it );
 				++it;
 				break;
@@ -2006,6 +2006,7 @@ namespace spirv
 				|| isImageType( kind )
 				|| isSamplerType( kind )
 				|| isStructType( kind )
+				|| isArrayType( kind )
 				|| param->isOutputParam() )
 			{
 				funcTypes.back() = registerPointerType( funcTypes.back(), spv::StorageClassFunction );

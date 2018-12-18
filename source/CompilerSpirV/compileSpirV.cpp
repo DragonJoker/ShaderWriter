@@ -1020,6 +1020,28 @@ namespace spirv
 			}
 		}
 
+		std::string getName( spv::Scope value )
+		{
+			std::stringstream stream;
+
+			switch ( value )
+			{
+			case spv::ScopeCrossDevice:
+				return "CrossDevice";
+			case spv::ScopeDevice:
+				return "Device";
+			case spv::ScopeWorkgroup:
+				return "Workgroup";
+			case spv::ScopeSubgroup:
+				return "Subgroup";
+			case spv::ScopeInvocation:
+				return "Invocation";
+			default:
+				assert( false && "Unsupported Scope" );
+				return "Undefined";
+			}
+		}
+
 		std::string getSelectionControlName( uint32_t value )
 		{
 			std::stringstream stream;
@@ -1137,6 +1159,81 @@ namespace spirv
 			if ( value & uint32_t( spv::ImageOperandsMinLodMask ) )
 			{
 				stream << sep << "MinLod";
+				sep = "|";
+			}
+
+			if ( !value )
+			{
+				stream << sep << "None";
+			}
+
+			stream << "]";
+			return stream.str();
+		}
+
+		std::string getMemorySemanticsName( uint32_t value )
+		{
+			std::stringstream stream;
+			std::string sep;
+			stream << "[";
+
+			if ( value & uint32_t( spv::MemorySemanticsAcquireMask ) )
+			{
+				stream << sep << "Acquire";
+				sep = "|";
+			}
+
+			if ( value & uint32_t( spv::MemorySemanticsReleaseMask ) )
+			{
+				stream << sep << "Release";
+				sep = "|";
+			}
+
+			if ( value & uint32_t( spv::MemorySemanticsAcquireReleaseMask ) )
+			{
+				stream << sep << "AcquireRelease";
+				sep = "|";
+			}
+
+			if ( value & uint32_t( spv::MemorySemanticsSequentiallyConsistentMask ) )
+			{
+				stream << sep << "SequentiallyConsistent";
+				sep = "|";
+			}
+
+			if ( value & uint32_t( spv::MemorySemanticsUniformMemoryMask ) )
+			{
+				stream << sep << "UniformMemory";
+				sep = "|";
+			}
+
+			if ( value & uint32_t( spv::MemorySemanticsSubgroupMemoryMask ) )
+			{
+				stream << sep << "SubgroupMemory";
+				sep = "|";
+			}
+
+			if ( value & uint32_t( spv::MemorySemanticsWorkgroupMemoryMask ) )
+			{
+				stream << sep << "WorkgroupMemory";
+				sep = "|";
+			}
+
+			if ( value & uint32_t( spv::MemorySemanticsCrossWorkgroupMemoryMask ) )
+			{
+				stream << sep << "CrossWorkgroupMemory";
+				sep = "|";
+			}
+
+			if ( value & uint32_t( spv::MemorySemanticsAtomicCounterMemoryMask ) )
+			{
+				stream << sep << "AtomicCounterMemory";
+				sep = "|";
+			}
+
+			if ( value & uint32_t( spv::MemorySemanticsImageMemoryMask ) )
+			{
+				stream << sep << "ImageMemory";
 				sep = "|";
 			}
 
@@ -1450,7 +1547,7 @@ namespace spirv
 		{
 			auto opCode = spv::Op( instruction->op.opCode );
 
-			if ( opCode == spv::Op::OpExtInstImport )
+			if ( opCode == spv::OpExtInstImport )
 			{
 				checkType< ExtInstImportInstruction >( *instruction );
 				names.add( instruction->resultId.value(), instruction->name.value() );
@@ -1459,7 +1556,7 @@ namespace spirv
 				stream << " \"" << instruction->name.value() << "\"";
 				write( instruction->operands, names, stream );
 			}
-			else if ( opCode == spv::Op::OpExtension )
+			else if ( opCode == spv::OpExtension )
 			{
 				checkType< ExtensionInstruction >( *instruction );
 				stream << "        " << spirv::getOperatorName( opCode );
@@ -1474,26 +1571,26 @@ namespace spirv
 			, std::ostream & stream )
 		{
 			auto opCode = spv::Op( instruction->op.opCode );
-			assert( opCode == spv::Op::OpName
-				|| opCode == spv::Op::OpMemberName
-				|| opCode == spv::Op::OpSource );
+			assert( opCode == spv::OpName
+				|| opCode == spv::OpMemberName
+				|| opCode == spv::OpSource );
 			stream << "        " << spirv::getOperatorName( opCode );
 
-			if ( opCode == spv::Op::OpName )
+			if ( opCode == spv::OpName )
 			{
 				checkType< NameInstruction >( *instruction );
 				names.add( instruction->resultId.value(), instruction->name.value() );
 				write( instruction->resultId, names, stream );
 				stream << " \"" << instruction->name.value() << "\"";
 			}
-			else if ( opCode == spv::Op::OpMemberName )
+			else if ( opCode == spv::OpMemberName )
 			{
 				checkType< MemberNameInstruction >( *instruction );
 				write( instruction->returnTypeId.value(), names, stream );
 				stream << " " << instruction->resultId.value();
 				stream << " \"" << instruction->name.value() << "\"";
 			}
-			else if ( opCode == spv::Op::OpSource )
+			else if ( opCode == spv::OpSource )
 			{
 				checkType< SourceInstruction >( *instruction );
 				assert( instruction->operands.size() >= 2u );
@@ -1519,17 +1616,17 @@ namespace spirv
 			, std::ostream & stream )
 		{
 			auto opCode = spv::Op( instruction->op.opCode );
-			assert( opCode == spv::Op::OpDecorate || opCode == spv::Op::OpMemberDecorate );
+			assert( opCode == spv::OpDecorate || opCode == spv::OpMemberDecorate );
 			stream << "        " << spirv::getOperatorName( opCode );
 			auto it = instruction->operands.begin();
 
-			if ( opCode == spv::Op::OpDecorate )
+			if ( opCode == spv::OpDecorate )
 			{
 				checkType< DecorateInstruction >( *instruction );
 				write( *it, names, stream );
 				++it;
 			}
-			else if ( opCode == spv::Op::OpMemberDecorate )
+			else if ( opCode == spv::OpMemberDecorate )
 			{
 				checkType< MemberDecorateInstruction >( *instruction );
 				write( *it, names, stream );
@@ -1599,7 +1696,7 @@ namespace spirv
 			auto opCode = spv::Op( instruction->op.opCode );
 			stream << " " << spirv::getOperatorName( opCode );
 
-			if ( opCode == spv::Op::OpTypeFunction )
+			if ( opCode == spv::OpTypeFunction )
 			{
 				checkType< FunctionTypeInstruction >( *instruction );
 				names.addType( instruction->resultId.value(), "func" );
@@ -1609,7 +1706,7 @@ namespace spirv
 					write( operand, names, stream );
 				}
 			}
-			else if ( opCode == spv::Op::OpTypePointer )
+			else if ( opCode == spv::OpTypePointer )
 			{
 				// Storage class then Type ID.
 				checkType< PointerTypeInstruction >( *instruction );
@@ -1617,7 +1714,7 @@ namespace spirv
 				stream << " " << getName( spv::StorageClass( instruction->operands[0] ) );
 				write( instruction->operands[1], names, stream );
 			}
-			else if ( opCode == spv::Op::OpTypeStruct )
+			else if ( opCode == spv::OpTypeStruct )
 			{
 				checkType< StructTypeInstruction >( *instruction );
 				names.addType( instruction->resultId.value(), "struct" );
@@ -1627,12 +1724,12 @@ namespace spirv
 					write( operand, names, stream );
 				}
 			}
-			else if ( opCode == spv::Op::OpTypeBool )
+			else if ( opCode == spv::OpTypeBool )
 			{
 				checkType< BooleanTypeInstruction >( *instruction );
 				names.addType( instruction->resultId.value(), "bool" );
 			}
-			else if ( opCode == spv::Op::OpTypeInt )
+			else if ( opCode == spv::OpTypeInt )
 			{
 				checkType< IntTypeInstruction >( *instruction );
 				names.addType( instruction->resultId.value(), names.getIntTypeName( *instruction ) );
@@ -1640,14 +1737,14 @@ namespace spirv
 				stream << " " << instruction->operands[0];
 				stream << " " << instruction->operands[1];
 			}
-			else if ( opCode == spv::Op::OpTypeFloat )
+			else if ( opCode == spv::OpTypeFloat )
 			{
 				checkType< FloatTypeInstruction >( *instruction );
 				names.addType( instruction->resultId.value(), names.getFloatTypeName( *instruction ) );
 				// Width.
 				stream << " " << instruction->operands[0];
 			}
-			else if ( opCode == spv::Op::OpTypeVector )
+			else if ( opCode == spv::OpTypeVector )
 			{
 				checkType< VectorTypeInstruction >( *instruction );
 				names.addType( instruction->resultId.value(), names.getVecTypeName( *instruction ) );
@@ -1655,7 +1752,7 @@ namespace spirv
 				write( instruction->operands[0], names, stream );
 				stream << " " << instruction->operands[1];
 			}
-			else if ( opCode == spv::Op::OpTypeMatrix )
+			else if ( opCode == spv::OpTypeMatrix )
 			{
 				checkType< MatrixTypeInstruction >( *instruction );
 				names.addType( instruction->resultId.value(), names.getMatTypeName( *instruction ) );
@@ -1663,7 +1760,7 @@ namespace spirv
 				write( instruction->operands[0], names, stream );
 				stream << " " << instruction->operands[1];
 			}
-			else if ( opCode == spv::Op::OpTypeArray )
+			else if ( opCode == spv::OpTypeArray )
 			{
 				checkType< ArrayTypeInstruction >( *instruction );
 				names.addType( instruction->resultId.value(), "array" );
@@ -1671,7 +1768,7 @@ namespace spirv
 				write( instruction->operands[0], names, stream );
 				write( instruction->operands[1], names, stream );
 			}
-			else if ( opCode == spv::Op::OpTypeImage )
+			else if ( opCode == spv::OpTypeImage )
 			{
 				checkType< ImageTypeInstruction >( *instruction );
 				names.addType( instruction->resultId.value(), "img" );
@@ -1690,14 +1787,14 @@ namespace spirv
 					stream << " " << getName( spv::AccessQualifier( instruction->operands[7] ) );
 				}
 			}
-			else if ( opCode == spv::Op::OpTypeSampledImage )
+			else if ( opCode == spv::OpTypeSampledImage )
 			{
 				checkType< SampledImageTypeInstruction >( *instruction );
 				names.addType( instruction->resultId.value(), "simg" );
 				// Image type.
 				write( instruction->operands[0], names, stream );
 			}
-			else if ( opCode == spv::Op::OpTypeRuntimeArray )
+			else if ( opCode == spv::OpTypeRuntimeArray )
 			{
 				checkType< RuntimeArrayTypeInstruction >( *instruction );
 				names.addType( instruction->resultId.value(), "dynarray" );
@@ -1740,7 +1837,7 @@ namespace spirv
 			stream << " " << spirv::getOperatorName( opCode );
 			write( instruction->returnTypeId.value(), names, stream );
 
-			if ( opCode == spv::Op::OpConstant )
+			if ( opCode == spv::OpConstant )
 			{
 				checkType< ConstantInstruction >( *instruction );
 				switch ( type )
@@ -1770,7 +1867,7 @@ namespace spirv
 					break;
 				}
 			}
-			else if ( opCode == spv::Op::OpConstantComposite )
+			else if ( opCode == spv::OpConstantComposite )
 			{
 				checkType< ConstantCompositeInstruction >( *instruction );
 				names.add( instruction->resultId.value(), "const" );
@@ -1792,7 +1889,7 @@ namespace spirv
 			stream << " " << spirv::getOperatorName( opCode );
 			write( instruction->returnTypeId.value(), names, stream );
 
-			if ( opCode == spv::Op::OpSpecConstant )
+			if ( opCode == spv::OpSpecConstant )
 			{
 				checkType< SpecConstantInstruction >( *instruction );
 				switch ( type )
@@ -1822,7 +1919,7 @@ namespace spirv
 					break;
 				}
 			}
-			else if ( opCode == spv::Op::OpSpecConstantComposite )
+			else if ( opCode == spv::OpSpecConstantComposite )
 			{
 				checkType< SpecConstantCompositeInstruction >( *instruction );
 				names.add( instruction->resultId.value(), "specconst" );
@@ -1839,17 +1936,17 @@ namespace spirv
 		{
 			auto opCode = spv::Op( instruction->op.opCode );
 
-			if ( opCode == spv::Op::OpConstant
-				|| opCode == spv::Op::OpConstantComposite )
+			if ( opCode == spv::OpConstant
+				|| opCode == spv::OpConstantComposite )
 			{
 				writeConstant( instruction, module.getLiteralType( instruction->resultId.value() ), names, stream ) << "\n";
 			}
-			else if ( opCode == spv::Op::OpSpecConstant
-				|| opCode == spv::Op::OpSpecConstantComposite )
+			else if ( opCode == spv::OpSpecConstant
+				|| opCode == spv::OpSpecConstantComposite )
 			{
 				writeSpecConstant( instruction, module.getLiteralType( instruction->resultId.value() ), names, stream ) << "\n";
 			}
-			else if ( opCode == spv::Op::OpVariable )
+			else if ( opCode == spv::OpVariable )
 			{
 				writeGlobalVariable( instruction, names, stream ) << "\n";
 			}
@@ -2157,7 +2254,7 @@ namespace spirv
 			checkType< VectorShuffleInstruction >( *instruction );
 			write( instruction->operands[0], names, stream );
 
-			if ( instruction->operands[1] == spv::Id( spv::Op::OpUndef ) )
+			if ( instruction->operands[1] == spv::Id( spv::OpUndef ) )
 			{
 				stream << " Undef";
 			}
@@ -2185,7 +2282,12 @@ namespace spirv
 		{
 			checkType< CompositeExtractInstruction >( *instruction );
 			write( instruction->operands[0], names, stream );
-			stream << " " << instruction->operands[1];
+
+			for ( auto i = 1u; i < instruction->operands.size(); ++i )
+			{
+				stream << " " << instruction->operands[i];
+			}
+
 			return stream;
 		}
 
@@ -2257,6 +2359,68 @@ namespace spirv
 			return stream;
 		}
 
+		std::ostream & writeAtomicAdd( spirv::InstructionPtr const & instruction
+			, NameCache & names
+			, std::ostream & stream )
+		{
+			assert( instruction->operands.size() == 4u );
+			write( instruction->operands[0], names, stream );
+			stream << " " << getName( spv::Scope( instruction->operands[1] ) );
+			stream << " " << getMemorySemanticsName( instruction->operands[2] );
+			write( instruction->operands[3], names, stream );
+			return stream;
+		}
+
+		std::ostream & writeAtomicMinMax( spirv::InstructionPtr const & instruction
+			, NameCache & names
+			, std::ostream & stream )
+		{
+			assert( instruction->operands.size() == 4u );
+			write( instruction->operands[0], names, stream );
+			stream << " " << getName( spv::Scope( instruction->operands[1] ) );
+			stream << " " << getMemorySemanticsName( instruction->operands[2] );
+			write( instruction->operands[3], names, stream );
+			return stream;
+		}
+
+		std::ostream & writeAtomicAndOrXor( spirv::InstructionPtr const & instruction
+			, NameCache & names
+			, std::ostream & stream )
+		{
+			assert( instruction->operands.size() == 4u );
+			write( instruction->operands[0], names, stream );
+			stream << " " << getName( spv::Scope( instruction->operands[1] ) );
+			stream << " " << getMemorySemanticsName( instruction->operands[2] );
+			write( instruction->operands[3], names, stream );
+			return stream;
+		}
+
+		std::ostream & writeAtomicExchange( spirv::InstructionPtr const & instruction
+			, NameCache & names
+			, std::ostream & stream )
+		{
+			assert( instruction->operands.size() == 4u );
+			write( instruction->operands[0], names, stream );
+			stream << " " << getName( spv::Scope( instruction->operands[1] ) );
+			stream << " " << getMemorySemanticsName( instruction->operands[2] );
+			write( instruction->operands[3], names, stream );
+			return stream;
+		}
+
+		std::ostream & writeAtomicCompExchange( spirv::InstructionPtr const & instruction
+			, NameCache & names
+			, std::ostream & stream )
+		{
+			assert( instruction->operands.size() == 6u );
+			write( instruction->operands[0], names, stream );
+			stream << " " << getName( spv::Scope( instruction->operands[1] ) );
+			stream << " " << getMemorySemanticsName( instruction->operands[2] );
+			stream << " " << getMemorySemanticsName( instruction->operands[3] );
+			write( instruction->operands[4], names, stream );
+			write( instruction->operands[5], names, stream );
+			return stream;
+		}
+
 		std::ostream & writeBlockInstruction( spirv::InstructionPtr const & instruction
 			, NameCache & names
 			, std::ostream & stream )
@@ -2279,81 +2443,106 @@ namespace spirv
 				stream << write( instruction->returnTypeId.value(), names );
 			}
 
-			if ( opCode == spv::Op::OpExtInst )
+			if ( opCode == spv::OpExtInst )
 			{
 				writeExtInst( instruction, names, stream );
 			}
-			else if ( opCode == spv::Op::OpVariable )
+			else if ( opCode == spv::OpVariable )
 			{
 				writeFuncVariable( instruction, names, stream );
 			}
-			else if ( opCode == spv::Op::OpImageSampleImplicitLod
-				|| opCode == spv::Op::OpImageSampleExplicitLod )
+			else if ( opCode == spv::OpImageSampleImplicitLod
+				|| opCode == spv::OpImageSampleExplicitLod )
 			{
 				writeImageSample( instruction, names, stream );
 			}
-			else if ( opCode == spv::Op::OpImageSampleDrefImplicitLod
-				|| opCode == spv::Op::OpImageSampleDrefExplicitLod )
+			else if ( opCode == spv::OpImageSampleDrefImplicitLod
+				|| opCode == spv::OpImageSampleDrefExplicitLod )
 			{
 				writeImageSampleDref( instruction, names, stream );
 			}
-			else if ( opCode == spv::Op::OpImageSampleProjImplicitLod
-				|| opCode == spv::Op::OpImageSampleProjExplicitLod )
+			else if ( opCode == spv::OpImageSampleProjImplicitLod
+				|| opCode == spv::OpImageSampleProjExplicitLod )
 			{
 				writeImageSampleProj( instruction, names, stream );
 			}
-			else if ( opCode == spv::Op::OpImageSampleProjDrefImplicitLod
-				|| opCode == spv::Op::OpImageSampleProjDrefExplicitLod )
+			else if ( opCode == spv::OpImageSampleProjDrefImplicitLod
+				|| opCode == spv::OpImageSampleProjDrefExplicitLod )
 			{
 				writeImageSampleProjDref( instruction, names, stream );
 			}
-			else if ( opCode == spv::Op::OpImageFetch )
+			else if ( opCode == spv::OpImageFetch )
 			{
 				writeImageFetch( instruction, names, stream );
 			}
-			else if ( opCode == spv::Op::OpImageGather )
+			else if ( opCode == spv::OpImageGather )
 			{
 				writeImageGather( instruction, names, stream );
 			}
-			else if ( opCode == spv::Op::OpImageDrefGather )
+			else if ( opCode == spv::OpImageDrefGather )
 			{
 				writeImageDrefGather( instruction, names, stream );
 			}
-			else if ( opCode == spv::Op::OpStore )
+			else if ( opCode == spv::OpStore )
 			{
 				writeStore( instruction, names, stream );
 			}
-			else if ( opCode == spv::Op::OpLoad )
+			else if ( opCode == spv::OpLoad )
 			{
 				writeLoad( instruction, names, stream );
 			}
-			else if ( opCode == spv::Op::OpVectorShuffle )
+			else if ( opCode == spv::OpVectorShuffle )
 			{
 				writeVectorShuffle( instruction, names, stream );
 			}
-			else if ( opCode == spv::Op::OpCompositeExtract )
+			else if ( opCode == spv::OpCompositeExtract )
 			{
 				writeCompositeExtract( instruction, names, stream );
 			}
-			else if ( opCode == spv::Op::OpSpecConstantOp )
+			else if ( opCode == spv::OpSpecConstantOp )
 			{
 				writeSpecConstantOp( instruction, names, stream );
 			}
-			else if ( opCode == spv::Op::OpLoopMerge )
+			else if ( opCode == spv::OpLoopMerge )
 			{
 				writeLoopMergeOp( instruction, names, stream );
 			}
-			else if ( opCode == spv::Op::OpSelectionMerge )
+			else if ( opCode == spv::OpSelectionMerge )
 			{
 				writeSelectionMergeOp( instruction, names, stream );
 			}
-			else if ( opCode == spv::Op::OpBranch )
+			else if ( opCode == spv::OpBranch )
 			{
 				writeBranch( instruction, names, stream );
 			}
-			else if ( opCode == spv::Op::OpBranchConditional )
+			else if ( opCode == spv::OpBranchConditional )
 			{
 				writeBranchConditional( instruction, names, stream );
+			}
+			else if ( opCode == spv::OpAtomicIAdd )
+			{
+				writeAtomicAdd( instruction, names, stream );
+			}
+			else if ( opCode == spv::OpAtomicUMin
+				|| opCode == spv::OpAtomicSMin
+				|| opCode == spv::OpAtomicUMax
+				|| opCode == spv::OpAtomicSMax )
+			{
+				writeAtomicMinMax( instruction, names, stream );
+			}
+			else if ( opCode == spv::OpAtomicAnd
+				|| opCode == spv::OpAtomicOr
+				|| opCode == spv::OpAtomicXor )
+			{
+				writeAtomicAndOrXor( instruction, names, stream );
+			}
+			else if ( opCode == spv::OpAtomicExchange )
+			{
+				writeAtomicExchange( instruction, names, stream );
+			}
+			else if ( opCode == spv::OpAtomicCompareExchange )
+			{
+				writeAtomicCompExchange( instruction, names, stream );
 			}
 			else
 			{
@@ -2400,7 +2589,7 @@ namespace spirv
 			stream << " " << spirv::getOperatorName( opCode );
 			stream << write( instruction->returnTypeId.value(), names );
 
-			if ( opCode == spv::Op::OpFunction )
+			if ( opCode == spv::OpFunction )
 			{
 				stream << " " << getFunctionControlMaskName( instruction->operands[0] );
 				stream << " " << write( instruction->operands[1], names );
@@ -2472,7 +2661,7 @@ namespace spirv
 		{
 			auto opCode = spv::Op( instruction->op.opCode );
 
-			if ( opCode == spv::Op::OpExecutionMode )
+			if ( opCode == spv::OpExecutionMode )
 			{
 				stream << "        " + spirv::getOperatorName( opCode );
 				stream << " %" + std::to_string( instruction->operands[0] );
