@@ -35,7 +35,7 @@ namespace sdw
 		, uint32_t set )
 		: m_shader{ sdw::getShader( writer ) }
 		, m_name{ name }
-		, m_info{ details::getSsboType( writer.getTypesCache(), m_name, dataType, layout ), bind, set }
+		, m_info{ details::getSsboType( getTypesCache( writer ), m_name, dataType, layout ), bind, set }
 		, m_ssboType{ m_info.getType() }
 		, m_dataVar{ var::makeVariable( m_ssboType->getMember( m_name + "Data" ).type, m_name + "Data", var::Flag::eUniform ) }
 		, m_ssboVar{ var::makeVariable( m_ssboType, m_name + "Inst", var::Flag::eUniform ) }
@@ -57,7 +57,7 @@ namespace sdw
 		, uint32_t set )
 		: m_shader{ sdw::getShader( writer ) }
 		, m_name{ name }
-		, m_info{ details::getSsboType( writer.getTypesCache(), m_name, dataType ), bind, set }
+		, m_info{ details::getSsboType( getTypesCache( writer ), m_name, dataType ), bind, set }
 		, m_ssboType{ m_info.getType() }
 		, m_dataVar{ var::makeVariable( m_ssboType->getMember( m_name + "Data" ).type, m_name + "Data", var::Flag::eUniform ) }
 		, m_ssboVar{ var::makeVariable( m_ssboType, m_name + "Inst", var::Flag::eUniform ) }
@@ -76,9 +76,9 @@ namespace sdw
 	{
 		return InstanceT{ &m_shader
 			, sdw::makeArrayAccess( getNonArrayType( m_dataVar->getType() )
-				, sdw::makeMbrSelect( sdw::makeIdent( m_shader.getTypesCache(), m_ssboVar )
+				, sdw::makeMbrSelect( sdw::makeIdent( getTypesCache( m_shader ), m_ssboVar )
 					, 0u
-					, sdw::makeIdent( m_shader.getTypesCache(), m_dataVar ) )
+					, sdw::makeIdent( getTypesCache( m_shader ), m_dataVar ) )
 				, makeExpr( m_shader, index ) ) };
 	}
 
@@ -87,9 +87,9 @@ namespace sdw
 	{
 		return InstanceT{ &m_shader
 			, sdw::makeArrayAccess( getNonArrayType( m_dataVar->getType() )
-				, sdw::makeMbrSelect( sdw::makeIdent( m_shader.getTypesCache(), m_ssboVar )
+				, sdw::makeMbrSelect( sdw::makeIdent( getTypesCache( m_shader ), m_ssboVar )
 					, 0u
-					, sdw::makeIdent( m_shader.getTypesCache(), m_dataVar ) )
+					, sdw::makeIdent( getTypesCache( m_shader ), m_dataVar ) )
 				, makeExpr( m_shader, index ) ) };
 	}
 }

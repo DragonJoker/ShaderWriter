@@ -194,6 +194,22 @@ namespace ast::expr
 			result = "ATAN4";
 			break;
 
+		case Intrinsic::eAtan21:
+			result = "ATAN21";
+			break;
+
+		case Intrinsic::eAtan22:
+			result = "ATAN22";
+			break;
+
+		case Intrinsic::eAtan23:
+			result = "ATAN23";
+			break;
+
+		case Intrinsic::eAtan24:
+			result = "ATAN24";
+			break;
+
 		case Intrinsic::eAcosh1:
 			result = "ACOSH1";
 			break;

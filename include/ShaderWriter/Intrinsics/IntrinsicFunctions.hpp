@@ -159,6 +159,18 @@ namespace sdw
 	SDW_API MaybeOptional< Vec4 > atan( MaybeOptional< Vec4 > const & y_over_x );
 	/**@}*/
 #pragma endregion
+#pragma region atan2
+	/**
+	*name
+	*	atan2
+	*/
+	/**@{*/
+	SDW_API MaybeOptional< Float > atan2( MaybeOptional< Float > const & y, MaybeOptional< Float > const & x );
+	SDW_API MaybeOptional< Vec2 > atan2( MaybeOptional< Vec2 > const & y, MaybeOptional< Vec2 > const & x );
+	SDW_API MaybeOptional< Vec3 > atan2( MaybeOptional< Vec3 > const & y, MaybeOptional< Vec3 > const & x );
+	SDW_API MaybeOptional< Vec4 > atan2( MaybeOptional< Vec4 > const & y, MaybeOptional< Vec4 > const & x );
+	/**@}*/
+#pragma endregion
 #pragma region acosh
 	/**
 	*name

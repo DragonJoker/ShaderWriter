@@ -30,6 +30,21 @@ namespace hlsl
 	using VariableExprMap = std::map< ast::var::VariablePtr, ast::expr::ExprPtr >;
 	using VariableIdMap = std::map< uint32_t, ast::var::VariablePtr >;
 
+	struct FuncNames
+	{
+		std::map< std::string, ast::type::FunctionPtr > imageSizeFuncs;
+		std::map< std::string, ast::type::FunctionPtr > imageAtomicAddFuncs;
+		std::map< std::string, ast::type::FunctionPtr > imageAtomicMinFuncs;
+		std::map< std::string, ast::type::FunctionPtr > imageAtomicMaxFuncs;
+		std::map< std::string, ast::type::FunctionPtr > imageAtomicAndFuncs;
+		std::map< std::string, ast::type::FunctionPtr > imageAtomicOrFuncs;
+		std::map< std::string, ast::type::FunctionPtr > imageAtomicXorFuncs;
+		std::map< std::string, ast::type::FunctionPtr > imageAtomicExchangeFuncs;
+		std::map< std::string, ast::type::FunctionPtr > imageAtomicCompSwapFuncs;
+		std::map< std::string, ast::type::FunctionPtr > imageLodFuncs;
+		std::map< std::string, ast::type::FunctionPtr > imageLevelsFuncs;
+	};
+
 	struct AdaptationData
 	{
 		VariableIdMap inputVars;
@@ -42,6 +57,7 @@ namespace hlsl
 		ast::var::VariablePtr outputVar;
 		ast::var::VariableList ssboList;
 		LinkedVars linkedVars;
+		FuncNames funcs;
 	};
 
 	struct IntrinsicsConfig

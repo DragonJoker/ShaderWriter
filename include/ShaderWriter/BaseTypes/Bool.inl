@@ -19,62 +19,6 @@ namespace sdw
 
 	//*************************************************************************
 
-	namespace details
-	{
-		template< typename TypeT >
-		struct TypeGetter
-		{
-			static inline ast::type::TypePtr get( Shader & shader, TypeT const & value )
-			{
-				return value.getType();
-			}
-		};
-
-		template<>
-		struct TypeGetter< int32_t >
-		{
-			static inline ast::type::TypePtr get( Shader & shader, int32_t )
-			{
-				return getTypesCache( shader ).getInt();
-			}
-		};
-
-		template<>
-		struct TypeGetter< uint32_t >
-		{
-			static inline ast::type::TypePtr get( Shader & shader, uint32_t )
-			{
-				return getTypesCache( shader ).getUInt();
-			}
-		};
-
-		template<>
-		struct TypeGetter< float >
-		{
-			static inline ast::type::TypePtr get( Shader & shader, float )
-			{
-				return getTypesCache( shader ).getFloat();
-			}
-		};
-
-		template<>
-		struct TypeGetter< double >
-		{
-			static inline ast::type::TypePtr get( Shader & shader, double )
-			{
-				return getTypesCache( shader ).getDouble();
-			}
-		};
-
-		template< typename TypeT >
-		inline ast::type::TypePtr getType( Shader & shader, TypeT const & value )
-		{
-			return TypeGetter< TypeT >::get( shader, value );
-		}
-	}
-
-	//*************************************************************************
-
 	template< typename LhsT, typename RhsT, typename CreatorT >
 	inline Bool writeComparator( LhsT const & lhs
 		, RhsT const & rhs

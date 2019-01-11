@@ -23,6 +23,6 @@ namespace glsl
 			, writerConfig
 			, intrinsicsConfig );
 		glStatements = ast::StmtSpecialiser::submit( shader.getTypesCache(), glStatements.get(), specialisation );
-		return glsl::StmtVisitor::submit( glStatements.get() );
+		return glsl::StmtVisitor::submit( writerConfig, glStatements.get() );
 	}
 }

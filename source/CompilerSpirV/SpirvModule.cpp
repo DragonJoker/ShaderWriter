@@ -651,7 +651,9 @@ namespace spirv
 			case spv::OpLoad:
 				return LoadInstruction::config;
 			case spv::OpStore:
-				return StoreInstruction::config;
+				return LoadInstruction::config;
+			case spv::OpCopyMemory:
+				return CopyMemoryInstruction::config;
 			case spv::OpAccessChain:
 				return AccessChainInstruction::config;
 			case spv::OpDecorate:
@@ -1177,7 +1179,7 @@ namespace spirv
 
 	Block Block::deserialize( InstructionPtr firstInstruction
 		, InstructionListIt & buffer
-		, InstructionListIt & end )
+		, InstructionListIt const & end )
 	{
 		auto popValue = [&buffer]()
 		{
@@ -1219,7 +1221,7 @@ namespace spirv
 	//*************************************************************************
 
 	Function Function::deserialize( InstructionListIt & buffer
-		, InstructionListIt & end )
+		, InstructionListIt const & end )
 	{
 		auto popValue = [&buffer]()
 		{
@@ -1273,7 +1275,7 @@ namespace spirv
 		auto id = getIntermediateResult();
 		extensions.push_back( makeInstruction< ExtInstImportInstruction >( id
 			, "GLSL.std.450" ) );
-		debug.push_back( makeInstruction< SourceInstruction >( spv::Id( spv::SourceLanguageGLSL ), 450u ) );
+		debug.push_back( makeInstruction< SourceInstruction >( spv::Id( spv::SourceLanguageGLSL ), 460u ) );
 
 		switch ( m_model )
 		{
@@ -1990,7 +1992,8 @@ namespace spirv
 		IdList funcParams;
 		funcTypes.push_back( retType );
 		Function func;
-		m_currentFunction = &functions.emplace_back( std::move( func ) );
+		functions.emplace_back( std::move( func ) );
+		m_currentFunction = &functions.back();
 		m_currentFunction->registeredVariables = m_registeredVariables; // the function has access to global scope variables.
 		m_currentScopeVariables = &m_currentFunction->registeredVariables;
 
@@ -2004,10 +2007,11 @@ namespace spirv
 
 			if ( isSampledImageType( kind )
 				|| isImageType( kind )
-				|| isSamplerType( kind )
-				|| isStructType( kind )
-				|| isArrayType( kind )
-				|| param->isOutputParam() )
+				|| isSamplerType( kind ) )
+			{
+				funcTypes.back() = registerPointerType( funcTypes.back(), spv::StorageClassUniformConstant );
+			}
+			else
 			{
 				funcTypes.back() = registerPointerType( funcTypes.back(), spv::StorageClassFunction );
 			}
@@ -2189,13 +2193,7 @@ namespace spirv
 					, componentType
 					, getComponentCount( kind ) ) );
 
-				if ( mbrIndex != ast::type::NotMember )
-				{
-					decorateMember( parentId
-						, mbrIndex
-						, spv::DecorationColMajor );
-				}
-				else
+				if ( mbrIndex == ast::type::NotMember )
 				{
 					decorate( result
 						, spv::DecorationColMajor );
@@ -2265,12 +2263,16 @@ namespace spirv
 			decorateMember( result
 				, index
 				, makeOperands( uint32_t( spv::DecorationOffset ), member.offset ) );
+			auto kind = getNonArrayKind( member.type );
 
-			if ( isMatrixType( member.type->getKind() ) )
+			if ( isMatrixType( kind ) )
 			{
-				auto colType = getComponentType( member.type->getKind() );
+				auto colType = getComponentType( kind );
 				auto size = getSize( *m_cache->getBasicType( colType )
 					, ast::type::MemoryLayout::eStd430 );
+				decorateMember( result
+					, index
+					, spv::DecorationColMajor );
 				decorateMember( result
 					, index
 					, makeOperands( uint32_t( spv::DecorationMatrixStride ), size ) );

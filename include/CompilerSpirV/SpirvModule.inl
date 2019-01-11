@@ -108,7 +108,7 @@ namespace spirv
 	inline VariadicInstructionT< Operator, HasReturnTypeId, HasResultId >::VariadicInstructionT( std::optional< spv::Id > returnTypeId
 		, std::optional< spv::Id > resultId
 		, IdList operands )
-		: InstructionT{ returnTypeId, resultId, operands, std::nullopt, std::nullopt }
+		: InstructionT< Operator, HasReturnTypeId, HasResultId, dynamicOperandCount, false, false >{ returnTypeId, resultId, operands, std::nullopt, std::nullopt }
 	{
 	}
 
@@ -116,7 +116,7 @@ namespace spirv
 		, bool HasReturnTypeId
 		, bool HasResultId >
 	inline VariadicInstructionT< Operator, HasReturnTypeId, HasResultId >::VariadicInstructionT( UInt32ListIt & buffer )
-		: InstructionT{ buffer, hasReturnTypeId, hasResultId, operandsCount, hasName, hasLabels }
+		: InstructionT< Operator, HasReturnTypeId, HasResultId, dynamicOperandCount, false, false >{ buffer, hasReturnTypeId, hasResultId, operandsCount, hasName, hasLabels }
 	{
 	}
 
@@ -124,7 +124,7 @@ namespace spirv
 		, bool HasReturnTypeId
 		, bool HasResultId >
 	inline VariadicInstructionT< Operator, HasReturnTypeId, HasResultId >::VariadicInstructionT( UInt32ListCIt & buffer )
-		: InstructionT{ buffer, hasReturnTypeId, hasResultId, operandsCount, hasName, hasLabels }
+		: InstructionT< Operator, HasReturnTypeId, HasResultId, dynamicOperandCount, false, false >{ buffer, hasReturnTypeId, hasResultId, operandsCount, hasName, hasLabels }
 	{
 	}
 

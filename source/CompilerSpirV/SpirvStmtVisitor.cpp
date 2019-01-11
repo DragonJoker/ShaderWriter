@@ -69,9 +69,9 @@ namespace spirv
 		}
 	}
 
-	void StmtVisitor::visitContainerStmt( ast::stmt::Container * stmt )
+	void StmtVisitor::visitContainerStmt( ast::stmt::Container * cont )
 	{
-		for ( auto & stmt : *stmt )
+		for ( auto & stmt : *cont )
 		{
 			stmt->accept( this );
 		}
@@ -302,6 +302,11 @@ namespace spirv
 		{
 			m_result.decorate( varId, { spv::Id( spv::DecorationLocation ), stmt->getLocation() } );
 		}
+
+		if ( var->isFlat() )
+		{
+			m_result.decorate( varId, IdList{ spv::Id( spv::DecorationFlat ) } );
+		}
 	}
 
 	void StmtVisitor::visitSpecialisationConstantDeclStmt( ast::stmt::SpecialisationConstantDecl * stmt )
@@ -398,7 +403,10 @@ namespace spirv
 	{
 		if ( stmt->getExpr() )
 		{
-			auto result = ExprVisitor::submit( stmt->getExpr(), m_currentBlock, m_result );
+			auto kind = stmt->getExpr()->getType()->getKind();
+			auto result = ExprVisitor::submit( stmt->getExpr()
+				, m_currentBlock
+				, m_result );
 			m_currentBlock.blockEnd = makeInstruction< ReturnValueInstruction >( result );
 		}
 		else

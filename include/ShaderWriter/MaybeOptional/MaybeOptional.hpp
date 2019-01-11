@@ -62,11 +62,6 @@ namespace sdw
 	MaybeOptional< ReturnT > writeBinOperator( MaybeOptional< LhsT > const & lhs
 		, MaybeOptional< RhsT > const & rhs
 		, CreatorT creator );
-
-	template< typename ReturnT, typename LhsT, typename RhsT, typename CreatorT >
-	inline void writeAssignOperator( LhsT const & lhs
-		, RhsT const & rhs
-		, CreatorT creator );
 }
 
 #include "MaybeOptional.inl"

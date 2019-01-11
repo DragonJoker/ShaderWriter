@@ -92,6 +92,10 @@ namespace glsl
 		case ast::expr::Intrinsic::eAtan2:
 		case ast::expr::Intrinsic::eAtan3:
 		case ast::expr::Intrinsic::eAtan4:
+		case ast::expr::Intrinsic::eAtan21:
+		case ast::expr::Intrinsic::eAtan22:
+		case ast::expr::Intrinsic::eAtan23:
+		case ast::expr::Intrinsic::eAtan24:
 			result = "atan";
 			break;
 

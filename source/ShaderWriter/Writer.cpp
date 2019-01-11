@@ -17,6 +17,7 @@ See LICENSE file in root folder
 #include <ShaderAST/Stmt/StmtInputComputeLayout.hpp>
 #include <ShaderAST/Stmt/StmtInputGeometryLayout.hpp>
 #include <ShaderAST/Stmt/StmtOutputGeometryLayout.hpp>
+#include <ShaderAST/Stmt/StmtReturn.hpp>
 #include <ShaderAST/Stmt/StmtWhile.hpp>
 
 #include "WriterInt.hpp"

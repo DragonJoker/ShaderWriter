@@ -128,20 +128,24 @@ namespace hlsl
 		, m_shader{ shader }
 		, m_cache{ shader.getTypesCache() }
 	{
-		m_adaptationData.inputStruct = shader.getTypesCache().getStruct( ast::type::MemoryLayout::eStd430, "HLSL_SDW_Input" );
-		m_adaptationData.outputStruct = shader.getTypesCache().getStruct( ast::type::MemoryLayout::eStd430, "HLSL_SDW_Output" );
-		m_current->addStmt( ast::stmt::makeStructureDecl( m_adaptationData.inputStruct ) );
-		m_current->addStmt( ast::stmt::makeStructureDecl( m_adaptationData.outputStruct ) );
-
 		auto cont = ast::stmt::makeContainer();
+		m_adaptationData.inputStruct = shader.getTypesCache().getStruct( ast::type::MemoryLayout::eStd430, "HLSL_SDW_Input" );
+		cont->addStmt( ast::stmt::makeStructureDecl( m_adaptationData.inputStruct ) );
+		m_adaptationData.inputVar = m_shader.registerName( "sdwInput", m_adaptationData.inputStruct, ast::var::Flag::eStatic );
+
+		m_adaptationData.outputStruct = shader.getTypesCache().getStruct( ast::type::MemoryLayout::eStd430, "HLSL_SDW_Output" );
+		cont->addStmt( ast::stmt::makeStructureDecl( m_adaptationData.outputStruct ) );
+		m_adaptationData.outputVar = m_shader.registerName( "sdwOutput", m_adaptationData.outputStruct, ast::var::Flag::eStatic );
+
+		m_inOutDeclarations = cont.get();
+		m_current->addStmt( std::move( cont ) );
+
+		cont = ast::stmt::makeContainer();
 		compileHlslIntrinsicFunctions( cont.get(), m_config );
 		compileHlslTextureAccessFunctions( cont.get(), m_config );
 		compileHlslImageAccessFunctions( cont.get(), m_config );
 		m_intrinsics = cont.get();
 		m_current->addStmt( std::move( cont ) );
-
-		m_adaptationData.inputVar = m_shader.registerName( "sdwInput", m_adaptationData.inputStruct, ast::var::Flag::eInputParam );
-		m_adaptationData.outputVar = m_shader.registerName( "sdwOutput", m_adaptationData.outputStruct );
 	}
 
 	ast::expr::ExprPtr StmtAdapter::doSubmit( ast::expr::Expr * expr )
@@ -167,20 +171,25 @@ namespace hlsl
 		if ( stmt->getName() == "main" )
 		{
 			auto linkedVars = m_adaptationData.linkedVars;
+
+			// Write function content into a temporary container
 			auto save = m_current;
 			auto cont = ast::stmt::makeContainer();
 			m_current = cont.get();
 			visitContainerStmt( stmt );
 			m_current = save;
 
-			ast::stmt::ContainerPtr funcCont;
-			funcCont = rewriteMainHeader( stmt );
-			funcCont->addStmt( std::move( cont ) );
-			m_current = funcCont.get();
-			rewriteMainFooter( stmt );
-			m_current = save;
+			// Write SDW_main function
+			rewriteShaderIOVars();
+			ast::var::VariableList parameters;
+			auto sdwMainCont = ast::stmt::makeFunctionDecl( m_cache.getFunction( stmt->getType()->getReturnType(), ast::var::VariableList{} )
+				, "SDW_" + stmt->getName() );
+			sdwMainCont->addStmt( std::move( cont ) );
+			m_current->addStmt( std::move( sdwMainCont ) );
+
+			// Write main function
+			writeMain( stmt );
 			m_adaptationData.linkedVars = linkedVars;
-			m_current->addStmt( std::move( funcCont ) );
 		}
 		else
 		{
@@ -207,7 +216,8 @@ namespace hlsl
 					, uint32_t( m_adaptationData.inputMembers.size() )
 					, ast::expr::makeIdentifier( m_cache, var ) ) );
 		}
-		else if ( var->isShaderOutput() )
+
+		if ( var->isShaderOutput() )
 		{
 			m_adaptationData.outputVars.emplace( stmt->getLocation(), var );
 			m_adaptationData.outputMembers.emplace( var
@@ -358,78 +368,31 @@ namespace hlsl
 	{
 		auto var = stmt->getVariable();
 
-		if ( isShaderInOut( var->getName(), m_shader.getType() ) )
+		if ( isShaderInput( var->getName(), m_shader.getType() )
+			|| isShaderOutput( var->getName(), m_shader.getType() ) )
 		{
-			m_adaptationData.inputVars.emplace( 128u, var );
-			m_adaptationData.inputMembers.emplace( var
-				, ast::expr::makeMbrSelect( ast::expr::makeIdentifier( m_cache, m_adaptationData.inputVar )
-					, uint32_t( m_adaptationData.inputMembers.size() )
-					, ast::expr::makeIdentifier( m_cache, var ) ) );
-			m_adaptationData.outputVars.emplace( 128u, var );
-			m_adaptationData.outputMembers.emplace( var
-				, ast::expr::makeMbrSelect( ast::expr::makeIdentifier( m_cache, m_adaptationData.outputVar )
-					, uint32_t( m_adaptationData.outputMembers.size() )
-					, ast::expr::makeIdentifier( m_cache, var ) ) );
-		}
-		else if ( isShaderInput( var->getName(), m_shader.getType() ) )
-		{
-			m_adaptationData.inputVars.emplace( 128u, var );
-			m_adaptationData.inputMembers.emplace( var
-				, ast::expr::makeMbrSelect( ast::expr::makeIdentifier( m_cache, m_adaptationData.inputVar )
-					, uint32_t( m_adaptationData.inputMembers.size() )
-					, ast::expr::makeIdentifier( m_cache, var ) ) );
-		}
-		else if ( isShaderOutput( var->getName(), m_shader.getType() ) )
-		{
-			m_adaptationData.outputVars.emplace( 128u, var );
-			m_adaptationData.outputMembers.emplace( var
-				, ast::expr::makeMbrSelect( ast::expr::makeIdentifier( m_cache, m_adaptationData.outputVar )
-					, uint32_t( m_adaptationData.outputMembers.size() )
-					, ast::expr::makeIdentifier( m_cache, var ) ) );
+			if ( isShaderInput( var->getName(), m_shader.getType() ) )
+			{
+				m_adaptationData.inputVars.emplace( 128u, var );
+				m_adaptationData.inputMembers.emplace( var
+					, ast::expr::makeMbrSelect( ast::expr::makeIdentifier( m_cache, m_adaptationData.inputVar )
+						, uint32_t( m_adaptationData.inputMembers.size() )
+						, ast::expr::makeIdentifier( m_cache, var ) ) );
+			}
+
+			if ( isShaderOutput( var->getName(), m_shader.getType() ) )
+			{
+				m_adaptationData.outputVars.emplace( 128u, var );
+				m_adaptationData.outputMembers.emplace( var
+					, ast::expr::makeMbrSelect( ast::expr::makeIdentifier( m_cache, m_adaptationData.outputVar )
+						, uint32_t( m_adaptationData.outputMembers.size() )
+						, ast::expr::makeIdentifier( m_cache, var ) ) );
+			}
 		}
 		else
 		{
 			m_current->addStmt( ast::stmt::makeVariableDecl( stmt->getVariable() ) );
 		}
-	}
-
-	void StmtAdapter::visitPreprocDefine( ast::stmt::PreprocDefine * preproc )
-	{
-		if ( preproc->getExpr() )
-		{
-			auto var = m_shader.getVar( preproc->getName(), preproc->getExpr()->getType() );
-
-			if ( var )
-			{
-				var->updateFlag( ast::var::Flag::eConstant );
-
-				if ( preproc->getExpr()->getKind() == ast::expr::Kind::eAggrInit )
-				{
-					ast::expr::ExprList initialisers;
-
-					for ( auto & expr : static_cast< ast::expr::AggrInit const & >( *preproc->getExpr() ).getInitialisers() )
-					{
-						initialisers.emplace_back( doSubmit( expr.get() ) );
-					}
-
-					m_current->addStmt( ast::stmt::makeSimple( ast::expr::makeAggrInit( ast::expr::makeIdentifier( m_cache, var )
-						, std::move( initialisers ) ) ) );
-				}
-				else
-				{
-					m_current->addStmt( ast::stmt::makeSimple( ast::expr::makeInit( ast::expr::makeIdentifier( m_cache, var )
-						, doSubmit( preproc->getExpr() ) ) ) );
-				}
-			}
-		}
-		else
-		{
-			m_current->addStmt( ast::stmt::makePreprocDefine( preproc->getName(), doSubmit( preproc->getExpr() ) ) );
-		}
-	}
-
-	void StmtAdapter::visitPreprocEndif( ast::stmt::PreprocEndif * preproc )
-	{
 	}
 
 	void StmtAdapter::visitPreprocExtension( ast::stmt::PreprocExtension * preproc )
@@ -477,19 +440,29 @@ namespace hlsl
 		}
 	}
 
-	ast::stmt::FunctionDeclPtr StmtAdapter::rewriteMainHeader( ast::stmt::FunctionDecl * stmt )
+	void StmtAdapter::writeMain( ast::stmt::FunctionDecl * stmt )
 	{
-		rewriteShaderIOVars();
 		assert( stmt->getType()->empty() );
 		assert( stmt->getType()->getReturnType()->getKind() == ast::type::Kind::eVoid );
-		ast::var::VariableList parameters;
+		ast::var::VariableList mainParameters;
+		auto mainInputVar = m_shader.registerName( "sdwMainInput", m_adaptationData.inputStruct );
+		auto mainOutputVar = m_shader.registerName( "sdwMainOutput", m_adaptationData.outputStruct );
 
 		if ( !m_adaptationData.inputStruct->empty() )
 		{
-			parameters.emplace_back( m_adaptationData.inputVar );
+			m_inOutDeclarations->addStmt( ast::stmt::makeVariableDecl( m_adaptationData.inputVar ) );
+			mainParameters.emplace_back( mainInputVar );
 		}
 
-		// Add input parameter
+		ast::type::TypePtr mainRetType = m_cache.getVoid();
+
+		if ( !m_adaptationData.outputStruct->empty() )
+		{
+			m_inOutDeclarations->addStmt( ast::stmt::makeVariableDecl( m_adaptationData.outputVar ) );
+			mainRetType = m_adaptationData.outputStruct;
+		}
+
+		// Add compute layout
 		if ( m_inputComputeLayout )
 		{
 			m_current->addStmt( ast::stmt::makeInputComputeLayout( m_inputComputeLayout->getWorkGroupsX()
@@ -497,22 +470,37 @@ namespace hlsl
 				, m_inputComputeLayout->getWorkGroupsZ() ) );
 		}
 
-		// Write output return if needed.
-		ast::stmt::FunctionDeclPtr result;
+		auto cont = ast::stmt::makeFunctionDecl( m_cache.getFunction( mainRetType, mainParameters )
+			, stmt->getName() );
+
+		// Assign main inputs to global inputs, if needed
+		if ( !m_adaptationData.inputStruct->empty() )
+		{
+			cont->addStmt( ast::stmt::makeSimple( ast::expr::makeAssign( m_adaptationData.inputStruct
+				, ast::expr::makeIdentifier( m_cache, m_adaptationData.inputVar )
+				, ast::expr::makeIdentifier( m_cache, mainInputVar ) ) ) );
+		}
+
+		// Call SDW_main function.
+		cont->addStmt( ast::stmt::makeSimple( ast::expr::makeFnCall( m_cache.getVoid()
+			, ast::expr::makeIdentifier( m_cache
+				, ast::var::makeFunction( m_cache.getFunction( m_cache.getVoid(), ast::var::VariableList{} )
+					, "SDW_" + stmt->getName() ) )
+			, ast::expr::ExprList{} ) ) );
 
 		if ( !m_adaptationData.outputStruct->empty() )
 		{
-			result = ast::stmt::makeFunctionDecl( m_cache.getFunction( m_adaptationData.outputStruct, parameters )
-				, stmt->getName() );
-			result->addStmt( ast::stmt::makeVariableDecl( m_adaptationData.outputVar ) );
-		}
-		else
-		{
-			result = ast::stmt::makeFunctionDecl( m_cache.getFunction( stmt->getType()->getReturnType(), parameters )
-				, stmt->getName() );
+			// Declare output.
+			cont->addStmt( ast::stmt::makeVariableDecl( mainOutputVar ) );
+			// Assign global outputs to main outputs
+			cont->addStmt( ast::stmt::makeSimple( ast::expr::makeAssign( m_adaptationData.inputStruct
+				, ast::expr::makeIdentifier( m_cache, mainOutputVar )
+				, ast::expr::makeIdentifier( m_cache, m_adaptationData.outputVar ) ) ) );
+			// Return output.
+			cont->addStmt( ast::stmt::makeReturn( ast::expr::makeIdentifier( m_cache, mainOutputVar ) ) );
 		}
 
-		return result;
+		m_current->addStmt( std::move( cont ) );
 	}
 
 	ast::stmt::FunctionDeclPtr StmtAdapter::rewriteFuncHeader( ast::stmt::FunctionDecl * stmt )
@@ -540,14 +528,5 @@ namespace hlsl
 
 		return ast::stmt::makeFunctionDecl( m_cache.getFunction( stmt->getType()->getReturnType(), params )
 			, stmt->getName() );
-	}
-
-	void StmtAdapter::rewriteMainFooter( ast::stmt::FunctionDecl * stmt )
-	{
-		if ( stmt->getName() == "main"
-			&& !m_adaptationData.outputStruct->empty() )
-		{
-			m_current->addStmt( ast::stmt::makeReturn( ast::expr::makeIdentifier( m_cache, m_adaptationData.outputVar ) ) );
-		}
 	}
 }

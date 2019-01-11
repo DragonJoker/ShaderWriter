@@ -72,17 +72,6 @@ namespace hlsl
 		IntrinsicsConfig const & m_config;
 		AdaptationData & m_adaptationData;
 		ast::stmt::Container * m_intrinsics;
-		std::map< std::string, ast::type::FunctionPtr > m_imageSizeFuncs;
-		std::map< std::string, ast::type::FunctionPtr > m_imageAtomicAddFuncs;
-		std::map< std::string, ast::type::FunctionPtr > m_imageAtomicMinFuncs;
-		std::map< std::string, ast::type::FunctionPtr > m_imageAtomicMaxFuncs;
-		std::map< std::string, ast::type::FunctionPtr > m_imageAtomicAndFuncs;
-		std::map< std::string, ast::type::FunctionPtr > m_imageAtomicOrFuncs;
-		std::map< std::string, ast::type::FunctionPtr > m_imageAtomicXorFuncs;
-		std::map< std::string, ast::type::FunctionPtr > m_imageAtomicExchangeFuncs;
-		std::map< std::string, ast::type::FunctionPtr > m_imageAtomicCompSwapFuncs;
-		std::map< std::string, ast::type::FunctionPtr > m_imageLodFuncs;
-		std::map< std::string, ast::type::FunctionPtr > m_imageLevelsFuncs;
 	};
 }
 

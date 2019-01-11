@@ -534,13 +534,13 @@ namespace ast::type
 
 	void Struct::doUpdateOffsets()
 	{
-		uint32_t alignment = getPackedAlignment( *this, m_layout );
 		uint32_t offset = 0u;
 
 		for ( auto & member : m_members )
 		{
-			member.offset = offset;
-			offset += ( member.size + alignment - 1 ) & ~( alignment - 1 );
+			uint32_t alignment = getPackedAlignment( *member.type, m_layout );
+			member.offset = ( offset + alignment - 1 ) & ~( alignment - 1 );
+			offset = member.offset + ( member.size + alignment - 1 ) & ~( alignment - 1 );
 		}
 	}
 

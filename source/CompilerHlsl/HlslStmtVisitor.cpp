@@ -386,9 +386,17 @@ namespace hlsl
 	void StmtVisitor::visitVariableDeclStmt( ast::stmt::VariableDecl * stmt )
 	{
 		doAppendLineEnd();
-		m_result += m_indent + getTypeName( stmt->getVariable()->getType() ) + " ";
-		m_result += stmt->getVariable()->getName();
-		m_result += getTypeArraySize( stmt->getVariable()->getType() );
+		m_result += m_indent;
+		auto & var = *stmt->getVariable();
+
+		if ( var.isStatic() )
+		{
+			m_result += "static ";
+		}
+
+		m_result += getTypeName( var.getType() ) + " ";
+		m_result += var.getName();
+		m_result += getTypeArraySize( var.getType() );
 		m_result += ";\n";
 	}
 

@@ -45,7 +45,7 @@ namespace spirv
 
 	struct PreprocContext
 	{
-		std::map< std::string, ast::expr::Expr * > defines;
+		std::map< std::string, ast::expr::ExprPtr > defines;
 	};
 
 	spv::MemoryModel getMemoryModel();

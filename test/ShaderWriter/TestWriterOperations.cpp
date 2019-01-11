@@ -505,7 +505,7 @@ namespace
 		{
 			testBegin( "testBool" );
 			sdw::FragmentWriter writer;
-			writer.implementFunction< void >( "main"
+			writer.implementFunction< sdw::Void >( "main"
 				, [&]()
 				{
 					auto & statements = *writer.getShader().getContainer();
@@ -544,7 +544,7 @@ namespace
 		{
 			testBegin( "testBoolOptEnabled" );
 			sdw::FragmentWriter writer;
-			writer.implementFunction< void >( "main"
+			writer.implementFunction< sdw::Void >( "main"
 				, [&]()
 				{
 					auto & statements = *writer.getShader().getContainer();
@@ -583,7 +583,7 @@ namespace
 		{
 			testBegin( "testBoolOptDisabled" );
 			sdw::FragmentWriter writer;
-			writer.implementFunction< void >( "main"
+			writer.implementFunction< sdw::Void >( "main"
 				, [&]()
 				{
 					auto a = writer.declLocale< sdw::Bool >( "a", false );
@@ -605,7 +605,7 @@ namespace
 		{
 			testBegin( "testFloat" );
 			sdw::FragmentWriter writer;
-			writer.implementFunction< void >( "main"
+			writer.implementFunction< sdw::Void >( "main"
 				, [&]()
 				{
 					auto a = writer.declLocale< sdw::Float >( "a" );
@@ -641,7 +641,7 @@ namespace
 		{
 			testBegin( "testFloatOptEnabled" );
 			sdw::FragmentWriter writer;
-			writer.implementFunction< void >( "main"
+			writer.implementFunction< sdw::Void >( "main"
 				, [&]()
 				{
 					auto a = writer.declLocale< sdw::Float >( "a", true );
@@ -675,7 +675,7 @@ namespace
 		{
 			testBegin( "testFloatOptDisabled" );
 			sdw::FragmentWriter writer;
-			writer.implementFunction< void >( "main"
+			writer.implementFunction< sdw::Void >( "main"
 				, [&]()
 				{
 					auto a = writer.declLocale< sdw::Float >( "a", false );
@@ -713,7 +713,7 @@ namespace
 		{
 			testBegin( "testInt" );
 			sdw::FragmentWriter writer;
-			writer.implementFunction< void >( "main"
+			writer.implementFunction< sdw::Void >( "main"
 				, [&]()
 				{
 					auto a = writer.declLocale< sdw::Int >( "a" );
@@ -754,7 +754,7 @@ namespace
 		{
 			testBegin( "testIntOptEnabled" );
 			sdw::FragmentWriter writer;
-			writer.implementFunction< void >( "main"
+			writer.implementFunction< sdw::Void >( "main"
 				, [&]()
 				{
 					auto a = writer.declLocale< sdw::Int >( "a", true );
@@ -791,7 +791,7 @@ namespace
 		{
 			testBegin( "testIntOptDisabled" );
 			sdw::FragmentWriter writer;
-			writer.implementFunction< void >( "main"
+			writer.implementFunction< sdw::Void >( "main"
 				, [&]()
 				{
 					auto a = writer.declLocale< sdw::Int >( "a", false );
@@ -832,7 +832,7 @@ namespace
 		{
 			testBegin( "testUInt" );
 			sdw::FragmentWriter writer;
-			writer.implementFunction< void >( "main"
+			writer.implementFunction< sdw::Void >( "main"
 				, [&]()
 				{
 					auto a = writer.declLocale< sdw::UInt >( "a" );
@@ -873,7 +873,7 @@ namespace
 		{
 			testBegin( "testUIntOptEnabled" );
 			sdw::FragmentWriter writer;
-			writer.implementFunction< void >( "main"
+			writer.implementFunction< sdw::Void >( "main"
 				, [&]()
 				{
 					auto a = writer.declLocale< sdw::UInt >( "a", true );
@@ -910,7 +910,7 @@ namespace
 		{
 			testBegin( "testUIntOptDisabled" );
 			sdw::FragmentWriter writer;
-			writer.implementFunction< void >( "main"
+			writer.implementFunction< sdw::Void >( "main"
 				, [&]()
 				{
 					auto a = writer.declLocale< sdw::UInt >( "a", false );
@@ -951,7 +951,7 @@ namespace
 		{
 			testBegin( "testVec2" );
 			sdw::FragmentWriter writer;
-			writer.implementFunction< void >( "main"
+			writer.implementFunction< sdw::Void >( "main"
 				, [&]()
 				{
 					auto a = writer.declLocale< sdw::Vec2 >( "a" );
@@ -970,7 +970,7 @@ namespace
 		{
 			testBegin( "testVec2OptEnabled" );
 			sdw::FragmentWriter writer;
-			writer.implementFunction< void >( "main"
+			writer.implementFunction< sdw::Void >( "main"
 				, [&]()
 				{
 					auto a = writer.declLocale< sdw::Vec2 >( "a", true );
@@ -988,7 +988,7 @@ namespace
 		{
 			testBegin( "testVec2OptDisabled" );
 			sdw::FragmentWriter writer;
-			writer.implementFunction< void >( "main"
+			writer.implementFunction< sdw::Void >( "main"
 				, [&]()
 				{
 					auto a = writer.declLocale< sdw::Vec2 >( "a", false );
@@ -1010,7 +1010,7 @@ namespace
 		{
 			testBegin( "testVec3" );
 			sdw::FragmentWriter writer;
-			writer.implementFunction< void >( "main"
+			writer.implementFunction< sdw::Void >( "main"
 				, [&]()
 				{
 					auto a = writer.declLocale< sdw::Vec3 >( "a" );
@@ -1029,7 +1029,7 @@ namespace
 		{
 			testBegin( "testVec3OptEnabled" );
 			sdw::FragmentWriter writer;
-			writer.implementFunction< void >( "main"
+			writer.implementFunction< sdw::Void >( "main"
 				, [&]()
 				{
 					auto a = writer.declLocale< sdw::Vec3 >( "a", true );
@@ -1047,7 +1047,7 @@ namespace
 		{
 			testBegin( "testVec3OptDisabled" );
 			sdw::FragmentWriter writer;
-			writer.implementFunction< void >( "main"
+			writer.implementFunction< sdw::Void >( "main"
 				, [&]()
 				{
 					auto a = writer.declLocale< sdw::Vec3 >( "a", false );
@@ -1069,7 +1069,7 @@ namespace
 		{
 			testBegin( "testVec4" );
 			sdw::FragmentWriter writer;
-			writer.implementFunction< void >( "main"
+			writer.implementFunction< sdw::Void >( "main"
 				, [&]()
 				{
 					auto a = writer.declLocale< sdw::Vec4 >( "a" );
@@ -1088,7 +1088,7 @@ namespace
 		{
 			testBegin( "testVec4OptEnabled" );
 			sdw::FragmentWriter writer;
-			writer.implementFunction< void >( "main"
+			writer.implementFunction< sdw::Void >( "main"
 				, [&]()
 				{
 					auto a = writer.declLocale< sdw::Vec4 >( "a", true );
@@ -1106,7 +1106,7 @@ namespace
 		{
 			testBegin( "testVec4OptDisabled" );
 			sdw::FragmentWriter writer;
-			writer.implementFunction< void >( "main"
+			writer.implementFunction< sdw::Void >( "main"
 				, [&]()
 				{
 					auto a = writer.declLocale< sdw::Vec4 >( "a", false );

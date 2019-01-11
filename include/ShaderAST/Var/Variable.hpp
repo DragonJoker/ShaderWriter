@@ -28,6 +28,8 @@ namespace ast::var
 		eImplicit = 1 << 12,
 		eMember = 1 << 13,
 		eFunction = 1 << 14,
+		eStatic = 1 << 15,
+		eFlat = 1 << 16,
 	};
 
 	class Variable
@@ -100,6 +102,11 @@ namespace ast::var
 				|| hasFlag( Flag::eOutputParam );
 		}
 
+		inline bool isStatic()const
+		{
+			return hasFlag( Flag::eStatic );
+		}
+
 		inline bool isInputParam()const
 		{
 			return hasFlag( Flag::eInputParam );
@@ -158,6 +165,11 @@ namespace ast::var
 		inline bool isImplicit()const
 		{
 			return hasFlag( Flag::eImplicit );
+		}
+
+		inline bool isFlat()const
+		{
+			return hasFlag( Flag::eFlat );
 		}
 
 		inline bool isMember()const

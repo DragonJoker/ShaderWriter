@@ -3,7 +3,7 @@
 
 namespace
 {
-#define DummyMain writer.implementFunction< void >( "main", [](){} )
+#define DummyMain writer.implementFunction< sdw::Void >( "main", [](){} )
 
 	template< typename T >
 	void testPcb( test::sdw_test::TestCounts & testCounts )

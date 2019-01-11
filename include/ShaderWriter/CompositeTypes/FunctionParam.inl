@@ -10,7 +10,7 @@ namespace sdw
 		, std::string name )
 		: ValueT{ &sdw::getShader( writer )
 			, makeExpr( sdw::getShader( writer )
-				, var::makeVariable( ValueT::makeType( writer.getTypesCache() )
+				, var::makeVariable( ValueT::makeType( getTypesCache( writer ) )
 					, std::move( name )
 					, var::Flag::eParam ) ) }
 	{
@@ -37,7 +37,7 @@ namespace sdw
 		, std::string name )
 		: ValueT{ &sdw::getShader( writer )
 			, makeExpr( sdw::getShader( writer )
-				, var::makeVariable( ValueT::makeType( writer.getTypesCache() )
+				, var::makeVariable( ValueT::makeType( getTypesCache( writer ) )
 					, std::move( name )
 					, var::Flag::eInputParam ) ) }
 	{
@@ -64,7 +64,7 @@ namespace sdw
 		, std::string name )
 		: ValueT{ &sdw::getShader( writer )
 			, makeExpr( sdw::getShader( writer )
-				, var::makeVariable( ValueT::makeType( writer.getTypesCache() )
+				, var::makeVariable( ValueT::makeType( getTypesCache( writer ) )
 					, std::move( name )
 					, var::Flag::eOutputParam ) ) }
 	{
@@ -91,7 +91,7 @@ namespace sdw
 		, std::string name )
 		: ValueT{ &sdw::getShader( writer )
 			, makeExpr( sdw::getShader( writer )
-				, var::makeVariable( ValueT::makeType( writer.getTypesCache() )
+				, var::makeVariable( ValueT::makeType( getTypesCache( writer ) )
 					, std::move( name )
 					, var::Flag::eInputParam | var::Flag::eOutputParam ) ) }
 	{
@@ -119,7 +119,7 @@ namespace sdw
 		, uint32_t arraySize )
 		: Array< ValueT >{ &sdw::getShader( writer )
 			, makeExpr( sdw::getShader( writer )
-				, var::makeVariable( Array< ValueT >::makeType( writer.getTypesCache(), arraySize )
+				, var::makeVariable( Array< ValueT >::makeType( getTypesCache( writer ), arraySize )
 					, std::move( name )
 					, var::Flag::eParam ) ) }
 	{
@@ -147,7 +147,7 @@ namespace sdw
 		, uint32_t arraySize )
 		: Array< ValueT >{ &sdw::getShader( writer )
 			, makeExpr( sdw::getShader( writer )
-				, var::makeVariable( Array< ValueT >::makeType( writer.getTypesCache(), arraySize )
+				, var::makeVariable( Array< ValueT >::makeType( getTypesCache( writer ), arraySize )
 					, std::move( name )
 					, var::Flag::eInputParam ) ) }
 	{
@@ -175,7 +175,7 @@ namespace sdw
 		, uint32_t arraySize )
 		: Array< ValueT >{ &sdw::getShader( writer )
 			, makeExpr( sdw::getShader( writer )
-				, var::makeVariable( Array< ValueT >::makeType( writer.getTypesCache(), arraySize )
+				, var::makeVariable( Array< ValueT >::makeType( getTypesCache( writer ), arraySize )
 					, std::move( name )
 					, var::Flag::eOutputParam ) ) }
 	{
@@ -203,7 +203,7 @@ namespace sdw
 		, uint32_t arraySize )
 		: Array< ValueT >{ &sdw::getShader( writer )
 			, makeExpr( sdw::getShader( writer )
-				, var::makeVariable( Array< ValueT >::makeType( writer.getTypesCache(), arraySize )
+				, var::makeVariable( Array< ValueT >::makeType( getTypesCache( writer ), arraySize )
 					, std::move( name )
 					, var::Flag::eInputParam | var::Flag::eOutputParam ) ) }
 	{

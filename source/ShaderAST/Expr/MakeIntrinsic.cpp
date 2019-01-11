@@ -358,6 +358,46 @@ namespace ast::expr
 			, std::move( y_over_x ) );
 	}
 
+	IntrinsicCallPtr makeAtan21( type::TypesCache & cache
+		, ExprPtr y
+		, ExprPtr x )
+	{
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eFloat )
+			, Intrinsic::eAtan21
+			, std::move( y )
+			, std::move( x ) );
+	}
+
+	IntrinsicCallPtr makeAtan22( type::TypesCache & cache
+		, ExprPtr y
+		, ExprPtr x )
+	{
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2F )
+			, Intrinsic::eAtan22
+			, std::move( y )
+			, std::move( x ) );
+	}
+
+	IntrinsicCallPtr makeAtan23( type::TypesCache & cache
+		, ExprPtr y
+		, ExprPtr x )
+	{
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3F )
+			, Intrinsic::eAtan23
+			, std::move( y )
+			, std::move( x ) );
+	}
+
+	IntrinsicCallPtr makeAtan24( type::TypesCache & cache
+		, ExprPtr y
+		, ExprPtr x )
+	{
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4F )
+			, Intrinsic::eAtan24
+			, std::move( y )
+			, std::move( x ) );
+	}
+
 	IntrinsicCallPtr makeAcosh1( type::TypesCache & cache
 		, ExprPtr x )
 	{

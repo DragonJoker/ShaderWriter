@@ -3,6 +3,10 @@ See LICENSE file in root folder
 */
 #include "ShaderWriter/Shader.hpp"
 
+#include <ShaderAST/Stmt/StmtSimple.hpp>
+
+#include <algorithm>
+
 namespace sdw
 {
 	Shader::Shader( ShaderType type )
@@ -106,7 +110,7 @@ namespace sdw
 		return registerMember( std::move( outer )
 			, name
 			, type
-			, 0u );
+			, outer->isUniform() ? ast::var::Flag::eUniform : ast::var::Flag( 0u ) );
 	}
 
 	var::VariablePtr Shader::registerConstant( std::string const & name
@@ -170,9 +174,18 @@ namespace sdw
 		, uint32_t location
 		, type::TypePtr type )
 	{
+		auto kind = getNonArrayType( type )->getKind();
+		uint32_t flags = 0u;
+
+		if ( isSignedIntType( type->getKind() )
+			|| isUnsignedIntType( type->getKind() ) )
+		{
+			flags = flags | var::Flag::eFlat;
+		}
+
 		auto result = registerName( name
 			, type
-			, var::Flag::eShaderInput );
+			, flags | var::Flag::eShaderInput );
 		m_inputs.emplace( name, InputInfo{ type, location } );
 		return result;
 	}
@@ -181,9 +194,25 @@ namespace sdw
 		, uint32_t location
 		, type::TypePtr type )
 	{
+		assert( m_outputs.end() == std::find_if( m_outputs.begin()
+			, m_outputs.end()
+			, [&location]( std::map< std::string, OutputInfo >::value_type const & lookup )
+			{
+				return lookup.second.location == location;
+			} )
+			&& "Output already existing at given location" );
+		auto kind = getNonArrayType( type )->getKind();
+		uint32_t flags = 0u;
+
+		if ( isSignedIntType( type->getKind() )
+			|| isUnsignedIntType( type->getKind() ) )
+		{
+			flags = flags | var::Flag::eFlat;
+		}
+
 		auto result = registerName( name
 			, type
-			, var::Flag::eShaderOutput );
+			, flags | var::Flag::eShaderOutput );
 		m_outputs.emplace( name, OutputInfo{ type, location } );
 		return result;
 	}

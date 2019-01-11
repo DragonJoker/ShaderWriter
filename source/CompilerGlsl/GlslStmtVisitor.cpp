@@ -175,18 +175,21 @@ namespace glsl
 
 	//*************************************************************************
 
-	std::string StmtVisitor::submit( ast::stmt::Stmt * stmt
+	std::string StmtVisitor::submit( GlslConfig const & writerConfig
+		, ast::stmt::Stmt * stmt
 		, std::string indent )
 	{
 		std::string result;
-		StmtVisitor vis{ result, std::move( indent ) };
+		StmtVisitor vis{ writerConfig, result, std::move( indent ) };
 		stmt->accept( &vis );
 		return result;
 	}
 
-	StmtVisitor::StmtVisitor( std::string & result
+	StmtVisitor::StmtVisitor( GlslConfig const & writerConfig
+		, std::string & result
 		, std::string indent )
-		: m_result{ result }
+		: m_writerConfig{ writerConfig }
+		, m_result{ result }
 		, m_indent{ std::move( indent ) }
 	{
 	}
@@ -286,11 +289,11 @@ namespace glsl
 
 		if ( stmt->getCtrlExpr()->getType()->getKind() != ast::type::Kind::eBool )
 		{
-			m_result += m_indent + "while (bool(" + ExprVisitor::submit( stmt->getCtrlExpr() ) + "));\n";
+			m_result += m_indent + "while (bool(" + ExprVisitor::submit( stmt->getCtrlExpr(), m_writerConfig ) + "));\n";
 		}
 		else
 		{
-			m_result += m_indent + "while (" + ExprVisitor::submit( stmt->getCtrlExpr() ) + ");\n";
+			m_result += m_indent + "while (" + ExprVisitor::submit( stmt->getCtrlExpr(), m_writerConfig ) + ");\n";
 		}
 
 		m_appendLineEnd = true;
@@ -300,11 +303,11 @@ namespace glsl
 	{
 		if ( stmt->getCtrlExpr()->getType()->getKind() != ast::type::Kind::eBool )
 		{
-			m_result += m_indent + "else if (bool(" + ExprVisitor::submit( stmt->getCtrlExpr() ) + "))";
+			m_result += m_indent + "else if (bool(" + ExprVisitor::submit( stmt->getCtrlExpr(), m_writerConfig ) + "))";
 		}
 		else
 		{
-			m_result += m_indent + "else if (" + ExprVisitor::submit( stmt->getCtrlExpr() ) + ")";
+			m_result += m_indent + "else if (" + ExprVisitor::submit( stmt->getCtrlExpr(), m_writerConfig ) + ")";
 		}
 
 		m_appendSemiColon = false;
@@ -328,18 +331,18 @@ namespace glsl
 	{
 		m_appendLineEnd = true;
 		doAppendLineEnd();
-		m_result += m_indent + "for (" + ExprVisitor::submit( stmt->getInitExpr() ) + "; ";
+		m_result += m_indent + "for (" + ExprVisitor::submit( stmt->getInitExpr(), m_writerConfig ) + "; ";
 
 		if ( stmt->getCtrlExpr()->getType()->getKind() != ast::type::Kind::eBool )
 		{
-			m_result += "bool(" + ExprVisitor::submit( stmt->getCtrlExpr() ) + "); ";
+			m_result += "bool(" + ExprVisitor::submit( stmt->getCtrlExpr(), m_writerConfig ) + "); ";
 		}
 		else
 		{
-			m_result += ExprVisitor::submit( stmt->getCtrlExpr() ) + "; ";
+			m_result += ExprVisitor::submit( stmt->getCtrlExpr(), m_writerConfig ) + "; ";
 		}
 
-		m_result += ExprVisitor::submit( stmt->getIncrExpr() ) + ")";
+		m_result += ExprVisitor::submit( stmt->getIncrExpr(), m_writerConfig ) + ")";
 		m_appendSemiColon = false;
 		visitCompoundStmt( stmt );
 		m_result += "\n";
@@ -377,11 +380,11 @@ namespace glsl
 
 		if ( stmt->getCtrlExpr()->getType()->getKind() != ast::type::Kind::eBool )
 		{
-			m_result += m_indent + "if (bool(" + ExprVisitor::submit( stmt->getCtrlExpr() ) + "))";
+			m_result += m_indent + "if (bool(" + ExprVisitor::submit( stmt->getCtrlExpr(), m_writerConfig ) + "))";
 		}
 		else
 		{
-			m_result += m_indent + "if (" + ExprVisitor::submit( stmt->getCtrlExpr() ) + ")";
+			m_result += m_indent + "if (" + ExprVisitor::submit( stmt->getCtrlExpr(), m_writerConfig ) + ")";
 		}
 
 		m_appendSemiColon = false;
@@ -445,15 +448,7 @@ namespace glsl
 		doAppendLineEnd();
 		m_result += m_indent;
 		m_result += "layout(" + getLocationName( *stmt->getVariable() ) + "=" + std::to_string( stmt->getLocation() ) + ") ";
-		auto kind = ast::type::getNonArrayKindRec( stmt->getVariable()->getType() );
-
-		if ( stmt->getVariable()->isShaderInput()
-			&&( ast::type::isSignedIntType( kind )
-				|| ast::type::isUnsignedIntType( kind ) ) )
-		{
-			m_result += "flat ";
-		}
-
+		m_result += getFlatnessName( *stmt->getVariable() );
 		m_result += getDirectionName( *stmt->getVariable() ) + " ";
 		m_result += getTypeName( stmt->getVariable()->getType() ) + " " + stmt->getVariable()->getName();
 		m_result += getTypeArraySize( stmt->getVariable()->getType() );
@@ -542,7 +537,7 @@ namespace glsl
 
 		if ( stmt->getExpr() )
 		{
-			m_result += m_indent + "return " + ExprVisitor::submit( stmt->getExpr() ) + ";\n";
+			m_result += m_indent + "return " + ExprVisitor::submit( stmt->getExpr(), m_writerConfig ) + ";\n";
 		}
 		else
 		{
@@ -619,7 +614,7 @@ namespace glsl
 	void StmtVisitor::visitSimpleStmt( ast::stmt::Simple * stmt )
 	{
 		doAppendLineEnd();
-		m_result += m_indent + ExprVisitor::submit( stmt->getExpr() ) + ";\n";
+		m_result += m_indent + ExprVisitor::submit( stmt->getExpr(), m_writerConfig ) + ";\n";
 	}
 
 	void StmtVisitor::visitStructureDeclStmt( ast::stmt::StructureDecl * stmt )
@@ -656,7 +651,7 @@ namespace glsl
 
 		if ( stmt->getCaseExpr() )
 		{
-			m_result += m_indent + "case " + ExprVisitor::submit( stmt->getCaseExpr() ) + ":";
+			m_result += m_indent + "case " + ExprVisitor::submit( stmt->getCaseExpr(), m_writerConfig ) + ":";
 		}
 		else
 		{
@@ -679,7 +674,7 @@ namespace glsl
 	{
 		m_appendLineEnd = true;
 		doAppendLineEnd();
-		m_result += m_indent + "switch (" + ExprVisitor::submit( stmt->getTestExpr() ) + ")";
+		m_result += m_indent + "switch (" + ExprVisitor::submit( stmt->getTestExpr(), m_writerConfig ) + ")";
 		m_appendSemiColon = false;
 		visitCompoundStmt( stmt );
 		m_result += "\n";
@@ -704,11 +699,11 @@ namespace glsl
 
 		if ( stmt->getCtrlExpr()->getType()->getKind() != ast::type::Kind::eBool )
 		{
-			m_result += m_indent + "while (bool(" + ExprVisitor::submit( stmt->getCtrlExpr() ) + "))";
+			m_result += m_indent + "while (bool(" + ExprVisitor::submit( stmt->getCtrlExpr(), m_writerConfig ) + "))";
 		}
 		else
 		{
-			m_result += m_indent + "while (" + ExprVisitor::submit( stmt->getCtrlExpr() ) + ")";
+			m_result += m_indent + "while (" + ExprVisitor::submit( stmt->getCtrlExpr(), m_writerConfig ) + ")";
 		}
 
 		m_appendSemiColon = false;
@@ -720,13 +715,13 @@ namespace glsl
 	void StmtVisitor::visitPreprocDefine( ast::stmt::PreprocDefine * preproc )
 	{
 		doAppendLineEnd();
-		m_result += "#define " + preproc->getName() + " " + ExprVisitor::submit( preproc->getExpr() ) + "\n";
+		m_result += "#define " + preproc->getName() + " " + ExprVisitor::submit( preproc->getExpr(), m_writerConfig ) + "\n";
 	}
 
 	void StmtVisitor::visitPreprocElif( ast::stmt::PreprocElif * preproc )
 	{
 		doAppendLineEnd();
-		m_result += "#elif " + ExprVisitor::submit( preproc->getCtrlExpr() ) + "\n";
+		m_result += "#elif " + ExprVisitor::submit( preproc->getCtrlExpr(), m_writerConfig ) + "\n";
 	}
 
 	void StmtVisitor::visitPreprocElse( ast::stmt::PreprocElse * preproc )
@@ -750,13 +745,13 @@ namespace glsl
 	void StmtVisitor::visitPreprocIf( ast::stmt::PreprocIf * preproc )
 	{
 		doAppendLineEnd();
-		m_result += "#if " + ExprVisitor::submit( preproc->getCtrlExpr() ) + "\n";
+		m_result += "#if " + ExprVisitor::submit( preproc->getCtrlExpr(), m_writerConfig ) + "\n";
 	}
 
 	void StmtVisitor::visitPreprocIfDef( ast::stmt::PreprocIfDef * preproc )
 	{
 		doAppendLineEnd();
-		m_result += "#ifdef " + ExprVisitor::submit( preproc->getIdentExpr() ) + "\n";
+		m_result += "#ifdef " + ExprVisitor::submit( preproc->getIdentExpr(), m_writerConfig ) + "\n";
 	}
 
 	void StmtVisitor::visitPreprocVersion( ast::stmt::PreprocVersion * preproc )

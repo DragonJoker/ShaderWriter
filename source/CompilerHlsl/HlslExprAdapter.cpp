@@ -994,12 +994,30 @@ namespace hlsl
 			&& isVectorType( expr->getType()->getKind() ) )
 		{
 			auto count = getComponentCount( expr->getType()->getKind() );
-			m_result = std::make_unique< ast::expr::Swizzle >( doSubmit( expr->getArgList().back().get() )
-				, ( count == 2u
-					? ast::expr::SwizzleKind::e00
-					: ( count == 3u
-						? ast::expr::SwizzleKind::e000
-						: ast::expr::SwizzleKind::e0000 ) ) );
+			auto arg = expr->getArgList().back().get();
+
+			if ( arg->getKind() == ast::expr::Kind::eLiteral )
+			{
+				ast::expr::ExprList args;
+
+				for ( auto i = 0u; i < count; ++i )
+				{
+					args.emplace_back( doSubmit( arg ) );
+				}
+
+				m_result = ast::expr::makeCompositeConstruct( expr->getComposite()
+					, expr->getComponent()
+					, std::move( args ) );
+			}
+			else
+			{
+				m_result = std::make_unique< ast::expr::Swizzle >( doSubmit( arg )
+					, ( count == 2u
+						? ast::expr::SwizzleKind::e00
+						: ( count == 3u
+							? ast::expr::SwizzleKind::e000
+							: ast::expr::SwizzleKind::e0000 ) ) );
+			}
 		}
 		else
 		{
@@ -1334,9 +1352,9 @@ namespace hlsl
 		auto imgArgType = std::static_pointer_cast< ast::type::Image >( expr->getArgList()[0]->getType() );
 		auto config = imgArgType->getConfig();
 		auto funcName = getName( "SDW_imageSize", config );
-		auto it = m_imageSizeFuncs.find( funcName );
+		auto it = m_adaptationData.funcs.imageSizeFuncs.find( funcName );
 
-		if ( it == m_imageSizeFuncs.end() )
+		if ( it == m_adaptationData.funcs.imageSizeFuncs.end() )
 		{
 			ast::var::VariableList resVars;
 			ast::var::VariableList parameters;
@@ -1420,7 +1438,7 @@ namespace hlsl
 					, std::move( resArgs ) ) ) );
 			}
 
-			it = m_imageSizeFuncs.emplace( funcName, functionType ).first;
+			it = m_adaptationData.funcs.imageSizeFuncs.emplace( funcName, functionType ).first;
 			m_intrinsics->addStmt( std::move( cont ) );
 		}
 
@@ -1521,37 +1539,37 @@ namespace hlsl
 
 	void ExprAdapter::doProcessImageAtomicAdd( ast::expr::ImageAccessCall * expr )
 	{
-		doProcessImageAtomic( expr, "Add", m_imageAtomicAddFuncs );
+		doProcessImageAtomic( expr, "Add", m_adaptationData.funcs.imageAtomicAddFuncs );
 	}
 
 	void ExprAdapter::doProcessImageAtomicMin( ast::expr::ImageAccessCall * expr )
 	{
-		doProcessImageAtomic( expr, "Min", m_imageAtomicMinFuncs );
+		doProcessImageAtomic( expr, "Min", m_adaptationData.funcs.imageAtomicMinFuncs );
 	}
 
 	void ExprAdapter::doProcessImageAtomicMax( ast::expr::ImageAccessCall * expr )
 	{
-		doProcessImageAtomic( expr, "Max", m_imageAtomicMaxFuncs );
+		doProcessImageAtomic( expr, "Max", m_adaptationData.funcs.imageAtomicMaxFuncs );
 	}
 
 	void ExprAdapter::doProcessImageAtomicAnd( ast::expr::ImageAccessCall * expr )
 	{
-		doProcessImageAtomic( expr, "And", m_imageAtomicAndFuncs );
+		doProcessImageAtomic( expr, "And", m_adaptationData.funcs.imageAtomicAndFuncs );
 	}
 
 	void ExprAdapter::doProcessImageAtomicOr( ast::expr::ImageAccessCall * expr )
 	{
-		doProcessImageAtomic( expr, "Or", m_imageAtomicOrFuncs );
+		doProcessImageAtomic( expr, "Or", m_adaptationData.funcs.imageAtomicOrFuncs );
 	}
 
 	void ExprAdapter::doProcessImageAtomicXor( ast::expr::ImageAccessCall * expr )
 	{
-		doProcessImageAtomic( expr, "Xor", m_imageAtomicXorFuncs );
+		doProcessImageAtomic( expr, "Xor", m_adaptationData.funcs.imageAtomicXorFuncs );
 	}
 
 	void ExprAdapter::doProcessImageAtomicExchange( ast::expr::ImageAccessCall * expr )
 	{
-		doProcessImageAtomic( expr, "Exchange", m_imageAtomicExchangeFuncs );
+		doProcessImageAtomic( expr, "Exchange", m_adaptationData.funcs.imageAtomicExchangeFuncs );
 	}
 
 	void ExprAdapter::doProcessImageAtomicCompSwap( ast::expr::ImageAccessCall * expr )
@@ -1559,9 +1577,9 @@ namespace hlsl
 		auto imgArgType = std::static_pointer_cast< ast::type::Image >( expr->getArgList()[0]->getType() );
 		auto config = imgArgType->getConfig();
 		auto funcName = getName( "SDW_imageAtomicCompSwap", config );
-		auto it = m_imageAtomicCompSwapFuncs.find( funcName );
+		auto it = m_adaptationData.funcs.imageAtomicCompSwapFuncs.find( funcName );
 
-		if ( it == m_imageAtomicCompSwapFuncs.end() )
+		if ( it == m_adaptationData.funcs.imageAtomicCompSwapFuncs.end() )
 		{
 			// Declare the function
 			auto dataType = expr->getArgList()[2]->getType();
@@ -1602,7 +1620,7 @@ namespace hlsl
 			//	The return statement
 			cont->addStmt( ast::stmt::makeReturn( ast::expr::makeIdentifier( m_cache, res ) ) );
 
-			it = m_imageAtomicCompSwapFuncs.emplace( funcName, functionType ).first;
+			it = m_adaptationData.funcs.imageAtomicCompSwapFuncs.emplace( funcName, functionType ).first;
 			m_intrinsics->addStmt( std::move( cont ) );
 		}
 
@@ -1623,9 +1641,9 @@ namespace hlsl
 		auto imgArgType = std::static_pointer_cast< ast::type::SampledImage >( expr->getArgList()[0]->getType() );
 		auto config = imgArgType->getConfig();
 		auto funcName = getName( "SDW_textureSize", config );
-		auto it = m_imageSizeFuncs.find( funcName );
+		auto it = m_adaptationData.funcs.imageSizeFuncs.find( funcName );
 
-		if ( it == m_imageSizeFuncs.end() )
+		if ( it == m_adaptationData.funcs.imageSizeFuncs.end() )
 		{
 			ast::var::VariableList parameters;
 			auto image = ast::var::makeVariable( imgArgType->getImageType(), "image" );
@@ -1733,7 +1751,7 @@ namespace hlsl
 					, std::move( resArgs ) ) ) );
 			}
 
-			it = m_imageSizeFuncs.emplace( funcName, functionType ).first;
+			it = m_adaptationData.funcs.imageSizeFuncs.emplace( funcName, functionType ).first;
 			m_intrinsics->addStmt( std::move( cont ) );
 		}
 
@@ -1757,9 +1775,9 @@ namespace hlsl
 		auto imgArgType = std::static_pointer_cast< ast::type::SampledImage >( expr->getArgList()[0]->getType() );
 		auto config = imgArgType->getConfig();
 		auto funcName = getName( "SDW_textureQueryLod", config );
-		auto it = m_imageLodFuncs.find( funcName );
+		auto it = m_adaptationData.funcs.imageLodFuncs.find( funcName );
 
-		if ( it == m_imageLodFuncs.end() )
+		if ( it == m_adaptationData.funcs.imageLodFuncs.end() )
 		{
 			ast::var::VariableList parameters;
 			auto image = ast::var::makeVariable( imgArgType->getImageType(), "texImage" );
@@ -1795,7 +1813,7 @@ namespace hlsl
 				, ast::type::Kind::eFloat
 				, std::move( resArgs ) ) ) );
 
-			it = m_imageLodFuncs.emplace( funcName, functionType ).first;
+			it = m_adaptationData.funcs.imageLodFuncs.emplace( funcName, functionType ).first;
 			m_intrinsics->addStmt( std::move( cont ) );
 		}
 
@@ -1819,9 +1837,9 @@ namespace hlsl
 		auto imgArgType = std::static_pointer_cast< ast::type::SampledImage >( expr->getArgList()[0]->getType() );
 		auto config = imgArgType->getConfig();
 		auto funcName = getName( "SDW_textureQueryLevels", config );
-		auto it = m_imageLevelsFuncs.find( funcName );
+		auto it = m_adaptationData.funcs.imageLevelsFuncs.find( funcName );
 
-		if ( it == m_imageLevelsFuncs.end() )
+		if ( it == m_adaptationData.funcs.imageLevelsFuncs.end() )
 		{
 			ast::var::VariableList parameters;
 			auto image = ast::var::makeVariable( imgArgType->getImageType(), "image" );
@@ -1899,7 +1917,7 @@ namespace hlsl
 			// The return statement
 			cont->addStmt( ast::stmt::makeReturn( ast::expr::makeIdentifier( m_cache, levels ) ) );
 
-			it = m_imageLevelsFuncs.emplace( funcName, functionType ).first;
+			it = m_adaptationData.funcs.imageLevelsFuncs.emplace( funcName, functionType ).first;
 			m_intrinsics->addStmt( std::move( cont ) );
 		}
 

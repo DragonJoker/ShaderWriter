@@ -36,13 +36,17 @@ namespace spirv
 		void visitMinusExpr( ast::expr::Minus * expr )override;
 		void visitTimesAssignExpr( ast::expr::TimesAssign * expr )override;
 		void visitTimesExpr( ast::expr::Times * expr )override;
+		void visitCastExpr( ast::expr::Cast * expr )override;
 		void visitCompositeConstructExpr( ast::expr::CompositeConstruct * expr )override;
+		void visitFnCallExpr( ast::expr::FnCall * expr )override;
 		void visitIdentifierExpr( ast::expr::Identifier * expr )override;
 		void visitImageAccessCallExpr( ast::expr::ImageAccessCall * expr )override;
 		void visitIntrinsicCallExpr( ast::expr::IntrinsicCall * expr )override;
+		void visitQuestionExpr( ast::expr::Question * expr )override;
 		void visitTextureAccessCallExpr( ast::expr::TextureAccessCall * expr )override;
 
-		ast::expr::ExprPtr doMakeAlias( ast::expr::ExprPtr expr );
+		ast::expr::ExprPtr doMakeAlias( ast::expr::ExprPtr expr
+			, bool param = false );
 		ast::type::TypePtr doPromoteScalar( ast::expr::ExprPtr & lhs
 			, ast::expr::ExprPtr & rhs );
 		ast::expr::ExprPtr doWriteBinaryOperation( ast::expr::Kind operation
@@ -53,6 +57,20 @@ namespace spirv
 			, ast::type::TypePtr resType
 			, ast::expr::Expr * lhs
 			, ast::expr::Expr * rhs );
+
+		void doConstructVector( ast::expr::CompositeConstruct * expr
+			, ast::expr::ExprPtr const & newArg
+			, ast::type::Kind destKind
+			, ast::expr::ExprList & args );
+		void doConstructMatrix( ast::expr::CompositeConstruct * expr
+			, ast::expr::ExprPtr const & newArg
+			, ast::type::Kind destKind
+			, ast::expr::ExprList & args );
+		void doConstructOther( ast::expr::CompositeConstruct * expr
+			, ast::expr::ExprList & args );
+
+		ast::expr::ExprPtr doWriteToBoolCast( ast::expr::Expr * expr );
+		ast::expr::ExprPtr doWriteFromBoolCast( ast::expr::Expr * expr );
 
 	private:
 		ast::type::TypesCache & m_cache;

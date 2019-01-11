@@ -18,6 +18,14 @@ namespace spirv
 {
 	namespace
 	{
+		std::stringstream getStream()
+		{
+			std::stringstream stream;
+			std::locale loc{ "C" };
+			stream.imbue( loc );
+			return stream;
+		}
+
 		std::string getSourceLanguageName( uint32_t value )
 		{
 			switch ( spv::SourceLanguage( value ) )
@@ -1022,7 +1030,7 @@ namespace spirv
 
 		std::string getName( spv::Scope value )
 		{
-			std::stringstream stream;
+			auto stream = getStream();
 
 			switch ( value )
 			{
@@ -1044,7 +1052,7 @@ namespace spirv
 
 		std::string getSelectionControlName( uint32_t value )
 		{
-			std::stringstream stream;
+			auto stream = getStream();
 			std::string sep;
 			stream << "[";
 
@@ -1069,9 +1077,42 @@ namespace spirv
 			return stream.str();
 		}
 
+		std::string getMemoryAccessName( uint32_t value )
+		{
+			auto stream = getStream();
+			std::string sep;
+			stream << "[";
+
+			if ( value & uint32_t( spv::MemoryAccessAlignedMask ) )
+			{
+				stream << sep << "AlignedMask";
+				sep = "|";
+			}
+
+			if ( value & uint32_t( spv::MemoryAccessVolatileMask ) )
+			{
+				stream << sep << "Volatile";
+				sep = "|";
+			}
+
+			if ( value & uint32_t( spv::MemoryAccessNontemporalMask ) )
+			{
+				stream << sep << "Nontemporal";
+				sep = "|";
+			}
+
+			if ( value == uint32_t( spv::MemoryAccessMaskNone ) )
+			{
+				stream << sep << "None";
+			}
+
+			stream << "]";
+			return stream.str();
+		}
+
 		std::string getLoopControlName( uint32_t value )
 		{
-			std::stringstream stream;
+			auto stream = getStream();
 			std::string sep;
 			stream << "[";
 
@@ -1110,7 +1151,7 @@ namespace spirv
 
 		std::string getImageOperandsName( uint32_t value )
 		{
-			std::stringstream stream;
+			auto stream = getStream();
 			std::string sep;
 			stream << "[";
 
@@ -1173,7 +1214,7 @@ namespace spirv
 
 		std::string getMemorySemanticsName( uint32_t value )
 		{
-			std::stringstream stream;
+			auto stream = getStream();
 			std::string sep;
 			stream << "[";
 
@@ -1248,7 +1289,7 @@ namespace spirv
 
 		std::string getFunctionControlMaskName( uint32_t value )
 		{
-			std::stringstream stream;
+			auto stream = getStream();
 			std::string sep;
 			stream << "[";
 
@@ -1287,7 +1328,7 @@ namespace spirv
 
 		std::string getFPFastMathModeName( uint32_t value )
 		{
-			std::stringstream stream;
+			auto stream = getStream();
 			std::string sep;
 			stream << "[";
 
@@ -1504,7 +1545,7 @@ namespace spirv
 
 		std::string writeId( spv::Id const & id )
 		{
-			std::stringstream stream;
+			auto stream = getStream();
 			stream << std::setw( 5 ) << std::right << ( "%" + std::to_string( id ) );
 			return stream.str();
 		}
@@ -1512,7 +1553,7 @@ namespace spirv
 		std::string write( spv::Id id
 			, NameCache const & names )
 		{
-			std::stringstream stream;
+			auto stream = getStream();
 			stream << " %" << id << names.get( id );
 			return stream.str();
 		}
@@ -2247,6 +2288,22 @@ namespace spirv
 			return stream;
 		}
 
+		std::ostream & writeCopyMemory( spirv::InstructionPtr const & instruction
+			, NameCache & names
+			, std::ostream & stream )
+		{
+			checkType< CopyMemoryInstruction >( *instruction );
+			write( instruction->operands[0], names, stream );
+			write( instruction->operands[1], names, stream );
+
+			if ( instruction->operands.size() > 2u )
+			{
+				stream << " " << getMemoryAccessName( instruction->operands[2] );
+			}
+
+			return stream;
+		}
+
 		std::ostream & writeVectorShuffle( spirv::InstructionPtr const & instruction
 			, NameCache & names
 			, std::ostream & stream )
@@ -2490,6 +2547,10 @@ namespace spirv
 			else if ( opCode == spv::OpLoad )
 			{
 				writeLoad( instruction, names, stream );
+			}
+			else if ( opCode == spv::OpCopyMemory )
+			{
+				writeCopyMemory( instruction, names, stream );
 			}
 			else if ( opCode == spv::OpVectorShuffle )
 			{
@@ -2904,7 +2965,7 @@ namespace spirv
 		, bool writeHeader )
 	{
 		auto module = compileSpirV( shader );
-		std::stringstream stream;
+		auto stream = getStream();
 		write( module, writeHeader, stream );
 		return stream.str();
 	}

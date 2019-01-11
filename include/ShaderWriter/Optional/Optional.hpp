@@ -71,6 +71,11 @@ namespace sdw
 	inline Optional< ReturnT > writeBinOperator( Optional< LhsT > const & lhs
 		, Optional< RhsT > const & rhs
 		, CreatorT creator );
+
+	template< typename ReturnT, typename LhsT, typename RhsT, typename CreatorT >
+	inline void writeAssignOperator( LhsT const & lhs
+		, RhsT const & rhs
+		, CreatorT creator );
 }
 
 #include "Optional.inl"

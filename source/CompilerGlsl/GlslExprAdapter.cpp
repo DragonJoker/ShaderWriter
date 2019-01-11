@@ -99,6 +99,7 @@ namespace glsl
 				, swizzle );
 		}
 	}
+
 	ast::expr::ExprPtr ExprAdapter::submit( ast::type::TypesCache & cache
 		, ast::expr::Expr * expr
 		, GlslConfig const & writerConfig

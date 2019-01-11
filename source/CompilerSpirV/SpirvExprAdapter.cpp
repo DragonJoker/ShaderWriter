@@ -4,8 +4,10 @@ See LICENSE file in root folder
 #include "SpirvExprAdapter.hpp"
 #include "SpirvExprEvaluator.hpp"
 
+#include "SpirvGetSwizzleComponents.hpp"
 #include "SpirvTextureAccessConfig.hpp"
 #include "SpirvTextureAccessNames.hpp"
+#include "SpirvMakeAccessChain.hpp"
 
 #include <ShaderAST/Stmt/StmtSimple.hpp>
 #include <ShaderAST/Visitors/CloneExpr.hpp>
@@ -34,6 +36,64 @@ namespace spirv
 			}
 
 			return result;
+		}
+
+		bool needsAlias( ast::expr::Kind kind
+			, bool uniform
+			, bool param )
+		{
+			return ( kind != ast::expr::Kind::eIdentifier || uniform )
+				&& kind != ast::expr::Kind::eMbrSelect
+				&& ( param || kind != ast::expr::Kind::eLiteral )
+				&& ( param || kind != ast::expr::Kind::eSwizzle );
+		}
+
+		ast::expr::ExprPtr makeZero( ast::type::TypesCache & cache
+			, ast::type::Kind kind )
+		{
+			switch ( kind )
+			{
+			case ast::type::Kind::eInt:
+				return ast::expr::makeLiteral( cache, 0 );
+			case ast::type::Kind::eUInt:
+				return ast::expr::makeLiteral( cache, 0u );
+			case ast::type::Kind::eHalf:
+			case ast::type::Kind::eFloat:
+				return ast::expr::makeLiteral( cache, 0.0f );
+			case ast::type::Kind::eDouble:
+				return ast::expr::makeLiteral( cache, 0.0 );
+			default:
+				assert( false && "Unsupported type kind for 0 literal" );
+				return nullptr;
+			}
+		}
+
+		ast::expr::ExprPtr makeOne( ast::type::TypesCache & cache
+			, ast::type::Kind kind )
+		{
+			switch ( kind )
+			{
+			case ast::type::Kind::eInt:
+				return ast::expr::makeLiteral( cache, 1 );
+			case ast::type::Kind::eUInt:
+				return ast::expr::makeLiteral( cache, 1u );
+			case ast::type::Kind::eHalf:
+			case ast::type::Kind::eFloat:
+				return ast::expr::makeLiteral( cache, 1.0f );
+			case ast::type::Kind::eDouble:
+				return ast::expr::makeLiteral( cache, 1.0 );
+			default:
+				assert( false && "Unsupported type kind for 0 literal" );
+				return nullptr;
+			}
+		}
+
+		bool isShaderVariable( ast::expr::Expr const & expr )
+		{
+			return expr.getKind() == ast::expr::Kind::eIdentifier
+				&& ( static_cast< ast::expr::Identifier const & >( expr ).getVariable()->isUniform()
+				|| static_cast< ast::expr::Identifier const & >( expr ).getVariable()->isShaderInput()
+				|| static_cast< ast::expr::Identifier const & >( expr ).getVariable()->isShaderOutput() );
 		}
 	}
 
@@ -154,58 +214,118 @@ namespace spirv
 			, expr->getRHS() );
 	}
 
+	void ExprAdapter::visitCastExpr( ast::expr::Cast * expr )
+	{
+		auto dstScalarType = getScalarType( expr->getType()->getKind() );
+		auto srcScalarType = getScalarType( expr->getOperand()->getType()->getKind() );
+		auto dstComponents = getComponentCount( expr->getType()->getKind() );
+		auto srcComponents = getComponentCount( expr->getOperand()->getType()->getKind() );
+
+		if ( dstScalarType == ast::type::Kind::eBool
+			&& srcScalarType != ast::type::Kind::eBool )
+		{
+			// Conversion to bool scalar or vector type.
+			assert( dstComponents == srcComponents );
+			m_result = doWriteToBoolCast( expr->getOperand() );
+		}
+		else if ( srcScalarType == ast::type::Kind::eBool
+			&& dstScalarType != ast::type::Kind::eBool )
+		{
+			// Conversion from bool scalar or vector type.
+			assert( dstComponents == srcComponents );
+			m_result = doWriteFromBoolCast( expr->getOperand() );
+		}
+		else
+		{
+			ExprCloner::visitCastExpr( expr );
+		}
+	}
+
 	void ExprAdapter::visitCompositeConstructExpr( ast::expr::CompositeConstruct * expr )
 	{
-		auto scalarType = expr->getComponent();
 		ast::expr::ExprList args;
 
 		if ( expr->getArgList().size() == 1u
 			&& !isScalarType( expr->getArgList().front()->getType()->getKind() ) )
 		{
-			auto newArg = doMakeAlias( doSubmit( expr->getArgList().front().get() ) );
-			auto count = getComponentCount( newArg->getType()->getKind() );
+			auto & arg = *expr->getArgList().front();
+			auto argType = arg.getType();
+			auto newArg = doMakeAlias( doSubmit( &arg ) );
 
-			for ( auto i = 0u; i < count; ++i )
+			if ( isVectorType( argType->getKind() ) )
 			{
-				args.emplace_back( ast::expr::makeSwizzle( doSubmit( newArg.get() )
-					, ast::expr::SwizzleKind( i ) ) );
+				doConstructVector( expr
+					, newArg
+					, expr->getType()->getKind()
+					, args );
 			}
-
-			if ( newArg->getType()->getKind() != expr->getType()->getKind() )
+			else if ( isMatrixType( argType->getKind() ) )
 			{
-				auto dstType = m_cache.getBasicType( getScalarType( expr->getType()->getKind() ) );
-
-				for ( auto & arg : args )
-				{
-					arg = ast::expr::makeCast( dstType
-						, std::move( arg ) );
-				}
+				doConstructMatrix( expr
+					, newArg
+					, expr->getType()->getKind()
+					, args );
+			}
+			else
+			{
+				// TODO: Struct or array.
 			}
 		}
 		else
 		{
-			for ( auto & arg : expr->getArgList() )
-			{
-				auto newArg = doSubmit( arg.get() );
-
-				if ( isScalarType( newArg->getType()->getKind() ) )
-				{
-					auto argTypeKind = getScalarType( newArg->getType()->getKind() );
-
-					if ( argTypeKind != scalarType )
-					{
-						newArg = ast::expr::makeCast( m_cache.getBasicType( scalarType )
-							, std::move( newArg ) );
-					}
-				}
-
-				args.emplace_back( std::move( newArg ) );
-			}
+			doConstructOther( expr, args );
 		}
 
 		m_result = ast::expr::makeCompositeConstruct( expr->getComposite()
 			, expr->getComponent()
 			, std::move( args ) );
+	}
+
+	void ExprAdapter::visitFnCallExpr( ast::expr::FnCall * expr )
+	{
+		ast::expr::ExprList args;
+
+		for ( auto & arg : expr->getArgList() )
+		{
+			auto kind = getNonArrayKind( arg->getType()->getKind() );
+
+			if ( isSamplerType( kind )
+				|| isSampledImageType( kind )
+				|| isImageType( kind ) )
+			{
+				// Images/Samplers/SampledImages are uniform constant pointers.
+				args.emplace_back( doSubmit( arg.get() ) );
+			}
+			else if ( isAccessChain( arg.get() )
+				&& arg->getKind() != ast::expr::Kind::eSwizzle
+				&& arg->getKind() != ast::expr::Kind::eLiteral
+				&& ( arg->getKind() != ast::expr::Kind::eIdentifier
+					|| !isShaderVariable( *arg ) ) )
+			{
+				// Access chains are pointers, hence no need for an alias.
+				args.emplace_back( doSubmit( arg.get() ) );
+			}
+			else
+			{
+				auto expr = doMakeAlias( doSubmit( arg.get() ), true );
+				args.emplace_back( std::move( expr ) );
+			}
+		}
+
+		if ( expr->isMember() )
+		{
+			m_result = ast::expr::makeMemberFnCall( expr->getType()
+				, std::make_unique< ast::expr::Identifier >( *expr->getFn() )
+				, doSubmit( expr->getInstance() )
+				, std::move( args ) );
+		}
+		else
+		{
+			m_result = ast::expr::makeFnCall( expr->getType()
+				, std::make_unique< ast::expr::Identifier >( *expr->getFn() )
+				, std::move( args ) );
+		}
+
 	}
 
 	void ExprAdapter::visitIdentifierExpr( ast::expr::Identifier * expr )
@@ -250,6 +370,7 @@ namespace spirv
 		if ( intrinsic >= ast::expr::Intrinsic::eMatrixCompMult2x2F
 			&& intrinsic <= ast::expr::Intrinsic::eMatrixCompMult4x4D )
 		{
+			assert( expr->getArgList().size() == 2u );
 			m_result = doWriteMatrixBinaryOperation( ast::expr::Kind::eTimes
 				, expr->getType()
 				, expr->getArgList()[0].get()
@@ -258,6 +379,29 @@ namespace spirv
 		else
 		{
 			ExprCloner::visitIntrinsicCallExpr( expr );
+		}
+	}
+
+	void ExprAdapter::visitQuestionExpr( ast::expr::Question * expr )
+	{
+		auto condComponents = getComponentCount( expr->getCtrlExpr()->getType()->getKind() );
+		auto opsComponents = getComponentCount( expr->getTrueExpr()->getType()->getKind() );
+
+		if ( condComponents == opsComponents )
+		{
+			ExprCloner::visitQuestionExpr( expr );
+		}
+		else
+		{
+			assert( condComponents == 1u );
+			ast::expr::ExprList args;
+			args.emplace_back( doMakeAlias( doSubmit( expr->getCtrlExpr() ) ) );
+			m_result = ast::expr::makeQuestion( expr->getType()
+				, doSubmit( ast::expr::makeCompositeConstruct( getCompositeType( opsComponents )
+					, expr->getCtrlExpr()->getType()->getKind()
+					, std::move( args ) ).get() )
+				, doSubmit( expr->getTrueExpr() )
+				, doSubmit( expr->getFalseExpr() ) );
 		}
 	}
 
@@ -336,17 +480,12 @@ namespace spirv
 		}
 	}
 
-	bool needsAlias( ast::expr::Kind kind )
+	ast::expr::ExprPtr ExprAdapter::doMakeAlias( ast::expr::ExprPtr expr
+		, bool param )
 	{
-		return kind != ast::expr::Kind::eIdentifier
-			&& kind != ast::expr::Kind::eSwizzle
-			&& kind != ast::expr::Kind::eLiteral
-			&& kind != ast::expr::Kind::eMbrSelect;
-	}
-
-	ast::expr::ExprPtr ExprAdapter::doMakeAlias( ast::expr::ExprPtr expr )
-	{
-		if ( !needsAlias( expr->getKind() ) )
+		if ( !needsAlias( expr->getKind()
+			, isShaderVariable( *expr )
+			, param ) )
 		{
 			return expr;
 		}
@@ -708,6 +847,203 @@ namespace spirv
 
 		assert( args.size() == 1u );
 		return std::move( args[0] );
+	}
+
+	void ExprAdapter::doConstructVector( ast::expr::CompositeConstruct * expr
+		, ast::expr::ExprPtr const & newArg
+		, ast::type::Kind destKind
+		, ast::expr::ExprList & args )
+	{
+		auto count = getComponentCount( newArg->getType()->getKind() );
+
+		for ( auto i = 0u; i < count; ++i )
+		{
+			args.emplace_back( ast::expr::makeSwizzle( doSubmit( newArg.get() )
+				, ast::expr::SwizzleKind( i ) ) );
+		}
+
+		if ( newArg->getType()->getKind() != expr->getType()->getKind() )
+		{
+			auto dstType = m_cache.getBasicType( getScalarType( expr->getType()->getKind() ) );
+
+			for ( auto & arg : args )
+			{
+				arg = doSubmit( ast::expr::makeCast( dstType
+					, std::move( arg ) ).get() );
+			}
+		}
+	}
+
+	void ExprAdapter::doConstructMatrix( ast::expr::CompositeConstruct * expr
+		, ast::expr::ExprPtr const & newArg
+		, ast::type::Kind destKind
+		, ast::expr::ExprList & args )
+	{
+		auto scalarType = getScalarType( destKind );
+		auto srcColumnCount = getComponentCount( newArg->getType()->getKind() );
+		auto srcRowCount = getComponentCount( getComponentType( newArg->getType()->getKind() ) );
+		auto dstColumnCount = getComponentCount( destKind );
+		auto dstRowCount = getComponentCount( getComponentType( destKind ) );
+		auto minColumnCount = std::min( srcColumnCount, dstColumnCount );
+
+		for ( auto col = 0u; col < minColumnCount; ++col )
+		{
+			auto arrayAccess = ast::expr::makeArrayAccess( m_cache.getVector( scalarType, srcRowCount )
+				, doSubmit( newArg.get() )
+				, ast::expr::makeLiteral( m_cache, col ) );
+
+			if ( dstRowCount < srcRowCount )
+			{
+				args.emplace_back( ast::expr::makeSwizzle( std::move( arrayAccess )
+					, getSwizzleComponents( dstRowCount ) ) );
+			}
+			else if ( dstRowCount == srcRowCount )
+			{
+				args.emplace_back( std::move( arrayAccess ) );
+			}
+			else
+			{
+				ast::expr::ExprList compositeArgs;
+				compositeArgs.emplace_back( std::move( arrayAccess ) );
+
+				for ( auto row = srcRowCount; row < dstRowCount; ++row )
+				{
+					if ( row == col )
+					{
+						switch ( scalarType )
+						{
+						case ast::type::Kind::eInt:
+							compositeArgs.emplace_back( ast::expr::makeLiteral( m_cache, 1 ) );
+							break;
+						case ast::type::Kind::eUInt:
+							compositeArgs.emplace_back( ast::expr::makeLiteral( m_cache, 1u ) );
+							break;
+						case ast::type::Kind::eFloat:
+							compositeArgs.emplace_back( ast::expr::makeLiteral( m_cache, 1.0f ) );
+							break;
+						case ast::type::Kind::eDouble:
+							compositeArgs.emplace_back( ast::expr::makeLiteral( m_cache, 1.0 ) );
+							break;
+						}
+					}
+					else
+					{
+						switch ( scalarType )
+						{
+						case ast::type::Kind::eInt:
+							compositeArgs.emplace_back( ast::expr::makeLiteral( m_cache, 0 ) );
+							break;
+						case ast::type::Kind::eUInt:
+							compositeArgs.emplace_back( ast::expr::makeLiteral( m_cache, 0u ) );
+							break;
+						case ast::type::Kind::eFloat:
+							compositeArgs.emplace_back( ast::expr::makeLiteral( m_cache, 0.0f ) );
+							break;
+						case ast::type::Kind::eDouble:
+							compositeArgs.emplace_back( ast::expr::makeLiteral( m_cache, 0.0 ) );
+							break;
+						}
+					}
+				}
+
+				args.emplace_back( ast::expr::makeCompositeConstruct( getCompositeType( dstRowCount )
+					, scalarType
+					, std::move( compositeArgs ) ) );
+			}
+		}
+
+		for ( auto col = minColumnCount; col < dstColumnCount; ++col )
+		{
+		}
+	}
+
+	void ExprAdapter::doConstructOther( ast::expr::CompositeConstruct * expr
+		, ast::expr::ExprList & args )
+	{
+		auto scalarType = expr->getComponent();
+
+		for ( auto & arg : expr->getArgList() )
+		{
+			auto newArg = doSubmit( arg.get() );
+
+			if ( isScalarType( newArg->getType()->getKind() ) )
+			{
+				auto argTypeKind = getScalarType( newArg->getType()->getKind() );
+
+				if ( argTypeKind != scalarType )
+				{
+					newArg = ast::expr::makeCast( m_cache.getBasicType( scalarType )
+						, std::move( newArg ) );
+				}
+			}
+
+			args.emplace_back( std::move( newArg ) );
+		}
+	}
+
+	ast::expr::ExprPtr ExprAdapter::doWriteToBoolCast( ast::expr::Expr *  expr )
+	{
+		auto componentCount = getComponentCount( expr->getType()->getKind() );
+		ast::expr::ExprPtr result;
+
+		if ( componentCount == 1u )
+		{
+			result = ast::expr::makeNotEqual( m_cache
+				, doSubmit( expr )
+				, makeZero( m_cache, expr->getType()->getKind() ) );
+		}
+		else
+		{
+			ast::expr::ExprList args;
+			auto newExpr = doSubmit( expr );
+
+			for ( auto i = 0u; i < componentCount; ++i )
+			{
+				args.emplace_back( ast::expr::makeNotEqual( m_cache
+					, ast::expr::makeSwizzle( doSubmit( newExpr.get() ), ast::expr::SwizzleKind( i ) )
+					, makeZero( m_cache, expr->getType()->getKind() ) ) );
+			}
+
+			result = ast::expr::makeCompositeConstruct( ast::expr::CompositeType( componentCount )
+				, ast::type::Kind::eBool
+				, std::move( args ) );
+		}
+
+		return result;
+	}
+
+	ast::expr::ExprPtr ExprAdapter::doWriteFromBoolCast( ast::expr::Expr * expr )
+	{
+		auto componentCount = getComponentCount( expr->getType()->getKind() );
+		ast::expr::ExprPtr result;
+
+		if ( componentCount == 1u )
+		{
+			result = ast::expr::makeQuestion( expr->getType()
+				, doSubmit( expr )
+				, makeOne( m_cache, expr->getType()->getKind() )
+				, makeZero( m_cache, expr->getType()->getKind() ) );
+		}
+		else
+		{
+			ast::expr::ExprList args;
+			auto newExpr = doSubmit( expr );
+			auto type = m_cache.getBasicType( getScalarType( expr->getType()->getKind() ) );
+
+			for ( auto i = 0u; i < componentCount; ++i )
+			{
+				args.emplace_back( ast::expr::makeQuestion( type
+					, ast::expr::makeSwizzle( doSubmit( newExpr.get() ), ast::expr::SwizzleKind( i ) )
+					, makeOne( m_cache, type->getKind() )
+					, makeZero( m_cache, type->getKind() ) ) );
+			}
+
+			result = ast::expr::makeCompositeConstruct( ast::expr::CompositeType( componentCount )
+				, type->getKind()
+				, std::move( args ) );
+		}
+
+		return result;
 	}
 
 	//*************************************************************************

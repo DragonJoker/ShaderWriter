@@ -10,6 +10,7 @@ namespace sdw
 		, expr::ExprPtr expr )
 		: Value{ shader, std::move( expr ) }
 	{
+		assert( this->getType()->getKind() == KindT );
 	}
 
 	template< ast::type::Kind KindT >
@@ -28,12 +29,14 @@ namespace sdw
 	ArithmeticValue< KindT >::ArithmeticValue( CppTypeT< ArithmeticValue< KindT > > rhs )
 		: Value{ &sdw::getShader( sdw::getCurrentWriter() ), makeExpr( sdw::getShader( sdw::getCurrentWriter() ), rhs ) }
 	{
+		assert( this->getType()->getKind() == KindT );
 	}
 
 	template< ast::type::Kind KindT >
 	ArithmeticValue< KindT >::ArithmeticValue( Value const & rhs )
 		: Value{ rhs }
 	{
+		assert( this->getType()->getKind() == KindT );
 	}
 
 	template< ast::type::Kind KindT >

@@ -132,7 +132,7 @@ namespace
 			{
 				FragmentWriter writer;
 				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
-				writer.implementFunction< void >( "main"
+				writer.implementFunction< sdw::Void >( "main"
 					, [&]()
 					{
 						auto i = writer.declLocale( "i"
@@ -162,7 +162,7 @@ namespace
 			{
 				FragmentWriter writer;
 				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
-				writer.implementFunction< void >( "main"
+				writer.implementFunction< sdw::Void >( "main"
 					, [&]()
 					{
 						auto i = writer.declLocale( "i"
@@ -225,7 +225,7 @@ namespace
 			{
 				FragmentWriter writer;
 				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
-				writer.implementFunction< void >( "main"
+				writer.implementFunction< sdw::Void >( "main"
 					, [&]()
 					{
 						auto i = writer.declLocale( "i"
@@ -286,7 +286,7 @@ namespace
 			{
 				FragmentWriter writer;
 				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
-				writer.implementFunction< void >( "main"
+				writer.implementFunction< sdw::Void >( "main"
 					, [&]()
 					{
 						auto i = writer.declLocale( "i"
@@ -343,7 +343,7 @@ namespace
 			{
 				FragmentWriter writer;
 				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
-				writer.implementFunction< void >( "main"
+				writer.implementFunction< sdw::Void >( "main"
 					, [&]()
 					{
 						auto c = writer.declLocale( "c"
@@ -381,7 +381,7 @@ namespace
 			{
 				FragmentWriter writer;
 				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
-				writer.implementFunction< void >( "main"
+				writer.implementFunction< sdw::Void >( "main"
 					, [&]()
 					{
 						auto c = writer.declLocale( "c"
@@ -440,7 +440,7 @@ namespace
 			{
 				FragmentWriter writer;
 				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
-				writer.implementFunction< void >( "main"
+				writer.implementFunction< sdw::Void >( "main"
 					, [&]()
 					{
 						auto c = writer.declLocale( "c"
@@ -476,7 +476,7 @@ namespace
 			{
 				FragmentWriter writer;
 				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
-				writer.implementFunction< void >( "main"
+				writer.implementFunction< sdw::Void >( "main"
 					, [&]()
 					{
 						auto c = writer.declLocale( "c"
@@ -532,7 +532,7 @@ namespace
 			{
 				FragmentWriter writer;
 				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
-				writer.implementFunction< void >( "main"
+				writer.implementFunction< sdw::Void >( "main"
 					, [&]()
 					{
 						auto c = writer.declLocale( "c"
@@ -566,7 +566,7 @@ namespace
 			{
 				FragmentWriter writer;
 				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
-				writer.implementFunction< void >( "main"
+				writer.implementFunction< sdw::Void >( "main"
 					, [&]()
 					{
 						auto c = writer.declLocale( "c"
@@ -621,7 +621,7 @@ namespace
 			{
 				FragmentWriter writer;
 				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
-				writer.implementFunction< void >( "main"
+				writer.implementFunction< sdw::Void >( "main"
 					, [&]()
 					{
 						auto c = writer.declLocale( "c"
@@ -655,7 +655,7 @@ namespace
 			{
 				FragmentWriter writer;
 				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
-				writer.implementFunction< void >( "main"
+				writer.implementFunction< sdw::Void >( "main"
 					, [&]()
 					{
 						auto c = writer.declLocale( "c"
@@ -715,7 +715,7 @@ namespace
 			{
 				FragmentWriter writer;
 				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
-				writer.implementFunction< void >( "main"
+				writer.implementFunction< sdw::Void >( "main"
 					, [&]()
 					{
 						auto c = writer.declLocale( "c"
@@ -750,7 +750,7 @@ namespace
 			{
 				FragmentWriter writer;
 				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
-				writer.implementFunction< void >( "main"
+				writer.implementFunction< sdw::Void >( "main"
 					, [&]()
 					{
 						auto c = writer.declLocale( "c"
@@ -809,7 +809,7 @@ namespace
 			{
 				FragmentWriter writer;
 				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
-				writer.implementFunction< void >( "main"
+				writer.implementFunction< sdw::Void >( "main"
 					, [&]()
 					{
 						auto c = writer.declLocale( "c"
@@ -847,7 +847,7 @@ namespace
 			{
 				FragmentWriter writer;
 				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
-				writer.implementFunction< void >( "main"
+				writer.implementFunction< sdw::Void >( "main"
 					, [&]()
 					{
 						auto c = writer.declLocale( "c"
@@ -906,7 +906,7 @@ namespace
 			{
 				FragmentWriter writer;
 				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
-				writer.implementFunction< void >( "main"
+				writer.implementFunction< sdw::Void >( "main"
 					, [&]()
 					{
 						auto c = writer.declLocale( "c"
@@ -942,7 +942,7 @@ namespace
 			{
 				FragmentWriter writer;
 				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
-				writer.implementFunction< void >( "main"
+				writer.implementFunction< sdw::Void >( "main"
 					, [&]()
 					{
 						auto c = writer.declLocale( "c"
@@ -1001,7 +1001,7 @@ namespace
 			{
 				FragmentWriter writer;
 				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
-				writer.implementFunction< void >( "main"
+				writer.implementFunction< sdw::Void >( "main"
 					, [&]()
 					{
 						auto c = writer.declLocale( "c"
@@ -1034,7 +1034,7 @@ namespace
 			{
 				FragmentWriter writer;
 				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
-				writer.implementFunction< void >( "main"
+				writer.implementFunction< sdw::Void >( "main"
 					, [&]()
 					{
 						auto c = writer.declLocale( "c"
@@ -1091,7 +1091,7 @@ namespace
 			{
 				FragmentWriter writer;
 				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
-				writer.implementFunction< void >( "main"
+				writer.implementFunction< sdw::Void >( "main"
 					, [&]()
 					{
 						auto c = writer.declLocale( "c"
@@ -1148,7 +1148,7 @@ namespace
 			{
 				FragmentWriter writer;
 				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
-				writer.implementFunction< void >( "main"
+				writer.implementFunction< sdw::Void >( "main"
 					, [&]()
 					{
 						auto c = writer.declLocale( "c"
@@ -1184,7 +1184,7 @@ namespace
 			{
 				FragmentWriter writer;
 				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
-				writer.implementFunction< void >( "main"
+				writer.implementFunction< sdw::Void >( "main"
 					, [&]()
 					{
 						auto c = writer.declLocale( "c"
@@ -1241,7 +1241,7 @@ namespace
 			{
 				FragmentWriter writer;
 				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
-				writer.implementFunction< void >( "main"
+				writer.implementFunction< sdw::Void >( "main"
 					, [&]()
 					{
 						auto c = writer.declLocale( "c"
@@ -1277,7 +1277,7 @@ namespace
 			{
 				FragmentWriter writer;
 				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
-				writer.implementFunction< void >( "main"
+				writer.implementFunction< sdw::Void >( "main"
 					, [&]()
 					{
 						auto c = writer.declLocale( "c"
@@ -1337,7 +1337,7 @@ namespace
 			{
 				FragmentWriter writer;
 				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
-				writer.implementFunction< void >( "main"
+				writer.implementFunction< sdw::Void >( "main"
 					, [&]()
 					{
 						auto c = writer.declLocale( "c"
@@ -1374,7 +1374,7 @@ namespace
 			{
 				FragmentWriter writer;
 				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
-				writer.implementFunction< void >( "main"
+				writer.implementFunction< sdw::Void >( "main"
 					, [&]()
 					{
 						auto c = writer.declLocale( "c"
@@ -1431,7 +1431,7 @@ namespace
 			{
 				FragmentWriter writer;
 				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
-				writer.implementFunction< void >( "main"
+				writer.implementFunction< sdw::Void >( "main"
 					, [&]()
 					{
 						auto c = writer.declLocale( "c"
@@ -1465,7 +1465,7 @@ namespace
 			{
 				FragmentWriter writer;
 				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
-				writer.implementFunction< void >( "main"
+				writer.implementFunction< sdw::Void >( "main"
 					, [&]()
 					{
 						auto c = writer.declLocale( "c"
@@ -1522,7 +1522,7 @@ namespace
 			{
 				FragmentWriter writer;
 				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
-				writer.implementFunction< void >( "main"
+				writer.implementFunction< sdw::Void >( "main"
 					, [&]()
 					{
 						auto c = writer.declLocale( "c"
@@ -1558,7 +1558,7 @@ namespace
 			{
 				FragmentWriter writer;
 				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
-				writer.implementFunction< void >( "main"
+				writer.implementFunction< sdw::Void >( "main"
 					, [&]()
 					{
 						auto c = writer.declLocale( "c"
@@ -1620,7 +1620,7 @@ namespace
 			{
 				FragmentWriter writer;
 				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
-				writer.implementFunction< void >( "main"
+				writer.implementFunction< sdw::Void >( "main"
 					, [&]()
 					{
 						auto c = writer.declLocale( "c"
@@ -1658,7 +1658,7 @@ namespace
 			{
 				FragmentWriter writer;
 				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
-				writer.implementFunction< void >( "main"
+				writer.implementFunction< sdw::Void >( "main"
 					, [&]()
 					{
 						auto c = writer.declLocale( "c"
@@ -1719,7 +1719,7 @@ namespace
 			{
 				FragmentWriter writer;
 				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
-				writer.implementFunction< void >( "main"
+				writer.implementFunction< sdw::Void >( "main"
 					, [&]()
 					{
 						auto c = writer.declLocale( "c"
@@ -1760,7 +1760,7 @@ namespace
 			{
 				FragmentWriter writer;
 				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
-				writer.implementFunction< void >( "main"
+				writer.implementFunction< sdw::Void >( "main"
 					, [&]()
 					{
 						auto c = writer.declLocale( "c"
@@ -1819,7 +1819,7 @@ namespace
 			{
 				FragmentWriter writer;
 				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
-				writer.implementFunction< void >( "main"
+				writer.implementFunction< sdw::Void >( "main"
 					, [&]()
 					{
 						auto c = writer.declLocale( "c"
@@ -1856,7 +1856,7 @@ namespace
 			{
 				FragmentWriter writer;
 				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
-				writer.implementFunction< void >( "main"
+				writer.implementFunction< sdw::Void >( "main"
 					, [&]()
 					{
 						auto c = writer.declLocale( "c"
@@ -1915,7 +1915,7 @@ namespace
 			{
 				FragmentWriter writer;
 				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
-				writer.implementFunction< void >( "main"
+				writer.implementFunction< sdw::Void >( "main"
 					, [&]()
 					{
 						auto c = writer.declLocale( "c"
@@ -1954,7 +1954,7 @@ namespace
 			{
 				FragmentWriter writer;
 				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
-				writer.implementFunction< void >( "main"
+				writer.implementFunction< sdw::Void >( "main"
 					, [&]()
 					{
 						auto c = writer.declLocale( "c"
@@ -2013,7 +2013,7 @@ namespace
 			{
 				FragmentWriter writer;
 				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
-				writer.implementFunction< void >( "main"
+				writer.implementFunction< sdw::Void >( "main"
 					, [&]()
 					{
 						auto c = writer.declLocale( "c"
@@ -2049,7 +2049,7 @@ namespace
 			{
 				FragmentWriter writer;
 				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
-				writer.implementFunction< void >( "main"
+				writer.implementFunction< sdw::Void >( "main"
 					, [&]()
 					{
 						auto c = writer.declLocale( "c"
@@ -2105,7 +2105,7 @@ namespace
 			{
 				FragmentWriter writer;
 				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
-				writer.implementFunction< void >( "main"
+				writer.implementFunction< sdw::Void >( "main"
 					, [&]()
 					{
 						auto c = writer.declLocale( "c"
@@ -2160,7 +2160,7 @@ namespace
 			{
 				FragmentWriter writer;
 				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
-				writer.implementFunction< void >( "main"
+				writer.implementFunction< sdw::Void >( "main"
 					, [&]()
 					{
 						auto c = writer.declLocale( "c"
@@ -2196,7 +2196,7 @@ namespace
 			{
 				FragmentWriter writer;
 				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
-				writer.implementFunction< void >( "main"
+				writer.implementFunction< sdw::Void >( "main"
 					, [&]()
 					{
 						auto c = writer.declLocale( "c"
@@ -2252,7 +2252,7 @@ namespace
 			{
 				FragmentWriter writer;
 				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
-				writer.implementFunction< void >( "main"
+				writer.implementFunction< sdw::Void >( "main"
 					, [&]()
 					{
 						auto c = writer.declLocale( "c"
@@ -2310,7 +2310,7 @@ namespace
 				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				auto offsets = writer.declConstantArray< OffsetT >( "offsets"
 					, test::getDefaultVector< OffsetT >( writer.getShader(), 4u ) );
-				writer.implementFunction< void >( "main"
+				writer.implementFunction< sdw::Void >( "main"
 					, [&]()
 					{
 						auto c = writer.declLocale( "c"
@@ -2348,7 +2348,7 @@ namespace
 				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				auto offsets = writer.declConstantArray< OffsetT >( "offsets"
 					, test::getDefaultVector< OffsetT >( writer.getShader(), 4u ) );
-				writer.implementFunction< void >( "main"
+				writer.implementFunction< sdw::Void >( "main"
 					, [&]()
 					{
 						auto c = writer.declLocale( "c"
@@ -2406,7 +2406,7 @@ namespace
 				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				auto offsets = writer.declConstantArray< OffsetT >( "offsets"
 					, test::getDefaultVector< OffsetT >( writer.getShader(), 4u ) );
-				writer.implementFunction< void >( "main"
+				writer.implementFunction< sdw::Void >( "main"
 					, [&]()
 					{
 						auto c = writer.declLocale( "c"

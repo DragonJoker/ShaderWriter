@@ -256,6 +256,9 @@ namespace sdw
 		, var::VariablePtr outer
 		, std::string const & name
 		, type::TypePtr type );
+	SDW_API var::VariablePtr registerBlockVariable( Shader & shader
+		, std::string const & name
+		, type::TypePtr type );
 	SDW_API var::VariablePtr getVar( Shader & shader
 		, std::string const & name );
 }

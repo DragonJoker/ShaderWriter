@@ -187,145 +187,145 @@ namespace sdw
 	template< typename ValueT >
 	Bool operator==( Vec3T< ValueT > const & lhs, Vec3T< ValueT > const & rhs )
 	{
-		return writeComparator( *this, rhs, sdw::makeEqual );
+		return writeComparator( lhs, rhs, sdw::makeEqual );
 	}
 
 	template< typename ValueT >
 	Bool operator!=( Vec3T< ValueT > const & lhs, Vec3T< ValueT > const & rhs )
 	{
-		return writeComparator( *this, rhs, sdw::makeNEqual );
+		return writeComparator( lhs, rhs, sdw::makeNEqual );
 	}
 
 	template< typename ValueT >
 	Bool operator<( Vec3T< ValueT > const & lhs, Vec3T< ValueT > const & rhs )
 	{
-		return writeComparator( *this, rhs, sdw::makeLess );
+		return writeComparator( lhs, rhs, sdw::makeLess );
 	}
 
 	template< typename ValueT >
 	Bool operator<=( Vec3T< ValueT > const & lhs, Vec3T< ValueT > const & rhs )
 	{
-		return writeComparator( *this, rhs, sdw::makeLEqual );
+		return writeComparator( lhs, rhs, sdw::makeLEqual );
 	}
 
 	template< typename ValueT >
 	Bool operator>( Vec3T< ValueT > const & lhs, Vec3T< ValueT > const & rhs )
 	{
-		return writeComparator( *this, rhs, sdw::makeGreater );
+		return writeComparator( lhs, rhs, sdw::makeGreater );
 	}
 
 	template< typename ValueT >
 	Bool operator>=( Vec3T< ValueT > const & lhs, Vec3T< ValueT > const & rhs )
 	{
-		return writeComparator( *this, rhs, sdw::makeGEqual );
+		return writeComparator( lhs, rhs, sdw::makeGEqual );
 	}
 
 	template< typename ValueT >
 	Optional< Bool > operator==( Optional< Vec3T< ValueT > > const & lhs, Vec3T< ValueT > const & rhs )
 	{
-		return writeComparator( *this, rhs, sdw::makeEqual );
+		return writeComparator( lhs, rhs, sdw::makeEqual );
 	}
 
 	template< typename ValueT >
 	Optional< Bool > operator!=( Optional< Vec3T< ValueT > > const & lhs, Vec3T< ValueT > const & rhs )
 	{
-		return writeComparator( *this, rhs, sdw::makeNEqual );
+		return writeComparator( lhs, rhs, sdw::makeNEqual );
 	}
 
 	template< typename ValueT >
 	Optional< Bool > operator<( Optional< Vec3T< ValueT > > const & lhs, Vec3T< ValueT > const & rhs )
 	{
-		return writeComparator( *this, rhs, sdw::makeLess );
+		return writeComparator( lhs, rhs, sdw::makeLess );
 	}
 
 	template< typename ValueT >
 	Optional< Bool > operator<=( Optional< Vec3T< ValueT > > const & lhs, Vec3T< ValueT > const & rhs )
 	{
-		return writeComparator( *this, rhs, sdw::makeLEqual );
+		return writeComparator( lhs, rhs, sdw::makeLEqual );
 	}
 
 	template< typename ValueT >
 	Optional< Bool > operator>( Optional< Vec3T< ValueT > > const & lhs, Vec3T< ValueT > const & rhs )
 	{
-		return writeComparator( *this, rhs, sdw::makeGreater );
+		return writeComparator( lhs, rhs, sdw::makeGreater );
 	}
 
 	template< typename ValueT >
 	Optional< Bool > operator>=( Optional< Vec3T< ValueT > > const & lhs, Vec3T< ValueT > const & rhs )
 	{
-		return writeComparator( *this, rhs, sdw::makeGEqual );
+		return writeComparator( lhs, rhs, sdw::makeGEqual );
 	}
 
 	template< typename ValueT >
 	Optional< Bool > operator==( Vec3T< ValueT > const & lhs, Optional< Vec3T< ValueT > > const & rhs )
 	{
-		return writeComparator( *this, rhs, sdw::makeEqual );
+		return writeComparator( lhs, rhs, sdw::makeEqual );
 	}
 
 	template< typename ValueT >
 	Optional< Bool > operator!=( Vec3T< ValueT > const & lhs, Optional< Vec3T< ValueT > > const & rhs )
 	{
-		return writeComparator( *this, rhs, sdw::makeNEqual );
+		return writeComparator( lhs, rhs, sdw::makeNEqual );
 	}
 
 	template< typename ValueT >
 	Optional< Bool > operator<( Vec3T< ValueT > const & lhs, Optional< Vec3T< ValueT > > const & rhs )
 	{
-		return writeComparator( *this, rhs, sdw::makeLess );
+		return writeComparator( lhs, rhs, sdw::makeLess );
 	}
 
 	template< typename ValueT >
 	Optional< Bool > operator<=( Vec3T< ValueT > const & lhs, Optional< Vec3T< ValueT > > const & rhs )
 	{
-		return writeComparator( *this, rhs, sdw::makeLEqual );
+		return writeComparator( lhs, rhs, sdw::makeLEqual );
 	}
 
 	template< typename ValueT >
 	Optional< Bool > operator>( Vec3T< ValueT > const & lhs, Optional< Vec3T< ValueT > > const & rhs )
 	{
-		return writeComparator( *this, rhs, sdw::makeGreater );
+		return writeComparator( lhs, rhs, sdw::makeGreater );
 	}
 
 	template< typename ValueT >
 	Optional< Bool > operator>=( Vec3T< ValueT > const & lhs, Optional< Vec3T< ValueT > > const & rhs )
 	{
-		return writeComparator( *this, rhs, sdw::makeGEqual );
+		return writeComparator( lhs, rhs, sdw::makeGEqual );
 	}
 
 	template< typename ValueT >
 	Optional< Bool > operator==( Optional< Vec3T< ValueT > > const & lhs, Optional< Vec3T< ValueT > > const & rhs )
 	{
-		return writeComparator( *this, rhs, sdw::makeEqual );
+		return writeComparator( lhs, rhs, sdw::makeEqual );
 	}
 
 	template< typename ValueT >
 	Optional< Bool > operator!=( Optional< Vec3T< ValueT > > const & lhs, Optional< Vec3T< ValueT > > const & rhs )
 	{
-		return writeComparator( *this, rhs, sdw::makeNEqual );
+		return writeComparator( lhs, rhs, sdw::makeNEqual );
 	}
 
 	template< typename ValueT >
 	Optional< Bool > operator<( Optional< Vec3T< ValueT > > const & lhs, Optional< Vec3T< ValueT > > const & rhs )
 	{
-		return writeComparator( *this, rhs, sdw::makeLess );
+		return writeComparator( lhs, rhs, sdw::makeLess );
 	}
 
 	template< typename ValueT >
 	Optional< Bool > operator<=( Optional< Vec3T< ValueT > > const & lhs, Optional< Vec3T< ValueT > > const & rhs )
 	{
-		return writeComparator( *this, rhs, sdw::makeLEqual );
+		return writeComparator( lhs, rhs, sdw::makeLEqual );
 	}
 
 	template< typename ValueT >
 	Optional< Bool > operator>( Optional< Vec3T< ValueT > > const & lhs, Optional< Vec3T< ValueT > > const & rhs )
 	{
-		return writeComparator( *this, rhs, sdw::makeGreater );
+		return writeComparator( lhs, rhs, sdw::makeGreater );
 	}
 
 	template< typename ValueT >
 	Optional< Bool > operator>=( Optional< Vec3T< ValueT > > const & lhs, Optional< Vec3T< ValueT > > const & rhs )
 	{
-		return writeComparator( *this, rhs, sdw::makeGEqual );
+		return writeComparator( lhs, rhs, sdw::makeGEqual );
 	}
 
 	//*************************************************************************

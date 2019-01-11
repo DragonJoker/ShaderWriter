@@ -130,7 +130,7 @@ namespace spirv
 
 	void StmtAdapter::visitPreprocDefine( ast::stmt::PreprocDefine * preproc )
 	{
-		m_context.defines.emplace( preproc->getName(), preproc->getExpr() );
+		m_context.defines.emplace( preproc->getName(), doSubmit( preproc->getExpr() ) );
 	}
 
 	void StmtAdapter::visitPreprocElif( ast::stmt::PreprocElif * preproc )

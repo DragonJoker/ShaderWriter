@@ -517,7 +517,7 @@ namespace sdw
 		writer_int.saveNextExpr();\
 		Type incr##Name{ &shader_int, writer_int.loadExpr( Incr ) };\
 		Name.updateExpr( sdw::makeExpr( shader_int, ctrlVar##Name ) );\
-		Type cond##Name{ &shader_int, sdw::makeCondition( Cond ) };\
+		sdw::Bool cond##Name{ &shader_int, sdw::makeCondition( Cond ) };\
 		writer_int.forStmt( sdw::makeInit( ctrlVar##Name\
 				, sdw::makeExpr( shader_int, Init ) )\
 			, sdw::makeExpr( shader_int, cond##Name )\

@@ -415,6 +415,11 @@ namespace hlsl
 	{
 		std::string result;
 
+		if ( var.isStatic() )
+		{
+			result = "static ";
+		}
+
 		if ( var.isInputParam()
 			&& var.isOutputParam() )
 		{

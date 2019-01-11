@@ -70,6 +70,16 @@ namespace test
 			std::vector< std::string > errors;
 		};
 
+		class StringDelimitedByPipes : public std::string
+		{
+		};
+
+		std::istream & operator>>( std::istream & is, StringDelimitedByPipes & output )
+		{
+			std::getline( is, output, '|' );
+			return is;
+		}
+
 		VkBool32 VKAPI_CALL dbgFunc( VkDebugReportFlagsEXT msgFlags
 			, VkDebugReportObjectTypeEXT objType
 			, uint64_t srcObject
@@ -101,7 +111,20 @@ namespace test
 			{
 				message << "DEBUG: ";
 			}
-			message << "[" << pLayerPrefix << "] Code " << msgCode << " : " << pMsg;
+			message << "[" << pLayerPrefix << "]" << std::endl;
+			message << "  Code " << msgCode << ":" << std::endl;
+			std::istringstream iss( pMsg );
+			std::vector< std::string > results
+			{
+				std::istream_iterator< StringDelimitedByPipes >( iss ),
+				std::istream_iterator< StringDelimitedByPipes >()
+			};
+
+			for ( auto & line : results )
+			{
+				message << "    " << line << std::endl;
+			}
+
 			auto info = reinterpret_cast< Info * >( pUserData );
 
 			if ( info->compiling )
@@ -369,14 +392,21 @@ namespace test
 		createInfo.codeSize = uint32_t( spirv.size() * sizeof( uint32_t ) );
 		VkShaderModule module;
 
-		auto result = vkCreateShaderModule( info.device, &createInfo, nullptr, &module ) == VK_SUCCESS;
-
-		if ( result && module != VK_NULL_HANDLE )
+		try
 		{
-			vkDestroyShaderModule( info.device, module, nullptr );
-		}
+			auto result = vkCreateShaderModule( info.device, &createInfo, nullptr, &module ) == VK_SUCCESS;
 
-		return result;
+			if ( result && module != VK_NULL_HANDLE )
+			{
+				vkDestroyShaderModule( info.device, module, nullptr );
+			}
+
+			return result;
+		}
+		catch ( ... )
+		{
+			return false;
+		}
 	}
 
 	namespace sdw_test

@@ -96,6 +96,13 @@ namespace spirv
 			result = spv::Id( spv::GLSLstd450::Atan );
 			break;
 
+		case ast::expr::Intrinsic::eAtan21:
+		case ast::expr::Intrinsic::eAtan22:
+		case ast::expr::Intrinsic::eAtan23:
+		case ast::expr::Intrinsic::eAtan24:
+			result = spv::Id( spv::GLSLstd450::Atan2 );
+			break;
+
 		case ast::expr::Intrinsic::eAcosh1:
 		case ast::expr::Intrinsic::eAcosh2:
 		case ast::expr::Intrinsic::eAcosh3:

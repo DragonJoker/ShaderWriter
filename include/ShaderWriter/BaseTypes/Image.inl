@@ -59,10 +59,11 @@ namespace sdw
 	Image & Image::operator=( T const & rhs )
 	{
 		this->updateContainer( rhs );
-		addStmt( *findShader( *this, rhs )
+		auto & shader = *findShader( *this, rhs );
+		addStmt( shader
 			, sdw::makeSimple( sdw::makeAssign( m_expr->getType()
-				, makeExpr( m_expr )
-				, makeExpr( *findShader( *this, rhs ), rhs ) ) ) );
+				, makeExpr( shader, m_expr )
+				, makeExpr( shader, rhs ) ) ) );
 		return *this;
 	}
 
@@ -98,10 +99,11 @@ namespace sdw
 	ImageT< FormatT, DimT, ArrayedT, DepthT, MsT > & ImageT< FormatT, DimT, ArrayedT, DepthT, MsT >::operator=( T const & rhs )
 	{
 		this->updateContainer( rhs );
-		addStmt( *findShader( *this, rhs )
+		auto & shader = *findShader( *this, rhs );
+		addStmt( shader
 			, sdw::makeSimple( sdw::makeAssign( m_expr->getType()
-				, makeExpr( m_expr )
-				, makeExpr( *findShader( *this, rhs ), rhs ) ) ) );
+				, makeExpr( shader, m_expr )
+				, makeExpr( shader, rhs ) ) ) );
 		return *this;
 	}
 

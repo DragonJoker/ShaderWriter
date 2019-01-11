@@ -19,7 +19,7 @@ namespace
 				ComputeWriter writer;
 				auto s = writer.declImage< FormatT, DimT, ArrayedT, false, MsT >( "s", 0u, 0u );
 				writer.inputLayout( 1u );
-				writer.implementFunction< void >( "main"
+				writer.implementFunction< sdw::Void >( "main"
 					, [&]()
 					{
 						auto i = writer.declLocale( "i", imageSize( s ) );
@@ -47,7 +47,7 @@ namespace
 				ComputeWriter writer;
 				auto s = writer.declImage< FormatT, DimT, ArrayedT, false, MsT >( "s", 0u, 0u );
 				writer.inputLayout( 1u );
-				writer.implementFunction< void >( "main"
+				writer.implementFunction< sdw::Void >( "main"
 					, [&]()
 					{
 						auto i = writer.declLocale( "i", imageSamples( s ) );
@@ -101,7 +101,7 @@ namespace
 				ComputeWriter writer;
 				auto s = writer.declImage< FormatT, DimT, ArrayedT, false, MsT >( "s", 0u, 0u );
 				writer.inputLayout( 1u );
-				writer.implementFunction< void >( "main"
+				writer.implementFunction< sdw::Void >( "main"
 					, [&]()
 					{
 						auto i = writer.declLocale( "i", imageLoad( s, test::getDefault< Coords >( writer.getShader() ) ) );
@@ -131,7 +131,7 @@ namespace
 				ComputeWriter writer;
 				auto s = writer.declImage< FormatT, DimT, ArrayedT, false, MsT >( "s", 0u, 0u );
 				writer.inputLayout( 1u );
-				writer.implementFunction< void >( "main"
+				writer.implementFunction< sdw::Void >( "main"
 					, [&]()
 					{
 						auto i = writer.declLocale( "i", imageLoad( s, test::getDefault< Coords >( writer.getShader() ), 0_i ) );
@@ -175,7 +175,7 @@ namespace
 				ComputeWriter writer;
 				auto s = writer.declImage< FormatT, DimT, ArrayedT, false, MsT >( "s", 0u, 0u );
 				writer.inputLayout( 1u );
-				writer.implementFunction< void >( "main"
+				writer.implementFunction< sdw::Void >( "main"
 					, [&]()
 					{
 						auto i = writer.declLocale( "i", imageAtomicAdd( s, test::getDefault< Coords >( writer.getShader() ), 2_i ) );
@@ -206,7 +206,7 @@ namespace
 				ComputeWriter writer;
 				auto s = writer.declImage< FormatT, DimT, ArrayedT, false, MsT >( "s", 0u, 0u );
 				writer.inputLayout( 1u );
-				writer.implementFunction< void >( "main"
+				writer.implementFunction< sdw::Void >( "main"
 					, [&]()
 					{
 						auto i = writer.declLocale( "i", imageAtomicAdd( s, test::getDefault< Coords >( writer.getShader() ), 0_i, 2_i ) );
@@ -250,7 +250,7 @@ namespace
 				ComputeWriter writer;
 				auto s = writer.declImage< FormatT, DimT, ArrayedT, false, MsT >( "s", 0u, 0u );
 				writer.inputLayout( 1u );
-				writer.implementFunction< void >( "main"
+				writer.implementFunction< sdw::Void >( "main"
 					, [&]()
 					{
 						auto i = writer.declLocale( "i", imageAtomicAdd( s, test::getDefault< Coords >( writer.getShader() ), 2_u ) );
@@ -281,7 +281,7 @@ namespace
 				ComputeWriter writer;
 				auto s = writer.declImage< FormatT, DimT, ArrayedT, false, MsT >( "s", 0u, 0u );
 				writer.inputLayout( 1u );
-				writer.implementFunction< void >( "main"
+				writer.implementFunction< sdw::Void >( "main"
 					, [&]()
 					{
 						auto i = writer.declLocale( "i", imageAtomicAdd( s, test::getDefault< Coords >( writer.getShader() ), 0_i, 2_u ) );
@@ -325,7 +325,7 @@ namespace
 				ComputeWriter writer;
 				auto s = writer.declImage< FormatT, DimT, ArrayedT, false, MsT >( "s", 0u, 0u );
 				writer.inputLayout( 1u );
-				writer.implementFunction< void >( "main"
+				writer.implementFunction< sdw::Void >( "main"
 					, [&]()
 					{
 						auto i = writer.declLocale( "i", imageAtomicMin( s, test::getDefault< Coords >( writer.getShader() ), 2_i ) );
@@ -356,7 +356,7 @@ namespace
 				ComputeWriter writer;
 				auto s = writer.declImage< FormatT, DimT, ArrayedT, false, MsT >( "s", 0u, 0u );
 				writer.inputLayout( 1u );
-				writer.implementFunction< void >( "main"
+				writer.implementFunction< sdw::Void >( "main"
 					, [&]()
 					{
 						auto i = writer.declLocale( "i", imageAtomicMin( s, test::getDefault< Coords >( writer.getShader() ), 0_i, 2_i ) );
@@ -400,7 +400,7 @@ namespace
 				ComputeWriter writer;
 				auto s = writer.declImage< FormatT, DimT, ArrayedT, false, MsT >( "s", 0u, 0u );
 				writer.inputLayout( 1u );
-				writer.implementFunction< void >( "main"
+				writer.implementFunction< sdw::Void >( "main"
 					, [&]()
 					{
 						auto i = writer.declLocale( "i", imageAtomicMin( s, test::getDefault< Coords >( writer.getShader() ), 2_u ) );
@@ -431,7 +431,7 @@ namespace
 				ComputeWriter writer;
 				auto s = writer.declImage< FormatT, DimT, ArrayedT, false, MsT >( "s", 0u, 0u );
 				writer.inputLayout( 1u );
-				writer.implementFunction< void >( "main"
+				writer.implementFunction< sdw::Void >( "main"
 					, [&]()
 					{
 						auto i = writer.declLocale( "i", imageAtomicMin( s, test::getDefault< Coords >( writer.getShader() ), 0_i, 2_u ) );
@@ -475,7 +475,7 @@ namespace
 				ComputeWriter writer;
 				auto s = writer.declImage< FormatT, DimT, ArrayedT, false, MsT >( "s", 0u, 0u );
 				writer.inputLayout( 1u );
-				writer.implementFunction< void >( "main"
+				writer.implementFunction< sdw::Void >( "main"
 					, [&]()
 					{
 						auto i = writer.declLocale( "i", imageAtomicMax( s, test::getDefault< Coords >( writer.getShader() ), 2_i ) );
@@ -506,7 +506,7 @@ namespace
 				ComputeWriter writer;
 				auto s = writer.declImage< FormatT, DimT, ArrayedT, false, MsT >( "s", 0u, 0u );
 				writer.inputLayout( 1u );
-				writer.implementFunction< void >( "main"
+				writer.implementFunction< sdw::Void >( "main"
 					, [&]()
 					{
 						auto i = writer.declLocale( "i", imageAtomicMax( s, test::getDefault< Coords >( writer.getShader() ), 0_i, 2_i ) );
@@ -550,7 +550,7 @@ namespace
 				ComputeWriter writer;
 				auto s = writer.declImage< FormatT, DimT, ArrayedT, false, MsT >( "s", 0u, 0u );
 				writer.inputLayout( 1u );
-				writer.implementFunction< void >( "main"
+				writer.implementFunction< sdw::Void >( "main"
 					, [&]()
 					{
 						auto i = writer.declLocale( "i", imageAtomicMax( s, test::getDefault< Coords >( writer.getShader() ), 2_u ) );
@@ -581,7 +581,7 @@ namespace
 				ComputeWriter writer;
 				auto s = writer.declImage< FormatT, DimT, ArrayedT, false, MsT >( "s", 0u, 0u );
 				writer.inputLayout( 1u );
-				writer.implementFunction< void >( "main"
+				writer.implementFunction< sdw::Void >( "main"
 					, [&]()
 					{
 						auto i = writer.declLocale( "i", imageAtomicMax( s, test::getDefault< Coords >( writer.getShader() ), 0_i, 2_u ) );
@@ -625,7 +625,7 @@ namespace
 				ComputeWriter writer;
 				auto s = writer.declImage< FormatT, DimT, ArrayedT, false, MsT >( "s", 0u, 0u );
 				writer.inputLayout( 1u );
-				writer.implementFunction< void >( "main"
+				writer.implementFunction< sdw::Void >( "main"
 					, [&]()
 					{
 						auto i = writer.declLocale( "i", imageAtomicAnd( s, test::getDefault< Coords >( writer.getShader() ), 2_i ) );
@@ -656,7 +656,7 @@ namespace
 				ComputeWriter writer;
 				auto s = writer.declImage< FormatT, DimT, ArrayedT, false, MsT >( "s", 0u, 0u );
 				writer.inputLayout( 1u );
-				writer.implementFunction< void >( "main"
+				writer.implementFunction< sdw::Void >( "main"
 					, [&]()
 					{
 						auto i = writer.declLocale( "i", imageAtomicAnd( s, test::getDefault< Coords >( writer.getShader() ), 0_i, 2_i ) );
@@ -700,7 +700,7 @@ namespace
 				ComputeWriter writer;
 				auto s = writer.declImage< FormatT, DimT, ArrayedT, false, MsT >( "s", 0u, 0u );
 				writer.inputLayout( 1u );
-				writer.implementFunction< void >( "main"
+				writer.implementFunction< sdw::Void >( "main"
 					, [&]()
 					{
 						auto i = writer.declLocale( "i", imageAtomicAnd( s, test::getDefault< Coords >( writer.getShader() ), 2_u ) );
@@ -731,7 +731,7 @@ namespace
 				ComputeWriter writer;
 				auto s = writer.declImage< FormatT, DimT, ArrayedT, false, MsT >( "s", 0u, 0u );
 				writer.inputLayout( 1u );
-				writer.implementFunction< void >( "main"
+				writer.implementFunction< sdw::Void >( "main"
 					, [&]()
 					{
 						auto i = writer.declLocale( "i", imageAtomicAnd( s, test::getDefault< Coords >( writer.getShader() ), 0_i, 2_u ) );
@@ -775,7 +775,7 @@ namespace
 				ComputeWriter writer;
 				auto s = writer.declImage< FormatT, DimT, ArrayedT, false, MsT >( "s", 0u, 0u );
 				writer.inputLayout( 1u );
-				writer.implementFunction< void >( "main"
+				writer.implementFunction< sdw::Void >( "main"
 					, [&]()
 					{
 						auto i = writer.declLocale( "i", imageAtomicOr( s, test::getDefault< Coords >( writer.getShader() ), 2_i ) );
@@ -806,7 +806,7 @@ namespace
 				ComputeWriter writer;
 				auto s = writer.declImage< FormatT, DimT, ArrayedT, false, MsT >( "s", 0u, 0u );
 				writer.inputLayout( 1u );
-				writer.implementFunction< void >( "main"
+				writer.implementFunction< sdw::Void >( "main"
 					, [&]()
 					{
 						auto i = writer.declLocale( "i", imageAtomicOr( s, test::getDefault< Coords >( writer.getShader() ), 0_i, 2_i ) );
@@ -850,7 +850,7 @@ namespace
 				ComputeWriter writer;
 				auto s = writer.declImage< FormatT, DimT, ArrayedT, false, MsT >( "s", 0u, 0u );
 				writer.inputLayout( 1u );
-				writer.implementFunction< void >( "main"
+				writer.implementFunction< sdw::Void >( "main"
 					, [&]()
 					{
 						auto i = writer.declLocale( "i", imageAtomicOr( s, test::getDefault< Coords >( writer.getShader() ), 2_u ) );
@@ -881,7 +881,7 @@ namespace
 				ComputeWriter writer;
 				auto s = writer.declImage< FormatT, DimT, ArrayedT, false, MsT >( "s", 0u, 0u );
 				writer.inputLayout( 1u );
-				writer.implementFunction< void >( "main"
+				writer.implementFunction< sdw::Void >( "main"
 					, [&]()
 					{
 						auto i = writer.declLocale( "i", imageAtomicOr( s, test::getDefault< Coords >( writer.getShader() ), 0_i, 2_u ) );
@@ -925,7 +925,7 @@ namespace
 				ComputeWriter writer;
 				auto s = writer.declImage< FormatT, DimT, ArrayedT, false, MsT >( "s", 0u, 0u );
 				writer.inputLayout( 1u );
-				writer.implementFunction< void >( "main"
+				writer.implementFunction< sdw::Void >( "main"
 					, [&]()
 					{
 						auto i = writer.declLocale( "i", imageAtomicXor( s, test::getDefault< Coords >( writer.getShader() ), 2_i ) );
@@ -956,7 +956,7 @@ namespace
 				ComputeWriter writer;
 				auto s = writer.declImage< FormatT, DimT, ArrayedT, false, MsT >( "s", 0u, 0u );
 				writer.inputLayout( 1u );
-				writer.implementFunction< void >( "main"
+				writer.implementFunction< sdw::Void >( "main"
 					, [&]()
 					{
 						auto i = writer.declLocale( "i", imageAtomicXor( s, test::getDefault< Coords >( writer.getShader() ), 0_i, 2_i ) );
@@ -1000,7 +1000,7 @@ namespace
 				ComputeWriter writer;
 				auto s = writer.declImage< FormatT, DimT, ArrayedT, false, MsT >( "s", 0u, 0u );
 				writer.inputLayout( 1u );
-				writer.implementFunction< void >( "main"
+				writer.implementFunction< sdw::Void >( "main"
 					, [&]()
 					{
 						auto i = writer.declLocale( "i", imageAtomicXor( s, test::getDefault< Coords >( writer.getShader() ), 2_u ) );
@@ -1031,7 +1031,7 @@ namespace
 				ComputeWriter writer;
 				auto s = writer.declImage< FormatT, DimT, ArrayedT, false, MsT >( "s", 0u, 0u );
 				writer.inputLayout( 1u );
-				writer.implementFunction< void >( "main"
+				writer.implementFunction< sdw::Void >( "main"
 					, [&]()
 					{
 						auto i = writer.declLocale( "i", imageAtomicXor( s, test::getDefault< Coords >( writer.getShader() ), 0_i, 2_u ) );
@@ -1075,7 +1075,7 @@ namespace
 				ComputeWriter writer;
 				auto s = writer.declImage< FormatT, DimT, ArrayedT, false, MsT >( "s", 0u, 0u );
 				writer.inputLayout( 1u );
-				writer.implementFunction< void >( "main"
+				writer.implementFunction< sdw::Void >( "main"
 					, [&]()
 					{
 						auto i = writer.declLocale( "i", imageAtomicExchange( s, test::getDefault< Coords >( writer.getShader() ), 2_i ) );
@@ -1106,7 +1106,7 @@ namespace
 				ComputeWriter writer;
 				auto s = writer.declImage< FormatT, DimT, ArrayedT, false, MsT >( "s", 0u, 0u );
 				writer.inputLayout( 1u );
-				writer.implementFunction< void >( "main"
+				writer.implementFunction< sdw::Void >( "main"
 					, [&]()
 					{
 						auto i = writer.declLocale( "i", imageAtomicExchange( s, test::getDefault< Coords >( writer.getShader() ), 0_i, 2_i ) );
@@ -1150,7 +1150,7 @@ namespace
 				ComputeWriter writer;
 				auto s = writer.declImage< FormatT, DimT, ArrayedT, false, MsT >( "s", 0u, 0u );
 				writer.inputLayout( 1u );
-				writer.implementFunction< void >( "main"
+				writer.implementFunction< sdw::Void >( "main"
 					, [&]()
 					{
 						auto i = writer.declLocale( "i", imageAtomicExchange( s, test::getDefault< Coords >( writer.getShader() ), 2_u ) );
@@ -1181,7 +1181,7 @@ namespace
 				ComputeWriter writer;
 				auto s = writer.declImage< FormatT, DimT, ArrayedT, false, MsT >( "s", 0u, 0u );
 				writer.inputLayout( 1u );
-				writer.implementFunction< void >( "main"
+				writer.implementFunction< sdw::Void >( "main"
 					, [&]()
 					{
 						auto i = writer.declLocale( "i", imageAtomicExchange( s, test::getDefault< Coords >( writer.getShader() ), 0_i, 2_u ) );
@@ -1225,7 +1225,7 @@ namespace
 				ComputeWriter writer;
 				auto s = writer.declImage< FormatT, DimT, ArrayedT, false, MsT >( "s", 0u, 0u );
 				writer.inputLayout( 1u );
-				writer.implementFunction< void >( "main"
+				writer.implementFunction< sdw::Void >( "main"
 					, [&]()
 					{
 						auto i = writer.declLocale( "i", imageAtomicCompSwap( s, test::getDefault< Coords >( writer.getShader() ), 2_i, 3_i ) );
@@ -1256,7 +1256,7 @@ namespace
 				ComputeWriter writer;
 				auto s = writer.declImage< FormatT, DimT, ArrayedT, false, MsT >( "s", 0u, 0u );
 				writer.inputLayout( 1u );
-				writer.implementFunction< void >( "main"
+				writer.implementFunction< sdw::Void >( "main"
 					, [&]()
 					{
 						auto i = writer.declLocale( "i", imageAtomicCompSwap( s, test::getDefault< Coords >( writer.getShader() ), 0_i, 2_i, 3_i ) );
@@ -1300,7 +1300,7 @@ namespace
 				ComputeWriter writer;
 				auto s = writer.declImage< FormatT, DimT, ArrayedT, false, MsT >( "s", 0u, 0u );
 				writer.inputLayout( 1u );
-				writer.implementFunction< void >( "main"
+				writer.implementFunction< sdw::Void >( "main"
 					, [&]()
 					{
 						auto i = writer.declLocale( "i", imageAtomicCompSwap( s, test::getDefault< Coords >( writer.getShader() ), 2_u, 3_u ) );
@@ -1331,7 +1331,7 @@ namespace
 				ComputeWriter writer;
 				auto s = writer.declImage< FormatT, DimT, ArrayedT, false, MsT >( "s", 0u, 0u );
 				writer.inputLayout( 1u );
-				writer.implementFunction< void >( "main"
+				writer.implementFunction< sdw::Void >( "main"
 					, [&]()
 					{
 						auto i = writer.declLocale( "i", imageAtomicCompSwap( s, test::getDefault< Coords >( writer.getShader() ), 0_i, 2_u, 3_u ) );

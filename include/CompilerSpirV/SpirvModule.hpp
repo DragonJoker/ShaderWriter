@@ -268,6 +268,7 @@ namespace spirv
 	using SelectInstruction = InstructionT< spv::OpSelect, true, true, 3u, false, false >;
 	using LoadInstruction = InstructionT< spv::OpLoad, true, true, 1u, false, false >;
 	using StoreInstruction = InstructionT< spv::OpStore, false, false, 2u, false, false >;
+	using CopyMemoryInstruction = VariadicInstructionT< spv::OpCopyMemory, false, false >;
 	using VariableInstruction = InstructionT< spv::OpVariable, true, true, 1u, false, false >;
 	using CompositeExtractInstruction = VariadicInstructionT< spv::OpCompositeExtract, true, true >;
 	using CompositeConstructInstruction = VariadicInstructionT< spv::OpCompositeConstruct, true, true >;
@@ -307,7 +308,7 @@ namespace spirv
 
 		SDWSPIRV_API static Block deserialize( InstructionPtr firstInstruction
 			, InstructionListIt & buffer
-			, InstructionListIt & end );
+			, InstructionListIt const & end );
 
 		// Serialisable.
 		spv::Id label;
@@ -342,7 +343,7 @@ namespace spirv
 		SDWSPIRV_API Function() = default;
 
 		SDWSPIRV_API static Function deserialize( InstructionListIt & buffer
-			, InstructionListIt & end );
+			, InstructionListIt const & end );
 
 		// Serialisable.
 		InstructionList declaration;

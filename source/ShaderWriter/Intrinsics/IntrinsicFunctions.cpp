@@ -720,6 +720,82 @@ namespace sdw
 	}
 	/**@}*/
 #pragma endregion
+#pragma region atan2
+	/**
+	*name
+	*	atan2
+	*/
+	/**@{*/
+	MaybeOptional< Float > atan2( MaybeOptional< Float > const & y
+		, MaybeOptional< Float > const & x )
+	{
+		if ( isAnyOptional( y, x ) )
+		{
+			return Optional< Float >{ findShader( y, x )
+				, expr::makeAtan21( findTypesCache( y, x )
+					, makeExpr( y )
+					, makeExpr( x ) )
+				, areOptionalEnabled( y, x ) };
+		}
+
+		return Float{ findShader( y, x )
+			, expr::makeAtan21( findTypesCache( y, x )
+					, makeExpr( y )
+				, makeExpr( x ) ) };
+	}
+	MaybeOptional< Vec2 > atan2( MaybeOptional< Vec2 > const & y
+		, MaybeOptional< Vec2 > const & x )
+	{
+		if ( isAnyOptional( y, x ) )
+		{
+			return Optional< Vec2 >{ findShader( y, x )
+				, expr::makeAtan22( findTypesCache( y, x )
+					, makeExpr( y )
+					, makeExpr( x ) )
+				, areOptionalEnabled( y, x ) };
+		}
+
+		return Vec2{ findShader( y, x )
+			, expr::makeAtan22( findTypesCache( y, x )
+					, makeExpr( y )
+				, makeExpr( x ) ) };
+	}
+	MaybeOptional< Vec3 > atan2( MaybeOptional< Vec3 > const & y
+		, MaybeOptional< Vec3 > const & x )
+	{
+		if ( isAnyOptional( y, x ) )
+		{
+			return Optional< Vec3 >{ findShader( y, x )
+				, expr::makeAtan23( findTypesCache( y, x )
+					, makeExpr( y )
+					, makeExpr( x ) )
+				, areOptionalEnabled( y, x ) };
+		}
+
+		return Vec3{ findShader( y, x )
+			, expr::makeAtan23( findTypesCache( y, x )
+					, makeExpr( y )
+				, makeExpr( x ) ) };
+	}
+	MaybeOptional< Vec4 > atan2( MaybeOptional< Vec4 > const & y
+		, MaybeOptional< Vec4 > const & x )
+	{
+		if ( isAnyOptional( y, x ) )
+		{
+			return Optional< Vec4 >{ findShader( y, x )
+				, expr::makeAtan24( findTypesCache( y, x )
+					, makeExpr( y )
+					, makeExpr( x ) )
+				, areOptionalEnabled( y, x ) };
+		}
+
+		return Vec4{ findShader( y, x )
+			, expr::makeAtan24( findTypesCache( y, x )
+					, makeExpr( y )
+				, makeExpr( x ) ) };
+	}
+	/**@}*/
+#pragma endregion
 #pragma region acosh
 	/**
 	*name

@@ -41,7 +41,7 @@ namespace test
 		using namespace sdw;
 		{
 			VertexWriter writer;
-			writer.implementFunction< void >( "main"
+			writer.implementFunction< sdw::Void >( "main"
 				, [&]()
 				{
 					auto a = writer.declLocale( "a", 0_i );
@@ -54,7 +54,7 @@ namespace test
 		}
 		{
 			VertexWriter writer;
-			writer.implementFunction< void >( "main"
+			writer.implementFunction< sdw::Void >( "main"
 				, [&]()
 				{
 					auto a = writer.declLocale( "a", 0_i, true );
@@ -67,7 +67,7 @@ namespace test
 		}
 		{
 			VertexWriter writer;
-			writer.implementFunction< void >( "main"
+			writer.implementFunction< sdw::Void >( "main"
 				, [&]()
 				{
 					auto a = writer.declLocale( "a", 0_i, false );
@@ -80,7 +80,7 @@ namespace test
 		}
 		{
 			VertexWriter writer;
-			writer.implementFunction< void >( "main"
+			writer.implementFunction< sdw::Void >( "main"
 				, [&]()
 				{
 					auto a = writer.declLocale( "a", 0_i );
@@ -93,7 +93,7 @@ namespace test
 		}
 		{
 			VertexWriter writer;
-			writer.implementFunction< void >( "main"
+			writer.implementFunction< sdw::Void >( "main"
 				, [&]()
 				{
 					auto a = writer.declLocale( "a", 0_i );
@@ -106,7 +106,7 @@ namespace test
 		}
 		{
 			VertexWriter writer;
-			writer.implementFunction< void >( "main"
+			writer.implementFunction< sdw::Void >( "main"
 				, [&]()
 				{
 					auto a = writer.declLocale( "a", 0_i, true );
@@ -119,7 +119,7 @@ namespace test
 		}
 		{
 			VertexWriter writer;
-			writer.implementFunction< void >( "main"
+			writer.implementFunction< sdw::Void >( "main"
 				, [&]()
 				{
 					auto a = writer.declLocale( "a", 0_i, true );
@@ -132,7 +132,7 @@ namespace test
 		}
 		{
 			VertexWriter writer;
-			writer.implementFunction< void >( "main"
+			writer.implementFunction< sdw::Void >( "main"
 				, [&]()
 				{
 					auto a = writer.declLocale( "a", 0_i, false );
@@ -145,7 +145,7 @@ namespace test
 		}
 		{
 			VertexWriter writer;
-			writer.implementFunction< void >( "main"
+			writer.implementFunction< sdw::Void >( "main"
 				, [&]()
 				{
 					auto a = writer.declLocale( "a", 0_i, false );
@@ -165,7 +165,7 @@ namespace test
 		using namespace sdw;
 		{
 			VertexWriter writer;
-			writer.implementFunction< void >( "main"
+			writer.implementFunction< sdw::Void >( "main"
 				, [&]()
 				{
 					auto a = writer.declLocaleArray( "a", 2u, test::getDefaultVector< Int >( writer.getShader(), 2u ) );
@@ -178,7 +178,7 @@ namespace test
 		}
 		{
 			VertexWriter writer;
-			writer.implementFunction< void >( "main"
+			writer.implementFunction< sdw::Void >( "main"
 				, [&]()
 				{
 					auto a = writer.declLocaleArray( "a", 2u, test::getDefaultVector< Int >( writer.getShader(), 2u ), true );
@@ -191,7 +191,7 @@ namespace test
 		}
 		{
 			VertexWriter writer;
-			writer.implementFunction< void >( "main"
+			writer.implementFunction< sdw::Void >( "main"
 				, [&]()
 				{
 					auto a = writer.declLocaleArray( "a", 2u, test::getDefaultVector< Int >( writer.getShader(), 2u ), false );
@@ -204,7 +204,7 @@ namespace test
 		}
 		{
 			VertexWriter writer;
-			writer.implementFunction< void >( "main"
+			writer.implementFunction< sdw::Void >( "main"
 				, [&]()
 				{
 					auto a = writer.declLocaleArray( "a", 2u, test::getDefaultVector< Int >( writer.getShader(), 2u ) );
@@ -217,7 +217,7 @@ namespace test
 		}
 		{
 			VertexWriter writer;
-			writer.implementFunction< void >( "main"
+			writer.implementFunction< sdw::Void >( "main"
 				, [&]()
 				{
 					auto a = writer.declLocaleArray( "a", 2u, test::getDefaultVector< Int >( writer.getShader(), 2u ) );
@@ -230,7 +230,7 @@ namespace test
 		}
 		{
 			VertexWriter writer;
-			writer.implementFunction< void >( "main"
+			writer.implementFunction< sdw::Void >( "main"
 				, [&]()
 				{
 					auto a = writer.declLocaleArray( "a", 2u, test::getDefaultVector< Int >( writer.getShader(), 2u ), true );
@@ -243,7 +243,7 @@ namespace test
 		}
 		{
 			VertexWriter writer;
-			writer.implementFunction< void >( "main"
+			writer.implementFunction< sdw::Void >( "main"
 				, [&]()
 				{
 					auto a = writer.declLocaleArray( "a", 2u, test::getDefaultVector< Int >( writer.getShader(), 2u ), true );
@@ -256,7 +256,7 @@ namespace test
 		}
 		{
 			VertexWriter writer;
-			writer.implementFunction< void >( "main"
+			writer.implementFunction< sdw::Void >( "main"
 				, [&]()
 				{
 					auto a = writer.declLocaleArray( "a", 2u, test::getDefaultVector< Int >( writer.getShader(), 2u ), false );
@@ -269,7 +269,7 @@ namespace test
 		}
 		{
 			VertexWriter writer;
-			writer.implementFunction< void >( "main"
+			writer.implementFunction< sdw::Void >( "main"
 				, [&]()
 				{
 					auto a = writer.declLocaleArray( "a", 2u, test::getDefaultVector< Int >( writer.getShader(), 2u ), false );

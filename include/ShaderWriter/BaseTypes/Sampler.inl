@@ -7,10 +7,11 @@ namespace sdw
 	Sampler & Sampler::operator=( T const & rhs )
 	{
 		this->updateContainer( rhs );
-		addStmt( *findShader( *this, rhs )
+		auto & shader = *findShader( *this, rhs );
+		addStmt( shader
 			, sdw::makeSimple( sdw::makeAssign( m_expr->getType()
-				, makeExpr( m_expr )
-				, makeExpr( *findShader( *this, rhs ), rhs ) ) ) );
+				, makeExpr( shader, m_expr )
+				, makeExpr( shader, rhs ) ) ) );
 		return *this;
 	}
 }

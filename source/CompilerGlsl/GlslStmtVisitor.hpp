@@ -5,6 +5,8 @@ See LICENSE file in root folder
 #define ___SDW_GLSLStmtVisitor_H___
 #pragma once
 
+#include "CompilerGlsl/compileGlsl.hpp"
+
 #include <ShaderAST/Visitors/CloneStmt.hpp>
 
 namespace glsl
@@ -13,11 +15,13 @@ namespace glsl
 		: public ast::stmt::Visitor
 	{
 	public:
-		static std::string submit( ast::stmt::Stmt * stmt
+		static std::string submit( GlslConfig const & writerConfig
+			, ast::stmt::Stmt * stmt
 			, std::string indent = std::string{} );
 
 	private:
-		StmtVisitor( std::string & result
+		StmtVisitor( GlslConfig const & writerConfig
+			, std::string & result
 			, std::string indent );
 		void doAppendLineEnd();
 		void visitContainerStmt( ast::stmt::Container * stmt )override;
@@ -64,6 +68,7 @@ namespace glsl
 			, std::string sep );
 
 	private:
+		GlslConfig const & m_writerConfig;
 		std::string m_indent;
 		bool m_appendSemiColon{ false };
 		bool m_appendLineEnd{ false };

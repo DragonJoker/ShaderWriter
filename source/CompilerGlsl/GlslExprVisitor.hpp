@@ -5,7 +5,7 @@ See LICENSE file in root folder
 #define ___SDW_GLSLExprVisitor_H___
 #pragma once
 
-#include <ShaderWriter/ShaderWriterPrerequisites.hpp>
+#include "CompilerGlsl/compileGlsl.hpp"
 
 #include <ShaderAST/Expr/ExprVisitor.hpp>
 
@@ -15,10 +15,12 @@ namespace glsl
 		: public ast::expr::SimpleVisitor
 	{
 	public:
-		static std::string submit( ast::expr::Expr * expr );
+		static std::string submit( ast::expr::Expr * expr
+			, GlslConfig const & writerConfig );
 
 	private:
-		ExprVisitor( std::string & result );
+		ExprVisitor( GlslConfig const & writerConfig
+			, std::string & result );
 		void wrap( ast::expr::Expr * expr );
 		void visitAssignmentExpr( ast::expr::Binary * expr );
 
@@ -54,6 +56,7 @@ namespace glsl
 		void visitTextureAccessCallExpr( ast::expr::TextureAccessCall * expr )override;
 
 	private:
+		GlslConfig const & m_writerConfig;
 		std::string & m_result;
 	};
 }

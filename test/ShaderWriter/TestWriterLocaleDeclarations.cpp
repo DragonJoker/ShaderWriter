@@ -3,7 +3,7 @@
 
 namespace
 {
-#define DummyMain writer.implementFunction< void >( "main", [](){} )
+#define DummyMain writer.implementFunction< sdw::Void >( "main", [](){} )
 
 	template< typename T >
 	void testLocale( test::sdw_test::TestCounts & testCounts )
@@ -13,7 +13,7 @@ namespace
 			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
 			auto name = sdw::debug::getName( sdw::typeEnum< T > ) + "LocaleValue";
-			writer.implementFunction< void >( "main"
+			writer.implementFunction< sdw::Void >( "main"
 				, [&]()
 				{
 					auto value = writer.declLocale< T >( name );
@@ -31,7 +31,7 @@ namespace
 			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
 			auto name = sdw::debug::getName( sdw::typeEnum< T > ) + "LocaleValueAssigned";
-			writer.implementFunction< void >( "main"
+			writer.implementFunction< sdw::Void >( "main"
 				, [&]()
 				{
 					auto value = writer.declLocale< T >( name, test::getDefault< T >( shader ) );
@@ -49,7 +49,7 @@ namespace
 			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
 			auto name = sdw::debug::getName( sdw::typeEnum< T > ) + "LocaleValueArray12";
-			writer.implementFunction< void >( "main"
+			writer.implementFunction< sdw::Void >( "main"
 				, [&]()
 				{
 					auto value = writer.declLocaleArray< T >( name, 6u );
@@ -67,7 +67,7 @@ namespace
 			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
 			auto name = sdw::debug::getName( sdw::typeEnum< T > ) + "LocaleValueArray3";
-			writer.implementFunction< void >( "main"
+			writer.implementFunction< sdw::Void >( "main"
 				, [&]()
 				{
 					auto value = writer.declLocaleArray< T >( name, 3u, test::getDefaultVector< T >( shader, 3u ) );
@@ -84,7 +84,7 @@ namespace
 		{
 			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
-			writer.implementFunction< void >( "main"
+			writer.implementFunction< sdw::Void >( "main"
 				, [&]()
 				{
 					auto count = shader.getContainer()->size();
@@ -102,7 +102,7 @@ namespace
 		{
 			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
-			writer.implementFunction< void >( "main"
+			writer.implementFunction< sdw::Void >( "main"
 				, [&]()
 				{
 					auto count = shader.getContainer()->size();
@@ -120,7 +120,7 @@ namespace
 		{
 			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
-			writer.implementFunction< void >( "main"
+			writer.implementFunction< sdw::Void >( "main"
 				, [&]()
 				{
 					auto count = shader.getContainer()->size();
@@ -138,7 +138,7 @@ namespace
 		{
 			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
-			writer.implementFunction< void >( "main"
+			writer.implementFunction< sdw::Void >( "main"
 				, [&]()
 				{
 					auto count = shader.getContainer()->size();
@@ -157,7 +157,7 @@ namespace
 		{
 			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
-			writer.implementFunction< void >( "main"
+			writer.implementFunction< sdw::Void >( "main"
 				, [&]()
 				{
 					auto count = shader.getContainer()->size();
@@ -177,7 +177,7 @@ namespace
 			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
 			auto name = sdw::debug::getName( sdw::typeEnum< T > ) + "LocaleValue_opt";
-			writer.implementFunction< void >( "main"
+			writer.implementFunction< sdw::Void >( "main"
 				, [&]()
 				{
 					auto value = writer.declLocale< T >( name, true );
@@ -196,7 +196,7 @@ namespace
 			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
 			auto name = sdw::debug::getName( sdw::typeEnum< T > ) + "LocaleValueAssigned_opt";
-			writer.implementFunction< void >( "main"
+			writer.implementFunction< sdw::Void >( "main"
 				, [&]()
 				{
 					auto value = writer.declLocale< T >( name, sdw::Optional< T >{ test::getDefault< T >( shader ), true } );
@@ -215,7 +215,7 @@ namespace
 			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
 			auto name = sdw::debug::getName( sdw::typeEnum< T > ) + "LocaleValueAssigned_opt2";
-			writer.implementFunction< void >( "main"
+			writer.implementFunction< sdw::Void >( "main"
 				, [&]()
 				{
 					auto value = writer.declLocale< T >( name, test::getDefault< T >( shader ), true );
@@ -234,7 +234,7 @@ namespace
 			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
 			auto name = sdw::debug::getName( sdw::typeEnum< T > ) + "LocaleValueArray12_opt";
-			writer.implementFunction< void >( "main"
+			writer.implementFunction< sdw::Void >( "main"
 				, [&]()
 				{
 					auto value = writer.declLocaleArray< T >( name, 6u, true );
@@ -254,7 +254,7 @@ namespace
 			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
 			auto name = sdw::debug::getName( sdw::typeEnum< T > ) + "LocaleValueArray3_opt";
-			writer.implementFunction< void >( "main"
+			writer.implementFunction< sdw::Void >( "main"
 				, [&]()
 				{
 					auto value = writer.declLocaleArray< T >( name, 3u, test::getDefaultVector< T >( shader, 3u ), true );

@@ -16,6 +16,7 @@ See LICENSE file in root folder
 #include <ShaderAST/Type/TypeImage.hpp>
 #include <ShaderAST/Type/TypeSampledImage.hpp>
 
+#include <algorithm>
 #include <numeric>
 #include <sstream>
 
@@ -318,16 +319,17 @@ namespace spirv
 		{
 			// For LHS swizzle, the variable must first be loaded,
 			// then it must be shuffled with the RHS, to compute the final result.
-			auto & swizzle = static_cast< ast::expr::Swizzle const & >( *expr->getLHS() );
+			auto & lhsSwizzle = static_cast< ast::expr::Swizzle const & >( *expr->getLHS() );
+			auto lhsSwizzleKind = lhsSwizzle.getSwizzle();
 
 			// Process the RHS first, asking for the needed variables to be loaded.
 			auto rhsId = doSubmit( expr->getRHS(), true, m_loadedVariables );
 
-			auto lhsOuter = swizzle.getOuterExpr();
+			auto lhsOuter = lhsSwizzle.getOuterExpr();
 			assert( lhsOuter->getKind() == ast::expr::Kind::eIdentifier
 				|| isAccessChain( lhsOuter ) );
 
-			if ( swizzle.getSwizzle() <= ast::expr::SwizzleKind::e3 )
+			if ( lhsSwizzleKind <= ast::expr::SwizzleKind::e3 )
 			{
 				// One component swizzles must be processed separately:
 				// - Create an access chain to the selected component.
@@ -336,10 +338,11 @@ namespace spirv
 				//   Load the variable manually.
 				auto loadedLhsId = loadVariable( lhsId
 					, lhsOuter->getType() );
+
 				//   Register component selection as a literal.
-				auto componentId = m_module.registerLiteral( uint32_t( swizzle.getSwizzle() ) );
+				auto componentId = m_module.registerLiteral( uint32_t( lhsSwizzleKind ) );
 				//   Register pointer type.
-				auto typeId = m_module.registerType( swizzle.getType() );
+				auto typeId = m_module.registerType( lhsSwizzle.getType() );
 				auto pointerTypeId = m_module.registerPointerType( typeId
 					, getStorageClass( static_cast< ast::expr::Identifier const & >( *lhsOuter ).getVariable() ) );
 				//   Create the access chain.
@@ -357,7 +360,7 @@ namespace spirv
 				auto lhsId = getVariableIdNoLoad( lhsOuter );
 				// - Load the variable manually.
 				auto loadedLhsId = loadVariable( lhsId
-					, expr->getType() );
+					, lhsOuter->getType() );
 				// - The resulting shuffle indices will contain the RHS values for wanted LHS components,
 				//   and LHS values for the remaining ones.
 				auto typeId = m_module.registerType( lhsOuter->getType() );
@@ -365,8 +368,34 @@ namespace spirv
 				IdList shuffle;
 				shuffle.emplace_back( loadedLhsId );
 				shuffle.emplace_back( rhsId );
-				auto swizzleComponents = getSwizzleComponents( getComponentCount( lhsOuter->getType()->getKind() )
-					, swizzle.getSwizzle() );
+				ast::expr::SwizzleKind rhsSwizzleKind;
+
+				if ( expr->getRHS()->getKind() == ast::expr::Kind::eSwizzle )
+				{
+					rhsSwizzleKind = static_cast< ast::expr::Swizzle const & >( *expr->getRHS() ).getSwizzle();
+				}
+				else
+				{
+					auto rhsCount = getComponentCount( expr->getRHS()->getType()->getKind() );
+					assert( rhsCount >= 2u && rhsCount <= 4u );
+
+					switch ( rhsCount )
+					{
+					case 2u:
+						rhsSwizzleKind = ast::expr::SwizzleKind::e01;
+						break;
+					case 3u:
+						rhsSwizzleKind = ast::expr::SwizzleKind::e012;
+						break;
+					default:
+						rhsSwizzleKind = ast::expr::SwizzleKind::e0123;
+						break;
+					}
+				}
+
+				auto swizzleComponents = getSwizzleComponents( lhsSwizzleKind
+					, rhsSwizzleKind
+					, getComponentCount( lhsOuter->getType()->getKind() ) );
 				shuffle.insert( shuffle.end()
 					, swizzleComponents.begin()
 					, swizzleComponents.end() );
@@ -528,9 +557,10 @@ namespace spirv
 		m_allLiterals = false;
 		auto literal1 = m_module.registerLiteral( 1 );
 		auto literal0 = m_module.registerLiteral( 0 );
-		auto operandId = doSubmit( expr->getOperand() );
-		auto originId = operandId;
-		operandId = loadVariable( operandId
+		// No load to retrieve the variable ID.
+		auto originId = getVariableIdNoLoad( expr->getOperand() );
+		// Load the variable manually.
+		auto operandId = loadVariable( originId
 			, expr->getType() );
 
 		auto typeId = m_module.registerType( expr->getType() );
@@ -558,9 +588,10 @@ namespace spirv
 		m_allLiterals = false;
 		auto literal1 = m_module.registerLiteral( 1 );
 		auto literal0 = m_module.registerLiteral( 0 );
-		auto operandId = doSubmit( expr->getOperand() );
-		auto originId = operandId;
-		operandId = loadVariable( operandId
+		// No load to retrieve the variable ID.
+		auto originId = getVariableIdNoLoad( expr->getOperand() );
+		// Load the variable manually.
+		auto operandId = loadVariable( originId
 			, expr->getType() );
 
 		auto typeId = m_module.registerType( expr->getType() );
@@ -687,8 +718,12 @@ namespace spirv
 	{
 		m_allLiterals = false;
 		m_result = makeAccessChain( expr, m_module, m_currentBlock, m_loadedVariables );
+		auto typeKind = expr->getType()->getKind();
 
-		if ( m_loadVariable )
+		if ( m_loadVariable
+			&& !isImageType( typeKind )
+			&& !isSampledImageType( typeKind )
+			&& !isSamplerType( typeKind ) )
 		{
 			auto result = loadVariable( m_result
 				, expr->getType() );
@@ -762,37 +797,47 @@ namespace spirv
 		assert( expr->getArgList().size() == fnType->size() );
 		auto it = fnType->begin();
 
+		struct OutputParam
+		{
+			spv::Id src;
+			spv::Id dst;
+			ast::type::TypePtr type;
+		};
+		std::vector< OutputParam > outputParams;
+
 		for ( auto & arg : expr->getArgList() )
 		{
-			auto save = m_loadVariable;
-			m_loadVariable = !( *it )->isOutputParam()
-				&& !isStructType( arg->getType()->getKind() )
-				&& !isArrayType( arg->getType()->getKind() );
-			auto id = doSubmit( arg.get() );
-			m_loadVariable = save;
+			// Function parameters are pointers, hence the variables must not be loaded.
+			auto id = getVariableIdNoLoad( arg.get() );
 			allLiterals = allLiterals
 				&& ( arg->getKind() == ast::expr::Kind::eLiteral );
+			auto argTypeKind = arg->getType()->getKind();
 
-			if ( ( isImageType( arg->getType()->getKind() )
-				|| isSampledImageType( arg->getType()->getKind() )
-				|| isSamplerType( arg->getType()->getKind() ) ) )
+			auto ident = ast::findIdentifier( arg );
+
+			if ( ident
+				&& getStorageClass( ident->getVariable() ) != spv::StorageClassFunction
+				&& !isImageType( argTypeKind )
+				&& !isSampledImageType( argTypeKind )
+				&& !isSamplerType( argTypeKind ) )
 			{
-				auto ident = ast::findIdentifier( arg );
+				// We must have a variable with function storage class.
+				// Hence we create a temporary variable with this storage class,
+				// and load the orignal variable into it.
+				VariableInfo info;
+				info.rvalue = true;
+				auto srcId = id;
+				id = m_module.registerVariable( "temp_" + ident->getVariable()->getName()
+					, spv::StorageClassFunction
+					, arg->getType()
+					, info ).id;
+				//auto loadedId = m_module.loadVariable( srcId, arg->getType(), m_currentBlock );
+				m_currentBlock.instructions.emplace_back( makeInstruction< StoreInstruction >( id, srcId ) );
+				//m_currentBlock.instructions.emplace_back( makeInstruction< CopyMemoryInstruction >( IdList{ id, srcId, spv::MemoryAccessMaskNone } ) );
 
-				if ( ident
-					&& getStorageClass( ident->getVariable() ) != spv::StorageClassFunction )
+				if ( ( *it )->isOutputParam() )
 				{
-					// We must have a variable with function storage class.
-					// Hence we create a temporary variable with this storage class,
-					// and load the orignal variable into it.
-					VariableInfo info;
-					info.rvalue = true;
-					id = m_module.registerVariable( "temp_" + static_cast< ast::expr::Identifier const & >( *arg ).getVariable()->getName()
-						, spv::StorageClassFunction
-						, arg->getType()
-						, info ).id;
-					auto loadedImageId = m_module.loadVariable( id, arg->getType(), m_currentBlock );
-					m_currentBlock.instructions.emplace_back( makeInstruction< StoreInstruction >( id, loadedImageId ) );
+					outputParams.emplace_back( OutputParam{ srcId, id, arg->getType() } );
 				}
 			}
 
@@ -807,6 +852,12 @@ namespace spirv
 		m_currentBlock.instructions.emplace_back( makeInstruction< FunctionCallInstruction >( typeId
 			, m_result
 			, params ) );
+
+		for ( auto param : outputParams )
+		{
+			auto loadedId = m_module.loadVariable( param.dst, param.type, m_currentBlock );
+			m_currentBlock.instructions.emplace_back( makeInstruction< StoreInstruction >( param.src, loadedId ) );
+		}
 
 		m_allLiterals = m_allLiterals && allLiterals;
 	}
@@ -848,11 +899,16 @@ namespace spirv
 					, m_info ).id;
 			}
 
+			auto kind = var->getType()->getKind();
+
 			if ( m_loadVariable
 				&& ( var->isLocale()
 					|| var->isShaderInput()
 					|| var->isShaderOutput()
-					|| var->isOutputParam() ) )
+					|| var->isParam()
+					|| isSampledImageType( kind )
+					|| isImageType( kind )
+					|| isSamplerType( kind ) ) )
 			{
 				m_result = loadVariable( m_result
 					, expr->getType() );
@@ -1092,9 +1148,7 @@ namespace spirv
 		// Load the sampled image variable
 		auto sampledImageType = expr->getArgList()[0]->getType();
 		assert( sampledImageType->getKind() == ast::type::Kind::eSampledImage );
-		auto sampleImageId = args[0];
-		auto loadedSampleImageId = loadVariable( sampleImageId, sampledImageType );
-		args[0] = loadedSampleImageId;
+		auto loadedSampleImageId = args[0];
 
 		if ( config.needsImage )
 		{

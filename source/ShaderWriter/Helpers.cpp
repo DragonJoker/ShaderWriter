@@ -60,7 +60,9 @@ See LICENSE file in root folder
 #include <ShaderAST/Stmt/StmtInOutVariableDecl.hpp>
 #include <ShaderAST/Stmt/StmtReturn.hpp>
 #include <ShaderAST/Stmt/StmtSampledImageDecl.hpp>
+#include <ShaderAST/Stmt/StmtShaderStructBufferDecl.hpp>
 #include <ShaderAST/Stmt/StmtSimple.hpp>
+#include <ShaderAST/Stmt/StmtSpecialisationConstantDecl.hpp>
 #include <ShaderAST/Stmt/StmtStructureDecl.hpp>
 #include <ShaderAST/Stmt/StmtVariableDecl.hpp>
 
@@ -791,6 +793,14 @@ namespace sdw
 	{
 		return shader.registerMember( outer
 			, name
+			, type );
+	}
+
+	SDW_API var::VariablePtr registerBlockVariable( Shader & shader
+		, std::string const & name
+		, type::TypePtr type )
+	{
+		return shader.registerBlockVariable( name
 			, type );
 	}
 

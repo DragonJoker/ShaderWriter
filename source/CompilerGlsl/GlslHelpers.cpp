@@ -289,6 +289,18 @@ namespace glsl
 		return result;
 	}
 
+	std::string getFlatnessName( ast::var::Variable const & var )
+	{
+		std::string result;
+
+		if ( var.isFlat() )
+		{
+			result = "flat ";
+		}
+
+		return result;
+	}
+
 	std::string getLocationName( ast::var::Variable const & var )
 	{
 		std::string result;

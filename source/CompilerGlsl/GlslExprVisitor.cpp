@@ -9,19 +9,48 @@ See LICENSE file in root folder
 #include "GlslTextureAccessNames.hpp"
 
 #include <sstream>
+#include <iomanip>
 
 namespace glsl
 {
-	std::string ExprVisitor::submit( ast::expr::Expr * expr )
+	namespace
+	{
+		std::string adaptName( std::string const & name
+			, GlslConfig const & writerConfig )
+		{
+			static std::map< std::string, std::string > const names
+			{
+				{ "gl_InstanceID", "gl_InstanceIndex" },
+			{ "gl_VertexID", "gl_VertexIndex" },
+			};
+
+			if ( writerConfig.vulkanGlsl )
+			{
+				auto it = names.find( name );
+
+				if ( it != names.end() )
+				{
+					return it->second;
+				}
+			}
+
+			return name;
+		}
+	}
+
+	std::string ExprVisitor::submit( ast::expr::Expr * expr
+		, GlslConfig const & writerConfig )
 	{
 		std::string result;
-		ExprVisitor vis{ result };
+		ExprVisitor vis{ writerConfig, result };
 		expr->accept( &vis );
 		return result;
 	}
 
-	ExprVisitor::ExprVisitor( std::string & result )
-		: m_result{ result }
+	ExprVisitor::ExprVisitor( GlslConfig const & writerConfig
+		, std::string & result )
+		: m_writerConfig{ writerConfig }
+		, m_result{ result }
 	{
 	}
 
@@ -135,7 +164,7 @@ namespace glsl
 
 		for ( auto & init : expr->getInitialisers() )
 		{
-			m_result += sep + submit( init.get() );
+			m_result += sep + submit( init.get(), m_writerConfig );
 			sep = ", ";
 		}
 
@@ -203,7 +232,7 @@ namespace glsl
 
 	void ExprVisitor::visitIdentifierExpr( ast::expr::Identifier * expr )
 	{
-		m_result += expr->getVariable()->getName();
+		m_result += adaptName( expr->getVariable()->getName(), m_writerConfig );
 	}
 
 	void ExprVisitor::visitImageAccessCallExpr( ast::expr::ImageAccessCall * expr )
@@ -267,7 +296,7 @@ namespace glsl
 		case ast::expr::LiteralType::eFloat:
 			{
 				auto v = expr->getValue< ast::expr::LiteralType::eFloat >();
-				stream << v;
+				stream << std::setprecision( 8u ) << v;
 
 				if ( v == int64_t( v ) )
 				{
@@ -278,7 +307,7 @@ namespace glsl
 		case ast::expr::LiteralType::eDouble:
 			{
 				auto v = expr->getValue< ast::expr::LiteralType::eDouble >();
-				stream << v;
+				stream << std::setprecision( 12u ) << v;
 
 				if ( v == int64_t( v ) )
 				{

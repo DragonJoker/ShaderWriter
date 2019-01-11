@@ -237,6 +237,7 @@ namespace sdw
 		static_assert( !isOptional< DestT >, "Can't cast to an optional type." );
 		return details::Cast< Optional< DestT >, Optional< SrcT > >::cast( m_shader, from );
 	}
+
 	template< typename DestT >
 	inline DestT ShaderWriter::cast( int32_t from )
 	{

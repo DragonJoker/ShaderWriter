@@ -321,6 +321,42 @@ namespace ast::expr
 	/**
 	*@return
 	*	float
+	*@param[in] y
+	*	float
+	*@param[in] x
+	*	float
+	*/
+	IntrinsicCallPtr makeAtan21( type::TypesCache & cache, ExprPtr y, ExprPtr x );
+	/**
+	*@return
+	*	vec2f
+	*@param[in] y
+	*	vec2f
+	*@param[in] x
+	*	vec2f
+	*/
+	IntrinsicCallPtr makeAtan22( type::TypesCache & cache, ExprPtr y, ExprPtr x );
+	/**
+	*@return
+	*	vec3f
+	*@param[in] y
+	*	vec3f
+	*@param[in] x
+	*	vec3f
+	*/
+	IntrinsicCallPtr makeAtan23( type::TypesCache & cache, ExprPtr y, ExprPtr x );
+	/**
+	*@return
+	*	vec4f
+	*@param[in] y
+	*	vec4f
+	*@param[in] x
+	*	vec4f
+	*/
+	IntrinsicCallPtr makeAtan24( type::TypesCache & cache, ExprPtr y, ExprPtr x );
+	/**
+	*@return
+	*	float
 	*@param[in] x
 	*	float
 	*/

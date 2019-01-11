@@ -39,21 +39,19 @@ namespace hlsl
 		void visitShaderBufferDeclStmt( ast::stmt::ShaderBufferDecl * stmt )override;
 		void visitShaderStructBufferDeclStmt( ast::stmt::ShaderStructBufferDecl * stmt )override;
 		void visitVariableDeclStmt( ast::stmt::VariableDecl * stmt )override;
-		void visitPreprocDefine( ast::stmt::PreprocDefine * preproc )override;
-		void visitPreprocEndif( ast::stmt::PreprocEndif * preproc )override;
 		void visitPreprocExtension( ast::stmt::PreprocExtension * preproc )override;
 		void visitPreprocVersion( ast::stmt::PreprocVersion * preproc )override;
 
 	private:
 		void rewriteShaderIOVars();
-		ast::stmt::FunctionDeclPtr rewriteMainHeader( ast::stmt::FunctionDecl * stmt );
+		void writeMain( ast::stmt::FunctionDecl * stmt );
 		ast::stmt::FunctionDeclPtr rewriteFuncHeader( ast::stmt::FunctionDecl * stmt );
-		void rewriteMainFooter( ast::stmt::FunctionDecl * stmt );
 
 	private:
 		IntrinsicsConfig const & m_config;
 		HlslShader m_shader;
 		ast::type::TypesCache & m_cache;
+		ast::stmt::Container * m_inOutDeclarations;
 		ast::stmt::Container * m_intrinsics;
 		AdaptationData m_adaptationData;
 		ast::stmt::InputComputeLayout * m_inputComputeLayout{ nullptr };

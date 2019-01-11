@@ -12,11 +12,13 @@ See LICENSE file in root folder
 #include <ShaderAST/Type/ImageConfiguration.hpp>
 
 #define Writer_Parameter( TypeName )\
+	using P##TypeName = sdw::Param< TypeName >;\
 	using In##TypeName = sdw::InParam< TypeName >;\
 	using Out##TypeName = sdw::OutParam< TypeName >;\
 	using InOut##TypeName = sdw::InOutParam< TypeName >
 
 #define Writer_ArrayParameter( TypeName )\
+	using P##TypeName##Array = sdw::Param< sdw::Array< TypeName > >;\
 	using In##TypeName##Array = sdw::InParam< sdw::Array< TypeName > >;\
 	using Out##TypeName##Array = sdw::OutParam< sdw::Array< TypeName > >;\
 	using InOut##TypeName##Array = sdw::InOutParam< sdw::Array< TypeName > >
@@ -53,6 +55,8 @@ namespace sdw
 
 	template< typename T >
 	struct Array;
+	template< typename TypeT >
+	struct Param;
 	template< typename TypeT >
 	struct InParam;
 	template< typename TypeT >
