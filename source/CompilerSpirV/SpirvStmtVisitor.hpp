@@ -76,6 +76,7 @@ namespace spirv
 		Block m_currentBlock;
 		Function * m_function{ nullptr };
 		std::vector< Block * > m_mergeBlocks;
+		uint32_t m_ifStmts{ 0u };
 		sdw::ShaderType m_type;
 		IdList m_inputs;
 		IdList m_outputs;

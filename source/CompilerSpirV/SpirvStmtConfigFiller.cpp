@@ -108,7 +108,7 @@ namespace spirv
 
 	void StmtConfigFiller::visitImageDeclStmt( ast::stmt::ImageDecl * stmt )
 	{
-		auto imgType = std::static_pointer_cast< ast::type::Image >( sdw::getNonArrayType( stmt->getVariable()->getType() ) );
+		auto imgType = std::static_pointer_cast< ast::type::Image >( ast::type::getNonArrayType( stmt->getVariable()->getType() ) );
 
 		if ( imgType->getConfig().dimension == ast::type::ImageDim::e1D )
 		{
@@ -218,7 +218,7 @@ namespace spirv
 
 	void StmtConfigFiller::visitSampledImageDeclStmt( ast::stmt::SampledImageDecl * stmt )
 	{
-		auto imgType = std::static_pointer_cast< ast::type::SampledImage >( sdw::getNonArrayType( stmt->getVariable()->getType() ) );
+		auto imgType = std::static_pointer_cast< ast::type::SampledImage >( ast::type::getNonArrayType( stmt->getVariable()->getType() ) );
 
 		if ( imgType->getConfig().dimension == ast::type::ImageDim::e1D )
 		{
@@ -346,7 +346,7 @@ namespace spirv
 
 	void StmtConfigFiller::doTraverseType( ast::type::TypePtr type )
 	{
-		type = sdw::getNonArrayType( type );
+		type = ast::type::getNonArrayType( type );
 		auto kind = type->getKind();
 
 		if ( kind == ast::type::Kind::eStruct )

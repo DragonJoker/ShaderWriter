@@ -122,6 +122,11 @@ namespace spirv
 
 			void visitSwizzleExpr( ast::expr::Swizzle * expr )override
 			{
+				if ( m_result.empty() )
+				{
+					m_result = submit( m_cache, m_kind, expr->getOuterExpr(), m_idents );
+				}
+
 				doAddExpr( m_kind, expr );
 			}
 
@@ -362,26 +367,39 @@ namespace spirv
 			void visitSwizzleExpr( ast::expr::Swizzle * expr )override
 			{
 				assert( m_parentId != 0u );
-				spv::Id parentId;
 
-				if ( isAccessChain( expr->getOuterExpr() ) )
+				if ( expr->getSwizzle() <= ast::expr::SwizzleKind::e3 )
 				{
-					parentId = makeAccessChain( expr->getOuterExpr()
-						, m_module
-						, m_currentBlock
-						, m_loadedVariables );
+					m_result = m_module.registerLiteral( uint32_t( expr->getSwizzle() ) );
 				}
 				else
 				{
-					parentId = ExprVisitor::submit( expr->getOuterExpr()
-						, m_currentBlock
-						, m_module );
-				}
+					spv::Id parentId;
 
-				auto rawTypeId = m_module.registerType( expr->getType() );
-				auto pointerTypeId = m_module.registerPointerType( rawTypeId, spv::StorageClassFunction );
-				bool needsLoad = false;
-				m_result = writeShuffle( m_module, m_currentBlock, pointerTypeId, rawTypeId, parentId, expr->getSwizzle(), needsLoad );
+					if ( isAccessChain( expr->getOuterExpr() ) )
+					{
+						parentId = makeAccessChain( expr->getOuterExpr()
+							, m_module
+							, m_currentBlock
+							, m_loadedVariables );
+					}
+					else
+					{
+						parentId = ExprVisitor::submit( expr->getOuterExpr()
+							, m_currentBlock
+							, m_module );
+					}
+
+					auto rawTypeId = m_module.registerType( expr->getType() );
+					auto pointerTypeId = m_module.registerPointerType( rawTypeId, spv::StorageClassFunction );
+					bool needsLoad = false;
+					m_result = writeShuffle( m_module, m_currentBlock, pointerTypeId, rawTypeId, parentId, expr->getSwizzle(), needsLoad );
+
+					if ( needsLoad )
+					{
+						m_result = m_module.loadVariable( m_result, expr->getType(), m_currentBlock );
+					}
+				}
 			}
 
 			void visitAggrInitExpr( ast::expr::AggrInit * )override
@@ -450,25 +468,26 @@ namespace spirv
 			, Module & module
 			, LoadedVariableArray & loadedVariables )
 		{
-			auto it = currentBlock.accessChains.find( accessChain );
+			//auto it = currentBlock.accessChains.find( accessChain );
 
-			if ( it == currentBlock.accessChains.end() )
+			//if ( it == currentBlock.accessChains.end() )
 			{
-			// Reserve the ID for the result.
-				auto resultId = module.getIntermediateResult();
 				// Register the type pointed to.
 				auto rawTypeId = module.registerType( expr->getType() );
 				// Register the pointer to the type.
 				auto pointerTypeId = module.registerPointerType( rawTypeId
 					, getStorageClass( ast::findIdentifier( expr )->getVariable() ) );
+				// Reserve the ID for the result.
+				auto resultId = module.getIntermediateResult();
 				// Write access chain => resultId = pointerTypeId( outer.members + index ).
 				currentBlock.instructions.emplace_back( makeInstruction< AccessChainInstruction >( pointerTypeId
 					, resultId
 					, accessChain ) );
-				it = currentBlock.accessChains.emplace( accessChain, resultId ).first;
+				//it = currentBlock.accessChains.emplace( accessChain, resultId ).first;
+				return resultId;
 			}
 
-			return it->second;
+			//return it->second;
 		}
 	}
 
@@ -506,7 +525,6 @@ namespace spirv
 		{
 			shuffle.push_back( outerId );
 			shuffle.push_back( outerId );
-			//shuffle.push_back( spv::Id( spv::OpUndef ) );
 			shuffle.insert( shuffle.end(), swizzleComponents.begin(), swizzleComponents.end() );
 			auto it = currentBlock.vectorShuffles.find( shuffle );
 
@@ -519,7 +537,7 @@ namespace spirv
 				it = currentBlock.vectorShuffles.emplace( shuffle, intermediateId ).first;
 			}
 
-			needsLoad = true;
+			needsLoad = false;
 			result = it->second;
 		}
 

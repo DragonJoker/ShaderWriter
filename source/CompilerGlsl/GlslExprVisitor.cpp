@@ -21,7 +21,7 @@ namespace glsl
 			static std::map< std::string, std::string > const names
 			{
 				{ "gl_InstanceID", "gl_InstanceIndex" },
-			{ "gl_VertexID", "gl_VertexIndex" },
+				{ "gl_VertexID", "gl_VertexIndex" },
 			};
 
 			if ( writerConfig.vulkanGlsl )

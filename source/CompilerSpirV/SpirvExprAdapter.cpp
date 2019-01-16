@@ -250,7 +250,8 @@ namespace spirv
 		{
 			auto & arg = *expr->getArgList().front();
 			auto argType = arg.getType();
-			auto newArg = doMakeAlias( doSubmit( &arg ) );
+			ast::var::VariablePtr alias;
+			auto newArg = doMakeAlias( doSubmit( &arg ), alias );
 
 			if ( isVectorType( argType->getKind() ) )
 			{
@@ -285,9 +286,18 @@ namespace spirv
 	{
 		ast::expr::ExprList args;
 
+		struct OutputParam
+		{
+			ast::expr::ExprPtr param;
+			ast::var::VariablePtr alias;
+		};
+		std::vector< OutputParam > outputParams;
+		auto fnType = std::static_pointer_cast< ast::type::Function >( expr->getFn()->getType() );
+		auto it = fnType->begin();
+
 		for ( auto & arg : expr->getArgList() )
 		{
-			auto kind = getNonArrayKind( arg->getType()->getKind() );
+			auto kind = getNonArrayKind( arg->getType() );
 
 			if ( isSamplerType( kind )
 				|| isSampledImageType( kind )
@@ -307,9 +317,18 @@ namespace spirv
 			}
 			else
 			{
-				auto expr = doMakeAlias( doSubmit( arg.get() ), true );
+				ast::var::VariablePtr alias;
+				auto expr = doMakeAlias( doSubmit( arg.get() ), alias, true );
 				args.emplace_back( std::move( expr ) );
+
+				if ( ( *it )->isOutputParam()
+					&& alias )
+				{
+					outputParams.push_back( { doSubmit( arg.get() ), alias } );
+				}
 			}
+
+			++it;
 		}
 
 		if ( expr->isMember() )
@@ -326,6 +345,23 @@ namespace spirv
 				, std::move( args ) );
 		}
 
+		if ( expr->getType()->getKind() != ast::type::Kind::eVoid )
+		{
+			// Store function result into a return alias, that will be the final result.
+			auto var = ast::var::makeVariable( expr->getType()
+				, "tmp_" + std::to_string( m_config.aliasId++ )
+				, ast::var::Flag::eImplicit | ast::var::Flag::eLocale );
+			m_container->addStmt( ast::stmt::makeSimple( ast::expr::makeInit( ast::expr::makeIdentifier( m_cache, var ), std::move( m_result ) ) ) );
+			m_result = ast::expr::makeIdentifier( m_cache, var );
+		}
+
+		for ( auto & var : outputParams )
+		{
+			m_container->addStmt( ast::stmt::makeSimple( std::move( m_result ) ) );
+			m_result = ast::expr::makeAssign( var.alias->getType()
+				, std::move( var.param )
+				, ast::expr::makeIdentifier( m_cache, var.alias ) );
+		}
 	}
 
 	void ExprAdapter::visitIdentifierExpr( ast::expr::Identifier * expr )
@@ -395,13 +431,34 @@ namespace spirv
 		{
 			assert( condComponents == 1u );
 			ast::expr::ExprList args;
-			args.emplace_back( doMakeAlias( doSubmit( expr->getCtrlExpr() ) ) );
+			ast::var::VariablePtr alias;
+			args.emplace_back( doMakeAlias( doSubmit( expr->getCtrlExpr() ), alias ) );
 			m_result = ast::expr::makeQuestion( expr->getType()
 				, doSubmit( ast::expr::makeCompositeConstruct( getCompositeType( opsComponents )
 					, expr->getCtrlExpr()->getType()->getKind()
 					, std::move( args ) ).get() )
 				, doSubmit( expr->getTrueExpr() )
 				, doSubmit( expr->getFalseExpr() ) );
+		}
+	}
+
+	void ExprAdapter::visitSwizzleExpr( ast::expr::Swizzle * expr )
+	{
+		auto outerComponentsCount = getComponentCount( expr->getOuterExpr()->getType()->getKind() );
+		auto innerComponentsCount = getComponentCount( expr->getType()->getKind() );
+
+		// Remove unnecessary swizzles
+		if ( outerComponentsCount == innerComponentsCount
+			&& ( expr->getSwizzle() == ast::expr::SwizzleKind::e0
+				|| expr->getSwizzle() == ast::expr::SwizzleKind::e01
+				|| expr->getSwizzle() == ast::expr::SwizzleKind::e012
+				|| expr->getSwizzle() == ast::expr::SwizzleKind::e0123 ) )
+		{
+			m_result = doSubmit( expr->getOuterExpr() );
+		}
+		else
+		{
+			ExprCloner::visitSwizzleExpr( expr );
 		}
 	}
 
@@ -481,6 +538,7 @@ namespace spirv
 	}
 
 	ast::expr::ExprPtr ExprAdapter::doMakeAlias( ast::expr::ExprPtr expr
+		, ast::var::VariablePtr & alias
 		, bool param )
 	{
 		if ( !needsAlias( expr->getKind()
@@ -490,11 +548,11 @@ namespace spirv
 			return expr;
 		}
 
-		auto var = ast::var::makeVariable( expr->getType()
+		alias = ast::var::makeVariable( expr->getType()
 			, "tmp_" + std::to_string( m_config.aliasId++ )
 			, ast::var::Flag::eLocale | ast::var::Flag::eImplicit );
-		m_container->addStmt( ast::stmt::makeSimple( ast::expr::makeInit( ast::expr::makeIdentifier( m_cache, var ), std::move( expr ) ) ) );
-		return ast::expr::makeIdentifier( m_cache, var );
+		m_container->addStmt( ast::stmt::makeSimple( ast::expr::makeInit( ast::expr::makeIdentifier( m_cache, alias ), std::move( expr ) ) ) );
+		return ast::expr::makeIdentifier( m_cache, alias );
 	}
 
 	ast::type::TypePtr ExprAdapter::doPromoteScalar( ast::expr::ExprPtr & lhs
@@ -515,7 +573,8 @@ namespace spirv
 				result = rhs->getType();
 				ast::expr::ExprList args;
 				auto count = getComponentCount( result->getKind() );
-				auto alias = doMakeAlias( doSubmit( lhs.get() ) );
+				ast::var::VariablePtr aliasVar;
+				auto alias = doMakeAlias( doSubmit( lhs.get() ), aliasVar );
 
 				for ( auto i = 0u; i < count; ++i )
 				{
@@ -531,7 +590,8 @@ namespace spirv
 				result = lhs->getType();
 				ast::expr::ExprList args;
 				auto count = getComponentCount( result->getKind() );
-				auto alias = doMakeAlias( doSubmit( rhs.get() ) );
+				ast::var::VariablePtr aliasVar;
+				auto alias = doMakeAlias( doSubmit( rhs.get() ), aliasVar );
 
 				for ( auto i = 0u; i < count; ++i )
 				{

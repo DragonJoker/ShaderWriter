@@ -32,7 +32,6 @@ namespace sdw
 	expr::ExprPtr makeCondition( ValueT const & value );
 	template< typename ValueT >
 	ast::type::ImageConfiguration makeConfig();
-	SDW_API ast::type::TypePtr getNonArrayType( ast::type::TypePtr type );
 	SDW_API ast::stmt::Container * getContainer( Shader & shader );
 	SDW_API ShaderWriter & getCurrentWriter();
 	SDW_API ast::type::TypesCache & getTypesCache( ShaderWriter & writer );

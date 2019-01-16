@@ -76,17 +76,6 @@ See LICENSE file in root folder
 
 namespace sdw
 {
-	ast::type::TypePtr getNonArrayType( ast::type::TypePtr type )
-	{
-		switch ( type->getKind() )
-		{
-		case type::Kind::eArray:
-			return std::static_pointer_cast< type::Array >( type )->getType();
-		default:
-			return type;
-		}
-	}
-
 	stmt::Container * getContainer( Shader & shader )
 	{
 		return shader.getContainer();

@@ -996,6 +996,8 @@ namespace spirv
 				return ImageAccessInstructionT< spv::OpImageSparseTexelsResident >::config;
 			case spv::OpImageSparseRead:
 				return ImageAccessInstructionT < spv::OpImageSparseRead >::config;
+			case spv::OpUndef:
+				return UndefInstruction::config;
 			default:
 				assert( false && "Unsupported Instruction operator" );
 				return dummy;
@@ -1267,7 +1269,8 @@ namespace spirv
 		, m_currentScopeVariables{ &m_registeredVariables }
 	{
 		header.push_back( spv::MagicNumber );
-		header.push_back( spv::Version );
+		//header.push_back( spv::Version );
+		header.push_back( 0x00010000 );
 		header.push_back( 0x00100001 );
 		header.push_back( 1u ); // Bound IDs.
 		header.push_back( 0u ); // Schema.
@@ -1879,7 +1882,8 @@ namespace spirv
 		case spv::ExecutionModelGeometry:
 			break;
 		case spv::ExecutionModelFragment:
-			registerExecutionMode( spv::ExecutionModeOriginLowerLeft );
+			//registerExecutionMode( spv::ExecutionModeOriginLowerLeft );
+			registerExecutionMode( spv::ExecutionModeOriginUpperLeft );
 			break;
 		case spv::ExecutionModelGLCompute:
 			break;

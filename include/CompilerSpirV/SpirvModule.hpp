@@ -289,6 +289,7 @@ namespace spirv
 	using LoopMergeInstruction = InstructionT< spv::OpLoopMerge, false, false, 3u, false, false >;
 	using ReturnInstruction = InstructionT< spv::OpReturn, false, false, 0u, false, false >;
 	using ReturnValueInstruction = InstructionT< spv::OpReturnValue, false, false, 1u, false, false >;
+	using UndefInstruction = InstructionT< spv::OpUndef, true, true, 0u, false, false >;
 	using FunctionEndInstruction = InstructionT< spv::OpFunctionEnd, false, false, 0u, false, false >;
 
 	struct VariableInfo

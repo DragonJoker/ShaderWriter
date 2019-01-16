@@ -57,8 +57,6 @@ namespace glsl
 			doEnableCoreExtension( result, "GL_ARB_explicit_uniform_location", 430u, writerConfig.shaderLanguageVersion );
 			doEnableCoreExtension( result, "GL_ARB_separate_shader_objects", 410u, writerConfig.shaderLanguageVersion );
 			doEnableCoreExtension( result, "GL_ARB_shading_language_420pack", 420u, writerConfig.shaderLanguageVersion );
-			doEnableCoreExtension( result, "GL_ARB_shading_language_420pack", 420u, writerConfig.shaderLanguageVersion );
-			doEnableCoreExtension( result, "GL_ARB_shading_language_420pack", 420u, writerConfig.shaderLanguageVersion );
 			doEnableExtension( result, "GL_KHR_vulkan_glsl", 450u, writerConfig.shaderLanguageVersion );
 
 			if ( intrinsicsConfig.requiresCubeMapArray )

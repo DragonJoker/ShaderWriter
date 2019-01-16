@@ -43,9 +43,11 @@ namespace spirv
 		void visitImageAccessCallExpr( ast::expr::ImageAccessCall * expr )override;
 		void visitIntrinsicCallExpr( ast::expr::IntrinsicCall * expr )override;
 		void visitQuestionExpr( ast::expr::Question * expr )override;
+		void visitSwizzleExpr( ast::expr::Swizzle * expr )override;
 		void visitTextureAccessCallExpr( ast::expr::TextureAccessCall * expr )override;
 
 		ast::expr::ExprPtr doMakeAlias( ast::expr::ExprPtr expr
+			, ast::var::VariablePtr & alias
 			, bool param = false );
 		ast::type::TypePtr doPromoteScalar( ast::expr::ExprPtr & lhs
 			, ast::expr::ExprPtr & rhs );

@@ -478,9 +478,40 @@ namespace ast::type
 		}
 	}
 
-	Kind getNonArrayKindRec( Type const & type )
+	Type const & getNonArrayType( Type const & type )
 	{
-		auto result = type.getKind();
+		switch ( type.getKind() )
+		{
+		case Kind::eArray:
+			return *static_cast< Array const & >( type ).getType();
+		default:
+			return type;
+		}
+	}
+
+	TypePtr getNonArrayType( TypePtr type )
+	{
+		switch ( type->getKind() )
+		{
+		case Kind::eArray:
+			return std::static_pointer_cast< Array >( type )->getType();
+		default:
+			return type;
+		}
+	}
+
+	Kind getNonArrayKind( Type const & type )
+	{
+		return getNonArrayType( type ).getKind();
+	}
+
+	Kind getNonArrayKind( TypePtr type )
+	{
+		return getNonArrayKind( *type );
+	}
+
+	Type const & getNonArrayTypeRec( Type const & type )
+	{
 		auto * tmp = &type;
 
 		while ( tmp->getKind() == type::Kind::eArray )
@@ -488,24 +519,29 @@ namespace ast::type
 			tmp = static_cast< Array const & >( *tmp ).getType().get();
 		}
 
-		return tmp->getKind();
+		return *tmp;
+	}
+
+	TypePtr getNonArrayTypeRec( TypePtr type )
+	{
+		auto tmp = type;
+
+		while ( tmp->getKind() == type::Kind::eArray )
+		{
+			tmp = static_cast< Array const & >( *tmp ).getType();
+		}
+
+		return tmp;
+	}
+
+	Kind getNonArrayKindRec( Type const & type )
+	{
+		return getNonArrayTypeRec( type ).getKind();
 	}
 
 	Kind getNonArrayKindRec( TypePtr type )
 	{
 		return getNonArrayKindRec( *type );
-	}
-
-	Kind getNonArrayKind( Type const & type )
-	{
-		return type.getKind() == type::Kind::eArray
-			? static_cast< Array const & >( type ).getType()->getKind()
-			: type.getKind();
-	}
-
-	Kind getNonArrayKind( TypePtr type )
-	{
-		return getNonArrayKind( *type );
 	}
 
 	uint32_t getArraySize( Type const & type )

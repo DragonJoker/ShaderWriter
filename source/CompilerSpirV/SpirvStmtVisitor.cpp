@@ -12,6 +12,24 @@ namespace spirv
 {
 	namespace
 	{
+		std::string adaptName( std::string const & name )
+		{
+			static std::map< std::string, std::string > const names
+			{
+				{ "gl_InstanceID", "gl_InstanceIndex" },
+				{ "gl_VertexID", "gl_VertexIndex" },
+			};
+
+			auto it = names.find( name );
+
+			if ( it != names.end() )
+			{
+				return it->second;
+			}
+
+			return name;
+		}
+
 		int32_t getInt32Value( ast::expr::Literal const & lit )
 		{
 			int32_t result{};
@@ -60,12 +78,12 @@ namespace spirv
 
 		for ( auto & input : config.inputs )
 		{
-			m_inputs.push_back( m_result.registerVariable( input->getName(), spv::StorageClassInput, input->getType(), info ).id );
+			m_inputs.push_back( m_result.registerVariable( adaptName( input->getName() ), spv::StorageClassInput, input->getType(), info ).id );
 		}
 
 		for ( auto & output : config.outputs )
 		{
-			m_outputs.push_back( m_result.registerVariable( output->getName(), spv::StorageClassOutput, output->getType(), info ).id );
+			m_outputs.push_back( m_result.registerVariable( adaptName( output->getName() ), spv::StorageClassOutput, output->getType(), info ).id );
 		}
 	}
 
@@ -89,8 +107,13 @@ namespace spirv
 	void StmtVisitor::visitDiscardStmt( ast::stmt::Discard * stmt )
 	{
 		m_currentBlock.blockEnd = makeInstruction< KillInstruction >();
-		m_function->cfg.blocks.emplace_back( std::move( m_currentBlock ) );
-		m_currentBlock = m_result.newBlock();
+		m_currentBlock.hasReturn = true;
+
+		if ( !m_ifStmts )
+		{
+			m_function->cfg.blocks.emplace_back( std::move( m_currentBlock ) );
+			m_currentBlock = m_result.newBlock();
+		}
 	}
 
 	void StmtVisitor::visitPushConstantsBufferDeclStmt( ast::stmt::PushConstantsBufferDecl * stmt )
@@ -233,7 +256,16 @@ namespace spirv
 
 		if ( !m_currentBlock.blockEnd )
 		{
-			m_currentBlock.blockEnd = makeInstruction< ReturnInstruction >();
+			if ( type->getReturnType()->getKind() == ast::type::Kind::eVoid )
+			{
+				m_currentBlock.blockEnd = makeInstruction< ReturnInstruction >();
+			}
+			else
+			{
+				auto retId = m_result.getIntermediateResult();
+				m_currentBlock.instructions.emplace_back( makeInstruction< UndefInstruction >( retType, retId ) );
+				m_currentBlock.blockEnd = makeInstruction< ReturnValueInstruction >( retId );
+			}
 		}
 
 		m_currentBlock.instructions.emplace_back( std::move( m_currentBlock.blockEnd ) );
@@ -245,6 +277,7 @@ namespace spirv
 
 	void StmtVisitor::visitIfStmt( ast::stmt::If * stmt )
 	{
+		++m_ifStmts;
 		auto contentBlock = m_result.newBlock();
 		auto mergeBlock = m_result.newBlock();
 
@@ -280,6 +313,7 @@ namespace spirv
 
 		// Current block becomes the merge block.
 		m_currentBlock = std::move( mergeBlock );
+		--m_ifStmts;
 	}
 
 	void StmtVisitor::visitImageDeclStmt( ast::stmt::ImageDecl * stmt )

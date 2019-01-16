@@ -24,6 +24,24 @@ namespace spirv
 {
 	namespace
 	{
+		std::string adaptName( std::string const & name )
+		{
+			static std::map< std::string, std::string > const names
+			{
+				{ "gl_InstanceID", "gl_InstanceIndex" },
+				{ "gl_VertexID", "gl_VertexIndex" },
+			};
+
+			auto it = names.find( name );
+
+			if ( it != names.end() )
+			{
+				return it->second;
+			}
+
+			return name;
+		}
+
 		spv::Id loadVariable( spv::Id varId
 			, ast::type::TypePtr type
 			, Module & module
@@ -335,10 +353,6 @@ namespace spirv
 				// - Create an access chain to the selected component.
 				//   No load to retrieve the variable ID.
 				auto lhsId = getVariableIdNoLoad( lhsOuter );
-				//   Load the variable manually.
-				auto loadedLhsId = loadVariable( lhsId
-					, lhsOuter->getType() );
-
 				//   Register component selection as a literal.
 				auto componentId = m_module.registerLiteral( uint32_t( lhsSwizzleKind ) );
 				//   Register pointer type.
@@ -370,7 +384,10 @@ namespace spirv
 				shuffle.emplace_back( rhsId );
 				ast::expr::SwizzleKind rhsSwizzleKind;
 
-				if ( expr->getRHS()->getKind() == ast::expr::Kind::eSwizzle )
+				if ( expr->getRHS()->getKind() == ast::expr::Kind::eSwizzle
+					&& static_cast< ast::expr::Swizzle const & >( *expr->getRHS() ).getOuterExpr()->getKind() != ast::expr::Kind::eIntrinsicCall
+					&& static_cast< ast::expr::Swizzle const & >( *expr->getRHS() ).getOuterExpr()->getKind() != ast::expr::Kind::eTextureAccessCall
+					&& static_cast< ast::expr::Swizzle const & >( *expr->getRHS() ).getOuterExpr()->getKind() != ast::expr::Kind::eImageAccessCall )
 				{
 					rhsSwizzleKind = static_cast< ast::expr::Swizzle const & >( *expr->getRHS() ).getSwizzle();
 				}
@@ -812,7 +829,6 @@ namespace spirv
 			allLiterals = allLiterals
 				&& ( arg->getKind() == ast::expr::Kind::eLiteral );
 			auto argTypeKind = arg->getType()->getKind();
-
 			auto ident = ast::findIdentifier( arg );
 
 			if ( ident
@@ -827,7 +843,7 @@ namespace spirv
 				VariableInfo info;
 				info.rvalue = true;
 				auto srcId = id;
-				id = m_module.registerVariable( "temp_" + ident->getVariable()->getName()
+				id = m_module.registerVariable( "tmp_" + adaptName( ident->getVariable()->getName() )
 					, spv::StorageClassFunction
 					, arg->getType()
 					, info ).id;
@@ -886,14 +902,14 @@ namespace spirv
 		{
 			if ( var->isSpecialisationConstant() )
 			{
-				m_result = m_module.registerVariable( var->getName()
+				m_result = m_module.registerVariable( adaptName( var->getName() )
 					, spv::StorageClassInput
 					, expr->getType()
 					, m_info ).id;
 			}
 			else
 			{
-				m_result = m_module.registerVariable( var->getName()
+				m_result = m_module.registerVariable( adaptName( var->getName() )
 					, getStorageClass( var )
 					, expr->getType()
 					, m_info ).id;
@@ -1015,7 +1031,7 @@ namespace spirv
 		m_module.registerType( expr->getType() );
 		auto init = doSubmit( expr->getInitialiser() );
 		m_info.lvalue = true;
-		m_result = m_module.registerVariable( expr->getIdentifier()->getVariable()->getName()
+		m_result = m_module.registerVariable( adaptName( expr->getIdentifier()->getVariable()->getName() )
 			, ( ( expr->getIdentifier()->getVariable()->isLocale() || expr->getIdentifier()->getVariable()->isParam() )
 				? spv::StorageClassFunction
 				: spv::StorageClassUniformConstant )
@@ -1122,11 +1138,32 @@ namespace spirv
 	void ExprVisitor::visitSwizzleExpr( ast::expr::Swizzle * expr )
 	{
 		m_allLiterals = false;
-		auto outerId = doSubmit( expr->getOuterExpr() );
-		auto rawTypeId = m_module.registerType( expr->getType() );
-		auto pointerTypeId = m_module.registerPointerType( rawTypeId, spv::StorageClassFunction );
-		bool needsLoad = false;
-		m_result = writeShuffle( m_module, m_currentBlock, pointerTypeId, rawTypeId, outerId, expr->getSwizzle(), needsLoad );
+
+		if ( expr->getSwizzle() <= ast::expr::SwizzleKind::e3
+			&& expr->getOuterExpr()->getKind() == ast::expr::Kind::eIdentifier )
+		{
+			m_result = makeAccessChain( expr, m_module, m_currentBlock, m_loadedVariables );
+			m_result = m_module.loadVariable( m_result, expr->getType(), m_currentBlock );
+		}
+		else
+		{
+			auto outerId = doSubmit( expr->getOuterExpr() );
+			auto rawTypeId = m_module.registerType( expr->getType() );
+			auto pointerTypeId = m_module.registerPointerType( rawTypeId, spv::StorageClassFunction );
+			bool needsLoad = false;
+			m_result = writeShuffle( m_module
+				, m_currentBlock
+				, pointerTypeId
+				, rawTypeId
+				, outerId
+				, expr->getSwizzle()
+				, needsLoad );
+
+			if ( needsLoad )
+			{
+				m_result = m_module.loadVariable( m_result, expr->getType(), m_currentBlock );
+			}
+		}
 	}
 
 	void ExprVisitor::visitTextureAccessCallExpr( ast::expr::TextureAccessCall * expr )
@@ -1424,14 +1461,14 @@ namespace spirv
 				{
 					m_info.lvalue = false;
 					m_info.rvalue = true;
-					result = m_module.registerVariable( var->getName()
+					result = m_module.registerVariable( adaptName( var->getName() )
 						, spv::StorageClassInput
 						, expr->getType()
 						, m_info ).id;
 				}
 				else
 				{
-					result = m_module.registerVariable( var->getName()
+					result = m_module.registerVariable( adaptName( var->getName() )
 						, getStorageClass( var )
 						, expr->getType()
 						, m_info ).id;

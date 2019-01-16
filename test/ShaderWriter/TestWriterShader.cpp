@@ -397,6 +397,9 @@ namespace
 				auto Lbottom = writer.declLocale< Float >( "Lbottom" );
 				auto delta = writer.declLocale< Vec4 >( "delta" );
 				delta.zw() = abs( L - vec2( Lright, Lbottom ) );
+				auto texcoord = writer.declLocale< Vec2 >( "texcoord" );
+				auto a = writer.declLocale< Vec4 >( "a" );
+				a.wz() = textureLod( c3d_mapDepth, texcoord, 0.0_f ).xz();
 			} );
 
 		test::writeShader( writer
@@ -505,29 +508,29 @@ namespace
 		using namespace sdw;
 		ComputeWriter writer;
 
-		//St::declare( writer );
-		//St2::declare( writer );
+		St::declare( writer );
+		St2::declare( writer );
 
-		//auto foo01 = writer.implementFunction< St2 >( "foo01"
-		//	, [&]( Vec4 const & p )
-		//	{
-		//		auto result = writer.declLocale< St2 >( "result" );
-		//		result.a.a = p * 2.0_f;
-		//		result.a.b[0] = p * 2.0_f;
-		//		result.a.b[1] = p * 3.0_f;
-		//		result.a.b[2] = p * 4.0_f;
-		//		result.a.b[3] = p * 5.0_f;
-		//		result.b = p * 6.0_f;
-		//		writer.returnStmt( result );
-		//	}
-		//	, InVec4{ writer, "p" } );
+		auto foo01 = writer.implementFunction< St2 >( "foo01"
+			, [&]( Vec4 const & p )
+			{
+				auto result = writer.declLocale< St2 >( "result" );
+				result.a.a = p * 2.0_f;
+				result.a.b[0] = p * 2.0_f;
+				result.a.b[1] = p * 3.0_f;
+				result.a.b[2] = p * 4.0_f;
+				result.a.b[3] = p * 5.0_f;
+				result.b = p * 6.0_f;
+				writer.returnStmt( result );
+			}
+			, InVec4{ writer, "p" } );
 
-		//auto foo02 = writer.implementFunction< Vec4 >( "foo02"
-		//	, [&]( St2 const & p )
-		//	{
-		//		writer.returnStmt( p.a.a );
-		//	}
-		//	, InSt2{ writer, "p" } );
+		auto foo02 = writer.implementFunction< Vec4 >( "foo02"
+			, [&]( St2 const & p )
+			{
+				writer.returnStmt( p.a.a );
+			}
+			, InSt2{ writer, "p" } );
 
 		auto foo03 = writer.implementFunction< Float >( "foo03"
 			, [&]( Vec4 const & p )
@@ -549,10 +552,10 @@ namespace
 			, [&]()
 			{
 				auto v = writer.declLocale< Vec4 >( "v" );
-				//v = foo02( foo01( v ) );
-				//auto r = writer.declLocale( "r"
-				//	, foo01( v ) );
-				//v += foo02( r );
+				v = foo02( foo01( v ) );
+				auto r = writer.declLocale( "r"
+					, foo01( v ) );
+				v += foo02( r );
 				foo03( v );
 			} );
 
@@ -627,17 +630,17 @@ namespace
 int main( int argc, char ** argv )
 {
 	sdwTestSuiteBegin( "TestWriterShader" );
-	//reference( testCounts );
-	//vertex( testCounts );
-	//fragment( testCounts );
-	//compute( testCounts );
-	//params( testCounts );
-	//swizzles( testCounts );
-	//arrayAccesses( testCounts );
-	//removeGamma( testCounts );
-	//conversions( testCounts );
+	reference( testCounts );
+	vertex( testCounts );
+	fragment( testCounts );
+	compute( testCounts );
+	params( testCounts );
+	swizzles( testCounts );
+	arrayAccesses( testCounts );
+	removeGamma( testCounts );
+	conversions( testCounts );
 	returns( testCounts );
-	//outputs( testCounts );
-	//skybox( testCounts );
+	outputs( testCounts );
+	skybox( testCounts );
 	sdwTestSuiteEnd();
 }

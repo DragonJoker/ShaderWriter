@@ -794,8 +794,7 @@ namespace spirv
 		using InstructionType = InstructionT< Operator, HasReturnTypeId, HasResultId, OperandsCount, HasName, HasLabels >;
 		using InstructionTypePtr = std::unique_ptr< InstructionType >;
 
-		static inline InstructionTypePtr make( spv::Id operand
-			, std::map< int32_t, spv::Id > const & labels )
+		static inline InstructionTypePtr make( spv::Id operand, std::map< int32_t, spv::Id > const & labels )
 		{
 			return std::make_unique< InstructionType >( std::nullopt
 				, std::nullopt
@@ -816,8 +815,7 @@ namespace spirv
 		using InstructionType = InstructionT< Operator, HasReturnTypeId, HasResultId, OperandsCount, HasName, HasLabels >;
 		using InstructionTypePtr = std::unique_ptr< InstructionType >;
 
-		static inline InstructionTypePtr make( spv::Id operand0, spv::Id operand1
-			, std::map< int32_t, spv::Id > const & labels )
+		static inline InstructionTypePtr make( spv::Id operand0, spv::Id operand1, std::map< int32_t, spv::Id > const & labels )
 		{
 			return std::make_unique< InstructionType >( std::nullopt
 				, std::nullopt
@@ -847,8 +845,7 @@ namespace spirv
 		using InstructionType = InstructionT< Operator, HasReturnTypeId, HasResultId, OperandsCount, HasName, HasLabels >;
 		using InstructionTypePtr = std::unique_ptr< InstructionType >;
 
-		static inline InstructionTypePtr make( IdList const & operands
-			, std::map< int32_t, spv::Id > const & labels )
+		static inline InstructionTypePtr make( IdList const & operands, std::map< int32_t, spv::Id > const & labels )
 		{
 			return std::make_unique< InstructionType >( std::nullopt
 				, std::nullopt
@@ -931,10 +928,7 @@ namespace spirv
 		using InstructionType = InstructionT< Operator, HasReturnTypeId, HasResultId, OperandsCount, HasName, HasLabels >;
 		using InstructionTypePtr = std::unique_ptr< InstructionType >;
 
-		static inline InstructionTypePtr make( spv::Id returnTypeId
-			, spv::Id resultId
-			, IdList const & operands
-			, std::string const & name )
+		static inline InstructionTypePtr make( spv::Id returnTypeId, spv::Id resultId, IdList const & operands, std::string const & name )
 		{
 			return std::make_unique< InstructionType >( returnTypeId
 				, resultId
