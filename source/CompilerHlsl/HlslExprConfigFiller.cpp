@@ -84,16 +84,31 @@ namespace hlsl
 	void ExprConfigFiller::visitImageAccessCallExpr( ast::expr::ImageAccessCall * expr )
 	{
 		getHlslConfig( expr->getImageAccess(), m_config );
+
+		for ( auto & arg : expr->getArgList() )
+		{
+			arg->accept( this );
+		}
 	}
 
 	void ExprConfigFiller::visitIntrinsicCallExpr( ast::expr::IntrinsicCall * expr )
 	{
 		getHlslConfig( expr->getIntrinsic(), m_config );
+
+		for ( auto & arg : expr->getArgList() )
+		{
+			arg->accept( this );
+		}
 	}
 
 	void ExprConfigFiller::visitTextureAccessCallExpr( ast::expr::TextureAccessCall * expr )
 	{
 		getHlslConfig( expr->getTextureAccess(), m_config );
+
+		for ( auto & arg : expr->getArgList() )
+		{
+			arg->accept( this );
+		}
 	}
 
 	void ExprConfigFiller::visitIdentifierExpr( ast::expr::Identifier * expr )

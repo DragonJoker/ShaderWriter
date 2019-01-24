@@ -17,14 +17,16 @@ namespace spirv
 	public:
 		static Module submit( ast::type::TypesCache & cache
 			, ast::stmt::Stmt * stmt
-			, sdw::ShaderType type
+			, sdw::ShaderStage type
 			, ModuleConfig const & config );
 
 	private:
 		StmtVisitor( Module & result
-			, sdw::ShaderType type
+			, sdw::ShaderStage type
 			, ModuleConfig const & config );
 		void visitContainerStmt( ast::stmt::Container * stmt )override;
+		void visitBreakStmt( ast::stmt::Break * stmt )override;
+		void visitContinueStmt( ast::stmt::Continue * stmt )override;
 		void visitConstantBufferDeclStmt( ast::stmt::ConstantBufferDecl * stmt )override;
 		void visitDiscardStmt( ast::stmt::Discard * stmt )override;
 		void visitPushConstantsBufferDeclStmt( ast::stmt::PushConstantsBufferDecl * stmt )override;
@@ -64,6 +66,9 @@ namespace spirv
 		void visitPreprocVersion( ast::stmt::PreprocVersion * preproc )override;
 
 		spv::Id visitVariable( ast::var::VariablePtr var );
+		void interruptBlock( Block & block
+			, InstructionPtr interruptInstruction
+			, bool pushBlock );
 		void endBlock( Block & block
 			, spv::Id nextBlockLabel );
 		void endBlock( Block & block
@@ -72,12 +77,18 @@ namespace spirv
 			, spv::Id falseBlockLabel );
 
 	private:
+		struct Control
+		{
+			spv::Id breakLabel;
+			spv::Id continueLabel;
+		};
+
 		Module & m_result;
 		Block m_currentBlock;
 		Function * m_function{ nullptr };
-		std::vector< Block * > m_mergeBlocks;
+		std::vector< Control > m_controlBlocks;
 		uint32_t m_ifStmts{ 0u };
-		sdw::ShaderType m_type;
+		sdw::ShaderStage m_type;
 		IdList m_inputs;
 		IdList m_outputs;
 	};

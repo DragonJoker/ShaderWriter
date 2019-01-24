@@ -5,14 +5,14 @@ See LICENSE file in root folder
 #define ___AST_StmtWhile_H___
 #pragma once
 
-#include "StmtCompound.hpp"
+#include "StmtLoop.hpp"
 
 #include "ShaderAST/Expr/Expr.hpp"
 
 namespace ast::stmt
 {
 	class While
-		: public Compound
+		: public Loop
 	{
 	public:
 		While( expr::ExprPtr ctrlExpr );

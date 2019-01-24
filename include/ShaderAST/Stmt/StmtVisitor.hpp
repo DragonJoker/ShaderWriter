@@ -13,9 +13,11 @@ See LICENSE file in root folder
 #include "PreprocIf.hpp"
 #include "PreprocIfDef.hpp"
 #include "PreprocVersion.hpp"
+#include "StmtBreak.hpp"
 #include "StmtComment.hpp"
 #include "StmtCompound.hpp"
 #include "StmtContainer.hpp"
+#include "StmtContinue.hpp"
 #include "StmtConstantBufferDecl.hpp"
 #include "StmtDiscard.hpp"
 #include "StmtDoWhile.hpp"
@@ -58,9 +60,11 @@ namespace ast::stmt
 		{
 		};
 
+		virtual void visitBreakStmt( Break * ) = 0;
 		virtual void visitCommentStmt( Comment * ) = 0;
 		virtual void visitCompoundStmt( Compound * ) = 0;
 		virtual void visitContainerStmt( Container * ) = 0;
+		virtual void visitContinueStmt( Continue * ) = 0;
 		virtual void visitConstantBufferDeclStmt( ConstantBufferDecl * ) = 0;
 		virtual void visitDiscardStmt( Discard * ) = 0;
 		virtual void visitDoWhileStmt( DoWhile * ) = 0;

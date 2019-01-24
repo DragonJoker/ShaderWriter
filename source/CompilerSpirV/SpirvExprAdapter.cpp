@@ -636,33 +636,25 @@ namespace spirv
 
 		if ( lhsMat || rhsMat )
 		{
-			//result = doWriteMatrixBinaryOperation( operation
-			//	, resType
-			//	, lhs
-			//	, rhs );
 			if ( op == spv::OpMatrixTimesVector )
 			{
 				type = rhsExpr->getType();
 			}
 
 			ast::expr::ExprList args;
+			ast::var::VariablePtr lhsAlias, rhsAlias;
+			lhsExpr = doMakeAlias( std::move( lhsExpr ), lhsAlias );
+			rhsExpr = doMakeAlias( std::move( rhsExpr ), rhsAlias );
 
 			switch ( operation )
 			{
 			case ast::expr::Kind::eAdd:
-				result = ast::expr::makeAdd( type
-					, std::move( lhsExpr )
-					, std::move( rhsExpr ) );
-				break;
 			case ast::expr::Kind::eDivide:
-				result = ast::expr::makeDivide( type
-					, std::move( lhsExpr )
-					, std::move( rhsExpr ) );
-				break;
 			case ast::expr::Kind::eMinus:
-				result = ast::expr::makeMinus( type
-					, std::move( lhsExpr )
-					, std::move( rhsExpr ) );
+				result = doWriteMatrixBinaryOperation( operation
+					, resType
+					, lhsExpr.get()
+					, rhsExpr.get() );
 				break;
 			case ast::expr::Kind::eTimes:
 				result = ast::expr::makeTimes( type

@@ -26,7 +26,7 @@ namespace sdw
 {
 	//*************************************************************************
 
-	ShaderWriter::ShaderWriter( ShaderType type )
+	ShaderWriter::ShaderWriter( ast::ShaderStage type )
 		: m_shader{ type }
 	{
 		if ( doGetCurrentWriter() )
@@ -118,8 +118,7 @@ namespace sdw
 
 	void ShaderWriter::pushScope()
 	{
-		m_currentStmts.emplace_back( stmt::makeContainer() );
-		doPushScope( m_currentStmts.back().get() );
+		doPushScope( stmt::makeContainer() );
 	}
 
 	void ShaderWriter::popScope()
@@ -198,6 +197,46 @@ namespace sdw
 	void ShaderWriter::endIf()
 	{
 		m_ifStmt.pop_back();
+	}
+
+	ShaderWriter & ShaderWriter::switchStmt( expr::ExprPtr value
+		, std::function< void() > function )
+	{
+		auto stmt = stmt::makeSwitch( ast::expr::makeSwitchTest( std::move( value ) ) );
+		m_switchStmt.push_back( stmt.get() );
+		doPushScope( std::move( stmt ) );
+		function();
+		popScope();
+		return *this;
+	}
+
+	void ShaderWriter::endSwitch()
+	{
+		m_switchStmt.pop_back();
+	}
+
+	void ShaderWriter::caseStmt( expr::LiteralPtr literal
+		, std::function< void() > function )
+	{
+		auto stmt = m_switchStmt.back()->createCase( ast::expr::makeSwitchCase( std::move( literal ) ) );
+		doPushScope( stmt );
+		function();
+		doPopScope();
+	}
+
+	void ShaderWriter::caseBreakStmt()
+	{
+		addStmt( ast::stmt::makeBreak( true ) );
+	}
+
+	void ShaderWriter::loopBreakStmt()
+	{
+		addStmt( ast::stmt::makeBreak( false ) );
+	}
+
+	void ShaderWriter::loopContinueStmt()
+	{
+		addStmt( ast::stmt::makeContinue() );
 	}
 
 	Bool ShaderWriter::declSpecConstant( std::string const & name
@@ -456,7 +495,7 @@ namespace sdw
 	//*************************************************************************
 
 	VertexWriter::VertexWriter()
-		: ShaderWriter{ ShaderType::eVertex }
+		: ShaderWriter{ ast::ShaderStage::eVertex }
 	{
 	}
 
@@ -473,7 +512,7 @@ namespace sdw
 	//*************************************************************************
 
 	TessellationControlWriter::TessellationControlWriter()
-		: ShaderWriter{ ShaderType::eTessellationControl }
+		: ShaderWriter{ ast::ShaderStage::eTessellationControl }
 	{
 	}
 
@@ -490,7 +529,7 @@ namespace sdw
 	//*************************************************************************
 
 	TessellationEvaluationWriter::TessellationEvaluationWriter()
-		: ShaderWriter{ ShaderType::eTessellationControl }
+		: ShaderWriter{ ast::ShaderStage::eTessellationControl }
 	{
 	}
 
@@ -507,7 +546,7 @@ namespace sdw
 	//*************************************************************************
 
 	GeometryWriter::GeometryWriter()
-		: ShaderWriter{ ShaderType::eGeometry }
+		: ShaderWriter{ ast::ShaderStage::eGeometry }
 	{
 	}
 
@@ -534,7 +573,7 @@ namespace sdw
 	//*************************************************************************
 
 	FragmentWriter::FragmentWriter()
-		: ShaderWriter{ ShaderType::eFragment }
+		: ShaderWriter{ ast::ShaderStage::eFragment }
 	{
 	}
 
@@ -551,7 +590,7 @@ namespace sdw
 	//*************************************************************************
 
 	ComputeWriter::ComputeWriter()
-		: ShaderWriter{ ShaderType::eCompute }
+		: ShaderWriter{ ast::ShaderStage::eCompute }
 	{
 	}
 

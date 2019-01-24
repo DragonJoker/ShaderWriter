@@ -53,7 +53,7 @@ namespace spirv
 
 	Module StmtVisitor::submit( ast::type::TypesCache & cache
 		, ast::stmt::Stmt * stmt
-		, sdw::ShaderType type
+		, sdw::ShaderStage type
 		, ModuleConfig const & config )
 	{
 		Module result{ cache
@@ -65,7 +65,7 @@ namespace spirv
 	}
 
 	StmtVisitor::StmtVisitor( Module & result
-		, sdw::ShaderType type
+		, sdw::ShaderStage type
 		, ModuleConfig const & config )
 		: m_result{ result }
 	{
@@ -91,8 +91,25 @@ namespace spirv
 	{
 		for ( auto & stmt : *cont )
 		{
-			stmt->accept( this );
+			if ( !m_currentBlock.isInterrupted )
+			{
+				stmt->accept( this );
+			}
 		}
+	}
+
+	void StmtVisitor::visitBreakStmt( ast::stmt::Break * stmt )
+	{
+		interruptBlock( m_currentBlock
+			, makeInstruction< BranchInstruction >( m_controlBlocks.back().breakLabel )
+			, !stmt->isSwitchCaseBreak() );
+	}
+
+	void StmtVisitor::visitContinueStmt( ast::stmt::Continue * stmt )
+	{
+		interruptBlock( m_currentBlock
+			, makeInstruction< BranchInstruction >( m_controlBlocks.back().continueLabel )
+			, true );
 	}
 
 	void StmtVisitor::visitConstantBufferDeclStmt( ast::stmt::ConstantBufferDecl * stmt )
@@ -106,14 +123,9 @@ namespace spirv
 
 	void StmtVisitor::visitDiscardStmt( ast::stmt::Discard * stmt )
 	{
-		m_currentBlock.blockEnd = makeInstruction< KillInstruction >();
-		m_currentBlock.hasReturn = true;
-
-		if ( !m_ifStmts )
-		{
-			m_function->cfg.blocks.emplace_back( std::move( m_currentBlock ) );
-			m_currentBlock = m_result.newBlock();
-		}
+		interruptBlock( m_currentBlock
+			, makeInstruction< KillInstruction >()
+			, true );
 	}
 
 	void StmtVisitor::visitPushConstantsBufferDeclStmt( ast::stmt::PushConstantsBufferDecl * stmt )
@@ -130,10 +142,24 @@ namespace spirv
 		visitContainerStmt( stmt );
 	}
 
+	void StmtVisitor::interruptBlock( Block & block
+		, InstructionPtr interruptInstruction
+		, bool pushBlock )
+	{
+		m_currentBlock.blockEnd = std::move( interruptInstruction );
+		m_currentBlock.isInterrupted = true;
+
+		if ( pushBlock && !m_ifStmts )
+		{
+			m_function->cfg.blocks.emplace_back( std::move( m_currentBlock ) );
+			m_currentBlock = m_result.newBlock();
+		}
+	}
+
 	void StmtVisitor::endBlock( Block & block
 		, spv::Id nextBlockLabel )
 	{
-		if ( !block.hasReturn )
+		if ( !block.isInterrupted )
 		{
 			block.blockEnd = makeInstruction< BranchInstruction >( nextBlockLabel );
 		}
@@ -146,7 +172,7 @@ namespace spirv
 		, spv::Id falseBlockLabel
 		, spv::Id mergeBlockLabel )
 	{
-		if ( !block.hasReturn )
+		if ( !block.isInterrupted )
 		{
 			block.blockEnd = makeInstruction< BranchConditionalInstruction >( makeOperands( trueBlockLabel
 				, falseBlockLabel
@@ -162,6 +188,7 @@ namespace spirv
 		auto ifBlock = m_result.newBlock();
 		auto mergeBlock = m_result.newBlock();
 		auto contentBlock = m_result.newBlock();
+		m_controlBlocks.push_back( { mergeBlock.label, ifBlock.label } );
 
 		// End current block, to branch to the loop header block.
 		endBlock( m_currentBlock, loopBlock.label );
@@ -185,6 +212,7 @@ namespace spirv
 		endBlock( ifBlock, intermediateIfId, loopBlockLabel, mergeBlock.label );
 
 		// Current block becomes the merge block.
+		m_controlBlocks.pop_back();
 		m_currentBlock = std::move( mergeBlock );
 	}
 
@@ -204,6 +232,7 @@ namespace spirv
 		auto ifBlock = m_result.newBlock();
 		auto continueBlock = m_result.newBlock();
 		auto mergeBlock = m_result.newBlock();
+		m_controlBlocks.push_back( { mergeBlock.label, continueBlock.label } );
 
 		// End current block, to branch to the loop header block.
 		auto intermediateInitId = ExprVisitor::submit( stmt->getInitExpr(), m_currentBlock, m_result );
@@ -232,6 +261,7 @@ namespace spirv
 		endBlock( continueBlock, loopBlockLabel );
 
 		// Current block becomes the merge block.
+		m_controlBlocks.pop_back();
 		m_currentBlock = std::move( mergeBlock );
 	}
 
@@ -441,14 +471,16 @@ namespace spirv
 			auto result = ExprVisitor::submit( stmt->getExpr()
 				, m_currentBlock
 				, m_result );
-			m_currentBlock.blockEnd = makeInstruction< ReturnValueInstruction >( result );
+			interruptBlock( m_currentBlock
+				, makeInstruction< ReturnValueInstruction >( result )
+				, true );
 		}
 		else
 		{
-			m_currentBlock.blockEnd = makeInstruction< ReturnInstruction >();
+			interruptBlock( m_currentBlock
+				, makeInstruction< ReturnInstruction >()
+				, true );
 		}
-
-		m_currentBlock.hasReturn = true;
 	}
 
 	void StmtVisitor::visitSampledImageDeclStmt( ast::stmt::SampledImageDecl * stmt )
@@ -500,33 +532,89 @@ namespace spirv
 
 	void StmtVisitor::visitSwitchStmt( ast::stmt::Switch * stmt )
 	{
-		std::map< ast::expr::Literal *, Block > caseBlocks;
+		std::vector< Block > caseBlocks;
 		std::map< int32_t, spv::Id > caseBlocksIds;
-		Block defaultBlock;
-		spv::Id defaultId{};
+		auto mergeBlock = m_result.newBlock();
+		m_controlBlocks.push_back( { mergeBlock.label, 0u } );
+		ast::stmt::SwitchCase * defaultStmt{ nullptr };
+		Block defaultBlock = m_result.newBlock();
 
 		for ( auto & it : *stmt )
 		{
+			assert( it->getKind() == ast::stmt::Kind::eSwitchCase );
 			auto & caseStmt = static_cast< ast::stmt::SwitchCase const & >( *it );
 
 			if ( caseStmt.getCaseExpr() )
 			{
 				auto block = m_result.newBlock();
 				caseBlocksIds.emplace( getInt32Value( *caseStmt.getCaseExpr()->getLabel() ), block.label );
-				caseBlocks.emplace( caseStmt.getCaseExpr()->getLabel(), std::move( block ) );
+				caseBlocks.emplace_back( std::move( block ) );
 			}
 			else
 			{
 				// Default
-				defaultBlock = m_result.newBlock();
-				defaultId = defaultBlock.label;
+				defaultStmt = static_cast< ast::stmt::SwitchCase * >( it.get() );
 			}
 		}
 
-		auto intermediate = ExprVisitor::submit( stmt->getTestExpr()->getValue(), m_currentBlock, m_result );
-		m_currentBlock.blockEnd = makeInstruction< SwitchInstruction >( intermediate, defaultId, caseBlocksIds );
+		auto selector = ExprVisitor::submit( stmt->getTestExpr()->getValue(), m_currentBlock, m_result );
+		m_currentBlock.instructions.emplace_back( makeInstruction< SelectionMergeInstruction >( mergeBlock.label, 0u ) );
+		m_currentBlock.blockEnd = makeInstruction< SwitchInstruction >( IdList{ selector, defaultBlock.label }, caseBlocksIds );
+		m_currentBlock.isInterrupted = true;
 
-		visitContainerStmt( stmt );
+		if ( !caseBlocks.empty() )
+		{
+			endBlock( m_currentBlock, caseBlocks.front().label );
+			uint32_t index = 0u;
+
+			for ( auto & it : *stmt )
+			{
+				assert( it->getKind() == ast::stmt::Kind::eSwitchCase );
+				auto & caseStmt = static_cast< ast::stmt::SwitchCase & >( *it );
+				m_currentBlock = std::move( caseBlocks[index] );
+
+				visitContainerStmt( &caseStmt );
+
+				if ( m_currentBlock.isInterrupted )
+				{
+					// Branch to merge block.
+					endBlock( m_currentBlock, mergeBlock.label );
+				}
+				else
+				{
+					// No break statement.
+					if ( index == caseBlocks.size() - 1u )
+					{
+						// Branch to default block.
+						endBlock( m_currentBlock, defaultBlock.label );
+					}
+					else
+					{
+						// Branch to next case block.
+						endBlock( m_currentBlock, caseBlocks[index + 1u].label );
+					}
+				}
+
+				++index;
+			}
+		}
+		else
+		{
+			endBlock( m_currentBlock, defaultBlock.label );
+		}
+
+		// Write default block.
+		m_currentBlock = std::move( defaultBlock );
+
+		if ( defaultStmt )
+		{
+			visitContainerStmt( defaultStmt );
+		}
+
+		endBlock( m_currentBlock, mergeBlock.label );
+
+		m_controlBlocks.pop_back();
+		m_currentBlock = std::move( mergeBlock );
 	}
 
 	void StmtVisitor::visitVariableDeclStmt( ast::stmt::VariableDecl * stmt )
@@ -540,6 +628,7 @@ namespace spirv
 		auto ifBlock = m_result.newBlock();
 		auto continueBlock = m_result.newBlock();
 		auto mergeBlock = m_result.newBlock();
+		m_controlBlocks.push_back( { mergeBlock.label, continueBlock.label } );
 
 		// End current block, to branch to the loop header block.
 		endBlock( m_currentBlock, loopBlock.label );
@@ -566,6 +655,7 @@ namespace spirv
 		endBlock( continueBlock, loopBlockLabel );
 
 		// Current block becomes the merge block.
+		m_controlBlocks.pop_back();
 		m_currentBlock = std::move( mergeBlock );
 	}
 

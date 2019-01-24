@@ -6,6 +6,8 @@ See LICENSE file in root folder
 
 #include "ShaderWriterPrerequisites.hpp"
 
+#include <ShaderAST/Expr/ExprLiteral.hpp>
+
 namespace sdw
 {
 	template< typename T > struct is_type : public std::false_type {};

@@ -901,7 +901,8 @@ namespace hlsl
 
 	ast::expr::ExprPtr ExprAdapter::submit( ast::type::TypesCache & cache
 		, ast::expr::Expr * expr
-		, IntrinsicsConfig const & config
+		, IntrinsicsConfig const & intrinsicsConfig
+		, HlslConfig const & writerConfig
 		, AdaptationData & adaptationData
 		, ast::stmt::Container * intrinsics )
 	{
@@ -910,7 +911,8 @@ namespace hlsl
 		{
 			cache,
 			result,
-			config,
+			intrinsicsConfig,
+			writerConfig,
 			adaptationData,
 			intrinsics,
 		};
@@ -920,25 +922,29 @@ namespace hlsl
 			
 	ast::expr::ExprPtr ExprAdapter::submit( ast::type::TypesCache & cache
 		, ast::expr::ExprPtr const & expr
-		, IntrinsicsConfig const & config
+		, IntrinsicsConfig const & intrinsicsConfig
+		, HlslConfig const & writerConfig
 		, AdaptationData & adaptationData
 		, ast::stmt::Container * intrinsics )
 	{
 		return submit( cache
 			, expr.get()
-			, config
+			, intrinsicsConfig
+			, writerConfig
 			, adaptationData
 			, intrinsics );
 	}
 
 	ExprAdapter::ExprAdapter( ast::type::TypesCache & cache
 		, ast::expr::ExprPtr & result
-		, IntrinsicsConfig const & config
+		, IntrinsicsConfig const & intrinsicsConfig
+		, HlslConfig const & writerConfig
 		, AdaptationData & adaptationData
 		, ast::stmt::Container * intrinsics )
 		: ExprCloner{ result }
 		, m_cache{ cache }
-		, m_config{ config }
+		, m_intrinsicsConfig{ intrinsicsConfig }
+		, m_writerConfig{ writerConfig }
 		, m_adaptationData{ adaptationData }
 		, m_intrinsics{ intrinsics }
 	{
@@ -951,7 +957,8 @@ namespace hlsl
 		{
 			m_cache,
 			result,
-			m_config,
+			m_intrinsicsConfig,
+			m_writerConfig,
 			m_adaptationData,
 			m_intrinsics,
 		};
@@ -985,41 +992,60 @@ namespace hlsl
 				m_result = ast::expr::makeIdentifier( m_cache, var );
 			}
 		}
+
+		updateLinkedVars( var, m_adaptationData.linkedVars );
 	}
 
 	void ExprAdapter::visitCompositeConstructExpr( ast::expr::CompositeConstruct * expr )
 	{
-		if ( expr->getArgList().size() == 1u
-			&& getComponentCount( expr->getArgList().back()->getType()->getKind() ) == 1u
-			&& isVectorType( expr->getType()->getKind() ) )
+		bool processed = false;
+
+		if ( expr->getArgList().size() == 1u )
 		{
-			auto count = getComponentCount( expr->getType()->getKind() );
 			auto arg = expr->getArgList().back().get();
 
-			if ( arg->getKind() == ast::expr::Kind::eLiteral )
+			if ( getComponentCount( arg->getType()->getKind() ) == 1u
+				&& isVectorType( expr->getType()->getKind() ) )
 			{
-				ast::expr::ExprList args;
+				auto count = getComponentCount( expr->getType()->getKind() );
 
-				for ( auto i = 0u; i < count; ++i )
+				if ( arg->getKind() == ast::expr::Kind::eLiteral )
 				{
-					args.emplace_back( doSubmit( arg ) );
-				}
+					ast::expr::ExprList args;
 
-				m_result = ast::expr::makeCompositeConstruct( expr->getComposite()
-					, expr->getComponent()
-					, std::move( args ) );
+					for ( auto i = 0u; i < count; ++i )
+					{
+						args.emplace_back( doSubmit( arg ) );
+					}
+
+					m_result = ast::expr::makeCompositeConstruct( expr->getComposite()
+						, expr->getComponent()
+						, std::move( args ) );
+					processed = true;
+				}
+				else
+				{
+					m_result = std::make_unique< ast::expr::Swizzle >( doSubmit( arg )
+						, ( count == 2u
+							? ast::expr::SwizzleKind::e00
+							: ( count == 3u
+								? ast::expr::SwizzleKind::e000
+								: ast::expr::SwizzleKind::e0000 ) ) );
+					processed = true;
+				}
 			}
-			else
+			else if ( isMatrixType( expr->getType()->getKind() )
+				&& isMatrixType( arg->getType()->getKind() )
+				&& expr->getType()->getKind() != arg->getType()->getKind() )
 			{
-				m_result = std::make_unique< ast::expr::Swizzle >( doSubmit( arg )
-					, ( count == 2u
-						? ast::expr::SwizzleKind::e00
-						: ( count == 3u
-							? ast::expr::SwizzleKind::e000
-							: ast::expr::SwizzleKind::e0000 ) ) );
+				// Function-like cast to matrix of another type, make it a cast.
+				m_result = ast::expr::makeCast( expr->getType()
+					, doSubmit( arg ) );
+				processed = true;
 			}
 		}
-		else
+
+		if ( !processed )
 		{
 			ast::expr::ExprList args;
 
@@ -1044,12 +1070,13 @@ namespace hlsl
 
 			if ( ident )
 			{
-				auto it = m_adaptationData.linkedVars.find( ident->getVariable() );
+				auto var = ident->getVariable();
+				auto it = updateLinkedVars( var, m_adaptationData.linkedVars );
 
 				if ( m_adaptationData.linkedVars.end() != it )
 				{
-					args.emplace_back( VariableReplacer::submit( arg, ident->getVariable(), it->second.first ) );
-					args.emplace_back( VariableReplacer::submit( arg, ident->getVariable(), it->second.second ) );
+					args.emplace_back( VariableReplacer::submit( arg, var, it->second.first ) );
+					args.emplace_back( VariableReplacer::submit( arg, var, it->second.second ) );
 				}
 				else
 				{
@@ -1269,7 +1296,7 @@ namespace hlsl
 		}
 		else if ( expr->getTextureAccess() >= ast::expr::TextureAccess::eTextureGrad2DRectShadowF
 			&& expr->getTextureAccess() <= ast::expr::TextureAccess::eTextureProjGradOffset2DRectShadowF
-			&& m_config.requiresShadowSampler )
+			&& m_intrinsicsConfig.requiresShadowSampler )
 		{
 			doProcessTextureGradShadow( expr );
 		}

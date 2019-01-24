@@ -5,7 +5,7 @@ See LICENSE file in root folder
 #define ___SDW_HlslHelpers_H___
 #pragma once
 
-#include <ShaderWriter/ShaderWriterPrerequisites.hpp>
+#include "CompilerHlsl/compileHlsl.hpp"
 
 namespace hlsl
 {
@@ -23,10 +23,12 @@ namespace hlsl
 	std::string getName( ast::type::ImageDim value );
 	std::string getSemantic( std::string const & name
 		, std::string const & defaultName
-		, uint32_t & index );
+		, uint32_t index );
 	bool isUnaryPre( ast::expr::Kind kind );
 
 	using LinkedVars = std::map< ast::var::VariablePtr, std::pair< ast::var::VariablePtr, ast::var::VariablePtr > >;
+	LinkedVars::iterator updateLinkedVars( ast::var::VariablePtr var, LinkedVars & linkedVars );
+
 	using VariableExprMap = std::map< ast::var::VariablePtr, ast::expr::ExprPtr >;
 	using VariableIdMap = std::map< uint32_t, ast::var::VariablePtr >;
 
@@ -51,8 +53,10 @@ namespace hlsl
 		VariableIdMap outputVars;
 		VariableExprMap inputMembers;
 		VariableExprMap outputMembers;
-		ast::type::StructPtr inputStruct;
-		ast::type::StructPtr outputStruct;
+		ast::type::StructPtr globalInputStruct;
+		ast::type::StructPtr globalOutputStruct;
+		ast::type::StructPtr mainInputStruct;
+		ast::type::StructPtr mainOutputStruct;
 		ast::var::VariablePtr inputVar;
 		ast::var::VariablePtr outputVar;
 		ast::var::VariableList ssboList;

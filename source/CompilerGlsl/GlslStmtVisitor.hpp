@@ -25,6 +25,8 @@ namespace glsl
 			, std::string indent );
 		void doAppendLineEnd();
 		void visitContainerStmt( ast::stmt::Container * stmt )override;
+		void visitBreakStmt( ast::stmt::Break * stmt )override;
+		void visitContinueStmt( ast::stmt::Continue * stmt )override;
 		void visitConstantBufferDeclStmt( ast::stmt::ConstantBufferDecl * stmt )override;
 		void visitDiscardStmt( ast::stmt::Discard * stmt )override;
 		void visitPushConstantsBufferDeclStmt( ast::stmt::PushConstantsBufferDecl * stmt )override;

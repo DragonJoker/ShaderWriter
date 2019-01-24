@@ -2304,6 +2304,26 @@ namespace spirv
 			return stream;
 		}
 
+		std::ostream & writeSwitch( spirv::InstructionPtr const & instruction
+			, NameCache & names
+			, std::ostream & stream )
+		{
+			checkType< SwitchInstruction >( *instruction );
+			write( instruction->operands[0], names, stream );
+			write( instruction->operands[1], names, stream );
+
+			if ( bool( instruction->labels ) )
+			{
+				for ( auto & label : instruction->labels.value() )
+				{
+					stream << " " << label.first;
+					write( label.second, names, stream );
+				}
+			}
+
+			return stream;
+		}
+
 		std::ostream & writeVectorShuffle( spirv::InstructionPtr const & instruction
 			, NameCache & names
 			, std::ostream & stream )
@@ -2551,6 +2571,10 @@ namespace spirv
 			else if ( opCode == spv::OpCopyMemory )
 			{
 				writeCopyMemory( instruction, names, stream );
+			}
+			else if ( opCode == spv::OpSwitch )
+			{
+				writeSwitch( instruction, names, stream );
 			}
 			else if ( opCode == spv::OpVectorShuffle )
 			{
@@ -2888,13 +2912,6 @@ namespace spirv
 			, std::vector< uint32_t > & result )
 		{
 			Instruction::serialize( result, *instruction );
-			//assert( instruction->op.opCount != 0 );
-
-			//if ( instruction->op.opCode == 0 )
-			//{
-			//	throw std::runtime_error{ "Invalid OpNop opCode found in an instruction->" };
-			//}
-
 		}
 
 		void serialize( spirv::Block const & block
@@ -2974,7 +2991,8 @@ namespace spirv
 	{
 		auto module = compileSpirV( shader );
 		std::vector< uint32_t > result;
-		result.reserve( count( module ) );
+		auto size = count( module );
+		result.reserve( size );
 		serialize( module, result );
 		return result;
 	}

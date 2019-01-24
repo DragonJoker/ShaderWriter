@@ -28,15 +28,15 @@ namespace sdw
 	{
 		SDW_API InVertex( ShaderWriter & writer );
 		//in int gl_VertexID;
-		Int const gl_VertexID;
+		UInt const gl_VertexID;
 		//in int gl_InstanceID;
-		Int const gl_InstanceID;
+		UInt const gl_InstanceID;
 		//in int gl_DrawID;
-		Int const gl_DrawID;
+		UInt const gl_DrawID;
 		//in int gl_BaseVertex;
-		Int const gl_BaseVertex;
+		UInt const gl_BaseVertex;
 		//in int gl_BaseInstance;
-		Int const gl_BaseInstance;
+		UInt const gl_BaseInstance;
 	};
 	/**@}*/
 	/**
@@ -48,11 +48,11 @@ namespace sdw
 	{
 		SDW_API InTessellationControl( ShaderWriter & writer );
 		//in int gl_PatchVerticesIn;
-		Int const gl_PatchVerticesIn;
+		UInt const gl_PatchVerticesIn;
 		//in int gl_PrimitiveID;
-		Int const gl_PrimitiveID;
+		UInt const gl_PrimitiveID;
 		//in int gl_InvocationID;
-		Int const gl_InvocationID;
+		UInt const gl_InvocationID;
 		//patch in gl_PerVertex gl_in[gl_MaxPatchVertices];
 		Array< gl_PerVertex > const gl_in;
 	};
@@ -68,9 +68,9 @@ namespace sdw
 		//in vec3 gl_TessCoord;
 		Vec3 const gl_TessCoord;
 		//in int gl_PatchVerticesIn;
-		Int const gl_PatchVerticesIn;
+		UInt const gl_PatchVerticesIn;
 		//in int gl_PrimitiveID;
-		Int const gl_PrimitiveID;
+		UInt const gl_PrimitiveID;
 		//patch in float gl_TessLevelOuter[4];
 		Array< Float > const gl_TessLevelOuter;
 		//patch in float gl_TessLevelInner[2];
@@ -88,9 +88,9 @@ namespace sdw
 	{
 		SDW_API InGeometry( ShaderWriter & writer );
 		//in int gl_PrimitiveIDIn;
-		Int const gl_PrimitiveIDIn;
+		UInt const gl_PrimitiveIDIn;
 		//in int gl_InvocationID;
-		Int const gl_InvocationID;
+		UInt const gl_InvocationID;
 		//in gl_PerVertex gl_in[];
 		Array< gl_PerVertex > const gl_in;
 	};
@@ -110,19 +110,19 @@ namespace sdw
 		//in vec2 gl_PointCoord;
 		Vec2 const gl_PointCoord;
 		//in int gl_SampleID;
-		Int const gl_SampleID;
+		UInt const gl_SampleID;
 		//in vec2 gl_SamplePosition;
 		Vec2 const gl_SamplePosition;
 		//in int gl_SampleMaskIn[];
-		Array< Int > const gl_SampleMaskIn;
+		Array< UInt > const gl_SampleMaskIn;
 		//in float gl_ClipDistance[];
 		Array < Float > const gl_ClipDistance;
 		//in int gl_PrimitiveID;
-		Int const gl_PrimitiveID;
+		UInt const gl_PrimitiveID;
 		//in int gl_Layer;
-		Int const gl_Layer;
+		UInt const gl_Layer;
 		//in int gl_ViewportIndex;
-		Int const gl_ViewportIndex;
+		UInt const gl_ViewportIndex;
 	};
 	/**@}*/
 	/**
@@ -204,11 +204,11 @@ namespace sdw
 	{
 		SDW_API OutGeometry( ShaderWriter & writer );
 		//out int gl_PrimitiveID;
-		Int gl_PrimitiveID;
+		UInt gl_PrimitiveID;
 		//out int gl_Layer;
-		Int gl_Layer;
+		UInt gl_Layer;
 		//out int gl_ViewportIndex;
-		Int gl_ViewportIndex;
+		UInt gl_ViewportIndex;
 		//out gl_PerVertex;
 		gl_PerVertex gl_out;
 	};
@@ -224,7 +224,7 @@ namespace sdw
 		//out float gl_FragDepth;
 		Float gl_FragDepth;
 		//out int gl_SampleMask[];
-		Array< Int > gl_SampleMask;
+		Array< UInt > gl_SampleMask;
 	};
 	/**@}*/
 	/**@}*/

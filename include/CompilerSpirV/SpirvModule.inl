@@ -978,6 +978,7 @@ namespace spirv
 		, bool hasLabels )
 	{
 		assert( spv::OpNop != op );
+		assert( spv::Op( instruction.op.opCount ) != 0u );
 		assert( spv::Op( instruction.op.opCode ) == op );
 		assert( bool( instruction.returnTypeId ) == hasReturnTypeId );
 		assert( bool( instruction.resultId ) == hasResultId );

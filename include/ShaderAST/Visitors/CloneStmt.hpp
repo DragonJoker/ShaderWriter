@@ -22,6 +22,8 @@ namespace ast
 		virtual expr::ExprPtr doSubmit( expr::Expr * expr );
 
 		void visitContainerStmt( stmt::Container * cont )override;
+		void visitBreakStmt( stmt::Break * stmt )override;
+		void visitContinueStmt( stmt::Continue * stmt )override;
 		void visitConstantBufferDeclStmt( stmt::ConstantBufferDecl * stmt )override;
 		void visitDiscardStmt( stmt::Discard * stmt )override;
 		void visitPushConstantsBufferDeclStmt( stmt::PushConstantsBufferDecl * stmt )override;

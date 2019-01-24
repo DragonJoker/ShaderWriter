@@ -32,7 +32,12 @@ namespace hlsl
 			|| expr->getKind() == ast::expr::Kind::eMbrSelect
 			|| expr->getKind() == ast::expr::Kind::eCast
 			|| expr->getKind() == ast::expr::Kind::eSwizzle
-			|| expr->getKind() == ast::expr::Kind::eArrayAccess;
+			|| expr->getKind() == ast::expr::Kind::eArrayAccess
+			|| expr->getKind() == ast::expr::Kind::eIntrinsicCall
+			|| expr->getKind() == ast::expr::Kind::eTextureAccessCall
+			|| expr->getKind() == ast::expr::Kind::eImageAccessCall
+			|| expr->getKind() == ast::expr::Kind::eUnaryMinus
+			|| expr->getKind() == ast::expr::Kind::eUnaryPlus;
 
 		if ( noParen )
 		{
@@ -156,9 +161,9 @@ namespace hlsl
 
 	void ExprVisitor::visitCastExpr( ast::expr::Cast * expr )
 	{
-		m_result += getTypeName( expr->getType() ) + "(";
+		m_result += "((" + getTypeName( expr->getType() ) + ")(";
 		expr->getOperand()->accept( this );
-		m_result += ")";
+		m_result += "))";
 	}
 
 	void ExprVisitor::visitCompositeConstructExpr( ast::expr::CompositeConstruct * expr )
@@ -309,10 +314,13 @@ namespace hlsl
 				auto v = expr->getValue< ast::expr::LiteralType::eFloat >();
 				stream << v;
 
-				if ( v == int64_t( v ) )
+				if ( v == int64_t( v )
+					&& stream.str().find( 'e' ) == std::string::npos )
 				{
 					stream << ".0";
 				}
+
+				stream << "f";
 			}
 			break;
 		case ast::expr::LiteralType::eDouble:
@@ -320,7 +328,8 @@ namespace hlsl
 				auto v = expr->getValue< ast::expr::LiteralType::eDouble >();
 				stream << v;
 
-				if ( v == int64_t( v ) )
+				if ( v == int64_t( v )
+					&& stream.str().find( 'e' ) == std::string::npos )
 				{
 					stream << ".0";
 				}

@@ -8,7 +8,7 @@ See LICENSE file in root folder
 namespace ast::stmt
 {
 	While::While( expr::ExprPtr ctrlExpr )
-		: Compound{ Kind::eWhile }
+		: Loop{ Kind::eWhile }
 		, m_ctrlExpr{ std::move( ctrlExpr ) }
 	{
 	}

@@ -25,6 +25,15 @@ namespace glsl
 	{
 	}
 
+	void StmtConfigFiller::visitBreakStmt( ast::stmt::Break * cont )
+	{
+	}
+
+	void StmtConfigFiller::visitConstantBufferDeclStmt( ast::stmt::ConstantBufferDecl * stmt )
+	{
+		visitContainerStmt( stmt );
+	}
+
 	void StmtConfigFiller::visitContainerStmt( ast::stmt::Container * cont )
 	{
 		for ( auto & stmt : *cont )
@@ -33,9 +42,8 @@ namespace glsl
 		}
 	}
 
-	void StmtConfigFiller::visitConstantBufferDeclStmt( ast::stmt::ConstantBufferDecl * stmt )
+	void StmtConfigFiller::visitContinueStmt( ast::stmt::Continue * stmt )
 	{
-		visitContainerStmt( stmt );
 	}
 
 	void StmtConfigFiller::visitDiscardStmt( ast::stmt::Discard * stmt )

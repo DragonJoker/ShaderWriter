@@ -29,6 +29,15 @@ namespace spirv
 	{
 	}
 
+	void StmtConfigFiller::visitBreakStmt( ast::stmt::Break * cont )
+	{
+	}
+
+	void StmtConfigFiller::visitConstantBufferDeclStmt( ast::stmt::ConstantBufferDecl * stmt )
+	{
+		visitContainerStmt( stmt );
+	}
+
 	void StmtConfigFiller::visitContainerStmt( ast::stmt::Container * cont )
 	{
 		for ( auto & stmt : *cont )
@@ -37,9 +46,8 @@ namespace spirv
 		}
 	}
 
-	void StmtConfigFiller::visitConstantBufferDeclStmt( ast::stmt::ConstantBufferDecl * stmt )
+	void StmtConfigFiller::visitContinueStmt( ast::stmt::Continue * cont )
 	{
-		visitContainerStmt( stmt );
 	}
 
 	void StmtConfigFiller::visitDiscardStmt( ast::stmt::Discard * stmt )

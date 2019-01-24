@@ -7,13 +7,14 @@ See LICENSE file in root folder
 #include "ShaderWriter/CompositeTypes/Builtins.hpp"
 #include "Shader.hpp"
 #include <ShaderAST/Stmt/StmtIf.hpp>
+#include <ShaderAST/Stmt/StmtSwitch.hpp>
 
 namespace sdw
 {
 	class ShaderWriter
 	{
 	protected:
-		SDW_API ShaderWriter( ShaderType type );
+		SDW_API ShaderWriter( ast::ShaderStage type );
 		SDW_API virtual ~ShaderWriter();
 
 	public:
@@ -112,6 +113,14 @@ namespace sdw
 			, std::function< void() > function );
 		SDW_API ShaderWriter & elseStmt( std::function< void() > function );
 		SDW_API void endIf();
+		SDW_API ShaderWriter & switchStmt( expr::ExprPtr value
+			, std::function< void() > function );
+		SDW_API void endSwitch();
+		SDW_API void caseStmt( expr::LiteralPtr literal
+			, std::function< void() > function );
+		SDW_API void caseBreakStmt();
+		SDW_API void loopBreakStmt();
+		SDW_API void loopContinueStmt();
 		/**@}*/
 #pragma endregion
 #pragma region Constant declaration
@@ -438,6 +447,7 @@ namespace sdw
 		Function< Vec2, InVec2 > m_invertVec2Y;
 		Function< Vec3, InVec3 > m_invertVec3Y;
 		std::vector< stmt::If * > m_ifStmt;
+		std::vector< stmt::Switch * > m_switchStmt;
 		std::vector< ast::stmt::ContainerPtr > m_currentStmts;
 	};
 
@@ -512,8 +522,7 @@ namespace sdw
 		auto & shader_int = writer_int.getShader();\
 		writer_int.pushScope();\
 		auto ctrlVar##Name = writer_int.registerLocale( #Name, Type::makeType( shader_int.getTypesCache() ) );\
-		Type Name{ &shader_int\
-			, sdw::makeExpr( shader_int, ctrlVar##Name ) };\
+		Type Name{ &shader_int, sdw::makeExpr( shader_int, ctrlVar##Name ) };\
 		writer_int.saveNextExpr();\
 		Type incr##Name{ &shader_int, writer_int.loadExpr( Incr ) };\
 		Name.updateExpr( sdw::makeExpr( shader_int, ctrlVar##Name ) );\
@@ -561,6 +570,24 @@ namespace sdw
 	( Writer ).ternary< ExprType >( sdw::makeCondition( Condition )\
 		, sdw::makeExpr( Writer.getShader(), Left )\
 		, sdw::makeExpr( Writer.getShader(), Right ) )
+
+#define SWITCH( Writer, Value )\
+	{\
+		auto & writer_int = ( Writer );\
+		auto & shader_int = writer_int.getShader();\
+		writer_int.switchStmt( sdw::makeExpr( shader_int, Value )\
+			, [&]()
+
+#define CASE( Literal )\
+			writer_int.caseStmt( sdw::makeLiteral( shader_int, Literal )\
+				, [&]()
+
+#define ESAC\
+ )
+
+#define HCTIWS\
+ ).endSwitch();\
+	}
 
 #include "Writer.inl"
 

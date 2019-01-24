@@ -109,6 +109,12 @@ namespace ast::debug
 			case ast::stmt::Kind::eReturn:
 				result = "STRETURN";
 				break;
+			case ast::stmt::Kind::eBreak:
+				result = "STBREAK";
+				break;
+			case ast::stmt::Kind::eContinue:
+				result = "STCONTINUE";
+				break;
 			case ast::stmt::Kind::eDiscard:
 				result = "STDISCARD";
 				break;
@@ -181,36 +187,9 @@ namespace ast::debug
 		return m_result;
 	}
 
-	void StmtVisitor::visitContainerStmt( stmt::Container * stmt )
-	{
-		for ( auto & stmt : *stmt )
-		{
-			stmt->accept( this );
-		}
-	}
-
-	void StmtVisitor::visitConstantBufferDeclStmt( stmt::ConstantBufferDecl * stmt )
-	{
-		displayStmtName( stmt, false );
-		m_result += stmt->getName() + " B(";
-		m_result += std::to_string( stmt->getBindingPoint() ) + ") D(";
-		m_result += std::to_string( stmt->getDescriptorSet() ) + ") L(";
-		m_result += getName( stmt->getMemoryLayout() ) + ")\n";
-		m_compoundName = false;
-		visitCompoundStmt( stmt );
-	}
-
-	void StmtVisitor::visitDiscardStmt( stmt::Discard * stmt )
+	void StmtVisitor::visitBreakStmt( stmt::Break * stmt )
 	{
 		displayStmtName( stmt, true );
-	}
-
-	void StmtVisitor::visitPushConstantsBufferDeclStmt( stmt::PushConstantsBufferDecl * stmt )
-	{
-		displayStmtName( stmt, false );
-		m_result += stmt->getName() + "\n";
-		m_compoundName = false;
-		visitCompoundStmt( stmt );
 	}
 
 	void StmtVisitor::visitCommentStmt( stmt::Comment * stmt )
@@ -231,6 +210,35 @@ namespace ast::debug
 		visitContainerStmt( stmt );
 		m_indent = save;
 		m_compoundName = true;
+	}
+
+	void StmtVisitor::visitConstantBufferDeclStmt( stmt::ConstantBufferDecl * stmt )
+	{
+		displayStmtName( stmt, false );
+		m_result += stmt->getName() + " B(";
+		m_result += std::to_string( stmt->getBindingPoint() ) + ") D(";
+		m_result += std::to_string( stmt->getDescriptorSet() ) + ") L(";
+		m_result += getName( stmt->getMemoryLayout() ) + ")\n";
+		m_compoundName = false;
+		visitCompoundStmt( stmt );
+	}
+
+	void StmtVisitor::visitContainerStmt( stmt::Container * stmt )
+	{
+		for ( auto & stmt : *stmt )
+		{
+			stmt->accept( this );
+		}
+	}
+
+	void StmtVisitor::visitContinueStmt( stmt::Continue * stmt )
+	{
+		displayStmtName( stmt, true );
+	}
+
+	void StmtVisitor::visitDiscardStmt( stmt::Discard * stmt )
+	{
+		displayStmtName( stmt, true );
 	}
 
 	void StmtVisitor::visitDoWhileStmt( stmt::DoWhile * stmt )
@@ -453,6 +461,14 @@ namespace ast::debug
 		m_result += "\n";
 	}
 
+	void StmtVisitor::visitPushConstantsBufferDeclStmt( stmt::PushConstantsBufferDecl * stmt )
+	{
+		displayStmtName( stmt, false );
+		m_result += stmt->getName() + "\n";
+		m_compoundName = false;
+		visitCompoundStmt( stmt );
+	}
+
 	void StmtVisitor::visitReturnStmt( stmt::Return * stmt )
 	{
 		displayStmtName( stmt, false );
@@ -617,7 +633,7 @@ namespace ast::debug
 			break;
 
 		case stmt::PreprocExtension::Status::eRequired:
-			m_result += " REQUIRE";
+			m_result += " CU_Require";
 			break;
 
 		}

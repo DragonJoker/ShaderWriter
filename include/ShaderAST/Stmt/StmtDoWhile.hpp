@@ -5,14 +5,14 @@ See LICENSE file in root folder
 #define ___AST_StmtDoWhile_H___
 #pragma once
 
-#include "StmtCompound.hpp"
+#include "StmtLoop.hpp"
 
 #include "ShaderAST/Expr/Expr.hpp"
 
 namespace ast::stmt
 {
 	class DoWhile
-		: public Compound
+		: public Loop
 	{
 	public:
 		DoWhile( expr::ExprPtr ctrlExpr );

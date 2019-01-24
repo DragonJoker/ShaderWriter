@@ -16,19 +16,22 @@ namespace hlsl
 	public:
 		static ast::expr::ExprPtr submit( ast::type::TypesCache & cache
 			, ast::expr::Expr * expr
-			, IntrinsicsConfig const & config
+			, IntrinsicsConfig const & intrinsicsConfig
+			, HlslConfig const & writerConfig
 			, AdaptationData & adaptationData
 			, ast::stmt::Container * intrinsics );
 		static ast::expr::ExprPtr submit( ast::type::TypesCache & cache
 			, ast::expr::ExprPtr const & expr
-			, IntrinsicsConfig const & config
+			, IntrinsicsConfig const & intrinsicsConfig
+			, HlslConfig const & writerConfig
 			, AdaptationData & adaptationData
 			, ast::stmt::Container * intrinsics );
 
 	private:
 		ExprAdapter( ast::type::TypesCache & cache
 			, ast::expr::ExprPtr & result
-			, IntrinsicsConfig const & config
+			, IntrinsicsConfig const & intrinsicsConfig
+			, HlslConfig const & writerConfig
 			, AdaptationData & adaptationData
 			, ast::stmt::Container * intrinsics );
 
@@ -69,7 +72,8 @@ namespace hlsl
 
 	private:
 		ast::type::TypesCache & m_cache;
-		IntrinsicsConfig const & m_config;
+		IntrinsicsConfig const & m_intrinsicsConfig;
+		HlslConfig const & m_writerConfig;
 		AdaptationData & m_adaptationData;
 		ast::stmt::Container * m_intrinsics;
 	};

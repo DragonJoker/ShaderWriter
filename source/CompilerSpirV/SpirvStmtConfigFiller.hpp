@@ -20,8 +20,10 @@ namespace spirv
 	private:
 		StmtConfigFiller( ModuleConfig & result );
 
-		void visitContainerStmt( ast::stmt::Container * cont )override;
+		void visitBreakStmt( ast::stmt::Break * cont )override;
 		void visitConstantBufferDeclStmt( ast::stmt::ConstantBufferDecl * stmt )override;
+		void visitContainerStmt( ast::stmt::Container * cont )override;
+		void visitContinueStmt( ast::stmt::Continue * cont )override;
 		void visitDiscardStmt( ast::stmt::Discard * stmt )override;
 		void visitPushConstantsBufferDeclStmt( ast::stmt::PushConstantsBufferDecl * stmt )override;
 		void visitCommentStmt( ast::stmt::Comment * stmt )override;

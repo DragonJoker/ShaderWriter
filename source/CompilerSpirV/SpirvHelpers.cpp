@@ -12,32 +12,32 @@ namespace spirv
 		return spv::MemoryModelGLSL450;
 	}
 
-	spv::ExecutionModel getExecutionModel( sdw::ShaderType kind )
+	spv::ExecutionModel getExecutionModel( sdw::ShaderStage kind )
 	{
 		spv::ExecutionModel result;
 
 		switch ( kind )
 		{
-		case sdw::ShaderType::eVertex:
+		case sdw::ShaderStage::eVertex:
 			result = spv::ExecutionModelVertex;
 			break;
-		case sdw::ShaderType::eTessellationControl:
+		case sdw::ShaderStage::eTessellationControl:
 			result = spv::ExecutionModelTessellationControl;
 			break;
-		case sdw::ShaderType::eTessellationEvaluation:
+		case sdw::ShaderStage::eTessellationEvaluation:
 			result = spv::ExecutionModelTessellationEvaluation;
 			break;
-		case sdw::ShaderType::eGeometry:
+		case sdw::ShaderStage::eGeometry:
 			result = spv::ExecutionModelGeometry;
 			break;
-		case sdw::ShaderType::eCompute:
+		case sdw::ShaderStage::eCompute:
 			result = spv::ExecutionModelGLCompute;
 			break;
-		case sdw::ShaderType::eFragment:
+		case sdw::ShaderStage::eFragment:
 			result = spv::ExecutionModelFragment;
 			break;
 		default:
-			assert( false && "Unsupported sdw::ShaderType." );
+			assert( false && "Unsupported sdw::ShaderStage." );
 			break;
 		}
 

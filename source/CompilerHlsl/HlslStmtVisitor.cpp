@@ -7,22 +7,22 @@ See LICENSE file in root folder
 
 namespace hlsl
 {
-	std::string StmtVisitor::submit( ast::stmt::Stmt * stmt
-		, sdw::ShaderType type
+	std::string StmtVisitor::submit( HlslConfig const & writerConfig
+		, ast::stmt::Stmt * stmt
 		, std::string indent )
 	{
 		std::string result;
-		StmtVisitor vis{ result, type, std::move( indent ) };
+		StmtVisitor vis{ writerConfig, std::move( indent ), result };
 		stmt->accept( &vis );
 		return result;
 	}
 
-	StmtVisitor::StmtVisitor( std::string & result
-		, sdw::ShaderType type
-		, std::string indent )
+	StmtVisitor::StmtVisitor( HlslConfig const & writerConfig
+		, std::string indent
+		, std::string & result )
 		: m_result{ result }
 		, m_indent{ std::move( indent ) }
-		, m_type{ type }
+		, m_writerConfig{ writerConfig }
 	{
 	}
 
@@ -42,6 +42,18 @@ namespace hlsl
 		{
 			stmt->accept( this );
 		}
+	}
+
+	void StmtVisitor::visitBreakStmt( ast::stmt::Break * stmt )
+	{
+		doAppendLineEnd();
+		m_result += m_indent + "break;\n";
+	}
+
+	void StmtVisitor::visitContinueStmt( ast::stmt::Continue * stmt )
+	{
+		doAppendLineEnd();
+		m_result += m_indent + "continue;\n";
 	}
 
 	void StmtVisitor::visitConstantBufferDeclStmt( ast::stmt::ConstantBufferDecl * stmt )
@@ -161,7 +173,21 @@ namespace hlsl
 
 		m_result += ")";
 		m_appendSemiColon = false;
-		visitCompoundStmt( stmt );
+		doAppendLineEnd();
+		m_result += "\n" + m_indent + "{\n";
+		auto save = m_indent;
+		m_indent += "\t";
+		visitContainerStmt( stmt );
+
+		if ( stmt->getName() == "SDW_main"
+			&& m_writerConfig.shaderStage == ast::ShaderStage::eVertex
+			&& m_writerConfig.flipVertY )
+		{
+			m_result += m_indent + "sdwOutput.gl_Position.y = -sdwOutput.gl_Position.y;\n";
+		}
+
+		m_indent = save;
+		m_result += m_indent + "}\n";
 		m_appendLineEnd = true;
 	}
 

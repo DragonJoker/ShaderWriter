@@ -19,16 +19,16 @@ namespace hlsl
 	namespace
 	{
 		bool isShaderInput( std::string const & name
-			, sdw::ShaderType type )
+			, sdw::ShaderStage type )
 		{
 			return
-				( type == sdw::ShaderType::eCompute
+				( type == sdw::ShaderStage::eCompute
 					&& ( name == "gl_NumWorkGroups"
 						|| name == "gl_WorkGroupID"
 						|| name == "gl_LocalInvocationID"
 						|| name == "gl_GlobalInvocationID"
 						|| name == "gl_LocalInvocationIndex" ) )
-				|| ( type == sdw::ShaderType::eFragment
+				|| ( type == sdw::ShaderStage::eFragment
 					&& ( name == "gl_FragCoord"
 						|| name == "gl_FrontFacing"
 						|| name == "gl_PointCoord"
@@ -39,20 +39,20 @@ namespace hlsl
 						|| name == "gl_PrimitiveID"
 						|| name == "gl_Layer"
 						|| name == "gl_ViewportIndex" ) )
-				|| ( type == sdw::ShaderType::eGeometry
+				|| ( type == sdw::ShaderStage::eGeometry
 					&& ( name == "gl_Position"
 						|| name == "gl_PointSize"
 						|| name == "gl_ClipDistance"
 						|| name == "gl_PrimitiveIDIn"
 						|| name == "gl_InvocationID" ) )
-				|| ( type == sdw::ShaderType::eTessellationControl
+				|| ( type == sdw::ShaderStage::eTessellationControl
 					&& ( name == "gl_Position"
 						|| name == "gl_PointSize"
 						|| name == "gl_ClipDistance"
 						|| name == "gl_PatchVerticesIn"
 						|| name == "gl_PrimitiveID"
 						|| name == "gl_InvocationID" ) )
-				|| ( type == sdw::ShaderType::eTessellationEvaluation
+				|| ( type == sdw::ShaderStage::eTessellationEvaluation
 					&& ( name == "gl_Position"
 						|| name == "gl_PointSize"
 						|| name == "gl_ClipDistance"
@@ -61,7 +61,7 @@ namespace hlsl
 						|| name == "gl_PrimitiveID"
 						|| name == "gl_TessLevelInner"
 						|| name == "gl_TessLevelOuter" ) )
-				|| ( type == sdw::ShaderType::eVertex
+				|| ( type == sdw::ShaderStage::eVertex
 					&& ( name == "gl_VertexID"
 						|| name == "gl_VertexIndex"
 						|| name == "gl_InstanceID"
@@ -73,38 +73,38 @@ namespace hlsl
 		}
 
 		bool isShaderOutput( std::string const & name
-			, sdw::ShaderType type )
+			, sdw::ShaderStage type )
 		{
 			return 
-				( type == sdw::ShaderType::eFragment
+				( type == sdw::ShaderStage::eFragment
 					&& ( name == "gl_FragDepth"
 						|| name == "gl_SampleMask"
 						|| name == "gl_FragStencilRef" ) )
-				|| ( type == sdw::ShaderType::eGeometry
+				|| ( type == sdw::ShaderStage::eGeometry
 					&& ( name == "gl_Position"
 						|| name == "gl_PointSize"
 						|| name == "gl_ClipDistance"
 						|| name == "gl_PrimitiveID"
 						|| name == "gl_Layer"
 						|| name == "gl_ViewportIndex" ) )
-				|| ( type == sdw::ShaderType::eTessellationControl
+				|| ( type == sdw::ShaderStage::eTessellationControl
 					&& ( name == "gl_Position"
 						|| name == "gl_PointSize"
 						|| name == "gl_ClipDistance"
 						|| name == "gl_TessLevelInner"
 						|| name == "gl_TessLevelOuter" ) )
-				|| ( type == sdw::ShaderType::eTessellationEvaluation
+				|| ( type == sdw::ShaderStage::eTessellationEvaluation
 					&& ( name == "gl_Position"
 						|| name == "gl_PointSize"
 						|| name == "gl_ClipDistance" ) )
-				|| ( type == sdw::ShaderType::eVertex
+				|| ( type == sdw::ShaderStage::eVertex
 					&& ( name == "gl_Position"
 						|| name == "gl_PointSize"
 						|| name == "gl_ClipDistance" ) );
 		}
 
 		bool isShaderInOut( std::string const & name
-			, sdw::ShaderType type )
+			, sdw::ShaderStage type )
 		{
 			return isShaderInput( name, type )
 				&& isShaderOutput( name, type );
@@ -112,38 +112,45 @@ namespace hlsl
 	}
 
 	ast::stmt::ContainerPtr StmtAdapter::submit( sdw::Shader const & shader
-		, IntrinsicsConfig const & config )
+		, IntrinsicsConfig const & intrinsicsConfig
+		, HlslConfig const & writerConfig )
 	{
 		auto result = ast::stmt::makeContainer();
-		StmtAdapter vis{ shader, config, result };
+		StmtAdapter vis{ shader, intrinsicsConfig, writerConfig, result };
 		shader.getStatements()->accept( &vis );
 		return result;
 	}
 
 	StmtAdapter::StmtAdapter( sdw::Shader const & shader
-		, IntrinsicsConfig const & config
+		, IntrinsicsConfig const & intrinsicsConfig
+		, HlslConfig const & writerConfig
 		, ast::stmt::ContainerPtr & result )
 		: StmtCloner{ result }
-		, m_config{ config }
+		, m_intrinsicsConfig{ intrinsicsConfig }
+		, m_writerConfig{ writerConfig }
 		, m_shader{ shader }
 		, m_cache{ shader.getTypesCache() }
 	{
 		auto cont = ast::stmt::makeContainer();
-		m_adaptationData.inputStruct = shader.getTypesCache().getStruct( ast::type::MemoryLayout::eStd430, "HLSL_SDW_Input" );
-		cont->addStmt( ast::stmt::makeStructureDecl( m_adaptationData.inputStruct ) );
-		m_adaptationData.inputVar = m_shader.registerName( "sdwInput", m_adaptationData.inputStruct, ast::var::Flag::eStatic );
+		m_adaptationData.mainInputStruct = shader.getTypesCache().getStruct( ast::type::MemoryLayout::eStd430, "HLSL_SDW_MainInput" );
+		m_adaptationData.globalInputStruct = shader.getTypesCache().getStruct( ast::type::MemoryLayout::eStd430, "HLSL_SDW_Input" );
+		cont->addStmt( ast::stmt::makeStructureDecl( m_adaptationData.mainInputStruct ) );
+		cont->addStmt( ast::stmt::makeStructureDecl( m_adaptationData.globalInputStruct ) );
+		m_adaptationData.inputVar = m_shader.registerName( "sdwInput", m_adaptationData.globalInputStruct, ast::var::Flag::eStatic );
 
-		m_adaptationData.outputStruct = shader.getTypesCache().getStruct( ast::type::MemoryLayout::eStd430, "HLSL_SDW_Output" );
-		cont->addStmt( ast::stmt::makeStructureDecl( m_adaptationData.outputStruct ) );
-		m_adaptationData.outputVar = m_shader.registerName( "sdwOutput", m_adaptationData.outputStruct, ast::var::Flag::eStatic );
+		m_adaptationData.mainOutputStruct = shader.getTypesCache().getStruct( ast::type::MemoryLayout::eStd430, "HLSL_SDW_MainOutput" );
+		m_adaptationData.globalOutputStruct = shader.getTypesCache().getStruct( ast::type::MemoryLayout::eStd430, "HLSL_SDW_Output" );
+		cont->addStmt( ast::stmt::makeStructureDecl( m_adaptationData.mainOutputStruct ) );
+		cont->addStmt( ast::stmt::makeStructureDecl( m_adaptationData.globalOutputStruct ) );
+		m_adaptationData.outputVar = m_shader.registerName( "sdwOutput", m_adaptationData.globalOutputStruct, ast::var::Flag::eStatic );
 
 		m_inOutDeclarations = cont.get();
 		m_current->addStmt( std::move( cont ) );
 
 		cont = ast::stmt::makeContainer();
-		compileHlslIntrinsicFunctions( cont.get(), m_config );
-		compileHlslTextureAccessFunctions( cont.get(), m_config );
-		compileHlslImageAccessFunctions( cont.get(), m_config );
+		compileHlslIntrinsicFunctions( cont.get(), m_intrinsicsConfig );
+		compileHlslTextureAccessFunctions( cont.get(), m_intrinsicsConfig );
+		compileHlslImageAccessFunctions( cont.get(), m_intrinsicsConfig );
 		m_intrinsics = cont.get();
 		m_current->addStmt( std::move( cont ) );
 	}
@@ -152,7 +159,8 @@ namespace hlsl
 	{
 		return ExprAdapter::submit( m_cache
 			, expr
-			, m_config
+			, m_intrinsicsConfig
+			, m_writerConfig
 			, m_adaptationData
 			, m_intrinsics );
 	}
@@ -170,8 +178,6 @@ namespace hlsl
 	{
 		if ( stmt->getName() == "main" )
 		{
-			auto linkedVars = m_adaptationData.linkedVars;
-
 			// Write function content into a temporary container
 			auto save = m_current;
 			auto cont = ast::stmt::makeContainer();
@@ -189,17 +195,14 @@ namespace hlsl
 
 			// Write main function
 			writeMain( stmt );
-			m_adaptationData.linkedVars = linkedVars;
 		}
 		else
 		{
-			auto linkedVars = m_adaptationData.linkedVars;
 			auto save = m_current;
 			auto cont = rewriteFuncHeader( stmt );
 			m_current = cont.get();
 			visitContainerStmt( stmt );
 			m_current = save;
-			m_adaptationData.linkedVars = linkedVars;
 			m_current->addStmt( std::move( cont ) );
 		}
 	}
@@ -276,7 +279,7 @@ namespace hlsl
 			sampledType = m_cache.getArray( realSampledType, arrayType->getArraySize() );
 			config = realSampledType->getConfig();
 
-			if ( !m_config.requiresShadowSampler )
+			if ( !m_intrinsicsConfig.requiresShadowSampler )
 			{
 				samplerType = m_cache.getArray( m_cache.getSampler( false ), arrayType->getArraySize() );
 			}
@@ -292,7 +295,7 @@ namespace hlsl
 			sampledType = realSampledType;
 			config = realSampledType->getConfig();
 
-			if ( !m_config.requiresShadowSampler )
+			if ( !m_intrinsicsConfig.requiresShadowSampler )
 			{
 				samplerType = m_cache.getSampler( false );
 			}
@@ -406,36 +409,48 @@ namespace hlsl
 	void StmtAdapter::rewriteShaderIOVars()
 	{
 		std::string outputName = "TEXCOORD";
-		std::string inputName = "TEXCOORD";
-		uint32_t index = 0u;
+		std::string intInputName = "BLENDINDICES";
+		std::string floatInputName = "TEXCOORD";
 
 		for ( auto & input : m_adaptationData.inputVars )
 		{
-			m_adaptationData.inputStruct->declMember( input.second->getName()
-				+ ": "
-				+ getSemantic( input.second->getName()
-					, inputName
-					, index )
+			if ( isSignedIntType( input.second->getType()->getKind() ) || isUnsignedIntType( input.second->getType()->getKind() ) )
+			{
+				m_adaptationData.mainInputStruct->declMember( input.second->getName()
+					+ ": "
+					+ getSemantic( input.second->getName()
+						, intInputName
+						, input.first )
+					, input.second->getType() );
+			}
+			else
+			{
+				m_adaptationData.mainInputStruct->declMember( input.second->getName()
+					+ ": "
+					+ getSemantic( input.second->getName()
+						, floatInputName
+						, input.first )
+					, input.second->getType() );
+			}
+
+			m_adaptationData.globalInputStruct->declMember( input.second->getName()
 				, input.second->getType() );
 		}
 
-		index = 0u;
-
-		if ( m_shader.getType() == sdw::ShaderType::eFragment )
+		if ( m_shader.getType() == sdw::ShaderStage::eFragment )
 		{
 			outputName = "SV_Target";
-		}
-		else if ( m_shader.getType() == sdw::ShaderType::eCompute )
-		{
 		}
 
 		for ( auto & output : m_adaptationData.outputVars )
 		{
-			m_adaptationData.outputStruct->declMember( output.second->getName()
+			m_adaptationData.mainOutputStruct->declMember( output.second->getName()
 				+ ": "
 				+ getSemantic( output.second->getName()
 					, outputName
-					, index )
+					, output.first )
+				, output.second->getType() );
+			m_adaptationData.globalOutputStruct->declMember( output.second->getName()
 				, output.second->getType() );
 		}
 	}
@@ -445,10 +460,10 @@ namespace hlsl
 		assert( stmt->getType()->empty() );
 		assert( stmt->getType()->getReturnType()->getKind() == ast::type::Kind::eVoid );
 		ast::var::VariableList mainParameters;
-		auto mainInputVar = m_shader.registerName( "sdwMainInput", m_adaptationData.inputStruct );
-		auto mainOutputVar = m_shader.registerName( "sdwMainOutput", m_adaptationData.outputStruct );
+		auto mainInputVar = m_shader.registerName( "sdwMainInput", m_adaptationData.mainInputStruct );
+		auto mainOutputVar = m_shader.registerName( "sdwMainOutput", m_adaptationData.mainOutputStruct );
 
-		if ( !m_adaptationData.inputStruct->empty() )
+		if ( !m_adaptationData.mainInputStruct->empty() )
 		{
 			m_inOutDeclarations->addStmt( ast::stmt::makeVariableDecl( m_adaptationData.inputVar ) );
 			mainParameters.emplace_back( mainInputVar );
@@ -456,10 +471,10 @@ namespace hlsl
 
 		ast::type::TypePtr mainRetType = m_cache.getVoid();
 
-		if ( !m_adaptationData.outputStruct->empty() )
+		if ( !m_adaptationData.mainOutputStruct->empty() )
 		{
 			m_inOutDeclarations->addStmt( ast::stmt::makeVariableDecl( m_adaptationData.outputVar ) );
-			mainRetType = m_adaptationData.outputStruct;
+			mainRetType = m_adaptationData.mainOutputStruct;
 		}
 
 		// Add compute layout
@@ -474,9 +489,9 @@ namespace hlsl
 			, stmt->getName() );
 
 		// Assign main inputs to global inputs, if needed
-		if ( !m_adaptationData.inputStruct->empty() )
+		if ( !m_adaptationData.mainInputStruct->empty() )
 		{
-			cont->addStmt( ast::stmt::makeSimple( ast::expr::makeAssign( m_adaptationData.inputStruct
+			cont->addStmt( ast::stmt::makeSimple( ast::expr::makeAssign( m_adaptationData.globalInputStruct
 				, ast::expr::makeIdentifier( m_cache, m_adaptationData.inputVar )
 				, ast::expr::makeIdentifier( m_cache, mainInputVar ) ) ) );
 		}
@@ -488,12 +503,12 @@ namespace hlsl
 					, "SDW_" + stmt->getName() ) )
 			, ast::expr::ExprList{} ) ) );
 
-		if ( !m_adaptationData.outputStruct->empty() )
+		if ( !m_adaptationData.mainOutputStruct->empty() )
 		{
 			// Declare output.
 			cont->addStmt( ast::stmt::makeVariableDecl( mainOutputVar ) );
 			// Assign global outputs to main outputs
-			cont->addStmt( ast::stmt::makeSimple( ast::expr::makeAssign( m_adaptationData.inputStruct
+			cont->addStmt( ast::stmt::makeSimple( ast::expr::makeAssign( m_adaptationData.mainOutputStruct
 				, ast::expr::makeIdentifier( m_cache, mainOutputVar )
 				, ast::expr::makeIdentifier( m_cache, m_adaptationData.outputVar ) ) ) );
 			// Return output.
@@ -509,16 +524,12 @@ namespace hlsl
 		// Split sampled textures in sampler + texture in parameters list.
 		for ( auto & param : *stmt->getType() )
 		{
-			if ( isSampledImageType( param->getType()->getKind() ) )
+			auto it = updateLinkedVars( param, m_adaptationData.linkedVars );
+
+			if ( it != m_adaptationData.linkedVars.end() )
 			{
-				auto sampledType = std::static_pointer_cast< ast::type::SampledImage >( param->getType() );
-				auto texture = ast::var::makeVariable( sampledType->getImageType()
-					, param->getName() + "_texture" );
-				auto sampler = ast::var::makeVariable( sampledType->getSamplerType()
-					, param->getName() + "_sampler" );
-				m_adaptationData.linkedVars.emplace( param, std::make_pair( texture, sampler ) );
-				params.push_back( texture );
-				params.push_back( sampler );
+				params.push_back( it->second.first );
+				params.push_back( it->second.second );
 			}
 			else
 			{

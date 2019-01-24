@@ -34,6 +34,16 @@ namespace ast
 		}
 	}
 
+	void StmtCloner::visitBreakStmt( stmt::Break * stmt )
+	{
+		m_current->addStmt( stmt::makeBreak( stmt->isSwitchCaseBreak() ) );
+	}
+
+	void StmtCloner::visitContinueStmt( stmt::Continue * stmt )
+	{
+		m_current->addStmt( stmt::makeContinue() );
+	}
+
 	void StmtCloner::visitConstantBufferDeclStmt( stmt::ConstantBufferDecl * stmt )
 	{
 		auto save = m_current;

@@ -16,11 +16,13 @@ namespace hlsl
 	{
 	public:
 		static ast::stmt::ContainerPtr submit( sdw::Shader const & shader
-			, IntrinsicsConfig const & config );
+			, IntrinsicsConfig const & intrinsicsConfig
+			, HlslConfig const & writerConfig );
 
 	private:
 		StmtAdapter( sdw::Shader const & shader
-			, IntrinsicsConfig const & config
+			, IntrinsicsConfig const & intrinsicsConfig
+			, HlslConfig const & writerConfig
 			, ast::stmt::ContainerPtr & result );
 
 		ast::expr::ExprPtr doSubmit( ast::expr::Expr * expr )override;
@@ -48,7 +50,8 @@ namespace hlsl
 		ast::stmt::FunctionDeclPtr rewriteFuncHeader( ast::stmt::FunctionDecl * stmt );
 
 	private:
-		IntrinsicsConfig const & m_config;
+		IntrinsicsConfig const & m_intrinsicsConfig;
+		HlslConfig const & m_writerConfig;
 		HlslShader m_shader;
 		ast::type::TypesCache & m_cache;
 		ast::stmt::Container * m_inOutDeclarations;

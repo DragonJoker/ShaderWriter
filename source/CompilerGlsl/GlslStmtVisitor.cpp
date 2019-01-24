@@ -212,6 +212,18 @@ namespace glsl
 		}
 	}
 
+	void StmtVisitor::visitBreakStmt( ast::stmt::Break * stmt )
+	{
+		doAppendLineEnd();
+		m_result += m_indent + "break;\n";
+	}
+
+	void StmtVisitor::visitContinueStmt( ast::stmt::Continue * stmt )
+	{
+		doAppendLineEnd();
+		m_result += m_indent + "continue;\n";
+	}
+
 	void StmtVisitor::visitConstantBufferDeclStmt( ast::stmt::ConstantBufferDecl * stmt )
 	{
 		if ( !stmt->empty() )
@@ -368,7 +380,30 @@ namespace glsl
 
 		m_result += ")";
 		m_appendSemiColon = false;
-		visitCompoundStmt( stmt );
+		doAppendLineEnd();
+		m_result += "\n" + m_indent + "{\n";
+		auto save = m_indent;
+		m_indent += "\t";
+		visitContainerStmt( stmt );
+
+		if ( stmt->getName() == "main"
+			&& m_writerConfig.shaderStage == ast::ShaderStage::eVertex
+			&& m_writerConfig.flipVertY )
+		{
+			m_result += m_indent + "gl_Position.y = -gl_Position.y;\n";
+		}
+
+		m_indent = save;
+
+		if ( m_appendSemiColon )
+		{
+			m_result += m_indent + "};\n";
+		}
+		else
+		{
+			m_result += m_indent + "}";
+		}
+
 		m_result += "\n";
 		m_appendLineEnd = true;
 	}
@@ -666,7 +701,6 @@ namespace glsl
 		}
 
 		m_result += "\n";
-		m_result += m_indent + "break;\n";
 		m_appendLineEnd = true;
 	}
 

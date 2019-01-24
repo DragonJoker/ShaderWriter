@@ -107,6 +107,54 @@ namespace sdw
 		return writer.getShader();
 	}
 
+	expr::LiteralPtr makeLiteral( Shader const & shader
+		, bool value )
+	{
+		return expr::makeLiteral( shader.getTypesCache(), value );
+	}
+
+	expr::LiteralPtr makeLiteral( Shader const & shader
+		, int32_t value )
+	{
+		return expr::makeLiteral( shader.getTypesCache(), value );
+	}
+
+	expr::LiteralPtr makeLiteral( Shader const & shader
+		, int64_t value )
+	{
+		return expr::makeLiteral( shader.getTypesCache(), int32_t( value ) );
+	}
+
+	expr::LiteralPtr makeLiteral( Shader const & shader
+		, uint32_t value )
+	{
+		return expr::makeLiteral( shader.getTypesCache(), value );
+	}
+
+	expr::LiteralPtr makeLiteral( Shader const & shader
+		, uint64_t value )
+	{
+		return expr::makeLiteral( shader.getTypesCache(), uint32_t( value ) );
+	}
+
+	expr::LiteralPtr makeLiteral( Shader const & shader
+		, float value )
+	{
+		return expr::makeLiteral( shader.getTypesCache(), value );
+	}
+
+	expr::LiteralPtr makeLiteral( Shader const & shader
+		, double value )
+	{
+		return expr::makeLiteral( shader.getTypesCache(), value );
+	}
+
+	expr::LiteralPtr makeLiteral( Shader const & shader
+		, long double value )
+	{
+		return expr::makeLiteral( shader.getTypesCache(), double( value ) );
+	}
+
 	expr::ExprPtr makeExpr( Shader const & shader
 		, var::VariablePtr const & var
 		, bool force )
@@ -118,56 +166,56 @@ namespace sdw
 		, bool value
 		, bool force )
 	{
-		return expr::makeLiteral( shader.getTypesCache(), value );
+		return makeLiteral( shader, value );
 	}
 
 	expr::ExprPtr makeExpr( Shader const & shader
 		, int32_t value
 		, bool force )
 	{
-		return expr::makeLiteral( shader.getTypesCache(), value );
+		return makeLiteral( shader, value );
 	}
 
 	expr::ExprPtr makeExpr( Shader const & shader
 		, int64_t value
 		, bool force )
 	{
-		return expr::makeLiteral( shader.getTypesCache(), int32_t( value ) );
+		return makeLiteral( shader, int32_t( value ) );
 	}
 
 	expr::ExprPtr makeExpr( Shader const & shader
 		, uint32_t value
 		, bool force )
 	{
-		return expr::makeLiteral( shader.getTypesCache(), value );
+		return makeLiteral( shader, value );
 	}
 
 	expr::ExprPtr makeExpr( Shader const & shader
 		, uint64_t value
 		, bool force )
 	{
-		return expr::makeLiteral( shader.getTypesCache(), uint32_t( value ) );
+		return makeLiteral( shader, uint32_t( value ) );
 	}
 
 	expr::ExprPtr makeExpr( Shader const & shader
 		, float value
 		, bool force )
 	{
-		return expr::makeLiteral( shader.getTypesCache(), value );
+		return makeLiteral( shader, value );
 	}
 
 	expr::ExprPtr makeExpr( Shader const & shader
 		, double value
 		, bool force )
 	{
-		return expr::makeLiteral( shader.getTypesCache(), value );
+		return makeLiteral( shader, value );
 	}
 
 	expr::ExprPtr makeExpr( Shader const & shader
 		, long double value
 		, bool force )
 	{
-		return expr::makeLiteral( shader.getTypesCache(), double( value ) );
+		return makeLiteral( shader, double( value ) );
 	}
 
 	expr::ExprPtr makeExpr( Shader const & shader

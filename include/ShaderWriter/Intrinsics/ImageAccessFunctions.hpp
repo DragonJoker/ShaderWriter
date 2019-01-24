@@ -275,60 +275,32 @@ namespace sdw
 	SDW_API MaybeOptional< UInt > imageLoad( MaybeOptional< UImage2DMSArrayR8 > const & image, MaybeOptional< IVec3 > const & P, MaybeOptional< Int > const & sample );
 	/**@}*/
 #pragma endregion
-#pragma region imageAtomicMax
+#pragma region imageAtomicXor
 	/**
 	*name
-	*	imageAtomicMax
+	*	imageAtomicXor
 	*/
 	/**@{*/
-	SDW_API MaybeOptional< UInt > imageAtomicMax( MaybeOptional< UImage2DMSR32 > const & image, MaybeOptional< IVec2 > const & P, MaybeOptional< Int > const & sample, MaybeOptional< UInt > const & data );
-	SDW_API MaybeOptional< UInt > imageAtomicMax( MaybeOptional< UImage2DMSArrayR32 > const & image, MaybeOptional< IVec3 > const & P, MaybeOptional< Int > const & sample, MaybeOptional< UInt > const & data );
-	SDW_API MaybeOptional< Int > imageAtomicMax( MaybeOptional< IImage2DMSR32 > const & image, MaybeOptional< IVec2 > const & P, MaybeOptional< Int > const & sample, MaybeOptional< Int > const & data );
-	SDW_API MaybeOptional< Int > imageAtomicMax( MaybeOptional< IImage2DMSArrayR32 > const & image, MaybeOptional< IVec3 > const & P, MaybeOptional< Int > const & sample, MaybeOptional< Int > const & data );
-	SDW_API MaybeOptional< UInt > imageAtomicMax( MaybeOptional< UImage1DR32 > const & image, MaybeOptional< Int > const & P, MaybeOptional< UInt > const & data );
-	SDW_API MaybeOptional< UInt > imageAtomicMax( MaybeOptional< UImage2DR32 > const & image, MaybeOptional< IVec2 > const & P, MaybeOptional< UInt > const & data );
-	SDW_API MaybeOptional< UInt > imageAtomicMax( MaybeOptional< UImage3DR32 > const & image, MaybeOptional< IVec3 > const & P, MaybeOptional< UInt > const & data );
-	SDW_API MaybeOptional< UInt > imageAtomicMax( MaybeOptional< UImageCubeR32 > const & image, MaybeOptional< IVec3 > const & P, MaybeOptional< UInt > const & data );
-	SDW_API MaybeOptional< UInt > imageAtomicMax( MaybeOptional< UImageBufferR32 > const & image, MaybeOptional< Int > const & P, MaybeOptional< UInt > const & data );
-	SDW_API MaybeOptional< UInt > imageAtomicMax( MaybeOptional< UImage1DArrayR32 > const & image, MaybeOptional< IVec2 > const & P, MaybeOptional< UInt > const & data );
-	SDW_API MaybeOptional< UInt > imageAtomicMax( MaybeOptional< UImage2DArrayR32 > const & image, MaybeOptional< IVec3 > const & P, MaybeOptional< UInt > const & data );
-	SDW_API MaybeOptional< UInt > imageAtomicMax( MaybeOptional< UImageCubeArrayR32 > const & image, MaybeOptional< IVec3 > const & P, MaybeOptional< UInt > const & data );
-	SDW_API MaybeOptional< Int > imageAtomicMax( MaybeOptional< IImage1DR32 > const & image, MaybeOptional< Int > const & P, MaybeOptional< Int > const & data );
-	SDW_API MaybeOptional< Int > imageAtomicMax( MaybeOptional< IImage2DR32 > const & image, MaybeOptional< IVec2 > const & P, MaybeOptional< Int > const & data );
-	SDW_API MaybeOptional< Int > imageAtomicMax( MaybeOptional< IImage3DR32 > const & image, MaybeOptional< IVec3 > const & P, MaybeOptional< Int > const & data );
-	SDW_API MaybeOptional< Int > imageAtomicMax( MaybeOptional< IImageCubeR32 > const & image, MaybeOptional< IVec3 > const & P, MaybeOptional< Int > const & data );
-	SDW_API MaybeOptional< Int > imageAtomicMax( MaybeOptional< IImageBufferR32 > const & image, MaybeOptional< Int > const & P, MaybeOptional< Int > const & data );
-	SDW_API MaybeOptional< Int > imageAtomicMax( MaybeOptional< IImage1DArrayR32 > const & image, MaybeOptional< IVec2 > const & P, MaybeOptional< Int > const & data );
-	SDW_API MaybeOptional< Int > imageAtomicMax( MaybeOptional< IImage2DArrayR32 > const & image, MaybeOptional< IVec3 > const & P, MaybeOptional< Int > const & data );
-	SDW_API MaybeOptional< Int > imageAtomicMax( MaybeOptional< IImageCubeArrayR32 > const & image, MaybeOptional< IVec3 > const & P, MaybeOptional< Int > const & data );
-	/**@}*/
-#pragma endregion
-#pragma region imageAtomicCompSwap
-	/**
-	*name
-	*	imageAtomicCompSwap
-	*/
-	/**@{*/
-	SDW_API MaybeOptional< UInt > imageAtomicCompSwap( MaybeOptional< UImage1DR32 > const & image, MaybeOptional< Int > const & P, MaybeOptional< UInt > const & compare, MaybeOptional< UInt > const & data );
-	SDW_API MaybeOptional< UInt > imageAtomicCompSwap( MaybeOptional< UImage2DR32 > const & image, MaybeOptional< IVec2 > const & P, MaybeOptional< UInt > const & compare, MaybeOptional< UInt > const & data );
-	SDW_API MaybeOptional< UInt > imageAtomicCompSwap( MaybeOptional< UImage3DR32 > const & image, MaybeOptional< IVec3 > const & P, MaybeOptional< UInt > const & compare, MaybeOptional< UInt > const & data );
-	SDW_API MaybeOptional< UInt > imageAtomicCompSwap( MaybeOptional< UImageCubeR32 > const & image, MaybeOptional< IVec3 > const & P, MaybeOptional< UInt > const & compare, MaybeOptional< UInt > const & data );
-	SDW_API MaybeOptional< UInt > imageAtomicCompSwap( MaybeOptional< UImageBufferR32 > const & image, MaybeOptional< Int > const & P, MaybeOptional< UInt > const & compare, MaybeOptional< UInt > const & data );
-	SDW_API MaybeOptional< UInt > imageAtomicCompSwap( MaybeOptional< UImage1DArrayR32 > const & image, MaybeOptional< IVec2 > const & P, MaybeOptional< UInt > const & compare, MaybeOptional< UInt > const & data );
-	SDW_API MaybeOptional< UInt > imageAtomicCompSwap( MaybeOptional< UImage2DArrayR32 > const & image, MaybeOptional< IVec3 > const & P, MaybeOptional< UInt > const & compare, MaybeOptional< UInt > const & data );
-	SDW_API MaybeOptional< UInt > imageAtomicCompSwap( MaybeOptional< UImageCubeArrayR32 > const & image, MaybeOptional< IVec3 > const & P, MaybeOptional< UInt > const & compare, MaybeOptional< UInt > const & data );
-	SDW_API MaybeOptional< Int > imageAtomicCompSwap( MaybeOptional< IImage1DR32 > const & image, MaybeOptional< Int > const & P, MaybeOptional< Int > const & compare, MaybeOptional< Int > const & data );
-	SDW_API MaybeOptional< Int > imageAtomicCompSwap( MaybeOptional< IImage2DR32 > const & image, MaybeOptional< IVec2 > const & P, MaybeOptional< Int > const & compare, MaybeOptional< Int > const & data );
-	SDW_API MaybeOptional< Int > imageAtomicCompSwap( MaybeOptional< IImage3DR32 > const & image, MaybeOptional< IVec3 > const & P, MaybeOptional< Int > const & compare, MaybeOptional< Int > const & data );
-	SDW_API MaybeOptional< Int > imageAtomicCompSwap( MaybeOptional< IImageCubeR32 > const & image, MaybeOptional< IVec3 > const & P, MaybeOptional< Int > const & compare, MaybeOptional< Int > const & data );
-	SDW_API MaybeOptional< Int > imageAtomicCompSwap( MaybeOptional< IImageBufferR32 > const & image, MaybeOptional< Int > const & P, MaybeOptional< Int > const & compare, MaybeOptional< Int > const & data );
-	SDW_API MaybeOptional< Int > imageAtomicCompSwap( MaybeOptional< IImage1DArrayR32 > const & image, MaybeOptional< IVec2 > const & P, MaybeOptional< Int > const & compare, MaybeOptional< Int > const & data );
-	SDW_API MaybeOptional< Int > imageAtomicCompSwap( MaybeOptional< IImage2DArrayR32 > const & image, MaybeOptional< IVec3 > const & P, MaybeOptional< Int > const & compare, MaybeOptional< Int > const & data );
-	SDW_API MaybeOptional< Int > imageAtomicCompSwap( MaybeOptional< IImageCubeArrayR32 > const & image, MaybeOptional< IVec3 > const & P, MaybeOptional< Int > const & compare, MaybeOptional< Int > const & data );
-	SDW_API MaybeOptional< UInt > imageAtomicCompSwap( MaybeOptional< UImage2DMSR32 > const & image, MaybeOptional< IVec2 > const & P, MaybeOptional< Int > const & sample, MaybeOptional< UInt > const & compare, MaybeOptional< UInt > const & data );
-	SDW_API MaybeOptional< UInt > imageAtomicCompSwap( MaybeOptional< UImage2DMSArrayR32 > const & image, MaybeOptional< IVec3 > const & P, MaybeOptional< Int > const & sample, MaybeOptional< UInt > const & compare, MaybeOptional< UInt > const & data );
-	SDW_API MaybeOptional< Int > imageAtomicCompSwap( MaybeOptional< IImage2DMSR32 > const & image, MaybeOptional< IVec2 > const & P, MaybeOptional< Int > const & sample, MaybeOptional< Int > const & compare, MaybeOptional< Int > const & data );
-	SDW_API MaybeOptional< Int > imageAtomicCompSwap( MaybeOptional< IImage2DMSArrayR32 > const & image, MaybeOptional< IVec3 > const & P, MaybeOptional< Int > const & sample, MaybeOptional< Int > const & compare, MaybeOptional< Int > const & data );
+	SDW_API MaybeOptional< UInt > imageAtomicXor( MaybeOptional< UImage1DR32 > const & image, MaybeOptional< Int > const & P, MaybeOptional< UInt > const & data );
+	SDW_API MaybeOptional< UInt > imageAtomicXor( MaybeOptional< UImage2DR32 > const & image, MaybeOptional< IVec2 > const & P, MaybeOptional< UInt > const & data );
+	SDW_API MaybeOptional< UInt > imageAtomicXor( MaybeOptional< UImage3DR32 > const & image, MaybeOptional< IVec3 > const & P, MaybeOptional< UInt > const & data );
+	SDW_API MaybeOptional< UInt > imageAtomicXor( MaybeOptional< UImageCubeR32 > const & image, MaybeOptional< IVec3 > const & P, MaybeOptional< UInt > const & data );
+	SDW_API MaybeOptional< UInt > imageAtomicXor( MaybeOptional< UImageBufferR32 > const & image, MaybeOptional< Int > const & P, MaybeOptional< UInt > const & data );
+	SDW_API MaybeOptional< UInt > imageAtomicXor( MaybeOptional< UImage1DArrayR32 > const & image, MaybeOptional< IVec2 > const & P, MaybeOptional< UInt > const & data );
+	SDW_API MaybeOptional< UInt > imageAtomicXor( MaybeOptional< UImage2DArrayR32 > const & image, MaybeOptional< IVec3 > const & P, MaybeOptional< UInt > const & data );
+	SDW_API MaybeOptional< UInt > imageAtomicXor( MaybeOptional< UImageCubeArrayR32 > const & image, MaybeOptional< IVec3 > const & P, MaybeOptional< UInt > const & data );
+	SDW_API MaybeOptional< Int > imageAtomicXor( MaybeOptional< IImage1DR32 > const & image, MaybeOptional< Int > const & P, MaybeOptional< Int > const & data );
+	SDW_API MaybeOptional< Int > imageAtomicXor( MaybeOptional< IImage2DR32 > const & image, MaybeOptional< IVec2 > const & P, MaybeOptional< Int > const & data );
+	SDW_API MaybeOptional< Int > imageAtomicXor( MaybeOptional< IImage3DR32 > const & image, MaybeOptional< IVec3 > const & P, MaybeOptional< Int > const & data );
+	SDW_API MaybeOptional< Int > imageAtomicXor( MaybeOptional< IImageCubeR32 > const & image, MaybeOptional< IVec3 > const & P, MaybeOptional< Int > const & data );
+	SDW_API MaybeOptional< Int > imageAtomicXor( MaybeOptional< IImageBufferR32 > const & image, MaybeOptional< Int > const & P, MaybeOptional< Int > const & data );
+	SDW_API MaybeOptional< Int > imageAtomicXor( MaybeOptional< IImage1DArrayR32 > const & image, MaybeOptional< IVec2 > const & P, MaybeOptional< Int > const & data );
+	SDW_API MaybeOptional< Int > imageAtomicXor( MaybeOptional< IImage2DArrayR32 > const & image, MaybeOptional< IVec3 > const & P, MaybeOptional< Int > const & data );
+	SDW_API MaybeOptional< Int > imageAtomicXor( MaybeOptional< IImageCubeArrayR32 > const & image, MaybeOptional< IVec3 > const & P, MaybeOptional< Int > const & data );
+	SDW_API MaybeOptional< UInt > imageAtomicXor( MaybeOptional< UImage2DMSR32 > const & image, MaybeOptional< IVec2 > const & P, MaybeOptional< Int > const & sample, MaybeOptional< UInt > const & data );
+	SDW_API MaybeOptional< UInt > imageAtomicXor( MaybeOptional< UImage2DMSArrayR32 > const & image, MaybeOptional< IVec3 > const & P, MaybeOptional< Int > const & sample, MaybeOptional< UInt > const & data );
+	SDW_API MaybeOptional< Int > imageAtomicXor( MaybeOptional< IImage2DMSR32 > const & image, MaybeOptional< IVec2 > const & P, MaybeOptional< Int > const & sample, MaybeOptional< Int > const & data );
+	SDW_API MaybeOptional< Int > imageAtomicXor( MaybeOptional< IImage2DMSArrayR32 > const & image, MaybeOptional< IVec3 > const & P, MaybeOptional< Int > const & sample, MaybeOptional< Int > const & data );
 	/**@}*/
 #pragma endregion
 #pragma region imageAtomicExchange
@@ -337,10 +309,6 @@ namespace sdw
 	*	imageAtomicExchange
 	*/
 	/**@{*/
-	SDW_API MaybeOptional< UInt > imageAtomicExchange( MaybeOptional< UImage2DMSR32 > const & image, MaybeOptional< IVec2 > const & P, MaybeOptional< Int > const & sample, MaybeOptional< UInt > const & data );
-	SDW_API MaybeOptional< UInt > imageAtomicExchange( MaybeOptional< UImage2DMSArrayR32 > const & image, MaybeOptional< IVec3 > const & P, MaybeOptional< Int > const & sample, MaybeOptional< UInt > const & data );
-	SDW_API MaybeOptional< Int > imageAtomicExchange( MaybeOptional< IImage2DMSR32 > const & image, MaybeOptional< IVec2 > const & P, MaybeOptional< Int > const & sample, MaybeOptional< Int > const & data );
-	SDW_API MaybeOptional< Int > imageAtomicExchange( MaybeOptional< IImage2DMSArrayR32 > const & image, MaybeOptional< IVec3 > const & P, MaybeOptional< Int > const & sample, MaybeOptional< Int > const & data );
 	SDW_API MaybeOptional< UInt > imageAtomicExchange( MaybeOptional< UImage1DR32 > const & image, MaybeOptional< Int > const & P, MaybeOptional< UInt > const & data );
 	SDW_API MaybeOptional< UInt > imageAtomicExchange( MaybeOptional< UImage2DR32 > const & image, MaybeOptional< IVec2 > const & P, MaybeOptional< UInt > const & data );
 	SDW_API MaybeOptional< UInt > imageAtomicExchange( MaybeOptional< UImage3DR32 > const & image, MaybeOptional< IVec3 > const & P, MaybeOptional< UInt > const & data );
@@ -357,146 +325,10 @@ namespace sdw
 	SDW_API MaybeOptional< Int > imageAtomicExchange( MaybeOptional< IImage1DArrayR32 > const & image, MaybeOptional< IVec2 > const & P, MaybeOptional< Int > const & data );
 	SDW_API MaybeOptional< Int > imageAtomicExchange( MaybeOptional< IImage2DArrayR32 > const & image, MaybeOptional< IVec3 > const & P, MaybeOptional< Int > const & data );
 	SDW_API MaybeOptional< Int > imageAtomicExchange( MaybeOptional< IImageCubeArrayR32 > const & image, MaybeOptional< IVec3 > const & P, MaybeOptional< Int > const & data );
-	/**@}*/
-#pragma endregion
-#pragma region imageAtomicOr
-	/**
-	*name
-	*	imageAtomicOr
-	*/
-	/**@{*/
-	SDW_API MaybeOptional< UInt > imageAtomicOr( MaybeOptional< UImage2DMSR32 > const & image, MaybeOptional< IVec2 > const & P, MaybeOptional< Int > const & sample, MaybeOptional< UInt > const & data );
-	SDW_API MaybeOptional< UInt > imageAtomicOr( MaybeOptional< UImage2DMSArrayR32 > const & image, MaybeOptional< IVec3 > const & P, MaybeOptional< Int > const & sample, MaybeOptional< UInt > const & data );
-	SDW_API MaybeOptional< Int > imageAtomicOr( MaybeOptional< IImage2DMSR32 > const & image, MaybeOptional< IVec2 > const & P, MaybeOptional< Int > const & sample, MaybeOptional< Int > const & data );
-	SDW_API MaybeOptional< Int > imageAtomicOr( MaybeOptional< IImage2DMSArrayR32 > const & image, MaybeOptional< IVec3 > const & P, MaybeOptional< Int > const & sample, MaybeOptional< Int > const & data );
-	SDW_API MaybeOptional< UInt > imageAtomicOr( MaybeOptional< UImage1DR32 > const & image, MaybeOptional< Int > const & P, MaybeOptional< UInt > const & data );
-	SDW_API MaybeOptional< UInt > imageAtomicOr( MaybeOptional< UImage2DR32 > const & image, MaybeOptional< IVec2 > const & P, MaybeOptional< UInt > const & data );
-	SDW_API MaybeOptional< UInt > imageAtomicOr( MaybeOptional< UImage3DR32 > const & image, MaybeOptional< IVec3 > const & P, MaybeOptional< UInt > const & data );
-	SDW_API MaybeOptional< UInt > imageAtomicOr( MaybeOptional< UImageCubeR32 > const & image, MaybeOptional< IVec3 > const & P, MaybeOptional< UInt > const & data );
-	SDW_API MaybeOptional< UInt > imageAtomicOr( MaybeOptional< UImageBufferR32 > const & image, MaybeOptional< Int > const & P, MaybeOptional< UInt > const & data );
-	SDW_API MaybeOptional< UInt > imageAtomicOr( MaybeOptional< UImage1DArrayR32 > const & image, MaybeOptional< IVec2 > const & P, MaybeOptional< UInt > const & data );
-	SDW_API MaybeOptional< UInt > imageAtomicOr( MaybeOptional< UImage2DArrayR32 > const & image, MaybeOptional< IVec3 > const & P, MaybeOptional< UInt > const & data );
-	SDW_API MaybeOptional< UInt > imageAtomicOr( MaybeOptional< UImageCubeArrayR32 > const & image, MaybeOptional< IVec3 > const & P, MaybeOptional< UInt > const & data );
-	SDW_API MaybeOptional< Int > imageAtomicOr( MaybeOptional< IImage1DR32 > const & image, MaybeOptional< Int > const & P, MaybeOptional< Int > const & data );
-	SDW_API MaybeOptional< Int > imageAtomicOr( MaybeOptional< IImage2DR32 > const & image, MaybeOptional< IVec2 > const & P, MaybeOptional< Int > const & data );
-	SDW_API MaybeOptional< Int > imageAtomicOr( MaybeOptional< IImage3DR32 > const & image, MaybeOptional< IVec3 > const & P, MaybeOptional< Int > const & data );
-	SDW_API MaybeOptional< Int > imageAtomicOr( MaybeOptional< IImageCubeR32 > const & image, MaybeOptional< IVec3 > const & P, MaybeOptional< Int > const & data );
-	SDW_API MaybeOptional< Int > imageAtomicOr( MaybeOptional< IImageBufferR32 > const & image, MaybeOptional< Int > const & P, MaybeOptional< Int > const & data );
-	SDW_API MaybeOptional< Int > imageAtomicOr( MaybeOptional< IImage1DArrayR32 > const & image, MaybeOptional< IVec2 > const & P, MaybeOptional< Int > const & data );
-	SDW_API MaybeOptional< Int > imageAtomicOr( MaybeOptional< IImage2DArrayR32 > const & image, MaybeOptional< IVec3 > const & P, MaybeOptional< Int > const & data );
-	SDW_API MaybeOptional< Int > imageAtomicOr( MaybeOptional< IImageCubeArrayR32 > const & image, MaybeOptional< IVec3 > const & P, MaybeOptional< Int > const & data );
-	/**@}*/
-#pragma endregion
-#pragma region imageAtomicAnd
-	/**
-	*name
-	*	imageAtomicAnd
-	*/
-	/**@{*/
-	SDW_API MaybeOptional< UInt > imageAtomicAnd( MaybeOptional< UImage2DMSR32 > const & image, MaybeOptional< IVec2 > const & P, MaybeOptional< Int > const & sample, MaybeOptional< UInt > const & data );
-	SDW_API MaybeOptional< UInt > imageAtomicAnd( MaybeOptional< UImage2DMSArrayR32 > const & image, MaybeOptional< IVec3 > const & P, MaybeOptional< Int > const & sample, MaybeOptional< UInt > const & data );
-	SDW_API MaybeOptional< Int > imageAtomicAnd( MaybeOptional< IImage2DMSR32 > const & image, MaybeOptional< IVec2 > const & P, MaybeOptional< Int > const & sample, MaybeOptional< Int > const & data );
-	SDW_API MaybeOptional< Int > imageAtomicAnd( MaybeOptional< IImage2DMSArrayR32 > const & image, MaybeOptional< IVec3 > const & P, MaybeOptional< Int > const & sample, MaybeOptional< Int > const & data );
-	SDW_API MaybeOptional< UInt > imageAtomicAnd( MaybeOptional< UImage1DR32 > const & image, MaybeOptional< Int > const & P, MaybeOptional< UInt > const & data );
-	SDW_API MaybeOptional< UInt > imageAtomicAnd( MaybeOptional< UImage2DR32 > const & image, MaybeOptional< IVec2 > const & P, MaybeOptional< UInt > const & data );
-	SDW_API MaybeOptional< UInt > imageAtomicAnd( MaybeOptional< UImage3DR32 > const & image, MaybeOptional< IVec3 > const & P, MaybeOptional< UInt > const & data );
-	SDW_API MaybeOptional< UInt > imageAtomicAnd( MaybeOptional< UImageCubeR32 > const & image, MaybeOptional< IVec3 > const & P, MaybeOptional< UInt > const & data );
-	SDW_API MaybeOptional< UInt > imageAtomicAnd( MaybeOptional< UImageBufferR32 > const & image, MaybeOptional< Int > const & P, MaybeOptional< UInt > const & data );
-	SDW_API MaybeOptional< UInt > imageAtomicAnd( MaybeOptional< UImage1DArrayR32 > const & image, MaybeOptional< IVec2 > const & P, MaybeOptional< UInt > const & data );
-	SDW_API MaybeOptional< UInt > imageAtomicAnd( MaybeOptional< UImage2DArrayR32 > const & image, MaybeOptional< IVec3 > const & P, MaybeOptional< UInt > const & data );
-	SDW_API MaybeOptional< UInt > imageAtomicAnd( MaybeOptional< UImageCubeArrayR32 > const & image, MaybeOptional< IVec3 > const & P, MaybeOptional< UInt > const & data );
-	SDW_API MaybeOptional< Int > imageAtomicAnd( MaybeOptional< IImage1DR32 > const & image, MaybeOptional< Int > const & P, MaybeOptional< Int > const & data );
-	SDW_API MaybeOptional< Int > imageAtomicAnd( MaybeOptional< IImage2DR32 > const & image, MaybeOptional< IVec2 > const & P, MaybeOptional< Int > const & data );
-	SDW_API MaybeOptional< Int > imageAtomicAnd( MaybeOptional< IImage3DR32 > const & image, MaybeOptional< IVec3 > const & P, MaybeOptional< Int > const & data );
-	SDW_API MaybeOptional< Int > imageAtomicAnd( MaybeOptional< IImageCubeR32 > const & image, MaybeOptional< IVec3 > const & P, MaybeOptional< Int > const & data );
-	SDW_API MaybeOptional< Int > imageAtomicAnd( MaybeOptional< IImageBufferR32 > const & image, MaybeOptional< Int > const & P, MaybeOptional< Int > const & data );
-	SDW_API MaybeOptional< Int > imageAtomicAnd( MaybeOptional< IImage1DArrayR32 > const & image, MaybeOptional< IVec2 > const & P, MaybeOptional< Int > const & data );
-	SDW_API MaybeOptional< Int > imageAtomicAnd( MaybeOptional< IImage2DArrayR32 > const & image, MaybeOptional< IVec3 > const & P, MaybeOptional< Int > const & data );
-	SDW_API MaybeOptional< Int > imageAtomicAnd( MaybeOptional< IImageCubeArrayR32 > const & image, MaybeOptional< IVec3 > const & P, MaybeOptional< Int > const & data );
-	/**@}*/
-#pragma endregion
-#pragma region imageSamples
-	/**
-	*name
-	*	imageSamples
-	*/
-	/**@{*/
-	SDW_API MaybeOptional< Int > imageSamples( MaybeOptional< Image2DMSRgba32 > const & image );
-	SDW_API MaybeOptional< Int > imageSamples( MaybeOptional< Image2DMSRgba16 > const & image );
-	SDW_API MaybeOptional< Int > imageSamples( MaybeOptional< Image2DMSRg32 > const & image );
-	SDW_API MaybeOptional< Int > imageSamples( MaybeOptional< Image2DMSRg16 > const & image );
-	SDW_API MaybeOptional< Int > imageSamples( MaybeOptional< Image2DMSR32 > const & image );
-	SDW_API MaybeOptional< Int > imageSamples( MaybeOptional< Image2DMSR16 > const & image );
-	SDW_API MaybeOptional< Int > imageSamples( MaybeOptional< Image2DMSArrayRgba32 > const & image );
-	SDW_API MaybeOptional< Int > imageSamples( MaybeOptional< Image2DMSArrayRgba16 > const & image );
-	SDW_API MaybeOptional< Int > imageSamples( MaybeOptional< Image2DMSArrayRg32 > const & image );
-	SDW_API MaybeOptional< Int > imageSamples( MaybeOptional< Image2DMSArrayRg16 > const & image );
-	SDW_API MaybeOptional< Int > imageSamples( MaybeOptional< Image2DMSArrayR32 > const & image );
-	SDW_API MaybeOptional< Int > imageSamples( MaybeOptional< Image2DMSArrayR16 > const & image );
-	SDW_API MaybeOptional< Int > imageSamples( MaybeOptional< IImage2DMSRgba32 > const & image );
-	SDW_API MaybeOptional< Int > imageSamples( MaybeOptional< IImage2DMSRgba16 > const & image );
-	SDW_API MaybeOptional< Int > imageSamples( MaybeOptional< IImage2DMSRgba8 > const & image );
-	SDW_API MaybeOptional< Int > imageSamples( MaybeOptional< IImage2DMSRg32 > const & image );
-	SDW_API MaybeOptional< Int > imageSamples( MaybeOptional< IImage2DMSRg16 > const & image );
-	SDW_API MaybeOptional< Int > imageSamples( MaybeOptional< IImage2DMSRg8 > const & image );
-	SDW_API MaybeOptional< Int > imageSamples( MaybeOptional< IImage2DMSR32 > const & image );
-	SDW_API MaybeOptional< Int > imageSamples( MaybeOptional< IImage2DMSR16 > const & image );
-	SDW_API MaybeOptional< Int > imageSamples( MaybeOptional< IImage2DMSR8 > const & image );
-	SDW_API MaybeOptional< Int > imageSamples( MaybeOptional< IImage2DMSArrayRgba32 > const & image );
-	SDW_API MaybeOptional< Int > imageSamples( MaybeOptional< IImage2DMSArrayRgba16 > const & image );
-	SDW_API MaybeOptional< Int > imageSamples( MaybeOptional< IImage2DMSArrayRgba8 > const & image );
-	SDW_API MaybeOptional< Int > imageSamples( MaybeOptional< IImage2DMSArrayRg32 > const & image );
-	SDW_API MaybeOptional< Int > imageSamples( MaybeOptional< IImage2DMSArrayRg16 > const & image );
-	SDW_API MaybeOptional< Int > imageSamples( MaybeOptional< IImage2DMSArrayRg8 > const & image );
-	SDW_API MaybeOptional< Int > imageSamples( MaybeOptional< IImage2DMSArrayR32 > const & image );
-	SDW_API MaybeOptional< Int > imageSamples( MaybeOptional< IImage2DMSArrayR16 > const & image );
-	SDW_API MaybeOptional< Int > imageSamples( MaybeOptional< IImage2DMSArrayR8 > const & image );
-	SDW_API MaybeOptional< Int > imageSamples( MaybeOptional< UImage2DMSRgba32 > const & image );
-	SDW_API MaybeOptional< Int > imageSamples( MaybeOptional< UImage2DMSRgba16 > const & image );
-	SDW_API MaybeOptional< Int > imageSamples( MaybeOptional< UImage2DMSRgba8 > const & image );
-	SDW_API MaybeOptional< Int > imageSamples( MaybeOptional< UImage2DMSRg32 > const & image );
-	SDW_API MaybeOptional< Int > imageSamples( MaybeOptional< UImage2DMSRg16 > const & image );
-	SDW_API MaybeOptional< Int > imageSamples( MaybeOptional< UImage2DMSRg8 > const & image );
-	SDW_API MaybeOptional< Int > imageSamples( MaybeOptional< UImage2DMSR32 > const & image );
-	SDW_API MaybeOptional< Int > imageSamples( MaybeOptional< UImage2DMSR16 > const & image );
-	SDW_API MaybeOptional< Int > imageSamples( MaybeOptional< UImage2DMSR8 > const & image );
-	SDW_API MaybeOptional< Int > imageSamples( MaybeOptional< UImage2DMSArrayRgba32 > const & image );
-	SDW_API MaybeOptional< Int > imageSamples( MaybeOptional< UImage2DMSArrayRgba16 > const & image );
-	SDW_API MaybeOptional< Int > imageSamples( MaybeOptional< UImage2DMSArrayRgba8 > const & image );
-	SDW_API MaybeOptional< Int > imageSamples( MaybeOptional< UImage2DMSArrayRg32 > const & image );
-	SDW_API MaybeOptional< Int > imageSamples( MaybeOptional< UImage2DMSArrayRg16 > const & image );
-	SDW_API MaybeOptional< Int > imageSamples( MaybeOptional< UImage2DMSArrayRg8 > const & image );
-	SDW_API MaybeOptional< Int > imageSamples( MaybeOptional< UImage2DMSArrayR32 > const & image );
-	SDW_API MaybeOptional< Int > imageSamples( MaybeOptional< UImage2DMSArrayR16 > const & image );
-	SDW_API MaybeOptional< Int > imageSamples( MaybeOptional< UImage2DMSArrayR8 > const & image );
-	/**@}*/
-#pragma endregion
-#pragma region imageAtomicMin
-	/**
-	*name
-	*	imageAtomicMin
-	*/
-	/**@{*/
-	SDW_API MaybeOptional< UInt > imageAtomicMin( MaybeOptional< UImage2DMSR32 > const & image, MaybeOptional< IVec2 > const & P, MaybeOptional< Int > const & sample, MaybeOptional< UInt > const & data );
-	SDW_API MaybeOptional< UInt > imageAtomicMin( MaybeOptional< UImage2DMSArrayR32 > const & image, MaybeOptional< IVec3 > const & P, MaybeOptional< Int > const & sample, MaybeOptional< UInt > const & data );
-	SDW_API MaybeOptional< Int > imageAtomicMin( MaybeOptional< IImage2DMSR32 > const & image, MaybeOptional< IVec2 > const & P, MaybeOptional< Int > const & sample, MaybeOptional< Int > const & data );
-	SDW_API MaybeOptional< Int > imageAtomicMin( MaybeOptional< IImage2DMSArrayR32 > const & image, MaybeOptional< IVec3 > const & P, MaybeOptional< Int > const & sample, MaybeOptional< Int > const & data );
-	SDW_API MaybeOptional< UInt > imageAtomicMin( MaybeOptional< UImage1DR32 > const & image, MaybeOptional< Int > const & P, MaybeOptional< UInt > const & data );
-	SDW_API MaybeOptional< UInt > imageAtomicMin( MaybeOptional< UImage2DR32 > const & image, MaybeOptional< IVec2 > const & P, MaybeOptional< UInt > const & data );
-	SDW_API MaybeOptional< UInt > imageAtomicMin( MaybeOptional< UImage3DR32 > const & image, MaybeOptional< IVec3 > const & P, MaybeOptional< UInt > const & data );
-	SDW_API MaybeOptional< UInt > imageAtomicMin( MaybeOptional< UImageCubeR32 > const & image, MaybeOptional< IVec3 > const & P, MaybeOptional< UInt > const & data );
-	SDW_API MaybeOptional< UInt > imageAtomicMin( MaybeOptional< UImageBufferR32 > const & image, MaybeOptional< Int > const & P, MaybeOptional< UInt > const & data );
-	SDW_API MaybeOptional< UInt > imageAtomicMin( MaybeOptional< UImage1DArrayR32 > const & image, MaybeOptional< IVec2 > const & P, MaybeOptional< UInt > const & data );
-	SDW_API MaybeOptional< UInt > imageAtomicMin( MaybeOptional< UImage2DArrayR32 > const & image, MaybeOptional< IVec3 > const & P, MaybeOptional< UInt > const & data );
-	SDW_API MaybeOptional< UInt > imageAtomicMin( MaybeOptional< UImageCubeArrayR32 > const & image, MaybeOptional< IVec3 > const & P, MaybeOptional< UInt > const & data );
-	SDW_API MaybeOptional< Int > imageAtomicMin( MaybeOptional< IImage1DR32 > const & image, MaybeOptional< Int > const & P, MaybeOptional< Int > const & data );
-	SDW_API MaybeOptional< Int > imageAtomicMin( MaybeOptional< IImage2DR32 > const & image, MaybeOptional< IVec2 > const & P, MaybeOptional< Int > const & data );
-	SDW_API MaybeOptional< Int > imageAtomicMin( MaybeOptional< IImage3DR32 > const & image, MaybeOptional< IVec3 > const & P, MaybeOptional< Int > const & data );
-	SDW_API MaybeOptional< Int > imageAtomicMin( MaybeOptional< IImageCubeR32 > const & image, MaybeOptional< IVec3 > const & P, MaybeOptional< Int > const & data );
-	SDW_API MaybeOptional< Int > imageAtomicMin( MaybeOptional< IImageBufferR32 > const & image, MaybeOptional< Int > const & P, MaybeOptional< Int > const & data );
-	SDW_API MaybeOptional< Int > imageAtomicMin( MaybeOptional< IImage1DArrayR32 > const & image, MaybeOptional< IVec2 > const & P, MaybeOptional< Int > const & data );
-	SDW_API MaybeOptional< Int > imageAtomicMin( MaybeOptional< IImage2DArrayR32 > const & image, MaybeOptional< IVec3 > const & P, MaybeOptional< Int > const & data );
-	SDW_API MaybeOptional< Int > imageAtomicMin( MaybeOptional< IImageCubeArrayR32 > const & image, MaybeOptional< IVec3 > const & P, MaybeOptional< Int > const & data );
+	SDW_API MaybeOptional< UInt > imageAtomicExchange( MaybeOptional< UImage2DMSR32 > const & image, MaybeOptional< IVec2 > const & P, MaybeOptional< Int > const & sample, MaybeOptional< UInt > const & data );
+	SDW_API MaybeOptional< UInt > imageAtomicExchange( MaybeOptional< UImage2DMSArrayR32 > const & image, MaybeOptional< IVec3 > const & P, MaybeOptional< Int > const & sample, MaybeOptional< UInt > const & data );
+	SDW_API MaybeOptional< Int > imageAtomicExchange( MaybeOptional< IImage2DMSR32 > const & image, MaybeOptional< IVec2 > const & P, MaybeOptional< Int > const & sample, MaybeOptional< Int > const & data );
+	SDW_API MaybeOptional< Int > imageAtomicExchange( MaybeOptional< IImage2DMSArrayR32 > const & image, MaybeOptional< IVec3 > const & P, MaybeOptional< Int > const & sample, MaybeOptional< Int > const & data );
 	/**@}*/
 #pragma endregion
 #pragma region imageSize
@@ -747,32 +579,144 @@ namespace sdw
 	SDW_API MaybeOptional< IVec3 > imageSize( MaybeOptional< UImage2DMSArrayR8 > const & image );
 	/**@}*/
 #pragma endregion
-#pragma region imageAtomicXor
+#pragma region imageAtomicMin
 	/**
 	*name
-	*	imageAtomicXor
+	*	imageAtomicMin
 	*/
 	/**@{*/
-	SDW_API MaybeOptional< UInt > imageAtomicXor( MaybeOptional< UImage2DMSR32 > const & image, MaybeOptional< IVec2 > const & P, MaybeOptional< Int > const & sample, MaybeOptional< UInt > const & data );
-	SDW_API MaybeOptional< UInt > imageAtomicXor( MaybeOptional< UImage2DMSArrayR32 > const & image, MaybeOptional< IVec3 > const & P, MaybeOptional< Int > const & sample, MaybeOptional< UInt > const & data );
-	SDW_API MaybeOptional< Int > imageAtomicXor( MaybeOptional< IImage2DMSR32 > const & image, MaybeOptional< IVec2 > const & P, MaybeOptional< Int > const & sample, MaybeOptional< Int > const & data );
-	SDW_API MaybeOptional< Int > imageAtomicXor( MaybeOptional< IImage2DMSArrayR32 > const & image, MaybeOptional< IVec3 > const & P, MaybeOptional< Int > const & sample, MaybeOptional< Int > const & data );
-	SDW_API MaybeOptional< UInt > imageAtomicXor( MaybeOptional< UImage1DR32 > const & image, MaybeOptional< Int > const & P, MaybeOptional< UInt > const & data );
-	SDW_API MaybeOptional< UInt > imageAtomicXor( MaybeOptional< UImage2DR32 > const & image, MaybeOptional< IVec2 > const & P, MaybeOptional< UInt > const & data );
-	SDW_API MaybeOptional< UInt > imageAtomicXor( MaybeOptional< UImage3DR32 > const & image, MaybeOptional< IVec3 > const & P, MaybeOptional< UInt > const & data );
-	SDW_API MaybeOptional< UInt > imageAtomicXor( MaybeOptional< UImageCubeR32 > const & image, MaybeOptional< IVec3 > const & P, MaybeOptional< UInt > const & data );
-	SDW_API MaybeOptional< UInt > imageAtomicXor( MaybeOptional< UImageBufferR32 > const & image, MaybeOptional< Int > const & P, MaybeOptional< UInt > const & data );
-	SDW_API MaybeOptional< UInt > imageAtomicXor( MaybeOptional< UImage1DArrayR32 > const & image, MaybeOptional< IVec2 > const & P, MaybeOptional< UInt > const & data );
-	SDW_API MaybeOptional< UInt > imageAtomicXor( MaybeOptional< UImage2DArrayR32 > const & image, MaybeOptional< IVec3 > const & P, MaybeOptional< UInt > const & data );
-	SDW_API MaybeOptional< UInt > imageAtomicXor( MaybeOptional< UImageCubeArrayR32 > const & image, MaybeOptional< IVec3 > const & P, MaybeOptional< UInt > const & data );
-	SDW_API MaybeOptional< Int > imageAtomicXor( MaybeOptional< IImage1DR32 > const & image, MaybeOptional< Int > const & P, MaybeOptional< Int > const & data );
-	SDW_API MaybeOptional< Int > imageAtomicXor( MaybeOptional< IImage2DR32 > const & image, MaybeOptional< IVec2 > const & P, MaybeOptional< Int > const & data );
-	SDW_API MaybeOptional< Int > imageAtomicXor( MaybeOptional< IImage3DR32 > const & image, MaybeOptional< IVec3 > const & P, MaybeOptional< Int > const & data );
-	SDW_API MaybeOptional< Int > imageAtomicXor( MaybeOptional< IImageCubeR32 > const & image, MaybeOptional< IVec3 > const & P, MaybeOptional< Int > const & data );
-	SDW_API MaybeOptional< Int > imageAtomicXor( MaybeOptional< IImageBufferR32 > const & image, MaybeOptional< Int > const & P, MaybeOptional< Int > const & data );
-	SDW_API MaybeOptional< Int > imageAtomicXor( MaybeOptional< IImage1DArrayR32 > const & image, MaybeOptional< IVec2 > const & P, MaybeOptional< Int > const & data );
-	SDW_API MaybeOptional< Int > imageAtomicXor( MaybeOptional< IImage2DArrayR32 > const & image, MaybeOptional< IVec3 > const & P, MaybeOptional< Int > const & data );
-	SDW_API MaybeOptional< Int > imageAtomicXor( MaybeOptional< IImageCubeArrayR32 > const & image, MaybeOptional< IVec3 > const & P, MaybeOptional< Int > const & data );
+	SDW_API MaybeOptional< UInt > imageAtomicMin( MaybeOptional< UImage1DR32 > const & image, MaybeOptional< Int > const & P, MaybeOptional< UInt > const & data );
+	SDW_API MaybeOptional< UInt > imageAtomicMin( MaybeOptional< UImage2DR32 > const & image, MaybeOptional< IVec2 > const & P, MaybeOptional< UInt > const & data );
+	SDW_API MaybeOptional< UInt > imageAtomicMin( MaybeOptional< UImage3DR32 > const & image, MaybeOptional< IVec3 > const & P, MaybeOptional< UInt > const & data );
+	SDW_API MaybeOptional< UInt > imageAtomicMin( MaybeOptional< UImageCubeR32 > const & image, MaybeOptional< IVec3 > const & P, MaybeOptional< UInt > const & data );
+	SDW_API MaybeOptional< UInt > imageAtomicMin( MaybeOptional< UImageBufferR32 > const & image, MaybeOptional< Int > const & P, MaybeOptional< UInt > const & data );
+	SDW_API MaybeOptional< UInt > imageAtomicMin( MaybeOptional< UImage1DArrayR32 > const & image, MaybeOptional< IVec2 > const & P, MaybeOptional< UInt > const & data );
+	SDW_API MaybeOptional< UInt > imageAtomicMin( MaybeOptional< UImage2DArrayR32 > const & image, MaybeOptional< IVec3 > const & P, MaybeOptional< UInt > const & data );
+	SDW_API MaybeOptional< UInt > imageAtomicMin( MaybeOptional< UImageCubeArrayR32 > const & image, MaybeOptional< IVec3 > const & P, MaybeOptional< UInt > const & data );
+	SDW_API MaybeOptional< Int > imageAtomicMin( MaybeOptional< IImage1DR32 > const & image, MaybeOptional< Int > const & P, MaybeOptional< Int > const & data );
+	SDW_API MaybeOptional< Int > imageAtomicMin( MaybeOptional< IImage2DR32 > const & image, MaybeOptional< IVec2 > const & P, MaybeOptional< Int > const & data );
+	SDW_API MaybeOptional< Int > imageAtomicMin( MaybeOptional< IImage3DR32 > const & image, MaybeOptional< IVec3 > const & P, MaybeOptional< Int > const & data );
+	SDW_API MaybeOptional< Int > imageAtomicMin( MaybeOptional< IImageCubeR32 > const & image, MaybeOptional< IVec3 > const & P, MaybeOptional< Int > const & data );
+	SDW_API MaybeOptional< Int > imageAtomicMin( MaybeOptional< IImageBufferR32 > const & image, MaybeOptional< Int > const & P, MaybeOptional< Int > const & data );
+	SDW_API MaybeOptional< Int > imageAtomicMin( MaybeOptional< IImage1DArrayR32 > const & image, MaybeOptional< IVec2 > const & P, MaybeOptional< Int > const & data );
+	SDW_API MaybeOptional< Int > imageAtomicMin( MaybeOptional< IImage2DArrayR32 > const & image, MaybeOptional< IVec3 > const & P, MaybeOptional< Int > const & data );
+	SDW_API MaybeOptional< Int > imageAtomicMin( MaybeOptional< IImageCubeArrayR32 > const & image, MaybeOptional< IVec3 > const & P, MaybeOptional< Int > const & data );
+	SDW_API MaybeOptional< UInt > imageAtomicMin( MaybeOptional< UImage2DMSR32 > const & image, MaybeOptional< IVec2 > const & P, MaybeOptional< Int > const & sample, MaybeOptional< UInt > const & data );
+	SDW_API MaybeOptional< UInt > imageAtomicMin( MaybeOptional< UImage2DMSArrayR32 > const & image, MaybeOptional< IVec3 > const & P, MaybeOptional< Int > const & sample, MaybeOptional< UInt > const & data );
+	SDW_API MaybeOptional< Int > imageAtomicMin( MaybeOptional< IImage2DMSR32 > const & image, MaybeOptional< IVec2 > const & P, MaybeOptional< Int > const & sample, MaybeOptional< Int > const & data );
+	SDW_API MaybeOptional< Int > imageAtomicMin( MaybeOptional< IImage2DMSArrayR32 > const & image, MaybeOptional< IVec3 > const & P, MaybeOptional< Int > const & sample, MaybeOptional< Int > const & data );
+	/**@}*/
+#pragma endregion
+#pragma region imageAtomicAnd
+	/**
+	*name
+	*	imageAtomicAnd
+	*/
+	/**@{*/
+	SDW_API MaybeOptional< UInt > imageAtomicAnd( MaybeOptional< UImage1DR32 > const & image, MaybeOptional< Int > const & P, MaybeOptional< UInt > const & data );
+	SDW_API MaybeOptional< UInt > imageAtomicAnd( MaybeOptional< UImage2DR32 > const & image, MaybeOptional< IVec2 > const & P, MaybeOptional< UInt > const & data );
+	SDW_API MaybeOptional< UInt > imageAtomicAnd( MaybeOptional< UImage3DR32 > const & image, MaybeOptional< IVec3 > const & P, MaybeOptional< UInt > const & data );
+	SDW_API MaybeOptional< UInt > imageAtomicAnd( MaybeOptional< UImageCubeR32 > const & image, MaybeOptional< IVec3 > const & P, MaybeOptional< UInt > const & data );
+	SDW_API MaybeOptional< UInt > imageAtomicAnd( MaybeOptional< UImageBufferR32 > const & image, MaybeOptional< Int > const & P, MaybeOptional< UInt > const & data );
+	SDW_API MaybeOptional< UInt > imageAtomicAnd( MaybeOptional< UImage1DArrayR32 > const & image, MaybeOptional< IVec2 > const & P, MaybeOptional< UInt > const & data );
+	SDW_API MaybeOptional< UInt > imageAtomicAnd( MaybeOptional< UImage2DArrayR32 > const & image, MaybeOptional< IVec3 > const & P, MaybeOptional< UInt > const & data );
+	SDW_API MaybeOptional< UInt > imageAtomicAnd( MaybeOptional< UImageCubeArrayR32 > const & image, MaybeOptional< IVec3 > const & P, MaybeOptional< UInt > const & data );
+	SDW_API MaybeOptional< Int > imageAtomicAnd( MaybeOptional< IImage1DR32 > const & image, MaybeOptional< Int > const & P, MaybeOptional< Int > const & data );
+	SDW_API MaybeOptional< Int > imageAtomicAnd( MaybeOptional< IImage2DR32 > const & image, MaybeOptional< IVec2 > const & P, MaybeOptional< Int > const & data );
+	SDW_API MaybeOptional< Int > imageAtomicAnd( MaybeOptional< IImage3DR32 > const & image, MaybeOptional< IVec3 > const & P, MaybeOptional< Int > const & data );
+	SDW_API MaybeOptional< Int > imageAtomicAnd( MaybeOptional< IImageCubeR32 > const & image, MaybeOptional< IVec3 > const & P, MaybeOptional< Int > const & data );
+	SDW_API MaybeOptional< Int > imageAtomicAnd( MaybeOptional< IImageBufferR32 > const & image, MaybeOptional< Int > const & P, MaybeOptional< Int > const & data );
+	SDW_API MaybeOptional< Int > imageAtomicAnd( MaybeOptional< IImage1DArrayR32 > const & image, MaybeOptional< IVec2 > const & P, MaybeOptional< Int > const & data );
+	SDW_API MaybeOptional< Int > imageAtomicAnd( MaybeOptional< IImage2DArrayR32 > const & image, MaybeOptional< IVec3 > const & P, MaybeOptional< Int > const & data );
+	SDW_API MaybeOptional< Int > imageAtomicAnd( MaybeOptional< IImageCubeArrayR32 > const & image, MaybeOptional< IVec3 > const & P, MaybeOptional< Int > const & data );
+	SDW_API MaybeOptional< UInt > imageAtomicAnd( MaybeOptional< UImage2DMSR32 > const & image, MaybeOptional< IVec2 > const & P, MaybeOptional< Int > const & sample, MaybeOptional< UInt > const & data );
+	SDW_API MaybeOptional< UInt > imageAtomicAnd( MaybeOptional< UImage2DMSArrayR32 > const & image, MaybeOptional< IVec3 > const & P, MaybeOptional< Int > const & sample, MaybeOptional< UInt > const & data );
+	SDW_API MaybeOptional< Int > imageAtomicAnd( MaybeOptional< IImage2DMSR32 > const & image, MaybeOptional< IVec2 > const & P, MaybeOptional< Int > const & sample, MaybeOptional< Int > const & data );
+	SDW_API MaybeOptional< Int > imageAtomicAnd( MaybeOptional< IImage2DMSArrayR32 > const & image, MaybeOptional< IVec3 > const & P, MaybeOptional< Int > const & sample, MaybeOptional< Int > const & data );
+	/**@}*/
+#pragma endregion
+#pragma region imageAtomicMax
+	/**
+	*name
+	*	imageAtomicMax
+	*/
+	/**@{*/
+	SDW_API MaybeOptional< UInt > imageAtomicMax( MaybeOptional< UImage1DR32 > const & image, MaybeOptional< Int > const & P, MaybeOptional< UInt > const & data );
+	SDW_API MaybeOptional< UInt > imageAtomicMax( MaybeOptional< UImage2DR32 > const & image, MaybeOptional< IVec2 > const & P, MaybeOptional< UInt > const & data );
+	SDW_API MaybeOptional< UInt > imageAtomicMax( MaybeOptional< UImage3DR32 > const & image, MaybeOptional< IVec3 > const & P, MaybeOptional< UInt > const & data );
+	SDW_API MaybeOptional< UInt > imageAtomicMax( MaybeOptional< UImageCubeR32 > const & image, MaybeOptional< IVec3 > const & P, MaybeOptional< UInt > const & data );
+	SDW_API MaybeOptional< UInt > imageAtomicMax( MaybeOptional< UImageBufferR32 > const & image, MaybeOptional< Int > const & P, MaybeOptional< UInt > const & data );
+	SDW_API MaybeOptional< UInt > imageAtomicMax( MaybeOptional< UImage1DArrayR32 > const & image, MaybeOptional< IVec2 > const & P, MaybeOptional< UInt > const & data );
+	SDW_API MaybeOptional< UInt > imageAtomicMax( MaybeOptional< UImage2DArrayR32 > const & image, MaybeOptional< IVec3 > const & P, MaybeOptional< UInt > const & data );
+	SDW_API MaybeOptional< UInt > imageAtomicMax( MaybeOptional< UImageCubeArrayR32 > const & image, MaybeOptional< IVec3 > const & P, MaybeOptional< UInt > const & data );
+	SDW_API MaybeOptional< Int > imageAtomicMax( MaybeOptional< IImage1DR32 > const & image, MaybeOptional< Int > const & P, MaybeOptional< Int > const & data );
+	SDW_API MaybeOptional< Int > imageAtomicMax( MaybeOptional< IImage2DR32 > const & image, MaybeOptional< IVec2 > const & P, MaybeOptional< Int > const & data );
+	SDW_API MaybeOptional< Int > imageAtomicMax( MaybeOptional< IImage3DR32 > const & image, MaybeOptional< IVec3 > const & P, MaybeOptional< Int > const & data );
+	SDW_API MaybeOptional< Int > imageAtomicMax( MaybeOptional< IImageCubeR32 > const & image, MaybeOptional< IVec3 > const & P, MaybeOptional< Int > const & data );
+	SDW_API MaybeOptional< Int > imageAtomicMax( MaybeOptional< IImageBufferR32 > const & image, MaybeOptional< Int > const & P, MaybeOptional< Int > const & data );
+	SDW_API MaybeOptional< Int > imageAtomicMax( MaybeOptional< IImage1DArrayR32 > const & image, MaybeOptional< IVec2 > const & P, MaybeOptional< Int > const & data );
+	SDW_API MaybeOptional< Int > imageAtomicMax( MaybeOptional< IImage2DArrayR32 > const & image, MaybeOptional< IVec3 > const & P, MaybeOptional< Int > const & data );
+	SDW_API MaybeOptional< Int > imageAtomicMax( MaybeOptional< IImageCubeArrayR32 > const & image, MaybeOptional< IVec3 > const & P, MaybeOptional< Int > const & data );
+	SDW_API MaybeOptional< UInt > imageAtomicMax( MaybeOptional< UImage2DMSR32 > const & image, MaybeOptional< IVec2 > const & P, MaybeOptional< Int > const & sample, MaybeOptional< UInt > const & data );
+	SDW_API MaybeOptional< UInt > imageAtomicMax( MaybeOptional< UImage2DMSArrayR32 > const & image, MaybeOptional< IVec3 > const & P, MaybeOptional< Int > const & sample, MaybeOptional< UInt > const & data );
+	SDW_API MaybeOptional< Int > imageAtomicMax( MaybeOptional< IImage2DMSR32 > const & image, MaybeOptional< IVec2 > const & P, MaybeOptional< Int > const & sample, MaybeOptional< Int > const & data );
+	SDW_API MaybeOptional< Int > imageAtomicMax( MaybeOptional< IImage2DMSArrayR32 > const & image, MaybeOptional< IVec3 > const & P, MaybeOptional< Int > const & sample, MaybeOptional< Int > const & data );
+	/**@}*/
+#pragma endregion
+#pragma region imageSamples
+	/**
+	*name
+	*	imageSamples
+	*/
+	/**@{*/
+	SDW_API MaybeOptional< Int > imageSamples( MaybeOptional< Image2DMSRgba32 > const & image );
+	SDW_API MaybeOptional< Int > imageSamples( MaybeOptional< Image2DMSRgba16 > const & image );
+	SDW_API MaybeOptional< Int > imageSamples( MaybeOptional< Image2DMSRg32 > const & image );
+	SDW_API MaybeOptional< Int > imageSamples( MaybeOptional< Image2DMSRg16 > const & image );
+	SDW_API MaybeOptional< Int > imageSamples( MaybeOptional< Image2DMSR32 > const & image );
+	SDW_API MaybeOptional< Int > imageSamples( MaybeOptional< Image2DMSR16 > const & image );
+	SDW_API MaybeOptional< Int > imageSamples( MaybeOptional< Image2DMSArrayRgba32 > const & image );
+	SDW_API MaybeOptional< Int > imageSamples( MaybeOptional< Image2DMSArrayRgba16 > const & image );
+	SDW_API MaybeOptional< Int > imageSamples( MaybeOptional< Image2DMSArrayRg32 > const & image );
+	SDW_API MaybeOptional< Int > imageSamples( MaybeOptional< Image2DMSArrayRg16 > const & image );
+	SDW_API MaybeOptional< Int > imageSamples( MaybeOptional< Image2DMSArrayR32 > const & image );
+	SDW_API MaybeOptional< Int > imageSamples( MaybeOptional< Image2DMSArrayR16 > const & image );
+	SDW_API MaybeOptional< Int > imageSamples( MaybeOptional< IImage2DMSRgba32 > const & image );
+	SDW_API MaybeOptional< Int > imageSamples( MaybeOptional< IImage2DMSRgba16 > const & image );
+	SDW_API MaybeOptional< Int > imageSamples( MaybeOptional< IImage2DMSRgba8 > const & image );
+	SDW_API MaybeOptional< Int > imageSamples( MaybeOptional< IImage2DMSRg32 > const & image );
+	SDW_API MaybeOptional< Int > imageSamples( MaybeOptional< IImage2DMSRg16 > const & image );
+	SDW_API MaybeOptional< Int > imageSamples( MaybeOptional< IImage2DMSRg8 > const & image );
+	SDW_API MaybeOptional< Int > imageSamples( MaybeOptional< IImage2DMSR32 > const & image );
+	SDW_API MaybeOptional< Int > imageSamples( MaybeOptional< IImage2DMSR16 > const & image );
+	SDW_API MaybeOptional< Int > imageSamples( MaybeOptional< IImage2DMSR8 > const & image );
+	SDW_API MaybeOptional< Int > imageSamples( MaybeOptional< IImage2DMSArrayRgba32 > const & image );
+	SDW_API MaybeOptional< Int > imageSamples( MaybeOptional< IImage2DMSArrayRgba16 > const & image );
+	SDW_API MaybeOptional< Int > imageSamples( MaybeOptional< IImage2DMSArrayRgba8 > const & image );
+	SDW_API MaybeOptional< Int > imageSamples( MaybeOptional< IImage2DMSArrayRg32 > const & image );
+	SDW_API MaybeOptional< Int > imageSamples( MaybeOptional< IImage2DMSArrayRg16 > const & image );
+	SDW_API MaybeOptional< Int > imageSamples( MaybeOptional< IImage2DMSArrayRg8 > const & image );
+	SDW_API MaybeOptional< Int > imageSamples( MaybeOptional< IImage2DMSArrayR32 > const & image );
+	SDW_API MaybeOptional< Int > imageSamples( MaybeOptional< IImage2DMSArrayR16 > const & image );
+	SDW_API MaybeOptional< Int > imageSamples( MaybeOptional< IImage2DMSArrayR8 > const & image );
+	SDW_API MaybeOptional< Int > imageSamples( MaybeOptional< UImage2DMSRgba32 > const & image );
+	SDW_API MaybeOptional< Int > imageSamples( MaybeOptional< UImage2DMSRgba16 > const & image );
+	SDW_API MaybeOptional< Int > imageSamples( MaybeOptional< UImage2DMSRgba8 > const & image );
+	SDW_API MaybeOptional< Int > imageSamples( MaybeOptional< UImage2DMSRg32 > const & image );
+	SDW_API MaybeOptional< Int > imageSamples( MaybeOptional< UImage2DMSRg16 > const & image );
+	SDW_API MaybeOptional< Int > imageSamples( MaybeOptional< UImage2DMSRg8 > const & image );
+	SDW_API MaybeOptional< Int > imageSamples( MaybeOptional< UImage2DMSR32 > const & image );
+	SDW_API MaybeOptional< Int > imageSamples( MaybeOptional< UImage2DMSR16 > const & image );
+	SDW_API MaybeOptional< Int > imageSamples( MaybeOptional< UImage2DMSR8 > const & image );
+	SDW_API MaybeOptional< Int > imageSamples( MaybeOptional< UImage2DMSArrayRgba32 > const & image );
+	SDW_API MaybeOptional< Int > imageSamples( MaybeOptional< UImage2DMSArrayRgba16 > const & image );
+	SDW_API MaybeOptional< Int > imageSamples( MaybeOptional< UImage2DMSArrayRgba8 > const & image );
+	SDW_API MaybeOptional< Int > imageSamples( MaybeOptional< UImage2DMSArrayRg32 > const & image );
+	SDW_API MaybeOptional< Int > imageSamples( MaybeOptional< UImage2DMSArrayRg16 > const & image );
+	SDW_API MaybeOptional< Int > imageSamples( MaybeOptional< UImage2DMSArrayRg8 > const & image );
+	SDW_API MaybeOptional< Int > imageSamples( MaybeOptional< UImage2DMSArrayR32 > const & image );
+	SDW_API MaybeOptional< Int > imageSamples( MaybeOptional< UImage2DMSArrayR16 > const & image );
+	SDW_API MaybeOptional< Int > imageSamples( MaybeOptional< UImage2DMSArrayR8 > const & image );
 	/**@}*/
 #pragma endregion
 #pragma region imageAtomicAdd
@@ -781,10 +725,6 @@ namespace sdw
 	*	imageAtomicAdd
 	*/
 	/**@{*/
-	SDW_API MaybeOptional< UInt > imageAtomicAdd( MaybeOptional< UImage2DMSR32 > const & image, MaybeOptional< IVec2 > const & P, MaybeOptional< Int > const & sample, MaybeOptional< UInt > const & data );
-	SDW_API MaybeOptional< UInt > imageAtomicAdd( MaybeOptional< UImage2DMSArrayR32 > const & image, MaybeOptional< IVec3 > const & P, MaybeOptional< Int > const & sample, MaybeOptional< UInt > const & data );
-	SDW_API MaybeOptional< Int > imageAtomicAdd( MaybeOptional< IImage2DMSR32 > const & image, MaybeOptional< IVec2 > const & P, MaybeOptional< Int > const & sample, MaybeOptional< Int > const & data );
-	SDW_API MaybeOptional< Int > imageAtomicAdd( MaybeOptional< IImage2DMSArrayR32 > const & image, MaybeOptional< IVec3 > const & P, MaybeOptional< Int > const & sample, MaybeOptional< Int > const & data );
 	SDW_API MaybeOptional< UInt > imageAtomicAdd( MaybeOptional< UImage1DR32 > const & image, MaybeOptional< Int > const & P, MaybeOptional< UInt > const & data );
 	SDW_API MaybeOptional< UInt > imageAtomicAdd( MaybeOptional< UImage2DR32 > const & image, MaybeOptional< IVec2 > const & P, MaybeOptional< UInt > const & data );
 	SDW_API MaybeOptional< UInt > imageAtomicAdd( MaybeOptional< UImage3DR32 > const & image, MaybeOptional< IVec3 > const & P, MaybeOptional< UInt > const & data );
@@ -801,6 +741,66 @@ namespace sdw
 	SDW_API MaybeOptional< Int > imageAtomicAdd( MaybeOptional< IImage1DArrayR32 > const & image, MaybeOptional< IVec2 > const & P, MaybeOptional< Int > const & data );
 	SDW_API MaybeOptional< Int > imageAtomicAdd( MaybeOptional< IImage2DArrayR32 > const & image, MaybeOptional< IVec3 > const & P, MaybeOptional< Int > const & data );
 	SDW_API MaybeOptional< Int > imageAtomicAdd( MaybeOptional< IImageCubeArrayR32 > const & image, MaybeOptional< IVec3 > const & P, MaybeOptional< Int > const & data );
+	SDW_API MaybeOptional< UInt > imageAtomicAdd( MaybeOptional< UImage2DMSR32 > const & image, MaybeOptional< IVec2 > const & P, MaybeOptional< Int > const & sample, MaybeOptional< UInt > const & data );
+	SDW_API MaybeOptional< UInt > imageAtomicAdd( MaybeOptional< UImage2DMSArrayR32 > const & image, MaybeOptional< IVec3 > const & P, MaybeOptional< Int > const & sample, MaybeOptional< UInt > const & data );
+	SDW_API MaybeOptional< Int > imageAtomicAdd( MaybeOptional< IImage2DMSR32 > const & image, MaybeOptional< IVec2 > const & P, MaybeOptional< Int > const & sample, MaybeOptional< Int > const & data );
+	SDW_API MaybeOptional< Int > imageAtomicAdd( MaybeOptional< IImage2DMSArrayR32 > const & image, MaybeOptional< IVec3 > const & P, MaybeOptional< Int > const & sample, MaybeOptional< Int > const & data );
+	/**@}*/
+#pragma endregion
+#pragma region imageAtomicOr
+	/**
+	*name
+	*	imageAtomicOr
+	*/
+	/**@{*/
+	SDW_API MaybeOptional< UInt > imageAtomicOr( MaybeOptional< UImage1DR32 > const & image, MaybeOptional< Int > const & P, MaybeOptional< UInt > const & data );
+	SDW_API MaybeOptional< UInt > imageAtomicOr( MaybeOptional< UImage2DR32 > const & image, MaybeOptional< IVec2 > const & P, MaybeOptional< UInt > const & data );
+	SDW_API MaybeOptional< UInt > imageAtomicOr( MaybeOptional< UImage3DR32 > const & image, MaybeOptional< IVec3 > const & P, MaybeOptional< UInt > const & data );
+	SDW_API MaybeOptional< UInt > imageAtomicOr( MaybeOptional< UImageCubeR32 > const & image, MaybeOptional< IVec3 > const & P, MaybeOptional< UInt > const & data );
+	SDW_API MaybeOptional< UInt > imageAtomicOr( MaybeOptional< UImageBufferR32 > const & image, MaybeOptional< Int > const & P, MaybeOptional< UInt > const & data );
+	SDW_API MaybeOptional< UInt > imageAtomicOr( MaybeOptional< UImage1DArrayR32 > const & image, MaybeOptional< IVec2 > const & P, MaybeOptional< UInt > const & data );
+	SDW_API MaybeOptional< UInt > imageAtomicOr( MaybeOptional< UImage2DArrayR32 > const & image, MaybeOptional< IVec3 > const & P, MaybeOptional< UInt > const & data );
+	SDW_API MaybeOptional< UInt > imageAtomicOr( MaybeOptional< UImageCubeArrayR32 > const & image, MaybeOptional< IVec3 > const & P, MaybeOptional< UInt > const & data );
+	SDW_API MaybeOptional< Int > imageAtomicOr( MaybeOptional< IImage1DR32 > const & image, MaybeOptional< Int > const & P, MaybeOptional< Int > const & data );
+	SDW_API MaybeOptional< Int > imageAtomicOr( MaybeOptional< IImage2DR32 > const & image, MaybeOptional< IVec2 > const & P, MaybeOptional< Int > const & data );
+	SDW_API MaybeOptional< Int > imageAtomicOr( MaybeOptional< IImage3DR32 > const & image, MaybeOptional< IVec3 > const & P, MaybeOptional< Int > const & data );
+	SDW_API MaybeOptional< Int > imageAtomicOr( MaybeOptional< IImageCubeR32 > const & image, MaybeOptional< IVec3 > const & P, MaybeOptional< Int > const & data );
+	SDW_API MaybeOptional< Int > imageAtomicOr( MaybeOptional< IImageBufferR32 > const & image, MaybeOptional< Int > const & P, MaybeOptional< Int > const & data );
+	SDW_API MaybeOptional< Int > imageAtomicOr( MaybeOptional< IImage1DArrayR32 > const & image, MaybeOptional< IVec2 > const & P, MaybeOptional< Int > const & data );
+	SDW_API MaybeOptional< Int > imageAtomicOr( MaybeOptional< IImage2DArrayR32 > const & image, MaybeOptional< IVec3 > const & P, MaybeOptional< Int > const & data );
+	SDW_API MaybeOptional< Int > imageAtomicOr( MaybeOptional< IImageCubeArrayR32 > const & image, MaybeOptional< IVec3 > const & P, MaybeOptional< Int > const & data );
+	SDW_API MaybeOptional< UInt > imageAtomicOr( MaybeOptional< UImage2DMSR32 > const & image, MaybeOptional< IVec2 > const & P, MaybeOptional< Int > const & sample, MaybeOptional< UInt > const & data );
+	SDW_API MaybeOptional< UInt > imageAtomicOr( MaybeOptional< UImage2DMSArrayR32 > const & image, MaybeOptional< IVec3 > const & P, MaybeOptional< Int > const & sample, MaybeOptional< UInt > const & data );
+	SDW_API MaybeOptional< Int > imageAtomicOr( MaybeOptional< IImage2DMSR32 > const & image, MaybeOptional< IVec2 > const & P, MaybeOptional< Int > const & sample, MaybeOptional< Int > const & data );
+	SDW_API MaybeOptional< Int > imageAtomicOr( MaybeOptional< IImage2DMSArrayR32 > const & image, MaybeOptional< IVec3 > const & P, MaybeOptional< Int > const & sample, MaybeOptional< Int > const & data );
+	/**@}*/
+#pragma endregion
+#pragma region imageAtomicCompSwap
+	/**
+	*name
+	*	imageAtomicCompSwap
+	*/
+	/**@{*/
+	SDW_API MaybeOptional< UInt > imageAtomicCompSwap( MaybeOptional< UImage2DMSR32 > const & image, MaybeOptional< IVec2 > const & P, MaybeOptional< Int > const & sample, MaybeOptional< UInt > const & compare, MaybeOptional< UInt > const & data );
+	SDW_API MaybeOptional< UInt > imageAtomicCompSwap( MaybeOptional< UImage2DMSArrayR32 > const & image, MaybeOptional< IVec3 > const & P, MaybeOptional< Int > const & sample, MaybeOptional< UInt > const & compare, MaybeOptional< UInt > const & data );
+	SDW_API MaybeOptional< Int > imageAtomicCompSwap( MaybeOptional< IImage2DMSR32 > const & image, MaybeOptional< IVec2 > const & P, MaybeOptional< Int > const & sample, MaybeOptional< Int > const & compare, MaybeOptional< Int > const & data );
+	SDW_API MaybeOptional< Int > imageAtomicCompSwap( MaybeOptional< IImage2DMSArrayR32 > const & image, MaybeOptional< IVec3 > const & P, MaybeOptional< Int > const & sample, MaybeOptional< Int > const & compare, MaybeOptional< Int > const & data );
+	SDW_API MaybeOptional< UInt > imageAtomicCompSwap( MaybeOptional< UImage1DR32 > const & image, MaybeOptional< Int > const & P, MaybeOptional< UInt > const & compare, MaybeOptional< UInt > const & data );
+	SDW_API MaybeOptional< UInt > imageAtomicCompSwap( MaybeOptional< UImage2DR32 > const & image, MaybeOptional< IVec2 > const & P, MaybeOptional< UInt > const & compare, MaybeOptional< UInt > const & data );
+	SDW_API MaybeOptional< UInt > imageAtomicCompSwap( MaybeOptional< UImage3DR32 > const & image, MaybeOptional< IVec3 > const & P, MaybeOptional< UInt > const & compare, MaybeOptional< UInt > const & data );
+	SDW_API MaybeOptional< UInt > imageAtomicCompSwap( MaybeOptional< UImageCubeR32 > const & image, MaybeOptional< IVec3 > const & P, MaybeOptional< UInt > const & compare, MaybeOptional< UInt > const & data );
+	SDW_API MaybeOptional< UInt > imageAtomicCompSwap( MaybeOptional< UImageBufferR32 > const & image, MaybeOptional< Int > const & P, MaybeOptional< UInt > const & compare, MaybeOptional< UInt > const & data );
+	SDW_API MaybeOptional< UInt > imageAtomicCompSwap( MaybeOptional< UImage1DArrayR32 > const & image, MaybeOptional< IVec2 > const & P, MaybeOptional< UInt > const & compare, MaybeOptional< UInt > const & data );
+	SDW_API MaybeOptional< UInt > imageAtomicCompSwap( MaybeOptional< UImage2DArrayR32 > const & image, MaybeOptional< IVec3 > const & P, MaybeOptional< UInt > const & compare, MaybeOptional< UInt > const & data );
+	SDW_API MaybeOptional< UInt > imageAtomicCompSwap( MaybeOptional< UImageCubeArrayR32 > const & image, MaybeOptional< IVec3 > const & P, MaybeOptional< UInt > const & compare, MaybeOptional< UInt > const & data );
+	SDW_API MaybeOptional< Int > imageAtomicCompSwap( MaybeOptional< IImage1DR32 > const & image, MaybeOptional< Int > const & P, MaybeOptional< Int > const & compare, MaybeOptional< Int > const & data );
+	SDW_API MaybeOptional< Int > imageAtomicCompSwap( MaybeOptional< IImage2DR32 > const & image, MaybeOptional< IVec2 > const & P, MaybeOptional< Int > const & compare, MaybeOptional< Int > const & data );
+	SDW_API MaybeOptional< Int > imageAtomicCompSwap( MaybeOptional< IImage3DR32 > const & image, MaybeOptional< IVec3 > const & P, MaybeOptional< Int > const & compare, MaybeOptional< Int > const & data );
+	SDW_API MaybeOptional< Int > imageAtomicCompSwap( MaybeOptional< IImageCubeR32 > const & image, MaybeOptional< IVec3 > const & P, MaybeOptional< Int > const & compare, MaybeOptional< Int > const & data );
+	SDW_API MaybeOptional< Int > imageAtomicCompSwap( MaybeOptional< IImageBufferR32 > const & image, MaybeOptional< Int > const & P, MaybeOptional< Int > const & compare, MaybeOptional< Int > const & data );
+	SDW_API MaybeOptional< Int > imageAtomicCompSwap( MaybeOptional< IImage1DArrayR32 > const & image, MaybeOptional< IVec2 > const & P, MaybeOptional< Int > const & compare, MaybeOptional< Int > const & data );
+	SDW_API MaybeOptional< Int > imageAtomicCompSwap( MaybeOptional< IImage2DArrayR32 > const & image, MaybeOptional< IVec3 > const & P, MaybeOptional< Int > const & compare, MaybeOptional< Int > const & data );
+	SDW_API MaybeOptional< Int > imageAtomicCompSwap( MaybeOptional< IImageCubeArrayR32 > const & image, MaybeOptional< IVec3 > const & P, MaybeOptional< Int > const & compare, MaybeOptional< Int > const & data );
 	/**@}*/
 #pragma endregion
 }

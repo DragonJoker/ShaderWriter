@@ -5,14 +5,14 @@ See LICENSE file in root folder
 #define ___AST_StmtFor_H___
 #pragma once
 
-#include "StmtCompound.hpp"
+#include "StmtLoop.hpp"
 
 #include "ShaderAST/Expr/ExprInit.hpp"
 
 namespace ast::stmt
 {
 	class For
-		: public Compound
+		: public Loop
 	{
 	public:
 		For( expr::ExprPtr initExpr

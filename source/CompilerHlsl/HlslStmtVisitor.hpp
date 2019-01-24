@@ -15,17 +15,19 @@ namespace hlsl
 		: public ast::stmt::Visitor
 	{
 	public:
-		static std::string submit( ast::stmt::Stmt * stmt
-			, sdw::ShaderType type
+		static std::string submit( HlslConfig const & writerConfig
+			, ast::stmt::Stmt * stmt
 			, std::string indent = std::string{} );
 
 	private:
-		StmtVisitor( std::string & result
-			, sdw::ShaderType type
-			, std::string indent );
+		StmtVisitor( HlslConfig const & writerConfig
+			, std::string indent
+			, std::string & result );
 		void doAppendLineEnd();
 
 		void visitContainerStmt( ast::stmt::Container * stmt )override;
+		void visitBreakStmt( ast::stmt::Break * stmt )override;
+		void visitContinueStmt( ast::stmt::Continue * stmt )override;
 		void visitConstantBufferDeclStmt( ast::stmt::ConstantBufferDecl * stmt )override;
 		void visitDiscardStmt( ast::stmt::Discard * stmt )override;
 		void visitPushConstantsBufferDeclStmt( ast::stmt::PushConstantsBufferDecl * stmt )override;
@@ -65,11 +67,11 @@ namespace hlsl
 		void visitPreprocVersion( ast::stmt::PreprocVersion * preproc )override;
 
 	private:
+		HlslConfig const & m_writerConfig;
 		std::string m_indent;
 		std::string & m_result;
 		bool m_appendSemiColon{ false };
 		bool m_appendLineEnd{ false };
-		sdw::ShaderType m_type;
 	};
 }
 

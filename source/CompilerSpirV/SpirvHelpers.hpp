@@ -49,7 +49,7 @@ namespace spirv
 	};
 
 	spv::MemoryModel getMemoryModel();
-	spv::ExecutionModel getExecutionModel( sdw::ShaderType kind );
+	spv::ExecutionModel getExecutionModel( sdw::ShaderStage kind );
 	std::string getTypeName( spv::Op op );
 	std::string getOperatorName( spv::Op op );
 	IdList makeBinOpOperands( ast::expr::Kind exprKind

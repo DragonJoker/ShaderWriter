@@ -318,7 +318,7 @@ namespace spirv
 		// Used during construction.
 		std::unordered_map< IdList, spv::Id, IdListHasher > accessChains;
 		std::unordered_map< IdList, spv::Id, IdListHasher > vectorShuffles;
-		bool hasReturn{ false };
+		bool isInterrupted{ false };
 	};
 
 	using BlockList = std::vector< Block >;

@@ -38,6 +38,8 @@ namespace ast::stmt
 		eSwitch,
 		eSwitchCase,
 		eReturn,
+		eBreak,
+		eContinue,
 		eDiscard,
 		eEmitVertex,
 		eEmitPrimitive,

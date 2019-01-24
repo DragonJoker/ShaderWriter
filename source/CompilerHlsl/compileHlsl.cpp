@@ -12,11 +12,14 @@ See LICENSE file in root folder
 namespace hlsl
 {
 	std::string compileHlsl( sdw::Shader const & shader
-		, ast::SpecialisationInfo const & specialisation )
+		, ast::SpecialisationInfo const & specialisation
+		, HlslConfig const & writerConfig )
 	{
-		auto config = hlsl::StmtConfigFiller::submit( shader );
-		auto dxStatements = hlsl::StmtAdapter::submit( shader, config );
+		auto intrinsicsConfig = hlsl::StmtConfigFiller::submit( shader );
+		auto dxStatements = hlsl::StmtAdapter::submit( shader
+			, intrinsicsConfig
+			, writerConfig );
 		dxStatements = ast::StmtSpecialiser::submit( shader.getTypesCache(), dxStatements.get(), specialisation );
-		return hlsl::StmtVisitor::submit( dxStatements.get(), shader.getType() );
+		return hlsl::StmtVisitor::submit( writerConfig, dxStatements.get() );
 	}
 }

@@ -1049,7 +1049,8 @@ namespace spirv
 			+ ( bool( this->returnTypeId ) ? 1u : 0u )
 			+ ( bool( this->resultId ) ? 1u : 0u )
 			+ this->operands.size()
-			+ ( bool( this->packedName ) ? this->packedName.value().size() : 0u ) );
+			+ ( bool( this->packedName ) ? this->packedName.value().size() : 0u )
+			+ ( bool( this->labels ) ? this->labels.value().size() * 2u : 0u ) );
 
 		assertType( *this, config );
 	}

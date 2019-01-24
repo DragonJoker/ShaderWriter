@@ -37,7 +37,7 @@ namespace hlsl
 		ast::var::VariablePtr getVar( std::string const & name
 			, ast::type::TypePtr type );
 
-		inline sdw::ShaderType getType()const
+		inline sdw::ShaderStage getType()const
 		{
 			return m_shader.getType();
 		}

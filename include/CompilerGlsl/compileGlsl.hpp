@@ -20,8 +20,10 @@ namespace glsl
 {
 	struct GlslConfig
 	{
+		ast::ShaderStage shaderStage;
 		uint32_t shaderLanguageVersion{ 430 };
-		uint32_t vulkanGlsl{ false };
+		bool vulkanGlsl{ false };
+		bool flipVertY{ false };
 		bool hasStd430Layout{ false };
 		bool hasShaderStorageBuffers{ false };
 		bool hasDescriptorSets{ false };

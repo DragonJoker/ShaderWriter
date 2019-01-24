@@ -38,6 +38,22 @@ namespace sdw
 	SDW_API ast::type::TypesCache & getTypesCache( Shader const & shader );
 	SDW_API Shader & getShader( ShaderWriter & writer );
 	SDW_API Shader const & getShader( ShaderWriter const & writer );
+	SDW_API expr::LiteralPtr makeLiteral( Shader const & shader
+		, bool value );
+	SDW_API expr::LiteralPtr makeLiteral( Shader const & shader
+		, int32_t value );
+	SDW_API expr::LiteralPtr makeLiteral( Shader const & shader
+		, int64_t value );
+	SDW_API expr::LiteralPtr makeLiteral( Shader const & shader
+		, uint32_t value );
+	SDW_API expr::LiteralPtr makeLiteral( Shader const & shader
+		, uint64_t value );
+	SDW_API expr::LiteralPtr makeLiteral( Shader const & shader
+		, float value );
+	SDW_API expr::LiteralPtr makeLiteral( Shader const & shader
+		, double value );
+	SDW_API expr::LiteralPtr makeLiteral( Shader const & shader
+		, long double value );
 	SDW_API expr::ExprPtr makeExpr( Shader const & shader
 		, var::VariablePtr const & var
 		, bool force = true );

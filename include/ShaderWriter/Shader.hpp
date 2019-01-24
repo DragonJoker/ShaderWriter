@@ -46,7 +46,7 @@ namespace sdw
 	class Shader
 	{
 	public:
-		SDW_API Shader( ShaderType type );
+		SDW_API Shader( ast::ShaderStage type );
 		SDW_API void push( stmt::Container * container );
 		SDW_API void pop();
 		SDW_API void saveNextExpr();
@@ -187,7 +187,7 @@ namespace sdw
 			return m_blocks.back().container;
 		}
 
-		inline ShaderType getType()const
+		inline ast::ShaderStage getType()const
 		{
 			return m_type;
 		}
@@ -203,7 +203,7 @@ namespace sdw
 			std::map< std::string, var::VariablePtr > registered;
 			stmt::Container * container;
 		};
-		ShaderType m_type;
+		ast::ShaderStage m_type;
 		std::unique_ptr< ast::type::TypesCache > m_typesCache;
 		std::vector< Block > m_blocks;
 		stmt::ContainerPtr m_container;

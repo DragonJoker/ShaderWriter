@@ -9,7 +9,7 @@ See LICENSE file in root folder
 
 namespace sdw
 {
-	Shader::Shader( ShaderType type )
+	Shader::Shader( ast::ShaderStage type )
 		: m_container{ stmt::makeContainer() }
 		, m_type{ type }
 		, m_typesCache{ std::make_unique< ast::type::TypesCache >() }
@@ -177,8 +177,9 @@ namespace sdw
 		auto kind = getNonArrayType( type )->getKind();
 		uint32_t flags = 0u;
 
-		if ( isSignedIntType( type->getKind() )
-			|| isUnsignedIntType( type->getKind() ) )
+		if ( ( m_type != ast::ShaderStage::eVertex && m_type != ast::ShaderStage::eCompute )
+			&& ( isSignedIntType( kind )
+				|| isUnsignedIntType( kind ) ) )
 		{
 			flags = flags | var::Flag::eFlat;
 		}
@@ -204,8 +205,9 @@ namespace sdw
 		auto kind = getNonArrayType( type )->getKind();
 		uint32_t flags = 0u;
 
-		if ( isSignedIntType( type->getKind() )
-			|| isUnsignedIntType( type->getKind() ) )
+		if ( ( m_type != ast::ShaderStage::eVertex && m_type != ast::ShaderStage::eCompute )
+			&& ( isSignedIntType( kind )
+				|| isUnsignedIntType( kind ) ) )
 		{
 			flags = flags | var::Flag::eFlat;
 		}

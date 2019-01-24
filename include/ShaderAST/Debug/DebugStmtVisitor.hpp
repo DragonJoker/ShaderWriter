@@ -22,10 +22,12 @@ namespace ast::debug
 
 	private:
 		std::string & displayStmtName( stmt::Stmt * stmt, bool newLine );
+		void visitBreakStmt( stmt::Break * stmt )override;
 		void visitCommentStmt( stmt::Comment * stmt )override;
 		void visitCompoundStmt( stmt::Compound * stmt )override;
-		void visitContainerStmt( stmt::Container * stmt )override;
 		void visitConstantBufferDeclStmt( stmt::ConstantBufferDecl * stmt )override;
+		void visitContainerStmt( stmt::Container * stmt )override;
+		void visitContinueStmt( stmt::Continue * stmt )override;
 		void visitDiscardStmt( stmt::Discard * stmt )override;
 		void visitDoWhileStmt( stmt::DoWhile * stmt )override;
 		void visitElseIfStmt( stmt::ElseIf * stmt )override;

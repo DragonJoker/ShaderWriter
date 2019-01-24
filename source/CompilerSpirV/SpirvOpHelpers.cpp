@@ -460,6 +460,7 @@ namespace spirv
 			break;
 		}
 
+		assert( result != 0u );
 		return result;
 	}
 

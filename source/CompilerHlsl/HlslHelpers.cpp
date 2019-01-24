@@ -814,36 +814,9 @@ namespace hlsl
 		return result;
 	}
 
-	bool isUnaryPre( ast::expr::Kind kind )
-	{
-		bool result;
-
-		switch ( kind )
-		{
-		case ast::expr::Kind::eMbrSelect:
-		case ast::expr::Kind::ePostIncrement:
-		case ast::expr::Kind::ePostDecrement:
-			result = false;
-			break;
-		case ast::expr::Kind::eBitNot:
-		case ast::expr::Kind::eLogNot:
-		case ast::expr::Kind::eCast:
-		case ast::expr::Kind::ePreIncrement:
-		case ast::expr::Kind::ePreDecrement:
-		case ast::expr::Kind::eUnaryMinus:
-		case ast::expr::Kind::eUnaryPlus:
-			result = true;
-			break;
-		default:
-			throw std::runtime_error{ "Non unary expression" };
-		}
-
-		return result;
-	}
-
 	std::string getSemantic( std::string const & name
 		, std::string const & defaultName
-		, uint32_t & index )
+		, uint32_t index )
 	{
 		static std::map< std::string, std::string > const NamesMap
 		{
@@ -882,9 +855,58 @@ namespace hlsl
 		}
 		else
 		{
-			result = defaultName + std::to_string( index++ );
+			result = defaultName + std::to_string( index );
 		}
 
 		return result;
+	}
+
+	bool isUnaryPre( ast::expr::Kind kind )
+	{
+		bool result;
+
+		switch ( kind )
+		{
+		case ast::expr::Kind::eMbrSelect:
+		case ast::expr::Kind::ePostIncrement:
+		case ast::expr::Kind::ePostDecrement:
+			result = false;
+			break;
+		case ast::expr::Kind::eBitNot:
+		case ast::expr::Kind::eLogNot:
+		case ast::expr::Kind::eCast:
+		case ast::expr::Kind::ePreIncrement:
+		case ast::expr::Kind::ePreDecrement:
+		case ast::expr::Kind::eUnaryMinus:
+		case ast::expr::Kind::eUnaryPlus:
+			result = true;
+			break;
+		default:
+			throw std::runtime_error{ "Non unary expression" };
+		}
+
+		return result;
+	}
+
+	LinkedVars::iterator updateLinkedVars( ast::var::VariablePtr var, LinkedVars & linkedVars )
+	{
+		auto it = linkedVars.find( var );
+
+		if ( isSampledImageType( var->getType()->getKind() )
+			&& it == linkedVars.end() )
+		{
+			auto sampledType = std::static_pointer_cast< ast::type::SampledImage >( var->getType() );
+
+			if ( sampledType->getConfig().dimension != ast::type::ImageDim::eBuffer )
+			{
+				auto texture = ast::var::makeVariable( sampledType->getImageType()
+					, var->getName() + "_texture" );
+				auto sampler = ast::var::makeVariable( sampledType->getSamplerType()
+					, var->getName() + "_sampler" );
+				it = linkedVars.emplace( var, std::make_pair( texture, sampler ) ).first;
+			}
+		}
+
+		return it;
 	}
 }

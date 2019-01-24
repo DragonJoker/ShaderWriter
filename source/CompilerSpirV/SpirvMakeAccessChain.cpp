@@ -99,7 +99,15 @@ namespace spirv
 			{
 				auto lhs = submit( m_cache, m_kind, expr->getLHS(), m_idents );
 				m_result = lhs;
-				doAddExpr( expr->getKind(), expr->getRHS() );
+
+				if ( isAccessChain( expr->getRHS() ) )
+				{
+					doAddExpr( expr->getKind(), expr );
+				}
+				else
+				{
+					doAddExpr( expr->getKind(), expr->getRHS() );
+				}
 			}
 
 			void visitIdentifierExpr( ast::expr::Identifier * expr )override
@@ -258,6 +266,28 @@ namespace spirv
 			}
 
 			static spv::Id submit( spv::Id parentId
+				, ast::expr::Expr * expr
+				, Module & module
+				, Block & currentBlock
+				, LoadedVariableArray & loadedVariables )
+			{
+				spv::Id result;
+				VariableInfo info;
+				AccessChainCreator vis
+				{
+					result,
+					expr->getKind(),
+					parentId,
+					module,
+					currentBlock,
+					loadedVariables,
+					info
+				};
+				expr->accept( &vis );
+				return result;
+			}
+
+			static spv::Id submit( spv::Id parentId
 				, AccessChainExpr expr
 				, Module & module
 				, Block & currentBlock
@@ -301,11 +331,12 @@ namespace spirv
 
 				if ( isAccessChain( expr->getRHS() ) )
 				{
-					m_result = makeAccessChain( expr->getRHS(), m_module, m_currentBlock, m_loadedVariables );
+					auto accessChain = makeAccessChain( expr->getRHS(), m_module, m_currentBlock, m_loadedVariables );
+					m_result = m_module.loadVariable( accessChain, expr->getRHS()->getType(), m_currentBlock );
 				}
 				else
 				{
-					m_result = submit( expr->getRHS(), m_module, m_currentBlock, m_loadedVariables );
+					m_result = submit( m_parentId, expr->getRHS(), m_module, m_currentBlock, m_loadedVariables );
 				}
 			}
 

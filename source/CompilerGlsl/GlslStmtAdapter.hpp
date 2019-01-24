@@ -42,7 +42,7 @@ namespace glsl
 		GlslConfig const & m_writerConfig;
 		IntrinsicsConfig const & m_intrinsicsConfig;
 		ast::stmt::Container * m_intrinsics;
-		sdw::ShaderType m_type;
+		ast::ShaderStage m_type;
 	};
 }
 

@@ -18,8 +18,15 @@ See LICENSE file in root folder
 
 namespace hlsl
 {
+	struct HlslConfig
+	{
+		ast::ShaderStage shaderStage;
+		bool flipVertY{ false };
+	};
+
 	SDWHLSL_API std::string compileHlsl( sdw::Shader const & shader
-		, ast::SpecialisationInfo const & specialisation );
+		, ast::SpecialisationInfo const & specialisation
+		, HlslConfig const & writerConfig );
 }
 
 #endif

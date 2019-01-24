@@ -43,16 +43,6 @@ namespace sdw
 	class Shader;
 	class ShaderWriter;
 
-	enum class ShaderType
-	{
-		eVertex,
-		eTessellationControl,
-		eTessellationEvaluation,
-		eGeometry,
-		eCompute,
-		eFragment,
-	};
-
 	template< typename T >
 	struct Array;
 	template< typename TypeT >

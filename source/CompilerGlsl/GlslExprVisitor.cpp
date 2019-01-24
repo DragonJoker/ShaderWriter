@@ -62,7 +62,12 @@ namespace glsl
 			|| expr->getKind() == ast::expr::Kind::eMbrSelect
 			|| expr->getKind() == ast::expr::Kind::eCast
 			|| expr->getKind() == ast::expr::Kind::eSwizzle
-			|| expr->getKind() == ast::expr::Kind::eArrayAccess;
+			|| expr->getKind() == ast::expr::Kind::eArrayAccess
+			|| expr->getKind() == ast::expr::Kind::eIntrinsicCall
+			|| expr->getKind() == ast::expr::Kind::eTextureAccessCall
+			|| expr->getKind() == ast::expr::Kind::eImageAccessCall
+			|| expr->getKind() == ast::expr::Kind::eUnaryMinus
+			|| expr->getKind() == ast::expr::Kind::eUnaryPlus;
 
 		if ( noParen )
 		{
@@ -285,7 +290,7 @@ namespace glsl
 		case ast::expr::LiteralType::eBool:
 			stream << ( expr->getValue< ast::expr::LiteralType::eBool >()
 				? std::string{ "true" }
-			: std::string{ "false" } );
+				: std::string{ "false" } );
 			break;
 		case ast::expr::LiteralType::eInt:
 			stream << expr->getValue< ast::expr::LiteralType::eInt >();
@@ -298,10 +303,13 @@ namespace glsl
 				auto v = expr->getValue< ast::expr::LiteralType::eFloat >();
 				stream << std::setprecision( 8u ) << v;
 
-				if ( v == int64_t( v ) )
+				if ( v == int64_t( v )
+					&& stream.str().find( 'e' ) == std::string::npos )
 				{
 					stream << ".0";
 				}
+
+				stream << "f";
 			}
 			break;
 		case ast::expr::LiteralType::eDouble:
@@ -309,7 +317,8 @@ namespace glsl
 				auto v = expr->getValue< ast::expr::LiteralType::eDouble >();
 				stream << std::setprecision( 12u ) << v;
 
-				if ( v == int64_t( v ) )
+				if ( v == int64_t( v )
+					&& stream.str().find( 'e' ) == std::string::npos )
 				{
 					stream << ".0";
 				}

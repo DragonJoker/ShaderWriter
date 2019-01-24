@@ -14,6 +14,16 @@ See LICENSE file in root folder
 
 namespace ast
 {
+	enum class ShaderStage
+	{
+		eVertex,
+		eTessellationControl,
+		eTessellationEvaluation,
+		eGeometry,
+		eCompute,
+		eFragment,
+	};
+
 	namespace expr
 	{
 		class Expr;
