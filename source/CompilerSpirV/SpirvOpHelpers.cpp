@@ -1695,7 +1695,7 @@ namespace spirv
 			break;
 		case ast::expr::Kind::eRShift:
 		case ast::expr::Kind::eRShiftAssign:
-			result = spv::OpShiftRightArithmetic;
+			result = spv::OpShiftRightLogical;
 			break;
 		case ast::expr::Kind::eBitAnd:
 		case ast::expr::Kind::eAndAssign:
@@ -1944,7 +1944,7 @@ namespace spirv
 			break;
 		case ast::expr::Kind::eRShift:
 		case ast::expr::Kind::eRShiftAssign:
-			result = spv::OpShiftRightArithmetic;
+			result = spv::OpShiftRightLogical;
 			break;
 		case ast::expr::Kind::eBitAnd:
 		case ast::expr::Kind::eAndAssign:

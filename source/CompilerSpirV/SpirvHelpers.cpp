@@ -538,8 +538,8 @@ namespace spirv
 			return makeInstruction< BinInstructionT< spv::OpVectorTimesScalar > >( returnTypeId, resultId, operands );
 		case spv::OpShiftLeftLogical:
 			return makeInstruction< BinInstructionT< spv::OpShiftLeftLogical > >( returnTypeId, resultId, operands );
-		case spv::OpShiftRightArithmetic:
-			return makeInstruction< BinInstructionT< spv::OpShiftRightArithmetic > >( returnTypeId, resultId, operands );
+		case spv::OpShiftRightLogical:
+			return makeInstruction< BinInstructionT< spv::OpShiftRightLogical > >( returnTypeId, resultId, operands );
 		case spv::OpBitwiseAnd:
 			return makeInstruction< BinInstructionT< spv::OpBitwiseAnd > >( returnTypeId, resultId, operands );
 		case spv::OpNot:

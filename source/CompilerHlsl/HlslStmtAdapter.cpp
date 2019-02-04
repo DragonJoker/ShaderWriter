@@ -414,27 +414,34 @@ namespace hlsl
 
 		for ( auto & input : m_adaptationData.inputVars )
 		{
-			if ( isSignedIntType( input.second->getType()->getKind() ) || isUnsignedIntType( input.second->getType()->getKind() ) )
+			if ( !m_adaptationData.globalInputStruct->hasMember( input.second->getName() ) )
 			{
-				m_adaptationData.mainInputStruct->declMember( input.second->getName()
-					+ ": "
-					+ getSemantic( input.second->getName()
-						, intInputName
-						, input.first )
+				if ( isSignedIntType( input.second->getType()->getKind() ) || isUnsignedIntType( input.second->getType()->getKind() ) )
+				{
+					m_adaptationData.mainInputStruct->declMember( input.second->getName()
+						+ ": "
+						+ getSemantic( input.second->getName()
+							, intInputName
+							, input.first )
+						, input.second->getType() );
+				}
+				else
+				{
+					m_adaptationData.mainInputStruct->declMember( input.second->getName()
+						+ ": "
+						+ getSemantic( input.second->getName()
+							, floatInputName
+							, input.first )
+						, input.second->getType() );
+				}
+
+				m_adaptationData.globalInputStruct->declMember( input.second->getName()
 					, input.second->getType() );
 			}
 			else
 			{
-				m_adaptationData.mainInputStruct->declMember( input.second->getName()
-					+ ": "
-					+ getSemantic( input.second->getName()
-						, floatInputName
-						, input.first )
-					, input.second->getType() );
+				assert( input.second->getType()->getKind() == m_adaptationData.globalInputStruct->getMember( input.second->getName() ).type->getKind() );
 			}
-
-			m_adaptationData.globalInputStruct->declMember( input.second->getName()
-				, input.second->getType() );
 		}
 
 		if ( m_shader.getType() == sdw::ShaderStage::eFragment )
@@ -444,14 +451,21 @@ namespace hlsl
 
 		for ( auto & output : m_adaptationData.outputVars )
 		{
-			m_adaptationData.mainOutputStruct->declMember( output.second->getName()
-				+ ": "
-				+ getSemantic( output.second->getName()
-					, outputName
-					, output.first )
-				, output.second->getType() );
-			m_adaptationData.globalOutputStruct->declMember( output.second->getName()
-				, output.second->getType() );
+			if ( !m_adaptationData.globalOutputStruct->hasMember( output.second->getName() ) )
+			{
+				m_adaptationData.mainOutputStruct->declMember( output.second->getName()
+					+ ": "
+					+ getSemantic( output.second->getName()
+						, outputName
+						, output.first )
+					, output.second->getType() );
+				m_adaptationData.globalOutputStruct->declMember( output.second->getName()
+					, output.second->getType() );
+			}
+			else
+			{
+				assert( output.second->getType()->getKind() == m_adaptationData.globalOutputStruct->getMember( output.second->getName() ).type->getKind() );
+			}
 		}
 	}
 

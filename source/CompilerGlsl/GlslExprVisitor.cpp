@@ -301,7 +301,7 @@ namespace glsl
 		case ast::expr::LiteralType::eFloat:
 			{
 				auto v = expr->getValue< ast::expr::LiteralType::eFloat >();
-				stream << std::setprecision( 8u ) << v;
+				stream << std::setprecision( 12u ) << v;
 
 				if ( v == int64_t( v )
 					&& stream.str().find( 'e' ) == std::string::npos )
@@ -315,7 +315,7 @@ namespace glsl
 		case ast::expr::LiteralType::eDouble:
 			{
 				auto v = expr->getValue< ast::expr::LiteralType::eDouble >();
-				stream << std::setprecision( 12u ) << v;
+				stream << std::setprecision( 16u ) << v;
 
 				if ( v == int64_t( v )
 					&& stream.str().find( 'e' ) == std::string::npos )

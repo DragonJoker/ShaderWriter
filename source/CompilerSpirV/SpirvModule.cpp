@@ -1026,15 +1026,15 @@ namespace spirv
 
 	Instruction::Instruction( Config const & config
 		, spv::Op op
-		, std::optional< spv::Id > returnTypeId
-		, std::optional< spv::Id > resultId
+		, Optional< spv::Id > returnTypeId
+		, Optional< spv::Id > resultId
 		, IdList operands
-		, std::optional< std::string > name
-		, std::optional< std::map< int32_t, spv::Id > > labels )
+		, Optional< std::string > name
+		, Optional< std::map< int32_t, spv::Id > > labels )
 		: returnTypeId{ returnTypeId }
 		, resultId{ resultId }
 		, operands{ operands }
-		, packedName{ std::nullopt }
+		, packedName{ nullopt }
 		, config{ config }
 		, name{ name }
 		, labels{ labels }

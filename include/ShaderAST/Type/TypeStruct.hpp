@@ -62,6 +62,7 @@ namespace ast::type
 		Member declMember( std::string name
 			, type::ArrayPtr type );
 		Member getMember( std::string const & name );
+		bool hasMember( std::string const & name );
 		TypePtr getMemberType( Struct & parent, uint32_t index )const override;
 
 		std::string const & getName()const

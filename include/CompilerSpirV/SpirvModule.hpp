@@ -21,18 +21,31 @@ See LICENSE file in root folder
 #	define SDW_COMPILER_VERSION (__GNUC__ * 10000 + __GNUC_MINOR__ * 100 + __GNUC_PATCHLEVEL__)
 #	if SDW_COMPILER_VERSION < 40900
 #		error "Unsupported version of GCC"
-#	elif SDW_COMPILER_VERSION < 70100
+#	elif SDW_COMPILER_VERSION < 70400
 #		include <experimental/optional>
-namespace std
+namespace spirv
 {
-	using experimental::optional;
-	using experimental::nullopt;
+	template< typename T >
+	using Optional = std::experimental::optional< T >;
+	using std::experimental::nullopt;
 }
 #	else
 #		include <optional>
+namespace spirv
+{
+	template< typename T >
+	using Optional = std::optional< T >;
+	using std::nullopt;
+}
 #	endif
 #else
 #	include <optional>
+namespace spirv
+{
+	template< typename T >
+	using Optional = std::optional< T >;
+	using std::nullopt;
+}
 #endif
 
 namespace spirv
@@ -76,11 +89,11 @@ namespace spirv
 		};
 		SDWSPIRV_API Instruction( Config const & config
 			, spv::Op op = spv::OpNop
-			, std::optional< spv::Id > returnTypeId = std::nullopt
-			, std::optional< spv::Id > resultId = std::nullopt
+			, Optional< spv::Id > returnTypeId = nullopt
+			, Optional< spv::Id > resultId = nullopt
 			, IdList operands = IdList{}
-			, std::optional< std::string > name = std::nullopt
-			, std::optional< std::map< int32_t, spv::Id > > labels = std::nullopt );
+			, Optional< std::string > name = nullopt
+			, Optional< std::map< int32_t, spv::Id > > labels = nullopt );
 		SDWSPIRV_API Instruction( Config const & config
 			, Op op
 			, UInt32ListCIt & buffer );
@@ -91,14 +104,14 @@ namespace spirv
 
 		// Serialisable.
 		Op op;
-		std::optional< spv::Id > returnTypeId;
-		std::optional< spv::Id > resultId;
+		Optional< spv::Id > returnTypeId;
+		Optional< spv::Id > resultId;
 		IdList operands;
-		std::optional< UInt32List > packedName;
+		Optional< UInt32List > packedName;
 		// Used during construction.
 		Config const & config;
-		std::optional< std::string > name;
-		std::optional< std::map< int32_t, spv::Id > > labels;
+		Optional< std::string > name;
+		Optional< std::map< int32_t, spv::Id > > labels;
 	};
 
 	using InstructionPtr = std::unique_ptr< Instruction >;
@@ -141,11 +154,11 @@ namespace spirv
 		static bool constexpr hasLabels = HasLabels;
 		static Config const config;
 
-		inline InstructionT( std::optional< spv::Id > returnTypeId = std::nullopt
-			, std::optional< spv::Id > resultId = std::nullopt
+		inline InstructionT( Optional< spv::Id > returnTypeId = nullopt
+			, Optional< spv::Id > resultId = nullopt
 			, IdList operands = IdList{}
-			, std::optional< std::string > name = std::nullopt
-			, std::optional< std::map< int32_t, spv::Id > > labels = std::nullopt );
+			, Optional< std::string > name = nullopt
+			, Optional< std::map< int32_t, spv::Id > > labels = nullopt );
 		inline InstructionT( UInt32ListIt & buffer );
 		inline InstructionT( UInt32ListCIt & buffer );
 	};
@@ -171,8 +184,8 @@ namespace spirv
 		static bool constexpr hasName = false;
 		static bool constexpr hasLabels = false;
 
-		inline VariadicInstructionT( std::optional< spv::Id > returnTypeId = std::nullopt
-			, std::optional< spv::Id > resultId = std::nullopt
+		inline VariadicInstructionT( Optional< spv::Id > returnTypeId = nullopt
+			, Optional< spv::Id > resultId = nullopt
 			, IdList operands = IdList{} );
 		inline VariadicInstructionT( UInt32ListIt & buffer );
 		inline VariadicInstructionT( UInt32ListCIt & buffer );

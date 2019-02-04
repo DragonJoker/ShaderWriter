@@ -7,6 +7,7 @@ See LICENSE file in root folder
 #include "HlslIntrinsicNames.hpp"
 #include "HlslTextureAccessNames.hpp"
 
+#include <iomanip>
 #include <sstream>
 
 namespace hlsl
@@ -312,7 +313,7 @@ namespace hlsl
 		case ast::expr::LiteralType::eFloat:
 			{
 				auto v = expr->getValue< ast::expr::LiteralType::eFloat >();
-				stream << v;
+				stream << std::setprecision( 12u ) << v;
 
 				if ( v == int64_t( v )
 					&& stream.str().find( 'e' ) == std::string::npos )
@@ -326,7 +327,7 @@ namespace hlsl
 		case ast::expr::LiteralType::eDouble:
 			{
 				auto v = expr->getValue< ast::expr::LiteralType::eDouble >();
-				stream << v;
+				stream << std::setprecision( 16u ) << v;
 
 				if ( v == int64_t( v )
 					&& stream.str().find( 'e' ) == std::string::npos )

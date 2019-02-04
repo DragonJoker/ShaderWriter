@@ -1558,7 +1558,7 @@ namespace spirv
 			return stream.str();
 		}
 
-		std::ostream & write( std::optional< spv::Id > id
+		std::ostream & write( Optional< spv::Id > id
 			, NameCache const & names
 			, std::ostream & stream )
 		{
@@ -2806,7 +2806,7 @@ namespace spirv
 			, size_t & result );
 
 		template< typename T >
-		void count( std::optional< T > const & value
+		void count( Optional< T > const & value
 			, size_t & result );
 
 		void count( spv::Id const & id
@@ -2879,7 +2879,7 @@ namespace spirv
 		}
 
 		template< typename T >
-		void count( std::optional< T > const & value
+		void count( Optional< T > const & value
 			, size_t & result )
 		{
 			if ( bool( value ) )
@@ -2893,7 +2893,7 @@ namespace spirv
 			, std::vector< uint32_t > & result );
 
 		template< typename T >
-		void serialize( std::optional< T > const & value
+		void serialize( Optional< T > const & value
 			, std::vector< uint32_t > & result );
 
 		void serialize( spv::Id const & id
@@ -2961,7 +2961,7 @@ namespace spirv
 		}
 
 		template< typename T >
-		void serialize( std::optional< T > const & value
+		void serialize( Optional< T > const & value
 			, std::vector< uint32_t > & result )
 		{
 			if ( bool( value ) )

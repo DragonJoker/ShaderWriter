@@ -486,6 +486,16 @@ namespace ast::type
 		return *it;
 	}
 
+	bool Struct::hasMember( std::string const & name )
+	{
+		return m_members.end() != std::find_if( m_members.begin()
+			, m_members.end()
+			, [&name]( Member const & lookup )
+			{
+				return lookup.name == name;
+			} );
+	}
+
 	TypePtr Struct::getMemberType( Struct & parent, uint32_t index )const
 	{
 		return std::shared_ptr< Struct >( new Struct
