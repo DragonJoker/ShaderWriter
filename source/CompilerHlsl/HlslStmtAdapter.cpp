@@ -109,6 +109,30 @@ namespace hlsl
 			return isShaderInput( name, type )
 				&& isShaderOutput( name, type );
 		}
+
+		ast::type::Kind getBuiltinHlslKind( std::string const & name
+			, ast::type::Kind input )
+		{
+			ast::type::Kind result = input;
+
+			if ( name == "gl_VertexID"
+				|| name == "gl_InstanceID"
+				|| name == "gl_DrawID"
+				|| name == "gl_BaseVertex"
+				|| name == "gl_BaseInstance"
+				|| name == "gl_PatchVerticesIn"
+				|| name == "gl_PrimitiveID"
+				|| name == "gl_InvocationID"
+				|| name == "gl_PrimitiveIDIn"
+				|| name == "gl_SampleID"
+				|| name == "gl_Layer"
+				|| name == "gl_ViewportIndex" )
+			{
+				result = ast::type::Kind::eUInt;
+			}
+
+			return result;
+		}
 	}
 
 	ast::stmt::ContainerPtr StmtAdapter::submit( sdw::Shader const & shader
@@ -376,6 +400,15 @@ namespace hlsl
 		{
 			if ( isShaderInput( var->getName(), m_shader.getType() ) )
 			{
+				auto hlslKind = getBuiltinHlslKind( var->getName()
+					, var->getType()->getKind() );
+
+				if ( hlslKind != var->getType()->getKind() )
+				{
+					var = ast::var::makeVariable( m_cache.getBasicType( hlslKind )
+						, var->getName() );
+				}
+
 				m_adaptationData.inputVars.emplace( 128u, var );
 				m_adaptationData.inputMembers.emplace( var
 					, ast::expr::makeMbrSelect( ast::expr::makeIdentifier( m_cache, m_adaptationData.inputVar )
@@ -385,6 +418,15 @@ namespace hlsl
 
 			if ( isShaderOutput( var->getName(), m_shader.getType() ) )
 			{
+				auto hlslKind = getBuiltinHlslKind( var->getName()
+					, var->getType()->getKind() );
+
+				if ( hlslKind != var->getType()->getKind() )
+				{
+					var = ast::var::makeVariable( m_cache.getBasicType( hlslKind )
+						, var->getName() );
+				}
+
 				m_adaptationData.outputVars.emplace( 128u, var );
 				m_adaptationData.outputMembers.emplace( var
 					, ast::expr::makeMbrSelect( ast::expr::makeIdentifier( m_cache, m_adaptationData.outputVar )
@@ -408,20 +450,20 @@ namespace hlsl
 
 	void StmtAdapter::rewriteShaderIOVars()
 	{
-		std::string outputName = "TEXCOORD";
-		std::string intInputName = "BLENDINDICES";
-		std::string floatInputName = "TEXCOORD";
+		std::string floatName = "TEXCOORD";
+		std::string intName = "BLENDINDICES";
 
 		for ( auto & input : m_adaptationData.inputVars )
 		{
 			if ( !m_adaptationData.globalInputStruct->hasMember( input.second->getName() ) )
 			{
-				if ( isSignedIntType( input.second->getType()->getKind() ) || isUnsignedIntType( input.second->getType()->getKind() ) )
+				if ( isSignedIntType( input.second->getType()->getKind() )
+					|| isUnsignedIntType( input.second->getType()->getKind() ) )
 				{
 					m_adaptationData.mainInputStruct->declMember( input.second->getName()
 						+ ": "
 						+ getSemantic( input.second->getName()
-							, intInputName
+							, intName
 							, input.first )
 						, input.second->getType() );
 				}
@@ -430,7 +472,7 @@ namespace hlsl
 					m_adaptationData.mainInputStruct->declMember( input.second->getName()
 						+ ": "
 						+ getSemantic( input.second->getName()
-							, floatInputName
+							, floatName
 							, input.first )
 						, input.second->getType() );
 				}
@@ -446,19 +488,34 @@ namespace hlsl
 
 		if ( m_shader.getType() == sdw::ShaderStage::eFragment )
 		{
-			outputName = "SV_Target";
+			intName = "SV_Target";
+			floatName = "SV_Target";
 		}
 
 		for ( auto & output : m_adaptationData.outputVars )
 		{
 			if ( !m_adaptationData.globalOutputStruct->hasMember( output.second->getName() ) )
 			{
-				m_adaptationData.mainOutputStruct->declMember( output.second->getName()
-					+ ": "
-					+ getSemantic( output.second->getName()
-						, outputName
-						, output.first )
-					, output.second->getType() );
+				if ( isSignedIntType( output.second->getType()->getKind() )
+					|| isUnsignedIntType( output.second->getType()->getKind() ) )
+				{
+					m_adaptationData.mainOutputStruct->declMember( output.second->getName()
+						+ ": "
+						+ getSemantic( output.second->getName()
+							, intName
+							, output.first )
+						, output.second->getType() );
+				}
+				else
+				{
+					m_adaptationData.mainOutputStruct->declMember( output.second->getName()
+						+ ": "
+						+ getSemantic( output.second->getName()
+							, floatName
+							, output.first )
+						, output.second->getType() );
+				}
+
 				m_adaptationData.globalOutputStruct->declMember( output.second->getName()
 					, output.second->getType() );
 			}

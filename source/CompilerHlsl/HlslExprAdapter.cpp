@@ -29,6 +29,30 @@ namespace hlsl
 				&& kind <= ast::type::Kind::eMat4x4D;
 		}
 
+		ast::type::Kind getBuiltinHlslKind( std::string const & name
+			, ast::type::Kind input )
+		{
+			ast::type::Kind result = input;
+
+			if ( name == "gl_VertexID"
+				|| name == "gl_InstanceID"
+				|| name == "gl_DrawID"
+				|| name == "gl_BaseVertex"
+				|| name == "gl_BaseInstance"
+				|| name == "gl_PatchVerticesIn"
+				|| name == "gl_PrimitiveID"
+				|| name == "gl_InvocationID"
+				|| name == "gl_PrimitiveIDIn"
+				|| name == "gl_SampleID"
+				|| name == "gl_Layer"
+				|| name == "gl_ViewportIndex" )
+			{
+				result = ast::type::Kind::eUInt;
+			}
+
+			return result;
+		}
+
 		ast::expr::ExprPtr writeProjectTexCoords2( ast::type::TypesCache & cache
 			, ast::expr::ExprPtr texcoords )
 		{
@@ -852,6 +876,15 @@ namespace hlsl
 
 			if ( it == adaptationData.inputMembers.end() )
 			{
+				auto hlslKind = getBuiltinHlslKind( var->getName()
+					, var->getType()->getKind() );
+
+				if ( hlslKind != var->getType()->getKind() )
+				{
+					var = ast::var::makeVariable( cache.getBasicType( hlslKind )
+						, var->getName() );
+				}
+
 				adaptationData.inputVars.emplace( 128, var );
 				it = adaptationData.inputMembers.emplace( var
 					, ast::expr::makeMbrSelect( ast::expr::makeIdentifier( cache, adaptationData.inputVar )
