@@ -124,101 +124,52 @@ set_target_properties( ${PROJECT_NAME}
 set_property( TARGET ${PROJECT_NAME} PROPERTY CXX_STANDARD 17 )
 set_property( TARGET ${PROJECT_NAME} PROPERTY FOLDER "Core" )
 
-if ( SDW_BUILD_SDW )
-	if ( WIN32 )
-		#We install each .dll in <install_dir>/bin folder
-		install(
-			TARGETS ${PROJECT_NAME}
-			COMPONENT ${PROJECT_NAME}
-			CONFIGURATIONS Release
-			EXPORT ${PROJECT_NAME}
-			RUNTIME DESTINATION bin/${PROJECTS_PLATFORM}/Release
-		)
-		install(
-			TARGETS ${PROJECT_NAME}
-			COMPONENT ${PROJECT_NAME}_dev
-			CONFIGURATIONS RelWithDebInfo
-			EXPORT ${PROJECT_NAME}
-			RUNTIME DESTINATION bin/${PROJECTS_PLATFORM}/RelWithDebInfo
-		)
-		install(
-			TARGETS ${PROJECT_NAME}
-			COMPONENT ${PROJECT_NAME}_dev
-			CONFIGURATIONS Debug
-			EXPORT ${PROJECT_NAME}
-			RUNTIME DESTINATION bin/${PROJECTS_PLATFORM}/Debug
-		)
-	else ()
-		#We install each .so in <install_dir>/lib folder
-		install(
-			TARGETS ${PROJECT_NAME}
-			COMPONENT ${PROJECT_NAME}
-			CONFIGURATIONS Release
-			EXPORT ${PROJECT_NAME}
-			LIBRARY DESTINATION lib/${PROJECTS_PLATFORM}/Release
-		)
-		install(
-			TARGETS ${PROJECT_NAME}
-			COMPONENT ${PROJECT_NAME}_dev
-			CONFIGURATIONS RelWithDebInfo
-			EXPORT ${PROJECT_NAME}
-			LIBRARY DESTINATION lib/${PROJECTS_PLATFORM}/RelWithDebInfo
-		)
-		install(
-			TARGETS ${PROJECT_NAME}
-			COMPONENT ${PROJECT_NAME}_dev
-			CONFIGURATIONS Debug
-			LIBRARY DESTINATION lib/${PROJECTS_PLATFORM}/Debug
-		)
-	endif()
+if ( WIN32 )
+	#We install each .dll in <install_dir>/bin folder
+	install(
+		TARGETS ${PROJECT_NAME}
+		COMPONENT ${PROJECT_NAME}
+		CONFIGURATIONS Release
+		EXPORT ${PROJECT_NAME}
+		RUNTIME DESTINATION bin
+	)
+	install(
+		TARGETS ${PROJECT_NAME}
+		COMPONENT ${PROJECT_NAME}_dev
+		CONFIGURATIONS RelWithDebInfo
+		EXPORT ${PROJECT_NAME}
+		RUNTIME DESTINATION bin/RelWithDebInfo
+	)
+	install(
+		TARGETS ${PROJECT_NAME}
+		COMPONENT ${PROJECT_NAME}_dev
+		CONFIGURATIONS Debug
+		EXPORT ${PROJECT_NAME}
+		RUNTIME DESTINATION bin/Debug
+	)
 else ()
-	if ( WIN32 )
-		#We install each .dll in <install_dir>/bin folder
-		install(
-			TARGETS ${PROJECT_NAME}
-			COMPONENT ${PROJECT_NAME}
-			CONFIGURATIONS Release
-			EXPORT ${PROJECT_NAME}
-			RUNTIME DESTINATION bin
-		)
-		install(
-			TARGETS ${PROJECT_NAME}
-			COMPONENT ${PROJECT_NAME}_dev
-			CONFIGURATIONS RelWithDebInfo
-			EXPORT ${PROJECT_NAME}
-			RUNTIME DESTINATION bin/RelWithDebInfo
-		)
-		install(
-			TARGETS ${PROJECT_NAME}
-			COMPONENT ${PROJECT_NAME}_dev
-			CONFIGURATIONS Debug
-			EXPORT ${PROJECT_NAME}
-			RUNTIME DESTINATION bin/Debug
-		)
-	else ()
-		#We install each .so in <install_dir>/lib folder
-		install(
-			TARGETS ${PROJECT_NAME}
-			COMPONENT ${PROJECT_NAME}
-			CONFIGURATIONS Release
-			EXPORT ${PROJECT_NAME}
-			LIBRARY DESTINATION lib
-		)
-		install(
-			TARGETS ${PROJECT_NAME}
-			COMPONENT ${PROJECT_NAME}_dev
-			CONFIGURATIONS RelWithDebInfo
-			EXPORT ${PROJECT_NAME}
-			LIBRARY DESTINATION lib/RelWithDebInfo
-		)
-		install(
-			TARGETS ${PROJECT_NAME}
-			COMPONENT ${PROJECT_NAME}_dev
-			CONFIGURATIONS Debug
-			LIBRARY DESTINATION lib/Debug
-		)
-	endif()
-endif ()
+	#We install each .so in <install_dir>/lib folder
+	install(
+		TARGETS ${PROJECT_NAME}
+		COMPONENT ${PROJECT_NAME}
+		CONFIGURATIONS Release
+		EXPORT ${PROJECT_NAME}
+		LIBRARY DESTINATION lib
+	)
+	install(
+		TARGETS ${PROJECT_NAME}
+		COMPONENT ${PROJECT_NAME}_dev
+		CONFIGURATIONS RelWithDebInfo
+		EXPORT ${PROJECT_NAME}
+		LIBRARY DESTINATION lib/RelWithDebInfo
+	)
+	install(
+		TARGETS ${PROJECT_NAME}
+		COMPONENT ${PROJECT_NAME}_dev
+		CONFIGURATIONS Debug
+		LIBRARY DESTINATION lib/Debug
+	)
+endif()
 
 # We install headers to <install_dir>/include/${PROJECT_NAME}
 target_install_headers( ${PROJECT_NAME} ../../include/${PROJECT_NAME} )
