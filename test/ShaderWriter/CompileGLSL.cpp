@@ -741,26 +741,26 @@ namespace test
 			return compiled;
 		}
 
-		GLenum convert( sdw::ShaderType stage )
+		GLenum convert( ast::ShaderStage stage )
 		{
 			switch ( stage )
 			{
-			case sdw::ShaderType::eVertex:
+			case ast::ShaderStage::eVertex:
 				return GL_VERTEX_SHADER;
 				break;
-			case sdw::ShaderType::eTessellationControl:
+			case ast::ShaderStage::eTessellationControl:
 				return GL_TESS_CONTROL_SHADER;
 				break;
-			case sdw::ShaderType::eTessellationEvaluation:
+			case ast::ShaderStage::eTessellationEvaluation:
 				return GL_TESS_EVALUATION_SHADER;
 				break;
-			case sdw::ShaderType::eGeometry:
+			case ast::ShaderStage::eGeometry:
 				return GL_GEOMETRY_SHADER;
 				break;
-			case sdw::ShaderType::eCompute:
+			case ast::ShaderStage::eCompute:
 				return GL_COMPUTE_SHADER;
 				break;
-			case sdw::ShaderType::eFragment:
+			case ast::ShaderStage::eFragment:
 				return GL_FRAGMENT_SHADER;
 				break;
 			default:
@@ -806,7 +806,7 @@ namespace test
 	}
 
 	bool compileGlsl( std::string const & source
-		, sdw::ShaderType stage
+		, ast::ShaderStage stage
 		, std::string & errors
 		, sdw_test::TestCounts & testCounts )
 	{

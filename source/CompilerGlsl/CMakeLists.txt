@@ -113,3 +113,6 @@ else ()
 		LIBRARY DESTINATION lib/Debug
 	)
 endif()
+
+# We install headers to <install_dir>/include/${PROJECT_NAME}
+target_install_headers( ${PROJECT_NAME} ${SDW_SOURCE_DIR}/include/${PROJECT_NAME} )

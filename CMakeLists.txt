@@ -96,22 +96,22 @@ endif()
 # Small macro to add subdirectory files to current target source and header files
 macro( parse_subdir_files _BASE_DIR _FOLDER _GROUP )
 	file( GLOB _FOLDER_HEADER_FILES
-		${_BASE_DIR}/include/${_FOLDER}/*.h
-		${_BASE_DIR}/include/${_FOLDER}/*.hpp
-		${_BASE_DIR}/include/${_FOLDER}/*.inl
+		${_BASE_DIR}/include/${PROJECT_NAME}/${_FOLDER}/*.h
+		${_BASE_DIR}/include/${PROJECT_NAME}/${_FOLDER}/*.hpp
+		${_BASE_DIR}/include/${PROJECT_NAME}/${_FOLDER}/*.inl
 	)
 	file( GLOB _FOLDER_ENUM_FILES
-		${_BASE_DIR}/include/${_FOLDER}/*.enum
+		${_BASE_DIR}/include/${PROJECT_NAME}/${_FOLDER}/*.enum
 	)
 	file( GLOB _FOLDER_SCRIPT_FILES
-		${_BASE_DIR}/scripts/${_FOLDER}/*.py
+		${_BASE_DIR}/scripts/${PROJECT_NAME}/${_FOLDER}/*.py
 	)
 	file( GLOB _FOLDER_SOURCE_FILES
-		${_BASE_DIR}/source/${_FOLDER}/*.h
-		${_BASE_DIR}/source/${_FOLDER}/*.hpp
-		${_BASE_DIR}/source/${_FOLDER}/*.inl
-		${_BASE_DIR}/source/${_FOLDER}/*.c
-		${_BASE_DIR}/source/${_FOLDER}/*.cpp
+		${_BASE_DIR}/source/${PROJECT_NAME}/${_FOLDER}/*.h
+		${_BASE_DIR}/source/${PROJECT_NAME}/${_FOLDER}/*.hpp
+		${_BASE_DIR}/source/${PROJECT_NAME}/${_FOLDER}/*.inl
+		${_BASE_DIR}/source/${PROJECT_NAME}/${_FOLDER}/*.c
+		${_BASE_DIR}/source/${PROJECT_NAME}/${_FOLDER}/*.cpp
 	)
 	source_group( "Script Files\\${_GROUP}" FILES ${_FOLDER_SCRIPT_FILES} )
 	source_group( "Enum Files\\${_GROUP}" FILES ${_FOLDER_ENUM_FILES} )

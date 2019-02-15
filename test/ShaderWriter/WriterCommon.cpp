@@ -20,21 +20,21 @@ namespace test
 {
 	namespace
 	{
-		std::string getName( ::sdw::ShaderType stage )
+		std::string getName( ast::ShaderStage stage )
 		{
 			switch ( stage )
 			{
-			case ::sdw::ShaderType::eVertex:
+			case ast::ShaderStage::eVertex:
 				return "Vertex";
-			case ::sdw::ShaderType::eGeometry:
+			case ast::ShaderStage::eGeometry:
 				return "Geometry";
-			case ::sdw::ShaderType::eTessellationControl:
+			case ast::ShaderStage::eTessellationControl:
 				return "TessellationControl";
-			case ::sdw::ShaderType::eTessellationEvaluation:
+			case ast::ShaderStage::eTessellationEvaluation:
 				return "TessellationEvaluation";
-			case ::sdw::ShaderType::eFragment:
+			case ast::ShaderStage::eFragment:
 				return "Fragment";
-			case ::sdw::ShaderType::eCompute:
+			case ast::ShaderStage::eCompute:
 				return "Compute";
 			default:
 				assert( false && "Unsupported shader stage flag" );
@@ -42,28 +42,28 @@ namespace test
 			}
 		}
 		
-		spv::ExecutionModel getExecutionModel( ::sdw::ShaderType stage )
+		spv::ExecutionModel getExecutionModel( ast::ShaderStage stage )
 		{
 			spv::ExecutionModel result{};
 
 			switch ( stage )
 			{
-			case ::sdw::ShaderType::eVertex:
+			case ast::ShaderStage::eVertex:
 				result = spv::ExecutionModelVertex;
 				break;
-			case ::sdw::ShaderType::eGeometry:
+			case ast::ShaderStage::eGeometry:
 				result = spv::ExecutionModelGeometry;
 				break;
-			case ::sdw::ShaderType::eTessellationControl:
+			case ast::ShaderStage::eTessellationControl:
 				result = spv::ExecutionModelTessellationControl;
 				break;
-			case ::sdw::ShaderType::eTessellationEvaluation:
+			case ast::ShaderStage::eTessellationEvaluation:
 				result = spv::ExecutionModelTessellationEvaluation;
 				break;
-			case ::sdw::ShaderType::eFragment:
+			case ast::ShaderStage::eFragment:
 				result = spv::ExecutionModelFragment;
 				break;
-			case ::sdw::ShaderType::eCompute:
+			case ast::ShaderStage::eCompute:
 				result = spv::ExecutionModelGLCompute;
 				break;
 			default:
@@ -74,7 +74,7 @@ namespace test
 			return result;
 		}
 
-		void doSetEntryPoint( ::sdw::ShaderType stage
+		void doSetEntryPoint( ast::ShaderStage stage
 			, spirv_cross::CompilerGLSL & compiler )
 		{
 			auto model = getExecutionModel( stage );
@@ -136,7 +136,7 @@ namespace test
 		}
 
 		std::string validateSpirVToGlsl( std::vector< uint32_t > const & spirv
-			, ::sdw::ShaderType stage
+			, ast::ShaderStage stage
 			, sdw_test::TestCounts & testCounts )
 		{
 			auto compiler = std::make_unique< spirv_cross::CompilerGLSL >( spirv );
@@ -146,7 +146,7 @@ namespace test
 		}
 
 		std::string validateSpirVToHlsl( std::vector< uint32_t > const & spirv
-			, ::sdw::ShaderType stage
+			, ast::ShaderStage stage
 			, sdw_test::TestCounts & testCounts )
 		{
 			auto compiler = std::make_unique< spirv_cross::CompilerHLSL >( spirv );
@@ -294,7 +294,9 @@ namespace test
 			, sdw_test::TestCounts & testCounts )
 		{
 			std::string errors;
-			auto hlsl = hlsl::compileHlsl( shader, specialisation );
+			auto hlsl = hlsl::compileHlsl( shader
+				, specialisation
+				, hlsl::HlslConfig{} );
 
 			if ( validateHlsl && !compileHlsl( hlsl
 				, shader.getType()

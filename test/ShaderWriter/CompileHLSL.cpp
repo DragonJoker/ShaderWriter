@@ -31,7 +31,7 @@ namespace test
 	}
 
 	bool compileHlsl( std::string const & shader
-		, sdw::ShaderType type
+		, ast::ShaderStage type
 		, std::string & errors
 		, sdw_test::TestCounts & testCounts )
 	{
@@ -40,22 +40,22 @@ namespace test
 
 		switch ( type )
 		{
-		case sdw::ShaderType::eVertex:
+		case ast::ShaderStage::eVertex:
 			model = "vs_5_0";
 			break;
-		case sdw::ShaderType::eTessellationControl:
+		case ast::ShaderStage::eTessellationControl:
 			model = "ds_5_0";
 			break;
-		case sdw::ShaderType::eTessellationEvaluation:
+		case ast::ShaderStage::eTessellationEvaluation:
 			model = "hs_5_0";
 			break;
-		case sdw::ShaderType::eGeometry:
+		case ast::ShaderStage::eGeometry:
 			model = "gs_5_0";
 			break;
-		case sdw::ShaderType::eCompute:
+		case ast::ShaderStage::eCompute:
 			model = "cs_5_0";
 			break;
-		case sdw::ShaderType::eFragment:
+		case ast::ShaderStage::eFragment:
 			model = "ps_5_0";
 			break;
 		default:
@@ -98,7 +98,7 @@ namespace test
 namespace test
 {
 	bool compileHlsl( std::string const & shader
-		, sdw::ShaderType type
+		, ast::ShaderStage type
 		, std::string & errors )
 	{
 		return true;
