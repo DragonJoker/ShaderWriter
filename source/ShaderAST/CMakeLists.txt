@@ -15,12 +15,12 @@ file( GLOB_RECURSE ${PROJECT_NAME}_FOLDER_SOURCE_FILES
 	${SOURCE_DIR}/*.c
 	${SOURCE_DIR}/*.cpp
 )
-parse_subdir_files( ${PROJECT_NAME}/Debug "Debug" )
-parse_subdir_files( ${PROJECT_NAME}/Expr "Expr" )
-parse_subdir_files( ${PROJECT_NAME}/Stmt "Stmt" )
-parse_subdir_files( ${PROJECT_NAME}/Type "Type" )
-parse_subdir_files( ${PROJECT_NAME}/Var "Var" )
-parse_subdir_files( ${PROJECT_NAME}/Visitors "Visitors" )
+parse_subdir_files( ${SDW_SOURCE_DIR} Debug "Debug" )
+parse_subdir_files( ${SDW_SOURCE_DIR} Expr "Expr" )
+parse_subdir_files( ${SDW_SOURCE_DIR} Stmt "Stmt" )
+parse_subdir_files( ${SDW_SOURCE_DIR} Type "Type" )
+parse_subdir_files( ${SDW_SOURCE_DIR} Var "Var" )
+parse_subdir_files( ${SDW_SOURCE_DIR} Visitors "Visitors" )
 
 if ( SDW_GENERATE_SOURCE AND PYTHONINTERP_FOUND )
 	set( SCRIPT_DIR ${SDW_SOURCE_DIR}/scripts/${PROJECT_NAME} )

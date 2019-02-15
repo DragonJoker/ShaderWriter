@@ -94,24 +94,24 @@ if( MSVC )
 endif()
 
 # Small macro to add subdirectory files to current target source and header files
-macro( parse_subdir_files _FOLDER _GROUP )
+macro( parse_subdir_files _BASE_DIR _FOLDER _GROUP )
 	file( GLOB _FOLDER_HEADER_FILES
-		${CMAKE_CURRENT_SOURCE_DIR}/include/${_FOLDER}/*.h
-		${CMAKE_CURRENT_SOURCE_DIR}/include/${_FOLDER}/*.hpp
-		${CMAKE_CURRENT_SOURCE_DIR}/include/${_FOLDER}/*.inl
+		${_BASE_DIR}/include/${_FOLDER}/*.h
+		${_BASE_DIR}/include/${_FOLDER}/*.hpp
+		${_BASE_DIR}/include/${_FOLDER}/*.inl
 	)
 	file( GLOB _FOLDER_ENUM_FILES
-		${CMAKE_CURRENT_SOURCE_DIR}/include/${_FOLDER}/*.enum
+		${_BASE_DIR}/include/${_FOLDER}/*.enum
 	)
 	file( GLOB _FOLDER_SCRIPT_FILES
-		${CMAKE_CURRENT_SOURCE_DIR}/scripts/${_FOLDER}/*.py
+		${_BASE_DIR}/scripts/${_FOLDER}/*.py
 	)
 	file( GLOB _FOLDER_SOURCE_FILES
-		${CMAKE_CURRENT_SOURCE_DIR}/source/${_FOLDER}/*.h
-		${CMAKE_CURRENT_SOURCE_DIR}/source/${_FOLDER}/*.hpp
-		${CMAKE_CURRENT_SOURCE_DIR}/source/${_FOLDER}/*.inl
-		${CMAKE_CURRENT_SOURCE_DIR}/source/${_FOLDER}/*.c
-		${CMAKE_CURRENT_SOURCE_DIR}/source/${_FOLDER}/*.cpp
+		${_BASE_DIR}/source/${_FOLDER}/*.h
+		${_BASE_DIR}/source/${_FOLDER}/*.hpp
+		${_BASE_DIR}/source/${_FOLDER}/*.inl
+		${_BASE_DIR}/source/${_FOLDER}/*.c
+		${_BASE_DIR}/source/${_FOLDER}/*.cpp
 	)
 	source_group( "Script Files\\${_GROUP}" FILES ${_FOLDER_SCRIPT_FILES} )
 	source_group( "Enum Files\\${_GROUP}" FILES ${_FOLDER_ENUM_FILES} )

@@ -23,7 +23,7 @@ file( GLOB_RECURSE ${PROJECT_NAME}_FOLDER_SOURCE_FILES
 	${SOURCE_DIR}/*.c
 	${SOURCE_DIR}/*.cpp
 )
-parse_subdir_files( ${PROJECT_NAME}/spirv "spirv" )
+parse_subdir_files( ${SDW_SOURCE_DIR} ${PROJECT_NAME}/spirv "spirv" )
 
 add_library( ${PROJECT_NAME}
 	SHARED
