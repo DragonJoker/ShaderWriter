@@ -278,5 +278,11 @@ namespace sdw
 		return result;
 	}
 
+	template< typename ReturnT, typename ... ParamsT >
+	inline Function< ReturnT, ParamsT... >::operator bool()
+	{
+		return !m_name.empty();
+	}
+
 	//***********************************************************************************************
 }

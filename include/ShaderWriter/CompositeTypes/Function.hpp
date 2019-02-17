@@ -79,6 +79,7 @@ namespace sdw
 			, ast::type::FunctionPtr type
 			, std::string const & name );
 		inline ReturnT operator()( ParamsT && ... params )const;
+		inline operator bool();
 
 	private:
 		mutable Shader * m_shader{ nullptr };
