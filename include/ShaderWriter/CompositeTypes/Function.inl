@@ -213,11 +213,11 @@ namespace sdw
 
 	template< typename ReturnT, typename ... ParamsT >
 	inline stmt::FunctionDeclPtr getFunctionHeader( Shader & shader
+		, ast::var::VariableList & args
 		, std::string const & name
 		, ParamsT && ... params )
 	{
 		auto & cache = getTypesCache( shader );
-		var::VariableList args;
 		getFunctionHeaderArgsRec( args, std::forward< ParamsT >( params )... );
 		return stmt::makeFunctionDecl( cache.getFunction( ReturnT::makeType( cache ), args )
 			, name );
@@ -225,10 +225,11 @@ namespace sdw
 
 	template<>
 	inline stmt::FunctionDeclPtr getFunctionHeader< void >( Shader & shader
+		, ast::var::VariableList & args
 		, std::string const & name )
 	{
 		auto & cache = getTypesCache( shader );
-		return stmt::makeFunctionDecl( cache.getFunction( cache.getVoid(), var::VariableList{} )
+		return stmt::makeFunctionDecl( cache.getFunction( cache.getVoid(), args )
 			, name );
 	}
 

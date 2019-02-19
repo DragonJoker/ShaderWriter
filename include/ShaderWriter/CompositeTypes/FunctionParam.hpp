@@ -18,6 +18,7 @@ namespace sdw
 		Param( ValueT const & other );
 		template< typename T >
 		inline Param< ValueT > operator=( T const & rhs );
+		inline void setVar( var::VariableList::const_iterator & var );
 	};
 
 	template< typename ValueT >
@@ -29,6 +30,7 @@ namespace sdw
 		InParam( ValueT const & other );
 		template< typename T >
 		inline InParam< ValueT > operator=( T const & rhs );
+		inline void setVar( var::VariableList::const_iterator & var );
 	};
 
 	template< typename ValueT >
@@ -40,6 +42,7 @@ namespace sdw
 		OutParam( ValueT const & other );
 		template< typename T >
 		inline OutParam< ValueT > operator=( T const & rhs );
+		inline void setVar( var::VariableList::const_iterator & var );
 	};
 
 	template< typename ValueT >
@@ -51,6 +54,7 @@ namespace sdw
 		InOutParam( ValueT const & other );
 		template< typename T >
 		inline InOutParam< ValueT > operator=( T const & rhs );
+		inline void setVar( var::VariableList::const_iterator & var );
 	};
 	
 	template< typename ValueT >
@@ -63,6 +67,7 @@ namespace sdw
 		Param( Array< ValueT > const & other );
 		template< typename T >
 		inline Param< Array< ValueT > > operator=( T const & rhs );
+		inline void setVar( var::VariableList::const_iterator & var );
 	};
 
 	template< typename ValueT >
@@ -75,6 +80,7 @@ namespace sdw
 		InParam( Array< ValueT > const & other );
 		template< typename T >
 		inline InParam< Array< ValueT > > operator=( T const & rhs );
+		inline void setVar( var::VariableList::const_iterator & var );
 	};
 
 	template< typename ValueT >
@@ -87,6 +93,7 @@ namespace sdw
 		OutParam( Array< ValueT > const & other );
 		template< typename T >
 		inline OutParam< Array< ValueT > > operator=( T const & rhs );
+		inline void setVar( var::VariableList::const_iterator & var );
 	};
 
 	template< typename ValueT >
@@ -99,6 +106,7 @@ namespace sdw
 		InOutParam( Array< ValueT > const & other );
 		template< typename T >
 		inline InOutParam< Array< ValueT > > operator=( T const & rhs );
+		inline void setVar( var::VariableList::const_iterator & var );
 	};
 
 	template< typename ValueT >

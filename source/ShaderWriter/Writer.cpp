@@ -182,7 +182,8 @@ namespace sdw
 	ShaderWriter & ShaderWriter::elseIfStmt( expr::ExprPtr condition
 		, std::function< void() > function )
 	{
-		doPushScope( m_ifStmt.back()->createElseIf( std::move( condition ) ) );
+		doPushScope( m_ifStmt.back()->createElseIf( std::move( condition ) )
+			, ast::var::VariableList{} );
 		function();
 		doPopScope();
 		return *this;
@@ -190,7 +191,8 @@ namespace sdw
 
 	ShaderWriter & ShaderWriter::elseStmt( std::function< void() > function )
 	{
-		doPushScope( m_ifStmt.back()->createElse() );
+		doPushScope( m_ifStmt.back()->createElse()
+			, ast::var::VariableList{} );
 		function();
 		doPopScope();
 		return *this;
@@ -221,7 +223,8 @@ namespace sdw
 		, std::function< void() > function )
 	{
 		auto stmt = m_switchStmt.back()->createCase( ast::expr::makeSwitchCase( std::move( literal ) ) );
-		doPushScope( stmt );
+		doPushScope( stmt
+			, ast::var::VariableList{} );
 		function();
 		doPopScope();
 	}
@@ -429,12 +432,22 @@ namespace sdw
 	void ShaderWriter::doPushScope( ast::stmt::ContainerPtr && container )
 	{
 		m_currentStmts.emplace_back( std::move( container ) );
-		doPushScope( m_currentStmts.back().get() );
+		doPushScope( m_currentStmts.back().get()
+			, ast::var::VariableList{} );
 	}
 
-	void ShaderWriter::doPushScope( ast::stmt::Container * container )
+	void ShaderWriter::doPushScope( ast::stmt::ContainerPtr && container
+		, ast::var::VariableList vars )
 	{
-		m_shader.push( container );
+		m_currentStmts.emplace_back( std::move( container ) );
+		doPushScope( m_currentStmts.back().get()
+			, std::move( vars ) );
+	}
+
+	void ShaderWriter::doPushScope( ast::stmt::Container * container
+		, ast::var::VariableList vars )
+	{
+		m_shader.push( container, vars );
 	}
 
 	void ShaderWriter::doPopScope()

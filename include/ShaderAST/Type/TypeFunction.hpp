@@ -16,7 +16,7 @@ namespace ast::type
 	{
 	public:
 		Function( TypePtr returnType
-			, var::VariableList const & parameters );
+			, var::VariableList parameters );
 
 		inline TypePtr getReturnType()const
 		{

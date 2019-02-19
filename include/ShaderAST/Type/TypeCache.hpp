@@ -114,7 +114,7 @@ namespace ast::type
 		SampledImagePtr getSampledImage( ImageConfiguration const & config );
 		SamplerPtr getSampler( bool comparison = false );
 		TypePtr getSampledType( ImageFormat format );
-		FunctionPtr getFunction( TypePtr returnType, var::VariableList const & parameters );
+		FunctionPtr getFunction( TypePtr returnType, var::VariableList parameters );
 		StructPtr getStruct( MemoryLayout layout, std::string const & name );
 		ArrayPtr getArray( TypePtr type, uint32_t arraySize = UnknownArraySize );
 

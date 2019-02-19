@@ -415,7 +415,10 @@ namespace sdw
 
 	private:
 		SDW_API void doPushScope( ast::stmt::ContainerPtr && container );
-		SDW_API void doPushScope( ast::stmt::Container * container );
+		SDW_API void doPushScope( ast::stmt::ContainerPtr && container
+			, ast::var::VariableList vars );
+		SDW_API void doPushScope( ast::stmt::Container * container
+			, ast::var::VariableList vars );
 		SDW_API void doPopScope();
 		SDW_API var::VariablePtr registerConstant( std::string const & name
 			, type::TypePtr type );

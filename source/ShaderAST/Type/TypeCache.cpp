@@ -73,9 +73,10 @@ namespace ast::type
 				return getHash( layout, name );
 			} }
 		, m_function{ [this]( TypePtr returnType
-				, var::VariableList const & parameters )
+				, var::VariableList parameters )
 			{
-				return std::make_shared< Function >( returnType, parameters );
+				return std::make_shared< Function >( returnType
+					, std::move( parameters ) );
 			}
 			, []( TypePtr returnType
 				, var::VariableList const & parameters )
@@ -587,22 +588,28 @@ namespace ast::type
 		}
 	}
 
-	FunctionPtr TypesCache::getFunction( TypePtr returnType, var::VariableList const & parameters )
+	FunctionPtr TypesCache::getFunction( TypePtr returnType
+		, var::VariableList parameters )
 	{
-		return m_function.getType( std::move( returnType ), parameters );
+		return m_function.getType( std::move( returnType )
+			, std::move( parameters ) );
 	}
 
-	StructPtr TypesCache::getStruct( MemoryLayout layout, std::string const & name )
+	StructPtr TypesCache::getStruct( MemoryLayout layout
+		, std::string const & name )
 	{
 		return m_struct.getType( layout, name );
 	}
 
-	ArrayPtr TypesCache::getArray( TypePtr type, uint32_t arraySize )
+	ArrayPtr TypesCache::getArray( TypePtr type
+		, uint32_t arraySize )
 	{
 		return m_array.getType( type, arraySize );
 	}
 
-	TypePtr TypesCache::getMemberType( TypePtr type, Struct & parent, uint32_t memberIndex )
+	TypePtr TypesCache::getMemberType( TypePtr type
+		, Struct & parent
+		, uint32_t memberIndex )
 	{
 		return type->getMemberType( parent, memberIndex );
 	}

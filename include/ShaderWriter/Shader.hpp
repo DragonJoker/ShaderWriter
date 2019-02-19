@@ -47,7 +47,8 @@ namespace sdw
 	{
 	public:
 		SDW_API Shader( ast::ShaderStage type );
-		SDW_API void push( stmt::Container * container );
+		SDW_API void push( stmt::Container * container
+			, ast::var::VariableList vars );
 		SDW_API void pop();
 		SDW_API void saveNextExpr();
 		SDW_API ast::expr::ExprPtr loadExpr( ast::expr::ExprPtr expr );

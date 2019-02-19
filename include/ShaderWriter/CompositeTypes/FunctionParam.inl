@@ -29,6 +29,13 @@ namespace sdw
 		writeAssignOperator< Param< ValueT > >( *this, rhs, sdw::makeAssign );
 		return *this;
 	}
+
+	template< typename ValueT >
+	void Param< ValueT >::setVar( var::VariableList::const_iterator & var )
+	{
+		this->updateExpr( makeExpr( *this->getShader(), *var ) );
+		++var;
+	}
 	
 	//*****************************************************************************************
 
@@ -55,6 +62,13 @@ namespace sdw
 	{
 		writeAssignOperator< InParam< ValueT > >( *this, rhs, sdw::makeAssign );
 		return *this;
+	}
+
+	template< typename ValueT >
+	void InParam< ValueT >::setVar( var::VariableList::const_iterator & var )
+	{
+		this->updateExpr( makeExpr( *this->getShader(), *var ) );
+		++var;
 	}
 
 	//*****************************************************************************************
@@ -84,6 +98,13 @@ namespace sdw
 		return *this;
 	}
 
+	template< typename ValueT >
+	void OutParam< ValueT >::setVar( var::VariableList::const_iterator & var )
+	{
+		this->updateExpr( makeExpr( *this->getShader(), *var ) );
+		++var;
+	}
+
 	//*****************************************************************************************
 
 	template< typename ValueT >
@@ -109,6 +130,13 @@ namespace sdw
 	{
 		writeAssignOperator< InOutParam< ValueT > >( *this, rhs, sdw::makeAssign );
 		return *this;
+	}
+
+	template< typename ValueT >
+	void InOutParam< ValueT >::setVar( var::VariableList::const_iterator & var )
+	{
+		this->updateExpr( makeExpr( *this->getShader(), *var ) );
+		++var;
 	}
 	
 	//*****************************************************************************************
@@ -137,6 +165,13 @@ namespace sdw
 	{
 		writeAssignOperator< Param< Array< ValueT > > >( *this, rhs, sdw::makeAssign );
 		return *this;
+	}
+
+	template< typename ValueT >
+	void Param< Array< ValueT > >::setVar( var::VariableList::const_iterator & var )
+	{
+		this->updateExpr( makeExpr( *this->getShader(), *var ) );
+		++var;
 	}
 	
 	//*****************************************************************************************
@@ -167,6 +202,13 @@ namespace sdw
 		return *this;
 	}
 
+	template< typename ValueT >
+	void InParam< Array< ValueT > >::setVar( var::VariableList::const_iterator & var )
+	{
+		this->updateExpr( makeExpr( *this->getShader(), *var ) );
+		++var;
+	}
+
 	//*****************************************************************************************
 
 	template< typename ValueT >
@@ -195,6 +237,13 @@ namespace sdw
 		return *this;
 	}
 
+	template< typename ValueT >
+	void OutParam< Array< ValueT > >::setVar( var::VariableList::const_iterator & var )
+	{
+		this->updateExpr( makeExpr( *this->getShader(), *var ) );
+		++var;
+	}
+
 	//*****************************************************************************************
 
 	template< typename ValueT >
@@ -221,6 +270,13 @@ namespace sdw
 	{
 		writeAssignOperator< InOutParam< Array< ValueT > > >( *this, rhs, sdw::makeAssign );
 		return *this;
+	}
+
+	template< typename ValueT >
+	void InOutParam< Array< ValueT > >::setVar( var::VariableList::const_iterator & var )
+	{
+		this->updateExpr( makeExpr( *this->getShader(), *var ) );
+		++var;
 	}
 
 	//*****************************************************************************************

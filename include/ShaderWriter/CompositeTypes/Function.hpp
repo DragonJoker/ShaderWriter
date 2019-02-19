@@ -65,6 +65,7 @@ namespace sdw
 
 	template< typename ReturnT, typename ... ParamsT >
 	inline stmt::FunctionDeclPtr getFunctionHeader( Shader & shader
+		, ast::var::VariableList & args
 		, std::string const & name
 		, ParamsT && ... params );
 

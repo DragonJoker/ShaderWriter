@@ -14,12 +14,36 @@ namespace sdw
 		, m_type{ type }
 		, m_typesCache{ std::make_unique< ast::type::TypesCache >() }
 	{
-		push( m_container.get() );
+		push( m_container.get(), ast::var::VariableList{} );
 	}
 
-	void Shader::push( stmt::Container * container )
+	void Shader::push( stmt::Container * container
+		, ast::var::VariableList vars )
 	{
 		m_blocks.push_back( { {}, container } );
+
+		if ( m_blocks.size() > 1u )
+		{
+			auto & block = m_blocks.back();
+			auto it = m_blocks.begin() + m_blocks.size() - 2u;
+			// move variables contained in the given list to the new scope.
+			for ( auto & var : vars )
+			{
+				auto itVar = std::find_if( it->registered.begin()
+					, it->registered.end()
+					, [&var]( std::map< std::string, var::VariablePtr >::value_type & pair )
+					{
+						return pair.second == var;
+					} );
+
+				if ( itVar != it->registered.end() )
+				{
+					it->registered.erase( itVar );
+				}
+
+				registerVariable( var );
+			}
+		}
 	}
 
 	void Shader::pop()
@@ -85,11 +109,9 @@ namespace sdw
 		, type::TypePtr type
 		, uint32_t flags )
 	{
-		auto & block = m_blocks.back();
-		auto it = block.registered.find( name );
-		assert( it == block.registered.end() );
-		it = block.registered.emplace( name, var::makeVariable( outer, type, name, flags | var::Flag::eMember ) ).first;
-		return it->second;
+		auto result = var::makeVariable( outer, type, name, flags | var::Flag::eMember );
+		registerVariable( result );
+		return result;
 	}
 
 	var::VariablePtr Shader::registerMember( var::VariablePtr outer

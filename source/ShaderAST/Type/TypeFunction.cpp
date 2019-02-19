@@ -14,10 +14,10 @@ namespace ast::type
 	//*************************************************************************
 
 	Function::Function( TypePtr returnType
-		, var::VariableList const & parameters )
+		, var::VariableList parameters )
 		: Type{ Kind::eFunction }
 		, m_returnType{ std::move( returnType ) }
-		, m_parameters{ parameters }
+		, m_parameters{ std::move( parameters ) }
 	{
 	}
 

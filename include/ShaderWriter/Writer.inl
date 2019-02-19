@@ -5,6 +5,7 @@ See LICENSE file in root folder
 
 #include <ShaderAST/Type/TypeImage.hpp>
 #include <ShaderAST/Type/TypeSampledImage.hpp>
+#include <ShaderAST/Visitors/GetExprName.hpp>
 
 namespace sdw
 {
@@ -33,8 +34,8 @@ namespace sdw
 		};
 
 		template< typename DstT, typename SrcT >
-			struct Cast< DstT, SrcT
-				, std::enable_if_t< !IsSameV< DstT, SrcT > && !isOptional< DstT > && !isOptional< SrcT > > >
+		struct Cast< DstT, SrcT
+			, std::enable_if_t< !IsSameV< DstT, SrcT > && !isOptional< DstT > && !isOptional< SrcT > > >
 		{
 			static inline DstT cast( Shader & shader
 				, SrcT const & from )
@@ -133,19 +134,45 @@ namespace sdw
 #pragma endregion
 	}
 
+	namespace details
+	{
+		inline void doUpdateParamsRec( var::VariableList::const_iterator it )
+		{
+		}
+
+		template< typename ParamT >
+		inline void doUpdateParamsRec( var::VariableList::const_iterator it
+			, ParamT & param )
+		{
+			param.setVar( it );
+		}
+
+		template< typename ParamT, typename ... ParamsT >
+		inline void doUpdateParamsRec( var::VariableList::const_iterator it
+			, ParamT & param
+			, ParamsT & ... params )
+		{
+			param.setVar( it );
+			doUpdateParamsRec( it, params... );
+		}
+
+		template< typename ... ParamsT >
+		inline void doUpdateParams( ast::type::FunctionPtr type
+			, ParamsT && ... params )
+		{
+			doUpdateParamsRec( type->begin(), params... );
+		}
+	}
+
 	template< typename ReturnT, typename ... ParamsT >
 	inline Function< ReturnT, ParamsT... > ShaderWriter::implementFunction( std::string const & name
 		, std::function< void( ParamTranslaterT< ParamsT >... ) > const & function
 		, ParamsT && ... params )
 	{
-		auto decl = getFunctionHeader< ReturnT >( getShader(), name, params... );
-		doPushScope( decl.get() );
-
-		for ( auto & var : *decl->getType() )
-		{
-			m_shader.registerVariable( var );
-		}
-
+		ast::var::VariableList args;
+		auto decl = getFunctionHeader< ReturnT >( getShader(), args, name, params... );
+		doPushScope( decl.get(), args );
+		details::doUpdateParams( decl->getType(), params... );
 		function( std::forward< ParamsT && >( params )... );
 		doPopScope();
 		auto functionType = decl->getType();
@@ -355,9 +382,9 @@ namespace sdw
 		, bool ArrayedT
 		, bool DepthT
 		, bool MsT >
-	inline SampledImageT< FormatT, DimT, ArrayedT, DepthT, MsT > ShaderWriter::declSampledImage( std::string const & name
-		, uint32_t binding
-		, uint32_t set )
+		inline SampledImageT< FormatT, DimT, ArrayedT, DepthT, MsT > ShaderWriter::declSampledImage( std::string const & name
+			, uint32_t binding
+			, uint32_t set )
 	{
 		using T = SampledImageT< FormatT, DimT, ArrayedT, DepthT, MsT >;
 		auto type = T::makeType( getTypesCache() );
@@ -377,10 +404,10 @@ namespace sdw
 		, bool ArrayedT
 		, bool DepthT
 		, bool MsT >
-	inline Optional< SampledImageT< FormatT, DimT, ArrayedT, DepthT, MsT > > ShaderWriter::declSampledImage( std::string const & name
-		, uint32_t binding
-		, uint32_t set
-		, bool enabled )
+		inline Optional< SampledImageT< FormatT, DimT, ArrayedT, DepthT, MsT > > ShaderWriter::declSampledImage( std::string const & name
+			, uint32_t binding
+			, uint32_t set
+			, bool enabled )
 	{
 		using T = SampledImageT< FormatT, DimT, ArrayedT, DepthT, MsT >;
 		auto type = T::makeType( getTypesCache() );
@@ -407,10 +434,10 @@ namespace sdw
 		, bool ArrayedT
 		, bool DepthT
 		, bool MsT >
-	inline Array< SampledImageT< FormatT, DimT, ArrayedT, DepthT, MsT > > ShaderWriter::declSampledImageArray( std::string const & name
-		, uint32_t binding
-		, uint32_t set
-		, uint32_t dimension )
+		inline Array< SampledImageT< FormatT, DimT, ArrayedT, DepthT, MsT > > ShaderWriter::declSampledImageArray( std::string const & name
+			, uint32_t binding
+			, uint32_t set
+			, uint32_t dimension )
 	{
 		using T = SampledImageT< FormatT, DimT, ArrayedT, DepthT, MsT >;
 		auto type = Array< T >::makeType( getTypesCache()
@@ -431,11 +458,11 @@ namespace sdw
 		, bool ArrayedT
 		, bool DepthT
 		, bool MsT >
-	inline Optional< Array< SampledImageT< FormatT, DimT, ArrayedT, DepthT, MsT > > > ShaderWriter::declSampledImageArray( std::string const & name
-		, uint32_t binding
-		, uint32_t set
-		, uint32_t dimension
-		, bool enabled )
+		inline Optional< Array< SampledImageT< FormatT, DimT, ArrayedT, DepthT, MsT > > > ShaderWriter::declSampledImageArray( std::string const & name
+			, uint32_t binding
+			, uint32_t set
+			, uint32_t dimension
+			, bool enabled )
 	{
 		using T = SampledImageT< FormatT, DimT, ArrayedT, DepthT, MsT >;
 		auto type = Array< T >::makeType( getTypesCache()
@@ -470,9 +497,9 @@ namespace sdw
 		, bool ArrayedT
 		, bool DepthT
 		, bool MsT >
-	inline ImageT< FormatT, DimT, ArrayedT, DepthT, MsT > ShaderWriter::declImage( std::string const & name
-		, uint32_t binding
-		, uint32_t set )
+		inline ImageT< FormatT, DimT, ArrayedT, DepthT, MsT > ShaderWriter::declImage( std::string const & name
+			, uint32_t binding
+			, uint32_t set )
 	{
 		using T = ImageT< FormatT, DimT, ArrayedT, DepthT, MsT >;
 		auto type = T::makeType( getTypesCache() );
@@ -492,10 +519,10 @@ namespace sdw
 		, bool ArrayedT
 		, bool DepthT
 		, bool MsT >
-	inline Optional< ImageT< FormatT, DimT, ArrayedT, DepthT, MsT > > ShaderWriter::declImage( std::string const & name
-		, uint32_t binding
-		, uint32_t set
-		, bool enabled )
+		inline Optional< ImageT< FormatT, DimT, ArrayedT, DepthT, MsT > > ShaderWriter::declImage( std::string const & name
+			, uint32_t binding
+			, uint32_t set
+			, bool enabled )
 	{
 		using T = ImageT< FormatT, DimT, ArrayedT, DepthT, MsT >;
 		auto type = T::makeType( getTypesCache() );
@@ -522,10 +549,10 @@ namespace sdw
 		, bool ArrayedT
 		, bool DepthT
 		, bool MsT >
-	inline Array< ImageT< FormatT, DimT, ArrayedT, DepthT, MsT > > ShaderWriter::declImageArray( std::string const & name
-		, uint32_t binding
-		, uint32_t set
-		, uint32_t dimension )
+		inline Array< ImageT< FormatT, DimT, ArrayedT, DepthT, MsT > > ShaderWriter::declImageArray( std::string const & name
+			, uint32_t binding
+			, uint32_t set
+			, uint32_t dimension )
 	{
 		using T = ImageT< FormatT, DimT, ArrayedT, DepthT, MsT >;
 		auto type = Array< T >::makeType( getTypesCache()
@@ -546,11 +573,11 @@ namespace sdw
 		, bool ArrayedT
 		, bool DepthT
 		, bool MsT >
-	inline Optional< Array< ImageT< FormatT, DimT, ArrayedT, DepthT, MsT > > > ShaderWriter::declImageArray( std::string const & name
-		, uint32_t binding
-		, uint32_t set
-		, uint32_t dimension
-		, bool enabled )
+		inline Optional< Array< ImageT< FormatT, DimT, ArrayedT, DepthT, MsT > > > ShaderWriter::declImageArray( std::string const & name
+			, uint32_t binding
+			, uint32_t set
+			, uint32_t dimension
+			, bool enabled )
 	{
 		using T = ImageT< FormatT, DimT, ArrayedT, DepthT, MsT >;
 		auto type = Array< T >::makeType( getTypesCache()
