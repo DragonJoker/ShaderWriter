@@ -196,13 +196,6 @@ namespace sdw
 		, uint32_t location
 		, type::TypePtr type )
 	{
-		assert( m_inputs.end() == std::find_if( m_inputs.begin()
-			, m_inputs.end()
-			, [&location]( std::map< std::string, InputInfo >::value_type const & lookup )
-			{
-				return lookup.second.location == location;
-			} )
-			&& "Input already existing at given location" );
 		auto kind = getNonArrayType( type )->getKind();
 		uint32_t flags = 0u;
 
