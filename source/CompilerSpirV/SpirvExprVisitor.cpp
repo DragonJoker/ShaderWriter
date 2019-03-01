@@ -15,6 +15,7 @@ See LICENSE file in root folder
 
 #include <ShaderAST/Type/TypeImage.hpp>
 #include <ShaderAST/Type/TypeSampledImage.hpp>
+#include <ShaderAST/Visitors/GetOutermostExpr.hpp>
 
 #include <algorithm>
 #include <numeric>
@@ -357,8 +358,11 @@ namespace spirv
 				auto componentId = m_module.registerLiteral( uint32_t( lhsSwizzleKind ) );
 				//   Register pointer type.
 				auto typeId = m_module.registerType( lhsSwizzle.getType() );
+				//   Retrieve outermost identifier, to be able to retrieve its variable's storage class.
+				auto lhsOutermost = ast::getOutermostExpr( lhsOuter );
+				assert( lhsOutermost->getKind() == ast::expr::Kind::eIdentifier );
 				auto pointerTypeId = m_module.registerPointerType( typeId
-					, getStorageClass( static_cast< ast::expr::Identifier const & >( *lhsOuter ).getVariable() ) );
+					, getStorageClass( static_cast< ast::expr::Identifier const & >( *lhsOutermost ).getVariable() ) );
 				//   Create the access chain.
 				auto intermediateId = m_module.getIntermediateResult();
 				m_currentBlock.instructions.emplace_back( makeInstruction< AccessChainInstruction >( pointerTypeId
