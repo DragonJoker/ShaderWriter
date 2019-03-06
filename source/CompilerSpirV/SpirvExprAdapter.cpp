@@ -911,7 +911,7 @@ namespace spirv
 		for ( auto i = 0u; i < count; ++i )
 		{
 			args.emplace_back( ast::expr::makeSwizzle( doSubmit( newArg.get() )
-				, ast::expr::SwizzleKind( i ) ) );
+				, ast::expr::SwizzleKind( ast::expr::SwizzleKind::fromOffset( i ) ) ) );
 		}
 
 		if ( newArg->getType()->getKind() != expr->getType()->getKind() )
@@ -1052,7 +1052,7 @@ namespace spirv
 			for ( auto i = 0u; i < componentCount; ++i )
 			{
 				args.emplace_back( ast::expr::makeNotEqual( m_cache
-					, ast::expr::makeSwizzle( doSubmit( newExpr.get() ), ast::expr::SwizzleKind( i ) )
+					, ast::expr::makeSwizzle( doSubmit( newExpr.get() ), ast::expr::SwizzleKind::fromOffset( i ) )
 					, makeZero( m_cache, expr->getType()->getKind() ) ) );
 			}
 
@@ -1085,7 +1085,7 @@ namespace spirv
 			for ( auto i = 0u; i < componentCount; ++i )
 			{
 				args.emplace_back( ast::expr::makeQuestion( type
-					, ast::expr::makeSwizzle( doSubmit( newExpr.get() ), ast::expr::SwizzleKind( i ) )
+					, ast::expr::makeSwizzle( doSubmit( newExpr.get() ), ast::expr::SwizzleKind::fromOffset( i ) )
 					, makeOne( m_cache, type->getKind() )
 					, makeZero( m_cache, type->getKind() ) ) );
 			}

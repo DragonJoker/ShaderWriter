@@ -891,11 +891,12 @@ namespace hlsl
 	LinkedVars::iterator updateLinkedVars( ast::var::VariablePtr var, LinkedVars & linkedVars )
 	{
 		auto it = linkedVars.find( var );
+		auto type = getNonArrayType( var->getType() );
 
-		if ( isSampledImageType( var->getType()->getKind() )
+		if ( isSampledImageType( type->getKind() )
 			&& it == linkedVars.end() )
 		{
-			auto sampledType = std::static_pointer_cast< ast::type::SampledImage >( var->getType() );
+			auto sampledType = std::static_pointer_cast< ast::type::SampledImage >( type );
 
 			if ( sampledType->getConfig().dimension != ast::type::ImageDim::eBuffer )
 			{

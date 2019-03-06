@@ -13,20 +13,17 @@ namespace ast::expr
 			, type::Kind outer
 			, SwizzleKind swizzle )
 		{
-			if ( swizzle >= SwizzleKind::e0
-				&& swizzle <= SwizzleKind::e3 )
+			if ( swizzle.isOneComponent() )
 			{
 				return cache.getBasicType( getScalarType( outer ) );
 			}
 
-			if ( swizzle >= SwizzleKind::e00
-				&& swizzle <= SwizzleKind::e33 )
+			if ( swizzle.isTwoComponents() )
 			{
 				return cache.getVec2Type( getScalarType( outer ) );
 			}
 
-			if ( swizzle >= SwizzleKind::e000
-				&& swizzle <= SwizzleKind::e333 )
+			if ( swizzle.isThreeComponents() )
 			{
 				return cache.getVec3Type( getScalarType( outer ) );
 			}

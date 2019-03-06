@@ -6,6 +6,7 @@ See LICENSE file in root folder
 #pragma once
 
 #include "Expr.hpp"
+#include "SwizzleKind.hpp"
 
 namespace ast::expr
 {

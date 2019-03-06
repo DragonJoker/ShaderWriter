@@ -11,6 +11,8 @@ See LICENSE file in root folder
 
 #include <ShaderWriter/Shader.hpp>
 
+#include <ShaderAST/Visitors/SwizzleSimplifier.hpp>
+
 #include <sstream>
 #include <iomanip>
 
@@ -2972,8 +2974,10 @@ namespace spirv
 
 		spirv::Module compileSpirV( sdw::Shader const & shader )
 		{
-			ModuleConfig config = spirv::StmtConfigFiller::submit( shader.getStatements() );
-			auto spirvStatements = spirv::StmtAdapter::submit( shader.getStatements(), config );
+			auto simplified = ast::SwizzleSimplifier::submit( shader.getTypesCache()
+				, shader.getStatements() );
+			ModuleConfig config = spirv::StmtConfigFiller::submit( simplified.get() );
+			auto spirvStatements = spirv::StmtAdapter::submit( simplified.get(), config );
 			return spirv::StmtVisitor::submit( shader.getTypesCache(), spirvStatements.get(), shader.getType(), config );
 		}
 	}

@@ -348,14 +348,14 @@ namespace spirv
 			assert( lhsOuter->getKind() == ast::expr::Kind::eIdentifier
 				|| isAccessChain( lhsOuter ) );
 
-			if ( lhsSwizzleKind <= ast::expr::SwizzleKind::e3 )
+			if ( lhsSwizzleKind.isOneComponent() )
 			{
 				// One component swizzles must be processed separately:
 				// - Create an access chain to the selected component.
 				//   No load to retrieve the variable ID.
 				auto lhsId = getVariableIdNoLoad( lhsOuter );
 				//   Register component selection as a literal.
-				auto componentId = m_module.registerLiteral( uint32_t( lhsSwizzleKind ) );
+				auto componentId = m_module.registerLiteral( lhsSwizzleKind.toIndex() );
 				//   Register pointer type.
 				auto typeId = m_module.registerType( lhsSwizzle.getType() );
 				//   Retrieve outermost identifier, to be able to retrieve its variable's storage class.
@@ -1143,7 +1143,7 @@ namespace spirv
 	{
 		m_allLiterals = false;
 
-		if ( expr->getSwizzle() <= ast::expr::SwizzleKind::e3
+		if ( expr->getSwizzle().isOneComponent()
 			&& expr->getOuterExpr()->getKind() == ast::expr::Kind::eIdentifier )
 		{
 			m_result = makeAccessChain( expr, m_module, m_currentBlock, m_loadedVariables );
@@ -1152,21 +1152,13 @@ namespace spirv
 		else
 		{
 			auto outerId = doSubmit( expr->getOuterExpr() );
-			auto rawTypeId = m_module.registerType( expr->getType() );
-			auto pointerTypeId = m_module.registerPointerType( rawTypeId, spv::StorageClassFunction );
+			auto typeId = m_module.registerType( expr->getType() );
 			bool needsLoad = false;
 			m_result = writeShuffle( m_module
 				, m_currentBlock
-				, pointerTypeId
-				, rawTypeId
+				, typeId
 				, outerId
-				, expr->getSwizzle()
-				, needsLoad );
-
-			if ( needsLoad )
-			{
-				m_result = m_module.loadVariable( m_result, expr->getType(), m_currentBlock );
-			}
+				, expr->getSwizzle() );
 		}
 	}
 
@@ -1190,6 +1182,12 @@ namespace spirv
 		auto sampledImageType = expr->getArgList()[0]->getType();
 		assert( sampledImageType->getKind() == ast::type::Kind::eSampledImage );
 		auto loadedSampleImageId = args[0];
+
+		if ( isAccessChain( expr->getArgList()[0].get() ) )
+		{
+			// Store the access chain result to a temp var
+			args[0] = loadVariable( args[0], sampledImageType );
+		}
 
 		if ( config.needsImage )
 		{

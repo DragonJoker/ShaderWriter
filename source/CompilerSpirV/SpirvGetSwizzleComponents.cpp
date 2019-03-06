@@ -10,7 +10,7 @@ namespace spirv
 {
 	std::vector< uint32_t > getSwizzleComponents( ast::expr::SwizzleKind kind )
 	{
-		switch ( kind )
+		switch ( ast::expr::SwizzleKind::Value( kind ) )
 		{
 		case ast::expr::SwizzleKind::e0:
 			return { 0 };
@@ -700,7 +700,7 @@ namespace spirv
 
 	std::vector< uint32_t > getSwizzle2Components( ast::expr::SwizzleKind swizzle )
 	{
-		switch ( swizzle )
+		switch ( ast::expr::SwizzleKind::Value( swizzle ) )
 		{
 		case ast::expr::SwizzleKind::e01:
 			return { 0, 1 };
@@ -714,7 +714,7 @@ namespace spirv
 
 	std::vector< uint32_t > getSwizzle3Components( ast::expr::SwizzleKind swizzle )
 	{
-		switch ( swizzle )
+		switch ( ast::expr::SwizzleKind::Value( swizzle ) )
 		{
 		case ast::expr::SwizzleKind::e012:
 			return { 0, 1, 2 };
@@ -736,7 +736,7 @@ namespace spirv
 
 	std::vector< uint32_t > getSwizzle4Components( ast::expr::SwizzleKind swizzle )
 	{
-		switch ( swizzle )
+		switch ( ast::expr::SwizzleKind::Value( swizzle ) )
 		{
 		case ast::expr::SwizzleKind::e0123:
 			return { 0, 1, 2, 3 };
@@ -806,7 +806,7 @@ namespace spirv
 
 		if ( rhs.size() == 1u )
 		{
-			switch ( lhsSwizzle )
+			switch ( ast::expr::SwizzleKind::Value( lhsSwizzle ) )
 			{
 			case ast::expr::SwizzleKind::e0:
 				// lhs.x = rhs.c => lhs = vec2(rhs.c, lhs.y)
@@ -848,7 +848,7 @@ namespace spirv
 
 		if ( rhs.size() == 1u )
 		{
-			switch ( lhsSwizzle )
+			switch ( ast::expr::SwizzleKind::Value( lhsSwizzle ) )
 			{
 			case ast::expr::SwizzleKind::e0:
 				// lhs.x = rhs.c => lhs = vec3(rhs.c, lhs.y, lhs.z)
@@ -869,7 +869,7 @@ namespace spirv
 		}
 		else if ( rhs.size() == 2u )
 		{
-			switch ( lhsSwizzle )
+			switch ( ast::expr::SwizzleKind::Value( lhsSwizzle ) )
 			{
 			case ast::expr::SwizzleKind::e01:
 				// lhs.xy = rhs.cMcN => lhs = vec3(rhs.cM, rhs.cN, lhs.z)
@@ -927,7 +927,7 @@ namespace spirv
 
 		if ( rhs.size() == 1u )
 		{
-			switch ( lhsSwizzle )
+			switch ( ast::expr::SwizzleKind::Value( lhsSwizzle ) )
 			{
 			case ast::expr::SwizzleKind::e0:
 				// lhs.x = rhs.c => lhs = vec4(rhs.c, lhs.y, lhs.z, lhs.w)
@@ -952,7 +952,7 @@ namespace spirv
 		}
 		else if ( rhs.size() == 2u )
 		{
-			switch ( lhsSwizzle )
+			switch ( ast::expr::SwizzleKind::Value( lhsSwizzle ) )
 			{
 			case ast::expr::SwizzleKind::e01:
 				// lhs.xy = rhs.cMcN => lhs = vec4(rhs.cM, rhs.cN, lhs.z, lhs.w)
@@ -1009,7 +1009,7 @@ namespace spirv
 		}
 		else if ( rhs.size() == 3u )
 		{
-			switch ( lhsSwizzle )
+			switch ( ast::expr::SwizzleKind::Value( lhsSwizzle ) )
 			{
 			case ast::expr::SwizzleKind::e012:
 				// lhs.xyz = rhs.cMcNcO => lhs = vec4(rhs.cM, rhs.cN, rhs.cO, lhs.w)

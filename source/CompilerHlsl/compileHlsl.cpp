@@ -8,6 +8,7 @@ See LICENSE file in root folder
 #include "HlslStmtVisitor.hpp"
 
 #include <ShaderAST/Visitors/StmtSpecialiser.hpp>
+#include <ShaderAST/Visitors/SwizzleSimplifier.hpp>
 
 namespace hlsl
 {
@@ -19,6 +20,8 @@ namespace hlsl
 		auto dxStatements = hlsl::StmtAdapter::submit( shader
 			, intrinsicsConfig
 			, writerConfig );
+		auto simplified = ast::SwizzleSimplifier::submit( shader.getTypesCache()
+			, shader.getStatements() );
 		dxStatements = ast::StmtSpecialiser::submit( shader.getTypesCache(), dxStatements.get(), specialisation );
 		return hlsl::StmtVisitor::submit( writerConfig, dxStatements.get() );
 	}

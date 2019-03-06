@@ -11,12 +11,11 @@ namespace spirv
 {
 	spv::Id writeShuffle( Module & module
 		, Block & currentBlock
-		, spv::Id pointerTypeId
-		, spv::Id rawTypeId
+		, spv::Id typeId
 		, spv::Id outerId
-		, ast::expr::SwizzleKind swizzle
-		, bool & needsLoad );
+		, ast::expr::SwizzleKind swizzle );
 	bool isAccessChain( ast::expr::Expr * expr );
+	bool isPtrAccessChain( ast::expr::Expr * expr );
 	spv::Id makeAccessChain( ast::expr::Expr * expr
 		, Module & module
 		, Block & currentBlock

@@ -1382,7 +1382,8 @@ namespace hlsl
 		, bool writeSampler
 		, ast::expr::ExprList & args )
 	{
-		bool result = arg.getKind() == ast::expr::Kind::eIdentifier;
+		bool result = arg.getKind() == ast::expr::Kind::eIdentifier
+			|| arg.getKind() == ast::expr::Kind::eArrayAccess;
 
 		if ( result )
 		{
@@ -1391,11 +1392,27 @@ namespace hlsl
 
 			if ( m_adaptationData.linkedVars.end() != it )
 			{
-				args.emplace_back( ast::expr::makeIdentifier( m_cache, it->second.first ) );
-
-				if ( writeSampler )
+				if ( arg.getKind() == ast::expr::Kind::eArrayAccess )
 				{
-					args.emplace_back( ast::expr::makeIdentifier( m_cache, it->second.second ) );
+					args.emplace_back( ast::expr::makeArrayAccess( it->second.first->getType()
+						, ast::expr::makeIdentifier( m_cache, it->second.first )
+						, doSubmit( static_cast< ast::expr::ArrayAccess const & >( arg ).getRHS() ) ) );
+
+					if ( writeSampler )
+					{
+						args.emplace_back( ast::expr::makeArrayAccess( it->second.second->getType()
+							, ast::expr::makeIdentifier( m_cache, it->second.second )
+							, doSubmit( static_cast< ast::expr::ArrayAccess const & >( arg ).getRHS() ) ) );
+					}
+				}
+				else
+				{
+					args.emplace_back( ast::expr::makeIdentifier( m_cache, it->second.first ) );
+
+					if ( writeSampler )
+					{
+						args.emplace_back( ast::expr::makeIdentifier( m_cache, it->second.second ) );
+					}
 				}
 			}
 			else

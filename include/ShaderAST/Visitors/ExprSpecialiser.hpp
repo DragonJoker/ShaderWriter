@@ -1,8 +1,8 @@
 /*
 See LICENSE file in root folder
 */
-#ifndef ___SDW_GlslExprAdapter_H___
-#define ___SDW_GlslExprAdapter_H___
+#ifndef ___SDW_ExprSpecialiser_H___
+#define ___SDW_ExprSpecialiser_H___
 #pragma once
 
 #include "ShaderAST/Visitors/CloneExpr.hpp"
