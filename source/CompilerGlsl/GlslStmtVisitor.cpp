@@ -804,7 +804,7 @@ namespace glsl
 			sep = ", ";
 		}
 
-		if ( set != ~( 0u ) )
+		if ( set != ~( 0u ) && m_writerConfig.shaderLanguageVersion >= 460 )
 		{
 			m_result += sep + "set=" + std::to_string( set );
 		}
