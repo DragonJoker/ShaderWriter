@@ -387,10 +387,17 @@ namespace glsl
 		visitContainerStmt( stmt );
 
 		if ( stmt->getName() == "main"
-			&& m_writerConfig.shaderStage == ast::ShaderStage::eVertex
-			&& m_writerConfig.flipVertY )
+			&& m_writerConfig.shaderStage == ast::ShaderStage::eVertex )
 		{
-			m_result += m_indent + "gl_Position.y = -gl_Position.y;\n";
+			if ( m_writerConfig.flipVertY )
+			{
+				m_result += m_indent + "gl_Position.y = -gl_Position.y;\n";
+			}
+
+			if ( m_writerConfig.fixupClipDepth )
+			{
+				m_result += m_indent + "gl_Position.z = (gl_Position.z + gl_Position.w) * 0.5;\n";
+			}
 		}
 
 		m_indent = save;

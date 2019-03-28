@@ -24,6 +24,7 @@ namespace glsl
 		uint32_t shaderLanguageVersion{ 430 };
 		bool vulkanGlsl{ false };
 		bool flipVertY{ false };
+		bool fixupClipDepth{ false };
 		bool hasStd430Layout{ false };
 		bool hasShaderStorageBuffers{ false };
 		bool hasDescriptorSets{ false };
