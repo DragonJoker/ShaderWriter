@@ -370,8 +370,7 @@ namespace hlsl
 
 	void StmtAdapter::visitShaderBufferDeclStmt( ast::stmt::ShaderBufferDecl * stmt )
 	{
-		auto cont = ast::stmt::makeShaderBufferDecl( stmt->getSsboName()
-			, stmt->getMemoryLayout()
+		auto cont = ast::stmt::makeShaderBufferDecl( stmt->getVariable()
 			, stmt->getBindingPoint()
 			, stmt->getDescriptorSet() );
 		auto save = m_current;

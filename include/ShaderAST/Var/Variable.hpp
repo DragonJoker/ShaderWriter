@@ -179,10 +179,11 @@ namespace ast::var
 				&& m_outer;
 		}
 
-	private:
 		inline bool hasFlag( Flag flag )const
 		{
-			return Flag( m_flags & uint32_t( flag ) ) == flag;
+			return flag == Flag::eNone
+				? false
+				: Flag( m_flags & uint32_t( flag ) ) == flag;
 		}
 
 	private:

@@ -805,13 +805,13 @@ namespace glsl
 		, uint32_t set
 		, std::string sep )
 	{
-		if ( binding != ~( 0u ) )
+		if ( binding != InvalidIndex )
 		{
 			m_result += sep + "binding=" + std::to_string( binding );
 			sep = ", ";
 		}
 
-		if ( set != ~( 0u ) && m_writerConfig.shaderLanguageVersion >= 460 )
+		if ( set != InvalidIndex && m_writerConfig.shaderLanguageVersion >= 460 )
 		{
 			m_result += sep + "set=" + std::to_string( set );
 		}

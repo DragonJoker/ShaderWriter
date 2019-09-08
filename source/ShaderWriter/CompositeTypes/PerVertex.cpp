@@ -14,7 +14,7 @@ namespace sdw
 			InterfaceBlock result{ cache, type::MemoryLayout::eStd430, "gl_PerVertex" };
 			result.registerMember< type::Kind::eVec4F >( "gl_Position" );
 			result.registerMember< type::Kind::eFloat >( "gl_PointSize" );
-			result.registerMember< type::Kind::eFloat >( "gl_ClipDistance", type::UnknownArraySize );
+			result.registerMember< type::Kind::eFloat >( "gl_ClipDistance", 8u );
 			return result;
 		}
 

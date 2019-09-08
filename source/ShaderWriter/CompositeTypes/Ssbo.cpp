@@ -16,7 +16,7 @@ namespace sdw
 		, m_name{ name }
 		, m_info{ writer.getTypesCache(), layout, name, bind, set }
 		, m_var{ var::makeVariable( m_info.getType(), m_name, var::Flag::eUniform ) }
-		, m_stmt{ stmt::makeShaderBufferDecl( m_name, layout, bind, set ) }
+		, m_stmt{ stmt::makeShaderBufferDecl( m_var, bind, set ) }
 	{
 	}
 

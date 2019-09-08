@@ -48,6 +48,7 @@ namespace spirv
 		std::map< std::string, ast::expr::ExprPtr > defines;
 	};
 
+	spv::BuiltIn getBuiltin( std::string const & name );
 	spv::MemoryModel getMemoryModel();
 	spv::ExecutionModel getExecutionModel( sdw::ShaderStage kind );
 	std::string getTypeName( spv::Op op );

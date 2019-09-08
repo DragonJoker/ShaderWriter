@@ -11,6 +11,8 @@ See LICENSE file in root folder
 
 namespace glsl
 {
+	static uint32_t constexpr InvalidIndex = ~( 0u );
+
 	std::string getTypeName( ast::type::Kind kind );
 	std::string getTypeName( ast::type::TypePtr type );
 	std::string getTypeArraySize( ast::type::TypePtr type );

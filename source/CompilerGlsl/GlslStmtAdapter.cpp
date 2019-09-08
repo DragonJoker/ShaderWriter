@@ -112,7 +112,7 @@ namespace glsl
 			auto cont = ast::stmt::makeConstantBufferDecl( stmt->getName()
 				, stmt->getMemoryLayout()
 				, stmt->getBindingPoint()
-				, ~( 0u ) );
+				, InvalidIndex );
 			m_current = cont.get();
 			visitContainerStmt( stmt );
 			m_current = save;
@@ -130,7 +130,7 @@ namespace glsl
 		{
 			m_current->addStmt( ast::stmt::makeImageDecl( stmt->getVariable()
 				, stmt->getBindingPoint()
-				, ~( 0u ) ) );
+				, InvalidIndex ) );
 		}
 	}
 
@@ -152,8 +152,8 @@ namespace glsl
 			auto save = m_current;
 			auto cont = ast::stmt::makeConstantBufferDecl( stmt->getName()
 				, stmt->getMemoryLayout()
-				, ~( 0u )
-				, ~( 0u ) );
+				, InvalidIndex
+				, InvalidIndex );
 			m_current = cont.get();
 			visitContainerStmt( stmt );
 			m_current = save;
@@ -171,7 +171,7 @@ namespace glsl
 		{
 			m_current->addStmt( ast::stmt::makeSampledImageDecl( stmt->getVariable()
 				, stmt->getBindingPoint()
-				, ~( 0u ) ) );
+				, InvalidIndex ) );
 		}
 	}
 
@@ -190,10 +190,9 @@ namespace glsl
 		else
 		{
 			auto save = m_current;
-			auto cont = ast::stmt::makeShaderBufferDecl( stmt->getSsboName()
-				, stmt->getMemoryLayout()
+			auto cont = ast::stmt::makeShaderBufferDecl( stmt->getVariable()
 				, stmt->getBindingPoint()
-				, ~( 0u ) );
+				, InvalidIndex );
 			m_current = cont.get();
 			visitContainerStmt( stmt );
 			m_current = save;
@@ -219,7 +218,7 @@ namespace glsl
 				, stmt->getSsboInstance()
 				, stmt->getData()
 				, stmt->getBindingPoint()
-				, ~( 0u ) ) );
+				, InvalidIndex ) );
 		}
 	}
 

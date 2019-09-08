@@ -81,6 +81,13 @@ namespace ast
 		}
 	}
 
+	void ExprCloner::visitAliasExpr( expr::Alias * expr )
+	{
+		m_result = expr::makeAlias( expr->getType()
+			, std::make_unique< expr::Identifier >( static_cast< expr::Identifier const & >( *expr->getLHS() ) )
+			, doSubmit( expr->getRHS() ) );
+	}
+
 	void ExprCloner::visitAndAssignExpr( expr::AndAssign * expr )
 	{
 		m_result = expr::makeAndAssign( expr->getType()

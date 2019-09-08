@@ -186,7 +186,7 @@ namespace sdw
 	inline void getFunctionHeaderArgsRec( var::VariableList & args
 		, ParamT && last )
 	{
-		auto idents = listIdentifiers( last.getExpr() );
+		auto idents = listCommaIdentifiers( last.getExpr() );
 		assert( !idents.empty() );
 
 		for ( auto & ident : idents )
@@ -200,7 +200,7 @@ namespace sdw
 		, ParamT && current
 		, ParamsT && ... params )
 	{
-		auto idents = listIdentifiers( current.getExpr() );
+		auto idents = listCommaIdentifiers( current.getExpr() );
 		assert( !idents.empty() );
 
 		for ( auto & ident : idents )

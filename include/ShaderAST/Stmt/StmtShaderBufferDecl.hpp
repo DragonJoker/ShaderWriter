@@ -8,6 +8,7 @@ See LICENSE file in root folder
 #include "StmtCompound.hpp"
 #include "StmtVariableDecl.hpp"
 
+#include "ShaderAST/Type/TypeCache.hpp"
 #include "ShaderAST/Type/TypeStruct.hpp"
 
 namespace ast::stmt
@@ -16,22 +17,19 @@ namespace ast::stmt
 		: public Compound
 	{
 	public:
-		ShaderBufferDecl( std::string const & ssboName
-			, type::MemoryLayout layout
+		ShaderBufferDecl( var::VariablePtr variable
 			, uint32_t bindingPoint
 			, uint32_t bindingSet );
 		void add( VariableDeclPtr decl );
+		type::MemoryLayout getMemoryLayout()const;
+		std::string getSsboName()const;
+		type::StructPtr getType()const;
 
 		void accept( VisitorPtr vis )override;
 
-		inline std::string const & getSsboName()const
+		inline var::VariablePtr getVariable()const
 		{
-			return m_ssboName;
-		}
-
-		inline type::MemoryLayout getMemoryLayout()const
-		{
-			return m_layout;
+			return m_variable;
 		}
 
 		inline uint32_t getBindingPoint()const
@@ -48,20 +46,30 @@ namespace ast::stmt
 		using Compound::addStmt;
 
 	private:
-		std::string m_ssboName;
-		type::MemoryLayout m_layout;
+		var::VariablePtr m_variable;
 		uint32_t m_bindingPoint;
 		uint32_t m_bindingSet;
 	};
 	using ShaderBufferDeclPtr = std::unique_ptr< ShaderBufferDecl >;
 
-	inline ShaderBufferDeclPtr makeShaderBufferDecl( std::string const & ssboName
+	inline ShaderBufferDeclPtr makeShaderBufferDecl( type::TypesCache & cache
+		, std::string const & ssboName
 		, type::MemoryLayout layout
 		, uint32_t bindingPoint
 		, uint32_t bindingSet )
 	{
-		return std::make_unique< ShaderBufferDecl >( std::move( ssboName )
-			, layout
+		auto type = cache.getStruct( layout, ssboName );
+		assert( type != nullptr );
+		return std::make_unique< ShaderBufferDecl >( var::makeVariable( type, ssboName + "_data" )
+			, bindingPoint
+			, bindingSet );
+	}
+
+	inline ShaderBufferDeclPtr makeShaderBufferDecl( var::VariablePtr var
+		, uint32_t bindingPoint
+		, uint32_t bindingSet )
+	{
+		return std::make_unique< ShaderBufferDecl >( var
 			, bindingPoint
 			, bindingSet );
 	}

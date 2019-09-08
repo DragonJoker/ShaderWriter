@@ -7,6 +7,270 @@ namespace spirv
 {
 	//*************************************************************************
 
+	spv::BuiltIn getBuiltin( std::string const & name )
+	{
+		auto result = spv::BuiltIn( -1 );
+
+		if ( name == "gl_Position" )
+		{
+			result = spv::BuiltInPosition;
+		}
+		else if ( name == "gl_PointSize" )
+		{
+			result = spv::BuiltInPointSize;
+		}
+		else if ( name == "gl_ClipDistance" )
+		{
+			result = spv::BuiltInClipDistance;
+		}
+		else if ( name == "gl_CullDistance" )
+		{
+			result = spv::BuiltInCullDistance;
+		}
+		else if ( name == "gl_VertexID" )
+		{
+			result = spv::BuiltInVertexId;
+		}
+		else if ( name == "gl_InstanceID" )
+		{
+			result = spv::BuiltInInstanceId;
+		}
+		else if ( name == "gl_PrimitiveID" )
+		{
+			result = spv::BuiltInPrimitiveId;
+		}
+		else if ( name == "gl_InvocationID" )
+		{
+			result = spv::BuiltInInvocationId;
+		}
+		else if ( name == "gl_Layer" )
+		{
+			result = spv::BuiltInLayer;
+		}
+		else if ( name == "gl_ViewportIndex" )
+		{
+			result = spv::BuiltInViewportIndex;
+		}
+		else if ( name == "gl_TessLevelOuter" )
+		{
+			result = spv::BuiltInTessLevelOuter;
+		}
+		else if ( name == "gl_TessLevelInner" )
+		{
+			result = spv::BuiltInTessLevelInner;
+		}
+		else if ( name == "gl_TessCoord" )
+		{
+			result = spv::BuiltInTessCoord;
+		}
+		else if ( name == "gl_PatchVertices" )
+		{
+			result = spv::BuiltInPatchVertices;
+		}
+		else if ( name == "gl_FragCoord" )
+		{
+			result = spv::BuiltInFragCoord;
+		}
+		else if ( name == "gl_PointCoord" )
+		{
+			result = spv::BuiltInPointCoord;
+		}
+		else if ( name == "gl_FrontFacing" )
+		{
+			result = spv::BuiltInFrontFacing;
+		}
+		else if ( name == "gl_SampleID" )
+		{
+			result = spv::BuiltInSampleId;
+		}
+		else if ( name == "gl_SamplePosition" )
+		{
+			result = spv::BuiltInSamplePosition;
+		}
+		else if ( name == "gl_SampleMask" )
+		{
+			result = spv::BuiltInSampleMask;
+		}
+		else if ( name == "gl_FragDepth" )
+		{
+			result = spv::BuiltInFragDepth;
+		}
+		else if ( name == "gl_HelperInvocation" )
+		{
+			result = spv::BuiltInHelperInvocation;
+		}
+		else if ( name == "gl_NumWorkgroups" )
+		{
+			result = spv::BuiltInNumWorkgroups;
+		}
+		else if ( name == "gl_WorkgroupSize" )
+		{
+			result = spv::BuiltInWorkgroupSize;
+		}
+		else if ( name == "gl_WorkgroupID" )
+		{
+			result = spv::BuiltInWorkgroupId;
+		}
+		else if ( name == "gl_LocalInvocationID" )
+		{
+			result = spv::BuiltInLocalInvocationId;
+		}
+		else if ( name == "gl_GlobalInvocationID" )
+		{
+			result = spv::BuiltInGlobalInvocationId;
+		}
+		else if ( name == "gl_LocalInvocationIndex" )
+		{
+			result = spv::BuiltInLocalInvocationIndex;
+		}
+		else if ( name == "gl_WorkDim" )
+		{
+			result = spv::BuiltInWorkDim;
+		}
+		else if ( name == "gl_GlobalSize" )
+		{
+			result = spv::BuiltInGlobalSize;
+		}
+		else if ( name == "gl_EnqueuedWorkgroupSize" )
+		{
+			result = spv::BuiltInEnqueuedWorkgroupSize;
+		}
+		else if ( name == "gl_GlobalOffset" )
+		{
+			result = spv::BuiltInGlobalOffset;
+		}
+		else if ( name == "gl_GlobalLinearID" )
+		{
+			result = spv::BuiltInGlobalLinearId;
+		}
+		else if ( name == "gl_SubgroupSize" )
+		{
+			result = spv::BuiltInSubgroupSize;
+		}
+		else if ( name == "gl_SubgroupMaxSize" )
+		{
+			result = spv::BuiltInSubgroupMaxSize;
+		}
+		else if ( name == "gl_NumSubgroups" )
+		{
+			result = spv::BuiltInNumSubgroups;
+		}
+		else if ( name == "gl_NumEnqueuedSubgroups" )
+		{
+			result = spv::BuiltInNumEnqueuedSubgroups;
+		}
+		else if ( name == "gl_SubgroupID" )
+		{
+			result = spv::BuiltInSubgroupId;
+		}
+		else if ( name == "gl_SubgroupLocalInvocationID" )
+		{
+			result = spv::BuiltInSubgroupLocalInvocationId;
+		}
+		else if ( name == "gl_VertexIndex" )
+		{
+			result = spv::BuiltInVertexIndex;
+		}
+		else if ( name == "gl_InstanceIndex" )
+		{
+			result = spv::BuiltInInstanceIndex;
+		}
+		else if ( name == "gl_SubgroupEqMaskKHR" )
+		{
+			result = spv::BuiltInSubgroupEqMaskKHR;
+		}
+		else if ( name == "gl_SubgroupGeMaskKHR" )
+		{
+			result = spv::BuiltInSubgroupGeMaskKHR;
+		}
+		else if ( name == "gl_SubgroupGtMaskKHR" )
+		{
+			result = spv::BuiltInSubgroupGtMaskKHR;
+		}
+		else if ( name == "gl_SubgroupLeMaskKHR" )
+		{
+			result = spv::BuiltInSubgroupLeMaskKHR;
+		}
+		else if ( name == "gl_SubgroupLtMaskKHR" )
+		{
+			result = spv::BuiltInSubgroupLtMaskKHR;
+		}
+		else if ( name == "gl_BaseVertex" )
+		{
+			result = spv::BuiltInBaseVertex;
+		}
+		else if ( name == "gl_BaseInstance" )
+		{
+			result = spv::BuiltInBaseInstance;
+		}
+		else if ( name == "gl_DrawIndex" )
+		{
+			result = spv::BuiltInDrawIndex;
+		}
+		else if ( name == "gl_DeviceIndex" )
+		{
+			result = spv::BuiltInDeviceIndex;
+		}
+		else if ( name == "gl_ViewIndex" )
+		{
+			result = spv::BuiltInViewIndex;
+		}
+		else if ( name == "gl_BaryCoordNoPerspAMD" )
+		{
+			result = spv::BuiltInBaryCoordNoPerspAMD;
+		}
+		else if ( name == "gl_BaryCoordNoPerspCentroidAMD" )
+		{
+			result = spv::BuiltInBaryCoordNoPerspCentroidAMD;
+		}
+		else if ( name == "gl_BaryCoordNoPerspSampleAMD" )
+		{
+			result = spv::BuiltInBaryCoordNoPerspSampleAMD;
+		}
+		else if ( name == "gl_BaryCoordSmoothAMD" )
+		{
+			result = spv::BuiltInBaryCoordSmoothAMD;
+		}
+		else if ( name == "gl_BaryCoordSmoothCentroidAMD" )
+		{
+			result = spv::BuiltInBaryCoordSmoothCentroidAMD;
+		}
+		else if ( name == "gl_BaryCoordSmoothSampleAMD" )
+		{
+			result = spv::BuiltInBaryCoordSmoothSampleAMD;
+		}
+		else if ( name == "gl_BaryCoordPullModelAMD" )
+		{
+			result = spv::BuiltInBaryCoordPullModelAMD;
+		}
+		else if ( name == "gl_FragStencilRefEXT" )
+		{
+			result = spv::BuiltInFragStencilRefEXT;
+		}
+		else if ( name == "gl_ViewportMaskNV" )
+		{
+			result = spv::BuiltInViewportMaskNV;
+		}
+		else if ( name == "gl_SecondaryPositionNV" )
+		{
+			result = spv::BuiltInSecondaryPositionNV;
+		}
+		else if ( name == "gl_SecondaryViewportMaskNV" )
+		{
+			result = spv::BuiltInSecondaryViewportMaskNV;
+		}
+		else if ( name == "gl_PositionPerViewNV" )
+		{
+			result = spv::BuiltInPositionPerViewNV;
+		}
+		else if ( name == "gl_ViewportMaskPerViewNV" )
+		{
+			result = spv::BuiltInViewportMaskPerViewNV;
+		}
+
+		return result;
+	}
+
 	spv::MemoryModel getMemoryModel()
 	{
 		return spv::MemoryModelGLSL450;

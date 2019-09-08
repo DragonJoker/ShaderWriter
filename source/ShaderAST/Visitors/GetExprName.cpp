@@ -8,108 +8,169 @@ See LICENSE file in root folder
 
 namespace ast
 {
+	//************************************************************************
+
 	namespace
 	{
-		class IdentifierExtractor
+		class IdentifiersExtractor
 			: public expr::SimpleVisitor
 		{
 		public:
-			static expr::Identifier * submit( expr::Expr * expr )
+			static std::vector< expr::Identifier * > submit( expr::Expr * expr
+				, type::Kind kind
+				, var::Flag flag )
 			{
-				expr::Identifier * result{ nullptr };
-				IdentifierExtractor vis{ result };
+				std::vector< expr::Identifier * > result;
+				IdentifiersExtractor vis{ result, kind, flag };
 				expr->accept( &vis );
 				return result;
 			}
 
-			static expr::Identifier * submit( expr::ExprPtr const & expr )
+			static std::vector< expr::Identifier * > submit( expr::ExprPtr const & expr
+				, type::Kind kind
+				, var::Flag flag )
 			{
-				return submit( expr.get() );
+				return submit( expr.get(), kind, flag );
 			}
 
 		private:
-			IdentifierExtractor( expr::Identifier *& result )
+			IdentifiersExtractor( std::vector< expr::Identifier * > & result
+				, type::Kind kind
+				, var::Flag flag )
 				: m_result{ result }
+				, m_kind{ kind }
+				, m_flag{ flag }
 			{
 			}
 
-
 		private:
+			bool isTypeCompatible( type::TypePtr type )const
+			{
+				return m_kind == type::Kind::eUndefined
+					|| m_kind == type::getNonArrayKind( type );
+			}
+
+			bool isFlagCompatible( var::VariablePtr var )const
+			{
+				return m_flag == var::Flag::eNone
+					|| var->hasFlag( m_flag );
+			}
+
+			bool isCompatible( var::VariablePtr var )
+			{
+				return isTypeCompatible( var->getType() )
+					&& isFlagCompatible( var );
+			}
+
+			bool checkToVisit()const
+			{
+				return m_kind != type::Kind::eUndefined;
+			}
+
 			void visitUnaryExpr( expr::Unary * expr )override
 			{
-				if ( !m_result )
-				{
-					expr->getOperand()->accept( this );
-				}
+				expr->getOperand()->accept( this );
 			}
 
 			void visitBinaryExpr( expr::Binary * expr )override
 			{
-				if ( !m_result )
-				{
-					expr->getLHS()->accept( this );
-				}
-
-				if ( !m_result )
-				{
-					expr->getRHS()->accept( this );
-				}
+				expr->getLHS()->accept( this );
+				expr->getRHS()->accept( this );
 			}
 
 			void visitAggrInitExpr( expr::AggrInit * expr )override
 			{
-				if ( !m_result
-					&& expr->getIdentifier() )
+				if ( expr->getIdentifier() )
 				{
 					expr->getIdentifier()->accept( this );
+				}
+
+				if ( checkToVisit() )
+				{
+					for ( auto & arg : expr->getInitialisers() )
+					{
+						arg->accept( this );
+					}
 				}
 			}
 
 			void visitCompositeConstructExpr( expr::CompositeConstruct * expr )override
 			{
+				if ( checkToVisit() )
+				{
+					for ( auto & arg : expr->getArgList() )
+					{
+						arg->accept( this );
+					}
+				}
 			}
 
 			void visitMbrSelectExpr( expr::MbrSelect * expr )override
 			{
-				if ( !m_result )
-				{
-					expr->getOuterExpr()->accept( this );
-				}
+				expr->getOuterExpr()->accept( this );
 			}
 
 			void visitFnCallExpr( expr::FnCall * expr )override
 			{
-				if ( !m_result )
+				expr->getFn()->accept( this );
+
+				if ( checkToVisit() )
 				{
-					expr->getFn()->accept( this );
+					for ( auto & arg : expr->getArgList() )
+					{
+						arg->accept( this );
+					}
 				}
 			}
 
 			void visitIntrinsicCallExpr( expr::IntrinsicCall * expr )override
 			{
+				if ( checkToVisit() )
+				{
+					for ( auto & arg : expr->getArgList() )
+					{
+						arg->accept( this );
+					}
+				}
 			}
 
 			void visitTextureAccessCallExpr( expr::TextureAccessCall * expr )override
 			{
+				if ( checkToVisit() )
+				{
+					for ( auto & arg : expr->getArgList() )
+					{
+						arg->accept( this );
+					}
+				}
 			}
 
 			void visitImageAccessCallExpr( expr::ImageAccessCall * expr )override
 			{
+				if ( checkToVisit() )
+				{
+					for ( auto & arg : expr->getArgList() )
+					{
+						arg->accept( this );
+					}
+				}
 			}
 
 			void visitIdentifierExpr( expr::Identifier * expr )override
 			{
-				if ( !m_result )
+				if ( isCompatible( expr->getVariable() ) )
 				{
-					m_result = expr;
+					m_result.push_back( expr );
 				}
 			}
 
 			void visitInitExpr( expr::Init * expr )override
 			{
-				if ( !m_result )
+				expr->getIdentifier()->accept( this );
+
+				if ( checkToVisit() )
 				{
-					expr->getIdentifier()->accept( this );
+					expr->getInitialiser()->accept( this );
 				}
 			}
 
@@ -119,50 +180,50 @@ namespace ast
 
 			void visitQuestionExpr( expr::Question * expr )override
 			{
-				if ( !m_result )
+				expr->getCtrlExpr()->accept( this );
+
+				if ( checkToVisit() )
 				{
-					expr->getCtrlExpr()->accept( this );
+					expr->getTrueExpr()->accept( this );
+					expr->getFalseExpr()->accept( this );
 				}
 			}
 
 			void visitSwitchCaseExpr( expr::SwitchCase * expr )override
 			{
-				if ( !m_result )
-				{
-					expr->getLabel()->accept( this );
-				}
+				expr->getLabel()->accept( this );
 			}
 
 			void visitSwitchTestExpr( expr::SwitchTest * expr )override
 			{
-				if ( !m_result )
-				{
-					expr->getValue()->accept( this );
-				}
+				expr->getValue()->accept( this );
 			}
 
 			void visitSwizzleExpr( expr::Swizzle * expr )override
 			{
-				if ( !m_result )
-				{
-					expr->getOuterExpr()->accept( this );
-				}
+				expr->getOuterExpr()->accept( this );
 			}
 
 		private:
-			expr::Identifier *& m_result;
+			std::vector< expr::Identifier * > & m_result;
+			type::Kind m_kind;
+			var::Flag m_flag;
 		};
+
+		//*********************************************************************
 	}
 
-	std::vector< expr::Identifier * > listIdentifiers( expr::Expr * expr )
+	//*************************************************************************
+
+	std::vector< expr::Identifier * > listCommaIdentifiers( expr::Expr * expr )
 	{
 		std::vector< expr::Identifier * > result;
 
 		if ( expr->getKind() == expr::Kind::eComma )
 		{
 			auto comma = static_cast< expr::Comma * >( expr );
-			result = listIdentifiers( comma->getLHS() );
-			auto rhsIdents = listIdentifiers( comma->getRHS() );
+			result = listCommaIdentifiers( comma->getLHS() );
+			auto rhsIdents = listCommaIdentifiers( comma->getRHS() );
 			result.insert( result.end(), rhsIdents.begin(), rhsIdents.end() );
 		}
 		else
@@ -178,19 +239,53 @@ namespace ast
 		return result;
 	}
 
-	expr::Identifier * findIdentifier( ast::expr::Expr * expr )
+	std::vector< expr::Identifier * > listIdentifiers( expr::Expr * expr
+		, type::Kind kind
+		, var::Flag flag )
 	{
-		return IdentifierExtractor::submit( expr );
+		return IdentifiersExtractor::submit( expr, kind, flag );
 	}
 
-	expr::Identifier * findIdentifier( ast::expr::ExprPtr const & expr )
+	std::vector< expr::Identifier * > listIdentifiers( expr::ExprPtr const & expr
+		, type::Kind kind
+		, var::Flag flag )
 	{
-		return IdentifierExtractor::submit( expr );
+		return IdentifiersExtractor::submit( expr, kind, flag );
 	}
 
-	std::string findName( ast::expr::Expr * expr )
+	expr::Identifier * findIdentifier( expr::Expr * expr
+		, type::Kind kind
+		, var::Flag flag )
 	{
-		auto ident = findIdentifier( expr );
+		auto result = listIdentifiers( expr, kind, flag );
+
+		if ( result.empty() )
+		{
+			return nullptr;
+		}
+
+		return result.front();
+	}
+
+	expr::Identifier * findIdentifier( expr::ExprPtr const & expr
+		, type::Kind kind
+		, var::Flag flag )
+	{
+		auto result = listIdentifiers( expr, kind, flag );
+
+		if ( result.empty() )
+		{
+			return nullptr;
+		}
+
+		return result.front();
+	}
+
+	std::string findName( expr::Expr * expr
+		, type::Kind kind
+		, var::Flag flag )
+	{
+		auto ident = findIdentifier( expr, kind, flag );
 		std::string result;
 
 		if ( ident )
@@ -201,9 +296,11 @@ namespace ast
 		return result;
 	}
 
-	std::string findName( ast::expr::ExprPtr const & expr )
+	std::string findName( expr::ExprPtr const & expr
+		, type::Kind kind
+		, var::Flag flag )
 	{
-		auto ident = findIdentifier( expr );
+		auto ident = findIdentifier( expr, kind, flag );
 		std::string result;
 
 		if ( ident )
@@ -213,4 +310,6 @@ namespace ast
 
 		return result;
 	}
+
+	//*************************************************************************
 }
