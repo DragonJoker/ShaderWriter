@@ -4,6 +4,7 @@ See LICENSE file in root folder
 #include "CompilerSpirV/SpirvModule.hpp"
 
 #include "SpirvHelpers.hpp"
+#include "SpirvStmtRegister.hpp"
 
 #include <ShaderAST/Type/TypeImage.hpp>
 #include <ShaderAST/Type/TypeSampledImage.hpp>

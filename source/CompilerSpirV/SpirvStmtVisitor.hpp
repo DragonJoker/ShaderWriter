@@ -5,6 +5,7 @@ See LICENSE file in root folder
 #define ___SDW_SpirvStmtVisitor_H___
 #pragma once
 
+#include "SpirvHelpers.hpp"
 #include "CompilerSpirV/SpirvModule.hpp"
 
 #include <ShaderAST/Stmt/StmtVisitor.hpp>

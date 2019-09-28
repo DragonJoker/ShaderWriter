@@ -942,7 +942,7 @@ namespace spirv
 		auto paramType = expr->getArgList()[0]->getType();
 		assert( paramType->getKind() == ast::type::Kind::eImage );
 		auto imageType = std::static_pointer_cast< ast::type::Image >( paramType );
-		auto imageVarId = doSubmit( expr->getArgList()[0].get() );
+		auto imageVarId = doSubmit( expr->getArgList()[0].get(), false );
 		auto intermediateId = loadVariable( imageVarId, imageType );
 		IdList params;
 		params.push_back( intermediateId );
@@ -963,7 +963,8 @@ namespace spirv
 		{
 			IdList texelPointerParams;
 			uint32_t index = 0u;
-			texelPointerParams.push_back( params[index++] );
+			texelPointerParams.push_back( imageVarId );
+			++index;
 			texelPointerParams.push_back( params[index++] );
 
 			if ( imageType->getConfig().isMS )

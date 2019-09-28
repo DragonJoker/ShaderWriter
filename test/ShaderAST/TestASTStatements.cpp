@@ -214,7 +214,7 @@ namespace
 		testBegin( "testShaderBufferDeclStatement" );
 		{
 			ast::type::TypesCache cache;
-			auto stmt = ast::stmt::makeShaderBufferDecl( "Buffer", ast::type::MemoryLayout::eStd430, 1u, 2u );
+			auto stmt = ast::stmt::makeShaderBufferDecl( cache, "Buffer", ast::type::MemoryLayout::eStd430, 1u, 2u );
 			std::cout << "StmtShaderBufferDecl (empty):\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
 
 			require( stmt->getKind() == ast::stmt::Kind::eShaderBufferDecl );
@@ -224,7 +224,7 @@ namespace
 		}
 		{
 			ast::type::TypesCache cache;
-			auto stmt = ast::stmt::makeShaderBufferDecl( "Buffer", ast::type::MemoryLayout::eStd430, 1u, 2u );
+			auto stmt = ast::stmt::makeShaderBufferDecl( cache, "Buffer", ast::type::MemoryLayout::eStd430, 1u, 2u );
 			stmt->add( ast::stmt::makeVariableDecl( ast::var::makeVariable( cache.getInt(), "i" ) ) );
 			stmt->add( ast::stmt::makeVariableDecl( ast::var::makeVariable( cache.getInt(), "j" ) ) );
 			std::cout << "StmtShaderBufferDecl:\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;

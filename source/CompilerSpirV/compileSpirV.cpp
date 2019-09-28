@@ -1047,7 +1047,7 @@ namespace spirv
 			case spv::ScopeInvocation:
 				return "Invocation";
 			default:
-				assert( false && "Unsupported Scope" );
+				//assert( false && "Unsupported Scope" );
 				return "Undefined";
 			}
 		}

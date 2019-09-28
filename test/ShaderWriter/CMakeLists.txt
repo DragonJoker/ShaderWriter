@@ -6,7 +6,7 @@ find_package( OpenGL )
 find_package( Vulkan )
 
 include_directories( ${SPIRV_CROSS_DIR} )
-include_directories( ${VULKAN_INCLUDE_DIR} )
+include_directories( ${Vulkan_INCLUDE_DIR} )
 
 set( TEST_WRITER_COMMON_HEADER_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/WriterCommon.hpp
@@ -67,7 +67,7 @@ foreach ( TEST_FILE ${TEST_FILES} )
 		TestWriterCommon
 		${BinLibraries}
 		${OPENGL_gl_LIBRARY}
-		${VULKAN_LIBRARY}
+		${Vulkan_LIBRARY}
 	)
 
 	if ( NOT WIN32 )

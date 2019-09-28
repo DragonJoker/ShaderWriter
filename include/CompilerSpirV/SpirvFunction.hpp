@@ -9,6 +9,67 @@ See LICENSE file in root folder
 
 namespace spirv
 {
+	struct LoadedVariable
+	{
+		spv::Id varId;
+		spv::Id loadedId;
+	};
+
+	using LoadedVariableArray = std::vector< LoadedVariable >;
+
+	enum class BlockType
+	{
+		eGlobal,
+		eFunction,
+		eMax,
+	};
+
+	struct Variable
+	{
+		Variable( ast::var::VariablePtr var
+			, IdList decorations )
+			: var{ std::move( var ) }
+			, decorations{ std::move( decorations ) }
+		{
+		}
+
+		ast::var::VariablePtr var;
+		IdList decorations;
+	};
+
+	using VariablePtr = std::shared_ptr< Variable >;
+	using VariableArray = std::vector< VariablePtr >;
+
+	struct VarUsage
+	{
+		VariableArray use;
+		VariablePtr set;
+	};
+
+	using VarUsageArray = std::vector< VarUsage >;
+	using UsedVars = std::set< VariablePtr >;
+
+	struct BlockStruct
+	{
+		BlockType type;
+		VariableArray * allVars;
+		VarUsageArray usages;
+		VariableArray ownVars;
+	};
+
+	using BlockStructMap = std::map< uint32_t, BlockStruct >;
+
+	using TypeMap = std::map< uint32_t, ast::type::TypePtr >;
+
+	struct ModuleStruct
+	{
+		TypeMap types;
+		BlockStruct globalScope{ BlockType::eGlobal };
+		BlockStructMap functionScopes;
+	};
+
+	using IdSet = std::set< spv::Id >;
+
 	struct Parameter
 	{
 		spv::Id id;

@@ -7,8 +7,6 @@ See LICENSE file in root folder
 
 #include "SpirvFunction.hpp"
 
-#include "SpirvStmtRegister.hpp"
-
 namespace spirv
 {
 	using FunctionList = std::vector< Function >;

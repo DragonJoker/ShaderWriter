@@ -13,14 +13,6 @@ See LICENSE file in root folder
 
 namespace spirv
 {
-	struct LoadedVariable
-	{
-		spv::Id varId;
-		spv::Id loadedId;
-	};
-
-	using LoadedVariableArray = std::vector< LoadedVariable >;
-
 	struct ModuleConfig
 	{
 		std::set< spv::Capability > requiredCapabilities;
