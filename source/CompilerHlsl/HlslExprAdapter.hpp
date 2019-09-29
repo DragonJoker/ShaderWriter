@@ -16,12 +16,14 @@ namespace hlsl
 	public:
 		static ast::expr::ExprPtr submit( ast::type::TypesCache & cache
 			, ast::expr::Expr * expr
+			, ast::stmt::Container * container
 			, IntrinsicsConfig const & intrinsicsConfig
 			, HlslConfig const & writerConfig
 			, AdaptationData & adaptationData
 			, ast::stmt::Container * intrinsics );
 		static ast::expr::ExprPtr submit( ast::type::TypesCache & cache
 			, ast::expr::ExprPtr const & expr
+			, ast::stmt::Container * container
 			, IntrinsicsConfig const & intrinsicsConfig
 			, HlslConfig const & writerConfig
 			, AdaptationData & adaptationData
@@ -30,6 +32,7 @@ namespace hlsl
 	private:
 		ExprAdapter( ast::type::TypesCache & cache
 			, ast::expr::ExprPtr & result
+			, ast::stmt::Container * container
 			, IntrinsicsConfig const & intrinsicsConfig
 			, HlslConfig const & writerConfig
 			, AdaptationData & adaptationData
@@ -70,12 +73,16 @@ namespace hlsl
 		void doProcessTextureGatherOffsets( ast::expr::TextureAccessCall * expr );
 		void doProcessTexture( ast::expr::TextureAccessCall * expr );
 
+		ast::var::VariablePtr doMakeAlias( ast::type::TypePtr type );
+
 	private:
 		ast::type::TypesCache & m_cache;
+		ast::stmt::Container * m_container;
 		IntrinsicsConfig const & m_intrinsicsConfig;
 		HlslConfig const & m_writerConfig;
 		AdaptationData & m_adaptationData;
 		ast::stmt::Container * m_intrinsics;
+		uint32_t m_aliasId{ 0u };
 	};
 }
 

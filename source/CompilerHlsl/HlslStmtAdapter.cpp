@@ -183,6 +183,7 @@ namespace hlsl
 	{
 		return ExprAdapter::submit( m_cache
 			, expr
+			, m_current
 			, m_intrinsicsConfig
 			, m_writerConfig
 			, m_adaptationData
