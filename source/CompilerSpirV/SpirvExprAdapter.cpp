@@ -576,9 +576,14 @@ namespace spirv
 		, ast::expr::ExprPtr & aliasExpr
 		, ast::var::VariablePtr & alias )
 	{
-		if ( !needsAlias( expr->getKind()
-			, isShaderVariable( *expr )
-			, param ) )
+		auto kind = getNonArrayKind( expr->getType() );
+
+		if ( isSamplerType( kind )
+			|| isSampledImageType( kind )
+			|| isImageType( kind )
+			|| !needsAlias( expr->getKind()
+				, isShaderVariable( *expr )
+				, param ) )
 		{
 			aliasExpr = std::move( expr );
 			return false;
@@ -587,8 +592,6 @@ namespace spirv
 		alias = ast::var::makeVariable( expr->getType()
 			, "tmp_" + std::to_string( m_config.aliasId++ )
 			, ast::var::Flag::eImplicit );
-
-		auto kind = getNonArrayKind( expr->getType() );
 
 		if ( isSamplerType( kind )
 			|| isSampledImageType( kind )
@@ -600,7 +603,8 @@ namespace spirv
 		{
 			alias->updateFlag( ast::var::Flag::eLocale );
 		}
-		
+
+		alias->updateFlag( ast::var::Flag::eLocale );
 		m_container->addStmt( ast::stmt::makeSimple( ast::expr::makeInit( ast::expr::makeIdentifier( m_cache, alias ), std::move( expr ) ) ) );
 		aliasExpr = ast::expr::makeIdentifier( m_cache, alias );
 		return true;

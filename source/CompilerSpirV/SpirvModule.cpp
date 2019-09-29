@@ -1244,6 +1244,12 @@ namespace spirv
 		, std::map< std::string, spv::Id >::iterator & it )
 	{
 		auto rawTypeId = registerType( type );
+
+		if ( storage == spv::StorageClassPushConstant )
+		{
+			decorate( rawTypeId, spv::DecorationBlock );
+		}
+
 		auto varTypeId = registerPointerType( rawTypeId, storage );
 
 		if ( storage == spv::StorageClassFunction

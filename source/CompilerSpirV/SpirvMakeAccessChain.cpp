@@ -532,8 +532,18 @@ namespace spirv
 			// Register the type pointed to.
 			auto rawTypeId = module.registerType( expr->getType() );
 			// Register the pointer to the type.
+			auto storageClass = getStorageClass( ast::findIdentifier( expr )->getVariable() );
+			//auto rawKind = ast::type::getNonArrayKind( expr->getType() );
+
+			//if ( ast::type::isSampledImageType( rawKind )
+			//	|| ast::type::isImageType( rawKind ) 
+			//	|| ast::type::isSamplerType( rawKind ) )
+			//{
+			//	storageClass = spv::StorageClassUniform;
+			//}
+
 			auto pointerTypeId = module.registerPointerType( rawTypeId
-				, getStorageClass( ast::findIdentifier( expr )->getVariable() ) );
+				, storageClass );
 			// Reserve the ID for the result.
 			auto resultId = module.getIntermediateResult();
 			// Write access chain => resultId = pointerTypeId( outer.members + index ).

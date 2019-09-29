@@ -3,6 +3,7 @@
 #include "CompileGLSL.hpp"
 #include "CompileHLSL.hpp"
 #include "CompileSPIRV.hpp"
+#include "GlslToSpv.hpp"
 
 #include <CompilerGlsl/compileGlsl.hpp>
 #include <CompilerHlsl/compileHlsl.hpp>
@@ -180,7 +181,7 @@ namespace test
 
 			if ( !errors.empty() )
 			{
-				std::cout << "VkShaderModule creation raised messages:" << std::endl;
+				std::cout << "VkShaderModule creation raised messages, for CompilerSpv output:" << std::endl;
 				std::cout << errors << std::endl;
 				result = false;
 
@@ -231,6 +232,7 @@ namespace test
 		void validateSpirV( ::sdw::Shader const & shader
 			, std::vector< uint32_t > spirv
 			, std::string const & text
+			, ::sdw::SpecialisationInfo const & specialisation
 			, bool validateHlsl
 			, bool validateGlsl
 			, sdw_test::TestCounts & testCounts )
@@ -252,6 +254,26 @@ namespace test
 			else
 			{
 				displayShader( "SPIR-V", text, true );
+
+				try
+				{
+					auto glslangSpirv = compileGlslToSpv( shader.getType()
+						, glsl::compileGlsl( shader
+							, specialisation
+							, glsl::GlslConfig{} ) );
+					std::string errors;
+					auto result = test::compileSpirV( shader, glslangSpirv, errors, testCounts );
+
+					if ( !errors.empty() )
+					{
+						std::cout << "VkShaderModule creation raised messages, for glslang output:" << std::endl;
+						std::cout << errors << std::endl;
+					}
+				}
+				catch ( std::exception & exc )
+				{
+					std::cerr << exc.what() << std::endl;
+				}
 			}
 		}
 
@@ -341,6 +363,7 @@ namespace test
 					test::validateSpirV( shader
 						, spirv
 						, textSpirv
+						, specialisation
 						, validateHlsl
 						, validateGlsl
 						, testCounts );
@@ -393,10 +416,12 @@ namespace test
 			createGLSLContext( *this );
 			createHLSLContext( *this );
 			createSPIRVContext( *this );
+			initialiseGlslang();
 		}
 
 		void TestCounts::cleanup()
 		{
+			cleanupGlslang();
 			destroySPIRVContext( *this );
 			destroyHLSLContext( *this );
 			destroyGLSLContext( *this );
