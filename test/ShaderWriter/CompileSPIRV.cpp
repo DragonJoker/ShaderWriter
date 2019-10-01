@@ -471,9 +471,21 @@ namespace test
 		errors = std::string{};
 		result = createShaderModule( info, spirv );
 
-		for ( auto & error : info.errors )
+		if ( info.errors.size() == 1u )
 		{
-			errors += error + "\n";
+			auto it = info.errors.front().find( testCounts.expectedError );
+
+			if ( it == std::string::npos )
+			{
+				errors += info.errors.front() + "\n";
+			}
+		}
+		else
+		{
+			for ( auto & error : info.errors )
+			{
+				errors += error + "\n";
+			}
 		}
 
 		return result;

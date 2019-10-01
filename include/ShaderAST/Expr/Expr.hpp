@@ -84,7 +84,8 @@ namespace ast::expr
 	public:
 		Expr( type::TypesCache & cache
 			, type::TypePtr type
-			, Kind kind );
+			, Kind kind
+			, Flag flag = Flag::eNone );
 		virtual ~Expr();
 
 		virtual void accept( VisitorPtr ) = 0;
@@ -92,6 +93,11 @@ namespace ast::expr
 		inline Kind getKind()const
 		{
 			return m_kind;
+		}
+
+		inline uint32_t getFlags()const
+		{
+			return m_flags;
 		}
 
 		inline type::TypesCache & getCache()const

@@ -9,7 +9,7 @@ namespace ast::expr
 {
 	Init::Init( IdentifierPtr identifier
 		, ExprPtr initialiser )
-		: Expr{ getExprTypesCache( initialiser ), std::move( identifier->getType() ), Kind::eInit }
+		: Expr{ getExprTypesCache( initialiser ), std::move( identifier->getType() ), Kind::eInit, isExprConstant( initialiser, identifier ) ? Flag::eConstant : Flag::eNone }
 		, m_identifier{ std::move( identifier ) }
 		, m_initialiser{ std::move( initialiser ) }
 	{

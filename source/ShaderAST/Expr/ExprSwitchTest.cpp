@@ -8,7 +8,7 @@ See LICENSE file in root folder
 namespace ast::expr
 {
 	SwitchTest::SwitchTest( ExprPtr value )
-		: Expr{ getExprTypesCache( value ), std::move( value->getType() ), Kind::eSwitchTest }
+		: Expr{ getExprTypesCache( value ), std::move( value->getType() ), Kind::eSwitchTest, ( isExprConstant( value ) ? Flag::eConstant : Flag::eNone ) }
 		, m_value{ std::move( value ) }
 	{
 	}

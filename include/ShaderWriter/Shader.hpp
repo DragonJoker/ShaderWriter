@@ -78,6 +78,8 @@ namespace sdw
 		SDW_API var::VariablePtr registerMember( var::VariablePtr outer
 			, std::string const & name
 			, type::TypePtr type );
+		SDW_API var::VariablePtr registerStaticConstant( std::string const & name
+			, type::TypePtr type );
 		SDW_API var::VariablePtr registerConstant( std::string const & name
 			, type::TypePtr type );
 		SDW_API var::VariablePtr registerSpecConstant( std::string const & name

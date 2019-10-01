@@ -307,10 +307,10 @@ namespace sdw
 		auto type = T::makeType( getTypesCache() );
 		auto var = registerConstant( name
 			, type );
-		addStmt( sdw::makePreprocDefine( name
-			, makeExpr( getShader(), rhs ) ) );
+		addStmt( sdw::makeSimple( sdw::makeInit( var
+			, makeConstExpr( getShader(), rhs ) ) ) );
 		return T{ &m_shader
-			, makeExpr( getShader(), var ) };
+			, makeConstExpr( getShader(), var ) };
 	}
 
 	template< typename T >
@@ -324,12 +324,12 @@ namespace sdw
 
 		if ( enabled )
 		{
-			addStmt( sdw::makePreprocDefine( name
-				, makeExpr( getShader(), rhs ) ) );
+			addStmt( sdw::makeSimple( sdw::makeInit( var
+				, makeConstExpr( getShader(), rhs ) ) ) );
 		}
 
 		return Optional< T >{ &m_shader
-			, makeExpr( getShader(), var )
+			, makeConstExpr( getShader(), var )
 			, enabled };
 	}
 
@@ -341,11 +341,10 @@ namespace sdw
 			, uint32_t( rhs.size() ) );
 		auto var = registerConstant( name
 			, type );
-		addStmt( sdw::makePreprocDefine( name
-			, sdw::makeAggrInit( var->getType()
-				, makeExpr( getShader(), rhs ) ) ) );
+		addStmt( sdw::makeSimple( sdw::makeAggrInit( var
+				, makeConstExpr( getShader(), rhs ) ) ) );
 		return Array< T >{ &m_shader
-			, makeExpr( getShader(), var ) };
+			, makeConstExpr( getShader(), var ) };
 	}
 
 	template< typename T >
@@ -360,13 +359,12 @@ namespace sdw
 
 		if ( enabled )
 		{
-			addStmt( sdw::makePreprocDefine( name
-				, sdw::makeAggrInit( var->getType()
-					, makeExpr( getShader(), rhs ) ) ) );
+			addStmt( sdw::makeSimple( sdw::makeAggrInit( var
+				, makeConstExpr( getShader(), rhs ) ) ) );
 		}
 
 		return Optional< Array< T > >{ &m_shader
-			, makeExpr( getShader(), var )
+			, makeConstExpr( getShader(), var )
 			, enabled };
 	}
 	/**@}*/

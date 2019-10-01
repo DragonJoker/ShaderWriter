@@ -36,7 +36,8 @@ namespace ast::expr
 		, SwizzleKind swizzle )
 		: Expr{ getExprTypesCache( outer )
 			, getSwizzleType( outer->getCache(), outer->getType()->getKind(), swizzle )
-			, Kind::eSwizzle }
+			, Kind::eSwizzle
+			, ( isExprConstant( outer ) ? Flag::eConstant : Flag::eNone ) }
 		, m_outer{ std::move( outer ) }
 		, m_swizzle{ swizzle }
 	{

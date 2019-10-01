@@ -10,7 +10,7 @@ namespace ast::expr
 	Unary::Unary( type::TypePtr type
 		, ExprPtr operand
 		, Kind kind )
-		: Expr{ getExprTypesCache( operand ), std::move( type ), kind }
+		: Expr{ getExprTypesCache( operand ), std::move( type ), kind, ( isExprConstant( operand ) ? Flag::eConstant : Flag::eNone ) }
 		, m_operand{ std::move( operand ) }
 	{
 	}

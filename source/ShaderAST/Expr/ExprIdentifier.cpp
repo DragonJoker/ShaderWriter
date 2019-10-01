@@ -11,7 +11,7 @@ namespace ast::expr
 {
 	Identifier::Identifier( type::TypesCache & cache
 		, var::VariablePtr var )
-		: Expr{ cache, std::move( var->getType() ), Kind::eIdentifier }
+		: Expr{ cache, std::move( var->getType() ), Kind::eIdentifier, ( ( ( var->isConstant() || var->isShaderConstant() ) && var->isStatic() ) ? Flag::eConstant : Flag::eNone ) }
 		, m_var{ std::move( var ) }
 	{
 	}

@@ -135,6 +135,16 @@ namespace sdw
 			, outer->isUniform() ? ast::var::Flag::eUniform : ast::var::Flag( 0u ) );
 	}
 
+	var::VariablePtr Shader::registerStaticConstant( std::string const & name
+		, type::TypePtr type )
+	{
+		auto result = registerName( name
+			, type
+			, var::Flag::eShaderConstant | var::Flag::eStatic );
+		m_constants.emplace( name, type );
+		return result;
+	}
+
 	var::VariablePtr Shader::registerConstant( std::string const & name
 		, type::TypePtr type )
 	{
