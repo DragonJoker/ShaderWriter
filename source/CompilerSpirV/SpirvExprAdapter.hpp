@@ -46,9 +46,13 @@ namespace spirv
 		void visitSwizzleExpr( ast::expr::Swizzle * expr )override;
 		void visitTextureAccessCallExpr( ast::expr::TextureAccessCall * expr )override;
 
+		bool doMakeAlias( ast::expr::ExprPtr expr
+			, bool param
+			, ast::expr::ExprPtr & aliasExpr
+			, ast::var::VariablePtr & alias );
 		ast::expr::ExprPtr doMakeAlias( ast::expr::ExprPtr expr
-			, ast::var::VariablePtr & alias
-			, bool param = false );
+			, bool param
+			, ast::var::VariablePtr & alias );
 		ast::type::TypePtr doPromoteScalar( ast::expr::ExprPtr & lhs
 			, ast::expr::ExprPtr & rhs );
 		ast::expr::ExprPtr doWriteBinaryOperation( ast::expr::Kind operation

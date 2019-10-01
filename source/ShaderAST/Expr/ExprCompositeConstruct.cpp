@@ -31,7 +31,15 @@ namespace ast::expr
 	CompositeConstruct::CompositeConstruct( CompositeType composite
 		, type::Kind component
 		, ExprList && argList )
-		: Expr{ getExprTypesCache( argList ), getCompositeType( getExprTypesCache( argList ), composite, component ), Kind::eCompositeConstruct }
+		: Expr
+		{
+			getExprTypesCache( argList ),
+			getCompositeType( getExprTypesCache( argList ), composite, component ),
+			Kind::eCompositeConstruct,
+			( isExprConstant( argList )
+				? Flag::eConstant
+				: Flag::eNone )
+		}
 		, m_composite{ composite }
 		, m_component{ component }
 		, m_argList{ std::move( argList ) }

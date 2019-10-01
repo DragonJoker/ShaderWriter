@@ -27,6 +27,7 @@ namespace test
 			std::shared_ptr< GLSLContext > glsl;
 			std::shared_ptr< HLSLContext > hlsl;
 			std::shared_ptr< SPIRVContext > spirv;
+			std::string expectedError;
 		};
 	}
 
@@ -362,6 +363,8 @@ namespace test
 		, bool validateSpirV = true
 		, bool validateHlsl = true
 		, bool validateGlsl = true );
+	void expectError( std::string const & value
+		, sdw_test::TestCounts & testCounts );
 }
 
 #define sdwTestSuiteBegin( name )\

@@ -5,7 +5,7 @@ See LICENSE file in root folder
 #define ___SDW_SpirvExprVisitor_H___
 #pragma once
 
-#include "SpirvHelpers.hpp"
+#include "CompilerSpirV/SpirvModule.hpp"
 
 #include <ShaderAST/Expr/ExprVisitor.hpp>
 

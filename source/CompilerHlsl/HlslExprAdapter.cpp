@@ -934,6 +934,7 @@ namespace hlsl
 
 	ast::expr::ExprPtr ExprAdapter::submit( ast::type::TypesCache & cache
 		, ast::expr::Expr * expr
+		, ast::stmt::Container * container
 		, IntrinsicsConfig const & intrinsicsConfig
 		, HlslConfig const & writerConfig
 		, AdaptationData & adaptationData
@@ -944,6 +945,7 @@ namespace hlsl
 		{
 			cache,
 			result,
+			container,
 			intrinsicsConfig,
 			writerConfig,
 			adaptationData,
@@ -955,6 +957,7 @@ namespace hlsl
 			
 	ast::expr::ExprPtr ExprAdapter::submit( ast::type::TypesCache & cache
 		, ast::expr::ExprPtr const & expr
+		, ast::stmt::Container * container
 		, IntrinsicsConfig const & intrinsicsConfig
 		, HlslConfig const & writerConfig
 		, AdaptationData & adaptationData
@@ -962,6 +965,7 @@ namespace hlsl
 	{
 		return submit( cache
 			, expr.get()
+			, container
 			, intrinsicsConfig
 			, writerConfig
 			, adaptationData
@@ -970,12 +974,14 @@ namespace hlsl
 
 	ExprAdapter::ExprAdapter( ast::type::TypesCache & cache
 		, ast::expr::ExprPtr & result
+		, ast::stmt::Container * container
 		, IntrinsicsConfig const & intrinsicsConfig
 		, HlslConfig const & writerConfig
 		, AdaptationData & adaptationData
 		, ast::stmt::Container * intrinsics )
 		: ExprCloner{ result }
 		, m_cache{ cache }
+		, m_container{ container }
 		, m_intrinsicsConfig{ intrinsicsConfig }
 		, m_writerConfig{ writerConfig }
 		, m_adaptationData{ adaptationData }
@@ -990,6 +996,7 @@ namespace hlsl
 		{
 			m_cache,
 			result,
+			m_container,
 			m_intrinsicsConfig,
 			m_writerConfig,
 			m_adaptationData,
@@ -1196,11 +1203,11 @@ namespace hlsl
 
 	void ExprAdapter::visitIntrinsicCallExpr( ast::expr::IntrinsicCall * expr )
 	{
-		auto instantChange = getInstantChange( expr->getIntrinsic() );
+		auto adaptationInfo = getAdaptationInfo( expr->getIntrinsic() );
 
-		if ( instantChange.toOperator )
+		if ( adaptationInfo.operatorChange.toOperator )
 		{
-			switch ( instantChange.operatorKind )
+			switch ( adaptationInfo.operatorChange.operatorKind )
 			{
 			case ast::expr::Kind::eLess:
 				assert( expr->getArgList().size() == 2u );
@@ -1261,6 +1268,29 @@ namespace hlsl
 				assert( false && "Unexpected operator type." );
 				break;
 			}
+		}
+		else if ( adaptationInfo.atomicChange.isAtomic )
+		{
+			// GLSL atomics return the old value, while in HLSL it is the last parameter
+			// Hence, we first create the output value variable.
+			auto aliasVar = doMakeAlias( expr->getType() );
+			m_container->addStmt( ast::stmt::makeVariableDecl( aliasVar ) );
+			// We then parse the parameters.
+			ast::expr::ExprList args;
+
+			for ( auto & arg : expr->getArgList() )
+			{
+				args.emplace_back( doSubmit( arg.get() ) );
+			}
+
+			// We add the created output alias to the parameters list.
+			args.emplace_back( ast::expr::makeIdentifier( m_cache, aliasVar ) );
+			// We add the call to the intrinsic, and add it to the container
+			m_container->addStmt( ast::stmt::makeSimple( ast::expr::makeIntrinsicCall( expr->getType()
+				, expr->getIntrinsic()
+				, std::move( args ) ) ) );
+			// The resulting expression is now the alias.
+			m_result = ast::expr::makeIdentifier( m_cache, aliasVar );
 		}
 		else
 		{
@@ -2227,5 +2257,12 @@ namespace hlsl
 		m_result = ast::expr::makeTextureAccessCall( expr->getType()
 			, expr->getTextureAccess()
 			, std::move( args ) );
+	}
+
+	ast::var::VariablePtr ExprAdapter::doMakeAlias( ast::type::TypePtr type )
+	{
+		++m_aliasId;
+		return ast::var::makeVariable( std::move( type )
+			, "temp_" + std::to_string( m_aliasId ) );
 	}
 }

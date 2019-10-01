@@ -9,7 +9,7 @@ namespace ast::expr
 {
 	AggrInit::AggrInit( IdentifierPtr identifier
 		, ExprList && initialisers )
-		: Expr{ getExprTypesCache( *identifier, initialisers ), std::move( identifier->getType() ), Kind::eAggrInit }
+		: Expr{ getExprTypesCache( *identifier, initialisers ), std::move( identifier->getType() ), Kind::eAggrInit, isExprConstant( initialisers ) ? Flag::eConstant : Flag::eNone }
 		, m_identifier{ std::move( identifier ) }
 		, m_initialisers{ std::move( initialisers ) }
 	{

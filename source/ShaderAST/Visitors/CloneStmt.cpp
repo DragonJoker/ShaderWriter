@@ -227,8 +227,7 @@ namespace ast
 	void StmtCloner::visitShaderBufferDeclStmt( stmt::ShaderBufferDecl * stmt )
 	{
 		auto save = m_current;
-		auto cont = stmt::makeShaderBufferDecl( stmt->getSsboName()
-			, stmt->getMemoryLayout()
+		auto cont = stmt::makeShaderBufferDecl( stmt->getVariable()
 			, stmt->getBindingPoint()
 			, stmt->getDescriptorSet() );
 		m_current = cont.get();

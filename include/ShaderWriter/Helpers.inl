@@ -42,6 +42,21 @@ namespace sdw
 	}
 
 	template< typename T >
+	inline expr::ExprPtr makeConstExpr( Shader const & shader
+		, T const & value
+		, bool force )
+	{
+		expr::ExprPtr result = makeExpr( shader, value, force );
+
+		if ( result )
+		{
+			result->updateFlag( ast::expr::Flag::eConstant );
+		}
+
+		return result;
+	}
+
+	template< typename T >
 	expr::ExprList makeExpr( Shader const & shader
 		, std::vector< T > const & values
 		, bool force )
@@ -51,6 +66,22 @@ namespace sdw
 		for ( auto & value : values )
 		{
 			result.emplace_back( makeExpr( shader, value, force ) );
+		}
+
+		return result;
+	}
+
+	template< typename T >
+	inline expr::ExprList makeConstExpr( Shader const & shader
+		, std::vector< T > const & values
+		, bool force )
+	{
+		expr::ExprList result;
+
+		for ( auto & value : values )
+		{
+			result.emplace_back( makeExpr( shader, value, force ) );
+			result.back()->updateFlag( ast::expr::Flag::eConstant );
 		}
 
 		return result;

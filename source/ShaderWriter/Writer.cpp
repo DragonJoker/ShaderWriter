@@ -455,6 +455,12 @@ namespace sdw
 		m_shader.pop();
 	}
 
+	var::VariablePtr ShaderWriter::registerStaticConstant( std::string const & name
+		, type::TypePtr type )
+	{
+		return m_shader.registerStaticConstant( name, type );
+	}
+
 	var::VariablePtr ShaderWriter::registerConstant( std::string const & name
 		, type::TypePtr type )
 	{

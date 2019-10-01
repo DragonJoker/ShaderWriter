@@ -5,7 +5,7 @@ See LICENSE file in root folder
 #define ___SDW_SpirvMakeAccessChain_H___
 #pragma once
 
-#include "SpirvHelpers.hpp"
+#include "CompilerSpirV/SpirvModule.hpp"
 
 namespace spirv
 {

@@ -1,5 +1,7 @@
 #include "ShaderAST/Expr/SwizzleKind.hpp"
 
+#include <stdexcept>
+
 namespace ast::expr
 {
 	namespace

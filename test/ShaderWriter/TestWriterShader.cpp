@@ -275,7 +275,7 @@ namespace
 		auto c3d_viewMatrix = ubo.declMember< Mat4 >( "c3d_viewMatrix" );
 		ubo.end();
 
-		auto c3d_mapDepths = writer.declSampledImageArray< FImg2DRgba32 >( "c3d_mapDepth", 1u, 0u, 4u );
+		auto c3d_maps = writer.declSampledImageArray< FImg2DRgba32 >( "c3d_maps", 1u, 0u, 4u );
 
 		auto st = St::declare( writer );
 
@@ -345,11 +345,13 @@ namespace
 					, foo03( c3d_viewMatrix, v ) );
 				auto inst = st->getInstance< St >( "inst" );
 				v = foo04( inst, v );
-				v = foo05( c3d_mapDepths[0_u], vec2( 0.0_f, 1.0_f ) );
+				v = foo05( c3d_maps[0_u], vec2( 0.0_f, 1.0_f ) );
 				auto e = writer.declLocale< Vec2 >( "e" );
 				e = foo06( e );
 			} );
 
+		test::expectError( "must be a memory object declaration"
+			, testCounts );
 		test::writeShader( writer
 			, testCounts );
 		testEnd();

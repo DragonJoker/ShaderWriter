@@ -17,7 +17,7 @@ namespace
 			check( getNonArrayKind( value.getType() ) == sdw::typeEnum< T > );
 			check( getArraySize( value.getType() ) == sdw::type::NotArray );
 			auto & stmt = *shader.getStatements()->back();
-			check( stmt.getKind() == sdw::stmt::Kind::ePreprocDefine );
+			check( stmt.getKind() == sdw::stmt::Kind::eSimple );
 			DummyMain;
 			test::writeShader( writer, testCounts );
 		}
@@ -42,7 +42,7 @@ namespace
 			check( getNonArrayKind( value.getType() ) == sdw::typeEnum< T > );
 			check( getArraySize( value.getType() ) == sdw::type::NotArray );
 			auto & stmt = *shader.getStatements()->back();
-			check( stmt.getKind() == sdw::stmt::Kind::ePreprocDefine );
+			check( stmt.getKind() == sdw::stmt::Kind::eSimple );
 			DummyMain;
 			test::writeShader( writer, testCounts );
 		}
@@ -54,7 +54,7 @@ namespace
 			check( getNonArrayKind( value.getType() ) == sdw::typeEnum< T > );
 			check( getArraySize( value.getType() ) == 4u );
 			auto & stmt = *shader.getStatements()->back();
-			check( stmt.getKind() == sdw::stmt::Kind::ePreprocDefine );
+			check( stmt.getKind() == sdw::stmt::Kind::eSimple );
 			DummyMain;
 			test::writeShader( writer, testCounts );
 		}
@@ -79,7 +79,7 @@ namespace
 			check( getNonArrayKind( value.getType() ) == sdw::typeEnum< T > );
 			check( getArraySize( value.getType() ) == 4u );
 			auto & stmt = *shader.getStatements()->back();
-			check( stmt.getKind() == sdw::stmt::Kind::ePreprocDefine );
+			check( stmt.getKind() == sdw::stmt::Kind::eSimple );
 			DummyMain;
 			test::writeShader( writer, testCounts );
 		}

@@ -158,6 +158,11 @@ namespace glsl
 	{
 		if ( expr->getIdentifier() )
 		{
+			if ( expr->isConstant() )
+			{
+				m_result += "const ";
+			}
+
 			m_result += getTypeName( expr->getType() ) + " ";
 			expr->getIdentifier()->accept( this );
 			m_result += getTypeArraySize( expr->getType() );
@@ -257,6 +262,11 @@ namespace glsl
 
 	void ExprVisitor::visitInitExpr( ast::expr::Init * expr )
 	{
+		if ( expr->isConstant() )
+		{
+			m_result += "static const ";
+		}
+
 		m_result += getTypeName( expr->getType() ) + " ";
 		expr->getIdentifier()->accept( this );
 		m_result += getTypeArraySize( expr->getIdentifier()->getType() );

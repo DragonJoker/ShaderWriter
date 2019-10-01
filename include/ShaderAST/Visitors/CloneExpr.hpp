@@ -27,6 +27,7 @@ namespace ast
 		void visitAddExpr( expr::Add * expr )override;
 		void visitAddAssignExpr( expr::AddAssign * expr )override;
 		void visitAggrInitExpr( expr::AggrInit * expr )override;
+		void visitAliasExpr( expr::Alias * expr )override;
 		void visitAndAssignExpr( expr::AndAssign * expr )override;
 		void visitArrayAccessExpr( expr::ArrayAccess * expr )override;
 		void visitAssignExpr( expr::Assign * expr )override;

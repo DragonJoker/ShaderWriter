@@ -87,6 +87,12 @@ namespace sdw
 	SDW_API expr::ExprPtr makeExpr( Shader const & shader
 		, ast::expr::ExprPtr const & expr
 		, bool force = true );
+
+	template< typename T >
+	expr::ExprPtr makeConstExpr( Shader const & shader
+		, T const & value
+		, bool force = true );
+
 	SDW_API expr::ExprList makeFnArg( Shader const & shader
 		, bool value );
 	SDW_API expr::ExprList makeFnArg( Shader const & shader
@@ -258,6 +264,10 @@ namespace sdw
 	template< typename T >
 	expr::ExprList makeExpr( Shader const & shader
 		, std::vector< T > const & values
+		, bool force = true );
+	template< typename T >
+	expr::ExprList makeConstExpr( Shader const & shader
+		, std::vector< T > const & value
 		, bool force = true );
 
 	SDW_API void addStmt( Shader & shader

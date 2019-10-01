@@ -508,7 +508,8 @@ namespace ast::debug
 		m_result += std::to_string( stmt->getBindingPoint() ) + ") D(";
 		m_result += std::to_string( stmt->getDescriptorSet() ) + ") L(";
 		m_result += getName( stmt->getMemoryLayout() ) + ") ";
-		m_result += stmt->getSsboName() + "\n";
+		m_result += stmt->getSsboName() + ", ";
+		m_result += displayVar( stmt->getVariable() ) + "\n";
 		m_compoundName = false;
 		visitCompoundStmt( stmt );
 	}

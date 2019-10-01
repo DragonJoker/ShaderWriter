@@ -187,6 +187,9 @@ namespace ast::debug
 			case expr::Kind::eArrayAccess:
 				result = "ARRAYACCESS";
 				break;
+			case expr::Kind::eAlias:
+				result = "ALIAS";
+				break;
 			default:
 				throw std::runtime_error{ "Non operation expression" };
 			}

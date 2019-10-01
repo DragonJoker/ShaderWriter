@@ -132,6 +132,8 @@ if ( WIN32 )
 		CONFIGURATIONS Release
 		EXPORT ${PROJECT_NAME}
 		RUNTIME DESTINATION bin
+		ARCHIVE DESTINATION lib
+		LIBRARY DESTINATION lib
 	)
 	install(
 		TARGETS ${PROJECT_NAME}
@@ -139,6 +141,8 @@ if ( WIN32 )
 		CONFIGURATIONS RelWithDebInfo
 		EXPORT ${PROJECT_NAME}
 		RUNTIME DESTINATION bin/RelWithDebInfo
+		ARCHIVE DESTINATION lib/RelWithDebInfo
+		LIBRARY DESTINATION lib/RelWithDebInfo
 	)
 	install(
 		TARGETS ${PROJECT_NAME}
@@ -146,6 +150,8 @@ if ( WIN32 )
 		CONFIGURATIONS Debug
 		EXPORT ${PROJECT_NAME}
 		RUNTIME DESTINATION bin/Debug
+		ARCHIVE DESTINATION lib/Debug
+		LIBRARY DESTINATION lib/Debug
 	)
 else ()
 	#We install each .so in <install_dir>/lib folder

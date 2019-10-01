@@ -11,15 +11,23 @@ See LICENSE file in root folder
 
 namespace hlsl
 {
-	struct InstantChange
+	struct IntrinsicAdaptationInfo
 	{
-		bool toOperator{ false };
-		ast::expr::Kind operatorKind;
+		struct
+		{
+			bool toOperator{ false };
+			ast::expr::Kind operatorKind;
+		} operatorChange;
+		struct
+		{
+			bool isAtomic{ false };
+			uint32_t outputIndex;
+		} atomicChange;
 	};
 
-	inline InstantChange getInstantChange( ast::expr::Intrinsic value )
+	inline IntrinsicAdaptationInfo getAdaptationInfo( ast::expr::Intrinsic value )
 	{
-		InstantChange result;
+		IntrinsicAdaptationInfo result;
 
 		switch ( value )
 		{
@@ -41,8 +49,8 @@ namespace hlsl
 		case ast::expr::Intrinsic::eMatrixCompMult4x2D:
 		case ast::expr::Intrinsic::eMatrixCompMult4x3D:
 		case ast::expr::Intrinsic::eMatrixCompMult4x4D:
-			result.toOperator = true;
-			result.operatorKind = ast::expr::Kind::eTimes;
+			result.operatorChange.toOperator = true;
+			result.operatorChange.operatorKind = ast::expr::Kind::eTimes;
 			break;
 
 		case ast::expr::Intrinsic::eLessThan2F:
@@ -57,8 +65,8 @@ namespace hlsl
 		case ast::expr::Intrinsic::eLessThan2U:
 		case ast::expr::Intrinsic::eLessThan3U:
 		case ast::expr::Intrinsic::eLessThan4U:
-			result.toOperator = true;
-			result.operatorKind = ast::expr::Kind::eLess;
+			result.operatorChange.toOperator = true;
+			result.operatorChange.operatorKind = ast::expr::Kind::eLess;
 			break;
 
 		case ast::expr::Intrinsic::eLessThanEqual2F:
@@ -73,8 +81,8 @@ namespace hlsl
 		case ast::expr::Intrinsic::eLessThanEqual2U:
 		case ast::expr::Intrinsic::eLessThanEqual3U:
 		case ast::expr::Intrinsic::eLessThanEqual4U:
-			result.toOperator = true;
-			result.operatorKind = ast::expr::Kind::eLessEqual;
+			result.operatorChange.toOperator = true;
+			result.operatorChange.operatorKind = ast::expr::Kind::eLessEqual;
 			break;
 
 		case ast::expr::Intrinsic::eGreaterThan2F:
@@ -89,8 +97,8 @@ namespace hlsl
 		case ast::expr::Intrinsic::eGreaterThan2U:
 		case ast::expr::Intrinsic::eGreaterThan3U:
 		case ast::expr::Intrinsic::eGreaterThan4U:
-			result.toOperator = true;
-			result.operatorKind = ast::expr::Kind::eGreater;
+			result.operatorChange.toOperator = true;
+			result.operatorChange.operatorKind = ast::expr::Kind::eGreater;
 			break;
 
 		case ast::expr::Intrinsic::eGreaterThanEqual2F:
@@ -105,8 +113,8 @@ namespace hlsl
 		case ast::expr::Intrinsic::eGreaterThanEqual2U:
 		case ast::expr::Intrinsic::eGreaterThanEqual3U:
 		case ast::expr::Intrinsic::eGreaterThanEqual4U:
-			result.toOperator = true;
-			result.operatorKind = ast::expr::Kind::eGreaterEqual;
+			result.operatorChange.toOperator = true;
+			result.operatorChange.operatorKind = ast::expr::Kind::eGreaterEqual;
 			break;
 
 		case ast::expr::Intrinsic::eEqual2F:
@@ -121,8 +129,8 @@ namespace hlsl
 		case ast::expr::Intrinsic::eEqual2U:
 		case ast::expr::Intrinsic::eEqual3U:
 		case ast::expr::Intrinsic::eEqual4U:
-			result.toOperator = true;
-			result.operatorKind = ast::expr::Kind::eEqual;
+			result.operatorChange.toOperator = true;
+			result.operatorChange.operatorKind = ast::expr::Kind::eEqual;
 			break;
 
 		case ast::expr::Intrinsic::eNotEqual2F:
@@ -137,15 +145,39 @@ namespace hlsl
 		case ast::expr::Intrinsic::eNotEqual2U:
 		case ast::expr::Intrinsic::eNotEqual3U:
 		case ast::expr::Intrinsic::eNotEqual4U:
-			result.toOperator = true;
-			result.operatorKind = ast::expr::Kind::eNotEqual;
+			result.operatorChange.toOperator = true;
+			result.operatorChange.operatorKind = ast::expr::Kind::eNotEqual;
 			break;
 
 		case ast::expr::Intrinsic::eNot2:
 		case ast::expr::Intrinsic::eNot3:
 		case ast::expr::Intrinsic::eNot4:
-			result.toOperator = true;
-			result.operatorKind = ast::expr::Kind::eLogNot;
+			result.operatorChange.toOperator = true;
+			result.operatorChange.operatorKind = ast::expr::Kind::eLogNot;
+			break;
+
+		case ast::expr::Intrinsic::eAtomicAddI:
+		case ast::expr::Intrinsic::eAtomicAddU:
+		case ast::expr::Intrinsic::eAtomicMinI:
+		case ast::expr::Intrinsic::eAtomicMinU:
+		case ast::expr::Intrinsic::eAtomicMaxI:
+		case ast::expr::Intrinsic::eAtomicMaxU:
+		case ast::expr::Intrinsic::eAtomicAndI:
+		case ast::expr::Intrinsic::eAtomicAndU:
+		case ast::expr::Intrinsic::eAtomicOrI:
+		case ast::expr::Intrinsic::eAtomicOrU:
+		case ast::expr::Intrinsic::eAtomicXorI:
+		case ast::expr::Intrinsic::eAtomicXorU:
+		case ast::expr::Intrinsic::eAtomicExchangeI:
+		case ast::expr::Intrinsic::eAtomicExchangeU:
+			result.atomicChange.isAtomic = true;
+			result.atomicChange.outputIndex = 2u;
+			break;
+
+		case ast::expr::Intrinsic::eAtomicCompSwapI:
+		case ast::expr::Intrinsic::eAtomicCompSwapU:
+			result.atomicChange.isAtomic = true;
+			result.atomicChange.outputIndex = 3u;
 			break;
 		}
 

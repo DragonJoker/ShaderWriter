@@ -20,18 +20,19 @@ namespace spirv
 	{
 		ast::expr::CompositeType getCompositeType( uint32_t count )
 		{
-			ast::expr::CompositeType result = ast::expr::CompositeType::eScalar;
+			using ast::expr::CompositeType;
+			CompositeType result = CompositeType::eScalar;
 
 			switch ( count )
 			{
 			case 2:
-				result = ast::expr::CompositeType::eVec2;
+				result = CompositeType::eVec2;
 				break;
 			case 3:
-				result = ast::expr::CompositeType::eVec3;
+				result = CompositeType::eVec3;
 				break;
 			case 4:
-				result = ast::expr::CompositeType::eVec4;
+				result = CompositeType::eVec4;
 				break;
 			}
 
@@ -42,25 +43,27 @@ namespace spirv
 			, bool uniform
 			, bool param )
 		{
-			return ( kind != ast::expr::Kind::eIdentifier || uniform )
-				&& kind != ast::expr::Kind::eMbrSelect
-				&& ( param || kind != ast::expr::Kind::eLiteral )
-				&& ( param || kind != ast::expr::Kind::eSwizzle );
+			using ast::expr::Kind;
+			return ( uniform || kind != Kind::eIdentifier )
+				&& ( param || kind != Kind::eMbrSelect )
+				&& ( param || kind != Kind::eLiteral )
+				&& ( param || kind != Kind::eSwizzle );
 		}
 
 		ast::expr::ExprPtr makeZero( ast::type::TypesCache & cache
 			, ast::type::Kind kind )
 		{
+			using ast::type::Kind;
 			switch ( kind )
 			{
-			case ast::type::Kind::eInt:
+			case Kind::eInt:
 				return ast::expr::makeLiteral( cache, 0 );
-			case ast::type::Kind::eUInt:
+			case Kind::eUInt:
 				return ast::expr::makeLiteral( cache, 0u );
-			case ast::type::Kind::eHalf:
-			case ast::type::Kind::eFloat:
+			case Kind::eHalf:
+			case Kind::eFloat:
 				return ast::expr::makeLiteral( cache, 0.0f );
-			case ast::type::Kind::eDouble:
+			case Kind::eDouble:
 				return ast::expr::makeLiteral( cache, 0.0 );
 			default:
 				assert( false && "Unsupported type kind for 0 literal" );
@@ -71,16 +74,17 @@ namespace spirv
 		ast::expr::ExprPtr makeOne( ast::type::TypesCache & cache
 			, ast::type::Kind kind )
 		{
+			using ast::type::Kind;
 			switch ( kind )
 			{
-			case ast::type::Kind::eInt:
+			case Kind::eInt:
 				return ast::expr::makeLiteral( cache, 1 );
-			case ast::type::Kind::eUInt:
+			case Kind::eUInt:
 				return ast::expr::makeLiteral( cache, 1u );
-			case ast::type::Kind::eHalf:
-			case ast::type::Kind::eFloat:
+			case Kind::eHalf:
+			case Kind::eFloat:
 				return ast::expr::makeLiteral( cache, 1.0f );
-			case ast::type::Kind::eDouble:
+			case Kind::eDouble:
 				return ast::expr::makeLiteral( cache, 1.0 );
 			default:
 				assert( false && "Unsupported type kind for 0 literal" );
@@ -251,19 +255,19 @@ namespace spirv
 			auto & arg = *expr->getArgList().front();
 			auto argType = arg.getType();
 			ast::var::VariablePtr alias;
-			auto newArg = doMakeAlias( doSubmit( &arg ), alias );
+			ast::expr::ExprPtr argAlias = doMakeAlias( doSubmit( &arg ), false, alias );
 
 			if ( isVectorType( argType->getKind() ) )
 			{
 				doConstructVector( expr
-					, newArg
+					, argAlias
 					, expr->getType()->getKind()
 					, args );
 			}
 			else if ( isMatrixType( argType->getKind() ) )
 			{
 				doConstructMatrix( expr
-					, newArg
+					, argAlias
 					, expr->getType()->getKind()
 					, args );
 			}
@@ -298,37 +302,67 @@ namespace spirv
 		for ( auto & arg : expr->getArgList() )
 		{
 			auto kind = getNonArrayKind( arg->getType() );
+			auto param = *( it++ );
 
 			if ( isSamplerType( kind )
 				|| isSampledImageType( kind )
 				|| isImageType( kind ) )
 			{
-				// Images/Samplers/SampledImages are uniform constant pointers.
-				args.emplace_back( doSubmit( arg.get() ) );
+				if ( arg->getKind() == ast::expr::Kind::eArrayAccess )
+				{
+					ast::var::VariablePtr alias;
+					auto expr = doSubmit( arg.get() );
+					ast::expr::ExprPtr aliasExpr;
+
+					if ( doMakeAlias( std::move( expr ), true, aliasExpr, alias ) )
+					{
+						auto argIdent = ast::findIdentifier( arg, kind, ast::var::Flag::eUniform );
+
+						if ( argIdent )
+						{
+							// For samplers and imges, the eUniform flag from the function parameter must be removed,
+							// since the alias can't have it.
+							param->updateFlag( ast::var::Flag::eUniform, false );
+							//// Then the eConstant flag must be added, to match
+							//auto aliaIdent
+							//( aliasExpr )->getVariable()->updateFlag( ast::var::Flag::eConstant, true );
+						}
+					}
+
+					args.emplace_back( std::move( aliasExpr ) );
+
+					if ( param->isOutputParam()
+						&& alias )
+					{
+						outputParams.push_back( { doSubmit( arg.get() ), alias } );
+					}
+				}
+				else
+				{
+					// Images/Samplers/SampledImages are uniform constant pointers.
+					args.emplace_back( doSubmit( arg.get() ) );
+				}
 			}
-			else if ( isAccessChain( arg.get() )
-				&& arg->getKind() != ast::expr::Kind::eSwizzle
-				&& arg->getKind() != ast::expr::Kind::eLiteral
-				&& ( arg->getKind() != ast::expr::Kind::eIdentifier
-					|| !isShaderVariable( *arg ) ) )
-			{
-				// Access chains are pointers, hence no need for an alias.
-				args.emplace_back( doSubmit( arg.get() ) );
-			}
+			//else if ( isAccessChain( arg.get() )
+			//	&& arg->getKind() != ast::expr::Kind::eSwizzle
+			//	&& arg->getKind() != ast::expr::Kind::eLiteral
+			//	&& ( arg->getKind() != ast::expr::Kind::eIdentifier
+			//		|| !isShaderVariable( *arg ) ) )
+			//{
+			//	// Access chains are pointers, hence no need for an alias.
+			//	args.emplace_back( doSubmit( arg.get() ) );
+			//}
 			else
 			{
 				ast::var::VariablePtr alias;
-				auto expr = doMakeAlias( doSubmit( arg.get() ), alias, true );
-				args.emplace_back( std::move( expr ) );
+				args.emplace_back( doMakeAlias( doSubmit( arg.get() ), true, alias ) );
 
-				if ( ( *it )->isOutputParam()
+				if ( param->isOutputParam()
 					&& alias )
 				{
 					outputParams.push_back( { doSubmit( arg.get() ), alias } );
 				}
 			}
-
-			++it;
 		}
 
 		if ( expr->isMember() )
@@ -432,7 +466,7 @@ namespace spirv
 			assert( condComponents == 1u );
 			ast::expr::ExprList args;
 			ast::var::VariablePtr alias;
-			args.emplace_back( doMakeAlias( doSubmit( expr->getCtrlExpr() ), alias ) );
+			args.emplace_back( doMakeAlias( doSubmit( expr->getCtrlExpr() ), false, alias ) );
 			m_result = ast::expr::makeQuestion( expr->getType()
 				, doSubmit( ast::expr::makeCompositeConstruct( getCompositeType( opsComponents )
 					, expr->getCtrlExpr()->getType()->getKind()
@@ -537,22 +571,52 @@ namespace spirv
 		}
 	}
 
-	ast::expr::ExprPtr ExprAdapter::doMakeAlias( ast::expr::ExprPtr expr
-		, ast::var::VariablePtr & alias
-		, bool param )
+	bool ExprAdapter::doMakeAlias( ast::expr::ExprPtr expr
+		, bool param
+		, ast::expr::ExprPtr & aliasExpr
+		, ast::var::VariablePtr & alias )
 	{
-		if ( !needsAlias( expr->getKind()
-			, isShaderVariable( *expr )
-			, param ) )
+		auto kind = getNonArrayKind( expr->getType() );
+
+		if ( isSamplerType( kind )
+			|| isSampledImageType( kind )
+			|| isImageType( kind )
+			|| !needsAlias( expr->getKind()
+				, isShaderVariable( *expr )
+				, param ) )
 		{
-			return expr;
+			aliasExpr = std::move( expr );
+			return false;
 		}
 
 		alias = ast::var::makeVariable( expr->getType()
 			, "tmp_" + std::to_string( m_config.aliasId++ )
-			, ast::var::Flag::eLocale | ast::var::Flag::eImplicit );
+			, ast::var::Flag::eImplicit );
+
+		if ( isSamplerType( kind )
+			|| isSampledImageType( kind )
+			|| isImageType( kind ) )
+		{
+			alias->updateFlag( ast::var::Flag::eConstant );
+		}
+		else
+		{
+			alias->updateFlag( ast::var::Flag::eLocale );
+		}
+
+		alias->updateFlag( ast::var::Flag::eLocale );
 		m_container->addStmt( ast::stmt::makeSimple( ast::expr::makeInit( ast::expr::makeIdentifier( m_cache, alias ), std::move( expr ) ) ) );
-		return ast::expr::makeIdentifier( m_cache, alias );
+		aliasExpr = ast::expr::makeIdentifier( m_cache, alias );
+		return true;
+	}
+
+	ast::expr::ExprPtr ExprAdapter::doMakeAlias( ast::expr::ExprPtr expr
+		, bool param
+		, ast::var::VariablePtr & alias )
+	{
+		ast::expr::ExprPtr result;
+		doMakeAlias( std::move( expr ), param, result, alias );
+		return result;
 	}
 
 	ast::type::TypePtr ExprAdapter::doPromoteScalar( ast::expr::ExprPtr & lhs
@@ -574,7 +638,7 @@ namespace spirv
 				ast::expr::ExprList args;
 				auto count = getComponentCount( result->getKind() );
 				ast::var::VariablePtr aliasVar;
-				auto alias = doMakeAlias( doSubmit( lhs.get() ), aliasVar );
+				auto alias = doMakeAlias( doSubmit( lhs.get() ), false, aliasVar );
 
 				for ( auto i = 0u; i < count; ++i )
 				{
@@ -591,7 +655,7 @@ namespace spirv
 				ast::expr::ExprList args;
 				auto count = getComponentCount( result->getKind() );
 				ast::var::VariablePtr aliasVar;
-				auto alias = doMakeAlias( doSubmit( rhs.get() ), aliasVar );
+				auto alias = doMakeAlias( doSubmit( rhs.get() ), false, aliasVar );
 
 				for ( auto i = 0u; i < count; ++i )
 				{
@@ -643,8 +707,8 @@ namespace spirv
 
 			ast::expr::ExprList args;
 			ast::var::VariablePtr lhsAlias, rhsAlias;
-			lhsExpr = doMakeAlias( std::move( lhsExpr ), lhsAlias );
-			rhsExpr = doMakeAlias( std::move( rhsExpr ), rhsAlias );
+			lhsExpr = doMakeAlias( std::move( lhsExpr ), false, lhsAlias );
+			rhsExpr = doMakeAlias( std::move( rhsExpr ), false, rhsAlias );
 
 			switch ( operation )
 			{

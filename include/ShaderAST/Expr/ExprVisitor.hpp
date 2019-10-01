@@ -8,6 +8,7 @@ See LICENSE file in root folder
 #include "ExprAdd.hpp"
 #include "ExprAddAssign.hpp"
 #include "ExprAggrInit.hpp"
+#include "ExprAlias.hpp"
 #include "ExprAndAssign.hpp"
 #include "ExprArrayAccess.hpp"
 #include "ExprAssign.hpp"
@@ -77,6 +78,7 @@ namespace ast::expr
 		virtual void visitAddExpr( Add * ) = 0;
 		virtual void visitAddAssignExpr( AddAssign * ) = 0;
 		virtual void visitAggrInitExpr( AggrInit * ) = 0;
+		virtual void visitAliasExpr( Alias * ) = 0;
 		virtual void visitAndAssignExpr( AndAssign * ) = 0;
 		virtual void visitArrayAccessExpr( ArrayAccess * ) = 0;
 		virtual void visitAssignExpr( Assign * ) = 0;
@@ -151,6 +153,10 @@ namespace ast::expr
 			visitBinaryExpr( expr );
 		}
 		void visitAddAssignExpr( AddAssign * expr )override
+		{
+			visitBinaryExpr( expr );
+		}
+		void visitAliasExpr( Alias * expr )override
 		{
 			visitBinaryExpr( expr );
 		}

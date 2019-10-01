@@ -1,15 +1,31 @@
 file( GLOB TEST_FILES ${CMAKE_CURRENT_SOURCE_DIR}/Test*.cpp )
 
 set( SPIRV_CROSS_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../../external/SPIRV-Cross )
+set( GLSLANG_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../../external/glslang )
 
 find_package( OpenGL )
 find_package( Vulkan )
 
 include_directories( ${SPIRV_CROSS_DIR} )
-include_directories( ${VULKAN_INCLUDE_DIR} )
+include_directories( ${Vulkan_INCLUDE_DIR} )
+include_directories( ${GLSLANG_DIR} )
+
+set( ENABLE_GLSLANG_BINARIES FALSE CACHE BOOL "Builds glslangValidator and spirv-remap" FORCE )
+set( ENABLE_AMD_EXTENSIONS FALSE CACHE BOOL "Enables support of AMD-specific extensions" FORCE )
+set( ENABLE_NV_EXTENSIONS FALSE CACHE BOOL "Enables support of Nvidia-specific extensions" FORCE )
+set( ENABLE_HLSL FALSE CACHE BOOL "Enables HLSL input support" FORCE )
+set( BUILD_TESTING OFF )
+set( SKIP_GLSLANG_INSTALL ON )
+add_subdirectory( ${GLSLANG_DIR} ${CMAKE_BINARY_DIR}/external/glslang )
+set_property( TARGET glslang PROPERTY FOLDER "glslang" )
+set_property( TARGET OGLCompiler PROPERTY FOLDER "glslang" )
+set_property( TARGET OSDependent PROPERTY FOLDER "glslang" )
+set_property( TARGET SPIRV PROPERTY FOLDER "glslang" )
+set_property( TARGET SPVRemapper PROPERTY FOLDER "glslang" )
 
 set( TEST_WRITER_COMMON_HEADER_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/WriterCommon.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/GlslToSpv.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/CompileHLSL.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/CompileGLSL.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/CompileSPIRV.hpp
@@ -25,6 +41,7 @@ set( TEST_WRITER_COMMON_HEADER_FILES
 )
 set( TEST_WRITER_COMMON_SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/WriterCommon.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/GlslToSpv.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/CompileHLSL.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/CompileGLSL.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/CompileSPIRV.cpp
@@ -44,14 +61,6 @@ add_library( TestWriterCommon
 set_property( TARGET TestWriterCommon PROPERTY CXX_STANDARD 17 )
 set_property( TARGET TestWriterCommon PROPERTY FOLDER "Tests/ShaderWriter" )
 
-add_dependencies( TestWriterCommon
-	ShaderAST
-	ShaderWriter
-	CompilerGlsl
-	CompilerHlsl
-	CompilerSpirV
-)
-
 foreach ( TEST_FILE ${TEST_FILES} )
 	get_filename_component( TEST_NAME ${TEST_FILE} NAME_WE )
 	add_executable( ${TEST_NAME}
@@ -67,7 +76,12 @@ foreach ( TEST_FILE ${TEST_FILES} )
 		TestWriterCommon
 		${BinLibraries}
 		${OPENGL_gl_LIBRARY}
-		${VULKAN_LIBRARY}
+		${Vulkan_LIBRARY}
+		glslang
+		OGLCompiler
+		OSDependent
+		SPVRemapper
+		SPIRV
 	)
 
 	if ( NOT WIN32 )

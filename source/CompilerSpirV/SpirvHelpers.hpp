@@ -13,14 +13,6 @@ See LICENSE file in root folder
 
 namespace spirv
 {
-	struct LoadedVariable
-	{
-		spv::Id varId;
-		spv::Id loadedId;
-	};
-
-	using LoadedVariableArray = std::vector< LoadedVariable >;
-
 	struct ModuleConfig
 	{
 		std::set< spv::Capability > requiredCapabilities;
@@ -48,6 +40,7 @@ namespace spirv
 		std::map< std::string, ast::expr::ExprPtr > defines;
 	};
 
+	spv::BuiltIn getBuiltin( std::string const & name );
 	spv::MemoryModel getMemoryModel();
 	spv::ExecutionModel getExecutionModel( sdw::ShaderStage kind );
 	std::string getTypeName( spv::Op op );

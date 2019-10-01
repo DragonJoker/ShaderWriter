@@ -3,6 +3,7 @@
 #include "CompileGLSL.hpp"
 #include "CompileHLSL.hpp"
 #include "CompileSPIRV.hpp"
+#include "GlslToSpv.hpp"
 
 #include <CompilerGlsl/compileGlsl.hpp>
 #include <CompilerHlsl/compileHlsl.hpp>
@@ -136,8 +137,7 @@ namespace test
 		}
 
 		std::string validateSpirVToGlsl( std::vector< uint32_t > const & spirv
-			, ast::ShaderStage stage
-			, sdw_test::TestCounts & testCounts )
+			, ast::ShaderStage stage )
 		{
 			auto compiler = std::make_unique< spirv_cross::CompilerGLSL >( spirv );
 			doSetEntryPoint( stage, *compiler );
@@ -146,8 +146,7 @@ namespace test
 		}
 
 		std::string validateSpirVToHlsl( std::vector< uint32_t > const & spirv
-			, ast::ShaderStage stage
-			, sdw_test::TestCounts & testCounts )
+			, ast::ShaderStage stage )
 		{
 			auto compiler = std::make_unique< spirv_cross::CompilerHLSL >( spirv );
 			doSetEntryPoint( stage, *compiler );
@@ -180,7 +179,7 @@ namespace test
 
 			if ( !errors.empty() )
 			{
-				std::cout << "VkShaderModule creation raised messages:" << std::endl;
+				std::cout << "VkShaderModule creation raised messages, for CompilerSpv output:" << std::endl;
 				std::cout << errors << std::endl;
 				result = false;
 
@@ -231,6 +230,7 @@ namespace test
 		void validateSpirV( ::sdw::Shader const & shader
 			, std::vector< uint32_t > spirv
 			, std::string const & text
+			, ::sdw::SpecialisationInfo const & specialisation
 			, bool validateHlsl
 			, bool validateGlsl
 			, sdw_test::TestCounts & testCounts )
@@ -239,25 +239,44 @@ namespace test
 			{
 				if ( validateGlsl )
 				{
-					auto crossGlsl = test::validateSpirVToGlsl( spirv, shader.getType(), testCounts );
+					auto crossGlsl = test::validateSpirVToGlsl( spirv, shader.getType() );
 					displayShader( "SPIRV-Cross GLSL", crossGlsl );
 				}
 
 				if ( validateHlsl )
 				{
-					auto crossHlsl = test::validateSpirVToHlsl( spirv, shader.getType(), testCounts );
+					auto crossHlsl = test::validateSpirVToHlsl( spirv, shader.getType() );
 					displayShader( "SPIRV-Cross HLSL", crossHlsl );
 				}
 			}
 			else
 			{
 				displayShader( "SPIR-V", text, true );
+
+				try
+				{
+					auto glslangSpirv = compileGlslToSpv( shader.getType()
+						, glsl::compileGlsl( shader
+							, specialisation
+							, glsl::GlslConfig{} ) );
+					std::string errors;
+					auto result = test::compileSpirV( shader, glslangSpirv, errors, testCounts );
+
+					if ( !errors.empty() )
+					{
+						std::cout << "VkShaderModule creation raised messages, for glslang output:" << std::endl;
+						std::cout << errors << std::endl;
+					}
+				}
+				catch ( std::exception & exc )
+				{
+					std::cerr << exc.what() << std::endl;
+				}
 			}
 		}
 
 		void testWriteDebug( ::sdw::Shader const & shader
-			, ::sdw::SpecialisationInfo const & specialisation
-			, sdw_test::TestCounts & testCounts )
+			, ::sdw::SpecialisationInfo const & specialisation )
 		{
 			auto debug = ::sdw::writeDebug( shader );
 			displayShader( "Statements", debug );
@@ -341,6 +360,7 @@ namespace test
 					test::validateSpirV( shader
 						, spirv
 						, textSpirv
+						, specialisation
 						, validateHlsl
 						, validateGlsl
 						, testCounts );
@@ -393,10 +413,12 @@ namespace test
 			createGLSLContext( *this );
 			createHLSLContext( *this );
 			createSPIRVContext( *this );
+			initialiseGlslang();
 		}
 
 		void TestCounts::cleanup()
 		{
+			cleanupGlslang();
 			destroySPIRVContext( *this );
 			destroyHLSLContext( *this );
 			destroyGLSLContext( *this );
@@ -411,9 +433,15 @@ namespace test
 		, bool validateGlsl )
 	{
 		auto specialisation = getSpecialisationInfo( writer.getShader() );
-		checkNoThrow( testWriteDebug( writer.getShader(), specialisation, testCounts ) );
+		checkNoThrow( testWriteDebug( writer.getShader(), specialisation ) );
 		checkNoThrow( testWriteSpirV( writer.getShader(), specialisation, validateSpirV, validateHlsl, validateGlsl, testCounts ) );
 		checkNoThrow( testWriteGlsl( writer.getShader(), specialisation, validateGlsl, testCounts ) );
 		checkNoThrow( testWriteHlsl( writer.getShader(), specialisation, validateHlsl, testCounts ) );
+	}
+
+	void expectError( std::string const & value
+		, sdw_test::TestCounts & testCounts )
+	{
+		testCounts.expectedError = value;
 	}
 }

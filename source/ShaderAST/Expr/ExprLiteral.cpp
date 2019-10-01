@@ -10,7 +10,7 @@ namespace ast::expr
 	Literal::Literal( type::TypesCache & cache
 		, type::TypePtr type
 		, bool value )
-		: Expr{ cache, std::move( type ), Kind::eLiteral }
+		: Expr{ cache, std::move( type ), Kind::eLiteral, Flag::eConstant }
 		, m_valueType{ LiteralType::eBool }
 	{
 		m_value.boolv = value;
@@ -19,7 +19,7 @@ namespace ast::expr
 	Literal::Literal( type::TypesCache & cache
 		, type::TypePtr type
 		, int32_t value )
-		: Expr{ cache, std::move( type ), Kind::eLiteral }
+		: Expr{ cache, std::move( type ), Kind::eLiteral, Flag::eConstant }
 		, m_valueType{ LiteralType::eInt }
 	{
 		m_value.intv = value;
@@ -28,7 +28,7 @@ namespace ast::expr
 	Literal::Literal( type::TypesCache & cache
 		, type::TypePtr type
 		, uint32_t value )
-		: Expr{ cache, std::move( type ), Kind::eLiteral }
+		: Expr{ cache, std::move( type ), Kind::eLiteral, Flag::eConstant }
 		, m_valueType{ LiteralType::eUInt }
 	{
 		m_value.uintv = value;
@@ -37,7 +37,7 @@ namespace ast::expr
 	Literal::Literal( type::TypesCache & cache
 		, type::TypePtr type
 		, float value )
-		: Expr{ cache, std::move( type ), Kind::eLiteral }
+		: Expr{ cache, std::move( type ), Kind::eLiteral, Flag::eConstant }
 		, m_valueType{ LiteralType::eFloat }
 	{
 		m_value.floatv = value;
@@ -46,7 +46,7 @@ namespace ast::expr
 	Literal::Literal( type::TypesCache & cache
 		, type::TypePtr type
 		, double value )
-		: Expr{ cache, std::move( type ), Kind::eLiteral }
+		: Expr{ cache, std::move( type ), Kind::eLiteral, Flag::eConstant }
 		, m_valueType{ LiteralType::eDouble }
 	{
 		m_value.doublev = value;

@@ -6,6 +6,7 @@ See LICENSE file in root folder
 #pragma once
 
 #include "SpirvHelpers.hpp"
+#include "CompilerSpirV/SpirvModule.hpp"
 
 #include <ShaderAST/Stmt/StmtVisitor.hpp>
 

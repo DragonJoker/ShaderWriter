@@ -4,6 +4,7 @@ See LICENSE file in root folder
 #include "CompilerSpirV/SpirvModule.hpp"
 
 #include "SpirvHelpers.hpp"
+#include "SpirvStmtRegister.hpp"
 
 #include <ShaderAST/Type/TypeImage.hpp>
 #include <ShaderAST/Type/TypeSampledImage.hpp>
@@ -11,364 +12,14 @@ See LICENSE file in root folder
 
 #include <algorithm>
 
+#define SDW_Spirv_IntermediatesPerBlock 0
+
 namespace spirv
 {
 	//*************************************************************************
 
 	namespace
 	{
-		UInt32List deserializePackedName( UInt32ListCIt & buffer
-			, uint32_t & index )
-		{
-			auto popValue = [&buffer, &index]()
-			{
-				auto result = *buffer;
-				++buffer;
-				++index;
-				return result;
-			};
-			auto value = popValue();
-			UInt32List result;
-
-			while ( ( value & 0xFF000000 ) != 0u )
-			{
-				result.push_back( value );
-				value = popValue();
-			}
-
-			result.push_back( value );
-			return result;
-		}
-
-		std::vector< uint32_t > const & packString( std::string const & name )
-		{
-			static std::map < std::string, std::vector< uint32_t > > cache;
-			auto it = cache.find( name );
-
-			if ( it == cache.end() )
-			{
-				std::vector< uint32_t > packed;
-				uint32_t word{ 0u };
-				uint32_t offset{ 0u };
-				size_t i = 0u;
-
-				while ( i < name.size() )
-				{
-					if ( i != 0 && ( i % 4u ) == 0u )
-					{
-						packed.push_back( word );
-						word = 0u;
-						offset = 0u;
-					}
-
-					word |= ( uint32_t( name[i] ) & 0x000000FF ) << offset;
-					++i;
-					offset += 8u;
-				}
-
-				if ( word )
-				{
-					packed.push_back( word );
-				}
-
-				if ( i != 0 && ( i % 4u ) == 0u )
-				{
-					packed.push_back( 0u );
-				}
-
-				it = cache.emplace( name, packed ).first;
-			}
-
-			return it->second;
-		}
-
-		std::string unpackString( std::vector< uint32_t > const & packed )
-		{
-			std::string result;
-
-			for ( auto w : packed )
-			{
-				for ( uint32_t j = 0; j < 4; j++, w >>= 8 )
-				{
-					char c = w & 0xff;
-
-					if ( c == '\0' )
-					{
-						return result;
-					}
-
-					result += c;
-				}
-			}
-
-			assert( false && "Non terminated string" );
-			return std::string{};
-		}
-
-		spv::BuiltIn getBuiltin( std::string const & name )
-		{
-			auto result = spv::BuiltIn( -1 );
-
-			if ( name == "gl_Position" )
-			{
-				result = spv::BuiltInPosition;
-			}
-			else if ( name == "gl_PointSize" )
-			{
-				result = spv::BuiltInPointSize;
-			}
-			else if ( name == "gl_ClipDistance" )
-			{
-				result = spv::BuiltInClipDistance;
-			}
-			else if ( name == "gl_CullDistance" )
-			{
-				result = spv::BuiltInCullDistance;
-			}
-			else if ( name == "gl_VertexID" )
-			{
-				result = spv::BuiltInVertexId;
-			}
-			else if ( name == "gl_InstanceID" )
-			{
-				result = spv::BuiltInInstanceId;
-			}
-			else if ( name == "gl_PrimitiveID" )
-			{
-				result = spv::BuiltInPrimitiveId;
-			}
-			else if ( name == "gl_InvocationID" )
-			{
-				result = spv::BuiltInInvocationId;
-			}
-			else if ( name == "gl_Layer" )
-			{
-				result = spv::BuiltInLayer;
-			}
-			else if ( name == "gl_ViewportIndex" )
-			{
-				result = spv::BuiltInViewportIndex;
-			}
-			else if ( name == "gl_TessLevelOuter" )
-			{
-				result = spv::BuiltInTessLevelOuter;
-			}
-			else if ( name == "gl_TessLevelInner" )
-			{
-				result = spv::BuiltInTessLevelInner;
-			}
-			else if ( name == "gl_TessCoord" )
-			{
-				result = spv::BuiltInTessCoord;
-			}
-			else if ( name == "gl_PatchVertices" )
-			{
-				result = spv::BuiltInPatchVertices;
-			}
-			else if ( name == "gl_FragCoord" )
-			{
-				result = spv::BuiltInFragCoord;
-			}
-			else if ( name == "gl_PointCoord" )
-			{
-				result = spv::BuiltInPointCoord;
-			}
-			else if ( name == "gl_FrontFacing" )
-			{
-				result = spv::BuiltInFrontFacing;
-			}
-			else if ( name == "gl_SampleID" )
-			{
-				result = spv::BuiltInSampleId;
-			}
-			else if ( name == "gl_SamplePosition" )
-			{
-				result = spv::BuiltInSamplePosition;
-			}
-			else if ( name == "gl_SampleMask" )
-			{
-				result = spv::BuiltInSampleMask;
-			}
-			else if ( name == "gl_FragDepth" )
-			{
-				result = spv::BuiltInFragDepth;
-			}
-			else if ( name == "gl_HelperInvocation" )
-			{
-				result = spv::BuiltInHelperInvocation;
-			}
-			else if ( name == "gl_NumWorkgroups" )
-			{
-				result = spv::BuiltInNumWorkgroups;
-			}
-			else if ( name == "gl_WorkgroupSize" )
-			{
-				result = spv::BuiltInWorkgroupSize;
-			}
-			else if ( name == "gl_WorkgroupID" )
-			{
-				result = spv::BuiltInWorkgroupId;
-			}
-			else if ( name == "gl_LocalInvocationID" )
-			{
-				result = spv::BuiltInLocalInvocationId;
-			}
-			else if ( name == "gl_GlobalInvocationID" )
-			{
-				result = spv::BuiltInGlobalInvocationId;
-			}
-			else if ( name == "gl_LocalInvocationIndex" )
-			{
-				result = spv::BuiltInLocalInvocationIndex;
-			}
-			else if ( name == "gl_WorkDim" )
-			{
-				result = spv::BuiltInWorkDim;
-			}
-			else if ( name == "gl_GlobalSize" )
-			{
-				result = spv::BuiltInGlobalSize;
-			}
-			else if ( name == "gl_EnqueuedWorkgroupSize" )
-			{
-				result = spv::BuiltInEnqueuedWorkgroupSize;
-			}
-			else if ( name == "gl_GlobalOffset" )
-			{
-				result = spv::BuiltInGlobalOffset;
-			}
-			else if ( name == "gl_GlobalLinearID" )
-			{
-				result = spv::BuiltInGlobalLinearId;
-			}
-			else if ( name == "gl_SubgroupSize" )
-			{
-				result = spv::BuiltInSubgroupSize;
-			}
-			else if ( name == "gl_SubgroupMaxSize" )
-			{
-				result = spv::BuiltInSubgroupMaxSize;
-			}
-			else if ( name == "gl_NumSubgroups" )
-			{
-				result = spv::BuiltInNumSubgroups;
-			}
-			else if ( name == "gl_NumEnqueuedSubgroups" )
-			{
-				result = spv::BuiltInNumEnqueuedSubgroups;
-			}
-			else if ( name == "gl_SubgroupID" )
-			{
-				result = spv::BuiltInSubgroupId;
-			}
-			else if ( name == "gl_SubgroupLocalInvocationID" )
-			{
-				result = spv::BuiltInSubgroupLocalInvocationId;
-			}
-			else if ( name == "gl_VertexIndex" )
-			{
-				result = spv::BuiltInVertexIndex;
-			}
-			else if ( name == "gl_InstanceIndex" )
-			{
-				result = spv::BuiltInInstanceIndex;
-			}
-			else if ( name == "gl_SubgroupEqMaskKHR" )
-			{
-				result = spv::BuiltInSubgroupEqMaskKHR;
-			}
-			else if ( name == "gl_SubgroupGeMaskKHR" )
-			{
-				result = spv::BuiltInSubgroupGeMaskKHR;
-			}
-			else if ( name == "gl_SubgroupGtMaskKHR" )
-			{
-				result = spv::BuiltInSubgroupGtMaskKHR;
-			}
-			else if ( name == "gl_SubgroupLeMaskKHR" )
-			{
-				result = spv::BuiltInSubgroupLeMaskKHR;
-			}
-			else if ( name == "gl_SubgroupLtMaskKHR" )
-			{
-				result = spv::BuiltInSubgroupLtMaskKHR;
-			}
-			else if ( name == "gl_BaseVertex" )
-			{
-				result = spv::BuiltInBaseVertex;
-			}
-			else if ( name == "gl_BaseInstance" )
-			{
-				result = spv::BuiltInBaseInstance;
-			}
-			else if ( name == "gl_DrawIndex" )
-			{
-				result = spv::BuiltInDrawIndex;
-			}
-			else if ( name == "gl_DeviceIndex" )
-			{
-				result = spv::BuiltInDeviceIndex;
-			}
-			else if ( name == "gl_ViewIndex" )
-			{
-				result = spv::BuiltInViewIndex;
-			}
-			else if ( name == "gl_BaryCoordNoPerspAMD" )
-			{
-				result = spv::BuiltInBaryCoordNoPerspAMD;
-			}
-			else if ( name == "gl_BaryCoordNoPerspCentroidAMD" )
-			{
-				result = spv::BuiltInBaryCoordNoPerspCentroidAMD;
-			}
-			else if ( name == "gl_BaryCoordNoPerspSampleAMD" )
-			{
-				result = spv::BuiltInBaryCoordNoPerspSampleAMD;
-			}
-			else if ( name == "gl_BaryCoordSmoothAMD" )
-			{
-				result = spv::BuiltInBaryCoordSmoothAMD;
-			}
-			else if ( name == "gl_BaryCoordSmoothCentroidAMD" )
-			{
-				result = spv::BuiltInBaryCoordSmoothCentroidAMD;
-			}
-			else if ( name == "gl_BaryCoordSmoothSampleAMD" )
-			{
-				result = spv::BuiltInBaryCoordSmoothSampleAMD;
-			}
-			else if ( name == "gl_BaryCoordPullModelAMD" )
-			{
-				result = spv::BuiltInBaryCoordPullModelAMD;
-			}
-			else if ( name == "gl_FragStencilRefEXT" )
-			{
-				result = spv::BuiltInFragStencilRefEXT;
-			}
-			else if ( name == "gl_ViewportMaskNV" )
-			{
-				result = spv::BuiltInViewportMaskNV;
-			}
-			else if ( name == "gl_SecondaryPositionNV" )
-			{
-				result = spv::BuiltInSecondaryPositionNV;
-			}
-			else if ( name == "gl_SecondaryViewportMaskNV" )
-			{
-				result = spv::BuiltInSecondaryViewportMaskNV;
-			}
-			else if ( name == "gl_PositionPerViewNV" )
-			{
-				result = spv::BuiltInPositionPerViewNV;
-			}
-			else if ( name == "gl_ViewportMaskPerViewNV" )
-			{
-				result = spv::BuiltInViewportMaskPerViewNV;
-			}
-
-			return result;
-		}
-
 		ast::type::Kind getComponentType( ast::type::ImageFormat format )
 		{
 			ast::type::Kind result;
@@ -563,699 +214,6 @@ namespace spirv
 					} );
 			}
 		}
-
-		Instruction::Config const & getConfig( spv::Op opCode )
-		{
-			static Instruction::Config dummy{};
-
-			switch ( opCode )
-			{
-			case spv::OpSource:
-				return SourceInstruction::config;
-			case spv::OpName:
-				return NameInstruction::config;
-			case spv::OpMemberName:
-				return MemberNameInstruction::config;
-			case spv::OpExtension:
-				return ExtensionInstruction::config;
-			case spv::OpExtInstImport:
-				return ExtInstImportInstruction::config;
-			case spv::OpExtInst:
-				return ExtInstInstruction::config;
-			case spv::OpMemoryModel:
-				return MemoryModelInstruction::config;
-			case spv::OpEntryPoint:
-				return EntryPointInstruction::config;
-			case spv::OpExecutionMode:
-				return ExecutionModeInstruction::config;
-			case spv::OpCapability:
-				return CapabilityInstruction::config;
-			case spv::OpTypeVoid:
-				return VoidTypeInstruction::config;
-			case spv::OpTypeBool:
-				return BooleanTypeInstruction::config;
-			case spv::OpTypeInt:
-				return IntTypeInstruction::config;
-			case spv::OpTypeFloat:
-				return FloatTypeInstruction::config;
-			case spv::OpTypeVector:
-				return VectorTypeInstruction::config;
-			case spv::OpTypeMatrix:
-				return MatrixTypeInstruction::config;
-			case spv::OpTypeImage:
-				return ImageTypeInstruction::config;
-			case spv::OpTypeSampler:
-				return SamplerTypeInstruction::config;
-			case spv::OpTypeSampledImage:
-				return SampledImageTypeInstruction::config;
-			case spv::OpTypeArray:
-				return ArrayTypeInstruction::config;
-			case spv::OpTypeRuntimeArray:
-				return RuntimeArrayTypeInstruction::config;
-			case spv::OpTypeStruct:
-				return StructTypeInstruction::config;
-			case spv::OpTypePointer:
-				return PointerTypeInstruction::config;
-			case spv::OpTypeFunction:
-				return FunctionTypeInstruction::config;
-			case spv::OpConstantTrue:
-				return ConstantTrueInstruction::config;
-			case spv::OpConstantFalse:
-				return ConstantFalseInstruction::config;
-			case spv::OpConstant:
-				return ConstantInstruction::config;
-			case spv::OpConstantComposite:
-				return ConstantCompositeInstruction::config;
-			case spv::OpSpecConstantTrue:
-				return SpecConstantTrueInstruction::config;
-			case spv::OpSpecConstantFalse:
-				return SpecConstantFalseInstruction::config;
-			case spv::OpSpecConstant:
-				return SpecConstantInstruction::config;
-			case spv::OpSpecConstantComposite:
-				return SpecConstantCompositeInstruction::config;
-			case spv::OpSpecConstantOp:
-				return SpecConstantOpInstruction::config;
-			case spv::OpFunction:
-				return FunctionInstruction::config;
-			case spv::OpFunctionParameter:
-				return FunctionParameterInstruction::config;
-			case spv::OpFunctionEnd:
-				return FunctionEndInstruction::config;
-			case spv::OpFunctionCall:
-				return FunctionCallInstruction::config;
-			case spv::OpVariable:
-				return VariableInstruction::config;
-			case spv::OpImageTexelPointer:
-				return ImageTexelPointerInstruction::config;
-			case spv::OpLoad:
-				return LoadInstruction::config;
-			case spv::OpStore:
-				return LoadInstruction::config;
-			case spv::OpCopyMemory:
-				return CopyMemoryInstruction::config;
-			case spv::OpAccessChain:
-				return AccessChainInstruction::config;
-			case spv::OpDecorate:
-				return DecorateInstruction::config;
-			case spv::OpMemberDecorate:
-				return MemberDecorateInstruction::config;
-			case spv::OpVectorShuffle:
-				return VectorShuffleInstruction::config;
-			case spv::OpCompositeConstruct:
-				return CompositeConstructInstruction::config;
-			case spv::OpCompositeExtract:
-				return CompositeExtractInstruction::config;
-			case spv::OpTranspose:
-				return IntrinsicInstructionT< spv::OpTranspose >::config;
-			case spv::OpImageSampleImplicitLod:
-				return TextureAccessInstructionT< spv::OpImageSampleImplicitLod >::config;
-			case spv::OpImageSampleExplicitLod:
-				return TextureAccessInstructionT< spv::OpImageSampleExplicitLod >::config;
-			case spv::OpImageSampleDrefImplicitLod:
-				return TextureAccessInstructionT< spv::OpImageSampleDrefImplicitLod >::config;
-			case spv::OpImageSampleDrefExplicitLod:
-				return TextureAccessInstructionT< spv::OpImageSampleDrefExplicitLod >::config;
-			case spv::OpImageSampleProjImplicitLod:
-				return TextureAccessInstructionT< spv::OpImageSampleProjImplicitLod >::config;
-			case spv::OpImageSampleProjExplicitLod:
-				return TextureAccessInstructionT< spv::OpImageSampleProjExplicitLod >::config;
-			case spv::OpImageSampleProjDrefImplicitLod:
-				return TextureAccessInstructionT< spv::OpImageSampleProjDrefImplicitLod >::config;
-			case spv::OpImageSampleProjDrefExplicitLod:
-				return TextureAccessInstructionT< spv::OpImageSampleProjDrefExplicitLod >::config;
-			case spv::OpImageFetch:
-				return TextureAccessInstructionT< spv::OpImageFetch >::config;
-			case spv::OpImageGather:
-				return TextureAccessInstructionT< spv::OpImageGather >::config;
-			case spv::OpImageDrefGather:
-				return TextureAccessInstructionT< spv::OpImageDrefGather >::config;
-			case spv::OpImageRead:
-				return ImageAccessInstructionT< spv::OpImageRead >::config;
-			case spv::OpImageWrite:
-				return ImageAccessInstructionT< spv::OpImageWrite >::config;
-			case spv::OpImage:
-				return ImageInstruction::config;
-			case spv::OpImageQueryFormat:
-				return ImageAccessInstructionT< spv::OpImageQueryFormat >::config;
-			case spv::OpImageQueryOrder:
-				return ImageAccessInstructionT< spv::OpImageQueryOrder >::config;
-			case spv::OpImageQuerySizeLod:
-				return ImageAccessInstructionT< spv::OpImageQuerySizeLod >::config;
-			case spv::OpImageQuerySize:
-				return ImageAccessInstructionT< spv::OpImageQuerySize >::config;
-			case spv::OpImageQueryLod:
-				return ImageAccessInstructionT< spv::OpImageQueryLod >::config;
-			case spv::OpImageQueryLevels:
-				return ImageAccessInstructionT< spv::OpImageQueryLevels >::config;
-			case spv::OpImageQuerySamples:
-				return ImageAccessInstructionT< spv::OpImageQuerySamples >::config;
-			case spv::OpConvertFToU:
-				return UnInstructionT< spv::OpConvertFToU >::config;
-			case spv::OpConvertFToS:
-				return UnInstructionT< spv::OpConvertFToS >::config;
-			case spv::OpConvertSToF:
-				return UnInstructionT< spv::OpConvertSToF >::config;
-			case spv::OpConvertUToF:
-				return UnInstructionT< spv::OpConvertUToF >::config;
-			case spv::OpUConvert:
-				return UnInstructionT< spv::OpUConvert >::config;
-			case spv::OpSConvert:
-				return UnInstructionT< spv::OpSConvert >::config;
-			case spv::OpFConvert:
-				return UnInstructionT< spv::OpFConvert >::config;
-			case spv::OpQuantizeToF16:
-				return UnInstructionT< spv::OpQuantizeToF16 >::config;
-			case spv::OpConvertPtrToU:
-				return UnInstructionT< spv::OpConvertPtrToU >::config;
-			case spv::OpSatConvertSToU:
-				return UnInstructionT< spv::OpSatConvertSToU >::config;
-			case spv::OpSatConvertUToS:
-				return UnInstructionT< spv::OpSatConvertUToS >::config;
-			case spv::OpConvertUToPtr:
-				return UnInstructionT< spv::OpConvertUToPtr >::config;
-			case spv::OpPtrCastToGeneric:
-				return UnInstructionT< spv::OpPtrCastToGeneric >::config;
-			case spv::OpGenericCastToPtr:
-				return UnInstructionT< spv::OpGenericCastToPtr >::config;
-			case spv::OpGenericCastToPtrExplicit:
-				return UnInstructionT< spv::OpGenericCastToPtrExplicit >::config;
-			case spv::OpBitcast:
-				return UnInstructionT< spv::OpBitcast >::config;
-			case spv::OpSNegate:
-				return UnInstructionT< spv::OpSNegate >::config;
-			case spv::OpFNegate:
-				return UnInstructionT< spv::OpFNegate >::config;
-			case spv::OpIAdd:
-				return UnInstructionT < spv::OpIAdd >::config;
-			case spv::OpFAdd:
-				return UnInstructionT < spv::OpFAdd >::config;
-			case spv::OpISub:
-				return UnInstructionT < spv::OpISub >::config;
-			case spv::OpFSub:
-				return UnInstructionT < spv::OpFSub >::config;
-			case spv::OpIMul:
-				return UnInstructionT < spv::OpIMul >::config;
-			case spv::OpFMul:
-				return UnInstructionT < spv::OpFMul >::config;
-			case spv::OpUDiv:
-				return UnInstructionT < spv::OpUDiv >::config;
-			case spv::OpSDiv:
-				return UnInstructionT < spv::OpSDiv >::config;
-			case spv::OpFDiv:
-				return UnInstructionT < spv::OpFDiv >::config;
-			case spv::OpUMod:
-				return UnInstructionT < spv::OpUMod >::config;
-			case spv::OpSRem:
-				return UnInstructionT < spv::OpSRem >::config;
-			case spv::OpSMod:
-				return UnInstructionT < spv::OpSMod >::config;
-			case spv::OpFRem:
-				return UnInstructionT < spv::OpFRem >::config;
-			case spv::OpFMod:
-				return UnInstructionT < spv::OpFMod >::config;
-			case spv::OpVectorTimesScalar:
-				return UnInstructionT < spv::OpVectorTimesScalar >::config;
-			case spv::OpMatrixTimesScalar:
-				return UnInstructionT < spv::OpMatrixTimesScalar >::config;
-			case spv::OpVectorTimesMatrix:
-				return UnInstructionT < spv::OpVectorTimesMatrix >::config;
-			case spv::OpMatrixTimesVector:
-				return UnInstructionT < spv::OpMatrixTimesVector >::config;
-			case spv::OpMatrixTimesMatrix:
-				return UnInstructionT < spv::OpMatrixTimesMatrix >::config;
-			case spv::OpOuterProduct:
-				return IntrinsicInstructionT< spv::OpOuterProduct >::config;
-			case spv::OpDot:
-				return IntrinsicInstructionT< spv::OpDot >::config;
-			case spv::OpIAddCarry:
-				return IntrinsicInstructionT< spv::OpIAddCarry >::config;
-			case spv::OpISubBorrow:
-				return IntrinsicInstructionT< spv::OpISubBorrow >::config;
-			case spv::OpUMulExtended:
-				return IntrinsicInstructionT< spv::OpUMulExtended >::config;
-			case spv::OpSMulExtended:
-				return IntrinsicInstructionT< spv::OpSMulExtended >::config;
-			case spv::OpAny:
-				return IntrinsicInstructionT< spv::OpAny >::config;
-			case spv::OpAll:
-				return IntrinsicInstructionT< spv::OpAll >::config;
-			case spv::OpIsNan:
-				return IntrinsicInstructionT< spv::OpIsNan >::config;
-			case spv::OpIsInf:
-				return IntrinsicInstructionT< spv::OpIsInf >::config;
-			case spv::OpIsFinite:
-				return IntrinsicInstructionT< spv::OpIsFinite >::config;
-			case spv::OpIsNormal:
-				return IntrinsicInstructionT< spv::OpIsNormal >::config;
-			case spv::OpSignBitSet:
-				return IntrinsicInstructionT< spv::OpSignBitSet >::config;
-			case spv::OpLogicalEqual:
-				return BinInstructionT < spv::OpLogicalEqual >::config;
-			case spv::OpLogicalNotEqual:
-				return BinInstructionT < spv::OpLogicalNotEqual >::config;
-			case spv::OpLogicalOr:
-				return BinInstructionT < spv::OpLogicalOr >::config;
-			case spv::OpLogicalAnd:
-				return BinInstructionT < spv::OpLogicalAnd >::config;
-			case spv::OpLogicalNot:
-				return BinInstructionT < spv::OpLogicalNot >::config;
-			case spv::OpSelect:
-				return SelectInstruction::config;
-			case spv::OpIEqual:
-				return BinInstructionT < spv::OpIEqual >::config;
-			case spv::OpINotEqual:
-				return BinInstructionT < spv::OpINotEqual >::config;
-			case spv::OpUGreaterThan:
-				return BinInstructionT < spv::OpUGreaterThan >::config;
-			case spv::OpSGreaterThan:
-				return BinInstructionT < spv::OpSGreaterThan >::config;
-			case spv::OpUGreaterThanEqual:
-				return BinInstructionT < spv::OpUGreaterThanEqual >::config;
-			case spv::OpSGreaterThanEqual:
-				return BinInstructionT < spv::OpSGreaterThanEqual >::config;
-			case spv::OpULessThan:
-				return BinInstructionT < spv::OpULessThan >::config;
-			case spv::OpSLessThan:
-				return BinInstructionT < spv::OpSLessThan >::config;
-			case spv::OpULessThanEqual:
-				return BinInstructionT < spv::OpULessThanEqual >::config;
-			case spv::OpSLessThanEqual:
-				return BinInstructionT < spv::OpSLessThanEqual >::config;
-			case spv::OpFOrdEqual:
-				return BinInstructionT < spv::OpFOrdEqual >::config;
-			case spv::OpFUnordEqual:
-				return BinInstructionT < spv::OpFUnordEqual >::config;
-			case spv::OpFOrdNotEqual:
-				return BinInstructionT < spv::OpFOrdNotEqual >::config;
-			case spv::OpFUnordNotEqual:
-				return BinInstructionT < spv::OpFUnordNotEqual >::config;
-			case spv::OpFOrdLessThan:
-				return BinInstructionT < spv::OpFOrdLessThan >::config;
-			case spv::OpFUnordLessThan:
-				return BinInstructionT < spv::OpFUnordLessThan >::config;
-			case spv::OpFOrdGreaterThan:
-				return BinInstructionT < spv::OpFOrdGreaterThan >::config;
-			case spv::OpFUnordGreaterThan:
-				return BinInstructionT < spv::OpFUnordGreaterThan >::config;
-			case spv::OpFOrdLessThanEqual:
-				return BinInstructionT < spv::OpFOrdLessThanEqual >::config;
-			case spv::OpFUnordLessThanEqual:
-				return BinInstructionT < spv::OpFUnordLessThanEqual >::config;
-			case spv::OpFOrdGreaterThanEqual:
-				return BinInstructionT < spv::OpFOrdGreaterThanEqual >::config;
-			case spv::OpFUnordGreaterThanEqual:
-				return BinInstructionT < spv::OpFUnordGreaterThanEqual >::config;
-			case spv::OpShiftRightLogical:
-				return BinInstructionT < spv::OpShiftRightLogical >::config;
-			case spv::OpShiftRightArithmetic:
-				return BinInstructionT < spv::OpShiftRightArithmetic >::config;
-			case spv::OpShiftLeftLogical:
-				return BinInstructionT < spv::OpShiftLeftLogical >::config;
-			case spv::OpBitwiseOr:
-				return BinInstructionT < spv::OpBitwiseOr >::config;
-			case spv::OpBitwiseXor:
-				return BinInstructionT < spv::OpBitwiseXor >::config;
-			case spv::OpBitwiseAnd:
-				return BinInstructionT < spv::OpBitwiseAnd >::config;
-			case spv::OpNot:
-				return UnInstructionT < spv::OpNot >::config;
-			case spv::OpBitFieldInsert:
-				return IntrinsicInstructionT< spv::OpBitFieldInsert >::config;
-			case spv::OpBitFieldSExtract:
-				return IntrinsicInstructionT< spv::OpBitFieldSExtract >::config;
-			case spv::OpBitFieldUExtract:
-				return IntrinsicInstructionT< spv::OpBitFieldUExtract >::config;
-			case spv::OpBitReverse:
-				return IntrinsicInstructionT< spv::OpBitReverse >::config;
-			case spv::OpBitCount:
-				return IntrinsicInstructionT< spv::OpBitCount >::config;
-			case spv::OpDPdx:
-				return IntrinsicInstructionT< spv::OpDPdx >::config;
-			case spv::OpDPdy:
-				return IntrinsicInstructionT< spv::OpDPdy >::config;
-			case spv::OpFwidth:
-				return IntrinsicInstructionT< spv::OpFwidth >::config;
-			case spv::OpDPdxFine:
-				return IntrinsicInstructionT< spv::OpDPdxFine >::config;
-			case spv::OpDPdyFine:
-				return IntrinsicInstructionT< spv::OpDPdyFine >::config;
-			case spv::OpFwidthFine:
-				return IntrinsicInstructionT< spv::OpFwidthFine >::config;
-			case spv::OpDPdxCoarse:
-				return IntrinsicInstructionT< spv::OpDPdxCoarse >::config;
-			case spv::OpDPdyCoarse:
-				return IntrinsicInstructionT< spv::OpDPdyCoarse >::config;
-			case spv::OpFwidthCoarse:
-				return IntrinsicInstructionT< spv::OpFwidthCoarse >::config;
-			case spv::OpEmitVertex:
-				return IntrinsicInstructionT< spv::OpEmitVertex >::config;
-			case spv::OpEndPrimitive:
-				return IntrinsicInstructionT< spv::OpEndPrimitive >::config;
-			case spv::OpEmitStreamVertex:
-				return IntrinsicInstructionT< spv::OpEmitStreamVertex >::config;
-			case spv::OpEndStreamPrimitive:
-				return IntrinsicInstructionT< spv::OpEndStreamPrimitive >::config;
-			case spv::OpControlBarrier:
-				return IntrinsicInstructionT< spv::OpControlBarrier >::config;
-			case spv::OpMemoryBarrier:
-				return IntrinsicInstructionT< spv::OpMemoryBarrier >::config;
-			case spv::OpAtomicLoad:
-				return IntrinsicInstructionT< spv::OpAtomicLoad >::config;
-			case spv::OpAtomicStore:
-				return IntrinsicInstructionT< spv::OpAtomicStore >::config;
-			case spv::OpAtomicExchange:
-				return IntrinsicInstructionT< spv::OpAtomicExchange >::config;
-			case spv::OpAtomicCompareExchange:
-				return IntrinsicInstructionT< spv::OpAtomicCompareExchange >::config;
-			case spv::OpAtomicCompareExchangeWeak:
-				return IntrinsicInstructionT< spv::OpAtomicCompareExchangeWeak >::config;
-			case spv::OpAtomicIIncrement:
-				return IntrinsicInstructionT< spv::OpAtomicIIncrement >::config;
-			case spv::OpAtomicIDecrement:
-				return IntrinsicInstructionT< spv::OpAtomicIDecrement >::config;
-			case spv::OpAtomicIAdd:
-				return IntrinsicInstructionT< spv::OpAtomicIAdd >::config;
-			case spv::OpAtomicISub:
-				return IntrinsicInstructionT< spv::OpAtomicISub >::config;
-			case spv::OpAtomicSMin:
-				return IntrinsicInstructionT< spv::OpAtomicSMin >::config;
-			case spv::OpAtomicUMin:
-				return IntrinsicInstructionT< spv::OpAtomicUMin >::config;
-			case spv::OpAtomicSMax:
-				return IntrinsicInstructionT< spv::OpAtomicSMax >::config;
-			case spv::OpAtomicUMax:
-				return IntrinsicInstructionT< spv::OpAtomicUMax >::config;
-			case spv::OpAtomicAnd:
-				return IntrinsicInstructionT< spv::OpAtomicAnd >::config;
-			case spv::OpAtomicOr:
-				return IntrinsicInstructionT< spv::OpAtomicOr >::config;
-			case spv::OpAtomicXor:
-				return IntrinsicInstructionT< spv::OpAtomicXor >::config;
-			case spv::OpLoopMerge:
-				return LoopMergeInstruction::config;
-			case spv::OpSelectionMerge:
-				return SelectionMergeInstruction::config;
-			case spv::OpLabel:
-				return LabelInstruction::config;
-			case spv::OpBranch:
-				return BranchInstruction::config;
-			case spv::OpBranchConditional:
-				return BranchConditionalInstruction::config;
-			case spv::OpSwitch:
-				return SwitchInstruction::config;
-			case spv::OpKill:
-				return KillInstruction::config;
-			case spv::OpReturn:
-				return ReturnInstruction::config;
-			case spv::OpReturnValue:
-				return ReturnValueInstruction::config;
-			case spv::OpImageSparseSampleImplicitLod:
-				return ImageAccessInstructionT< spv::OpImageSparseSampleImplicitLod >::config;
-			case spv::OpImageSparseSampleExplicitLod:
-				return ImageAccessInstructionT< spv::OpImageSparseSampleExplicitLod >::config;
-			case spv::OpImageSparseSampleDrefImplicitLod:
-				return ImageAccessInstructionT< spv::OpImageSparseSampleDrefImplicitLod >::config;
-			case spv::OpImageSparseSampleDrefExplicitLod:
-				return ImageAccessInstructionT< spv::OpImageSparseSampleDrefExplicitLod >::config;
-			case spv::OpImageSparseSampleProjImplicitLod:
-				return ImageAccessInstructionT< spv::OpImageSparseSampleProjImplicitLod >::config;
-			case spv::OpImageSparseSampleProjExplicitLod:
-				return ImageAccessInstructionT< spv::OpImageSparseSampleProjExplicitLod >::config;
-			case spv::OpImageSparseSampleProjDrefImplicitLod:
-				return ImageAccessInstructionT< spv::OpImageSparseSampleProjDrefImplicitLod >::config;
-			case spv::OpImageSparseSampleProjDrefExplicitLod:
-				return ImageAccessInstructionT< spv::OpImageSparseSampleProjDrefExplicitLod >::config;
-			case spv::OpImageSparseFetch:
-				return ImageAccessInstructionT< spv::OpImageSparseFetch >::config;
-			case spv::OpImageSparseGather:
-				return ImageAccessInstructionT< spv::OpImageSparseGather >::config;
-			case spv::OpImageSparseDrefGather:
-				return ImageAccessInstructionT< spv::OpImageSparseDrefGather >::config;
-			case spv::OpImageSparseTexelsResident:
-				return ImageAccessInstructionT< spv::OpImageSparseTexelsResident >::config;
-			case spv::OpImageSparseRead:
-				return ImageAccessInstructionT < spv::OpImageSparseRead >::config;
-			case spv::OpUndef:
-				return UndefInstruction::config;
-			default:
-				assert( false && "Unsupported Instruction operator" );
-				return dummy;
-			}
-		}
-	}
-
-	//*************************************************************************
-
-	size_t IdListHasher::operator()( IdList const & list )const
-	{
-		assert( !list.empty() );
-		auto hash = std::hash< spv::Id >{}( list[0] );
-
-		std::for_each( list.begin() + 1u
-			, list.end()
-			, [&hash]( spv::Id id )
-			{
-				ast::type::hashCombine( hash, id );
-			} );
-
-		return hash;
-	}
-
-	//*************************************************************************
-
-	Instruction::Instruction( Config const & config
-		, spv::Op op
-		, Optional< spv::Id > returnTypeId
-		, Optional< spv::Id > resultId
-		, IdList operands
-		, Optional< std::string > name
-		, Optional< std::map< int32_t, spv::Id > > labels )
-		: returnTypeId{ returnTypeId }
-		, resultId{ resultId }
-		, operands{ operands }
-		, packedName{ nullopt }
-		, config{ config }
-		, name{ name }
-		, labels{ labels }
-	{
-		if ( bool( this->name ) )
-		{
-			packedName = packString( this->name.value() );
-		}
-
-		this->op.op = op;
-		this->op.opCount = uint16_t( 1u
-			+ ( bool( this->returnTypeId ) ? 1u : 0u )
-			+ ( bool( this->resultId ) ? 1u : 0u )
-			+ this->operands.size()
-			+ ( bool( this->packedName ) ? this->packedName.value().size() : 0u )
-			+ ( bool( this->labels ) ? this->labels.value().size() * 2u : 0u ) );
-
-		assertType( *this, config );
-	}
-
-	Instruction::Instruction( Config const & config
-		, Op op
-		, UInt32ListCIt & buffer )
-		: op{ op }
-		, config{ config }
-	{
-		uint32_t index = 1u;
-		auto popValue = [&buffer, &index]()
-		{
-			auto result = *buffer;
-			++buffer;
-			++index;
-			return result;
-		};
-
-		if ( config.hasReturnTypeId )
-		{
-			returnTypeId = popValue();
-		}
-
-		if ( config.hasResultId )
-		{
-			resultId = popValue();
-		}
-
-		if ( config.hasName )
-		{
-			packedName = deserializePackedName( buffer, index );
-			name = unpackString( packedName.value() );
-		}
-
-		if ( config.operandsCount )
-		{
-			auto count = op.opCount - index;
-			operands.resize( count );
-
-			for ( auto & operand : operands )
-			{
-				operand = popValue();
-			}
-		}
-		else if ( config.hasLabels )
-		{
-			auto count = ( op.opCount - index ) / 2u;
-			labels = std::map< int32_t, spv::Id >{};
-
-			for ( auto i = 0u; i < count; ++i )
-			{
-				auto label = popValue();
-				labels.value()[label] = popValue();
-			}
-		}
-	}
-
-	Instruction::~Instruction()
-	{
-	}
-
-	void Instruction::serialize( UInt32List & buffer
-		, Instruction const & instruction )
-	{
-		assertType( instruction, instruction.config );
-
-		auto pushValue = [&buffer]( uint32_t value )
-		{
-			buffer.push_back( value );
-		};
-
-		pushValue( instruction.op.opValue );
-
-		if ( instruction.returnTypeId )
-		{
-			pushValue( instruction.returnTypeId.value() );
-		}
-		
-		if ( instruction.resultId )
-		{
-			pushValue( instruction.resultId.value() );
-		}
-
-		if ( instruction.packedName )
-		{
-			for ( auto & c : instruction.packedName.value() )
-			{
-				pushValue( c );
-			}
-		}
-
-		if ( !instruction.operands.empty() )
-		{
-			for ( auto & operand : instruction.operands )
-			{
-				pushValue( operand );
-			}
-		}
-
-		if ( instruction.labels )
-		{
-			for ( auto & label : instruction.labels.value() )
-			{
-				pushValue( label.first );
-				pushValue( label.second );
-			}
-		}
-	}
-
-	InstructionPtr Instruction::deserialize( UInt32ListCIt & buffer )
-	{
-		auto index = 0u;
-		auto popValue = [&buffer, &index]()
-		{
-			auto result = *buffer;
-			++buffer;
-			++index;
-			return result;
-		};
-		spirv::Op op;
-		op.opValue = popValue();
-		assert( op.opCode != spv::OpNop );
-		auto & config = getConfig( spv::Op( op.opCode ) );
-		return std::make_unique< Instruction >( config, op, buffer );
-	}
-
-	//*************************************************************************
-
-	Block Block::deserialize( InstructionPtr firstInstruction
-		, InstructionListIt & buffer
-		, InstructionListIt const & end )
-	{
-		auto popValue = [&buffer]()
-		{
-			auto result = std::move( *buffer );
-			++buffer;
-			return result;
-		};
-		auto isLastBlockInstruction = []( spv::Op opCode )
-		{
-			return opCode == spv::OpBranch
-				|| opCode == spv::OpBranchConditional
-				|| opCode == spv::OpFunctionEnd;
-		};
-
-		spv::Op op = spv::OpNop;
-		Block result;
-		result.label = firstInstruction->resultId.value();
-		result.instructions.emplace_back( std::move( firstInstruction ) );
-
-		while ( buffer != end
-			&& !isLastBlockInstruction( op ) )
-		{
-			op = spv::Op( ( *buffer )->op.opCode );
-
-			if ( !isLastBlockInstruction( op ) )
-			{
-				result.instructions.emplace_back( popValue() );
-			}
-		}
-
-		if ( buffer != end )
-		{
-			result.blockEnd = std::move( popValue() );
-		}
-
-		return result;
-	}
-
-	//*************************************************************************
-
-	Function Function::deserialize( InstructionListIt & buffer
-		, InstructionListIt const & end )
-	{
-		auto popValue = [&buffer]()
-		{
-			auto result = std::move( *buffer );
-			++buffer;
-			return result;
-		};
-		auto isDeclarationInstruction = []( spv::Op opCode )
-		{
-			return opCode == spv::OpFunction
-				|| opCode == spv::OpFunctionParameter
-				|| opCode == spv::OpVariable;
-		};
-
-		Function result;
-
-		while ( buffer != end )
-		{
-			auto instruction = popValue();
-
-			if ( isDeclarationInstruction( spv::Op( instruction->op.opCode ) ) )
-			{
-				result.declaration.emplace_back( std::move( instruction ) );
-			}
-			else
-			{
-				result.cfg.blocks.emplace_back( Block::deserialize( std::move( instruction ), buffer, end ) );
-			}
-		}
-		
-		return result;
 	}
 
 	//*************************************************************************
@@ -1269,129 +227,32 @@ namespace spirv
 		, m_model{ executionModel }
 		, m_currentScopeVariables{ &m_registeredVariables }
 	{
-		header.push_back( spv::MagicNumber );
-		//header.push_back( spv::Version );
-		header.push_back( 0x00010000 );
-		header.push_back( 0x00100001 );
-		header.push_back( 1u ); // Bound IDs.
-		header.push_back( 0u ); // Schema.
-		m_currentId = &header[3];
-		auto id = getIntermediateResult();
-		extensions.push_back( makeInstruction< ExtInstImportInstruction >( id
-			, "GLSL.std.450" ) );
-		debug.push_back( makeInstruction< SourceInstruction >( spv::Id( spv::SourceLanguageGLSL ), 460u ) );
-
-		switch ( m_model )
-		{
-		case spv::ExecutionModelVertex:
-			capabilities.push_back( makeInstruction< CapabilityInstruction >( spv::Id( spv::CapabilityShader ) ) );
-			break;
-		case spv::ExecutionModelTessellationControl:
-			capabilities.push_back( makeInstruction< CapabilityInstruction >( spv::Id( spv::CapabilityShader ) ) );
-			break;
-		case spv::ExecutionModelTessellationEvaluation:
-			capabilities.push_back( makeInstruction< CapabilityInstruction >( spv::Id( spv::CapabilityShader ) ) );
-			break;
-		case spv::ExecutionModelGeometry:
-			capabilities.push_back( makeInstruction< CapabilityInstruction >( spv::Id( spv::CapabilityShader ) ) );
-			break;
-		case spv::ExecutionModelFragment:
-			capabilities.push_back( makeInstruction< CapabilityInstruction >( spv::Id( spv::CapabilityShader ) ) );
-			break;
-		case spv::ExecutionModelGLCompute:
-			capabilities.push_back( makeInstruction< CapabilityInstruction >( spv::Id( spv::CapabilityShader ) ) );
-			break;
-		case spv::ExecutionModelKernel:
-			capabilities.push_back( makeInstruction< CapabilityInstruction >( spv::Id( spv::CapabilityKernel ) ) );
-			break;
-		default:
-			assert( false && "Unsupported ExecutionModel" );
-			break;
-		}
+		initialiseHeader(
+			{
+				spv::MagicNumber,
+				0x00010000,
+				0x00100001,
+				1u,	// Bound IDs.
+				0u	// Schema.
+			} );
+		initialiseExtensions();
+		initialiseCapacities();
 	}
 
 	Module::Module( Header const & header
 		, InstructionList && instructions )
 		: variables{ &globalDeclarations }
 	{
-		this->header.push_back( header.magic );
-		this->header.push_back( header.version );
-		this->header.push_back( header.builder );
-		this->header.push_back( header.boundIds );
-		this->header.push_back( header.schema );
+		initialiseHeader( header );
 		auto it = instructions.begin();
 
 		while ( it != instructions.end() )
 		{
-			InstructionList * list{ nullptr };
+			auto opCode = spv::Op( ( *it )->op.opCode );
+			deserializeInfos( opCode, it, instructions.end() );
+			deserializeFuncs( opCode, it, instructions.end() );
 
-			switch ( spv::Op( ( *it )->op.opCode ) )
-			{
-			case spv::OpSource:
-			case spv::OpName:
-			case spv::OpMemberName:
-				list = &debug;
-				break;
-			case spv::OpExtInstImport:
-			case spv::OpExtension:
-				list = &extensions;
-				break;
-			case spv::OpCapability:
-				list = &capabilities;
-				break;
-			case spv::OpExecutionMode:
-				list = &executionModes;
-				break;
-			case spv::OpDecorate:
-			case spv::OpMemberDecorate:
-				list = &decorations;
-				break;
-			case spv::OpTypeVoid:
-			case spv::OpTypeBool:
-			case spv::OpTypeInt:
-			case spv::OpTypeFloat:
-			case spv::OpTypeVector:
-			case spv::OpTypeMatrix:
-			case spv::OpTypeImage:
-			case spv::OpTypeSampler:
-			case spv::OpTypeSampledImage:
-			case spv::OpTypeArray:
-			case spv::OpTypeRuntimeArray:
-			case spv::OpTypeStruct:
-			case spv::OpTypeOpaque:
-			case spv::OpTypePointer:
-			case spv::OpTypeFunction:
-			case spv::OpTypeEvent:
-			case spv::OpTypeDeviceEvent:
-			case spv::OpTypeReserveId:
-			case spv::OpTypeQueue:
-			case spv::OpTypePipe:
-			case spv::OpTypeForwardPointer:
-			case spv::OpVariable:
-			case spv::OpConstant:
-			case spv::OpConstantComposite:
-			case spv::OpConstantFalse:
-			case spv::OpConstantTrue:
-			case spv::OpSpecConstant:
-			case spv::OpSpecConstantComposite:
-			case spv::OpSpecConstantFalse:
-			case spv::OpSpecConstantTrue:
-				list = &globalDeclarations;
-				break;
-			case spv::OpFunction:
-				functions.emplace_back( Function::deserialize( it, instructions.end() ) );
-				break;
-			case spv::OpMemoryModel:
-				memoryModel = std::move( *it );
-				++it;
-				break;
-			case spv::OpEntryPoint:
-				entryPoint = std::move( *it );
-				++it;
-				break;
-			}
-
-			if ( list )
+			if ( auto * list = selectInstructionsList( opCode ) )
 			{
 				list->emplace_back( std::move( *it ) );
 				++it;
@@ -1446,7 +307,8 @@ namespace spirv
 			spv::Id id{ getNextId() };
 			it = m_registeredPointerTypes.emplace( key, id ).first;
 			globalDeclarations.push_back( makeInstruction< PointerTypeInstruction >( id
-				, spv::Id( storage ), type ) );
+				, spv::Id( storage )
+				, type ) );
 		}
 
 		return it->second;
@@ -1537,45 +399,9 @@ namespace spirv
 		if ( it == m_currentScopeVariables->end() )
 		{
 			spv::Id id{ getNextId() };
-
-			if ( type->getKind() != ast::type::Kind::eStruct
-				|| std::static_pointer_cast< ast::type::Struct >( type )->getName() != name )
-			{
-				debug.push_back( makeInstruction< NameInstruction >( id, name ) );
-			}
-			else if ( type->getKind() == ast::type::Kind::eStruct
-				|| std::static_pointer_cast< ast::type::Struct >( type )->getName() == name )
-			{
-				debug.push_back( makeInstruction< NameInstruction >( id, name + "Inst" ) );
-			}
-
-			auto builtin = getBuiltin( name );
-
-			if ( builtin != spv::BuiltIn( -1 ) )
-			{
-				decorate( id, { spv::Id( spv::DecorationBuiltIn ), spv::Id( builtin ) } );
-			}
-
-			auto rawTypeId = registerType( type );
-			auto varTypeId = registerPointerType( rawTypeId, storage );
-
-			if ( storage == spv::StorageClassFunction
-				&& m_currentFunction )
-			{
-				it = m_currentScopeVariables->emplace( name, id ).first;
-				m_currentFunction->variables.push_back( makeInstruction< VariableInstruction >( varTypeId
-					, id
-					, spv::Id( storage ) ) );
-			}
-			else
-			{
-				it = m_registeredVariables.emplace( name, id ).first;
-				globalDeclarations.push_back( makeInstruction< VariableInstruction >( varTypeId
-					, id
-					, spv::Id( storage ) ) );
-			}
-
-			m_registeredVariablesTypes.emplace( id, rawTypeId );
+			addDebug( name, type, id );
+			addBuiltin( name, id );
+			addVariable( name, storage, type, id, it );
 		}
 
 		info.id = it->second;
@@ -1956,24 +782,26 @@ namespace spirv
 
 	void Module::putIntermediateResult( spv::Id id )
 	{
-		//if ( m_intermediates.end() != m_intermediates.find( id ) )
-		//{
-		//	m_freeIntermediates.insert( id );
-		//	auto it = m_busyIntermediates.begin();
+#if SDW_Spirv_IntermediatesPerBlock
+		if ( m_intermediates.end() != m_intermediates.find( id ) )
+		{
+			m_freeIntermediates.insert( id );
+			auto it = m_busyIntermediates.begin();
 
-		//	while ( it != m_busyIntermediates.end() )
-		//	{
-		//		if ( it->first == id
-		//			|| it->second == id )
-		//		{
-		//			it = m_busyIntermediates.erase( it );
-		//		}
-		//		else
-		//		{
-		//			++it;
-		//		}
-		//	}
-		//}
+			while ( it != m_busyIntermediates.end() )
+			{
+				if ( it->first == id
+					|| it->second == id )
+				{
+					it = m_busyIntermediates.erase( it );
+				}
+				else
+				{
+					++it;
+				}
+			}
+		}
+#endif
 	}
 
 	spv::Id Module::getNonIntermediate( spv::Id id )
@@ -2335,6 +1163,203 @@ namespace spirv
 		auto result = *m_currentId;
 		++*m_currentId;
 		return result;
+	}
+
+	void Module::initialiseHeader( Header const & rhs )
+	{
+		header.push_back( rhs.magic );
+		header.push_back( rhs.version );
+		header.push_back( rhs.builder );
+		header.push_back( rhs.boundIds );
+		header.push_back( rhs.schema );
+		m_currentId = &header[3];
+	}
+
+	void Module::initialiseExtensions()
+	{
+		auto id = getIntermediateResult();
+		extensions.push_back( makeInstruction< ExtInstImportInstruction >( id
+			, "GLSL.std.450" ) );
+		debug.push_back( makeInstruction< SourceInstruction >( spv::Id( spv::SourceLanguageGLSL ), 460u ) );
+	}
+
+	void Module::initialiseCapacities()
+	{
+		switch ( m_model )
+		{
+		case spv::ExecutionModelVertex:
+		case spv::ExecutionModelFragment:
+		case spv::ExecutionModelGLCompute:
+			capabilities.push_back( makeInstruction< CapabilityInstruction >( spv::Id( spv::CapabilityShader ) ) );
+			break;
+		case spv::ExecutionModelTessellationControl:
+		case spv::ExecutionModelTessellationEvaluation:
+			capabilities.push_back( makeInstruction< CapabilityInstruction >( spv::Id( spv::CapabilityShader ) ) );
+			capabilities.push_back( makeInstruction< CapabilityInstruction >( spv::Id( spv::CapabilityTessellation ) ) );
+			break;
+		case spv::ExecutionModelGeometry:
+			capabilities.push_back( makeInstruction< CapabilityInstruction >( spv::Id( spv::CapabilityShader ) ) );
+			capabilities.push_back( makeInstruction< CapabilityInstruction >( spv::Id( spv::CapabilityGeometry ) ) );
+			break;
+		case spv::ExecutionModelKernel:
+			capabilities.push_back( makeInstruction< CapabilityInstruction >( spv::Id( spv::CapabilityKernel ) ) );
+			break;
+		default:
+			assert( false && "Unsupported ExecutionModel" );
+			break;
+		}
+	}
+
+	void Module::addDebug( std::string const & name
+		, ast::type::TypePtr type
+		, spv::Id id )
+	{
+		if ( type->getKind() != ast::type::Kind::eStruct
+			|| std::static_pointer_cast< ast::type::Struct >( type )->getName() != name )
+		{
+			debug.push_back( makeInstruction< NameInstruction >( id, name ) );
+		}
+		else if ( type->getKind() == ast::type::Kind::eStruct
+			|| std::static_pointer_cast< ast::type::Struct >( type )->getName() == name )
+		{
+			debug.push_back( makeInstruction< NameInstruction >( id, name + "Inst" ) );
+		}
+	}
+
+	void Module::addBuiltin( std::string const & name
+		, spv::Id id )
+	{
+		auto builtin = getBuiltin( name );
+
+		if ( builtin != spv::BuiltIn( -1 ) )
+		{
+			decorate( id, { spv::Id( spv::DecorationBuiltIn ), spv::Id( builtin ) } );
+		}
+	}
+
+	void Module::addVariable( std::string const & name
+		, spv::StorageClass storage
+		, ast::type::TypePtr type
+		, spv::Id id
+		, std::map< std::string, spv::Id >::iterator & it )
+	{
+		auto rawTypeId = registerType( type );
+
+		if ( storage == spv::StorageClassPushConstant )
+		{
+			decorate( rawTypeId, spv::DecorationBlock );
+		}
+
+		auto varTypeId = registerPointerType( rawTypeId, storage );
+
+		if ( storage == spv::StorageClassFunction
+			&& m_currentFunction )
+		{
+			it = m_currentScopeVariables->emplace( name, id ).first;
+			m_currentFunction->variables.push_back( makeInstruction< VariableInstruction >( varTypeId
+				, id
+				, spv::Id( storage ) ) );
+		}
+		else
+		{
+			it = m_registeredVariables.emplace( name, id ).first;
+			globalDeclarations.push_back( makeInstruction< VariableInstruction >( varTypeId
+				, id
+				, spv::Id( storage ) ) );
+		}
+
+		m_registeredVariablesTypes.emplace( id, rawTypeId );
+	}
+
+	InstructionList * Module::selectInstructionsList( spv::Op opCode )
+	{
+		InstructionList * list{ nullptr };
+
+		switch ( opCode )
+		{
+		case spv::OpSource:
+		case spv::OpName:
+		case spv::OpMemberName:
+			list = &debug;
+			break;
+		case spv::OpExtInstImport:
+		case spv::OpExtension:
+			list = &extensions;
+			break;
+		case spv::OpCapability:
+			list = &capabilities;
+			break;
+		case spv::OpExecutionMode:
+			list = &executionModes;
+			break;
+		case spv::OpDecorate:
+		case spv::OpMemberDecorate:
+			list = &decorations;
+			break;
+		case spv::OpTypeVoid:
+		case spv::OpTypeBool:
+		case spv::OpTypeInt:
+		case spv::OpTypeFloat:
+		case spv::OpTypeVector:
+		case spv::OpTypeMatrix:
+		case spv::OpTypeImage:
+		case spv::OpTypeSampler:
+		case spv::OpTypeSampledImage:
+		case spv::OpTypeArray:
+		case spv::OpTypeRuntimeArray:
+		case spv::OpTypeStruct:
+		case spv::OpTypeOpaque:
+		case spv::OpTypePointer:
+		case spv::OpTypeFunction:
+		case spv::OpTypeEvent:
+		case spv::OpTypeDeviceEvent:
+		case spv::OpTypeReserveId:
+		case spv::OpTypeQueue:
+		case spv::OpTypePipe:
+		case spv::OpTypeForwardPointer:
+		case spv::OpVariable:
+		case spv::OpConstant:
+		case spv::OpConstantComposite:
+		case spv::OpConstantFalse:
+		case spv::OpConstantTrue:
+		case spv::OpSpecConstant:
+		case spv::OpSpecConstantComposite:
+		case spv::OpSpecConstantFalse:
+		case spv::OpSpecConstantTrue:
+			list = &globalDeclarations;
+			break;
+		}
+
+		return list;
+	}
+
+	void Module::deserializeInfos( spv::Op opCode
+		, InstructionList::iterator & current
+		, InstructionList::iterator end )
+	{
+		switch ( opCode )
+		{
+		case spv::OpMemoryModel:
+			memoryModel = std::move( *current );
+			++current;
+			break;
+		case spv::OpEntryPoint:
+			entryPoint = std::move( *current );
+			++current;
+			break;
+		}
+	}
+
+	void Module::deserializeFuncs( spv::Op opCode
+		, InstructionList::iterator & current
+		, InstructionList::iterator end )
+	{
+		switch ( opCode )
+		{
+		case spv::OpFunction:
+			functions.emplace_back( Function::deserialize( current, end ) );
+			break;
+		}
 	}
 
 	//*************************************************************************

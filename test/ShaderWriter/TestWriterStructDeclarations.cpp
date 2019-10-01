@@ -50,7 +50,6 @@ namespace
 int main( int argc, char ** argv )
 {
 	sdwTestSuiteBegin( "TestWriterStructDeclarations" );
-	testStruct< sdw::Bool >( testCounts );
 	testStruct< sdw::Int >( testCounts );
 	testStruct< sdw::UInt >( testCounts );
 	testStruct< sdw::Float >( testCounts );
@@ -61,9 +60,6 @@ int main( int argc, char ** argv )
 	testStruct< sdw::DVec2 >( testCounts );
 	testStruct< sdw::DVec3 >( testCounts );
 	testStruct< sdw::DVec4 >( testCounts );
-	testStruct< sdw::BVec2 >( testCounts );
-	testStruct< sdw::BVec3 >( testCounts );
-	testStruct< sdw::BVec4 >( testCounts );
 	testStruct< sdw::IVec2 >( testCounts );
 	testStruct< sdw::IVec3 >( testCounts );
 	testStruct< sdw::IVec4 >( testCounts );
