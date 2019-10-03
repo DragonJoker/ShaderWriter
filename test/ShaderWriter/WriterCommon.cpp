@@ -42,7 +42,7 @@ namespace test
 				return "Undefined";
 			}
 		}
-		
+
 		spv::ExecutionModel getExecutionModel( ast::ShaderStage stage )
 		{
 			spv::ExecutionModel result{};
@@ -198,7 +198,6 @@ namespace test
 						fclose( fileOut );
 					}
 
-					auto moduleOut = spirv::Module::deserialize( spirv );
 					fileName = getExecutableDirectory() + testCounts.testName + std::to_string( testCounts.totalCount ) + ".ref.spv";
 					FILE * fileIn = fopen( fileName.c_str(), "rb" );
 
@@ -219,7 +218,6 @@ namespace test
 
 						fclose( fileIn );
 						validateSpirV( shader, spirv, errors, testCounts, false );
-						auto moduleIn = spirv::Module::deserialize( spirv );
 					}
 				}
 			}
@@ -253,6 +251,8 @@ namespace test
 			{
 				displayShader( "SPIR-V", text, true );
 
+#if SDW_HasCompilerGlsl
+
 				try
 				{
 					auto glslangSpirv = compileGlslToSpv( shader.getType()
@@ -272,6 +272,8 @@ namespace test
 				{
 					std::cerr << exc.what() << std::endl;
 				}
+
+#endif
 			}
 		}
 
@@ -287,6 +289,8 @@ namespace test
 			, bool validateGlsl
 			, sdw_test::TestCounts & testCounts )
 		{
+#if SDW_HasCompilerGlsl
+
 			std::string errors;
 			auto glsl = glsl::compileGlsl( shader
 				, specialisation
@@ -305,6 +309,8 @@ namespace test
 			{
 				displayShader( "GLSL", glsl );
 			}
+
+#endif
 		}
 
 		void testWriteHlsl( ::sdw::Shader const & shader
@@ -312,6 +318,8 @@ namespace test
 			, bool validateHlsl
 			, sdw_test::TestCounts & testCounts )
 		{
+#if SDW_HasCompilerHlsl
+
 			std::string errors;
 			auto hlsl = hlsl::compileHlsl( shader
 				, specialisation
@@ -330,6 +338,8 @@ namespace test
 			{
 				displayShader( "HLSL", hlsl );
 			}
+
+#endif
 		}
 
 		void testWriteSpirV( ::sdw::Shader const & shader
@@ -339,6 +349,8 @@ namespace test
 			, bool validateGlsl
 			, sdw_test::TestCounts & testCounts )
 		{
+#if SDW_HasCompilerSpirV
+
 			auto textSpirv = spirv::writeSpirv( shader );
 			displayShader( "SPIR-V", textSpirv );
 			std::vector< uint32_t > spirv;
@@ -382,6 +394,8 @@ namespace test
 					std::cout << exc.what() << std::endl;
 				}
 			}
+
+#endif
 		}
 
 		std::vector< uint8_t > getSpecData( ::sdw::SpecConstantInfo const & info )

@@ -6,9 +6,43 @@ set( GLSLANG_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../../external/glslang )
 find_package( OpenGL )
 find_package( Vulkan )
 
-include_directories( ${SPIRV_CROSS_DIR} )
-include_directories( ${Vulkan_INCLUDE_DIR} )
-include_directories( ${GLSLANG_DIR} )
+set( TargetCompileDefinitions
+	${TargetCompileDefinitions}
+	${SDW_EXPORTERS_DEFINITIONS}
+)
+
+if ( OpenGL_FOUND OR OPENGL_FOUND )
+	set( TargetLinkLibraries
+		${TargetLinkLibraries}
+		${OPENGL_gl_LIBRARY}
+	)
+	set( TargetCompileDefinitions
+		${TargetCompileDefinitions}
+		SDW_Test_HasOpenGL=1
+	)
+endif ()
+
+if ( Vulkan_FOUND OR VULKAN_FOUND )
+	set( TargetIncludeDirectories
+		${TargetIncludeDirectories}
+		${Vulkan_INCLUDE_DIR}
+	)
+	set( TargetLinkLibraries
+		${TargetLinkLibraries}
+		${Vulkan_LIBRARY}
+	)
+	set( TargetCompileDefinitions
+		${TargetCompileDefinitions}
+		SDW_Test_HasVulkan=1
+	)
+endif ()
+
+if ( WIN32 )
+	set( TargetCompileDefinitions
+		${TargetCompileDefinitions}
+		SDW_Test_HasDirect3D11=1
+	)
+endif ()
 
 set( ENABLE_GLSLANG_BINARIES FALSE CACHE BOOL "Builds glslangValidator and spirv-remap" FORCE )
 set( ENABLE_AMD_EXTENSIONS FALSE CACHE BOOL "Enables support of AMD-specific extensions" FORCE )
@@ -53,13 +87,49 @@ set( TEST_WRITER_COMMON_SOURCE_FILES
 	${SPIRV_CROSS_DIR}/spirv_hlsl.cpp
 )
 
+set( TargetIncludeDirectories
+	${TargetIncludeDirectories}
+	${SPIRV_CROSS_DIR}
+	${GLSLANG_DIR}
+)
+
 add_library( TestWriterCommon
 	STATIC
 	${TEST_WRITER_COMMON_HEADER_FILES}
 	${TEST_WRITER_COMMON_SOURCE_FILES}
 )
-set_property( TARGET TestWriterCommon PROPERTY CXX_STANDARD 17 )
-set_property( TARGET TestWriterCommon PROPERTY FOLDER "Tests/ShaderWriter" )
+target_compile_definitions( TestWriterCommon PUBLIC
+	${TargetCompileDefinitions}
+)
+message( STATUS "TargetCompileDefinitions ${TargetCompileDefinitions}" )
+target_include_directories( TestWriterCommon PUBLIC
+	${TargetIncludeDirectories}
+)
+set_target_properties( TestWriterCommon PROPERTIES
+	CXX_STANDARD 17
+	FOLDER "Tests/ShaderWriter"
+)
+
+set( TargetLinkLibraries
+	${TargetLinkLibraries}
+	ShaderAST
+	ShaderWriter
+	${SDW_EXPORTERS_LIST}
+	TestWriterCommon
+	${BinLibraries}
+	glslang
+	OGLCompiler
+	OSDependent
+	SPVRemapper
+	SPIRV
+)
+
+if ( NOT WIN32 )
+	set( TargetLinkLibraries
+		${TargetLinkLibraries}
+		${OPENGL_glx_LIBRARY}
+	)
+endif ()
 
 foreach ( TEST_FILE ${TEST_FILES} )
 	get_filename_component( TEST_NAME ${TEST_FILE} NAME_WE )
@@ -67,35 +137,25 @@ foreach ( TEST_FILE ${TEST_FILES} )
 		$<TARGET_OBJECTS:TestCommon>
 		${TEST_FILE}
 	)
-	target_link_libraries( ${TEST_NAME}
-		ShaderAST
-		ShaderWriter
-		CompilerGlsl
-		CompilerHlsl
-		CompilerSpirV
-		TestWriterCommon
-		${BinLibraries}
-		${OPENGL_gl_LIBRARY}
-		${Vulkan_LIBRARY}
-		glslang
-		OGLCompiler
-		OSDependent
-		SPVRemapper
-		SPIRV
+	target_link_libraries( ${TEST_NAME} PRIVATE
+		${TargetLinkLibraries}
+	)
+	target_include_directories( ${TEST_NAME} PRIVATE
+		${TargetIncludeDirectories}
+	)
+	target_compile_definitions( ${TEST_NAME} PRIVATE
+		${TargetCompileDefinitions}
+	)
+	set_target_properties( ${TEST_NAME} PROPERTIES
+		CXX_STANDARD 17
+		FOLDER "Tests/ShaderWriter"
 	)
 
-	if ( NOT WIN32 )
-		target_link_libraries( ${TEST_NAME}
-			${OPENGL_glx_LIBRARY}
+	if ( MSVC )
+		target_compile_options( ${TEST_NAME} PRIVATE
+			-bigobj
 		)
 	endif ()
-
-	if ( MSVC )
-		add_compile_options( -bigobj )
-	endif ()
-
-	set_property( TARGET ${TEST_NAME} PROPERTY CXX_STANDARD 17 )
-	set_property( TARGET ${TEST_NAME} PROPERTY FOLDER "Tests/ShaderWriter" )
 
 	add_test(
 		NAME ${TEST_NAME}

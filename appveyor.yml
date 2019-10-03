@@ -25,13 +25,13 @@ install:
   - git submodule update --init -- "external/glslang"
   - ps: $PLATFORM_NAME="x64"
   - ps: $OS_NAME="linux"
-  - ps: $PROJECT_DIR="/home/appveyor/projects/shader_writer"
+  - ps: $PROJECT_DIR="/home/appveyor/projects/shaderwriter"
   - ps: if (!$isLinux) {$OS_NAME="win32"}
-  - ps: if (!$isLinux) {$PROJECT_DIR="C:\projects\shader_writer"}
+  - ps: if (!$isLinux) {$PROJECT_DIR="C:\projects\shaderwriter"}
   - ps: md build
   - ps: cd build
-  - ps: if ($isLinux) {cmake -Wno-dev -G "Unix Makefiles" -DPROJECTS_OUTPUT_DIR=/home/appveyor/projects/shader_writer -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/home/appveyor/projects/shader_writer/package/shader_writer ../ -DSDW_GENERATE_SOURCE=OFF -DSDW_BUILD_TESTS=ON -DPROJECTS_USE_PRECOMPILED_HEADERS=OFF}
-  - ps: if (!$isLinux) {cmake -Wno-dev -G "Visual Studio 16 2019 Win64" -DPROJECTS_OUTPUT_DIR=C:\projects\shader_writer -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=C:\projects\shader_writer\package\shader_writer ../ -DSDW_GENERATE_SOURCE=OFF -DSDW_BUILD_TESTS=ON  -DPROJECTS_USE_PRECOMPILED_HEADERS=ON}
+  - ps: if ($isLinux) {cmake -Wno-dev -G "Unix Makefiles" -DPROJECTS_OUTPUT_DIR=/home/appveyor/projects/shaderwriter -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/home/appveyor/projects/shaderwriter/package/shaderwriter ../ -DSDW_GENERATE_SOURCE=OFF -DSDW_BUILD_TESTS=ON -DPROJECTS_USE_PRECOMPILED_HEADERS=OFF}
+  - ps: if (!$isLinux) {cmake -Wno-dev -G "Visual Studio 16 2019 Win64" -DPROJECTS_OUTPUT_DIR=C:\projects\shaderwriter -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=C:\projects\shaderwriter\package\shaderwriter ../ -DSDW_GENERATE_SOURCE=OFF -DSDW_BUILD_TESTS=ON  -DPROJECTS_USE_PRECOMPILED_HEADERS=ON}
 
 build_script:
   - ps: cd $PROJECT_DIR/build
@@ -39,10 +39,10 @@ build_script:
   - ps: if (!$isLinux) {cmake --build . --target install --parallel 4 --config Release}
 
 after_build:
-  - ps: if ($isLinux) {cd /home/appveyor/projects/shader_writer}
-  - ps: if (!$isLinux) {cd C:\projects\shader_writer}
-  - ps: 7z a shader_writer-$OS_NAME-$PLATFORM_NAME.zip ./package/shader_writer/*
-  - ps: Push-AppveyorArtifact shader_writer-$OS_NAME-$PLATFORM_NAME.zip
+  - ps: if ($isLinux) {cd /home/appveyor/projects/shaderwriter}
+  - ps: if (!$isLinux) {cd C:\projects\shaderwriter}
+  - ps: 7z a shaderwriter-$OS_NAME-$PLATFORM_NAME.zip ./package/shaderwriter/*
+  - ps: Push-AppveyorArtifact shaderwriter-$OS_NAME-$PLATFORM_NAME.zip
 
 on_success:
   - ps: Invoke-RestMethod https://raw.githubusercontent.com/DiscordHooks/appveyor-discord-webhook/master/send.ps1 -o send.ps1

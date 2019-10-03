@@ -36,7 +36,7 @@ namespace
 			type.declMember< T >( name, 4u );
 			type.end();
 			sdw::StructuredSsbo bo{ writer, "Datas", type.getType(), 1u, 1u };
-			auto value = bo[0].getMember< T >( name );
+			auto value = bo[0].getMemberArray< T >( name );
 			check( getNonArrayKind( value.getType() ) == sdw::typeEnum< T > );
 			check( getArraySize( value.getType() ) == 4u );
 			require( value.getExpr()->getKind() == sdw::expr::Kind::eMbrSelect );

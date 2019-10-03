@@ -10,9 +10,14 @@ foreach ( TEST_FILE ${TEST_FILES} )
 		ShaderAST
 		${BinLibraries}
 	)
+	target_compile_definitions( ${TEST_NAME} PRIVATE
+		${SDW_EXPORTERS_DEFINITIONS}
+	)
 
 	if ( MSVC )
-		add_compile_options( -bigobj )
+		target_compile_options( ${TEST_NAME} PRIVATE
+			-bigobj
+		)
 	endif ()
 
 	set_property( TARGET ${TEST_NAME} PROPERTY CXX_STANDARD 17 )

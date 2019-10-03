@@ -1,5 +1,7 @@
 #include "CompileSPIRV.hpp"
 
+#if SDW_Test_HasVulkan
+
 #include "vulkan/vulkan.h"
 
 #include <ShaderWriter/Shader.hpp>
@@ -491,3 +493,26 @@ namespace test
 		return result;
 	}
 }
+
+#else
+
+namespace test
+{
+	bool createSPIRVContext( sdw_test::TestCounts & testCounts )
+	{
+		return true;
+	}
+
+	void destroySPIRVContext( sdw_test::TestCounts & testCounts )
+	{
+	}
+
+	bool compileSpirV( std::string const & shader
+		, ast::ShaderStage type
+		, std::string & errors )
+	{
+		return true;
+	}
+}
+
+#endif

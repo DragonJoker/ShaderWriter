@@ -93,3 +93,15 @@ endif()
 
 # We install headers to <install_dir>/include/${PROJECT_NAME}
 target_install_headers( ${PROJECT_NAME} ${SDW_SOURCE_DIR}/include/${PROJECT_NAME} )
+
+set( SDW_EXPORTERS_LIST
+	${SDW_EXPORTERS_LIST}
+	${PROJECT_NAME}
+	PARENT_SCOPE
+)
+
+set( SDW_EXPORTERS_DEFINITIONS
+	${SDW_EXPORTERS_DEFINITIONS}
+	SDW_Has${PROJECT_NAME}=1
+	PARENT_SCOPE
+)
