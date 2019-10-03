@@ -264,7 +264,7 @@ namespace glsl
 	{
 		if ( expr->isConstant() )
 		{
-			m_result += "static const ";
+			m_result += "const ";
 		}
 
 		m_result += getTypeName( expr->getType() ) + " ";
