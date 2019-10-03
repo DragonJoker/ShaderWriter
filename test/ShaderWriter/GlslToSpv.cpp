@@ -3,6 +3,8 @@
 #include <glslang/Public/ShaderLang.h>
 #include <SPIRV/GlslangToSpv.h>
 
+#include <locale>
+
 namespace test
 {
 	namespace
