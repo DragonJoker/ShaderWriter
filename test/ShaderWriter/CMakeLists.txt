@@ -16,6 +16,14 @@ if ( OpenGL_FOUND OR OPENGL_FOUND )
 		${TargetLinkLibraries}
 		${OPENGL_gl_LIBRARY}
 	)
+
+	if ( NOT WIN32 )
+		set( TargetLinkLibraries
+			${TargetLinkLibraries}
+			${OPENGL_glx_LIBRARY}
+		)
+	endif ()
+
 	set( TargetCompileDefinitions
 		${TargetCompileDefinitions}
 		SDW_Test_HasOpenGL=1
@@ -123,13 +131,6 @@ set( TargetLinkLibraries
 	SPVRemapper
 	SPIRV
 )
-
-if ( NOT WIN32 )
-	set( TargetLinkLibraries
-		${TargetLinkLibraries}
-		${OPENGL_glx_LIBRARY}
-	)
-endif ()
 
 foreach ( TEST_FILE ${TEST_FILES} )
 	get_filename_component( TEST_NAME ${TEST_FILE} NAME_WE )
