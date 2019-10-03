@@ -10,7 +10,7 @@ namespace ast::expr
 	IntrinsicCall::IntrinsicCall( type::TypePtr type
 		, Intrinsic intrinsic
 		, ExprList && argList )
-		: Expr{ getExprTypesCache( argList ), std::move( type ), Kind::eIntrinsicCall, ( isExprConstant( argList ) ? Flag::eConstant : Flag::eNone ) }
+		: Expr{ getExprTypesCache( argList ), std::move( type ), Kind::eIntrinsicCall, Flag::eNone }
 		, m_intrinsic{ intrinsic }
 		, m_argList{ std::move( argList ) }
 	{

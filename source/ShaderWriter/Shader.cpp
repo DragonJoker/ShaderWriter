@@ -140,7 +140,7 @@ namespace sdw
 	{
 		auto result = registerName( name
 			, type
-			, var::Flag::eShaderConstant | var::Flag::eStatic );
+			, var::Flag::eStatic | var::Flag::eConstant );
 		m_constants.emplace( name, type );
 		return result;
 	}

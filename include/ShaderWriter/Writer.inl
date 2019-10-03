@@ -305,7 +305,7 @@ namespace sdw
 		, T const & rhs )
 	{
 		auto type = T::makeType( getTypesCache() );
-		auto var = registerConstant( name
+		auto var = registerStaticConstant( name
 			, type );
 		addStmt( sdw::makeSimple( sdw::makeInit( var
 			, makeConstExpr( getShader(), rhs ) ) ) );
@@ -319,7 +319,7 @@ namespace sdw
 		, bool enabled )
 	{
 		auto type = T::makeType( getTypesCache() );
-		auto var = registerConstant( name
+		auto var = registerStaticConstant( name
 			, type );
 
 		if ( enabled )
@@ -339,7 +339,7 @@ namespace sdw
 	{
 		auto type = Array< T >::makeType( getTypesCache()
 			, uint32_t( rhs.size() ) );
-		auto var = registerConstant( name
+		auto var = registerStaticConstant( name
 			, type );
 		addStmt( sdw::makeSimple( sdw::makeAggrInit( var
 				, makeConstExpr( getShader(), rhs ) ) ) );
@@ -354,7 +354,7 @@ namespace sdw
 	{
 		auto type = Array< T >::makeType( getTypesCache()
 			, uint32_t( rhs.size() ) );
-		auto var = registerConstant( name
+		auto var = registerStaticConstant( name
 			, type );
 
 		if ( enabled )

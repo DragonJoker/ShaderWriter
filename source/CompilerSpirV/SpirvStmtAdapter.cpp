@@ -115,7 +115,37 @@ namespace spirv
 
 	void StmtAdapter::visitSimpleStmt( ast::stmt::Simple * stmt )
 	{
-		StmtCloner::visitSimpleStmt( stmt );
+		bool processed = false;
+
+		if ( stmt->getExpr()->isConstant() )
+		{
+			if ( stmt->getExpr()->getKind() == ast::expr::Kind::eInit )
+			{
+				auto init = reinterpret_cast< ast::expr::Init * >( stmt->getExpr() );
+				auto ident = init->getIdentifier();
+
+				if ( ident )
+				{
+					m_context.defines.insert( { ident->getVariable()->getName(), doSubmit( init->getInitialiser() ) } );
+					processed = true;
+				}
+			}
+			else if ( stmt->getExpr()->getKind() == ast::expr::Kind::eAggrInit )
+			{
+				auto ident = reinterpret_cast< ast::expr::AggrInit * >( stmt->getExpr() )->getIdentifier();
+
+				if ( ident )
+				{
+					m_context.defines.insert( { ident->getVariable()->getName(), doSubmit( stmt->getExpr() ) } );
+					processed = true;
+				}
+			}
+		}
+
+		if ( !processed )
+		{
+			StmtCloner::visitSimpleStmt( stmt );
+		}
 	}
 
 	void StmtAdapter::visitStructureDeclStmt( ast::stmt::StructureDecl * stmt )
