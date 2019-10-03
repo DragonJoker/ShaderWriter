@@ -1453,10 +1453,17 @@ namespace spirv
 		, ModuleStruct & moduleStruct )
 	{
 		ast::stmt::ContainerPtr result;
+		ModuleStructBuilder builder
+		{
+			result,
+			moduleStruct,
+			cache,
+			currentId,
+		};
 		StmtRegister vis
 		{
 			result,
-			ModuleStructBuilder{ result, moduleStruct, cache, currentId },
+			builder,
 			cache,
 			currentId,
 		};

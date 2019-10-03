@@ -10,7 +10,6 @@ max_jobs: 2
 
 image:
   - Ubuntu1804
-  - Visual Studio 2019
 
 platform:
   - x64
@@ -37,6 +36,10 @@ build_script:
   - ps: cd $PROJECT_DIR/build
   - ps: if ($isLinux) {cmake --build . --target install --parallel 4}
   - ps: if (!$isLinux) {cmake --build . --target install --parallel 4 --config Release}
+
+test_script:
+  - ps: cd $PROJECT_DIR/build
+  - ps: ctest
 
 after_build:
   - ps: if ($isLinux) {cd /home/appveyor/projects/shaderwriter}
