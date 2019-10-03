@@ -14,6 +14,8 @@ The compiler libraries allow exporting the generated AST in either of these shad
 Examples
 --------
 
+Let's take the following vertex shader code, written in C++:
+
 ```cpp
 void vertex()
 {
