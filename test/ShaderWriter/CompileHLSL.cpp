@@ -108,7 +108,8 @@ namespace test
 
 	bool compileHlsl( std::string const & shader
 		, ast::ShaderStage type
-		, std::string & errors )
+		, std::string & errors
+		, sdw_test::TestCounts & testCounts )
 	{
 		return true;
 	}

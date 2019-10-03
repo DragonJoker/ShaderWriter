@@ -21,6 +21,7 @@ if ( OpenGL_FOUND OR OPENGL_FOUND )
 		set( TargetLinkLibraries
 			${TargetLinkLibraries}
 			${OPENGL_glx_LIBRARY}
+			X11
 		)
 	endif ()
 
@@ -100,16 +101,30 @@ set( TargetIncludeDirectories
 	${SPIRV_CROSS_DIR}
 	${GLSLANG_DIR}
 )
+set( TargetLinkLibraries
+	${TargetLinkLibraries}
+	ShaderAST
+	ShaderWriter
+	${SDW_EXPORTERS_LIST}
+	${BinLibraries}
+	glslang
+	OGLCompiler
+	OSDependent
+	SPVRemapper
+	SPIRV
+)
 
 add_library( TestWriterCommon
 	STATIC
 	${TEST_WRITER_COMMON_HEADER_FILES}
 	${TEST_WRITER_COMMON_SOURCE_FILES}
 )
+target_link_libraries( TestWriterCommon PRIVATE
+	${TargetLinkLibraries}
+)
 target_compile_definitions( TestWriterCommon PUBLIC
 	${TargetCompileDefinitions}
 )
-message( STATUS "TargetCompileDefinitions ${TargetCompileDefinitions}" )
 target_include_directories( TestWriterCommon PUBLIC
 	${TargetIncludeDirectories}
 )
@@ -120,16 +135,7 @@ set_target_properties( TestWriterCommon PROPERTIES
 
 set( TargetLinkLibraries
 	${TargetLinkLibraries}
-	ShaderAST
-	ShaderWriter
-	${SDW_EXPORTERS_LIST}
 	TestWriterCommon
-	${BinLibraries}
-	glslang
-	OGLCompiler
-	OSDependent
-	SPVRemapper
-	SPIRV
 )
 
 foreach ( TEST_FILE ${TEST_FILES} )

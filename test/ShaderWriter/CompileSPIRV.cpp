@@ -9,37 +9,10 @@
 #include <algorithm>
 #include <iostream>
 #include <sstream>
+#include <iterator>
 
 namespace test
 {
-#if defined( _WIN32 )
-
-	template< typename FuncT >
-	void getFunction( char const * const name, FuncT & function )
-	{
-		function = reinterpret_cast< FuncT >( wglGetProcAddress( name ) );
-
-		if ( function == nullptr )
-		{
-			throw std::runtime_error{ std::string( "Couldn't load function" ) + name };
-		}
-	}
-
-#elif defined( __linux__ )
-
-	template< typename FuncT >
-	void getFunction( char const * const name, FuncT & function )
-	{
-		function = reinterpret_cast< FuncT >( glXGetProcAddressARB( reinterpret_cast< GLubyte const * >( name ) ) );
-
-		if ( function == nullptr )
-		{
-			throw std::runtime_error{ std::string( "Couldn't load function" ) + name };
-		}
-	}
-
-#endif
-
 	namespace
 	{
 		struct LayerProperties

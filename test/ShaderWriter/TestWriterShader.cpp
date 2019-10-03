@@ -286,7 +286,7 @@ namespace
 			, InVec4Array{ writer, "p", 4u } );
 
 		auto foo02 = writer.implementFunction< sdw::Void >( "foo02"
-			, [&]( Vec4 & p )
+			, [&]( Vec4 p )
 			{
 				p = p + vec4( 1.0_f );
 			}
@@ -368,7 +368,7 @@ namespace
 		auto SMAAEdgeDetectionVS = writer.implementFunction< sdw::Void >( "SMAAEdgeDetectionVS"
 			, [&]( Vec4 const & rtMetrics
 				, Vec2 const & texcoord
-				, Array< Vec4 > & offset )
+				, Array< Vec4 > offset )
 			{
 				offset[0] = fma( rtMetrics.xyxy(), vec4( -1.0_f, 0.0, 0.0, -1.0 ), vec4( texcoord.xy(), texcoord.xy() ) );
 				offset[1] = fma( rtMetrics.xyxy(), vec4( 1.0_f, 0.0, 0.0, 1.0 ), vec4( texcoord.xy(), texcoord.xy() ) );
@@ -417,7 +417,7 @@ namespace
 
 		auto foo01 = writer.implementFunction< sdw::Void >( "foo01"
 			, [&]( Array< Vec4 > const & p
-				, Vec4 & v
+				, Vec4 v
 				, Int const & i )
 			{
 				auto j = writer.declLocale< Int >( "j" );
