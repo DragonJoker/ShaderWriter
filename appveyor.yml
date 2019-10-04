@@ -39,7 +39,7 @@ build_script:
 
 test_script:
   - ps: cd $PROJECT_DIR/build
-  - ps: ctest
+  - ps: ctest -C Release
 
 after_build:
   - ps: if ($isLinux) {cd /home/appveyor/projects/shaderwriter}
