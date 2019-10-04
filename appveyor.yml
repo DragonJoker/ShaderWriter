@@ -8,8 +8,11 @@ branches:
 
 max_jobs: 2
 
+environment:
+  APPVEYOR_BUILD_WORKER_CLOUD: MONSTER
+  APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
+
 image:
-  - Ubuntu1804
   - Visual Studio 2019
 
 platform:
