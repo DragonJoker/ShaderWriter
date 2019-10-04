@@ -58,6 +58,9 @@ namespace ast::debug
 			case ast::stmt::Kind::eInOutVariableDecl:
 				result = "STINOUTVARDECL";
 				break;
+			case ast::stmt::Kind::eSpecialisationConstantDecl:
+				result = "STSPECCONSTDECL";
+				break;
 			case ast::stmt::Kind::eConstantBufferDecl:
 				result = "STCBUFFDECL";
 				break;
@@ -65,16 +68,19 @@ namespace ast::debug
 				result = "STPCBUFFDECL";
 				break;
 			case ast::stmt::Kind::eShaderBufferDecl:
-				result = "STSBUFFDECL";
+				result = "STSHADBUFFDECL";
 				break;
-			case ast::stmt::Kind::eSampledImageDecl:
-				result = "STSAMPLEDIMGDECL";
+			case ast::stmt::Kind::eShaderStructBufferDecl:
+				result = "STSHADSTRUCTBUFFDECL";
 				break;
 			case ast::stmt::Kind::eSamplerDecl:
 				result = "STSAMPLERDECL";
 				break;
 			case ast::stmt::Kind::eImageDecl:
 				result = "STIMAGEDECL";
+				break;
+			case ast::stmt::Kind::eSampledImageDecl:
+				result = "STSAMPLEDIMGDECL";
 				break;
 			case ast::stmt::Kind::eFunctionDecl:
 				result = "STFUNCDECL";
@@ -158,6 +164,7 @@ namespace ast::debug
 				result = "STPRVERSION";
 				break;
 			default:
+				assert( false && "Unknown statement kind ?" );
 				break;
 			}
 
@@ -634,7 +641,7 @@ namespace ast::debug
 			break;
 
 		case stmt::PreprocExtension::Status::eRequired:
-			m_result += " CU_Require";
+			m_result += " REQUIRE";
 			break;
 
 		}

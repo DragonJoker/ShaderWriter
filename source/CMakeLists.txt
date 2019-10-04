@@ -1,10 +1,10 @@
 add_compile_options( $<$<CXX_COMPILER_ID:MSVC>:/MP> )
 add_compile_options( $<$<CXX_COMPILER_ID:MSVC>:/bigobj> )
 
-add_definitions(
- -DSDW_VERSION_MAJOR=${VERSION_MAJOR}
- -DSDW_VERSION_MINOR=${VERSION_MINOR}
- -DSDW_VERSION_BUILD=${VERSION_BUILD}
+set( TargetCompileDefinitions
+	SDW_VERSION_MAJOR=${VERSION_MAJOR}
+	SDW_VERSION_MINOR=${VERSION_MINOR}
+	SDW_VERSION_BUILD=${VERSION_BUILD}
 )
 
 get_filename_component( SDW_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR} DIRECTORY )
@@ -16,6 +16,7 @@ include_directories(
 )
 
 if ( SDW_BUILD_EXPORTERS )
+	set( SDW_EXPORTERS_LIST )
 	if ( NOT DEFINED SDW_BUILD_EXPORTER_GLSL )
 		option( SDW_BUILD_EXPORTER_GLSL "Build GLSL exporter" ON )
 	endif ()
@@ -54,6 +55,7 @@ add_subdirectory( ShaderAST )
 add_subdirectory( ShaderWriter )
 
 if ( SDW_BUILD_EXPORTERS )
+	set( SDW_EXPORTERS_DEFINITIONS )
 	if ( SDW_BUILD_GLSL )
 		add_subdirectory( CompilerGlsl )
 	endif ()
@@ -65,4 +67,14 @@ if ( SDW_BUILD_EXPORTERS )
 	if ( SDW_BUILD_SPIRV )
 		add_subdirectory( CompilerSpirV )
 	endif ()
+
+	set( SDW_EXPORTERS_LIST
+		${SDW_EXPORTERS_LIST}
+		PARENT_SCOPE
+	)
+
+	set( SDW_EXPORTERS_DEFINITIONS
+		${SDW_EXPORTERS_DEFINITIONS}
+		PARENT_SCOPE
+	)
 endif ()

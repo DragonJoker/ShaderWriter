@@ -1344,7 +1344,7 @@ namespace
 	};
 
 	template< ast::type::ImageFormat FormatT
-		, template< ast::type::Kind, ast::type::ImageDim, bool, bool, bool > typename TesterT >
+		, template< ast::type::ImageFormat, ast::type::ImageDim, bool, bool, bool > typename TesterT >
 	void testsImageFormats( test::sdw_test::TestCounts & testCounts )
 	{
 		if ( isFloatFormat( FormatT ) )

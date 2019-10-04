@@ -1,5 +1,7 @@
 #include "CompileGLSL.hpp"
 
+#if SDW_Test_HasOpenGL
+
 #if _WIN32
 #	include <Windows.h>
 #elif __linux__
@@ -837,3 +839,27 @@ namespace test
 		return result;
 	}
 }
+
+#else
+
+namespace test
+{
+	bool createGLSLContext( sdw_test::TestCounts & testCounts )
+	{
+		return true;
+	}
+
+	void destroyGLSLContext( sdw_test::TestCounts & testCounts )
+	{
+	}
+
+	bool compileGlsl( std::string const & source
+		, ast::ShaderStage stage
+		, std::string & errors
+		, sdw_test::TestCounts & testCounts )
+	{
+		return true;
+	}
+}
+
+#endif

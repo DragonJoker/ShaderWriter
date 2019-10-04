@@ -1,5 +1,7 @@
 #include "CompileSPIRV.hpp"
 
+#if SDW_Test_HasVulkan
+
 #include "vulkan/vulkan.h"
 
 #include <ShaderWriter/Shader.hpp>
@@ -7,37 +9,10 @@
 #include <algorithm>
 #include <iostream>
 #include <sstream>
+#include <iterator>
 
 namespace test
 {
-#if defined( _WIN32 )
-
-	template< typename FuncT >
-	void getFunction( char const * const name, FuncT & function )
-	{
-		function = reinterpret_cast< FuncT >( wglGetProcAddress( name ) );
-
-		if ( function == nullptr )
-		{
-			throw std::runtime_error{ std::string( "Couldn't load function" ) + name };
-		}
-	}
-
-#elif defined( __linux__ )
-
-	template< typename FuncT >
-	void getFunction( char const * const name, FuncT & function )
-	{
-		function = reinterpret_cast< FuncT >( glXGetProcAddressARB( reinterpret_cast< GLubyte const * >( name ) ) );
-
-		if ( function == nullptr )
-		{
-			throw std::runtime_error{ std::string( "Couldn't load function" ) + name };
-		}
-	}
-
-#endif
-
 	namespace
 	{
 		struct LayerProperties
@@ -491,3 +466,27 @@ namespace test
 		return result;
 	}
 }
+
+#else
+
+namespace test
+{
+	bool createSPIRVContext( sdw_test::TestCounts & testCounts )
+	{
+		return true;
+	}
+
+	void destroySPIRVContext( sdw_test::TestCounts & testCounts )
+	{
+	}
+
+	bool compileSpirV( sdw::Shader const & shader
+		, std::vector< uint32_t > const & spirv
+		, std::string & errors
+		, sdw_test::TestCounts & testCounts )
+	{
+		return true;
+	}
+}
+
+#endif

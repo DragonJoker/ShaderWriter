@@ -16,6 +16,9 @@ add_library( TestCommon
 	${TEST_COMMON_HEADER_FILES}
 	${TEST_COMMON_SOURCE_FILES}
 )
+target_compile_definitions( TestCommon PRIVATE
+	${SDW_EXPORTERS_DEFINITIONS}
+)
 set_property( TARGET TestCommon PROPERTY CXX_STANDARD 17 )
 set_property( TARGET TestCommon PROPERTY FOLDER "Tests" )
 

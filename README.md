@@ -1,3 +1,8 @@
+|         Server     | Result |
+|:------------------:|--------|
+| AppVeyor           | [![Build Status](https://ci.appveyor.com/api/projects/status/github/DragonJoker/shaderwriter?branch=master&svg=true)](https://ci.appveyor.com/project/DragonJoker/shaderwriter) |
+
+
 ShaderWriter
 ============
 
@@ -14,12 +19,14 @@ The compiler libraries allow exporting the generated AST in either of these shad
 Examples
 --------
 
+Let's take the following vertex shader code, written in C++:
+
 ```cpp
 void vertex()
 {
 	using namespace sdw;
-
 	VertexWriter writer;
+
 	// Shader inputs
 	auto position = writer.declInput< Vec2 >( "position", 0u );
 	auto texcoord = writer.declInput< Vec2 >( "texcoord", 1u );

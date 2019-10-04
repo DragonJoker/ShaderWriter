@@ -1,6 +1,6 @@
 #include "CompileHLSL.hpp"
 
-#if defined( _WIN32 )
+#if defined( _WIN32 ) && SDW_Test_HasDirect3D11
 
 #define _WIN32_WINNT 0x600
 
@@ -97,9 +97,19 @@ namespace test
 
 namespace test
 {
+	bool createHLSLContext( sdw_test::TestCounts & testCounts )
+	{
+		return true;
+	}
+
+	void destroyHLSLContext( sdw_test::TestCounts & testCounts )
+	{
+	}
+
 	bool compileHlsl( std::string const & shader
 		, ast::ShaderStage type
-		, std::string & errors )
+		, std::string & errors
+		, sdw_test::TestCounts & testCounts )
 	{
 		return true;
 	}
