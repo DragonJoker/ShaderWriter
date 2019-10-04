@@ -25,8 +25,8 @@ Let's take the following vertex shader code, written in C++:
 void vertex()
 {
 	using namespace sdw;
-
 	VertexWriter writer;
+
 	// Shader inputs
 	auto position = writer.declInput< Vec2 >( "position", 0u );
 	auto texcoord = writer.declInput< Vec2 >( "texcoord", 1u );

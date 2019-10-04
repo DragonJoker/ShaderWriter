@@ -9,6 +9,7 @@ branches:
 max_jobs: 2
 
 image:
+  - Ubuntu1804
   - Visual Studio 2019
 
 platform:
@@ -29,7 +30,7 @@ install:
   - ps: if (!$isLinux) {$PROJECT_DIR="C:\projects\shaderwriter"}
   - ps: md build
   - ps: cd build
-  - ps: if ($isLinux) {cmake -Wno-dev -G "Unix Makefiles" -DPROJECTS_OUTPUT_DIR=/home/appveyor/projects/shaderwriter -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/home/appveyor/projects/shaderwriter/package/shaderwriter ../ -DSDW_GENERATE_SOURCE=OFF -DSDW_BUILD_TESTS=ON -DSDW_TESTS_ENABLE_VALIDATION=OFF -DPROJECTS_USE_PRECOMPILED_HEADERS=OFF}
+  - ps: if ($isLinux) {cmake -Wno-dev -G "Unix Makefiles" -DPROJECTS_OUTPUT_DIR=/home/appveyor/projects/shaderwriter -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/home/appveyor/projects/shaderwriter/package/shaderwriter ../ -DSDW_GENERATE_SOURCE=OFF -DSDW_BUILD_TESTS=OFF -DPROJECTS_USE_PRECOMPILED_HEADERS=OFF}
   - ps: if (!$isLinux) {cmake -Wno-dev -G "Visual Studio 16 2019" -DPROJECTS_OUTPUT_DIR=C:\projects\shaderwriter -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=C:\projects\shaderwriter\package\shaderwriter ../ -DSDW_GENERATE_SOURCE=OFF -DSDW_BUILD_TESTS=ON -DSDW_TESTS_ENABLE_VALIDATION=OFF -DPROJECTS_USE_PRECOMPILED_HEADERS=ON -DPYTHON_EXECUTABLE="C:/Python37-x64/python"}
 
 build_script:
@@ -39,18 +40,10 @@ build_script:
 
 test_script:
   - ps: cd $PROJECT_DIR/build
-  - ps: ctest -C Release
+  - ps: if (!$isLinux) {ctest -C Release}
 
 after_build:
   - ps: if ($isLinux) {cd /home/appveyor/projects/shaderwriter}
   - ps: if (!$isLinux) {cd C:\projects\shaderwriter}
   - ps: 7z a shaderwriter-$OS_NAME-$PLATFORM_NAME.zip ./package/shaderwriter/*
   - ps: Push-AppveyorArtifact shaderwriter-$OS_NAME-$PLATFORM_NAME.zip
-
-on_success:
-  - ps: Invoke-RestMethod https://raw.githubusercontent.com/DiscordHooks/appveyor-discord-webhook/master/send.ps1 -o send.ps1
-  - ps: ./send.ps1 success $env:WEBHOOK_URL
-
-on_failure:
-  - ps: Invoke-RestMethod https://raw.githubusercontent.com/DiscordHooks/appveyor-discord-webhook/master/send.ps1 -o send.ps1
-  - ps: ./send.ps1 failure $env:WEBHOOK_URL
