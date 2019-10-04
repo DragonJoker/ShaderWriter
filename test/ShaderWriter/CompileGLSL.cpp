@@ -853,9 +853,10 @@ namespace test
 	{
 	}
 
-	bool compileGlsl( std::string const & shader
-		, ast::ShaderStage type
-		, std::string & errors )
+	bool compileGlsl( std::string const & source
+		, ast::ShaderStage stage
+		, std::string & errors
+		, sdw_test::TestCounts & testCounts )
 	{
 		return true;
 	}

@@ -480,9 +480,10 @@ namespace test
 	{
 	}
 
-	bool compileSpirV( std::string const & shader
-		, ast::ShaderStage type
-		, std::string & errors )
+	bool compileSpirV( sdw::Shader const & shader
+		, std::vector< uint32_t > const & spirv
+		, std::string & errors
+		, sdw_test::TestCounts & testCounts )
 	{
 		return true;
 	}
