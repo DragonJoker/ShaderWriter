@@ -1,3 +1,8 @@
+|         Server     | Result |
+|:------------------:|--------|
+| AppVeyor           | [![Build Status](https://ci.appveyor.com/api/projects/status/github/DragonJoker/shaderwriter?branch=master&svg=true)](https://ci.appveyor.com/project/DragonJoker/shaderwriter) |
+
+
 ShaderWriter
 ============
 
