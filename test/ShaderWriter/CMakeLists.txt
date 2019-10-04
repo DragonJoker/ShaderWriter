@@ -1,56 +1,59 @@
 file( GLOB TEST_FILES ${CMAKE_CURRENT_SOURCE_DIR}/Test*.cpp )
 
+option( SDW_TESTS_ENABLE_VALIDATION "Enables validation through respective API (Vulkan, OpenGL, and Direct3D" ON )
+
 set( SPIRV_CROSS_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../../external/SPIRV-Cross )
 set( GLSLANG_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../../external/glslang )
 
-find_package( OpenGL )
-find_package( Vulkan )
+if ( SDW_TESTS_ENABLE_VALIDATION )
+	find_package( OpenGL )
+	find_package( Vulkan )
 
-set( TargetCompileDefinitions
-	${TargetCompileDefinitions}
-	${SDW_EXPORTERS_DEFINITIONS}
-)
-
-if ( OpenGL_FOUND OR OPENGL_FOUND )
-	set( TargetLinkLibraries
-		${TargetLinkLibraries}
-		${OPENGL_gl_LIBRARY}
+	set( OptionalCompileDefinitions
+		${SDW_EXPORTERS_DEFINITIONS}
 	)
 
-	if ( NOT WIN32 )
+	if ( OpenGL_FOUND OR OPENGL_FOUND )
 		set( TargetLinkLibraries
 			${TargetLinkLibraries}
-			${OPENGL_glx_LIBRARY}
-			X11
+			${OPENGL_gl_LIBRARY}
+		)
+
+		if ( NOT WIN32 )
+			set( TargetLinkLibraries
+				${TargetLinkLibraries}
+				${OPENGL_glx_LIBRARY}
+				X11
+			)
+		endif ()
+
+		set( OptionalCompileDefinitions
+			${OptionalCompileDefinitions}
+			SDW_Test_HasOpenGL=1
 		)
 	endif ()
 
-	set( TargetCompileDefinitions
-		${TargetCompileDefinitions}
-		SDW_Test_HasOpenGL=1
-	)
-endif ()
+	if ( Vulkan_FOUND OR VULKAN_FOUND )
+		set( TargetIncludeDirectories
+			${TargetIncludeDirectories}
+			${Vulkan_INCLUDE_DIR}
+		)
+		set( TargetLinkLibraries
+			${TargetLinkLibraries}
+			${Vulkan_LIBRARY}
+		)
+		set( OptionalCompileDefinitions
+			${OptionalCompileDefinitions}
+			SDW_Test_HasVulkan=1
+		)
+	endif ()
 
-if ( Vulkan_FOUND OR VULKAN_FOUND )
-	set( TargetIncludeDirectories
-		${TargetIncludeDirectories}
-		${Vulkan_INCLUDE_DIR}
-	)
-	set( TargetLinkLibraries
-		${TargetLinkLibraries}
-		${Vulkan_LIBRARY}
-	)
-	set( TargetCompileDefinitions
-		${TargetCompileDefinitions}
-		SDW_Test_HasVulkan=1
-	)
-endif ()
-
-if ( WIN32 )
-	set( TargetCompileDefinitions
-		${TargetCompileDefinitions}
-		SDW_Test_HasDirect3D11=1
-	)
+	if ( WIN32 )
+		set( OptionalCompileDefinitions
+			${OptionalCompileDefinitions}
+			SDW_Test_HasDirect3D11=1
+		)
+	endif ()
 endif ()
 
 set( ENABLE_GLSLANG_BINARIES FALSE CACHE BOOL "Builds glslangValidator and spirv-remap" FORCE )
@@ -122,8 +125,9 @@ add_library( TestWriterCommon
 target_link_libraries( TestWriterCommon PRIVATE
 	${TargetLinkLibraries}
 )
-target_compile_definitions( TestWriterCommon PUBLIC
+target_compile_definitions( TestWriterCommon PRIVATE
 	${TargetCompileDefinitions}
+	${OptionalCompileDefinitions}
 )
 target_include_directories( TestWriterCommon PUBLIC
 	${TargetIncludeDirectories}

@@ -29,8 +29,8 @@ install:
   - ps: if (!$isLinux) {$PROJECT_DIR="C:\projects\shaderwriter"}
   - ps: md build
   - ps: cd build
-  - ps: if ($isLinux) {cmake -Wno-dev -G "Unix Makefiles" -DPROJECTS_OUTPUT_DIR=/home/appveyor/projects/shaderwriter -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/home/appveyor/projects/shaderwriter/package/shaderwriter ../ -DSDW_GENERATE_SOURCE=OFF -DSDW_BUILD_TESTS=ON -DPROJECTS_USE_PRECOMPILED_HEADERS=OFF}
-  - ps: if (!$isLinux) {cmake -Wno-dev -G "Visual Studio 16 2019" -DPROJECTS_OUTPUT_DIR=C:\projects\shaderwriter -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=C:\projects\shaderwriter\package\shaderwriter ../ -DSDW_GENERATE_SOURCE=OFF -DSDW_BUILD_TESTS=ON  -DPROJECTS_USE_PRECOMPILED_HEADERS=ON -DPYTHON_EXECUTABLE="C:/Python37-x64/python"}
+  - ps: if ($isLinux) {cmake -Wno-dev -G "Unix Makefiles" -DPROJECTS_OUTPUT_DIR=/home/appveyor/projects/shaderwriter -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/home/appveyor/projects/shaderwriter/package/shaderwriter ../ -DSDW_GENERATE_SOURCE=OFF -DSDW_BUILD_TESTS=ON -DSDW_TESTS_ENABLE_VALIDATION=OFF -DPROJECTS_USE_PRECOMPILED_HEADERS=OFF}
+  - ps: if (!$isLinux) {cmake -Wno-dev -G "Visual Studio 16 2019" -DPROJECTS_OUTPUT_DIR=C:\projects\shaderwriter -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=C:\projects\shaderwriter\package\shaderwriter ../ -DSDW_GENERATE_SOURCE=OFF -DSDW_BUILD_TESTS=ON -DSDW_TESTS_ENABLE_VALIDATION=OFF -DPROJECTS_USE_PRECOMPILED_HEADERS=ON -DPYTHON_EXECUTABLE="C:/Python37-x64/python"}
 
 build_script:
   - ps: cd $PROJECT_DIR/build
