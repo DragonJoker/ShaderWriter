@@ -8,10 +8,6 @@ branches:
 
 max_jobs: 2
 
-environment:
-  APPVEYOR_BUILD_WORKER_CLOUD: MONSTER
-  APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
-
 image:
   - Visual Studio 2019
 
@@ -28,13 +24,13 @@ install:
   - git submodule update --init -- "external/glslang"
   - ps: $PLATFORM_NAME="x64"
   - ps: $OS_NAME="linux"
-  - ps: $PROJECT_DIR="$PWD"
+  - ps: $PROJECT_DIR="/home/appveyor/projects/shaderwriter"
   - ps: if (!$isLinux) {$OS_NAME="win32"}
-  - ps: if (!$isLinux) {$PROJECT_DIR="$PWD"}
+  - ps: if (!$isLinux) {$PROJECT_DIR="C:\projects\shaderwriter"}
   - ps: md build
   - ps: cd build
   - ps: if ($isLinux) {cmake -Wno-dev -G "Unix Makefiles" -DPROJECTS_OUTPUT_DIR=/home/appveyor/projects/shaderwriter -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/home/appveyor/projects/shaderwriter/package/shaderwriter ../ -DSDW_GENERATE_SOURCE=OFF -DSDW_BUILD_TESTS=ON -DPROJECTS_USE_PRECOMPILED_HEADERS=OFF}
-  - ps: if (!$isLinux) {cmake -Wno-dev -G "Visual Studio 16 2019" -DPROJECTS_OUTPUT_DIR=C:\Users\appveyor\projects\shaderwriter -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=C:\Users\appveyor\projects\shaderwriter\package\shaderwriter ../ -DSDW_GENERATE_SOURCE=OFF -DSDW_BUILD_TESTS=ON  -DPROJECTS_USE_PRECOMPILED_HEADERS=ON -DPYTHON_EXECUTABLE="C:/Python36/python"}
+  - ps: if (!$isLinux) {cmake -Wno-dev -G "Visual Studio 16 2019" -DPROJECTS_OUTPUT_DIR=C:\projects\shaderwriter -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=C:\projects\shaderwriter\package\shaderwriter ../ -DSDW_GENERATE_SOURCE=OFF -DSDW_BUILD_TESTS=ON  -DPROJECTS_USE_PRECOMPILED_HEADERS=ON -DPYTHON_EXECUTABLE="C:/Python37-x64/python"}
 
 build_script:
   - ps: cd $PROJECT_DIR/build
@@ -47,7 +43,7 @@ test_script:
 
 after_build:
   - ps: if ($isLinux) {cd /home/appveyor/projects/shaderwriter}
-  - ps: if (!$isLinux) {cd C:\Users\appveyor\projects\shaderwriter}
+  - ps: if (!$isLinux) {cd C:\projects\shaderwriter}
   - ps: 7z a shaderwriter-$OS_NAME-$PLATFORM_NAME.zip ./package/shaderwriter/*
   - ps: Push-AppveyorArtifact shaderwriter-$OS_NAME-$PLATFORM_NAME.zip
 
