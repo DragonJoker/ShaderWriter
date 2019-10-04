@@ -28,9 +28,9 @@ install:
   - git submodule update --init -- "external/glslang"
   - ps: $PLATFORM_NAME="x64"
   - ps: $OS_NAME="linux"
-  - ps: $PROJECT_DIR="/home/appveyor/projects/shaderwriter"
+  - ps: $PROJECT_DIR="$PWD"
   - ps: if (!$isLinux) {$OS_NAME="win32"}
-  - ps: if (!$isLinux) {$PROJECT_DIR="C:\Users\appveyor\projects\shaderwriter"}
+  - ps: if (!$isLinux) {$PROJECT_DIR="$PWD"}
   - ps: md build
   - ps: cd build
   - ps: if ($isLinux) {cmake -Wno-dev -G "Unix Makefiles" -DPROJECTS_OUTPUT_DIR=/home/appveyor/projects/shaderwriter -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/home/appveyor/projects/shaderwriter/package/shaderwriter ../ -DSDW_GENERATE_SOURCE=OFF -DSDW_BUILD_TESTS=ON -DPROJECTS_USE_PRECOMPILED_HEADERS=OFF}
