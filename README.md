@@ -205,3 +205,8 @@ STFUNCDECL VOID main()
         STSIMPLE ASSIGN (IDENT vtx_texture) (IDENT texcoord)
         STSIMPLE ASSIGN (IDENT gl_Position) (COMPOSITECONSTRUCT VEC4 FLOAT ((SWIZZLE x (IDENT position)), (SWIZZLE y (IDENT position)), (LITERAL 0.0), (LITERAL 1.0)))
 ```
+
+Contact
+-------
+
+You can reach me on the Discord server dedicated to my projects: [DragonJoker's Lair](https://discord.gg/jue8kW)
