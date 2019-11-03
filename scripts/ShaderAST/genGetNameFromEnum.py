@@ -84,7 +84,7 @@ def main( argv ):
 	intrEnd = re.compile("^ASTIntrEnd$")
 	intrValue = re.compile("^\s*ASTIntrValue\( ([^,]*), ASTIntrName\( ([^)]*) \)([\w:, ()\[\]]*) \)$")
 	with open(inEnumFile, "r") as ins:
-		with open(outEnumFile, "w") as outs:
+		with open(outEnumFile, "w", newline='\n') as outs:
 			array = []
 			for line in ins:
 				array.append( line )
