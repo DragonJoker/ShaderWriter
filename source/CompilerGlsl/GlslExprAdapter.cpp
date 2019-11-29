@@ -322,6 +322,8 @@ namespace glsl
 				args.emplace_back( doSubmit( expr->getArgList()[1].get() ) );
 				args.emplace_back( doSubmit( expr->getArgList()[2].get() ) );
 				break;
+			default:
+				break;
 			}
 		}
 		else
@@ -352,6 +354,8 @@ namespace glsl
 				// If the first type was a vec4, forget about merging
 				args.emplace_back( doSubmit( expr->getArgList()[1].get() ) );
 				args.emplace_back( doSubmit( expr->getArgList()[2].get() ) );
+				break;
+			default:
 				break;
 			}
 		}

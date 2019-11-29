@@ -9,8 +9,8 @@ namespace sdw
 		this->updateContainer( rhs );
 		auto & shader = *findShader( *this, rhs );
 		addStmt( shader
-			, sdw::makeSimple( sdw::makeAssign( m_expr->getType()
-				, makeExpr( shader, m_expr )
+			, sdw::makeSimple( sdw::makeAssign( getExpr()->getType()
+				, makeExpr( shader, getExpr() )
 				, makeExpr( shader, rhs ) ) ) );
 		return *this;
 	}

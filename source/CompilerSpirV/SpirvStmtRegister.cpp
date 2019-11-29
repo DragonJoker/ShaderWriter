@@ -92,6 +92,8 @@ namespace spirv
 			case ast::expr::LiteralType::eUInt:
 				result = int32_t( lit.getValue< ast::expr::LiteralType::eUInt >() );
 				break;
+			default:
+				break;
 			}
 
 			return result;
@@ -1227,6 +1229,8 @@ namespace spirv
 					break;
 				}
 				break;
+			default:
+				break;
 			}
 
 			// put the pieces together
@@ -1316,6 +1320,8 @@ namespace spirv
 							case ast::type::Kind::eDouble:
 								compositeArgs.emplace_back( ast::expr::makeLiteral( m_cache, 1.0 ) );
 								break;
+							default:
+								break;
 							}
 						}
 						else
@@ -1333,6 +1339,8 @@ namespace spirv
 								break;
 							case ast::type::Kind::eDouble:
 								compositeArgs.emplace_back( ast::expr::makeLiteral( m_cache, 0.0 ) );
+								break;
+							default:
 								break;
 							}
 						}

@@ -95,6 +95,8 @@ namespace glsl
 		case ast::expr::TextureAccess::eTextureGatherOffsets2DRectShadowF:
 			config.requiresTextureGather = true;
 			break;
+		default:
+			break;
 		}
 	}
 }

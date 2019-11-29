@@ -5,6 +5,8 @@ See LICENSE file in root folder
 
 #include "ShaderAST/Expr/ExprVisitor.hpp"
 
+#include <cassert>
+
 namespace ast::expr
 {
 	//*************************************************************************
@@ -71,6 +73,9 @@ namespace ast::expr
 
 		switch ( value )
 		{
+		case ast::expr::CompositeType::eScalar:
+			result = 1u;
+			break;
 		case ast::expr::CompositeType::eVec2:
 			result = 2u;
 			break;
@@ -142,6 +147,9 @@ namespace ast::expr
 			case type::Kind::eDouble:
 				result = cache.getDouble();
 				break;
+			default:
+				assert( false && "Unsupported type::Kind" );
+				break;
 			}
 			break;
 		case expr::CompositeType::eVec2:
@@ -164,6 +172,9 @@ namespace ast::expr
 				break;
 			case type::Kind::eDouble:
 				result = cache.getVec2D();
+				break;
+			default:
+				assert( false && "Unsupported type::Kind" );
 				break;
 			}
 			break;
@@ -188,6 +199,9 @@ namespace ast::expr
 			case type::Kind::eDouble:
 				result = cache.getVec3D();
 				break;
+			default:
+				assert( false && "Unsupported type::Kind" );
+				break;
 			}
 			break;
 		case expr::CompositeType::eVec4:
@@ -211,6 +225,9 @@ namespace ast::expr
 			case type::Kind::eDouble:
 				result = cache.getVec4D();
 				break;
+			default:
+				assert( false && "Unsupported type::Kind" );
+				break;
 			}
 			break;
 		case expr::CompositeType::eMat2x2:
@@ -223,6 +240,9 @@ namespace ast::expr
 				break;
 			case type::Kind::eDouble:
 				result = cache.getMat2x2D();
+				break;
+			default:
+				assert( false && "Unsupported type::Kind" );
 				break;
 			}
 			break;
@@ -237,6 +257,9 @@ namespace ast::expr
 			case type::Kind::eDouble:
 				result = cache.getMat2x3D();
 				break;
+			default:
+				assert( false && "Unsupported type::Kind" );
+				break;
 			}
 			break;
 		case expr::CompositeType::eMat2x4:
@@ -249,6 +272,9 @@ namespace ast::expr
 				break;
 			case type::Kind::eDouble:
 				result = cache.getMat2x4D();
+				break;
+			default:
+				assert( false && "Unsupported type::Kind" );
 				break;
 			}
 			break;
@@ -263,6 +289,9 @@ namespace ast::expr
 			case type::Kind::eDouble:
 				result = cache.getMat3x2D();
 				break;
+			default:
+				assert( false && "Unsupported type::Kind" );
+				break;
 			}
 			break;
 		case expr::CompositeType::eMat3x3:
@@ -275,6 +304,9 @@ namespace ast::expr
 				break;
 			case type::Kind::eDouble:
 				result = cache.getMat3x3D();
+				break;
+			default:
+				assert( false && "Unsupported type::Kind" );
 				break;
 			}
 			break;
@@ -289,6 +321,9 @@ namespace ast::expr
 			case type::Kind::eDouble:
 				result = cache.getMat3x4D();
 				break;
+			default:
+				assert( false && "Unsupported type::Kind" );
+				break;
 			}
 			break;
 		case expr::CompositeType::eMat4x2:
@@ -301,6 +336,9 @@ namespace ast::expr
 				break;
 			case type::Kind::eDouble:
 				result = cache.getMat4x2D();
+				break;
+			default:
+				assert( false && "Unsupported type::Kind" );
 				break;
 			}
 			break;
@@ -315,6 +353,9 @@ namespace ast::expr
 			case type::Kind::eDouble:
 				result = cache.getMat4x3D();
 				break;
+			default:
+				assert( false && "Unsupported type::Kind" );
+				break;
 			}
 			break;
 		case expr::CompositeType::eMat4x4:
@@ -328,7 +369,13 @@ namespace ast::expr
 			case type::Kind::eDouble:
 				result = cache.getMat4x4D();
 				break;
+			default:
+				assert( false && "Unsupported type::Kind" );
+				break;
 			}
+			break;
+		default:
+			assert( false && "Unsupported type::Kind" );
 			break;
 		}
 

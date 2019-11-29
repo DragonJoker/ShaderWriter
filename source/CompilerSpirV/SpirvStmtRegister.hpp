@@ -86,7 +86,7 @@ namespace spirv
 			, ast::type::TypesCache & cache
 			, uint32_t & currentId );
 
-		ast::expr::ExprPtr doSubmit( ast::expr::Expr * expr );
+		ast::expr::ExprPtr doSubmit( ast::expr::Expr * expr )override;
 
 		void visitContainerStmt( ast::stmt::Container * stmt )override;
 		void visitConstantBufferDeclStmt( ast::stmt::ConstantBufferDecl * stmt )override;

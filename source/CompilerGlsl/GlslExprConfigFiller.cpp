@@ -81,28 +81,28 @@ namespace glsl
 		switch ( expr->getIntrinsic() )
 		{
 		case ast::expr::Intrinsic::eFma1F:
-			m_config.requiresFma1F;
+			m_config.requiresFma1F = true;
 			break;
 		case ast::expr::Intrinsic::eFma2F:
-			m_config.requiresFma2F;
+			m_config.requiresFma2F = true;
 			break;
 		case ast::expr::Intrinsic::eFma3F:
-			m_config.requiresFma3F;
+			m_config.requiresFma3F = true;
 			break;
 		case ast::expr::Intrinsic::eFma4F:
-			m_config.requiresFma4F;
+			m_config.requiresFma4F = true;
 			break;
 		case ast::expr::Intrinsic::eFma1D:
-			m_config.requiresFma1D;
+			m_config.requiresFma1D = true;
 			break;
 		case ast::expr::Intrinsic::eFma2D:
-			m_config.requiresFma2D;
+			m_config.requiresFma2D = true;
 			break;
 		case ast::expr::Intrinsic::eFma3D:
-			m_config.requiresFma3D;
+			m_config.requiresFma3D = true;
 			break;
 		case ast::expr::Intrinsic::eFma4D:
-			m_config.requiresFma4D;
+			m_config.requiresFma4D = true;
 			break;
 		default:
 			break;
