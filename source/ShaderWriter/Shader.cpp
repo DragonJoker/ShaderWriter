@@ -129,10 +129,13 @@ namespace sdw
 		, std::string const & name
 		, type::TypePtr type )
 	{
+		auto flags = outer->isUniform()
+			? ast::var::Flag::eUniform
+			: ast::var::Flag( 0u );
 		return registerMember( std::move( outer )
 			, name
 			, type
-			, outer->isUniform() ? ast::var::Flag::eUniform : ast::var::Flag( 0u ) );
+			, flags );
 	}
 
 	var::VariablePtr Shader::registerStaticConstant( std::string const & name

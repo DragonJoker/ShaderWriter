@@ -481,6 +481,9 @@ namespace hlsl
 			case ast::expr::TextureAccess::eTextureProjGradOffset3DU:
 				result = true;
 				break;
+
+			default:
+				break;
 			}
 
 			return result;
@@ -538,6 +541,8 @@ namespace hlsl
 				break;
 			case ast::expr::TextureAccess::eTextureProjGradOffset2DRectShadowF:
 				result = ast::expr::TextureAccess::eTextureProjOffset2DRectShadowF;
+				break;
+			default:
 				break;
 			}
 
@@ -1990,6 +1995,8 @@ namespace hlsl
 				resVars.emplace_back( ast::var::makeVariable( uintType, "dimZ" ) );
 				cont->addStmt( ast::stmt::makeVariableDecl( resVars.back() ) );
 				break;
+			default:
+				break;
 			}
 
 			// The call to image.GetDimensions
@@ -2094,6 +2101,8 @@ namespace hlsl
 				args.emplace_back( ast::expr::makeCompositeConstruct( ast::expr::CompositeType::eVec4
 					, ast::type::Kind::eInt
 					, std::move( merged ) ) );
+				break;
+			default:
 				break;
 			}
 		}

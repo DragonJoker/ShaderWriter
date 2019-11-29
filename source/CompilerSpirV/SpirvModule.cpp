@@ -458,6 +458,8 @@ namespace spirv
 					*dst = value.getValue< ast::expr::LiteralType::eDouble >();
 				}
 				break;
+				default:
+					break;
 				}
 
 				globalDeclarations.emplace_back( makeInstruction< SpecConstantInstruction >( rawTypeId
@@ -1328,6 +1330,8 @@ namespace spirv
 		case spv::OpSpecConstantTrue:
 			list = &globalDeclarations;
 			break;
+		default:
+			break;
 		}
 
 		return list;
@@ -1347,6 +1351,8 @@ namespace spirv
 			entryPoint = std::move( *current );
 			++current;
 			break;
+		default:
+			break;
 		}
 	}
 
@@ -1358,6 +1364,8 @@ namespace spirv
 		{
 		case spv::OpFunction:
 			functions.emplace_back( Function::deserialize( current, end ) );
+			break;
+		default:
 			break;
 		}
 	}

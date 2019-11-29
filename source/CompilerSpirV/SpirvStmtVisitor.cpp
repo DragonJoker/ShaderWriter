@@ -45,6 +45,8 @@ namespace spirv
 			case ast::expr::LiteralType::eUInt:
 				result = int32_t( lit.getValue< ast::expr::LiteralType::eUInt >() );
 				break;
+			default:
+				break;
 			}
 
 			return result;

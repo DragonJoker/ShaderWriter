@@ -1432,6 +1432,8 @@ namespace
 
 int main( int argc, char ** argv )
 {
+#if !defined( __APPLE__ )
+
 	sdwTestSuiteBegin( "TestWriterImageAccesses" );
 	testsImage< ImageSizeTester >( testCounts );
 	testsImage< ImageSamplesTester >( testCounts );
@@ -1453,4 +1455,6 @@ int main( int argc, char ** argv )
 	testsImageAtomic< ImageIAtomicCompSwapTester >( testCounts );
 	testsImageAtomic< ImageUAtomicCompSwapTester >( testCounts );
 	sdwTestSuiteEnd();
+
+#endif
 }

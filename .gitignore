@@ -10,3 +10,4 @@
 *.suo
 *.gch
 *.*~
+.DS_Store

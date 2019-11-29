@@ -253,6 +253,8 @@ namespace spirv
 		case ast::expr::TextureAccess::eTexelFetchOffset2DArrayU:
 			result = spv::ImageOperandsLodMask;
 			break;
+		default:
+			break;
 		}
 
 		return result;
@@ -364,6 +366,8 @@ namespace spirv
 		case ast::expr::TextureAccess::eTextureProjGradOffset2DShadowF:
 		case ast::expr::TextureAccess::eTextureProjGradOffset2DRectShadowF:
 			result = spv::ImageOperandsGradMask;
+			break;
+		default:
 			break;
 		}
 
@@ -581,6 +585,8 @@ namespace spirv
 		case ast::expr::TextureAccess::eTextureGatherOffset2DRectShadowF:
 			result = spv::ImageOperandsOffsetMask;
 			break;
+		default:
+			break;
 		}
 
 		return result;
@@ -614,6 +620,8 @@ namespace spirv
 		case ast::expr::TextureAccess::eTextureGatherOffsets2DArrayShadowF:
 		case ast::expr::TextureAccess::eTextureGatherOffsets2DRectShadowF:
 			result = spv::ImageOperandsConstOffsetsMask;
+			break;
+		default:
 			break;
 		}
 
@@ -704,6 +712,8 @@ namespace spirv
 		case ast::expr::TextureAccess::eTextureProjOffset2DU4Bias:
 		case ast::expr::TextureAccess::eTextureProjOffset3DUBias:
 			result = spv::ImageOperandsBiasMask;
+			break;
+		default:
 			break;
 		}
 

@@ -2511,6 +2511,8 @@ namespace
 
 int main( int argc, char ** argv )
 {
+#if !defined( __APPLE__ )
+
 	sdwTestSuiteBegin( "TestWriterTextureAccesses" );
 	testsTextures< TextureSizeTester >( testCounts );
 	testsTextures< TextureQueryLodTester >( testCounts );
@@ -2540,4 +2542,6 @@ int main( int argc, char ** argv )
 	testsTextures< TextureGatherOffsetsTester >( testCounts );
 	testsTextures< TextureGatherOffsetsCompTester >( testCounts );
 	sdwTestSuiteEnd();
+
+#endif
 }

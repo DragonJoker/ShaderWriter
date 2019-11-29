@@ -149,6 +149,9 @@ namespace glsl
 		case ast::type::Kind::eSampledImage:
 			result = "sampledImage";
 			break;
+		default:
+			assert( false && "Unsupported type::Kind" );
+			break;
 		}
 
 		return result;
@@ -597,6 +600,9 @@ namespace glsl
 			case ast::type::Kind::eHalf:
 				result = "hvec2";
 				break;
+			default:
+				assert( false && "Unsupported type::Kind" );
+				break;
 			}
 			break;
 		case ast::expr::CompositeType::eVec3:
@@ -619,6 +625,9 @@ namespace glsl
 				break;
 			case ast::type::Kind::eHalf:
 				result = "hvec3";
+				break;
+			default:
+				assert( false && "Unsupported type::Kind" );
 				break;
 			}
 			break;
@@ -643,6 +652,9 @@ namespace glsl
 			case ast::type::Kind::eHalf:
 				result = "hvec4";
 				break;
+			default:
+				assert( false && "Unsupported type::Kind" );
+				break;
 			}
 			break;
 		case ast::expr::CompositeType::eMat2x2:
@@ -653,6 +665,9 @@ namespace glsl
 				break;
 			case ast::type::Kind::eDouble:
 				result = "dmat2";
+				break;
+			default:
+				assert( false && "Unsupported type::Kind" );
 				break;
 			}
 			break;
@@ -665,6 +680,9 @@ namespace glsl
 			case ast::type::Kind::eDouble:
 				result = "dmat2x3";
 				break;
+			default:
+				assert( false && "Unsupported type::Kind" );
+				break;
 			}
 			break;
 		case ast::expr::CompositeType::eMat2x4:
@@ -675,6 +693,9 @@ namespace glsl
 				break;
 			case ast::type::Kind::eDouble:
 				result = "dmat2x4";
+				break;
+			default:
+				assert( false && "Unsupported type::Kind" );
 				break;
 			}
 			break;
@@ -687,6 +708,9 @@ namespace glsl
 			case ast::type::Kind::eDouble:
 				result = "dmat3x2";
 				break;
+			default:
+				assert( false && "Unsupported type::Kind" );
+				break;
 			}
 			break;
 		case ast::expr::CompositeType::eMat3x3:
@@ -697,6 +721,9 @@ namespace glsl
 				break;
 			case ast::type::Kind::eDouble:
 				result = "dmat3";
+				break;
+			default:
+				assert( false && "Unsupported type::Kind" );
 				break;
 			}
 			break;
@@ -709,6 +736,9 @@ namespace glsl
 			case ast::type::Kind::eDouble:
 				result = "dmat3x4";
 				break;
+			default:
+				assert( false && "Unsupported type::Kind" );
+				break;
 			}
 			break;
 		case ast::expr::CompositeType::eMat4x2:
@@ -719,6 +749,9 @@ namespace glsl
 				break;
 			case ast::type::Kind::eDouble:
 				result = "dmat4x2";
+				break;
+			default:
+				assert( false && "Unsupported type::Kind" );
 				break;
 			}
 			break;
@@ -731,6 +764,9 @@ namespace glsl
 			case ast::type::Kind::eDouble:
 				result = "dmat4x3";
 				break;
+			default:
+				assert( false && "Unsupported type::Kind" );
+				break;
 			}
 			break;
 		case ast::expr::CompositeType::eMat4x4:
@@ -742,7 +778,13 @@ namespace glsl
 			case ast::type::Kind::eDouble:
 				result = "dmat4";
 				break;
+			default:
+				assert( false && "Unsupported type::Kind" );
+				break;
 			}
+			break;
+		default:
+			assert( false && "Unsupported expr::CompositeType" );
 			break;
 		}
 

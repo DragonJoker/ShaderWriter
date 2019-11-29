@@ -179,6 +179,9 @@ namespace hlsl
 			result.atomicChange.isAtomic = true;
 			result.atomicChange.outputIndex = 3u;
 			break;
+
+		default:
+			break;
 		}
 
 		return result;
@@ -483,6 +486,9 @@ namespace hlsl
 
 		case ast::expr::Intrinsic::eBitfieldReverse4I:
 			config.requiresBitfieldReverse4I = true;
+			break;
+
+		default:
 			break;
 		}
 	}

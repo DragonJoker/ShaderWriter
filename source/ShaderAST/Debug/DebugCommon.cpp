@@ -153,6 +153,9 @@ namespace ast::debug
 		case type::Kind::eDouble:
 			result = "DOUBLE";
 			break;
+		case type::Kind::eHalf:
+			result = "HALF";
+			break;
 		case type::Kind::eVec2B:
 			result = "BVEC2";
 			break;
@@ -197,6 +200,15 @@ namespace ast::debug
 			break;
 		case type::Kind::eVec4D:
 			result = "DVEC4";
+			break;
+		case type::Kind::eVec2H:
+			result = "HVEC2";
+			break;
+		case type::Kind::eVec3H:
+			result = "HVEC3";
+			break;
+		case type::Kind::eVec4H:
+			result = "HVEC4";
 			break;
 		case type::Kind::eMat2x2F:
 			result = "FMAT2x2";
@@ -260,6 +272,13 @@ namespace ast::debug
 			break;
 		case type::Kind::eSampledImage:
 			result = "SAMPLEDIMG";
+			break;
+		case type::Kind::eArray:
+			result = "ARRAY";
+			break;
+		default:
+			assert( false );
+			result = "UNKNOWN";
 			break;
 		}
 

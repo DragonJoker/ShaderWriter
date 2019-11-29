@@ -47,6 +47,8 @@ namespace spirv
 				case ast::expr::Kind::eUnaryMinus:
 					m_result = -( *operand );
 					break;
+				default:
+					break;
 				}
 			}
 
@@ -110,6 +112,8 @@ namespace spirv
 					break;
 				case ast::expr::Kind::eNotEqual:
 					m_result = *lhs != *rhs;
+					break;
+				default:
 					break;
 				}
 			}

@@ -15,7 +15,15 @@ See LICENSE file in root folder
 #include <vector>
 #include <unordered_map>
 
-#if defined( __GNUG__ )
+#if defined( __clang__ )
+#	include <optional>
+namespace spirv
+{
+	template< typename T >
+	using Optional = std::optional< T >;
+	using std::nullopt;
+}
+#elif defined( __GNUG__ )
 #	define SDW_COMPILER_VERSION (__GNUC__ * 10000 + __GNUC_MINOR__ * 100 + __GNUC_PATCHLEVEL__)
 #	if SDW_COMPILER_VERSION < 40900
 #		error "Unsupported version of GCC"
@@ -89,10 +97,20 @@ namespace spirv
 			, Optional< std::map< int32_t, spv::Id > > labels = nullopt );
 		SDWSPIRV_API Instruction( Config const & config
 			, Op op
+			, UInt32ListIt & buffer );
+		SDWSPIRV_API Instruction( Config const & config
+			, Op op
+			, UInt32ListCIt & buffer );
+		SDWSPIRV_API Instruction( Config const & config
+			, spv::Op op
+			, UInt32ListIt & buffer );
+		SDWSPIRV_API Instruction( Config const & config
+			, spv::Op op
 			, UInt32ListCIt & buffer );
 		SDWSPIRV_API static void serialize( UInt32List & buffer
 			, Instruction const & instruction );
 		SDWSPIRV_API static InstructionPtr deserialize( UInt32ListCIt & buffer );
+		SDWSPIRV_API static InstructionPtr deserialize( UInt32ListIt & buffer );
 		SDWSPIRV_API virtual ~Instruction();
 
 		// Serialisable.

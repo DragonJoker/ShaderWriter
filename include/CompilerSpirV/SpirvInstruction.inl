@@ -73,14 +73,8 @@ namespace spirv
 		, bool HasName
 		, bool HasLabels >
 	inline InstructionT< Operator, HasReturnTypeId, HasResultId, OperandsCount, HasName, HasLabels >::InstructionT( UInt32ListIt & buffer )
-		: Instruction{ config, Operator, buffer, hasReturnTypeId, hasResultId, operandsCount, hasName, hasLabels }
+		: Instruction{ config, Operator, buffer }
 	{
-		assertType< Operator
-			, hasReturnTypeId
-			, hasResultId
-			, operandsCount
-			, hasName
-			, hasLabels >( *this );
 	}
 
 	template< spv::Op Operator
@@ -90,14 +84,8 @@ namespace spirv
 		, bool HasName
 		, bool HasLabels >
 	inline InstructionT< Operator, HasReturnTypeId, HasResultId, OperandsCount, HasName, HasLabels >::InstructionT( UInt32ListCIt & buffer )
-		: Instruction{ config, Operator, buffer, hasReturnTypeId, hasResultId, operandsCount, hasName, hasLabels }
+		: Instruction{ config, Operator, buffer }
 	{
-		assertType< Operator
-			, hasReturnTypeId
-			, hasResultId
-			, operandsCount
-			, hasName
-			, hasLabels >( *this );
 	}
 
 	//*************************************************************************
@@ -164,9 +152,11 @@ namespace spirv
 
 		static inline InstructionTypePtr make( spv::Id operand, std::string const & name )
 		{
+			IdList list;
+			list.push_back( operand );
 			return std::make_unique< InstructionType >( nullopt
 				, nullopt
-				, IdList{ { operand } }
+				, list
 				, name
 				, nullopt );
 		}
@@ -256,9 +246,11 @@ namespace spirv
 
 		static inline InstructionTypePtr make( spv::Id resultId, spv::Id operand, std::string const & name )
 		{
+			IdList list;
+			list.push_back( operand );
 			return std::make_unique< InstructionType >( nullopt
 				, resultId
-				, IdList{ { operand } }
+				, list
 				, name
 				, nullopt );
 		}
@@ -348,9 +340,11 @@ namespace spirv
 
 		static inline InstructionTypePtr make( spv::Id returnTypeId, spv::Id resultId, spv::Id operand )
 		{
+			IdList list;
+			list.push_back( operand );
 			return std::make_unique< InstructionType >( returnTypeId
 				, resultId
-				, IdList{ { operand } }
+				, list
 				, nullopt
 				, nullopt );
 		}
@@ -466,9 +460,11 @@ namespace spirv
 
 		static inline InstructionTypePtr make( spv::Id returnTypeId, spv::Id operand )
 		{
+			IdList list;
+			list.push_back( operand );
 			return std::make_unique< InstructionType >( returnTypeId
 				, nullopt
-				, IdList{ { operand } }
+				, list
 				, nullopt
 				, nullopt );
 		}
@@ -576,9 +572,11 @@ namespace spirv
 
 		static inline InstructionTypePtr make( spv::Id resultId, spv::Id operand )
 		{
+			IdList list;
+			list.push_back( operand );
 			return std::make_unique< InstructionType >( nullopt
 				, resultId
-				, IdList{ { operand } }
+				, list
 				, nullopt
 				, nullopt );
 		}
@@ -686,9 +684,11 @@ namespace spirv
 
 		static inline InstructionTypePtr make( spv::Id operand )
 		{
+			IdList list;
+			list.push_back( operand );
 			return std::make_unique< InstructionType >( nullopt
 				, nullopt
-				, IdList{ { operand } }
+				, list
 				, nullopt
 				, nullopt );
 		}
@@ -796,9 +796,11 @@ namespace spirv
 
 		static inline InstructionTypePtr make( spv::Id operand, std::map< int32_t, spv::Id > const & labels )
 		{
+			IdList list;
+			list.push_back( operand );
 			return std::make_unique< InstructionType >( nullopt
 				, nullopt
-				, IdList{ { operand } }
+				, list
 				, nullopt
 				, labels );
 		}

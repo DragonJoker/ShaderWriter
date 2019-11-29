@@ -153,6 +153,8 @@ namespace spirv
 		case ast::type::ImageFormat::eR8u:
 			m_result.requiredCapabilities.insert( spv::CapabilityStorageImageExtendedFormats );
 			break;
+		default:
+			break;
 		}
 	}
 
@@ -262,6 +264,8 @@ namespace spirv
 		case ast::type::ImageFormat::eR16u:
 		case ast::type::ImageFormat::eR8u:
 			m_result.requiredCapabilities.insert( spv::CapabilityStorageImageExtendedFormats );
+			break;
+		default:
 			break;
 		}
 	}

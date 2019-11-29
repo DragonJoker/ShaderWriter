@@ -161,6 +161,8 @@ namespace hlsl
 		case ast::type::Kind::eVec4H:
 			result = "vector<half, 4>";
 			break;
+		default:
+			break;
 		}
 
 		return result;
@@ -662,6 +664,8 @@ namespace hlsl
 			case ast::type::Kind::eHalf:
 				result = "vector<half, 2>";
 				break;
+			default:
+				break;
 			}
 			break;
 		case ast::expr::CompositeType::eVec3:
@@ -684,6 +688,8 @@ namespace hlsl
 				break;
 			case ast::type::Kind::eHalf:
 				result = "vector<half, 3>";
+				break;
+			default:
 				break;
 			}
 			break;
@@ -708,6 +714,8 @@ namespace hlsl
 			case ast::type::Kind::eHalf:
 				result = "vector<half, 4>";
 				break;
+			default:
+				break;
 			}
 			break;
 		case ast::expr::CompositeType::eMat2x2:
@@ -718,6 +726,8 @@ namespace hlsl
 				break;
 			case ast::type::Kind::eDouble:
 				result = "double2x2";
+				break;
+			default:
 				break;
 			}
 			break;
@@ -730,6 +740,8 @@ namespace hlsl
 			case ast::type::Kind::eDouble:
 				result = "double2x3";
 				break;
+			default:
+				break;
 			}
 			break;
 		case ast::expr::CompositeType::eMat2x4:
@@ -740,6 +752,8 @@ namespace hlsl
 				break;
 			case ast::type::Kind::eDouble:
 				result = "double2x4";
+				break;
+			default:
 				break;
 			}
 			break;
@@ -752,6 +766,8 @@ namespace hlsl
 			case ast::type::Kind::eDouble:
 				result = "double3x2";
 				break;
+			default:
+				break;
 			}
 			break;
 		case ast::expr::CompositeType::eMat3x3:
@@ -762,6 +778,8 @@ namespace hlsl
 				break;
 			case ast::type::Kind::eDouble:
 				result = "double3x3";
+				break;
+			default:
 				break;
 			}
 			break;
@@ -774,6 +792,8 @@ namespace hlsl
 			case ast::type::Kind::eDouble:
 				result = "double3x4";
 				break;
+			default:
+				break;
 			}
 			break;
 		case ast::expr::CompositeType::eMat4x2:
@@ -784,6 +804,8 @@ namespace hlsl
 				break;
 			case ast::type::Kind::eDouble:
 				result = "double4x2";
+				break;
+			default:
 				break;
 			}
 			break;
@@ -796,6 +818,8 @@ namespace hlsl
 			case ast::type::Kind::eDouble:
 				result = "double4x3";
 				break;
+			default:
+				break;
 			}
 			break;
 		case ast::expr::CompositeType::eMat4x4:
@@ -807,8 +831,12 @@ namespace hlsl
 			case ast::type::Kind::eDouble:
 				result = "double4x4";
 				break;
+			default:
+				break;
 			}
 			break;
+		default:
+			throw std::runtime_error{ "Unsupported composite type." };
 		}
 
 		return result;
