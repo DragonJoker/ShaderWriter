@@ -67,6 +67,8 @@ namespace hlsl
 		case ast::expr::TextureAccess::eTextureGatherOffsets2DRectShadowF:
 			config.requiresShadowSampler = true;
 			break;
+		default:
+			break;
 		}
 
 		switch ( value )
@@ -600,6 +602,9 @@ namespace hlsl
 		case ast::expr::TextureAccess::eTextureProjGradOffset3DI:
 		case ast::expr::TextureAccess::eTextureProjGradOffset3DU:
 			config.requiresProjectTexCoords4 = true;
+			break;
+
+		default:
 			break;
 		}
 	}

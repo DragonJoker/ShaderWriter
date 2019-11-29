@@ -34,7 +34,6 @@ namespace test
 
 		inline ~LogStreambuf()
 		{
-			m_stream.rdbuf( m_old );
 		}
 
 		inline int_type overflow( int_type c = traits_type::eof() )override

@@ -1,6 +1,10 @@
 file( GLOB TEST_FILES ${CMAKE_CURRENT_SOURCE_DIR}/Test*.cpp )
 
-option( SDW_TESTS_ENABLE_VALIDATION "Enables validation through respective API (Vulkan, OpenGL, and Direct3D" ON )
+if ( APPLE )
+	set( SDW_TESTS_ENABLE_VALIDATION OFF )
+else ()
+	option( SDW_TESTS_ENABLE_VALIDATION "Enables validation through respective API (Vulkan, OpenGL, and Direct3D" ON )
+endif ()
 
 set( SPIRV_CROSS_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../../external/SPIRV-Cross )
 set( GLSLANG_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../../external/glslang )
@@ -18,6 +22,14 @@ if ( SDW_TESTS_ENABLE_VALIDATION )
 			${TargetLinkLibraries}
 			${OPENGL_gl_LIBRARY}
 		)
+		set( TargetIncludeDirectories
+			${TargetIncludeDirectories}
+			${OPENGL_INCLUDE_DIR}
+		)
+		set( OptionalCompileDefinitions
+			${OptionalCompileDefinitions}
+			SDW_Test_HasOpenGL=1
+		)
 
 		if ( NOT WIN32 )
 			set( TargetLinkLibraries
@@ -26,11 +38,6 @@ if ( SDW_TESTS_ENABLE_VALIDATION )
 				X11
 			)
 		endif ()
-
-		set( OptionalCompileDefinitions
-			${OptionalCompileDefinitions}
-			SDW_Test_HasOpenGL=1
-		)
 	endif ()
 
 	if ( Vulkan_FOUND OR VULKAN_FOUND )

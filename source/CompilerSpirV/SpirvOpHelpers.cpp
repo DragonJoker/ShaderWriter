@@ -458,6 +458,8 @@ namespace spirv
 		case spv::OpSubgroupShuffleUpINTEL:
 			result = 6u;
 			break;
+		default:
+			break;
 		}
 
 		assert( result != 0u );
@@ -1465,6 +1467,8 @@ namespace spirv
 			break;
 		case spv::OpMemberDecorateStringGOOGLE:
 			result = "OpMemberDecorateStringGOOGLE";
+			break;
+		default:
 			break;
 		}
 

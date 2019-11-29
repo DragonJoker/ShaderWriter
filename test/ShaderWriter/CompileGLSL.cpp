@@ -10,16 +10,19 @@
 #	include <GL/glx.h>
 #endif
 
+#if defined( __APPLE__ )
+#define GL_SILENCE_DEPRECATION
+#include <OpenGL/gl.h>
+#else
 #include <GL/gl.h>
+#endif
 
 #include <iostream>
 #include <sstream>
 
 namespace test
 {
-#if _WIN32
-#	define GLAPIENTRY __stdcall
-
+#if _WIN32 || __APPLE__
 
 	enum ContextFlag
 	{
@@ -30,25 +33,6 @@ namespace test
 	enum ContextMaskFlag
 	{
 		GL_CONTEXT_CORE_PROFILE_BIT = 0x00000001,
-	};
-
-	enum GlShaderInfo
-	{
-		GL_COMPILE_STATUS = 0x8B81,
-		GL_LINK_STATUS = 0x8B82,
-		GL_VALIDATE_STATUS = 0x8B83,
-		GL_INFO_LOG_LENGTH = 0x8B84,
-		GL_ATTACHED_SHADERS = 0x8B85,
-	};
-
-	enum GlShaderStageFlag
-	{
-		GL_FRAGMENT_SHADER = 0x8B30,
-		GL_VERTEX_SHADER = 0x8B31,
-		GL_GEOMETRY_SHADER = 0x8DD9,
-		GL_TESS_CONTROL_SHADER = 0x8E88,
-		GL_TESS_EVALUATION_SHADER = 0x8E87,
-		GL_COMPUTE_SHADER = 0x91B9,
 	};
 
 	enum GlDebugOutput
@@ -100,6 +84,32 @@ namespace test
 		GL_DEBUG_CATEGORY_APPLICATION_AMD = 0x914F,
 		GL_DEBUG_CATEGORY_OTHER_AMD = 0x9150,
 	};
+
+#if _WIN32
+#	define GLAPIENTRY __stdcall
+
+	enum GlShaderInfo
+	{
+		GL_COMPILE_STATUS = 0x8B81,
+		GL_LINK_STATUS = 0x8B82,
+		GL_VALIDATE_STATUS = 0x8B83,
+		GL_INFO_LOG_LENGTH = 0x8B84,
+		GL_ATTACHED_SHADERS = 0x8B85,
+	};
+
+	enum GlShaderStageFlag
+	{
+		GL_FRAGMENT_SHADER = 0x8B30,
+		GL_VERTEX_SHADER = 0x8B31,
+		GL_GEOMETRY_SHADER = 0x8DD9,
+		GL_TESS_CONTROL_SHADER = 0x8E88,
+		GL_TESS_EVALUATION_SHADER = 0x8E87,
+		GL_COMPUTE_SHADER = 0x91B9,
+	};
+
+#else
+#	define GLAPIENTRY
+#endif
 
 #else
 #	define GLAPIENTRY
@@ -454,6 +464,7 @@ namespace test
 	};
 
 #elif defined( __linux__ )
+
 	template< typename FuncT >
 	void getFunction( char const * const name, FuncT & function )
 	{

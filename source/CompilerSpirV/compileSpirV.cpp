@@ -1523,6 +1523,8 @@ namespace spirv
 				case spv::StorageClassStorageBuffer:
 					result += "StorageBufferPtr";
 					break;
+				default:
+					break;
 				}
 
 				return result;
@@ -1908,6 +1910,8 @@ namespace spirv
 						stream << " " << *reinterpret_cast< double const * >( instruction->operands.data() );
 					}
 					break;
+				default:
+					break;
 				}
 			}
 			else if ( opCode == spv::OpConstantComposite )
@@ -1959,6 +1963,8 @@ namespace spirv
 						names.add( instruction->resultId.value(), std::to_string( *reinterpret_cast< double const * >( instruction->operands.data() ) ) );
 						stream << " " << *reinterpret_cast< double const * >( instruction->operands.data() );
 					}
+					break;
+				default:
 					break;
 				}
 			}
