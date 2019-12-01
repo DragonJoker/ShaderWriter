@@ -106,6 +106,10 @@ add_library( ${PROJECT_NAME}
 	${${PROJECT_NAME}_FOLDER_SOURCE_FILES}
 	${${PROJECT_NAME}_FOLDER_SCRIPT_FILES}
 )
+add_library( sdw::${PROJECT_NAME}
+	ALIAS
+	${PROJECT_NAME}
+)
 add_target_precompiled_header( ${PROJECT_NAME}
 	${SDW_SOURCE_DIR}/include/${PROJECT_NAME}/ShaderWriterPch.hpp
 	${SDW_SOURCE_DIR}/source/${PROJECT_NAME}/ShaderWriterPch.cpp
@@ -114,68 +118,15 @@ add_target_precompiled_header( ${PROJECT_NAME}
 )
 target_compile_options( ${PROJECT_NAME} PRIVATE -D${PROJECT_NAME}_Exports )
 target_link_libraries( ${PROJECT_NAME}
-	ShaderAST
+	sdw::ShaderAST
 )
 set_target_properties( ${PROJECT_NAME}
 	PROPERTIES
 		VERSION ${PROJECT_VERSION}
 		SOVERSION ${PROJECT_SOVERSION}
+		CXX_STANDARD 17
+		FOLDER "Compilers"
 )
-set_property( TARGET ${PROJECT_NAME} PROPERTY CXX_STANDARD 17 )
-set_property( TARGET ${PROJECT_NAME} PROPERTY FOLDER "Core" )
-
-if ( WIN32 )
-	#We install each .dll in <install_dir>/bin folder
-	install(
-		TARGETS ${PROJECT_NAME}
-		COMPONENT ${PROJECT_NAME}
-		CONFIGURATIONS Release
-		EXPORT ${PROJECT_NAME}
-		RUNTIME DESTINATION bin
-		ARCHIVE DESTINATION lib
-		LIBRARY DESTINATION lib
-	)
-	install(
-		TARGETS ${PROJECT_NAME}
-		COMPONENT ${PROJECT_NAME}_dev
-		CONFIGURATIONS RelWithDebInfo
-		EXPORT ${PROJECT_NAME}
-		RUNTIME DESTINATION bin/RelWithDebInfo
-		ARCHIVE DESTINATION lib/RelWithDebInfo
-		LIBRARY DESTINATION lib/RelWithDebInfo
-	)
-	install(
-		TARGETS ${PROJECT_NAME}
-		COMPONENT ${PROJECT_NAME}_dev
-		CONFIGURATIONS Debug
-		EXPORT ${PROJECT_NAME}
-		RUNTIME DESTINATION bin/Debug
-		ARCHIVE DESTINATION lib/Debug
-		LIBRARY DESTINATION lib/Debug
-	)
-else ()
-	#We install each .so in <install_dir>/lib folder
-	install(
-		TARGETS ${PROJECT_NAME}
-		COMPONENT ${PROJECT_NAME}
-		CONFIGURATIONS Release
-		EXPORT ${PROJECT_NAME}
-		LIBRARY DESTINATION lib
-	)
-	install(
-		TARGETS ${PROJECT_NAME}
-		COMPONENT ${PROJECT_NAME}_dev
-		CONFIGURATIONS RelWithDebInfo
-		EXPORT ${PROJECT_NAME}
-		LIBRARY DESTINATION lib/RelWithDebInfo
-	)
-	install(
-		TARGETS ${PROJECT_NAME}
-		COMPONENT ${PROJECT_NAME}_dev
-		CONFIGURATIONS Debug
-		LIBRARY DESTINATION lib/Debug
-	)
-endif()
 
 # We install headers to <install_dir>/include/${PROJECT_NAME}
 target_install_headers( ${PROJECT_NAME} ${SDW_SOURCE_DIR}/include/${PROJECT_NAME} )

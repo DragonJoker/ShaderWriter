@@ -136,6 +136,37 @@ if ( MSVC OR NOT "${CMAKE_BUILD_TYPE}" STREQUAL "" )
 	if ( SDW_BUILD_TESTS AND SDW_BUILD_EXPORTERS )
 		add_subdirectory( test )
 	endif ()
+
+	install(
+		TARGETS ShaderAST ShaderWriter ${SDW_EXPORTERS_LIST}
+		COMPONENT ShaderWriter
+		CONFIGURATIONS Release
+		EXPORT ShaderWriter
+		RUNTIME DESTINATION bin
+		LIBRARY DESTINATION lib
+		ARCHIVE DESTINATION lib
+		INCLUDES DESTINATION include
+	)
+	install(
+		TARGETS ShaderAST ShaderWriter ${SDW_EXPORTERS_LIST}
+		COMPONENT ShaderWriter_dev
+		CONFIGURATIONS Debug
+		EXPORT ShaderWriter-debug
+		RUNTIME DESTINATION bin/Debug
+		LIBRARY DESTINATION lib/Debug
+		ARCHIVE DESTINATION lib/Debug
+		INCLUDES DESTINATION include
+	)
+	include(CMakePackageConfigHelpers)
+	write_basic_package_version_file( ShaderWriterConfigVersion.cmake
+		VERSION ${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_BUILD}
+		COMPATIBILITY AnyNewerVersion
+	)
+	install( EXPORT ShaderWriter
+		FILE ShaderWriterConfig.cmake
+		NAMESPACE sdw::
+		DESTINATION lib/cmake/ShaderWriter
+	)
 else()
 	message( SEND_ERROR "Please select a build type (Debug, Release or RelWithDebInfo)" )
 endif()
