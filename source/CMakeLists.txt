@@ -10,11 +10,6 @@ set( TargetCompileDefinitions
 get_filename_component( SDW_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR} DIRECTORY )
 get_filename_component( SDW_BINARY_DIR ${CMAKE_CURRENT_BINARY_DIR} DIRECTORY )
 
-include_directories(
-	${SDW_SOURCE_DIR}/include
-	${SDW_BINARY_DIR}/include
-)
-
 if ( SDW_BUILD_EXPORTERS )
 	set( SDW_EXPORTERS_LIST )
 	if ( NOT DEFINED SDW_BUILD_EXPORTER_GLSL )

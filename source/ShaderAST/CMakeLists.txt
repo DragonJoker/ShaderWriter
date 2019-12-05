@@ -167,6 +167,14 @@ add_target_precompiled_header( ${PROJECT_NAME}
 	"${CMAKE_CXX_FLAGS}"
 	${${PROJECT_NAME}_FOLDER_SOURCE_FILES}
 )
+target_include_directories( ${PROJECT_NAME}
+	PUBLIC
+		${SDW_SOURCE_DIR}/include
+	PRIVATE
+		${SDW_SOURCE_DIR}/source
+		${INCLUDE_DIR}
+		${SOURCE_DIR}
+)
 
 # We install headers to <install_dir>/include/${PROJECT_NAME}
 target_install_headers( ${PROJECT_NAME} ${SDW_SOURCE_DIR}/include/${PROJECT_NAME} )

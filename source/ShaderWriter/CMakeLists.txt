@@ -116,8 +116,10 @@ add_target_precompiled_header( ${PROJECT_NAME}
 	"${CMAKE_CXX_FLAGS}"
 	${${PROJECT_NAME}_FOLDER_SOURCE_FILES}
 )
-target_compile_options( ${PROJECT_NAME} PRIVATE -D${PROJECT_NAME}_Exports )
-target_link_libraries( ${PROJECT_NAME}
+target_compile_options( ${PROJECT_NAME} PRIVATE
+	-D${PROJECT_NAME}_Exports
+)
+target_link_libraries( ${PROJECT_NAME} PUBLIC
 	sdw::ShaderAST
 )
 set_target_properties( ${PROJECT_NAME}
@@ -126,6 +128,11 @@ set_target_properties( ${PROJECT_NAME}
 		SOVERSION ${PROJECT_SOVERSION}
 		CXX_STANDARD 17
 		FOLDER "Compilers"
+)
+target_include_directories( ${PROJECT_NAME} PRIVATE
+	${SDW_SOURCE_DIR}/source
+	${INCLUDE_DIR}
+	${SOURCE_DIR}
 )
 
 # We install headers to <install_dir>/include/${PROJECT_NAME}
