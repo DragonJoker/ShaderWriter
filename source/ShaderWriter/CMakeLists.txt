@@ -127,7 +127,7 @@ set_target_properties( ${PROJECT_NAME}
 		VERSION ${PROJECT_VERSION}
 		SOVERSION ${PROJECT_SOVERSION}
 		CXX_STANDARD 17
-		FOLDER "Compilers"
+		FOLDER "${SDW_BASE_DIR}/Core"
 )
 target_include_directories( ${PROJECT_NAME} PRIVATE
 	${SDW_SOURCE_DIR}/source

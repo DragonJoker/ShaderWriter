@@ -16,8 +16,17 @@ add_library( TestCommon
 	${TEST_COMMON_HEADER_FILES}
 	${TEST_COMMON_SOURCE_FILES}
 )
-target_compile_definitions( TestCommon PRIVATE
-	${SDW_EXPORTERS_DEFINITIONS}
+add_library( sdw::test::Common
+	ALIAS
+	TestCommon
+)
+target_link_libraries( TestCommon
+	PUBLIC
+		sdw::ShaderAST
+)
+target_compile_definitions( TestCommon
+	PUBLIC
+		${SDW_EXPORTERS_DEFINITIONS}
 )
 set_property( TARGET TestCommon PROPERTY CXX_STANDARD 17 )
 set_property( TARGET TestCommon PROPERTY FOLDER "Tests" )

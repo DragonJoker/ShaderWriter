@@ -7,11 +7,10 @@ foreach ( TEST_FILE ${TEST_FILES} )
 		${TEST_FILE}
 	)
 	target_link_libraries( ${TEST_NAME}
-		ShaderAST
-		${BinLibraries}
-	)
-	target_compile_definitions( ${TEST_NAME} PRIVATE
-		${SDW_EXPORTERS_DEFINITIONS}
+		PRIVATE
+			sdw::ShaderAST
+			sdw::test::Common
+			${BinLibraries}
 	)
 
 	if ( MSVC )

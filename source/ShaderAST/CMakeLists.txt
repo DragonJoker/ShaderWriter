@@ -159,7 +159,7 @@ add_library( sdw::${PROJECT_NAME}
 set_target_properties( ${PROJECT_NAME}
 	PROPERTIES
 		CXX_STANDARD 17
-		FOLDER "Compilers"
+		FOLDER "${SDW_BASE_DIR}/Core"
 )
 add_target_precompiled_header( ${PROJECT_NAME}
 	${SDW_SOURCE_DIR}/include/${PROJECT_NAME}/ShaderASTPch.hpp

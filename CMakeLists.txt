@@ -133,6 +133,7 @@ endif ()
 if ( MSVC OR NOT "${CMAKE_BUILD_TYPE}" STREQUAL "" )
 	set( SDW_EXPORTERS_LIST )
 	set( SDW_EXPORTERS_DEFINITIONS )
+	set( SDW_BASE_DIR "ShaderWriter" )
 	add_subdirectory( source )
 
 	if ( SDW_BUILD_TESTS AND SDW_BUILD_EXPORTERS )
