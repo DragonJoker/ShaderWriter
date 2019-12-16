@@ -140,14 +140,6 @@ if ( MSVC OR NOT "${CMAKE_BUILD_TYPE}" STREQUAL "" )
 		add_subdirectory( test )
 	endif ()
 
-	install(
-		TARGETS ShaderAST ShaderWriter ${SDW_EXPORTERS_LIST}
-		EXPORT ShaderWriter
-		RUNTIME DESTINATION bin
-		LIBRARY DESTINATION lib
-		ARCHIVE DESTINATION lib
-		INCLUDES DESTINATION include
-	)
 	install( EXPORT ShaderWriter
 		FILE ShaderWriterConfig.cmake
 		NAMESPACE sdw::
