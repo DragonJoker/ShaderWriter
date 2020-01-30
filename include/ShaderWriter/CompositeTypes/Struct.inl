@@ -15,7 +15,7 @@ namespace sdw
 	template< typename T >
 	inline void Struct::declMember( std::string const & name )
 	{
-		static_assert( typeEnum< T > != type::Kind::eBool, "Can't put a boolean type inside a structure" );
+		static_assert( typeEnum< T > != type::Kind::eBoolean, "Can't put a boolean type inside a structure" );
 		static_assert( typeEnum< T > != type::Kind::eVec2B, "Can't put a boolean type inside a structure" );
 		static_assert( typeEnum< T > != type::Kind::eVec3B, "Can't put a boolean type inside a structure" );
 		static_assert( typeEnum< T > != type::Kind::eVec4B, "Can't put a boolean type inside a structure" );
@@ -27,7 +27,7 @@ namespace sdw
 	inline void Struct::declMember( std::string const & name
 		, uint32_t dimension )
 	{
-		static_assert( typeEnum< T > != type::Kind::eBool, "Can't put a boolean type inside a structure" );
+		static_assert( typeEnum< T > != type::Kind::eBoolean, "Can't put a boolean type inside a structure" );
 		static_assert( typeEnum< T > != type::Kind::eVec2B, "Can't put a boolean type inside a structure" );
 		static_assert( typeEnum< T > != type::Kind::eVec3B, "Can't put a boolean type inside a structure" );
 		static_assert( typeEnum< T > != type::Kind::eVec4B, "Can't put a boolean type inside a structure" );

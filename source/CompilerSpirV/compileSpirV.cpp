@@ -1887,7 +1887,7 @@ namespace spirv
 				checkType< ConstantInstruction >( *instruction );
 				switch ( type )
 				{
-				case ast::type::Kind::eBool:
+				case ast::type::Kind::eBoolean:
 					names.add( instruction->resultId.value(), std::to_string( bool( instruction->operands[0] ) ) );
 					stream << " " << bool( instruction->operands[0] );
 					break;
@@ -1941,7 +1941,7 @@ namespace spirv
 				checkType< SpecConstantInstruction >( *instruction );
 				switch ( type )
 				{
-				case ast::type::Kind::eBool:
+				case ast::type::Kind::eBoolean:
 					names.add( instruction->resultId.value(), std::to_string( bool( instruction->operands[0] ) ) );
 					stream << " " << bool( instruction->operands[0] );
 					break;

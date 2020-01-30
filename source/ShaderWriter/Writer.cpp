@@ -244,27 +244,27 @@ namespace sdw
 		addStmt( ast::stmt::makeContinue() );
 	}
 
-	Bool ShaderWriter::declSpecConstant( std::string const & name
+	Boolean ShaderWriter::declSpecConstant( std::string const & name
 		, uint32_t location
 		, bool rhs )
 	{
-		auto type = Bool::makeType( getTypesCache() );
+		auto type = Boolean::makeType( getTypesCache() );
 		auto var = registerSpecConstant( name
 			, location
 			, type );
 		addStmt( sdw::makeSpecConstantDecl( var
 			, location
 			, ast::expr::makeLiteral( getTypesCache(), rhs ) ) );
-		return Bool{ &m_shader
+		return Boolean{ &m_shader
 			, makeExpr( m_shader, var ) };
 	}
 
-	Optional< Bool > ShaderWriter::declSpecConstant( std::string const & name
+	Optional< Boolean > ShaderWriter::declSpecConstant( std::string const & name
 		, uint32_t location
 		, bool rhs
 		, bool enabled )
 	{
-		auto type = Bool::makeType( getTypesCache() );
+		auto type = Boolean::makeType( getTypesCache() );
 		auto var = registerSpecConstant( name
 			, location
 			, type );
@@ -276,7 +276,7 @@ namespace sdw
 				, ast::expr::makeLiteral( getTypesCache(), rhs ) ) );
 		}
 
-		return Optional< Bool >{ &m_shader
+		return Optional< Boolean >{ &m_shader
 			, makeExpr( m_shader, var )
 			, enabled };
 	}

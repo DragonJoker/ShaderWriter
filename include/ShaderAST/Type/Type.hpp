@@ -15,7 +15,7 @@ namespace ast::type
 	{
 		eUndefined,
 		eVoid,
-		eBool,
+		eBoolean,
 		eInt,
 		eUInt,
 		eHalf,// Internal only, never use this !!!

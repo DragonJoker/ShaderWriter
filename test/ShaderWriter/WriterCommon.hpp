@@ -35,9 +35,9 @@ namespace test
 	T getDefault( sdw::Shader & shader );
 
 	template<>
-	inline sdw::Bool getDefault< sdw::Bool >( sdw::Shader & shader )
+	inline sdw::Boolean getDefault< sdw::Boolean >( sdw::Shader & shader )
 	{
-		return sdw::Bool{ &shader, sdw::expr::makeLiteral( shader.getTypesCache(), true ) };
+		return sdw::Boolean{ &shader, sdw::expr::makeLiteral( shader.getTypesCache(), true ) };
 	}
 
 	template<>
@@ -115,25 +115,25 @@ namespace test
 	template<>
 	inline sdw::BVec2 getDefault< sdw::BVec2 >( sdw::Shader & shader )
 	{
-		return sdw::bvec2( getDefault< sdw::Bool >( shader )
-			, getDefault< sdw::Bool >( shader ) );
+		return sdw::bvec2( getDefault< sdw::Boolean >( shader )
+			, getDefault< sdw::Boolean >( shader ) );
 	}
 
 	template<>
 	inline sdw::BVec3 getDefault< sdw::BVec3 >( sdw::Shader & shader )
 	{
-		return sdw::bvec3( getDefault< sdw::Bool >( shader )
-			, getDefault< sdw::Bool >( shader )
-			, getDefault< sdw::Bool >( shader ) );
+		return sdw::bvec3( getDefault< sdw::Boolean >( shader )
+			, getDefault< sdw::Boolean >( shader )
+			, getDefault< sdw::Boolean >( shader ) );
 	}
 
 	template<>
 	inline sdw::BVec4 getDefault< sdw::BVec4 >( sdw::Shader & shader )
 	{
-		return sdw::bvec4( getDefault< sdw::Bool >( shader )
-			, getDefault< sdw::Bool >( shader )
-			, getDefault< sdw::Bool >( shader )
-			, getDefault< sdw::Bool >( shader ) );
+		return sdw::bvec4( getDefault< sdw::Boolean >( shader )
+			, getDefault< sdw::Boolean >( shader )
+			, getDefault< sdw::Boolean >( shader )
+			, getDefault< sdw::Boolean >( shader ) );
 	}
 
 	template<>

@@ -117,7 +117,7 @@ namespace ast::type
 
 	TypePtr TypesCache::getBool()
 	{
-		return getBasicType( Kind::eBool );
+		return getBasicType( Kind::eBoolean );
 	}
 
 	TypePtr TypesCache::getInt()
@@ -338,8 +338,8 @@ namespace ast::type
 			return m_basicTypes[size_t( Kind::eVoid )];
 		case Kind::eFunction:
 			return m_basicTypes[size_t( Kind::eFunction )];
-		case Kind::eBool:
-			return m_basicTypes[size_t( Kind::eBool )];
+		case Kind::eBoolean:
+			return m_basicTypes[size_t( Kind::eBoolean )];
 		case Kind::eInt:
 			return m_basicTypes[size_t( Kind::eInt )];
 		case Kind::eUInt:
@@ -432,7 +432,7 @@ namespace ast::type
 	{
 		switch ( kind )
 		{
-		case Kind::eBool:
+		case Kind::eBoolean:
 			return getVec2B();
 		case Kind::eInt:
 			return getVec2I();
@@ -454,7 +454,7 @@ namespace ast::type
 	{
 		switch ( kind )
 		{
-		case Kind::eBool:
+		case Kind::eBoolean:
 			return getVec3B();
 		case Kind::eInt:
 			return getVec3I();
@@ -476,7 +476,7 @@ namespace ast::type
 	{
 		switch ( kind )
 		{
-		case Kind::eBool:
+		case Kind::eBoolean:
 			return getVec4B();
 		case Kind::eInt:
 			return getVec4I();

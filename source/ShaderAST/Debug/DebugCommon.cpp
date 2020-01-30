@@ -138,7 +138,7 @@ namespace ast::debug
 		case type::Kind::eFunction:
 			result = "FUNC";
 			break;
-		case type::Kind::eBool:
+		case type::Kind::eBoolean:
 			result = "BOOL";
 			break;
 		case type::Kind::eInt:

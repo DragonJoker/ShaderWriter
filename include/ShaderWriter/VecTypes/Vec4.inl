@@ -185,145 +185,145 @@ namespace sdw
 	//*************************************************************************
 
 	template< typename ValueT >
-	Bool operator==( Vec4T< ValueT > const & lhs, Vec4T< ValueT > const & rhs )
+	Boolean operator==( Vec4T< ValueT > const & lhs, Vec4T< ValueT > const & rhs )
 	{
 		return writeComparator( lhs, rhs, sdw::makeEqual );
 	}
 
 	template< typename ValueT >
-	Bool operator!=( Vec4T< ValueT > const & lhs, Vec4T< ValueT > const & rhs )
+	Boolean operator!=( Vec4T< ValueT > const & lhs, Vec4T< ValueT > const & rhs )
 	{
 		return writeComparator( lhs, rhs, sdw::makeNEqual );
 	}
 
 	template< typename ValueT >
-	Bool operator<( Vec4T< ValueT > const & lhs, Vec4T< ValueT > const & rhs )
+	Boolean operator<( Vec4T< ValueT > const & lhs, Vec4T< ValueT > const & rhs )
 	{
 		return writeComparator( lhs, rhs, sdw::makeLess );
 	}
 
 	template< typename ValueT >
-	Bool operator<=( Vec4T< ValueT > const & lhs, Vec4T< ValueT > const & rhs )
+	Boolean operator<=( Vec4T< ValueT > const & lhs, Vec4T< ValueT > const & rhs )
 	{
 		return writeComparator( lhs, rhs, sdw::makeLEqual );
 	}
 
 	template< typename ValueT >
-	Bool operator>( Vec4T< ValueT > const & lhs, Vec4T< ValueT > const & rhs )
+	Boolean operator>( Vec4T< ValueT > const & lhs, Vec4T< ValueT > const & rhs )
 	{
 		return writeComparator( lhs, rhs, sdw::makeGreater );
 	}
 
 	template< typename ValueT >
-	Bool operator>=( Vec4T< ValueT > const & lhs, Vec4T< ValueT > const & rhs )
+	Boolean operator>=( Vec4T< ValueT > const & lhs, Vec4T< ValueT > const & rhs )
 	{
 		return writeComparator( lhs, rhs, sdw::makeGEqual );
 	}
 
 	template< typename ValueT >
-	Optional< Bool > operator==( Optional< Vec4T< ValueT > > const & lhs, Vec4T< ValueT > const & rhs )
+	Optional< Boolean > operator==( Optional< Vec4T< ValueT > > const & lhs, Vec4T< ValueT > const & rhs )
 	{
 		return writeComparator( lhs, rhs, sdw::makeEqual );
 	}
 
 	template< typename ValueT >
-	Optional< Bool > operator!=( Optional< Vec4T< ValueT > > const & lhs, Vec4T< ValueT > const & rhs )
+	Optional< Boolean > operator!=( Optional< Vec4T< ValueT > > const & lhs, Vec4T< ValueT > const & rhs )
 	{
 		return writeComparator( lhs, rhs, sdw::makeNEqual );
 	}
 
 	template< typename ValueT >
-	Optional< Bool > operator<( Optional< Vec4T< ValueT > > const & lhs, Vec4T< ValueT > const & rhs )
+	Optional< Boolean > operator<( Optional< Vec4T< ValueT > > const & lhs, Vec4T< ValueT > const & rhs )
 	{
 		return writeComparator( lhs, rhs, sdw::makeLess );
 	}
 
 	template< typename ValueT >
-	Optional< Bool > operator<=( Optional< Vec4T< ValueT > > const & lhs, Vec4T< ValueT > const & rhs )
+	Optional< Boolean > operator<=( Optional< Vec4T< ValueT > > const & lhs, Vec4T< ValueT > const & rhs )
 	{
 		return writeComparator( lhs, rhs, sdw::makeLEqual );
 	}
 
 	template< typename ValueT >
-	Optional< Bool > operator>( Optional< Vec4T< ValueT > > const & lhs, Vec4T< ValueT > const & rhs )
+	Optional< Boolean > operator>( Optional< Vec4T< ValueT > > const & lhs, Vec4T< ValueT > const & rhs )
 	{
 		return writeComparator( lhs, rhs, sdw::makeGreater );
 	}
 
 	template< typename ValueT >
-	Optional< Bool > operator>=( Optional< Vec4T< ValueT > > const & lhs, Vec4T< ValueT > const & rhs )
+	Optional< Boolean > operator>=( Optional< Vec4T< ValueT > > const & lhs, Vec4T< ValueT > const & rhs )
 	{
 		return writeComparator( lhs, rhs, sdw::makeGEqual );
 	}
 
 	template< typename ValueT >
-	Optional< Bool > operator==( Vec4T< ValueT > const & lhs, Optional< Vec4T< ValueT > > const & rhs )
+	Optional< Boolean > operator==( Vec4T< ValueT > const & lhs, Optional< Vec4T< ValueT > > const & rhs )
 	{
 		return writeComparator( lhs, rhs, sdw::makeEqual );
 	}
 
 	template< typename ValueT >
-	Optional< Bool > operator!=( Vec4T< ValueT > const & lhs, Optional< Vec4T< ValueT > > const & rhs )
+	Optional< Boolean > operator!=( Vec4T< ValueT > const & lhs, Optional< Vec4T< ValueT > > const & rhs )
 	{
 		return writeComparator( lhs, rhs, sdw::makeNEqual );
 	}
 
 	template< typename ValueT >
-	Optional< Bool > operator<( Vec4T< ValueT > const & lhs, Optional< Vec4T< ValueT > > const & rhs )
+	Optional< Boolean > operator<( Vec4T< ValueT > const & lhs, Optional< Vec4T< ValueT > > const & rhs )
 	{
 		return writeComparator( lhs, rhs, sdw::makeLess );
 	}
 
 	template< typename ValueT >
-	Optional< Bool > operator<=( Vec4T< ValueT > const & lhs, Optional< Vec4T< ValueT > > const & rhs )
+	Optional< Boolean > operator<=( Vec4T< ValueT > const & lhs, Optional< Vec4T< ValueT > > const & rhs )
 	{
 		return writeComparator( lhs, rhs, sdw::makeLEqual );
 	}
 
 	template< typename ValueT >
-	Optional< Bool > operator>( Vec4T< ValueT > const & lhs, Optional< Vec4T< ValueT > > const & rhs )
+	Optional< Boolean > operator>( Vec4T< ValueT > const & lhs, Optional< Vec4T< ValueT > > const & rhs )
 	{
 		return writeComparator( lhs, rhs, sdw::makeGreater );
 	}
 
 	template< typename ValueT >
-	Optional< Bool > operator>=( Vec4T< ValueT > const & lhs, Optional< Vec4T< ValueT > > const & rhs )
+	Optional< Boolean > operator>=( Vec4T< ValueT > const & lhs, Optional< Vec4T< ValueT > > const & rhs )
 	{
 		return writeComparator( lhs, rhs, sdw::makeGEqual );
 	}
 
 	template< typename ValueT >
-	Optional< Bool > operator==( Optional< Vec4T< ValueT > > const & lhs, Optional< Vec4T< ValueT > > const & rhs )
+	Optional< Boolean > operator==( Optional< Vec4T< ValueT > > const & lhs, Optional< Vec4T< ValueT > > const & rhs )
 	{
 		return writeComparator( lhs, rhs, sdw::makeEqual );
 	}
 
 	template< typename ValueT >
-	Optional< Bool > operator!=( Optional< Vec4T< ValueT > > const & lhs, Optional< Vec4T< ValueT > > const & rhs )
+	Optional< Boolean > operator!=( Optional< Vec4T< ValueT > > const & lhs, Optional< Vec4T< ValueT > > const & rhs )
 	{
 		return writeComparator( lhs, rhs, sdw::makeNEqual );
 	}
 
 	template< typename ValueT >
-	Optional< Bool > operator<( Optional< Vec4T< ValueT > > const & lhs, Optional< Vec4T< ValueT > > const & rhs )
+	Optional< Boolean > operator<( Optional< Vec4T< ValueT > > const & lhs, Optional< Vec4T< ValueT > > const & rhs )
 	{
 		return writeComparator( lhs, rhs, sdw::makeLess );
 	}
 
 	template< typename ValueT >
-	Optional< Bool > operator<=( Optional< Vec4T< ValueT > > const & lhs, Optional< Vec4T< ValueT > > const & rhs )
+	Optional< Boolean > operator<=( Optional< Vec4T< ValueT > > const & lhs, Optional< Vec4T< ValueT > > const & rhs )
 	{
 		return writeComparator( lhs, rhs, sdw::makeLEqual );
 	}
 
 	template< typename ValueT >
-	Optional< Bool > operator>( Optional< Vec4T< ValueT > > const & lhs, Optional< Vec4T< ValueT > > const & rhs )
+	Optional< Boolean > operator>( Optional< Vec4T< ValueT > > const & lhs, Optional< Vec4T< ValueT > > const & rhs )
 	{
 		return writeComparator( lhs, rhs, sdw::makeGreater );
 	}
 
 	template< typename ValueT >
-	Optional< Bool > operator>=( Optional< Vec4T< ValueT > > const & lhs, Optional< Vec4T< ValueT > > const & rhs )
+	Optional< Boolean > operator>=( Optional< Vec4T< ValueT > > const & lhs, Optional< Vec4T< ValueT > > const & rhs )
 	{
 		return writeComparator( lhs, rhs, sdw::makeGEqual );
 	}

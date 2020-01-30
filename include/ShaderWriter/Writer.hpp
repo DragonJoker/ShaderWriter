@@ -96,7 +96,7 @@ namespace sdw
 			, expr::ExprPtr left
 			, expr::ExprPtr right );
 		template< typename ExprType >
-		ExprType ternary( Bool condition
+		ExprType ternary( Boolean condition
 			, ExprType left
 			, ExprType right );
 		SDW_API void forStmt( expr::ExprPtr init
@@ -151,10 +151,10 @@ namespace sdw
 		*	Specialisation constant declaration.
 		*/
 		/**@{*/
-		SDW_API Bool declSpecConstant( std::string const & name
+		SDW_API Boolean declSpecConstant( std::string const & name
 			, uint32_t location
 			, bool rhs );
-		SDW_API Optional< Bool > declSpecConstant( std::string const & name
+		SDW_API Optional< Boolean > declSpecConstant( std::string const & name
 			, uint32_t location
 			, bool rhs
 			, bool enabled );
@@ -523,24 +523,24 @@ namespace sdw
 
 #define FOR( Writer, Type, Name, Init, Cond, Incr )\
 	{\
-		auto & writer_int = ( Writer );\
-		auto & shader_int = writer_int.getShader();\
-		writer_int.pushScope();\
-		auto ctrlVar##Name = writer_int.registerLocale( #Name, Type::makeType( shader_int.getTypesCache() ) );\
-		Type Name{ &shader_int, sdw::makeExpr( shader_int, ctrlVar##Name ) };\
-		writer_int.saveNextExpr();\
-		Type incr##Name{ &shader_int, writer_int.loadExpr( Incr ) };\
-		Name.updateExpr( sdw::makeExpr( shader_int, ctrlVar##Name ) );\
-		sdw::Bool cond##Name{ &shader_int, sdw::makeCondition( Cond ) };\
-		writer_int.forStmt( sdw::makeInit( ctrlVar##Name\
-				, sdw::makeExpr( shader_int, Init ) )\
-			, sdw::makeExpr( shader_int, cond##Name )\
-			, sdw::makeExpr( shader_int, incr##Name )\
+		auto & writerInt = ( Writer );\
+		auto & shaderInt = writerInt.getShader();\
+		writerInt.pushScope();\
+		auto ctrlVar##Name = writerInt.registerLocale( #Name, Type::makeType( shaderInt.getTypesCache() ) );\
+		Type Name{ &shaderInt, sdw::makeExpr( shaderInt, ctrlVar##Name ) };\
+		writerInt.saveNextExpr();\
+		Type incr##Name{ &shaderInt, writerInt.loadExpr( Incr ) };\
+		Name.updateExpr( sdw::makeExpr( shaderInt, ctrlVar##Name ) );\
+		sdw::Boolean cond##Name{ &shaderInt, sdw::makeCondition( Cond ) };\
+		writerInt.forStmt( sdw::makeInit( ctrlVar##Name\
+				, sdw::makeExpr( shaderInt, Init ) )\
+			, sdw::makeExpr( shaderInt, cond##Name )\
+			, sdw::makeExpr( shaderInt, incr##Name )\
 			, [&]()
 
 #define ROF\
  );\
-		writer_int.popScope();\
+		writerInt.popScope();\
 	}
 
 #define WHILE( Writer, Condition )\

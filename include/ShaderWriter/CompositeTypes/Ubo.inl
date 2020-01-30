@@ -6,7 +6,7 @@ namespace sdw
 	template< typename T >
 	inline T Ubo::declMember( std::string const & name )
 	{
-		static_assert( !IsSameV< T, Bool >, "Bool is not supported inside a UBO" );
+		static_assert( !IsSameV< T, Boolean >, "Bool is not supported inside a UBO" );
 		static_assert( !IsSameV< T, BVec2 >, "BVec2 is not supported inside a UBO" );
 		static_assert( !IsSameV< T, BVec3 >, "BVec3 is not supported inside a UBO" );
 		static_assert( !IsSameV< T, BVec4 >, "BVec4 is not supported inside a UBO" );
@@ -21,7 +21,7 @@ namespace sdw
 	inline Array< T > Ubo::declMember( std::string const & name
 		, uint32_t dimension )
 	{
-		static_assert( !IsSameV< T, Bool >, "Bool is not supported inside a UBO" );
+		static_assert( !IsSameV< T, Boolean >, "Bool is not supported inside a UBO" );
 		static_assert( !IsSameV< T, BVec2 >, "BVec2 is not supported inside a UBO" );
 		static_assert( !IsSameV< T, BVec3 >, "BVec3 is not supported inside a UBO" );
 		static_assert( !IsSameV< T, BVec4 >, "BVec4 is not supported inside a UBO" );
@@ -36,7 +36,7 @@ namespace sdw
 	inline Optional< T > Ubo::declMember( std::string const & name
 		, bool enabled )
 	{
-		static_assert( !IsSameV< T, Bool >, "Bool is not supported inside a UBO" );
+		static_assert( !IsSameV< T, Boolean >, "Bool is not supported inside a UBO" );
 		static_assert( !IsSameV< T, BVec2 >, "BVec2 is not supported inside a UBO" );
 		static_assert( !IsSameV< T, BVec3 >, "BVec3 is not supported inside a UBO" );
 		static_assert( !IsSameV< T, BVec4 >, "BVec4 is not supported inside a UBO" );
@@ -58,7 +58,7 @@ namespace sdw
 		, uint32_t dimension
 		, bool enabled )
 	{
-		static_assert( !IsSameV< T, Bool >, "Bool is not supported inside a UBO" );
+		static_assert( !IsSameV< T, Boolean >, "Bool is not supported inside a UBO" );
 		static_assert( !IsSameV< T, BVec2 >, "BVec2 is not supported inside a UBO" );
 		static_assert( !IsSameV< T, BVec3 >, "BVec3 is not supported inside a UBO" );
 		static_assert( !IsSameV< T, BVec4 >, "BVec4 is not supported inside a UBO" );

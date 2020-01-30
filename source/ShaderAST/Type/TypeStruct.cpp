@@ -42,7 +42,7 @@ namespace ast::type
 				return 4u;
 			case Kind::eHalf:
 				return 2u;
-			case Kind::eBool:
+			case Kind::eBoolean:
 				return 1u;
 
 			default:

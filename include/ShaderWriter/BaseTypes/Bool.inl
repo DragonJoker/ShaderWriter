@@ -6,7 +6,7 @@ namespace sdw
 	//*************************************************************************
 
 	template< typename T >
-	inline Bool & Bool::operator=( T const & rhs )
+	inline Boolean & Boolean::operator=( T const & rhs )
 	{
 		updateContainer( rhs );
 		Shader & shader = *findShader( *this, rhs );
@@ -20,7 +20,7 @@ namespace sdw
 	//*************************************************************************
 
 	template< typename LhsT, typename RhsT, typename CreatorT >
-	inline Bool writeComparator( LhsT const & lhs
+	inline Boolean writeComparator( LhsT const & lhs
 		, RhsT const & rhs
 		, CreatorT creator )
 	{
@@ -35,12 +35,12 @@ namespace sdw
 			rhsExpr = sdw::makeCast( lhsType, std::move( rhsExpr ) );
 		}
 
-		return Bool{ &shader
+		return Boolean{ &shader
 			, creator( std::move( lhsExpr ), std::move( rhsExpr ) ) };
 	}
 
 	template< typename LhsT, typename RhsT, typename CreatorT >
-	Optional< Bool > writeComparator( Optional< LhsT > const & lhs
+	Optional< Boolean > writeComparator( Optional< LhsT > const & lhs
 		, RhsT const & rhs
 		, CreatorT creator )
 	{
@@ -55,13 +55,13 @@ namespace sdw
 			rhsExpr = sdw::makeCast( lhsType, std::move( rhsExpr ) );
 		}
 
-		return Optional< Bool >{ &shader
+		return Optional< Boolean >{ &shader
 			, creator( std::move( lhsExpr ), std::move( rhsExpr ) )
 			, areOptionalEnabled( lhs, rhs ) };
 	}
 
 	template< typename LhsT, typename RhsT, typename CreatorT >
-	Optional< Bool > writeComparator( LhsT const & lhs
+	Optional< Boolean > writeComparator( LhsT const & lhs
 		, Optional< RhsT > const & rhs
 		, CreatorT creator )
 	{
@@ -76,13 +76,13 @@ namespace sdw
 			rhsExpr = sdw::makeCast( lhsType, std::move( rhsExpr ) );
 		}
 
-		return Optional< Bool >{ &shader
+		return Optional< Boolean >{ &shader
 			, creator( std::move( lhsExpr ), std::move( rhsExpr ) )
 			, areOptionalEnabled( lhs, rhs ) };
 	}
 
 	template< typename LhsT, typename RhsT, typename CreatorT >
-	Optional< Bool > writeComparator( Optional< LhsT > const & lhs
+	Optional< Boolean > writeComparator( Optional< LhsT > const & lhs
 		, Optional< RhsT > const & rhs
 		, CreatorT creator )
 	{
@@ -97,13 +97,13 @@ namespace sdw
 			rhsExpr = sdw::makeCast( lhsType, std::move( rhsExpr ) );
 		}
 
-		return Optional< Bool >{ &shader
+		return Optional< Boolean >{ &shader
 			, creator( std::move( lhsExpr ), std::move( rhsExpr ) )
 			, areOptionalEnabled( lhs, rhs ) };
 	}
 
 	template< typename LhsT, typename RhsT, typename CreatorT >
-	MaybeOptional< Bool > writeComparator( MaybeOptional< LhsT > const & lhs
+	MaybeOptional< Boolean > writeComparator( MaybeOptional< LhsT > const & lhs
 		, RhsT const & rhs
 		, CreatorT creator )
 	{
@@ -120,17 +120,17 @@ namespace sdw
 
 		if ( isAnyOptional( lhs, rhs ) )
 		{
-			return MaybeOptional< Bool >{ &shader
+			return MaybeOptional< Boolean >{ &shader
 				, creator( std::move( lhsExpr ), std::move( rhsExpr ) )
 				, areOptionalEnabled( lhs, rhs ) };
 		}
 
-		return Bool{ &shader
+		return Boolean{ &shader
 			, creator( std::move( lhsExpr ), std::move( rhsExpr ) ) };
 	}
 
 	template< typename LhsT, typename RhsT, typename CreatorT >
-	MaybeOptional< Bool > writeComparator( LhsT const & lhs
+	MaybeOptional< Boolean > writeComparator( LhsT const & lhs
 		, MaybeOptional< RhsT > const & rhs
 		, CreatorT creator )
 	{
@@ -147,17 +147,17 @@ namespace sdw
 
 		if ( isAnyOptional( lhs, rhs ) )
 		{
-			return MaybeOptional< Bool >{ &shader
+			return MaybeOptional< Boolean >{ &shader
 				, creator( std::move( lhsExpr ), std::move( rhsExpr ) )
 				, areOptionalEnabled( lhs, rhs ) };
 		}
 
-		return Bool{ &shader
+		return Boolean{ &shader
 			, creator( std::move( lhsExpr ), std::move( rhsExpr ) ) };
 	}
 
 	template< typename LhsT, typename RhsT, typename CreatorT >
-	MaybeOptional< Bool > writeComparator( MaybeOptional< LhsT > const & lhs
+	MaybeOptional< Boolean > writeComparator( MaybeOptional< LhsT > const & lhs
 		, MaybeOptional< RhsT > const & rhs
 		, CreatorT creator )
 	{
@@ -174,12 +174,12 @@ namespace sdw
 
 		if ( isAnyOptional( lhs, rhs ) )
 		{
-			return MaybeOptional< Bool >{ &shader
+			return MaybeOptional< Boolean >{ &shader
 				, creator( std::move( lhsExpr ), std::move( rhsExpr ) )
 				, areOptionalEnabled( lhs, rhs ) };
 		}
 
-		return Bool{ &shader
+		return Boolean{ &shader
 			, creator( std::move( lhsExpr ), std::move( rhsExpr ) ) };
 	}
 

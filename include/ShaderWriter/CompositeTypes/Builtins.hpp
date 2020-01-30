@@ -106,7 +106,7 @@ namespace sdw
 		//in vec4 gl_FragCoord;
 		Vec4 const gl_FragCoord;
 		//in bool gl_FrontFacing;
-		Bool const gl_FrontFacing;
+		Boolean const gl_FrontFacing;
 		//in vec2 gl_PointCoord;
 		Vec2 const gl_PointCoord;
 		//in int gl_SampleID;

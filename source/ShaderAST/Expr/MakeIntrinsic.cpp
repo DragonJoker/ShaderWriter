@@ -2317,7 +2317,7 @@ namespace ast::expr
 	IntrinsicCallPtr makeIsnan1F( type::TypesCache & cache
 		, ExprPtr x )
 	{
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eBool )
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eBoolean )
 			, Intrinsic::eIsnan1F
 			, std::move( x ) );
 	}
@@ -2349,7 +2349,7 @@ namespace ast::expr
 	IntrinsicCallPtr makeIsnan1D( type::TypesCache & cache
 		, ExprPtr x )
 	{
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eBool )
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eBoolean )
 			, Intrinsic::eIsnan1D
 			, std::move( x ) );
 	}
@@ -2381,7 +2381,7 @@ namespace ast::expr
 	IntrinsicCallPtr makeIsinf1F( type::TypesCache & cache
 		, ExprPtr x )
 	{
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eBool )
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eBoolean )
 			, Intrinsic::eIsinf1F
 			, std::move( x ) );
 	}
@@ -2413,7 +2413,7 @@ namespace ast::expr
 	IntrinsicCallPtr makeIsinf1D( type::TypesCache & cache
 		, ExprPtr x )
 	{
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eBool )
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eBoolean )
 			, Intrinsic::eIsinf1D
 			, std::move( x ) );
 	}
@@ -4833,7 +4833,7 @@ namespace ast::expr
 	IntrinsicCallPtr makeAll2( type::TypesCache & cache
 		, ExprPtr x )
 	{
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eBool )
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eBoolean )
 			, Intrinsic::eAll2
 			, std::move( x ) );
 	}
@@ -4841,7 +4841,7 @@ namespace ast::expr
 	IntrinsicCallPtr makeAll3( type::TypesCache & cache
 		, ExprPtr x )
 	{
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eBool )
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eBoolean )
 			, Intrinsic::eAll3
 			, std::move( x ) );
 	}
@@ -4849,7 +4849,7 @@ namespace ast::expr
 	IntrinsicCallPtr makeAll4( type::TypesCache & cache
 		, ExprPtr x )
 	{
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eBool )
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eBoolean )
 			, Intrinsic::eAll4
 			, std::move( x ) );
 	}
@@ -4857,7 +4857,7 @@ namespace ast::expr
 	IntrinsicCallPtr makeAny2( type::TypesCache & cache
 		, ExprPtr x )
 	{
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eBool )
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eBoolean )
 			, Intrinsic::eAny2
 			, std::move( x ) );
 	}
@@ -4865,7 +4865,7 @@ namespace ast::expr
 	IntrinsicCallPtr makeAny3( type::TypesCache & cache
 		, ExprPtr x )
 	{
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eBool )
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eBoolean )
 			, Intrinsic::eAny3
 			, std::move( x ) );
 	}
@@ -4873,7 +4873,7 @@ namespace ast::expr
 	IntrinsicCallPtr makeAny4( type::TypesCache & cache
 		, ExprPtr x )
 	{
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eBool )
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eBoolean )
 			, Intrinsic::eAny4
 			, std::move( x ) );
 	}

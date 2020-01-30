@@ -7,28 +7,28 @@ namespace sdw
 {
 	//*************************************************************************
 
-	Bool::Bool( Shader * shader
+	Boolean::Boolean( Shader * shader
 		, expr::ExprPtr expr )
 		: Value{ shader, std::move( expr ) }
 	{
 	}
 
-	Bool::Bool( Bool && rhs )
+	Boolean::Boolean( Boolean && rhs )
 		: Value{ std::move( rhs ) }
 	{
 	}
 
-	Bool::Bool( Bool const & rhs )
+	Boolean::Boolean( Boolean const & rhs )
 		: Value{ rhs }
 	{
 	}
 
-	Bool::Bool( Value const & rhs )
+	Boolean::Boolean( Value const & rhs )
 		: Value{ rhs }
 	{
 	}
 
-	Bool & Bool::operator=( Bool const & rhs )
+	Boolean & Boolean::operator=( Boolean const & rhs )
 	{
 		if ( getContainer() )
 		{
@@ -46,12 +46,12 @@ namespace sdw
 		return *this;
 	}
 
-	expr::ExprPtr Bool::makeCondition()const
+	expr::ExprPtr Boolean::makeCondition()const
 	{
 		return makeExpr( *findShader( *this ), *this );
 	}
 
-	Bool & Bool::operator=( bool rhs )
+	Boolean & Boolean::operator=( bool rhs )
 	{
 		Shader & shader = *findShader( *this, rhs );
 		addStmt( shader
@@ -61,64 +61,64 @@ namespace sdw
 		return *this;
 	}
 
-	Bool::operator bool()
+	Boolean::operator bool()
 	{
 		return false;
 	}
 
-	ast::type::TypePtr Bool::makeType( ast::type::TypesCache & cache )
+	ast::type::TypePtr Boolean::makeType( ast::type::TypesCache & cache )
 	{
 		return cache.getBool();
 	}
 
 	//*************************************************************************
 
-	Bool operator==( Bool const & lhs, Bool const & rhs )
+	Boolean operator==( Boolean const & lhs, Boolean const & rhs )
 	{
 		return writeComparator( lhs, rhs, sdw::makeEqual );
 	}
 
-	Bool operator!=( Bool const & lhs, Bool const & rhs )
+	Boolean operator!=( Boolean const & lhs, Boolean const & rhs )
 	{
 		return writeComparator( lhs, rhs, sdw::makeNEqual );
 	}
 
-	Bool operator||( Bool const & lhs, Bool const & rhs )
+	Boolean operator||( Boolean const & lhs, Boolean const & rhs )
 	{
 		return writeComparator( lhs, rhs, sdw::makeLogOr );
 	}
 
-	Bool operator&&( Bool const & lhs, Bool const & rhs )
+	Boolean operator&&( Boolean const & lhs, Boolean const & rhs )
 	{
 		return writeComparator( lhs, rhs, sdw::makeLogAnd );
 	}
 
-	Optional< Bool > operator||( Optional< Bool > const & lhs, Bool const & rhs )
+	Optional< Boolean > operator||( Optional< Boolean > const & lhs, Boolean const & rhs )
 	{
 		return writeComparator( lhs, rhs, sdw::makeLogOr );
 	}
 
-	Optional< Bool > operator&&( Optional< Bool > const & lhs, Bool const & rhs )
+	Optional< Boolean > operator&&( Optional< Boolean > const & lhs, Boolean const & rhs )
 	{
 		return writeComparator( lhs, rhs, sdw::makeLogAnd );
 	}
 
-	Optional< Bool > operator||( Bool const & lhs, Optional< Bool > const & rhs )
+	Optional< Boolean > operator||( Boolean const & lhs, Optional< Boolean > const & rhs )
 	{
 		return writeComparator( lhs, rhs, sdw::makeLogOr );
 	}
 
-	Optional< Bool > operator&&( Bool const & lhs, Optional< Bool > const & rhs )
+	Optional< Boolean > operator&&( Boolean const & lhs, Optional< Boolean > const & rhs )
 	{
 		return writeComparator( lhs, rhs, sdw::makeLogAnd );
 	}
 
-	Optional< Bool > operator||( Optional< Bool > const & lhs, Optional< Bool > const & rhs )
+	Optional< Boolean > operator||( Optional< Boolean > const & lhs, Optional< Boolean > const & rhs )
 	{
 		return writeComparator( lhs, rhs, sdw::makeLogOr );
 	}
 
-	Optional< Bool > operator&&( Optional< Bool > const & lhs, Optional< Bool > const & rhs )
+	Optional< Boolean > operator&&( Optional< Boolean > const & lhs, Optional< Boolean > const & rhs )
 	{
 		return writeComparator( lhs, rhs, sdw::makeLogAnd );
 	}

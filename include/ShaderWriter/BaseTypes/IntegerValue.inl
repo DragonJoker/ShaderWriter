@@ -408,42 +408,42 @@ namespace sdw
 	}
 
 	template< ast::type::Kind KindT >
-	Bool operator==( IntegerValue< KindT > const & lhs
+	Boolean operator==( IntegerValue< KindT > const & lhs
 		, IntegerValue< KindT > const & rhs )
 	{
 		return writeComparator( lhs, rhs, sdw::makeEqual );
 	}
 
 	template< ast::type::Kind KindT >
-	Bool operator!=( IntegerValue< KindT > const & lhs
+	Boolean operator!=( IntegerValue< KindT > const & lhs
 		, IntegerValue< KindT > const & rhs )
 	{
 		return writeComparator( lhs, rhs, sdw::makeNEqual );
 	}
 
 	template< ast::type::Kind KindT >
-	Bool operator<( IntegerValue< KindT > const & lhs
+	Boolean operator<( IntegerValue< KindT > const & lhs
 		, IntegerValue< KindT > const & rhs )
 	{
 		return writeComparator( lhs, rhs, sdw::makeLess );
 	}
 
 	template< ast::type::Kind KindT >
-	Bool operator<=( IntegerValue< KindT > const & lhs
+	Boolean operator<=( IntegerValue< KindT > const & lhs
 		, IntegerValue< KindT > const & rhs )
 	{
 		return writeComparator( lhs, rhs, sdw::makeLEqual );
 	}
 
 	template< ast::type::Kind KindT >
-	Bool operator>( IntegerValue< KindT > const & lhs
+	Boolean operator>( IntegerValue< KindT > const & lhs
 		, IntegerValue< KindT > const & rhs )
 	{
 		return writeComparator( lhs, rhs, sdw::makeGreater );
 	}
 
 	template< ast::type::Kind KindT >
-	Bool operator>=( IntegerValue< KindT > const & lhs
+	Boolean operator>=( IntegerValue< KindT > const & lhs
 		, IntegerValue< KindT > const & rhs )
 	{
 		return writeComparator( lhs, rhs, sdw::makeGEqual );
@@ -522,42 +522,42 @@ namespace sdw
 	}
 
 	template< ast::type::Kind KindT >
-	Optional< Bool > operator==( Optional< IntegerValue< KindT > > const & lhs
+	Optional< Boolean > operator==( Optional< IntegerValue< KindT > > const & lhs
 		, IntegerValue< KindT > const & rhs )
 	{
 		return writeComparator( lhs, rhs, sdw::makeEqual );
 	}
 
 	template< ast::type::Kind KindT >
-	Optional< Bool > operator!=( Optional< IntegerValue< KindT > > const & lhs
+	Optional< Boolean > operator!=( Optional< IntegerValue< KindT > > const & lhs
 		, IntegerValue< KindT > const & rhs )
 	{
 		return writeComparator( lhs, rhs, sdw::makeNEqual );
 	}
 
 	template< ast::type::Kind KindT >
-	Optional< Bool > operator<( Optional< IntegerValue< KindT > > const & lhs
+	Optional< Boolean > operator<( Optional< IntegerValue< KindT > > const & lhs
 		, IntegerValue< KindT > const & rhs )
 	{
 		return writeComparator( lhs, rhs, sdw::makeLess );
 	}
 
 	template< ast::type::Kind KindT >
-	Optional< Bool > operator<=( Optional< IntegerValue< KindT > > const & lhs
+	Optional< Boolean > operator<=( Optional< IntegerValue< KindT > > const & lhs
 		, IntegerValue< KindT > const & rhs )
 	{
 		return writeComparator( lhs, rhs, sdw::makeLEqual );
 	}
 
 	template< ast::type::Kind KindT >
-	Optional< Bool > operator>( Optional< IntegerValue< KindT > > const & lhs
+	Optional< Boolean > operator>( Optional< IntegerValue< KindT > > const & lhs
 		, IntegerValue< KindT > const & rhs )
 	{
 		return writeComparator( lhs, rhs, sdw::makeGreater );
 	}
 
 	template< ast::type::Kind KindT >
-	Optional< Bool > operator>=( Optional< IntegerValue< KindT > > const & lhs
+	Optional< Boolean > operator>=( Optional< IntegerValue< KindT > > const & lhs
 		, IntegerValue< KindT > const & rhs )
 	{
 		return writeComparator( lhs, rhs, sdw::makeGEqual );
@@ -636,42 +636,42 @@ namespace sdw
 	}
 
 	template< ast::type::Kind KindT >
-	Optional< Bool > operator==( IntegerValue< KindT > const & lhs
+	Optional< Boolean > operator==( IntegerValue< KindT > const & lhs
 		, Optional< IntegerValue< KindT > > const & rhs )
 	{
 		return writeComparator( lhs, rhs, sdw::makeEqual );
 	}
 
 	template< ast::type::Kind KindT >
-	Optional< Bool > operator!=( IntegerValue< KindT > const & lhs
+	Optional< Boolean > operator!=( IntegerValue< KindT > const & lhs
 		, Optional< IntegerValue< KindT > > const & rhs )
 	{
 		return writeComparator( lhs, rhs, sdw::makeNEqual );
 	}
 
 	template< ast::type::Kind KindT >
-	Optional< Bool > operator<( IntegerValue< KindT > const & lhs
+	Optional< Boolean > operator<( IntegerValue< KindT > const & lhs
 		, Optional< IntegerValue< KindT > > const & rhs )
 	{
 		return writeComparator( lhs, rhs, sdw::makeLess );
 	}
 
 	template< ast::type::Kind KindT >
-	Optional< Bool > operator<=( IntegerValue< KindT > const & lhs
+	Optional< Boolean > operator<=( IntegerValue< KindT > const & lhs
 		, Optional< IntegerValue< KindT > > const & rhs )
 	{
 		return writeComparator( lhs, rhs, sdw::makeLEqual );
 	}
 
 	template< ast::type::Kind KindT >
-	Optional< Bool > operator>( IntegerValue< KindT > const & lhs
+	Optional< Boolean > operator>( IntegerValue< KindT > const & lhs
 		, Optional< IntegerValue< KindT > > const & rhs )
 	{
 		return writeComparator( lhs, rhs, sdw::makeGreater );
 	}
 
 	template< ast::type::Kind KindT >
-	Optional< Bool > operator>=( IntegerValue< KindT > const & lhs
+	Optional< Boolean > operator>=( IntegerValue< KindT > const & lhs
 		, Optional< IntegerValue< KindT > > const & rhs )
 	{
 		return writeComparator( lhs, rhs, sdw::makeGEqual );
@@ -756,42 +756,42 @@ namespace sdw
 	}
 
 	template< ast::type::Kind KindT >
-	Optional< Bool > operator==( Optional< IntegerValue< KindT > > const & lhs
+	Optional< Boolean > operator==( Optional< IntegerValue< KindT > > const & lhs
 		, Optional< IntegerValue< KindT > > const & rhs )
 	{
 		return writeComparator( lhs, rhs, sdw::makeEqual );
 	}
 
 	template< ast::type::Kind KindT >
-	Optional< Bool > operator!=( Optional< IntegerValue< KindT > > const & lhs
+	Optional< Boolean > operator!=( Optional< IntegerValue< KindT > > const & lhs
 		, Optional< IntegerValue< KindT > > const & rhs )
 	{
 		return writeComparator( lhs, rhs, sdw::makeNEqual );
 	}
 
 	template< ast::type::Kind KindT >
-	Optional< Bool > operator<( Optional< IntegerValue< KindT > > const & lhs
+	Optional< Boolean > operator<( Optional< IntegerValue< KindT > > const & lhs
 		, Optional< IntegerValue< KindT > > const & rhs )
 	{
 		return writeComparator( lhs, rhs, sdw::makeLess );
 	}
 
 	template< ast::type::Kind KindT >
-	Optional< Bool > operator<=( Optional< IntegerValue< KindT > > const & lhs
+	Optional< Boolean > operator<=( Optional< IntegerValue< KindT > > const & lhs
 		, Optional< IntegerValue< KindT > > const & rhs )
 	{
 		return writeComparator( lhs, rhs, sdw::makeLEqual );
 	}
 
 	template< ast::type::Kind KindT >
-	Optional< Bool > operator>( Optional< IntegerValue< KindT > > const & lhs
+	Optional< Boolean > operator>( Optional< IntegerValue< KindT > > const & lhs
 		, Optional< IntegerValue< KindT > > const & rhs )
 	{
 		return writeComparator( lhs, rhs, sdw::makeGreater );
 	}
 
 	template< ast::type::Kind KindT >
-	Optional< Bool > operator>=( Optional< IntegerValue< KindT > > const & lhs
+	Optional< Boolean > operator>=( Optional< IntegerValue< KindT > > const & lhs
 		, Optional< IntegerValue< KindT > > const & rhs )
 	{
 		return writeComparator( lhs, rhs, sdw::makeGEqual );
@@ -870,42 +870,42 @@ namespace sdw
 	}
 
 	template< ast::type::Kind KindT >
-	Bool operator==( CppTypeT< IntegerValue< KindT > > const & lhs
+	Boolean operator==( CppTypeT< IntegerValue< KindT > > const & lhs
 		, IntegerValue< KindT > const & rhs )
 	{
 		return writeComparator( lhs, rhs, sdw::makeEqual );
 	}
 
 	template< ast::type::Kind KindT >
-	Bool operator!=( CppTypeT< IntegerValue< KindT > > const & lhs
+	Boolean operator!=( CppTypeT< IntegerValue< KindT > > const & lhs
 		, IntegerValue< KindT > const & rhs )
 	{
 		return writeComparator( lhs, rhs, sdw::makeNEqual );
 	}
 
 	template< ast::type::Kind KindT >
-	Bool operator<( CppTypeT< IntegerValue< KindT > > const & lhs
+	Boolean operator<( CppTypeT< IntegerValue< KindT > > const & lhs
 		, IntegerValue< KindT > const & rhs )
 	{
 		return writeComparator( lhs, rhs, sdw::makeLess );
 	}
 
 	template< ast::type::Kind KindT >
-	Bool operator<=( CppTypeT< IntegerValue< KindT > > const & lhs
+	Boolean operator<=( CppTypeT< IntegerValue< KindT > > const & lhs
 		, IntegerValue< KindT > const & rhs )
 	{
 		return writeComparator( lhs, rhs, sdw::makeLEqual );
 	}
 
 	template< ast::type::Kind KindT >
-	Bool operator>( CppTypeT< IntegerValue< KindT > > const & lhs
+	Boolean operator>( CppTypeT< IntegerValue< KindT > > const & lhs
 		, IntegerValue< KindT > const & rhs )
 	{
 		return writeComparator( lhs, rhs, sdw::makeGreater );
 	}
 
 	template< ast::type::Kind KindT >
-	Bool operator>=( CppTypeT< IntegerValue< KindT > > const & lhs
+	Boolean operator>=( CppTypeT< IntegerValue< KindT > > const & lhs
 		, IntegerValue< KindT > const & rhs )
 	{
 		return writeComparator( lhs, rhs, sdw::makeGEqual );
@@ -984,42 +984,42 @@ namespace sdw
 	}
 
 	template< ast::type::Kind KindT >
-	Bool operator==( IntegerValue< KindT > const & lhs
+	Boolean operator==( IntegerValue< KindT > const & lhs
 		, CppTypeT< IntegerValue< KindT > > const & rhs )
 	{
 		return writeComparator( lhs, rhs, sdw::makeEqual );
 	}
 
 	template< ast::type::Kind KindT >
-	Bool operator!=( IntegerValue< KindT > const & lhs
+	Boolean operator!=( IntegerValue< KindT > const & lhs
 		, CppTypeT< IntegerValue< KindT > > const & rhs )
 	{
 		return writeComparator( lhs, rhs, sdw::makeNEqual );
 	}
 
 	template< ast::type::Kind KindT >
-	Bool operator<( IntegerValue< KindT > const & lhs
+	Boolean operator<( IntegerValue< KindT > const & lhs
 		, CppTypeT< IntegerValue< KindT > > const & rhs )
 	{
 		return writeComparator( lhs, rhs, sdw::makeLess );
 	}
 
 	template< ast::type::Kind KindT >
-	Bool operator<=( IntegerValue< KindT > const & lhs
+	Boolean operator<=( IntegerValue< KindT > const & lhs
 		, CppTypeT< IntegerValue< KindT > > const & rhs )
 	{
 		return writeComparator( lhs, rhs, sdw::makeLEqual );
 	}
 
 	template< ast::type::Kind KindT >
-	Bool operator>( IntegerValue< KindT > const & lhs
+	Boolean operator>( IntegerValue< KindT > const & lhs
 		, CppTypeT< IntegerValue< KindT > > const & rhs )
 	{
 		return writeComparator( lhs, rhs, sdw::makeGreater );
 	}
 
 	template< ast::type::Kind KindT >
-	Bool operator>=( IntegerValue< KindT > const & lhs
+	Boolean operator>=( IntegerValue< KindT > const & lhs
 		, CppTypeT< IntegerValue< KindT > > const & rhs )
 	{
 		return writeComparator( lhs, rhs, sdw::makeGEqual );
@@ -1098,42 +1098,42 @@ namespace sdw
 	}
 
 	template< ast::type::Kind KindT >
-	Optional< Bool > operator==( Optional< IntegerValue< KindT > > const & lhs
+	Optional< Boolean > operator==( Optional< IntegerValue< KindT > > const & lhs
 		, CppTypeT< IntegerValue< KindT > > const & rhs )
 	{
 		return writeComparator( lhs, rhs, sdw::makeEqual );
 	}
 
 	template< ast::type::Kind KindT >
-	Optional< Bool > operator!=( Optional< IntegerValue< KindT > > const & lhs
+	Optional< Boolean > operator!=( Optional< IntegerValue< KindT > > const & lhs
 		, CppTypeT< IntegerValue< KindT > > const & rhs )
 	{
 		return writeComparator( lhs, rhs, sdw::makeNEqual );
 	}
 
 	template< ast::type::Kind KindT >
-	Optional< Bool > operator<( Optional< IntegerValue< KindT > > const & lhs
+	Optional< Boolean > operator<( Optional< IntegerValue< KindT > > const & lhs
 		, CppTypeT< IntegerValue< KindT > > const & rhs )
 	{
 		return writeComparator( lhs, rhs, sdw::makeLess );
 	}
 
 	template< ast::type::Kind KindT >
-	Optional< Bool > operator<=( Optional< IntegerValue< KindT > > const & lhs
+	Optional< Boolean > operator<=( Optional< IntegerValue< KindT > > const & lhs
 		, CppTypeT< IntegerValue< KindT > > const & rhs )
 	{
 		return writeComparator( lhs, rhs, sdw::makeLEqual );
 	}
 
 	template< ast::type::Kind KindT >
-	Optional< Bool > operator>( Optional< IntegerValue< KindT > > const & lhs
+	Optional< Boolean > operator>( Optional< IntegerValue< KindT > > const & lhs
 		, CppTypeT< IntegerValue< KindT > > const & rhs )
 	{
 		return writeComparator( lhs, rhs, sdw::makeGreater );
 	}
 
 	template< ast::type::Kind KindT >
-	Optional< Bool > operator>=( Optional< IntegerValue< KindT > > const & lhs
+	Optional< Boolean > operator>=( Optional< IntegerValue< KindT > > const & lhs
 		, CppTypeT< IntegerValue< KindT > > const & rhs )
 	{
 		return writeComparator( lhs, rhs, sdw::makeGEqual );
@@ -1212,42 +1212,42 @@ namespace sdw
 	}
 
 	template< ast::type::Kind KindT >
-	Optional< Bool > operator==( CppTypeT< IntegerValue< KindT > > const & lhs
+	Optional< Boolean > operator==( CppTypeT< IntegerValue< KindT > > const & lhs
 		, Optional< IntegerValue< KindT > > const & rhs )
 	{
 		return writeComparator( lhs, rhs, sdw::makeEqual );
 	}
 
 	template< ast::type::Kind KindT >
-	Optional< Bool > operator!=( CppTypeT< IntegerValue< KindT > > const & lhs
+	Optional< Boolean > operator!=( CppTypeT< IntegerValue< KindT > > const & lhs
 		, Optional< IntegerValue< KindT > > const & rhs )
 	{
 		return writeComparator( lhs, rhs, sdw::makeNEqual );
 	}
 
 	template< ast::type::Kind KindT >
-	Optional< Bool > operator<( CppTypeT< IntegerValue< KindT > > const & lhs
+	Optional< Boolean > operator<( CppTypeT< IntegerValue< KindT > > const & lhs
 		, Optional< IntegerValue< KindT > > const & rhs )
 	{
 		return writeComparator( lhs, rhs, sdw::makeLess );
 	}
 
 	template< ast::type::Kind KindT >
-	Optional< Bool > operator<=( CppTypeT< IntegerValue< KindT > > const & lhs
+	Optional< Boolean > operator<=( CppTypeT< IntegerValue< KindT > > const & lhs
 		, Optional< IntegerValue< KindT > > const & rhs )
 	{
 		return writeComparator( lhs, rhs, sdw::makeLEqual );
 	}
 
 	template< ast::type::Kind KindT >
-	Optional< Bool > operator>( CppTypeT< IntegerValue< KindT > > const & lhs
+	Optional< Boolean > operator>( CppTypeT< IntegerValue< KindT > > const & lhs
 		, Optional< IntegerValue< KindT > > const & rhs )
 	{
 		return writeComparator( lhs, rhs, sdw::makeGreater );
 	}
 
 	template< ast::type::Kind KindT >
-	Optional< Bool > operator>=( CppTypeT< IntegerValue< KindT > > const & lhs
+	Optional< Boolean > operator>=( CppTypeT< IntegerValue< KindT > > const & lhs
 		, Optional< IntegerValue< KindT > > const & rhs )
 	{
 		return writeComparator( lhs, rhs, sdw::makeGEqual );
