@@ -76,10 +76,6 @@ endif ()
 
 find_package( Doxygen )
 
-if( DOXYGEN_FOUND )
-	message( STATUS "+ Found Doxygen (version ${DOXYGEN_VERSION})" )
-endif ()
-
 #--------------------------------------------------------------------------------------------------
 #	MSVC specifics
 #--------------------------------------------------------------------------------------------------
@@ -133,30 +129,12 @@ endif ()
 if ( MSVC OR NOT "${CMAKE_BUILD_TYPE}" STREQUAL "" )
 	set( SDW_EXPORTERS_LIST )
 	set( SDW_EXPORTERS_DEFINITIONS )
+	set( SDW_BASE_DIR "ShaderWriter" )
 	add_subdirectory( source )
 
 	if ( SDW_BUILD_TESTS AND SDW_BUILD_EXPORTERS )
 		add_subdirectory( test )
 	endif ()
-
-	install(
-		TARGETS ShaderAST ShaderWriter ${SDW_EXPORTERS_LIST}
-		EXPORT ShaderWriter
-		RUNTIME DESTINATION bin
-		LIBRARY DESTINATION lib
-		ARCHIVE DESTINATION lib
-		INCLUDES DESTINATION include
-	)
-	install( EXPORT ShaderWriter
-		FILE ShaderWriterConfig.cmake
-		NAMESPACE sdw::
-		DESTINATION lib/cmake/ShaderWriter
-	)
-	include(CMakePackageConfigHelpers)
-	write_basic_package_version_file( ShaderWriterConfigVersion.cmake
-		VERSION ${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_BUILD}
-		COMPATIBILITY AnyNewerVersion
-	)
 else()
 	message( SEND_ERROR "Please select a build type (Debug, Release or RelWithDebInfo)" )
 endif()

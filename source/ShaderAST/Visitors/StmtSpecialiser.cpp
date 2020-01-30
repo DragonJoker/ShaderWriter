@@ -46,7 +46,7 @@ namespace ast
 
 		switch ( it->info.type->getKind() )
 		{
-		case type::Kind::eBool:
+		case type::Kind::eBoolean:
 			assert( it->data.size() == sizeof( bool ) );
 			m_specialisations.emplace( stmt->getVariable()
 				, expr::makeLiteral( m_cache

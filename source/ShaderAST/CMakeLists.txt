@@ -159,13 +159,22 @@ add_library( sdw::${PROJECT_NAME}
 set_target_properties( ${PROJECT_NAME}
 	PROPERTIES
 		CXX_STANDARD 17
-		FOLDER "Compilers"
+		FOLDER "${SDW_BASE_DIR}/Core"
 )
 add_target_precompiled_header( ${PROJECT_NAME}
 	${SDW_SOURCE_DIR}/include/${PROJECT_NAME}/ShaderASTPch.hpp
 	${SDW_SOURCE_DIR}/source/${PROJECT_NAME}/ShaderASTPch.cpp
 	"${CMAKE_CXX_FLAGS}"
 	${${PROJECT_NAME}_FOLDER_SOURCE_FILES}
+)
+target_include_directories( ${PROJECT_NAME}
+	PUBLIC
+		$<BUILD_INTERFACE:${SDW_SOURCE_DIR}/include>
+		$<INSTALL_INTERFACE:include>
+	PRIVATE
+		${SDW_SOURCE_DIR}/source
+		${INCLUDE_DIR}
+		${SOURCE_DIR}
 )
 
 # We install headers to <install_dir>/include/${PROJECT_NAME}

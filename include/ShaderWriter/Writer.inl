@@ -199,7 +199,7 @@ namespace sdw
 	}
 
 	template< typename ExprType >
-	ExprType ShaderWriter::ternary( Bool condition
+	ExprType ShaderWriter::ternary( Boolean condition
 		, ExprType left
 		, ExprType right )
 	{
@@ -609,7 +609,7 @@ namespace sdw
 	inline T ShaderWriter::declInput( std::string const & name
 		, uint32_t location )
 	{
-		static_assert( !IsSameV< T, Bool >, "Bool is not supported as input type" );
+		static_assert( !IsSameV< T, Boolean >, "Bool is not supported as input type" );
 		static_assert( !IsSameV< T, BVec2 >, "BVec2 is not supported as input type" );
 		static_assert( !IsSameV< T, BVec3 >, "BVec3 is not supported as input type" );
 		static_assert( !IsSameV< T, BVec4 >, "BVec4 is not supported as input type" );
@@ -632,7 +632,7 @@ namespace sdw
 		, uint32_t location
 		, bool enabled )
 	{
-		static_assert( !IsSameV< T, Bool >, "Bool is not supported as input type" );
+		static_assert( !IsSameV< T, Boolean >, "Bool is not supported as input type" );
 		static_assert( !IsSameV< T, BVec2 >, "BVec2 is not supported as input type" );
 		static_assert( !IsSameV< T, BVec3 >, "BVec3 is not supported as input type" );
 		static_assert( !IsSameV< T, BVec4 >, "BVec4 is not supported as input type" );
@@ -661,7 +661,7 @@ namespace sdw
 		, uint32_t location
 		, uint32_t dimension )
 	{
-		static_assert( !IsSameV< T, Bool >, "Bool is not supported as input type" );
+		static_assert( !IsSameV< T, Boolean >, "Bool is not supported as input type" );
 		static_assert( !IsSameV< T, BVec2 >, "BVec2 is not supported as input type" );
 		static_assert( !IsSameV< T, BVec3 >, "BVec3 is not supported as input type" );
 		static_assert( !IsSameV< T, BVec4 >, "BVec4 is not supported as input type" );
@@ -686,7 +686,7 @@ namespace sdw
 		, uint32_t dimension
 		, bool enabled )
 	{
-		static_assert( !IsSameV< T, Bool >, "Bool is not supported as input type" );
+		static_assert( !IsSameV< T, Boolean >, "Bool is not supported as input type" );
 		static_assert( !IsSameV< T, BVec2 >, "BVec2 is not supported as input type" );
 		static_assert( !IsSameV< T, BVec3 >, "BVec3 is not supported as input type" );
 		static_assert( !IsSameV< T, BVec4 >, "BVec4 is not supported as input type" );
@@ -722,7 +722,7 @@ namespace sdw
 	inline T ShaderWriter::declOutput( std::string const & name
 		, uint32_t location )
 	{
-		static_assert( !IsSameV< T, Bool >, "Bool is not supported as output type" );
+		static_assert( !IsSameV< T, Boolean >, "Bool is not supported as output type" );
 		static_assert( !IsSameV< T, BVec2 >, "BVec2 is not supported as output type" );
 		static_assert( !IsSameV< T, BVec3 >, "BVec3 is not supported as output type" );
 		static_assert( !IsSameV< T, BVec4 >, "BVec4 is not supported as output type" );
@@ -745,7 +745,7 @@ namespace sdw
 		, uint32_t location
 		, bool enabled )
 	{
-		static_assert( !IsSameV< T, Bool >, "Bool is not supported as output type" );
+		static_assert( !IsSameV< T, Boolean >, "Bool is not supported as output type" );
 		static_assert( !IsSameV< T, BVec2 >, "BVec2 is not supported as output type" );
 		static_assert( !IsSameV< T, BVec3 >, "BVec3 is not supported as output type" );
 		static_assert( !IsSameV< T, BVec4 >, "BVec4 is not supported as output type" );
@@ -774,7 +774,7 @@ namespace sdw
 		, uint32_t location
 		, uint32_t dimension )
 	{
-		static_assert( !IsSameV< T, Bool >, "Bool is not supported as output type" );
+		static_assert( !IsSameV< T, Boolean >, "Bool is not supported as output type" );
 		static_assert( !IsSameV< T, BVec2 >, "BVec2 is not supported as output type" );
 		static_assert( !IsSameV< T, BVec3 >, "BVec3 is not supported as output type" );
 		static_assert( !IsSameV< T, BVec4 >, "BVec4 is not supported as output type" );
@@ -799,7 +799,7 @@ namespace sdw
 		, uint32_t dimension
 		, bool enabled )
 	{
-		static_assert( !IsSameV< T, Bool >, "Bool is not supported as output type" );
+		static_assert( !IsSameV< T, Boolean >, "Bool is not supported as output type" );
 		static_assert( !IsSameV< T, BVec2 >, "BVec2 is not supported as output type" );
 		static_assert( !IsSameV< T, BVec3 >, "BVec3 is not supported as output type" );
 		static_assert( !IsSameV< T, BVec4 >, "BVec4 is not supported as output type" );

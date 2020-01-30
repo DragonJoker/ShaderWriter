@@ -15,7 +15,7 @@ namespace
 
 		require( stmt->getKind() == ast::stmt::Kind::ePreprocIf );
 		check( stmt->getCtrlExpr()->getKind() == ast::expr::Kind::eIdentifier );
-		check( stmt->getCtrlExpr()->getType()->getKind() == ast::type::Kind::eBool );
+		check( stmt->getCtrlExpr()->getType()->getKind() == ast::type::Kind::eBoolean );
 		testEnd();
 	}
 	
@@ -28,7 +28,7 @@ namespace
 
 		require( stmt->getKind() == ast::stmt::Kind::ePreprocIfDef );
 		check( stmt->getIdentExpr()->getKind() == ast::expr::Kind::eIdentifier );
-		check( stmt->getIdentExpr()->getType()->getKind() == ast::type::Kind::eBool );
+		check( stmt->getIdentExpr()->getType()->getKind() == ast::type::Kind::eBoolean );
 		testEnd();
 	}
 
@@ -42,7 +42,7 @@ namespace
 
 		require( stmt->getKind() == ast::stmt::Kind::ePreprocElif );
 		check( stmt->getCtrlExpr()->getKind() == ast::expr::Kind::eIdentifier );
-		check( stmt->getCtrlExpr()->getType()->getKind() == ast::type::Kind::eBool );
+		check( stmt->getCtrlExpr()->getType()->getKind() == ast::type::Kind::eBoolean );
 		testEnd();
 	}
 
@@ -351,7 +351,7 @@ namespace
 
 			require( stmt->getKind() == ast::stmt::Kind::eIf );
 			check( stmt->getCtrlExpr()->getKind() == ast::expr::Kind::eIdentifier );
-			check( stmt->getCtrlExpr()->getType()->getKind() == ast::type::Kind::eBool );
+			check( stmt->getCtrlExpr()->getType()->getKind() == ast::type::Kind::eBoolean );
 			check( stmt->empty() );
 		}
 		{
@@ -365,7 +365,7 @@ namespace
 
 			require( stmt->getKind() == ast::stmt::Kind::eIf );
 			check( stmt->getCtrlExpr()->getKind() == ast::expr::Kind::eIdentifier );
-			check( stmt->getCtrlExpr()->getType()->getKind() == ast::type::Kind::eBool );
+			check( stmt->getCtrlExpr()->getType()->getKind() == ast::type::Kind::eBoolean );
 			check( stmt->size() == 2u );
 		}
 		testEnd();
@@ -475,7 +475,7 @@ namespace
 
 			require( stmt->getKind() == ast::stmt::Kind::eWhile );
 			check( stmt->getCtrlExpr()->getKind() == ast::expr::Kind::eIdentifier );
-			check( stmt->getCtrlExpr()->getType()->getKind() == ast::type::Kind::eBool );
+			check( stmt->getCtrlExpr()->getType()->getKind() == ast::type::Kind::eBoolean );
 			check( stmt->empty() );
 		}
 		{
@@ -489,7 +489,7 @@ namespace
 
 			require( stmt->getKind() == ast::stmt::Kind::eWhile );
 			check( stmt->getCtrlExpr()->getKind() == ast::expr::Kind::eIdentifier );
-			check( stmt->getCtrlExpr()->getType()->getKind() == ast::type::Kind::eBool );
+			check( stmt->getCtrlExpr()->getType()->getKind() == ast::type::Kind::eBoolean );
 			check( stmt->size() == 2u );
 		}
 		testEnd();
@@ -505,7 +505,7 @@ namespace
 
 			require( stmt->getKind() == ast::stmt::Kind::eDoWhile );
 			check( stmt->getCtrlExpr()->getKind() == ast::expr::Kind::eIdentifier );
-			check( stmt->getCtrlExpr()->getType()->getKind() == ast::type::Kind::eBool );
+			check( stmt->getCtrlExpr()->getType()->getKind() == ast::type::Kind::eBoolean );
 			check( stmt->empty() );
 		}
 		{
@@ -519,7 +519,7 @@ namespace
 
 			require( stmt->getKind() == ast::stmt::Kind::eDoWhile );
 			check( stmt->getCtrlExpr()->getKind() == ast::expr::Kind::eIdentifier );
-			check( stmt->getCtrlExpr()->getType()->getKind() == ast::type::Kind::eBool );
+			check( stmt->getCtrlExpr()->getType()->getKind() == ast::type::Kind::eBoolean );
 			check( stmt->size() == 2u );
 		}
 		testEnd();
@@ -540,7 +540,7 @@ namespace
 			check( stmt->getInitExpr()->getKind() == ast::expr::Kind::eInit );
 			check( stmt->getInitExpr()->getType()->getKind() == ast::type::Kind::eInt );
 			check( stmt->getCtrlExpr()->getKind() == ast::expr::Kind::eLessEqual );
-			check( stmt->getCtrlExpr()->getType()->getKind() == ast::type::Kind::eBool );
+			check( stmt->getCtrlExpr()->getType()->getKind() == ast::type::Kind::eBoolean );
 			check( stmt->getIncrExpr()->getKind() == ast::expr::Kind::ePreIncrement );
 			check( stmt->getIncrExpr()->getType()->getKind() == ast::type::Kind::eInt );
 			check( stmt->empty() );
@@ -561,7 +561,7 @@ namespace
 			check( stmt->getInitExpr()->getKind() == ast::expr::Kind::eInit );
 			check( stmt->getInitExpr()->getType()->getKind() == ast::type::Kind::eInt );
 			check( stmt->getCtrlExpr()->getKind() == ast::expr::Kind::eLessEqual );
-			check( stmt->getCtrlExpr()->getType()->getKind() == ast::type::Kind::eBool );
+			check( stmt->getCtrlExpr()->getType()->getKind() == ast::type::Kind::eBoolean );
 			check( stmt->getIncrExpr()->getKind() == ast::expr::Kind::ePreIncrement );
 			check( stmt->getIncrExpr()->getType()->getKind() == ast::type::Kind::eInt );
 			check( stmt->size() == 2u );

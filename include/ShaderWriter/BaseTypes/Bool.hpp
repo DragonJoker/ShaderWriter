@@ -10,71 +10,71 @@ See LICENSE file in root folder
 
 namespace sdw
 {
-	struct Bool
+	struct Boolean
 		: public Value
 	{
-		SDW_API Bool( Shader * shader
+		SDW_API Boolean( Shader * shader
 			, expr::ExprPtr expr );
-		SDW_API Bool( Bool && rhs );
-		SDW_API Bool( Bool const & rhs );
-		SDW_API explicit Bool( Value const & rhs );
-		SDW_API Bool & operator=( Bool const & rhs );
+		SDW_API Boolean( Boolean && rhs );
+		SDW_API Boolean( Boolean const & rhs );
+		SDW_API explicit Boolean( Value const & rhs );
+		SDW_API Boolean & operator=( Boolean const & rhs );
 		template< typename T >
-		inline Bool & operator=( T const & rhs );
-		SDW_API Bool & operator=( bool rhs );
+		inline Boolean & operator=( T const & rhs );
+		SDW_API Boolean & operator=( bool rhs );
 		SDW_API operator bool();
 		SDW_API expr::ExprPtr makeCondition()const;
 
 		SDW_API static ast::type::TypePtr makeType( ast::type::TypesCache & cache );
 	};
 
-	SDW_API Bool operator==( Bool const & lhs
-		, Bool const & rhs );
-	SDW_API Bool operator!=( Bool const & lhs
-		, Bool const & rhs );
-	SDW_API Bool operator||( Bool const & lhs
-		, Bool const & rhs );
-	SDW_API Bool operator&&( Bool const & lhs
-		, Bool const & rhs );
-	SDW_API Optional< Bool > operator||( Optional< Bool > const & lhs
-		, Bool const & rhs );
-	SDW_API Optional< Bool > operator&&( Optional< Bool > const & lhs
-		, Bool const & rhs );
-	SDW_API Optional< Bool > operator||( Bool const & lhs
-		, Optional< Bool > const & rhs );
-	SDW_API Optional< Bool > operator&&( Bool const & lhs
-		, Optional< Bool > const & rhs );
-	SDW_API Optional< Bool > operator||( Optional< Bool > const & lhs
-		, Optional< Bool > const & rhs );
-	SDW_API Optional< Bool > operator&&( Optional< Bool > const & lhs
-		, Optional< Bool > const & rhs );
+	SDW_API Boolean operator==( Boolean const & lhs
+		, Boolean const & rhs );
+	SDW_API Boolean operator!=( Boolean const & lhs
+		, Boolean const & rhs );
+	SDW_API Boolean operator||( Boolean const & lhs
+		, Boolean const & rhs );
+	SDW_API Boolean operator&&( Boolean const & lhs
+		, Boolean const & rhs );
+	SDW_API Optional< Boolean > operator||( Optional< Boolean > const & lhs
+		, Boolean const & rhs );
+	SDW_API Optional< Boolean > operator&&( Optional< Boolean > const & lhs
+		, Boolean const & rhs );
+	SDW_API Optional< Boolean > operator||( Boolean const & lhs
+		, Optional< Boolean > const & rhs );
+	SDW_API Optional< Boolean > operator&&( Boolean const & lhs
+		, Optional< Boolean > const & rhs );
+	SDW_API Optional< Boolean > operator||( Optional< Boolean > const & lhs
+		, Optional< Boolean > const & rhs );
+	SDW_API Optional< Boolean > operator&&( Optional< Boolean > const & lhs
+		, Optional< Boolean > const & rhs );
 
 	template< typename LhsT, typename RhsT, typename CreatorT >
-	inline Bool writeComparator( LhsT const & lhs
+	inline Boolean writeComparator( LhsT const & lhs
 		, RhsT const & rhs
 		, CreatorT creator );
 	template< typename LhsT, typename RhsT, typename CreatorT >
-	Optional< Bool > writeComparator( Optional< LhsT > const & lhs
+	Optional< Boolean > writeComparator( Optional< LhsT > const & lhs
 		, RhsT const & rhs
 		, CreatorT creator );
 	template< typename LhsT, typename RhsT, typename CreatorT >
-	Optional< Bool > writeComparator( LhsT const & lhs
+	Optional< Boolean > writeComparator( LhsT const & lhs
 		, Optional< RhsT > const & rhs
 		, CreatorT creator );
 	template< typename LhsT, typename RhsT, typename CreatorT >
-	Optional< Bool > writeComparator( Optional< LhsT > const & lhs
+	Optional< Boolean > writeComparator( Optional< LhsT > const & lhs
 		, Optional< RhsT > const & rhs
 		, CreatorT creator );
 	template< typename LhsT, typename RhsT, typename CreatorT >
-	MaybeOptional< Bool > writeComparator( MaybeOptional< LhsT > const & lhs
+	MaybeOptional< Boolean > writeComparator( MaybeOptional< LhsT > const & lhs
 		, RhsT const & rhs
 		, CreatorT creator );
 	template< typename LhsT, typename RhsT, typename CreatorT >
-	MaybeOptional< Bool > writeComparator( LhsT const & lhs
+	MaybeOptional< Boolean > writeComparator( LhsT const & lhs
 		, MaybeOptional< RhsT > const & rhs
 		, CreatorT creator );
 	template< typename LhsT, typename RhsT, typename CreatorT >
-	MaybeOptional< Bool > writeComparator( MaybeOptional< LhsT > const & lhs
+	MaybeOptional< Boolean > writeComparator( MaybeOptional< LhsT > const & lhs
 		, MaybeOptional< RhsT > const & rhs
 		, CreatorT creator );
 }

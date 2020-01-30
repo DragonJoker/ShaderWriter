@@ -593,11 +593,11 @@ namespace sdw
 	*	isnan
 	*/
 	/**@{*/
-	SDW_API MaybeOptional< Bool > isnan( MaybeOptional< Float > const & x );
+	SDW_API MaybeOptional< Boolean > isnan( MaybeOptional< Float > const & x );
 	SDW_API MaybeOptional< BVec2 > isnan( MaybeOptional< Vec2 > const & x );
 	SDW_API MaybeOptional< BVec3 > isnan( MaybeOptional< Vec3 > const & x );
 	SDW_API MaybeOptional< BVec4 > isnan( MaybeOptional< Vec4 > const & x );
-	SDW_API MaybeOptional< Bool > isnan( MaybeOptional< Double > const & x );
+	SDW_API MaybeOptional< Boolean > isnan( MaybeOptional< Double > const & x );
 	SDW_API MaybeOptional< BVec2 > isnan( MaybeOptional< DVec2 > const & x );
 	SDW_API MaybeOptional< BVec3 > isnan( MaybeOptional< DVec3 > const & x );
 	SDW_API MaybeOptional< BVec4 > isnan( MaybeOptional< DVec4 > const & x );
@@ -609,11 +609,11 @@ namespace sdw
 	*	isinf
 	*/
 	/**@{*/
-	SDW_API MaybeOptional< Bool > isinf( MaybeOptional< Float > const & x );
+	SDW_API MaybeOptional< Boolean > isinf( MaybeOptional< Float > const & x );
 	SDW_API MaybeOptional< BVec2 > isinf( MaybeOptional< Vec2 > const & x );
 	SDW_API MaybeOptional< BVec3 > isinf( MaybeOptional< Vec3 > const & x );
 	SDW_API MaybeOptional< BVec4 > isinf( MaybeOptional< Vec4 > const & x );
-	SDW_API MaybeOptional< Bool > isinf( MaybeOptional< Double > const & x );
+	SDW_API MaybeOptional< Boolean > isinf( MaybeOptional< Double > const & x );
 	SDW_API MaybeOptional< BVec2 > isinf( MaybeOptional< DVec2 > const & x );
 	SDW_API MaybeOptional< BVec3 > isinf( MaybeOptional< DVec3 > const & x );
 	SDW_API MaybeOptional< BVec4 > isinf( MaybeOptional< DVec4 > const & x );
@@ -1177,9 +1177,9 @@ namespace sdw
 	*	all
 	*/
 	/**@{*/
-	SDW_API MaybeOptional< Bool > all( MaybeOptional< BVec2 > const & x );
-	SDW_API MaybeOptional< Bool > all( MaybeOptional< BVec3 > const & x );
-	SDW_API MaybeOptional< Bool > all( MaybeOptional< BVec4 > const & x );
+	SDW_API MaybeOptional< Boolean > all( MaybeOptional< BVec2 > const & x );
+	SDW_API MaybeOptional< Boolean > all( MaybeOptional< BVec3 > const & x );
+	SDW_API MaybeOptional< Boolean > all( MaybeOptional< BVec4 > const & x );
 	/**@}*/
 #pragma endregion
 #pragma region any
@@ -1188,9 +1188,9 @@ namespace sdw
 	*	any
 	*/
 	/**@{*/
-	SDW_API MaybeOptional< Bool > any( MaybeOptional< BVec2 > const & x );
-	SDW_API MaybeOptional< Bool > any( MaybeOptional< BVec3 > const & x );
-	SDW_API MaybeOptional< Bool > any( MaybeOptional< BVec4 > const & x );
+	SDW_API MaybeOptional< Boolean > any( MaybeOptional< BVec2 > const & x );
+	SDW_API MaybeOptional< Boolean > any( MaybeOptional< BVec3 > const & x );
+	SDW_API MaybeOptional< Boolean > any( MaybeOptional< BVec4 > const & x );
 	/**@}*/
 #pragma endregion
 #pragma region binNot

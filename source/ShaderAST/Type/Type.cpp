@@ -64,7 +64,7 @@ namespace ast::type
 	{
 		switch ( kind )
 		{
-		case Kind::eBool:
+		case Kind::eBoolean:
 		case Kind::eVec2B:
 		case Kind::eVec3B:
 		case Kind::eVec4B:
@@ -172,7 +172,7 @@ namespace ast::type
 	{
 		switch ( kind )
 		{
-		case Kind::eBool:
+		case Kind::eBoolean:
 		case Kind::eInt:
 		case Kind::eUInt:
 		case Kind::eFloat:
@@ -326,7 +326,7 @@ namespace ast::type
 		case Kind::eVec2B:
 		case Kind::eVec3B:
 		case Kind::eVec4B:
-			return Kind::eBool;
+			return Kind::eBoolean;
 
 		case Kind::eVec2I:
 		case Kind::eVec3I:

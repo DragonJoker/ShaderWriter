@@ -558,15 +558,15 @@ namespace spirv
 			auto dstComponents = getComponentCount( expr->getType()->getKind() );
 			auto srcComponents = getComponentCount( expr->getOperand()->getType()->getKind() );
 
-			if ( dstScalarType == ast::type::Kind::eBool
-				&& srcScalarType != ast::type::Kind::eBool )
+			if ( dstScalarType == ast::type::Kind::eBoolean
+				&& srcScalarType != ast::type::Kind::eBoolean )
 			{
 				// Conversion to bool scalar or vector type.
 				assert( dstComponents == srcComponents );
 				m_result = doWriteToBoolCast( expr->getOperand() );
 			}
-			else if ( srcScalarType == ast::type::Kind::eBool
-				&& dstScalarType != ast::type::Kind::eBool )
+			else if ( srcScalarType == ast::type::Kind::eBoolean
+				&& dstScalarType != ast::type::Kind::eBoolean )
 			{
 				// Conversion from bool scalar or vector type.
 				assert( dstComponents == srcComponents );
@@ -1405,7 +1405,7 @@ namespace spirv
 				}
 
 				result = ast::expr::makeCompositeConstruct( ast::expr::CompositeType( componentCount )
-					, ast::type::Kind::eBool
+					, ast::type::Kind::eBoolean
 					, std::move( args ) );
 			}
 

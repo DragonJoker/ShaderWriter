@@ -312,6 +312,7 @@ namespace test
 					++gpuIndex;
 				}
 
+				--gpuIndex;
 				VkDeviceQueueCreateInfo queue_info = {};
 
 				vkGetPhysicalDeviceQueueFamilyProperties( info.gpus[gpuIndex], &info.queue_family_count, nullptr );

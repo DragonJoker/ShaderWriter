@@ -15,7 +15,7 @@ namespace sdw
 	template<>
 	struct TypeTraits< bool >
 	{
-		static ast::type::Kind constexpr TypeEnum = ast::type::Kind::eBool;
+		static ast::type::Kind constexpr TypeEnum = ast::type::Kind::eBoolean;
 		using CppType = bool;
 	};
 
@@ -55,9 +55,9 @@ namespace sdw
 	};
 
 	template<>
-	struct TypeTraits< Bool >
+	struct TypeTraits< Boolean >
 	{
-		static ast::type::Kind constexpr TypeEnum = ast::type::Kind::eBool;
+		static ast::type::Kind constexpr TypeEnum = ast::type::Kind::eBoolean;
 		using CppType = bool;
 	};
 

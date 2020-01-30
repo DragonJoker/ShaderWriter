@@ -129,7 +129,7 @@ namespace ast::expr
 		case expr::CompositeType::eScalar:
 			switch ( component )
 			{
-			case type::Kind::eBool:
+			case type::Kind::eBoolean:
 				result = cache.getBool();
 				break;
 			case type::Kind::eInt:
@@ -155,7 +155,7 @@ namespace ast::expr
 		case expr::CompositeType::eVec2:
 			switch ( component )
 			{
-			case type::Kind::eBool:
+			case type::Kind::eBoolean:
 				result = cache.getVec2B();
 				break;
 			case type::Kind::eInt:
@@ -181,7 +181,7 @@ namespace ast::expr
 		case expr::CompositeType::eVec3:
 			switch ( component )
 			{
-			case type::Kind::eBool:
+			case type::Kind::eBoolean:
 				result = cache.getVec3B();
 				break;
 			case type::Kind::eInt:
@@ -207,7 +207,7 @@ namespace ast::expr
 		case expr::CompositeType::eVec4:
 			switch ( component )
 			{
-			case type::Kind::eBool:
+			case type::Kind::eBoolean:
 				result = cache.getVec4B();
 				break;
 			case type::Kind::eInt:

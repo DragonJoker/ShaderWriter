@@ -13,9 +13,7 @@ if ( SDW_TESTS_ENABLE_VALIDATION )
 	find_package( OpenGL )
 	find_package( Vulkan )
 
-	set( OptionalCompileDefinitions
-		${SDW_EXPORTERS_DEFINITIONS}
-	)
+	set( OptionalCompileDefinitions )
 
 	if ( OpenGL_FOUND OR OPENGL_FOUND )
 		set( TargetLinkLibraries
@@ -63,18 +61,20 @@ if ( SDW_TESTS_ENABLE_VALIDATION )
 	endif ()
 endif ()
 
-set( ENABLE_GLSLANG_BINARIES FALSE CACHE BOOL "Builds glslangValidator and spirv-remap" FORCE )
-set( ENABLE_AMD_EXTENSIONS FALSE CACHE BOOL "Enables support of AMD-specific extensions" FORCE )
-set( ENABLE_NV_EXTENSIONS FALSE CACHE BOOL "Enables support of Nvidia-specific extensions" FORCE )
-set( ENABLE_HLSL FALSE CACHE BOOL "Enables HLSL input support" FORCE )
-set( BUILD_TESTING OFF )
-set( SKIP_GLSLANG_INSTALL ON )
-add_subdirectory( ${GLSLANG_DIR} ${CMAKE_BINARY_DIR}/external/glslang )
-set_property( TARGET glslang PROPERTY FOLDER "glslang" )
-set_property( TARGET OGLCompiler PROPERTY FOLDER "glslang" )
-set_property( TARGET OSDependent PROPERTY FOLDER "glslang" )
-set_property( TARGET SPIRV PROPERTY FOLDER "glslang" )
-set_property( TARGET SPVRemapper PROPERTY FOLDER "glslang" )
+if ( NOT TARGET glslang )
+	set( ENABLE_GLSLANG_BINARIES FALSE CACHE BOOL "Builds glslangValidator and spirv-remap" FORCE )
+	set( ENABLE_AMD_EXTENSIONS FALSE CACHE BOOL "Enables support of AMD-specific extensions" FORCE )
+	set( ENABLE_NV_EXTENSIONS FALSE CACHE BOOL "Enables support of Nvidia-specific extensions" FORCE )
+	set( ENABLE_HLSL FALSE CACHE BOOL "Enables HLSL input support" FORCE )
+	set( BUILD_TESTING OFF )
+	set( SKIP_GLSLANG_INSTALL ON )
+	add_subdirectory( ${GLSLANG_DIR} ${CMAKE_BINARY_DIR}/external/glslang )
+	set_property( TARGET glslang PROPERTY FOLDER "glslang" )
+	set_property( TARGET OGLCompiler PROPERTY FOLDER "glslang" )
+	set_property( TARGET OSDependent PROPERTY FOLDER "glslang" )
+	set_property( TARGET SPIRV PROPERTY FOLDER "glslang" )
+	set_property( TARGET SPVRemapper PROPERTY FOLDER "glslang" )
+endif ()
 
 set( TEST_WRITER_COMMON_HEADER_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/WriterCommon.hpp
@@ -106,38 +106,32 @@ set( TEST_WRITER_COMMON_SOURCE_FILES
 	${SPIRV_CROSS_DIR}/spirv_hlsl.cpp
 )
 
-set( TargetIncludeDirectories
-	${TargetIncludeDirectories}
-	${SPIRV_CROSS_DIR}
-	${GLSLANG_DIR}
-)
-set( TargetLinkLibraries
-	${TargetLinkLibraries}
-	ShaderAST
-	ShaderWriter
-	${SDW_EXPORTERS_LIST}
-	${BinLibraries}
-	glslang
-	OGLCompiler
-	OSDependent
-	SPVRemapper
-	SPIRV
-)
-
 add_library( TestWriterCommon
 	STATIC
 	${TEST_WRITER_COMMON_HEADER_FILES}
 	${TEST_WRITER_COMMON_SOURCE_FILES}
 )
-target_link_libraries( TestWriterCommon PRIVATE
-	${TargetLinkLibraries}
+target_link_libraries( TestWriterCommon
+	PUBLIC
+		sdw::ShaderAST
+		sdw::ShaderWriter
+		${SDW_EXPORTERS_LIST}
+		${BinLibraries}
+		glslang
+		OGLCompiler
+		OSDependent
+		SPVRemapper
+		SPIRV
+		sdw::test::Common
 )
-target_compile_definitions( TestWriterCommon PRIVATE
-	${TargetCompileDefinitions}
-	${OptionalCompileDefinitions}
+target_compile_definitions( TestWriterCommon
+	PUBLIC
+		${OptionalCompileDefinitions}
 )
-target_include_directories( TestWriterCommon PUBLIC
-	${TargetIncludeDirectories}
+target_include_directories( TestWriterCommon
+	PUBLIC
+		${SPIRV_CROSS_DIR}
+		${GLSLANG_DIR}
 )
 set_target_properties( TestWriterCommon PROPERTIES
 	CXX_STANDARD 17

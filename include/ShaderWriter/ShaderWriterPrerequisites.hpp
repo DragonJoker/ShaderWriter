@@ -101,7 +101,7 @@ namespace sdw
 
 	struct Value;
 	struct Void;
-	struct Bool;
+	struct Boolean;
 
 	template< ast::type::Kind KindT >
 	struct ArithmeticValue;
@@ -128,9 +128,9 @@ namespace sdw
 	using UVec2 = Vec2T< UInt >;
 	using UVec3 = Vec3T< UInt >;
 	using UVec4 = Vec4T< UInt >;
-	using BVec2 = Vec2T< Bool >;
-	using BVec3 = Vec3T< Bool >;
-	using BVec4 = Vec4T< Bool >;
+	using BVec2 = Vec2T< Boolean >;
+	using BVec3 = Vec3T< Boolean >;
+	using BVec4 = Vec4T< Boolean >;
 	using Mat2 = Mat2T< Float >;
 	using Mat2x3 = Mat2x3T< Float >;
 	using Mat2x4 = Mat2x4T< Float >;
@@ -323,7 +323,7 @@ namespace sdw
 	Writer_Parameter( Float );
 	Writer_Parameter( Int );
 	Writer_Parameter( UInt );
-	Writer_Parameter( Bool );
+	Writer_Parameter( Boolean );
 	Writer_Parameter( Vec2 );
 	Writer_Parameter( Vec3 );
 	Writer_Parameter( Vec4 );
@@ -362,7 +362,7 @@ namespace sdw
 	Writer_ArrayParameter( Float );
 	Writer_ArrayParameter( Int );
 	Writer_ArrayParameter( UInt );
-	Writer_ArrayParameter( Bool );
+	Writer_ArrayParameter( Boolean );
 	Writer_ArrayParameter( Vec2 );
 	Writer_ArrayParameter( Vec3 );
 	Writer_ArrayParameter( Vec4 );

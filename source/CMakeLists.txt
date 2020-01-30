@@ -10,11 +10,6 @@ set( TargetCompileDefinitions
 get_filename_component( SDW_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR} DIRECTORY )
 get_filename_component( SDW_BINARY_DIR ${CMAKE_CURRENT_BINARY_DIR} DIRECTORY )
 
-include_directories(
-	${SDW_SOURCE_DIR}/include
-	${SDW_BINARY_DIR}/include
-)
-
 if ( SDW_BUILD_EXPORTERS )
 	set( SDW_EXPORTERS_LIST )
 	if ( NOT DEFINED SDW_BUILD_EXPORTER_GLSL )
@@ -78,3 +73,21 @@ if ( SDW_BUILD_EXPORTERS )
 		PARENT_SCOPE
 	)
 endif ()
+
+install(
+	TARGETS ShaderAST ShaderWriter ${SDW_INSTEXP_LIST}
+	EXPORT ShaderWriter
+	RUNTIME DESTINATION bin
+	LIBRARY DESTINATION lib
+	ARCHIVE DESTINATION lib
+)
+install( EXPORT ShaderWriter
+	FILE ShaderWriterConfig.cmake
+	NAMESPACE sdw::
+	DESTINATION lib/shaderwriter/cmake
+)
+include(CMakePackageConfigHelpers)
+write_basic_package_version_file( ShaderWriterConfigVersion.cmake
+	VERSION ${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_BUILD}
+	COMPATIBILITY AnyNewerVersion
+)

@@ -90,7 +90,7 @@ namespace
 int main( int argc, char ** argv )
 {
 	sdwTestSuiteBegin( "TestWriterConstantDeclarations" );
-	testConstant< sdw::Bool >( testCounts );
+	testConstant< sdw::Boolean >( testCounts );
 	testConstant< sdw::Int >( testCounts );
 	testConstant< sdw::UInt >( testCounts );
 	testConstant< sdw::Float >( testCounts );

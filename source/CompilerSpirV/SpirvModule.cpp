@@ -810,7 +810,9 @@ namespace spirv
 	{
 		while ( m_intermediates.end() != m_intermediates.find( id ) )
 		{
-			id = m_busyIntermediates.find( id )->second;
+			auto it = m_busyIntermediates.find( id );
+			assert( it != m_busyIntermediates.end() );
+			id = it->second;
 		}
 
 		return id;

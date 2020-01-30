@@ -13,7 +13,7 @@ namespace
 			auto expr = ast::expr::makeLiteral( cache, false );
 
 			require( expr->getKind() == ast::expr::Kind::eLiteral );
-			check( expr->getType()->getKind() == ast::type::Kind::eBool );
+			check( expr->getType()->getKind() == ast::type::Kind::eBoolean );
 			require( expr->getLiteralType() == ast::expr::LiteralType::eBool );
 			check( expr->getValue< ast::expr::LiteralType::eBool >() == false );
 			std::cout << "ExprLiteral: " << ast::debug::ExprVisitor::submit( expr.get() ) << std::endl;
@@ -260,7 +260,7 @@ namespace
 		auto expr = ast::expr::makeLogAnd( cache, std::move( lhs ), std::move( rhs ) );
 
 		check( expr->getKind() == ast::expr::Kind::eLogAnd );
-		check( expr->getType()->getKind() == ast::type::Kind::eBool );
+		check( expr->getType()->getKind() == ast::type::Kind::eBoolean );
 
 		require( expr->getLHS()->getKind() == ast::expr::Kind::eIdentifier );
 		check( expr->getLHS()->getType()->getKind() == ast::type::Kind::eInt );
@@ -284,7 +284,7 @@ namespace
 		auto expr = ast::expr::makeLogNot( cache, std::move( op ) );
 
 		check( expr->getKind() == ast::expr::Kind::eLogNot );
-		check( expr->getType()->getKind() == ast::type::Kind::eBool );
+		check( expr->getType()->getKind() == ast::type::Kind::eBoolean );
 
 		require( expr->getOperand()->getKind() == ast::expr::Kind::eIdentifier );
 		check( expr->getOperand()->getType()->getKind() == ast::type::Kind::eInt );
@@ -303,7 +303,7 @@ namespace
 		auto expr = ast::expr::makeLogOr( cache, std::move( lhs ), std::move( rhs ) );
 
 		check( expr->getKind() == ast::expr::Kind::eLogOr );
-		check( expr->getType()->getKind() == ast::type::Kind::eBool );
+		check( expr->getType()->getKind() == ast::type::Kind::eBoolean );
 
 		require( expr->getLHS()->getKind() == ast::expr::Kind::eIdentifier );
 		check( expr->getLHS()->getType()->getKind() == ast::type::Kind::eInt );
@@ -711,7 +711,7 @@ namespace
 		auto expr = ast::expr::makeEqual( cache, std::move( lhs ), std::move( rhs ) );
 
 		check( expr->getKind() == ast::expr::Kind::eEqual );
-		check( expr->getType()->getKind() == ast::type::Kind::eBool );
+		check( expr->getType()->getKind() == ast::type::Kind::eBoolean );
 
 		require( expr->getLHS()->getKind() == ast::expr::Kind::eIdentifier );
 		check( expr->getLHS()->getType()->getKind() == ast::type::Kind::eInt );
@@ -735,7 +735,7 @@ namespace
 		auto expr = ast::expr::makeGreater( cache, std::move( lhs ), std::move( rhs ) );
 
 		check( expr->getKind() == ast::expr::Kind::eGreater );
-		check( expr->getType()->getKind() == ast::type::Kind::eBool );
+		check( expr->getType()->getKind() == ast::type::Kind::eBoolean );
 
 		require( expr->getLHS()->getKind() == ast::expr::Kind::eIdentifier );
 		check( expr->getLHS()->getType()->getKind() == ast::type::Kind::eInt );
@@ -759,7 +759,7 @@ namespace
 		auto expr = ast::expr::makeGreaterEqual( cache, std::move( lhs ), std::move( rhs ) );
 
 		check( expr->getKind() == ast::expr::Kind::eGreaterEqual );
-		check( expr->getType()->getKind() == ast::type::Kind::eBool );
+		check( expr->getType()->getKind() == ast::type::Kind::eBoolean );
 
 		require( expr->getLHS()->getKind() == ast::expr::Kind::eIdentifier );
 		check( expr->getLHS()->getType()->getKind() == ast::type::Kind::eInt );
@@ -783,7 +783,7 @@ namespace
 		auto expr = ast::expr::makeLess( cache, std::move( lhs ), std::move( rhs ) );
 
 		check( expr->getKind() == ast::expr::Kind::eLess );
-		check( expr->getType()->getKind() == ast::type::Kind::eBool );
+		check( expr->getType()->getKind() == ast::type::Kind::eBoolean );
 
 		require( expr->getLHS()->getKind() == ast::expr::Kind::eIdentifier );
 		check( expr->getLHS()->getType()->getKind() == ast::type::Kind::eInt );
@@ -807,7 +807,7 @@ namespace
 		auto expr = ast::expr::makeLessEqual( cache, std::move( lhs ), std::move( rhs ) );
 
 		check( expr->getKind() == ast::expr::Kind::eLessEqual );
-		check( expr->getType()->getKind() == ast::type::Kind::eBool );
+		check( expr->getType()->getKind() == ast::type::Kind::eBoolean );
 
 		require( expr->getLHS()->getKind() == ast::expr::Kind::eIdentifier );
 		check( expr->getLHS()->getType()->getKind() == ast::type::Kind::eInt );
@@ -831,7 +831,7 @@ namespace
 		auto expr = ast::expr::makeNotEqual( cache, std::move( lhs ), std::move( rhs ) );
 
 		check( expr->getKind() == ast::expr::Kind::eNotEqual );
-		check( expr->getType()->getKind() == ast::type::Kind::eBool );
+		check( expr->getType()->getKind() == ast::type::Kind::eBoolean );
 
 		require( expr->getLHS()->getKind() == ast::expr::Kind::eIdentifier );
 		check( expr->getLHS()->getType()->getKind() == ast::type::Kind::eInt );
@@ -1261,8 +1261,8 @@ namespace
 		check( expr->getType()->getKind() == ast::type::Kind::eInt );
 
 		require( expr->getCtrlExpr()->getKind() == ast::expr::Kind::eIdentifier );
-		check( expr->getCtrlExpr()->getType()->getKind() == ast::type::Kind::eBool );
-		check( static_cast< ast::expr::Identifier const & >( *expr->getCtrlExpr() ).getVariable()->getType()->getKind() == ast::type::Kind::eBool );
+		check( expr->getCtrlExpr()->getType()->getKind() == ast::type::Kind::eBoolean );
+		check( static_cast< ast::expr::Identifier const & >( *expr->getCtrlExpr() ).getVariable()->getType()->getKind() == ast::type::Kind::eBoolean );
 		check( static_cast< ast::expr::Identifier const & >( *expr->getCtrlExpr() ).getVariable()->getName() == "ctrl" );
 
 		require( expr->getTrueExpr()->getKind() == ast::expr::Kind::eIdentifier );

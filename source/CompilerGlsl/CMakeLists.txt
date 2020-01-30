@@ -57,8 +57,13 @@ add_library( sdw::${PROJECT_NAME}
 	ALIAS
 	${PROJECT_NAME}
 )
-target_compile_options( ${PROJECT_NAME} PRIVATE -D${PROJECT_NAME}_Exports )
-target_link_libraries( ${PROJECT_NAME}
+target_compile_definitions( ${PROJECT_NAME}
+	PRIVATE
+		${PROJECT_NAME}_Exports
+	PUBLIC
+		SDW_Has${PROJECT_NAME}
+)
+target_link_libraries( ${PROJECT_NAME} PUBLIC
 	sdw::ShaderAST
 	sdw::ShaderWriter
 )
@@ -67,21 +72,25 @@ set_target_properties( ${PROJECT_NAME}
 		VERSION ${PROJECT_VERSION}
 		SOVERSION ${PROJECT_SOVERSION}
 		CXX_STANDARD 17
-		FOLDER "Compilers"
+		FOLDER "${SDW_BASE_DIR}/Exporters"
 )
-target_include_directories( ${PROJECT_NAME} PRIVATE ${SOURCE_DIR} )
+target_include_directories( ${PROJECT_NAME} PRIVATE
+	${SDW_SOURCE_DIR}/source
+	${INCLUDE_DIR}
+	${SOURCE_DIR}
+)
 
 # We install headers to <install_dir>/include/${PROJECT_NAME}
 target_install_headers( ${PROJECT_NAME} ${SDW_SOURCE_DIR}/include/${PROJECT_NAME} )
 
 set( SDW_EXPORTERS_LIST
 	${SDW_EXPORTERS_LIST}
-	${PROJECT_NAME}
+	sdw::${PROJECT_NAME}
 	PARENT_SCOPE
 )
 
-set( SDW_EXPORTERS_DEFINITIONS
-	${SDW_EXPORTERS_DEFINITIONS}
-	SDW_Has${PROJECT_NAME}=1
+set( SDW_INSTEXP_LIST
+	${SDW_INSTEXP_LIST}
+	${PROJECT_NAME}
 	PARENT_SCOPE
 )
