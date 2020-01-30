@@ -119,7 +119,7 @@ add_target_precompiled_header( ${PROJECT_NAME}
 target_compile_options( ${PROJECT_NAME} PRIVATE
 	-D${PROJECT_NAME}_Exports
 )
-target_link_libraries( ${PROJECT_NAME} PUBLIC
+target_link_libraries( ${PROJECT_NAME} PRIVATE
 	sdw::ShaderAST
 )
 set_target_properties( ${PROJECT_NAME}
@@ -129,10 +129,14 @@ set_target_properties( ${PROJECT_NAME}
 		CXX_STANDARD 17
 		FOLDER "${SDW_BASE_DIR}/Core"
 )
-target_include_directories( ${PROJECT_NAME} PRIVATE
-	${SDW_SOURCE_DIR}/source
-	${INCLUDE_DIR}
-	${SOURCE_DIR}
+target_include_directories( ${PROJECT_NAME}
+	PUBLIC
+		$<BUILD_INTERFACE:${SDW_SOURCE_DIR}/include>
+		$<INSTALL_INTERFACE:include>
+	PRIVATE
+		${SDW_SOURCE_DIR}/source
+		${INCLUDE_DIR}
+		${SOURCE_DIR}
 )
 
 # We install headers to <install_dir>/include/${PROJECT_NAME}

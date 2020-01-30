@@ -135,17 +135,6 @@ if ( MSVC OR NOT "${CMAKE_BUILD_TYPE}" STREQUAL "" )
 	if ( SDW_BUILD_TESTS AND SDW_BUILD_EXPORTERS )
 		add_subdirectory( test )
 	endif ()
-
-	install( EXPORT ShaderWriter
-		FILE ShaderWriterConfig.cmake
-		NAMESPACE sdw::
-		DESTINATION lib/cmake/ShaderWriter
-	)
-	include(CMakePackageConfigHelpers)
-	write_basic_package_version_file( ShaderWriterConfigVersion.cmake
-		VERSION ${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_BUILD}
-		COMPATIBILITY AnyNewerVersion
-	)
 else()
 	message( SEND_ERROR "Please select a build type (Debug, Release or RelWithDebInfo)" )
 endif()

@@ -169,7 +169,8 @@ add_target_precompiled_header( ${PROJECT_NAME}
 )
 target_include_directories( ${PROJECT_NAME}
 	PUBLIC
-		${SDW_SOURCE_DIR}/include
+		$<BUILD_INTERFACE:${SDW_SOURCE_DIR}/include>
+		$<INSTALL_INTERFACE:include>
 	PRIVATE
 		${SDW_SOURCE_DIR}/source
 		${INCLUDE_DIR}

@@ -81,3 +81,13 @@ install(
 	LIBRARY DESTINATION lib
 	ARCHIVE DESTINATION lib
 )
+install( EXPORT ShaderWriter
+	FILE ShaderWriterConfig.cmake
+	NAMESPACE sdw::
+	DESTINATION lib/shaderwriter/cmake
+)
+include(CMakePackageConfigHelpers)
+write_basic_package_version_file( ShaderWriterConfigVersion.cmake
+	VERSION ${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_BUILD}
+	COMPATIBILITY AnyNewerVersion
+)
