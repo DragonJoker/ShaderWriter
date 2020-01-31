@@ -119,7 +119,7 @@ add_target_precompiled_header( ${PROJECT_NAME}
 target_compile_options( ${PROJECT_NAME} PRIVATE
 	-D${PROJECT_NAME}_Exports
 )
-target_link_libraries( ${PROJECT_NAME} PRIVATE
+target_link_libraries( ${PROJECT_NAME} PUBLIC
 	sdw::ShaderAST
 )
 set_target_properties( ${PROJECT_NAME}
