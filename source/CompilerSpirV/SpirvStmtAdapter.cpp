@@ -130,16 +130,6 @@ namespace spirv
 					processed = true;
 				}
 			}
-			else if ( stmt->getExpr()->getKind() == ast::expr::Kind::eAggrInit )
-			{
-				auto ident = reinterpret_cast< ast::expr::AggrInit * >( stmt->getExpr() )->getIdentifier();
-
-				if ( ident )
-				{
-					m_context.defines.insert( { ident->getVariable()->getName(), doSubmit( stmt->getExpr() ) } );
-					processed = true;
-				}
-			}
 		}
 
 		if ( !processed )

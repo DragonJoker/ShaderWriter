@@ -3,7 +3,67 @@
 
 namespace
 {
-#define DummyMain writer.implementFunction< sdw::Void >( "main", [](){} )
+	void dummyMain( sdw::ShaderWriter & writer )
+	{
+		writer.implementFunction< sdw::Void >( "main"
+			, []()
+			{
+			} );
+	}
+
+	template< typename T >
+	void simpleMain( sdw::ShaderWriter & writer
+		, T const & value )
+	{
+		writer.implementFunction< sdw::Void >( "main"
+			, [&]()
+			{
+				auto out = writer.declLocale< T >( "outValue", value );
+			} );
+	}
+	
+	template< typename T >
+	void simpleMain( sdw::ShaderWriter & writer
+		, sdw::Optional< T > const & value )
+	{
+		writer.implementFunction< sdw::Void >( "main"
+			, [&]()
+			{
+				auto out = writer.declLocale< T >( "outValue", value );
+			} );
+	}
+
+	template< typename T >
+	void arrayMain( sdw::ShaderWriter & writer
+		, sdw::Array< T > const & value
+		, uint32_t size )
+	{
+		writer.implementFunction< sdw::Void >( "main"
+			, [&]()
+			{
+				auto out = writer.declLocaleArray< T >( "outValue", size );
+				for ( auto i = 0; i < size; ++i )
+				{
+					out[i] = value[i];
+				}
+			} );
+	}
+
+	template< typename T >
+	void arrayMain( sdw::ShaderWriter & writer
+		, sdw::Optional< sdw::Array< T > > const & value
+		, uint32_t size )
+	{
+		writer.implementFunction< sdw::Void >( "main"
+			, [&]()
+			{
+				auto out = writer.declLocaleArray< T >( "outValue", size );
+				for ( auto i = 0; i < size; ++i )
+				{
+					out[i] = value[i];
+				}
+			} );
+	}
 
 	template< typename T >
 	void testConstant( test::sdw_test::TestCounts & testCounts )
@@ -18,7 +78,7 @@ namespace
 			check( getArraySize( value.getType() ) == sdw::type::NotArray );
 			auto & stmt = *shader.getStatements()->back();
 			check( stmt.getKind() == sdw::stmt::Kind::eSimple );
-			DummyMain;
+			simpleMain( writer, value );
 			test::writeShader( writer, testCounts );
 		}
 		{
@@ -30,7 +90,7 @@ namespace
 			check( getNonArrayKind( value.getType() ) == sdw::typeEnum< T > );
 			check( getArraySize( value.getType() ) == sdw::type::NotArray );
 			check( shader.getStatements()->size() == count );
-			DummyMain;
+			dummyMain( writer );
 			test::writeShader( writer, testCounts );
 		}
 		{
@@ -43,7 +103,7 @@ namespace
 			check( getArraySize( value.getType() ) == sdw::type::NotArray );
 			auto & stmt = *shader.getStatements()->back();
 			check( stmt.getKind() == sdw::stmt::Kind::eSimple );
-			DummyMain;
+			simpleMain( writer, value );
 			test::writeShader( writer, testCounts );
 		}
 		{
@@ -55,7 +115,7 @@ namespace
 			check( getArraySize( value.getType() ) == 4u );
 			auto & stmt = *shader.getStatements()->back();
 			check( stmt.getKind() == sdw::stmt::Kind::eSimple );
-			DummyMain;
+			arrayMain( writer, value, 4u );
 			test::writeShader( writer, testCounts );
 		}
 		{
@@ -67,7 +127,7 @@ namespace
 			check( getNonArrayKind( value.getType() ) == sdw::typeEnum< T > );
 			check( getArraySize( value.getType() ) == 4u );
 			check( shader.getStatements()->size() == count );
-			DummyMain;
+			dummyMain( writer );
 			test::writeShader( writer, testCounts );
 		}
 		{
@@ -80,7 +140,7 @@ namespace
 			check( getArraySize( value.getType() ) == 4u );
 			auto & stmt = *shader.getStatements()->back();
 			check( stmt.getKind() == sdw::stmt::Kind::eSimple );
-			DummyMain;
+			arrayMain( writer, value, 4u );
 			test::writeShader( writer, testCounts );
 		}
 		testEnd();

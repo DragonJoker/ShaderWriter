@@ -98,7 +98,7 @@ namespace test
 		void doSetupOptions( spirv_cross::CompilerGLSL & compiler )
 		{
 			auto options = compiler.get_common_options();
-			options.vulkan_semantics = true;
+			options.vulkan_semantics = false;
 			compiler.set_common_options( options );
 		}
 
@@ -142,7 +142,7 @@ namespace test
 			auto compiler = std::make_unique< spirv_cross::CompilerGLSL >( spirv );
 			doSetEntryPoint( stage, *compiler );
 			doSetupOptions( *compiler );
-			return compileSpirV( "HLSL", *compiler );
+			return compileSpirV( "GLSL", *compiler );
 		}
 
 		std::string validateSpirVToHlsl( std::vector< uint32_t > const & spirv
@@ -226,7 +226,7 @@ namespace test
 		}
 
 		void validateSpirV( ::sdw::Shader const & shader
-			, std::vector< uint32_t > spirv
+			, std::vector< uint32_t > const & spirv
 			, std::string const & text
 			, ::sdw::SpecialisationInfo const & specialisation
 			, bool validateHlsl
@@ -386,12 +386,15 @@ namespace test
 						&& text.find( "exist in HLSL" ) == std::string::npos )
 					{
 						displayShader( "SPIR-V", textSpirv, true );
+						std::cout << "spirv_cross exception: " << exc.what() << std::endl;
+						throw;
 					}
 				}
 				catch ( std::exception & exc )
 				{
 					displayShader( "SPIR-V", textSpirv, true );
-					std::cout << exc.what() << std::endl;
+					std::cout << "std exception: " << exc.what() << std::endl;
+					throw;
 				}
 			}
 

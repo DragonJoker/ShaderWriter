@@ -208,6 +208,10 @@ namespace spirv
 		{
 			result = spv::StorageClassPushConstant;
 		}
+		else if ( var->isStatic() && var->isConstant() )
+		{
+			result = spv::StorageClassPrivate;
+		}
 
 		return result;
 	}
