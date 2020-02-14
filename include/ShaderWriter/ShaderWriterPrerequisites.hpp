@@ -28,7 +28,9 @@ See LICENSE file in root folder
 	Writer_Parameter( Prefix##TypeName##Format );\
 	Writer_ArrayParameter( Prefix##TypeName##Format )
 
-#if defined( _WIN32 )
+#if defined( ShaderWriter_Static )
+#	define SDW_API
+#elif defined( _WIN32 )
 #	if defined( ShaderWriter_Exports )
 #		define SDW_API __declspec( dllexport )
 #	else

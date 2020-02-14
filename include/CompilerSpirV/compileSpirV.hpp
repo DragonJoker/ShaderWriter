@@ -8,7 +8,9 @@ See LICENSE file in root folder
 
 #include <vector>
 
-#if defined( _WIN32 )
+#if defined( CompilerSpirV_Static )
+#	define SDWSPIRV_API
+#elif defined( _WIN32 )
 #	if defined( CompilerSpirV_Exports )
 #		define SDWSPIRV_API __declspec( dllexport )
 #	else

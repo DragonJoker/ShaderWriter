@@ -46,22 +46,38 @@ if ( SDW_GENERATE_SOURCE AND PYTHONINTERP_FOUND )
 	)
 endif ()
 
-add_library( ${PROJECT_NAME}
-	SHARED
-	${SOURCE_DIR}/GlslImageAccessNames.hpp
-	${${PROJECT_NAME}_FOLDER_HEADER_FILES}
-	${${PROJECT_NAME}_FOLDER_SOURCE_FILES}
-	${${PROJECT_NAME}_FOLDER_SCRIPT_FILES}
-)
+if ( SDW_BUILD_STATIC_COMPILERS )
+	add_library( ${PROJECT_NAME}
+		STATIC
+		${SOURCE_DIR}/GlslImageAccessNames.hpp
+		${${PROJECT_NAME}_FOLDER_HEADER_FILES}
+		${${PROJECT_NAME}_FOLDER_SOURCE_FILES}
+		${${PROJECT_NAME}_FOLDER_SCRIPT_FILES}
+	)
+	target_compile_definitions( ${PROJECT_NAME}
+		PUBLIC
+			${PROJECT_NAME}_Static
+			SDW_Has${PROJECT_NAME}
+	)
+else ()
+	add_library( ${PROJECT_NAME}
+		SHARED
+		${SOURCE_DIR}/GlslImageAccessNames.hpp
+		${${PROJECT_NAME}_FOLDER_HEADER_FILES}
+		${${PROJECT_NAME}_FOLDER_SOURCE_FILES}
+		${${PROJECT_NAME}_FOLDER_SCRIPT_FILES}
+	)
+	target_compile_definitions( ${PROJECT_NAME}
+		PRIVATE
+			${PROJECT_NAME}_Exports
+		PUBLIC
+			SDW_Has${PROJECT_NAME}
+	)
+endif ()
+
 add_library( sdw::${PROJECT_NAME}
 	ALIAS
 	${PROJECT_NAME}
-)
-target_compile_definitions( ${PROJECT_NAME}
-	PRIVATE
-		${PROJECT_NAME}_Exports
-	PUBLIC
-		SDW_Has${PROJECT_NAME}
 )
 target_link_libraries( ${PROJECT_NAME} PUBLIC
 	sdw::ShaderAST
