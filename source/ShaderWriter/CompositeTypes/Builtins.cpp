@@ -12,10 +12,12 @@ namespace sdw
 	//*************************************************************************
 
 	InVertex::InVertex( ShaderWriter & writer )
-		: gl_VertexID{ &writer.getShader(), makeIdent( writer.getTypesCache()
-			, writer.getShader().registerBuiltin( "gl_VertexID", writer.getTypesCache().getInt(), var::Flag::eShaderInput ) ) }
-		, gl_InstanceID{ &writer.getShader(), makeIdent( writer.getTypesCache()
-			, writer.getShader().registerBuiltin( "gl_InstanceID", writer.getTypesCache().getInt(), var::Flag::eShaderInput ) ) }
+		: gl_VertexIndex{ &writer.getShader(), makeIdent( writer.getTypesCache()
+			, writer.getShader().registerBuiltin( "gl_VertexIndex", writer.getTypesCache().getInt(), var::Flag::eShaderInput ) ) }
+		, gl_VertexID{ gl_VertexIndex }
+		, gl_InstanceIndex{ &writer.getShader(), makeIdent( writer.getTypesCache()
+			, writer.getShader().registerBuiltin( "gl_InstanceIndex", writer.getTypesCache().getInt(), var::Flag::eShaderInput ) ) }
+		, gl_InstanceID{ gl_InstanceIndex }
 		, gl_DrawID{ &writer.getShader(), makeIdent( writer.getTypesCache()
 			, writer.getShader().registerBuiltin( "gl_DrawID", writer.getTypesCache().getInt(), var::Flag::eShaderInput ) ) }
 		, gl_BaseVertex{ &writer.getShader(), makeIdent( writer.getTypesCache()

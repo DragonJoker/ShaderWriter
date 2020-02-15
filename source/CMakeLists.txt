@@ -16,30 +16,46 @@ if ( SDW_BUILD_EXPORTERS )
 		option( SDW_BUILD_EXPORTER_GLSL "Build GLSL exporter" ON )
 	endif ()
 	if ( SDW_BUILD_EXPORTER_GLSL )
-		set( SDW_BUILD_GLSL TRUE )
+		set( SDW_BUILD_GLSL ON )
 	else ()
-		set( SDW_BUILD_GLSL FALSE)
+		set( SDW_BUILD_GLSL OFF )
 	endif ()
 	if ( NOT DEFINED SDW_BUILD_EXPORTER_HLSL )
 		option( SDW_BUILD_EXPORTER_HLSL "Build HLSL exporter" ON )
 	endif ()
 	if ( SDW_BUILD_EXPORTER_HLSL )
-		set( SDW_BUILD_HLSL TRUE )
+		set( SDW_BUILD_HLSL ON )
 	else ()
-		set( SDW_BUILD_HLSL FALSE)
+		set( SDW_BUILD_HLSL OFF )
 	endif ()
 	if ( NOT DEFINED SDW_BUILD_EXPORTER_SPIRV )
 		option( SDW_BUILD_EXPORTER_SPIRV "Build SPIRV exporter" ON )
 	endif ()
 	if ( SDW_BUILD_EXPORTER_SPIRV )
-		set( SDW_BUILD_SPIRV TRUE )
+		set( SDW_BUILD_SPIRV ON )
 	else ()
-		set( SDW_BUILD_SPIRV FALSE)
+		set( SDW_BUILD_SPIRV OFF )
 	endif ()
 endif ()
 
 if ( NOT DEFINED SDW_GENERATE_SOURCE )
 	option( SDW_GENERATE_SOURCE "Build source files from .enum files, using Python" ON )
+endif ()
+if ( DEFINED SDW_BUILD_STATIC_EXPORTERS )
+	set( SDW_BUILD_EXPORTER_GLSL_STATIC ${SDW_BUILD_STATIC_EXPORTERS} )
+	set( SDW_BUILD_EXPORTER_HLSL_STATIC ${SDW_BUILD_STATIC_EXPORTERS} )
+	set( SDW_BUILD_EXPORTER_SPIRV_STATIC ${SDW_BUILD_STATIC_EXPORTERS} )
+else ()
+	option( SDW_BUILD_EXPORTERS "Build all exporter plugins as a static libraries" OFF )
+endif ()
+# Force static build for ShaderWriter if any exporter is staticly linked.
+if ( SDW_BUILD_EXPORTER_GLSL_STATIC
+	OR SDW_BUILD_EXPORTER_HLSL_STATIC
+	OR SDW_BUILD_EXPORTER_SPIRV_STATIC )
+	set( SDW_BUILD_STATIC_SDW ON )
+endif ()
+if ( NOT DEFINED SDW_BUILD_STATIC_SDW )
+	option( SDW_BUILD_STATIC_SDW "Build ShaderWriter as a static library" OFF )
 endif ()
 
 if ( SDW_GENERATE_SOURCE )
@@ -50,7 +66,6 @@ add_subdirectory( ShaderAST )
 add_subdirectory( ShaderWriter )
 
 if ( SDW_BUILD_EXPORTERS )
-	set( SDW_EXPORTERS_DEFINITIONS )
 	if ( SDW_BUILD_GLSL )
 		add_subdirectory( CompilerGlsl )
 	endif ()
@@ -65,11 +80,6 @@ if ( SDW_BUILD_EXPORTERS )
 
 	set( SDW_EXPORTERS_LIST
 		${SDW_EXPORTERS_LIST}
-		PARENT_SCOPE
-	)
-
-	set( SDW_EXPORTERS_DEFINITIONS
-		${SDW_EXPORTERS_DEFINITIONS}
 		PARENT_SCOPE
 	)
 endif ()

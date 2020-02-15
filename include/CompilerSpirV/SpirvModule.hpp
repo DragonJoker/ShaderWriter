@@ -47,7 +47,8 @@ namespace spirv
 		SDWSPIRV_API VariableInfo & registerVariable( std::string const & name
 			, spv::StorageClass storage
 			, ast::type::TypePtr type
-			, VariableInfo & info );
+			, VariableInfo & info
+			, spv::Id initialiser = 0u );
 		SDWSPIRV_API spv::Id registerSpecConstant( std::string name
 			, uint32_t location
 			, ast::type::TypePtr type
@@ -163,7 +164,8 @@ namespace spirv
 			, spv::StorageClass storage
 			, ast::type::TypePtr type
 			, spv::Id id
-			, std::map< std::string, spv::Id >::iterator & it );
+			, std::map< std::string, spv::Id >::iterator & it
+			, spv::Id initialiser );
 
 	private:
 		ast::type::TypesCache * m_cache;

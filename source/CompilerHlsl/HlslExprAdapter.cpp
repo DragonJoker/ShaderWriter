@@ -35,7 +35,9 @@ namespace hlsl
 			ast::type::Kind result = input;
 
 			if ( name == "gl_VertexID"
+				|| name == "gl_VertexIndex"
 				|| name == "gl_InstanceID"
+				|| name == "gl_InstanceIndex"
 				|| name == "gl_DrawID"
 				|| name == "gl_BaseVertex"
 				|| name == "gl_BaseInstance"

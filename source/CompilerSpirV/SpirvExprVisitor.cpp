@@ -202,7 +202,7 @@ namespace spirv
 		}
 		else if ( var->isSpecialisationConstant() )
 		{
-			assert( false && "Specialisation constants shouldn't be processed as variables" );
+			result = spv::StorageClassInput;
 		}
 		else if ( var->isPushConstant() )
 		{
@@ -249,6 +249,21 @@ namespace spirv
 	spv::Id ExprVisitor::submit( ast::expr::Expr * expr
 		, Block & currentBlock
 		, Module & module
+		, spv::Id initialiser
+		, LoadedVariableArray & loadedVariables )
+	{
+		bool allLiterals{ false };
+		return submit( expr
+			, currentBlock
+			, module
+			, allLiterals
+			, initialiser
+			, loadedVariables );
+	}
+
+	spv::Id ExprVisitor::submit( ast::expr::Expr * expr
+		, Block & currentBlock
+		, Module & module
 		, bool & allLiterals
 		, bool loadVariable )
 	{
@@ -279,6 +294,24 @@ namespace spirv
 		return result;
 	}
 
+	spv::Id ExprVisitor::submit( ast::expr::Expr * expr
+		, Block & currentBlock
+		, Module & module
+		, bool & allLiterals
+		, spv::Id initialiser
+		, LoadedVariableArray & loadedVariables )
+	{
+		spv::Id result{ 0u };
+		ExprVisitor vis{ result
+			, currentBlock
+			, module
+			, allLiterals
+			, initialiser
+			, loadedVariables };
+		expr->accept( &vis );
+		return result;
+	}
+
 	ExprVisitor::ExprVisitor( spv::Id & result
 		, Block & currentBlock
 		, Module & module
@@ -290,6 +323,23 @@ namespace spirv
 		, m_module{ module }
 		, m_allLiterals{ allLiterals }
 		, m_loadVariable{ loadVariable }
+		, m_initialiser{ 0u }
+		, m_loadedVariables{ loadedVariables }
+	{
+	}
+
+	ExprVisitor::ExprVisitor( spv::Id & result
+		, Block & currentBlock
+		, Module & module
+		, bool & allLiterals
+		, spv::Id initialiser
+		, LoadedVariableArray & loadedVariables )
+		: m_result{ result }
+		, m_currentBlock{ currentBlock }
+		, m_module{ module }
+		, m_allLiterals{ allLiterals }
+		, m_loadVariable{ false }
+		, m_initialiser{ initialiser }
 		, m_loadedVariables{ loadedVariables }
 	{
 	}
@@ -309,6 +359,12 @@ namespace spirv
 		, bool loadVariable )
 	{
 		return submit( expr, m_currentBlock, m_module, loadVariable, m_loadedVariables );
+	}
+
+	spv::Id ExprVisitor::doSubmit( ast::expr::Expr * expr
+		, spv::Id initialiser )
+	{
+		return submit( expr, m_currentBlock, m_module, initialiser, m_loadedVariables );
 	}
 
 	spv::Id ExprVisitor::doSubmit( ast::expr::Expr * expr
@@ -726,9 +782,16 @@ namespace spirv
 
 		if ( expr->getIdentifier() )
 		{
-			m_result = doSubmit( expr->getIdentifier(), false );
-			m_currentBlock.instructions.emplace_back( makeInstruction< StoreInstruction >( m_result, init ) );
-			m_module.putIntermediateResult( init );
+			if ( allLiterals )
+			{
+				m_result = doSubmit( expr->getIdentifier(), init );
+			}
+			else
+			{
+				m_result = doSubmit( expr->getIdentifier(), false );
+				m_currentBlock.instructions.emplace_back( makeInstruction< StoreInstruction >( m_result, init ) );
+				m_module.putIntermediateResult( init );
+			}
 		}
 		else
 		{
@@ -908,21 +971,11 @@ namespace spirv
 		}
 		else
 		{
-			if ( var->isSpecialisationConstant() )
-			{
-				m_result = m_module.registerVariable( adaptName( var->getName() )
-					, spv::StorageClassInput
-					, expr->getType()
-					, m_info ).id;
-			}
-			else
-			{
-				m_result = m_module.registerVariable( adaptName( var->getName() )
-					, getStorageClass( var )
-					, expr->getType()
-					, m_info ).id;
-			}
-
+			m_result = m_module.registerVariable( adaptName( var->getName() )
+				, getStorageClass( var )
+				, expr->getType()
+				, m_info
+				, m_initialiser ).id;
 			auto kind = var->getType()->getKind();
 
 			if ( m_loadVariable
@@ -1038,15 +1091,29 @@ namespace spirv
 	{
 		m_allLiterals = false;
 		m_module.registerType( expr->getType() );
-		auto init = doSubmit( expr->getInitialiser() );
+		bool allLiterals = true;
+		auto init = doSubmit( expr->getInitialiser(), allLiterals, m_loadVariable );
 		m_info.lvalue = true;
-		m_result = m_module.registerVariable( adaptName( expr->getIdentifier()->getVariable()->getName() )
-			, ( ( expr->getIdentifier()->getVariable()->isLocale() || expr->getIdentifier()->getVariable()->isParam() )
-				? spv::StorageClassFunction
-				: spv::StorageClassUniformConstant )
-			, expr->getType()
-			, m_info ).id;
-		m_currentBlock.instructions.emplace_back( makeInstruction< StoreInstruction >( m_result, init ) );
+		spv::StorageClass storageClass{ ( expr->getIdentifier()->getVariable()->isLocale() || expr->getIdentifier()->getVariable()->isParam() )
+			? spv::StorageClassFunction
+			: spv::StorageClassUniformConstant };
+
+		if ( allLiterals )
+		{
+			m_result = m_module.registerVariable( adaptName( expr->getIdentifier()->getVariable()->getName() )
+				, storageClass
+				, expr->getType()
+				, m_info
+				, init ).id;
+		}
+		else
+		{
+			m_result = m_module.registerVariable( adaptName( expr->getIdentifier()->getVariable()->getName() )
+				, storageClass
+				, expr->getType()
+				, m_info ).id;
+			m_currentBlock.instructions.emplace_back( makeInstruction< StoreInstruction >( m_result, init ) );
+		}
 	}
 
 	void ExprVisitor::visitIntrinsicCallExpr( ast::expr::IntrinsicCall * expr )

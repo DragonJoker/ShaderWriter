@@ -27,10 +27,14 @@ namespace sdw
 	struct InVertex
 	{
 		SDW_API InVertex( ShaderWriter & writer );
+		//in int gl_VertexIndex;
+		Int const gl_VertexIndex;
 		//in int gl_VertexID;
-		Int const gl_VertexID;
+		Int const & gl_VertexID;
+		//in int gl_InstanceIndex;
+		Int const gl_InstanceIndex;
 		//in int gl_InstanceID;
-		Int const gl_InstanceID;
+		Int const & gl_InstanceID;
 		//in int gl_DrawID;
 		Int const gl_DrawID;
 		//in int gl_BaseVertex;

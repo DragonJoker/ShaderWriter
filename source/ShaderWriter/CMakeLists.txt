@@ -94,18 +94,42 @@ if ( SDW_GENERATE_SOURCE AND PYTHONINTERP_FOUND )
 	)
 endif ()
 
-add_library( ${PROJECT_NAME}
-	SHARED
-	${INCLUDE_DIR}/Intrinsics/ImageAccessFunctions.hpp
-	${INCLUDE_DIR}/Intrinsics/TextureAccessFunctions.hpp
-	${INCLUDE_DIR}/Intrinsics/IntrinsicFunctions.hpp
-	${SOURCE_DIR}/Intrinsics/ImageAccessFunctions.cpp
-	${SOURCE_DIR}/Intrinsics/TextureAccessFunctions.cpp
-	${SOURCE_DIR}/Intrinsics/IntrinsicFunctions.cpp
-	${${PROJECT_NAME}_FOLDER_HEADER_FILES}
-	${${PROJECT_NAME}_FOLDER_SOURCE_FILES}
-	${${PROJECT_NAME}_FOLDER_SCRIPT_FILES}
-)
+if ( SDW_BUILD_STATIC_SDW )
+	add_library( ${PROJECT_NAME}
+		STATIC
+		${INCLUDE_DIR}/Intrinsics/ImageAccessFunctions.hpp
+		${INCLUDE_DIR}/Intrinsics/TextureAccessFunctions.hpp
+		${INCLUDE_DIR}/Intrinsics/IntrinsicFunctions.hpp
+		${SOURCE_DIR}/Intrinsics/ImageAccessFunctions.cpp
+		${SOURCE_DIR}/Intrinsics/TextureAccessFunctions.cpp
+		${SOURCE_DIR}/Intrinsics/IntrinsicFunctions.cpp
+		${${PROJECT_NAME}_FOLDER_HEADER_FILES}
+		${${PROJECT_NAME}_FOLDER_SOURCE_FILES}
+		${${PROJECT_NAME}_FOLDER_SCRIPT_FILES}
+	)
+	target_compile_definitions( ${PROJECT_NAME}
+		PUBLIC
+			${PROJECT_NAME}_Static
+	)
+else ()
+	add_library( ${PROJECT_NAME}
+		SHARED
+		${INCLUDE_DIR}/Intrinsics/ImageAccessFunctions.hpp
+		${INCLUDE_DIR}/Intrinsics/TextureAccessFunctions.hpp
+		${INCLUDE_DIR}/Intrinsics/IntrinsicFunctions.hpp
+		${SOURCE_DIR}/Intrinsics/ImageAccessFunctions.cpp
+		${SOURCE_DIR}/Intrinsics/TextureAccessFunctions.cpp
+		${SOURCE_DIR}/Intrinsics/IntrinsicFunctions.cpp
+		${${PROJECT_NAME}_FOLDER_HEADER_FILES}
+		${${PROJECT_NAME}_FOLDER_SOURCE_FILES}
+		${${PROJECT_NAME}_FOLDER_SCRIPT_FILES}
+	)
+	target_compile_definitions( ${PROJECT_NAME}
+		PRIVATE
+			${PROJECT_NAME}_Exports
+	)
+endif ()
+
 add_library( sdw::${PROJECT_NAME}
 	ALIAS
 	${PROJECT_NAME}
@@ -115,9 +139,6 @@ add_target_precompiled_header( ${PROJECT_NAME}
 	${SDW_SOURCE_DIR}/source/${PROJECT_NAME}/ShaderWriterPch.cpp
 	"${CMAKE_CXX_FLAGS}"
 	${${PROJECT_NAME}_FOLDER_SOURCE_FILES}
-)
-target_compile_options( ${PROJECT_NAME} PRIVATE
-	-D${PROJECT_NAME}_Exports
 )
 target_link_libraries( ${PROJECT_NAME} PUBLIC
 	sdw::ShaderAST

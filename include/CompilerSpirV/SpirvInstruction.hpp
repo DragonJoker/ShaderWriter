@@ -293,7 +293,7 @@ namespace spirv
 	using LoadInstruction = InstructionT< spv::OpLoad, true, true, 1u, false, false >;
 	using StoreInstruction = InstructionT< spv::OpStore, false, false, 2u, false, false >;
 	using CopyMemoryInstruction = VariadicInstructionT< spv::OpCopyMemory, false, false >;
-	using VariableInstruction = InstructionT< spv::OpVariable, true, true, 1u, false, false >;
+	using VariableInstruction = VariadicInstructionT< spv::OpVariable, true, true >;
 	using CompositeExtractInstruction = VariadicInstructionT< spv::OpCompositeExtract, true, true >;
 	using CompositeConstructInstruction = VariadicInstructionT< spv::OpCompositeConstruct, true, true >;
 	using VectorShuffleInstruction = VariadicInstructionT< spv::OpVectorShuffle, true, true >;

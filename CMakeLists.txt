@@ -1,29 +1,31 @@
 cmake_minimum_required( VERSION 3.15 )
 cmake_policy( VERSION 3.15 )
 
-#--------------------------------------------------------------------------------------------------
-#	Initial configurations
-#--------------------------------------------------------------------------------------------------
 # Set project name, used in folders and in workspace creation
 set( MAIN_PROJECT_NAME "ShaderWriter" )
 
-# Set project version numbers
+# Set main project version numbers
 set( VERSION_MAJOR 0 )
 set( VERSION_MINOR 1 )
 set( VERSION_BUILD 0 )
 set( VERSION_YEAR 2018 )
 
-set( SDW_BUILD_SDW TRUE )
+if ( NOT DEFINED SDW_BUILD_SDW )
+	set( SDW_BUILD_SDW ON )
+endif ()
 
 # Used to look for external modules
 set( CMAKE_MODULE_PATH
-	${CMAKE_SOURCE_DIR}/CMake
-	${CMAKE_SOURCE_DIR}/CMake/Modules
-	${CMAKE_SOURCE_DIR}/CMake/Toolchains
+	${CMAKE_MODULE_PATH}
+	${CMAKE_CURRENT_LIST_DIR}/CMake
+	${CMAKE_CURRENT_LIST_DIR}/CMake/Modules
+	${CMAKE_CURRENT_LIST_DIR}/CMake/Toolchains
 )
-set( CMAKE_TEMPLATES_DIR ${CMAKE_SOURCE_DIR}/CMake/Templates )
+set( CMAKE_TEMPLATES_DIR
+	${CMAKE_CURRENT_LIST_DIR}/CMake/Templates
+)
 
-set(CMAKE_POSITION_INDEPENDENT_CODE ON)
+set( CMAKE_POSITION_INDEPENDENT_CODE ON )
 
 # Experimental Precompiled headers support for GCC
 include( PCHSupport )
@@ -118,18 +120,22 @@ endmacro()
 #--------------------------------------------------------------------------------------------------
 #	Adding include dirs to include search path
 #--------------------------------------------------------------------------------------------------
-option( SDW_BUILD_TESTS "Build ShaderWriter test applications" OFF )
-
-set(CMAKE_DEBUG_POSTFIX "d")
-
+if ( NOT DEFINED SDW_BUILD_TESTS )
+	option( SDW_BUILD_TESTS "Build ShaderWriter test applications" OFF )
+endif ()
 if ( NOT DEFINED SDW_BUILD_EXPORTERS )
 	option( SDW_BUILD_EXPORTERS "Build exporters" ON )
 endif ()
 
+set( CMAKE_DEBUG_POSTFIX "d" )
+
 if ( MSVC OR NOT "${CMAKE_BUILD_TYPE}" STREQUAL "" )
 	set( SDW_EXPORTERS_LIST )
-	set( SDW_EXPORTERS_DEFINITIONS )
-	set( SDW_BASE_DIR "ShaderWriter" )
+
+	if ( NOT DEFINED SDW_BASE_DIR )
+		set( SDW_BASE_DIR "ShaderWriter" )
+	endif ()
+
 	add_subdirectory( source )
 
 	if ( SDW_BUILD_TESTS AND SDW_BUILD_EXPORTERS )

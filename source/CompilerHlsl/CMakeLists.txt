@@ -1,3 +1,7 @@
+if ( NOT DEFINED SDW_BUILD_EXPORTER_HLSL_STATIC )
+	option( SDW_BUILD_EXPORTER_HLSL_STATIC "Build HLSL exporter as a static library" OFF )
+endif ()
+
 project( CompilerHlsl )
 
 set( ${PROJECT_NAME}_VERSION_MAJOR 0 )
@@ -24,21 +28,36 @@ file( GLOB_RECURSE ${PROJECT_NAME}_FOLDER_SOURCE_FILES
 	${SOURCE_DIR}/*.cpp
 )
 
-add_library( ${PROJECT_NAME}
-	SHARED
-	${${PROJECT_NAME}_FOLDER_HEADER_FILES}
-	${${PROJECT_NAME}_FOLDER_SOURCE_FILES}
-	${${PROJECT_NAME}_FOLDER_SCRIPT_FILES}
-)
+if ( SDW_BUILD_EXPORTER_HLSL_STATIC )
+	add_library( ${PROJECT_NAME}
+		STATIC
+		${${PROJECT_NAME}_FOLDER_HEADER_FILES}
+		${${PROJECT_NAME}_FOLDER_SOURCE_FILES}
+		${${PROJECT_NAME}_FOLDER_SCRIPT_FILES}
+	)
+	target_compile_definitions( ${PROJECT_NAME}
+		PUBLIC
+			${PROJECT_NAME}_Static
+			SDW_Has${PROJECT_NAME}
+	)
+else ()
+	add_library( ${PROJECT_NAME}
+		SHARED
+		${${PROJECT_NAME}_FOLDER_HEADER_FILES}
+		${${PROJECT_NAME}_FOLDER_SOURCE_FILES}
+		${${PROJECT_NAME}_FOLDER_SCRIPT_FILES}
+	)
+	target_compile_definitions( ${PROJECT_NAME}
+		PRIVATE
+			${PROJECT_NAME}_Exports
+		PUBLIC
+			SDW_Has${PROJECT_NAME}
+	)
+endif ()
+
 add_library( sdw::${PROJECT_NAME}
 	ALIAS
 	${PROJECT_NAME}
-)
-target_compile_definitions( ${PROJECT_NAME}
-	PRIVATE
-		${PROJECT_NAME}_Exports
-	PUBLIC
-		SDW_Has${PROJECT_NAME}
 )
 target_link_libraries( ${PROJECT_NAME} PUBLIC
 	sdw::ShaderAST

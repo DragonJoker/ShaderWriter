@@ -6,7 +6,9 @@ See LICENSE file in root folder
 
 #include <ShaderWriter/ShaderWriterPrerequisites.hpp>
 
-#if defined( _WIN32 )
+#if defined( CompilerHlsl_Static )
+#	define SDWHLSL_API
+#elif defined( _WIN32 )
 #	if defined( CompilerHlsl_Exports )
 #		define SDWHLSL_API __declspec( dllexport )
 #	else
