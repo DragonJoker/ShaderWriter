@@ -392,7 +392,8 @@ namespace spirv
 	VariableInfo & Module::registerVariable( std::string const & name
 		, spv::StorageClass storage
 		, ast::type::TypePtr type
-		, VariableInfo & info )
+		, VariableInfo & info
+		, spv::Id initialiser )
 	{
 		auto it = m_currentScopeVariables->find( name );
 
@@ -401,7 +402,7 @@ namespace spirv
 			spv::Id id{ getNextId() };
 			addDebug( name, type, id );
 			addBuiltin( name, id );
-			addVariable( name, storage, type, id, it );
+			addVariable( name, storage, type, id, it, initialiser );
 		}
 
 		info.id = it->second;
@@ -1245,7 +1246,8 @@ namespace spirv
 		, spv::StorageClass storage
 		, ast::type::TypePtr type
 		, spv::Id id
-		, std::map< std::string, spv::Id >::iterator & it )
+		, std::map< std::string, spv::Id >::iterator & it
+		, spv::Id initialiser )
 	{
 		auto rawTypeId = registerType( type );
 
@@ -1260,16 +1262,38 @@ namespace spirv
 			&& m_currentFunction )
 		{
 			it = m_currentScopeVariables->emplace( name, id ).first;
-			m_currentFunction->variables.push_back( makeInstruction< VariableInstruction >( varTypeId
-				, id
-				, spv::Id( storage ) ) );
+
+			if ( initialiser )
+			{
+				m_currentFunction->variables.push_back( makeInstruction< VariableInstruction >( varTypeId
+					, id
+					, spv::Id( storage )
+					, initialiser ) );
+			}
+			else
+			{
+				m_currentFunction->variables.push_back( makeInstruction< VariableInstruction >( varTypeId
+					, id
+					, spv::Id( storage ) ) );
+			}
 		}
 		else
 		{
 			it = m_registeredVariables.emplace( name, id ).first;
-			globalDeclarations.push_back( makeInstruction< VariableInstruction >( varTypeId
-				, id
-				, spv::Id( storage ) ) );
+
+			if ( initialiser )
+			{
+				globalDeclarations.push_back( makeInstruction< VariableInstruction >( varTypeId
+					, id
+					, spv::Id( storage )
+					, initialiser ) );
+			}
+			else
+			{
+				globalDeclarations.push_back( makeInstruction< VariableInstruction >( varTypeId
+					, id
+					, spv::Id( storage ) ) );
+			}
 		}
 
 		m_registeredVariablesTypes.emplace( id, rawTypeId );

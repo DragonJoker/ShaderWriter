@@ -28,6 +28,11 @@ namespace spirv
 			, Module & module
 			, bool loadVariable
 			, LoadedVariableArray & loadedVariables );
+		static spv::Id submit( ast::expr::Expr * expr
+			, Block & currentBlock
+			, Module & module
+			, spv::Id initialiser
+			, LoadedVariableArray & loadedVariables );
 
 	private:
 		static spv::Id submit( ast::expr::Expr * expr
@@ -41,6 +46,12 @@ namespace spirv
 			, bool & allLiterals
 			, bool loadVariable
 			, LoadedVariableArray & loadedVariables );
+		static spv::Id submit( ast::expr::Expr * expr
+			, Block & currentBlock
+			, Module & module
+			, bool & allLiterals
+			, spv::Id initialiser
+			, LoadedVariableArray & loadedVariables );
 
 		ExprVisitor( spv::Id & result
 			, Block & currentBlock
@@ -48,11 +59,19 @@ namespace spirv
 			, bool & allLiterals
 			, bool loadVariable
 			, LoadedVariableArray & loadedVariables );
+		ExprVisitor( spv::Id & result
+			, Block & currentBlock
+			, Module & module
+			, bool & allLiterals
+			, spv::Id initialiser
+			, LoadedVariableArray & loadedVariables );
 		spv::Id doSubmit( ast::expr::Expr * expr );
 		spv::Id doSubmit( ast::expr::Expr * expr
 			, LoadedVariableArray & loadedVariables );
 		spv::Id doSubmit( ast::expr::Expr * expr
 			, bool loadVariable );
+		spv::Id doSubmit( ast::expr::Expr * expr
+			, spv::Id initialiser );
 		spv::Id doSubmit( ast::expr::Expr * expr
 			, bool loadVariable
 			, LoadedVariableArray & loadedVariables );
@@ -127,6 +146,7 @@ namespace spirv
 		Module & m_module;
 		bool & m_allLiterals;
 		bool m_loadVariable;
+		spv::Id m_initialiser;
 		LoadedVariableArray & m_loadedVariables;
 		std::array< ast::type::StructPtr, 4u > m_unsignedExtendedTypes;
 		std::array< ast::type::StructPtr, 4u > m_signedExtendedTypes;
