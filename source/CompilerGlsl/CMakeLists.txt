@@ -1,3 +1,7 @@
+if ( NOT DEFINED SDW_BUILD_EXPORTER_GLSL_STATIC )
+	option( SDW_BUILD_EXPORTER_GLSL_STATIC "Build GLSL exporter as a static library" OFF )
+endif ()
+
 project( CompilerGlsl )
 
 set( ${PROJECT_NAME}_VERSION_MAJOR 0 )
@@ -46,7 +50,7 @@ if ( SDW_GENERATE_SOURCE AND PYTHONINTERP_FOUND )
 	)
 endif ()
 
-if ( SDW_BUILD_STATIC_COMPILERS )
+if ( SDW_BUILD_EXPORTER_GLSL_STATIC )
 	add_library( ${PROJECT_NAME}
 		STATIC
 		${SOURCE_DIR}/GlslImageAccessNames.hpp

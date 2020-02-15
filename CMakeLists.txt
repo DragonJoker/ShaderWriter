@@ -13,7 +13,9 @@ set( VERSION_MINOR 1 )
 set( VERSION_BUILD 0 )
 set( VERSION_YEAR 2018 )
 
-set( SDW_BUILD_SDW TRUE )
+if ( NOT DEFINED SDW_BUILD_SDW )
+	set( SDW_BUILD_SDW ON )
+endif ()
 
 # Used to look for external modules
 set( CMAKE_MODULE_PATH
@@ -22,9 +24,11 @@ set( CMAKE_MODULE_PATH
 	${CMAKE_CURRENT_LIST_DIR}/CMake/Modules
 	${CMAKE_CURRENT_LIST_DIR}/CMake/Toolchains
 )
-set( CMAKE_TEMPLATES_DIR ${CMAKE_CURRENT_LIST_DIR}/CMake/Templates )
+set( CMAKE_TEMPLATES_DIR
+	${CMAKE_CURRENT_LIST_DIR}/CMake/Templates
+)
 
-set(CMAKE_POSITION_INDEPENDENT_CODE ON)
+set( CMAKE_POSITION_INDEPENDENT_CODE ON )
 
 # Experimental Precompiled headers support for GCC
 include( PCHSupport )
@@ -120,17 +124,17 @@ endmacro()
 #	Adding include dirs to include search path
 #--------------------------------------------------------------------------------------------------
 option( SDW_BUILD_TESTS "Build ShaderWriter test applications" OFF )
+option( SDW_BUILD_EXPORTERS "Build exporters" ON )
 
-set(CMAKE_DEBUG_POSTFIX "d")
-
-if ( NOT DEFINED SDW_BUILD_EXPORTERS )
-	option( SDW_BUILD_EXPORTERS "Build exporters" ON )
-endif ()
+set( CMAKE_DEBUG_POSTFIX "d" )
 
 if ( MSVC OR NOT "${CMAKE_BUILD_TYPE}" STREQUAL "" )
 	set( SDW_EXPORTERS_LIST )
-	set( SDW_EXPORTERS_DEFINITIONS )
-	set( SDW_BASE_DIR "ShaderWriter" )
+
+	if ( NOT DEFINED SDW_BASE_DIR )
+		set( SDW_BASE_DIR "ShaderWriter" )
+	endif ()
+
 	add_subdirectory( source )
 
 	if ( SDW_BUILD_TESTS AND SDW_BUILD_EXPORTERS )

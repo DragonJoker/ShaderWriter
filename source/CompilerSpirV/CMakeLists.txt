@@ -1,3 +1,7 @@
+if ( NOT DEFINED SDW_BUILD_EXPORTER_SPIRV_STATIC )
+	option( SDW_BUILD_EXPORTER_SPIRV_STATIC "Build SPIR-V exporter as a static library" OFF )
+endif ()
+
 project( CompilerSpirV )
 
 set( ${PROJECT_NAME}_VERSION_MAJOR 0 )
@@ -25,7 +29,7 @@ file( GLOB_RECURSE ${PROJECT_NAME}_FOLDER_SOURCE_FILES
 )
 parse_subdir_files( ${SDW_SOURCE_DIR} ${PROJECT_NAME}/spirv "spirv" )
 
-if ( SDW_BUILD_STATIC_COMPILERS )
+if ( SDW_BUILD_EXPORTER_SPIRV_STATIC )
 	add_library( ${PROJECT_NAME}
 		STATIC
 		${${PROJECT_NAME}_FOLDER_HEADER_FILES}
