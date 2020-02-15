@@ -1,13 +1,10 @@
 cmake_minimum_required( VERSION 3.15 )
 cmake_policy( VERSION 3.15 )
 
-#--------------------------------------------------------------------------------------------------
-#	Initial configurations
-#--------------------------------------------------------------------------------------------------
 # Set project name, used in folders and in workspace creation
 set( MAIN_PROJECT_NAME "ShaderWriter" )
 
-# Set project version numbers
+# Set main project version numbers
 set( VERSION_MAJOR 0 )
 set( VERSION_MINOR 1 )
 set( VERSION_BUILD 0 )
@@ -123,8 +120,12 @@ endmacro()
 #--------------------------------------------------------------------------------------------------
 #	Adding include dirs to include search path
 #--------------------------------------------------------------------------------------------------
-option( SDW_BUILD_TESTS "Build ShaderWriter test applications" OFF )
-option( SDW_BUILD_EXPORTERS "Build exporters" ON )
+if ( NOT DEFINED SDW_BUILD_TESTS )
+	option( SDW_BUILD_TESTS "Build ShaderWriter test applications" OFF )
+endif ()
+if ( NOT DEFINED SDW_BUILD_EXPORTERS )
+	option( SDW_BUILD_EXPORTERS "Build exporters" ON )
+endif ()
 
 set( CMAKE_DEBUG_POSTFIX "d" )
 

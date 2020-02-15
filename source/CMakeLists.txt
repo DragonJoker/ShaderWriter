@@ -41,9 +41,6 @@ endif ()
 if ( NOT DEFINED SDW_GENERATE_SOURCE )
 	option( SDW_GENERATE_SOURCE "Build source files from .enum files, using Python" ON )
 endif ()
-if ( NOT DEFINED SDW_BUILD_STATIC_SDW )
-	option( SDW_BUILD_STATIC_SDW "Build ShaderWriter as a static library" OFF )
-endif ()
 if ( DEFINED SDW_BUILD_STATIC_EXPORTERS )
 	set( SDW_BUILD_EXPORTER_GLSL_STATIC ${SDW_BUILD_STATIC_EXPORTERS} )
 	set( SDW_BUILD_EXPORTER_HLSL_STATIC ${SDW_BUILD_STATIC_EXPORTERS} )
@@ -51,7 +48,15 @@ if ( DEFINED SDW_BUILD_STATIC_EXPORTERS )
 else ()
 	option( SDW_BUILD_EXPORTERS "Build all exporter plugins as a static libraries" OFF )
 endif ()
-
+# Force static build for ShaderWriter if any exporter is staticly linked.
+if ( SDW_BUILD_EXPORTER_GLSL_STATIC
+	OR SDW_BUILD_EXPORTER_HLSL_STATIC
+	OR SDW_BUILD_EXPORTER_SPIRV_STATIC )
+	set( SDW_BUILD_STATIC_SDW ON )
+endif ()
+if ( NOT DEFINED SDW_BUILD_STATIC_SDW )
+	option( SDW_BUILD_STATIC_SDW "Build ShaderWriter as a static library" OFF )
+endif ()
 
 if ( SDW_GENERATE_SOURCE )
 	find_package( PythonInterp )
