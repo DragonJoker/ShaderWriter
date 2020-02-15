@@ -671,7 +671,10 @@ namespace
 			} );
 
 		test::writeShader( writer
-			, testCounts );
+			, testCounts
+			, true
+			, false // TODO: See what can be done to make this work in HLSL.
+			, true );
 		testEnd();
 	}
 

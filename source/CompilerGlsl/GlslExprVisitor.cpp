@@ -18,17 +18,30 @@ namespace glsl
 		std::string adaptName( std::string const & name
 			, GlslConfig const & writerConfig )
 		{
-			static std::map< std::string, std::string > const names
-			{
-				{ "gl_InstanceID", "gl_InstanceIndex" },
-				{ "gl_VertexID", "gl_VertexIndex" },
-			};
-
 			if ( writerConfig.vulkanGlsl )
 			{
-				auto it = names.find( name );
+				static std::map< std::string, std::string > const toVkNames
+				{
+					{ "gl_InstanceID", "gl_InstanceIndex" },
+					{ "gl_VertexID", "gl_VertexIndex" },
+				};
+				auto it = toVkNames.find( name );
 
-				if ( it != names.end() )
+				if ( it != toVkNames.end() )
+				{
+					return it->second;
+				}
+			}
+			else
+			{
+				static std::map< std::string, std::string > const toGlNames
+				{
+					{ "gl_InstanceIndex", "gl_InstanceID" },
+					{ "gl_VertexIndex", "gl_VertexID" },
+				};
+				auto it = toGlNames.find( name );
+
+				if ( it != toGlNames.end() )
 				{
 					return it->second;
 				}
