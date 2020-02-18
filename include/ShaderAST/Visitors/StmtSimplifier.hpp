@@ -1,15 +1,15 @@
 /*
 See LICENSE file in root folder
 */
-#ifndef ___SDW_SwizzleSimplifier_H___
-#define ___SDW_SwizzleSimplifier_H___
+#ifndef ___SDW_StmtSimplifier_H___
+#define ___SDW_StmtSimplifier_H___
 #pragma once
 
 #include "ShaderAST/Visitors/CloneStmt.hpp"
 
 namespace ast
 {
-	class SwizzleSimplifier
+	class StmtSimplifier
 		: public StmtCloner
 	{
 	public:
@@ -17,7 +17,7 @@ namespace ast
 			, stmt::Container * stmt );
 
 	private:
-		SwizzleSimplifier( type::TypesCache & cache
+		StmtSimplifier( type::TypesCache & cache
 			, stmt::ContainerPtr & result );
 
 		expr::ExprPtr doSubmit( expr::Expr * expr )override;

@@ -10,7 +10,7 @@ See LICENSE file in root folder
 #include <ShaderWriter/Shader.hpp>
 
 #include <ShaderAST/Visitors/StmtSpecialiser.hpp>
-#include <ShaderAST/Visitors/SwizzleSimplifier.hpp>
+#include <ShaderAST/Visitors/StmtSimplifier.hpp>
 
 namespace glsl
 {
@@ -18,7 +18,7 @@ namespace glsl
 		, ast::SpecialisationInfo const & specialisation
 		, GlslConfig const & writerConfig )
 	{
-		auto simplified = ast::SwizzleSimplifier::submit( shader.getTypesCache()
+		auto simplified = ast::StmtSimplifier::submit( shader.getTypesCache()
 			, shader.getStatements() );
 		auto intrinsicsConfig = glsl::StmtConfigFiller::submit( simplified.get() );
 		auto glStatements = glsl::StmtAdapter::submit( shader.getTypesCache()
