@@ -88,7 +88,751 @@ namespace ast
 			return result;
 		}
 
-		class ExprSwizzleSimplifier
+		template< expr::LiteralType TargetT
+			, typename SourceT
+			, typename Enable = void >
+		struct Converter
+		{
+			static expr::LiteralValueType< TargetT > convert( SourceT const & v )
+			{
+				return expr::LiteralValueType< TargetT >( v );
+			}
+		};
+
+		template< expr::LiteralType TargetT
+			, typename SourceT >
+		struct Converter< TargetT, SourceT, std::enable_if_t< ( TargetT == expr::LiteralType::eBool ) && !std::is_same_v< SourceT, bool > > >
+		{
+			static expr::LiteralValueType< TargetT > convert( SourceT const & v )
+			{
+				return v != SourceT{};
+			}
+		};
+
+		template< expr::LiteralType TargetT
+			, typename SourceT >
+			struct Converter< TargetT, SourceT, std::enable_if_t< ( TargetT == expr::LiteralType::eBool ) && std::is_same_v< SourceT, bool > > >
+		{
+			static expr::LiteralValueType< TargetT > convert( SourceT const & v )
+			{
+				return v;
+			}
+		};
+
+		template< expr::LiteralType TargetT
+			, typename SourceT >
+			struct Converter< TargetT, SourceT, std::enable_if_t< ( TargetT != expr::LiteralType::eBool ) && std::is_same_v< SourceT, bool > > >
+		{
+			static expr::LiteralValueType< TargetT > convert( SourceT const & v )
+			{
+				return v ? expr::LiteralValueType< TargetT >( 1 ) : expr::LiteralValueType< TargetT >{};
+			}
+		};
+
+		template< expr::LiteralType TargetT, typename SourceT >
+		expr::LiteralValueType< TargetT > convert( SourceT const & v )
+		{
+			return Converter< TargetT, SourceT >::convert( v );
+		}
+
+		template< typename LhsTypeT >
+		struct AddLiterals
+		{
+			static expr::LiteralPtr replace( type::TypesCache & cache
+				, LhsTypeT const & lhs
+				, expr::Literal const & rhs )
+			{
+				switch ( rhs.getLiteralType() )
+				{
+				case expr::LiteralType::eInt:
+					return expr::makeLiteral( cache
+						, ( convert< expr::LiteralType::eInt >( lhs )
+							+ rhs.getValue< expr::LiteralType::eInt >() ) );
+				case expr::LiteralType::eUInt:
+					return expr::makeLiteral( cache
+						, ( convert< expr::LiteralType::eUInt >( lhs )
+							+ rhs.getValue< expr::LiteralType::eUInt >() ) );
+				case expr::LiteralType::eFloat:
+					return expr::makeLiteral( cache
+						, ( convert< expr::LiteralType::eFloat >( lhs )
+							+ rhs.getValue< expr::LiteralType::eFloat >() ) );
+				case expr::LiteralType::eDouble:
+					return expr::makeLiteral( cache
+						, ( convert< expr::LiteralType::eDouble >( lhs )
+							+ rhs.getValue< expr::LiteralType::eDouble >() ) );
+				case expr::LiteralType::eBool:
+				default:
+					assert( false && "Unexpected operand type for + operator" );
+					return nullptr;
+				}
+			}
+		};
+
+		template< typename LhsTypeT >
+		struct DivideLiterals
+		{
+			static expr::LiteralPtr replace( type::TypesCache & cache
+				, LhsTypeT const & lhs
+				, expr::Literal const & rhs )
+			{
+				switch ( rhs.getLiteralType() )
+				{
+				case expr::LiteralType::eInt:
+					return expr::makeLiteral( cache
+						, ( convert< expr::LiteralType::eInt >( lhs )
+							/ rhs.getValue< expr::LiteralType::eInt >() ) );
+				case expr::LiteralType::eUInt:
+					return expr::makeLiteral( cache
+						, ( convert< expr::LiteralType::eUInt >( lhs )
+							/ rhs.getValue< expr::LiteralType::eUInt >() ) );
+				case expr::LiteralType::eFloat:
+					return expr::makeLiteral( cache
+						, ( convert< expr::LiteralType::eFloat >( lhs )
+							/ rhs.getValue< expr::LiteralType::eFloat >() ) );
+				case expr::LiteralType::eDouble:
+					return expr::makeLiteral( cache
+						, ( convert< expr::LiteralType::eDouble >( lhs )
+							/ rhs.getValue< expr::LiteralType::eDouble >() ) );
+				case expr::LiteralType::eBool:
+				default:
+					assert( false && "Unexpected operand type for / operator" );
+					return nullptr;
+				}
+			}
+		};
+
+		template< typename LhsTypeT >
+		struct SubtractLiterals
+		{
+			static expr::LiteralPtr replace( type::TypesCache & cache
+				, LhsTypeT const & lhs
+				, expr::Literal const & rhs )
+			{
+				switch ( rhs.getLiteralType() )
+				{
+				case expr::LiteralType::eInt:
+					return expr::makeLiteral( cache
+						, ( convert< expr::LiteralType::eInt >( lhs )
+							- rhs.getValue< expr::LiteralType::eInt >() ) );
+				case expr::LiteralType::eUInt:
+					return expr::makeLiteral( cache
+						, ( convert< expr::LiteralType::eUInt >( lhs )
+							- rhs.getValue< expr::LiteralType::eUInt >() ) );
+				case expr::LiteralType::eFloat:
+					return expr::makeLiteral( cache
+						, ( convert< expr::LiteralType::eFloat >( lhs )
+							- rhs.getValue< expr::LiteralType::eFloat >() ) );
+				case expr::LiteralType::eDouble:
+					return expr::makeLiteral( cache
+						, ( convert< expr::LiteralType::eDouble >( lhs )
+							- rhs.getValue< expr::LiteralType::eDouble >() ) );
+				case expr::LiteralType::eBool:
+				default:
+					assert( false && "Unexpected operand type for - operator" );
+					return nullptr;
+				}
+			}
+		};
+
+		template< typename LhsTypeT >
+		struct MultiplyLiterals
+		{
+			static expr::LiteralPtr replace( type::TypesCache & cache
+				, LhsTypeT const & lhs
+				, expr::Literal const & rhs )
+			{
+				switch ( rhs.getLiteralType() )
+				{
+				case expr::LiteralType::eInt:
+					return expr::makeLiteral( cache
+						, ( convert< expr::LiteralType::eInt >( lhs )
+							* rhs.getValue< expr::LiteralType::eInt >() ) );
+				case expr::LiteralType::eUInt:
+					return expr::makeLiteral( cache
+						, ( convert< expr::LiteralType::eUInt >( lhs )
+							* rhs.getValue< expr::LiteralType::eUInt >() ) );
+				case expr::LiteralType::eFloat:
+					return expr::makeLiteral( cache
+						, ( convert< expr::LiteralType::eFloat >( lhs )
+							* rhs.getValue< expr::LiteralType::eFloat >() ) );
+				case expr::LiteralType::eDouble:
+					return expr::makeLiteral( cache
+						, ( convert< expr::LiteralType::eDouble >( lhs )
+							* rhs.getValue< expr::LiteralType::eDouble >() ) );
+				case expr::LiteralType::eBool:
+				default:
+					assert( false && "Unexpected operand type for * operator" );
+					return nullptr;
+				}
+			}
+		};
+
+		template< typename LhsTypeT >
+		struct ModuloLiterals
+		{
+			static expr::LiteralPtr replace( type::TypesCache & cache
+				, LhsTypeT const & lhs
+				, expr::Literal const & rhs )
+			{
+				expr::LiteralPtr result;
+
+				switch ( rhs.getLiteralType() )
+				{
+				case expr::LiteralType::eInt:
+					return expr::makeLiteral( cache
+						, ( convert< expr::LiteralType::eInt >( lhs )
+							% rhs.getValue< expr::LiteralType::eInt >() ) );
+				case expr::LiteralType::eUInt:
+					return expr::makeLiteral( cache
+						, ( convert< expr::LiteralType::eUInt >( lhs )
+							% rhs.getValue< expr::LiteralType::eUInt >() ) );
+				case expr::LiteralType::eBool:
+				case expr::LiteralType::eFloat:
+				case expr::LiteralType::eDouble:
+				default:
+					assert( false && "Unexpected operand type for % operator" );
+					return nullptr;
+				}
+			}
+		};
+
+		template< typename LhsTypeT >
+		struct LShiftLiterals
+		{
+			static expr::LiteralPtr replace( type::TypesCache & cache
+				, LhsTypeT const & lhs
+				, expr::Literal const & rhs )
+			{
+				switch ( rhs.getLiteralType() )
+				{
+				case expr::LiteralType::eInt:
+					return expr::makeLiteral( cache
+						, ( convert< expr::LiteralType::eInt >( lhs )
+							<< rhs.getValue< expr::LiteralType::eInt >() ) );
+				case expr::LiteralType::eUInt:
+					return expr::makeLiteral( cache
+						, ( convert< expr::LiteralType::eUInt >( lhs )
+							<< rhs.getValue< expr::LiteralType::eUInt >() ) );
+				case expr::LiteralType::eBool:
+				case expr::LiteralType::eFloat:
+				case expr::LiteralType::eDouble:
+				default:
+					assert( false && "Unexpected operand type for << operator" );
+					return nullptr;
+				}
+			}
+		};
+
+		template< typename LhsTypeT >
+		struct RShiftLiterals
+		{
+			static expr::LiteralPtr replace( type::TypesCache & cache
+				, LhsTypeT const & lhs
+				, expr::Literal const & rhs )
+			{
+				switch ( rhs.getLiteralType() )
+				{
+				case expr::LiteralType::eInt:
+					return expr::makeLiteral( cache
+						, ( convert< expr::LiteralType::eInt >( lhs )
+							>> rhs.getValue< expr::LiteralType::eInt >() ) );
+				case expr::LiteralType::eUInt:
+					return expr::makeLiteral( cache
+						, ( convert< expr::LiteralType::eUInt >( lhs )
+							>> rhs.getValue< expr::LiteralType::eUInt >() ) );
+				case expr::LiteralType::eBool:
+				case expr::LiteralType::eFloat:
+				case expr::LiteralType::eDouble:
+				default:
+					assert( false && "Unexpected operand type for >> operator" );
+					return nullptr;
+				}
+			}
+		};
+
+		template< typename LhsTypeT >
+		struct BitAndLiterals
+		{
+			static expr::LiteralPtr replace( type::TypesCache & cache
+				, LhsTypeT const & lhs
+				, expr::Literal const & rhs )
+			{
+				switch ( rhs.getLiteralType() )
+				{
+				case expr::LiteralType::eInt:
+					return expr::makeLiteral( cache
+						, ( convert< expr::LiteralType::eInt >( lhs )
+							& rhs.getValue< expr::LiteralType::eInt >() ) );
+				case expr::LiteralType::eUInt:
+					return expr::makeLiteral( cache
+						, ( convert< expr::LiteralType::eUInt >( lhs )
+							& rhs.getValue< expr::LiteralType::eUInt >() ) );
+				case expr::LiteralType::eBool:
+				case expr::LiteralType::eFloat:
+				case expr::LiteralType::eDouble:
+				default:
+					assert( false && "Unexpected operand type for & operator" );
+					return nullptr;
+				}
+			}
+		};
+
+		template< typename LhsTypeT >
+		struct BitOrLiterals
+		{
+			static expr::LiteralPtr replace( type::TypesCache & cache
+				, LhsTypeT const & lhs
+				, expr::Literal const & rhs )
+			{
+				switch ( rhs.getLiteralType() )
+				{
+				case expr::LiteralType::eInt:
+					return expr::makeLiteral( cache
+						, ( convert< expr::LiteralType::eInt >( lhs )
+							| rhs.getValue< expr::LiteralType::eInt >() ) );
+				case expr::LiteralType::eUInt:
+					return expr::makeLiteral( cache
+						, ( convert< expr::LiteralType::eUInt >( lhs )
+							| rhs.getValue< expr::LiteralType::eUInt >() ) );
+				case expr::LiteralType::eBool:
+				case expr::LiteralType::eFloat:
+				case expr::LiteralType::eDouble:
+				default:
+					assert( false && "Unexpected operand type for | operator" );
+					return nullptr;
+				}
+			}
+		};
+
+		template< typename LhsTypeT >
+		struct BitXorLiterals
+		{
+			static expr::LiteralPtr replace( type::TypesCache & cache
+				, LhsTypeT const & lhs
+				, expr::Literal const & rhs )
+			{
+				switch ( rhs.getLiteralType() )
+				{
+				case expr::LiteralType::eInt:
+					return expr::makeLiteral( cache
+						, ( convert< expr::LiteralType::eInt >( lhs )
+							^ rhs.getValue< expr::LiteralType::eInt >() ) );
+				case expr::LiteralType::eUInt:
+					return expr::makeLiteral( cache
+						, ( convert< expr::LiteralType::eUInt >( lhs )
+							^ rhs.getValue< expr::LiteralType::eUInt >() ) );
+				case expr::LiteralType::eBool:
+				case expr::LiteralType::eFloat:
+				case expr::LiteralType::eDouble:
+				default:
+					assert( false && "Unexpected operand type for ^ operator" );
+					return nullptr;
+				}
+			}
+		};
+
+		template< typename LhsTypeT >
+		struct LogAndLiterals
+		{
+			static expr::LiteralPtr replace( type::TypesCache & cache
+				, LhsTypeT const & lhs
+				, expr::Literal const & rhs )
+			{
+				switch ( rhs.getLiteralType() )
+				{
+				case expr::LiteralType::eBool:
+					return expr::makeLiteral( cache
+						, ( convert< expr::LiteralType::eBool >( lhs )
+							&& rhs.getValue< expr::LiteralType::eBool >() ) );
+				case expr::LiteralType::eInt:
+					return expr::makeLiteral( cache
+						, ( convert< expr::LiteralType::eBool >( lhs )
+							&& convert< expr::LiteralType::eBool >( rhs.getValue< expr::LiteralType::eInt >() ) ) );
+				case expr::LiteralType::eUInt:
+					return expr::makeLiteral( cache
+						, ( convert< expr::LiteralType::eBool >( lhs )
+							&& convert< expr::LiteralType::eBool >( rhs.getValue< expr::LiteralType::eUInt >() ) ) );
+				case expr::LiteralType::eFloat:
+					return expr::makeLiteral( cache
+						, ( convert< expr::LiteralType::eBool >( lhs )
+							&& convert< expr::LiteralType::eBool >( rhs.getValue< expr::LiteralType::eFloat >() ) ) );
+				case expr::LiteralType::eDouble:
+					return expr::makeLiteral( cache
+						, ( convert< expr::LiteralType::eBool >( lhs )
+							&& convert< expr::LiteralType::eBool >( rhs.getValue< expr::LiteralType::eDouble >() ) ) );
+				default:
+					assert( false && "Unexpected operand type for ^ operator" );
+					return nullptr;
+				}
+			}
+		};
+
+		template< typename LhsTypeT >
+		struct LogOrLiterals
+		{
+			static expr::LiteralPtr replace( type::TypesCache & cache
+				, LhsTypeT const & lhs
+				, expr::Literal const & rhs )
+			{
+				switch ( rhs.getLiteralType() )
+				{
+				case expr::LiteralType::eBool:
+					return expr::makeLiteral( cache
+						, ( convert< expr::LiteralType::eBool >( lhs )
+							|| rhs.getValue< expr::LiteralType::eBool >() ) );
+				case expr::LiteralType::eInt:
+					return expr::makeLiteral( cache
+						, ( convert< expr::LiteralType::eBool >( lhs )
+							|| convert< expr::LiteralType::eBool >( rhs.getValue< expr::LiteralType::eInt >() ) ) );
+				case expr::LiteralType::eUInt:
+					return expr::makeLiteral( cache
+						, ( convert< expr::LiteralType::eBool >( lhs )
+							|| convert< expr::LiteralType::eBool >( rhs.getValue< expr::LiteralType::eUInt >() ) ) );
+				case expr::LiteralType::eFloat:
+					return expr::makeLiteral( cache
+						, ( convert< expr::LiteralType::eBool >( lhs )
+							|| convert< expr::LiteralType::eBool >( rhs.getValue< expr::LiteralType::eFloat >() ) ) );
+				case expr::LiteralType::eDouble:
+					return expr::makeLiteral( cache
+						, ( convert< expr::LiteralType::eBool >( lhs )
+							|| convert< expr::LiteralType::eBool >( rhs.getValue< expr::LiteralType::eDouble >() ) ) );
+				default:
+					assert( false && "Unexpected operand type for ^ operator" );
+					return nullptr;
+				}
+			}
+		};
+
+		template< typename LhsTypeT >
+		struct CompEqualLiterals
+		{
+			static expr::LiteralPtr replace( type::TypesCache & cache
+				, LhsTypeT const & lhs
+				, expr::Literal const & rhs )
+			{
+				switch ( rhs.getLiteralType() )
+				{
+				case expr::LiteralType::eBool:
+					return expr::makeLiteral( cache
+						, ( convert< expr::LiteralType::eBool >( lhs )
+							== rhs.getValue< expr::LiteralType::eBool >() ) );
+				case expr::LiteralType::eInt:
+					return expr::makeLiteral( cache
+						, ( convert< expr::LiteralType::eInt >( lhs )
+							== rhs.getValue< expr::LiteralType::eInt >() ) );
+				case expr::LiteralType::eUInt:
+					return expr::makeLiteral( cache
+						, ( convert< expr::LiteralType::eUInt >( lhs )
+							== rhs.getValue< expr::LiteralType::eUInt >() ) );
+				case expr::LiteralType::eFloat:
+					return expr::makeLiteral( cache
+						, ( convert< expr::LiteralType::eFloat >( lhs )
+							== rhs.getValue< expr::LiteralType::eFloat >() ) );
+				case expr::LiteralType::eDouble:
+					return expr::makeLiteral( cache
+						, ( convert< expr::LiteralType::eDouble >( lhs )
+							== rhs.getValue< expr::LiteralType::eDouble >() ) );
+				default:
+					assert( false && "Unexpected operand type for ^ operator" );
+					return nullptr;
+				}
+			}
+		};
+
+		template< typename LhsTypeT >
+		struct CompNEqualLiterals
+		{
+			static expr::LiteralPtr replace( type::TypesCache & cache
+				, LhsTypeT const & lhs
+				, expr::Literal const & rhs )
+			{
+				switch ( rhs.getLiteralType() )
+				{
+				case expr::LiteralType::eBool:
+					return expr::makeLiteral( cache
+						, ( convert< expr::LiteralType::eBool >( lhs )
+							!= rhs.getValue< expr::LiteralType::eBool >() ) );
+				case expr::LiteralType::eInt:
+					return expr::makeLiteral( cache
+						, ( convert< expr::LiteralType::eInt >( lhs )
+							!= rhs.getValue< expr::LiteralType::eInt >() ) );
+				case expr::LiteralType::eUInt:
+					return expr::makeLiteral( cache
+						, ( convert< expr::LiteralType::eUInt >( lhs )
+							!= rhs.getValue< expr::LiteralType::eUInt >() ) );
+				case expr::LiteralType::eFloat:
+					return expr::makeLiteral( cache
+						, ( convert< expr::LiteralType::eFloat >( lhs )
+							!= rhs.getValue< expr::LiteralType::eFloat >() ) );
+				case expr::LiteralType::eDouble:
+					return expr::makeLiteral( cache
+						, ( convert< expr::LiteralType::eDouble >( lhs )
+							!= rhs.getValue< expr::LiteralType::eDouble >() ) );
+				default:
+					assert( false && "Unexpected operand type for ^ operator" );
+					return nullptr;
+				}
+			}
+		};
+
+		template< typename LhsTypeT >
+		struct CompLessLiterals
+		{
+			static expr::LiteralPtr replace( type::TypesCache & cache
+				, LhsTypeT const & lhs
+				, expr::Literal const & rhs )
+			{
+				switch ( rhs.getLiteralType() )
+				{
+				case expr::LiteralType::eBool:
+					return expr::makeLiteral( cache
+						, ( convert< expr::LiteralType::eBool >( lhs )
+							< rhs.getValue< expr::LiteralType::eBool >() ) );
+				case expr::LiteralType::eInt:
+					return expr::makeLiteral( cache
+						, ( convert< expr::LiteralType::eInt >( lhs )
+							< rhs.getValue< expr::LiteralType::eInt >() ) );
+				case expr::LiteralType::eUInt:
+					return expr::makeLiteral( cache
+						, ( convert< expr::LiteralType::eUInt >( lhs )
+							< rhs.getValue< expr::LiteralType::eUInt >() ) );
+				case expr::LiteralType::eFloat:
+					return expr::makeLiteral( cache
+						, ( convert< expr::LiteralType::eFloat >( lhs )
+							< rhs.getValue< expr::LiteralType::eFloat >() ) );
+				case expr::LiteralType::eDouble:
+					return expr::makeLiteral( cache
+						, ( convert< expr::LiteralType::eDouble >( lhs )
+							< rhs.getValue< expr::LiteralType::eDouble >() ) );
+				default:
+					assert( false && "Unexpected operand type for ^ operator" );
+					return nullptr;
+				}
+			}
+		};
+
+		template< typename LhsTypeT >
+		struct CompLEqualLiterals
+		{
+			static expr::LiteralPtr replace( type::TypesCache & cache
+				, LhsTypeT const & lhs
+				, expr::Literal const & rhs )
+			{
+				switch ( rhs.getLiteralType() )
+				{
+				case expr::LiteralType::eBool:
+					return expr::makeLiteral( cache
+						, ( convert< expr::LiteralType::eBool >( lhs )
+							<= rhs.getValue< expr::LiteralType::eBool >() ) );
+				case expr::LiteralType::eInt:
+					return expr::makeLiteral( cache
+						, ( convert< expr::LiteralType::eInt >( lhs )
+							<= rhs.getValue< expr::LiteralType::eInt >() ) );
+				case expr::LiteralType::eUInt:
+					return expr::makeLiteral( cache
+						, ( convert< expr::LiteralType::eUInt >( lhs )
+							<= rhs.getValue< expr::LiteralType::eUInt >() ) );
+				case expr::LiteralType::eFloat:
+					return expr::makeLiteral( cache
+						, ( convert< expr::LiteralType::eFloat >( lhs )
+							<= rhs.getValue< expr::LiteralType::eFloat >() ) );
+				case expr::LiteralType::eDouble:
+					return expr::makeLiteral( cache
+						, ( convert< expr::LiteralType::eDouble >( lhs )
+							<= rhs.getValue< expr::LiteralType::eDouble >() ) );
+				default:
+					assert( false && "Unexpected operand type for ^ operator" );
+					return nullptr;
+				}
+			}
+		};
+
+		template< typename LhsTypeT >
+		struct CompGreaterLiterals
+		{
+			static expr::LiteralPtr replace( type::TypesCache & cache
+				, LhsTypeT const & lhs
+				, expr::Literal const & rhs )
+			{
+				switch ( rhs.getLiteralType() )
+				{
+				case expr::LiteralType::eBool:
+					return expr::makeLiteral( cache
+						, ( convert< expr::LiteralType::eBool >( lhs )
+							> rhs.getValue< expr::LiteralType::eBool >() ) );
+				case expr::LiteralType::eInt:
+					return expr::makeLiteral( cache
+						, ( convert< expr::LiteralType::eInt >( lhs )
+							> rhs.getValue< expr::LiteralType::eInt >() ) );
+				case expr::LiteralType::eUInt:
+					return expr::makeLiteral( cache
+						, ( convert< expr::LiteralType::eUInt >( lhs )
+							> rhs.getValue< expr::LiteralType::eUInt >() ) );
+				case expr::LiteralType::eFloat:
+					return expr::makeLiteral( cache
+						, ( convert< expr::LiteralType::eFloat >( lhs )
+							> rhs.getValue< expr::LiteralType::eFloat >() ) );
+				case expr::LiteralType::eDouble:
+					return expr::makeLiteral( cache
+						, ( convert< expr::LiteralType::eDouble >( lhs )
+							> rhs.getValue< expr::LiteralType::eDouble >() ) );
+				default:
+					assert( false && "Unexpected operand type for ^ operator" );
+					return nullptr;
+				}
+			}
+		};
+
+		template< typename LhsTypeT >
+		struct CompGEqualLiterals
+		{
+			static expr::LiteralPtr replace( type::TypesCache & cache
+				, LhsTypeT const & lhs
+				, expr::Literal const & rhs )
+			{
+				switch ( rhs.getLiteralType() )
+				{
+				case expr::LiteralType::eBool:
+					return expr::makeLiteral( cache
+						, ( convert< expr::LiteralType::eBool >( lhs )
+							>= rhs.getValue< expr::LiteralType::eBool >() ) );
+				case expr::LiteralType::eInt:
+					return expr::makeLiteral( cache
+						, ( convert< expr::LiteralType::eInt >( lhs )
+							>= rhs.getValue< expr::LiteralType::eInt >() ) );
+				case expr::LiteralType::eUInt:
+					return expr::makeLiteral( cache
+						, ( convert< expr::LiteralType::eUInt >( lhs )
+							>= rhs.getValue< expr::LiteralType::eUInt >() ) );
+				case expr::LiteralType::eFloat:
+					return expr::makeLiteral( cache
+						, ( convert< expr::LiteralType::eFloat >( lhs )
+							>= rhs.getValue< expr::LiteralType::eFloat >() ) );
+				case expr::LiteralType::eDouble:
+					return expr::makeLiteral( cache
+						, ( convert< expr::LiteralType::eDouble >( lhs )
+							>= rhs.getValue< expr::LiteralType::eDouble >() ) );
+				default:
+					assert( false && "Unexpected operand type for ^ operator" );
+					return nullptr;
+				}
+			}
+		};
+
+		template< template< typename TypeT > typename FuncT >
+		expr::LiteralPtr replaceLiterals( type::TypesCache & cache
+			, expr::Literal const & lhs
+			, expr::Literal const & rhs )
+		{
+			switch ( lhs.getLiteralType() )
+			{
+			case expr::LiteralType::eBool:
+				return FuncT< bool >::replace( cache, lhs.getValue< expr::LiteralType::eBool >(), rhs );
+			case expr::LiteralType::eInt:
+				return FuncT< int32_t >::replace( cache, lhs.getValue< expr::LiteralType::eInt >(), rhs );
+			case expr::LiteralType::eUInt:
+				return FuncT< uint32_t >::replace( cache, lhs.getValue< expr::LiteralType::eUInt >(), rhs );
+			case expr::LiteralType::eFloat:
+				return FuncT< float >::replace( cache, lhs.getValue< expr::LiteralType::eFloat >(), rhs );
+			case expr::LiteralType::eDouble:
+				return FuncT< double >::replace( cache, lhs.getValue< expr::LiteralType::eDouble >(), rhs );
+			default:
+				assert( false && "Unexpected operand type" );
+				return nullptr;
+			}
+		}
+
+		struct NegateLiteral
+		{
+			static expr::LiteralPtr replace( type::TypesCache & cache
+				, expr::Literal const & operand )
+			{
+				switch ( operand.getLiteralType() )
+				{
+				case expr::LiteralType::eBool:
+					return expr::makeLiteral( cache
+						, !operand.getValue< expr::LiteralType::eBool >() );
+				case expr::LiteralType::eInt:
+					return expr::makeLiteral( cache
+						, -operand.getValue< expr::LiteralType::eInt >() );
+				case expr::LiteralType::eUInt:
+					return expr::makeLiteral( cache
+					, ~operand.getValue< expr::LiteralType::eUInt >() );
+				case expr::LiteralType::eFloat:
+					return expr::makeLiteral( cache
+						, -operand.getValue< expr::LiteralType::eFloat >() );
+				case expr::LiteralType::eDouble:
+					return expr::makeLiteral( cache
+						, -operand.getValue< expr::LiteralType::eDouble >() );
+				default:
+					assert( false && "Unexpected operand type for ^ operator" );
+					return nullptr;
+				}
+			}
+		};
+
+		struct BitNegateLiteral
+		{
+			static expr::LiteralPtr replace( type::TypesCache & cache
+				, expr::Literal const & operand )
+			{
+				switch ( operand.getLiteralType() )
+				{
+				case expr::LiteralType::eBool:
+					return expr::makeLiteral( cache
+						, !operand.getValue< expr::LiteralType::eBool >() );
+				case expr::LiteralType::eInt:
+					return expr::makeLiteral( cache
+						, ~operand.getValue< expr::LiteralType::eInt >() );
+				case expr::LiteralType::eUInt:
+					return expr::makeLiteral( cache
+						, ~operand.getValue< expr::LiteralType::eUInt >() );
+				case expr::LiteralType::eFloat:
+				case expr::LiteralType::eDouble:
+				default:
+					assert( false && "Unexpected operand type for unary not" );
+					return nullptr;
+				}
+			}
+		};
+
+		struct LogNegateLiteral
+		{
+			static expr::LiteralPtr replace( type::TypesCache & cache
+				, expr::Literal const & operand )
+			{
+				switch ( operand.getLiteralType() )
+				{
+				case expr::LiteralType::eBool:
+					return expr::makeLiteral( cache
+						, !operand.getValue < expr::LiteralType::eBool >() );
+				case expr::LiteralType::eInt:
+					return expr::makeLiteral( cache
+						, operand.getValue< expr::LiteralType::eInt >() == 0 );
+				case expr::LiteralType::eUInt:
+					return expr::makeLiteral( cache
+						, operand.getValue< expr::LiteralType::eUInt >() == 0u );
+				case expr::LiteralType::eFloat:
+					return expr::makeLiteral( cache
+						, operand.getValue< expr::LiteralType::eFloat >() == 0.0f );
+				case expr::LiteralType::eDouble:
+					return expr::makeLiteral( cache
+						, operand.getValue< expr::LiteralType::eDouble >() == 0.0 );
+				default:
+					assert( false && "Unexpected operand type for unary not" );
+					return nullptr;
+				}
+			}
+		};
+
+		template< typename FuncT >
+		expr::LiteralPtr replaceLiteral( type::TypesCache & cache
+			, expr::Literal const & operand )
+		{
+			return FuncT::replace( cache, operand );
+		}
+
+		class ExprSimplifier
 			: public ExprCloner
 		{
 		public:
@@ -96,7 +840,7 @@ namespace ast
 				, expr::Expr * expr )
 			{
 				expr::ExprPtr result;
-				ExprSwizzleSimplifier vis{ cache, result };
+				ExprSimplifier vis{ cache, result };
 				expr->accept( &vis );
 				return result;
 			}
@@ -108,7 +852,7 @@ namespace ast
 			}
 
 		private:
-			ExprSwizzleSimplifier( type::TypesCache & cache
+			ExprSimplifier( type::TypesCache & cache
 				, expr::ExprPtr & result )
 				: ExprCloner{ result }
 				, m_cache{ cache }
@@ -119,9 +863,247 @@ namespace ast
 			expr::ExprPtr doSubmit( expr::Expr * expr )override
 			{
 				expr::ExprPtr result;
-				ExprSwizzleSimplifier vis{ m_cache, result };
+				ExprSimplifier vis{ m_cache, result };
 				expr->accept( &vis );
 				return result;
+			}
+
+			void visitUnaryExpr( expr::Unary * expr )
+			{
+				auto op = doSubmit( expr->getOperand() );
+
+				if ( op->getKind() == expr::Kind::eLiteral )
+				{
+					auto & literal = static_cast< expr::Literal const & >( *op );
+
+					switch ( expr->getKind() )
+					{
+					case expr::Kind::eUnaryMinus:
+						m_result = replaceLiteral< NegateLiteral >( expr->getCache(), literal );
+						break;
+					case expr::Kind::eUnaryPlus:
+						m_result = std::move( op );
+						break;
+					case expr::Kind::eBitNot:
+						m_result = replaceLiteral< BitNegateLiteral >( expr->getCache(), literal );
+						break;
+					case expr::Kind::eLogNot:
+						m_result = replaceLiteral< LogNegateLiteral >( expr->getCache(), literal );
+						break;
+					default:
+						assert( false && "Unexpected unary expression" );
+						m_result = ExprCloner::submit( expr );
+						break;
+					}
+				}
+				else
+				{
+					m_result = ExprCloner::submit( expr );
+				}
+			}
+
+			void visitBinaryExpr( expr::Binary * expr )
+			{
+				auto lhs = doSubmit( expr->getLHS() );
+				auto rhs = doSubmit( expr->getRHS() );
+
+				if ( lhs->getKind() == expr::Kind::eLiteral
+					&& rhs->getKind() == expr::Kind::eLiteral )
+				{
+					auto & lhsLiteral = static_cast< expr::Literal const & >( *lhs );
+					auto & rhsLiteral = static_cast< expr::Literal const & >( *rhs );
+
+					switch ( expr->getKind() )
+					{
+					case expr::Kind::eAdd:
+						m_result = replaceLiterals< AddLiterals >( expr->getCache(), lhsLiteral, rhsLiteral );
+						break;
+					case expr::Kind::eBitAnd:
+						m_result = replaceLiterals< BitAndLiterals >( expr->getCache(), lhsLiteral, rhsLiteral );
+						break;
+					case expr::Kind::eBitOr:
+						m_result = replaceLiterals< BitOrLiterals >( expr->getCache(), lhsLiteral, rhsLiteral );
+						break;
+					case expr::Kind::eBitXor:
+						m_result = replaceLiterals< BitXorLiterals >( expr->getCache(), lhsLiteral, rhsLiteral );
+						break;
+					case expr::Kind::eDivide:
+						m_result = replaceLiterals< DivideLiterals >( expr->getCache(), lhsLiteral, rhsLiteral );
+						break;
+					case expr::Kind::eLShift:
+						m_result = replaceLiterals< LShiftLiterals >( expr->getCache(), lhsLiteral, rhsLiteral );
+						break;
+					case expr::Kind::eMinus:
+						m_result = replaceLiterals< SubtractLiterals >( expr->getCache(), lhsLiteral, rhsLiteral );
+						break;
+					case expr::Kind::eModulo:
+						m_result = replaceLiterals< ModuloLiterals >( expr->getCache(), lhsLiteral, rhsLiteral );
+						break;
+					case expr::Kind::eRShift:
+						m_result = replaceLiterals< RShiftLiterals >( expr->getCache(), lhsLiteral, rhsLiteral );
+						break;
+					case expr::Kind::eTimes:
+						m_result = replaceLiterals< MultiplyLiterals >( expr->getCache(), lhsLiteral, rhsLiteral );
+						break;
+					case expr::Kind::eLogAnd:
+						m_result = replaceLiterals< LogAndLiterals >( expr->getCache(), lhsLiteral, rhsLiteral );
+						break;
+					case expr::Kind::eLogOr:
+						m_result = replaceLiterals< LogOrLiterals >( expr->getCache(), lhsLiteral, rhsLiteral );
+						break;
+					case expr::Kind::eLess:
+						m_result = replaceLiterals< CompLessLiterals >( expr->getCache(), lhsLiteral, rhsLiteral );
+						break;
+					case expr::Kind::eLessEqual:
+						m_result = replaceLiterals< CompLEqualLiterals >( expr->getCache(), lhsLiteral, rhsLiteral );
+						break;
+					case expr::Kind::eGreater:
+						m_result = replaceLiterals< CompGreaterLiterals >( expr->getCache(), lhsLiteral, rhsLiteral );
+						break;
+					case expr::Kind::eGreaterEqual:
+						m_result = replaceLiterals< CompGEqualLiterals >( expr->getCache(), lhsLiteral, rhsLiteral );
+						break;
+					case expr::Kind::eEqual:
+						m_result = replaceLiterals< CompEqualLiterals >( expr->getCache(), lhsLiteral, rhsLiteral );
+						break;
+					case expr::Kind::eNotEqual:
+						m_result = replaceLiterals< CompNEqualLiterals >( expr->getCache(), lhsLiteral, rhsLiteral );
+						break;
+					default:
+						assert( false && "Unexpected binary expression" );
+						m_result = ExprCloner::submit( expr );
+						break;
+					}
+				}
+				else
+				{
+					m_result = ExprCloner::submit( expr );
+				}
+			}
+
+			void visitAddExpr( expr::Add * expr )override
+			{
+				visitBinaryExpr( expr );
+			}
+
+			void visitBitAndExpr( expr::BitAnd * expr )override
+			{
+				visitBinaryExpr( expr );
+			}
+
+			void visitBitNotExpr( expr::BitNot * expr )override
+			{
+				visitUnaryExpr( expr );
+			}
+
+			void visitBitOrExpr( expr::BitOr * expr )override
+			{
+				visitBinaryExpr( expr );
+			}
+
+			void visitBitXorExpr( expr::BitXor * expr )override
+			{
+				visitBinaryExpr( expr );
+			}
+
+			void visitCastExpr( expr::Cast * expr )override
+			{
+				visitUnaryExpr( expr );
+			}
+
+			void visitDivideExpr( expr::Divide * expr )override
+			{
+				visitBinaryExpr( expr );
+			}
+
+			void visitEqualExpr( expr::Equal * expr )override
+			{
+				visitBinaryExpr( expr );
+			}
+
+			void visitGreaterExpr( expr::Greater * expr )override
+			{
+				visitBinaryExpr( expr );
+			}
+
+			void visitGreaterEqualExpr( expr::GreaterEqual * expr )override
+			{
+				visitBinaryExpr( expr );
+			}
+
+			void visitIdentifierExpr( expr::Identifier * expr )override
+			{
+				ExprCloner::visitIdentifierExpr( expr );
+			}
+
+			void visitLessExpr( expr::Less * expr )override
+			{
+				visitBinaryExpr( expr );
+			}
+
+			void visitLessEqualExpr( expr::LessEqual * expr )override
+			{
+				visitBinaryExpr( expr );
+			}
+
+			void visitLiteralExpr( expr::Literal * expr )override
+			{
+				ExprCloner::visitLiteralExpr( expr );
+			}
+
+			void visitLogAndExpr( expr::LogAnd * expr )override
+			{
+				visitBinaryExpr( expr );
+			}
+
+			void visitLogNotExpr( expr::LogNot * expr )override
+			{
+				visitUnaryExpr( expr );
+			}
+
+			void visitLogOrExpr( expr::LogOr * expr )override
+			{
+				visitBinaryExpr( expr );
+			}
+
+			void visitLShiftExpr( expr::LShift * expr )override
+			{
+				visitBinaryExpr( expr );
+			}
+
+			void visitMinusExpr( expr::Minus * expr )override
+			{
+				visitBinaryExpr( expr );
+			}
+
+			void visitModuloExpr( expr::Modulo * expr )override
+			{
+				visitBinaryExpr( expr );
+			}
+
+			void visitNotEqualExpr( expr::NotEqual * expr )override
+			{
+				visitBinaryExpr( expr );
+			}
+
+			void visitRShiftExpr( expr::RShift * expr )override
+			{
+				visitBinaryExpr( expr );
+			}
+
+			void visitTimesExpr( expr::Times * expr )override
+			{
+				visitBinaryExpr( expr );
+			}
+
+			void visitUnaryMinusExpr( expr::UnaryMinus * expr )override
+			{
+				visitUnaryExpr( expr );
+			}
+
+			void visitUnaryPlusExpr( expr::UnaryPlus * expr )override
+			{
+				visitUnaryExpr( expr );
 			}
 
 			void visitArrayAccessExpr( expr::ArrayAccess * expr )override
@@ -144,8 +1126,9 @@ namespace ast
 					}
 
 					auto & outer = static_cast< expr::Swizzle & >( *expr->getLHS() );
+					auto newOuter = doSubmit( outer.getOuterExpr() );
 					m_result = submit( m_cache
-						, expr::makeSwizzle( submit( m_cache, outer.getOuterExpr() )
+						, expr::makeSwizzle( std::move( newOuter )
 							, outer.getSwizzle()[index] ) );
 				}
 				else
@@ -161,14 +1144,13 @@ namespace ast
 					auto & outer = static_cast< expr::Swizzle & >( *expr->getOuterExpr() );
 					auto values = getSwizzleValues( outer.getSwizzle() );
 					auto indices = getSwizzleIndices( expr->getSwizzle() );
-
-					m_result = submit( m_cache
-						, expr::makeSwizzle( submit( m_cache, outer.getOuterExpr() )
-							, getFinalSwizzle( values, indices ) ) );
+					m_result = expr::makeSwizzle( doSubmit( outer.getOuterExpr() )
+						, getFinalSwizzle( values, indices ) );
 				}
 				else
 				{
-					ExprCloner::visitSwizzleExpr( expr );
+					m_result = expr::makeSwizzle( doSubmit( expr->getOuterExpr() )
+						, expr->getSwizzle() );
 				}
 			}
 
@@ -177,24 +1159,24 @@ namespace ast
 		};
 	}
 
-	stmt::ContainerPtr SwizzleSimplifier::submit( type::TypesCache & cache
+	stmt::ContainerPtr StmtSimplifier::submit( type::TypesCache & cache
 		, stmt::Container * stmt )
 	{
 		auto result = ast::stmt::makeContainer();
-		SwizzleSimplifier vis{ cache, result };
+		StmtSimplifier vis{ cache, result };
 		stmt->accept( &vis );
 		return result;
 	}
 
-	SwizzleSimplifier::SwizzleSimplifier( type::TypesCache & cache
+	StmtSimplifier::StmtSimplifier( type::TypesCache & cache
 		, stmt::ContainerPtr & result )
 		: StmtCloner{ result }
 		, m_cache{ cache }
 	{
 	}
 
-	expr::ExprPtr SwizzleSimplifier::doSubmit( expr::Expr * expr )
+	expr::ExprPtr StmtSimplifier::doSubmit( expr::Expr * expr )
 	{
-		return ExprSwizzleSimplifier::submit( m_cache, expr );
+		return ExprSimplifier::submit( m_cache, expr );
 	}
 }

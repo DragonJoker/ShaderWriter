@@ -9,7 +9,7 @@ See LICENSE file in root folder
 
 namespace ast
 {
-	class SwizzleSimplifier
+	class StmtSimplifier
 		: public StmtCloner
 	{
 	public:
@@ -17,7 +17,7 @@ namespace ast
 			, stmt::Container * stmt );
 
 	private:
-		SwizzleSimplifier( type::TypesCache & cache
+		StmtSimplifier( type::TypesCache & cache
 			, stmt::ContainerPtr & result );
 
 		expr::ExprPtr doSubmit( expr::Expr * expr )override;

@@ -162,6 +162,10 @@ namespace spirv
 		var = getOutermost( var );
 		spv::StorageClass result = spv::StorageClassFunction;
 
+		if ( var->isLocale() )
+		{
+			result = spv::StorageClassFunction;
+		}
 		if ( var->isUniform() )
 		{
 			if ( var->isConstant() )
@@ -782,16 +786,10 @@ namespace spirv
 
 		if ( expr->getIdentifier() )
 		{
-			if ( allLiterals )
-			{
-				m_result = doSubmit( expr->getIdentifier(), init );
-			}
-			else
-			{
-				m_result = doSubmit( expr->getIdentifier(), false );
-				m_currentBlock.instructions.emplace_back( makeInstruction< StoreInstruction >( m_result, init ) );
-				m_module.putIntermediateResult( init );
-			}
+			initialiseVariable( init
+				, allLiterals
+				, expr->getIdentifier()->getVariable()
+				, expr->getType() );
 		}
 		else
 		{
@@ -910,17 +908,9 @@ namespace spirv
 			{
 				// We must have a variable with function storage class.
 				// Hence we create a temporary variable with this storage class,
-				// and load the orignal variable into it.
-				VariableInfo info;
-				info.rvalue = true;
+				// and load the original variable into it.
 				auto srcId = id;
-				id = m_module.registerVariable( "tmp_" + adaptName( ident->getVariable()->getName() )
-					, spv::StorageClassFunction
-					, arg->getType()
-					, info ).id;
-				//auto loadedId = m_module.loadVariable( srcId, arg->getType(), m_currentBlock );
-				m_currentBlock.instructions.emplace_back( makeInstruction< StoreInstruction >( id, srcId ) );
-				//m_currentBlock.instructions.emplace_back( makeInstruction< CopyMemoryInstruction >( IdList{ id, srcId, spv::MemoryAccessMaskNone } ) );
+				id = makeFunctionAlias( srcId, arg->getType() );
 
 				if ( ( *it )->isOutputParam() )
 				{
@@ -1094,26 +1084,10 @@ namespace spirv
 		bool allLiterals = true;
 		auto init = doSubmit( expr->getInitialiser(), allLiterals, m_loadVariable );
 		m_info.lvalue = true;
-		spv::StorageClass storageClass{ ( expr->getIdentifier()->getVariable()->isLocale() || expr->getIdentifier()->getVariable()->isParam() )
-			? spv::StorageClassFunction
-			: spv::StorageClassUniformConstant };
-
-		if ( allLiterals )
-		{
-			m_result = m_module.registerVariable( adaptName( expr->getIdentifier()->getVariable()->getName() )
-				, storageClass
-				, expr->getType()
-				, m_info
-				, init ).id;
-		}
-		else
-		{
-			m_result = m_module.registerVariable( adaptName( expr->getIdentifier()->getVariable()->getName() )
-				, storageClass
-				, expr->getType()
-				, m_info ).id;
-			m_currentBlock.instructions.emplace_back( makeInstruction< StoreInstruction >( m_result, init ) );
-		}
+		initialiseVariable( init
+			, allLiterals
+			, expr->getIdentifier()->getVariable()
+			, expr->getType() );
 	}
 
 	void ExprVisitor::visitIntrinsicCallExpr( ast::expr::IntrinsicCall * expr )
@@ -1531,22 +1505,21 @@ namespace spirv
 			{
 				auto var = ident->getVariable();
 
-				if ( var->isSpecialisationConstant() )
+				if ( var->isSpecialisationConstant()
+					|| var->isConstant()
+					|| var->isUniform()
+					|| var->isInputParam()
+					|| var->isPushConstant()
+					|| var->isShaderInput() )
 				{
 					m_info.lvalue = false;
 					m_info.rvalue = true;
-					result = m_module.registerVariable( adaptName( var->getName() )
-						, spv::StorageClassInput
-						, expr->getType()
-						, m_info ).id;
 				}
-				else
-				{
-					result = m_module.registerVariable( adaptName( var->getName() )
-						, getStorageClass( var )
-						, expr->getType()
-						, m_info ).id;
-				}
+
+				result = m_module.registerVariable( adaptName( var->getName() )
+					, getStorageClass( var )
+					, expr->getType()
+					, m_info ).id;
 			}
 			else
 			{
@@ -1599,5 +1572,43 @@ namespace spirv
 			, m_module
 			, m_currentBlock
 			, m_loadedVariables );
+	}
+
+	spv::Id ExprVisitor::makeFunctionAlias( spv::Id source
+		, ast::type::TypePtr type )
+	{
+		VariableInfo info;
+		info.rvalue = true;
+		auto result = m_module.registerVariable( "functmp" + std::to_string( m_aliasId++ )
+			, spv::StorageClassFunction
+			, type
+			, info ).id;
+		m_currentBlock.instructions.emplace_back( makeInstruction< StoreInstruction >( result, source ) );
+		return result;
+	}
+
+	void ExprVisitor::initialiseVariable( spv::Id init
+		, bool allLiterals
+		, ast::var::VariablePtr var
+		, ast::type::TypePtr type )
+	{
+		spv::StorageClass storageClass{ getStorageClass( var ) };
+
+		if ( allLiterals )
+		{
+			m_result = m_module.registerVariable( adaptName( var->getName() )
+				, storageClass
+				, type
+				, m_info
+				, init ).id;
+		}
+		else
+		{
+			m_result = m_module.registerVariable( adaptName( var->getName() )
+				, storageClass
+				, type
+				, m_info ).id;
+			m_currentBlock.instructions.emplace_back( makeInstruction< StoreInstruction >( m_result, init ) );
+		}
 	}
 }

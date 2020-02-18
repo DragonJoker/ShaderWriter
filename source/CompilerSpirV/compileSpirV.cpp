@@ -2980,7 +2980,7 @@ namespace spirv
 
 		spirv::Module compileSpirV( sdw::Shader const & shader )
 		{
-			auto simplified = ast::SwizzleSimplifier::submit( shader.getTypesCache()
+			auto simplified = ast::StmtSimplifier::submit( shader.getTypesCache()
 				, shader.getStatements() );
 			ModuleConfig config = spirv::StmtConfigFiller::submit( simplified.get() );
 			auto spirvStatements = spirv::StmtAdapter::submit( simplified.get(), config );

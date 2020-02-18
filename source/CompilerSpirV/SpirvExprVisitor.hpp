@@ -132,6 +132,8 @@ namespace spirv
 		spv::Id getVariableIdNoLoad( ast::expr::Expr * expr );
 		spv::Id loadVariable( spv::Id varId
 			, ast::type::TypePtr type );
+		spv::Id makeFunctionAlias( spv::Id source
+			, ast::type::TypePtr type );
 
 		spv::Id writeBinOpExpr( ast::expr::Kind exprKind
 			, ast::type::Kind lhsTypeKind
@@ -140,6 +142,11 @@ namespace spirv
 			, spv::Id lhsId
 			, spv::Id rhsId
 			, bool isLhsSpecConstant );
+
+		void initialiseVariable( spv::Id init
+			, bool allLiterals
+			, ast::var::VariablePtr var
+			, ast::type::TypePtr type );
 	private:
 		spv::Id & m_result;
 		Block & m_currentBlock;
@@ -151,6 +158,7 @@ namespace spirv
 		std::array< ast::type::StructPtr, 4u > m_unsignedExtendedTypes;
 		std::array< ast::type::StructPtr, 4u > m_signedExtendedTypes;
 		VariableInfo m_info;
+		uint32_t m_aliasId{ 1u };
 	};
 }
 

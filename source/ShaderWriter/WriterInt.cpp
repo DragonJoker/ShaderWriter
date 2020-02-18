@@ -7,7 +7,7 @@ namespace sdw
 {
 	ShaderWriter *& doGetCurrentWriter()
 	{
-		static ShaderWriter * current = nullptr;
+		thread_local ShaderWriter * current = nullptr;
 		return current;
 	}
 }
