@@ -1,7 +1,7 @@
 /*
 See LICENSE file in root folder
 */
-#include "ShaderAST/Visitors/SwizzleSimplifier.hpp"
+#include "ShaderAST/Visitors/StmtSimplifier.hpp"
 
 #include "ShaderAST/Visitors/CloneExpr.hpp"
 

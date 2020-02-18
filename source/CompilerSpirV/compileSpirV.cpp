@@ -11,7 +11,7 @@ See LICENSE file in root folder
 
 #include <ShaderWriter/Shader.hpp>
 
-#include <ShaderAST/Visitors/SwizzleSimplifier.hpp>
+#include <ShaderAST/Visitors/StmtSimplifier.hpp>
 
 #include <sstream>
 #include <iomanip>
