@@ -9,6 +9,28 @@ namespace ast
 {
 	namespace
 	{
+		expr::LiteralType getLiteralType( type::Type const & type )
+		{
+			type::Kind kind = type.getKind();
+
+			switch ( kind )
+			{
+			case ast::type::Kind::eBoolean:
+				return expr::LiteralType::eBool;
+			case ast::type::Kind::eInt:
+				return expr::LiteralType::eInt;
+			case ast::type::Kind::eUInt:
+				return expr::LiteralType::eUInt;
+			case ast::type::Kind::eFloat:
+				return expr::LiteralType::eFloat;
+			case ast::type::Kind::eDouble:
+				return expr::LiteralType::eDouble;
+			default:
+				assert( false && "Unsupported kind for a literal" );
+				return expr::LiteralType::eFloat;
+			}
+		}
+
 		std::vector< expr::SwizzleKind > getSwizzleValues( expr::SwizzleKind swizzle )
 		{
 			assert( !swizzle.isOneComponent()
@@ -824,7 +846,83 @@ namespace ast
 				}
 			}
 		};
+		
+		template< typename OutputT >
+		struct CastLiteralTo
+		{
+			template< typename InputT >
+			static expr::LiteralPtr castLiteral( type::TypesCache & cache
+				, InputT const & value )
+			{
+				return expr::makeLiteral( cache, OutputT{ value } );
+			}
 
+			static expr::LiteralPtr castLiteral( type::TypesCache & cache
+				, bool const & value )
+			{
+				return expr::makeLiteral( cache, OutputT{ value ? OutputT{ 1 } : OutputT{ 0 } } );
+			}
+
+			static expr::LiteralPtr cast( type::TypesCache & cache
+				, expr::Literal const & operand )
+			{
+				switch ( operand.getLiteralType() )
+				{
+				case expr::LiteralType::eBool:
+					return castLiteral< OutputT >( cache
+						, operand.getValue < expr::LiteralType::eBool >() );
+				case expr::LiteralType::eInt:
+					return castLiteral< OutputT >( cache
+						, operand.getValue< expr::LiteralType::eInt >() );
+				case expr::LiteralType::eUInt:
+					return castLiteral< OutputT >( cache
+						, operand.getValue< expr::LiteralType::eUInt >() );
+				case expr::LiteralType::eFloat:
+					return castLiteral< OutputT >( cache
+						, operand.getValue< expr::LiteralType::eFloat >() );
+				case expr::LiteralType::eDouble:
+					return castLiteral< OutputT >( cache
+						, operand.getValue< expr::LiteralType::eDouble >() );
+				default:
+					assert( false && "Unexpected operand type for unary not" );
+					return nullptr;
+				}
+			}
+		};
+		
+		struct CastLiteral
+		{
+			static expr::LiteralPtr replace( type::TypesCache & cache
+				, expr::LiteralType output
+				, expr::Literal const & operand )
+			{
+				switch ( output )
+				{
+				case expr::LiteralType::eBool:
+					return CastLiteralTo< bool >::cast( cache, operand );
+				case expr::LiteralType::eInt:
+					return CastLiteralTo< int32_t >::cast( cache, operand );
+				case expr::LiteralType::eUInt:
+					return CastLiteralTo< uint32_t >::cast( cache, operand );
+				case expr::LiteralType::eFloat:
+					return CastLiteralTo< float >::cast( cache, operand );
+				case expr::LiteralType::eDouble:
+					return CastLiteralTo< double >::cast( cache, operand );
+				default:
+					assert( false && "Unexpected operand type for unary not" );
+					return nullptr;
+				}
+			}
+		};
+
+		template< typename FuncT >
+		expr::LiteralPtr replaceLiteral( type::TypesCache & cache
+			, expr::LiteralType output
+			, expr::Literal const & operand )
+		{
+			return FuncT::replace( cache, output, operand );
+		}
+		
 		template< typename FuncT >
 		expr::LiteralPtr replaceLiteral( type::TypesCache & cache
 			, expr::Literal const & operand )
@@ -981,6 +1079,24 @@ namespace ast
 				}
 			}
 
+			void visitCastExpr( expr::Cast * expr )override
+			{
+				auto operand = doSubmit( expr->getOperand() );
+
+				if ( operand->getKind() == expr::Kind::eLiteral )
+				{
+					auto & literal = static_cast< expr::Literal const & >( *operand );
+					m_result = replaceLiteral< CastLiteral >( expr->getCache()
+						, getLiteralType( *expr->getType() )
+						, literal );
+				}
+				else
+				{
+					m_result = expr::makeCast( expr->getType()
+						, std::move( operand ) );
+				}
+			}
+
 			void visitAddExpr( expr::Add * expr )override
 			{
 				visitBinaryExpr( expr );
@@ -1004,11 +1120,6 @@ namespace ast
 			void visitBitXorExpr( expr::BitXor * expr )override
 			{
 				visitBinaryExpr( expr );
-			}
-
-			void visitCastExpr( expr::Cast * expr )override
-			{
-				visitUnaryExpr( expr );
 			}
 
 			void visitDivideExpr( expr::Divide * expr )override

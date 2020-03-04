@@ -83,11 +83,11 @@ namespace sdw
 			}
 			else if constexpr ( AreCompatibleV< OutputT, InputT > )
 			{
-				return OutputT{ std::move( input ) };
+				return Value{ std::move( input ) };
 			}
 			else
 			{
-				return OutputT{ std::move( input ) };
+				return Value{ std::move( input ) };
 			}
 		}
 
