@@ -31,8 +31,8 @@ namespace sdw
 	}
 
 	template< ast::type::Kind KindT >
-	IntegerValue< KindT >::IntegerValue( Value const & rhs )
-		: Value{ rhs }
+	IntegerValue< KindT >::IntegerValue( Value rhs )
+		: Value{ ctorCast< IntegerValue< KindT > >( std::move( rhs ) ) }
 	{
 	}
 

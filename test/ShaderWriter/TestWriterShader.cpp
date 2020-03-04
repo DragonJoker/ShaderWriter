@@ -636,6 +636,54 @@ namespace
 		auto positions = writer.declConstantArray<Vec4>("positions"
 			, std::vector< Vec4 >
 			{
+				vec4( 0.0_f, -0.5f, 0.0f, 1.0f),
+				vec4( 0.5_f,  0.5f, 0.0f, 1.0f),
+				vec4(-0.5_f,  0.5f, 0.0f, 1.0f),
+			}
+		);
+		
+		auto colors = writer.declConstantArray<Vec4>("colors"
+			, std::vector< Vec4 >
+			{
+				vec4(1.0_f, 0.0f, 0.0f, 1.0f),
+				vec4(0.0_f, 1.0f, 0.0f, 1.0f),
+				vec4(0.0_f, 0.0f, 1.0f, 1.0f),
+			}
+		);
+
+		// Shader inputs
+		auto in = writer.getIn();
+
+		// Shader outputs
+		auto outColor = writer.declOutput< Vec4 >( "outColor", 0u );
+		auto out = writer.getOut();
+
+		writer.implementFunction< void >( "main", [&]()
+			{
+				outColor = colors[in.gl_VertexID];
+				out.gl_out.gl_Position = positions[in.gl_VertexID];
+
+				outColor = colors[0];
+				out.gl_out.gl_Position = positions[0];
+
+				outColor = vec4( 1.0_f, 0.0f, 0.0f, 1.0f );
+				out.gl_out.gl_Position = vec4( 0.0_f, 0.0f, 0.0f, 1.0f );
+			} );
+
+		test::writeShader( writer
+			, testCounts );
+		testEnd();
+	}
+	
+	void charles_vtx_approx( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "charles_vtx" );
+		using namespace sdw;
+		VertexWriter writer;
+		// Shader constants
+		auto positions = writer.declConstantArray<Vec4>("positions"
+			, std::vector< Vec4 >
+			{
 				vec4( 0.0_f, -0.5, 0.0, 1.0),
 				vec4( 0.5_f,  0.5, 0.0, 1.0),
 				vec4(-0.5_f,  0.5, 0.0, 1.0),
@@ -715,6 +763,7 @@ int main( int argc, char ** argv )
 	outputs( testCounts );
 	skybox( testCounts );
 	charles_vtx( testCounts );
+	charles_vtx_approx( testCounts );
 	charles_pxl( testCounts );
 	sdwTestSuiteEnd();
 }

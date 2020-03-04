@@ -17,7 +17,7 @@ namespace sdw
 			, expr::ExprPtr expr );
 		ArithmeticValue( ArithmeticValue && rhs );
 		ArithmeticValue( ArithmeticValue const & rhs );
-		explicit ArithmeticValue( Value const & value );
+		explicit ArithmeticValue( Value value );
 		explicit ArithmeticValue( CppTypeT< ArithmeticValue< KindT > > rhs );
 		ArithmeticValue & operator=( ArithmeticValue const & rhs );
 		template< typename T >

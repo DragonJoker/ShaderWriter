@@ -51,7 +51,87 @@ namespace sdw
 
 	namespace details
 	{
-		template< typename ReturnT >
+		template< typename LhsT
+			, typename RhsT
+			, typename Enable = void >
+		struct AreCompatible
+		{
+			static constexpr bool value = false;
+		};
+		template< typename LhsT
+			, typename RhsT >
+		struct AreCompatible< LhsT
+			, RhsT
+			, std::enable_if_t< std::is_same_v< CppTypeT< LhsT >, CppTypeT< RhsT > > > >
+		{
+			static constexpr bool value = true;
+		};
+
+		template< typename LhsT, typename RhsT >
+		constexpr bool AreCompatibleV = AreCompatible< LhsT, RhsT >::value;
+
+		template< typename OutputT, typename InputT >
+		inline Value ctorCast( InputT input )
+		{
+			if constexpr ( std::is_same_v< InputT, Value > )
+			{
+				return sdw::Value::ctorCast< OutputT >( std::move( input ) );
+			}
+			else if constexpr ( std::is_same_v< InputT, CppTypeT< InputT > > )
+			{
+				return OutputT{ CppTypeT< OutputT >( std::move( input ) ) };
+			}
+			else if constexpr ( AreCompatibleV< OutputT, InputT > )
+			{
+				return Value{ std::move( input ) };
+			}
+			else
+			{
+				return Value{ std::move( input ) };
+			}
+		}
+
+		template< typename ParamT >
+		inline void getCtorCallParamsRec( Shader & shader
+			, expr::ExprList & args
+			, bool isEnabled )
+		{
+		}
+
+		template< typename ParamT, typename Param >
+		inline void getCtorCallParamsRec( Shader & shader
+			, expr::ExprList & args
+			, bool isEnabled
+			, Param const & last )
+		{
+			isEnabled = isEnabled && isOptionalEnabled( last );
+			auto lastArgs = makeFnArg( shader, details::ctorCast< ParamT >( last ) );
+
+			for ( auto & expr : lastArgs )
+			{
+				args.emplace_back( std::move( expr ) );
+			}
+		}
+
+		template< typename ParamT, typename Param, typename ... Params >
+		inline void getCtorCallParamsRec( Shader & shader
+			, expr::ExprList & args
+			, bool isEnabled
+			, Param const & current
+			, Params const & ... params )
+		{
+			isEnabled = isEnabled && isOptionalEnabled( current );
+			auto currentArgs = makeFnArg( shader, details::ctorCast< ParamT >( current ) );
+
+			for ( auto & expr : currentArgs )
+			{
+				args.emplace_back( std::move( expr ) );
+			}
+
+			getCtorCallParamsRec< ParamT >( shader, args, isEnabled, params... );
+		}
+
+		template< typename ReturnT, typename ParamT >
 		struct CtorCallGetter
 		{
 			template< typename ... ParamsT >
@@ -60,7 +140,7 @@ namespace sdw
 			{
 				expr::ExprList args;
 				bool isEnabled = true;
-				getFunctionCallParamsRec( shader, args, isEnabled, params... );
+				getCtorCallParamsRec< ParamT >( shader, args, isEnabled, params... );
 				return ReturnT{ &shader
 					, sdw::makeCompositeCtor( getCompositeType( typeEnum< ReturnT > )
 						, type::getScalarType( typeEnum< ReturnT > )
@@ -68,8 +148,8 @@ namespace sdw
 			}
 		};
 
-		template< typename ReturnT >
-		struct CtorCallGetter< Optional< ReturnT > >
+		template< typename ReturnT, typename ParamT >
+		struct CtorCallGetter< Optional< ReturnT >, ParamT >
 		{
 			template< typename ... ParamsT >
 			static inline Optional< ReturnT > submit( Shader & shader
@@ -77,7 +157,7 @@ namespace sdw
 			{
 				expr::ExprList args;
 				bool isEnabled = true;
-				getFunctionCallParamsRec( shader, args, isEnabled, params... );
+				getCtorCallParamsRec( shader, args, isEnabled, params... );
 				return Optional< ReturnT >{ &shader
 					, sdw::makeCompositeCtor( getCompositeType( typeEnum< ReturnT > )
 						, type::getScalarType( typeEnum< ReturnT > )
@@ -85,20 +165,88 @@ namespace sdw
 					, isEnabled };
 			}
 		};
+
+		template< typename ConstructT >
+		struct ParamsTyper
+		{
+			using type = ConstructT;
+		};
+		template< typename ComponentT >
+		struct ParamsTyper< Vec2T< ComponentT > >
+		{
+			using type = ComponentT;
+		};
+		template< typename ComponentT >
+		struct ParamsTyper< Vec3T< ComponentT > >
+		{
+			using type = ComponentT;
+		};
+		template< typename ComponentT >
+		struct ParamsTyper< Vec4T< ComponentT > >
+		{
+			using type = ComponentT;
+		};
+		template< typename ComponentT >
+		struct ParamsTyper< Mat2T< ComponentT > >
+		{
+			using type = ComponentT;
+		};
+		template< typename ComponentT >
+		struct ParamsTyper< Mat2x3T< ComponentT > >
+		{
+			using type = ComponentT;
+		};
+		template< typename ComponentT >
+		struct ParamsTyper< Mat2x4T< ComponentT > >
+		{
+			using type = ComponentT;
+		};
+		template< typename ComponentT >
+		struct ParamsTyper< Mat3x2T< ComponentT > >
+		{
+			using type = ComponentT;
+		};
+		template< typename ComponentT >
+		struct ParamsTyper< Mat3T< ComponentT > >
+		{
+			using type = ComponentT;
+		};
+		template< typename ComponentT >
+		struct ParamsTyper< Mat3x4T< ComponentT > >
+		{
+			using type = ComponentT;
+		};
+		template< typename ComponentT >
+		struct ParamsTyper< Mat4x2T< ComponentT > >
+		{
+			using type = ComponentT;
+		};
+		template< typename ComponentT >
+		struct ParamsTyper< Mat4x3T< ComponentT > >
+		{
+			using type = ComponentT;
+		};
+		template< typename ComponentT >
+		struct ParamsTyper< Mat4T< ComponentT > >
+		{
+			using type = ComponentT;
+		};
+		template< typename ConstructT >
+		using ParamsT = typename ParamsTyper< ConstructT >::type;
 	}
 
 	template< typename ReturnT, typename ... ParamsT >
 	inline ReturnT getCtorCall( Shader & shader
 		, ParamsT const & ... params )
 	{
-		return details::CtorCallGetter< ReturnT >::submit( shader, params... );
+		return details::CtorCallGetter< ReturnT, details::ParamsT< ReturnT > >::submit( shader, params... );
 	}
 
 	template< typename ReturnT, typename ... ParamsT >
 	inline Optional< ReturnT > getOptCtorCall( Shader & shader
 		, ParamsT const & ... params )
 	{
-		return details::CtorCallGetter< Optional< ReturnT > >::submit( shader, params... );
+		return details::CtorCallGetter< Optional< ReturnT >, details::ParamsT< ReturnT > >::submit( shader, params... );
 	}
 
 	//***********************************************************************************************

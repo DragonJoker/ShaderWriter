@@ -23,8 +23,8 @@ namespace sdw
 	{
 	}
 
-	Void::Void( Value const & rhs )
-		: Value{ rhs }
+	Void::Void( Value rhs )
+		: Value{ std::move( rhs ) }
 	{
 	}
 

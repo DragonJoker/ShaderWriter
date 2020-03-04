@@ -86,7 +86,7 @@ namespace sdw
 
 	template< typename ValueT >
 	inline MaybeOptional< ValueT >::MaybeOptional( Optional< ValueT > const & rhs )
-		: ValueT{ rhs }
+		: ValueT{ static_cast< ValueT const & >( rhs ) }
 		, m_optional{ true }
 		, m_enabled{ rhs.isEnabled() }
 	{
@@ -94,14 +94,20 @@ namespace sdw
 
 	template< typename ValueT >
 	inline MaybeOptional< ValueT >::MaybeOptional( MaybeOptional< ValueT > const & rhs )
-		: ValueT{ rhs }
+		: ValueT{ static_cast< ValueT const & >( rhs ) }
 		, m_optional{ rhs.isOptional() }
 		, m_enabled{ rhs.isEnabled() }
 	{
 	}
 
 	template< typename ValueT >
-	inline MaybeOptional< ValueT >::operator ValueT()const
+	inline MaybeOptional< ValueT >::operator ValueT const & ( )const
+	{
+		return *this;
+	}
+
+	template< typename ValueT >
+	inline MaybeOptional< ValueT >::operator ValueT & ( )
 	{
 		return *this;
 	}

@@ -89,25 +89,19 @@ namespace test
 #endif
 	void TestCounts::initialise( std::string const & name )
 	{
-		tclog = std::make_unique< test::LogStreambuf< test::DebugLogStreambufTraits > >( name, std::cout );
+		tclog = std::make_unique< test::LogStreambuf< test::DebugLogStreambufTraits > >( name, std::clog );
 		tcout = std::make_unique< test::LogStreambuf< test::InfoLogStreambufTraits > >( name, std::cout );
 		tcerr = std::make_unique< test::LogStreambuf< test::ErrorLogStreambufTraits > >( name, std::cerr );
 	}
 
 	void TestCounts::cleanup()
 	{
-		tclog.reset();
-		tcout.reset();
+		std::clog.flush();
+		std::cout.flush();
+		std::cerr.flush();
 		tcerr.reset();
-	}
-
-	void reportFailure( char const * const error
-		, char const * const function
-		, int line
-		, TestCounts & testCounts )
-	{
-		std::cout << function << ":" << line << " - " << error << std::endl;
-		++testCounts.errorCount;
+		tcout.reset();
+		tclog.reset();
 	}
 
 	int reportTestSuite( TestCounts const & testCounts )
@@ -131,5 +125,36 @@ namespace test
 		}
 
 		return result;
+	}
+
+	void beginTest( TestCounts & testCounts
+		, std::string const & name )
+	{
+		testCounts.testName = name;
+		testCounts.curTestErrors = 0u;
+		std::cout << "TEST: " << testCounts.testName << std::endl;
+	}
+
+	void endTest( TestCounts & testCounts )
+	{
+		if ( testCounts.curTestErrors )
+		{
+			std::cout << "********************************************************************************" << std::endl;
+		}
+	}
+
+	void reportFailure( char const * const error
+		, char const * const function
+		, int line
+		, TestCounts & testCounts )
+	{
+		if ( !testCounts.curTestErrors )
+		{
+			std::cout << "********************************************************************************" << std::endl;
+		}
+
+		++testCounts.curTestErrors;
+		std::cout << function << ":" << line << " - " << error << std::endl;
+		++testCounts.errorCount;
 	}
 }

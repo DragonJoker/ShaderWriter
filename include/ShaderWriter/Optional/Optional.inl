@@ -100,7 +100,7 @@ namespace sdw
 
 	template< typename ValueT >
 	Optional< ValueT >::Optional( Optional< ValueT > const & rhs )
-		: ValueT{ rhs }
+		: ValueT{ static_cast< ValueT const & >( rhs ) }
 		, m_enabled{ rhs.m_enabled }
 	{
 	}

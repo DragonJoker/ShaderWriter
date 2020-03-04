@@ -24,8 +24,9 @@ namespace sdw
 		inline MaybeOptional( MyValue const & rhs );
 		inline MaybeOptional( Optional< MyValue > const & rhs );
 		inline MaybeOptional( MaybeOptional< MyValue > const & rhs );
-
-		inline operator MyValue()const;
+		
+		inline operator MyValue const &()const;
+		inline operator MyValue &();
 		inline operator Optional< MyValue >()const;
 
 		inline bool isOptional()const;

@@ -17,7 +17,7 @@ namespace sdw
 			, expr::ExprPtr expr );
 		SDW_API Boolean( Boolean && rhs );
 		SDW_API Boolean( Boolean const & rhs );
-		SDW_API explicit Boolean( Value const & rhs );
+		SDW_API explicit Boolean( Value rhs );
 		SDW_API Boolean & operator=( Boolean const & rhs );
 		template< typename T >
 		inline Boolean & operator=( T const & rhs );
