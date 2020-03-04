@@ -90,40 +90,43 @@ namespace sdw
 
 	//***********************************************************************************************
 
-	inline void findExprRec( ast::expr::ExprPtr & result
-		, Shader & shader )
+	namespace details
 	{
-	}
-
-	template< typename ValueT >
-	inline void findExprRec( ast::expr::ExprPtr & result
-		, Shader & shader
-		, ValueT const & last )
-	{
-		result = makeExpr( shader, last );
-	}
-
-	template< typename ValueT, typename ... ValuesT >
-	inline void findExprRec( ast::expr::ExprPtr & result
-		, Shader & shader
-		, ValueT const & current
-		, ValuesT const & ... values )
-	{
-		result = makeExpr( shader, current );
-
-		if ( !result )
+		inline void findExprRec( ast::expr::ExprPtr & result
+			, Shader & shader )
 		{
-			findExprRec( result, shader, values... );
 		}
-	}
 
-	template< typename ... ValuesT >
-	inline ast::expr::ExprPtr findExpr( ValuesT const & ... values )
-	{
-		ast::expr::ExprPtr result{ nullptr };
-		auto & shader = *findShader( values... );
-		findExprRec( result, shader, values... );
-		return result;
+		template< typename ValueT >
+		inline void findExprRec( ast::expr::ExprPtr & result
+			, Shader & shader
+			, ValueT const & last )
+		{
+			result = makeExpr( shader, last );
+		}
+
+		template< typename ValueT, typename ... ValuesT >
+		inline void findExprRec( ast::expr::ExprPtr & result
+			, Shader & shader
+			, ValueT const & current
+			, ValuesT const & ... values )
+		{
+			result = makeExpr( shader, current );
+
+			if ( !result )
+			{
+				findExprRec( result, shader, values... );
+			}
+		}
+
+		template< typename ... ValuesT >
+		inline ast::expr::ExprPtr findExpr( ValuesT const & ... values )
+		{
+			ast::expr::ExprPtr result{ nullptr };
+			auto & shader = *findShader( values... );
+			findExprRec( result, shader, values... );
+			return result;
+		}
 	}
 
 	//***********************************************************************************************
@@ -138,7 +141,7 @@ namespace sdw
 			return getTypesCache( *shader );
 		}
 
-		ast::expr::ExprPtr expr = findExpr( values... );
+		auto expr = details::findExpr( values... );
 		assert( expr );
 		return expr->getCache();
 	}

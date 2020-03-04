@@ -16,7 +16,7 @@ namespace sdw
 			, expr::ExprPtr expr );
 		SDW_API Void( Void && rhs );
 		SDW_API Void( Void const & rhs );
-		SDW_API explicit Void( Value const & rhs );
+		SDW_API explicit Void( Value rhs );
 
 		SDW_API static ast::type::TypePtr makeType( ast::type::TypesCache & cache );
 	};

@@ -1136,7 +1136,7 @@ namespace ast
 					ExprCloner::visitArrayAccessExpr( expr );
 				}
 			}
-			
+
 			void visitSwizzleExpr( expr::Swizzle * expr )override
 			{
 				if ( expr->getOuterExpr()->getKind() == expr::Kind::eSwizzle )

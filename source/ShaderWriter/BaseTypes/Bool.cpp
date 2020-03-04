@@ -23,8 +23,8 @@ namespace sdw
 	{
 	}
 
-	Boolean::Boolean( Value const & rhs )
-		: Value{ rhs }
+	Boolean::Boolean( Value rhs )
+		: Value{ ctorCast< Boolean >( std::move( rhs ) ) }
 	{
 	}
 

@@ -17,7 +17,7 @@ namespace sdw
 			, expr::ExprPtr expr );
 		IntegerValue( IntegerValue && rhs );
 		IntegerValue( IntegerValue const & rhs );
-		explicit IntegerValue( Value const & value );
+		explicit IntegerValue( Value value );
 		explicit IntegerValue( CppTypeT< IntegerValue< KindT > > rhs );
 		IntegerValue & operator=( IntegerValue const & rhs );
 		template< typename T >
