@@ -34,6 +34,7 @@ namespace test
 
 		inline ~LogStreambuf()
 		{
+			m_stream.rdbuf( m_old );
 		}
 
 		inline int_type overflow( int_type c = traits_type::eof() )override
@@ -139,6 +140,7 @@ namespace test
 		std::string testName;
 		uint32_t totalCount = 0u;
 		uint32_t errorCount = 0u;
+		uint32_t curTestErrors = 0u;
 
 	private:
 		std::unique_ptr< std::streambuf > tclog;
@@ -147,6 +149,9 @@ namespace test
 	};
 
 	int reportTestSuite( TestCounts const & testCounts );
+	void beginTest( TestCounts & testCounts
+		, std::string const & name );
+	void endTest( TestCounts & testCounts );
 	void reportFailure( char const * const error
 		, char const * const function
 		, int line
@@ -196,13 +201,10 @@ namespace test
 	testSuiteBeginEx( name, testCounts )
 
 #define testBegin( name )\
-	testCounts.testName = name;\
-	auto testName = testCounts.testName;\
-	std::cout << "********************************************************************************" << std::endl;\
-	std::cout << "TEST: " << name << std::endl;\
-	std::cout << "********************************************************************************" << std::endl;\
+	test::beginTest( testCounts, name );\
 	try\
 	{\
+		auto testName = testCounts.testName
 
 #define testEnd()\
 	}\
@@ -213,7 +215,8 @@ namespace test
 	catch ( ... )\
 	{\
 		std::cout << testCounts.testName << " Failed: Unknown unhandled exception" << std::endl;\
-	}
+	}\
+	test::endTest( testCounts );
 
 #define failure( x )\
 	++testCounts.totalCount;\

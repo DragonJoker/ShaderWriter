@@ -947,10 +947,10 @@ namespace
 					{
 						auto c = writer.declLocale( "c"
 							, textureOffset( s
-								, test::getDefault< SampleT >( writer.getShader() )
-								, 0.5_f
-								, test::getDefault< OffsetT >( writer.getShader() )
-								, 1.0_f ) );
+								, test::getDefault< SampleT >( writer.getShader() ) // P
+								, 0.5_f // refZ
+								, test::getDefault< OffsetT >( writer.getShader() ) // offset
+								, 1.0_f ) ); // bias
 					} );
 				test::writeShader( writer
 					, testCounts );
