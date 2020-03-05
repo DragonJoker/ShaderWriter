@@ -854,13 +854,13 @@ namespace ast
 			static expr::LiteralPtr castLiteral( type::TypesCache & cache
 				, InputT const & value )
 			{
-				return expr::makeLiteral( cache, OutputT{ value } );
+				return expr::makeLiteral( cache, OutputT( value ) );
 			}
 
 			static expr::LiteralPtr castLiteral( type::TypesCache & cache
 				, bool const & value )
 			{
-				return expr::makeLiteral( cache, OutputT{ value ? OutputT{ 1 } : OutputT{ 0 } } );
+				return expr::makeLiteral( cache, value ? OutputT{ 1 } : OutputT{ 0 } );
 			}
 
 			static expr::LiteralPtr cast( type::TypesCache & cache
@@ -869,19 +869,19 @@ namespace ast
 				switch ( operand.getLiteralType() )
 				{
 				case expr::LiteralType::eBool:
-					return castLiteral< OutputT >( cache
-						, operand.getValue < expr::LiteralType::eBool >() );
+					return castLiteral( cache
+						, operand.getValue< expr::LiteralType::eBool >() );
 				case expr::LiteralType::eInt:
-					return castLiteral< OutputT >( cache
+					return castLiteral( cache
 						, operand.getValue< expr::LiteralType::eInt >() );
 				case expr::LiteralType::eUInt:
-					return castLiteral< OutputT >( cache
+					return castLiteral( cache
 						, operand.getValue< expr::LiteralType::eUInt >() );
 				case expr::LiteralType::eFloat:
-					return castLiteral< OutputT >( cache
+					return castLiteral( cache
 						, operand.getValue< expr::LiteralType::eFloat >() );
 				case expr::LiteralType::eDouble:
-					return castLiteral< OutputT >( cache
+					return castLiteral( cache
 						, operand.getValue< expr::LiteralType::eDouble >() );
 				default:
 					assert( false && "Unexpected operand type for unary not" );

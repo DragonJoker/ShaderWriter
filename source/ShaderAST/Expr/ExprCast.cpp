@@ -13,6 +13,8 @@ namespace ast::expr
 			, std::move( operand )
 			, Kind::eCast }
 	{
+		assert( type::getComponentCount( getType()->getKind() ) == type::getComponentCount( getOperand()->getType()->getKind() )
+			|| type::getComponentType( getType()->getKind() ) == type::getComponentType( getOperand()->getType()->getKind() ) );
 	}
 
 	void Cast::accept( VisitorPtr vis )
