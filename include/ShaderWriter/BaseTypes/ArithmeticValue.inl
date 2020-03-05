@@ -34,7 +34,7 @@ namespace sdw
 
 	template< ast::type::Kind KindT >
 	ArithmeticValue< KindT >::ArithmeticValue( Value rhs )
-		: Value{ ctorCast< ArithmeticValue< KindT > >( std::move( rhs ) ) }
+		: Value{ ctorCast< ArithmeticValue< KindT >, 1u >( std::move( rhs ) ) }
 	{
 		assert( this->getType()->getKind() == KindT );
 	}

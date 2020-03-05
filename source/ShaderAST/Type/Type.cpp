@@ -338,6 +338,11 @@ namespace ast::type
 		case Kind::eVec4U:
 			return Kind::eUInt;
 
+		case Kind::eVec2H:
+		case Kind::eVec3H:
+		case Kind::eVec4H:
+			return Kind::eHalf;
+
 		case Kind::eVec2F:
 		case Kind::eVec3F:
 		case Kind::eVec4F:
@@ -377,11 +382,6 @@ namespace ast::type
 		case Kind::eMat3x4D:
 		case Kind::eMat4x4D:
 			return Kind::eVec4D;
-
-		case Kind::eVec2H:
-		case Kind::eVec3H:
-		case Kind::eVec4H:
-			return Kind::eHalf;
 
 		default:
 			return kind;
