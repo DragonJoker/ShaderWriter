@@ -55,7 +55,7 @@ namespace spirv
 
 	Module StmtVisitor::submit( ast::type::TypesCache & cache
 		, ast::stmt::Stmt * stmt
-		, sdw::ShaderStage type
+		, ast::ShaderStage type
 		, ModuleConfig const & config )
 	{
 		Module result{ cache
@@ -67,7 +67,7 @@ namespace spirv
 	}
 
 	StmtVisitor::StmtVisitor( Module & result
-		, sdw::ShaderStage type
+		, ast::ShaderStage type
 		, ModuleConfig const & config )
 		: m_result{ result }
 	{

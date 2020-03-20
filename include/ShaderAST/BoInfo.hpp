@@ -1,23 +1,22 @@
 /*
 See LICENSE file in root folder
 */
-#ifndef ___SDW_BoInfo_H___
-#define ___SDW_BoInfo_H___
+#ifndef ___AST_BoInfo_H___
+#define ___AST_BoInfo_H___
 #pragma once
 
-#include "ShaderWriter/ShaderWriterPrerequisites.hpp"
-
 #include <ShaderAST/Type/TypeArray.hpp>
+#include <ShaderAST/Type/TypeCache.hpp>
 #include <ShaderAST/Type/TypeStruct.hpp>
 
-namespace sdw
+namespace ast
 {
 	struct InterfaceBlock
 	{
 		inline InterfaceBlock( type::TypesCache & cache
 			, type::MemoryLayout layout
 			, std::string name )
-			: m_type{ cache.getStruct( layout, std::move( name ) ) }
+			: m_type{ getType( cache, layout, std::move( name ) ) }
 		{
 		}
 		
@@ -59,49 +58,40 @@ namespace sdw
 			return m_type;
 		}
 
+		static type::StructPtr getType( type::TypesCache & cache
+			, type::MemoryLayout layout
+			, std::string name )
+		{
+			return cache.getStruct( layout, std::move( name ) );
+		}
+
 	private:
 		type::StructPtr m_type;
 	};
 
 	struct BoInfo
-		: public InterfaceBlock
+		: DescriptorInfoT< type::Struct >
 	{
 		BoInfo( type::TypesCache & cache
 			, type::MemoryLayout layout
 			, std::string name
 			, uint32_t bind
 			, uint32_t set )
-			: InterfaceBlock{ cache, layout, std::move( name ) }
-			, m_bind{ bind }
-			, m_set{ set }
+			: DescriptorInfoT{ InterfaceBlock::getType( cache, layout, std::move( name ) )
+				, { bind, set } }
 		{
 		}
 		
 		BoInfo( type::StructPtr dataType
 			, uint32_t bind
 			, uint32_t set )
-			: InterfaceBlock{ std::move( dataType ) }
-			, m_bind{ bind }
-			, m_set{ set }
+			: DescriptorInfoT{ std::move( dataType )
+				, { bind, set } }
 		{
 		}
-
-		inline uint32_t getBindingPoint()const
-		{
-			return m_bind;
-		}
-
-		inline uint32_t getSetPoint()const
-		{
-			return m_set;
-		}
-
-	private:
-		uint32_t m_bind;
-		uint32_t m_set;
 	};
 
-	using PcbInfo = BoInfo;
+	using PcbInfo = InterfaceBlock;
 	using UboInfo = BoInfo;
 	using SsboInfo = BoInfo;
 }

@@ -12,7 +12,7 @@ See LICENSE file in root folder
 
 namespace hlsl
 {
-	std::string compileHlsl( sdw::Shader const & shader
+	std::string compileHlsl( ast::Shader const & shader
 		, ast::SpecialisationInfo const & specialisation
 		, HlslConfig const & writerConfig )
 	{

@@ -3,8 +3,6 @@ See LICENSE file in root folder
 */
 #include "ShaderWriter/BaseTypes/Void.hpp"
 
-#include "ShaderWriter/Shader.hpp"
-
 namespace sdw
 {
 	Void::Void( Shader * shader

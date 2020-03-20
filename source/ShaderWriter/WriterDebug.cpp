@@ -3,9 +3,8 @@ See LICENSE file in root folder
 */
 #include "ShaderWriter/WriterDebug.hpp"
 
-#include "ShaderWriter/Shader.hpp"
-
 #include <ShaderAST/Debug/DebugStmtVisitor.hpp>
+#include <ShaderAST/Shader.hpp>
 
 namespace sdw
 {

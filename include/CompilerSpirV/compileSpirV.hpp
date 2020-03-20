@@ -4,7 +4,7 @@ See LICENSE file in root folder
 #ifndef ___SDW_WriterSpirV_H___
 #define ___SDW_WriterSpirV_H___
 
-#include <ShaderWriter/ShaderWriterPrerequisites.hpp>
+#include <ShaderAST/ShaderASTPrerequisites.hpp>
 
 #include <vector>
 
@@ -22,9 +22,9 @@ See LICENSE file in root folder
 
 namespace spirv
 {
-	SDWSPIRV_API std::string writeSpirv( sdw::Shader const & shader
+	SDWSPIRV_API std::string writeSpirv( ast::Shader const & shader
 		, bool writeHeader = true );
-	SDWSPIRV_API std::vector< uint32_t > serialiseSpirv( sdw::Shader const & shader );
+	SDWSPIRV_API std::vector< uint32_t > serialiseSpirv( ast::Shader const & shader );
 }
 
 #endif

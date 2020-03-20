@@ -15,12 +15,12 @@ namespace hlsl
 		: public ast::StmtCloner
 	{
 	public:
-		static ast::stmt::ContainerPtr submit( sdw::Shader const & shader
+		static ast::stmt::ContainerPtr submit( ast::Shader const & shader
 			, IntrinsicsConfig const & intrinsicsConfig
 			, HlslConfig const & writerConfig );
 
 	private:
-		StmtAdapter( sdw::Shader const & shader
+		StmtAdapter( ast::Shader const & shader
 			, IntrinsicsConfig const & intrinsicsConfig
 			, HlslConfig const & writerConfig
 			, ast::stmt::ContainerPtr & result );

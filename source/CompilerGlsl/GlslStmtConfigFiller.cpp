@@ -5,8 +5,7 @@ See LICENSE file in root folder
 
 #include "GlslExprConfigFiller.hpp"
 
-#include <ShaderWriter/Shader.hpp>
-
+#include <ShaderAST/Shader.hpp>
 #include <ShaderAST/Type/TypeImage.hpp>
 #include <ShaderAST/Type/TypeSampledImage.hpp>
 

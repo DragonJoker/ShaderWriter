@@ -9,7 +9,7 @@ See LICENSE file in root folder
 #include "HlslIntrinsicFunctions.hpp"
 #include "HlslTextureAccessFunctions.hpp"
 
-#include <ShaderWriter/Shader.hpp>
+#include <ShaderAST/Shader.hpp>
 
 #include <ShaderAST/Type/TypeSampledImage.hpp>
 #include <ShaderAST/Type/TypeImage.hpp>
@@ -135,7 +135,7 @@ namespace hlsl
 		}
 	}
 
-	ast::stmt::ContainerPtr StmtAdapter::submit( sdw::Shader const & shader
+	ast::stmt::ContainerPtr StmtAdapter::submit( ast::Shader const & shader
 		, IntrinsicsConfig const & intrinsicsConfig
 		, HlslConfig const & writerConfig )
 	{
@@ -145,7 +145,7 @@ namespace hlsl
 		return result;
 	}
 
-	StmtAdapter::StmtAdapter( sdw::Shader const & shader
+	StmtAdapter::StmtAdapter( ast::Shader const & shader
 		, IntrinsicsConfig const & intrinsicsConfig
 		, HlslConfig const & writerConfig
 		, ast::stmt::ContainerPtr & result )

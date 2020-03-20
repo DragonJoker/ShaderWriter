@@ -1,15 +1,16 @@
 /*
 See LICENSE file in root folder
 */
-#include "ShaderWriter/Shader.hpp"
+#include "ShaderAST/Shader.hpp"
 
-#include <ShaderAST/Stmt/StmtSimple.hpp>
+#include "ShaderAST/Stmt/StmtSimple.hpp"
+#include "ShaderAST/Visitors/CloneExpr.hpp"
 
 #include <algorithm>
 
-namespace sdw
+namespace ast
 {
-	Shader::Shader( ast::ShaderStage type )
+	Shader::Shader( ShaderStage type )
 		: m_container{ stmt::makeContainer() }
 		, m_type{ type }
 		, m_typesCache{ std::make_unique< ast::type::TypesCache >() }
@@ -61,7 +62,7 @@ namespace sdw
 	{
 		if ( m_savedStmt != nullptr )
 		{
-			auto result = makeExpr( *this, static_cast< ast::stmt::Simple const & >( *m_savedStmt ).getExpr() );
+			auto result = ExprCloner::submit( static_cast< ast::stmt::Simple const & >( *m_savedStmt ).getExpr() );
 			m_savedStmt = nullptr;
 			return result;
 		}
@@ -144,7 +145,7 @@ namespace sdw
 		auto result = registerName( name
 			, type
 			, var::Flag::eStatic | var::Flag::eConstant );
-		m_constants.emplace( name, type );
+		m_data.constants.emplace( name, type );
 		return result;
 	}
 
@@ -154,7 +155,7 @@ namespace sdw
 		auto result = registerName( name
 			, type
 			, var::Flag::eShaderConstant );
-		m_constants.emplace( name, type );
+		m_data.constants.emplace( name, type );
 		return result;
 	}
 
@@ -165,7 +166,7 @@ namespace sdw
 		auto result = registerName( name
 			, type
 			, var::Flag::eSpecialisationConstant );
-		m_specConstants.emplace( name, SpecConstantInfo{ type, location } );
+		m_data.specConstants.emplace( name, SpecConstantInfo{ type, location } );
 		return result;
 	}
 
@@ -181,7 +182,7 @@ namespace sdw
 
 		if ( enabled )
 		{
-			m_samplers.emplace( name, SamplerInfo{ type, binding, set } );
+			m_data.samplers.emplace( name, SamplerInfo{ type, binding, set } );
 		}
 
 		return result;
@@ -199,7 +200,7 @@ namespace sdw
 
 		if ( enabled )
 		{
-			m_images.emplace( name, ImageInfo{ type, binding, set } );
+			m_data.images.emplace( name, ImageInfo{ type, binding, set } );
 		}
 
 		return result;
@@ -222,7 +223,7 @@ namespace sdw
 		auto result = registerName( name
 			, type
 			, flags | var::Flag::eShaderInput );
-		m_inputs.emplace( name, InputInfo{ type, location } );
+		m_data.inputs.emplace( name, InputInfo{ type, location } );
 		return result;
 	}
 
@@ -230,8 +231,8 @@ namespace sdw
 		, uint32_t location
 		, type::TypePtr type )
 	{
-		assert( m_outputs.end() == std::find_if( m_outputs.begin()
-			, m_outputs.end()
+		assert( m_data.outputs.end() == std::find_if( m_data.outputs.begin()
+			, m_data.outputs.end()
 			, [&location]( std::map< std::string, OutputInfo >::value_type const & lookup )
 			{
 				return lookup.second.location == location;
@@ -250,7 +251,7 @@ namespace sdw
 		auto result = registerName( name
 			, type
 			, flags | var::Flag::eShaderOutput );
-		m_outputs.emplace( name, OutputInfo{ type, location } );
+		m_data.outputs.emplace( name, OutputInfo{ type, location } );
 		return result;
 	}
 
@@ -355,12 +356,12 @@ namespace sdw
 	void Shader::registerSsbo( std::string const & name
 		, SsboInfo const & info )
 	{
-		m_ssbos.emplace( name, info );
+		m_data.ssbos.emplace( name, info );
 	}
 
 	void Shader::registerUbo( std::string const & name
 		, UboInfo const & info )
 	{
-		m_ubos.emplace( name, info );
+		m_data.ubos.emplace( name, info );
 	}
 }

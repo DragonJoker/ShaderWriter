@@ -1,6 +1,8 @@
 #include "../Common.hpp"
 #include "WriterCommon.hpp"
 
+#include <ShaderWriter/CompositeTypes/Ubo.hpp>
+
 namespace
 {
 #define DummyMain writer.implementFunction< sdw::Void >( "main", [](){} )

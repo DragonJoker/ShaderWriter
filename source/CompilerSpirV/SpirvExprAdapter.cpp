@@ -11,6 +11,7 @@ See LICENSE file in root folder
 
 #include <ShaderAST/Stmt/StmtSimple.hpp>
 #include <ShaderAST/Visitors/CloneExpr.hpp>
+#include <ShaderAST/Visitors/GetExprName.hpp>
 
 namespace spirv
 {

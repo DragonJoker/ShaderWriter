@@ -33,7 +33,7 @@ namespace glsl
 		bool hasBaseInstance{ false };
 	};
 
-	SDWGLSL_API std::string compileGlsl( sdw::Shader const & shader
+	SDWGLSL_API std::string compileGlsl( ast::Shader const & shader
 		, ast::SpecialisationInfo const & specialisation
 		, GlslConfig const & config );
 }

@@ -26,7 +26,7 @@ namespace hlsl
 		bool flipVertY{ false };
 	};
 
-	SDWHLSL_API std::string compileHlsl( sdw::Shader const & shader
+	SDWHLSL_API std::string compileHlsl( ast::Shader const & shader
 		, ast::SpecialisationInfo const & specialisation
 		, HlslConfig const & writerConfig );
 }

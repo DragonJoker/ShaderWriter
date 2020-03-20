@@ -4,7 +4,7 @@
 
 #include "vulkan/vulkan.h"
 
-#include <ShaderWriter/Shader.hpp>
+#include <ShaderAST/Shader.hpp>
 
 #include <algorithm>
 #include <iostream>
@@ -435,7 +435,7 @@ namespace test
 		testCounts.spirv.reset();
 	}
 
-	bool compileSpirV( sdw::Shader const & shader
+	bool compileSpirV( ast::Shader const & shader
 		, std::vector< uint32_t > const & spirv
 		, std::string & errors
 		, sdw_test::TestCounts & testCounts )
@@ -481,7 +481,7 @@ namespace test
 	{
 	}
 
-	bool compileSpirV( sdw::Shader const & shader
+	bool compileSpirV( ast::Shader const & shader
 		, std::vector< uint32_t > const & spirv
 		, std::string & errors
 		, sdw_test::TestCounts & testCounts )

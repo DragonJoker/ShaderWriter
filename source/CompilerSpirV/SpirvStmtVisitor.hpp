@@ -18,12 +18,12 @@ namespace spirv
 	public:
 		static Module submit( ast::type::TypesCache & cache
 			, ast::stmt::Stmt * stmt
-			, sdw::ShaderStage type
+			, ast::ShaderStage type
 			, ModuleConfig const & config );
 
 	private:
 		StmtVisitor( Module & result
-			, sdw::ShaderStage type
+			, ast::ShaderStage type
 			, ModuleConfig const & config );
 		void visitContainerStmt( ast::stmt::Container * stmt )override;
 		void visitBreakStmt( ast::stmt::Break * stmt )override;
@@ -89,7 +89,7 @@ namespace spirv
 		Function * m_function{ nullptr };
 		std::vector< Control > m_controlBlocks;
 		uint32_t m_ifStmts{ 0u };
-		sdw::ShaderStage m_type;
+		ast::ShaderStage m_type;
 		IdList m_inputs;
 		IdList m_outputs;
 	};

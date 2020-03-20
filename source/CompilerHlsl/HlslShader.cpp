@@ -3,11 +3,11 @@ See LICENSE file in root folder
 */
 #include "HlslShader.hpp"
 
-#include <ShaderWriter/Shader.hpp>
+#include <ShaderAST/Shader.hpp>
 
 namespace hlsl
 {
-	HlslShader::HlslShader( sdw::Shader const & shader )
+	HlslShader::HlslShader( ast::Shader const & shader )
 		: m_shader{ shader }
 	{
 	}
@@ -58,7 +58,7 @@ namespace hlsl
 
 		if ( enabled )
 		{
-			m_samplers.emplace( name, sdw::SamplerInfo{ type, binding, set } );
+			m_samplers.emplace( name, ast::SamplerInfo{ type, binding, set } );
 		}
 
 		return result;
@@ -76,7 +76,7 @@ namespace hlsl
 
 		if ( enabled )
 		{
-			m_images.emplace( name, sdw::ImageInfo{ type, binding, set } );
+			m_images.emplace( name, ast::ImageInfo{ type, binding, set } );
 		}
 
 		return result;

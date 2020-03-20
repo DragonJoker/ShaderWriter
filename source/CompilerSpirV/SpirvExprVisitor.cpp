@@ -15,6 +15,7 @@ See LICENSE file in root folder
 
 #include <ShaderAST/Type/TypeImage.hpp>
 #include <ShaderAST/Type/TypeSampledImage.hpp>
+#include <ShaderAST/Visitors/GetExprName.hpp>
 #include <ShaderAST/Visitors/GetOutermostExpr.hpp>
 
 #include <algorithm>
@@ -1499,7 +1500,7 @@ namespace spirv
 		}
 		else
 		{
-			auto ident = sdw::findIdentifier( expr );
+			auto ident = ast::findIdentifier( expr );
 
 			if ( ident )
 			{

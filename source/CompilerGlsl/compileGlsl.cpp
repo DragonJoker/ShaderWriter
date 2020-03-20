@@ -7,14 +7,13 @@ See LICENSE file in root folder
 #include "GlslStmtConfigFiller.hpp"
 #include "GlslStmtVisitor.hpp"
 
-#include <ShaderWriter/Shader.hpp>
-
+#include <ShaderAST/Shader.hpp>
 #include <ShaderAST/Visitors/StmtSpecialiser.hpp>
 #include <ShaderAST/Visitors/StmtSimplifier.hpp>
 
 namespace glsl
 {
-	std::string compileGlsl( sdw::Shader const & shader
+	std::string compileGlsl( ast::Shader const & shader
 		, ast::SpecialisationInfo const & specialisation
 		, GlslConfig const & writerConfig )
 	{

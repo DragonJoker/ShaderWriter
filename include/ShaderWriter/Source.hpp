@@ -1,6 +1,14 @@
 /*
 See LICENSE file in root folder
 */
+#include "ShaderWriter/CompositeTypes/Function.hpp"
+#include "ShaderWriter/CompositeTypes/Pcb.hpp"
+#include "ShaderWriter/CompositeTypes/Ssbo.hpp"
+#include "ShaderWriter/CompositeTypes/Struct.hpp"
+#include "ShaderWriter/CompositeTypes/StructInstance.hpp"
+#include "ShaderWriter/CompositeTypes/StructuredSsbo.hpp"
+#include "ShaderWriter/CompositeTypes/Ubo.hpp"
+
 #include "ShaderWriter/MaybeOptional/MaybeOptionalMat2.hpp"
 #include "ShaderWriter/MaybeOptional/MaybeOptionalMat2x3.hpp"
 #include "ShaderWriter/MaybeOptional/MaybeOptionalMat2x4.hpp"

@@ -2,7 +2,8 @@ if ( NOT DEFINED SDW_BUILD_EXPORTER_HLSL_STATIC )
 	option( SDW_BUILD_EXPORTER_HLSL_STATIC "Build HLSL exporter as a static library" OFF )
 endif ()
 
-project( CompilerHlsl )
+set( _FOLDER_NAME CompilerHlsl )
+project( sdw${_FOLDER_NAME} )
 
 set( ${PROJECT_NAME}_VERSION_MAJOR 0 )
 set( ${PROJECT_NAME}_VERSION_MINOR 1 )
@@ -12,8 +13,8 @@ set( ${PROJECT_NAME}_VERSION_YEAR 2019 )
 set( PROJECT_VERSION "${${PROJECT_NAME}_VERSION_MAJOR}.${${PROJECT_NAME}_VERSION_MINOR}" )
 set( PROJECT_SOVERSION "${${PROJECT_NAME}_VERSION_BUILD}" )
 
-set( INCLUDE_DIR ${SDW_SOURCE_DIR}/include/${PROJECT_NAME} )
-set( SOURCE_DIR ${SDW_SOURCE_DIR}/source/${PROJECT_NAME} )
+set( INCLUDE_DIR ${SDW_SOURCE_DIR}/include/${_FOLDER_NAME} )
+set( SOURCE_DIR ${SDW_SOURCE_DIR}/source/${_FOLDER_NAME} )
 
 file( GLOB_RECURSE ${PROJECT_NAME}_FOLDER_HEADER_FILES
 	${INCLUDE_DIR}/*.h
@@ -37,8 +38,8 @@ if ( SDW_BUILD_EXPORTER_HLSL_STATIC )
 	)
 	target_compile_definitions( ${PROJECT_NAME}
 		PUBLIC
-			${PROJECT_NAME}_Static
-			SDW_Has${PROJECT_NAME}
+			${_FOLDER_NAME}_Static
+			SDW_Has${_FOLDER_NAME}
 	)
 else ()
 	add_library( ${PROJECT_NAME}
@@ -49,19 +50,19 @@ else ()
 	)
 	target_compile_definitions( ${PROJECT_NAME}
 		PRIVATE
-			${PROJECT_NAME}_Exports
+			${_FOLDER_NAME}_Exports
 		PUBLIC
-			SDW_Has${PROJECT_NAME}
+			SDW_Has${_FOLDER_NAME}
 	)
 endif ()
 
-add_library( sdw::${PROJECT_NAME}
+add_library( sdw::${_FOLDER_NAME}
 	ALIAS
 	${PROJECT_NAME}
 )
-target_link_libraries( ${PROJECT_NAME} PUBLIC
-	sdw::ShaderAST
-	sdw::ShaderWriter
+target_link_libraries( ${PROJECT_NAME}
+	PUBLIC
+		sdw::ShaderAST
 )
 set_target_properties( ${PROJECT_NAME}
 	PROPERTIES
@@ -70,18 +71,19 @@ set_target_properties( ${PROJECT_NAME}
 		CXX_STANDARD 17
 		FOLDER "${SDW_BASE_DIR}/Exporters"
 )
-target_include_directories( ${PROJECT_NAME} PRIVATE
-	${SDW_SOURCE_DIR}/source
-	${INCLUDE_DIR}
-	${SOURCE_DIR}
+target_include_directories( ${PROJECT_NAME}
+	PRIVATE
+		${SDW_SOURCE_DIR}/source
+		${INCLUDE_DIR}
+		${SOURCE_DIR}
 )
 
-# We install headers to <install_dir>/include/${PROJECT_NAME}
-target_install_headers( ${PROJECT_NAME} ${SDW_SOURCE_DIR}/include/${PROJECT_NAME} )
+# We install headers to <install_dir>/include/${_FOLDER_NAME}
+target_install_headers( ${PROJECT_NAME} ${SDW_SOURCE_DIR}/include/${_FOLDER_NAME} )
 
 set( SDW_EXPORTERS_LIST
 	${SDW_EXPORTERS_LIST}
-	sdw::${PROJECT_NAME}
+	sdw::${_FOLDER_NAME}
 	PARENT_SCOPE
 )
 

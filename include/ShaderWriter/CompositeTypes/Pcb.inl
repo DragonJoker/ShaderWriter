@@ -6,10 +6,6 @@ namespace sdw
 	template< typename T >
 	inline T Pcb::declMember( std::string const & name )
 	{
-		static_assert( !IsSameV< T, Boolean >, "Bool is not supported inside a Push Constants Buffer" );
-		static_assert( !IsSameV< T, BVec2 >, "BVec2 is not supported inside a Push Constants Buffer" );
-		static_assert( !IsSameV< T, BVec3 >, "BVec3 is not supported inside a Push Constants Buffer" );
-		static_assert( !IsSameV< T, BVec4 >, "BVec4 is not supported inside a Push Constants Buffer" );
 		auto type = m_info.registerMember< typeEnum< T > >( name );
 		auto var = registerMember( m_shader, m_var, name, type );
 		m_stmt->add( stmt::makeVariableDecl( var ) );
@@ -21,10 +17,6 @@ namespace sdw
 	inline Array< T > Pcb::declMember( std::string const & name
 		, uint32_t dimension )
 	{
-		static_assert( !IsSameV< T, Boolean >, "Bool is not supported inside a Push Constants Buffer" );
-		static_assert( !IsSameV< T, BVec2 >, "BVec2 is not supported inside a Push Constants Buffer" );
-		static_assert( !IsSameV< T, BVec3 >, "BVec3 is not supported inside a Push Constants Buffer" );
-		static_assert( !IsSameV< T, BVec4 >, "BVec4 is not supported inside a Push Constants Buffer" );
 		auto type = m_info.registerMember< typeEnum< T > >( name, dimension );
 		auto var = registerMember( m_shader, m_var, name, type );
 		m_stmt->add( stmt::makeVariableDecl( var ) );
@@ -36,10 +28,6 @@ namespace sdw
 	inline Optional< T > Pcb::declMember( std::string const & name
 		, bool enabled )
 	{
-		static_assert( !IsSameV< T, Boolean >, "Bool is not supported inside a Push Constants Buffer" );
-		static_assert( !IsSameV< T, BVec2 >, "BVec2 is not supported inside a Push Constants Buffer" );
-		static_assert( !IsSameV< T, BVec3 >, "BVec3 is not supported inside a Push Constants Buffer" );
-		static_assert( !IsSameV< T, BVec4 >, "BVec4 is not supported inside a Push Constants Buffer" );
 		auto type = m_info.registerMember< typeEnum< T > >( name );
 		auto var = registerMember( m_shader, m_var, name, type );
 
@@ -58,10 +46,6 @@ namespace sdw
 		, uint32_t dimension
 		, bool enabled )
 	{
-		static_assert( !IsSameV< T, Boolean >, "Bool is not supported inside a Push Constants Buffer" );
-		static_assert( !IsSameV< T, BVec2 >, "BVec2 is not supported inside a Push Constants Buffer" );
-		static_assert( !IsSameV< T, BVec3 >, "BVec3 is not supported inside a Push Constants Buffer" );
-		static_assert( !IsSameV< T, BVec4 >, "BVec4 is not supported inside a Push Constants Buffer" );
 		auto type = m_info.registerMember< typeEnum< T > >( name, dimension );
 		auto var = registerMember( m_shader, m_var, name, type );
 

@@ -14,6 +14,8 @@ See LICENSE file in root folder
 #include "SpirvTextureAccessConfig.hpp"
 #include "SpirvTextureAccessNames.hpp"
 
+#include <ShaderAST/Visitors/GetExprName.hpp>
+
 #include <numeric>
 #include <sstream>
 

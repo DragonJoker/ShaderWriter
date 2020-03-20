@@ -6,7 +6,7 @@ namespace
 	struct St
 		: public sdw::StructInstance
 	{
-		St( sdw::Shader * shader
+		St( ast::Shader * shader
 			, ast::expr::ExprPtr expr )
 			: StructInstance{ shader, std::move( expr ) }
 			, a{ getMember< sdw::Vec4 >( "a" ) }
@@ -46,7 +46,7 @@ namespace
 	struct St2
 		: public sdw::StructInstance
 	{
-		St2( sdw::Shader * shader
+		St2( ast::Shader * shader
 			, ast::expr::ExprPtr expr )
 			: StructInstance{ shader, std::move( expr ) }
 			, a{ getMember< St >( "a" ) }

@@ -22,8 +22,8 @@ namespace ast
 		eTessellationControl,
 		eTessellationEvaluation,
 		eGeometry,
-		eCompute,
 		eFragment,
+		eCompute,
 	};
 
 	namespace expr
@@ -88,10 +88,38 @@ namespace ast
 		using SamplerPtr = std::shared_ptr< Sampler >;
 	}
 
-	struct SpecConstantInfo
+	struct AttributeInfo
 	{
 		type::TypePtr type;
 		uint32_t location;
+	};
+
+	inline bool operator<( AttributeInfo const & lhs
+		, AttributeInfo const & rhs )
+	{
+		return lhs.location < rhs.location;
+	}
+
+	inline bool operator==( AttributeInfo const & lhs
+		, AttributeInfo const & rhs )
+	{
+		return lhs.location == rhs.location
+			&& lhs.type == rhs.type;
+	}
+
+	struct SpecConstantInfo
+		: AttributeInfo
+	{
+	};
+
+	struct InputInfo
+		: AttributeInfo
+	{
+	};
+
+	struct OutputInfo
+		: AttributeInfo
+	{
 	};
 
 	struct SpecConstantData
@@ -104,6 +132,49 @@ namespace ast
 	{
 		std::vector< SpecConstantData > data;
 	};
+
+	struct DescriptorBinding
+	{
+		uint32_t binding;
+		uint32_t set;
+	};
+
+	inline bool operator<( DescriptorBinding const & lhs
+		, DescriptorBinding const & rhs )
+	{
+		return lhs.set < rhs.set
+			|| ( lhs.set == rhs.set
+				&& lhs.binding < rhs.binding );
+	}
+
+	inline bool operator==( DescriptorBinding const & lhs
+		, DescriptorBinding const & rhs )
+	{
+		return lhs.set == rhs.set
+			&& lhs.binding == rhs.binding;
+	}
+
+	template< typename TypeT = ast::type::Type >
+	struct DescriptorInfoT
+	{
+		std::shared_ptr< TypeT > type;
+		DescriptorBinding binding;
+	};
+
+	using DescriptorInfo = DescriptorInfoT<>;
+
+	struct SamplerInfo
+		: DescriptorInfo
+	{
+	};
+
+	struct ImageInfo
+		: DescriptorInfo
+	{
+	};
+
+	class Shader;
+	using ShaderArray = std::vector< Shader >;
 }
 
 #endif

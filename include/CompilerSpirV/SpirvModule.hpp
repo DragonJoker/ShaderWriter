@@ -7,6 +7,8 @@ See LICENSE file in root folder
 
 #include "SpirvFunction.hpp"
 
+#include <ShaderAST/Expr/ExprLiteral.hpp>
+
 namespace spirv
 {
 	using FunctionList = std::vector< Function >;

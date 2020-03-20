@@ -9,7 +9,7 @@ See LICENSE file in root folder
 #include "SpirvIntrinsicNames.hpp"
 #include "SpirvTextureAccessNames.hpp"
 
-#include <ShaderWriter/Shader.hpp>
+#include <ShaderAST/Shader.hpp>
 
 #include <ShaderAST/Type/TypeSampledImage.hpp>
 #include <ShaderAST/Type/TypeImage.hpp>

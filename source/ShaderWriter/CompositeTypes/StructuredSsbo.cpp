@@ -3,7 +3,7 @@ See LICENSE file in root folder
 */
 #include "ShaderWriter/CompositeTypes/StructuredSsbo.hpp"
 
-#include "ShaderWriter/Shader.hpp"
+#include <ShaderAST/Shader.hpp>
 
 namespace sdw
 {

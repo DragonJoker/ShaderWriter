@@ -6,6 +6,8 @@ See LICENSE file in root folder
 #pragma once
 
 #include "CompilerSpirV/SpirvInstruction.hpp"
+#include <ShaderAST/Expr/Expr.hpp>
+#include <ShaderAST/Type/Type.hpp>
 
 #include <string>
 #include <vector>
