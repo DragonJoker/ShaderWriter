@@ -6,11 +6,6 @@ set( TEST_COMMON_HEADER_FILES
 set( TEST_COMMON_SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/Common.cpp
 )
-
-include_directories(
-	${CMAKE_SOURCE_DIR}/include
-)
-
 add_library( TestCommon
 	OBJECT
 	${TEST_COMMON_HEADER_FILES}
@@ -20,16 +15,20 @@ add_library( sdw::test::Common
 	ALIAS
 	TestCommon
 )
+target_include_directories( TestCommon
+	PUBLIC
+		${CMAKE_SOURCE_DIR}/include
+)
 target_link_libraries( TestCommon
 	PUBLIC
 		sdw::ShaderAST
+		${SDW_EXPORTERS_LIST}
 )
-target_compile_definitions( TestCommon
-	PUBLIC
-		${SDW_EXPORTERS_DEFINITIONS}
+set_target_properties( TestCommon
+	PROPERTIES
+		CXX_STANDARD 17
+		FOLDER "Tests"
 )
-set_property( TARGET TestCommon PROPERTY CXX_STANDARD 17 )
-set_property( TARGET TestCommon PROPERTY FOLDER "Tests" )
 
 add_subdirectory( ShaderAST )
 add_subdirectory( ShaderWriter )

@@ -63,17 +63,13 @@ if ( Vulkan_FOUND )
 			${SDW_SOURCE_DIR}/source
 			${INCLUDE_DIR}
 			${SOURCE_DIR}
+		PUBLIC
+			${Vulkan_INCLUDE_DIR}
 	)
 
 	# We install headers to <install_dir>/include/${PROJECT_NAME}
 	target_install_headers( ${PROJECT_NAME}
 		${SDW_SOURCE_DIR}/include/${_FOLDER_NAME}
-	)
-
-	set( SDW_EXPORTERS_LIST
-		${SDW_EXPORTERS_LIST}
-		sdw::${_FOLDER_NAME}
-		PARENT_SCOPE
 	)
 
 	set( SDW_INSTEXP_LIST
