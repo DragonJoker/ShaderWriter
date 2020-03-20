@@ -10,6 +10,7 @@ See LICENSE file in root folder
 
 #include <ShaderAST/Type/TypeStruct.hpp>
 
+#include <map>
 #include <set>
 #include <string>
 #include <vector>

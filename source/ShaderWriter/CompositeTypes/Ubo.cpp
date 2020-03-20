@@ -7,6 +7,8 @@ See LICENSE file in root folder
 #include "ShaderWriter/CompositeTypes/StructInstance.hpp"
 #include "ShaderWriter/Writer.hpp"
 
+#include <ShaderAST/Type/TypeStruct.hpp>
+
 namespace sdw
 {
 	Ubo::Ubo( ShaderWriter & writer
@@ -17,8 +19,9 @@ namespace sdw
 		: m_shader{ writer.getShader() }
 		, m_stmt{ stmt::makeConstantBufferDecl( name, layout, bind, set ) }
 		, m_name{ name }
-		, m_info{ writer.getTypesCache(), layout, name, bind, set }
-		, m_var{ var::makeVariable( m_info.getType(), m_name, var::Flag::eUniform ) }
+		, m_interface{ writer.getTypesCache(), layout, name }
+		, m_info{ m_interface.getType(), bind, set }
+		, m_var{ var::makeVariable( m_info.type, m_name, var::Flag::eUniform ) }
 	{
 	}
 
@@ -30,7 +33,7 @@ namespace sdw
 
 	StructInstance Ubo::declMember( std::string const & name, Struct const & s )
 	{
-		auto type = m_info.registerMember( name, s.getType() );
+		auto type = m_interface.registerMember( name, s.getType() );
 		auto var = registerMember( m_shader, m_var, name, type );
 		m_stmt->add( stmt::makeVariableDecl( var ) );
 		return StructInstance{ &m_shader

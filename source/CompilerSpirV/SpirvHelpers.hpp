@@ -7,6 +7,9 @@ See LICENSE file in root folder
 
 #include "SpirvOpHelpers.hpp"
 
+#include <ShaderAST/Expr/ExprLiteral.hpp>
+#include <ShaderAST/Stmt/StmtContainer.hpp>
+
 #include <set>
 #include <string>
 #include <vector>
@@ -42,7 +45,7 @@ namespace spirv
 
 	spv::BuiltIn getBuiltin( std::string const & name );
 	spv::MemoryModel getMemoryModel();
-	spv::ExecutionModel getExecutionModel( sdw::ShaderStage kind );
+	spv::ExecutionModel getExecutionModel( ast::ShaderStage kind );
 	std::string getTypeName( spv::Op op );
 	std::string getOperatorName( spv::Op op );
 	IdList makeBinOpOperands( ast::expr::Kind exprKind

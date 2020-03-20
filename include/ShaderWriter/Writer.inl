@@ -3,6 +3,8 @@ See LICENSE file in root folder
 */
 #include "Writer.hpp"
 
+#include "ShaderWriter/CompositeTypes/Struct.hpp"
+
 #include <ShaderAST/Type/TypeImage.hpp>
 #include <ShaderAST/Type/TypeSampledImage.hpp>
 #include <ShaderAST/Visitors/GetExprName.hpp>

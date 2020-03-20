@@ -4,8 +4,9 @@ See LICENSE file in root folder
 #ifndef ___SDW_Ubo_H___
 #define ___SDW_Ubo_H___
 
-#include "BoInfo.hpp"
+#include "ShaderWriter/ShaderWriterPrerequisites.hpp"
 
+#include <ShaderAST/BoInfo.hpp>
 #include <ShaderAST/Stmt/StmtConstantBufferDecl.hpp>
 
 namespace sdw
@@ -45,10 +46,11 @@ namespace sdw
 			, bool enabled );
 
 	private:
-		Shader & m_shader;
+		ast::Shader & m_shader;
 		stmt::ConstantBufferDeclPtr m_stmt;
 		std::string m_name;
-		UboInfo m_info;
+		ast::InterfaceBlock m_interface;
+		ast::UboInfo m_info;
 		var::VariablePtr m_var;
 	};
 }

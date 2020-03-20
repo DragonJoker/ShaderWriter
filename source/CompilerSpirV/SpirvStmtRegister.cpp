@@ -10,6 +10,7 @@ See LICENSE file in root folder
 #include "SpirvMakeAccessChain.hpp"
 
 #include <ShaderAST/Visitors/CloneExpr.hpp>
+#include <ShaderAST/Visitors/GetExprName.hpp>
 
 #include <sstream>
 

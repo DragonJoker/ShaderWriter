@@ -3,6 +3,10 @@ See LICENSE file in root folder
 */
 #include "CompilerSpirV/SpirvBlock.hpp"
 
+#include <ShaderAST/Type/ImageConfiguration.hpp>
+
+#include <algorithm>
+
 namespace spirv
 {
 	//*************************************************************************

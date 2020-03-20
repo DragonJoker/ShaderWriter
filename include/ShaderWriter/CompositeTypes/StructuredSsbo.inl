@@ -35,8 +35,9 @@ namespace sdw
 		, uint32_t set )
 		: m_shader{ sdw::getShader( writer ) }
 		, m_name{ name }
-		, m_info{ details::getSsboType( getTypesCache( writer ), m_name, dataType, layout ), bind, set }
-		, m_ssboType{ m_info.getType() }
+		, m_interface{ details::getSsboType( getTypesCache( writer ), m_name, dataType, layout ) }
+		, m_info{ m_interface.getType(), bind, set }
+		, m_ssboType{ m_interface.getType() }
 		, m_dataVar{ var::makeVariable( m_ssboType->getMember( m_name + "Data" ).type, m_name + "Data", var::Flag::eUniform ) }
 		, m_ssboVar{ var::makeVariable( m_ssboType, m_name + "Inst", var::Flag::eUniform ) }
 	{
@@ -57,8 +58,9 @@ namespace sdw
 		, uint32_t set )
 		: m_shader{ sdw::getShader( writer ) }
 		, m_name{ name }
-		, m_info{ details::getSsboType( getTypesCache( writer ), m_name, dataType ), bind, set }
-		, m_ssboType{ m_info.getType() }
+		, m_interface{ details::getSsboType( getTypesCache( writer ), m_name, dataType ) }
+		, m_info{ m_interface.getType(), bind, set }
+		, m_ssboType{ m_interface.getType() }
 		, m_dataVar{ var::makeVariable( m_ssboType->getMember( m_name + "Data" ).type, m_name + "Data", var::Flag::eUniform ) }
 		, m_ssboVar{ var::makeVariable( m_ssboType, m_name + "Inst", var::Flag::eUniform ) }
 	{

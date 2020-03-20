@@ -3,7 +3,6 @@ See LICENSE file in root folder
 */
 #include "ShaderWriter/Helpers.hpp"
 
-#include "ShaderWriter/Shader.hpp"
 #include "ShaderWriter/Writer.hpp"
 
 #include <ShaderAST/Expr/ExprAdd.hpp>
@@ -53,7 +52,6 @@ See LICENSE file in root folder
 #include <ShaderAST/Expr/ExprUnaryMinus.hpp>
 #include <ShaderAST/Expr/ExprUnaryPlus.hpp>
 #include <ShaderAST/Expr/ExprXorAssign.hpp>
-
 #include <ShaderAST/Stmt/PreprocDefine.hpp>
 #include <ShaderAST/Stmt/StmtContainer.hpp>
 #include <ShaderAST/Stmt/StmtImageDecl.hpp>
@@ -65,12 +63,11 @@ See LICENSE file in root folder
 #include <ShaderAST/Stmt/StmtSpecialisationConstantDecl.hpp>
 #include <ShaderAST/Stmt/StmtStructureDecl.hpp>
 #include <ShaderAST/Stmt/StmtVariableDecl.hpp>
-
 #include <ShaderAST/Type/TypeImage.hpp>
 #include <ShaderAST/Type/TypeSampledImage.hpp>
 #include <ShaderAST/Type/TypeStruct.hpp>
-
 #include <ShaderAST/Visitors/CloneExpr.hpp>
+#include <ShaderAST/Shader.hpp>
 
 #include "WriterInt.hpp"
 

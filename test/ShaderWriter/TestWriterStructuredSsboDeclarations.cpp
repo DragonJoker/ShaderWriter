@@ -1,6 +1,9 @@
 #include "../Common.hpp"
 #include "WriterCommon.hpp"
 
+#include <ShaderWriter/CompositeTypes/Struct.hpp>
+#include <ShaderWriter/CompositeTypes/StructuredSsbo.hpp>
+
 namespace
 {
 #define DummyMain writer.implementFunction< sdw::Void >( "main", [](){} )

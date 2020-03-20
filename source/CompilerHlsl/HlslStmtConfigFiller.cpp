@@ -9,14 +9,13 @@ See LICENSE file in root folder
 #include "HlslIntrinsicFunctions.hpp"
 #include "HlslTextureAccessFunctions.hpp"
 
-#include <ShaderWriter/Shader.hpp>
-
+#include <ShaderAST/Shader.hpp>
 #include <ShaderAST/Type/TypeSampledImage.hpp>
 #include <ShaderAST/Type/TypeImage.hpp>
 
 namespace hlsl
 {
-	IntrinsicsConfig StmtConfigFiller::submit( sdw::Shader const & shader )
+	IntrinsicsConfig StmtConfigFiller::submit( ast::Shader const & shader )
 	{
 		IntrinsicsConfig result;
 		StmtConfigFiller vis{ shader, result };
@@ -24,7 +23,7 @@ namespace hlsl
 		return result;
 	}
 
-	StmtConfigFiller::StmtConfigFiller( sdw::Shader const & shader
+	StmtConfigFiller::StmtConfigFiller( ast::Shader const & shader
 		, IntrinsicsConfig & result )
 		: m_result{ result }
 	{

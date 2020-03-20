@@ -7,7 +7,7 @@ See LICENSE file in root folder
 #include "GlslHelpers.hpp"
 #include "GlslTextureAccessFunctions.hpp"
 
-#include <ShaderWriter/Shader.hpp>
+#include <ShaderAST/Shader.hpp>
 
 #include <algorithm>
 

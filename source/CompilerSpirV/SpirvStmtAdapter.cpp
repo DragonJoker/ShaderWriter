@@ -6,7 +6,7 @@ See LICENSE file in root folder
 #include "SpirvExprAdapter.hpp"
 #include "SpirvExprEvaluator.hpp"
 
-#include <ShaderWriter/Shader.hpp>
+#include <ShaderAST/Shader.hpp>
 
 namespace spirv
 {

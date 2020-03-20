@@ -276,28 +276,28 @@ namespace spirv
 		return spv::MemoryModelGLSL450;
 	}
 
-	spv::ExecutionModel getExecutionModel( sdw::ShaderStage kind )
+	spv::ExecutionModel getExecutionModel( ast::ShaderStage kind )
 	{
 		spv::ExecutionModel result;
 
 		switch ( kind )
 		{
-		case sdw::ShaderStage::eVertex:
+		case ast::ShaderStage::eVertex:
 			result = spv::ExecutionModelVertex;
 			break;
-		case sdw::ShaderStage::eTessellationControl:
+		case ast::ShaderStage::eTessellationControl:
 			result = spv::ExecutionModelTessellationControl;
 			break;
-		case sdw::ShaderStage::eTessellationEvaluation:
+		case ast::ShaderStage::eTessellationEvaluation:
 			result = spv::ExecutionModelTessellationEvaluation;
 			break;
-		case sdw::ShaderStage::eGeometry:
+		case ast::ShaderStage::eGeometry:
 			result = spv::ExecutionModelGeometry;
 			break;
-		case sdw::ShaderStage::eCompute:
+		case ast::ShaderStage::eCompute:
 			result = spv::ExecutionModelGLCompute;
 			break;
-		case sdw::ShaderStage::eFragment:
+		case ast::ShaderStage::eFragment:
 			result = spv::ExecutionModelFragment;
 			break;
 		default:

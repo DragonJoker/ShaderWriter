@@ -4,8 +4,9 @@ See LICENSE file in root folder
 #ifndef ___SDW_Ssbo_H___
 #define ___SDW_Ssbo_H___
 
-#include "BoInfo.hpp"
+#include "ShaderWriter/ShaderWriterPrerequisites.hpp"
 
+#include <ShaderAST/BoInfo.hpp>
 #include <ShaderAST/Stmt/StmtShaderBufferDecl.hpp>
 
 namespace sdw
@@ -34,9 +35,10 @@ namespace sdw
 		inline Array< T > getMemberArray( std::string const & name );
 
 	private:
-		Shader & m_shader;
+		ast::Shader & m_shader;
 		std::string m_name;
-		SsboInfo m_info;
+		ast::InterfaceBlock m_interface;
+		ast::SsboInfo m_info;
 		var::VariablePtr m_var;
 		stmt::ShaderBufferDeclPtr m_stmt;
 	};

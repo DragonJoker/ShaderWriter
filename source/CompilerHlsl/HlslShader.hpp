@@ -5,14 +5,14 @@ See LICENSE file in root folder
 #define ___SDW_HlslShader_H___
 #pragma once
 
-#include <ShaderWriter/Shader.hpp>
+#include <ShaderAST/Shader.hpp>
 
 namespace hlsl
 {
 	class HlslShader
 	{
 	public:
-		HlslShader( sdw::Shader const & shader );
+		HlslShader( ast::Shader const & shader );
 
 		void registerVariable( ast::var::VariablePtr var );
 		ast::var::VariablePtr registerName( std::string const & name
@@ -37,16 +37,16 @@ namespace hlsl
 		ast::var::VariablePtr getVar( std::string const & name
 			, ast::type::TypePtr type );
 
-		inline sdw::ShaderStage getType()const
+		inline ast::ShaderStage getType()const
 		{
 			return m_shader.getType();
 		}
 
 	private:
-		sdw::Shader const & m_shader;
+		ast::Shader const & m_shader;
 		std::map< std::string, ast::var::VariablePtr > m_registered;
-		std::map< std::string, sdw::SamplerInfo > m_samplers;
-		std::map< std::string, sdw::ImageInfo > m_images;
+		std::map< std::string, ast::SamplerInfo > m_samplers;
+		std::map< std::string, ast::ImageInfo > m_images;
 	};
 }
 

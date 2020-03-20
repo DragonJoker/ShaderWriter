@@ -5,10 +5,20 @@
 #include "CompileSPIRV.hpp"
 #include "GlslToSpv.hpp"
 
-#include <CompilerGlsl/compileGlsl.hpp>
-#include <CompilerHlsl/compileHlsl.hpp>
-#include <CompilerSpirV/compileSpirV.hpp>
-#include <CompilerSpirV/SpirvModule.hpp>
+#if SDW_HasCompilerGlsl
+#	include <CompilerGlsl/compileGlsl.hpp>
+#endif
+#if SDW_HasCompilerHlsl
+#	include <CompilerHlsl/compileHlsl.hpp>
+#endif
+#if SDW_HasCompilerSpirV
+#	include <CompilerSpirV/compileSpirV.hpp>
+#	include <CompilerSpirV/SpirvModule.hpp>
+#	if SDW_Test_HasVulkan
+#		include <VulkanLayer/PipelineBuilder.hpp>
+#		include <VulkanLayer/ProgramPipeline.hpp>
+#	endif
+#endif
 
 #include "spirv_cpp.hpp"
 #include "spirv_cross_util.hpp"
@@ -168,7 +178,7 @@ namespace test
 			}
 		}
 
-		bool validateSpirV( ::sdw::Shader const & shader
+		bool validateSpirV( ::ast::Shader const & shader
 			, std::vector< uint32_t > spirv
 			, std::string const & text
 			, sdw_test::TestCounts & testCounts
@@ -225,7 +235,7 @@ namespace test
 			return result;
 		}
 
-		void validateSpirV( ::sdw::Shader const & shader
+		void validateSpirV( ::ast::Shader const & shader
 			, std::vector< uint32_t > const & spirv
 			, std::string const & text
 			, ::sdw::SpecialisationInfo const & specialisation
@@ -277,14 +287,14 @@ namespace test
 			}
 		}
 
-		void testWriteDebug( ::sdw::Shader const & shader
+		void testWriteDebug( ::ast::Shader const & shader
 			, ::sdw::SpecialisationInfo const & specialisation )
 		{
 			auto debug = ::sdw::writeDebug( shader );
 			displayShader( "Statements", debug );
 		}
 
-		void testWriteGlsl( ::sdw::Shader const & shader
+		void testWriteGlsl( ::ast::Shader const & shader
 			, ::sdw::SpecialisationInfo const & specialisation
 			, bool validateGlsl
 			, sdw_test::TestCounts & testCounts )
@@ -313,7 +323,7 @@ namespace test
 #endif
 		}
 
-		void testWriteHlsl( ::sdw::Shader const & shader
+		void testWriteHlsl( ::ast::Shader const & shader
 			, ::sdw::SpecialisationInfo const & specialisation
 			, bool validateHlsl
 			, sdw_test::TestCounts & testCounts )
@@ -342,7 +352,7 @@ namespace test
 #endif
 		}
 
-		void testWriteSpirV( ::sdw::Shader const & shader
+		void testWriteSpirV( ::ast::Shader const & shader
 			, ::sdw::SpecialisationInfo const & specialisation
 			, bool validateSpirV
 			, bool validateHlsl
@@ -408,7 +418,7 @@ namespace test
 				, 0 );
 		}
 
-		::sdw::SpecialisationInfo getSpecialisationInfo( ::sdw::Shader const & shader )
+		::sdw::SpecialisationInfo getSpecialisationInfo( ::ast::Shader const & shader )
 		{
 			auto & specInfo = shader.getSpecConstants();
 			::sdw::SpecialisationInfo result;
@@ -443,22 +453,53 @@ namespace test
 		}
 	}
 
-	void writeShader( ::sdw::ShaderWriter const & writer
+	void writeShader( ::ast::Shader const & shader
 		, sdw_test::TestCounts & testCounts
 		, bool validateSpirV
 		, bool validateHlsl
 		, bool validateGlsl )
 	{
-		auto specialisation = getSpecialisationInfo( writer.getShader() );
-		checkNoThrow( testWriteDebug( writer.getShader(), specialisation ) );
-		checkNoThrow( testWriteSpirV( writer.getShader(), specialisation, validateSpirV, validateHlsl, validateGlsl, testCounts ) );
-		checkNoThrow( testWriteGlsl( writer.getShader(), specialisation, validateGlsl, testCounts ) );
-		checkNoThrow( testWriteHlsl( writer.getShader(), specialisation, validateHlsl, testCounts ) );
+		auto specialisation = getSpecialisationInfo( shader );
+		checkNoThrow( testWriteDebug( shader, specialisation ) );
+		checkNoThrow( testWriteSpirV( shader, specialisation, validateSpirV, validateHlsl, validateGlsl, testCounts ) );
+		checkNoThrow( testWriteGlsl( shader, specialisation, validateGlsl, testCounts ) );
+		checkNoThrow( testWriteHlsl( shader, specialisation, validateHlsl, testCounts ) );
+	}
+
+	void writeShader( sdw::ShaderWriter const & writer
+		, sdw_test::TestCounts & testCounts
+		, bool validateSpirV
+		, bool validateHlsl
+		, bool validateGlsl )
+	{
+		writeShader( writer.getShader()
+			, testCounts
+			, validateSpirV
+			, validateHlsl
+			, validateGlsl );
 	}
 
 	void expectError( std::string const & value
 		, sdw_test::TestCounts & testCounts )
 	{
 		testCounts.expectedError = value;
+	}
+
+	void validateShaders( ast::ShaderArray const & shaders
+		, sdw_test::TestCounts & testCounts )
+	{
+#if SDW_Test_HasVulkan && SDW_HasCompilerSpirV
+		ast::vk::ProgramPipeline program{ shaders };
+		validateProgram( program, testCounts );
+#endif
+	}
+
+	void validateShader( ::ast::Shader const & shader
+		, sdw_test::TestCounts & testCounts )
+	{
+#if SDW_Test_HasVulkan && SDW_HasCompilerSpirV
+		ast::vk::ProgramPipeline program{ shader };
+		validateProgram( program, testCounts );
+#endif
 	}
 }

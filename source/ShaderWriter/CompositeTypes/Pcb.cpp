@@ -4,6 +4,8 @@ See LICENSE file in root folder
 #include "ShaderWriter/CompositeTypes/Pcb.hpp"
 
 #include "ShaderWriter/Writer.hpp"
+#include "ShaderWriter/CompositeTypes/Struct.hpp"
+#include "ShaderWriter/CompositeTypes/StructInstance.hpp"
 
 namespace sdw
 {
@@ -13,7 +15,7 @@ namespace sdw
 		: m_shader{ writer.getShader() }
 		, m_stmt{ stmt::makePushConstantsBufferDecl( name, layout ) }
 		, m_name{ name }
-		, m_info{ writer.getTypesCache(), layout, name, 0u, 0u }
+		, m_info{ writer.getTypesCache(), layout, name }
 		, m_var{ var::makeVariable( m_info.getType(), m_name, var::Flag::ePushConstant ) }
 	{
 	}

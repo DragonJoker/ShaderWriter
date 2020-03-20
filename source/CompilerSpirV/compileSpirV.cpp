@@ -9,7 +9,7 @@ See LICENSE file in root folder
 
 #include "CompilerSpirV/spirv/GLSL.std.450.hpp"
 
-#include <ShaderWriter/Shader.hpp>
+#include <ShaderAST/Shader.hpp>
 
 #include <ShaderAST/Visitors/StmtSimplifier.hpp>
 
@@ -2978,7 +2978,7 @@ namespace spirv
 			}
 		}
 
-		spirv::Module compileSpirV( sdw::Shader const & shader )
+		spirv::Module compileSpirV( ast::Shader const & shader )
 		{
 			auto simplified = ast::StmtSimplifier::submit( shader.getTypesCache()
 				, shader.getStatements() );
@@ -2988,7 +2988,7 @@ namespace spirv
 		}
 	}
 
-	std::string writeSpirv( sdw::Shader const & shader
+	std::string writeSpirv( ast::Shader const & shader
 		, bool writeHeader )
 	{
 		auto module = compileSpirV( shader );
@@ -2997,7 +2997,7 @@ namespace spirv
 		return stream.str();
 	}
 
-	std::vector< uint32_t > serialiseSpirv( sdw::Shader const & shader )
+	std::vector< uint32_t > serialiseSpirv( ast::Shader const & shader )
 	{
 		auto module = compileSpirV( shader );
 		std::vector< uint32_t > result;

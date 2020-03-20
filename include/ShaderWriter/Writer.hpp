@@ -5,9 +5,13 @@ See LICENSE file in root folder
 #define ___SDW_Writer_H___
 
 #include "ShaderWriter/CompositeTypes/Builtins.hpp"
-#include "Shader.hpp"
+#include "ShaderWriter/CompositeTypes/Function.hpp"
+
+#include <ShaderAST/Shader.hpp>
 #include <ShaderAST/Stmt/StmtIf.hpp>
 #include <ShaderAST/Stmt/StmtSwitch.hpp>
+
+#include <functional>
 
 namespace sdw
 {
@@ -396,12 +400,12 @@ namespace sdw
 		*	Getters.
 		*/
 		/**@{*/
-		inline Shader const & getShader()const
+		inline ast::Shader const & getShader()const
 		{
 			return m_shader;
 		}
 
-		inline Shader & getShader()
+		inline ast::Shader & getShader()
 		{
 			return m_shader;
 		}
@@ -448,7 +452,7 @@ namespace sdw
 			, var::Flag flag );
 
 	private:
-		Shader m_shader;
+		ast::Shader m_shader;
 		Function< Vec2, InVec2 > m_invertVec2Y;
 		Function< Vec3, InVec3 > m_invertVec3Y;
 		std::vector< stmt::If * > m_ifStmt;

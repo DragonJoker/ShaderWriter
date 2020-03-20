@@ -6,11 +6,7 @@ namespace sdw
 	template< typename T >
 	inline T Ubo::declMember( std::string const & name )
 	{
-		static_assert( !IsSameV< T, Boolean >, "Bool is not supported inside a UBO" );
-		static_assert( !IsSameV< T, BVec2 >, "BVec2 is not supported inside a UBO" );
-		static_assert( !IsSameV< T, BVec3 >, "BVec3 is not supported inside a UBO" );
-		static_assert( !IsSameV< T, BVec4 >, "BVec4 is not supported inside a UBO" );
-		auto type = m_info.registerMember< typeEnum< T > >( name );
+		auto type = m_interface.registerMember< typeEnum< T > >( name );
 		auto var = registerMember( m_shader, m_var, name, type );
 		m_stmt->add( stmt::makeVariableDecl( var ) );
 		return T{ &m_shader
@@ -21,11 +17,7 @@ namespace sdw
 	inline Array< T > Ubo::declMember( std::string const & name
 		, uint32_t dimension )
 	{
-		static_assert( !IsSameV< T, Boolean >, "Bool is not supported inside a UBO" );
-		static_assert( !IsSameV< T, BVec2 >, "BVec2 is not supported inside a UBO" );
-		static_assert( !IsSameV< T, BVec3 >, "BVec3 is not supported inside a UBO" );
-		static_assert( !IsSameV< T, BVec4 >, "BVec4 is not supported inside a UBO" );
-		auto type = m_info.registerMember< typeEnum< T > >( name, dimension );
+		auto type = m_interface.registerMember< typeEnum< T > >( name, dimension );
 		auto var = registerMember( m_shader, m_var, name, type );
 		m_stmt->add( stmt::makeVariableDecl( var ) );
 		return Array< T >{ &m_shader
@@ -36,11 +28,7 @@ namespace sdw
 	inline Optional< T > Ubo::declMember( std::string const & name
 		, bool enabled )
 	{
-		static_assert( !IsSameV< T, Boolean >, "Bool is not supported inside a UBO" );
-		static_assert( !IsSameV< T, BVec2 >, "BVec2 is not supported inside a UBO" );
-		static_assert( !IsSameV< T, BVec3 >, "BVec3 is not supported inside a UBO" );
-		static_assert( !IsSameV< T, BVec4 >, "BVec4 is not supported inside a UBO" );
-		auto type = m_info.registerMember< typeEnum< T > >( name );
+		auto type = m_interface.registerMember< typeEnum< T > >( name );
 		auto var = registerMember( m_shader, m_var, name, type );
 
 		if ( enabled )
@@ -58,11 +46,7 @@ namespace sdw
 		, uint32_t dimension
 		, bool enabled )
 	{
-		static_assert( !IsSameV< T, Boolean >, "Bool is not supported inside a UBO" );
-		static_assert( !IsSameV< T, BVec2 >, "BVec2 is not supported inside a UBO" );
-		static_assert( !IsSameV< T, BVec3 >, "BVec3 is not supported inside a UBO" );
-		static_assert( !IsSameV< T, BVec4 >, "BVec4 is not supported inside a UBO" );
-		auto type = m_info.registerMember< typeEnum< T > >( name, dimension );
+		auto type = m_interface.registerMember< typeEnum< T > >( name, dimension );
 		auto var = registerMember( m_shader, m_var, name, type );
 
 		if ( enabled )

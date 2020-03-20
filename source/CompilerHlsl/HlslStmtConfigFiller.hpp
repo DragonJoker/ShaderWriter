@@ -16,10 +16,10 @@ namespace hlsl
 		: public ast::stmt::Visitor
 	{
 	public:
-		static IntrinsicsConfig submit( sdw::Shader const & shader );
+		static IntrinsicsConfig submit( ast::Shader const & shader );
 
 	private:
-		StmtConfigFiller( sdw::Shader const & shader
+		StmtConfigFiller( ast::Shader const & shader
 			, IntrinsicsConfig & result );
 
 		void visitBreakStmt( ast::stmt::Break * cont )override;

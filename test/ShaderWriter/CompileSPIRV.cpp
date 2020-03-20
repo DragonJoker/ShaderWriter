@@ -4,7 +4,10 @@
 
 #include "vulkan/vulkan.h"
 
-#include <ShaderWriter/Shader.hpp>
+#include <VulkanLayer/PipelineBuilder.hpp>
+#include <VulkanLayer/ProgramPipeline.hpp>
+
+#include <ShaderAST/Shader.hpp>
 
 #include <algorithm>
 #include <iostream>
@@ -53,6 +56,50 @@ namespace test
 		{
 			std::getline( is, output, '|' );
 			return is;
+		}
+
+		uint32_t getSize( VkFormat format )
+		{
+			switch ( format )
+			{
+			case VK_FORMAT_R8_UNORM:
+				return 1u;
+			case VK_FORMAT_R16_SFLOAT:
+			case VK_FORMAT_R8G8_UNORM:
+				return 2u;
+			case VK_FORMAT_R8G8B8_UNORM:
+				return 3u;
+			case VK_FORMAT_R32_SINT:
+			case VK_FORMAT_R32_UINT:
+			case VK_FORMAT_R32_SFLOAT:
+			case VK_FORMAT_R8G8B8A8_UNORM:
+			case VK_FORMAT_R16G16_SFLOAT:
+				return 4u;
+			case VK_FORMAT_R16G16B16_SFLOAT:
+				return 6u;
+			case VK_FORMAT_R64_SFLOAT:
+			case VK_FORMAT_R32G32_SINT:
+			case VK_FORMAT_R32G32_UINT:
+			case VK_FORMAT_R16G16B16A16_SFLOAT:
+			case VK_FORMAT_R32G32_SFLOAT:
+				return 8u;
+			case VK_FORMAT_R32G32B32_SINT:
+			case VK_FORMAT_R32G32B32_UINT:
+			case VK_FORMAT_R32G32B32_SFLOAT:
+				return 12u;
+			case VK_FORMAT_R32G32B32A32_SINT:
+			case VK_FORMAT_R32G32B32A32_UINT:
+			case VK_FORMAT_R32G32B32A32_SFLOAT:
+			case VK_FORMAT_R64G64_SFLOAT:
+				return 16u;
+			case VK_FORMAT_R64G64B64_SFLOAT:
+				return 24u;
+			case VK_FORMAT_R64G64B64A64_SFLOAT:
+				return 32u;
+			default:
+				assert( false && "Unsupported VkFormat for a vertex attribute." );
+				return 4u;
+			}
 		}
 
 		VkBool32 VKAPI_CALL dbgFunc( VkDebugReportFlagsEXT msgFlags
@@ -435,7 +482,7 @@ namespace test
 		testCounts.spirv.reset();
 	}
 
-	bool compileSpirV( sdw::Shader const & shader
+	bool compileSpirV( ast::Shader const & shader
 		, std::vector< uint32_t > const & spirv
 		, std::string & errors
 		, sdw_test::TestCounts & testCounts )
@@ -466,6 +513,373 @@ namespace test
 
 		return result;
 	}
+
+	ast::vk::BuilderContext createBuilderContext( sdw_test::TestCounts & testCounts )
+	{
+		ast::vk::BuilderContext result
+		{
+			testCounts.spirv->info.device,
+			VK_NULL_HANDLE,
+			nullptr,
+			vkCreateGraphicsPipelines,
+			vkCreateComputePipelines,
+			vkCreateShaderModule,
+			vkCreatePipelineLayout,
+			vkCreateDescriptorSetLayout,
+		};
+		return result;
+	}
+
+	VkRenderPass createRenderPass( ast::vk::ProgramPipeline program
+		, ast::vk::BuilderContext const & context
+		, sdw_test::TestCounts & testCounts )
+	{
+		auto attachmentsMap = program.getAttachmentDescriptions();
+		std::vector< VkAttachmentDescription > attachments;
+		std::vector< VkAttachmentReference > references;
+
+		for ( auto & attachmentIt : attachmentsMap )
+		{
+			attachments.push_back( attachmentIt.second );
+			auto & attachment = attachments.back();
+			attachment.loadOp = VK_ATTACHMENT_LOAD_OP_CLEAR;
+			attachment.storeOp = VK_ATTACHMENT_STORE_OP_STORE;
+			attachment.stencilLoadOp = VK_ATTACHMENT_LOAD_OP_DONT_CARE;
+			attachment.stencilStoreOp = VK_ATTACHMENT_STORE_OP_DONT_CARE;
+			attachment.initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
+			attachment.finalLayout = VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL;
+			references.push_back( VkAttachmentReference
+				{
+					uint32_t( attachments.size() - 1u ),
+					VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL,
+				} );
+		}
+
+		std::vector< VkSubpassDescription > subpasses;
+		subpasses.push_back( VkSubpassDescription
+			{
+				0u,
+				VK_PIPELINE_BIND_POINT_GRAPHICS,
+				0u,
+				nullptr,
+				uint32_t( references.size() ),
+				references.data(),
+				nullptr,
+				nullptr,
+				0u,
+				nullptr,
+			} );
+
+		std::vector< VkSubpassDependency > dependencies;
+		dependencies.push_back( VkSubpassDependency
+			{
+				VK_SUBPASS_EXTERNAL,
+				0u,
+				VK_PIPELINE_STAGE_BOTTOM_OF_PIPE_BIT,
+				VK_PIPELINE_STAGE_TOP_OF_PIPE_BIT,
+				VK_ACCESS_HOST_READ_BIT,
+				VK_ACCESS_HOST_READ_BIT,
+				VK_DEPENDENCY_BY_REGION_BIT,
+			} );
+		dependencies.push_back( VkSubpassDependency
+			{
+				0u,
+				VK_SUBPASS_EXTERNAL,
+				VK_PIPELINE_STAGE_TOP_OF_PIPE_BIT,
+				VK_PIPELINE_STAGE_BOTTOM_OF_PIPE_BIT,
+				VK_ACCESS_HOST_READ_BIT,
+				VK_ACCESS_HOST_READ_BIT,
+				VK_DEPENDENCY_BY_REGION_BIT,
+			} );
+
+		VkRenderPassCreateInfo renderPassCreate
+		{
+			VK_STRUCTURE_TYPE_RENDER_PASS_CREATE_INFO,
+			nullptr,
+			0u,
+			uint32_t( attachments.size() ),
+			attachments.data(),
+			uint32_t( subpasses.size() ),
+			subpasses.data(),
+			uint32_t( dependencies.size() ),
+			dependencies.data(),
+		};
+		VkRenderPass renderPass{ VK_NULL_HANDLE };
+
+		if ( !ast::vk::checkError( vkCreateRenderPass( context.device
+			, &renderPassCreate
+			, context.allocator
+			, &renderPass ) ) )
+		{
+			failure( "VkRenderPass creation." );
+			renderPass = VK_NULL_HANDLE;
+		}
+
+		return renderPass;
+	}
+
+	VkPipeline createComputePipeline( ast::vk::ProgramPipeline program
+		, ast::vk::PipelineBuilder const & builder
+		, ast::vk::PipelineShaderStageCreateInfo const & shaderStage
+		, VkPipelineLayout pipelineLayout
+		, sdw_test::TestCounts & testCounts )
+	{
+		VkComputePipelineCreateInfo createInfos
+		{
+			VK_STRUCTURE_TYPE_COMPUTE_PIPELINE_CREATE_INFO,
+			nullptr,
+			0u,
+			shaderStage.data,
+			pipelineLayout,
+			VK_NULL_HANDLE,
+			0u,
+		};
+		VkPipeline pipeline{ VK_NULL_HANDLE };
+
+		if ( !ast::vk::checkError( builder.createComputePipeline( createInfos
+			, &pipeline ) ) )
+		{
+			failure( "Pipeline creation." );
+			pipeline = VK_NULL_HANDLE;
+		}
+
+		return pipeline;
+	}
+
+	VkPipeline createGraphicsPipeline( ast::vk::ProgramPipeline program
+		, ast::vk::PipelineBuilder const & builder
+		, ast::vk::PipelineShaderStageArray const & shaderStages
+		, VkPipelineLayout pipelineLayout
+		, VkRenderPass renderPass
+		, sdw_test::TestCounts & testCounts )
+	{
+		auto attachmentsMap = program.getAttachmentDescriptions();
+
+		// Pipeline shader stage states
+		ast::vk::VkPipelineShaderStageArray vkShaderStages;
+
+		for ( auto & stage : shaderStages )
+		{
+			vkShaderStages.push_back( stage.data );
+		}
+
+		// Pipeline vertex input state
+		auto vertexAttributes = program.getVertexAttributes();
+		uint32_t size = 0u;
+
+		for ( auto & attribute : vertexAttributes )
+		{
+			attribute.binding = 0u;
+			attribute.offset = size;
+			size += getSize( attribute.format );
+		}
+
+		VkVertexInputBindingDescription binding
+		{
+			0u,
+			size,
+			VK_VERTEX_INPUT_RATE_VERTEX,
+		};
+		VkPipelineVertexInputStateCreateInfo vertexInputState
+		{
+			VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO,
+			nullptr,
+			0u,
+			size ? 1u : 0u,
+			size ? &binding : nullptr,
+			size ? uint32_t( vertexAttributes.size() ) : 0u,
+			size ? vertexAttributes.data() : nullptr,
+		};
+
+		// Pipeline input assembly state
+		VkPipelineInputAssemblyStateCreateInfo inputAssemblyState
+		{
+			VK_STRUCTURE_TYPE_PIPELINE_INPUT_ASSEMBLY_STATE_CREATE_INFO,
+			nullptr,
+			0u,
+			VK_PRIMITIVE_TOPOLOGY_TRIANGLE_LIST,
+			VK_FALSE,
+		};
+
+		// Pipeline viewport state.
+		VkViewport viewport{ 0.0f, 0.0f, 800.0f, 600.0f, 0.0f, 1.0f };
+		VkRect2D scissor{ { 0, 0 }, { 800u, 600u } };
+		VkPipelineViewportStateCreateInfo viewportState
+		{
+			VK_STRUCTURE_TYPE_PIPELINE_VIEWPORT_STATE_CREATE_INFO,
+			nullptr,
+			0u,
+			1u,
+			&viewport,
+			1u,
+			&scissor,
+		};
+
+		// Pipeline rasterization state.
+		VkPipelineRasterizationStateCreateInfo rasterizationState
+		{
+			VK_STRUCTURE_TYPE_PIPELINE_RASTERIZATION_STATE_CREATE_INFO,
+			nullptr,
+			0u,
+			VK_FALSE,
+			VK_FALSE,
+			VK_POLYGON_MODE_FILL,
+			VK_CULL_MODE_NONE,
+			VK_FRONT_FACE_COUNTER_CLOCKWISE,
+			VK_FALSE,
+			0.0f,
+			0.0f,
+			0.0f,
+			1.0f,
+		};
+
+		// Pipeline multisample state.
+		VkPipelineMultisampleStateCreateInfo multisampleState
+		{
+			VK_STRUCTURE_TYPE_PIPELINE_MULTISAMPLE_STATE_CREATE_INFO,
+			nullptr,
+			0u,
+			VK_SAMPLE_COUNT_1_BIT,
+			VK_FALSE,
+			0.0f,
+			nullptr,
+			VK_FALSE,
+			VK_FALSE,
+		};
+
+		// Pipeline color blend state
+		std::vector< VkPipelineColorBlendAttachmentState > colorBlendAttachments;
+		colorBlendAttachments.resize( attachmentsMap.size(), VkPipelineColorBlendAttachmentState{} );
+		VkPipelineColorBlendStateCreateInfo colorBlendState
+		{
+			VK_STRUCTURE_TYPE_PIPELINE_COLOR_BLEND_STATE_CREATE_INFO,
+			nullptr,
+			0u,
+			VK_FALSE,
+			VK_LOGIC_OP_COPY,
+			uint32_t( colorBlendAttachments.size() ),
+			colorBlendAttachments.data(),
+		};
+
+		// Pipeline
+		VkGraphicsPipelineCreateInfo createInfos
+		{
+			VK_STRUCTURE_TYPE_GRAPHICS_PIPELINE_CREATE_INFO,
+			nullptr,
+			0u,
+			uint32_t( vkShaderStages.size() ),
+			vkShaderStages.data(),
+			&vertexInputState,
+			&inputAssemblyState,
+			nullptr, //tessellationState,
+			&viewportState,
+			&rasterizationState,
+			&multisampleState,
+			nullptr, //depthStencilState,
+			&colorBlendState,
+			nullptr, //dynamicState,
+			pipelineLayout,
+			renderPass,
+			0u,
+			VK_NULL_HANDLE,
+			0u,
+		};
+		VkPipeline pipeline{ VK_NULL_HANDLE };
+
+		if ( !ast::vk::checkError( builder.createGraphicsPipeline( createInfos
+			, &pipeline ) ) )
+		{
+			failure( "VkPipeline creation." );
+			pipeline = VK_NULL_HANDLE;
+		}
+
+		return pipeline;
+	}
+
+	void validateProgram( ast::vk::ProgramPipeline const & program
+		, sdw_test::TestCounts & testCounts )
+	{
+		if ( program.getStageCount() == 0u )
+		{
+			failure( "No shader stage" );
+			return;
+		}
+
+		auto context = createBuilderContext( testCounts );
+		ast::vk::PipelineBuilder builder{ context, program };
+		ast::vk::ShaderModuleArray modules;
+		checkNoThrow( modules = builder.createShaderModules() );
+
+		if ( modules.empty() )
+		{
+			failure( "No shader module" );
+			return;
+		}
+
+		ast::vk::DescriptorSetLayoutArray descriptorLayouts;
+		checkNoThrow( descriptorLayouts = builder.createDescriptorSetLayouts() );
+		VkPipelineLayout pipelineLayout;
+		checkNoThrow( pipelineLayout = builder.createPipelineLayout( descriptorLayouts ) );
+
+		if ( !pipelineLayout )
+		{
+			failure( "VkPipeline creation" );
+		}
+		else
+		{
+			ast::vk::PipelineShaderStageArray shaderStages;
+			checkNoThrow( shaderStages = builder.createShaderStages( modules, {} ) );
+
+			if ( shaderStages.size() == 1u )
+			{
+				if ( program.getStageFlags() != ast::vk::makeFlag( ast::ShaderStage::eCompute ) )
+				{
+					failure( "Not enough shader stages" );
+				}
+				else
+				{
+					if ( VkPipeline pipeline = createComputePipeline( program
+						, builder
+						, shaderStages.front()
+						, pipelineLayout
+						, testCounts ) )
+					{
+						vkDestroyPipeline( context.device, pipeline, context.allocator );
+					}
+				}
+			}
+			else
+			{
+				// Render pass and subpass
+				if ( VkRenderPass renderPass = createRenderPass( program, context, testCounts ) )
+				{
+					if ( VkPipeline pipeline = createGraphicsPipeline( program
+						, builder
+						, shaderStages
+						, pipelineLayout
+						, renderPass
+						, testCounts ) )
+					{
+						vkDestroyPipeline( context.device, pipeline, context.allocator );
+					}
+
+					vkDestroyRenderPass( context.device, renderPass, context.allocator );
+				}
+			}
+
+			vkDestroyPipelineLayout( context.device, pipelineLayout, context.allocator );
+		}
+
+		for ( auto layout : descriptorLayouts )
+		{
+			vkDestroyDescriptorSetLayout( context.device, layout, context.allocator );
+		}
+
+		for ( auto module : modules )
+		{
+			vkDestroyShaderModule( context.device, module, context.allocator );
+		}
+	}
 }
 
 #else
@@ -481,7 +895,7 @@ namespace test
 	{
 	}
 
-	bool compileSpirV( sdw::Shader const & shader
+	bool compileSpirV( ast::Shader const & shader
 		, std::vector< uint32_t > const & spirv
 		, std::string & errors
 		, sdw_test::TestCounts & testCounts )

@@ -5,6 +5,7 @@ See LICENSE file in root folder
 #define ___SDW_Prerequisites_H___
 
 #include <map>
+#include <vector>
 
 #include <ShaderAST/Type/Type.hpp>
 #include <ShaderAST/Type/TypeArray.hpp>
@@ -42,8 +43,28 @@ See LICENSE file in root folder
 
 namespace sdw
 {
-	class Shader;
+	using ShaderArray = ast::ShaderArray;
+
+	struct InVertex;
+	struct InTessellationControl;
+	struct InTessellationEvaluation;
+	struct InGeometry;
+	struct InFragment;
+	struct InCompute;
+	struct OutVertex;
+	struct OutTessellationControl;
+	struct OutTessellationEvaluation;
+	struct OutGeometry;
+	struct OutFragment;
+
+	struct gl_PerVertex;
+
+	class Pcb;
 	class ShaderWriter;
+	class Ssbo;
+	class Struct;
+	class StructInstance;
+	class Ubo;
 
 	template< typename T >
 	struct Array;

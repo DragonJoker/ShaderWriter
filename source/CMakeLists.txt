@@ -64,6 +64,7 @@ endif ()
 
 add_subdirectory( ShaderAST )
 add_subdirectory( ShaderWriter )
+add_subdirectory( VulkanLayer )
 
 if ( SDW_BUILD_EXPORTERS )
 	if ( SDW_BUILD_GLSL )
@@ -85,7 +86,7 @@ if ( SDW_BUILD_EXPORTERS )
 endif ()
 
 install(
-	TARGETS ShaderAST ShaderWriter ${SDW_INSTEXP_LIST}
+	TARGETS sdwShaderAST sdwShaderWriter ${SDW_INSTEXP_LIST}
 	EXPORT ShaderWriter
 	RUNTIME DESTINATION bin
 	LIBRARY DESTINATION lib

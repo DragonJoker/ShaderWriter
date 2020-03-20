@@ -5,8 +5,9 @@ See LICENSE file in root folder
 #define ___SDW_Pcb_H___
 #pragma once
 
-#include "BoInfo.hpp"
+#include "ShaderWriter/ShaderWriterPrerequisites.hpp"
 
+#include <ShaderAST/BoInfo.hpp>
 #include <ShaderAST/Stmt/StmtPushConstantsBufferDecl.hpp>
 
 namespace sdw
@@ -44,10 +45,10 @@ namespace sdw
 			, bool enabled );
 
 	private:
-		Shader & m_shader;
+		ast::Shader & m_shader;
 		stmt::PushConstantsBufferDeclPtr m_stmt;
 		std::string m_name;
-		PcbInfo m_info;
+		ast::PcbInfo m_info;
 		var::VariablePtr m_var;
 	};
 }

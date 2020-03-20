@@ -46,6 +46,7 @@ if ( SDW_TESTS_ENABLE_VALIDATION )
 		set( TargetLinkLibraries
 			${TargetLinkLibraries}
 			${Vulkan_LIBRARY}
+			sdw::VulkanLayer
 		)
 		set( OptionalCompileDefinitions
 			${OptionalCompileDefinitions}

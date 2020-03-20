@@ -4,9 +4,9 @@ See LICENSE file in root folder
 #ifndef ___SDW_StructuredSsbo_H___
 #define ___SDW_StructuredSsbo_H___
 
-#include "BoInfo.hpp"
 #include "ShaderWriter/BaseTypes/UInt.hpp"
 
+#include <ShaderAST/BoInfo.hpp>
 #include <ShaderAST/Stmt/StmtShaderBufferDecl.hpp>
 
 namespace sdw
@@ -32,9 +32,10 @@ namespace sdw
 		InstanceT operator[]( UInt const & index );
 
 	private:
-		Shader & m_shader;
+		ast::Shader & m_shader;
 		std::string m_name;
-		SsboInfo m_info;
+		ast::InterfaceBlock m_interface;
+		ast::SsboInfo m_info;
 		type::StructPtr m_ssboType;
 		var::VariablePtr m_dataVar;
 		var::VariablePtr m_ssboVar;

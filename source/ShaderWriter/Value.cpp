@@ -3,7 +3,6 @@ See LICENSE file in root folder
 */
 #include "ShaderWriter/Value.hpp"
 
-#include "ShaderWriter/Shader.hpp"
 #include "ShaderWriter/MaybeOptional/MaybeOptional.hpp"
 
 #include <ShaderAST/Expr/ExprAddAssign.hpp>
@@ -14,6 +13,7 @@ See LICENSE file in root folder
 #include <ShaderAST/Expr/ExprMinusAssign.hpp>
 #include <ShaderAST/Expr/ExprTimesAssign.hpp>
 #include <ShaderAST/Stmt/StmtSimple.hpp>
+#include <ShaderAST/Shader.hpp>
 
 namespace sdw
 {
