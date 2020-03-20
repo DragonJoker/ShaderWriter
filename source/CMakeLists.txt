@@ -64,6 +64,7 @@ endif ()
 
 add_subdirectory( ShaderAST )
 add_subdirectory( ShaderWriter )
+add_subdirectory( VulkanLayer )
 
 if ( SDW_BUILD_EXPORTERS )
 	if ( SDW_BUILD_GLSL )

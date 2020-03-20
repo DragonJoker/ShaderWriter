@@ -260,7 +260,9 @@ namespace
 					* ssbo[in.gl_GlobalInvocationID.x()];
 			} );
 
-		test::writeShader( writer
+		test::writeShader( writer.getShader()
+			, testCounts );
+		test::validateShader( writer.getShader()
 			, testCounts );
 		testEnd();
 	}
@@ -627,121 +629,224 @@ namespace
 		testEnd();
 	}
 
-	void charles_vtx( test::sdw_test::TestCounts & testCounts )
+	void charles( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "charles_vtx" );
+		testBegin( "charles" );
 		using namespace sdw;
-		VertexWriter writer;
-		// Shader constants
-		auto positions = writer.declConstantArray<Vec4>("positions"
-			, std::vector< Vec4 >
-			{
-				vec4( 0.0_f, -0.5f, 0.0f, 1.0f),
-				vec4( 0.5_f,  0.5f, 0.0f, 1.0f),
-				vec4(-0.5_f,  0.5f, 0.0f, 1.0f),
-			}
-		);
-		
-		auto colors = writer.declConstantArray<Vec4>("colors"
-			, std::vector< Vec4 >
-			{
-				vec4(1.0_f, 0.0f, 0.0f, 1.0f),
-				vec4(0.0_f, 1.0f, 0.0f, 1.0f),
-				vec4(0.0_f, 0.0f, 1.0f, 1.0f),
-			}
-		);
 
-		// Shader inputs
-		auto in = writer.getIn();
+		ShaderArray shaders;
+		{
+			VertexWriter writer;
+			// Shader constants
+			auto positions = writer.declConstantArray<Vec4>( "positions"
+				, std::vector< Vec4 >
+				{
+					vec4( 0.0_f, -0.5f, 0.0f, 1.0f ),
+					vec4( 0.5_f, 0.5f, 0.0f, 1.0f ),
+					vec4( -0.5_f, 0.5f, 0.0f, 1.0f ),
+				} );
 
-		// Shader outputs
-		auto outColor = writer.declOutput< Vec4 >( "outColor", 0u );
-		auto out = writer.getOut();
+			auto colors = writer.declConstantArray<Vec4>( "colors"
+				, std::vector< Vec4 >
+				{
+					vec4( 1.0_f, 0.0f, 0.0f, 1.0f ),
+					vec4( 0.0_f, 1.0f, 0.0f, 1.0f ),
+					vec4( 0.0_f, 0.0f, 1.0f, 1.0f ),
+				} );
 
-		writer.implementFunction< void >( "main", [&]()
-			{
-				outColor = colors[in.gl_VertexID];
-				out.gl_out.gl_Position = positions[in.gl_VertexID];
+			// Shader inputs
+			auto in = writer.getIn();
 
-				outColor = colors[0];
-				out.gl_out.gl_Position = positions[0];
+			// Shader outputs
+			auto outColor = writer.declOutput< Vec4 >( "outColor", 0u );
+			auto out = writer.getOut();
 
-				outColor = vec4( 1.0_f, 0.0f, 0.0f, 1.0f );
-				out.gl_out.gl_Position = vec4( 0.0_f, 0.0f, 0.0f, 1.0f );
-			} );
+			writer.implementFunction< void >( "main", [&]()
+				{
+					outColor = colors[in.gl_VertexID];
+					out.gl_out.gl_Position = positions[in.gl_VertexID];
 
-		test::writeShader( writer
+					outColor = colors[0];
+					out.gl_out.gl_Position = positions[0];
+
+					outColor = vec4( 1.0_f, 0.0f, 0.0f, 1.0f );
+					out.gl_out.gl_Position = vec4( 0.0_f, 0.0f, 0.0f, 1.0f );
+				} );
+
+			test::writeShader( writer
+				, testCounts );
+			shaders.emplace_back( std::move( writer.getShader() ) );
+		}
+		{
+			using namespace sdw;
+			FragmentWriter writer;
+
+			// Shader inputs
+			auto color = writer.declInput< Vec4 >( "color", 0u );
+
+			// Shader outputs
+			auto outColor = writer.declOutput< Vec4 >( "fragColor", 0u );
+
+			writer.implementFunction< void >( "main"
+				, [&]()
+				{
+					outColor = color;
+				} );
+
+			test::writeShader( writer
+				, testCounts );
+			shaders.emplace_back( std::move( writer.getShader() ) );
+		}
+
+		test::validateShaders( shaders
 			, testCounts );
 		testEnd();
 	}
 	
-	void charles_vtx_approx( test::sdw_test::TestCounts & testCounts )
+	void charles_approx( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "charles_vtx" );
+		testBegin( "charles_approx" );
 		using namespace sdw;
-		VertexWriter writer;
-		// Shader constants
-		auto positions = writer.declConstantArray<Vec4>("positions"
-			, std::vector< Vec4 >
+
+		ShaderArray shaders;
+		{
+			VertexWriter writer;
+			// Shader constants
+			auto positions = writer.declConstantArray<Vec4>( "positions"
+				, std::vector< Vec4 >
 			{
-				vec4( 0.0_f, -0.5, 0.0, 1.0),
-				vec4( 0.5_f,  0.5, 0.0, 1.0),
-				vec4(-0.5_f,  0.5, 0.0, 1.0),
-			}
-		);
-		
-		auto colors = writer.declConstantArray<Vec4>("colors"
-			, std::vector< Vec4 >
-			{
-				vec4(1.0_f, 0.0, 0.0, 1.0),
-				vec4(0.0_f, 1.0, 0.0, 1.0),
-				vec4(0.0_f, 0.0, 1.0, 1.0),
-			}
-		);
-
-		// Shader inputs
-		auto in = writer.getIn();
-
-		// Shader outputs
-		auto outColor = writer.declOutput< Vec4 >( "outColor", 0u );
-		auto out = writer.getOut();
-
-		writer.implementFunction< void >( "main", [&]()
-			{
-				outColor = colors[in.gl_VertexID];
-				out.gl_out.gl_Position = positions[in.gl_VertexID];
-
-				outColor = colors[0];
-				out.gl_out.gl_Position = positions[0];
-
-				outColor = vec4( 1.0_f, 0.0f, 0.0f, 1.0f );
-				out.gl_out.gl_Position = vec4( 0.0_f, 0.0f, 0.0f, 1.0f );
+					vec4( 0.0_f, -0.5, 0.0, 1.0 ),
+					vec4( 0.5_f, 0.5, 0.0, 1.0 ),
+					vec4( -0.5_f, 0.5, 0.0, 1.0 ),
 			} );
 
-		test::writeShader( writer
+			auto colors = writer.declConstantArray<Vec4>( "colors"
+				, std::vector< Vec4 >
+			{
+					vec4( 1.0_f, 0.0, 0.0, 1.0 ),
+					vec4( 0.0_f, 1.0, 0.0, 1.0 ),
+					vec4( 0.0_f, 0.0, 1.0, 1.0 ),
+			} );
+
+			// Shader inputs
+			auto in = writer.getIn();
+
+			// Shader outputs
+			auto outColor = writer.declOutput< Vec4 >( "outColor", 0u );
+			auto out = writer.getOut();
+
+			writer.implementFunction< void >( "main", [&]()
+				{
+					outColor = colors[in.gl_VertexID];
+					out.gl_out.gl_Position = positions[in.gl_VertexID];
+
+					outColor = colors[0];
+					out.gl_out.gl_Position = positions[0];
+
+					outColor = vec4( 1.0_f, 0.0f, 0.0f, 1.0f );
+					out.gl_out.gl_Position = vec4( 0.0_f, 0.0f, 0.0f, 1.0f );
+				} );
+
+			test::writeShader( writer
+				, testCounts );
+			shaders.emplace_back( std::move( writer.getShader() ) );
+		}
+		{
+			using namespace sdw;
+			FragmentWriter writer;
+
+			// Shader inputs
+			auto color = writer.declInput< Vec4 >( "color", 0u );
+
+			// Shader outputs
+			auto outColor = writer.declOutput< Vec4 >( "fragColor", 0u );
+
+			writer.implementFunction< void >( "main"
+				, [&]()
+				{
+					outColor = color;
+				} );
+
+			test::writeShader( writer
+				, testCounts );
+			shaders.emplace_back( std::move( writer.getShader() ) );
+		}
+
+		test::validateShaders( shaders
 			, testCounts );
 		testEnd();
 	}
-
-	void charles_pxl( test::sdw_test::TestCounts & testCounts )
+	
+	void charles_latest( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "charles_pxl" );
+		testBegin( "charles_latest" );
 		using namespace sdw;
-		FragmentWriter writer;
 
-		// Shader inputs
-		auto color = writer.declInput< Vec4 >( "color", 0u );
+		ShaderArray shaders;
+		{
+			VertexWriter writer;
 
-		// Shader outputs
-		auto outColor = writer.declOutput< Vec4 >( "fragColor", 0u );
+			// Shader constants
+			auto positions = writer.declConstantArray<Vec2>(
+				"positions",
+				std::vector<Vec2>{
+					vec2( -1.0_f, -1.0_f ), vec2( 0.0_f, -1.0_f ), vec2( 1.0_f, -1.0_f ),
+					vec2( -1.0_f, 0.0_f ), vec2( 0.0_f, 0.0_f ), vec2( 1.0_f, 0.0_f ),
+					vec2( -1.0_f, 1.0_f ), vec2( 0.0_f, 1.0_f ), vec2( 1.0_f, 1.0_f ) } );
 
-		writer.implementFunction< void >( "main"
-			, [&]()
-			{
-				outColor = color;
-			} );
+			auto colors = writer.declConstantArray<Vec3>(
+				"colors", std::vector<Vec3>{
+					vec3( 1.0_f, 0.0_f, 0.0_f ), vec3( 1.0_f, 1.0_f, 1.0_f ),
+					vec3( 0.0_f, 0.0_f, 1.0_f ), vec3( 1.0_f, 0.0_f, 0.0_f ),
+					vec3( 0.0_f, 1.0_f, 0.0_f ), vec3( 0.0_f, 0.0_f, 1.0_f ),
+					vec3( 0.0_f, 0.0_f, 0.0_f ), vec3( 0.0_f, 0.0_f, 0.0_f ),
+					vec3( 0.0_f, 0.0_f, 0.0_f ) } );
 
-		test::writeShader( writer
+			auto indices = writer.declConstantArray<Int>(
+				"indices", std::vector<Int>{
+					0_i, 1_i, 6_i, 6_i, 1_i, 7_i,
+					1_i, 2_i, 7_i, 7_i, 2_i, 8_i } );
+
+			// Shader inputs
+			auto in = writer.getIn();
+
+			// Shader outputs
+			auto outColor = writer.declOutput<Vec4>( "outColor", 0u );
+			auto out = writer.getOut();
+
+			writer.implementFunction<void>(
+				"main", [&]()
+				{
+					out.gl_out.gl_Position =
+						vec4( positions[indices[in.gl_VertexID]], 0.0_f, 1.0_f );
+					outColor = vec4( colors[indices[in.gl_VertexID]], 1.0_f );
+				} );
+
+			test::writeShader( writer
+				, testCounts );
+			shaders.emplace_back( std::move( writer.getShader() ) );
+		}
+		{
+			FragmentWriter writer;
+
+			// Shader inputs
+			auto color = writer.declInput<Vec4>( "color", 0u );
+
+			// Shader outputs
+			auto fragColor = writer.declOutput<Vec4>( "fragColor", 0u );
+
+			writer.implementFunction<void>(
+				"main", [&]()
+				{
+					fragColor = color;
+				} );
+
+			test::writeShader( writer
+				, testCounts );
+			shaders.emplace_back( std::move( writer.getShader() ) );
+		}
+
+		test::validateShaders( shaders
 			, testCounts );
 		testEnd();
 	}
@@ -762,8 +867,8 @@ int main( int argc, char ** argv )
 	returns( testCounts );
 	outputs( testCounts );
 	skybox( testCounts );
-	charles_vtx( testCounts );
-	charles_vtx_approx( testCounts );
-	charles_pxl( testCounts );
+	charles( testCounts );
+	charles_approx( testCounts );
+	charles_latest( testCounts );
 	sdwTestSuiteEnd();
 }

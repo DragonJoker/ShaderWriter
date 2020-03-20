@@ -369,6 +369,10 @@ namespace test
 		, bool validateSpirV = true
 		, bool validateHlsl = true
 		, bool validateGlsl = true );
+	void validateShaders( ast::ShaderArray const & shaders
+		, sdw_test::TestCounts & testCounts );
+	void validateShader( ast::Shader const & shader
+		, sdw_test::TestCounts & testCounts );
 	void expectError( std::string const & value
 		, sdw_test::TestCounts & testCounts );
 }
