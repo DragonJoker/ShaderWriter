@@ -1,13 +1,13 @@
 #include "CompileSPIRV.hpp"
 
+#include <ShaderAST/Shader.hpp>
+
 #if SDW_Test_HasVulkan
 
 #include "vulkan/vulkan.h"
 
 #include <VulkanLayer/PipelineBuilder.hpp>
 #include <VulkanLayer/ProgramPipeline.hpp>
-
-#include <ShaderAST/Shader.hpp>
 
 #include <algorithm>
 #include <iostream>
