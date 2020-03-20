@@ -350,13 +350,12 @@ namespace test
 				{
 					VkPhysicalDeviceProperties properties = {};
 					vkGetPhysicalDeviceProperties( info.gpus[gpuIndex], &properties );
+					++gpuIndex;
 
 					if ( properties.apiVersion >= info.apiVersion )
 					{
 						break;
 					}
-
-					++gpuIndex;
 				}
 
 				--gpuIndex;
