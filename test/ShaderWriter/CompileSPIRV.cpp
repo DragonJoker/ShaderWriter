@@ -902,11 +902,6 @@ namespace test
 	{
 		return true;
 	}
-
-	void validateProgram( ast::vk::ProgramPipeline const & program
-		, sdw_test::TestCounts & testCounts )
-	{
-	}
 }
 
 #endif
