@@ -482,22 +482,6 @@ namespace test
 		testCounts.spirv.reset();
 	}
 
-	ast::vk::BuilderContext createBuilderContext( sdw_test::TestCounts & testCounts )
-	{
-		ast::vk::BuilderContext result
-		{
-			testCounts.spirv->info.device,
-			VK_NULL_HANDLE,
-			nullptr,
-			vkCreateGraphicsPipelines,
-			vkCreateComputePipelines,
-			vkCreateShaderModule,
-			vkCreatePipelineLayout,
-			vkCreateDescriptorSetLayout,
-		};
-		return result;
-	}
-
 	bool compileSpirV( ast::Shader const & shader
 		, std::vector< uint32_t > const & spirv
 		, std::string & errors
@@ -527,6 +511,22 @@ namespace test
 			}
 		}
 
+		return result;
+	}
+
+	ast::vk::BuilderContext createBuilderContext( sdw_test::TestCounts & testCounts )
+	{
+		ast::vk::BuilderContext result
+		{
+			testCounts.spirv->info.device,
+			VK_NULL_HANDLE,
+			nullptr,
+			vkCreateGraphicsPipelines,
+			vkCreateComputePipelines,
+			vkCreateShaderModule,
+			vkCreatePipelineLayout,
+			vkCreateDescriptorSetLayout,
+		};
 		return result;
 	}
 
