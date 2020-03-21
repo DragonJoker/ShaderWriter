@@ -79,7 +79,8 @@ namespace ast::vk
 		, typename ValueT
 		, typename CountT
 		, size_t DataOffsetT
-		, size_t CountOffsetT >
+		, size_t CountOffsetT
+		, size_t DivisorT >
 	struct ArrayHolder
 	{
 		using VecT = FixedSizeArrayT< ValueT >;
@@ -93,11 +94,11 @@ namespace ast::vk
 
 		inline ArrayHolder( DataT data )
 			: values{ ( ( *getCount( data ) && *getPtr( data ) )
-				? VecT{ *getPtr( data ), *getPtr( data ) + *getCount( data ) }
+				? VecT{ *getPtr( data ), *getPtr( data ) + ( *getCount( data ) / DivisorT ) }
 				: ( *getCount( data )
 					? [&data]()
 						{
-							VecT res{ size_t( *getCount( data ) ), ValueT{} };
+							VecT res{ size_t( *getCount( data ) / DivisorT ), ValueT{} };
 							return res;
 						}()
 					: VecT{} ) ) }
@@ -182,7 +183,7 @@ namespace ast::vk
 			, CountT size )
 		{
 			*getPtr( data ) = ptr;
-			*getCount( data ) = size;
+			*getCount( data ) = size * DivisorT;
 		}
 
 		void updateData()
