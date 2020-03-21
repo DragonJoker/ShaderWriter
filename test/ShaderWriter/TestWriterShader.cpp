@@ -262,8 +262,13 @@ namespace
 
 		test::writeShader( writer.getShader()
 			, testCounts );
+
+#if !defined( __APPLE__ )
+		// Disabled on apple since somebody somewhere thinks putting an ivec3 inside an uint3 intrinsic is doable :/.
 		test::validateShader( writer.getShader()
 			, testCounts );
+#endif
+
 		testEnd();
 	}
 

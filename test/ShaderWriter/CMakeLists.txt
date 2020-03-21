@@ -1,7 +1,7 @@
 file( GLOB TEST_FILES ${CMAKE_CURRENT_SOURCE_DIR}/Test*.cpp )
 
 if ( APPLE )
-	set( SDW_TESTS_ENABLE_VALIDATION OFF )
+	option( SDW_TESTS_ENABLE_VALIDATION "Enables validation through respective API (Vulkan, OpenGL, and Direct3D" OFF )
 else ()
 	option( SDW_TESTS_ENABLE_VALIDATION "Enables validation through respective API (Vulkan, OpenGL, and Direct3D" ON )
 endif ()
@@ -15,7 +15,9 @@ if ( SDW_TESTS_ENABLE_VALIDATION )
 
 	set( OptionalCompileDefinitions )
 
-	if ( OpenGL_FOUND OR OPENGL_FOUND )
+	if ( ( TARGET sdwCompilerGlsl )
+		AND ( OpenGL_FOUND OR OPENGL_FOUND )
+		AND ( NOT APPLE ) )
 		set( TargetLinkLibraries
 			${TargetLinkLibraries}
 			${OPENGL_gl_LIBRARY}
@@ -38,7 +40,8 @@ if ( SDW_TESTS_ENABLE_VALIDATION )
 		endif ()
 	endif ()
 
-	if ( Vulkan_FOUND OR VULKAN_FOUND )
+	if ( ( TARGET sdwCompilerSpirV )
+		AND ( Vulkan_FOUND OR VULKAN_FOUND ) )
 		set( TargetIncludeDirectories
 			${TargetIncludeDirectories}
 			${Vulkan_INCLUDE_DIR}
@@ -54,7 +57,8 @@ if ( SDW_TESTS_ENABLE_VALIDATION )
 		)
 	endif ()
 
-	if ( WIN32 )
+	if ( ( TARGET sdwCompilerHlsl )
+		AND WIN32 )
 		set( OptionalCompileDefinitions
 			${OptionalCompileDefinitions}
 			SDW_Test_HasDirect3D11=1
@@ -116,7 +120,6 @@ target_link_libraries( TestWriterCommon
 	PUBLIC
 		sdw::ShaderAST
 		sdw::ShaderWriter
-		${SDW_EXPORTERS_LIST}
 		${BinLibraries}
 		glslang
 		OGLCompiler
@@ -124,6 +127,7 @@ target_link_libraries( TestWriterCommon
 		SPVRemapper
 		SPIRV
 		sdw::test::Common
+		${TargetLinkLibraries}
 )
 target_compile_definitions( TestWriterCommon
 	PUBLIC
@@ -134,13 +138,12 @@ target_include_directories( TestWriterCommon
 		${SPIRV_CROSS_DIR}
 		${GLSLANG_DIR}
 )
-set_target_properties( TestWriterCommon PROPERTIES
-	CXX_STANDARD 17
-	FOLDER "Tests/ShaderWriter"
+set_target_properties( TestWriterCommon
+	PROPERTIES
+		CXX_STANDARD 17
+		FOLDER "Tests/ShaderWriter"
 )
-
 set( TargetLinkLibraries
-	${TargetLinkLibraries}
 	TestWriterCommon
 )
 

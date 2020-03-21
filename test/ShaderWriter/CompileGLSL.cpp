@@ -702,6 +702,10 @@ namespace test
 		GLXContext m_glxContext;
 	};
 
+#else
+
+#error "Unsupported platform yet, feel free to implement support for RenderWindow ;)."
+
 #endif
 
 	namespace

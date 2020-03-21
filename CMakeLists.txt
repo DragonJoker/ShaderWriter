@@ -1,5 +1,5 @@
-cmake_minimum_required( VERSION 3.15 )
-cmake_policy( VERSION 3.15 )
+cmake_minimum_required( VERSION 3.13 )
+cmake_policy( VERSION 3.13 )
 
 # Set project name, used in folders and in workspace creation
 set( MAIN_PROJECT_NAME "ShaderWriter" )

@@ -101,17 +101,17 @@ namespace sdw
 
 	InCompute::InCompute( ShaderWriter & writer )
 		: gl_NumWorkGroups{ &writer.getShader(), makeIdent( writer.getTypesCache()
-			, writer.getShader().registerBuiltin( "gl_NumWorkGroups", writer.getTypesCache().getVec3I(), var::Flag::eShaderInput ) ) }
+			, writer.getShader().registerBuiltin( "gl_NumWorkGroups", writer.getTypesCache().getVec3U(), var::Flag::eShaderInput ) ) }
 		, gl_WorkGroupID{ &writer.getShader(), makeIdent( writer.getTypesCache()
-			, writer.getShader().registerBuiltin( "gl_WorkGroupID", writer.getTypesCache().getVec3I(), var::Flag::eShaderInput ) ) }
+			, writer.getShader().registerBuiltin( "gl_WorkGroupID", writer.getTypesCache().getVec3U(), var::Flag::eShaderInput ) ) }
 		, gl_LocalInvocationID{ &writer.getShader(), makeIdent( writer.getTypesCache()
-			, writer.getShader().registerBuiltin( "gl_LocalInvocationID", writer.getTypesCache().getVec3I(), var::Flag::eShaderInput ) ) }
+			, writer.getShader().registerBuiltin( "gl_LocalInvocationID", writer.getTypesCache().getVec3U(), var::Flag::eShaderInput ) ) }
 		, gl_GlobalInvocationID{ &writer.getShader(), makeIdent( writer.getTypesCache()
-			, writer.getShader().registerBuiltin( "gl_GlobalInvocationID", writer.getTypesCache().getVec3I(), var::Flag::eShaderInput ) ) }
+			, writer.getShader().registerBuiltin( "gl_GlobalInvocationID", writer.getTypesCache().getVec3U(), var::Flag::eShaderInput ) ) }
 		, gl_LocalInvocationIndex{ &writer.getShader(), makeIdent( writer.getTypesCache()
-			, writer.getShader().registerBuiltin( "gl_LocalInvocationIndex", writer.getTypesCache().getInt(), var::Flag::eShaderInput ) ) }
+			, writer.getShader().registerBuiltin( "gl_LocalInvocationIndex", writer.getTypesCache().getUInt(), var::Flag::eShaderInput ) ) }
 		, gl_WorkGroupSize{ &writer.getShader(), makeIdent( writer.getTypesCache()
-			, writer.getShader().registerBuiltin( "gl_WorkGroupSize", writer.getTypesCache().getVec3I(), var::Flag::eShaderInput ) ) }
+			, writer.getShader().registerBuiltin( "gl_WorkGroupSize", writer.getTypesCache().getVec3U(), var::Flag::eShaderInput ) ) }
 	{
 	}
 

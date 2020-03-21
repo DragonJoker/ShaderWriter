@@ -40,12 +40,15 @@ namespace ast::vk
 	*	The binary offset to the member array pointer, in the Vulkan structure.
 	*\tparam CountOffsetT
 	*	The binary offset to the member array count, in the Vulkan structure.
+	*\tparam DivisorT
+	*	The divisor to apply to the count, to obtain the real size of the array.
 	*/
 	template< typename DataT
 		, typename ValueT
 		, typename CountT
 		, size_t DataOffsetT
-		, size_t CountOffsetT >
+		, size_t CountOffsetT
+		, size_t DivisorT = 1u >
 	struct ArrayHolder;
 	/**
 	*\brief
@@ -112,7 +115,8 @@ namespace ast::vk
 		, uint32_t
 		, size_t
 		, offsetof( VkShaderModuleCreateInfo, pCode )
-		, offsetof( VkShaderModuleCreateInfo, codeSize ) >;
+		, offsetof( VkShaderModuleCreateInfo, codeSize )
+		, 4u >;
 	/**
 	*\brief
 	*	Array owner for VkWriteDescriptorSet::pImageInfo.
