@@ -795,15 +795,16 @@ namespace test
 		return pipeline;
 	}
 
-	void validateProgram( ast::vk::ProgramPipeline const & program
+	bool validateProgram( ast::vk::ProgramPipeline const & program
 		, sdw_test::TestCounts & testCounts )
 	{
 		if ( program.getStageCount() == 0u )
 		{
 			failure( "No shader stage" );
-			return;
+			return false;
 		}
 
+		bool result = true;
 		auto context = createBuilderContext( testCounts );
 		ast::vk::PipelineBuilder builder{ context, program };
 		ast::vk::ShaderModuleArray modules;
@@ -812,7 +813,7 @@ namespace test
 		if ( modules.empty() )
 		{
 			failure( "No shader module" );
-			return;
+			return false;
 		}
 
 		ast::vk::DescriptorSetLayoutArray descriptorLayouts;
@@ -823,6 +824,7 @@ namespace test
 		if ( !pipelineLayout )
 		{
 			failure( "VkPipeline creation" );
+			return false;
 		}
 		else
 		{
@@ -834,6 +836,7 @@ namespace test
 				if ( program.getStageFlags() != ast::vk::makeFlag( ast::ShaderStage::eCompute ) )
 				{
 					failure( "Not enough shader stages" );
+					return false;
 				}
 				else
 				{
@@ -844,6 +847,10 @@ namespace test
 						, testCounts ) )
 					{
 						vkDestroyPipeline( context.device, pipeline, context.allocator );
+					}
+					else
+					{
+						result = false;
 					}
 				}
 			}
@@ -861,8 +868,16 @@ namespace test
 					{
 						vkDestroyPipeline( context.device, pipeline, context.allocator );
 					}
+					else
+					{
+						result = false;
+					}
 
 					vkDestroyRenderPass( context.device, renderPass, context.allocator );
+				}
+				else
+				{
+					result = false;
 				}
 			}
 
@@ -878,6 +893,8 @@ namespace test
 		{
 			vkDestroyShaderModule( context.device, module, context.allocator );
 		}
+
+		return result;
 	}
 }
 

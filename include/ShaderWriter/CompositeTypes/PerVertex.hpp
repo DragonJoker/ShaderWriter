@@ -18,11 +18,17 @@ namespace sdw
 		: public Value
 	{
 		SDW_API gl_PerVertex();
+		SDW_API gl_PerVertex( ast::Shader * shader
+			, ast::expr::ExprPtr expr );
 		SDW_API gl_PerVertex( ShaderWriter & writer
 			, stmt::PerVertexDecl::Source source = stmt::PerVertexDecl::eVertexOutput );
 		Vec4 gl_Position;
 		Float gl_PointSize;
 		Array< Float > gl_ClipDistance;
+		Array< Float > gl_CullDistance;
+
+		SDW_API static ast::type::StructPtr getBaseType( ast::type::TypesCache & cache );
+		SDW_API static ast::type::ArrayPtr getArrayType( ast::type::TypesCache & cache );
 	};
 }
 

@@ -41,25 +41,29 @@ namespace spirv
 				return submit( cache
 					, ast::expr::Kind::eIdentifier
 					, expr
-					, idents );
+					, idents
+					, false );
 			}
 
 		private:
 			AccessChainLineariser( ast::type::TypesCache & cache
 				, ast::expr::Kind kind
 				, AccessChainExprArray & result
-				, ast::expr::ExprList & idents )
+				, ast::expr::ExprList & idents
+				, bool parsingMbrSelect )
 				: m_cache{ cache }
 				, m_result{ result }
 				, m_idents{ idents }
 				, m_kind{ kind }
+				, m_parsingMbrSelect{ parsingMbrSelect }
 			{
 			}
 
 			static AccessChainExprArray submit( ast::type::TypesCache & cache
 				, ast::expr::Kind kind
 				, ast::expr::Expr * expr
-				, ast::expr::ExprList & idents )
+				, ast::expr::ExprList & idents
+				, bool parsingMbrSelect )
 			{
 				AccessChainExprArray result;
 				AccessChainLineariser vis
@@ -67,7 +71,8 @@ namespace spirv
 					cache,
 					kind,
 					result,
-					idents
+					idents,
+					parsingMbrSelect,
 				};
 				expr->accept( &vis );
 				return result;
@@ -90,17 +95,25 @@ namespace spirv
 				assert( false && "Unexpected ast::expr::Binary ?" );
 			}
 
+			AccessChainExprArray doSubmit( ast::expr::Kind kind
+				, ast::expr::Expr * expr )
+			{
+				return submit( m_cache, kind, expr, m_idents, m_parsingMbrSelect );
+			}
+
 			void visitMbrSelectExpr( ast::expr::MbrSelect * expr )override
 			{
-				auto outer = submit( m_cache, m_kind, expr->getOuterExpr(), m_idents );
-				auto inner = submit( m_cache, expr->getKind(), expr->getOperand(), m_idents );
+				auto outer = doSubmit( m_kind, expr->getOuterExpr() );
+				m_parsingMbrSelect = true;
+				auto inner = doSubmit( expr->getKind(), expr->getOperand() );
+				m_parsingMbrSelect = false;
 				m_result = outer;
 				m_result.insert( m_result.end(), inner.begin(), inner.end() );
 			}
 
 			void visitArrayAccessExpr( ast::expr::ArrayAccess * expr )override
 			{
-				auto lhs = submit( m_cache, m_kind, expr->getLHS(), m_idents );
+				auto lhs = doSubmit( m_kind, expr->getLHS() );
 				m_result = lhs;
 
 				if ( isAccessChain( expr->getRHS() ) )
@@ -116,11 +129,12 @@ namespace spirv
 			void visitIdentifierExpr( ast::expr::Identifier * expr )override
 			{
 				if ( expr->getVariable()->isMember()
-					&& expr->getType()->isMember() )
+					&& expr->getType()->isMember()
+					&& !m_parsingMbrSelect )
 				{
 					m_idents.emplace_back( ast::expr::makeIdentifier( m_cache, expr->getVariable()->getOuter() ) );
 					auto ident = m_idents.back().get();
-					m_result = submit( m_cache, m_kind, ident, m_idents );
+					m_result = doSubmit( m_kind, ident );
 				}
 
 				doAddExpr( m_kind, expr );
@@ -135,7 +149,7 @@ namespace spirv
 			{
 				if ( m_result.empty() )
 				{
-					m_result = submit( m_cache, m_kind, expr->getOuterExpr(), m_idents );
+					m_result = doSubmit( m_kind, expr->getOuterExpr() );
 				}
 
 				doAddExpr( m_kind, expr );
@@ -196,6 +210,7 @@ namespace spirv
 			AccessChainExprArray & m_result;
 			ast::expr::ExprList & m_idents;
 			ast::expr::Kind m_kind{ ast::expr::Kind::eIdentifier };
+			bool m_parsingMbrSelect{ false };
 		};
 
 		class AccessChainCreator

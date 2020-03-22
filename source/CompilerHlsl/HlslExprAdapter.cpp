@@ -912,7 +912,7 @@ namespace hlsl
 			{
 				adaptationData.outputVars.emplace( 128, var );
 				it = adaptationData.outputMembers.emplace( var
-					, ast::expr::makeMbrSelect( ast::expr::makeIdentifier( cache, adaptationData.inputVar )
+					, ast::expr::makeMbrSelect( ast::expr::makeIdentifier( cache, adaptationData.outputVar )
 						, uint32_t( adaptationData.outputMembers.size() )
 						, ast::expr::makeIdentifier( cache, var ) ) ).first;
 			}

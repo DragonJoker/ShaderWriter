@@ -194,28 +194,6 @@ namespace spirv
 
 	void StmtConfigFiller::visitPerVertexDeclStmt( ast::stmt::PerVertexDecl * stmt )
 	{
-		switch ( stmt->getSource() )
-		{
-		case ast::stmt::PerVertexDecl::Source::eVertexOutput:
-			m_result.outputs.insert( ast::var::makeVariable( stmt->getType()->getMember( "gl_Position" ).type
-				, "gl_Position"
-				, ast::var::Flag::eShaderOutput | ast::var::Flag::eBuiltin ) );
-			m_result.outputs.insert( ast::var::makeVariable( stmt->getType()->getMember( "gl_PointSize" ).type
-				, "gl_PointSize"
-				, ast::var::Flag::eShaderOutput | ast::var::Flag::eBuiltin ) );
-			m_result.outputs.insert( ast::var::makeVariable( stmt->getType()->getMember( "gl_ClipDistance" ).type
-				, "gl_ClipDistance"
-				, ast::var::Flag::eShaderOutput | ast::var::Flag::eBuiltin ) );
-			break;
-		case ast::stmt::PerVertexDecl::Source::eTessellationControlInput:
-		case ast::stmt::PerVertexDecl::Source::eTessellationControlOutput:
-		case ast::stmt::PerVertexDecl::Source::eTessellationEvaluationInput:
-		case ast::stmt::PerVertexDecl::Source::eTessellationEvaluationOutput:
-		case ast::stmt::PerVertexDecl::Source::eGeometryInput:
-		case ast::stmt::PerVertexDecl::Source::eGeometryOutput:
-		default:
-			break;
-		}
 	}
 
 	void StmtConfigFiller::visitReturnStmt( ast::stmt::Return * stmt )

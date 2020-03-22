@@ -32,6 +32,9 @@ namespace spirv
 			, InstructionList && instructions );
 
 		SDWSPIRV_API static Module deserialize( UInt32List const & spirv );
+		SDWSPIRV_API static std::vector< uint32_t > serialize( spirv::Module const & module );
+		SDWSPIRV_API static std::string write( spirv::Module const & module
+			, bool writeHeader );
 
 		SDWSPIRV_API spv::Id registerType( ast::type::TypePtr type );
 		SDWSPIRV_API spv::Id registerPointerType( spv::Id type
@@ -149,10 +152,10 @@ namespace spirv
 		void initialiseHeader( Header const & header );
 		void initialiseExtensions();
 		void initialiseCapacities();
-		void deserializeInfos( spv::Op opCode
+		bool deserializeInfos( spv::Op opCode
 			, InstructionList::iterator & current
 			, InstructionList::iterator end );
-		void deserializeFuncs( spv::Op opCode
+		bool deserializeFuncs( spv::Op opCode
 			, InstructionList::iterator & current
 			, InstructionList::iterator end );
 		InstructionList * selectInstructionsList( spv::Op opCode );
@@ -162,6 +165,9 @@ namespace spirv
 			, spv::Id id );
 		void addBuiltin( std::string const & name
 			, spv::Id id );
+		bool addMbrBuiltin( std::string const & name
+			, spv::Id outer
+			, uint32_t mbrIndex );
 		void addVariable( std::string const & name
 			, spv::StorageClass storage
 			, ast::type::TypePtr type

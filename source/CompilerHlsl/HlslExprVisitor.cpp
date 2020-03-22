@@ -191,6 +191,14 @@ namespace hlsl
 	{
 		wrap( expr->getOuterExpr() );
 		m_result += ".";
+		auto it = m_result.find( ".." );
+		
+		while ( it != std::string::npos )
+		{
+			m_result.replace( it, 2, "." );
+			it = m_result.find( ".." );
+		}
+
 		expr->getOperand()->accept( this );
 	}
 

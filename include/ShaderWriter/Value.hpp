@@ -61,7 +61,7 @@ namespace sdw
 				, ctorCast< OutputT, CountT >( std::move( op.m_expr ) ) };
 		}
 
-	private:
+	protected:
 		expr::ExprPtr m_expr;
 		Shader * m_shader;
 		stmt::Container * m_container;

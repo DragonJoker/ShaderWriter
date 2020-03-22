@@ -490,7 +490,25 @@ namespace test
 	{
 #if SDW_Test_HasVulkan && SDW_HasCompilerSpirV
 		ast::vk::ProgramPipeline program{ shaders };
-		validateProgram( program, testCounts );
+
+		if ( !validateProgram( program, testCounts ) )
+		{
+			for ( auto & shader : shaders )
+			{
+				auto sdwSpirV = spirv::serialiseSpirv( shader );
+				auto crossGlsl = test::validateSpirVToGlsl( sdwSpirV
+					, shader.getType() );
+				auto textSpirv = spirv::writeSpirv( shader );
+				displayShader( "SPIR-V", textSpirv, true );
+				displayShader( "SpirV-Cross GLSL", crossGlsl, true );
+				auto glslangSpirv = compileGlslToSpv( shader.getType()
+					, glsl::compileGlsl( shader
+						, ast::SpecialisationInfo{}
+						, glsl::GlslConfig{} ) );
+				auto module = spirv::Module::deserialize( glslangSpirv );
+				displayShader( "glslang SPIR-V", spirv::Module::write( module, true ), true );
+			}
+		}
 #endif
 	}
 
@@ -499,7 +517,21 @@ namespace test
 	{
 #if SDW_Test_HasVulkan && SDW_HasCompilerSpirV
 		ast::vk::ProgramPipeline program{ shader };
-		validateProgram( program, testCounts );
+
+		if ( !validateProgram( program, testCounts ) )
+		{
+			auto crossGlsl = test::validateSpirVToGlsl( spirv::serialiseSpirv( shader )
+				, shader.getType() );
+			auto textSpirv = spirv::writeSpirv( shader );
+			displayShader( "SPIR-V", textSpirv, true );
+			displayShader( "SpirV-Cross GLSL", crossGlsl, true );
+			auto glslangSpirv = compileGlslToSpv( shader.getType()
+				, glsl::compileGlsl( shader
+					, ast::SpecialisationInfo{}
+			, glsl::GlslConfig{} ) );
+			auto module = spirv::Module::deserialize( glslangSpirv );
+			displayShader( "glslang SPIR-V", spirv::Module::write( module, true ), true );
+		}
 #endif
 	}
 }
