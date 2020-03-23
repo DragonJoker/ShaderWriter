@@ -64,7 +64,7 @@ if ( Vulkan_FOUND )
 			${INCLUDE_DIR}
 			${SOURCE_DIR}
 		PUBLIC
-			${Vulkan_INCLUDE_DIR}
+			$<BUILD_INTERFACE:${Vulkan_INCLUDE_DIR}>
 	)
 
 	# We install headers to <install_dir>/include/${PROJECT_NAME}

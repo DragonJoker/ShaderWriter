@@ -27,8 +27,7 @@ set( CMAKE_TEMPLATES_DIR
 
 set( CMAKE_POSITION_INDEPENDENT_CODE ON )
 
-# Experimental Precompiled headers support for GCC
-include( PCHSupport )
+include( PrecompiledHeaders )
 
 set( CMAKE_CONFIGURATION_TYPES "Debug;Release;RelWithDebInfo" CACHE STRING "The configuration types" FORCE )
 

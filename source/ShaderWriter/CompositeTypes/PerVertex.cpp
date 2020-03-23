@@ -43,7 +43,7 @@ namespace sdw
 			auto var = ident->getVariable();
 			auto shader = outer.getShader();
 			auto type = std::static_pointer_cast< type::Struct >( outer.getType() );
-			return makeMbrSelect( makeExpr( outer )
+			return sdw::makeMbrSelect( makeExpr( outer )
 				, mbrIndex
 				, makeIdent( shader->getTypesCache()
 					, shader->registerMember( var
