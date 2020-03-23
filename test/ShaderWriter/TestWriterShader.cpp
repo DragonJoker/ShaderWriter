@@ -634,6 +634,60 @@ namespace
 		testEnd();
 	}
 
+	void vtx_frag( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "vtx_frag" );
+		using namespace sdw;
+
+		ShaderArray shaders;
+		{
+			VertexWriter writer;
+
+			// Shader inputs
+			auto pos = writer.declInput< Vec4 >( "pos", 0u );
+			auto color = writer.declInput< Vec4 >( "color", 1u );
+			auto in = writer.getIn();
+
+			// Shader outputs
+			auto outColor = writer.declOutput< Vec4 >( "outColor", 0u );
+			auto out = writer.getOut();
+
+			writer.implementFunction< void >( "main", [&]()
+				{
+					outColor = color;
+					out.gl_out.gl_Position = pos;
+				} );
+
+			test::writeShader( writer
+				, testCounts );
+			shaders.emplace_back( std::move( writer.getShader() ) );
+		}
+		{
+			using namespace sdw;
+			FragmentWriter writer;
+
+			// Shader inputs
+			auto vtxColor = writer.declInput< Vec4 >( "vtxColor", 0u );
+
+			// Shader outputs
+			auto outColor = writer.declOutput< Vec4 >( "fragColor", 0u );
+
+			writer.implementFunction< void >( "main"
+				, [&]()
+				{
+					outColor = vtxColor;
+				} );
+
+			test::writeShader( writer
+				, testCounts );
+			shaders.emplace_back( std::move( writer.getShader() ) );
+		}
+
+		test::validateShaders( shaders
+			, testCounts );
+		testEnd();
+	}
+
 	void charles( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "charles" );
@@ -707,7 +761,7 @@ namespace
 			, testCounts );
 		testEnd();
 	}
-	
+
 	void charles_approx( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "charles_approx" );
@@ -872,6 +926,7 @@ int main( int argc, char ** argv )
 	returns( testCounts );
 	outputs( testCounts );
 	skybox( testCounts );
+	vtx_frag( testCounts );
 	charles( testCounts );
 	charles_approx( testCounts );
 	charles_latest( testCounts );

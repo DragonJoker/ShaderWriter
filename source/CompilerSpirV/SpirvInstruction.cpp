@@ -88,7 +88,8 @@ namespace spirv
 					packed.push_back( word );
 				}
 
-				if ( i != 0 && ( i % 4u ) == 0u )
+				if ( name.empty()
+					|| ( i != 0 && ( i % 4u ) == 0u ) )
 				{
 					packed.push_back( 0u );
 				}

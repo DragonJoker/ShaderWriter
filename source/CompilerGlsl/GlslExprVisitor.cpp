@@ -227,7 +227,12 @@ namespace glsl
 	void ExprVisitor::visitMbrSelectExpr( ast::expr::MbrSelect * expr )
 	{
 		wrap( expr->getOuterExpr() );
-		m_result += ".";
+
+		if ( !m_result.empty() )
+		{
+			m_result += ".";
+		}
+
 		expr->getOperand()->accept( this );
 	}
 

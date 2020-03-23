@@ -16,7 +16,7 @@ namespace test
 		, sdw_test::TestCounts & testCounts );
 #if SDW_Test_HasVulkan
 	ast::vk::BuilderContext createBuilderContext( sdw_test::TestCounts & testCounts );
-	void validateProgram( ast::vk::ProgramPipeline const & program
+	bool validateProgram( ast::vk::ProgramPipeline const & program
 		, sdw_test::TestCounts & testCounts );
 #endif
 }

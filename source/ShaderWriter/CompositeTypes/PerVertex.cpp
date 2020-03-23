@@ -5,6 +5,8 @@ See LICENSE file in root folder
 
 #include "ShaderWriter/Writer.hpp"
 
+#include <ShaderAST/Expr/ExprIdentifier.hpp>
+
 namespace sdw
 {
 	namespace
@@ -15,6 +17,7 @@ namespace sdw
 			result.registerMember< type::Kind::eVec4F >( "gl_Position" );
 			result.registerMember< type::Kind::eFloat >( "gl_PointSize" );
 			result.registerMember< type::Kind::eFloat >( "gl_ClipDistance", 8u );
+			result.registerMember< type::Kind::eFloat >( "gl_CullDistance", 8u );
 			return result;
 		}
 
@@ -31,28 +34,52 @@ namespace sdw
 				? var::Flag::eShaderInput
 				: var::Flag::eShaderOutput;
 		}
+
+		expr::ExprPtr getMbr( Value const & outer
+			, uint32_t mbrIndex
+			, std::string const & mbrName )
+		{
+			auto ident = static_cast< expr::Identifier * >( outer.getExpr() );
+			auto var = ident->getVariable();
+			auto shader = outer.getShader();
+			auto type = std::static_pointer_cast< type::Struct >( outer.getType() );
+			return sdw::makeMbrSelect( makeExpr( outer )
+				, mbrIndex
+				, makeIdent( shader->getTypesCache()
+					, shader->registerMember( var
+						, mbrName
+						, type->getMember( mbrName ).type
+						, var::Flag::eBuiltin
+							| ( var->isShaderInput()
+								? var::Flag::eShaderInput
+								: var::Flag::eShaderOutput ) ) ) );
+		}
+	}
+
+	gl_PerVertex::gl_PerVertex( ast::Shader * shader
+		, ast::expr::ExprPtr expr )
+		: Value{ shader, std::move( expr ) }
+		, gl_Position{ shader, getMbr( *this, 0u, "gl_Position" ) }
+		, gl_PointSize{ shader, getMbr( *this, 1u, "gl_PointSize" ) }
+		, gl_ClipDistance{ shader, getMbr( *this, 2u, "gl_ClipDistance" ) }
+		, gl_CullDistance{ shader, getMbr( *this, 3u, "gl_CullDistance" ) }
+	{
 	}
 
 	gl_PerVertex::gl_PerVertex( ShaderWriter & writer
 		, stmt::PerVertexDecl::Source source )
-		: Value{ &writer.getShader(), makeExpr( writer.getShader(), var::makeVariable( doGetInfo( writer.getTypesCache() ).getType(), "" ) ) }
-		, gl_Position{ &writer.getShader()
-			, makeIdent( writer.getTypesCache()
-				, writer.getShader().registerBuiltin( "gl_Position"
-				, std::static_pointer_cast< type::Struct >( getType() )->getMember( "gl_Position" ).type
-				, getBuiltinFlag( source ) ) ) }
-		, gl_PointSize{ &writer.getShader()
-			, makeIdent( writer.getTypesCache()
-				, writer.getShader().registerBuiltin( "gl_PointSize"
-				, std::static_pointer_cast< type::Struct >( getType() )->getMember( "gl_PointSize" ).type
-				, getBuiltinFlag( source ) ) ) }
-		, gl_ClipDistance{ &writer.getShader()
-			, makeIdent( writer.getTypesCache()
-				, writer.getShader().registerBuiltin( "gl_ClipDistance"
-				, std::static_pointer_cast< type::Struct >( getType() )->getMember( "gl_ClipDistance" ).type
-				, getBuiltinFlag( source ) ) ) }
+		: gl_PerVertex{ &writer.getShader()
+			, makeExpr( writer.getShader(), var::makeVariable( getBaseType( writer.getTypesCache() ), "" ) ) }
 	{
-		addStmt( *findShader( *this )
-			, sdw::makePerVertexDecl( source, getType() ) );
+	}
+
+	ast::type::StructPtr gl_PerVertex::getBaseType( ast::type::TypesCache & cache )
+	{
+		return doGetInfo( cache ).getType();
+	}
+
+	ast::type::ArrayPtr gl_PerVertex::getArrayType( ast::type::TypesCache & cache )
+	{
+		return cache.getArray( getBaseType( cache ) );
 	}
 }

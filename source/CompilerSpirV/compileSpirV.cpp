@@ -18,7 +18,7 @@ See LICENSE file in root folder
 
 namespace spirv
 {
-	namespace
+	namespace details
 	{
 		std::stringstream getStream()
 		{
@@ -1882,43 +1882,51 @@ namespace spirv
 			stream << " " << spirv::getOperatorName( opCode );
 			write( instruction->returnTypeId.value(), names, stream );
 
-			if ( opCode == spv::OpConstant )
+			if ( type == ast::type::Kind::eUndefined )
 			{
-				checkType< ConstantInstruction >( *instruction );
-				switch ( type )
-				{
-				case ast::type::Kind::eBoolean:
-					names.add( instruction->resultId.value(), std::to_string( bool( instruction->operands[0] ) ) );
-					stream << " " << bool( instruction->operands[0] );
-					break;
-				case ast::type::Kind::eInt:
-					names.add( instruction->resultId.value(), std::to_string( int32_t( instruction->operands[0] ) ) );
-					stream << " " << int32_t( instruction->operands[0] );
-					break;
-				case ast::type::Kind::eUInt:
-					names.add( instruction->resultId.value(), std::to_string( instruction->operands[0] ) );
-					stream << " " << instruction->operands[0];
-					break;
-				case ast::type::Kind::eFloat:
-					names.add( instruction->resultId.value(), std::to_string( *reinterpret_cast< float const * >( instruction->operands.data() ) ) );
-					stream << " " << *reinterpret_cast< float const * >( instruction->operands.data() );
-					break;
-				case ast::type::Kind::eDouble:
-					assert( instruction->operands.size() >= 2 );
-					{
-						names.add( instruction->resultId.value(), std::to_string( *reinterpret_cast< double const * >( instruction->operands.data() ) ) );
-						stream << " " << *reinterpret_cast< double const * >( instruction->operands.data() );
-					}
-					break;
-				default:
-					break;
-				}
+				names.add( instruction->resultId.value(), "Unk" );
+				stream << " Unknown value type";
 			}
-			else if ( opCode == spv::OpConstantComposite )
+			else
 			{
-				checkType< ConstantCompositeInstruction >( *instruction );
-				names.add( instruction->resultId.value(), "const" );
-				write( instruction->operands, names, stream );
+				if ( opCode == spv::OpConstant )
+				{
+					checkType< ConstantInstruction >( *instruction );
+					switch ( type )
+					{
+					case ast::type::Kind::eBoolean:
+						names.add( instruction->resultId.value(), std::to_string( bool( instruction->operands[0] ) ) );
+						stream << " " << bool( instruction->operands[0] );
+						break;
+					case ast::type::Kind::eInt:
+						names.add( instruction->resultId.value(), std::to_string( int32_t( instruction->operands[0] ) ) );
+						stream << " " << int32_t( instruction->operands[0] );
+						break;
+					case ast::type::Kind::eUInt:
+						names.add( instruction->resultId.value(), std::to_string( instruction->operands[0] ) );
+						stream << " " << instruction->operands[0];
+						break;
+					case ast::type::Kind::eFloat:
+						names.add( instruction->resultId.value(), std::to_string( *reinterpret_cast< float const * >( instruction->operands.data() ) ) );
+						stream << " " << *reinterpret_cast< float const * >( instruction->operands.data() );
+						break;
+					case ast::type::Kind::eDouble:
+						assert( instruction->operands.size() >= 2 );
+						{
+							names.add( instruction->resultId.value(), std::to_string( *reinterpret_cast< double const * >( instruction->operands.data() ) ) );
+							stream << " " << *reinterpret_cast< double const * >( instruction->operands.data() );
+						}
+						break;
+					default:
+						break;
+					}
+				}
+				else if ( opCode == spv::OpConstantComposite )
+				{
+					checkType< ConstantCompositeInstruction >( *instruction );
+					names.add( instruction->resultId.value(), "const" );
+					write( instruction->operands, names, stream );
+				}
 			}
 
 			return stream;
@@ -1936,43 +1944,51 @@ namespace spirv
 			stream << " " << spirv::getOperatorName( opCode );
 			write( instruction->returnTypeId.value(), names, stream );
 
-			if ( opCode == spv::OpSpecConstant )
+			if ( type == ast::type::Kind::eUndefined )
 			{
-				checkType< SpecConstantInstruction >( *instruction );
-				switch ( type )
-				{
-				case ast::type::Kind::eBoolean:
-					names.add( instruction->resultId.value(), std::to_string( bool( instruction->operands[0] ) ) );
-					stream << " " << bool( instruction->operands[0] );
-					break;
-				case ast::type::Kind::eInt:
-					names.add( instruction->resultId.value(), std::to_string( int32_t( instruction->operands[0] ) ) );
-					stream << " " << int32_t( instruction->operands[0] );
-					break;
-				case ast::type::Kind::eUInt:
-					names.add( instruction->resultId.value(), std::to_string( instruction->operands[0] ) );
-					stream << " " << instruction->operands[0];
-					break;
-				case ast::type::Kind::eFloat:
-					names.add( instruction->resultId.value(), std::to_string( *reinterpret_cast< float const * >( instruction->operands.data() ) ) );
-					stream << " " << *reinterpret_cast< float const * >( instruction->operands.data() );
-					break;
-				case ast::type::Kind::eDouble:
-					assert( instruction->operands.size() >= 2 );
-					{
-						names.add( instruction->resultId.value(), std::to_string( *reinterpret_cast< double const * >( instruction->operands.data() ) ) );
-						stream << " " << *reinterpret_cast< double const * >( instruction->operands.data() );
-					}
-					break;
-				default:
-					break;
-				}
+				names.add( instruction->resultId.value(), "Unk" );
+				stream << " Unknown value type";
 			}
-			else if ( opCode == spv::OpSpecConstantComposite )
+			else
 			{
-				checkType< SpecConstantCompositeInstruction >( *instruction );
-				names.add( instruction->resultId.value(), "specconst" );
-				write( instruction->operands, names, stream );
+				if ( opCode == spv::OpSpecConstant )
+				{
+					checkType< SpecConstantInstruction >( *instruction );
+					switch ( type )
+					{
+					case ast::type::Kind::eBoolean:
+						names.add( instruction->resultId.value(), std::to_string( bool( instruction->operands[0] ) ) );
+						stream << " " << bool( instruction->operands[0] );
+						break;
+					case ast::type::Kind::eInt:
+						names.add( instruction->resultId.value(), std::to_string( int32_t( instruction->operands[0] ) ) );
+						stream << " " << int32_t( instruction->operands[0] );
+						break;
+					case ast::type::Kind::eUInt:
+						names.add( instruction->resultId.value(), std::to_string( instruction->operands[0] ) );
+						stream << " " << instruction->operands[0];
+						break;
+					case ast::type::Kind::eFloat:
+						names.add( instruction->resultId.value(), std::to_string( *reinterpret_cast< float const * >( instruction->operands.data() ) ) );
+						stream << " " << *reinterpret_cast< float const * >( instruction->operands.data() );
+						break;
+					case ast::type::Kind::eDouble:
+						assert( instruction->operands.size() >= 2 );
+						{
+							names.add( instruction->resultId.value(), std::to_string( *reinterpret_cast< double const * >( instruction->operands.data() ) ) );
+							stream << " " << *reinterpret_cast< double const * >( instruction->operands.data() );
+						}
+						break;
+					default:
+						break;
+					}
+				}
+				else if ( opCode == spv::OpSpecConstantComposite )
+				{
+					checkType< SpecConstantCompositeInstruction >( *instruction );
+					names.add( instruction->resultId.value(), "specconst" );
+					write( instruction->operands, names, stream );
+				}
 			}
 
 			return stream;
@@ -2988,22 +3004,33 @@ namespace spirv
 		}
 	}
 
+	std::string spirv::Module::write( spirv::Module const & module
+		, bool writeHeader )
+	{
+		auto stream = details::getStream();
+		details::write( module, writeHeader, stream );
+		return stream.str();
+	}
+
+	std::vector< uint32_t > spirv::Module::serialize( spirv::Module const & module )
+	{
+		std::vector< uint32_t > result;
+		auto size = details::count( module );
+		result.reserve( size );
+		details::serialize( module, result );
+		return result;
+	}
+
 	std::string writeSpirv( ast::Shader const & shader
 		, bool writeHeader )
 	{
-		auto module = compileSpirV( shader );
-		auto stream = getStream();
-		write( module, writeHeader, stream );
-		return stream.str();
+		auto module = details::compileSpirV( shader );
+		return Module::write( module, writeHeader );
 	}
 
 	std::vector< uint32_t > serialiseSpirv( ast::Shader const & shader )
 	{
-		auto module = compileSpirV( shader );
-		std::vector< uint32_t > result;
-		auto size = count( module );
-		result.reserve( size );
-		serialize( module, result );
-		return result;
+		auto module = details::compileSpirV( shader );
+		return Module::serialize( module );
 	}
 }

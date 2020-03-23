@@ -526,11 +526,9 @@ set_target_properties( ${PROJECT_NAME}
 		CXX_STANDARD 17
 		FOLDER "${SDW_BASE_DIR}/Core"
 )
-add_target_precompiled_header( ${PROJECT_NAME}
+target_add_precompiled_header( ${PROJECT_NAME}
 	${SDW_SOURCE_DIR}/include/${_FOLDER_NAME}/ShaderASTPch.hpp
 	${SDW_SOURCE_DIR}/source/${_FOLDER_NAME}/ShaderASTPch.cpp
-	"${CMAKE_CXX_FLAGS}"
-	${${PROJECT_NAME}_FOLDER_SOURCE_FILES}
 )
 target_include_directories( ${PROJECT_NAME}
 	PUBLIC

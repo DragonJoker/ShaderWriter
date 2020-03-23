@@ -381,11 +381,9 @@ add_library( sdw::${_FOLDER_NAME}
 	ALIAS
 	${PROJECT_NAME}
 )
-add_target_precompiled_header( ${PROJECT_NAME}
+target_add_precompiled_header( ${PROJECT_NAME}
 	${SDW_SOURCE_DIR}/include/${_FOLDER_NAME}/ShaderWriterPch.hpp
 	${SDW_SOURCE_DIR}/source/${_FOLDER_NAME}/ShaderWriterPch.cpp
-	"${CMAKE_CXX_FLAGS}"
-	${${PROJECT_NAME}_SOURCE_FILES}
 )
 target_link_libraries( ${PROJECT_NAME}
 	PUBLIC

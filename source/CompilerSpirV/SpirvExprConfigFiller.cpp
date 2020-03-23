@@ -203,7 +203,8 @@ namespace spirv
 			m_config.inputs.insert( expr->getVariable() );
 		}
 
-		if ( expr->getVariable()->isShaderOutput() )
+		if ( expr->getVariable()->isShaderOutput() 
+			&& !expr->getVariable()->isMember() )
 		{
 			m_config.outputs.insert( expr->getVariable() );
 		}

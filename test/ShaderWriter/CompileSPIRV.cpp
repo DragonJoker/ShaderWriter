@@ -10,6 +10,7 @@
 #include <VulkanLayer/ProgramPipeline.hpp>
 
 #include <algorithm>
+#include <iomanip>
 #include <iostream>
 #include <sstream>
 #include <iterator>
@@ -405,6 +406,22 @@ namespace test
 		return res == VK_SUCCESS;
 	}
 
+	std::ostream & operator<<( std::ostream & stream
+		, std::vector< uint32_t > const & spirv )
+	{
+		for ( auto i = 0u; i < spirv.size(); i += 8 )
+		{
+			for ( auto j = i; j < spirv.size() && j < i + 8; ++j )
+			{
+				stream << std::hex << std::setfill( '0' ) << std::setw( 8 ) << spirv[j] << " ";
+			}
+
+			stream << "\n";
+		}
+
+		return stream;
+	}
+
 	bool createShaderModule( Info & info
 		, std::vector< uint32_t > const & spirv )
 	{
@@ -413,22 +430,23 @@ namespace test
 		createInfo.pCode = spirv.data();
 		createInfo.codeSize = uint32_t( spirv.size() * sizeof( uint32_t ) );
 		VkShaderModule module;
+		bool result = false;
 
 		try
 		{
-			auto result = vkCreateShaderModule( info.device, &createInfo, nullptr, &module ) == VK_SUCCESS;
+			result = vkCreateShaderModule( info.device, &createInfo, nullptr, &module ) == VK_SUCCESS;
 
 			if ( result && module != VK_NULL_HANDLE )
 			{
 				vkDestroyShaderModule( info.device, module, nullptr );
 			}
-
-			return result;
 		}
 		catch ( ... )
 		{
-			return false;
+			result = false;
 		}
+
+		return result;
 	}
 
 	namespace sdw_test
@@ -500,6 +518,11 @@ namespace test
 			if ( it == std::string::npos )
 			{
 				errors += info.errors.front() + "\n";
+				std::stringstream stream;
+				stream << "SPIR-V size: " << spirv.size() << "\n"
+					<< "SPIR-V:\n"
+					<< spirv << std::endl;
+				errors += stream.str();
 			}
 		}
 		else
@@ -795,15 +818,16 @@ namespace test
 		return pipeline;
 	}
 
-	void validateProgram( ast::vk::ProgramPipeline const & program
+	bool validateProgram( ast::vk::ProgramPipeline const & program
 		, sdw_test::TestCounts & testCounts )
 	{
 		if ( program.getStageCount() == 0u )
 		{
 			failure( "No shader stage" );
-			return;
+			return false;
 		}
 
+		bool result = true;
 		auto context = createBuilderContext( testCounts );
 		ast::vk::PipelineBuilder builder{ context, program };
 		ast::vk::ShaderModuleArray modules;
@@ -812,7 +836,7 @@ namespace test
 		if ( modules.empty() )
 		{
 			failure( "No shader module" );
-			return;
+			return false;
 		}
 
 		ast::vk::DescriptorSetLayoutArray descriptorLayouts;
@@ -823,6 +847,7 @@ namespace test
 		if ( !pipelineLayout )
 		{
 			failure( "VkPipeline creation" );
+			return false;
 		}
 		else
 		{
@@ -834,6 +859,7 @@ namespace test
 				if ( program.getStageFlags() != ast::vk::makeFlag( ast::ShaderStage::eCompute ) )
 				{
 					failure( "Not enough shader stages" );
+					return false;
 				}
 				else
 				{
@@ -844,6 +870,10 @@ namespace test
 						, testCounts ) )
 					{
 						vkDestroyPipeline( context.device, pipeline, context.allocator );
+					}
+					else
+					{
+						result = false;
 					}
 				}
 			}
@@ -861,8 +891,16 @@ namespace test
 					{
 						vkDestroyPipeline( context.device, pipeline, context.allocator );
 					}
+					else
+					{
+						result = false;
+					}
 
 					vkDestroyRenderPass( context.device, renderPass, context.allocator );
+				}
+				else
+				{
+					result = false;
 				}
 			}
 
@@ -878,6 +916,8 @@ namespace test
 		{
 			vkDestroyShaderModule( context.device, module, context.allocator );
 		}
+
+		return result;
 	}
 }
 

@@ -1,5 +1,9 @@
 file( GLOB TEST_FILES ${CMAKE_CURRENT_SOURCE_DIR}/Test*.cpp )
 
+if ( ${CMAKE_VERSION} VERSION_GREATER "3.10.2" ) 
+	cmake_policy( SET CMP0072 NEW )
+endif()
+
 if ( APPLE )
 	option( SDW_TESTS_ENABLE_VALIDATION "Enables validation through respective API (Vulkan, OpenGL, and Direct3D" OFF )
 else ()
@@ -17,27 +21,25 @@ if ( SDW_TESTS_ENABLE_VALIDATION )
 
 	if ( ( TARGET sdwCompilerGlsl )
 		AND ( OpenGL_FOUND OR OPENGL_FOUND )
-		AND ( NOT APPLE ) )
-		set( TargetLinkLibraries
-			${TargetLinkLibraries}
-			${OPENGL_gl_LIBRARY}
-		)
-		set( TargetIncludeDirectories
-			${TargetIncludeDirectories}
-			${OPENGL_INCLUDE_DIR}
-		)
+		AND ( WIN32 ) )
+		if ( WIN32 )
+			set( TargetLinkLibraries
+				${TargetLinkLibraries}
+				OpenGL::GL
+			)
+		else ()
+			find_package( X11 )
+			set( TargetLinkLibraries
+				${TargetLinkLibraries}
+				${X11_X11_LIB}
+				OpenGL::GLX
+				OpenGL::OpenGL
+			)
+		endif ()
 		set( OptionalCompileDefinitions
 			${OptionalCompileDefinitions}
 			SDW_Test_HasOpenGL=1
 		)
-
-		if ( NOT WIN32 )
-			set( TargetLinkLibraries
-				${TargetLinkLibraries}
-				${OPENGL_glx_LIBRARY}
-				X11
-			)
-		endif ()
 	endif ()
 
 	if ( ( TARGET sdwCompilerSpirV )

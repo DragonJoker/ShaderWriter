@@ -548,6 +548,7 @@ namespace glsl
 		decl += m_indent + "	vec4 gl_Position;\n";
 		decl += m_indent + "	float gl_PointSize;\n";
 		decl += m_indent + "	float gl_ClipDistance[];\n";
+		decl += m_indent + "	float gl_CullDistance[];\n";
 		decl += m_indent + "}";
 		switch ( stmt->getSource() )
 		{

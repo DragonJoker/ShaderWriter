@@ -249,13 +249,17 @@ namespace spirv
 		while ( it != instructions.end() )
 		{
 			auto opCode = spv::Op( ( *it )->op.opCode );
-			deserializeInfos( opCode, it, instructions.end() );
-			deserializeFuncs( opCode, it, instructions.end() );
 
-			if ( auto * list = selectInstructionsList( opCode ) )
+			if ( !deserializeInfos( opCode, it, instructions.end() ) )
 			{
-				list->emplace_back( std::move( *it ) );
-				++it;
+				if ( !deserializeFuncs( opCode, it, instructions.end() ) )
+				{
+					if ( auto * list = selectInstructionsList( opCode ) )
+					{
+						list->emplace_back( std::move( *it ) );
+						++it;
+					}
+				}
 			}
 		}
 	}
@@ -519,8 +523,12 @@ namespace spirv
 	ast::type::Kind Module::getLiteralType( spv::Id litId )const
 	{
 		auto it = m_registeredConstants.find( litId );
-		assert( it != m_registeredConstants.end() );
-		return it->second->getKind();
+		if ( it != m_registeredConstants.end() )
+		{
+			return it->second->getKind();
+		}
+
+		return ast::type::Kind::eUndefined;
 	}
 
 	spv::Id Module::getOuterVariable( spv::Id mbrId )const
@@ -1093,14 +1101,25 @@ namespace spirv
 
 		globalDeclarations.push_back( makeInstruction< StructTypeInstruction >( result, subTypes ) );
 		debug.push_back( makeInstruction< NameInstruction >( result, type->getName() ) );
+		auto subtypeIt = subTypes.begin();
+		bool hasBuiltin = false;
 
 		for ( auto & member : *type )
 		{
 			auto index = member.type->getIndex();
 			debug.push_back( makeInstruction< MemberNameInstruction >( result, index, member.name ) );
-			decorateMember( result
-				, index
-				, makeOperands( uint32_t( spv::DecorationOffset ), member.offset ) );
+
+			if ( !addMbrBuiltin( member.name, result, index ) )
+			{
+				decorateMember( result
+					, index
+					, makeOperands( uint32_t( spv::DecorationOffset ), member.offset ) );
+			}
+			else
+			{
+				hasBuiltin = true;
+			}
+
 			auto kind = getNonArrayKind( member.type );
 
 			if ( isMatrixType( kind ) )
@@ -1115,6 +1134,11 @@ namespace spirv
 					, index
 					, makeOperands( uint32_t( spv::DecorationMatrixStride ), size ) );
 			}
+		}
+
+		if ( hasBuiltin )
+		{
+			decorate( result, { spv::DecorationBlock } );
 		}
 
 		return result;
@@ -1242,6 +1266,22 @@ namespace spirv
 		}
 	}
 
+	bool Module::addMbrBuiltin( std::string const & name
+		, spv::Id outer
+		, uint32_t mbrIndex )
+	{
+		bool result = false;
+		auto builtin = getBuiltin( name );
+
+		if ( builtin != spv::BuiltIn( -1 ) )
+		{
+			decorateMember( outer, mbrIndex, { spv::Id( spv::DecorationBuiltIn ), spv::Id( builtin ) } );
+			result = true;
+		}
+
+		return result;
+	}
+
 	void Module::addVariable( std::string const & name
 		, spv::StorageClass storage
 		, ast::type::TypePtr type
@@ -1363,37 +1403,48 @@ namespace spirv
 		return list;
 	}
 
-	void Module::deserializeInfos( spv::Op opCode
+	bool Module::deserializeInfos( spv::Op opCode
 		, InstructionList::iterator & current
 		, InstructionList::iterator end )
 	{
+		bool result = false;
+
 		switch ( opCode )
 		{
 		case spv::OpMemoryModel:
 			memoryModel = std::move( *current );
+			result = true;
 			++current;
 			break;
 		case spv::OpEntryPoint:
 			entryPoint = std::move( *current );
+			result = true;
 			++current;
 			break;
 		default:
 			break;
 		}
+
+		return result;
 	}
 
-	void Module::deserializeFuncs( spv::Op opCode
+	bool Module::deserializeFuncs( spv::Op opCode
 		, InstructionList::iterator & current
 		, InstructionList::iterator end )
 	{
+		bool result = false;
+
 		switch ( opCode )
 		{
 		case spv::OpFunction:
 			functions.emplace_back( Function::deserialize( current, end ) );
+			result = true;
 			break;
 		default:
 			break;
 		}
+
+		return result;
 	}
 
 	//*************************************************************************
