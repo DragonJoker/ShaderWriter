@@ -918,6 +918,7 @@ int main( int argc, char ** argv )
 	vertex( testCounts );
 	fragment( testCounts );
 	compute( testCounts );
+	params( testCounts );
 	swizzles( testCounts );
 	arrayAccesses( testCounts );
 	removeGamma( testCounts );
@@ -929,6 +930,5 @@ int main( int argc, char ** argv )
 	charles( testCounts );
 	charles_approx( testCounts );
 	charles_latest( testCounts );
-	params( testCounts );
 	sdwTestSuiteEnd();
 }
