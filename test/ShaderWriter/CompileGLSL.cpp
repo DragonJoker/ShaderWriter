@@ -569,7 +569,6 @@ namespace test
 			}
 
 			XStoreName( m_display, m_xWindow, "DummyWindow" );
-			XMapWindow( m_display, m_xWindow );
 			XSync( m_display, False );
 
 			int screen = DefaultScreen( m_display );
@@ -676,6 +675,7 @@ namespace test
 			::glGetError();
 
 			getFunction( "glXCreateContextAttribsARB", glCreateContextAttribs );
+			endCurrent();
 
 			auto glxContext = glCreateContextAttribs( m_display
 				, m_fbConfig

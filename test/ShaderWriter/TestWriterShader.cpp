@@ -642,6 +642,7 @@ namespace
 		ShaderArray shaders;
 		{
 			VertexWriter writer;
+
 			// Shader inputs
 			auto pos = writer.declInput< Vec4 >( "pos", 0u );
 			auto color = writer.declInput< Vec4 >( "color", 1u );
