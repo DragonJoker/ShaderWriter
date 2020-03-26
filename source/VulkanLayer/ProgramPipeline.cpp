@@ -574,7 +574,7 @@ namespace ast::vk
 
 	std::vector< uint32_t > ProgramPipeline::createShaderSource( Shader const & shader )
 	{
-		auto size = m_indices.size();
+		auto size = uint32_t( m_indices.size() );
 		m_stageFlags |= getShaderStage( shader.getType() );
 		m_indices[shader.getType()] = size;
 		m_revIndices[size] = shader.getType();
