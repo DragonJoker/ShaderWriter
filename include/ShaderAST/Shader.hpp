@@ -55,10 +55,9 @@ namespace ast
 		void pop();
 		void saveNextExpr();
 		ast::expr::ExprPtr loadExpr( ast::expr::ExprPtr expr );
-#pragma region Variables registration
 		/**
 		*name
-		*	Control statements.
+		*	Variables registration.
 		*/
 		/**@{*/
 		void registerVariable( var::VariablePtr var );
@@ -111,6 +110,8 @@ namespace ast
 			, type::TypePtr type );
 		var::VariablePtr registerLocale( std::string const & name
 			, type::TypePtr type );
+		var::VariablePtr registerLoopVar( std::string const & name
+			, type::TypePtr type );
 		var::VariablePtr registerParam( std::string const & name
 			, type::TypePtr type );
 		var::VariablePtr registerInParam( std::string const & name
@@ -126,7 +127,6 @@ namespace ast
 		void registerUbo( std::string const & name
 			, UboInfo const & info );
 		/**@}*/
-#pragma endregion
 
 		inline SsboInfo const & getSsboInfo( std::string const & name )const
 		{

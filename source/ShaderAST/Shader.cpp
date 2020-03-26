@@ -284,6 +284,14 @@ namespace ast
 			, var::Flag::eLocale );
 	}
 
+	var::VariablePtr Shader::registerLoopVar( std::string const & name
+		, type::TypePtr type )
+	{
+		return registerName( name
+			, type
+			, var::Flag::eLocale | var::Flag::eLoopVar );
+	}
+
 	var::VariablePtr Shader::registerParam( std::string const & name
 		, type::TypePtr type )
 	{

@@ -60,6 +60,12 @@ namespace sdw
 		return m_shader.registerLocale( name, type );
 	}
 
+	var::VariablePtr ShaderWriter::registerLoopVar( std::string const & name
+		, type::TypePtr type )
+	{
+		return m_shader.registerLoopVar( name, type );
+	}
+
 	var::VariablePtr ShaderWriter::registerInParam( std::string const & name
 		, type::TypePtr type )
 	{

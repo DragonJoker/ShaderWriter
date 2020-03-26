@@ -30,6 +30,7 @@ namespace ast::var
 		eFunction = 1 << 14,
 		eStatic = 1 << 15,
 		eFlat = 1 << 16,
+		eLoopVar = 1 << 17,
 	};
 
 	class Variable
@@ -170,6 +171,11 @@ namespace ast::var
 		inline bool isFlat()const
 		{
 			return hasFlag( Flag::eFlat );
+		}
+
+		inline bool isLoopVar()const
+		{
+			return hasFlag( Flag::eLoopVar );
 		}
 
 		inline bool isMember()const

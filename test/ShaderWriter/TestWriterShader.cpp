@@ -835,7 +835,7 @@ namespace
 			, testCounts );
 		testEnd();
 	}
-	
+
 	void charles_latest( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "charles_latest" );
@@ -909,6 +909,67 @@ namespace
 			, testCounts );
 		testEnd();
 	}
+
+	void radiance_computer( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "radiance_computer" );
+		using namespace sdw;
+		FragmentWriter writer;
+
+		// Inputs
+		auto vtx_worldPosition = writer.declInput< Vec3 >( "vtx_worldPosition", 0u );
+		auto c3d_mapEnvironment = writer.declSampledImage< FImgCubeRgba32 >( "c3d_mapEnvironment", 1u, 0u );
+
+		// Outputs
+		auto pxl_fragColor = writer.declOutput< Vec4 >( "pxl_FragColor", 0u );
+
+		writer.implementFunction< Void >( "main"
+			, [&]()
+			{
+				// From https://learnopengl.com/#!PBR/Lighting
+				// the sample direction equals the hemisphere's orientation 
+				auto normal = writer.declLocale( "normal"
+					, normalize( vtx_worldPosition ) );
+
+				auto irradiance = writer.declLocale( "irradiance"
+					, vec3( 0.0_f ) );
+
+				auto up = writer.declLocale( "up"
+					, vec3( 0.0_f, 1.0_f, 0.0_f ) );
+				auto right = writer.declLocale( "right"
+					, cross( up, normal ) );
+				up = cross( normal, right );
+
+				auto sampleDelta = writer.declLocale( "sampleDelta"
+					, 0.025_f );
+				auto nrSamples = writer.declLocale( "nrSamples"
+					, 0_i );
+
+				FOR( writer, Float, phi, 0.0_f, phi < 6.283185482025146484375_f, phi += sampleDelta )
+				{
+					FOR( writer, Float, theta, 0.0_f, theta < 1.57079637050628662109375_f, theta += sampleDelta )
+					{
+						// spherical to cartesian (in tangent space)
+						auto tangentSample = writer.declLocale( "tangentSample"
+							, vec3( sin( theta ) * cos( phi ), sin( theta ) * sin( phi ), cos( theta ) ) );
+						// tangent space to world
+						auto sampleVec = writer.declLocale( "sampleVec"
+							, right * tangentSample.x() + up * tangentSample.y() + normal * tangentSample.z() );
+
+						irradiance += texture( c3d_mapEnvironment, sampleVec ).rgb() * cos( theta ) * sin( theta );
+						nrSamples = nrSamples + 1;
+					}
+					ROF;
+				}
+				ROF;
+
+				irradiance = irradiance * 3.1415927410125732421875_f *( 1.0_f / writer.cast< Float >( nrSamples ) );
+				pxl_fragColor = vec4( irradiance, 1.0_f );
+			} );
+		test::writeShader( writer
+			, testCounts );
+		testEnd();
+	}
 }
 
 int main( int argc, char ** argv )
@@ -930,5 +991,6 @@ int main( int argc, char ** argv )
 	charles( testCounts );
 	charles_approx( testCounts );
 	charles_latest( testCounts );
+	radiance_computer( testCounts );
 	sdwTestSuiteEnd();
 }
