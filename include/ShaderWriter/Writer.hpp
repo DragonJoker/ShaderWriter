@@ -33,6 +33,8 @@ namespace sdw
 			, uint32_t flags );
 		SDW_API var::VariablePtr registerLocale( std::string const & name
 			, type::TypePtr type );
+		SDW_API var::VariablePtr registerLoopVar( std::string const & name
+			, type::TypePtr type );
 		SDW_API var::VariablePtr registerInParam( std::string const & name
 			, type::TypePtr type );
 		SDW_API var::VariablePtr registerOutParam( std::string const & name
@@ -530,7 +532,7 @@ namespace sdw
 		auto & writerInt = ( Writer );\
 		auto & shaderInt = writerInt.getShader();\
 		writerInt.pushScope();\
-		auto ctrlVar##Name = writerInt.registerLocale( #Name, Type::makeType( shaderInt.getTypesCache() ) );\
+		auto ctrlVar##Name = writerInt.registerLoopVar( #Name, Type::makeType( shaderInt.getTypesCache() ) );\
 		Type Name{ &shaderInt, sdw::makeExpr( shaderInt, ctrlVar##Name ) };\
 		writerInt.saveNextExpr();\
 		Type incr##Name{ &shaderInt, writerInt.loadExpr( Incr ) };\

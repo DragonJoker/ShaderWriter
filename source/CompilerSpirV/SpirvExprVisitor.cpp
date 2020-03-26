@@ -962,11 +962,10 @@ namespace spirv
 		}
 		else
 		{
-			m_result = m_module.registerVariable( adaptName( var->getName() )
-				, getStorageClass( var )
-				, expr->getType()
-				, m_info
-				, m_initialiser ).id;
+			initialiseVariable( m_initialiser
+				, true
+				, var
+				, expr->getType() );
 			auto kind = var->getType()->getKind();
 
 			if ( m_loadVariable
@@ -1595,7 +1594,7 @@ namespace spirv
 	{
 		spv::StorageClass storageClass{ getStorageClass( var ) };
 
-		if ( allLiterals )
+		if ( allLiterals && !var->isLoopVar() )
 		{
 			m_result = m_module.registerVariable( adaptName( var->getName() )
 				, storageClass
@@ -1609,7 +1608,11 @@ namespace spirv
 				, storageClass
 				, type
 				, m_info ).id;
-			m_currentBlock.instructions.emplace_back( makeInstruction< StoreInstruction >( m_result, init ) );
+
+			if ( init )
+			{
+				m_currentBlock.instructions.emplace_back( makeInstruction< StoreInstruction >( m_result, init ) );
+			}
 		}
 	}
 }

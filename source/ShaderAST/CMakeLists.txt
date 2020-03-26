@@ -192,6 +192,10 @@ set( ${PROJECT_NAME}_FOLDER_SOURCE_FILES
 	${SOURCE_DIR}/Expr/MakeTextureAccess.cpp
 	${SOURCE_DIR}/Expr/SwizzleKind.cpp
 )
+source_group( "Enum Files\\Expr"
+	FILES
+		${${PROJECT_NAME}_FOLDER_ENUM_FILES}
+)
 source_group( "Header Files\\Expr"
 	FILES
 		${${PROJECT_NAME}_FOLDER_HEADER_FILES}
@@ -199,6 +203,10 @@ source_group( "Header Files\\Expr"
 source_group( "Source Files\\Expr"
 	FILES
 		${${PROJECT_NAME}_FOLDER_SOURCE_FILES}
+)
+set( ${PROJECT_NAME}_ENUM_FILES
+	${${PROJECT_NAME}_ENUM_FILES}
+	${${PROJECT_NAME}_FOLDER_ENUM_FILES}
 )
 set( ${PROJECT_NAME}_HEADER_FILES
 	${${PROJECT_NAME}_HEADER_FILES}

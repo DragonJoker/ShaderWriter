@@ -9,6 +9,8 @@ def printHeader( outs, match ):
 	enumName = match.group( 1 )
 	outs.write( '#include "ShaderAST/Expr/Make' + enumName + '.hpp"\n' )
 	outs.write( "\n" )
+	outs.write( '#include <cassert>\n' )
+	outs.write( "\n" )
 	outs.write( "namespace ast::expr\n" )
 	outs.write( "{" )
 	return enumName
@@ -87,6 +89,23 @@ def computeParams( params, sep ):
 			result += discardArray( resParam[index] )
 			sep = "\n\t\t,"
 			index += 2
+	return result
+
+def assertParams( params, tabs ):
+	result = ""
+	intrParams = re.compile("[, ]*ASTIntrParams\( ([\w, :()\[\]]*) \)$")
+	resParams = intrParams.match( params )
+	if resParams:
+		intrParam = re.compile("(ASTIntrParam|ASTIntrOutParam)\( ([^,]*), ([^ ]*) \)")
+		resParam = intrParam.split( resParams.group( 1 ) )
+		index = 1
+		while len( resParam ) > index + 2:
+			index += 1
+			paramType = resParam[index]
+			index += 1
+			paramName = discardArray( resParam[index] )
+			index += 2
+			result += tabs + "assert( " + paramName + "->getType()->getKind() == " + paramType + " );\n"
 	return result
 
 def computeArgs( args ):
@@ -239,6 +258,7 @@ def printTextureFunction( outs, enumName, match ):
 		outs.write( "\n\t\t, ExprPtr image" )
 		outs.write( computeParams( paramsGroup, "\n\t\t," ) + " )\n" )
 		outs.write( "\t{\n" )
+		outs.write( assertParams( paramsGroup, "\t\t" ) )
 		outs.write( "\t\treturn make" + enumName + "Call( cache.getBasicType( " + ret + " )\n" )
 		outs.write( "\t\t\t, " + computeEnum( enumName, functionGroup ) )
 		outs.write( "\n\t\t\t, std::move( image )" )
@@ -250,6 +270,7 @@ def printIntrinsic( outs, enumName, match ):
 	outs.write( " type::TypesCache & cache" )
 	outs.write( computeParams( match.group( 3 ), "\n\t\t," ) + " )\n" )
 	outs.write( "\t{\n" )
+	outs.write( assertParams( match.group( 3 ), "\t\t" ) )
 	outs.write( "\t\treturn make" + enumName + "Call( cache.getBasicType( " + match.group( 1 ) + " )\n" )
 	outs.write( "\t\t\t, " + computeEnum( enumName, match.group( 2 ) ) )
 	if enumName == "TextureAccess":
