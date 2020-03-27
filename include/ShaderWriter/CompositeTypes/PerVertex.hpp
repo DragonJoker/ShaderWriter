@@ -29,6 +29,7 @@ namespace sdw
 
 		SDW_API static ast::type::StructPtr getBaseType( ast::type::TypesCache & cache );
 		SDW_API static ast::type::ArrayPtr getArrayType( ast::type::TypesCache & cache );
+		SDW_API static ast::type::TypePtr makeType( ast::type::TypesCache & cache );
 	};
 }
 

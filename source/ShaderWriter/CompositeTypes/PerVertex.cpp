@@ -82,4 +82,9 @@ namespace sdw
 	{
 		return cache.getArray( getBaseType( cache ) );
 	}
+
+	ast::type::TypePtr gl_PerVertex::makeType( ast::type::TypesCache & cache )
+	{
+		return getBaseType( cache );
+	}
 }
