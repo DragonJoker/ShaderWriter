@@ -56,34 +56,34 @@ namespace sdw
 		}
 	}
 
-	gl_PerVertex::gl_PerVertex( ast::Shader * shader
+	PerVertex::PerVertex( ast::Shader * shader
 		, ast::expr::ExprPtr expr )
 		: Value{ shader, std::move( expr ) }
-		, gl_Position{ shader, getMbr( *this, 0u, "gl_Position" ) }
-		, gl_PointSize{ shader, getMbr( *this, 1u, "gl_PointSize" ) }
-		, gl_ClipDistance{ shader, getMbr( *this, 2u, "gl_ClipDistance" ) }
-		, gl_CullDistance{ shader, getMbr( *this, 3u, "gl_CullDistance" ) }
+		, position{ shader, getMbr( *this, 0u, "gl_Position" ) }
+		, pointSize{ shader, getMbr( *this, 1u, "gl_PointSize" ) }
+		, clipDistance{ shader, getMbr( *this, 2u, "gl_ClipDistance" ) }
+		, cullDistance{ shader, getMbr( *this, 3u, "gl_CullDistance" ) }
 	{
 	}
 
-	gl_PerVertex::gl_PerVertex( ShaderWriter & writer
+	PerVertex::PerVertex( ShaderWriter & writer
 		, stmt::PerVertexDecl::Source source )
-		: gl_PerVertex{ &writer.getShader()
+		: PerVertex{ &writer.getShader()
 			, makeExpr( writer.getShader(), var::makeVariable( getBaseType( writer.getTypesCache() ), "" ) ) }
 	{
 	}
 
-	ast::type::StructPtr gl_PerVertex::getBaseType( ast::type::TypesCache & cache )
+	ast::type::StructPtr PerVertex::getBaseType( ast::type::TypesCache & cache )
 	{
 		return doGetInfo( cache ).getType();
 	}
 
-	ast::type::ArrayPtr gl_PerVertex::getArrayType( ast::type::TypesCache & cache )
+	ast::type::ArrayPtr PerVertex::getArrayType( ast::type::TypesCache & cache )
 	{
 		return cache.getArray( getBaseType( cache ) );
 	}
 
-	ast::type::TypePtr gl_PerVertex::makeType( ast::type::TypesCache & cache )
+	ast::type::TypePtr PerVertex::makeType( ast::type::TypesCache & cache )
 	{
 		return getBaseType( cache );
 	}

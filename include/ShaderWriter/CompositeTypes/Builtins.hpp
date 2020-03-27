@@ -41,19 +41,19 @@ namespace sdw
 	{
 		SDW_API InVertex( ShaderWriter & writer );
 		//in int gl_VertexIndex;
-		Int const gl_VertexIndex;
+		Int const vertexIndex;
 		//in int gl_VertexID;
-		Int const & gl_VertexID;
+		Int const & vertexID;
 		//in int gl_InstanceIndex;
-		Int const gl_InstanceIndex;
+		Int const instanceIndex;
 		//in int gl_InstanceID;
-		Int const & gl_InstanceID;
+		Int const & instanceID;
 		//in int gl_DrawID;
-		Int const gl_DrawID;
+		Int const drawID;
 		//in int gl_BaseVertex;
-		Int const gl_BaseVertex;
+		Int const baseVertex;
 		//in int gl_BaseInstance;
-		Int const gl_BaseInstance;
+		Int const baseInstance;
 	};
 	/**@}*/
 	/**
@@ -65,13 +65,13 @@ namespace sdw
 	{
 		SDW_API InTessellationControl( ShaderWriter & writer );
 		//in int gl_PatchVerticesIn;
-		Int const gl_PatchVerticesIn;
+		Int const patchVerticesIn;
 		//in int gl_PrimitiveID;
-		Int const gl_PrimitiveID;
+		Int const primitiveID;
 		//in int gl_InvocationID;
-		Int const gl_InvocationID;
+		Int const invocationID;
 		//patch in gl_PerVertex gl_in[gl_MaxPatchVertices];
-		Array< gl_PerVertex > const gl_in;
+		Array< PerVertex > const vtx;
 	};
 	/**@}*/
 	/**
@@ -83,17 +83,17 @@ namespace sdw
 	{
 		SDW_API InTessellationEvaluation( ShaderWriter & writer );
 		//in vec3 gl_TessCoord;
-		Vec3 const gl_TessCoord;
+		Vec3 const tessCoord;
 		//in int gl_PatchVerticesIn;
-		Int const gl_PatchVerticesIn;
+		Int const patchVerticesIn;
 		//in int gl_PrimitiveID;
-		Int const gl_PrimitiveID;
+		Int const primitiveID;
 		//patch in float gl_TessLevelOuter[4];
-		Array< Float > const gl_TessLevelOuter;
+		Array< Float > const tessLevelOuter;
 		//patch in float gl_TessLevelInner[2];
-		Array< Float > const gl_TessLevelInner;
+		Array< Float > const tessLevelInner;
 		//patch in gl_PerVertex gl_in[gl_MaxPatchVertices];
-		Array< gl_PerVertex > const gl_in;
+		Array< PerVertex > const vtx;
 	};
 	/**@}*/
 	/**
@@ -105,11 +105,11 @@ namespace sdw
 	{
 		SDW_API InGeometry( ShaderWriter & writer );
 		//in int gl_PrimitiveIDIn;
-		Int const gl_PrimitiveIDIn;
+		Int const primitiveIDIn;
 		//in int gl_InvocationID;
-		Int const gl_InvocationID;
+		Int const invocationID;
 		//in gl_PerVertex gl_in[];
-		Array< gl_PerVertex > const gl_in;
+		Array< PerVertex > const vtx;
 	};
 	/**@}*/
 	/**
@@ -121,25 +121,25 @@ namespace sdw
 	{
 		SDW_API InFragment( ShaderWriter & writer );
 		//in vec4 gl_FragCoord;
-		Vec4 const gl_FragCoord;
+		Vec4 const fragCoord;
 		//in bool gl_FrontFacing;
-		Boolean const gl_FrontFacing;
+		Boolean const frontFacing;
 		//in vec2 gl_PointCoord;
-		Vec2 const gl_PointCoord;
+		Vec2 const pointCoord;
 		//in int gl_SampleID;
-		Int const gl_SampleID;
+		Int const sampleID;
 		//in vec2 gl_SamplePosition;
-		Vec2 const gl_SamplePosition;
+		Vec2 const samplePosition;
 		//in int gl_SampleMaskIn[];
-		Array< Int > const gl_SampleMaskIn;
+		Array< Int > const sampleMaskIn;
 		//in float gl_ClipDistance[];
-		Array < Float > const gl_ClipDistance;
+		Array < Float > const clipDistance;
 		//in int gl_PrimitiveID;
-		Int const gl_PrimitiveID;
+		Int const primitiveID;
 		//in int gl_Layer;
-		Int const gl_Layer;
+		Int const layer;
 		//in int gl_ViewportIndex;
-		Int const gl_ViewportIndex;
+		Int const viewportIndex;
 	};
 	/**@}*/
 	/**
@@ -151,17 +151,17 @@ namespace sdw
 	{
 		SDW_API InCompute( ShaderWriter & writer );
 		//in uvec3 gl_NumWorkGroups;
-		UVec3 const gl_NumWorkGroups;
+		UVec3 const numWorkGroups;
 		//in uvec3 gl_WorkGroupID;
-		UVec3 const gl_WorkGroupID;
+		UVec3 const workGroupID;
 		//in uvec3 gl_LocalInvocationID;
-		UVec3 const gl_LocalInvocationID;
+		UVec3 const localInvocationID;
 		//in uvec3 gl_GlobalInvocationID;
-		UVec3 const gl_GlobalInvocationID;
+		UVec3 const globalInvocationID;
 		//in uint  gl_LocalInvocationIndex;
-		UInt const gl_LocalInvocationIndex;
+		UInt const localInvocationIndex;
 		//const uvec3 gl_WorkGroupSize;
-		UVec3 const gl_WorkGroupSize;
+		UVec3 const workGroupSize;
 	};
 	/**@}*/
 	/**@}*/
@@ -181,7 +181,7 @@ namespace sdw
 	{
 		SDW_API OutVertex( ShaderWriter & writer );
 		//out gl_PerVertex;
-		gl_PerVertex gl_out;
+		PerVertex vtx;
 	};
 	/**@}*/
 	/**
@@ -193,11 +193,11 @@ namespace sdw
 	{
 		SDW_API OutTessellationControl( ShaderWriter & writer );
 		//patch out float gl_TessLevelOuter[4];
-		Array< Float > gl_TessLevelOuter;
+		Array< Float > tessLevelOuter;
 		//patch out float gl_TessLevelInner[2];
-		Array< Float > gl_TessLevelInner;
+		Array< Float > tessLevelInner;
 		//out gl_PerVertex gl_out[];
-		Array< gl_PerVertex > gl_out;
+		Array< PerVertex > vtx;
 	};
 	/**@}*/
 	/**
@@ -209,7 +209,7 @@ namespace sdw
 	{
 		SDW_API OutTessellationEvaluation( ShaderWriter & writer );
 		//out gl_PerVertex;
-		gl_PerVertex gl_out;
+		PerVertex vtx;
 	};
 	/**@}*/
 	/**
@@ -221,13 +221,13 @@ namespace sdw
 	{
 		SDW_API OutGeometry( ShaderWriter & writer );
 		//out int gl_PrimitiveID;
-		Int gl_PrimitiveID;
+		Int primitiveID;
 		//out int gl_Layer;
-		Int gl_Layer;
+		Int layer;
 		//out int gl_ViewportIndex;
-		Int gl_ViewportIndex;
+		Int viewportIndex;
 		//out gl_PerVertex;
-		gl_PerVertex gl_out;
+		PerVertex vtx;
 	};
 	/**@}*/
 	/**
@@ -239,9 +239,9 @@ namespace sdw
 	{
 		SDW_API OutFragment( ShaderWriter & writer );
 		//out float gl_FragDepth;
-		Float gl_FragDepth;
+		Float fragDepth;
 		//out int gl_SampleMask[];
-		Array< Int > gl_SampleMask;
+		Array< Int > sampleMask;
 	};
 	/**@}*/
 	/**@}*/

@@ -14,18 +14,18 @@ See LICENSE file in root folder
 
 namespace sdw
 {
-	struct gl_PerVertex
+	struct PerVertex
 		: public Value
 	{
-		SDW_API gl_PerVertex();
-		SDW_API gl_PerVertex( ast::Shader * shader
+		SDW_API PerVertex();
+		SDW_API PerVertex( ast::Shader * shader
 			, ast::expr::ExprPtr expr );
-		SDW_API gl_PerVertex( ShaderWriter & writer
+		SDW_API PerVertex( ShaderWriter & writer
 			, stmt::PerVertexDecl::Source source = stmt::PerVertexDecl::eVertexOutput );
-		Vec4 gl_Position;
-		Float gl_PointSize;
-		Array< Float > gl_ClipDistance;
-		Array< Float > gl_CullDistance;
+		Vec4 position;
+		Float pointSize;
+		Array< Float > clipDistance;
+		Array< Float > cullDistance;
 
 		SDW_API static ast::type::StructPtr getBaseType( ast::type::TypesCache & cache );
 		SDW_API static ast::type::ArrayPtr getArrayType( ast::type::TypesCache & cache );
