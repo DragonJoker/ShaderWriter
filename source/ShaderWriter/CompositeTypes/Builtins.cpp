@@ -22,17 +22,17 @@ namespace sdw
 	/**@{*/
 	InVertex::InVertex( ShaderWriter & writer )
 		: Builtin{ writer }
-		, gl_VertexIndex{ &writer.getShader(), makeIdent( writer.getTypesCache()
+		, vertexIndex{ &writer.getShader(), makeIdent( writer.getTypesCache()
 			, writer.getShader().registerBuiltin( "gl_VertexIndex", writer.getTypesCache().getInt(), var::Flag::eShaderInput ) ) }
-		, gl_VertexID{ gl_VertexIndex }
-		, gl_InstanceIndex{ &writer.getShader(), makeIdent( writer.getTypesCache()
+		, vertexID{ vertexIndex }
+		, instanceIndex{ &writer.getShader(), makeIdent( writer.getTypesCache()
 			, writer.getShader().registerBuiltin( "gl_InstanceIndex", writer.getTypesCache().getInt(), var::Flag::eShaderInput ) ) }
-		, gl_InstanceID{ gl_InstanceIndex }
-		, gl_DrawID{ &writer.getShader(), makeIdent( writer.getTypesCache()
+		, instanceID{ instanceIndex }
+		, drawID{ &writer.getShader(), makeIdent( writer.getTypesCache()
 			, writer.getShader().registerBuiltin( "gl_DrawID", writer.getTypesCache().getInt(), var::Flag::eShaderInput ) ) }
-		, gl_BaseVertex{ &writer.getShader(), makeIdent( writer.getTypesCache()
+		, baseVertex{ &writer.getShader(), makeIdent( writer.getTypesCache()
 			, writer.getShader().registerBuiltin( "gl_BaseVertex", writer.getTypesCache().getInt(), var::Flag::eShaderInput ) ) }
-		, gl_BaseInstance{ &writer.getShader(), makeIdent( writer.getTypesCache()
+		, baseInstance{ &writer.getShader(), makeIdent( writer.getTypesCache()
 			, writer.getShader().registerBuiltin( "gl_BaseInstance", writer.getTypesCache().getInt(), var::Flag::eShaderInput ) ) }
 	{
 	}
@@ -41,81 +41,81 @@ namespace sdw
 
 	InTessellationControl::InTessellationControl( ShaderWriter & writer )
 		: Builtin{ writer }
-		, gl_PatchVerticesIn{ &writer.getShader(), makeIdent( writer.getTypesCache()
+		, patchVerticesIn{ &writer.getShader(), makeIdent( writer.getTypesCache()
 			, writer.getShader().registerBuiltin( "gl_PatchVerticesIn", writer.getTypesCache().getInt(), var::Flag::eShaderInput ) ) }
-		, gl_PrimitiveID{ &writer.getShader(), makeIdent( writer.getTypesCache()
+		, primitiveID{ &writer.getShader(), makeIdent( writer.getTypesCache()
 			, writer.getShader().registerBuiltin( "gl_PrimitiveID", writer.getTypesCache().getInt(), var::Flag::eShaderInput ) ) }
-		, gl_InvocationID{ &writer.getShader(), makeIdent( writer.getTypesCache()
+		, invocationID{ &writer.getShader(), makeIdent( writer.getTypesCache()
 			, writer.getShader().registerBuiltin( "gl_InvocationID", writer.getTypesCache().getInt(), var::Flag::eShaderInput ) ) }
-		, gl_in{ &writer.getShader(), makeIdent( writer.getTypesCache()
-				, writer.getShader().registerBuiltin( "gl_in", gl_PerVertex::getArrayType( writer.getTypesCache() ), var::Flag::eShaderInput ) ) }
+		, vtx{ &writer.getShader(), makeIdent( writer.getTypesCache()
+				, writer.getShader().registerBuiltin( "gl_in", PerVertex::getArrayType( writer.getTypesCache() ), var::Flag::eShaderInput ) ) }
 	{
 		addStmt( *findShader( *this )
 			, sdw::makePerVertexDecl( ast::stmt::PerVertexDecl::eTessellationControlInput
-				, gl_in.getType() ) );
+				, vtx.getType() ) );
 	}
 
 	//*************************************************************************
 
 	InTessellationEvaluation::InTessellationEvaluation( ShaderWriter & writer )
 		: Builtin{ writer }
-		, gl_TessCoord{ &writer.getShader(), makeIdent( writer.getTypesCache()
+		, tessCoord{ &writer.getShader(), makeIdent( writer.getTypesCache()
 			, writer.getShader().registerBuiltin( "gl_TessCoord", writer.getTypesCache().getVec3F(), var::Flag::eShaderInput ) ) }
-		, gl_PatchVerticesIn{ &writer.getShader(), makeIdent( writer.getTypesCache()
+		, patchVerticesIn{ &writer.getShader(), makeIdent( writer.getTypesCache()
 			, writer.getShader().registerBuiltin( "gl_PatchVerticesIn", writer.getTypesCache().getInt(), var::Flag::eShaderInput ) ) }
-		, gl_PrimitiveID{ &writer.getShader(), makeIdent( writer.getTypesCache()
+		, primitiveID{ &writer.getShader(), makeIdent( writer.getTypesCache()
 			, writer.getShader().registerBuiltin( "gl_PrimitiveID", writer.getTypesCache().getInt(), var::Flag::eShaderInput ) ) }
-		, gl_TessLevelOuter{ &writer.getShader(), makeIdent( writer.getTypesCache()
+		, tessLevelOuter{ &writer.getShader(), makeIdent( writer.getTypesCache()
 			, writer.getShader().registerBuiltin( "gl_TessLevelOuter", writer.getTypesCache().getArray( writer.getTypesCache().getFloat(), 4u ), var::Flag::eShaderInput ) ) }
-		, gl_TessLevelInner{ &writer.getShader(), makeIdent( writer.getTypesCache()
+		, tessLevelInner{ &writer.getShader(), makeIdent( writer.getTypesCache()
 			, writer.getShader().registerBuiltin( "gl_TessLevelInner", writer.getTypesCache().getArray( writer.getTypesCache().getFloat(), 2u ), var::Flag::eShaderInput ) ) }
-		, gl_in{ &writer.getShader(), makeIdent( writer.getTypesCache()
-			, writer.getShader().registerBuiltin( "gl_in", gl_PerVertex::getArrayType( writer.getTypesCache() ), var::Flag::eShaderInput ) ) }
+		, vtx{ &writer.getShader(), makeIdent( writer.getTypesCache()
+			, writer.getShader().registerBuiltin( "gl_in", PerVertex::getArrayType( writer.getTypesCache() ), var::Flag::eShaderInput ) ) }
 	{
 		addStmt( *findShader( *this )
 			, sdw::makePerVertexDecl( ast::stmt::PerVertexDecl::eTessellationEvaluationInput
-				, gl_in.getType() ) );
+				, vtx.getType() ) );
 	}
 
 	//*************************************************************************
 
 	InGeometry::InGeometry( ShaderWriter & writer )
 		: Builtin{ writer }
-		, gl_PrimitiveIDIn{ &writer.getShader(), makeIdent( writer.getTypesCache()
+		, primitiveIDIn{ &writer.getShader(), makeIdent( writer.getTypesCache()
 			, writer.getShader().registerBuiltin( "gl_PrimitiveIDIn", writer.getTypesCache().getInt(), var::Flag::eShaderInput ) ) }
-		, gl_InvocationID{ &writer.getShader(), makeIdent( writer.getTypesCache()
+		, invocationID{ &writer.getShader(), makeIdent( writer.getTypesCache()
 			, writer.getShader().registerBuiltin( "gl_InvocationID", writer.getTypesCache().getInt(), var::Flag::eShaderInput ) ) }
-		, gl_in{ &writer.getShader(), makeIdent( writer.getTypesCache()
-			, writer.getShader().registerBuiltin( "gl_in", gl_PerVertex::getArrayType( writer.getTypesCache() ), var::Flag::eShaderInput ) ) }
+		, vtx{ &writer.getShader(), makeIdent( writer.getTypesCache()
+			, writer.getShader().registerBuiltin( "gl_in", PerVertex::getArrayType( writer.getTypesCache() ), var::Flag::eShaderInput ) ) }
 	{
 		addStmt( *findShader( *this )
 			, sdw::makePerVertexDecl( ast::stmt::PerVertexDecl::eGeometryInput
-				, gl_in.getType() ) );
+				, vtx.getType() ) );
 	}
 
 	//*************************************************************************
 
 	InFragment::InFragment( ShaderWriter & writer )
 		: Builtin{ writer }
-		, gl_FragCoord{ &writer.getShader(), makeIdent( writer.getTypesCache()
+		, fragCoord{ &writer.getShader(), makeIdent( writer.getTypesCache()
 			, writer.getShader().registerBuiltin( "gl_FragCoord", writer.getTypesCache().getVec4F(), var::Flag::eShaderInput ) ) }
-		, gl_FrontFacing{ &writer.getShader(), makeIdent( writer.getTypesCache()
+		, frontFacing{ &writer.getShader(), makeIdent( writer.getTypesCache()
 			, writer.getShader().registerBuiltin( "gl_FrontFacing", writer.getTypesCache().getBool(), var::Flag::eShaderInput ) ) }
-		, gl_PointCoord{ &writer.getShader(), makeIdent( writer.getTypesCache()
+		, pointCoord{ &writer.getShader(), makeIdent( writer.getTypesCache()
 			, writer.getShader().registerBuiltin( "gl_PointCoord", writer.getTypesCache().getVec2F(), var::Flag::eShaderInput ) ) }
-		, gl_SampleID{ &writer.getShader(), makeIdent( writer.getTypesCache()
+		, sampleID{ &writer.getShader(), makeIdent( writer.getTypesCache()
 			, writer.getShader().registerBuiltin( "gl_SampleID", writer.getTypesCache().getInt(), var::Flag::eShaderInput ) ) }
-		, gl_SamplePosition{ &writer.getShader(), makeIdent( writer.getTypesCache()
+		, samplePosition{ &writer.getShader(), makeIdent( writer.getTypesCache()
 			, writer.getShader().registerBuiltin( "gl_SamplePosition", writer.getTypesCache().getVec2F(), var::Flag::eShaderInput ) ) }
-		, gl_SampleMaskIn{ &writer.getShader(), makeIdent( writer.getTypesCache()
+		, sampleMaskIn{ &writer.getShader(), makeIdent( writer.getTypesCache()
 			, writer.getShader().registerBuiltin( "gl_SampleMaskIn", writer.getTypesCache().getArray( writer.getTypesCache().getInt() ), var::Flag::eShaderInput ) ) }
-		, gl_ClipDistance{ &writer.getShader(), makeIdent( writer.getTypesCache()
+		, clipDistance{ &writer.getShader(), makeIdent( writer.getTypesCache()
 			, writer.getShader().registerBuiltin( "gl_ClipDistance", writer.getTypesCache().getArray( writer.getTypesCache().getFloat() ), var::Flag::eShaderInput ) ) }
-		, gl_PrimitiveID{ &writer.getShader(), makeIdent( writer.getTypesCache()
+		, primitiveID{ &writer.getShader(), makeIdent( writer.getTypesCache()
 			, writer.getShader().registerBuiltin( "gl_PrimitiveID", writer.getTypesCache().getInt(), var::Flag::eShaderInput ) ) }
-		, gl_Layer{ &writer.getShader(), makeIdent( writer.getTypesCache()
+		, layer{ &writer.getShader(), makeIdent( writer.getTypesCache()
 			, writer.getShader().registerBuiltin( "gl_Layer", writer.getTypesCache().getInt(), var::Flag::eShaderInput ) ) }
-		, gl_ViewportIndex{ &writer.getShader(), makeIdent( writer.getTypesCache()
+		, viewportIndex{ &writer.getShader(), makeIdent( writer.getTypesCache()
 			, writer.getShader().registerBuiltin( "gl_ViewportIndex", writer.getTypesCache().getInt(), var::Flag::eShaderInput ) ) }
 	{
 	}
@@ -124,17 +124,17 @@ namespace sdw
 
 	InCompute::InCompute( ShaderWriter & writer )
 		: Builtin{ writer }
-		, gl_NumWorkGroups{ &writer.getShader(), makeIdent( writer.getTypesCache()
+		, numWorkGroups{ &writer.getShader(), makeIdent( writer.getTypesCache()
 			, writer.getShader().registerBuiltin( "gl_NumWorkGroups", writer.getTypesCache().getVec3U(), var::Flag::eShaderInput ) ) }
-		, gl_WorkGroupID{ &writer.getShader(), makeIdent( writer.getTypesCache()
+		, workGroupID{ &writer.getShader(), makeIdent( writer.getTypesCache()
 			, writer.getShader().registerBuiltin( "gl_WorkGroupID", writer.getTypesCache().getVec3U(), var::Flag::eShaderInput ) ) }
-		, gl_LocalInvocationID{ &writer.getShader(), makeIdent( writer.getTypesCache()
+		, localInvocationID{ &writer.getShader(), makeIdent( writer.getTypesCache()
 			, writer.getShader().registerBuiltin( "gl_LocalInvocationID", writer.getTypesCache().getVec3U(), var::Flag::eShaderInput ) ) }
-		, gl_GlobalInvocationID{ &writer.getShader(), makeIdent( writer.getTypesCache()
+		, globalInvocationID{ &writer.getShader(), makeIdent( writer.getTypesCache()
 			, writer.getShader().registerBuiltin( "gl_GlobalInvocationID", writer.getTypesCache().getVec3U(), var::Flag::eShaderInput ) ) }
-		, gl_LocalInvocationIndex{ &writer.getShader(), makeIdent( writer.getTypesCache()
+		, localInvocationIndex{ &writer.getShader(), makeIdent( writer.getTypesCache()
 			, writer.getShader().registerBuiltin( "gl_LocalInvocationIndex", writer.getTypesCache().getUInt(), var::Flag::eShaderInput ) ) }
-		, gl_WorkGroupSize{ &writer.getShader(), makeIdent( writer.getTypesCache()
+		, workGroupSize{ &writer.getShader(), makeIdent( writer.getTypesCache()
 			, writer.getShader().registerBuiltin( "gl_WorkGroupSize", writer.getTypesCache().getVec3U(), var::Flag::eShaderInput ) ) }
 	{
 	}
@@ -148,67 +148,67 @@ namespace sdw
 	/**@{*/
 	OutVertex::OutVertex( ShaderWriter & writer )
 		: Builtin{ writer }
-		, gl_out{ &writer.getShader(), makeIdent( writer.getTypesCache()
-			, writer.getShader().registerBuiltin( "", gl_PerVertex::getBaseType( writer.getTypesCache() ), var::Flag::eShaderOutput ) ) }
+		, vtx{ &writer.getShader(), makeIdent( writer.getTypesCache()
+			, writer.getShader().registerBuiltin( "", PerVertex::getBaseType( writer.getTypesCache() ), var::Flag::eShaderOutput ) ) }
 	{
 		addStmt( *findShader( *this )
 			, sdw::makePerVertexDecl( ast::stmt::PerVertexDecl::eVertexOutput
-				, gl_out.getType() ) );
+				, vtx.getType() ) );
 	}
 
 	//*************************************************************************
 
 	OutTessellationControl::OutTessellationControl( ShaderWriter & writer )
 		: Builtin{ writer }
-		, gl_TessLevelOuter{ &writer.getShader(), makeIdent( writer.getTypesCache()
+		, tessLevelOuter{ &writer.getShader(), makeIdent( writer.getTypesCache()
 			, writer.getShader().registerBuiltin( "gl_TessLevelOuter", writer.getTypesCache().getArray( writer.getTypesCache().getFloat(), 4u ), var::Flag::eShaderOutput ) ) }
-		, gl_TessLevelInner{ &writer.getShader(), makeIdent( writer.getTypesCache()
+		, tessLevelInner{ &writer.getShader(), makeIdent( writer.getTypesCache()
 			, writer.getShader().registerBuiltin( "gl_TessLevelInner", writer.getTypesCache().getArray( writer.getTypesCache().getFloat(), 2u ), var::Flag::eShaderOutput ) ) }
-		, gl_out{ &writer.getShader(), makeIdent( writer.getTypesCache()
-			, writer.getShader().registerBuiltin( "gl_out", gl_PerVertex::getArrayType( writer.getTypesCache() ), var::Flag::eShaderOutput ) ) }
+		, vtx{ &writer.getShader(), makeIdent( writer.getTypesCache()
+			, writer.getShader().registerBuiltin( "gl_out", PerVertex::getArrayType( writer.getTypesCache() ), var::Flag::eShaderOutput ) ) }
 	{
 		addStmt( *findShader( *this )
 			, sdw::makePerVertexDecl( ast::stmt::PerVertexDecl::eTessellationControlOutput
-				, gl_out.getType() ) );
+				, vtx.getType() ) );
 	}
 
 	//*************************************************************************
 
 	OutTessellationEvaluation::OutTessellationEvaluation( ShaderWriter & writer )
 		: Builtin{ writer }
-		, gl_out{ &writer.getShader(), makeIdent( writer.getTypesCache()
-			, writer.getShader().registerBuiltin( "", gl_PerVertex::getBaseType( writer.getTypesCache() ), var::Flag::eShaderOutput ) ) }
+		, vtx{ &writer.getShader(), makeIdent( writer.getTypesCache()
+			, writer.getShader().registerBuiltin( "", PerVertex::getBaseType( writer.getTypesCache() ), var::Flag::eShaderOutput ) ) }
 	{
 		addStmt( *findShader( *this )
 			, sdw::makePerVertexDecl( ast::stmt::PerVertexDecl::eTessellationEvaluationOutput
-				, gl_out.getType() ) );
+				, vtx.getType() ) );
 	}
 
 	//*************************************************************************
 
 	OutGeometry::OutGeometry( ShaderWriter & writer )
 		: Builtin{ writer }
-		, gl_PrimitiveID{ &writer.getShader(), makeIdent( writer.getTypesCache()
+		, primitiveID{ &writer.getShader(), makeIdent( writer.getTypesCache()
 			, writer.getShader().registerBuiltin( "gl_PrimitiveID", writer.getTypesCache().getInt(), var::Flag::eShaderOutput ) ) }
-		, gl_Layer{ &writer.getShader(), makeIdent( writer.getTypesCache()
+		, layer{ &writer.getShader(), makeIdent( writer.getTypesCache()
 			, writer.getShader().registerBuiltin( "gl_Layer", writer.getTypesCache().getInt(), var::Flag::eShaderOutput ) ) }
-		, gl_ViewportIndex{ &writer.getShader(), makeIdent( writer.getTypesCache()
+		, viewportIndex{ &writer.getShader(), makeIdent( writer.getTypesCache()
 			, writer.getShader().registerBuiltin( "gl_ViewportIndex", writer.getTypesCache().getInt(), var::Flag::eShaderOutput ) ) }
-		, gl_out{ &writer.getShader(), makeIdent( writer.getTypesCache()
-			, writer.getShader().registerBuiltin( "", gl_PerVertex::getArrayType( writer.getTypesCache() ), var::Flag::eShaderOutput ) ) }
+		, vtx{ &writer.getShader(), makeIdent( writer.getTypesCache()
+			, writer.getShader().registerBuiltin( "", PerVertex::getArrayType( writer.getTypesCache() ), var::Flag::eShaderOutput ) ) }
 	{
 		addStmt( *findShader( *this )
 			, sdw::makePerVertexDecl( ast::stmt::PerVertexDecl::eGeometryOutput
-				, gl_out.getType() ) );
+				, vtx.getType() ) );
 	}
 
 	//*************************************************************************
 
 	OutFragment::OutFragment( ShaderWriter & writer )
 		: Builtin{ writer }
-		, gl_FragDepth{ &writer.getShader(), makeIdent( writer.getTypesCache()
+		, fragDepth{ &writer.getShader(), makeIdent( writer.getTypesCache()
 			, writer.getShader().registerBuiltin( "gl_FragDepth", writer.getTypesCache().getFloat(), var::Flag::eShaderOutput ) ) }
-		, gl_SampleMask{ &writer.getShader(), makeIdent( writer.getTypesCache()
+		, sampleMask{ &writer.getShader(), makeIdent( writer.getTypesCache()
 			, writer.getShader().registerBuiltin( "gl_SampleMask", writer.getTypesCache().getArray( writer.getTypesCache().getInt() ), var::Flag::eShaderOutput ) ) }
 	{
 	}

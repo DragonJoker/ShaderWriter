@@ -57,7 +57,7 @@ namespace sdw
 	struct OutGeometry;
 	struct OutFragment;
 
-	struct gl_PerVertex;
+	struct PerVertex;
 
 	class Pcb;
 	class ShaderWriter;

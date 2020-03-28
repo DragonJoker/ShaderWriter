@@ -151,7 +151,7 @@ namespace
 		writer.implementFunction< sdw::Void >( "main", [&]()
 			{
 				vtx_texture = texcoord;
-				out.gl_out.gl_Position = vec4( position.x(), position.y(), 0.0, 1.0 );
+				out.vtx.position = vec4( position.x(), position.y(), 0.0, 1.0 );
 			} );
 
 		test::writeShader( writer
@@ -255,9 +255,9 @@ namespace
 		writer.implementFunction< sdw::Void >( "main"
 			, [&]()
 			{
-				ssbo[in.gl_GlobalInvocationID.x()]
-					= ssbo[in.gl_GlobalInvocationID.x()]
-					* ssbo[in.gl_GlobalInvocationID.x()];
+				ssbo[in.globalInvocationID.x()]
+					= ssbo[in.globalInvocationID.x()]
+					* ssbo[in.globalInvocationID.x()];
 			} );
 
 		test::writeShader( writer.getShader()
@@ -655,7 +655,7 @@ namespace
 			writer.implementFunction< void >( "main", [&]()
 				{
 					outColor = color;
-					out.gl_out.gl_Position = pos;
+					out.vtx.position = pos;
 				} );
 
 			test::writeShader( writer
@@ -722,14 +722,14 @@ namespace
 
 			writer.implementFunction< void >( "main", [&]()
 				{
-					outColor = colors[in.gl_VertexID];
-					out.gl_out.gl_Position = positions[in.gl_VertexID];
+					outColor = colors[in.vertexID];
+					out.vtx.position = positions[in.vertexID];
 
 					outColor = colors[0];
-					out.gl_out.gl_Position = positions[0];
+					out.vtx.position = positions[0];
 
 					outColor = vec4( 1.0_f, 0.0f, 0.0f, 1.0f );
-					out.gl_out.gl_Position = vec4( 0.0_f, 0.0f, 0.0f, 1.0f );
+					out.vtx.position = vec4( 0.0_f, 0.0f, 0.0f, 1.0f );
 				} );
 
 			test::writeShader( writer
@@ -796,14 +796,14 @@ namespace
 
 			writer.implementFunction< void >( "main", [&]()
 				{
-					outColor = colors[in.gl_VertexID];
-					out.gl_out.gl_Position = positions[in.gl_VertexID];
+					outColor = colors[in.vertexID];
+					out.vtx.position = positions[in.vertexID];
 
 					outColor = colors[0];
-					out.gl_out.gl_Position = positions[0];
+					out.vtx.position = positions[0];
 
 					outColor = vec4( 1.0_f, 0.0f, 0.0f, 1.0f );
-					out.gl_out.gl_Position = vec4( 0.0_f, 0.0f, 0.0f, 1.0f );
+					out.vtx.position = vec4( 0.0_f, 0.0f, 0.0f, 1.0f );
 				} );
 
 			test::writeShader( writer
@@ -876,9 +876,9 @@ namespace
 			writer.implementFunction<void>(
 				"main", [&]()
 				{
-					out.gl_out.gl_Position =
-						vec4( positions[indices[in.gl_VertexID]], 0.0_f, 1.0_f );
-					outColor = vec4( colors[indices[in.gl_VertexID]], 1.0_f );
+					out.vtx.position =
+						vec4( positions[indices[in.vertexID]], 0.0_f, 1.0_f );
+					outColor = vec4( colors[indices[in.vertexID]], 1.0_f );
 				} );
 
 			test::writeShader( writer
