@@ -24,10 +24,8 @@ namespace sdw
 		: Builtin{ writer }
 		, vertexIndex{ &writer.getShader(), makeIdent( writer.getTypesCache()
 			, writer.getShader().registerBuiltin( "gl_VertexIndex", writer.getTypesCache().getInt(), var::Flag::eShaderInput ) ) }
-		, vertexID{ vertexIndex }
 		, instanceIndex{ &writer.getShader(), makeIdent( writer.getTypesCache()
 			, writer.getShader().registerBuiltin( "gl_InstanceIndex", writer.getTypesCache().getInt(), var::Flag::eShaderInput ) ) }
-		, instanceID{ instanceIndex }
 		, drawID{ &writer.getShader(), makeIdent( writer.getTypesCache()
 			, writer.getShader().registerBuiltin( "gl_DrawID", writer.getTypesCache().getInt(), var::Flag::eShaderInput ) ) }
 		, baseVertex{ &writer.getShader(), makeIdent( writer.getTypesCache()
