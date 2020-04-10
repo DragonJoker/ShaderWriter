@@ -722,8 +722,8 @@ namespace
 
 			writer.implementFunction< void >( "main", [&]()
 				{
-					outColor = colors[in.vertexID];
-					out.vtx.position = positions[in.vertexID];
+					outColor = colors[in.vertexIndex];
+					out.vtx.position = positions[in.vertexIndex];
 
 					outColor = colors[0];
 					out.vtx.position = positions[0];
@@ -796,8 +796,8 @@ namespace
 
 			writer.implementFunction< void >( "main", [&]()
 				{
-					outColor = colors[in.vertexID];
-					out.vtx.position = positions[in.vertexID];
+					outColor = colors[in.vertexIndex];
+					out.vtx.position = positions[in.vertexIndex];
 
 					outColor = colors[0];
 					out.vtx.position = positions[0];
@@ -877,8 +877,8 @@ namespace
 				"main", [&]()
 				{
 					out.vtx.position =
-						vec4( positions[indices[in.vertexID]], 0.0_f, 1.0_f );
-					outColor = vec4( colors[indices[in.vertexID]], 1.0_f );
+						vec4( positions[indices[in.vertexIndex]], 0.0_f, 1.0_f );
+					outColor = vec4( colors[indices[in.vertexIndex]], 1.0_f );
 				} );
 
 			test::writeShader( writer
