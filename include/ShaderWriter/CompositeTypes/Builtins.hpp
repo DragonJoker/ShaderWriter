@@ -42,12 +42,8 @@ namespace sdw
 		SDW_API InVertex( ShaderWriter & writer );
 		//in int gl_VertexIndex;
 		Int const vertexIndex;
-		//in int gl_VertexID;
-		Int const & vertexID;
 		//in int gl_InstanceIndex;
 		Int const instanceIndex;
-		//in int gl_InstanceID;
-		Int const & instanceID;
 		//in int gl_DrawID;
 		Int const drawID;
 		//in int gl_BaseVertex;
