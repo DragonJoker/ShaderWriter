@@ -1,0 +1,359 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AutoVisualizer xmlns="http://schemas.microsoft.com/vstudio/debugger/natvis/2010">
+
+	<Type Name="ast::expr::Expr">
+		<DisplayString>{{kind={m_kind} type={m_type}}}</DisplayString>
+		<Expand>
+			<Item Name="kind">m_kind</Item>
+			<Item Name="flags">m_flags</Item>
+			<Item Name="type">m_type</Item>
+		</Expand>
+	</Type>
+	<Type Name="ast::expr::Binary">
+		<DisplayString>{{kind={m_kind} type={m_type} lhs={m_lhs} rhs={m_rhs}}}</DisplayString>
+		<Expand>
+			<Item Name="kind">m_kind</Item>
+			<Item Name="flags">m_flags</Item>
+			<Item Name="type">m_type</Item>
+			<Item Name="lhs">m_lhs</Item>
+			<Item Name="rhs">m_rhs</Item>
+		</Expand>
+	</Type>
+	<Type Name="ast::expr::CompositeConstruct">
+		<DisplayString>{{kind={m_kind} type={m_type} comps={m_composite} compn={m_component}}}</DisplayString>
+		<Expand>
+			<Item Name="kind">m_kind</Item>
+			<Item Name="flags">m_flags</Item>
+			<Item Name="type">m_type</Item>
+			<Item Name="composite">m_composite</Item>
+			<Item Name="component">m_component</Item>
+			<Item Name="args">m_argList</Item>
+		</Expand>
+	</Type>
+	<Type Name="ast::expr::FnCall">
+		<DisplayString>{{kind={m_kind} type={m_type} fn={m_fn}}}</DisplayString>
+		<Expand>
+			<Item Name="kind">m_kind</Item>
+			<Item Name="flags">m_flags</Item>
+			<Item Name="type">m_type</Item>
+			<Item Name="fn">m_fn</Item>
+			<Item Name="args">m_argList</Item>
+		</Expand>
+	</Type>
+	<Type Name="ast::expr::Identifier">
+		<DisplayString>{{kind={m_kind} type={m_type} var={m_var}}}</DisplayString>
+		<Expand>
+			<Item Name="kind">m_kind</Item>
+			<Item Name="flags">m_flags</Item>
+			<Item Name="type">m_type</Item>
+			<Item Name="var">m_var</Item>
+		</Expand>
+	</Type>
+	<Type Name="ast::expr::ImageAccessCall">
+		<DisplayString>{{kind={m_kind} type={m_type} accs={m_imageAccess}}}</DisplayString>
+		<Expand>
+			<Item Name="kind">m_kind</Item>
+			<Item Name="flags">m_flags</Item>
+			<Item Name="type">m_type</Item>
+			<Item Name="access">m_imageAccess</Item>
+			<Item Name="args">m_argList</Item>
+		</Expand>
+	</Type>
+	<Type Name="ast::expr::Init">
+		<DisplayString>{{kind={m_kind} type={m_type} ident={m_identifier}, init={m_initialiser}}}</DisplayString>
+		<Expand>
+			<Item Name="kind">m_kind</Item>
+			<Item Name="flags">m_flags</Item>
+			<Item Name="type">m_type</Item>
+			<Item Name="ident">m_identifier</Item>
+			<Item Name="init">m_initialiser</Item>
+		</Expand>
+	</Type>
+	<Type Name="ast::expr::IntrinsicCall">
+		<DisplayString>{{kind={m_kind} type={m_type} intr={m_intrinsic}}}</DisplayString>
+		<Expand>
+			<Item Name="kind">m_kind</Item>
+			<Item Name="flags">m_flags</Item>
+			<Item Name="type">m_type</Item>
+			<Item Name="intrinsic">m_intrinsic</Item>
+			<Item Name="args">m_argList</Item>
+		</Expand>
+	</Type>
+	<Type Name="ast::expr::Literal">
+		<DisplayString>{{kind={m_kind} type={m_type} val={m_valueType}}}</DisplayString>
+		<Expand>
+			<Item Name="kind">m_kind</Item>
+			<Item Name="flags">m_flags</Item>
+			<Item Name="type">m_type</Item>
+			<Item Name="valueType">m_valueType</Item>
+			<Item Name="value">m_value</Item>
+		</Expand>
+	</Type>
+	<Type Name="ast::expr::MbrSelect">
+		<DisplayString>{{kind={m_kind} type={m_type} idx={m_memberIndex}}}</DisplayString>
+		<Expand>
+			<Item Name="kind">m_kind</Item>
+			<Item Name="flags">m_flags</Item>
+			<Item Name="type">m_type</Item>
+			<Item Name="index">m_memberIndex</Item>
+		</Expand>
+	</Type>
+	<Type Name="ast::expr::Question">
+		<DisplayString>{{kind={m_kind} type={m_type}}}</DisplayString>
+		<Expand>
+			<Item Name="kind">m_kind</Item>
+			<Item Name="flags">m_flags</Item>
+			<Item Name="type">m_type</Item>
+			<Item Name="ctrl">m_ctrlExpr</Item>
+			<Item Name="true">m_trueExpr</Item>
+			<Item Name="false">m_falseExpr</Item>
+		</Expand>
+	</Type>
+	<Type Name="ast::expr::Swizzle">
+		<DisplayString>{{kind={m_kind} type={m_type} swiz={m_swizzle}}}</DisplayString>
+		<Expand>
+			<Item Name="kind">m_kind</Item>
+			<Item Name="flags">m_flags</Item>
+			<Item Name="type">m_type</Item>
+			<Item Name="swizzle">m_swizzle</Item>
+			<Item Name="outer">m_outer</Item>
+		</Expand>
+	</Type>
+	<Type Name="ast::expr::TextureAccessCall">
+		<DisplayString>{{kind={m_kind} type={m_type} accs={m_textureAccess}}}</DisplayString>
+		<Expand>
+			<Item Name="kind">m_kind</Item>
+			<Item Name="flags">m_flags</Item>
+			<Item Name="type">m_type</Item>
+			<Item Name="access">m_textureAccess</Item>
+			<Item Name="args">m_argList</Item>
+		</Expand>
+	</Type>
+	<Type Name="ast::expr::Unary">
+		<DisplayString>{{kind={m_kind} type={m_type} ope={m_operand}}}</DisplayString>
+		<Expand>
+			<Item Name="kind">m_kind</Item>
+			<Item Name="flags">m_flags</Item>
+			<Item Name="type">m_type</Item>
+			<Item Name="operand">m_operand</Item>
+		</Expand>
+	</Type>
+
+	<Type Name="ast::stmt::Stmt">
+		<DisplayString>{{kind={m_kind}}}</DisplayString>
+		<Expand>
+			<Item Name="kind">m_kind</Item>
+		</Expand>
+	</Type>
+	<Type Name="ast::stmt::Container">
+		<DisplayString>{{kind={m_kind}}}</DisplayString>
+		<Expand>
+			<Item Name="kind">m_kind</Item>
+			<Item Name="statements">m_statements</Item>
+		</Expand>
+	</Type>
+	<Type Name="ast::stmt::ConstantBufferDecl">
+		<DisplayString>{{kind={m_kind} name={m_name}}}</DisplayString>
+		<Expand>
+			<Item Name="kind">m_kind</Item>
+			<Item Name="name">m_name</Item>
+			<Item Name="layout">m_layout</Item>
+			<Item Name="set">m_bindingSet</Item>
+			<Item Name="binding">m_bindingPoint</Item>
+		</Expand>
+	</Type>
+	<Type Name="ast::stmt::FunctionDecl">
+		<DisplayString>{{kind={m_kind} name={m_name}}}</DisplayString>
+		<Expand>
+			<Item Name="kind">m_kind</Item>
+			<Item Name="name">m_name</Item>
+			<Item Name="type">m_type</Item>
+		</Expand>
+	</Type>
+	<Type Name="ast::stmt::ImageDecl">
+		<DisplayString>{{kind={m_kind} var={m_variable}}}</DisplayString>
+		<Expand>
+			<Item Name="kind">m_kind</Item>
+			<Item Name="var">m_variable</Item>
+			<Item Name="set">m_bindingSet</Item>
+			<Item Name="binding">m_bindingPoint</Item>
+		</Expand>
+	</Type>
+	<Type Name="ast::stmt::InOutVariableDecl">
+		<DisplayString>{{kind={m_kind} var={m_variable}}}</DisplayString>
+		<Expand>
+			<Item Name="kind">m_kind</Item>
+			<Item Name="var">m_variable</Item>
+			<Item Name="location">m_location</Item>
+		</Expand>
+	</Type>
+	<Type Name="ast::stmt::InputComputeLayout">
+		<DisplayString>{{kind={m_kind} x={m_workGroupsX} y={m_workGroupsX} z={m_workGroupsX}}}</DisplayString>
+		<Expand>
+			<Item Name="kind">m_kind</Item>
+			<Item Name="x">m_workGroupsX</Item>
+			<Item Name="y">m_workGroupsY</Item>
+			<Item Name="z">m_workGroupsZ</Item>
+		</Expand>
+	</Type>
+	<Type Name="ast::stmt::InputGeometryLayout">
+		<DisplayString>{{kind={m_kind} layt={m_layout}}}</DisplayString>
+		<Expand>
+			<Item Name="kind">m_kind</Item>
+			<Item Name="layout">m_layout</Item>
+		</Expand>
+	</Type>
+	<Type Name="ast::stmt::OutputGeometryLayout">
+		<DisplayString>{{kind={m_kind} layt={m_layout} cnt={m_primCount}}}</DisplayString>
+		<Expand>
+			<Item Name="kind">m_kind</Item>
+			<Item Name="layout">m_layout</Item>
+			<Item Name="count">m_primCount</Item>
+		</Expand>
+	</Type>
+	<Type Name="ast::stmt::PushConstantsBufferDecl">
+		<DisplayString>{{kind={m_kind} name={m_name}}}</DisplayString>
+		<Expand>
+			<Item Name="kind">m_kind</Item>
+			<Item Name="name">m_name</Item>
+			<Item Name="count">m_layout</Item>
+		</Expand>
+	</Type>
+	<Type Name="ast::stmt::SampledImageDecl">
+		<DisplayString>{{kind={m_kind} var={m_variable}}}</DisplayString>
+		<Expand>
+			<Item Name="kind">m_kind</Item>
+			<Item Name="var">m_variable</Item>
+			<Item Name="set">m_bindingSet</Item>
+			<Item Name="binding">m_bindingPoint</Item>
+		</Expand>
+	</Type>
+	<Type Name="ast::stmt::SamplerDecl">
+		<DisplayString>{{kind={m_kind} var={m_variable}}}</DisplayString>
+		<Expand>
+			<Item Name="kind">m_kind</Item>
+			<Item Name="var">m_variable</Item>
+			<Item Name="set">m_bindingSet</Item>
+			<Item Name="binding">m_bindingPoint</Item>
+		</Expand>
+	</Type>
+	<Type Name="ast::stmt::ShaderBufferDecl">
+		<DisplayString>{{kind={m_kind} var={m_variable}}}</DisplayString>
+		<Expand>
+			<Item Name="kind">m_kind</Item>
+			<Item Name="var">m_variable</Item>
+			<Item Name="set">m_bindingSet</Item>
+			<Item Name="binding">m_bindingPoint</Item>
+		</Expand>
+	</Type>
+	<Type Name="ast::stmt::ShaderStructBufferDecl">
+		<DisplayString>{{kind={m_kind} ssbo={m_ssboName} inst={m_instance}}}</DisplayString>
+		<Expand>
+			<Item Name="kind">m_kind</Item>
+			<Item Name="ssbo">m_ssboName</Item>
+			<Item Name="instance">m_instance</Item>
+			<Item Name="data">m_data</Item>
+			<Item Name="set">m_bindingSet</Item>
+			<Item Name="binding">m_bindingPoint</Item>
+		</Expand>
+	</Type>
+	<Type Name="ast::stmt::Simple">
+		<DisplayString>{{kind={m_kind} expr={m_expr}}}</DisplayString>
+		<Expand>
+			<Item Name="kind">m_kind</Item>
+			<Item Name="expr">m_expr</Item>
+		</Expand>
+	</Type>
+	<Type Name="ast::stmt::SpecialisationConstantDecl">
+		<DisplayString>{{kind={m_kind} var={m_variable}}}</DisplayString>
+		<Expand>
+			<Item Name="kind">m_kind</Item>
+			<Item Name="var">m_variable</Item>
+			<Item Name="location">m_location</Item>
+			<Item Name="value">m_value</Item>
+		</Expand>
+	</Type>
+	<Type Name="ast::stmt::StructureDecl">
+		<DisplayString>{{kind={m_kind} type={m_type}}}</DisplayString>
+		<Expand>
+			<Item Name="kind">m_kind</Item>
+			<Item Name="type">m_type</Item>
+		</Expand>
+	</Type>
+	<Type Name="ast::stmt::VariableDecl">
+		<DisplayString>{{kind={m_kind} var={m_variable}}}</DisplayString>
+		<Expand>
+			<Item Name="kind">m_kind</Item>
+			<Item Name="var">m_variable</Item>
+		</Expand>
+	</Type>
+
+	<Type Name="ast::type::Type">
+		<DisplayString>{{kind={m_kind}}}</DisplayString>
+		<Expand>
+			<Item Name="kind">m_kind</Item>
+			<Item Name="parent">m_parent</Item>
+			<Item Name="index">m_index</Item>
+		</Expand>
+	</Type>
+	<Type Name="ast::type::Array">
+		<DisplayString>{{kind={m_kind} size={m_arraySize} type={m_type}}}</DisplayString>
+		<Expand>
+			<Item Name="kind">m_kind</Item>
+			<Item Name="parent">m_parent</Item>
+			<Item Name="index">m_index</Item>
+			<Item Name="size">m_arraySize</Item>
+			<Item Name="type">m_type</Item>
+		</Expand>
+	</Type>
+	<Type Name="ast::type::Function">
+		<DisplayString>{{kind={m_kind}}}</DisplayString>
+		<Expand>
+			<Item Name="kind">m_kind</Item>
+			<Item Name="return">m_returnType</Item>
+			<Item Name="params">m_parameters</Item>
+		</Expand>
+	</Type>
+	<Type Name="ast::type::Image">
+		<DisplayString>{{kind={m_kind}}}</DisplayString>
+		<Expand>
+			<Item Name="kind">m_kind</Item>
+			<Item Name="config">m_config</Item>
+		</Expand>
+	</Type>
+	<Type Name="ast::type::SampledImage">
+		<DisplayString>{{kind={m_kind} img={m_imageType} smp={m_samplerType}}}</DisplayString>
+		<Expand>
+			<Item Name="kind">m_kind</Item>
+			<Item Name="image">m_imageType</Item>
+			<Item Name="sampler">m_samplerType</Item>
+		</Expand>
+	</Type>
+	<Type Name="ast::type::Sampler">
+		<DisplayString>{{kind={m_kind} comp={m_comparison}}}</DisplayString>
+		<Expand>
+			<Item Name="kind">m_kind</Item>
+			<Item Name="comparison">m_comparison</Item>
+		</Expand>
+	</Type>
+	<Type Name="ast::type::Struct">
+		<DisplayString>{{kind={m_kind} name={m_name} layt={m_layout}}}</DisplayString>
+		<Expand>
+			<Item Name="kind">m_kind</Item>
+			<Item Name="name">m_name</Item>
+			<Item Name="layout">m_layout</Item>
+			<Item Name="members">m_members</Item>
+		</Expand>
+	</Type>
+
+	<Type Name="ast::var::Variable">
+		<DisplayString>{{name={m_name} flags={m_flags}}}</DisplayString>
+		<Expand>
+			<Item Name="name">m_name</Item>
+			<Item Name="flags">m_flags</Item>
+			<Item Name="type">m_type</Item>
+			<Item Name="outer">m_outer</Item>
+		</Expand>
+	</Type>
+
+</AutoVisualizer>

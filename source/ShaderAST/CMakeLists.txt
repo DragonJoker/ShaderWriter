@@ -13,6 +13,9 @@ set( ${PROJECT_NAME}_SOURCE_FILES
 	${SOURCE_DIR}/Shader.cpp
 	${SOURCE_DIR}/ShaderASTPrerequisites.cpp
 )
+set( ${PROJECT_NAME}_NATVIS_FILES
+	${SOURCE_DIR}/ShaderAST.natvis
+)
 source_group( "Header Files"
 	FILES
 		${${PROJECT_NAME}_HEADER_FILES}
@@ -20,6 +23,14 @@ source_group( "Header Files"
 source_group( "Source Files"
 	FILES
 		${${PROJECT_NAME}_SOURCE_FILES}
+)
+source_group( "Natvis Files"
+	FILES
+		${${PROJECT_NAME}_NATVIS_FILES}
+)
+set( ${PROJECT_NAME}_SOURCE_FILES
+	${${PROJECT_NAME}_SOURCE_FILES}
+	${${PROJECT_NAME}_NATVIS_FILES}
 )
 set( ${PROJECT_NAME}_FOLDER_HEADER_FILES
 	${INCLUDE_DIR}/Debug/DebugCommon.hpp
