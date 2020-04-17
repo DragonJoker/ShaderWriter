@@ -133,9 +133,9 @@ namespace glsl
 		, IntrinsicsConfig const & intrinsicsConfig
 		, ast::expr::ExprPtr & result )
 		: ExprCloner{ result }
+		, m_cache{ cache }
 		, m_writerConfig{ writerConfig }
 		, m_intrinsicsConfig{ intrinsicsConfig }
-		, m_cache{ cache }
 	{
 	}
 
@@ -398,7 +398,6 @@ namespace glsl
 	void ExprAdapter::doProcessTextureGather( ast::expr::TextureAccessCall * expr )
 	{
 		auto imgArgType = std::static_pointer_cast< ast::type::SampledImage >( expr->getArgList()[0]->getType() );
-		auto config = imgArgType->getConfig();
 		ast::expr::ExprList args;
 
 		for ( auto & arg : expr->getArgList() )

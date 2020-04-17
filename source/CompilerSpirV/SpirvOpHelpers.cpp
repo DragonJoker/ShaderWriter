@@ -1477,7 +1477,7 @@ namespace spirv
 
 	spv::Op getOpCode( ast::type::Kind kind )
 	{
-		spv::Op result;
+		spv::Op result{};
 
 		switch ( kind )
 		{

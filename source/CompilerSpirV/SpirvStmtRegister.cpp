@@ -60,46 +60,6 @@ namespace spirv
 			}
 		}
 
-		std::string adaptName( std::string const & name )
-		{
-			static std::map< std::string, std::string > const names
-			{
-				{ "gl_InstanceID", "gl_InstanceIndex" },
-				{ "gl_VertexID", "gl_VertexIndex" },
-			};
-
-			auto it = names.find( name );
-
-			if ( it != names.end() )
-			{
-				return it->second;
-			}
-
-			return name;
-		}
-
-		int32_t getInt32Value( ast::expr::Literal const & lit )
-		{
-			int32_t result{};
-
-			switch ( lit.getLiteralType() )
-			{
-			case ast::expr::LiteralType::eBool:
-				result = int32_t( lit.getValue< ast::expr::LiteralType::eBool >() );
-				break;
-			case ast::expr::LiteralType::eInt:
-				result = int32_t( lit.getValue< ast::expr::LiteralType::eInt >() );
-				break;
-			case ast::expr::LiteralType::eUInt:
-				result = int32_t( lit.getValue< ast::expr::LiteralType::eUInt >() );
-				break;
-			default:
-				break;
-			}
-
-			return result;
-		}
-
 		IdList getDecorations( uint32_t binding
 			, uint32_t set
 			, bool isBufferBlock = false )
@@ -205,8 +165,7 @@ namespace spirv
 		, ModuleStruct & moduleStruct
 		, ast::type::TypesCache & cache
 		, uint32_t & currentId )
-		: m_result{ result }
-		, m_moduleStruct{ moduleStruct }
+		: m_moduleStruct{ moduleStruct }
 		, m_cache{ cache }
 		, m_currentId{ &currentId }
 	{
@@ -399,7 +358,7 @@ namespace spirv
 
 	void StmtRegister::ModuleStructBuilder::doRegisterVar( VariablePtr var )
 	{
-		auto id = getNextId();
+		getNextId();
 	}
 
 	void StmtRegister::ModuleStructBuilder::doRegisterUse( VariablePtr var )

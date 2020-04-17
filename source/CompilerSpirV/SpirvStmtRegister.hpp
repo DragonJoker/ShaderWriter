@@ -65,7 +65,6 @@ namespace spirv
 			void doUpdateVars( VariableArray * vars );
 
 		private:
-			ast::stmt::ContainerPtr & m_result;
 			ModuleStruct & m_moduleStruct;
 			ast::type::TypesCache & m_cache;
 			IdSet m_intermediates;

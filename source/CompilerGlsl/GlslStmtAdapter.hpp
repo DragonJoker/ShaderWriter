@@ -41,8 +41,6 @@ namespace glsl
 		ast::type::TypesCache & m_cache;
 		GlslConfig const & m_writerConfig;
 		IntrinsicsConfig const & m_intrinsicsConfig;
-		ast::stmt::Container * m_intrinsics;
-		ast::ShaderStage m_type;
 	};
 }
 

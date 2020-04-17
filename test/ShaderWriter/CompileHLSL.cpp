@@ -35,7 +35,6 @@ namespace test
 		, std::string & errors
 		, sdw_test::TestCounts & testCounts )
 	{
-		ID3DBlob * result{ nullptr };
 		std::string model;
 
 		switch ( type )

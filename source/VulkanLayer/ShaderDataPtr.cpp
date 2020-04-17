@@ -35,6 +35,10 @@ namespace ast::vk
 			case DescriptorType::eStorageImage:
 				stream << "StorageImage";
 				break;
+
+			default:
+				assert( false && "Unexpected DescriptorType" );
+				break;
 			}
 
 			return stream;

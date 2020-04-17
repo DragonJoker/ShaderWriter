@@ -237,7 +237,7 @@ namespace spirv
 		m_controlBlocks.push_back( { mergeBlock.label, continueBlock.label } );
 
 		// End current block, to branch to the loop header block.
-		auto intermediateInitId = ExprVisitor::submit( stmt->getInitExpr(), m_currentBlock, m_result );
+		ExprVisitor::submit( stmt->getInitExpr(), m_currentBlock, m_result );
 		endBlock( m_currentBlock, loopBlock.label );
 
 		// The current block becomes the loop content block.
@@ -259,7 +259,7 @@ namespace spirv
 		endBlock( m_currentBlock, continueBlock.label );
 
 		// The continue target block, branches back to loop header.
-		auto intermediateIncrId = ExprVisitor::submit( stmt->getIncrExpr(), continueBlock, m_result, false );
+		ExprVisitor::submit( stmt->getIncrExpr(), continueBlock, m_result, false );
 		endBlock( continueBlock, loopBlockLabel );
 
 		// Current block becomes the merge block.
@@ -378,7 +378,7 @@ namespace spirv
 	void StmtVisitor::visitSpecialisationConstantDeclStmt( ast::stmt::SpecialisationConstantDecl * stmt )
 	{
 		auto var = stmt->getVariable();
-		auto varId = m_result.registerSpecConstant( var->getName()
+		m_result.registerSpecConstant( var->getName()
 			, stmt->getLocation()
 			, var->getType()
 			, *stmt->getValue() );
@@ -469,7 +469,6 @@ namespace spirv
 	{
 		if ( stmt->getExpr() )
 		{
-			auto kind = stmt->getExpr()->getType()->getKind();
 			auto result = ExprVisitor::submit( stmt->getExpr()
 				, m_currentBlock
 				, m_result );
@@ -621,7 +620,7 @@ namespace spirv
 
 	void StmtVisitor::visitVariableDeclStmt( ast::stmt::VariableDecl * stmt )
 	{
-		auto id = visitVariable( stmt->getVariable() );
+		visitVariable( stmt->getVariable() );
 	}
 
 	void StmtVisitor::visitWhileStmt( ast::stmt::While * stmt )

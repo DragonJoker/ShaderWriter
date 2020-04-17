@@ -5,11 +5,10 @@ See LICENSE file in root folder
 
 namespace sdw
 {
-	SampledImage::SampledImage( ast::type::ImageFormat format
+	SampledImage::SampledImage( ast::type::ImageFormat /*format*/
 		, Shader * shader
 		, expr::ExprPtr expr )
 		: Value{ shader, std::move( expr ) }
-		, m_format{ format }
 	{
 	}
 

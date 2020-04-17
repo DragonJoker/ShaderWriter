@@ -20,9 +20,9 @@ namespace hlsl
 	StmtVisitor::StmtVisitor( HlslConfig const & writerConfig
 		, std::string indent
 		, std::string & result )
-		: m_result{ result }
+		: m_writerConfig{ writerConfig }
 		, m_indent{ std::move( indent ) }
-		, m_writerConfig{ writerConfig }
+		, m_result{ result }
 	{
 	}
 

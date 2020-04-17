@@ -7,7 +7,8 @@ namespace
 		, ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool DepthT
-		, bool MsT >
+		, bool MsT
+		, typename Enable = void >
 	struct ImageSizeTester
 	{
 		static void test( test::sdw_test::TestCounts & testCounts )
@@ -35,7 +36,8 @@ namespace
 		, ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool DepthT
-		, bool MsT >
+		, bool MsT
+		, typename Enable = void >
 	struct ImageSamplesTester
 	{
 		static void test( test::sdw_test::TestCounts & testCounts )
@@ -62,8 +64,9 @@ namespace
 	template< ast::type::ImageFormat FormatT
 		, ast::type::ImageDim DimT
 		, bool ArrayedT
-		, bool DepthT >
-	struct ImageSamplesTester< FormatT, DimT, ArrayedT, DepthT, false >
+		, bool DepthT
+		, bool MsT >
+	struct ImageSamplesTester< FormatT, DimT, ArrayedT, DepthT, MsT, std::enable_if_t< !MsT > >
 	{
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
@@ -1344,7 +1347,7 @@ namespace
 	};
 
 	template< ast::type::ImageFormat FormatT
-		, template< ast::type::ImageFormat, ast::type::ImageDim, bool, bool, bool > typename TesterT >
+		, template< ast::type::ImageFormat, ast::type::ImageDim, bool, bool, bool, typename Enable = void > typename TesterT >
 	void testsImageFormats( test::sdw_test::TestCounts & testCounts )
 	{
 		if ( isFloatFormat( FormatT ) )
@@ -1393,7 +1396,7 @@ namespace
 		}
 	}
 
-	template< template< ast::type::ImageFormat, ast::type::ImageDim, bool, bool, bool > typename TesterT >
+	template< template< ast::type::ImageFormat, ast::type::ImageDim, bool, bool, bool, typename Enable > typename TesterT >
 	void testsImage( test::sdw_test::TestCounts & testCounts )
 	{
 		testsImageFormats< ast::type::ImageFormat::eRgba32f, TesterT >( testCounts );
@@ -1422,7 +1425,7 @@ namespace
 		testsImageFormats< ast::type::ImageFormat::eR8u, TesterT >( testCounts );
 	}
 
-	template< template< ast::type::ImageFormat, ast::type::ImageDim, bool, bool, bool > typename TesterT >
+	template< template< ast::type::ImageFormat, ast::type::ImageDim, bool, bool, bool, typename Enable > typename TesterT >
 	void testsImageAtomic( test::sdw_test::TestCounts & testCounts )
 	{
 		testsImageFormats< ast::type::ImageFormat::eR32i, TesterT >( testCounts );

@@ -11,9 +11,9 @@ See LICENSE file in root folder
 namespace ast
 {
 	Shader::Shader( ShaderStage type )
-		: m_container{ stmt::makeContainer() }
-		, m_type{ type }
+		: m_type{ type }
 		, m_typesCache{ std::make_unique< ast::type::TypesCache >() }
+		, m_container{ stmt::makeContainer() }
 	{
 		push( m_container.get(), ast::var::VariableList{} );
 	}
@@ -25,7 +25,6 @@ namespace ast
 
 		if ( m_blocks.size() > 1u )
 		{
-			auto & block = m_blocks.back();
 			auto it = m_blocks.begin() + m_blocks.size() - 2u;
 			// move variables contained in the given list to the new scope.
 			for ( auto & var : vars )
@@ -166,7 +165,7 @@ namespace ast
 		auto result = registerName( name
 			, type
 			, var::Flag::eSpecialisationConstant );
-		m_data.specConstants.emplace( name, SpecConstantInfo{ type, location } );
+		m_data.specConstants.emplace( name, SpecConstantInfo{ { type, location } } );
 		return result;
 	}
 
@@ -182,7 +181,7 @@ namespace ast
 
 		if ( enabled )
 		{
-			m_data.samplers.emplace( name, SamplerInfo{ type, binding, set } );
+			m_data.samplers.emplace( name, SamplerInfo{ { type, { binding, set } } } );
 		}
 
 		return result;
@@ -200,7 +199,7 @@ namespace ast
 
 		if ( enabled )
 		{
-			m_data.images.emplace( name, ImageInfo{ type, binding, set } );
+			m_data.images.emplace( name, ImageInfo{ { type, { binding, set } } } );
 		}
 
 		return result;
@@ -223,7 +222,7 @@ namespace ast
 		auto result = registerName( name
 			, type
 			, flags | var::Flag::eShaderInput );
-		m_data.inputs.emplace( name, InputInfo{ type, location } );
+		m_data.inputs.emplace( name, InputInfo{ { type, location } } );
 		return result;
 	}
 
@@ -251,7 +250,7 @@ namespace ast
 		auto result = registerName( name
 			, type
 			, flags | var::Flag::eShaderOutput );
-		m_data.outputs.emplace( name, OutputInfo{ type, location } );
+		m_data.outputs.emplace( name, OutputInfo{ { type, location } } );
 		return result;
 	}
 

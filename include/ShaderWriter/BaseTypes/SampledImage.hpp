@@ -49,9 +49,6 @@ namespace sdw
 		template< typename T >
 		inline SampledImage & operator=( T const & rhs );
 		SDW_API operator uint32_t();
-
-	private:
-		ast::type::ImageFormat m_format;
 	};
 
 	template< ast::type::ImageFormat FormatT

@@ -53,27 +53,27 @@ namespace ast::expr
 	}
 
 	Literal::Literal( type::TypesCache & cache, bool value )
-		: Literal{ cache, std::move( cache.getBool() ), value }
+		: Literal{ cache, cache.getBool(), value }
 	{
 	}
 
 	Literal::Literal( type::TypesCache & cache, int32_t value )
-		: Literal{ cache, std::move( cache.getInt() ), value }
+		: Literal{ cache, cache.getInt(), value }
 	{
 	}
 
 	Literal::Literal( type::TypesCache & cache, uint32_t value )
-		: Literal{ cache, std::move( cache.getUInt() ), value }
+		: Literal{ cache, cache.getUInt(), value }
 	{
 	}
 
 	Literal::Literal( type::TypesCache & cache, float value )
-		: Literal{ cache, std::move( cache.getFloat() ), value }
+		: Literal{ cache, cache.getFloat(), value }
 	{
 	}
 
 	Literal::Literal( type::TypesCache & cache, double value )
-		: Literal{ cache, std::move( cache.getDouble() ), value }
+		: Literal{ cache, cache.getDouble(), value }
 	{
 	}
 

@@ -23,8 +23,8 @@ namespace spirv
 
 	struct Block
 	{
-		SDWSPIRV_API Block( Block const & rhs ) = delete;
-		SDWSPIRV_API Block & operator=( Block const & rhs ) = delete;
+		Block( Block const & rhs ) = delete;
+		Block & operator=( Block const & rhs ) = delete;
 		SDWSPIRV_API Block( Block && rhs ) = default;
 		SDWSPIRV_API Block & operator=( Block && rhs ) = default;
 		SDWSPIRV_API Block() = default;
