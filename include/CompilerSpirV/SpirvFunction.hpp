@@ -86,8 +86,8 @@ namespace spirv
 
 	struct Function
 	{
-		SDWSPIRV_API Function( Function const & rhs ) = delete;
-		SDWSPIRV_API Function & operator=( Function const & rhs ) = delete;
+		Function( Function const & rhs ) = delete;
+		Function & operator=( Function const & rhs ) = delete;
 		SDWSPIRV_API Function( Function && rhs ) = default;
 		SDWSPIRV_API Function & operator=( Function && rhs ) = default;
 		SDWSPIRV_API Function() = default;
