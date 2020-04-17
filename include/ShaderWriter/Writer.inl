@@ -193,8 +193,9 @@ namespace sdw
 		, expr::ExprPtr left
 		, expr::ExprPtr right )
 	{
+		auto type = left->getType();
 		return ExprType{ &m_shader
-			, sdw::makeQuestion( left->getType()
+			, sdw::makeQuestion( type
 				, std::move( condition )
 				, std::move( left )
 				, std::move( right ) ) };
@@ -205,11 +206,12 @@ namespace sdw
 		, ExprType left
 		, ExprType right )
 	{
+		auto type = left.getType();
 		return ExprType{ &m_shader
-			, sdw::makeQuestion( left.getType()
-				, makeExpr( getShader(), condition )
-				, makeExpr( getShader(), left )
-				, makeExpr( getShader(), right ) ) };
+			, sdw::makeQuestion( type
+				, makeExpr( getShader(), std::move( condition ) )
+				, makeExpr( getShader(), std::move( left ) )
+				, makeExpr( getShader(), std::move( right ) ) ) };
 	}
 
 	template< typename ValueT >
