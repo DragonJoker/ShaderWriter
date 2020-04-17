@@ -20,50 +20,6 @@ namespace spirv
 
 	namespace
 	{
-		ast::type::Kind getComponentType( ast::type::ImageFormat format )
-		{
-			ast::type::Kind result;
-
-			switch ( format )
-			{
-			case ast::type::ImageFormat::eRgba32f:
-			case ast::type::ImageFormat::eRgba16f:
-			case ast::type::ImageFormat::eRg32f:
-			case ast::type::ImageFormat::eRg16f:
-			case ast::type::ImageFormat::eR32f:
-			case ast::type::ImageFormat::eR16f:
-				return ast::type::Kind::eFloat;
-
-			case ast::type::ImageFormat::eRgba32i:
-			case ast::type::ImageFormat::eRgba16i:
-			case ast::type::ImageFormat::eRgba8i:
-			case ast::type::ImageFormat::eRg32i:
-			case ast::type::ImageFormat::eRg16i:
-			case ast::type::ImageFormat::eRg8i:
-			case ast::type::ImageFormat::eR32i:
-			case ast::type::ImageFormat::eR16i:
-			case ast::type::ImageFormat::eR8i:
-				return ast::type::Kind::eInt;
-
-			case ast::type::ImageFormat::eRgba32u:
-			case ast::type::ImageFormat::eRgba16u:
-			case ast::type::ImageFormat::eRgba8u:
-			case ast::type::ImageFormat::eRg32u:
-			case ast::type::ImageFormat::eRg16u:
-			case ast::type::ImageFormat::eRg8u:
-			case ast::type::ImageFormat::eR32u:
-			case ast::type::ImageFormat::eR16u:
-			case ast::type::ImageFormat::eR8u:
-				return ast::type::Kind::eUInt;
-
-			default:
-				assert( false && "Unsupported ast::type::ImageFormat." );
-				return ast::type::Kind::eFloat;
-			}
-
-			return result;
-		}
-
 		ast::type::TypePtr getUnqualifiedType( ast::type::TypesCache & cache
 			, ast::type::TypePtr qualified );
 
@@ -166,35 +122,6 @@ namespace spirv
 				: qualified;
 		}
 
-		ast::type::MemoryLayout getMemoryLayout( ast::type::Type const & type )
-		{
-			ast::type::MemoryLayout result{ ast::type::MemoryLayout::eStd430 };
-			auto kind = type.getKind();
-
-			if ( kind == ast::type::Kind::eArray )
-			{
-				if ( type.isMember() )
-				{
-					result = getMemoryLayout( *type.getParent() );
-				}
-				else
-				{
-					result = getMemoryLayout( *static_cast< ast::type::Array const & >( type ).getType() );
-				}
-			}
-			else if ( kind == ast::type::Kind::eStruct )
-			{
-				auto & structType = static_cast< ast::type::Struct const & >( type );
-				result = structType.getMemoryLayout();
-			}
-			else if ( type.isMember() )
-			{
-				result = getMemoryLayout( *type.getParent() );
-			}
-
-			return result;
-		}
-
 		void writeArrayStride( Module & module
 			, ast::type::TypePtr type
 			, uint32_t typeId
@@ -221,11 +148,11 @@ namespace spirv
 	Module::Module( ast::type::TypesCache & cache
 		, spv::MemoryModel memoryModel
 		, spv::ExecutionModel executionModel )
-		: variables{ &globalDeclarations }
-		, memoryModel{ makeInstruction< MemoryModelInstruction >( spv::Id( spv::AddressingModelLogical ), spv::Id( memoryModel ) ) }
+		: memoryModel{ makeInstruction< MemoryModelInstruction >( spv::Id( spv::AddressingModelLogical ), spv::Id( memoryModel ) ) }
+		, variables{ &globalDeclarations }
 		, m_cache{ &cache }
-		, m_model{ executionModel }
 		, m_currentScopeVariables{ &m_registeredVariables }
+		, m_model{ executionModel }
 	{
 		initialiseHeader(
 			{
@@ -482,9 +409,8 @@ namespace spirv
 
 	spv::Id Module::registerParameter( ast::type::TypePtr type )
 	{
-		auto typeId = registerType( type );
-		auto paramId = getNextId();
-		return paramId;
+		registerType( type );
+		return getNextId();
 	}
 
 	spv::Id Module::registerMemberVariableIndex( ast::type::TypePtr type )
@@ -506,7 +432,6 @@ namespace spirv
 		assert( it != m_currentScopeVariables->end() );
 		assert( type->isMember() );
 		auto fullName = it->first + "::" + name;
-		auto outerId = it->second;
 		it = m_currentScopeVariables->find( fullName );
 
 		if ( it == m_currentScopeVariables->end() )
@@ -884,7 +809,7 @@ namespace spirv
 		auto itType = funcTypes.begin() + 1u;
 		auto itParam = funcParams.begin();
 
-		for ( auto & param : params )
+		for ( auto it = params.begin(); it != params.end(); ++it )
 		{
 			m_currentFunction->declaration.emplace_back( makeInstruction< FunctionParameterInstruction >( *itType
 				, *itParam ) );
@@ -1138,7 +1063,7 @@ namespace spirv
 
 		if ( hasBuiltin )
 		{
-			decorate( result, { spv::DecorationBlock } );
+			decorate( result, spv::DecorationBlock );
 		}
 
 		return result;

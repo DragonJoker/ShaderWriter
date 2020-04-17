@@ -189,8 +189,8 @@ namespace glsl
 		, std::string & result
 		, std::string indent )
 		: m_writerConfig{ writerConfig }
-		, m_result{ result }
 		, m_indent{ std::move( indent ) }
+		, m_result{ result }
 	{
 	}
 

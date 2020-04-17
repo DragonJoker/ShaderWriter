@@ -21,20 +21,6 @@ namespace sdw
 			return result;
 		}
 
-		bool isInput( stmt::PerVertexDecl::Source source )
-		{
-			return source == stmt::PerVertexDecl::Source::eGeometryInput
-				|| source == stmt::PerVertexDecl::Source::eTessellationControlInput
-				|| source == stmt::PerVertexDecl::Source::eTessellationEvaluationInput;
-		}
-
-		var::Flag getBuiltinFlag( stmt::PerVertexDecl::Source source )
-		{
-			return isInput( source )
-				? var::Flag::eShaderInput
-				: var::Flag::eShaderOutput;
-		}
-
 		expr::ExprPtr getMbr( Value const & outer
 			, uint32_t mbrIndex
 			, std::string const & mbrName )

@@ -21,23 +21,23 @@ namespace sdw
 
 	Value::Value( Shader * shader
 		, expr::ExprPtr expr )
-		: m_shader{ shader }
+		: m_expr{ std::move( expr ) }
+		, m_shader{ shader }
 		, m_container{ m_shader ? m_shader->getContainer() : nullptr }
-		, m_expr{ std::move( expr ) }
 	{
 	}
 
 	Value::Value( Value const & rhs )
-		: m_shader{ rhs.m_shader }
+		: m_expr{ makeExpr( *findShader( rhs ), rhs ) }
+		, m_shader{ rhs.m_shader }
 		, m_container{ m_shader ? m_shader->getContainer() : nullptr }
-		, m_expr{ makeExpr( *findShader( rhs ), rhs ) }
 	{
 	}
 
 	Value::Value( Value && rhs )
-		: m_shader{ rhs.m_shader }
+		: m_expr( std::move( rhs.m_expr ) )
+		, m_shader{ rhs.m_shader }
 		, m_container{ m_shader ? m_shader->getContainer() : nullptr }
-		, m_expr( std::move( rhs.m_expr ) )
 	{
 	}
 

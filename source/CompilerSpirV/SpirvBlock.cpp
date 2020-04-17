@@ -63,7 +63,7 @@ namespace spirv
 
 		if ( buffer != end )
 		{
-			result.blockEnd = std::move( popValue() );
+			result.blockEnd = popValue();
 		}
 
 		return result;

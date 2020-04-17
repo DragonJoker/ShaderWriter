@@ -31,28 +31,6 @@ namespace test
 {
 	namespace
 	{
-		std::string getName( ast::ShaderStage stage )
-		{
-			switch ( stage )
-			{
-			case ast::ShaderStage::eVertex:
-				return "Vertex";
-			case ast::ShaderStage::eGeometry:
-				return "Geometry";
-			case ast::ShaderStage::eTessellationControl:
-				return "TessellationControl";
-			case ast::ShaderStage::eTessellationEvaluation:
-				return "TessellationEvaluation";
-			case ast::ShaderStage::eFragment:
-				return "Fragment";
-			case ast::ShaderStage::eCompute:
-				return "Compute";
-			default:
-				assert( false && "Unsupported shader stage flag" );
-				return "Undefined";
-			}
-		}
-
 		spv::ExecutionModel getExecutionModel( ast::ShaderStage stage )
 		{
 			spv::ExecutionModel result{};
@@ -270,7 +248,7 @@ namespace test
 							, specialisation
 							, glsl::GlslConfig{} ) );
 					std::string errors;
-					auto result = test::compileSpirV( shader, glslangSpirv, errors, testCounts );
+					test::compileSpirV( shader, glslangSpirv, errors, testCounts );
 
 					if ( !errors.empty() )
 					{

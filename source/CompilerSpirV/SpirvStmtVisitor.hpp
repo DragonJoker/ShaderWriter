@@ -89,7 +89,6 @@ namespace spirv
 		Function * m_function{ nullptr };
 		std::vector< Control > m_controlBlocks;
 		uint32_t m_ifStmts{ 0u };
-		ast::ShaderStage m_type;
 		IdList m_inputs;
 		IdList m_outputs;
 	};

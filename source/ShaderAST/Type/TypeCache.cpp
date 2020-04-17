@@ -60,6 +60,17 @@ namespace ast::type
 			{
 				return comparison ? 1u : 0u;
 			} }
+		, m_function{ []( TypePtr returnType
+				, var::VariableList parameters )
+			{
+				return std::make_shared< Function >( returnType
+					, std::move( parameters ) );
+			}
+			, []( TypePtr returnType
+				, var::VariableList const & parameters )
+			{
+				return getHash( returnType, parameters );
+			} }
 		, m_struct{ [this]( MemoryLayout layout
 				, std::string name )
 			{
@@ -71,17 +82,6 @@ namespace ast::type
 				, std::string const & name )
 			{
 				return getHash( layout, name );
-			} }
-		, m_function{ [this]( TypePtr returnType
-				, var::VariableList parameters )
-			{
-				return std::make_shared< Function >( returnType
-					, std::move( parameters ) );
-			}
-			, []( TypePtr returnType
-				, var::VariableList const & parameters )
-			{
-				return getHash( returnType, parameters );
 			} }
 		, m_array{ []( TypePtr type
 				, uint32_t arraySize )

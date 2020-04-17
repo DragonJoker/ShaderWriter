@@ -264,80 +264,82 @@ namespace test
 	class RenderWindow
 	{
 	public:
-		RenderWindow() try
+		RenderWindow()
 		{
-			MSG msg{};
-			m_wc.lpfnWndProc = RenderWindow::WndProc;
-			m_wc.hInstance = ::GetModuleHandle( nullptr );
-			m_wc.hbrBackground = ( HBRUSH )( COLOR_BACKGROUND );
-			m_wc.lpszClassName = "DummyWindow";
-			m_wc.style = CS_OWNDC;
-
-			if ( !RegisterClassA( &m_wc ) )
+			try
 			{
-				throw std::runtime_error{ "Couldn't register window class" };
-			}
+				m_wc.lpfnWndProc = RenderWindow::WndProc;
+				m_wc.hInstance = ::GetModuleHandle( nullptr );
+				m_wc.hbrBackground = ( HBRUSH )( COLOR_BACKGROUND );
+				m_wc.lpszClassName = "DummyWindow";
+				m_wc.style = CS_OWNDC;
 
-			m_hWnd = CreateWindowA( m_wc.lpszClassName
-				, "DummyWindow"
-				, WS_OVERLAPPEDWINDOW
-				, 0
-				, 0
-				, 640
-				, 480
-				, nullptr
-				, nullptr
-				, m_wc.hInstance
-				, nullptr );
-
-			if ( !m_hWnd )
-			{
-				throw std::runtime_error{ "Couldn't create window" };
-			}
-
-			m_hDC = ::GetDC( m_hWnd );
-
-			if ( doSelectFormat() )
-			{
-				m_hContext = wglCreateContext( m_hDC );
-
-				if ( !m_hContext )
+				if ( !RegisterClassA( &m_wc ) )
 				{
-					throw std::runtime_error{ "Couldn't create the context" };
+					throw std::runtime_error{ "Couldn't register window class" };
 				}
+
+				m_hWnd = CreateWindowA( m_wc.lpszClassName
+					, "DummyWindow"
+					, WS_OVERLAPPEDWINDOW
+					, 0
+					, 0
+					, 640
+					, 480
+					, nullptr
+					, nullptr
+					, m_wc.hInstance
+					, nullptr );
+
+				if ( !m_hWnd )
+				{
+					throw std::runtime_error{ "Couldn't create window" };
+				}
+
+				m_hDC = ::GetDC( m_hWnd );
+
+				if ( doSelectFormat() )
+				{
+					m_hContext = wglCreateContext( m_hDC );
+
+					if ( !m_hContext )
+					{
+						throw std::runtime_error{ "Couldn't create the context" };
+					}
+				}
+				else
+				{
+					throw std::runtime_error{ "Couldn't find an appropriate pixel format" };
+				}
+
+				setCurrent();
+				auto version = checkGLVersion();
+				initialiseDebugFunctions();
+				getFunction( "glCompileShader", glCompileShader );
+				getFunction( "glCreateShader", glCreateShader );
+				getFunction( "glDeleteShader", glDeleteShader );
+				getFunction( "glGetShaderInfoLog", glGetShaderInfoLog );
+				getFunction( "glGetShaderiv", glGetShaderiv );
+				getFunction( "glShaderSource", glShaderSource );
+				endCurrent();
+				doCreateGl3Context( version );
 			}
-			else
+			catch ( std::exception & )
 			{
-				throw std::runtime_error{ "Couldn't find an appropriate pixel format" };
+				endCurrent();
+
+				if ( m_hDC )
+				{
+					::ReleaseDC( m_hWnd, m_hDC );
+				}
+
+				if ( m_hWnd )
+				{
+					::DestroyWindow( m_hWnd );
+				}
+
+				throw;
 			}
-
-			setCurrent();
-			auto version = checkGLVersion();
-			initialiseDebugFunctions();
-			getFunction( "glCompileShader", glCompileShader );
-			getFunction( "glCreateShader", glCreateShader );
-			getFunction( "glDeleteShader", glDeleteShader );
-			getFunction( "glGetShaderInfoLog", glGetShaderInfoLog );
-			getFunction( "glGetShaderiv", glGetShaderiv );
-			getFunction( "glShaderSource", glShaderSource );
-			endCurrent();
-			doCreateGl3Context( version );
-		}
-		catch ( std::exception & )
-		{
-			endCurrent();
-
-			if ( m_hDC )
-			{
-				::ReleaseDC( m_hWnd, m_hDC );
-			}
-
-			if ( m_hWnd )
-			{
-				::DestroyWindow( m_hWnd );
-			}
-
-			throw;
 		}
 
 		~RenderWindow()

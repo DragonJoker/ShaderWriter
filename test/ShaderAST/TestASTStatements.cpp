@@ -443,8 +443,8 @@ namespace
 			auto i = ast::var::makeVariable( cache.getInt(), "i" );
 			auto j = ast::var::makeVariable( cache.getInt(), "j" );
 			auto stmt = ast::stmt::makeIf( ast::expr::makeIdentifier( cache, ast::var::makeVariable( cache.getBool(), "k" ) ) );
-			auto elseIfStmt = stmt->createElseIf( ast::expr::makeIdentifier( cache, ast::var::makeVariable( cache.getBool(), "l" ) ) );
-			auto elseStmt = stmt->createElse();
+			stmt->createElseIf( ast::expr::makeIdentifier( cache, ast::var::makeVariable( cache.getBool(), "l" ) ) );
+			stmt->createElse();
 			std::cout << "StmtElse (empty):\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
 		}
 		{

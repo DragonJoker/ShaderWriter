@@ -174,8 +174,8 @@ namespace ast::debug
 
 	StmtVisitor::StmtVisitor( std::string & result
 		, std::string indent )
-		: m_result{ result }
-		, m_indent{ std::move( indent ) }
+		: m_indent{ std::move( indent ) }
+		, m_result{ result }
 	{
 	}
 

@@ -2429,7 +2429,7 @@ namespace
 	*	Main test function
 	*/
 	/**@{*/
-	template< ast::type::ImageFormat FormatT, template< ast::type::ImageFormat, ast::type::ImageDim, bool, bool, bool > typename TesterT >
+	template< ast::type::ImageFormat FormatT, template< ast::type::ImageFormat, ast::type::ImageDim, bool, bool, bool, typename Enable = void > typename TesterT >
 	void testsTexture( test::sdw_test::TestCounts & testCounts )
 	{
 		if ( isFloatFormat( FormatT ) )
@@ -2477,7 +2477,7 @@ namespace
 			TesterT< FormatT, ImgCubeArray >::test( testCounts );
 		}
 	}
-	template< template< ast::type::ImageFormat, ast::type::ImageDim, bool, bool, bool > typename TesterT >
+	template< template< ast::type::ImageFormat, ast::type::ImageDim, bool, bool, bool, typename Enable = void > typename TesterT >
 	void testsTextures( test::sdw_test::TestCounts & testCounts )
 	{
 		testsTexture< ast::type::ImageFormat::eRgba32f, TesterT >( testCounts );

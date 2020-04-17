@@ -115,9 +115,6 @@ namespace sdw
 	template< typename ValueT >
 	ast::type::ImageConfiguration makeConfig()
 	{
-		auto kind = typeEnum< ValueT >;
-		assert( kind == ast::type::Kind::eImage
-			|| kind == ast::type::Kind::eSampledImage );
 		return details::ConfigMaker< ValueT >::get();
 	}
 }

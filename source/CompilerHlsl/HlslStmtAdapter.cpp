@@ -103,13 +103,6 @@ namespace hlsl
 						|| name == "gl_ClipDistance" ) );
 		}
 
-		bool isShaderInOut( std::string const & name
-			, sdw::ShaderStage type )
-		{
-			return isShaderInput( name, type )
-				&& isShaderOutput( name, type );
-		}
-
 		ast::type::Kind getBuiltinHlslKind( std::string const & name
 			, ast::type::Kind input )
 		{

@@ -495,7 +495,7 @@ namespace hlsl
 		{
 			assert( value >= ast::expr::TextureAccess::eTextureGrad2DRectShadowF
 				&& value <= ast::expr::TextureAccess::eTextureProjGradOffset2DRectShadowF );
-			ast::expr::TextureAccess result;
+			ast::expr::TextureAccess result{};
 
 			switch ( value )
 			{
@@ -765,114 +765,6 @@ namespace hlsl
 				+ hlsl::getName( config.dimension )
 				+ ( config.isArrayed ? "Array" : "" )
 				+ hlsl::getSampledName( config.format );
-		}
-
-		ast::expr::ExprPtr swizzleConvert( ast::type::TypePtr dst
-			, ast::expr::ExprPtr expr )
-		{
-			ast::expr::SwizzleKind swizzle;
-			auto srcCount = getComponentCount( expr->getType()->getKind() );
-			auto dstCount = getComponentCount( dst->getKind() );
-
-			switch ( srcCount )
-			{
-			case 1:
-				switch ( dstCount )
-				{
-				case 1:
-					swizzle = ast::expr::SwizzleKind::e0;
-					break;
-				case 2:
-					swizzle = ast::expr::SwizzleKind::e00;
-					break;
-				case 3:
-					swizzle = ast::expr::SwizzleKind::e000;
-					break;
-				case 4:
-					swizzle = ast::expr::SwizzleKind::e0000;
-					break;
-				}
-				break;
-			case 2:
-				switch ( dstCount )
-				{
-				case 1:
-					swizzle = ast::expr::SwizzleKind::e0;
-					break;
-				case 2:
-					swizzle = ast::expr::SwizzleKind::e01;
-					break;
-				case 3:
-					swizzle = ast::expr::SwizzleKind::e011;
-					break;
-				case 4:
-					swizzle = ast::expr::SwizzleKind::e0111;
-					break;
-				}
-				break;
-			case 3:
-				switch ( dstCount )
-				{
-				case 1:
-					swizzle = ast::expr::SwizzleKind::e0;
-					break;
-				case 2:
-					swizzle = ast::expr::SwizzleKind::e01;
-					break;
-				case 3:
-					swizzle = ast::expr::SwizzleKind::e012;
-					break;
-				case 4:
-					swizzle = ast::expr::SwizzleKind::e0122;
-					break;
-				}
-				break;
-			case 4:
-				switch ( dstCount )
-				{
-				case 1:
-					swizzle = ast::expr::SwizzleKind::e0;
-					break;
-				case 2:
-					swizzle = ast::expr::SwizzleKind::e01;
-					break;
-				case 3:
-					swizzle = ast::expr::SwizzleKind::e012;
-					break;
-				case 4:
-					swizzle = ast::expr::SwizzleKind::e0123;
-					break;
-				}
-				break;
-			}
-
-			return std::make_unique< ast::expr::Swizzle >( std::move( expr )
-				, swizzle );
-		}
-
-		ast::expr::ExprPtr componentCastConvert( ast::type::TypePtr dst
-			, ast::expr::ExprPtr expr )
-		{
-			return ast::expr::makeCast( dst, std::move( expr ) );
-		}
-
-		ast::expr::ExprPtr convert( ast::type::TypePtr dst
-			, ast::expr::ExprPtr expr )
-		{
-			auto srcCount = getComponentCount( expr->getType()->getKind() );
-			auto dstCount = getComponentCount( dst->getKind() );
-			ast::expr::ExprPtr result = std::move( expr );
-
-			if ( srcCount == dstCount )
-			{
-				result = componentCastConvert( dst, std::move( result ) );
-			}
-			else
-			{
-				result = swizzleConvert( dst, std::move( result ) );
-			}
-
-			return result;
 		}
 
 		ast::expr::ExprPtr registerBuiltinInputVar( ast::type::TypesCache & cache
@@ -1963,7 +1855,6 @@ namespace hlsl
 			auto cont = ast::stmt::makeFunctionDecl( functionType, funcName );
 			ast::type::TypePtr uintType = m_cache.getUInt();
 			ast::var::VariableList resVars;
-			ast::expr::CompositeType composite{};
 
 			switch ( config.dimension )
 			{

@@ -58,7 +58,7 @@ namespace hlsl
 
 		if ( enabled )
 		{
-			m_samplers.emplace( name, ast::SamplerInfo{ type, binding, set } );
+			m_samplers.emplace( name, ast::SamplerInfo{ { type, { binding, set } } } );
 		}
 
 		return result;
@@ -76,7 +76,7 @@ namespace hlsl
 
 		if ( enabled )
 		{
-			m_images.emplace( name, ast::ImageInfo{ type, binding, set } );
+			m_images.emplace( name, ast::ImageInfo{ { type, { binding, set } } } );
 		}
 
 		return result;

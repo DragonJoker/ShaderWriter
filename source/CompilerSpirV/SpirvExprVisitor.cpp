@@ -397,7 +397,6 @@ namespace spirv
 	void ExprVisitor::visitAssignmentExpr( ast::expr::Assign * expr )
 	{
 		m_allLiterals = false;
-		auto typeId = m_module.registerType( expr->getType() );
 
 		if ( expr->getLHS()->getKind() == ast::expr::Kind::eSwizzle )
 		{
@@ -1199,7 +1198,6 @@ namespace spirv
 		{
 			auto outerId = doSubmit( expr->getOuterExpr() );
 			auto typeId = m_module.registerType( expr->getType() );
-			bool needsLoad = false;
 			m_result = writeShuffle( m_module
 				, m_currentBlock
 				, typeId

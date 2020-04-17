@@ -20,6 +20,7 @@ namespace ast::vk
 
 		switch ( result )
 		{
+		case VK_SUCCESS: stream << "vk_success"; break;
 		case VK_NOT_READY: stream << "vk_not_ready"; break;
 		case VK_TIMEOUT: stream << "vk_timeout"; break;
 		case VK_EVENT_SET: stream << "vk_event_set"; break;
@@ -47,13 +48,29 @@ namespace ast::vk
 		case VK_ERROR_VALIDATION_FAILED_EXT: stream << "vk_error_validation_failed_ext"; break;
 		case VK_ERROR_INVALID_SHADER_NV: stream << "vk_error_invalid_shader_nv"; break;
 		case VK_ERROR_NOT_PERMITTED_EXT: stream << "vk_error_not_permitted_ext"; break;
-#if 0
+#if VK_VERSION_1_2 
+		case VK_ERROR_INVALID_OPAQUE_CAPTURE_ADDRESS: stream << "vk_error_invalid_opaque_capture_address"; break;
 		case VK_ERROR_UNKNOWN: stream << "vk_error_unknown"; break;
 		case VK_ERROR_FRAGMENTATION: stream << "vk_error_fragmentation"; break;
-		case VK_ERROR_INVALID_OPAQUE_CAPTURE_ADDRESS: stream << "vk_error_invalid_opaque_capture_address"; break;
+		case VK_ERROR_FULL_SCREEN_EXCLUSIVE_MODE_LOST_EXT: stream << "vk_error_full_screen_exclusive_mode_lost_ext"; break;
+#else
+#	if VK_EXT_descriptor_indexing
+		case VK_ERROR_FRAGMENTATION_EXT: stream << "vk_error_fragmentation_ext"; break;
+#	endif
+#	if VK_KHR_buffer_device_address 
+		case VK_ERROR_INVALID_OPAQUE_CAPTURE_ADDRESS_KHR: stream << "vk_error_invalid_opaque_capture_address_khr"; break;
+#	elif VK_EXT_buffer_device_address 
+		case VK_ERROR_INVALID_DEVICE_ADDRESS_EXT: stream << "vk_error_invalid_device_address_ext"; break;
+#	endif
+#endif
+#if VK_EXT_image_drm_format_modifier
 		case VK_ERROR_INVALID_DRM_FORMAT_MODIFIER_PLANE_LAYOUT_EXT: stream << "vk_error_invalid_drm_format_modifier_plane_layout_ext"; break;
+#endif
+#if VK_EXT_full_screen_exclusive
 		case VK_ERROR_FULL_SCREEN_EXCLUSIVE_MODE_LOST_EXT: stream << "vk_error_full_screen_exclusive_mode_lost_ext"; break;
 #endif
+		case VK_RESULT_RANGE_SIZE: stream << "vk_result_range_size"; break;
+		case VK_RESULT_MAX_ENUM: stream << "vk_result_max_enum"; break;
 		}
 
 		std::cerr << stream.str() << std::endl;
