@@ -15,6 +15,7 @@ namespace ast::vk
 	class ProgramPipeline
 	{
 	public:
+		ProgramPipeline( ShaderRefArray const & shaders );
 		ProgramPipeline( ShaderArray const & shaders );
 		ProgramPipeline( Shader const & shader );
 		/**
@@ -135,17 +136,11 @@ namespace ast::vk
 
 	private:
 		std::vector< uint32_t > createShaderSource( Shader const & shader );
-		std::vector< std::vector< uint32_t > > createShaderSources( ShaderArray const & shaders );
 		SpecializationInfoOpt createSpecializationInfo( Shader const & shader );
-		std::vector< SpecializationInfoOpt > createSpecializationInfos( ShaderArray const & shaders );
 		PipelineShaderStageCreateInfo createShaderStage( Shader const & shader );
-		std::vector< PipelineShaderStageCreateInfo > createShaderStages( ShaderArray const & shaders );
 		ShaderDataPtr createShaderData( Shader const & shader );
-		ShaderDataPtr createShaderData( ShaderArray const & shaders );
 		ShaderModuleCreateInfo createShaderModule( Shader const & shader );
-		std::vector< ShaderModuleCreateInfo > createShaderModules( ShaderArray const & shaders );
 		std::vector< VkPushConstantRange > createPushConstantRanges( Shader const & shader );
-		std::vector< VkPushConstantRange > createPushConstantRanges( ShaderArray const & shaders );
 		std::vector< DescriptorSetLayoutCreateInfo > createDescriptorLayouts();
 		std::vector< VkDescriptorPoolSize > createDescriptorPoolSizes();
 		std::vector< WriteDescriptorSetArray > createDescriptorSetsWrites();
@@ -155,6 +150,109 @@ namespace ast::vk
 		bool checkTessellationState( VkPipelineTessellationStateCreateInfo const & state )const;
 		bool checkVertexInputState( VkPipelineVertexInputStateCreateInfo const & state )const;
 		bool checkSpecializationInfos( std::vector< VkSpecializationInfoOpt > const & infos )const;
+
+		template< typename ShaderItT >
+		std::vector< std::vector< uint32_t > > createShaderSources( ShaderItT begin, ShaderItT end )
+		{
+			std::vector< std::vector< uint32_t > > result;
+
+			while ( begin != end )
+			{
+				result.emplace_back( createShaderSource( *begin ) );
+				++begin;
+			}
+
+			return result;
+		}
+
+		template< typename ShaderItT >
+		std::vector< SpecializationInfoOpt > createSpecializationInfos( ShaderItT begin, ShaderItT end )
+		{
+			std::vector< SpecializationInfoOpt > result;
+
+			while ( begin != end )
+			{
+				result.emplace_back( createSpecializationInfo( *begin ) );
+				++begin;
+			}
+
+			return result;
+		}
+
+		template< typename ShaderItT >
+		std::vector< PipelineShaderStageCreateInfo > createShaderStages( ShaderItT begin, ShaderItT end )
+		{
+			PipelineShaderStageArray result;
+
+			while ( begin != end )
+			{
+				result.push_back( createShaderStage( *begin ) );
+				++begin;
+			}
+
+			return result;
+		}
+
+		template< typename ShaderItT >
+		ShaderDataPtr createShaderData( ShaderItT begin, ShaderItT end )
+		{
+			// Make sure Vertex shader stage is the first one.
+			std::vector< ShaderRef > sorted;
+			sorted.reserve( std::distance( begin, end ) );
+
+			while ( begin != end )
+			{
+				sorted.push_back( *begin );
+				++begin;
+			}
+
+			std::sort( sorted.begin()
+				, sorted.end()
+				, []( ShaderRef const & lhs, ShaderRef const & rhs )
+				{
+					return lhs.get().getType() < rhs.get().getType();
+				} );
+			ShaderDataPtr result{ createShaderData( sorted.front().get() ) };
+
+			for ( auto it = std::next( sorted.begin() ); it != sorted.end(); ++it )
+			{
+				ShaderDataPtr rhsData{ createShaderData( it->get() ) };
+				result.merge( rhsData );
+			}
+
+			return result;
+		}
+
+		template< typename ShaderItT >
+		std::vector< ShaderModuleCreateInfo > createShaderModules( ShaderItT begin, ShaderItT end )
+		{
+			std::vector< ShaderModuleCreateInfo > result;
+
+			while ( begin != end )
+			{
+				result.emplace_back( createShaderModule( *begin ) );
+				++begin;
+			}
+
+			return result;
+		}
+
+		template< typename ShaderItT >
+		std::vector< VkPushConstantRange > createPushConstantRanges( ShaderItT begin, ShaderItT end )
+		{
+			std::vector< VkPushConstantRange > result;
+
+			while ( begin != end )
+			{
+				auto ranges = createPushConstantRanges( *begin );
+				result.insert( result.end()
+					, ranges.begin()
+					, ranges.end() );
+				++begin;
+			}
+
+			return result;
+		}
 
 	private:
 		VkShaderStageFlags m_stageFlags{ 0u };

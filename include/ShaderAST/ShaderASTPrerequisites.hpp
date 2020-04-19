@@ -174,7 +174,9 @@ namespace ast
 	};
 
 	class Shader;
+	using ShaderRef = std::reference_wrapper< Shader const >;
 	using ShaderArray = std::vector< Shader >;
+	using ShaderRefArray = std::vector< ShaderRef >;
 }
 
 #endif

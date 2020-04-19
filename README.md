@@ -194,7 +194,7 @@ And the following SPIR-V listing:
         OpFunctionEnd
 ```
 
-Some optimisations are still needed, with SPIR-V.
+Some optimisations have been done, but more could be, with SPIR-V.
 
 There is also an internal debug format :
 ```
