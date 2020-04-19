@@ -35,10 +35,10 @@ void vertex()
 	auto vtx_texture = writer.declOutput< Vec2 >( "vtx_texture", 0u );
 	auto out = writer.getOut();
 
-	writer.implementFunction< void >( "main", [&]()
+	writer.implementFunction< sdw::Void >( "main", [&]()
 		{
 			vtx_texture = texcoord;
-			out.gl_out.gl_Position = vec4( position.x(), position.y(), 0.0, 1.0 );
+			out.vtx.position = vec4( position.x(), position.y(), 0.0, 1.0 );
 		} );
 
 	// Select your weapon !
@@ -63,12 +63,13 @@ out gl_PerVertex
 	vec4 gl_Position;
 	float gl_PointSize;
 	float gl_ClipDistance[];
+	float gl_CullDistance[];
 };
 
 void main()
 {
 	vtx_texture = texcoord;
-	gl_Position = vec4(position.x, position.y, 0.0, 1.0);
+	gl_Position = vec4(position.x, position.y, 0.0f, 1.0f);
 }
 ```
 
@@ -103,7 +104,7 @@ static HLSL_SDW_Output sdwOutput;
 void SDW_main()
 {
 	sdwOutput.vtx_texture = sdwInput.texcoord;
-	sdwOutput.gl_Position = float4(sdwInput.position.x, sdwInput.position.y, 0.0, 1.0);
+	sdwOutput.gl_Position = float4(sdwInput.position.x, sdwInput.position.y, 0.0f, 1.0f);
 }
 
 HLSL_SDW_MainOutput main(HLSL_SDW_MainInput sdwMainInput)
@@ -121,33 +122,37 @@ And the following SPIR-V listing:
 ; Magic:     0x07230203
 ; Version:   0x00010000
 ; Generator: 0x00100001
-; Bound:     37
+; Bound:     33
 ; Schema:    0
 
         OpCapability Shader
-        OpCapability Float64
    %1 = OpExtInstImport "GLSL.std.450"
         OpMemoryModel Logical GLSL450
-        OpEntryPoint Vertex %20 "main" %2 %6 %7 %9 %14 %14 %17
+        OpEntryPoint Vertex %17 "main" %2 %6 %7 %9
 
 ; Debug
         OpSource GLSL 460
         OpName %2(position) "position"
         OpName %6(texcoord) "texcoord"
-        OpName %7(gl_PointSize) "gl_PointSize"
-        OpName %9(gl_ClipDistance) "gl_ClipDistance"
-        OpName %14(gl_Position) "gl_Position"
-        OpName %17(vtx_texture) "vtx_texture"
-        OpName %20(main) "main"
+        OpName %7(vtx_texture) "vtx_texture"
+        OpName %9() ""
+        OpName %10(gl_PerVertex) "gl_PerVertex"
+        OpMemberName %10(gl_PerVertex) 0 "gl_Position"
+        OpMemberName %10(gl_PerVertex) 1 "gl_PointSize"
+        OpMemberName %10(gl_PerVertex) 2 "gl_ClipDistance"
+        OpMemberName %10(gl_PerVertex) 3 "gl_CullDistance"
+        OpName %17(main) "main"
 
 ; Decorations
-        OpDecorate %7(gl_PointSize) BuiltIn PointSize
-        OpDecorate %9(gl_ClipDistance) BuiltIn ClipDistance
-        OpDecorate %12 ArrayStride 0
-        OpDecorate %14(gl_Position) BuiltIn Position
+        OpDecorate %14 ArrayStride 4
+        OpMemberDecorate %10(gl_PerVertex) 0 BuiltIn Position
+        OpMemberDecorate %10(gl_PerVertex) 1 BuiltIn PointSize
+        OpMemberDecorate %10(gl_PerVertex) 2 BuiltIn ClipDistance
+        OpMemberDecorate %10(gl_PerVertex) 3 BuiltIn CullDistance
+        OpDecorate %10(gl_PerVertex) Block
         OpDecorate %2(position) Location 0
         OpDecorate %6(texcoord) Location 1
-        OpDecorate %17(vtx_texture) Location 0
+        OpDecorate %7(vtx_texture) Location 0
 
 ; Types, Constants, and Global Variables
    %3 = OpTypeFloat 32
@@ -155,45 +160,41 @@ And the following SPIR-V listing:
    %5 = OpTypePointer Input %4(v2float)
    %2 = OpVariable %5(v2floatInputPtr) Input
    %6 = OpVariable %5(v2floatInputPtr) Input
-   %8 = OpTypePointer Output %3(float)
-   %7 = OpVariable %8(floatOutputPtr) Output
-  %11 = OpTypeInt 32 0
-  %10 = OpConstant %11(uint) 8
-  %12 = OpTypeArray %3(float) %10(8)
-  %13 = OpTypePointer Output %12(array)
-   %9 = OpVariable %13(arrayOutputPtr) Output
-  %15 = OpTypeVector %3(float) 4
-  %16 = OpTypePointer Output %15(v4float)
-  %14 = OpVariable %16(v4floatOutputPtr) Output
-  %18 = OpTypePointer Output %4(v2float)
-  %17 = OpVariable %18(v2floatOutputPtr) Output
-  %19 = OpTypeVoid
-  %21 = OpTypeFunction %19
-  %24 = OpConstant %11(uint) 0
-  %25 = OpTypePointer Input %3(float)
-  %28 = OpConstant %11(uint) 1
-  %32 = OpTypeFloat 64
-  %31 = OpConstant %32(double) 0
-  %34 = OpConstant %32(double) 1
+   %8 = OpTypePointer Output %4(v2float)
+   %7 = OpVariable %8(v2floatOutputPtr) Output
+  %11 = OpTypeVector %3(float) 4
+  %13 = OpTypeInt 32 0
+  %12 = OpConstant %13(uint) 8
+  %14 = OpTypeArray %3(float) %12(8)
+  %10 = OpTypeStruct %11(v4float) %3(float) %14(array) %14(array)
+  %15 = OpTypePointer Output %10(gl_PerVertex)
+   %9 = OpVariable %15(structOutputPtr) Output
+  %16 = OpTypeVoid
+  %18 = OpTypeFunction %16
+  %21 = OpConstant %13(uint) 0
+  %22 = OpTypePointer Output %11(v4float)
+  %24 = OpTypePointer Input %3(float)
+  %27 = OpConstant %13(uint) 1
+  %30 = OpConstant %3(float) 0
+  %31 = OpConstant %3(float) 1
 
 ; Functions
-  %20 = OpFunction %19 [None]  %21(func)
-  %22 = OpLabel
-  %23 = OpLoad %4(v2float) %6(texcoord)
-        OpStore %17(vtx_texture) %23
-  %26 = OpAccessChain %25(floatInputPtr) %2(position) %24(0)
-  %27 = OpLoad %3(float) %26
-  %29 = OpAccessChain %25(floatInputPtr) %2(position) %28(1)
-  %30 = OpLoad %3(float) %29
-  %33 = OpFConvert %3(float) %31(0.000000)
-  %35 = OpFConvert %3(float) %34(1.000000)
-  %36 = OpCompositeConstruct %15(v4float) %27 %30 %33 %35
-        OpStore %14(gl_Position) %36
+  %17 = OpFunction %16 [None]  %18(func)
+  %19 = OpLabel
+  %20 = OpLoad %4(v2float) %6(texcoord)
+        OpStore %7(vtx_texture) %20
+  %23 = OpAccessChain %22(v4floatOutputPtr) %9() %21(0)
+  %25 = OpAccessChain %24(floatInputPtr) %2(position) %21(0)
+  %26 = OpLoad %3(float) %25
+  %28 = OpAccessChain %24(floatInputPtr) %2(position) %27(1)
+  %29 = OpLoad %3(float) %28
+  %32 = OpCompositeConstruct %11(v4float) %26 %29 %30(0.000000) %31(1.000000)
+        OpStore %23 %32
         OpReturn
         OpFunctionEnd
 ```
 
-Some optimisations are still needed, with SPIR-V.
+Some optimisations have been done, but more could be, with SPIR-V.
 
 There is also an internal debug format :
 ```
@@ -203,7 +204,7 @@ STINOUTVARDECL LOC(0) VAR(OUTATTR,FVEC2) vtx_texture
 STPERVERTEXDECL VERTOUT
 STFUNCDECL VOID main()
         STSIMPLE ASSIGN (IDENT vtx_texture) (IDENT texcoord)
-        STSIMPLE ASSIGN (IDENT gl_Position) (COMPOSITECONSTRUCT VEC4 FLOAT ((SWIZZLE x (IDENT position)), (SWIZZLE y (IDENT position)), (LITERAL 0.0), (LITERAL 1.0)))
+        STSIMPLE ASSIGN (MBRSELECT (IDENT ) (IDENT gl_Position)) (COMPOSITECONSTRUCT VEC4 FLOAT ((SWIZZLE x (IDENT position)), (SWIZZLE y (IDENT position)), (LITERAL 0.0), (LITERAL 1.0)))
 ```
 
 Contact

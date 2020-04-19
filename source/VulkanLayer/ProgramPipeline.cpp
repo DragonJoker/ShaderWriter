@@ -366,13 +366,29 @@ namespace ast::vk
 
 	//*********************************************************************************************
 
+	ProgramPipeline::ProgramPipeline( ShaderRefArray const & shaders )
+		: m_sources{ createShaderSources( shaders.begin(), shaders.end() ) }
+		, m_specializationInfos{ createSpecializationInfos( shaders.begin(), shaders.end() ) }
+		, m_stages{ createShaderStages( shaders.begin(), shaders.end() ) }
+		, m_data{ createShaderData( shaders.begin(), shaders.end() ) }
+		, m_shaderModules{ createShaderModules( shaders.begin(), shaders.end() ) }
+		, m_pushConstantRanges{ createPushConstantRanges( shaders.begin(), shaders.end() ) }
+		, m_descriptorLayouts{ createDescriptorLayouts() }
+		, m_descriptorPoolSizes{ createDescriptorPoolSizes() }
+		, m_descriptorSetsWrites{ createDescriptorSetsWrites() }
+		, m_pipelineLayout{ createPipelineLayout() }
+		, m_vertexAttributes{ createVertexAttributes() }
+		, m_attachmentDescriptions{ createAttachmentDescriptions() }
+	{
+	}
+
 	ProgramPipeline::ProgramPipeline( ShaderArray const & shaders )
-		: m_sources{ createShaderSources( shaders ) }
-		, m_specializationInfos{ createSpecializationInfos( shaders ) }
-		, m_stages{ createShaderStages( shaders ) }
-		, m_data{ createShaderData( shaders ) }
-		, m_shaderModules{ createShaderModules( shaders ) }
-		, m_pushConstantRanges{ createPushConstantRanges( shaders ) }
+		: m_sources{ createShaderSources( shaders.begin(), shaders.end() ) }
+		, m_specializationInfos{ createSpecializationInfos( shaders.begin(), shaders.end() ) }
+		, m_stages{ createShaderStages( shaders.begin(), shaders.end() ) }
+		, m_data{ createShaderData( shaders.begin(), shaders.end() ) }
+		, m_shaderModules{ createShaderModules( shaders.begin(), shaders.end() ) }
+		, m_pushConstantRanges{ createPushConstantRanges( shaders.begin(), shaders.end() ) }
 		, m_descriptorLayouts{ createDescriptorLayouts() }
 		, m_descriptorPoolSizes{ createDescriptorPoolSizes() }
 		, m_descriptorSetsWrites{ createDescriptorSetsWrites() }
@@ -581,18 +597,6 @@ namespace ast::vk
 		return spirv::serialiseSpirv( shader );
 	}
 
-	std::vector< std::vector< uint32_t > > ProgramPipeline::createShaderSources( ShaderArray const & shaders )
-	{
-		std::vector< std::vector< uint32_t > > result;
-
-		for ( auto & shader : shaders )
-		{
-			result.emplace_back( createShaderSource( shader ) );
-		}
-
-		return result;
-	}
-
 	SpecializationInfoOpt ProgramPipeline::createSpecializationInfo( Shader const & shader )
 	{
 		SpecializationInfoOpt result{ std::nullopt };
@@ -637,18 +641,6 @@ namespace ast::vk
 		return result;
 	}
 
-	std::vector< SpecializationInfoOpt > ProgramPipeline::createSpecializationInfos( ShaderArray const & shaders )
-	{
-		std::vector< SpecializationInfoOpt > result;
-
-		for ( auto & shader : shaders )
-		{
-			result.emplace_back( createSpecializationInfo( shader ) );
-		}
-
-		return result;
-	}
-
 	PipelineShaderStageCreateInfo ProgramPipeline::createShaderStage( Shader const & shader )
 	{
 		auto & specInfo = m_specializationInfos[m_indices[shader.getType()]];
@@ -661,50 +653,10 @@ namespace ast::vk
 		};
 	}
 
-	PipelineShaderStageArray ProgramPipeline::createShaderStages( ShaderArray const & shaders )
-	{
-		PipelineShaderStageArray result;
-
-		for ( auto & shader : shaders )
-		{
-			result.push_back( createShaderStage( shader ) );
-		}
-
-		return result;
-	}
-
 	ShaderDataPtr ProgramPipeline::createShaderData( Shader const & shader )
 	{
 		ShaderDataPtr result{ shader.getData()
 			, makeFlag( shader.getType() ) };
-		return result;
-	}
-
-	ShaderDataPtr ProgramPipeline::createShaderData( ShaderArray const & shaders )
-	{
-		// Make sure Vertex shader stage is the first one.
-		std::vector< Shader const * > sorted;
-		sorted.reserve( shaders.size() );
-
-		for ( auto & shader : shaders )
-		{
-			sorted.push_back( &shader );
-		}
-
-		std::sort( sorted.begin()
-			, sorted.end()
-			, []( Shader const * lhs, Shader const * rhs )
-			{
-				return lhs->getType() < rhs->getType();
-			} );
-		ShaderDataPtr result{ createShaderData( *sorted.front() ) };
-
-		for ( auto it = std::next( sorted.begin() ); it != sorted.end(); ++it )
-		{
-			ShaderDataPtr rhsData{ createShaderData( *( *it ) ) };
-			result.merge( rhsData );
-		}
-
 		return result;
 	}
 
@@ -719,18 +671,6 @@ namespace ast::vk
 			code.size() * sizeof( uint32_t ),
 			code.data(),
 		};
-	}
-
-	std::vector< ShaderModuleCreateInfo > ProgramPipeline::createShaderModules( ShaderArray const & shaders )
-	{
-		std::vector< ShaderModuleCreateInfo > result;
-
-		for ( auto & shader : shaders )
-		{
-			result.emplace_back( createShaderModule( shader ) );
-		}
-
-		return result;
 	}
 
 	std::vector< VkPushConstantRange > ProgramPipeline::createPushConstantRanges( Shader const & shader )
@@ -749,21 +689,6 @@ namespace ast::vk
 					pcbSize,
 				} );
 			size += pcbSize;
-		}
-
-		return result;
-	}
-
-	std::vector< VkPushConstantRange > ProgramPipeline::createPushConstantRanges( ShaderArray const & shaders )
-	{
-		std::vector< VkPushConstantRange > result;
-
-		for ( auto & shader : shaders )
-		{
-			auto ranges = createPushConstantRanges( shader );
-			result.insert( result.end()
-				, ranges.begin()
-				, ranges.end() );
 		}
 
 		return result;

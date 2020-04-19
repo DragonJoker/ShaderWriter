@@ -42,7 +42,7 @@ namespace
 			, [&]()
 			{
 				auto out = writer.declLocaleArray< T >( "outValue", size );
-				for ( auto i = 0; i < size; ++i )
+				for ( uint32_t i = 0u; i < size; ++i )
 				{
 					out[i] = value[i];
 				}
@@ -58,7 +58,7 @@ namespace
 			, [&]()
 			{
 				auto out = writer.declLocaleArray< T >( "outValue", size );
-				for ( auto i = 0; i < size; ++i )
+				for ( uint32_t i = 0u; i < size; ++i )
 				{
 					out[i] = value[i];
 				}
