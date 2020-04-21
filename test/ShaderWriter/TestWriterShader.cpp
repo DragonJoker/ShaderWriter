@@ -198,14 +198,14 @@ namespace
 		auto uncharted2ToneMap = writer.implementFunction< Vec3 >( "uncharted2ToneMap"
 			, [&]( Vec3 const & x )
 			{
-				writer.returnStmt( writer.paren(
-					writer.paren(
+				writer.returnStmt( (
+					(
 						x
-						* writer.paren( x * shoulderStrength + linearAngle * linearStrength )
+						* ( x * shoulderStrength + linearAngle * linearStrength )
 						+ toeStrength * toeNumerator )
-					/ writer.paren(
+					/ (
 						x
-						* writer.paren( x * shoulderStrength + linearStrength )
+						* ( x * shoulderStrength + linearStrength )
 						+ toeStrength * toeDenominator ) )
 					- toeNumerator / toeDenominator );
 			}

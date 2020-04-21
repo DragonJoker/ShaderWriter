@@ -11,14 +11,73 @@ See LICENSE file in root folder
 
 namespace sdw
 {
+#pragma region Functions
+	/**
+	*name
+	*	Functions
+	*/
+	/**@{*/
 	namespace details
 	{
+		inline void doUpdateParamsRec( var::VariableList::const_iterator it )
+		{
+		}
+
+		template< typename ParamT >
+		inline void doUpdateParamsRec( var::VariableList::const_iterator it
+			, ParamT & param )
+		{
+			param.setVar( it );
+		}
+
+		template< typename ParamT, typename ... ParamsT >
+		inline void doUpdateParamsRec( var::VariableList::const_iterator it
+			, ParamT & param
+			, ParamsT & ... params )
+		{
+			param.setVar( it );
+			doUpdateParamsRec( it, params... );
+		}
+
+		template< typename ... ParamsT >
+		inline void doUpdateParams( ast::type::FunctionPtr type
+			, ParamsT && ... params )
+		{
+			doUpdateParamsRec( type->begin(), params... );
+		}
+	}
+
+	template< typename ReturnT, typename ... ParamsT >
+	inline Function< ReturnT, ParamsT... > ShaderWriter::implementFunction( std::string const & name
+		, std::function< void( ParamTranslaterT< ParamsT >... ) > const & function
+		, ParamsT && ... params )
+	{
+		ast::var::VariableList args;
+		auto decl = getFunctionHeader< ReturnT >( getShader(), args, name, params... );
+		doPushScope( decl.get(), args );
+		details::doUpdateParams( decl->getType(), params... );
+		function( std::forward< ParamsT && >( params )... );
+		doPopScope();
+		auto functionType = decl->getType();
+		addStmt( std::move( decl ) );
+		return Function< ReturnT, ParamsT... >{ &m_shader, functionType, name };
+	}
+
+	template< typename ReturnT >
+	void ShaderWriter::callFunction( ReturnT const & functionResult )
+	{
+		sdw::details::StmtAdder< ReturnT >::submit( functionResult );
+	}
+	/**@}*/
+#pragma endregion
 #pragma region Cast
-		/**
-		*name
-		*	Cast.
-		*/
-		/**@{*/
+	/**
+	*name
+	*	Cast.
+	*/
+	/**@{*/
+	namespace details
+	{
 		template< typename DstT
 			, typename SrcT
 			, typename Enable = void >
@@ -132,129 +191,8 @@ namespace sdw
 					, isOptionalEnabled( from ) };
 			}
 		};
-	/**@}*/
-#pragma endregion
 	}
 
-	namespace details
-	{
-		inline void doUpdateParamsRec( var::VariableList::const_iterator it )
-		{
-		}
-
-		template< typename ParamT >
-		inline void doUpdateParamsRec( var::VariableList::const_iterator it
-			, ParamT & param )
-		{
-			param.setVar( it );
-		}
-
-		template< typename ParamT, typename ... ParamsT >
-		inline void doUpdateParamsRec( var::VariableList::const_iterator it
-			, ParamT & param
-			, ParamsT & ... params )
-		{
-			param.setVar( it );
-			doUpdateParamsRec( it, params... );
-		}
-
-		template< typename ... ParamsT >
-		inline void doUpdateParams( ast::type::FunctionPtr type
-			, ParamsT && ... params )
-		{
-			doUpdateParamsRec( type->begin(), params... );
-		}
-	}
-
-	template< typename ReturnT, typename ... ParamsT >
-	inline Function< ReturnT, ParamsT... > ShaderWriter::implementFunction( std::string const & name
-		, std::function< void( ParamTranslaterT< ParamsT >... ) > const & function
-		, ParamsT && ... params )
-	{
-		ast::var::VariableList args;
-		auto decl = getFunctionHeader< ReturnT >( getShader(), args, name, params... );
-		doPushScope( decl.get(), args );
-		details::doUpdateParams( decl->getType(), params... );
-		function( std::forward< ParamsT && >( params )... );
-		doPopScope();
-		auto functionType = decl->getType();
-		addStmt( std::move( decl ) );
-		return Function< ReturnT, ParamsT... >{ &m_shader, functionType, name };
-	}
-
-	template< typename RetType >
-	void ShaderWriter::returnStmt( RetType const & value )
-	{
-		addStmt( sdw::makeReturn( makeExpr( getShader(), value ) ) );
-	}
-
-	template< typename ExprType >
-	ExprType ShaderWriter::ternary( expr::ExprPtr condition
-		, expr::ExprPtr left
-		, expr::ExprPtr right )
-	{
-		auto type = left->getType();
-		return ExprType{ &m_shader
-			, sdw::makeQuestion( type
-				, std::move( condition )
-				, std::move( left )
-				, std::move( right ) ) };
-	}
-
-	template< typename ExprType >
-	ExprType ShaderWriter::ternary( Boolean condition
-		, ExprType left
-		, ExprType right )
-	{
-		auto type = left.getType();
-		return ExprType{ &m_shader
-			, sdw::makeQuestion( type
-				, makeExpr( getShader(), std::move( condition ) )
-				, makeExpr( getShader(), std::move( left ) )
-				, makeExpr( getShader(), std::move( right ) ) ) };
-	}
-
-	template< typename ValueT >
-	inline ValueT ShaderWriter::paren( ValueT const & content )
-	{
-		return ValueT{ &m_shader
-			, makeExpr( getShader(), content ) };
-	}
-
-	template< typename ValueT >
-	inline Optional< ValueT > ShaderWriter::paren( Optional< ValueT > const & content )
-	{
-		return Optional< ValueT >{ &m_shader
-			, makeExpr( getShader(), content )
-			, areOptionalEnabled( content ) };
-	}
-
-	template< typename ValueT >
-	inline MaybeOptional< ValueT > ShaderWriter::paren( MaybeOptional< ValueT > const & content )
-	{
-		if ( isAnyOptional( content ) )
-		{
-			return MaybeOptional< ValueT >{ &m_shader
-				, makeExpr( getShader(), content )
-				, areOptionalEnabled( content ) };
-		}
-
-		return MaybeOptional< ValueT >{ &m_shader
-			, makeExpr( getShader(), content ) };
-	}
-
-	template< typename ReturnT >
-	void ShaderWriter::callFunction( ReturnT const & functionResult )
-	{
-		sdw::details::StmtAdder< ReturnT >::submit( functionResult );
-	}
-
-#pragma region Cast
-		/**
-		*name
-		*	Cast.
-		*/
-		/**@{*/
 	template< typename DestT >
 	inline DestT ShaderWriter::cast( Value const & from )
 	{
@@ -295,6 +233,45 @@ namespace sdw
 	{
 		static_assert( !isOptional< DestT >, "Can't cast to an optional type." );
 		return details::Cast< DestT, double >::cast( m_shader, from );
+	}
+	/**@}*/
+#pragma endregion
+#pragma region Control statements
+	/**
+	*name
+	*	Control statements.
+	*/
+	/**@{*/
+	template< typename RetType >
+	void ShaderWriter::returnStmt( RetType const & value )
+	{
+		addStmt( sdw::makeReturn( makeExpr( getShader(), value ) ) );
+	}
+
+	template< typename ExprType >
+	ExprType ShaderWriter::ternary( expr::ExprPtr condition
+		, expr::ExprPtr left
+		, expr::ExprPtr right )
+	{
+		auto type = left->getType();
+		return ExprType{ &m_shader
+			, sdw::makeQuestion( type
+				, std::move( condition )
+				, std::move( left )
+				, std::move( right ) ) };
+	}
+
+	template< typename ExprType >
+	ExprType ShaderWriter::ternary( Boolean condition
+		, ExprType left
+		, ExprType right )
+	{
+		auto type = left.getType();
+		return ExprType{ &m_shader
+			, sdw::makeQuestion( type
+				, makeExpr( getShader(), std::move( condition ) )
+				, makeExpr( getShader(), std::move( left ) )
+				, makeExpr( getShader(), std::move( right ) ) ) };
 	}
 	/**@}*/
 #pragma endregion
@@ -632,6 +609,30 @@ namespace sdw
 	}
 
 	template< typename T >
+	inline Array< T > ShaderWriter::declInputArray( std::string const & name
+		, uint32_t location
+		, uint32_t dimension )
+	{
+		static_assert( !IsSameV< T, Boolean >, "Bool is not supported as input type" );
+		static_assert( !IsSameV< T, BVec2 >, "BVec2 is not supported as input type" );
+		static_assert( !IsSameV< T, BVec3 >, "BVec3 is not supported as input type" );
+		static_assert( !IsSameV< T, BVec4 >, "BVec4 is not supported as input type" );
+		static_assert( !IsSameV< T, Double >, "Double is not supported as input type" );
+		static_assert( !IsSameV< T, DVec2 >, "DVec2 is not supported as input type" );
+		static_assert( !IsSameV< T, DVec3 >, "DVec3 is not supported as input type" );
+		static_assert( !IsSameV< T, DVec4 >, "DVec4 is not supported as input type" );
+		auto type = Array< T >::makeType( getTypesCache()
+			, dimension );
+		auto var = registerInput( name
+			, location
+			, type );
+		addStmt( sdw::makeInOutVariableDecl( var
+			, location ) );
+		return Array< T >{ &m_shader
+			, makeExpr( getShader(), var ) };
+	}
+
+	template< typename T >
 	inline Optional< T > ShaderWriter::declInput( std::string const & name
 		, uint32_t location
 		, bool enabled )
@@ -658,30 +659,6 @@ namespace sdw
 		return Optional< T >{ &m_shader
 			, makeExpr( getShader(), var )
 			, enabled };
-	}
-
-	template< typename T >
-	inline Array< T > ShaderWriter::declInputArray( std::string const & name
-		, uint32_t location
-		, uint32_t dimension )
-	{
-		static_assert( !IsSameV< T, Boolean >, "Bool is not supported as input type" );
-		static_assert( !IsSameV< T, BVec2 >, "BVec2 is not supported as input type" );
-		static_assert( !IsSameV< T, BVec3 >, "BVec3 is not supported as input type" );
-		static_assert( !IsSameV< T, BVec4 >, "BVec4 is not supported as input type" );
-		static_assert( !IsSameV< T, Double >, "Double is not supported as input type" );
-		static_assert( !IsSameV< T, DVec2 >, "DVec2 is not supported as input type" );
-		static_assert( !IsSameV< T, DVec3 >, "DVec3 is not supported as input type" );
-		static_assert( !IsSameV< T, DVec4 >, "DVec4 is not supported as input type" );
-		auto type = Array< T >::makeType( getTypesCache()
-			, dimension );
-		auto var = registerInput( name
-			, location
-			, type );
-		addStmt( sdw::makeInOutVariableDecl( var
-			, location ) );
-		return Array< T >{ &m_shader
-			, makeExpr( getShader(), var ) };
 	}
 
 	template< typename T >
@@ -714,6 +691,82 @@ namespace sdw
 			, makeExpr( getShader(), var )
 			, enabled };
 	}
+
+	template< typename T >
+	inline T ShaderWriter::declInput( std::string const & name
+		, uint32_t location
+		, bool enabled
+		, T const & defaultValue )
+	{
+		static_assert( !IsSameV< T, Boolean >, "Bool is not supported as input type" );
+		static_assert( !IsSameV< T, BVec2 >, "BVec2 is not supported as input type" );
+		static_assert( !IsSameV< T, BVec3 >, "BVec3 is not supported as input type" );
+		static_assert( !IsSameV< T, BVec4 >, "BVec4 is not supported as input type" );
+		static_assert( !IsSameV< T, Double >, "Double is not supported as input type" );
+		static_assert( !IsSameV< T, DVec2 >, "DVec2 is not supported as input type" );
+		static_assert( !IsSameV< T, DVec3 >, "DVec3 is not supported as input type" );
+		static_assert( !IsSameV< T, DVec4 >, "DVec4 is not supported as input type" );
+		auto type = T::makeType( getTypesCache() );
+		var::VariablePtr var;
+
+		if ( enabled )
+		{
+			var = registerInput( name
+				, location
+				, type );
+			addStmt( sdw::makeInOutVariableDecl( var
+				, location ) );
+		}
+		else
+		{
+			var = registerStaticConstant( name
+				, type );
+			addStmt( sdw::makeSimple( sdw::makeInit( var
+				, makeConstExpr( getShader(), defaultValue ) ) ) );
+		}
+
+		return T{ &m_shader
+			, makeExpr( getShader(), var ) };
+	}
+
+	template< typename T >
+	inline Array< T > ShaderWriter::declInputArray( std::string const & name
+		, uint32_t location
+		, uint32_t dimension
+		, bool enabled
+		, std::vector< T > const & defaultValue )
+	{
+		static_assert( !IsSameV< T, Boolean >, "Bool is not supported as input type" );
+		static_assert( !IsSameV< T, BVec2 >, "BVec2 is not supported as input type" );
+		static_assert( !IsSameV< T, BVec3 >, "BVec3 is not supported as input type" );
+		static_assert( !IsSameV< T, BVec4 >, "BVec4 is not supported as input type" );
+		static_assert( !IsSameV< T, Double >, "Double is not supported as input type" );
+		static_assert( !IsSameV< T, DVec2 >, "DVec2 is not supported as input type" );
+		static_assert( !IsSameV< T, DVec3 >, "DVec3 is not supported as input type" );
+		static_assert( !IsSameV< T, DVec4 >, "DVec4 is not supported as input type" );
+		auto type = Array< T >::makeType( getTypesCache()
+			, dimension );
+		var::VariablePtr var;
+
+		if ( enabled )
+		{
+			var = registerInput( name
+				, location
+				, type );
+			addStmt( sdw::makeInOutVariableDecl( var
+				, location ) );
+		}
+		else
+		{
+			var = registerStaticConstant( name
+				, type );
+			addStmt( sdw::makeSimple( sdw::makeAggrInit( var
+				, makeConstExpr( getShader(), defaultValue ) ) ) );
+		}
+
+		return Array< T >{ &m_shader
+			, makeExpr( getShader(), var ) };
+	}
 	/**@}*/
 #pragma endregion
 #pragma region Output declaration
@@ -745,6 +798,30 @@ namespace sdw
 	}
 
 	template< typename T >
+	inline Array< T > ShaderWriter::declOutputArray( std::string const & name
+		, uint32_t location
+		, uint32_t dimension )
+	{
+		static_assert( !IsSameV< T, Boolean >, "Bool is not supported as output type" );
+		static_assert( !IsSameV< T, BVec2 >, "BVec2 is not supported as output type" );
+		static_assert( !IsSameV< T, BVec3 >, "BVec3 is not supported as output type" );
+		static_assert( !IsSameV< T, BVec4 >, "BVec4 is not supported as output type" );
+		static_assert( !IsSameV< T, Double >, "Double is not supported as output type" );
+		static_assert( !IsSameV< T, DVec2 >, "DVec2 is not supported as output type" );
+		static_assert( !IsSameV< T, DVec3 >, "DVec3 is not supported as output type" );
+		static_assert( !IsSameV< T, DVec4 >, "DVec4 is not supported as output type" );
+		auto type = Array< T >::makeType( getTypesCache()
+			, dimension );
+		auto var = registerOutput( name
+			, location
+			, type );
+		addStmt( sdw::makeInOutVariableDecl( var
+			, location ) );
+		return Array< T >{ &m_shader
+			, makeExpr( getShader(), var ) };
+	}
+
+	template< typename T >
 	inline Optional< T > ShaderWriter::declOutput( std::string const & name
 		, uint32_t location
 		, bool enabled )
@@ -771,30 +848,6 @@ namespace sdw
 		return Optional< T >{ &m_shader
 			, makeExpr( getShader(), var )
 			, enabled };
-	}
-
-	template< typename T >
-	inline Array< T > ShaderWriter::declOutputArray( std::string const & name
-		, uint32_t location
-		, uint32_t dimension )
-	{
-		static_assert( !IsSameV< T, Boolean >, "Bool is not supported as output type" );
-		static_assert( !IsSameV< T, BVec2 >, "BVec2 is not supported as output type" );
-		static_assert( !IsSameV< T, BVec3 >, "BVec3 is not supported as output type" );
-		static_assert( !IsSameV< T, BVec4 >, "BVec4 is not supported as output type" );
-		static_assert( !IsSameV< T, Double >, "Double is not supported as output type" );
-		static_assert( !IsSameV< T, DVec2 >, "DVec2 is not supported as output type" );
-		static_assert( !IsSameV< T, DVec3 >, "DVec3 is not supported as output type" );
-		static_assert( !IsSameV< T, DVec4 >, "DVec4 is not supported as output type" );
-		auto type = Array< T >::makeType( getTypesCache()
-			, dimension );
-		auto var = registerOutput( name
-			, location
-			, type );
-		addStmt( sdw::makeInOutVariableDecl( var
-			, location ) );
-		return Array< T >{ &m_shader
-			, makeExpr( getShader(), var ) };
 	}
 
 	template< typename T >
@@ -910,6 +963,29 @@ namespace sdw
 	}
 
 	template< typename T >
+	inline T ShaderWriter::declLocale( std::string const & name
+		, bool enabled
+		, T const & defaultValue )
+	{
+		auto type = T::makeType( getTypesCache() );
+		auto var = registerLocale( name
+			, type );
+
+		if ( !enabled )
+		{
+			addStmt( sdw::makeVariableDecl( var ) );
+		}
+		else
+		{
+			addStmt( sdw::makeSimple( sdw::makeInit( var
+				, makeConstExpr( getShader(), defaultValue ) ) ) );
+		}
+
+		return T{ &m_shader
+			, makeExpr( getShader(), var ) };
+	}
+
+	template< typename T >
 	inline Optional< T > ShaderWriter::declLocale( std::string const & name
 		, Optional< T > const & rhs )
 	{
@@ -994,6 +1070,31 @@ namespace sdw
 		return Optional< Array< T > >{ &m_shader
 			, makeExpr( getShader(), var )
 			, enabled };
+	}
+
+	template< typename T >
+	inline Array< T > ShaderWriter::declLocaleArray( std::string const & name
+		, uint32_t dimension
+		, bool enabled
+		, std::vector< T > const & defaultValue )
+	{
+		auto type = Array< T >::makeType( getTypesCache()
+			, dimension );
+		auto var = registerLocale( name
+			, type );
+
+		if ( enabled )
+		{
+			addStmt( sdw::makeVariableDecl( var ) );
+		}
+		else
+		{
+			addStmt( sdw::makeSimple( sdw::makeAggrInit( var
+				, makeConstExpr( getShader(), defaultValue ) ) ) );
+		}
+
+		return Array< T >{ &m_shader
+			, makeExpr( getShader(), var ) };
 	}
 
 	template< typename T >

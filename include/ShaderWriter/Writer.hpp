@@ -49,24 +49,30 @@ namespace sdw
 			, UboInfo const & info );
 		/**@}*/
 #pragma endregion
+#pragma region Comments
+		/**
+		*name
+		*	Comments
+		*/
+		/**@{*/
 		SDW_API void inlineComment( std::string const & comment );
 		SDW_API void multilineComment( std::string const & comment );
-		SDW_API void discard();
+		/**@}*/
+#pragma endregion
+#pragma region Functions
+		/**
+		*name
+		*	Functions
+		*/
+		/**@{*/
 		template< typename ReturnT, typename ... ParamsT >
 		inline Function< ReturnT, ParamsT... > implementFunction( std::string const & name
 			, std::function< void( ParamTranslaterT< ParamsT >... ) > const & function
 			, ParamsT && ... params );
-		SDW_API void returnStmt();
-		template< typename RetType >
-		void returnStmt( RetType const & value );
-		template< typename ValueT >
-		inline ValueT paren( ValueT const & content );
-		template< typename ValueT >
-		inline Optional< ValueT > paren( Optional< ValueT > const & content );
-		template< typename ValueT >
-		inline MaybeOptional< ValueT > paren( MaybeOptional< ValueT > const & content );
 		template< typename ReturnT >
 		void callFunction( ReturnT const & functionResult );
+		/**@}*/
+#pragma endregion
 #pragma region Cast
 		/**
 		*name
@@ -93,6 +99,10 @@ namespace sdw
 		*	Control statements.
 		*/
 		/**@{*/
+		SDW_API void discard();
+		SDW_API void returnStmt();
+		template< typename RetType >
+		void returnStmt( RetType const & value );
 		SDW_API void pushScope();
 		SDW_API void popScope();
 		SDW_API void saveNextExpr();
@@ -292,18 +302,29 @@ namespace sdw
 		inline T declInput( std::string const & name
 			, uint32_t location );
 		template< typename T >
-		inline Optional< T > declInput( std::string const & name
-			, uint32_t location
-			, bool enabled );
-		template< typename T >
 		inline Array< T > declInputArray( std::string const & name
 			, uint32_t location
 			, uint32_t dimension );
+		template< typename T >
+		inline Optional< T > declInput( std::string const & name
+			, uint32_t location
+			, bool enabled );
 		template< typename T >
 		inline Optional< Array< T > > declInputArray( std::string const & name
 			, uint32_t location
 			, uint32_t dimension
 			, bool enabled );
+		template< typename T >
+		inline T declInput( std::string const & name
+			, uint32_t location
+			, bool enabled
+			, T const & defaultValue );
+		template< typename T >
+		inline Array< T > declInputArray( std::string const & name
+			, uint32_t location
+			, uint32_t dimension
+			, bool enabled
+			, std::vector< T > const & defaultValue );
 		/**@}*/
 #pragma endregion
 #pragma region Output declaration
@@ -351,6 +372,10 @@ namespace sdw
 		inline Optional< T > declLocale( std::string const & name
 			, bool enabled );
 		template< typename T >
+		inline T declLocale( std::string const & name
+			, bool enabled
+			, T const & defaultValue );
+		template< typename T >
 		inline Optional< T > declLocale( std::string const & name
 			, Optional< T > const & rhs );
 		template< typename T >
@@ -371,6 +396,11 @@ namespace sdw
 		inline Optional< Array< T > > declLocaleArray( std::string const & name
 			, uint32_t dimension
 			, bool enabled );
+		template< typename T >
+		inline Array< T > declLocaleArray( std::string const & name
+			, uint32_t dimension
+			, bool enabled
+			, std::vector< T > const & defaultValue );
 		template< typename T >
 		inline Optional< Array< T > > declLocaleArray( std::string const & name
 			, uint32_t dimension
