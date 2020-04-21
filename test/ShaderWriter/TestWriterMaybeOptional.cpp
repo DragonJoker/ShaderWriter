@@ -282,6 +282,283 @@ namespace test
 		}
 		testEnd();
 	}
+
+	void testMaybeOptionalDefaultValue( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "testMaybeOptionalDefaultValue" );
+		using namespace sdw;
+		{
+			VertexWriter writer;
+			auto a = writer.declInput< Int >( "a", 0u, true );
+			check( a.isEnabled() );
+			writer.implementFunction< sdw::Void >( "main"
+				, [&]()
+				{
+					auto b = writer.declLocale( "b", 1_i );
+					auto c = writer.declLocale( "c", dummyFunc( a, b ) );
+					check( c.isOptional() );
+				} );
+			test::writeShader( writer, testCounts );
+		}
+		{
+			VertexWriter writer;
+			auto a = writer.declInput< Int >( "a", 0u, true, 0_i );
+			writer.implementFunction< sdw::Void >( "main"
+				, [&]()
+				{
+					auto b = writer.declLocale( "b", 1_i );
+					auto c = writer.declLocale( "c", dummyFunc( a, b ) );
+					check( !c.isOptional() );
+				} );
+			test::writeShader( writer, testCounts );
+		}
+		{
+			VertexWriter writer;
+			auto a = writer.declInput< Int >( "a", 0u, false );
+			writer.implementFunction< sdw::Void >( "main"
+				, [&]()
+				{
+					auto b = writer.declLocale( "b", 1_i );
+					auto c = writer.declLocale( "c", dummyFunc( a, b ) );
+					check( c.isOptional() );
+					check( !c.isEnabled() );
+				} );
+			test::writeShader( writer, testCounts );
+		}
+		{
+			VertexWriter writer;
+			auto a = writer.declInput< Int >( "a", 0u, false, 0_i );
+			writer.implementFunction< sdw::Void >( "main"
+				, [&]()
+				{
+					auto b = writer.declLocale( "b", 1_i );
+					auto c = writer.declLocale( "c", dummyFunc( a, b ) );
+					check( !c.isOptional() );
+				} );
+			test::writeShader( writer, testCounts );
+		}
+		{
+			VertexWriter writer;
+			auto b = writer.declInput< Int >( "b", 0u, true );
+			writer.implementFunction< sdw::Void >( "main"
+				, [&]()
+				{
+					auto a = writer.declLocale( "a", 0_i );
+					auto c = writer.declLocale( "c", dummyFunc( a, b ) );
+					check( c.isOptional() );
+				} );
+			test::writeShader( writer, testCounts );
+		}
+		{
+			VertexWriter writer;
+			auto b = writer.declInput< Int >( "b", 0u, true, 1_i );
+			writer.implementFunction< sdw::Void >( "main"
+				, [&]()
+				{
+					auto a = writer.declLocale( "a", 0_i );
+					auto c = writer.declLocale( "c", dummyFunc( a, b ) );
+					check( !c.isOptional() );
+				} );
+			test::writeShader( writer, testCounts );
+		}
+		{
+			VertexWriter writer;
+			auto b = writer.declInput< Int >( "b", 0u, false );
+			writer.implementFunction< sdw::Void >( "main"
+				, [&]()
+				{
+					auto a = writer.declLocale( "a", 0_i );
+					auto c = writer.declLocale( "c", dummyFunc( a, b ) );
+					check( c.isOptional() );
+					check( !c.isEnabled() );
+				} );
+			test::writeShader( writer, testCounts );
+		}
+		{
+			VertexWriter writer;
+			auto b = writer.declInput( "b", 0u, false, 1_i );
+			writer.implementFunction< sdw::Void >( "main"
+				, [&]()
+				{
+					auto a = writer.declLocale( "a", 0_i );
+					auto c = writer.declLocale( "c", dummyFunc( a, b ) );
+					check( !c.isOptional() );
+				} );
+			test::writeShader( writer, testCounts );
+		}
+		{
+			VertexWriter writer;
+			auto a = writer.declInput( "a", 0u, false, 0_i );
+			auto b = writer.declInput( "b", 1u, false, 1_i );
+			writer.implementFunction< sdw::Void >( "main"
+				, [&]()
+				{
+					auto c = writer.declLocale( "c", dummyFunc( a, b ) );
+					check( !c.isOptional() );
+				} );
+			test::writeShader( writer, testCounts );
+		}
+		{
+			VertexWriter writer;
+			auto a = writer.declInput( "a", 0u, false, 0_i );
+			auto b = writer.declInput< Int >( "b", 1u, false );
+			writer.implementFunction< sdw::Void >( "main"
+				, [&]()
+				{
+					auto c = writer.declLocale( "c", dummyFunc( a, b ) );
+					check( c.isOptional() );
+					check( !c.isEnabled() );
+				} );
+			test::writeShader( writer, testCounts );
+		}
+		{
+			VertexWriter writer;
+			auto a = writer.declInput< Int >( "a", 0u, false );
+			auto b = writer.declInput( "b", 1u, false, 1_i );
+			writer.implementFunction< sdw::Void >( "main"
+				, [&]()
+				{
+					auto c = writer.declLocale( "c", dummyFunc( a, b ) );
+					check( c.isOptional() );
+					check( !c.isEnabled() );
+				} );
+			test::writeShader( writer, testCounts );
+		}
+		{
+			VertexWriter writer;
+			auto a = writer.declInput< Int >( "a", 0u, false );
+			auto b = writer.declInput< Int >( "b", 1u, false );
+			writer.implementFunction< sdw::Void >( "main"
+				, [&]()
+				{
+					auto c = writer.declLocale( "c", dummyFunc( a, b ) );
+					check( c.isOptional() );
+					check( !c.isEnabled() );
+				} );
+			test::writeShader( writer, testCounts );
+		}
+		testEnd();
+	}
+
+	void testMaybeOptionalArrayDefaultValue( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "testMaybeOptionalArrayDefaultValue" );
+		using namespace sdw;
+		{
+			VertexWriter writer;
+			auto a = writer.declInputArray( "a", 0u, 2u, false, test::getDefaultVector< Int >( writer.getShader(), 2u ) );
+			auto b = writer.declInputArray( "b", 1u, 2u, false, test::getDefaultVector< Int >( writer.getShader(), 2u ) );
+			writer.implementFunction< sdw::Void >( "main"
+				, [&]()
+				{
+					auto c = writer.declLocale( "c", dummyFunc( a, b ) );
+					check( !c.isOptional() );
+				} );
+			test::writeShader( writer, testCounts );
+		}
+		{
+			VertexWriter writer;
+			auto b = writer.declInputArray( "b", 1u, 2u, false, test::getDefaultVector< Int >( writer.getShader(), 2u ) );
+			writer.implementFunction< sdw::Void >( "main"
+				, [&]()
+				{
+					auto a = writer.declLocaleArray< Int >( "a", 2u, false );
+					auto c = writer.declLocale( "c", dummyFunc( a, b ) );
+					check( c.isOptional() );
+					check( !c.isEnabled() );
+				} );
+			test::writeShader( writer, testCounts );
+		}
+		{
+			VertexWriter writer;
+			auto b = writer.declInputArray( "b", 1u, 2u, false, test::getDefaultVector< Int >( writer.getShader(), 2u ) );
+			writer.implementFunction< sdw::Void >( "main"
+				, [&]()
+				{
+					auto a = writer.declLocaleArray< Int >( "a", 2u, false, test::getDefaultVector< Int >( writer.getShader(), 2u ) );
+					auto c = writer.declLocale( "c", dummyFunc( a, b ) );
+					check( !c.isOptional() );
+				} );
+			test::writeShader( writer, testCounts );
+		}
+		{
+			VertexWriter writer;
+			auto a = writer.declInputArray( "a", 0u, 2u, false, test::getDefaultVector< Int >( writer.getShader(), 2u ) );
+			writer.implementFunction< sdw::Void >( "main"
+				, [&]()
+				{
+					auto b = writer.declLocaleArray< Int >( "b", 2u, false );
+					auto c = writer.declLocale( "c", dummyFunc( a, b ) );
+					check( c.isOptional() );
+					check( !c.isEnabled() );
+				} );
+			test::writeShader( writer, testCounts );
+		}
+		{
+			VertexWriter writer;
+			auto a = writer.declInputArray( "a", 0u, 2u, false, test::getDefaultVector< Int >( writer.getShader(), 2u ) );
+			writer.implementFunction< sdw::Void >( "main"
+				, [&]()
+				{
+					auto b = writer.declLocaleArray< Int >( "b", 2u, false, test::getDefaultVector< Int >( writer.getShader(), 2u ) );
+					auto c = writer.declLocale( "c", dummyFunc( a, b ) );
+					check( !c.isOptional() );
+				} );
+			test::writeShader( writer, testCounts );
+		}
+		{
+			VertexWriter writer;
+			writer.implementFunction< sdw::Void >( "main"
+				, [&]()
+				{
+					auto a = writer.declLocaleArray< Int >( "a", 2u, false );
+					auto b = writer.declLocaleArray< Int >( "b", 2u, false );
+					auto c = writer.declLocale( "c", dummyFunc( a, b ) );
+					check( c.isOptional() );
+					check( !c.isEnabled() );
+				} );
+			test::writeShader( writer, testCounts );
+		}
+		{
+			VertexWriter writer;
+			writer.implementFunction< sdw::Void >( "main"
+				, [&]()
+				{
+					auto a = writer.declLocaleArray< Int >( "a", 2u, false, test::getDefaultVector< Int >( writer.getShader(), 2u ) );
+					auto b = writer.declLocaleArray< Int >( "b", 2u, false, test::getDefaultVector< Int >( writer.getShader(), 2u ) );
+					auto c = writer.declLocale( "c", dummyFunc( a, b ) );
+					check( !c.isOptional() );
+				} );
+			test::writeShader( writer, testCounts );
+		}
+		{
+			VertexWriter writer;
+			writer.implementFunction< sdw::Void >( "main"
+				, [&]()
+				{
+					auto a = writer.declLocaleArray< Int >( "a", 2u, false, test::getDefaultVector< Int >( writer.getShader(), 2u ) );
+					auto b = writer.declLocaleArray< Int >( "b", 2u, false );
+					auto c = writer.declLocale( "c", dummyFunc( a, b ) );
+					check( c.isOptional() );
+					check( !c.isEnabled() );
+				} );
+			test::writeShader( writer, testCounts );
+		}
+		{
+			VertexWriter writer;
+			writer.implementFunction< sdw::Void >( "main"
+				, [&]()
+				{
+					auto a = writer.declLocaleArray< Int >( "a", 2u, false );
+					auto b = writer.declLocaleArray< Int >( "b", 2u, false, test::getDefaultVector< Int >( writer.getShader(), 2u ) );
+					auto c = writer.declLocale( "c", dummyFunc( a, b ) );
+					check( c.isOptional() );
+					check( !c.isEnabled() );
+				} );
+			test::writeShader( writer, testCounts );
+		}
+		testEnd();
+	}
 }
 
 int main( int argc, char ** argv )
@@ -289,5 +566,7 @@ int main( int argc, char ** argv )
 	sdwTestSuiteBegin( "TestWriterMaybeOptional" );
 	testMaybeOptional( testCounts );
 	testMaybeOptionalArray( testCounts );
+	testMaybeOptionalDefaultValue( testCounts );
+	testMaybeOptionalArrayDefaultValue( testCounts );
 	sdwTestSuiteEnd();
 }

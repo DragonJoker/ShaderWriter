@@ -198,14 +198,14 @@ namespace
 		auto uncharted2ToneMap = writer.implementFunction< Vec3 >( "uncharted2ToneMap"
 			, [&]( Vec3 const & x )
 			{
-				writer.returnStmt( writer.paren(
-					writer.paren(
+				writer.returnStmt( (
+					(
 						x
-						* writer.paren( x * shoulderStrength + linearAngle * linearStrength )
+						* ( x * shoulderStrength + linearAngle * linearStrength )
 						+ toeStrength * toeNumerator )
-					/ writer.paren(
+					/ (
 						x
-						* writer.paren( x * shoulderStrength + linearStrength )
+						* ( x * shoulderStrength + linearStrength )
 						+ toeStrength * toeDenominator ) )
 					- toeNumerator / toeDenominator );
 			}
@@ -970,6 +970,174 @@ namespace
 			, testCounts );
 		testEnd();
 	}
+
+	void arthapz( test::sdw_test::TestCounts & testCounts
+		, bool hasBaseColorMap
+		, bool hasMetallicRoughnessMap
+		, bool hasEmissiveMap
+		, bool hasNormalMap
+		, bool hasAmbiantOcclusionMap )
+	{
+		testBegin( "arthapz"
+			+ std::to_string( hasBaseColorMap )
+			+ std::to_string( hasMetallicRoughnessMap )
+			+ std::to_string( hasEmissiveMap )
+			+ std::to_string( hasNormalMap )
+			+ std::to_string( hasAmbiantOcclusionMap ) );
+		auto writer = sdw::FragmentWriter{};
+
+		auto in_position = writer.declInput<sdw::Vec3>( "in_position", 0u );
+		auto in_normal = writer.declInput<sdw::Vec3>( "in_normal", 1u );
+		auto in_texcoord = writer.declInput<sdw::Vec2>( "in_texcoord", 2u );
+		auto in_tangent = writer.declInput<sdw::Vec4>( "in_tangent", 3u );
+
+		auto frag_color = writer.declOutput<sdw::Vec4>( "frag_color", 0u );
+
+		auto camera = sdw::Ubo{ writer, "camera", 0, 0 };
+		camera.declMember<sdw::Vec4>( "position" );
+		camera.declMember<sdw::Mat4>( "projection" );
+		camera.declMember<sdw::Mat4>( "view" );
+		camera.end();
+
+		auto material = sdw::Pcb{ writer, "material", ast::type::MemoryLayout::eStd140 };
+		material.declMember<sdw::Vec4>( "base_color_factor" );
+		material.declMember<sdw::Vec4>( "emissive_factor" );
+		material.declMember<sdw::Float>( "metallic_factor" );
+		material.declMember<sdw::Float>( "roughness_factor" );
+		material.declMember<sdw::Float>( "ambiant_occlusion_factor" );
+		material.declMember<sdw::Float>( "PAD0" );
+		material.end();
+
+		auto base_color_sampler = writer.declSampledImage<FImg2DRgba32>( "base_color_sampler", 0, 2 );
+		auto normal_sampler = writer.declSampledImage<FImg2DRgba32>( "normal_sampler", 1, 2 );
+		auto metallic_roughness_sampler =
+			writer.declSampledImage<FImg2DRgba32>( "metallic_roughness_sampler", 2, 2 );
+		auto ambiant_occlusion_sampler =
+			writer.declSampledImage<FImg2DRgba32>( "ambiant_occlusion_sampler", 3, 2 );
+		auto emissive_sampler = writer.declSampledImage<FImg2DRgba32>( "emissive_sampler", 4, 2 );
+
+		auto out = writer.getOut();
+
+		auto getEmissiveColor = writer.implementFunction<sdw::Vec4>( "getEmissiveColor", [&]()
+			{
+				if ( hasEmissiveMap )
+					writer.returnStmt( sdw::texture( emissive_sampler, in_texcoord ) *
+						material.getMember<sdw::Vec4>( "emissive_factor" ) );
+				else
+					writer.returnStmt( sdw::vec4( 0._f, 0.f, 0.f, 0.f ) );
+			} );
+
+		auto getNormal = writer.implementFunction<sdw::Vec3>( "getNormal", [&]()
+			{
+				if ( hasNormalMap )
+				{
+					auto tangent_normal =
+						writer.declLocale( "tangent_normal",
+							sdw::texture( normal_sampler, in_texcoord ).xyz() * 2.f - 1.f );
+
+					auto N = writer.declLocale( "N", sdw::normalize( in_normal ) );
+					auto T = writer.declLocale( "T", sdw::normalize( in_tangent.xyz() ) );
+					auto B = writer.declLocale( "B", -sdw::normalize( sdw::cross( N, T ) ) );
+
+					auto TBN = writer.declLocale<sdw::Mat3>( "TBN", sdw::mat3( T, B, N ) );
+
+					writer.returnStmt( sdw::normalize( TBN * tangent_normal ) );
+				}
+				else
+					writer.returnStmt( in_normal );
+			} );
+
+		writer.implementFunction<void>( "main", [&]()
+			{
+				using namespace sdw;
+				auto base_color =
+					writer.declLocale( "base_color", material.getMember<Vec4>( "base_color_factor" ) );
+				auto metallic = writer.declLocale( "metallic", material.getMember<Float>( "metallic_factor" ) );
+				auto roughness =
+					writer.declLocale( "roughness", material.getMember<Float>( "roughness_factor" ) );
+
+				if ( hasBaseColorMap )
+				{
+					base_color = texture( base_color_sampler, in_texcoord );
+
+					auto lin_out = writer.declLocale( "base_color_lin_out",
+						pow( base_color.xyz(), vec3( 2.2_f, 2.2f, 2.2f ) ) );
+					base_color = vec4( lin_out, base_color.a() );
+				}
+
+				if ( hasMetallicRoughnessMap )
+				{
+					auto sample = writer.declLocale( "metallic_roughness_sample",
+						texture( metallic_roughness_sampler, in_texcoord ) );
+					metallic *= sample.r();
+					roughness *= sample.b();
+				}
+
+				auto diffuse =
+					writer.declLocale( "diffuse_color", base_color.rgb() * ( vec3( 0.6_f, 0.6f, 0.6f ) ) );
+				diffuse *= 1.f - metallic;
+
+				auto N = writer.declLocale( "N", normalize( in_normal ) );
+				if ( hasNormalMap )
+				{
+					auto tangent_normal =
+						writer.declLocale( "tangent_normal",
+							texture( normal_sampler, in_texcoord ).xyz() * 2.f - 1.f );
+
+					 // auto N = writer.declLocale("N", sdw::normalize(in_normal));
+					auto T = writer.declLocale( "T", normalize( in_tangent.xyz() ) );
+					auto B = writer.declLocale( "B", -normalize( cross( N, T ) ) );
+
+					auto TBN = writer.declLocale( "TBN", mat3( T, B, N ) );
+
+					N = normalize( TBN * tangent_normal );
+				}
+
+				auto emissive_color = writer.declLocale( "emissive_color", vec4( 0._f, 0.f, 0.f, 0.f ) );
+				if ( hasEmissiveMap )
+				{
+					emissive_color = texture( emissive_sampler, in_texcoord ) *
+						material.getMember<Vec4>( "emissive_factor" );
+				}
+
+				auto V = writer.declLocale( "V", camera.getMember<Vec4>( "position" ).xyz() - in_position );
+				auto L = writer.declLocale<Vec3>( "L", normalize( vec3( 0._f, 0.f, 0.f ) ) );
+				auto H = writer.declLocale<Vec3>( "H", normalize( L + V ) );
+				auto reflection = writer.declLocale( "reflection", -normalize( reflect( V, N ) ) );
+				reflection.y() *= -1.f;
+
+				auto NdotL = writer.declLocale( "NdotL", clamp( dot( N, L ), 0.001_f, 1._f ) );
+				auto NdotV = writer.declLocale( "NdotV", clamp( abs( dot( N, V ) ), 0.001_f, 1._f ) );
+				auto NdotH = writer.declLocale( "NdotH", clamp( dot( N, H ), 0._f, 1._f ) );
+				auto LdotH = writer.declLocale( "LdotH", clamp( dot( L, H ), 0._f, 1._f ) );
+				auto VdotH = writer.declLocale( "VdotH", clamp( dot( V, H ), 0._f, 1._f ) );
+
+				frag_color =
+					vec4( NdotL * vec3( 1._f, 1.f, 1.f ) +
+						( diffuse /
+							vec3( 3.14159265358979323846264338327950_f
+								, 3.14159265358979323846264338327950f
+								, 3.14159265358979323846264338327950f ) ),
+						base_color.a() );
+
+				if ( hasAmbiantOcclusionMap )
+				{
+					auto ao =
+						writer.declLocale<Float>( "ao", texture( ambiant_occlusion_sampler, in_texcoord ).r() );
+					auto strength = material.getMember<Float>( "ambiant_occlusion_factor" );
+					frag_color = vec4( mix( frag_color.rgb(),
+						frag_color.rgb() * ao,
+						vec3( strength, strength, strength ) ),
+						frag_color.a() );
+				}
+
+				frag_color += emissive_color;
+			} );
+
+		test::writeShader( writer
+			, testCounts );
+		testEnd();
+	}
 }
 
 int main( int argc, char ** argv )
@@ -992,5 +1160,37 @@ int main( int argc, char ** argv )
 	charles_approx( testCounts );
 	charles_latest( testCounts );
 	radiance_computer( testCounts );
+	arthapz( testCounts, false, false, false, false, false );
+	arthapz( testCounts, false, false, false, false, true );
+	arthapz( testCounts, false, false, false, true, false );
+	arthapz( testCounts, false, false, false, true, true );
+	arthapz( testCounts, false, false, true, false, false );
+	arthapz( testCounts, false, false, true, false, true );
+	arthapz( testCounts, false, false, true, true, false );
+	arthapz( testCounts, false, false, true, true, true );
+	arthapz( testCounts, false, true, false, false, false );
+	arthapz( testCounts, false, true, false, false, true );
+	arthapz( testCounts, false, true, false, true, false );
+	arthapz( testCounts, false, true, false, true, true );
+	arthapz( testCounts, false, true, true, false, false );
+	arthapz( testCounts, false, true, true, false, true );
+	arthapz( testCounts, false, true, true, true, false );
+	arthapz( testCounts, false, true, true, true, true );
+	arthapz( testCounts, true, false, false, false, false );
+	arthapz( testCounts, true, false, false, false, true );
+	arthapz( testCounts, true, false, false, true, false );
+	arthapz( testCounts, true, false, false, true, true );
+	arthapz( testCounts, true, false, true, false, false );
+	arthapz( testCounts, true, false, true, false, true );
+	arthapz( testCounts, true, false, true, true, false );
+	arthapz( testCounts, true, false, true, true, true );
+	arthapz( testCounts, true, true, false, false, false );
+	arthapz( testCounts, true, true, false, false, true );
+	arthapz( testCounts, true, true, false, true, false );
+	arthapz( testCounts, true, true, false, true, true );
+	arthapz( testCounts, true, true, true, false, false );
+	arthapz( testCounts, true, true, true, false, true );
+	arthapz( testCounts, true, true, true, true, false );
+	arthapz( testCounts, true, true, true, true, true );
 	sdwTestSuiteEnd();
 }
