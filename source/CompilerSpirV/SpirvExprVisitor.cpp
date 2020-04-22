@@ -26,6 +26,144 @@ namespace spirv
 {
 	namespace
 	{
+		class HasFnCall
+			: public ast::expr::SimpleVisitor
+		{
+		public:
+			static bool submit( ast::expr::Expr * expr )
+			{
+				bool result{ false };
+				HasFnCall vis{ result };
+				expr->accept( &vis );
+				return result;
+			}
+
+		private:
+			HasFnCall( bool & result )
+				: m_result{ result }
+			{
+			}
+
+		private:
+			void visitUnaryExpr( ast::expr::Unary * expr )override
+			{
+				expr->getOperand()->accept( this );
+			}
+
+			void visitBinaryExpr( ast::expr::Binary * expr )override
+			{
+				expr->getLHS()->accept( this );
+				expr->getRHS()->accept( this );
+			}
+
+			void visitAggrInitExpr( ast::expr::AggrInit * expr )override
+			{
+				if ( expr->getIdentifier() )
+				{
+					expr->getIdentifier()->accept( this );
+				}
+
+				for ( auto & arg : expr->getInitialisers() )
+				{
+					arg->accept( this );
+				}
+			}
+
+			void visitCompositeConstructExpr( ast::expr::CompositeConstruct * expr )override
+			{
+				for ( auto & arg : expr->getArgList() )
+				{
+					arg->accept( this );
+				}
+			}
+
+			void visitMbrSelectExpr( ast::expr::MbrSelect * expr )override
+			{
+				expr->getOuterExpr()->accept( this );
+			}
+
+			void visitFnCallExpr( ast::expr::FnCall * expr )override
+			{
+				expr->getFn()->accept( this );
+
+				for ( auto & arg : expr->getArgList() )
+				{
+					arg->accept( this );
+				}
+
+				m_result = true;
+			}
+
+			void visitIntrinsicCallExpr( ast::expr::IntrinsicCall * expr )override
+			{
+				for ( auto & arg : expr->getArgList() )
+				{
+					arg->accept( this );
+				}
+
+				m_result = true;
+			}
+
+			void visitTextureAccessCallExpr( ast::expr::TextureAccessCall * expr )override
+			{
+				for ( auto & arg : expr->getArgList() )
+				{
+					arg->accept( this );
+				}
+
+				m_result = true;
+			}
+
+			void visitImageAccessCallExpr( ast::expr::ImageAccessCall * expr )override
+			{
+				for ( auto & arg : expr->getArgList() )
+				{
+					arg->accept( this );
+				}
+
+				m_result = true;
+			}
+
+			void visitIdentifierExpr( ast::expr::Identifier * expr )override
+			{
+			}
+
+			void visitInitExpr( ast::expr::Init * expr )override
+			{
+				expr->getIdentifier()->accept( this );
+				expr->getInitialiser()->accept( this );
+			}
+
+			void visitLiteralExpr( ast::expr::Literal * expr )override
+			{
+			}
+
+			void visitQuestionExpr( ast::expr::Question * expr )override
+			{
+				expr->getCtrlExpr()->accept( this );
+				expr->getTrueExpr()->accept( this );
+				expr->getFalseExpr()->accept( this );
+			}
+
+			void visitSwitchCaseExpr( ast::expr::SwitchCase * expr )override
+			{
+				expr->getLabel()->accept( this );
+			}
+
+			void visitSwitchTestExpr( ast::expr::SwitchTest * expr )override
+			{
+				expr->getValue()->accept( this );
+			}
+
+			void visitSwizzleExpr( ast::expr::Swizzle * expr )override
+			{
+				expr->getOuterExpr()->accept( this );
+			}
+
+		private:
+			bool & m_result;
+		};
+
 		std::string adaptName( std::string const & name )
 		{
 			static std::map< std::string, std::string > const names
@@ -255,6 +393,7 @@ namespace spirv
 		, Block & currentBlock
 		, Module & module
 		, spv::Id initialiser
+		, bool hasFuncInit
 		, LoadedVariableArray & loadedVariables )
 	{
 		bool allLiterals{ false };
@@ -263,6 +402,7 @@ namespace spirv
 			, module
 			, allLiterals
 			, initialiser
+			, hasFuncInit
 			, loadedVariables );
 	}
 
@@ -304,6 +444,7 @@ namespace spirv
 		, Module & module
 		, bool & allLiterals
 		, spv::Id initialiser
+		, bool hasFuncInit
 		, LoadedVariableArray & loadedVariables )
 	{
 		spv::Id result{ 0u };
@@ -312,6 +453,7 @@ namespace spirv
 			, module
 			, allLiterals
 			, initialiser
+			, hasFuncInit
 			, loadedVariables };
 		expr->accept( &vis );
 		return result;
@@ -329,6 +471,7 @@ namespace spirv
 		, m_allLiterals{ allLiterals }
 		, m_loadVariable{ loadVariable }
 		, m_initialiser{ 0u }
+		, m_hasFuncInit{ false }
 		, m_loadedVariables{ loadedVariables }
 	{
 	}
@@ -338,6 +481,7 @@ namespace spirv
 		, Module & module
 		, bool & allLiterals
 		, spv::Id initialiser
+		, bool hasFuncInit
 		, LoadedVariableArray & loadedVariables )
 		: m_result{ result }
 		, m_currentBlock{ currentBlock }
@@ -345,6 +489,7 @@ namespace spirv
 		, m_allLiterals{ allLiterals }
 		, m_loadVariable{ false }
 		, m_initialiser{ initialiser }
+		, m_hasFuncInit{ hasFuncInit }
 		, m_loadedVariables{ loadedVariables }
 	{
 	}
@@ -367,9 +512,10 @@ namespace spirv
 	}
 
 	spv::Id ExprVisitor::doSubmit( ast::expr::Expr * expr
-		, spv::Id initialiser )
+		, spv::Id initialiser
+		, bool hasFuncInit )
 	{
-		return submit( expr, m_currentBlock, m_module, initialiser, m_loadedVariables );
+		return submit( expr, m_currentBlock, m_module, initialiser, hasFuncInit, m_loadedVariables );
 	}
 
 	spv::Id ExprVisitor::doSubmit( ast::expr::Expr * expr
@@ -764,10 +910,12 @@ namespace spirv
 		auto typeId = m_module.registerType( expr->getType() );
 		IdList initialisers;
 		bool allLiterals = true;
+		bool hasFuncInit = false;
 
 		for ( auto & init : expr->getInitialisers() )
 		{
 			initialisers.push_back( doSubmit( init.get(), allLiterals, true ) );
+			hasFuncInit = hasFuncInit || HasFnCall::submit( init.get() );
 		}
 
 		spv::Id init;
@@ -788,6 +936,7 @@ namespace spirv
 		{
 			initialiseVariable( init
 				, allLiterals
+				, hasFuncInit
 				, expr->getIdentifier()->getVariable()
 				, expr->getType() );
 		}
@@ -963,6 +1112,7 @@ namespace spirv
 		{
 			initialiseVariable( m_initialiser
 				, true
+				, m_hasFuncInit
 				, var
 				, expr->getType() );
 			auto kind = var->getType()->getKind();
@@ -1083,8 +1233,10 @@ namespace spirv
 		bool allLiterals = true;
 		auto init = doSubmit( expr->getInitialiser(), allLiterals, m_loadVariable );
 		m_info.lvalue = true;
+		bool hasFuncInit = HasFnCall::submit( expr );
 		initialiseVariable( init
 			, allLiterals
+			, hasFuncInit
 			, expr->getIdentifier()->getVariable()
 			, expr->getType() );
 	}
@@ -1587,12 +1739,15 @@ namespace spirv
 
 	void ExprVisitor::initialiseVariable( spv::Id init
 		, bool allLiterals
+		, bool isFuncInit
 		, ast::var::VariablePtr var
 		, ast::type::TypePtr type )
 	{
 		spv::StorageClass storageClass{ getStorageClass( var ) };
 
-		if ( allLiterals && !var->isLoopVar() )
+		if ( allLiterals
+			&& !var->isLoopVar()
+			&& !isFuncInit )
 		{
 			m_result = m_module.registerVariable( adaptName( var->getName() )
 				, storageClass
