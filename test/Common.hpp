@@ -295,6 +295,11 @@ namespace test
 		++testCounts.totalCount;\
 		( x ); \
 	}\
+	catch ( std::exception & exc )\
+	{\
+		test::reportFailure( exc.what(), __FUNCTION__, __LINE__, testCounts );\
+		test::reportFailure( testConcat2( x, " failed." ), __FUNCTION__, __LINE__, testCounts );\
+	}\
 	catch ( ... )\
 	{\
 		test::reportFailure( testConcat2( x, " failed." ), __FUNCTION__, __LINE__, testCounts );\
