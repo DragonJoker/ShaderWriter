@@ -104,9 +104,9 @@ namespace ast::vk
 
 			auto minSet = std::min( result.size(), rhs.size() );
 			auto maxSet = std::max( result.size(), rhs.size() );
+			result.resize( maxSet );
 			auto lit = result.begin();
 			auto rit = rhs.begin();
-			result.resize( maxSet );
 
 			for ( uint32_t i = 0u; i < minSet; ++i )
 			{
