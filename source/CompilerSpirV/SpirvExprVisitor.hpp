@@ -32,6 +32,7 @@ namespace spirv
 			, Block & currentBlock
 			, Module & module
 			, spv::Id initialiser
+			, bool hasFuncInit
 			, LoadedVariableArray & loadedVariables );
 
 	private:
@@ -51,6 +52,7 @@ namespace spirv
 			, Module & module
 			, bool & allLiterals
 			, spv::Id initialiser
+			, bool hasFuncInit
 			, LoadedVariableArray & loadedVariables );
 
 		ExprVisitor( spv::Id & result
@@ -64,6 +66,7 @@ namespace spirv
 			, Module & module
 			, bool & allLiterals
 			, spv::Id initialiser
+			, bool hasFuncInit
 			, LoadedVariableArray & loadedVariables );
 		spv::Id doSubmit( ast::expr::Expr * expr );
 		spv::Id doSubmit( ast::expr::Expr * expr
@@ -71,7 +74,8 @@ namespace spirv
 		spv::Id doSubmit( ast::expr::Expr * expr
 			, bool loadVariable );
 		spv::Id doSubmit( ast::expr::Expr * expr
-			, spv::Id initialiser );
+			, spv::Id initialiser
+			, bool hasFuncInit );
 		spv::Id doSubmit( ast::expr::Expr * expr
 			, bool loadVariable
 			, LoadedVariableArray & loadedVariables );
@@ -145,6 +149,7 @@ namespace spirv
 
 		void initialiseVariable( spv::Id init
 			, bool allLiterals
+			, bool isFuncInit
 			, ast::var::VariablePtr var
 			, ast::type::TypePtr type );
 	private:
@@ -154,6 +159,7 @@ namespace spirv
 		bool & m_allLiterals;
 		bool m_loadVariable;
 		spv::Id m_initialiser;
+		bool m_hasFuncInit{ false };
 		LoadedVariableArray & m_loadedVariables;
 		std::array< ast::type::StructPtr, 4u > m_unsignedExtendedTypes;
 		std::array< ast::type::StructPtr, 4u > m_signedExtendedTypes;
