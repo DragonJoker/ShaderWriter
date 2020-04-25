@@ -47,7 +47,7 @@ namespace ast::vk
 		{
 		}
 
-		inline FixedSizeArrayT( FixedSizeArrayT && rhs )
+		inline FixedSizeArrayT( FixedSizeArrayT && rhs )noexcept
 			: VecT{ std::move( rhs ) }
 		{
 		}
@@ -58,7 +58,7 @@ namespace ast::vk
 			return *this;
 		}
 
-		inline FixedSizeArrayT & operator=( FixedSizeArrayT && rhs )
+		inline FixedSizeArrayT & operator=( FixedSizeArrayT && rhs )noexcept
 		{
 			VecT::operator=( std::move( rhs ) );
 			return *this;
@@ -122,7 +122,7 @@ namespace ast::vk
 			updateData();
 		}
 
-		inline ArrayHolder( ArrayHolder && rhs )
+		inline ArrayHolder( ArrayHolder && rhs )noexcept
 			: values{ std::move( rhs.values ) }
 			, data{ std::move( rhs.data ) }
 		{
@@ -138,7 +138,7 @@ namespace ast::vk
 			return *this;
 		}
 
-		inline ArrayHolder & operator=( ArrayHolder && rhs )
+		inline ArrayHolder & operator=( ArrayHolder && rhs )noexcept
 		{
 			values = std::move( rhs.values );
 			data = std::move( rhs.data );

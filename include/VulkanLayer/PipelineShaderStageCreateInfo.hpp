@@ -48,7 +48,7 @@ namespace ast::vk
 			updateData();
 		}
 
-		inline PipelineShaderStageCreateInfo( PipelineShaderStageCreateInfo && rhs )
+		inline PipelineShaderStageCreateInfo( PipelineShaderStageCreateInfo && rhs )noexcept
 			: spec{ std::move( rhs.spec ) }
 			, data{ std::move( rhs.data ) }
 		{
@@ -72,7 +72,7 @@ namespace ast::vk
 			return *this;
 		}
 
-		inline PipelineShaderStageCreateInfo & operator=( PipelineShaderStageCreateInfo && rhs )
+		inline PipelineShaderStageCreateInfo & operator=( PipelineShaderStageCreateInfo && rhs )noexcept
 		{
 			if ( rhs.spec )
 			{

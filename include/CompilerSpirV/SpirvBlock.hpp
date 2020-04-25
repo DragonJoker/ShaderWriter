@@ -34,7 +34,7 @@ namespace spirv
 			, InstructionListIt const & end );
 
 		// Serialisable.
-		spv::Id label;
+		spv::Id label{};
 		InstructionList instructions;
 		InstructionPtr blockEnd;
 		// Used during construction.
