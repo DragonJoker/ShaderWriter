@@ -51,8 +51,8 @@ namespace spirv
 
 	struct BlockStruct
 	{
-		BlockType type;
-		VariableArray * allVars;
+		BlockType type{};
+		VariableArray * allVars{};
 		VarUsageArray usages;
 		VariableArray ownVars;
 	};
