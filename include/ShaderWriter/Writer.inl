@@ -63,6 +63,11 @@ namespace sdw
 		return Function< ReturnT, ParamsT... >{ &m_shader, functionType, name };
 	}
 
+	inline void ShaderWriter::implementMain( std::function< void() > const & function )
+	{
+		( void )implementFunction< Void >( "main", function );
+	}
+
 	template< typename ReturnT >
 	void ShaderWriter::callFunction( ReturnT const & functionResult )
 	{
