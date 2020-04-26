@@ -17,7 +17,6 @@ namespace sdw
 		using Vec2Type = Vec2T< ValueT >;
 		using Vec3Type = Vec3T< ValueT >;
 
-		inline Vec3T();
 		inline Vec3T( Shader * shader
 			, expr::ExprPtr expr );
 		inline Vec3T( Vec3T const & rhs );
