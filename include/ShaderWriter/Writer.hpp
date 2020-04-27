@@ -69,6 +69,7 @@ namespace sdw
 		inline Function< ReturnT, ParamsT... > implementFunction( std::string const & name
 			, std::function< void( ParamTranslaterT< ParamsT >... ) > const & function
 			, ParamsT && ... params );
+		inline void implementMain( std::function< void() > const & function );
 		template< typename ReturnT >
 		void callFunction( ReturnT const & functionResult );
 		/**@}*/
