@@ -45,6 +45,7 @@ namespace hlsl
 		std::map< std::string, ast::type::FunctionPtr > imageAtomicCompSwapFuncs;
 		std::map< std::string, ast::type::FunctionPtr > imageLodFuncs;
 		std::map< std::string, ast::type::FunctionPtr > imageLevelsFuncs;
+		std::map< std::string, ast::type::FunctionPtr > imageStoreFuncs;
 	};
 
 	struct AdaptationData

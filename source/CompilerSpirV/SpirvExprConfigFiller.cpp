@@ -127,7 +127,9 @@ namespace spirv
 			m_config.requiredCapabilities.insert( spv::CapabilityImageQuery );
 		}
 		else if ( ( kind >= ast::expr::ImageAccess::eImageLoad1DF
-			&& kind <= ast::expr::ImageAccess::eImageLoad2DMSArrayU ) )
+			&& kind <= ast::expr::ImageAccess::eImageLoad2DMSArrayU )
+			|| ( kind >= ast::expr::ImageAccess::eImageStore1DF
+				&& kind <= ast::expr::ImageAccess::eImageStore2DMSArrayU ) )
 		{
 			if ( config.dimension == ast::type::ImageDim::e1D )
 			{

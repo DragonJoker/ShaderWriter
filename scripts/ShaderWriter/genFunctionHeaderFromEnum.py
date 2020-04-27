@@ -204,6 +204,41 @@ def computeParams( params, sep ):
 			index += 2
 	return result
 
+def computeParamsEx( params, sep, lastType ):
+	result = ""
+	intrParams = re.compile("[, ]*ASTIntrParams\( ([\w, :()\[\]]*) \)$")
+	resParams = intrParams.match( params )
+	if resParams:
+		intrParam = re.compile("(ASTIntrParam|ASTIntrOutParam)\( ([^,]*), ([^ ]*) \)")
+		resParam = intrParam.split( resParams.group( 1 ) )
+		index = 1
+		while len( resParam ) > index:
+			if resParam[index] == "ASTIntrParam":
+				typeQualifier = "const "
+			else:
+				typeQualifier = ""
+			index += 1
+			paramType = typeKindToSdwType( resParam[index] )
+			index += 1
+			curIndex = index
+			index += 2
+
+			if (len( resParam ) <= index):
+				paramType = lastType
+
+			if len(typeQualifier) > 0:
+				if isArray( resParam[curIndex] ):
+					result += sep + " MaybeOptional< Array< " + paramType + " > > " + typeQualifier + "& " + discardArray( resParam[curIndex] )
+				else:
+					result += sep + " MaybeOptional< " + paramType + " > " + typeQualifier + "& " + resParam[curIndex]
+			else:
+				if isArray( resParam[curIndex] ):
+					result += sep + " Array< " + paramType + " > " + typeQualifier + "& " + discardArray( resParam[curIndex] )
+				else:
+					result += sep + " " + paramType + " " + typeQualifier + "& " + resParam[curIndex]
+			sep = ","
+	return result
+
 def listParams( params, sep ):
 	result = ""
 	intrParams = re.compile("[, ]*ASTIntrParams\( ([\w, :()\[\]]*) \)$")
@@ -299,6 +334,7 @@ def printImageFunction( outs, returnGroup, functionGroup, paramsGroup, imageType
 	if sampled == 'I':
 		if intrinsicName.find( "Atomic" ) != -1:
 			formats.append( ( 'R32', 'Int' ) )
+			formats.append( ( 'R16', 'Int' ) )
 		elif intrinsicName.find( "Size" ) != -1 or intrinsicName.find( "Samples" ) != -1 or intrinsicName.find( "Query" ) != -1 or intrinsicName.find( "Gather" ) != -1:
 			formats.append( ( 'Rgba32', retType ) )
 			formats.append( ( 'Rgba16', retType ) )
@@ -322,6 +358,7 @@ def printImageFunction( outs, returnGroup, functionGroup, paramsGroup, imageType
 	elif sampled == 'U':
 		if intrinsicName.find( "Atomic" ) != -1:
 			formats.append( ( 'R32', 'UInt' ) )
+			formats.append( ( 'R16', 'UInt' ) )
 		elif intrinsicName.find( "Size" ) != -1 or intrinsicName.find( "Samples" ) != -1 or intrinsicName.find( "Query" ) != -1 or intrinsicName.find( "Gather" ) != -1:
 			formats.append( ( 'Rgba32', retType ) )
 			formats.append( ( 'Rgba16', retType ) )
@@ -366,15 +403,26 @@ def printImageFunction( outs, returnGroup, functionGroup, paramsGroup, imageType
 			formats.append( ( 'R16', 'Float' ) )
 	dim = getImageDim( postfix )
 	if dim != "2DRect":
-		imageFullType = computeImageFullType( imageType, postfix, sampled, depth )
-		for fmt, ret in formats:
-			# Write function name and return
-			outs.write( "\n\tSDW_API MaybeOptional< " + ret + " > " + intrinsicName + "(" )
-			# Write parameters
-			#	Image parameter
-			outs.write( " MaybeOptional< " + imageFullType + fmt + " > const & image" )
-			#	Remaining function parameters
-			outs.write( computeParams( paramsGroup, "," ) + " );" )
+		if intrinsicName.find( "Store" ) != -1:
+			imageFullType = computeImageFullType( imageType, postfix, sampled, depth )
+			for fmt, last in formats:
+				# Write function name and return
+				outs.write( "\n\tSDW_API Void " + intrinsicName + "(" )
+				# Write parameters
+				#	Image parameter
+				outs.write( " MaybeOptional< " + imageFullType + fmt + " > const & image" )
+				#	Remaining function parameters
+				outs.write( computeParamsEx( paramsGroup, ",", last ) + " );" )
+		else:
+			imageFullType = computeImageFullType( imageType, postfix, sampled, depth )
+			for fmt, ret in formats:
+				# Write function name and return
+				outs.write( "\n\tSDW_API MaybeOptional< " + ret + " > " + intrinsicName + "(" )
+				# Write parameters
+				#	Image parameter
+				outs.write( " MaybeOptional< " + imageFullType + fmt + " > const & image" )
+				#	Remaining function parameters
+				outs.write( computeParams( paramsGroup, "," ) + " );" )
 
 def printIntrinsicFunction( outs, returnGroup, functionGroup, paramsGroup ):
 	retType = typeKindToSdwType( returnGroup )

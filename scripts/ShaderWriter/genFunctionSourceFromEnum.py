@@ -193,6 +193,41 @@ def computeParams( params, sep ):
 			index += 2
 	return result
 
+def computeParamsEx( params, sep, lastType ):
+	result = ""
+	intrParams = re.compile("[, ]*ASTIntrParams\( ([\w, :()\[\]]*) \)$")
+	resParams = intrParams.match( params )
+	if resParams:
+		intrParam = re.compile("(ASTIntrParam|ASTIntrOutParam)\( ([^,]*), ([^ ]*) \)")
+		resParam = intrParam.split( resParams.group( 1 ) )
+		index = 1
+		while len( resParam ) > index:
+			if resParam[index] == "ASTIntrParam":
+				typeQualifier = "const "
+			else:
+				typeQualifier = ""
+			index += 1
+			paramType = typeKindToSdwType( resParam[index] )
+			index += 1
+			curIndex = index
+			index += 2
+
+			if (len( resParam ) <= index):
+				paramType = lastType
+
+			if len(typeQualifier) > 0:
+				if isArray( resParam[curIndex] ):
+					result += sep + " MaybeOptional< Array< " + paramType + " > > " + typeQualifier + "& " + discardArray( resParam[curIndex] )
+				else:
+					result += sep + " MaybeOptional< " + paramType + " > " + typeQualifier + "& " + resParam[curIndex]
+			else:
+				if isArray( resParam[curIndex] ):
+					result += sep + " Array< " + paramType + " > " + typeQualifier + "& " + discardArray( resParam[curIndex] )
+				else:
+					result += sep + " " + paramType + " " + typeQualifier + "& " + resParam[curIndex]
+			sep = "\n\t\t,"
+	return result
+
 def listParams( params, sep ):
 	result = ""
 	intrParams = re.compile("[, ]*ASTIntrParams\( ([\w, :()\[\]]*) \)$")
@@ -356,30 +391,43 @@ def printImageFunction( outs, returnGroup, functionGroup, paramsGroup, imageType
 			formats.append( ( 'R16', 'Float' ) )
 	dim = getImageDim( postfix )
 	if dim != "2DRect":
+		isStore = intrinsicName.find( "Store" ) != -1
 		imageFullType = computeImageFullType( imageType, postfix, sampled, depth )
 		for fmt, ret in formats:
-			# Write function name and return
-			outs.write( "\n\tMaybeOptional< " + ret + " > " + computeIntrinsicName( functionGroup ) + "(" )
-			# Write parameters
-			#	Image parameter
-			outs.write( " MaybeOptional< " + imageFullType + fmt + " > const & image" )
-			#	Remaining function parameters
-			outs.write( computeParams( paramsGroup, "\n\t\t," ) + " )" )
-			# Header finished, write content
-			outs.write( "\n\t{" )
-			outs.write( "\n\t\tif ( isAnyOptional( image" + listParams( paramsGroup, "," ) + " ) )" )
-			outs.write( "\n\t\t{" )
-			outs.write( "\n\t\t\treturn Optional< " + ret + " >{ findShader( image" + listParams( paramsGroup, "," ) + " )" )
-			# Write arguments
-			outs.write( "\n\t\t\t\t, expr::make" + fullName + fmt + "( findTypesCache( image" + listParams( paramsGroup, "," ) + " )" )
-			#	Image argument
-			outs.write( "\n\t\t\t\t\t, makeExpr( image )" )
-			#	Remaining arguments
-			outs.write( computeArgs( paramsGroup, "\t\t\t\t\t", "\n\t\t\t\t\t," ) + " )" )
-			outs.write( "\n\t\t\t\t, areOptionalEnabled( image" + listParams( paramsGroup, "," ) + " ) };" )
-			outs.write( "\n\t\t}" )
-			outs.write( "\n" )
-			outs.write( "\n\t\treturn " + ret + "{ findShader( image" + listParams( paramsGroup, "," ) + " )" )
+			if isStore:
+				# Write function name and return
+				outs.write( "\n\tVoid " + computeIntrinsicName( functionGroup ) + "(" )
+				# Write parameters
+				#	Image parameter
+				outs.write( " MaybeOptional< " + imageFullType + fmt + " > const & image" )
+				#	Remaining function parameters
+				outs.write( computeParamsEx( paramsGroup, "\n\t\t,", ret ) + " )" )
+				# Header finished, write content
+				outs.write( "\n\t{" )
+				outs.write( "\n\t\treturn Void{ findShader( image" + listParams( paramsGroup, "," ) + " )" )
+			else:
+				# Write function name and return
+				outs.write( "\n\tMaybeOptional< " + ret + " > " + computeIntrinsicName( functionGroup ) + "(" )
+				# Write parameters
+				#	Image parameter
+				outs.write( " MaybeOptional< " + imageFullType + fmt + " > const & image" )
+				#	Remaining function parameters
+				outs.write( computeParams( paramsGroup, "\n\t\t," ) + " )" )
+				# Header finished, write content
+				outs.write( "\n\t{" )
+				outs.write( "\n\t\tif ( isAnyOptional( image" + listParams( paramsGroup, "," ) + " ) )" )
+				outs.write( "\n\t\t{" )
+				outs.write( "\n\t\t\treturn Optional< " + ret + " >{ findShader( image" + listParams( paramsGroup, "," ) + " )" )
+				# Write arguments
+				outs.write( "\n\t\t\t\t, expr::make" + fullName + fmt + "( findTypesCache( image" + listParams( paramsGroup, "," ) + " )" )
+				#	Image argument
+				outs.write( "\n\t\t\t\t\t, makeExpr( image )" )
+				#	Remaining arguments
+				outs.write( computeArgs( paramsGroup, "\t\t\t\t\t", "\n\t\t\t\t\t," ) + " )" )
+				outs.write( "\n\t\t\t\t, areOptionalEnabled( image" + listParams( paramsGroup, "," ) + " ) };" )
+				outs.write( "\n\t\t}" )
+				outs.write( "\n" )
+				outs.write( "\n\t\treturn " + ret + "{ findShader( image" + listParams( paramsGroup, "," ) + " )" )
 			# Write arguments
 			outs.write( "\n\t\t\t, expr::make" + fullName + fmt + "( findTypesCache( image" + listParams( paramsGroup, "," ) + " )" )
 			#	Image argument

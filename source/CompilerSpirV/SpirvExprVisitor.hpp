@@ -126,6 +126,7 @@ namespace spirv
 		void visitSwizzleExpr( ast::expr::Swizzle * expr )override;
 		void visitTextureAccessCallExpr( ast::expr::TextureAccessCall * expr )override;
 
+		void handleTexelPointerImageAccessCall( spv::Op opCode, ast::expr::ImageAccessCall * expr );
 		void handleCarryBorrowIntrinsicCallExpr( spv::Op opCode, ast::expr::IntrinsicCall * expr );
 		void handleMulExtendedIntrinsicCallExpr( spv::Op opCode, ast::expr::IntrinsicCall * expr );
 		void handleAtomicIntrinsicCallExpr( spv::Op opCode, ast::expr::IntrinsicCall * expr );

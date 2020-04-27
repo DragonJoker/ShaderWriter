@@ -4666,6 +4666,2478 @@ namespace ast::expr
 	*/
 	ImageAccessCallPtr makeImageLoad2DMSArrayUR8( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr sample );
 	/**
+	*@param image
+	*	Image<Float, 1D>
+	*@param[in] P
+	*	int
+	*@param[in] data
+	*	vec4f
+	*/
+	ImageAccessCallPtr makeImageStore1DFRgba32( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<Float, 1D>
+	*@param[in] P
+	*	int
+	*@param[in] data
+	*	vec4f
+	*/
+	ImageAccessCallPtr makeImageStore1DFRgba16( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<Float, 1D>
+	*@param[in] P
+	*	int
+	*@param[in] data
+	*	vec2f
+	*/
+	ImageAccessCallPtr makeImageStore1DFRg32( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<Float, 1D>
+	*@param[in] P
+	*	int
+	*@param[in] data
+	*	vec2f
+	*/
+	ImageAccessCallPtr makeImageStore1DFRg16( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<Float, 1D>
+	*@param[in] P
+	*	int
+	*@param[in] data
+	*	float
+	*/
+	ImageAccessCallPtr makeImageStore1DFR32( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<Float, 1D>
+	*@param[in] P
+	*	int
+	*@param[in] data
+	*	float
+	*/
+	ImageAccessCallPtr makeImageStore1DFR16( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<Float, 2D>
+	*@param[in] P
+	*	vec2i
+	*@param[in] data
+	*	vec4f
+	*/
+	ImageAccessCallPtr makeImageStore2DFRgba32( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<Float, 2D>
+	*@param[in] P
+	*	vec2i
+	*@param[in] data
+	*	vec4f
+	*/
+	ImageAccessCallPtr makeImageStore2DFRgba16( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<Float, 2D>
+	*@param[in] P
+	*	vec2i
+	*@param[in] data
+	*	vec2f
+	*/
+	ImageAccessCallPtr makeImageStore2DFRg32( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<Float, 2D>
+	*@param[in] P
+	*	vec2i
+	*@param[in] data
+	*	vec2f
+	*/
+	ImageAccessCallPtr makeImageStore2DFRg16( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<Float, 2D>
+	*@param[in] P
+	*	vec2i
+	*@param[in] data
+	*	float
+	*/
+	ImageAccessCallPtr makeImageStore2DFR32( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<Float, 2D>
+	*@param[in] P
+	*	vec2i
+	*@param[in] data
+	*	float
+	*/
+	ImageAccessCallPtr makeImageStore2DFR16( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<Float, 3D>
+	*@param[in] P
+	*	vec3i
+	*@param[in] data
+	*	vec4f
+	*/
+	ImageAccessCallPtr makeImageStore3DFRgba32( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<Float, 3D>
+	*@param[in] P
+	*	vec3i
+	*@param[in] data
+	*	vec4f
+	*/
+	ImageAccessCallPtr makeImageStore3DFRgba16( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<Float, 3D>
+	*@param[in] P
+	*	vec3i
+	*@param[in] data
+	*	vec2f
+	*/
+	ImageAccessCallPtr makeImageStore3DFRg32( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<Float, 3D>
+	*@param[in] P
+	*	vec3i
+	*@param[in] data
+	*	vec2f
+	*/
+	ImageAccessCallPtr makeImageStore3DFRg16( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<Float, 3D>
+	*@param[in] P
+	*	vec3i
+	*@param[in] data
+	*	float
+	*/
+	ImageAccessCallPtr makeImageStore3DFR32( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<Float, 3D>
+	*@param[in] P
+	*	vec3i
+	*@param[in] data
+	*	float
+	*/
+	ImageAccessCallPtr makeImageStore3DFR16( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<Float, Rect>
+	*@param[in] P
+	*	vec2i
+	*@param[in] data
+	*	vec4f
+	*/
+	ImageAccessCallPtr makeImageStore2DRectFRgba32( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<Float, Rect>
+	*@param[in] P
+	*	vec2i
+	*@param[in] data
+	*	vec4f
+	*/
+	ImageAccessCallPtr makeImageStore2DRectFRgba16( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<Float, Rect>
+	*@param[in] P
+	*	vec2i
+	*@param[in] data
+	*	vec2f
+	*/
+	ImageAccessCallPtr makeImageStore2DRectFRg32( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<Float, Rect>
+	*@param[in] P
+	*	vec2i
+	*@param[in] data
+	*	vec2f
+	*/
+	ImageAccessCallPtr makeImageStore2DRectFRg16( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<Float, Rect>
+	*@param[in] P
+	*	vec2i
+	*@param[in] data
+	*	float
+	*/
+	ImageAccessCallPtr makeImageStore2DRectFR32( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<Float, Rect>
+	*@param[in] P
+	*	vec2i
+	*@param[in] data
+	*	float
+	*/
+	ImageAccessCallPtr makeImageStore2DRectFR16( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<Float, Cube>
+	*@param[in] P
+	*	vec3i
+	*@param[in] data
+	*	vec4f
+	*/
+	ImageAccessCallPtr makeImageStoreCubeFRgba32( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<Float, Cube>
+	*@param[in] P
+	*	vec3i
+	*@param[in] data
+	*	vec4f
+	*/
+	ImageAccessCallPtr makeImageStoreCubeFRgba16( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<Float, Cube>
+	*@param[in] P
+	*	vec3i
+	*@param[in] data
+	*	vec2f
+	*/
+	ImageAccessCallPtr makeImageStoreCubeFRg32( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<Float, Cube>
+	*@param[in] P
+	*	vec3i
+	*@param[in] data
+	*	vec2f
+	*/
+	ImageAccessCallPtr makeImageStoreCubeFRg16( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<Float, Cube>
+	*@param[in] P
+	*	vec3i
+	*@param[in] data
+	*	float
+	*/
+	ImageAccessCallPtr makeImageStoreCubeFR32( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<Float, Cube>
+	*@param[in] P
+	*	vec3i
+	*@param[in] data
+	*	float
+	*/
+	ImageAccessCallPtr makeImageStoreCubeFR16( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<Float, Buffer>
+	*@param[in] P
+	*	int
+	*@param[in] data
+	*	vec4f
+	*/
+	ImageAccessCallPtr makeImageStoreBufferFRgba32( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<Float, Buffer>
+	*@param[in] P
+	*	int
+	*@param[in] data
+	*	vec4f
+	*/
+	ImageAccessCallPtr makeImageStoreBufferFRgba16( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<Float, Buffer>
+	*@param[in] P
+	*	int
+	*@param[in] data
+	*	vec2f
+	*/
+	ImageAccessCallPtr makeImageStoreBufferFRg32( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<Float, Buffer>
+	*@param[in] P
+	*	int
+	*@param[in] data
+	*	vec2f
+	*/
+	ImageAccessCallPtr makeImageStoreBufferFRg16( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<Float, Buffer>
+	*@param[in] P
+	*	int
+	*@param[in] data
+	*	float
+	*/
+	ImageAccessCallPtr makeImageStoreBufferFR32( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<Float, Buffer>
+	*@param[in] P
+	*	int
+	*@param[in] data
+	*	float
+	*/
+	ImageAccessCallPtr makeImageStoreBufferFR16( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<Float, 1D, Array>
+	*@param[in] P
+	*	vec2i
+	*@param[in] data
+	*	vec4f
+	*/
+	ImageAccessCallPtr makeImageStore1DArrayFRgba32( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<Float, 1D, Array>
+	*@param[in] P
+	*	vec2i
+	*@param[in] data
+	*	vec4f
+	*/
+	ImageAccessCallPtr makeImageStore1DArrayFRgba16( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<Float, 1D, Array>
+	*@param[in] P
+	*	vec2i
+	*@param[in] data
+	*	vec2f
+	*/
+	ImageAccessCallPtr makeImageStore1DArrayFRg32( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<Float, 1D, Array>
+	*@param[in] P
+	*	vec2i
+	*@param[in] data
+	*	vec2f
+	*/
+	ImageAccessCallPtr makeImageStore1DArrayFRg16( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<Float, 1D, Array>
+	*@param[in] P
+	*	vec2i
+	*@param[in] data
+	*	float
+	*/
+	ImageAccessCallPtr makeImageStore1DArrayFR32( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<Float, 1D, Array>
+	*@param[in] P
+	*	vec2i
+	*@param[in] data
+	*	float
+	*/
+	ImageAccessCallPtr makeImageStore1DArrayFR16( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<Float, 2D, Array>
+	*@param[in] P
+	*	vec3i
+	*@param[in] data
+	*	vec4f
+	*/
+	ImageAccessCallPtr makeImageStore2DArrayFRgba32( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<Float, 2D, Array>
+	*@param[in] P
+	*	vec3i
+	*@param[in] data
+	*	vec4f
+	*/
+	ImageAccessCallPtr makeImageStore2DArrayFRgba16( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<Float, 2D, Array>
+	*@param[in] P
+	*	vec3i
+	*@param[in] data
+	*	vec2f
+	*/
+	ImageAccessCallPtr makeImageStore2DArrayFRg32( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<Float, 2D, Array>
+	*@param[in] P
+	*	vec3i
+	*@param[in] data
+	*	vec2f
+	*/
+	ImageAccessCallPtr makeImageStore2DArrayFRg16( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<Float, 2D, Array>
+	*@param[in] P
+	*	vec3i
+	*@param[in] data
+	*	float
+	*/
+	ImageAccessCallPtr makeImageStore2DArrayFR32( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<Float, 2D, Array>
+	*@param[in] P
+	*	vec3i
+	*@param[in] data
+	*	float
+	*/
+	ImageAccessCallPtr makeImageStore2DArrayFR16( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<Float, Cube, Array>
+	*@param[in] P
+	*	vec3i
+	*@param[in] data
+	*	vec4f
+	*/
+	ImageAccessCallPtr makeImageStoreCubeArrayFRgba32( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<Float, Cube, Array>
+	*@param[in] P
+	*	vec3i
+	*@param[in] data
+	*	vec4f
+	*/
+	ImageAccessCallPtr makeImageStoreCubeArrayFRgba16( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<Float, Cube, Array>
+	*@param[in] P
+	*	vec3i
+	*@param[in] data
+	*	vec2f
+	*/
+	ImageAccessCallPtr makeImageStoreCubeArrayFRg32( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<Float, Cube, Array>
+	*@param[in] P
+	*	vec3i
+	*@param[in] data
+	*	vec2f
+	*/
+	ImageAccessCallPtr makeImageStoreCubeArrayFRg16( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<Float, Cube, Array>
+	*@param[in] P
+	*	vec3i
+	*@param[in] data
+	*	float
+	*/
+	ImageAccessCallPtr makeImageStoreCubeArrayFR32( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<Float, Cube, Array>
+	*@param[in] P
+	*	vec3i
+	*@param[in] data
+	*	float
+	*/
+	ImageAccessCallPtr makeImageStoreCubeArrayFR16( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<Float, 2D, MS>
+	*@param[in] P
+	*	vec2i
+	*@param[in] sample
+	*	int
+	*@param[in] data
+	*	vec4f
+	*/
+	ImageAccessCallPtr makeImageStore2DMSFRgba32( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr sample, ExprPtr data );
+	/**
+	*@param image
+	*	Image<Float, 2D, MS>
+	*@param[in] P
+	*	vec2i
+	*@param[in] sample
+	*	int
+	*@param[in] data
+	*	vec4f
+	*/
+	ImageAccessCallPtr makeImageStore2DMSFRgba16( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr sample, ExprPtr data );
+	/**
+	*@param image
+	*	Image<Float, 2D, MS>
+	*@param[in] P
+	*	vec2i
+	*@param[in] sample
+	*	int
+	*@param[in] data
+	*	vec2f
+	*/
+	ImageAccessCallPtr makeImageStore2DMSFRg32( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr sample, ExprPtr data );
+	/**
+	*@param image
+	*	Image<Float, 2D, MS>
+	*@param[in] P
+	*	vec2i
+	*@param[in] sample
+	*	int
+	*@param[in] data
+	*	vec2f
+	*/
+	ImageAccessCallPtr makeImageStore2DMSFRg16( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr sample, ExprPtr data );
+	/**
+	*@param image
+	*	Image<Float, 2D, MS>
+	*@param[in] P
+	*	vec2i
+	*@param[in] sample
+	*	int
+	*@param[in] data
+	*	float
+	*/
+	ImageAccessCallPtr makeImageStore2DMSFR32( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr sample, ExprPtr data );
+	/**
+	*@param image
+	*	Image<Float, 2D, MS>
+	*@param[in] P
+	*	vec2i
+	*@param[in] sample
+	*	int
+	*@param[in] data
+	*	float
+	*/
+	ImageAccessCallPtr makeImageStore2DMSFR16( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr sample, ExprPtr data );
+	/**
+	*@param image
+	*	Image<Float, 2D, MS, Array>
+	*@param[in] P
+	*	vec3i
+	*@param[in] sample
+	*	int
+	*@param[in] data
+	*	vec4f
+	*/
+	ImageAccessCallPtr makeImageStore2DMSArrayFRgba32( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr sample, ExprPtr data );
+	/**
+	*@param image
+	*	Image<Float, 2D, MS, Array>
+	*@param[in] P
+	*	vec3i
+	*@param[in] sample
+	*	int
+	*@param[in] data
+	*	vec4f
+	*/
+	ImageAccessCallPtr makeImageStore2DMSArrayFRgba16( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr sample, ExprPtr data );
+	/**
+	*@param image
+	*	Image<Float, 2D, MS, Array>
+	*@param[in] P
+	*	vec3i
+	*@param[in] sample
+	*	int
+	*@param[in] data
+	*	vec2f
+	*/
+	ImageAccessCallPtr makeImageStore2DMSArrayFRg32( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr sample, ExprPtr data );
+	/**
+	*@param image
+	*	Image<Float, 2D, MS, Array>
+	*@param[in] P
+	*	vec3i
+	*@param[in] sample
+	*	int
+	*@param[in] data
+	*	vec2f
+	*/
+	ImageAccessCallPtr makeImageStore2DMSArrayFRg16( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr sample, ExprPtr data );
+	/**
+	*@param image
+	*	Image<Float, 2D, MS, Array>
+	*@param[in] P
+	*	vec3i
+	*@param[in] sample
+	*	int
+	*@param[in] data
+	*	float
+	*/
+	ImageAccessCallPtr makeImageStore2DMSArrayFR32( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr sample, ExprPtr data );
+	/**
+	*@param image
+	*	Image<Float, 2D, MS, Array>
+	*@param[in] P
+	*	vec3i
+	*@param[in] sample
+	*	int
+	*@param[in] data
+	*	float
+	*/
+	ImageAccessCallPtr makeImageStore2DMSArrayFR16( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr sample, ExprPtr data );
+	/**
+	*@param image
+	*	Image<Int, 1D>
+	*@param[in] P
+	*	int
+	*@param[in] data
+	*	vec4i
+	*/
+	ImageAccessCallPtr makeImageStore1DIRgba32( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<Int, 1D>
+	*@param[in] P
+	*	int
+	*@param[in] data
+	*	vec4i
+	*/
+	ImageAccessCallPtr makeImageStore1DIRgba16( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<Int, 1D>
+	*@param[in] P
+	*	int
+	*@param[in] data
+	*	vec4i
+	*/
+	ImageAccessCallPtr makeImageStore1DIRgba8( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<Int, 1D>
+	*@param[in] P
+	*	int
+	*@param[in] data
+	*	vec2i
+	*/
+	ImageAccessCallPtr makeImageStore1DIRg32( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<Int, 1D>
+	*@param[in] P
+	*	int
+	*@param[in] data
+	*	vec2i
+	*/
+	ImageAccessCallPtr makeImageStore1DIRg16( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<Int, 1D>
+	*@param[in] P
+	*	int
+	*@param[in] data
+	*	vec2i
+	*/
+	ImageAccessCallPtr makeImageStore1DIRg8( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<Int, 1D>
+	*@param[in] P
+	*	int
+	*@param[in] data
+	*	int
+	*/
+	ImageAccessCallPtr makeImageStore1DIR32( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<Int, 1D>
+	*@param[in] P
+	*	int
+	*@param[in] data
+	*	int
+	*/
+	ImageAccessCallPtr makeImageStore1DIR16( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<Int, 1D>
+	*@param[in] P
+	*	int
+	*@param[in] data
+	*	int
+	*/
+	ImageAccessCallPtr makeImageStore1DIR8( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<Int, 2D>
+	*@param[in] P
+	*	vec2i
+	*@param[in] data
+	*	vec4i
+	*/
+	ImageAccessCallPtr makeImageStore2DIRgba32( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<Int, 2D>
+	*@param[in] P
+	*	vec2i
+	*@param[in] data
+	*	vec4i
+	*/
+	ImageAccessCallPtr makeImageStore2DIRgba16( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<Int, 2D>
+	*@param[in] P
+	*	vec2i
+	*@param[in] data
+	*	vec4i
+	*/
+	ImageAccessCallPtr makeImageStore2DIRgba8( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<Int, 2D>
+	*@param[in] P
+	*	vec2i
+	*@param[in] data
+	*	vec2i
+	*/
+	ImageAccessCallPtr makeImageStore2DIRg32( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<Int, 2D>
+	*@param[in] P
+	*	vec2i
+	*@param[in] data
+	*	vec2i
+	*/
+	ImageAccessCallPtr makeImageStore2DIRg16( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<Int, 2D>
+	*@param[in] P
+	*	vec2i
+	*@param[in] data
+	*	vec2i
+	*/
+	ImageAccessCallPtr makeImageStore2DIRg8( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<Int, 2D>
+	*@param[in] P
+	*	vec2i
+	*@param[in] data
+	*	int
+	*/
+	ImageAccessCallPtr makeImageStore2DIR32( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<Int, 2D>
+	*@param[in] P
+	*	vec2i
+	*@param[in] data
+	*	int
+	*/
+	ImageAccessCallPtr makeImageStore2DIR16( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<Int, 2D>
+	*@param[in] P
+	*	vec2i
+	*@param[in] data
+	*	int
+	*/
+	ImageAccessCallPtr makeImageStore2DIR8( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<Int, 3D>
+	*@param[in] P
+	*	vec3i
+	*@param[in] data
+	*	vec4i
+	*/
+	ImageAccessCallPtr makeImageStore3DIRgba32( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<Int, 3D>
+	*@param[in] P
+	*	vec3i
+	*@param[in] data
+	*	vec4i
+	*/
+	ImageAccessCallPtr makeImageStore3DIRgba16( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<Int, 3D>
+	*@param[in] P
+	*	vec3i
+	*@param[in] data
+	*	vec4i
+	*/
+	ImageAccessCallPtr makeImageStore3DIRgba8( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<Int, 3D>
+	*@param[in] P
+	*	vec3i
+	*@param[in] data
+	*	vec2i
+	*/
+	ImageAccessCallPtr makeImageStore3DIRg32( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<Int, 3D>
+	*@param[in] P
+	*	vec3i
+	*@param[in] data
+	*	vec2i
+	*/
+	ImageAccessCallPtr makeImageStore3DIRg16( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<Int, 3D>
+	*@param[in] P
+	*	vec3i
+	*@param[in] data
+	*	vec2i
+	*/
+	ImageAccessCallPtr makeImageStore3DIRg8( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<Int, 3D>
+	*@param[in] P
+	*	vec3i
+	*@param[in] data
+	*	int
+	*/
+	ImageAccessCallPtr makeImageStore3DIR32( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<Int, 3D>
+	*@param[in] P
+	*	vec3i
+	*@param[in] data
+	*	int
+	*/
+	ImageAccessCallPtr makeImageStore3DIR16( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<Int, 3D>
+	*@param[in] P
+	*	vec3i
+	*@param[in] data
+	*	int
+	*/
+	ImageAccessCallPtr makeImageStore3DIR8( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<Int, Rect>
+	*@param[in] P
+	*	vec2i
+	*@param[in] data
+	*	vec4i
+	*/
+	ImageAccessCallPtr makeImageStore2DRectIRgba32( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<Int, Rect>
+	*@param[in] P
+	*	vec2i
+	*@param[in] data
+	*	vec4i
+	*/
+	ImageAccessCallPtr makeImageStore2DRectIRgba16( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<Int, Rect>
+	*@param[in] P
+	*	vec2i
+	*@param[in] data
+	*	vec4i
+	*/
+	ImageAccessCallPtr makeImageStore2DRectIRgba8( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<Int, Rect>
+	*@param[in] P
+	*	vec2i
+	*@param[in] data
+	*	vec2i
+	*/
+	ImageAccessCallPtr makeImageStore2DRectIRg32( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<Int, Rect>
+	*@param[in] P
+	*	vec2i
+	*@param[in] data
+	*	vec2i
+	*/
+	ImageAccessCallPtr makeImageStore2DRectIRg16( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<Int, Rect>
+	*@param[in] P
+	*	vec2i
+	*@param[in] data
+	*	vec2i
+	*/
+	ImageAccessCallPtr makeImageStore2DRectIRg8( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<Int, Rect>
+	*@param[in] P
+	*	vec2i
+	*@param[in] data
+	*	int
+	*/
+	ImageAccessCallPtr makeImageStore2DRectIR32( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<Int, Rect>
+	*@param[in] P
+	*	vec2i
+	*@param[in] data
+	*	int
+	*/
+	ImageAccessCallPtr makeImageStore2DRectIR16( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<Int, Rect>
+	*@param[in] P
+	*	vec2i
+	*@param[in] data
+	*	int
+	*/
+	ImageAccessCallPtr makeImageStore2DRectIR8( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<Int, Cube>
+	*@param[in] P
+	*	vec3i
+	*@param[in] data
+	*	vec4i
+	*/
+	ImageAccessCallPtr makeImageStoreCubeIRgba32( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<Int, Cube>
+	*@param[in] P
+	*	vec3i
+	*@param[in] data
+	*	vec4i
+	*/
+	ImageAccessCallPtr makeImageStoreCubeIRgba16( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<Int, Cube>
+	*@param[in] P
+	*	vec3i
+	*@param[in] data
+	*	vec4i
+	*/
+	ImageAccessCallPtr makeImageStoreCubeIRgba8( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<Int, Cube>
+	*@param[in] P
+	*	vec3i
+	*@param[in] data
+	*	vec2i
+	*/
+	ImageAccessCallPtr makeImageStoreCubeIRg32( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<Int, Cube>
+	*@param[in] P
+	*	vec3i
+	*@param[in] data
+	*	vec2i
+	*/
+	ImageAccessCallPtr makeImageStoreCubeIRg16( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<Int, Cube>
+	*@param[in] P
+	*	vec3i
+	*@param[in] data
+	*	vec2i
+	*/
+	ImageAccessCallPtr makeImageStoreCubeIRg8( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<Int, Cube>
+	*@param[in] P
+	*	vec3i
+	*@param[in] data
+	*	int
+	*/
+	ImageAccessCallPtr makeImageStoreCubeIR32( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<Int, Cube>
+	*@param[in] P
+	*	vec3i
+	*@param[in] data
+	*	int
+	*/
+	ImageAccessCallPtr makeImageStoreCubeIR16( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<Int, Cube>
+	*@param[in] P
+	*	vec3i
+	*@param[in] data
+	*	int
+	*/
+	ImageAccessCallPtr makeImageStoreCubeIR8( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<Int, Buffer>
+	*@param[in] P
+	*	int
+	*@param[in] data
+	*	vec4i
+	*/
+	ImageAccessCallPtr makeImageStoreBufferIRgba32( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<Int, Buffer>
+	*@param[in] P
+	*	int
+	*@param[in] data
+	*	vec4i
+	*/
+	ImageAccessCallPtr makeImageStoreBufferIRgba16( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<Int, Buffer>
+	*@param[in] P
+	*	int
+	*@param[in] data
+	*	vec4i
+	*/
+	ImageAccessCallPtr makeImageStoreBufferIRgba8( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<Int, Buffer>
+	*@param[in] P
+	*	int
+	*@param[in] data
+	*	vec2i
+	*/
+	ImageAccessCallPtr makeImageStoreBufferIRg32( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<Int, Buffer>
+	*@param[in] P
+	*	int
+	*@param[in] data
+	*	vec2i
+	*/
+	ImageAccessCallPtr makeImageStoreBufferIRg16( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<Int, Buffer>
+	*@param[in] P
+	*	int
+	*@param[in] data
+	*	vec2i
+	*/
+	ImageAccessCallPtr makeImageStoreBufferIRg8( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<Int, Buffer>
+	*@param[in] P
+	*	int
+	*@param[in] data
+	*	int
+	*/
+	ImageAccessCallPtr makeImageStoreBufferIR32( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<Int, Buffer>
+	*@param[in] P
+	*	int
+	*@param[in] data
+	*	int
+	*/
+	ImageAccessCallPtr makeImageStoreBufferIR16( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<Int, Buffer>
+	*@param[in] P
+	*	int
+	*@param[in] data
+	*	int
+	*/
+	ImageAccessCallPtr makeImageStoreBufferIR8( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<Int, 1D, Array>
+	*@param[in] P
+	*	vec2i
+	*@param[in] data
+	*	vec4i
+	*/
+	ImageAccessCallPtr makeImageStore1DArrayIRgba32( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<Int, 1D, Array>
+	*@param[in] P
+	*	vec2i
+	*@param[in] data
+	*	vec4i
+	*/
+	ImageAccessCallPtr makeImageStore1DArrayIRgba16( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<Int, 1D, Array>
+	*@param[in] P
+	*	vec2i
+	*@param[in] data
+	*	vec4i
+	*/
+	ImageAccessCallPtr makeImageStore1DArrayIRgba8( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<Int, 1D, Array>
+	*@param[in] P
+	*	vec2i
+	*@param[in] data
+	*	vec2i
+	*/
+	ImageAccessCallPtr makeImageStore1DArrayIRg32( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<Int, 1D, Array>
+	*@param[in] P
+	*	vec2i
+	*@param[in] data
+	*	vec2i
+	*/
+	ImageAccessCallPtr makeImageStore1DArrayIRg16( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<Int, 1D, Array>
+	*@param[in] P
+	*	vec2i
+	*@param[in] data
+	*	vec2i
+	*/
+	ImageAccessCallPtr makeImageStore1DArrayIRg8( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<Int, 1D, Array>
+	*@param[in] P
+	*	vec2i
+	*@param[in] data
+	*	int
+	*/
+	ImageAccessCallPtr makeImageStore1DArrayIR32( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<Int, 1D, Array>
+	*@param[in] P
+	*	vec2i
+	*@param[in] data
+	*	int
+	*/
+	ImageAccessCallPtr makeImageStore1DArrayIR16( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<Int, 1D, Array>
+	*@param[in] P
+	*	vec2i
+	*@param[in] data
+	*	int
+	*/
+	ImageAccessCallPtr makeImageStore1DArrayIR8( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<Int, 2D, Array>
+	*@param[in] P
+	*	vec3i
+	*@param[in] data
+	*	vec4i
+	*/
+	ImageAccessCallPtr makeImageStore2DArrayIRgba32( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<Int, 2D, Array>
+	*@param[in] P
+	*	vec3i
+	*@param[in] data
+	*	vec4i
+	*/
+	ImageAccessCallPtr makeImageStore2DArrayIRgba16( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<Int, 2D, Array>
+	*@param[in] P
+	*	vec3i
+	*@param[in] data
+	*	vec4i
+	*/
+	ImageAccessCallPtr makeImageStore2DArrayIRgba8( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<Int, 2D, Array>
+	*@param[in] P
+	*	vec3i
+	*@param[in] data
+	*	vec2i
+	*/
+	ImageAccessCallPtr makeImageStore2DArrayIRg32( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<Int, 2D, Array>
+	*@param[in] P
+	*	vec3i
+	*@param[in] data
+	*	vec2i
+	*/
+	ImageAccessCallPtr makeImageStore2DArrayIRg16( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<Int, 2D, Array>
+	*@param[in] P
+	*	vec3i
+	*@param[in] data
+	*	vec2i
+	*/
+	ImageAccessCallPtr makeImageStore2DArrayIRg8( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<Int, 2D, Array>
+	*@param[in] P
+	*	vec3i
+	*@param[in] data
+	*	int
+	*/
+	ImageAccessCallPtr makeImageStore2DArrayIR32( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<Int, 2D, Array>
+	*@param[in] P
+	*	vec3i
+	*@param[in] data
+	*	int
+	*/
+	ImageAccessCallPtr makeImageStore2DArrayIR16( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<Int, 2D, Array>
+	*@param[in] P
+	*	vec3i
+	*@param[in] data
+	*	int
+	*/
+	ImageAccessCallPtr makeImageStore2DArrayIR8( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<Int, Cube, Array>
+	*@param[in] P
+	*	vec3i
+	*@param[in] data
+	*	vec4i
+	*/
+	ImageAccessCallPtr makeImageStoreCubeArrayIRgba32( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<Int, Cube, Array>
+	*@param[in] P
+	*	vec3i
+	*@param[in] data
+	*	vec4i
+	*/
+	ImageAccessCallPtr makeImageStoreCubeArrayIRgba16( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<Int, Cube, Array>
+	*@param[in] P
+	*	vec3i
+	*@param[in] data
+	*	vec4i
+	*/
+	ImageAccessCallPtr makeImageStoreCubeArrayIRgba8( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<Int, Cube, Array>
+	*@param[in] P
+	*	vec3i
+	*@param[in] data
+	*	vec2i
+	*/
+	ImageAccessCallPtr makeImageStoreCubeArrayIRg32( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<Int, Cube, Array>
+	*@param[in] P
+	*	vec3i
+	*@param[in] data
+	*	vec2i
+	*/
+	ImageAccessCallPtr makeImageStoreCubeArrayIRg16( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<Int, Cube, Array>
+	*@param[in] P
+	*	vec3i
+	*@param[in] data
+	*	vec2i
+	*/
+	ImageAccessCallPtr makeImageStoreCubeArrayIRg8( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<Int, Cube, Array>
+	*@param[in] P
+	*	vec3i
+	*@param[in] data
+	*	int
+	*/
+	ImageAccessCallPtr makeImageStoreCubeArrayIR32( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<Int, Cube, Array>
+	*@param[in] P
+	*	vec3i
+	*@param[in] data
+	*	int
+	*/
+	ImageAccessCallPtr makeImageStoreCubeArrayIR16( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<Int, Cube, Array>
+	*@param[in] P
+	*	vec3i
+	*@param[in] data
+	*	int
+	*/
+	ImageAccessCallPtr makeImageStoreCubeArrayIR8( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<Int, 2D, MS>
+	*@param[in] P
+	*	vec2i
+	*@param[in] sample
+	*	int
+	*@param[in] data
+	*	vec4i
+	*/
+	ImageAccessCallPtr makeImageStore2DMSIRgba32( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr sample, ExprPtr data );
+	/**
+	*@param image
+	*	Image<Int, 2D, MS>
+	*@param[in] P
+	*	vec2i
+	*@param[in] sample
+	*	int
+	*@param[in] data
+	*	vec4i
+	*/
+	ImageAccessCallPtr makeImageStore2DMSIRgba16( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr sample, ExprPtr data );
+	/**
+	*@param image
+	*	Image<Int, 2D, MS>
+	*@param[in] P
+	*	vec2i
+	*@param[in] sample
+	*	int
+	*@param[in] data
+	*	vec4i
+	*/
+	ImageAccessCallPtr makeImageStore2DMSIRgba8( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr sample, ExprPtr data );
+	/**
+	*@param image
+	*	Image<Int, 2D, MS>
+	*@param[in] P
+	*	vec2i
+	*@param[in] sample
+	*	int
+	*@param[in] data
+	*	vec2i
+	*/
+	ImageAccessCallPtr makeImageStore2DMSIRg32( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr sample, ExprPtr data );
+	/**
+	*@param image
+	*	Image<Int, 2D, MS>
+	*@param[in] P
+	*	vec2i
+	*@param[in] sample
+	*	int
+	*@param[in] data
+	*	vec2i
+	*/
+	ImageAccessCallPtr makeImageStore2DMSIRg16( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr sample, ExprPtr data );
+	/**
+	*@param image
+	*	Image<Int, 2D, MS>
+	*@param[in] P
+	*	vec2i
+	*@param[in] sample
+	*	int
+	*@param[in] data
+	*	vec2i
+	*/
+	ImageAccessCallPtr makeImageStore2DMSIRg8( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr sample, ExprPtr data );
+	/**
+	*@param image
+	*	Image<Int, 2D, MS>
+	*@param[in] P
+	*	vec2i
+	*@param[in] sample
+	*	int
+	*@param[in] data
+	*	int
+	*/
+	ImageAccessCallPtr makeImageStore2DMSIR32( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr sample, ExprPtr data );
+	/**
+	*@param image
+	*	Image<Int, 2D, MS>
+	*@param[in] P
+	*	vec2i
+	*@param[in] sample
+	*	int
+	*@param[in] data
+	*	int
+	*/
+	ImageAccessCallPtr makeImageStore2DMSIR16( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr sample, ExprPtr data );
+	/**
+	*@param image
+	*	Image<Int, 2D, MS>
+	*@param[in] P
+	*	vec2i
+	*@param[in] sample
+	*	int
+	*@param[in] data
+	*	int
+	*/
+	ImageAccessCallPtr makeImageStore2DMSIR8( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr sample, ExprPtr data );
+	/**
+	*@param image
+	*	Image<Int, 2D, MS, Array>
+	*@param[in] P
+	*	vec3i
+	*@param[in] sample
+	*	int
+	*@param[in] data
+	*	vec4i
+	*/
+	ImageAccessCallPtr makeImageStore2DMSArrayIRgba32( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr sample, ExprPtr data );
+	/**
+	*@param image
+	*	Image<Int, 2D, MS, Array>
+	*@param[in] P
+	*	vec3i
+	*@param[in] sample
+	*	int
+	*@param[in] data
+	*	vec4i
+	*/
+	ImageAccessCallPtr makeImageStore2DMSArrayIRgba16( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr sample, ExprPtr data );
+	/**
+	*@param image
+	*	Image<Int, 2D, MS, Array>
+	*@param[in] P
+	*	vec3i
+	*@param[in] sample
+	*	int
+	*@param[in] data
+	*	vec4i
+	*/
+	ImageAccessCallPtr makeImageStore2DMSArrayIRgba8( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr sample, ExprPtr data );
+	/**
+	*@param image
+	*	Image<Int, 2D, MS, Array>
+	*@param[in] P
+	*	vec3i
+	*@param[in] sample
+	*	int
+	*@param[in] data
+	*	vec2i
+	*/
+	ImageAccessCallPtr makeImageStore2DMSArrayIRg32( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr sample, ExprPtr data );
+	/**
+	*@param image
+	*	Image<Int, 2D, MS, Array>
+	*@param[in] P
+	*	vec3i
+	*@param[in] sample
+	*	int
+	*@param[in] data
+	*	vec2i
+	*/
+	ImageAccessCallPtr makeImageStore2DMSArrayIRg16( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr sample, ExprPtr data );
+	/**
+	*@param image
+	*	Image<Int, 2D, MS, Array>
+	*@param[in] P
+	*	vec3i
+	*@param[in] sample
+	*	int
+	*@param[in] data
+	*	vec2i
+	*/
+	ImageAccessCallPtr makeImageStore2DMSArrayIRg8( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr sample, ExprPtr data );
+	/**
+	*@param image
+	*	Image<Int, 2D, MS, Array>
+	*@param[in] P
+	*	vec3i
+	*@param[in] sample
+	*	int
+	*@param[in] data
+	*	int
+	*/
+	ImageAccessCallPtr makeImageStore2DMSArrayIR32( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr sample, ExprPtr data );
+	/**
+	*@param image
+	*	Image<Int, 2D, MS, Array>
+	*@param[in] P
+	*	vec3i
+	*@param[in] sample
+	*	int
+	*@param[in] data
+	*	int
+	*/
+	ImageAccessCallPtr makeImageStore2DMSArrayIR16( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr sample, ExprPtr data );
+	/**
+	*@param image
+	*	Image<Int, 2D, MS, Array>
+	*@param[in] P
+	*	vec3i
+	*@param[in] sample
+	*	int
+	*@param[in] data
+	*	int
+	*/
+	ImageAccessCallPtr makeImageStore2DMSArrayIR8( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr sample, ExprPtr data );
+	/**
+	*@param image
+	*	Image<UInt, 1D>
+	*@param[in] P
+	*	int
+	*@param[in] data
+	*	vec4u
+	*/
+	ImageAccessCallPtr makeImageStore1DURgba32( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<UInt, 1D>
+	*@param[in] P
+	*	int
+	*@param[in] data
+	*	vec4u
+	*/
+	ImageAccessCallPtr makeImageStore1DURgba16( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<UInt, 1D>
+	*@param[in] P
+	*	int
+	*@param[in] data
+	*	vec4u
+	*/
+	ImageAccessCallPtr makeImageStore1DURgba8( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<UInt, 1D>
+	*@param[in] P
+	*	int
+	*@param[in] data
+	*	vec2u
+	*/
+	ImageAccessCallPtr makeImageStore1DURg32( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<UInt, 1D>
+	*@param[in] P
+	*	int
+	*@param[in] data
+	*	vec2u
+	*/
+	ImageAccessCallPtr makeImageStore1DURg16( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<UInt, 1D>
+	*@param[in] P
+	*	int
+	*@param[in] data
+	*	vec2u
+	*/
+	ImageAccessCallPtr makeImageStore1DURg8( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<UInt, 1D>
+	*@param[in] P
+	*	int
+	*@param[in] data
+	*	uint
+	*/
+	ImageAccessCallPtr makeImageStore1DUR32( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<UInt, 1D>
+	*@param[in] P
+	*	int
+	*@param[in] data
+	*	uint
+	*/
+	ImageAccessCallPtr makeImageStore1DUR16( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<UInt, 1D>
+	*@param[in] P
+	*	int
+	*@param[in] data
+	*	uint
+	*/
+	ImageAccessCallPtr makeImageStore1DUR8( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<UInt, 2D>
+	*@param[in] P
+	*	vec2i
+	*@param[in] data
+	*	vec4u
+	*/
+	ImageAccessCallPtr makeImageStore2DURgba32( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<UInt, 2D>
+	*@param[in] P
+	*	vec2i
+	*@param[in] data
+	*	vec4u
+	*/
+	ImageAccessCallPtr makeImageStore2DURgba16( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<UInt, 2D>
+	*@param[in] P
+	*	vec2i
+	*@param[in] data
+	*	vec4u
+	*/
+	ImageAccessCallPtr makeImageStore2DURgba8( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<UInt, 2D>
+	*@param[in] P
+	*	vec2i
+	*@param[in] data
+	*	vec2u
+	*/
+	ImageAccessCallPtr makeImageStore2DURg32( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<UInt, 2D>
+	*@param[in] P
+	*	vec2i
+	*@param[in] data
+	*	vec2u
+	*/
+	ImageAccessCallPtr makeImageStore2DURg16( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<UInt, 2D>
+	*@param[in] P
+	*	vec2i
+	*@param[in] data
+	*	vec2u
+	*/
+	ImageAccessCallPtr makeImageStore2DURg8( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<UInt, 2D>
+	*@param[in] P
+	*	vec2i
+	*@param[in] data
+	*	uint
+	*/
+	ImageAccessCallPtr makeImageStore2DUR32( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<UInt, 2D>
+	*@param[in] P
+	*	vec2i
+	*@param[in] data
+	*	uint
+	*/
+	ImageAccessCallPtr makeImageStore2DUR16( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<UInt, 2D>
+	*@param[in] P
+	*	vec2i
+	*@param[in] data
+	*	uint
+	*/
+	ImageAccessCallPtr makeImageStore2DUR8( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<UInt, 3D>
+	*@param[in] P
+	*	vec3i
+	*@param[in] data
+	*	vec4u
+	*/
+	ImageAccessCallPtr makeImageStore3DURgba32( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<UInt, 3D>
+	*@param[in] P
+	*	vec3i
+	*@param[in] data
+	*	vec4u
+	*/
+	ImageAccessCallPtr makeImageStore3DURgba16( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<UInt, 3D>
+	*@param[in] P
+	*	vec3i
+	*@param[in] data
+	*	vec4u
+	*/
+	ImageAccessCallPtr makeImageStore3DURgba8( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<UInt, 3D>
+	*@param[in] P
+	*	vec3i
+	*@param[in] data
+	*	vec2u
+	*/
+	ImageAccessCallPtr makeImageStore3DURg32( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<UInt, 3D>
+	*@param[in] P
+	*	vec3i
+	*@param[in] data
+	*	vec2u
+	*/
+	ImageAccessCallPtr makeImageStore3DURg16( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<UInt, 3D>
+	*@param[in] P
+	*	vec3i
+	*@param[in] data
+	*	vec2u
+	*/
+	ImageAccessCallPtr makeImageStore3DURg8( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<UInt, 3D>
+	*@param[in] P
+	*	vec3i
+	*@param[in] data
+	*	uint
+	*/
+	ImageAccessCallPtr makeImageStore3DUR32( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<UInt, 3D>
+	*@param[in] P
+	*	vec3i
+	*@param[in] data
+	*	uint
+	*/
+	ImageAccessCallPtr makeImageStore3DUR16( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<UInt, 3D>
+	*@param[in] P
+	*	vec3i
+	*@param[in] data
+	*	uint
+	*/
+	ImageAccessCallPtr makeImageStore3DUR8( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<UInt, Rect>
+	*@param[in] P
+	*	vec2i
+	*@param[in] data
+	*	vec4u
+	*/
+	ImageAccessCallPtr makeImageStore2DRectURgba32( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<UInt, Rect>
+	*@param[in] P
+	*	vec2i
+	*@param[in] data
+	*	vec4u
+	*/
+	ImageAccessCallPtr makeImageStore2DRectURgba16( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<UInt, Rect>
+	*@param[in] P
+	*	vec2i
+	*@param[in] data
+	*	vec4u
+	*/
+	ImageAccessCallPtr makeImageStore2DRectURgba8( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<UInt, Rect>
+	*@param[in] P
+	*	vec2i
+	*@param[in] data
+	*	vec2u
+	*/
+	ImageAccessCallPtr makeImageStore2DRectURg32( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<UInt, Rect>
+	*@param[in] P
+	*	vec2i
+	*@param[in] data
+	*	vec2u
+	*/
+	ImageAccessCallPtr makeImageStore2DRectURg16( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<UInt, Rect>
+	*@param[in] P
+	*	vec2i
+	*@param[in] data
+	*	vec2u
+	*/
+	ImageAccessCallPtr makeImageStore2DRectURg8( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<UInt, Rect>
+	*@param[in] P
+	*	vec2i
+	*@param[in] data
+	*	uint
+	*/
+	ImageAccessCallPtr makeImageStore2DRectUR32( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<UInt, Rect>
+	*@param[in] P
+	*	vec2i
+	*@param[in] data
+	*	uint
+	*/
+	ImageAccessCallPtr makeImageStore2DRectUR16( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<UInt, Rect>
+	*@param[in] P
+	*	vec2i
+	*@param[in] data
+	*	uint
+	*/
+	ImageAccessCallPtr makeImageStore2DRectUR8( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<UInt, Cube>
+	*@param[in] P
+	*	vec3i
+	*@param[in] data
+	*	vec4u
+	*/
+	ImageAccessCallPtr makeImageStoreCubeURgba32( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<UInt, Cube>
+	*@param[in] P
+	*	vec3i
+	*@param[in] data
+	*	vec4u
+	*/
+	ImageAccessCallPtr makeImageStoreCubeURgba16( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<UInt, Cube>
+	*@param[in] P
+	*	vec3i
+	*@param[in] data
+	*	vec4u
+	*/
+	ImageAccessCallPtr makeImageStoreCubeURgba8( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<UInt, Cube>
+	*@param[in] P
+	*	vec3i
+	*@param[in] data
+	*	vec2u
+	*/
+	ImageAccessCallPtr makeImageStoreCubeURg32( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<UInt, Cube>
+	*@param[in] P
+	*	vec3i
+	*@param[in] data
+	*	vec2u
+	*/
+	ImageAccessCallPtr makeImageStoreCubeURg16( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<UInt, Cube>
+	*@param[in] P
+	*	vec3i
+	*@param[in] data
+	*	vec2u
+	*/
+	ImageAccessCallPtr makeImageStoreCubeURg8( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<UInt, Cube>
+	*@param[in] P
+	*	vec3i
+	*@param[in] data
+	*	uint
+	*/
+	ImageAccessCallPtr makeImageStoreCubeUR32( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<UInt, Cube>
+	*@param[in] P
+	*	vec3i
+	*@param[in] data
+	*	uint
+	*/
+	ImageAccessCallPtr makeImageStoreCubeUR16( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<UInt, Cube>
+	*@param[in] P
+	*	vec3i
+	*@param[in] data
+	*	uint
+	*/
+	ImageAccessCallPtr makeImageStoreCubeUR8( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<UInt, Buffer>
+	*@param[in] P
+	*	int
+	*@param[in] data
+	*	vec4u
+	*/
+	ImageAccessCallPtr makeImageStoreBufferURgba32( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<UInt, Buffer>
+	*@param[in] P
+	*	int
+	*@param[in] data
+	*	vec4u
+	*/
+	ImageAccessCallPtr makeImageStoreBufferURgba16( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<UInt, Buffer>
+	*@param[in] P
+	*	int
+	*@param[in] data
+	*	vec4u
+	*/
+	ImageAccessCallPtr makeImageStoreBufferURgba8( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<UInt, Buffer>
+	*@param[in] P
+	*	int
+	*@param[in] data
+	*	vec2u
+	*/
+	ImageAccessCallPtr makeImageStoreBufferURg32( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<UInt, Buffer>
+	*@param[in] P
+	*	int
+	*@param[in] data
+	*	vec2u
+	*/
+	ImageAccessCallPtr makeImageStoreBufferURg16( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<UInt, Buffer>
+	*@param[in] P
+	*	int
+	*@param[in] data
+	*	vec2u
+	*/
+	ImageAccessCallPtr makeImageStoreBufferURg8( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<UInt, Buffer>
+	*@param[in] P
+	*	int
+	*@param[in] data
+	*	uint
+	*/
+	ImageAccessCallPtr makeImageStoreBufferUR32( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<UInt, Buffer>
+	*@param[in] P
+	*	int
+	*@param[in] data
+	*	uint
+	*/
+	ImageAccessCallPtr makeImageStoreBufferUR16( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<UInt, Buffer>
+	*@param[in] P
+	*	int
+	*@param[in] data
+	*	uint
+	*/
+	ImageAccessCallPtr makeImageStoreBufferUR8( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<UInt, 1D, Array>
+	*@param[in] P
+	*	vec2i
+	*@param[in] data
+	*	vec4u
+	*/
+	ImageAccessCallPtr makeImageStore1DArrayURgba32( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<UInt, 1D, Array>
+	*@param[in] P
+	*	vec2i
+	*@param[in] data
+	*	vec4u
+	*/
+	ImageAccessCallPtr makeImageStore1DArrayURgba16( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<UInt, 1D, Array>
+	*@param[in] P
+	*	vec2i
+	*@param[in] data
+	*	vec4u
+	*/
+	ImageAccessCallPtr makeImageStore1DArrayURgba8( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<UInt, 1D, Array>
+	*@param[in] P
+	*	vec2i
+	*@param[in] data
+	*	vec2u
+	*/
+	ImageAccessCallPtr makeImageStore1DArrayURg32( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<UInt, 1D, Array>
+	*@param[in] P
+	*	vec2i
+	*@param[in] data
+	*	vec2u
+	*/
+	ImageAccessCallPtr makeImageStore1DArrayURg16( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<UInt, 1D, Array>
+	*@param[in] P
+	*	vec2i
+	*@param[in] data
+	*	vec2u
+	*/
+	ImageAccessCallPtr makeImageStore1DArrayURg8( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<UInt, 1D, Array>
+	*@param[in] P
+	*	vec2i
+	*@param[in] data
+	*	uint
+	*/
+	ImageAccessCallPtr makeImageStore1DArrayUR32( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<UInt, 1D, Array>
+	*@param[in] P
+	*	vec2i
+	*@param[in] data
+	*	uint
+	*/
+	ImageAccessCallPtr makeImageStore1DArrayUR16( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<UInt, 1D, Array>
+	*@param[in] P
+	*	vec2i
+	*@param[in] data
+	*	uint
+	*/
+	ImageAccessCallPtr makeImageStore1DArrayUR8( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<UInt, 2D, Array>
+	*@param[in] P
+	*	vec3i
+	*@param[in] data
+	*	vec4u
+	*/
+	ImageAccessCallPtr makeImageStore2DArrayURgba32( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<UInt, 2D, Array>
+	*@param[in] P
+	*	vec3i
+	*@param[in] data
+	*	vec4u
+	*/
+	ImageAccessCallPtr makeImageStore2DArrayURgba16( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<UInt, 2D, Array>
+	*@param[in] P
+	*	vec3i
+	*@param[in] data
+	*	vec4u
+	*/
+	ImageAccessCallPtr makeImageStore2DArrayURgba8( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<UInt, 2D, Array>
+	*@param[in] P
+	*	vec3i
+	*@param[in] data
+	*	vec2u
+	*/
+	ImageAccessCallPtr makeImageStore2DArrayURg32( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<UInt, 2D, Array>
+	*@param[in] P
+	*	vec3i
+	*@param[in] data
+	*	vec2u
+	*/
+	ImageAccessCallPtr makeImageStore2DArrayURg16( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<UInt, 2D, Array>
+	*@param[in] P
+	*	vec3i
+	*@param[in] data
+	*	vec2u
+	*/
+	ImageAccessCallPtr makeImageStore2DArrayURg8( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<UInt, 2D, Array>
+	*@param[in] P
+	*	vec3i
+	*@param[in] data
+	*	uint
+	*/
+	ImageAccessCallPtr makeImageStore2DArrayUR32( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<UInt, 2D, Array>
+	*@param[in] P
+	*	vec3i
+	*@param[in] data
+	*	uint
+	*/
+	ImageAccessCallPtr makeImageStore2DArrayUR16( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<UInt, 2D, Array>
+	*@param[in] P
+	*	vec3i
+	*@param[in] data
+	*	uint
+	*/
+	ImageAccessCallPtr makeImageStore2DArrayUR8( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<UInt, Cube, Array>
+	*@param[in] P
+	*	vec3i
+	*@param[in] data
+	*	vec4u
+	*/
+	ImageAccessCallPtr makeImageStoreCubeArrayURgba32( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<UInt, Cube, Array>
+	*@param[in] P
+	*	vec3i
+	*@param[in] data
+	*	vec4u
+	*/
+	ImageAccessCallPtr makeImageStoreCubeArrayURgba16( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<UInt, Cube, Array>
+	*@param[in] P
+	*	vec3i
+	*@param[in] data
+	*	vec4u
+	*/
+	ImageAccessCallPtr makeImageStoreCubeArrayURgba8( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<UInt, Cube, Array>
+	*@param[in] P
+	*	vec3i
+	*@param[in] data
+	*	vec2u
+	*/
+	ImageAccessCallPtr makeImageStoreCubeArrayURg32( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<UInt, Cube, Array>
+	*@param[in] P
+	*	vec3i
+	*@param[in] data
+	*	vec2u
+	*/
+	ImageAccessCallPtr makeImageStoreCubeArrayURg16( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<UInt, Cube, Array>
+	*@param[in] P
+	*	vec3i
+	*@param[in] data
+	*	vec2u
+	*/
+	ImageAccessCallPtr makeImageStoreCubeArrayURg8( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<UInt, Cube, Array>
+	*@param[in] P
+	*	vec3i
+	*@param[in] data
+	*	uint
+	*/
+	ImageAccessCallPtr makeImageStoreCubeArrayUR32( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<UInt, Cube, Array>
+	*@param[in] P
+	*	vec3i
+	*@param[in] data
+	*	uint
+	*/
+	ImageAccessCallPtr makeImageStoreCubeArrayUR16( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<UInt, Cube, Array>
+	*@param[in] P
+	*	vec3i
+	*@param[in] data
+	*	uint
+	*/
+	ImageAccessCallPtr makeImageStoreCubeArrayUR8( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr data );
+	/**
+	*@param image
+	*	Image<UInt, 2D, MS>
+	*@param[in] P
+	*	vec2i
+	*@param[in] sample
+	*	int
+	*@param[in] data
+	*	vec4u
+	*/
+	ImageAccessCallPtr makeImageStore2DMSURgba32( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr sample, ExprPtr data );
+	/**
+	*@param image
+	*	Image<UInt, 2D, MS>
+	*@param[in] P
+	*	vec2i
+	*@param[in] sample
+	*	int
+	*@param[in] data
+	*	vec4u
+	*/
+	ImageAccessCallPtr makeImageStore2DMSURgba16( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr sample, ExprPtr data );
+	/**
+	*@param image
+	*	Image<UInt, 2D, MS>
+	*@param[in] P
+	*	vec2i
+	*@param[in] sample
+	*	int
+	*@param[in] data
+	*	vec4u
+	*/
+	ImageAccessCallPtr makeImageStore2DMSURgba8( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr sample, ExprPtr data );
+	/**
+	*@param image
+	*	Image<UInt, 2D, MS>
+	*@param[in] P
+	*	vec2i
+	*@param[in] sample
+	*	int
+	*@param[in] data
+	*	vec2u
+	*/
+	ImageAccessCallPtr makeImageStore2DMSURg32( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr sample, ExprPtr data );
+	/**
+	*@param image
+	*	Image<UInt, 2D, MS>
+	*@param[in] P
+	*	vec2i
+	*@param[in] sample
+	*	int
+	*@param[in] data
+	*	vec2u
+	*/
+	ImageAccessCallPtr makeImageStore2DMSURg16( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr sample, ExprPtr data );
+	/**
+	*@param image
+	*	Image<UInt, 2D, MS>
+	*@param[in] P
+	*	vec2i
+	*@param[in] sample
+	*	int
+	*@param[in] data
+	*	vec2u
+	*/
+	ImageAccessCallPtr makeImageStore2DMSURg8( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr sample, ExprPtr data );
+	/**
+	*@param image
+	*	Image<UInt, 2D, MS>
+	*@param[in] P
+	*	vec2i
+	*@param[in] sample
+	*	int
+	*@param[in] data
+	*	uint
+	*/
+	ImageAccessCallPtr makeImageStore2DMSUR32( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr sample, ExprPtr data );
+	/**
+	*@param image
+	*	Image<UInt, 2D, MS>
+	*@param[in] P
+	*	vec2i
+	*@param[in] sample
+	*	int
+	*@param[in] data
+	*	uint
+	*/
+	ImageAccessCallPtr makeImageStore2DMSUR16( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr sample, ExprPtr data );
+	/**
+	*@param image
+	*	Image<UInt, 2D, MS>
+	*@param[in] P
+	*	vec2i
+	*@param[in] sample
+	*	int
+	*@param[in] data
+	*	uint
+	*/
+	ImageAccessCallPtr makeImageStore2DMSUR8( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr sample, ExprPtr data );
+	/**
+	*@param image
+	*	Image<UInt, 2D, MS, Array>
+	*@param[in] P
+	*	vec3i
+	*@param[in] sample
+	*	int
+	*@param[in] data
+	*	vec4u
+	*/
+	ImageAccessCallPtr makeImageStore2DMSArrayURgba32( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr sample, ExprPtr data );
+	/**
+	*@param image
+	*	Image<UInt, 2D, MS, Array>
+	*@param[in] P
+	*	vec3i
+	*@param[in] sample
+	*	int
+	*@param[in] data
+	*	vec4u
+	*/
+	ImageAccessCallPtr makeImageStore2DMSArrayURgba16( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr sample, ExprPtr data );
+	/**
+	*@param image
+	*	Image<UInt, 2D, MS, Array>
+	*@param[in] P
+	*	vec3i
+	*@param[in] sample
+	*	int
+	*@param[in] data
+	*	vec4u
+	*/
+	ImageAccessCallPtr makeImageStore2DMSArrayURgba8( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr sample, ExprPtr data );
+	/**
+	*@param image
+	*	Image<UInt, 2D, MS, Array>
+	*@param[in] P
+	*	vec3i
+	*@param[in] sample
+	*	int
+	*@param[in] data
+	*	vec2u
+	*/
+	ImageAccessCallPtr makeImageStore2DMSArrayURg32( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr sample, ExprPtr data );
+	/**
+	*@param image
+	*	Image<UInt, 2D, MS, Array>
+	*@param[in] P
+	*	vec3i
+	*@param[in] sample
+	*	int
+	*@param[in] data
+	*	vec2u
+	*/
+	ImageAccessCallPtr makeImageStore2DMSArrayURg16( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr sample, ExprPtr data );
+	/**
+	*@param image
+	*	Image<UInt, 2D, MS, Array>
+	*@param[in] P
+	*	vec3i
+	*@param[in] sample
+	*	int
+	*@param[in] data
+	*	vec2u
+	*/
+	ImageAccessCallPtr makeImageStore2DMSArrayURg8( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr sample, ExprPtr data );
+	/**
+	*@param image
+	*	Image<UInt, 2D, MS, Array>
+	*@param[in] P
+	*	vec3i
+	*@param[in] sample
+	*	int
+	*@param[in] data
+	*	uint
+	*/
+	ImageAccessCallPtr makeImageStore2DMSArrayUR32( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr sample, ExprPtr data );
+	/**
+	*@param image
+	*	Image<UInt, 2D, MS, Array>
+	*@param[in] P
+	*	vec3i
+	*@param[in] sample
+	*	int
+	*@param[in] data
+	*	uint
+	*/
+	ImageAccessCallPtr makeImageStore2DMSArrayUR16( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr sample, ExprPtr data );
+	/**
+	*@param image
+	*	Image<UInt, 2D, MS, Array>
+	*@param[in] P
+	*	vec3i
+	*@param[in] sample
+	*	int
+	*@param[in] data
+	*	uint
+	*/
+	ImageAccessCallPtr makeImageStore2DMSArrayUR8( type::TypesCache & cache, ExprPtr image, ExprPtr P, ExprPtr sample, ExprPtr data );
+	/**
 	*@return
 	*	uint
 	*@param image
