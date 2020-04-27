@@ -305,6 +305,138 @@ namespace ast::expr
 			result = "IMAGELOAD2DMSARRAYU";
 			break;
 
+		case ImageAccess::eImageStore1DF:
+			result = "IMAGESTORE1DF";
+			break;
+
+		case ImageAccess::eImageStore2DF:
+			result = "IMAGESTORE2DF";
+			break;
+
+		case ImageAccess::eImageStore3DF:
+			result = "IMAGESTORE3DF";
+			break;
+
+		case ImageAccess::eImageStore2DRectF:
+			result = "IMAGESTORE2DRECTF";
+			break;
+
+		case ImageAccess::eImageStoreCubeF:
+			result = "IMAGESTORECUBEF";
+			break;
+
+		case ImageAccess::eImageStoreBufferF:
+			result = "IMAGESTOREBUFFERF";
+			break;
+
+		case ImageAccess::eImageStore1DArrayF:
+			result = "IMAGESTORE1DARRAYF";
+			break;
+
+		case ImageAccess::eImageStore2DArrayF:
+			result = "IMAGESTORE2DARRAYF";
+			break;
+
+		case ImageAccess::eImageStoreCubeArrayF:
+			result = "IMAGESTORECUBEARRAYF";
+			break;
+
+		case ImageAccess::eImageStore2DMSF:
+			result = "IMAGESTORE2DMSF";
+			break;
+
+		case ImageAccess::eImageStore2DMSArrayF:
+			result = "IMAGESTORE2DMSARRAYF";
+			break;
+
+		case ImageAccess::eImageStore1DI:
+			result = "IMAGESTORE1DI";
+			break;
+
+		case ImageAccess::eImageStore2DI:
+			result = "IMAGESTORE2DI";
+			break;
+
+		case ImageAccess::eImageStore3DI:
+			result = "IMAGESTORE3DI";
+			break;
+
+		case ImageAccess::eImageStore2DRectI:
+			result = "IMAGESTORE2DRECTI";
+			break;
+
+		case ImageAccess::eImageStoreCubeI:
+			result = "IMAGESTORECUBEI";
+			break;
+
+		case ImageAccess::eImageStoreBufferI:
+			result = "IMAGESTOREBUFFERI";
+			break;
+
+		case ImageAccess::eImageStore1DArrayI:
+			result = "IMAGESTORE1DARRAYI";
+			break;
+
+		case ImageAccess::eImageStore2DArrayI:
+			result = "IMAGESTORE2DARRAYI";
+			break;
+
+		case ImageAccess::eImageStoreCubeArrayI:
+			result = "IMAGESTORECUBEARRAYI";
+			break;
+
+		case ImageAccess::eImageStore2DMSI:
+			result = "IMAGESTORE2DMSI";
+			break;
+
+		case ImageAccess::eImageStore2DMSArrayI:
+			result = "IMAGESTORE2DMSARRAYI";
+			break;
+
+		case ImageAccess::eImageStore1DU:
+			result = "IMAGESTORE1DU";
+			break;
+
+		case ImageAccess::eImageStore2DU:
+			result = "IMAGESTORE2DU";
+			break;
+
+		case ImageAccess::eImageStore3DU:
+			result = "IMAGESTORE3DU";
+			break;
+
+		case ImageAccess::eImageStore2DRectU:
+			result = "IMAGESTORE2DRECTU";
+			break;
+
+		case ImageAccess::eImageStoreCubeU:
+			result = "IMAGESTORECUBEU";
+			break;
+
+		case ImageAccess::eImageStoreBufferU:
+			result = "IMAGESTOREBUFFERU";
+			break;
+
+		case ImageAccess::eImageStore1DArrayU:
+			result = "IMAGESTORE1DARRAYU";
+			break;
+
+		case ImageAccess::eImageStore2DArrayU:
+			result = "IMAGESTORE2DARRAYU";
+			break;
+
+		case ImageAccess::eImageStoreCubeArrayU:
+			result = "IMAGESTORECUBEARRAYU";
+			break;
+
+		case ImageAccess::eImageStore2DMSU:
+			result = "IMAGESTORE2DMSU";
+			break;
+
+		case ImageAccess::eImageStore2DMSArrayU:
+			result = "IMAGESTORE2DMSARRAYU";
+			break;
+
 		case ImageAccess::eImageAtomicAdd1DU:
 			result = "IMAGEATOMICADD1DU";
 			break;

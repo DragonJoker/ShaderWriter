@@ -113,6 +113,32 @@ def computeParamsDoc( paramsGroup ):
 			result += "\n\t*\t" + typeName
 			index += 2
 	return result
+
+def computeParamsDocEx( paramsGroup, lastTypeKind ):
+	result = ""
+	intrParams = re.compile("[, ]*ASTIntrParams\( ([\w, :()\[\]]*) \)$")
+	resParams = intrParams.match( paramsGroup )
+	if resParams:
+		intrParam = re.compile("(ASTIntrParam|ASTIntrOutParam)\( ([^,]*), ([^ ]*) \)")
+		resParam = intrParam.split( resParams.group( 1 ) )
+		index = 1
+		while len( resParam ) > index:
+			if resParam[index] == "ASTIntrOutParam":
+				typeQualifier = "[out]"
+			else:
+				typeQualifier = "[in]"
+			index += 1
+			typeName = typeKindToGlslType( resParam[index] )
+			index += 1
+			curIndex = index
+			index += 2
+
+			if len( resParam ) <= index:
+				typeName = typeKindToGlslType( lastTypeKind )
+
+			result += "\n\t*@param" + typeQualifier + " " + discardArray( resParam[curIndex] )
+			result += "\n\t*\t" + typeName
+	return result
 	
 def getArrayType( name ):
 	result = re.sub( "Array", "", name )
@@ -187,6 +213,20 @@ def printTextureFunctionDoc( outs, enumName, returnGroup, functionGroup, paramsG
 		outs.write( "\n\t*@param image" )
 		outs.write( "\n\t*\t" + computeImageFullType( "Image", functionGroup ) )
 		outs.write( computeParamsDoc( paramsGroup ) )
+	else:
+		outs.write( computeParamsDoc( paramsGroup ) )
+	outs.write( "\n\t*/" )
+
+def printTextureFunctionDocEx( outs, enumName, lastGroup, functionGroup, paramsGroup ):
+	outs.write( "\n\t/**" )
+	if enumName == "TextureAccess":
+		outs.write( "\n\t*@param image" )
+		outs.write( "\n\t*\t" + computeImageFullType( "SampledImage", functionGroup ) )
+		outs.write( computeParamsDoc( paramsGroup ) )
+	elif enumName == "ImageAccess":
+		outs.write( "\n\t*@param image" )
+		outs.write( "\n\t*\t" + computeImageFullType( "Image", functionGroup ) )
+		outs.write( computeParamsDocEx( paramsGroup, lastGroup ) )
 	else:
 		outs.write( computeParamsDoc( paramsGroup ) )
 	outs.write( "\n\t*/" )
@@ -270,7 +310,10 @@ def printTextureFunction( outs, enumName, match ):
 			formats.append( ( 'R32', 'type::Kind::eFloat' ) )
 			formats.append( ( 'R16', 'type::Kind::eFloat' ) )
 	for fmt, ret in formats:
-		printTextureFunctionDoc( outs, enumName, ret, functionGroup, paramsGroup )
+		if intrinsicName.find( "Store" ) != -1:
+			printTextureFunctionDocEx( outs, enumName, ret, functionGroup, paramsGroup )
+		else:
+			printTextureFunctionDoc( outs, enumName, ret, functionGroup, paramsGroup )
 		outs.write( "\n\t" + enumName + "CallPtr make" + intrinsicName + fmt + "(" )
 		outs.write( " type::TypesCache & cache" )
 		outs.write( ", ExprPtr image" )

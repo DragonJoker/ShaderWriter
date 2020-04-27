@@ -674,6 +674,9 @@ namespace spirv
 			return makeInstruction< ImageAccessInstructionT< spv::OpImageQuerySamples > >( returnTypeId, resultId, operands );
 		case spv::OpImageRead:
 			return makeInstruction< ImageAccessInstructionT< spv::OpImageRead > >( returnTypeId, resultId, operands );
+		case spv::OpImageWrite:
+			assert( false && "OpImageWrite has its own instruction type: ImageStoreInstruction, use makeInstruction" );
+			return makeInstruction< VariadicInstructionT< spv::OpImageWrite, false, false > >( operands );
 		case spv::OpAtomicIAdd:
 			return makeInstruction< ImageAccessInstructionT< spv::OpAtomicIAdd > >( returnTypeId, resultId, operands );
 		case spv::OpAtomicUMin:

@@ -5551,6 +5551,3846 @@ namespace ast::expr
 			, std::move( sample ) );
 	}
 
+	ImageAccessCallPtr makeImageStore1DFRgba32( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eInt );
+		assert( data->getType()->getKind() == type::Kind::eVec4F );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore1DF
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore1DFRgba16( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eInt );
+		assert( data->getType()->getKind() == type::Kind::eVec4F );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore1DF
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore1DFRg32( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eInt );
+		assert( data->getType()->getKind() == type::Kind::eVec2F );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore1DF
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore1DFRg16( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eInt );
+		assert( data->getType()->getKind() == type::Kind::eVec2F );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore1DF
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore1DFR32( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eInt );
+		assert( data->getType()->getKind() == type::Kind::eFloat );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore1DF
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore1DFR16( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eInt );
+		assert( data->getType()->getKind() == type::Kind::eFloat );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore1DF
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore2DFRgba32( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec2I );
+		assert( data->getType()->getKind() == type::Kind::eVec4F );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore2DF
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore2DFRgba16( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec2I );
+		assert( data->getType()->getKind() == type::Kind::eVec4F );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore2DF
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore2DFRg32( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec2I );
+		assert( data->getType()->getKind() == type::Kind::eVec2F );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore2DF
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore2DFRg16( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec2I );
+		assert( data->getType()->getKind() == type::Kind::eVec2F );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore2DF
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore2DFR32( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec2I );
+		assert( data->getType()->getKind() == type::Kind::eFloat );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore2DF
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore2DFR16( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec2I );
+		assert( data->getType()->getKind() == type::Kind::eFloat );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore2DF
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore3DFRgba32( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec3I );
+		assert( data->getType()->getKind() == type::Kind::eVec4F );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore3DF
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore3DFRgba16( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec3I );
+		assert( data->getType()->getKind() == type::Kind::eVec4F );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore3DF
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore3DFRg32( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec3I );
+		assert( data->getType()->getKind() == type::Kind::eVec2F );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore3DF
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore3DFRg16( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec3I );
+		assert( data->getType()->getKind() == type::Kind::eVec2F );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore3DF
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore3DFR32( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec3I );
+		assert( data->getType()->getKind() == type::Kind::eFloat );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore3DF
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore3DFR16( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec3I );
+		assert( data->getType()->getKind() == type::Kind::eFloat );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore3DF
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore2DRectFRgba32( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec2I );
+		assert( data->getType()->getKind() == type::Kind::eVec4F );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore2DRectF
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore2DRectFRgba16( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec2I );
+		assert( data->getType()->getKind() == type::Kind::eVec4F );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore2DRectF
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore2DRectFRg32( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec2I );
+		assert( data->getType()->getKind() == type::Kind::eVec2F );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore2DRectF
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore2DRectFRg16( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec2I );
+		assert( data->getType()->getKind() == type::Kind::eVec2F );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore2DRectF
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore2DRectFR32( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec2I );
+		assert( data->getType()->getKind() == type::Kind::eFloat );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore2DRectF
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore2DRectFR16( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec2I );
+		assert( data->getType()->getKind() == type::Kind::eFloat );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore2DRectF
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStoreCubeFRgba32( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec3I );
+		assert( data->getType()->getKind() == type::Kind::eVec4F );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStoreCubeF
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStoreCubeFRgba16( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec3I );
+		assert( data->getType()->getKind() == type::Kind::eVec4F );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStoreCubeF
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStoreCubeFRg32( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec3I );
+		assert( data->getType()->getKind() == type::Kind::eVec2F );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStoreCubeF
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStoreCubeFRg16( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec3I );
+		assert( data->getType()->getKind() == type::Kind::eVec2F );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStoreCubeF
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStoreCubeFR32( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec3I );
+		assert( data->getType()->getKind() == type::Kind::eFloat );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStoreCubeF
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStoreCubeFR16( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec3I );
+		assert( data->getType()->getKind() == type::Kind::eFloat );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStoreCubeF
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStoreBufferFRgba32( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eInt );
+		assert( data->getType()->getKind() == type::Kind::eVec4F );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStoreBufferF
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStoreBufferFRgba16( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eInt );
+		assert( data->getType()->getKind() == type::Kind::eVec4F );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStoreBufferF
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStoreBufferFRg32( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eInt );
+		assert( data->getType()->getKind() == type::Kind::eVec2F );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStoreBufferF
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStoreBufferFRg16( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eInt );
+		assert( data->getType()->getKind() == type::Kind::eVec2F );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStoreBufferF
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStoreBufferFR32( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eInt );
+		assert( data->getType()->getKind() == type::Kind::eFloat );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStoreBufferF
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStoreBufferFR16( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eInt );
+		assert( data->getType()->getKind() == type::Kind::eFloat );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStoreBufferF
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore1DArrayFRgba32( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec2I );
+		assert( data->getType()->getKind() == type::Kind::eVec4F );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore1DArrayF
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore1DArrayFRgba16( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec2I );
+		assert( data->getType()->getKind() == type::Kind::eVec4F );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore1DArrayF
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore1DArrayFRg32( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec2I );
+		assert( data->getType()->getKind() == type::Kind::eVec2F );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore1DArrayF
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore1DArrayFRg16( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec2I );
+		assert( data->getType()->getKind() == type::Kind::eVec2F );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore1DArrayF
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore1DArrayFR32( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec2I );
+		assert( data->getType()->getKind() == type::Kind::eFloat );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore1DArrayF
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore1DArrayFR16( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec2I );
+		assert( data->getType()->getKind() == type::Kind::eFloat );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore1DArrayF
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore2DArrayFRgba32( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec3I );
+		assert( data->getType()->getKind() == type::Kind::eVec4F );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore2DArrayF
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore2DArrayFRgba16( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec3I );
+		assert( data->getType()->getKind() == type::Kind::eVec4F );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore2DArrayF
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore2DArrayFRg32( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec3I );
+		assert( data->getType()->getKind() == type::Kind::eVec2F );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore2DArrayF
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore2DArrayFRg16( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec3I );
+		assert( data->getType()->getKind() == type::Kind::eVec2F );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore2DArrayF
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore2DArrayFR32( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec3I );
+		assert( data->getType()->getKind() == type::Kind::eFloat );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore2DArrayF
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore2DArrayFR16( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec3I );
+		assert( data->getType()->getKind() == type::Kind::eFloat );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore2DArrayF
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStoreCubeArrayFRgba32( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec3I );
+		assert( data->getType()->getKind() == type::Kind::eVec4F );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStoreCubeArrayF
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStoreCubeArrayFRgba16( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec3I );
+		assert( data->getType()->getKind() == type::Kind::eVec4F );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStoreCubeArrayF
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStoreCubeArrayFRg32( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec3I );
+		assert( data->getType()->getKind() == type::Kind::eVec2F );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStoreCubeArrayF
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStoreCubeArrayFRg16( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec3I );
+		assert( data->getType()->getKind() == type::Kind::eVec2F );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStoreCubeArrayF
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStoreCubeArrayFR32( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec3I );
+		assert( data->getType()->getKind() == type::Kind::eFloat );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStoreCubeArrayF
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStoreCubeArrayFR16( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec3I );
+		assert( data->getType()->getKind() == type::Kind::eFloat );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStoreCubeArrayF
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore2DMSFRgba32( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr sample
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec2I );
+		assert( sample->getType()->getKind() == type::Kind::eInt );
+		assert( data->getType()->getKind() == type::Kind::eVec4F );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore2DMSF
+			, std::move( image )
+			, std::move( P )
+			, std::move( sample )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore2DMSFRgba16( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr sample
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec2I );
+		assert( sample->getType()->getKind() == type::Kind::eInt );
+		assert( data->getType()->getKind() == type::Kind::eVec4F );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore2DMSF
+			, std::move( image )
+			, std::move( P )
+			, std::move( sample )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore2DMSFRg32( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr sample
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec2I );
+		assert( sample->getType()->getKind() == type::Kind::eInt );
+		assert( data->getType()->getKind() == type::Kind::eVec2F );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore2DMSF
+			, std::move( image )
+			, std::move( P )
+			, std::move( sample )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore2DMSFRg16( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr sample
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec2I );
+		assert( sample->getType()->getKind() == type::Kind::eInt );
+		assert( data->getType()->getKind() == type::Kind::eVec2F );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore2DMSF
+			, std::move( image )
+			, std::move( P )
+			, std::move( sample )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore2DMSFR32( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr sample
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec2I );
+		assert( sample->getType()->getKind() == type::Kind::eInt );
+		assert( data->getType()->getKind() == type::Kind::eFloat );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore2DMSF
+			, std::move( image )
+			, std::move( P )
+			, std::move( sample )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore2DMSFR16( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr sample
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec2I );
+		assert( sample->getType()->getKind() == type::Kind::eInt );
+		assert( data->getType()->getKind() == type::Kind::eFloat );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore2DMSF
+			, std::move( image )
+			, std::move( P )
+			, std::move( sample )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore2DMSArrayFRgba32( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr sample
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec3I );
+		assert( sample->getType()->getKind() == type::Kind::eInt );
+		assert( data->getType()->getKind() == type::Kind::eVec4F );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore2DMSArrayF
+			, std::move( image )
+			, std::move( P )
+			, std::move( sample )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore2DMSArrayFRgba16( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr sample
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec3I );
+		assert( sample->getType()->getKind() == type::Kind::eInt );
+		assert( data->getType()->getKind() == type::Kind::eVec4F );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore2DMSArrayF
+			, std::move( image )
+			, std::move( P )
+			, std::move( sample )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore2DMSArrayFRg32( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr sample
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec3I );
+		assert( sample->getType()->getKind() == type::Kind::eInt );
+		assert( data->getType()->getKind() == type::Kind::eVec2F );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore2DMSArrayF
+			, std::move( image )
+			, std::move( P )
+			, std::move( sample )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore2DMSArrayFRg16( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr sample
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec3I );
+		assert( sample->getType()->getKind() == type::Kind::eInt );
+		assert( data->getType()->getKind() == type::Kind::eVec2F );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore2DMSArrayF
+			, std::move( image )
+			, std::move( P )
+			, std::move( sample )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore2DMSArrayFR32( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr sample
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec3I );
+		assert( sample->getType()->getKind() == type::Kind::eInt );
+		assert( data->getType()->getKind() == type::Kind::eFloat );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore2DMSArrayF
+			, std::move( image )
+			, std::move( P )
+			, std::move( sample )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore2DMSArrayFR16( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr sample
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec3I );
+		assert( sample->getType()->getKind() == type::Kind::eInt );
+		assert( data->getType()->getKind() == type::Kind::eFloat );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore2DMSArrayF
+			, std::move( image )
+			, std::move( P )
+			, std::move( sample )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore1DIRgba32( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eInt );
+		assert( data->getType()->getKind() == type::Kind::eVec4I );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore1DI
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore1DIRgba16( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eInt );
+		assert( data->getType()->getKind() == type::Kind::eVec4I );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore1DI
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore1DIRgba8( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eInt );
+		assert( data->getType()->getKind() == type::Kind::eVec4I );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore1DI
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore1DIRg32( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eInt );
+		assert( data->getType()->getKind() == type::Kind::eVec2I );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore1DI
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore1DIRg16( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eInt );
+		assert( data->getType()->getKind() == type::Kind::eVec2I );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore1DI
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore1DIRg8( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eInt );
+		assert( data->getType()->getKind() == type::Kind::eVec2I );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore1DI
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore1DIR32( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eInt );
+		assert( data->getType()->getKind() == type::Kind::eInt );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore1DI
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore1DIR16( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eInt );
+		assert( data->getType()->getKind() == type::Kind::eInt );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore1DI
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore1DIR8( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eInt );
+		assert( data->getType()->getKind() == type::Kind::eInt );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore1DI
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore2DIRgba32( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec2I );
+		assert( data->getType()->getKind() == type::Kind::eVec4I );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore2DI
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore2DIRgba16( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec2I );
+		assert( data->getType()->getKind() == type::Kind::eVec4I );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore2DI
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore2DIRgba8( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec2I );
+		assert( data->getType()->getKind() == type::Kind::eVec4I );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore2DI
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore2DIRg32( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec2I );
+		assert( data->getType()->getKind() == type::Kind::eVec2I );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore2DI
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore2DIRg16( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec2I );
+		assert( data->getType()->getKind() == type::Kind::eVec2I );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore2DI
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore2DIRg8( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec2I );
+		assert( data->getType()->getKind() == type::Kind::eVec2I );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore2DI
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore2DIR32( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec2I );
+		assert( data->getType()->getKind() == type::Kind::eInt );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore2DI
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore2DIR16( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec2I );
+		assert( data->getType()->getKind() == type::Kind::eInt );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore2DI
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore2DIR8( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec2I );
+		assert( data->getType()->getKind() == type::Kind::eInt );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore2DI
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore3DIRgba32( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec3I );
+		assert( data->getType()->getKind() == type::Kind::eVec4I );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore3DI
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore3DIRgba16( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec3I );
+		assert( data->getType()->getKind() == type::Kind::eVec4I );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore3DI
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore3DIRgba8( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec3I );
+		assert( data->getType()->getKind() == type::Kind::eVec4I );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore3DI
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore3DIRg32( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec3I );
+		assert( data->getType()->getKind() == type::Kind::eVec2I );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore3DI
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore3DIRg16( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec3I );
+		assert( data->getType()->getKind() == type::Kind::eVec2I );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore3DI
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore3DIRg8( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec3I );
+		assert( data->getType()->getKind() == type::Kind::eVec2I );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore3DI
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore3DIR32( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec3I );
+		assert( data->getType()->getKind() == type::Kind::eInt );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore3DI
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore3DIR16( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec3I );
+		assert( data->getType()->getKind() == type::Kind::eInt );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore3DI
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore3DIR8( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec3I );
+		assert( data->getType()->getKind() == type::Kind::eInt );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore3DI
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore2DRectIRgba32( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec2I );
+		assert( data->getType()->getKind() == type::Kind::eVec4I );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore2DRectI
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore2DRectIRgba16( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec2I );
+		assert( data->getType()->getKind() == type::Kind::eVec4I );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore2DRectI
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore2DRectIRgba8( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec2I );
+		assert( data->getType()->getKind() == type::Kind::eVec4I );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore2DRectI
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore2DRectIRg32( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec2I );
+		assert( data->getType()->getKind() == type::Kind::eVec2I );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore2DRectI
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore2DRectIRg16( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec2I );
+		assert( data->getType()->getKind() == type::Kind::eVec2I );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore2DRectI
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore2DRectIRg8( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec2I );
+		assert( data->getType()->getKind() == type::Kind::eVec2I );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore2DRectI
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore2DRectIR32( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec2I );
+		assert( data->getType()->getKind() == type::Kind::eInt );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore2DRectI
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore2DRectIR16( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec2I );
+		assert( data->getType()->getKind() == type::Kind::eInt );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore2DRectI
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore2DRectIR8( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec2I );
+		assert( data->getType()->getKind() == type::Kind::eInt );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore2DRectI
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStoreCubeIRgba32( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec3I );
+		assert( data->getType()->getKind() == type::Kind::eVec4I );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStoreCubeI
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStoreCubeIRgba16( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec3I );
+		assert( data->getType()->getKind() == type::Kind::eVec4I );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStoreCubeI
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStoreCubeIRgba8( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec3I );
+		assert( data->getType()->getKind() == type::Kind::eVec4I );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStoreCubeI
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStoreCubeIRg32( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec3I );
+		assert( data->getType()->getKind() == type::Kind::eVec2I );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStoreCubeI
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStoreCubeIRg16( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec3I );
+		assert( data->getType()->getKind() == type::Kind::eVec2I );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStoreCubeI
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStoreCubeIRg8( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec3I );
+		assert( data->getType()->getKind() == type::Kind::eVec2I );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStoreCubeI
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStoreCubeIR32( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec3I );
+		assert( data->getType()->getKind() == type::Kind::eInt );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStoreCubeI
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStoreCubeIR16( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec3I );
+		assert( data->getType()->getKind() == type::Kind::eInt );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStoreCubeI
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStoreCubeIR8( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec3I );
+		assert( data->getType()->getKind() == type::Kind::eInt );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStoreCubeI
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStoreBufferIRgba32( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eInt );
+		assert( data->getType()->getKind() == type::Kind::eVec4I );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStoreBufferI
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStoreBufferIRgba16( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eInt );
+		assert( data->getType()->getKind() == type::Kind::eVec4I );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStoreBufferI
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStoreBufferIRgba8( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eInt );
+		assert( data->getType()->getKind() == type::Kind::eVec4I );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStoreBufferI
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStoreBufferIRg32( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eInt );
+		assert( data->getType()->getKind() == type::Kind::eVec2I );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStoreBufferI
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStoreBufferIRg16( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eInt );
+		assert( data->getType()->getKind() == type::Kind::eVec2I );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStoreBufferI
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStoreBufferIRg8( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eInt );
+		assert( data->getType()->getKind() == type::Kind::eVec2I );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStoreBufferI
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStoreBufferIR32( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eInt );
+		assert( data->getType()->getKind() == type::Kind::eInt );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStoreBufferI
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStoreBufferIR16( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eInt );
+		assert( data->getType()->getKind() == type::Kind::eInt );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStoreBufferI
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStoreBufferIR8( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eInt );
+		assert( data->getType()->getKind() == type::Kind::eInt );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStoreBufferI
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore1DArrayIRgba32( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec2I );
+		assert( data->getType()->getKind() == type::Kind::eVec4I );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore1DArrayI
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore1DArrayIRgba16( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec2I );
+		assert( data->getType()->getKind() == type::Kind::eVec4I );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore1DArrayI
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore1DArrayIRgba8( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec2I );
+		assert( data->getType()->getKind() == type::Kind::eVec4I );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore1DArrayI
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore1DArrayIRg32( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec2I );
+		assert( data->getType()->getKind() == type::Kind::eVec2I );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore1DArrayI
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore1DArrayIRg16( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec2I );
+		assert( data->getType()->getKind() == type::Kind::eVec2I );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore1DArrayI
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore1DArrayIRg8( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec2I );
+		assert( data->getType()->getKind() == type::Kind::eVec2I );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore1DArrayI
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore1DArrayIR32( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec2I );
+		assert( data->getType()->getKind() == type::Kind::eInt );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore1DArrayI
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore1DArrayIR16( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec2I );
+		assert( data->getType()->getKind() == type::Kind::eInt );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore1DArrayI
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore1DArrayIR8( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec2I );
+		assert( data->getType()->getKind() == type::Kind::eInt );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore1DArrayI
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore2DArrayIRgba32( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec3I );
+		assert( data->getType()->getKind() == type::Kind::eVec4I );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore2DArrayI
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore2DArrayIRgba16( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec3I );
+		assert( data->getType()->getKind() == type::Kind::eVec4I );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore2DArrayI
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore2DArrayIRgba8( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec3I );
+		assert( data->getType()->getKind() == type::Kind::eVec4I );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore2DArrayI
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore2DArrayIRg32( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec3I );
+		assert( data->getType()->getKind() == type::Kind::eVec2I );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore2DArrayI
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore2DArrayIRg16( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec3I );
+		assert( data->getType()->getKind() == type::Kind::eVec2I );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore2DArrayI
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore2DArrayIRg8( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec3I );
+		assert( data->getType()->getKind() == type::Kind::eVec2I );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore2DArrayI
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore2DArrayIR32( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec3I );
+		assert( data->getType()->getKind() == type::Kind::eInt );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore2DArrayI
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore2DArrayIR16( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec3I );
+		assert( data->getType()->getKind() == type::Kind::eInt );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore2DArrayI
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore2DArrayIR8( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec3I );
+		assert( data->getType()->getKind() == type::Kind::eInt );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore2DArrayI
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStoreCubeArrayIRgba32( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec3I );
+		assert( data->getType()->getKind() == type::Kind::eVec4I );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStoreCubeArrayI
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStoreCubeArrayIRgba16( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec3I );
+		assert( data->getType()->getKind() == type::Kind::eVec4I );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStoreCubeArrayI
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStoreCubeArrayIRgba8( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec3I );
+		assert( data->getType()->getKind() == type::Kind::eVec4I );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStoreCubeArrayI
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStoreCubeArrayIRg32( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec3I );
+		assert( data->getType()->getKind() == type::Kind::eVec2I );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStoreCubeArrayI
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStoreCubeArrayIRg16( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec3I );
+		assert( data->getType()->getKind() == type::Kind::eVec2I );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStoreCubeArrayI
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStoreCubeArrayIRg8( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec3I );
+		assert( data->getType()->getKind() == type::Kind::eVec2I );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStoreCubeArrayI
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStoreCubeArrayIR32( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec3I );
+		assert( data->getType()->getKind() == type::Kind::eInt );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStoreCubeArrayI
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStoreCubeArrayIR16( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec3I );
+		assert( data->getType()->getKind() == type::Kind::eInt );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStoreCubeArrayI
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStoreCubeArrayIR8( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec3I );
+		assert( data->getType()->getKind() == type::Kind::eInt );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStoreCubeArrayI
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore2DMSIRgba32( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr sample
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec2I );
+		assert( sample->getType()->getKind() == type::Kind::eInt );
+		assert( data->getType()->getKind() == type::Kind::eVec4I );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore2DMSI
+			, std::move( image )
+			, std::move( P )
+			, std::move( sample )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore2DMSIRgba16( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr sample
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec2I );
+		assert( sample->getType()->getKind() == type::Kind::eInt );
+		assert( data->getType()->getKind() == type::Kind::eVec4I );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore2DMSI
+			, std::move( image )
+			, std::move( P )
+			, std::move( sample )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore2DMSIRgba8( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr sample
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec2I );
+		assert( sample->getType()->getKind() == type::Kind::eInt );
+		assert( data->getType()->getKind() == type::Kind::eVec4I );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore2DMSI
+			, std::move( image )
+			, std::move( P )
+			, std::move( sample )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore2DMSIRg32( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr sample
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec2I );
+		assert( sample->getType()->getKind() == type::Kind::eInt );
+		assert( data->getType()->getKind() == type::Kind::eVec2I );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore2DMSI
+			, std::move( image )
+			, std::move( P )
+			, std::move( sample )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore2DMSIRg16( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr sample
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec2I );
+		assert( sample->getType()->getKind() == type::Kind::eInt );
+		assert( data->getType()->getKind() == type::Kind::eVec2I );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore2DMSI
+			, std::move( image )
+			, std::move( P )
+			, std::move( sample )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore2DMSIRg8( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr sample
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec2I );
+		assert( sample->getType()->getKind() == type::Kind::eInt );
+		assert( data->getType()->getKind() == type::Kind::eVec2I );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore2DMSI
+			, std::move( image )
+			, std::move( P )
+			, std::move( sample )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore2DMSIR32( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr sample
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec2I );
+		assert( sample->getType()->getKind() == type::Kind::eInt );
+		assert( data->getType()->getKind() == type::Kind::eInt );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore2DMSI
+			, std::move( image )
+			, std::move( P )
+			, std::move( sample )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore2DMSIR16( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr sample
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec2I );
+		assert( sample->getType()->getKind() == type::Kind::eInt );
+		assert( data->getType()->getKind() == type::Kind::eInt );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore2DMSI
+			, std::move( image )
+			, std::move( P )
+			, std::move( sample )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore2DMSIR8( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr sample
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec2I );
+		assert( sample->getType()->getKind() == type::Kind::eInt );
+		assert( data->getType()->getKind() == type::Kind::eInt );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore2DMSI
+			, std::move( image )
+			, std::move( P )
+			, std::move( sample )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore2DMSArrayIRgba32( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr sample
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec3I );
+		assert( sample->getType()->getKind() == type::Kind::eInt );
+		assert( data->getType()->getKind() == type::Kind::eVec4I );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore2DMSArrayI
+			, std::move( image )
+			, std::move( P )
+			, std::move( sample )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore2DMSArrayIRgba16( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr sample
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec3I );
+		assert( sample->getType()->getKind() == type::Kind::eInt );
+		assert( data->getType()->getKind() == type::Kind::eVec4I );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore2DMSArrayI
+			, std::move( image )
+			, std::move( P )
+			, std::move( sample )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore2DMSArrayIRgba8( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr sample
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec3I );
+		assert( sample->getType()->getKind() == type::Kind::eInt );
+		assert( data->getType()->getKind() == type::Kind::eVec4I );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore2DMSArrayI
+			, std::move( image )
+			, std::move( P )
+			, std::move( sample )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore2DMSArrayIRg32( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr sample
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec3I );
+		assert( sample->getType()->getKind() == type::Kind::eInt );
+		assert( data->getType()->getKind() == type::Kind::eVec2I );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore2DMSArrayI
+			, std::move( image )
+			, std::move( P )
+			, std::move( sample )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore2DMSArrayIRg16( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr sample
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec3I );
+		assert( sample->getType()->getKind() == type::Kind::eInt );
+		assert( data->getType()->getKind() == type::Kind::eVec2I );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore2DMSArrayI
+			, std::move( image )
+			, std::move( P )
+			, std::move( sample )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore2DMSArrayIRg8( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr sample
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec3I );
+		assert( sample->getType()->getKind() == type::Kind::eInt );
+		assert( data->getType()->getKind() == type::Kind::eVec2I );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore2DMSArrayI
+			, std::move( image )
+			, std::move( P )
+			, std::move( sample )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore2DMSArrayIR32( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr sample
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec3I );
+		assert( sample->getType()->getKind() == type::Kind::eInt );
+		assert( data->getType()->getKind() == type::Kind::eInt );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore2DMSArrayI
+			, std::move( image )
+			, std::move( P )
+			, std::move( sample )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore2DMSArrayIR16( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr sample
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec3I );
+		assert( sample->getType()->getKind() == type::Kind::eInt );
+		assert( data->getType()->getKind() == type::Kind::eInt );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore2DMSArrayI
+			, std::move( image )
+			, std::move( P )
+			, std::move( sample )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore2DMSArrayIR8( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr sample
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec3I );
+		assert( sample->getType()->getKind() == type::Kind::eInt );
+		assert( data->getType()->getKind() == type::Kind::eInt );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore2DMSArrayI
+			, std::move( image )
+			, std::move( P )
+			, std::move( sample )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore1DURgba32( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eInt );
+		assert( data->getType()->getKind() == type::Kind::eVec4U );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore1DU
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore1DURgba16( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eInt );
+		assert( data->getType()->getKind() == type::Kind::eVec4U );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore1DU
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore1DURgba8( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eInt );
+		assert( data->getType()->getKind() == type::Kind::eVec4U );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore1DU
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore1DURg32( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eInt );
+		assert( data->getType()->getKind() == type::Kind::eVec2U );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore1DU
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore1DURg16( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eInt );
+		assert( data->getType()->getKind() == type::Kind::eVec2U );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore1DU
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore1DURg8( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eInt );
+		assert( data->getType()->getKind() == type::Kind::eVec2U );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore1DU
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore1DUR32( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eInt );
+		assert( data->getType()->getKind() == type::Kind::eUInt );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore1DU
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore1DUR16( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eInt );
+		assert( data->getType()->getKind() == type::Kind::eUInt );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore1DU
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore1DUR8( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eInt );
+		assert( data->getType()->getKind() == type::Kind::eUInt );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore1DU
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore2DURgba32( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec2I );
+		assert( data->getType()->getKind() == type::Kind::eVec4U );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore2DU
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore2DURgba16( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec2I );
+		assert( data->getType()->getKind() == type::Kind::eVec4U );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore2DU
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore2DURgba8( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec2I );
+		assert( data->getType()->getKind() == type::Kind::eVec4U );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore2DU
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore2DURg32( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec2I );
+		assert( data->getType()->getKind() == type::Kind::eVec2U );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore2DU
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore2DURg16( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec2I );
+		assert( data->getType()->getKind() == type::Kind::eVec2U );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore2DU
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore2DURg8( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec2I );
+		assert( data->getType()->getKind() == type::Kind::eVec2U );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore2DU
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore2DUR32( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec2I );
+		assert( data->getType()->getKind() == type::Kind::eUInt );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore2DU
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore2DUR16( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec2I );
+		assert( data->getType()->getKind() == type::Kind::eUInt );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore2DU
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore2DUR8( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec2I );
+		assert( data->getType()->getKind() == type::Kind::eUInt );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore2DU
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore3DURgba32( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec3I );
+		assert( data->getType()->getKind() == type::Kind::eVec4U );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore3DU
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore3DURgba16( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec3I );
+		assert( data->getType()->getKind() == type::Kind::eVec4U );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore3DU
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore3DURgba8( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec3I );
+		assert( data->getType()->getKind() == type::Kind::eVec4U );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore3DU
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore3DURg32( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec3I );
+		assert( data->getType()->getKind() == type::Kind::eVec2U );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore3DU
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore3DURg16( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec3I );
+		assert( data->getType()->getKind() == type::Kind::eVec2U );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore3DU
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore3DURg8( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec3I );
+		assert( data->getType()->getKind() == type::Kind::eVec2U );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore3DU
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore3DUR32( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec3I );
+		assert( data->getType()->getKind() == type::Kind::eUInt );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore3DU
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore3DUR16( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec3I );
+		assert( data->getType()->getKind() == type::Kind::eUInt );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore3DU
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore3DUR8( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec3I );
+		assert( data->getType()->getKind() == type::Kind::eUInt );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore3DU
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore2DRectURgba32( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec2I );
+		assert( data->getType()->getKind() == type::Kind::eVec4U );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore2DRectU
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore2DRectURgba16( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec2I );
+		assert( data->getType()->getKind() == type::Kind::eVec4U );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore2DRectU
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore2DRectURgba8( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec2I );
+		assert( data->getType()->getKind() == type::Kind::eVec4U );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore2DRectU
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore2DRectURg32( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec2I );
+		assert( data->getType()->getKind() == type::Kind::eVec2U );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore2DRectU
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore2DRectURg16( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec2I );
+		assert( data->getType()->getKind() == type::Kind::eVec2U );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore2DRectU
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore2DRectURg8( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec2I );
+		assert( data->getType()->getKind() == type::Kind::eVec2U );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore2DRectU
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore2DRectUR32( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec2I );
+		assert( data->getType()->getKind() == type::Kind::eUInt );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore2DRectU
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore2DRectUR16( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec2I );
+		assert( data->getType()->getKind() == type::Kind::eUInt );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore2DRectU
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore2DRectUR8( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec2I );
+		assert( data->getType()->getKind() == type::Kind::eUInt );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore2DRectU
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStoreCubeURgba32( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec3I );
+		assert( data->getType()->getKind() == type::Kind::eVec4U );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStoreCubeU
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStoreCubeURgba16( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec3I );
+		assert( data->getType()->getKind() == type::Kind::eVec4U );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStoreCubeU
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStoreCubeURgba8( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec3I );
+		assert( data->getType()->getKind() == type::Kind::eVec4U );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStoreCubeU
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStoreCubeURg32( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec3I );
+		assert( data->getType()->getKind() == type::Kind::eVec2U );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStoreCubeU
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStoreCubeURg16( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec3I );
+		assert( data->getType()->getKind() == type::Kind::eVec2U );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStoreCubeU
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStoreCubeURg8( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec3I );
+		assert( data->getType()->getKind() == type::Kind::eVec2U );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStoreCubeU
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStoreCubeUR32( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec3I );
+		assert( data->getType()->getKind() == type::Kind::eUInt );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStoreCubeU
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStoreCubeUR16( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec3I );
+		assert( data->getType()->getKind() == type::Kind::eUInt );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStoreCubeU
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStoreCubeUR8( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec3I );
+		assert( data->getType()->getKind() == type::Kind::eUInt );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStoreCubeU
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStoreBufferURgba32( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eInt );
+		assert( data->getType()->getKind() == type::Kind::eVec4U );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStoreBufferU
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStoreBufferURgba16( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eInt );
+		assert( data->getType()->getKind() == type::Kind::eVec4U );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStoreBufferU
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStoreBufferURgba8( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eInt );
+		assert( data->getType()->getKind() == type::Kind::eVec4U );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStoreBufferU
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStoreBufferURg32( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eInt );
+		assert( data->getType()->getKind() == type::Kind::eVec2U );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStoreBufferU
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStoreBufferURg16( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eInt );
+		assert( data->getType()->getKind() == type::Kind::eVec2U );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStoreBufferU
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStoreBufferURg8( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eInt );
+		assert( data->getType()->getKind() == type::Kind::eVec2U );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStoreBufferU
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStoreBufferUR32( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eInt );
+		assert( data->getType()->getKind() == type::Kind::eUInt );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStoreBufferU
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStoreBufferUR16( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eInt );
+		assert( data->getType()->getKind() == type::Kind::eUInt );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStoreBufferU
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStoreBufferUR8( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eInt );
+		assert( data->getType()->getKind() == type::Kind::eUInt );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStoreBufferU
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore1DArrayURgba32( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec2I );
+		assert( data->getType()->getKind() == type::Kind::eVec4U );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore1DArrayU
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore1DArrayURgba16( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec2I );
+		assert( data->getType()->getKind() == type::Kind::eVec4U );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore1DArrayU
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore1DArrayURgba8( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec2I );
+		assert( data->getType()->getKind() == type::Kind::eVec4U );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore1DArrayU
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore1DArrayURg32( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec2I );
+		assert( data->getType()->getKind() == type::Kind::eVec2U );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore1DArrayU
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore1DArrayURg16( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec2I );
+		assert( data->getType()->getKind() == type::Kind::eVec2U );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore1DArrayU
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore1DArrayURg8( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec2I );
+		assert( data->getType()->getKind() == type::Kind::eVec2U );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore1DArrayU
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore1DArrayUR32( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec2I );
+		assert( data->getType()->getKind() == type::Kind::eUInt );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore1DArrayU
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore1DArrayUR16( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec2I );
+		assert( data->getType()->getKind() == type::Kind::eUInt );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore1DArrayU
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore1DArrayUR8( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec2I );
+		assert( data->getType()->getKind() == type::Kind::eUInt );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore1DArrayU
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore2DArrayURgba32( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec3I );
+		assert( data->getType()->getKind() == type::Kind::eVec4U );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore2DArrayU
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore2DArrayURgba16( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec3I );
+		assert( data->getType()->getKind() == type::Kind::eVec4U );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore2DArrayU
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore2DArrayURgba8( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec3I );
+		assert( data->getType()->getKind() == type::Kind::eVec4U );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore2DArrayU
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore2DArrayURg32( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec3I );
+		assert( data->getType()->getKind() == type::Kind::eVec2U );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore2DArrayU
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore2DArrayURg16( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec3I );
+		assert( data->getType()->getKind() == type::Kind::eVec2U );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore2DArrayU
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore2DArrayURg8( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec3I );
+		assert( data->getType()->getKind() == type::Kind::eVec2U );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore2DArrayU
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore2DArrayUR32( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec3I );
+		assert( data->getType()->getKind() == type::Kind::eUInt );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore2DArrayU
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore2DArrayUR16( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec3I );
+		assert( data->getType()->getKind() == type::Kind::eUInt );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore2DArrayU
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore2DArrayUR8( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec3I );
+		assert( data->getType()->getKind() == type::Kind::eUInt );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore2DArrayU
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStoreCubeArrayURgba32( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec3I );
+		assert( data->getType()->getKind() == type::Kind::eVec4U );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStoreCubeArrayU
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStoreCubeArrayURgba16( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec3I );
+		assert( data->getType()->getKind() == type::Kind::eVec4U );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStoreCubeArrayU
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStoreCubeArrayURgba8( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec3I );
+		assert( data->getType()->getKind() == type::Kind::eVec4U );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStoreCubeArrayU
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStoreCubeArrayURg32( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec3I );
+		assert( data->getType()->getKind() == type::Kind::eVec2U );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStoreCubeArrayU
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStoreCubeArrayURg16( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec3I );
+		assert( data->getType()->getKind() == type::Kind::eVec2U );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStoreCubeArrayU
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStoreCubeArrayURg8( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec3I );
+		assert( data->getType()->getKind() == type::Kind::eVec2U );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStoreCubeArrayU
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStoreCubeArrayUR32( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec3I );
+		assert( data->getType()->getKind() == type::Kind::eUInt );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStoreCubeArrayU
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStoreCubeArrayUR16( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec3I );
+		assert( data->getType()->getKind() == type::Kind::eUInt );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStoreCubeArrayU
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStoreCubeArrayUR8( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec3I );
+		assert( data->getType()->getKind() == type::Kind::eUInt );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStoreCubeArrayU
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore2DMSURgba32( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr sample
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec2I );
+		assert( sample->getType()->getKind() == type::Kind::eInt );
+		assert( data->getType()->getKind() == type::Kind::eVec4U );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore2DMSU
+			, std::move( image )
+			, std::move( P )
+			, std::move( sample )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore2DMSURgba16( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr sample
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec2I );
+		assert( sample->getType()->getKind() == type::Kind::eInt );
+		assert( data->getType()->getKind() == type::Kind::eVec4U );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore2DMSU
+			, std::move( image )
+			, std::move( P )
+			, std::move( sample )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore2DMSURgba8( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr sample
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec2I );
+		assert( sample->getType()->getKind() == type::Kind::eInt );
+		assert( data->getType()->getKind() == type::Kind::eVec4U );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore2DMSU
+			, std::move( image )
+			, std::move( P )
+			, std::move( sample )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore2DMSURg32( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr sample
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec2I );
+		assert( sample->getType()->getKind() == type::Kind::eInt );
+		assert( data->getType()->getKind() == type::Kind::eVec2U );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore2DMSU
+			, std::move( image )
+			, std::move( P )
+			, std::move( sample )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore2DMSURg16( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr sample
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec2I );
+		assert( sample->getType()->getKind() == type::Kind::eInt );
+		assert( data->getType()->getKind() == type::Kind::eVec2U );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore2DMSU
+			, std::move( image )
+			, std::move( P )
+			, std::move( sample )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore2DMSURg8( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr sample
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec2I );
+		assert( sample->getType()->getKind() == type::Kind::eInt );
+		assert( data->getType()->getKind() == type::Kind::eVec2U );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore2DMSU
+			, std::move( image )
+			, std::move( P )
+			, std::move( sample )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore2DMSUR32( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr sample
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec2I );
+		assert( sample->getType()->getKind() == type::Kind::eInt );
+		assert( data->getType()->getKind() == type::Kind::eUInt );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore2DMSU
+			, std::move( image )
+			, std::move( P )
+			, std::move( sample )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore2DMSUR16( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr sample
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec2I );
+		assert( sample->getType()->getKind() == type::Kind::eInt );
+		assert( data->getType()->getKind() == type::Kind::eUInt );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore2DMSU
+			, std::move( image )
+			, std::move( P )
+			, std::move( sample )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore2DMSUR8( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr sample
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec2I );
+		assert( sample->getType()->getKind() == type::Kind::eInt );
+		assert( data->getType()->getKind() == type::Kind::eUInt );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore2DMSU
+			, std::move( image )
+			, std::move( P )
+			, std::move( sample )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore2DMSArrayURgba32( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr sample
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec3I );
+		assert( sample->getType()->getKind() == type::Kind::eInt );
+		assert( data->getType()->getKind() == type::Kind::eVec4U );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore2DMSArrayU
+			, std::move( image )
+			, std::move( P )
+			, std::move( sample )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore2DMSArrayURgba16( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr sample
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec3I );
+		assert( sample->getType()->getKind() == type::Kind::eInt );
+		assert( data->getType()->getKind() == type::Kind::eVec4U );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore2DMSArrayU
+			, std::move( image )
+			, std::move( P )
+			, std::move( sample )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore2DMSArrayURgba8( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr sample
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec3I );
+		assert( sample->getType()->getKind() == type::Kind::eInt );
+		assert( data->getType()->getKind() == type::Kind::eVec4U );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore2DMSArrayU
+			, std::move( image )
+			, std::move( P )
+			, std::move( sample )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore2DMSArrayURg32( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr sample
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec3I );
+		assert( sample->getType()->getKind() == type::Kind::eInt );
+		assert( data->getType()->getKind() == type::Kind::eVec2U );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore2DMSArrayU
+			, std::move( image )
+			, std::move( P )
+			, std::move( sample )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore2DMSArrayURg16( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr sample
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec3I );
+		assert( sample->getType()->getKind() == type::Kind::eInt );
+		assert( data->getType()->getKind() == type::Kind::eVec2U );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore2DMSArrayU
+			, std::move( image )
+			, std::move( P )
+			, std::move( sample )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore2DMSArrayURg8( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr sample
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec3I );
+		assert( sample->getType()->getKind() == type::Kind::eInt );
+		assert( data->getType()->getKind() == type::Kind::eVec2U );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore2DMSArrayU
+			, std::move( image )
+			, std::move( P )
+			, std::move( sample )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore2DMSArrayUR32( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr sample
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec3I );
+		assert( sample->getType()->getKind() == type::Kind::eInt );
+		assert( data->getType()->getKind() == type::Kind::eUInt );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore2DMSArrayU
+			, std::move( image )
+			, std::move( P )
+			, std::move( sample )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore2DMSArrayUR16( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr sample
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec3I );
+		assert( sample->getType()->getKind() == type::Kind::eInt );
+		assert( data->getType()->getKind() == type::Kind::eUInt );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore2DMSArrayU
+			, std::move( image )
+			, std::move( P )
+			, std::move( sample )
+			, std::move( data ) );
+	}
+
+	ImageAccessCallPtr makeImageStore2DMSArrayUR8( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr sample
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec3I );
+		assert( sample->getType()->getKind() == type::Kind::eInt );
+		assert( data->getType()->getKind() == type::Kind::eUInt );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
+			, ImageAccess::eImageStore2DMSArrayU
+			, std::move( image )
+			, std::move( P )
+			, std::move( sample )
+			, std::move( data ) );
+	}
+
 	ImageAccessCallPtr makeImageAtomicAdd1DUR32( type::TypesCache & cache
 		, ExprPtr image
 		, ExprPtr P

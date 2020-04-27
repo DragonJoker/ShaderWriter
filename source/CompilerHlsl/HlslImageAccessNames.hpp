@@ -98,6 +98,42 @@ namespace hlsl
 			result = "Load";
 			break;
 
+		case ast::expr::ImageAccess::eImageStore1DF:
+		case ast::expr::ImageAccess::eImageStore2DF:
+		case ast::expr::ImageAccess::eImageStore3DF:
+		case ast::expr::ImageAccess::eImageStore2DRectF:
+		case ast::expr::ImageAccess::eImageStoreCubeF:
+		case ast::expr::ImageAccess::eImageStoreBufferF:
+		case ast::expr::ImageAccess::eImageStore1DArrayF:
+		case ast::expr::ImageAccess::eImageStore2DArrayF:
+		case ast::expr::ImageAccess::eImageStoreCubeArrayF:
+		case ast::expr::ImageAccess::eImageStore2DMSF:
+		case ast::expr::ImageAccess::eImageStore2DMSArrayF:
+		case ast::expr::ImageAccess::eImageStore1DI:
+		case ast::expr::ImageAccess::eImageStore2DI:
+		case ast::expr::ImageAccess::eImageStore3DI:
+		case ast::expr::ImageAccess::eImageStore2DRectI:
+		case ast::expr::ImageAccess::eImageStoreCubeI:
+		case ast::expr::ImageAccess::eImageStoreBufferI:
+		case ast::expr::ImageAccess::eImageStore1DArrayI:
+		case ast::expr::ImageAccess::eImageStore2DArrayI:
+		case ast::expr::ImageAccess::eImageStoreCubeArrayI:
+		case ast::expr::ImageAccess::eImageStore2DMSI:
+		case ast::expr::ImageAccess::eImageStore2DMSArrayI:
+		case ast::expr::ImageAccess::eImageStore1DU:
+		case ast::expr::ImageAccess::eImageStore2DU:
+		case ast::expr::ImageAccess::eImageStore3DU:
+		case ast::expr::ImageAccess::eImageStore2DRectU:
+		case ast::expr::ImageAccess::eImageStoreCubeU:
+		case ast::expr::ImageAccess::eImageStoreBufferU:
+		case ast::expr::ImageAccess::eImageStore1DArrayU:
+		case ast::expr::ImageAccess::eImageStore2DArrayU:
+		case ast::expr::ImageAccess::eImageStoreCubeArrayU:
+		case ast::expr::ImageAccess::eImageStore2DMSU:
+		case ast::expr::ImageAccess::eImageStore2DMSArrayU:
+			result = "SDW_imageStore";
+			break;
+
 		case ast::expr::ImageAccess::eImageAtomicAdd1DU:
 		case ast::expr::ImageAccess::eImageAtomicAdd2DU:
 		case ast::expr::ImageAccess::eImageAtomicAdd3DU:

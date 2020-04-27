@@ -116,7 +116,7 @@ namespace glsl
 		expr->accept( &vis );
 		return result;
 	}
-			
+
 	ast::expr::ExprPtr ExprAdapter::submit( ast::type::TypesCache & cache
 		, ast::expr::ExprPtr const & expr
 		, GlslConfig const & writerConfig
@@ -159,6 +159,11 @@ namespace glsl
 			&& expr->getImageAccess() <= ast::expr::ImageAccess::eImageLoad2DMSArrayU )
 		{
 			doProcessImageLoad( expr );
+		}
+		else if ( expr->getImageAccess() >= ast::expr::ImageAccess::eImageStore1DF
+			&& expr->getImageAccess() <= ast::expr::ImageAccess::eImageStore2DMSArrayU )
+		{
+			doProcessImageStore( expr );
 		}
 		else
 		{
@@ -257,6 +262,39 @@ namespace glsl
 		{
 			m_result = swizzleConvert( callRetType, glslRetType, std::move( m_result ) );
 		}
+	}
+
+	void ExprAdapter::doProcessImageStore( ast::expr::ImageAccessCall * expr )
+	{
+		auto imgArgType = std::static_pointer_cast< ast::type::Image >( expr->getArgList()[0]->getType() );
+		auto config = imgArgType->getConfig();
+		auto sampledType = m_cache.getSampledType( config.format );
+		auto glslType = m_cache.getVec4Type( getScalarType( sampledType->getKind() ) );
+		ast::expr::ExprList args;
+
+		for ( auto & arg : expr->getArgList() )
+		{
+			if ( arg != expr->getArgList().back() )
+			{
+				args.emplace_back( doSubmit( arg.get() ) );
+			}
+			else
+			{
+				// Convert last parameter to appropriate gvec4 type.
+				auto result = doSubmit( arg.get() );
+
+				if ( sampledType != glslType )
+				{
+					result = swizzleConvert( glslType, sampledType, std::move( result ) );
+				}
+
+				args.emplace_back( std::move( result ) );
+			}
+		}
+
+		m_result = ast::expr::makeImageAccessCall( expr->getType()
+			, expr->getImageAccess()
+			, std::move( args ) );
 	}
 
 	void ExprAdapter::doProcessTextureShadow( ast::expr::TextureAccessCall * expr )

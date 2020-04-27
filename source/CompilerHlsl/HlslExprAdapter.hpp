@@ -53,6 +53,8 @@ namespace hlsl
 			, ast::expr::ExprList & args );
 		void doProcessImageSize( ast::expr::ImageAccessCall * expr );
 		void doProcessImageLoad( ast::expr::ImageAccessCall * expr );
+		void doProcessImageStore( ast::expr::ImageAccessCall * expr
+			, std::map< std::string, ast::type::FunctionPtr > imageStoreFuncs );
 		void doProcessImageAtomic( ast::expr::ImageAccessCall * expr
 			, std::string const & name
 			, std::map< std::string, ast::type::FunctionPtr > imageAtomicFuncs );

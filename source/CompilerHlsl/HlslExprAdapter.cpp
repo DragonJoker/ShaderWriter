@@ -1045,6 +1045,11 @@ namespace hlsl
 		{
 			doProcessImageLoad( expr );
 		}
+		else if ( expr->getImageAccess() >= ast::expr::ImageAccess::eImageStore1DF
+			&& expr->getImageAccess() <= ast::expr::ImageAccess::eImageStore2DMSArrayU )
+		{
+			doProcessImageStore( expr, m_adaptationData.funcs.imageStoreFuncs );
+		}
 		else if ( expr->getImageAccess() >= ast::expr::ImageAccess::eImageAtomicAdd1DU
 			&& expr->getImageAccess() <= ast::expr::ImageAccess::eImageAtomicAdd2DMSArrayI )
 		{
@@ -1478,6 +1483,60 @@ namespace hlsl
 			, ast::expr::makeIdentifier( m_cache, ast::var::makeFunction( m_cache.getFunction( expr->getType(), paramList )
 				, "Load" ) )
 			, doSubmit( expr->getArgList().front().get() )
+			, std::move( argList ) );
+	}
+
+	void ExprAdapter::doProcessImageStore( ast::expr::ImageAccessCall * expr
+		, std::map< std::string, ast::type::FunctionPtr > imageStoreFuncs )
+	{
+		auto imgArgType = std::static_pointer_cast< ast::type::Image >( expr->getArgList()[0]->getType() );
+		auto config = imgArgType->getConfig();
+		auto funcName = getName( "SDW_imageStore", config );
+		auto it = imageStoreFuncs.find( funcName );
+
+		if ( it == imageStoreFuncs.end() )
+		{
+			auto & args = expr->getArgList();
+			auto hasSample = expr->getImageAccess() == ast::expr::ImageAccess::eImageStore2DMSF
+				|| expr->getImageAccess() == ast::expr::ImageAccess::eImageStore2DMSArrayF
+				|| expr->getImageAccess() == ast::expr::ImageAccess::eImageStore2DMSI
+				|| expr->getImageAccess() == ast::expr::ImageAccess::eImageStore2DMSArrayI
+				|| expr->getImageAccess() == ast::expr::ImageAccess::eImageStore2DMSU
+				|| expr->getImageAccess() == ast::expr::ImageAccess::eImageStore2DMSArrayU;
+			auto dataType = args.back()->getType();
+			ast::var::VariableList parameters;
+			parameters.push_back( ast::var::makeVariable( expr->getArgList()[0]->getType(), "image" ) );
+			parameters.push_back( ast::var::makeVariable( expr->getArgList()[1]->getType(), "coord" ) );
+
+			if ( hasSample )
+			{
+				parameters.push_back( ast::var::makeVariable( expr->getArgList()[2]->getType(), "sample" ) );
+			}
+
+			parameters.push_back( ast::var::makeVariable( dataType, "data" ) );
+			auto functionType = m_cache.getFunction( expr->getType(), parameters );
+			auto cont = ast::stmt::makeFunctionDecl( functionType, funcName );
+			// Function content
+			//	image[coord] = data
+			cont->addStmt( ast::stmt::makeSimple( ast::expr::makeAssign( dataType
+				, std::make_unique< ast::expr::ArrayAccess >( m_cache.getSampledType( config.format )
+					, ast::expr::makeIdentifier( m_cache, parameters[0] )
+					, ast::expr::makeIdentifier( m_cache, parameters[1] ) )
+				, ast::expr::makeIdentifier( m_cache, parameters.back() ) ) ) );
+
+			it = imageStoreFuncs.emplace( funcName, functionType ).first;
+			m_intrinsics->addStmt( std::move( cont ) );
+		}
+
+		ast::expr::ExprList argList;
+
+		for ( auto & arg : expr->getArgList() )
+		{
+			argList.emplace_back( doSubmit( arg.get() ) );
+		}
+
+		m_result = ast::expr::makeFnCall( it->second->getReturnType()
+			, ast::expr::makeIdentifier( m_cache, ast::var::makeFunction( it->second, funcName ) )
 			, std::move( argList ) );
 	}
 

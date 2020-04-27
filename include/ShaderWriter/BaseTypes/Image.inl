@@ -6,51 +6,203 @@ namespace sdw
 	//*****************************************************************************************
 
 	template<>
+	struct ImageSampleGetter< ast::type::ImageFormat::eUnknown >
+	{
+		using SampleType = Vec4;
+	};
+
+	template<>
+	struct ImageSampleGetter< ast::type::ImageFormat::eRgba32f >
+	{
+		using SampleType = Vec4;
+	};
+
+	template<>
+	struct ImageSampleGetter< ast::type::ImageFormat::eRgba16f >
+	{
+		using SampleType = Vec4;
+	};
+
+	template<>
+	struct ImageSampleGetter< ast::type::ImageFormat::eRg32f >
+	{
+		using SampleType = Vec2;
+	};
+
+	template<>
+	struct ImageSampleGetter< ast::type::ImageFormat::eRg16f >
+	{
+		using SampleType = Vec2;
+	};
+
+	template<>
+	struct ImageSampleGetter< ast::type::ImageFormat::eR32f >
+	{
+		using SampleType = Float;
+	};
+
+	template<>
+	struct ImageSampleGetter< ast::type::ImageFormat::eR16f >
+	{
+		using SampleType = Float;
+	};
+
+	template<>
+	struct ImageSampleGetter< ast::type::ImageFormat::eRgba32i >
+	{
+		using SampleType = IVec4;
+	};
+
+	template<>
+	struct ImageSampleGetter< ast::type::ImageFormat::eRgba16i >
+	{
+		using SampleType = IVec4;
+	};
+
+	template<>
+	struct ImageSampleGetter< ast::type::ImageFormat::eRgba8i >
+	{
+		using SampleType = IVec4;
+	};
+
+	template<>
+	struct ImageSampleGetter< ast::type::ImageFormat::eRg32i >
+	{
+		using SampleType = IVec2;
+	};
+
+	template<>
+	struct ImageSampleGetter< ast::type::ImageFormat::eRg16i >
+	{
+		using SampleType = IVec2;
+	};
+
+	template<>
+	struct ImageSampleGetter< ast::type::ImageFormat::eRg8i >
+	{
+		using SampleType = IVec2;
+	};
+
+	template<>
+	struct ImageSampleGetter< ast::type::ImageFormat::eR32i >
+	{
+		using SampleType = Int;
+	};
+
+	template<>
+	struct ImageSampleGetter< ast::type::ImageFormat::eR16i >
+	{
+		using SampleType = Int;
+	};
+
+	template<>
+	struct ImageSampleGetter< ast::type::ImageFormat::eR8i >
+	{
+		using SampleType = Int;
+	};
+
+	template<>
+	struct ImageSampleGetter< ast::type::ImageFormat::eRgba32u >
+	{
+		using SampleType = UVec4;
+	};
+
+	template<>
+	struct ImageSampleGetter< ast::type::ImageFormat::eRgba16u >
+	{
+		using SampleType = UVec4;
+	};
+
+	template<>
+	struct ImageSampleGetter< ast::type::ImageFormat::eRgba8u >
+	{
+		using SampleType = UVec4;
+	};
+
+	template<>
+	struct ImageSampleGetter< ast::type::ImageFormat::eRg32u >
+	{
+		using SampleType = UVec2;
+	};
+
+	template<>
+	struct ImageSampleGetter< ast::type::ImageFormat::eRg16u >
+	{
+		using SampleType = UVec2;
+	};
+
+	template<>
+	struct ImageSampleGetter< ast::type::ImageFormat::eRg8u >
+	{
+		using SampleType = UVec2;
+	};
+
+	template<>
+	struct ImageSampleGetter< ast::type::ImageFormat::eR32u >
+	{
+		using SampleType = UInt;
+	};
+
+	template<>
+	struct ImageSampleGetter< ast::type::ImageFormat::eR16u >
+	{
+		using SampleType = UInt;
+	};
+
+	template<>
+	struct ImageSampleGetter< ast::type::ImageFormat::eR8u >
+	{
+		using SampleType = UInt;
+	};
+
+	//*****************************************************************************************
+
+	template<>
 	struct ImageCoordsGetter< ast::type::ImageDim::e1D, false >
 	{
-		using Type = sdw::Int;
+		using CoordsType = sdw::Int;
 	};
 
 	template<>
 	struct ImageCoordsGetter< ast::type::ImageDim::e2D, false >
 	{
-		using Type = sdw::IVec2;
+		using CoordsType = sdw::IVec2;
 	};
 
 	template<>
 	struct ImageCoordsGetter< ast::type::ImageDim::e3D, false >
 	{
-		using Type = sdw::IVec3;
+		using CoordsType = sdw::IVec3;
 	};
 
 	template<>
 	struct ImageCoordsGetter< ast::type::ImageDim::eCube, false >
 	{
-		using Type = sdw::IVec3;
+		using CoordsType = sdw::IVec3;
 	};
 
 	template<>
 	struct ImageCoordsGetter< ast::type::ImageDim::eBuffer, false >
 	{
-		using Type = sdw::Int;
+		using CoordsType = sdw::Int;
 	};
 
 	template<>
 	struct ImageCoordsGetter< ast::type::ImageDim::e1D, true >
 	{
-		using Type = sdw::IVec2;
+		using CoordsType = sdw::IVec2;
 	};
 
 	template<>
 	struct ImageCoordsGetter< ast::type::ImageDim::e2D, true >
 	{
-		using Type = sdw::IVec3;
+		using CoordsType = sdw::IVec3;
 	};
 
 	template<>
 	struct ImageCoordsGetter< ast::type::ImageDim::eCube, true >
 	{
-		using Type = sdw::IVec3;
+		using CoordsType = sdw::IVec3;
 	};
 
 	//*****************************************************************************************

@@ -27,6 +27,8 @@ namespace
 					} );
 				test::writeShader( writer
 					, testCounts );
+				test::validateShader( writer.getShader()
+					, testCounts );
 			}
 			testEnd();
 		};
@@ -55,6 +57,8 @@ namespace
 						auto i = writer.declLocale( "i", imageSamples( s ) );
 					} );
 				test::writeShader( writer
+					, testCounts );
+				test::validateShader( writer.getShader()
 					, testCounts );
 			}
 			testEnd();
@@ -111,6 +115,8 @@ namespace
 					} );
 				test::writeShader( writer
 					, testCounts );
+				test::validateShader( writer.getShader()
+					, testCounts );
 			}
 			testEnd();
 		};
@@ -140,6 +146,92 @@ namespace
 						auto i = writer.declLocale( "i", imageLoad( s, test::getDefault< Coords >( writer.getShader() ), 0_i ) );
 					} );
 				test::writeShader( writer
+					, testCounts );
+				test::validateShader( writer.getShader()
+					, testCounts );
+			}
+			testEnd();
+		};
+	};
+
+	template< ast::type::ImageFormat FormatT
+		, ast::type::ImageDim DimT
+		, bool ArrayedT
+		, bool DepthT
+		, bool MsT
+		, typename Enable = void >
+	struct ImageStoreTester
+	{
+		static void test( test::sdw_test::TestCounts & testCounts )
+		{
+		}
+	};
+
+	template< ast::type::ImageFormat FormatT
+		, ast::type::ImageDim DimT
+		, bool ArrayedT
+		, bool DepthT
+		, bool MsT >
+	struct ImageStoreTester< FormatT, DimT, ArrayedT, DepthT, MsT, std::enable_if_t< !MsT > >
+	{
+		using Coords = sdw::ImageCoordsT< DimT, ArrayedT >;
+		using Sample = sdw::ImageSampleT< FormatT >;
+
+		static void test( test::sdw_test::TestCounts & testCounts )
+		{
+			auto name = "testImageStore" + sdw::debug::getName( FormatT, DimT, ArrayedT, false, MsT );
+			testBegin( name );
+			using namespace sdw;
+			{
+				ComputeWriter writer;
+				auto s = writer.declImage< FormatT, DimT, ArrayedT, false, MsT >( "s", 0u, 0u );
+				writer.inputLayout( 1u );
+				writer.implementFunction< sdw::Void >( "main"
+					, [&]()
+					{
+						imageStore( s
+							, test::getDefault< Coords >( writer.getShader() )
+							, test::getDefault< Sample >( writer.getShader() ) );
+					} );
+				test::writeShader( writer
+					, testCounts );
+				test::validateShader( writer.getShader()
+					, testCounts );
+			}
+			testEnd();
+		};
+	};
+
+	template< ast::type::ImageFormat FormatT
+		, ast::type::ImageDim DimT
+		, bool ArrayedT
+		, bool DepthT
+		, bool MsT >
+	struct ImageStoreTester< FormatT, DimT, ArrayedT, DepthT, MsT, std::enable_if_t< MsT > >
+	{
+		using Coords = sdw::ImageCoordsT< DimT, ArrayedT >;
+		using Sample = sdw::ImageSampleT< FormatT >;
+
+		static void test( test::sdw_test::TestCounts & testCounts )
+		{
+			auto name = "testImageStore" + sdw::debug::getName( FormatT, DimT, ArrayedT, false, MsT );
+			testBegin( name );
+			using namespace sdw;
+			{
+				ComputeWriter writer;
+				auto s = writer.declImage< FormatT, DimT, ArrayedT, false, MsT >( "s", 0u, 0u );
+				writer.inputLayout( 1u );
+				writer.implementFunction< sdw::Void >( "main"
+					, [&]()
+					{
+						imageStore( s
+							, test::getDefault< Coords >( writer.getShader() )
+							, test::getDefault< sdw::Int >( writer.getShader() )
+							, test::getDefault< Sample >( writer.getShader() ) );
+					} );
+				test::writeShader( writer
+					, testCounts );
+				test::validateShader( writer.getShader()
 					, testCounts );
 			}
 			testEnd();
@@ -185,6 +277,8 @@ namespace
 					} );
 				test::writeShader( writer
 					, testCounts );
+				test::validateShader( writer.getShader()
+					, testCounts );
 			}
 			testEnd();
 		};
@@ -215,6 +309,8 @@ namespace
 						auto i = writer.declLocale( "i", imageAtomicAdd( s, test::getDefault< Coords >( writer.getShader() ), 0_i, 2_i ) );
 					} );
 				test::writeShader( writer
+					, testCounts );
+				test::validateShader( writer.getShader()
 					, testCounts );
 			}
 			testEnd();
@@ -260,6 +356,8 @@ namespace
 					} );
 				test::writeShader( writer
 					, testCounts );
+				test::validateShader( writer.getShader()
+					, testCounts );
 			}
 			testEnd();
 		};
@@ -290,6 +388,8 @@ namespace
 						auto i = writer.declLocale( "i", imageAtomicAdd( s, test::getDefault< Coords >( writer.getShader() ), 0_i, 2_u ) );
 					} );
 				test::writeShader( writer
+					, testCounts );
+				test::validateShader( writer.getShader()
 					, testCounts );
 			}
 			testEnd();
@@ -335,6 +435,8 @@ namespace
 					} );
 				test::writeShader( writer
 					, testCounts );
+				test::validateShader( writer.getShader()
+					, testCounts );
 			}
 			testEnd();
 		};
@@ -365,6 +467,8 @@ namespace
 						auto i = writer.declLocale( "i", imageAtomicMin( s, test::getDefault< Coords >( writer.getShader() ), 0_i, 2_i ) );
 					} );
 				test::writeShader( writer
+					, testCounts );
+				test::validateShader( writer.getShader()
 					, testCounts );
 			}
 			testEnd();
@@ -410,6 +514,8 @@ namespace
 					} );
 				test::writeShader( writer
 					, testCounts );
+				test::validateShader( writer.getShader()
+					, testCounts );
 			}
 			testEnd();
 		};
@@ -440,6 +546,8 @@ namespace
 						auto i = writer.declLocale( "i", imageAtomicMin( s, test::getDefault< Coords >( writer.getShader() ), 0_i, 2_u ) );
 					} );
 				test::writeShader( writer
+					, testCounts );
+				test::validateShader( writer.getShader()
 					, testCounts );
 			}
 			testEnd();
@@ -485,6 +593,8 @@ namespace
 					} );
 				test::writeShader( writer
 					, testCounts );
+				test::validateShader( writer.getShader()
+					, testCounts );
 			}
 			testEnd();
 		};
@@ -515,6 +625,8 @@ namespace
 						auto i = writer.declLocale( "i", imageAtomicMax( s, test::getDefault< Coords >( writer.getShader() ), 0_i, 2_i ) );
 					} );
 				test::writeShader( writer
+					, testCounts );
+				test::validateShader( writer.getShader()
 					, testCounts );
 			}
 			testEnd();
@@ -560,6 +672,8 @@ namespace
 					} );
 				test::writeShader( writer
 					, testCounts );
+				test::validateShader( writer.getShader()
+					, testCounts );
 			}
 			testEnd();
 		};
@@ -590,6 +704,8 @@ namespace
 						auto i = writer.declLocale( "i", imageAtomicMax( s, test::getDefault< Coords >( writer.getShader() ), 0_i, 2_u ) );
 					} );
 				test::writeShader( writer
+					, testCounts );
+				test::validateShader( writer.getShader()
 					, testCounts );
 			}
 			testEnd();
@@ -635,6 +751,8 @@ namespace
 					} );
 				test::writeShader( writer
 					, testCounts );
+				test::validateShader( writer.getShader()
+					, testCounts );
 			}
 			testEnd();
 		};
@@ -665,6 +783,8 @@ namespace
 						auto i = writer.declLocale( "i", imageAtomicAnd( s, test::getDefault< Coords >( writer.getShader() ), 0_i, 2_i ) );
 					} );
 				test::writeShader( writer
+					, testCounts );
+				test::validateShader( writer.getShader()
 					, testCounts );
 			}
 			testEnd();
@@ -710,6 +830,8 @@ namespace
 					} );
 				test::writeShader( writer
 					, testCounts );
+				test::validateShader( writer.getShader()
+					, testCounts );
 			}
 			testEnd();
 		};
@@ -740,6 +862,8 @@ namespace
 						auto i = writer.declLocale( "i", imageAtomicAnd( s, test::getDefault< Coords >( writer.getShader() ), 0_i, 2_u ) );
 					} );
 				test::writeShader( writer
+					, testCounts );
+				test::validateShader( writer.getShader()
 					, testCounts );
 			}
 			testEnd();
@@ -785,6 +909,8 @@ namespace
 					} );
 				test::writeShader( writer
 					, testCounts );
+				test::validateShader( writer.getShader()
+					, testCounts );
 			}
 			testEnd();
 		};
@@ -815,6 +941,8 @@ namespace
 						auto i = writer.declLocale( "i", imageAtomicOr( s, test::getDefault< Coords >( writer.getShader() ), 0_i, 2_i ) );
 					} );
 				test::writeShader( writer
+					, testCounts );
+				test::validateShader( writer.getShader()
 					, testCounts );
 			}
 			testEnd();
@@ -860,6 +988,8 @@ namespace
 					} );
 				test::writeShader( writer
 					, testCounts );
+				test::validateShader( writer.getShader()
+					, testCounts );
 			}
 			testEnd();
 		};
@@ -890,6 +1020,8 @@ namespace
 						auto i = writer.declLocale( "i", imageAtomicOr( s, test::getDefault< Coords >( writer.getShader() ), 0_i, 2_u ) );
 					} );
 				test::writeShader( writer
+					, testCounts );
+				test::validateShader( writer.getShader()
 					, testCounts );
 			}
 			testEnd();
@@ -935,6 +1067,8 @@ namespace
 					} );
 				test::writeShader( writer
 					, testCounts );
+				test::validateShader( writer.getShader()
+					, testCounts );
 			}
 			testEnd();
 		};
@@ -965,6 +1099,8 @@ namespace
 						auto i = writer.declLocale( "i", imageAtomicXor( s, test::getDefault< Coords >( writer.getShader() ), 0_i, 2_i ) );
 					} );
 				test::writeShader( writer
+					, testCounts );
+				test::validateShader( writer.getShader()
 					, testCounts );
 			}
 			testEnd();
@@ -1010,6 +1146,8 @@ namespace
 					} );
 				test::writeShader( writer
 					, testCounts );
+				test::validateShader( writer.getShader()
+					, testCounts );
 			}
 			testEnd();
 		};
@@ -1040,6 +1178,8 @@ namespace
 						auto i = writer.declLocale( "i", imageAtomicXor( s, test::getDefault< Coords >( writer.getShader() ), 0_i, 2_u ) );
 					} );
 				test::writeShader( writer
+					, testCounts );
+				test::validateShader( writer.getShader()
 					, testCounts );
 			}
 			testEnd();
@@ -1085,6 +1225,8 @@ namespace
 					} );
 				test::writeShader( writer
 					, testCounts );
+				test::validateShader( writer.getShader()
+					, testCounts );
 			}
 			testEnd();
 		};
@@ -1115,6 +1257,8 @@ namespace
 						auto i = writer.declLocale( "i", imageAtomicExchange( s, test::getDefault< Coords >( writer.getShader() ), 0_i, 2_i ) );
 					} );
 				test::writeShader( writer
+					, testCounts );
+				test::validateShader( writer.getShader()
 					, testCounts );
 			}
 			testEnd();
@@ -1160,6 +1304,8 @@ namespace
 					} );
 				test::writeShader( writer
 					, testCounts );
+				test::validateShader( writer.getShader()
+					, testCounts );
 			}
 			testEnd();
 		};
@@ -1190,6 +1336,8 @@ namespace
 						auto i = writer.declLocale( "i", imageAtomicExchange( s, test::getDefault< Coords >( writer.getShader() ), 0_i, 2_u ) );
 					} );
 				test::writeShader( writer
+					, testCounts );
+				test::validateShader( writer.getShader()
 					, testCounts );
 			}
 			testEnd();
@@ -1235,6 +1383,8 @@ namespace
 					} );
 				test::writeShader( writer
 					, testCounts );
+				test::validateShader( writer.getShader()
+					, testCounts );
 			}
 			testEnd();
 		};
@@ -1265,6 +1415,8 @@ namespace
 						auto i = writer.declLocale( "i", imageAtomicCompSwap( s, test::getDefault< Coords >( writer.getShader() ), 0_i, 2_i, 3_i ) );
 					} );
 				test::writeShader( writer
+					, testCounts );
+				test::validateShader( writer.getShader()
 					, testCounts );
 			}
 			testEnd();
@@ -1310,6 +1462,8 @@ namespace
 					} );
 				test::writeShader( writer
 					, testCounts );
+				test::validateShader( writer.getShader()
+					, testCounts );
 			}
 			testEnd();
 		};
@@ -1340,6 +1494,8 @@ namespace
 						auto i = writer.declLocale( "i", imageAtomicCompSwap( s, test::getDefault< Coords >( writer.getShader() ), 0_i, 2_u, 3_u ) );
 					} );
 				test::writeShader( writer
+					, testCounts );
+				test::validateShader( writer.getShader()
 					, testCounts );
 			}
 			testEnd();
@@ -1441,6 +1597,7 @@ int main( int argc, char ** argv )
 	testsImage< ImageSizeTester >( testCounts );
 	testsImage< ImageSamplesTester >( testCounts );
 	testsImage< ImageLoadTester >( testCounts );
+	testsImage< ImageStoreTester >( testCounts );
 	testsImageAtomic< ImageIAtomicAddTester >( testCounts );
 	testsImageAtomic< ImageUAtomicAddTester >( testCounts );
 	testsImageAtomic< ImageIAtomicMinTester >( testCounts );

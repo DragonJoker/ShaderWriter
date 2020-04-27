@@ -108,6 +108,27 @@ def assertParams( params, tabs ):
 			result += tabs + "assert( " + paramName + "->getType()->getKind() == " + paramType + " );\n"
 	return result
 
+def assertParamsEx( params, tabs, lastType ):
+	result = ""
+	intrParams = re.compile("[, ]*ASTIntrParams\( ([\w, :()\[\]]*) \)$")
+	resParams = intrParams.match( params )
+	if resParams:
+		intrParam = re.compile("(ASTIntrParam|ASTIntrOutParam)\( ([^,]*), ([^ ]*) \)")
+		resParam = intrParam.split( resParams.group( 1 ) )
+		index = 1
+		while len( resParam ) > index + 2:
+			index += 1
+			paramType = resParam[index]
+			index += 1
+			paramName = discardArray( resParam[index] )
+			index += 2
+
+			if len( resParam ) <= index + 2:
+				paramType = lastType
+
+			result += tabs + "assert( " + paramName + "->getType()->getKind() == " + paramType + " );\n"
+	return result
+
 def computeArgs( args ):
 	result = ""
 	intrArgs = re.compile("[, ]*ASTIntrParams\( ([\w, :()\[\]]*) \)$")
@@ -258,8 +279,14 @@ def printTextureFunction( outs, enumName, match ):
 		outs.write( "\n\t\t, ExprPtr image" )
 		outs.write( computeParams( paramsGroup, "\n\t\t," ) + " )\n" )
 		outs.write( "\t{\n" )
-		outs.write( assertParams( paramsGroup, "\t\t" ) )
-		outs.write( "\t\treturn make" + enumName + "Call( cache.getBasicType( " + ret + " )\n" )
+
+		if intrinsicName.find( "Store" ) != -1:
+			outs.write( assertParamsEx( paramsGroup, "\t\t", ret ) )
+			outs.write( "\t\treturn make" + enumName + "Call( cache.getBasicType( type::Kind::eVoid )\n" )
+		else:
+			outs.write( assertParams( paramsGroup, "\t\t" ) )
+			outs.write( "\t\treturn make" + enumName + "Call( cache.getBasicType( " + ret + " )\n" )
+
 		outs.write( "\t\t\t, " + computeEnum( enumName, functionGroup ) )
 		outs.write( "\n\t\t\t, std::move( image )" )
 		outs.write( computeArgs( paramsGroup ) + " );\n" )

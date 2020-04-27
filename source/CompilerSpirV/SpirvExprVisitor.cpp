@@ -1135,10 +1135,12 @@ namespace spirv
 	void ExprVisitor::visitImageAccessCallExpr( ast::expr::ImageAccessCall * expr )
 	{
 		m_allLiterals = false;
+		auto isStore = expr->getImageAccess() >= ast::expr::ImageAccess::eImageStore1DF
+			&& expr->getImageAccess() <= ast::expr::ImageAccess::eImageStore2DMSArrayU;
 		auto paramType = expr->getArgList()[0]->getType();
 		assert( paramType->getKind() == ast::type::Kind::eImage );
-		auto imageType = std::static_pointer_cast< ast::type::Image >( paramType );
 		auto imageVarId = doSubmit( expr->getArgList()[0].get(), false );
+		auto imageType = std::static_pointer_cast< ast::type::Image >( paramType );
 		auto intermediateId = loadVariable( imageVarId, imageType );
 		IdList params;
 		params.push_back( intermediateId );
@@ -1150,12 +1152,38 @@ namespace spirv
 			params.push_back( id );
 		}
 
+		if ( isStore && imageType->getConfig().isMS )
+		{
+			// MS images image store's parameters need a bit reworking
+			// since in SPIR-V the sample parameter is an optional one
+			// and as such it has to be at the end.
+			auto data = params.back();
+			params.pop_back();
+			auto sample = params.back();
+			params.pop_back();
+			params.push_back( data );
+			params.push_back( spv::ImageOperandsSampleMask );
+			params.push_back( sample );
+		}
+
 		IntrinsicConfig config;
 		getSpirVConfig( expr->getImageAccess(), config );
 		auto op = getSpirVName( expr->getImageAccess() );
-		auto typeId = m_module.registerType( expr->getType() );
 
-		if ( config.needsTexelPointer )
+		if ( isStore )
+		{
+			m_currentBlock.instructions.emplace_back( makeInstruction< ImageStoreInstruction >( params ) );
+		}
+		else if ( !config.needsTexelPointer )
+		{
+			auto typeId = m_module.registerType( expr->getType() );
+			m_result = m_module.getIntermediateResult();
+			m_currentBlock.instructions.emplace_back( makeImageAccessInstruction( typeId
+				, m_result
+				, op
+				, params ) );
+		}
+		else
 		{
 			IdList texelPointerParams;
 			uint32_t index = 0u;
@@ -1209,20 +1237,14 @@ namespace spirv
 					, params.end() );
 			}
 
+
+			auto typeId = m_module.registerType( expr->getType() );
 			m_result = m_module.getIntermediateResult();
 			m_currentBlock.instructions.emplace_back( makeImageAccessInstruction( typeId
 				, m_result
 				, op
 				, accessParams ) );
 			m_module.putIntermediateResult( pointerId );
-		}
-		else
-		{
-			m_result = m_module.getIntermediateResult();
-			m_currentBlock.instructions.emplace_back( makeImageAccessInstruction( typeId
-				, m_result
-				, op
-				, params ) );
 		}
 	}
 

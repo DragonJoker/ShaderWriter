@@ -10,13 +10,19 @@ See LICENSE file in root folder
 
 namespace sdw
 {
-	template< ast::type::ImageDim DimT
-		, bool ArrayedT >
-	struct ImageCoordsGetter;
+	template< ast::type::ImageFormat FormatT >
+	struct ImageSampleGetter;
+
+	template< ast::type::ImageFormat FormatT >
+	using ImageSampleT = typename ImageSampleGetter< FormatT >::SampleType;
 
 	template< ast::type::ImageDim DimT
 		, bool ArrayedT >
-	using ImageCoordsT = typename ImageCoordsGetter< DimT, ArrayedT >::Type;
+		struct ImageCoordsGetter;
+
+	template< ast::type::ImageDim DimT
+		, bool ArrayedT >
+	using ImageCoordsT = typename ImageCoordsGetter< DimT, ArrayedT >::CoordsType;
 
 	struct Image
 		: public Value
