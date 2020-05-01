@@ -28,6 +28,7 @@ namespace sdw
 		*	Variables registration.
 		*/
 		/**@{*/
+		SDW_API bool hasVariable( std::string const & name )const;
 		SDW_API var::VariablePtr registerName( std::string const & name
 			, type::TypePtr type
 			, uint32_t flags );

@@ -319,6 +319,18 @@ namespace ast::type
 		}
 	}
 
+	uint32_t getComponentCount( Type const & type )
+	{
+		auto arraySize = getArraySize( type );
+		return getComponentCount( getNonArrayKind( type ) )
+			* ( arraySize ? arraySize : 1u );
+	}
+
+	uint32_t getComponentCount( TypePtr const & type )
+	{
+		return getComponentCount( *type );
+	}
+
 	Kind getComponentType( Kind kind )
 	{
 		switch ( kind )
@@ -386,6 +398,16 @@ namespace ast::type
 		default:
 			return kind;
 		}
+	}
+
+	Kind getComponentType( Type const & type )
+	{
+		return getComponentType( getNonArrayKind( type ) );
+	}
+
+	Kind getComponentType( TypePtr const & type )
+	{
+		return getComponentType( *type );
 	}
 
 	Kind getScalarType( Kind kind )
