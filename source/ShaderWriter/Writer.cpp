@@ -47,6 +47,11 @@ namespace sdw
 		doGetCurrentWriter() = nullptr;
 	}
 
+	bool ShaderWriter::hasVariable( std::string const & name )const
+	{
+		return m_shader.hasVariable( name );
+	}
+
 	var::VariablePtr ShaderWriter::registerName( std::string const & name
 		, type::TypePtr type
 		, uint32_t flags )

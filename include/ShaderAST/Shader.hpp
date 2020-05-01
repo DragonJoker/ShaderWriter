@@ -60,6 +60,7 @@ namespace ast
 		*	Variables registration.
 		*/
 		/**@{*/
+		bool hasVariable( std::string const & name )const;
 		void registerVariable( var::VariablePtr var );
 		var::VariablePtr registerName( std::string const & name
 			, type::TypePtr type

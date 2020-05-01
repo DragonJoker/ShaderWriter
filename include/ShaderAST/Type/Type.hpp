@@ -132,12 +132,20 @@ namespace ast::type
 	bool isSamplerType( Kind kind );
 	bool isImageType( Kind kind );
 	bool isSampledImageType( Kind kind );
+	/**
+	*\remarks
+	*	Returns count * arraySize in case of arrays.
+	*/
 	uint32_t getComponentCount( Kind kind );
+	uint32_t getComponentCount( Type const & type );
+	uint32_t getComponentCount( TypePtr const & type );
 	/**
 	*\remarks
 	*	Returns \p kind if it is not a matrix or vector type.
 	*/
 	Kind getComponentType( Kind kind );
+	Kind getComponentType( Type const & type );
+	Kind getComponentType( TypePtr const & type );
 	Kind getScalarType( Kind kind );
 	expr::CompositeType getCompositeType( Kind kind );
 	Type const & getNonArrayType( Type const & type );

@@ -30,7 +30,9 @@ namespace sdw
 		ast::type::TypePtr lhsType = details::getType( shader, lhs );
 		ast::type::TypePtr rhsType = details::getType( shader, rhs );
 
-		if ( rhsType != lhsType )
+		if ( rhsType != lhsType
+			&& ast::type::getComponentCount( rhsType ) != ast::type::getComponentCount( lhsType )
+			&& ast::type::getComponentType( rhsType ) != ast::type::getComponentType( lhsType ) )
 		{
 			rhsExpr = sdw::makeCast( lhsType, std::move( rhsExpr ) );
 		}
@@ -50,7 +52,9 @@ namespace sdw
 		ast::type::TypePtr lhsType = details::getType( shader, lhs );
 		ast::type::TypePtr rhsType = details::getType( shader, rhs );
 
-		if ( rhsType != lhsType )
+		if ( rhsType != lhsType
+			&& ast::type::getComponentCount( rhsType ) != ast::type::getComponentCount( lhsType )
+			&& ast::type::getComponentType( rhsType ) != ast::type::getComponentType( lhsType ) )
 		{
 			rhsExpr = sdw::makeCast( lhsType, std::move( rhsExpr ) );
 		}
@@ -71,7 +75,9 @@ namespace sdw
 		ast::type::TypePtr lhsType = details::getType( shader, lhs );
 		ast::type::TypePtr rhsType = details::getType( shader, rhs );
 
-		if ( rhsType != lhsType )
+		if ( rhsType != lhsType
+			&& ast::type::getComponentCount( rhsType ) != ast::type::getComponentCount( lhsType )
+			&& ast::type::getComponentType( rhsType ) != ast::type::getComponentType( lhsType ) )
 		{
 			rhsExpr = sdw::makeCast( lhsType, std::move( rhsExpr ) );
 		}
@@ -92,7 +98,9 @@ namespace sdw
 		ast::type::TypePtr lhsType = details::getType( shader, lhs );
 		ast::type::TypePtr rhsType = details::getType( shader, rhs );
 
-		if ( rhsType != lhsType )
+		if ( rhsType != lhsType
+			&& ast::type::getComponentCount( rhsType ) != ast::type::getComponentCount( lhsType )
+			&& ast::type::getComponentType( rhsType ) != ast::type::getComponentType( lhsType ) )
 		{
 			rhsExpr = sdw::makeCast( lhsType, std::move( rhsExpr ) );
 		}
@@ -113,7 +121,9 @@ namespace sdw
 		ast::type::TypePtr lhsType = details::getType( shader, lhs );
 		ast::type::TypePtr rhsType = details::getType( shader, rhs );
 
-		if ( rhsType != lhsType )
+		if ( rhsType != lhsType
+			&& ast::type::getComponentCount( rhsType ) != ast::type::getComponentCount( lhsType )
+			&& ast::type::getComponentType( rhsType ) != ast::type::getComponentType( lhsType ) )
 		{
 			rhsExpr = sdw::makeCast( lhsType, std::move( rhsExpr ) );
 		}
@@ -140,7 +150,9 @@ namespace sdw
 		ast::type::TypePtr lhsType = details::getType( shader, lhs );
 		ast::type::TypePtr rhsType = details::getType( shader, rhs );
 
-		if ( rhsType != lhsType )
+		if ( rhsType != lhsType
+			&& ast::type::getComponentCount( rhsType ) != ast::type::getComponentCount( lhsType )
+			&& ast::type::getComponentType( rhsType ) != ast::type::getComponentType( lhsType ) )
 		{
 			rhsExpr = sdw::makeCast( lhsType, std::move( rhsExpr ) );
 		}
@@ -167,7 +179,9 @@ namespace sdw
 		ast::type::TypePtr lhsType = details::getType( shader, lhs );
 		ast::type::TypePtr rhsType = details::getType( shader, rhs );
 
-		if ( rhsType != lhsType )
+		if ( rhsType != lhsType
+			&& ast::type::getComponentCount( rhsType ) != ast::type::getComponentCount( lhsType )
+			&& ast::type::getComponentType( rhsType ) != ast::type::getComponentType( lhsType ) )
 		{
 			rhsExpr = sdw::makeCast( lhsType, std::move( rhsExpr ) );
 		}

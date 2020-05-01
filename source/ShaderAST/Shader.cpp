@@ -70,6 +70,13 @@ namespace ast
 		return std::move( expr );
 	}
 
+	bool Shader::hasVariable( std::string const & name )const
+	{
+		auto & block = m_blocks.back();
+		auto it = block.registered.find( name );
+		return it != block.registered.end();
+	}
+
 	void Shader::registerVariable( var::VariablePtr var )
 	{
 		auto & block = m_blocks.back();
