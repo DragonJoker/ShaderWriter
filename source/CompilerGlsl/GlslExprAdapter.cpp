@@ -285,7 +285,16 @@ namespace glsl
 
 				if ( sampledType != glslType )
 				{
-					result = swizzleConvert( glslType, sampledType, std::move( result ) );
+					result = ( ( getComponentCount( *sampledType ) == 1u )
+						? [&glslType, &result]()
+						{
+							ast::expr::ExprList list;
+							list.emplace_back( std::move( result ) );
+							return ast::expr::makeCompositeConstruct( getCompositeType( glslType->getKind() )
+								, getComponentType( *glslType )
+								, std::move( list ) );
+						}()
+						: swizzleConvert( glslType, sampledType, std::move( result ) ) );
 				}
 
 				args.emplace_back( std::move( result ) );

@@ -531,17 +531,24 @@ namespace spirv
 
 			// Comp parameter is the last one in GLSL whilst it is the last before
 			// optional ones in SPIR-V, hence we move it to the right place.
-			args.emplace( args.begin() + config.imageOperandsIndex - 1u, std::move( args.back() ) );
+			auto compArg = std::move( args.back() );
 			args.pop_back();
+			args.emplace( args.begin() + config.imageOperandsIndex - 1u, std::move( compArg ) );
 		}
 		else if ( getBias( kind ) == spv::ImageOperandsBiasMask )
 		{
 			// Bias is the last parameter in GLSL, but it has to be the first one after the ImageOperands in SPIR-V.
 			if ( args.size() > config.imageOperandsIndex + 1u )
 			{
-				args.emplace( args.begin() + config.imageOperandsIndex, std::move( args.back() ) );
+				auto biasArg = std::move( args.back() );
 				args.pop_back();
+				args.emplace( args.begin() + config.imageOperandsIndex, std::move( biasArg ) );
 			}
+		}
+
+		for ( auto & arg : args )
+		{
+			assert( arg != nullptr );
 		}
 
 		m_result = ast::expr::makeTextureAccessCall( returnType

@@ -222,33 +222,36 @@ namespace sdw
 	//*****************************************************************************************
 
 	template< ast::type::ImageFormat FormatT
+		, ast::type::AccessKind AccessT
 		, ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool DepthT
 		, bool MsT >
-	ImageT< FormatT, DimT, ArrayedT, DepthT, MsT >::ImageT( Shader * shader
+	ImageT< FormatT, AccessT, DimT, ArrayedT, DepthT, MsT >::ImageT( Shader * shader
 		, expr::ExprPtr expr )
 		: Image{ FormatT, shader, std::move( expr ) }
 	{
 	}
 
 	template< ast::type::ImageFormat FormatT
+		, ast::type::AccessKind AccessT
 		, ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool DepthT
 		, bool MsT >
-	ImageT< FormatT, DimT, ArrayedT, DepthT, MsT >::ImageT( ImageT const & rhs )
+	ImageT< FormatT, AccessT, DimT, ArrayedT, DepthT, MsT >::ImageT( ImageT const & rhs )
 		: Image{ rhs }
 	{
 	}
 
 	template< ast::type::ImageFormat FormatT
+		, ast::type::AccessKind AccessT
 		, ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool DepthT
 		, bool MsT >
 	template< typename T >
-	ImageT< FormatT, DimT, ArrayedT, DepthT, MsT > & ImageT< FormatT, DimT, ArrayedT, DepthT, MsT >::operator=( T const & rhs )
+	ImageT< FormatT, AccessT, DimT, ArrayedT, DepthT, MsT > & ImageT< FormatT, AccessT, DimT, ArrayedT, DepthT, MsT >::operator=( T const & rhs )
 	{
 		this->updateContainer( rhs );
 		auto & shader = *findShader( *this, rhs );
@@ -260,31 +263,34 @@ namespace sdw
 	}
 
 	template< ast::type::ImageFormat FormatT
+		, ast::type::AccessKind AccessT
 		, ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool DepthT
 		, bool MsT >
-	ImageT< FormatT, DimT, ArrayedT, DepthT, MsT >::operator uint32_t()
+	ImageT< FormatT, AccessT, DimT, ArrayedT, DepthT, MsT >::operator uint32_t()
 	{
 		return 0u;
 	}
 
 	template< ast::type::ImageFormat FormatT
+		, ast::type::AccessKind AccessT
 		, ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool DepthT
 		, bool MsT >
-	ast::type::ImageConfiguration ImageT< FormatT, DimT, ArrayedT, DepthT, MsT >::makeConfig()
+	ast::type::ImageConfiguration ImageT< FormatT, AccessT, DimT, ArrayedT, DepthT, MsT >::makeConfig()
 	{
-		return ast::type::makeConfig< FormatT, DimT, ArrayedT, DepthT, MsT >( false, false );
+		return ast::type::makeConfig< FormatT, AccessT, DimT, ArrayedT, DepthT, MsT >( false );
 	}
 
 	template< ast::type::ImageFormat FormatT
+		, ast::type::AccessKind AccessT
 		, ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool DepthT
 		, bool MsT >
-	inline ast::type::TypePtr ImageT< FormatT, DimT, ArrayedT, DepthT, MsT >::makeType( ast::type::TypesCache & cache )
+	inline ast::type::TypePtr ImageT< FormatT, AccessT, DimT, ArrayedT, DepthT, MsT >::makeType( ast::type::TypesCache & cache )
 	{
 		return cache.getImage( makeConfig() );
 	}

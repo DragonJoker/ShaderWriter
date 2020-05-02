@@ -2432,7 +2432,7 @@ namespace
 	template< ast::type::ImageFormat FormatT, template< ast::type::ImageFormat, ast::type::ImageDim, bool, bool, bool, typename Enable = void > typename TesterT >
 	void testsTexture( test::sdw_test::TestCounts & testCounts )
 	{
-		if ( isFloatFormat( FormatT ) )
+		if constexpr ( isFloatFormat( FormatT ) )
 		{
 			TesterT< FormatT, Img1D >::test( testCounts );
 			TesterT< FormatT, Img2D >::test( testCounts );
@@ -2454,7 +2454,7 @@ namespace
 				TesterT< FormatT, ImgCubeArrayShadow >::test( testCounts );
 			}
 		}
-		else if ( isSIntFormat( FormatT ) )
+		else if constexpr ( isSIntFormat( FormatT ) )
 		{
 			TesterT< FormatT, Img1D >::test( testCounts );
 			TesterT< FormatT, Img2D >::test( testCounts );
@@ -2465,7 +2465,7 @@ namespace
 			TesterT< FormatT, Img2DArray >::test( testCounts );
 			TesterT< FormatT, ImgCubeArray >::test( testCounts );
 		}
-		else if ( isUIntFormat( FormatT ) )
+		else if constexpr ( isUIntFormat( FormatT ) )
 		{
 			TesterT< FormatT, Img1D >::test( testCounts );
 			TesterT< FormatT, Img2D >::test( testCounts );

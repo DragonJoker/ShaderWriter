@@ -460,21 +460,7 @@ namespace glsl
 		auto image = std::static_pointer_cast< ast::type::Image >( type );
 		m_result += m_indent;
 		m_result += "layout(";
-
-		if ( image->getConfig().accessKind == ast::type::AccessKind::eRead )
-		{
-			m_result += "readonly";
-			m_result += ", " + getFormatName( image->getConfig().format );
-		}
-		else if ( image->getConfig().accessKind == ast::type::AccessKind::eWrite )
-		{
-			m_result += "writeonly";
-		}
-		else
-		{
-			m_result += getFormatName( image->getConfig().format );
-		}
-
+		m_result += getFormatName( image->getConfig().format );
 		doWriteBinding( stmt->getBindingPoint()
 			, stmt->getDescriptorSet()
 			, ", " );

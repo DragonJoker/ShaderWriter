@@ -15,15 +15,16 @@ namespace sdw
 		};
 
 		template< ast::type::ImageFormat FormatT
+			, ast::type::AccessKind AccessT
 			, ast::type::ImageDim DimT
 			, bool ArrayedT
 			, bool DepthT
 			, bool MsT >
-		struct ConfigMaker< ImageT< FormatT, DimT, ArrayedT, DepthT, MsT > >
+		struct ConfigMaker< ImageT< FormatT, AccessT, DimT, ArrayedT, DepthT, MsT > >
 		{
 			static ast::type::ImageConfiguration get()
 			{
-				return ImageT< FormatT, DimT, ArrayedT, DepthT, MsT >::makeConfig();
+				return ImageT< FormatT, AccessT, DimT, ArrayedT, DepthT, MsT >::makeConfig();
 			}
 		};
 

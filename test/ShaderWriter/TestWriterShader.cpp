@@ -250,14 +250,18 @@ namespace
 		ComputeWriter writer;
 		auto in = writer.getIn();
 		ArraySsboT< UInt > ssbo{ writer, "Datas", writer.getTypesCache().getUInt(), ast::type::MemoryLayout::eStd140 , 0u, 0u };
+		auto img = writer.declImage< RWUImg2DR32 >( "img", 1u, 0u );
 
-		writer.inputLayout( 16 );
+		writer.inputLayout( 16u, 16u );
 		writer.implementFunction< sdw::Void >( "main"
 			, [&]()
 			{
 				ssbo[in.globalInvocationID.x()]
 					= ssbo[in.globalInvocationID.x()]
 					* ssbo[in.globalInvocationID.x()];
+				imageStore( img
+					, ivec2( in.globalInvocationID.xy() )
+					, ssbo[in.globalInvocationID.x()] );
 			} );
 
 		test::writeShader( writer.getShader()

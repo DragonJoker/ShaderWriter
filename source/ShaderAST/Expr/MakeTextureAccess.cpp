@@ -54482,7 +54482,8 @@ namespace ast::expr
 		, ExprPtr offsets )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offsets->getType()->getKind() == type::Kind::eVec2I );
+		assert( offsets->getType()->getKind() == type::Kind::eArray );
+		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
 			, TextureAccess::eTextureGatherOffsets2DF
 			, std::move( image )
@@ -54496,7 +54497,8 @@ namespace ast::expr
 		, ExprPtr offsets )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offsets->getType()->getKind() == type::Kind::eVec2I );
+		assert( offsets->getType()->getKind() == type::Kind::eArray );
+		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
 			, TextureAccess::eTextureGatherOffsets2DF
 			, std::move( image )
@@ -54510,7 +54512,8 @@ namespace ast::expr
 		, ExprPtr offsets )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offsets->getType()->getKind() == type::Kind::eVec2I );
+		assert( offsets->getType()->getKind() == type::Kind::eArray );
+		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
 			, TextureAccess::eTextureGatherOffsets2DF
 			, std::move( image )
@@ -54524,7 +54527,8 @@ namespace ast::expr
 		, ExprPtr offsets )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offsets->getType()->getKind() == type::Kind::eVec2I );
+		assert( offsets->getType()->getKind() == type::Kind::eArray );
+		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
 			, TextureAccess::eTextureGatherOffsets2DF
 			, std::move( image )
@@ -54538,7 +54542,8 @@ namespace ast::expr
 		, ExprPtr offsets )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offsets->getType()->getKind() == type::Kind::eVec2I );
+		assert( offsets->getType()->getKind() == type::Kind::eArray );
+		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
 			, TextureAccess::eTextureGatherOffsets2DF
 			, std::move( image )
@@ -54552,7 +54557,8 @@ namespace ast::expr
 		, ExprPtr offsets )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offsets->getType()->getKind() == type::Kind::eVec2I );
+		assert( offsets->getType()->getKind() == type::Kind::eArray );
+		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
 			, TextureAccess::eTextureGatherOffsets2DF
 			, std::move( image )
@@ -54567,7 +54573,8 @@ namespace ast::expr
 		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offsets->getType()->getKind() == type::Kind::eVec2I );
+		assert( offsets->getType()->getKind() == type::Kind::eArray );
+		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
 			, TextureAccess::eTextureGatherOffsets2DFComp
@@ -54584,7 +54591,8 @@ namespace ast::expr
 		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offsets->getType()->getKind() == type::Kind::eVec2I );
+		assert( offsets->getType()->getKind() == type::Kind::eArray );
+		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
 			, TextureAccess::eTextureGatherOffsets2DFComp
@@ -54601,7 +54609,8 @@ namespace ast::expr
 		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offsets->getType()->getKind() == type::Kind::eVec2I );
+		assert( offsets->getType()->getKind() == type::Kind::eArray );
+		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
 			, TextureAccess::eTextureGatherOffsets2DFComp
@@ -54618,7 +54627,8 @@ namespace ast::expr
 		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offsets->getType()->getKind() == type::Kind::eVec2I );
+		assert( offsets->getType()->getKind() == type::Kind::eArray );
+		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
 			, TextureAccess::eTextureGatherOffsets2DFComp
@@ -54635,7 +54645,8 @@ namespace ast::expr
 		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offsets->getType()->getKind() == type::Kind::eVec2I );
+		assert( offsets->getType()->getKind() == type::Kind::eArray );
+		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
 			, TextureAccess::eTextureGatherOffsets2DFComp
@@ -54652,7 +54663,8 @@ namespace ast::expr
 		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offsets->getType()->getKind() == type::Kind::eVec2I );
+		assert( offsets->getType()->getKind() == type::Kind::eArray );
+		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
 			, TextureAccess::eTextureGatherOffsets2DFComp
@@ -54668,7 +54680,8 @@ namespace ast::expr
 		, ExprPtr offsets )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3F );
-		assert( offsets->getType()->getKind() == type::Kind::eVec2I );
+		assert( offsets->getType()->getKind() == type::Kind::eArray );
+		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
 			, TextureAccess::eTextureGatherOffsets2DArrayF
 			, std::move( image )
@@ -54682,7 +54695,8 @@ namespace ast::expr
 		, ExprPtr offsets )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3F );
-		assert( offsets->getType()->getKind() == type::Kind::eVec2I );
+		assert( offsets->getType()->getKind() == type::Kind::eArray );
+		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
 			, TextureAccess::eTextureGatherOffsets2DArrayF
 			, std::move( image )
@@ -54696,7 +54710,8 @@ namespace ast::expr
 		, ExprPtr offsets )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3F );
-		assert( offsets->getType()->getKind() == type::Kind::eVec2I );
+		assert( offsets->getType()->getKind() == type::Kind::eArray );
+		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
 			, TextureAccess::eTextureGatherOffsets2DArrayF
 			, std::move( image )
@@ -54710,7 +54725,8 @@ namespace ast::expr
 		, ExprPtr offsets )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3F );
-		assert( offsets->getType()->getKind() == type::Kind::eVec2I );
+		assert( offsets->getType()->getKind() == type::Kind::eArray );
+		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
 			, TextureAccess::eTextureGatherOffsets2DArrayF
 			, std::move( image )
@@ -54724,7 +54740,8 @@ namespace ast::expr
 		, ExprPtr offsets )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3F );
-		assert( offsets->getType()->getKind() == type::Kind::eVec2I );
+		assert( offsets->getType()->getKind() == type::Kind::eArray );
+		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
 			, TextureAccess::eTextureGatherOffsets2DArrayF
 			, std::move( image )
@@ -54738,7 +54755,8 @@ namespace ast::expr
 		, ExprPtr offsets )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3F );
-		assert( offsets->getType()->getKind() == type::Kind::eVec2I );
+		assert( offsets->getType()->getKind() == type::Kind::eArray );
+		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
 			, TextureAccess::eTextureGatherOffsets2DArrayF
 			, std::move( image )
@@ -54753,7 +54771,8 @@ namespace ast::expr
 		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3F );
-		assert( offsets->getType()->getKind() == type::Kind::eVec2I );
+		assert( offsets->getType()->getKind() == type::Kind::eArray );
+		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
 			, TextureAccess::eTextureGatherOffsets2DArrayFComp
@@ -54770,7 +54789,8 @@ namespace ast::expr
 		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3F );
-		assert( offsets->getType()->getKind() == type::Kind::eVec2I );
+		assert( offsets->getType()->getKind() == type::Kind::eArray );
+		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
 			, TextureAccess::eTextureGatherOffsets2DArrayFComp
@@ -54787,7 +54807,8 @@ namespace ast::expr
 		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3F );
-		assert( offsets->getType()->getKind() == type::Kind::eVec2I );
+		assert( offsets->getType()->getKind() == type::Kind::eArray );
+		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
 			, TextureAccess::eTextureGatherOffsets2DArrayFComp
@@ -54804,7 +54825,8 @@ namespace ast::expr
 		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3F );
-		assert( offsets->getType()->getKind() == type::Kind::eVec2I );
+		assert( offsets->getType()->getKind() == type::Kind::eArray );
+		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
 			, TextureAccess::eTextureGatherOffsets2DArrayFComp
@@ -54821,7 +54843,8 @@ namespace ast::expr
 		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3F );
-		assert( offsets->getType()->getKind() == type::Kind::eVec2I );
+		assert( offsets->getType()->getKind() == type::Kind::eArray );
+		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
 			, TextureAccess::eTextureGatherOffsets2DArrayFComp
@@ -54838,7 +54861,8 @@ namespace ast::expr
 		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3F );
-		assert( offsets->getType()->getKind() == type::Kind::eVec2I );
+		assert( offsets->getType()->getKind() == type::Kind::eArray );
+		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
 			, TextureAccess::eTextureGatherOffsets2DArrayFComp
@@ -54854,7 +54878,8 @@ namespace ast::expr
 		, ExprPtr offsets )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offsets->getType()->getKind() == type::Kind::eVec2I );
+		assert( offsets->getType()->getKind() == type::Kind::eArray );
+		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
 			, TextureAccess::eTextureGatherOffsets2DRectF
 			, std::move( image )
@@ -54868,7 +54893,8 @@ namespace ast::expr
 		, ExprPtr offsets )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offsets->getType()->getKind() == type::Kind::eVec2I );
+		assert( offsets->getType()->getKind() == type::Kind::eArray );
+		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
 			, TextureAccess::eTextureGatherOffsets2DRectF
 			, std::move( image )
@@ -54882,7 +54908,8 @@ namespace ast::expr
 		, ExprPtr offsets )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offsets->getType()->getKind() == type::Kind::eVec2I );
+		assert( offsets->getType()->getKind() == type::Kind::eArray );
+		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
 			, TextureAccess::eTextureGatherOffsets2DRectF
 			, std::move( image )
@@ -54896,7 +54923,8 @@ namespace ast::expr
 		, ExprPtr offsets )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offsets->getType()->getKind() == type::Kind::eVec2I );
+		assert( offsets->getType()->getKind() == type::Kind::eArray );
+		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
 			, TextureAccess::eTextureGatherOffsets2DRectF
 			, std::move( image )
@@ -54910,7 +54938,8 @@ namespace ast::expr
 		, ExprPtr offsets )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offsets->getType()->getKind() == type::Kind::eVec2I );
+		assert( offsets->getType()->getKind() == type::Kind::eArray );
+		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
 			, TextureAccess::eTextureGatherOffsets2DRectF
 			, std::move( image )
@@ -54924,7 +54953,8 @@ namespace ast::expr
 		, ExprPtr offsets )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offsets->getType()->getKind() == type::Kind::eVec2I );
+		assert( offsets->getType()->getKind() == type::Kind::eArray );
+		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
 			, TextureAccess::eTextureGatherOffsets2DRectF
 			, std::move( image )
@@ -54939,7 +54969,8 @@ namespace ast::expr
 		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offsets->getType()->getKind() == type::Kind::eVec2I );
+		assert( offsets->getType()->getKind() == type::Kind::eArray );
+		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
 			, TextureAccess::eTextureGatherOffsets2DRectFComp
@@ -54956,7 +54987,8 @@ namespace ast::expr
 		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offsets->getType()->getKind() == type::Kind::eVec2I );
+		assert( offsets->getType()->getKind() == type::Kind::eArray );
+		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
 			, TextureAccess::eTextureGatherOffsets2DRectFComp
@@ -54973,7 +55005,8 @@ namespace ast::expr
 		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offsets->getType()->getKind() == type::Kind::eVec2I );
+		assert( offsets->getType()->getKind() == type::Kind::eArray );
+		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
 			, TextureAccess::eTextureGatherOffsets2DRectFComp
@@ -54990,7 +55023,8 @@ namespace ast::expr
 		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offsets->getType()->getKind() == type::Kind::eVec2I );
+		assert( offsets->getType()->getKind() == type::Kind::eArray );
+		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
 			, TextureAccess::eTextureGatherOffsets2DRectFComp
@@ -55007,7 +55041,8 @@ namespace ast::expr
 		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offsets->getType()->getKind() == type::Kind::eVec2I );
+		assert( offsets->getType()->getKind() == type::Kind::eArray );
+		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
 			, TextureAccess::eTextureGatherOffsets2DRectFComp
@@ -55024,7 +55059,8 @@ namespace ast::expr
 		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offsets->getType()->getKind() == type::Kind::eVec2I );
+		assert( offsets->getType()->getKind() == type::Kind::eArray );
+		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
 			, TextureAccess::eTextureGatherOffsets2DRectFComp
@@ -55040,7 +55076,8 @@ namespace ast::expr
 		, ExprPtr offsets )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offsets->getType()->getKind() == type::Kind::eVec2I );
+		assert( offsets->getType()->getKind() == type::Kind::eArray );
+		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
 			, TextureAccess::eTextureGatherOffsets2DI
 			, std::move( image )
@@ -55054,7 +55091,8 @@ namespace ast::expr
 		, ExprPtr offsets )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offsets->getType()->getKind() == type::Kind::eVec2I );
+		assert( offsets->getType()->getKind() == type::Kind::eArray );
+		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
 			, TextureAccess::eTextureGatherOffsets2DI
 			, std::move( image )
@@ -55068,7 +55106,8 @@ namespace ast::expr
 		, ExprPtr offsets )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offsets->getType()->getKind() == type::Kind::eVec2I );
+		assert( offsets->getType()->getKind() == type::Kind::eArray );
+		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
 			, TextureAccess::eTextureGatherOffsets2DI
 			, std::move( image )
@@ -55082,7 +55121,8 @@ namespace ast::expr
 		, ExprPtr offsets )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offsets->getType()->getKind() == type::Kind::eVec2I );
+		assert( offsets->getType()->getKind() == type::Kind::eArray );
+		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
 			, TextureAccess::eTextureGatherOffsets2DI
 			, std::move( image )
@@ -55096,7 +55136,8 @@ namespace ast::expr
 		, ExprPtr offsets )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offsets->getType()->getKind() == type::Kind::eVec2I );
+		assert( offsets->getType()->getKind() == type::Kind::eArray );
+		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
 			, TextureAccess::eTextureGatherOffsets2DI
 			, std::move( image )
@@ -55110,7 +55151,8 @@ namespace ast::expr
 		, ExprPtr offsets )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offsets->getType()->getKind() == type::Kind::eVec2I );
+		assert( offsets->getType()->getKind() == type::Kind::eArray );
+		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
 			, TextureAccess::eTextureGatherOffsets2DI
 			, std::move( image )
@@ -55124,7 +55166,8 @@ namespace ast::expr
 		, ExprPtr offsets )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offsets->getType()->getKind() == type::Kind::eVec2I );
+		assert( offsets->getType()->getKind() == type::Kind::eArray );
+		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
 			, TextureAccess::eTextureGatherOffsets2DI
 			, std::move( image )
@@ -55138,7 +55181,8 @@ namespace ast::expr
 		, ExprPtr offsets )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offsets->getType()->getKind() == type::Kind::eVec2I );
+		assert( offsets->getType()->getKind() == type::Kind::eArray );
+		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
 			, TextureAccess::eTextureGatherOffsets2DI
 			, std::move( image )
@@ -55152,7 +55196,8 @@ namespace ast::expr
 		, ExprPtr offsets )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offsets->getType()->getKind() == type::Kind::eVec2I );
+		assert( offsets->getType()->getKind() == type::Kind::eArray );
+		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
 			, TextureAccess::eTextureGatherOffsets2DI
 			, std::move( image )
@@ -55167,7 +55212,8 @@ namespace ast::expr
 		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offsets->getType()->getKind() == type::Kind::eVec2I );
+		assert( offsets->getType()->getKind() == type::Kind::eArray );
+		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
 			, TextureAccess::eTextureGatherOffsets2DIComp
@@ -55184,7 +55230,8 @@ namespace ast::expr
 		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offsets->getType()->getKind() == type::Kind::eVec2I );
+		assert( offsets->getType()->getKind() == type::Kind::eArray );
+		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
 			, TextureAccess::eTextureGatherOffsets2DIComp
@@ -55201,7 +55248,8 @@ namespace ast::expr
 		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offsets->getType()->getKind() == type::Kind::eVec2I );
+		assert( offsets->getType()->getKind() == type::Kind::eArray );
+		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
 			, TextureAccess::eTextureGatherOffsets2DIComp
@@ -55218,7 +55266,8 @@ namespace ast::expr
 		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offsets->getType()->getKind() == type::Kind::eVec2I );
+		assert( offsets->getType()->getKind() == type::Kind::eArray );
+		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
 			, TextureAccess::eTextureGatherOffsets2DIComp
@@ -55235,7 +55284,8 @@ namespace ast::expr
 		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offsets->getType()->getKind() == type::Kind::eVec2I );
+		assert( offsets->getType()->getKind() == type::Kind::eArray );
+		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
 			, TextureAccess::eTextureGatherOffsets2DIComp
@@ -55252,7 +55302,8 @@ namespace ast::expr
 		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offsets->getType()->getKind() == type::Kind::eVec2I );
+		assert( offsets->getType()->getKind() == type::Kind::eArray );
+		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
 			, TextureAccess::eTextureGatherOffsets2DIComp
@@ -55269,7 +55320,8 @@ namespace ast::expr
 		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offsets->getType()->getKind() == type::Kind::eVec2I );
+		assert( offsets->getType()->getKind() == type::Kind::eArray );
+		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
 			, TextureAccess::eTextureGatherOffsets2DIComp
@@ -55286,7 +55338,8 @@ namespace ast::expr
 		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offsets->getType()->getKind() == type::Kind::eVec2I );
+		assert( offsets->getType()->getKind() == type::Kind::eArray );
+		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
 			, TextureAccess::eTextureGatherOffsets2DIComp
@@ -55303,7 +55356,8 @@ namespace ast::expr
 		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offsets->getType()->getKind() == type::Kind::eVec2I );
+		assert( offsets->getType()->getKind() == type::Kind::eArray );
+		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
 			, TextureAccess::eTextureGatherOffsets2DIComp
@@ -55319,7 +55373,8 @@ namespace ast::expr
 		, ExprPtr offsets )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3F );
-		assert( offsets->getType()->getKind() == type::Kind::eVec2I );
+		assert( offsets->getType()->getKind() == type::Kind::eArray );
+		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
 			, TextureAccess::eTextureGatherOffsets2DArrayI
 			, std::move( image )
@@ -55333,7 +55388,8 @@ namespace ast::expr
 		, ExprPtr offsets )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3F );
-		assert( offsets->getType()->getKind() == type::Kind::eVec2I );
+		assert( offsets->getType()->getKind() == type::Kind::eArray );
+		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
 			, TextureAccess::eTextureGatherOffsets2DArrayI
 			, std::move( image )
@@ -55347,7 +55403,8 @@ namespace ast::expr
 		, ExprPtr offsets )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3F );
-		assert( offsets->getType()->getKind() == type::Kind::eVec2I );
+		assert( offsets->getType()->getKind() == type::Kind::eArray );
+		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
 			, TextureAccess::eTextureGatherOffsets2DArrayI
 			, std::move( image )
@@ -55361,7 +55418,8 @@ namespace ast::expr
 		, ExprPtr offsets )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3F );
-		assert( offsets->getType()->getKind() == type::Kind::eVec2I );
+		assert( offsets->getType()->getKind() == type::Kind::eArray );
+		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
 			, TextureAccess::eTextureGatherOffsets2DArrayI
 			, std::move( image )
@@ -55375,7 +55433,8 @@ namespace ast::expr
 		, ExprPtr offsets )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3F );
-		assert( offsets->getType()->getKind() == type::Kind::eVec2I );
+		assert( offsets->getType()->getKind() == type::Kind::eArray );
+		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
 			, TextureAccess::eTextureGatherOffsets2DArrayI
 			, std::move( image )
@@ -55389,7 +55448,8 @@ namespace ast::expr
 		, ExprPtr offsets )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3F );
-		assert( offsets->getType()->getKind() == type::Kind::eVec2I );
+		assert( offsets->getType()->getKind() == type::Kind::eArray );
+		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
 			, TextureAccess::eTextureGatherOffsets2DArrayI
 			, std::move( image )
@@ -55403,7 +55463,8 @@ namespace ast::expr
 		, ExprPtr offsets )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3F );
-		assert( offsets->getType()->getKind() == type::Kind::eVec2I );
+		assert( offsets->getType()->getKind() == type::Kind::eArray );
+		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
 			, TextureAccess::eTextureGatherOffsets2DArrayI
 			, std::move( image )
@@ -55417,7 +55478,8 @@ namespace ast::expr
 		, ExprPtr offsets )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3F );
-		assert( offsets->getType()->getKind() == type::Kind::eVec2I );
+		assert( offsets->getType()->getKind() == type::Kind::eArray );
+		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
 			, TextureAccess::eTextureGatherOffsets2DArrayI
 			, std::move( image )
@@ -55431,7 +55493,8 @@ namespace ast::expr
 		, ExprPtr offsets )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3F );
-		assert( offsets->getType()->getKind() == type::Kind::eVec2I );
+		assert( offsets->getType()->getKind() == type::Kind::eArray );
+		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
 			, TextureAccess::eTextureGatherOffsets2DArrayI
 			, std::move( image )
@@ -55446,7 +55509,8 @@ namespace ast::expr
 		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3F );
-		assert( offsets->getType()->getKind() == type::Kind::eVec2I );
+		assert( offsets->getType()->getKind() == type::Kind::eArray );
+		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
 			, TextureAccess::eTextureGatherOffsets2DArrayIComp
@@ -55463,7 +55527,8 @@ namespace ast::expr
 		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3F );
-		assert( offsets->getType()->getKind() == type::Kind::eVec2I );
+		assert( offsets->getType()->getKind() == type::Kind::eArray );
+		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
 			, TextureAccess::eTextureGatherOffsets2DArrayIComp
@@ -55480,7 +55545,8 @@ namespace ast::expr
 		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3F );
-		assert( offsets->getType()->getKind() == type::Kind::eVec2I );
+		assert( offsets->getType()->getKind() == type::Kind::eArray );
+		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
 			, TextureAccess::eTextureGatherOffsets2DArrayIComp
@@ -55497,7 +55563,8 @@ namespace ast::expr
 		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3F );
-		assert( offsets->getType()->getKind() == type::Kind::eVec2I );
+		assert( offsets->getType()->getKind() == type::Kind::eArray );
+		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
 			, TextureAccess::eTextureGatherOffsets2DArrayIComp
@@ -55514,7 +55581,8 @@ namespace ast::expr
 		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3F );
-		assert( offsets->getType()->getKind() == type::Kind::eVec2I );
+		assert( offsets->getType()->getKind() == type::Kind::eArray );
+		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
 			, TextureAccess::eTextureGatherOffsets2DArrayIComp
@@ -55531,7 +55599,8 @@ namespace ast::expr
 		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3F );
-		assert( offsets->getType()->getKind() == type::Kind::eVec2I );
+		assert( offsets->getType()->getKind() == type::Kind::eArray );
+		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
 			, TextureAccess::eTextureGatherOffsets2DArrayIComp
@@ -55548,7 +55617,8 @@ namespace ast::expr
 		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3F );
-		assert( offsets->getType()->getKind() == type::Kind::eVec2I );
+		assert( offsets->getType()->getKind() == type::Kind::eArray );
+		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
 			, TextureAccess::eTextureGatherOffsets2DArrayIComp
@@ -55565,7 +55635,8 @@ namespace ast::expr
 		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3F );
-		assert( offsets->getType()->getKind() == type::Kind::eVec2I );
+		assert( offsets->getType()->getKind() == type::Kind::eArray );
+		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
 			, TextureAccess::eTextureGatherOffsets2DArrayIComp
@@ -55582,7 +55653,8 @@ namespace ast::expr
 		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3F );
-		assert( offsets->getType()->getKind() == type::Kind::eVec2I );
+		assert( offsets->getType()->getKind() == type::Kind::eArray );
+		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
 			, TextureAccess::eTextureGatherOffsets2DArrayIComp
@@ -55598,7 +55670,8 @@ namespace ast::expr
 		, ExprPtr offsets )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offsets->getType()->getKind() == type::Kind::eVec2I );
+		assert( offsets->getType()->getKind() == type::Kind::eArray );
+		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
 			, TextureAccess::eTextureGatherOffsets2DRectI
 			, std::move( image )
@@ -55612,7 +55685,8 @@ namespace ast::expr
 		, ExprPtr offsets )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offsets->getType()->getKind() == type::Kind::eVec2I );
+		assert( offsets->getType()->getKind() == type::Kind::eArray );
+		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
 			, TextureAccess::eTextureGatherOffsets2DRectI
 			, std::move( image )
@@ -55626,7 +55700,8 @@ namespace ast::expr
 		, ExprPtr offsets )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offsets->getType()->getKind() == type::Kind::eVec2I );
+		assert( offsets->getType()->getKind() == type::Kind::eArray );
+		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
 			, TextureAccess::eTextureGatherOffsets2DRectI
 			, std::move( image )
@@ -55640,7 +55715,8 @@ namespace ast::expr
 		, ExprPtr offsets )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offsets->getType()->getKind() == type::Kind::eVec2I );
+		assert( offsets->getType()->getKind() == type::Kind::eArray );
+		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
 			, TextureAccess::eTextureGatherOffsets2DRectI
 			, std::move( image )
@@ -55654,7 +55730,8 @@ namespace ast::expr
 		, ExprPtr offsets )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offsets->getType()->getKind() == type::Kind::eVec2I );
+		assert( offsets->getType()->getKind() == type::Kind::eArray );
+		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
 			, TextureAccess::eTextureGatherOffsets2DRectI
 			, std::move( image )
@@ -55668,7 +55745,8 @@ namespace ast::expr
 		, ExprPtr offsets )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offsets->getType()->getKind() == type::Kind::eVec2I );
+		assert( offsets->getType()->getKind() == type::Kind::eArray );
+		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
 			, TextureAccess::eTextureGatherOffsets2DRectI
 			, std::move( image )
@@ -55682,7 +55760,8 @@ namespace ast::expr
 		, ExprPtr offsets )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offsets->getType()->getKind() == type::Kind::eVec2I );
+		assert( offsets->getType()->getKind() == type::Kind::eArray );
+		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
 			, TextureAccess::eTextureGatherOffsets2DRectI
 			, std::move( image )
@@ -55696,7 +55775,8 @@ namespace ast::expr
 		, ExprPtr offsets )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offsets->getType()->getKind() == type::Kind::eVec2I );
+		assert( offsets->getType()->getKind() == type::Kind::eArray );
+		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
 			, TextureAccess::eTextureGatherOffsets2DRectI
 			, std::move( image )
@@ -55710,7 +55790,8 @@ namespace ast::expr
 		, ExprPtr offsets )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offsets->getType()->getKind() == type::Kind::eVec2I );
+		assert( offsets->getType()->getKind() == type::Kind::eArray );
+		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
 			, TextureAccess::eTextureGatherOffsets2DRectI
 			, std::move( image )
@@ -55725,7 +55806,8 @@ namespace ast::expr
 		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offsets->getType()->getKind() == type::Kind::eVec2I );
+		assert( offsets->getType()->getKind() == type::Kind::eArray );
+		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
 			, TextureAccess::eTextureGatherOffsets2DRectIComp
@@ -55742,7 +55824,8 @@ namespace ast::expr
 		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offsets->getType()->getKind() == type::Kind::eVec2I );
+		assert( offsets->getType()->getKind() == type::Kind::eArray );
+		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
 			, TextureAccess::eTextureGatherOffsets2DRectIComp
@@ -55759,7 +55842,8 @@ namespace ast::expr
 		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offsets->getType()->getKind() == type::Kind::eVec2I );
+		assert( offsets->getType()->getKind() == type::Kind::eArray );
+		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
 			, TextureAccess::eTextureGatherOffsets2DRectIComp
@@ -55776,7 +55860,8 @@ namespace ast::expr
 		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offsets->getType()->getKind() == type::Kind::eVec2I );
+		assert( offsets->getType()->getKind() == type::Kind::eArray );
+		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
 			, TextureAccess::eTextureGatherOffsets2DRectIComp
@@ -55793,7 +55878,8 @@ namespace ast::expr
 		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offsets->getType()->getKind() == type::Kind::eVec2I );
+		assert( offsets->getType()->getKind() == type::Kind::eArray );
+		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
 			, TextureAccess::eTextureGatherOffsets2DRectIComp
@@ -55810,7 +55896,8 @@ namespace ast::expr
 		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offsets->getType()->getKind() == type::Kind::eVec2I );
+		assert( offsets->getType()->getKind() == type::Kind::eArray );
+		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
 			, TextureAccess::eTextureGatherOffsets2DRectIComp
@@ -55827,7 +55914,8 @@ namespace ast::expr
 		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offsets->getType()->getKind() == type::Kind::eVec2I );
+		assert( offsets->getType()->getKind() == type::Kind::eArray );
+		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
 			, TextureAccess::eTextureGatherOffsets2DRectIComp
@@ -55844,7 +55932,8 @@ namespace ast::expr
 		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offsets->getType()->getKind() == type::Kind::eVec2I );
+		assert( offsets->getType()->getKind() == type::Kind::eArray );
+		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
 			, TextureAccess::eTextureGatherOffsets2DRectIComp
@@ -55861,7 +55950,8 @@ namespace ast::expr
 		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offsets->getType()->getKind() == type::Kind::eVec2I );
+		assert( offsets->getType()->getKind() == type::Kind::eArray );
+		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
 			, TextureAccess::eTextureGatherOffsets2DRectIComp
@@ -55877,7 +55967,8 @@ namespace ast::expr
 		, ExprPtr offsets )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offsets->getType()->getKind() == type::Kind::eVec2I );
+		assert( offsets->getType()->getKind() == type::Kind::eArray );
+		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
 			, TextureAccess::eTextureGatherOffsets2DU
 			, std::move( image )
@@ -55891,7 +55982,8 @@ namespace ast::expr
 		, ExprPtr offsets )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offsets->getType()->getKind() == type::Kind::eVec2I );
+		assert( offsets->getType()->getKind() == type::Kind::eArray );
+		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
 			, TextureAccess::eTextureGatherOffsets2DU
 			, std::move( image )
@@ -55905,7 +55997,8 @@ namespace ast::expr
 		, ExprPtr offsets )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offsets->getType()->getKind() == type::Kind::eVec2I );
+		assert( offsets->getType()->getKind() == type::Kind::eArray );
+		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
 			, TextureAccess::eTextureGatherOffsets2DU
 			, std::move( image )
@@ -55919,7 +56012,8 @@ namespace ast::expr
 		, ExprPtr offsets )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offsets->getType()->getKind() == type::Kind::eVec2I );
+		assert( offsets->getType()->getKind() == type::Kind::eArray );
+		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
 			, TextureAccess::eTextureGatherOffsets2DU
 			, std::move( image )
@@ -55933,7 +56027,8 @@ namespace ast::expr
 		, ExprPtr offsets )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offsets->getType()->getKind() == type::Kind::eVec2I );
+		assert( offsets->getType()->getKind() == type::Kind::eArray );
+		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
 			, TextureAccess::eTextureGatherOffsets2DU
 			, std::move( image )
@@ -55947,7 +56042,8 @@ namespace ast::expr
 		, ExprPtr offsets )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offsets->getType()->getKind() == type::Kind::eVec2I );
+		assert( offsets->getType()->getKind() == type::Kind::eArray );
+		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
 			, TextureAccess::eTextureGatherOffsets2DU
 			, std::move( image )
@@ -55961,7 +56057,8 @@ namespace ast::expr
 		, ExprPtr offsets )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offsets->getType()->getKind() == type::Kind::eVec2I );
+		assert( offsets->getType()->getKind() == type::Kind::eArray );
+		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
 			, TextureAccess::eTextureGatherOffsets2DU
 			, std::move( image )
@@ -55975,7 +56072,8 @@ namespace ast::expr
 		, ExprPtr offsets )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offsets->getType()->getKind() == type::Kind::eVec2I );
+		assert( offsets->getType()->getKind() == type::Kind::eArray );
+		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
 			, TextureAccess::eTextureGatherOffsets2DU
 			, std::move( image )
@@ -55989,7 +56087,8 @@ namespace ast::expr
 		, ExprPtr offsets )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offsets->getType()->getKind() == type::Kind::eVec2I );
+		assert( offsets->getType()->getKind() == type::Kind::eArray );
+		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
 			, TextureAccess::eTextureGatherOffsets2DU
 			, std::move( image )
@@ -56004,7 +56103,8 @@ namespace ast::expr
 		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offsets->getType()->getKind() == type::Kind::eVec2I );
+		assert( offsets->getType()->getKind() == type::Kind::eArray );
+		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
 			, TextureAccess::eTextureGatherOffsets2DUComp
@@ -56021,7 +56121,8 @@ namespace ast::expr
 		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offsets->getType()->getKind() == type::Kind::eVec2I );
+		assert( offsets->getType()->getKind() == type::Kind::eArray );
+		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
 			, TextureAccess::eTextureGatherOffsets2DUComp
@@ -56038,7 +56139,8 @@ namespace ast::expr
 		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offsets->getType()->getKind() == type::Kind::eVec2I );
+		assert( offsets->getType()->getKind() == type::Kind::eArray );
+		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
 			, TextureAccess::eTextureGatherOffsets2DUComp
@@ -56055,7 +56157,8 @@ namespace ast::expr
 		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offsets->getType()->getKind() == type::Kind::eVec2I );
+		assert( offsets->getType()->getKind() == type::Kind::eArray );
+		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
 			, TextureAccess::eTextureGatherOffsets2DUComp
@@ -56072,7 +56175,8 @@ namespace ast::expr
 		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offsets->getType()->getKind() == type::Kind::eVec2I );
+		assert( offsets->getType()->getKind() == type::Kind::eArray );
+		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
 			, TextureAccess::eTextureGatherOffsets2DUComp
@@ -56089,7 +56193,8 @@ namespace ast::expr
 		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offsets->getType()->getKind() == type::Kind::eVec2I );
+		assert( offsets->getType()->getKind() == type::Kind::eArray );
+		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
 			, TextureAccess::eTextureGatherOffsets2DUComp
@@ -56106,7 +56211,8 @@ namespace ast::expr
 		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offsets->getType()->getKind() == type::Kind::eVec2I );
+		assert( offsets->getType()->getKind() == type::Kind::eArray );
+		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
 			, TextureAccess::eTextureGatherOffsets2DUComp
@@ -56123,7 +56229,8 @@ namespace ast::expr
 		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offsets->getType()->getKind() == type::Kind::eVec2I );
+		assert( offsets->getType()->getKind() == type::Kind::eArray );
+		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
 			, TextureAccess::eTextureGatherOffsets2DUComp
@@ -56140,7 +56247,8 @@ namespace ast::expr
 		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offsets->getType()->getKind() == type::Kind::eVec2I );
+		assert( offsets->getType()->getKind() == type::Kind::eArray );
+		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
 			, TextureAccess::eTextureGatherOffsets2DUComp
@@ -56156,7 +56264,8 @@ namespace ast::expr
 		, ExprPtr offsets )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3F );
-		assert( offsets->getType()->getKind() == type::Kind::eVec2I );
+		assert( offsets->getType()->getKind() == type::Kind::eArray );
+		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
 			, TextureAccess::eTextureGatherOffsets2DArrayU
 			, std::move( image )
@@ -56170,7 +56279,8 @@ namespace ast::expr
 		, ExprPtr offsets )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3F );
-		assert( offsets->getType()->getKind() == type::Kind::eVec2I );
+		assert( offsets->getType()->getKind() == type::Kind::eArray );
+		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
 			, TextureAccess::eTextureGatherOffsets2DArrayU
 			, std::move( image )
@@ -56184,7 +56294,8 @@ namespace ast::expr
 		, ExprPtr offsets )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3F );
-		assert( offsets->getType()->getKind() == type::Kind::eVec2I );
+		assert( offsets->getType()->getKind() == type::Kind::eArray );
+		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
 			, TextureAccess::eTextureGatherOffsets2DArrayU
 			, std::move( image )
@@ -56198,7 +56309,8 @@ namespace ast::expr
 		, ExprPtr offsets )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3F );
-		assert( offsets->getType()->getKind() == type::Kind::eVec2I );
+		assert( offsets->getType()->getKind() == type::Kind::eArray );
+		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
 			, TextureAccess::eTextureGatherOffsets2DArrayU
 			, std::move( image )
@@ -56212,7 +56324,8 @@ namespace ast::expr
 		, ExprPtr offsets )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3F );
-		assert( offsets->getType()->getKind() == type::Kind::eVec2I );
+		assert( offsets->getType()->getKind() == type::Kind::eArray );
+		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
 			, TextureAccess::eTextureGatherOffsets2DArrayU
 			, std::move( image )
@@ -56226,7 +56339,8 @@ namespace ast::expr
 		, ExprPtr offsets )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3F );
-		assert( offsets->getType()->getKind() == type::Kind::eVec2I );
+		assert( offsets->getType()->getKind() == type::Kind::eArray );
+		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
 			, TextureAccess::eTextureGatherOffsets2DArrayU
 			, std::move( image )
@@ -56240,7 +56354,8 @@ namespace ast::expr
 		, ExprPtr offsets )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3F );
-		assert( offsets->getType()->getKind() == type::Kind::eVec2I );
+		assert( offsets->getType()->getKind() == type::Kind::eArray );
+		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
 			, TextureAccess::eTextureGatherOffsets2DArrayU
 			, std::move( image )
@@ -56254,7 +56369,8 @@ namespace ast::expr
 		, ExprPtr offsets )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3F );
-		assert( offsets->getType()->getKind() == type::Kind::eVec2I );
+		assert( offsets->getType()->getKind() == type::Kind::eArray );
+		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
 			, TextureAccess::eTextureGatherOffsets2DArrayU
 			, std::move( image )
@@ -56268,7 +56384,8 @@ namespace ast::expr
 		, ExprPtr offsets )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3F );
-		assert( offsets->getType()->getKind() == type::Kind::eVec2I );
+		assert( offsets->getType()->getKind() == type::Kind::eArray );
+		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
 			, TextureAccess::eTextureGatherOffsets2DArrayU
 			, std::move( image )
@@ -56283,7 +56400,8 @@ namespace ast::expr
 		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3F );
-		assert( offsets->getType()->getKind() == type::Kind::eVec2I );
+		assert( offsets->getType()->getKind() == type::Kind::eArray );
+		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
 			, TextureAccess::eTextureGatherOffsets2DArrayUComp
@@ -56300,7 +56418,8 @@ namespace ast::expr
 		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3F );
-		assert( offsets->getType()->getKind() == type::Kind::eVec2I );
+		assert( offsets->getType()->getKind() == type::Kind::eArray );
+		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
 			, TextureAccess::eTextureGatherOffsets2DArrayUComp
@@ -56317,7 +56436,8 @@ namespace ast::expr
 		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3F );
-		assert( offsets->getType()->getKind() == type::Kind::eVec2I );
+		assert( offsets->getType()->getKind() == type::Kind::eArray );
+		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
 			, TextureAccess::eTextureGatherOffsets2DArrayUComp
@@ -56334,7 +56454,8 @@ namespace ast::expr
 		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3F );
-		assert( offsets->getType()->getKind() == type::Kind::eVec2I );
+		assert( offsets->getType()->getKind() == type::Kind::eArray );
+		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
 			, TextureAccess::eTextureGatherOffsets2DArrayUComp
@@ -56351,7 +56472,8 @@ namespace ast::expr
 		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3F );
-		assert( offsets->getType()->getKind() == type::Kind::eVec2I );
+		assert( offsets->getType()->getKind() == type::Kind::eArray );
+		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
 			, TextureAccess::eTextureGatherOffsets2DArrayUComp
@@ -56368,7 +56490,8 @@ namespace ast::expr
 		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3F );
-		assert( offsets->getType()->getKind() == type::Kind::eVec2I );
+		assert( offsets->getType()->getKind() == type::Kind::eArray );
+		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
 			, TextureAccess::eTextureGatherOffsets2DArrayUComp
@@ -56385,7 +56508,8 @@ namespace ast::expr
 		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3F );
-		assert( offsets->getType()->getKind() == type::Kind::eVec2I );
+		assert( offsets->getType()->getKind() == type::Kind::eArray );
+		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
 			, TextureAccess::eTextureGatherOffsets2DArrayUComp
@@ -56402,7 +56526,8 @@ namespace ast::expr
 		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3F );
-		assert( offsets->getType()->getKind() == type::Kind::eVec2I );
+		assert( offsets->getType()->getKind() == type::Kind::eArray );
+		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
 			, TextureAccess::eTextureGatherOffsets2DArrayUComp
@@ -56419,7 +56544,8 @@ namespace ast::expr
 		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3F );
-		assert( offsets->getType()->getKind() == type::Kind::eVec2I );
+		assert( offsets->getType()->getKind() == type::Kind::eArray );
+		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
 			, TextureAccess::eTextureGatherOffsets2DArrayUComp
@@ -56435,7 +56561,8 @@ namespace ast::expr
 		, ExprPtr offsets )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offsets->getType()->getKind() == type::Kind::eVec2I );
+		assert( offsets->getType()->getKind() == type::Kind::eArray );
+		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
 			, TextureAccess::eTextureGatherOffsets2DRectU
 			, std::move( image )
@@ -56449,7 +56576,8 @@ namespace ast::expr
 		, ExprPtr offsets )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offsets->getType()->getKind() == type::Kind::eVec2I );
+		assert( offsets->getType()->getKind() == type::Kind::eArray );
+		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
 			, TextureAccess::eTextureGatherOffsets2DRectU
 			, std::move( image )
@@ -56463,7 +56591,8 @@ namespace ast::expr
 		, ExprPtr offsets )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offsets->getType()->getKind() == type::Kind::eVec2I );
+		assert( offsets->getType()->getKind() == type::Kind::eArray );
+		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
 			, TextureAccess::eTextureGatherOffsets2DRectU
 			, std::move( image )
@@ -56477,7 +56606,8 @@ namespace ast::expr
 		, ExprPtr offsets )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offsets->getType()->getKind() == type::Kind::eVec2I );
+		assert( offsets->getType()->getKind() == type::Kind::eArray );
+		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
 			, TextureAccess::eTextureGatherOffsets2DRectU
 			, std::move( image )
@@ -56491,7 +56621,8 @@ namespace ast::expr
 		, ExprPtr offsets )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offsets->getType()->getKind() == type::Kind::eVec2I );
+		assert( offsets->getType()->getKind() == type::Kind::eArray );
+		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
 			, TextureAccess::eTextureGatherOffsets2DRectU
 			, std::move( image )
@@ -56505,7 +56636,8 @@ namespace ast::expr
 		, ExprPtr offsets )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offsets->getType()->getKind() == type::Kind::eVec2I );
+		assert( offsets->getType()->getKind() == type::Kind::eArray );
+		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
 			, TextureAccess::eTextureGatherOffsets2DRectU
 			, std::move( image )
@@ -56519,7 +56651,8 @@ namespace ast::expr
 		, ExprPtr offsets )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offsets->getType()->getKind() == type::Kind::eVec2I );
+		assert( offsets->getType()->getKind() == type::Kind::eArray );
+		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
 			, TextureAccess::eTextureGatherOffsets2DRectU
 			, std::move( image )
@@ -56533,7 +56666,8 @@ namespace ast::expr
 		, ExprPtr offsets )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offsets->getType()->getKind() == type::Kind::eVec2I );
+		assert( offsets->getType()->getKind() == type::Kind::eArray );
+		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
 			, TextureAccess::eTextureGatherOffsets2DRectU
 			, std::move( image )
@@ -56547,7 +56681,8 @@ namespace ast::expr
 		, ExprPtr offsets )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offsets->getType()->getKind() == type::Kind::eVec2I );
+		assert( offsets->getType()->getKind() == type::Kind::eArray );
+		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
 			, TextureAccess::eTextureGatherOffsets2DRectU
 			, std::move( image )
@@ -56562,7 +56697,8 @@ namespace ast::expr
 		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offsets->getType()->getKind() == type::Kind::eVec2I );
+		assert( offsets->getType()->getKind() == type::Kind::eArray );
+		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
 			, TextureAccess::eTextureGatherOffsets2DRectUComp
@@ -56579,7 +56715,8 @@ namespace ast::expr
 		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offsets->getType()->getKind() == type::Kind::eVec2I );
+		assert( offsets->getType()->getKind() == type::Kind::eArray );
+		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
 			, TextureAccess::eTextureGatherOffsets2DRectUComp
@@ -56596,7 +56733,8 @@ namespace ast::expr
 		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offsets->getType()->getKind() == type::Kind::eVec2I );
+		assert( offsets->getType()->getKind() == type::Kind::eArray );
+		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
 			, TextureAccess::eTextureGatherOffsets2DRectUComp
@@ -56613,7 +56751,8 @@ namespace ast::expr
 		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offsets->getType()->getKind() == type::Kind::eVec2I );
+		assert( offsets->getType()->getKind() == type::Kind::eArray );
+		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
 			, TextureAccess::eTextureGatherOffsets2DRectUComp
@@ -56630,7 +56769,8 @@ namespace ast::expr
 		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offsets->getType()->getKind() == type::Kind::eVec2I );
+		assert( offsets->getType()->getKind() == type::Kind::eArray );
+		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
 			, TextureAccess::eTextureGatherOffsets2DRectUComp
@@ -56647,7 +56787,8 @@ namespace ast::expr
 		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offsets->getType()->getKind() == type::Kind::eVec2I );
+		assert( offsets->getType()->getKind() == type::Kind::eArray );
+		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
 			, TextureAccess::eTextureGatherOffsets2DRectUComp
@@ -56664,7 +56805,8 @@ namespace ast::expr
 		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offsets->getType()->getKind() == type::Kind::eVec2I );
+		assert( offsets->getType()->getKind() == type::Kind::eArray );
+		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
 			, TextureAccess::eTextureGatherOffsets2DRectUComp
@@ -56681,7 +56823,8 @@ namespace ast::expr
 		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offsets->getType()->getKind() == type::Kind::eVec2I );
+		assert( offsets->getType()->getKind() == type::Kind::eArray );
+		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
 			, TextureAccess::eTextureGatherOffsets2DRectUComp
@@ -56698,7 +56841,8 @@ namespace ast::expr
 		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offsets->getType()->getKind() == type::Kind::eVec2I );
+		assert( offsets->getType()->getKind() == type::Kind::eArray );
+		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
 			, TextureAccess::eTextureGatherOffsets2DRectUComp
@@ -56960,7 +57104,8 @@ namespace ast::expr
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
 		assert( refZ->getType()->getKind() == type::Kind::eFloat );
-		assert( offsets->getType()->getKind() == type::Kind::eVec2I );
+		assert( offsets->getType()->getKind() == type::Kind::eArray );
+		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
 			, TextureAccess::eTextureGatherOffsets2DShadowF
 			, std::move( image )
@@ -56977,7 +57122,8 @@ namespace ast::expr
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
 		assert( refZ->getType()->getKind() == type::Kind::eFloat );
-		assert( offsets->getType()->getKind() == type::Kind::eVec2I );
+		assert( offsets->getType()->getKind() == type::Kind::eArray );
+		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
 			, TextureAccess::eTextureGatherOffsets2DShadowF
 			, std::move( image )
@@ -56994,7 +57140,8 @@ namespace ast::expr
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3F );
 		assert( refZ->getType()->getKind() == type::Kind::eFloat );
-		assert( offsets->getType()->getKind() == type::Kind::eVec2I );
+		assert( offsets->getType()->getKind() == type::Kind::eArray );
+		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
 			, TextureAccess::eTextureGatherOffsets2DArrayShadowF
 			, std::move( image )
@@ -57011,7 +57158,8 @@ namespace ast::expr
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3F );
 		assert( refZ->getType()->getKind() == type::Kind::eFloat );
-		assert( offsets->getType()->getKind() == type::Kind::eVec2I );
+		assert( offsets->getType()->getKind() == type::Kind::eArray );
+		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
 			, TextureAccess::eTextureGatherOffsets2DArrayShadowF
 			, std::move( image )
@@ -57028,7 +57176,8 @@ namespace ast::expr
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
 		assert( refZ->getType()->getKind() == type::Kind::eFloat );
-		assert( offsets->getType()->getKind() == type::Kind::eVec2I );
+		assert( offsets->getType()->getKind() == type::Kind::eArray );
+		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
 			, TextureAccess::eTextureGatherOffsets2DRectShadowF
 			, std::move( image )
@@ -57045,7 +57194,8 @@ namespace ast::expr
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
 		assert( refZ->getType()->getKind() == type::Kind::eFloat );
-		assert( offsets->getType()->getKind() == type::Kind::eVec2I );
+		assert( offsets->getType()->getKind() == type::Kind::eArray );
+		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
 			, TextureAccess::eTextureGatherOffsets2DRectShadowF
 			, std::move( image )

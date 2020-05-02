@@ -388,6 +388,21 @@ namespace ast::debug
 			+ getName( ms, "MS", "" );
 	}
 
+	std::string getName( ast::type::ImageFormat format
+		, ast::type::AccessKind access
+		, ast::type::ImageDim dim
+		, bool arrayed
+		, bool depth
+		, bool ms )
+	{
+		return getName( dim )
+			+ getName( format )
+			+ getName( arrayed, "Array", "" )
+			+ getName( depth, "Shadow", "" )
+			+ getName( ms, "MS", "" )
+			+ getName( access );
+	}
+
 	std::string getName( type::Struct const & type )
 	{
 		return type.getName()

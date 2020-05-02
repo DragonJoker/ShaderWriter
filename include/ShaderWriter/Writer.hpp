@@ -257,37 +257,41 @@ namespace sdw
 		*/
 		/**@{*/
 		template< ast::type::ImageFormat FormatT
+			, ast::type::AccessKind AccessT
 			, ast::type::ImageDim DimT
 			, bool ArrayedT
 			, bool DepthT
 			, bool MsT >
-		inline ImageT< FormatT, DimT, ArrayedT, DepthT, MsT > declImage( std::string const & name
+		inline ImageT< FormatT, AccessT, DimT, ArrayedT, DepthT, MsT > declImage( std::string const & name
 			, uint32_t binding
 			, uint32_t set );
 		template< ast::type::ImageFormat FormatT
+			, ast::type::AccessKind AccessT
 			, ast::type::ImageDim DimT
 			, bool ArrayedT
 			, bool DepthT
 			, bool MsT >
-		inline Optional< ImageT< FormatT, DimT, ArrayedT, DepthT, MsT > > declImage( std::string const & name
+		inline Optional< ImageT< FormatT, AccessT, DimT, ArrayedT, DepthT, MsT > > declImage( std::string const & name
 			, uint32_t binding
 			, uint32_t set
 			, bool enabled );
 		template< ast::type::ImageFormat FormatT
+			, ast::type::AccessKind AccessT
 			, ast::type::ImageDim DimT
 			, bool ArrayedT
 			, bool DepthT
 			, bool MsT >
-		inline Array< ImageT< FormatT, DimT, ArrayedT, DepthT, MsT > > declImageArray( std::string const & name
+		inline Array< ImageT< FormatT, AccessT, DimT, ArrayedT, DepthT, MsT > > declImageArray( std::string const & name
 			, uint32_t binding
 			, uint32_t set
 			, uint32_t dimension );
 		template< ast::type::ImageFormat FormatT
+			, ast::type::AccessKind AccessT
 			, ast::type::ImageDim DimT
 			, bool ArrayedT
 			, bool DepthT
 			, bool MsT >
-		inline Optional< Array< ImageT< FormatT, DimT, ArrayedT, DepthT, MsT > > > declImageArray( std::string const & name
+		inline Optional< Array< ImageT< FormatT, AccessT, DimT, ArrayedT, DepthT, MsT > > > declImageArray( std::string const & name
 			, uint32_t binding
 			, uint32_t set
 			, uint32_t dimension

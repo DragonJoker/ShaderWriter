@@ -1533,17 +1533,24 @@ namespace spirv
 		params.push_back( doSubmit( expr->getArgList()[0].get() ) );
 		m_loadVariable = save;
 
+		auto scopeId = m_module.registerLiteral( uint32_t( spv::ScopeDevice ) );
+		auto memorySemanticsId = m_module.registerLiteral( uint32_t( spv::MemorySemanticsAcquireReleaseMask ) );
+		params.push_back( scopeId );
+		params.push_back( memorySemanticsId );
+
+		if ( expr->getIntrinsic() == ast::expr::Intrinsic::eAtomicCompSwapI
+			|| expr->getIntrinsic() == ast::expr::Intrinsic::eAtomicCompSwapU )
+		{
+			auto memorySemanticsUnequalId = m_module.registerLiteral( uint32_t( spv::MemorySemanticsAcquireMask ) );
+			params.push_back( memorySemanticsUnequalId );
+		}
+
 		for ( auto i = 1u; i < expr->getArgList().size(); ++i )
 		{
 			params.push_back( doSubmit( expr->getArgList()[i].get() ) );
 		}
 
 		auto typeId = m_module.registerType( expr->getType() );
-		auto scopeId = m_module.registerLiteral( uint32_t( spv::ScopeDevice ) );
-		auto memorySemanticsId = m_module.registerLiteral( uint32_t( spv::MemorySemanticsAcquireReleaseMask ) );
-		uint32_t index{ 1u };
-		params.insert( params.begin() + ( index++ ), scopeId );
-		params.insert( params.begin() + ( index++ ), memorySemanticsId );
 		m_result = m_module.getIntermediateResult();
 		m_currentBlock.instructions.emplace_back( makeIntrinsicInstruction( typeId
 			, m_result

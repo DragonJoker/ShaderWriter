@@ -286,7 +286,7 @@ namespace hlsl
 		std::string result;
 		auto & config = type->getConfig();
 
-		if ( config.accessKind != ast::type::AccessKind::eRead )
+		if ( config.isSampled != ast::type::Trinary::eTrue )
 		{
 			result += "RW";
 
