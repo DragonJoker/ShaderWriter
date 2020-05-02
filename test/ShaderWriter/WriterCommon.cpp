@@ -219,7 +219,7 @@ namespace test
 						if ( size > 0 && ( size % sizeof( uint32_t ) ) == 0 )
 						{
 							spirv.resize( size / sizeof( uint32_t ) );
-							fread( spirv.data()
+							(void)fread( spirv.data()
 								, sizeof( uint32_t )
 								, spirv.size()
 								, fileIn );
