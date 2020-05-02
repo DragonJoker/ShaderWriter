@@ -116,7 +116,7 @@ namespace
 	void testSampledImageFormat( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testSampledImage" + ast::debug::getName( FormatT ) );
-		if ( isFloatFormat( FormatT ) )
+		if constexpr ( isFloatFormat( FormatT ) )
 		{
 			testSampledImage< FormatT, Img1D >( testCounts );
 			testSampledImage< FormatT, Img2D >( testCounts );
@@ -140,7 +140,7 @@ namespace
 				testSampledImage< FormatT, ImgCubeArrayShadow >( testCounts );
 			}
 		}
-		else if ( isSIntFormat( FormatT ) )
+		else if constexpr ( isSIntFormat( FormatT ) )
 		{
 			testSampledImage< FormatT, Img1D >( testCounts );
 			testSampledImage< FormatT, Img2D >( testCounts );
@@ -153,7 +153,7 @@ namespace
 			testSampledImage< FormatT, Img2DMS >( testCounts );
 			testSampledImage< FormatT, Img2DMSArray >( testCounts );
 		}
-		else if ( isUIntFormat( FormatT ) )
+		else if constexpr ( isUIntFormat( FormatT ) )
 		{
 			testSampledImage< FormatT, Img1D >( testCounts );
 			testSampledImage< FormatT, Img2D >( testCounts );

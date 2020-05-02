@@ -449,7 +449,7 @@ namespace spirv
 				: 0u ) );
 		operands.push_back( uint32_t( getImageFormat( config.format ) ) );
 		// Only available in kernel mode.
-		//operands.push_back( uint32_t( config.accessKind ) );
+		// operands.push_back( uint32_t( config.accessKind ) );
 
 		return makeInstruction< ImageTypeInstruction >( resultId
 			, operands );

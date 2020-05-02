@@ -5,45 +5,6 @@ See LICENSE file in root folder
 
 namespace ast::type
 {
-	bool isFloatFormat( ImageFormat format )
-	{
-		return format == ImageFormat::eUnknown
-			|| format == ImageFormat::eRgba32f
-			|| format == ImageFormat::eRgba16f
-			|| format == ImageFormat::eRg32f
-			|| format == ImageFormat::eRg16f
-			|| format == ImageFormat::eR32f
-			|| format == ImageFormat::eR16f;
-	}
-
-	bool isSIntFormat( ImageFormat format )
-	{
-		return format == ImageFormat::eUnknown
-			|| format == ImageFormat::eRgba32i
-			|| format == ImageFormat::eRgba16i
-			|| format == ImageFormat::eRgba8i
-			|| format == ImageFormat::eRg32i
-			|| format == ImageFormat::eRg16i
-			|| format == ImageFormat::eRg8i
-			|| format == ImageFormat::eR32i
-			|| format == ImageFormat::eR16i
-			|| format == ImageFormat::eR8i;
-	}
-
-	bool isUIntFormat( ImageFormat format )
-	{
-		return format == ImageFormat::eUnknown
-			|| format == ImageFormat::eRgba32u
-			|| format == ImageFormat::eRgba16u
-			|| format == ImageFormat::eRgba8u
-			|| format == ImageFormat::eRg32u
-			|| format == ImageFormat::eRg16u
-			|| format == ImageFormat::eRg8u
-			|| format == ImageFormat::eR32u
-			|| format == ImageFormat::eR16u
-			|| format == ImageFormat::eR8u;
-	}
-
 	ImageConfiguration::ImageConfiguration( type::Kind sampledType
 		, ImageDim dimension
 		, ImageFormat format

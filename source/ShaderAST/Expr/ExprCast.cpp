@@ -19,4 +19,16 @@ namespace ast::expr
 	{
 		vis->visitCastExpr( this );
 	}
+
+	Expr const * removeCasts( Expr const & expr )
+	{
+		auto result = &expr;
+
+		while ( result->getKind() == Kind::eCast )
+		{
+			result = static_cast< Cast const & >( *result ).getOperand();
+		}
+
+		return result;
+	}
 }

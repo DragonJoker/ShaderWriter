@@ -477,15 +477,16 @@ namespace sdw
 	*/
 	/**@{*/
 	template< ast::type::ImageFormat FormatT
+		, ast::type::AccessKind AccessT
 		, ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool DepthT
 		, bool MsT >
-		inline ImageT< FormatT, DimT, ArrayedT, DepthT, MsT > ShaderWriter::declImage( std::string const & name
+		inline ImageT< FormatT, AccessT, DimT, ArrayedT, DepthT, MsT > ShaderWriter::declImage( std::string const & name
 			, uint32_t binding
 			, uint32_t set )
 	{
-		using T = ImageT< FormatT, DimT, ArrayedT, DepthT, MsT >;
+		using T = ImageT< FormatT, AccessT, DimT, ArrayedT, DepthT, MsT >;
 		auto type = T::makeType( getTypesCache() );
 		auto var = registerImage( name
 			, type
@@ -499,16 +500,17 @@ namespace sdw
 	}
 
 	template< ast::type::ImageFormat FormatT
+		, ast::type::AccessKind AccessT
 		, ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool DepthT
 		, bool MsT >
-		inline Optional< ImageT< FormatT, DimT, ArrayedT, DepthT, MsT > > ShaderWriter::declImage( std::string const & name
+		inline Optional< ImageT< FormatT, AccessT, DimT, ArrayedT, DepthT, MsT > > ShaderWriter::declImage( std::string const & name
 			, uint32_t binding
 			, uint32_t set
 			, bool enabled )
 	{
-		using T = ImageT< FormatT, DimT, ArrayedT, DepthT, MsT >;
+		using T = ImageT< FormatT, AccessT, DimT, ArrayedT, DepthT, MsT >;
 		auto type = T::makeType( getTypesCache() );
 		auto var = registerImage( name
 			, type
@@ -529,16 +531,17 @@ namespace sdw
 	}
 
 	template< ast::type::ImageFormat FormatT
+		, ast::type::AccessKind AccessT
 		, ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool DepthT
 		, bool MsT >
-		inline Array< ImageT< FormatT, DimT, ArrayedT, DepthT, MsT > > ShaderWriter::declImageArray( std::string const & name
+		inline Array< ImageT< FormatT, AccessT, DimT, ArrayedT, DepthT, MsT > > ShaderWriter::declImageArray( std::string const & name
 			, uint32_t binding
 			, uint32_t set
 			, uint32_t dimension )
 	{
-		using T = ImageT< FormatT, DimT, ArrayedT, DepthT, MsT >;
+		using T = ImageT< FormatT, AccessT, DimT, ArrayedT, DepthT, MsT >;
 		auto type = Array< T >::makeType( getTypesCache()
 			, dimension );
 		auto var = registerImage( name
@@ -553,17 +556,18 @@ namespace sdw
 	}
 
 	template< ast::type::ImageFormat FormatT
+		, ast::type::AccessKind AccessT
 		, ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool DepthT
 		, bool MsT >
-		inline Optional< Array< ImageT< FormatT, DimT, ArrayedT, DepthT, MsT > > > ShaderWriter::declImageArray( std::string const & name
+		inline Optional< Array< ImageT< FormatT, AccessT, DimT, ArrayedT, DepthT, MsT > > > ShaderWriter::declImageArray( std::string const & name
 			, uint32_t binding
 			, uint32_t set
 			, uint32_t dimension
 			, bool enabled )
 	{
-		using T = ImageT< FormatT, DimT, ArrayedT, DepthT, MsT >;
+		using T = ImageT< FormatT, AccessT, DimT, ArrayedT, DepthT, MsT >;
 		auto type = Array< T >::makeType( getTypesCache()
 			, dimension );
 		auto var = registerImage( name

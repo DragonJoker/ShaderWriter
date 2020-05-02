@@ -324,12 +324,14 @@ def computeImageFullType( imageType, postfix, sampled, depth ):
 	ms = getMSType( postfix )
 	return sampled + imageType + dim + ms + array + depth
 
-def printImageFunction( outs, returnGroup, functionGroup, paramsGroup, imageType ):
-	postfix = getPostfix( functionGroup )
-	sampled = getImageSampledType( postfix )
-	depth = getDepthType( postfix )
-	retType = typeKindToSdwType( returnGroup )
-	intrinsicName = computeIntrinsicName( functionGroup )
+def computeImageFullTypes( imageType, postfix, sampled, depth, prefixes ):
+	tmp = computeImageFullType( imageType, postfix, sampled, depth )
+	result = list()
+	for prefix in prefixes:
+		result.append( prefix + tmp )
+	return result
+
+def getImgTexAccessFormats( depth, sampled, retType, intrinsicName ):
 	formats = list()
 	if sampled == 'I':
 		if intrinsicName.find( "Atomic" ) != -1:
@@ -401,28 +403,63 @@ def printImageFunction( outs, returnGroup, functionGroup, paramsGroup, imageType
 			formats.append( ( 'Rg16', 'Vec2' ) )
 			formats.append( ( 'R32', 'Float' ) )
 			formats.append( ( 'R16', 'Float' ) )
+	return formats;
+
+def printTextureFunction( outs, returnGroup, functionGroup, paramsGroup, imageType ):
+	postfix = getPostfix( functionGroup )
+	sampled = getImageSampledType( postfix )
+	depth = getDepthType( postfix )
+	retType = typeKindToSdwType( returnGroup )
+	intrinsicName = computeIntrinsicName( functionGroup )
+	formats = getImgTexAccessFormats( depth, sampled, retType, intrinsicName )
+	dim = getImageDim( postfix )
+	if dim != "2DRect":
+		imageFullType = computeImageFullType( imageType, postfix, sampled, depth )
+		for fmt, ret in formats:
+			# Write function name and return
+			outs.write( "\n\tSDW_API MaybeOptional< " + ret + " > " + intrinsicName + "(" )
+			# Write parameters
+			#	Image parameter
+			outs.write( " MaybeOptional< " + imageFullType + fmt + " > const & image" )
+			#	Remaining function parameters
+			outs.write( computeParams( paramsGroup, "," ) + " );" )
+
+def printImageFunction( outs, returnGroup, functionGroup, paramsGroup, imageType ):
+	postfix = getPostfix( functionGroup )
+	sampled = getImageSampledType( postfix )
+	depth = getDepthType( postfix )
+	retType = typeKindToSdwType( returnGroup )
+	intrinsicName = computeIntrinsicName( functionGroup )
+	formats = getImgTexAccessFormats( depth, sampled, retType, intrinsicName )
 	dim = getImageDim( postfix )
 	if dim != "2DRect":
 		if intrinsicName.find( "Store" ) != -1:
-			imageFullType = computeImageFullType( imageType, postfix, sampled, depth )
-			for fmt, last in formats:
-				# Write function name and return
-				outs.write( "\n\tSDW_API Void " + intrinsicName + "(" )
-				# Write parameters
-				#	Image parameter
-				outs.write( " MaybeOptional< " + imageFullType + fmt + " > const & image" )
-				#	Remaining function parameters
-				outs.write( computeParamsEx( paramsGroup, ",", last ) + " );" )
+			imageFullTypes = computeImageFullTypes( imageType, postfix, sampled, depth, ["RW", "W"] )
+			for imageFullType in imageFullTypes:
+				for fmt, last in formats:
+					# Write function name and return
+					outs.write( "\n\tSDW_API Void " + intrinsicName + "(" )
+					# Write parameters
+					#	Image parameter
+					outs.write( " MaybeOptional< " + imageFullType + fmt + " > const & image" )
+					#	Remaining function parameters
+					outs.write( computeParamsEx( paramsGroup, ",", last ) + " );" )
 		else:
-			imageFullType = computeImageFullType( imageType, postfix, sampled, depth )
-			for fmt, ret in formats:
-				# Write function name and return
-				outs.write( "\n\tSDW_API MaybeOptional< " + ret + " > " + intrinsicName + "(" )
-				# Write parameters
-				#	Image parameter
-				outs.write( " MaybeOptional< " + imageFullType + fmt + " > const & image" )
-				#	Remaining function parameters
-				outs.write( computeParams( paramsGroup, "," ) + " );" )
+			if intrinsicName.find( "Load" ) != -1:
+				imageFullTypes = computeImageFullTypes( imageType, postfix, sampled, depth, ["R", "RW"] )
+			elif intrinsicName.find( "Atomic" ) != -1:
+				imageFullTypes = computeImageFullTypes( imageType, postfix, sampled, depth, ["RW"] )
+			else:
+				imageFullTypes = computeImageFullTypes( imageType, postfix, sampled, depth, ["R", "RW", "W"] )
+			for imageFullType in imageFullTypes:
+				for fmt, ret in formats:
+					# Write function name and return
+					outs.write( "\n\tSDW_API MaybeOptional< " + ret + " > " + intrinsicName + "(" )
+					# Write parameters
+					#	Image parameter
+					outs.write( " MaybeOptional< " + imageFullType + fmt + " > const & image" )
+					#	Remaining function parameters
+					outs.write( computeParams( paramsGroup, "," ) + " );" )
 
 def printIntrinsicFunction( outs, returnGroup, functionGroup, paramsGroup ):
 	retType = typeKindToSdwType( returnGroup )
@@ -486,7 +523,17 @@ def main( argv ):
 						functionGroups[groupName][paramsList] = list()
 					functionGroups[groupName][paramsList].append( [returnGroup, functionGroup, paramsGroup] )
 				elif resultEnd:
-					if enumName == "TextureAccess" or enumName == "ImageAccess":
+					if enumName == "TextureAccess":
+						for functionsName, functionsSubGroup in functionGroups.items():
+							beginFunctionGroup( outs, functionsName )
+							for paramsList, functionsList in functionsSubGroup.items():
+								for function in functionsList:
+									returnGroup = function[0]
+									functionGroup = function[1]
+									paramsGroup = function[2]
+									printTextureFunction( outs, returnGroup, functionGroup, paramsGroup, imageType )
+							endFunctionGroup( outs )
+					elif enumName == "ImageAccess":
 						for functionsName, functionsSubGroup in functionGroups.items():
 							beginFunctionGroup( outs, functionsName )
 							for paramsList, functionsList in functionsSubGroup.items():

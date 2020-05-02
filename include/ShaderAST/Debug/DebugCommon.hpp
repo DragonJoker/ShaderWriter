@@ -26,6 +26,12 @@ namespace ast::debug
 		, bool arrayed
 		, bool depth
 		, bool ms );
+	std::string getName( type::ImageFormat format
+		, type::AccessKind access
+		, type::ImageDim dim
+		, bool arrayed
+		, bool depth
+		, bool ms );
 	std::string displayVar( var::VariablePtr var );
 }
 

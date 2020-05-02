@@ -31,6 +31,27 @@ namespace test
 {
 	namespace
 	{
+#if SDW_HasCompilerGlsl
+
+		glsl::GlslConfig const & getDefaultGlslConfig()
+		{
+			static glsl::GlslConfig const result
+			{
+				ast::ShaderStage::eCompute, // shaderStage;
+				450, // shaderLanguageVersion{ 430 };
+				false, // vulkanGlsl{ false };
+				false, // flipVertY{ false };
+				false, // fixupClipDepth{ false };
+				true, // hasStd430Layout{ false };
+				true, // hasShaderStorageBuffers{ false };
+				true, // hasDescriptorSets{ false };
+				true, // hasBaseInstance{ false };
+			};
+			return result;
+		}
+
+#endif
+
 		spv::ExecutionModel getExecutionModel( ast::ShaderStage stage )
 		{
 			spv::ExecutionModel result{};
@@ -246,7 +267,7 @@ namespace test
 					auto glslangSpirv = compileGlslToSpv( shader.getType()
 						, glsl::compileGlsl( shader
 							, specialisation
-							, glsl::GlslConfig{} ) );
+							, getDefaultGlslConfig() ) );
 					std::string errors;
 					test::compileSpirV( shader, glslangSpirv, errors, testCounts );
 
@@ -282,7 +303,7 @@ namespace test
 			std::string errors;
 			auto glsl = glsl::compileGlsl( shader
 				, specialisation
-				, glsl::GlslConfig{} );
+				, getDefaultGlslConfig() );
 
 			if ( validateGlsl && !compileGlsl( glsl
 				, shader.getType()
@@ -484,7 +505,7 @@ namespace test
 					auto glslangSpirv = compileGlslToSpv( shader.getType()
 						, glsl::compileGlsl( shader
 							, ast::SpecialisationInfo{}
-					, glsl::GlslConfig{} ) );
+							, getDefaultGlslConfig() ) );
 					auto module = spirv::Module::deserialize( glslangSpirv );
 					displayShader( "glslang SPIR-V", spirv::Module::write( module, true ), true );
 				}
@@ -520,7 +541,7 @@ namespace test
 				auto glslangSpirv = compileGlslToSpv( shader.getType()
 					, glsl::compileGlsl( shader
 						, ast::SpecialisationInfo{}
-				, glsl::GlslConfig{} ) );
+						, getDefaultGlslConfig() ) );
 				auto module = spirv::Module::deserialize( glslangSpirv );
 				displayShader( "glslang SPIR-V", spirv::Module::write( module, true ), true );
 			}

@@ -179,12 +179,12 @@ namespace ast::type
 	};
 
 	template< ImageFormat FormatT
+		, AccessKind AccessT
 		, ImageDim DimT
 		, bool ArrayedT
 		, bool DepthT
 		, bool MsT >
-	inline ImageConfiguration makeConfig( bool sampled
-		, bool readOnly )
+	inline ImageConfiguration makeConfig( bool sampled )
 	{
 		return ImageConfiguration
 		{
@@ -195,7 +195,7 @@ namespace ast::type
 			sampled ? Trinary::eTrue : Trinary::eFalse,
 			ArrayedT,
 			MsT,
-			readOnly ? AccessKind::eRead : AccessKind::eReadWrite
+			AccessT,
 		};
 	}
 

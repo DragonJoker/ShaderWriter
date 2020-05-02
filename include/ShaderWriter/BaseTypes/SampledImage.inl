@@ -145,7 +145,7 @@ namespace sdw
 		, bool MsT >
 	ast::type::ImageConfiguration SampledImageT< FormatT, DimT, ArrayedT, DepthT, MsT >::makeConfig()
 	{
-		return ast::type::makeConfig< FormatT, DimT, ArrayedT, DepthT, MsT >( true, true );
+		return ast::type::makeConfig< FormatT, ast::type::AccessKind::eRead, DimT, ArrayedT, DepthT, MsT >( true );
 	}
 
 	template< ast::type::ImageFormat FormatT

@@ -10143,7 +10143,7 @@ namespace
 			writer.implementFunction< sdw::Void >( "main"
 				, [&]()
 				{
-					auto x = writer.declLocale< Int >( "x", 0 );
+					auto x = writer.declLocale< Int >( "x", 0_i );
 					writer.declLocale( "r"
 						, atomicAdd( bo[0].getMember< sdw::Int >( name ), x ) );
 				} );
@@ -10169,7 +10169,7 @@ namespace
 			writer.implementFunction< sdw::Void >( "main"
 				, [&]()
 				{
-					auto x = writer.declLocale< UInt >( "x", 0u );
+					auto x = writer.declLocale< UInt >( "x", 0_u );
 					writer.declLocale( "r"
 						, atomicAdd( bo[0].getMember< sdw::UInt >( name ), x ) );
 				} );
@@ -10195,7 +10195,7 @@ namespace
 			writer.implementFunction< sdw::Void >( "main"
 				, [&]()
 				{
-					auto x = writer.declLocale< Int >( "x", 0 );
+					auto x = writer.declLocale< Int >( "x", 0_i );
 					writer.declLocale( "r"
 						, atomicMin( bo[0].getMember< sdw::Int >( name ), x ) );
 				} );
@@ -10220,7 +10220,7 @@ namespace
 			writer.implementFunction< sdw::Void >( "main"
 				, [&]()
 				{
-					auto x = writer.declLocale< UInt >( "x", 0u );
+					auto x = writer.declLocale< UInt >( "x", 0_u );
 					writer.declLocale( "r"
 						, atomicMin( bo[0].getMember< sdw::UInt >( name ), x ) );
 				} );
@@ -10245,7 +10245,7 @@ namespace
 			writer.implementFunction< sdw::Void >( "main"
 				, [&]()
 				{
-					auto x = writer.declLocale< Int >( "x", 0 );
+					auto x = writer.declLocale< Int >( "x", 0_i );
 					writer.declLocale( "r"
 						, atomicMax( bo[0].getMember< sdw::Int >( name ), x ) );
 				} );
@@ -10270,7 +10270,7 @@ namespace
 			writer.implementFunction< sdw::Void >( "main"
 				, [&]()
 				{
-					auto x = writer.declLocale< UInt >( "x", 0u );
+					auto x = writer.declLocale< UInt >( "x", 0_u );
 					writer.declLocale( "r"
 						, atomicMax( bo[0].getMember< sdw::UInt >( name ), x ) );
 				} );
@@ -10295,7 +10295,7 @@ namespace
 			writer.implementFunction< sdw::Void >( "main"
 				, [&]()
 				{
-					auto x = writer.declLocale< Int >( "x", 0 );
+					auto x = writer.declLocale< Int >( "x", 0_i );
 					writer.declLocale( "r"
 						, atomicAnd( bo[0].getMember< sdw::Int >( name ), x ) );
 				} );
@@ -10320,7 +10320,7 @@ namespace
 			writer.implementFunction< sdw::Void >( "main"
 				, [&]()
 				{
-					auto x = writer.declLocale< UInt >( "x", 0u );
+					auto x = writer.declLocale< UInt >( "x", 0_u );
 					writer.declLocale( "r"
 						, atomicAnd( bo[0].getMember< sdw::UInt >( name ), x ) );
 				} );
@@ -10345,7 +10345,7 @@ namespace
 			writer.implementFunction< sdw::Void >( "main"
 				, [&]()
 				{
-					auto x = writer.declLocale< Int >( "x", 0 );
+					auto x = writer.declLocale< Int >( "x", 0_i );
 					writer.declLocale( "r"
 						, atomicOr( bo[0].getMember< sdw::Int >( name ), x ) );
 				} );
@@ -10370,7 +10370,7 @@ namespace
 			writer.implementFunction< sdw::Void >( "main"
 				, [&]()
 				{
-					auto x = writer.declLocale< UInt >( "x", 0u );
+					auto x = writer.declLocale< UInt >( "x", 0_u );
 					writer.declLocale( "r"
 						, atomicOr( bo[0].getMember< sdw::UInt >( name ), x ) );
 				} );
@@ -10395,7 +10395,7 @@ namespace
 			writer.implementFunction< sdw::Void >( "main"
 				, [&]()
 				{
-					auto x = writer.declLocale< Int >( "x", 0 );
+					auto x = writer.declLocale< Int >( "x", 0_i );
 					writer.declLocale( "r"
 						, atomicXor( bo[0].getMember< sdw::Int >( name ), x ) );
 				} );
@@ -10420,7 +10420,7 @@ namespace
 			writer.implementFunction< sdw::Void >( "main"
 				, [&]()
 				{
-					auto x = writer.declLocale< UInt >( "x", 0u );
+					auto x = writer.declLocale< UInt >( "x", 0_u );
 					writer.declLocale( "r"
 						, atomicXor( bo[0].getMember< sdw::UInt >( name ), x ) );
 				} );
@@ -10445,7 +10445,7 @@ namespace
 			writer.implementFunction< sdw::Void >( "main"
 				, [&]()
 				{
-					auto x = writer.declLocale< Int >( "x", 0 );
+					auto x = writer.declLocale< Int >( "x", 0_i );
 					writer.declLocale( "r"
 						, atomicExchange( bo[0].getMember< sdw::Int >( name ), x ) );
 				} );
@@ -10470,7 +10470,7 @@ namespace
 			writer.implementFunction< sdw::Void >( "main"
 				, [&]()
 				{
-					auto x = writer.declLocale< UInt >( "x", 0u );
+					auto x = writer.declLocale< UInt >( "x", 0_u );
 					writer.declLocale( "r"
 						, atomicExchange( bo[0].getMember< sdw::UInt >( name ), x ) );
 				} );
@@ -10495,8 +10495,8 @@ namespace
 			writer.implementFunction< sdw::Void >( "main"
 				, [&]()
 				{
-					auto c = writer.declLocale< UInt >( "c", 0u );
-					auto v = writer.declLocale< UInt >( "v", 1u );
+					auto c = writer.declLocale< UInt >( "c", 0_u );
+					auto v = writer.declLocale< UInt >( "v", 1_u );
 					writer.declLocale( "r"
 						, atomicCompSwap( bo[0].getMember< sdw::Int >( name ), c, v ) );
 				} );
@@ -10521,8 +10521,8 @@ namespace
 			writer.implementFunction< sdw::Void >( "main"
 				, [&]()
 				{
-					auto c = writer.declLocale< UInt >( "c", 0u );
-					auto v = writer.declLocale< UInt >( "v", 1u );
+					auto c = writer.declLocale< UInt >( "c", 0_u );
+					auto v = writer.declLocale< UInt >( "v", 1_u );
 					writer.declLocale( "r"
 						, atomicCompSwap( bo[0].getMember< sdw::UInt >( name ), c, v ) );
 				} );

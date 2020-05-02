@@ -75,6 +75,9 @@ def discardArray( name ):
 	result = re.sub( "\[\d*\]", "", name )
 	return result
 
+def isArray( name ):
+	return name.find( "[" ) != -1
+
 def computeParams( params, sep ):
 	result = ""
 	intrParams = re.compile("[, ]*ASTIntrParams\( ([\w, :()\[\]]*) \)$")
@@ -104,8 +107,13 @@ def assertParams( params, tabs ):
 			paramType = resParam[index]
 			index += 1
 			paramName = discardArray( resParam[index] )
-			index += 2
-			result += tabs + "assert( " + paramName + "->getType()->getKind() == " + paramType + " );\n"
+			if isArray( resParam[index] ):
+				index += 2
+				result += tabs + "assert( " + paramName + "->getType()->getKind() == type::Kind::eArray );\n"
+				result += tabs + "assert( type::getNonArrayType( " + paramName + "->getType() )->getKind() == " + paramType + " );\n"
+			else:
+				index += 2
+				result += tabs + "assert( " + paramName + "->getType()->getKind() == " + paramType + " );\n"
 	return result
 
 def assertParamsEx( params, tabs, lastType ):

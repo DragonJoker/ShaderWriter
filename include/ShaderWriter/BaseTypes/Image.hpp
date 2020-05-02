@@ -40,6 +40,7 @@ namespace sdw
 	};
 
 	template< ast::type::ImageFormat FormatT
+		, ast::type::AccessKind AccessT
 		, ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool DepthT

@@ -26,6 +26,8 @@ namespace ast::expr
 		return std::make_unique< Cast >( std::move( dstType )
 			, std::move( operand ) );
 	}
+
+	Expr const * removeCasts( Expr const & expr );
 }
 
 #endif

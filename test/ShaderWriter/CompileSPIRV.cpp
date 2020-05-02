@@ -519,6 +519,7 @@ namespace test
 			{
 				errors += info.errors.front() + "\n";
 				std::stringstream stream;
+				stream.imbue( std::locale{ "C" } );
 				stream << "SPIR-V size: " << spirv.size() << "\n"
 					<< "SPIR-V:\n"
 					<< spirv << std::endl;
