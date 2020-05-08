@@ -935,25 +935,29 @@ namespace ast
 		{
 		public:
 			static expr::ExprPtr submit( type::TypesCache & cache
+				, std::map< var::VariablePtr, expr::Literal * > & literalVars
 				, expr::Expr * expr )
 			{
 				expr::ExprPtr result;
-				ExprSimplifier vis{ cache, result };
+				ExprSimplifier vis{ cache, literalVars, result };
 				expr->accept( &vis );
 				return result;
 			}
 
 			static expr::ExprPtr submit( type::TypesCache & cache
+				, std::map< var::VariablePtr, expr::Literal * > & literalVars
 				, expr::ExprPtr expr )
 			{
-				return submit( cache, expr.get() );
+				return submit( cache, literalVars, expr.get() );
 			}
 
 		private:
 			ExprSimplifier( type::TypesCache & cache
+				, std::map< var::VariablePtr, expr::Literal * > & literalVars
 				, expr::ExprPtr & result )
 				: ExprCloner{ result }
 				, m_cache{ cache }
+				, m_literalVars{ literalVars }
 			{
 			}
 
@@ -961,9 +965,14 @@ namespace ast
 			expr::ExprPtr doSubmit( expr::Expr * expr )override
 			{
 				expr::ExprPtr result;
-				ExprSimplifier vis{ m_cache, result };
+				ExprSimplifier vis{ m_cache, m_literalVars, result };
 				expr->accept( &vis );
 				return result;
+			}
+
+			expr::ExprPtr doSubmit( expr::ExprPtr expr )
+			{
+				return doSubmit( expr.get() );
 			}
 
 			void visitUnaryExpr( expr::Unary * expr )
@@ -1144,7 +1153,37 @@ namespace ast
 
 			void visitIdentifierExpr( expr::Identifier * expr )override
 			{
-				ExprCloner::visitIdentifierExpr( expr );
+				bool processed{ false };
+
+				if ( expr->getVariable()->isConstant() )
+				{
+					auto it = m_literalVars.find( expr->getVariable() );
+
+					if ( it != m_literalVars.end() )
+					{
+						m_result = doSubmit( it->second );
+						processed = true;
+					}
+				}
+
+				if ( !processed )
+				{
+					ExprCloner::visitIdentifierExpr( expr );
+				}
+			}
+
+			void visitInitExpr( expr::Init * expr )override
+			{
+				auto init = doSubmit( expr->getInitialiser() );
+
+				if ( init->getKind() == expr::Kind::eLiteral
+					&& expr->getIdentifier()->getVariable()->isConstant() )
+				{
+					m_literalVars.emplace( expr->getIdentifier()->getVariable(), static_cast< expr::Literal * >( init.get() ) );
+				}
+
+				m_result = expr::makeInit( std::make_unique< expr::Identifier >( *expr->getIdentifier() )
+					, std::move( init ) );
 			}
 
 			void visitLessExpr( expr::Less * expr )override
@@ -1238,8 +1277,7 @@ namespace ast
 
 					auto & outer = static_cast< expr::Swizzle & >( *expr->getLHS() );
 					auto newOuter = doSubmit( outer.getOuterExpr() );
-					m_result = submit( m_cache
-						, expr::makeSwizzle( std::move( newOuter )
+					m_result = doSubmit( expr::makeSwizzle( std::move( newOuter )
 							, outer.getSwizzle()[index] ) );
 				}
 				else
@@ -1267,27 +1305,38 @@ namespace ast
 
 		private:
 			type::TypesCache & m_cache;
+			std::map< var::VariablePtr, expr::Literal * > & m_literalVars;
 		};
 	}
 
 	stmt::ContainerPtr StmtSimplifier::submit( type::TypesCache & cache
 		, stmt::Container * stmt )
 	{
+		std::map< var::VariablePtr, expr::Literal * > literalVars;
+		return submit( cache, stmt, literalVars );
+	}
+
+	stmt::ContainerPtr StmtSimplifier::submit( type::TypesCache & cache
+		, stmt::Container * stmt
+		, std::map< var::VariablePtr, expr::Literal * > & literalVars )
+	{
 		auto result = ast::stmt::makeContainer();
-		StmtSimplifier vis{ cache, result };
+		StmtSimplifier vis{ cache, literalVars, result };
 		stmt->accept( &vis );
 		return result;
 	}
 
 	StmtSimplifier::StmtSimplifier( type::TypesCache & cache
+		, std::map< var::VariablePtr, expr::Literal * > & literalVars
 		, stmt::ContainerPtr & result )
 		: StmtCloner{ result }
 		, m_cache{ cache }
+		, m_literalVars{ literalVars }
 	{
 	}
 
 	expr::ExprPtr StmtSimplifier::doSubmit( expr::Expr * expr )
 	{
-		return ExprSimplifier::submit( m_cache, expr );
+		return ExprSimplifier::submit( m_cache, m_literalVars, expr );
 	}
 }
