@@ -6,8 +6,10 @@
 
 #include "vulkan/vulkan.h"
 
-#include <VulkanLayer/PipelineBuilder.hpp>
-#include <VulkanLayer/ProgramPipeline.hpp>
+#if SDW_HasVulkanLayer
+#	include <VulkanLayer/PipelineBuilder.hpp>
+#	include <VulkanLayer/ProgramPipeline.hpp>
+#endif
 
 #include <algorithm>
 #include <iomanip>
@@ -537,6 +539,7 @@ namespace test
 		return result;
 	}
 
+#if SDW_HasVulkanLayer
 	ast::vk::BuilderContext createBuilderContext( sdw_test::TestCounts & testCounts )
 	{
 		ast::vk::BuilderContext result
@@ -908,6 +911,8 @@ namespace test
 
 		return result;
 	}
+
+#endif
 }
 
 #else
@@ -930,6 +935,13 @@ namespace test
 	{
 		return true;
 	}
+
+#if SDW_HasVulkanLayer
+	bool validateProgram( ast::vk::ProgramPipeline const & program
+		, sdw_test::TestCounts & testCounts )
+	{
+	}
+#endif
 }
 
 #endif
