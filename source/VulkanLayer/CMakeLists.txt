@@ -1,9 +1,11 @@
+option( SDW_BUILD_VULKAN_LAYER "Build VulkanLayer library" ON )
+
 set( _FOLDER_NAME VulkanLayer )
 project( sdw${_FOLDER_NAME} )
 
 find_package( Vulkan )
 
-if ( Vulkan_FOUND )
+if ( SDW_BUILD_VULKAN_LAYER AND Vulkan_FOUND )
 	set( ${PROJECT_NAME}_VERSION_MAJOR 0 )
 	set( ${PROJECT_NAME}_VERSION_MINOR 1 )
 	set( ${PROJECT_NAME}_VERSION_BUILD 0 )

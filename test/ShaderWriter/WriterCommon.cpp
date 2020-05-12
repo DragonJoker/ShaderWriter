@@ -14,7 +14,7 @@
 #if SDW_HasCompilerSpirV
 #	include <CompilerSpirV/compileSpirV.hpp>
 #	include <CompilerSpirV/SpirvModule.hpp>
-#	if SDW_Test_HasVulkan
+#	if SDW_Test_HasVulkan && SDW_HasVulkanLayer
 #		include <VulkanLayer/PipelineBuilder.hpp>
 #		include <VulkanLayer/ProgramPipeline.hpp>
 #	endif
@@ -487,7 +487,7 @@ namespace test
 	void validateShaders( ast::ShaderArray const & shaders
 		, sdw_test::TestCounts & testCounts )
 	{
-#if SDW_Test_HasVulkan && SDW_HasCompilerSpirV
+#if SDW_Test_HasVulkan && SDW_HasCompilerSpirV && SDW_HasVulkanLayer
 		ast::vk::ProgramPipeline program{ shaders };
 
 		if ( !validateProgram( program, testCounts ) )
@@ -525,7 +525,7 @@ namespace test
 	void validateShader( ::ast::Shader const & shader
 		, sdw_test::TestCounts & testCounts )
 	{
-#if SDW_Test_HasVulkan && SDW_HasCompilerSpirV
+#if SDW_Test_HasVulkan && SDW_HasCompilerSpirV && SDW_HasVulkanLayer
 		ast::vk::ProgramPipeline program{ shader };
 
 		if ( !validateProgram( program, testCounts ) )
