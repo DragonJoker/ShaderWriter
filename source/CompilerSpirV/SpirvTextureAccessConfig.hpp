@@ -10,6 +10,7 @@ See LICENSE file in root folder
 #include <ShaderAST/Expr/EnumTextureAccess.hpp>
 
 #include <string>
+#include <stdexcept>
 
 namespace spirv
 {

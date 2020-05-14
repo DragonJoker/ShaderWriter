@@ -6,6 +6,7 @@ See LICENSE file in root folder
 #include "ShaderAST/Expr/ExprVisitor.hpp"
 
 #include <cassert>
+#include <stdexcept>
 
 namespace ast::expr
 {

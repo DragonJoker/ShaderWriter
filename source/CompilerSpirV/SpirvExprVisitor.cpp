@@ -21,6 +21,7 @@ See LICENSE file in root folder
 #include <algorithm>
 #include <numeric>
 #include <sstream>
+#include <stdexcept>
 
 namespace spirv
 {

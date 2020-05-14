@@ -13,6 +13,8 @@ See LICENSE file in root folder
 #include "ShaderAST/Type/Type.hpp"
 #include "ShaderAST/Type/ImageConfiguration.hpp"
 
+#include <stdexcept>
+
 namespace ast::debug
 {
 	std::string getName( type::Type const & type );
