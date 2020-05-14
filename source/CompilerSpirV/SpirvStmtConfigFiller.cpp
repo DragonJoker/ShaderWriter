@@ -14,6 +14,8 @@ See LICENSE file in root folder
 #include <ShaderAST/Type/TypeSampledImage.hpp>
 #include <ShaderAST/Type/TypeImage.hpp>
 
+#include <stdexcept>
+
 namespace spirv
 {
 	ModuleConfig StmtConfigFiller::submit( ast::stmt::Container * cont )

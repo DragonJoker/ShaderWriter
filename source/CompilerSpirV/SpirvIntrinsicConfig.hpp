@@ -11,6 +11,8 @@ See LICENSE file in root folder
 
 #include "CompilerSpirV/spirv/GLSL.std.450.hpp"
 
+#include <stdexcept>
+
 namespace spirv
 {
 	inline void getSpirVConfig( ast::expr::Intrinsic value

@@ -11,6 +11,7 @@ See LICENSE file in root folder
 
 #include <vector>
 #include <map>
+#include <stdexcept>
 
 namespace ast
 {

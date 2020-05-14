@@ -13,6 +13,8 @@ See LICENSE file in root folder
 #include <ShaderAST/Visitors/CloneExpr.hpp>
 #include <ShaderAST/Visitors/GetExprName.hpp>
 
+#include <stdexcept>
+
 namespace spirv
 {
 	//*************************************************************************
