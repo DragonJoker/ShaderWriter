@@ -8,6 +8,7 @@ See LICENSE file in root folder
 #include "EnumTextureAccess.hpp"
 
 #include <string>
+#include <stdexcept>
 
 namespace ast::expr
 {

@@ -5,6 +5,8 @@ See LICENSE file in root folder
 
 #include "ShaderAST/Stmt/StmtVisitor.hpp"
 
+#include <stdexcept>
+
 namespace ast::stmt
 {
 	PreprocIfDef::PreprocIfDef( expr::IdentifierPtr identExpr )

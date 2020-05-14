@@ -69,8 +69,7 @@ namespace ast::vk
 #if VK_EXT_full_screen_exclusive
 		case VK_ERROR_FULL_SCREEN_EXCLUSIVE_MODE_LOST_EXT: stream << "vk_error_full_screen_exclusive_mode_lost_ext"; break;
 #endif
-		case VK_RESULT_RANGE_SIZE: stream << "vk_result_range_size"; break;
-		case VK_RESULT_MAX_ENUM: stream << "vk_result_max_enum"; break;
+		default: stream << "Unknown error"; break;
 		}
 
 		std::cerr << stream.str() << std::endl;

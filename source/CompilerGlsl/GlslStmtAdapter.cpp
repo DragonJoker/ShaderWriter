@@ -10,6 +10,7 @@ See LICENSE file in root folder
 #include <ShaderAST/Shader.hpp>
 
 #include <algorithm>
+#include <stdexcept>
 
 namespace glsl
 {

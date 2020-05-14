@@ -9,6 +9,7 @@ See LICENSE file in root folder
 
 #include <ShaderAST/Expr/EnumImageAccess.hpp>
 
+#include <stdexcept>
 #include <string>
 
 namespace spirv

@@ -6,10 +6,11 @@ See LICENSE file in root folder
 #pragma once
 
 #include "SpirvHelpers.hpp"
+#include "CompilerSpirV/spirv/GLSL.std.450.hpp"
 
 #include <ShaderAST/Expr/EnumIntrinsic.hpp>
 
-#include "CompilerSpirV/spirv/GLSL.std.450.hpp"
+#include <stdexcept>
 
 namespace spirv
 {

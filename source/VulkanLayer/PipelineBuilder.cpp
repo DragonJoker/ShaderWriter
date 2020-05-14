@@ -12,6 +12,7 @@ See LICENSE file in root folder
 #include <iostream>
 #include <optional>
 #include <sstream>
+#include <stdexcept>
 
 namespace ast::vk
 {

@@ -10,6 +10,8 @@ See LICENSE file in root folder
 #include "CompilerSpirV/spirv/spirv.hpp"
 #include "CompilerSpirV/spirv/GLSL.std.450.hpp"
 
+#include <stdexcept>
+
 namespace spirv
 {
 	inline spv::Id getSpirVName( ast::expr::Intrinsic value )

@@ -6,6 +6,8 @@ See LICENSE file in root folder
 #include <ShaderAST/Type/TypeImage.hpp>
 #include <ShaderAST/Type/TypeSampler.hpp>
 
+#include <stdexcept>
+
 namespace hlsl
 {
 	std::string getTypeName( ast::type::Kind kind )

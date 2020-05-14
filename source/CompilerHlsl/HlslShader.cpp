@@ -5,6 +5,8 @@ See LICENSE file in root folder
 
 #include <ShaderAST/Shader.hpp>
 
+#include <stdexcept>
+
 namespace hlsl
 {
 	HlslShader::HlslShader( ast::Shader const & shader )

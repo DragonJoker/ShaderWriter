@@ -6,6 +6,8 @@ See LICENSE file in root folder
 #include "ShaderAST/Debug/DebugCommon.hpp"
 #include "ShaderAST/Debug/DebugExprVisitor.hpp"
 
+#include <stdexcept>
+
 namespace ast::debug
 {
 	namespace

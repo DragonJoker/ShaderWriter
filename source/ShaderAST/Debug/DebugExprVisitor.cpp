@@ -11,6 +11,7 @@ See LICENSE file in root folder
 #include "ShaderAST/Expr/GetTextureAccessName.hpp"
 
 #include <sstream>
+#include <stdexcept>
 
 namespace ast::debug
 {

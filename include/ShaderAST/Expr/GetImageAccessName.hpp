@@ -7,6 +7,7 @@ See LICENSE file in root folder
 
 #include "EnumImageAccess.hpp"
 
+#include <stdexcept>
 #include <string>
 
 namespace ast::expr
