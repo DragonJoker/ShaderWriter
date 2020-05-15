@@ -95,7 +95,7 @@ install(
 install( EXPORT ShaderWriter
 	FILE ShaderWriterConfig.cmake
 	NAMESPACE sdw::
-	DESTINATION lib/shaderwriter/cmake
+	DESTINATION lib/cmake/shaderwriter
 )
 include(CMakePackageConfigHelpers)
 write_basic_package_version_file( ShaderWriterConfigVersion.cmake
