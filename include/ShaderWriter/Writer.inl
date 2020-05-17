@@ -5,9 +5,12 @@ See LICENSE file in root folder
 
 #include "ShaderWriter/CompositeTypes/Struct.hpp"
 
+#include <ShaderAST/Debug/DebugCommon.hpp>
 #include <ShaderAST/Type/TypeImage.hpp>
 #include <ShaderAST/Type/TypeSampledImage.hpp>
 #include <ShaderAST/Visitors/GetExprName.hpp>
+
+#include <stdexcept>
 
 namespace sdw
 {
@@ -1130,6 +1133,20 @@ namespace sdw
 	/**@}*/
 #pragma endregion
 #pragma region Already declared variable getters
+	namespace details
+	{
+		inline void checkTypes( type::TypePtr varType, type::TypePtr resultType )
+		{
+			if ( varType != resultType )
+			{
+				assert( false
+					&& "Var type and expected type don't match" );
+				std::string text;
+				text += "Var type [" + debug::getName( varType ) + "] and expected type [" + debug::getName( resultType ) + "] don't match";
+				throw std::runtime_error{ text };
+			}
+		}
+	}
 	/**
 	*name
 	*	Already declared variable getters.
@@ -1139,8 +1156,13 @@ namespace sdw
 	inline T ShaderWriter::getVariable( std::string const & name )
 	{
 		auto var = getVar( name );
-		return T{ &m_shader
-			, makeExpr( getShader(), var ) };
+		T result
+		{
+			&m_shader,
+			makeExpr( getShader(), var ),
+		};
+		details::checkTypes( var->getType(), result.getType() );
+		return result;
 	}
 
 	template< typename T >
@@ -1148,17 +1170,27 @@ namespace sdw
 		, bool enabled )
 	{
 		auto var = getVar( name );
-		return Optional< T >{ &m_shader
-			, makeExpr( getShader(), var )
-			, enabled };
+		Optional< T > result
+		{
+			&m_shader,
+			makeExpr( getShader(), var ),
+			enabled,
+		};
+		details::checkTypes( var->getType(), result.getType() );
+		return result;
 	}
 
 	template< typename T >
 	inline Array< T > ShaderWriter::getVariableArray( std::string const & name )
 	{
 		auto var = getVar( name );
-		return Array< T >{ &m_shader
-			, makeExpr( getShader(), var ) };
+		Array< T > result
+		{
+			&m_shader,
+			makeExpr( getShader(), var ),
+		};
+		details::checkTypes( var->getType(), result.getType() );
+		return result;
 	}
 
 	template< typename T >
@@ -1166,9 +1198,14 @@ namespace sdw
 		, bool enabled )
 	{
 		auto var = getVar( name );
-		return Optional< Array< T > >{ &m_shader
-			, makeExpr( getShader(), var )
-			, enabled };
+		Optional< Array< T > > result
+		{
+			&m_shader,
+			makeExpr( getShader(), var ),
+			enabled
+		};
+		details::checkTypes( var->getType(), result.getType() );
+		return result;
 	}
 	/**@}*/
 #pragma endregion
