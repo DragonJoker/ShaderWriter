@@ -398,6 +398,28 @@ namespace sdw
 
 	//***********************************************************************************************
 
+	namespace details
+	{
+		template< typename ReturnT >
+		struct StmtAdder
+		{
+			static inline void submit( Shader & shader, ReturnT const & result )
+			{
+			}
+		};
+
+		template<>
+		struct StmtAdder< Void >
+		{
+			static inline void submit( Shader & shader, Void const & result )
+			{
+				sdw::addStmt( shader, sdw::makeSimple( sdw::makeExpr( shader, result ) ) );
+			}
+		};
+	}
+
+	//***********************************************************************************************
+
 	template< typename ReturnT, typename ... ParamsT >
 	inline Function< ReturnT, ParamsT... >::Function( Shader * shader
 		, ast::type::FunctionPtr type
