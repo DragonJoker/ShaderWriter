@@ -65,6 +65,7 @@ namespace sdw
 		, CreatorT creator );
 }
 
+#include "MaybeOptionalVoid.hpp"
 #include "MaybeOptional.inl"
 
 #endif

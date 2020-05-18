@@ -78,6 +78,7 @@ namespace sdw
 		, CreatorT creator );
 }
 
+#include "OptionalVoid.hpp"
 #include "Optional.inl"
 
 #endif
