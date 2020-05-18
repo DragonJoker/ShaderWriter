@@ -13,7 +13,8 @@ namespace sdw
 		: public Value
 	{
 		SDW_API Void( Shader * shader
-			, expr::ExprPtr expr );
+			, expr::ExprPtr expr
+			, bool writeStmt = true );
 		SDW_API Void( Void && rhs );
 		SDW_API Void( Void const & rhs );
 		SDW_API explicit Void( Value rhs );

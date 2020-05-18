@@ -231,6 +231,8 @@ set( ${PROJECT_NAME}_FOLDER_HEADER_FILES
 	${INCLUDE_DIR}/MaybeOptional/MaybeOptionalVec3.inl
 	${INCLUDE_DIR}/MaybeOptional/MaybeOptionalVec4.hpp
 	${INCLUDE_DIR}/MaybeOptional/MaybeOptionalVec4.inl
+	${INCLUDE_DIR}/MaybeOptional/MaybeOptionalVoid.hpp
+	${INCLUDE_DIR}/MaybeOptional/MaybeOptionalVoid.inl
 )
 source_group( "Header Files\\MaybeOptional"
 	FILES
@@ -272,6 +274,8 @@ set( ${PROJECT_NAME}_FOLDER_HEADER_FILES
 	${INCLUDE_DIR}/Optional/OptionalVec3.inl
 	${INCLUDE_DIR}/Optional/OptionalVec4.hpp
 	${INCLUDE_DIR}/Optional/OptionalVec4.inl
+	${INCLUDE_DIR}/Optional/OptionalVoid.hpp
+	${INCLUDE_DIR}/Optional/OptionalVoid.inl
 )
 source_group( "Header Files\\Optional"
 	FILES

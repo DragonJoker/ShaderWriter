@@ -434,12 +434,10 @@ namespace sdw
 	inline ReturnT Function< ReturnT, ParamsT... >::operator()( ParamsT && ... params )const
 	{
 		assert( !m_name.empty() );
-		auto result = getFunctionCall< ReturnT >( *m_shader
+		return getFunctionCall< ReturnT >( *m_shader
 			, m_type
 			, m_name
 			, std::forward< ParamsT >( params )... );
-		details::StmtAdder< ReturnT >::submit( *m_shader, result );
-		return result;
 	}
 
 	template< typename ReturnT, typename ... ParamsT >
