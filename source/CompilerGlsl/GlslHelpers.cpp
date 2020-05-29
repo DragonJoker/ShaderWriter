@@ -294,13 +294,29 @@ namespace glsl
 		return result;
 	}
 
-	std::string getFlatnessName( ast::var::Variable const & var )
+	std::string getInterpolationQualifier( ast::var::Variable const & var )
 	{
 		std::string result;
 
 		if ( var.isFlat() )
 		{
-			result = "flat ";
+			result = "flat";
+		}
+		else if ( var.isNoPerspective() )
+		{
+			result = "noperspective";
+		}
+		else if ( var.isPatch() )
+		{
+			result = "patch";
+		}
+		else if ( var.isCentroid() )
+		{
+			result = "centroid";
+		}
+		else if ( var.isPerSample() )
+		{
+			result = "sample";
 		}
 
 		return result;

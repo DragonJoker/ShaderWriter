@@ -15,6 +15,7 @@ See LICENSE file in root folder
 #include <ShaderAST/Stmt/StmtElse.hpp>
 #include <ShaderAST/Stmt/StmtElseIf.hpp>
 #include <ShaderAST/Stmt/StmtFor.hpp>
+#include <ShaderAST/Stmt/StmtFragmentLayout.hpp>
 #include <ShaderAST/Stmt/StmtIf.hpp>
 #include <ShaderAST/Stmt/StmtInputComputeLayout.hpp>
 #include <ShaderAST/Stmt/StmtInputGeometryLayout.hpp>
@@ -505,16 +506,18 @@ namespace sdw
 
 	var::VariablePtr ShaderWriter::registerInput( std::string const & name
 		, uint32_t location
+		, uint32_t attributes
 		, type::TypePtr type )
 	{
-		return m_shader.registerInput( name, location, type );
+		return m_shader.registerInput( name, location, attributes, type );
 	}
 
 	var::VariablePtr ShaderWriter::registerOutput( std::string const & name
 		, uint32_t location
+		, uint32_t attributes
 		, type::TypePtr type )
 	{
-		return m_shader.registerOutput( name, location, type );
+		return m_shader.registerOutput( name, location, attributes, type );
 	}
 
 	var::VariablePtr ShaderWriter::registerBuiltin( std::string const & name
@@ -617,6 +620,12 @@ namespace sdw
 	OutFragment FragmentWriter::getOut()
 	{
 		return OutFragment{ *this };
+	}
+
+	void FragmentWriter::fragmentLayout( ast::FragmentOrigin origin
+		, ast::FragmentCenter center )
+	{
+		addStmt( stmt::makeFragmentLayout( origin, center ) );
 	}
 
 	//*************************************************************************

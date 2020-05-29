@@ -154,6 +154,11 @@ namespace hlsl
 		m_appendLineEnd = true;
 	}
 
+	void StmtVisitor::visitFragmentLayout( ast::stmt::FragmentLayout * stmt )
+	{
+		// Unsupported in HLSL :/
+	}
+
 	void StmtVisitor::visitFunctionDeclStmt( ast::stmt::FunctionDecl * stmt )
 	{
 		m_appendLineEnd = true;

@@ -101,9 +101,11 @@ namespace ast
 			, bool enabled = true );
 		var::VariablePtr registerInput( std::string const & name
 			, uint32_t location
+			, uint32_t attributes
 			, type::TypePtr type );
 		var::VariablePtr registerOutput( std::string const & name
 			, uint32_t location
+			, uint32_t attributes
 			, type::TypePtr type );
 		var::VariablePtr registerBuiltin( std::string const & name
 			, type::TypePtr type

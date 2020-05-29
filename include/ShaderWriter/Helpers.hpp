@@ -249,6 +249,16 @@ namespace sdw
 	SDW_API stmt::StmtPtr makeVariableDecl( var::VariablePtr var );
 	SDW_API stmt::StmtPtr makeInOutVariableDecl( var::VariablePtr var
 		, uint32_t location );
+	SDW_API stmt::StmtPtr makeInOutVariableDecl( var::VariablePtr var
+		, uint32_t location
+		, uint32_t streamIndex
+		, uint32_t blendIndex );
+	SDW_API stmt::StmtPtr makeInOutStreamVariableDecl( var::VariablePtr var
+		, uint32_t location
+		, uint32_t streamIndex );
+	SDW_API stmt::StmtPtr makeInOutBlendVariableDecl( var::VariablePtr var
+		, uint32_t location
+		, uint32_t blendIndex );
 	SDW_API stmt::StmtPtr makeSpecConstantDecl( var::VariablePtr var
 		, uint32_t location
 		, expr::LiteralPtr literal );

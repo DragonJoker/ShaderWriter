@@ -24,6 +24,7 @@ See LICENSE file in root folder
 #include "StmtElse.hpp"
 #include "StmtElseIf.hpp"
 #include "StmtFor.hpp"
+#include "StmtFragmentLayout.hpp"
 #include "StmtFunctionDecl.hpp"
 #include "StmtIf.hpp"
 #include "StmtImageDecl.hpp"
@@ -71,6 +72,7 @@ namespace ast::stmt
 		virtual void visitElseIfStmt( ElseIf * ) = 0;
 		virtual void visitElseStmt( Else * ) = 0;
 		virtual void visitForStmt( For * ) = 0;
+		virtual void visitFragmentLayout( FragmentLayout * ) = 0;
 		virtual void visitFunctionDeclStmt( FunctionDecl * ) = 0;
 		virtual void visitIfStmt( If * ) = 0;
 		virtual void visitImageDeclStmt( ImageDecl * ) = 0;

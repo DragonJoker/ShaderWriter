@@ -127,6 +127,12 @@ namespace ast
 		m_current->addStmt( std::move( cont ) );
 	}
 
+	void StmtCloner::visitFragmentLayout( stmt::FragmentLayout * stmt )
+	{
+		m_current->addStmt( stmt::makeFragmentLayout( stmt->getFragmentOrigin()
+			, stmt->getFragmentCenter() ) );
+	}
+
 	void StmtCloner::visitFunctionDeclStmt( stmt::FunctionDecl * stmt )
 	{
 		auto save = m_current;
@@ -171,7 +177,9 @@ namespace ast
 	void StmtCloner::visitInOutVariableDeclStmt( stmt::InOutVariableDecl * stmt )
 	{
 		m_current->addStmt( stmt::makeInOutVariableDecl( stmt->getVariable()
-			, stmt->getLocation() ) );
+			, stmt->getLocation()
+			, stmt->getStreamIndex()
+			, stmt->getBlendIndex() ) );
 	}
 
 	void StmtCloner::visitInputComputeLayoutStmt( stmt::InputComputeLayout * stmt )

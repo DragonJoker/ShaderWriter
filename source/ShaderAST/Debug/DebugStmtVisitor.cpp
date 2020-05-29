@@ -163,6 +163,9 @@ namespace ast::debug
 			case ast::stmt::Kind::ePreprocVersion:
 				result = "STPRVERSION";
 				break;
+			case ast::stmt::Kind::eFragmentLayout:
+				result = "STFRAGLAYOUT";
+				break;
 			default:
 				assert( false && "Unknown statement kind ?" );
 				break;
@@ -279,6 +282,13 @@ namespace ast::debug
 		m_result += ExprVisitor::submit( stmt->getIncrExpr() ) + "\n";
 		m_compoundName = false;
 		visitCompoundStmt( stmt );
+	}
+
+	void StmtVisitor::visitFragmentLayout( stmt::FragmentLayout * stmt )
+	{
+		displayStmtName( stmt, false );
+		m_result += "O(" + getName( stmt->getFragmentOrigin() ) + "), ";
+		m_result += "C(" + getName( stmt->getFragmentCenter() ) + ")\n";
 	}
 
 	void StmtVisitor::visitFunctionDeclStmt( stmt::FunctionDecl * stmt )

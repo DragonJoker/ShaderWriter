@@ -26,6 +26,18 @@ namespace ast
 		eCompute,
 	};
 
+	enum class FragmentOrigin
+	{
+		eLowerLeft,
+		eUpperLeft,
+	};
+
+	enum class FragmentCenter
+	{
+		eHalfPixel,
+		eCenterInteger,
+	};
+
 	namespace expr
 	{
 		class Expr;

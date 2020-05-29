@@ -30,7 +30,13 @@ namespace ast::var
 		eFunction = 1 << 14,
 		eStatic = 1 << 15,
 		eFlat = 1 << 16,
-		eLoopVar = 1 << 17,
+		eNoPerspective = 1 << 17,
+		ePatch = 1 << 18,
+		eCentroid = 1 << 19,
+		ePerSample = 1 << 20,
+		eGeometryStream = 1 << 21,
+		eBlendIndex = 1 << 22,
+		eLoopVar = 1 << 23,
 	};
 
 	class Variable
@@ -183,6 +189,36 @@ namespace ast::var
 			assert( hasFlag( Flag::eMember ) == bool( m_outer ) );
 			return hasFlag( Flag::eMember )
 				&& m_outer;
+		}
+
+		inline bool isNoPerspective()const
+		{
+			return hasFlag( Flag::eNoPerspective );
+		}
+
+		inline bool isPatch()const
+		{
+			return hasFlag( Flag::ePatch );
+		}
+
+		inline bool isCentroid()const
+		{
+			return hasFlag( Flag::eCentroid );
+		}
+
+		inline bool isPerSample()const
+		{
+			return hasFlag( Flag::ePerSample );
+		}
+
+		inline bool isGeometryStream()const
+		{
+			return hasFlag( Flag::eGeometryStream );
+		}
+
+		inline bool isBlendIndex()const
+		{
+			return hasFlag( Flag::eBlendIndex );
 		}
 
 		inline bool hasFlag( Flag flag )const

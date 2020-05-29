@@ -93,6 +93,10 @@ namespace hlsl
 		visitContainerStmt( stmt );
 	}
 
+	void StmtConfigFiller::visitFragmentLayout( ast::stmt::FragmentLayout * stmt )
+	{
+	}
+
 	void StmtConfigFiller::visitFunctionDeclStmt( ast::stmt::FunctionDecl * stmt )
 	{
 		visitContainerStmt( stmt );

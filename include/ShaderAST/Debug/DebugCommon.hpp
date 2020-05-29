@@ -34,6 +34,8 @@ namespace ast::debug
 		, bool arrayed
 		, bool depth
 		, bool ms );
+	std::string getName( FragmentOrigin value );
+	std::string getName( FragmentCenter value );
 	std::string displayVar( var::VariablePtr var );
 }
 

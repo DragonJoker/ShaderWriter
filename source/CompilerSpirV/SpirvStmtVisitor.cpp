@@ -267,6 +267,33 @@ namespace spirv
 		m_currentBlock = std::move( mergeBlock );
 	}
 
+	void StmtVisitor::visitFragmentLayout( ast::stmt::FragmentLayout * stmt )
+	{
+		switch ( stmt->getFragmentCenter() )
+		{
+		case ast::FragmentCenter::eCenterInteger:
+			m_result.registerExecutionMode( spv::ExecutionModePixelCenterInteger );
+			break;
+		case ast::FragmentCenter::eHalfPixel:
+			// Half pixel is default mode
+			break;
+		default:
+			break;
+		}
+
+		switch ( stmt->getFragmentOrigin() )
+		{
+		case ast::FragmentOrigin::eLowerLeft:
+			m_result.registerExecutionMode( spv::ExecutionModeOriginLowerLeft );
+			break;
+		case ast::FragmentOrigin::eUpperLeft:
+			m_result.registerExecutionMode( spv::ExecutionModeOriginUpperLeft );
+			break;
+		default:
+			break;
+		}
+	}
+
 	void StmtVisitor::visitFunctionDeclStmt( ast::stmt::FunctionDecl * stmt )
 	{
 		auto type = stmt->getType();
@@ -369,9 +396,39 @@ namespace spirv
 			m_result.decorate( varId, { spv::Id( spv::DecorationLocation ), stmt->getLocation() } );
 		}
 
+		if ( var->isBlendIndex() )
+		{
+			m_result.decorate( varId, { spv::Id( spv::DecorationIndex ), stmt->getBlendIndex() } );
+		}
+
+		if ( var->isGeometryStream() )
+		{
+			m_result.decorate( varId, { spv::Id( spv::DecorationStream ), stmt->getStreamIndex() } );
+		}
+
 		if ( var->isFlat() )
 		{
 			m_result.decorate( varId, IdList{ spv::Id( spv::DecorationFlat ) } );
+		}
+
+		if ( var->isNoPerspective() )
+		{
+			m_result.decorate( varId, IdList{ spv::Id( spv::DecorationNoPerspective ) } );
+		}
+
+		if ( var->isCentroid() )
+		{
+			m_result.decorate( varId, IdList{ spv::Id( spv::DecorationCentroid ) } );
+		}
+
+		if ( var->isPerSample() )
+		{
+			m_result.decorate( varId, IdList{ spv::Id( spv::DecorationSample ) } );
+		}
+
+		if ( var->isPatch() )
+		{
+			m_result.decorate( varId, IdList{ spv::Id( spv::DecorationPatch ) } );
 		}
 	}
 
