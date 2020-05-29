@@ -54,6 +54,7 @@ namespace ast::stmt
 		ePreprocEndif,
 		ePreprocExtension,
 		ePreprocVersion,
+		eFragmentLayout,
 	};
 
 	class Stmt

@@ -249,6 +249,7 @@ set( ${PROJECT_NAME}_FOLDER_HEADER_FILES
 	${INCLUDE_DIR}/Stmt/StmtElse.hpp
 	${INCLUDE_DIR}/Stmt/StmtElseIf.hpp
 	${INCLUDE_DIR}/Stmt/StmtFor.hpp
+	${INCLUDE_DIR}/Stmt/StmtFragmentLayout.hpp
 	${INCLUDE_DIR}/Stmt/StmtFunctionDecl.hpp
 	${INCLUDE_DIR}/Stmt/StmtIf.hpp
 	${INCLUDE_DIR}/Stmt/StmtImageDecl.hpp
@@ -295,6 +296,7 @@ set( ${PROJECT_NAME}_FOLDER_SOURCE_FILES
 	${SOURCE_DIR}/Stmt/StmtElse.cpp
 	${SOURCE_DIR}/Stmt/StmtElseIf.cpp
 	${SOURCE_DIR}/Stmt/StmtFor.cpp
+	${SOURCE_DIR}/Stmt/StmtFragmentLayout.cpp
 	${SOURCE_DIR}/Stmt/StmtFunctionDecl.cpp
 	${SOURCE_DIR}/Stmt/StmtIf.cpp
 	${SOURCE_DIR}/Stmt/StmtImageDecl.cpp

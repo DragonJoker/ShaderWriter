@@ -766,6 +766,35 @@ namespace sdw
 			, location );
 	}
 
+	stmt::StmtPtr makeInOutVariableDecl( var::VariablePtr var
+		, uint32_t location
+		, uint32_t streamIndex
+		, uint32_t blendIndex )
+	{
+		return stmt::makeInOutVariableDecl( std::move( var )
+			, location
+			, streamIndex
+			, blendIndex );
+	}
+
+	stmt::StmtPtr makeInOutStreamVariableDecl( var::VariablePtr var
+		, uint32_t location
+		, uint32_t streamIndex )
+	{
+		return stmt::makeInOutStreamVariableDecl( std::move( var )
+			, location
+			, streamIndex );
+	}
+
+	stmt::StmtPtr makeInOutBlendVariableDecl( var::VariablePtr var
+		, uint32_t location
+		, uint32_t blendIndex )
+	{
+		return stmt::makeInOutBlendVariableDecl( std::move( var )
+			, location
+			, blendIndex );
+	}
+
 	stmt::StmtPtr makeSpecConstantDecl( var::VariablePtr var
 		, uint32_t location
 		, expr::LiteralPtr literal )

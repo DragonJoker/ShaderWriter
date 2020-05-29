@@ -14,7 +14,9 @@ namespace ast::stmt
 	{
 	public:
 		InOutVariableDecl( var::VariablePtr variable
-			, uint32_t location );
+			, uint32_t location
+			, uint32_t streamIndex
+			, uint32_t blendIndex );
 
 		void accept( VisitorPtr vis )override;
 
@@ -28,9 +30,21 @@ namespace ast::stmt
 			return m_location;
 		}
 
+		inline uint32_t getStreamIndex()const
+		{
+			return m_streamIndex;
+		}
+
+		inline uint32_t getBlendIndex()const
+		{
+			return m_blendIndex;
+		}
+
 	private:
 		var::VariablePtr m_variable;
 		uint32_t m_location;
+		uint32_t m_streamIndex;
+		uint32_t m_blendIndex;
 	};
 	using InOutVariableDeclPtr = std::unique_ptr< InOutVariableDecl >;
 
@@ -38,7 +52,40 @@ namespace ast::stmt
 		, uint32_t location )
 	{
 		return std::make_unique< InOutVariableDecl >( std::move( variable )
-			, location );
+			, location
+			, 0u
+			, 0u );
+	}
+
+	inline InOutVariableDeclPtr makeInOutVariableDecl( var::VariablePtr variable
+		, uint32_t location
+		, uint32_t streamIndex
+		, uint32_t blendIndex )
+	{
+		return std::make_unique< InOutVariableDecl >( std::move( variable )
+			, location
+			, streamIndex
+			, blendIndex );
+	}
+
+	inline InOutVariableDeclPtr makeInOutStreamVariableDecl( var::VariablePtr variable
+		, uint32_t location
+		, uint32_t streamIndex = 0u )
+	{
+		return std::make_unique< InOutVariableDecl >( std::move( variable )
+			, location
+			, streamIndex
+			, 0u );
+	}
+
+	inline InOutVariableDeclPtr makeInOutBlendVariableDecl( var::VariablePtr variable
+		, uint32_t location
+		, uint32_t blendIndex = 0u )
+	{
+		return std::make_unique< InOutVariableDecl >( std::move( variable )
+			, location
+			, 0u
+			, blendIndex );
 	}
 }
 

@@ -10,7 +10,7 @@ See LICENSE file in root folder
 
 namespace ast
 {
-	Shader::Shader( ShaderStage type )
+	Shader::Shader( ast::ShaderStage type )
 		: m_type{ type }
 		, m_typesCache{ std::make_unique< ast::type::TypesCache >() }
 		, m_container{ stmt::makeContainer() }
@@ -214,10 +214,11 @@ namespace ast
 
 	var::VariablePtr Shader::registerInput( std::string const & name
 		, uint32_t location
+		, uint32_t attributes
 		, type::TypePtr type )
 	{
 		auto kind = getNonArrayType( type )->getKind();
-		uint32_t flags = 0u;
+		auto flags = attributes;
 
 		if ( ( m_type != ast::ShaderStage::eVertex && m_type != ast::ShaderStage::eCompute )
 			&& ( isSignedIntType( kind )
@@ -235,6 +236,7 @@ namespace ast
 
 	var::VariablePtr Shader::registerOutput( std::string const & name
 		, uint32_t location
+		, uint32_t attributes
 		, type::TypePtr type )
 	{
 		assert( m_data.outputs.end() == std::find_if( m_data.outputs.begin()
@@ -245,7 +247,7 @@ namespace ast
 			} )
 			&& "Output already existing at given location" );
 		auto kind = getNonArrayType( type )->getKind();
-		uint32_t flags = 0u;
+		auto flags = attributes;
 
 		if ( ( m_type != ast::ShaderStage::eFragment && m_type != ast::ShaderStage::eCompute )
 			&& ( isSignedIntType( kind )

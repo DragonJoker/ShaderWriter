@@ -16,7 +16,7 @@ namespace glsl
 	std::string getTypeName( ast::type::Kind kind );
 	std::string getTypeName( ast::type::TypePtr type );
 	std::string getTypeArraySize( ast::type::TypePtr type );
-	std::string getFlatnessName( ast::var::Variable const & var );
+	std::string getInterpolationQualifier( ast::var::Variable const & var );
 	std::string getLocationName( ast::var::Variable const & var );
 	std::string getDirectionName( ast::var::Variable const & var );
 	std::string getStatusName( ast::stmt::PreprocExtension::Status status );

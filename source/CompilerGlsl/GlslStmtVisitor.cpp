@@ -171,6 +171,56 @@ namespace glsl
 				return "std140";
 			}
 		}
+
+		std::string getInOutLayout( GlslConfig const & writerConfig
+			, ast::stmt::InOutVariableDecl const & stmt )
+		{
+			std::string result = "layout(";
+			result += getLocationName( *stmt.getVariable() ) + "=" + std::to_string( stmt.getLocation() );
+
+			if ( writerConfig.shaderStage == ast::ShaderStage::eGeometry
+				&& stmt.getVariable()->isGeometryStream() )
+			{
+				result += ", stream=" + std::to_string( stmt.getStreamIndex() );
+			}
+
+			if ( writerConfig.shaderStage == ast::ShaderStage::eFragment
+				&& stmt.getVariable()->isBlendIndex() )
+			{
+				result += ", index=" + std::to_string( stmt.getBlendIndex() );
+			}
+
+			result += ")";
+			return result;
+		}
+
+		std::string getName( ast::FragmentOrigin value )
+		{
+			switch ( value )
+			{
+			case ast::FragmentOrigin::eLowerLeft:
+				return std::string{};
+			case ast::FragmentOrigin::eUpperLeft:
+				return "origin_upper_left";
+			default:
+				assert( false && "Unsupported FragmentOrigin" );
+				return std::string{};
+			}
+		}
+
+		std::string getName( ast::FragmentCenter value )
+		{
+			switch ( value )
+			{
+			case ast::FragmentCenter::eHalfPixel:
+				return std::string{};
+			case ast::FragmentCenter::eCenterInteger:
+				return "pixel_center_integer";
+			default:
+				assert( false && "Unsupported FragmentCenter" );
+				return std::string{};
+			}
+		}
 	}
 
 	//*************************************************************************
@@ -361,6 +411,23 @@ namespace glsl
 		m_appendLineEnd = true;
 	}
 
+	void StmtVisitor::visitFragmentLayout( ast::stmt::FragmentLayout * stmt )
+	{
+		std::string origin = getName( stmt->getFragmentOrigin() );
+		std::string center = getName( stmt->getFragmentCenter() );
+
+		if ( !origin.empty() || !center.empty() )
+		{
+			m_result += "layout(";
+			m_result += origin;
+			m_result += ( ( origin.empty() || center.empty() )
+				? std::string{}
+				: std::string{ ", " } );
+			m_result += center;
+			m_result += ") in vec4 gl_FragCoord;\n";
+		}
+	}
+
 	void StmtVisitor::visitFunctionDeclStmt( ast::stmt::FunctionDecl * stmt )
 	{
 		m_appendLineEnd = true;
@@ -475,8 +542,8 @@ namespace glsl
 	{
 		doAppendLineEnd();
 		m_result += m_indent;
-		m_result += "layout(" + getLocationName( *stmt->getVariable() ) + "=" + std::to_string( stmt->getLocation() ) + ") ";
-		m_result += getFlatnessName( *stmt->getVariable() );
+		m_result += getInOutLayout( m_writerConfig, *stmt ) + " ";
+		m_result += getInterpolationQualifier( *stmt->getVariable() ) + " ";
 		m_result += getDirectionName( *stmt->getVariable() ) + " ";
 		m_result += getTypeName( stmt->getVariable()->getType() ) + " " + stmt->getVariable()->getName();
 		m_result += getTypeArraySize( stmt->getVariable()->getType() );

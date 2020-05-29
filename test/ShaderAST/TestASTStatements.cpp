@@ -274,7 +274,7 @@ namespace
 		}
 		testEnd();
 	}
-	
+
 	void testInOutVariableDeclStatement( test::TestCounts & testCounts )
 	{
 		testBegin( "testInOutVariableDeclStatement" );
@@ -286,6 +286,42 @@ namespace
 		check( stmt->getLocation() == 1u );
 		check( stmt->getVariable()->getType()->getKind() == ast::type::Kind::eInt );
 		check( stmt->getVariable()->getName() == "lhs" );
+		testEnd();
+	}
+
+	void testInOutStreamVariableDeclStatement( test::TestCounts & testCounts )
+	{
+		testBegin( "testInOutStreamVariableDeclStatement" );
+		ast::type::TypesCache cache;
+		auto stmt = ast::stmt::makeInOutStreamVariableDecl( ast::var::makeVariable( cache.getInt(), "lhs", ast::var::Flag::eShaderInput | ast::var::Flag::eGeometryStream )
+			, 1u
+			, 2u );
+		std::cout << "makeInOutStreamVariableDecl:\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
+
+		require( stmt->getKind() == ast::stmt::Kind::eInOutVariableDecl );
+		check( stmt->getLocation() == 1u );
+		check( stmt->getVariable()->getType()->getKind() == ast::type::Kind::eInt );
+		check( stmt->getVariable()->getName() == "lhs" );
+		check( stmt->getVariable()->isGeometryStream() );
+		check( stmt->getStreamIndex() == 2u );
+		testEnd();
+	}
+
+	void testInOutBlendVariableDeclStatement( test::TestCounts & testCounts )
+	{
+		testBegin( "testInOutBlendVariableDeclStatement" );
+		ast::type::TypesCache cache;
+		auto stmt = ast::stmt::makeInOutBlendVariableDecl( ast::var::makeVariable( cache.getInt(), "lhs", ast::var::Flag::eShaderInput | ast::var::Flag::eBlendIndex )
+			, 1u
+			, 2u );
+		std::cout << "StmtInOutBlendVariableDecl:\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
+
+		require( stmt->getKind() == ast::stmt::Kind::eInOutVariableDecl );
+		check( stmt->getLocation() == 1u );
+		check( stmt->getVariable()->getType()->getKind() == ast::type::Kind::eInt );
+		check( stmt->getVariable()->getName() == "lhs" );
+		check( stmt->getVariable()->isBlendIndex() );
+		check( stmt->getBlendIndex() == 2u );
 		testEnd();
 	}
 
@@ -788,6 +824,19 @@ namespace
 		}
 		testEnd();
 	}
+
+	void testFragmentLayoutStatement( test::TestCounts & testCounts )
+	{
+		testBegin( "testFragmentLayoutStatement" );
+		auto stmt = ast::stmt::makeFragmentLayout( ast::FragmentOrigin::eLowerLeft
+			, ast::FragmentCenter::eCenterInteger );
+		std::cout << "StmtFragmentLayout:\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
+
+		require( stmt->getKind() == ast::stmt::Kind::eFragmentLayout );
+		check( stmt->getFragmentCenter() == ast::FragmentCenter::eCenterInteger );
+		check( stmt->getFragmentOrigin() == ast::FragmentOrigin::eLowerLeft );
+		testEnd();
+	}
 }
 
 int main( int argc, char ** argv )
@@ -810,6 +859,8 @@ int main( int argc, char ** argv )
 	testShaderBufferDeclStatement( testCounts );
 	testShaderStructBufferDeclStatement( testCounts );
 	testInOutVariableDeclStatement( testCounts );
+	testInOutStreamVariableDeclStatement( testCounts );
+	testInOutBlendVariableDeclStatement( testCounts );
 	testContainerStatement( testCounts );
 	testCompoundStatement( testCounts );
 	testIfStatement( testCounts );
@@ -827,5 +878,6 @@ int main( int argc, char ** argv )
 	testInputGeometryLayout( testCounts );
 	testOutputGeometryLayout( testCounts );
 	testFunctionDeclStatement( testCounts );
+	testFragmentLayoutStatement( testCounts );
 	testSuiteEnd();
 }

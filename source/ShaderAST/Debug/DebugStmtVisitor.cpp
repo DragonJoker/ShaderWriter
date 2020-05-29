@@ -163,6 +163,9 @@ namespace ast::debug
 			case ast::stmt::Kind::ePreprocVersion:
 				result = "STPRVERSION";
 				break;
+			case ast::stmt::Kind::eFragmentLayout:
+				result = "STFRAGLAYOUT";
+				break;
 			default:
 				assert( false && "Unknown statement kind ?" );
 				break;
@@ -281,6 +284,13 @@ namespace ast::debug
 		visitCompoundStmt( stmt );
 	}
 
+	void StmtVisitor::visitFragmentLayout( stmt::FragmentLayout * stmt )
+	{
+		displayStmtName( stmt, false );
+		m_result += "O(" + getName( stmt->getFragmentOrigin() ) + "), ";
+		m_result += "C(" + getName( stmt->getFragmentCenter() ) + ")\n";
+	}
+
 	void StmtVisitor::visitFunctionDeclStmt( stmt::FunctionDecl * stmt )
 	{
 		displayStmtName( stmt, false );
@@ -348,6 +358,17 @@ namespace ast::debug
 		}
 
 		m_result += "(" + std::to_string( stmt->getLocation() ) + ") ";
+
+		if ( stmt->getVariable()->isBlendIndex() )
+		{
+			m_result += "BLEND(" + std::to_string( stmt->getBlendIndex() ) + ") ";
+		}
+
+		if ( stmt->getVariable()->isGeometryStream() )
+		{
+			m_result += "STREAM(" + std::to_string( stmt->getStreamIndex() ) + ") ";
+		}
+
 		m_result += displayVar( stmt->getVariable() );
 		m_result += "\n";
 	}

@@ -36,6 +36,7 @@ namespace glsl
 		void visitElseIfStmt( ast::stmt::ElseIf * stmt )override;
 		void visitElseStmt( ast::stmt::Else * stmt )override;
 		void visitForStmt( ast::stmt::For * stmt )override;
+		void visitFragmentLayout( ast::stmt::FragmentLayout * stmt )override;
 		void visitFunctionDeclStmt( ast::stmt::FunctionDecl * stmt )override;
 		void visitIfStmt( ast::stmt::If * stmt )override;
 		void visitImageDeclStmt( ast::stmt::ImageDecl * stmt )override;

@@ -71,8 +71,6 @@ namespace sdw
 			, std::function< void( ParamTranslaterT< ParamsT >... ) > const & function
 			, ParamsT && ... params );
 		inline void implementMain( std::function< void() > const & function );
-		template< typename ReturnT >
-		void callFunction( ReturnT const & functionResult );
 		/**@}*/
 #pragma endregion
 #pragma region Cast
@@ -308,12 +306,26 @@ namespace sdw
 		inline T declInput( std::string const & name
 			, uint32_t location );
 		template< typename T >
+		inline T declInput( std::string const & name
+			, uint32_t location
+			, uint32_t attributes );
+		template< typename T >
 		inline Array< T > declInputArray( std::string const & name
 			, uint32_t location
 			, uint32_t dimension );
 		template< typename T >
+		inline Array< T > declInputArray( std::string const & name
+			, uint32_t location
+			, uint32_t dimension
+			, uint32_t attributes );
+		template< typename T >
 		inline Optional< T > declInput( std::string const & name
 			, uint32_t location
+			, bool enabled );
+		template< typename T >
+		inline Optional< T > declInput( std::string const & name
+			, uint32_t location
+			, uint32_t attributes
 			, bool enabled );
 		template< typename T >
 		inline Optional< Array< T > > declInputArray( std::string const & name
@@ -321,10 +333,29 @@ namespace sdw
 			, uint32_t dimension
 			, bool enabled );
 		template< typename T >
+		inline Optional< Array< T > > declInputArray( std::string const & name
+			, uint32_t location
+			, uint32_t dimension
+			, uint32_t attributes
+			, bool enabled );
+		template< typename T >
 		inline T declInput( std::string const & name
 			, uint32_t location
 			, bool enabled
 			, T const & defaultValue );
+		template< typename T >
+		inline T declInput( std::string const & name
+			, uint32_t location
+			, uint32_t attributes
+			, bool enabled
+			, T const & defaultValue );
+		template< typename T >
+		inline Array< T > declInputArray( std::string const & name
+			, uint32_t location
+			, uint32_t dimension
+			, uint32_t attributes
+			, bool enabled
+			, std::vector< T > const & defaultValue );
 		template< typename T >
 		inline Array< T > declInputArray( std::string const & name
 			, uint32_t location
@@ -343,17 +374,37 @@ namespace sdw
 		inline T declOutput( std::string const & name
 			, uint32_t location );
 		template< typename T >
+		inline T declOutput( std::string const & name
+			, uint32_t location
+			, uint32_t attributes );
+		template< typename T >
 		inline Array< T > declOutputArray( std::string const & name
 			, uint32_t location
 			, uint32_t dimension );
+		template< typename T >
+		inline Array< T > declOutputArray( std::string const & name
+			, uint32_t location
+			, uint32_t dimension
+			, uint32_t attributes );
 		template< typename T >
 		inline Optional< T > declOutput( std::string const & name
 			, uint32_t location
 			, bool enabled );
 		template< typename T >
+		inline Optional< T > declOutput( std::string const & name
+			, uint32_t location
+			, uint32_t attributes
+			, bool enabled );
+		template< typename T >
 		inline Optional< Array< T > > declOutputArray( std::string const & name
 			, uint32_t location
 			, uint32_t dimension
+			, bool enabled );
+		template< typename T >
+		inline Optional< Array< T > > declOutputArray( std::string const & name
+			, uint32_t location
+			, uint32_t dimension
+			, uint32_t attributes
 			, bool enabled );
 		/**@}*/
 #pragma endregion
@@ -462,6 +513,8 @@ namespace sdw
 		SDW_API void doPushScope( ast::stmt::Container * container
 			, ast::var::VariableList vars );
 		SDW_API void doPopScope();
+
+	protected:
 		SDW_API var::VariablePtr registerStaticConstant( std::string const & name
 			, type::TypePtr type );
 		SDW_API var::VariablePtr registerConstant( std::string const & name
@@ -481,9 +534,11 @@ namespace sdw
 			, bool enabled = true );
 		SDW_API var::VariablePtr registerInput( std::string const & name
 			, uint32_t location
+			, uint32_t attributes
 			, type::TypePtr type );
 		SDW_API var::VariablePtr registerOutput( std::string const & name
 			, uint32_t location
+			, uint32_t attributes
 			, type::TypePtr type );
 		SDW_API var::VariablePtr registerBuiltin( std::string const & name
 			, type::TypePtr type
@@ -538,6 +593,58 @@ namespace sdw
 		SDW_API void outputLayout( stmt::OutputLayout layout, uint32_t count );
 		SDW_API InGeometry getIn();
 		SDW_API OutGeometry getOut();
+#pragma region Stream Output declaration
+		/**
+		*name
+		*	Stream Output declaration.
+		*/
+		/**@{*/
+		template< typename T >
+		inline T declStreamOutput( std::string const & name
+			, uint32_t location
+			, uint32_t streamIndex );
+		template< typename T >
+		inline T declStreamOutput( std::string const & name
+			, uint32_t location
+			, uint32_t streamIndex
+			, uint32_t attributes );
+		template< typename T >
+		inline Array< T > declStreamOutputArray( std::string const & name
+			, uint32_t location
+			, uint32_t streamIndex
+			, uint32_t dimension );
+		template< typename T >
+		inline Array< T > declStreamOutputArray( std::string const & name
+			, uint32_t location
+			, uint32_t streamIndex
+			, uint32_t dimension
+			, uint32_t attributes );
+		template< typename T >
+		inline Optional< T > declStreamOutput( std::string const & name
+			, uint32_t location
+			, uint32_t streamIndex
+			, bool enabled );
+		template< typename T >
+		inline Optional< T > declStreamOutput( std::string const & name
+			, uint32_t location
+			, uint32_t streamIndex
+			, uint32_t attributes
+			, bool enabled );
+		template< typename T >
+		inline Optional< Array< T > > declStreamOutputArray( std::string const & name
+			, uint32_t location
+			, uint32_t streamIndex
+			, uint32_t dimension
+			, bool enabled );
+		template< typename T >
+		inline Optional< Array< T > > declStreamOutputArray( std::string const & name
+			, uint32_t location
+			, uint32_t streamIndex
+			, uint32_t dimension
+			, uint32_t attributes
+			, bool enabled );
+		/**@}*/
+#pragma endregion
 	};
 
 	class FragmentWriter
@@ -546,8 +653,62 @@ namespace sdw
 	public:
 		SDW_API FragmentWriter();
 
+		SDW_API void fragmentLayout( ast::FragmentOrigin origin
+			, ast::FragmentCenter center );
 		SDW_API InFragment getIn();
 		SDW_API OutFragment getOut();
+#pragma region Blend Output declaration
+		/**
+		*name
+		*	Blend Output declaration.
+		*/
+		/**@{*/
+		template< typename T >
+		inline T declBlendOutput( std::string const & name
+			, uint32_t location
+			, uint32_t blendIndex );
+		template< typename T >
+		inline T declBlendOutput( std::string const & name
+			, uint32_t location
+			, uint32_t blendIndex
+			, uint32_t attributes );
+		template< typename T >
+		inline Array< T > declBlendOutputArray( std::string const & name
+			, uint32_t location
+			, uint32_t blendIndex
+			, uint32_t dimension );
+		template< typename T >
+		inline Array< T > declBlendOutputArray( std::string const & name
+			, uint32_t location
+			, uint32_t blendIndex
+			, uint32_t dimension
+			, uint32_t attributes );
+		template< typename T >
+		inline Optional< T > declBlendOutput( std::string const & name
+			, uint32_t location
+			, uint32_t blendIndex
+			, bool enabled );
+		template< typename T >
+		inline Optional< T > declBlendOutput( std::string const & name
+			, uint32_t location
+			, uint32_t blendIndex
+			, uint32_t attributes
+			, bool enabled );
+		template< typename T >
+		inline Optional< Array< T > > declBlendOutputArray( std::string const & name
+			, uint32_t location
+			, uint32_t blendIndex
+			, uint32_t dimension
+			, bool enabled );
+		template< typename T >
+		inline Optional< Array< T > > declBlendOutputArray( std::string const & name
+			, uint32_t location
+			, uint32_t blendIndex
+			, uint32_t dimension
+			, uint32_t attributes
+			, bool enabled );
+		/**@}*/
+#pragma endregion
 	};
 
 	class ComputeWriter

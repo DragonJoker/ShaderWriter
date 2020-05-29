@@ -33,6 +33,7 @@ namespace ast::debug
 		void visitElseIfStmt( stmt::ElseIf * stmt )override;
 		void visitElseStmt( stmt::Else * stmt )override;
 		void visitForStmt( stmt::For * stmt )override;
+		void visitFragmentLayout( stmt::FragmentLayout * stmt )override;
 		void visitFunctionDeclStmt( stmt::FunctionDecl * stmt )override;
 		void visitIfStmt( stmt::If * stmt )override;
 		void visitImageDeclStmt( stmt::ImageDecl * stmt )override;

@@ -439,6 +439,34 @@ namespace ast::debug
 		return result;
 	}
 
+	std::string getName( FragmentOrigin value )
+	{
+		switch ( value )
+		{
+		case ast::FragmentOrigin::eLowerLeft:
+			return "LOWER_LEFT";
+		case ast::FragmentOrigin::eUpperLeft:
+			return "UPPER_LEFT";
+		default:
+			assert( false && "Unsupported FragmentOrigin" );
+			return "Undefined";
+		}
+	}
+
+	std::string getName( FragmentCenter value )
+	{
+		switch ( value )
+		{
+		case ast::FragmentCenter::eHalfPixel:
+			return "HALF_PIXEL";
+		case ast::FragmentCenter::eCenterInteger:
+			return "CENTER_INTEGER";
+		default:
+			assert( false && "Unsupported FragmentCenter" );
+			return "Undefined";
+		}
+	}
+
 	std::string displayVar( ast::var::Variable const & var )
 	{
 		std::string result = "VAR(";

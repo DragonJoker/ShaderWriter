@@ -70,12 +70,6 @@ namespace sdw
 	{
 		( void )implementFunction< Void >( "main", function );
 	}
-
-	template< typename ReturnT >
-	void ShaderWriter::callFunction( ReturnT const & functionResult )
-	{
-		sdw::details::StmtAdder< ReturnT >::submit( functionResult );
-	}
 	/**@}*/
 #pragma endregion
 #pragma region Cast
@@ -602,6 +596,16 @@ namespace sdw
 	inline T ShaderWriter::declInput( std::string const & name
 		, uint32_t location )
 	{
+		return declInput< T >( name
+			, location
+			, 0u );
+	}
+
+	template< typename T >
+	inline T ShaderWriter::declInput( std::string const & name
+		, uint32_t location
+		, uint32_t attributes )
+	{
 		static_assert( !IsSameV< T, Boolean >, "Bool is not supported as input type" );
 		static_assert( !IsSameV< T, BVec2 >, "BVec2 is not supported as input type" );
 		static_assert( !IsSameV< T, BVec3 >, "BVec3 is not supported as input type" );
@@ -613,6 +617,7 @@ namespace sdw
 		auto type = T::makeType( getTypesCache() );
 		auto var = registerInput( name
 			, location
+			, attributes
 			, type );
 		addStmt( sdw::makeInOutVariableDecl( var
 			, location ) );
@@ -624,6 +629,18 @@ namespace sdw
 	inline Array< T > ShaderWriter::declInputArray( std::string const & name
 		, uint32_t location
 		, uint32_t dimension )
+	{
+		return declInputArray< T >( name
+			, location
+			, dimension
+			, 0u );
+	}
+
+	template< typename T >
+	inline Array< T > ShaderWriter::declInputArray( std::string const & name
+		, uint32_t location
+		, uint32_t dimension
+		, uint32_t attributes )
 	{
 		static_assert( !IsSameV< T, Boolean >, "Bool is not supported as input type" );
 		static_assert( !IsSameV< T, BVec2 >, "BVec2 is not supported as input type" );
@@ -637,6 +654,7 @@ namespace sdw
 			, dimension );
 		auto var = registerInput( name
 			, location
+			, attributes
 			, type );
 		addStmt( sdw::makeInOutVariableDecl( var
 			, location ) );
@@ -647,6 +665,18 @@ namespace sdw
 	template< typename T >
 	inline Optional< T > ShaderWriter::declInput( std::string const & name
 		, uint32_t location
+		, bool enabled )
+	{
+		return declInput< T >( name
+			, location
+			, 0u
+			, enabled );
+	}
+
+	template< typename T >
+	inline Optional< T > ShaderWriter::declInput( std::string const & name
+		, uint32_t location
+		, uint32_t attributes
 		, bool enabled )
 	{
 		static_assert( !IsSameV< T, Boolean >, "Bool is not supported as input type" );
@@ -660,6 +690,7 @@ namespace sdw
 		auto type = T::makeType( getTypesCache() );
 		auto var = registerInput( name
 			, location
+			, attributes
 			, type );
 
 		if ( enabled )
@@ -679,6 +710,20 @@ namespace sdw
 		, uint32_t dimension
 		, bool enabled )
 	{
+		return declInputArray< T >( name
+			, location
+			, dimension
+			, 0u
+			, enabled );
+	}
+
+	template< typename T >
+	inline Optional< Array< T > > ShaderWriter::declInputArray( std::string const & name
+		, uint32_t location
+		, uint32_t dimension
+		, uint32_t attributes
+		, bool enabled )
+	{
 		static_assert( !IsSameV< T, Boolean >, "Bool is not supported as input type" );
 		static_assert( !IsSameV< T, BVec2 >, "BVec2 is not supported as input type" );
 		static_assert( !IsSameV< T, BVec3 >, "BVec3 is not supported as input type" );
@@ -691,6 +736,7 @@ namespace sdw
 			, dimension );
 		auto var = registerInput( name
 			, location
+			, attributes
 			, type );
 
 		if ( enabled )
@@ -710,6 +756,20 @@ namespace sdw
 		, bool enabled
 		, T const & defaultValue )
 	{
+		return declInput< T >( name
+			, location
+			, 0u
+			, enabled
+			, defaultValue );
+	}
+
+	template< typename T >
+	inline T ShaderWriter::declInput( std::string const & name
+		, uint32_t location
+		, uint32_t attributes
+		, bool enabled
+		, T const & defaultValue )
+	{
 		static_assert( !IsSameV< T, Boolean >, "Bool is not supported as input type" );
 		static_assert( !IsSameV< T, BVec2 >, "BVec2 is not supported as input type" );
 		static_assert( !IsSameV< T, BVec3 >, "BVec3 is not supported as input type" );
@@ -725,6 +785,7 @@ namespace sdw
 		{
 			var = registerInput( name
 				, location
+				, attributes
 				, type );
 			addStmt( sdw::makeInOutVariableDecl( var
 				, location ) );
@@ -748,6 +809,22 @@ namespace sdw
 		, bool enabled
 		, std::vector< T > const & defaultValue )
 	{
+		return declInputArray< T >( name
+			, location
+			, dimension
+			, 0u
+			, enabled
+			, defaultValue );
+	}
+
+	template< typename T >
+	inline Array< T > ShaderWriter::declInputArray( std::string const & name
+		, uint32_t location
+		, uint32_t dimension
+		, uint32_t attributes
+		, bool enabled
+		, std::vector< T > const & defaultValue )
+	{
 		static_assert( !IsSameV< T, Boolean >, "Bool is not supported as input type" );
 		static_assert( !IsSameV< T, BVec2 >, "BVec2 is not supported as input type" );
 		static_assert( !IsSameV< T, BVec3 >, "BVec3 is not supported as input type" );
@@ -764,6 +841,7 @@ namespace sdw
 		{
 			var = registerInput( name
 				, location
+				, attributes
 				, type );
 			addStmt( sdw::makeInOutVariableDecl( var
 				, location ) );
@@ -791,6 +869,16 @@ namespace sdw
 	inline T ShaderWriter::declOutput( std::string const & name
 		, uint32_t location )
 	{
+		return declOutput< T >( name
+			, location
+			, 0u );
+	}
+
+	template< typename T >
+	inline T ShaderWriter::declOutput( std::string const & name
+		, uint32_t location
+		, uint32_t attributes )
+	{
 		static_assert( !IsSameV< T, Boolean >, "Bool is not supported as output type" );
 		static_assert( !IsSameV< T, BVec2 >, "BVec2 is not supported as output type" );
 		static_assert( !IsSameV< T, BVec3 >, "BVec3 is not supported as output type" );
@@ -802,6 +890,7 @@ namespace sdw
 		auto type = T::makeType( getTypesCache() );
 		auto var = registerOutput( name
 			, location
+			, attributes
 			, type );
 		addStmt( sdw::makeInOutVariableDecl( var
 			, location ) );
@@ -813,6 +902,18 @@ namespace sdw
 	inline Array< T > ShaderWriter::declOutputArray( std::string const & name
 		, uint32_t location
 		, uint32_t dimension )
+	{
+		return declOutputArray< T >( name
+			, location
+			, dimension
+			, 0u );
+	}
+
+	template< typename T >
+	inline Array< T > ShaderWriter::declOutputArray( std::string const & name
+		, uint32_t location
+		, uint32_t dimension
+		, uint32_t attributes )
 	{
 		static_assert( !IsSameV< T, Boolean >, "Bool is not supported as output type" );
 		static_assert( !IsSameV< T, BVec2 >, "BVec2 is not supported as output type" );
@@ -826,6 +927,7 @@ namespace sdw
 			, dimension );
 		auto var = registerOutput( name
 			, location
+			, attributes
 			, type );
 		addStmt( sdw::makeInOutVariableDecl( var
 			, location ) );
@@ -836,6 +938,18 @@ namespace sdw
 	template< typename T >
 	inline Optional< T > ShaderWriter::declOutput( std::string const & name
 		, uint32_t location
+		, bool enabled )
+	{
+		return declOutput< T >( name
+			, location
+			, 0u
+			, enabled );
+	}
+
+	template< typename T >
+	inline Optional< T > ShaderWriter::declOutput( std::string const & name
+		, uint32_t location
+		, uint32_t attributes
 		, bool enabled )
 	{
 		static_assert( !IsSameV< T, Boolean >, "Bool is not supported as output type" );
@@ -849,6 +963,7 @@ namespace sdw
 		auto type = T::makeType( getTypesCache() );
 		auto var = registerOutput( name
 			, location
+			, attributes
 			, type );
 
 		if ( enabled )
@@ -868,6 +983,20 @@ namespace sdw
 		, uint32_t dimension
 		, bool enabled )
 	{
+		return declOutputArray< T >( name
+			, location
+			, dimension
+			, 0u
+			, enabled );
+	}
+
+	template< typename T >
+	inline Optional< Array< T > > ShaderWriter::declOutputArray( std::string const & name
+		, uint32_t location
+		, uint32_t dimension
+		, uint32_t attributes
+		, bool enabled )
+	{
 		static_assert( !IsSameV< T, Boolean >, "Bool is not supported as output type" );
 		static_assert( !IsSameV< T, BVec2 >, "BVec2 is not supported as output type" );
 		static_assert( !IsSameV< T, BVec3 >, "BVec3 is not supported as output type" );
@@ -880,6 +1009,7 @@ namespace sdw
 			, dimension );
 		auto var = registerOutput( name
 			, location
+			, attributes
 			, type );
 
 		if ( enabled )
@@ -1206,6 +1336,369 @@ namespace sdw
 		};
 		details::checkTypes( var->getType(), result.getType() );
 		return result;
+	}
+	/**@}*/
+#pragma endregion
+#pragma region Stream Output declaration
+	/**
+	*name
+	*	Stream Output declaration.
+	*/
+	/**@{*/
+	template< typename T >
+	inline T GeometryWriter::declStreamOutput( std::string const & name
+		, uint32_t location
+		, uint32_t streamIndex )
+	{
+		return declStreamOutput< T >( name
+			, location
+			, streamIndex
+			, 0u );
+	}
+
+	template< typename T >
+	inline T GeometryWriter::declStreamOutput( std::string const & name
+		, uint32_t location
+		, uint32_t streamIndex
+		, uint32_t attributes )
+	{
+		static_assert( !IsSameV< T, Boolean >, "Bool is not supported as output type" );
+		static_assert( !IsSameV< T, BVec2 >, "BVec2 is not supported as output type" );
+		static_assert( !IsSameV< T, BVec3 >, "BVec3 is not supported as output type" );
+		static_assert( !IsSameV< T, BVec4 >, "BVec4 is not supported as output type" );
+		static_assert( !IsSameV< T, Double >, "Double is not supported as output type" );
+		static_assert( !IsSameV< T, DVec2 >, "DVec2 is not supported as output type" );
+		static_assert( !IsSameV< T, DVec3 >, "DVec3 is not supported as output type" );
+		static_assert( !IsSameV< T, DVec4 >, "DVec4 is not supported as output type" );
+		auto type = T::makeType( getTypesCache() );
+		auto var = registerOutput( name
+			, location
+			, attributes | var::Flag::eGeometryStream
+			, type );
+		addStmt( sdw::makeInOutStreamVariableDecl( var
+			, location
+			, streamIndex ) );
+		return T{ &getShader()
+			, makeExpr( getShader(), var ) };
+	}
+
+	template< typename T >
+	inline Array< T > GeometryWriter::declStreamOutputArray( std::string const & name
+		, uint32_t location
+		, uint32_t streamIndex
+		, uint32_t dimension )
+	{
+		return declStreamOutputArray< T >( name
+			, location
+			, streamIndex
+			, dimension
+			, 0u );
+	}
+
+	template< typename T >
+	inline Array< T > GeometryWriter::declStreamOutputArray( std::string const & name
+		, uint32_t location
+		, uint32_t streamIndex
+		, uint32_t dimension
+		, uint32_t attributes )
+	{
+		static_assert( !IsSameV< T, Boolean >, "Bool is not supported as output type" );
+		static_assert( !IsSameV< T, BVec2 >, "BVec2 is not supported as output type" );
+		static_assert( !IsSameV< T, BVec3 >, "BVec3 is not supported as output type" );
+		static_assert( !IsSameV< T, BVec4 >, "BVec4 is not supported as output type" );
+		static_assert( !IsSameV< T, Double >, "Double is not supported as output type" );
+		static_assert( !IsSameV< T, DVec2 >, "DVec2 is not supported as output type" );
+		static_assert( !IsSameV< T, DVec3 >, "DVec3 is not supported as output type" );
+		static_assert( !IsSameV< T, DVec4 >, "DVec4 is not supported as output type" );
+		auto type = Array< T >::makeType( getTypesCache()
+			, dimension );
+		auto var = registerOutput( name
+			, location
+			, attributes | var::Flag::eGeometryStream
+			, type );
+		addStmt( sdw::makeInOutStreamVariableDecl( var
+			, location
+			, streamIndex ) );
+		return Array< T >{ &getShader()
+			, makeExpr( getShader(), var ) };
+	}
+
+	template< typename T >
+	inline Optional< T > GeometryWriter::declStreamOutput( std::string const & name
+		, uint32_t location
+		, uint32_t streamIndex
+		, bool enabled )
+	{
+		return declStreamOutput< T >( name
+			, location
+			, streamIndex
+			, 0u
+			, enabled );
+	}
+
+	template< typename T >
+	inline Optional< T > GeometryWriter::declStreamOutput( std::string const & name
+		, uint32_t location
+		, uint32_t streamIndex
+		, uint32_t attributes
+		, bool enabled )
+	{
+		static_assert( !IsSameV< T, Boolean >, "Bool is not supported as output type" );
+		static_assert( !IsSameV< T, BVec2 >, "BVec2 is not supported as output type" );
+		static_assert( !IsSameV< T, BVec3 >, "BVec3 is not supported as output type" );
+		static_assert( !IsSameV< T, BVec4 >, "BVec4 is not supported as output type" );
+		static_assert( !IsSameV< T, Double >, "Double is not supported as output type" );
+		static_assert( !IsSameV< T, DVec2 >, "DVec2 is not supported as output type" );
+		static_assert( !IsSameV< T, DVec3 >, "DVec3 is not supported as output type" );
+		static_assert( !IsSameV< T, DVec4 >, "DVec4 is not supported as output type" );
+		auto type = T::makeType( getTypesCache() );
+		auto var = registerOutput( name
+			, location
+			, attributes | var::Flag::eGeometryStream
+			, type );
+
+		if ( enabled )
+		{
+			addStmt( sdw::makeInOutStreamVariableDecl( var
+				, location
+				, streamIndex ) );
+		}
+
+		return Optional< T >{ &getShader()
+			, makeExpr( getShader(), var )
+			, enabled };
+	}
+
+	template< typename T >
+	inline Optional< Array< T > > GeometryWriter::declStreamOutputArray( std::string const & name
+		, uint32_t location
+		, uint32_t streamIndex
+		, uint32_t dimension
+		, bool enabled )
+	{
+		return declStreamOutputArray< T >( name
+			, location
+			, streamIndex
+			, dimension
+			, 0u
+			, enabled );
+	}
+
+	template< typename T >
+	inline Optional< Array< T > > GeometryWriter::declStreamOutputArray( std::string const & name
+		, uint32_t location
+		, uint32_t streamIndex
+		, uint32_t dimension
+		, uint32_t attributes
+		, bool enabled )
+	{
+		static_assert( !IsSameV< T, Boolean >, "Bool is not supported as output type" );
+		static_assert( !IsSameV< T, BVec2 >, "BVec2 is not supported as output type" );
+		static_assert( !IsSameV< T, BVec3 >, "BVec3 is not supported as output type" );
+		static_assert( !IsSameV< T, BVec4 >, "BVec4 is not supported as output type" );
+		static_assert( !IsSameV< T, Double >, "Double is not supported as output type" );
+		static_assert( !IsSameV< T, DVec2 >, "DVec2 is not supported as output type" );
+		static_assert( !IsSameV< T, DVec3 >, "DVec3 is not supported as output type" );
+		static_assert( !IsSameV< T, DVec4 >, "DVec4 is not supported as output type" );
+		auto type = Array< T >::makeType( getTypesCache()
+			, dimension );
+		auto var = registerOutput( name
+			, location
+			, attributes | var::Flag::eGeometryStream
+			, type );
+
+		if ( enabled )
+		{
+			addStmt( sdw::makeInOutVariableDecl( var
+				, location
+				, streamIndex ) );
+		}
+
+		return Optional< Array< T > >{ &getShader()
+			, makeExpr( getShader(), var )
+			, enabled };
+	}
+	/**@}*/
+#pragma endregion
+#pragma region Blend Output declaration
+	/**
+	*name
+	*	Blend Output declaration.
+	*/
+	/**@{*/
+	template< typename T >
+	inline T FragmentWriter::declBlendOutput( std::string const & name
+		, uint32_t location
+		, uint32_t blendIndex )
+	{
+		return declBlendOutput< T >( name
+			, location
+			, blendIndex
+			, 0u );
+	}
+
+	template< typename T >
+	inline T FragmentWriter::declBlendOutput( std::string const & name
+		, uint32_t location
+		, uint32_t blendIndex
+		, uint32_t attributes )
+	{
+		static_assert( !IsSameV< T, Boolean >, "Bool is not supported as output type" );
+		static_assert( !IsSameV< T, BVec2 >, "BVec2 is not supported as output type" );
+		static_assert( !IsSameV< T, BVec3 >, "BVec3 is not supported as output type" );
+		static_assert( !IsSameV< T, BVec4 >, "BVec4 is not supported as output type" );
+		static_assert( !IsSameV< T, Double >, "Double is not supported as output type" );
+		static_assert( !IsSameV< T, DVec2 >, "DVec2 is not supported as output type" );
+		static_assert( !IsSameV< T, DVec3 >, "DVec3 is not supported as output type" );
+		static_assert( !IsSameV< T, DVec4 >, "DVec4 is not supported as output type" );
+		auto type = T::makeType( getTypesCache() );
+		auto var = registerOutput( name
+			, location
+			, attributes | var::Flag::eBlendIndex
+			, type );
+		addStmt( sdw::makeInOutBlendVariableDecl( var
+			, location
+			, blendIndex ) );
+		return T{ &getShader()
+			, makeExpr( getShader(), var ) };
+	}
+
+	template< typename T >
+	inline Array< T > FragmentWriter::declBlendOutputArray( std::string const & name
+		, uint32_t location
+		, uint32_t blendIndex
+		, uint32_t dimension )
+	{
+		return declBlendOutputArray< T >( name
+			, location
+			, blendIndex
+			, dimension
+			, 0u );
+	}
+
+	template< typename T >
+	inline Array< T > FragmentWriter::declBlendOutputArray( std::string const & name
+		, uint32_t location
+		, uint32_t blendIndex
+		, uint32_t dimension
+		, uint32_t attributes )
+	{
+		static_assert( !IsSameV< T, Boolean >, "Bool is not supported as output type" );
+		static_assert( !IsSameV< T, BVec2 >, "BVec2 is not supported as output type" );
+		static_assert( !IsSameV< T, BVec3 >, "BVec3 is not supported as output type" );
+		static_assert( !IsSameV< T, BVec4 >, "BVec4 is not supported as output type" );
+		static_assert( !IsSameV< T, Double >, "Double is not supported as output type" );
+		static_assert( !IsSameV< T, DVec2 >, "DVec2 is not supported as output type" );
+		static_assert( !IsSameV< T, DVec3 >, "DVec3 is not supported as output type" );
+		static_assert( !IsSameV< T, DVec4 >, "DVec4 is not supported as output type" );
+		auto type = Array< T >::makeType( getTypesCache()
+			, dimension );
+		auto var = registerOutput( name
+			, location
+			, attributes | var::Flag::eBlendIndex
+			, type );
+		addStmt( sdw::makeInOutBlendVariableDecl( var
+			, location
+			, blendIndex ) );
+		return Array< T >{ &getShader()
+			, makeExpr( getShader(), var ) };
+	}
+
+	template< typename T >
+	inline Optional< T > FragmentWriter::declBlendOutput( std::string const & name
+		, uint32_t location
+		, uint32_t blendIndex
+		, bool enabled )
+	{
+		return declBlendOutput< T >( name
+			, location
+			, blendIndex
+			, 0u
+			, enabled );
+	}
+
+	template< typename T >
+	inline Optional< T > FragmentWriter::declBlendOutput( std::string const & name
+		, uint32_t location
+		, uint32_t blendIndex
+		, uint32_t attributes
+		, bool enabled )
+	{
+		static_assert( !IsSameV< T, Boolean >, "Bool is not supported as output type" );
+		static_assert( !IsSameV< T, BVec2 >, "BVec2 is not supported as output type" );
+		static_assert( !IsSameV< T, BVec3 >, "BVec3 is not supported as output type" );
+		static_assert( !IsSameV< T, BVec4 >, "BVec4 is not supported as output type" );
+		static_assert( !IsSameV< T, Double >, "Double is not supported as output type" );
+		static_assert( !IsSameV< T, DVec2 >, "DVec2 is not supported as output type" );
+		static_assert( !IsSameV< T, DVec3 >, "DVec3 is not supported as output type" );
+		static_assert( !IsSameV< T, DVec4 >, "DVec4 is not supported as output type" );
+		auto type = T::makeType( getTypesCache() );
+		auto var = registerOutput( name
+			, location
+			, attributes | var::Flag::eBlendIndex
+			, type );
+
+		if ( enabled )
+		{
+			addStmt( sdw::makeInOutBlendVariableDecl( var
+				, location
+				, blendIndex ) );
+		}
+
+		return Optional< T >{ &getShader()
+			, makeExpr( getShader(), var )
+			, enabled };
+	}
+
+	template< typename T >
+	inline Optional< Array< T > > FragmentWriter::declBlendOutputArray( std::string const & name
+		, uint32_t location
+		, uint32_t blendIndex
+		, uint32_t dimension
+		, bool enabled )
+	{
+		return declBlendOutputArray< T >( name
+			, location
+			, blendIndex
+			, dimension
+			, 0u
+			, enabled );
+	}
+
+	template< typename T >
+	inline Optional< Array< T > > FragmentWriter::declBlendOutputArray( std::string const & name
+		, uint32_t location
+		, uint32_t blendIndex
+		, uint32_t dimension
+		, uint32_t attributes
+		, bool enabled )
+	{
+		static_assert( !IsSameV< T, Boolean >, "Bool is not supported as output type" );
+		static_assert( !IsSameV< T, BVec2 >, "BVec2 is not supported as output type" );
+		static_assert( !IsSameV< T, BVec3 >, "BVec3 is not supported as output type" );
+		static_assert( !IsSameV< T, BVec4 >, "BVec4 is not supported as output type" );
+		static_assert( !IsSameV< T, Double >, "Double is not supported as output type" );
+		static_assert( !IsSameV< T, DVec2 >, "DVec2 is not supported as output type" );
+		static_assert( !IsSameV< T, DVec3 >, "DVec3 is not supported as output type" );
+		static_assert( !IsSameV< T, DVec4 >, "DVec4 is not supported as output type" );
+		auto type = Array< T >::makeType( getTypesCache()
+			, dimension );
+		auto var = registerOutput( name
+			, location
+			, blendIndex
+			, attributes | var::Flag::eBlendIndex
+			, type );
+
+		if ( enabled )
+		{
+			addStmt( sdw::makeInOutBlendVariableDecl( var
+				, location
+				, blendIndex ) );
+		}
+
+		return Optional< Array< T > >{ &getShader()
+			, makeExpr( getShader(), var )
+			, enabled };
 	}
 	/**@}*/
 #pragma endregion

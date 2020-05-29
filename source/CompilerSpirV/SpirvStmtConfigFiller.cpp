@@ -95,6 +95,10 @@ namespace spirv
 		visitContainerStmt( stmt );
 	}
 
+	void StmtConfigFiller::visitFragmentLayout( ast::stmt::FragmentLayout * stmt )
+	{
+	}
+
 	void StmtConfigFiller::visitFunctionDeclStmt( ast::stmt::FunctionDecl * stmt )
 	{
 		visitContainerStmt( stmt );
@@ -175,6 +179,21 @@ namespace spirv
 			{
 				m_result.outputs.insert( var );
 			}
+		}
+
+		if ( var->isPatch() )
+		{
+			m_result.requiredCapabilities.insert( spv::CapabilityTessellation );
+		}
+
+		if ( var->isPerSample() )
+		{
+			m_result.requiredCapabilities.insert( spv::CapabilitySampleRateShading );
+		}
+
+		if ( var->isGeometryStream() )
+		{
+			m_result.requiredCapabilities.insert( spv::CapabilityGeometryStreams );
 		}
 	}
 
