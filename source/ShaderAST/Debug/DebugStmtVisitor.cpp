@@ -358,6 +358,17 @@ namespace ast::debug
 		}
 
 		m_result += "(" + std::to_string( stmt->getLocation() ) + ") ";
+
+		if ( stmt->getVariable()->isBlendIndex() )
+		{
+			m_result += "BLEND(" + std::to_string( stmt->getBlendIndex() ) + ") ";
+		}
+
+		if ( stmt->getVariable()->isGeometryStream() )
+		{
+			m_result += "STREAM(" + std::to_string( stmt->getStreamIndex() ) + ") ";
+		}
+
 		m_result += displayVar( stmt->getVariable() );
 		m_result += "\n";
 	}

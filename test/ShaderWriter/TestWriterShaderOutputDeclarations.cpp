@@ -107,6 +107,44 @@ namespace
 			DummyMain;
 			test::writeShader( writer, testCounts );
 		}
+		{
+			sdw::FragmentWriter writer;
+			auto & shader = writer.getShader();
+			auto name = sdw::debug::getName( sdw::typeEnum< T > ) + "BlendOutputValue_0";
+			auto value = writer.declBlendOutput< T >( name, 0u, 1u );
+			check( getNonArrayKind( value.getType() ) == sdw::typeEnum< T > );
+			check( getArraySize( value.getType() ) == sdw::type::NotArray );
+			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
+			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isShaderOutput() );
+			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isBlendIndex() );
+			auto & stmt = *shader.getStatements()->back();
+			require( stmt.getKind() == sdw::stmt::Kind::eInOutVariableDecl );
+			check( static_cast< sdw::stmt::InOutVariableDecl const & >( stmt ).getLocation() == 0u );
+			check( static_cast< sdw::stmt::InOutVariableDecl const & >( stmt ).getBlendIndex() == 1u );
+			DummyMain;
+			test::writeShader( writer, testCounts );
+		}
+		{
+			sdw::GeometryWriter writer;
+			writer.inputLayout( ast::stmt::InputLayout::eTriangleList );
+			writer.outputLayout( ast::stmt::OutputLayout::eTriangleStrip, 3u );
+			auto & shader = writer.getShader();
+			auto name = sdw::debug::getName( sdw::typeEnum< T > ) + "StreamOutputValue_0";
+			auto value = writer.declStreamOutput< T >( name, 0u, 1u );
+			check( getNonArrayKind( value.getType() ) == sdw::typeEnum< T > );
+			check( getArraySize( value.getType() ) == sdw::type::NotArray );
+			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
+			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isShaderOutput() );
+			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isGeometryStream() );
+			auto & stmt = *shader.getStatements()->back();
+			require( stmt.getKind() == sdw::stmt::Kind::eInOutVariableDecl );
+			check( static_cast< sdw::stmt::InOutVariableDecl const & >( stmt ).getLocation() == 0u );
+			check( static_cast< sdw::stmt::InOutVariableDecl const & >( stmt ).getStreamIndex() == 1u );
+			DummyMain;
+			test::writeShader( writer, testCounts, true, false, true );
+		}
 		testEnd();
 	}
 }

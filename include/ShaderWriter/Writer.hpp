@@ -513,6 +513,8 @@ namespace sdw
 		SDW_API void doPushScope( ast::stmt::Container * container
 			, ast::var::VariableList vars );
 		SDW_API void doPopScope();
+
+	protected:
 		SDW_API var::VariablePtr registerStaticConstant( std::string const & name
 			, type::TypePtr type );
 		SDW_API var::VariablePtr registerConstant( std::string const & name

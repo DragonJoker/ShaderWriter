@@ -1373,12 +1373,12 @@ namespace sdw
 		auto type = T::makeType( getTypesCache() );
 		auto var = registerOutput( name
 			, location
-			, attributes
+			, attributes | var::Flag::eGeometryStream
 			, type );
 		addStmt( sdw::makeInOutStreamVariableDecl( var
 			, location
 			, streamIndex ) );
-		return T{ &m_shader
+		return T{ &getShader()
 			, makeExpr( getShader(), var ) };
 	}
 
@@ -1414,12 +1414,12 @@ namespace sdw
 			, dimension );
 		auto var = registerOutput( name
 			, location
-			, attributes
+			, attributes | var::Flag::eGeometryStream
 			, type );
 		addStmt( sdw::makeInOutStreamVariableDecl( var
 			, location
 			, streamIndex ) );
-		return Array< T >{ &m_shader
+		return Array< T >{ &getShader()
 			, makeExpr( getShader(), var ) };
 	}
 
@@ -1454,7 +1454,7 @@ namespace sdw
 		auto type = T::makeType( getTypesCache() );
 		auto var = registerOutput( name
 			, location
-			, attributes
+			, attributes | var::Flag::eGeometryStream
 			, type );
 
 		if ( enabled )
@@ -1464,7 +1464,7 @@ namespace sdw
 				, streamIndex ) );
 		}
 
-		return Optional< T >{ &m_shader
+		return Optional< T >{ &getShader()
 			, makeExpr( getShader(), var )
 			, enabled };
 	}
@@ -1504,7 +1504,7 @@ namespace sdw
 			, dimension );
 		auto var = registerOutput( name
 			, location
-			, attributes
+			, attributes | var::Flag::eGeometryStream
 			, type );
 
 		if ( enabled )
@@ -1514,7 +1514,7 @@ namespace sdw
 				, streamIndex ) );
 		}
 
-		return Optional< Array< T > >{ &m_shader
+		return Optional< Array< T > >{ &getShader()
 			, makeExpr( getShader(), var )
 			, enabled };
 	}
@@ -1554,12 +1554,12 @@ namespace sdw
 		auto type = T::makeType( getTypesCache() );
 		auto var = registerOutput( name
 			, location
-			, attributes
+			, attributes | var::Flag::eBlendIndex
 			, type );
 		addStmt( sdw::makeInOutBlendVariableDecl( var
 			, location
 			, blendIndex ) );
-		return T{ &m_shader
+		return T{ &getShader()
 			, makeExpr( getShader(), var ) };
 	}
 
@@ -1595,12 +1595,12 @@ namespace sdw
 			, dimension );
 		auto var = registerOutput( name
 			, location
-			, attributes
+			, attributes | var::Flag::eBlendIndex
 			, type );
 		addStmt( sdw::makeInOutBlendVariableDecl( var
 			, location
 			, blendIndex ) );
-		return Array< T >{ &m_shader
+		return Array< T >{ &getShader()
 			, makeExpr( getShader(), var ) };
 	}
 
@@ -1635,7 +1635,7 @@ namespace sdw
 		auto type = T::makeType( getTypesCache() );
 		auto var = registerOutput( name
 			, location
-			, attributes
+			, attributes | var::Flag::eBlendIndex
 			, type );
 
 		if ( enabled )
@@ -1645,7 +1645,7 @@ namespace sdw
 				, blendIndex ) );
 		}
 
-		return Optional< T >{ &m_shader
+		return Optional< T >{ &getShader()
 			, makeExpr( getShader(), var )
 			, enabled };
 	}
@@ -1686,7 +1686,7 @@ namespace sdw
 		auto var = registerOutput( name
 			, location
 			, blendIndex
-			, attributes
+			, attributes | var::Flag::eBlendIndex
 			, type );
 
 		if ( enabled )
@@ -1696,7 +1696,7 @@ namespace sdw
 				, blendIndex ) );
 		}
 
-		return Optional< Array< T > >{ &m_shader
+		return Optional< Array< T > >{ &getShader()
 			, makeExpr( getShader(), var )
 			, enabled };
 	}
