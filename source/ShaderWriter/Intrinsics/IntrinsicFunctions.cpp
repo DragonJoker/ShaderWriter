@@ -11,7 +11,6 @@ See LICENSE file in root folder
 #include "ShaderWriter/BaseTypes/Int.hpp"
 #include "ShaderWriter/BaseTypes/UInt.hpp"
 #include "ShaderWriter/Intrinsics/IntrinsicFunctions.hpp"
-#include "ShaderWriter/Writer.hpp"
 
 #include <ShaderAST/Expr/MakeIntrinsic.hpp>
 
@@ -11327,10 +11326,10 @@ namespace sdw
 		{
 			return Optional< Void >{ findShader( writer )
 				, expr::makeEmitVertex( findTypesCache( writer ) )
-				, areOptionalEnabled( ) };
+				, areOptionalEnabled( writer ) };
 		}
 
-		return Void{ &writer.getShader( )
+		return Void{ findShader( writer )
 			, expr::makeEmitVertex( findTypesCache( writer ) ) };
 	}
 	/**@}*/
@@ -11367,7 +11366,7 @@ namespace sdw
 		{
 			return Optional< Void >{ findShader( writer )
 				, expr::makeBarrier( findTypesCache( writer ) )
-				, areOptionalEnabled( ) };
+				, areOptionalEnabled( writer ) };
 		}
 
 		return Void{ findShader( writer )
@@ -11387,7 +11386,7 @@ namespace sdw
 		{
 			return Optional< UInt >{ findShader( writer )
 				, expr::makeMemoryBarrier( findTypesCache( writer ) )
-				, areOptionalEnabled( ) };
+				, areOptionalEnabled( writer ) };
 		}
 
 		return UInt{ findShader( writer )
@@ -11407,7 +11406,7 @@ namespace sdw
 		{
 			return Optional< Void >{ findShader( writer )
 				, expr::makeMemoryBarrierBuffer( findTypesCache( writer ) )
-				, areOptionalEnabled( ) };
+				, areOptionalEnabled( writer ) };
 		}
 
 		return Void{ findShader( writer )
@@ -11425,9 +11424,9 @@ namespace sdw
 	{
 		if ( isAnyOptional( writer ) )
 		{
-			return Optional< Void >{findShader( writer )
+			return Optional< Void >{ findShader( writer )
 				, expr::makeMemoryBarrierShared( findTypesCache( writer ) )
-				, areOptionalEnabled( ) };
+				, areOptionalEnabled( writer ) };
 		}
 
 		return Void{ findShader( writer )
@@ -11447,7 +11446,7 @@ namespace sdw
 		{
 			return Optional< Void >{ findShader( writer )
 				, expr::makeMemoryBarrierImage( findTypesCache( writer ) )
-				, areOptionalEnabled( ) };
+				, areOptionalEnabled( writer ) };
 		}
 
 		return Void{ findShader( writer )
@@ -11467,7 +11466,7 @@ namespace sdw
 		{
 			return Optional< Void >{ findShader( writer )
 				, expr::makeGroupMemoryBarrier( findTypesCache( writer ) )
-				, areOptionalEnabled( ) };
+				, areOptionalEnabled( writer ) };
 		}
 
 		return Void{ findShader( writer )

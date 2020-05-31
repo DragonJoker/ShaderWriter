@@ -174,7 +174,7 @@ def discardArray( name ):
 	result = re.sub( "\[\d*\]", "", name )
 	return result
 
-def computeParams( params, sep ):
+def computeParams( params, sep, allowEmpty ):
 	result = ""
 	intrParams = re.compile("[, ]*ASTIntrParams\( ([\w, :()\[\]]*) \)$")
 	resParams = intrParams.match( params )
@@ -202,7 +202,7 @@ def computeParams( params, sep ):
 					result += sep + " " + paramType + " " + typeQualifier + "& " + resParam[index]
 			sep = ","
 			index += 2
-	else:
+	elif allowEmpty == 0:
 		result = " ShaderWriter & writer"
 	return result
 
@@ -424,7 +424,7 @@ def printTextureFunction( outs, returnGroup, functionGroup, paramsGroup, imageTy
 			#	Image parameter
 			outs.write( " MaybeOptional< " + imageFullType + fmt + " > const & image" )
 			#	Remaining function parameters
-			outs.write( computeParams( paramsGroup, "," ) + " );" )
+			outs.write( computeParams( paramsGroup, ",", 1 ) + " );" )
 
 def printImageFunction( outs, returnGroup, functionGroup, paramsGroup, imageType ):
 	postfix = getPostfix( functionGroup )
@@ -461,14 +461,14 @@ def printImageFunction( outs, returnGroup, functionGroup, paramsGroup, imageType
 					#	Image parameter
 					outs.write( " MaybeOptional< " + imageFullType + fmt + " > const & image" )
 					#	Remaining function parameters
-					outs.write( computeParams( paramsGroup, "," ) + " );" )
+					outs.write( computeParams( paramsGroup, ",", 1 ) + " );" )
 
 def printIntrinsicFunction( outs, returnGroup, functionGroup, paramsGroup ):
 	retType = typeKindToSdwType( returnGroup )
 	# Write function name and return
 	outs.write( "\n\tSDW_API MaybeOptional< " + retType + " > " + computeIntrinsicName( functionGroup ) + "(" )
 	# Write function parameters
-	outs.write( computeParams( paramsGroup, "" ) + " );" )
+	outs.write( computeParams( paramsGroup, "", 0 ) + " );" )
 	
 def endFunctionGroup( outs ):
 	outs.write( "\n\t/**@}*/" )

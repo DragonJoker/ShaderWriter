@@ -232,6 +232,8 @@ namespace hlsl
 		if ( var->isShaderInput() )
 		{
 			m_adaptationData.inputVars.emplace( stmt->getLocation(), var );
+			auto & type = static_cast< ast::type::Struct & >( *m_adaptationData.inputVar->getType() );
+			type.declMember( var->getName(), var->getType() );
 			m_adaptationData.inputMembers.emplace( var
 				, ast::expr::makeMbrSelect( ast::expr::makeIdentifier( m_cache, m_adaptationData.inputVar )
 					, uint32_t( m_adaptationData.inputMembers.size() )
@@ -241,6 +243,8 @@ namespace hlsl
 		if ( var->isShaderOutput() )
 		{
 			m_adaptationData.outputVars.emplace( stmt->getLocation(), var );
+			auto & type = static_cast< ast::type::Struct & >( *m_adaptationData.outputVar->getType() );
+			type.declMember( var->getName(), var->getType() );
 			m_adaptationData.outputMembers.emplace( var
 				, ast::expr::makeMbrSelect( ast::expr::makeIdentifier( m_cache, m_adaptationData.outputVar )
 					, uint32_t( m_adaptationData.outputMembers.size() )
@@ -448,28 +452,28 @@ namespace hlsl
 
 		for ( auto & input : m_adaptationData.inputVars )
 		{
+			if ( isSignedIntType( input.second->getType()->getKind() )
+				|| isUnsignedIntType( input.second->getType()->getKind() ) )
+			{
+				m_adaptationData.mainInputStruct->declMember( input.second->getName()
+					+ ": "
+					+ getSemantic( input.second->getName()
+						, intName
+						, input.first )
+					, input.second->getType() );
+			}
+			else
+			{
+				m_adaptationData.mainInputStruct->declMember( input.second->getName()
+					+ ": "
+					+ getSemantic( input.second->getName()
+						, floatName
+						, input.first )
+					, input.second->getType() );
+			}
+
 			if ( !m_adaptationData.globalInputStruct->hasMember( input.second->getName() ) )
 			{
-				if ( isSignedIntType( input.second->getType()->getKind() )
-					|| isUnsignedIntType( input.second->getType()->getKind() ) )
-				{
-					m_adaptationData.mainInputStruct->declMember( input.second->getName()
-						+ ": "
-						+ getSemantic( input.second->getName()
-							, intName
-							, input.first )
-						, input.second->getType() );
-				}
-				else
-				{
-					m_adaptationData.mainInputStruct->declMember( input.second->getName()
-						+ ": "
-						+ getSemantic( input.second->getName()
-							, floatName
-							, input.first )
-						, input.second->getType() );
-				}
-
 				m_adaptationData.globalInputStruct->declMember( input.second->getName()
 					, input.second->getType() );
 			}
@@ -487,28 +491,28 @@ namespace hlsl
 
 		for ( auto & output : m_adaptationData.outputVars )
 		{
+			if ( isSignedIntType( output.second->getType()->getKind() )
+				|| isUnsignedIntType( output.second->getType()->getKind() ) )
+			{
+				m_adaptationData.mainOutputStruct->declMember( output.second->getName()
+					+ ": "
+					+ getSemantic( output.second->getName()
+						, intName
+						, output.first )
+					, output.second->getType() );
+			}
+			else
+			{
+				m_adaptationData.mainOutputStruct->declMember( output.second->getName()
+					+ ": "
+					+ getSemantic( output.second->getName()
+						, floatName
+						, output.first )
+					, output.second->getType() );
+			}
+
 			if ( !m_adaptationData.globalOutputStruct->hasMember( output.second->getName() ) )
 			{
-				if ( isSignedIntType( output.second->getType()->getKind() )
-					|| isUnsignedIntType( output.second->getType()->getKind() ) )
-				{
-					m_adaptationData.mainOutputStruct->declMember( output.second->getName()
-						+ ": "
-						+ getSemantic( output.second->getName()
-							, intName
-							, output.first )
-						, output.second->getType() );
-				}
-				else
-				{
-					m_adaptationData.mainOutputStruct->declMember( output.second->getName()
-						+ ": "
-						+ getSemantic( output.second->getName()
-							, floatName
-							, output.first )
-						, output.second->getType() );
-				}
-
 				m_adaptationData.globalOutputStruct->declMember( output.second->getName()
 					, output.second->getType() );
 			}

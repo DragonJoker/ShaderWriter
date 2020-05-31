@@ -163,7 +163,7 @@ def discardArray( name ):
 	result = re.sub( "\[\d*\]", "", name )
 	return result
 
-def computeParams( params, sep ):
+def computeParams( params, sep, allowEmpty ):
 	result = ""
 	intrParams = re.compile("[, ]*ASTIntrParams\( ([\w, :()\[\]]*) \)$")
 	resParams = intrParams.match( params )
@@ -191,7 +191,7 @@ def computeParams( params, sep ):
 					result += sep + " " + paramType + " " + typeQualifier + "& " + resParam[index]
 			sep = "\n\t\t,"
 			index += 2
-	else:
+	elif allowEmpty == 0:
 		result = " ShaderWriter & writer"
 	return result
 
@@ -230,7 +230,7 @@ def computeParamsEx( params, sep, lastType ):
 			sep = "\n\t\t,"
 	return result
 
-def listParams( params, sep ):
+def listParams( params, sep, allowEmpty ):
 	result = ""
 	intrParams = re.compile("[, ]*ASTIntrParams\( ([\w, :()\[\]]*) \)$")
 	resParams = intrParams.match( params )
@@ -243,7 +243,7 @@ def listParams( params, sep ):
 			result += sep + " " + discardArray( resParam[index] )
 			sep = ","
 			index += 3
-	else:
+	elif allowEmpty == 0:
 		result = " writer"
 	return result
 
@@ -414,24 +414,24 @@ def printTextureFunction( outs, returnGroup, functionGroup, paramsGroup, imageTy
 			#	Image parameter
 			outs.write( " MaybeOptional< " + imageFullType + fmt + " > const & image" )
 			#	Remaining function parameters
-			outs.write( computeParams( paramsGroup, "\n\t\t," ) + " )" )
+			outs.write( computeParams( paramsGroup, "\n\t\t,", 1 ) + " )" )
 			# Header finished, write content
 			outs.write( "\n\t{" )
-			outs.write( "\n\t\tif ( isAnyOptional( image" + listParams( paramsGroup, "," ) + " ) )" )
+			outs.write( "\n\t\tif ( isAnyOptional( image" + listParams( paramsGroup, ",", 1 ) + " ) )" )
 			outs.write( "\n\t\t{" )
-			outs.write( "\n\t\t\treturn Optional< " + ret + " >{ findShader( image" + listParams( paramsGroup, "," ) + " )" )
+			outs.write( "\n\t\t\treturn Optional< " + ret + " >{ findShader( image" + listParams( paramsGroup, ",", 1 ) + " )" )
 			# Write arguments
-			outs.write( "\n\t\t\t\t, expr::make" + fullName + fmt + "( findTypesCache( image" + listParams( paramsGroup, "," ) + " )" )
+			outs.write( "\n\t\t\t\t, expr::make" + fullName + fmt + "( findTypesCache( image" + listParams( paramsGroup, ",", 1 ) + " )" )
 			#	Image argument
 			outs.write( "\n\t\t\t\t\t, makeExpr( image )" )
 			#	Remaining arguments
 			outs.write( computeArgs( paramsGroup, "\t\t\t\t\t", "\n\t\t\t\t\t," ) + " )" )
-			outs.write( "\n\t\t\t\t, areOptionalEnabled( image" + listParams( paramsGroup, "," ) + " ) };" )
+			outs.write( "\n\t\t\t\t, areOptionalEnabled( image" + listParams( paramsGroup, ",", 1 ) + " ) };" )
 			outs.write( "\n\t\t}" )
 			outs.write( "\n" )
-			outs.write( "\n\t\treturn " + ret + "{ findShader( image" + listParams( paramsGroup, "," ) + " )" )
+			outs.write( "\n\t\treturn " + ret + "{ findShader( image" + listParams( paramsGroup, ",", 1 ) + " )" )
 			# Write arguments
-			outs.write( "\n\t\t\t, expr::make" + fullName + fmt + "( findTypesCache( image" + listParams( paramsGroup, "," ) + " )" )
+			outs.write( "\n\t\t\t, expr::make" + fullName + fmt + "( findTypesCache( image" + listParams( paramsGroup, ",", 1 ) + " )" )
 			#	Image argument
 			outs.write( "\n\t\t\t\t, makeExpr( image )" )
 			#	Remaining arguments
@@ -469,7 +469,7 @@ def printImageFunction( outs, returnGroup, functionGroup, paramsGroup, imageType
 					outs.write( computeParamsEx( paramsGroup, "\n\t\t,", ret ) + " )" )
 					# Header finished, write content
 					outs.write( "\n\t{" )
-					outs.write( "\n\t\treturn Void{ findShader( image" + listParams( paramsGroup, "," ) + " )" )
+					outs.write( "\n\t\treturn Void{ findShader( image" + listParams( paramsGroup, ",", 1 ) + " )" )
 				else:
 					# Write function name and return
 					outs.write( "\n\tMaybeOptional< " + ret + " > " + computeIntrinsicName( functionGroup ) + "(" )
@@ -477,24 +477,24 @@ def printImageFunction( outs, returnGroup, functionGroup, paramsGroup, imageType
 					#	Image parameter
 					outs.write( " MaybeOptional< " + imageFullType + fmt + " > const & image" )
 					#	Remaining function parameters
-					outs.write( computeParams( paramsGroup, "\n\t\t," ) + " )" )
+					outs.write( computeParams( paramsGroup, "\n\t\t,", 1 ) + " )" )
 					# Header finished, write content
 					outs.write( "\n\t{" )
-					outs.write( "\n\t\tif ( isAnyOptional( image" + listParams( paramsGroup, "," ) + " ) )" )
+					outs.write( "\n\t\tif ( isAnyOptional( image" + listParams( paramsGroup, ",", 1 ) + " ) )" )
 					outs.write( "\n\t\t{" )
-					outs.write( "\n\t\t\treturn Optional< " + ret + " >{ findShader( image" + listParams( paramsGroup, "," ) + " )" )
+					outs.write( "\n\t\t\treturn Optional< " + ret + " >{ findShader( image" + listParams( paramsGroup, ",", 1 ) + " )" )
 					# Write arguments
-					outs.write( "\n\t\t\t\t, expr::make" + fullName + fmt + "( findTypesCache( image" + listParams( paramsGroup, "," ) + " )" )
+					outs.write( "\n\t\t\t\t, expr::make" + fullName + fmt + "( findTypesCache( image" + listParams( paramsGroup, ",", 1 ) + " )" )
 					#	Image argument
 					outs.write( "\n\t\t\t\t\t, makeExpr( image )" )
 					#	Remaining arguments
 					outs.write( computeArgs( paramsGroup, "\t\t\t\t\t", "\n\t\t\t\t\t," ) + " )" )
-					outs.write( "\n\t\t\t\t, areOptionalEnabled( image" + listParams( paramsGroup, "," ) + " ) };" )
+					outs.write( "\n\t\t\t\t, areOptionalEnabled( image" + listParams( paramsGroup, ",", 1 ) + " ) };" )
 					outs.write( "\n\t\t}" )
 					outs.write( "\n" )
-					outs.write( "\n\t\treturn " + ret + "{ findShader( image" + listParams( paramsGroup, "," ) + " )" )
+					outs.write( "\n\t\treturn " + ret + "{ findShader( image" + listParams( paramsGroup, ",", 1 ) + " )" )
 				# Write arguments
-				outs.write( "\n\t\t\t, expr::make" + fullName + fmt + "( findTypesCache( image" + listParams( paramsGroup, "," ) + " )" )
+				outs.write( "\n\t\t\t, expr::make" + fullName + fmt + "( findTypesCache( image" + listParams( paramsGroup, ",", 1 ) + " )" )
 				#	Image argument
 				outs.write( "\n\t\t\t\t, makeExpr( image )" )
 				#	Remaining arguments
@@ -507,19 +507,19 @@ def printIntrinsicFunction( outs, returnGroup, functionGroup, paramsGroup ):
 	# Write function name and return
 	outs.write( "\n\tMaybeOptional< " + retType + " > " + computeIntrinsicName( functionGroup ) + "(" )
 	# Write function parameters
-	outs.write( computeParams( paramsGroup, "" ) + " )" )
+	outs.write( computeParams( paramsGroup, "", 0 ) + " )" )
 	# Header finished, write content
 	outs.write( "\n\t{" )
-	outs.write( "\n\t\tif ( isAnyOptional(" + listParams( paramsGroup, "" ) + " ) )" )
+	outs.write( "\n\t\tif ( isAnyOptional(" + listParams( paramsGroup, "", 0 ) + " ) )" )
 	outs.write( "\n\t\t{" )
-	outs.write( "\n\t\t\treturn Optional< " + retType + " >{ findShader(" + listParams( paramsGroup, "" ) + " )" )
-	outs.write( "\n\t\t\t\t, expr::make" + fullName + "( findTypesCache(" + listParams( paramsGroup, "" ) + " )" )
+	outs.write( "\n\t\t\treturn Optional< " + retType + " >{ findShader(" + listParams( paramsGroup, "", 0 ) + " )" )
+	outs.write( "\n\t\t\t\t, expr::make" + fullName + "( findTypesCache(" + listParams( paramsGroup, "", 0 ) + " )" )
 	outs.write( computeArgs( paramsGroup, "\t\t\t\t\t", "\n\t\t\t\t\t," ) + " )" )
-	outs.write( "\n\t\t\t\t, areOptionalEnabled(" + listParams( paramsGroup, "" ) + " ) };" )
+	outs.write( "\n\t\t\t\t, areOptionalEnabled(" + listParams( paramsGroup, "", 0 ) + " ) };" )
 	outs.write( "\n\t\t}" )
 	outs.write( "\n" )
-	outs.write( "\n\t\treturn " + retType + "{ findShader(" + listParams( paramsGroup, "" ) + " )" )
-	outs.write( "\n\t\t\t, expr::make" + fullName + "( findTypesCache(" + listParams( paramsGroup, "" ) + " )" )
+	outs.write( "\n\t\treturn " + retType + "{ findShader(" + listParams( paramsGroup, "", 0 ) + " )" )
+	outs.write( "\n\t\t\t, expr::make" + fullName + "( findTypesCache(" + listParams( paramsGroup, "", 0 ) + " )" )
 	outs.write( computeArgs( paramsGroup, "\t\t\t\t", "\n\t\t\t\t\t," ) + " ) };" )
 	outs.write( "\n\t}" )
 	
@@ -571,7 +571,7 @@ def main( argv ):
 					groupName = getPostfixedFunctionName( functionGroup )
 					if groupName not in functionGroups:
 						functionGroups[groupName] = dict()
-					paramsList = listParams( paramsGroup, "" )
+					paramsList = listParams( paramsGroup, "", 1 )
 					if paramsList not in functionGroups[groupName]:
 						functionGroups[groupName][paramsList] = list()
 					functionGroups[groupName][paramsList].append( [returnGroup, functionGroup, paramsGroup] )
