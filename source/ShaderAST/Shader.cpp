@@ -29,12 +29,7 @@ namespace ast
 			// move variables contained in the given list to the new scope.
 			for ( auto & var : vars )
 			{
-				auto itVar = std::find_if( it->registered.begin()
-					, it->registered.end()
-					, [&var]( std::map< std::string, var::VariablePtr >::value_type & pair )
-					{
-						return pair.second == var;
-					} );
+				auto itVar = it->registered.find( var );
 
 				if ( itVar != it->registered.end() )
 				{
@@ -70,19 +65,31 @@ namespace ast
 		return std::move( expr );
 	}
 
+	auto findVariable( std::set< var::VariablePtr > const & vars
+		, std::string const & name )
+	{
+		return std::find_if( vars.begin()
+			, vars.end()
+			, [name]( var::VariablePtr const & var )
+			{
+				return var->getFullName() == name
+					|| var->getName() == name;
+			} );
+	}
+	
 	bool Shader::hasVariable( std::string const & name )const
 	{
 		auto & block = m_blocks.back();
-		auto it = block.registered.find( name );
+		auto it = findVariable( block.registered, name );
 		return it != block.registered.end();
 	}
 
 	void Shader::registerVariable( var::VariablePtr var )
 	{
 		auto & block = m_blocks.back();
-		auto it = block.registered.find( var->getName() );
+		auto it = block.registered.find( var );
 		assert( it == block.registered.end() );
-		block.registered.emplace( var->getName(), var );
+		block.registered.emplace( var );
 	}
 
 	var::VariablePtr Shader::registerName( std::string const & name
@@ -335,11 +342,11 @@ namespace ast
 	var::VariablePtr Shader::getVar( std::string const & name )const
 	{
 		auto & block = m_blocks.back();
-		auto it = block.registered.find( name );
+		auto it = findVariable( block.registered, name );
 
 		if ( it == block.registered.end() )
 		{
-			it = m_blocks.front().registered.find( name );
+			it = findVariable( m_blocks.front().registered, name );
 
 			if ( it == m_blocks.front().registered.end() )
 			{
@@ -349,7 +356,7 @@ namespace ast
 			}
 		}
 
-		return it->second;
+		return *it;
 	}
 
 	void Shader::addStmt( stmt::StmtPtr stmt )

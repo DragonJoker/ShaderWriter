@@ -199,7 +199,7 @@ namespace hlsl
 			it = m_result.find( ".." );
 		}
 
-		expr->getOperand()->accept( this );
+		m_result += expr->getOuterType()->getMember( expr->getMemberIndex() ).name;
 	}
 
 	void ExprVisitor::visitFnCallExpr( ast::expr::FnCall * expr )

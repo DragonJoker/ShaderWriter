@@ -11,6 +11,7 @@ See LICENSE file in root folder
 #include "ShaderWriter/BaseTypes/Int.hpp"
 #include "ShaderWriter/BaseTypes/UInt.hpp"
 #include "ShaderWriter/Intrinsics/IntrinsicFunctions.hpp"
+#include "ShaderWriter/Writer.hpp"
 
 #include <ShaderAST/Expr/MakeIntrinsic.hpp>
 
@@ -11320,17 +11321,17 @@ namespace sdw
 	*	EmitVertex
 	*/
 	/**@{*/
-	MaybeOptional< Void > EmitVertex( )
+	MaybeOptional< Void > EmitVertex( ShaderWriter & writer )
 	{
-		if ( isAnyOptional( ) )
+		if ( isAnyOptional( writer ) )
 		{
-			return Optional< Void >{ findShader( )
-				, expr::makeEmitVertex( findTypesCache( ) )
+			return Optional< Void >{ findShader( writer )
+				, expr::makeEmitVertex( findTypesCache( writer ) )
 				, areOptionalEnabled( ) };
 		}
 
-		return Void{ findShader( )
-			, expr::makeEmitVertex( findTypesCache( ) ) };
+		return Void{ &writer.getShader( )
+			, expr::makeEmitVertex( findTypesCache( writer ) ) };
 	}
 	/**@}*/
 #pragma endregion
@@ -11340,17 +11341,17 @@ namespace sdw
 	*	EndPrimitive
 	*/
 	/**@{*/
-	MaybeOptional< Void > EndPrimitive( )
+	MaybeOptional< Void > EndPrimitive( ShaderWriter & writer )
 	{
-		if ( isAnyOptional( ) )
+		if ( isAnyOptional( writer ) )
 		{
-			return Optional< Void >{ findShader( )
-				, expr::makeEndPrimitive( findTypesCache( ) )
-				, areOptionalEnabled( ) };
+			return Optional< Void >{ findShader( writer )
+				, expr::makeEndPrimitive( findTypesCache( writer ) )
+				, areOptionalEnabled( writer ) };
 		}
 
-		return Void{ findShader( )
-			, expr::makeEndPrimitive( findTypesCache( ) ) };
+		return Void{ findShader( writer )
+			, expr::makeEndPrimitive( findTypesCache( writer ) ) };
 	}
 	/**@}*/
 #pragma endregion
@@ -11360,17 +11361,17 @@ namespace sdw
 	*	barrier
 	*/
 	/**@{*/
-	MaybeOptional< Void > barrier( )
+	MaybeOptional< Void > barrier( ShaderWriter & writer )
 	{
-		if ( isAnyOptional( ) )
+		if ( isAnyOptional( writer ) )
 		{
-			return Optional< Void >{ findShader( )
-				, expr::makeBarrier( findTypesCache( ) )
+			return Optional< Void >{ findShader( writer )
+				, expr::makeBarrier( findTypesCache( writer ) )
 				, areOptionalEnabled( ) };
 		}
 
-		return Void{ findShader( )
-			, expr::makeBarrier( findTypesCache( ) ) };
+		return Void{ findShader( writer )
+			, expr::makeBarrier( findTypesCache( writer ) ) };
 	}
 	/**@}*/
 #pragma endregion
@@ -11380,17 +11381,17 @@ namespace sdw
 	*	memoryBarrier
 	*/
 	/**@{*/
-	MaybeOptional< UInt > memoryBarrier( )
+	MaybeOptional< UInt > memoryBarrier( ShaderWriter & writer )
 	{
-		if ( isAnyOptional( ) )
+		if ( isAnyOptional( writer ) )
 		{
-			return Optional< UInt >{ findShader( )
-				, expr::makeMemoryBarrier( findTypesCache( ) )
+			return Optional< UInt >{ findShader( writer )
+				, expr::makeMemoryBarrier( findTypesCache( writer ) )
 				, areOptionalEnabled( ) };
 		}
 
-		return UInt{ findShader( )
-			, expr::makeMemoryBarrier( findTypesCache( ) ) };
+		return UInt{ findShader( writer )
+			, expr::makeMemoryBarrier( findTypesCache( writer ) ) };
 	}
 	/**@}*/
 #pragma endregion
@@ -11400,17 +11401,17 @@ namespace sdw
 	*	memoryBarrierBuffer
 	*/
 	/**@{*/
-	MaybeOptional< Void > memoryBarrierBuffer( )
+	MaybeOptional< Void > memoryBarrierBuffer( ShaderWriter & writer )
 	{
-		if ( isAnyOptional( ) )
+		if ( isAnyOptional( writer ) )
 		{
-			return Optional< Void >{ findShader( )
-				, expr::makeMemoryBarrierBuffer( findTypesCache( ) )
+			return Optional< Void >{ findShader( writer )
+				, expr::makeMemoryBarrierBuffer( findTypesCache( writer ) )
 				, areOptionalEnabled( ) };
 		}
 
-		return Void{ findShader( )
-			, expr::makeMemoryBarrierBuffer( findTypesCache( ) ) };
+		return Void{ findShader( writer )
+			, expr::makeMemoryBarrierBuffer( findTypesCache( writer ) ) };
 	}
 	/**@}*/
 #pragma endregion
@@ -11420,17 +11421,17 @@ namespace sdw
 	*	memoryBarrierShared
 	*/
 	/**@{*/
-	MaybeOptional< Void > memoryBarrierShared( )
+	MaybeOptional< Void > memoryBarrierShared( ShaderWriter & writer )
 	{
-		if ( isAnyOptional( ) )
+		if ( isAnyOptional( writer ) )
 		{
-			return Optional< Void >{ findShader( )
-				, expr::makeMemoryBarrierShared( findTypesCache( ) )
+			return Optional< Void >{findShader( writer )
+				, expr::makeMemoryBarrierShared( findTypesCache( writer ) )
 				, areOptionalEnabled( ) };
 		}
 
-		return Void{ findShader( )
-			, expr::makeMemoryBarrierShared( findTypesCache( ) ) };
+		return Void{ findShader( writer )
+			, expr::makeMemoryBarrierShared( findTypesCache( writer ) ) };
 	}
 	/**@}*/
 #pragma endregion
@@ -11440,17 +11441,17 @@ namespace sdw
 	*	memoryBarrierImage
 	*/
 	/**@{*/
-	MaybeOptional< Void > memoryBarrierImage( )
+	MaybeOptional< Void > memoryBarrierImage( ShaderWriter & writer )
 	{
-		if ( isAnyOptional( ) )
+		if ( isAnyOptional( writer ) )
 		{
-			return Optional< Void >{ findShader( )
-				, expr::makeMemoryBarrierImage( findTypesCache( ) )
+			return Optional< Void >{ findShader( writer )
+				, expr::makeMemoryBarrierImage( findTypesCache( writer ) )
 				, areOptionalEnabled( ) };
 		}
 
-		return Void{ findShader( )
-			, expr::makeMemoryBarrierImage( findTypesCache( ) ) };
+		return Void{ findShader( writer )
+			, expr::makeMemoryBarrierImage( findTypesCache( writer ) ) };
 	}
 	/**@}*/
 #pragma endregion
@@ -11460,17 +11461,17 @@ namespace sdw
 	*	groupMemoryBarrier
 	*/
 	/**@{*/
-	MaybeOptional< Void > groupMemoryBarrier( )
+	MaybeOptional< Void > groupMemoryBarrier( ShaderWriter & writer )
 	{
-		if ( isAnyOptional( ) )
+		if ( isAnyOptional( writer ) )
 		{
-			return Optional< Void >{ findShader( )
-				, expr::makeGroupMemoryBarrier( findTypesCache( ) )
+			return Optional< Void >{ findShader( writer )
+				, expr::makeGroupMemoryBarrier( findTypesCache( writer ) )
 				, areOptionalEnabled( ) };
 		}
 
-		return Void{ findShader( )
-			, expr::makeGroupMemoryBarrier( findTypesCache( ) ) };
+		return Void{ findShader( writer )
+			, expr::makeGroupMemoryBarrier( findTypesCache( writer ) ) };
 	}
 	/**@}*/
 #pragma endregion

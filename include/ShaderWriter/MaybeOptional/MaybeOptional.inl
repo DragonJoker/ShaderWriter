@@ -138,6 +138,11 @@ namespace sdw
 	{
 		return details::isAnyOptionalRec( std::forward< ParamsT const & >( params )... );
 	}
+	
+	inline bool isAnyOptional( ShaderWriter const & writer )
+	{
+		return false;
+	}
 
 	template< typename T >
 	inline bool isOptionalEnabled( MaybeOptional< T > const & value )

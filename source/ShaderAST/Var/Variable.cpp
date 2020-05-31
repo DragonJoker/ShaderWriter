@@ -26,14 +26,14 @@ namespace ast::var
 		, type::TypePtr type
 		, std::string name
 		, uint32_t flags )
-		: m_outer{ std::move( outer ) }
+		: FlagHolder{ flags }
+		, m_outer{ std::move( outer ) }
 		, m_type{ std::move( type ) }
 		, m_name{ std::move( name ) }
-		, m_flags{ flags }
 	{
 		if ( outer )
 		{
-			m_flags = m_flags | Flag::eMember;
+			updateFlag( Flag::eMember, true );
 		}
 
 		assert( hasFlag( Flag::eMember ) == bool( m_outer ) );
@@ -67,5 +67,12 @@ namespace ast::var
 
 	Variable::~Variable()
 	{
+	}
+
+	std::string Variable::getFullName()const
+	{
+		return m_outer
+			? m_outer->getName() + "." + getName()
+			: getName();
 	}
 }

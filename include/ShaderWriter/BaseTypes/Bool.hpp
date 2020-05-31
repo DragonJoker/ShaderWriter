@@ -49,32 +49,32 @@ namespace sdw
 	SDW_API Optional< Boolean > operator&&( Optional< Boolean > const & lhs
 		, Optional< Boolean > const & rhs );
 
-	template< typename LhsT, typename RhsT, typename CreatorT >
-	inline Boolean writeComparator( LhsT const & lhs
+	template< typename RetT, typename LhsT, typename RhsT, typename CreatorT >
+	inline RetT writeComparator( LhsT const & lhs
 		, RhsT const & rhs
 		, CreatorT creator );
-	template< typename LhsT, typename RhsT, typename CreatorT >
-	Optional< Boolean > writeComparator( Optional< LhsT > const & lhs
+	template< typename RetT, typename LhsT, typename RhsT, typename CreatorT >
+	Optional< RetT > writeComparator( Optional< LhsT > const & lhs
 		, RhsT const & rhs
 		, CreatorT creator );
-	template< typename LhsT, typename RhsT, typename CreatorT >
-	Optional< Boolean > writeComparator( LhsT const & lhs
+	template< typename RetT, typename LhsT, typename RhsT, typename CreatorT >
+	Optional< RetT > writeComparator( LhsT const & lhs
 		, Optional< RhsT > const & rhs
 		, CreatorT creator );
-	template< typename LhsT, typename RhsT, typename CreatorT >
-	Optional< Boolean > writeComparator( Optional< LhsT > const & lhs
+	template< typename RetT, typename LhsT, typename RhsT, typename CreatorT >
+	Optional< RetT > writeComparator( Optional< LhsT > const & lhs
 		, Optional< RhsT > const & rhs
 		, CreatorT creator );
-	template< typename LhsT, typename RhsT, typename CreatorT >
-	MaybeOptional< Boolean > writeComparator( MaybeOptional< LhsT > const & lhs
+	template< typename RetT, typename LhsT, typename RhsT, typename CreatorT >
+	MaybeOptional< RetT > writeComparator( MaybeOptional< LhsT > const & lhs
 		, RhsT const & rhs
 		, CreatorT creator );
-	template< typename LhsT, typename RhsT, typename CreatorT >
-	MaybeOptional< Boolean > writeComparator( LhsT const & lhs
+	template< typename RetT, typename LhsT, typename RhsT, typename CreatorT >
+	MaybeOptional< RetT > writeComparator( LhsT const & lhs
 		, MaybeOptional< RhsT > const & rhs
 		, CreatorT creator );
-	template< typename LhsT, typename RhsT, typename CreatorT >
-	MaybeOptional< Boolean > writeComparator( MaybeOptional< LhsT > const & lhs
+	template< typename RetT, typename LhsT, typename RhsT, typename CreatorT >
+	MaybeOptional< RetT > writeComparator( MaybeOptional< LhsT > const & lhs
 		, MaybeOptional< RhsT > const & rhs
 		, CreatorT creator );
 }

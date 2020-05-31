@@ -1606,12 +1606,21 @@ namespace spirv
 			params.push_back( id );
 		}
 
-		auto typeId = m_module.registerType( expr->getType() );
-		m_result = m_module.getIntermediateResult();
-		m_currentBlock.instructions.emplace_back( makeIntrinsicInstruction( typeId
-			, m_result
-			, opCode
-			, params ) );
+		if ( opCode >= spv::OpEmitVertex
+			&& opCode <= spv::OpEndStreamPrimitive )
+		{
+			m_currentBlock.instructions.emplace_back( makeIntrinsicInstruction( opCode
+				, params ) );
+		}
+		else
+		{
+			auto typeId = m_module.registerType( expr->getType() );
+			m_result = m_module.getIntermediateResult();
+			m_currentBlock.instructions.emplace_back( makeIntrinsicInstruction( typeId
+				, m_result
+				, opCode
+				, params ) );
+		}
 	}
 
 	spv::Id ExprVisitor::getUnsignedExtendedResultTypeId( uint32_t count )

@@ -218,6 +218,9 @@ namespace spirv
 	template< spv::Op Operator >
 	using IntrinsicInstructionT = VariadicInstructionT< Operator, true, true >;
 
+	template< spv::Op Operator >
+	using VoidIntrinsicInstructionT = VariadicInstructionT< Operator, false, false >;
+
 	template< spv::Op Operator
 		, bool HasReturnTypeId
 		, bool HasResultId

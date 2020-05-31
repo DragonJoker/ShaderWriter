@@ -244,10 +244,6 @@ namespace ast::expr
 		{
 			visitBinaryExpr( expr );
 		}
-		void visitMbrSelectExpr( MbrSelect * expr )override
-		{
-			visitUnaryExpr( expr );
-		}
 		void visitMinusExpr( Minus * expr )override
 		{
 			visitBinaryExpr( expr );

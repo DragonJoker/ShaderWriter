@@ -504,6 +504,9 @@ namespace spirv
 			assert( false && "Unsupported OutputLayout" );
 			break;
 		}
+
+		m_result.registerExecutionMode( spv::ExecutionModeOutputVertices, { stmt->getPrimCount() } );
+		m_result.registerExecutionMode( spv::ExecutionModeInvocations, { 1u } );
 	}
 
 	void StmtVisitor::visitPerVertexDeclStmt( ast::stmt::PerVertexDecl * stmt )

@@ -16,7 +16,8 @@ namespace ast::type
 		: public Type
 	{
 	public:
-		Image( ImageConfiguration config );
+		Image( TypesCache & cache
+			, ImageConfiguration config );
 
 		ImageConfiguration const & getConfig()const
 		{

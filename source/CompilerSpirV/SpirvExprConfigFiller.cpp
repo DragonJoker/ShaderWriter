@@ -93,7 +93,13 @@ namespace spirv
 	{
 		checkType( expr, m_config );
 		expr->getOuterExpr()->accept( this );
-		expr->getMember()->accept( this );
+
+		if ( expr->isShaderInput() )
+		{
+			m_config.inputs.insert( ast::var::makeVariable( expr->getType()
+				, expr->getOuterType()->getMember( expr->getMemberIndex() ).name
+				, expr->getMemberFlags() ) );
+		}
 	}
 
 	void ExprConfigFiller::visitFnCallExpr( ast::expr::FnCall * expr )

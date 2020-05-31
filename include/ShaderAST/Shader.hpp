@@ -11,6 +11,7 @@ See LICENSE file in root folder
 
 #include <vector>
 #include <map>
+#include <set>
 #include <stdexcept>
 
 namespace ast
@@ -215,7 +216,7 @@ namespace ast
 	private:
 		struct Block
 		{
-			std::map< std::string, var::VariablePtr > registered;
+			std::set< var::VariablePtr > registered;
 			stmt::Container * container;
 		};
 		ast::ShaderStage m_type;

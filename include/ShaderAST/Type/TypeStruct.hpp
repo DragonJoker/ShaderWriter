@@ -61,6 +61,7 @@ namespace ast::type
 			, uint32_t arraySize );
 		Member declMember( std::string name
 			, type::ArrayPtr type );
+		Member getMember( uint32_t index );
 		Member getMember( std::string const & name );
 		bool hasMember( std::string const & name );
 		TypePtr getMemberType( Struct & parent, uint32_t index )const override;
@@ -68,11 +69,6 @@ namespace ast::type
 		std::string const & getName()const
 		{
 			return m_name;
-		}
-
-		TypesCache & getCache()const
-		{
-			return m_cache;
 		}
 
 		size_t size()const
@@ -116,7 +112,6 @@ namespace ast::type
 		void doUpdateOffsets();
 
 	private:
-		TypesCache & m_cache;
 		std::string m_name;
 		std::vector< Member > m_members;
 		MemoryLayout m_layout;

@@ -63,7 +63,6 @@ namespace glsl
 	void ExprConfigFiller::visitMbrSelectExpr( ast::expr::MbrSelect * expr )
 	{
 		expr->getOuterExpr()->accept( this );
-		expr->getMember()->accept( this );
 	}
 
 	void ExprConfigFiller::visitFnCallExpr( ast::expr::FnCall * expr )

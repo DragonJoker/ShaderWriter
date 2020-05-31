@@ -489,19 +489,14 @@ namespace sdw
 		*	Getters.
 		*/
 		/**@{*/
-		inline ast::Shader const & getShader()const
+		inline ast::Shader & getShader()const
 		{
-			return m_shader;
-		}
-
-		inline ast::Shader & getShader()
-		{
-			return m_shader;
+			return *m_shader;
 		}
 
 		inline ast::type::TypesCache & getTypesCache()const
 		{
-			return m_shader.getTypesCache();
+			return m_shader->getTypesCache();
 		}
 		/**@}*/
 #pragma endregion
@@ -545,7 +540,7 @@ namespace sdw
 			, var::Flag flag );
 
 	private:
-		ast::Shader m_shader;
+		std::unique_ptr< ast::Shader > m_shader;
 		Function< Vec2, InVec2 > m_invertVec2Y;
 		Function< Vec3, InVec3 > m_invertVec3Y;
 		std::vector< stmt::If * > m_ifStmt;

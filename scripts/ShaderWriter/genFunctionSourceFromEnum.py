@@ -191,6 +191,8 @@ def computeParams( params, sep ):
 					result += sep + " " + paramType + " " + typeQualifier + "& " + resParam[index]
 			sep = "\n\t\t,"
 			index += 2
+	else:
+		result = " ShaderWriter & writer"
 	return result
 
 def computeParamsEx( params, sep, lastType ):
@@ -241,6 +243,8 @@ def listParams( params, sep ):
 			result += sep + " " + discardArray( resParam[index] )
 			sep = ","
 			index += 3
+	else:
+		result = " writer"
 	return result
 
 def computeArgs( args, indent, sep ):

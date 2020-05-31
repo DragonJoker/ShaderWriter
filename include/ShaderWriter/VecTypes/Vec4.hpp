@@ -263,53 +263,53 @@ namespace sdw
 	};
 
 	template< typename ValueT >
-	Boolean operator==( Vec4T< ValueT > const & lhs, Vec4T< ValueT > const & rhs );
+	Vec4T< Boolean > operator==( Vec4T< ValueT > const & lhs, Vec4T< ValueT > const & rhs );
 	template< typename ValueT >
-	Boolean operator!=( Vec4T< ValueT > const & lhs, Vec4T< ValueT > const & rhs );
+	Vec4T< Boolean > operator!=( Vec4T< ValueT > const & lhs, Vec4T< ValueT > const & rhs );
 	template< typename ValueT >
-	Boolean operator<( Vec4T< ValueT > const & lhs, Vec4T< ValueT > const & rhs );
+	Vec4T< Boolean > operator<( Vec4T< ValueT > const & lhs, Vec4T< ValueT > const & rhs );
 	template< typename ValueT >
-	Boolean operator<=( Vec4T< ValueT > const & lhs, Vec4T< ValueT > const & rhs );
+	Vec4T< Boolean > operator<=( Vec4T< ValueT > const & lhs, Vec4T< ValueT > const & rhs );
 	template< typename ValueT >
-	Boolean operator>( Vec4T< ValueT > const & lhs, Vec4T< ValueT > const & rhs );
+	Vec4T< Boolean > operator>( Vec4T< ValueT > const & lhs, Vec4T< ValueT > const & rhs );
 	template< typename ValueT >
-	Boolean operator>=( Vec4T< ValueT > const & lhs, Vec4T< ValueT > const & rhs );
+	Vec4T< Boolean > operator>=( Vec4T< ValueT > const & lhs, Vec4T< ValueT > const & rhs );
 	template< typename ValueT >
-	Optional< Boolean > operator==( Optional< Vec4T< ValueT > > const & lhs, Vec4T< ValueT > const & rhs );
+	Optional< Vec4T< Boolean > > operator==( Optional< Vec4T< ValueT > > const & lhs, Vec4T< ValueT > const & rhs );
 	template< typename ValueT >
-	Optional< Boolean > operator!=( Optional< Vec4T< ValueT > > const & lhs, Vec4T< ValueT > const & rhs );
+	Optional< Vec4T< Boolean > > operator!=( Optional< Vec4T< ValueT > > const & lhs, Vec4T< ValueT > const & rhs );
 	template< typename ValueT >
-	Optional< Boolean > operator<( Optional< Vec4T< ValueT > > const & lhs, Vec4T< ValueT > const & rhs );
+	Optional< Vec4T< Boolean > > operator<( Optional< Vec4T< ValueT > > const & lhs, Vec4T< ValueT > const & rhs );
 	template< typename ValueT >
-	Optional< Boolean > operator<=( Optional< Vec4T< ValueT > > const & lhs, Vec4T< ValueT > const & rhs );
+	Optional< Vec4T< Boolean > > operator<=( Optional< Vec4T< ValueT > > const & lhs, Vec4T< ValueT > const & rhs );
 	template< typename ValueT >
-	Optional< Boolean > operator>( Optional< Vec4T< ValueT > > const & lhs, Vec4T< ValueT > const & rhs );
+	Optional< Vec4T< Boolean > > operator>( Optional< Vec4T< ValueT > > const & lhs, Vec4T< ValueT > const & rhs );
 	template< typename ValueT >
-	Optional< Boolean > operator>=( Optional< Vec4T< ValueT > > const & lhs, Vec4T< ValueT > const & rhs );
+	Optional< Vec4T< Boolean > > operator>=( Optional< Vec4T< ValueT > > const & lhs, Vec4T< ValueT > const & rhs );
 	template< typename ValueT >
-	Optional< Boolean > operator==( Vec4T< ValueT > const & lhs, Optional< Vec4T< ValueT > > const & rhs );
+	Optional< Vec4T< Boolean > > operator==( Vec4T< ValueT > const & lhs, Optional< Vec4T< ValueT > > const & rhs );
 	template< typename ValueT >
-	Optional< Boolean > operator!=( Vec4T< ValueT > const & lhs, Optional< Vec4T< ValueT > > const & rhs );
+	Optional< Vec4T< Boolean > > operator!=( Vec4T< ValueT > const & lhs, Optional< Vec4T< ValueT > > const & rhs );
 	template< typename ValueT >
-	Optional< Boolean > operator<( Vec4T< ValueT > const & lhs, Optional< Vec4T< ValueT > > const & rhs );
+	Optional< Vec4T< Boolean > > operator<( Vec4T< ValueT > const & lhs, Optional< Vec4T< ValueT > > const & rhs );
 	template< typename ValueT >
-	Optional< Boolean > operator<=( Vec4T< ValueT > const & lhs, Optional< Vec4T< ValueT > > const & rhs );
+	Optional< Vec4T< Boolean > > operator<=( Vec4T< ValueT > const & lhs, Optional< Vec4T< ValueT > > const & rhs );
 	template< typename ValueT >
-	Optional< Boolean > operator>( Vec4T< ValueT > const & lhs, Optional< Vec4T< ValueT > > const & rhs );
+	Optional< Vec4T< Boolean > > operator>( Vec4T< ValueT > const & lhs, Optional< Vec4T< ValueT > > const & rhs );
 	template< typename ValueT >
-	Optional< Boolean > operator>=( Vec4T< ValueT > const & lhs, Optional< Vec4T< ValueT > > const & rhs );
+	Optional< Vec4T< Boolean > > operator>=( Vec4T< ValueT > const & lhs, Optional< Vec4T< ValueT > > const & rhs );
 	template< typename ValueT >
-	Optional< Boolean > operator==( Optional< Vec4T< ValueT > > const & lhs, Optional< Vec4T< ValueT > > const & rhs );
+	Optional< Vec4T< Boolean > > operator==( Optional< Vec4T< ValueT > > const & lhs, Optional< Vec4T< ValueT > > const & rhs );
 	template< typename ValueT >
-	Optional< Boolean > operator!=( Optional< Vec4T< ValueT > > const & lhs, Optional< Vec4T< ValueT > > const & rhs );
+	Optional< Vec4T< Boolean > > operator!=( Optional< Vec4T< ValueT > > const & lhs, Optional< Vec4T< ValueT > > const & rhs );
 	template< typename ValueT >
-	Optional< Boolean > operator<( Optional< Vec4T< ValueT > > const & lhs, Optional< Vec4T< ValueT > > const & rhs );
+	Optional< Vec4T< Boolean > > operator<( Optional< Vec4T< ValueT > > const & lhs, Optional< Vec4T< ValueT > > const & rhs );
 	template< typename ValueT >
-	Optional< Boolean > operator<=( Optional< Vec4T< ValueT > > const & lhs, Optional< Vec4T< ValueT > > const & rhs );
+	Optional< Vec4T< Boolean > > operator<=( Optional< Vec4T< ValueT > > const & lhs, Optional< Vec4T< ValueT > > const & rhs );
 	template< typename ValueT >
-	Optional< Boolean > operator>( Optional< Vec4T< ValueT > > const & lhs, Optional< Vec4T< ValueT > > const & rhs );
+	Optional< Vec4T< Boolean > > operator>( Optional< Vec4T< ValueT > > const & lhs, Optional< Vec4T< ValueT > > const & rhs );
 	template< typename ValueT >
-	Optional< Boolean > operator>=( Optional< Vec4T< ValueT > > const & lhs, Optional< Vec4T< ValueT > > const & rhs );
+	Optional< Vec4T< Boolean > > operator>=( Optional< Vec4T< ValueT > > const & lhs, Optional< Vec4T< ValueT > > const & rhs );
 }
 
 #include "Vec4.inl"
