@@ -5,6 +5,7 @@ See LICENSE file in root folder
 #define ___SDW_MaybeOptionalMat3x2_H___
 #pragma once
 
+#include "MaybeOptional.hpp"
 #include "ShaderWriter/Optional/OptionalMat3x2.hpp"
 
 namespace sdw

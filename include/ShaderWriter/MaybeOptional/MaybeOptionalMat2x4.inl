@@ -5,6 +5,8 @@ See LICENSE file in root folder
 
 namespace sdw
 {
+	//*************************************************************************
+
 	template< typename ValueT >
 	MaybeOptional< Mat2x4T< ValueT > >::MaybeOptional( Shader * shader
 		, expr::ExprPtr expr )
@@ -112,4 +114,39 @@ namespace sdw
 	{
 		return m_enabled;
 	}
+
+	//*************************************************************************
+
+	template< typename ValueT >
+	inline Mat2x4T< ValueT > & Mat2x4T< ValueT >::operator=( MaybeOptional< Mat2x4T< ValueT > > const & rhs )
+	{
+		if ( rhs.isEnabled() )
+		{
+			if ( this->getContainer() )
+			{
+				writeAssignOperator< Mat2x4T< ValueT > >( *this, rhs, sdw::makeAssign );
+			}
+			else
+			{
+				Value::operator=( rhs );
+			}
+		}
+
+		return *this;
+	}
+
+	//*************************************************************************
+
+	template< typename ValueT >
+	inline Optional< Mat2x4T< ValueT > > & Optional< Mat2x4T< ValueT > >::operator=( MaybeOptional< Mat2x4T< ValueT > > const & rhs )
+	{
+		if ( isEnabled() && rhs.isEnabled() )
+		{
+			Mat2x4T< ValueT >::operator=( rhs );
+		}
+
+		return *this;
+	}
+
+	//*************************************************************************
 }

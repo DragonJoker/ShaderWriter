@@ -44,17 +44,6 @@ namespace sdw
 	}
 
 	template< typename ValueT >
-	inline Optional< Array< ValueT > > & Optional< Array< ValueT > >::operator=( MaybeOptional< Array< ValueT > > const & rhs )
-	{
-		if ( isEnabled() && rhs.isEnabled() )
-		{
-			Array< ValueT >::operator=( rhs );
-		}
-
-		return *this;
-	}
-
-	template< typename ValueT >
 	template< typename IndexT >
 	Optional< ValueT > Optional< Array< ValueT > >::operator[]( IndexT const & offset )const
 	{

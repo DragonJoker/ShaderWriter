@@ -52,17 +52,6 @@ namespace sdw
 	}
 
 	template< typename ValueT >
-	inline Optional< Vec2T< ValueT > > & Optional< Vec2T< ValueT > >::operator=( MaybeOptional< Vec2T< ValueT > > const & rhs )
-	{
-		if ( isEnabled() && rhs.isEnabled() )
-		{
-			Vec2T< ValueT >::operator=( rhs );
-		}
-
-		return *this;
-	}
-
-	template< typename ValueT >
 	bool Optional< Vec2T< ValueT > >::isEnabled()const
 	{
 		return m_enabled;
@@ -82,6 +71,28 @@ namespace sdw
 	{
 		return writeBinOperator< ValueT >( *this, offset, sdw::makeArrayAccess );
 	}
+
+	//*********************************************************************************************
+
+	template< typename ValueT >
+	inline Vec2T< ValueT > & Vec2T< ValueT >::operator=( Optional< Vec2T< ValueT > > const & rhs )
+	{
+		if ( rhs.isEnabled() )
+		{
+			if ( this->getContainer() )
+			{
+				writeAssignOperator< Vec2T< ValueT > >( *this, rhs, sdw::makeAssign );
+			}
+			else
+			{
+				Value::operator=( rhs );
+			}
+		}
+
+		return *this;
+	}
+
+	//*********************************************************************************************
 
 	template< typename ValueT >
 	Optional< Vec2T< ValueT > > & Optional< Vec2T< ValueT > >::operator+=( Vec2T< ValueT > const & rhs )

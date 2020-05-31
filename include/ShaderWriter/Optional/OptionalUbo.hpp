@@ -5,7 +5,6 @@ See LICENSE file in root folder
 #define ___SDW_OptionalUbo_H___
 
 #include "Optional.hpp"
-
 #include "ShaderWriter/CompositeTypes/Ubo.hpp"
 
 namespace sdw

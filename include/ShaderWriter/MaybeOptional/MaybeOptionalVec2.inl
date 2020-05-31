@@ -115,6 +115,41 @@ namespace sdw
 		return m_enabled;
 	}
 
+	//*********************************************************************************************
+
+	template< typename ValueT >
+	inline Vec2T< ValueT > & Vec2T< ValueT >::operator=( MaybeOptional< Vec2T< ValueT > > const & rhs )
+	{
+		if ( rhs.isEnabled() )
+		{
+			if ( this->getContainer() )
+			{
+				writeAssignOperator< Vec2T< ValueT > >( *this, rhs, sdw::makeAssign );
+			}
+			else
+			{
+				Value::operator=( rhs );
+			}
+		}
+
+		return *this;
+	}
+
+	//*********************************************************************************************
+
+	template< typename ValueT >
+	inline Optional< Vec2T< ValueT > > & Optional< Vec2T< ValueT > >::operator=( MaybeOptional< Vec2T< ValueT > > const & rhs )
+	{
+		if ( isEnabled() && rhs.isEnabled() )
+		{
+			Vec2T< ValueT >::operator=( rhs );
+		}
+
+		return *this;
+	}
+
+	//*********************************************************************************************
+
 	template< typename ValueT >
 	MaybeOptional< Vec2T< ValueT > > & MaybeOptional< Vec2T< ValueT > >::operator+=( Vec2T< ValueT > const & rhs )
 	{

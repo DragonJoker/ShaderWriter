@@ -6,7 +6,7 @@ See LICENSE file in root folder
 #pragma once
 
 #include "MaybeOptional.hpp"
-#include "ShaderWriter/BaseTypes/Array.hpp"
+#include "ShaderWriter/Optional/OptionalArray.hpp"
 
 namespace sdw
 {

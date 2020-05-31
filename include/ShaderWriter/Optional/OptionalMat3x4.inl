@@ -50,17 +50,6 @@ namespace sdw
 	}
 
 	template< typename ValueT >
-	inline Optional< Mat3x4T< ValueT > > & Optional< Mat3x4T< ValueT > >::operator=( MaybeOptional< Mat3x4T< ValueT > > const & rhs )
-	{
-		if ( isEnabled() && rhs.isEnabled() )
-		{
-			Mat3x4T< ValueT >::operator=( rhs );
-		}
-
-		return *this;
-	}
-
-	template< typename ValueT >
 	template< typename IndexT >
 	Optional< Vec4T< ValueT > > Optional< Mat3x4T< ValueT > >::operator[]( IndexT const & offset )const
 	{
@@ -72,4 +61,26 @@ namespace sdw
 	{
 		return m_enabled;
 	}
+
+	//*********************************************************************************************
+
+	template< typename ValueT >
+	inline Mat3x4T< ValueT > & Mat3x4T< ValueT >::operator=( Optional< Mat3x4T< ValueT > > const & rhs )
+	{
+		if ( rhs.isEnabled() )
+		{
+			if ( this->getContainer() )
+			{
+				writeAssignOperator< Mat3x4T< ValueT > >( *this, rhs, sdw::makeAssign );
+			}
+			else
+			{
+				Value::operator=( rhs );
+			}
+		}
+
+		return *this;
+	}
+
+	//*********************************************************************************************
 }
