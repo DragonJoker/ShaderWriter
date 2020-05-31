@@ -20,7 +20,11 @@ namespace sdw
 		inline Vec2T( Shader * shader
 			, expr::ExprPtr expr );
 		inline Vec2T( Vec2T const & rhs );
-		inline Vec2T< ValueT > & operator=( Vec2T< ValueT > const & rhs );
+
+		inline Vec2T & operator=( Vec2T const & rhs );
+		inline Vec2T & operator=( Optional< Vec2T > const & rhs );
+		inline Vec2T & operator=( MaybeOptional< Vec2T > const & rhs );
+
 		template< typename IndexT >
 		inline ValueT operator[]( IndexT const & rhs )const;
 		inline ValueT operator[]( int32_t offset )const;

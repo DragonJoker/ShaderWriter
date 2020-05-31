@@ -49,9 +49,35 @@ namespace sdw
 	}
 
 	template< typename ValueT >
-	MaybeOptional< Mat3x2T< ValueT > > & MaybeOptional< Mat3x2T< ValueT > >::operator=( MaybeOptional< Mat3x2T< ValueT > > const & rhs )
+	inline MaybeOptional< Mat3x2T< ValueT > > & MaybeOptional< Mat3x2T< ValueT > >::operator=( Mat3x2T< ValueT > const & rhs )
 	{
-		writeAssignOperator< Mat3x2T< ValueT > >( *this, rhs, sdw::makeAssign );
+		if ( isEnabled() )
+		{
+			Mat3x2T< ValueT >::operator=( rhs );
+		}
+
+		return *this;
+	}
+
+	template< typename ValueT >
+	inline MaybeOptional< Mat3x2T< ValueT > > & MaybeOptional< Mat3x2T< ValueT > >::operator=( Optional< Mat3x2T< ValueT > > const & rhs )
+	{
+		if ( isEnabled() && rhs.isEnabled() )
+		{
+			Mat3x2T< ValueT >::operator=( rhs );
+		}
+
+		return *this;
+	}
+
+	template< typename ValueT >
+	inline MaybeOptional< Mat3x2T< ValueT > > & MaybeOptional< Mat3x2T< ValueT > >::operator=( MaybeOptional< Mat3x2T< ValueT > > const & rhs )
+	{
+		if ( isEnabled() && rhs.isEnabled() )
+		{
+			Mat3x2T< ValueT >::operator=( rhs );
+		}
+
 		return *this;
 	}
 

@@ -37,15 +37,51 @@ namespace sdw
 	}
 
 	template< ast::type::Kind KindT >
-	IntegerValue< KindT > & IntegerValue< KindT >::operator=( IntegerValue< KindT > const & rhs )
+	inline IntegerValue< KindT > & IntegerValue< KindT >::operator=( IntegerValue< KindT > const & rhs )
 	{
-		if ( this->getContainer() )
+		if ( getContainer() )
 		{
 			writeAssignOperator< IntegerValue< KindT > >( *this, rhs, sdw::makeAssign );
 		}
 		else
 		{
 			Value::operator=( rhs );
+		}
+
+		return *this;
+	}
+
+	template< ast::type::Kind KindT >
+	inline IntegerValue< KindT > & IntegerValue< KindT >::operator=( Optional< IntegerValue< KindT > > const & rhs )
+	{
+		if ( rhs.isEnabled() )
+		{
+			if ( getContainer() )
+			{
+				writeAssignOperator< IntegerValue< KindT > >( *this, rhs, sdw::makeAssign );
+			}
+			else
+			{
+				Value::operator=( rhs );
+			}
+		}
+
+		return *this;
+	}
+
+	template< ast::type::Kind KindT >
+	inline IntegerValue< KindT > & IntegerValue< KindT >::operator=( MaybeOptional< IntegerValue< KindT > > const & rhs )
+	{
+		if ( rhs.isEnabled() )
+		{
+			if ( getContainer() )
+			{
+				writeAssignOperator< IntegerValue< KindT > >( *this, rhs, sdw::makeAssign );
+			}
+			else
+			{
+				Value::operator=( rhs );
+			}
 		}
 
 		return *this;

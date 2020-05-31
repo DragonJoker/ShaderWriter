@@ -20,7 +20,11 @@ namespace sdw
 		inline Mat4T( Shader * shader
 			, expr::ExprPtr expr );
 		inline Mat4T( Mat4T const & rhs );
-		inline Mat4T< ValueT > & operator=( Mat4T< ValueT > const & rhs );
+
+		inline Mat4T & operator=( Mat4T const & rhs );
+		inline Mat4T & operator=( Optional< Mat4T > const & rhs );
+		inline Mat4T & operator=( MaybeOptional< Mat4T > const & rhs );
+
 		template< typename RhsT >
 		inline Mat4T< ValueT > & operator=( RhsT const & rhs );
 		template< typename IndexT >

@@ -20,7 +20,11 @@ namespace sdw
 		inline Mat2x3T( Shader * shader
 			, expr::ExprPtr expr );
 		inline Mat2x3T( Mat2x3T const & rhs );
-		inline Mat2x3T< ValueT > & operator=( Mat2x3T< ValueT > const & rhs );
+
+		inline Mat2x3T & operator=( Mat2x3T const & rhs );
+		inline Mat2x3T & operator=( Optional< Mat2x3T > const & rhs );
+		inline Mat2x3T & operator=( MaybeOptional< Mat2x3T > const & rhs );
+
 		template< typename RhsT >
 		inline Mat2x3T< ValueT > & operator=( RhsT const & rhs );
 		template< typename IndexT >

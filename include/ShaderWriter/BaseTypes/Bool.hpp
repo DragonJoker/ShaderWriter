@@ -18,7 +18,11 @@ namespace sdw
 		SDW_API Boolean( Boolean && rhs );
 		SDW_API Boolean( Boolean const & rhs );
 		SDW_API explicit Boolean( Value rhs );
+
 		SDW_API Boolean & operator=( Boolean const & rhs );
+		SDW_API Boolean & operator=( Optional< Boolean > const & rhs );
+		SDW_API Boolean & operator=( MaybeOptional< Boolean > const & rhs );
+
 		template< typename T >
 		inline Boolean & operator=( T const & rhs );
 		SDW_API Boolean & operator=( bool rhs );

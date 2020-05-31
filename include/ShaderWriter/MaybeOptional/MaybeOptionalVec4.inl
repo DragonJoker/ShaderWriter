@@ -51,9 +51,35 @@ namespace sdw
 	}
 
 	template< typename ValueT >
+	inline MaybeOptional< Vec4T< ValueT > > & MaybeOptional< Vec4T< ValueT > >::operator=( Vec4T< ValueT > const & rhs )
+	{
+		if ( isEnabled() )
+		{
+			Vec4T< ValueT >::operator=( rhs );
+		}
+
+		return *this;
+	}
+
+	template< typename ValueT >
+	inline MaybeOptional< Vec4T< ValueT > > & MaybeOptional< Vec4T< ValueT > >::operator=( Optional< Vec4T< ValueT > > const & rhs )
+	{
+		if ( isEnabled() && rhs.isEnabled() )
+		{
+			Vec4T< ValueT >::operator=( rhs );
+		}
+
+		return *this;
+	}
+
+	template< typename ValueT >
 	inline MaybeOptional< Vec4T< ValueT > > & MaybeOptional< Vec4T< ValueT > >::operator=( MaybeOptional< Vec4T< ValueT > > const & rhs )
 	{
-		writeAssignOperator< Vec4T< ValueT > >( *this, rhs, sdw::makeAssign );
+		if ( isEnabled() && rhs.isEnabled() )
+		{
+			Vec4T< ValueT >::operator=( rhs );
+		}
+
 		return *this;
 	}
 

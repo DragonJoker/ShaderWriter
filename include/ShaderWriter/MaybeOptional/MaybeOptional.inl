@@ -101,6 +101,39 @@ namespace sdw
 	}
 
 	template< typename ValueT >
+	inline MaybeOptional< ValueT > & MaybeOptional< ValueT >::operator=( ValueT const & rhs )
+	{
+		if ( isEnabled() )
+		{
+			ValueT::operator=( rhs );
+		}
+
+		return *this;
+	}
+
+	template< typename ValueT >
+	inline MaybeOptional< ValueT > & MaybeOptional< ValueT >::operator=( Optional< ValueT > const & rhs )
+	{
+		if ( isEnabled() && rhs.isEnabled() )
+		{
+			ValueT::operator=( rhs );
+		}
+
+		return *this;
+	}
+
+	template< typename ValueT >
+	inline MaybeOptional< ValueT > & MaybeOptional< ValueT >::operator=( MaybeOptional< ValueT > const & rhs )
+	{
+		if ( isEnabled() && rhs.isEnabled() )
+		{
+			ValueT::operator=( rhs );
+		}
+
+		return *this;
+	}
+
+	template< typename ValueT >
 	inline MaybeOptional< ValueT >::operator ValueT const & ( )const
 	{
 		return *this;

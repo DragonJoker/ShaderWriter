@@ -14,6 +14,7 @@ namespace sdw
 	struct MaybeOptional< Array< ValueT > >
 		: public Array< ValueT >
 	{
+		using MyValue = Array< ValueT >;
 		inline MaybeOptional( Shader * shader
 			, expr::ExprPtr expr );
 		inline MaybeOptional( Shader * shader
@@ -22,6 +23,10 @@ namespace sdw
 		inline MaybeOptional( Array< ValueT > const & rhs );
 		inline MaybeOptional( Optional< Array< ValueT > > const & rhs );
 		inline MaybeOptional( MaybeOptional< Array< ValueT > > const & rhs );
+
+		inline MaybeOptional< MyValue > & operator=( MyValue const & rhs );
+		inline MaybeOptional< MyValue > & operator=( Optional< MyValue > const & rhs );
+		inline MaybeOptional< MyValue > & operator=( MaybeOptional< MyValue > const & rhs );
 
 		template< typename IndexT >
 		inline MaybeOptional< ValueT > operator[]( IndexT const & offset )const;

@@ -40,15 +40,51 @@ namespace sdw
 	}
 
 	template< ast::type::Kind KindT >
-	ArithmeticValue< KindT > & ArithmeticValue< KindT >::operator=( ArithmeticValue< KindT > const & rhs )
+	inline ArithmeticValue< KindT > & ArithmeticValue< KindT >::operator=( ArithmeticValue< KindT > const & rhs )
 	{
-		if ( this->getContainer() )
+		if ( getContainer() )
 		{
 			writeAssignOperator< ArithmeticValue< KindT > >( *this, rhs, sdw::makeAssign );
 		}
 		else
 		{
 			Value::operator=( rhs );
+		}
+
+		return *this;
+	}
+
+	template< ast::type::Kind KindT >
+	inline ArithmeticValue< KindT > & ArithmeticValue< KindT >::operator=( Optional< ArithmeticValue< KindT > > const & rhs )
+	{
+		if ( rhs.isEnabled() )
+		{
+			if ( getContainer() )
+			{
+				writeAssignOperator< ArithmeticValue< KindT > >( *this, rhs, sdw::makeAssign );
+			}
+			else
+			{
+				Value::operator=( rhs );
+			}
+		}
+
+		return *this;
+	}
+
+	template< ast::type::Kind KindT >
+	inline ArithmeticValue< KindT > & ArithmeticValue< KindT >::operator=( MaybeOptional< ArithmeticValue< KindT > > const & rhs )
+	{
+		if ( rhs.isEnabled() )
+		{
+			if ( getContainer() )
+			{
+				writeAssignOperator< ArithmeticValue< KindT > >( *this, rhs, sdw::makeAssign );
+			}
+			else
+			{
+				Value::operator=( rhs );
+			}
 		}
 
 		return *this;

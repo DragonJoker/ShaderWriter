@@ -49,6 +49,39 @@ namespace sdw
 	}
 
 	template< typename ValueT >
+	inline MaybeOptional< Array< ValueT > > & MaybeOptional< Array< ValueT > >::operator=( Array< ValueT > const & rhs )
+	{
+		if ( isEnabled() )
+		{
+			Array< ValueT >::operator=( rhs );
+		}
+
+		return *this;
+	}
+
+	template< typename ValueT >
+	inline MaybeOptional< Array< ValueT > > & MaybeOptional< Array< ValueT > >::operator=( Optional< Array< ValueT > > const & rhs )
+	{
+		if ( isEnabled() && rhs.isEnabled() )
+		{
+			Array< ValueT >::operator=( rhs );
+		}
+
+		return *this;
+	}
+
+	template< typename ValueT >
+	inline MaybeOptional< Array< ValueT > > & MaybeOptional< Array< ValueT > >::operator=( MaybeOptional< Array< ValueT > > const & rhs )
+	{
+		if ( isEnabled() && rhs.isEnabled() )
+		{
+			Array< ValueT >::operator=( rhs );
+		}
+
+		return *this;
+	}
+
+	template< typename ValueT >
 	template< typename IndexT >
 	MaybeOptional< ValueT > MaybeOptional< Array< ValueT > >::operator[]( IndexT const & offset )const
 	{

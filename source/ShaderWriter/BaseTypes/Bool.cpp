@@ -46,6 +46,48 @@ namespace sdw
 		return *this;
 	}
 
+	Boolean & Boolean::operator=( Optional< Boolean > const & rhs )
+	{
+		if ( rhs.isEnabled() )
+		{
+			if ( getContainer() )
+			{
+				Shader & shader = *findShader( *this, rhs );
+				addStmt( shader
+					, sdw::makeSimple( sdw::makeAssign( getType()
+						, makeExpr( shader, *this )
+						, makeExpr( shader, rhs ) ) ) );
+			}
+			else
+			{
+				Value::operator=( rhs );
+			}
+		}
+
+		return *this;
+	}
+
+	Boolean & Boolean::operator=( MaybeOptional< Boolean > const & rhs )
+	{
+		if ( rhs.isEnabled() )
+		{
+			if ( getContainer() )
+			{
+				Shader & shader = *findShader( *this, rhs );
+				addStmt( shader
+					, sdw::makeSimple( sdw::makeAssign( getType()
+						, makeExpr( shader, *this )
+						, makeExpr( shader, rhs ) ) ) );
+			}
+			else
+			{
+				Value::operator=( rhs );
+			}
+		}
+
+		return *this;
+	}
+
 	expr::ExprPtr Boolean::makeCondition()const
 	{
 		return makeExpr( *findShader( *this ), *this );

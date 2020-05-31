@@ -13,6 +13,8 @@ namespace sdw
 	struct Optional< Mat2x3T< ValueT > >
 		: public Mat2x3T< ValueT >
 	{
+		using MyValue = Mat2x3T< ValueT >;
+
 		using ValueType = ValueT;
 		using my_vec = Optional< Vec3T< ValueT > >;
 		using my_mat = Optional< Mat2x3T< ValueT > >;
@@ -23,7 +25,11 @@ namespace sdw
 		inline Optional( Mat2x3T< ValueT > const & other
 			, bool enabled );
 		inline Optional( Optional< Mat2x3T< ValueT > > const & rhs );
-		inline Optional< Mat2x3T< ValueT > > & operator=( Optional< Mat2x3T< ValueT > > const & rhs );
+
+		inline Optional< MyValue > & operator=( MyValue const & rhs );
+		inline Optional< MyValue > & operator=( Optional< MyValue > const & rhs );
+		inline Optional< MyValue > & operator=( MaybeOptional< MyValue > const & rhs );
+
 		template< typename IndexT >
 		inline Optional< Vec3T< ValueT > > operator[]( IndexT const & rhs )const;
 		inline bool isEnabled()const;

@@ -34,6 +34,42 @@ namespace sdw
 	}
 
 	template< typename ValueT >
+	inline Vec2T< ValueT > & Vec2T< ValueT >::operator=( Optional< Vec2T< ValueT > > const & rhs )
+	{
+		if ( rhs.isEnabled() )
+		{
+			if ( this->getContainer() )
+			{
+				writeAssignOperator< Vec2T< ValueT > >( *this, rhs, sdw::makeAssign );
+			}
+			else
+			{
+				Value::operator=( rhs );
+			}
+		}
+
+		return *this;
+	}
+
+	template< typename ValueT >
+	inline Vec2T< ValueT > & Vec2T< ValueT >::operator=( MaybeOptional< Vec2T< ValueT > > const & rhs )
+	{
+		if ( rhs.isEnabled() )
+		{
+			if ( this->getContainer() )
+			{
+				writeAssignOperator< Vec2T< ValueT > >( *this, rhs, sdw::makeAssign );
+			}
+			else
+			{
+				Value::operator=( rhs );
+			}
+		}
+
+		return *this;
+	}
+
+	template< typename ValueT >
 	template< typename IndexT >
 	inline ValueT Vec2T< ValueT >::operator[]( IndexT const & offset )const
 	{

@@ -13,6 +13,8 @@ namespace sdw
 	struct Optional< Vec4T< ValueT > >
 		: public Vec4T< ValueT >
 	{
+		using MyValue = Vec4T< ValueT >;
+
 		using ValueType = Optional< ValueT >;
 		using Vec2Type = Optional< Vec2T< ValueT > >;
 		using Vec3Type = Optional< Vec3T< ValueT > >;
@@ -24,7 +26,11 @@ namespace sdw
 		inline Optional( Vec4T< ValueT > const & other
 			, bool enabled );
 		inline Optional( Optional< Vec4T< ValueT > > const & rhs );
-		inline Optional< Vec4T< ValueT > > & operator=( Optional< Vec4T< ValueT > > const & rhs );
+
+		inline Optional< MyValue > & operator=( MyValue const & rhs );
+		inline Optional< MyValue > & operator=( Optional< MyValue > const & rhs );
+		inline Optional< MyValue > & operator=( MaybeOptional< MyValue > const & rhs );
+
 		template< typename IndexT >
 		inline Optional< ValueT > operator[]( IndexT const & rhs )const;
 		inline bool isEnabled()const;

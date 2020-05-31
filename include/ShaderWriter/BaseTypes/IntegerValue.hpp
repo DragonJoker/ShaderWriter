@@ -19,7 +19,11 @@ namespace sdw
 		IntegerValue( IntegerValue const & rhs );
 		explicit IntegerValue( Value value );
 		explicit IntegerValue( CppTypeT< IntegerValue< KindT > > rhs );
-		IntegerValue & operator=( IntegerValue const & rhs );
+
+		inline IntegerValue & operator=( IntegerValue const & rhs );
+		inline IntegerValue & operator=( Optional< IntegerValue > const & rhs );
+		inline IntegerValue & operator=( MaybeOptional< IntegerValue > const & rhs );
+
 		template< typename T >
 		IntegerValue & operator=( T const & rhs );
 		IntegerValue & operator=( CppTypeT< IntegerValue< KindT > > const & rhs );

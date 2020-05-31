@@ -28,7 +28,10 @@ namespace sdw
 		inline MaybeOptional( Optional< MyValue > const & rhs );
 		inline MaybeOptional( MaybeOptional< MyValue > const & rhs );
 
-		inline MaybeOptional< Mat3T< ValueT > > & operator=( MaybeOptional< Mat3T< ValueT > > const & rhs );
+		inline MaybeOptional< MyValue > & operator=( MyValue const & rhs );
+		inline MaybeOptional< MyValue > & operator=( Optional< MyValue > const & rhs );
+		inline MaybeOptional< MyValue > & operator=( MaybeOptional< MyValue > const & rhs );
+
 		template< typename IndexT >
 		inline MaybeOptional< Vec3T< ValueT > > operator[]( IndexT const & rhs )const;
 
