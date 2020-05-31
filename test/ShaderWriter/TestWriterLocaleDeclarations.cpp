@@ -144,7 +144,6 @@ namespace
 					auto count = shader.getContainer()->size();
 					auto value = writer.declLocaleArray< T >( "value", 6u, false );
 					check( !value.isEnabled() );
-					check( !value[0].isEnabled() );
 					check( getNonArrayKind( value.getType() ) == sdw::typeEnum< T > );
 					check( getArraySize( value.getType() ) == 6u );
 					require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
@@ -163,7 +162,6 @@ namespace
 					auto count = shader.getContainer()->size();
 					auto value = writer.declLocaleArray< T >( "value", 3u, test::getDefaultVector< T >( shader, 3u ), false );
 					check( !value.isEnabled() );
-					check( !value[0].isEnabled() );
 					check( getNonArrayKind( value.getType() ) == sdw::typeEnum< T > );
 					check( getArraySize( value.getType() ) == 3u );
 					require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
@@ -239,7 +237,6 @@ namespace
 				{
 					auto value = writer.declLocaleArray< T >( name, 6u, true );
 					check( value.isEnabled() );
-					check( value[0].isEnabled() );
 					check( getNonArrayKind( value.getType() ) == sdw::typeEnum< T > );
 					check( getArraySize( value.getType() ) == 6u );
 					require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
@@ -259,7 +256,6 @@ namespace
 				{
 					auto value = writer.declLocaleArray< T >( name, 3u, test::getDefaultVector< T >( shader, 3u ), true );
 					check( value.isEnabled() );
-					check( value[0].isEnabled() );
 					check( getNonArrayKind( value.getType() ) == sdw::typeEnum< T > );
 					check( getArraySize( value.getType() ) == 3u );
 					require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );

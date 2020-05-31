@@ -5,6 +5,7 @@ See LICENSE file in root folder
 
 #include "ShaderWriter/Writer.hpp"
 
+#include <ShaderAST/Expr/ExprArrayAccess.hpp>
 #include <ShaderAST/Expr/ExprIdentifier.hpp>
 
 namespace sdw
