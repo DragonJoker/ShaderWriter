@@ -21,7 +21,7 @@ namespace glsl
 		if ( coreInVersion > shaderVersion )
 		{
 			cont->addStmt( ast::stmt::makePreprocExtension( extensionName
-				, ast::stmt::PreprocExtension::Status::eRequired ) );
+				, ast::stmt::PreprocExtension::ExtStatus::eRequired ) );
 		}
 	}
 	
@@ -33,7 +33,7 @@ namespace glsl
 		if ( requiredVersion <= shaderVersion )
 		{
 			cont->addStmt( ast::stmt::makePreprocExtension( extensionName
-				, ast::stmt::PreprocExtension::Status::eEnabled ) );
+				, ast::stmt::PreprocExtension::ExtStatus::eEnabled ) );
 		}
 	}
 

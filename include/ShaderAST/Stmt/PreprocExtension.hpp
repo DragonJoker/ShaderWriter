@@ -13,7 +13,7 @@ namespace ast::stmt
 		: public Stmt
 	{
 	public:
-		enum class Status
+		enum class ExtStatus
 		{
 			eDisabled,
 			eEnabled,
@@ -22,7 +22,7 @@ namespace ast::stmt
 
 	public:
 		PreprocExtension( std::string name
-			, Status status );
+			, ExtStatus status );
 
 		void accept( VisitorPtr vis )override;
 
@@ -31,19 +31,19 @@ namespace ast::stmt
 			return m_name;
 		}
 
-		inline Status getStatus()const
+		inline ExtStatus getStatus()const
 		{
 			return m_status;
 		}
 
 	private:
 		std::string m_name;
-		Status m_status;
+		ExtStatus m_status;
 	};
 	using PreprocExtensionPtr = std::unique_ptr< PreprocExtension >;
 
 	inline PreprocExtensionPtr makePreprocExtension( std::string name
-		, PreprocExtension::Status status )
+		, PreprocExtension::ExtStatus status )
 	{
 		return std::make_unique< PreprocExtension >( std::move( name )
 			, status );

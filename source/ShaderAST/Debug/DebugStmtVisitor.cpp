@@ -653,15 +653,15 @@ namespace ast::debug
 
 		switch ( preproc->getStatus() )
 		{
-		case stmt::PreprocExtension::Status::eDisabled:
+		case stmt::PreprocExtension::ExtStatus::eDisabled:
 			m_result += " DISABLE";
 			break;
 
-		case stmt::PreprocExtension::Status::eEnabled:
+		case stmt::PreprocExtension::ExtStatus::eEnabled:
 			m_result += " ENABLE";
 			break;
 
-		case stmt::PreprocExtension::Status::eRequired:
+		case stmt::PreprocExtension::ExtStatus::eRequired:
 			m_result += " REQUIRE";
 			break;
 

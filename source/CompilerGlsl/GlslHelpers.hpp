@@ -19,7 +19,7 @@ namespace glsl
 	std::string getInterpolationQualifier( ast::var::Variable const & var );
 	std::string getLocationName( ast::var::Variable const & var );
 	std::string getDirectionName( ast::var::Variable const & var );
-	std::string getStatusName( ast::stmt::PreprocExtension::Status status );
+	std::string getStatusName( ast::stmt::PreprocExtension::ExtStatus status );
 	std::string getOperatorName( ast::expr::Kind kind );
 	std::string getLayoutName( ast::stmt::InputLayout layout );
 	std::string getLayoutName( ast::stmt::OutputLayout layout );

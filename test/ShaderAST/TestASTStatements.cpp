@@ -86,12 +86,12 @@ namespace
 	{
 		testBegin( "testPreprocExtension" );
 		ast::type::TypesCache cache;
-		auto stmt = ast::stmt::makePreprocExtension( "GL_arb_coin", ast::stmt::PreprocExtension::Status::eEnabled );
+		auto stmt = ast::stmt::makePreprocExtension( "GL_arb_coin", ast::stmt::PreprocExtension::ExtStatus::eEnabled );
 		std::cout << "PreprocExtension:\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
 
 		require( stmt->getKind() == ast::stmt::Kind::ePreprocExtension );
 		check( stmt->getName() == "GL_arb_coin" );
-		check( stmt->getStatus() == ast::stmt::PreprocExtension::Status::eEnabled );
+		check( stmt->getStatus() == ast::stmt::PreprocExtension::ExtStatus::eEnabled );
 		testEnd();
 	}
 

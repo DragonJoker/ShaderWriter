@@ -8,7 +8,7 @@ See LICENSE file in root folder
 namespace ast::stmt
 {
 	PreprocExtension::PreprocExtension( std::string name
-		, Status status )
+		, ExtStatus status )
 		: Stmt{ Kind::ePreprocExtension }
 		, m_name{ std::move( name ) }
 		, m_status{ status }
