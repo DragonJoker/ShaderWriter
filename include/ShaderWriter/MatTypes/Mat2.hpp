@@ -5,7 +5,7 @@ See LICENSE file in root folder
 #define ___SDW_Mat2_H___
 #pragma once
 
-#include "ShaderWriter/MaybeOptional/MaybeOptionalVec2.hpp"
+#include "ShaderWriter/VecTypes/Vec2.hpp"
 
 namespace sdw
 {
@@ -36,8 +36,8 @@ namespace sdw
 		static inline ast::type::TypePtr makeType( ast::type::TypesCache & cache );
 	};
 	template< typename ValueT >
-	Vec2T< ValueT > operator*( Vec2T< ValueT > const & lhs,
-		Mat2T< ValueT > const & rhs );
+	Vec2T< ValueT > operator*( Vec2T< ValueT > const & lhs
+		, Mat2T< ValueT > const & rhs );
 	template< typename ValueT >
 	Vec2T< ValueT > operator*( Mat2T< ValueT > const & lhs
 		, Vec2T< ValueT > const & rhs );
@@ -46,11 +46,86 @@ namespace sdw
 		, Mat2T< ValueT > const & rhs );
 
 	template< typename ValueT >
-	Mat2T< ValueT > operator*( ValueT const & lhs,
-		Mat2T< ValueT > const & rhs );
+	Mat2T< ValueT > operator*( ValueT const & lhs
+		, Mat2T< ValueT > const & rhs );
 	template< typename ValueT >
 	Mat2T< ValueT > operator*( Mat2T< ValueT > const & lhs
 		, ValueT const & rhs );
+
+	template< typename ValueT >
+	Optional< Vec2T< ValueT > > operator*( Optional< Vec2T< ValueT > > const & lhs
+		, Mat2T< ValueT > const & rhs );
+	template< typename ValueT >
+	Optional< Vec2T< ValueT > > operator*( Optional< Mat2T< ValueT > > const & lhs
+		, Vec2T< ValueT > const & rhs );
+	template< typename ValueT >
+	Optional< Mat2T< ValueT > > operator*( Optional< Mat2T< ValueT > > const & lhs
+		, Mat2T< ValueT > const & rhs );
+	template< typename ValueT >
+	Optional< Vec2T< ValueT > > operator*( Vec2T< ValueT > const & lhs
+		, Optional< Mat2T< ValueT > > const & rhs );
+	template< typename ValueT >
+	Optional< Vec2T< ValueT > > operator*( Mat2T< ValueT > const & lhs
+		, Optional< Vec2T< ValueT > > const & rhs );
+	template< typename ValueT >
+	Optional< Mat2T< ValueT > > operator*( Mat2T< ValueT > const & lhs
+		, Optional< Mat2T< ValueT > > const & rhs );
+	template< typename ValueT >
+	Optional< Vec2T< ValueT > > operator*( Optional< Vec2T< ValueT > > const & lhs
+		, Optional< Mat2T< ValueT > > const & rhs );
+	template< typename ValueT >
+	Optional< Vec2T< ValueT > > operator*( Optional< Mat2T< ValueT > > const & lhs
+		, Optional< Vec2T< ValueT > > const & rhs );
+	template< typename ValueT >
+	Optional< Mat2T< ValueT > > operator*( Optional< Mat2T< ValueT > > const & lhs
+		, Optional< Mat2T< ValueT > > const & rhs );
+
+	template< typename ValueT >
+	MaybeOptional< Vec2T< ValueT > > operator*( MaybeOptional< Vec2T< ValueT > > const & lhs
+		, Mat2T< ValueT > const & rhs );
+	template< typename ValueT >
+	MaybeOptional< Vec2T< ValueT > > operator*( MaybeOptional< Mat2T< ValueT > > const & lhs
+		, Vec2T< ValueT > const & rhs );
+	template< typename ValueT >
+	MaybeOptional< Mat2T< ValueT > > operator*( MaybeOptional< Mat2T< ValueT > > const & lhs
+		, Mat2T< ValueT > const & rhs );
+	template< typename ValueT >
+	MaybeOptional< Vec2T< ValueT > > operator*( Vec2T< ValueT > const & lhs
+		, MaybeOptional< Mat2T< ValueT > > const & rhs );
+	template< typename ValueT >
+	MaybeOptional< Vec2T< ValueT > > operator*( Mat2T< ValueT > const & lhs
+		, MaybeOptional< Vec2T< ValueT > > const & rhs );
+	template< typename ValueT >
+	MaybeOptional< Mat2T< ValueT > > operator*( Mat2T< ValueT > const & lhs
+		, MaybeOptional< Mat2T< ValueT > > const & rhs );
+	template< typename ValueT >
+	MaybeOptional< Vec2T< ValueT > > operator*( MaybeOptional< Vec2T< ValueT > > const & lhs
+		, MaybeOptional< Mat2T< ValueT > > const & rhs );
+	template< typename ValueT >
+	MaybeOptional< Vec2T< ValueT > > operator*( MaybeOptional< Mat2T< ValueT > > const & lhs
+		, MaybeOptional< Vec2T< ValueT > > const & rhs );
+	template< typename ValueT >
+	MaybeOptional< Mat2T< ValueT > > operator*( MaybeOptional< Mat2T< ValueT > > const & lhs
+		, MaybeOptional< Mat2T< ValueT > > const & rhs );
+
+	template< typename ValueT >
+	MaybeOptional< Mat2T< ValueT > > operator*( MaybeOptional< ValueT > const & lhs
+		, Mat2T< ValueT > const & rhs );
+	template< typename ValueT >
+	MaybeOptional< Mat2T< ValueT > > operator*( MaybeOptional< Mat2T< ValueT > > const & lhs
+		, ValueT const & rhs );
+	template< typename ValueT >
+	MaybeOptional< Mat2T< ValueT > > operator*( ValueT const & lhs
+		, MaybeOptional< Mat2T< ValueT > > const & rhs );
+	template< typename ValueT >
+	MaybeOptional< Mat2T< ValueT > > operator*( Mat2T< ValueT > const & lhs
+		, MaybeOptional< ValueT > const & rhs );
+	template< typename ValueT >
+	MaybeOptional< Mat2T< ValueT > > operator*( MaybeOptional< ValueT > const & lhs
+		, MaybeOptional< Mat2T< ValueT > > const & rhs );
+	template< typename ValueT >
+	MaybeOptional< Mat2T< ValueT > > operator*( MaybeOptional< Mat2T< ValueT > > const & lhs
+		, MaybeOptional< ValueT > const & rhs );
 }
 
 #include "Mat2.inl"

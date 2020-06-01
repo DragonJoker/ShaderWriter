@@ -59,6 +59,4 @@ namespace ast::expr
 	}
 }
 
-#include "MakeImageAccess.hpp"
-
 #endif

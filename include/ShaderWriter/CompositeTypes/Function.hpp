@@ -5,7 +5,8 @@ See LICENSE file in root folder
 #define ___SDW_Function_H___
 #pragma once
 
-#include "ShaderWriter/Optional/OptionalArray.hpp"
+#include "ShaderWriter/BaseTypes/Array.hpp"
+#include "ShaderWriter/Optional/Optional.hpp"
 #include "FunctionParam.hpp"
 
 #include <functional>

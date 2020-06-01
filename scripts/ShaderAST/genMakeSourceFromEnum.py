@@ -7,7 +7,11 @@ def typeKindToGlslType( kind ):
 
 def printHeader( outs, match ):
 	enumName = match.group( 1 )
-	outs.write( '#include "ShaderAST/Expr/Make' + enumName + '.hpp"\n' )
+	outs.write( "#ifndef ___AST_ExprMake" + enumName + "_H___\n" )
+	outs.write( "#define ___AST_ExprMake" + enumName + "_H___\n" )
+	outs.write( "#pragma once\n" )
+	outs.write( "\n" )
+	outs.write( '#include "Expr' + enumName + 'Call.hpp"\n' )
 	outs.write( "\n" )
 	outs.write( '#include <cassert>\n' )
 	outs.write( "\n" )
@@ -70,7 +74,7 @@ def computeEnum( enumName, name ):
 	elif resName1:
 		result += resName1.group( 2 )
 	return result
-
+	
 def discardArray( name ):
 	result = re.sub( "\[\d*\]", "", name )
 	return result
@@ -92,6 +96,53 @@ def computeParams( params, sep ):
 			result += discardArray( resParam[index] )
 			sep = "\n\t\t,"
 			index += 2
+	return result
+
+def computeParamsDoc( paramsGroup ):
+	result = ""
+	intrParams = re.compile("[, ]*ASTIntrParams\( ([\w, :()\[\]]*) \)$")
+	resParams = intrParams.match( paramsGroup )
+	if resParams:
+		intrParam = re.compile("(ASTIntrParam|ASTIntrOutParam)\( ([^,]*), ([^ ]*) \)")
+		resParam = intrParam.split( resParams.group( 1 ) )
+		index = 1
+		while len( resParam ) > index:
+			if resParam[index] == "ASTIntrOutParam":
+				typeQualifier = "[out]"
+			else:
+				typeQualifier = "[in]"
+			index += 1
+			typeName = typeKindToGlslType( resParam[index] )
+			index += 1
+			result += "\n\t*@param" + typeQualifier + " " + discardArray( resParam[index] )
+			result += "\n\t*\t" + typeName
+			index += 2
+	return result
+
+def computeParamsDocEx( paramsGroup, lastTypeKind ):
+	result = ""
+	intrParams = re.compile("[, ]*ASTIntrParams\( ([\w, :()\[\]]*) \)$")
+	resParams = intrParams.match( paramsGroup )
+	if resParams:
+		intrParam = re.compile("(ASTIntrParam|ASTIntrOutParam)\( ([^,]*), ([^ ]*) \)")
+		resParam = intrParam.split( resParams.group( 1 ) )
+		index = 1
+		while len( resParam ) > index:
+			if resParam[index] == "ASTIntrOutParam":
+				typeQualifier = "[out]"
+			else:
+				typeQualifier = "[in]"
+			index += 1
+			typeName = typeKindToGlslType( resParam[index] )
+			index += 1
+			curIndex = index
+			index += 2
+
+			if len( resParam ) <= index:
+				typeName = typeKindToGlslType( lastTypeKind )
+
+			result += "\n\t*@param" + typeQualifier + " " + discardArray( resParam[curIndex] )
+			result += "\n\t*\t" + typeName
 	return result
 
 def assertParams( params, tabs ):
@@ -192,23 +243,107 @@ def getTextureName( texType, name ):
 		result = resNameIU.group( 2 ).lower() + texType + resNameIU.group( 1 )
 	return result
 
+def getDepthType( name ):
+	result = re.sub( "Shadow", "", name )
+	return "Shadow" if result != name else ""
+
+def getArrayType( name ):
+	result = re.sub( "Array", "", name )
+	return "Array" if result != name else ""
+
+def getDepthType( name ):
+	result = re.sub( "Shadow", "", name )
+	return "Shadow" if result != name else ""
+
+def getMSType( name ):
+	result = re.sub( "MS", "", name )
+	return "MS" if result != name else ""
+
+def getImageDim( name ):
+	result = ""
+	if name.find( "Rect" ) != -1:
+		result = "Rect"
+	elif name.find( "1D" ) != -1:
+		result = "1D"
+	elif name.find( "2D" ) != -1:
+		result = "2D"
+	elif name.find( "3D" ) != -1:
+		result = "3D"
+	elif name.find( "Cube" ) != -1:
+		result = "Cube"
+	elif name.find( "Buffer" ) != -1:
+		result = "Buffer"
+	return result
+	
 def getImageSampledType( postfix ):
+	sampled = postfix[len( postfix ) - 1]
+	result = "Float"
+	if sampled == "I":
+		result = "Int"
+	elif sampled == "U":
+		result = "UInt"
+	return result
+
+def getImageSampledTypePostfix( postfix ):
 	sampled = postfix[len( postfix ) - 1]
 	result = ""
 	if sampled == "I" or sampled == "U":
 		result = sampled
 	return result
 
-def getDepthType( name ):
-	result = re.sub( "Shadow", "", name )
-	return "Shadow" if result != name else ""
+def computeImageFullType( imageType, functionGroup ):
+	postfix = getPostfix( functionGroup )
+	sampled = getImageSampledType( postfix )
+	dim = getImageDim( postfix )
+	ms = getMSType( postfix )
+	array = getArrayType( postfix )
+	depth = getDepthType( postfix )
+	sep = ", "
+	seq = [sampled, dim]
+	if len( ms ):
+		seq.append( ms )
+	if len( array ):
+		seq.append( array )
+	if len( depth ):
+		seq.append( depth )
+	return imageType + "<" + ', '.join( seq ) + ">"
+
+def printTextureFunctionDoc( outs, enumName, returnGroup, functionGroup, paramsGroup ):
+	outs.write( "\n\t/**" )
+	outs.write( "\n\t*@return" )
+	outs.write( "\n\t*\t" + typeKindToGlslType( returnGroup ) )
+	if enumName == "TextureAccess":
+		outs.write( "\n\t*@param image" )
+		outs.write( "\n\t*\t" + computeImageFullType( "SampledImage", functionGroup ) )
+		outs.write( computeParamsDoc( paramsGroup ) )
+	elif enumName == "ImageAccess":
+		outs.write( "\n\t*@param image" )
+		outs.write( "\n\t*\t" + computeImageFullType( "Image", functionGroup ) )
+		outs.write( computeParamsDoc( paramsGroup ) )
+	else:
+		outs.write( computeParamsDoc( paramsGroup ) )
+	outs.write( "\n\t*/" )
+
+def printTextureFunctionDocEx( outs, enumName, lastGroup, functionGroup, paramsGroup ):
+	outs.write( "\n\t/**" )
+	if enumName == "TextureAccess":
+		outs.write( "\n\t*@param image" )
+		outs.write( "\n\t*\t" + computeImageFullType( "SampledImage", functionGroup ) )
+		outs.write( computeParamsDoc( paramsGroup ) )
+	elif enumName == "ImageAccess":
+		outs.write( "\n\t*@param image" )
+		outs.write( "\n\t*\t" + computeImageFullType( "Image", functionGroup ) )
+		outs.write( computeParamsDocEx( paramsGroup, lastGroup ) )
+	else:
+		outs.write( computeParamsDoc( paramsGroup ) )
+	outs.write( "\n\t*/" )
 
 def printTextureFunction( outs, enumName, match ):
 	returnGroup = match.group( 1 )
 	functionGroup = match.group( 2 )
 	paramsGroup = match.group( 3 )
 	postfix = getPostfix( functionGroup )
-	sampled = getImageSampledType( postfix )
+	sampled = getImageSampledTypePostfix( postfix )
 	depth = getDepthType( postfix )
 	retType = returnGroup
 	intrinsicName = computeIntrinsicName( functionGroup )
@@ -282,7 +417,12 @@ def printTextureFunction( outs, enumName, match ):
 			formats.append( ( 'R32', 'type::Kind::eFloat' ) )
 			formats.append( ( 'R16', 'type::Kind::eFloat' ) )
 	for fmt, ret in formats:
-		outs.write( "\n\t" + enumName + "CallPtr make" + intrinsicName + fmt + "(" )
+		if intrinsicName.find( "Store" ) != -1:
+			printTextureFunctionDocEx( outs, enumName, ret, functionGroup, paramsGroup )
+		else:
+			printTextureFunctionDoc( outs, enumName, ret, functionGroup, paramsGroup )
+
+		outs.write( "\n\tinline " + enumName + "CallPtr make" + intrinsicName + fmt + "(" )
 		outs.write( " type::TypesCache & cache" )
 		outs.write( "\n\t\t, ExprPtr image" )
 		outs.write( computeParams( paramsGroup, "\n\t\t," ) + " )\n" )
@@ -298,22 +438,42 @@ def printTextureFunction( outs, enumName, match ):
 		outs.write( "\t\t\t, " + computeEnum( enumName, functionGroup ) )
 		outs.write( "\n\t\t\t, std::move( image )" )
 		outs.write( computeArgs( paramsGroup ) + " );\n" )
-		outs.write( "\t}\n" )
+		outs.write( "\t}" )
+
+def printIntrinsicDoc( outs, enumName, returnGroup, functionGroup, paramsGroup ):
+	outs.write( "\n\t/**" )
+	outs.write( "\n\t*@return" )
+	outs.write( "\n\t*\t" + typeKindToGlslType( returnGroup ) )
+	if enumName == "TextureAccess":
+		outs.write( "\n\t*@param image" )
+		outs.write( "\n\t*\t" + computeImageFullType( "SampledImage", functionGroup ) )
+		outs.write( computeParamsDoc( paramsGroup ) )
+	elif enumName == "ImageAccess":
+		outs.write( "\n\t*@param image" )
+		outs.write( "\n\t*\t" + computeImageFullType( "Image", functionGroup ) )
+		outs.write( computeParamsDoc( paramsGroup ) )
+	else:
+		outs.write( computeParamsDoc( paramsGroup ) )
+	outs.write( "\n\t*/" )
 
 def printIntrinsic( outs, enumName, match ):
-	outs.write( "\n\t" + enumName + "CallPtr make" + computeIntrinsicName( match.group( 2 ) ) + "(" )
+	returnGroup = match.group( 1 )
+	functionGroup = match.group( 2 )
+	paramsGroup = match.group( 3 )
+	printIntrinsicDoc( outs, enumName, returnGroup, functionGroup, paramsGroup )
+	outs.write( "\n\tinline " + enumName + "CallPtr make" + computeIntrinsicName( functionGroup ) + "(" )
 	outs.write( " type::TypesCache & cache" )
-	outs.write( computeParams( match.group( 3 ), "\n\t\t," ) + " )\n" )
+	outs.write( computeParams( paramsGroup, "\n\t\t," ) + " )\n" )
 	outs.write( "\t{\n" )
-	outs.write( assertParams( match.group( 3 ), "\t\t" ) )
-	outs.write( "\t\treturn make" + enumName + "Call( cache.getBasicType( " + match.group( 1 ) + " )\n" )
-	outs.write( "\t\t\t, " + computeEnum( enumName, match.group( 2 ) ) )
+	outs.write( assertParams( paramsGroup, "\t\t" ) )
+	outs.write( "\t\treturn make" + enumName + "Call( cache.getBasicType( " + returnGroup + " )\n" )
+	outs.write( "\t\t\t, " + computeEnum( enumName, functionGroup ) )
 	if enumName == "TextureAccess":
 		outs.write( "\n\t\t\t, std::move( texture )" )
 	elif enumName == "ImageAccess":
 		outs.write( "\n\t\t\t, std::move( image )" )
-	outs.write( computeArgs( match.group( 3 ) ) + " );\n" )
-	outs.write( "\t}\n" )
+	outs.write( computeArgs( paramsGroup ) + " );\n" )
+	outs.write( "\t}" )
 
 def printFunction( outs, enumName, match ):
 	if enumName == "TextureAccess" or enumName == "ImageAccess":
@@ -322,7 +482,10 @@ def printFunction( outs, enumName, match ):
 		printIntrinsic( outs, enumName, match )
 
 def printFooter( outs ):
-	outs.write( "}\n" )
+	outs.write( "\n}" )
+	outs.write( "\n" )
+	outs.write( "\n#endif" )
+	outs.write( "\n" )
 
 def main( argv ):
 	inEnumFile = sys.argv[1]

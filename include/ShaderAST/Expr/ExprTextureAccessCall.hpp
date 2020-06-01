@@ -59,6 +59,4 @@ namespace ast::expr
 	}
 }
 
-#include "MakeTextureAccess.hpp"
-
 #endif

@@ -5,7 +5,7 @@ See LICENSE file in root folder
 #define ___SDW_Mat4_H___
 #pragma once
 
-#include "ShaderWriter/Optional/OptionalVec4.hpp"
+#include "ShaderWriter/VecTypes/Vec4.hpp"
 
 namespace sdw
 {
@@ -36,8 +36,8 @@ namespace sdw
 		static inline ast::type::TypePtr makeType( ast::type::TypesCache & cache );
 	};
 	template< typename ValueT >
-	Vec4T< ValueT > operator*( Vec4T< ValueT > const & lhs,
-		Mat4T< ValueT > const & rhs );
+	Vec4T< ValueT > operator*( Vec4T< ValueT > const & lhs
+		, Mat4T< ValueT > const & rhs );
 	template< typename ValueT >
 	Vec4T< ValueT > operator*( Mat4T< ValueT > const & lhs
 		, Vec4T< ValueT > const & rhs );
@@ -46,11 +46,86 @@ namespace sdw
 		, Mat4T< ValueT > const & rhs );
 
 	template< typename ValueT >
-	Mat4T< ValueT > operator*( ValueT const & lhs,
-		Mat4T< ValueT > const & rhs );
+	Mat4T< ValueT > operator*( ValueT const & lhs
+		, Mat4T< ValueT > const & rhs );
 	template< typename ValueT >
 	Mat4T< ValueT > operator*( Mat4T< ValueT > const & lhs
 		, ValueT const & rhs );
+
+	template< typename ValueT >
+	Optional< Vec4T< ValueT > > operator*( Optional< Vec4T< ValueT > > const & lhs
+		, Mat4T< ValueT > const & rhs );
+	template< typename ValueT >
+	Optional< Vec4T< ValueT > > operator*( Optional< Mat4T< ValueT > > const & lhs
+		, Vec4T< ValueT > const & rhs );
+	template< typename ValueT >
+	Optional< Mat4T< ValueT > > operator*( Optional< Mat4T< ValueT > > const & lhs
+		, Mat4T< ValueT > const & rhs );
+	template< typename ValueT >
+	Optional< Vec4T< ValueT > > operator*( Vec4T< ValueT > const & lhs
+		, Optional< Mat4T< ValueT > > const & rhs );
+	template< typename ValueT >
+	Optional< Vec4T< ValueT > > operator*( Mat4T< ValueT > const & lhs
+		, Optional< Vec4T< ValueT > > const & rhs );
+	template< typename ValueT >
+	Optional< Mat4T< ValueT > > operator*( Mat4T< ValueT > const & lhs
+		, Optional< Mat4T< ValueT > > const & rhs );
+	template< typename ValueT >
+	Optional< Vec4T< ValueT > > operator*( Optional< Vec4T< ValueT > > const & lhs
+		, Optional< Mat4T< ValueT > > const & rhs );
+	template< typename ValueT >
+	Optional< Vec4T< ValueT > > operator*( Optional< Mat4T< ValueT > > const & lhs
+		, Optional< Vec4T< ValueT > > const & rhs );
+	template< typename ValueT >
+	Optional< Mat4T< ValueT > > operator*( Optional< Mat4T< ValueT > > const & lhs
+		, Optional< Mat4T< ValueT > > const & rhs );
+
+	template< typename ValueT >
+	MaybeOptional< Vec4T< ValueT > > operator*( MaybeOptional< Vec4T< ValueT > > const & lhs
+		, Mat4T< ValueT > const & rhs );
+	template< typename ValueT >
+	MaybeOptional< Vec4T< ValueT > > operator*( MaybeOptional< Mat4T< ValueT > > const & lhs
+		, Vec4T< ValueT > const & rhs );
+	template< typename ValueT >
+	MaybeOptional< Mat4T< ValueT > > operator*( MaybeOptional< Mat4T< ValueT > > const & lhs
+		, Mat4T< ValueT > const & rhs );
+	template< typename ValueT >
+	MaybeOptional< Vec4T< ValueT > > operator*( Vec4T< ValueT > const & lhs
+		, MaybeOptional< Mat4T< ValueT > > const & rhs );
+	template< typename ValueT >
+	MaybeOptional< Vec4T< ValueT > > operator*( Mat4T< ValueT > const & lhs
+		, MaybeOptional< Vec4T< ValueT > > const & rhs );
+	template< typename ValueT >
+	MaybeOptional< Mat4T< ValueT > > operator*( Mat4T< ValueT > const & lhs
+		, MaybeOptional< Mat4T< ValueT > > const & rhs );
+	template< typename ValueT >
+	MaybeOptional< Vec4T< ValueT > > operator*( MaybeOptional< Vec4T< ValueT > > const & lhs
+		, MaybeOptional< Mat4T< ValueT > > const & rhs );
+	template< typename ValueT >
+	MaybeOptional< Vec4T< ValueT > > operator*( MaybeOptional< Mat4T< ValueT > > const & lhs
+		, MaybeOptional< Vec4T< ValueT > > const & rhs );
+	template< typename ValueT >
+	MaybeOptional< Mat4T< ValueT > > operator*( MaybeOptional< Mat4T< ValueT > > const & lhs
+		, MaybeOptional< Mat4T< ValueT > > const & rhs );
+
+	template< typename ValueT >
+	MaybeOptional< Mat4T< ValueT > > operator*( MaybeOptional< ValueT > const & lhs
+		, Mat4T< ValueT > const & rhs );
+	template< typename ValueT >
+	MaybeOptional< Mat4T< ValueT > > operator*( MaybeOptional< Mat4T< ValueT > > const & lhs
+		, ValueT const & rhs );
+	template< typename ValueT >
+	MaybeOptional< Mat4T< ValueT > > operator*( ValueT const & lhs
+		, MaybeOptional< Mat4T< ValueT > > const & rhs );
+	template< typename ValueT >
+	MaybeOptional< Mat4T< ValueT > > operator*( Mat4T< ValueT > const & lhs
+		, MaybeOptional< ValueT > const & rhs );
+	template< typename ValueT >
+	MaybeOptional< Mat4T< ValueT > > operator*( MaybeOptional< ValueT > const & lhs
+		, MaybeOptional< Mat4T< ValueT > > const & rhs );
+	template< typename ValueT >
+	MaybeOptional< Mat4T< ValueT > > operator*( MaybeOptional< Mat4T< ValueT > > const & lhs
+		, MaybeOptional< ValueT > const & rhs );
 }
 
 #include "Mat4.inl"
