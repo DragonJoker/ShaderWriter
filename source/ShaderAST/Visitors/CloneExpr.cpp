@@ -316,7 +316,7 @@ namespace ast
 	{
 		m_result = expr::makeMbrSelect( doSubmit( expr->getOuterExpr() )
 			, expr->getMemberIndex()
-			, std::make_unique< expr::Identifier >( *static_cast< expr::Identifier * >( expr->getOperand() ) ) );
+			, expr->getMemberFlags() );
 	}
 
 	void ExprCloner::visitMinusExpr( expr::Minus * expr )

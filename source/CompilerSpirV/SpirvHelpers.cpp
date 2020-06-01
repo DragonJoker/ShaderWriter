@@ -487,6 +487,32 @@ namespace spirv
 		return nullptr;
 	}
 
+	InstructionPtr makeIntrinsicInstruction( spv::Op op
+		, IdList const & operands )
+	{
+		switch ( op )
+		{
+		case spv::OpEmitStreamVertex:
+			return makeInstruction< VoidIntrinsicInstructionT< spv::OpEmitStreamVertex > >( operands );
+		case spv::OpEndStreamPrimitive:
+			return makeInstruction< VoidIntrinsicInstructionT< spv::OpEndStreamPrimitive > >( operands );
+		case spv::OpEmitVertex:
+			assert( operands.empty() );
+			return makeInstruction< VoidIntrinsicInstructionT< spv::OpEmitVertex > >( operands );
+		case spv::OpEndPrimitive:
+			assert( operands.empty() );
+			return makeInstruction< VoidIntrinsicInstructionT< spv::OpEndPrimitive > >( operands );
+		case spv::OpControlBarrier:
+			return makeInstruction< VoidIntrinsicInstructionT< spv::OpControlBarrier > >( operands );
+		case spv::OpMemoryBarrier:
+			return makeInstruction< VoidIntrinsicInstructionT< spv::OpMemoryBarrier > >( operands );
+		default:
+			assert( false && "Unexpected intrinsic call Op" );
+		}
+
+		return nullptr;
+	}
+
 	InstructionPtr makeIntrinsicInstruction( spv::Id returnTypeId
 		, spv::Id resultId
 		, spv::Op op
@@ -598,18 +624,6 @@ namespace spirv
 			return makeInstruction< IntrinsicInstructionT< spv::OpDPdyFine > >( returnTypeId, resultId, operands );
 		case spv::OpFwidth:
 			return makeInstruction< IntrinsicInstructionT< spv::OpFwidth > >( returnTypeId, resultId, operands );
-		case spv::OpEmitStreamVertex:
-			return makeInstruction< IntrinsicInstructionT< spv::OpEmitStreamVertex > >( returnTypeId, resultId, operands );
-		case spv::OpEndStreamPrimitive:
-			return makeInstruction< IntrinsicInstructionT< spv::OpEndStreamPrimitive > >( returnTypeId, resultId, operands );
-		case spv::OpEmitVertex:
-			return makeInstruction< IntrinsicInstructionT< spv::OpEmitVertex > >( returnTypeId, resultId, operands );
-		case spv::OpEndPrimitive:
-			return makeInstruction< IntrinsicInstructionT< spv::OpEndPrimitive > >( returnTypeId, resultId, operands );
-		case spv::OpControlBarrier:
-			return makeInstruction< IntrinsicInstructionT< spv::OpControlBarrier > >( returnTypeId, resultId, operands );
-		case spv::OpMemoryBarrier:
-			return makeInstruction< IntrinsicInstructionT< spv::OpMemoryBarrier > >( returnTypeId, resultId, operands );
 		default:
 			assert( false && "Unexpected intrinsic call Op" );
 		}

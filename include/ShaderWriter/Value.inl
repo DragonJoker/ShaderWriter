@@ -17,7 +17,7 @@ namespace sdw
 		{
 			return nullptr;
 		}
-
+		
 		inline Shader * getShader( int32_t const & value )
 		{
 			return nullptr;
@@ -88,6 +88,11 @@ namespace sdw
 		return result;
 	}
 
+	inline Shader * findShader( ShaderWriter const & value )
+	{
+		return &sdw::getShader( value );
+	}
+
 	//***********************************************************************************************
 
 	namespace details
@@ -144,6 +149,11 @@ namespace sdw
 		auto expr = details::findExpr( values... );
 		assert( expr );
 		return expr->getCache();
+	}
+
+	inline ast::type::TypesCache & findTypesCache( ShaderWriter const & value )
+	{
+		return sdw::getTypesCache( value );
 	}
 
 	//***********************************************************************************************

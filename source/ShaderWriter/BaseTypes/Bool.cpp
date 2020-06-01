@@ -46,6 +46,48 @@ namespace sdw
 		return *this;
 	}
 
+	Boolean & Boolean::operator=( Optional< Boolean > const & rhs )
+	{
+		if ( rhs.isEnabled() )
+		{
+			if ( getContainer() )
+			{
+				Shader & shader = *findShader( *this, rhs );
+				addStmt( shader
+					, sdw::makeSimple( sdw::makeAssign( getType()
+						, makeExpr( shader, *this )
+						, makeExpr( shader, rhs ) ) ) );
+			}
+			else
+			{
+				Value::operator=( rhs );
+			}
+		}
+
+		return *this;
+	}
+
+	Boolean & Boolean::operator=( MaybeOptional< Boolean > const & rhs )
+	{
+		if ( rhs.isEnabled() )
+		{
+			if ( getContainer() )
+			{
+				Shader & shader = *findShader( *this, rhs );
+				addStmt( shader
+					, sdw::makeSimple( sdw::makeAssign( getType()
+						, makeExpr( shader, *this )
+						, makeExpr( shader, rhs ) ) ) );
+			}
+			else
+			{
+				Value::operator=( rhs );
+			}
+		}
+
+		return *this;
+	}
+
 	expr::ExprPtr Boolean::makeCondition()const
 	{
 		return makeExpr( *findShader( *this ), *this );
@@ -75,52 +117,52 @@ namespace sdw
 
 	Boolean operator==( Boolean const & lhs, Boolean const & rhs )
 	{
-		return writeComparator( lhs, rhs, sdw::makeEqual );
+		return writeComparator< Boolean >( lhs, rhs, sdw::makeEqual );
 	}
 
 	Boolean operator!=( Boolean const & lhs, Boolean const & rhs )
 	{
-		return writeComparator( lhs, rhs, sdw::makeNEqual );
+		return writeComparator< Boolean >( lhs, rhs, sdw::makeNEqual );
 	}
 
 	Boolean operator||( Boolean const & lhs, Boolean const & rhs )
 	{
-		return writeComparator( lhs, rhs, sdw::makeLogOr );
+		return writeComparator< Boolean >( lhs, rhs, sdw::makeLogOr );
 	}
 
 	Boolean operator&&( Boolean const & lhs, Boolean const & rhs )
 	{
-		return writeComparator( lhs, rhs, sdw::makeLogAnd );
+		return writeComparator< Boolean >( lhs, rhs, sdw::makeLogAnd );
 	}
 
 	Optional< Boolean > operator||( Optional< Boolean > const & lhs, Boolean const & rhs )
 	{
-		return writeComparator( lhs, rhs, sdw::makeLogOr );
+		return writeComparator< Boolean >( lhs, rhs, sdw::makeLogOr );
 	}
 
 	Optional< Boolean > operator&&( Optional< Boolean > const & lhs, Boolean const & rhs )
 	{
-		return writeComparator( lhs, rhs, sdw::makeLogAnd );
+		return writeComparator< Boolean >( lhs, rhs, sdw::makeLogAnd );
 	}
 
 	Optional< Boolean > operator||( Boolean const & lhs, Optional< Boolean > const & rhs )
 	{
-		return writeComparator( lhs, rhs, sdw::makeLogOr );
+		return writeComparator< Boolean >( lhs, rhs, sdw::makeLogOr );
 	}
 
 	Optional< Boolean > operator&&( Boolean const & lhs, Optional< Boolean > const & rhs )
 	{
-		return writeComparator( lhs, rhs, sdw::makeLogAnd );
+		return writeComparator< Boolean >( lhs, rhs, sdw::makeLogAnd );
 	}
 
 	Optional< Boolean > operator||( Optional< Boolean > const & lhs, Optional< Boolean > const & rhs )
 	{
-		return writeComparator( lhs, rhs, sdw::makeLogOr );
+		return writeComparator< Boolean >( lhs, rhs, sdw::makeLogOr );
 	}
 
 	Optional< Boolean > operator&&( Optional< Boolean > const & lhs, Optional< Boolean > const & rhs )
 	{
-		return writeComparator( lhs, rhs, sdw::makeLogAnd );
+		return writeComparator< Boolean >( lhs, rhs, sdw::makeLogAnd );
 	}
 
 	//*************************************************************************

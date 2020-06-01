@@ -58,6 +58,8 @@ namespace spirv
 		, spv::Id sampledTypeId );
 	InstructionPtr makeBaseTypeInstruction( ast::type::Kind kind
 		, spv::Id id );
+	InstructionPtr makeIntrinsicInstruction( spv::Op op
+		, IdList const & operands );
 	InstructionPtr makeIntrinsicInstruction( spv::Id returnTypeId
 		, spv::Id resultId
 		, spv::Op op

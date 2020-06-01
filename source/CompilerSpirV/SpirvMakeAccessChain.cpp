@@ -103,12 +103,8 @@ namespace spirv
 
 			void visitMbrSelectExpr( ast::expr::MbrSelect * expr )override
 			{
-				auto outer = doSubmit( m_kind, expr->getOuterExpr() );
-				m_parsingMbrSelect = true;
-				auto inner = doSubmit( expr->getKind(), expr->getOperand() );
-				m_parsingMbrSelect = false;
-				m_result = outer;
-				m_result.insert( m_result.end(), inner.begin(), inner.end() );
+				m_result = doSubmit( m_kind, expr->getOuterExpr() );
+				m_result.push_back( { expr->getKind(), expr } );
 			}
 
 			void visitArrayAccessExpr( ast::expr::ArrayAccess * expr )override
@@ -340,7 +336,7 @@ namespace spirv
 			void visitMbrSelectExpr( ast::expr::MbrSelect * expr )override
 			{
 				assert( m_parentId != 0u );
-				m_result = submit( expr->getOperand(), m_module, m_currentBlock, m_loadedVariables );
+				m_result = m_module.registerLiteral( expr->getMemberIndex() );
 			}
 
 			void visitArrayAccessExpr( ast::expr::ArrayAccess * expr )override

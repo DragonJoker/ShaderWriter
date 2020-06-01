@@ -12,16 +12,16 @@ See LICENSE file in root folder
 #include "ShaderWriter/BaseTypes/Sampler.hpp"
 #include "ShaderWriter/CompositeTypes/Function.hpp"
 #include "ShaderWriter/CompositeTypes/FunctionParam.hpp"
+#include "ShaderWriter/MatTypes/Mat2.hpp"
+#include "ShaderWriter/MatTypes/Mat2x3.hpp"
+#include "ShaderWriter/MatTypes/Mat2x4.hpp"
+#include "ShaderWriter/MatTypes/Mat3.hpp"
+#include "ShaderWriter/MatTypes/Mat3x2.hpp"
+#include "ShaderWriter/MatTypes/Mat3x4.hpp"
+#include "ShaderWriter/MatTypes/Mat4.hpp"
+#include "ShaderWriter/MatTypes/Mat4x2.hpp"
+#include "ShaderWriter/MatTypes/Mat4x3.hpp"
 #include "ShaderWriter/MaybeOptional/MaybeOptional.hpp"
-#include "ShaderWriter/MaybeOptional/MaybeOptionalMat2.hpp"
-#include "ShaderWriter/MaybeOptional/MaybeOptionalMat2x3.hpp"
-#include "ShaderWriter/MaybeOptional/MaybeOptionalMat2x4.hpp"
-#include "ShaderWriter/MaybeOptional/MaybeOptionalMat3.hpp"
-#include "ShaderWriter/MaybeOptional/MaybeOptionalMat3x2.hpp"
-#include "ShaderWriter/MaybeOptional/MaybeOptionalMat3x4.hpp"
-#include "ShaderWriter/MaybeOptional/MaybeOptionalMat4.hpp"
-#include "ShaderWriter/MaybeOptional/MaybeOptionalMat4x2.hpp"
-#include "ShaderWriter/MaybeOptional/MaybeOptionalMat4x3.hpp"
 
 #include <ShaderAST/Expr/MakeIntrinsic.hpp>
 
@@ -1572,7 +1572,7 @@ namespace sdw
 	*	EmitVertex
 	*/
 	/**@{*/
-	SDW_API MaybeOptional< Void > EmitVertex( );
+	SDW_API MaybeOptional< Void > EmitVertex( ShaderWriter & writer );
 	/**@}*/
 #pragma endregion
 #pragma region EndPrimitive
@@ -1581,7 +1581,7 @@ namespace sdw
 	*	EndPrimitive
 	*/
 	/**@{*/
-	SDW_API MaybeOptional< Void > EndPrimitive( );
+	SDW_API MaybeOptional< Void > EndPrimitive( ShaderWriter & writer );
 	/**@}*/
 #pragma endregion
 #pragma region barrier
@@ -1590,7 +1590,7 @@ namespace sdw
 	*	barrier
 	*/
 	/**@{*/
-	SDW_API MaybeOptional< Void > barrier( );
+	SDW_API MaybeOptional< Void > barrier( ShaderWriter & writer );
 	/**@}*/
 #pragma endregion
 #pragma region memoryBarrier
@@ -1599,7 +1599,7 @@ namespace sdw
 	*	memoryBarrier
 	*/
 	/**@{*/
-	SDW_API MaybeOptional< UInt > memoryBarrier( );
+	SDW_API MaybeOptional< UInt > memoryBarrier( ShaderWriter & writer );
 	/**@}*/
 #pragma endregion
 #pragma region memoryBarrierBuffer
@@ -1608,7 +1608,7 @@ namespace sdw
 	*	memoryBarrierBuffer
 	*/
 	/**@{*/
-	SDW_API MaybeOptional< Void > memoryBarrierBuffer( );
+	SDW_API MaybeOptional< Void > memoryBarrierBuffer( ShaderWriter & writer );
 	/**@}*/
 #pragma endregion
 #pragma region memoryBarrierShared
@@ -1617,7 +1617,7 @@ namespace sdw
 	*	memoryBarrierShared
 	*/
 	/**@{*/
-	SDW_API MaybeOptional< Void > memoryBarrierShared( );
+	SDW_API MaybeOptional< Void > memoryBarrierShared( ShaderWriter & writer );
 	/**@}*/
 #pragma endregion
 #pragma region memoryBarrierImage
@@ -1626,7 +1626,7 @@ namespace sdw
 	*	memoryBarrierImage
 	*/
 	/**@{*/
-	SDW_API MaybeOptional< Void > memoryBarrierImage( );
+	SDW_API MaybeOptional< Void > memoryBarrierImage( ShaderWriter & writer );
 	/**@}*/
 #pragma endregion
 #pragma region groupMemoryBarrier
@@ -1635,7 +1635,7 @@ namespace sdw
 	*	groupMemoryBarrier
 	*/
 	/**@{*/
-	SDW_API MaybeOptional< Void > groupMemoryBarrier( );
+	SDW_API MaybeOptional< Void > groupMemoryBarrier( ShaderWriter & writer );
 	/**@}*/
 #pragma endregion
 }

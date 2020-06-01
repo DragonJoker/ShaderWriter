@@ -60,6 +60,4 @@ namespace ast::expr
 	}
 }
 
-#include "MakeIntrinsic.hpp"
-
 #endif

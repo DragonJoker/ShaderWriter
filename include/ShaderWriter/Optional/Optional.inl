@@ -106,7 +106,7 @@ namespace sdw
 	}
 
 	template< typename ValueT >
-	Optional< ValueT > Optional< ValueT >::operator=( Optional< ValueT > const & rhs )
+	Optional< ValueT > & Optional< ValueT >::operator=( Optional< ValueT > const & rhs )
 	{
 		writeAssignOperator< ValueT >( *this, rhs, sdw::makeAssign );
 		return *this;
@@ -114,7 +114,7 @@ namespace sdw
 
 	template< typename ValueT >
 	template< typename T >
-	Optional< ValueT > Optional< ValueT >::operator=( T const & rhs )
+	Optional< ValueT > & Optional< ValueT >::operator=( T const & rhs )
 	{
 		writeAssignOperator< ValueT >( *this, rhs, sdw::makeAssign );
 		return *this;
@@ -124,6 +124,94 @@ namespace sdw
 	bool Optional< ValueT >::isEnabled()const
 	{
 		return m_enabled;
+	}
+
+	template< typename ValueT >
+	template< typename T >
+	Optional< ValueT > & Optional< ValueT >::operator+=( T const & rhs )
+	{
+		if constexpr ( hasArithmeticOperators< ValueT > )
+		{
+			if ( isEnabled() )
+			{
+				ValueT::operator+=( rhs );
+			}
+		}
+
+		return *this;
+	}
+
+	template< typename ValueT >
+	template< typename T >
+	Optional< ValueT > & Optional< ValueT >::operator-=( T const & rhs )
+	{
+		if constexpr ( hasArithmeticOperators< ValueT > )
+		{
+			if ( isEnabled() )
+			{
+				ValueT::operator-=( rhs );
+			}
+		}
+
+		return *this;
+	}
+
+	template< typename ValueT >
+	template< typename T >
+	Optional< ValueT > & Optional< ValueT >::operator*=( T const & rhs )
+	{
+		if constexpr ( hasArithmeticOperators< ValueT > )
+		{
+			if ( isEnabled() )
+			{
+				ValueT::operator*=( rhs );
+			}
+		}
+
+		return *this;
+	}
+
+	template< typename ValueT >
+	template< typename T >
+	Optional< ValueT > & Optional< ValueT >::operator/=( T const & rhs )
+	{
+		if constexpr ( hasArithmeticOperators< ValueT > )
+		{
+			if ( isEnabled() )
+			{
+				ValueT::operator/=( rhs );
+			}
+		}
+
+		return *this;
+	}
+
+	template< typename ValueT >
+	Optional< ValueT > Optional< ValueT >::operator-()const
+	{
+		if constexpr ( hasArithmeticOperators< ValueT > )
+		{
+			if ( isEnabled() )
+			{
+				ValueT::operator-();
+			}
+		}
+
+		return *this;
+	}
+
+	template< typename ValueT >
+	Optional< ValueT > Optional< ValueT >::operator+()const
+	{
+		if constexpr ( hasArithmeticOperators< ValueT > )
+		{
+			if ( isEnabled() )
+			{
+				ValueT::operator+();
+			}
+		}
+
+		return *this;
 	}
 
 	//*************************************************************************
@@ -145,6 +233,7 @@ namespace sdw
 	template< typename T >
 	inline bool isOptionalEnabled( T const & value )
 	{
+		static_assert( !isOptional< T >, "Unexpected Optional" );
 		return true;
 	}
 

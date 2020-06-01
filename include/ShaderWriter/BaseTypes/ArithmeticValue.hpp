@@ -19,7 +19,11 @@ namespace sdw
 		ArithmeticValue( ArithmeticValue const & rhs );
 		explicit ArithmeticValue( Value value );
 		explicit ArithmeticValue( CppTypeT< ArithmeticValue< KindT > > rhs );
-		ArithmeticValue & operator=( ArithmeticValue const & rhs );
+
+		inline ArithmeticValue & operator=( ArithmeticValue const & rhs );
+		inline ArithmeticValue & operator=( Optional< ArithmeticValue > const & rhs );
+		inline ArithmeticValue & operator=( MaybeOptional< ArithmeticValue > const & rhs );
+
 		template< typename T >
 		ArithmeticValue & operator=( T const & rhs );
 		ArithmeticValue & operator=( CppTypeT< ArithmeticValue< KindT > > const & rhs );

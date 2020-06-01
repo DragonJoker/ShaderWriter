@@ -52,16 +52,16 @@ def printHeader( outs, match ):
 	outs.write( '\n#include "ShaderWriter/BaseTypes/Sampler.hpp"' )
 	outs.write( '\n#include "ShaderWriter/CompositeTypes/Function.hpp"' )
 	outs.write( '\n#include "ShaderWriter/CompositeTypes/FunctionParam.hpp"' )
+	outs.write( '\n#include "ShaderWriter/MatTypes/Mat2.hpp"' )
+	outs.write( '\n#include "ShaderWriter/MatTypes/Mat2x3.hpp"' )
+	outs.write( '\n#include "ShaderWriter/MatTypes/Mat2x4.hpp"' )
+	outs.write( '\n#include "ShaderWriter/MatTypes/Mat3.hpp"' )
+	outs.write( '\n#include "ShaderWriter/MatTypes/Mat3x2.hpp"' )
+	outs.write( '\n#include "ShaderWriter/MatTypes/Mat3x4.hpp"' )
+	outs.write( '\n#include "ShaderWriter/MatTypes/Mat4.hpp"' )
+	outs.write( '\n#include "ShaderWriter/MatTypes/Mat4x2.hpp"' )
+	outs.write( '\n#include "ShaderWriter/MatTypes/Mat4x3.hpp"' )
 	outs.write( '\n#include "ShaderWriter/MaybeOptional/MaybeOptional.hpp"' )
-	outs.write( '\n#include "ShaderWriter/MaybeOptional/MaybeOptionalMat2.hpp"' )
-	outs.write( '\n#include "ShaderWriter/MaybeOptional/MaybeOptionalMat2x3.hpp"' )
-	outs.write( '\n#include "ShaderWriter/MaybeOptional/MaybeOptionalMat2x4.hpp"' )
-	outs.write( '\n#include "ShaderWriter/MaybeOptional/MaybeOptionalMat3.hpp"' )
-	outs.write( '\n#include "ShaderWriter/MaybeOptional/MaybeOptionalMat3x2.hpp"' )
-	outs.write( '\n#include "ShaderWriter/MaybeOptional/MaybeOptionalMat3x4.hpp"' )
-	outs.write( '\n#include "ShaderWriter/MaybeOptional/MaybeOptionalMat4.hpp"' )
-	outs.write( '\n#include "ShaderWriter/MaybeOptional/MaybeOptionalMat4x2.hpp"' )
-	outs.write( '\n#include "ShaderWriter/MaybeOptional/MaybeOptionalMat4x3.hpp"' )
 	outs.write( "\n" )
 	outs.write( '\n#include <ShaderAST/Expr/Make' + enumName + '.hpp>' )
 	outs.write( "\n" )
@@ -174,7 +174,7 @@ def discardArray( name ):
 	result = re.sub( "\[\d*\]", "", name )
 	return result
 
-def computeParams( params, sep ):
+def computeParams( params, sep, allowEmpty ):
 	result = ""
 	intrParams = re.compile("[, ]*ASTIntrParams\( ([\w, :()\[\]]*) \)$")
 	resParams = intrParams.match( params )
@@ -202,6 +202,8 @@ def computeParams( params, sep ):
 					result += sep + " " + paramType + " " + typeQualifier + "& " + resParam[index]
 			sep = ","
 			index += 2
+	elif allowEmpty == 0:
+		result = " ShaderWriter & writer"
 	return result
 
 def computeParamsEx( params, sep, lastType ):
@@ -422,7 +424,7 @@ def printTextureFunction( outs, returnGroup, functionGroup, paramsGroup, imageTy
 			#	Image parameter
 			outs.write( " MaybeOptional< " + imageFullType + fmt + " > const & image" )
 			#	Remaining function parameters
-			outs.write( computeParams( paramsGroup, "," ) + " );" )
+			outs.write( computeParams( paramsGroup, ",", 1 ) + " );" )
 
 def printImageFunction( outs, returnGroup, functionGroup, paramsGroup, imageType ):
 	postfix = getPostfix( functionGroup )
@@ -459,14 +461,14 @@ def printImageFunction( outs, returnGroup, functionGroup, paramsGroup, imageType
 					#	Image parameter
 					outs.write( " MaybeOptional< " + imageFullType + fmt + " > const & image" )
 					#	Remaining function parameters
-					outs.write( computeParams( paramsGroup, "," ) + " );" )
+					outs.write( computeParams( paramsGroup, ",", 1 ) + " );" )
 
 def printIntrinsicFunction( outs, returnGroup, functionGroup, paramsGroup ):
 	retType = typeKindToSdwType( returnGroup )
 	# Write function name and return
 	outs.write( "\n\tSDW_API MaybeOptional< " + retType + " > " + computeIntrinsicName( functionGroup ) + "(" )
 	# Write function parameters
-	outs.write( computeParams( paramsGroup, "" ) + " );" )
+	outs.write( computeParams( paramsGroup, "", 0 ) + " );" )
 	
 def endFunctionGroup( outs ):
 	outs.write( "\n\t/**@}*/" )

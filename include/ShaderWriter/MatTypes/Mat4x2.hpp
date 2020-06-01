@@ -5,7 +5,7 @@ See LICENSE file in root folder
 #define ___SDW_Mat4x2_H___
 #pragma once
 
-#include "ShaderWriter/Optional/OptionalVec2.hpp"
+#include "ShaderWriter/VecTypes/Vec2.hpp"
 
 namespace sdw
 {
@@ -20,7 +20,11 @@ namespace sdw
 		inline Mat4x2T( Shader * shader
 			, expr::ExprPtr expr );
 		inline Mat4x2T( Mat4x2T const & rhs );
-		inline Mat4x2T< ValueT > & operator=( Mat4x2T< ValueT > const & rhs );
+
+		inline Mat4x2T & operator=( Mat4x2T const & rhs );
+		inline Mat4x2T & operator=( Optional< Mat4x2T > const & rhs );
+		inline Mat4x2T & operator=( MaybeOptional< Mat4x2T > const & rhs );
+
 		template< typename RhsT >
 		inline Mat4x2T< ValueT > & operator=( RhsT const & rhs );
 		template< typename IndexT >

@@ -24,6 +24,10 @@ namespace sdw
 		inline MaybeOptional( MyValue const & rhs );
 		inline MaybeOptional( Optional< MyValue > const & rhs );
 		inline MaybeOptional( MaybeOptional< MyValue > const & rhs );
+
+		inline MaybeOptional< MyValue > & operator=( MyValue const & rhs );
+		inline MaybeOptional< MyValue > & operator=( Optional< MyValue > const & rhs );
+		inline MaybeOptional< MyValue > & operator=( MaybeOptional< MyValue > const & rhs );
 		
 		inline operator MyValue const &()const;
 		inline operator MyValue &();
@@ -65,7 +69,6 @@ namespace sdw
 		, CreatorT creator );
 }
 
-#include "MaybeOptionalVoid.hpp"
 #include "MaybeOptional.inl"
 
 #endif

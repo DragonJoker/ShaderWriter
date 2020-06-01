@@ -205,34 +205,6 @@ set( ${PROJECT_NAME}_HEADER_FILES
 set( ${PROJECT_NAME}_FOLDER_HEADER_FILES
 	${INCLUDE_DIR}/MaybeOptional/MaybeOptional.hpp
 	${INCLUDE_DIR}/MaybeOptional/MaybeOptional.inl
-	${INCLUDE_DIR}/MaybeOptional/MaybeOptionalArray.hpp
-	${INCLUDE_DIR}/MaybeOptional/MaybeOptionalArray.inl
-	${INCLUDE_DIR}/MaybeOptional/MaybeOptionalMat2.hpp
-	${INCLUDE_DIR}/MaybeOptional/MaybeOptionalMat2.inl
-	${INCLUDE_DIR}/MaybeOptional/MaybeOptionalMat2x3.hpp
-	${INCLUDE_DIR}/MaybeOptional/MaybeOptionalMat2x3.inl
-	${INCLUDE_DIR}/MaybeOptional/MaybeOptionalMat2x4.hpp
-	${INCLUDE_DIR}/MaybeOptional/MaybeOptionalMat2x4.inl
-	${INCLUDE_DIR}/MaybeOptional/MaybeOptionalMat3.hpp
-	${INCLUDE_DIR}/MaybeOptional/MaybeOptionalMat3.inl
-	${INCLUDE_DIR}/MaybeOptional/MaybeOptionalMat3x2.hpp
-	${INCLUDE_DIR}/MaybeOptional/MaybeOptionalMat3x2.inl
-	${INCLUDE_DIR}/MaybeOptional/MaybeOptionalMat3x4.hpp
-	${INCLUDE_DIR}/MaybeOptional/MaybeOptionalMat3x4.inl
-	${INCLUDE_DIR}/MaybeOptional/MaybeOptionalMat4.hpp
-	${INCLUDE_DIR}/MaybeOptional/MaybeOptionalMat4.inl
-	${INCLUDE_DIR}/MaybeOptional/MaybeOptionalMat4x2.hpp
-	${INCLUDE_DIR}/MaybeOptional/MaybeOptionalMat4x2.inl
-	${INCLUDE_DIR}/MaybeOptional/MaybeOptionalMat4x3.hpp
-	${INCLUDE_DIR}/MaybeOptional/MaybeOptionalMat4x3.inl
-	${INCLUDE_DIR}/MaybeOptional/MaybeOptionalVec2.hpp
-	${INCLUDE_DIR}/MaybeOptional/MaybeOptionalVec2.inl
-	${INCLUDE_DIR}/MaybeOptional/MaybeOptionalVec3.hpp
-	${INCLUDE_DIR}/MaybeOptional/MaybeOptionalVec3.inl
-	${INCLUDE_DIR}/MaybeOptional/MaybeOptionalVec4.hpp
-	${INCLUDE_DIR}/MaybeOptional/MaybeOptionalVec4.inl
-	${INCLUDE_DIR}/MaybeOptional/MaybeOptionalVoid.hpp
-	${INCLUDE_DIR}/MaybeOptional/MaybeOptionalVoid.inl
 )
 source_group( "Header Files\\MaybeOptional"
 	FILES
@@ -246,36 +218,8 @@ set( ${PROJECT_NAME}_HEADER_FILES
 set( ${PROJECT_NAME}_FOLDER_HEADER_FILES
 	${INCLUDE_DIR}/Optional/Optional.hpp
 	${INCLUDE_DIR}/Optional/Optional.inl
-	${INCLUDE_DIR}/Optional/OptionalArray.hpp
-	${INCLUDE_DIR}/Optional/OptionalArray.inl
-	${INCLUDE_DIR}/Optional/OptionalMat2.hpp
-	${INCLUDE_DIR}/Optional/OptionalMat2.inl
-	${INCLUDE_DIR}/Optional/OptionalMat2x3.hpp
-	${INCLUDE_DIR}/Optional/OptionalMat2x3.inl
-	${INCLUDE_DIR}/Optional/OptionalMat2x4.hpp
-	${INCLUDE_DIR}/Optional/OptionalMat2x4.inl
-	${INCLUDE_DIR}/Optional/OptionalMat3.hpp
-	${INCLUDE_DIR}/Optional/OptionalMat3.inl
-	${INCLUDE_DIR}/Optional/OptionalMat3x2.hpp
-	${INCLUDE_DIR}/Optional/OptionalMat3x2.inl
-	${INCLUDE_DIR}/Optional/OptionalMat3x4.hpp
-	${INCLUDE_DIR}/Optional/OptionalMat3x4.inl
-	${INCLUDE_DIR}/Optional/OptionalMat4.hpp
-	${INCLUDE_DIR}/Optional/OptionalMat4.inl
-	${INCLUDE_DIR}/Optional/OptionalMat4x2.hpp
-	${INCLUDE_DIR}/Optional/OptionalMat4x2.inl
-	${INCLUDE_DIR}/Optional/OptionalMat4x3.hpp
-	${INCLUDE_DIR}/Optional/OptionalMat4x3.inl
 	${INCLUDE_DIR}/Optional/OptionalUbo.hpp
 	${INCLUDE_DIR}/Optional/OptionalUbo.inl
-	${INCLUDE_DIR}/Optional/OptionalVec2.hpp
-	${INCLUDE_DIR}/Optional/OptionalVec2.inl
-	${INCLUDE_DIR}/Optional/OptionalVec3.hpp
-	${INCLUDE_DIR}/Optional/OptionalVec3.inl
-	${INCLUDE_DIR}/Optional/OptionalVec4.hpp
-	${INCLUDE_DIR}/Optional/OptionalVec4.inl
-	${INCLUDE_DIR}/Optional/OptionalVoid.hpp
-	${INCLUDE_DIR}/Optional/OptionalVoid.inl
 )
 source_group( "Header Files\\Optional"
 	FILES

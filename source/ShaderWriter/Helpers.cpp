@@ -89,6 +89,11 @@ namespace sdw
 		return writer.getTypesCache();
 	}
 
+	type::TypesCache & getTypesCache( ShaderWriter const & writer )
+	{
+		return writer.getTypesCache();
+	}
+
 	type::TypesCache & getTypesCache( Shader const & shader )
 	{
 		return shader.getTypesCache();
@@ -99,7 +104,7 @@ namespace sdw
 		return writer.getShader();
 	}
 
-	Shader const & getShader( ShaderWriter const & writer )
+	Shader & getShader( ShaderWriter const & writer )
 	{
 		return writer.getShader();
 	}
@@ -675,11 +680,11 @@ namespace sdw
 
 	expr::ExprPtr makeMbrSelect( expr::ExprPtr outer
 		, uint32_t memberIndex
-		, expr::IdentifierPtr inner )
+		, uint32_t flags )
 	{
 		return expr::makeMbrSelect( std::move( outer )
 			, memberIndex
-			, std::move( inner ) );
+			, flags );
 	}
 
 	expr::ExprPtr makeSwizzle( expr::ExprPtr outer

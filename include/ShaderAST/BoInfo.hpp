@@ -48,6 +48,11 @@ namespace ast
 			return m_type->declMember( name, type, arraySize ).type;
 		}
 
+		inline bool hasMember( std::string const & name )const
+		{
+			return m_type->hasMember( name );
+		}
+
 		inline type::TypePtr getMember( std::string const & name )const
 		{
 			return m_type->getMember( name ).type;

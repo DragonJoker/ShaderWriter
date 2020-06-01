@@ -25,7 +25,7 @@ namespace ast::expr
 		, ExprPtr lhs
 		, ExprPtr rhs )
 	{
-		return std::make_unique< Equal >( cache.getBool()
+		return std::make_unique< Equal >( cache.getVector( type::Kind::eBoolean, type::getComponentCount( lhs->getType() ) )
 			, std::move( lhs )
 			, std::move( rhs ) );
 	}

@@ -80,7 +80,7 @@ namespace sdw
 			, sdw::makeArrayAccess( getNonArrayType( m_dataVar->getType() )
 				, sdw::makeMbrSelect( sdw::makeIdent( getTypesCache( m_shader ), m_ssboVar )
 					, 0u
-					, sdw::makeIdent( getTypesCache( m_shader ), m_dataVar ) )
+					, m_dataVar->getFlags() )
 				, makeExpr( m_shader, index ) ) };
 	}
 
@@ -91,7 +91,7 @@ namespace sdw
 			, sdw::makeArrayAccess( getNonArrayType( m_dataVar->getType() )
 				, sdw::makeMbrSelect( sdw::makeIdent( getTypesCache( m_shader ), m_ssboVar )
 					, 0u
-					, sdw::makeIdent( getTypesCache( m_shader ), m_dataVar ) )
+					, m_dataVar->getFlags() )
 				, makeExpr( m_shader, index ) ) };
 	}
 }

@@ -62,7 +62,6 @@ namespace
 			auto count = shader.getStatements()->size();
 			auto value = writer.declOutputArray< T >( "value", 1u, 6u, false );
 			check( !value.isEnabled() );
-			check( !value[0].isEnabled() );
 			check( getNonArrayKind( value.getType() ) == sdw::typeEnum< T > );
 			check( getArraySize( value.getType() ) == 6u );
 			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
@@ -95,7 +94,6 @@ namespace
 			auto name = sdw::debug::getName( sdw::typeEnum< T > ) + "OutputValue_1_opt";
 			auto value = writer.declOutputArray< T >( name, 1u, 6u, true );
 			check( value.isEnabled() );
-			check( value[0].isEnabled() );
 			check( getNonArrayKind( value.getType() ) == sdw::typeEnum< T > );
 			check( getArraySize( value.getType() ) == 6u );
 			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );

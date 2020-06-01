@@ -9,7 +9,7 @@ namespace ast::type
 {
 	SampledImage::SampledImage( TypesCache & cache
 		, ImageConfiguration config )
-		: Type{ Kind::eSampledImage }
+		: Type{ cache, Kind::eSampledImage }
 		, m_imageType{ cache.getImage( std::move( config ) ) }
 		, m_samplerType{ cache.getSampler( getConfig().isDepth == Trinary::eTrue ) }
 	{

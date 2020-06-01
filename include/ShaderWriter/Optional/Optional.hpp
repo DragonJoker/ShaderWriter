@@ -9,21 +9,32 @@ See LICENSE file in root folder
 
 namespace sdw
 {
-	template< typename TypeT >
+	template< typename ValueT >
 	struct Optional
-		: public TypeT
+		: public ValueT
 	{
 		inline Optional( Shader * shader
 			, expr::ExprPtr expr
 			, bool enabled );
-		inline Optional( TypeT const & other
+		inline Optional( ValueT const & other
 			, bool enabled );
 		inline Optional( Optional const & rhs );
 
-		inline Optional< TypeT > operator=( Optional< TypeT > const & rhs );
+		inline Optional< ValueT > & operator=( Optional< ValueT > const & rhs );
 		template< typename T >
-		inline Optional< TypeT > operator=( T const & rhs );
+		inline Optional< ValueT > & operator=( T const & rhs );
 		inline bool isEnabled()const;
+
+		template< typename T >
+		Optional< ValueT > & operator+=( T const & rhs );
+		template< typename T >
+		Optional< ValueT > & operator-=( T const & rhs );
+		template< typename T >
+		Optional< ValueT > & operator*=( T const & rhs );
+		template< typename T >
+		Optional< ValueT > & operator/=( T const & rhs );
+		Optional< ValueT > operator-()const;
+		Optional< ValueT > operator+()const;
 
 	private:
 		bool m_enabled;
@@ -78,7 +89,6 @@ namespace sdw
 		, CreatorT creator );
 }
 
-#include "OptionalVoid.hpp"
 #include "Optional.inl"
 
 #endif

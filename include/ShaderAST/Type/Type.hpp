@@ -79,11 +79,14 @@ namespace ast::type
 		friend class Struct;
 
 	public:
-		Type( Kind kind );
-		Type( Struct * parent
+		Type( TypesCache & cache
+			, Kind kind );
+		Type( TypesCache & cache
+			, Struct * parent
 			, uint32_t index
 			, Kind kind );
-		Type( Struct & parent
+		Type( TypesCache & cache
+			, Struct & parent
 			, uint32_t index
 			, Kind kind );
 		virtual TypePtr getMemberType( Struct & parent, uint32_t index )const;
@@ -110,7 +113,13 @@ namespace ast::type
 			return m_parent;
 		}
 
+		inline TypesCache & getCache()const
+		{
+			return *m_cache;
+		}
+
 	private:
+		TypesCache * m_cache;
 		Kind m_kind;
 		Struct * m_parent;
 		uint32_t m_index;

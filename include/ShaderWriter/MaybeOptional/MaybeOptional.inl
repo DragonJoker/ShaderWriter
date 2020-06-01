@@ -101,6 +101,39 @@ namespace sdw
 	}
 
 	template< typename ValueT >
+	inline MaybeOptional< ValueT > & MaybeOptional< ValueT >::operator=( ValueT const & rhs )
+	{
+		if ( isEnabled() )
+		{
+			ValueT::operator=( rhs );
+		}
+
+		return *this;
+	}
+
+	template< typename ValueT >
+	inline MaybeOptional< ValueT > & MaybeOptional< ValueT >::operator=( Optional< ValueT > const & rhs )
+	{
+		if ( isEnabled() && rhs.isEnabled() )
+		{
+			ValueT::operator=( rhs );
+		}
+
+		return *this;
+	}
+
+	template< typename ValueT >
+	inline MaybeOptional< ValueT > & MaybeOptional< ValueT >::operator=( MaybeOptional< ValueT > const & rhs )
+	{
+		if ( isEnabled() && rhs.isEnabled() )
+		{
+			ValueT::operator=( rhs );
+		}
+
+		return *this;
+	}
+
+	template< typename ValueT >
 	inline MaybeOptional< ValueT >::operator ValueT const & ( )const
 	{
 		return *this;
@@ -137,6 +170,11 @@ namespace sdw
 	inline bool isAnyOptional( ParamsT const & ... params )
 	{
 		return details::isAnyOptionalRec( std::forward< ParamsT const & >( params )... );
+	}
+	
+	inline bool isAnyOptional( ShaderWriter const & writer )
+	{
+		return false;
 	}
 
 	template< typename T >

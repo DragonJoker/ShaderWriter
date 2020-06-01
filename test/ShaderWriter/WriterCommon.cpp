@@ -300,23 +300,26 @@ namespace test
 		{
 #if SDW_HasCompilerGlsl
 
-			std::string errors;
-			auto glsl = glsl::compileGlsl( shader
-				, specialisation
-				, getDefaultGlslConfig() );
+			if ( validateGlsl )
+			{
+				std::string errors;
+				auto glsl = glsl::compileGlsl( shader
+					, specialisation
+					, getDefaultGlslConfig() );
 
-			if ( validateGlsl && !compileGlsl( glsl
-				, shader.getType()
-				, errors
-				, testCounts ) )
-			{
-				displayShader( "GLSL", glsl, true );
-				std::cout << errors << std::endl;
-				failure( "compileGlsl( glsl, stage )" );
-			}
-			else
-			{
-				displayShader( "GLSL", glsl );
+				if ( validateGlsl && !compileGlsl( glsl
+					, shader.getType()
+					, errors
+					, testCounts ) )
+				{
+					displayShader( "GLSL", glsl, true );
+					std::cout << errors << std::endl;
+					failure( "compileGlsl( glsl, stage )" );
+				}
+				else
+				{
+					displayShader( "GLSL", glsl );
+				}
 			}
 
 #endif
@@ -329,23 +332,26 @@ namespace test
 		{
 #if SDW_HasCompilerHlsl
 
-			std::string errors;
-			auto hlsl = hlsl::compileHlsl( shader
-				, specialisation
-				, hlsl::HlslConfig{} );
+			if ( validateHlsl )
+			{
+				std::string errors;
+				auto hlsl = hlsl::compileHlsl( shader
+					, specialisation
+					, hlsl::HlslConfig{} );
 
-			if ( validateHlsl && !compileHlsl( hlsl
-				, shader.getType()
-				, errors
-				, testCounts ) )
-			{
-				displayShader( "HLSL", hlsl, true );
-				std::cout << errors << std::endl;
-				failure( "compileHlsl( hlsl, stage )" );
-			}
-			else
-			{
-				displayShader( "HLSL", hlsl );
+				if ( !compileHlsl( hlsl
+					, shader.getType()
+					, errors
+					, testCounts ) )
+				{
+					displayShader( "HLSL", hlsl, true );
+					std::cout << errors << std::endl;
+					failure( "compileHlsl( hlsl, stage )" );
+				}
+				else
+				{
+					displayShader( "HLSL", hlsl );
+				}
 			}
 
 #endif
@@ -360,50 +366,53 @@ namespace test
 		{
 #if SDW_HasCompilerSpirV
 
-			auto textSpirv = spirv::writeSpirv( shader );
-			displayShader( "SPIR-V", textSpirv );
-			std::vector< uint32_t > spirv;
-
-			try
-			{
-				spirv = spirv::serialiseSpirv( shader );
-			}
-			catch ( ... )
-			{
-				displayShader( "SPIR-V", textSpirv, true );
-				throw;
-			}
-
 			if ( validateSpirV )
 			{
+				auto textSpirv = spirv::writeSpirv( shader );
+				displayShader( "SPIR-V", textSpirv );
+				std::vector< uint32_t > spirv;
+
 				try
 				{
-					test::validateSpirV( shader
-						, spirv
-						, textSpirv
-						, specialisation
-						, validateHlsl
-						, validateGlsl
-						, testCounts );
+					spirv = spirv::serialiseSpirv( shader );
 				}
-				catch ( spirv_cross::CompilerError & exc )
-				{
-					std::string text = exc.what();
-
-					if ( text.find( "not supported in HLSL" ) == std::string::npos
-						&& text.find( "not supported on HLSL" ) == std::string::npos
-						&& text.find( "exist in HLSL" ) == std::string::npos )
-					{
-						displayShader( "SPIR-V", textSpirv, true );
-						std::cout << "spirv_cross exception: " << exc.what() << std::endl;
-						throw;
-					}
-				}
-				catch ( std::exception & exc )
+				catch ( ... )
 				{
 					displayShader( "SPIR-V", textSpirv, true );
-					std::cout << "std exception: " << exc.what() << std::endl;
 					throw;
+				}
+
+				if ( validateSpirV )
+				{
+					try
+					{
+						test::validateSpirV( shader
+							, spirv
+							, textSpirv
+							, specialisation
+							, validateHlsl
+							, validateGlsl
+							, testCounts );
+					}
+					catch ( spirv_cross::CompilerError & exc )
+					{
+						std::string text = exc.what();
+
+						if ( text.find( "not supported in HLSL" ) == std::string::npos
+							&& text.find( "not supported on HLSL" ) == std::string::npos
+							&& text.find( "exist in HLSL" ) == std::string::npos )
+						{
+							displayShader( "SPIR-V", textSpirv, true );
+							std::cout << "spirv_cross exception: " << exc.what() << std::endl;
+							throw;
+						}
+					}
+					catch ( std::exception & exc )
+					{
+						displayShader( "SPIR-V", textSpirv, true );
+						std::cout << "std exception: " << exc.what() << std::endl;
+						throw;
+					}
 				}
 			}
 

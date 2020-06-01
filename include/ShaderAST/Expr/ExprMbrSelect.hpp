@@ -11,30 +11,39 @@ See LICENSE file in root folder
 namespace ast::expr
 {
 	class MbrSelect
-		: public Unary
+		: public Expr
+		, public var::FlagHolder
 	{
 	public:
-		MbrSelect( type::TypePtr type
-			, ExprPtr outer
+		MbrSelect( ExprPtr outer
 			, uint32_t memberIndex
-			, IdentifierPtr member );
+			, uint32_t memberFlags );
 
 		void accept( VisitorPtr vis )override;
 
+		inline type::StructPtr getOuterType()const
+		{
+			return std::static_pointer_cast< type::Struct >( m_outer->getType() );
+		}
+		
 		inline Expr * getOuterExpr()const
 		{
 			return m_outer.get();
-		}
-
-		inline Identifier * getMember()const
-		{
-			return static_cast< Identifier * >( getOperand() );
 		}
 
 		inline uint32_t getMemberIndex()const
 		{
 			return m_memberIndex;
 		}
+
+		//\return The variable flags for the member.
+		inline uint32_t getMemberFlags()const
+		{
+			return var::FlagHolder::getFlags();
+		}
+
+	private:
+		using var::FlagHolder::getFlags;
 
 	private:
 		ExprPtr m_outer;
@@ -44,13 +53,11 @@ namespace ast::expr
 
 	inline MbrSelectPtr makeMbrSelect( ExprPtr outer
 		, uint32_t memberIndex
-		, IdentifierPtr member )
+		, uint32_t flags )
 	{
-		auto type = member->getType();
-		return std::make_unique< MbrSelect >( std::move( type )
-			, std::move( outer )
+		return std::make_unique< MbrSelect >( std::move( outer )
 			, memberIndex
-			, std::move( member ) );
+			, flags );
 	}
 }
 

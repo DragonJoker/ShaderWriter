@@ -11,8 +11,7 @@ namespace sdw
 		return T{ &shader
 			, sdw::makeMbrSelect( makeExpr( shader, *this )
 				, member.type->getIndex()
-				, sdw::makeIdent( getTypesCache( shader )
-					, var::makeVariable( member.type, member.name ) ) ) };
+				, 0u ) };
 	}
 
 	template< typename T >
@@ -23,7 +22,6 @@ namespace sdw
 		return Array< T >{ &shader
 			, sdw::makeMbrSelect( makeExpr( shader, *this )
 				, member.type->getIndex()
-				, sdw::makeIdent( getTypesCache( shader )
-					, var::makeVariable( member.type, member.name ) ) ) };
+				, 0u ) };
 	}
 }

@@ -4,13 +4,14 @@ See LICENSE file in root folder
 #ifndef ___SDW_Prerequisites_H___
 #define ___SDW_Prerequisites_H___
 
-#include <map>
-#include <vector>
-
 #include <ShaderAST/Type/Type.hpp>
 #include <ShaderAST/Type/TypeArray.hpp>
 #include <ShaderAST/Type/TypeCache.hpp>
 #include <ShaderAST/Type/ImageConfiguration.hpp>
+
+#include <map>
+#include <type_traits>
+#include <vector>
 
 #define Writer_Parameter( TypeName )\
 	using P##TypeName = sdw::Param< TypeName >;\
@@ -1017,6 +1018,9 @@ namespace sdw
 
 	template< typename T, typename U >
 	static bool constexpr IsSameV = std::is_same< T, U >::value;
+
+	template< typename T >
+	static bool constexpr hasArithmeticOperators = TypeTraits< T >::HasArithmeticOperators;
 }
 
 #undef Writer_SampledImage

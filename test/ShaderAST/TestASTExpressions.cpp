@@ -1229,21 +1229,20 @@ namespace
 	{
 		testBegin( "testExprMbrSelect" );
 		ast::type::TypesCache cache;
-		auto outerVar = ast::var::makeVariable( cache.getInt(), "outerVar" );
-		auto member = ast::expr::makeIdentifier( cache, ast::var::makeVariable( cache.getInt(), "innerVar" ) );
-		auto expr = ast::expr::makeMbrSelect( ast::expr::makeIdentifier( cache, outerVar ), 0u, std::move( member ) );
+		auto type = cache.getStruct( ast::type::MemoryLayout::eStd140, "outer" );
+		type->declMember( "inner", cache.getInt() );
+		auto outerVar = ast::var::makeVariable( type, "outerVar" );
+		auto expr = ast::expr::makeMbrSelect( ast::expr::makeIdentifier( cache, outerVar ), 0u, uint32_t( ast::var::Flag::eShaderInput ) );
 
 		require( expr->getKind() == ast::expr::Kind::eMbrSelect );
-		check( expr->getType()->getKind() == ast::type::Kind::eInt );
+		check( expr->getOuterExpr()->getType()->getKind() == ast::type::Kind::eStruct );
 
-		check( expr->getOuterExpr()->getType()->getKind() == ast::type::Kind::eInt );
+		check( expr->getType()->getKind() == ast::type::Kind::eInt );
 		check( expr->getOuterExpr()->getKind() == ast::expr::Kind::eIdentifier );
 		check( static_cast< ast::expr::Identifier const & >( *expr->getOuterExpr() ).getVariable()->getName() == "outerVar" );
 
-		require( expr->getOperand()->getKind() == ast::expr::Kind::eIdentifier );
-		check( expr->getOperand()->getType()->getKind() == ast::type::Kind::eInt );
-		check( static_cast< ast::expr::Identifier const & >( *expr->getOperand() ).getVariable()->getType()->getKind() == ast::type::Kind::eInt );
-		check( static_cast< ast::expr::Identifier const & >( *expr->getOperand() ).getVariable()->getName() == "innerVar" );
+		check( expr->getMemberIndex() == 0u );
+		check( expr->getMemberFlags() == uint32_t( ast::var::Flag::eShaderInput ) );
 		std::cout << "ExprMbrSelect: " << ast::debug::ExprVisitor::submit( expr.get() ) << std::endl;
 		testEnd();
 	}

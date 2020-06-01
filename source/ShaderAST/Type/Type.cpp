@@ -13,24 +13,28 @@ namespace ast::type
 {
 	//*************************************************************************
 
-	Type::Type( Kind kind )
-		: Type{ nullptr, NotMember, kind }
+	Type::Type( TypesCache & cache
+		, Kind kind )
+		: Type{ cache, nullptr, NotMember, kind }
 	{
 	}
 
-	Type::Type( Struct * parent
+	Type::Type( TypesCache & cache
+		, Struct * parent
 		, uint32_t index
 		, Kind kind )
-		: m_kind{ kind }
+		: m_cache{ &cache }
+		, m_kind{ kind }
 		, m_parent{ parent }
 		, m_index{ index }
 	{
 	}
 
-	Type::Type( Struct & parent
+	Type::Type( TypesCache & cache
+		, Struct & parent
 		, uint32_t index
 		, Kind kind )
-		: Type{ &parent, index, kind }
+		: Type{ cache, &parent, index, kind }
 	{
 	}
 
@@ -40,7 +44,7 @@ namespace ast::type
 
 	TypePtr Type::getMemberType( Struct & parent, uint32_t index )const
 	{
-		return std::make_shared< Type >( parent, index, getKind() );
+		return std::make_shared< Type >( *m_cache, parent, index, getKind() );
 	}
 
 	//*************************************************************************

@@ -39,40 +39,22 @@ namespace ast::var
 		eLoopVar = 1 << 23,
 	};
 
-	class Variable
+	class FlagHolder
 	{
 	public:
-		Variable( VariablePtr outer
-			, type::TypePtr type
-			, std::string name );
-		Variable( VariablePtr outer
-			, type::TypePtr type
-			, std::string name
-			, Flag flag );
-		Variable( VariablePtr outer
-			, type::TypePtr type
-			, std::string name
-			, uint32_t flags );
-		Variable( type::TypePtr type
-			, std::string name );
-		Variable( type::TypePtr type
-			, std::string name
-			, Flag flag );
-		Variable( type::TypePtr type
-			, std::string name
-			, uint32_t flags );
-		Variable( type::FunctionPtr type
-			, std::string name );
-		virtual ~Variable();
-
-		inline type::TypePtr getType()const
+		inline FlagHolder( Flag flag )
+			: m_flags{ uint32_t( flag ) }
 		{
-			return m_type;
 		}
 
-		inline std::string const & getName()const
+		inline FlagHolder( uint32_t flags )
+			: m_flags{ flags }
 		{
-			return m_name;
+		}
+
+		inline uint32_t getFlags()const
+		{
+			return m_flags;
 		}
 
 		inline void updateFlag( Flag flag, bool set = true )
@@ -85,21 +67,6 @@ namespace ast::var
 			{
 				m_flags &= ~uint32_t( flag );
 			}
-		}
-
-		inline VariablePtr getOuter()const
-		{
-			return m_outer;
-		}
-
-		inline VariablePtr getOutermost()const
-		{
-			if ( m_outer->isMember() )
-			{
-				return m_outer->getOuter();
-			}
-
-			return m_outer;
 		}
 
 		inline bool isParam()const
@@ -186,9 +153,7 @@ namespace ast::var
 
 		inline bool isMember()const
 		{
-			assert( hasFlag( Flag::eMember ) == bool( m_outer ) );
-			return hasFlag( Flag::eMember )
-				&& m_outer;
+			return hasFlag( Flag::eMember );
 		}
 
 		inline bool isNoPerspective()const
@@ -229,10 +194,74 @@ namespace ast::var
 		}
 
 	private:
+		uint32_t m_flags;
+	};
+
+	class Variable
+		: public FlagHolder
+	{
+	public:
+		Variable( VariablePtr outer
+			, type::TypePtr type
+			, std::string name );
+		Variable( VariablePtr outer
+			, type::TypePtr type
+			, std::string name
+			, Flag flag );
+		Variable( VariablePtr outer
+			, type::TypePtr type
+			, std::string name
+			, uint32_t flags );
+		Variable( type::TypePtr type
+			, std::string name );
+		Variable( type::TypePtr type
+			, std::string name
+			, Flag flag );
+		Variable( type::TypePtr type
+			, std::string name
+			, uint32_t flags );
+		Variable( type::FunctionPtr type
+			, std::string name );
+		~Variable();
+
+		std::string getFullName()const;
+
+		inline type::TypePtr getType()const
+		{
+			return m_type;
+		}
+
+		inline std::string const & getName()const
+		{
+			return m_name;
+		}
+
+		inline VariablePtr getOuter()const
+		{
+			return m_outer;
+		}
+
+		inline VariablePtr getOutermost()const
+		{
+			if ( m_outer->isMember() )
+			{
+				return m_outer->getOuter();
+			}
+
+			return m_outer;
+		}
+
+		inline bool isMember()const
+		{
+			assert( hasFlag( Flag::eMember ) == bool( m_outer ) );
+			return hasFlag( Flag::eMember )
+				&& m_outer;
+		}
+
+	private:
 		VariablePtr m_outer;
 		type::TypePtr m_type;
 		std::string m_name;
-		uint32_t m_flags;
 	};
 
 	inline VariablePtr makeVariable( VariablePtr outer

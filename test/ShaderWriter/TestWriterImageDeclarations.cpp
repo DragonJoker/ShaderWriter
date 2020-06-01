@@ -72,7 +72,6 @@ namespace
 			auto count = shader.getStatements()->size();
 			auto value = writer.declImageArray< FormatT, AccessT, DimT, ArrayedT, DepthT, MsT >( "value", 1u, 1u, 6u, false );
 			check( !value.isEnabled() );
-			check( !value[0].isEnabled() );
 			check( getNonArrayKind( value.getType() ) == sdw::typeEnum< sdw::Image > );
 			check( getArraySize( value.getType() ) == 6u );
 			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
@@ -106,7 +105,6 @@ namespace
 			auto name = nameBase + "Value_2_2_opt";
 			auto value = writer.declImageArray< FormatT, AccessT, DimT, ArrayedT, DepthT, MsT >( name, 2u, 2u, 6u, true );
 			check( value.isEnabled() );
-			check( value[0].isEnabled() );
 			check( getNonArrayKind( value.getType() ) == sdw::typeEnum< sdw::Image > );
 			check( getArraySize( value.getType() ) == 6u );
 			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );

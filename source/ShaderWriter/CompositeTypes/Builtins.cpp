@@ -46,7 +46,7 @@ namespace sdw
 		, invocationID{ &writer.getShader(), makeIdent( writer.getTypesCache()
 			, writer.getShader().registerBuiltin( "gl_InvocationID", writer.getTypesCache().getInt(), var::Flag::eShaderInput ) ) }
 		, vtx{ &writer.getShader(), makeIdent( writer.getTypesCache()
-				, writer.getShader().registerBuiltin( "gl_in", PerVertex::getArrayType( writer.getTypesCache() ), var::Flag::eShaderInput ) ) }
+				, writer.getShader().registerBuiltin( "gl_in", PerVertex::getArrayType( writer.getTypesCache(), 32u ), var::Flag::eShaderInput ) ) }
 	{
 		addStmt( *findShader( *this )
 			, sdw::makePerVertexDecl( ast::stmt::PerVertexDecl::eTessellationControlInput
@@ -68,7 +68,7 @@ namespace sdw
 		, tessLevelInner{ &writer.getShader(), makeIdent( writer.getTypesCache()
 			, writer.getShader().registerBuiltin( "gl_TessLevelInner", writer.getTypesCache().getArray( writer.getTypesCache().getFloat(), 2u ), var::Flag::eShaderInput ) ) }
 		, vtx{ &writer.getShader(), makeIdent( writer.getTypesCache()
-			, writer.getShader().registerBuiltin( "gl_in", PerVertex::getArrayType( writer.getTypesCache() ), var::Flag::eShaderInput ) ) }
+			, writer.getShader().registerBuiltin( "gl_in", PerVertex::getArrayType( writer.getTypesCache(), 32u ), var::Flag::eShaderInput ) ) }
 	{
 		addStmt( *findShader( *this )
 			, sdw::makePerVertexDecl( ast::stmt::PerVertexDecl::eTessellationEvaluationInput
@@ -84,7 +84,7 @@ namespace sdw
 		, invocationID{ &writer.getShader(), makeIdent( writer.getTypesCache()
 			, writer.getShader().registerBuiltin( "gl_InvocationID", writer.getTypesCache().getInt(), var::Flag::eShaderInput ) ) }
 		, vtx{ &writer.getShader(), makeIdent( writer.getTypesCache()
-			, writer.getShader().registerBuiltin( "gl_in", PerVertex::getArrayType( writer.getTypesCache() ), var::Flag::eShaderInput ) ) }
+			, writer.getShader().registerBuiltin( "gl_in", PerVertex::getArrayType( writer.getTypesCache(), 3u ), var::Flag::eShaderInput ) ) }
 	{
 		addStmt( *findShader( *this )
 			, sdw::makePerVertexDecl( ast::stmt::PerVertexDecl::eGeometryInput
@@ -163,7 +163,7 @@ namespace sdw
 		, tessLevelInner{ &writer.getShader(), makeIdent( writer.getTypesCache()
 			, writer.getShader().registerBuiltin( "gl_TessLevelInner", writer.getTypesCache().getArray( writer.getTypesCache().getFloat(), 2u ), var::Flag::eShaderOutput ) ) }
 		, vtx{ &writer.getShader(), makeIdent( writer.getTypesCache()
-			, writer.getShader().registerBuiltin( "gl_out", PerVertex::getArrayType( writer.getTypesCache() ), var::Flag::eShaderOutput ) ) }
+			, writer.getShader().registerBuiltin( "gl_out", PerVertex::getArrayType( writer.getTypesCache(), 32u ), var::Flag::eShaderOutput ) ) }
 	{
 		addStmt( *findShader( *this )
 			, sdw::makePerVertexDecl( ast::stmt::PerVertexDecl::eTessellationControlOutput
@@ -193,7 +193,7 @@ namespace sdw
 		, viewportIndex{ &writer.getShader(), makeIdent( writer.getTypesCache()
 			, writer.getShader().registerBuiltin( "gl_ViewportIndex", writer.getTypesCache().getInt(), var::Flag::eShaderOutput ) ) }
 		, vtx{ &writer.getShader(), makeIdent( writer.getTypesCache()
-			, writer.getShader().registerBuiltin( "", PerVertex::getArrayType( writer.getTypesCache() ), var::Flag::eShaderOutput ) ) }
+			, writer.getShader().registerBuiltin( "", PerVertex::getBaseType( writer.getTypesCache() ), var::Flag::eShaderOutput ) ) }
 	{
 		addStmt( *findShader( *this )
 			, sdw::makePerVertexDecl( ast::stmt::PerVertexDecl::eGeometryOutput

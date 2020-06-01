@@ -198,9 +198,6 @@ set( ${PROJECT_NAME}_FOLDER_SOURCE_FILES
 	${SOURCE_DIR}/Expr/ExprUnaryMinus.cpp
 	${SOURCE_DIR}/Expr/ExprUnaryPlus.cpp
 	${SOURCE_DIR}/Expr/ExprXorAssign.cpp
-	${SOURCE_DIR}/Expr/MakeImageAccess.cpp
-	${SOURCE_DIR}/Expr/MakeIntrinsic.cpp
-	${SOURCE_DIR}/Expr/MakeTextureAccess.cpp
 	${SOURCE_DIR}/Expr/SwizzleKind.cpp
 )
 source_group( "Enum Files\\Expr"
@@ -458,16 +455,9 @@ if ( SDW_GENERATE_SOURCE AND PYTHONINTERP_FOUND )
 	)
 	add_custom_command( OUTPUT ${INCLUDE_DIR}/Expr/MakeImageAccess.hpp
 		COMMAND ${CMAKE_COMMAND} -E make_directory ${GENERATED_DIR}
-		COMMAND ${PYTHON_EXECUTABLE} ${SCRIPT_DIR}/genMakeHeaderFromEnum.py ${INCLUDE_DIR}/Expr/ImageAccess.enum ${GENERATED_DIR}/MakeImageAccess.hpp
+		COMMAND ${PYTHON_EXECUTABLE} ${SCRIPT_DIR}/genMakeSourceFromEnum.py ${INCLUDE_DIR}/Expr/ImageAccess.enum ${GENERATED_DIR}/MakeImageAccess.hpp
 		COMMAND ${CMAKE_COMMAND} -E copy_if_different ${GENERATED_DIR}/MakeImageAccess.hpp ${INCLUDE_DIR}/Expr/MakeImageAccess.hpp
 		COMMENT "Generating MakeImageAccess.hpp"
-		DEPENDS ${SCRIPT_DIR}/genMakeHeaderFromEnum.py ${INCLUDE_DIR}/Expr/ImageAccess.enum
-	)
-	add_custom_command( OUTPUT ${SOURCE_DIR}/Expr/MakeImageAccess.cpp
-		COMMAND ${CMAKE_COMMAND} -E make_directory ${GENERATED_DIR}
-		COMMAND ${PYTHON_EXECUTABLE} ${SCRIPT_DIR}/genMakeSourceFromEnum.py ${INCLUDE_DIR}/Expr/ImageAccess.enum ${GENERATED_DIR}/MakeImageAccess.cpp
-		COMMAND ${CMAKE_COMMAND} -E copy_if_different ${GENERATED_DIR}/MakeImageAccess.cpp ${SOURCE_DIR}/Expr/MakeImageAccess.cpp
-		COMMENT "Generating MakeImageAccess.cpp"
 		DEPENDS ${SCRIPT_DIR}/genMakeSourceFromEnum.py ${INCLUDE_DIR}/Expr/ImageAccess.enum
 	)
 	add_custom_command( OUTPUT ${INCLUDE_DIR}/Expr/EnumTextureAccess.hpp
@@ -486,16 +476,9 @@ if ( SDW_GENERATE_SOURCE AND PYTHONINTERP_FOUND )
 	)
 	add_custom_command( OUTPUT ${INCLUDE_DIR}/Expr/MakeTextureAccess.hpp
 		COMMAND ${CMAKE_COMMAND} -E make_directory ${GENERATED_DIR}
-		COMMAND ${PYTHON_EXECUTABLE} ${SCRIPT_DIR}/genMakeHeaderFromEnum.py ${INCLUDE_DIR}/Expr/TextureAccess.enum ${GENERATED_DIR}/MakeTextureAccess.hpp
+		COMMAND ${PYTHON_EXECUTABLE} ${SCRIPT_DIR}/genMakeSourceFromEnum.py ${INCLUDE_DIR}/Expr/TextureAccess.enum ${GENERATED_DIR}/MakeTextureAccess.hpp
 		COMMAND ${CMAKE_COMMAND} -E copy_if_different ${GENERATED_DIR}/MakeTextureAccess.hpp ${INCLUDE_DIR}/Expr/MakeTextureAccess.hpp
 		COMMENT "Generating MakeTextureAccess.hpp"
-		DEPENDS ${SCRIPT_DIR}/genMakeHeaderFromEnum.py ${INCLUDE_DIR}/Expr/TextureAccess.enum
-	)
-	add_custom_command( OUTPUT ${SOURCE_DIR}/Expr/MakeTextureAccess.cpp
-		COMMAND ${CMAKE_COMMAND} -E make_directory ${GENERATED_DIR}
-		COMMAND ${PYTHON_EXECUTABLE} ${SCRIPT_DIR}/genMakeSourceFromEnum.py ${INCLUDE_DIR}/Expr/TextureAccess.enum ${GENERATED_DIR}/MakeTextureAccess.cpp
-		COMMAND ${CMAKE_COMMAND} -E copy_if_different ${GENERATED_DIR}/MakeTextureAccess.cpp ${SOURCE_DIR}/Expr/MakeTextureAccess.cpp
-		COMMENT "Generating MakeTextureAccess.cpp"
 		DEPENDS ${SCRIPT_DIR}/genMakeSourceFromEnum.py ${INCLUDE_DIR}/Expr/TextureAccess.enum
 	)
 	add_custom_command( OUTPUT ${INCLUDE_DIR}/Expr/EnumIntrinsic.hpp
@@ -514,16 +497,9 @@ if ( SDW_GENERATE_SOURCE AND PYTHONINTERP_FOUND )
 	)
 	add_custom_command( OUTPUT ${INCLUDE_DIR}/Expr/MakeIntrinsic.hpp
 		COMMAND ${CMAKE_COMMAND} -E make_directory ${GENERATED_DIR}
-		COMMAND ${PYTHON_EXECUTABLE} ${SCRIPT_DIR}/genMakeHeaderFromEnum.py ${INCLUDE_DIR}/Expr/Intrinsic.enum ${GENERATED_DIR}/MakeIntrinsic.hpp
+		COMMAND ${PYTHON_EXECUTABLE} ${SCRIPT_DIR}/genMakeSourceFromEnum.py ${INCLUDE_DIR}/Expr/Intrinsic.enum ${GENERATED_DIR}/MakeIntrinsic.hpp
 		COMMAND ${CMAKE_COMMAND} -E copy_if_different ${GENERATED_DIR}/MakeIntrinsic.hpp ${INCLUDE_DIR}/Expr/MakeIntrinsic.hpp
 		COMMENT "Generating MakeIntrinsic.hpp"
-		DEPENDS ${SCRIPT_DIR}/genMakeHeaderFromEnum.py ${INCLUDE_DIR}/Expr/Intrinsic.enum
-	)
-	add_custom_command( OUTPUT ${SOURCE_DIR}/Expr/MakeIntrinsic.cpp
-		COMMAND ${CMAKE_COMMAND} -E make_directory ${GENERATED_DIR}
-		COMMAND ${PYTHON_EXECUTABLE} ${SCRIPT_DIR}/genMakeSourceFromEnum.py ${INCLUDE_DIR}/Expr/Intrinsic.enum ${GENERATED_DIR}/MakeIntrinsic.cpp
-		COMMAND ${CMAKE_COMMAND} -E copy_if_different ${GENERATED_DIR}/MakeIntrinsic.cpp ${SOURCE_DIR}/Expr/MakeIntrinsic.cpp
-		COMMENT "Generating MakeIntrinsic.cpp"
 		DEPENDS ${SCRIPT_DIR}/genMakeSourceFromEnum.py ${INCLUDE_DIR}/Expr/Intrinsic.enum
 	)
 	source_group( "Script Files" FILES

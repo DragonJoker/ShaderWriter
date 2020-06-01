@@ -63,7 +63,7 @@ namespace sdw
 		doPopScope();
 		auto functionType = decl->getType();
 		addStmt( std::move( decl ) );
-		return Function< ReturnT, ParamsT... >{ &m_shader, functionType, name };
+		return Function< ReturnT, ParamsT... >{ m_shader.get(), functionType, name };
 	}
 
 	inline void ShaderWriter::implementMain( std::function< void() > const & function )
@@ -199,42 +199,42 @@ namespace sdw
 	inline DestT ShaderWriter::cast( Value const & from )
 	{
 		static_assert( !isOptional< DestT >, "Can't cast to an optional type." );
-		return details::Cast< DestT, Value >::cast( m_shader, from );
+		return details::Cast< DestT, Value >::cast( *m_shader, from );
 	}
 
 	template< typename DestT, typename SrcT >
 	inline Optional< DestT > ShaderWriter::cast( Optional< SrcT > const & from )
 	{
 		static_assert( !isOptional< DestT >, "Can't cast to an optional type." );
-		return details::Cast< Optional< DestT >, Optional< SrcT > >::cast( m_shader, from );
+		return details::Cast< Optional< DestT >, Optional< SrcT > >::cast( *m_shader, from );
 	}
 
 	template< typename DestT >
 	inline DestT ShaderWriter::cast( int32_t from )
 	{
 		static_assert( !isOptional< DestT >, "Can't cast to an optional type." );
-		return details::Cast< DestT, int32_t >::cast( m_shader, from );
+		return details::Cast< DestT, int32_t >::cast( *m_shader, from );
 	}
 
 	template< typename DestT >
 	inline DestT ShaderWriter::cast( uint32_t from )
 	{
 		static_assert( !isOptional< DestT >, "Can't cast to an optional type." );
-		return details::Cast< DestT, uint32_t >::cast( m_shader, from );
+		return details::Cast< DestT, uint32_t >::cast( *m_shader, from );
 	}
 
 	template< typename DestT >
 	inline DestT ShaderWriter::cast( float from )
 	{
 		static_assert( !isOptional< DestT >, "Can't cast to an optional type." );
-		return details::Cast< DestT, float >::cast( m_shader, from );
+		return details::Cast< DestT, float >::cast( *m_shader, from );
 	}
 
 	template< typename DestT >
 	inline DestT ShaderWriter::cast( double from )
 	{
 		static_assert( !isOptional< DestT >, "Can't cast to an optional type." );
-		return details::Cast< DestT, double >::cast( m_shader, from );
+		return details::Cast< DestT, double >::cast( *m_shader, from );
 	}
 	/**@}*/
 #pragma endregion
@@ -256,7 +256,7 @@ namespace sdw
 		, expr::ExprPtr right )
 	{
 		auto type = left->getType();
-		return ExprType{ &m_shader
+		return ExprType{ m_shader.get()
 			, sdw::makeQuestion( type
 				, std::move( condition )
 				, std::move( left )
@@ -269,7 +269,7 @@ namespace sdw
 		, ExprType right )
 	{
 		auto type = left.getType();
-		return ExprType{ &m_shader
+		return ExprType{ m_shader.get()
 			, sdw::makeQuestion( type
 				, makeExpr( getShader(), std::move( condition ) )
 				, makeExpr( getShader(), std::move( left ) )
@@ -292,7 +292,7 @@ namespace sdw
 			, type );
 		addStmt( sdw::makeSimple( sdw::makeInit( var
 			, makeConstExpr( getShader(), rhs ) ) ) );
-		return T{ &m_shader
+		return T{ m_shader.get()
 			, makeConstExpr( getShader(), var ) };
 	}
 
@@ -311,7 +311,7 @@ namespace sdw
 				, makeConstExpr( getShader(), rhs ) ) ) );
 		}
 
-		return Optional< T >{ &m_shader
+		return Optional< T >{ m_shader.get()
 			, makeConstExpr( getShader(), var )
 			, enabled };
 	}
@@ -326,7 +326,7 @@ namespace sdw
 			, type );
 		addStmt( sdw::makeSimple( sdw::makeAggrInit( var
 				, makeConstExpr( getShader(), rhs ) ) ) );
-		return Array< T >{ &m_shader
+		return Array< T >{ m_shader.get()
 			, makeConstExpr( getShader(), var ) };
 	}
 
@@ -346,7 +346,7 @@ namespace sdw
 				, makeConstExpr( getShader(), rhs ) ) ) );
 		}
 
-		return Optional< Array< T > >{ &m_shader
+		return Optional< Array< T > >{ m_shader.get()
 			, makeConstExpr( getShader(), var )
 			, enabled };
 	}
@@ -376,7 +376,7 @@ namespace sdw
 		addStmt( sdw::makeSampledImgDecl( var
 			, binding
 			, set ) );
-		return T{ &m_shader
+		return T{ m_shader.get()
 			, makeExpr( getShader(), var ) };
 	}
 
@@ -405,7 +405,7 @@ namespace sdw
 				, set ) );
 		}
 
-		return Optional< T >{ &m_shader
+		return Optional< T >{ m_shader.get()
 			, makeExpr( getShader(), var )
 			, enabled };
 	}
@@ -430,7 +430,7 @@ namespace sdw
 		addStmt( sdw::makeSampledImgDecl( var
 			, binding
 			, set ) );
-		return Array< T >{ &m_shader
+		return Array< T >{ m_shader.get()
 			, makeExpr( getShader(), var ) };
 	}
 
@@ -461,7 +461,7 @@ namespace sdw
 				, set ) );
 		}
 
-		return Optional< Array< T > >{ &m_shader
+		return Optional< Array< T > >{ m_shader.get()
 			, makeExpr( getShader(), var )
 			, enabled };
 	}
@@ -492,7 +492,7 @@ namespace sdw
 		addStmt( sdw::makeImageDecl( var
 			, binding
 			, set ) );
-		return T{ &m_shader
+		return T{ m_shader.get()
 			, makeExpr( getShader(), var ) };
 	}
 
@@ -522,7 +522,7 @@ namespace sdw
 				, set ) );
 		}
 
-		return Optional< T >{ &m_shader
+		return Optional< T >{ m_shader.get()
 			, makeExpr( getShader(), var )
 			, enabled };
 	}
@@ -548,7 +548,7 @@ namespace sdw
 		addStmt( sdw::makeImageDecl( var
 			, binding
 			, set ) );
-		return Array< T >{ &m_shader
+		return Array< T >{ m_shader.get()
 			, makeExpr( getShader(), var ) };
 	}
 
@@ -580,7 +580,7 @@ namespace sdw
 				, set ) );
 		}
 
-		return Optional< Array< T > >{ &m_shader
+		return Optional< Array< T > >{ m_shader.get()
 			, makeExpr( getShader(), var )
 			, enabled };
 	}
@@ -621,7 +621,7 @@ namespace sdw
 			, type );
 		addStmt( sdw::makeInOutVariableDecl( var
 			, location ) );
-		return T{ &m_shader
+		return T{ m_shader.get()
 			, makeExpr( getShader(), var ) };
 	}
 
@@ -658,7 +658,7 @@ namespace sdw
 			, type );
 		addStmt( sdw::makeInOutVariableDecl( var
 			, location ) );
-		return Array< T >{ &m_shader
+		return Array< T >{ m_shader.get()
 			, makeExpr( getShader(), var ) };
 	}
 
@@ -699,7 +699,7 @@ namespace sdw
 				, location ) );
 		}
 
-		return Optional< T >{ &m_shader
+		return Optional< T >{ m_shader.get()
 			, makeExpr( getShader(), var )
 			, enabled };
 	}
@@ -745,7 +745,7 @@ namespace sdw
 				, location ) );
 		}
 
-		return Optional< Array< T > >{ &m_shader
+		return Optional< Array< T > >{ m_shader.get()
 			, makeExpr( getShader(), var )
 			, enabled };
 	}
@@ -798,7 +798,7 @@ namespace sdw
 				, makeConstExpr( getShader(), defaultValue ) ) ) );
 		}
 
-		return T{ &m_shader
+		return T{ m_shader.get()
 			, makeExpr( getShader(), var ) };
 	}
 
@@ -854,7 +854,7 @@ namespace sdw
 				, makeConstExpr( getShader(), defaultValue ) ) ) );
 		}
 
-		return Array< T >{ &m_shader
+		return Array< T >{ m_shader.get()
 			, makeExpr( getShader(), var ) };
 	}
 	/**@}*/
@@ -894,7 +894,7 @@ namespace sdw
 			, type );
 		addStmt( sdw::makeInOutVariableDecl( var
 			, location ) );
-		return T{ &m_shader
+		return T{ m_shader.get()
 			, makeExpr( getShader(), var ) };
 	}
 
@@ -931,7 +931,7 @@ namespace sdw
 			, type );
 		addStmt( sdw::makeInOutVariableDecl( var
 			, location ) );
-		return Array< T >{ &m_shader
+		return Array< T >{ m_shader.get()
 			, makeExpr( getShader(), var ) };
 	}
 
@@ -972,7 +972,7 @@ namespace sdw
 				, location ) );
 		}
 
-		return Optional< T >{ &m_shader
+		return Optional< T >{ m_shader.get()
 			, makeExpr( getShader(), var )
 			, enabled };
 	}
@@ -1018,7 +1018,7 @@ namespace sdw
 				, location ) );
 		}
 
-		return Optional< Array< T > >{ &m_shader
+		return Optional< Array< T > >{ m_shader.get()
 			, makeExpr( getShader(), var )
 			, enabled };
 	}
@@ -1044,7 +1044,7 @@ namespace sdw
 		auto var = registerLocale( name
 			, type );
 		addStmt( sdw::makeVariableDecl( var ) );
-		return T{ &m_shader
+		return T{ m_shader.get()
 			, makeExpr( getShader(), var ) };
 	}
 
@@ -1057,7 +1057,7 @@ namespace sdw
 			, type );
 		addStmt( sdw::makeSimple( sdw::makeInit( var
 			, makeExpr( getShader(), rhs ) ) ) );
-		return T{ &m_shader
+		return T{ m_shader.get()
 			, makeExpr( getShader(), var ) };
 	}
 
@@ -1077,12 +1077,12 @@ namespace sdw
 
 		if ( rhs.isOptional() )
 		{
-			return MaybeOptional< T >{ &m_shader
+			return MaybeOptional< T >{ m_shader.get()
 				, makeExpr( getShader(), var )
 				, rhs.isEnabled() };
 		}
 
-		return MaybeOptional< T >{ &m_shader
+		return MaybeOptional< T >{ m_shader.get()
 			, makeExpr( getShader(), var ) };
 	}
 
@@ -1099,7 +1099,7 @@ namespace sdw
 			addStmt( sdw::makeVariableDecl( var ) );
 		}
 
-		return Optional< T >{ &m_shader
+		return Optional< T >{ m_shader.get()
 			, makeExpr( getShader(), var )
 			, enabled };
 	}
@@ -1123,7 +1123,7 @@ namespace sdw
 				, makeConstExpr( getShader(), defaultValue ) ) ) );
 		}
 
-		return T{ &m_shader
+		return T{ m_shader.get()
 			, makeExpr( getShader(), var ) };
 	}
 
@@ -1141,7 +1141,7 @@ namespace sdw
 				, makeExpr( getShader(), rhs ) ) ) );
 		}
 
-		return Optional< T >{ &m_shader
+		return Optional< T >{ m_shader.get()
 			, makeExpr( getShader(), var )
 			, rhs.isEnabled() };
 	}
@@ -1161,7 +1161,7 @@ namespace sdw
 				, makeExpr( getShader(), rhs ) ) ) );
 		}
 
-		return Optional< T >{ &m_shader
+		return Optional< T >{ m_shader.get()
 			, makeExpr( getShader(), var )
 			, enabled };
 	}
@@ -1175,7 +1175,7 @@ namespace sdw
 		auto var = registerLocale( name
 			, type );
 		addStmt( sdw::makeVariableDecl( var ) );
-		return Array< T >{ &m_shader
+		return Array< T >{ m_shader.get()
 			, makeExpr( getShader(), var ) };
 	}
 
@@ -1190,7 +1190,7 @@ namespace sdw
 			, type );
 		addStmt( sdw::makeSimple( sdw::makeAggrInit( var
 			, makeExpr( getShader(), rhs ) ) ) );
-		return Array< T >{ &m_shader
+		return Array< T >{ m_shader.get()
 			, makeExpr( getShader(), var ) };
 	}
 
@@ -1209,7 +1209,7 @@ namespace sdw
 			addStmt( sdw::makeVariableDecl( var ) );
 		}
 
-		return Optional< Array< T > >{ &m_shader
+		return Optional< Array< T > >{ m_shader.get()
 			, makeExpr( getShader(), var )
 			, enabled };
 	}
@@ -1235,7 +1235,7 @@ namespace sdw
 				, makeConstExpr( getShader(), defaultValue ) ) ) );
 		}
 
-		return Array< T >{ &m_shader
+		return Array< T >{ m_shader.get()
 			, makeExpr( getShader(), var ) };
 	}
 
@@ -1256,7 +1256,7 @@ namespace sdw
 				, makeExpr( getShader(), rhs ) ) ) );
 		}
 
-		return Optional< Array< T > >{ &m_shader
+		return Optional< Array< T > >{ m_shader.get()
 			, makeExpr( getShader(), var )
 			, enabled };
 	}
@@ -1288,7 +1288,7 @@ namespace sdw
 		auto var = getVar( name );
 		T result
 		{
-			&m_shader,
+			m_shader.get(),
 			makeExpr( getShader(), var ),
 		};
 		details::checkTypes( var->getType(), result.getType() );
@@ -1302,7 +1302,7 @@ namespace sdw
 		auto var = getVar( name );
 		Optional< T > result
 		{
-			&m_shader,
+			m_shader.get(),
 			makeExpr( getShader(), var ),
 			enabled,
 		};
@@ -1316,7 +1316,7 @@ namespace sdw
 		auto var = getVar( name );
 		Array< T > result
 		{
-			&m_shader,
+			m_shader.get(),
 			makeExpr( getShader(), var ),
 		};
 		details::checkTypes( var->getType(), result.getType() );
@@ -1330,7 +1330,7 @@ namespace sdw
 		auto var = getVar( name );
 		Optional< Array< T > > result
 		{
-			&m_shader,
+			m_shader.get(),
 			makeExpr( getShader(), var ),
 			enabled
 		};

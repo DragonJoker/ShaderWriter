@@ -79,13 +79,11 @@ namespace
 			auto value = bo.template declMember< T >( name, 4u, false );
 			bo.end();
 			check( !value.isEnabled() );
-			check( !value[0].isEnabled() );
 			check( getNonArrayKind( value.getType() ) == sdw::typeEnum< T > );
 			check( getArraySize( value.getType() ) == 4u );
 			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			auto retrieved = bo.template getMemberArray< T >( name, false );
 			check( !retrieved.isEnabled() );
-			check( !retrieved[0].isEnabled() );
 			check( getNonArrayKind( retrieved.getType() ) == sdw::typeEnum< T > );
 			check( getArraySize( retrieved.getType() ) == 4u );
 			require( retrieved.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
@@ -125,13 +123,11 @@ namespace
 			auto value = bo.template declMember< T >( name, 4u, true );
 			bo.end();
 			check( value.isEnabled() );
-			check( value[0].isEnabled() );
 			check( getNonArrayKind( value.getType() ) == sdw::typeEnum< T > );
 			check( getArraySize( value.getType() ) == 4u );
 			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			auto retrieved = bo.template getMemberArray< T >( name, true );
 			check( retrieved.isEnabled() );
-			check( retrieved[0].isEnabled() );
 			check( getNonArrayKind( retrieved.getType() ) == sdw::typeEnum< T > );
 			check( getArraySize( retrieved.getType() ) == 4u );
 			require( retrieved.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );

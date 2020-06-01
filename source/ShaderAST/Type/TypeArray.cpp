@@ -13,7 +13,7 @@ namespace ast::type
 
 	Array::Array( TypePtr type
 		, uint32_t arraySize )
-		: Type{ Kind::eArray }
+		: Type{ type->getCache(), Kind::eArray }
 		, m_type{ std::move( type ) }
 		, m_arraySize{ arraySize }
 	{
@@ -24,7 +24,7 @@ namespace ast::type
 		, uint32_t index
 		, TypePtr type
 		, uint32_t arraySize )
-		: Type{ parent, index, Kind::eArray }
+		: Type{ type->getCache(), parent, index, Kind::eArray }
 		, m_type{ std::move( type ) }
 		, m_arraySize{ arraySize }
 	{

@@ -35,9 +35,10 @@ namespace sdw
 	SDW_API ast::stmt::Container * getContainer( Shader & shader );
 	SDW_API ShaderWriter & getCurrentWriter();
 	SDW_API ast::type::TypesCache & getTypesCache( ShaderWriter & writer );
+	SDW_API ast::type::TypesCache & getTypesCache( ShaderWriter const & writer );
 	SDW_API ast::type::TypesCache & getTypesCache( Shader const & shader );
 	SDW_API Shader & getShader( ShaderWriter & writer );
-	SDW_API Shader const & getShader( ShaderWriter const & writer );
+	SDW_API Shader & getShader( ShaderWriter const & writer );
 	SDW_API expr::LiteralPtr makeLiteral( Shader const & shader
 		, bool value );
 	SDW_API expr::LiteralPtr makeLiteral( Shader const & shader
@@ -222,7 +223,7 @@ namespace sdw
 		, expr::ExprList && args );
 	SDW_API expr::ExprPtr makeMbrSelect( expr::ExprPtr outer
 		, uint32_t memberIndex
-		, expr::IdentifierPtr inner );
+		, uint32_t flags );
 	SDW_API expr::ExprPtr makeSwizzle( expr::ExprPtr outer
 		, expr::SwizzleKind swizzle );
 	SDW_API expr::ExprPtr makeQuestion( type::TypePtr type

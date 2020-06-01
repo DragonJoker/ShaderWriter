@@ -7,13 +7,21 @@ See LICENSE file in root folder
 
 namespace ast::expr
 {
-	MbrSelect::MbrSelect( type::TypePtr type
-		, ExprPtr outer
+	namespace
+	{
+		type::TypePtr getMbrType( type::TypePtr outerType
+			, uint32_t memberIndex )
+		{
+			assert( outerType->getKind() == type::Kind::eStruct );
+			return ( static_cast< type::Struct const & >( *outerType ).begin() + memberIndex )->type;
+		}
+	}
+
+	MbrSelect::MbrSelect( ExprPtr outer
 		, uint32_t memberIndex
-		, IdentifierPtr member )
-		: Unary{ std::move( type )
-			, std::move( member )
-			, Kind::eMbrSelect }
+		, uint32_t memberFlags )
+		: Expr{ outer->getCache(), getMbrType( outer->getType(), memberIndex ), Kind::eMbrSelect }
+		, var::FlagHolder{ memberFlags }
 		, m_outer{ std::move( outer ) }
 		, m_memberIndex{ memberIndex }
 	{

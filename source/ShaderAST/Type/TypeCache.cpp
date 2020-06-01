@@ -36,9 +36,9 @@ namespace ast::type
 	//*************************************************************************
 
 	TypesCache::TypesCache()
-		: m_image{ []( ImageConfiguration config )
+		: m_image{ [this]( ImageConfiguration config )
 			{
-				return std::make_shared< Image >( std::move( config ) );
+				return std::make_shared< Image >( *this, std::move( config ) );
 			}
 			, []( ImageConfiguration const & config )
 			{
@@ -52,9 +52,9 @@ namespace ast::type
 			{
 				return getHash( config );
 			} }
-		, m_sampler{ []( bool comparison )
+		, m_sampler{ [this]( bool comparison )
 			{
-				return std::make_shared< Sampler >( comparison );
+				return std::make_shared< Sampler >( *this, comparison );
 			}
 			, []( bool comparison )
 			{
@@ -97,7 +97,7 @@ namespace ast::type
 	{
 		for ( uint32_t i = uint32_t( Kind::eUndefined ); i <= uint32_t( Kind::eMat4x4D ); ++i )
 		{
-			m_basicTypes[i] = std::make_shared< Type >( Kind( i ) );
+			m_basicTypes[i] = std::make_shared< Type >( *this, Kind( i ) );
 		}
 	}
 

@@ -788,7 +788,7 @@ namespace hlsl
 				it = adaptationData.inputMembers.emplace( var
 					, ast::expr::makeMbrSelect( ast::expr::makeIdentifier( cache, adaptationData.inputVar )
 						, uint32_t( adaptationData.inputMembers.size() )
-						, ast::expr::makeIdentifier( cache, var ) ) ).first;
+						, var->getFlags() ) ).first;
 			}
 
 			return ast::ExprCloner::submit( it->second );
@@ -806,7 +806,7 @@ namespace hlsl
 				it = adaptationData.outputMembers.emplace( var
 					, ast::expr::makeMbrSelect( ast::expr::makeIdentifier( cache, adaptationData.outputVar )
 						, uint32_t( adaptationData.outputMembers.size() )
-						, ast::expr::makeIdentifier( cache, var ) ) ).first;
+						, var->getFlags() ) ).first;
 			}
 
 			return ast::ExprCloner::submit( it->second );
@@ -1222,20 +1222,23 @@ namespace hlsl
 
 			if ( it != m_adaptationData.ssboList.end() )
 			{
-				m_result = ast::expr::makeIdentifier( m_cache, expr->getMember()->getVariable() );
+				auto var = ast::var::makeVariable( expr->getType()
+					, expr->getOuterType()->getMember( expr->getMemberIndex() ).name
+					, expr->getMemberFlags() );
+				m_result = ast::expr::makeIdentifier( m_cache, var );
 			}
 			else
 			{
 				m_result = ast::expr::makeMbrSelect( doSubmit( expr->getOuterExpr() )
 					, expr->getMemberIndex()
-					, ast::expr::makeIdentifier( m_cache, expr->getMember()->getVariable() ) );
+					, expr->getMemberFlags() );
 			}
 		}
 		else
 		{
 			m_result = ast::expr::makeMbrSelect( doSubmit( expr->getOuterExpr() )
 				, expr->getMemberIndex()
-				, ast::expr::makeIdentifier( m_cache, expr->getMember()->getVariable() ) );
+				, expr->getMemberFlags() );
 		}
 	}
 
