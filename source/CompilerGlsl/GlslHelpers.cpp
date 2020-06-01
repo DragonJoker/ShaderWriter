@@ -366,21 +366,21 @@ namespace glsl
 		return result;
 	}
 
-	std::string getStatusName( ast::stmt::PreprocExtension::Status status )
+	std::string getStatusName( ast::stmt::PreprocExtension::ExtStatus status )
 	{
 		std::string result;
 
 		switch ( status )
 		{
-		case ast::stmt::PreprocExtension::Status::eDisabled:
+		case ast::stmt::PreprocExtension::ExtStatus::eDisabled:
 			result = "disable";
 			break;
 
-		case ast::stmt::PreprocExtension::Status::eEnabled:
+		case ast::stmt::PreprocExtension::ExtStatus::eEnabled:
 			result = "enable";
 			break;
 
-		case ast::stmt::PreprocExtension::Status::eRequired:
+		case ast::stmt::PreprocExtension::ExtStatus::eRequired:
 			result = "require";
 			break;
 
