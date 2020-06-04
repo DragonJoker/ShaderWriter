@@ -8,6 +8,7 @@ See LICENSE file in root folder
 #include "GlslIntrinsicNames.hpp"
 #include "GlslTextureAccessNames.hpp"
 
+#include <stdexcept>
 #include <sstream>
 #include <iomanip>
 
