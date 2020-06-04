@@ -1,5 +1,5 @@
 set( _FOLDER_NAME ShaderAST )
-project( sdw${_FOLDER_NAME} )
+project( ${_FOLDER_NAME} )
 
 set( INCLUDE_DIR ${SDW_SOURCE_DIR}/include/${_FOLDER_NAME} )
 set( SOURCE_DIR ${SDW_SOURCE_DIR}/source/${_FOLDER_NAME} )
@@ -521,6 +521,7 @@ add_library( sdw::${_FOLDER_NAME}
 set_target_properties( ${PROJECT_NAME}
 	PROPERTIES
 		CXX_STANDARD 17
+		PREFIX sdw
 		FOLDER "${SDW_BASE_DIR}/Core"
 )
 target_add_precompiled_header( ${PROJECT_NAME}
@@ -536,6 +537,6 @@ target_include_directories( ${PROJECT_NAME}
 		${INCLUDE_DIR}
 		${SOURCE_DIR}
 )
-
-# We install headers to <install_dir>/include/${_FOLDER_NAME}
-target_install_headers( ${PROJECT_NAME} ${SDW_SOURCE_DIR}/include/${_FOLDER_NAME} )
+target_install_headers( ${PROJECT_NAME}
+	${SDW_SOURCE_DIR}/include/${_FOLDER_NAME}
+)
