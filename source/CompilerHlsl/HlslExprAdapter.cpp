@@ -18,6 +18,7 @@ See LICENSE file in root folder
 #include <ShaderAST/Type/TypeSampledImage.hpp>
 
 #include <algorithm>
+#include <stdexcept>
 
 namespace hlsl
 {

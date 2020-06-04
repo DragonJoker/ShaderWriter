@@ -31,12 +31,24 @@ namespace sdw
 		m_shader.registerUbo( m_name, m_info );
 	}
 
-	StructInstance Ubo::declMember( std::string const & name, Struct const & s )
+	StructInstance Ubo::declStructMember( std::string const & name
+		, Struct const & s )
 	{
 		auto type = m_interface.registerMember( name, s.getType() );
 		auto var = registerMember( m_shader, m_var, name, type );
 		m_stmt->add( stmt::makeVariableDecl( var ) );
 		return StructInstance{ &m_shader
+			, makeExpr( m_shader, var ) };
+	}
+
+	Array< StructInstance > Ubo::declStructMember( std::string const & name
+		, Struct const & s
+		, uint32_t dimension )
+	{
+		auto type = m_interface.registerMember( name, s.getType(), dimension );
+		auto var = registerMember( m_shader, m_var, name, type );
+		m_stmt->add( stmt::makeVariableDecl( var ) );
+		return Array< StructInstance >{ &m_shader
 			, makeExpr( m_shader, var ) };
 	}
 }

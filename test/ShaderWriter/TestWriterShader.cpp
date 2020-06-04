@@ -101,7 +101,7 @@ namespace
 		S.end();
 
 		Ubo blockName{ writer, "blockName", 0u, 0u };
-		blockName.declMember( "s", S );
+		blockName.declStructMember( "s", S );
 		blockName.declMember< Int >( "cond" );
 		blockName.end();
 		auto s = blockName.getMember< StructInstance >( "s" );
@@ -1504,29 +1504,29 @@ namespace
 int main( int argc, char ** argv )
 {
 	sdwTestSuiteBegin( "TestWriterShader" );
-	//reference( testCounts );
-	//vertex( testCounts );
-	//fragment( testCounts );
-	//compute( testCounts );
-	//params( testCounts );
-	//swizzles( testCounts );
-	//arrayAccesses( testCounts );
-	//removeGamma( testCounts );
-	//conversions( testCounts );
-	//returns( testCounts );
-	//outputs( testCounts );
-	//skybox( testCounts );
-	//vtx_frag( testCounts );
-	//charles( testCounts );
-	//charles_approx( testCounts );
-	//charles_latest( testCounts );
-	//radiance_computer( testCounts );
-	//arthapzMin( testCounts );
-	//arthapz( testCounts, false, false );
-	//arthapz( testCounts, false, true );
-	//arthapz( testCounts, true, false );
-	//arthapz( testCounts, true, true );
-	//basicGeometry( testCounts );
+	reference( testCounts );
+	vertex( testCounts );
+	fragment( testCounts );
+	compute( testCounts );
+	params( testCounts );
+	swizzles( testCounts );
+	arrayAccesses( testCounts );
+	removeGamma( testCounts );
+	conversions( testCounts );
+	returns( testCounts );
+	outputs( testCounts );
+	skybox( testCounts );
+	vtx_frag( testCounts );
+	charles( testCounts );
+	charles_approx( testCounts );
+	charles_latest( testCounts );
+	radiance_computer( testCounts );
+	arthapzMin( testCounts );
+	arthapz( testCounts, false, false );
+	arthapz( testCounts, false, true );
+	arthapz( testCounts, true, false );
+	arthapz( testCounts, true, true );
+	basicGeometry( testCounts );
 	voxelGeometry( testCounts );
 	sdwTestSuiteEnd();
 }
