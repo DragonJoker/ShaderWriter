@@ -113,8 +113,6 @@ set( ${PROJECT_NAME}_FOLDER_HEADER_FILES
 	${INCLUDE_DIR}/CompositeTypes/StructInstance.inl
 	${INCLUDE_DIR}/CompositeTypes/StructuredSsbo.hpp
 	${INCLUDE_DIR}/CompositeTypes/StructuredSsbo.inl
-	${INCLUDE_DIR}/CompositeTypes/StructuredUbo.hpp
-	${INCLUDE_DIR}/CompositeTypes/StructuredUbo.inl
 	${INCLUDE_DIR}/CompositeTypes/Ubo.hpp
 	${INCLUDE_DIR}/CompositeTypes/Ubo.inl
 )
@@ -126,7 +124,6 @@ set( ${PROJECT_NAME}_FOLDER_SOURCE_FILES
 	${SOURCE_DIR}/CompositeTypes/Struct.cpp
 	${SOURCE_DIR}/CompositeTypes/StructInstance.cpp
 	${SOURCE_DIR}/CompositeTypes/StructuredSsbo.cpp
-	${SOURCE_DIR}/CompositeTypes/StructuredUbo.cpp
 	${SOURCE_DIR}/CompositeTypes/Ubo.cpp
 )
 source_group( "Header Files\\CompositeTypes"
