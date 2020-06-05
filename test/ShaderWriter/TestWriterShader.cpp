@@ -1176,13 +1176,12 @@ namespace
 			auto vtx_position = writer.declOutput< Vec3 >( "vtx_position", index++ );
 			auto out = writer.getOut();
 
-			std::function< void() > main = [&]()
-			{
-				vtx_position = position.xyz();
-				out.vtx.position = position;
-			};
-
-			writer.implementFunction< sdw::Void >( "main", main );
+			writer.implementFunction< sdw::Void >( "main"
+				, [&]()
+				{
+					vtx_position = position.xyz();
+					out.vtx.position = position;
+				} );
 			test::writeShader( writer
 				, testCounts
 				, true, false, true );

@@ -276,33 +276,38 @@ namespace hlsl
 	void StmtAdapter::visitPerVertexDeclStmt( ast::stmt::PerVertexDecl * stmt )
 	{
 		auto index = 128u;
+		auto count = getArraySize( stmt->getType() );
+		auto type = getNonArrayType( stmt->getType() );
+		assert( type->getKind() == ast::type::Kind::eStruct );
 
-		for ( auto & member : *stmt->getType() )
+		for ( auto & member : static_cast< ast::type::Struct const & >( *type ) )
 		{
-			if ( isOutput( stmt->getSource() ) )
+			if ( member.name == "gl_Position" )
 			{
-				if ( member.name == "gl_Position" )
+				auto mbrType = ( count == ast::type::NotArray
+					? member.type
+					: m_cache.getArray( member.type, count ) );
+				auto var = ( m_shader.hasVar( member.name )
+					? m_shader.getVar( member.name, mbrType )
+					: m_shader.registerName( member.name, mbrType ) );
+
+				if ( isOutput( stmt->getSource() ) )
 				{
-					auto outputVar = m_shader.registerName( member.name, member.type );
-					m_adaptationData.globalOutputStruct->declMember( member.name, member.type );
-					m_adaptationData.outputMembers.emplace( outputVar
+					m_adaptationData.globalOutputStruct->declMember( member.name, mbrType );
+					m_adaptationData.outputMembers.emplace( var
 						, ast::expr::makeMbrSelect( ast::expr::makeIdentifier( m_cache, m_adaptationData.outputVar )
 							, uint32_t( m_adaptationData.outputMembers.size() )
-							, outputVar->getFlags() ) );
-					m_adaptationData.outputVars.emplace( index, outputVar );
+							, var->getFlags() ) );
+					m_adaptationData.outputVars.emplace( index, var );
 				}
-			}
-			else
-			{
-				if ( member.name == "gl_Position" )
+				else
 				{
-					auto inputVar = m_shader.registerName( member.name, member.type );
-					m_adaptationData.globalInputStruct->declMember( member.name, member.type );
-					m_adaptationData.inputMembers.emplace( inputVar
+					m_adaptationData.globalInputStruct->declMember( member.name, mbrType );
+					m_adaptationData.inputMembers.emplace( var
 						, ast::expr::makeMbrSelect( ast::expr::makeIdentifier( m_cache, m_adaptationData.inputVar )
 							, uint32_t( m_adaptationData.inputMembers.size() )
-							, inputVar->getFlags() ) );
-					m_adaptationData.inputVars.emplace( index, inputVar );
+							, var->getFlags() ) );
+					m_adaptationData.inputVars.emplace( index, var );
 				}
 			}
 		}

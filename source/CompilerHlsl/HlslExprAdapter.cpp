@@ -786,21 +786,32 @@ namespace hlsl
 				}
 
 				adaptationData.inputVars.emplace( 128, var );
+				auto index = adaptationData.globalInputStruct->findMember( var->getName() );
 
-				if ( var->getType()->getKind() == ast::type::Kind::eStruct )
+				if ( index == ast::type::Struct::NotFound )
 				{
-					adaptationData.globalInputStruct->declMember( var->getName()
-						, std::static_pointer_cast< ast::type::Struct >( var->getType() ) );
-				}
-				else
-				{
-					adaptationData.globalInputStruct->declMember( var->getName()
-						, var->getType() );
+					if ( var->getType()->getKind() == ast::type::Kind::eStruct )
+					{
+						adaptationData.globalInputStruct->declMember( var->getName()
+							, std::static_pointer_cast< ast::type::Struct >( var->getType() ) );
+					}
+					else if ( var->getType()->getKind() == ast::type::Kind::eArray )
+					{
+						adaptationData.globalInputStruct->declMember( var->getName()
+							, std::static_pointer_cast< ast::type::Array >( var->getType() ) );
+					}
+					else
+					{
+						adaptationData.globalInputStruct->declMember( var->getName()
+							, var->getType() );
+					}
+
+					index = adaptationData.globalInputStruct->findMember( var->getName() );
 				}
 
 				it = adaptationData.inputMembers.emplace( var
 					, ast::expr::makeMbrSelect( ast::expr::makeIdentifier( cache, adaptationData.inputVar )
-						, uint32_t( adaptationData.inputMembers.size() )
+						, index
 						, var->getFlags() ) ).first;
 			}
 
@@ -821,6 +832,11 @@ namespace hlsl
 				{
 					adaptationData.globalOutputStruct->declMember( var->getName()
 						, std::static_pointer_cast< ast::type::Struct >( var->getType() ) );
+				}
+				else if ( var->getType()->getKind() == ast::type::Kind::eArray )
+				{
+					adaptationData.globalOutputStruct->declMember( var->getName()
+						, std::static_pointer_cast< ast::type::Array >( var->getType() ) );
 				}
 				else
 				{
