@@ -21,7 +21,16 @@ namespace sdw
 			, ast::type::MemoryLayout layout = ast::type::MemoryLayout::eStd430 );
 		SDW_API void end();
 
-		SDW_API StructInstance declMember( std::string const & name, Struct const & s );
+		SDW_API StructInstance declStructMember( std::string const & name
+			, Struct const & s );
+		SDW_API Array< StructInstance > declStructMember( std::string const & name
+			, Struct const & s
+			, uint32_t dimension );
+		template< typename T >
+		inline T declStructMember( std::string const & name );
+		template< typename T >
+		inline Array< T > declStructMember( std::string const & name
+			, uint32_t dimension );
 		template< typename T >
 		inline T declMember( std::string const & name );
 		template< typename T >

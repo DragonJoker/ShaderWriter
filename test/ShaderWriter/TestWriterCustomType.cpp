@@ -70,13 +70,17 @@ namespace
 		{
 			VertexWriter writer;
 			auto out = writer.getOut();
-			writer.implementFunction< Void >( "main", [&]()
+			writer.implementFunction< Void >( "main"
+				, [&]()
 				{
 					out.vtx.position = vec4( 1.0_f );
 				} );
 			test::writeShader( writer
 				, testCounts
-				, true, true, true );
+				, false, true, true );
+			test::writeShader( writer
+				, testCounts
+				, true, false, false );
 			shaders.emplace_back( std::move( writer.getShader() ) );
 		}
 		{
@@ -92,13 +96,17 @@ namespace
 
 			auto fragOutput = writer.declOutput< Vec3 >( "fragOutput", 0u );
 
-			writer.implementFunction< Void >( "main", [&]()
+			writer.implementFunction< Void >( "main"
+				, [&]()
 				{
 					fragOutput = light.color * light.intensity;
 				} );
 			test::writeShader( writer
 				, testCounts
-				, true, true, true );
+				, false, true, true );
+			test::writeShader( writer
+				, testCounts
+				, true, false, false );
 			shaders.emplace_back( std::move( writer.getShader() ) );
 		}
 		test::validateShaders( shaders
@@ -125,12 +133,101 @@ namespace
 
 		auto fragOutput = writer.declOutput< Vec3 >( "fragOutput", 0u );
 
+		writer.implementFunction< Void >( "main"
+			, [&]()
+			{
+				fragOutput = lights[0].color * lights[1].intensity;
+			} );
+		test::writeShader( writer
+			, testCounts
+			, false, true, true );
+		test::writeShader( writer
+			, testCounts
+			, true, false, false );
+		testEnd();
+	}
+
+	void singleLightSsbo( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "singleLightSsbo" );
+		using namespace sdw;
+		sdw::ShaderArray shaders;
+		{
+			VertexWriter writer;
+			auto out = writer.getOut();
+			writer.implementFunction< Void >( "main"
+				, [&]()
+				{
+					out.vtx.position = vec4( 1.0_f );
+				} );
+			test::writeShader( writer
+				, testCounts
+				, false, true, true );
+			test::writeShader( writer
+				, testCounts
+				, true, false, false );
+			shaders.emplace_back( std::move( writer.getShader() ) );
+		}
+		{
+			FragmentWriter writer;
+			writer.declType< Light >();
+			Ssbo lightSsbo{ writer
+				, "LightSsbo"
+				, 0u
+				, 0u
+				, type::MemoryLayout::eStd140 };
+			auto light = lightSsbo.declStructMember< Light >( "light" );
+			lightSsbo.end();
+
+			auto fragOutput = writer.declOutput< Vec3 >( "fragOutput", 0u );
+
+			writer.implementFunction< Void >( "main"
+				, [&]()
+				{
+					fragOutput = light.color * light.intensity;
+				} );
+			test::writeShader( writer
+				, testCounts
+				, false, true, true );
+			test::writeShader( writer
+				, testCounts
+				, true, false, false );
+			shaders.emplace_back( std::move( writer.getShader() ) );
+		}
+		test::validateShaders( shaders
+			, testCounts );
+		testEnd();
+	}
+		
+	void lightArraySsbo( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "lightArraySsbo" );
+		using namespace sdw;
+
+		FragmentWriter writer;
+
+		writer.declType< Light >();
+		Ssbo lightsSsbo{ writer
+			, "LightsSsbo"
+			, 0u
+			, 0u
+			, type::MemoryLayout::eStd140 };
+		auto lights = lightsSsbo.declStructMember< Light >( "lights"
+			, 2u );
+		lightsSsbo.end();
+
+		auto fragOutput = writer.declOutput< Vec3 >( "fragOutput", 0u );
+
 		writer.implementFunction< Void >( "main", [&]()
 			{
 				fragOutput = lights[0].color * lights[1].intensity;
 			} );
 		test::writeShader( writer
-			, testCounts );
+			, testCounts
+			, false, true, true );
+		test::writeShader( writer
+			, testCounts
+			, true, false, false );
 		testEnd();
 	}
 }
@@ -140,5 +237,7 @@ int main( int argc, char ** argv )
 	sdwTestSuiteBegin( "TestWriterCustomTypes" );
 	singleLightUbo( testCounts );
 	lightArrayUbo( testCounts );
+	singleLightSsbo( testCounts );
+	lightArraySsbo( testCounts );
 	sdwTestSuiteEnd();
 }

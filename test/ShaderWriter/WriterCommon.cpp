@@ -366,54 +366,61 @@ namespace test
 		{
 #if SDW_HasCompilerSpirV
 
-			if ( validateSpirV )
+			try
 			{
-				auto textSpirv = spirv::writeSpirv( shader );
-				displayShader( "SPIR-V", textSpirv );
-				std::vector< uint32_t > spirv;
-
-				try
-				{
-					spirv = spirv::serialiseSpirv( shader );
-				}
-				catch ( ... )
-				{
-					displayShader( "SPIR-V", textSpirv, true );
-					throw;
-				}
-
 				if ( validateSpirV )
 				{
+					auto textSpirv = spirv::writeSpirv( shader );
+					displayShader( "SPIR-V", textSpirv );
+					std::vector< uint32_t > spirv;
+
 					try
 					{
-						test::validateSpirV( shader
-							, spirv
-							, textSpirv
-							, specialisation
-							, validateHlsl
-							, validateGlsl
-							, testCounts );
+						spirv = spirv::serialiseSpirv( shader );
 					}
-					catch ( spirv_cross::CompilerError & exc )
+					catch ( ... )
 					{
-						std::string text = exc.what();
+						displayShader( "SPIR-V", textSpirv, true );
+						throw;
+					}
 
-						if ( text.find( "not supported in HLSL" ) == std::string::npos
-							&& text.find( "not supported on HLSL" ) == std::string::npos
-							&& text.find( "exist in HLSL" ) == std::string::npos )
+					if ( validateSpirV )
+					{
+						try
+						{
+							test::validateSpirV( shader
+								, spirv
+								, textSpirv
+								, specialisation
+								, validateHlsl
+								, validateGlsl
+								, testCounts );
+						}
+						catch ( spirv_cross::CompilerError & exc )
+						{
+							std::string text = exc.what();
+
+							if ( text.find( "not supported in HLSL" ) == std::string::npos
+								&& text.find( "not supported on HLSL" ) == std::string::npos
+								&& text.find( "exist in HLSL" ) == std::string::npos )
+							{
+								displayShader( "SPIR-V", textSpirv, true );
+								std::cout << "spirv_cross exception: " << exc.what() << std::endl;
+								throw;
+							}
+						}
+						catch ( std::exception & exc )
 						{
 							displayShader( "SPIR-V", textSpirv, true );
-							std::cout << "spirv_cross exception: " << exc.what() << std::endl;
+							std::cout << "std exception: " << exc.what() << std::endl;
 							throw;
 						}
 					}
-					catch ( std::exception & exc )
-					{
-						displayShader( "SPIR-V", textSpirv, true );
-						std::cout << "std exception: " << exc.what() << std::endl;
-						throw;
-					}
 				}
+			}
+			catch ( ... )
+			{
+				failure( "testWriteSpirV" );
 			}
 
 #endif
