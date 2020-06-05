@@ -20,6 +20,19 @@ namespace sdw
 	*	Functions
 	*/
 	/**@{*/
+	template< typename TypeT >
+	inline void ShaderWriter::declType()
+	{
+		sdw::addStmt( *m_shader, sdw::makeStructDecl( TypeT::makeType( getTypesCache() ) ) );
+	}
+	/**@}*/
+#pragma endregion
+#pragma region Functions
+	/**
+	*name
+	*	Functions
+	*/
+	/**@{*/
 	namespace details
 	{
 		inline void doUpdateParamsRec( var::VariableList::const_iterator it )

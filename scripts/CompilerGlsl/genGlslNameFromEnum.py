@@ -8,6 +8,7 @@ def printHeader( outs, match ):
 	outs.write( "\n" )
 	outs.write( '#include <ShaderAST/Expr/Enum' + enumName + '.hpp>\n' )
 	outs.write( "\n" )
+	outs.write( '#include <stdexcept>\n' )
 	outs.write( '#include <string>\n' )
 	outs.write( "\n" )
 	outs.write( "namespace glsl\n" )

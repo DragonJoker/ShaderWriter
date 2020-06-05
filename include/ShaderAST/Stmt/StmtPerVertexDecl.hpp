@@ -27,7 +27,7 @@ namespace ast::stmt
 
 	public:
 		PerVertexDecl( Source source
-			, type::StructPtr type );
+			, type::TypePtr type );
 
 		void accept( VisitorPtr vis )override;
 
@@ -36,19 +36,19 @@ namespace ast::stmt
 			return m_source;
 		}
 
-		inline type::StructPtr getType()const
+		inline type::TypePtr getType()const
 		{
 			return m_type;
 		}
 
 	private:
 		Source m_source;
-		type::StructPtr m_type;
+		type::TypePtr m_type;
 	};
 	using PerVertexDeclPtr = std::unique_ptr< PerVertexDecl >;
 
 	inline PerVertexDeclPtr makePerVertexDecl( PerVertexDecl::Source source
-		, type::StructPtr type )
+		, type::TypePtr type )
 	{
 		return std::make_unique< PerVertexDecl >( source
 			, std::move( type ) );

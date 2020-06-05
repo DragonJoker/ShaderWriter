@@ -72,6 +72,14 @@ namespace hlsl
 						|| name == "gl_TessLevelOuter" ) );
 		}
 
+		bool isOutput( ast::stmt::PerVertexDecl::Source source )
+		{
+			return source == ast::stmt::PerVertexDecl::Source::eGeometryOutput
+				|| source == ast::stmt::PerVertexDecl::Source::eTessellationControlOutput
+				|| source == ast::stmt::PerVertexDecl::Source::eTessellationEvaluationOutput
+				|| source == ast::stmt::PerVertexDecl::Source::eVertexOutput;
+		}
+
 		bool isShaderOutput( std::string const & name
 			, sdw::ShaderStage type )
 		{
@@ -232,8 +240,7 @@ namespace hlsl
 		if ( var->isShaderInput() )
 		{
 			m_adaptationData.inputVars.emplace( stmt->getLocation(), var );
-			auto & type = static_cast< ast::type::Struct & >( *m_adaptationData.inputVar->getType() );
-			type.declMember( var->getName(), var->getType() );
+			m_adaptationData.globalInputStruct->declMember( var->getName(), var->getType() );
 			m_adaptationData.inputMembers.emplace( var
 				, ast::expr::makeMbrSelect( ast::expr::makeIdentifier( m_cache, m_adaptationData.inputVar )
 					, uint32_t( m_adaptationData.inputMembers.size() )
@@ -243,8 +250,7 @@ namespace hlsl
 		if ( var->isShaderOutput() )
 		{
 			m_adaptationData.outputVars.emplace( stmt->getLocation(), var );
-			auto & type = static_cast< ast::type::Struct & >( *m_adaptationData.outputVar->getType() );
-			type.declMember( var->getName(), var->getType() );
+			m_adaptationData.globalOutputStruct->declMember( var->getName(), var->getType() );
 			m_adaptationData.outputMembers.emplace( var
 				, ast::expr::makeMbrSelect( ast::expr::makeIdentifier( m_cache, m_adaptationData.outputVar )
 					, uint32_t( m_adaptationData.outputMembers.size() )
@@ -270,17 +276,39 @@ namespace hlsl
 	void StmtAdapter::visitPerVertexDeclStmt( ast::stmt::PerVertexDecl * stmt )
 	{
 		auto index = 128u;
+		auto count = getArraySize( stmt->getType() );
+		auto type = getNonArrayType( stmt->getType() );
+		assert( type->getKind() == ast::type::Kind::eStruct );
 
-		for ( auto & member : *stmt->getType() )
+		for ( auto & member : static_cast< ast::type::Struct const & >( *type ) )
 		{
 			if ( member.name == "gl_Position" )
 			{
-				auto outputVar = m_shader.getVar( member.name, member.type );
-				m_adaptationData.outputMembers.emplace( outputVar
-					, ast::expr::makeMbrSelect( ast::expr::makeIdentifier( m_cache, m_adaptationData.outputVar )
-						, uint32_t( m_adaptationData.outputMembers.size() )
-						, outputVar->getFlags() ) );
-				m_adaptationData.outputVars.emplace( index, outputVar );
+				auto mbrType = ( count == ast::type::NotArray
+					? member.type
+					: m_cache.getArray( member.type, count ) );
+				auto var = ( m_shader.hasVar( member.name )
+					? m_shader.getVar( member.name, mbrType )
+					: m_shader.registerName( member.name, mbrType ) );
+
+				if ( isOutput( stmt->getSource() ) )
+				{
+					m_adaptationData.globalOutputStruct->declMember( member.name, mbrType );
+					m_adaptationData.outputMembers.emplace( var
+						, ast::expr::makeMbrSelect( ast::expr::makeIdentifier( m_cache, m_adaptationData.outputVar )
+							, uint32_t( m_adaptationData.outputMembers.size() )
+							, var->getFlags() ) );
+					m_adaptationData.outputVars.emplace( index, var );
+				}
+				else
+				{
+					m_adaptationData.globalInputStruct->declMember( member.name, mbrType );
+					m_adaptationData.inputMembers.emplace( var
+						, ast::expr::makeMbrSelect( ast::expr::makeIdentifier( m_cache, m_adaptationData.inputVar )
+							, uint32_t( m_adaptationData.inputMembers.size() )
+							, var->getFlags() ) );
+					m_adaptationData.inputVars.emplace( index, var );
+				}
 			}
 		}
 	}

@@ -18,6 +18,7 @@ See LICENSE file in root folder
 #include <ShaderAST/Type/TypeSampledImage.hpp>
 
 #include <algorithm>
+#include <stdexcept>
 
 namespace hlsl
 {
@@ -785,9 +786,32 @@ namespace hlsl
 				}
 
 				adaptationData.inputVars.emplace( 128, var );
+				auto index = adaptationData.globalInputStruct->findMember( var->getName() );
+
+				if ( index == ast::type::Struct::NotFound )
+				{
+					if ( var->getType()->getKind() == ast::type::Kind::eStruct )
+					{
+						adaptationData.globalInputStruct->declMember( var->getName()
+							, std::static_pointer_cast< ast::type::Struct >( var->getType() ) );
+					}
+					else if ( var->getType()->getKind() == ast::type::Kind::eArray )
+					{
+						adaptationData.globalInputStruct->declMember( var->getName()
+							, std::static_pointer_cast< ast::type::Array >( var->getType() ) );
+					}
+					else
+					{
+						adaptationData.globalInputStruct->declMember( var->getName()
+							, var->getType() );
+					}
+
+					index = adaptationData.globalInputStruct->findMember( var->getName() );
+				}
+
 				it = adaptationData.inputMembers.emplace( var
 					, ast::expr::makeMbrSelect( ast::expr::makeIdentifier( cache, adaptationData.inputVar )
-						, uint32_t( adaptationData.inputMembers.size() )
+						, index
 						, var->getFlags() ) ).first;
 			}
 
@@ -803,6 +827,23 @@ namespace hlsl
 			if ( it == adaptationData.outputMembers.end() )
 			{
 				adaptationData.outputVars.emplace( 128, var );
+
+				if ( var->getType()->getKind() == ast::type::Kind::eStruct )
+				{
+					adaptationData.globalOutputStruct->declMember( var->getName()
+						, std::static_pointer_cast< ast::type::Struct >( var->getType() ) );
+				}
+				else if ( var->getType()->getKind() == ast::type::Kind::eArray )
+				{
+					adaptationData.globalOutputStruct->declMember( var->getName()
+						, std::static_pointer_cast< ast::type::Array >( var->getType() ) );
+				}
+				else
+				{
+					adaptationData.globalOutputStruct->declMember( var->getName()
+						, var->getType() );
+				}
+
 				it = adaptationData.outputMembers.emplace( var
 					, ast::expr::makeMbrSelect( ast::expr::makeIdentifier( cache, adaptationData.outputVar )
 						, uint32_t( adaptationData.outputMembers.size() )

@@ -1,7 +1,7 @@
 option( SDW_BUILD_VULKAN_LAYER "Build VulkanLayer library" ON )
 
 set( _FOLDER_NAME VulkanLayer )
-project( sdw${_FOLDER_NAME} )
+project( ${_FOLDER_NAME} )
 
 find_package( Vulkan )
 
@@ -58,6 +58,7 @@ if ( SDW_BUILD_VULKAN_LAYER AND Vulkan_FOUND )
 			VERSION ${PROJECT_VERSION}
 			SOVERSION ${PROJECT_SOVERSION}
 			CXX_STANDARD 17
+			PREFIX sdw
 			FOLDER "${SDW_BASE_DIR}/Core"
 	)
 	target_include_directories( ${PROJECT_NAME}
@@ -68,8 +69,6 @@ if ( SDW_BUILD_VULKAN_LAYER AND Vulkan_FOUND )
 		PUBLIC
 			$<BUILD_INTERFACE:${Vulkan_INCLUDE_DIR}>
 	)
-
-	# We install headers to <install_dir>/include/${PROJECT_NAME}
 	target_install_headers( ${PROJECT_NAME}
 		${SDW_SOURCE_DIR}/include/${_FOLDER_NAME}
 	)

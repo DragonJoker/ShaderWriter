@@ -339,6 +339,26 @@ namespace ast
 			, uint32_t( var::Flag::eInputParam ) | uint32_t( var::Flag::eOutputParam ) );
 	}
 
+	bool Shader::hasVar( std::string const & name )const
+	{
+		auto & block = m_blocks.back();
+		auto it = findVariable( block.registered, name );
+
+		if ( it != block.registered.end() )
+		{
+			return true;
+		}
+
+		it = findVariable( m_blocks.front().registered, name );
+
+		if ( it != m_blocks.front().registered.end() )
+		{
+			return true;
+		}
+
+		return false;
+	}
+
 	var::VariablePtr Shader::getVar( std::string const & name )const
 	{
 		auto & block = m_blocks.back();

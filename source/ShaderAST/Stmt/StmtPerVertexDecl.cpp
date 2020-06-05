@@ -8,7 +8,7 @@ See LICENSE file in root folder
 namespace ast::stmt
 {
 	PerVertexDecl::PerVertexDecl( PerVertexDecl::Source source
-		, type::StructPtr type )
+		, type::TypePtr type )
 		: Stmt{ Kind::ePerVertexDecl }
 		, m_source{ source }
 		, m_type{ type }

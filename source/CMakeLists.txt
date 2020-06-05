@@ -86,7 +86,7 @@ if ( SDW_BUILD_EXPORTERS )
 endif ()
 
 install(
-	TARGETS sdwShaderAST sdwShaderWriter ${SDW_INSTEXP_LIST}
+	TARGETS ShaderAST ShaderWriter ${SDW_INSTEXP_LIST}
 	EXPORT ShaderWriter
 	RUNTIME DESTINATION bin
 	LIBRARY DESTINATION lib

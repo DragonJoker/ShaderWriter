@@ -22,6 +22,16 @@ namespace sdw
 		SDW_API virtual ~ShaderWriter();
 
 	public:
+#pragma region Type registration
+		/**
+		*name
+		*	Variables registration.
+		*/
+		/**@{*/
+		template< typename TypeT >
+		inline void declType();
+		/**@}*/
+#pragma endregion
 #pragma region Variables registration
 		/**
 		*name

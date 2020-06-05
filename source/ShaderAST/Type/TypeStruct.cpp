@@ -489,14 +489,17 @@ namespace ast::type
 		return *it;
 	}
 
-	bool Struct::hasMember( std::string const & name )
+	uint32_t Struct::findMember( std::string const & name )
 	{
-		return m_members.end() != std::find_if( m_members.begin()
+		auto it = std::find_if( m_members.begin()
 			, m_members.end()
 			, [&name]( Member const & lookup )
 			{
 				return lookup.name == name;
 			} );
+		return m_members.end() == it
+			? NotFound
+			: uint32_t( std::distance( m_members.begin(), it ) );
 	}
 
 	TypePtr Struct::getMemberType( Struct & parent, uint32_t index )const

@@ -21,6 +21,8 @@ namespace ast::type
 		: public Type
 	{
 	public:
+		static constexpr uint32_t NotFound = ~0u;
+
 		struct Member
 		{
 			type::TypePtr type;
@@ -63,8 +65,13 @@ namespace ast::type
 			, type::ArrayPtr type );
 		Member getMember( uint32_t index );
 		Member getMember( std::string const & name );
-		bool hasMember( std::string const & name );
+		uint32_t findMember( std::string const & name );
 		TypePtr getMemberType( Struct & parent, uint32_t index )const override;
+
+		inline bool hasMember( std::string const & name )
+		{
+			return findMember( name ) != NotFound;
+		}
 
 		std::string const & getName()const
 		{

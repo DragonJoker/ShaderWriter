@@ -125,6 +125,7 @@ namespace ast
 			, type::TypePtr type );
 		var::VariablePtr registerInOutParam( std::string const & name
 			, type::TypePtr type );
+		bool hasVar( std::string const & name )const;
 		var::VariablePtr getVar( std::string const & name )const;
 		void addStmt( stmt::StmtPtr stmt );
 		void registerSsbo( std::string const & name

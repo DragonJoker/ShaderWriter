@@ -13,6 +13,7 @@ namespace ast::expr
 			, uint32_t memberIndex )
 		{
 			assert( outerType->getKind() == type::Kind::eStruct );
+			assert( static_cast< type::Struct const & >( *outerType ).size() > memberIndex );
 			return ( static_cast< type::Struct const & >( *outerType ).begin() + memberIndex )->type;
 		}
 	}

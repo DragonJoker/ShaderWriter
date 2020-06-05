@@ -84,21 +84,27 @@ namespace hlsl
 
 	bool HlslShader::hasVar( std::string const & name )
 	{
-		try
+		if ( m_shader.hasVar( name ) )
 		{
-			getVar( name, nullptr );
 			return true;
 		}
-		catch ( ... )
+
+		auto it = m_registered.find( name );
+
+		if ( it != m_registered.end() )
 		{
-			return false;
+			return true;
 		}
+
+		return false;
 	}
 
 	ast::var::VariablePtr HlslShader::getVar( std::string const & name
 		, ast::type::TypePtr type )
 	{
-		auto result = m_shader.getVar( name );
+		auto result = ( m_shader.hasVar( name )
+			? m_shader.getVar( name )
+			: nullptr );
 
 		if ( !result )
 		{

@@ -3,7 +3,7 @@ if ( NOT DEFINED SDW_BUILD_EXPORTER_GLSL_STATIC )
 endif ()
 
 set( _FOLDER_NAME CompilerGlsl )
-project( sdw${_FOLDER_NAME} )
+project( ${_FOLDER_NAME} )
 
 set( ${PROJECT_NAME}_VERSION_MAJOR 0 )
 set( ${PROJECT_NAME}_VERSION_MINOR 1 )
@@ -93,6 +93,7 @@ set_target_properties( ${PROJECT_NAME}
 		VERSION ${PROJECT_VERSION}
 		SOVERSION ${PROJECT_SOVERSION}
 		CXX_STANDARD 17
+		PREFIX sdw
 		FOLDER "${SDW_BASE_DIR}/Exporters"
 )
 target_include_directories( ${PROJECT_NAME}
@@ -101,8 +102,6 @@ target_include_directories( ${PROJECT_NAME}
 		${INCLUDE_DIR}
 		${SOURCE_DIR}
 )
-
-# We install headers to <install_dir>/include/${PROJECT_NAME}
 target_install_headers( ${PROJECT_NAME}
 	${SDW_SOURCE_DIR}/include/${_FOLDER_NAME}
 )
