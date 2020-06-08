@@ -1160,6 +1160,42 @@ namespace
 		testEnd();
 	}
 
+	void onlyGeometry( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "onlyGeometry" );
+		using namespace sdw;
+		{
+			GeometryWriter writer;
+			writer.inputLayout( ast::stmt::InputLayout::eTriangleList );
+			writer.outputLayout( ast::stmt::OutputLayout::eTriangleStrip, 3u );
+
+			auto in = writer.getIn();
+			auto out = writer.getOut();
+
+			writer.implementFunction< sdw::Void >( "main"
+				, [&]()
+				{
+					out.vtx.position = in.vtx[0].position;
+					EmitVertex( writer );
+
+					out.vtx.position = in.vtx[1].position;
+					EmitVertex( writer );
+
+					out.vtx.position = in.vtx[2].position;
+					EmitVertex( writer );
+
+					EndPrimitive( writer );
+				} );
+			test::writeShader( writer
+				, testCounts
+				, true, false, false );
+			test::writeShader( writer
+				, testCounts
+				, false, false, true );
+		}
+		testEnd();
+	}
+
 	void basicGeometry( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "basicGeometry" );
@@ -1525,6 +1561,7 @@ int main( int argc, char ** argv )
 	arthapz( testCounts, false, true );
 	arthapz( testCounts, true, false );
 	arthapz( testCounts, true, true );
+	onlyGeometry( testCounts );
 	basicGeometry( testCounts );
 	voxelGeometry( testCounts );
 	sdwTestSuiteEnd();
