@@ -96,9 +96,26 @@ namespace spirv
 
 		if ( expr->isShaderInput() )
 		{
-			m_config.inputs.insert( ast::var::makeVariable( expr->getType()
-				, expr->getOuterType()->getMember( expr->getMemberIndex() ).name
-				, expr->getMemberFlags() ) );
+			auto outer = expr->getOuterExpr();
+			bool processed = false;
+
+			if ( outer->getKind() == ast::expr::Kind::eArrayAccess )
+			{
+				outer = static_cast< ast::expr::ArrayAccess const & >( *outer ).getLHS();
+			}
+
+			if ( outer->getKind() == ast::expr::Kind::eIdentifier )
+			{
+				auto outerVar = static_cast< ast::expr::Identifier const & >( *outer ).getVariable();
+				processed = m_config.inputs.end () != m_config.inputs.find( outerVar );
+			}
+
+			if ( !processed )
+			{
+				m_config.inputs.insert( ast::var::makeVariable( expr->getType()
+					, expr->getOuterType()->getMember( expr->getMemberIndex() ).name
+					, expr->getMemberFlags() ) );
+			}
 		}
 	}
 
