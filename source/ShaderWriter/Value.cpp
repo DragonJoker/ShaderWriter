@@ -47,6 +47,9 @@ namespace sdw
 
 	Value & Value::operator=( Value const & rhs )
 	{
+		assert( getComponentCount( getNonArrayType( getType() ) ) * getArraySize( getType() ) == getComponentCount( getNonArrayType( rhs.getType() ) ) * getArraySize( rhs.getType() )
+			&& getComponentType( getNonArrayType( getType() ) ) == getComponentType( getNonArrayType( rhs.getType() ) )
+			&& "Can't assign variables with non matching types" );
 		updateContainer( rhs );
 		return *this;
 	}

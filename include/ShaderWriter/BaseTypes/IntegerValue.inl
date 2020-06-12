@@ -91,6 +91,7 @@ namespace sdw
 	template< typename T >
 	IntegerValue< KindT > & IntegerValue< KindT >::operator=( T const & rhs )
 	{
+		static_assert( KindT == typeEnum< T > );
 		this->updateContainer( rhs );
 		writeAssignOperator< IntegerValue< KindT > >( *this, rhs, sdw::makeAssign );
 		return *this;
