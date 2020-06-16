@@ -17,6 +17,7 @@ namespace sdw
 			, expr::ExprPtr expr );
 		SDW_API Boolean( Boolean && rhs );
 		SDW_API Boolean( Boolean const & rhs );
+		SDW_API explicit Boolean( bool value );
 		SDW_API explicit Boolean( Value rhs );
 
 		SDW_API Boolean & operator=( Boolean const & rhs );
@@ -26,6 +27,7 @@ namespace sdw
 		template< typename T >
 		inline Boolean & operator=( T const & rhs );
 		SDW_API Boolean & operator=( bool rhs );
+		SDW_API Boolean operator!();
 		SDW_API operator bool();
 		SDW_API expr::ExprPtr makeCondition()const;
 
