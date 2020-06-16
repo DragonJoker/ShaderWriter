@@ -23,6 +23,11 @@ namespace sdw
 	{
 	}
 
+	Boolean::Boolean( bool rhs )
+		: Value{ &sdw::getShader( sdw::getCurrentWriter() ), makeExpr( sdw::getShader( sdw::getCurrentWriter() ), rhs ) }
+	{
+	}
+
 	Boolean::Boolean( Value rhs )
 		: Value{ ctorCast< Boolean, 1u >( std::move( rhs ) ) }
 	{
@@ -101,6 +106,12 @@ namespace sdw
 				, makeExpr( shader, *this )
 				, makeExpr( shader, rhs ) ) ) );
 		return *this;
+	}
+
+	Boolean Boolean::operator!()
+	{
+		Shader & shader = *findShader( *this );
+		return Boolean{ &shader, sdw::makeLogNot( makeCondition() ) };
 	}
 
 	Boolean::operator bool()
