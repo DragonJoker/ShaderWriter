@@ -346,15 +346,6 @@ namespace spirv
 					args.emplace_back( doSubmit( arg.get() ) );
 				}
 			}
-			//else if ( isAccessChain( arg.get() )
-			//	&& arg->getKind() != ast::expr::Kind::eSwizzle
-			//	&& arg->getKind() != ast::expr::Kind::eLiteral
-			//	&& ( arg->getKind() != ast::expr::Kind::eIdentifier
-			//		|| !isShaderVariable( *arg ) ) )
-			//{
-			//	// Access chains are pointers, hence no need for an alias.
-			//	args.emplace_back( doSubmit( arg.get() ) );
-			//}
 			else
 			{
 				ast::var::VariablePtr alias;
@@ -535,7 +526,7 @@ namespace spirv
 			// optional ones in SPIR-V, hence we move it to the right place.
 			auto compArg = std::move( args.back() );
 			args.pop_back();
-			args.emplace( args.begin() + config.imageOperandsIndex - 1u, std::move( compArg ) );
+			args.emplace( args.begin() + ( config.imageOperandsIndex - 1u ), std::move( compArg ) );
 		}
 		else if ( getBias( kind ) == spv::ImageOperandsBiasMask )
 		{
