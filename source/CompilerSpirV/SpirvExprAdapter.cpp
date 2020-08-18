@@ -240,7 +240,8 @@ namespace spirv
 		{
 			// Conversion from bool scalar or vector type.
 			assert( dstComponents == srcComponents );
-			m_result = doWriteFromBoolCast( expr->getOperand() );
+			m_result = doWriteFromBoolCast( expr->getOperand()
+				, dstScalarType );
 		}
 		else
 		{
@@ -1135,7 +1136,8 @@ namespace spirv
 		return result;
 	}
 
-	ast::expr::ExprPtr ExprAdapter::doWriteFromBoolCast( ast::expr::Expr * expr )
+	ast::expr::ExprPtr ExprAdapter::doWriteFromBoolCast( ast::expr::Expr * expr
+		, ast::type::Kind dstScalarType )
 	{
 		auto componentCount = getComponentCount( expr->getType()->getKind() );
 		ast::expr::ExprPtr result;
@@ -1144,25 +1146,25 @@ namespace spirv
 		{
 			result = ast::expr::makeQuestion( expr->getType()
 				, doSubmit( expr )
-				, makeOne( m_cache, expr->getType()->getKind() )
-				, makeZero( m_cache, expr->getType()->getKind() ) );
+				, makeOne( m_cache, dstScalarType )
+				, makeZero( m_cache, dstScalarType ) );
 		}
 		else
 		{
 			ast::expr::ExprList args;
 			auto newExpr = doSubmit( expr );
-			auto type = m_cache.getBasicType( getScalarType( expr->getType()->getKind() ) );
+			auto srcScalarType = m_cache.getBasicType( getScalarType( expr->getType()->getKind() ) );
 
 			for ( auto i = 0u; i < componentCount; ++i )
 			{
-				args.emplace_back( ast::expr::makeQuestion( type
+				args.emplace_back( ast::expr::makeQuestion( srcScalarType
 					, ast::expr::makeSwizzle( doSubmit( newExpr.get() ), ast::expr::SwizzleKind::fromOffset( i ) )
-					, makeOne( m_cache, type->getKind() )
-					, makeZero( m_cache, type->getKind() ) ) );
+					, makeOne( m_cache, dstScalarType )
+					, makeZero( m_cache, dstScalarType ) ) );
 			}
 
 			result = ast::expr::makeCompositeConstruct( ast::expr::CompositeType( componentCount )
-				, type->getKind()
+				, dstScalarType
 				, std::move( args ) );
 		}
 
