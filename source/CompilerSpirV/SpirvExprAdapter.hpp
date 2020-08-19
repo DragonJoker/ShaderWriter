@@ -76,7 +76,8 @@ namespace spirv
 			, ast::expr::ExprList & args );
 
 		ast::expr::ExprPtr doWriteToBoolCast( ast::expr::Expr * expr );
-		ast::expr::ExprPtr doWriteFromBoolCast( ast::expr::Expr * expr );
+		ast::expr::ExprPtr doWriteFromBoolCast( ast::expr::Expr * expr
+			, ast::type::Kind dstScalarType );
 
 	private:
 		ast::type::TypesCache & m_cache;
