@@ -7,12 +7,6 @@ namespace sdw
 
 	namespace details
 	{
-		template< typename ValueT >
-		inline Shader * getShader( ValueT const & value )
-		{
-			return value.getShader();
-		}
-
 		inline Shader * getShader( bool const & value )
 		{
 			return nullptr;
@@ -51,6 +45,12 @@ namespace sdw
 		inline Shader * getShader( long double const & value )
 		{
 			return nullptr;
+		}
+
+		template< typename ValueT >
+		inline Shader * getShader( ValueT const & value )
+		{
+			return value.getShader();
 		}
 	}
 

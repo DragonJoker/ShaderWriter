@@ -331,7 +331,7 @@ namespace ast::debug
 		m_result += getName( expr->getKind() ) + " ";
 		wrap( expr->getOuterExpr() );
 		m_result += " (";
-		expr->getOuterType()->getMember( expr->getMemberIndex() ).name;
+		m_result += expr->getOuterType()->getMember( expr->getMemberIndex() ).name;
 		m_result += ")";
 	}
 
