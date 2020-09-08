@@ -29,6 +29,22 @@ namespace spirv
 			checkType( expr->getType()->getKind()
 				, config );
 		}
+
+		void checkType( ast::expr::IntrinsicCall * expr
+			, ModuleConfig & config )
+		{
+			checkType( expr->getType()->getKind()
+				, config );
+			auto kind = expr->getIntrinsic();
+
+			if ( ( kind >= ast::expr::Intrinsic::eDFdxCoarse1
+				&& kind >= ast::expr::Intrinsic::eDFdxFine4 )
+				|| kind >= ast::expr::Intrinsic::eDFdyCoarse1
+				&& kind >= ast::expr::Intrinsic::eDFdyFine4 )
+			{
+				config.requiredCapabilities.insert( spv::CapabilityDerivativeControl );
+			}
+		}
 	}
 
 	void ExprConfigFiller::submit( ast::expr::Expr * expr
