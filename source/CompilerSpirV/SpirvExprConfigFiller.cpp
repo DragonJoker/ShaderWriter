@@ -38,9 +38,9 @@ namespace spirv
 			auto kind = expr->getIntrinsic();
 
 			if ( ( kind >= ast::expr::Intrinsic::eDFdxCoarse1
-				&& kind >= ast::expr::Intrinsic::eDFdxFine4 )
+				&& kind <= ast::expr::Intrinsic::eDFdxFine4 )
 				|| kind >= ast::expr::Intrinsic::eDFdyCoarse1
-				&& kind >= ast::expr::Intrinsic::eDFdyFine4 )
+				&& kind <= ast::expr::Intrinsic::eDFdyFine4 )
 			{
 				config.requiredCapabilities.insert( spv::CapabilityDerivativeControl );
 			}
