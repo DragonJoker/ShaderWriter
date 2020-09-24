@@ -37,6 +37,7 @@ project( ${MAIN_PROJECT_NAME} )
 include( Setup )
 include( Project )
 include( CompilerVersion )
+include( Doxygen )
 include( UnitTest )
 include( CompilationFlags )
 include( AStyleUtils )
@@ -74,8 +75,6 @@ elseif ( MSVC )
 else ()
 	message( FATAL_ERROR "Unsupported compiler." )
 endif ()
-
-find_package( Doxygen )
 
 #--------------------------------------------------------------------------------------------------
 #	MSVC specifics
