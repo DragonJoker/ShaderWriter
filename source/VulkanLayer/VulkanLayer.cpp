@@ -94,7 +94,7 @@ namespace ast::vk
 #if VK_EXT_full_screen_exclusive
 		case VK_ERROR_FULL_SCREEN_EXCLUSIVE_MODE_LOST_EXT: stream << "vk_error_full_screen_exclusive_mode_lost"; break;
 #endif
-#if VK_EXT_pipeline_creation_cache_control
+#if VK_EXT_pipeline_creation_cache_control && VK_EXT_PIPELINE_CREATION_CACHE_CONTROL_SPEC_VERSION >= 3
 		case VK_PIPELINE_COMPILE_REQUIRED_EXT: stream << "vk_pipeline_compile_required"; break;
 #endif
 #if VK_NV_glsl_shader

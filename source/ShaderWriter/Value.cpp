@@ -77,6 +77,12 @@ namespace sdw
 		m_expr = std::move( expr );
 	}
 
+	expr::ExprPtr getDummyExpr( Shader & shader
+		, type::TypePtr type )
+	{
+		return shader.getDummyExpr( type );
+	}
+
 	expr::ExprPtr makeExpr( Value const & variable
 		, bool force )
 	{
