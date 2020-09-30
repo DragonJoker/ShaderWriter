@@ -7,6 +7,14 @@ namespace ast
 {
 	expr::ExprPtr ExprCloner::submit( expr::Expr * expr )
 	{
+		if ( expr->isDummy() )
+		{
+			return std::make_unique< expr::Expr >( expr->getCache()
+				, expr->getType()
+				, expr::Kind::eIdentifier
+				, expr::Flag::eDummy );
+		}
+
 		expr::ExprPtr result;
 		ExprCloner vis{ result };
 		expr->accept( &vis );
@@ -30,10 +38,7 @@ namespace ast
 
 	expr::ExprPtr ExprCloner::doSubmit( expr::Expr * expr )
 	{
-		expr::ExprPtr result;
-		ExprCloner vis{ result };
-		expr->accept( &vis );
-		return result;
+		return submit( expr );
 	}
 
 	expr::ExprPtr ExprCloner::doSubmit( expr::ExprPtr const & expr )

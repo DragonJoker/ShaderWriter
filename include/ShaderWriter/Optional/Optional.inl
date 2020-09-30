@@ -227,7 +227,7 @@ namespace sdw
 				, static_cast< T const & >( value ) );
 		}
 
-		return nullptr;
+		return getDummyExpr( shader, value.getType() );
 	}
 
 	template< typename T >

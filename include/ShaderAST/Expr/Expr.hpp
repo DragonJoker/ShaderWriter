@@ -77,6 +77,7 @@ namespace ast::expr
 		eConstant = 1 << 0,
 		eSpecialisationConstant = 1 << 1,
 		eImplicit = 1 << 2,
+		eDummy = 1 << 3,
 	};
 
 	class Expr
@@ -88,7 +89,9 @@ namespace ast::expr
 			, Flag flag = Flag::eNone );
 		virtual ~Expr();
 
-		virtual void accept( VisitorPtr ) = 0;
+		virtual void accept( VisitorPtr )
+		{
+		}
 
 		inline Kind getKind()const
 		{
@@ -135,6 +138,11 @@ namespace ast::expr
 		inline bool isImplicit()const
 		{
 			return hasFlag( Flag::eImplicit );
+		}
+
+		inline bool isDummy()const
+		{
+			return hasFlag( Flag::eDummy );
 		}
 
 	private:

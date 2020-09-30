@@ -407,4 +407,12 @@ namespace ast
 	{
 		m_data.ubos.emplace( name, info );
 	}
+
+	expr::ExprPtr Shader::getDummyExpr( type::TypePtr type )const
+	{
+		return std::make_unique< expr::Expr >( *m_typesCache
+			, type
+			, expr::Kind::eIdentifier
+			, expr::Flag::eDummy );
+	}
 }

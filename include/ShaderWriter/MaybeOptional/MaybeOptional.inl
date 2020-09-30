@@ -187,12 +187,14 @@ namespace sdw
 	inline expr::ExprPtr makeExpr( MaybeOptional< ValueT > const & value
 		, bool force )
 	{
+		auto & shader = *findShader( value );
+
 		if ( value.isEnabled() || force )
 		{
-			return makeExpr( *findShader( value ), static_cast< ValueT const & >( value ) );
+			return makeExpr( shader, static_cast< ValueT const & >( value ) );
 		}
 
-		return nullptr;
+		return getDummyExpr( shader, value.getType() );
 	}
 
 	//*************************************************************************

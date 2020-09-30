@@ -132,6 +132,7 @@ namespace ast
 			, SsboInfo const & info );
 		void registerUbo( std::string const & name
 			, UboInfo const & info );
+		expr::ExprPtr getDummyExpr( type::TypePtr type )const;
 		/**@}*/
 
 		inline SsboInfo const & getSsboInfo( std::string const & name )const
