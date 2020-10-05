@@ -93,12 +93,12 @@ install(
 	ARCHIVE DESTINATION lib
 )
 install( EXPORT ShaderWriter
-	FILE shaderwriterConfig.cmake
+	FILE ShaderWriterConfig.cmake
 	NAMESPACE sdw::
 	DESTINATION lib/cmake/shaderwriter
 )
 include(CMakePackageConfigHelpers)
-write_basic_package_version_file( shaderwriterConfigVersion.cmake
+write_basic_package_version_file( ShaderWriterConfigVersion.cmake
 	VERSION ${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_BUILD}
 	COMPATIBILITY AnyNewerVersion
 )
