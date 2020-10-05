@@ -59,7 +59,7 @@ if ( NOT DEFINED SDW_BUILD_STATIC_SDW )
 endif ()
 
 if ( SDW_GENERATE_SOURCE )
-	find_package( PythonInterp )
+	find_package( PythonInterp QUIET )
 endif ()
 
 add_subdirectory( ShaderAST )
