@@ -887,6 +887,66 @@ namespace sdw
 	}
 	/**@}*/
 #pragma endregion
+#pragma region Uniform buffer declaration
+	/**
+	*name
+	*	Uniform buffer declaration.
+	*/
+	/**@{*/
+	template< typename T >
+	inline T ShaderWriter::declUniformBuffer( std::string const & name
+		, uint32_t binding
+		, uint32_t set
+		, ast::type::MemoryLayout layout )
+	{
+		return T{ *this, name, binding, set, layout };
+	}
+	/**@}*/
+#pragma endregion
+#pragma region Shader storage buffer declaration
+	/**
+	*name
+	*	Shader storage buffer declaration.
+	*/
+	/**@{*/
+	template< typename T >
+	inline T ShaderWriter::declShaderStorageBuffer( std::string const & name
+		, uint32_t binding
+		, uint32_t set
+		, ast::type::MemoryLayout layout )
+	{
+		return T{ *this, name, binding, set, layout };
+	}
+	/**@}*/
+#pragma endregion
+#pragma region Push constants buffer declaration
+	/**
+	*name
+	*	Push constants buffer declaration.
+	*/
+	/**@{*/
+	template< typename T >
+	inline T ShaderWriter::declPushConstantsBuffer( std::string const & name
+		, ast::type::MemoryLayout layout )
+	{
+		return T{ *this, name, layout };
+	}
+	/**@}*/
+#pragma endregion
+#pragma region Struct declaration
+	/**
+	*name
+	*	Struct declaration.
+	*/
+	/**@{*/
+	template< typename T >
+	inline T ShaderWriter::declStruct( std::string const & name
+		, ast::type::MemoryLayout layout )
+	{
+		return T{ *this, name, layout };
+	}
+	/**@}*/
+#pragma endregion
 #pragma region Output declaration
 	/**
 	*name
