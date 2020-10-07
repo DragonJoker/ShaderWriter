@@ -238,7 +238,7 @@ namespace test
 	bool createInstance( Info & info )
 	{
 		initGlobalLayerProperties( info );
-		info.instance_layer_names.push_back( "VK_LAYER_LUNARG_standard_validation" );
+		info.instance_layer_names.push_back( "VK_LAYER_KHRONOS_validation" );
 		info.instance_extension_names.push_back( VK_EXT_DEBUG_REPORT_EXTENSION_NAME );
 
 		vkEnumerateInstanceVersion( &info.apiVersion );

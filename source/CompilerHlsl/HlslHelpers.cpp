@@ -157,9 +157,6 @@ namespace hlsl
 		case ast::type::Kind::eVec2H:
 			result = "vector<half, 2>";
 			break;
-		case ast::type::Kind::eVec3H:
-			result = "vector<half, 3>";
-			break;
 		case ast::type::Kind::eVec4H:
 			result = "vector<half, 4>";
 			break;
@@ -687,9 +684,6 @@ namespace hlsl
 				break;
 			case ast::type::Kind::eDouble:
 				result = "double3";
-				break;
-			case ast::type::Kind::eHalf:
-				result = "vector<half, 3>";
 				break;
 			default:
 				break;

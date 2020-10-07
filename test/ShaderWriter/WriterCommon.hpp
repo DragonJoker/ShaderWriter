@@ -54,6 +54,13 @@ namespace test
 	}
 
 	template<>
+	inline sdw::Half getDefault< sdw::Half >( ast::Shader & shader )
+	{
+		return sdw::Half{ &shader, sdw::expr::makeCast( shader.getTypesCache().getHalf()
+			, sdw::expr::makeLiteral( shader.getTypesCache(), 1.0f ) ) };
+	}
+
+	template<>
 	inline sdw::Float getDefault< sdw::Float >( ast::Shader & shader )
 	{
 		return sdw::Float{ &shader, sdw::expr::makeLiteral( shader.getTypesCache(), 1.0f ) };
@@ -111,6 +118,18 @@ namespace test
 			, getDefault< sdw::Double >( shader )
 			, getDefault< sdw::Double >( shader )
 			, getDefault< sdw::Double >( shader ) );
+	}
+
+	template<>
+	inline sdw::HVec2 getDefault< sdw::HVec2 >( ast::Shader & shader )
+	{
+		return sdw::f16vec2( getDefault< sdw::Vec2 >( shader ) );
+	}
+
+	template<>
+	inline sdw::HVec4 getDefault< sdw::HVec4 >( ast::Shader & shader )
+	{
+		return sdw::f16vec4( getDefault< sdw::Vec4 >( shader ) );
 	}
 
 	template<>

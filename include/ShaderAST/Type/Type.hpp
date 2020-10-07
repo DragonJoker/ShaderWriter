@@ -18,7 +18,7 @@ namespace ast::type
 		eBoolean,
 		eInt,
 		eUInt,
-		eHalf,// Internal only, never use this !!!
+		eHalf,// Submitted to extension enabling
 		eFloat,
 		eDouble,
 		eVec2B,
@@ -30,9 +30,8 @@ namespace ast::type
 		eVec2U,
 		eVec3U,
 		eVec4U,
-		eVec2H,// Internal only, never use this !!!
-		eVec3H,// Internal only, never use this !!!
-		eVec4H,// Internal only, never use this !!!
+		eVec2H,// Submitted to extension enabling
+		eVec4H,// Submitted to extension enabling
 		eVec2F,
 		eVec3F,
 		eVec4F,

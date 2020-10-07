@@ -10400,6 +10400,63 @@ namespace ast::expr
 	}
 	/**
 	*@return
+	*	float
+	*@param[in] mem
+	*	float
+	*@param[in] data
+	*	float
+	*/
+	inline IntrinsicCallPtr makeAtomicAddF( type::TypesCache & cache
+		, ExprPtr mem
+		, ExprPtr data )
+	{
+		assert( mem->getType()->getKind() == type::Kind::eFloat );
+		assert( data->getType()->getKind() == type::Kind::eFloat );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eFloat )
+			, Intrinsic::eAtomicAddF
+			, std::move( mem )
+			, std::move( data ) );
+	}
+	/**
+	*@return
+	*	vec2h
+	*@param[in] mem
+	*	vec2h
+	*@param[in] data
+	*	vec2h
+	*/
+	inline IntrinsicCallPtr makeAtomicAdd2H( type::TypesCache & cache
+		, ExprPtr mem
+		, ExprPtr data )
+	{
+		assert( mem->getType()->getKind() == type::Kind::eVec2H );
+		assert( data->getType()->getKind() == type::Kind::eVec2H );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2H )
+			, Intrinsic::eAtomicAdd2H
+			, std::move( mem )
+			, std::move( data ) );
+	}
+	/**
+	*@return
+	*	vec4h
+	*@param[in] mem
+	*	vec4h
+	*@param[in] data
+	*	vec4h
+	*/
+	inline IntrinsicCallPtr makeAtomicAdd4H( type::TypesCache & cache
+		, ExprPtr mem
+		, ExprPtr data )
+	{
+		assert( mem->getType()->getKind() == type::Kind::eVec4H );
+		assert( data->getType()->getKind() == type::Kind::eVec4H );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4H )
+			, Intrinsic::eAtomicAdd4H
+			, std::move( mem )
+			, std::move( data ) );
+	}
+	/**
+	*@return
 	*	int
 	*@param[in] mem
 	*	int
@@ -10623,6 +10680,63 @@ namespace ast::expr
 		assert( data->getType()->getKind() == type::Kind::eUInt );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eUInt )
 			, Intrinsic::eAtomicExchangeU
+			, std::move( mem )
+			, std::move( data ) );
+	}
+	/**
+	*@return
+	*	float
+	*@param[in] mem
+	*	float
+	*@param[in] data
+	*	float
+	*/
+	inline IntrinsicCallPtr makeAtomicExchangeF( type::TypesCache & cache
+		, ExprPtr mem
+		, ExprPtr data )
+	{
+		assert( mem->getType()->getKind() == type::Kind::eFloat );
+		assert( data->getType()->getKind() == type::Kind::eFloat );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eFloat )
+			, Intrinsic::eAtomicExchangeF
+			, std::move( mem )
+			, std::move( data ) );
+	}
+	/**
+	*@return
+	*	vec2h
+	*@param[in] mem
+	*	vec2h
+	*@param[in] data
+	*	vec2h
+	*/
+	inline IntrinsicCallPtr makeAtomicExchange2H( type::TypesCache & cache
+		, ExprPtr mem
+		, ExprPtr data )
+	{
+		assert( mem->getType()->getKind() == type::Kind::eVec2H );
+		assert( data->getType()->getKind() == type::Kind::eVec2H );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2H )
+			, Intrinsic::eAtomicExchange2H
+			, std::move( mem )
+			, std::move( data ) );
+	}
+	/**
+	*@return
+	*	vec4h
+	*@param[in] mem
+	*	vec4h
+	*@param[in] data
+	*	vec4h
+	*/
+	inline IntrinsicCallPtr makeAtomicExchange4H( type::TypesCache & cache
+		, ExprPtr mem
+		, ExprPtr data )
+	{
+		assert( mem->getType()->getKind() == type::Kind::eVec4H );
+		assert( data->getType()->getKind() == type::Kind::eVec4H );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4H )
+			, Intrinsic::eAtomicExchange4H
 			, std::move( mem )
 			, std::move( data ) );
 	}

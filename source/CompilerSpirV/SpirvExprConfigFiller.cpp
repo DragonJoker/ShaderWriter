@@ -21,6 +21,10 @@ namespace spirv
 			{
 				config.requiredCapabilities.insert( spv::CapabilityFloat64 );
 			}
+			else if ( isHalfType( kind ) )
+			{
+				config.requiredCapabilities.insert( spv::CapabilityFloat16 );
+			}
 		}
 
 		void checkType( ast::expr::Expr * expr
@@ -158,6 +162,31 @@ namespace spirv
 		auto kind = expr->getImageAccess();
 		auto & config = std::static_pointer_cast< ast::type::Image >( expr->getArgList()[0]->getType() )->getConfig();
 
+		if ( config.dimension == ast::type::ImageDim::e1D )
+		{
+			m_config.requiredCapabilities.insert( spv::CapabilityImage1D );
+		}
+		else if ( config.dimension == ast::type::ImageDim::eRect )
+		{
+			m_config.requiredCapabilities.insert( spv::CapabilityImageRect );
+		}
+		else if ( config.dimension == ast::type::ImageDim::eBuffer )
+		{
+			m_config.requiredCapabilities.insert( spv::CapabilityImageBuffer );
+		}
+
+		if ( config.isArrayed )
+		{
+			if ( config.dimension == ast::type::ImageDim::eCube )
+			{
+				m_config.requiredCapabilities.insert( spv::CapabilityImageCubeArray );
+			}
+			else if ( config.isMS )
+			{
+				m_config.requiredCapabilities.insert( spv::CapabilityImageMSArray );
+			}
+		}
+
 		if ( ( kind >= ast::expr::ImageAccess::eImageSize1DF
 			&& kind <= ast::expr::ImageAccess::eImageSize2DMSArrayU )
 			|| ( kind >= ast::expr::ImageAccess::eImageSamples2DMSF
@@ -165,33 +194,17 @@ namespace spirv
 		{
 			m_config.requiredCapabilities.insert( spv::CapabilityImageQuery );
 		}
-		else if ( ( kind >= ast::expr::ImageAccess::eImageLoad1DF
-			&& kind <= ast::expr::ImageAccess::eImageLoad2DMSArrayU )
-			|| ( kind >= ast::expr::ImageAccess::eImageStore1DF
-				&& kind <= ast::expr::ImageAccess::eImageStore2DMSArrayU ) )
+		else if ( ( expr->getImageAccess() >= ast::expr::ImageAccess::eImageAtomicAdd1DF
+			&& expr->getImageAccess() <= ast::expr::ImageAccess::eImageAtomicAdd2DMSArrayF )
+			|| ( expr->getImageAccess() >= ast::expr::ImageAccess::eImageAtomicExchange1DF
+				&& expr->getImageAccess() <= ast::expr::ImageAccess::eImageAtomicExchange2DMSArrayF ) )
 		{
-			if ( config.dimension == ast::type::ImageDim::e1D )
-			{
-				m_config.requiredCapabilities.insert( spv::CapabilityImage1D );
-			}
-			else if ( config.dimension == ast::type::ImageDim::eRect )
-			{
-				m_config.requiredCapabilities.insert( spv::CapabilityImageRect );
-			}
-			else if ( config.dimension == ast::type::ImageDim::eBuffer )
-			{
-				m_config.requiredCapabilities.insert( spv::CapabilityImageBuffer );
-			}
+			m_config.requiredCapabilities.insert( spv::CapabilityAtomicFloat32AddEXT );
 
-			if ( config.isArrayed )
+			for ( auto & arg : expr->getArgList() )
 			{
-				if ( config.dimension == ast::type::ImageDim::eCube )
+				if ( ast::type::getComponentType( arg->getType() ) == ast::type::Kind::eHalf )
 				{
-					m_config.requiredCapabilities.insert( spv::CapabilityImageCubeArray );
-				}
-				else if ( config.isMS )
-				{
-					m_config.requiredCapabilities.insert( spv::CapabilityImageMSArray );
 				}
 			}
 		}

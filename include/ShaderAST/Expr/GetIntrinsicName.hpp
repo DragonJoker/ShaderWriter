@@ -2414,6 +2414,18 @@ namespace ast::expr
 			result = "ATOMICADDU";
 			break;
 
+		case Intrinsic::eAtomicAddF:
+			result = "ATOMICADDF";
+			break;
+
+		case Intrinsic::eAtomicAdd2H:
+			result = "ATOMICADD2H";
+			break;
+
+		case Intrinsic::eAtomicAdd4H:
+			result = "ATOMICADD4H";
+			break;
+
 		case Intrinsic::eAtomicMinI:
 			result = "ATOMICMINI";
 			break;
@@ -2460,6 +2472,18 @@ namespace ast::expr
 
 		case Intrinsic::eAtomicExchangeU:
 			result = "ATOMICEXCHANGEU";
+			break;
+
+		case Intrinsic::eAtomicExchangeF:
+			result = "ATOMICEXCHANGEF";
+			break;
+
+		case Intrinsic::eAtomicExchange2H:
+			result = "ATOMICEXCHANGE2H";
+			break;
+
+		case Intrinsic::eAtomicExchange4H:
+			result = "ATOMICEXCHANGE4H";
 			break;
 
 		case Intrinsic::eAtomicCompSwapI:

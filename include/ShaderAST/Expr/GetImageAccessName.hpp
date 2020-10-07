@@ -17,6 +17,7 @@ namespace ast::expr
 
 		switch ( value )
 		{
+	// Image Query Functions
 		case ImageAccess::eImageSize1DF:
 			result = "IMAGESIZE1DF";
 			break;
@@ -173,6 +174,8 @@ namespace ast::expr
 			result = "IMAGESAMPLES2DMSARRAYU";
 			break;
 
+
+	// Image texel load
 		case ImageAccess::eImageLoad1DF:
 			result = "IMAGELOAD1DF";
 			break;
@@ -305,6 +308,8 @@ namespace ast::expr
 			result = "IMAGELOAD2DMSARRAYU";
 			break;
 
+
+	// Image texel store
 		case ImageAccess::eImageStore1DF:
 			result = "IMAGESTORE1DF";
 			break;
@@ -437,6 +442,8 @@ namespace ast::expr
 			result = "IMAGESTORE2DMSARRAYU";
 			break;
 
+
+	// Image atomics
 		case ImageAccess::eImageAtomicAdd1DU:
 			result = "IMAGEATOMICADD1DU";
 			break;
@@ -523,6 +530,50 @@ namespace ast::expr
 
 		case ImageAccess::eImageAtomicAdd2DMSArrayI:
 			result = "IMAGEATOMICADD2DMSARRAYI";
+			break;
+
+		case ImageAccess::eImageAtomicAdd1DF:
+			result = "IMAGEATOMICADD1DF";
+			break;
+
+		case ImageAccess::eImageAtomicAdd2DF:
+			result = "IMAGEATOMICADD2DF";
+			break;
+
+		case ImageAccess::eImageAtomicAdd3DF:
+			result = "IMAGEATOMICADD3DF";
+			break;
+
+		case ImageAccess::eImageAtomicAdd2DRectF:
+			result = "IMAGEATOMICADD2DRECTF";
+			break;
+
+		case ImageAccess::eImageAtomicAddCubeF:
+			result = "IMAGEATOMICADDCUBEF";
+			break;
+
+		case ImageAccess::eImageAtomicAddBufferF:
+			result = "IMAGEATOMICADDBUFFERF";
+			break;
+
+		case ImageAccess::eImageAtomicAdd1DArrayF:
+			result = "IMAGEATOMICADD1DARRAYF";
+			break;
+
+		case ImageAccess::eImageAtomicAdd2DArrayF:
+			result = "IMAGEATOMICADD2DARRAYF";
+			break;
+
+		case ImageAccess::eImageAtomicAddCubeArrayF:
+			result = "IMAGEATOMICADDCUBEARRAYF";
+			break;
+
+		case ImageAccess::eImageAtomicAdd2DMSF:
+			result = "IMAGEATOMICADD2DMSF";
+			break;
+
+		case ImageAccess::eImageAtomicAdd2DMSArrayF:
+			result = "IMAGEATOMICADD2DMSARRAYF";
 			break;
 
 		case ImageAccess::eImageAtomicMin1DU:
@@ -1051,6 +1102,50 @@ namespace ast::expr
 
 		case ImageAccess::eImageAtomicExchange2DMSArrayI:
 			result = "IMAGEATOMICEXCHANGE2DMSARRAYI";
+			break;
+
+		case ImageAccess::eImageAtomicExchange1DF:
+			result = "IMAGEATOMICEXCHANGE1DF";
+			break;
+
+		case ImageAccess::eImageAtomicExchange2DF:
+			result = "IMAGEATOMICEXCHANGE2DF";
+			break;
+
+		case ImageAccess::eImageAtomicExchange3DF:
+			result = "IMAGEATOMICEXCHANGE3DF";
+			break;
+
+		case ImageAccess::eImageAtomicExchange2DRectF:
+			result = "IMAGEATOMICEXCHANGE2DRECTF";
+			break;
+
+		case ImageAccess::eImageAtomicExchangeCubeF:
+			result = "IMAGEATOMICEXCHANGECUBEF";
+			break;
+
+		case ImageAccess::eImageAtomicExchangeBufferF:
+			result = "IMAGEATOMICEXCHANGEBUFFERF";
+			break;
+
+		case ImageAccess::eImageAtomicExchange1DArrayF:
+			result = "IMAGEATOMICEXCHANGE1DARRAYF";
+			break;
+
+		case ImageAccess::eImageAtomicExchange2DArrayF:
+			result = "IMAGEATOMICEXCHANGE2DARRAYF";
+			break;
+
+		case ImageAccess::eImageAtomicExchangeCubeArrayF:
+			result = "IMAGEATOMICEXCHANGECUBEARRAYF";
+			break;
+
+		case ImageAccess::eImageAtomicExchange2DMSF:
+			result = "IMAGEATOMICEXCHANGE2DMSF";
+			break;
+
+		case ImageAccess::eImageAtomicExchange2DMSArrayF:
+			result = "IMAGEATOMICEXCHANGE2DMSARRAYF";
 			break;
 
 		case ImageAccess::eImageAtomicCompSwap1DU:

@@ -12151,19 +12151,19 @@ namespace sdw
 				, makeExpr( image )
 				, makeExpr( P ) ) };
 	}
-	MaybeOptional< Vec4 > imageLoad( MaybeOptional< RImage1DRgba16 > const & image
+	MaybeOptional< HVec4 > imageLoad( MaybeOptional< RImage1DRgba16 > const & image
 		, MaybeOptional< Int > const & P )
 	{
 		if ( isAnyOptional( image, P ) )
 		{
-			return Optional< Vec4 >{ findShader( image, P )
+			return Optional< HVec4 >{ findShader( image, P )
 				, expr::makeImageLoad1DFRgba16( findTypesCache( image, P )
 					, makeExpr( image )
 					, makeExpr( P ) )
 				, areOptionalEnabled( image, P ) };
 		}
 
-		return Vec4{ findShader( image, P )
+		return HVec4{ findShader( image, P )
 			, expr::makeImageLoad1DFRgba16( findTypesCache( image, P )
 				, makeExpr( image )
 				, makeExpr( P ) ) };
@@ -12185,19 +12185,19 @@ namespace sdw
 				, makeExpr( image )
 				, makeExpr( P ) ) };
 	}
-	MaybeOptional< Vec2 > imageLoad( MaybeOptional< RImage1DRg16 > const & image
+	MaybeOptional< HVec2 > imageLoad( MaybeOptional< RImage1DRg16 > const & image
 		, MaybeOptional< Int > const & P )
 	{
 		if ( isAnyOptional( image, P ) )
 		{
-			return Optional< Vec2 >{ findShader( image, P )
+			return Optional< HVec2 >{ findShader( image, P )
 				, expr::makeImageLoad1DFRg16( findTypesCache( image, P )
 					, makeExpr( image )
 					, makeExpr( P ) )
 				, areOptionalEnabled( image, P ) };
 		}
 
-		return Vec2{ findShader( image, P )
+		return HVec2{ findShader( image, P )
 			, expr::makeImageLoad1DFRg16( findTypesCache( image, P )
 				, makeExpr( image )
 				, makeExpr( P ) ) };
@@ -12219,19 +12219,19 @@ namespace sdw
 				, makeExpr( image )
 				, makeExpr( P ) ) };
 	}
-	MaybeOptional< Float > imageLoad( MaybeOptional< RImage1DR16 > const & image
+	MaybeOptional< Half > imageLoad( MaybeOptional< RImage1DR16 > const & image
 		, MaybeOptional< Int > const & P )
 	{
 		if ( isAnyOptional( image, P ) )
 		{
-			return Optional< Float >{ findShader( image, P )
+			return Optional< Half >{ findShader( image, P )
 				, expr::makeImageLoad1DFR16( findTypesCache( image, P )
 					, makeExpr( image )
 					, makeExpr( P ) )
 				, areOptionalEnabled( image, P ) };
 		}
 
-		return Float{ findShader( image, P )
+		return Half{ findShader( image, P )
 			, expr::makeImageLoad1DFR16( findTypesCache( image, P )
 				, makeExpr( image )
 				, makeExpr( P ) ) };
@@ -12253,19 +12253,19 @@ namespace sdw
 				, makeExpr( image )
 				, makeExpr( P ) ) };
 	}
-	MaybeOptional< Vec4 > imageLoad( MaybeOptional< RWImage1DRgba16 > const & image
+	MaybeOptional< HVec4 > imageLoad( MaybeOptional< RWImage1DRgba16 > const & image
 		, MaybeOptional< Int > const & P )
 	{
 		if ( isAnyOptional( image, P ) )
 		{
-			return Optional< Vec4 >{ findShader( image, P )
+			return Optional< HVec4 >{ findShader( image, P )
 				, expr::makeImageLoad1DFRgba16( findTypesCache( image, P )
 					, makeExpr( image )
 					, makeExpr( P ) )
 				, areOptionalEnabled( image, P ) };
 		}
 
-		return Vec4{ findShader( image, P )
+		return HVec4{ findShader( image, P )
 			, expr::makeImageLoad1DFRgba16( findTypesCache( image, P )
 				, makeExpr( image )
 				, makeExpr( P ) ) };
@@ -12287,19 +12287,19 @@ namespace sdw
 				, makeExpr( image )
 				, makeExpr( P ) ) };
 	}
-	MaybeOptional< Vec2 > imageLoad( MaybeOptional< RWImage1DRg16 > const & image
+	MaybeOptional< HVec2 > imageLoad( MaybeOptional< RWImage1DRg16 > const & image
 		, MaybeOptional< Int > const & P )
 	{
 		if ( isAnyOptional( image, P ) )
 		{
-			return Optional< Vec2 >{ findShader( image, P )
+			return Optional< HVec2 >{ findShader( image, P )
 				, expr::makeImageLoad1DFRg16( findTypesCache( image, P )
 					, makeExpr( image )
 					, makeExpr( P ) )
 				, areOptionalEnabled( image, P ) };
 		}
 
-		return Vec2{ findShader( image, P )
+		return HVec2{ findShader( image, P )
 			, expr::makeImageLoad1DFRg16( findTypesCache( image, P )
 				, makeExpr( image )
 				, makeExpr( P ) ) };
@@ -12321,19 +12321,19 @@ namespace sdw
 				, makeExpr( image )
 				, makeExpr( P ) ) };
 	}
-	MaybeOptional< Float > imageLoad( MaybeOptional< RWImage1DR16 > const & image
+	MaybeOptional< Half > imageLoad( MaybeOptional< RWImage1DR16 > const & image
 		, MaybeOptional< Int > const & P )
 	{
 		if ( isAnyOptional( image, P ) )
 		{
-			return Optional< Float >{ findShader( image, P )
+			return Optional< Half >{ findShader( image, P )
 				, expr::makeImageLoad1DFR16( findTypesCache( image, P )
 					, makeExpr( image )
 					, makeExpr( P ) )
 				, areOptionalEnabled( image, P ) };
 		}
 
-		return Float{ findShader( image, P )
+		return Half{ findShader( image, P )
 			, expr::makeImageLoad1DFR16( findTypesCache( image, P )
 				, makeExpr( image )
 				, makeExpr( P ) ) };
@@ -12355,19 +12355,19 @@ namespace sdw
 				, makeExpr( image )
 				, makeExpr( P ) ) };
 	}
-	MaybeOptional< Vec4 > imageLoad( MaybeOptional< RImage2DRgba16 > const & image
+	MaybeOptional< HVec4 > imageLoad( MaybeOptional< RImage2DRgba16 > const & image
 		, MaybeOptional< IVec2 > const & P )
 	{
 		if ( isAnyOptional( image, P ) )
 		{
-			return Optional< Vec4 >{ findShader( image, P )
+			return Optional< HVec4 >{ findShader( image, P )
 				, expr::makeImageLoad2DFRgba16( findTypesCache( image, P )
 					, makeExpr( image )
 					, makeExpr( P ) )
 				, areOptionalEnabled( image, P ) };
 		}
 
-		return Vec4{ findShader( image, P )
+		return HVec4{ findShader( image, P )
 			, expr::makeImageLoad2DFRgba16( findTypesCache( image, P )
 				, makeExpr( image )
 				, makeExpr( P ) ) };
@@ -12389,19 +12389,19 @@ namespace sdw
 				, makeExpr( image )
 				, makeExpr( P ) ) };
 	}
-	MaybeOptional< Vec2 > imageLoad( MaybeOptional< RImage2DRg16 > const & image
+	MaybeOptional< HVec2 > imageLoad( MaybeOptional< RImage2DRg16 > const & image
 		, MaybeOptional< IVec2 > const & P )
 	{
 		if ( isAnyOptional( image, P ) )
 		{
-			return Optional< Vec2 >{ findShader( image, P )
+			return Optional< HVec2 >{ findShader( image, P )
 				, expr::makeImageLoad2DFRg16( findTypesCache( image, P )
 					, makeExpr( image )
 					, makeExpr( P ) )
 				, areOptionalEnabled( image, P ) };
 		}
 
-		return Vec2{ findShader( image, P )
+		return HVec2{ findShader( image, P )
 			, expr::makeImageLoad2DFRg16( findTypesCache( image, P )
 				, makeExpr( image )
 				, makeExpr( P ) ) };
@@ -12423,19 +12423,19 @@ namespace sdw
 				, makeExpr( image )
 				, makeExpr( P ) ) };
 	}
-	MaybeOptional< Float > imageLoad( MaybeOptional< RImage2DR16 > const & image
+	MaybeOptional< Half > imageLoad( MaybeOptional< RImage2DR16 > const & image
 		, MaybeOptional< IVec2 > const & P )
 	{
 		if ( isAnyOptional( image, P ) )
 		{
-			return Optional< Float >{ findShader( image, P )
+			return Optional< Half >{ findShader( image, P )
 				, expr::makeImageLoad2DFR16( findTypesCache( image, P )
 					, makeExpr( image )
 					, makeExpr( P ) )
 				, areOptionalEnabled( image, P ) };
 		}
 
-		return Float{ findShader( image, P )
+		return Half{ findShader( image, P )
 			, expr::makeImageLoad2DFR16( findTypesCache( image, P )
 				, makeExpr( image )
 				, makeExpr( P ) ) };
@@ -12457,19 +12457,19 @@ namespace sdw
 				, makeExpr( image )
 				, makeExpr( P ) ) };
 	}
-	MaybeOptional< Vec4 > imageLoad( MaybeOptional< RWImage2DRgba16 > const & image
+	MaybeOptional< HVec4 > imageLoad( MaybeOptional< RWImage2DRgba16 > const & image
 		, MaybeOptional< IVec2 > const & P )
 	{
 		if ( isAnyOptional( image, P ) )
 		{
-			return Optional< Vec4 >{ findShader( image, P )
+			return Optional< HVec4 >{ findShader( image, P )
 				, expr::makeImageLoad2DFRgba16( findTypesCache( image, P )
 					, makeExpr( image )
 					, makeExpr( P ) )
 				, areOptionalEnabled( image, P ) };
 		}
 
-		return Vec4{ findShader( image, P )
+		return HVec4{ findShader( image, P )
 			, expr::makeImageLoad2DFRgba16( findTypesCache( image, P )
 				, makeExpr( image )
 				, makeExpr( P ) ) };
@@ -12491,19 +12491,19 @@ namespace sdw
 				, makeExpr( image )
 				, makeExpr( P ) ) };
 	}
-	MaybeOptional< Vec2 > imageLoad( MaybeOptional< RWImage2DRg16 > const & image
+	MaybeOptional< HVec2 > imageLoad( MaybeOptional< RWImage2DRg16 > const & image
 		, MaybeOptional< IVec2 > const & P )
 	{
 		if ( isAnyOptional( image, P ) )
 		{
-			return Optional< Vec2 >{ findShader( image, P )
+			return Optional< HVec2 >{ findShader( image, P )
 				, expr::makeImageLoad2DFRg16( findTypesCache( image, P )
 					, makeExpr( image )
 					, makeExpr( P ) )
 				, areOptionalEnabled( image, P ) };
 		}
 
-		return Vec2{ findShader( image, P )
+		return HVec2{ findShader( image, P )
 			, expr::makeImageLoad2DFRg16( findTypesCache( image, P )
 				, makeExpr( image )
 				, makeExpr( P ) ) };
@@ -12525,19 +12525,19 @@ namespace sdw
 				, makeExpr( image )
 				, makeExpr( P ) ) };
 	}
-	MaybeOptional< Float > imageLoad( MaybeOptional< RWImage2DR16 > const & image
+	MaybeOptional< Half > imageLoad( MaybeOptional< RWImage2DR16 > const & image
 		, MaybeOptional< IVec2 > const & P )
 	{
 		if ( isAnyOptional( image, P ) )
 		{
-			return Optional< Float >{ findShader( image, P )
+			return Optional< Half >{ findShader( image, P )
 				, expr::makeImageLoad2DFR16( findTypesCache( image, P )
 					, makeExpr( image )
 					, makeExpr( P ) )
 				, areOptionalEnabled( image, P ) };
 		}
 
-		return Float{ findShader( image, P )
+		return Half{ findShader( image, P )
 			, expr::makeImageLoad2DFR16( findTypesCache( image, P )
 				, makeExpr( image )
 				, makeExpr( P ) ) };
@@ -12559,19 +12559,19 @@ namespace sdw
 				, makeExpr( image )
 				, makeExpr( P ) ) };
 	}
-	MaybeOptional< Vec4 > imageLoad( MaybeOptional< RImage3DRgba16 > const & image
+	MaybeOptional< HVec4 > imageLoad( MaybeOptional< RImage3DRgba16 > const & image
 		, MaybeOptional< IVec3 > const & P )
 	{
 		if ( isAnyOptional( image, P ) )
 		{
-			return Optional< Vec4 >{ findShader( image, P )
+			return Optional< HVec4 >{ findShader( image, P )
 				, expr::makeImageLoad3DFRgba16( findTypesCache( image, P )
 					, makeExpr( image )
 					, makeExpr( P ) )
 				, areOptionalEnabled( image, P ) };
 		}
 
-		return Vec4{ findShader( image, P )
+		return HVec4{ findShader( image, P )
 			, expr::makeImageLoad3DFRgba16( findTypesCache( image, P )
 				, makeExpr( image )
 				, makeExpr( P ) ) };
@@ -12593,19 +12593,19 @@ namespace sdw
 				, makeExpr( image )
 				, makeExpr( P ) ) };
 	}
-	MaybeOptional< Vec2 > imageLoad( MaybeOptional< RImage3DRg16 > const & image
+	MaybeOptional< HVec2 > imageLoad( MaybeOptional< RImage3DRg16 > const & image
 		, MaybeOptional< IVec3 > const & P )
 	{
 		if ( isAnyOptional( image, P ) )
 		{
-			return Optional< Vec2 >{ findShader( image, P )
+			return Optional< HVec2 >{ findShader( image, P )
 				, expr::makeImageLoad3DFRg16( findTypesCache( image, P )
 					, makeExpr( image )
 					, makeExpr( P ) )
 				, areOptionalEnabled( image, P ) };
 		}
 
-		return Vec2{ findShader( image, P )
+		return HVec2{ findShader( image, P )
 			, expr::makeImageLoad3DFRg16( findTypesCache( image, P )
 				, makeExpr( image )
 				, makeExpr( P ) ) };
@@ -12627,19 +12627,19 @@ namespace sdw
 				, makeExpr( image )
 				, makeExpr( P ) ) };
 	}
-	MaybeOptional< Float > imageLoad( MaybeOptional< RImage3DR16 > const & image
+	MaybeOptional< Half > imageLoad( MaybeOptional< RImage3DR16 > const & image
 		, MaybeOptional< IVec3 > const & P )
 	{
 		if ( isAnyOptional( image, P ) )
 		{
-			return Optional< Float >{ findShader( image, P )
+			return Optional< Half >{ findShader( image, P )
 				, expr::makeImageLoad3DFR16( findTypesCache( image, P )
 					, makeExpr( image )
 					, makeExpr( P ) )
 				, areOptionalEnabled( image, P ) };
 		}
 
-		return Float{ findShader( image, P )
+		return Half{ findShader( image, P )
 			, expr::makeImageLoad3DFR16( findTypesCache( image, P )
 				, makeExpr( image )
 				, makeExpr( P ) ) };
@@ -12661,19 +12661,19 @@ namespace sdw
 				, makeExpr( image )
 				, makeExpr( P ) ) };
 	}
-	MaybeOptional< Vec4 > imageLoad( MaybeOptional< RWImage3DRgba16 > const & image
+	MaybeOptional< HVec4 > imageLoad( MaybeOptional< RWImage3DRgba16 > const & image
 		, MaybeOptional< IVec3 > const & P )
 	{
 		if ( isAnyOptional( image, P ) )
 		{
-			return Optional< Vec4 >{ findShader( image, P )
+			return Optional< HVec4 >{ findShader( image, P )
 				, expr::makeImageLoad3DFRgba16( findTypesCache( image, P )
 					, makeExpr( image )
 					, makeExpr( P ) )
 				, areOptionalEnabled( image, P ) };
 		}
 
-		return Vec4{ findShader( image, P )
+		return HVec4{ findShader( image, P )
 			, expr::makeImageLoad3DFRgba16( findTypesCache( image, P )
 				, makeExpr( image )
 				, makeExpr( P ) ) };
@@ -12695,19 +12695,19 @@ namespace sdw
 				, makeExpr( image )
 				, makeExpr( P ) ) };
 	}
-	MaybeOptional< Vec2 > imageLoad( MaybeOptional< RWImage3DRg16 > const & image
+	MaybeOptional< HVec2 > imageLoad( MaybeOptional< RWImage3DRg16 > const & image
 		, MaybeOptional< IVec3 > const & P )
 	{
 		if ( isAnyOptional( image, P ) )
 		{
-			return Optional< Vec2 >{ findShader( image, P )
+			return Optional< HVec2 >{ findShader( image, P )
 				, expr::makeImageLoad3DFRg16( findTypesCache( image, P )
 					, makeExpr( image )
 					, makeExpr( P ) )
 				, areOptionalEnabled( image, P ) };
 		}
 
-		return Vec2{ findShader( image, P )
+		return HVec2{ findShader( image, P )
 			, expr::makeImageLoad3DFRg16( findTypesCache( image, P )
 				, makeExpr( image )
 				, makeExpr( P ) ) };
@@ -12729,19 +12729,19 @@ namespace sdw
 				, makeExpr( image )
 				, makeExpr( P ) ) };
 	}
-	MaybeOptional< Float > imageLoad( MaybeOptional< RWImage3DR16 > const & image
+	MaybeOptional< Half > imageLoad( MaybeOptional< RWImage3DR16 > const & image
 		, MaybeOptional< IVec3 > const & P )
 	{
 		if ( isAnyOptional( image, P ) )
 		{
-			return Optional< Float >{ findShader( image, P )
+			return Optional< Half >{ findShader( image, P )
 				, expr::makeImageLoad3DFR16( findTypesCache( image, P )
 					, makeExpr( image )
 					, makeExpr( P ) )
 				, areOptionalEnabled( image, P ) };
 		}
 
-		return Float{ findShader( image, P )
+		return Half{ findShader( image, P )
 			, expr::makeImageLoad3DFR16( findTypesCache( image, P )
 				, makeExpr( image )
 				, makeExpr( P ) ) };
@@ -12763,19 +12763,19 @@ namespace sdw
 				, makeExpr( image )
 				, makeExpr( P ) ) };
 	}
-	MaybeOptional< Vec4 > imageLoad( MaybeOptional< RImageCubeRgba16 > const & image
+	MaybeOptional< HVec4 > imageLoad( MaybeOptional< RImageCubeRgba16 > const & image
 		, MaybeOptional< IVec3 > const & P )
 	{
 		if ( isAnyOptional( image, P ) )
 		{
-			return Optional< Vec4 >{ findShader( image, P )
+			return Optional< HVec4 >{ findShader( image, P )
 				, expr::makeImageLoadCubeFRgba16( findTypesCache( image, P )
 					, makeExpr( image )
 					, makeExpr( P ) )
 				, areOptionalEnabled( image, P ) };
 		}
 
-		return Vec4{ findShader( image, P )
+		return HVec4{ findShader( image, P )
 			, expr::makeImageLoadCubeFRgba16( findTypesCache( image, P )
 				, makeExpr( image )
 				, makeExpr( P ) ) };
@@ -12797,19 +12797,19 @@ namespace sdw
 				, makeExpr( image )
 				, makeExpr( P ) ) };
 	}
-	MaybeOptional< Vec2 > imageLoad( MaybeOptional< RImageCubeRg16 > const & image
+	MaybeOptional< HVec2 > imageLoad( MaybeOptional< RImageCubeRg16 > const & image
 		, MaybeOptional< IVec3 > const & P )
 	{
 		if ( isAnyOptional( image, P ) )
 		{
-			return Optional< Vec2 >{ findShader( image, P )
+			return Optional< HVec2 >{ findShader( image, P )
 				, expr::makeImageLoadCubeFRg16( findTypesCache( image, P )
 					, makeExpr( image )
 					, makeExpr( P ) )
 				, areOptionalEnabled( image, P ) };
 		}
 
-		return Vec2{ findShader( image, P )
+		return HVec2{ findShader( image, P )
 			, expr::makeImageLoadCubeFRg16( findTypesCache( image, P )
 				, makeExpr( image )
 				, makeExpr( P ) ) };
@@ -12831,19 +12831,19 @@ namespace sdw
 				, makeExpr( image )
 				, makeExpr( P ) ) };
 	}
-	MaybeOptional< Float > imageLoad( MaybeOptional< RImageCubeR16 > const & image
+	MaybeOptional< Half > imageLoad( MaybeOptional< RImageCubeR16 > const & image
 		, MaybeOptional< IVec3 > const & P )
 	{
 		if ( isAnyOptional( image, P ) )
 		{
-			return Optional< Float >{ findShader( image, P )
+			return Optional< Half >{ findShader( image, P )
 				, expr::makeImageLoadCubeFR16( findTypesCache( image, P )
 					, makeExpr( image )
 					, makeExpr( P ) )
 				, areOptionalEnabled( image, P ) };
 		}
 
-		return Float{ findShader( image, P )
+		return Half{ findShader( image, P )
 			, expr::makeImageLoadCubeFR16( findTypesCache( image, P )
 				, makeExpr( image )
 				, makeExpr( P ) ) };
@@ -12865,19 +12865,19 @@ namespace sdw
 				, makeExpr( image )
 				, makeExpr( P ) ) };
 	}
-	MaybeOptional< Vec4 > imageLoad( MaybeOptional< RWImageCubeRgba16 > const & image
+	MaybeOptional< HVec4 > imageLoad( MaybeOptional< RWImageCubeRgba16 > const & image
 		, MaybeOptional< IVec3 > const & P )
 	{
 		if ( isAnyOptional( image, P ) )
 		{
-			return Optional< Vec4 >{ findShader( image, P )
+			return Optional< HVec4 >{ findShader( image, P )
 				, expr::makeImageLoadCubeFRgba16( findTypesCache( image, P )
 					, makeExpr( image )
 					, makeExpr( P ) )
 				, areOptionalEnabled( image, P ) };
 		}
 
-		return Vec4{ findShader( image, P )
+		return HVec4{ findShader( image, P )
 			, expr::makeImageLoadCubeFRgba16( findTypesCache( image, P )
 				, makeExpr( image )
 				, makeExpr( P ) ) };
@@ -12899,19 +12899,19 @@ namespace sdw
 				, makeExpr( image )
 				, makeExpr( P ) ) };
 	}
-	MaybeOptional< Vec2 > imageLoad( MaybeOptional< RWImageCubeRg16 > const & image
+	MaybeOptional< HVec2 > imageLoad( MaybeOptional< RWImageCubeRg16 > const & image
 		, MaybeOptional< IVec3 > const & P )
 	{
 		if ( isAnyOptional( image, P ) )
 		{
-			return Optional< Vec2 >{ findShader( image, P )
+			return Optional< HVec2 >{ findShader( image, P )
 				, expr::makeImageLoadCubeFRg16( findTypesCache( image, P )
 					, makeExpr( image )
 					, makeExpr( P ) )
 				, areOptionalEnabled( image, P ) };
 		}
 
-		return Vec2{ findShader( image, P )
+		return HVec2{ findShader( image, P )
 			, expr::makeImageLoadCubeFRg16( findTypesCache( image, P )
 				, makeExpr( image )
 				, makeExpr( P ) ) };
@@ -12933,19 +12933,19 @@ namespace sdw
 				, makeExpr( image )
 				, makeExpr( P ) ) };
 	}
-	MaybeOptional< Float > imageLoad( MaybeOptional< RWImageCubeR16 > const & image
+	MaybeOptional< Half > imageLoad( MaybeOptional< RWImageCubeR16 > const & image
 		, MaybeOptional< IVec3 > const & P )
 	{
 		if ( isAnyOptional( image, P ) )
 		{
-			return Optional< Float >{ findShader( image, P )
+			return Optional< Half >{ findShader( image, P )
 				, expr::makeImageLoadCubeFR16( findTypesCache( image, P )
 					, makeExpr( image )
 					, makeExpr( P ) )
 				, areOptionalEnabled( image, P ) };
 		}
 
-		return Float{ findShader( image, P )
+		return Half{ findShader( image, P )
 			, expr::makeImageLoadCubeFR16( findTypesCache( image, P )
 				, makeExpr( image )
 				, makeExpr( P ) ) };
@@ -12967,19 +12967,19 @@ namespace sdw
 				, makeExpr( image )
 				, makeExpr( P ) ) };
 	}
-	MaybeOptional< Vec4 > imageLoad( MaybeOptional< RImageBufferRgba16 > const & image
+	MaybeOptional< HVec4 > imageLoad( MaybeOptional< RImageBufferRgba16 > const & image
 		, MaybeOptional< Int > const & P )
 	{
 		if ( isAnyOptional( image, P ) )
 		{
-			return Optional< Vec4 >{ findShader( image, P )
+			return Optional< HVec4 >{ findShader( image, P )
 				, expr::makeImageLoadBufferFRgba16( findTypesCache( image, P )
 					, makeExpr( image )
 					, makeExpr( P ) )
 				, areOptionalEnabled( image, P ) };
 		}
 
-		return Vec4{ findShader( image, P )
+		return HVec4{ findShader( image, P )
 			, expr::makeImageLoadBufferFRgba16( findTypesCache( image, P )
 				, makeExpr( image )
 				, makeExpr( P ) ) };
@@ -13001,19 +13001,19 @@ namespace sdw
 				, makeExpr( image )
 				, makeExpr( P ) ) };
 	}
-	MaybeOptional< Vec2 > imageLoad( MaybeOptional< RImageBufferRg16 > const & image
+	MaybeOptional< HVec2 > imageLoad( MaybeOptional< RImageBufferRg16 > const & image
 		, MaybeOptional< Int > const & P )
 	{
 		if ( isAnyOptional( image, P ) )
 		{
-			return Optional< Vec2 >{ findShader( image, P )
+			return Optional< HVec2 >{ findShader( image, P )
 				, expr::makeImageLoadBufferFRg16( findTypesCache( image, P )
 					, makeExpr( image )
 					, makeExpr( P ) )
 				, areOptionalEnabled( image, P ) };
 		}
 
-		return Vec2{ findShader( image, P )
+		return HVec2{ findShader( image, P )
 			, expr::makeImageLoadBufferFRg16( findTypesCache( image, P )
 				, makeExpr( image )
 				, makeExpr( P ) ) };
@@ -13035,19 +13035,19 @@ namespace sdw
 				, makeExpr( image )
 				, makeExpr( P ) ) };
 	}
-	MaybeOptional< Float > imageLoad( MaybeOptional< RImageBufferR16 > const & image
+	MaybeOptional< Half > imageLoad( MaybeOptional< RImageBufferR16 > const & image
 		, MaybeOptional< Int > const & P )
 	{
 		if ( isAnyOptional( image, P ) )
 		{
-			return Optional< Float >{ findShader( image, P )
+			return Optional< Half >{ findShader( image, P )
 				, expr::makeImageLoadBufferFR16( findTypesCache( image, P )
 					, makeExpr( image )
 					, makeExpr( P ) )
 				, areOptionalEnabled( image, P ) };
 		}
 
-		return Float{ findShader( image, P )
+		return Half{ findShader( image, P )
 			, expr::makeImageLoadBufferFR16( findTypesCache( image, P )
 				, makeExpr( image )
 				, makeExpr( P ) ) };
@@ -13069,19 +13069,19 @@ namespace sdw
 				, makeExpr( image )
 				, makeExpr( P ) ) };
 	}
-	MaybeOptional< Vec4 > imageLoad( MaybeOptional< RWImageBufferRgba16 > const & image
+	MaybeOptional< HVec4 > imageLoad( MaybeOptional< RWImageBufferRgba16 > const & image
 		, MaybeOptional< Int > const & P )
 	{
 		if ( isAnyOptional( image, P ) )
 		{
-			return Optional< Vec4 >{ findShader( image, P )
+			return Optional< HVec4 >{ findShader( image, P )
 				, expr::makeImageLoadBufferFRgba16( findTypesCache( image, P )
 					, makeExpr( image )
 					, makeExpr( P ) )
 				, areOptionalEnabled( image, P ) };
 		}
 
-		return Vec4{ findShader( image, P )
+		return HVec4{ findShader( image, P )
 			, expr::makeImageLoadBufferFRgba16( findTypesCache( image, P )
 				, makeExpr( image )
 				, makeExpr( P ) ) };
@@ -13103,19 +13103,19 @@ namespace sdw
 				, makeExpr( image )
 				, makeExpr( P ) ) };
 	}
-	MaybeOptional< Vec2 > imageLoad( MaybeOptional< RWImageBufferRg16 > const & image
+	MaybeOptional< HVec2 > imageLoad( MaybeOptional< RWImageBufferRg16 > const & image
 		, MaybeOptional< Int > const & P )
 	{
 		if ( isAnyOptional( image, P ) )
 		{
-			return Optional< Vec2 >{ findShader( image, P )
+			return Optional< HVec2 >{ findShader( image, P )
 				, expr::makeImageLoadBufferFRg16( findTypesCache( image, P )
 					, makeExpr( image )
 					, makeExpr( P ) )
 				, areOptionalEnabled( image, P ) };
 		}
 
-		return Vec2{ findShader( image, P )
+		return HVec2{ findShader( image, P )
 			, expr::makeImageLoadBufferFRg16( findTypesCache( image, P )
 				, makeExpr( image )
 				, makeExpr( P ) ) };
@@ -13137,19 +13137,19 @@ namespace sdw
 				, makeExpr( image )
 				, makeExpr( P ) ) };
 	}
-	MaybeOptional< Float > imageLoad( MaybeOptional< RWImageBufferR16 > const & image
+	MaybeOptional< Half > imageLoad( MaybeOptional< RWImageBufferR16 > const & image
 		, MaybeOptional< Int > const & P )
 	{
 		if ( isAnyOptional( image, P ) )
 		{
-			return Optional< Float >{ findShader( image, P )
+			return Optional< Half >{ findShader( image, P )
 				, expr::makeImageLoadBufferFR16( findTypesCache( image, P )
 					, makeExpr( image )
 					, makeExpr( P ) )
 				, areOptionalEnabled( image, P ) };
 		}
 
-		return Float{ findShader( image, P )
+		return Half{ findShader( image, P )
 			, expr::makeImageLoadBufferFR16( findTypesCache( image, P )
 				, makeExpr( image )
 				, makeExpr( P ) ) };
@@ -13171,19 +13171,19 @@ namespace sdw
 				, makeExpr( image )
 				, makeExpr( P ) ) };
 	}
-	MaybeOptional< Vec4 > imageLoad( MaybeOptional< RImage1DArrayRgba16 > const & image
+	MaybeOptional< HVec4 > imageLoad( MaybeOptional< RImage1DArrayRgba16 > const & image
 		, MaybeOptional< IVec2 > const & P )
 	{
 		if ( isAnyOptional( image, P ) )
 		{
-			return Optional< Vec4 >{ findShader( image, P )
+			return Optional< HVec4 >{ findShader( image, P )
 				, expr::makeImageLoad1DArrayFRgba16( findTypesCache( image, P )
 					, makeExpr( image )
 					, makeExpr( P ) )
 				, areOptionalEnabled( image, P ) };
 		}
 
-		return Vec4{ findShader( image, P )
+		return HVec4{ findShader( image, P )
 			, expr::makeImageLoad1DArrayFRgba16( findTypesCache( image, P )
 				, makeExpr( image )
 				, makeExpr( P ) ) };
@@ -13205,19 +13205,19 @@ namespace sdw
 				, makeExpr( image )
 				, makeExpr( P ) ) };
 	}
-	MaybeOptional< Vec2 > imageLoad( MaybeOptional< RImage1DArrayRg16 > const & image
+	MaybeOptional< HVec2 > imageLoad( MaybeOptional< RImage1DArrayRg16 > const & image
 		, MaybeOptional< IVec2 > const & P )
 	{
 		if ( isAnyOptional( image, P ) )
 		{
-			return Optional< Vec2 >{ findShader( image, P )
+			return Optional< HVec2 >{ findShader( image, P )
 				, expr::makeImageLoad1DArrayFRg16( findTypesCache( image, P )
 					, makeExpr( image )
 					, makeExpr( P ) )
 				, areOptionalEnabled( image, P ) };
 		}
 
-		return Vec2{ findShader( image, P )
+		return HVec2{ findShader( image, P )
 			, expr::makeImageLoad1DArrayFRg16( findTypesCache( image, P )
 				, makeExpr( image )
 				, makeExpr( P ) ) };
@@ -13239,19 +13239,19 @@ namespace sdw
 				, makeExpr( image )
 				, makeExpr( P ) ) };
 	}
-	MaybeOptional< Float > imageLoad( MaybeOptional< RImage1DArrayR16 > const & image
+	MaybeOptional< Half > imageLoad( MaybeOptional< RImage1DArrayR16 > const & image
 		, MaybeOptional< IVec2 > const & P )
 	{
 		if ( isAnyOptional( image, P ) )
 		{
-			return Optional< Float >{ findShader( image, P )
+			return Optional< Half >{ findShader( image, P )
 				, expr::makeImageLoad1DArrayFR16( findTypesCache( image, P )
 					, makeExpr( image )
 					, makeExpr( P ) )
 				, areOptionalEnabled( image, P ) };
 		}
 
-		return Float{ findShader( image, P )
+		return Half{ findShader( image, P )
 			, expr::makeImageLoad1DArrayFR16( findTypesCache( image, P )
 				, makeExpr( image )
 				, makeExpr( P ) ) };
@@ -13273,19 +13273,19 @@ namespace sdw
 				, makeExpr( image )
 				, makeExpr( P ) ) };
 	}
-	MaybeOptional< Vec4 > imageLoad( MaybeOptional< RWImage1DArrayRgba16 > const & image
+	MaybeOptional< HVec4 > imageLoad( MaybeOptional< RWImage1DArrayRgba16 > const & image
 		, MaybeOptional< IVec2 > const & P )
 	{
 		if ( isAnyOptional( image, P ) )
 		{
-			return Optional< Vec4 >{ findShader( image, P )
+			return Optional< HVec4 >{ findShader( image, P )
 				, expr::makeImageLoad1DArrayFRgba16( findTypesCache( image, P )
 					, makeExpr( image )
 					, makeExpr( P ) )
 				, areOptionalEnabled( image, P ) };
 		}
 
-		return Vec4{ findShader( image, P )
+		return HVec4{ findShader( image, P )
 			, expr::makeImageLoad1DArrayFRgba16( findTypesCache( image, P )
 				, makeExpr( image )
 				, makeExpr( P ) ) };
@@ -13307,19 +13307,19 @@ namespace sdw
 				, makeExpr( image )
 				, makeExpr( P ) ) };
 	}
-	MaybeOptional< Vec2 > imageLoad( MaybeOptional< RWImage1DArrayRg16 > const & image
+	MaybeOptional< HVec2 > imageLoad( MaybeOptional< RWImage1DArrayRg16 > const & image
 		, MaybeOptional< IVec2 > const & P )
 	{
 		if ( isAnyOptional( image, P ) )
 		{
-			return Optional< Vec2 >{ findShader( image, P )
+			return Optional< HVec2 >{ findShader( image, P )
 				, expr::makeImageLoad1DArrayFRg16( findTypesCache( image, P )
 					, makeExpr( image )
 					, makeExpr( P ) )
 				, areOptionalEnabled( image, P ) };
 		}
 
-		return Vec2{ findShader( image, P )
+		return HVec2{ findShader( image, P )
 			, expr::makeImageLoad1DArrayFRg16( findTypesCache( image, P )
 				, makeExpr( image )
 				, makeExpr( P ) ) };
@@ -13341,19 +13341,19 @@ namespace sdw
 				, makeExpr( image )
 				, makeExpr( P ) ) };
 	}
-	MaybeOptional< Float > imageLoad( MaybeOptional< RWImage1DArrayR16 > const & image
+	MaybeOptional< Half > imageLoad( MaybeOptional< RWImage1DArrayR16 > const & image
 		, MaybeOptional< IVec2 > const & P )
 	{
 		if ( isAnyOptional( image, P ) )
 		{
-			return Optional< Float >{ findShader( image, P )
+			return Optional< Half >{ findShader( image, P )
 				, expr::makeImageLoad1DArrayFR16( findTypesCache( image, P )
 					, makeExpr( image )
 					, makeExpr( P ) )
 				, areOptionalEnabled( image, P ) };
 		}
 
-		return Float{ findShader( image, P )
+		return Half{ findShader( image, P )
 			, expr::makeImageLoad1DArrayFR16( findTypesCache( image, P )
 				, makeExpr( image )
 				, makeExpr( P ) ) };
@@ -13375,19 +13375,19 @@ namespace sdw
 				, makeExpr( image )
 				, makeExpr( P ) ) };
 	}
-	MaybeOptional< Vec4 > imageLoad( MaybeOptional< RImage2DArrayRgba16 > const & image
+	MaybeOptional< HVec4 > imageLoad( MaybeOptional< RImage2DArrayRgba16 > const & image
 		, MaybeOptional< IVec3 > const & P )
 	{
 		if ( isAnyOptional( image, P ) )
 		{
-			return Optional< Vec4 >{ findShader( image, P )
+			return Optional< HVec4 >{ findShader( image, P )
 				, expr::makeImageLoad2DArrayFRgba16( findTypesCache( image, P )
 					, makeExpr( image )
 					, makeExpr( P ) )
 				, areOptionalEnabled( image, P ) };
 		}
 
-		return Vec4{ findShader( image, P )
+		return HVec4{ findShader( image, P )
 			, expr::makeImageLoad2DArrayFRgba16( findTypesCache( image, P )
 				, makeExpr( image )
 				, makeExpr( P ) ) };
@@ -13409,19 +13409,19 @@ namespace sdw
 				, makeExpr( image )
 				, makeExpr( P ) ) };
 	}
-	MaybeOptional< Vec2 > imageLoad( MaybeOptional< RImage2DArrayRg16 > const & image
+	MaybeOptional< HVec2 > imageLoad( MaybeOptional< RImage2DArrayRg16 > const & image
 		, MaybeOptional< IVec3 > const & P )
 	{
 		if ( isAnyOptional( image, P ) )
 		{
-			return Optional< Vec2 >{ findShader( image, P )
+			return Optional< HVec2 >{ findShader( image, P )
 				, expr::makeImageLoad2DArrayFRg16( findTypesCache( image, P )
 					, makeExpr( image )
 					, makeExpr( P ) )
 				, areOptionalEnabled( image, P ) };
 		}
 
-		return Vec2{ findShader( image, P )
+		return HVec2{ findShader( image, P )
 			, expr::makeImageLoad2DArrayFRg16( findTypesCache( image, P )
 				, makeExpr( image )
 				, makeExpr( P ) ) };
@@ -13443,19 +13443,19 @@ namespace sdw
 				, makeExpr( image )
 				, makeExpr( P ) ) };
 	}
-	MaybeOptional< Float > imageLoad( MaybeOptional< RImage2DArrayR16 > const & image
+	MaybeOptional< Half > imageLoad( MaybeOptional< RImage2DArrayR16 > const & image
 		, MaybeOptional< IVec3 > const & P )
 	{
 		if ( isAnyOptional( image, P ) )
 		{
-			return Optional< Float >{ findShader( image, P )
+			return Optional< Half >{ findShader( image, P )
 				, expr::makeImageLoad2DArrayFR16( findTypesCache( image, P )
 					, makeExpr( image )
 					, makeExpr( P ) )
 				, areOptionalEnabled( image, P ) };
 		}
 
-		return Float{ findShader( image, P )
+		return Half{ findShader( image, P )
 			, expr::makeImageLoad2DArrayFR16( findTypesCache( image, P )
 				, makeExpr( image )
 				, makeExpr( P ) ) };
@@ -13477,19 +13477,19 @@ namespace sdw
 				, makeExpr( image )
 				, makeExpr( P ) ) };
 	}
-	MaybeOptional< Vec4 > imageLoad( MaybeOptional< RWImage2DArrayRgba16 > const & image
+	MaybeOptional< HVec4 > imageLoad( MaybeOptional< RWImage2DArrayRgba16 > const & image
 		, MaybeOptional< IVec3 > const & P )
 	{
 		if ( isAnyOptional( image, P ) )
 		{
-			return Optional< Vec4 >{ findShader( image, P )
+			return Optional< HVec4 >{ findShader( image, P )
 				, expr::makeImageLoad2DArrayFRgba16( findTypesCache( image, P )
 					, makeExpr( image )
 					, makeExpr( P ) )
 				, areOptionalEnabled( image, P ) };
 		}
 
-		return Vec4{ findShader( image, P )
+		return HVec4{ findShader( image, P )
 			, expr::makeImageLoad2DArrayFRgba16( findTypesCache( image, P )
 				, makeExpr( image )
 				, makeExpr( P ) ) };
@@ -13511,19 +13511,19 @@ namespace sdw
 				, makeExpr( image )
 				, makeExpr( P ) ) };
 	}
-	MaybeOptional< Vec2 > imageLoad( MaybeOptional< RWImage2DArrayRg16 > const & image
+	MaybeOptional< HVec2 > imageLoad( MaybeOptional< RWImage2DArrayRg16 > const & image
 		, MaybeOptional< IVec3 > const & P )
 	{
 		if ( isAnyOptional( image, P ) )
 		{
-			return Optional< Vec2 >{ findShader( image, P )
+			return Optional< HVec2 >{ findShader( image, P )
 				, expr::makeImageLoad2DArrayFRg16( findTypesCache( image, P )
 					, makeExpr( image )
 					, makeExpr( P ) )
 				, areOptionalEnabled( image, P ) };
 		}
 
-		return Vec2{ findShader( image, P )
+		return HVec2{ findShader( image, P )
 			, expr::makeImageLoad2DArrayFRg16( findTypesCache( image, P )
 				, makeExpr( image )
 				, makeExpr( P ) ) };
@@ -13545,19 +13545,19 @@ namespace sdw
 				, makeExpr( image )
 				, makeExpr( P ) ) };
 	}
-	MaybeOptional< Float > imageLoad( MaybeOptional< RWImage2DArrayR16 > const & image
+	MaybeOptional< Half > imageLoad( MaybeOptional< RWImage2DArrayR16 > const & image
 		, MaybeOptional< IVec3 > const & P )
 	{
 		if ( isAnyOptional( image, P ) )
 		{
-			return Optional< Float >{ findShader( image, P )
+			return Optional< Half >{ findShader( image, P )
 				, expr::makeImageLoad2DArrayFR16( findTypesCache( image, P )
 					, makeExpr( image )
 					, makeExpr( P ) )
 				, areOptionalEnabled( image, P ) };
 		}
 
-		return Float{ findShader( image, P )
+		return Half{ findShader( image, P )
 			, expr::makeImageLoad2DArrayFR16( findTypesCache( image, P )
 				, makeExpr( image )
 				, makeExpr( P ) ) };
@@ -13579,19 +13579,19 @@ namespace sdw
 				, makeExpr( image )
 				, makeExpr( P ) ) };
 	}
-	MaybeOptional< Vec4 > imageLoad( MaybeOptional< RImageCubeArrayRgba16 > const & image
+	MaybeOptional< HVec4 > imageLoad( MaybeOptional< RImageCubeArrayRgba16 > const & image
 		, MaybeOptional< IVec3 > const & P )
 	{
 		if ( isAnyOptional( image, P ) )
 		{
-			return Optional< Vec4 >{ findShader( image, P )
+			return Optional< HVec4 >{ findShader( image, P )
 				, expr::makeImageLoadCubeArrayFRgba16( findTypesCache( image, P )
 					, makeExpr( image )
 					, makeExpr( P ) )
 				, areOptionalEnabled( image, P ) };
 		}
 
-		return Vec4{ findShader( image, P )
+		return HVec4{ findShader( image, P )
 			, expr::makeImageLoadCubeArrayFRgba16( findTypesCache( image, P )
 				, makeExpr( image )
 				, makeExpr( P ) ) };
@@ -13613,19 +13613,19 @@ namespace sdw
 				, makeExpr( image )
 				, makeExpr( P ) ) };
 	}
-	MaybeOptional< Vec2 > imageLoad( MaybeOptional< RImageCubeArrayRg16 > const & image
+	MaybeOptional< HVec2 > imageLoad( MaybeOptional< RImageCubeArrayRg16 > const & image
 		, MaybeOptional< IVec3 > const & P )
 	{
 		if ( isAnyOptional( image, P ) )
 		{
-			return Optional< Vec2 >{ findShader( image, P )
+			return Optional< HVec2 >{ findShader( image, P )
 				, expr::makeImageLoadCubeArrayFRg16( findTypesCache( image, P )
 					, makeExpr( image )
 					, makeExpr( P ) )
 				, areOptionalEnabled( image, P ) };
 		}
 
-		return Vec2{ findShader( image, P )
+		return HVec2{ findShader( image, P )
 			, expr::makeImageLoadCubeArrayFRg16( findTypesCache( image, P )
 				, makeExpr( image )
 				, makeExpr( P ) ) };
@@ -13647,19 +13647,19 @@ namespace sdw
 				, makeExpr( image )
 				, makeExpr( P ) ) };
 	}
-	MaybeOptional< Float > imageLoad( MaybeOptional< RImageCubeArrayR16 > const & image
+	MaybeOptional< Half > imageLoad( MaybeOptional< RImageCubeArrayR16 > const & image
 		, MaybeOptional< IVec3 > const & P )
 	{
 		if ( isAnyOptional( image, P ) )
 		{
-			return Optional< Float >{ findShader( image, P )
+			return Optional< Half >{ findShader( image, P )
 				, expr::makeImageLoadCubeArrayFR16( findTypesCache( image, P )
 					, makeExpr( image )
 					, makeExpr( P ) )
 				, areOptionalEnabled( image, P ) };
 		}
 
-		return Float{ findShader( image, P )
+		return Half{ findShader( image, P )
 			, expr::makeImageLoadCubeArrayFR16( findTypesCache( image, P )
 				, makeExpr( image )
 				, makeExpr( P ) ) };
@@ -13681,19 +13681,19 @@ namespace sdw
 				, makeExpr( image )
 				, makeExpr( P ) ) };
 	}
-	MaybeOptional< Vec4 > imageLoad( MaybeOptional< RWImageCubeArrayRgba16 > const & image
+	MaybeOptional< HVec4 > imageLoad( MaybeOptional< RWImageCubeArrayRgba16 > const & image
 		, MaybeOptional< IVec3 > const & P )
 	{
 		if ( isAnyOptional( image, P ) )
 		{
-			return Optional< Vec4 >{ findShader( image, P )
+			return Optional< HVec4 >{ findShader( image, P )
 				, expr::makeImageLoadCubeArrayFRgba16( findTypesCache( image, P )
 					, makeExpr( image )
 					, makeExpr( P ) )
 				, areOptionalEnabled( image, P ) };
 		}
 
-		return Vec4{ findShader( image, P )
+		return HVec4{ findShader( image, P )
 			, expr::makeImageLoadCubeArrayFRgba16( findTypesCache( image, P )
 				, makeExpr( image )
 				, makeExpr( P ) ) };
@@ -13715,19 +13715,19 @@ namespace sdw
 				, makeExpr( image )
 				, makeExpr( P ) ) };
 	}
-	MaybeOptional< Vec2 > imageLoad( MaybeOptional< RWImageCubeArrayRg16 > const & image
+	MaybeOptional< HVec2 > imageLoad( MaybeOptional< RWImageCubeArrayRg16 > const & image
 		, MaybeOptional< IVec3 > const & P )
 	{
 		if ( isAnyOptional( image, P ) )
 		{
-			return Optional< Vec2 >{ findShader( image, P )
+			return Optional< HVec2 >{ findShader( image, P )
 				, expr::makeImageLoadCubeArrayFRg16( findTypesCache( image, P )
 					, makeExpr( image )
 					, makeExpr( P ) )
 				, areOptionalEnabled( image, P ) };
 		}
 
-		return Vec2{ findShader( image, P )
+		return HVec2{ findShader( image, P )
 			, expr::makeImageLoadCubeArrayFRg16( findTypesCache( image, P )
 				, makeExpr( image )
 				, makeExpr( P ) ) };
@@ -13749,19 +13749,19 @@ namespace sdw
 				, makeExpr( image )
 				, makeExpr( P ) ) };
 	}
-	MaybeOptional< Float > imageLoad( MaybeOptional< RWImageCubeArrayR16 > const & image
+	MaybeOptional< Half > imageLoad( MaybeOptional< RWImageCubeArrayR16 > const & image
 		, MaybeOptional< IVec3 > const & P )
 	{
 		if ( isAnyOptional( image, P ) )
 		{
-			return Optional< Float >{ findShader( image, P )
+			return Optional< Half >{ findShader( image, P )
 				, expr::makeImageLoadCubeArrayFR16( findTypesCache( image, P )
 					, makeExpr( image )
 					, makeExpr( P ) )
 				, areOptionalEnabled( image, P ) };
 		}
 
-		return Float{ findShader( image, P )
+		return Half{ findShader( image, P )
 			, expr::makeImageLoadCubeArrayFR16( findTypesCache( image, P )
 				, makeExpr( image )
 				, makeExpr( P ) ) };
@@ -18682,13 +18682,13 @@ namespace sdw
 				, makeExpr( P )
 				, makeExpr( sample ) ) };
 	}
-	MaybeOptional< Vec4 > imageLoad( MaybeOptional< RImage2DMSRgba16 > const & image
+	MaybeOptional< HVec4 > imageLoad( MaybeOptional< RImage2DMSRgba16 > const & image
 		, MaybeOptional< IVec2 > const & P
 		, MaybeOptional< Int > const & sample )
 	{
 		if ( isAnyOptional( image, P, sample ) )
 		{
-			return Optional< Vec4 >{ findShader( image, P, sample )
+			return Optional< HVec4 >{ findShader( image, P, sample )
 				, expr::makeImageLoad2DMSFRgba16( findTypesCache( image, P, sample )
 					, makeExpr( image )
 					, makeExpr( P )
@@ -18696,7 +18696,7 @@ namespace sdw
 				, areOptionalEnabled( image, P, sample ) };
 		}
 
-		return Vec4{ findShader( image, P, sample )
+		return HVec4{ findShader( image, P, sample )
 			, expr::makeImageLoad2DMSFRgba16( findTypesCache( image, P, sample )
 				, makeExpr( image )
 				, makeExpr( P )
@@ -18722,13 +18722,13 @@ namespace sdw
 				, makeExpr( P )
 				, makeExpr( sample ) ) };
 	}
-	MaybeOptional< Vec2 > imageLoad( MaybeOptional< RImage2DMSRg16 > const & image
+	MaybeOptional< HVec2 > imageLoad( MaybeOptional< RImage2DMSRg16 > const & image
 		, MaybeOptional< IVec2 > const & P
 		, MaybeOptional< Int > const & sample )
 	{
 		if ( isAnyOptional( image, P, sample ) )
 		{
-			return Optional< Vec2 >{ findShader( image, P, sample )
+			return Optional< HVec2 >{ findShader( image, P, sample )
 				, expr::makeImageLoad2DMSFRg16( findTypesCache( image, P, sample )
 					, makeExpr( image )
 					, makeExpr( P )
@@ -18736,7 +18736,7 @@ namespace sdw
 				, areOptionalEnabled( image, P, sample ) };
 		}
 
-		return Vec2{ findShader( image, P, sample )
+		return HVec2{ findShader( image, P, sample )
 			, expr::makeImageLoad2DMSFRg16( findTypesCache( image, P, sample )
 				, makeExpr( image )
 				, makeExpr( P )
@@ -18762,13 +18762,13 @@ namespace sdw
 				, makeExpr( P )
 				, makeExpr( sample ) ) };
 	}
-	MaybeOptional< Float > imageLoad( MaybeOptional< RImage2DMSR16 > const & image
+	MaybeOptional< Half > imageLoad( MaybeOptional< RImage2DMSR16 > const & image
 		, MaybeOptional< IVec2 > const & P
 		, MaybeOptional< Int > const & sample )
 	{
 		if ( isAnyOptional( image, P, sample ) )
 		{
-			return Optional< Float >{ findShader( image, P, sample )
+			return Optional< Half >{ findShader( image, P, sample )
 				, expr::makeImageLoad2DMSFR16( findTypesCache( image, P, sample )
 					, makeExpr( image )
 					, makeExpr( P )
@@ -18776,7 +18776,7 @@ namespace sdw
 				, areOptionalEnabled( image, P, sample ) };
 		}
 
-		return Float{ findShader( image, P, sample )
+		return Half{ findShader( image, P, sample )
 			, expr::makeImageLoad2DMSFR16( findTypesCache( image, P, sample )
 				, makeExpr( image )
 				, makeExpr( P )
@@ -18802,13 +18802,13 @@ namespace sdw
 				, makeExpr( P )
 				, makeExpr( sample ) ) };
 	}
-	MaybeOptional< Vec4 > imageLoad( MaybeOptional< RWImage2DMSRgba16 > const & image
+	MaybeOptional< HVec4 > imageLoad( MaybeOptional< RWImage2DMSRgba16 > const & image
 		, MaybeOptional< IVec2 > const & P
 		, MaybeOptional< Int > const & sample )
 	{
 		if ( isAnyOptional( image, P, sample ) )
 		{
-			return Optional< Vec4 >{ findShader( image, P, sample )
+			return Optional< HVec4 >{ findShader( image, P, sample )
 				, expr::makeImageLoad2DMSFRgba16( findTypesCache( image, P, sample )
 					, makeExpr( image )
 					, makeExpr( P )
@@ -18816,7 +18816,7 @@ namespace sdw
 				, areOptionalEnabled( image, P, sample ) };
 		}
 
-		return Vec4{ findShader( image, P, sample )
+		return HVec4{ findShader( image, P, sample )
 			, expr::makeImageLoad2DMSFRgba16( findTypesCache( image, P, sample )
 				, makeExpr( image )
 				, makeExpr( P )
@@ -18842,13 +18842,13 @@ namespace sdw
 				, makeExpr( P )
 				, makeExpr( sample ) ) };
 	}
-	MaybeOptional< Vec2 > imageLoad( MaybeOptional< RWImage2DMSRg16 > const & image
+	MaybeOptional< HVec2 > imageLoad( MaybeOptional< RWImage2DMSRg16 > const & image
 		, MaybeOptional< IVec2 > const & P
 		, MaybeOptional< Int > const & sample )
 	{
 		if ( isAnyOptional( image, P, sample ) )
 		{
-			return Optional< Vec2 >{ findShader( image, P, sample )
+			return Optional< HVec2 >{ findShader( image, P, sample )
 				, expr::makeImageLoad2DMSFRg16( findTypesCache( image, P, sample )
 					, makeExpr( image )
 					, makeExpr( P )
@@ -18856,7 +18856,7 @@ namespace sdw
 				, areOptionalEnabled( image, P, sample ) };
 		}
 
-		return Vec2{ findShader( image, P, sample )
+		return HVec2{ findShader( image, P, sample )
 			, expr::makeImageLoad2DMSFRg16( findTypesCache( image, P, sample )
 				, makeExpr( image )
 				, makeExpr( P )
@@ -18882,13 +18882,13 @@ namespace sdw
 				, makeExpr( P )
 				, makeExpr( sample ) ) };
 	}
-	MaybeOptional< Float > imageLoad( MaybeOptional< RWImage2DMSR16 > const & image
+	MaybeOptional< Half > imageLoad( MaybeOptional< RWImage2DMSR16 > const & image
 		, MaybeOptional< IVec2 > const & P
 		, MaybeOptional< Int > const & sample )
 	{
 		if ( isAnyOptional( image, P, sample ) )
 		{
-			return Optional< Float >{ findShader( image, P, sample )
+			return Optional< Half >{ findShader( image, P, sample )
 				, expr::makeImageLoad2DMSFR16( findTypesCache( image, P, sample )
 					, makeExpr( image )
 					, makeExpr( P )
@@ -18896,7 +18896,7 @@ namespace sdw
 				, areOptionalEnabled( image, P, sample ) };
 		}
 
-		return Float{ findShader( image, P, sample )
+		return Half{ findShader( image, P, sample )
 			, expr::makeImageLoad2DMSFR16( findTypesCache( image, P, sample )
 				, makeExpr( image )
 				, makeExpr( P )
@@ -18922,13 +18922,13 @@ namespace sdw
 				, makeExpr( P )
 				, makeExpr( sample ) ) };
 	}
-	MaybeOptional< Vec4 > imageLoad( MaybeOptional< RImage2DMSArrayRgba16 > const & image
+	MaybeOptional< HVec4 > imageLoad( MaybeOptional< RImage2DMSArrayRgba16 > const & image
 		, MaybeOptional< IVec3 > const & P
 		, MaybeOptional< Int > const & sample )
 	{
 		if ( isAnyOptional( image, P, sample ) )
 		{
-			return Optional< Vec4 >{ findShader( image, P, sample )
+			return Optional< HVec4 >{ findShader( image, P, sample )
 				, expr::makeImageLoad2DMSArrayFRgba16( findTypesCache( image, P, sample )
 					, makeExpr( image )
 					, makeExpr( P )
@@ -18936,7 +18936,7 @@ namespace sdw
 				, areOptionalEnabled( image, P, sample ) };
 		}
 
-		return Vec4{ findShader( image, P, sample )
+		return HVec4{ findShader( image, P, sample )
 			, expr::makeImageLoad2DMSArrayFRgba16( findTypesCache( image, P, sample )
 				, makeExpr( image )
 				, makeExpr( P )
@@ -18962,13 +18962,13 @@ namespace sdw
 				, makeExpr( P )
 				, makeExpr( sample ) ) };
 	}
-	MaybeOptional< Vec2 > imageLoad( MaybeOptional< RImage2DMSArrayRg16 > const & image
+	MaybeOptional< HVec2 > imageLoad( MaybeOptional< RImage2DMSArrayRg16 > const & image
 		, MaybeOptional< IVec3 > const & P
 		, MaybeOptional< Int > const & sample )
 	{
 		if ( isAnyOptional( image, P, sample ) )
 		{
-			return Optional< Vec2 >{ findShader( image, P, sample )
+			return Optional< HVec2 >{ findShader( image, P, sample )
 				, expr::makeImageLoad2DMSArrayFRg16( findTypesCache( image, P, sample )
 					, makeExpr( image )
 					, makeExpr( P )
@@ -18976,7 +18976,7 @@ namespace sdw
 				, areOptionalEnabled( image, P, sample ) };
 		}
 
-		return Vec2{ findShader( image, P, sample )
+		return HVec2{ findShader( image, P, sample )
 			, expr::makeImageLoad2DMSArrayFRg16( findTypesCache( image, P, sample )
 				, makeExpr( image )
 				, makeExpr( P )
@@ -19002,13 +19002,13 @@ namespace sdw
 				, makeExpr( P )
 				, makeExpr( sample ) ) };
 	}
-	MaybeOptional< Float > imageLoad( MaybeOptional< RImage2DMSArrayR16 > const & image
+	MaybeOptional< Half > imageLoad( MaybeOptional< RImage2DMSArrayR16 > const & image
 		, MaybeOptional< IVec3 > const & P
 		, MaybeOptional< Int > const & sample )
 	{
 		if ( isAnyOptional( image, P, sample ) )
 		{
-			return Optional< Float >{ findShader( image, P, sample )
+			return Optional< Half >{ findShader( image, P, sample )
 				, expr::makeImageLoad2DMSArrayFR16( findTypesCache( image, P, sample )
 					, makeExpr( image )
 					, makeExpr( P )
@@ -19016,7 +19016,7 @@ namespace sdw
 				, areOptionalEnabled( image, P, sample ) };
 		}
 
-		return Float{ findShader( image, P, sample )
+		return Half{ findShader( image, P, sample )
 			, expr::makeImageLoad2DMSArrayFR16( findTypesCache( image, P, sample )
 				, makeExpr( image )
 				, makeExpr( P )
@@ -19042,13 +19042,13 @@ namespace sdw
 				, makeExpr( P )
 				, makeExpr( sample ) ) };
 	}
-	MaybeOptional< Vec4 > imageLoad( MaybeOptional< RWImage2DMSArrayRgba16 > const & image
+	MaybeOptional< HVec4 > imageLoad( MaybeOptional< RWImage2DMSArrayRgba16 > const & image
 		, MaybeOptional< IVec3 > const & P
 		, MaybeOptional< Int > const & sample )
 	{
 		if ( isAnyOptional( image, P, sample ) )
 		{
-			return Optional< Vec4 >{ findShader( image, P, sample )
+			return Optional< HVec4 >{ findShader( image, P, sample )
 				, expr::makeImageLoad2DMSArrayFRgba16( findTypesCache( image, P, sample )
 					, makeExpr( image )
 					, makeExpr( P )
@@ -19056,7 +19056,7 @@ namespace sdw
 				, areOptionalEnabled( image, P, sample ) };
 		}
 
-		return Vec4{ findShader( image, P, sample )
+		return HVec4{ findShader( image, P, sample )
 			, expr::makeImageLoad2DMSArrayFRgba16( findTypesCache( image, P, sample )
 				, makeExpr( image )
 				, makeExpr( P )
@@ -19082,13 +19082,13 @@ namespace sdw
 				, makeExpr( P )
 				, makeExpr( sample ) ) };
 	}
-	MaybeOptional< Vec2 > imageLoad( MaybeOptional< RWImage2DMSArrayRg16 > const & image
+	MaybeOptional< HVec2 > imageLoad( MaybeOptional< RWImage2DMSArrayRg16 > const & image
 		, MaybeOptional< IVec3 > const & P
 		, MaybeOptional< Int > const & sample )
 	{
 		if ( isAnyOptional( image, P, sample ) )
 		{
-			return Optional< Vec2 >{ findShader( image, P, sample )
+			return Optional< HVec2 >{ findShader( image, P, sample )
 				, expr::makeImageLoad2DMSArrayFRg16( findTypesCache( image, P, sample )
 					, makeExpr( image )
 					, makeExpr( P )
@@ -19096,7 +19096,7 @@ namespace sdw
 				, areOptionalEnabled( image, P, sample ) };
 		}
 
-		return Vec2{ findShader( image, P, sample )
+		return HVec2{ findShader( image, P, sample )
 			, expr::makeImageLoad2DMSArrayFRg16( findTypesCache( image, P, sample )
 				, makeExpr( image )
 				, makeExpr( P )
@@ -19122,13 +19122,13 @@ namespace sdw
 				, makeExpr( P )
 				, makeExpr( sample ) ) };
 	}
-	MaybeOptional< Float > imageLoad( MaybeOptional< RWImage2DMSArrayR16 > const & image
+	MaybeOptional< Half > imageLoad( MaybeOptional< RWImage2DMSArrayR16 > const & image
 		, MaybeOptional< IVec3 > const & P
 		, MaybeOptional< Int > const & sample )
 	{
 		if ( isAnyOptional( image, P, sample ) )
 		{
-			return Optional< Float >{ findShader( image, P, sample )
+			return Optional< Half >{ findShader( image, P, sample )
 				, expr::makeImageLoad2DMSArrayFR16( findTypesCache( image, P, sample )
 					, makeExpr( image )
 					, makeExpr( P )
@@ -19136,7 +19136,7 @@ namespace sdw
 				, areOptionalEnabled( image, P, sample ) };
 		}
 
-		return Float{ findShader( image, P, sample )
+		return Half{ findShader( image, P, sample )
 			, expr::makeImageLoad2DMSArrayFR16( findTypesCache( image, P, sample )
 				, makeExpr( image )
 				, makeExpr( P )
@@ -20602,7 +20602,7 @@ namespace sdw
 	}
 	Void imageStore( MaybeOptional< WImage1DRgba16 > const & image
 		, MaybeOptional< Int > const & P
-		, MaybeOptional< Vec4 > const & data )
+		, MaybeOptional< HVec4 > const & data )
 	{
 		return Void{ findShader( image, P, data )
 			, expr::makeImageStore1DFRgba16( findTypesCache( image, P, data )
@@ -20622,7 +20622,7 @@ namespace sdw
 	}
 	Void imageStore( MaybeOptional< WImage1DRg16 > const & image
 		, MaybeOptional< Int > const & P
-		, MaybeOptional< Vec2 > const & data )
+		, MaybeOptional< HVec2 > const & data )
 	{
 		return Void{ findShader( image, P, data )
 			, expr::makeImageStore1DFRg16( findTypesCache( image, P, data )
@@ -20642,7 +20642,7 @@ namespace sdw
 	}
 	Void imageStore( MaybeOptional< WImage1DR16 > const & image
 		, MaybeOptional< Int > const & P
-		, MaybeOptional< Float > const & data )
+		, MaybeOptional< Half > const & data )
 	{
 		return Void{ findShader( image, P, data )
 			, expr::makeImageStore1DFR16( findTypesCache( image, P, data )
@@ -20662,7 +20662,7 @@ namespace sdw
 	}
 	Void imageStore( MaybeOptional< RWImage1DRgba16 > const & image
 		, MaybeOptional< Int > const & P
-		, MaybeOptional< Vec4 > const & data )
+		, MaybeOptional< HVec4 > const & data )
 	{
 		return Void{ findShader( image, P, data )
 			, expr::makeImageStore1DFRgba16( findTypesCache( image, P, data )
@@ -20682,7 +20682,7 @@ namespace sdw
 	}
 	Void imageStore( MaybeOptional< RWImage1DRg16 > const & image
 		, MaybeOptional< Int > const & P
-		, MaybeOptional< Vec2 > const & data )
+		, MaybeOptional< HVec2 > const & data )
 	{
 		return Void{ findShader( image, P, data )
 			, expr::makeImageStore1DFRg16( findTypesCache( image, P, data )
@@ -20702,7 +20702,7 @@ namespace sdw
 	}
 	Void imageStore( MaybeOptional< RWImage1DR16 > const & image
 		, MaybeOptional< Int > const & P
-		, MaybeOptional< Float > const & data )
+		, MaybeOptional< Half > const & data )
 	{
 		return Void{ findShader( image, P, data )
 			, expr::makeImageStore1DFR16( findTypesCache( image, P, data )
@@ -20722,7 +20722,7 @@ namespace sdw
 	}
 	Void imageStore( MaybeOptional< WImage2DRgba16 > const & image
 		, MaybeOptional< IVec2 > const & P
-		, MaybeOptional< Vec4 > const & data )
+		, MaybeOptional< HVec4 > const & data )
 	{
 		return Void{ findShader( image, P, data )
 			, expr::makeImageStore2DFRgba16( findTypesCache( image, P, data )
@@ -20742,7 +20742,7 @@ namespace sdw
 	}
 	Void imageStore( MaybeOptional< WImage2DRg16 > const & image
 		, MaybeOptional< IVec2 > const & P
-		, MaybeOptional< Vec2 > const & data )
+		, MaybeOptional< HVec2 > const & data )
 	{
 		return Void{ findShader( image, P, data )
 			, expr::makeImageStore2DFRg16( findTypesCache( image, P, data )
@@ -20762,7 +20762,7 @@ namespace sdw
 	}
 	Void imageStore( MaybeOptional< WImage2DR16 > const & image
 		, MaybeOptional< IVec2 > const & P
-		, MaybeOptional< Float > const & data )
+		, MaybeOptional< Half > const & data )
 	{
 		return Void{ findShader( image, P, data )
 			, expr::makeImageStore2DFR16( findTypesCache( image, P, data )
@@ -20782,7 +20782,7 @@ namespace sdw
 	}
 	Void imageStore( MaybeOptional< RWImage2DRgba16 > const & image
 		, MaybeOptional< IVec2 > const & P
-		, MaybeOptional< Vec4 > const & data )
+		, MaybeOptional< HVec4 > const & data )
 	{
 		return Void{ findShader( image, P, data )
 			, expr::makeImageStore2DFRgba16( findTypesCache( image, P, data )
@@ -20802,7 +20802,7 @@ namespace sdw
 	}
 	Void imageStore( MaybeOptional< RWImage2DRg16 > const & image
 		, MaybeOptional< IVec2 > const & P
-		, MaybeOptional< Vec2 > const & data )
+		, MaybeOptional< HVec2 > const & data )
 	{
 		return Void{ findShader( image, P, data )
 			, expr::makeImageStore2DFRg16( findTypesCache( image, P, data )
@@ -20822,7 +20822,7 @@ namespace sdw
 	}
 	Void imageStore( MaybeOptional< RWImage2DR16 > const & image
 		, MaybeOptional< IVec2 > const & P
-		, MaybeOptional< Float > const & data )
+		, MaybeOptional< Half > const & data )
 	{
 		return Void{ findShader( image, P, data )
 			, expr::makeImageStore2DFR16( findTypesCache( image, P, data )
@@ -20842,7 +20842,7 @@ namespace sdw
 	}
 	Void imageStore( MaybeOptional< WImage3DRgba16 > const & image
 		, MaybeOptional< IVec3 > const & P
-		, MaybeOptional< Vec4 > const & data )
+		, MaybeOptional< HVec4 > const & data )
 	{
 		return Void{ findShader( image, P, data )
 			, expr::makeImageStore3DFRgba16( findTypesCache( image, P, data )
@@ -20862,7 +20862,7 @@ namespace sdw
 	}
 	Void imageStore( MaybeOptional< WImage3DRg16 > const & image
 		, MaybeOptional< IVec3 > const & P
-		, MaybeOptional< Vec2 > const & data )
+		, MaybeOptional< HVec2 > const & data )
 	{
 		return Void{ findShader( image, P, data )
 			, expr::makeImageStore3DFRg16( findTypesCache( image, P, data )
@@ -20882,7 +20882,7 @@ namespace sdw
 	}
 	Void imageStore( MaybeOptional< WImage3DR16 > const & image
 		, MaybeOptional< IVec3 > const & P
-		, MaybeOptional< Float > const & data )
+		, MaybeOptional< Half > const & data )
 	{
 		return Void{ findShader( image, P, data )
 			, expr::makeImageStore3DFR16( findTypesCache( image, P, data )
@@ -20902,7 +20902,7 @@ namespace sdw
 	}
 	Void imageStore( MaybeOptional< RWImage3DRgba16 > const & image
 		, MaybeOptional< IVec3 > const & P
-		, MaybeOptional< Vec4 > const & data )
+		, MaybeOptional< HVec4 > const & data )
 	{
 		return Void{ findShader( image, P, data )
 			, expr::makeImageStore3DFRgba16( findTypesCache( image, P, data )
@@ -20922,7 +20922,7 @@ namespace sdw
 	}
 	Void imageStore( MaybeOptional< RWImage3DRg16 > const & image
 		, MaybeOptional< IVec3 > const & P
-		, MaybeOptional< Vec2 > const & data )
+		, MaybeOptional< HVec2 > const & data )
 	{
 		return Void{ findShader( image, P, data )
 			, expr::makeImageStore3DFRg16( findTypesCache( image, P, data )
@@ -20942,7 +20942,7 @@ namespace sdw
 	}
 	Void imageStore( MaybeOptional< RWImage3DR16 > const & image
 		, MaybeOptional< IVec3 > const & P
-		, MaybeOptional< Float > const & data )
+		, MaybeOptional< Half > const & data )
 	{
 		return Void{ findShader( image, P, data )
 			, expr::makeImageStore3DFR16( findTypesCache( image, P, data )
@@ -20962,7 +20962,7 @@ namespace sdw
 	}
 	Void imageStore( MaybeOptional< WImageCubeRgba16 > const & image
 		, MaybeOptional< IVec3 > const & P
-		, MaybeOptional< Vec4 > const & data )
+		, MaybeOptional< HVec4 > const & data )
 	{
 		return Void{ findShader( image, P, data )
 			, expr::makeImageStoreCubeFRgba16( findTypesCache( image, P, data )
@@ -20982,7 +20982,7 @@ namespace sdw
 	}
 	Void imageStore( MaybeOptional< WImageCubeRg16 > const & image
 		, MaybeOptional< IVec3 > const & P
-		, MaybeOptional< Vec2 > const & data )
+		, MaybeOptional< HVec2 > const & data )
 	{
 		return Void{ findShader( image, P, data )
 			, expr::makeImageStoreCubeFRg16( findTypesCache( image, P, data )
@@ -21002,7 +21002,7 @@ namespace sdw
 	}
 	Void imageStore( MaybeOptional< WImageCubeR16 > const & image
 		, MaybeOptional< IVec3 > const & P
-		, MaybeOptional< Float > const & data )
+		, MaybeOptional< Half > const & data )
 	{
 		return Void{ findShader( image, P, data )
 			, expr::makeImageStoreCubeFR16( findTypesCache( image, P, data )
@@ -21022,7 +21022,7 @@ namespace sdw
 	}
 	Void imageStore( MaybeOptional< RWImageCubeRgba16 > const & image
 		, MaybeOptional< IVec3 > const & P
-		, MaybeOptional< Vec4 > const & data )
+		, MaybeOptional< HVec4 > const & data )
 	{
 		return Void{ findShader( image, P, data )
 			, expr::makeImageStoreCubeFRgba16( findTypesCache( image, P, data )
@@ -21042,7 +21042,7 @@ namespace sdw
 	}
 	Void imageStore( MaybeOptional< RWImageCubeRg16 > const & image
 		, MaybeOptional< IVec3 > const & P
-		, MaybeOptional< Vec2 > const & data )
+		, MaybeOptional< HVec2 > const & data )
 	{
 		return Void{ findShader( image, P, data )
 			, expr::makeImageStoreCubeFRg16( findTypesCache( image, P, data )
@@ -21062,7 +21062,7 @@ namespace sdw
 	}
 	Void imageStore( MaybeOptional< RWImageCubeR16 > const & image
 		, MaybeOptional< IVec3 > const & P
-		, MaybeOptional< Float > const & data )
+		, MaybeOptional< Half > const & data )
 	{
 		return Void{ findShader( image, P, data )
 			, expr::makeImageStoreCubeFR16( findTypesCache( image, P, data )
@@ -21082,7 +21082,7 @@ namespace sdw
 	}
 	Void imageStore( MaybeOptional< WImageBufferRgba16 > const & image
 		, MaybeOptional< Int > const & P
-		, MaybeOptional< Vec4 > const & data )
+		, MaybeOptional< HVec4 > const & data )
 	{
 		return Void{ findShader( image, P, data )
 			, expr::makeImageStoreBufferFRgba16( findTypesCache( image, P, data )
@@ -21102,7 +21102,7 @@ namespace sdw
 	}
 	Void imageStore( MaybeOptional< WImageBufferRg16 > const & image
 		, MaybeOptional< Int > const & P
-		, MaybeOptional< Vec2 > const & data )
+		, MaybeOptional< HVec2 > const & data )
 	{
 		return Void{ findShader( image, P, data )
 			, expr::makeImageStoreBufferFRg16( findTypesCache( image, P, data )
@@ -21122,7 +21122,7 @@ namespace sdw
 	}
 	Void imageStore( MaybeOptional< WImageBufferR16 > const & image
 		, MaybeOptional< Int > const & P
-		, MaybeOptional< Float > const & data )
+		, MaybeOptional< Half > const & data )
 	{
 		return Void{ findShader( image, P, data )
 			, expr::makeImageStoreBufferFR16( findTypesCache( image, P, data )
@@ -21142,7 +21142,7 @@ namespace sdw
 	}
 	Void imageStore( MaybeOptional< RWImageBufferRgba16 > const & image
 		, MaybeOptional< Int > const & P
-		, MaybeOptional< Vec4 > const & data )
+		, MaybeOptional< HVec4 > const & data )
 	{
 		return Void{ findShader( image, P, data )
 			, expr::makeImageStoreBufferFRgba16( findTypesCache( image, P, data )
@@ -21162,7 +21162,7 @@ namespace sdw
 	}
 	Void imageStore( MaybeOptional< RWImageBufferRg16 > const & image
 		, MaybeOptional< Int > const & P
-		, MaybeOptional< Vec2 > const & data )
+		, MaybeOptional< HVec2 > const & data )
 	{
 		return Void{ findShader( image, P, data )
 			, expr::makeImageStoreBufferFRg16( findTypesCache( image, P, data )
@@ -21182,7 +21182,7 @@ namespace sdw
 	}
 	Void imageStore( MaybeOptional< RWImageBufferR16 > const & image
 		, MaybeOptional< Int > const & P
-		, MaybeOptional< Float > const & data )
+		, MaybeOptional< Half > const & data )
 	{
 		return Void{ findShader( image, P, data )
 			, expr::makeImageStoreBufferFR16( findTypesCache( image, P, data )
@@ -21202,7 +21202,7 @@ namespace sdw
 	}
 	Void imageStore( MaybeOptional< WImage1DArrayRgba16 > const & image
 		, MaybeOptional< IVec2 > const & P
-		, MaybeOptional< Vec4 > const & data )
+		, MaybeOptional< HVec4 > const & data )
 	{
 		return Void{ findShader( image, P, data )
 			, expr::makeImageStore1DArrayFRgba16( findTypesCache( image, P, data )
@@ -21222,7 +21222,7 @@ namespace sdw
 	}
 	Void imageStore( MaybeOptional< WImage1DArrayRg16 > const & image
 		, MaybeOptional< IVec2 > const & P
-		, MaybeOptional< Vec2 > const & data )
+		, MaybeOptional< HVec2 > const & data )
 	{
 		return Void{ findShader( image, P, data )
 			, expr::makeImageStore1DArrayFRg16( findTypesCache( image, P, data )
@@ -21242,7 +21242,7 @@ namespace sdw
 	}
 	Void imageStore( MaybeOptional< WImage1DArrayR16 > const & image
 		, MaybeOptional< IVec2 > const & P
-		, MaybeOptional< Float > const & data )
+		, MaybeOptional< Half > const & data )
 	{
 		return Void{ findShader( image, P, data )
 			, expr::makeImageStore1DArrayFR16( findTypesCache( image, P, data )
@@ -21262,7 +21262,7 @@ namespace sdw
 	}
 	Void imageStore( MaybeOptional< RWImage1DArrayRgba16 > const & image
 		, MaybeOptional< IVec2 > const & P
-		, MaybeOptional< Vec4 > const & data )
+		, MaybeOptional< HVec4 > const & data )
 	{
 		return Void{ findShader( image, P, data )
 			, expr::makeImageStore1DArrayFRgba16( findTypesCache( image, P, data )
@@ -21282,7 +21282,7 @@ namespace sdw
 	}
 	Void imageStore( MaybeOptional< RWImage1DArrayRg16 > const & image
 		, MaybeOptional< IVec2 > const & P
-		, MaybeOptional< Vec2 > const & data )
+		, MaybeOptional< HVec2 > const & data )
 	{
 		return Void{ findShader( image, P, data )
 			, expr::makeImageStore1DArrayFRg16( findTypesCache( image, P, data )
@@ -21302,7 +21302,7 @@ namespace sdw
 	}
 	Void imageStore( MaybeOptional< RWImage1DArrayR16 > const & image
 		, MaybeOptional< IVec2 > const & P
-		, MaybeOptional< Float > const & data )
+		, MaybeOptional< Half > const & data )
 	{
 		return Void{ findShader( image, P, data )
 			, expr::makeImageStore1DArrayFR16( findTypesCache( image, P, data )
@@ -21322,7 +21322,7 @@ namespace sdw
 	}
 	Void imageStore( MaybeOptional< WImage2DArrayRgba16 > const & image
 		, MaybeOptional< IVec3 > const & P
-		, MaybeOptional< Vec4 > const & data )
+		, MaybeOptional< HVec4 > const & data )
 	{
 		return Void{ findShader( image, P, data )
 			, expr::makeImageStore2DArrayFRgba16( findTypesCache( image, P, data )
@@ -21342,7 +21342,7 @@ namespace sdw
 	}
 	Void imageStore( MaybeOptional< WImage2DArrayRg16 > const & image
 		, MaybeOptional< IVec3 > const & P
-		, MaybeOptional< Vec2 > const & data )
+		, MaybeOptional< HVec2 > const & data )
 	{
 		return Void{ findShader( image, P, data )
 			, expr::makeImageStore2DArrayFRg16( findTypesCache( image, P, data )
@@ -21362,7 +21362,7 @@ namespace sdw
 	}
 	Void imageStore( MaybeOptional< WImage2DArrayR16 > const & image
 		, MaybeOptional< IVec3 > const & P
-		, MaybeOptional< Float > const & data )
+		, MaybeOptional< Half > const & data )
 	{
 		return Void{ findShader( image, P, data )
 			, expr::makeImageStore2DArrayFR16( findTypesCache( image, P, data )
@@ -21382,7 +21382,7 @@ namespace sdw
 	}
 	Void imageStore( MaybeOptional< RWImage2DArrayRgba16 > const & image
 		, MaybeOptional< IVec3 > const & P
-		, MaybeOptional< Vec4 > const & data )
+		, MaybeOptional< HVec4 > const & data )
 	{
 		return Void{ findShader( image, P, data )
 			, expr::makeImageStore2DArrayFRgba16( findTypesCache( image, P, data )
@@ -21402,7 +21402,7 @@ namespace sdw
 	}
 	Void imageStore( MaybeOptional< RWImage2DArrayRg16 > const & image
 		, MaybeOptional< IVec3 > const & P
-		, MaybeOptional< Vec2 > const & data )
+		, MaybeOptional< HVec2 > const & data )
 	{
 		return Void{ findShader( image, P, data )
 			, expr::makeImageStore2DArrayFRg16( findTypesCache( image, P, data )
@@ -21422,7 +21422,7 @@ namespace sdw
 	}
 	Void imageStore( MaybeOptional< RWImage2DArrayR16 > const & image
 		, MaybeOptional< IVec3 > const & P
-		, MaybeOptional< Float > const & data )
+		, MaybeOptional< Half > const & data )
 	{
 		return Void{ findShader( image, P, data )
 			, expr::makeImageStore2DArrayFR16( findTypesCache( image, P, data )
@@ -21442,7 +21442,7 @@ namespace sdw
 	}
 	Void imageStore( MaybeOptional< WImageCubeArrayRgba16 > const & image
 		, MaybeOptional< IVec3 > const & P
-		, MaybeOptional< Vec4 > const & data )
+		, MaybeOptional< HVec4 > const & data )
 	{
 		return Void{ findShader( image, P, data )
 			, expr::makeImageStoreCubeArrayFRgba16( findTypesCache( image, P, data )
@@ -21462,7 +21462,7 @@ namespace sdw
 	}
 	Void imageStore( MaybeOptional< WImageCubeArrayRg16 > const & image
 		, MaybeOptional< IVec3 > const & P
-		, MaybeOptional< Vec2 > const & data )
+		, MaybeOptional< HVec2 > const & data )
 	{
 		return Void{ findShader( image, P, data )
 			, expr::makeImageStoreCubeArrayFRg16( findTypesCache( image, P, data )
@@ -21482,7 +21482,7 @@ namespace sdw
 	}
 	Void imageStore( MaybeOptional< WImageCubeArrayR16 > const & image
 		, MaybeOptional< IVec3 > const & P
-		, MaybeOptional< Float > const & data )
+		, MaybeOptional< Half > const & data )
 	{
 		return Void{ findShader( image, P, data )
 			, expr::makeImageStoreCubeArrayFR16( findTypesCache( image, P, data )
@@ -21502,7 +21502,7 @@ namespace sdw
 	}
 	Void imageStore( MaybeOptional< RWImageCubeArrayRgba16 > const & image
 		, MaybeOptional< IVec3 > const & P
-		, MaybeOptional< Vec4 > const & data )
+		, MaybeOptional< HVec4 > const & data )
 	{
 		return Void{ findShader( image, P, data )
 			, expr::makeImageStoreCubeArrayFRgba16( findTypesCache( image, P, data )
@@ -21522,7 +21522,7 @@ namespace sdw
 	}
 	Void imageStore( MaybeOptional< RWImageCubeArrayRg16 > const & image
 		, MaybeOptional< IVec3 > const & P
-		, MaybeOptional< Vec2 > const & data )
+		, MaybeOptional< HVec2 > const & data )
 	{
 		return Void{ findShader( image, P, data )
 			, expr::makeImageStoreCubeArrayFRg16( findTypesCache( image, P, data )
@@ -21542,7 +21542,7 @@ namespace sdw
 	}
 	Void imageStore( MaybeOptional< RWImageCubeArrayR16 > const & image
 		, MaybeOptional< IVec3 > const & P
-		, MaybeOptional< Float > const & data )
+		, MaybeOptional< Half > const & data )
 	{
 		return Void{ findShader( image, P, data )
 			, expr::makeImageStoreCubeArrayFR16( findTypesCache( image, P, data )
@@ -24445,7 +24445,7 @@ namespace sdw
 	Void imageStore( MaybeOptional< WImage2DMSRgba16 > const & image
 		, MaybeOptional< IVec2 > const & P
 		, MaybeOptional< Int > const & sample
-		, MaybeOptional< Vec4 > const & data )
+		, MaybeOptional< HVec4 > const & data )
 	{
 		return Void{ findShader( image, P, sample, data )
 			, expr::makeImageStore2DMSFRgba16( findTypesCache( image, P, sample, data )
@@ -24469,7 +24469,7 @@ namespace sdw
 	Void imageStore( MaybeOptional< WImage2DMSRg16 > const & image
 		, MaybeOptional< IVec2 > const & P
 		, MaybeOptional< Int > const & sample
-		, MaybeOptional< Vec2 > const & data )
+		, MaybeOptional< HVec2 > const & data )
 	{
 		return Void{ findShader( image, P, sample, data )
 			, expr::makeImageStore2DMSFRg16( findTypesCache( image, P, sample, data )
@@ -24493,7 +24493,7 @@ namespace sdw
 	Void imageStore( MaybeOptional< WImage2DMSR16 > const & image
 		, MaybeOptional< IVec2 > const & P
 		, MaybeOptional< Int > const & sample
-		, MaybeOptional< Float > const & data )
+		, MaybeOptional< Half > const & data )
 	{
 		return Void{ findShader( image, P, sample, data )
 			, expr::makeImageStore2DMSFR16( findTypesCache( image, P, sample, data )
@@ -24517,7 +24517,7 @@ namespace sdw
 	Void imageStore( MaybeOptional< RWImage2DMSRgba16 > const & image
 		, MaybeOptional< IVec2 > const & P
 		, MaybeOptional< Int > const & sample
-		, MaybeOptional< Vec4 > const & data )
+		, MaybeOptional< HVec4 > const & data )
 	{
 		return Void{ findShader( image, P, sample, data )
 			, expr::makeImageStore2DMSFRgba16( findTypesCache( image, P, sample, data )
@@ -24541,7 +24541,7 @@ namespace sdw
 	Void imageStore( MaybeOptional< RWImage2DMSRg16 > const & image
 		, MaybeOptional< IVec2 > const & P
 		, MaybeOptional< Int > const & sample
-		, MaybeOptional< Vec2 > const & data )
+		, MaybeOptional< HVec2 > const & data )
 	{
 		return Void{ findShader( image, P, sample, data )
 			, expr::makeImageStore2DMSFRg16( findTypesCache( image, P, sample, data )
@@ -24565,7 +24565,7 @@ namespace sdw
 	Void imageStore( MaybeOptional< RWImage2DMSR16 > const & image
 		, MaybeOptional< IVec2 > const & P
 		, MaybeOptional< Int > const & sample
-		, MaybeOptional< Float > const & data )
+		, MaybeOptional< Half > const & data )
 	{
 		return Void{ findShader( image, P, sample, data )
 			, expr::makeImageStore2DMSFR16( findTypesCache( image, P, sample, data )
@@ -24589,7 +24589,7 @@ namespace sdw
 	Void imageStore( MaybeOptional< WImage2DMSArrayRgba16 > const & image
 		, MaybeOptional< IVec3 > const & P
 		, MaybeOptional< Int > const & sample
-		, MaybeOptional< Vec4 > const & data )
+		, MaybeOptional< HVec4 > const & data )
 	{
 		return Void{ findShader( image, P, sample, data )
 			, expr::makeImageStore2DMSArrayFRgba16( findTypesCache( image, P, sample, data )
@@ -24613,7 +24613,7 @@ namespace sdw
 	Void imageStore( MaybeOptional< WImage2DMSArrayRg16 > const & image
 		, MaybeOptional< IVec3 > const & P
 		, MaybeOptional< Int > const & sample
-		, MaybeOptional< Vec2 > const & data )
+		, MaybeOptional< HVec2 > const & data )
 	{
 		return Void{ findShader( image, P, sample, data )
 			, expr::makeImageStore2DMSArrayFRg16( findTypesCache( image, P, sample, data )
@@ -24637,7 +24637,7 @@ namespace sdw
 	Void imageStore( MaybeOptional< WImage2DMSArrayR16 > const & image
 		, MaybeOptional< IVec3 > const & P
 		, MaybeOptional< Int > const & sample
-		, MaybeOptional< Float > const & data )
+		, MaybeOptional< Half > const & data )
 	{
 		return Void{ findShader( image, P, sample, data )
 			, expr::makeImageStore2DMSArrayFR16( findTypesCache( image, P, sample, data )
@@ -24661,7 +24661,7 @@ namespace sdw
 	Void imageStore( MaybeOptional< RWImage2DMSArrayRgba16 > const & image
 		, MaybeOptional< IVec3 > const & P
 		, MaybeOptional< Int > const & sample
-		, MaybeOptional< Vec4 > const & data )
+		, MaybeOptional< HVec4 > const & data )
 	{
 		return Void{ findShader( image, P, sample, data )
 			, expr::makeImageStore2DMSArrayFRgba16( findTypesCache( image, P, sample, data )
@@ -24685,7 +24685,7 @@ namespace sdw
 	Void imageStore( MaybeOptional< RWImage2DMSArrayRg16 > const & image
 		, MaybeOptional< IVec3 > const & P
 		, MaybeOptional< Int > const & sample
-		, MaybeOptional< Vec2 > const & data )
+		, MaybeOptional< HVec2 > const & data )
 	{
 		return Void{ findShader( image, P, sample, data )
 			, expr::makeImageStore2DMSArrayFRg16( findTypesCache( image, P, sample, data )
@@ -24709,7 +24709,7 @@ namespace sdw
 	Void imageStore( MaybeOptional< RWImage2DMSArrayR16 > const & image
 		, MaybeOptional< IVec3 > const & P
 		, MaybeOptional< Int > const & sample
-		, MaybeOptional< Float > const & data )
+		, MaybeOptional< Half > const & data )
 	{
 		return Void{ findShader( image, P, sample, data )
 			, expr::makeImageStore2DMSArrayFR16( findTypesCache( image, P, sample, data )
@@ -25910,6 +25910,486 @@ namespace sdw
 				, makeExpr( P )
 				, makeExpr( data ) ) };
 	}
+	MaybeOptional< HVec4 > imageAtomicAdd( MaybeOptional< RWImage1DRgba16 > const & image
+		, MaybeOptional< Int > const & P
+		, MaybeOptional< HVec4 > const & data )
+	{
+		if ( isAnyOptional( image, P, data ) )
+		{
+			return Optional< HVec4 >{ findShader( image, P, data )
+				, expr::makeImageAtomicAdd1DFRgba16( findTypesCache( image, P, data )
+					, makeExpr( image )
+					, makeExpr( P )
+					, makeExpr( data ) )
+				, areOptionalEnabled( image, P, data ) };
+		}
+
+		return HVec4{ findShader( image, P, data )
+			, expr::makeImageAtomicAdd1DFRgba16( findTypesCache( image, P, data )
+				, makeExpr( image )
+				, makeExpr( P )
+				, makeExpr( data ) ) };
+	}
+	MaybeOptional< HVec2 > imageAtomicAdd( MaybeOptional< RWImage1DRg16 > const & image
+		, MaybeOptional< Int > const & P
+		, MaybeOptional< HVec2 > const & data )
+	{
+		if ( isAnyOptional( image, P, data ) )
+		{
+			return Optional< HVec2 >{ findShader( image, P, data )
+				, expr::makeImageAtomicAdd1DFRg16( findTypesCache( image, P, data )
+					, makeExpr( image )
+					, makeExpr( P )
+					, makeExpr( data ) )
+				, areOptionalEnabled( image, P, data ) };
+		}
+
+		return HVec2{ findShader( image, P, data )
+			, expr::makeImageAtomicAdd1DFRg16( findTypesCache( image, P, data )
+				, makeExpr( image )
+				, makeExpr( P )
+				, makeExpr( data ) ) };
+	}
+	MaybeOptional< Float > imageAtomicAdd( MaybeOptional< RWImage1DR32 > const & image
+		, MaybeOptional< Int > const & P
+		, MaybeOptional< Float > const & data )
+	{
+		if ( isAnyOptional( image, P, data ) )
+		{
+			return Optional< Float >{ findShader( image, P, data )
+				, expr::makeImageAtomicAdd1DFR32( findTypesCache( image, P, data )
+					, makeExpr( image )
+					, makeExpr( P )
+					, makeExpr( data ) )
+				, areOptionalEnabled( image, P, data ) };
+		}
+
+		return Float{ findShader( image, P, data )
+			, expr::makeImageAtomicAdd1DFR32( findTypesCache( image, P, data )
+				, makeExpr( image )
+				, makeExpr( P )
+				, makeExpr( data ) ) };
+	}
+	MaybeOptional< HVec4 > imageAtomicAdd( MaybeOptional< RWImage2DRgba16 > const & image
+		, MaybeOptional< IVec2 > const & P
+		, MaybeOptional< HVec4 > const & data )
+	{
+		if ( isAnyOptional( image, P, data ) )
+		{
+			return Optional< HVec4 >{ findShader( image, P, data )
+				, expr::makeImageAtomicAdd2DFRgba16( findTypesCache( image, P, data )
+					, makeExpr( image )
+					, makeExpr( P )
+					, makeExpr( data ) )
+				, areOptionalEnabled( image, P, data ) };
+		}
+
+		return HVec4{ findShader( image, P, data )
+			, expr::makeImageAtomicAdd2DFRgba16( findTypesCache( image, P, data )
+				, makeExpr( image )
+				, makeExpr( P )
+				, makeExpr( data ) ) };
+	}
+	MaybeOptional< HVec2 > imageAtomicAdd( MaybeOptional< RWImage2DRg16 > const & image
+		, MaybeOptional< IVec2 > const & P
+		, MaybeOptional< HVec2 > const & data )
+	{
+		if ( isAnyOptional( image, P, data ) )
+		{
+			return Optional< HVec2 >{ findShader( image, P, data )
+				, expr::makeImageAtomicAdd2DFRg16( findTypesCache( image, P, data )
+					, makeExpr( image )
+					, makeExpr( P )
+					, makeExpr( data ) )
+				, areOptionalEnabled( image, P, data ) };
+		}
+
+		return HVec2{ findShader( image, P, data )
+			, expr::makeImageAtomicAdd2DFRg16( findTypesCache( image, P, data )
+				, makeExpr( image )
+				, makeExpr( P )
+				, makeExpr( data ) ) };
+	}
+	MaybeOptional< Float > imageAtomicAdd( MaybeOptional< RWImage2DR32 > const & image
+		, MaybeOptional< IVec2 > const & P
+		, MaybeOptional< Float > const & data )
+	{
+		if ( isAnyOptional( image, P, data ) )
+		{
+			return Optional< Float >{ findShader( image, P, data )
+				, expr::makeImageAtomicAdd2DFR32( findTypesCache( image, P, data )
+					, makeExpr( image )
+					, makeExpr( P )
+					, makeExpr( data ) )
+				, areOptionalEnabled( image, P, data ) };
+		}
+
+		return Float{ findShader( image, P, data )
+			, expr::makeImageAtomicAdd2DFR32( findTypesCache( image, P, data )
+				, makeExpr( image )
+				, makeExpr( P )
+				, makeExpr( data ) ) };
+	}
+	MaybeOptional< HVec4 > imageAtomicAdd( MaybeOptional< RWImage3DRgba16 > const & image
+		, MaybeOptional< IVec3 > const & P
+		, MaybeOptional< HVec4 > const & data )
+	{
+		if ( isAnyOptional( image, P, data ) )
+		{
+			return Optional< HVec4 >{ findShader( image, P, data )
+				, expr::makeImageAtomicAdd3DFRgba16( findTypesCache( image, P, data )
+					, makeExpr( image )
+					, makeExpr( P )
+					, makeExpr( data ) )
+				, areOptionalEnabled( image, P, data ) };
+		}
+
+		return HVec4{ findShader( image, P, data )
+			, expr::makeImageAtomicAdd3DFRgba16( findTypesCache( image, P, data )
+				, makeExpr( image )
+				, makeExpr( P )
+				, makeExpr( data ) ) };
+	}
+	MaybeOptional< HVec2 > imageAtomicAdd( MaybeOptional< RWImage3DRg16 > const & image
+		, MaybeOptional< IVec3 > const & P
+		, MaybeOptional< HVec2 > const & data )
+	{
+		if ( isAnyOptional( image, P, data ) )
+		{
+			return Optional< HVec2 >{ findShader( image, P, data )
+				, expr::makeImageAtomicAdd3DFRg16( findTypesCache( image, P, data )
+					, makeExpr( image )
+					, makeExpr( P )
+					, makeExpr( data ) )
+				, areOptionalEnabled( image, P, data ) };
+		}
+
+		return HVec2{ findShader( image, P, data )
+			, expr::makeImageAtomicAdd3DFRg16( findTypesCache( image, P, data )
+				, makeExpr( image )
+				, makeExpr( P )
+				, makeExpr( data ) ) };
+	}
+	MaybeOptional< Float > imageAtomicAdd( MaybeOptional< RWImage3DR32 > const & image
+		, MaybeOptional< IVec3 > const & P
+		, MaybeOptional< Float > const & data )
+	{
+		if ( isAnyOptional( image, P, data ) )
+		{
+			return Optional< Float >{ findShader( image, P, data )
+				, expr::makeImageAtomicAdd3DFR32( findTypesCache( image, P, data )
+					, makeExpr( image )
+					, makeExpr( P )
+					, makeExpr( data ) )
+				, areOptionalEnabled( image, P, data ) };
+		}
+
+		return Float{ findShader( image, P, data )
+			, expr::makeImageAtomicAdd3DFR32( findTypesCache( image, P, data )
+				, makeExpr( image )
+				, makeExpr( P )
+				, makeExpr( data ) ) };
+	}
+	MaybeOptional< HVec4 > imageAtomicAdd( MaybeOptional< RWImageCubeRgba16 > const & image
+		, MaybeOptional< IVec3 > const & P
+		, MaybeOptional< HVec4 > const & data )
+	{
+		if ( isAnyOptional( image, P, data ) )
+		{
+			return Optional< HVec4 >{ findShader( image, P, data )
+				, expr::makeImageAtomicAddCubeFRgba16( findTypesCache( image, P, data )
+					, makeExpr( image )
+					, makeExpr( P )
+					, makeExpr( data ) )
+				, areOptionalEnabled( image, P, data ) };
+		}
+
+		return HVec4{ findShader( image, P, data )
+			, expr::makeImageAtomicAddCubeFRgba16( findTypesCache( image, P, data )
+				, makeExpr( image )
+				, makeExpr( P )
+				, makeExpr( data ) ) };
+	}
+	MaybeOptional< HVec2 > imageAtomicAdd( MaybeOptional< RWImageCubeRg16 > const & image
+		, MaybeOptional< IVec3 > const & P
+		, MaybeOptional< HVec2 > const & data )
+	{
+		if ( isAnyOptional( image, P, data ) )
+		{
+			return Optional< HVec2 >{ findShader( image, P, data )
+				, expr::makeImageAtomicAddCubeFRg16( findTypesCache( image, P, data )
+					, makeExpr( image )
+					, makeExpr( P )
+					, makeExpr( data ) )
+				, areOptionalEnabled( image, P, data ) };
+		}
+
+		return HVec2{ findShader( image, P, data )
+			, expr::makeImageAtomicAddCubeFRg16( findTypesCache( image, P, data )
+				, makeExpr( image )
+				, makeExpr( P )
+				, makeExpr( data ) ) };
+	}
+	MaybeOptional< Float > imageAtomicAdd( MaybeOptional< RWImageCubeR32 > const & image
+		, MaybeOptional< IVec3 > const & P
+		, MaybeOptional< Float > const & data )
+	{
+		if ( isAnyOptional( image, P, data ) )
+		{
+			return Optional< Float >{ findShader( image, P, data )
+				, expr::makeImageAtomicAddCubeFR32( findTypesCache( image, P, data )
+					, makeExpr( image )
+					, makeExpr( P )
+					, makeExpr( data ) )
+				, areOptionalEnabled( image, P, data ) };
+		}
+
+		return Float{ findShader( image, P, data )
+			, expr::makeImageAtomicAddCubeFR32( findTypesCache( image, P, data )
+				, makeExpr( image )
+				, makeExpr( P )
+				, makeExpr( data ) ) };
+	}
+	MaybeOptional< HVec4 > imageAtomicAdd( MaybeOptional< RWImageBufferRgba16 > const & image
+		, MaybeOptional< Int > const & P
+		, MaybeOptional< HVec4 > const & data )
+	{
+		if ( isAnyOptional( image, P, data ) )
+		{
+			return Optional< HVec4 >{ findShader( image, P, data )
+				, expr::makeImageAtomicAddBufferFRgba16( findTypesCache( image, P, data )
+					, makeExpr( image )
+					, makeExpr( P )
+					, makeExpr( data ) )
+				, areOptionalEnabled( image, P, data ) };
+		}
+
+		return HVec4{ findShader( image, P, data )
+			, expr::makeImageAtomicAddBufferFRgba16( findTypesCache( image, P, data )
+				, makeExpr( image )
+				, makeExpr( P )
+				, makeExpr( data ) ) };
+	}
+	MaybeOptional< HVec2 > imageAtomicAdd( MaybeOptional< RWImageBufferRg16 > const & image
+		, MaybeOptional< Int > const & P
+		, MaybeOptional< HVec2 > const & data )
+	{
+		if ( isAnyOptional( image, P, data ) )
+		{
+			return Optional< HVec2 >{ findShader( image, P, data )
+				, expr::makeImageAtomicAddBufferFRg16( findTypesCache( image, P, data )
+					, makeExpr( image )
+					, makeExpr( P )
+					, makeExpr( data ) )
+				, areOptionalEnabled( image, P, data ) };
+		}
+
+		return HVec2{ findShader( image, P, data )
+			, expr::makeImageAtomicAddBufferFRg16( findTypesCache( image, P, data )
+				, makeExpr( image )
+				, makeExpr( P )
+				, makeExpr( data ) ) };
+	}
+	MaybeOptional< Float > imageAtomicAdd( MaybeOptional< RWImageBufferR32 > const & image
+		, MaybeOptional< Int > const & P
+		, MaybeOptional< Float > const & data )
+	{
+		if ( isAnyOptional( image, P, data ) )
+		{
+			return Optional< Float >{ findShader( image, P, data )
+				, expr::makeImageAtomicAddBufferFR32( findTypesCache( image, P, data )
+					, makeExpr( image )
+					, makeExpr( P )
+					, makeExpr( data ) )
+				, areOptionalEnabled( image, P, data ) };
+		}
+
+		return Float{ findShader( image, P, data )
+			, expr::makeImageAtomicAddBufferFR32( findTypesCache( image, P, data )
+				, makeExpr( image )
+				, makeExpr( P )
+				, makeExpr( data ) ) };
+	}
+	MaybeOptional< HVec4 > imageAtomicAdd( MaybeOptional< RWImage1DArrayRgba16 > const & image
+		, MaybeOptional< IVec2 > const & P
+		, MaybeOptional< HVec4 > const & data )
+	{
+		if ( isAnyOptional( image, P, data ) )
+		{
+			return Optional< HVec4 >{ findShader( image, P, data )
+				, expr::makeImageAtomicAdd1DArrayFRgba16( findTypesCache( image, P, data )
+					, makeExpr( image )
+					, makeExpr( P )
+					, makeExpr( data ) )
+				, areOptionalEnabled( image, P, data ) };
+		}
+
+		return HVec4{ findShader( image, P, data )
+			, expr::makeImageAtomicAdd1DArrayFRgba16( findTypesCache( image, P, data )
+				, makeExpr( image )
+				, makeExpr( P )
+				, makeExpr( data ) ) };
+	}
+	MaybeOptional< HVec2 > imageAtomicAdd( MaybeOptional< RWImage1DArrayRg16 > const & image
+		, MaybeOptional< IVec2 > const & P
+		, MaybeOptional< HVec2 > const & data )
+	{
+		if ( isAnyOptional( image, P, data ) )
+		{
+			return Optional< HVec2 >{ findShader( image, P, data )
+				, expr::makeImageAtomicAdd1DArrayFRg16( findTypesCache( image, P, data )
+					, makeExpr( image )
+					, makeExpr( P )
+					, makeExpr( data ) )
+				, areOptionalEnabled( image, P, data ) };
+		}
+
+		return HVec2{ findShader( image, P, data )
+			, expr::makeImageAtomicAdd1DArrayFRg16( findTypesCache( image, P, data )
+				, makeExpr( image )
+				, makeExpr( P )
+				, makeExpr( data ) ) };
+	}
+	MaybeOptional< Float > imageAtomicAdd( MaybeOptional< RWImage1DArrayR32 > const & image
+		, MaybeOptional< IVec2 > const & P
+		, MaybeOptional< Float > const & data )
+	{
+		if ( isAnyOptional( image, P, data ) )
+		{
+			return Optional< Float >{ findShader( image, P, data )
+				, expr::makeImageAtomicAdd1DArrayFR32( findTypesCache( image, P, data )
+					, makeExpr( image )
+					, makeExpr( P )
+					, makeExpr( data ) )
+				, areOptionalEnabled( image, P, data ) };
+		}
+
+		return Float{ findShader( image, P, data )
+			, expr::makeImageAtomicAdd1DArrayFR32( findTypesCache( image, P, data )
+				, makeExpr( image )
+				, makeExpr( P )
+				, makeExpr( data ) ) };
+	}
+	MaybeOptional< HVec4 > imageAtomicAdd( MaybeOptional< RWImage2DArrayRgba16 > const & image
+		, MaybeOptional<  IVec3 > const & P
+		, MaybeOptional< HVec4 > const & data )
+	{
+		if ( isAnyOptional( image, P, data ) )
+		{
+			return Optional< HVec4 >{ findShader( image, P, data )
+				, expr::makeImageAtomicAdd2DArrayFRgba16( findTypesCache( image, P, data )
+					, makeExpr( image )
+					, makeExpr( P )
+					, makeExpr( data ) )
+				, areOptionalEnabled( image, P, data ) };
+		}
+
+		return HVec4{ findShader( image, P, data )
+			, expr::makeImageAtomicAdd2DArrayFRgba16( findTypesCache( image, P, data )
+				, makeExpr( image )
+				, makeExpr( P )
+				, makeExpr( data ) ) };
+	}
+	MaybeOptional< HVec2 > imageAtomicAdd( MaybeOptional< RWImage2DArrayRg16 > const & image
+		, MaybeOptional<  IVec3 > const & P
+		, MaybeOptional< HVec2 > const & data )
+	{
+		if ( isAnyOptional( image, P, data ) )
+		{
+			return Optional< HVec2 >{ findShader( image, P, data )
+				, expr::makeImageAtomicAdd2DArrayFRg16( findTypesCache( image, P, data )
+					, makeExpr( image )
+					, makeExpr( P )
+					, makeExpr( data ) )
+				, areOptionalEnabled( image, P, data ) };
+		}
+
+		return HVec2{ findShader( image, P, data )
+			, expr::makeImageAtomicAdd2DArrayFRg16( findTypesCache( image, P, data )
+				, makeExpr( image )
+				, makeExpr( P )
+				, makeExpr( data ) ) };
+	}
+	MaybeOptional< Float > imageAtomicAdd( MaybeOptional< RWImage2DArrayR32 > const & image
+		, MaybeOptional<  IVec3 > const & P
+		, MaybeOptional< Float > const & data )
+	{
+		if ( isAnyOptional( image, P, data ) )
+		{
+			return Optional< Float >{ findShader( image, P, data )
+				, expr::makeImageAtomicAdd2DArrayFR32( findTypesCache( image, P, data )
+					, makeExpr( image )
+					, makeExpr( P )
+					, makeExpr( data ) )
+				, areOptionalEnabled( image, P, data ) };
+		}
+
+		return Float{ findShader( image, P, data )
+			, expr::makeImageAtomicAdd2DArrayFR32( findTypesCache( image, P, data )
+				, makeExpr( image )
+				, makeExpr( P )
+				, makeExpr( data ) ) };
+	}
+	MaybeOptional< HVec4 > imageAtomicAdd( MaybeOptional< RWImageCubeArrayRgba16 > const & image
+		, MaybeOptional< IVec3 > const & P
+		, MaybeOptional< HVec4 > const & data )
+	{
+		if ( isAnyOptional( image, P, data ) )
+		{
+			return Optional< HVec4 >{ findShader( image, P, data )
+				, expr::makeImageAtomicAddCubeArrayFRgba16( findTypesCache( image, P, data )
+					, makeExpr( image )
+					, makeExpr( P )
+					, makeExpr( data ) )
+				, areOptionalEnabled( image, P, data ) };
+		}
+
+		return HVec4{ findShader( image, P, data )
+			, expr::makeImageAtomicAddCubeArrayFRgba16( findTypesCache( image, P, data )
+				, makeExpr( image )
+				, makeExpr( P )
+				, makeExpr( data ) ) };
+	}
+	MaybeOptional< HVec2 > imageAtomicAdd( MaybeOptional< RWImageCubeArrayRg16 > const & image
+		, MaybeOptional< IVec3 > const & P
+		, MaybeOptional< HVec2 > const & data )
+	{
+		if ( isAnyOptional( image, P, data ) )
+		{
+			return Optional< HVec2 >{ findShader( image, P, data )
+				, expr::makeImageAtomicAddCubeArrayFRg16( findTypesCache( image, P, data )
+					, makeExpr( image )
+					, makeExpr( P )
+					, makeExpr( data ) )
+				, areOptionalEnabled( image, P, data ) };
+		}
+
+		return HVec2{ findShader( image, P, data )
+			, expr::makeImageAtomicAddCubeArrayFRg16( findTypesCache( image, P, data )
+				, makeExpr( image )
+				, makeExpr( P )
+				, makeExpr( data ) ) };
+	}
+	MaybeOptional< Float > imageAtomicAdd( MaybeOptional< RWImageCubeArrayR32 > const & image
+		, MaybeOptional< IVec3 > const & P
+		, MaybeOptional< Float > const & data )
+	{
+		if ( isAnyOptional( image, P, data ) )
+		{
+			return Optional< Float >{ findShader( image, P, data )
+				, expr::makeImageAtomicAddCubeArrayFR32( findTypesCache( image, P, data )
+					, makeExpr( image )
+					, makeExpr( P )
+					, makeExpr( data ) )
+				, areOptionalEnabled( image, P, data ) };
+		}
+
+		return Float{ findShader( image, P, data )
+			, expr::makeImageAtomicAddCubeArrayFR32( findTypesCache( image, P, data )
+				, makeExpr( image )
+				, makeExpr( P )
+				, makeExpr( data ) ) };
+	}
 	MaybeOptional< UInt > imageAtomicAdd( MaybeOptional< RWUImage2DMSR32 > const & image
 		, MaybeOptional< IVec2 > const & P
 		, MaybeOptional< Int > const & sample
@@ -25997,6 +26477,144 @@ namespace sdw
 
 		return Int{ findShader( image, P, sample, data )
 			, expr::makeImageAtomicAdd2DMSArrayIR32( findTypesCache( image, P, sample, data )
+				, makeExpr( image )
+				, makeExpr( P )
+				, makeExpr( sample )
+				, makeExpr( data ) ) };
+	}
+	MaybeOptional< HVec4 > imageAtomicAdd( MaybeOptional< RWImage2DMSRgba16 > const & image
+		, MaybeOptional< IVec2 > const & P
+		, MaybeOptional< Int > const & sample
+		, MaybeOptional< HVec4 > const & data )
+	{
+		if ( isAnyOptional( image, P, sample, data ) )
+		{
+			return Optional< HVec4 >{ findShader( image, P, sample, data )
+				, expr::makeImageAtomicAdd2DMSFRgba16( findTypesCache( image, P, sample, data )
+					, makeExpr( image )
+					, makeExpr( P )
+					, makeExpr( sample )
+					, makeExpr( data ) )
+				, areOptionalEnabled( image, P, sample, data ) };
+		}
+
+		return HVec4{ findShader( image, P, sample, data )
+			, expr::makeImageAtomicAdd2DMSFRgba16( findTypesCache( image, P, sample, data )
+				, makeExpr( image )
+				, makeExpr( P )
+				, makeExpr( sample )
+				, makeExpr( data ) ) };
+	}
+	MaybeOptional< HVec2 > imageAtomicAdd( MaybeOptional< RWImage2DMSRg16 > const & image
+		, MaybeOptional< IVec2 > const & P
+		, MaybeOptional< Int > const & sample
+		, MaybeOptional< HVec2 > const & data )
+	{
+		if ( isAnyOptional( image, P, sample, data ) )
+		{
+			return Optional< HVec2 >{ findShader( image, P, sample, data )
+				, expr::makeImageAtomicAdd2DMSFRg16( findTypesCache( image, P, sample, data )
+					, makeExpr( image )
+					, makeExpr( P )
+					, makeExpr( sample )
+					, makeExpr( data ) )
+				, areOptionalEnabled( image, P, sample, data ) };
+		}
+
+		return HVec2{ findShader( image, P, sample, data )
+			, expr::makeImageAtomicAdd2DMSFRg16( findTypesCache( image, P, sample, data )
+				, makeExpr( image )
+				, makeExpr( P )
+				, makeExpr( sample )
+				, makeExpr( data ) ) };
+	}
+	MaybeOptional< Float > imageAtomicAdd( MaybeOptional< RWImage2DMSR32 > const & image
+		, MaybeOptional< IVec2 > const & P
+		, MaybeOptional< Int > const & sample
+		, MaybeOptional< Float > const & data )
+	{
+		if ( isAnyOptional( image, P, sample, data ) )
+		{
+			return Optional< Float >{ findShader( image, P, sample, data )
+				, expr::makeImageAtomicAdd2DMSFR32( findTypesCache( image, P, sample, data )
+					, makeExpr( image )
+					, makeExpr( P )
+					, makeExpr( sample )
+					, makeExpr( data ) )
+				, areOptionalEnabled( image, P, sample, data ) };
+		}
+
+		return Float{ findShader( image, P, sample, data )
+			, expr::makeImageAtomicAdd2DMSFR32( findTypesCache( image, P, sample, data )
+				, makeExpr( image )
+				, makeExpr( P )
+				, makeExpr( sample )
+				, makeExpr( data ) ) };
+	}
+	MaybeOptional< HVec4 > imageAtomicAdd( MaybeOptional< RWImage2DMSArrayRgba16 > const & image
+		, MaybeOptional< IVec3 > const & P
+		, MaybeOptional< Int > const & sample
+		, MaybeOptional< HVec4 > const & data )
+	{
+		if ( isAnyOptional( image, P, sample, data ) )
+		{
+			return Optional< HVec4 >{ findShader( image, P, sample, data )
+				, expr::makeImageAtomicAdd2DMSArrayFRgba16( findTypesCache( image, P, sample, data )
+					, makeExpr( image )
+					, makeExpr( P )
+					, makeExpr( sample )
+					, makeExpr( data ) )
+				, areOptionalEnabled( image, P, sample, data ) };
+		}
+
+		return HVec4{ findShader( image, P, sample, data )
+			, expr::makeImageAtomicAdd2DMSArrayFRgba16( findTypesCache( image, P, sample, data )
+				, makeExpr( image )
+				, makeExpr( P )
+				, makeExpr( sample )
+				, makeExpr( data ) ) };
+	}
+	MaybeOptional< HVec2 > imageAtomicAdd( MaybeOptional< RWImage2DMSArrayRg16 > const & image
+		, MaybeOptional< IVec3 > const & P
+		, MaybeOptional< Int > const & sample
+		, MaybeOptional< HVec2 > const & data )
+	{
+		if ( isAnyOptional( image, P, sample, data ) )
+		{
+			return Optional< HVec2 >{ findShader( image, P, sample, data )
+				, expr::makeImageAtomicAdd2DMSArrayFRg16( findTypesCache( image, P, sample, data )
+					, makeExpr( image )
+					, makeExpr( P )
+					, makeExpr( sample )
+					, makeExpr( data ) )
+				, areOptionalEnabled( image, P, sample, data ) };
+		}
+
+		return HVec2{ findShader( image, P, sample, data )
+			, expr::makeImageAtomicAdd2DMSArrayFRg16( findTypesCache( image, P, sample, data )
+				, makeExpr( image )
+				, makeExpr( P )
+				, makeExpr( sample )
+				, makeExpr( data ) ) };
+	}
+	MaybeOptional< Float > imageAtomicAdd( MaybeOptional< RWImage2DMSArrayR32 > const & image
+		, MaybeOptional< IVec3 > const & P
+		, MaybeOptional< Int > const & sample
+		, MaybeOptional< Float > const & data )
+	{
+		if ( isAnyOptional( image, P, sample, data ) )
+		{
+			return Optional< Float >{ findShader( image, P, sample, data )
+				, expr::makeImageAtomicAdd2DMSArrayFR32( findTypesCache( image, P, sample, data )
+					, makeExpr( image )
+					, makeExpr( P )
+					, makeExpr( sample )
+					, makeExpr( data ) )
+				, areOptionalEnabled( image, P, sample, data ) };
+		}
+
+		return Float{ findShader( image, P, sample, data )
+			, expr::makeImageAtomicAdd2DMSArrayFR32( findTypesCache( image, P, sample, data )
 				, makeExpr( image )
 				, makeExpr( P )
 				, makeExpr( sample )
@@ -28430,6 +29048,486 @@ namespace sdw
 				, makeExpr( P )
 				, makeExpr( data ) ) };
 	}
+	MaybeOptional< HVec4 > imageAtomicExchange( MaybeOptional< RWImage1DRgba16 > const & image
+		, MaybeOptional< Int > const & P
+		, MaybeOptional< HVec4 > const & data )
+	{
+		if ( isAnyOptional( image, P, data ) )
+		{
+			return Optional< HVec4 >{ findShader( image, P, data )
+				, expr::makeImageAtomicExchange1DFRgba16( findTypesCache( image, P, data )
+					, makeExpr( image )
+					, makeExpr( P )
+					, makeExpr( data ) )
+				, areOptionalEnabled( image, P, data ) };
+		}
+
+		return HVec4{ findShader( image, P, data )
+			, expr::makeImageAtomicExchange1DFRgba16( findTypesCache( image, P, data )
+				, makeExpr( image )
+				, makeExpr( P )
+				, makeExpr( data ) ) };
+	}
+	MaybeOptional< HVec2 > imageAtomicExchange( MaybeOptional< RWImage1DRg16 > const & image
+		, MaybeOptional< Int > const & P
+		, MaybeOptional< HVec2 > const & data )
+	{
+		if ( isAnyOptional( image, P, data ) )
+		{
+			return Optional< HVec2 >{ findShader( image, P, data )
+				, expr::makeImageAtomicExchange1DFRg16( findTypesCache( image, P, data )
+					, makeExpr( image )
+					, makeExpr( P )
+					, makeExpr( data ) )
+				, areOptionalEnabled( image, P, data ) };
+		}
+
+		return HVec2{ findShader( image, P, data )
+			, expr::makeImageAtomicExchange1DFRg16( findTypesCache( image, P, data )
+				, makeExpr( image )
+				, makeExpr( P )
+				, makeExpr( data ) ) };
+	}
+	MaybeOptional< Float > imageAtomicExchange( MaybeOptional< RWImage1DR32 > const & image
+		, MaybeOptional< Int > const & P
+		, MaybeOptional< Float > const & data )
+	{
+		if ( isAnyOptional( image, P, data ) )
+		{
+			return Optional< Float >{ findShader( image, P, data )
+				, expr::makeImageAtomicExchange1DFR32( findTypesCache( image, P, data )
+					, makeExpr( image )
+					, makeExpr( P )
+					, makeExpr( data ) )
+				, areOptionalEnabled( image, P, data ) };
+		}
+
+		return Float{ findShader( image, P, data )
+			, expr::makeImageAtomicExchange1DFR32( findTypesCache( image, P, data )
+				, makeExpr( image )
+				, makeExpr( P )
+				, makeExpr( data ) ) };
+	}
+	MaybeOptional< HVec4 > imageAtomicExchange( MaybeOptional< RWImage2DRgba16 > const & image
+		, MaybeOptional< IVec2 > const & P
+		, MaybeOptional< HVec4 > const & data )
+	{
+		if ( isAnyOptional( image, P, data ) )
+		{
+			return Optional< HVec4 >{ findShader( image, P, data )
+				, expr::makeImageAtomicExchange2DFRgba16( findTypesCache( image, P, data )
+					, makeExpr( image )
+					, makeExpr( P )
+					, makeExpr( data ) )
+				, areOptionalEnabled( image, P, data ) };
+		}
+
+		return HVec4{ findShader( image, P, data )
+			, expr::makeImageAtomicExchange2DFRgba16( findTypesCache( image, P, data )
+				, makeExpr( image )
+				, makeExpr( P )
+				, makeExpr( data ) ) };
+	}
+	MaybeOptional< HVec2 > imageAtomicExchange( MaybeOptional< RWImage2DRg16 > const & image
+		, MaybeOptional< IVec2 > const & P
+		, MaybeOptional< HVec2 > const & data )
+	{
+		if ( isAnyOptional( image, P, data ) )
+		{
+			return Optional< HVec2 >{ findShader( image, P, data )
+				, expr::makeImageAtomicExchange2DFRg16( findTypesCache( image, P, data )
+					, makeExpr( image )
+					, makeExpr( P )
+					, makeExpr( data ) )
+				, areOptionalEnabled( image, P, data ) };
+		}
+
+		return HVec2{ findShader( image, P, data )
+			, expr::makeImageAtomicExchange2DFRg16( findTypesCache( image, P, data )
+				, makeExpr( image )
+				, makeExpr( P )
+				, makeExpr( data ) ) };
+	}
+	MaybeOptional< Float > imageAtomicExchange( MaybeOptional< RWImage2DR32 > const & image
+		, MaybeOptional< IVec2 > const & P
+		, MaybeOptional< Float > const & data )
+	{
+		if ( isAnyOptional( image, P, data ) )
+		{
+			return Optional< Float >{ findShader( image, P, data )
+				, expr::makeImageAtomicExchange2DFR32( findTypesCache( image, P, data )
+					, makeExpr( image )
+					, makeExpr( P )
+					, makeExpr( data ) )
+				, areOptionalEnabled( image, P, data ) };
+		}
+
+		return Float{ findShader( image, P, data )
+			, expr::makeImageAtomicExchange2DFR32( findTypesCache( image, P, data )
+				, makeExpr( image )
+				, makeExpr( P )
+				, makeExpr( data ) ) };
+	}
+	MaybeOptional< HVec4 > imageAtomicExchange( MaybeOptional< RWImage3DRgba16 > const & image
+		, MaybeOptional< IVec3 > const & P
+		, MaybeOptional< HVec4 > const & data )
+	{
+		if ( isAnyOptional( image, P, data ) )
+		{
+			return Optional< HVec4 >{ findShader( image, P, data )
+				, expr::makeImageAtomicExchange3DFRgba16( findTypesCache( image, P, data )
+					, makeExpr( image )
+					, makeExpr( P )
+					, makeExpr( data ) )
+				, areOptionalEnabled( image, P, data ) };
+		}
+
+		return HVec4{ findShader( image, P, data )
+			, expr::makeImageAtomicExchange3DFRgba16( findTypesCache( image, P, data )
+				, makeExpr( image )
+				, makeExpr( P )
+				, makeExpr( data ) ) };
+	}
+	MaybeOptional< HVec2 > imageAtomicExchange( MaybeOptional< RWImage3DRg16 > const & image
+		, MaybeOptional< IVec3 > const & P
+		, MaybeOptional< HVec2 > const & data )
+	{
+		if ( isAnyOptional( image, P, data ) )
+		{
+			return Optional< HVec2 >{ findShader( image, P, data )
+				, expr::makeImageAtomicExchange3DFRg16( findTypesCache( image, P, data )
+					, makeExpr( image )
+					, makeExpr( P )
+					, makeExpr( data ) )
+				, areOptionalEnabled( image, P, data ) };
+		}
+
+		return HVec2{ findShader( image, P, data )
+			, expr::makeImageAtomicExchange3DFRg16( findTypesCache( image, P, data )
+				, makeExpr( image )
+				, makeExpr( P )
+				, makeExpr( data ) ) };
+	}
+	MaybeOptional< Float > imageAtomicExchange( MaybeOptional< RWImage3DR32 > const & image
+		, MaybeOptional< IVec3 > const & P
+		, MaybeOptional< Float > const & data )
+	{
+		if ( isAnyOptional( image, P, data ) )
+		{
+			return Optional< Float >{ findShader( image, P, data )
+				, expr::makeImageAtomicExchange3DFR32( findTypesCache( image, P, data )
+					, makeExpr( image )
+					, makeExpr( P )
+					, makeExpr( data ) )
+				, areOptionalEnabled( image, P, data ) };
+		}
+
+		return Float{ findShader( image, P, data )
+			, expr::makeImageAtomicExchange3DFR32( findTypesCache( image, P, data )
+				, makeExpr( image )
+				, makeExpr( P )
+				, makeExpr( data ) ) };
+	}
+	MaybeOptional< HVec4 > imageAtomicExchange( MaybeOptional< RWImageCubeRgba16 > const & image
+		, MaybeOptional< IVec3 > const & P
+		, MaybeOptional< HVec4 > const & data )
+	{
+		if ( isAnyOptional( image, P, data ) )
+		{
+			return Optional< HVec4 >{ findShader( image, P, data )
+				, expr::makeImageAtomicExchangeCubeFRgba16( findTypesCache( image, P, data )
+					, makeExpr( image )
+					, makeExpr( P )
+					, makeExpr( data ) )
+				, areOptionalEnabled( image, P, data ) };
+		}
+
+		return HVec4{ findShader( image, P, data )
+			, expr::makeImageAtomicExchangeCubeFRgba16( findTypesCache( image, P, data )
+				, makeExpr( image )
+				, makeExpr( P )
+				, makeExpr( data ) ) };
+	}
+	MaybeOptional< HVec2 > imageAtomicExchange( MaybeOptional< RWImageCubeRg16 > const & image
+		, MaybeOptional< IVec3 > const & P
+		, MaybeOptional< HVec2 > const & data )
+	{
+		if ( isAnyOptional( image, P, data ) )
+		{
+			return Optional< HVec2 >{ findShader( image, P, data )
+				, expr::makeImageAtomicExchangeCubeFRg16( findTypesCache( image, P, data )
+					, makeExpr( image )
+					, makeExpr( P )
+					, makeExpr( data ) )
+				, areOptionalEnabled( image, P, data ) };
+		}
+
+		return HVec2{ findShader( image, P, data )
+			, expr::makeImageAtomicExchangeCubeFRg16( findTypesCache( image, P, data )
+				, makeExpr( image )
+				, makeExpr( P )
+				, makeExpr( data ) ) };
+	}
+	MaybeOptional< Float > imageAtomicExchange( MaybeOptional< RWImageCubeR32 > const & image
+		, MaybeOptional< IVec3 > const & P
+		, MaybeOptional< Float > const & data )
+	{
+		if ( isAnyOptional( image, P, data ) )
+		{
+			return Optional< Float >{ findShader( image, P, data )
+				, expr::makeImageAtomicExchangeCubeFR32( findTypesCache( image, P, data )
+					, makeExpr( image )
+					, makeExpr( P )
+					, makeExpr( data ) )
+				, areOptionalEnabled( image, P, data ) };
+		}
+
+		return Float{ findShader( image, P, data )
+			, expr::makeImageAtomicExchangeCubeFR32( findTypesCache( image, P, data )
+				, makeExpr( image )
+				, makeExpr( P )
+				, makeExpr( data ) ) };
+	}
+	MaybeOptional< HVec4 > imageAtomicExchange( MaybeOptional< RWImageBufferRgba16 > const & image
+		, MaybeOptional< Int > const & P
+		, MaybeOptional< HVec4 > const & data )
+	{
+		if ( isAnyOptional( image, P, data ) )
+		{
+			return Optional< HVec4 >{ findShader( image, P, data )
+				, expr::makeImageAtomicExchangeBufferFRgba16( findTypesCache( image, P, data )
+					, makeExpr( image )
+					, makeExpr( P )
+					, makeExpr( data ) )
+				, areOptionalEnabled( image, P, data ) };
+		}
+
+		return HVec4{ findShader( image, P, data )
+			, expr::makeImageAtomicExchangeBufferFRgba16( findTypesCache( image, P, data )
+				, makeExpr( image )
+				, makeExpr( P )
+				, makeExpr( data ) ) };
+	}
+	MaybeOptional< HVec2 > imageAtomicExchange( MaybeOptional< RWImageBufferRg16 > const & image
+		, MaybeOptional< Int > const & P
+		, MaybeOptional< HVec2 > const & data )
+	{
+		if ( isAnyOptional( image, P, data ) )
+		{
+			return Optional< HVec2 >{ findShader( image, P, data )
+				, expr::makeImageAtomicExchangeBufferFRg16( findTypesCache( image, P, data )
+					, makeExpr( image )
+					, makeExpr( P )
+					, makeExpr( data ) )
+				, areOptionalEnabled( image, P, data ) };
+		}
+
+		return HVec2{ findShader( image, P, data )
+			, expr::makeImageAtomicExchangeBufferFRg16( findTypesCache( image, P, data )
+				, makeExpr( image )
+				, makeExpr( P )
+				, makeExpr( data ) ) };
+	}
+	MaybeOptional< Float > imageAtomicExchange( MaybeOptional< RWImageBufferR32 > const & image
+		, MaybeOptional< Int > const & P
+		, MaybeOptional< Float > const & data )
+	{
+		if ( isAnyOptional( image, P, data ) )
+		{
+			return Optional< Float >{ findShader( image, P, data )
+				, expr::makeImageAtomicExchangeBufferFR32( findTypesCache( image, P, data )
+					, makeExpr( image )
+					, makeExpr( P )
+					, makeExpr( data ) )
+				, areOptionalEnabled( image, P, data ) };
+		}
+
+		return Float{ findShader( image, P, data )
+			, expr::makeImageAtomicExchangeBufferFR32( findTypesCache( image, P, data )
+				, makeExpr( image )
+				, makeExpr( P )
+				, makeExpr( data ) ) };
+	}
+	MaybeOptional< HVec4 > imageAtomicExchange( MaybeOptional< RWImage1DArrayRgba16 > const & image
+		, MaybeOptional< IVec2 > const & P
+		, MaybeOptional< HVec4 > const & data )
+	{
+		if ( isAnyOptional( image, P, data ) )
+		{
+			return Optional< HVec4 >{ findShader( image, P, data )
+				, expr::makeImageAtomicExchange1DArrayFRgba16( findTypesCache( image, P, data )
+					, makeExpr( image )
+					, makeExpr( P )
+					, makeExpr( data ) )
+				, areOptionalEnabled( image, P, data ) };
+		}
+
+		return HVec4{ findShader( image, P, data )
+			, expr::makeImageAtomicExchange1DArrayFRgba16( findTypesCache( image, P, data )
+				, makeExpr( image )
+				, makeExpr( P )
+				, makeExpr( data ) ) };
+	}
+	MaybeOptional< HVec2 > imageAtomicExchange( MaybeOptional< RWImage1DArrayRg16 > const & image
+		, MaybeOptional< IVec2 > const & P
+		, MaybeOptional< HVec2 > const & data )
+	{
+		if ( isAnyOptional( image, P, data ) )
+		{
+			return Optional< HVec2 >{ findShader( image, P, data )
+				, expr::makeImageAtomicExchange1DArrayFRg16( findTypesCache( image, P, data )
+					, makeExpr( image )
+					, makeExpr( P )
+					, makeExpr( data ) )
+				, areOptionalEnabled( image, P, data ) };
+		}
+
+		return HVec2{ findShader( image, P, data )
+			, expr::makeImageAtomicExchange1DArrayFRg16( findTypesCache( image, P, data )
+				, makeExpr( image )
+				, makeExpr( P )
+				, makeExpr( data ) ) };
+	}
+	MaybeOptional< Float > imageAtomicExchange( MaybeOptional< RWImage1DArrayR32 > const & image
+		, MaybeOptional< IVec2 > const & P
+		, MaybeOptional< Float > const & data )
+	{
+		if ( isAnyOptional( image, P, data ) )
+		{
+			return Optional< Float >{ findShader( image, P, data )
+				, expr::makeImageAtomicExchange1DArrayFR32( findTypesCache( image, P, data )
+					, makeExpr( image )
+					, makeExpr( P )
+					, makeExpr( data ) )
+				, areOptionalEnabled( image, P, data ) };
+		}
+
+		return Float{ findShader( image, P, data )
+			, expr::makeImageAtomicExchange1DArrayFR32( findTypesCache( image, P, data )
+				, makeExpr( image )
+				, makeExpr( P )
+				, makeExpr( data ) ) };
+	}
+	MaybeOptional< HVec4 > imageAtomicExchange( MaybeOptional< RWImage2DArrayRgba16 > const & image
+		, MaybeOptional< IVec3 > const & P
+		, MaybeOptional< HVec4 > const & data )
+	{
+		if ( isAnyOptional( image, P, data ) )
+		{
+			return Optional< HVec4 >{ findShader( image, P, data )
+				, expr::makeImageAtomicExchange2DArrayFRgba16( findTypesCache( image, P, data )
+					, makeExpr( image )
+					, makeExpr( P )
+					, makeExpr( data ) )
+				, areOptionalEnabled( image, P, data ) };
+		}
+
+		return HVec4{ findShader( image, P, data )
+			, expr::makeImageAtomicExchange2DArrayFRgba16( findTypesCache( image, P, data )
+				, makeExpr( image )
+				, makeExpr( P )
+				, makeExpr( data ) ) };
+	}
+	MaybeOptional< HVec2 > imageAtomicExchange( MaybeOptional< RWImage2DArrayRg16 > const & image
+		, MaybeOptional< IVec3 > const & P
+		, MaybeOptional< HVec2 > const & data )
+	{
+		if ( isAnyOptional( image, P, data ) )
+		{
+			return Optional< HVec2 >{ findShader( image, P, data )
+				, expr::makeImageAtomicExchange2DArrayFRg16( findTypesCache( image, P, data )
+					, makeExpr( image )
+					, makeExpr( P )
+					, makeExpr( data ) )
+				, areOptionalEnabled( image, P, data ) };
+		}
+
+		return HVec2{ findShader( image, P, data )
+			, expr::makeImageAtomicExchange2DArrayFRg16( findTypesCache( image, P, data )
+				, makeExpr( image )
+				, makeExpr( P )
+				, makeExpr( data ) ) };
+	}
+	MaybeOptional< Float > imageAtomicExchange( MaybeOptional< RWImage2DArrayR32 > const & image
+		, MaybeOptional< IVec3 > const & P
+		, MaybeOptional< Float > const & data )
+	{
+		if ( isAnyOptional( image, P, data ) )
+		{
+			return Optional< Float >{ findShader( image, P, data )
+				, expr::makeImageAtomicExchange2DArrayFR32( findTypesCache( image, P, data )
+					, makeExpr( image )
+					, makeExpr( P )
+					, makeExpr( data ) )
+				, areOptionalEnabled( image, P, data ) };
+		}
+
+		return Float{ findShader( image, P, data )
+			, expr::makeImageAtomicExchange2DArrayFR32( findTypesCache( image, P, data )
+				, makeExpr( image )
+				, makeExpr( P )
+				, makeExpr( data ) ) };
+	}
+	MaybeOptional< HVec4 > imageAtomicExchange( MaybeOptional< RWImageCubeArrayRgba16 > const & image
+		, MaybeOptional< IVec3 > const & P
+		, MaybeOptional< HVec4 > const & data )
+	{
+		if ( isAnyOptional( image, P, data ) )
+		{
+			return Optional< HVec4 >{ findShader( image, P, data )
+				, expr::makeImageAtomicExchangeCubeArrayFRgba16( findTypesCache( image, P, data )
+					, makeExpr( image )
+					, makeExpr( P )
+					, makeExpr( data ) )
+				, areOptionalEnabled( image, P, data ) };
+		}
+
+		return HVec4{ findShader( image, P, data )
+			, expr::makeImageAtomicExchangeCubeArrayFRgba16( findTypesCache( image, P, data )
+				, makeExpr( image )
+				, makeExpr( P )
+				, makeExpr( data ) ) };
+	}
+	MaybeOptional< HVec2 > imageAtomicExchange( MaybeOptional< RWImageCubeArrayRg16 > const & image
+		, MaybeOptional< IVec3 > const & P
+		, MaybeOptional< HVec2 > const & data )
+	{
+		if ( isAnyOptional( image, P, data ) )
+		{
+			return Optional< HVec2 >{ findShader( image, P, data )
+				, expr::makeImageAtomicExchangeCubeArrayFRg16( findTypesCache( image, P, data )
+					, makeExpr( image )
+					, makeExpr( P )
+					, makeExpr( data ) )
+				, areOptionalEnabled( image, P, data ) };
+		}
+
+		return HVec2{ findShader( image, P, data )
+			, expr::makeImageAtomicExchangeCubeArrayFRg16( findTypesCache( image, P, data )
+				, makeExpr( image )
+				, makeExpr( P )
+				, makeExpr( data ) ) };
+	}
+	MaybeOptional< Float > imageAtomicExchange( MaybeOptional< RWImageCubeArrayR32 > const & image
+		, MaybeOptional< IVec3 > const & P
+		, MaybeOptional< Float > const & data )
+	{
+		if ( isAnyOptional( image, P, data ) )
+		{
+			return Optional< Float >{ findShader( image, P, data )
+				, expr::makeImageAtomicExchangeCubeArrayFR32( findTypesCache( image, P, data )
+					, makeExpr( image )
+					, makeExpr( P )
+					, makeExpr( data ) )
+				, areOptionalEnabled( image, P, data ) };
+		}
+
+		return Float{ findShader( image, P, data )
+			, expr::makeImageAtomicExchangeCubeArrayFR32( findTypesCache( image, P, data )
+				, makeExpr( image )
+				, makeExpr( P )
+				, makeExpr( data ) ) };
+	}
 	MaybeOptional< UInt > imageAtomicExchange( MaybeOptional< RWUImage2DMSR32 > const & image
 		, MaybeOptional< IVec2 > const & P
 		, MaybeOptional< Int > const & sample
@@ -28517,6 +29615,144 @@ namespace sdw
 
 		return Int{ findShader( image, P, sample, data )
 			, expr::makeImageAtomicExchange2DMSArrayIR32( findTypesCache( image, P, sample, data )
+				, makeExpr( image )
+				, makeExpr( P )
+				, makeExpr( sample )
+				, makeExpr( data ) ) };
+	}
+	MaybeOptional< HVec4 > imageAtomicExchange( MaybeOptional< RWImage2DMSRgba16 > const & image
+		, MaybeOptional< IVec2 > const & P
+		, MaybeOptional< Int > const & sample
+		, MaybeOptional< HVec4 > const & data )
+	{
+		if ( isAnyOptional( image, P, sample, data ) )
+		{
+			return Optional< HVec4 >{ findShader( image, P, sample, data )
+				, expr::makeImageAtomicExchange2DMSFRgba16( findTypesCache( image, P, sample, data )
+					, makeExpr( image )
+					, makeExpr( P )
+					, makeExpr( sample )
+					, makeExpr( data ) )
+				, areOptionalEnabled( image, P, sample, data ) };
+		}
+
+		return HVec4{ findShader( image, P, sample, data )
+			, expr::makeImageAtomicExchange2DMSFRgba16( findTypesCache( image, P, sample, data )
+				, makeExpr( image )
+				, makeExpr( P )
+				, makeExpr( sample )
+				, makeExpr( data ) ) };
+	}
+	MaybeOptional< HVec2 > imageAtomicExchange( MaybeOptional< RWImage2DMSRg16 > const & image
+		, MaybeOptional< IVec2 > const & P
+		, MaybeOptional< Int > const & sample
+		, MaybeOptional< HVec2 > const & data )
+	{
+		if ( isAnyOptional( image, P, sample, data ) )
+		{
+			return Optional< HVec2 >{ findShader( image, P, sample, data )
+				, expr::makeImageAtomicExchange2DMSFRg16( findTypesCache( image, P, sample, data )
+					, makeExpr( image )
+					, makeExpr( P )
+					, makeExpr( sample )
+					, makeExpr( data ) )
+				, areOptionalEnabled( image, P, sample, data ) };
+		}
+
+		return HVec2{ findShader( image, P, sample, data )
+			, expr::makeImageAtomicExchange2DMSFRg16( findTypesCache( image, P, sample, data )
+				, makeExpr( image )
+				, makeExpr( P )
+				, makeExpr( sample )
+				, makeExpr( data ) ) };
+	}
+	MaybeOptional< Float > imageAtomicExchange( MaybeOptional< RWImage2DMSR32 > const & image
+		, MaybeOptional< IVec2 > const & P
+		, MaybeOptional< Int > const & sample
+		, MaybeOptional< Float > const & data )
+	{
+		if ( isAnyOptional( image, P, sample, data ) )
+		{
+			return Optional< Float >{ findShader( image, P, sample, data )
+				, expr::makeImageAtomicExchange2DMSFR32( findTypesCache( image, P, sample, data )
+					, makeExpr( image )
+					, makeExpr( P )
+					, makeExpr( sample )
+					, makeExpr( data ) )
+				, areOptionalEnabled( image, P, sample, data ) };
+		}
+
+		return Float{ findShader( image, P, sample, data )
+			, expr::makeImageAtomicExchange2DMSFR32( findTypesCache( image, P, sample, data )
+				, makeExpr( image )
+				, makeExpr( P )
+				, makeExpr( sample )
+				, makeExpr( data ) ) };
+	}
+	MaybeOptional< HVec4 > imageAtomicExchange( MaybeOptional< RWImage2DMSArrayRgba16 > const & image
+		, MaybeOptional< IVec3 > const & P
+		, MaybeOptional< Int > const & sample
+		, MaybeOptional< HVec4 > const & data )
+	{
+		if ( isAnyOptional( image, P, sample, data ) )
+		{
+			return Optional< HVec4 >{ findShader( image, P, sample, data )
+				, expr::makeImageAtomicExchange2DMSArrayFRgba16( findTypesCache( image, P, sample, data )
+					, makeExpr( image )
+					, makeExpr( P )
+					, makeExpr( sample )
+					, makeExpr( data ) )
+				, areOptionalEnabled( image, P, sample, data ) };
+		}
+
+		return HVec4{ findShader( image, P, sample, data )
+			, expr::makeImageAtomicExchange2DMSArrayFRgba16( findTypesCache( image, P, sample, data )
+				, makeExpr( image )
+				, makeExpr( P )
+				, makeExpr( sample )
+				, makeExpr( data ) ) };
+	}
+	MaybeOptional< HVec2 > imageAtomicExchange( MaybeOptional< RWImage2DMSArrayRg16 > const & image
+		, MaybeOptional< IVec3 > const & P
+		, MaybeOptional< Int > const & sample
+		, MaybeOptional< HVec2 > const & data )
+	{
+		if ( isAnyOptional( image, P, sample, data ) )
+		{
+			return Optional< HVec2 >{ findShader( image, P, sample, data )
+				, expr::makeImageAtomicExchange2DMSArrayFRg16( findTypesCache( image, P, sample, data )
+					, makeExpr( image )
+					, makeExpr( P )
+					, makeExpr( sample )
+					, makeExpr( data ) )
+				, areOptionalEnabled( image, P, sample, data ) };
+		}
+
+		return HVec2{ findShader( image, P, sample, data )
+			, expr::makeImageAtomicExchange2DMSArrayFRg16( findTypesCache( image, P, sample, data )
+				, makeExpr( image )
+				, makeExpr( P )
+				, makeExpr( sample )
+				, makeExpr( data ) ) };
+	}
+	MaybeOptional< Float > imageAtomicExchange( MaybeOptional< RWImage2DMSArrayR32 > const & image
+		, MaybeOptional< IVec3 > const & P
+		, MaybeOptional< Int > const & sample
+		, MaybeOptional< Float > const & data )
+	{
+		if ( isAnyOptional( image, P, sample, data ) )
+		{
+			return Optional< Float >{ findShader( image, P, sample, data )
+				, expr::makeImageAtomicExchange2DMSArrayFR32( findTypesCache( image, P, sample, data )
+					, makeExpr( image )
+					, makeExpr( P )
+					, makeExpr( sample )
+					, makeExpr( data ) )
+				, areOptionalEnabled( image, P, sample, data ) };
+		}
+
+		return Float{ findShader( image, P, sample, data )
+			, expr::makeImageAtomicExchange2DMSArrayFR32( findTypesCache( image, P, sample, data )
 				, makeExpr( image )
 				, makeExpr( P )
 				, makeExpr( sample )

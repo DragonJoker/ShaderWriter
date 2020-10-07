@@ -115,7 +115,6 @@ namespace ast::type
 		{
 		case Kind::eHalf:
 		case Kind::eVec2H:
-		case Kind::eVec3H:
 		case Kind::eVec4H:
 			return true;
 
@@ -209,7 +208,6 @@ namespace ast::type
 		case Kind::eVec3D:
 		case Kind::eVec4D:
 		case Kind::eVec2H:
-		case Kind::eVec3H:
 		case Kind::eVec4H:
 			return true;
 
@@ -295,7 +293,6 @@ namespace ast::type
 		case Kind::eVec3U:
 		case Kind::eVec3F:
 		case Kind::eVec3D:
-		case Kind::eVec3H:
 		case Kind::eMat3x2F:
 		case Kind::eMat3x3F:
 		case Kind::eMat3x4F:
@@ -355,7 +352,6 @@ namespace ast::type
 			return Kind::eUInt;
 
 		case Kind::eVec2H:
-		case Kind::eVec3H:
 		case Kind::eVec4H:
 			return Kind::eHalf;
 
@@ -451,7 +447,6 @@ namespace ast::type
 		case Kind::eVec3U:
 		case Kind::eVec3F:
 		case Kind::eVec3D:
-		case Kind::eVec3H:
 			return expr::CompositeType::eVec3;
 
 		case Kind::eVec4B:

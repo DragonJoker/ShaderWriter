@@ -204,9 +204,6 @@ namespace ast::debug
 		case type::Kind::eVec2H:
 			result = "HVEC2";
 			break;
-		case type::Kind::eVec3H:
-			result = "HVEC3";
-			break;
 		case type::Kind::eVec4H:
 			result = "HVEC4";
 			break;

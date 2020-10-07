@@ -110,6 +110,14 @@ namespace sdw
 	};
 
 	template<>
+	struct TypeTraits< ArithmeticValue< ast::type::Kind::eHalf > >
+	{
+		static ast::type::Kind constexpr TypeEnum = ast::type::Kind::eHalf;
+		static bool constexpr HasArithmeticOperators = true;
+		using CppType = float;
+	};
+
+	template<>
 	struct TypeTraits< ArithmeticValue< ast::type::Kind::eDouble > >
 	{
 		static ast::type::Kind constexpr TypeEnum = ast::type::Kind::eDouble;
@@ -209,6 +217,22 @@ namespace sdw
 	struct TypeTraits< Vec4 >
 	{
 		static ast::type::Kind constexpr TypeEnum = ast::type::Kind::eVec4F;
+		static bool constexpr HasArithmeticOperators = true;
+		using CppType = float;
+	};
+
+	template<>
+	struct TypeTraits< HVec2 >
+	{
+		static ast::type::Kind constexpr TypeEnum = ast::type::Kind::eVec2H;
+		static bool constexpr HasArithmeticOperators = true;
+		using CppType = float;
+	};
+
+	template<>
+	struct TypeTraits< HVec4 >
+	{
+		static ast::type::Kind constexpr TypeEnum = ast::type::Kind::eVec4H;
 		static bool constexpr HasArithmeticOperators = true;
 		using CppType = float;
 	};

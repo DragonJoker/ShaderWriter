@@ -14,8 +14,7 @@ namespace
 		, ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool DepthT
-		, bool MsT
-		, typename Enable = void >
+		, bool MsT >
 	struct ImageSizeTester
 	{
 		static void test( test::sdw_test::TestCounts & testCounts )
@@ -33,7 +32,11 @@ namespace
 						auto i = writer.declLocale( "i", imageSize( s ) );
 					} );
 				test::writeShader( writer
-					, testCounts );
+					, testCounts
+					, true, false, false );
+				test::writeShader( writer
+					, testCounts
+					, false, true, true );
 				test::validateShader( writer.getShader()
 					, testCounts );
 			}
@@ -46,30 +49,36 @@ namespace
 		, ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool DepthT
-		, bool MsT
-		, typename Enable = void >
+		, bool MsT >
 	struct ImageSamplesTester
 	{
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
-			auto name = "testImageSamples" + sdw::debug::getName( FormatT, AccessT, DimT, ArrayedT, false, MsT );
-			testBegin( name );
-			using namespace sdw;
+			if constexpr ( MsT )
 			{
-				ComputeWriter writer;
-				auto s = writer.declImage< FormatT, AccessT, DimT, ArrayedT, false, MsT >( "s", 0u, 0u );
-				writer.inputLayout( 1u );
-				writer.implementFunction< sdw::Void >( "main"
-					, [&]()
-					{
-						auto i = writer.declLocale( "i", imageSamples( s ) );
-					} );
-				test::writeShader( writer
-					, testCounts );
-				test::validateShader( writer.getShader()
-					, testCounts );
+				auto name = "testImageSamples" + sdw::debug::getName( FormatT, AccessT, DimT, ArrayedT, false, MsT );
+				testBegin( name );
+				using namespace sdw;
+				{
+					ComputeWriter writer;
+					auto s = writer.declImage< FormatT, AccessT, DimT, ArrayedT, false, MsT >( "s", 0u, 0u );
+					writer.inputLayout( 1u );
+					writer.implementFunction< sdw::Void >( "main"
+						, [&]()
+						{
+							auto i = writer.declLocale( "i", imageSamples( s ) );
+						} );
+					test::writeShader( writer
+						, testCounts
+						, true, false, false );
+					test::writeShader( writer
+						, testCounts
+						, false, true, true );
+					test::validateShader( writer.getShader()
+						, testCounts );
+				}
+				testEnd();
 			}
-			testEnd();
 		};
 	};
 
@@ -79,58 +88,47 @@ namespace
 		, bool ArrayedT
 		, bool DepthT
 		, bool MsT >
-	struct ImageSamplesTester< FormatT, AccessT, DimT, ArrayedT, DepthT, MsT, std::enable_if_t< !MsT > >
-	{
-		static void test( test::sdw_test::TestCounts & testCounts )
-		{
-		};
-	};
-
-	template< ast::type::ImageFormat FormatT
-		, ast::type::AccessKind AccessT
-		, ast::type::ImageDim DimT
-		, bool ArrayedT
-		, bool DepthT
-		, bool MsT
-		, typename Enable = void >
 	struct ImageLoadTester
 	{
-		static void test( test::sdw_test::TestCounts & testCounts )
-		{
-		}
-	};
-
-	template< ast::type::ImageFormat FormatT
-		, ast::type::AccessKind AccessT
-		, ast::type::ImageDim DimT
-		, bool ArrayedT
-		, bool DepthT
-		, bool MsT >
-	struct ImageLoadTester< FormatT, AccessT, DimT, ArrayedT, DepthT, MsT
-		, std::enable_if_t< !MsT && isReadableV< AccessT > > >
-	{
 		using Coords = sdw::ImageCoordsT< DimT, ArrayedT >;
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
-			auto name = "testImageLoad" + sdw::debug::getName( FormatT, AccessT, DimT, ArrayedT, false, MsT );
-			testBegin( name );
-			using namespace sdw;
+			if constexpr ( isReadableV< AccessT > )
 			{
-				ComputeWriter writer;
-				auto s = writer.declImage< FormatT, AccessT, DimT, ArrayedT, false, MsT >( "s", 0u, 0u );
-				writer.inputLayout( 1u );
-				writer.implementFunction< sdw::Void >( "main"
-					, [&]()
-					{
-						auto i = writer.declLocale( "i", imageLoad( s, test::getDefault< Coords >( writer.getShader() ) ) );
-					} );
-				test::writeShader( writer
-					, testCounts );
-				test::validateShader( writer.getShader()
-					, testCounts );
+				auto name = "testImageLoad" + sdw::debug::getName( FormatT, AccessT, DimT, ArrayedT, false, MsT );
+				testBegin( name );
+				using namespace sdw;
+				{
+					ComputeWriter writer;
+					auto s = writer.declImage< FormatT, AccessT, DimT, ArrayedT, false, MsT >( "s", 0u, 0u );
+					writer.inputLayout( 1u );
+					writer.implementFunction< sdw::Void >( "main"
+						, [&]()
+						{
+							if constexpr ( MsT )
+							{
+								auto i = writer.declLocale( "i", imageLoad( s
+									, test::getDefault< Coords >( writer.getShader() )
+									, test::getDefault< sdw::Int >( writer.getShader() ) ) );
+							}
+							else
+							{
+								auto i = writer.declLocale( "i", imageLoad( s
+									, test::getDefault< Coords >( writer.getShader() ) ) );
+							}
+						} );
+					test::writeShader( writer
+						, testCounts
+						, true, false, false );
+					test::writeShader( writer
+						, testCounts
+						, false, true, true );
+					test::validateShader( writer.getShader()
+						, testCounts );
+				}
+				testEnd();
 			}
-			testEnd();
 		};
 	};
 
@@ -140,82 +138,50 @@ namespace
 		, bool ArrayedT
 		, bool DepthT
 		, bool MsT >
-	struct ImageLoadTester< FormatT, AccessT, DimT, ArrayedT, DepthT, MsT
-		, std::enable_if_t< MsT && isReadableV< AccessT > > >
-	{
-		using Coords = sdw::ImageCoordsT< DimT, ArrayedT >;
-
-		static void test( test::sdw_test::TestCounts & testCounts )
-		{
-			auto name = "testImageLoad" + sdw::debug::getName( FormatT, AccessT, DimT, ArrayedT, false, MsT );
-			testBegin( name );
-			using namespace sdw;
-			{
-				ComputeWriter writer;
-				auto s = writer.declImage< FormatT, AccessT, DimT, ArrayedT, false, MsT >( "s", 0u, 0u );
-				writer.inputLayout( 1u );
-				writer.implementFunction< sdw::Void >( "main"
-					, [&]()
-					{
-						auto i = writer.declLocale( "i", imageLoad( s, test::getDefault< Coords >( writer.getShader() ), 0_i ) );
-					} );
-				test::writeShader( writer
-					, testCounts );
-				test::validateShader( writer.getShader()
-					, testCounts );
-			}
-			testEnd();
-		};
-	};
-
-	template< ast::type::ImageFormat FormatT
-		, ast::type::AccessKind AccessT
-		, ast::type::ImageDim DimT
-		, bool ArrayedT
-		, bool DepthT
-		, bool MsT
-		, typename Enable = void >
 	struct ImageStoreTester
 	{
-		static void test( test::sdw_test::TestCounts & testCounts )
-		{
-		}
-	};
-
-	template< ast::type::ImageFormat FormatT
-		, ast::type::AccessKind AccessT
-		, ast::type::ImageDim DimT
-		, bool ArrayedT
-		, bool DepthT
-		, bool MsT >
-	struct ImageStoreTester< FormatT, AccessT, DimT, ArrayedT, DepthT, MsT
-		, std::enable_if_t< !MsT && isWritableV< AccessT > > >
-	{
 		using Coords = sdw::ImageCoordsT< DimT, ArrayedT >;
 		using Sample = sdw::ImageSampleT< FormatT >;
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
-			auto name = "testImageStore" + sdw::debug::getName( FormatT, AccessT, DimT, ArrayedT, false, MsT );
-			testBegin( name );
-			using namespace sdw;
+			if constexpr ( isWritableV< AccessT > )
 			{
-				ComputeWriter writer;
-				auto s = writer.declImage< FormatT, AccessT, DimT, ArrayedT, false, MsT >( "s", 0u, 0u );
-				writer.inputLayout( 1u );
-				writer.implementFunction< sdw::Void >( "main"
-					, [&]()
-					{
-						imageStore( s
-							, test::getDefault< Coords >( writer.getShader() )
-							, test::getDefault< Sample >( writer.getShader() ) );
-					} );
-				test::writeShader( writer
-					, testCounts );
-				test::validateShader( writer.getShader()
-					, testCounts );
+				auto name = "testImageStore" + sdw::debug::getName( FormatT, AccessT, DimT, ArrayedT, false, MsT );
+				testBegin( name );
+				using namespace sdw;
+				{
+					ComputeWriter writer;
+					auto s = writer.declImage< FormatT, AccessT, DimT, ArrayedT, false, MsT >( "s", 0u, 0u );
+					writer.inputLayout( 1u );
+					writer.implementFunction< sdw::Void >( "main"
+						, [&]()
+						{
+							if constexpr ( MsT )
+							{
+								imageStore( s
+									, test::getDefault< Coords >( writer.getShader() )
+									, test::getDefault< sdw::Int >( writer.getShader() )
+									, test::getDefault< Sample >( writer.getShader() ) );
+							}
+							else
+							{
+								imageStore( s
+									, test::getDefault< Coords >( writer.getShader() )
+									, test::getDefault< Sample >( writer.getShader() ) );
+							}
+						} );
+					test::writeShader( writer
+						, testCounts
+						, true, false, false );
+					test::writeShader( writer
+						, testCounts
+						, false, true, true );
+					test::validateShader( writer.getShader()
+						, testCounts );
+				}
+				testEnd();
 			}
-			testEnd();
 		};
 	};
 
@@ -225,83 +191,58 @@ namespace
 		, bool ArrayedT
 		, bool DepthT
 		, bool MsT >
-	struct ImageStoreTester< FormatT, AccessT, DimT, ArrayedT, DepthT, MsT
-		, std::enable_if_t< MsT && isWritableV< AccessT > > >
+	struct ImageAtomicAddTester
 	{
-		using Coords = sdw::ImageCoordsT< DimT, ArrayedT >;
-		using Sample = sdw::ImageSampleT< FormatT >;
+		using CoordsT = sdw::ImageCoordsT< DimT, ArrayedT >;
+		using SampleT = sdw::ImageSampleT< FormatT >;
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
-			auto name = "testImageStore" + sdw::debug::getName( FormatT, AccessT, DimT, ArrayedT, false, MsT );
-			testBegin( name );
-			using namespace sdw;
+			if constexpr ( AccessT == ast::type::AccessKind::eReadWrite
+				&& ( isFloatFormat( FormatT )
+					|| FormatT == ast::type::ImageFormat::eR32i
+					|| FormatT == ast::type::ImageFormat::eR32u ) )
 			{
-				ComputeWriter writer;
-				auto s = writer.declImage< FormatT, AccessT, DimT, ArrayedT, false, MsT >( "s", 0u, 0u );
-				writer.inputLayout( 1u );
-				writer.implementFunction< sdw::Void >( "main"
-					, [&]()
+				auto name = "testImageAtomicAdd" + sdw::debug::getName( FormatT, AccessT, DimT, ArrayedT, false, MsT );
+				testBegin( name );
+				using namespace sdw;
+				{
+					ComputeWriter writer;
+					auto s = writer.declImage< FormatT, AccessT, DimT, ArrayedT, false, MsT >( "s", 0u, 0u );
+					writer.inputLayout( 1u );
+					writer.implementFunction< sdw::Void >( "main"
+						, [&]()
+						{
+							if constexpr ( MsT )
+							{
+								auto i = writer.declLocale( "i", imageAtomicAdd( s
+									, test::getDefault< CoordsT >( writer.getShader() )
+									, test::getDefault< sdw::Int >( writer.getShader() )
+									, test::getDefault< SampleT >( writer.getShader() ) ) );
+							}
+							else
+							{
+								auto i = writer.declLocale( "i", imageAtomicAdd( s
+									, test::getDefault< CoordsT >( writer.getShader() )
+									, test::getDefault< SampleT >( writer.getShader() ) ) );
+							}
+						} );
+
+					if constexpr ( !isFloatFormat( FormatT ) )
 					{
-						imageStore( s
-							, test::getDefault< Coords >( writer.getShader() )
-							, test::getDefault< sdw::Int >( writer.getShader() )
-							, test::getDefault< Sample >( writer.getShader() ) );
-					} );
-				test::writeShader( writer
-					, testCounts );
-				test::validateShader( writer.getShader()
-					, testCounts );
+						test::writeShader( writer
+							, testCounts
+							, true, false, false );
+						test::validateShader( writer.getShader()
+							, testCounts );
+					}
+
+					test::writeShader( writer
+						, testCounts
+						, false, ( FormatT == ast::type::ImageFormat::eR32i || FormatT == ast::type::ImageFormat::eR32u ), true );
+				}
+				testEnd();
 			}
-			testEnd();
-		};
-	};
-
-	template< ast::type::ImageFormat FormatT
-		, ast::type::AccessKind AccessT
-		, ast::type::ImageDim DimT
-		, bool ArrayedT
-		, bool DepthT
-		, bool MsT
-		, typename Enable = void >
-	struct ImageIAtomicAddTester
-	{
-		static void test( test::sdw_test::TestCounts & testCounts )
-		{
-		}
-	};
-
-	template< ast::type::ImageFormat FormatT
-		, ast::type::AccessKind AccessT
-		, ast::type::ImageDim DimT
-		, bool ArrayedT
-		, bool DepthT
-		, bool MsT >
-	struct ImageIAtomicAddTester< FormatT, AccessT, DimT, ArrayedT, DepthT, MsT
-		, std::enable_if_t< !MsT && FormatT == ast::type::ImageFormat::eR32i && AccessT == ast::type::AccessKind::eReadWrite > >
-	{
-		using Coords = sdw::ImageCoordsT< DimT, ArrayedT >;
-
-		static void test( test::sdw_test::TestCounts & testCounts )
-		{
-			auto name = "testImageAtomicAdd" + sdw::debug::getName( FormatT, AccessT, DimT, ArrayedT, false, MsT );
-			testBegin( name );
-			using namespace sdw;
-			{
-				ComputeWriter writer;
-				auto s = writer.declImage< FormatT, AccessT, DimT, ArrayedT, false, MsT >( "s", 0u, 0u );
-				writer.inputLayout( 1u );
-				writer.implementFunction< sdw::Void >( "main"
-					, [&]()
-					{
-						auto i = writer.declLocale( "i", imageAtomicAdd( s, test::getDefault< Coords >( writer.getShader() ), 2_i ) );
-					} );
-				test::writeShader( writer
-					, testCounts );
-				test::validateShader( writer.getShader()
-					, testCounts );
-			}
-			testEnd();
 		};
 	};
 
@@ -311,79 +252,52 @@ namespace
 		, bool ArrayedT
 		, bool DepthT
 		, bool MsT >
-	struct ImageIAtomicAddTester< FormatT, AccessT, DimT, ArrayedT, DepthT, MsT
-		, std::enable_if_t< MsT && FormatT == ast::type::ImageFormat::eR32i && AccessT == ast::type::AccessKind::eReadWrite > >
+	struct ImageAtomicMinTester
 	{
-		using Coords = sdw::ImageCoordsT< DimT, ArrayedT >;
+		using CoordsT = sdw::ImageCoordsT< DimT, ArrayedT >;
+		using SampleT = sdw::ImageSampleT< FormatT >;
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
-			auto name = "testImageAtomicAdd" + sdw::debug::getName( FormatT, AccessT, DimT, ArrayedT, false, MsT );
-			testBegin( name );
-			using namespace sdw;
+			if constexpr ( AccessT == ast::type::AccessKind::eReadWrite
+				&& ( FormatT == ast::type::ImageFormat::eR32i
+					|| FormatT == ast::type::ImageFormat::eR32u ) )
 			{
-				ComputeWriter writer;
-				auto s = writer.declImage< FormatT, AccessT, DimT, ArrayedT, false, MsT >( "s", 0u, 0u );
-				writer.inputLayout( 1u );
-				writer.implementFunction< sdw::Void >( "main"
-					, [&]()
-					{
-						auto i = writer.declLocale( "i", imageAtomicAdd( s, test::getDefault< Coords >( writer.getShader() ), 0_i, 2_i ) );
-					} );
-				test::writeShader( writer
-					, testCounts );
-				test::validateShader( writer.getShader()
-					, testCounts );
+				auto name = "testImageAtomicMin" + sdw::debug::getName( FormatT, AccessT, DimT, ArrayedT, false, MsT );
+				testBegin( name );
+				using namespace sdw;
+				{
+					ComputeWriter writer;
+					auto s = writer.declImage< FormatT, AccessT, DimT, ArrayedT, false, MsT >( "s", 0u, 0u );
+					writer.inputLayout( 1u );
+					writer.implementFunction< sdw::Void >( "main"
+						, [&]()
+						{
+							if constexpr ( MsT )
+							{
+								auto i = writer.declLocale( "i", imageAtomicMin( s
+									, test::getDefault< CoordsT >( writer.getShader() )
+									, test::getDefault< sdw::Int >( writer.getShader() )
+									, test::getDefault< SampleT >( writer.getShader() ) ) );
+							}
+							else
+							{
+								auto i = writer.declLocale( "i", imageAtomicMin( s
+									, test::getDefault< CoordsT >( writer.getShader() )
+									, test::getDefault< SampleT >( writer.getShader() ) ) );
+							}
+						} );
+					test::writeShader( writer
+						, testCounts
+						, true, false, false );
+					test::writeShader( writer
+						, testCounts
+						, false, true, true );
+					test::validateShader( writer.getShader()
+						, testCounts );
+				}
+				testEnd();
 			}
-			testEnd();
-		};
-	};
-
-	template< ast::type::ImageFormat FormatT
-		, ast::type::AccessKind AccessT
-		, ast::type::ImageDim DimT
-		, bool ArrayedT
-		, bool DepthT
-		, bool MsT
-		, typename Enable = void >
-	struct ImageUAtomicAddTester
-	{
-		static void test( test::sdw_test::TestCounts & testCounts )
-		{
-		}
-	};
-
-	template< ast::type::ImageFormat FormatT
-		, ast::type::AccessKind AccessT
-		, ast::type::ImageDim DimT
-		, bool ArrayedT
-		, bool DepthT
-		, bool MsT >
-	struct ImageUAtomicAddTester< FormatT, AccessT, DimT, ArrayedT, DepthT, MsT
-		, std::enable_if_t< !MsT && FormatT == ast::type::ImageFormat::eR32u && AccessT == ast::type::AccessKind::eReadWrite > >
-	{
-		using Coords = sdw::ImageCoordsT< DimT, ArrayedT >;
-
-		static void test( test::sdw_test::TestCounts & testCounts )
-		{
-			auto name = "testImageAtomicAdd" + sdw::debug::getName( FormatT, AccessT, DimT, ArrayedT, false, MsT );
-			testBegin( name );
-			using namespace sdw;
-			{
-				ComputeWriter writer;
-				auto s = writer.declImage< FormatT, AccessT, DimT, ArrayedT, false, MsT >( "s", 0u, 0u );
-				writer.inputLayout( 1u );
-				writer.implementFunction< sdw::Void >( "main"
-					, [&]()
-					{
-						auto i = writer.declLocale( "i", imageAtomicAdd( s, test::getDefault< Coords >( writer.getShader() ), 2_u ) );
-					} );
-				test::writeShader( writer
-					, testCounts );
-				test::validateShader( writer.getShader()
-					, testCounts );
-			}
-			testEnd();
 		};
 	};
 
@@ -393,79 +307,52 @@ namespace
 		, bool ArrayedT
 		, bool DepthT
 		, bool MsT >
-	struct ImageUAtomicAddTester< FormatT, AccessT, DimT, ArrayedT, DepthT, MsT
-		, std::enable_if_t< MsT && FormatT == ast::type::ImageFormat::eR32u && AccessT == ast::type::AccessKind::eReadWrite > >
+	struct ImageAtomicMaxTester
 	{
-		using Coords = sdw::ImageCoordsT< DimT, ArrayedT >;
+		using CoordsT = sdw::ImageCoordsT< DimT, ArrayedT >;
+		using SampleT = sdw::ImageSampleT< FormatT >;
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
-			auto name = "testImageAtomicAdd" + sdw::debug::getName( FormatT, AccessT, DimT, ArrayedT, false, MsT );
-			testBegin( name );
-			using namespace sdw;
+			if constexpr ( AccessT == ast::type::AccessKind::eReadWrite
+				&& ( FormatT == ast::type::ImageFormat::eR32i
+					|| FormatT == ast::type::ImageFormat::eR32u ) )
 			{
-				ComputeWriter writer;
-				auto s = writer.declImage< FormatT, AccessT, DimT, ArrayedT, false, MsT >( "s", 0u, 0u );
-				writer.inputLayout( 1u );
-				writer.implementFunction< sdw::Void >( "main"
-					, [&]()
-					{
-						auto i = writer.declLocale( "i", imageAtomicAdd( s, test::getDefault< Coords >( writer.getShader() ), 0_i, 2_u ) );
-					} );
-				test::writeShader( writer
-					, testCounts );
-				test::validateShader( writer.getShader()
-					, testCounts );
+				auto name = "testImageAtomicMax" + sdw::debug::getName( FormatT, AccessT, DimT, ArrayedT, false, MsT );
+				testBegin( name );
+				using namespace sdw;
+				{
+					ComputeWriter writer;
+					auto s = writer.declImage< FormatT, AccessT, DimT, ArrayedT, false, MsT >( "s", 0u, 0u );
+					writer.inputLayout( 1u );
+					writer.implementFunction< sdw::Void >( "main"
+						, [&]()
+						{
+							if constexpr ( MsT )
+							{
+								auto i = writer.declLocale( "i", imageAtomicMax( s
+									, test::getDefault< CoordsT >( writer.getShader() )
+									, test::getDefault< sdw::Int >( writer.getShader() )
+									, test::getDefault< SampleT >( writer.getShader() ) ) );
+							}
+							else
+							{
+								auto i = writer.declLocale( "i", imageAtomicMax( s
+									, test::getDefault< CoordsT >( writer.getShader() )
+									, test::getDefault< SampleT >( writer.getShader() ) ) );
+							}
+						} );
+					test::writeShader( writer
+						, testCounts
+						, true, false, false );
+					test::writeShader( writer
+						, testCounts
+						, false, true, true );
+					test::validateShader( writer.getShader()
+						, testCounts );
+				}
+				testEnd();
 			}
-			testEnd();
-		};
-	};
-
-	template< ast::type::ImageFormat FormatT
-		, ast::type::AccessKind AccessT
-		, ast::type::ImageDim DimT
-		, bool ArrayedT
-		, bool DepthT
-		, bool MsT
-		, typename Enable = void >
-	struct ImageIAtomicMinTester
-	{
-		static void test( test::sdw_test::TestCounts & testCounts )
-		{
-		}
-	};
-
-	template< ast::type::ImageFormat FormatT
-		, ast::type::AccessKind AccessT
-		, ast::type::ImageDim DimT
-		, bool ArrayedT
-		, bool DepthT
-		, bool MsT >
-	struct ImageIAtomicMinTester< FormatT, AccessT, DimT, ArrayedT, DepthT, MsT
-		, std::enable_if_t< !MsT && FormatT == ast::type::ImageFormat::eR32i && AccessT == ast::type::AccessKind::eReadWrite > >
-	{
-		using Coords = sdw::ImageCoordsT< DimT, ArrayedT >;
-
-		static void test( test::sdw_test::TestCounts & testCounts )
-		{
-			auto name = "testImageAtomicMin" + sdw::debug::getName( FormatT, AccessT, DimT, ArrayedT, false, MsT );
-			testBegin( name );
-			using namespace sdw;
-			{
-				ComputeWriter writer;
-				auto s = writer.declImage< FormatT, AccessT, DimT, ArrayedT, false, MsT >( "s", 0u, 0u );
-				writer.inputLayout( 1u );
-				writer.implementFunction< sdw::Void >( "main"
-					, [&]()
-					{
-						auto i = writer.declLocale( "i", imageAtomicMin( s, test::getDefault< Coords >( writer.getShader() ), 2_i ) );
-					} );
-				test::writeShader( writer
-					, testCounts );
-				test::validateShader( writer.getShader()
-					, testCounts );
-			}
-			testEnd();
 		};
 	};
 
@@ -475,79 +362,52 @@ namespace
 		, bool ArrayedT
 		, bool DepthT
 		, bool MsT >
-	struct ImageIAtomicMinTester< FormatT, AccessT, DimT, ArrayedT, DepthT, MsT
-		, std::enable_if_t< MsT && FormatT == ast::type::ImageFormat::eR32i && AccessT == ast::type::AccessKind::eReadWrite > >
+	struct ImageAtomicAndTester
 	{
-		using Coords = sdw::ImageCoordsT< DimT, ArrayedT >;
+		using CoordsT = sdw::ImageCoordsT< DimT, ArrayedT >;
+		using SampleT = sdw::ImageSampleT< FormatT >;
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
-			auto name = "testImageAtomicMin" + sdw::debug::getName( FormatT, AccessT, DimT, ArrayedT, false, MsT );
-			testBegin( name );
-			using namespace sdw;
+			if constexpr ( AccessT == ast::type::AccessKind::eReadWrite
+				&& ( FormatT == ast::type::ImageFormat::eR32i
+					|| FormatT == ast::type::ImageFormat::eR32u ) )
 			{
-				ComputeWriter writer;
-				auto s = writer.declImage< FormatT, AccessT, DimT, ArrayedT, false, MsT >( "s", 0u, 0u );
-				writer.inputLayout( 1u );
-				writer.implementFunction< sdw::Void >( "main"
-					, [&]()
-					{
-						auto i = writer.declLocale( "i", imageAtomicMin( s, test::getDefault< Coords >( writer.getShader() ), 0_i, 2_i ) );
-					} );
-				test::writeShader( writer
-					, testCounts );
-				test::validateShader( writer.getShader()
-					, testCounts );
+				auto name = "testImageAtomicAnd" + sdw::debug::getName( FormatT, AccessT, DimT, ArrayedT, false, MsT );
+				testBegin( name );
+				using namespace sdw;
+				{
+					ComputeWriter writer;
+					auto s = writer.declImage< FormatT, AccessT, DimT, ArrayedT, false, MsT >( "s", 0u, 0u );
+					writer.inputLayout( 1u );
+					writer.implementFunction< sdw::Void >( "main"
+						, [&]()
+						{
+							if constexpr ( MsT )
+							{
+								auto i = writer.declLocale( "i", imageAtomicAnd( s
+									, test::getDefault< CoordsT >( writer.getShader() )
+									, test::getDefault< sdw::Int >( writer.getShader() )
+									, test::getDefault< SampleT >( writer.getShader() ) ) );
+							}
+							else
+							{
+								auto i = writer.declLocale( "i", imageAtomicAnd( s
+									, test::getDefault< CoordsT >( writer.getShader() )
+									, test::getDefault< SampleT >( writer.getShader() ) ) );
+							}
+						} );
+					test::writeShader( writer
+						, testCounts
+						, true, false, false );
+					test::writeShader( writer
+						, testCounts
+						, false, true, true );
+					test::validateShader( writer.getShader()
+						, testCounts );
+				}
+				testEnd();
 			}
-			testEnd();
-		};
-	};
-
-	template< ast::type::ImageFormat FormatT
-		, ast::type::AccessKind AccessT
-		, ast::type::ImageDim DimT
-		, bool ArrayedT
-		, bool DepthT
-		, bool MsT
-		, typename Enable = void >
-	struct ImageUAtomicMinTester
-	{
-		static void test( test::sdw_test::TestCounts & testCounts )
-		{
-		}
-	};
-
-	template< ast::type::ImageFormat FormatT
-		, ast::type::AccessKind AccessT
-		, ast::type::ImageDim DimT
-		, bool ArrayedT
-		, bool DepthT
-		, bool MsT >
-	struct ImageUAtomicMinTester< FormatT, AccessT, DimT, ArrayedT, DepthT, MsT
-		, std::enable_if_t< !MsT && FormatT == ast::type::ImageFormat::eR32u && AccessT == ast::type::AccessKind::eReadWrite > >
-	{
-		using Coords = sdw::ImageCoordsT< DimT, ArrayedT >;
-
-		static void test( test::sdw_test::TestCounts & testCounts )
-		{
-			auto name = "testImageAtomicMin" + sdw::debug::getName( FormatT, AccessT, DimT, ArrayedT, false, MsT );
-			testBegin( name );
-			using namespace sdw;
-			{
-				ComputeWriter writer;
-				auto s = writer.declImage< FormatT, AccessT, DimT, ArrayedT, false, MsT >( "s", 0u, 0u );
-				writer.inputLayout( 1u );
-				writer.implementFunction< sdw::Void >( "main"
-					, [&]()
-					{
-						auto i = writer.declLocale( "i", imageAtomicMin( s, test::getDefault< Coords >( writer.getShader() ), 2_u ) );
-					} );
-				test::writeShader( writer
-					, testCounts );
-				test::validateShader( writer.getShader()
-					, testCounts );
-			}
-			testEnd();
 		};
 	};
 
@@ -557,79 +417,52 @@ namespace
 		, bool ArrayedT
 		, bool DepthT
 		, bool MsT >
-	struct ImageUAtomicMinTester< FormatT, AccessT, DimT, ArrayedT, DepthT, MsT
-		, std::enable_if_t< MsT && FormatT == ast::type::ImageFormat::eR32u && AccessT == ast::type::AccessKind::eReadWrite > >
+	struct ImageAtomicOrTester
 	{
-		using Coords = sdw::ImageCoordsT< DimT, ArrayedT >;
+		using CoordsT = sdw::ImageCoordsT< DimT, ArrayedT >;
+		using SampleT = sdw::ImageSampleT< FormatT >;
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
-			auto name = "testImageAtomicMin" + sdw::debug::getName( FormatT, AccessT, DimT, ArrayedT, false, MsT );
-			testBegin( name );
-			using namespace sdw;
+			if constexpr ( AccessT == ast::type::AccessKind::eReadWrite
+				&& ( FormatT == ast::type::ImageFormat::eR32i
+					|| FormatT == ast::type::ImageFormat::eR32u ) )
 			{
-				ComputeWriter writer;
-				auto s = writer.declImage< FormatT, AccessT, DimT, ArrayedT, false, MsT >( "s", 0u, 0u );
-				writer.inputLayout( 1u );
-				writer.implementFunction< sdw::Void >( "main"
-					, [&]()
-					{
-						auto i = writer.declLocale( "i", imageAtomicMin( s, test::getDefault< Coords >( writer.getShader() ), 0_i, 2_u ) );
-					} );
-				test::writeShader( writer
-					, testCounts );
-				test::validateShader( writer.getShader()
-					, testCounts );
+				auto name = "testImageAtomicOr" + sdw::debug::getName( FormatT, AccessT, DimT, ArrayedT, false, MsT );
+				testBegin( name );
+				using namespace sdw;
+				{
+					ComputeWriter writer;
+					auto s = writer.declImage< FormatT, AccessT, DimT, ArrayedT, false, MsT >( "s", 0u, 0u );
+					writer.inputLayout( 1u );
+					writer.implementFunction< sdw::Void >( "main"
+						, [&]()
+						{
+							if constexpr ( MsT )
+							{
+								auto i = writer.declLocale( "i", imageAtomicOr( s
+									, test::getDefault< CoordsT >( writer.getShader() )
+									, test::getDefault< sdw::Int >( writer.getShader() )
+									, test::getDefault< SampleT >( writer.getShader() ) ) );
+							}
+							else
+							{
+								auto i = writer.declLocale( "i", imageAtomicOr( s
+									, test::getDefault< CoordsT >( writer.getShader() )
+									, test::getDefault< SampleT >( writer.getShader() ) ) );
+							}
+						} );
+					test::writeShader( writer
+						, testCounts
+						, true, false, false );
+					test::writeShader( writer
+						, testCounts
+						, false, true, true );
+					test::validateShader( writer.getShader()
+						, testCounts );
+				}
+				testEnd();
 			}
-			testEnd();
-		};
-	};
-
-	template< ast::type::ImageFormat FormatT
-		, ast::type::AccessKind AccessT
-		, ast::type::ImageDim DimT
-		, bool ArrayedT
-		, bool DepthT
-		, bool MsT
-		, typename Enable = void >
-	struct ImageIAtomicMaxTester
-	{
-		static void test( test::sdw_test::TestCounts & testCounts )
-		{
-		}
-	};
-
-	template< ast::type::ImageFormat FormatT
-		, ast::type::AccessKind AccessT
-		, ast::type::ImageDim DimT
-		, bool ArrayedT
-		, bool DepthT
-		, bool MsT >
-	struct ImageIAtomicMaxTester< FormatT, AccessT, DimT, ArrayedT, DepthT, MsT
-		, std::enable_if_t< !MsT && FormatT == ast::type::ImageFormat::eR32i && AccessT == ast::type::AccessKind::eReadWrite > >
-	{
-		using Coords = sdw::ImageCoordsT< DimT, ArrayedT >;
-
-		static void test( test::sdw_test::TestCounts & testCounts )
-		{
-			auto name = "testImageAtomicMax" + sdw::debug::getName( FormatT, AccessT, DimT, ArrayedT, false, MsT );
-			testBegin( name );
-			using namespace sdw;
-			{
-				ComputeWriter writer;
-				auto s = writer.declImage< FormatT, AccessT, DimT, ArrayedT, false, MsT >( "s", 0u, 0u );
-				writer.inputLayout( 1u );
-				writer.implementFunction< sdw::Void >( "main"
-					, [&]()
-					{
-						auto i = writer.declLocale( "i", imageAtomicMax( s, test::getDefault< Coords >( writer.getShader() ), 2_i ) );
-					} );
-				test::writeShader( writer
-					, testCounts );
-				test::validateShader( writer.getShader()
-					, testCounts );
-			}
-			testEnd();
 		};
 	};
 
@@ -639,79 +472,52 @@ namespace
 		, bool ArrayedT
 		, bool DepthT
 		, bool MsT >
-	struct ImageIAtomicMaxTester< FormatT, AccessT, DimT, ArrayedT, DepthT, MsT
-		, std::enable_if_t< MsT && FormatT == ast::type::ImageFormat::eR32i && AccessT == ast::type::AccessKind::eReadWrite > >
+	struct ImageAtomicXorTester
 	{
-		using Coords = sdw::ImageCoordsT< DimT, ArrayedT >;
+		using CoordsT = sdw::ImageCoordsT< DimT, ArrayedT >;
+		using SampleT = sdw::ImageSampleT< FormatT >;
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
-			auto name = "testImageAtomicMax" + sdw::debug::getName( FormatT, AccessT, DimT, ArrayedT, false, MsT );
-			testBegin( name );
-			using namespace sdw;
+			if constexpr ( AccessT == ast::type::AccessKind::eReadWrite
+				&& ( FormatT == ast::type::ImageFormat::eR32i
+					|| FormatT == ast::type::ImageFormat::eR32u ) )
 			{
-				ComputeWriter writer;
-				auto s = writer.declImage< FormatT, AccessT, DimT, ArrayedT, false, MsT >( "s", 0u, 0u );
-				writer.inputLayout( 1u );
-				writer.implementFunction< sdw::Void >( "main"
-					, [&]()
-					{
-						auto i = writer.declLocale( "i", imageAtomicMax( s, test::getDefault< Coords >( writer.getShader() ), 0_i, 2_i ) );
-					} );
-				test::writeShader( writer
-					, testCounts );
-				test::validateShader( writer.getShader()
-					, testCounts );
+				auto name = "testImageAtomicXor" + sdw::debug::getName( FormatT, AccessT, DimT, ArrayedT, false, MsT );
+				testBegin( name );
+				using namespace sdw;
+				{
+					ComputeWriter writer;
+					auto s = writer.declImage< FormatT, AccessT, DimT, ArrayedT, false, MsT >( "s", 0u, 0u );
+					writer.inputLayout( 1u );
+					writer.implementFunction< sdw::Void >( "main"
+						, [&]()
+						{
+							if constexpr ( MsT )
+							{
+								auto i = writer.declLocale( "i", imageAtomicXor( s
+									, test::getDefault< CoordsT >( writer.getShader() )
+									, test::getDefault< sdw::Int >( writer.getShader() )
+									, test::getDefault< SampleT >( writer.getShader() ) ) );
+							}
+							else
+							{
+								auto i = writer.declLocale( "i", imageAtomicXor( s
+									, test::getDefault< CoordsT >( writer.getShader() )
+									, test::getDefault< SampleT >( writer.getShader() ) ) );
+							}
+						} );
+					test::writeShader( writer
+						, testCounts
+						, true, false, false );
+					test::writeShader( writer
+						, testCounts
+						, false, true, true );
+					test::validateShader( writer.getShader()
+						, testCounts );
+				}
+				testEnd();
 			}
-			testEnd();
-		};
-	};
-
-	template< ast::type::ImageFormat FormatT
-		, ast::type::AccessKind AccessT
-		, ast::type::ImageDim DimT
-		, bool ArrayedT
-		, bool DepthT
-		, bool MsT
-		, typename Enable = void >
-	struct ImageUAtomicMaxTester
-	{
-		static void test( test::sdw_test::TestCounts & testCounts )
-		{
-		}
-	};
-
-	template< ast::type::ImageFormat FormatT
-		, ast::type::AccessKind AccessT
-		, ast::type::ImageDim DimT
-		, bool ArrayedT
-		, bool DepthT
-		, bool MsT >
-	struct ImageUAtomicMaxTester< FormatT, AccessT, DimT, ArrayedT, DepthT, MsT
-		, std::enable_if_t< !MsT && FormatT == ast::type::ImageFormat::eR32u && AccessT == ast::type::AccessKind::eReadWrite > >
-	{
-		using Coords = sdw::ImageCoordsT< DimT, ArrayedT >;
-
-		static void test( test::sdw_test::TestCounts & testCounts )
-		{
-			auto name = "testImageAtomicMax" + sdw::debug::getName( FormatT, AccessT, DimT, ArrayedT, false, MsT );
-			testBegin( name );
-			using namespace sdw;
-			{
-				ComputeWriter writer;
-				auto s = writer.declImage< FormatT, AccessT, DimT, ArrayedT, false, MsT >( "s", 0u, 0u );
-				writer.inputLayout( 1u );
-				writer.implementFunction< sdw::Void >( "main"
-					, [&]()
-					{
-						auto i = writer.declLocale( "i", imageAtomicMax( s, test::getDefault< Coords >( writer.getShader() ), 2_u ) );
-					} );
-				test::writeShader( writer
-					, testCounts );
-				test::validateShader( writer.getShader()
-					, testCounts );
-			}
-			testEnd();
 		};
 	};
 
@@ -721,79 +527,58 @@ namespace
 		, bool ArrayedT
 		, bool DepthT
 		, bool MsT >
-	struct ImageUAtomicMaxTester< FormatT, AccessT, DimT, ArrayedT, DepthT, MsT
-		, std::enable_if_t< MsT && FormatT == ast::type::ImageFormat::eR32u && AccessT == ast::type::AccessKind::eReadWrite > >
+	struct ImageAtomicExchangeTester
 	{
-		using Coords = sdw::ImageCoordsT< DimT, ArrayedT >;
+		using CoordsT = sdw::ImageCoordsT< DimT, ArrayedT >;
+		using SampleT = sdw::ImageSampleT< FormatT >;
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
-			auto name = "testImageAtomicMax" + sdw::debug::getName( FormatT, AccessT, DimT, ArrayedT, false, MsT );
-			testBegin( name );
-			using namespace sdw;
+			if constexpr ( AccessT == ast::type::AccessKind::eReadWrite
+				&& ( isFloatFormat( FormatT )
+					|| FormatT == ast::type::ImageFormat::eR32i
+					|| FormatT == ast::type::ImageFormat::eR32u ) )
 			{
-				ComputeWriter writer;
-				auto s = writer.declImage< FormatT, AccessT, DimT, ArrayedT, false, MsT >( "s", 0u, 0u );
-				writer.inputLayout( 1u );
-				writer.implementFunction< sdw::Void >( "main"
-					, [&]()
+				auto name = "testImageAtomicExchange" + sdw::debug::getName( FormatT, AccessT, DimT, ArrayedT, false, MsT );
+				testBegin( name );
+				using namespace sdw;
+				{
+					ComputeWriter writer;
+					auto s = writer.declImage< FormatT, AccessT, DimT, ArrayedT, false, MsT >( "s", 0u, 0u );
+					writer.inputLayout( 1u );
+					writer.implementFunction< sdw::Void >( "main"
+						, [&]()
+						{
+							if constexpr ( MsT )
+							{
+								auto i = writer.declLocale( "i", imageAtomicExchange( s
+									, test::getDefault< CoordsT >( writer.getShader() )
+									, test::getDefault< sdw::Int >( writer.getShader() )
+									, test::getDefault< SampleT >( writer.getShader() ) ) );
+							}
+							else
+							{
+								auto i = writer.declLocale( "i", imageAtomicExchange( s
+									, test::getDefault< CoordsT >( writer.getShader() )
+									, test::getDefault< SampleT >( writer.getShader() ) ) );
+							}
+						} );
+
+					if constexpr ( !isFloatFormat( FormatT ) )
 					{
-						auto i = writer.declLocale( "i", imageAtomicMax( s, test::getDefault< Coords >( writer.getShader() ), 0_i, 2_u ) );
-					} );
-				test::writeShader( writer
-					, testCounts );
-				test::validateShader( writer.getShader()
-					, testCounts );
+						test::writeShader( writer
+							, testCounts
+							, true, false, false );
+						test::validateShader( writer.getShader()
+							, testCounts );
+					}
+
+					test::writeShader( writer
+						, testCounts
+						, false, ( FormatT == ast::type::ImageFormat::eR32i || FormatT == ast::type::ImageFormat::eR32u ), true );
+				}
+				testEnd();
 			}
-			testEnd();
-		};
-	};
-
-	template< ast::type::ImageFormat FormatT
-		, ast::type::AccessKind AccessT
-		, ast::type::ImageDim DimT
-		, bool ArrayedT
-		, bool DepthT
-		, bool MsT
-		, typename Enable = void >
-	struct ImageIAtomicAndTester
-	{
-		static void test( test::sdw_test::TestCounts & testCounts )
-		{
-		}
-	};
-
-	template< ast::type::ImageFormat FormatT
-		, ast::type::AccessKind AccessT
-		, ast::type::ImageDim DimT
-		, bool ArrayedT
-		, bool DepthT
-		, bool MsT >
-	struct ImageIAtomicAndTester< FormatT, AccessT, DimT, ArrayedT, DepthT, MsT
-		, std::enable_if_t< !MsT && FormatT == ast::type::ImageFormat::eR32i && AccessT == ast::type::AccessKind::eReadWrite > >
-	{
-		using Coords = sdw::ImageCoordsT< DimT, ArrayedT >;
-
-		static void test( test::sdw_test::TestCounts & testCounts )
-		{
-			auto name = "testImageAtomicAnd" + sdw::debug::getName( FormatT, AccessT, DimT, ArrayedT, false, MsT );
-			testBegin( name );
-			using namespace sdw;
-			{
-				ComputeWriter writer;
-				auto s = writer.declImage< FormatT, AccessT, DimT, ArrayedT, false, MsT >( "s", 0u, 0u );
-				writer.inputLayout( 1u );
-				writer.implementFunction< sdw::Void >( "main"
-					, [&]()
-					{
-						auto i = writer.declLocale( "i", imageAtomicAnd( s, test::getDefault< Coords >( writer.getShader() ), 2_i ) );
-					} );
-				test::writeShader( writer
-					, testCounts );
-				test::validateShader( writer.getShader()
-					, testCounts );
-			}
-			testEnd();
 		};
 	};
 
@@ -803,775 +588,60 @@ namespace
 		, bool ArrayedT
 		, bool DepthT
 		, bool MsT >
-	struct ImageIAtomicAndTester< FormatT, AccessT, DimT, ArrayedT, DepthT, MsT
-		, std::enable_if_t< MsT && FormatT == ast::type::ImageFormat::eR32i && AccessT == ast::type::AccessKind::eReadWrite > >
+	struct ImageAtomicCompSwapTester
 	{
-		using Coords = sdw::ImageCoordsT< DimT, ArrayedT >;
+		using CoordsT = sdw::ImageCoordsT< DimT, ArrayedT >;
+		using SampleT = sdw::ImageSampleT< FormatT >;
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
-			auto name = "testImageAtomicAnd" + sdw::debug::getName( FormatT, AccessT, DimT, ArrayedT, false, MsT );
-			testBegin( name );
-			using namespace sdw;
+			if constexpr ( AccessT == ast::type::AccessKind::eReadWrite
+				&& ( FormatT == ast::type::ImageFormat::eR32i
+					|| FormatT == ast::type::ImageFormat::eR32u ) )
 			{
-				ComputeWriter writer;
-				auto s = writer.declImage< FormatT, AccessT, DimT, ArrayedT, false, MsT >( "s", 0u, 0u );
-				writer.inputLayout( 1u );
-				writer.implementFunction< sdw::Void >( "main"
-					, [&]()
-					{
-						auto i = writer.declLocale( "i", imageAtomicAnd( s, test::getDefault< Coords >( writer.getShader() ), 0_i, 2_i ) );
-					} );
-				test::writeShader( writer
-					, testCounts );
-				test::validateShader( writer.getShader()
-					, testCounts );
+				auto name = "testImageAtomicCompSwap" + sdw::debug::getName( FormatT, AccessT, DimT, ArrayedT, false, MsT );
+				testBegin( name );
+				using namespace sdw;
+				{
+					ComputeWriter writer;
+					auto s = writer.declImage< FormatT, AccessT, DimT, ArrayedT, false, MsT >( "s", 0u, 0u );
+					writer.inputLayout( 1u );
+					writer.implementFunction< sdw::Void >( "main"
+						, [&]()
+						{
+							if constexpr ( MsT )
+							{
+								auto i = writer.declLocale( "i", imageAtomicCompSwap( s
+									, test::getDefault< CoordsT >( writer.getShader() )
+									, test::getDefault< sdw::Int >( writer.getShader() )
+									, test::getDefault< SampleT >( writer.getShader() )
+									, test::getDefault< SampleT >( writer.getShader() ) ) );
+							}
+							else
+							{
+								auto i = writer.declLocale( "i", imageAtomicCompSwap( s
+									, test::getDefault< CoordsT >( writer.getShader() )
+									, test::getDefault< SampleT >( writer.getShader() )
+									, test::getDefault< SampleT >( writer.getShader() ) ) );
+							}
+						} );
+					test::writeShader( writer
+						, testCounts
+						, true, false, false );
+					test::writeShader( writer
+						, testCounts
+						, false, true, true );
+					test::validateShader( writer.getShader()
+						, testCounts );
+				}
+				testEnd();
 			}
-			testEnd();
-		};
-	};
-
-	template< ast::type::ImageFormat FormatT
-		, ast::type::AccessKind AccessT
-		, ast::type::ImageDim DimT
-		, bool ArrayedT
-		, bool DepthT
-		, bool MsT
-		, typename Enable = void >
-	struct ImageUAtomicAndTester
-	{
-		static void test( test::sdw_test::TestCounts & testCounts )
-		{
-		}
-	};
-
-	template< ast::type::ImageFormat FormatT
-		, ast::type::AccessKind AccessT
-		, ast::type::ImageDim DimT
-		, bool ArrayedT
-		, bool DepthT
-		, bool MsT >
-	struct ImageUAtomicAndTester< FormatT, AccessT, DimT, ArrayedT, DepthT, MsT
-		, std::enable_if_t< !MsT && FormatT == ast::type::ImageFormat::eR32u && AccessT == ast::type::AccessKind::eReadWrite > >
-	{
-		using Coords = sdw::ImageCoordsT< DimT, ArrayedT >;
-
-		static void test( test::sdw_test::TestCounts & testCounts )
-		{
-			auto name = "testImageAtomicAnd" + sdw::debug::getName( FormatT, AccessT, DimT, ArrayedT, false, MsT );
-			testBegin( name );
-			using namespace sdw;
-			{
-				ComputeWriter writer;
-				auto s = writer.declImage< FormatT, AccessT, DimT, ArrayedT, false, MsT >( "s", 0u, 0u );
-				writer.inputLayout( 1u );
-				writer.implementFunction< sdw::Void >( "main"
-					, [&]()
-					{
-						auto i = writer.declLocale( "i", imageAtomicAnd( s, test::getDefault< Coords >( writer.getShader() ), 2_u ) );
-					} );
-				test::writeShader( writer
-					, testCounts );
-				test::validateShader( writer.getShader()
-					, testCounts );
-			}
-			testEnd();
-		};
-	};
-
-	template< ast::type::ImageFormat FormatT
-		, ast::type::AccessKind AccessT
-		, ast::type::ImageDim DimT
-		, bool ArrayedT
-		, bool DepthT
-		, bool MsT >
-	struct ImageUAtomicAndTester< FormatT, AccessT, DimT, ArrayedT, DepthT, MsT
-		, std::enable_if_t< MsT && FormatT == ast::type::ImageFormat::eR32u && AccessT == ast::type::AccessKind::eReadWrite > >
-	{
-		using Coords = sdw::ImageCoordsT< DimT, ArrayedT >;
-
-		static void test( test::sdw_test::TestCounts & testCounts )
-		{
-			auto name = "testImageAtomicAnd" + sdw::debug::getName( FormatT, AccessT, DimT, ArrayedT, false, MsT );
-			testBegin( name );
-			using namespace sdw;
-			{
-				ComputeWriter writer;
-				auto s = writer.declImage< FormatT, AccessT, DimT, ArrayedT, false, MsT >( "s", 0u, 0u );
-				writer.inputLayout( 1u );
-				writer.implementFunction< sdw::Void >( "main"
-					, [&]()
-					{
-						auto i = writer.declLocale( "i", imageAtomicAnd( s, test::getDefault< Coords >( writer.getShader() ), 0_i, 2_u ) );
-					} );
-				test::writeShader( writer
-					, testCounts );
-				test::validateShader( writer.getShader()
-					, testCounts );
-			}
-			testEnd();
-		};
-	};
-	
-	template< ast::type::ImageFormat FormatT
-		, ast::type::AccessKind AccessT
-		, ast::type::ImageDim DimT
-		, bool ArrayedT
-		, bool DepthT
-		, bool MsT
-		, typename Enable = void >
-	struct ImageIAtomicOrTester
-	{
-		static void test( test::sdw_test::TestCounts & testCounts )
-		{
-		}
-	};
-
-	template< ast::type::ImageFormat FormatT
-		, ast::type::AccessKind AccessT
-		, ast::type::ImageDim DimT
-		, bool ArrayedT
-		, bool DepthT
-		, bool MsT >
-	struct ImageIAtomicOrTester< FormatT, AccessT, DimT, ArrayedT, DepthT, MsT
-		, std::enable_if_t< !MsT && FormatT == ast::type::ImageFormat::eR32i && AccessT == ast::type::AccessKind::eReadWrite > >
-	{
-		using Coords = sdw::ImageCoordsT< DimT, ArrayedT >;
-
-		static void test( test::sdw_test::TestCounts & testCounts )
-		{
-			auto name = "testImageAtomicOr" + sdw::debug::getName( FormatT, AccessT, DimT, ArrayedT, false, MsT );
-			testBegin( name );
-			using namespace sdw;
-			{
-				ComputeWriter writer;
-				auto s = writer.declImage< FormatT, AccessT, DimT, ArrayedT, false, MsT >( "s", 0u, 0u );
-				writer.inputLayout( 1u );
-				writer.implementFunction< sdw::Void >( "main"
-					, [&]()
-					{
-						auto i = writer.declLocale( "i", imageAtomicOr( s, test::getDefault< Coords >( writer.getShader() ), 2_i ) );
-					} );
-				test::writeShader( writer
-					, testCounts );
-				test::validateShader( writer.getShader()
-					, testCounts );
-			}
-			testEnd();
-		};
-	};
-
-	template< ast::type::ImageFormat FormatT
-		, ast::type::AccessKind AccessT
-		, ast::type::ImageDim DimT
-		, bool ArrayedT
-		, bool DepthT
-		, bool MsT >
-	struct ImageIAtomicOrTester< FormatT, AccessT, DimT, ArrayedT, DepthT, MsT
-		, std::enable_if_t< MsT && FormatT == ast::type::ImageFormat::eR32i && AccessT == ast::type::AccessKind::eReadWrite > >
-	{
-		using Coords = sdw::ImageCoordsT< DimT, ArrayedT >;
-
-		static void test( test::sdw_test::TestCounts & testCounts )
-		{
-			auto name = "testImageAtomicOr" + sdw::debug::getName( FormatT, AccessT, DimT, ArrayedT, false, MsT );
-			testBegin( name );
-			using namespace sdw;
-			{
-				ComputeWriter writer;
-				auto s = writer.declImage< FormatT, AccessT, DimT, ArrayedT, false, MsT >( "s", 0u, 0u );
-				writer.inputLayout( 1u );
-				writer.implementFunction< sdw::Void >( "main"
-					, [&]()
-					{
-						auto i = writer.declLocale( "i", imageAtomicOr( s, test::getDefault< Coords >( writer.getShader() ), 0_i, 2_i ) );
-					} );
-				test::writeShader( writer
-					, testCounts );
-				test::validateShader( writer.getShader()
-					, testCounts );
-			}
-			testEnd();
-		};
-	};
-
-	template< ast::type::ImageFormat FormatT
-		, ast::type::AccessKind AccessT
-		, ast::type::ImageDim DimT
-		, bool ArrayedT
-		, bool DepthT
-		, bool MsT
-		, typename Enable = void >
-	struct ImageUAtomicOrTester
-	{
-		static void test( test::sdw_test::TestCounts & testCounts )
-		{
-		}
-	};
-
-	template< ast::type::ImageFormat FormatT
-		, ast::type::AccessKind AccessT
-		, ast::type::ImageDim DimT
-		, bool ArrayedT
-		, bool DepthT
-		, bool MsT >
-	struct ImageUAtomicOrTester< FormatT, AccessT, DimT, ArrayedT, DepthT, MsT
-		, std::enable_if_t< !MsT && FormatT == ast::type::ImageFormat::eR32u && AccessT == ast::type::AccessKind::eReadWrite > >
-	{
-		using Coords = sdw::ImageCoordsT< DimT, ArrayedT >;
-
-		static void test( test::sdw_test::TestCounts & testCounts )
-		{
-			auto name = "testImageAtomicOr" + sdw::debug::getName( FormatT, AccessT, DimT, ArrayedT, false, MsT );
-			testBegin( name );
-			using namespace sdw;
-			{
-				ComputeWriter writer;
-				auto s = writer.declImage< FormatT, AccessT, DimT, ArrayedT, false, MsT >( "s", 0u, 0u );
-				writer.inputLayout( 1u );
-				writer.implementFunction< sdw::Void >( "main"
-					, [&]()
-					{
-						auto i = writer.declLocale( "i", imageAtomicOr( s, test::getDefault< Coords >( writer.getShader() ), 2_u ) );
-					} );
-				test::writeShader( writer
-					, testCounts );
-				test::validateShader( writer.getShader()
-					, testCounts );
-			}
-			testEnd();
-		};
-	};
-
-	template< ast::type::ImageFormat FormatT
-		, ast::type::AccessKind AccessT
-		, ast::type::ImageDim DimT
-		, bool ArrayedT
-		, bool DepthT
-		, bool MsT >
-	struct ImageUAtomicOrTester< FormatT, AccessT, DimT, ArrayedT, DepthT, MsT
-		, std::enable_if_t< MsT && FormatT == ast::type::ImageFormat::eR32u && AccessT == ast::type::AccessKind::eReadWrite > >
-	{
-		using Coords = sdw::ImageCoordsT< DimT, ArrayedT >;
-
-		static void test( test::sdw_test::TestCounts & testCounts )
-		{
-			auto name = "testImageAtomicOr" + sdw::debug::getName( FormatT, AccessT, DimT, ArrayedT, false, MsT );
-			testBegin( name );
-			using namespace sdw;
-			{
-				ComputeWriter writer;
-				auto s = writer.declImage< FormatT, AccessT, DimT, ArrayedT, false, MsT >( "s", 0u, 0u );
-				writer.inputLayout( 1u );
-				writer.implementFunction< sdw::Void >( "main"
-					, [&]()
-					{
-						auto i = writer.declLocale( "i", imageAtomicOr( s, test::getDefault< Coords >( writer.getShader() ), 0_i, 2_u ) );
-					} );
-				test::writeShader( writer
-					, testCounts );
-				test::validateShader( writer.getShader()
-					, testCounts );
-			}
-			testEnd();
-		};
-	};
-	
-	template< ast::type::ImageFormat FormatT
-		, ast::type::AccessKind AccessT
-		, ast::type::ImageDim DimT
-		, bool ArrayedT
-		, bool DepthT
-		, bool MsT
-		, typename Enable = void >
-	struct ImageIAtomicXorTester
-	{
-		static void test( test::sdw_test::TestCounts & testCounts )
-		{
-		}
-	};
-
-	template< ast::type::ImageFormat FormatT
-		, ast::type::AccessKind AccessT
-		, ast::type::ImageDim DimT
-		, bool ArrayedT
-		, bool DepthT
-		, bool MsT >
-	struct ImageIAtomicXorTester< FormatT, AccessT, DimT, ArrayedT, DepthT, MsT
-		, std::enable_if_t< !MsT && FormatT == ast::type::ImageFormat::eR32i && AccessT == ast::type::AccessKind::eReadWrite > >
-	{
-		using Coords = sdw::ImageCoordsT< DimT, ArrayedT >;
-
-		static void test( test::sdw_test::TestCounts & testCounts )
-		{
-			auto name = "testImageAtomicXor" + sdw::debug::getName( FormatT, AccessT, DimT, ArrayedT, false, MsT );
-			testBegin( name );
-			using namespace sdw;
-			{
-				ComputeWriter writer;
-				auto s = writer.declImage< FormatT, AccessT, DimT, ArrayedT, false, MsT >( "s", 0u, 0u );
-				writer.inputLayout( 1u );
-				writer.implementFunction< sdw::Void >( "main"
-					, [&]()
-					{
-						auto i = writer.declLocale( "i", imageAtomicXor( s, test::getDefault< Coords >( writer.getShader() ), 2_i ) );
-					} );
-				test::writeShader( writer
-					, testCounts );
-				test::validateShader( writer.getShader()
-					, testCounts );
-			}
-			testEnd();
-		};
-	};
-
-	template< ast::type::ImageFormat FormatT
-		, ast::type::AccessKind AccessT
-		, ast::type::ImageDim DimT
-		, bool ArrayedT
-		, bool DepthT
-		, bool MsT >
-	struct ImageIAtomicXorTester< FormatT, AccessT, DimT, ArrayedT, DepthT, MsT
-		, std::enable_if_t< MsT && FormatT == ast::type::ImageFormat::eR32i && AccessT == ast::type::AccessKind::eReadWrite > >
-	{
-		using Coords = sdw::ImageCoordsT< DimT, ArrayedT >;
-
-		static void test( test::sdw_test::TestCounts & testCounts )
-		{
-			auto name = "testImageAtomicXor" + sdw::debug::getName( FormatT, AccessT, DimT, ArrayedT, false, MsT );
-			testBegin( name );
-			using namespace sdw;
-			{
-				ComputeWriter writer;
-				auto s = writer.declImage< FormatT, AccessT, DimT, ArrayedT, false, MsT >( "s", 0u, 0u );
-				writer.inputLayout( 1u );
-				writer.implementFunction< sdw::Void >( "main"
-					, [&]()
-					{
-						auto i = writer.declLocale( "i", imageAtomicXor( s, test::getDefault< Coords >( writer.getShader() ), 0_i, 2_i ) );
-					} );
-				test::writeShader( writer
-					, testCounts );
-				test::validateShader( writer.getShader()
-					, testCounts );
-			}
-			testEnd();
-		};
-	};
-
-	template< ast::type::ImageFormat FormatT
-		, ast::type::AccessKind AccessT
-		, ast::type::ImageDim DimT
-		, bool ArrayedT
-		, bool DepthT
-		, bool MsT
-		, typename Enable = void >
-	struct ImageUAtomicXorTester
-	{
-		static void test( test::sdw_test::TestCounts & testCounts )
-		{
-		}
-	};
-
-	template< ast::type::ImageFormat FormatT
-		, ast::type::AccessKind AccessT
-		, ast::type::ImageDim DimT
-		, bool ArrayedT
-		, bool DepthT
-		, bool MsT >
-	struct ImageUAtomicXorTester< FormatT, AccessT, DimT, ArrayedT, DepthT, MsT
-		, std::enable_if_t< !MsT && FormatT == ast::type::ImageFormat::eR32u && AccessT == ast::type::AccessKind::eReadWrite > >
-	{
-		using Coords = sdw::ImageCoordsT< DimT, ArrayedT >;
-
-		static void test( test::sdw_test::TestCounts & testCounts )
-		{
-			auto name = "testImageAtomicXor" + sdw::debug::getName( FormatT, AccessT, DimT, ArrayedT, false, MsT );
-			testBegin( name );
-			using namespace sdw;
-			{
-				ComputeWriter writer;
-				auto s = writer.declImage< FormatT, AccessT, DimT, ArrayedT, false, MsT >( "s", 0u, 0u );
-				writer.inputLayout( 1u );
-				writer.implementFunction< sdw::Void >( "main"
-					, [&]()
-					{
-						auto i = writer.declLocale( "i", imageAtomicXor( s, test::getDefault< Coords >( writer.getShader() ), 2_u ) );
-					} );
-				test::writeShader( writer
-					, testCounts );
-				test::validateShader( writer.getShader()
-					, testCounts );
-			}
-			testEnd();
-		};
-	};
-
-	template< ast::type::ImageFormat FormatT
-		, ast::type::AccessKind AccessT
-		, ast::type::ImageDim DimT
-		, bool ArrayedT
-		, bool DepthT
-		, bool MsT >
-	struct ImageUAtomicXorTester< FormatT, AccessT, DimT, ArrayedT, DepthT, MsT
-		, std::enable_if_t< MsT && FormatT == ast::type::ImageFormat::eR32u && AccessT == ast::type::AccessKind::eReadWrite > >
-	{
-		using Coords = sdw::ImageCoordsT< DimT, ArrayedT >;
-
-		static void test( test::sdw_test::TestCounts & testCounts )
-		{
-			auto name = "testImageAtomicXor" + sdw::debug::getName( FormatT, AccessT, DimT, ArrayedT, false, MsT );
-			testBegin( name );
-			using namespace sdw;
-			{
-				ComputeWriter writer;
-				auto s = writer.declImage< FormatT, AccessT, DimT, ArrayedT, false, MsT >( "s", 0u, 0u );
-				writer.inputLayout( 1u );
-				writer.implementFunction< sdw::Void >( "main"
-					, [&]()
-					{
-						auto i = writer.declLocale( "i", imageAtomicXor( s, test::getDefault< Coords >( writer.getShader() ), 0_i, 2_u ) );
-					} );
-				test::writeShader( writer
-					, testCounts );
-				test::validateShader( writer.getShader()
-					, testCounts );
-			}
-			testEnd();
-		};
-	};
-	
-	template< ast::type::ImageFormat FormatT
-		, ast::type::AccessKind AccessT
-		, ast::type::ImageDim DimT
-		, bool ArrayedT
-		, bool DepthT
-		, bool MsT
-		, typename Enable = void >
-	struct ImageIAtomicExchangeTester
-	{
-		static void test( test::sdw_test::TestCounts & testCounts )
-		{
-		}
-	};
-
-	template< ast::type::ImageFormat FormatT
-		, ast::type::AccessKind AccessT
-		, ast::type::ImageDim DimT
-		, bool ArrayedT
-		, bool DepthT
-		, bool MsT >
-	struct ImageIAtomicExchangeTester< FormatT, AccessT, DimT, ArrayedT, DepthT, MsT
-		, std::enable_if_t< !MsT && FormatT == ast::type::ImageFormat::eR32i && AccessT == ast::type::AccessKind::eReadWrite > >
-	{
-		using Coords = sdw::ImageCoordsT< DimT, ArrayedT >;
-
-		static void test( test::sdw_test::TestCounts & testCounts )
-		{
-			auto name = "testImageAtomicExchange" + sdw::debug::getName( FormatT, AccessT, DimT, ArrayedT, false, MsT );
-			testBegin( name );
-			using namespace sdw;
-			{
-				ComputeWriter writer;
-				auto s = writer.declImage< FormatT, AccessT, DimT, ArrayedT, false, MsT >( "s", 0u, 0u );
-				writer.inputLayout( 1u );
-				writer.implementFunction< sdw::Void >( "main"
-					, [&]()
-					{
-						auto i = writer.declLocale( "i", imageAtomicExchange( s, test::getDefault< Coords >( writer.getShader() ), 2_i ) );
-					} );
-				test::writeShader( writer
-					, testCounts );
-				test::validateShader( writer.getShader()
-					, testCounts );
-			}
-			testEnd();
-		};
-	};
-
-	template< ast::type::ImageFormat FormatT
-		, ast::type::AccessKind AccessT
-		, ast::type::ImageDim DimT
-		, bool ArrayedT
-		, bool DepthT
-		, bool MsT >
-	struct ImageIAtomicExchangeTester< FormatT, AccessT, DimT, ArrayedT, DepthT, MsT
-		, std::enable_if_t< MsT && FormatT == ast::type::ImageFormat::eR32i && AccessT == ast::type::AccessKind::eReadWrite > >
-	{
-		using Coords = sdw::ImageCoordsT< DimT, ArrayedT >;
-
-		static void test( test::sdw_test::TestCounts & testCounts )
-		{
-			auto name = "testImageAtomicExchange" + sdw::debug::getName( FormatT, AccessT, DimT, ArrayedT, false, MsT );
-			testBegin( name );
-			using namespace sdw;
-			{
-				ComputeWriter writer;
-				auto s = writer.declImage< FormatT, AccessT, DimT, ArrayedT, false, MsT >( "s", 0u, 0u );
-				writer.inputLayout( 1u );
-				writer.implementFunction< sdw::Void >( "main"
-					, [&]()
-					{
-						auto i = writer.declLocale( "i", imageAtomicExchange( s, test::getDefault< Coords >( writer.getShader() ), 0_i, 2_i ) );
-					} );
-				test::writeShader( writer
-					, testCounts );
-				test::validateShader( writer.getShader()
-					, testCounts );
-			}
-			testEnd();
-		};
-	};
-
-	template< ast::type::ImageFormat FormatT
-		, ast::type::AccessKind AccessT
-		, ast::type::ImageDim DimT
-		, bool ArrayedT
-		, bool DepthT
-		, bool MsT
-		, typename Enable = void >
-	struct ImageUAtomicExchangeTester
-	{
-		static void test( test::sdw_test::TestCounts & testCounts )
-		{
-		}
-	};
-
-	template< ast::type::ImageFormat FormatT
-		, ast::type::AccessKind AccessT
-		, ast::type::ImageDim DimT
-		, bool ArrayedT
-		, bool DepthT
-		, bool MsT >
-	struct ImageUAtomicExchangeTester< FormatT, AccessT, DimT, ArrayedT, DepthT, MsT
-		, std::enable_if_t< !MsT && FormatT == ast::type::ImageFormat::eR32u && AccessT == ast::type::AccessKind::eReadWrite > >
-	{
-		using Coords = sdw::ImageCoordsT< DimT, ArrayedT >;
-
-		static void test( test::sdw_test::TestCounts & testCounts )
-		{
-			auto name = "testImageAtomicExchange" + sdw::debug::getName( FormatT, AccessT, DimT, ArrayedT, false, MsT );
-			testBegin( name );
-			using namespace sdw;
-			{
-				ComputeWriter writer;
-				auto s = writer.declImage< FormatT, AccessT, DimT, ArrayedT, false, MsT >( "s", 0u, 0u );
-				writer.inputLayout( 1u );
-				writer.implementFunction< sdw::Void >( "main"
-					, [&]()
-					{
-						auto i = writer.declLocale( "i", imageAtomicExchange( s, test::getDefault< Coords >( writer.getShader() ), 2_u ) );
-					} );
-				test::writeShader( writer
-					, testCounts );
-				test::validateShader( writer.getShader()
-					, testCounts );
-			}
-			testEnd();
-		};
-	};
-
-	template< ast::type::ImageFormat FormatT
-		, ast::type::AccessKind AccessT
-		, ast::type::ImageDim DimT
-		, bool ArrayedT
-		, bool DepthT
-		, bool MsT >
-	struct ImageUAtomicExchangeTester< FormatT, AccessT, DimT, ArrayedT, DepthT, MsT
-		, std::enable_if_t< MsT && FormatT == ast::type::ImageFormat::eR32u && AccessT == ast::type::AccessKind::eReadWrite > >
-	{
-		using Coords = sdw::ImageCoordsT< DimT, ArrayedT >;
-
-		static void test( test::sdw_test::TestCounts & testCounts )
-		{
-			auto name = "testImageAtomicExchange" + sdw::debug::getName( FormatT, AccessT, DimT, ArrayedT, false, MsT );
-			testBegin( name );
-			using namespace sdw;
-			{
-				ComputeWriter writer;
-				auto s = writer.declImage< FormatT, AccessT, DimT, ArrayedT, false, MsT >( "s", 0u, 0u );
-				writer.inputLayout( 1u );
-				writer.implementFunction< sdw::Void >( "main"
-					, [&]()
-					{
-						auto i = writer.declLocale( "i", imageAtomicExchange( s, test::getDefault< Coords >( writer.getShader() ), 0_i, 2_u ) );
-					} );
-				test::writeShader( writer
-					, testCounts );
-				test::validateShader( writer.getShader()
-					, testCounts );
-			}
-			testEnd();
-		};
-	};
-	
-	template< ast::type::ImageFormat FormatT
-		, ast::type::AccessKind AccessT
-		, ast::type::ImageDim DimT
-		, bool ArrayedT
-		, bool DepthT
-		, bool MsT
-		, typename Enable = void >
-	struct ImageIAtomicCompSwapTester
-	{
-		static void test( test::sdw_test::TestCounts & testCounts )
-		{
-		}
-	};
-
-	template< ast::type::ImageFormat FormatT
-		, ast::type::AccessKind AccessT
-		, ast::type::ImageDim DimT
-		, bool ArrayedT
-		, bool DepthT
-		, bool MsT >
-	struct ImageIAtomicCompSwapTester< FormatT, AccessT, DimT, ArrayedT, DepthT, MsT
-		, std::enable_if_t< !MsT && FormatT == ast::type::ImageFormat::eR32i && AccessT == ast::type::AccessKind::eReadWrite > >
-	{
-		using Coords = sdw::ImageCoordsT< DimT, ArrayedT >;
-
-		static void test( test::sdw_test::TestCounts & testCounts )
-		{
-			auto name = "testImageAtomicCompSwap" + sdw::debug::getName( FormatT, AccessT, DimT, ArrayedT, false, MsT );
-			testBegin( name );
-			using namespace sdw;
-			{
-				ComputeWriter writer;
-				auto s = writer.declImage< FormatT, AccessT, DimT, ArrayedT, false, MsT >( "s", 0u, 0u );
-				writer.inputLayout( 1u );
-				writer.implementFunction< sdw::Void >( "main"
-					, [&]()
-					{
-						auto i = writer.declLocale( "i", imageAtomicCompSwap( s, test::getDefault< Coords >( writer.getShader() ), 2_i, 3_i ) );
-					} );
-				test::writeShader( writer
-					, testCounts );
-				test::validateShader( writer.getShader()
-					, testCounts );
-			}
-			testEnd();
-		};
-	};
-
-	template< ast::type::ImageFormat FormatT
-		, ast::type::AccessKind AccessT
-		, ast::type::ImageDim DimT
-		, bool ArrayedT
-		, bool DepthT
-		, bool MsT >
-	struct ImageIAtomicCompSwapTester< FormatT, AccessT, DimT, ArrayedT, DepthT, MsT
-		, std::enable_if_t< MsT && FormatT == ast::type::ImageFormat::eR32i && AccessT == ast::type::AccessKind::eReadWrite > >
-	{
-		using Coords = sdw::ImageCoordsT< DimT, ArrayedT >;
-
-		static void test( test::sdw_test::TestCounts & testCounts )
-		{
-			auto name = "testImageAtomicCompSwap" + sdw::debug::getName( FormatT, AccessT, DimT, ArrayedT, false, MsT );
-			testBegin( name );
-			using namespace sdw;
-			{
-				ComputeWriter writer;
-				auto s = writer.declImage< FormatT, AccessT, DimT, ArrayedT, false, MsT >( "s", 0u, 0u );
-				writer.inputLayout( 1u );
-				writer.implementFunction< sdw::Void >( "main"
-					, [&]()
-					{
-						auto i = writer.declLocale( "i", imageAtomicCompSwap( s, test::getDefault< Coords >( writer.getShader() ), 0_i, 2_i, 3_i ) );
-					} );
-				test::writeShader( writer
-					, testCounts );
-				test::validateShader( writer.getShader()
-					, testCounts );
-			}
-			testEnd();
-		};
-	};
-
-	template< ast::type::ImageFormat FormatT
-		, ast::type::AccessKind AccessT
-		, ast::type::ImageDim DimT
-		, bool ArrayedT
-		, bool DepthT
-		, bool MsT
-		, typename Enable = void >
-	struct ImageUAtomicCompSwapTester
-	{
-		static void test( test::sdw_test::TestCounts & testCounts )
-		{
-		}
-	};
-
-	template< ast::type::ImageFormat FormatT
-		, ast::type::AccessKind AccessT
-		, ast::type::ImageDim DimT
-		, bool ArrayedT
-		, bool DepthT
-		, bool MsT >
-	struct ImageUAtomicCompSwapTester< FormatT, AccessT, DimT, ArrayedT, DepthT, MsT
-		, std::enable_if_t< !MsT && FormatT == ast::type::ImageFormat::eR32u && AccessT == ast::type::AccessKind::eReadWrite > >
-	{
-		using Coords = sdw::ImageCoordsT< DimT, ArrayedT >;
-
-		static void test( test::sdw_test::TestCounts & testCounts )
-		{
-			auto name = "testImageAtomicCompSwap" + sdw::debug::getName( FormatT, AccessT, DimT, ArrayedT, false, MsT );
-			testBegin( name );
-			using namespace sdw;
-			{
-				ComputeWriter writer;
-				auto s = writer.declImage< FormatT, AccessT, DimT, ArrayedT, false, MsT >( "s", 0u, 0u );
-				writer.inputLayout( 1u );
-				writer.implementFunction< sdw::Void >( "main"
-					, [&]()
-					{
-						auto i = writer.declLocale( "i", imageAtomicCompSwap( s, test::getDefault< Coords >( writer.getShader() ), 2_u, 3_u ) );
-					} );
-				test::writeShader( writer
-					, testCounts );
-				test::validateShader( writer.getShader()
-					, testCounts );
-			}
-			testEnd();
-		};
-	};
-
-	template< ast::type::ImageFormat FormatT
-		, ast::type::AccessKind AccessT
-		, ast::type::ImageDim DimT
-		, bool ArrayedT
-		, bool DepthT
-		, bool MsT >
-	struct ImageUAtomicCompSwapTester< FormatT, AccessT, DimT, ArrayedT, DepthT, MsT
-		, std::enable_if_t< MsT && FormatT == ast::type::ImageFormat::eR32u && AccessT == ast::type::AccessKind::eReadWrite > >
-	{
-		using Coords = sdw::ImageCoordsT< DimT, ArrayedT >;
-
-		static void test( test::sdw_test::TestCounts & testCounts )
-		{
-			auto name = "testImageAtomicCompSwap" + sdw::debug::getName( FormatT, AccessT, DimT, ArrayedT, false, MsT );
-			testBegin( name );
-			using namespace sdw;
-			{
-				ComputeWriter writer;
-				auto s = writer.declImage< FormatT, AccessT, DimT, ArrayedT, false, MsT >( "s", 0u, 0u );
-				writer.inputLayout( 1u );
-				writer.implementFunction< sdw::Void >( "main"
-					, [&]()
-					{
-						auto i = writer.declLocale( "i", imageAtomicCompSwap( s, test::getDefault< Coords >( writer.getShader() ), 0_i, 2_u, 3_u ) );
-					} );
-				test::writeShader( writer
-					, testCounts );
-				test::validateShader( writer.getShader()
-					, testCounts );
-			}
-			testEnd();
 		};
 	};
 
 	template< ast::type::AccessKind AccessT
 		, ast::type::ImageFormat FormatT
-		, template< ast::type::ImageFormat, ast::type::AccessKind, ast::type::ImageDim, bool, bool, bool, typename Enable = void > typename TesterT >
+		, template< ast::type::ImageFormat, ast::type::AccessKind, ast::type::ImageDim, bool, bool, bool > typename TesterT >
 	void testsImageFormats( test::sdw_test::TestCounts & testCounts )
 	{
 		if constexpr ( isFloatFormat( FormatT ) )
@@ -1620,7 +690,7 @@ namespace
 		}
 	}
 
-	template< template< ast::type::ImageFormat, ast::type::AccessKind, ast::type::ImageDim, bool, bool, bool, typename Enable > typename TesterT >
+	template< template< ast::type::ImageFormat, ast::type::AccessKind, ast::type::ImageDim, bool, bool, bool > typename TesterT >
 	void testsImage( test::sdw_test::TestCounts & testCounts )
 	{
 		testsImageFormats< ast::type::AccessKind::eRead, ast::type::ImageFormat::eRgba32f, TesterT >( testCounts );
@@ -1697,9 +767,12 @@ namespace
 		testsImageFormats< ast::type::AccessKind::eReadWrite, ast::type::ImageFormat::eR8u, TesterT >( testCounts );
 	}
 
-	template< template< ast::type::ImageFormat, ast::type::AccessKind, ast::type::ImageDim, bool, bool, bool, typename Enable > typename TesterT >
+	template< template< ast::type::ImageFormat, ast::type::AccessKind, ast::type::ImageDim, bool, bool, bool > typename TesterT >
 	void testsImageAtomic( test::sdw_test::TestCounts & testCounts )
 	{
+		testsImageFormats< ast::type::AccessKind::eReadWrite, ast::type::ImageFormat::eRgba16f, TesterT >( testCounts );
+		testsImageFormats< ast::type::AccessKind::eReadWrite, ast::type::ImageFormat::eRg16f, TesterT >( testCounts );
+		testsImageFormats< ast::type::AccessKind::eReadWrite, ast::type::ImageFormat::eR32f, TesterT >( testCounts );
 		testsImageFormats< ast::type::AccessKind::eReadWrite, ast::type::ImageFormat::eR32i, TesterT >( testCounts );
 		testsImageFormats< ast::type::AccessKind::eReadWrite, ast::type::ImageFormat::eR32u, TesterT >( testCounts );
 	}
@@ -1714,22 +787,14 @@ int main( int argc, char ** argv )
 	testsImage< ImageSamplesTester >( testCounts );
 	testsImage< ImageLoadTester >( testCounts );
 	testsImage< ImageStoreTester >( testCounts );
-	testsImageAtomic< ImageIAtomicAddTester >( testCounts );
-	testsImageAtomic< ImageUAtomicAddTester >( testCounts );
-	testsImageAtomic< ImageIAtomicMinTester >( testCounts );
-	testsImageAtomic< ImageUAtomicMinTester >( testCounts );
-	testsImageAtomic< ImageIAtomicMaxTester >( testCounts );
-	testsImageAtomic< ImageUAtomicMaxTester >( testCounts );
-	testsImageAtomic< ImageIAtomicAndTester >( testCounts );
-	testsImageAtomic< ImageUAtomicAndTester >( testCounts );
-	testsImageAtomic< ImageIAtomicOrTester >( testCounts );
-	testsImageAtomic< ImageUAtomicOrTester >( testCounts );
-	testsImageAtomic< ImageIAtomicXorTester >( testCounts );
-	testsImageAtomic< ImageUAtomicXorTester >( testCounts );
-	testsImageAtomic< ImageIAtomicExchangeTester >( testCounts );
-	testsImageAtomic< ImageUAtomicExchangeTester >( testCounts );
-	testsImageAtomic< ImageIAtomicCompSwapTester >( testCounts );
-	testsImageAtomic< ImageUAtomicCompSwapTester >( testCounts );
+	testsImageAtomic< ImageAtomicAddTester >( testCounts );
+	testsImageAtomic< ImageAtomicMinTester >( testCounts );
+	testsImageAtomic< ImageAtomicMaxTester >( testCounts );
+	testsImageAtomic< ImageAtomicAndTester >( testCounts );
+	testsImageAtomic< ImageAtomicOrTester >( testCounts );
+	testsImageAtomic< ImageAtomicXorTester >( testCounts );
+	testsImageAtomic< ImageAtomicExchangeTester >( testCounts );
+	testsImageAtomic< ImageAtomicCompSwapTester >( testCounts );
 	sdwTestSuiteEnd();
 
 #endif

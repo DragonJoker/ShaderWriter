@@ -73,6 +73,8 @@ namespace ast::type
 	static Kind sampledBaseType = ImageFormatTraits< FormatT >::SampledBaseType;
 	template< ImageFormat FormatT >
 	static Kind sampledType = ImageFormatTraits< FormatT >::SampledType;
+	template< ImageFormat FormatT >
+	static Kind texelType = ImageFormatTraits< FormatT >::TexelType;
 
 	inline constexpr bool isFloatFormat( ImageFormat format )
 	{

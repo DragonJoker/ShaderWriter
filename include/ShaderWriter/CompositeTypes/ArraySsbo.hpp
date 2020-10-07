@@ -44,6 +44,6 @@ namespace sdw
 	SDW_API void registerSsbo( Shader & shader, std::string const & name, SsboInfo const & info );
 }
 
-#include "StructuredSsbo.inl"
+#include "ArraySsbo.inl"
 
 #endif

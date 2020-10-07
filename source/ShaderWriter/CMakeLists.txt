@@ -97,6 +97,8 @@ set( ${PROJECT_NAME}_SOURCE_FILES
 )
 
 set( ${PROJECT_NAME}_FOLDER_HEADER_FILES
+	${INCLUDE_DIR}/CompositeTypes/ArraySsbo.hpp
+	${INCLUDE_DIR}/CompositeTypes/ArraySsbo.inl
 	${INCLUDE_DIR}/CompositeTypes/Builtins.hpp
 	${INCLUDE_DIR}/CompositeTypes/Function.hpp
 	${INCLUDE_DIR}/CompositeTypes/Function.inl
@@ -111,19 +113,17 @@ set( ${PROJECT_NAME}_FOLDER_HEADER_FILES
 	${INCLUDE_DIR}/CompositeTypes/Struct.inl
 	${INCLUDE_DIR}/CompositeTypes/StructInstance.hpp
 	${INCLUDE_DIR}/CompositeTypes/StructInstance.inl
-	${INCLUDE_DIR}/CompositeTypes/StructuredSsbo.hpp
-	${INCLUDE_DIR}/CompositeTypes/StructuredSsbo.inl
 	${INCLUDE_DIR}/CompositeTypes/Ubo.hpp
 	${INCLUDE_DIR}/CompositeTypes/Ubo.inl
 )
 set( ${PROJECT_NAME}_FOLDER_SOURCE_FILES
+	${SOURCE_DIR}/CompositeTypes/ArraySsbo.cpp
 	${SOURCE_DIR}/CompositeTypes/Builtins.cpp
 	${SOURCE_DIR}/CompositeTypes/Pcb.cpp
 	${SOURCE_DIR}/CompositeTypes/PerVertex.cpp
 	${SOURCE_DIR}/CompositeTypes/Ssbo.cpp
 	${SOURCE_DIR}/CompositeTypes/Struct.cpp
 	${SOURCE_DIR}/CompositeTypes/StructInstance.cpp
-	${SOURCE_DIR}/CompositeTypes/StructuredSsbo.cpp
 	${SOURCE_DIR}/CompositeTypes/Ubo.cpp
 )
 source_group( "Header Files\\CompositeTypes"

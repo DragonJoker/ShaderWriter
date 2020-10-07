@@ -324,7 +324,7 @@ def printTextureFunctionDoc( outs, enumName, returnGroup, functionGroup, paramsG
 		outs.write( computeParamsDoc( paramsGroup ) )
 	outs.write( "\n\t*/" )
 
-def printTextureFunctionDocEx( outs, enumName, lastGroup, functionGroup, paramsGroup ):
+def printTextureFunctionDocExNR( outs, enumName, lastGroup, functionGroup, paramsGroup ):
 	outs.write( "\n\t/**" )
 	if enumName == "TextureAccess":
 		outs.write( "\n\t*@param image" )
@@ -334,6 +334,22 @@ def printTextureFunctionDocEx( outs, enumName, lastGroup, functionGroup, paramsG
 		outs.write( "\n\t*@param image" )
 		outs.write( "\n\t*\t" + computeImageFullType( "Image", functionGroup ) )
 		outs.write( computeParamsDocEx( paramsGroup, lastGroup ) )
+	else:
+		outs.write( computeParamsDoc( paramsGroup ) )
+	outs.write( "\n\t*/" )
+
+def printTextureFunctionDocEx( outs, enumName, returnGroup, functionGroup, paramsGroup ):
+	outs.write( "\n\t/**" )
+	outs.write( "\n\t*@return" )
+	outs.write( "\n\t*\t" + typeKindToGlslType( returnGroup ) )
+	if enumName == "TextureAccess":
+		outs.write( "\n\t*@param image" )
+		outs.write( "\n\t*\t" + computeImageFullType( "SampledImage", functionGroup ) )
+		outs.write( computeParamsDoc( paramsGroup ) )
+	elif enumName == "ImageAccess":
+		outs.write( "\n\t*@param image" )
+		outs.write( "\n\t*\t" + computeImageFullType( "Image", functionGroup ) )
+		outs.write( computeParamsDocEx( paramsGroup, returnGroup ) )
 	else:
 		outs.write( computeParamsDoc( paramsGroup ) )
 	outs.write( "\n\t*/" )
@@ -395,13 +411,17 @@ def printTextureFunction( outs, enumName, match ):
 			formats.append( ( 'R16', 'type::Kind::eUInt' ) )
 			formats.append( ( 'R8', 'type::Kind::eUInt' ) )
 	else:
-		if depth == "Shadow":
+		if intrinsicName.find( "Atomic" ) != -1:
+			formats.append( ( 'Rgba16', 'type::Kind::eVec4H' ) )
+			formats.append( ( 'Rg16', 'type::Kind::eVec2H' ) )
+			formats.append( ( 'R32', 'type::Kind::eFloat' ) )
+		elif depth == "Shadow":
 			if intrinsicName.find( "Size" ) != -1 or intrinsicName.find( "Samples" ) != -1 or intrinsicName.find( "Query" ) != -1 or intrinsicName.find( "Gather" ) != -1:
 				formats.append( ( 'R32', retType ) )
 				formats.append( ( 'R16', retType ) )
 			else:
 				formats.append( ( 'R32', 'type::Kind::eFloat' ) )
-				formats.append( ( 'R16', 'type::Kind::eFloat' ) )
+				formats.append( ( 'R16', 'type::Kind::eHalf' ) )
 		elif intrinsicName.find( "Size" ) != -1 or intrinsicName.find( "Samples" ) != -1 or intrinsicName.find( "Query" ) != -1 or intrinsicName.find( "Gather" ) != -1:
 			formats.append( ( 'Rgba32', retType ) )
 			formats.append( ( 'Rgba16', retType ) )
@@ -409,6 +429,13 @@ def printTextureFunction( outs, enumName, match ):
 			formats.append( ( 'Rg16', retType ) )
 			formats.append( ( 'R32', retType ) )
 			formats.append( ( 'R16', retType ) )
+		elif enumName == "ImageAccess":
+			formats.append( ( 'Rgba32', 'type::Kind::eVec4F' ) )
+			formats.append( ( 'Rgba16', 'type::Kind::eVec4H' ) )
+			formats.append( ( 'Rg32', 'type::Kind::eVec2F' ) )
+			formats.append( ( 'Rg16', 'type::Kind::eVec2H' ) )
+			formats.append( ( 'R32', 'type::Kind::eFloat' ) )
+			formats.append( ( 'R16', 'type::Kind::eHalf' ) )
 		else:
 			formats.append( ( 'Rgba32', 'type::Kind::eVec4F' ) )
 			formats.append( ( 'Rgba16', 'type::Kind::eVec4F' ) )
@@ -418,6 +445,8 @@ def printTextureFunction( outs, enumName, match ):
 			formats.append( ( 'R16', 'type::Kind::eFloat' ) )
 	for fmt, ret in formats:
 		if intrinsicName.find( "Store" ) != -1:
+			printTextureFunctionDocExNR( outs, enumName, ret, functionGroup, paramsGroup )
+		elif intrinsicName.find( "Atomic" ) != -1:
 			printTextureFunctionDocEx( outs, enumName, ret, functionGroup, paramsGroup )
 		else:
 			printTextureFunctionDoc( outs, enumName, ret, functionGroup, paramsGroup )
@@ -432,7 +461,10 @@ def printTextureFunction( outs, enumName, match ):
 			outs.write( assertParamsEx( paramsGroup, "\t\t", ret ) )
 			outs.write( "\t\treturn make" + enumName + "Call( cache.getBasicType( type::Kind::eVoid )\n" )
 		else:
-			outs.write( assertParams( paramsGroup, "\t\t" ) )
+			if intrinsicName.find( "Atomic" ) != -1:
+				outs.write( assertParamsEx( paramsGroup, "\t\t", ret ) )
+			else:
+				outs.write( assertParams( paramsGroup, "\t\t" ) )
 			outs.write( "\t\treturn make" + enumName + "Call( cache.getBasicType( " + ret + " )\n" )
 
 		outs.write( "\t\t\t, " + computeEnum( enumName, functionGroup ) )

@@ -19,7 +19,7 @@ if ( SDW_TESTS_ENABLE_VALIDATION )
 
 	set( OptionalCompileDefinitions )
 
-	if ( ( TARGET sdwCompilerGlsl )
+	if ( ( TARGET CompilerGlsl )
 		AND ( OpenGL_FOUND OR OPENGL_FOUND )
 		AND ( WIN32 ) )
 		if ( WIN32 )
@@ -42,7 +42,7 @@ if ( SDW_TESTS_ENABLE_VALIDATION )
 		)
 	endif ()
 
-	if ( ( TARGET sdwCompilerSpirV )
+	if ( ( TARGET CompilerSpirV )
 		AND ( Vulkan_FOUND OR VULKAN_FOUND ) )
 		set( TargetIncludeDirectories
 			${TargetIncludeDirectories}
@@ -64,7 +64,7 @@ if ( SDW_TESTS_ENABLE_VALIDATION )
 		endif ()
 	endif ()
 
-	if ( ( TARGET sdwCompilerHlsl )
+	if ( ( TARGET CompilerHlsl )
 		AND WIN32 )
 		set( OptionalCompileDefinitions
 			${OptionalCompileDefinitions}

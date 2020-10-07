@@ -17,6 +17,9 @@ def typeKindToSdwType( kind ):
 	result = result.replace( "Vec2D", "DVec2" )
 	result = result.replace( "Vec3D", "DVec3" )
 	result = result.replace( "Vec4D", "DVec4" )
+	result = result.replace( "Vec2H", "HVec2" )
+	result = result.replace( "Vec3H", "HVec3" )
+	result = result.replace( "Vec4H", "HVec4" )
 	result = result.replace( "Mat2x2F", "Mat2" )
 	result = result.replace( "Mat2x3F", "Mat2x3" )
 	result = result.replace( "Mat2x4F", "Mat2x4" )
@@ -384,13 +387,17 @@ def getImgTexAccessFormats( depth, sampled, retType, intrinsicName ):
 			formats.append( ( 'R16', 'UInt' ) )
 			formats.append( ( 'R8', 'UInt' ) )
 	else:
-		if depth == "Shadow":
+		if intrinsicName.find( "Atomic" ) != -1:
+			formats.append( ( 'Rgba16', 'HVec4' ) )
+			formats.append( ( 'Rg16', 'HVec2' ) )
+			formats.append( ( 'R32', 'Float' ) )
+		elif depth == "Shadow":
 			if intrinsicName.find( "Size" ) != -1 or intrinsicName.find( "Samples" ) != -1 or intrinsicName.find( "Query" ) != -1 or intrinsicName.find( "Gather" ) != -1:
 				formats.append( ( 'R32', retType ) )
 				formats.append( ( 'R16', retType ) )
 			else:
 				formats.append( ( 'R32', 'Float' ) )
-				formats.append( ( 'R16', 'Float' ) )
+				formats.append( ( 'R16', 'Half' ) )
 		elif intrinsicName.find( "Size" ) != -1 or intrinsicName.find( "Samples" ) != -1 or intrinsicName.find( "Query" ) != -1 or intrinsicName.find( "Gather" ) != -1:
 			formats.append( ( 'Rgba32', retType ) )
 			formats.append( ( 'Rgba16', retType ) )
@@ -398,13 +405,20 @@ def getImgTexAccessFormats( depth, sampled, retType, intrinsicName ):
 			formats.append( ( 'Rg16', retType ) )
 			formats.append( ( 'R32', retType ) )
 			formats.append( ( 'R16', retType ) )
-		else:
+		elif intrinsicName.find( "texture" ) != -1 or intrinsicName.find( "texel" ) != -1:
 			formats.append( ( 'Rgba32', 'Vec4' ) )
 			formats.append( ( 'Rgba16', 'Vec4' ) )
 			formats.append( ( 'Rg32', 'Vec2' ) )
 			formats.append( ( 'Rg16', 'Vec2' ) )
 			formats.append( ( 'R32', 'Float' ) )
 			formats.append( ( 'R16', 'Float' ) )
+		else:
+			formats.append( ( 'Rgba32', 'Vec4' ) )
+			formats.append( ( 'Rgba16', 'HVec4' ) )
+			formats.append( ( 'Rg32', 'Vec2' ) )
+			formats.append( ( 'Rg16', 'HVec2' ) )
+			formats.append( ( 'R32', 'Float' ) )
+			formats.append( ( 'R16', 'Half' ) )
 	return formats;
 
 def printTextureFunction( outs, returnGroup, functionGroup, paramsGroup, imageType ):
@@ -461,7 +475,10 @@ def printImageFunction( outs, returnGroup, functionGroup, paramsGroup, imageType
 					#	Image parameter
 					outs.write( " MaybeOptional< " + imageFullType + fmt + " > const & image" )
 					#	Remaining function parameters
-					outs.write( computeParams( paramsGroup, ",", 1 ) + " );" )
+					if intrinsicName.find( "Atomic" ) != -1:
+						outs.write( computeParamsEx( paramsGroup, ",", ret ) + " );" )
+					else:
+						outs.write( computeParams( paramsGroup, ",", 1 ) + " );" )
 
 def printIntrinsicFunction( outs, returnGroup, functionGroup, paramsGroup ):
 	retType = typeKindToSdwType( returnGroup )

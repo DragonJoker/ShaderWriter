@@ -121,10 +121,12 @@ namespace glsl
 
 	void StmtConfigFiller::visitInOutVariableDeclStmt( ast::stmt::InOutVariableDecl * stmt )
 	{
+		checkType( *stmt->getVariable()->getType(), m_result );
 	}
 
 	void StmtConfigFiller::visitSpecialisationConstantDeclStmt( ast::stmt::SpecialisationConstantDecl * stmt )
 	{
+		checkType( *stmt->getVariable()->getType(), m_result );
 	}
 
 	void StmtConfigFiller::visitInputComputeLayoutStmt( ast::stmt::InputComputeLayout * stmt )
@@ -168,6 +170,10 @@ namespace glsl
 
 	void StmtConfigFiller::visitShaderStructBufferDeclStmt( ast::stmt::ShaderStructBufferDecl * stmt )
 	{
+		for ( auto & type : static_cast< ast::type::Struct const & >( *stmt->getSsboInstance()->getType() ) )
+		{
+			checkType( *type.type, m_result );
+		}
 	}
 
 	void StmtConfigFiller::visitSimpleStmt( ast::stmt::Simple * stmt )
@@ -177,6 +183,10 @@ namespace glsl
 
 	void StmtConfigFiller::visitStructureDeclStmt( ast::stmt::StructureDecl * stmt )
 	{
+		for ( auto & type : *stmt->getType() )
+		{
+			checkType( *type.type, m_result );
+		}
 	}
 
 	void StmtConfigFiller::visitSwitchCaseStmt( ast::stmt::SwitchCase * stmt )
@@ -192,6 +202,7 @@ namespace glsl
 
 	void StmtConfigFiller::visitVariableDeclStmt( ast::stmt::VariableDecl * stmt )
 	{
+		checkType( *stmt->getVariable()->getType(), m_result );
 	}
 
 	void StmtConfigFiller::visitWhileStmt( ast::stmt::While * stmt )

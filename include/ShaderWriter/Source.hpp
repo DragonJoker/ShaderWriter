@@ -6,7 +6,7 @@ See LICENSE file in root folder
 #include "ShaderWriter/CompositeTypes/Ssbo.hpp"
 #include "ShaderWriter/CompositeTypes/Struct.hpp"
 #include "ShaderWriter/CompositeTypes/StructInstance.hpp"
-#include "ShaderWriter/CompositeTypes/StructuredSsbo.hpp"
+#include "ShaderWriter/CompositeTypes/ArraySsbo.hpp"
 #include "ShaderWriter/CompositeTypes/Ubo.hpp"
 
 #include "ShaderWriter/MatTypes/Mat2.hpp"

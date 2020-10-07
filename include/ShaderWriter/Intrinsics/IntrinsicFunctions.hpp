@@ -1356,6 +1356,9 @@ namespace sdw
 	/**@{*/
 	SDW_API MaybeOptional< Int > atomicAdd( MaybeOptional< Int > const & mem, MaybeOptional< Int > const & data );
 	SDW_API MaybeOptional< UInt > atomicAdd( MaybeOptional< UInt > const & mem, MaybeOptional< UInt > const & data );
+	SDW_API MaybeOptional< Float > atomicAdd( MaybeOptional< Float > const & mem, MaybeOptional< Float > const & data );
+	SDW_API MaybeOptional< HVec2 > atomicAdd( MaybeOptional< HVec2 > const & mem, MaybeOptional< HVec2 > const & data );
+	SDW_API MaybeOptional< HVec4 > atomicAdd( MaybeOptional< HVec4 > const & mem, MaybeOptional< HVec4 > const & data );
 	/**@}*/
 #pragma endregion
 #pragma region atomicMin
@@ -1416,6 +1419,9 @@ namespace sdw
 	/**@{*/
 	SDW_API MaybeOptional< Int > atomicExchange( MaybeOptional< Int > const & mem, MaybeOptional< Int > const & data );
 	SDW_API MaybeOptional< UInt > atomicExchange( MaybeOptional< UInt > const & mem, MaybeOptional< UInt > const & data );
+	SDW_API MaybeOptional< Float > atomicExchange( MaybeOptional< Float > const & mem, MaybeOptional< Float > const & data );
+	SDW_API MaybeOptional< HVec2 > atomicExchange( MaybeOptional< HVec2 > const & mem, MaybeOptional< HVec2 > const & data );
+	SDW_API MaybeOptional< HVec4 > atomicExchange( MaybeOptional< HVec4 > const & mem, MaybeOptional< HVec4 > const & data );
 	/**@}*/
 #pragma endregion
 #pragma region atomicCompSwap

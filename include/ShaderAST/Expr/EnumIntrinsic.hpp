@@ -621,6 +621,9 @@ namespace ast::expr
 	// Atomic Memory Functions
 		eAtomicAddI,
 		eAtomicAddU,
+		eAtomicAddF,
+		eAtomicAdd2H,
+		eAtomicAdd4H,
 		eAtomicMinI,
 		eAtomicMinU,
 		eAtomicMaxI,
@@ -633,6 +636,9 @@ namespace ast::expr
 		eAtomicXorU,
 		eAtomicExchangeI,
 		eAtomicExchangeU,
+		eAtomicExchangeF,
+		eAtomicExchange2H,
+		eAtomicExchange4H,
 		eAtomicCompSwapI,
 		eAtomicCompSwapU,
 

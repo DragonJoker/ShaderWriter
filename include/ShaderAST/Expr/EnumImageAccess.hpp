@@ -9,6 +9,7 @@ namespace ast::expr
 {
 	enum class ImageAccess
 	{
+	// Image Query Functions
 		eImageSize1DF,
 		eImageSize2DF,
 		eImageSize3DF,
@@ -48,6 +49,8 @@ namespace ast::expr
 		eImageSamples2DMSArrayI,
 		eImageSamples2DMSU,
 		eImageSamples2DMSArrayU,
+
+	// Image texel load
 		eImageLoad1DF,
 		eImageLoad2DF,
 		eImageLoad3DF,
@@ -81,6 +84,8 @@ namespace ast::expr
 		eImageLoadCubeArrayU,
 		eImageLoad2DMSU,
 		eImageLoad2DMSArrayU,
+
+	// Image texel store
 		eImageStore1DF,
 		eImageStore2DF,
 		eImageStore3DF,
@@ -114,6 +119,8 @@ namespace ast::expr
 		eImageStoreCubeArrayU,
 		eImageStore2DMSU,
 		eImageStore2DMSArrayU,
+
+	// Image atomics
 		eImageAtomicAdd1DU,
 		eImageAtomicAdd2DU,
 		eImageAtomicAdd3DU,
@@ -136,6 +143,17 @@ namespace ast::expr
 		eImageAtomicAddCubeArrayI,
 		eImageAtomicAdd2DMSI,
 		eImageAtomicAdd2DMSArrayI,
+		eImageAtomicAdd1DF,
+		eImageAtomicAdd2DF,
+		eImageAtomicAdd3DF,
+		eImageAtomicAdd2DRectF,
+		eImageAtomicAddCubeF,
+		eImageAtomicAddBufferF,
+		eImageAtomicAdd1DArrayF,
+		eImageAtomicAdd2DArrayF,
+		eImageAtomicAddCubeArrayF,
+		eImageAtomicAdd2DMSF,
+		eImageAtomicAdd2DMSArrayF,
 		eImageAtomicMin1DU,
 		eImageAtomicMin2DU,
 		eImageAtomicMin3DU,
@@ -268,6 +286,17 @@ namespace ast::expr
 		eImageAtomicExchangeCubeArrayI,
 		eImageAtomicExchange2DMSI,
 		eImageAtomicExchange2DMSArrayI,
+		eImageAtomicExchange1DF,
+		eImageAtomicExchange2DF,
+		eImageAtomicExchange3DF,
+		eImageAtomicExchange2DRectF,
+		eImageAtomicExchangeCubeF,
+		eImageAtomicExchangeBufferF,
+		eImageAtomicExchange1DArrayF,
+		eImageAtomicExchange2DArrayF,
+		eImageAtomicExchangeCubeArrayF,
+		eImageAtomicExchange2DMSF,
+		eImageAtomicExchange2DMSArrayF,
 		eImageAtomicCompSwap1DU,
 		eImageAtomicCompSwap2DU,
 		eImageAtomicCompSwap3DU,

@@ -77767,7 +77767,7 @@ namespace ast::expr
 	}
 	/**
 	*@return
-	*	float
+	*	half
 	*@param image
 	*	SampledImage<Float, 1D, Shadow>
 	*@param[in] P
@@ -77782,7 +77782,7 @@ namespace ast::expr
 	{
 		assert( P->getType()->getKind() == type::Kind::eFloat );
 		assert( refZ->getType()->getKind() == type::Kind::eFloat );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eFloat )
+		return makeTextureAccessCall( cache.getBasicType( type::Kind::eHalf )
 			, TextureAccess::eTexture1DShadowF
 			, std::move( image )
 			, std::move( P )
@@ -77818,7 +77818,7 @@ namespace ast::expr
 	}
 	/**
 	*@return
-	*	float
+	*	half
 	*@param image
 	*	SampledImage<Float, 1D, Shadow>
 	*@param[in] P
@@ -77837,7 +77837,7 @@ namespace ast::expr
 		assert( P->getType()->getKind() == type::Kind::eFloat );
 		assert( refZ->getType()->getKind() == type::Kind::eFloat );
 		assert( bias->getType()->getKind() == type::Kind::eFloat );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eFloat )
+		return makeTextureAccessCall( cache.getBasicType( type::Kind::eHalf )
 			, TextureAccess::eTexture1DShadowFBias
 			, std::move( image )
 			, std::move( P )
@@ -77869,7 +77869,7 @@ namespace ast::expr
 	}
 	/**
 	*@return
-	*	float
+	*	half
 	*@param image
 	*	SampledImage<Float, 2D, Shadow>
 	*@param[in] P
@@ -77884,7 +77884,7 @@ namespace ast::expr
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
 		assert( refZ->getType()->getKind() == type::Kind::eFloat );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eFloat )
+		return makeTextureAccessCall( cache.getBasicType( type::Kind::eHalf )
 			, TextureAccess::eTexture2DShadowF
 			, std::move( image )
 			, std::move( P )
@@ -77920,7 +77920,7 @@ namespace ast::expr
 	}
 	/**
 	*@return
-	*	float
+	*	half
 	*@param image
 	*	SampledImage<Float, 2D, Shadow>
 	*@param[in] P
@@ -77939,7 +77939,7 @@ namespace ast::expr
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
 		assert( refZ->getType()->getKind() == type::Kind::eFloat );
 		assert( bias->getType()->getKind() == type::Kind::eFloat );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eFloat )
+		return makeTextureAccessCall( cache.getBasicType( type::Kind::eHalf )
 			, TextureAccess::eTexture2DShadowFBias
 			, std::move( image )
 			, std::move( P )
@@ -77971,7 +77971,7 @@ namespace ast::expr
 	}
 	/**
 	*@return
-	*	float
+	*	half
 	*@param image
 	*	SampledImage<Float, Cube, Shadow>
 	*@param[in] P
@@ -77986,7 +77986,7 @@ namespace ast::expr
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3F );
 		assert( refZ->getType()->getKind() == type::Kind::eFloat );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eFloat )
+		return makeTextureAccessCall( cache.getBasicType( type::Kind::eHalf )
 			, TextureAccess::eTextureCubeShadowF
 			, std::move( image )
 			, std::move( P )
@@ -78022,7 +78022,7 @@ namespace ast::expr
 	}
 	/**
 	*@return
-	*	float
+	*	half
 	*@param image
 	*	SampledImage<Float, Cube, Shadow>
 	*@param[in] P
@@ -78041,7 +78041,7 @@ namespace ast::expr
 		assert( P->getType()->getKind() == type::Kind::eVec3F );
 		assert( refZ->getType()->getKind() == type::Kind::eFloat );
 		assert( bias->getType()->getKind() == type::Kind::eFloat );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eFloat )
+		return makeTextureAccessCall( cache.getBasicType( type::Kind::eHalf )
 			, TextureAccess::eTextureCubeShadowFBias
 			, std::move( image )
 			, std::move( P )
@@ -78073,7 +78073,7 @@ namespace ast::expr
 	}
 	/**
 	*@return
-	*	float
+	*	half
 	*@param image
 	*	SampledImage<Float, 1D, Array, Shadow>
 	*@param[in] P
@@ -78088,7 +78088,7 @@ namespace ast::expr
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
 		assert( refZ->getType()->getKind() == type::Kind::eFloat );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eFloat )
+		return makeTextureAccessCall( cache.getBasicType( type::Kind::eHalf )
 			, TextureAccess::eTexture1DArrayShadowF
 			, std::move( image )
 			, std::move( P )
@@ -78124,7 +78124,7 @@ namespace ast::expr
 	}
 	/**
 	*@return
-	*	float
+	*	half
 	*@param image
 	*	SampledImage<Float, 1D, Array, Shadow>
 	*@param[in] P
@@ -78143,7 +78143,7 @@ namespace ast::expr
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
 		assert( refZ->getType()->getKind() == type::Kind::eFloat );
 		assert( bias->getType()->getKind() == type::Kind::eFloat );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eFloat )
+		return makeTextureAccessCall( cache.getBasicType( type::Kind::eHalf )
 			, TextureAccess::eTexture1DArrayShadowFBias
 			, std::move( image )
 			, std::move( P )
@@ -78175,7 +78175,7 @@ namespace ast::expr
 	}
 	/**
 	*@return
-	*	float
+	*	half
 	*@param image
 	*	SampledImage<Float, 2D, Array, Shadow>
 	*@param[in] P
@@ -78190,7 +78190,7 @@ namespace ast::expr
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3F );
 		assert( refZ->getType()->getKind() == type::Kind::eFloat );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eFloat )
+		return makeTextureAccessCall( cache.getBasicType( type::Kind::eHalf )
 			, TextureAccess::eTexture2DArrayShadowF
 			, std::move( image )
 			, std::move( P )
@@ -78221,7 +78221,7 @@ namespace ast::expr
 	}
 	/**
 	*@return
-	*	float
+	*	half
 	*@param image
 	*	SampledImage<Float, Rect, Shadow>
 	*@param[in] P
@@ -78236,7 +78236,7 @@ namespace ast::expr
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
 		assert( refZ->getType()->getKind() == type::Kind::eFloat );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eFloat )
+		return makeTextureAccessCall( cache.getBasicType( type::Kind::eHalf )
 			, TextureAccess::eTexture2DRectShadowF
 			, std::move( image )
 			, std::move( P )
@@ -78267,7 +78267,7 @@ namespace ast::expr
 	}
 	/**
 	*@return
-	*	float
+	*	half
 	*@param image
 	*	SampledImage<Float, Cube, Array, Shadow>
 	*@param[in] P
@@ -78282,7 +78282,7 @@ namespace ast::expr
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec4F );
 		assert( refZ->getType()->getKind() == type::Kind::eFloat );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eFloat )
+		return makeTextureAccessCall( cache.getBasicType( type::Kind::eHalf )
 			, TextureAccess::eTextureCubeArrayShadowF
 			, std::move( image )
 			, std::move( P )
@@ -78313,7 +78313,7 @@ namespace ast::expr
 	}
 	/**
 	*@return
-	*	float
+	*	half
 	*@param image
 	*	SampledImage<Float, 1D, Shadow>
 	*@param[in] P
@@ -78328,7 +78328,7 @@ namespace ast::expr
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
 		assert( refZ->getType()->getKind() == type::Kind::eFloat );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eFloat )
+		return makeTextureAccessCall( cache.getBasicType( type::Kind::eHalf )
 			, TextureAccess::eTextureProj1DShadowF
 			, std::move( image )
 			, std::move( P )
@@ -78364,7 +78364,7 @@ namespace ast::expr
 	}
 	/**
 	*@return
-	*	float
+	*	half
 	*@param image
 	*	SampledImage<Float, 1D, Shadow>
 	*@param[in] P
@@ -78383,7 +78383,7 @@ namespace ast::expr
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
 		assert( refZ->getType()->getKind() == type::Kind::eFloat );
 		assert( bias->getType()->getKind() == type::Kind::eFloat );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eFloat )
+		return makeTextureAccessCall( cache.getBasicType( type::Kind::eHalf )
 			, TextureAccess::eTextureProj1DShadowFBias
 			, std::move( image )
 			, std::move( P )
@@ -78415,7 +78415,7 @@ namespace ast::expr
 	}
 	/**
 	*@return
-	*	float
+	*	half
 	*@param image
 	*	SampledImage<Float, 2D, Shadow>
 	*@param[in] P
@@ -78430,7 +78430,7 @@ namespace ast::expr
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3F );
 		assert( refZ->getType()->getKind() == type::Kind::eFloat );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eFloat )
+		return makeTextureAccessCall( cache.getBasicType( type::Kind::eHalf )
 			, TextureAccess::eTextureProj2DShadowF
 			, std::move( image )
 			, std::move( P )
@@ -78466,7 +78466,7 @@ namespace ast::expr
 	}
 	/**
 	*@return
-	*	float
+	*	half
 	*@param image
 	*	SampledImage<Float, 2D, Shadow>
 	*@param[in] P
@@ -78485,7 +78485,7 @@ namespace ast::expr
 		assert( P->getType()->getKind() == type::Kind::eVec3F );
 		assert( refZ->getType()->getKind() == type::Kind::eFloat );
 		assert( bias->getType()->getKind() == type::Kind::eFloat );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eFloat )
+		return makeTextureAccessCall( cache.getBasicType( type::Kind::eHalf )
 			, TextureAccess::eTextureProj2DShadowFBias
 			, std::move( image )
 			, std::move( P )
@@ -78517,7 +78517,7 @@ namespace ast::expr
 	}
 	/**
 	*@return
-	*	float
+	*	half
 	*@param image
 	*	SampledImage<Float, Rect, Shadow>
 	*@param[in] P
@@ -78532,7 +78532,7 @@ namespace ast::expr
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3F );
 		assert( refZ->getType()->getKind() == type::Kind::eFloat );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eFloat )
+		return makeTextureAccessCall( cache.getBasicType( type::Kind::eHalf )
 			, TextureAccess::eTextureProj2DRectShadowF
 			, std::move( image )
 			, std::move( P )
@@ -78568,7 +78568,7 @@ namespace ast::expr
 	}
 	/**
 	*@return
-	*	float
+	*	half
 	*@param image
 	*	SampledImage<Float, 1D, Shadow>
 	*@param[in] P
@@ -78587,7 +78587,7 @@ namespace ast::expr
 		assert( P->getType()->getKind() == type::Kind::eFloat );
 		assert( refZ->getType()->getKind() == type::Kind::eFloat );
 		assert( lod->getType()->getKind() == type::Kind::eFloat );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eFloat )
+		return makeTextureAccessCall( cache.getBasicType( type::Kind::eHalf )
 			, TextureAccess::eTextureLod1DShadowF
 			, std::move( image )
 			, std::move( P )
@@ -78624,7 +78624,7 @@ namespace ast::expr
 	}
 	/**
 	*@return
-	*	float
+	*	half
 	*@param image
 	*	SampledImage<Float, 2D, Shadow>
 	*@param[in] P
@@ -78643,7 +78643,7 @@ namespace ast::expr
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
 		assert( refZ->getType()->getKind() == type::Kind::eFloat );
 		assert( lod->getType()->getKind() == type::Kind::eFloat );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eFloat )
+		return makeTextureAccessCall( cache.getBasicType( type::Kind::eHalf )
 			, TextureAccess::eTextureLod2DShadowF
 			, std::move( image )
 			, std::move( P )
@@ -78680,7 +78680,7 @@ namespace ast::expr
 	}
 	/**
 	*@return
-	*	float
+	*	half
 	*@param image
 	*	SampledImage<Float, 1D, Array, Shadow>
 	*@param[in] P
@@ -78699,7 +78699,7 @@ namespace ast::expr
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
 		assert( refZ->getType()->getKind() == type::Kind::eFloat );
 		assert( lod->getType()->getKind() == type::Kind::eFloat );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eFloat )
+		return makeTextureAccessCall( cache.getBasicType( type::Kind::eHalf )
 			, TextureAccess::eTextureLod1DArrayShadowF
 			, std::move( image )
 			, std::move( P )
@@ -78736,7 +78736,7 @@ namespace ast::expr
 	}
 	/**
 	*@return
-	*	float
+	*	half
 	*@param image
 	*	SampledImage<Float, Rect, Shadow>
 	*@param[in] P
@@ -78755,7 +78755,7 @@ namespace ast::expr
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
 		assert( refZ->getType()->getKind() == type::Kind::eFloat );
 		assert( offset->getType()->getKind() == type::Kind::eVec2I );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eFloat )
+		return makeTextureAccessCall( cache.getBasicType( type::Kind::eHalf )
 			, TextureAccess::eTextureOffset2DRectShadowF
 			, std::move( image )
 			, std::move( P )
@@ -78792,7 +78792,7 @@ namespace ast::expr
 	}
 	/**
 	*@return
-	*	float
+	*	half
 	*@param image
 	*	SampledImage<Float, 1D, Shadow>
 	*@param[in] P
@@ -78811,7 +78811,7 @@ namespace ast::expr
 		assert( P->getType()->getKind() == type::Kind::eFloat );
 		assert( refZ->getType()->getKind() == type::Kind::eFloat );
 		assert( offset->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eFloat )
+		return makeTextureAccessCall( cache.getBasicType( type::Kind::eHalf )
 			, TextureAccess::eTextureOffset1DShadowF
 			, std::move( image )
 			, std::move( P )
@@ -78853,7 +78853,7 @@ namespace ast::expr
 	}
 	/**
 	*@return
-	*	float
+	*	half
 	*@param image
 	*	SampledImage<Float, 1D, Shadow>
 	*@param[in] P
@@ -78876,7 +78876,7 @@ namespace ast::expr
 		assert( refZ->getType()->getKind() == type::Kind::eFloat );
 		assert( offset->getType()->getKind() == type::Kind::eInt );
 		assert( bias->getType()->getKind() == type::Kind::eFloat );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eFloat )
+		return makeTextureAccessCall( cache.getBasicType( type::Kind::eHalf )
 			, TextureAccess::eTextureOffset1DShadowFBias
 			, std::move( image )
 			, std::move( P )
@@ -78914,7 +78914,7 @@ namespace ast::expr
 	}
 	/**
 	*@return
-	*	float
+	*	half
 	*@param image
 	*	SampledImage<Float, 2D, Shadow>
 	*@param[in] P
@@ -78933,7 +78933,7 @@ namespace ast::expr
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
 		assert( refZ->getType()->getKind() == type::Kind::eFloat );
 		assert( offset->getType()->getKind() == type::Kind::eVec2I );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eFloat )
+		return makeTextureAccessCall( cache.getBasicType( type::Kind::eHalf )
 			, TextureAccess::eTextureOffset2DShadowF
 			, std::move( image )
 			, std::move( P )
@@ -78975,7 +78975,7 @@ namespace ast::expr
 	}
 	/**
 	*@return
-	*	float
+	*	half
 	*@param image
 	*	SampledImage<Float, 2D, Shadow>
 	*@param[in] P
@@ -78998,7 +78998,7 @@ namespace ast::expr
 		assert( refZ->getType()->getKind() == type::Kind::eFloat );
 		assert( offset->getType()->getKind() == type::Kind::eVec2I );
 		assert( bias->getType()->getKind() == type::Kind::eFloat );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eFloat )
+		return makeTextureAccessCall( cache.getBasicType( type::Kind::eHalf )
 			, TextureAccess::eTextureOffset2DShadowFBias
 			, std::move( image )
 			, std::move( P )
@@ -79036,7 +79036,7 @@ namespace ast::expr
 	}
 	/**
 	*@return
-	*	float
+	*	half
 	*@param image
 	*	SampledImage<Float, 1D, Array, Shadow>
 	*@param[in] P
@@ -79055,7 +79055,7 @@ namespace ast::expr
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
 		assert( refZ->getType()->getKind() == type::Kind::eFloat );
 		assert( offset->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eFloat )
+		return makeTextureAccessCall( cache.getBasicType( type::Kind::eHalf )
 			, TextureAccess::eTextureOffset1DArrayShadowF
 			, std::move( image )
 			, std::move( P )
@@ -79092,7 +79092,7 @@ namespace ast::expr
 	}
 	/**
 	*@return
-	*	float
+	*	half
 	*@param image
 	*	SampledImage<Float, 2D, Array, Shadow>
 	*@param[in] P
@@ -79111,7 +79111,7 @@ namespace ast::expr
 		assert( P->getType()->getKind() == type::Kind::eVec3F );
 		assert( refZ->getType()->getKind() == type::Kind::eFloat );
 		assert( offset->getType()->getKind() == type::Kind::eVec2I );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eFloat )
+		return makeTextureAccessCall( cache.getBasicType( type::Kind::eHalf )
 			, TextureAccess::eTextureOffset2DArrayShadowF
 			, std::move( image )
 			, std::move( P )
@@ -79148,7 +79148,7 @@ namespace ast::expr
 	}
 	/**
 	*@return
-	*	float
+	*	half
 	*@param image
 	*	SampledImage<Float, 1D, Shadow>
 	*@param[in] P
@@ -79167,7 +79167,7 @@ namespace ast::expr
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
 		assert( refZ->getType()->getKind() == type::Kind::eFloat );
 		assert( offset->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eFloat )
+		return makeTextureAccessCall( cache.getBasicType( type::Kind::eHalf )
 			, TextureAccess::eTextureProjOffset1DShadowF
 			, std::move( image )
 			, std::move( P )
@@ -79209,7 +79209,7 @@ namespace ast::expr
 	}
 	/**
 	*@return
-	*	float
+	*	half
 	*@param image
 	*	SampledImage<Float, 1D, Shadow>
 	*@param[in] P
@@ -79232,7 +79232,7 @@ namespace ast::expr
 		assert( refZ->getType()->getKind() == type::Kind::eFloat );
 		assert( offset->getType()->getKind() == type::Kind::eInt );
 		assert( bias->getType()->getKind() == type::Kind::eFloat );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eFloat )
+		return makeTextureAccessCall( cache.getBasicType( type::Kind::eHalf )
 			, TextureAccess::eTextureProjOffset1DShadowFBias
 			, std::move( image )
 			, std::move( P )
@@ -79270,7 +79270,7 @@ namespace ast::expr
 	}
 	/**
 	*@return
-	*	float
+	*	half
 	*@param image
 	*	SampledImage<Float, 2D, Shadow>
 	*@param[in] P
@@ -79289,7 +79289,7 @@ namespace ast::expr
 		assert( P->getType()->getKind() == type::Kind::eVec3F );
 		assert( refZ->getType()->getKind() == type::Kind::eFloat );
 		assert( offset->getType()->getKind() == type::Kind::eVec2I );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eFloat )
+		return makeTextureAccessCall( cache.getBasicType( type::Kind::eHalf )
 			, TextureAccess::eTextureProjOffset2DShadowF
 			, std::move( image )
 			, std::move( P )
@@ -79331,7 +79331,7 @@ namespace ast::expr
 	}
 	/**
 	*@return
-	*	float
+	*	half
 	*@param image
 	*	SampledImage<Float, 2D, Shadow>
 	*@param[in] P
@@ -79354,7 +79354,7 @@ namespace ast::expr
 		assert( refZ->getType()->getKind() == type::Kind::eFloat );
 		assert( offset->getType()->getKind() == type::Kind::eVec2I );
 		assert( bias->getType()->getKind() == type::Kind::eFloat );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eFloat )
+		return makeTextureAccessCall( cache.getBasicType( type::Kind::eHalf )
 			, TextureAccess::eTextureProjOffset2DShadowFBias
 			, std::move( image )
 			, std::move( P )
@@ -79392,7 +79392,7 @@ namespace ast::expr
 	}
 	/**
 	*@return
-	*	float
+	*	half
 	*@param image
 	*	SampledImage<Float, Rect, Shadow>
 	*@param[in] P
@@ -79411,7 +79411,7 @@ namespace ast::expr
 		assert( P->getType()->getKind() == type::Kind::eVec3F );
 		assert( refZ->getType()->getKind() == type::Kind::eFloat );
 		assert( offset->getType()->getKind() == type::Kind::eVec2I );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eFloat )
+		return makeTextureAccessCall( cache.getBasicType( type::Kind::eHalf )
 			, TextureAccess::eTextureProjOffset2DRectShadowF
 			, std::move( image )
 			, std::move( P )
@@ -79453,7 +79453,7 @@ namespace ast::expr
 	}
 	/**
 	*@return
-	*	float
+	*	half
 	*@param image
 	*	SampledImage<Float, 1D, Shadow>
 	*@param[in] P
@@ -79476,7 +79476,7 @@ namespace ast::expr
 		assert( refZ->getType()->getKind() == type::Kind::eFloat );
 		assert( lod->getType()->getKind() == type::Kind::eFloat );
 		assert( offset->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eFloat )
+		return makeTextureAccessCall( cache.getBasicType( type::Kind::eHalf )
 			, TextureAccess::eTextureLodOffset1DShadowF
 			, std::move( image )
 			, std::move( P )
@@ -79519,7 +79519,7 @@ namespace ast::expr
 	}
 	/**
 	*@return
-	*	float
+	*	half
 	*@param image
 	*	SampledImage<Float, 2D, Shadow>
 	*@param[in] P
@@ -79542,7 +79542,7 @@ namespace ast::expr
 		assert( refZ->getType()->getKind() == type::Kind::eFloat );
 		assert( lod->getType()->getKind() == type::Kind::eFloat );
 		assert( offset->getType()->getKind() == type::Kind::eVec2I );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eFloat )
+		return makeTextureAccessCall( cache.getBasicType( type::Kind::eHalf )
 			, TextureAccess::eTextureLodOffset2DShadowF
 			, std::move( image )
 			, std::move( P )
@@ -79585,7 +79585,7 @@ namespace ast::expr
 	}
 	/**
 	*@return
-	*	float
+	*	half
 	*@param image
 	*	SampledImage<Float, 1D, Array, Shadow>
 	*@param[in] P
@@ -79608,7 +79608,7 @@ namespace ast::expr
 		assert( refZ->getType()->getKind() == type::Kind::eFloat );
 		assert( lod->getType()->getKind() == type::Kind::eFloat );
 		assert( offset->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eFloat )
+		return makeTextureAccessCall( cache.getBasicType( type::Kind::eHalf )
 			, TextureAccess::eTextureLodOffset1DArrayShadowF
 			, std::move( image )
 			, std::move( P )
@@ -79646,7 +79646,7 @@ namespace ast::expr
 	}
 	/**
 	*@return
-	*	float
+	*	half
 	*@param image
 	*	SampledImage<Float, 1D, Shadow>
 	*@param[in] P
@@ -79665,7 +79665,7 @@ namespace ast::expr
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
 		assert( refZ->getType()->getKind() == type::Kind::eFloat );
 		assert( lod->getType()->getKind() == type::Kind::eFloat );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eFloat )
+		return makeTextureAccessCall( cache.getBasicType( type::Kind::eHalf )
 			, TextureAccess::eTextureProjLod1DShadowF
 			, std::move( image )
 			, std::move( P )
@@ -79702,7 +79702,7 @@ namespace ast::expr
 	}
 	/**
 	*@return
-	*	float
+	*	half
 	*@param image
 	*	SampledImage<Float, 2D, Shadow>
 	*@param[in] P
@@ -79721,7 +79721,7 @@ namespace ast::expr
 		assert( P->getType()->getKind() == type::Kind::eVec3F );
 		assert( refZ->getType()->getKind() == type::Kind::eFloat );
 		assert( lod->getType()->getKind() == type::Kind::eFloat );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eFloat )
+		return makeTextureAccessCall( cache.getBasicType( type::Kind::eHalf )
 			, TextureAccess::eTextureProjLod2DShadowF
 			, std::move( image )
 			, std::move( P )
@@ -79763,7 +79763,7 @@ namespace ast::expr
 	}
 	/**
 	*@return
-	*	float
+	*	half
 	*@param image
 	*	SampledImage<Float, 1D, Shadow>
 	*@param[in] P
@@ -79786,7 +79786,7 @@ namespace ast::expr
 		assert( refZ->getType()->getKind() == type::Kind::eFloat );
 		assert( lod->getType()->getKind() == type::Kind::eFloat );
 		assert( offset->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eFloat )
+		return makeTextureAccessCall( cache.getBasicType( type::Kind::eHalf )
 			, TextureAccess::eTextureProjLodOffset1DShadowF
 			, std::move( image )
 			, std::move( P )
@@ -79829,7 +79829,7 @@ namespace ast::expr
 	}
 	/**
 	*@return
-	*	float
+	*	half
 	*@param image
 	*	SampledImage<Float, 2D, Shadow>
 	*@param[in] P
@@ -79852,7 +79852,7 @@ namespace ast::expr
 		assert( refZ->getType()->getKind() == type::Kind::eFloat );
 		assert( lod->getType()->getKind() == type::Kind::eFloat );
 		assert( offset->getType()->getKind() == type::Kind::eVec2I );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eFloat )
+		return makeTextureAccessCall( cache.getBasicType( type::Kind::eHalf )
 			, TextureAccess::eTextureProjLodOffset2DShadowF
 			, std::move( image )
 			, std::move( P )
@@ -79895,7 +79895,7 @@ namespace ast::expr
 	}
 	/**
 	*@return
-	*	float
+	*	half
 	*@param image
 	*	SampledImage<Float, Rect, Shadow>
 	*@param[in] P
@@ -79918,7 +79918,7 @@ namespace ast::expr
 		assert( refZ->getType()->getKind() == type::Kind::eFloat );
 		assert( dPdx->getType()->getKind() == type::Kind::eVec2F );
 		assert( dPdy->getType()->getKind() == type::Kind::eVec2F );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eFloat )
+		return makeTextureAccessCall( cache.getBasicType( type::Kind::eHalf )
 			, TextureAccess::eTextureGrad2DRectShadowF
 			, std::move( image )
 			, std::move( P )
@@ -79961,7 +79961,7 @@ namespace ast::expr
 	}
 	/**
 	*@return
-	*	float
+	*	half
 	*@param image
 	*	SampledImage<Float, 1D, Shadow>
 	*@param[in] P
@@ -79984,7 +79984,7 @@ namespace ast::expr
 		assert( refZ->getType()->getKind() == type::Kind::eFloat );
 		assert( dPdx->getType()->getKind() == type::Kind::eFloat );
 		assert( dPdy->getType()->getKind() == type::Kind::eFloat );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eFloat )
+		return makeTextureAccessCall( cache.getBasicType( type::Kind::eHalf )
 			, TextureAccess::eTextureGrad1DShadowF
 			, std::move( image )
 			, std::move( P )
@@ -80027,7 +80027,7 @@ namespace ast::expr
 	}
 	/**
 	*@return
-	*	float
+	*	half
 	*@param image
 	*	SampledImage<Float, 2D, Shadow>
 	*@param[in] P
@@ -80050,7 +80050,7 @@ namespace ast::expr
 		assert( refZ->getType()->getKind() == type::Kind::eFloat );
 		assert( dPdx->getType()->getKind() == type::Kind::eVec2F );
 		assert( dPdy->getType()->getKind() == type::Kind::eVec2F );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eFloat )
+		return makeTextureAccessCall( cache.getBasicType( type::Kind::eHalf )
 			, TextureAccess::eTextureGrad2DShadowF
 			, std::move( image )
 			, std::move( P )
@@ -80093,7 +80093,7 @@ namespace ast::expr
 	}
 	/**
 	*@return
-	*	float
+	*	half
 	*@param image
 	*	SampledImage<Float, 1D, Array, Shadow>
 	*@param[in] P
@@ -80116,7 +80116,7 @@ namespace ast::expr
 		assert( refZ->getType()->getKind() == type::Kind::eFloat );
 		assert( dPdx->getType()->getKind() == type::Kind::eFloat );
 		assert( dPdy->getType()->getKind() == type::Kind::eFloat );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eFloat )
+		return makeTextureAccessCall( cache.getBasicType( type::Kind::eHalf )
 			, TextureAccess::eTextureGrad1DArrayShadowF
 			, std::move( image )
 			, std::move( P )
@@ -80164,7 +80164,7 @@ namespace ast::expr
 	}
 	/**
 	*@return
-	*	float
+	*	half
 	*@param image
 	*	SampledImage<Float, Rect, Shadow>
 	*@param[in] P
@@ -80191,7 +80191,7 @@ namespace ast::expr
 		assert( dPdx->getType()->getKind() == type::Kind::eVec2F );
 		assert( dPdy->getType()->getKind() == type::Kind::eVec2F );
 		assert( offset->getType()->getKind() == type::Kind::eVec2I );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eFloat )
+		return makeTextureAccessCall( cache.getBasicType( type::Kind::eHalf )
 			, TextureAccess::eTextureGradOffset2DRectShadowF
 			, std::move( image )
 			, std::move( P )
@@ -80240,7 +80240,7 @@ namespace ast::expr
 	}
 	/**
 	*@return
-	*	float
+	*	half
 	*@param image
 	*	SampledImage<Float, 1D, Shadow>
 	*@param[in] P
@@ -80267,7 +80267,7 @@ namespace ast::expr
 		assert( dPdx->getType()->getKind() == type::Kind::eFloat );
 		assert( dPdy->getType()->getKind() == type::Kind::eFloat );
 		assert( offset->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eFloat )
+		return makeTextureAccessCall( cache.getBasicType( type::Kind::eHalf )
 			, TextureAccess::eTextureGradOffset1DShadowF
 			, std::move( image )
 			, std::move( P )
@@ -80316,7 +80316,7 @@ namespace ast::expr
 	}
 	/**
 	*@return
-	*	float
+	*	half
 	*@param image
 	*	SampledImage<Float, 2D, Shadow>
 	*@param[in] P
@@ -80343,7 +80343,7 @@ namespace ast::expr
 		assert( dPdx->getType()->getKind() == type::Kind::eVec2F );
 		assert( dPdy->getType()->getKind() == type::Kind::eVec2F );
 		assert( offset->getType()->getKind() == type::Kind::eVec2I );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eFloat )
+		return makeTextureAccessCall( cache.getBasicType( type::Kind::eHalf )
 			, TextureAccess::eTextureGradOffset2DShadowF
 			, std::move( image )
 			, std::move( P )
@@ -80392,7 +80392,7 @@ namespace ast::expr
 	}
 	/**
 	*@return
-	*	float
+	*	half
 	*@param image
 	*	SampledImage<Float, 1D, Array, Shadow>
 	*@param[in] P
@@ -80419,7 +80419,7 @@ namespace ast::expr
 		assert( dPdx->getType()->getKind() == type::Kind::eFloat );
 		assert( dPdy->getType()->getKind() == type::Kind::eFloat );
 		assert( offset->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eFloat )
+		return makeTextureAccessCall( cache.getBasicType( type::Kind::eHalf )
 			, TextureAccess::eTextureGradOffset1DArrayShadowF
 			, std::move( image )
 			, std::move( P )
@@ -80468,7 +80468,7 @@ namespace ast::expr
 	}
 	/**
 	*@return
-	*	float
+	*	half
 	*@param image
 	*	SampledImage<Float, 2D, Array, Shadow>
 	*@param[in] P
@@ -80495,7 +80495,7 @@ namespace ast::expr
 		assert( dPdx->getType()->getKind() == type::Kind::eVec2F );
 		assert( dPdy->getType()->getKind() == type::Kind::eVec2F );
 		assert( offset->getType()->getKind() == type::Kind::eVec2I );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eFloat )
+		return makeTextureAccessCall( cache.getBasicType( type::Kind::eHalf )
 			, TextureAccess::eTextureGradOffset2DArrayShadowF
 			, std::move( image )
 			, std::move( P )
@@ -80539,7 +80539,7 @@ namespace ast::expr
 	}
 	/**
 	*@return
-	*	float
+	*	half
 	*@param image
 	*	SampledImage<Float, 1D, Shadow>
 	*@param[in] P
@@ -80562,7 +80562,7 @@ namespace ast::expr
 		assert( refZ->getType()->getKind() == type::Kind::eFloat );
 		assert( pDx->getType()->getKind() == type::Kind::eFloat );
 		assert( pDy->getType()->getKind() == type::Kind::eFloat );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eFloat )
+		return makeTextureAccessCall( cache.getBasicType( type::Kind::eHalf )
 			, TextureAccess::eTextureProjGrad1DShadowF
 			, std::move( image )
 			, std::move( P )
@@ -80605,7 +80605,7 @@ namespace ast::expr
 	}
 	/**
 	*@return
-	*	float
+	*	half
 	*@param image
 	*	SampledImage<Float, 2D, Shadow>
 	*@param[in] P
@@ -80628,7 +80628,7 @@ namespace ast::expr
 		assert( refZ->getType()->getKind() == type::Kind::eFloat );
 		assert( pDx->getType()->getKind() == type::Kind::eVec2F );
 		assert( pDy->getType()->getKind() == type::Kind::eVec2F );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eFloat )
+		return makeTextureAccessCall( cache.getBasicType( type::Kind::eHalf )
 			, TextureAccess::eTextureProjGrad2DShadowF
 			, std::move( image )
 			, std::move( P )
@@ -80671,7 +80671,7 @@ namespace ast::expr
 	}
 	/**
 	*@return
-	*	float
+	*	half
 	*@param image
 	*	SampledImage<Float, Rect, Shadow>
 	*@param[in] P
@@ -80694,7 +80694,7 @@ namespace ast::expr
 		assert( refZ->getType()->getKind() == type::Kind::eFloat );
 		assert( pDx->getType()->getKind() == type::Kind::eVec2F );
 		assert( pDy->getType()->getKind() == type::Kind::eVec2F );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eFloat )
+		return makeTextureAccessCall( cache.getBasicType( type::Kind::eHalf )
 			, TextureAccess::eTextureProjGrad2DRectShadowF
 			, std::move( image )
 			, std::move( P )
@@ -80742,7 +80742,7 @@ namespace ast::expr
 	}
 	/**
 	*@return
-	*	float
+	*	half
 	*@param image
 	*	SampledImage<Float, 1D, Shadow>
 	*@param[in] P
@@ -80769,7 +80769,7 @@ namespace ast::expr
 		assert( dPdx->getType()->getKind() == type::Kind::eFloat );
 		assert( dPdy->getType()->getKind() == type::Kind::eFloat );
 		assert( offset->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eFloat )
+		return makeTextureAccessCall( cache.getBasicType( type::Kind::eHalf )
 			, TextureAccess::eTextureProjGradOffset1DShadowF
 			, std::move( image )
 			, std::move( P )
@@ -80818,7 +80818,7 @@ namespace ast::expr
 	}
 	/**
 	*@return
-	*	float
+	*	half
 	*@param image
 	*	SampledImage<Float, 2D, Shadow>
 	*@param[in] P
@@ -80845,7 +80845,7 @@ namespace ast::expr
 		assert( dPdx->getType()->getKind() == type::Kind::eVec2F );
 		assert( dPdy->getType()->getKind() == type::Kind::eVec2F );
 		assert( offset->getType()->getKind() == type::Kind::eVec2I );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eFloat )
+		return makeTextureAccessCall( cache.getBasicType( type::Kind::eHalf )
 			, TextureAccess::eTextureProjGradOffset2DShadowF
 			, std::move( image )
 			, std::move( P )
@@ -80894,7 +80894,7 @@ namespace ast::expr
 	}
 	/**
 	*@return
-	*	float
+	*	half
 	*@param image
 	*	SampledImage<Float, Rect, Shadow>
 	*@param[in] P
@@ -80921,7 +80921,7 @@ namespace ast::expr
 		assert( dPdx->getType()->getKind() == type::Kind::eVec2F );
 		assert( dPdy->getType()->getKind() == type::Kind::eVec2F );
 		assert( offset->getType()->getKind() == type::Kind::eVec2I );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eFloat )
+		return makeTextureAccessCall( cache.getBasicType( type::Kind::eHalf )
 			, TextureAccess::eTextureProjGradOffset2DRectShadowF
 			, std::move( image )
 			, std::move( P )

@@ -225,8 +225,6 @@ namespace ast::vk
 			case ast::type::Kind::eVec4U:
 				return VK_FORMAT_R32G32B32A32_UINT;
 			case ast::type::Kind::eVec2H:
-				return VK_FORMAT_R16G16_SFLOAT;
-			case ast::type::Kind::eVec3H:
 				return VK_FORMAT_R16G16B16_SFLOAT;
 			case ast::type::Kind::eVec4H:
 				return VK_FORMAT_R16G16B16A16_SFLOAT;

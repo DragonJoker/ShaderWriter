@@ -40,7 +40,12 @@ namespace glsl
 
 		bool requiresCubeMapArray{ false };
 		bool requiresTextureGather{ false };
+		bool requiresAtomicFloat{ false };
+		bool requiresFp16{ false };
+		bool requiresAtomicFp16Vector{ false };
 	};
+	void checkType( ast::type::Type const & type
+		, IntrinsicsConfig & config );
 }
 
 #endif

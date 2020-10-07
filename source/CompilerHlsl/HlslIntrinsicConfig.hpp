@@ -158,6 +158,9 @@ namespace hlsl
 
 		case ast::expr::Intrinsic::eAtomicAddI:
 		case ast::expr::Intrinsic::eAtomicAddU:
+		case ast::expr::Intrinsic::eAtomicAddF:
+		case ast::expr::Intrinsic::eAtomicAdd2H:
+		case ast::expr::Intrinsic::eAtomicAdd4H:
 		case ast::expr::Intrinsic::eAtomicMinI:
 		case ast::expr::Intrinsic::eAtomicMinU:
 		case ast::expr::Intrinsic::eAtomicMaxI:
@@ -170,6 +173,9 @@ namespace hlsl
 		case ast::expr::Intrinsic::eAtomicXorU:
 		case ast::expr::Intrinsic::eAtomicExchangeI:
 		case ast::expr::Intrinsic::eAtomicExchangeU:
+		case ast::expr::Intrinsic::eAtomicExchangeF:
+		case ast::expr::Intrinsic::eAtomicExchange2H:
+		case ast::expr::Intrinsic::eAtomicExchange4H:
 			result.atomicChange.isAtomic = true;
 			result.atomicChange.outputIndex = 2u;
 			break;

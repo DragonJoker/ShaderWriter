@@ -20,7 +20,7 @@ namespace sdw
 	template<>
 	struct ImageSampleGetter< ast::type::ImageFormat::eRgba16f >
 	{
-		using SampleType = Vec4;
+		using SampleType = HVec4;
 	};
 
 	template<>
@@ -32,7 +32,7 @@ namespace sdw
 	template<>
 	struct ImageSampleGetter< ast::type::ImageFormat::eRg16f >
 	{
-		using SampleType = Vec2;
+		using SampleType = HVec2;
 	};
 
 	template<>
@@ -44,7 +44,7 @@ namespace sdw
 	template<>
 	struct ImageSampleGetter< ast::type::ImageFormat::eR16f >
 	{
-		using SampleType = Float;
+		using SampleType = Half;
 	};
 
 	template<>

@@ -1,7 +1,7 @@
 /*
 See LICENSE file in root folder
 */
-#include "ShaderWriter/CompositeTypes/StructuredSsbo.hpp"
+#include "ShaderWriter/CompositeTypes/ArraySsbo.hpp"
 
 #include <ShaderAST/Shader.hpp>
 

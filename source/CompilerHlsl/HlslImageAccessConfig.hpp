@@ -262,6 +262,50 @@ namespace hlsl
 			config.requiresImageAtomicAdd2DMSArrayI = true;
 			break;
 
+		case ast::expr::ImageAccess::eImageAtomicAdd1DF:
+			config.requiresImageAtomicAdd1DF = true;
+			break;
+
+		case ast::expr::ImageAccess::eImageAtomicAdd2DF:
+			config.requiresImageAtomicAdd2DF = true;
+			break;
+
+		case ast::expr::ImageAccess::eImageAtomicAdd3DF:
+			config.requiresImageAtomicAdd3DF = true;
+			break;
+
+		case ast::expr::ImageAccess::eImageAtomicAdd2DRectF:
+			config.requiresImageAtomicAdd2DRectF = true;
+			break;
+
+		case ast::expr::ImageAccess::eImageAtomicAddCubeF:
+			config.requiresImageAtomicAddCubeF = true;
+			break;
+
+		case ast::expr::ImageAccess::eImageAtomicAddBufferF:
+			config.requiresImageAtomicAddBufferF = true;
+			break;
+
+		case ast::expr::ImageAccess::eImageAtomicAdd1DArrayF:
+			config.requiresImageAtomicAdd1DArrayF = true;
+			break;
+
+		case ast::expr::ImageAccess::eImageAtomicAdd2DArrayF:
+			config.requiresImageAtomicAdd2DArrayF = true;
+			break;
+
+		case ast::expr::ImageAccess::eImageAtomicAddCubeArrayF:
+			config.requiresImageAtomicAddCubeArrayF = true;
+			break;
+
+		case ast::expr::ImageAccess::eImageAtomicAdd2DMSF:
+			config.requiresImageAtomicAdd2DMSF = true;
+			break;
+
+		case ast::expr::ImageAccess::eImageAtomicAdd2DMSArrayF:
+			config.requiresImageAtomicAdd2DMSArrayF = true;
+			break;
+
 		case ast::expr::ImageAccess::eImageAtomicMin1DU:
 			config.requiresImageAtomicMin1DU = true;
 			break;
@@ -788,6 +832,50 @@ namespace hlsl
 
 		case ast::expr::ImageAccess::eImageAtomicExchange2DMSArrayI:
 			config.requiresImageAtomicExchange2DMSArrayI = true;
+			break;
+
+		case ast::expr::ImageAccess::eImageAtomicExchange1DF:
+			config.requiresImageAtomicExchange1DF = true;
+			break;
+
+		case ast::expr::ImageAccess::eImageAtomicExchange2DF:
+			config.requiresImageAtomicExchange2DF = true;
+			break;
+
+		case ast::expr::ImageAccess::eImageAtomicExchange3DF:
+			config.requiresImageAtomicExchange3DF = true;
+			break;
+
+		case ast::expr::ImageAccess::eImageAtomicExchange2DRectF:
+			config.requiresImageAtomicExchange2DRectF = true;
+			break;
+
+		case ast::expr::ImageAccess::eImageAtomicExchangeCubeF:
+			config.requiresImageAtomicExchangeCubeF = true;
+			break;
+
+		case ast::expr::ImageAccess::eImageAtomicExchangeBufferF:
+			config.requiresImageAtomicExchangeBufferF = true;
+			break;
+
+		case ast::expr::ImageAccess::eImageAtomicExchange1DArrayF:
+			config.requiresImageAtomicExchange1DArrayF = true;
+			break;
+
+		case ast::expr::ImageAccess::eImageAtomicExchange2DArrayF:
+			config.requiresImageAtomicExchange2DArrayF = true;
+			break;
+
+		case ast::expr::ImageAccess::eImageAtomicExchangeCubeArrayF:
+			config.requiresImageAtomicExchangeCubeArrayF = true;
+			break;
+
+		case ast::expr::ImageAccess::eImageAtomicExchange2DMSF:
+			config.requiresImageAtomicExchange2DMSF = true;
+			break;
+
+		case ast::expr::ImageAccess::eImageAtomicExchange2DMSArrayF:
+			config.requiresImageAtomicExchange2DMSArrayF = true;
 			break;
 
 		case ast::expr::ImageAccess::eImageAtomicCompSwap1DU:

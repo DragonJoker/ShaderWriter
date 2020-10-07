@@ -18,6 +18,7 @@ namespace glsl
 
 		switch ( value )
 		{
+	// Image Query Functions
 		case ast::expr::ImageAccess::eImageSize1DF:
 		case ast::expr::ImageAccess::eImageSize2DF:
 		case ast::expr::ImageAccess::eImageSize3DF:
@@ -63,6 +64,8 @@ namespace glsl
 			result = "imageSamples";
 			break;
 
+
+	// Image texel load
 		case ast::expr::ImageAccess::eImageLoad1DF:
 		case ast::expr::ImageAccess::eImageLoad2DF:
 		case ast::expr::ImageAccess::eImageLoad3DF:
@@ -99,6 +102,8 @@ namespace glsl
 			result = "imageLoad";
 			break;
 
+
+	// Image texel store
 		case ast::expr::ImageAccess::eImageStore1DF:
 		case ast::expr::ImageAccess::eImageStore2DF:
 		case ast::expr::ImageAccess::eImageStore3DF:
@@ -135,6 +140,8 @@ namespace glsl
 			result = "imageStore";
 			break;
 
+
+	// Image atomics
 		case ast::expr::ImageAccess::eImageAtomicAdd1DU:
 		case ast::expr::ImageAccess::eImageAtomicAdd2DU:
 		case ast::expr::ImageAccess::eImageAtomicAdd3DU:
@@ -157,6 +164,17 @@ namespace glsl
 		case ast::expr::ImageAccess::eImageAtomicAddCubeArrayI:
 		case ast::expr::ImageAccess::eImageAtomicAdd2DMSI:
 		case ast::expr::ImageAccess::eImageAtomicAdd2DMSArrayI:
+		case ast::expr::ImageAccess::eImageAtomicAdd1DF:
+		case ast::expr::ImageAccess::eImageAtomicAdd2DF:
+		case ast::expr::ImageAccess::eImageAtomicAdd3DF:
+		case ast::expr::ImageAccess::eImageAtomicAdd2DRectF:
+		case ast::expr::ImageAccess::eImageAtomicAddCubeF:
+		case ast::expr::ImageAccess::eImageAtomicAddBufferF:
+		case ast::expr::ImageAccess::eImageAtomicAdd1DArrayF:
+		case ast::expr::ImageAccess::eImageAtomicAdd2DArrayF:
+		case ast::expr::ImageAccess::eImageAtomicAddCubeArrayF:
+		case ast::expr::ImageAccess::eImageAtomicAdd2DMSF:
+		case ast::expr::ImageAccess::eImageAtomicAdd2DMSArrayF:
 			result = "imageAtomicAdd";
 			break;
 
@@ -307,6 +325,17 @@ namespace glsl
 		case ast::expr::ImageAccess::eImageAtomicExchangeCubeArrayI:
 		case ast::expr::ImageAccess::eImageAtomicExchange2DMSI:
 		case ast::expr::ImageAccess::eImageAtomicExchange2DMSArrayI:
+		case ast::expr::ImageAccess::eImageAtomicExchange1DF:
+		case ast::expr::ImageAccess::eImageAtomicExchange2DF:
+		case ast::expr::ImageAccess::eImageAtomicExchange3DF:
+		case ast::expr::ImageAccess::eImageAtomicExchange2DRectF:
+		case ast::expr::ImageAccess::eImageAtomicExchangeCubeF:
+		case ast::expr::ImageAccess::eImageAtomicExchangeBufferF:
+		case ast::expr::ImageAccess::eImageAtomicExchange1DArrayF:
+		case ast::expr::ImageAccess::eImageAtomicExchange2DArrayF:
+		case ast::expr::ImageAccess::eImageAtomicExchangeCubeArrayF:
+		case ast::expr::ImageAccess::eImageAtomicExchange2DMSF:
+		case ast::expr::ImageAccess::eImageAtomicExchange2DMSArrayF:
 			result = "imageAtomicExchange";
 			break;
 

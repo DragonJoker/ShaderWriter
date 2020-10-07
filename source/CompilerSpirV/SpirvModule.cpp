@@ -157,7 +157,7 @@ namespace spirv
 		initialiseHeader(
 			{
 				spv::MagicNumber,
-				0x00010000,
+				0x00010300,
 				0x00100001,
 				1u,	// Bound IDs.
 				0u	// Schema.

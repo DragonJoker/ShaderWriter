@@ -68,6 +68,24 @@ namespace glsl
 			{
 				doEnableCoreExtension( result, "GL_ARB_texture_gather", 400u, writerConfig.shaderLanguageVersion );
 			}
+
+			if ( intrinsicsConfig.requiresFp16 )
+			{
+				result->addStmt( ast::stmt::makePreprocExtension( "GL_NV_gpu_shader5"
+					, ast::stmt::PreprocExtension::ExtStatus::eEnabled ) );
+			}
+
+			if ( intrinsicsConfig.requiresAtomicFloat )
+			{
+				result->addStmt( ast::stmt::makePreprocExtension( "GL_NV_shader_atomic_float"
+					, ast::stmt::PreprocExtension::ExtStatus::eEnabled ) );
+
+				if ( intrinsicsConfig.requiresAtomicFp16Vector )
+				{
+					result->addStmt( ast::stmt::makePreprocExtension( "GL_NV_shader_atomic_fp16_vector"
+						, ast::stmt::PreprocExtension::ExtStatus::eEnabled ) );
+				}
+			}
 		}
 
 		StmtAdapter vis{ cache, writerConfig, intrinsicsConfig, result };
