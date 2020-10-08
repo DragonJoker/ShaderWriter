@@ -102,6 +102,24 @@ namespace sdw
 	};
 
 	template<>
+	struct TypeTraits< IncDecWrapperT< ast::type::Kind::eInt > >
+	{
+		static ast::type::Kind constexpr TypeEnum = ast::type::Kind::eInt;
+		static bool constexpr HasArithmeticOperators = true;
+		using CppType = int32_t;
+		using Type = IntegerValue< ast::type::Kind::eInt >;
+	};
+
+	template<>
+	struct TypeTraits< IncDecWrapperT< ast::type::Kind::eUInt > >
+	{
+		static ast::type::Kind constexpr TypeEnum = ast::type::Kind::eUInt;
+		static bool constexpr HasArithmeticOperators = true;
+		using CppType = uint32_t;
+		using Type = IntegerValue< ast::type::Kind::eUInt >;
+	};
+
+	template<>
 	struct TypeTraits< ArithmeticValue< ast::type::Kind::eFloat > >
 	{
 		static ast::type::Kind constexpr TypeEnum = ast::type::Kind::eFloat;
@@ -483,6 +501,182 @@ namespace sdw
 		static ast::type::Kind constexpr TypeEnum = TypeTraits< T >::TypeEnum;
 		static bool constexpr HasArithmeticOperators = TypeTraits< T >::HasArithmeticOperators;
 		using CppType = typename TypeTraits< T >::CppType;
+	};
+
+	//***********************************************************************************************
+
+	template<>
+	struct TypeKindTraits< ast::type::Kind::eBoolean >
+	{
+		using Type = Boolean;
+	};
+
+	template<>
+	struct TypeKindTraits< ast::type::Kind::eInt >
+	{
+		using Type = Int;
+	};
+
+	template<>
+	struct TypeKindTraits< ast::type::Kind::eUInt >
+	{
+		using Type = Int;
+	};
+
+	template<>
+	struct TypeKindTraits< ast::type::Kind::eHalf >
+	{
+		using Type = Half;
+	};
+
+	template<>
+	struct TypeKindTraits< ast::type::Kind::eFloat >
+	{
+		using Type = Float;
+	};
+
+	template<>
+	struct TypeKindTraits< ast::type::Kind::eDouble >
+	{
+		using Type = Double;
+	};
+
+	template<>
+	struct TypeKindTraits< ast::type::Kind::eVec2H >
+	{
+		using Type = HVec2;
+	};
+
+	template<>
+	struct TypeKindTraits< ast::type::Kind::eVec4H >
+	{
+		using Type = HVec4;
+	};
+
+	template<>
+	struct TypeKindTraits< ast::type::Kind::eVec2F >
+	{
+		using Type = Vec2;
+	};
+
+	template<>
+	struct TypeKindTraits< ast::type::Kind::eVec3F >
+	{
+		using Type = Vec3;
+	};
+
+	template<>
+	struct TypeKindTraits< ast::type::Kind::eVec4F >
+	{
+		using Type = Vec4;
+	};
+
+	template<>
+	struct TypeKindTraits< ast::type::Kind::eVec2D >
+	{
+		using Type = DVec2;
+	};
+
+	template<>
+	struct TypeKindTraits< ast::type::Kind::eVec3D >
+	{
+		using Type = DVec3;
+	};
+
+	template<>
+	struct TypeKindTraits< ast::type::Kind::eVec4D >
+	{
+		using Type = DVec4;
+	};
+
+	template<>
+	struct TypeKindTraits< ast::type::Kind::eVec2I >
+	{
+		using Type = IVec2;
+	};
+
+	template<>
+	struct TypeKindTraits< ast::type::Kind::eVec3I >
+	{
+		using Type = IVec3;
+	};
+
+	template<>
+	struct TypeKindTraits< ast::type::Kind::eVec4I >
+	{
+		using Type = IVec4;
+	};
+
+	template<>
+	struct TypeKindTraits< ast::type::Kind::eVec2U >
+	{
+		using Type = UVec2;
+	};
+
+	template<>
+	struct TypeKindTraits< ast::type::Kind::eVec3U >
+	{
+		using Type = UVec3;
+	};
+
+	template<>
+	struct TypeKindTraits< ast::type::Kind::eVec4U >
+	{
+		using Type = UVec4;
+	};
+
+	template<>
+	struct TypeKindTraits< ast::type::Kind::eMat2x2F >
+	{
+		using Type = Mat2;
+	};
+
+	template<>
+	struct TypeKindTraits< ast::type::Kind::eMat2x3F >
+	{
+		using Type = Mat2x3;
+	};
+
+	template<>
+	struct TypeKindTraits< ast::type::Kind::eMat2x4F >
+	{
+		using Type = Mat2x4;
+	};
+
+	template<>
+	struct TypeKindTraits< ast::type::Kind::eMat3x2F >
+	{
+		using Type = Mat3x2;
+	};
+
+	template<>
+	struct TypeKindTraits< ast::type::Kind::eMat3x3F >
+	{
+		using Type = Mat3;
+	};
+
+	template<>
+	struct TypeKindTraits< ast::type::Kind::eMat3x4F >
+	{
+		using Type = Mat3x4;
+	};
+
+	template<>
+	struct TypeKindTraits< ast::type::Kind::eMat4x2F >
+	{
+		using Type = Mat4x2;
+	};
+
+	template<>
+	struct TypeKindTraits< ast::type::Kind::eMat4x3F >
+	{
+		using Type = Mat4x3;
+	};
+
+	template<>
+	struct TypeKindTraits< ast::type::Kind::eMat4x4F >
+	{
+		using Type = Mat4;
 	};
 
 	//***********************************************************************************************

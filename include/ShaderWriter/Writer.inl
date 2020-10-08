@@ -363,6 +363,21 @@ namespace sdw
 			, makeConstExpr( getShader(), var )
 			, enabled };
 	}
+
+	template< ast::type::Kind KindT >
+	inline IntegerValue< KindT > ShaderWriter::declConstant( std::string const & name
+		, IncDecWrapperT< KindT > rhs )
+	{
+		return declConstant( name, IntegerValue< KindT >{ std::move( rhs ) } );
+	}
+
+	template< ast::type::Kind KindT >
+	inline Optional< IntegerValue< KindT > > ShaderWriter::declConstant( std::string const & name
+		, IncDecWrapperT< KindT > rhs
+		, bool enabled )
+	{
+		return declConstant( name, IntegerValue< KindT >{ std::move( rhs ) }, enabled );
+	}
 	/**@}*/
 #pragma endregion
 #pragma region Sampled Image declaration
@@ -1272,6 +1287,32 @@ namespace sdw
 		return Optional< Array< T > >{ m_shader.get()
 			, makeExpr( getShader(), var )
 			, enabled };
+	}
+
+	template< ast::type::Kind KindT >
+	inline IntegerValue< KindT > ShaderWriter::declLocale( std::string const & name
+		, IncDecWrapperT< KindT > rhs )
+	{
+		using T = IntegerValue< KindT >;
+		return declLocale( name, IntegerValue< KindT >{ std::move( rhs ) } );
+	}
+
+	template< ast::type::Kind KindT >
+	inline IntegerValue< KindT > ShaderWriter::declLocale( std::string const & name
+		, bool enabled
+		, IncDecWrapperT< KindT > defaultValue )
+	{
+		using T = IntegerValue< KindT >;
+		return declLocale( name, enabled, IntegerValue< KindT >{ std::move( defaultValue ) } );
+	}
+
+	template< ast::type::Kind KindT >
+	inline Optional< IntegerValue< KindT > > ShaderWriter::declLocale( std::string const & name
+		, IncDecWrapperT< KindT > rhs
+		, bool enabled )
+	{
+		using T = IntegerValue< KindT >;
+		return declLocale( name, IntegerValue< KindT >{ std::move( rhs ) }, enabled );
 	}
 	/**@}*/
 #pragma endregion

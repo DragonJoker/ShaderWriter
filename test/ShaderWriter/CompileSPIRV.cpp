@@ -238,8 +238,10 @@ namespace test
 	bool createInstance( Info & info )
 	{
 		initGlobalLayerProperties( info );
+#ifndef NDEBUG
 		info.instance_layer_names.push_back( "VK_LAYER_KHRONOS_validation" );
 		info.instance_extension_names.push_back( VK_EXT_DEBUG_REPORT_EXTENSION_NAME );
+#endif
 
 		vkEnumerateInstanceVersion( &info.apiVersion );
 

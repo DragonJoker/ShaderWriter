@@ -146,6 +146,9 @@ namespace sdw
 	template< ast::type::Kind KindT >
 	struct IntegerValue;
 
+	template< ast::type::Kind KindT >
+	struct IncDecWrapperT;
+
 	using Half = ArithmeticValue< ast::type::Kind::eHalf >;
 	using Float = ArithmeticValue< ast::type::Kind::eFloat >;
 	using Double = ArithmeticValue< ast::type::Kind::eDouble >;
@@ -1024,6 +1027,12 @@ namespace sdw
 
 	template< typename T >
 	static bool constexpr hasArithmeticOperators = TypeTraits< T >::HasArithmeticOperators;
+
+	template< ast::type::Kind KindT >
+	struct TypeKindTraits;
+
+	template< ast::type::Kind KindT >
+	using TypeKindT = typename TypeKindTraits< KindT >::Type;
 }
 
 #undef Writer_SampledImage
