@@ -954,6 +954,12 @@ namespace spirv
 			result = spv::Id( spv::OpAtomicIAdd );
 			break;
 
+		case ast::expr::Intrinsic::eAtomicAddF:
+		case ast::expr::Intrinsic::eAtomicAdd2H:
+		case ast::expr::Intrinsic::eAtomicAdd4H:
+			result = spv::Id( spv::OpAtomicFAddEXT );
+			break;
+
 		case ast::expr::Intrinsic::eAtomicMinI:
 			result = spv::Id( spv::OpAtomicSMin );
 			break;
@@ -987,6 +993,9 @@ namespace spirv
 
 		case ast::expr::Intrinsic::eAtomicExchangeI:
 		case ast::expr::Intrinsic::eAtomicExchangeU:
+		case ast::expr::Intrinsic::eAtomicExchangeF:
+		case ast::expr::Intrinsic::eAtomicExchange2H:
+		case ast::expr::Intrinsic::eAtomicExchange4H:
 			result = spv::Id( spv::OpAtomicExchange );
 			break;
 

@@ -10,7 +10,8 @@ See LICENSE file in root folder
 #include <cassert>
 
 namespace ast::expr
-{
+{	// Image Query Functions
+
 	/**
 	*@return
 	*	int
@@ -4067,6 +4068,8 @@ namespace ast::expr
 			, ImageAccess::eImageSamples2DMSArrayU
 			, std::move( image ) );
 	}
+	// Image texel load
+
 	/**
 	*@return
 	*	vec4f
@@ -4087,7 +4090,7 @@ namespace ast::expr
 	}
 	/**
 	*@return
-	*	vec4f
+	*	vec4h
 	*@param image
 	*	Image<Float, 1D>
 	*@param[in] P
@@ -4098,7 +4101,7 @@ namespace ast::expr
 		, ExprPtr P )
 	{
 		assert( P->getType()->getKind() == type::Kind::eInt );
-		return makeImageAccessCall( cache.getBasicType( type::Kind::eVec4F )
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVec4H )
 			, ImageAccess::eImageLoad1DF
 			, std::move( image )
 			, std::move( P ) );
@@ -4123,7 +4126,7 @@ namespace ast::expr
 	}
 	/**
 	*@return
-	*	vec2f
+	*	vec2h
 	*@param image
 	*	Image<Float, 1D>
 	*@param[in] P
@@ -4134,7 +4137,7 @@ namespace ast::expr
 		, ExprPtr P )
 	{
 		assert( P->getType()->getKind() == type::Kind::eInt );
-		return makeImageAccessCall( cache.getBasicType( type::Kind::eVec2F )
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVec2H )
 			, ImageAccess::eImageLoad1DF
 			, std::move( image )
 			, std::move( P ) );
@@ -4159,7 +4162,7 @@ namespace ast::expr
 	}
 	/**
 	*@return
-	*	float
+	*	half
 	*@param image
 	*	Image<Float, 1D>
 	*@param[in] P
@@ -4170,7 +4173,7 @@ namespace ast::expr
 		, ExprPtr P )
 	{
 		assert( P->getType()->getKind() == type::Kind::eInt );
-		return makeImageAccessCall( cache.getBasicType( type::Kind::eFloat )
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eHalf )
 			, ImageAccess::eImageLoad1DF
 			, std::move( image )
 			, std::move( P ) );
@@ -4195,7 +4198,7 @@ namespace ast::expr
 	}
 	/**
 	*@return
-	*	vec4f
+	*	vec4h
 	*@param image
 	*	Image<Float, 2D>
 	*@param[in] P
@@ -4206,7 +4209,7 @@ namespace ast::expr
 		, ExprPtr P )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2I );
-		return makeImageAccessCall( cache.getBasicType( type::Kind::eVec4F )
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVec4H )
 			, ImageAccess::eImageLoad2DF
 			, std::move( image )
 			, std::move( P ) );
@@ -4231,7 +4234,7 @@ namespace ast::expr
 	}
 	/**
 	*@return
-	*	vec2f
+	*	vec2h
 	*@param image
 	*	Image<Float, 2D>
 	*@param[in] P
@@ -4242,7 +4245,7 @@ namespace ast::expr
 		, ExprPtr P )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2I );
-		return makeImageAccessCall( cache.getBasicType( type::Kind::eVec2F )
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVec2H )
 			, ImageAccess::eImageLoad2DF
 			, std::move( image )
 			, std::move( P ) );
@@ -4267,7 +4270,7 @@ namespace ast::expr
 	}
 	/**
 	*@return
-	*	float
+	*	half
 	*@param image
 	*	Image<Float, 2D>
 	*@param[in] P
@@ -4278,7 +4281,7 @@ namespace ast::expr
 		, ExprPtr P )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2I );
-		return makeImageAccessCall( cache.getBasicType( type::Kind::eFloat )
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eHalf )
 			, ImageAccess::eImageLoad2DF
 			, std::move( image )
 			, std::move( P ) );
@@ -4303,7 +4306,7 @@ namespace ast::expr
 	}
 	/**
 	*@return
-	*	vec4f
+	*	vec4h
 	*@param image
 	*	Image<Float, 3D>
 	*@param[in] P
@@ -4314,7 +4317,7 @@ namespace ast::expr
 		, ExprPtr P )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3I );
-		return makeImageAccessCall( cache.getBasicType( type::Kind::eVec4F )
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVec4H )
 			, ImageAccess::eImageLoad3DF
 			, std::move( image )
 			, std::move( P ) );
@@ -4339,7 +4342,7 @@ namespace ast::expr
 	}
 	/**
 	*@return
-	*	vec2f
+	*	vec2h
 	*@param image
 	*	Image<Float, 3D>
 	*@param[in] P
@@ -4350,7 +4353,7 @@ namespace ast::expr
 		, ExprPtr P )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3I );
-		return makeImageAccessCall( cache.getBasicType( type::Kind::eVec2F )
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVec2H )
 			, ImageAccess::eImageLoad3DF
 			, std::move( image )
 			, std::move( P ) );
@@ -4375,7 +4378,7 @@ namespace ast::expr
 	}
 	/**
 	*@return
-	*	float
+	*	half
 	*@param image
 	*	Image<Float, 3D>
 	*@param[in] P
@@ -4386,7 +4389,7 @@ namespace ast::expr
 		, ExprPtr P )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3I );
-		return makeImageAccessCall( cache.getBasicType( type::Kind::eFloat )
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eHalf )
 			, ImageAccess::eImageLoad3DF
 			, std::move( image )
 			, std::move( P ) );
@@ -4411,7 +4414,7 @@ namespace ast::expr
 	}
 	/**
 	*@return
-	*	vec4f
+	*	vec4h
 	*@param image
 	*	Image<Float, Rect>
 	*@param[in] P
@@ -4422,7 +4425,7 @@ namespace ast::expr
 		, ExprPtr P )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2I );
-		return makeImageAccessCall( cache.getBasicType( type::Kind::eVec4F )
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVec4H )
 			, ImageAccess::eImageLoad2DRectF
 			, std::move( image )
 			, std::move( P ) );
@@ -4447,7 +4450,7 @@ namespace ast::expr
 	}
 	/**
 	*@return
-	*	vec2f
+	*	vec2h
 	*@param image
 	*	Image<Float, Rect>
 	*@param[in] P
@@ -4458,7 +4461,7 @@ namespace ast::expr
 		, ExprPtr P )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2I );
-		return makeImageAccessCall( cache.getBasicType( type::Kind::eVec2F )
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVec2H )
 			, ImageAccess::eImageLoad2DRectF
 			, std::move( image )
 			, std::move( P ) );
@@ -4483,7 +4486,7 @@ namespace ast::expr
 	}
 	/**
 	*@return
-	*	float
+	*	half
 	*@param image
 	*	Image<Float, Rect>
 	*@param[in] P
@@ -4494,7 +4497,7 @@ namespace ast::expr
 		, ExprPtr P )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2I );
-		return makeImageAccessCall( cache.getBasicType( type::Kind::eFloat )
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eHalf )
 			, ImageAccess::eImageLoad2DRectF
 			, std::move( image )
 			, std::move( P ) );
@@ -4519,7 +4522,7 @@ namespace ast::expr
 	}
 	/**
 	*@return
-	*	vec4f
+	*	vec4h
 	*@param image
 	*	Image<Float, Cube>
 	*@param[in] P
@@ -4530,7 +4533,7 @@ namespace ast::expr
 		, ExprPtr P )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3I );
-		return makeImageAccessCall( cache.getBasicType( type::Kind::eVec4F )
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVec4H )
 			, ImageAccess::eImageLoadCubeF
 			, std::move( image )
 			, std::move( P ) );
@@ -4555,7 +4558,7 @@ namespace ast::expr
 	}
 	/**
 	*@return
-	*	vec2f
+	*	vec2h
 	*@param image
 	*	Image<Float, Cube>
 	*@param[in] P
@@ -4566,7 +4569,7 @@ namespace ast::expr
 		, ExprPtr P )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3I );
-		return makeImageAccessCall( cache.getBasicType( type::Kind::eVec2F )
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVec2H )
 			, ImageAccess::eImageLoadCubeF
 			, std::move( image )
 			, std::move( P ) );
@@ -4591,7 +4594,7 @@ namespace ast::expr
 	}
 	/**
 	*@return
-	*	float
+	*	half
 	*@param image
 	*	Image<Float, Cube>
 	*@param[in] P
@@ -4602,7 +4605,7 @@ namespace ast::expr
 		, ExprPtr P )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3I );
-		return makeImageAccessCall( cache.getBasicType( type::Kind::eFloat )
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eHalf )
 			, ImageAccess::eImageLoadCubeF
 			, std::move( image )
 			, std::move( P ) );
@@ -4627,7 +4630,7 @@ namespace ast::expr
 	}
 	/**
 	*@return
-	*	vec4f
+	*	vec4h
 	*@param image
 	*	Image<Float, Buffer>
 	*@param[in] P
@@ -4638,7 +4641,7 @@ namespace ast::expr
 		, ExprPtr P )
 	{
 		assert( P->getType()->getKind() == type::Kind::eInt );
-		return makeImageAccessCall( cache.getBasicType( type::Kind::eVec4F )
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVec4H )
 			, ImageAccess::eImageLoadBufferF
 			, std::move( image )
 			, std::move( P ) );
@@ -4663,7 +4666,7 @@ namespace ast::expr
 	}
 	/**
 	*@return
-	*	vec2f
+	*	vec2h
 	*@param image
 	*	Image<Float, Buffer>
 	*@param[in] P
@@ -4674,7 +4677,7 @@ namespace ast::expr
 		, ExprPtr P )
 	{
 		assert( P->getType()->getKind() == type::Kind::eInt );
-		return makeImageAccessCall( cache.getBasicType( type::Kind::eVec2F )
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVec2H )
 			, ImageAccess::eImageLoadBufferF
 			, std::move( image )
 			, std::move( P ) );
@@ -4699,7 +4702,7 @@ namespace ast::expr
 	}
 	/**
 	*@return
-	*	float
+	*	half
 	*@param image
 	*	Image<Float, Buffer>
 	*@param[in] P
@@ -4710,7 +4713,7 @@ namespace ast::expr
 		, ExprPtr P )
 	{
 		assert( P->getType()->getKind() == type::Kind::eInt );
-		return makeImageAccessCall( cache.getBasicType( type::Kind::eFloat )
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eHalf )
 			, ImageAccess::eImageLoadBufferF
 			, std::move( image )
 			, std::move( P ) );
@@ -4735,7 +4738,7 @@ namespace ast::expr
 	}
 	/**
 	*@return
-	*	vec4f
+	*	vec4h
 	*@param image
 	*	Image<Float, 1D, Array>
 	*@param[in] P
@@ -4746,7 +4749,7 @@ namespace ast::expr
 		, ExprPtr P )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2I );
-		return makeImageAccessCall( cache.getBasicType( type::Kind::eVec4F )
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVec4H )
 			, ImageAccess::eImageLoad1DArrayF
 			, std::move( image )
 			, std::move( P ) );
@@ -4771,7 +4774,7 @@ namespace ast::expr
 	}
 	/**
 	*@return
-	*	vec2f
+	*	vec2h
 	*@param image
 	*	Image<Float, 1D, Array>
 	*@param[in] P
@@ -4782,7 +4785,7 @@ namespace ast::expr
 		, ExprPtr P )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2I );
-		return makeImageAccessCall( cache.getBasicType( type::Kind::eVec2F )
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVec2H )
 			, ImageAccess::eImageLoad1DArrayF
 			, std::move( image )
 			, std::move( P ) );
@@ -4807,7 +4810,7 @@ namespace ast::expr
 	}
 	/**
 	*@return
-	*	float
+	*	half
 	*@param image
 	*	Image<Float, 1D, Array>
 	*@param[in] P
@@ -4818,7 +4821,7 @@ namespace ast::expr
 		, ExprPtr P )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2I );
-		return makeImageAccessCall( cache.getBasicType( type::Kind::eFloat )
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eHalf )
 			, ImageAccess::eImageLoad1DArrayF
 			, std::move( image )
 			, std::move( P ) );
@@ -4843,7 +4846,7 @@ namespace ast::expr
 	}
 	/**
 	*@return
-	*	vec4f
+	*	vec4h
 	*@param image
 	*	Image<Float, 2D, Array>
 	*@param[in] P
@@ -4854,7 +4857,7 @@ namespace ast::expr
 		, ExprPtr P )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3I );
-		return makeImageAccessCall( cache.getBasicType( type::Kind::eVec4F )
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVec4H )
 			, ImageAccess::eImageLoad2DArrayF
 			, std::move( image )
 			, std::move( P ) );
@@ -4879,7 +4882,7 @@ namespace ast::expr
 	}
 	/**
 	*@return
-	*	vec2f
+	*	vec2h
 	*@param image
 	*	Image<Float, 2D, Array>
 	*@param[in] P
@@ -4890,7 +4893,7 @@ namespace ast::expr
 		, ExprPtr P )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3I );
-		return makeImageAccessCall( cache.getBasicType( type::Kind::eVec2F )
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVec2H )
 			, ImageAccess::eImageLoad2DArrayF
 			, std::move( image )
 			, std::move( P ) );
@@ -4915,7 +4918,7 @@ namespace ast::expr
 	}
 	/**
 	*@return
-	*	float
+	*	half
 	*@param image
 	*	Image<Float, 2D, Array>
 	*@param[in] P
@@ -4926,7 +4929,7 @@ namespace ast::expr
 		, ExprPtr P )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3I );
-		return makeImageAccessCall( cache.getBasicType( type::Kind::eFloat )
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eHalf )
 			, ImageAccess::eImageLoad2DArrayF
 			, std::move( image )
 			, std::move( P ) );
@@ -4951,7 +4954,7 @@ namespace ast::expr
 	}
 	/**
 	*@return
-	*	vec4f
+	*	vec4h
 	*@param image
 	*	Image<Float, Cube, Array>
 	*@param[in] P
@@ -4962,7 +4965,7 @@ namespace ast::expr
 		, ExprPtr P )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3I );
-		return makeImageAccessCall( cache.getBasicType( type::Kind::eVec4F )
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVec4H )
 			, ImageAccess::eImageLoadCubeArrayF
 			, std::move( image )
 			, std::move( P ) );
@@ -4987,7 +4990,7 @@ namespace ast::expr
 	}
 	/**
 	*@return
-	*	vec2f
+	*	vec2h
 	*@param image
 	*	Image<Float, Cube, Array>
 	*@param[in] P
@@ -4998,7 +5001,7 @@ namespace ast::expr
 		, ExprPtr P )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3I );
-		return makeImageAccessCall( cache.getBasicType( type::Kind::eVec2F )
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVec2H )
 			, ImageAccess::eImageLoadCubeArrayF
 			, std::move( image )
 			, std::move( P ) );
@@ -5023,7 +5026,7 @@ namespace ast::expr
 	}
 	/**
 	*@return
-	*	float
+	*	half
 	*@param image
 	*	Image<Float, Cube, Array>
 	*@param[in] P
@@ -5034,7 +5037,7 @@ namespace ast::expr
 		, ExprPtr P )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3I );
-		return makeImageAccessCall( cache.getBasicType( type::Kind::eFloat )
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eHalf )
 			, ImageAccess::eImageLoadCubeArrayF
 			, std::move( image )
 			, std::move( P ) );
@@ -5064,7 +5067,7 @@ namespace ast::expr
 	}
 	/**
 	*@return
-	*	vec4f
+	*	vec4h
 	*@param image
 	*	Image<Float, 2D, MS>
 	*@param[in] P
@@ -5079,7 +5082,7 @@ namespace ast::expr
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2I );
 		assert( sample->getType()->getKind() == type::Kind::eInt );
-		return makeImageAccessCall( cache.getBasicType( type::Kind::eVec4F )
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVec4H )
 			, ImageAccess::eImageLoad2DMSF
 			, std::move( image )
 			, std::move( P )
@@ -5110,7 +5113,7 @@ namespace ast::expr
 	}
 	/**
 	*@return
-	*	vec2f
+	*	vec2h
 	*@param image
 	*	Image<Float, 2D, MS>
 	*@param[in] P
@@ -5125,7 +5128,7 @@ namespace ast::expr
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2I );
 		assert( sample->getType()->getKind() == type::Kind::eInt );
-		return makeImageAccessCall( cache.getBasicType( type::Kind::eVec2F )
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVec2H )
 			, ImageAccess::eImageLoad2DMSF
 			, std::move( image )
 			, std::move( P )
@@ -5156,7 +5159,7 @@ namespace ast::expr
 	}
 	/**
 	*@return
-	*	float
+	*	half
 	*@param image
 	*	Image<Float, 2D, MS>
 	*@param[in] P
@@ -5171,7 +5174,7 @@ namespace ast::expr
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2I );
 		assert( sample->getType()->getKind() == type::Kind::eInt );
-		return makeImageAccessCall( cache.getBasicType( type::Kind::eFloat )
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eHalf )
 			, ImageAccess::eImageLoad2DMSF
 			, std::move( image )
 			, std::move( P )
@@ -5202,7 +5205,7 @@ namespace ast::expr
 	}
 	/**
 	*@return
-	*	vec4f
+	*	vec4h
 	*@param image
 	*	Image<Float, 2D, MS, Array>
 	*@param[in] P
@@ -5217,7 +5220,7 @@ namespace ast::expr
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3I );
 		assert( sample->getType()->getKind() == type::Kind::eInt );
-		return makeImageAccessCall( cache.getBasicType( type::Kind::eVec4F )
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVec4H )
 			, ImageAccess::eImageLoad2DMSArrayF
 			, std::move( image )
 			, std::move( P )
@@ -5248,7 +5251,7 @@ namespace ast::expr
 	}
 	/**
 	*@return
-	*	vec2f
+	*	vec2h
 	*@param image
 	*	Image<Float, 2D, MS, Array>
 	*@param[in] P
@@ -5263,7 +5266,7 @@ namespace ast::expr
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3I );
 		assert( sample->getType()->getKind() == type::Kind::eInt );
-		return makeImageAccessCall( cache.getBasicType( type::Kind::eVec2F )
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVec2H )
 			, ImageAccess::eImageLoad2DMSArrayF
 			, std::move( image )
 			, std::move( P )
@@ -5294,7 +5297,7 @@ namespace ast::expr
 	}
 	/**
 	*@return
-	*	float
+	*	half
 	*@param image
 	*	Image<Float, 2D, MS, Array>
 	*@param[in] P
@@ -5309,7 +5312,7 @@ namespace ast::expr
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3I );
 		assert( sample->getType()->getKind() == type::Kind::eInt );
-		return makeImageAccessCall( cache.getBasicType( type::Kind::eFloat )
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eHalf )
 			, ImageAccess::eImageLoad2DMSArrayF
 			, std::move( image )
 			, std::move( P )
@@ -9059,6 +9062,8 @@ namespace ast::expr
 			, std::move( P )
 			, std::move( sample ) );
 	}
+	// Image texel store
+
 	/**
 	*@param image
 	*	Image<Float, 1D>
@@ -9086,7 +9091,7 @@ namespace ast::expr
 	*@param[in] P
 	*	int
 	*@param[in] data
-	*	vec4f
+	*	vec4h
 	*/
 	inline ImageAccessCallPtr makeImageStore1DFRgba16( type::TypesCache & cache
 		, ExprPtr image
@@ -9094,7 +9099,7 @@ namespace ast::expr
 		, ExprPtr data )
 	{
 		assert( P->getType()->getKind() == type::Kind::eInt );
-		assert( data->getType()->getKind() == type::Kind::eVec4F );
+		assert( data->getType()->getKind() == type::Kind::eVec4H );
 		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
 			, ImageAccess::eImageStore1DF
 			, std::move( image )
@@ -9128,7 +9133,7 @@ namespace ast::expr
 	*@param[in] P
 	*	int
 	*@param[in] data
-	*	vec2f
+	*	vec2h
 	*/
 	inline ImageAccessCallPtr makeImageStore1DFRg16( type::TypesCache & cache
 		, ExprPtr image
@@ -9136,7 +9141,7 @@ namespace ast::expr
 		, ExprPtr data )
 	{
 		assert( P->getType()->getKind() == type::Kind::eInt );
-		assert( data->getType()->getKind() == type::Kind::eVec2F );
+		assert( data->getType()->getKind() == type::Kind::eVec2H );
 		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
 			, ImageAccess::eImageStore1DF
 			, std::move( image )
@@ -9170,7 +9175,7 @@ namespace ast::expr
 	*@param[in] P
 	*	int
 	*@param[in] data
-	*	float
+	*	half
 	*/
 	inline ImageAccessCallPtr makeImageStore1DFR16( type::TypesCache & cache
 		, ExprPtr image
@@ -9178,7 +9183,7 @@ namespace ast::expr
 		, ExprPtr data )
 	{
 		assert( P->getType()->getKind() == type::Kind::eInt );
-		assert( data->getType()->getKind() == type::Kind::eFloat );
+		assert( data->getType()->getKind() == type::Kind::eHalf );
 		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
 			, ImageAccess::eImageStore1DF
 			, std::move( image )
@@ -9212,7 +9217,7 @@ namespace ast::expr
 	*@param[in] P
 	*	vec2i
 	*@param[in] data
-	*	vec4f
+	*	vec4h
 	*/
 	inline ImageAccessCallPtr makeImageStore2DFRgba16( type::TypesCache & cache
 		, ExprPtr image
@@ -9220,7 +9225,7 @@ namespace ast::expr
 		, ExprPtr data )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2I );
-		assert( data->getType()->getKind() == type::Kind::eVec4F );
+		assert( data->getType()->getKind() == type::Kind::eVec4H );
 		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
 			, ImageAccess::eImageStore2DF
 			, std::move( image )
@@ -9254,7 +9259,7 @@ namespace ast::expr
 	*@param[in] P
 	*	vec2i
 	*@param[in] data
-	*	vec2f
+	*	vec2h
 	*/
 	inline ImageAccessCallPtr makeImageStore2DFRg16( type::TypesCache & cache
 		, ExprPtr image
@@ -9262,7 +9267,7 @@ namespace ast::expr
 		, ExprPtr data )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2I );
-		assert( data->getType()->getKind() == type::Kind::eVec2F );
+		assert( data->getType()->getKind() == type::Kind::eVec2H );
 		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
 			, ImageAccess::eImageStore2DF
 			, std::move( image )
@@ -9296,7 +9301,7 @@ namespace ast::expr
 	*@param[in] P
 	*	vec2i
 	*@param[in] data
-	*	float
+	*	half
 	*/
 	inline ImageAccessCallPtr makeImageStore2DFR16( type::TypesCache & cache
 		, ExprPtr image
@@ -9304,7 +9309,7 @@ namespace ast::expr
 		, ExprPtr data )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2I );
-		assert( data->getType()->getKind() == type::Kind::eFloat );
+		assert( data->getType()->getKind() == type::Kind::eHalf );
 		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
 			, ImageAccess::eImageStore2DF
 			, std::move( image )
@@ -9338,7 +9343,7 @@ namespace ast::expr
 	*@param[in] P
 	*	vec3i
 	*@param[in] data
-	*	vec4f
+	*	vec4h
 	*/
 	inline ImageAccessCallPtr makeImageStore3DFRgba16( type::TypesCache & cache
 		, ExprPtr image
@@ -9346,7 +9351,7 @@ namespace ast::expr
 		, ExprPtr data )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3I );
-		assert( data->getType()->getKind() == type::Kind::eVec4F );
+		assert( data->getType()->getKind() == type::Kind::eVec4H );
 		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
 			, ImageAccess::eImageStore3DF
 			, std::move( image )
@@ -9380,7 +9385,7 @@ namespace ast::expr
 	*@param[in] P
 	*	vec3i
 	*@param[in] data
-	*	vec2f
+	*	vec2h
 	*/
 	inline ImageAccessCallPtr makeImageStore3DFRg16( type::TypesCache & cache
 		, ExprPtr image
@@ -9388,7 +9393,7 @@ namespace ast::expr
 		, ExprPtr data )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3I );
-		assert( data->getType()->getKind() == type::Kind::eVec2F );
+		assert( data->getType()->getKind() == type::Kind::eVec2H );
 		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
 			, ImageAccess::eImageStore3DF
 			, std::move( image )
@@ -9422,7 +9427,7 @@ namespace ast::expr
 	*@param[in] P
 	*	vec3i
 	*@param[in] data
-	*	float
+	*	half
 	*/
 	inline ImageAccessCallPtr makeImageStore3DFR16( type::TypesCache & cache
 		, ExprPtr image
@@ -9430,7 +9435,7 @@ namespace ast::expr
 		, ExprPtr data )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3I );
-		assert( data->getType()->getKind() == type::Kind::eFloat );
+		assert( data->getType()->getKind() == type::Kind::eHalf );
 		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
 			, ImageAccess::eImageStore3DF
 			, std::move( image )
@@ -9464,7 +9469,7 @@ namespace ast::expr
 	*@param[in] P
 	*	vec2i
 	*@param[in] data
-	*	vec4f
+	*	vec4h
 	*/
 	inline ImageAccessCallPtr makeImageStore2DRectFRgba16( type::TypesCache & cache
 		, ExprPtr image
@@ -9472,7 +9477,7 @@ namespace ast::expr
 		, ExprPtr data )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2I );
-		assert( data->getType()->getKind() == type::Kind::eVec4F );
+		assert( data->getType()->getKind() == type::Kind::eVec4H );
 		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
 			, ImageAccess::eImageStore2DRectF
 			, std::move( image )
@@ -9506,7 +9511,7 @@ namespace ast::expr
 	*@param[in] P
 	*	vec2i
 	*@param[in] data
-	*	vec2f
+	*	vec2h
 	*/
 	inline ImageAccessCallPtr makeImageStore2DRectFRg16( type::TypesCache & cache
 		, ExprPtr image
@@ -9514,7 +9519,7 @@ namespace ast::expr
 		, ExprPtr data )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2I );
-		assert( data->getType()->getKind() == type::Kind::eVec2F );
+		assert( data->getType()->getKind() == type::Kind::eVec2H );
 		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
 			, ImageAccess::eImageStore2DRectF
 			, std::move( image )
@@ -9548,7 +9553,7 @@ namespace ast::expr
 	*@param[in] P
 	*	vec2i
 	*@param[in] data
-	*	float
+	*	half
 	*/
 	inline ImageAccessCallPtr makeImageStore2DRectFR16( type::TypesCache & cache
 		, ExprPtr image
@@ -9556,7 +9561,7 @@ namespace ast::expr
 		, ExprPtr data )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2I );
-		assert( data->getType()->getKind() == type::Kind::eFloat );
+		assert( data->getType()->getKind() == type::Kind::eHalf );
 		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
 			, ImageAccess::eImageStore2DRectF
 			, std::move( image )
@@ -9590,7 +9595,7 @@ namespace ast::expr
 	*@param[in] P
 	*	vec3i
 	*@param[in] data
-	*	vec4f
+	*	vec4h
 	*/
 	inline ImageAccessCallPtr makeImageStoreCubeFRgba16( type::TypesCache & cache
 		, ExprPtr image
@@ -9598,7 +9603,7 @@ namespace ast::expr
 		, ExprPtr data )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3I );
-		assert( data->getType()->getKind() == type::Kind::eVec4F );
+		assert( data->getType()->getKind() == type::Kind::eVec4H );
 		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
 			, ImageAccess::eImageStoreCubeF
 			, std::move( image )
@@ -9632,7 +9637,7 @@ namespace ast::expr
 	*@param[in] P
 	*	vec3i
 	*@param[in] data
-	*	vec2f
+	*	vec2h
 	*/
 	inline ImageAccessCallPtr makeImageStoreCubeFRg16( type::TypesCache & cache
 		, ExprPtr image
@@ -9640,7 +9645,7 @@ namespace ast::expr
 		, ExprPtr data )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3I );
-		assert( data->getType()->getKind() == type::Kind::eVec2F );
+		assert( data->getType()->getKind() == type::Kind::eVec2H );
 		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
 			, ImageAccess::eImageStoreCubeF
 			, std::move( image )
@@ -9674,7 +9679,7 @@ namespace ast::expr
 	*@param[in] P
 	*	vec3i
 	*@param[in] data
-	*	float
+	*	half
 	*/
 	inline ImageAccessCallPtr makeImageStoreCubeFR16( type::TypesCache & cache
 		, ExprPtr image
@@ -9682,7 +9687,7 @@ namespace ast::expr
 		, ExprPtr data )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3I );
-		assert( data->getType()->getKind() == type::Kind::eFloat );
+		assert( data->getType()->getKind() == type::Kind::eHalf );
 		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
 			, ImageAccess::eImageStoreCubeF
 			, std::move( image )
@@ -9716,7 +9721,7 @@ namespace ast::expr
 	*@param[in] P
 	*	int
 	*@param[in] data
-	*	vec4f
+	*	vec4h
 	*/
 	inline ImageAccessCallPtr makeImageStoreBufferFRgba16( type::TypesCache & cache
 		, ExprPtr image
@@ -9724,7 +9729,7 @@ namespace ast::expr
 		, ExprPtr data )
 	{
 		assert( P->getType()->getKind() == type::Kind::eInt );
-		assert( data->getType()->getKind() == type::Kind::eVec4F );
+		assert( data->getType()->getKind() == type::Kind::eVec4H );
 		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
 			, ImageAccess::eImageStoreBufferF
 			, std::move( image )
@@ -9758,7 +9763,7 @@ namespace ast::expr
 	*@param[in] P
 	*	int
 	*@param[in] data
-	*	vec2f
+	*	vec2h
 	*/
 	inline ImageAccessCallPtr makeImageStoreBufferFRg16( type::TypesCache & cache
 		, ExprPtr image
@@ -9766,7 +9771,7 @@ namespace ast::expr
 		, ExprPtr data )
 	{
 		assert( P->getType()->getKind() == type::Kind::eInt );
-		assert( data->getType()->getKind() == type::Kind::eVec2F );
+		assert( data->getType()->getKind() == type::Kind::eVec2H );
 		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
 			, ImageAccess::eImageStoreBufferF
 			, std::move( image )
@@ -9800,7 +9805,7 @@ namespace ast::expr
 	*@param[in] P
 	*	int
 	*@param[in] data
-	*	float
+	*	half
 	*/
 	inline ImageAccessCallPtr makeImageStoreBufferFR16( type::TypesCache & cache
 		, ExprPtr image
@@ -9808,7 +9813,7 @@ namespace ast::expr
 		, ExprPtr data )
 	{
 		assert( P->getType()->getKind() == type::Kind::eInt );
-		assert( data->getType()->getKind() == type::Kind::eFloat );
+		assert( data->getType()->getKind() == type::Kind::eHalf );
 		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
 			, ImageAccess::eImageStoreBufferF
 			, std::move( image )
@@ -9842,7 +9847,7 @@ namespace ast::expr
 	*@param[in] P
 	*	vec2i
 	*@param[in] data
-	*	vec4f
+	*	vec4h
 	*/
 	inline ImageAccessCallPtr makeImageStore1DArrayFRgba16( type::TypesCache & cache
 		, ExprPtr image
@@ -9850,7 +9855,7 @@ namespace ast::expr
 		, ExprPtr data )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2I );
-		assert( data->getType()->getKind() == type::Kind::eVec4F );
+		assert( data->getType()->getKind() == type::Kind::eVec4H );
 		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
 			, ImageAccess::eImageStore1DArrayF
 			, std::move( image )
@@ -9884,7 +9889,7 @@ namespace ast::expr
 	*@param[in] P
 	*	vec2i
 	*@param[in] data
-	*	vec2f
+	*	vec2h
 	*/
 	inline ImageAccessCallPtr makeImageStore1DArrayFRg16( type::TypesCache & cache
 		, ExprPtr image
@@ -9892,7 +9897,7 @@ namespace ast::expr
 		, ExprPtr data )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2I );
-		assert( data->getType()->getKind() == type::Kind::eVec2F );
+		assert( data->getType()->getKind() == type::Kind::eVec2H );
 		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
 			, ImageAccess::eImageStore1DArrayF
 			, std::move( image )
@@ -9926,7 +9931,7 @@ namespace ast::expr
 	*@param[in] P
 	*	vec2i
 	*@param[in] data
-	*	float
+	*	half
 	*/
 	inline ImageAccessCallPtr makeImageStore1DArrayFR16( type::TypesCache & cache
 		, ExprPtr image
@@ -9934,7 +9939,7 @@ namespace ast::expr
 		, ExprPtr data )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2I );
-		assert( data->getType()->getKind() == type::Kind::eFloat );
+		assert( data->getType()->getKind() == type::Kind::eHalf );
 		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
 			, ImageAccess::eImageStore1DArrayF
 			, std::move( image )
@@ -9968,7 +9973,7 @@ namespace ast::expr
 	*@param[in] P
 	*	vec3i
 	*@param[in] data
-	*	vec4f
+	*	vec4h
 	*/
 	inline ImageAccessCallPtr makeImageStore2DArrayFRgba16( type::TypesCache & cache
 		, ExprPtr image
@@ -9976,7 +9981,7 @@ namespace ast::expr
 		, ExprPtr data )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3I );
-		assert( data->getType()->getKind() == type::Kind::eVec4F );
+		assert( data->getType()->getKind() == type::Kind::eVec4H );
 		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
 			, ImageAccess::eImageStore2DArrayF
 			, std::move( image )
@@ -10010,7 +10015,7 @@ namespace ast::expr
 	*@param[in] P
 	*	vec3i
 	*@param[in] data
-	*	vec2f
+	*	vec2h
 	*/
 	inline ImageAccessCallPtr makeImageStore2DArrayFRg16( type::TypesCache & cache
 		, ExprPtr image
@@ -10018,7 +10023,7 @@ namespace ast::expr
 		, ExprPtr data )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3I );
-		assert( data->getType()->getKind() == type::Kind::eVec2F );
+		assert( data->getType()->getKind() == type::Kind::eVec2H );
 		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
 			, ImageAccess::eImageStore2DArrayF
 			, std::move( image )
@@ -10052,7 +10057,7 @@ namespace ast::expr
 	*@param[in] P
 	*	vec3i
 	*@param[in] data
-	*	float
+	*	half
 	*/
 	inline ImageAccessCallPtr makeImageStore2DArrayFR16( type::TypesCache & cache
 		, ExprPtr image
@@ -10060,7 +10065,7 @@ namespace ast::expr
 		, ExprPtr data )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3I );
-		assert( data->getType()->getKind() == type::Kind::eFloat );
+		assert( data->getType()->getKind() == type::Kind::eHalf );
 		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
 			, ImageAccess::eImageStore2DArrayF
 			, std::move( image )
@@ -10094,7 +10099,7 @@ namespace ast::expr
 	*@param[in] P
 	*	vec3i
 	*@param[in] data
-	*	vec4f
+	*	vec4h
 	*/
 	inline ImageAccessCallPtr makeImageStoreCubeArrayFRgba16( type::TypesCache & cache
 		, ExprPtr image
@@ -10102,7 +10107,7 @@ namespace ast::expr
 		, ExprPtr data )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3I );
-		assert( data->getType()->getKind() == type::Kind::eVec4F );
+		assert( data->getType()->getKind() == type::Kind::eVec4H );
 		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
 			, ImageAccess::eImageStoreCubeArrayF
 			, std::move( image )
@@ -10136,7 +10141,7 @@ namespace ast::expr
 	*@param[in] P
 	*	vec3i
 	*@param[in] data
-	*	vec2f
+	*	vec2h
 	*/
 	inline ImageAccessCallPtr makeImageStoreCubeArrayFRg16( type::TypesCache & cache
 		, ExprPtr image
@@ -10144,7 +10149,7 @@ namespace ast::expr
 		, ExprPtr data )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3I );
-		assert( data->getType()->getKind() == type::Kind::eVec2F );
+		assert( data->getType()->getKind() == type::Kind::eVec2H );
 		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
 			, ImageAccess::eImageStoreCubeArrayF
 			, std::move( image )
@@ -10178,7 +10183,7 @@ namespace ast::expr
 	*@param[in] P
 	*	vec3i
 	*@param[in] data
-	*	float
+	*	half
 	*/
 	inline ImageAccessCallPtr makeImageStoreCubeArrayFR16( type::TypesCache & cache
 		, ExprPtr image
@@ -10186,7 +10191,7 @@ namespace ast::expr
 		, ExprPtr data )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3I );
-		assert( data->getType()->getKind() == type::Kind::eFloat );
+		assert( data->getType()->getKind() == type::Kind::eHalf );
 		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
 			, ImageAccess::eImageStoreCubeArrayF
 			, std::move( image )
@@ -10227,7 +10232,7 @@ namespace ast::expr
 	*@param[in] sample
 	*	int
 	*@param[in] data
-	*	vec4f
+	*	vec4h
 	*/
 	inline ImageAccessCallPtr makeImageStore2DMSFRgba16( type::TypesCache & cache
 		, ExprPtr image
@@ -10237,7 +10242,7 @@ namespace ast::expr
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2I );
 		assert( sample->getType()->getKind() == type::Kind::eInt );
-		assert( data->getType()->getKind() == type::Kind::eVec4F );
+		assert( data->getType()->getKind() == type::Kind::eVec4H );
 		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
 			, ImageAccess::eImageStore2DMSF
 			, std::move( image )
@@ -10279,7 +10284,7 @@ namespace ast::expr
 	*@param[in] sample
 	*	int
 	*@param[in] data
-	*	vec2f
+	*	vec2h
 	*/
 	inline ImageAccessCallPtr makeImageStore2DMSFRg16( type::TypesCache & cache
 		, ExprPtr image
@@ -10289,7 +10294,7 @@ namespace ast::expr
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2I );
 		assert( sample->getType()->getKind() == type::Kind::eInt );
-		assert( data->getType()->getKind() == type::Kind::eVec2F );
+		assert( data->getType()->getKind() == type::Kind::eVec2H );
 		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
 			, ImageAccess::eImageStore2DMSF
 			, std::move( image )
@@ -10331,7 +10336,7 @@ namespace ast::expr
 	*@param[in] sample
 	*	int
 	*@param[in] data
-	*	float
+	*	half
 	*/
 	inline ImageAccessCallPtr makeImageStore2DMSFR16( type::TypesCache & cache
 		, ExprPtr image
@@ -10341,7 +10346,7 @@ namespace ast::expr
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2I );
 		assert( sample->getType()->getKind() == type::Kind::eInt );
-		assert( data->getType()->getKind() == type::Kind::eFloat );
+		assert( data->getType()->getKind() == type::Kind::eHalf );
 		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
 			, ImageAccess::eImageStore2DMSF
 			, std::move( image )
@@ -10383,7 +10388,7 @@ namespace ast::expr
 	*@param[in] sample
 	*	int
 	*@param[in] data
-	*	vec4f
+	*	vec4h
 	*/
 	inline ImageAccessCallPtr makeImageStore2DMSArrayFRgba16( type::TypesCache & cache
 		, ExprPtr image
@@ -10393,7 +10398,7 @@ namespace ast::expr
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3I );
 		assert( sample->getType()->getKind() == type::Kind::eInt );
-		assert( data->getType()->getKind() == type::Kind::eVec4F );
+		assert( data->getType()->getKind() == type::Kind::eVec4H );
 		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
 			, ImageAccess::eImageStore2DMSArrayF
 			, std::move( image )
@@ -10435,7 +10440,7 @@ namespace ast::expr
 	*@param[in] sample
 	*	int
 	*@param[in] data
-	*	vec2f
+	*	vec2h
 	*/
 	inline ImageAccessCallPtr makeImageStore2DMSArrayFRg16( type::TypesCache & cache
 		, ExprPtr image
@@ -10445,7 +10450,7 @@ namespace ast::expr
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3I );
 		assert( sample->getType()->getKind() == type::Kind::eInt );
-		assert( data->getType()->getKind() == type::Kind::eVec2F );
+		assert( data->getType()->getKind() == type::Kind::eVec2H );
 		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
 			, ImageAccess::eImageStore2DMSArrayF
 			, std::move( image )
@@ -10487,7 +10492,7 @@ namespace ast::expr
 	*@param[in] sample
 	*	int
 	*@param[in] data
-	*	float
+	*	half
 	*/
 	inline ImageAccessCallPtr makeImageStore2DMSArrayFR16( type::TypesCache & cache
 		, ExprPtr image
@@ -10497,7 +10502,7 @@ namespace ast::expr
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3I );
 		assert( sample->getType()->getKind() == type::Kind::eInt );
-		assert( data->getType()->getKind() == type::Kind::eFloat );
+		assert( data->getType()->getKind() == type::Kind::eHalf );
 		return makeImageAccessCall( cache.getBasicType( type::Kind::eVoid )
 			, ImageAccess::eImageStore2DMSArrayF
 			, std::move( image )
@@ -14843,6 +14848,8 @@ namespace ast::expr
 			, std::move( sample )
 			, std::move( data ) );
 	}
+	// Image atomics
+
 	/**
 	*@return
 	*	uint
@@ -15364,6 +15371,795 @@ namespace ast::expr
 		assert( data->getType()->getKind() == type::Kind::eInt );
 		return makeImageAccessCall( cache.getBasicType( type::Kind::eInt )
 			, ImageAccess::eImageAtomicAdd2DMSArrayI
+			, std::move( image )
+			, std::move( P )
+			, std::move( sample )
+			, std::move( data ) );
+	}
+	/**
+	*@return
+	*	vec4h
+	*@param image
+	*	Image<Float, 1D>
+	*@param[in] P
+	*	int
+	*@param[in] data
+	*	vec4h
+	*/
+	inline ImageAccessCallPtr makeImageAtomicAdd1DFRgba16( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eInt );
+		assert( data->getType()->getKind() == type::Kind::eVec4H );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVec4H )
+			, ImageAccess::eImageAtomicAdd1DF
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+	/**
+	*@return
+	*	vec2h
+	*@param image
+	*	Image<Float, 1D>
+	*@param[in] P
+	*	int
+	*@param[in] data
+	*	vec2h
+	*/
+	inline ImageAccessCallPtr makeImageAtomicAdd1DFRg16( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eInt );
+		assert( data->getType()->getKind() == type::Kind::eVec2H );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVec2H )
+			, ImageAccess::eImageAtomicAdd1DF
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+	/**
+	*@return
+	*	float
+	*@param image
+	*	Image<Float, 1D>
+	*@param[in] P
+	*	int
+	*@param[in] data
+	*	float
+	*/
+	inline ImageAccessCallPtr makeImageAtomicAdd1DFR32( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eInt );
+		assert( data->getType()->getKind() == type::Kind::eFloat );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eFloat )
+			, ImageAccess::eImageAtomicAdd1DF
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+	/**
+	*@return
+	*	vec4h
+	*@param image
+	*	Image<Float, 2D>
+	*@param[in] P
+	*	vec2i
+	*@param[in] data
+	*	vec4h
+	*/
+	inline ImageAccessCallPtr makeImageAtomicAdd2DFRgba16( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec2I );
+		assert( data->getType()->getKind() == type::Kind::eVec4H );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVec4H )
+			, ImageAccess::eImageAtomicAdd2DF
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+	/**
+	*@return
+	*	vec2h
+	*@param image
+	*	Image<Float, 2D>
+	*@param[in] P
+	*	vec2i
+	*@param[in] data
+	*	vec2h
+	*/
+	inline ImageAccessCallPtr makeImageAtomicAdd2DFRg16( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec2I );
+		assert( data->getType()->getKind() == type::Kind::eVec2H );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVec2H )
+			, ImageAccess::eImageAtomicAdd2DF
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+	/**
+	*@return
+	*	float
+	*@param image
+	*	Image<Float, 2D>
+	*@param[in] P
+	*	vec2i
+	*@param[in] data
+	*	float
+	*/
+	inline ImageAccessCallPtr makeImageAtomicAdd2DFR32( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec2I );
+		assert( data->getType()->getKind() == type::Kind::eFloat );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eFloat )
+			, ImageAccess::eImageAtomicAdd2DF
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+	/**
+	*@return
+	*	vec4h
+	*@param image
+	*	Image<Float, 3D>
+	*@param[in] P
+	*	vec3i
+	*@param[in] data
+	*	vec4h
+	*/
+	inline ImageAccessCallPtr makeImageAtomicAdd3DFRgba16( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec3I );
+		assert( data->getType()->getKind() == type::Kind::eVec4H );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVec4H )
+			, ImageAccess::eImageAtomicAdd3DF
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+	/**
+	*@return
+	*	vec2h
+	*@param image
+	*	Image<Float, 3D>
+	*@param[in] P
+	*	vec3i
+	*@param[in] data
+	*	vec2h
+	*/
+	inline ImageAccessCallPtr makeImageAtomicAdd3DFRg16( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec3I );
+		assert( data->getType()->getKind() == type::Kind::eVec2H );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVec2H )
+			, ImageAccess::eImageAtomicAdd3DF
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+	/**
+	*@return
+	*	float
+	*@param image
+	*	Image<Float, 3D>
+	*@param[in] P
+	*	vec3i
+	*@param[in] data
+	*	float
+	*/
+	inline ImageAccessCallPtr makeImageAtomicAdd3DFR32( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec3I );
+		assert( data->getType()->getKind() == type::Kind::eFloat );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eFloat )
+			, ImageAccess::eImageAtomicAdd3DF
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+	/**
+	*@return
+	*	vec4h
+	*@param image
+	*	Image<Float, Rect>
+	*@param[in] P
+	*	vec2i
+	*@param[in] data
+	*	vec4h
+	*/
+	inline ImageAccessCallPtr makeImageAtomicAdd2DRectFRgba16( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec2I );
+		assert( data->getType()->getKind() == type::Kind::eVec4H );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVec4H )
+			, ImageAccess::eImageAtomicAdd2DRectF
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+	/**
+	*@return
+	*	vec2h
+	*@param image
+	*	Image<Float, Rect>
+	*@param[in] P
+	*	vec2i
+	*@param[in] data
+	*	vec2h
+	*/
+	inline ImageAccessCallPtr makeImageAtomicAdd2DRectFRg16( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec2I );
+		assert( data->getType()->getKind() == type::Kind::eVec2H );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVec2H )
+			, ImageAccess::eImageAtomicAdd2DRectF
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+	/**
+	*@return
+	*	float
+	*@param image
+	*	Image<Float, Rect>
+	*@param[in] P
+	*	vec2i
+	*@param[in] data
+	*	float
+	*/
+	inline ImageAccessCallPtr makeImageAtomicAdd2DRectFR32( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec2I );
+		assert( data->getType()->getKind() == type::Kind::eFloat );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eFloat )
+			, ImageAccess::eImageAtomicAdd2DRectF
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+	/**
+	*@return
+	*	vec4h
+	*@param image
+	*	Image<Float, Cube>
+	*@param[in] P
+	*	vec3i
+	*@param[in] data
+	*	vec4h
+	*/
+	inline ImageAccessCallPtr makeImageAtomicAddCubeFRgba16( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec3I );
+		assert( data->getType()->getKind() == type::Kind::eVec4H );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVec4H )
+			, ImageAccess::eImageAtomicAddCubeF
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+	/**
+	*@return
+	*	vec2h
+	*@param image
+	*	Image<Float, Cube>
+	*@param[in] P
+	*	vec3i
+	*@param[in] data
+	*	vec2h
+	*/
+	inline ImageAccessCallPtr makeImageAtomicAddCubeFRg16( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec3I );
+		assert( data->getType()->getKind() == type::Kind::eVec2H );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVec2H )
+			, ImageAccess::eImageAtomicAddCubeF
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+	/**
+	*@return
+	*	float
+	*@param image
+	*	Image<Float, Cube>
+	*@param[in] P
+	*	vec3i
+	*@param[in] data
+	*	float
+	*/
+	inline ImageAccessCallPtr makeImageAtomicAddCubeFR32( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec3I );
+		assert( data->getType()->getKind() == type::Kind::eFloat );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eFloat )
+			, ImageAccess::eImageAtomicAddCubeF
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+	/**
+	*@return
+	*	vec4h
+	*@param image
+	*	Image<Float, Buffer>
+	*@param[in] P
+	*	int
+	*@param[in] data
+	*	vec4h
+	*/
+	inline ImageAccessCallPtr makeImageAtomicAddBufferFRgba16( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eInt );
+		assert( data->getType()->getKind() == type::Kind::eVec4H );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVec4H )
+			, ImageAccess::eImageAtomicAddBufferF
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+	/**
+	*@return
+	*	vec2h
+	*@param image
+	*	Image<Float, Buffer>
+	*@param[in] P
+	*	int
+	*@param[in] data
+	*	vec2h
+	*/
+	inline ImageAccessCallPtr makeImageAtomicAddBufferFRg16( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eInt );
+		assert( data->getType()->getKind() == type::Kind::eVec2H );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVec2H )
+			, ImageAccess::eImageAtomicAddBufferF
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+	/**
+	*@return
+	*	float
+	*@param image
+	*	Image<Float, Buffer>
+	*@param[in] P
+	*	int
+	*@param[in] data
+	*	float
+	*/
+	inline ImageAccessCallPtr makeImageAtomicAddBufferFR32( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eInt );
+		assert( data->getType()->getKind() == type::Kind::eFloat );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eFloat )
+			, ImageAccess::eImageAtomicAddBufferF
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+	/**
+	*@return
+	*	vec4h
+	*@param image
+	*	Image<Float, 1D, Array>
+	*@param[in] P
+	*	vec2i
+	*@param[in] data
+	*	vec4h
+	*/
+	inline ImageAccessCallPtr makeImageAtomicAdd1DArrayFRgba16( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec2I );
+		assert( data->getType()->getKind() == type::Kind::eVec4H );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVec4H )
+			, ImageAccess::eImageAtomicAdd1DArrayF
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+	/**
+	*@return
+	*	vec2h
+	*@param image
+	*	Image<Float, 1D, Array>
+	*@param[in] P
+	*	vec2i
+	*@param[in] data
+	*	vec2h
+	*/
+	inline ImageAccessCallPtr makeImageAtomicAdd1DArrayFRg16( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec2I );
+		assert( data->getType()->getKind() == type::Kind::eVec2H );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVec2H )
+			, ImageAccess::eImageAtomicAdd1DArrayF
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+	/**
+	*@return
+	*	float
+	*@param image
+	*	Image<Float, 1D, Array>
+	*@param[in] P
+	*	vec2i
+	*@param[in] data
+	*	float
+	*/
+	inline ImageAccessCallPtr makeImageAtomicAdd1DArrayFR32( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec2I );
+		assert( data->getType()->getKind() == type::Kind::eFloat );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eFloat )
+			, ImageAccess::eImageAtomicAdd1DArrayF
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+	/**
+	*@return
+	*	vec4h
+	*@param image
+	*	Image<Float, 2D, Array>
+	*@param[in] P
+	*	 vec3i
+	*@param[in] data
+	*	vec4h
+	*/
+	inline ImageAccessCallPtr makeImageAtomicAdd2DArrayFRgba16( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() ==  type::Kind::eVec3I );
+		assert( data->getType()->getKind() == type::Kind::eVec4H );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVec4H )
+			, ImageAccess::eImageAtomicAdd2DArrayF
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+	/**
+	*@return
+	*	vec2h
+	*@param image
+	*	Image<Float, 2D, Array>
+	*@param[in] P
+	*	 vec3i
+	*@param[in] data
+	*	vec2h
+	*/
+	inline ImageAccessCallPtr makeImageAtomicAdd2DArrayFRg16( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() ==  type::Kind::eVec3I );
+		assert( data->getType()->getKind() == type::Kind::eVec2H );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVec2H )
+			, ImageAccess::eImageAtomicAdd2DArrayF
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+	/**
+	*@return
+	*	float
+	*@param image
+	*	Image<Float, 2D, Array>
+	*@param[in] P
+	*	 vec3i
+	*@param[in] data
+	*	float
+	*/
+	inline ImageAccessCallPtr makeImageAtomicAdd2DArrayFR32( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() ==  type::Kind::eVec3I );
+		assert( data->getType()->getKind() == type::Kind::eFloat );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eFloat )
+			, ImageAccess::eImageAtomicAdd2DArrayF
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+	/**
+	*@return
+	*	vec4h
+	*@param image
+	*	Image<Float, Cube, Array>
+	*@param[in] P
+	*	vec3i
+	*@param[in] data
+	*	vec4h
+	*/
+	inline ImageAccessCallPtr makeImageAtomicAddCubeArrayFRgba16( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec3I );
+		assert( data->getType()->getKind() == type::Kind::eVec4H );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVec4H )
+			, ImageAccess::eImageAtomicAddCubeArrayF
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+	/**
+	*@return
+	*	vec2h
+	*@param image
+	*	Image<Float, Cube, Array>
+	*@param[in] P
+	*	vec3i
+	*@param[in] data
+	*	vec2h
+	*/
+	inline ImageAccessCallPtr makeImageAtomicAddCubeArrayFRg16( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec3I );
+		assert( data->getType()->getKind() == type::Kind::eVec2H );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVec2H )
+			, ImageAccess::eImageAtomicAddCubeArrayF
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+	/**
+	*@return
+	*	float
+	*@param image
+	*	Image<Float, Cube, Array>
+	*@param[in] P
+	*	vec3i
+	*@param[in] data
+	*	float
+	*/
+	inline ImageAccessCallPtr makeImageAtomicAddCubeArrayFR32( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec3I );
+		assert( data->getType()->getKind() == type::Kind::eFloat );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eFloat )
+			, ImageAccess::eImageAtomicAddCubeArrayF
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+	/**
+	*@return
+	*	vec4h
+	*@param image
+	*	Image<Float, 2D, MS>
+	*@param[in] P
+	*	vec2i
+	*@param[in] sample
+	*	int
+	*@param[in] data
+	*	vec4h
+	*/
+	inline ImageAccessCallPtr makeImageAtomicAdd2DMSFRgba16( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr sample
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec2I );
+		assert( sample->getType()->getKind() == type::Kind::eInt );
+		assert( data->getType()->getKind() == type::Kind::eVec4H );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVec4H )
+			, ImageAccess::eImageAtomicAdd2DMSF
+			, std::move( image )
+			, std::move( P )
+			, std::move( sample )
+			, std::move( data ) );
+	}
+	/**
+	*@return
+	*	vec2h
+	*@param image
+	*	Image<Float, 2D, MS>
+	*@param[in] P
+	*	vec2i
+	*@param[in] sample
+	*	int
+	*@param[in] data
+	*	vec2h
+	*/
+	inline ImageAccessCallPtr makeImageAtomicAdd2DMSFRg16( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr sample
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec2I );
+		assert( sample->getType()->getKind() == type::Kind::eInt );
+		assert( data->getType()->getKind() == type::Kind::eVec2H );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVec2H )
+			, ImageAccess::eImageAtomicAdd2DMSF
+			, std::move( image )
+			, std::move( P )
+			, std::move( sample )
+			, std::move( data ) );
+	}
+	/**
+	*@return
+	*	float
+	*@param image
+	*	Image<Float, 2D, MS>
+	*@param[in] P
+	*	vec2i
+	*@param[in] sample
+	*	int
+	*@param[in] data
+	*	float
+	*/
+	inline ImageAccessCallPtr makeImageAtomicAdd2DMSFR32( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr sample
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec2I );
+		assert( sample->getType()->getKind() == type::Kind::eInt );
+		assert( data->getType()->getKind() == type::Kind::eFloat );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eFloat )
+			, ImageAccess::eImageAtomicAdd2DMSF
+			, std::move( image )
+			, std::move( P )
+			, std::move( sample )
+			, std::move( data ) );
+	}
+	/**
+	*@return
+	*	vec4h
+	*@param image
+	*	Image<Float, 2D, MS, Array>
+	*@param[in] P
+	*	vec3i
+	*@param[in] sample
+	*	int
+	*@param[in] data
+	*	vec4h
+	*/
+	inline ImageAccessCallPtr makeImageAtomicAdd2DMSArrayFRgba16( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr sample
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec3I );
+		assert( sample->getType()->getKind() == type::Kind::eInt );
+		assert( data->getType()->getKind() == type::Kind::eVec4H );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVec4H )
+			, ImageAccess::eImageAtomicAdd2DMSArrayF
+			, std::move( image )
+			, std::move( P )
+			, std::move( sample )
+			, std::move( data ) );
+	}
+	/**
+	*@return
+	*	vec2h
+	*@param image
+	*	Image<Float, 2D, MS, Array>
+	*@param[in] P
+	*	vec3i
+	*@param[in] sample
+	*	int
+	*@param[in] data
+	*	vec2h
+	*/
+	inline ImageAccessCallPtr makeImageAtomicAdd2DMSArrayFRg16( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr sample
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec3I );
+		assert( sample->getType()->getKind() == type::Kind::eInt );
+		assert( data->getType()->getKind() == type::Kind::eVec2H );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVec2H )
+			, ImageAccess::eImageAtomicAdd2DMSArrayF
+			, std::move( image )
+			, std::move( P )
+			, std::move( sample )
+			, std::move( data ) );
+	}
+	/**
+	*@return
+	*	float
+	*@param image
+	*	Image<Float, 2D, MS, Array>
+	*@param[in] P
+	*	vec3i
+	*@param[in] sample
+	*	int
+	*@param[in] data
+	*	float
+	*/
+	inline ImageAccessCallPtr makeImageAtomicAdd2DMSArrayFR32( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr sample
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec3I );
+		assert( sample->getType()->getKind() == type::Kind::eInt );
+		assert( data->getType()->getKind() == type::Kind::eFloat );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eFloat )
+			, ImageAccess::eImageAtomicAdd2DMSArrayF
 			, std::move( image )
 			, std::move( P )
 			, std::move( sample )
@@ -18520,6 +19316,795 @@ namespace ast::expr
 		assert( data->getType()->getKind() == type::Kind::eInt );
 		return makeImageAccessCall( cache.getBasicType( type::Kind::eInt )
 			, ImageAccess::eImageAtomicExchange2DMSArrayI
+			, std::move( image )
+			, std::move( P )
+			, std::move( sample )
+			, std::move( data ) );
+	}
+	/**
+	*@return
+	*	vec4h
+	*@param image
+	*	Image<Float, 1D>
+	*@param[in] P
+	*	int
+	*@param[in] data
+	*	vec4h
+	*/
+	inline ImageAccessCallPtr makeImageAtomicExchange1DFRgba16( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eInt );
+		assert( data->getType()->getKind() == type::Kind::eVec4H );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVec4H )
+			, ImageAccess::eImageAtomicExchange1DF
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+	/**
+	*@return
+	*	vec2h
+	*@param image
+	*	Image<Float, 1D>
+	*@param[in] P
+	*	int
+	*@param[in] data
+	*	vec2h
+	*/
+	inline ImageAccessCallPtr makeImageAtomicExchange1DFRg16( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eInt );
+		assert( data->getType()->getKind() == type::Kind::eVec2H );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVec2H )
+			, ImageAccess::eImageAtomicExchange1DF
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+	/**
+	*@return
+	*	float
+	*@param image
+	*	Image<Float, 1D>
+	*@param[in] P
+	*	int
+	*@param[in] data
+	*	float
+	*/
+	inline ImageAccessCallPtr makeImageAtomicExchange1DFR32( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eInt );
+		assert( data->getType()->getKind() == type::Kind::eFloat );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eFloat )
+			, ImageAccess::eImageAtomicExchange1DF
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+	/**
+	*@return
+	*	vec4h
+	*@param image
+	*	Image<Float, 2D>
+	*@param[in] P
+	*	vec2i
+	*@param[in] data
+	*	vec4h
+	*/
+	inline ImageAccessCallPtr makeImageAtomicExchange2DFRgba16( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec2I );
+		assert( data->getType()->getKind() == type::Kind::eVec4H );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVec4H )
+			, ImageAccess::eImageAtomicExchange2DF
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+	/**
+	*@return
+	*	vec2h
+	*@param image
+	*	Image<Float, 2D>
+	*@param[in] P
+	*	vec2i
+	*@param[in] data
+	*	vec2h
+	*/
+	inline ImageAccessCallPtr makeImageAtomicExchange2DFRg16( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec2I );
+		assert( data->getType()->getKind() == type::Kind::eVec2H );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVec2H )
+			, ImageAccess::eImageAtomicExchange2DF
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+	/**
+	*@return
+	*	float
+	*@param image
+	*	Image<Float, 2D>
+	*@param[in] P
+	*	vec2i
+	*@param[in] data
+	*	float
+	*/
+	inline ImageAccessCallPtr makeImageAtomicExchange2DFR32( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec2I );
+		assert( data->getType()->getKind() == type::Kind::eFloat );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eFloat )
+			, ImageAccess::eImageAtomicExchange2DF
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+	/**
+	*@return
+	*	vec4h
+	*@param image
+	*	Image<Float, 3D>
+	*@param[in] P
+	*	vec3i
+	*@param[in] data
+	*	vec4h
+	*/
+	inline ImageAccessCallPtr makeImageAtomicExchange3DFRgba16( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec3I );
+		assert( data->getType()->getKind() == type::Kind::eVec4H );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVec4H )
+			, ImageAccess::eImageAtomicExchange3DF
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+	/**
+	*@return
+	*	vec2h
+	*@param image
+	*	Image<Float, 3D>
+	*@param[in] P
+	*	vec3i
+	*@param[in] data
+	*	vec2h
+	*/
+	inline ImageAccessCallPtr makeImageAtomicExchange3DFRg16( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec3I );
+		assert( data->getType()->getKind() == type::Kind::eVec2H );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVec2H )
+			, ImageAccess::eImageAtomicExchange3DF
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+	/**
+	*@return
+	*	float
+	*@param image
+	*	Image<Float, 3D>
+	*@param[in] P
+	*	vec3i
+	*@param[in] data
+	*	float
+	*/
+	inline ImageAccessCallPtr makeImageAtomicExchange3DFR32( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec3I );
+		assert( data->getType()->getKind() == type::Kind::eFloat );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eFloat )
+			, ImageAccess::eImageAtomicExchange3DF
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+	/**
+	*@return
+	*	vec4h
+	*@param image
+	*	Image<Float, Rect>
+	*@param[in] P
+	*	vec2i
+	*@param[in] data
+	*	vec4h
+	*/
+	inline ImageAccessCallPtr makeImageAtomicExchange2DRectFRgba16( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec2I );
+		assert( data->getType()->getKind() == type::Kind::eVec4H );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVec4H )
+			, ImageAccess::eImageAtomicExchange2DRectF
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+	/**
+	*@return
+	*	vec2h
+	*@param image
+	*	Image<Float, Rect>
+	*@param[in] P
+	*	vec2i
+	*@param[in] data
+	*	vec2h
+	*/
+	inline ImageAccessCallPtr makeImageAtomicExchange2DRectFRg16( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec2I );
+		assert( data->getType()->getKind() == type::Kind::eVec2H );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVec2H )
+			, ImageAccess::eImageAtomicExchange2DRectF
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+	/**
+	*@return
+	*	float
+	*@param image
+	*	Image<Float, Rect>
+	*@param[in] P
+	*	vec2i
+	*@param[in] data
+	*	float
+	*/
+	inline ImageAccessCallPtr makeImageAtomicExchange2DRectFR32( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec2I );
+		assert( data->getType()->getKind() == type::Kind::eFloat );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eFloat )
+			, ImageAccess::eImageAtomicExchange2DRectF
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+	/**
+	*@return
+	*	vec4h
+	*@param image
+	*	Image<Float, Cube>
+	*@param[in] P
+	*	vec3i
+	*@param[in] data
+	*	vec4h
+	*/
+	inline ImageAccessCallPtr makeImageAtomicExchangeCubeFRgba16( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec3I );
+		assert( data->getType()->getKind() == type::Kind::eVec4H );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVec4H )
+			, ImageAccess::eImageAtomicExchangeCubeF
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+	/**
+	*@return
+	*	vec2h
+	*@param image
+	*	Image<Float, Cube>
+	*@param[in] P
+	*	vec3i
+	*@param[in] data
+	*	vec2h
+	*/
+	inline ImageAccessCallPtr makeImageAtomicExchangeCubeFRg16( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec3I );
+		assert( data->getType()->getKind() == type::Kind::eVec2H );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVec2H )
+			, ImageAccess::eImageAtomicExchangeCubeF
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+	/**
+	*@return
+	*	float
+	*@param image
+	*	Image<Float, Cube>
+	*@param[in] P
+	*	vec3i
+	*@param[in] data
+	*	float
+	*/
+	inline ImageAccessCallPtr makeImageAtomicExchangeCubeFR32( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec3I );
+		assert( data->getType()->getKind() == type::Kind::eFloat );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eFloat )
+			, ImageAccess::eImageAtomicExchangeCubeF
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+	/**
+	*@return
+	*	vec4h
+	*@param image
+	*	Image<Float, Buffer>
+	*@param[in] P
+	*	int
+	*@param[in] data
+	*	vec4h
+	*/
+	inline ImageAccessCallPtr makeImageAtomicExchangeBufferFRgba16( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eInt );
+		assert( data->getType()->getKind() == type::Kind::eVec4H );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVec4H )
+			, ImageAccess::eImageAtomicExchangeBufferF
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+	/**
+	*@return
+	*	vec2h
+	*@param image
+	*	Image<Float, Buffer>
+	*@param[in] P
+	*	int
+	*@param[in] data
+	*	vec2h
+	*/
+	inline ImageAccessCallPtr makeImageAtomicExchangeBufferFRg16( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eInt );
+		assert( data->getType()->getKind() == type::Kind::eVec2H );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVec2H )
+			, ImageAccess::eImageAtomicExchangeBufferF
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+	/**
+	*@return
+	*	float
+	*@param image
+	*	Image<Float, Buffer>
+	*@param[in] P
+	*	int
+	*@param[in] data
+	*	float
+	*/
+	inline ImageAccessCallPtr makeImageAtomicExchangeBufferFR32( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eInt );
+		assert( data->getType()->getKind() == type::Kind::eFloat );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eFloat )
+			, ImageAccess::eImageAtomicExchangeBufferF
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+	/**
+	*@return
+	*	vec4h
+	*@param image
+	*	Image<Float, 1D, Array>
+	*@param[in] P
+	*	vec2i
+	*@param[in] data
+	*	vec4h
+	*/
+	inline ImageAccessCallPtr makeImageAtomicExchange1DArrayFRgba16( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec2I );
+		assert( data->getType()->getKind() == type::Kind::eVec4H );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVec4H )
+			, ImageAccess::eImageAtomicExchange1DArrayF
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+	/**
+	*@return
+	*	vec2h
+	*@param image
+	*	Image<Float, 1D, Array>
+	*@param[in] P
+	*	vec2i
+	*@param[in] data
+	*	vec2h
+	*/
+	inline ImageAccessCallPtr makeImageAtomicExchange1DArrayFRg16( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec2I );
+		assert( data->getType()->getKind() == type::Kind::eVec2H );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVec2H )
+			, ImageAccess::eImageAtomicExchange1DArrayF
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+	/**
+	*@return
+	*	float
+	*@param image
+	*	Image<Float, 1D, Array>
+	*@param[in] P
+	*	vec2i
+	*@param[in] data
+	*	float
+	*/
+	inline ImageAccessCallPtr makeImageAtomicExchange1DArrayFR32( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec2I );
+		assert( data->getType()->getKind() == type::Kind::eFloat );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eFloat )
+			, ImageAccess::eImageAtomicExchange1DArrayF
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+	/**
+	*@return
+	*	vec4h
+	*@param image
+	*	Image<Float, 2D, Array>
+	*@param[in] P
+	*	vec3i
+	*@param[in] data
+	*	vec4h
+	*/
+	inline ImageAccessCallPtr makeImageAtomicExchange2DArrayFRgba16( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec3I );
+		assert( data->getType()->getKind() == type::Kind::eVec4H );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVec4H )
+			, ImageAccess::eImageAtomicExchange2DArrayF
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+	/**
+	*@return
+	*	vec2h
+	*@param image
+	*	Image<Float, 2D, Array>
+	*@param[in] P
+	*	vec3i
+	*@param[in] data
+	*	vec2h
+	*/
+	inline ImageAccessCallPtr makeImageAtomicExchange2DArrayFRg16( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec3I );
+		assert( data->getType()->getKind() == type::Kind::eVec2H );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVec2H )
+			, ImageAccess::eImageAtomicExchange2DArrayF
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+	/**
+	*@return
+	*	float
+	*@param image
+	*	Image<Float, 2D, Array>
+	*@param[in] P
+	*	vec3i
+	*@param[in] data
+	*	float
+	*/
+	inline ImageAccessCallPtr makeImageAtomicExchange2DArrayFR32( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec3I );
+		assert( data->getType()->getKind() == type::Kind::eFloat );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eFloat )
+			, ImageAccess::eImageAtomicExchange2DArrayF
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+	/**
+	*@return
+	*	vec4h
+	*@param image
+	*	Image<Float, Cube, Array>
+	*@param[in] P
+	*	vec3i
+	*@param[in] data
+	*	vec4h
+	*/
+	inline ImageAccessCallPtr makeImageAtomicExchangeCubeArrayFRgba16( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec3I );
+		assert( data->getType()->getKind() == type::Kind::eVec4H );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVec4H )
+			, ImageAccess::eImageAtomicExchangeCubeArrayF
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+	/**
+	*@return
+	*	vec2h
+	*@param image
+	*	Image<Float, Cube, Array>
+	*@param[in] P
+	*	vec3i
+	*@param[in] data
+	*	vec2h
+	*/
+	inline ImageAccessCallPtr makeImageAtomicExchangeCubeArrayFRg16( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec3I );
+		assert( data->getType()->getKind() == type::Kind::eVec2H );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVec2H )
+			, ImageAccess::eImageAtomicExchangeCubeArrayF
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+	/**
+	*@return
+	*	float
+	*@param image
+	*	Image<Float, Cube, Array>
+	*@param[in] P
+	*	vec3i
+	*@param[in] data
+	*	float
+	*/
+	inline ImageAccessCallPtr makeImageAtomicExchangeCubeArrayFR32( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec3I );
+		assert( data->getType()->getKind() == type::Kind::eFloat );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eFloat )
+			, ImageAccess::eImageAtomicExchangeCubeArrayF
+			, std::move( image )
+			, std::move( P )
+			, std::move( data ) );
+	}
+	/**
+	*@return
+	*	vec4h
+	*@param image
+	*	Image<Float, 2D, MS>
+	*@param[in] P
+	*	vec2i
+	*@param[in] sample
+	*	int
+	*@param[in] data
+	*	vec4h
+	*/
+	inline ImageAccessCallPtr makeImageAtomicExchange2DMSFRgba16( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr sample
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec2I );
+		assert( sample->getType()->getKind() == type::Kind::eInt );
+		assert( data->getType()->getKind() == type::Kind::eVec4H );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVec4H )
+			, ImageAccess::eImageAtomicExchange2DMSF
+			, std::move( image )
+			, std::move( P )
+			, std::move( sample )
+			, std::move( data ) );
+	}
+	/**
+	*@return
+	*	vec2h
+	*@param image
+	*	Image<Float, 2D, MS>
+	*@param[in] P
+	*	vec2i
+	*@param[in] sample
+	*	int
+	*@param[in] data
+	*	vec2h
+	*/
+	inline ImageAccessCallPtr makeImageAtomicExchange2DMSFRg16( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr sample
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec2I );
+		assert( sample->getType()->getKind() == type::Kind::eInt );
+		assert( data->getType()->getKind() == type::Kind::eVec2H );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVec2H )
+			, ImageAccess::eImageAtomicExchange2DMSF
+			, std::move( image )
+			, std::move( P )
+			, std::move( sample )
+			, std::move( data ) );
+	}
+	/**
+	*@return
+	*	float
+	*@param image
+	*	Image<Float, 2D, MS>
+	*@param[in] P
+	*	vec2i
+	*@param[in] sample
+	*	int
+	*@param[in] data
+	*	float
+	*/
+	inline ImageAccessCallPtr makeImageAtomicExchange2DMSFR32( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr sample
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec2I );
+		assert( sample->getType()->getKind() == type::Kind::eInt );
+		assert( data->getType()->getKind() == type::Kind::eFloat );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eFloat )
+			, ImageAccess::eImageAtomicExchange2DMSF
+			, std::move( image )
+			, std::move( P )
+			, std::move( sample )
+			, std::move( data ) );
+	}
+	/**
+	*@return
+	*	vec4h
+	*@param image
+	*	Image<Float, 2D, MS, Array>
+	*@param[in] P
+	*	vec3i
+	*@param[in] sample
+	*	int
+	*@param[in] data
+	*	vec4h
+	*/
+	inline ImageAccessCallPtr makeImageAtomicExchange2DMSArrayFRgba16( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr sample
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec3I );
+		assert( sample->getType()->getKind() == type::Kind::eInt );
+		assert( data->getType()->getKind() == type::Kind::eVec4H );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVec4H )
+			, ImageAccess::eImageAtomicExchange2DMSArrayF
+			, std::move( image )
+			, std::move( P )
+			, std::move( sample )
+			, std::move( data ) );
+	}
+	/**
+	*@return
+	*	vec2h
+	*@param image
+	*	Image<Float, 2D, MS, Array>
+	*@param[in] P
+	*	vec3i
+	*@param[in] sample
+	*	int
+	*@param[in] data
+	*	vec2h
+	*/
+	inline ImageAccessCallPtr makeImageAtomicExchange2DMSArrayFRg16( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr sample
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec3I );
+		assert( sample->getType()->getKind() == type::Kind::eInt );
+		assert( data->getType()->getKind() == type::Kind::eVec2H );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eVec2H )
+			, ImageAccess::eImageAtomicExchange2DMSArrayF
+			, std::move( image )
+			, std::move( P )
+			, std::move( sample )
+			, std::move( data ) );
+	}
+	/**
+	*@return
+	*	float
+	*@param image
+	*	Image<Float, 2D, MS, Array>
+	*@param[in] P
+	*	vec3i
+	*@param[in] sample
+	*	int
+	*@param[in] data
+	*	float
+	*/
+	inline ImageAccessCallPtr makeImageAtomicExchange2DMSArrayFR32( type::TypesCache & cache
+		, ExprPtr image
+		, ExprPtr P
+		, ExprPtr sample
+		, ExprPtr data )
+	{
+		assert( P->getType()->getKind() == type::Kind::eVec3I );
+		assert( sample->getType()->getKind() == type::Kind::eInt );
+		assert( data->getType()->getKind() == type::Kind::eFloat );
+		return makeImageAccessCall( cache.getBasicType( type::Kind::eFloat )
+			, ImageAccess::eImageAtomicExchange2DMSArrayF
 			, std::move( image )
 			, std::move( P )
 			, std::move( sample )

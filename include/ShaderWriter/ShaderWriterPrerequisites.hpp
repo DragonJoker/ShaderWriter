@@ -146,6 +146,10 @@ namespace sdw
 	template< ast::type::Kind KindT >
 	struct IntegerValue;
 
+	template< ast::type::Kind KindT >
+	struct IncDecWrapperT;
+
+	using Half = ArithmeticValue< ast::type::Kind::eHalf >;
 	using Float = ArithmeticValue< ast::type::Kind::eFloat >;
 	using Double = ArithmeticValue< ast::type::Kind::eDouble >;
 	using Int = IntegerValue< ast::type::Kind::eInt >;
@@ -160,6 +164,8 @@ namespace sdw
 	using DVec2 = Vec2T< Double >;
 	using DVec3 = Vec3T< Double >;
 	using DVec4 = Vec4T< Double >;
+	using HVec2 = Vec2T< Half >;
+	using HVec4 = Vec4T< Half >;
 	using IVec2 = Vec2T< Int >;
 	using IVec3 = Vec3T< Int >;
 	using IVec4 = Vec4T< Int >;
@@ -1021,6 +1027,12 @@ namespace sdw
 
 	template< typename T >
 	static bool constexpr hasArithmeticOperators = TypeTraits< T >::HasArithmeticOperators;
+
+	template< ast::type::Kind KindT >
+	struct TypeKindTraits;
+
+	template< ast::type::Kind KindT >
+	using TypeKindT = typename TypeKindTraits< KindT >::Type;
 }
 
 #undef Writer_SampledImage

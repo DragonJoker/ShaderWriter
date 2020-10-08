@@ -10304,6 +10304,57 @@ namespace sdw
 					, makeExpr( mem )
 				, makeExpr( data ) ) };
 	}
+	MaybeOptional< Float > atomicAdd( MaybeOptional< Float > const & mem
+		, MaybeOptional< Float > const & data )
+	{
+		if ( isAnyOptional( mem, data ) )
+		{
+			return Optional< Float >{ findShader( mem, data )
+				, expr::makeAtomicAddF( findTypesCache( mem, data )
+					, makeExpr( mem )
+					, makeExpr( data ) )
+				, areOptionalEnabled( mem, data ) };
+		}
+
+		return Float{ findShader( mem, data )
+			, expr::makeAtomicAddF( findTypesCache( mem, data )
+					, makeExpr( mem )
+				, makeExpr( data ) ) };
+	}
+	MaybeOptional< HVec2 > atomicAdd( MaybeOptional< HVec2 > const & mem
+		, MaybeOptional< HVec2 > const & data )
+	{
+		if ( isAnyOptional( mem, data ) )
+		{
+			return Optional< HVec2 >{ findShader( mem, data )
+				, expr::makeAtomicAdd2H( findTypesCache( mem, data )
+					, makeExpr( mem )
+					, makeExpr( data ) )
+				, areOptionalEnabled( mem, data ) };
+		}
+
+		return HVec2{ findShader( mem, data )
+			, expr::makeAtomicAdd2H( findTypesCache( mem, data )
+					, makeExpr( mem )
+				, makeExpr( data ) ) };
+	}
+	MaybeOptional< HVec4 > atomicAdd( MaybeOptional< HVec4 > const & mem
+		, MaybeOptional< HVec4 > const & data )
+	{
+		if ( isAnyOptional( mem, data ) )
+		{
+			return Optional< HVec4 >{ findShader( mem, data )
+				, expr::makeAtomicAdd4H( findTypesCache( mem, data )
+					, makeExpr( mem )
+					, makeExpr( data ) )
+				, areOptionalEnabled( mem, data ) };
+		}
+
+		return HVec4{ findShader( mem, data )
+			, expr::makeAtomicAdd4H( findTypesCache( mem, data )
+					, makeExpr( mem )
+				, makeExpr( data ) ) };
+	}
 	/**@}*/
 #pragma endregion
 #pragma region atomicMin
@@ -10553,6 +10604,57 @@ namespace sdw
 
 		return UInt{ findShader( mem, data )
 			, expr::makeAtomicExchangeU( findTypesCache( mem, data )
+					, makeExpr( mem )
+				, makeExpr( data ) ) };
+	}
+	MaybeOptional< Float > atomicExchange( MaybeOptional< Float > const & mem
+		, MaybeOptional< Float > const & data )
+	{
+		if ( isAnyOptional( mem, data ) )
+		{
+			return Optional< Float >{ findShader( mem, data )
+				, expr::makeAtomicExchangeF( findTypesCache( mem, data )
+					, makeExpr( mem )
+					, makeExpr( data ) )
+				, areOptionalEnabled( mem, data ) };
+		}
+
+		return Float{ findShader( mem, data )
+			, expr::makeAtomicExchangeF( findTypesCache( mem, data )
+					, makeExpr( mem )
+				, makeExpr( data ) ) };
+	}
+	MaybeOptional< HVec2 > atomicExchange( MaybeOptional< HVec2 > const & mem
+		, MaybeOptional< HVec2 > const & data )
+	{
+		if ( isAnyOptional( mem, data ) )
+		{
+			return Optional< HVec2 >{ findShader( mem, data )
+				, expr::makeAtomicExchange2H( findTypesCache( mem, data )
+					, makeExpr( mem )
+					, makeExpr( data ) )
+				, areOptionalEnabled( mem, data ) };
+		}
+
+		return HVec2{ findShader( mem, data )
+			, expr::makeAtomicExchange2H( findTypesCache( mem, data )
+					, makeExpr( mem )
+				, makeExpr( data ) ) };
+	}
+	MaybeOptional< HVec4 > atomicExchange( MaybeOptional< HVec4 > const & mem
+		, MaybeOptional< HVec4 > const & data )
+	{
+		if ( isAnyOptional( mem, data ) )
+		{
+			return Optional< HVec4 >{ findShader( mem, data )
+				, expr::makeAtomicExchange4H( findTypesCache( mem, data )
+					, makeExpr( mem )
+					, makeExpr( data ) )
+				, areOptionalEnabled( mem, data ) };
+		}
+
+		return HVec4{ findShader( mem, data )
+			, expr::makeAtomicExchange4H( findTypesCache( mem, data )
 					, makeExpr( mem )
 				, makeExpr( data ) ) };
 	}

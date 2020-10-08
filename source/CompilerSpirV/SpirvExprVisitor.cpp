@@ -214,7 +214,7 @@ namespace spirv
 
 			if ( isDoubleType( src ) )
 			{
-				if ( isFloatType( dst ) )
+				if ( isFloatType( dst ) || isHalfType( dst ) )
 				{
 					result = spv::OpFConvert;
 				}
@@ -233,7 +233,26 @@ namespace spirv
 			}
 			else if ( isFloatType( src ) )
 			{
-				if ( isDoubleType( dst ) )
+				if ( isDoubleType( dst ) || isHalfType( dst ) )
+				{
+					result = spv::OpFConvert;
+				}
+				else if ( isSignedIntType( dst ) )
+				{
+					result = spv::OpConvertFToS;
+				}
+				else if ( isUnsignedIntType( dst ) )
+				{
+					result = spv::OpConvertFToU;
+				}
+				else
+				{
+					assert( false && "Unsupported cast expression" );
+				}
+			}
+			else if ( isHalfType( src ) )
+			{
+				if ( isDoubleType( dst ) || isFloatType( dst ) )
 				{
 					result = spv::OpFConvert;
 				}

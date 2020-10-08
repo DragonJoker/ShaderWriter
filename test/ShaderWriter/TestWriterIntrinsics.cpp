@@ -10179,6 +10179,96 @@ namespace
 		testEnd();
 	}
 
+	void testAtomicAddF( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "testAtomicAddF" );
+		using namespace sdw;
+		{
+			ComputeWriter writer;
+			writer.inputLayout( 1u );
+			auto & shader = writer.getShader();
+			std::string const name = "member";
+			sdw::Struct type{ writer, "Type", ast::type::MemoryLayout::eStd140 };
+			type.declMember< sdw::Float >( name );
+			type.end();
+			sdw::StructuredSsbo bo{ writer, "Datas", type.getType(), 1u, 1u };
+			writer.implementFunction< sdw::Void >( "main"
+				, [&]()
+				{
+					auto x = writer.declLocale< Float >( "x", 0.0_f );
+					writer.declLocale( "r"
+						, atomicAdd( bo[0].getMember< sdw::Float >( name ), x ) );
+				} );
+			test::writeShader( writer
+				, testCounts
+				, true, false, false );
+			test::writeShader( writer
+				, testCounts
+				, false, false, true );
+		}
+		testEnd();
+	}
+
+	void testAtomicAdd2H( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "testAtomicAdd2H" );
+		using namespace sdw;
+		{
+			ComputeWriter writer;
+			writer.inputLayout( 1u );
+			auto & shader = writer.getShader();
+			std::string const name = "member";
+			sdw::Struct type{ writer, "Type", ast::type::MemoryLayout::eStd140 };
+			type.declMember< sdw::HVec2 >( name );
+			type.end();
+			sdw::StructuredSsbo bo{ writer, "Datas", type.getType(), 1u, 1u };
+			writer.implementFunction< sdw::Void >( "main"
+				, [&]()
+				{
+					auto x = writer.declLocale< sdw::HVec2 >( "x", f16vec2( vec2( 0.0_f ) ) );
+					writer.declLocale( "r"
+						, atomicAdd( bo[0].getMember< sdw::HVec2 >( name ), x ) );
+				} );
+			test::writeShader( writer
+				, testCounts
+				, true, false, false );
+			test::writeShader( writer
+				, testCounts
+				, false, false, true );
+		}
+		testEnd();
+	}
+
+	void testAtomicAdd4H( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "testAtomicAdd4H" );
+		using namespace sdw;
+		{
+			ComputeWriter writer;
+			writer.inputLayout( 1u );
+			auto & shader = writer.getShader();
+			std::string const name = "member";
+			sdw::Struct type{ writer, "Type", ast::type::MemoryLayout::eStd140 };
+			type.declMember< sdw::HVec4 >( name );
+			type.end();
+			sdw::StructuredSsbo bo{ writer, "Datas", type.getType(), 1u, 1u };
+			writer.implementFunction< sdw::Void >( "main"
+				, [&]()
+				{
+					auto x = writer.declLocale< sdw::HVec4 >( "x", f16vec4( vec4( 0.0_f ) ) );
+					writer.declLocale( "r"
+						, atomicAdd( bo[0].getMember< sdw::HVec4 >( name ), x ) );
+				} );
+			test::writeShader( writer
+				, testCounts
+				, true, false, false );
+			test::writeShader( writer
+				, testCounts
+				, false, false, true );
+		}
+		testEnd();
+	}
+
 	void testAtomicMinI( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testAtomicMinI" );
@@ -10476,6 +10566,93 @@ namespace
 				} );
 			test::writeShader( writer
 				, testCounts );
+		}
+		testEnd();
+	}
+
+	void testAtomicExchangeF( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "testAtomicExchangeF" );
+		using namespace sdw;
+		{
+			ComputeWriter writer;
+			writer.inputLayout( 1u );
+			std::string const name = "member";
+			sdw::Struct type{ writer, "Type", ast::type::MemoryLayout::eStd140 };
+			type.declMember< sdw::Float >( name );
+			type.end();
+			sdw::StructuredSsbo bo{ writer, "Datas", type.getType(), 1u, 1u };
+			writer.implementFunction< sdw::Void >( "main"
+				, [&]()
+				{
+					auto x = writer.declLocale< Float >( "x", 0.0_f );
+					writer.declLocale( "r"
+						, atomicExchange( bo[0].getMember< sdw::Float >( name ), x ) );
+				} );
+			test::writeShader( writer
+				, testCounts
+				, true, false, false );
+			test::writeShader( writer
+				, testCounts
+				, false, false, true );
+		}
+		testEnd();
+	}
+
+	void testAtomicExchange2H( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "testAtomicExchange2H" );
+		using namespace sdw;
+		{
+			ComputeWriter writer;
+			writer.inputLayout( 1u );
+			std::string const name = "member";
+			sdw::Struct type{ writer, "Type", ast::type::MemoryLayout::eStd140 };
+			type.declMember< sdw::HVec2 >( name );
+			type.end();
+			sdw::StructuredSsbo bo{ writer, "Datas", type.getType(), 1u, 1u };
+			writer.implementFunction< sdw::Void >( "main"
+				, [&]()
+				{
+					auto x = writer.declLocale< sdw::HVec2 >( "x", f16vec2( vec2( 0.0_f ) ) );
+					writer.declLocale( "r"
+						, atomicExchange( bo[0].getMember< sdw::HVec2 >( name ), x ) );
+				} );
+			test::writeShader( writer
+				, testCounts
+				, true, false, false );
+			test::writeShader( writer
+				, testCounts
+				, false, false, true );
+		}
+		testEnd();
+	}
+
+	void testAtomicExchange4H( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "testAtomicExchange4H" );
+		using namespace sdw;
+		{
+			ComputeWriter writer;
+			writer.inputLayout( 1u );
+			std::string const name = "member";
+			sdw::Struct type{ writer, "Type", ast::type::MemoryLayout::eStd140 };
+			type.declMember< sdw::HVec4 >( name );
+			type.end();
+			sdw::StructuredSsbo bo{ writer, "Datas", type.getType(), 1u, 1u };
+			writer.implementFunction< sdw::Void >( "main"
+				, [&]()
+				{
+					auto x = writer.declLocale< sdw::HVec4 >( "x", f16vec4( vec4( 0.0_f ) ) );
+					writer.declLocale( "r"
+						, atomicExchange( bo[0].getMember< sdw::HVec4 >( name ), x ) );
+				} );
+			test::writeShader( writer
+				, testCounts
+				, true, false, false );
+			test::writeShader( writer
+				, testCounts
+				, false, false, true );
 		}
 		testEnd();
 	}
@@ -11893,6 +12070,9 @@ int main( int argc, char ** argv )
 	testFindMSB4U( testCounts );
 	testAtomicAddI( testCounts );
 	testAtomicAddU( testCounts );
+	testAtomicAddF( testCounts );
+	testAtomicAdd2H( testCounts );
+	testAtomicAdd4H( testCounts );
 	testAtomicMinI( testCounts );
 	testAtomicMinU( testCounts );
 	testAtomicMaxI( testCounts );
@@ -11905,6 +12085,9 @@ int main( int argc, char ** argv )
 	testAtomicXorU( testCounts );
 	testAtomicExchangeI( testCounts );
 	testAtomicExchangeU( testCounts );
+	testAtomicExchangeF( testCounts );
+	testAtomicExchange2H( testCounts );
+	testAtomicExchange4H( testCounts );
 	testAtomicCompSwapI( testCounts );
 	testAtomicCompSwapU( testCounts );
 	testDFdx1( testCounts );

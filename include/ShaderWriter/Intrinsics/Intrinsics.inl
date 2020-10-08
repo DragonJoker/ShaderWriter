@@ -58,6 +58,24 @@ namespace sdw
 	}
 
 	template< typename ... ValuesT >
+	inline HVec2 f16vec2( Value const & value
+		, ValuesT const & ... values )
+	{
+		return getCtorCall< HVec2 >( *findShader( value, values... )
+			, value
+			, values... );
+	}
+
+	template< typename ... ValuesT >
+	inline HVec4 f16vec4( Value const & value
+		, ValuesT const & ... values )
+	{
+		return getCtorCall< HVec4 >( *findShader( value, values... )
+			, value
+			, values... );
+	}
+
+	template< typename ... ValuesT >
 	inline IVec2 ivec2( Value const & value
 		, ValuesT const & ... values )
 	{

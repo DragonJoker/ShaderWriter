@@ -169,6 +169,13 @@ namespace sdw
 		inline Optional< Array< T > > declConstantArray( std::string const & name
 			, std::vector< T > const & rhs
 			, bool enabled );
+		template< ast::type::Kind KindT >
+		inline IntegerValue< KindT > declConstant( std::string const & name
+			, IncDecWrapperT< KindT > rhs );
+		template< ast::type::Kind KindT >
+		inline Optional< IntegerValue< KindT > > declConstant( std::string const & name
+			, IncDecWrapperT< KindT > rhs
+			, bool enabled );
 		/**@}*/
 #pragma endregion
 #pragma region Specialisation constant declaration
@@ -473,6 +480,17 @@ namespace sdw
 			, uint32_t dimension
 			, std::vector< T > const & rhs
 			, bool enabled );
+		template< ast::type::Kind KindT >
+		inline IntegerValue< KindT > declLocale( std::string const & name
+			, IncDecWrapperT< KindT > rhs );
+		template< ast::type::Kind KindT >
+		inline IntegerValue< KindT > declLocale( std::string const & name
+			, bool enabled
+			, IncDecWrapperT< KindT > defaultValue );
+		template< ast::type::Kind KindT >
+		inline Optional< IntegerValue< KindT > > declLocale( std::string const & name
+			, IncDecWrapperT< KindT > rhs
+			, bool enabled );
 		/**@}*/
 #pragma endregion
 #pragma region Already declared variable getters
@@ -737,11 +755,11 @@ namespace sdw
 		auto ctrlVar##Name = writerInt.registerLoopVar( #Name, Type::makeType( shaderInt.getTypesCache() ) );\
 		Type Name{ &shaderInt, sdw::makeExpr( shaderInt, ctrlVar##Name ) };\
 		writerInt.saveNextExpr();\
-		Type incr##Name{ &shaderInt, writerInt.loadExpr( Incr ) };\
+		Type incr##Name{ &shaderInt, writerInt.loadExpr( Type{ Incr } ) };\
 		Name.updateExpr( sdw::makeExpr( shaderInt, ctrlVar##Name ) );\
 		sdw::Boolean cond##Name{ &shaderInt, sdw::makeCondition( Cond ) };\
 		writerInt.forStmt( sdw::makeInit( ctrlVar##Name\
-				, sdw::makeExpr( shaderInt, Init ) )\
+			, sdw::makeExpr( shaderInt, Init ) )\
 			, sdw::makeExpr( shaderInt, cond##Name )\
 			, sdw::makeExpr( shaderInt, incr##Name )\
 			, [&]()

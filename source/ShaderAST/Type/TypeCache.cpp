@@ -195,11 +195,6 @@ namespace ast::type
 		return getBasicType( Kind::eVec2H );
 	}
 
-	TypePtr TypesCache::getVec3H()
-	{
-		return getBasicType( Kind::eVec3H );
-	}
-
 	TypePtr TypesCache::getVec4H()
 	{
 		return getBasicType( Kind::eVec4H );
@@ -370,8 +365,6 @@ namespace ast::type
 			return m_basicTypes[size_t( Kind::eVec4U )];
 		case Kind::eVec2H:
 			return m_basicTypes[size_t( Kind::eVec2H )];
-		case Kind::eVec3H:
-			return m_basicTypes[size_t( Kind::eVec3H )];
 		case Kind::eVec4H:
 			return m_basicTypes[size_t( Kind::eVec4H )];
 		case Kind::eVec2F:
@@ -460,8 +453,6 @@ namespace ast::type
 			return getVec3I();
 		case Kind::eUInt:
 			return getVec3U();
-		case Kind::eHalf:
-			return getVec3H();
 		case Kind::eFloat:
 			return getVec3F();
 		case Kind::eDouble:
@@ -583,7 +574,67 @@ namespace ast::type
 		case ImageFormat::eR8u:
 			return getBasicType( sampledType< ImageFormat::eR8u > );
 		default:
-			assert( false && "hlsl::getType: Unsupported ImageFormat" );
+			assert( false && "getSampledType: Unsupported ImageFormat" );
+			return nullptr;
+		}
+	}
+
+	TypePtr TypesCache::getTexelType( ImageFormat format )
+	{
+		switch ( format )
+		{
+		case ImageFormat::eUnknown:
+			return getBasicType( texelType< ImageFormat::eUnknown > );
+		case ImageFormat::eRgba32f:
+			return getBasicType( texelType< ImageFormat::eRgba32f > );
+		case ImageFormat::eRgba16f:
+			return getBasicType( texelType< ImageFormat::eRgba16f > );
+		case ImageFormat::eRg32f:
+			return getBasicType( texelType< ImageFormat::eRg32f > );
+		case ImageFormat::eRg16f:
+			return getBasicType( texelType< ImageFormat::eRg16f > );
+		case ImageFormat::eR32f:
+			return getBasicType( texelType< ImageFormat::eR32f > );
+		case ImageFormat::eR16f:
+			return getBasicType( texelType< ImageFormat::eR16f > );
+		case ImageFormat::eRgba32i:
+			return getBasicType( texelType< ImageFormat::eRgba32i > );
+		case ImageFormat::eRgba16i:
+			return getBasicType( texelType< ImageFormat::eRgba16i > );
+		case ImageFormat::eRgba8i:
+			return getBasicType( texelType< ImageFormat::eRgba8i > );
+		case ImageFormat::eRg32i:
+			return getBasicType( texelType< ImageFormat::eRg32i > );
+		case ImageFormat::eRg16i:
+			return getBasicType( texelType< ImageFormat::eRg16i > );
+		case ImageFormat::eRg8i:
+			return getBasicType( texelType< ImageFormat::eRg8i > );
+		case ImageFormat::eR32i:
+			return getBasicType( texelType< ImageFormat::eR32i > );
+		case ImageFormat::eR16i:
+			return getBasicType( texelType< ImageFormat::eR16i > );
+		case ImageFormat::eR8i:
+			return getBasicType( texelType< ImageFormat::eR8i > );
+		case ImageFormat::eRgba32u:
+			return getBasicType( texelType< ImageFormat::eRgba32u > );
+		case ImageFormat::eRgba16u:
+			return getBasicType( texelType< ImageFormat::eRgba16u > );
+		case ImageFormat::eRgba8u:
+			return getBasicType( texelType< ImageFormat::eRgba8u > );
+		case ImageFormat::eRg32u:
+			return getBasicType( texelType< ImageFormat::eRg32u > );
+		case ImageFormat::eRg16u:
+			return getBasicType( texelType< ImageFormat::eRg16u > );
+		case ImageFormat::eRg8u:
+			return getBasicType( texelType< ImageFormat::eRg8u > );
+		case ImageFormat::eR32u:
+			return getBasicType( texelType< ImageFormat::eR32u > );
+		case ImageFormat::eR16u:
+			return getBasicType( texelType< ImageFormat::eR16u > );
+		case ImageFormat::eR8u:
+			return getBasicType( texelType< ImageFormat::eR8u > );
+		default:
+			assert( false && "getTexelType: Unsupported ImageFormat" );
 			return nullptr;
 		}
 	}

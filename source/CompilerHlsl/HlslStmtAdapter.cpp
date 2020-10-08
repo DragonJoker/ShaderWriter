@@ -396,14 +396,29 @@ namespace hlsl
 
 	void StmtAdapter::visitShaderBufferDeclStmt( ast::stmt::ShaderBufferDecl * stmt )
 	{
-		auto cont = ast::stmt::makeShaderBufferDecl( stmt->getVariable()
+		auto ssboVar = stmt->getVariable();
+		m_adaptationData.ssboList.push_back( ssboVar );
+		m_current->addStmt( ast::stmt::makeStructureDecl( stmt->getType() ) );
+		m_current->addStmt( ast::stmt::makeShaderStructBufferDecl( stmt->getSsboName()
+			, ast::var::makeVariable( ssboVar->getType()
+				, ssboVar->getName() + "Inst" )
+			, ssboVar
 			, stmt->getBindingPoint()
-			, stmt->getDescriptorSet() );
-		auto save = m_current;
-		m_current = cont.get();
-		visitContainerStmt( stmt );
-		m_current = save;
-		m_current->addStmt( std::move( cont ) );
+			, stmt->getDescriptorSet() ) );
+		uint32_t mbrIndex = 0u;
+
+		for ( auto & stmt : *stmt )
+		{
+			assert( stmt->getKind() == ast::stmt::Kind::eVariableDecl );
+			auto var = static_cast< ast::stmt::VariableDecl const & >( *stmt ).getVariable();
+			m_adaptationData.replacedVars.emplace( var
+				, ast::expr::makeMbrSelect( ast::expr::makeArrayAccess( ssboVar->getType()
+						, ast::expr::makeIdentifier( m_cache
+							, ast::var::makeVariable( m_cache.getArray( ssboVar->getType(), 1u ), ssboVar->getName() ) )
+						, ast::expr::makeLiteral( m_cache, 0 ) )
+					, mbrIndex++
+					, uint32_t( ast::var::Flag::eUniform ) ) );
+		}
 	}
 
 	void StmtAdapter::visitShaderStructBufferDeclStmt( ast::stmt::ShaderStructBufferDecl * stmt )

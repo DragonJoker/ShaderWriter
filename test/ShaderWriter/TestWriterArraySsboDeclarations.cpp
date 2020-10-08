@@ -2,7 +2,7 @@
 #include "WriterCommon.hpp"
 
 #include <ShaderWriter/CompositeTypes/Struct.hpp>
-#include <ShaderWriter/CompositeTypes/StructuredSsbo.hpp>
+#include <ShaderWriter/CompositeTypes/ArraySsbo.hpp>
 
 namespace
 {
@@ -79,7 +79,7 @@ namespace
 
 int main( int argc, char ** argv )
 {
-	sdwTestSuiteBegin( "TestWriterSsboDeclarations" );
+	sdwTestSuiteBegin( "TestWriterArraySsboDeclarations" );
 	testStructuredSsbo< sdw::Int >( testCounts );
 	testStructuredSsbo< sdw::UInt >( testCounts );
 	testStructuredSsbo< sdw::Float >( testCounts );

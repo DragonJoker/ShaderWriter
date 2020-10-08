@@ -167,6 +167,9 @@ namespace glsl
 		}
 		else
 		{
+			// imageSize.
+			// imageSamples.
+			// imageAtomics.
 			ast::expr::ExprList args;
 
 			for ( auto & arg : expr->getArgList() )
@@ -252,15 +255,19 @@ namespace glsl
 			args.emplace_back( doSubmit( arg.get() ) );
 		}
 
-		m_result = ast::expr::makeImageAccessCall( expr->getType()
+		auto glslRetType = m_cache.getVec4Type( getScalarType( callRetType->getKind() ) );
+		m_result = ast::expr::makeImageAccessCall( glslRetType
 			, expr->getImageAccess()
 			, std::move( args ) );
-
-		auto glslRetType = m_cache.getVec4Type( getScalarType( callRetType->getKind() ) );
 
 		if ( callRetType != glslRetType )
 		{
 			m_result = swizzleConvert( callRetType, glslRetType, std::move( m_result ) );
+		}
+
+		if ( callRetType != expr->getType() )
+		{
+			m_result = ast::expr::makeCast( expr->getType(), std::move( m_result ) );
 		}
 	}
 

@@ -191,9 +191,6 @@ namespace ast::expr
 			case type::Kind::eUInt:
 				result = cache.getVec3U();
 				break;
-			case type::Kind::eHalf:
-				result = cache.getVec3H();
-				break;
 			case type::Kind::eFloat:
 				result = cache.getVec3F();
 				break;

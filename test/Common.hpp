@@ -236,6 +236,22 @@ namespace test
 		test::reportFailure( testConcat2( x, " failed." ), __FUNCTION__, __LINE__, testCounts );\
 	}
 
+#define beginRequire( x )\
+	try\
+	{\
+		++testCounts.totalCount;\
+		if ( !( x ) )\
+		{\
+			throw std::runtime_error{ std::string{ #x } + " failed" };\
+		}
+
+#define endRequire\
+	}\
+	catch ( ... )\
+	{\
+		test::reportFailure( testConcat2( x, " failed." ), __FUNCTION__, __LINE__, testCounts );\
+	}
+
 #define check( x )\
 	try\
 	{\

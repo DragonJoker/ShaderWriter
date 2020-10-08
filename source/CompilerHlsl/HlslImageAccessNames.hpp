@@ -157,6 +157,17 @@ namespace hlsl
 		case ast::expr::ImageAccess::eImageAtomicAddCubeArrayI:
 		case ast::expr::ImageAccess::eImageAtomicAdd2DMSI:
 		case ast::expr::ImageAccess::eImageAtomicAdd2DMSArrayI:
+		case ast::expr::ImageAccess::eImageAtomicAdd1DF:
+		case ast::expr::ImageAccess::eImageAtomicAdd2DF:
+		case ast::expr::ImageAccess::eImageAtomicAdd3DF:
+		case ast::expr::ImageAccess::eImageAtomicAdd2DRectF:
+		case ast::expr::ImageAccess::eImageAtomicAddCubeF:
+		case ast::expr::ImageAccess::eImageAtomicAddBufferF:
+		case ast::expr::ImageAccess::eImageAtomicAdd1DArrayF:
+		case ast::expr::ImageAccess::eImageAtomicAdd2DArrayF:
+		case ast::expr::ImageAccess::eImageAtomicAddCubeArrayF:
+		case ast::expr::ImageAccess::eImageAtomicAdd2DMSF:
+		case ast::expr::ImageAccess::eImageAtomicAdd2DMSArrayF:
 			result = "SDW_imageAtomicAdd";
 			break;
 
@@ -307,6 +318,17 @@ namespace hlsl
 		case ast::expr::ImageAccess::eImageAtomicExchangeCubeArrayI:
 		case ast::expr::ImageAccess::eImageAtomicExchange2DMSI:
 		case ast::expr::ImageAccess::eImageAtomicExchange2DMSArrayI:
+		case ast::expr::ImageAccess::eImageAtomicExchange1DF:
+		case ast::expr::ImageAccess::eImageAtomicExchange2DF:
+		case ast::expr::ImageAccess::eImageAtomicExchange3DF:
+		case ast::expr::ImageAccess::eImageAtomicExchange2DRectF:
+		case ast::expr::ImageAccess::eImageAtomicExchangeCubeF:
+		case ast::expr::ImageAccess::eImageAtomicExchangeBufferF:
+		case ast::expr::ImageAccess::eImageAtomicExchange1DArrayF:
+		case ast::expr::ImageAccess::eImageAtomicExchange2DArrayF:
+		case ast::expr::ImageAccess::eImageAtomicExchangeCubeArrayF:
+		case ast::expr::ImageAccess::eImageAtomicExchange2DMSF:
+		case ast::expr::ImageAccess::eImageAtomicExchange2DMSArrayF:
 			result = "SDW_imageAtomicExchange";
 			break;
 

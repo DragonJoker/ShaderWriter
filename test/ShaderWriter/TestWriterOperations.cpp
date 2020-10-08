@@ -292,7 +292,7 @@ namespace
 		testBaseOperators( writer, testCounts, ret, lhs, rhs );
 		auto & statements = *shader.getContainer();
 		sdw::expr::Expr * expr;
-		ret = lhs % writer.cast< sdw::RealTypeT< RET > >( rhs );
+		ret = writer.cast< sdw::RealTypeT< RET > >( lhs ) % writer.cast< sdw::RealTypeT< RET > >( rhs );
 		if ( sdw::isOptionalEnabled( ret ) )
 		{
 			require( statements.back()->getKind() == sdw::stmt::Kind::eSimple );
@@ -301,7 +301,7 @@ namespace
 			check( static_cast< sdw::expr::Assign const & >( *expr ).getRHS()->getKind() == sdw::expr::Kind::eModulo );
 			check( static_cast< sdw::expr::Assign const & >( *expr ).getRHS()->getType()->getKind() == sdw::typeEnum< RET > );
 		}
-		ret = lhs << writer.cast< sdw::RealTypeT< RET > >( rhs );
+		ret = writer.cast< sdw::RealTypeT< RET > >( lhs ) << writer.cast< sdw::RealTypeT< RET > >( rhs );
 		if ( sdw::isOptionalEnabled( ret ) )
 		{
 			require( statements.back()->getKind() == sdw::stmt::Kind::eSimple );
@@ -310,7 +310,7 @@ namespace
 			check( static_cast< sdw::expr::Assign const & >( *expr ).getRHS()->getKind() == sdw::expr::Kind::eLShift );
 			check( static_cast< sdw::expr::Assign const & >( *expr ).getRHS()->getType()->getKind() == sdw::typeEnum< RET > );
 		}
-		ret = lhs >> writer.cast< sdw::RealTypeT< RET > >( rhs );
+		ret = writer.cast< sdw::RealTypeT< RET > >( lhs ) >> writer.cast< sdw::RealTypeT< RET > >( rhs );
 		if ( sdw::isOptionalEnabled( ret ) )
 		{
 			require( statements.back()->getKind() == sdw::stmt::Kind::eSimple );
@@ -319,7 +319,7 @@ namespace
 			check( static_cast< sdw::expr::Assign const & >( *expr ).getRHS()->getKind() == sdw::expr::Kind::eRShift );
 			check( static_cast< sdw::expr::Assign const & >( *expr ).getRHS()->getType()->getKind() == sdw::typeEnum< RET > );
 		}
-		ret = lhs | writer.cast< sdw::RealTypeT< RET > >( rhs );
+		ret = writer.cast< sdw::RealTypeT< RET > >( lhs ) | writer.cast< sdw::RealTypeT< RET > >( rhs );
 		if ( sdw::isOptionalEnabled( ret ) )
 		{
 			require( statements.back()->getKind() == sdw::stmt::Kind::eSimple );
@@ -328,7 +328,7 @@ namespace
 			check( static_cast< sdw::expr::Assign const & >( *expr ).getRHS()->getKind() == sdw::expr::Kind::eBitOr );
 			check( static_cast< sdw::expr::Assign const & >( *expr ).getRHS()->getType()->getKind() == sdw::typeEnum< RET > );
 		}
-		ret = lhs & writer.cast< sdw::RealTypeT< RET > >( rhs );
+		ret = writer.cast< sdw::RealTypeT< RET > >( lhs ) & writer.cast< sdw::RealTypeT< RET > >( rhs );
 		if ( sdw::isOptionalEnabled( ret ) )
 		{
 			require( statements.back()->getKind() == sdw::stmt::Kind::eSimple );
@@ -337,7 +337,7 @@ namespace
 			check( static_cast< sdw::expr::Assign const & >( *expr ).getRHS()->getKind() == sdw::expr::Kind::eBitAnd );
 			check( static_cast< sdw::expr::Assign const & >( *expr ).getRHS()->getType()->getKind() == sdw::typeEnum< RET > );
 		}
-		ret = ~lhs;
+		ret = ~writer.cast< sdw::RealTypeT< RET > >( lhs );
 		if ( sdw::isOptionalEnabled( ret ) )
 		{
 			require( statements.back()->getKind() == sdw::stmt::Kind::eSimple );
@@ -600,6 +600,7 @@ namespace
 		}
 	}
 
+	template< typename FloatT >
 	void testFloat( test::sdw_test::TestCounts & testCounts )
 	{
 		{
@@ -608,9 +609,12 @@ namespace
 			writer.implementFunction< sdw::Void >( "main"
 				, [&]()
 				{
-					auto a = writer.declLocale< sdw::Float >( "a" );
-					auto b = writer.declLocale< sdw::Float >( "b" );
-					auto c = writer.declLocale< sdw::Float >( "c" );
+					auto a = writer.declLocale< FloatT >( "a" );
+					auto b = writer.declLocale< FloatT >( "b" );
+					auto c = writer.declLocale< FloatT >( "c" );
+					testBaseAssignOperators( writer, testCounts, c, 2.0 );
+					testBaseOperators( writer, testCounts, c, a, 2.0 );
+					testBaseOperators( writer, testCounts, c, 2.0, a );
 					testBaseAssignOperators( writer, testCounts, c, 2.0f );
 					testBaseAssignOperators( writer, testCounts, c, 2.0_f );
 					testBaseAssignOperators( writer, testCounts, c, b );
@@ -644,9 +648,12 @@ namespace
 			writer.implementFunction< sdw::Void >( "main"
 				, [&]()
 				{
-					auto a = writer.declLocale< sdw::Float >( "a", true );
-					auto b = writer.declLocale< sdw::Float >( "b", true );
-					auto c = writer.declLocale< sdw::Float >( "c", true );
+					auto a = writer.declLocale< FloatT >( "a", true );
+					auto b = writer.declLocale< FloatT >( "b", true );
+					auto c = writer.declLocale< FloatT >( "c", true );
+					testBaseAssignOperators( writer, testCounts, c, 2.0 );
+					testBaseOperators( writer, testCounts, c, a, 2.0 );
+					testBaseOperators( writer, testCounts, c, 2.0, a );
 					testBaseAssignOperators( writer, testCounts, c, b );
 					testBaseOperators( writer, testCounts, c, a, 2.0f );
 					testBaseOperators( writer, testCounts, c, a, 2.0_f );
@@ -678,9 +685,12 @@ namespace
 			writer.implementFunction< sdw::Void >( "main"
 				, [&]()
 				{
-					auto a = writer.declLocale< sdw::Float >( "a", false );
-					auto b = writer.declLocale< sdw::Float >( "b", false );
-					auto c = writer.declLocale< sdw::Float >( "c", false );
+					auto a = writer.declLocale< FloatT >( "a", false );
+					auto b = writer.declLocale< FloatT >( "b", false );
+					auto c = writer.declLocale< FloatT >( "c", false );
+					testBaseAssignOperators( writer, testCounts, c, 2.0 );
+					testBaseOperators( writer, testCounts, c, a, 2.0 );
+					testBaseOperators( writer, testCounts, c, 2.0, a );
 					testBaseAssignOperators( writer, testCounts, c, b );
 					testBaseOperators( writer, testCounts, c, a, 2.0f );
 					testBaseOperators( writer, testCounts, c, a, 2.0_f );
@@ -708,6 +718,7 @@ namespace
 		}
 	}
 
+	template< typename IntT >
 	void testInt( test::sdw_test::TestCounts & testCounts )
 	{
 		{
@@ -716,9 +727,9 @@ namespace
 			writer.implementFunction< sdw::Void >( "main"
 				, [&]()
 				{
-					auto a = writer.declLocale< sdw::Int >( "a" );
-					auto b = writer.declLocale< sdw::Int >( "b" );
-					auto c = writer.declLocale< sdw::Int >( "c" );
+					auto a = writer.declLocale< IntT >( "a" );
+					auto b = writer.declLocale< IntT >( "b" );
+					auto c = writer.declLocale< IntT >( "c" );
 					testIntAssignOperators( writer, testCounts, c, 2 );
 					testIntAssignOperators( writer, testCounts, c, 2u );
 					testIntAssignOperators( writer, testCounts, c, 2_i );
@@ -757,9 +768,9 @@ namespace
 			writer.implementFunction< sdw::Void >( "main"
 				, [&]()
 				{
-					auto a = writer.declLocale< sdw::Int >( "a", true );
-					auto b = writer.declLocale< sdw::Int >( "b", true );
-					auto c = writer.declLocale< sdw::Int >( "c", true );
+					auto a = writer.declLocale< IntT >( "a", true );
+					auto b = writer.declLocale< IntT >( "b", true );
+					auto c = writer.declLocale< IntT >( "c", true );
 					testIntAssignOperators( writer, testCounts, c, b );
 					testIntOperators( writer, testCounts, c, a, 2 );
 					testIntOperators( writer, testCounts, c, a, 2u );
@@ -794,9 +805,9 @@ namespace
 			writer.implementFunction< sdw::Void >( "main"
 				, [&]()
 				{
-					auto a = writer.declLocale< sdw::Int >( "a", false );
-					auto b = writer.declLocale< sdw::Int >( "b", false );
-					auto c = writer.declLocale< sdw::Int >( "c", false );
+					auto a = writer.declLocale< IntT >( "a", false );
+					auto b = writer.declLocale< IntT >( "b", false );
+					auto c = writer.declLocale< IntT >( "c", false );
 					testIntAssignOperators( writer, testCounts, c, b );
 					testIntOperators( writer, testCounts, c, a, 2 );
 					testIntOperators( writer, testCounts, c, a, 2u );
@@ -827,140 +838,23 @@ namespace
 		}
 	}
 
-	void testUInt( test::sdw_test::TestCounts & testCounts )
+	template< template< typename ComponentT > typename VecT, typename ComponentT >
+	void testVec( test::sdw_test::TestCounts & testCounts )
 	{
+		using VecType = VecT< ComponentT >;
 		{
-			testBegin( "testUInt" );
+			testBegin( "testVec" );
 			sdw::FragmentWriter writer;
 			writer.implementFunction< sdw::Void >( "main"
 				, [&]()
 				{
-					auto a = writer.declLocale< sdw::UInt >( "a" );
-					auto b = writer.declLocale< sdw::UInt >( "b" );
-					auto c = writer.declLocale< sdw::UInt >( "c" );
-					testIntAssignOperators( writer, testCounts, c, 2 );
-					testIntAssignOperators( writer, testCounts, c, 2u );
-					testIntAssignOperators( writer, testCounts, c, 2_i );
-					testIntAssignOperators( writer, testCounts, c, 2_u );
-					testIntAssignOperators( writer, testCounts, c, b );
-					testIntOperators( writer, testCounts, c, a, 2 );
-					testIntOperators( writer, testCounts, c, a, 2u );
-					testIntOperators( writer, testCounts, c, a, 2_i );
-					testIntOperators( writer, testCounts, c, a, 2_u );
-					testBaseOperators( writer, testCounts, c, 2, a );
-					testBaseOperators( writer, testCounts, c, 2u, a );
-					testIntOperators( writer, testCounts, c, 2_u, a );
-					testIntOperators( writer, testCounts, c, a, b );
-					auto d = writer.declLocale< sdw::Boolean >( "d" );
-					testComparators( writer, testCounts, d, c, 2.0f );
-					testComparators( writer, testCounts, d, c, 2.0_f );
-					testComparators( writer, testCounts, d, c, 2 );
-					testComparators( writer, testCounts, d, c, 2_i );
-					testComparators( writer, testCounts, d, c, 2u );
-					testComparators( writer, testCounts, d, c, 2_u );
-					testComparators( writer, testCounts, d, 2.0f, c );
-					testComparators( writer, testCounts, d, 2.0_f, c );
-					testComparators( writer, testCounts, d, 2, c );
-					testComparators( writer, testCounts, d, 2_i, c );
-					testComparators( writer, testCounts, d, 2u, c );
-					testComparators( writer, testCounts, d, 2_u, c );
-					testComparators( writer, testCounts, d, c, b );
-				} );
-			test::writeShader( writer
-				, testCounts );
-			testEnd();
-		}
-		{
-			testBegin( "testUIntOptEnabled" );
-			sdw::FragmentWriter writer;
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
-				{
-					auto a = writer.declLocale< sdw::UInt >( "a", true );
-					auto b = writer.declLocale< sdw::UInt >( "b", true );
-					auto c = writer.declLocale< sdw::UInt >( "c", true );
-					testIntAssignOperators( writer, testCounts, c, b );
-					testIntOperators( writer, testCounts, c, a, 2 );
-					testIntOperators( writer, testCounts, c, a, 2u );
-					testIntOperators( writer, testCounts, c, a, 2_i );
-					testIntOperators( writer, testCounts, c, a, 2_u );
-					testBaseOperators( writer, testCounts, c, 2, a );
-					testBaseOperators( writer, testCounts, c, 2u, a );
-					testIntOperators( writer, testCounts, c, 2_u, a );
-					testIntOperators( writer, testCounts, c, a, b );
-					auto d = writer.declLocale< sdw::Boolean >( "d", true );
-					testComparators( writer, testCounts, d, c, 2.0f );
-					testComparators( writer, testCounts, d, c, 2.0_f );
-					testComparators( writer, testCounts, d, c, 2 );
-					testComparators( writer, testCounts, d, c, 2_i );
-					testComparators( writer, testCounts, d, c, 2u );
-					testComparators( writer, testCounts, d, c, 2_u );
-					testComparators( writer, testCounts, d, 2.0f, c );
-					testComparators( writer, testCounts, d, 2.0_f, c );
-					testComparators( writer, testCounts, d, 2, c );
-					testComparators( writer, testCounts, d, 2_i, c );
-					testComparators( writer, testCounts, d, 2u, c );
-					testComparators( writer, testCounts, d, 2_u, c );
-					testComparators( writer, testCounts, d, c, b );
-				} );
-			test::writeShader( writer
-				, testCounts );
-			testEnd();
-		}
-		{
-			testBegin( "testUIntOptDisabled" );
-			sdw::FragmentWriter writer;
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
-				{
-					auto a = writer.declLocale< sdw::UInt >( "a", false );
-					auto b = writer.declLocale< sdw::UInt >( "b", false );
-					auto c = writer.declLocale< sdw::UInt >( "c", false );
-					testIntAssignOperators( writer, testCounts, c, b );
-					testIntOperators( writer, testCounts, c, a, 2 );
-					testIntOperators( writer, testCounts, c, a, 2u );
-					testIntOperators( writer, testCounts, c, a, 2_i );
-					testIntOperators( writer, testCounts, c, a, 2_u );
-					testBaseOperators( writer, testCounts, c, 2, a );
-					testBaseOperators( writer, testCounts, c, 2u, a );
-					testIntOperators( writer, testCounts, c, 2_u, a );
-					testIntOperators( writer, testCounts, c, a, b );
-					auto d = writer.declLocale< sdw::Boolean >( "d", false );
-					testComparators( writer, testCounts, d, c, 2.0f );
-					testComparators( writer, testCounts, d, c, 2.0_f );
-					testComparators( writer, testCounts, d, c, 2 );
-					testComparators( writer, testCounts, d, c, 2_i );
-					testComparators( writer, testCounts, d, c, 2u );
-					testComparators( writer, testCounts, d, c, 2_u );
-					testComparators( writer, testCounts, d, 2.0f, c );
-					testComparators( writer, testCounts, d, 2.0_f, c );
-					testComparators( writer, testCounts, d, 2, c );
-					testComparators( writer, testCounts, d, 2_i, c );
-					testComparators( writer, testCounts, d, 2u, c );
-					testComparators( writer, testCounts, d, 2_u, c );
-					testComparators( writer, testCounts, d, c, b );
-				} );
-			test::writeShader( writer
-				, testCounts );
-			testEnd();
-		}
-	}
-
-	void testVec2( test::sdw_test::TestCounts & testCounts )
-	{
-		{
-			testBegin( "testVec2" );
-			sdw::FragmentWriter writer;
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
-				{
-					auto a = writer.declLocale< sdw::Vec2 >( "a" );
-					auto b = writer.declLocale< sdw::Vec2 >( "b" );
-					auto c = writer.declLocale< sdw::Vec2 >( "c" );
-					testVecAssignOperators( writer, testCounts, c, sdw::vec2( 2.0_f ) );
+					auto a = writer.declLocale< VecType >( "a" );
+					auto b = writer.declLocale< VecType >( "b" );
+					auto c = writer.declLocale< VecType >( "c" );
+					testVecAssignOperators( writer, testCounts, c, test::getDefault< VecType >( writer.getShader() ) );
 					testVecAssignOperators( writer, testCounts, c, b );
-					testVecOperators( writer, testCounts, c, a, sdw::vec2( 2.0_f ) );
-					testVecOperators( writer, testCounts, c, sdw::vec2( 2.0_f ), a );
+					testVecOperators( writer, testCounts, c, a, test::getDefault< VecType >( writer.getShader() ) );
+					testVecOperators( writer, testCounts, c, test::getDefault< VecType >( writer.getShader() ), a );
 					testVecOperators( writer, testCounts, c, a, b );
 				} );
 			test::writeShader( writer
@@ -968,17 +862,17 @@ namespace
 			testEnd();
 		}
 		{
-			testBegin( "testVec2OptEnabled" );
+			testBegin( "testVecOptEnabled" );
 			sdw::FragmentWriter writer;
 			writer.implementFunction< sdw::Void >( "main"
 				, [&]()
 				{
-					auto a = writer.declLocale< sdw::Vec2 >( "a", true );
-					auto b = writer.declLocale< sdw::Vec2 >( "b", true );
-					auto c = writer.declLocale< sdw::Vec2 >( "c", true );
+					auto a = writer.declLocale< VecType >( "a", true );
+					auto b = writer.declLocale< VecType >( "b", true );
+					auto c = writer.declLocale< VecType >( "c", true );
 					testVecAssignOperators( writer, testCounts, c, b );
-					testVecOperators( writer, testCounts, c, a, sdw::vec2( 2.0_f ) );
-					testVecOperators( writer, testCounts, c, sdw::vec2( 2.0_f ), a );
+					testVecOperators( writer, testCounts, c, a, test::getDefault< VecType >( writer.getShader() ) );
+					testVecOperators( writer, testCounts, c, test::getDefault< VecType >( writer.getShader() ), a );
 					testVecOperators( writer, testCounts, c, a, b );
 				} );
 			test::writeShader( writer
@@ -986,135 +880,17 @@ namespace
 			testEnd();
 		}
 		{
-			testBegin( "testVec2OptDisabled" );
+			testBegin( "testVecOptDisabled" );
 			sdw::FragmentWriter writer;
 			writer.implementFunction< sdw::Void >( "main"
 				, [&]()
 				{
-					auto a = writer.declLocale< sdw::Vec2 >( "a", false );
-					auto b = writer.declLocale< sdw::Vec2 >( "b", false );
-					auto c = writer.declLocale< sdw::Vec2 >( "c", false );
+					auto a = writer.declLocale< VecType >( "a", false );
+					auto b = writer.declLocale< VecType >( "b", false );
+					auto c = writer.declLocale< VecType >( "c", false );
 					testVecAssignOperators( writer, testCounts, c, b );
-					testVecOperators( writer, testCounts, c, a, sdw::vec2( 2.0_f ) );
-					testVecOperators( writer, testCounts, c, sdw::vec2( 2.0_f ), a );
-					testVecOperators( writer, testCounts, c, a, b );
-				} );
-			test::writeShader( writer
-				, testCounts );
-			testEnd();
-		}
-	}
-
-	void testVec3( test::sdw_test::TestCounts & testCounts )
-	{
-		{
-			testBegin( "testVec3" );
-			sdw::FragmentWriter writer;
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
-				{
-					auto a = writer.declLocale< sdw::Vec3 >( "a" );
-					auto b = writer.declLocale< sdw::Vec3 >( "b" );
-					auto c = writer.declLocale< sdw::Vec3 >( "c" );
-					testVecAssignOperators( writer, testCounts, c, sdw::vec3( 2.0_f ) );
-					testVecAssignOperators( writer, testCounts, c, b );
-					testVecOperators( writer, testCounts, c, a, sdw::vec3( 2.0_f ) );
-					testVecOperators( writer, testCounts, c, sdw::vec3( 2.0_f ), a );
-					testVecOperators( writer, testCounts, c, a, b );
-				} );
-			test::writeShader( writer
-				, testCounts );
-			testEnd();
-		}
-		{
-			testBegin( "testVec3OptEnabled" );
-			sdw::FragmentWriter writer;
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
-				{
-					auto a = writer.declLocale< sdw::Vec3 >( "a", true );
-					auto b = writer.declLocale< sdw::Vec3 >( "b", true );
-					auto c = writer.declLocale< sdw::Vec3 >( "c", true );
-					testVecAssignOperators( writer, testCounts, c, b );
-					testVecOperators( writer, testCounts, c, a, sdw::vec3( 2.0_f ) );
-					testVecOperators( writer, testCounts, c, sdw::vec3( 2.0_f ), a );
-					testVecOperators( writer, testCounts, c, a, b );
-				} );
-			test::writeShader( writer
-				, testCounts );
-			testEnd();
-		}
-		{
-			testBegin( "testVec3OptDisabled" );
-			sdw::FragmentWriter writer;
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
-				{
-					auto a = writer.declLocale< sdw::Vec3 >( "a", false );
-					auto b = writer.declLocale< sdw::Vec3 >( "b", false );
-					auto c = writer.declLocale< sdw::Vec3 >( "c", false );
-					testVecAssignOperators( writer, testCounts, c, b );
-					testVecOperators( writer, testCounts, c, a, sdw::vec3( 2.0_f ) );
-					testVecOperators( writer, testCounts, c, sdw::vec3( 2.0_f ), a );
-					testVecOperators( writer, testCounts, c, a, b );
-				} );
-			test::writeShader( writer
-				, testCounts );
-			testEnd();
-		}
-	}
-
-	void testVec4( test::sdw_test::TestCounts & testCounts )
-	{
-		{
-			testBegin( "testVec4" );
-			sdw::FragmentWriter writer;
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
-				{
-					auto a = writer.declLocale< sdw::Vec4 >( "a" );
-					auto b = writer.declLocale< sdw::Vec4 >( "b" );
-					auto c = writer.declLocale< sdw::Vec4 >( "c" );
-					testVecAssignOperators( writer, testCounts, c, sdw::vec4( 2.0_f ) );
-					testVecAssignOperators( writer, testCounts, c, b );
-					testVecOperators( writer, testCounts, c, a, sdw::vec4( 2.0_f ) );
-					testVecOperators( writer, testCounts, c, sdw::vec4( 2.0_f ), a );
-					testVecOperators( writer, testCounts, c, a, b );
-				} );
-			test::writeShader( writer
-				, testCounts );
-			testEnd();
-		}
-		{
-			testBegin( "testVec4OptEnabled" );
-			sdw::FragmentWriter writer;
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
-				{
-					auto a = writer.declLocale< sdw::Vec4 >( "a", true );
-					auto b = writer.declLocale< sdw::Vec4 >( "b", true );
-					auto c = writer.declLocale< sdw::Vec4 >( "c", true );
-					testVecAssignOperators( writer, testCounts, c, b );
-					testVecOperators( writer, testCounts, c, a, sdw::vec4( 2.0_f ) );
-					testVecOperators( writer, testCounts, c, sdw::vec4( 2.0_f ), a );
-					testVecOperators( writer, testCounts, c, a, b );
-				} );
-			test::writeShader( writer
-				, testCounts );
-			testEnd();
-		}
-		{
-			testBegin( "testVec4OptDisabled" );
-			sdw::FragmentWriter writer;
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
-				{
-					auto a = writer.declLocale< sdw::Vec4 >( "a", false );
-					auto b = writer.declLocale< sdw::Vec4 >( "b", false );
-					auto c = writer.declLocale< sdw::Vec4 >( "c", false );
-					testVecAssignOperators( writer, testCounts, c, b );
-					testVecOperators( writer, testCounts, c, a, sdw::vec4( 2.0_f ) );
-					testVecOperators( writer, testCounts, c, sdw::vec4( 2.0_f ), a );
+					testVecOperators( writer, testCounts, c, a, test::getDefault< VecType >( writer.getShader() ) );
+					testVecOperators( writer, testCounts, c, test::getDefault< VecType >( writer.getShader() ), a );
 					testVecOperators( writer, testCounts, c, a, b );
 				} );
 			test::writeShader( writer
@@ -1128,11 +904,23 @@ int main( int argc, char ** argv )
 {
 	sdwTestSuiteBegin( "TestWriterOperations" );
 	testBool( testCounts );
-	testFloat( testCounts );
-	testInt( testCounts );
-	testUInt( testCounts );
-	testVec2( testCounts );
-	testVec3( testCounts );
-	testVec4( testCounts );
+	testFloat< sdw::Float >( testCounts );
+	testFloat< sdw::Double >( testCounts );
+	testInt< sdw::Int >( testCounts );
+	testInt< sdw::UInt >( testCounts );
+	testVec< sdw::Vec2T, sdw::Half >( testCounts );
+	testVec< sdw::Vec2T, sdw::Float >( testCounts );
+	testVec< sdw::Vec2T, sdw::Double >( testCounts );
+	testVec< sdw::Vec2T, sdw::Int >( testCounts );
+	testVec< sdw::Vec2T, sdw::UInt >( testCounts );
+	testVec< sdw::Vec3T, sdw::Float >( testCounts );
+	testVec< sdw::Vec3T, sdw::Double >( testCounts );
+	testVec< sdw::Vec3T, sdw::Int >( testCounts );
+	testVec< sdw::Vec3T, sdw::UInt >( testCounts );
+	testVec< sdw::Vec4T, sdw::Half >( testCounts );
+	testVec< sdw::Vec4T, sdw::Float >( testCounts );
+	testVec< sdw::Vec4T, sdw::Double >( testCounts );
+	testVec< sdw::Vec4T, sdw::Int >( testCounts );
+	testVec< sdw::Vec4T, sdw::UInt >( testCounts );
 	sdwTestSuiteEnd();
 }

@@ -37,6 +37,7 @@ namespace glsl
 		case ast::type::Kind::eUInt:
 			result = "uint";
 			break;
+		case ast::type::Kind::eHalf:
 		case ast::type::Kind::eFloat:
 			result = "float";
 			break;
@@ -69,6 +70,12 @@ namespace glsl
 			break;
 		case ast::type::Kind::eVec4U:
 			result = "uvec4";
+			break;
+		case ast::type::Kind::eVec2H:
+			result = "f16vec2";
+			break;
+		case ast::type::Kind::eVec4H:
+			result = "f16vec4";
 			break;
 		case ast::type::Kind::eVec2F:
 			result = "vec2";
@@ -616,7 +623,7 @@ namespace glsl
 				result = "dvec2";
 				break;
 			case ast::type::Kind::eHalf:
-				result = "hvec2";
+				result = "f16vec2";
 				break;
 			default:
 				assert( false && "Unsupported type::Kind" );
@@ -642,7 +649,7 @@ namespace glsl
 				result = "dvec3";
 				break;
 			case ast::type::Kind::eHalf:
-				result = "hvec3";
+				result = "f16vec3";
 				break;
 			default:
 				assert( false && "Unsupported type::Kind" );
@@ -668,7 +675,7 @@ namespace glsl
 				result = "dvec4";
 				break;
 			case ast::type::Kind::eHalf:
-				result = "hvec4";
+				result = "f16vec4";
 				break;
 			default:
 				assert( false && "Unsupported type::Kind" );
@@ -834,5 +841,14 @@ namespace glsl
 		}
 
 		return result;
+	}
+
+	void checkType( ast::type::Type const & type
+		, IntrinsicsConfig & config )
+	{
+		if ( getComponentType( type ) == ast::type::Kind::eHalf )
+		{
+			config.requiresFp16 = true;
+		}
 	}
 }

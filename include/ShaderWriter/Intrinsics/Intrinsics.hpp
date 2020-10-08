@@ -30,6 +30,12 @@ namespace sdw
 	inline DVec4 dvec4( Value const & value
 		, ValuesT const & ... values );
 	template< typename ... ValuesT >
+	inline HVec2 f16vec2( Value const & value
+		, ValuesT const & ... values );
+	template< typename ... ValuesT >
+	inline HVec4 f16vec4( Value const & value
+		, ValuesT const & ... values );
+	template< typename ... ValuesT >
 	inline IVec2 ivec2( Value const & value
 		, ValuesT const & ... values );
 	template< typename ... ValuesT >

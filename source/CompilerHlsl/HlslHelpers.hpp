@@ -48,6 +48,8 @@ namespace hlsl
 		std::map< std::string, ast::type::FunctionPtr > imageStoreFuncs;
 	};
 
+	using VarReplacements = std::map< ast::var::VariablePtr, ast::expr::ExprPtr >;
+
 	struct AdaptationData
 	{
 		VariableIdMap inputVars;
@@ -63,6 +65,7 @@ namespace hlsl
 		ast::var::VariableList ssboList;
 		LinkedVars linkedVars;
 		FuncNames funcs;
+		VarReplacements replacedVars;
 	};
 
 	struct IntrinsicsConfig
@@ -299,6 +302,17 @@ namespace hlsl
 		bool requiresImageAtomicAddCubeArrayI{ false };
 		bool requiresImageAtomicAdd2DMSI{ false };
 		bool requiresImageAtomicAdd2DMSArrayI{ false };
+		bool requiresImageAtomicAddBufferF{ false };
+		bool requiresImageAtomicAdd1DF{ false };
+		bool requiresImageAtomicAdd2DF{ false };
+		bool requiresImageAtomicAdd3DF{ false };
+		bool requiresImageAtomicAddCubeF{ false };
+		bool requiresImageAtomicAdd2DRectF{ false };
+		bool requiresImageAtomicAdd1DArrayF{ false };
+		bool requiresImageAtomicAdd2DArrayF{ false };
+		bool requiresImageAtomicAddCubeArrayF{ false };
+		bool requiresImageAtomicAdd2DMSF{ false };
+		bool requiresImageAtomicAdd2DMSArrayF{ false };
 		bool requiresImageAtomicMinBufferU{ false };
 		bool requiresImageAtomicMin1DU{ false };
 		bool requiresImageAtomicMin2DU{ false };
@@ -431,6 +445,17 @@ namespace hlsl
 		bool requiresImageAtomicExchangeCubeArrayI{ false };
 		bool requiresImageAtomicExchange2DMSI{ false };
 		bool requiresImageAtomicExchange2DMSArrayI{ false };
+		bool requiresImageAtomicExchangeBufferF{ false };
+		bool requiresImageAtomicExchange1DF{ false };
+		bool requiresImageAtomicExchange2DF{ false };
+		bool requiresImageAtomicExchange3DF{ false };
+		bool requiresImageAtomicExchangeCubeF{ false };
+		bool requiresImageAtomicExchange2DRectF{ false };
+		bool requiresImageAtomicExchange1DArrayF{ false };
+		bool requiresImageAtomicExchange2DArrayF{ false };
+		bool requiresImageAtomicExchangeCubeArrayF{ false };
+		bool requiresImageAtomicExchange2DMSF{ false };
+		bool requiresImageAtomicExchange2DMSArrayF{ false };
 		bool requiresImageAtomicCompSwapBufferU{ false };
 		bool requiresImageAtomicCompSwap1DU{ false };
 		bool requiresImageAtomicCompSwap2DU{ false };

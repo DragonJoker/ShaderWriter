@@ -170,7 +170,7 @@ namespace
 
 int main( int argc, char ** argv )
 {
-	sdwTestSuiteBegin( "TestWriterSampledImageDeclarations" );
+	sdwTestSuiteBegin( "TestWriterTextureDeclarations" );
 	testSampledImageFormat< ast::type::ImageFormat::eRgba32f >( testCounts );
 	testSampledImageFormat< ast::type::ImageFormat::eRgba16f >( testCounts );
 	testSampledImageFormat< ast::type::ImageFormat::eRg32f >( testCounts );

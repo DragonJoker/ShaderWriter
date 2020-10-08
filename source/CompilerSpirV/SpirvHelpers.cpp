@@ -592,6 +592,8 @@ namespace spirv
 			return makeInstruction< IntrinsicInstructionT< spv::OpBitCount > >( returnTypeId, resultId, operands );
 		case spv::OpAtomicIAdd:
 			return makeInstruction< IntrinsicInstructionT< spv::OpAtomicIAdd > >( returnTypeId, resultId, operands );
+		case spv::OpAtomicFAddEXT:
+			return makeInstruction< IntrinsicInstructionT< spv::OpAtomicFAddEXT > >( returnTypeId, resultId, operands );
 		case spv::OpAtomicSMin:
 			return makeInstruction< IntrinsicInstructionT< spv::OpAtomicSMin > >( returnTypeId, resultId, operands );
 		case spv::OpAtomicUMin:
@@ -711,6 +713,8 @@ namespace spirv
 			return makeInstruction< ImageAccessInstructionT< spv::OpAtomicExchange > >( returnTypeId, resultId, operands );
 		case spv::OpAtomicCompareExchange:
 			return makeInstruction< ImageAccessInstructionT< spv::OpAtomicCompareExchange > >( returnTypeId, resultId, operands );
+		case spv::OpAtomicFAddEXT:
+			return makeInstruction< ImageAccessInstructionT< spv::OpAtomicFAddEXT > >( returnTypeId, resultId, operands );
 		default:
 			assert( false && "Unexpected image access Op" );
 		}

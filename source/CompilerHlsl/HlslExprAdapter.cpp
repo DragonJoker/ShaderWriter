@@ -822,35 +822,53 @@ namespace hlsl
 			, ast::var::VariablePtr var
 			, AdaptationData & adaptationData )
 		{
+			ast::expr::ExprPtr save{ nullptr };
+			ast::expr::Expr * toClone{ nullptr };
 			auto it = adaptationData.outputMembers.find( var );
 
 			if ( it == adaptationData.outputMembers.end() )
 			{
 				adaptationData.outputVars.emplace( 128, var );
+				bool added = false;
 
 				if ( var->getType()->getKind() == ast::type::Kind::eStruct )
 				{
-					adaptationData.globalOutputStruct->declMember( var->getName()
-						, std::static_pointer_cast< ast::type::Struct >( var->getType() ) );
+					if ( std::static_pointer_cast< ast::type::Struct >( var->getType() )->getName() != "gl_PerVertex" )
+					{
+						adaptationData.globalOutputStruct->declMember( var->getName()
+							, std::static_pointer_cast< ast::type::Struct >( var->getType() ) );
+						added = true;
+					}
 				}
 				else if ( var->getType()->getKind() == ast::type::Kind::eArray )
 				{
 					adaptationData.globalOutputStruct->declMember( var->getName()
 						, std::static_pointer_cast< ast::type::Array >( var->getType() ) );
+					added = true;
 				}
 				else
 				{
 					adaptationData.globalOutputStruct->declMember( var->getName()
 						, var->getType() );
+					added = true;
 				}
 
-				it = adaptationData.outputMembers.emplace( var
-					, ast::expr::makeMbrSelect( ast::expr::makeIdentifier( cache, adaptationData.outputVar )
-						, uint32_t( adaptationData.outputMembers.size() )
-						, var->getFlags() ) ).first;
+				if ( added )
+				{
+					it = adaptationData.outputMembers.emplace( var
+						, ast::expr::makeMbrSelect( ast::expr::makeIdentifier( cache, adaptationData.outputVar )
+							, uint32_t( adaptationData.outputMembers.size() )
+							, var->getFlags() ) ).first;
+					toClone = it->second.get();
+				}
+				else
+				{
+					save = ast::expr::makeIdentifier( cache, adaptationData.outputVar );
+					toClone = save.get();
+				}
 			}
 
-			return ast::ExprCloner::submit( it->second );
+			return ast::ExprCloner::submit( toClone );
 		}
 
 		ast::expr::ExprPtr registerBuiltinVar( ast::type::TypesCache & cache
@@ -958,6 +976,7 @@ namespace hlsl
 		{
 			auto itInputs = m_adaptationData.inputMembers.find( var );
 			auto itOutputs = m_adaptationData.outputMembers.find( var );
+			auto itReplaced = m_adaptationData.replacedVars.find( var );
 
 			if ( m_adaptationData.inputMembers.end() != itInputs )
 			{
@@ -966,6 +985,10 @@ namespace hlsl
 			else if ( m_adaptationData.outputMembers.end() != itOutputs )
 			{
 				m_result = ast::ExprCloner::submit( itOutputs->second );
+			}
+			else if ( m_adaptationData.replacedVars.end() != itReplaced )
+			{
+				m_result = ast::ExprCloner::submit( itReplaced->second );
 			}
 			else
 			{
@@ -1092,7 +1115,7 @@ namespace hlsl
 			doProcessImageStore( expr, m_adaptationData.funcs.imageStoreFuncs );
 		}
 		else if ( expr->getImageAccess() >= ast::expr::ImageAccess::eImageAtomicAdd1DU
-			&& expr->getImageAccess() <= ast::expr::ImageAccess::eImageAtomicAdd2DMSArrayI )
+			&& expr->getImageAccess() <= ast::expr::ImageAccess::eImageAtomicAdd2DMSArrayF )
 		{
 			doProcessImageAtomicAdd( expr );
 		}
@@ -1122,7 +1145,7 @@ namespace hlsl
 			doProcessImageAtomicXor( expr );
 		}
 		else if ( expr->getImageAccess() >= ast::expr::ImageAccess::eImageAtomicExchange1DU
-			&& expr->getImageAccess() <= ast::expr::ImageAccess::eImageAtomicExchange2DMSArrayI )
+			&& expr->getImageAccess() <= ast::expr::ImageAccess::eImageAtomicExchange2DMSArrayF )
 		{
 			doProcessImageAtomicExchange( expr );
 		}

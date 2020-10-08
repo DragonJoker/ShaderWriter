@@ -173,7 +173,7 @@ namespace
 			writer.declType< Light >();
 			Ssbo lightSsbo{ writer
 				, "LightSsbo"
-				, 0u
+				, 1u
 				, 0u
 				, type::MemoryLayout::eStd140 };
 			auto light = lightSsbo.declStructMember< Light >( "light" );
@@ -209,7 +209,7 @@ namespace
 		writer.declType< Light >();
 		Ssbo lightsSsbo{ writer
 			, "LightsSsbo"
-			, 0u
+			, 1u
 			, 0u
 			, type::MemoryLayout::eStd140 };
 		auto lights = lightsSsbo.declStructMember< Light >( "lights"

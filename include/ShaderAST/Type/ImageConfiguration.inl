@@ -8,6 +8,7 @@ namespace ast::type
 	{
 		static Kind constexpr SampledBaseType = Kind::eFloat;
 		static Kind constexpr SampledType = Kind::eVec4F;
+		static Kind constexpr TexelType = Kind::eVec4F;
 	};
 
 	template<>
@@ -15,6 +16,7 @@ namespace ast::type
 	{
 		static Kind constexpr SampledBaseType = Kind::eFloat;
 		static Kind constexpr SampledType = Kind::eVec4F;
+		static Kind constexpr TexelType = Kind::eVec4F;
 	};
 
 	template<>
@@ -22,6 +24,7 @@ namespace ast::type
 	{
 		static Kind constexpr SampledBaseType = Kind::eFloat;
 		static Kind constexpr SampledType = Kind::eVec4F;
+		static Kind constexpr TexelType = Kind::eVec4H;
 	};
 
 	template<>
@@ -29,6 +32,7 @@ namespace ast::type
 	{
 		static Kind constexpr SampledBaseType = Kind::eFloat;
 		static Kind constexpr SampledType = Kind::eVec2F;
+		static Kind constexpr TexelType = Kind::eVec2F;
 	};
 
 	template<>
@@ -36,6 +40,7 @@ namespace ast::type
 	{
 		static Kind constexpr SampledBaseType = Kind::eFloat;
 		static Kind constexpr SampledType = Kind::eVec2F;
+		static Kind constexpr TexelType = Kind::eVec2H;
 	};
 
 	template<>
@@ -43,6 +48,7 @@ namespace ast::type
 	{
 		static Kind constexpr SampledBaseType = Kind::eFloat;
 		static Kind constexpr SampledType = Kind::eFloat;
+		static Kind constexpr TexelType = Kind::eFloat;
 	};
 
 	template<>
@@ -50,6 +56,7 @@ namespace ast::type
 	{
 		static Kind constexpr SampledBaseType = Kind::eFloat;
 		static Kind constexpr SampledType = Kind::eFloat;
+		static Kind constexpr TexelType = Kind::eHalf;
 	};
 
 	template<>
@@ -57,6 +64,7 @@ namespace ast::type
 	{
 		static Kind constexpr SampledBaseType = Kind::eInt;
 		static Kind constexpr SampledType = Kind::eVec4I;
+		static Kind constexpr TexelType = Kind::eVec4I;
 	};
 
 	template<>
@@ -64,6 +72,7 @@ namespace ast::type
 	{
 		static Kind constexpr SampledBaseType = Kind::eInt;
 		static Kind constexpr SampledType = Kind::eVec4I;
+		static Kind constexpr TexelType = Kind::eVec4I;
 	};
 
 	template<>
@@ -71,6 +80,7 @@ namespace ast::type
 	{
 		static Kind constexpr SampledBaseType = Kind::eInt;
 		static Kind constexpr SampledType = Kind::eVec4I;
+		static Kind constexpr TexelType = Kind::eVec4I;
 	};
 
 	template<>
@@ -78,6 +88,7 @@ namespace ast::type
 	{
 		static Kind constexpr SampledBaseType = Kind::eInt;
 		static Kind constexpr SampledType = Kind::eVec2I;
+		static Kind constexpr TexelType = Kind::eVec2I;
 	};
 
 	template<>
@@ -85,6 +96,7 @@ namespace ast::type
 	{
 		static Kind constexpr SampledBaseType = Kind::eInt;
 		static Kind constexpr SampledType = Kind::eVec2I;
+		static Kind constexpr TexelType = Kind::eVec2I;
 	};
 
 	template<>
@@ -92,6 +104,7 @@ namespace ast::type
 	{
 		static Kind constexpr SampledBaseType = Kind::eInt;
 		static Kind constexpr SampledType = Kind::eVec2I;
+		static Kind constexpr TexelType = Kind::eVec2I;
 	};
 
 	template<>
@@ -99,6 +112,7 @@ namespace ast::type
 	{
 		static Kind constexpr SampledBaseType = Kind::eInt;
 		static Kind constexpr SampledType = Kind::eInt;
+		static Kind constexpr TexelType = Kind::eInt;
 	};
 
 	template<>
@@ -106,6 +120,7 @@ namespace ast::type
 	{
 		static Kind constexpr SampledBaseType = Kind::eInt;
 		static Kind constexpr SampledType = Kind::eInt;
+		static Kind constexpr TexelType = Kind::eInt;
 	};
 
 	template<>
@@ -113,6 +128,7 @@ namespace ast::type
 	{
 		static Kind constexpr SampledBaseType = Kind::eInt;
 		static Kind constexpr SampledType = Kind::eInt;
+		static Kind constexpr TexelType = Kind::eInt;
 	};
 
 	template<>
@@ -120,6 +136,7 @@ namespace ast::type
 	{
 		static Kind constexpr SampledBaseType = Kind::eUInt;
 		static Kind constexpr SampledType = Kind::eVec4U;
+		static Kind constexpr TexelType = Kind::eVec4U;
 	};
 
 	template<>
@@ -127,6 +144,7 @@ namespace ast::type
 	{
 		static Kind constexpr SampledBaseType = Kind::eUInt;
 		static Kind constexpr SampledType = Kind::eVec4U;
+		static Kind constexpr TexelType = Kind::eVec4U;
 	};
 
 	template<>
@@ -134,6 +152,7 @@ namespace ast::type
 	{
 		static Kind constexpr SampledBaseType = Kind::eUInt;
 		static Kind constexpr SampledType = Kind::eVec4U;
+		static Kind constexpr TexelType = Kind::eVec4U;
 	};
 
 	template<>
@@ -141,6 +160,7 @@ namespace ast::type
 	{
 		static Kind constexpr SampledBaseType = Kind::eUInt;
 		static Kind constexpr SampledType = Kind::eVec2U;
+		static Kind constexpr TexelType = Kind::eVec2U;
 	};
 
 	template<>
@@ -148,6 +168,7 @@ namespace ast::type
 	{
 		static Kind constexpr SampledBaseType = Kind::eUInt;
 		static Kind constexpr SampledType = Kind::eVec2U;
+		static Kind constexpr TexelType = Kind::eVec2U;
 	};
 
 	template<>
@@ -155,6 +176,7 @@ namespace ast::type
 	{
 		static Kind constexpr SampledBaseType = Kind::eUInt;
 		static Kind constexpr SampledType = Kind::eVec2U;
+		static Kind constexpr TexelType = Kind::eVec2U;
 	};
 
 	template<>
@@ -162,6 +184,7 @@ namespace ast::type
 	{
 		static Kind constexpr SampledBaseType = Kind::eUInt;
 		static Kind constexpr SampledType = Kind::eUInt;
+		static Kind constexpr TexelType = Kind::eUInt;
 	};
 
 	template<>
@@ -169,6 +192,7 @@ namespace ast::type
 	{
 		static Kind constexpr SampledBaseType = Kind::eUInt;
 		static Kind constexpr SampledType = Kind::eUInt;
+		static Kind constexpr TexelType = Kind::eUInt;
 	};
 
 	template<>
@@ -176,6 +200,7 @@ namespace ast::type
 	{
 		static Kind constexpr SampledBaseType = Kind::eUInt;
 		static Kind constexpr SampledType = Kind::eUInt;
+		static Kind constexpr TexelType = Kind::eUInt;
 	};
 
 	template< ImageFormat FormatT

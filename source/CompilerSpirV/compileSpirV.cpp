@@ -224,6 +224,38 @@ namespace spirv
 				return "SubgroupBufferBlockIOINTEL";
 			case spv::CapabilitySubgroupImageBlockIOINTEL:
 				return "SubgroupImageBlockIOINTEL";
+			case spv::CapabilitySubgroupImageMediaBlockIOINTEL:
+				return "SubgroupImageMediaBlockIOINTEL";
+			case spv::CapabilityIntegerFunctions2INTEL:
+				return "IntegerFunctions2INTEL";
+			case spv::CapabilityFunctionPointersINTEL:
+				return "FunctionPointersINTEL";
+			case spv::CapabilityIndirectReferencesINTEL:
+				return "IndirectReferencesINTEL";
+			case spv::CapabilitySubgroupAvcMotionEstimationINTEL:
+				return "SubgroupAvcMotionEstimationINTEL";
+			case spv::CapabilitySubgroupAvcMotionEstimationIntraINTEL:
+				return "SubgroupAvcMotionEstimationIntraINTEL";
+			case spv::CapabilitySubgroupAvcMotionEstimationChromaINTEL:
+				return "SubgroupAvcMotionEstimationChromaINTEL";
+			case spv::CapabilityFPGAMemoryAttributesINTEL:
+				return "FPGAMemoryAttributesINTEL";
+			case spv::CapabilityUnstructuredLoopControlsINTEL:
+				return "UnstructuredLoopControlsINTEL";
+			case spv::CapabilityFPGALoopControlsINTEL:
+				return "FPGALoopControlsINTEL";
+			case spv::CapabilityKernelAttributesINTEL:
+				return "KernelAttributesINTEL";
+			case spv::CapabilityFPGAKernelAttributesINTEL:
+				return "FPGAKernelAttributesINTEL";
+			case spv::CapabilityBlockingPipesINTEL:
+				return "BlockingPipesINTEL";
+			case spv::CapabilityFPGARegINTEL:
+				return "FPGARegINTEL";
+			case spv::CapabilityAtomicFloat32AddEXT:
+				return "AtomicFloat32AddEXT";
+			case spv::CapabilityAtomicFloat64AddEXT:
+				return "AtomicFloat64AddEXT";
 			default:
 				assert( false && "Unsupported Capability" );
 				return "Undefined";
@@ -240,6 +272,8 @@ namespace spirv
 				return "Physical32";
 			case spv::AddressingModelPhysical64:
 				return "Physical64";
+			case spv::AddressingModelPhysicalStorageBuffer64:
+				return "PhysicalStorageBuffer64";
 			default:
 				assert( false && "Unsupported AddressingModel" );
 				return "Undefined";
@@ -256,6 +290,8 @@ namespace spirv
 				return "GLSL450";
 			case spv::MemoryModelOpenCL:
 				return "OpenCL";
+			case spv::MemoryModelVulkan:
+				return "Vulkan";
 			default:
 				assert( false && "Unsupported MemoryModel" );
 				return "Undefined";
@@ -280,6 +316,22 @@ namespace spirv
 				return "GLCompute";
 			case spv::ExecutionModelKernel:
 				return "Kernel";
+			case spv::ExecutionModelTaskNV:
+				return "TaskNV";
+			case spv::ExecutionModelMeshNV:
+				return "MeshNV";
+			case spv::ExecutionModelRayGenerationKHR:
+				return "RayGeneration";
+			case spv::ExecutionModelIntersectionKHR:
+				return "Intersection";
+			case spv::ExecutionModelAnyHitKHR:
+				return "AnyHit";
+			case spv::ExecutionModelClosestHitKHR:
+				return "ClosestHit";
+			case spv::ExecutionModelMissKHR:
+				return "Miss";
+			case spv::ExecutionModelCallableKHR:
+				return "Callable";
 			default:
 				assert( false && "Unsupported ExecutionModel" );
 				return "Undefined";
@@ -370,6 +422,36 @@ namespace spirv
 				return "PostDepthCoverage";
 			case spv::ExecutionModeStencilRefReplacingEXT:
 				return "StencilRefReplacingEXT";
+			case spv::ExecutionModeOutputLinesNV:
+				return "OutputLinesNV";
+			case spv::ExecutionModeOutputPrimitivesNV:
+				return "OutputPrimitivesNV";
+			case spv::ExecutionModeDerivativeGroupQuadsNV:
+				return "DerivativeGroupQuadsNV";
+			case spv::ExecutionModeDerivativeGroupLinearNV:
+				return "DerivativeGroupLinearNV";
+			case spv::ExecutionModeOutputTrianglesNV:
+				return "OutputTrianglesNV";
+			case spv::ExecutionModePixelInterlockOrderedEXT:
+				return "PixelInterlockOrderedEXT";
+			case spv::ExecutionModePixelInterlockUnorderedEXT:
+				return "PixelInterlockUnorderedEXT";
+			case spv::ExecutionModeSampleInterlockOrderedEXT:
+				return "SampleInterlockOrderedEXT";
+			case spv::ExecutionModeSampleInterlockUnorderedEXT:
+				return "SampleInterlockUnorderedEXT";
+			case spv::ExecutionModeShadingRateInterlockOrderedEXT:
+				return "ShadingRateInterlockOrderedEXT";
+			case spv::ExecutionModeShadingRateInterlockUnorderedEXT:
+				return "ShadingRateInterlockUnorderedEXT";
+			case spv::ExecutionModeMaxWorkgroupSizeINTEL:
+				return "MaxWorkgroupSizeINTEL";
+			case spv::ExecutionModeMaxWorkDimINTEL:
+				return "MaxWorkDimINTEL";
+			case spv::ExecutionModeNoGlobalOffsetINTEL:
+				return "NoGlobalOffsetINTEL";
+			case spv::ExecutionModeNumSIMDWorkitemsINTEL:
+				return "NumSIMDWorkitemsINTEL";
 			default:
 				assert( false && "Unsupported ExecutionMode" );
 				return "Undefined";
@@ -598,6 +680,22 @@ namespace spirv
 				return "Image";
 			case spv::StorageClassStorageBuffer:
 				return "StorageBuffer";
+			case spv::StorageClassCallableDataKHR:
+				return "CallableData";
+			case spv::StorageClassIncomingCallableDataKHR:
+				return "IncomingCallableData";
+			case spv::StorageClassRayPayloadKHR:
+				return "RayPayload";
+			case spv::StorageClassHitAttributeKHR:
+				return "HitAttribute";
+			case spv::StorageClassIncomingRayPayloadKHR:
+				return "IncomingRayPayload";
+			case spv::StorageClassShaderRecordBufferKHR:
+				return "ShaderRecordBuffer";
+			case spv::StorageClassPhysicalStorageBuffer:
+				return "PhysicalStorageBuffer";
+			case spv::StorageClassCodeSectionINTEL:
+				return "CodeSectionINTEL";
 			default:
 				assert( false && "Unsupported StorageClass" );
 				return "Undefined";
@@ -850,6 +948,70 @@ namespace spirv
 				return "PositionPerViewNV";
 			case spv::BuiltInViewportMaskPerViewNV:
 				return "ViewportMaskPerViewNV";
+			case spv::BuiltInFullyCoveredEXT:
+				return "FullyCoveredEXT";
+			case spv::BuiltInTaskCountNV:
+				return "TaskCountNV";
+			case spv::BuiltInPrimitiveCountNV:
+				return "PrimitiveCountNV";
+			case spv::BuiltInPrimitiveIndicesNV:
+				return "PrimitiveIndicesNV";
+			case spv::BuiltInClipDistancePerViewNV:
+				return "ClipDistancePerViewNV";
+			case spv::BuiltInCullDistancePerViewNV:
+				return "CullDistancePerViewNV";
+			case spv::BuiltInLayerPerViewNV:
+				return "LayerPerViewNV";
+			case spv::BuiltInMeshViewCountNV:
+				return "MeshViewCountNV";
+			case spv::BuiltInMeshViewIndicesNV:
+				return "MeshViewIndicesNV";
+			case spv::BuiltInBaryCoordNV:
+				return "BaryCoordNV";
+			case spv::BuiltInBaryCoordNoPerspNV:
+				return "BaryCoordNoPerspNV";
+			case spv::BuiltInFragSizeEXT:
+				return "FragSizeEXT";
+			case spv::BuiltInFragInvocationCountEXT:
+				return "FragInvocationCountEXT";
+			case spv::BuiltInLaunchIdKHR:
+				return "LaunchId";
+			case spv::BuiltInLaunchSizeKHR:
+				return "LaunchSize";
+			case spv::BuiltInWorldRayOriginKHR:
+				return "WorldRayOrigin";
+			case spv::BuiltInWorldRayDirectionKHR:
+				return "WorldRayDirection";
+			case spv::BuiltInObjectRayOriginKHR:
+				return "ObjectRayOrigin";
+			case spv::BuiltInObjectRayDirectionKHR:
+				return "ObjectRayDirection";
+			case spv::BuiltInRayTminKHR:
+				return "RayTmin";
+			case spv::BuiltInRayTmaxKHR:
+				return "RayTmax";
+			case spv::BuiltInInstanceCustomIndexKHR:
+				return "InstanceCustomIndex";
+			case spv::BuiltInObjectToWorldKHR:
+				return "ObjectToWorld";
+			case spv::BuiltInWorldToObjectKHR:
+				return "WorldToObject";
+			case spv::BuiltInHitTKHR:
+				return "HitT";
+			case spv::BuiltInHitKindKHR:
+				return "HitKind";
+			case spv::BuiltInIncomingRayFlagsKHR:
+				return "IncomingRayFlags";
+			case spv::BuiltInRayGeometryIndexKHR:
+				return "RayGeometryIndexKHR";
+			case spv::BuiltInWarpsPerSMNV:
+				return "WarpsPerSMNV";
+			case spv::BuiltInSMCountNV:
+				return "SMCountNV";
+			case spv::BuiltInWarpIDNV:
+				return "WarpIDNV";
+			case spv::BuiltInSMIDNV:
+				return "SMIDNV";
 			default:
 				assert( false && "Unsupported BuiltIn" );
 				return "Undefined";
@@ -964,8 +1126,34 @@ namespace spirv
 				return "SecondaryViewportRelativeNV";
 			case spv::DecorationHlslCounterBufferGOOGLE:
 				return "HlslCounterBufferGOOGLE";
-			case spv::DecorationHlslSemanticGOOGLE:
-				return "HlslSemanticGOOGLE";
+			case spv::DecorationUserSemantic:
+				return "UserSemantic";
+			case spv::DecorationUserTypeGOOGLE:
+				return "UserTypeGOOGLE";
+			case spv::DecorationRegisterINTEL:
+				return "RegisterINTEL";
+			case spv::DecorationMemoryINTEL:
+				return "MemoryINTEL";
+			case spv::DecorationNumbanksINTEL:
+				return "NumbanksINTEL";
+			case spv::DecorationBankwidthINTEL:
+				return "BankwidthINTEL";
+			case spv::DecorationMaxPrivateCopiesINTEL:
+				return "MaxPrivateCopiesINTEL";
+			case spv::DecorationSinglepumpINTEL:
+				return "SinglepumpINTEL";
+			case spv::DecorationDoublepumpINTEL:
+				return "DoublepumpINTEL";
+			case spv::DecorationMaxReplicatesINTEL:
+				return "MaxReplicatesINTEL";
+			case spv::DecorationSimpleDualPortINTEL:
+				return "SimpleDualPortINTEL";
+			case spv::DecorationMergeINTEL:
+				return "MergeINTEL";
+			case spv::DecorationBankBitsINTEL:
+				return "BankBitsINTEL";
+			case spv::DecorationForcePow2DepthINTEL:
+				return "ForcePow2DepthINTEL";
 			default:
 				assert( false && "Unsupported Decoration" );
 				return "Undefined";
@@ -1046,6 +1234,10 @@ namespace spirv
 				return "Subgroup";
 			case spv::ScopeInvocation:
 				return "Invocation";
+			case spv::ScopeQueueFamily:
+				return "QueueFamily";
+			case spv::ScopeShaderCallKHR:
+				return "ShaderCall";
 			default:
 				//assert( false && "Unsupported Scope" );
 				return "Undefined";
@@ -1103,6 +1295,24 @@ namespace spirv
 				sep = "|";
 			}
 
+			if ( value & uint32_t( spv::MemoryAccessMakePointerAvailableMask ) )
+			{
+				stream << sep << "MakePointerAvailableMask";
+				sep = "|";
+			}
+
+			if ( value & uint32_t( spv::MemoryAccessMakePointerVisibleMask ) )
+			{
+				stream << sep << "MakePointerVisibleMask";
+				sep = "|";
+			}
+
+			if ( value & uint32_t( spv::MemoryAccessNonPrivatePointerMask ) )
+			{
+				stream << sep << "NonPrivatePointerMask";
+				sep = "|";
+			}
+
 			if ( value == uint32_t( spv::MemoryAccessMaskNone ) )
 			{
 				stream << sep << "None";
@@ -1139,6 +1349,78 @@ namespace spirv
 			if ( value & uint32_t( spv::LoopControlUnrollMask ) )
 			{
 				stream << sep << "Unroll";
+				sep = "|";
+			}
+
+			if ( value & uint32_t( spv::LoopControlMinIterationsMask ) )
+			{
+				stream << sep << "MinIterations";
+				sep = "|";
+			}
+
+			if ( value & uint32_t( spv::LoopControlMaxIterationsMask ) )
+			{
+				stream << sep << "MaxIterations";
+				sep = "|";
+			}
+
+			if ( value & uint32_t( spv::LoopControlIterationMultipleMask ) )
+			{
+				stream << sep << "IterationMultiple";
+				sep = "|";
+			}
+
+			if ( value & uint32_t( spv::LoopControlPeelCountMask ) )
+			{
+				stream << sep << "PeelCount";
+				sep = "|";
+			}
+
+			if ( value & uint32_t( spv::LoopControlPartialCountMask ) )
+			{
+				stream << sep << "PartialCount";
+				sep = "|";
+			}
+
+			if ( value & uint32_t( spv::LoopControlInitiationIntervalINTELMask ) )
+			{
+				stream << sep << "InitiationIntervalINTEL";
+				sep = "|";
+			}
+
+			if ( value & uint32_t( spv::LoopControlMaxConcurrencyINTELMask ) )
+			{
+				stream << sep << "MaxConcurrencyINTEL";
+				sep = "|";
+			}
+
+			if ( value & uint32_t( spv::LoopControlDependencyArrayINTELMask ) )
+			{
+				stream << sep << "DependencyArrayINTEL";
+				sep = "|";
+			}
+
+			if ( value & uint32_t( spv::LoopControlPipelineEnableINTELMask ) )
+			{
+				stream << sep << "PipelineEnableINTEL";
+				sep = "|";
+			}
+
+			if ( value & uint32_t( spv::LoopControlLoopCoalesceINTELMask ) )
+			{
+				stream << sep << "LoopCoalesceINTEL";
+				sep = "|";
+			}
+
+			if ( value & uint32_t( spv::LoopControlMaxInterleavingINTELMask ) )
+			{
+				stream << sep << "MaxInterleavingINTEL";
+				sep = "|";
+			}
+
+			if ( value & uint32_t( spv::LoopControlSpeculatedIterationsINTELMask ) )
+			{
+				stream << sep << "SpeculatedIterationsINTEL";
 				sep = "|";
 			}
 
@@ -1202,6 +1484,66 @@ namespace spirv
 			if ( value & uint32_t( spv::ImageOperandsMinLodMask ) )
 			{
 				stream << sep << "MinLod";
+				sep = "|";
+			}
+
+			if ( value & uint32_t( spv::ImageOperandsMakeTexelAvailableMask ) )
+			{
+				stream << sep << "MakeTexelAvailable";
+				sep = "|";
+			}
+
+			if ( value & uint32_t( spv::ImageOperandsMakeTexelAvailableKHRMask ) )
+			{
+				stream << sep << "MakeTexelAvailableKHR";
+				sep = "|";
+			}
+
+			if ( value & uint32_t( spv::ImageOperandsMakeTexelVisibleMask ) )
+			{
+				stream << sep << "MakeTexelVisible";
+				sep = "|";
+			}
+
+			if ( value & uint32_t( spv::ImageOperandsMakeTexelVisibleKHRMask ) )
+			{
+				stream << sep << "MakeTexelVisibleKHR";
+				sep = "|";
+			}
+
+			if ( value & uint32_t( spv::ImageOperandsNonPrivateTexelMask ) )
+			{
+				stream << sep << "NonPrivateTexel";
+				sep = "|";
+			}
+
+			if ( value & uint32_t( spv::ImageOperandsNonPrivateTexelKHRMask ) )
+			{
+				stream << sep << "NonPrivateTexelKHR";
+				sep = "|";
+			}
+
+			if ( value & uint32_t( spv::ImageOperandsVolatileTexelMask ) )
+			{
+				stream << sep << "VolatileTexel";
+				sep = "|";
+			}
+
+			if ( value & uint32_t( spv::ImageOperandsVolatileTexelKHRMask ) )
+			{
+				stream << sep << "VolatileTexelKHR";
+				sep = "|";
+			}
+
+			if ( value & uint32_t( spv::ImageOperandsSignExtendMask ) )
+			{
+				stream << sep << "SignExtend";
+				sep = "|";
+			}
+
+			if ( value & uint32_t( spv::ImageOperandsZeroExtendMask ) )
+			{
+				stream << sep << "ZeroExtend";
 				sep = "|";
 			}
 
@@ -1279,6 +1621,49 @@ namespace spirv
 				stream << sep << "ImageMemory";
 				sep = "|";
 			}
+
+			if ( value & uint32_t( spv::MemorySemanticsOutputMemoryMask ) )
+			{
+				stream << sep << "OutputMemory";
+				sep = "|";
+			}
+
+			if ( value & uint32_t( spv::MemorySemanticsOutputMemoryKHRMask ) )
+			{
+				stream << sep << "OutputMemoryKHR";
+				sep = "|";
+			}
+
+			if ( value & uint32_t( spv::MemorySemanticsMakeAvailableMask ) )
+			{
+				stream << sep << "MakeAvailable";
+				sep = "|";
+			}
+
+			if ( value & uint32_t( spv::MemorySemanticsMakeAvailableKHRMask ) )
+			{
+				stream << sep << "MakeAvailableKHR";
+				sep = "|";
+			}
+
+			if ( value & uint32_t( spv::MemorySemanticsMakeVisibleMask ) )
+			{
+				stream << sep << "MakeVisible";
+				sep = "|";
+			}
+
+			if ( value & uint32_t( spv::MemorySemanticsMakeVisibleKHRMask ) )
+			{
+				stream << sep << "MakeVisibleKHR";
+				sep = "|";
+			}
+
+			if ( value & uint32_t( spv::MemorySemanticsVolatileMask ) )
+			{
+				stream << sep << "Volatile";
+				sep = "|";
+			}
+
 
 			if ( !value )
 			{
@@ -1523,6 +1908,30 @@ namespace spirv
 				case spv::StorageClassStorageBuffer:
 					result += "StorageBufferPtr";
 					break;
+				case spv::StorageClassCallableDataKHR:
+					result += "CallableDataPtr";
+					break;
+				case spv::StorageClassIncomingCallableDataKHR:
+					result += "IncomingCallableDataPtr";
+					break;
+				case spv::StorageClassRayPayloadKHR:
+					result += "RayPayloadPtr";
+					break;
+				case spv::StorageClassHitAttributeKHR:
+					result += "HitAttributePtr";
+					break;
+				case spv::StorageClassIncomingRayPayloadKHR:
+					result += "IncomingRayPayloadPtr";
+					break;
+				case spv::StorageClassShaderRecordBufferKHR:
+					result += "ShaderRecordBufferPtr";
+					break;
+				case spv::StorageClassPhysicalStorageBuffer:
+					result += "PhysicalStorageBufferPtr";
+					break;
+				case spv::StorageClassCodeSectionINTEL:
+					result += "CodeSectionINTELPtr";
+					break;
 				default:
 					break;
 				}
@@ -1724,7 +2133,35 @@ namespace spirv
 				|| decoration == spv::DecorationXfbStride
 				|| decoration == spv::DecorationInputAttachmentIndex
 				|| decoration == spv::DecorationAlignment
-				|| decoration == spv::DecorationSecondaryViewportRelativeNV )
+				|| decoration == spv::DecorationSecondaryViewportRelativeNV
+				|| decoration == spv::DecorationPerPrimitiveNV
+				|| decoration == spv::DecorationPerViewNV
+				|| decoration == spv::DecorationPerTaskNV
+				|| decoration == spv::DecorationPerVertexNV
+				|| decoration == spv::DecorationNonUniform
+				|| decoration == spv::DecorationNonUniformEXT
+				|| decoration == spv::DecorationRestrictPointer
+				|| decoration == spv::DecorationRestrictPointerEXT
+				|| decoration == spv::DecorationAliasedPointer
+				|| decoration == spv::DecorationAliasedPointerEXT
+				|| decoration == spv::DecorationReferencedIndirectlyINTEL
+				|| decoration == spv::DecorationCounterBuffer
+				|| decoration == spv::DecorationHlslCounterBufferGOOGLE
+				|| decoration == spv::DecorationHlslSemanticGOOGLE
+				|| decoration == spv::DecorationUserSemantic
+				|| decoration == spv::DecorationUserTypeGOOGLE
+				|| decoration == spv::DecorationRegisterINTEL
+				|| decoration == spv::DecorationMemoryINTEL
+				|| decoration == spv::DecorationNumbanksINTEL
+				|| decoration == spv::DecorationBankwidthINTEL
+				|| decoration == spv::DecorationMaxPrivateCopiesINTEL
+				|| decoration == spv::DecorationSinglepumpINTEL
+				|| decoration == spv::DecorationDoublepumpINTEL
+				|| decoration == spv::DecorationMaxReplicatesINTEL
+				|| decoration == spv::DecorationSimpleDualPortINTEL
+				|| decoration == spv::DecorationMergeINTEL
+				|| decoration == spv::DecorationBankBitsINTEL
+				|| decoration == spv::DecorationForcePow2DepthINTEL )
 			{
 				stream << " " << *it;
 				++it;

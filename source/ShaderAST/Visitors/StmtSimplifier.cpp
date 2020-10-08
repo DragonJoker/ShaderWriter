@@ -1092,7 +1092,8 @@ namespace ast
 			{
 				auto operand = doSubmit( expr->getOperand() );
 
-				if ( operand->getKind() == expr::Kind::eLiteral )
+				if ( operand->getKind() == expr::Kind::eLiteral
+					&& getComponentType( expr->getType() ) != type::Kind::eHalf )
 				{
 					auto & literal = static_cast< expr::Literal const & >( *operand );
 					m_result = replaceLiteral< CastLiteral >( expr->getCache()
