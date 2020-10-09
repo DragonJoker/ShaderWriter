@@ -21,9 +21,11 @@ namespace sdw
 	*/
 	/**@{*/
 	template< typename TypeT >
-	inline void ShaderWriter::declType()
+	inline type::StructPtr ShaderWriter::declType()
 	{
-		sdw::addStmt( *m_shader, sdw::makeStructDecl( TypeT::makeType( getTypesCache() ) ) );
+		auto result = TypeT::makeType( getTypesCache() );
+		sdw::addStmt( *m_shader, sdw::makeStructDecl( result ) );
+		return result;
 	}
 	/**@}*/
 #pragma endregion

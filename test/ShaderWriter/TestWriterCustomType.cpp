@@ -1,6 +1,8 @@
 #include "../Common.hpp"
 #include "WriterCommon.hpp"
 
+#include <ShaderWriter/CompositeTypes/ArraySsbo.hpp>
+
 namespace
 {
 	struct Light
@@ -22,8 +24,7 @@ namespace
 
 		static ast::type::StructPtr makeType( ast::type::TypesCache & cache )
 		{
-			auto result = std::make_unique< ast::type::Struct >( cache
-				, ast::type::MemoryLayout::eStd140
+			auto result = cache.getStruct( ast::type::MemoryLayout::eStd140
 				, "Light" );
 
 			if ( result->empty() )
@@ -198,7 +199,7 @@ namespace
 			, testCounts );
 		testEnd();
 	}
-		
+
 	void lightArraySsbo( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "lightArraySsbo" );
@@ -230,14 +231,42 @@ namespace
 			, true, false, false );
 		testEnd();
 	}
+
+	void arraySsboLight( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "arraySsboLight" );
+		using namespace sdw;
+
+		FragmentWriter writer;
+
+		ArraySsboT< Light > lights{ writer
+			, "LightsSsbo"
+			, 1u
+			, 0u };
+
+		auto fragOutput = writer.declOutput< Vec3 >( "fragOutput", 0u );
+
+		writer.implementFunction< Void >( "main", [&]()
+			{
+				fragOutput = lights[0].color * lights[1].intensity;
+			} );
+		test::writeShader( writer
+			, testCounts
+			, false, true, true );
+		test::writeShader( writer
+			, testCounts
+			, true, false, false );
+		testEnd();
+	}
 }
 
 int main( int argc, char ** argv )
 {
 	sdwTestSuiteBegin( "TestWriterCustomTypes" );
-	singleLightUbo( testCounts );
-	lightArrayUbo( testCounts );
-	singleLightSsbo( testCounts );
-	lightArraySsbo( testCounts );
+	//singleLightUbo( testCounts );
+	//lightArrayUbo( testCounts );
+	//singleLightSsbo( testCounts );
+	//lightArraySsbo( testCounts );
+	arraySsboLight( testCounts );
 	sdwTestSuiteEnd();
 }

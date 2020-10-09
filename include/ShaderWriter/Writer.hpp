@@ -33,7 +33,7 @@ namespace sdw
 		*/
 		/**@{*/
 		template< typename TypeT >
-		inline void declType();
+		inline type::StructPtr declType();
 		/**@}*/
 #pragma endregion
 #pragma region Variables registration
