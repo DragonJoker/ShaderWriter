@@ -919,6 +919,14 @@ namespace sdw
 	{
 		return T{ *this, name, binding, set, layout };
 	}
+
+	template< typename T >
+	inline ArraySsboT< T > ShaderWriter::declArrayShaderStorageBuffer( std::string const & name
+		, uint32_t binding
+		, uint32_t set )
+	{
+		return ArraySsboT< T >{ *this, name, binding, set };
+	}
 	/**@}*/
 #pragma endregion
 #pragma region Push constants buffer declaration

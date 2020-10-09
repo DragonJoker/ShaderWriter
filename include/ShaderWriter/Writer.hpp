@@ -4,6 +4,7 @@ See LICENSE file in root folder
 #ifndef ___SDW_Writer_H___
 #define ___SDW_Writer_H___
 
+#include "ShaderWriter/CompositeTypes/ArraySsbo.hpp"
 #include "ShaderWriter/CompositeTypes/Builtins.hpp"
 #include "ShaderWriter/CompositeTypes/Function.hpp"
 #include "ShaderWriter/CompositeTypes/Pcb.hpp"
@@ -409,6 +410,10 @@ namespace sdw
 			, uint32_t binding
 			, uint32_t set
 			, ast::type::MemoryLayout layout = ast::type::MemoryLayout::eStd430 );
+		template< typename T >
+		inline ArraySsboT< T > declArrayShaderStorageBuffer( std::string const & name
+			, uint32_t binding
+			, uint32_t set );
 		/**@}*/
 #pragma endregion
 #pragma region Push constants buffer declaration

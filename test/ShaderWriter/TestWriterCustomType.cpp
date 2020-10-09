@@ -87,11 +87,7 @@ namespace
 		{
 			FragmentWriter writer;
 			writer.declType< Light >();
-			Ubo lightUbo{ writer
-				, "LightUbo"
-				, 0u
-				, 0u
-				, type::MemoryLayout::eStd140 };
+			auto lightUbo = writer.declUniformBuffer<>( "LightUbo", 0u, 0u );
 			auto light = lightUbo.declStructMember< Light >( "light" );
 			lightUbo.end();
 
@@ -123,11 +119,7 @@ namespace
 		FragmentWriter writer;
 
 		writer.declType< Light >();
-		Ubo lightsUbo{ writer
-			, "LightsUbo"
-			, 0u
-			, 0u
-			, type::MemoryLayout::eStd140 };
+		auto lightsUbo = writer.declUniformBuffer<>( "LightsUbo", 0u, 0u );
 		auto lights = lightsUbo.declStructMember< Light >( "lights"
 			, 2u );
 		lightsUbo.end();
@@ -172,11 +164,7 @@ namespace
 		{
 			FragmentWriter writer;
 			writer.declType< Light >();
-			Ssbo lightSsbo{ writer
-				, "LightSsbo"
-				, 1u
-				, 0u
-				, type::MemoryLayout::eStd140 };
+			auto lightSsbo = writer.declUniformBuffer<>( "LightSsbo", 1u, 0u, type::MemoryLayout::eStd140 );
 			auto light = lightSsbo.declStructMember< Light >( "light" );
 			lightSsbo.end();
 
@@ -208,11 +196,7 @@ namespace
 		FragmentWriter writer;
 
 		writer.declType< Light >();
-		Ssbo lightsSsbo{ writer
-			, "LightsSsbo"
-			, 1u
-			, 0u
-			, type::MemoryLayout::eStd140 };
+		auto lightsSsbo = writer.declUniformBuffer<>( "LightsSsbo", 1u, 0u, type::MemoryLayout::eStd140 );
 		auto lights = lightsSsbo.declStructMember< Light >( "lights"
 			, 2u );
 		lightsSsbo.end();
@@ -239,11 +223,7 @@ namespace
 
 		FragmentWriter writer;
 
-		ArraySsboT< Light > lights{ writer
-			, "LightsSsbo"
-			, 1u
-			, 0u };
-
+		auto lights = writer.declArrayShaderStorageBuffer< Light >( "LightsSsbo", 1u, 0u );
 		auto fragOutput = writer.declOutput< Vec3 >( "fragOutput", 0u );
 
 		writer.implementFunction< Void >( "main", [&]()
@@ -263,10 +243,10 @@ namespace
 int main( int argc, char ** argv )
 {
 	sdwTestSuiteBegin( "TestWriterCustomTypes" );
-	//singleLightUbo( testCounts );
-	//lightArrayUbo( testCounts );
-	//singleLightSsbo( testCounts );
-	//lightArraySsbo( testCounts );
+	singleLightUbo( testCounts );
+	lightArrayUbo( testCounts );
+	singleLightSsbo( testCounts );
+	lightArraySsbo( testCounts );
 	arraySsboLight( testCounts );
 	sdwTestSuiteEnd();
 }
