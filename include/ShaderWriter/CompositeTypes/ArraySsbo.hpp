@@ -28,6 +28,11 @@ namespace sdw
 			, uint32_t bind
 			, uint32_t set );
 
+		ArraySsboT( ShaderWriter & writer
+			, std::string const & name
+			, uint32_t bind
+			, uint32_t set );
+
 		InstanceT operator[]( uint32_t index );
 		InstanceT operator[]( UInt const & index );
 

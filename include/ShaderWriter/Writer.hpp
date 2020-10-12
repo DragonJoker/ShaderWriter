@@ -4,8 +4,13 @@ See LICENSE file in root folder
 #ifndef ___SDW_Writer_H___
 #define ___SDW_Writer_H___
 
+#include "ShaderWriter/CompositeTypes/ArraySsbo.hpp"
 #include "ShaderWriter/CompositeTypes/Builtins.hpp"
 #include "ShaderWriter/CompositeTypes/Function.hpp"
+#include "ShaderWriter/CompositeTypes/Pcb.hpp"
+#include "ShaderWriter/CompositeTypes/Ssbo.hpp"
+#include "ShaderWriter/CompositeTypes/Struct.hpp"
+#include "ShaderWriter/CompositeTypes/Ubo.hpp"
 
 #include <ShaderAST/Shader.hpp>
 #include <ShaderAST/Stmt/StmtIf.hpp>
@@ -29,7 +34,7 @@ namespace sdw
 		*/
 		/**@{*/
 		template< typename TypeT >
-		inline void declType();
+		inline type::StructPtr declType();
 		/**@}*/
 #pragma endregion
 #pragma region Variables registration
@@ -379,6 +384,58 @@ namespace sdw
 			, uint32_t dimension
 			, bool enabled
 			, std::vector< T > const & defaultValue );
+		/**@}*/
+#pragma endregion
+#pragma region Uniform buffer declaration
+		/**
+		*name
+		*	Uniform buffer declaration.
+		*/
+		/**@{*/
+		template< typename T = Ubo >
+		inline T declUniformBuffer( std::string const & name
+			, uint32_t binding
+			, uint32_t set
+			, ast::type::MemoryLayout layout = ast::type::MemoryLayout::eStd140 );
+		/**@}*/
+#pragma endregion
+#pragma region Shader storage buffer declaration
+		/**
+		*name
+		*	Shader storage buffer declaration.
+		*/
+		/**@{*/
+		template< typename T = Ssbo >
+		inline T declShaderStorageBuffer( std::string const & name
+			, uint32_t binding
+			, uint32_t set
+			, ast::type::MemoryLayout layout = ast::type::MemoryLayout::eStd430 );
+		template< typename T >
+		inline ArraySsboT< T > declArrayShaderStorageBuffer( std::string const & name
+			, uint32_t binding
+			, uint32_t set );
+		/**@}*/
+#pragma endregion
+#pragma region Push constants buffer declaration
+		/**
+		*name
+		*	Push constants buffer declaration.
+		*/
+		/**@{*/
+		template< typename T = Pcb >
+		inline T declPushConstantsBuffer( std::string const & name
+			, ast::type::MemoryLayout layout = ast::type::MemoryLayout::eStd430 );
+		/**@}*/
+#pragma endregion
+#pragma region Struct declaration
+		/**
+		*name
+		*	Struct declaration.
+		*/
+		/**@{*/
+		template< typename T = Struct >
+		inline T declStruct( std::string const & name
+			, ast::type::MemoryLayout layout = ast::type::MemoryLayout::eStd140 );
 		/**@}*/
 #pragma endregion
 #pragma region Output declaration

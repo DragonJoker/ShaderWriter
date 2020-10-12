@@ -74,6 +74,15 @@ namespace sdw
 	}
 
 	template< typename InstanceT >
+	ArraySsboT< InstanceT >::ArraySsboT( ShaderWriter & writer
+		, std::string const & name
+		, uint32_t bind
+		, uint32_t set )
+		: ArraySsboT{ writer, name, InstanceT::makeType( getTypesCache( writer ) ), bind, set }
+	{
+	}
+
+	template< typename InstanceT >
 	InstanceT ArraySsboT< InstanceT >::operator[]( uint32_t index )
 	{
 		return InstanceT{ &m_shader
