@@ -78,7 +78,7 @@ namespace sdw
 		, std::string const & name
 		, uint32_t bind
 		, uint32_t set )
-		: ArraySsboT{ writer, name, writer.declType< InstanceT >(), bind, set }
+		: ArraySsboT{ writer, name, InstanceT::makeType( getTypesCache( writer ) ), bind, set }
 	{
 	}
 
