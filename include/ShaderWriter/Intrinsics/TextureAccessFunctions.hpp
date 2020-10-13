@@ -790,17 +790,17 @@ namespace sdw
 	SDW_API MaybeOptional< UInt > texture( MaybeOptional< USampledImageCubeArrayR16 > const & image, MaybeOptional< Vec4 > const & P );
 	SDW_API MaybeOptional< UInt > texture( MaybeOptional< USampledImageCubeArrayR8 > const & image, MaybeOptional< Vec4 > const & P );
 	SDW_API MaybeOptional< Float > texture( MaybeOptional< SampledImage1DShadowR32 > const & image, MaybeOptional< Float > const & P, MaybeOptional< Float > const & refZ );
-	SDW_API MaybeOptional< Half > texture( MaybeOptional< SampledImage1DShadowR16 > const & image, MaybeOptional< Float > const & P, MaybeOptional< Float > const & refZ );
+	SDW_API MaybeOptional< Float > texture( MaybeOptional< SampledImage1DShadowR16 > const & image, MaybeOptional< Float > const & P, MaybeOptional< Float > const & refZ );
 	SDW_API MaybeOptional< Float > texture( MaybeOptional< SampledImage2DShadowR32 > const & image, MaybeOptional< Vec2 > const & P, MaybeOptional< Float > const & refZ );
-	SDW_API MaybeOptional< Half > texture( MaybeOptional< SampledImage2DShadowR16 > const & image, MaybeOptional< Vec2 > const & P, MaybeOptional< Float > const & refZ );
+	SDW_API MaybeOptional< Float > texture( MaybeOptional< SampledImage2DShadowR16 > const & image, MaybeOptional< Vec2 > const & P, MaybeOptional< Float > const & refZ );
 	SDW_API MaybeOptional< Float > texture( MaybeOptional< SampledImageCubeShadowR32 > const & image, MaybeOptional< Vec3 > const & P, MaybeOptional< Float > const & refZ );
-	SDW_API MaybeOptional< Half > texture( MaybeOptional< SampledImageCubeShadowR16 > const & image, MaybeOptional< Vec3 > const & P, MaybeOptional< Float > const & refZ );
+	SDW_API MaybeOptional< Float > texture( MaybeOptional< SampledImageCubeShadowR16 > const & image, MaybeOptional< Vec3 > const & P, MaybeOptional< Float > const & refZ );
 	SDW_API MaybeOptional< Float > texture( MaybeOptional< SampledImage1DArrayShadowR32 > const & image, MaybeOptional< Vec2 > const & P, MaybeOptional< Float > const & refZ );
-	SDW_API MaybeOptional< Half > texture( MaybeOptional< SampledImage1DArrayShadowR16 > const & image, MaybeOptional< Vec2 > const & P, MaybeOptional< Float > const & refZ );
+	SDW_API MaybeOptional< Float > texture( MaybeOptional< SampledImage1DArrayShadowR16 > const & image, MaybeOptional< Vec2 > const & P, MaybeOptional< Float > const & refZ );
 	SDW_API MaybeOptional< Float > texture( MaybeOptional< SampledImage2DArrayShadowR32 > const & image, MaybeOptional< Vec3 > const & P, MaybeOptional< Float > const & refZ );
-	SDW_API MaybeOptional< Half > texture( MaybeOptional< SampledImage2DArrayShadowR16 > const & image, MaybeOptional< Vec3 > const & P, MaybeOptional< Float > const & refZ );
+	SDW_API MaybeOptional< Float > texture( MaybeOptional< SampledImage2DArrayShadowR16 > const & image, MaybeOptional< Vec3 > const & P, MaybeOptional< Float > const & refZ );
 	SDW_API MaybeOptional< Float > texture( MaybeOptional< SampledImageCubeArrayShadowR32 > const & image, MaybeOptional< Vec4 > const & P, MaybeOptional< Float > const & refZ );
-	SDW_API MaybeOptional< Half > texture( MaybeOptional< SampledImageCubeArrayShadowR16 > const & image, MaybeOptional< Vec4 > const & P, MaybeOptional< Float > const & refZ );
+	SDW_API MaybeOptional< Float > texture( MaybeOptional< SampledImageCubeArrayShadowR16 > const & image, MaybeOptional< Vec4 > const & P, MaybeOptional< Float > const & refZ );
 	/**@}*/
 #pragma endregion
 #pragma region textureBias
@@ -978,13 +978,13 @@ namespace sdw
 	SDW_API MaybeOptional< UInt > texture( MaybeOptional< USampledImageCubeArrayR16 > const & image, MaybeOptional< Vec4 > const & P, MaybeOptional< Float > const & bias );
 	SDW_API MaybeOptional< UInt > texture( MaybeOptional< USampledImageCubeArrayR8 > const & image, MaybeOptional< Vec4 > const & P, MaybeOptional< Float > const & bias );
 	SDW_API MaybeOptional< Float > texture( MaybeOptional< SampledImage1DShadowR32 > const & image, MaybeOptional< Float > const & P, MaybeOptional< Float > const & refZ, MaybeOptional< Float > const & bias );
-	SDW_API MaybeOptional< Half > texture( MaybeOptional< SampledImage1DShadowR16 > const & image, MaybeOptional< Float > const & P, MaybeOptional< Float > const & refZ, MaybeOptional< Float > const & bias );
+	SDW_API MaybeOptional< Float > texture( MaybeOptional< SampledImage1DShadowR16 > const & image, MaybeOptional< Float > const & P, MaybeOptional< Float > const & refZ, MaybeOptional< Float > const & bias );
 	SDW_API MaybeOptional< Float > texture( MaybeOptional< SampledImage2DShadowR32 > const & image, MaybeOptional< Vec2 > const & P, MaybeOptional< Float > const & refZ, MaybeOptional< Float > const & bias );
-	SDW_API MaybeOptional< Half > texture( MaybeOptional< SampledImage2DShadowR16 > const & image, MaybeOptional< Vec2 > const & P, MaybeOptional< Float > const & refZ, MaybeOptional< Float > const & bias );
+	SDW_API MaybeOptional< Float > texture( MaybeOptional< SampledImage2DShadowR16 > const & image, MaybeOptional< Vec2 > const & P, MaybeOptional< Float > const & refZ, MaybeOptional< Float > const & bias );
 	SDW_API MaybeOptional< Float > texture( MaybeOptional< SampledImageCubeShadowR32 > const & image, MaybeOptional< Vec3 > const & P, MaybeOptional< Float > const & refZ, MaybeOptional< Float > const & bias );
-	SDW_API MaybeOptional< Half > texture( MaybeOptional< SampledImageCubeShadowR16 > const & image, MaybeOptional< Vec3 > const & P, MaybeOptional< Float > const & refZ, MaybeOptional< Float > const & bias );
+	SDW_API MaybeOptional< Float > texture( MaybeOptional< SampledImageCubeShadowR16 > const & image, MaybeOptional< Vec3 > const & P, MaybeOptional< Float > const & refZ, MaybeOptional< Float > const & bias );
 	SDW_API MaybeOptional< Float > texture( MaybeOptional< SampledImage1DArrayShadowR32 > const & image, MaybeOptional< Vec2 > const & P, MaybeOptional< Float > const & refZ, MaybeOptional< Float > const & bias );
-	SDW_API MaybeOptional< Half > texture( MaybeOptional< SampledImage1DArrayShadowR16 > const & image, MaybeOptional< Vec2 > const & P, MaybeOptional< Float > const & refZ, MaybeOptional< Float > const & bias );
+	SDW_API MaybeOptional< Float > texture( MaybeOptional< SampledImage1DArrayShadowR16 > const & image, MaybeOptional< Vec2 > const & P, MaybeOptional< Float > const & refZ, MaybeOptional< Float > const & bias );
 	/**@}*/
 #pragma endregion
 #pragma region textureProj
@@ -1114,9 +1114,9 @@ namespace sdw
 	SDW_API MaybeOptional< UInt > textureProj( MaybeOptional< USampledImage3DR16 > const & image, MaybeOptional< Vec4 > const & P );
 	SDW_API MaybeOptional< UInt > textureProj( MaybeOptional< USampledImage3DR8 > const & image, MaybeOptional< Vec4 > const & P );
 	SDW_API MaybeOptional< Float > textureProj( MaybeOptional< SampledImage1DShadowR32 > const & image, MaybeOptional< Vec2 > const & P, MaybeOptional< Float > const & refZ );
-	SDW_API MaybeOptional< Half > textureProj( MaybeOptional< SampledImage1DShadowR16 > const & image, MaybeOptional< Vec2 > const & P, MaybeOptional< Float > const & refZ );
+	SDW_API MaybeOptional< Float > textureProj( MaybeOptional< SampledImage1DShadowR16 > const & image, MaybeOptional< Vec2 > const & P, MaybeOptional< Float > const & refZ );
 	SDW_API MaybeOptional< Float > textureProj( MaybeOptional< SampledImage2DShadowR32 > const & image, MaybeOptional< Vec3 > const & P, MaybeOptional< Float > const & refZ );
-	SDW_API MaybeOptional< Half > textureProj( MaybeOptional< SampledImage2DShadowR16 > const & image, MaybeOptional< Vec3 > const & P, MaybeOptional< Float > const & refZ );
+	SDW_API MaybeOptional< Float > textureProj( MaybeOptional< SampledImage2DShadowR16 > const & image, MaybeOptional< Vec3 > const & P, MaybeOptional< Float > const & refZ );
 	/**@}*/
 #pragma endregion
 #pragma region textureProjBias
@@ -1246,9 +1246,9 @@ namespace sdw
 	SDW_API MaybeOptional< UInt > textureProj( MaybeOptional< USampledImage3DR16 > const & image, MaybeOptional< Vec4 > const & P, MaybeOptional< Float > const & bias );
 	SDW_API MaybeOptional< UInt > textureProj( MaybeOptional< USampledImage3DR8 > const & image, MaybeOptional< Vec4 > const & P, MaybeOptional< Float > const & bias );
 	SDW_API MaybeOptional< Float > textureProj( MaybeOptional< SampledImage1DShadowR32 > const & image, MaybeOptional< Vec2 > const & P, MaybeOptional< Float > const & refZ, MaybeOptional< Float > const & bias );
-	SDW_API MaybeOptional< Half > textureProj( MaybeOptional< SampledImage1DShadowR16 > const & image, MaybeOptional< Vec2 > const & P, MaybeOptional< Float > const & refZ, MaybeOptional< Float > const & bias );
+	SDW_API MaybeOptional< Float > textureProj( MaybeOptional< SampledImage1DShadowR16 > const & image, MaybeOptional< Vec2 > const & P, MaybeOptional< Float > const & refZ, MaybeOptional< Float > const & bias );
 	SDW_API MaybeOptional< Float > textureProj( MaybeOptional< SampledImage2DShadowR32 > const & image, MaybeOptional< Vec3 > const & P, MaybeOptional< Float > const & refZ, MaybeOptional< Float > const & bias );
-	SDW_API MaybeOptional< Half > textureProj( MaybeOptional< SampledImage2DShadowR16 > const & image, MaybeOptional< Vec3 > const & P, MaybeOptional< Float > const & refZ, MaybeOptional< Float > const & bias );
+	SDW_API MaybeOptional< Float > textureProj( MaybeOptional< SampledImage2DShadowR16 > const & image, MaybeOptional< Vec3 > const & P, MaybeOptional< Float > const & refZ, MaybeOptional< Float > const & bias );
 	/**@}*/
 #pragma endregion
 #pragma region textureLod
@@ -1426,11 +1426,11 @@ namespace sdw
 	SDW_API MaybeOptional< UInt > textureLod( MaybeOptional< USampledImageCubeArrayR16 > const & image, MaybeOptional< Vec4 > const & P, MaybeOptional< Float > const & lod );
 	SDW_API MaybeOptional< UInt > textureLod( MaybeOptional< USampledImageCubeArrayR8 > const & image, MaybeOptional< Vec4 > const & P, MaybeOptional< Float > const & lod );
 	SDW_API MaybeOptional< Float > textureLod( MaybeOptional< SampledImage1DShadowR32 > const & image, MaybeOptional< Float > const & P, MaybeOptional< Float > const & refZ, MaybeOptional< Float > const & lod );
-	SDW_API MaybeOptional< Half > textureLod( MaybeOptional< SampledImage1DShadowR16 > const & image, MaybeOptional< Float > const & P, MaybeOptional< Float > const & refZ, MaybeOptional< Float > const & lod );
+	SDW_API MaybeOptional< Float > textureLod( MaybeOptional< SampledImage1DShadowR16 > const & image, MaybeOptional< Float > const & P, MaybeOptional< Float > const & refZ, MaybeOptional< Float > const & lod );
 	SDW_API MaybeOptional< Float > textureLod( MaybeOptional< SampledImage2DShadowR32 > const & image, MaybeOptional< Vec2 > const & P, MaybeOptional< Float > const & refZ, MaybeOptional< Float > const & lod );
-	SDW_API MaybeOptional< Half > textureLod( MaybeOptional< SampledImage2DShadowR16 > const & image, MaybeOptional< Vec2 > const & P, MaybeOptional< Float > const & refZ, MaybeOptional< Float > const & lod );
+	SDW_API MaybeOptional< Float > textureLod( MaybeOptional< SampledImage2DShadowR16 > const & image, MaybeOptional< Vec2 > const & P, MaybeOptional< Float > const & refZ, MaybeOptional< Float > const & lod );
 	SDW_API MaybeOptional< Float > textureLod( MaybeOptional< SampledImage1DArrayShadowR32 > const & image, MaybeOptional< Vec2 > const & P, MaybeOptional< Float > const & refZ, MaybeOptional< Float > const & lod );
-	SDW_API MaybeOptional< Half > textureLod( MaybeOptional< SampledImage1DArrayShadowR16 > const & image, MaybeOptional< Vec2 > const & P, MaybeOptional< Float > const & refZ, MaybeOptional< Float > const & lod );
+	SDW_API MaybeOptional< Float > textureLod( MaybeOptional< SampledImage1DArrayShadowR16 > const & image, MaybeOptional< Vec2 > const & P, MaybeOptional< Float > const & refZ, MaybeOptional< Float > const & lod );
 	/**@}*/
 #pragma endregion
 #pragma region textureOffset
@@ -1560,13 +1560,13 @@ namespace sdw
 	SDW_API MaybeOptional< UInt > textureOffset( MaybeOptional< USampledImage2DArrayR16 > const & image, MaybeOptional< Vec3 > const & P, MaybeOptional< IVec2 > const & offset );
 	SDW_API MaybeOptional< UInt > textureOffset( MaybeOptional< USampledImage2DArrayR8 > const & image, MaybeOptional< Vec3 > const & P, MaybeOptional< IVec2 > const & offset );
 	SDW_API MaybeOptional< Float > textureOffset( MaybeOptional< SampledImage1DShadowR32 > const & image, MaybeOptional< Float > const & P, MaybeOptional< Float > const & refZ, MaybeOptional< Int > const & offset );
-	SDW_API MaybeOptional< Half > textureOffset( MaybeOptional< SampledImage1DShadowR16 > const & image, MaybeOptional< Float > const & P, MaybeOptional< Float > const & refZ, MaybeOptional< Int > const & offset );
+	SDW_API MaybeOptional< Float > textureOffset( MaybeOptional< SampledImage1DShadowR16 > const & image, MaybeOptional< Float > const & P, MaybeOptional< Float > const & refZ, MaybeOptional< Int > const & offset );
 	SDW_API MaybeOptional< Float > textureOffset( MaybeOptional< SampledImage2DShadowR32 > const & image, MaybeOptional< Vec2 > const & P, MaybeOptional< Float > const & refZ, MaybeOptional< IVec2 > const & offset );
-	SDW_API MaybeOptional< Half > textureOffset( MaybeOptional< SampledImage2DShadowR16 > const & image, MaybeOptional< Vec2 > const & P, MaybeOptional< Float > const & refZ, MaybeOptional< IVec2 > const & offset );
+	SDW_API MaybeOptional< Float > textureOffset( MaybeOptional< SampledImage2DShadowR16 > const & image, MaybeOptional< Vec2 > const & P, MaybeOptional< Float > const & refZ, MaybeOptional< IVec2 > const & offset );
 	SDW_API MaybeOptional< Float > textureOffset( MaybeOptional< SampledImage1DArrayShadowR32 > const & image, MaybeOptional< Vec2 > const & P, MaybeOptional< Float > const & refZ, MaybeOptional< Int > const & offset );
-	SDW_API MaybeOptional< Half > textureOffset( MaybeOptional< SampledImage1DArrayShadowR16 > const & image, MaybeOptional< Vec2 > const & P, MaybeOptional< Float > const & refZ, MaybeOptional< Int > const & offset );
+	SDW_API MaybeOptional< Float > textureOffset( MaybeOptional< SampledImage1DArrayShadowR16 > const & image, MaybeOptional< Vec2 > const & P, MaybeOptional< Float > const & refZ, MaybeOptional< Int > const & offset );
 	SDW_API MaybeOptional< Float > textureOffset( MaybeOptional< SampledImage2DArrayShadowR32 > const & image, MaybeOptional< Vec3 > const & P, MaybeOptional< Float > const & refZ, MaybeOptional< IVec2 > const & offset );
-	SDW_API MaybeOptional< Half > textureOffset( MaybeOptional< SampledImage2DArrayShadowR16 > const & image, MaybeOptional< Vec3 > const & P, MaybeOptional< Float > const & refZ, MaybeOptional< IVec2 > const & offset );
+	SDW_API MaybeOptional< Float > textureOffset( MaybeOptional< SampledImage2DArrayShadowR16 > const & image, MaybeOptional< Vec3 > const & P, MaybeOptional< Float > const & refZ, MaybeOptional< IVec2 > const & offset );
 	/**@}*/
 #pragma endregion
 #pragma region textureOffsetBias
@@ -1696,9 +1696,9 @@ namespace sdw
 	SDW_API MaybeOptional< UInt > textureOffset( MaybeOptional< USampledImage2DArrayR16 > const & image, MaybeOptional< Vec3 > const & P, MaybeOptional< IVec2 > const & offset, MaybeOptional< Float > const & bias );
 	SDW_API MaybeOptional< UInt > textureOffset( MaybeOptional< USampledImage2DArrayR8 > const & image, MaybeOptional< Vec3 > const & P, MaybeOptional< IVec2 > const & offset, MaybeOptional< Float > const & bias );
 	SDW_API MaybeOptional< Float > textureOffset( MaybeOptional< SampledImage1DShadowR32 > const & image, MaybeOptional< Float > const & P, MaybeOptional< Float > const & refZ, MaybeOptional< Int > const & offset, MaybeOptional< Float > const & bias );
-	SDW_API MaybeOptional< Half > textureOffset( MaybeOptional< SampledImage1DShadowR16 > const & image, MaybeOptional< Float > const & P, MaybeOptional< Float > const & refZ, MaybeOptional< Int > const & offset, MaybeOptional< Float > const & bias );
+	SDW_API MaybeOptional< Float > textureOffset( MaybeOptional< SampledImage1DShadowR16 > const & image, MaybeOptional< Float > const & P, MaybeOptional< Float > const & refZ, MaybeOptional< Int > const & offset, MaybeOptional< Float > const & bias );
 	SDW_API MaybeOptional< Float > textureOffset( MaybeOptional< SampledImage2DShadowR32 > const & image, MaybeOptional< Vec2 > const & P, MaybeOptional< Float > const & refZ, MaybeOptional< IVec2 > const & offset, MaybeOptional< Float > const & bias );
-	SDW_API MaybeOptional< Half > textureOffset( MaybeOptional< SampledImage2DShadowR16 > const & image, MaybeOptional< Vec2 > const & P, MaybeOptional< Float > const & refZ, MaybeOptional< IVec2 > const & offset, MaybeOptional< Float > const & bias );
+	SDW_API MaybeOptional< Float > textureOffset( MaybeOptional< SampledImage2DShadowR16 > const & image, MaybeOptional< Vec2 > const & P, MaybeOptional< Float > const & refZ, MaybeOptional< IVec2 > const & offset, MaybeOptional< Float > const & bias );
 	/**@}*/
 #pragma endregion
 #pragma region texelFetch
@@ -2108,9 +2108,9 @@ namespace sdw
 	SDW_API MaybeOptional< UInt > textureProjOffset( MaybeOptional< USampledImage3DR16 > const & image, MaybeOptional< Vec4 > const & P, MaybeOptional< IVec3 > const & offset );
 	SDW_API MaybeOptional< UInt > textureProjOffset( MaybeOptional< USampledImage3DR8 > const & image, MaybeOptional< Vec4 > const & P, MaybeOptional< IVec3 > const & offset );
 	SDW_API MaybeOptional< Float > textureProjOffset( MaybeOptional< SampledImage1DShadowR32 > const & image, MaybeOptional< Vec2 > const & P, MaybeOptional< Float > const & refZ, MaybeOptional< Int > const & offset );
-	SDW_API MaybeOptional< Half > textureProjOffset( MaybeOptional< SampledImage1DShadowR16 > const & image, MaybeOptional< Vec2 > const & P, MaybeOptional< Float > const & refZ, MaybeOptional< Int > const & offset );
+	SDW_API MaybeOptional< Float > textureProjOffset( MaybeOptional< SampledImage1DShadowR16 > const & image, MaybeOptional< Vec2 > const & P, MaybeOptional< Float > const & refZ, MaybeOptional< Int > const & offset );
 	SDW_API MaybeOptional< Float > textureProjOffset( MaybeOptional< SampledImage2DShadowR32 > const & image, MaybeOptional< Vec3 > const & P, MaybeOptional< Float > const & refZ, MaybeOptional< IVec2 > const & offset );
-	SDW_API MaybeOptional< Half > textureProjOffset( MaybeOptional< SampledImage2DShadowR16 > const & image, MaybeOptional< Vec3 > const & P, MaybeOptional< Float > const & refZ, MaybeOptional< IVec2 > const & offset );
+	SDW_API MaybeOptional< Float > textureProjOffset( MaybeOptional< SampledImage2DShadowR16 > const & image, MaybeOptional< Vec3 > const & P, MaybeOptional< Float > const & refZ, MaybeOptional< IVec2 > const & offset );
 	/**@}*/
 #pragma endregion
 #pragma region textureProjOffsetBias
@@ -2240,9 +2240,9 @@ namespace sdw
 	SDW_API MaybeOptional< UInt > textureProjOffset( MaybeOptional< USampledImage3DR16 > const & image, MaybeOptional< Vec4 > const & P, MaybeOptional< IVec3 > const & offset, MaybeOptional< Float > const & bias );
 	SDW_API MaybeOptional< UInt > textureProjOffset( MaybeOptional< USampledImage3DR8 > const & image, MaybeOptional< Vec4 > const & P, MaybeOptional< IVec3 > const & offset, MaybeOptional< Float > const & bias );
 	SDW_API MaybeOptional< Float > textureProjOffset( MaybeOptional< SampledImage1DShadowR32 > const & image, MaybeOptional< Vec2 > const & P, MaybeOptional< Float > const & refZ, MaybeOptional< Int > const & offset, MaybeOptional< Float > const & bias );
-	SDW_API MaybeOptional< Half > textureProjOffset( MaybeOptional< SampledImage1DShadowR16 > const & image, MaybeOptional< Vec2 > const & P, MaybeOptional< Float > const & refZ, MaybeOptional< Int > const & offset, MaybeOptional< Float > const & bias );
+	SDW_API MaybeOptional< Float > textureProjOffset( MaybeOptional< SampledImage1DShadowR16 > const & image, MaybeOptional< Vec2 > const & P, MaybeOptional< Float > const & refZ, MaybeOptional< Int > const & offset, MaybeOptional< Float > const & bias );
 	SDW_API MaybeOptional< Float > textureProjOffset( MaybeOptional< SampledImage2DShadowR32 > const & image, MaybeOptional< Vec3 > const & P, MaybeOptional< Float > const & refZ, MaybeOptional< IVec2 > const & offset, MaybeOptional< Float > const & bias );
-	SDW_API MaybeOptional< Half > textureProjOffset( MaybeOptional< SampledImage2DShadowR16 > const & image, MaybeOptional< Vec3 > const & P, MaybeOptional< Float > const & refZ, MaybeOptional< IVec2 > const & offset, MaybeOptional< Float > const & bias );
+	SDW_API MaybeOptional< Float > textureProjOffset( MaybeOptional< SampledImage2DShadowR16 > const & image, MaybeOptional< Vec3 > const & P, MaybeOptional< Float > const & refZ, MaybeOptional< IVec2 > const & offset, MaybeOptional< Float > const & bias );
 	/**@}*/
 #pragma endregion
 #pragma region textureLodOffset
@@ -2372,11 +2372,11 @@ namespace sdw
 	SDW_API MaybeOptional< UInt > textureLodOffset( MaybeOptional< USampledImage2DArrayR16 > const & image, MaybeOptional< Vec3 > const & P, MaybeOptional< Float > const & lod, MaybeOptional< IVec2 > const & offset );
 	SDW_API MaybeOptional< UInt > textureLodOffset( MaybeOptional< USampledImage2DArrayR8 > const & image, MaybeOptional< Vec3 > const & P, MaybeOptional< Float > const & lod, MaybeOptional< IVec2 > const & offset );
 	SDW_API MaybeOptional< Float > textureLodOffset( MaybeOptional< SampledImage1DShadowR32 > const & image, MaybeOptional< Float > const & P, MaybeOptional< Float > const & refZ, MaybeOptional< Float > const & lod, MaybeOptional< Int > const & offset );
-	SDW_API MaybeOptional< Half > textureLodOffset( MaybeOptional< SampledImage1DShadowR16 > const & image, MaybeOptional< Float > const & P, MaybeOptional< Float > const & refZ, MaybeOptional< Float > const & lod, MaybeOptional< Int > const & offset );
+	SDW_API MaybeOptional< Float > textureLodOffset( MaybeOptional< SampledImage1DShadowR16 > const & image, MaybeOptional< Float > const & P, MaybeOptional< Float > const & refZ, MaybeOptional< Float > const & lod, MaybeOptional< Int > const & offset );
 	SDW_API MaybeOptional< Float > textureLodOffset( MaybeOptional< SampledImage2DShadowR32 > const & image, MaybeOptional< Vec2 > const & P, MaybeOptional< Float > const & refZ, MaybeOptional< Float > const & lod, MaybeOptional< IVec2 > const & offset );
-	SDW_API MaybeOptional< Half > textureLodOffset( MaybeOptional< SampledImage2DShadowR16 > const & image, MaybeOptional< Vec2 > const & P, MaybeOptional< Float > const & refZ, MaybeOptional< Float > const & lod, MaybeOptional< IVec2 > const & offset );
+	SDW_API MaybeOptional< Float > textureLodOffset( MaybeOptional< SampledImage2DShadowR16 > const & image, MaybeOptional< Vec2 > const & P, MaybeOptional< Float > const & refZ, MaybeOptional< Float > const & lod, MaybeOptional< IVec2 > const & offset );
 	SDW_API MaybeOptional< Float > textureLodOffset( MaybeOptional< SampledImage1DArrayShadowR32 > const & image, MaybeOptional< Vec2 > const & P, MaybeOptional< Float > const & refZ, MaybeOptional< Float > const & lod, MaybeOptional< Int > const & offset );
-	SDW_API MaybeOptional< Half > textureLodOffset( MaybeOptional< SampledImage1DArrayShadowR16 > const & image, MaybeOptional< Vec2 > const & P, MaybeOptional< Float > const & refZ, MaybeOptional< Float > const & lod, MaybeOptional< Int > const & offset );
+	SDW_API MaybeOptional< Float > textureLodOffset( MaybeOptional< SampledImage1DArrayShadowR16 > const & image, MaybeOptional< Vec2 > const & P, MaybeOptional< Float > const & refZ, MaybeOptional< Float > const & lod, MaybeOptional< Int > const & offset );
 	/**@}*/
 #pragma endregion
 #pragma region textureProjLod
@@ -2506,9 +2506,9 @@ namespace sdw
 	SDW_API MaybeOptional< UInt > textureProjLod( MaybeOptional< USampledImage3DR16 > const & image, MaybeOptional< Vec4 > const & P, MaybeOptional< Float > const & lod );
 	SDW_API MaybeOptional< UInt > textureProjLod( MaybeOptional< USampledImage3DR8 > const & image, MaybeOptional< Vec4 > const & P, MaybeOptional< Float > const & lod );
 	SDW_API MaybeOptional< Float > textureProjLod( MaybeOptional< SampledImage1DShadowR32 > const & image, MaybeOptional< Vec2 > const & P, MaybeOptional< Float > const & refZ, MaybeOptional< Float > const & lod );
-	SDW_API MaybeOptional< Half > textureProjLod( MaybeOptional< SampledImage1DShadowR16 > const & image, MaybeOptional< Vec2 > const & P, MaybeOptional< Float > const & refZ, MaybeOptional< Float > const & lod );
+	SDW_API MaybeOptional< Float > textureProjLod( MaybeOptional< SampledImage1DShadowR16 > const & image, MaybeOptional< Vec2 > const & P, MaybeOptional< Float > const & refZ, MaybeOptional< Float > const & lod );
 	SDW_API MaybeOptional< Float > textureProjLod( MaybeOptional< SampledImage2DShadowR32 > const & image, MaybeOptional< Vec3 > const & P, MaybeOptional< Float > const & refZ, MaybeOptional< Float > const & lod );
-	SDW_API MaybeOptional< Half > textureProjLod( MaybeOptional< SampledImage2DShadowR16 > const & image, MaybeOptional< Vec3 > const & P, MaybeOptional< Float > const & refZ, MaybeOptional< Float > const & lod );
+	SDW_API MaybeOptional< Float > textureProjLod( MaybeOptional< SampledImage2DShadowR16 > const & image, MaybeOptional< Vec3 > const & P, MaybeOptional< Float > const & refZ, MaybeOptional< Float > const & lod );
 	/**@}*/
 #pragma endregion
 #pragma region textureProjLodOffset
@@ -2638,9 +2638,9 @@ namespace sdw
 	SDW_API MaybeOptional< UInt > textureProjLodOffset( MaybeOptional< USampledImage3DR16 > const & image, MaybeOptional< Vec4 > const & P, MaybeOptional< Float > const & lod, MaybeOptional< IVec3 > const & offset );
 	SDW_API MaybeOptional< UInt > textureProjLodOffset( MaybeOptional< USampledImage3DR8 > const & image, MaybeOptional< Vec4 > const & P, MaybeOptional< Float > const & lod, MaybeOptional< IVec3 > const & offset );
 	SDW_API MaybeOptional< Float > textureProjLodOffset( MaybeOptional< SampledImage1DShadowR32 > const & image, MaybeOptional< Vec2 > const & P, MaybeOptional< Float > const & refZ, MaybeOptional< Float > const & lod, MaybeOptional< Int > const & offset );
-	SDW_API MaybeOptional< Half > textureProjLodOffset( MaybeOptional< SampledImage1DShadowR16 > const & image, MaybeOptional< Vec2 > const & P, MaybeOptional< Float > const & refZ, MaybeOptional< Float > const & lod, MaybeOptional< Int > const & offset );
+	SDW_API MaybeOptional< Float > textureProjLodOffset( MaybeOptional< SampledImage1DShadowR16 > const & image, MaybeOptional< Vec2 > const & P, MaybeOptional< Float > const & refZ, MaybeOptional< Float > const & lod, MaybeOptional< Int > const & offset );
 	SDW_API MaybeOptional< Float > textureProjLodOffset( MaybeOptional< SampledImage2DShadowR32 > const & image, MaybeOptional< Vec3 > const & P, MaybeOptional< Float > const & refZ, MaybeOptional< Float > const & lod, MaybeOptional< IVec2 > const & offset );
-	SDW_API MaybeOptional< Half > textureProjLodOffset( MaybeOptional< SampledImage2DShadowR16 > const & image, MaybeOptional< Vec3 > const & P, MaybeOptional< Float > const & refZ, MaybeOptional< Float > const & lod, MaybeOptional< IVec2 > const & offset );
+	SDW_API MaybeOptional< Float > textureProjLodOffset( MaybeOptional< SampledImage2DShadowR16 > const & image, MaybeOptional< Vec3 > const & P, MaybeOptional< Float > const & refZ, MaybeOptional< Float > const & lod, MaybeOptional< IVec2 > const & offset );
 	/**@}*/
 #pragma endregion
 #pragma region textureGrad
@@ -2818,11 +2818,11 @@ namespace sdw
 	SDW_API MaybeOptional< UInt > textureGrad( MaybeOptional< USampledImageCubeArrayR16 > const & image, MaybeOptional< Vec4 > const & P, MaybeOptional< Vec3 > const & dPdx, MaybeOptional< Vec3 > const & dPdy );
 	SDW_API MaybeOptional< UInt > textureGrad( MaybeOptional< USampledImageCubeArrayR8 > const & image, MaybeOptional< Vec4 > const & P, MaybeOptional< Vec3 > const & dPdx, MaybeOptional< Vec3 > const & dPdy );
 	SDW_API MaybeOptional< Float > textureGrad( MaybeOptional< SampledImage1DShadowR32 > const & image, MaybeOptional< Float > const & P, MaybeOptional< Float > const & refZ, MaybeOptional< Float > const & dPdx, MaybeOptional< Float > const & dPdy );
-	SDW_API MaybeOptional< Half > textureGrad( MaybeOptional< SampledImage1DShadowR16 > const & image, MaybeOptional< Float > const & P, MaybeOptional< Float > const & refZ, MaybeOptional< Float > const & dPdx, MaybeOptional< Float > const & dPdy );
+	SDW_API MaybeOptional< Float > textureGrad( MaybeOptional< SampledImage1DShadowR16 > const & image, MaybeOptional< Float > const & P, MaybeOptional< Float > const & refZ, MaybeOptional< Float > const & dPdx, MaybeOptional< Float > const & dPdy );
 	SDW_API MaybeOptional< Float > textureGrad( MaybeOptional< SampledImage2DShadowR32 > const & image, MaybeOptional< Vec2 > const & P, MaybeOptional< Float > const & refZ, MaybeOptional< Vec2 > const & dPdx, MaybeOptional< Vec2 > const & dPdy );
-	SDW_API MaybeOptional< Half > textureGrad( MaybeOptional< SampledImage2DShadowR16 > const & image, MaybeOptional< Vec2 > const & P, MaybeOptional< Float > const & refZ, MaybeOptional< Vec2 > const & dPdx, MaybeOptional< Vec2 > const & dPdy );
+	SDW_API MaybeOptional< Float > textureGrad( MaybeOptional< SampledImage2DShadowR16 > const & image, MaybeOptional< Vec2 > const & P, MaybeOptional< Float > const & refZ, MaybeOptional< Vec2 > const & dPdx, MaybeOptional< Vec2 > const & dPdy );
 	SDW_API MaybeOptional< Float > textureGrad( MaybeOptional< SampledImage1DArrayShadowR32 > const & image, MaybeOptional< Vec2 > const & P, MaybeOptional< Float > const & refZ, MaybeOptional< Float > const & dPdx, MaybeOptional< Float > const & dPdy );
-	SDW_API MaybeOptional< Half > textureGrad( MaybeOptional< SampledImage1DArrayShadowR16 > const & image, MaybeOptional< Vec2 > const & P, MaybeOptional< Float > const & refZ, MaybeOptional< Float > const & dPdx, MaybeOptional< Float > const & dPdy );
+	SDW_API MaybeOptional< Float > textureGrad( MaybeOptional< SampledImage1DArrayShadowR16 > const & image, MaybeOptional< Vec2 > const & P, MaybeOptional< Float > const & refZ, MaybeOptional< Float > const & dPdx, MaybeOptional< Float > const & dPdy );
 	/**@}*/
 #pragma endregion
 #pragma region textureGradOffset
@@ -2952,13 +2952,13 @@ namespace sdw
 	SDW_API MaybeOptional< UInt > textureGradOffset( MaybeOptional< USampledImage2DArrayR16 > const & image, MaybeOptional< Vec3 > const & P, MaybeOptional< Vec2 > const & dPdx, MaybeOptional< Vec2 > const & dPdy, MaybeOptional< IVec2 > const & offset );
 	SDW_API MaybeOptional< UInt > textureGradOffset( MaybeOptional< USampledImage2DArrayR8 > const & image, MaybeOptional< Vec3 > const & P, MaybeOptional< Vec2 > const & dPdx, MaybeOptional< Vec2 > const & dPdy, MaybeOptional< IVec2 > const & offset );
 	SDW_API MaybeOptional< Float > textureGradOffset( MaybeOptional< SampledImage1DShadowR32 > const & image, MaybeOptional< Float > const & P, MaybeOptional< Float > const & refZ, MaybeOptional< Float > const & dPdx, MaybeOptional< Float > const & dPdy, MaybeOptional< Int > const & offset );
-	SDW_API MaybeOptional< Half > textureGradOffset( MaybeOptional< SampledImage1DShadowR16 > const & image, MaybeOptional< Float > const & P, MaybeOptional< Float > const & refZ, MaybeOptional< Float > const & dPdx, MaybeOptional< Float > const & dPdy, MaybeOptional< Int > const & offset );
+	SDW_API MaybeOptional< Float > textureGradOffset( MaybeOptional< SampledImage1DShadowR16 > const & image, MaybeOptional< Float > const & P, MaybeOptional< Float > const & refZ, MaybeOptional< Float > const & dPdx, MaybeOptional< Float > const & dPdy, MaybeOptional< Int > const & offset );
 	SDW_API MaybeOptional< Float > textureGradOffset( MaybeOptional< SampledImage2DShadowR32 > const & image, MaybeOptional< Vec2 > const & P, MaybeOptional< Float > const & refZ, MaybeOptional< Vec2 > const & dPdx, MaybeOptional< Vec2 > const & dPdy, MaybeOptional< IVec2 > const & offset );
-	SDW_API MaybeOptional< Half > textureGradOffset( MaybeOptional< SampledImage2DShadowR16 > const & image, MaybeOptional< Vec2 > const & P, MaybeOptional< Float > const & refZ, MaybeOptional< Vec2 > const & dPdx, MaybeOptional< Vec2 > const & dPdy, MaybeOptional< IVec2 > const & offset );
+	SDW_API MaybeOptional< Float > textureGradOffset( MaybeOptional< SampledImage2DShadowR16 > const & image, MaybeOptional< Vec2 > const & P, MaybeOptional< Float > const & refZ, MaybeOptional< Vec2 > const & dPdx, MaybeOptional< Vec2 > const & dPdy, MaybeOptional< IVec2 > const & offset );
 	SDW_API MaybeOptional< Float > textureGradOffset( MaybeOptional< SampledImage1DArrayShadowR32 > const & image, MaybeOptional< Vec2 > const & P, MaybeOptional< Float > const & refZ, MaybeOptional< Float > const & dPdx, MaybeOptional< Float > const & dPdy, MaybeOptional< Int > const & offset );
-	SDW_API MaybeOptional< Half > textureGradOffset( MaybeOptional< SampledImage1DArrayShadowR16 > const & image, MaybeOptional< Vec2 > const & P, MaybeOptional< Float > const & refZ, MaybeOptional< Float > const & dPdx, MaybeOptional< Float > const & dPdy, MaybeOptional< Int > const & offset );
+	SDW_API MaybeOptional< Float > textureGradOffset( MaybeOptional< SampledImage1DArrayShadowR16 > const & image, MaybeOptional< Vec2 > const & P, MaybeOptional< Float > const & refZ, MaybeOptional< Float > const & dPdx, MaybeOptional< Float > const & dPdy, MaybeOptional< Int > const & offset );
 	SDW_API MaybeOptional< Float > textureGradOffset( MaybeOptional< SampledImage2DArrayShadowR32 > const & image, MaybeOptional< Vec3 > const & P, MaybeOptional< Float > const & refZ, MaybeOptional< Vec2 > const & dPdx, MaybeOptional< Vec2 > const & dPdy, MaybeOptional< IVec2 > const & offset );
-	SDW_API MaybeOptional< Half > textureGradOffset( MaybeOptional< SampledImage2DArrayShadowR16 > const & image, MaybeOptional< Vec3 > const & P, MaybeOptional< Float > const & refZ, MaybeOptional< Vec2 > const & dPdx, MaybeOptional< Vec2 > const & dPdy, MaybeOptional< IVec2 > const & offset );
+	SDW_API MaybeOptional< Float > textureGradOffset( MaybeOptional< SampledImage2DArrayShadowR16 > const & image, MaybeOptional< Vec3 > const & P, MaybeOptional< Float > const & refZ, MaybeOptional< Vec2 > const & dPdx, MaybeOptional< Vec2 > const & dPdy, MaybeOptional< IVec2 > const & offset );
 	/**@}*/
 #pragma endregion
 #pragma region textureProjGrad
@@ -3088,9 +3088,9 @@ namespace sdw
 	SDW_API MaybeOptional< UInt > textureProjGrad( MaybeOptional< USampledImage3DR16 > const & image, MaybeOptional< Vec4 > const & P, MaybeOptional< Vec3 > const & pDx, MaybeOptional< Vec3 > const & pDy );
 	SDW_API MaybeOptional< UInt > textureProjGrad( MaybeOptional< USampledImage3DR8 > const & image, MaybeOptional< Vec4 > const & P, MaybeOptional< Vec3 > const & pDx, MaybeOptional< Vec3 > const & pDy );
 	SDW_API MaybeOptional< Float > textureProjGrad( MaybeOptional< SampledImage1DShadowR32 > const & image, MaybeOptional< Vec2 > const & P, MaybeOptional< Float > const & refZ, MaybeOptional< Float > const & pDx, MaybeOptional< Float > const & pDy );
-	SDW_API MaybeOptional< Half > textureProjGrad( MaybeOptional< SampledImage1DShadowR16 > const & image, MaybeOptional< Vec2 > const & P, MaybeOptional< Float > const & refZ, MaybeOptional< Float > const & pDx, MaybeOptional< Float > const & pDy );
+	SDW_API MaybeOptional< Float > textureProjGrad( MaybeOptional< SampledImage1DShadowR16 > const & image, MaybeOptional< Vec2 > const & P, MaybeOptional< Float > const & refZ, MaybeOptional< Float > const & pDx, MaybeOptional< Float > const & pDy );
 	SDW_API MaybeOptional< Float > textureProjGrad( MaybeOptional< SampledImage2DShadowR32 > const & image, MaybeOptional< Vec3 > const & P, MaybeOptional< Float > const & refZ, MaybeOptional< Vec2 > const & pDx, MaybeOptional< Vec2 > const & pDy );
-	SDW_API MaybeOptional< Half > textureProjGrad( MaybeOptional< SampledImage2DShadowR16 > const & image, MaybeOptional< Vec3 > const & P, MaybeOptional< Float > const & refZ, MaybeOptional< Vec2 > const & pDx, MaybeOptional< Vec2 > const & pDy );
+	SDW_API MaybeOptional< Float > textureProjGrad( MaybeOptional< SampledImage2DShadowR16 > const & image, MaybeOptional< Vec3 > const & P, MaybeOptional< Float > const & refZ, MaybeOptional< Vec2 > const & pDx, MaybeOptional< Vec2 > const & pDy );
 	/**@}*/
 #pragma endregion
 #pragma region textureProjGradOffset
@@ -3220,9 +3220,9 @@ namespace sdw
 	SDW_API MaybeOptional< UInt > textureProjGradOffset( MaybeOptional< USampledImage3DR16 > const & image, MaybeOptional< Vec4 > const & P, MaybeOptional< Vec3 > const & dPdx, MaybeOptional< Vec3 > const & dPdy, MaybeOptional< IVec3 > const & offset );
 	SDW_API MaybeOptional< UInt > textureProjGradOffset( MaybeOptional< USampledImage3DR8 > const & image, MaybeOptional< Vec4 > const & P, MaybeOptional< Vec3 > const & dPdx, MaybeOptional< Vec3 > const & dPdy, MaybeOptional< IVec3 > const & offset );
 	SDW_API MaybeOptional< Float > textureProjGradOffset( MaybeOptional< SampledImage1DShadowR32 > const & image, MaybeOptional< Vec2 > const & P, MaybeOptional< Float > const & refZ, MaybeOptional< Float > const & dPdx, MaybeOptional< Float > const & dPdy, MaybeOptional< Int > const & offset );
-	SDW_API MaybeOptional< Half > textureProjGradOffset( MaybeOptional< SampledImage1DShadowR16 > const & image, MaybeOptional< Vec2 > const & P, MaybeOptional< Float > const & refZ, MaybeOptional< Float > const & dPdx, MaybeOptional< Float > const & dPdy, MaybeOptional< Int > const & offset );
+	SDW_API MaybeOptional< Float > textureProjGradOffset( MaybeOptional< SampledImage1DShadowR16 > const & image, MaybeOptional< Vec2 > const & P, MaybeOptional< Float > const & refZ, MaybeOptional< Float > const & dPdx, MaybeOptional< Float > const & dPdy, MaybeOptional< Int > const & offset );
 	SDW_API MaybeOptional< Float > textureProjGradOffset( MaybeOptional< SampledImage2DShadowR32 > const & image, MaybeOptional< Vec3 > const & P, MaybeOptional< Float > const & refZ, MaybeOptional< Vec2 > const & dPdx, MaybeOptional< Vec2 > const & dPdy, MaybeOptional< IVec2 > const & offset );
-	SDW_API MaybeOptional< Half > textureProjGradOffset( MaybeOptional< SampledImage2DShadowR16 > const & image, MaybeOptional< Vec3 > const & P, MaybeOptional< Float > const & refZ, MaybeOptional< Vec2 > const & dPdx, MaybeOptional< Vec2 > const & dPdy, MaybeOptional< IVec2 > const & offset );
+	SDW_API MaybeOptional< Float > textureProjGradOffset( MaybeOptional< SampledImage2DShadowR16 > const & image, MaybeOptional< Vec3 > const & P, MaybeOptional< Float > const & refZ, MaybeOptional< Vec2 > const & dPdx, MaybeOptional< Vec2 > const & dPdy, MaybeOptional< IVec2 > const & offset );
 	/**@}*/
 #pragma endregion
 #pragma region textureGather

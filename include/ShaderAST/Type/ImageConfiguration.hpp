@@ -115,6 +115,12 @@ namespace ast::type
 			|| format == ImageFormat::eR8u;
 	}
 
+	inline constexpr bool isSingleInt32Format( ImageFormat format )
+	{
+		return format == ImageFormat::eR32i
+			|| format == ImageFormat::eR32u;
+	}
+
 	struct ImageConfiguration
 	{
 		ImageConfiguration( type::Kind sampledType = type::Kind::eFloat

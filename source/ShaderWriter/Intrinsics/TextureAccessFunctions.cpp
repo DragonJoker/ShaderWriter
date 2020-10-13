@@ -11898,13 +11898,13 @@ namespace sdw
 				, makeExpr( P )
 				, makeExpr( refZ ) ) };
 	}
-	MaybeOptional< Half > texture( MaybeOptional< SampledImage1DShadowR16 > const & image
+	MaybeOptional< Float > texture( MaybeOptional< SampledImage1DShadowR16 > const & image
 		, MaybeOptional< Float > const & P
 		, MaybeOptional< Float > const & refZ )
 	{
 		if ( isAnyOptional( image, P, refZ ) )
 		{
-			return Optional< Half >{ findShader( image, P, refZ )
+			return Optional< Float >{ findShader( image, P, refZ )
 				, expr::makeTexture1DShadowFR16( findTypesCache( image, P, refZ )
 					, makeExpr( image )
 					, makeExpr( P )
@@ -11912,7 +11912,7 @@ namespace sdw
 				, areOptionalEnabled( image, P, refZ ) };
 		}
 
-		return Half{ findShader( image, P, refZ )
+		return Float{ findShader( image, P, refZ )
 			, expr::makeTexture1DShadowFR16( findTypesCache( image, P, refZ )
 				, makeExpr( image )
 				, makeExpr( P )
@@ -11938,13 +11938,13 @@ namespace sdw
 				, makeExpr( P )
 				, makeExpr( refZ ) ) };
 	}
-	MaybeOptional< Half > texture( MaybeOptional< SampledImage2DShadowR16 > const & image
+	MaybeOptional< Float > texture( MaybeOptional< SampledImage2DShadowR16 > const & image
 		, MaybeOptional< Vec2 > const & P
 		, MaybeOptional< Float > const & refZ )
 	{
 		if ( isAnyOptional( image, P, refZ ) )
 		{
-			return Optional< Half >{ findShader( image, P, refZ )
+			return Optional< Float >{ findShader( image, P, refZ )
 				, expr::makeTexture2DShadowFR16( findTypesCache( image, P, refZ )
 					, makeExpr( image )
 					, makeExpr( P )
@@ -11952,7 +11952,7 @@ namespace sdw
 				, areOptionalEnabled( image, P, refZ ) };
 		}
 
-		return Half{ findShader( image, P, refZ )
+		return Float{ findShader( image, P, refZ )
 			, expr::makeTexture2DShadowFR16( findTypesCache( image, P, refZ )
 				, makeExpr( image )
 				, makeExpr( P )
@@ -11978,13 +11978,13 @@ namespace sdw
 				, makeExpr( P )
 				, makeExpr( refZ ) ) };
 	}
-	MaybeOptional< Half > texture( MaybeOptional< SampledImageCubeShadowR16 > const & image
+	MaybeOptional< Float > texture( MaybeOptional< SampledImageCubeShadowR16 > const & image
 		, MaybeOptional< Vec3 > const & P
 		, MaybeOptional< Float > const & refZ )
 	{
 		if ( isAnyOptional( image, P, refZ ) )
 		{
-			return Optional< Half >{ findShader( image, P, refZ )
+			return Optional< Float >{ findShader( image, P, refZ )
 				, expr::makeTextureCubeShadowFR16( findTypesCache( image, P, refZ )
 					, makeExpr( image )
 					, makeExpr( P )
@@ -11992,7 +11992,7 @@ namespace sdw
 				, areOptionalEnabled( image, P, refZ ) };
 		}
 
-		return Half{ findShader( image, P, refZ )
+		return Float{ findShader( image, P, refZ )
 			, expr::makeTextureCubeShadowFR16( findTypesCache( image, P, refZ )
 				, makeExpr( image )
 				, makeExpr( P )
@@ -12018,13 +12018,13 @@ namespace sdw
 				, makeExpr( P )
 				, makeExpr( refZ ) ) };
 	}
-	MaybeOptional< Half > texture( MaybeOptional< SampledImage1DArrayShadowR16 > const & image
+	MaybeOptional< Float > texture( MaybeOptional< SampledImage1DArrayShadowR16 > const & image
 		, MaybeOptional< Vec2 > const & P
 		, MaybeOptional< Float > const & refZ )
 	{
 		if ( isAnyOptional( image, P, refZ ) )
 		{
-			return Optional< Half >{ findShader( image, P, refZ )
+			return Optional< Float >{ findShader( image, P, refZ )
 				, expr::makeTexture1DArrayShadowFR16( findTypesCache( image, P, refZ )
 					, makeExpr( image )
 					, makeExpr( P )
@@ -12032,7 +12032,7 @@ namespace sdw
 				, areOptionalEnabled( image, P, refZ ) };
 		}
 
-		return Half{ findShader( image, P, refZ )
+		return Float{ findShader( image, P, refZ )
 			, expr::makeTexture1DArrayShadowFR16( findTypesCache( image, P, refZ )
 				, makeExpr( image )
 				, makeExpr( P )
@@ -12058,13 +12058,13 @@ namespace sdw
 				, makeExpr( P )
 				, makeExpr( refZ ) ) };
 	}
-	MaybeOptional< Half > texture( MaybeOptional< SampledImage2DArrayShadowR16 > const & image
+	MaybeOptional< Float > texture( MaybeOptional< SampledImage2DArrayShadowR16 > const & image
 		, MaybeOptional< Vec3 > const & P
 		, MaybeOptional< Float > const & refZ )
 	{
 		if ( isAnyOptional( image, P, refZ ) )
 		{
-			return Optional< Half >{ findShader( image, P, refZ )
+			return Optional< Float >{ findShader( image, P, refZ )
 				, expr::makeTexture2DArrayShadowFR16( findTypesCache( image, P, refZ )
 					, makeExpr( image )
 					, makeExpr( P )
@@ -12072,7 +12072,7 @@ namespace sdw
 				, areOptionalEnabled( image, P, refZ ) };
 		}
 
-		return Half{ findShader( image, P, refZ )
+		return Float{ findShader( image, P, refZ )
 			, expr::makeTexture2DArrayShadowFR16( findTypesCache( image, P, refZ )
 				, makeExpr( image )
 				, makeExpr( P )
@@ -12098,13 +12098,13 @@ namespace sdw
 				, makeExpr( P )
 				, makeExpr( refZ ) ) };
 	}
-	MaybeOptional< Half > texture( MaybeOptional< SampledImageCubeArrayShadowR16 > const & image
+	MaybeOptional< Float > texture( MaybeOptional< SampledImageCubeArrayShadowR16 > const & image
 		, MaybeOptional< Vec4 > const & P
 		, MaybeOptional< Float > const & refZ )
 	{
 		if ( isAnyOptional( image, P, refZ ) )
 		{
-			return Optional< Half >{ findShader( image, P, refZ )
+			return Optional< Float >{ findShader( image, P, refZ )
 				, expr::makeTextureCubeArrayShadowFR16( findTypesCache( image, P, refZ )
 					, makeExpr( image )
 					, makeExpr( P )
@@ -12112,7 +12112,7 @@ namespace sdw
 				, areOptionalEnabled( image, P, refZ ) };
 		}
 
-		return Half{ findShader( image, P, refZ )
+		return Float{ findShader( image, P, refZ )
 			, expr::makeTextureCubeArrayShadowFR16( findTypesCache( image, P, refZ )
 				, makeExpr( image )
 				, makeExpr( P )
@@ -15509,14 +15509,14 @@ namespace sdw
 				, makeExpr( refZ )
 				, makeExpr( bias ) ) };
 	}
-	MaybeOptional< Half > texture( MaybeOptional< SampledImage1DShadowR16 > const & image
+	MaybeOptional< Float > texture( MaybeOptional< SampledImage1DShadowR16 > const & image
 		, MaybeOptional< Float > const & P
 		, MaybeOptional< Float > const & refZ
 		, MaybeOptional< Float > const & bias )
 	{
 		if ( isAnyOptional( image, P, refZ, bias ) )
 		{
-			return Optional< Half >{ findShader( image, P, refZ, bias )
+			return Optional< Float >{ findShader( image, P, refZ, bias )
 				, expr::makeTexture1DShadowFBiasR16( findTypesCache( image, P, refZ, bias )
 					, makeExpr( image )
 					, makeExpr( P )
@@ -15525,7 +15525,7 @@ namespace sdw
 				, areOptionalEnabled( image, P, refZ, bias ) };
 		}
 
-		return Half{ findShader( image, P, refZ, bias )
+		return Float{ findShader( image, P, refZ, bias )
 			, expr::makeTexture1DShadowFBiasR16( findTypesCache( image, P, refZ, bias )
 				, makeExpr( image )
 				, makeExpr( P )
@@ -15555,14 +15555,14 @@ namespace sdw
 				, makeExpr( refZ )
 				, makeExpr( bias ) ) };
 	}
-	MaybeOptional< Half > texture( MaybeOptional< SampledImage2DShadowR16 > const & image
+	MaybeOptional< Float > texture( MaybeOptional< SampledImage2DShadowR16 > const & image
 		, MaybeOptional< Vec2 > const & P
 		, MaybeOptional< Float > const & refZ
 		, MaybeOptional< Float > const & bias )
 	{
 		if ( isAnyOptional( image, P, refZ, bias ) )
 		{
-			return Optional< Half >{ findShader( image, P, refZ, bias )
+			return Optional< Float >{ findShader( image, P, refZ, bias )
 				, expr::makeTexture2DShadowFBiasR16( findTypesCache( image, P, refZ, bias )
 					, makeExpr( image )
 					, makeExpr( P )
@@ -15571,7 +15571,7 @@ namespace sdw
 				, areOptionalEnabled( image, P, refZ, bias ) };
 		}
 
-		return Half{ findShader( image, P, refZ, bias )
+		return Float{ findShader( image, P, refZ, bias )
 			, expr::makeTexture2DShadowFBiasR16( findTypesCache( image, P, refZ, bias )
 				, makeExpr( image )
 				, makeExpr( P )
@@ -15601,14 +15601,14 @@ namespace sdw
 				, makeExpr( refZ )
 				, makeExpr( bias ) ) };
 	}
-	MaybeOptional< Half > texture( MaybeOptional< SampledImageCubeShadowR16 > const & image
+	MaybeOptional< Float > texture( MaybeOptional< SampledImageCubeShadowR16 > const & image
 		, MaybeOptional< Vec3 > const & P
 		, MaybeOptional< Float > const & refZ
 		, MaybeOptional< Float > const & bias )
 	{
 		if ( isAnyOptional( image, P, refZ, bias ) )
 		{
-			return Optional< Half >{ findShader( image, P, refZ, bias )
+			return Optional< Float >{ findShader( image, P, refZ, bias )
 				, expr::makeTextureCubeShadowFBiasR16( findTypesCache( image, P, refZ, bias )
 					, makeExpr( image )
 					, makeExpr( P )
@@ -15617,7 +15617,7 @@ namespace sdw
 				, areOptionalEnabled( image, P, refZ, bias ) };
 		}
 
-		return Half{ findShader( image, P, refZ, bias )
+		return Float{ findShader( image, P, refZ, bias )
 			, expr::makeTextureCubeShadowFBiasR16( findTypesCache( image, P, refZ, bias )
 				, makeExpr( image )
 				, makeExpr( P )
@@ -15647,14 +15647,14 @@ namespace sdw
 				, makeExpr( refZ )
 				, makeExpr( bias ) ) };
 	}
-	MaybeOptional< Half > texture( MaybeOptional< SampledImage1DArrayShadowR16 > const & image
+	MaybeOptional< Float > texture( MaybeOptional< SampledImage1DArrayShadowR16 > const & image
 		, MaybeOptional< Vec2 > const & P
 		, MaybeOptional< Float > const & refZ
 		, MaybeOptional< Float > const & bias )
 	{
 		if ( isAnyOptional( image, P, refZ, bias ) )
 		{
-			return Optional< Half >{ findShader( image, P, refZ, bias )
+			return Optional< Float >{ findShader( image, P, refZ, bias )
 				, expr::makeTexture1DArrayShadowFBiasR16( findTypesCache( image, P, refZ, bias )
 					, makeExpr( image )
 					, makeExpr( P )
@@ -15663,7 +15663,7 @@ namespace sdw
 				, areOptionalEnabled( image, P, refZ, bias ) };
 		}
 
-		return Half{ findShader( image, P, refZ, bias )
+		return Float{ findShader( image, P, refZ, bias )
 			, expr::makeTexture1DArrayShadowFBiasR16( findTypesCache( image, P, refZ, bias )
 				, makeExpr( image )
 				, makeExpr( P )
@@ -17738,13 +17738,13 @@ namespace sdw
 				, makeExpr( P )
 				, makeExpr( refZ ) ) };
 	}
-	MaybeOptional< Half > textureProj( MaybeOptional< SampledImage1DShadowR16 > const & image
+	MaybeOptional< Float > textureProj( MaybeOptional< SampledImage1DShadowR16 > const & image
 		, MaybeOptional< Vec2 > const & P
 		, MaybeOptional< Float > const & refZ )
 	{
 		if ( isAnyOptional( image, P, refZ ) )
 		{
-			return Optional< Half >{ findShader( image, P, refZ )
+			return Optional< Float >{ findShader( image, P, refZ )
 				, expr::makeTextureProj1DShadowFR16( findTypesCache( image, P, refZ )
 					, makeExpr( image )
 					, makeExpr( P )
@@ -17752,7 +17752,7 @@ namespace sdw
 				, areOptionalEnabled( image, P, refZ ) };
 		}
 
-		return Half{ findShader( image, P, refZ )
+		return Float{ findShader( image, P, refZ )
 			, expr::makeTextureProj1DShadowFR16( findTypesCache( image, P, refZ )
 				, makeExpr( image )
 				, makeExpr( P )
@@ -17778,13 +17778,13 @@ namespace sdw
 				, makeExpr( P )
 				, makeExpr( refZ ) ) };
 	}
-	MaybeOptional< Half > textureProj( MaybeOptional< SampledImage2DShadowR16 > const & image
+	MaybeOptional< Float > textureProj( MaybeOptional< SampledImage2DShadowR16 > const & image
 		, MaybeOptional< Vec3 > const & P
 		, MaybeOptional< Float > const & refZ )
 	{
 		if ( isAnyOptional( image, P, refZ ) )
 		{
-			return Optional< Half >{ findShader( image, P, refZ )
+			return Optional< Float >{ findShader( image, P, refZ )
 				, expr::makeTextureProj2DShadowFR16( findTypesCache( image, P, refZ )
 					, makeExpr( image )
 					, makeExpr( P )
@@ -17792,7 +17792,7 @@ namespace sdw
 				, areOptionalEnabled( image, P, refZ ) };
 		}
 
-		return Half{ findShader( image, P, refZ )
+		return Float{ findShader( image, P, refZ )
 			, expr::makeTextureProj2DShadowFR16( findTypesCache( image, P, refZ )
 				, makeExpr( image )
 				, makeExpr( P )
@@ -20229,14 +20229,14 @@ namespace sdw
 				, makeExpr( refZ )
 				, makeExpr( bias ) ) };
 	}
-	MaybeOptional< Half > textureProj( MaybeOptional< SampledImage1DShadowR16 > const & image
+	MaybeOptional< Float > textureProj( MaybeOptional< SampledImage1DShadowR16 > const & image
 		, MaybeOptional< Vec2 > const & P
 		, MaybeOptional< Float > const & refZ
 		, MaybeOptional< Float > const & bias )
 	{
 		if ( isAnyOptional( image, P, refZ, bias ) )
 		{
-			return Optional< Half >{ findShader( image, P, refZ, bias )
+			return Optional< Float >{ findShader( image, P, refZ, bias )
 				, expr::makeTextureProj1DShadowFBiasR16( findTypesCache( image, P, refZ, bias )
 					, makeExpr( image )
 					, makeExpr( P )
@@ -20245,7 +20245,7 @@ namespace sdw
 				, areOptionalEnabled( image, P, refZ, bias ) };
 		}
 
-		return Half{ findShader( image, P, refZ, bias )
+		return Float{ findShader( image, P, refZ, bias )
 			, expr::makeTextureProj1DShadowFBiasR16( findTypesCache( image, P, refZ, bias )
 				, makeExpr( image )
 				, makeExpr( P )
@@ -20275,14 +20275,14 @@ namespace sdw
 				, makeExpr( refZ )
 				, makeExpr( bias ) ) };
 	}
-	MaybeOptional< Half > textureProj( MaybeOptional< SampledImage2DShadowR16 > const & image
+	MaybeOptional< Float > textureProj( MaybeOptional< SampledImage2DShadowR16 > const & image
 		, MaybeOptional< Vec3 > const & P
 		, MaybeOptional< Float > const & refZ
 		, MaybeOptional< Float > const & bias )
 	{
 		if ( isAnyOptional( image, P, refZ, bias ) )
 		{
-			return Optional< Half >{ findShader( image, P, refZ, bias )
+			return Optional< Float >{ findShader( image, P, refZ, bias )
 				, expr::makeTextureProj2DShadowFBiasR16( findTypesCache( image, P, refZ, bias )
 					, makeExpr( image )
 					, makeExpr( P )
@@ -20291,7 +20291,7 @@ namespace sdw
 				, areOptionalEnabled( image, P, refZ, bias ) };
 		}
 
-		return Half{ findShader( image, P, refZ, bias )
+		return Float{ findShader( image, P, refZ, bias )
 			, expr::makeTextureProj2DShadowFBiasR16( findTypesCache( image, P, refZ, bias )
 				, makeExpr( image )
 				, makeExpr( P )
@@ -23689,14 +23689,14 @@ namespace sdw
 				, makeExpr( refZ )
 				, makeExpr( lod ) ) };
 	}
-	MaybeOptional< Half > textureLod( MaybeOptional< SampledImage1DShadowR16 > const & image
+	MaybeOptional< Float > textureLod( MaybeOptional< SampledImage1DShadowR16 > const & image
 		, MaybeOptional< Float > const & P
 		, MaybeOptional< Float > const & refZ
 		, MaybeOptional< Float > const & lod )
 	{
 		if ( isAnyOptional( image, P, refZ, lod ) )
 		{
-			return Optional< Half >{ findShader( image, P, refZ, lod )
+			return Optional< Float >{ findShader( image, P, refZ, lod )
 				, expr::makeTextureLod1DShadowFR16( findTypesCache( image, P, refZ, lod )
 					, makeExpr( image )
 					, makeExpr( P )
@@ -23705,7 +23705,7 @@ namespace sdw
 				, areOptionalEnabled( image, P, refZ, lod ) };
 		}
 
-		return Half{ findShader( image, P, refZ, lod )
+		return Float{ findShader( image, P, refZ, lod )
 			, expr::makeTextureLod1DShadowFR16( findTypesCache( image, P, refZ, lod )
 				, makeExpr( image )
 				, makeExpr( P )
@@ -23735,14 +23735,14 @@ namespace sdw
 				, makeExpr( refZ )
 				, makeExpr( lod ) ) };
 	}
-	MaybeOptional< Half > textureLod( MaybeOptional< SampledImage2DShadowR16 > const & image
+	MaybeOptional< Float > textureLod( MaybeOptional< SampledImage2DShadowR16 > const & image
 		, MaybeOptional< Vec2 > const & P
 		, MaybeOptional< Float > const & refZ
 		, MaybeOptional< Float > const & lod )
 	{
 		if ( isAnyOptional( image, P, refZ, lod ) )
 		{
-			return Optional< Half >{ findShader( image, P, refZ, lod )
+			return Optional< Float >{ findShader( image, P, refZ, lod )
 				, expr::makeTextureLod2DShadowFR16( findTypesCache( image, P, refZ, lod )
 					, makeExpr( image )
 					, makeExpr( P )
@@ -23751,7 +23751,7 @@ namespace sdw
 				, areOptionalEnabled( image, P, refZ, lod ) };
 		}
 
-		return Half{ findShader( image, P, refZ, lod )
+		return Float{ findShader( image, P, refZ, lod )
 			, expr::makeTextureLod2DShadowFR16( findTypesCache( image, P, refZ, lod )
 				, makeExpr( image )
 				, makeExpr( P )
@@ -23781,14 +23781,14 @@ namespace sdw
 				, makeExpr( refZ )
 				, makeExpr( lod ) ) };
 	}
-	MaybeOptional< Half > textureLod( MaybeOptional< SampledImage1DArrayShadowR16 > const & image
+	MaybeOptional< Float > textureLod( MaybeOptional< SampledImage1DArrayShadowR16 > const & image
 		, MaybeOptional< Vec2 > const & P
 		, MaybeOptional< Float > const & refZ
 		, MaybeOptional< Float > const & lod )
 	{
 		if ( isAnyOptional( image, P, refZ, lod ) )
 		{
-			return Optional< Half >{ findShader( image, P, refZ, lod )
+			return Optional< Float >{ findShader( image, P, refZ, lod )
 				, expr::makeTextureLod1DArrayShadowFR16( findTypesCache( image, P, refZ, lod )
 					, makeExpr( image )
 					, makeExpr( P )
@@ -23797,7 +23797,7 @@ namespace sdw
 				, areOptionalEnabled( image, P, refZ, lod ) };
 		}
 
-		return Half{ findShader( image, P, refZ, lod )
+		return Float{ findShader( image, P, refZ, lod )
 			, expr::makeTextureLod1DArrayShadowFR16( findTypesCache( image, P, refZ, lod )
 				, makeExpr( image )
 				, makeExpr( P )
@@ -26235,14 +26235,14 @@ namespace sdw
 				, makeExpr( refZ )
 				, makeExpr( offset ) ) };
 	}
-	MaybeOptional< Half > textureOffset( MaybeOptional< SampledImage1DShadowR16 > const & image
+	MaybeOptional< Float > textureOffset( MaybeOptional< SampledImage1DShadowR16 > const & image
 		, MaybeOptional< Float > const & P
 		, MaybeOptional< Float > const & refZ
 		, MaybeOptional< Int > const & offset )
 	{
 		if ( isAnyOptional( image, P, refZ, offset ) )
 		{
-			return Optional< Half >{ findShader( image, P, refZ, offset )
+			return Optional< Float >{ findShader( image, P, refZ, offset )
 				, expr::makeTextureOffset1DShadowFR16( findTypesCache( image, P, refZ, offset )
 					, makeExpr( image )
 					, makeExpr( P )
@@ -26251,7 +26251,7 @@ namespace sdw
 				, areOptionalEnabled( image, P, refZ, offset ) };
 		}
 
-		return Half{ findShader( image, P, refZ, offset )
+		return Float{ findShader( image, P, refZ, offset )
 			, expr::makeTextureOffset1DShadowFR16( findTypesCache( image, P, refZ, offset )
 				, makeExpr( image )
 				, makeExpr( P )
@@ -26281,14 +26281,14 @@ namespace sdw
 				, makeExpr( refZ )
 				, makeExpr( offset ) ) };
 	}
-	MaybeOptional< Half > textureOffset( MaybeOptional< SampledImage2DShadowR16 > const & image
+	MaybeOptional< Float > textureOffset( MaybeOptional< SampledImage2DShadowR16 > const & image
 		, MaybeOptional< Vec2 > const & P
 		, MaybeOptional< Float > const & refZ
 		, MaybeOptional< IVec2 > const & offset )
 	{
 		if ( isAnyOptional( image, P, refZ, offset ) )
 		{
-			return Optional< Half >{ findShader( image, P, refZ, offset )
+			return Optional< Float >{ findShader( image, P, refZ, offset )
 				, expr::makeTextureOffset2DShadowFR16( findTypesCache( image, P, refZ, offset )
 					, makeExpr( image )
 					, makeExpr( P )
@@ -26297,7 +26297,7 @@ namespace sdw
 				, areOptionalEnabled( image, P, refZ, offset ) };
 		}
 
-		return Half{ findShader( image, P, refZ, offset )
+		return Float{ findShader( image, P, refZ, offset )
 			, expr::makeTextureOffset2DShadowFR16( findTypesCache( image, P, refZ, offset )
 				, makeExpr( image )
 				, makeExpr( P )
@@ -26327,14 +26327,14 @@ namespace sdw
 				, makeExpr( refZ )
 				, makeExpr( offset ) ) };
 	}
-	MaybeOptional< Half > textureOffset( MaybeOptional< SampledImage1DArrayShadowR16 > const & image
+	MaybeOptional< Float > textureOffset( MaybeOptional< SampledImage1DArrayShadowR16 > const & image
 		, MaybeOptional< Vec2 > const & P
 		, MaybeOptional< Float > const & refZ
 		, MaybeOptional< Int > const & offset )
 	{
 		if ( isAnyOptional( image, P, refZ, offset ) )
 		{
-			return Optional< Half >{ findShader( image, P, refZ, offset )
+			return Optional< Float >{ findShader( image, P, refZ, offset )
 				, expr::makeTextureOffset1DArrayShadowFR16( findTypesCache( image, P, refZ, offset )
 					, makeExpr( image )
 					, makeExpr( P )
@@ -26343,7 +26343,7 @@ namespace sdw
 				, areOptionalEnabled( image, P, refZ, offset ) };
 		}
 
-		return Half{ findShader( image, P, refZ, offset )
+		return Float{ findShader( image, P, refZ, offset )
 			, expr::makeTextureOffset1DArrayShadowFR16( findTypesCache( image, P, refZ, offset )
 				, makeExpr( image )
 				, makeExpr( P )
@@ -26373,14 +26373,14 @@ namespace sdw
 				, makeExpr( refZ )
 				, makeExpr( offset ) ) };
 	}
-	MaybeOptional< Half > textureOffset( MaybeOptional< SampledImage2DArrayShadowR16 > const & image
+	MaybeOptional< Float > textureOffset( MaybeOptional< SampledImage2DArrayShadowR16 > const & image
 		, MaybeOptional< Vec3 > const & P
 		, MaybeOptional< Float > const & refZ
 		, MaybeOptional< IVec2 > const & offset )
 	{
 		if ( isAnyOptional( image, P, refZ, offset ) )
 		{
-			return Optional< Half >{ findShader( image, P, refZ, offset )
+			return Optional< Float >{ findShader( image, P, refZ, offset )
 				, expr::makeTextureOffset2DArrayShadowFR16( findTypesCache( image, P, refZ, offset )
 					, makeExpr( image )
 					, makeExpr( P )
@@ -26389,7 +26389,7 @@ namespace sdw
 				, areOptionalEnabled( image, P, refZ, offset ) };
 		}
 
-		return Half{ findShader( image, P, refZ, offset )
+		return Float{ findShader( image, P, refZ, offset )
 			, expr::makeTextureOffset2DArrayShadowFR16( findTypesCache( image, P, refZ, offset )
 				, makeExpr( image )
 				, makeExpr( P )
@@ -29190,7 +29190,7 @@ namespace sdw
 				, makeExpr( offset )
 				, makeExpr( bias ) ) };
 	}
-	MaybeOptional< Half > textureOffset( MaybeOptional< SampledImage1DShadowR16 > const & image
+	MaybeOptional< Float > textureOffset( MaybeOptional< SampledImage1DShadowR16 > const & image
 		, MaybeOptional< Float > const & P
 		, MaybeOptional< Float > const & refZ
 		, MaybeOptional< Int > const & offset
@@ -29198,7 +29198,7 @@ namespace sdw
 	{
 		if ( isAnyOptional( image, P, refZ, offset, bias ) )
 		{
-			return Optional< Half >{ findShader( image, P, refZ, offset, bias )
+			return Optional< Float >{ findShader( image, P, refZ, offset, bias )
 				, expr::makeTextureOffset1DShadowFBiasR16( findTypesCache( image, P, refZ, offset, bias )
 					, makeExpr( image )
 					, makeExpr( P )
@@ -29208,7 +29208,7 @@ namespace sdw
 				, areOptionalEnabled( image, P, refZ, offset, bias ) };
 		}
 
-		return Half{ findShader( image, P, refZ, offset, bias )
+		return Float{ findShader( image, P, refZ, offset, bias )
 			, expr::makeTextureOffset1DShadowFBiasR16( findTypesCache( image, P, refZ, offset, bias )
 				, makeExpr( image )
 				, makeExpr( P )
@@ -29242,7 +29242,7 @@ namespace sdw
 				, makeExpr( offset )
 				, makeExpr( bias ) ) };
 	}
-	MaybeOptional< Half > textureOffset( MaybeOptional< SampledImage2DShadowR16 > const & image
+	MaybeOptional< Float > textureOffset( MaybeOptional< SampledImage2DShadowR16 > const & image
 		, MaybeOptional< Vec2 > const & P
 		, MaybeOptional< Float > const & refZ
 		, MaybeOptional< IVec2 > const & offset
@@ -29250,7 +29250,7 @@ namespace sdw
 	{
 		if ( isAnyOptional( image, P, refZ, offset, bias ) )
 		{
-			return Optional< Half >{ findShader( image, P, refZ, offset, bias )
+			return Optional< Float >{ findShader( image, P, refZ, offset, bias )
 				, expr::makeTextureOffset2DShadowFBiasR16( findTypesCache( image, P, refZ, offset, bias )
 					, makeExpr( image )
 					, makeExpr( P )
@@ -29260,7 +29260,7 @@ namespace sdw
 				, areOptionalEnabled( image, P, refZ, offset, bias ) };
 		}
 
-		return Half{ findShader( image, P, refZ, offset, bias )
+		return Float{ findShader( image, P, refZ, offset, bias )
 			, expr::makeTextureOffset2DShadowFBiasR16( findTypesCache( image, P, refZ, offset, bias )
 				, makeExpr( image )
 				, makeExpr( P )
@@ -37283,14 +37283,14 @@ namespace sdw
 				, makeExpr( refZ )
 				, makeExpr( offset ) ) };
 	}
-	MaybeOptional< Half > textureProjOffset( MaybeOptional< SampledImage1DShadowR16 > const & image
+	MaybeOptional< Float > textureProjOffset( MaybeOptional< SampledImage1DShadowR16 > const & image
 		, MaybeOptional< Vec2 > const & P
 		, MaybeOptional< Float > const & refZ
 		, MaybeOptional< Int > const & offset )
 	{
 		if ( isAnyOptional( image, P, refZ, offset ) )
 		{
-			return Optional< Half >{ findShader( image, P, refZ, offset )
+			return Optional< Float >{ findShader( image, P, refZ, offset )
 				, expr::makeTextureProjOffset1DShadowFR16( findTypesCache( image, P, refZ, offset )
 					, makeExpr( image )
 					, makeExpr( P )
@@ -37299,7 +37299,7 @@ namespace sdw
 				, areOptionalEnabled( image, P, refZ, offset ) };
 		}
 
-		return Half{ findShader( image, P, refZ, offset )
+		return Float{ findShader( image, P, refZ, offset )
 			, expr::makeTextureProjOffset1DShadowFR16( findTypesCache( image, P, refZ, offset )
 				, makeExpr( image )
 				, makeExpr( P )
@@ -37329,14 +37329,14 @@ namespace sdw
 				, makeExpr( refZ )
 				, makeExpr( offset ) ) };
 	}
-	MaybeOptional< Half > textureProjOffset( MaybeOptional< SampledImage2DShadowR16 > const & image
+	MaybeOptional< Float > textureProjOffset( MaybeOptional< SampledImage2DShadowR16 > const & image
 		, MaybeOptional< Vec3 > const & P
 		, MaybeOptional< Float > const & refZ
 		, MaybeOptional< IVec2 > const & offset )
 	{
 		if ( isAnyOptional( image, P, refZ, offset ) )
 		{
-			return Optional< Half >{ findShader( image, P, refZ, offset )
+			return Optional< Float >{ findShader( image, P, refZ, offset )
 				, expr::makeTextureProjOffset2DShadowFR16( findTypesCache( image, P, refZ, offset )
 					, makeExpr( image )
 					, makeExpr( P )
@@ -37345,7 +37345,7 @@ namespace sdw
 				, areOptionalEnabled( image, P, refZ, offset ) };
 		}
 
-		return Half{ findShader( image, P, refZ, offset )
+		return Float{ findShader( image, P, refZ, offset )
 			, expr::makeTextureProjOffset2DShadowFR16( findTypesCache( image, P, refZ, offset )
 				, makeExpr( image )
 				, makeExpr( P )
@@ -40146,7 +40146,7 @@ namespace sdw
 				, makeExpr( offset )
 				, makeExpr( bias ) ) };
 	}
-	MaybeOptional< Half > textureProjOffset( MaybeOptional< SampledImage1DShadowR16 > const & image
+	MaybeOptional< Float > textureProjOffset( MaybeOptional< SampledImage1DShadowR16 > const & image
 		, MaybeOptional< Vec2 > const & P
 		, MaybeOptional< Float > const & refZ
 		, MaybeOptional< Int > const & offset
@@ -40154,7 +40154,7 @@ namespace sdw
 	{
 		if ( isAnyOptional( image, P, refZ, offset, bias ) )
 		{
-			return Optional< Half >{ findShader( image, P, refZ, offset, bias )
+			return Optional< Float >{ findShader( image, P, refZ, offset, bias )
 				, expr::makeTextureProjOffset1DShadowFBiasR16( findTypesCache( image, P, refZ, offset, bias )
 					, makeExpr( image )
 					, makeExpr( P )
@@ -40164,7 +40164,7 @@ namespace sdw
 				, areOptionalEnabled( image, P, refZ, offset, bias ) };
 		}
 
-		return Half{ findShader( image, P, refZ, offset, bias )
+		return Float{ findShader( image, P, refZ, offset, bias )
 			, expr::makeTextureProjOffset1DShadowFBiasR16( findTypesCache( image, P, refZ, offset, bias )
 				, makeExpr( image )
 				, makeExpr( P )
@@ -40198,7 +40198,7 @@ namespace sdw
 				, makeExpr( offset )
 				, makeExpr( bias ) ) };
 	}
-	MaybeOptional< Half > textureProjOffset( MaybeOptional< SampledImage2DShadowR16 > const & image
+	MaybeOptional< Float > textureProjOffset( MaybeOptional< SampledImage2DShadowR16 > const & image
 		, MaybeOptional< Vec3 > const & P
 		, MaybeOptional< Float > const & refZ
 		, MaybeOptional< IVec2 > const & offset
@@ -40206,7 +40206,7 @@ namespace sdw
 	{
 		if ( isAnyOptional( image, P, refZ, offset, bias ) )
 		{
-			return Optional< Half >{ findShader( image, P, refZ, offset, bias )
+			return Optional< Float >{ findShader( image, P, refZ, offset, bias )
 				, expr::makeTextureProjOffset2DShadowFBiasR16( findTypesCache( image, P, refZ, offset, bias )
 					, makeExpr( image )
 					, makeExpr( P )
@@ -40216,7 +40216,7 @@ namespace sdw
 				, areOptionalEnabled( image, P, refZ, offset, bias ) };
 		}
 
-		return Half{ findShader( image, P, refZ, offset, bias )
+		return Float{ findShader( image, P, refZ, offset, bias )
 			, expr::makeTextureProjOffset2DShadowFBiasR16( findTypesCache( image, P, refZ, offset, bias )
 				, makeExpr( image )
 				, makeExpr( P )
@@ -43018,7 +43018,7 @@ namespace sdw
 				, makeExpr( lod )
 				, makeExpr( offset ) ) };
 	}
-	MaybeOptional< Half > textureLodOffset( MaybeOptional< SampledImage1DShadowR16 > const & image
+	MaybeOptional< Float > textureLodOffset( MaybeOptional< SampledImage1DShadowR16 > const & image
 		, MaybeOptional< Float > const & P
 		, MaybeOptional< Float > const & refZ
 		, MaybeOptional< Float > const & lod
@@ -43026,7 +43026,7 @@ namespace sdw
 	{
 		if ( isAnyOptional( image, P, refZ, lod, offset ) )
 		{
-			return Optional< Half >{ findShader( image, P, refZ, lod, offset )
+			return Optional< Float >{ findShader( image, P, refZ, lod, offset )
 				, expr::makeTextureLodOffset1DShadowFR16( findTypesCache( image, P, refZ, lod, offset )
 					, makeExpr( image )
 					, makeExpr( P )
@@ -43036,7 +43036,7 @@ namespace sdw
 				, areOptionalEnabled( image, P, refZ, lod, offset ) };
 		}
 
-		return Half{ findShader( image, P, refZ, lod, offset )
+		return Float{ findShader( image, P, refZ, lod, offset )
 			, expr::makeTextureLodOffset1DShadowFR16( findTypesCache( image, P, refZ, lod, offset )
 				, makeExpr( image )
 				, makeExpr( P )
@@ -43070,7 +43070,7 @@ namespace sdw
 				, makeExpr( lod )
 				, makeExpr( offset ) ) };
 	}
-	MaybeOptional< Half > textureLodOffset( MaybeOptional< SampledImage2DShadowR16 > const & image
+	MaybeOptional< Float > textureLodOffset( MaybeOptional< SampledImage2DShadowR16 > const & image
 		, MaybeOptional< Vec2 > const & P
 		, MaybeOptional< Float > const & refZ
 		, MaybeOptional< Float > const & lod
@@ -43078,7 +43078,7 @@ namespace sdw
 	{
 		if ( isAnyOptional( image, P, refZ, lod, offset ) )
 		{
-			return Optional< Half >{ findShader( image, P, refZ, lod, offset )
+			return Optional< Float >{ findShader( image, P, refZ, lod, offset )
 				, expr::makeTextureLodOffset2DShadowFR16( findTypesCache( image, P, refZ, lod, offset )
 					, makeExpr( image )
 					, makeExpr( P )
@@ -43088,7 +43088,7 @@ namespace sdw
 				, areOptionalEnabled( image, P, refZ, lod, offset ) };
 		}
 
-		return Half{ findShader( image, P, refZ, lod, offset )
+		return Float{ findShader( image, P, refZ, lod, offset )
 			, expr::makeTextureLodOffset2DShadowFR16( findTypesCache( image, P, refZ, lod, offset )
 				, makeExpr( image )
 				, makeExpr( P )
@@ -43122,7 +43122,7 @@ namespace sdw
 				, makeExpr( lod )
 				, makeExpr( offset ) ) };
 	}
-	MaybeOptional< Half > textureLodOffset( MaybeOptional< SampledImage1DArrayShadowR16 > const & image
+	MaybeOptional< Float > textureLodOffset( MaybeOptional< SampledImage1DArrayShadowR16 > const & image
 		, MaybeOptional< Vec2 > const & P
 		, MaybeOptional< Float > const & refZ
 		, MaybeOptional< Float > const & lod
@@ -43130,7 +43130,7 @@ namespace sdw
 	{
 		if ( isAnyOptional( image, P, refZ, lod, offset ) )
 		{
-			return Optional< Half >{ findShader( image, P, refZ, lod, offset )
+			return Optional< Float >{ findShader( image, P, refZ, lod, offset )
 				, expr::makeTextureLodOffset1DArrayShadowFR16( findTypesCache( image, P, refZ, lod, offset )
 					, makeExpr( image )
 					, makeExpr( P )
@@ -43140,7 +43140,7 @@ namespace sdw
 				, areOptionalEnabled( image, P, refZ, lod, offset ) };
 		}
 
-		return Half{ findShader( image, P, refZ, lod, offset )
+		return Float{ findShader( image, P, refZ, lod, offset )
 			, expr::makeTextureLodOffset1DArrayShadowFR16( findTypesCache( image, P, refZ, lod, offset )
 				, makeExpr( image )
 				, makeExpr( P )
@@ -45579,14 +45579,14 @@ namespace sdw
 				, makeExpr( refZ )
 				, makeExpr( lod ) ) };
 	}
-	MaybeOptional< Half > textureProjLod( MaybeOptional< SampledImage1DShadowR16 > const & image
+	MaybeOptional< Float > textureProjLod( MaybeOptional< SampledImage1DShadowR16 > const & image
 		, MaybeOptional< Vec2 > const & P
 		, MaybeOptional< Float > const & refZ
 		, MaybeOptional< Float > const & lod )
 	{
 		if ( isAnyOptional( image, P, refZ, lod ) )
 		{
-			return Optional< Half >{ findShader( image, P, refZ, lod )
+			return Optional< Float >{ findShader( image, P, refZ, lod )
 				, expr::makeTextureProjLod1DShadowFR16( findTypesCache( image, P, refZ, lod )
 					, makeExpr( image )
 					, makeExpr( P )
@@ -45595,7 +45595,7 @@ namespace sdw
 				, areOptionalEnabled( image, P, refZ, lod ) };
 		}
 
-		return Half{ findShader( image, P, refZ, lod )
+		return Float{ findShader( image, P, refZ, lod )
 			, expr::makeTextureProjLod1DShadowFR16( findTypesCache( image, P, refZ, lod )
 				, makeExpr( image )
 				, makeExpr( P )
@@ -45625,14 +45625,14 @@ namespace sdw
 				, makeExpr( refZ )
 				, makeExpr( lod ) ) };
 	}
-	MaybeOptional< Half > textureProjLod( MaybeOptional< SampledImage2DShadowR16 > const & image
+	MaybeOptional< Float > textureProjLod( MaybeOptional< SampledImage2DShadowR16 > const & image
 		, MaybeOptional< Vec3 > const & P
 		, MaybeOptional< Float > const & refZ
 		, MaybeOptional< Float > const & lod )
 	{
 		if ( isAnyOptional( image, P, refZ, lod ) )
 		{
-			return Optional< Half >{ findShader( image, P, refZ, lod )
+			return Optional< Float >{ findShader( image, P, refZ, lod )
 				, expr::makeTextureProjLod2DShadowFR16( findTypesCache( image, P, refZ, lod )
 					, makeExpr( image )
 					, makeExpr( P )
@@ -45641,7 +45641,7 @@ namespace sdw
 				, areOptionalEnabled( image, P, refZ, lod ) };
 		}
 
-		return Half{ findShader( image, P, refZ, lod )
+		return Float{ findShader( image, P, refZ, lod )
 			, expr::makeTextureProjLod2DShadowFR16( findTypesCache( image, P, refZ, lod )
 				, makeExpr( image )
 				, makeExpr( P )
@@ -48442,7 +48442,7 @@ namespace sdw
 				, makeExpr( lod )
 				, makeExpr( offset ) ) };
 	}
-	MaybeOptional< Half > textureProjLodOffset( MaybeOptional< SampledImage1DShadowR16 > const & image
+	MaybeOptional< Float > textureProjLodOffset( MaybeOptional< SampledImage1DShadowR16 > const & image
 		, MaybeOptional< Vec2 > const & P
 		, MaybeOptional< Float > const & refZ
 		, MaybeOptional< Float > const & lod
@@ -48450,7 +48450,7 @@ namespace sdw
 	{
 		if ( isAnyOptional( image, P, refZ, lod, offset ) )
 		{
-			return Optional< Half >{ findShader( image, P, refZ, lod, offset )
+			return Optional< Float >{ findShader( image, P, refZ, lod, offset )
 				, expr::makeTextureProjLodOffset1DShadowFR16( findTypesCache( image, P, refZ, lod, offset )
 					, makeExpr( image )
 					, makeExpr( P )
@@ -48460,7 +48460,7 @@ namespace sdw
 				, areOptionalEnabled( image, P, refZ, lod, offset ) };
 		}
 
-		return Half{ findShader( image, P, refZ, lod, offset )
+		return Float{ findShader( image, P, refZ, lod, offset )
 			, expr::makeTextureProjLodOffset1DShadowFR16( findTypesCache( image, P, refZ, lod, offset )
 				, makeExpr( image )
 				, makeExpr( P )
@@ -48494,7 +48494,7 @@ namespace sdw
 				, makeExpr( lod )
 				, makeExpr( offset ) ) };
 	}
-	MaybeOptional< Half > textureProjLodOffset( MaybeOptional< SampledImage2DShadowR16 > const & image
+	MaybeOptional< Float > textureProjLodOffset( MaybeOptional< SampledImage2DShadowR16 > const & image
 		, MaybeOptional< Vec3 > const & P
 		, MaybeOptional< Float > const & refZ
 		, MaybeOptional< Float > const & lod
@@ -48502,7 +48502,7 @@ namespace sdw
 	{
 		if ( isAnyOptional( image, P, refZ, lod, offset ) )
 		{
-			return Optional< Half >{ findShader( image, P, refZ, lod, offset )
+			return Optional< Float >{ findShader( image, P, refZ, lod, offset )
 				, expr::makeTextureProjLodOffset2DShadowFR16( findTypesCache( image, P, refZ, lod, offset )
 					, makeExpr( image )
 					, makeExpr( P )
@@ -48512,7 +48512,7 @@ namespace sdw
 				, areOptionalEnabled( image, P, refZ, lod, offset ) };
 		}
 
-		return Half{ findShader( image, P, refZ, lod, offset )
+		return Float{ findShader( image, P, refZ, lod, offset )
 			, expr::makeTextureProjLodOffset2DShadowFR16( findTypesCache( image, P, refZ, lod, offset )
 				, makeExpr( image )
 				, makeExpr( P )
@@ -52418,7 +52418,7 @@ namespace sdw
 				, makeExpr( dPdx )
 				, makeExpr( dPdy ) ) };
 	}
-	MaybeOptional< Half > textureGrad( MaybeOptional< SampledImage1DShadowR16 > const & image
+	MaybeOptional< Float > textureGrad( MaybeOptional< SampledImage1DShadowR16 > const & image
 		, MaybeOptional< Float > const & P
 		, MaybeOptional< Float > const & refZ
 		, MaybeOptional< Float > const & dPdx
@@ -52426,7 +52426,7 @@ namespace sdw
 	{
 		if ( isAnyOptional( image, P, refZ, dPdx, dPdy ) )
 		{
-			return Optional< Half >{ findShader( image, P, refZ, dPdx, dPdy )
+			return Optional< Float >{ findShader( image, P, refZ, dPdx, dPdy )
 				, expr::makeTextureGrad1DShadowFR16( findTypesCache( image, P, refZ, dPdx, dPdy )
 					, makeExpr( image )
 					, makeExpr( P )
@@ -52436,7 +52436,7 @@ namespace sdw
 				, areOptionalEnabled( image, P, refZ, dPdx, dPdy ) };
 		}
 
-		return Half{ findShader( image, P, refZ, dPdx, dPdy )
+		return Float{ findShader( image, P, refZ, dPdx, dPdy )
 			, expr::makeTextureGrad1DShadowFR16( findTypesCache( image, P, refZ, dPdx, dPdy )
 				, makeExpr( image )
 				, makeExpr( P )
@@ -52470,7 +52470,7 @@ namespace sdw
 				, makeExpr( dPdx )
 				, makeExpr( dPdy ) ) };
 	}
-	MaybeOptional< Half > textureGrad( MaybeOptional< SampledImage2DShadowR16 > const & image
+	MaybeOptional< Float > textureGrad( MaybeOptional< SampledImage2DShadowR16 > const & image
 		, MaybeOptional< Vec2 > const & P
 		, MaybeOptional< Float > const & refZ
 		, MaybeOptional< Vec2 > const & dPdx
@@ -52478,7 +52478,7 @@ namespace sdw
 	{
 		if ( isAnyOptional( image, P, refZ, dPdx, dPdy ) )
 		{
-			return Optional< Half >{ findShader( image, P, refZ, dPdx, dPdy )
+			return Optional< Float >{ findShader( image, P, refZ, dPdx, dPdy )
 				, expr::makeTextureGrad2DShadowFR16( findTypesCache( image, P, refZ, dPdx, dPdy )
 					, makeExpr( image )
 					, makeExpr( P )
@@ -52488,7 +52488,7 @@ namespace sdw
 				, areOptionalEnabled( image, P, refZ, dPdx, dPdy ) };
 		}
 
-		return Half{ findShader( image, P, refZ, dPdx, dPdy )
+		return Float{ findShader( image, P, refZ, dPdx, dPdy )
 			, expr::makeTextureGrad2DShadowFR16( findTypesCache( image, P, refZ, dPdx, dPdy )
 				, makeExpr( image )
 				, makeExpr( P )
@@ -52522,7 +52522,7 @@ namespace sdw
 				, makeExpr( dPdx )
 				, makeExpr( dPdy ) ) };
 	}
-	MaybeOptional< Half > textureGrad( MaybeOptional< SampledImage1DArrayShadowR16 > const & image
+	MaybeOptional< Float > textureGrad( MaybeOptional< SampledImage1DArrayShadowR16 > const & image
 		, MaybeOptional< Vec2 > const & P
 		, MaybeOptional< Float > const & refZ
 		, MaybeOptional< Float > const & dPdx
@@ -52530,7 +52530,7 @@ namespace sdw
 	{
 		if ( isAnyOptional( image, P, refZ, dPdx, dPdy ) )
 		{
-			return Optional< Half >{ findShader( image, P, refZ, dPdx, dPdy )
+			return Optional< Float >{ findShader( image, P, refZ, dPdx, dPdy )
 				, expr::makeTextureGrad1DArrayShadowFR16( findTypesCache( image, P, refZ, dPdx, dPdy )
 					, makeExpr( image )
 					, makeExpr( P )
@@ -52540,7 +52540,7 @@ namespace sdw
 				, areOptionalEnabled( image, P, refZ, dPdx, dPdy ) };
 		}
 
-		return Half{ findShader( image, P, refZ, dPdx, dPdy )
+		return Float{ findShader( image, P, refZ, dPdx, dPdy )
 			, expr::makeTextureGrad1DArrayShadowFR16( findTypesCache( image, P, refZ, dPdx, dPdy )
 				, makeExpr( image )
 				, makeExpr( P )
@@ -55705,7 +55705,7 @@ namespace sdw
 				, makeExpr( dPdy )
 				, makeExpr( offset ) ) };
 	}
-	MaybeOptional< Half > textureGradOffset( MaybeOptional< SampledImage1DShadowR16 > const & image
+	MaybeOptional< Float > textureGradOffset( MaybeOptional< SampledImage1DShadowR16 > const & image
 		, MaybeOptional< Float > const & P
 		, MaybeOptional< Float > const & refZ
 		, MaybeOptional< Float > const & dPdx
@@ -55714,7 +55714,7 @@ namespace sdw
 	{
 		if ( isAnyOptional( image, P, refZ, dPdx, dPdy, offset ) )
 		{
-			return Optional< Half >{ findShader( image, P, refZ, dPdx, dPdy, offset )
+			return Optional< Float >{ findShader( image, P, refZ, dPdx, dPdy, offset )
 				, expr::makeTextureGradOffset1DShadowFR16( findTypesCache( image, P, refZ, dPdx, dPdy, offset )
 					, makeExpr( image )
 					, makeExpr( P )
@@ -55725,7 +55725,7 @@ namespace sdw
 				, areOptionalEnabled( image, P, refZ, dPdx, dPdy, offset ) };
 		}
 
-		return Half{ findShader( image, P, refZ, dPdx, dPdy, offset )
+		return Float{ findShader( image, P, refZ, dPdx, dPdy, offset )
 			, expr::makeTextureGradOffset1DShadowFR16( findTypesCache( image, P, refZ, dPdx, dPdy, offset )
 				, makeExpr( image )
 				, makeExpr( P )
@@ -55763,7 +55763,7 @@ namespace sdw
 				, makeExpr( dPdy )
 				, makeExpr( offset ) ) };
 	}
-	MaybeOptional< Half > textureGradOffset( MaybeOptional< SampledImage2DShadowR16 > const & image
+	MaybeOptional< Float > textureGradOffset( MaybeOptional< SampledImage2DShadowR16 > const & image
 		, MaybeOptional< Vec2 > const & P
 		, MaybeOptional< Float > const & refZ
 		, MaybeOptional< Vec2 > const & dPdx
@@ -55772,7 +55772,7 @@ namespace sdw
 	{
 		if ( isAnyOptional( image, P, refZ, dPdx, dPdy, offset ) )
 		{
-			return Optional< Half >{ findShader( image, P, refZ, dPdx, dPdy, offset )
+			return Optional< Float >{ findShader( image, P, refZ, dPdx, dPdy, offset )
 				, expr::makeTextureGradOffset2DShadowFR16( findTypesCache( image, P, refZ, dPdx, dPdy, offset )
 					, makeExpr( image )
 					, makeExpr( P )
@@ -55783,7 +55783,7 @@ namespace sdw
 				, areOptionalEnabled( image, P, refZ, dPdx, dPdy, offset ) };
 		}
 
-		return Half{ findShader( image, P, refZ, dPdx, dPdy, offset )
+		return Float{ findShader( image, P, refZ, dPdx, dPdy, offset )
 			, expr::makeTextureGradOffset2DShadowFR16( findTypesCache( image, P, refZ, dPdx, dPdy, offset )
 				, makeExpr( image )
 				, makeExpr( P )
@@ -55821,7 +55821,7 @@ namespace sdw
 				, makeExpr( dPdy )
 				, makeExpr( offset ) ) };
 	}
-	MaybeOptional< Half > textureGradOffset( MaybeOptional< SampledImage1DArrayShadowR16 > const & image
+	MaybeOptional< Float > textureGradOffset( MaybeOptional< SampledImage1DArrayShadowR16 > const & image
 		, MaybeOptional< Vec2 > const & P
 		, MaybeOptional< Float > const & refZ
 		, MaybeOptional< Float > const & dPdx
@@ -55830,7 +55830,7 @@ namespace sdw
 	{
 		if ( isAnyOptional( image, P, refZ, dPdx, dPdy, offset ) )
 		{
-			return Optional< Half >{ findShader( image, P, refZ, dPdx, dPdy, offset )
+			return Optional< Float >{ findShader( image, P, refZ, dPdx, dPdy, offset )
 				, expr::makeTextureGradOffset1DArrayShadowFR16( findTypesCache( image, P, refZ, dPdx, dPdy, offset )
 					, makeExpr( image )
 					, makeExpr( P )
@@ -55841,7 +55841,7 @@ namespace sdw
 				, areOptionalEnabled( image, P, refZ, dPdx, dPdy, offset ) };
 		}
 
-		return Half{ findShader( image, P, refZ, dPdx, dPdy, offset )
+		return Float{ findShader( image, P, refZ, dPdx, dPdy, offset )
 			, expr::makeTextureGradOffset1DArrayShadowFR16( findTypesCache( image, P, refZ, dPdx, dPdy, offset )
 				, makeExpr( image )
 				, makeExpr( P )
@@ -55879,7 +55879,7 @@ namespace sdw
 				, makeExpr( dPdy )
 				, makeExpr( offset ) ) };
 	}
-	MaybeOptional< Half > textureGradOffset( MaybeOptional< SampledImage2DArrayShadowR16 > const & image
+	MaybeOptional< Float > textureGradOffset( MaybeOptional< SampledImage2DArrayShadowR16 > const & image
 		, MaybeOptional< Vec3 > const & P
 		, MaybeOptional< Float > const & refZ
 		, MaybeOptional< Vec2 > const & dPdx
@@ -55888,7 +55888,7 @@ namespace sdw
 	{
 		if ( isAnyOptional( image, P, refZ, dPdx, dPdy, offset ) )
 		{
-			return Optional< Half >{ findShader( image, P, refZ, dPdx, dPdy, offset )
+			return Optional< Float >{ findShader( image, P, refZ, dPdx, dPdy, offset )
 				, expr::makeTextureGradOffset2DArrayShadowFR16( findTypesCache( image, P, refZ, dPdx, dPdy, offset )
 					, makeExpr( image )
 					, makeExpr( P )
@@ -55899,7 +55899,7 @@ namespace sdw
 				, areOptionalEnabled( image, P, refZ, dPdx, dPdy, offset ) };
 		}
 
-		return Half{ findShader( image, P, refZ, dPdx, dPdy, offset )
+		return Float{ findShader( image, P, refZ, dPdx, dPdy, offset )
 			, expr::makeTextureGradOffset2DArrayShadowFR16( findTypesCache( image, P, refZ, dPdx, dPdy, offset )
 				, makeExpr( image )
 				, makeExpr( P )
@@ -58702,7 +58702,7 @@ namespace sdw
 				, makeExpr( pDx )
 				, makeExpr( pDy ) ) };
 	}
-	MaybeOptional< Half > textureProjGrad( MaybeOptional< SampledImage1DShadowR16 > const & image
+	MaybeOptional< Float > textureProjGrad( MaybeOptional< SampledImage1DShadowR16 > const & image
 		, MaybeOptional< Vec2 > const & P
 		, MaybeOptional< Float > const & refZ
 		, MaybeOptional< Float > const & pDx
@@ -58710,7 +58710,7 @@ namespace sdw
 	{
 		if ( isAnyOptional( image, P, refZ, pDx, pDy ) )
 		{
-			return Optional< Half >{ findShader( image, P, refZ, pDx, pDy )
+			return Optional< Float >{ findShader( image, P, refZ, pDx, pDy )
 				, expr::makeTextureProjGrad1DShadowFR16( findTypesCache( image, P, refZ, pDx, pDy )
 					, makeExpr( image )
 					, makeExpr( P )
@@ -58720,7 +58720,7 @@ namespace sdw
 				, areOptionalEnabled( image, P, refZ, pDx, pDy ) };
 		}
 
-		return Half{ findShader( image, P, refZ, pDx, pDy )
+		return Float{ findShader( image, P, refZ, pDx, pDy )
 			, expr::makeTextureProjGrad1DShadowFR16( findTypesCache( image, P, refZ, pDx, pDy )
 				, makeExpr( image )
 				, makeExpr( P )
@@ -58754,7 +58754,7 @@ namespace sdw
 				, makeExpr( pDx )
 				, makeExpr( pDy ) ) };
 	}
-	MaybeOptional< Half > textureProjGrad( MaybeOptional< SampledImage2DShadowR16 > const & image
+	MaybeOptional< Float > textureProjGrad( MaybeOptional< SampledImage2DShadowR16 > const & image
 		, MaybeOptional< Vec3 > const & P
 		, MaybeOptional< Float > const & refZ
 		, MaybeOptional< Vec2 > const & pDx
@@ -58762,7 +58762,7 @@ namespace sdw
 	{
 		if ( isAnyOptional( image, P, refZ, pDx, pDy ) )
 		{
-			return Optional< Half >{ findShader( image, P, refZ, pDx, pDy )
+			return Optional< Float >{ findShader( image, P, refZ, pDx, pDy )
 				, expr::makeTextureProjGrad2DShadowFR16( findTypesCache( image, P, refZ, pDx, pDy )
 					, makeExpr( image )
 					, makeExpr( P )
@@ -58772,7 +58772,7 @@ namespace sdw
 				, areOptionalEnabled( image, P, refZ, pDx, pDy ) };
 		}
 
-		return Half{ findShader( image, P, refZ, pDx, pDy )
+		return Float{ findShader( image, P, refZ, pDx, pDy )
 			, expr::makeTextureProjGrad2DShadowFR16( findTypesCache( image, P, refZ, pDx, pDy )
 				, makeExpr( image )
 				, makeExpr( P )
@@ -61937,7 +61937,7 @@ namespace sdw
 				, makeExpr( dPdy )
 				, makeExpr( offset ) ) };
 	}
-	MaybeOptional< Half > textureProjGradOffset( MaybeOptional< SampledImage1DShadowR16 > const & image
+	MaybeOptional< Float > textureProjGradOffset( MaybeOptional< SampledImage1DShadowR16 > const & image
 		, MaybeOptional< Vec2 > const & P
 		, MaybeOptional< Float > const & refZ
 		, MaybeOptional< Float > const & dPdx
@@ -61946,7 +61946,7 @@ namespace sdw
 	{
 		if ( isAnyOptional( image, P, refZ, dPdx, dPdy, offset ) )
 		{
-			return Optional< Half >{ findShader( image, P, refZ, dPdx, dPdy, offset )
+			return Optional< Float >{ findShader( image, P, refZ, dPdx, dPdy, offset )
 				, expr::makeTextureProjGradOffset1DShadowFR16( findTypesCache( image, P, refZ, dPdx, dPdy, offset )
 					, makeExpr( image )
 					, makeExpr( P )
@@ -61957,7 +61957,7 @@ namespace sdw
 				, areOptionalEnabled( image, P, refZ, dPdx, dPdy, offset ) };
 		}
 
-		return Half{ findShader( image, P, refZ, dPdx, dPdy, offset )
+		return Float{ findShader( image, P, refZ, dPdx, dPdy, offset )
 			, expr::makeTextureProjGradOffset1DShadowFR16( findTypesCache( image, P, refZ, dPdx, dPdy, offset )
 				, makeExpr( image )
 				, makeExpr( P )
@@ -61995,7 +61995,7 @@ namespace sdw
 				, makeExpr( dPdy )
 				, makeExpr( offset ) ) };
 	}
-	MaybeOptional< Half > textureProjGradOffset( MaybeOptional< SampledImage2DShadowR16 > const & image
+	MaybeOptional< Float > textureProjGradOffset( MaybeOptional< SampledImage2DShadowR16 > const & image
 		, MaybeOptional< Vec3 > const & P
 		, MaybeOptional< Float > const & refZ
 		, MaybeOptional< Vec2 > const & dPdx
@@ -62004,7 +62004,7 @@ namespace sdw
 	{
 		if ( isAnyOptional( image, P, refZ, dPdx, dPdy, offset ) )
 		{
-			return Optional< Half >{ findShader( image, P, refZ, dPdx, dPdy, offset )
+			return Optional< Float >{ findShader( image, P, refZ, dPdx, dPdy, offset )
 				, expr::makeTextureProjGradOffset2DShadowFR16( findTypesCache( image, P, refZ, dPdx, dPdy, offset )
 					, makeExpr( image )
 					, makeExpr( P )
@@ -62015,7 +62015,7 @@ namespace sdw
 				, areOptionalEnabled( image, P, refZ, dPdx, dPdy, offset ) };
 		}
 
-		return Half{ findShader( image, P, refZ, dPdx, dPdy, offset )
+		return Float{ findShader( image, P, refZ, dPdx, dPdy, offset )
 			, expr::makeTextureProjGradOffset2DShadowFR16( findTypesCache( image, P, refZ, dPdx, dPdy, offset )
 				, makeExpr( image )
 				, makeExpr( P )

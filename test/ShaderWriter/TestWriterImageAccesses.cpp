@@ -3,12 +3,12 @@
 
 namespace
 {
-	template< ast::type::AccessKind AccessT >
-	static constexpr bool isReadableV{ AccessT == ast::type::AccessKind::eRead || AccessT == ast::type::AccessKind::eReadWrite };
-
-	template< ast::type::AccessKind AccessT >
-	static constexpr bool isWritableV{ AccessT == ast::type::AccessKind::eWrite || AccessT == ast::type::AccessKind::eReadWrite };
-
+#pragma region imageSize
+	/**
+	*name
+	*	imageSize
+	*/
+	/**@{*/
 	template< ast::type::ImageFormat FormatT
 		, ast::type::AccessKind AccessT
 		, ast::type::ImageDim DimT
@@ -29,7 +29,10 @@ namespace
 				writer.implementFunction< sdw::Void >( "main"
 					, [&]()
 					{
-						auto i = writer.declLocale( "i", imageSize( s ) );
+						auto i = writer.declLocale( "i"
+							, imageSize( s ) );
+						auto j = writer.declLocale( "j"
+							, s.getSize() );
 					} );
 				test::writeShader( writer
 					, testCounts
@@ -43,7 +46,14 @@ namespace
 			testEnd();
 		};
 	};
-
+	/**@}*/
+#pragma endregion
+#pragma region imageSamples
+	/**
+	*name
+	*	imageSamples
+	*/
+	/**@{*/
 	template< ast::type::ImageFormat FormatT
 		, ast::type::AccessKind AccessT
 		, ast::type::ImageDim DimT
@@ -66,7 +76,10 @@ namespace
 					writer.implementFunction< sdw::Void >( "main"
 						, [&]()
 						{
-							auto i = writer.declLocale( "i", imageSamples( s ) );
+							auto i = writer.declLocale( "i"
+								, imageSamples( s ) );
+							auto j = writer.declLocale( "j"
+								, s.getSamples() );
 						} );
 					test::writeShader( writer
 						, testCounts
@@ -81,7 +94,14 @@ namespace
 			}
 		};
 	};
-
+	/**@}*/
+#pragma endregion
+#pragma region imageLoad
+	/**
+	*name
+	*	imageLoad
+	*/
+	/**@{*/
 	template< ast::type::ImageFormat FormatT
 		, ast::type::AccessKind AccessT
 		, ast::type::ImageDim DimT
@@ -94,7 +114,7 @@ namespace
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
-			if constexpr ( isReadableV< AccessT > )
+			if constexpr ( sdw::isReadableV< AccessT > )
 			{
 				auto name = "testImageLoad" + sdw::debug::getName( FormatT, AccessT, DimT, ArrayedT, false, MsT );
 				testBegin( name );
@@ -108,14 +128,21 @@ namespace
 						{
 							if constexpr ( MsT )
 							{
-								auto i = writer.declLocale( "i", imageLoad( s
-									, test::getDefault< Coords >( writer.getShader() )
-									, test::getDefault< sdw::Int >( writer.getShader() ) ) );
+								auto i = writer.declLocale( "i"
+									, imageLoad( s
+										, test::getDefault< Coords >( writer.getShader() )
+										, test::getDefault< sdw::Int >( writer.getShader() ) ) );
+								auto j = writer.declLocale( "j"
+									, s.load( test::getDefault< Coords >( writer.getShader() )
+										, test::getDefault< sdw::Int >( writer.getShader() ) ) );
 							}
 							else
 							{
-								auto i = writer.declLocale( "i", imageLoad( s
-									, test::getDefault< Coords >( writer.getShader() ) ) );
+								auto i = writer.declLocale( "i"
+									, imageLoad( s
+										, test::getDefault< Coords >( writer.getShader() ) ) );
+								auto j = writer.declLocale( "j"
+										, s.load( test::getDefault< Coords >( writer.getShader() ) ) );
 							}
 						} );
 					test::writeShader( writer
@@ -131,7 +158,14 @@ namespace
 			}
 		};
 	};
-
+	/**@}*/
+#pragma endregion
+#pragma region imageStore
+	/**
+	*name
+	*	imageStore
+	*/
+	/**@{*/
 	template< ast::type::ImageFormat FormatT
 		, ast::type::AccessKind AccessT
 		, ast::type::ImageDim DimT
@@ -141,11 +175,11 @@ namespace
 	struct ImageStoreTester
 	{
 		using Coords = sdw::ImageCoordsT< DimT, ArrayedT >;
-		using Sample = sdw::ImageSampleT< FormatT >;
+		using FetchT = sdw::ImageFetchT< FormatT >;
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
-			if constexpr ( isWritableV< AccessT > )
+			if constexpr ( sdw::isWritableV< AccessT > )
 			{
 				auto name = "testImageStore" + sdw::debug::getName( FormatT, AccessT, DimT, ArrayedT, false, MsT );
 				testBegin( name );
@@ -162,13 +196,18 @@ namespace
 								imageStore( s
 									, test::getDefault< Coords >( writer.getShader() )
 									, test::getDefault< sdw::Int >( writer.getShader() )
-									, test::getDefault< Sample >( writer.getShader() ) );
+									, test::getDefault< FetchT >( writer.getShader() ) );
+								s.store( test::getDefault< Coords >( writer.getShader() )
+									, test::getDefault< sdw::Int >( writer.getShader() )
+									, test::getDefault< FetchT >( writer.getShader() ) );
 							}
 							else
 							{
 								imageStore( s
 									, test::getDefault< Coords >( writer.getShader() )
-									, test::getDefault< Sample >( writer.getShader() ) );
+									, test::getDefault< FetchT >( writer.getShader() ) );
+								s.store( test::getDefault< Coords >( writer.getShader() )
+									, test::getDefault< FetchT >( writer.getShader() ) );
 							}
 						} );
 					test::writeShader( writer
@@ -184,7 +223,14 @@ namespace
 			}
 		};
 	};
-
+	/**@}*/
+#pragma endregion
+#pragma region imageAtomicAdd
+	/**
+	*name
+	*	imageAtomicAdd
+	*/
+	/**@{*/
 	template< ast::type::ImageFormat FormatT
 		, ast::type::AccessKind AccessT
 		, ast::type::ImageDim DimT
@@ -194,14 +240,13 @@ namespace
 	struct ImageAtomicAddTester
 	{
 		using CoordsT = sdw::ImageCoordsT< DimT, ArrayedT >;
-		using SampleT = sdw::ImageSampleT< FormatT >;
+		using FetchT = sdw::ImageFetchT< FormatT >;
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
-			if constexpr ( AccessT == ast::type::AccessKind::eReadWrite
+			if constexpr ( sdw::isReadWriteV< AccessT >
 				&& ( isFloatFormat( FormatT )
-					|| FormatT == ast::type::ImageFormat::eR32i
-					|| FormatT == ast::type::ImageFormat::eR32u ) )
+					|| isSingleInt32Format( FormatT ) ) )
 			{
 				auto name = "testImageAtomicAdd" + sdw::debug::getName( FormatT, AccessT, DimT, ArrayedT, false, MsT );
 				testBegin( name );
@@ -215,16 +260,25 @@ namespace
 						{
 							if constexpr ( MsT )
 							{
-								auto i = writer.declLocale( "i", imageAtomicAdd( s
-									, test::getDefault< CoordsT >( writer.getShader() )
-									, test::getDefault< sdw::Int >( writer.getShader() )
-									, test::getDefault< SampleT >( writer.getShader() ) ) );
+								auto i = writer.declLocale( "i"
+									, imageAtomicAdd( s
+										, test::getDefault< CoordsT >( writer.getShader() )
+										, test::getDefault< sdw::Int >( writer.getShader() )
+										, test::getDefault< FetchT >( writer.getShader() ) ) );
+								auto j = writer.declLocale( "j"
+									, s.atomicAdd( test::getDefault< CoordsT >( writer.getShader() )
+										, test::getDefault< sdw::Int >( writer.getShader() )
+										, test::getDefault< FetchT >( writer.getShader() ) ) );
 							}
 							else
 							{
-								auto i = writer.declLocale( "i", imageAtomicAdd( s
-									, test::getDefault< CoordsT >( writer.getShader() )
-									, test::getDefault< SampleT >( writer.getShader() ) ) );
+								auto i = writer.declLocale( "i"
+									, imageAtomicAdd( s
+										, test::getDefault< CoordsT >( writer.getShader() )
+										, test::getDefault< FetchT >( writer.getShader() ) ) );
+								auto j = writer.declLocale( "j"
+									, s.atomicAdd( test::getDefault< CoordsT >( writer.getShader() )
+										, test::getDefault< FetchT >( writer.getShader() ) ) );
 							}
 						} );
 
@@ -245,7 +299,14 @@ namespace
 			}
 		};
 	};
-
+	/**@}*/
+#pragma endregion
+#pragma region imageAtomicMin
+	/**
+	*name
+	*	imageAtomicMin
+	*/
+	/**@{*/
 	template< ast::type::ImageFormat FormatT
 		, ast::type::AccessKind AccessT
 		, ast::type::ImageDim DimT
@@ -255,13 +316,12 @@ namespace
 	struct ImageAtomicMinTester
 	{
 		using CoordsT = sdw::ImageCoordsT< DimT, ArrayedT >;
-		using SampleT = sdw::ImageSampleT< FormatT >;
+		using FetchT = sdw::ImageFetchT< FormatT >;
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
-			if constexpr ( AccessT == ast::type::AccessKind::eReadWrite
-				&& ( FormatT == ast::type::ImageFormat::eR32i
-					|| FormatT == ast::type::ImageFormat::eR32u ) )
+			if constexpr ( sdw::isReadWriteV< AccessT >
+				&& ( isSingleInt32Format( FormatT ) ) )
 			{
 				auto name = "testImageAtomicMin" + sdw::debug::getName( FormatT, AccessT, DimT, ArrayedT, false, MsT );
 				testBegin( name );
@@ -278,13 +338,20 @@ namespace
 								auto i = writer.declLocale( "i", imageAtomicMin( s
 									, test::getDefault< CoordsT >( writer.getShader() )
 									, test::getDefault< sdw::Int >( writer.getShader() )
-									, test::getDefault< SampleT >( writer.getShader() ) ) );
+									, test::getDefault< FetchT >( writer.getShader() ) ) );
+								auto j = writer.declLocale( "j"
+									, s.atomicMin( test::getDefault< CoordsT >( writer.getShader() )
+										, test::getDefault< sdw::Int >( writer.getShader() )
+										, test::getDefault< FetchT >( writer.getShader() ) ) );
 							}
 							else
 							{
 								auto i = writer.declLocale( "i", imageAtomicMin( s
 									, test::getDefault< CoordsT >( writer.getShader() )
-									, test::getDefault< SampleT >( writer.getShader() ) ) );
+									, test::getDefault< FetchT >( writer.getShader() ) ) );
+								auto j = writer.declLocale( "j"
+									, s.atomicMin( test::getDefault< CoordsT >( writer.getShader() )
+										, test::getDefault< FetchT >( writer.getShader() ) ) );
 							}
 						} );
 					test::writeShader( writer
@@ -300,7 +367,14 @@ namespace
 			}
 		};
 	};
-
+	/**@}*/
+#pragma endregion
+#pragma region imageAtomicMax
+	/**
+	*name
+	*	imageAtomicMax
+	*/
+	/**@{*/
 	template< ast::type::ImageFormat FormatT
 		, ast::type::AccessKind AccessT
 		, ast::type::ImageDim DimT
@@ -310,13 +384,12 @@ namespace
 	struct ImageAtomicMaxTester
 	{
 		using CoordsT = sdw::ImageCoordsT< DimT, ArrayedT >;
-		using SampleT = sdw::ImageSampleT< FormatT >;
+		using FetchT = sdw::ImageFetchT< FormatT >;
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
-			if constexpr ( AccessT == ast::type::AccessKind::eReadWrite
-				&& ( FormatT == ast::type::ImageFormat::eR32i
-					|| FormatT == ast::type::ImageFormat::eR32u ) )
+			if constexpr ( sdw::isReadWriteV< AccessT >
+				&& ( isSingleInt32Format( FormatT ) ) )
 			{
 				auto name = "testImageAtomicMax" + sdw::debug::getName( FormatT, AccessT, DimT, ArrayedT, false, MsT );
 				testBegin( name );
@@ -333,13 +406,20 @@ namespace
 								auto i = writer.declLocale( "i", imageAtomicMax( s
 									, test::getDefault< CoordsT >( writer.getShader() )
 									, test::getDefault< sdw::Int >( writer.getShader() )
-									, test::getDefault< SampleT >( writer.getShader() ) ) );
+									, test::getDefault< FetchT >( writer.getShader() ) ) );
+								auto j = writer.declLocale( "j"
+									, s.atomicMax( test::getDefault< CoordsT >( writer.getShader() )
+										, test::getDefault< sdw::Int >( writer.getShader() )
+										, test::getDefault< FetchT >( writer.getShader() ) ) );
 							}
 							else
 							{
 								auto i = writer.declLocale( "i", imageAtomicMax( s
 									, test::getDefault< CoordsT >( writer.getShader() )
-									, test::getDefault< SampleT >( writer.getShader() ) ) );
+									, test::getDefault< FetchT >( writer.getShader() ) ) );
+								auto j = writer.declLocale( "j"
+									, s.atomicMax( test::getDefault< CoordsT >( writer.getShader() )
+										, test::getDefault< FetchT >( writer.getShader() ) ) );
 							}
 						} );
 					test::writeShader( writer
@@ -355,7 +435,14 @@ namespace
 			}
 		};
 	};
-
+	/**@}*/
+#pragma endregion
+#pragma region imageAtomicAnd
+	/**
+	*name
+	*	imageAtomicAnd
+	*/
+	/**@{*/
 	template< ast::type::ImageFormat FormatT
 		, ast::type::AccessKind AccessT
 		, ast::type::ImageDim DimT
@@ -365,13 +452,12 @@ namespace
 	struct ImageAtomicAndTester
 	{
 		using CoordsT = sdw::ImageCoordsT< DimT, ArrayedT >;
-		using SampleT = sdw::ImageSampleT< FormatT >;
+		using FetchT = sdw::ImageFetchT< FormatT >;
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
-			if constexpr ( AccessT == ast::type::AccessKind::eReadWrite
-				&& ( FormatT == ast::type::ImageFormat::eR32i
-					|| FormatT == ast::type::ImageFormat::eR32u ) )
+			if constexpr ( sdw::isReadWriteV< AccessT >
+				&& ( isSingleInt32Format( FormatT ) ) )
 			{
 				auto name = "testImageAtomicAnd" + sdw::debug::getName( FormatT, AccessT, DimT, ArrayedT, false, MsT );
 				testBegin( name );
@@ -388,13 +474,20 @@ namespace
 								auto i = writer.declLocale( "i", imageAtomicAnd( s
 									, test::getDefault< CoordsT >( writer.getShader() )
 									, test::getDefault< sdw::Int >( writer.getShader() )
-									, test::getDefault< SampleT >( writer.getShader() ) ) );
+									, test::getDefault< FetchT >( writer.getShader() ) ) );
+								auto j = writer.declLocale( "j"
+									, s.atomicAnd( test::getDefault< CoordsT >( writer.getShader() )
+										, test::getDefault< sdw::Int >( writer.getShader() )
+										, test::getDefault< FetchT >( writer.getShader() ) ) );
 							}
 							else
 							{
 								auto i = writer.declLocale( "i", imageAtomicAnd( s
 									, test::getDefault< CoordsT >( writer.getShader() )
-									, test::getDefault< SampleT >( writer.getShader() ) ) );
+									, test::getDefault< FetchT >( writer.getShader() ) ) );
+								auto j = writer.declLocale( "j"
+									, s.atomicAnd( test::getDefault< CoordsT >( writer.getShader() )
+										, test::getDefault< FetchT >( writer.getShader() ) ) );
 							}
 						} );
 					test::writeShader( writer
@@ -410,7 +503,14 @@ namespace
 			}
 		};
 	};
-
+	/**@}*/
+#pragma endregion
+#pragma region imageAtomicOr
+	/**
+	*name
+	*	imageAtomicOr
+	*/
+	/**@{*/
 	template< ast::type::ImageFormat FormatT
 		, ast::type::AccessKind AccessT
 		, ast::type::ImageDim DimT
@@ -420,13 +520,12 @@ namespace
 	struct ImageAtomicOrTester
 	{
 		using CoordsT = sdw::ImageCoordsT< DimT, ArrayedT >;
-		using SampleT = sdw::ImageSampleT< FormatT >;
+		using FetchT = sdw::ImageFetchT< FormatT >;
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
-			if constexpr ( AccessT == ast::type::AccessKind::eReadWrite
-				&& ( FormatT == ast::type::ImageFormat::eR32i
-					|| FormatT == ast::type::ImageFormat::eR32u ) )
+			if constexpr ( sdw::isReadWriteV< AccessT >
+				&& ( isSingleInt32Format( FormatT ) ) )
 			{
 				auto name = "testImageAtomicOr" + sdw::debug::getName( FormatT, AccessT, DimT, ArrayedT, false, MsT );
 				testBegin( name );
@@ -443,13 +542,20 @@ namespace
 								auto i = writer.declLocale( "i", imageAtomicOr( s
 									, test::getDefault< CoordsT >( writer.getShader() )
 									, test::getDefault< sdw::Int >( writer.getShader() )
-									, test::getDefault< SampleT >( writer.getShader() ) ) );
+									, test::getDefault< FetchT >( writer.getShader() ) ) );
+								auto j = writer.declLocale( "j"
+									, s.atomicOr( test::getDefault< CoordsT >( writer.getShader() )
+										, test::getDefault< sdw::Int >( writer.getShader() )
+										, test::getDefault< FetchT >( writer.getShader() ) ) );
 							}
 							else
 							{
 								auto i = writer.declLocale( "i", imageAtomicOr( s
 									, test::getDefault< CoordsT >( writer.getShader() )
-									, test::getDefault< SampleT >( writer.getShader() ) ) );
+									, test::getDefault< FetchT >( writer.getShader() ) ) );
+								auto j = writer.declLocale( "j"
+									, s.atomicOr( test::getDefault< CoordsT >( writer.getShader() )
+										, test::getDefault< FetchT >( writer.getShader() ) ) );
 							}
 						} );
 					test::writeShader( writer
@@ -465,7 +571,14 @@ namespace
 			}
 		};
 	};
-
+	/**@}*/
+#pragma endregion
+#pragma region imageAtomicXor
+	/**
+	*name
+	*	imageAtomicXor
+	*/
+	/**@{*/
 	template< ast::type::ImageFormat FormatT
 		, ast::type::AccessKind AccessT
 		, ast::type::ImageDim DimT
@@ -475,13 +588,12 @@ namespace
 	struct ImageAtomicXorTester
 	{
 		using CoordsT = sdw::ImageCoordsT< DimT, ArrayedT >;
-		using SampleT = sdw::ImageSampleT< FormatT >;
+		using FetchT = sdw::ImageFetchT< FormatT >;
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
-			if constexpr ( AccessT == ast::type::AccessKind::eReadWrite
-				&& ( FormatT == ast::type::ImageFormat::eR32i
-					|| FormatT == ast::type::ImageFormat::eR32u ) )
+			if constexpr ( sdw::isReadWriteV< AccessT >
+				&& ( isSingleInt32Format( FormatT ) ) )
 			{
 				auto name = "testImageAtomicXor" + sdw::debug::getName( FormatT, AccessT, DimT, ArrayedT, false, MsT );
 				testBegin( name );
@@ -498,13 +610,20 @@ namespace
 								auto i = writer.declLocale( "i", imageAtomicXor( s
 									, test::getDefault< CoordsT >( writer.getShader() )
 									, test::getDefault< sdw::Int >( writer.getShader() )
-									, test::getDefault< SampleT >( writer.getShader() ) ) );
+									, test::getDefault< FetchT >( writer.getShader() ) ) );
+								auto j = writer.declLocale( "j"
+									, s.atomicXor( test::getDefault< CoordsT >( writer.getShader() )
+										, test::getDefault< sdw::Int >( writer.getShader() )
+										, test::getDefault< FetchT >( writer.getShader() ) ) );
 							}
 							else
 							{
 								auto i = writer.declLocale( "i", imageAtomicXor( s
 									, test::getDefault< CoordsT >( writer.getShader() )
-									, test::getDefault< SampleT >( writer.getShader() ) ) );
+									, test::getDefault< FetchT >( writer.getShader() ) ) );
+								auto j = writer.declLocale( "j"
+									, s.atomicXor( test::getDefault< CoordsT >( writer.getShader() )
+										, test::getDefault< FetchT >( writer.getShader() ) ) );
 							}
 						} );
 					test::writeShader( writer
@@ -520,7 +639,14 @@ namespace
 			}
 		};
 	};
-
+	/**@}*/
+#pragma endregion
+#pragma region imageAtomicExchange
+	/**
+	*name
+	*	imageAtomicExchange
+	*/
+	/**@{*/
 	template< ast::type::ImageFormat FormatT
 		, ast::type::AccessKind AccessT
 		, ast::type::ImageDim DimT
@@ -530,14 +656,13 @@ namespace
 	struct ImageAtomicExchangeTester
 	{
 		using CoordsT = sdw::ImageCoordsT< DimT, ArrayedT >;
-		using SampleT = sdw::ImageSampleT< FormatT >;
+		using FetchT = sdw::ImageFetchT< FormatT >;
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
-			if constexpr ( AccessT == ast::type::AccessKind::eReadWrite
+			if constexpr ( sdw::isReadWriteV< AccessT >
 				&& ( isFloatFormat( FormatT )
-					|| FormatT == ast::type::ImageFormat::eR32i
-					|| FormatT == ast::type::ImageFormat::eR32u ) )
+					|| isSingleInt32Format( FormatT ) ) )
 			{
 				auto name = "testImageAtomicExchange" + sdw::debug::getName( FormatT, AccessT, DimT, ArrayedT, false, MsT );
 				testBegin( name );
@@ -554,13 +679,20 @@ namespace
 								auto i = writer.declLocale( "i", imageAtomicExchange( s
 									, test::getDefault< CoordsT >( writer.getShader() )
 									, test::getDefault< sdw::Int >( writer.getShader() )
-									, test::getDefault< SampleT >( writer.getShader() ) ) );
+									, test::getDefault< FetchT >( writer.getShader() ) ) );
+								auto j = writer.declLocale( "j"
+									, s.atomicExchange( test::getDefault< CoordsT >( writer.getShader() )
+										, test::getDefault< sdw::Int >( writer.getShader() )
+										, test::getDefault< FetchT >( writer.getShader() ) ) );
 							}
 							else
 							{
 								auto i = writer.declLocale( "i", imageAtomicExchange( s
 									, test::getDefault< CoordsT >( writer.getShader() )
-									, test::getDefault< SampleT >( writer.getShader() ) ) );
+									, test::getDefault< FetchT >( writer.getShader() ) ) );
+								auto j = writer.declLocale( "j"
+									, s.atomicExchange( test::getDefault< CoordsT >( writer.getShader() )
+										, test::getDefault< FetchT >( writer.getShader() ) ) );
 							}
 						} );
 
@@ -581,7 +713,14 @@ namespace
 			}
 		};
 	};
-
+	/**@}*/
+#pragma endregion
+#pragma region imageAtomicCompSwap
+	/**
+	*name
+	*	imageAtomicCompSwap
+	*/
+	/**@{*/
 	template< ast::type::ImageFormat FormatT
 		, ast::type::AccessKind AccessT
 		, ast::type::ImageDim DimT
@@ -591,13 +730,12 @@ namespace
 	struct ImageAtomicCompSwapTester
 	{
 		using CoordsT = sdw::ImageCoordsT< DimT, ArrayedT >;
-		using SampleT = sdw::ImageSampleT< FormatT >;
+		using FetchT = sdw::ImageFetchT< FormatT >;
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
-			if constexpr ( AccessT == ast::type::AccessKind::eReadWrite
-				&& ( FormatT == ast::type::ImageFormat::eR32i
-					|| FormatT == ast::type::ImageFormat::eR32u ) )
+			if constexpr ( sdw::isReadWriteV< AccessT >
+				&& ( isSingleInt32Format( FormatT ) ) )
 			{
 				auto name = "testImageAtomicCompSwap" + sdw::debug::getName( FormatT, AccessT, DimT, ArrayedT, false, MsT );
 				testBegin( name );
@@ -614,15 +752,24 @@ namespace
 								auto i = writer.declLocale( "i", imageAtomicCompSwap( s
 									, test::getDefault< CoordsT >( writer.getShader() )
 									, test::getDefault< sdw::Int >( writer.getShader() )
-									, test::getDefault< SampleT >( writer.getShader() )
-									, test::getDefault< SampleT >( writer.getShader() ) ) );
+									, test::getDefault< FetchT >( writer.getShader() )
+									, test::getDefault< FetchT >( writer.getShader() ) ) );
+								auto j = writer.declLocale( "j"
+									, s.atomicCompSwap( test::getDefault< CoordsT >( writer.getShader() )
+										, test::getDefault< sdw::Int >( writer.getShader() )
+										, test::getDefault< FetchT >( writer.getShader() )
+										, test::getDefault< FetchT >( writer.getShader() ) ) );
 							}
 							else
 							{
 								auto i = writer.declLocale( "i", imageAtomicCompSwap( s
 									, test::getDefault< CoordsT >( writer.getShader() )
-									, test::getDefault< SampleT >( writer.getShader() )
-									, test::getDefault< SampleT >( writer.getShader() ) ) );
+									, test::getDefault< FetchT >( writer.getShader() )
+									, test::getDefault< FetchT >( writer.getShader() ) ) );
+								auto j = writer.declLocale( "j"
+									, s.atomicCompSwap( test::getDefault< CoordsT >( writer.getShader() )
+										, test::getDefault< FetchT >( writer.getShader() )
+										, test::getDefault< FetchT >( writer.getShader() ) ) );
 							}
 						} );
 					test::writeShader( writer
@@ -638,6 +785,8 @@ namespace
 			}
 		};
 	};
+	/**@}*/
+#pragma endregion
 
 	template< ast::type::AccessKind AccessT
 		, ast::type::ImageFormat FormatT

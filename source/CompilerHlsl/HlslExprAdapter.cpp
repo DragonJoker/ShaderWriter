@@ -1554,7 +1554,7 @@ namespace hlsl
 	}
 
 	void ExprAdapter::doProcessImageStore( ast::expr::ImageAccessCall * expr
-		, std::map< std::string, ast::type::FunctionPtr > imageStoreFuncs )
+		, std::map< std::string, ast::type::FunctionPtr > & imageStoreFuncs )
 	{
 		auto imgArgType = std::static_pointer_cast< ast::type::Image >( expr->getArgList()[0]->getType() );
 		auto config = imgArgType->getConfig();
@@ -1609,7 +1609,7 @@ namespace hlsl
 
 	void ExprAdapter::doProcessImageAtomic( ast::expr::ImageAccessCall * expr
 		, std::string const & name
-		, std::map< std::string, ast::type::FunctionPtr > imageAtomicFuncs )
+		, std::map< std::string, ast::type::FunctionPtr > & imageAtomicFuncs )
 	{
 		auto imgArgType = std::static_pointer_cast< ast::type::Image >( expr->getArgList()[0]->getType() );
 		auto config = imgArgType->getConfig();

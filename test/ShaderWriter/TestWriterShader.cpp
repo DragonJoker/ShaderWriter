@@ -215,7 +215,7 @@ namespace
 			, [&]( SampledImage2DRgba32 const & tex
 				, Vec2 const & coords )
 			{
-				writer.returnStmt( texture( tex, coords ).rgb() );
+				writer.returnStmt( tex.sample( coords ).rgb() );
 			}
 			, InSampledImage2DRgba32{ writer, "tex" }
 			, InVec2{ writer, "coords" } );
@@ -259,8 +259,7 @@ namespace
 				ssbo[in.globalInvocationID.x()]
 					= ssbo[in.globalInvocationID.x()]
 					* ssbo[in.globalInvocationID.x()];
-				imageStore( img
-					, ivec2( in.globalInvocationID.xy() )
+				img.store( ivec2( in.globalInvocationID.xy() )
 					, ssbo[in.globalInvocationID.x()] );
 			} );
 
@@ -330,7 +329,7 @@ namespace
 			, [&]( SampledImage2DRgba32 const & m
 				, Vec2 const & p )
 			{
-				writer.returnStmt( texture( m, p ) );
+				writer.returnStmt( m.sample( p ) );
 			}
 			, InSampledImage2DRgba32{ writer, "m" }
 			, InVec2{ writer, "p" } );
@@ -400,7 +399,7 @@ namespace
 				csPositions[0].xyz() /= csPositions[1].w();
 				auto ssPosition = writer.declLocale< IVec2 >( "ssPosition" );
 				auto position = writer.declLocale< Vec3 >( "position" );
-				position.z() = texelFetch( c3d_mapDepth, ssPosition, 0_i ).r();
+				position.z() = c3d_mapDepth.fetch( ssPosition, 0_i ).r();
 				auto lrtMetrics = writer.declLocale< Vec4 >( "lrtMetrics" );
 				auto ltexcoord = writer.declLocale< Vec2 >( "ltexcoord" );
 				auto loffset = writer.declLocaleArray< Vec4 >( "loffset", 3u );
@@ -412,7 +411,7 @@ namespace
 				delta.zw() = abs( L - vec2( Lright, Lbottom ) );
 				auto texcoord = writer.declLocale< Vec2 >( "texcoord" );
 				auto a = writer.declLocale< Vec4 >( "a" );
-				a.wz() = textureLod( c3d_mapDepth, texcoord, 0.0_f ).xz();
+				a.wz() = c3d_mapDepth.lod( texcoord, 0.0_f ).xz();
 			} );
 
 		test::writeShader( writer
@@ -628,7 +627,7 @@ namespace
 			, [&]()
 			{
 				auto colour = writer.declLocale( "colour"
-					, texture( c3d_mapSkybox, vtx_texture ) );
+					, c3d_mapSkybox.sample( vtx_texture ) );
 
 				pxl_FragColor = vec4( removeGamma( c3d_gamma, colour.xyz() ), colour.w() );
 				pxl_FragColor = vec4( removeGamma( 0.1_f, vec3( 0.0_f, 0.0_f, 0.0_f ) ), colour.w() );
@@ -960,7 +959,7 @@ namespace
 						auto sampleVec = writer.declLocale( "sampleVec"
 							, right * tangentSample.x() + up * tangentSample.y() + normal * tangentSample.z() );
 
-						irradiance += texture( c3d_mapEnvironment, sampleVec ).rgb() * cos( theta ) * sin( theta );
+						irradiance += c3d_mapEnvironment.sample( sampleVec ).rgb() * cos( theta ) * sin( theta );
 						nrSamples = nrSamples + 1;
 					}
 					ROF;
@@ -1012,7 +1011,7 @@ namespace
 
 			writer.implementFunction<void>( "main", [&]()
 				{
-					frag_color = sdw::texture( base_color_sampler, in_texcoord ) + getEmissiveColor();
+					frag_color = base_color_sampler.sample( in_texcoord ) + getEmissiveColor();
 				} );
 			test::writeShader( writer
 				, testCounts );
@@ -1115,7 +1114,7 @@ namespace
 			auto getEmissiveColor = writer.implementFunction<sdw::Vec4>( "getEmissiveColor", [&]()
 				{
 					if ( hasEmissiveMap )
-						writer.returnStmt( sdw::texture( emissive_sampler, in_texcoord ) *
+						writer.returnStmt( emissive_sampler.sample( in_texcoord ) *
 							material.getMember<sdw::Vec4>( "emissive_factor" ) );
 					else
 						writer.returnStmt( sdw::vec4( 0._f, 0.f, 0.f, 0.f ) );
@@ -1127,7 +1126,7 @@ namespace
 					{
 						auto tangent_normal =
 							writer.declLocale( "tangent_normal",
-								sdw::texture( normal_sampler, in_texcoord ).xyz() * 2.f - 1.f );
+								normal_sampler.sample( in_texcoord ).xyz() * 2.f - 1.f );
 
 						auto N = writer.declLocale( "N", sdw::normalize( in_normal ) );
 						auto T = writer.declLocale( "T", sdw::normalize( in_tangent.xyz() ) );
@@ -1148,7 +1147,7 @@ namespace
 						camera.getMember<sdw::Vec4>( "position" ).xyz() -
 						in_position );
 
-					frag_color = sdw::texture( base_color_sampler, in_texcoord ) + getEmissiveColor();
+					frag_color = base_color_sampler.sample( in_texcoord ) + getEmissiveColor();
 				} );
 			test::writeShader( writer
 				, testCounts );
@@ -1523,7 +1522,7 @@ namespace
 					}
 					FI;
 
-					imageStore( pxl_voxelVisibility, texcoord, 1_u );
+					pxl_voxelVisibility.store( texcoord, 1_u );
 				} );
 			test::writeShader( writer
 				, testCounts
