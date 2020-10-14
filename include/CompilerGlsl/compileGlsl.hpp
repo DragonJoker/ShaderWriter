@@ -4,7 +4,7 @@ See LICENSE file in root folder
 #ifndef ___SDW_WriterGlsl_H___
 #define ___SDW_WriterGlsl_H___
 
-#include <ShaderWriter/ShaderWriterPrerequisites.hpp>
+#include <ShaderAST/ShaderASTPrerequisites.hpp>
 
 #if defined( CompilerGlsl_Static )
 #	define SDWGLSL_API

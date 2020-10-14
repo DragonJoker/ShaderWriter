@@ -4,6 +4,9 @@ See LICENSE file in root folder
 #include "ShaderWriter/BaseTypes/Int.hpp"
 #include "ShaderWriter/VecTypes/Vec4.hpp"
 
+#include <ShaderAST/Expr/EnumTextureAccess.hpp>
+#include <ShaderAST/Expr/ExprTextureAccessCall.hpp>
+
 namespace sdw
 {
 	//*****************************************************************************************
@@ -40,8 +43,8 @@ namespace sdw
 					}
 					else
 					{
-						static_assert( false );
-						return expr::TextureAccess( ~( 0u ) );
+						assert( false );
+						return size_t( expr::TextureAccess::eInvalid );
 					}
 				}
 				else
@@ -64,8 +67,8 @@ namespace sdw
 					}
 					else
 					{
-						static_assert( false );
-						return expr::TextureAccess( ~( 0u ) );
+						assert( false );
+						return size_t( expr::TextureAccess::eInvalid );
 					}
 				}
 			}
@@ -85,8 +88,8 @@ namespace sdw
 				}
 				else
 				{
-					static_assert( false );
-					return expr::TextureAccess( ~( 0u ) );
+					assert( false );
+					return size_t( expr::TextureAccess::eInvalid );
 				}
 			}
 			else
@@ -150,8 +153,8 @@ namespace sdw
 			expr::TextureAccess::eTextureQueryLod2DF,
 			expr::TextureAccess::eTextureQueryLod3DF,
 			expr::TextureAccess::eTextureQueryLodCubeF,
-			expr::TextureAccess( ~( 0u ) ),
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
+			expr::TextureAccess::eInvalid,
 
 			expr::TextureAccess::eTextureQueryLod1DArrayF,
 			expr::TextureAccess::eTextureQueryLod2DArrayF,
@@ -160,7 +163,7 @@ namespace sdw
 			expr::TextureAccess::eTextureQueryLod1DShadowF,
 			expr::TextureAccess::eTextureQueryLod2DShadowF,
 			expr::TextureAccess::eTextureQueryLodCubeShadowF,
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
 
 			expr::TextureAccess::eTextureQueryLod1DArrayShadowF,
 			expr::TextureAccess::eTextureQueryLod2DArrayShadowF,
@@ -172,8 +175,8 @@ namespace sdw
 			expr::TextureAccess::eTextureQueryLod2DI,
 			expr::TextureAccess::eTextureQueryLod3DI,
 			expr::TextureAccess::eTextureQueryLodCubeI,
-			expr::TextureAccess( ~( 0u ) ),
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
+			expr::TextureAccess::eInvalid,
 
 			expr::TextureAccess::eTextureQueryLod1DArrayI,
 			expr::TextureAccess::eTextureQueryLod2DArrayI,
@@ -185,8 +188,8 @@ namespace sdw
 			expr::TextureAccess::eTextureQueryLod2DU,
 			expr::TextureAccess::eTextureQueryLod3DU,
 			expr::TextureAccess::eTextureQueryLodCubeU,
-			expr::TextureAccess( ~( 0u ) ),
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
+			expr::TextureAccess::eInvalid,
 
 			expr::TextureAccess::eTextureQueryLod1DArrayU,
 			expr::TextureAccess::eTextureQueryLod2DArrayU,
@@ -199,8 +202,8 @@ namespace sdw
 			expr::TextureAccess::eTextureQueryLevels2DF,
 			expr::TextureAccess::eTextureQueryLevels3DF,
 			expr::TextureAccess::eTextureQueryLevelsCubeF,
-			expr::TextureAccess( ~( 0u ) ),
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
+			expr::TextureAccess::eInvalid,
 
 			expr::TextureAccess::eTextureQueryLevels1DArrayF,
 			expr::TextureAccess::eTextureQueryLevels2DArrayF,
@@ -209,7 +212,7 @@ namespace sdw
 			expr::TextureAccess::eTextureQueryLevels1DShadowF,
 			expr::TextureAccess::eTextureQueryLevels2DShadowF,
 			expr::TextureAccess::eTextureQueryLevelsCubeShadowF,
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
 
 			expr::TextureAccess::eTextureQueryLevels1DArrayShadowF,
 			expr::TextureAccess::eTextureQueryLevels2DArrayShadowF,
@@ -221,8 +224,8 @@ namespace sdw
 			expr::TextureAccess::eTextureQueryLevels2DI,
 			expr::TextureAccess::eTextureQueryLevels3DI,
 			expr::TextureAccess::eTextureQueryLevelsCubeI,
-			expr::TextureAccess( ~( 0u ) ),
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
+			expr::TextureAccess::eInvalid,
 
 			expr::TextureAccess::eTextureQueryLevels1DArrayI,
 			expr::TextureAccess::eTextureQueryLevels2DArrayI,
@@ -234,8 +237,8 @@ namespace sdw
 			expr::TextureAccess::eTextureQueryLevels2DU,
 			expr::TextureAccess::eTextureQueryLevels3DU,
 			expr::TextureAccess::eTextureQueryLevelsCubeU,
-			expr::TextureAccess( ~( 0u ) ),
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
+			expr::TextureAccess::eInvalid,
 
 			expr::TextureAccess::eTextureQueryLevels1DArrayU,
 			expr::TextureAccess::eTextureQueryLevels2DArrayU,
@@ -249,7 +252,7 @@ namespace sdw
 			expr::TextureAccess::eTexture3DF,
 			expr::TextureAccess::eTextureCubeF,
 			expr::TextureAccess::eTexture2DRectF,
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
 
 			expr::TextureAccess::eTexture1DArrayF,
 			expr::TextureAccess::eTexture2DArrayF,
@@ -271,7 +274,7 @@ namespace sdw
 			expr::TextureAccess::eTexture3DI,
 			expr::TextureAccess::eTextureCubeI,
 			expr::TextureAccess::eTexture2DRectI,
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
 
 			expr::TextureAccess::eTexture1DArrayI,
 			expr::TextureAccess::eTexture2DArrayI,
@@ -284,7 +287,7 @@ namespace sdw
 			expr::TextureAccess::eTexture3DU,
 			expr::TextureAccess::eTextureCubeU,
 			expr::TextureAccess::eTexture2DRectU,
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
 
 			expr::TextureAccess::eTexture1DArrayU,
 			expr::TextureAccess::eTexture2DArrayU,
@@ -297,8 +300,8 @@ namespace sdw
 			expr::TextureAccess::eTexture2DFBias,
 			expr::TextureAccess::eTexture3DFBias,
 			expr::TextureAccess::eTextureCubeFBias,
-			expr::TextureAccess( ~( 0u ) ),
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
+			expr::TextureAccess::eInvalid,
 
 			expr::TextureAccess::eTexture1DArrayFBias,
 			expr::TextureAccess::eTexture2DArrayFBias,
@@ -307,11 +310,11 @@ namespace sdw
 			expr::TextureAccess::eTexture1DShadowFBias,
 			expr::TextureAccess::eTexture2DShadowFBias,
 			expr::TextureAccess::eTextureCubeShadowFBias,
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
 
 			expr::TextureAccess::eTexture1DArrayShadowFBias,
-			expr::TextureAccess( ~( 0u ) ),
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
+			expr::TextureAccess::eInvalid,
 		};
 		static constexpr IntrinsicsList textureBiasI
 		{
@@ -319,8 +322,8 @@ namespace sdw
 			expr::TextureAccess::eTexture2DIBias,
 			expr::TextureAccess::eTexture3DIBias,
 			expr::TextureAccess::eTextureCubeIBias,
-			expr::TextureAccess( ~( 0u ) ),
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
+			expr::TextureAccess::eInvalid,
 
 			expr::TextureAccess::eTexture1DArrayIBias,
 			expr::TextureAccess::eTexture2DArrayIBias,
@@ -332,8 +335,8 @@ namespace sdw
 			expr::TextureAccess::eTexture2DUBias,
 			expr::TextureAccess::eTexture3DUBias,
 			expr::TextureAccess::eTextureCubeUBias,
-			expr::TextureAccess( ~( 0u ) ),
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
+			expr::TextureAccess::eInvalid,
 
 			expr::TextureAccess::eTexture1DArrayUBias,
 			expr::TextureAccess::eTexture2DArrayUBias,
@@ -345,48 +348,48 @@ namespace sdw
 			expr::TextureAccess::eTextureOffset1DF,
 			expr::TextureAccess::eTextureOffset2DF,
 			expr::TextureAccess::eTextureOffset3DF,
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
 			expr::TextureAccess::eTextureOffset2DRectF,
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
 
 			expr::TextureAccess::eTextureOffset1DArrayF,
 			expr::TextureAccess::eTextureOffset2DArrayF,
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
 
 			expr::TextureAccess::eTextureOffset1DShadowF,
 			expr::TextureAccess::eTextureOffset2DShadowF,
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
 			expr::TextureAccess::eTextureOffset2DRectShadowF,
 
 			expr::TextureAccess::eTextureOffset1DArrayShadowF,
 			expr::TextureAccess::eTextureOffset2DArrayShadowF,
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
 		};
 		static constexpr IntrinsicsList textureOffsetI
 		{
 			expr::TextureAccess::eTextureOffset1DI,
 			expr::TextureAccess::eTextureOffset2DI,
 			expr::TextureAccess::eTextureOffset3DI,
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
 			expr::TextureAccess::eTextureOffset2DRectI,
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
 
 			expr::TextureAccess::eTextureOffset1DArrayI,
 			expr::TextureAccess::eTextureOffset2DArrayI,
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
 		};
 		static constexpr IntrinsicsList textureOffsetU
 		{
 			expr::TextureAccess::eTextureOffset1DU,
 			expr::TextureAccess::eTextureOffset2DU,
 			expr::TextureAccess::eTextureOffset3DU,
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
 			expr::TextureAccess::eTextureOffset2DRectU,
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
 
 			expr::TextureAccess::eTextureOffset1DArrayU,
 			expr::TextureAccess::eTextureOffset2DArrayU,
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
 		};
 
 		static constexpr IntrinsicsList textureOffsetBiasF
@@ -394,48 +397,48 @@ namespace sdw
 			expr::TextureAccess::eTextureOffset1DFBias,
 			expr::TextureAccess::eTextureOffset2DFBias,
 			expr::TextureAccess::eTextureOffset3DFBias,
-			expr::TextureAccess( ~( 0u ) ),
-			expr::TextureAccess( ~( 0u ) ),
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
+			expr::TextureAccess::eInvalid,
+			expr::TextureAccess::eInvalid,
 
 			expr::TextureAccess::eTextureOffset1DArrayFBias,
 			expr::TextureAccess::eTextureOffset2DArrayFBias,
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
 
 			expr::TextureAccess::eTextureOffset1DShadowFBias,
 			expr::TextureAccess::eTextureOffset2DShadowFBias,
-			expr::TextureAccess( ~( 0u ) ),
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
+			expr::TextureAccess::eInvalid,
 
-			expr::TextureAccess( ~( 0u ) ),
-			expr::TextureAccess( ~( 0u ) ),
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
+			expr::TextureAccess::eInvalid,
+			expr::TextureAccess::eInvalid,
 		};
 		static constexpr IntrinsicsList textureOffsetBiasI
 		{
 			expr::TextureAccess::eTextureOffset1DIBias,
 			expr::TextureAccess::eTextureOffset2DIBias,
 			expr::TextureAccess::eTextureOffset3DIBias,
-			expr::TextureAccess( ~( 0u ) ),
-			expr::TextureAccess( ~( 0u ) ),
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
+			expr::TextureAccess::eInvalid,
+			expr::TextureAccess::eInvalid,
 
 			expr::TextureAccess::eTextureOffset1DArrayIBias,
 			expr::TextureAccess::eTextureOffset2DArrayIBias,
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
 		};
 		static constexpr IntrinsicsList textureOffsetBiasU
 		{
 			expr::TextureAccess::eTextureOffset1DUBias,
 			expr::TextureAccess::eTextureOffset2DUBias,
 			expr::TextureAccess::eTextureOffset3DUBias,
-			expr::TextureAccess( ~( 0u ) ),
-			expr::TextureAccess( ~( 0u ) ),
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
+			expr::TextureAccess::eInvalid,
+			expr::TextureAccess::eInvalid,
 
 			expr::TextureAccess::eTextureOffset1DArrayUBias,
 			expr::TextureAccess::eTextureOffset2DArrayUBias,
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
 		};
 
 		static constexpr IntrinsicsList textureProjF
@@ -443,48 +446,48 @@ namespace sdw
 			expr::TextureAccess::eTextureProj1DF2,
 			expr::TextureAccess::eTextureProj2DF3,
 			expr::TextureAccess::eTextureProj3DF,
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
 			expr::TextureAccess::eTextureProj2DRectF3,
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
 
-			expr::TextureAccess( ~( 0u ) ),
-			expr::TextureAccess( ~( 0u ) ),
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
+			expr::TextureAccess::eInvalid,
+			expr::TextureAccess::eInvalid,
 
 			expr::TextureAccess::eTextureProj1DShadowF,
 			expr::TextureAccess::eTextureProj2DShadowF,
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
 			expr::TextureAccess::eTextureProj2DRectShadowF,
 
-			expr::TextureAccess( ~( 0u ) ),
-			expr::TextureAccess( ~( 0u ) ),
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
+			expr::TextureAccess::eInvalid,
+			expr::TextureAccess::eInvalid,
 		};
 		static constexpr IntrinsicsList textureProjI
 		{
 			expr::TextureAccess::eTextureProj1DI2,
 			expr::TextureAccess::eTextureProj2DI3,
 			expr::TextureAccess::eTextureProj3DI,
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
 			expr::TextureAccess::eTextureProj2DRectI3,
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
 
-			expr::TextureAccess( ~( 0u ) ),
-			expr::TextureAccess( ~( 0u ) ),
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
+			expr::TextureAccess::eInvalid,
+			expr::TextureAccess::eInvalid,
 		};
 		static constexpr IntrinsicsList textureProjU
 		{
 			expr::TextureAccess::eTextureProj1DU2,
 			expr::TextureAccess::eTextureProj2DU3,
 			expr::TextureAccess::eTextureProj3DU,
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
 			expr::TextureAccess::eTextureProj2DRectU3,
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
 
-			expr::TextureAccess( ~( 0u ) ),
-			expr::TextureAccess( ~( 0u ) ),
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
+			expr::TextureAccess::eInvalid,
+			expr::TextureAccess::eInvalid,
 		};
 
 		static constexpr IntrinsicsList textureProjBiasF
@@ -492,48 +495,48 @@ namespace sdw
 			expr::TextureAccess::eTextureProj1DF2Bias,
 			expr::TextureAccess::eTextureProj2DF3Bias,
 			expr::TextureAccess::eTextureProj3DFBias,
-			expr::TextureAccess( ~( 0u ) ),
-			expr::TextureAccess( ~( 0u ) ),
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
+			expr::TextureAccess::eInvalid,
+			expr::TextureAccess::eInvalid,
 
-			expr::TextureAccess( ~( 0u ) ),
-			expr::TextureAccess( ~( 0u ) ),
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
+			expr::TextureAccess::eInvalid,
+			expr::TextureAccess::eInvalid,
 
 			expr::TextureAccess::eTextureProj1DShadowFBias,
 			expr::TextureAccess::eTextureProj2DShadowFBias,
-			expr::TextureAccess( ~( 0u ) ),
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
+			expr::TextureAccess::eInvalid,
 
-			expr::TextureAccess( ~( 0u ) ),
-			expr::TextureAccess( ~( 0u ) ),
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
+			expr::TextureAccess::eInvalid,
+			expr::TextureAccess::eInvalid,
 		};
 		static constexpr IntrinsicsList textureProjBiasI
 		{
 			expr::TextureAccess::eTextureProj1DI2Bias,
 			expr::TextureAccess::eTextureProj2DI3Bias,
 			expr::TextureAccess::eTextureProj3DIBias,
-			expr::TextureAccess( ~( 0u ) ),
-			expr::TextureAccess( ~( 0u ) ),
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
+			expr::TextureAccess::eInvalid,
+			expr::TextureAccess::eInvalid,
 
-			expr::TextureAccess( ~( 0u ) ),
-			expr::TextureAccess( ~( 0u ) ),
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
+			expr::TextureAccess::eInvalid,
+			expr::TextureAccess::eInvalid,
 		};
 		static constexpr IntrinsicsList textureProjBiasU
 		{
 			expr::TextureAccess::eTextureProj1DU2Bias,
 			expr::TextureAccess::eTextureProj2DU3Bias,
 			expr::TextureAccess::eTextureProj3DUBias,
-			expr::TextureAccess( ~( 0u ) ),
-			expr::TextureAccess( ~( 0u ) ),
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
+			expr::TextureAccess::eInvalid,
+			expr::TextureAccess::eInvalid,
 
-			expr::TextureAccess( ~( 0u ) ),
-			expr::TextureAccess( ~( 0u ) ),
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
+			expr::TextureAccess::eInvalid,
+			expr::TextureAccess::eInvalid,
 		};
 
 		static constexpr IntrinsicsList textureProjOffsetF
@@ -541,48 +544,48 @@ namespace sdw
 			expr::TextureAccess::eTextureProjOffset1DF2,
 			expr::TextureAccess::eTextureProjOffset2DF3,
 			expr::TextureAccess::eTextureProjOffset3DF,
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
 			expr::TextureAccess::eTextureProjOffset2DRectF3,
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
 
-			expr::TextureAccess( ~( 0u ) ),
-			expr::TextureAccess( ~( 0u ) ),
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
+			expr::TextureAccess::eInvalid,
+			expr::TextureAccess::eInvalid,
 
 			expr::TextureAccess::eTextureProjOffset1DShadowF,
 			expr::TextureAccess::eTextureProjOffset2DShadowF,
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
 			expr::TextureAccess::eTextureProjOffset2DRectShadowF,
 
-			expr::TextureAccess( ~( 0u ) ),
-			expr::TextureAccess( ~( 0u ) ),
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
+			expr::TextureAccess::eInvalid,
+			expr::TextureAccess::eInvalid,
 		};
 		static constexpr IntrinsicsList textureProjOffsetI
 		{
 			expr::TextureAccess::eTextureProjOffset1DI2,
 			expr::TextureAccess::eTextureProjOffset2DI3,
 			expr::TextureAccess::eTextureProjOffset3DI,
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
 			expr::TextureAccess::eTextureProjOffset2DRectI3,
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
 
-			expr::TextureAccess( ~( 0u ) ),
-			expr::TextureAccess( ~( 0u ) ),
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
+			expr::TextureAccess::eInvalid,
+			expr::TextureAccess::eInvalid,
 		};
 		static constexpr IntrinsicsList textureProjOffsetU
 		{
 			expr::TextureAccess::eTextureProjOffset1DU2,
 			expr::TextureAccess::eTextureProjOffset2DU3,
 			expr::TextureAccess::eTextureProjOffset3DU,
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
 			expr::TextureAccess::eTextureProjOffset2DRectU3,
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
 
-			expr::TextureAccess( ~( 0u ) ),
-			expr::TextureAccess( ~( 0u ) ),
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
+			expr::TextureAccess::eInvalid,
+			expr::TextureAccess::eInvalid,
 		};
 
 		static constexpr IntrinsicsList textureProjOffsetBiasF
@@ -590,48 +593,48 @@ namespace sdw
 			expr::TextureAccess::eTextureProjOffset1DF2Bias,
 			expr::TextureAccess::eTextureProjOffset2DF3Bias,
 			expr::TextureAccess::eTextureProjOffset3DFBias,
-			expr::TextureAccess( ~( 0u ) ),
-			expr::TextureAccess( ~( 0u ) ),
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
+			expr::TextureAccess::eInvalid,
+			expr::TextureAccess::eInvalid,
 
-			expr::TextureAccess( ~( 0u ) ),
-			expr::TextureAccess( ~( 0u ) ),
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
+			expr::TextureAccess::eInvalid,
+			expr::TextureAccess::eInvalid,
 
 			expr::TextureAccess::eTextureProjOffset1DShadowFBias,
 			expr::TextureAccess::eTextureProjOffset2DShadowFBias,
-			expr::TextureAccess( ~( 0u ) ),
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
+			expr::TextureAccess::eInvalid,
 
-			expr::TextureAccess( ~( 0u ) ),
-			expr::TextureAccess( ~( 0u ) ),
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
+			expr::TextureAccess::eInvalid,
+			expr::TextureAccess::eInvalid,
 		};
 		static constexpr IntrinsicsList textureProjOffsetBiasI
 		{
 			expr::TextureAccess::eTextureProjOffset1DI2Bias,
 			expr::TextureAccess::eTextureProjOffset2DI3Bias,
 			expr::TextureAccess::eTextureProjOffset3DIBias,
-			expr::TextureAccess( ~( 0u ) ),
-			expr::TextureAccess( ~( 0u ) ),
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
+			expr::TextureAccess::eInvalid,
+			expr::TextureAccess::eInvalid,
 
-			expr::TextureAccess( ~( 0u ) ),
-			expr::TextureAccess( ~( 0u ) ),
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
+			expr::TextureAccess::eInvalid,
+			expr::TextureAccess::eInvalid,
 		};
 		static constexpr IntrinsicsList textureProjOffsetBiasU
 		{
 			expr::TextureAccess::eTextureProjOffset1DU2Bias,
 			expr::TextureAccess::eTextureProjOffset2DU3Bias,
 			expr::TextureAccess::eTextureProjOffset3DUBias,
-			expr::TextureAccess( ~( 0u ) ),
-			expr::TextureAccess( ~( 0u ) ),
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
+			expr::TextureAccess::eInvalid,
+			expr::TextureAccess::eInvalid,
 
-			expr::TextureAccess( ~( 0u ) ),
-			expr::TextureAccess( ~( 0u ) ),
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
+			expr::TextureAccess::eInvalid,
+			expr::TextureAccess::eInvalid,
 		};
 
 		static constexpr IntrinsicsList textureLodF
@@ -640,8 +643,8 @@ namespace sdw
 			expr::TextureAccess::eTextureLod2DF,
 			expr::TextureAccess::eTextureLod3DF,
 			expr::TextureAccess::eTextureLodCubeF,
-			expr::TextureAccess( ~( 0u ) ),
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
+			expr::TextureAccess::eInvalid,
 
 			expr::TextureAccess::eTextureLod1DArrayF,
 			expr::TextureAccess::eTextureLod2DArrayF,
@@ -649,12 +652,12 @@ namespace sdw
 
 			expr::TextureAccess::eTextureLod1DShadowF,
 			expr::TextureAccess::eTextureLod2DShadowF,
-			expr::TextureAccess( ~( 0u ) ),
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
+			expr::TextureAccess::eInvalid,
 
 			expr::TextureAccess::eTextureLod1DArrayShadowF,
-			expr::TextureAccess( ~( 0u ) ),
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
+			expr::TextureAccess::eInvalid,
 		};
 		static constexpr IntrinsicsList textureLodI
 		{
@@ -662,8 +665,8 @@ namespace sdw
 			expr::TextureAccess::eTextureLod2DI,
 			expr::TextureAccess::eTextureLod3DI,
 			expr::TextureAccess::eTextureLodCubeI,
-			expr::TextureAccess( ~( 0u ) ),
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
+			expr::TextureAccess::eInvalid,
 
 			expr::TextureAccess::eTextureLod1DArrayI,
 			expr::TextureAccess::eTextureLod2DArrayI,
@@ -675,8 +678,8 @@ namespace sdw
 			expr::TextureAccess::eTextureLod2DU,
 			expr::TextureAccess::eTextureLod3DU,
 			expr::TextureAccess::eTextureLodCubeU,
-			expr::TextureAccess( ~( 0u ) ),
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
+			expr::TextureAccess::eInvalid,
 
 			expr::TextureAccess::eTextureLod1DArrayU,
 			expr::TextureAccess::eTextureLod2DArrayU,
@@ -688,48 +691,48 @@ namespace sdw
 			expr::TextureAccess::eTextureLodOffset1DF,
 			expr::TextureAccess::eTextureLodOffset2DF,
 			expr::TextureAccess::eTextureLodOffset3DF,
-			expr::TextureAccess( ~( 0u ) ),
-			expr::TextureAccess( ~( 0u ) ),
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
+			expr::TextureAccess::eInvalid,
+			expr::TextureAccess::eInvalid,
 
 			expr::TextureAccess::eTextureLodOffset1DArrayF,
 			expr::TextureAccess::eTextureLodOffset2DArrayF,
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
 
 			expr::TextureAccess::eTextureLodOffset1DShadowF,
 			expr::TextureAccess::eTextureLodOffset2DShadowF,
-			expr::TextureAccess( ~( 0u ) ),
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
+			expr::TextureAccess::eInvalid,
 
 			expr::TextureAccess::eTextureLodOffset1DArrayShadowF,
-			expr::TextureAccess( ~( 0u ) ),
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
+			expr::TextureAccess::eInvalid,
 		};
 		static constexpr IntrinsicsList textureLodOffsetI
 		{
 			expr::TextureAccess::eTextureLodOffset1DI,
 			expr::TextureAccess::eTextureLodOffset2DI,
 			expr::TextureAccess::eTextureLodOffset3DI,
-			expr::TextureAccess( ~( 0u ) ),
-			expr::TextureAccess( ~( 0u ) ),
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
+			expr::TextureAccess::eInvalid,
+			expr::TextureAccess::eInvalid,
 
 			expr::TextureAccess::eTextureLodOffset1DArrayI,
 			expr::TextureAccess::eTextureLodOffset2DArrayI,
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
 		};
 		static constexpr IntrinsicsList textureLodOffsetU
 		{
 			expr::TextureAccess::eTextureLodOffset1DU,
 			expr::TextureAccess::eTextureLodOffset2DU,
 			expr::TextureAccess::eTextureLodOffset3DU,
-			expr::TextureAccess( ~( 0u ) ),
-			expr::TextureAccess( ~( 0u ) ),
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
+			expr::TextureAccess::eInvalid,
+			expr::TextureAccess::eInvalid,
 
 			expr::TextureAccess::eTextureLodOffset1DArrayU,
 			expr::TextureAccess::eTextureLodOffset2DArrayU,
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
 		};
 
 		static constexpr IntrinsicsList textureProjLodF
@@ -737,48 +740,48 @@ namespace sdw
 			expr::TextureAccess::eTextureProjLod1DF2,
 			expr::TextureAccess::eTextureProjLod2DF3,
 			expr::TextureAccess::eTextureProjLod3DF,
-			expr::TextureAccess( ~( 0u ) ),
-			expr::TextureAccess( ~( 0u ) ),
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
+			expr::TextureAccess::eInvalid,
+			expr::TextureAccess::eInvalid,
 
-			expr::TextureAccess( ~( 0u ) ),
-			expr::TextureAccess( ~( 0u ) ),
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
+			expr::TextureAccess::eInvalid,
+			expr::TextureAccess::eInvalid,
 
 			expr::TextureAccess::eTextureProjLod1DShadowF,
 			expr::TextureAccess::eTextureProjLod2DShadowF,
-			expr::TextureAccess( ~( 0u ) ),
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
+			expr::TextureAccess::eInvalid,
 
-			expr::TextureAccess( ~( 0u ) ),
-			expr::TextureAccess( ~( 0u ) ),
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
+			expr::TextureAccess::eInvalid,
+			expr::TextureAccess::eInvalid,
 		};
 		static constexpr IntrinsicsList textureProjLodI
 		{
 			expr::TextureAccess::eTextureProjLod1DI2,
 			expr::TextureAccess::eTextureProjLod2DI3,
 			expr::TextureAccess::eTextureProjLod3DI,
-			expr::TextureAccess( ~( 0u ) ),
-			expr::TextureAccess( ~( 0u ) ),
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
+			expr::TextureAccess::eInvalid,
+			expr::TextureAccess::eInvalid,
 
-			expr::TextureAccess( ~( 0u ) ),
-			expr::TextureAccess( ~( 0u ) ),
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
+			expr::TextureAccess::eInvalid,
+			expr::TextureAccess::eInvalid,
 		};
 		static constexpr IntrinsicsList textureProjLodU
 		{
 			expr::TextureAccess::eTextureProjLod1DU2,
 			expr::TextureAccess::eTextureProjLod2DU3,
 			expr::TextureAccess::eTextureProjLod3DU,
-			expr::TextureAccess( ~( 0u ) ),
-			expr::TextureAccess( ~( 0u ) ),
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
+			expr::TextureAccess::eInvalid,
+			expr::TextureAccess::eInvalid,
 
-			expr::TextureAccess( ~( 0u ) ),
-			expr::TextureAccess( ~( 0u ) ),
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
+			expr::TextureAccess::eInvalid,
+			expr::TextureAccess::eInvalid,
 		};
 
 		static constexpr IntrinsicsList textureProjLodOffsetF
@@ -786,48 +789,48 @@ namespace sdw
 			expr::TextureAccess::eTextureProjLodOffset1DF2,
 			expr::TextureAccess::eTextureProjLodOffset2DF3,
 			expr::TextureAccess::eTextureProjLodOffset3DF,
-			expr::TextureAccess( ~( 0u ) ),
-			expr::TextureAccess( ~( 0u ) ),
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
+			expr::TextureAccess::eInvalid,
+			expr::TextureAccess::eInvalid,
 
-			expr::TextureAccess( ~( 0u ) ),
-			expr::TextureAccess( ~( 0u ) ),
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
+			expr::TextureAccess::eInvalid,
+			expr::TextureAccess::eInvalid,
 
 			expr::TextureAccess::eTextureProjLodOffset1DShadowF,
 			expr::TextureAccess::eTextureProjLodOffset2DShadowF,
-			expr::TextureAccess( ~( 0u ) ),
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
+			expr::TextureAccess::eInvalid,
 
-			expr::TextureAccess( ~( 0u ) ),
-			expr::TextureAccess( ~( 0u ) ),
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
+			expr::TextureAccess::eInvalid,
+			expr::TextureAccess::eInvalid,
 		};
 		static constexpr IntrinsicsList textureProjLodOffsetI
 		{
 			expr::TextureAccess::eTextureProjLodOffset1DI2,
 			expr::TextureAccess::eTextureProjLodOffset2DI3,
 			expr::TextureAccess::eTextureProjLodOffset3DI,
-			expr::TextureAccess( ~( 0u ) ),
-			expr::TextureAccess( ~( 0u ) ),
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
+			expr::TextureAccess::eInvalid,
+			expr::TextureAccess::eInvalid,
 
-			expr::TextureAccess( ~( 0u ) ),
-			expr::TextureAccess( ~( 0u ) ),
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
+			expr::TextureAccess::eInvalid,
+			expr::TextureAccess::eInvalid,
 		};
 		static constexpr IntrinsicsList textureProjLodOffsetU
 		{
 			expr::TextureAccess::eTextureProjLodOffset1DU2,
 			expr::TextureAccess::eTextureProjLodOffset2DU3,
 			expr::TextureAccess::eTextureProjLodOffset3DU,
-			expr::TextureAccess( ~( 0u ) ),
-			expr::TextureAccess( ~( 0u ) ),
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
+			expr::TextureAccess::eInvalid,
+			expr::TextureAccess::eInvalid,
 
-			expr::TextureAccess( ~( 0u ) ),
-			expr::TextureAccess( ~( 0u ) ),
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
+			expr::TextureAccess::eInvalid,
+			expr::TextureAccess::eInvalid,
 		};
 
 		static constexpr IntrinsicsList texelFetchF
@@ -835,39 +838,39 @@ namespace sdw
 			expr::TextureAccess::eTexelFetch1DF,
 			expr::TextureAccess::eTexelFetch2DF,
 			expr::TextureAccess::eTexelFetch3DF,
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
 			expr::TextureAccess::eTexelFetch2DRectF,
 			expr::TextureAccess::eTexelFetchBufferF,
 
 			expr::TextureAccess::eTexelFetch1DArrayF,
 			expr::TextureAccess::eTexelFetch2DArrayF,
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
 		};
 		static constexpr IntrinsicsList texelFetchI
 		{
 			expr::TextureAccess::eTexelFetch1DI,
 			expr::TextureAccess::eTexelFetch2DI,
 			expr::TextureAccess::eTexelFetch3DI,
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
 			expr::TextureAccess::eTexelFetch2DRectI,
 			expr::TextureAccess::eTexelFetchBufferI,
 
 			expr::TextureAccess::eTexelFetch1DArrayI,
 			expr::TextureAccess::eTexelFetch2DArrayI,
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
 		};
 		static constexpr IntrinsicsList texelFetchU
 		{
 			expr::TextureAccess::eTexelFetch1DU,
 			expr::TextureAccess::eTexelFetch2DU,
 			expr::TextureAccess::eTexelFetch3DU,
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
 			expr::TextureAccess::eTexelFetch2DRectU,
 			expr::TextureAccess::eTexelFetchBufferU,
 
 			expr::TextureAccess::eTexelFetch1DArrayU,
 			expr::TextureAccess::eTexelFetch2DArrayU,
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
 		};
 
 		static constexpr IntrinsicsList texelFetchOffsetF
@@ -875,39 +878,39 @@ namespace sdw
 			expr::TextureAccess::eTexelFetchOffset1DF,
 			expr::TextureAccess::eTexelFetchOffset2DF,
 			expr::TextureAccess::eTexelFetchOffset3DF,
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
 			expr::TextureAccess::eTexelFetchOffset2DRectF,
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
 
 			expr::TextureAccess::eTexelFetchOffset1DArrayF,
 			expr::TextureAccess::eTexelFetchOffset2DArrayF,
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
 		};
 		static constexpr IntrinsicsList texelFetchOffsetI
 		{
 			expr::TextureAccess::eTexelFetchOffset1DI,
 			expr::TextureAccess::eTexelFetchOffset2DI,
 			expr::TextureAccess::eTexelFetchOffset3DI,
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
 			expr::TextureAccess::eTexelFetchOffset2DRectI,
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
 
 			expr::TextureAccess::eTexelFetchOffset1DArrayI,
 			expr::TextureAccess::eTexelFetchOffset2DArrayI,
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
 		};
 		static constexpr IntrinsicsList texelFetchOffsetU
 		{
 			expr::TextureAccess::eTexelFetchOffset1DU,
 			expr::TextureAccess::eTexelFetchOffset2DU,
 			expr::TextureAccess::eTexelFetchOffset3DU,
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
 			expr::TextureAccess::eTexelFetchOffset2DRectU,
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
 
 			expr::TextureAccess::eTexelFetchOffset1DArrayU,
 			expr::TextureAccess::eTexelFetchOffset2DArrayU,
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
 		};
 
 		static constexpr IntrinsicsList textureGradF
@@ -917,7 +920,7 @@ namespace sdw
 			expr::TextureAccess::eTextureGrad3DF,
 			expr::TextureAccess::eTextureGradCubeF,
 			expr::TextureAccess::eTextureGrad2DRectF,
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
 
 			expr::TextureAccess::eTextureGrad1DArrayF,
 			expr::TextureAccess::eTextureGrad2DArrayF,
@@ -925,12 +928,12 @@ namespace sdw
 
 			expr::TextureAccess::eTextureGrad1DShadowF,
 			expr::TextureAccess::eTextureGrad2DShadowF,
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
 			expr::TextureAccess::eTextureGrad2DRectShadowF,
 
 			expr::TextureAccess::eTextureGrad1DArrayShadowF,
-			expr::TextureAccess( ~( 0u ) ),
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
+			expr::TextureAccess::eInvalid,
 		};
 		static constexpr IntrinsicsList textureGradI
 		{
@@ -939,7 +942,7 @@ namespace sdw
 			expr::TextureAccess::eTextureGrad3DI,
 			expr::TextureAccess::eTextureGradCubeI,
 			expr::TextureAccess::eTextureGrad2DRectI,
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
 
 			expr::TextureAccess::eTextureGrad1DArrayI,
 			expr::TextureAccess::eTextureGrad2DArrayI,
@@ -952,7 +955,7 @@ namespace sdw
 			expr::TextureAccess::eTextureGrad3DU,
 			expr::TextureAccess::eTextureGradCubeU,
 			expr::TextureAccess::eTextureGrad2DRectU,
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
 
 			expr::TextureAccess::eTextureGrad1DArrayU,
 			expr::TextureAccess::eTextureGrad2DArrayU,
@@ -964,48 +967,48 @@ namespace sdw
 			expr::TextureAccess::eTextureGradOffset1DF,
 			expr::TextureAccess::eTextureGradOffset2DF,
 			expr::TextureAccess::eTextureGradOffset3DF,
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
 			expr::TextureAccess::eTextureGradOffset2DRectF,
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
 
 			expr::TextureAccess::eTextureGradOffset1DArrayF,
 			expr::TextureAccess::eTextureGradOffset2DArrayF,
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
 
 			expr::TextureAccess::eTextureGradOffset1DShadowF,
 			expr::TextureAccess::eTextureGradOffset2DShadowF,
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
 			expr::TextureAccess::eTextureGradOffset2DRectShadowF,
 
 			expr::TextureAccess::eTextureGradOffset1DArrayShadowF,
 			expr::TextureAccess::eTextureGradOffset2DArrayShadowF,
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
 		};
 		static constexpr IntrinsicsList textureGradOffsetI
 		{
 			expr::TextureAccess::eTextureGradOffset1DI,
 			expr::TextureAccess::eTextureGradOffset2DI,
 			expr::TextureAccess::eTextureGradOffset3DI,
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
 			expr::TextureAccess::eTextureGradOffset2DRectI,
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
 
 			expr::TextureAccess::eTextureGradOffset1DArrayI,
 			expr::TextureAccess::eTextureGradOffset2DArrayI,
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
 		};
 		static constexpr IntrinsicsList textureGradOffsetU
 		{
 			expr::TextureAccess::eTextureGradOffset1DU,
 			expr::TextureAccess::eTextureGradOffset2DU,
 			expr::TextureAccess::eTextureGradOffset3DU,
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
 			expr::TextureAccess::eTextureGradOffset2DRectU,
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
 
 			expr::TextureAccess::eTextureGradOffset1DArrayU,
 			expr::TextureAccess::eTextureGradOffset2DArrayU,
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
 		};
 
 		static constexpr IntrinsicsList textureProjGradF
@@ -1013,48 +1016,48 @@ namespace sdw
 			expr::TextureAccess::eTextureProjGrad1DF2,
 			expr::TextureAccess::eTextureProjGrad2DF3,
 			expr::TextureAccess::eTextureProjGrad3DF,
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
 			expr::TextureAccess::eTextureProjGrad2DRectF3,
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
 
-			expr::TextureAccess( ~( 0u ) ),
-			expr::TextureAccess( ~( 0u ) ),
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
+			expr::TextureAccess::eInvalid,
+			expr::TextureAccess::eInvalid,
 
 			expr::TextureAccess::eTextureProjGrad1DShadowF,
 			expr::TextureAccess::eTextureProjGrad2DShadowF,
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
 			expr::TextureAccess::eTextureProjGrad2DRectShadowF,
 
-			expr::TextureAccess( ~( 0u ) ),
-			expr::TextureAccess( ~( 0u ) ),
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
+			expr::TextureAccess::eInvalid,
+			expr::TextureAccess::eInvalid,
 		};
 		static constexpr IntrinsicsList textureProjGradI
 		{
 			expr::TextureAccess::eTextureProjGrad1DI2,
 			expr::TextureAccess::eTextureProjGrad2DI3,
 			expr::TextureAccess::eTextureProjGrad3DI,
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
 			expr::TextureAccess::eTextureProjGrad2DRectI3,
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
 
-			expr::TextureAccess( ~( 0u ) ),
-			expr::TextureAccess( ~( 0u ) ),
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
+			expr::TextureAccess::eInvalid,
+			expr::TextureAccess::eInvalid,
 		};
 		static constexpr IntrinsicsList textureProjGradU
 		{
 			expr::TextureAccess::eTextureProjGrad1DU2,
 			expr::TextureAccess::eTextureProjGrad2DU3,
 			expr::TextureAccess::eTextureProjGrad3DU,
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
 			expr::TextureAccess::eTextureProjGrad2DRectU3,
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
 
-			expr::TextureAccess( ~( 0u ) ),
-			expr::TextureAccess( ~( 0u ) ),
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
+			expr::TextureAccess::eInvalid,
+			expr::TextureAccess::eInvalid,
 		};
 
 		static constexpr IntrinsicsList textureProjGradOffsetF
@@ -1062,315 +1065,315 @@ namespace sdw
 			expr::TextureAccess::eTextureProjGradOffset1DF2,
 			expr::TextureAccess::eTextureProjGradOffset2DF3,
 			expr::TextureAccess::eTextureProjGradOffset3DF,
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
 			expr::TextureAccess::eTextureProjGradOffset2DRectF3,
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
 
-			expr::TextureAccess( ~( 0u ) ),
-			expr::TextureAccess( ~( 0u ) ),
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
+			expr::TextureAccess::eInvalid,
+			expr::TextureAccess::eInvalid,
 
 			expr::TextureAccess::eTextureProjGradOffset1DShadowF,
 			expr::TextureAccess::eTextureProjGradOffset2DShadowF,
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
 			expr::TextureAccess::eTextureProjGradOffset2DRectShadowF,
 
-			expr::TextureAccess( ~( 0u ) ),
-			expr::TextureAccess( ~( 0u ) ),
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
+			expr::TextureAccess::eInvalid,
+			expr::TextureAccess::eInvalid,
 		};
 		static constexpr IntrinsicsList textureProjGradOffsetI
 		{
 			expr::TextureAccess::eTextureProjGradOffset1DI2,
 			expr::TextureAccess::eTextureProjGradOffset2DI3,
 			expr::TextureAccess::eTextureProjGradOffset3DI,
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
 			expr::TextureAccess::eTextureProjGradOffset2DRectI3,
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
 
-			expr::TextureAccess( ~( 0u ) ),
-			expr::TextureAccess( ~( 0u ) ),
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
+			expr::TextureAccess::eInvalid,
+			expr::TextureAccess::eInvalid,
 		};
 		static constexpr IntrinsicsList textureProjGradOffsetU
 		{
 			expr::TextureAccess::eTextureProjGradOffset1DU2,
 			expr::TextureAccess::eTextureProjGradOffset2DU3,
 			expr::TextureAccess::eTextureProjGradOffset3DU,
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
 			expr::TextureAccess::eTextureProjGradOffset2DRectU3,
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
 
-			expr::TextureAccess( ~( 0u ) ),
-			expr::TextureAccess( ~( 0u ) ),
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
+			expr::TextureAccess::eInvalid,
+			expr::TextureAccess::eInvalid,
 		};
 
 		static constexpr IntrinsicsList textureGatherF
 		{
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
 			expr::TextureAccess::eTextureGather2DF,
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
 			expr::TextureAccess::eTextureGatherCubeF,
 			expr::TextureAccess::eTextureGather2DRectF,
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
 
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
 			expr::TextureAccess::eTextureGather2DArrayF,
 			expr::TextureAccess::eTextureGatherCubeArrayF,
 
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
 			expr::TextureAccess::eTextureGather2DShadowF,
 			expr::TextureAccess::eTextureGatherCubeShadowF,
 			expr::TextureAccess::eTextureGather2DRectShadowF,
 
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
 			expr::TextureAccess::eTextureGather2DArrayShadowF,
 			expr::TextureAccess::eTextureGatherCubeArrayShadowF,
 		};
 		static constexpr IntrinsicsList textureGatherI
 		{
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
 			expr::TextureAccess::eTextureGather2DI,
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
 			expr::TextureAccess::eTextureGatherCubeI,
 			expr::TextureAccess::eTextureGather2DRectI,
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
 
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
 			expr::TextureAccess::eTextureGather2DArrayI,
 			expr::TextureAccess::eTextureGatherCubeArrayI,
 		};
 		static constexpr IntrinsicsList textureGatherU
 		{
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
 			expr::TextureAccess::eTextureGather2DU,
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
 			expr::TextureAccess::eTextureGatherCubeU,
 			expr::TextureAccess::eTextureGather2DRectU,
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
 
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
 			expr::TextureAccess::eTextureGather2DArrayU,
 			expr::TextureAccess::eTextureGatherCubeArrayU,
 		};
 
 		static constexpr IntrinsicsList textureGatherCompF
 		{
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
 			expr::TextureAccess::eTextureGather2DFComp,
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
 			expr::TextureAccess::eTextureGatherCubeFComp,
 			expr::TextureAccess::eTextureGather2DRectFComp,
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
 
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
 			expr::TextureAccess::eTextureGather2DArrayFComp,
 			expr::TextureAccess::eTextureGatherCubeArrayFComp,
 		};
 		static constexpr IntrinsicsList textureGatherCompI
 		{
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
 			expr::TextureAccess::eTextureGather2DIComp,
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
 			expr::TextureAccess::eTextureGatherCubeIComp,
 			expr::TextureAccess::eTextureGather2DRectIComp,
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
 
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
 			expr::TextureAccess::eTextureGather2DArrayIComp,
 			expr::TextureAccess::eTextureGatherCubeArrayIComp,
 		};
 		static constexpr IntrinsicsList textureGatherCompU
 		{
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
 			expr::TextureAccess::eTextureGather2DUComp,
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
 			expr::TextureAccess::eTextureGatherCubeUComp,
 			expr::TextureAccess::eTextureGather2DRectUComp,
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
 
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
 			expr::TextureAccess::eTextureGather2DArrayUComp,
 			expr::TextureAccess::eTextureGatherCubeArrayUComp,
 		};
 
 		static constexpr IntrinsicsList textureGatherOffsetF
 		{
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
 			expr::TextureAccess::eTextureGatherOffset2DF,
-			expr::TextureAccess( ~( 0u ) ),
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
+			expr::TextureAccess::eInvalid,
 			expr::TextureAccess::eTextureGatherOffset2DRectF,
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
 
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
 			expr::TextureAccess::eTextureGatherOffset2DArrayF,
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
 
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
 			expr::TextureAccess::eTextureGatherOffset2DShadowF,
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
 			expr::TextureAccess::eTextureGatherOffset2DRectShadowF,
 
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
 			expr::TextureAccess::eTextureGatherOffset2DArrayShadowF,
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
 		};
 		static constexpr IntrinsicsList textureGatherOffsetI
 		{
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
 			expr::TextureAccess::eTextureGatherOffset2DI,
-			expr::TextureAccess( ~( 0u ) ),
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
+			expr::TextureAccess::eInvalid,
 			expr::TextureAccess::eTextureGatherOffset2DRectI,
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
 
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
 			expr::TextureAccess::eTextureGatherOffset2DArrayI,
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
 		};
 		static constexpr IntrinsicsList textureGatherOffsetU
 		{
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
 			expr::TextureAccess::eTextureGatherOffset2DU,
-			expr::TextureAccess( ~( 0u ) ),
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
+			expr::TextureAccess::eInvalid,
 			expr::TextureAccess::eTextureGatherOffset2DRectU,
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
 
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
 			expr::TextureAccess::eTextureGatherOffset2DArrayU,
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
 		};
 
 		static constexpr IntrinsicsList textureGatherOffsetCompF
 		{
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
 			expr::TextureAccess::eTextureGatherOffset2DFComp,
-			expr::TextureAccess( ~( 0u ) ),
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
+			expr::TextureAccess::eInvalid,
 			expr::TextureAccess::eTextureGatherOffset2DRectFComp,
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
 
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
 			expr::TextureAccess::eTextureGatherOffset2DArrayFComp,
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
 		};
 		static constexpr IntrinsicsList textureGatherOffsetCompI
 		{
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
 			expr::TextureAccess::eTextureGatherOffset2DIComp,
-			expr::TextureAccess( ~( 0u ) ),
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
+			expr::TextureAccess::eInvalid,
 			expr::TextureAccess::eTextureGatherOffset2DRectIComp,
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
 
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
 			expr::TextureAccess::eTextureGatherOffset2DArrayIComp,
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
 		};
 		static constexpr IntrinsicsList textureGatherOffsetCompU
 		{
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
 			expr::TextureAccess::eTextureGatherOffset2DUComp,
-			expr::TextureAccess( ~( 0u ) ),
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
+			expr::TextureAccess::eInvalid,
 			expr::TextureAccess::eTextureGatherOffset2DRectUComp,
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
 
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
 			expr::TextureAccess::eTextureGatherOffset2DArrayUComp,
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
 		};
 
 		static constexpr IntrinsicsList textureGatherOffsetsF
 		{
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
 			expr::TextureAccess::eTextureGatherOffsets2DF,
-			expr::TextureAccess( ~( 0u ) ),
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
+			expr::TextureAccess::eInvalid,
 			expr::TextureAccess::eTextureGatherOffsets2DRectF,
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
 
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
 			expr::TextureAccess::eTextureGatherOffsets2DArrayF,
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
 
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
 			expr::TextureAccess::eTextureGatherOffsets2DShadowF,
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
 			expr::TextureAccess::eTextureGatherOffsets2DRectShadowF,
 
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
 			expr::TextureAccess::eTextureGatherOffsets2DArrayShadowF,
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
 		};
 		static constexpr IntrinsicsList textureGatherOffsetsI
 		{
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
 			expr::TextureAccess::eTextureGatherOffsets2DI,
-			expr::TextureAccess( ~( 0u ) ),
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
+			expr::TextureAccess::eInvalid,
 			expr::TextureAccess::eTextureGatherOffsets2DRectI,
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
 
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
 			expr::TextureAccess::eTextureGatherOffsets2DArrayI,
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
 		};
 		static constexpr IntrinsicsList textureGatherOffsetsU
 		{
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
 			expr::TextureAccess::eTextureGatherOffsets2DU,
-			expr::TextureAccess( ~( 0u ) ),
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
+			expr::TextureAccess::eInvalid,
 			expr::TextureAccess::eTextureGatherOffsets2DRectU,
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
 
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
 			expr::TextureAccess::eTextureGatherOffsets2DArrayU,
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
 		};
 
 		static constexpr IntrinsicsList textureGatherOffsetsCompF
 		{
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
 			expr::TextureAccess::eTextureGatherOffsets2DFComp,
-			expr::TextureAccess( ~( 0u ) ),
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
+			expr::TextureAccess::eInvalid,
 			expr::TextureAccess::eTextureGatherOffsets2DRectFComp,
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
 
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
 			expr::TextureAccess::eTextureGatherOffsets2DArrayFComp,
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
 		};
 		static constexpr IntrinsicsList textureGatherOffsetsCompI
 		{
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
 			expr::TextureAccess::eTextureGatherOffsets2DIComp,
-			expr::TextureAccess( ~( 0u ) ),
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
+			expr::TextureAccess::eInvalid,
 			expr::TextureAccess::eTextureGatherOffsets2DRectIComp,
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
 
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
 			expr::TextureAccess::eTextureGatherOffsets2DArrayIComp,
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
 		};
 		static constexpr IntrinsicsList textureGatherOffsetsCompU
 		{
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
 			expr::TextureAccess::eTextureGatherOffsets2DUComp,
-			expr::TextureAccess( ~( 0u ) ),
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
+			expr::TextureAccess::eInvalid,
 			expr::TextureAccess::eTextureGatherOffsets2DRectUComp,
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
 
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
 			expr::TextureAccess::eTextureGatherOffsets2DArrayUComp,
-			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eInvalid,
 		};
 	}
 
@@ -1579,7 +1582,8 @@ namespace sdw
 		MaybeOptional< ReturnT > writeTextureAccessCall( MaybeOptional< SampledImageT< FormatT, DimT, ArrayedT, DepthT, MsT > > const & image
 			, MaybeOptional< ParamsT > const & ... params )
 		{
-			static_assert( TextureAccessT != expr::TextureAccess( ~( 0u ) ) );
+			static_assert( TextureAccessT != expr::TextureAccess::eInvalid );
+			static_assert( TextureAccessT != expr::TextureAccess::eUndefined );
 
 			auto & cache = findTypesCache( image, params... );
 
@@ -1612,7 +1616,8 @@ namespace sdw
 		void writeVoidTextureAccessCall( MaybeOptional< SampledImageT< FormatT, DimT, ArrayedT, DepthT, MsT > > const & image
 			, MaybeOptional< ParamsT > const & ... params )
 		{
-			static_assert( TextureAccessT != expr::TextureAccess( ~( 0u ) ) );
+			static_assert( TextureAccessT != expr::TextureAccess::eInvalid );
+			static_assert( TextureAccessT != expr::TextureAccess::eUndefined );
 
 			auto & cache = findTypesCache( image, params... );
 

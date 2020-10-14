@@ -7,8 +7,9 @@ See LICENSE file in root folder
 
 namespace ast::expr
 {
-	enum class TextureAccess
+	enum class TextureAccess: uint32_t
 	{
+		eUndefined,
 	// Texture Query Functions
 		eTextureSize1DF,
 		eTextureSize2DF,
@@ -575,6 +576,10 @@ namespace ast::expr
 		eTextureGatherOffsets2DShadowF,
 		eTextureGatherOffsets2DArrayShadowF,
 		eTextureGatherOffsets2DRectShadowF,
+
+	// Boundaries,
+		eCount,
+		eInvalid = ~( 0u ),
 	};
 }
 

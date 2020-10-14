@@ -7,8 +7,9 @@ See LICENSE file in root folder
 
 namespace ast::expr
 {
-	enum class ImageAccess
+	enum class ImageAccess: uint32_t
 	{
+		eUndefined,
 	// Image Query Functions
 		eImageSize1DF,
 		eImageSize2DF,
@@ -319,6 +320,10 @@ namespace ast::expr
 		eImageAtomicCompSwapCubeArrayI,
 		eImageAtomicCompSwap2DMSI,
 		eImageAtomicCompSwap2DMSArrayI,
+
+	// Boundaries,
+		eCount,
+		eInvalid = ~( 0u ),
 	};
 }
 

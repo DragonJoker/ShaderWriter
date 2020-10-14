@@ -4,6 +4,9 @@ See LICENSE file in root folder
 #include "ShaderWriter/BaseTypes/Int.hpp"
 #include "ShaderWriter/VecTypes/Vec4.hpp"
 
+#include <ShaderAST/Expr/EnumImageAccess.hpp>
+#include <ShaderAST/Expr/ExprImageAccessCall.hpp>
+
 #include <array>
 
 namespace sdw
@@ -44,8 +47,8 @@ namespace sdw
 				}
 				else
 				{
-					static_assert( false );
-					return expr::ImageAccess( ~( 0u ) );
+					assert( false );
+					return size_t( expr::ImageAccess::eInvalid );
 				}
 			}
 			else
@@ -72,16 +75,16 @@ namespace sdw
 		};
 		static constexpr ImageAccessIntrList imageSamplesF
 		{
-			expr::ImageAccess( ~( 0u ) ),
-			expr::ImageAccess( ~( 0u ) ),
-			expr::ImageAccess( ~( 0u ) ),
-			expr::ImageAccess( ~( 0u ) ),
-			expr::ImageAccess( ~( 0u ) ),
-			expr::ImageAccess( ~( 0u ) ),
+			expr::ImageAccess::eInvalid,
+			expr::ImageAccess::eInvalid,
+			expr::ImageAccess::eInvalid,
+			expr::ImageAccess::eInvalid,
+			expr::ImageAccess::eInvalid,
+			expr::ImageAccess::eInvalid,
 
-			expr::ImageAccess( ~( 0u ) ),
-			expr::ImageAccess( ~( 0u ) ),
-			expr::ImageAccess( ~( 0u ) ),
+			expr::ImageAccess::eInvalid,
+			expr::ImageAccess::eInvalid,
+			expr::ImageAccess::eInvalid,
 
 			expr::ImageAccess::eImageSamples2DMSF,
 			expr::ImageAccess::eImageSamples2DMSArrayF,
@@ -169,16 +172,16 @@ namespace sdw
 		};
 		static constexpr ImageAccessIntrList imageSamplesI
 		{
-			expr::ImageAccess( ~( 0u ) ),
-			expr::ImageAccess( ~( 0u ) ),
-			expr::ImageAccess( ~( 0u ) ),
-			expr::ImageAccess( ~( 0u ) ),
-			expr::ImageAccess( ~( 0u ) ),
-			expr::ImageAccess( ~( 0u ) ),
+			expr::ImageAccess::eInvalid,
+			expr::ImageAccess::eInvalid,
+			expr::ImageAccess::eInvalid,
+			expr::ImageAccess::eInvalid,
+			expr::ImageAccess::eInvalid,
+			expr::ImageAccess::eInvalid,
 
-			expr::ImageAccess( ~( 0u ) ),
-			expr::ImageAccess( ~( 0u ) ),
-			expr::ImageAccess( ~( 0u ) ),
+			expr::ImageAccess::eInvalid,
+			expr::ImageAccess::eInvalid,
+			expr::ImageAccess::eInvalid,
 
 			expr::ImageAccess::eImageSamples2DMSI,
 			expr::ImageAccess::eImageSamples2DMSArrayI,
@@ -362,16 +365,16 @@ namespace sdw
 		};
 		static constexpr ImageAccessIntrList imageSamplesU
 		{
-			expr::ImageAccess( ~( 0u ) ),
-			expr::ImageAccess( ~( 0u ) ),
-			expr::ImageAccess( ~( 0u ) ),
-			expr::ImageAccess( ~( 0u ) ),
-			expr::ImageAccess( ~( 0u ) ),
-			expr::ImageAccess( ~( 0u ) ),
+			expr::ImageAccess::eInvalid,
+			expr::ImageAccess::eInvalid,
+			expr::ImageAccess::eInvalid,
+			expr::ImageAccess::eInvalid,
+			expr::ImageAccess::eInvalid,
+			expr::ImageAccess::eInvalid,
 
-			expr::ImageAccess( ~( 0u ) ),
-			expr::ImageAccess( ~( 0u ) ),
-			expr::ImageAccess( ~( 0u ) ),
+			expr::ImageAccess::eInvalid,
+			expr::ImageAccess::eInvalid,
+			expr::ImageAccess::eInvalid,
 
 			expr::ImageAccess::eImageSamples2DMSU,
 			expr::ImageAccess::eImageSamples2DMSArrayU,
@@ -1059,7 +1062,8 @@ namespace sdw
 		MaybeOptional< ReturnT > writeImageAccessCall( MaybeOptional< ImageT< FormatT, AccessT, DimT, ArrayedT, DepthT, MsT > > const & image
 			, MaybeOptional< ParamsT > const & ... params )
 		{
-			static_assert( ImageAccessT != expr::ImageAccess( ~( 0u ) ) );
+			static_assert( ImageAccessT != expr::ImageAccess::eInvalid );
+			static_assert( ImageAccessT != expr::ImageAccess::eUndefined );
 
 			auto & cache = findTypesCache( image, params... );
 
@@ -1093,7 +1097,8 @@ namespace sdw
 		void writeVoidImageAccessCall( MaybeOptional< ImageT< FormatT, AccessT, DimT, ArrayedT, DepthT, MsT > > const & image
 			, MaybeOptional< ParamsT > const & ... params )
 		{
-			static_assert( ImageAccessT != expr::ImageAccess( ~( 0u ) ) );
+			static_assert( ImageAccessT != expr::ImageAccess::eInvalid );
+			static_assert( ImageAccessT != expr::ImageAccess::eUndefined );
 
 			auto & cache = findTypesCache( image, params... );
 
@@ -1143,8 +1148,8 @@ namespace sdw
 		{
 			MaybeOptional< Int > getSamples()const
 			{
-				return writeImageAccessCall< Int, FormatT, AccessT, DimT, ArrayedT, DepthT, MsT
-					, ImageFormatTraitsT< FormatT >::imageSamples[getImgArrayIndex< DimT, ArrayedT, MsT >()] >( get() );
+				return writeImageAccessCall< Int, FormatT, AccessT, DimT, ArrayedT, DepthT, true
+					, ImageFormatTraitsT< FormatT >::imageSamples[getImgArrayIndex< DimT, ArrayedT, true >()] >( get() );
 			}
 
 		private:

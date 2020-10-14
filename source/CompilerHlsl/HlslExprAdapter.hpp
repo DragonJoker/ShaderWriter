@@ -6,7 +6,9 @@ See LICENSE file in root folder
 #pragma once
 
 #include "HlslHelpers.hpp"
+
 #include <ShaderAST/Visitors/CloneExpr.hpp>
+#include <ShaderAST/Stmt/StmtContainer.hpp>
 
 namespace hlsl
 {

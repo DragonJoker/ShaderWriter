@@ -5,7 +5,9 @@ See LICENSE file in root folder
 #define ___SDW_GLSLHelpers_H___
 #pragma once
 
-#include <ShaderWriter/ShaderWriterPrerequisites.hpp>
+#include <ShaderAST/ShaderASTPrerequisites.hpp>
+#include <ShaderAST/Stmt/StmtInputGeometryLayout.hpp>
+#include <ShaderAST/Stmt/StmtOutputGeometryLayout.hpp>
 
 #include <ShaderAST/Stmt/PreprocExtension.hpp>
 

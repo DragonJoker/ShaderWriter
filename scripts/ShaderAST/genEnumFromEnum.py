@@ -8,8 +8,9 @@ def printHeader( outs, match ):
 	outs.write( "\n" )
 	outs.write( "namespace ast::expr\n" )
 	outs.write( "{\n" )
-	outs.write( "\tenum class " + enumName + "\n" )
+	outs.write( "\tenum class " + enumName + ": uint32_t\n" )
 	outs.write( "\t{\n" )
+	outs.write( "\t\teUndefined,\n" )
 	return enumName
 
 def computeName( name ):
@@ -45,6 +46,10 @@ def printValue( outs, enumName, match ):
 	outs.write( "\t\te" + name + ",\n" )
 
 def printFooter( outs ):
+	outs.write( "\n" )
+	outs.write( "\t// Boundaries,\n" )
+	outs.write( "\t\teCount,\n" )
+	outs.write( "\t\teInvalid = ~( 0u ),\n" )
 	outs.write( "\t};\n" )
 	outs.write( "}\n" )
 	outs.write( "\n" )

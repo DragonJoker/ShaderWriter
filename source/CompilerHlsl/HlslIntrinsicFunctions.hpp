@@ -7,6 +7,8 @@ See LICENSE file in root folder
 
 #include "HlslHelpers.hpp"
 
+#include <ShaderAST/Stmt/StmtContainer.hpp>
+
 namespace hlsl
 {
 	void compileHlslIntrinsicFunctions( ast::stmt::Container * container

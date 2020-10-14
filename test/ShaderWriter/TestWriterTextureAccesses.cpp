@@ -65,8 +65,6 @@ namespace
 				writer.implementFunction< sdw::Void >( "main"
 					, [&]()
 					{
-						auto i = writer.declLocale( "i"
-							, textureSize( s, 0_i ) );
 						auto j = writer.declLocale( "j"
 							, s.getSize( 0_i ) );
 					} );
@@ -96,8 +94,6 @@ namespace
 				writer.implementFunction< sdw::Void >( "main"
 					, [&]()
 					{
-						auto i = writer.declLocale( "i"
-							, textureSize( s ) );
 						auto j = writer.declLocale( "j"
 							, s.getSize() );
 					} );
@@ -149,8 +145,6 @@ namespace
 				writer.implementFunction< sdw::Void >( "main"
 					, [&]()
 					{
-						auto i = writer.declLocale( "i"
-							, textureQueryLod( s, test::getDefault< QueryLodT >( writer.getShader() ) ) );
 						auto j = writer.declLocale( "j"
 							, s.getLod( test::getDefault< QueryLodT >( writer.getShader() ) ) );
 					} );
@@ -213,8 +207,6 @@ namespace
 				writer.implementFunction< sdw::Void >( "main"
 					, [&]()
 					{
-						auto i = writer.declLocale( "i"
-							, textureQueryLevels( s ) );
 						auto j = writer.declLocale( "j"
 							, s.getLevels() );
 					} );
@@ -272,9 +264,6 @@ namespace
 				writer.implementFunction< sdw::Void >( "main"
 					, [&]()
 					{
-						auto c = writer.declLocale( "c"
-							, texture( s
-								, test::getDefault< SampleT >( writer.getShader() ) ) );
 						auto d = writer.declLocale( "d"
 							, s.sample( test::getDefault< SampleT >( writer.getShader() ) ) );
 					} );
@@ -306,10 +295,6 @@ namespace
 				writer.implementFunction< sdw::Void >( "main"
 					, [&]()
 					{
-						auto c = writer.declLocale( "c"
-							, texture( s
-								, test::getDefault< SampleT >( writer.getShader() )
-								, 0.5_f ) );
 						auto d = writer.declLocale( "d"
 							, s.sample( test::getDefault< SampleT >( writer.getShader() )
 								, 0.5_f ) );
@@ -368,10 +353,6 @@ namespace
 				writer.implementFunction< sdw::Void >( "main"
 					, [&]()
 					{
-						auto c = writer.declLocale( "c"
-							, texture( s
-								, test::getDefault< SampleT >( writer.getShader() )
-								, 1.0_f ) );
 						auto d = writer.declLocale( "d"
 							, s.sample( test::getDefault< SampleT >( writer.getShader() )
 								, 1.0_f ) );
@@ -407,11 +388,6 @@ namespace
 				writer.implementFunction< sdw::Void >( "main"
 					, [&]()
 					{
-						auto c = writer.declLocale( "c"
-							, texture( s
-								, test::getDefault< SampleT >( writer.getShader() )
-								, 0.5_f
-								, 1.0_f ) );
 						auto d = writer.declLocale( "d"
 							, s.sample( test::getDefault< SampleT >( writer.getShader() )
 								, 0.5_f
@@ -467,9 +443,6 @@ namespace
 				writer.implementFunction< sdw::Void >( "main"
 					, [&]()
 					{
-						auto c = writer.declLocale( "c"
-							, textureProj( s
-								, test::getDefault< SampleProjT >( writer.getShader() ) ) );
 						auto d = writer.declLocale( "d"
 							, s.proj( test::getDefault< SampleProjT >( writer.getShader() ) ) );
 					} );
@@ -503,10 +476,6 @@ namespace
 				writer.implementFunction< sdw::Void >( "main"
 					, [&]()
 					{
-						auto c = writer.declLocale( "c"
-							, textureProj( s
-								, test::getDefault< SampleProjT >( writer.getShader() )
-								, 0.5_f ) );
 						auto d = writer.declLocale( "d"
 							, s.proj( test::getDefault< SampleProjT >( writer.getShader() )
 								, 0.5_f ) );
@@ -561,10 +530,6 @@ namespace
 				writer.implementFunction< sdw::Void >( "main"
 					, [&]()
 					{
-						auto c = writer.declLocale( "c"
-							, textureProj( s
-								, test::getDefault< SampleProjT >( writer.getShader() )
-								, 1.0_f ) );
 						auto d = writer.declLocale( "d"
 							, s.proj( test::getDefault< SampleProjT >( writer.getShader() )
 								, 1.0_f ) );
@@ -598,11 +563,6 @@ namespace
 				writer.implementFunction< sdw::Void >( "main"
 					, [&]()
 					{
-						auto c = writer.declLocale( "c"
-							, textureProj( s
-								, test::getDefault< SampleProjT >( writer.getShader() )
-								, 0.5_f
-								, 1.0_f ) );
 						auto d = writer.declLocale( "d"
 							, s.proj( test::getDefault< SampleProjT >( writer.getShader() )
 								, 0.5_f
@@ -662,10 +622,6 @@ namespace
 				writer.implementFunction< sdw::Void >( "main"
 					, [&]()
 					{
-						auto c = writer.declLocale( "c"
-							, textureLod( s
-								, test::getDefault< SampleT >( writer.getShader() )
-								, 1.0_f ) );
 						auto d = writer.declLocale( "d"
 							, s.lod( test::getDefault< SampleT >( writer.getShader() )
 								, 1.0_f ) );
@@ -700,11 +656,6 @@ namespace
 				writer.implementFunction< sdw::Void >( "main"
 					, [&]()
 					{
-						auto c = writer.declLocale( "c"
-							, textureLod( s
-								, test::getDefault< SampleT >( writer.getShader() )
-								, 0.5_f
-								, 1.0_f ) );
 						auto d = writer.declLocale( "d"
 							, s.lod( test::getDefault< SampleT >( writer.getShader() )
 								, 0.5_f
@@ -763,10 +714,6 @@ namespace
 				writer.implementFunction< sdw::Void >( "main"
 					, [&]()
 					{
-						auto c = writer.declLocale( "c"
-							, textureOffset( s
-								, test::getDefault< SampleT >( writer.getShader() )
-								, test::getDefault < OffsetT >( writer.getShader() ) ) );
 						auto d = writer.declLocale( "d"
 							, s.sample( test::getDefault< SampleT >( writer.getShader() )
 								, test::getDefault < OffsetT >( writer.getShader() ) ) );
@@ -804,11 +751,6 @@ namespace
 				writer.implementFunction< sdw::Void >( "main"
 					, [&]()
 					{
-						auto c = writer.declLocale( "c"
-							, textureOffset( s
-								, test::getDefault< SampleT >( writer.getShader() )
-								, 0.5_f
-								, test::getDefault < OffsetT >( writer.getShader() ) ) );
 						auto d = writer.declLocale( "d"
 							, s.sample( test::getDefault< SampleT >( writer.getShader() )
 								, 0.5_f
@@ -867,11 +809,6 @@ namespace
 				writer.implementFunction< sdw::Void >( "main"
 					, [&]()
 					{
-						auto c = writer.declLocale( "c"
-							, textureOffset( s
-								, test::getDefault< SampleT >( writer.getShader() )
-								, test::getDefault< OffsetT >( writer.getShader() )
-								, 1.0_f ) );
 						auto d = writer.declLocale( "d"
 							, s.sample( test::getDefault< SampleT >( writer.getShader() )
 								, test::getDefault< OffsetT >( writer.getShader() )
@@ -907,12 +844,6 @@ namespace
 				writer.implementFunction< sdw::Void >( "main"
 					, [&]()
 					{
-						auto c = writer.declLocale( "c"
-							, textureOffset( s
-								, test::getDefault< SampleT >( writer.getShader() ) // P
-								, 0.5_f // refZ
-								, test::getDefault< OffsetT >( writer.getShader() ) // offset
-								, 1.0_f ) ); // bias
 						auto d = writer.declLocale( "d"
 							, s.sample( test::getDefault< SampleT >( writer.getShader() )
 								, 0.5_f
@@ -971,10 +902,6 @@ namespace
 				writer.implementFunction< sdw::Void >( "main"
 					, [&]()
 					{
-						auto c = writer.declLocale( "c"
-							, texelFetch( s
-								, test::getDefault< FetchT >( writer.getShader() )
-								, 1_i ) );
 						auto d = writer.declLocale( "d"
 							, s.fetch( test::getDefault< FetchT >( writer.getShader() )
 								, 1_i ) );
@@ -1007,9 +934,6 @@ namespace
 				writer.implementFunction< sdw::Void >( "main"
 					, [&]()
 					{
-						auto c = writer.declLocale( "c"
-							, texelFetch( s
-								, test::getDefault< FetchT >( writer.getShader() ) ) );
 						auto d = writer.declLocale( "d"
 							, s.fetch( test::getDefault< FetchT >( writer.getShader() ) ) );
 					} );
@@ -1066,11 +990,6 @@ namespace
 				writer.implementFunction< sdw::Void >( "main"
 					, [&]()
 					{
-						auto c = writer.declLocale( "c"
-							, texelFetchOffset( s
-								, test::getDefault< FetchT >( writer.getShader() )
-								, 1_i
-								, test::getDefault< OffsetT >( writer.getShader() ) ) );
 						auto d = writer.declLocale( "d"
 							, s.fetch( test::getDefault< FetchT >( writer.getShader() )
 								, 1_i
@@ -1127,10 +1046,6 @@ namespace
 				writer.implementFunction< sdw::Void >( "main"
 					, [&]()
 					{
-						auto c = writer.declLocale( "c"
-							, textureProjOffset( s
-								, test::getDefault< SampleProjT >( writer.getShader() )
-								, test::getDefault< OffsetT >( writer.getShader() ) ) );
 						auto d = writer.declLocale( "d"
 							, s.proj( test::getDefault< SampleProjT >( writer.getShader() )
 								, test::getDefault< OffsetT >( writer.getShader() ) ) );
@@ -1166,11 +1081,6 @@ namespace
 				writer.implementFunction< sdw::Void >( "main"
 					, [&]()
 					{
-						auto c = writer.declLocale( "c"
-							, textureProjOffset( s
-								, test::getDefault< SampleProjT >( writer.getShader() )
-								, 0.5_f
-								, test::getDefault< OffsetT >( writer.getShader() ) ) );
 						auto d = writer.declLocale( "d"
 							, s.proj( test::getDefault< SampleProjT >( writer.getShader() )
 								, 0.5_f
@@ -1227,11 +1137,6 @@ namespace
 				writer.implementFunction< sdw::Void >( "main"
 					, [&]()
 					{
-						auto c = writer.declLocale( "c"
-							, textureProjOffset( s
-								, test::getDefault< SampleProjT >( writer.getShader() )
-								, test::getDefault< OffsetT >( writer.getShader() )
-								, 1.0_f ) );
 						auto d = writer.declLocale( "d"
 							, s.proj( test::getDefault< SampleProjT >( writer.getShader() )
 								, test::getDefault< OffsetT >( writer.getShader() )
@@ -1267,12 +1172,6 @@ namespace
 				writer.implementFunction< sdw::Void >( "main"
 					, [&]()
 					{
-						auto c = writer.declLocale( "c"
-							, textureProjOffset( s
-								, test::getDefault< SampleProjT >( writer.getShader() )
-								, 0.5_f
-								, test::getDefault< OffsetT >( writer.getShader() )
-								, 1.0_f ) );
 						auto d = writer.declLocale( "d"
 							, s.proj( test::getDefault< SampleProjT >( writer.getShader() )
 								, 0.5_f
@@ -1332,11 +1231,6 @@ namespace
 				writer.implementFunction< sdw::Void >( "main"
 					, [&]()
 					{
-						auto c = writer.declLocale( "c"
-							, textureLodOffset( s
-								, test::getDefault< SampleT >( writer.getShader() )
-								, 1.0_f
-								, test::getDefault< OffsetT >( writer.getShader() ) ) );
 						auto d = writer.declLocale( "d"
 							, s.lod( test::getDefault< SampleT >( writer.getShader() )
 								, 1.0_f
@@ -1373,12 +1267,6 @@ namespace
 				writer.implementFunction< sdw::Void >( "main"
 					, [&]()
 					{
-						auto c = writer.declLocale( "c"
-							, textureLodOffset( s
-								, test::getDefault< SampleT >( writer.getShader() )
-								, 0.5_f
-								, 1.0_f
-								, test::getDefault< OffsetT >( writer.getShader() ) ) );
 						auto d = writer.declLocale( "d"
 							, s.lod( test::getDefault< SampleT >( writer.getShader() )
 								, 0.5_f
@@ -1435,10 +1323,6 @@ namespace
 				writer.implementFunction< sdw::Void >( "main"
 					, [&]()
 					{
-						auto c = writer.declLocale( "c"
-							, textureProjLod( s
-								, test::getDefault< SampleProjT >( writer.getShader() )
-								, 1.0_f ) );
 						auto d = writer.declLocale( "d"
 							, s.projLod( test::getDefault< SampleProjT >( writer.getShader() )
 								, 1.0_f ) );
@@ -1472,11 +1356,6 @@ namespace
 				writer.implementFunction< sdw::Void >( "main"
 					, [&]()
 					{
-						auto c = writer.declLocale( "c"
-							, textureProjLod( s
-								, test::getDefault< SampleProjT >( writer.getShader() )
-								, 0.5_f
-								, 1.0_f ) );
 						auto d = writer.declLocale( "d"
 							, s.projLod( test::getDefault< SampleProjT >( writer.getShader() )
 								, 0.5_f
@@ -1533,11 +1412,6 @@ namespace
 				writer.implementFunction< sdw::Void >( "main"
 					, [&]()
 					{
-						auto c = writer.declLocale( "c"
-							, textureProjLodOffset( s
-								, test::getDefault< SampleProjT >( writer.getShader() )
-								, 1.0_f
-								, test::getDefault< OffsetT >( writer.getShader() ) ) );
 						auto d = writer.declLocale( "d"
 							, s.projLod( test::getDefault< SampleProjT >( writer.getShader() )
 								, 1.0_f
@@ -1573,12 +1447,6 @@ namespace
 				writer.implementFunction< sdw::Void >( "main"
 					, [&]()
 					{
-						auto c = writer.declLocale( "c"
-							, textureProjLodOffset( s
-								, test::getDefault< SampleProjT >( writer.getShader() )
-								, 0.5_f
-								, 1.0_f
-								, test::getDefault< OffsetT >( writer.getShader() ) ) );
 						auto d = writer.declLocale( "d"
 							, s.projLod( test::getDefault< SampleProjT >( writer.getShader() )
 								, 0.5_f
@@ -1640,11 +1508,6 @@ namespace
 				writer.implementFunction< sdw::Void >( "main"
 					, [&]()
 					{
-						auto c = writer.declLocale( "c"
-							, textureGrad( s
-								, test::getDefault< SampleT >( writer.getShader() )
-								, test::getDefault< DerivativeT >( writer.getShader() )
-								, test::getDefault< DerivativeT >( writer.getShader() ) ) );
 						auto d = writer.declLocale( "d"
 							, s.grad( test::getDefault< SampleT >( writer.getShader() )
 								, test::getDefault< DerivativeT >( writer.getShader() )
@@ -1682,12 +1545,6 @@ namespace
 				writer.implementFunction< sdw::Void >( "main"
 					, [&]()
 					{
-						auto c = writer.declLocale( "c"
-							, textureGrad( s
-								, test::getDefault< SampleT >( writer.getShader() )
-								, 0.5_f
-								, test::getDefault< DerivativeT >( writer.getShader() )
-								, test::getDefault< DerivativeT >( writer.getShader() ) ) );
 						auto d = writer.declLocale( "d"
 							, s.grad( test::getDefault< SampleT >( writer.getShader() )
 								, 0.5_f
@@ -1748,12 +1605,6 @@ namespace
 				writer.implementFunction< sdw::Void >( "main"
 					, [&]()
 					{
-						auto c = writer.declLocale( "c"
-							, textureGradOffset( s
-								, test::getDefault< SampleT >( writer.getShader() )
-								, test::getDefault< DerivativeT >( writer.getShader() )
-								, test::getDefault< DerivativeT >( writer.getShader() )
-								, test::getDefault< OffsetT >( writer.getShader() ) ) );
 						auto d = writer.declLocale( "d"
 							, s.grad( test::getDefault< SampleT >( writer.getShader() )
 								, test::getDefault< DerivativeT >( writer.getShader() )
@@ -1794,13 +1645,6 @@ namespace
 				writer.implementFunction< sdw::Void >( "main"
 					, [&]()
 					{
-						auto c = writer.declLocale( "c"
-							, textureGradOffset( s
-								, test::getDefault< SampleT >( writer.getShader() )
-								, 0.5_f
-								, test::getDefault< DerivativeT >( writer.getShader() )
-								, test::getDefault< DerivativeT >( writer.getShader() )
-								, test::getDefault< OffsetT >( writer.getShader() ) ) );
 						auto d = writer.declLocale( "d"
 							, s.grad( test::getDefault< SampleT >( writer.getShader() )
 								, 0.5_f
@@ -1859,11 +1703,6 @@ namespace
 				writer.implementFunction< sdw::Void >( "main"
 					, [&]()
 					{
-						auto c = writer.declLocale( "c"
-							, textureProjGrad( s
-								, test::getDefault< SampleProjT >( writer.getShader() )
-								, test::getDefault< DerivativeT >( writer.getShader() )
-								, test::getDefault< DerivativeT >( writer.getShader() ) ) );
 						auto d = writer.declLocale( "d"
 							, s.projGrad( test::getDefault< SampleProjT >( writer.getShader() )
 								, test::getDefault< DerivativeT >( writer.getShader() )
@@ -1900,12 +1739,6 @@ namespace
 				writer.implementFunction< sdw::Void >( "main"
 					, [&]()
 					{
-						auto c = writer.declLocale( "c"
-							, textureProjGrad( s
-								, test::getDefault< SampleProjT >( writer.getShader() )
-								, 0.5_f
-								, test::getDefault< DerivativeT >( writer.getShader() )
-								, test::getDefault< DerivativeT >( writer.getShader() ) ) );
 						auto d = writer.declLocale( "d"
 							, s.projGrad( test::getDefault< SampleProjT >( writer.getShader() )
 								, 0.5_f
@@ -1964,12 +1797,6 @@ namespace
 				writer.implementFunction< sdw::Void >( "main"
 					, [&]()
 					{
-						auto c = writer.declLocale( "c"
-							, textureProjGradOffset( s
-								, test::getDefault< SampleProjT >( writer.getShader() )
-								, test::getDefault< DerivativeT >( writer.getShader() )
-								, test::getDefault< DerivativeT >( writer.getShader() )
-								, test::getDefault< OffsetT >( writer.getShader() ) ) );
 						auto d = writer.declLocale( "d"
 							, s.projGrad( test::getDefault< SampleProjT >( writer.getShader() )
 								, test::getDefault< DerivativeT >( writer.getShader() )
@@ -2008,13 +1835,6 @@ namespace
 				writer.implementFunction< sdw::Void >( "main"
 					, [&]()
 					{
-						auto c = writer.declLocale( "c"
-							, textureProjGradOffset( s
-								, test::getDefault< SampleProjT >( writer.getShader() )
-								, 0.5_f
-								, test::getDefault< DerivativeT >( writer.getShader() )
-								, test::getDefault< DerivativeT >( writer.getShader() )
-								, test::getDefault< OffsetT >( writer.getShader() ) ) );
 						auto d = writer.declLocale( "d"
 							, s.projGrad( test::getDefault< SampleProjT >( writer.getShader() )
 								, 0.5_f
@@ -2073,9 +1893,6 @@ namespace
 				writer.implementFunction< sdw::Void >( "main"
 					, [&]()
 					{
-						auto c = writer.declLocale( "c"
-							, textureGather( s
-								, test::getDefault< GatherT >( writer.getShader() ) ) );
 						auto d = writer.declLocale( "d"
 							, s.gather( test::getDefault< GatherT >( writer.getShader() ) ) );
 					} );
@@ -2111,10 +1928,6 @@ namespace
 				writer.implementFunction< sdw::Void >( "main"
 					, [&]()
 					{
-						auto c = writer.declLocale( "c"
-							, textureGather( s
-								, test::getDefault< GatherT >( writer.getShader() )
-								, 0.5_f ) );
 						auto d = writer.declLocale( "d"
 							, s.gather( test::getDefault< GatherT >( writer.getShader() )
 								, 0.5_f ) );
@@ -2170,10 +1983,6 @@ namespace
 				writer.implementFunction< sdw::Void >( "main"
 					, [&]()
 					{
-						auto c = writer.declLocale( "c"
-							, textureGather( s
-								, test::getDefault< GatherT >( writer.getShader() )
-								, 1_i ) );
 						auto d = writer.declLocale( "d"
 							, s.gather( test::getDefault< GatherT >( writer.getShader() )
 								, 1_i ) );
@@ -2228,10 +2037,6 @@ namespace
 				writer.implementFunction< sdw::Void >( "main"
 					, [&]()
 					{
-						auto c = writer.declLocale( "c"
-							, textureGatherOffset( s
-								, test::getDefault< GatherT >( writer.getShader() )
-								, test::getDefault< OffsetT >( writer.getShader() ) ) );
 						auto d = writer.declLocale( "d"
 							, s.gather( test::getDefault< GatherT >( writer.getShader() )
 								, test::getDefault< OffsetT >( writer.getShader() ) ) );
@@ -2267,11 +2072,6 @@ namespace
 				writer.implementFunction< sdw::Void >( "main"
 					, [&]()
 					{
-						auto c = writer.declLocale( "c"
-							, textureGatherOffset( s
-								, test::getDefault< GatherT >( writer.getShader() )
-								, 0.5_f
-								, test::getDefault< OffsetT >( writer.getShader() ) ) );
 						auto d = writer.declLocale( "d"
 							, s.gather( test::getDefault< GatherT >( writer.getShader() )
 								, 0.5_f
@@ -2327,11 +2127,6 @@ namespace
 				writer.implementFunction< sdw::Void >( "main"
 					, [&]()
 					{
-						auto c = writer.declLocale( "c"
-							, textureGatherOffset( s
-								, test::getDefault< GatherT >( writer.getShader() )
-								, test::getDefault< OffsetT >( writer.getShader() )
-								, 1_i ) );
 						auto d = writer.declLocale( "d"
 							, s.gather( test::getDefault< GatherT >( writer.getShader() )
 								, test::getDefault< OffsetT >( writer.getShader() )
@@ -2389,10 +2184,6 @@ namespace
 				writer.implementFunction< sdw::Void >( "main"
 					, [&]()
 					{
-						auto c = writer.declLocale( "c"
-							, textureGatherOffsets( s
-								, test::getDefault< GatherT >( writer.getShader() )
-								, offsets ) );
 						auto d = writer.declLocale( "d"
 							, s.gather( test::getDefault< GatherT >( writer.getShader() )
 								, offsets ) );
@@ -2430,11 +2221,6 @@ namespace
 				writer.implementFunction< sdw::Void >( "main"
 					, [&]()
 					{
-						auto c = writer.declLocale( "c"
-							, textureGatherOffsets( s
-								, test::getDefault< GatherT >( writer.getShader() )
-								, 0.5_f
-								, offsets ) );
 						auto d = writer.declLocale( "d"
 							, s.gather( test::getDefault< GatherT >( writer.getShader() )
 								, 0.5_f
@@ -2492,11 +2278,6 @@ namespace
 				writer.implementFunction< sdw::Void >( "main"
 					, [&]()
 					{
-						auto c = writer.declLocale( "c"
-							, textureGatherOffsets( s
-								, test::getDefault< GatherT >( writer.getShader() )
-								, offsets
-								, 1_i ) );
 						auto d = writer.declLocale( "d"
 							, s.gather( test::getDefault< GatherT >( writer.getShader() )
 								, offsets

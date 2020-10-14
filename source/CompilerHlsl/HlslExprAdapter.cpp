@@ -9,13 +9,10 @@ See LICENSE file in root folder
 #include "HlslIntrinsicConfig.hpp"
 #include "HlslTextureAccessConfig.hpp"
 
-#include <ShaderWriter/Intrinsics/Intrinsics.hpp>
-
-#include <ShaderAST/Stmt/StmtReturn.hpp>
-#include <ShaderAST/Stmt/StmtSimple.hpp>
-#include <ShaderAST/Stmt/StmtVariableDecl.hpp>
+#include <ShaderAST/Stmt/StmtVisitor.hpp>
 #include <ShaderAST/Type/TypeImage.hpp>
 #include <ShaderAST/Type/TypeSampledImage.hpp>
+#include <ShaderAST/Visitors/GetExprName.hpp>
 
 #include <algorithm>
 #include <stdexcept>

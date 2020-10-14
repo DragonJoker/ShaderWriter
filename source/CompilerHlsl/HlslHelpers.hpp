@@ -7,6 +7,11 @@ See LICENSE file in root folder
 
 #include "CompilerHlsl/compileHlsl.hpp"
 
+#include <ShaderAST/Type/Type.hpp>
+#include <ShaderAST/Expr/Expr.hpp>
+#include <ShaderAST/Stmt/StmtInputGeometryLayout.hpp>
+#include <ShaderAST/Stmt/StmtOutputGeometryLayout.hpp>
+
 namespace hlsl
 {
 	std::string getTypeName( ast::type::Kind kind );

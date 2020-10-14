@@ -17,6 +17,18 @@ namespace ast::expr
 
 		switch ( value )
 		{
+		case TextureAccess::eUndefined:
+			result = "UNDEFINED";
+			break;
+
+		case TextureAccess::eCount:
+			result = "COUNT";
+			break;
+
+		case TextureAccess::eInvalid:
+			result = "INVALID";
+			break;
+
 	// Texture Query Functions
 		case TextureAccess::eTextureSize1DF:
 			result = "TEXTURESIZE1DF";
