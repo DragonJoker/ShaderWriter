@@ -65,17 +65,17 @@ jobs:
     - name: Create Build Environment
       run: cmake -E make_directory ${{runner.workspace}}/build-${{ matrix.buildType }}
 
-    - name: Configure CMake
-      if: ${{ matrix.os[0] }} == 'windows-latest'
+    - name: Configure CMake (Windows)
       shell: bash
       working-directory: ${{runner.workspace}}/build-${{ matrix.buildType }}
       run: cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=${{ matrix.buildType }} -DCMAKE_INSTALL_PREFIX=$GITHUB_WORKSPACE/package/shaderwriter -DSDW_GENERATE_SOURCE=OFF -DSDW_BUILD_TESTS=ON -DSDW_TESTS_ENABLE_VALIDATION=OFF -DPROJECTS_USE_PRECOMPILED_HEADERS=ON
+      if: runner.os == 'Windows'
 
-    - name: Configure CMake
-      if: ${{ matrix.os[0] }} != 'windows-latest'
+    - name: Configure CMake (Non Windows)
       shell: bash
       working-directory: ${{runner.workspace}}/build-${{ matrix.buildType }}
       run: cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=${{ matrix.buildType }} -DCMAKE_INSTALL_PREFIX=$GITHUB_WORKSPACE/package/shaderwriter -DSDW_GENERATE_SOURCE=OFF -DSDW_BUILD_TESTS=ON -DSDW_TESTS_ENABLE_VALIDATION=OFF -DPROJECTS_USE_PRECOMPILED_HEADERS=OFF
+      if: runner.os != 'Windows'
 
     - name: Build
       working-directory: ${{runner.workspace}}/build-${{ matrix.buildType }}
