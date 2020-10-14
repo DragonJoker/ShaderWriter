@@ -60,22 +60,22 @@ jobs:
             ${{ runner.os }}-build-${{ env.cache-name }}-
 
     - name: Create Build Environment
-      run: cmake -E make_directory ${{runner.workspace}}/build-${{ buildType }}
+      run: cmake -E make_directory ${{runner.workspace}}/build-${{ matrix.buildType }}
 
     - name: Configure CMake
       shell: bash
-      working-directory: ${{runner.workspace}}/build-${{ buildType }}
-      run: cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=${{ buildType }} -DPROJECTS_OUTPUT_DIR=$GITHUB_WORKSPACE -DCMAKE_INSTALL_PREFIX=$GITHUB_WORKSPACE/package/shaderwriter  -DSDW_GENERATE_SOURCE=OFF -DSDW_BUILD_TESTS=ON -DSDW_TESTS_ENABLE_VALIDATION=OFF -DPROJECTS_USE_PRECOMPILED_HEADERS=OFF
+      working-directory: ${{runner.workspace}}/build-${{ matrix.buildType }}
+      run: cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=${{ matrix.buildType }} -DPROJECTS_OUTPUT_DIR=$GITHUB_WORKSPACE -DCMAKE_INSTALL_PREFIX=$GITHUB_WORKSPACE/package/shaderwriter  -DSDW_GENERATE_SOURCE=OFF -DSDW_BUILD_TESTS=ON -DSDW_TESTS_ENABLE_VALIDATION=OFF -DPROJECTS_USE_PRECOMPILED_HEADERS=OFF
 
     - name: Build
-      working-directory: ${{runner.workspace}}/build-${{ buildType }}
+      working-directory: ${{runner.workspace}}/build-${{ matrix.buildType }}
       shell: bash
       run: cmake --build . --config $BUILD_TYPE
 
     - name: Test
-      working-directory: ${{runner.workspace}}/build-${{ buildType }}
+      working-directory: ${{runner.workspace}}/build-${{ matrix.buildType }}
       shell: bash
-      run: ctest -C ${{ buildType }}
+      run: ctest -C ${{ matrix.buildType }}
 
     - name: Upload artifacts
       uses: actions/upload-artifact@v2
