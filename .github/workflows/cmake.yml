@@ -80,7 +80,7 @@ jobs:
     - name: Build
       working-directory: ${{runner.workspace}}/build-${{ matrix.buildType }}
       shell: bash
-      run: cmake --build . --config ${{ matrix.buildType }}
+      run: cmake --build . --parallel 2 --config ${{ matrix.buildType }}
 
     - name: Test
       working-directory: ${{runner.workspace}}/build-${{ matrix.buildType }}
