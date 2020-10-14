@@ -1035,6 +1035,10 @@ namespace hlsl
 		case ast::expr::ImageAccess::eImageStore2DMSU:
 		case ast::expr::ImageAccess::eImageStore2DMSArrayU:
 			break;
+
+		default:
+			assert( false && "Unsupported ImageAccess" );
+			break;
 		}
 	}
 }
