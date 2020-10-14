@@ -1,13 +1,22 @@
 name: CMake
 
-on: [push]
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+  release:
+    types:
+      - created
 
 jobs:
   build:
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
-        buildType: [Debug, Release]
+        buildType: [Release]
 
     runs-on: ${{ matrix.os }}
 
@@ -80,4 +89,4 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: generated-binaries
-        path: $GITHUB_WORKSPACE/package/shaderwriter/
+        path: ${{ github.workspace }}/package/shaderwriter/
