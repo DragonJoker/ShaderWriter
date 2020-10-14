@@ -17,10 +17,22 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
+    - name: Checkout CMake submodule
+      uses: srt32/git-actions@v0.0.3
+      with:
+        args: git submodule update --init -- "CMake"
+
+    - name: Checkout external/SPIRV-Cross submodule
+      uses: srt32/git-actions@v0.0.3
+      with:
+        args: git submodule update --init -- "external/SPIRV-Cross"
+
+    - name: Checkout external/glslang submodule
+      uses: srt32/git-actions@v0.0.3
+      with:
+        args: git submodule update --init -- "external/glslang"
+
     - name: Create Build Environment
-      run: git submodule update --init -- "CMake"
-      run: git submodule update --init -- "external/SPIRV-Cross"
-      run: git submodule update --init -- "external/glslang"
       run: cmake -E make_directory ${{runner.workspace}}/build
 
     - name: Configure CMake
