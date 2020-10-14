@@ -8,6 +8,9 @@ See LICENSE file in root folder
 
 namespace sdw
 {
+	template< ast::type::ImageFormat FormatT, typename Enable = void >
+	struct SampledImageFormatTraitsT;
+
 	template< ast::type::ImageDim DimT
 		, bool ArrayedT >
 	struct SampledImageCoordsGetterT;
@@ -58,6 +61,11 @@ namespace sdw
 		, bool ArrayedT
 		, bool DepthT >
 		static bool constexpr is3dV = ( !DepthT ) && ( !ArrayedT ) && ( DimT == ast::type::ImageDim::e3D );
+
+	template< ast::type::ImageDim DimT
+		, bool ArrayedT
+		, bool DepthT >
+		static bool constexpr isRectV = ( !DepthT ) && ( !ArrayedT ) && ( DimT == ast::type::ImageDim::eRect );
 
 	template< ast::type::ImageDim DimT
 		, bool ArrayedT
@@ -130,7 +138,7 @@ namespace sdw
 		SDW_API operator uint32_t();
 	};
 
-	namespace details
+	namespace sampledImg
 	{
 		template< ast::type::ImageFormat FormatT
 			, ast::type::ImageDim DimT
@@ -154,7 +162,7 @@ namespace sdw
 		, bool DepthT
 		, bool MsT >
 	struct SampledImageT
-		: public details::SampledImageFuncsT< FormatT, DimT, ArrayedT, DepthT, MsT >
+		: public sampledImg::SampledImageFuncsT< FormatT, DimT, ArrayedT, DepthT, MsT >
 	{
 		inline SampledImageT( Shader * shader
 			, expr::ExprPtr expr );

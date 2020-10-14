@@ -3,6 +3,30 @@
 
 namespace
 {
+#pragma region Helpers
+	/**
+	*name
+	*	Helpers
+	*/
+	/**@{*/
+	template< ast::type::ImageDim DimT
+		, bool ArrayedT
+		, bool DepthT >
+	static constexpr bool hasLodV = !( sdw::isBufferV< DimT, ArrayedT, DepthT >
+		|| sdw::isRectV< DimT, ArrayedT, DepthT >
+		|| sdw::isRectShadowV< DimT, ArrayedT, DepthT > );
+
+	template< ast::type::ImageDim DimT
+		, bool ArrayedT
+		, bool DepthT >
+	static constexpr bool isShadowV = ( sdw::is1dShadowV< DimT, ArrayedT, DepthT >
+		|| sdw::is2dShadowV< DimT, ArrayedT, DepthT >
+		|| sdw::isRectShadowV< DimT, ArrayedT, DepthT >
+		|| sdw::isCubeShadowV< DimT, ArrayedT, DepthT >
+		|| sdw::is1dArrayShadowV< DimT, ArrayedT, DepthT >
+		|| sdw::is2dArrayShadowV< DimT, ArrayedT, DepthT >
+		|| sdw::isCubeArrayShadowV< DimT, ArrayedT, DepthT > );
+	/**@}*/
 #pragma region textureSize
 	/**
 	*name
@@ -28,19 +52,7 @@ namespace
 		, bool DepthT
 		, bool MsT >
 	struct TextureSizeTester< FormatT, DimT, ArrayedT, DepthT, MsT
-		, std::enable_if_t< sdw::is1dV< DimT, ArrayedT, DepthT >
-			|| sdw::is2dV< DimT, ArrayedT, DepthT >
-			|| sdw::is3dV< DimT, ArrayedT, DepthT >
-			|| sdw::isCubeV< DimT, ArrayedT, DepthT >
-			|| sdw::is1dArrayV< DimT, ArrayedT, DepthT >
-			|| sdw::is2dArrayV< DimT, ArrayedT, DepthT >
-			|| sdw::isCubeArrayV< DimT, ArrayedT, DepthT >
-			|| sdw::is1dShadowV< DimT, ArrayedT, DepthT >
-			|| sdw::is2dShadowV< DimT, ArrayedT, DepthT >
-			|| sdw::isCubeShadowV< DimT, ArrayedT, DepthT >
-			|| sdw::is1dArrayShadowV< DimT, ArrayedT, DepthT >
-			|| sdw::is2dArrayShadowV< DimT, ArrayedT, DepthT >
-			|| sdw::isCubeArrayShadowV< DimT, ArrayedT, DepthT > > >
+		, std::enable_if_t< hasLodV< DimT, ArrayedT, DepthT > > >
 	{
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
@@ -71,8 +83,7 @@ namespace
 		, bool DepthT
 		, bool MsT >
 	struct TextureSizeTester< FormatT, DimT, ArrayedT, DepthT, MsT
-		, std::enable_if_t< sdw::isBufferV< DimT, ArrayedT, DepthT >
-			|| sdw::isRectShadowV< DimT, ArrayedT, DepthT > > >
+		, std::enable_if_t< !hasLodV< DimT, ArrayedT, DepthT > > >
 	{
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
@@ -123,13 +134,7 @@ namespace
 		, bool DepthT
 		, bool MsT >
 	struct TextureQueryLodTester< FormatT, DimT, ArrayedT, DepthT, MsT
-		, std::enable_if_t< sdw::is1dV< DimT, ArrayedT, DepthT >
-			|| sdw::is2dV< DimT, ArrayedT, DepthT >
-			|| sdw::is3dV< DimT, ArrayedT, DepthT >
-			|| sdw::isCubeV< DimT, ArrayedT, DepthT >
-			|| sdw::is1dArrayV< DimT, ArrayedT, DepthT >
-			|| sdw::is2dArrayV< DimT, ArrayedT, DepthT >
-			|| sdw::isCubeArrayV< DimT, ArrayedT, DepthT > > >
+		, std::enable_if_t< hasLodV< DimT, ArrayedT, DepthT > > >
 	{
 		using QueryLodT = typename sdw::SampledImageQueryLodT< DimT, ArrayedT >;
 
@@ -150,7 +155,8 @@ namespace
 							, s.getLod( test::getDefault< QueryLodT >( writer.getShader() ) ) );
 					} );
 				test::writeShader( writer
-					, testCounts );
+					, testCounts
+					, true, !isShadowV< DimT, ArrayedT, DepthT >, true );
 			}
 			testEnd();
 		}
@@ -285,13 +291,7 @@ namespace
 		, bool DepthT
 		, bool MsT >
 	struct TextureTester< FormatT, DimT, ArrayedT, DepthT, MsT
-		, std::enable_if_t< sdw::is1dShadowV< DimT, ArrayedT, DepthT >
-			|| sdw::is2dShadowV< DimT, ArrayedT, DepthT >
-			|| sdw::isCubeShadowV< DimT, ArrayedT, DepthT >
-			|| sdw::isRectShadowV< DimT, ArrayedT, DepthT >
-			|| sdw::is1dArrayShadowV< DimT, ArrayedT, DepthT >
-			|| sdw::is2dArrayShadowV< DimT, ArrayedT, DepthT >
-			|| sdw::isCubeArrayShadowV< DimT, ArrayedT, DepthT > > >
+		, std::enable_if_t< isShadowV< DimT, ArrayedT, DepthT > > >
 	{
 		using SampleT = typename sdw::SampledImageSampleT< DimT, ArrayedT >;
 

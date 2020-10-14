@@ -79,7 +79,7 @@ namespace sdw
 		ast::type::ImageFormat m_format;
 	};
 
-	namespace details
+	namespace img
 	{
 		template< ast::type::ImageFormat FormatT
 			, ast::type::AccessKind AccessT
@@ -105,7 +105,7 @@ namespace sdw
 		, bool DepthT
 		, bool MsT >
 	struct ImageT
-		: public details::ImageFuncsT< FormatT, AccessT, DimT, ArrayedT, DepthT, MsT >
+		: public img::ImageFuncsT< FormatT, AccessT, DimT, ArrayedT, DepthT, MsT >
 	{
 		inline ImageT( Shader * shader
 			, expr::ExprPtr expr );

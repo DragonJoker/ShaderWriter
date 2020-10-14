@@ -10,7 +10,7 @@ namespace sdw
 {
 	//*****************************************************************************************
 
-	namespace details
+	namespace img
 	{
 		size_t constexpr ImgDimBaseCount = size_t( type::ImageDim::eBuffer ) + 1u;
 		size_t constexpr ArrayImgCount = 3u;
@@ -30,15 +30,15 @@ namespace sdw
 			}
 			else if constexpr ( ArrayedT )
 			{
-				if constexpr ( DimT == e1D )
+				if constexpr ( DimT == type::ImageDim::e1D )
 				{
 					return ImgDimBaseCount + 0u;
 				}
-				else if constexpr ( DimT == e2D )
+				else if constexpr ( DimT == type::ImageDim::e2D )
 				{
 					return ImgDimBaseCount + 1u;
 				}
-				else if constexpr ( DimT == eCube )
+				else if constexpr ( DimT == type::ImageDim::eCube )
 				{
 					return ImgDimBaseCount + 2u;
 				}
@@ -549,10 +549,10 @@ namespace sdw
 		static constexpr bool isUInt = false;
 		static constexpr bool isSingle = false;
 		static constexpr size_t size = 32u;
-		static constexpr details::ImageAccessIntrList const & imageSize = details::imageSizeF;
-		static constexpr details::ImageAccessIntrList const & imageSamples = details::imageSamplesF;
-		static constexpr details::ImageAccessIntrList const & imageLoad = details::imageLoadF;
-		static constexpr details::ImageAccessIntrList const & imageStore = details::imageStoreF;
+		static constexpr img::ImageAccessIntrList const & imageSize = img::imageSizeF;
+		static constexpr img::ImageAccessIntrList const & imageSamples = img::imageSamplesF;
+		static constexpr img::ImageAccessIntrList const & imageLoad = img::imageLoadF;
+		static constexpr img::ImageAccessIntrList const & imageStore = img::imageStoreF;
 	};
 
 	template<>
@@ -566,10 +566,10 @@ namespace sdw
 		static constexpr bool isUInt = false;
 		static constexpr bool isSingle = false;
 		static constexpr size_t size = 128u;
-		static constexpr details::ImageAccessIntrList const & imageSize = details::imageSizeF;
-		static constexpr details::ImageAccessIntrList const & imageSamples = details::imageSamplesF;
-		static constexpr details::ImageAccessIntrList const & imageLoad = details::imageLoadF;
-		static constexpr details::ImageAccessIntrList const & imageStore = details::imageStoreF;
+		static constexpr img::ImageAccessIntrList const & imageSize = img::imageSizeF;
+		static constexpr img::ImageAccessIntrList const & imageSamples = img::imageSamplesF;
+		static constexpr img::ImageAccessIntrList const & imageLoad = img::imageLoadF;
+		static constexpr img::ImageAccessIntrList const & imageStore = img::imageStoreF;
 	};
 
 	template<>
@@ -583,12 +583,12 @@ namespace sdw
 		static constexpr bool isUInt = false;
 		static constexpr bool isSingle = false;
 		static constexpr size_t size = 64u;
-		static constexpr details::ImageAccessIntrList const & imageSize = details::imageSizeF;
-		static constexpr details::ImageAccessIntrList const & imageSamples = details::imageSamplesF;
-		static constexpr details::ImageAccessIntrList const & imageLoad = details::imageLoadF;
-		static constexpr details::ImageAccessIntrList const & imageStore = details::imageStoreF;
-		static constexpr details::ImageAccessIntrList const & imageAtomicAdd = details::imageAtomicAddF;
-		static constexpr details::ImageAccessIntrList const & imageAtomicExchange = details::imageAtomicExchangeF;
+		static constexpr img::ImageAccessIntrList const & imageSize = img::imageSizeF;
+		static constexpr img::ImageAccessIntrList const & imageSamples = img::imageSamplesF;
+		static constexpr img::ImageAccessIntrList const & imageLoad = img::imageLoadF;
+		static constexpr img::ImageAccessIntrList const & imageStore = img::imageStoreF;
+		static constexpr img::ImageAccessIntrList const & imageAtomicAdd = img::imageAtomicAddF;
+		static constexpr img::ImageAccessIntrList const & imageAtomicExchange = img::imageAtomicExchangeF;
 	};
 
 	template<>
@@ -602,10 +602,10 @@ namespace sdw
 		static constexpr bool isUInt = false;
 		static constexpr bool isSingle = false;
 		static constexpr size_t size = 64u;
-		static constexpr details::ImageAccessIntrList const & imageSize = details::imageSizeF;
-		static constexpr details::ImageAccessIntrList const & imageSamples = details::imageSamplesF;
-		static constexpr details::ImageAccessIntrList const & imageLoad = details::imageLoadF;
-		static constexpr details::ImageAccessIntrList const & imageStore = details::imageStoreF;
+		static constexpr img::ImageAccessIntrList const & imageSize = img::imageSizeF;
+		static constexpr img::ImageAccessIntrList const & imageSamples = img::imageSamplesF;
+		static constexpr img::ImageAccessIntrList const & imageLoad = img::imageLoadF;
+		static constexpr img::ImageAccessIntrList const & imageStore = img::imageStoreF;
 	};
 
 	template<>
@@ -619,12 +619,12 @@ namespace sdw
 		static constexpr bool isUInt = false;
 		static constexpr bool isSingle = false;
 		static constexpr size_t size = 32u;
-		static constexpr details::ImageAccessIntrList const & imageSize = details::imageSizeF;
-		static constexpr details::ImageAccessIntrList const & imageSamples = details::imageSamplesF;
-		static constexpr details::ImageAccessIntrList const & imageLoad = details::imageLoadF;
-		static constexpr details::ImageAccessIntrList const & imageStore = details::imageStoreF;
-		static constexpr details::ImageAccessIntrList const & imageAtomicAdd = details::imageAtomicAddF;
-		static constexpr details::ImageAccessIntrList const & imageAtomicExchange = details::imageAtomicExchangeF;
+		static constexpr img::ImageAccessIntrList const & imageSize = img::imageSizeF;
+		static constexpr img::ImageAccessIntrList const & imageSamples = img::imageSamplesF;
+		static constexpr img::ImageAccessIntrList const & imageLoad = img::imageLoadF;
+		static constexpr img::ImageAccessIntrList const & imageStore = img::imageStoreF;
+		static constexpr img::ImageAccessIntrList const & imageAtomicAdd = img::imageAtomicAddF;
+		static constexpr img::ImageAccessIntrList const & imageAtomicExchange = img::imageAtomicExchangeF;
 	};
 
 	template<>
@@ -638,12 +638,12 @@ namespace sdw
 		static constexpr bool isUInt = false;
 		static constexpr bool isSingle = true;
 		static constexpr size_t size = 32u;
-		static constexpr details::ImageAccessIntrList const & imageSize = details::imageSizeF;
-		static constexpr details::ImageAccessIntrList const & imageSamples = details::imageSamplesF;
-		static constexpr details::ImageAccessIntrList const & imageLoad = details::imageLoadF;
-		static constexpr details::ImageAccessIntrList const & imageStore = details::imageStoreF;
-		static constexpr details::ImageAccessIntrList const & imageAtomicAdd = details::imageAtomicAddF;
-		static constexpr details::ImageAccessIntrList const & imageAtomicExchange = details::imageAtomicExchangeF;
+		static constexpr img::ImageAccessIntrList const & imageSize = img::imageSizeF;
+		static constexpr img::ImageAccessIntrList const & imageSamples = img::imageSamplesF;
+		static constexpr img::ImageAccessIntrList const & imageLoad = img::imageLoadF;
+		static constexpr img::ImageAccessIntrList const & imageStore = img::imageStoreF;
+		static constexpr img::ImageAccessIntrList const & imageAtomicAdd = img::imageAtomicAddF;
+		static constexpr img::ImageAccessIntrList const & imageAtomicExchange = img::imageAtomicExchangeF;
 	};
 
 	template<>
@@ -657,10 +657,10 @@ namespace sdw
 		static constexpr bool isUInt = false;
 		static constexpr bool isSingle = true;
 		static constexpr size_t size = 16u;
-		static constexpr details::ImageAccessIntrList const & imageSize = details::imageSizeF;
-		static constexpr details::ImageAccessIntrList const & imageSamples = details::imageSamplesF;
-		static constexpr details::ImageAccessIntrList const & imageLoad = details::imageLoadF;
-		static constexpr details::ImageAccessIntrList const & imageStore = details::imageStoreF;
+		static constexpr img::ImageAccessIntrList const & imageSize = img::imageSizeF;
+		static constexpr img::ImageAccessIntrList const & imageSamples = img::imageSamplesF;
+		static constexpr img::ImageAccessIntrList const & imageLoad = img::imageLoadF;
+		static constexpr img::ImageAccessIntrList const & imageStore = img::imageStoreF;
 	};
 
 	template<>
@@ -674,10 +674,10 @@ namespace sdw
 		static constexpr bool isUInt = false;
 		static constexpr bool isSingle = false;
 		static constexpr size_t size = 128u;
-		static constexpr details::ImageAccessIntrList const & imageSize = details::imageSizeI;
-		static constexpr details::ImageAccessIntrList const & imageSamples = details::imageSamplesI;
-		static constexpr details::ImageAccessIntrList const & imageLoad = details::imageLoadI;
-		static constexpr details::ImageAccessIntrList const & imageStore = details::imageStoreI;
+		static constexpr img::ImageAccessIntrList const & imageSize = img::imageSizeI;
+		static constexpr img::ImageAccessIntrList const & imageSamples = img::imageSamplesI;
+		static constexpr img::ImageAccessIntrList const & imageLoad = img::imageLoadI;
+		static constexpr img::ImageAccessIntrList const & imageStore = img::imageStoreI;
 	};
 
 	template<>
@@ -691,10 +691,10 @@ namespace sdw
 		static constexpr bool isUInt = false;
 		static constexpr bool isSingle = false;
 		static constexpr size_t size = 64u;
-		static constexpr details::ImageAccessIntrList const & imageSize = details::imageSizeI;
-		static constexpr details::ImageAccessIntrList const & imageSamples = details::imageSamplesI;
-		static constexpr details::ImageAccessIntrList const & imageLoad = details::imageLoadI;
-		static constexpr details::ImageAccessIntrList const & imageStore = details::imageStoreI;
+		static constexpr img::ImageAccessIntrList const & imageSize = img::imageSizeI;
+		static constexpr img::ImageAccessIntrList const & imageSamples = img::imageSamplesI;
+		static constexpr img::ImageAccessIntrList const & imageLoad = img::imageLoadI;
+		static constexpr img::ImageAccessIntrList const & imageStore = img::imageStoreI;
 	};
 
 	template<>
@@ -708,10 +708,10 @@ namespace sdw
 		static constexpr bool isUInt = false;
 		static constexpr bool isSingle = false;
 		static constexpr size_t size = 32u;
-		static constexpr details::ImageAccessIntrList const & imageSize = details::imageSizeI;
-		static constexpr details::ImageAccessIntrList const & imageSamples = details::imageSamplesI;
-		static constexpr details::ImageAccessIntrList const & imageLoad = details::imageLoadI;
-		static constexpr details::ImageAccessIntrList const & imageStore = details::imageStoreI;
+		static constexpr img::ImageAccessIntrList const & imageSize = img::imageSizeI;
+		static constexpr img::ImageAccessIntrList const & imageSamples = img::imageSamplesI;
+		static constexpr img::ImageAccessIntrList const & imageLoad = img::imageLoadI;
+		static constexpr img::ImageAccessIntrList const & imageStore = img::imageStoreI;
 	};
 
 	template<>
@@ -725,10 +725,10 @@ namespace sdw
 		static constexpr bool isUInt = false;
 		static constexpr bool isSingle = false;
 		static constexpr size_t size = 64u;
-		static constexpr details::ImageAccessIntrList const & imageSize = details::imageSizeI;
-		static constexpr details::ImageAccessIntrList const & imageSamples = details::imageSamplesI;
-		static constexpr details::ImageAccessIntrList const & imageLoad = details::imageLoadI;
-		static constexpr details::ImageAccessIntrList const & imageStore = details::imageStoreI;
+		static constexpr img::ImageAccessIntrList const & imageSize = img::imageSizeI;
+		static constexpr img::ImageAccessIntrList const & imageSamples = img::imageSamplesI;
+		static constexpr img::ImageAccessIntrList const & imageLoad = img::imageLoadI;
+		static constexpr img::ImageAccessIntrList const & imageStore = img::imageStoreI;
 	};
 
 	template<>
@@ -742,10 +742,10 @@ namespace sdw
 		static constexpr bool isUInt = false;
 		static constexpr bool isSingle = false;
 		static constexpr size_t size = 32u;
-		static constexpr details::ImageAccessIntrList const & imageSize = details::imageSizeI;
-		static constexpr details::ImageAccessIntrList const & imageSamples = details::imageSamplesI;
-		static constexpr details::ImageAccessIntrList const & imageLoad = details::imageLoadI;
-		static constexpr details::ImageAccessIntrList const & imageStore = details::imageStoreI;
+		static constexpr img::ImageAccessIntrList const & imageSize = img::imageSizeI;
+		static constexpr img::ImageAccessIntrList const & imageSamples = img::imageSamplesI;
+		static constexpr img::ImageAccessIntrList const & imageLoad = img::imageLoadI;
+		static constexpr img::ImageAccessIntrList const & imageStore = img::imageStoreI;
 	};
 
 	template<>
@@ -759,10 +759,10 @@ namespace sdw
 		static constexpr bool isUInt = false;
 		static constexpr bool isSingle = false;
 		static constexpr size_t size = 16u;
-		static constexpr details::ImageAccessIntrList const & imageSize = details::imageSizeI;
-		static constexpr details::ImageAccessIntrList const & imageSamples = details::imageSamplesI;
-		static constexpr details::ImageAccessIntrList const & imageLoad = details::imageLoadI;
-		static constexpr details::ImageAccessIntrList const & imageStore = details::imageStoreI;
+		static constexpr img::ImageAccessIntrList const & imageSize = img::imageSizeI;
+		static constexpr img::ImageAccessIntrList const & imageSamples = img::imageSamplesI;
+		static constexpr img::ImageAccessIntrList const & imageLoad = img::imageLoadI;
+		static constexpr img::ImageAccessIntrList const & imageStore = img::imageStoreI;
 	};
 
 	template<>
@@ -776,18 +776,18 @@ namespace sdw
 		static constexpr bool isUInt = false;
 		static constexpr bool isSingle = true;
 		static constexpr size_t size = 32u;
-		static constexpr details::ImageAccessIntrList const & imageSize = details::imageSizeI;
-		static constexpr details::ImageAccessIntrList const & imageSamples = details::imageSamplesI;
-		static constexpr details::ImageAccessIntrList const & imageLoad = details::imageLoadI;
-		static constexpr details::ImageAccessIntrList const & imageStore = details::imageStoreI;
-		static constexpr details::ImageAccessIntrList const & imageAtomicAdd = details::imageAtomicAddI;
-		static constexpr details::ImageAccessIntrList const & imageAtomicMin = details::imageAtomicMinI;
-		static constexpr details::ImageAccessIntrList const & imageAtomicMax = details::imageAtomicMaxI;
-		static constexpr details::ImageAccessIntrList const & imageAtomicAnd = details::imageAtomicAndI;
-		static constexpr details::ImageAccessIntrList const & imageAtomicOr = details::imageAtomicOrI;
-		static constexpr details::ImageAccessIntrList const & imageAtomicXor = details::imageAtomicXorI;
-		static constexpr details::ImageAccessIntrList const & imageAtomicExchange = details::imageAtomicExchangeI;
-		static constexpr details::ImageAccessIntrList const & imageAtomicCompSwap = details::imageAtomicCompSwapI;
+		static constexpr img::ImageAccessIntrList const & imageSize = img::imageSizeI;
+		static constexpr img::ImageAccessIntrList const & imageSamples = img::imageSamplesI;
+		static constexpr img::ImageAccessIntrList const & imageLoad = img::imageLoadI;
+		static constexpr img::ImageAccessIntrList const & imageStore = img::imageStoreI;
+		static constexpr img::ImageAccessIntrList const & imageAtomicAdd = img::imageAtomicAddI;
+		static constexpr img::ImageAccessIntrList const & imageAtomicMin = img::imageAtomicMinI;
+		static constexpr img::ImageAccessIntrList const & imageAtomicMax = img::imageAtomicMaxI;
+		static constexpr img::ImageAccessIntrList const & imageAtomicAnd = img::imageAtomicAndI;
+		static constexpr img::ImageAccessIntrList const & imageAtomicOr = img::imageAtomicOrI;
+		static constexpr img::ImageAccessIntrList const & imageAtomicXor = img::imageAtomicXorI;
+		static constexpr img::ImageAccessIntrList const & imageAtomicExchange = img::imageAtomicExchangeI;
+		static constexpr img::ImageAccessIntrList const & imageAtomicCompSwap = img::imageAtomicCompSwapI;
 	};
 
 	template<>
@@ -801,10 +801,10 @@ namespace sdw
 		static constexpr bool isUInt = false;
 		static constexpr bool isSingle = true;
 		static constexpr size_t size = 16u;
-		static constexpr details::ImageAccessIntrList const & imageSize = details::imageSizeI;
-		static constexpr details::ImageAccessIntrList const & imageSamples = details::imageSamplesI;
-		static constexpr details::ImageAccessIntrList const & imageLoad = details::imageLoadI;
-		static constexpr details::ImageAccessIntrList const & imageStore = details::imageStoreI;
+		static constexpr img::ImageAccessIntrList const & imageSize = img::imageSizeI;
+		static constexpr img::ImageAccessIntrList const & imageSamples = img::imageSamplesI;
+		static constexpr img::ImageAccessIntrList const & imageLoad = img::imageLoadI;
+		static constexpr img::ImageAccessIntrList const & imageStore = img::imageStoreI;
 	};
 
 	template<>
@@ -818,10 +818,10 @@ namespace sdw
 		static constexpr bool isUInt = false;
 		static constexpr bool isSingle = true;
 		static constexpr size_t size = 8u;
-		static constexpr details::ImageAccessIntrList const & imageSize = details::imageSizeI;
-		static constexpr details::ImageAccessIntrList const & imageSamples = details::imageSamplesI;
-		static constexpr details::ImageAccessIntrList const & imageLoad = details::imageLoadI;
-		static constexpr details::ImageAccessIntrList const & imageStore = details::imageStoreI;
+		static constexpr img::ImageAccessIntrList const & imageSize = img::imageSizeI;
+		static constexpr img::ImageAccessIntrList const & imageSamples = img::imageSamplesI;
+		static constexpr img::ImageAccessIntrList const & imageLoad = img::imageLoadI;
+		static constexpr img::ImageAccessIntrList const & imageStore = img::imageStoreI;
 	};
 
 	template<>
@@ -835,10 +835,10 @@ namespace sdw
 		static constexpr bool isUInt = true;
 		static constexpr bool isSingle = false;
 		static constexpr size_t size = 128u;
-		static constexpr details::ImageAccessIntrList const & imageSize = details::imageSizeU;
-		static constexpr details::ImageAccessIntrList const & imageSamples = details::imageSamplesU;
-		static constexpr details::ImageAccessIntrList const & imageLoad = details::imageLoadU;
-		static constexpr details::ImageAccessIntrList const & imageStore = details::imageStoreU;
+		static constexpr img::ImageAccessIntrList const & imageSize = img::imageSizeU;
+		static constexpr img::ImageAccessIntrList const & imageSamples = img::imageSamplesU;
+		static constexpr img::ImageAccessIntrList const & imageLoad = img::imageLoadU;
+		static constexpr img::ImageAccessIntrList const & imageStore = img::imageStoreU;
 	};
 
 	template<>
@@ -852,10 +852,10 @@ namespace sdw
 		static constexpr bool isUInt = true;
 		static constexpr bool isSingle = false;
 		static constexpr size_t size = 64u;
-		static constexpr details::ImageAccessIntrList const & imageSize = details::imageSizeU;
-		static constexpr details::ImageAccessIntrList const & imageSamples = details::imageSamplesU;
-		static constexpr details::ImageAccessIntrList const & imageLoad = details::imageLoadU;
-		static constexpr details::ImageAccessIntrList const & imageStore = details::imageStoreU;
+		static constexpr img::ImageAccessIntrList const & imageSize = img::imageSizeU;
+		static constexpr img::ImageAccessIntrList const & imageSamples = img::imageSamplesU;
+		static constexpr img::ImageAccessIntrList const & imageLoad = img::imageLoadU;
+		static constexpr img::ImageAccessIntrList const & imageStore = img::imageStoreU;
 	};
 
 	template<>
@@ -869,10 +869,10 @@ namespace sdw
 		static constexpr bool isUInt = true;
 		static constexpr bool isSingle = false;
 		static constexpr size_t size = 32u;
-		static constexpr details::ImageAccessIntrList const & imageSize = details::imageSizeU;
-		static constexpr details::ImageAccessIntrList const & imageSamples = details::imageSamplesU;
-		static constexpr details::ImageAccessIntrList const & imageLoad = details::imageLoadU;
-		static constexpr details::ImageAccessIntrList const & imageStore = details::imageStoreU;
+		static constexpr img::ImageAccessIntrList const & imageSize = img::imageSizeU;
+		static constexpr img::ImageAccessIntrList const & imageSamples = img::imageSamplesU;
+		static constexpr img::ImageAccessIntrList const & imageLoad = img::imageLoadU;
+		static constexpr img::ImageAccessIntrList const & imageStore = img::imageStoreU;
 	};
 
 	template<>
@@ -886,10 +886,10 @@ namespace sdw
 		static constexpr bool isUInt = true;
 		static constexpr bool isSingle = false;
 		static constexpr size_t size = 64u;
-		static constexpr details::ImageAccessIntrList const & imageSize = details::imageSizeU;
-		static constexpr details::ImageAccessIntrList const & imageSamples = details::imageSamplesU;
-		static constexpr details::ImageAccessIntrList const & imageLoad = details::imageLoadU;
-		static constexpr details::ImageAccessIntrList const & imageStore = details::imageStoreU;
+		static constexpr img::ImageAccessIntrList const & imageSize = img::imageSizeU;
+		static constexpr img::ImageAccessIntrList const & imageSamples = img::imageSamplesU;
+		static constexpr img::ImageAccessIntrList const & imageLoad = img::imageLoadU;
+		static constexpr img::ImageAccessIntrList const & imageStore = img::imageStoreU;
 	};
 
 	template<>
@@ -903,10 +903,10 @@ namespace sdw
 		static constexpr bool isUInt = true;
 		static constexpr bool isSingle = false;
 		static constexpr size_t size = 32u;
-		static constexpr details::ImageAccessIntrList const & imageSize = details::imageSizeU;
-		static constexpr details::ImageAccessIntrList const & imageSamples = details::imageSamplesU;
-		static constexpr details::ImageAccessIntrList const & imageLoad = details::imageLoadU;
-		static constexpr details::ImageAccessIntrList const & imageStore = details::imageStoreU;
+		static constexpr img::ImageAccessIntrList const & imageSize = img::imageSizeU;
+		static constexpr img::ImageAccessIntrList const & imageSamples = img::imageSamplesU;
+		static constexpr img::ImageAccessIntrList const & imageLoad = img::imageLoadU;
+		static constexpr img::ImageAccessIntrList const & imageStore = img::imageStoreU;
 	};
 
 	template<>
@@ -920,10 +920,10 @@ namespace sdw
 		static constexpr bool isUInt = true;
 		static constexpr bool isSingle = false;
 		static constexpr size_t size = 16u;
-		static constexpr details::ImageAccessIntrList const & imageSize = details::imageSizeU;
-		static constexpr details::ImageAccessIntrList const & imageSamples = details::imageSamplesU;
-		static constexpr details::ImageAccessIntrList const & imageLoad = details::imageLoadU;
-		static constexpr details::ImageAccessIntrList const & imageStore = details::imageStoreU;
+		static constexpr img::ImageAccessIntrList const & imageSize = img::imageSizeU;
+		static constexpr img::ImageAccessIntrList const & imageSamples = img::imageSamplesU;
+		static constexpr img::ImageAccessIntrList const & imageLoad = img::imageLoadU;
+		static constexpr img::ImageAccessIntrList const & imageStore = img::imageStoreU;
 	};
 
 	template<>
@@ -937,18 +937,18 @@ namespace sdw
 		static constexpr bool isUInt = true;
 		static constexpr bool isSingle = true;
 		static constexpr size_t size = 32u;
-		static constexpr details::ImageAccessIntrList const & imageSize = details::imageSizeU;
-		static constexpr details::ImageAccessIntrList const & imageSamples = details::imageSamplesU;
-		static constexpr details::ImageAccessIntrList const & imageLoad = details::imageLoadU;
-		static constexpr details::ImageAccessIntrList const & imageStore = details::imageStoreU;
-		static constexpr details::ImageAccessIntrList const & imageAtomicAdd = details::imageAtomicAddU;
-		static constexpr details::ImageAccessIntrList const & imageAtomicMin = details::imageAtomicMinU;
-		static constexpr details::ImageAccessIntrList const & imageAtomicMax = details::imageAtomicMaxU;
-		static constexpr details::ImageAccessIntrList const & imageAtomicAnd = details::imageAtomicAndU;
-		static constexpr details::ImageAccessIntrList const & imageAtomicOr = details::imageAtomicOrU;
-		static constexpr details::ImageAccessIntrList const & imageAtomicXor = details::imageAtomicXorU;
-		static constexpr details::ImageAccessIntrList const & imageAtomicExchange = details::imageAtomicExchangeU;
-		static constexpr details::ImageAccessIntrList const & imageAtomicCompSwap = details::imageAtomicCompSwapU;
+		static constexpr img::ImageAccessIntrList const & imageSize = img::imageSizeU;
+		static constexpr img::ImageAccessIntrList const & imageSamples = img::imageSamplesU;
+		static constexpr img::ImageAccessIntrList const & imageLoad = img::imageLoadU;
+		static constexpr img::ImageAccessIntrList const & imageStore = img::imageStoreU;
+		static constexpr img::ImageAccessIntrList const & imageAtomicAdd = img::imageAtomicAddU;
+		static constexpr img::ImageAccessIntrList const & imageAtomicMin = img::imageAtomicMinU;
+		static constexpr img::ImageAccessIntrList const & imageAtomicMax = img::imageAtomicMaxU;
+		static constexpr img::ImageAccessIntrList const & imageAtomicAnd = img::imageAtomicAndU;
+		static constexpr img::ImageAccessIntrList const & imageAtomicOr = img::imageAtomicOrU;
+		static constexpr img::ImageAccessIntrList const & imageAtomicXor = img::imageAtomicXorU;
+		static constexpr img::ImageAccessIntrList const & imageAtomicExchange = img::imageAtomicExchangeU;
+		static constexpr img::ImageAccessIntrList const & imageAtomicCompSwap = img::imageAtomicCompSwapU;
 	};
 
 	template<>
@@ -962,10 +962,10 @@ namespace sdw
 		static constexpr bool isUInt = true;
 		static constexpr bool isSingle = true;
 		static constexpr size_t size = 16u;
-		static constexpr details::ImageAccessIntrList const & imageSize = details::imageSizeU;
-		static constexpr details::ImageAccessIntrList const & imageSamples = details::imageSamplesU;
-		static constexpr details::ImageAccessIntrList const & imageLoad = details::imageLoadU;
-		static constexpr details::ImageAccessIntrList const & imageStore = details::imageStoreU;
+		static constexpr img::ImageAccessIntrList const & imageSize = img::imageSizeU;
+		static constexpr img::ImageAccessIntrList const & imageSamples = img::imageSamplesU;
+		static constexpr img::ImageAccessIntrList const & imageLoad = img::imageLoadU;
+		static constexpr img::ImageAccessIntrList const & imageStore = img::imageStoreU;
 	};
 
 	template<>
@@ -979,10 +979,10 @@ namespace sdw
 		static constexpr bool isUInt = true;
 		static constexpr bool isSingle = true;
 		static constexpr size_t size = 8u;
-		static constexpr details::ImageAccessIntrList const & imageSize = details::imageSizeU;
-		static constexpr details::ImageAccessIntrList const & imageSamples = details::imageSamplesU;
-		static constexpr details::ImageAccessIntrList const & imageLoad = details::imageLoadU;
-		static constexpr details::ImageAccessIntrList const & imageStore = details::imageStoreU;
+		static constexpr img::ImageAccessIntrList const & imageSize = img::imageSizeU;
+		static constexpr img::ImageAccessIntrList const & imageSamples = img::imageSamplesU;
+		static constexpr img::ImageAccessIntrList const & imageLoad = img::imageLoadU;
+		static constexpr img::ImageAccessIntrList const & imageStore = img::imageStoreU;
 	};
 
 	//*****************************************************************************************
@@ -1043,7 +1043,7 @@ namespace sdw
 		using SizeType = IVec3;
 	};
 
-	namespace details
+	namespace img
 	{
 		//*****************************************************************************************
 
@@ -1079,6 +1079,7 @@ namespace sdw
 					, makeExpr( image )
 					, makeExpr( params )... ) };
 		}
+
 		//*****************************************************************************************
 
 		template< type::ImageFormat FormatT
@@ -2274,7 +2275,7 @@ namespace sdw
 		, bool MsT >
 	ImageT< FormatT, AccessT, DimT, ArrayedT, DepthT, MsT >::ImageT( Shader * shader
 		, expr::ExprPtr expr )
-		: details::ImageFuncsT< FormatT, AccessT, DimT, ArrayedT, DepthT, MsT >{ shader, std::move( expr ) }
+		: img::ImageFuncsT< FormatT, AccessT, DimT, ArrayedT, DepthT, MsT >{ shader, std::move( expr ) }
 	{
 	}
 
@@ -2285,7 +2286,7 @@ namespace sdw
 		, bool DepthT
 		, bool MsT >
 	ImageT< FormatT, AccessT, DimT, ArrayedT, DepthT, MsT >::ImageT( ImageT const & rhs )
-		: details::ImageFuncsT< FormatT, AccessT, DimT, ArrayedT, DepthT, MsT >{ rhs }
+		: img::ImageFuncsT< FormatT, AccessT, DimT, ArrayedT, DepthT, MsT >{ rhs }
 	{
 	}
 
@@ -2298,7 +2299,7 @@ namespace sdw
 	template< typename T >
 	ImageT< FormatT, AccessT, DimT, ArrayedT, DepthT, MsT > & ImageT< FormatT, AccessT, DimT, ArrayedT, DepthT, MsT >::operator=( T const & rhs )
 	{
-		details::ImageFuncsT< FormatT, AccessT, DimT, ArrayedT, DepthT, MsT >::operator=( rhs );
+		img::ImageFuncsT< FormatT, AccessT, DimT, ArrayedT, DepthT, MsT >::operator=( rhs );
 		return *this;
 	}
 

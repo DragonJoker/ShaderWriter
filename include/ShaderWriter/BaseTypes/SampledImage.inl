@@ -6,6 +6,1472 @@ See LICENSE file in root folder
 
 namespace sdw
 {
+	//*****************************************************************************************
+
+	namespace sampledImg
+	{
+		size_t constexpr ImgBaseCount = size_t( type::ImageDim::eBuffer ) + 1u;
+		size_t constexpr ArrayImgCount = 3u;
+		size_t constexpr NonShadowImgCount = ImgBaseCount + ArrayImgCount;
+		size_t constexpr ShadowImgBaseCount = 4u;
+		size_t constexpr ShadowArrayImgBaseCount = 3u;
+		using IntrinsicsList = std::array< expr::TextureAccess, NonShadowImgCount + ShadowImgBaseCount + ShadowArrayImgBaseCount >;
+
+		template< type::ImageDim DimT
+			, bool ArrayedT
+			, bool DepthT >
+			constexpr size_t getIndex()
+		{
+			if constexpr ( DepthT )
+			{
+				if constexpr ( ArrayedT )
+				{
+					if constexpr ( DimT == type::ImageDim::e1D )
+					{
+						return NonShadowImgCount + ShadowImgBaseCount + 0u;
+					}
+					else if constexpr ( DimT == type::ImageDim::e2D )
+					{
+						return NonShadowImgCount + ShadowImgBaseCount + 1u;
+					}
+					else if constexpr ( DimT == type::ImageDim::eCube )
+					{
+						return NonShadowImgCount + ShadowImgBaseCount + 2u;
+					}
+					else
+					{
+						static_assert( false );
+						return expr::TextureAccess( ~( 0u ) );
+					}
+				}
+				else
+				{
+					if constexpr ( DimT == type::ImageDim::e1D )
+					{
+						return NonShadowImgCount +  0u;
+					}
+					else if constexpr ( DimT == type::ImageDim::e2D )
+					{
+						return NonShadowImgCount +  1u;
+					}
+					else if constexpr ( DimT == type::ImageDim::eCube )
+					{
+						return NonShadowImgCount +  2u;
+					}
+					else if constexpr ( DimT == type::ImageDim::eRect )
+					{
+						return NonShadowImgCount +  3u;
+					}
+					else
+					{
+						static_assert( false );
+						return expr::TextureAccess( ~( 0u ) );
+					}
+				}
+			}
+			else if constexpr ( ArrayedT )
+			{
+				if constexpr ( DimT == type::ImageDim::e1D )
+				{
+					return ImgBaseCount + 0u;
+				}
+				else if constexpr ( DimT == type::ImageDim::e2D )
+				{
+					return ImgBaseCount + 1u;
+				}
+				else if constexpr ( DimT == type::ImageDim::eCube )
+				{
+					return ImgBaseCount + 2u;
+				}
+				else
+				{
+					static_assert( false );
+					return expr::TextureAccess( ~( 0u ) );
+				}
+			}
+			else
+			{
+				return size_t( DimT );
+			}
+		}
+
+		static constexpr IntrinsicsList textureSizeF
+		{
+			expr::TextureAccess::eTextureSize1DF,
+			expr::TextureAccess::eTextureSize2DF,
+			expr::TextureAccess::eTextureSize3DF,
+			expr::TextureAccess::eTextureSizeCubeF,
+			expr::TextureAccess::eTextureSize2DRectF,
+			expr::TextureAccess::eTextureSizeBufferF,
+
+			expr::TextureAccess::eTextureSize1DArrayF,
+			expr::TextureAccess::eTextureSize2DArrayF,
+			expr::TextureAccess::eTextureSizeCubeArrayF,
+
+			expr::TextureAccess::eTextureSize1DShadowF,
+			expr::TextureAccess::eTextureSize2DShadowF,
+			expr::TextureAccess::eTextureSizeCubeShadowF,
+			expr::TextureAccess::eTextureSize2DRectShadowF,
+
+			expr::TextureAccess::eTextureSize1DArrayShadowF,
+			expr::TextureAccess::eTextureSize2DArrayShadowF,
+			expr::TextureAccess::eTextureSizeCubeArrayShadowF,
+		};
+		static constexpr IntrinsicsList textureSizeI
+		{
+			expr::TextureAccess::eTextureSize1DI,
+			expr::TextureAccess::eTextureSize2DI,
+			expr::TextureAccess::eTextureSize3DI,
+			expr::TextureAccess::eTextureSizeCubeI,
+			expr::TextureAccess::eTextureSize2DRectI,
+			expr::TextureAccess::eTextureSizeBufferI,
+
+			expr::TextureAccess::eTextureSize1DArrayI,
+			expr::TextureAccess::eTextureSize2DArrayI,
+			expr::TextureAccess::eTextureSizeCubeArrayI,
+		};
+		static constexpr IntrinsicsList textureSizeU
+		{
+			expr::TextureAccess::eTextureSize1DU,
+			expr::TextureAccess::eTextureSize2DU,
+			expr::TextureAccess::eTextureSize3DU,
+			expr::TextureAccess::eTextureSizeCubeU,
+			expr::TextureAccess::eTextureSize2DRectU,
+			expr::TextureAccess::eTextureSizeBufferU,
+
+			expr::TextureAccess::eTextureSize1DArrayU,
+			expr::TextureAccess::eTextureSize2DArrayU,
+			expr::TextureAccess::eTextureSizeCubeArrayU,
+		};
+
+		static constexpr IntrinsicsList textureQueryLodF
+		{
+			expr::TextureAccess::eTextureQueryLod1DF,
+			expr::TextureAccess::eTextureQueryLod2DF,
+			expr::TextureAccess::eTextureQueryLod3DF,
+			expr::TextureAccess::eTextureQueryLodCubeF,
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess( ~( 0u ) ),
+
+			expr::TextureAccess::eTextureQueryLod1DArrayF,
+			expr::TextureAccess::eTextureQueryLod2DArrayF,
+			expr::TextureAccess::eTextureQueryLodCubeArrayF,
+
+			expr::TextureAccess::eTextureQueryLod1DShadowF,
+			expr::TextureAccess::eTextureQueryLod2DShadowF,
+			expr::TextureAccess::eTextureQueryLodCubeShadowF,
+			expr::TextureAccess( ~( 0u ) ),
+
+			expr::TextureAccess::eTextureQueryLod1DArrayShadowF,
+			expr::TextureAccess::eTextureQueryLod2DArrayShadowF,
+			expr::TextureAccess::eTextureQueryLodCubeArrayShadowF,
+		};
+		static constexpr IntrinsicsList textureQueryLodI
+		{
+			expr::TextureAccess::eTextureQueryLod1DI,
+			expr::TextureAccess::eTextureQueryLod2DI,
+			expr::TextureAccess::eTextureQueryLod3DI,
+			expr::TextureAccess::eTextureQueryLodCubeI,
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess( ~( 0u ) ),
+
+			expr::TextureAccess::eTextureQueryLod1DArrayI,
+			expr::TextureAccess::eTextureQueryLod2DArrayI,
+			expr::TextureAccess::eTextureQueryLodCubeArrayI,
+		};
+		static constexpr IntrinsicsList textureQueryLodU
+		{
+			expr::TextureAccess::eTextureQueryLod1DU,
+			expr::TextureAccess::eTextureQueryLod2DU,
+			expr::TextureAccess::eTextureQueryLod3DU,
+			expr::TextureAccess::eTextureQueryLodCubeU,
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess( ~( 0u ) ),
+
+			expr::TextureAccess::eTextureQueryLod1DArrayU,
+			expr::TextureAccess::eTextureQueryLod2DArrayU,
+			expr::TextureAccess::eTextureQueryLodCubeArrayU,
+		};
+
+		static constexpr IntrinsicsList textureQueryLevelsF
+		{
+			expr::TextureAccess::eTextureQueryLevels1DF,
+			expr::TextureAccess::eTextureQueryLevels2DF,
+			expr::TextureAccess::eTextureQueryLevels3DF,
+			expr::TextureAccess::eTextureQueryLevelsCubeF,
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess( ~( 0u ) ),
+
+			expr::TextureAccess::eTextureQueryLevels1DArrayF,
+			expr::TextureAccess::eTextureQueryLevels2DArrayF,
+			expr::TextureAccess::eTextureQueryLevelsCubeArrayF,
+
+			expr::TextureAccess::eTextureQueryLevels1DShadowF,
+			expr::TextureAccess::eTextureQueryLevels2DShadowF,
+			expr::TextureAccess::eTextureQueryLevelsCubeShadowF,
+			expr::TextureAccess( ~( 0u ) ),
+
+			expr::TextureAccess::eTextureQueryLevels1DArrayShadowF,
+			expr::TextureAccess::eTextureQueryLevels2DArrayShadowF,
+			expr::TextureAccess::eTextureQueryLevelsCubeArrayShadowF,
+		};
+		static constexpr IntrinsicsList textureQueryLevelsI
+		{
+			expr::TextureAccess::eTextureQueryLevels1DI,
+			expr::TextureAccess::eTextureQueryLevels2DI,
+			expr::TextureAccess::eTextureQueryLevels3DI,
+			expr::TextureAccess::eTextureQueryLevelsCubeI,
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess( ~( 0u ) ),
+
+			expr::TextureAccess::eTextureQueryLevels1DArrayI,
+			expr::TextureAccess::eTextureQueryLevels2DArrayI,
+			expr::TextureAccess::eTextureQueryLevelsCubeArrayI,
+		};
+		static constexpr IntrinsicsList textureQueryLevelsU
+		{
+			expr::TextureAccess::eTextureQueryLevels1DU,
+			expr::TextureAccess::eTextureQueryLevels2DU,
+			expr::TextureAccess::eTextureQueryLevels3DU,
+			expr::TextureAccess::eTextureQueryLevelsCubeU,
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess( ~( 0u ) ),
+
+			expr::TextureAccess::eTextureQueryLevels1DArrayU,
+			expr::TextureAccess::eTextureQueryLevels2DArrayU,
+			expr::TextureAccess::eTextureQueryLevelsCubeArrayU,
+		};
+
+		static constexpr IntrinsicsList textureF
+		{
+			expr::TextureAccess::eTexture1DF,
+			expr::TextureAccess::eTexture2DF,
+			expr::TextureAccess::eTexture3DF,
+			expr::TextureAccess::eTextureCubeF,
+			expr::TextureAccess::eTexture2DRectF,
+			expr::TextureAccess( ~( 0u ) ),
+
+			expr::TextureAccess::eTexture1DArrayF,
+			expr::TextureAccess::eTexture2DArrayF,
+			expr::TextureAccess::eTextureCubeArrayF,
+
+			expr::TextureAccess::eTexture1DShadowF,
+			expr::TextureAccess::eTexture2DShadowF,
+			expr::TextureAccess::eTextureCubeShadowF,
+			expr::TextureAccess::eTexture2DRectShadowF,
+
+			expr::TextureAccess::eTexture1DArrayShadowF,
+			expr::TextureAccess::eTexture2DArrayShadowF,
+			expr::TextureAccess::eTextureCubeArrayShadowF,
+		};
+		static constexpr IntrinsicsList textureI
+		{
+			expr::TextureAccess::eTexture1DI,
+			expr::TextureAccess::eTexture2DI,
+			expr::TextureAccess::eTexture3DI,
+			expr::TextureAccess::eTextureCubeI,
+			expr::TextureAccess::eTexture2DRectI,
+			expr::TextureAccess( ~( 0u ) ),
+
+			expr::TextureAccess::eTexture1DArrayI,
+			expr::TextureAccess::eTexture2DArrayI,
+			expr::TextureAccess::eTextureCubeArrayI,
+		};
+		static constexpr IntrinsicsList textureU
+		{
+			expr::TextureAccess::eTexture1DU,
+			expr::TextureAccess::eTexture2DU,
+			expr::TextureAccess::eTexture3DU,
+			expr::TextureAccess::eTextureCubeU,
+			expr::TextureAccess::eTexture2DRectU,
+			expr::TextureAccess( ~( 0u ) ),
+
+			expr::TextureAccess::eTexture1DArrayU,
+			expr::TextureAccess::eTexture2DArrayU,
+			expr::TextureAccess::eTextureCubeArrayU,
+		};
+
+		static constexpr IntrinsicsList textureBiasF
+		{
+			expr::TextureAccess::eTexture1DFBias,
+			expr::TextureAccess::eTexture2DFBias,
+			expr::TextureAccess::eTexture3DFBias,
+			expr::TextureAccess::eTextureCubeFBias,
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess( ~( 0u ) ),
+
+			expr::TextureAccess::eTexture1DArrayFBias,
+			expr::TextureAccess::eTexture2DArrayFBias,
+			expr::TextureAccess::eTextureCubeArrayFBias,
+
+			expr::TextureAccess::eTexture1DShadowFBias,
+			expr::TextureAccess::eTexture2DShadowFBias,
+			expr::TextureAccess::eTextureCubeShadowFBias,
+			expr::TextureAccess( ~( 0u ) ),
+
+			expr::TextureAccess::eTexture1DArrayShadowFBias,
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess( ~( 0u ) ),
+		};
+		static constexpr IntrinsicsList textureBiasI
+		{
+			expr::TextureAccess::eTexture1DIBias,
+			expr::TextureAccess::eTexture2DIBias,
+			expr::TextureAccess::eTexture3DIBias,
+			expr::TextureAccess::eTextureCubeIBias,
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess( ~( 0u ) ),
+
+			expr::TextureAccess::eTexture1DArrayIBias,
+			expr::TextureAccess::eTexture2DArrayIBias,
+			expr::TextureAccess::eTextureCubeArrayIBias,
+		};
+		static constexpr IntrinsicsList textureBiasU
+		{
+			expr::TextureAccess::eTexture1DUBias,
+			expr::TextureAccess::eTexture2DUBias,
+			expr::TextureAccess::eTexture3DUBias,
+			expr::TextureAccess::eTextureCubeUBias,
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess( ~( 0u ) ),
+
+			expr::TextureAccess::eTexture1DArrayUBias,
+			expr::TextureAccess::eTexture2DArrayUBias,
+			expr::TextureAccess::eTextureCubeArrayUBias,
+		};
+
+		static constexpr IntrinsicsList textureOffsetF
+		{
+			expr::TextureAccess::eTextureOffset1DF,
+			expr::TextureAccess::eTextureOffset2DF,
+			expr::TextureAccess::eTextureOffset3DF,
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eTextureOffset2DRectF,
+			expr::TextureAccess( ~( 0u ) ),
+
+			expr::TextureAccess::eTextureOffset1DArrayF,
+			expr::TextureAccess::eTextureOffset2DArrayF,
+			expr::TextureAccess( ~( 0u ) ),
+
+			expr::TextureAccess::eTextureOffset1DShadowF,
+			expr::TextureAccess::eTextureOffset2DShadowF,
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eTextureOffset2DRectShadowF,
+
+			expr::TextureAccess::eTextureOffset1DArrayShadowF,
+			expr::TextureAccess::eTextureOffset2DArrayShadowF,
+			expr::TextureAccess( ~( 0u ) ),
+		};
+		static constexpr IntrinsicsList textureOffsetI
+		{
+			expr::TextureAccess::eTextureOffset1DI,
+			expr::TextureAccess::eTextureOffset2DI,
+			expr::TextureAccess::eTextureOffset3DI,
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eTextureOffset2DRectI,
+			expr::TextureAccess( ~( 0u ) ),
+
+			expr::TextureAccess::eTextureOffset1DArrayI,
+			expr::TextureAccess::eTextureOffset2DArrayI,
+			expr::TextureAccess( ~( 0u ) ),
+		};
+		static constexpr IntrinsicsList textureOffsetU
+		{
+			expr::TextureAccess::eTextureOffset1DU,
+			expr::TextureAccess::eTextureOffset2DU,
+			expr::TextureAccess::eTextureOffset3DU,
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eTextureOffset2DRectU,
+			expr::TextureAccess( ~( 0u ) ),
+
+			expr::TextureAccess::eTextureOffset1DArrayU,
+			expr::TextureAccess::eTextureOffset2DArrayU,
+			expr::TextureAccess( ~( 0u ) ),
+		};
+
+		static constexpr IntrinsicsList textureOffsetBiasF
+		{
+			expr::TextureAccess::eTextureOffset1DFBias,
+			expr::TextureAccess::eTextureOffset2DFBias,
+			expr::TextureAccess::eTextureOffset3DFBias,
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess( ~( 0u ) ),
+
+			expr::TextureAccess::eTextureOffset1DArrayFBias,
+			expr::TextureAccess::eTextureOffset2DArrayFBias,
+			expr::TextureAccess( ~( 0u ) ),
+
+			expr::TextureAccess::eTextureOffset1DShadowFBias,
+			expr::TextureAccess::eTextureOffset2DShadowFBias,
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess( ~( 0u ) ),
+
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess( ~( 0u ) ),
+		};
+		static constexpr IntrinsicsList textureOffsetBiasI
+		{
+			expr::TextureAccess::eTextureOffset1DIBias,
+			expr::TextureAccess::eTextureOffset2DIBias,
+			expr::TextureAccess::eTextureOffset3DIBias,
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess( ~( 0u ) ),
+
+			expr::TextureAccess::eTextureOffset1DArrayIBias,
+			expr::TextureAccess::eTextureOffset2DArrayIBias,
+			expr::TextureAccess( ~( 0u ) ),
+		};
+		static constexpr IntrinsicsList textureOffsetBiasU
+		{
+			expr::TextureAccess::eTextureOffset1DUBias,
+			expr::TextureAccess::eTextureOffset2DUBias,
+			expr::TextureAccess::eTextureOffset3DUBias,
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess( ~( 0u ) ),
+
+			expr::TextureAccess::eTextureOffset1DArrayUBias,
+			expr::TextureAccess::eTextureOffset2DArrayUBias,
+			expr::TextureAccess( ~( 0u ) ),
+		};
+
+		static constexpr IntrinsicsList textureProjF
+		{
+			expr::TextureAccess::eTextureProj1DF2,
+			expr::TextureAccess::eTextureProj2DF3,
+			expr::TextureAccess::eTextureProj3DF,
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eTextureProj2DRectF3,
+			expr::TextureAccess( ~( 0u ) ),
+
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess( ~( 0u ) ),
+
+			expr::TextureAccess::eTextureProj1DShadowF,
+			expr::TextureAccess::eTextureProj2DShadowF,
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eTextureProj2DRectShadowF,
+
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess( ~( 0u ) ),
+		};
+		static constexpr IntrinsicsList textureProjI
+		{
+			expr::TextureAccess::eTextureProj1DI2,
+			expr::TextureAccess::eTextureProj2DI3,
+			expr::TextureAccess::eTextureProj3DI,
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eTextureProj2DRectI3,
+			expr::TextureAccess( ~( 0u ) ),
+
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess( ~( 0u ) ),
+		};
+		static constexpr IntrinsicsList textureProjU
+		{
+			expr::TextureAccess::eTextureProj1DU2,
+			expr::TextureAccess::eTextureProj2DU3,
+			expr::TextureAccess::eTextureProj3DU,
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eTextureProj2DRectU3,
+			expr::TextureAccess( ~( 0u ) ),
+
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess( ~( 0u ) ),
+		};
+
+		static constexpr IntrinsicsList textureProjBiasF
+		{
+			expr::TextureAccess::eTextureProj1DF2Bias,
+			expr::TextureAccess::eTextureProj2DF3Bias,
+			expr::TextureAccess::eTextureProj3DFBias,
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess( ~( 0u ) ),
+
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess( ~( 0u ) ),
+
+			expr::TextureAccess::eTextureProj1DShadowFBias,
+			expr::TextureAccess::eTextureProj2DShadowFBias,
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess( ~( 0u ) ),
+
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess( ~( 0u ) ),
+		};
+		static constexpr IntrinsicsList textureProjBiasI
+		{
+			expr::TextureAccess::eTextureProj1DI2Bias,
+			expr::TextureAccess::eTextureProj2DI3Bias,
+			expr::TextureAccess::eTextureProj3DIBias,
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess( ~( 0u ) ),
+
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess( ~( 0u ) ),
+		};
+		static constexpr IntrinsicsList textureProjBiasU
+		{
+			expr::TextureAccess::eTextureProj1DU2Bias,
+			expr::TextureAccess::eTextureProj2DU3Bias,
+			expr::TextureAccess::eTextureProj3DUBias,
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess( ~( 0u ) ),
+
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess( ~( 0u ) ),
+		};
+
+		static constexpr IntrinsicsList textureProjOffsetF
+		{
+			expr::TextureAccess::eTextureProjOffset1DF2,
+			expr::TextureAccess::eTextureProjOffset2DF3,
+			expr::TextureAccess::eTextureProjOffset3DF,
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eTextureProjOffset2DRectF3,
+			expr::TextureAccess( ~( 0u ) ),
+
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess( ~( 0u ) ),
+
+			expr::TextureAccess::eTextureProjOffset1DShadowF,
+			expr::TextureAccess::eTextureProjOffset2DShadowF,
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eTextureProjOffset2DRectShadowF,
+
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess( ~( 0u ) ),
+		};
+		static constexpr IntrinsicsList textureProjOffsetI
+		{
+			expr::TextureAccess::eTextureProjOffset1DI2,
+			expr::TextureAccess::eTextureProjOffset2DI3,
+			expr::TextureAccess::eTextureProjOffset3DI,
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eTextureProjOffset2DRectI3,
+			expr::TextureAccess( ~( 0u ) ),
+
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess( ~( 0u ) ),
+		};
+		static constexpr IntrinsicsList textureProjOffsetU
+		{
+			expr::TextureAccess::eTextureProjOffset1DU2,
+			expr::TextureAccess::eTextureProjOffset2DU3,
+			expr::TextureAccess::eTextureProjOffset3DU,
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eTextureProjOffset2DRectU3,
+			expr::TextureAccess( ~( 0u ) ),
+
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess( ~( 0u ) ),
+		};
+
+		static constexpr IntrinsicsList textureProjOffsetBiasF
+		{
+			expr::TextureAccess::eTextureProjOffset1DF2Bias,
+			expr::TextureAccess::eTextureProjOffset2DF3Bias,
+			expr::TextureAccess::eTextureProjOffset3DFBias,
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess( ~( 0u ) ),
+
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess( ~( 0u ) ),
+
+			expr::TextureAccess::eTextureProjOffset1DShadowFBias,
+			expr::TextureAccess::eTextureProjOffset2DShadowFBias,
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess( ~( 0u ) ),
+
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess( ~( 0u ) ),
+		};
+		static constexpr IntrinsicsList textureProjOffsetBiasI
+		{
+			expr::TextureAccess::eTextureProjOffset1DI2Bias,
+			expr::TextureAccess::eTextureProjOffset2DI3Bias,
+			expr::TextureAccess::eTextureProjOffset3DIBias,
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess( ~( 0u ) ),
+
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess( ~( 0u ) ),
+		};
+		static constexpr IntrinsicsList textureProjOffsetBiasU
+		{
+			expr::TextureAccess::eTextureProjOffset1DU2Bias,
+			expr::TextureAccess::eTextureProjOffset2DU3Bias,
+			expr::TextureAccess::eTextureProjOffset3DUBias,
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess( ~( 0u ) ),
+
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess( ~( 0u ) ),
+		};
+
+		static constexpr IntrinsicsList textureLodF
+		{
+			expr::TextureAccess::eTextureLod1DF,
+			expr::TextureAccess::eTextureLod2DF,
+			expr::TextureAccess::eTextureLod3DF,
+			expr::TextureAccess::eTextureLodCubeF,
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess( ~( 0u ) ),
+
+			expr::TextureAccess::eTextureLod1DArrayF,
+			expr::TextureAccess::eTextureLod2DArrayF,
+			expr::TextureAccess::eTextureLodCubeArrayF,
+
+			expr::TextureAccess::eTextureLod1DShadowF,
+			expr::TextureAccess::eTextureLod2DShadowF,
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess( ~( 0u ) ),
+
+			expr::TextureAccess::eTextureLod1DArrayShadowF,
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess( ~( 0u ) ),
+		};
+		static constexpr IntrinsicsList textureLodI
+		{
+			expr::TextureAccess::eTextureLod1DI,
+			expr::TextureAccess::eTextureLod2DI,
+			expr::TextureAccess::eTextureLod3DI,
+			expr::TextureAccess::eTextureLodCubeI,
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess( ~( 0u ) ),
+
+			expr::TextureAccess::eTextureLod1DArrayI,
+			expr::TextureAccess::eTextureLod2DArrayI,
+			expr::TextureAccess::eTextureLodCubeArrayI,
+		};
+		static constexpr IntrinsicsList textureLodU
+		{
+			expr::TextureAccess::eTextureLod1DU,
+			expr::TextureAccess::eTextureLod2DU,
+			expr::TextureAccess::eTextureLod3DU,
+			expr::TextureAccess::eTextureLodCubeU,
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess( ~( 0u ) ),
+
+			expr::TextureAccess::eTextureLod1DArrayU,
+			expr::TextureAccess::eTextureLod2DArrayU,
+			expr::TextureAccess::eTextureLodCubeArrayU,
+		};
+
+		static constexpr IntrinsicsList textureLodOffsetF
+		{
+			expr::TextureAccess::eTextureLodOffset1DF,
+			expr::TextureAccess::eTextureLodOffset2DF,
+			expr::TextureAccess::eTextureLodOffset3DF,
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess( ~( 0u ) ),
+
+			expr::TextureAccess::eTextureLodOffset1DArrayF,
+			expr::TextureAccess::eTextureLodOffset2DArrayF,
+			expr::TextureAccess( ~( 0u ) ),
+
+			expr::TextureAccess::eTextureLodOffset1DShadowF,
+			expr::TextureAccess::eTextureLodOffset2DShadowF,
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess( ~( 0u ) ),
+
+			expr::TextureAccess::eTextureLodOffset1DArrayShadowF,
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess( ~( 0u ) ),
+		};
+		static constexpr IntrinsicsList textureLodOffsetI
+		{
+			expr::TextureAccess::eTextureLodOffset1DI,
+			expr::TextureAccess::eTextureLodOffset2DI,
+			expr::TextureAccess::eTextureLodOffset3DI,
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess( ~( 0u ) ),
+
+			expr::TextureAccess::eTextureLodOffset1DArrayI,
+			expr::TextureAccess::eTextureLodOffset2DArrayI,
+			expr::TextureAccess( ~( 0u ) ),
+		};
+		static constexpr IntrinsicsList textureLodOffsetU
+		{
+			expr::TextureAccess::eTextureLodOffset1DU,
+			expr::TextureAccess::eTextureLodOffset2DU,
+			expr::TextureAccess::eTextureLodOffset3DU,
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess( ~( 0u ) ),
+
+			expr::TextureAccess::eTextureLodOffset1DArrayU,
+			expr::TextureAccess::eTextureLodOffset2DArrayU,
+			expr::TextureAccess( ~( 0u ) ),
+		};
+
+		static constexpr IntrinsicsList textureProjLodF
+		{
+			expr::TextureAccess::eTextureProjLod1DF2,
+			expr::TextureAccess::eTextureProjLod2DF3,
+			expr::TextureAccess::eTextureProjLod3DF,
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess( ~( 0u ) ),
+
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess( ~( 0u ) ),
+
+			expr::TextureAccess::eTextureProjLod1DShadowF,
+			expr::TextureAccess::eTextureProjLod2DShadowF,
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess( ~( 0u ) ),
+
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess( ~( 0u ) ),
+		};
+		static constexpr IntrinsicsList textureProjLodI
+		{
+			expr::TextureAccess::eTextureProjLod1DI2,
+			expr::TextureAccess::eTextureProjLod2DI3,
+			expr::TextureAccess::eTextureProjLod3DI,
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess( ~( 0u ) ),
+
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess( ~( 0u ) ),
+		};
+		static constexpr IntrinsicsList textureProjLodU
+		{
+			expr::TextureAccess::eTextureProjLod1DU2,
+			expr::TextureAccess::eTextureProjLod2DU3,
+			expr::TextureAccess::eTextureProjLod3DU,
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess( ~( 0u ) ),
+
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess( ~( 0u ) ),
+		};
+
+		static constexpr IntrinsicsList textureProjLodOffsetF
+		{
+			expr::TextureAccess::eTextureProjLodOffset1DF2,
+			expr::TextureAccess::eTextureProjLodOffset2DF3,
+			expr::TextureAccess::eTextureProjLodOffset3DF,
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess( ~( 0u ) ),
+
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess( ~( 0u ) ),
+
+			expr::TextureAccess::eTextureProjLodOffset1DShadowF,
+			expr::TextureAccess::eTextureProjLodOffset2DShadowF,
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess( ~( 0u ) ),
+
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess( ~( 0u ) ),
+		};
+		static constexpr IntrinsicsList textureProjLodOffsetI
+		{
+			expr::TextureAccess::eTextureProjLodOffset1DI2,
+			expr::TextureAccess::eTextureProjLodOffset2DI3,
+			expr::TextureAccess::eTextureProjLodOffset3DI,
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess( ~( 0u ) ),
+
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess( ~( 0u ) ),
+		};
+		static constexpr IntrinsicsList textureProjLodOffsetU
+		{
+			expr::TextureAccess::eTextureProjLodOffset1DU2,
+			expr::TextureAccess::eTextureProjLodOffset2DU3,
+			expr::TextureAccess::eTextureProjLodOffset3DU,
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess( ~( 0u ) ),
+
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess( ~( 0u ) ),
+		};
+
+		static constexpr IntrinsicsList texelFetchF
+		{
+			expr::TextureAccess::eTexelFetch1DF,
+			expr::TextureAccess::eTexelFetch2DF,
+			expr::TextureAccess::eTexelFetch3DF,
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eTexelFetch2DRectF,
+			expr::TextureAccess::eTexelFetchBufferF,
+
+			expr::TextureAccess::eTexelFetch1DArrayF,
+			expr::TextureAccess::eTexelFetch2DArrayF,
+			expr::TextureAccess( ~( 0u ) ),
+		};
+		static constexpr IntrinsicsList texelFetchI
+		{
+			expr::TextureAccess::eTexelFetch1DI,
+			expr::TextureAccess::eTexelFetch2DI,
+			expr::TextureAccess::eTexelFetch3DI,
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eTexelFetch2DRectI,
+			expr::TextureAccess::eTexelFetchBufferI,
+
+			expr::TextureAccess::eTexelFetch1DArrayI,
+			expr::TextureAccess::eTexelFetch2DArrayI,
+			expr::TextureAccess( ~( 0u ) ),
+		};
+		static constexpr IntrinsicsList texelFetchU
+		{
+			expr::TextureAccess::eTexelFetch1DU,
+			expr::TextureAccess::eTexelFetch2DU,
+			expr::TextureAccess::eTexelFetch3DU,
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eTexelFetch2DRectU,
+			expr::TextureAccess::eTexelFetchBufferU,
+
+			expr::TextureAccess::eTexelFetch1DArrayU,
+			expr::TextureAccess::eTexelFetch2DArrayU,
+			expr::TextureAccess( ~( 0u ) ),
+		};
+
+		static constexpr IntrinsicsList texelFetchOffsetF
+		{
+			expr::TextureAccess::eTexelFetchOffset1DF,
+			expr::TextureAccess::eTexelFetchOffset2DF,
+			expr::TextureAccess::eTexelFetchOffset3DF,
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eTexelFetchOffset2DRectF,
+			expr::TextureAccess( ~( 0u ) ),
+
+			expr::TextureAccess::eTexelFetchOffset1DArrayF,
+			expr::TextureAccess::eTexelFetchOffset2DArrayF,
+			expr::TextureAccess( ~( 0u ) ),
+		};
+		static constexpr IntrinsicsList texelFetchOffsetI
+		{
+			expr::TextureAccess::eTexelFetchOffset1DI,
+			expr::TextureAccess::eTexelFetchOffset2DI,
+			expr::TextureAccess::eTexelFetchOffset3DI,
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eTexelFetchOffset2DRectI,
+			expr::TextureAccess( ~( 0u ) ),
+
+			expr::TextureAccess::eTexelFetchOffset1DArrayI,
+			expr::TextureAccess::eTexelFetchOffset2DArrayI,
+			expr::TextureAccess( ~( 0u ) ),
+		};
+		static constexpr IntrinsicsList texelFetchOffsetU
+		{
+			expr::TextureAccess::eTexelFetchOffset1DU,
+			expr::TextureAccess::eTexelFetchOffset2DU,
+			expr::TextureAccess::eTexelFetchOffset3DU,
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eTexelFetchOffset2DRectU,
+			expr::TextureAccess( ~( 0u ) ),
+
+			expr::TextureAccess::eTexelFetchOffset1DArrayU,
+			expr::TextureAccess::eTexelFetchOffset2DArrayU,
+			expr::TextureAccess( ~( 0u ) ),
+		};
+
+		static constexpr IntrinsicsList textureGradF
+		{
+			expr::TextureAccess::eTextureGrad1DF,
+			expr::TextureAccess::eTextureGrad2DF,
+			expr::TextureAccess::eTextureGrad3DF,
+			expr::TextureAccess::eTextureGradCubeF,
+			expr::TextureAccess::eTextureGrad2DRectF,
+			expr::TextureAccess( ~( 0u ) ),
+
+			expr::TextureAccess::eTextureGrad1DArrayF,
+			expr::TextureAccess::eTextureGrad2DArrayF,
+			expr::TextureAccess::eTextureGradCubeArrayF,
+
+			expr::TextureAccess::eTextureGrad1DShadowF,
+			expr::TextureAccess::eTextureGrad2DShadowF,
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eTextureGrad2DRectShadowF,
+
+			expr::TextureAccess::eTextureGrad1DArrayShadowF,
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess( ~( 0u ) ),
+		};
+		static constexpr IntrinsicsList textureGradI
+		{
+			expr::TextureAccess::eTextureGrad1DI,
+			expr::TextureAccess::eTextureGrad2DI,
+			expr::TextureAccess::eTextureGrad3DI,
+			expr::TextureAccess::eTextureGradCubeI,
+			expr::TextureAccess::eTextureGrad2DRectI,
+			expr::TextureAccess( ~( 0u ) ),
+
+			expr::TextureAccess::eTextureGrad1DArrayI,
+			expr::TextureAccess::eTextureGrad2DArrayI,
+			expr::TextureAccess::eTextureGradCubeArrayI,
+		};
+		static constexpr IntrinsicsList textureGradU
+		{
+			expr::TextureAccess::eTextureGrad1DU,
+			expr::TextureAccess::eTextureGrad2DU,
+			expr::TextureAccess::eTextureGrad3DU,
+			expr::TextureAccess::eTextureGradCubeU,
+			expr::TextureAccess::eTextureGrad2DRectU,
+			expr::TextureAccess( ~( 0u ) ),
+
+			expr::TextureAccess::eTextureGrad1DArrayU,
+			expr::TextureAccess::eTextureGrad2DArrayU,
+			expr::TextureAccess::eTextureGradCubeArrayU,
+		};
+
+		static constexpr IntrinsicsList textureGradOffsetF
+		{
+			expr::TextureAccess::eTextureGradOffset1DF,
+			expr::TextureAccess::eTextureGradOffset2DF,
+			expr::TextureAccess::eTextureGradOffset3DF,
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eTextureGradOffset2DRectF,
+			expr::TextureAccess( ~( 0u ) ),
+
+			expr::TextureAccess::eTextureGradOffset1DArrayF,
+			expr::TextureAccess::eTextureGradOffset2DArrayF,
+			expr::TextureAccess( ~( 0u ) ),
+
+			expr::TextureAccess::eTextureGradOffset1DShadowF,
+			expr::TextureAccess::eTextureGradOffset2DShadowF,
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eTextureGradOffset2DRectShadowF,
+
+			expr::TextureAccess::eTextureGradOffset1DArrayShadowF,
+			expr::TextureAccess::eTextureGradOffset2DArrayShadowF,
+			expr::TextureAccess( ~( 0u ) ),
+		};
+		static constexpr IntrinsicsList textureGradOffsetI
+		{
+			expr::TextureAccess::eTextureGradOffset1DI,
+			expr::TextureAccess::eTextureGradOffset2DI,
+			expr::TextureAccess::eTextureGradOffset3DI,
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eTextureGradOffset2DRectI,
+			expr::TextureAccess( ~( 0u ) ),
+
+			expr::TextureAccess::eTextureGradOffset1DArrayI,
+			expr::TextureAccess::eTextureGradOffset2DArrayI,
+			expr::TextureAccess( ~( 0u ) ),
+		};
+		static constexpr IntrinsicsList textureGradOffsetU
+		{
+			expr::TextureAccess::eTextureGradOffset1DU,
+			expr::TextureAccess::eTextureGradOffset2DU,
+			expr::TextureAccess::eTextureGradOffset3DU,
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eTextureGradOffset2DRectU,
+			expr::TextureAccess( ~( 0u ) ),
+
+			expr::TextureAccess::eTextureGradOffset1DArrayU,
+			expr::TextureAccess::eTextureGradOffset2DArrayU,
+			expr::TextureAccess( ~( 0u ) ),
+		};
+
+		static constexpr IntrinsicsList textureProjGradF
+		{
+			expr::TextureAccess::eTextureProjGrad1DF2,
+			expr::TextureAccess::eTextureProjGrad2DF3,
+			expr::TextureAccess::eTextureProjGrad3DF,
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eTextureProjGrad2DRectF3,
+			expr::TextureAccess( ~( 0u ) ),
+
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess( ~( 0u ) ),
+
+			expr::TextureAccess::eTextureProjGrad1DShadowF,
+			expr::TextureAccess::eTextureProjGrad2DShadowF,
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eTextureProjGrad2DRectShadowF,
+
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess( ~( 0u ) ),
+		};
+		static constexpr IntrinsicsList textureProjGradI
+		{
+			expr::TextureAccess::eTextureProjGrad1DI2,
+			expr::TextureAccess::eTextureProjGrad2DI3,
+			expr::TextureAccess::eTextureProjGrad3DI,
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eTextureProjGrad2DRectI3,
+			expr::TextureAccess( ~( 0u ) ),
+
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess( ~( 0u ) ),
+		};
+		static constexpr IntrinsicsList textureProjGradU
+		{
+			expr::TextureAccess::eTextureProjGrad1DU2,
+			expr::TextureAccess::eTextureProjGrad2DU3,
+			expr::TextureAccess::eTextureProjGrad3DU,
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eTextureProjGrad2DRectU3,
+			expr::TextureAccess( ~( 0u ) ),
+
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess( ~( 0u ) ),
+		};
+
+		static constexpr IntrinsicsList textureProjGradOffsetF
+		{
+			expr::TextureAccess::eTextureProjGradOffset1DF2,
+			expr::TextureAccess::eTextureProjGradOffset2DF3,
+			expr::TextureAccess::eTextureProjGradOffset3DF,
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eTextureProjGradOffset2DRectF3,
+			expr::TextureAccess( ~( 0u ) ),
+
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess( ~( 0u ) ),
+
+			expr::TextureAccess::eTextureProjGradOffset1DShadowF,
+			expr::TextureAccess::eTextureProjGradOffset2DShadowF,
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eTextureProjGradOffset2DRectShadowF,
+
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess( ~( 0u ) ),
+		};
+		static constexpr IntrinsicsList textureProjGradOffsetI
+		{
+			expr::TextureAccess::eTextureProjGradOffset1DI2,
+			expr::TextureAccess::eTextureProjGradOffset2DI3,
+			expr::TextureAccess::eTextureProjGradOffset3DI,
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eTextureProjGradOffset2DRectI3,
+			expr::TextureAccess( ~( 0u ) ),
+
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess( ~( 0u ) ),
+		};
+		static constexpr IntrinsicsList textureProjGradOffsetU
+		{
+			expr::TextureAccess::eTextureProjGradOffset1DU2,
+			expr::TextureAccess::eTextureProjGradOffset2DU3,
+			expr::TextureAccess::eTextureProjGradOffset3DU,
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eTextureProjGradOffset2DRectU3,
+			expr::TextureAccess( ~( 0u ) ),
+
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess( ~( 0u ) ),
+		};
+
+		static constexpr IntrinsicsList textureGatherF
+		{
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eTextureGather2DF,
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eTextureGatherCubeF,
+			expr::TextureAccess::eTextureGather2DRectF,
+			expr::TextureAccess( ~( 0u ) ),
+
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eTextureGather2DArrayF,
+			expr::TextureAccess::eTextureGatherCubeArrayF,
+
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eTextureGather2DShadowF,
+			expr::TextureAccess::eTextureGatherCubeShadowF,
+			expr::TextureAccess::eTextureGather2DRectShadowF,
+
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eTextureGather2DArrayShadowF,
+			expr::TextureAccess::eTextureGatherCubeArrayShadowF,
+		};
+		static constexpr IntrinsicsList textureGatherI
+		{
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eTextureGather2DI,
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eTextureGatherCubeI,
+			expr::TextureAccess::eTextureGather2DRectI,
+			expr::TextureAccess( ~( 0u ) ),
+
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eTextureGather2DArrayI,
+			expr::TextureAccess::eTextureGatherCubeArrayI,
+		};
+		static constexpr IntrinsicsList textureGatherU
+		{
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eTextureGather2DU,
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eTextureGatherCubeU,
+			expr::TextureAccess::eTextureGather2DRectU,
+			expr::TextureAccess( ~( 0u ) ),
+
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eTextureGather2DArrayU,
+			expr::TextureAccess::eTextureGatherCubeArrayU,
+		};
+
+		static constexpr IntrinsicsList textureGatherCompF
+		{
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eTextureGather2DFComp,
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eTextureGatherCubeFComp,
+			expr::TextureAccess::eTextureGather2DRectFComp,
+			expr::TextureAccess( ~( 0u ) ),
+
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eTextureGather2DArrayFComp,
+			expr::TextureAccess::eTextureGatherCubeArrayFComp,
+		};
+		static constexpr IntrinsicsList textureGatherCompI
+		{
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eTextureGather2DIComp,
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eTextureGatherCubeIComp,
+			expr::TextureAccess::eTextureGather2DRectIComp,
+			expr::TextureAccess( ~( 0u ) ),
+
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eTextureGather2DArrayIComp,
+			expr::TextureAccess::eTextureGatherCubeArrayIComp,
+		};
+		static constexpr IntrinsicsList textureGatherCompU
+		{
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eTextureGather2DUComp,
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eTextureGatherCubeUComp,
+			expr::TextureAccess::eTextureGather2DRectUComp,
+			expr::TextureAccess( ~( 0u ) ),
+
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eTextureGather2DArrayUComp,
+			expr::TextureAccess::eTextureGatherCubeArrayUComp,
+		};
+
+		static constexpr IntrinsicsList textureGatherOffsetF
+		{
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eTextureGatherOffset2DF,
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eTextureGatherOffset2DRectF,
+			expr::TextureAccess( ~( 0u ) ),
+
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eTextureGatherOffset2DArrayF,
+			expr::TextureAccess( ~( 0u ) ),
+
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eTextureGatherOffset2DShadowF,
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eTextureGatherOffset2DRectShadowF,
+
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eTextureGatherOffset2DArrayShadowF,
+			expr::TextureAccess( ~( 0u ) ),
+		};
+		static constexpr IntrinsicsList textureGatherOffsetI
+		{
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eTextureGatherOffset2DI,
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eTextureGatherOffset2DRectI,
+			expr::TextureAccess( ~( 0u ) ),
+
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eTextureGatherOffset2DArrayI,
+			expr::TextureAccess( ~( 0u ) ),
+		};
+		static constexpr IntrinsicsList textureGatherOffsetU
+		{
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eTextureGatherOffset2DU,
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eTextureGatherOffset2DRectU,
+			expr::TextureAccess( ~( 0u ) ),
+
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eTextureGatherOffset2DArrayU,
+			expr::TextureAccess( ~( 0u ) ),
+		};
+
+		static constexpr IntrinsicsList textureGatherOffsetCompF
+		{
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eTextureGatherOffset2DFComp,
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eTextureGatherOffset2DRectFComp,
+			expr::TextureAccess( ~( 0u ) ),
+
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eTextureGatherOffset2DArrayFComp,
+			expr::TextureAccess( ~( 0u ) ),
+		};
+		static constexpr IntrinsicsList textureGatherOffsetCompI
+		{
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eTextureGatherOffset2DIComp,
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eTextureGatherOffset2DRectIComp,
+			expr::TextureAccess( ~( 0u ) ),
+
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eTextureGatherOffset2DArrayIComp,
+			expr::TextureAccess( ~( 0u ) ),
+		};
+		static constexpr IntrinsicsList textureGatherOffsetCompU
+		{
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eTextureGatherOffset2DUComp,
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eTextureGatherOffset2DRectUComp,
+			expr::TextureAccess( ~( 0u ) ),
+
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eTextureGatherOffset2DArrayUComp,
+			expr::TextureAccess( ~( 0u ) ),
+		};
+
+		static constexpr IntrinsicsList textureGatherOffsetsF
+		{
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eTextureGatherOffsets2DF,
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eTextureGatherOffsets2DRectF,
+			expr::TextureAccess( ~( 0u ) ),
+
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eTextureGatherOffsets2DArrayF,
+			expr::TextureAccess( ~( 0u ) ),
+
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eTextureGatherOffsets2DShadowF,
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eTextureGatherOffsets2DRectShadowF,
+
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eTextureGatherOffsets2DArrayShadowF,
+			expr::TextureAccess( ~( 0u ) ),
+		};
+		static constexpr IntrinsicsList textureGatherOffsetsI
+		{
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eTextureGatherOffsets2DI,
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eTextureGatherOffsets2DRectI,
+			expr::TextureAccess( ~( 0u ) ),
+
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eTextureGatherOffsets2DArrayI,
+			expr::TextureAccess( ~( 0u ) ),
+		};
+		static constexpr IntrinsicsList textureGatherOffsetsU
+		{
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eTextureGatherOffsets2DU,
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eTextureGatherOffsets2DRectU,
+			expr::TextureAccess( ~( 0u ) ),
+
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eTextureGatherOffsets2DArrayU,
+			expr::TextureAccess( ~( 0u ) ),
+		};
+
+		static constexpr IntrinsicsList textureGatherOffsetsCompF
+		{
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eTextureGatherOffsets2DFComp,
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eTextureGatherOffsets2DRectFComp,
+			expr::TextureAccess( ~( 0u ) ),
+
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eTextureGatherOffsets2DArrayFComp,
+			expr::TextureAccess( ~( 0u ) ),
+		};
+		static constexpr IntrinsicsList textureGatherOffsetsCompI
+		{
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eTextureGatherOffsets2DIComp,
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eTextureGatherOffsets2DRectIComp,
+			expr::TextureAccess( ~( 0u ) ),
+
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eTextureGatherOffsets2DArrayIComp,
+			expr::TextureAccess( ~( 0u ) ),
+		};
+		static constexpr IntrinsicsList textureGatherOffsetsCompU
+		{
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eTextureGatherOffsets2DUComp,
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eTextureGatherOffsets2DRectUComp,
+			expr::TextureAccess( ~( 0u ) ),
+
+			expr::TextureAccess( ~( 0u ) ),
+			expr::TextureAccess::eTextureGatherOffsets2DArrayUComp,
+			expr::TextureAccess( ~( 0u ) ),
+		};
+	}
+
+	//*************************************************************************
+
+	template< type::ImageFormat FormatT >
+	struct SampledImageFormatTraitsT< FormatT, std::enable_if_t< isFloatFormatV< FormatT > > >
+	{
+		static constexpr sampledImg::IntrinsicsList const & textureSize = sampledImg::textureSizeF;
+		static constexpr sampledImg::IntrinsicsList const & textureQueryLod = sampledImg::textureQueryLodF;
+		static constexpr sampledImg::IntrinsicsList const & textureQueryLevels = sampledImg::textureQueryLevelsF;
+		static constexpr sampledImg::IntrinsicsList const & texture = sampledImg::textureF;
+		static constexpr sampledImg::IntrinsicsList const & textureBias = sampledImg::textureBiasF;
+		static constexpr sampledImg::IntrinsicsList const & textureOffset = sampledImg::textureOffsetF;
+		static constexpr sampledImg::IntrinsicsList const & textureOffsetBias = sampledImg::textureOffsetBiasF;
+		static constexpr sampledImg::IntrinsicsList const & textureProj = sampledImg::textureProjF;
+		static constexpr sampledImg::IntrinsicsList const & textureProjBias = sampledImg::textureProjBiasF;
+		static constexpr sampledImg::IntrinsicsList const & textureProjOffset = sampledImg::textureProjOffsetF;
+		static constexpr sampledImg::IntrinsicsList const & textureProjOffsetBias = sampledImg::textureProjOffsetBiasF;
+		static constexpr sampledImg::IntrinsicsList const & textureLod = sampledImg::textureLodF;
+		static constexpr sampledImg::IntrinsicsList const & textureLodOffset = sampledImg::textureLodOffsetF;
+		static constexpr sampledImg::IntrinsicsList const & textureProjLod = sampledImg::textureProjLodF;
+		static constexpr sampledImg::IntrinsicsList const & textureProjLodOffset = sampledImg::textureProjLodOffsetF;
+		static constexpr sampledImg::IntrinsicsList const & texelFetch = sampledImg::texelFetchF;
+		static constexpr sampledImg::IntrinsicsList const & texelFetchOffset = sampledImg::texelFetchOffsetF;
+		static constexpr sampledImg::IntrinsicsList const & textureGrad = sampledImg::textureGradF;
+		static constexpr sampledImg::IntrinsicsList const & textureGradOffset = sampledImg::textureGradOffsetF;
+		static constexpr sampledImg::IntrinsicsList const & textureProjGrad = sampledImg::textureProjGradF;
+		static constexpr sampledImg::IntrinsicsList const & textureProjGradOffset = sampledImg::textureProjGradOffsetF;
+		static constexpr sampledImg::IntrinsicsList const & textureGather = sampledImg::textureGatherF;
+		static constexpr sampledImg::IntrinsicsList const & textureGatherComp = sampledImg::textureGatherCompF;
+		static constexpr sampledImg::IntrinsicsList const & textureGatherOffset = sampledImg::textureGatherOffsetF;
+		static constexpr sampledImg::IntrinsicsList const & textureGatherOffsetComp = sampledImg::textureGatherOffsetCompF;
+		static constexpr sampledImg::IntrinsicsList const & textureGatherOffsets = sampledImg::textureGatherOffsetsF;
+		static constexpr sampledImg::IntrinsicsList const & textureGatherOffsetsComp = sampledImg::textureGatherOffsetsCompF;
+	};
+
+	template< type::ImageFormat FormatT >
+	struct SampledImageFormatTraitsT< FormatT, std::enable_if_t< isSIntFormatV< FormatT > > >
+	{
+		static constexpr sampledImg::IntrinsicsList const & textureSize = sampledImg::textureSizeI;
+		static constexpr sampledImg::IntrinsicsList const & textureQueryLod = sampledImg::textureQueryLodI;
+		static constexpr sampledImg::IntrinsicsList const & textureQueryLevels = sampledImg::textureQueryLevelsI;
+		static constexpr sampledImg::IntrinsicsList const & texture = sampledImg::textureI;
+		static constexpr sampledImg::IntrinsicsList const & textureBias = sampledImg::textureBiasI;
+		static constexpr sampledImg::IntrinsicsList const & textureOffset = sampledImg::textureOffsetI;
+		static constexpr sampledImg::IntrinsicsList const & textureOffsetBias = sampledImg::textureOffsetBiasI;
+		static constexpr sampledImg::IntrinsicsList const & textureProj = sampledImg::textureProjI;
+		static constexpr sampledImg::IntrinsicsList const & textureProjBias = sampledImg::textureProjBiasI;
+		static constexpr sampledImg::IntrinsicsList const & textureProjOffset = sampledImg::textureProjOffsetI;
+		static constexpr sampledImg::IntrinsicsList const & textureProjOffsetBias = sampledImg::textureProjOffsetBiasI;
+		static constexpr sampledImg::IntrinsicsList const & textureLod = sampledImg::textureLodI;
+		static constexpr sampledImg::IntrinsicsList const & textureLodOffset = sampledImg::textureLodOffsetI;
+		static constexpr sampledImg::IntrinsicsList const & textureProjLod = sampledImg::textureProjLodI;
+		static constexpr sampledImg::IntrinsicsList const & textureProjLodOffset = sampledImg::textureProjLodOffsetI;
+		static constexpr sampledImg::IntrinsicsList const & texelFetch = sampledImg::texelFetchI;
+		static constexpr sampledImg::IntrinsicsList const & texelFetchOffset = sampledImg::texelFetchOffsetI;
+		static constexpr sampledImg::IntrinsicsList const & textureGrad = sampledImg::textureGradI;
+		static constexpr sampledImg::IntrinsicsList const & textureGradOffset = sampledImg::textureGradOffsetI;
+		static constexpr sampledImg::IntrinsicsList const & textureProjGrad = sampledImg::textureProjGradI;
+		static constexpr sampledImg::IntrinsicsList const & textureProjGradOffset = sampledImg::textureProjGradOffsetI;
+		static constexpr sampledImg::IntrinsicsList const & textureGather = sampledImg::textureGatherI;
+		static constexpr sampledImg::IntrinsicsList const & textureGatherComp = sampledImg::textureGatherCompI;
+		static constexpr sampledImg::IntrinsicsList const & textureGatherOffset = sampledImg::textureGatherOffsetI;
+		static constexpr sampledImg::IntrinsicsList const & textureGatherOffsetComp = sampledImg::textureGatherOffsetCompI;
+		static constexpr sampledImg::IntrinsicsList const & textureGatherOffsets = sampledImg::textureGatherOffsetsI;
+		static constexpr sampledImg::IntrinsicsList const & textureGatherOffsetsComp = sampledImg::textureGatherOffsetsCompI;
+	};
+
+	template< type::ImageFormat FormatT >
+	struct SampledImageFormatTraitsT< FormatT, std::enable_if_t< isUIntFormatV< FormatT > > >
+	{
+		static constexpr sampledImg::IntrinsicsList const & textureSize = sampledImg::textureSizeU;
+		static constexpr sampledImg::IntrinsicsList const & textureQueryLod = sampledImg::textureQueryLodU;
+		static constexpr sampledImg::IntrinsicsList const & textureQueryLevels = sampledImg::textureQueryLevelsU;
+		static constexpr sampledImg::IntrinsicsList const & texture = sampledImg::textureU;
+		static constexpr sampledImg::IntrinsicsList const & textureBias = sampledImg::textureBiasU;
+		static constexpr sampledImg::IntrinsicsList const & textureOffset = sampledImg::textureOffsetU;
+		static constexpr sampledImg::IntrinsicsList const & textureOffsetBias = sampledImg::textureOffsetBiasU;
+		static constexpr sampledImg::IntrinsicsList const & textureProj = sampledImg::textureProjU;
+		static constexpr sampledImg::IntrinsicsList const & textureProjBias = sampledImg::textureProjBiasU;
+		static constexpr sampledImg::IntrinsicsList const & textureProjOffset = sampledImg::textureProjOffsetU;
+		static constexpr sampledImg::IntrinsicsList const & textureProjOffsetBias = sampledImg::textureProjOffsetBiasU;
+		static constexpr sampledImg::IntrinsicsList const & textureLod = sampledImg::textureLodU;
+		static constexpr sampledImg::IntrinsicsList const & textureLodOffset = sampledImg::textureLodOffsetU;
+		static constexpr sampledImg::IntrinsicsList const & textureProjLod = sampledImg::textureProjLodU;
+		static constexpr sampledImg::IntrinsicsList const & textureProjLodOffset = sampledImg::textureProjLodOffsetU;
+		static constexpr sampledImg::IntrinsicsList const & texelFetch = sampledImg::texelFetchU;
+		static constexpr sampledImg::IntrinsicsList const & texelFetchOffset = sampledImg::texelFetchOffsetU;
+		static constexpr sampledImg::IntrinsicsList const & textureGrad = sampledImg::textureGradU;
+		static constexpr sampledImg::IntrinsicsList const & textureGradOffset = sampledImg::textureGradOffsetU;
+		static constexpr sampledImg::IntrinsicsList const & textureProjGrad = sampledImg::textureProjGradU;
+		static constexpr sampledImg::IntrinsicsList const & textureProjGradOffset = sampledImg::textureProjGradOffsetU;
+		static constexpr sampledImg::IntrinsicsList const & textureGather = sampledImg::textureGatherU;
+		static constexpr sampledImg::IntrinsicsList const & textureGatherComp = sampledImg::textureGatherCompU;
+		static constexpr sampledImg::IntrinsicsList const & textureGatherOffset = sampledImg::textureGatherOffsetU;
+		static constexpr sampledImg::IntrinsicsList const & textureGatherOffsetComp = sampledImg::textureGatherOffsetCompU;
+		static constexpr sampledImg::IntrinsicsList const & textureGatherOffsets = sampledImg::textureGatherOffsetsU;
+		static constexpr sampledImg::IntrinsicsList const & textureGatherOffsetsComp = sampledImg::textureGatherOffsetsCompU;
+	};
+	
 	//*************************************************************************
 
 	template<>
@@ -98,8 +1564,68 @@ namespace sdw
 		using SizeType = sdw::IVec3;
 	};
 
-	namespace details
+	namespace sampledImg
 	{
+		//*****************************************************************************************
+
+		template< typename ReturnT
+			, type::ImageFormat FormatT
+			, type::ImageDim DimT
+			, bool ArrayedT
+			, bool DepthT
+			, bool MsT
+			, expr::TextureAccess TextureAccessT
+			, typename ... ParamsT >
+		MaybeOptional< ReturnT > writeTextureAccessCall( MaybeOptional< SampledImageT< FormatT, DimT, ArrayedT, DepthT, MsT > > const & image
+			, MaybeOptional< ParamsT > const & ... params )
+		{
+			static_assert( TextureAccessT != expr::TextureAccess( ~( 0u ) ) );
+
+			auto & cache = findTypesCache( image, params... );
+
+			if ( isAnyOptional( image, params... ) )
+			{
+				return Optional< ReturnT >{ findShader( image, params... )
+					, expr::makeTextureAccessCall( ReturnT::makeType( cache )
+						, TextureAccessT
+						, makeExpr( image )
+						, makeExpr( params )... )
+					, areOptionalEnabled( image, params... ) };
+			}
+
+			return ReturnT{ findShader( image, params... )
+				, expr::makeTextureAccessCall( ReturnT::makeType( cache )
+					, TextureAccessT
+					, makeExpr( image )
+					, makeExpr( params )... ) };
+		}
+
+		//*****************************************************************************************
+
+		template< type::ImageFormat FormatT
+			, type::ImageDim DimT
+			, bool ArrayedT
+			, bool DepthT
+			, bool MsT
+			, expr::TextureAccess TextureAccessT
+			, typename ... ParamsT >
+		void writeVoidTextureAccessCall( MaybeOptional< SampledImageT< FormatT, DimT, ArrayedT, DepthT, MsT > > const & image
+			, MaybeOptional< ParamsT > const & ... params )
+		{
+			static_assert( TextureAccessT != expr::TextureAccess( ~( 0u ) ) );
+
+			auto & cache = findTypesCache( image, params... );
+
+			if ( ( !isAnyOptional( image, params... ) )
+				|| areOptionalEnabled( image, params... ) )
+			{
+				expr::makeTextureAccessCall( Void::makeType( cache )
+					, TextureAccessT
+					, makeExpr( image )
+					, makeExpr( params )... );
+			}
+		}
+
 		//*************************************************************************
 
 		template< ast::type::ImageFormat FormatT
@@ -113,7 +1639,8 @@ namespace sdw
 
 			MaybeOptional< SizeT > getSize()const
 			{
-				return textureSize( get() );
+				return writeTextureAccessCall< SizeT, FormatT, DimT, ArrayedT, DepthT, MsT
+					, SampledImageFormatTraitsT< FormatT >::textureSize[sampledImg::getIndex< DimT, ArrayedT, DepthT >()] >( get() );
 			}
 
 		private:
@@ -136,7 +1663,9 @@ namespace sdw
 
 			MaybeOptional< SizeT > getSize( MaybeOptional< Int > const & level )const
 			{
-				return textureSize( get(), level );
+				return writeTextureAccessCall< SizeT, FormatT, DimT, ArrayedT, DepthT, MsT
+					, SampledImageFormatTraitsT< FormatT >::textureSize[sampledImg::getIndex< DimT, ArrayedT, DepthT >()] >( get()
+						, level );
 			}
 
 		private:
@@ -159,7 +1688,9 @@ namespace sdw
 
 			MaybeOptional< Vec2 > getLod( MaybeOptional< QueryLodT > const & coord )const
 			{
-				return textureQueryLod( get(), coord );
+				return writeTextureAccessCall< Vec2, FormatT, DimT, ArrayedT, DepthT, MsT
+					, SampledImageFormatTraitsT< FormatT >::textureQueryLod[sampledImg::getIndex< DimT, ArrayedT, DepthT >()] >( get()
+						, coord );
 			}
 
 		private:
@@ -180,7 +1711,8 @@ namespace sdw
 		{
 			MaybeOptional< Int > getLevels()const
 			{
-				return textureQueryLevels( get() );
+				return writeTextureAccessCall< Int, FormatT, DimT, ArrayedT, DepthT, MsT
+					, SampledImageFormatTraitsT< FormatT >::textureQueryLevels[sampledImg::getIndex< DimT, ArrayedT, DepthT >()] >( get() );
 			}
 
 		private:
@@ -202,7 +1734,9 @@ namespace sdw
 
 			MaybeOptional< ImageSampleT< FormatT > > sample( MaybeOptional< SampleT > const & coord )const
 			{
-				return texture( get(), coord );
+				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, false, MsT
+					, SampledImageFormatTraitsT< FormatT >::texture[sampledImg::getIndex< DimT, ArrayedT, false >()] >( get()
+						, coord );
 			}
 
 		private:
@@ -225,7 +1759,10 @@ namespace sdw
 			MaybeOptional< ImageSampleT< FormatT > > sample( MaybeOptional< SampleT > const & coord
 				, MaybeOptional< Float > const & ref )const
 			{
-				return texture( get(), coord, ref );
+				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, true, MsT
+					, SampledImageFormatTraitsT< FormatT >::texture[sampledImg::getIndex< DimT, ArrayedT, true >()] >( get()
+						, coord
+						, ref );
 			}
 
 		private:
@@ -248,7 +1785,10 @@ namespace sdw
 			MaybeOptional< ImageSampleT< FormatT > > sample( MaybeOptional< SampleT > const & coord
 				, MaybeOptional< Float > const & bias )const
 			{
-				return texture( get(), coord, bias );
+				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, false, MsT
+					, SampledImageFormatTraitsT< FormatT >::textureBias[sampledImg::getIndex< DimT, ArrayedT, false >()] >( get()
+						, coord
+						, bias );
 			}
 
 		private:
@@ -272,7 +1812,11 @@ namespace sdw
 				, MaybeOptional< Float > const & ref
 				, MaybeOptional< Float > const & bias )const
 			{
-				return texture( get(), coord, ref, bias );
+				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, true, MsT
+					, SampledImageFormatTraitsT< FormatT >::textureBias[sampledImg::getIndex< DimT, ArrayedT, true >()] >( get()
+						, coord
+						, ref
+						, bias );
 			}
 
 		private:
@@ -296,7 +1840,10 @@ namespace sdw
 			MaybeOptional< ImageSampleT< FormatT > > sample( MaybeOptional< SampleT > const & coord
 				, MaybeOptional< OffsetT > const & offset )const
 			{
-				return textureOffset( get(), coord, offset );
+				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, false, MsT
+					, SampledImageFormatTraitsT< FormatT >::textureOffset[sampledImg::getIndex< DimT, ArrayedT, false >()] >( get()
+						, coord
+						, offset );
 			}
 
 		private:
@@ -321,7 +1868,11 @@ namespace sdw
 				, MaybeOptional< Float > const & ref
 				, MaybeOptional< OffsetT > const & offset )const
 			{
-				return textureOffset( get(), coord, ref, offset );
+				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, true, MsT
+					, SampledImageFormatTraitsT< FormatT >::textureOffset[sampledImg::getIndex< DimT, ArrayedT, true >()] >( get()
+						, coord
+						, ref
+						, offset );
 			}
 
 		private:
@@ -346,7 +1897,11 @@ namespace sdw
 				, MaybeOptional< OffsetT > const & offset
 				, MaybeOptional< Float > const & bias )const
 			{
-				return textureOffset( get(), coord, offset, bias );
+				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, false, MsT
+					, SampledImageFormatTraitsT< FormatT >::textureOffsetBias[sampledImg::getIndex< DimT, ArrayedT, false >()] >( get()
+						, coord
+						, offset
+						, bias );
 			}
 
 		private:
@@ -372,7 +1927,12 @@ namespace sdw
 				, MaybeOptional< OffsetT > const & offset
 				, MaybeOptional< Float > const & bias )const
 			{
-				return textureOffset( get(), coord, ref, offset, bias );
+				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, true, MsT
+					, SampledImageFormatTraitsT< FormatT >::textureOffsetBias[sampledImg::getIndex< DimT, ArrayedT, true >()] >( get()
+						, coord
+						, ref
+						, offset
+						, bias );
 			}
 
 		private:
@@ -395,7 +1955,10 @@ namespace sdw
 			MaybeOptional< ImageSampleT< FormatT > > lod( MaybeOptional< SampleT > const & coord
 				, MaybeOptional< Float > const & lod )const
 			{
-				return textureLod( get(), coord, lod );
+				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, false, MsT
+					, SampledImageFormatTraitsT< FormatT >::textureLod[sampledImg::getIndex< DimT, ArrayedT, false >()] >( get()
+						, coord
+						, lod );
 			}
 
 		private:
@@ -419,7 +1982,11 @@ namespace sdw
 				, MaybeOptional< Float > const & ref
 				, MaybeOptional< Float > const & lod )const
 			{
-				return textureLod( get(), coord, ref, lod );
+				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, true, MsT
+					, SampledImageFormatTraitsT< FormatT >::textureLod[sampledImg::getIndex< DimT, ArrayedT, true >()] >( get()
+						, coord
+						, ref
+						, lod );
 			}
 
 		private:
@@ -444,7 +2011,11 @@ namespace sdw
 				, MaybeOptional< Float > const & lod
 				, MaybeOptional< OffsetT > const & offset )const
 			{
-				return textureLodOffset( get(), coord, lod, offset );
+				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, false, MsT
+					, SampledImageFormatTraitsT< FormatT >::textureLodOffset[sampledImg::getIndex< DimT, ArrayedT, false >()] >( get()
+						, coord
+						, lod
+						, offset );
 			}
 
 		private:
@@ -470,7 +2041,12 @@ namespace sdw
 				, MaybeOptional< Float > const & lod
 				, MaybeOptional< OffsetT > const & offset )const
 			{
-				return textureLodOffset( get(), coord, ref, lod, offset );
+				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, true, MsT
+					, SampledImageFormatTraitsT< FormatT >::textureLodOffset[sampledImg::getIndex< DimT, ArrayedT, true >()] >( get()
+						, coord
+						, ref
+						, lod
+						, offset );
 			}
 
 		private:
@@ -492,7 +2068,9 @@ namespace sdw
 
 			MaybeOptional< ImageSampleT< FormatT > > proj( MaybeOptional< SampleProjT > const & coord )const
 			{
-				return textureProj( get(), coord );
+				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, false, MsT
+					, SampledImageFormatTraitsT< FormatT >::textureProj[sampledImg::getIndex< DimT, ArrayedT, false >()] >( get()
+						, coord );
 			}
 
 		private:
@@ -515,7 +2093,10 @@ namespace sdw
 			MaybeOptional< ImageSampleT< FormatT > > proj( MaybeOptional< SampleProjT > const & coord
 				, MaybeOptional< Float > const & ref )const
 			{
-				return textureProj( get(), coord, ref );
+				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, true, MsT
+					, SampledImageFormatTraitsT< FormatT >::textureProj[sampledImg::getIndex< DimT, ArrayedT, true >()] >( get()
+						, coord
+						, ref );
 			}
 
 		private:
@@ -538,7 +2119,10 @@ namespace sdw
 			MaybeOptional< ImageSampleT< FormatT > > proj( MaybeOptional< SampleProjT > const & coord
 				, MaybeOptional< Float > const & bias )const
 			{
-				return textureProj( get(), coord, bias );
+				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, false, MsT
+					, SampledImageFormatTraitsT< FormatT >::textureProjBias[sampledImg::getIndex< DimT, ArrayedT, false >()] >( get()
+						, coord
+						, bias );
 			}
 
 		private:
@@ -562,7 +2146,11 @@ namespace sdw
 				, MaybeOptional< Float > const & ref
 				, MaybeOptional< Float > const & bias )const
 			{
-				return textureProj( get(), coord, ref, bias );
+				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, true, MsT
+					, SampledImageFormatTraitsT< FormatT >::textureProjBias[sampledImg::getIndex< DimT, ArrayedT, true >()] >( get()
+						, coord
+						, ref
+						, bias );
 			}
 
 		private:
@@ -586,7 +2174,10 @@ namespace sdw
 			MaybeOptional< ImageSampleT< FormatT > > proj( MaybeOptional< SampleProjT > const & coord
 				, MaybeOptional< OffsetT > const & offset )const
 			{
-				return textureProjOffset( get(), coord, offset );
+				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, false, MsT
+					, SampledImageFormatTraitsT< FormatT >::textureProjOffset[sampledImg::getIndex< DimT, ArrayedT, false >()] >( get()
+						, coord
+						, offset );
 			}
 
 		private:
@@ -611,7 +2202,11 @@ namespace sdw
 				, MaybeOptional< Float > const & ref
 				, MaybeOptional< OffsetT > const & offset )const
 			{
-				return textureProjOffset( get(), coord, ref, offset );
+				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, true, MsT
+					, SampledImageFormatTraitsT< FormatT >::textureProjOffset[sampledImg::getIndex< DimT, ArrayedT, true >()] >( get()
+						, coord
+						, ref
+						, offset );
 			}
 
 		private:
@@ -636,7 +2231,11 @@ namespace sdw
 				, MaybeOptional< OffsetT > const & offset
 				, MaybeOptional< Float > const & bias )const
 			{
-				return textureProjOffset( get(), coord, offset, bias );
+				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, false, MsT
+					, SampledImageFormatTraitsT< FormatT >::textureProjOffsetBias[sampledImg::getIndex< DimT, ArrayedT, false >()] >( get()
+						, coord
+						, offset
+						, bias );
 			}
 
 		private:
@@ -662,7 +2261,12 @@ namespace sdw
 				, MaybeOptional< OffsetT > const & offset
 				, MaybeOptional< Float > const & bias )const
 			{
-				return textureProjOffset( get(), coord, ref, offset, bias );
+				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, true, MsT
+					, SampledImageFormatTraitsT< FormatT >::textureProjOffsetBias[sampledImg::getIndex< DimT, ArrayedT, true >()] >( get()
+						, coord
+						, ref
+						, offset
+						, bias );
 			}
 
 		private:
@@ -685,7 +2289,10 @@ namespace sdw
 			MaybeOptional< ImageSampleT< FormatT > > projLod( MaybeOptional< SampleProjT > const & coord
 				, MaybeOptional< Float > const & lod )const
 			{
-				return textureProjLod( get(), coord, lod );
+				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, false, MsT
+					, SampledImageFormatTraitsT< FormatT >::textureProjLod[sampledImg::getIndex< DimT, ArrayedT, false >()] >( get()
+						, coord
+						, lod );
 			}
 
 		private:
@@ -709,7 +2316,11 @@ namespace sdw
 				, MaybeOptional< Float > const & ref
 				, MaybeOptional< Float > const & lod )const
 			{
-				return textureProjLod( get(), coord, ref, lod );
+				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, true, MsT
+					, SampledImageFormatTraitsT< FormatT >::textureProjLod[sampledImg::getIndex< DimT, ArrayedT, true >()] >( get()
+						, coord
+						, ref
+						, lod );
 			}
 
 		private:
@@ -734,7 +2345,11 @@ namespace sdw
 				, MaybeOptional< Float > const & lod
 				, MaybeOptional< OffsetT > const & offset )const
 			{
-				return textureProjLodOffset( get(), coord, lod, offset );
+				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, false, MsT
+					, SampledImageFormatTraitsT< FormatT >::textureProjLodOffset[sampledImg::getIndex< DimT, ArrayedT, false >()] >( get()
+						, coord
+						, lod
+						, offset );
 			}
 
 		private:
@@ -760,7 +2375,12 @@ namespace sdw
 				, MaybeOptional< Float > const & lod
 				, MaybeOptional< OffsetT > const & offset )const
 			{
-				return textureProjLodOffset( get(), coord, ref, lod, offset );
+				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, true, MsT
+					, SampledImageFormatTraitsT< FormatT >::textureProjLodOffset[sampledImg::getIndex< DimT, ArrayedT, true >()] >( get()
+						, coord
+						, ref
+						, lod
+						, offset );
 			}
 
 		private:
@@ -782,7 +2402,9 @@ namespace sdw
 
 			MaybeOptional< ImageSampleT< FormatT > > fetch( MaybeOptional< FetchT > const & coord )const
 			{
-				return texelFetch( get(), coord );
+				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, false, MsT
+					, SampledImageFormatTraitsT< FormatT >::texelFetch[sampledImg::getIndex< DimT, ArrayedT, false >()] >( get()
+						, coord );
 			}
 
 		private:
@@ -805,7 +2427,10 @@ namespace sdw
 			MaybeOptional< ImageSampleT< FormatT > > fetch( MaybeOptional< FetchT > const & coord
 				, MaybeOptional< Int > const & level )const
 			{
-				return texelFetch( get(), coord, level );
+				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, false, MsT
+					, SampledImageFormatTraitsT< FormatT >::texelFetch[sampledImg::getIndex< DimT, ArrayedT, false >()] >( get()
+						, coord
+						, level );
 			}
 
 		private:
@@ -830,7 +2455,11 @@ namespace sdw
 				, MaybeOptional< Int > const & level
 				, MaybeOptional< OffsetT > const & offset )const
 			{
-				return texelFetchOffset( get(), coord, level, offset );
+				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, false, MsT
+					, SampledImageFormatTraitsT< FormatT >::texelFetchOffset[sampledImg::getIndex< DimT, ArrayedT, false >()] >( get()
+						, coord
+						, level
+						, offset );
 			}
 
 		private:
@@ -855,7 +2484,11 @@ namespace sdw
 				, MaybeOptional< DerivativeT > const & dPdx
 				, MaybeOptional< DerivativeT > const & dPdy )const
 			{
-				return textureGrad( get(), coord, dPdx, dPdy );
+				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, false, MsT
+					, SampledImageFormatTraitsT< FormatT >::textureGrad[sampledImg::getIndex< DimT, ArrayedT, false >()] >( get()
+						, coord
+						, dPdx
+						, dPdy );
 			}
 
 		private:
@@ -881,7 +2514,12 @@ namespace sdw
 				, MaybeOptional< DerivativeT > const & dPdx
 				, MaybeOptional< DerivativeT > const & dPdy )const
 			{
-				return textureGrad( get(), coord, ref, dPdx, dPdy );
+				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, true, MsT
+					, SampledImageFormatTraitsT< FormatT >::textureGrad[sampledImg::getIndex< DimT, ArrayedT, true >()] >( get()
+						, coord
+						, ref
+						, dPdx
+						, dPdy );
 			}
 
 		private:
@@ -908,7 +2546,12 @@ namespace sdw
 				, MaybeOptional< DerivativeT > const & dPdy
 				, MaybeOptional< OffsetT > const & offset )const
 			{
-				return textureGradOffset( get(), coord, dPdx, dPdy, offset );
+				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, false, MsT
+					, SampledImageFormatTraitsT< FormatT >::textureGradOffset[sampledImg::getIndex< DimT, ArrayedT, false >()] >( get()
+						, coord
+						, dPdx
+						, dPdy
+						, offset );
 			}
 
 		private:
@@ -936,7 +2579,13 @@ namespace sdw
 				, MaybeOptional< DerivativeT > const & dPdy
 				, MaybeOptional< OffsetT > const & offset )const
 			{
-				return textureGradOffset( get(), coord, ref, dPdx, dPdy, offset );
+				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, true, MsT
+					, SampledImageFormatTraitsT< FormatT >::textureGradOffset[sampledImg::getIndex< DimT, ArrayedT, true >()] >( get()
+						, coord
+						, ref
+						, dPdx
+						, dPdy
+						, offset );
 			}
 
 		private:
@@ -961,7 +2610,11 @@ namespace sdw
 				, MaybeOptional< DerivativeT > const & dPdx
 				, MaybeOptional< DerivativeT > const & dPdy )const
 			{
-				return textureProjGrad( get(), coord, dPdx, dPdy );
+				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, false, MsT
+					, SampledImageFormatTraitsT< FormatT >::textureProjGrad[sampledImg::getIndex< DimT, ArrayedT, false >()] >( get()
+						, coord
+						, dPdx
+						, dPdy );
 			}
 
 		private:
@@ -987,7 +2640,12 @@ namespace sdw
 				, MaybeOptional< DerivativeT > const & dPdx
 				, MaybeOptional< DerivativeT > const & dPdy )const
 			{
-				return textureProjGrad( get(), coord, ref, dPdx, dPdy );
+				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, true, MsT
+					, SampledImageFormatTraitsT< FormatT >::textureProjGrad[sampledImg::getIndex< DimT, ArrayedT, true >()] >( get()
+						, coord
+						, ref
+						, dPdx
+						, dPdy );
 			}
 
 		private:
@@ -1014,7 +2672,12 @@ namespace sdw
 				, MaybeOptional< DerivativeT > const & dPdy
 				, MaybeOptional< OffsetT > const & offset )const
 			{
-				return textureProjGradOffset( get(), coord, dPdx, dPdy, offset );
+				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, false, MsT
+					, SampledImageFormatTraitsT< FormatT >::textureProjGradOffset[sampledImg::getIndex< DimT, ArrayedT, false >()] >( get()
+						, coord
+						, dPdx
+						, dPdy
+						, offset );
 			}
 
 		private:
@@ -1041,7 +2704,13 @@ namespace sdw
 				, MaybeOptional< DerivativeT > const & dPdy
 				, MaybeOptional< OffsetT > const & offset )const
 			{
-				return textureProjGradOffset( get(), coord, ref, dPdx, dPdy, offset );
+				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, true, MsT
+					, SampledImageFormatTraitsT< FormatT >::textureProjGradOffset[sampledImg::getIndex< DimT, ArrayedT, true >()] >( get()
+						, coord
+						, ref
+						, dPdx
+						, dPdy
+						, offset );
 			}
 
 		private:
@@ -1063,7 +2732,9 @@ namespace sdw
 
 			MaybeOptional< ImageGatherT< FormatT > > gather( MaybeOptional< GatherT > const & coord )const
 			{
-				return textureGather( get(), coord );
+				return writeTextureAccessCall< ImageGatherT< FormatT >, FormatT, DimT, ArrayedT, false, MsT
+					, SampledImageFormatTraitsT< FormatT >::textureGather[sampledImg::getIndex< DimT, ArrayedT, false >()] >( get()
+						, coord );
 			}
 
 		private:
@@ -1086,7 +2757,10 @@ namespace sdw
 			MaybeOptional< ImageGatherT< FormatT > > gather( MaybeOptional< GatherT > const & coord
 				, MaybeOptional< Float > const & ref )const
 			{
-				return textureGather( get(), coord, ref );
+				return writeTextureAccessCall< ImageGatherT< FormatT >, FormatT, DimT, ArrayedT, true, MsT
+					, SampledImageFormatTraitsT< FormatT >::textureGather[sampledImg::getIndex< DimT, ArrayedT, true >()] >( get()
+						, coord
+						, ref );
 			}
 
 		private:
@@ -1109,7 +2783,10 @@ namespace sdw
 			MaybeOptional< ImageGatherT< FormatT > > gather( MaybeOptional< GatherT > const & coord
 				, MaybeOptional< Int > const & comp )const
 			{
-				return textureGather( get(), coord, comp );
+				return writeTextureAccessCall< ImageGatherT< FormatT >, FormatT, DimT, ArrayedT, false, MsT
+					, SampledImageFormatTraitsT< FormatT >::textureGatherComp[sampledImg::getIndex< DimT, ArrayedT, false >()] >( get()
+						, coord
+						, comp );
 			}
 
 		private:
@@ -1133,7 +2810,10 @@ namespace sdw
 			MaybeOptional< ImageGatherT< FormatT > > gather( MaybeOptional< GatherT > const & coord
 				, MaybeOptional< OffsetT > const & offset )const
 			{
-				return textureGatherOffset( get(), coord, offset );
+				return writeTextureAccessCall< ImageGatherT< FormatT >, FormatT, DimT, ArrayedT, false, MsT
+					, SampledImageFormatTraitsT< FormatT >::textureGatherOffset[sampledImg::getIndex< DimT, ArrayedT, false >()] >( get()
+						, coord
+						, offset );
 			}
 
 		private:
@@ -1158,7 +2838,11 @@ namespace sdw
 				, MaybeOptional< Float > const & ref
 				, MaybeOptional< OffsetT > const & offset )const
 			{
-				return textureGatherOffset( get(), coord, ref, offset );
+				return writeTextureAccessCall< ImageGatherT< FormatT >, FormatT, DimT, ArrayedT, true, MsT
+					, SampledImageFormatTraitsT< FormatT >::textureGatherOffset[sampledImg::getIndex< DimT, ArrayedT, true >()] >( get()
+						, coord
+						, ref
+						, offset );
 			}
 
 		private:
@@ -1183,7 +2867,11 @@ namespace sdw
 				, MaybeOptional< OffsetT > const & offset
 				, MaybeOptional< Int > const & comp )const
 			{
-				return textureGatherOffset( get(), coord, offset, comp );
+				return writeTextureAccessCall< ImageGatherT< FormatT >, FormatT, DimT, ArrayedT, false, MsT
+					, SampledImageFormatTraitsT< FormatT >::textureGatherOffsetComp[sampledImg::getIndex< DimT, ArrayedT, false >()] >( get()
+						, coord
+						, offset
+						, comp );
 			}
 
 		private:
@@ -1207,7 +2895,10 @@ namespace sdw
 			MaybeOptional< ImageGatherT< FormatT > > gather( MaybeOptional< GatherT > const & coord
 				, MaybeOptional< Array< OffsetT > > const & offsets )const
 			{
-				return textureGatherOffsets( get(), coord, offsets );
+				return writeTextureAccessCall< ImageGatherT< FormatT >, FormatT, DimT, ArrayedT, false, MsT
+					, SampledImageFormatTraitsT< FormatT >::textureGatherOffsets[sampledImg::getIndex< DimT, ArrayedT, false >()] >( get()
+						, coord
+						, offsets );
 			}
 
 		private:
@@ -1232,7 +2923,11 @@ namespace sdw
 				, MaybeOptional< Float > const & ref
 				, MaybeOptional< Array< OffsetT > > const & offsets )const
 			{
-				return textureGatherOffsets( get(), coord, ref, offsets );
+				return writeTextureAccessCall< ImageGatherT< FormatT >, FormatT, DimT, ArrayedT, true, MsT
+					, SampledImageFormatTraitsT< FormatT >::textureGatherOffsets[sampledImg::getIndex< DimT, ArrayedT, true >()] >( get()
+						, coord
+						, ref
+						, offsets );
 			}
 
 		private:
@@ -1257,7 +2952,11 @@ namespace sdw
 				, MaybeOptional< Array< OffsetT > > const & offsets
 				, MaybeOptional< Int > const & comp )const
 			{
-				return textureGatherOffsets( get(), coord, offsets, comp );
+				return writeTextureAccessCall< ImageGatherT< FormatT >, FormatT, DimT, ArrayedT, false, MsT
+					, SampledImageFormatTraitsT< FormatT >::textureGatherOffsetsComp[sampledImg::getIndex< DimT, ArrayedT, false >()] >( get()
+						, coord
+						, offsets
+						, comp );
 			}
 
 		private:
@@ -1595,6 +3294,7 @@ namespace sdw
 			, std::enable_if_t< ( sdw::is1dShadowV< DimT, ArrayedT, DepthT > ) > >
 			: public SampledImage
 			, public TexSizeLevelFuncT< FormatT, DimT, ArrayedT, DepthT, MsT >
+			, public QueryLodFuncT< FormatT, DimT, ArrayedT, DepthT, MsT >
 			, public QueryLevelsFuncT< FormatT, DimT, ArrayedT, DepthT, MsT >
 			, public SampleRefFuncT< FormatT, DimT, ArrayedT, MsT >
 			, public SampleRefBiasFuncT< FormatT, DimT, ArrayedT, MsT >
@@ -1659,6 +3359,7 @@ namespace sdw
 			, std::enable_if_t< ( sdw::is2dShadowV< DimT, ArrayedT, DepthT > ) > >
 			: public SampledImage
 			, public TexSizeLevelFuncT< FormatT, DimT, ArrayedT, DepthT, MsT >
+			, public QueryLodFuncT< FormatT, DimT, ArrayedT, DepthT, MsT >
 			, public QueryLevelsFuncT< FormatT, DimT, ArrayedT, DepthT, MsT >
 			, public SampleRefFuncT< FormatT, DimT, ArrayedT, MsT >
 			, public SampleRefBiasFuncT< FormatT, DimT, ArrayedT, MsT >
@@ -1782,6 +3483,7 @@ namespace sdw
 			, std::enable_if_t< ( sdw::is1dArrayShadowV< DimT, ArrayedT, DepthT > ) > >
 			: public SampledImage
 			, public TexSizeLevelFuncT< FormatT, DimT, ArrayedT, DepthT, MsT >
+			, public QueryLodFuncT< FormatT, DimT, ArrayedT, DepthT, MsT >
 			, public QueryLevelsFuncT< FormatT, DimT, ArrayedT, DepthT, MsT >
 			, public SampleRefFuncT< FormatT, DimT, ArrayedT, MsT >
 			, public SampleRefBiasFuncT< FormatT, DimT, ArrayedT, MsT >
@@ -1828,6 +3530,7 @@ namespace sdw
 			, std::enable_if_t< ( sdw::is2dArrayShadowV< DimT, ArrayedT, DepthT > ) > >
 			: public SampledImage
 			, public TexSizeLevelFuncT< FormatT, DimT, ArrayedT, DepthT, MsT >
+			, public QueryLodFuncT< FormatT, DimT, ArrayedT, DepthT, MsT >
 			, public QueryLevelsFuncT< FormatT, DimT, ArrayedT, DepthT, MsT >
 			, public SampleRefFuncT< FormatT, DimT, ArrayedT, MsT >
 			, public SampleRefBiasFuncT< FormatT, DimT, ArrayedT, MsT >
@@ -1881,6 +3584,7 @@ namespace sdw
 				|| sdw::isCubeArrayShadowV< DimT, ArrayedT, DepthT > ) > >
 			: public SampledImage
 			, public TexSizeLevelFuncT< FormatT, DimT, ArrayedT, DepthT, MsT >
+			, public QueryLodFuncT< FormatT, DimT, ArrayedT, DepthT, MsT >
 			, public QueryLevelsFuncT< FormatT, DimT, ArrayedT, DepthT, MsT >
 			, public SampleRefFuncT< FormatT, DimT, ArrayedT, MsT >
 			, public SampleRefBiasFuncT< FormatT, DimT, ArrayedT, MsT >
@@ -1958,7 +3662,7 @@ namespace sdw
 		, bool MsT >
 	SampledImageT< FormatT, DimT, ArrayedT, DepthT, MsT >::SampledImageT( Shader * shader
 		, expr::ExprPtr expr )
-		: details::SampledImageFuncsT< FormatT, DimT, ArrayedT, DepthT, MsT >{ shader, std::move( expr ) }
+		: sampledImg::SampledImageFuncsT< FormatT, DimT, ArrayedT, DepthT, MsT >{ shader, std::move( expr ) }
 	{
 	}
 
@@ -1970,7 +3674,7 @@ namespace sdw
 	template< typename T >
 	SampledImageT< FormatT, DimT, ArrayedT, DepthT, MsT > & SampledImageT< FormatT, DimT, ArrayedT, DepthT, MsT >::operator=( T const & rhs )
 	{
-		details::SampledImageFuncsT< FormatT, DimT, ArrayedT, DepthT, MsT >::operator=( rhs );
+		sampledImg::SampledImageFuncsT< FormatT, DimT, ArrayedT, DepthT, MsT >::operator=( rhs );
 		return *this;
 	}
 
