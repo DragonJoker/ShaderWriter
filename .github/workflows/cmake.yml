@@ -15,10 +15,10 @@ jobs:
   build:
     strategy:
       matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
+        os: [[ubuntu-latest,x64-linux], [windows-latest,x64-windows], [macos-latest,x64-osx]]
         buildType: [Release]
 
-    runs-on: ${{ matrix.os }}
+    runs-on: ${{ matrix.os[0] }}
 
     steps:
     - uses: actions/checkout@v2
@@ -88,5 +88,5 @@ jobs:
     - name: Upload artifacts
       uses: actions/upload-artifact@v2
       with:
-        name: generated-binaries
+        name: generated-binaries-${{ matrix.os[1] }}
         path: ${{ github.workspace }}/package/shaderwriter/
