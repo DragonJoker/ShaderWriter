@@ -4,12 +4,542 @@ See LICENSE file in root folder
 #include "ShaderWriter/BaseTypes/Int.hpp"
 #include "ShaderWriter/VecTypes/Vec4.hpp"
 
+#include <array>
+
 namespace sdw
 {
 	//*****************************************************************************************
 
+	namespace details
+	{
+		size_t constexpr ImgDimBaseCount = size_t( type::ImageDim::eBuffer ) + 1u;
+		size_t constexpr ArrayImgCount = 3u;
+		size_t constexpr NonMsImgCount = ImgDimBaseCount + ArrayImgCount;
+		size_t constexpr MsImgCount = 2u;
+		using ImageAccessIntrList = std::array< expr::ImageAccess, NonMsImgCount + ArrayImgCount >;
+
+		template< type::ImageDim DimT
+			, bool ArrayedT
+			, bool MsT >
+		constexpr size_t getImgArrayIndex()
+		{
+			if constexpr ( MsT )
+			{
+				return NonMsImgCount
+					+ ( ArrayedT ? 1u : 0u );
+			}
+			else if constexpr ( ArrayedT )
+			{
+				if constexpr ( DimT == e1D )
+				{
+					return ImgDimBaseCount + 0u;
+				}
+				else if constexpr ( DimT == e2D )
+				{
+					return ImgDimBaseCount + 1u;
+				}
+				else if constexpr ( DimT == eCube )
+				{
+					return ImgDimBaseCount + 2u;
+				}
+				else
+				{
+					static_assert( false );
+					return expr::ImageAccess( ~( 0u ) );
+				}
+			}
+			else
+			{
+				return size_t( DimT );
+			}
+		}
+
+		static constexpr ImageAccessIntrList imageSizeF
+		{
+			expr::ImageAccess::eImageSize1DF,
+			expr::ImageAccess::eImageSize2DF,
+			expr::ImageAccess::eImageSize3DF,
+			expr::ImageAccess::eImageSizeCubeF,
+			expr::ImageAccess::eImageSize2DRectF,
+			expr::ImageAccess::eImageSizeBufferF,
+
+			expr::ImageAccess::eImageSize1DArrayF,
+			expr::ImageAccess::eImageSize2DArrayF,
+			expr::ImageAccess::eImageSizeCubeArrayF,
+
+			expr::ImageAccess::eImageSize2DMSF,
+			expr::ImageAccess::eImageSize2DMSArrayF,
+		};
+		static constexpr ImageAccessIntrList imageSamplesF
+		{
+			expr::ImageAccess( ~( 0u ) ),
+			expr::ImageAccess( ~( 0u ) ),
+			expr::ImageAccess( ~( 0u ) ),
+			expr::ImageAccess( ~( 0u ) ),
+			expr::ImageAccess( ~( 0u ) ),
+			expr::ImageAccess( ~( 0u ) ),
+
+			expr::ImageAccess( ~( 0u ) ),
+			expr::ImageAccess( ~( 0u ) ),
+			expr::ImageAccess( ~( 0u ) ),
+
+			expr::ImageAccess::eImageSamples2DMSF,
+			expr::ImageAccess::eImageSamples2DMSArrayF,
+		};
+		static constexpr ImageAccessIntrList imageLoadF
+		{
+			expr::ImageAccess::eImageLoad1DF,
+			expr::ImageAccess::eImageLoad2DF,
+			expr::ImageAccess::eImageLoad3DF,
+			expr::ImageAccess::eImageLoadCubeF,
+			expr::ImageAccess::eImageLoad2DRectF,
+			expr::ImageAccess::eImageLoadBufferF,
+
+			expr::ImageAccess::eImageLoad1DArrayF,
+			expr::ImageAccess::eImageLoad2DArrayF,
+			expr::ImageAccess::eImageLoadCubeArrayF,
+
+			expr::ImageAccess::eImageLoad2DMSF,
+			expr::ImageAccess::eImageLoad2DMSArrayF,
+		};
+		static constexpr ImageAccessIntrList imageStoreF
+		{
+			expr::ImageAccess::eImageStore1DF,
+			expr::ImageAccess::eImageStore2DF,
+			expr::ImageAccess::eImageStore3DF,
+			expr::ImageAccess::eImageStoreCubeF,
+			expr::ImageAccess::eImageStore2DRectF,
+			expr::ImageAccess::eImageStoreBufferF,
+
+			expr::ImageAccess::eImageStore1DArrayF,
+			expr::ImageAccess::eImageStore2DArrayF,
+			expr::ImageAccess::eImageStoreCubeArrayF,
+
+			expr::ImageAccess::eImageStore2DMSF,
+			expr::ImageAccess::eImageStore2DMSArrayF,
+		};
+		static constexpr ImageAccessIntrList imageAtomicAddF
+		{
+			expr::ImageAccess::eImageAtomicAdd1DF,
+			expr::ImageAccess::eImageAtomicAdd2DF,
+			expr::ImageAccess::eImageAtomicAdd3DF,
+			expr::ImageAccess::eImageAtomicAddCubeF,
+			expr::ImageAccess::eImageAtomicAdd2DRectF,
+			expr::ImageAccess::eImageAtomicAddBufferF,
+
+			expr::ImageAccess::eImageAtomicAdd1DArrayF,
+			expr::ImageAccess::eImageAtomicAdd2DArrayF,
+			expr::ImageAccess::eImageAtomicAddCubeArrayF,
+
+			expr::ImageAccess::eImageAtomicAdd2DMSF,
+			expr::ImageAccess::eImageAtomicAdd2DMSArrayF,
+		};
+		static constexpr ImageAccessIntrList imageAtomicExchangeF
+		{
+			expr::ImageAccess::eImageAtomicExchange1DF,
+			expr::ImageAccess::eImageAtomicExchange2DF,
+			expr::ImageAccess::eImageAtomicExchange3DF,
+			expr::ImageAccess::eImageAtomicExchangeCubeF,
+			expr::ImageAccess::eImageAtomicExchange2DRectF,
+			expr::ImageAccess::eImageAtomicExchangeBufferF,
+
+			expr::ImageAccess::eImageAtomicExchange1DArrayF,
+			expr::ImageAccess::eImageAtomicExchange2DArrayF,
+			expr::ImageAccess::eImageAtomicExchangeCubeArrayF,
+
+			expr::ImageAccess::eImageAtomicExchange2DMSF,
+			expr::ImageAccess::eImageAtomicExchange2DMSArrayF,
+		};
+
+		static constexpr ImageAccessIntrList imageSizeI
+		{
+			expr::ImageAccess::eImageSize1DI,
+			expr::ImageAccess::eImageSize2DI,
+			expr::ImageAccess::eImageSize3DI,
+			expr::ImageAccess::eImageSizeCubeI,
+			expr::ImageAccess::eImageSize2DRectI,
+			expr::ImageAccess::eImageSizeBufferI,
+
+			expr::ImageAccess::eImageSize1DArrayI,
+			expr::ImageAccess::eImageSize2DArrayI,
+			expr::ImageAccess::eImageSizeCubeArrayI,
+
+			expr::ImageAccess::eImageSize2DMSI,
+			expr::ImageAccess::eImageSize2DMSArrayI,
+		};
+		static constexpr ImageAccessIntrList imageSamplesI
+		{
+			expr::ImageAccess( ~( 0u ) ),
+			expr::ImageAccess( ~( 0u ) ),
+			expr::ImageAccess( ~( 0u ) ),
+			expr::ImageAccess( ~( 0u ) ),
+			expr::ImageAccess( ~( 0u ) ),
+			expr::ImageAccess( ~( 0u ) ),
+
+			expr::ImageAccess( ~( 0u ) ),
+			expr::ImageAccess( ~( 0u ) ),
+			expr::ImageAccess( ~( 0u ) ),
+
+			expr::ImageAccess::eImageSamples2DMSI,
+			expr::ImageAccess::eImageSamples2DMSArrayI,
+		};
+		static constexpr ImageAccessIntrList imageLoadI
+		{
+			expr::ImageAccess::eImageLoad1DI,
+			expr::ImageAccess::eImageLoad2DI,
+			expr::ImageAccess::eImageLoad3DI,
+			expr::ImageAccess::eImageLoadCubeI,
+			expr::ImageAccess::eImageLoad2DRectI,
+			expr::ImageAccess::eImageLoadBufferI,
+
+			expr::ImageAccess::eImageLoad1DArrayI,
+			expr::ImageAccess::eImageLoad2DArrayI,
+			expr::ImageAccess::eImageLoadCubeArrayI,
+
+			expr::ImageAccess::eImageLoad2DMSI,
+			expr::ImageAccess::eImageLoad2DMSArrayI,
+		};
+		static constexpr ImageAccessIntrList imageStoreI
+		{
+			expr::ImageAccess::eImageStore1DI,
+			expr::ImageAccess::eImageStore2DI,
+			expr::ImageAccess::eImageStore3DI,
+			expr::ImageAccess::eImageStoreCubeI,
+			expr::ImageAccess::eImageStore2DRectI,
+			expr::ImageAccess::eImageStoreBufferI,
+
+			expr::ImageAccess::eImageStore1DArrayI,
+			expr::ImageAccess::eImageStore2DArrayI,
+			expr::ImageAccess::eImageStoreCubeArrayI,
+
+			expr::ImageAccess::eImageStore2DMSI,
+			expr::ImageAccess::eImageStore2DMSArrayI,
+		};
+		static constexpr ImageAccessIntrList imageAtomicAddI
+		{
+			expr::ImageAccess::eImageAtomicAdd1DI,
+			expr::ImageAccess::eImageAtomicAdd2DI,
+			expr::ImageAccess::eImageAtomicAdd3DI,
+			expr::ImageAccess::eImageAtomicAddCubeI,
+			expr::ImageAccess::eImageAtomicAdd2DRectI,
+			expr::ImageAccess::eImageAtomicAddBufferI,
+
+			expr::ImageAccess::eImageAtomicAdd1DArrayI,
+			expr::ImageAccess::eImageAtomicAdd2DArrayI,
+			expr::ImageAccess::eImageAtomicAddCubeArrayI,
+
+			expr::ImageAccess::eImageAtomicAdd2DMSI,
+			expr::ImageAccess::eImageAtomicAdd2DMSArrayI,
+		};
+		static constexpr ImageAccessIntrList imageAtomicMinI
+		{
+			expr::ImageAccess::eImageAtomicMin1DI,
+			expr::ImageAccess::eImageAtomicMin2DI,
+			expr::ImageAccess::eImageAtomicMin3DI,
+			expr::ImageAccess::eImageAtomicMinCubeI,
+			expr::ImageAccess::eImageAtomicMin2DRectI,
+			expr::ImageAccess::eImageAtomicMinBufferI,
+
+			expr::ImageAccess::eImageAtomicMin1DArrayI,
+			expr::ImageAccess::eImageAtomicMin2DArrayI,
+			expr::ImageAccess::eImageAtomicMinCubeArrayI,
+
+			expr::ImageAccess::eImageAtomicMin2DMSI,
+			expr::ImageAccess::eImageAtomicMin2DMSArrayI,
+		};
+		static constexpr ImageAccessIntrList imageAtomicMaxI
+		{
+			expr::ImageAccess::eImageAtomicMax1DI,
+			expr::ImageAccess::eImageAtomicMax2DI,
+			expr::ImageAccess::eImageAtomicMax3DI,
+			expr::ImageAccess::eImageAtomicMaxCubeI,
+			expr::ImageAccess::eImageAtomicMax2DRectI,
+			expr::ImageAccess::eImageAtomicMaxBufferI,
+
+			expr::ImageAccess::eImageAtomicMax1DArrayI,
+			expr::ImageAccess::eImageAtomicMax2DArrayI,
+			expr::ImageAccess::eImageAtomicMaxCubeArrayI,
+
+			expr::ImageAccess::eImageAtomicMax2DMSI,
+			expr::ImageAccess::eImageAtomicMax2DMSArrayI,
+		};
+		static constexpr ImageAccessIntrList imageAtomicAndI
+		{
+			expr::ImageAccess::eImageAtomicAnd1DI,
+			expr::ImageAccess::eImageAtomicAnd2DI,
+			expr::ImageAccess::eImageAtomicAnd3DI,
+			expr::ImageAccess::eImageAtomicAndCubeI,
+			expr::ImageAccess::eImageAtomicAnd2DRectI,
+			expr::ImageAccess::eImageAtomicAndBufferI,
+
+			expr::ImageAccess::eImageAtomicAnd1DArrayI,
+			expr::ImageAccess::eImageAtomicAnd2DArrayI,
+			expr::ImageAccess::eImageAtomicAndCubeArrayI,
+
+			expr::ImageAccess::eImageAtomicAnd2DMSI,
+			expr::ImageAccess::eImageAtomicAnd2DMSArrayI,
+		};
+		static constexpr ImageAccessIntrList imageAtomicOrI
+		{
+			expr::ImageAccess::eImageAtomicOr1DI,
+			expr::ImageAccess::eImageAtomicOr2DI,
+			expr::ImageAccess::eImageAtomicOr3DI,
+			expr::ImageAccess::eImageAtomicOrCubeI,
+			expr::ImageAccess::eImageAtomicOr2DRectI,
+			expr::ImageAccess::eImageAtomicOrBufferI,
+
+			expr::ImageAccess::eImageAtomicOr1DArrayI,
+			expr::ImageAccess::eImageAtomicOr2DArrayI,
+			expr::ImageAccess::eImageAtomicOrCubeArrayI,
+
+			expr::ImageAccess::eImageAtomicOr2DMSI,
+			expr::ImageAccess::eImageAtomicOr2DMSArrayI,
+		};
+		static constexpr ImageAccessIntrList imageAtomicXorI
+		{
+			expr::ImageAccess::eImageAtomicXor1DI,
+			expr::ImageAccess::eImageAtomicXor2DI,
+			expr::ImageAccess::eImageAtomicXor3DI,
+			expr::ImageAccess::eImageAtomicXorCubeI,
+			expr::ImageAccess::eImageAtomicXor2DRectI,
+			expr::ImageAccess::eImageAtomicXorBufferI,
+
+			expr::ImageAccess::eImageAtomicXor1DArrayI,
+			expr::ImageAccess::eImageAtomicXor2DArrayI,
+			expr::ImageAccess::eImageAtomicXorCubeArrayI,
+
+			expr::ImageAccess::eImageAtomicXor2DMSI,
+			expr::ImageAccess::eImageAtomicXor2DMSArrayI,
+		};
+		static constexpr ImageAccessIntrList imageAtomicExchangeI
+		{
+			expr::ImageAccess::eImageAtomicExchange1DI,
+			expr::ImageAccess::eImageAtomicExchange2DI,
+			expr::ImageAccess::eImageAtomicExchange3DI,
+			expr::ImageAccess::eImageAtomicExchangeCubeI,
+			expr::ImageAccess::eImageAtomicExchange2DRectI,
+			expr::ImageAccess::eImageAtomicExchangeBufferI,
+
+			expr::ImageAccess::eImageAtomicExchange1DArrayI,
+			expr::ImageAccess::eImageAtomicExchange2DArrayI,
+			expr::ImageAccess::eImageAtomicExchangeCubeArrayI,
+
+			expr::ImageAccess::eImageAtomicExchange2DMSI,
+			expr::ImageAccess::eImageAtomicExchange2DMSArrayI,
+		};
+		static constexpr ImageAccessIntrList imageAtomicCompSwapI
+		{
+			expr::ImageAccess::eImageAtomicCompSwap1DI,
+			expr::ImageAccess::eImageAtomicCompSwap2DI,
+			expr::ImageAccess::eImageAtomicCompSwap3DI,
+			expr::ImageAccess::eImageAtomicCompSwapCubeI,
+			expr::ImageAccess::eImageAtomicCompSwap2DRectI,
+			expr::ImageAccess::eImageAtomicCompSwapBufferI,
+
+			expr::ImageAccess::eImageAtomicCompSwap1DArrayI,
+			expr::ImageAccess::eImageAtomicCompSwap2DArrayI,
+			expr::ImageAccess::eImageAtomicCompSwapCubeArrayI,
+
+			expr::ImageAccess::eImageAtomicCompSwap2DMSI,
+			expr::ImageAccess::eImageAtomicCompSwap2DMSArrayI,
+		};
+
+		static constexpr ImageAccessIntrList imageSizeU
+		{
+			expr::ImageAccess::eImageSize1DU,
+			expr::ImageAccess::eImageSize2DU,
+			expr::ImageAccess::eImageSize3DU,
+			expr::ImageAccess::eImageSizeCubeU,
+			expr::ImageAccess::eImageSize2DRectU,
+			expr::ImageAccess::eImageSizeBufferU,
+
+			expr::ImageAccess::eImageSize1DArrayU,
+			expr::ImageAccess::eImageSize2DArrayU,
+			expr::ImageAccess::eImageSizeCubeArrayU,
+
+			expr::ImageAccess::eImageSize2DMSU,
+			expr::ImageAccess::eImageSize2DMSArrayU,
+		};
+		static constexpr ImageAccessIntrList imageSamplesU
+		{
+			expr::ImageAccess( ~( 0u ) ),
+			expr::ImageAccess( ~( 0u ) ),
+			expr::ImageAccess( ~( 0u ) ),
+			expr::ImageAccess( ~( 0u ) ),
+			expr::ImageAccess( ~( 0u ) ),
+			expr::ImageAccess( ~( 0u ) ),
+
+			expr::ImageAccess( ~( 0u ) ),
+			expr::ImageAccess( ~( 0u ) ),
+			expr::ImageAccess( ~( 0u ) ),
+
+			expr::ImageAccess::eImageSamples2DMSU,
+			expr::ImageAccess::eImageSamples2DMSArrayU,
+		};
+		static constexpr ImageAccessIntrList imageLoadU
+		{
+			expr::ImageAccess::eImageLoad1DU,
+			expr::ImageAccess::eImageLoad2DU,
+			expr::ImageAccess::eImageLoad3DU,
+			expr::ImageAccess::eImageLoadCubeU,
+			expr::ImageAccess::eImageLoad2DRectU,
+			expr::ImageAccess::eImageLoadBufferU,
+
+			expr::ImageAccess::eImageLoad1DArrayU,
+			expr::ImageAccess::eImageLoad2DArrayU,
+			expr::ImageAccess::eImageLoadCubeArrayU,
+
+			expr::ImageAccess::eImageLoad2DMSU,
+			expr::ImageAccess::eImageLoad2DMSArrayU,
+		};
+		static constexpr ImageAccessIntrList imageStoreU
+		{
+			expr::ImageAccess::eImageStore1DU,
+			expr::ImageAccess::eImageStore2DU,
+			expr::ImageAccess::eImageStore3DU,
+			expr::ImageAccess::eImageStoreCubeU,
+			expr::ImageAccess::eImageStore2DRectU,
+			expr::ImageAccess::eImageStoreBufferU,
+
+			expr::ImageAccess::eImageStore1DArrayU,
+			expr::ImageAccess::eImageStore2DArrayU,
+			expr::ImageAccess::eImageStoreCubeArrayU,
+
+			expr::ImageAccess::eImageStore2DMSU,
+			expr::ImageAccess::eImageStore2DMSArrayU,
+		};
+		static constexpr ImageAccessIntrList imageAtomicAddU
+		{
+			expr::ImageAccess::eImageAtomicAdd1DU,
+			expr::ImageAccess::eImageAtomicAdd2DU,
+			expr::ImageAccess::eImageAtomicAdd3DU,
+			expr::ImageAccess::eImageAtomicAddCubeU,
+			expr::ImageAccess::eImageAtomicAdd2DRectU,
+			expr::ImageAccess::eImageAtomicAddBufferU,
+
+			expr::ImageAccess::eImageAtomicAdd1DArrayU,
+			expr::ImageAccess::eImageAtomicAdd2DArrayU,
+			expr::ImageAccess::eImageAtomicAddCubeArrayU,
+
+			expr::ImageAccess::eImageAtomicAdd2DMSU,
+			expr::ImageAccess::eImageAtomicAdd2DMSArrayU,
+		};
+		static constexpr ImageAccessIntrList imageAtomicMinU
+		{
+			expr::ImageAccess::eImageAtomicMin1DU,
+			expr::ImageAccess::eImageAtomicMin2DU,
+			expr::ImageAccess::eImageAtomicMin3DU,
+			expr::ImageAccess::eImageAtomicMinCubeU,
+			expr::ImageAccess::eImageAtomicMin2DRectU,
+			expr::ImageAccess::eImageAtomicMinBufferU,
+
+			expr::ImageAccess::eImageAtomicMin1DArrayU,
+			expr::ImageAccess::eImageAtomicMin2DArrayU,
+			expr::ImageAccess::eImageAtomicMinCubeArrayU,
+
+			expr::ImageAccess::eImageAtomicMin2DMSU,
+			expr::ImageAccess::eImageAtomicMin2DMSArrayU,
+		};
+		static constexpr ImageAccessIntrList imageAtomicMaxU
+		{
+			expr::ImageAccess::eImageAtomicMax1DU,
+			expr::ImageAccess::eImageAtomicMax2DU,
+			expr::ImageAccess::eImageAtomicMax3DU,
+			expr::ImageAccess::eImageAtomicMaxCubeU,
+			expr::ImageAccess::eImageAtomicMax2DRectU,
+			expr::ImageAccess::eImageAtomicMaxBufferU,
+
+			expr::ImageAccess::eImageAtomicMax1DArrayU,
+			expr::ImageAccess::eImageAtomicMax2DArrayU,
+			expr::ImageAccess::eImageAtomicMaxCubeArrayU,
+			expr::ImageAccess::eImageAtomicMax2DMSU,
+
+			expr::ImageAccess::eImageAtomicMax2DMSArrayU,
+		};
+		static constexpr ImageAccessIntrList imageAtomicAndU
+		{
+			expr::ImageAccess::eImageAtomicAnd1DU,
+			expr::ImageAccess::eImageAtomicAnd2DU,
+			expr::ImageAccess::eImageAtomicAnd3DU,
+			expr::ImageAccess::eImageAtomicAndCubeU,
+			expr::ImageAccess::eImageAtomicAnd2DRectU,
+			expr::ImageAccess::eImageAtomicAndBufferU,
+
+			expr::ImageAccess::eImageAtomicAnd1DArrayU,
+			expr::ImageAccess::eImageAtomicAnd2DArrayU,
+			expr::ImageAccess::eImageAtomicAndCubeArrayU,
+
+			expr::ImageAccess::eImageAtomicAnd2DMSU,
+			expr::ImageAccess::eImageAtomicAnd2DMSArrayU,
+		};
+		static constexpr ImageAccessIntrList imageAtomicOrU
+		{
+			expr::ImageAccess::eImageAtomicOr1DU,
+			expr::ImageAccess::eImageAtomicOr2DU,
+			expr::ImageAccess::eImageAtomicOr3DU,
+			expr::ImageAccess::eImageAtomicOrCubeU,
+			expr::ImageAccess::eImageAtomicOr2DRectU,
+			expr::ImageAccess::eImageAtomicOrBufferU,
+
+			expr::ImageAccess::eImageAtomicOr1DArrayU,
+			expr::ImageAccess::eImageAtomicOr2DArrayU,
+			expr::ImageAccess::eImageAtomicOrCubeArrayU,
+
+			expr::ImageAccess::eImageAtomicOr2DMSU,
+			expr::ImageAccess::eImageAtomicOr2DMSArrayU,
+		};
+		static constexpr ImageAccessIntrList imageAtomicXorU
+		{
+			expr::ImageAccess::eImageAtomicXor1DU,
+			expr::ImageAccess::eImageAtomicXor2DU,
+			expr::ImageAccess::eImageAtomicXor3DU,
+			expr::ImageAccess::eImageAtomicXorCubeU,
+			expr::ImageAccess::eImageAtomicXor2DRectU,
+			expr::ImageAccess::eImageAtomicXorBufferU,
+
+			expr::ImageAccess::eImageAtomicXor1DArrayU,
+			expr::ImageAccess::eImageAtomicXor2DArrayU,
+			expr::ImageAccess::eImageAtomicXorCubeArrayU,
+
+			expr::ImageAccess::eImageAtomicXor2DMSU,
+			expr::ImageAccess::eImageAtomicXor2DMSArrayU,
+		};
+		static constexpr ImageAccessIntrList imageAtomicExchangeU
+		{
+			expr::ImageAccess::eImageAtomicExchange1DU,
+			expr::ImageAccess::eImageAtomicExchange2DU,
+			expr::ImageAccess::eImageAtomicExchange3DU,
+			expr::ImageAccess::eImageAtomicExchangeCubeU,
+			expr::ImageAccess::eImageAtomicExchange2DRectU,
+			expr::ImageAccess::eImageAtomicExchangeBufferU,
+
+			expr::ImageAccess::eImageAtomicExchange1DArrayU,
+			expr::ImageAccess::eImageAtomicExchange2DArrayU,
+			expr::ImageAccess::eImageAtomicExchangeCubeArrayU,
+
+			expr::ImageAccess::eImageAtomicExchange2DMSU,
+			expr::ImageAccess::eImageAtomicExchange2DMSArrayU,
+		};
+		static constexpr ImageAccessIntrList imageAtomicCompSwapU
+		{
+			expr::ImageAccess::eImageAtomicCompSwap1DU,
+			expr::ImageAccess::eImageAtomicCompSwap2DU,
+			expr::ImageAccess::eImageAtomicCompSwap3DU,
+			expr::ImageAccess::eImageAtomicCompSwapCubeU,
+			expr::ImageAccess::eImageAtomicCompSwap2DRectU,
+			expr::ImageAccess::eImageAtomicCompSwapBufferU,
+
+			expr::ImageAccess::eImageAtomicCompSwap1DArrayU,
+			expr::ImageAccess::eImageAtomicCompSwap2DArrayU,
+			expr::ImageAccess::eImageAtomicCompSwapCubeArrayU,
+
+			expr::ImageAccess::eImageAtomicCompSwap2DMSU,
+			expr::ImageAccess::eImageAtomicCompSwap2DMSArrayU,
+		};
+	}
+
 	template<>
-	struct ImageFormatTraitsT< ast::type::ImageFormat::eUnknown >
+	struct ImageFormatTraitsT< type::ImageFormat::eUnknown >
 	{
 		using SampleType = Vec4;
 		using FetchType = SampleType;
@@ -19,10 +549,14 @@ namespace sdw
 		static constexpr bool isUInt = false;
 		static constexpr bool isSingle = false;
 		static constexpr size_t size = 32u;
+		static constexpr details::ImageAccessIntrList const & imageSize = details::imageSizeF;
+		static constexpr details::ImageAccessIntrList const & imageSamples = details::imageSamplesF;
+		static constexpr details::ImageAccessIntrList const & imageLoad = details::imageLoadF;
+		static constexpr details::ImageAccessIntrList const & imageStore = details::imageStoreF;
 	};
 
 	template<>
-	struct ImageFormatTraitsT< ast::type::ImageFormat::eRgba32f >
+	struct ImageFormatTraitsT< type::ImageFormat::eRgba32f >
 	{
 		using SampleType = Vec4;
 		using FetchType = SampleType;
@@ -32,10 +566,14 @@ namespace sdw
 		static constexpr bool isUInt = false;
 		static constexpr bool isSingle = false;
 		static constexpr size_t size = 128u;
+		static constexpr details::ImageAccessIntrList const & imageSize = details::imageSizeF;
+		static constexpr details::ImageAccessIntrList const & imageSamples = details::imageSamplesF;
+		static constexpr details::ImageAccessIntrList const & imageLoad = details::imageLoadF;
+		static constexpr details::ImageAccessIntrList const & imageStore = details::imageStoreF;
 	};
 
 	template<>
-	struct ImageFormatTraitsT< ast::type::ImageFormat::eRgba16f >
+	struct ImageFormatTraitsT< type::ImageFormat::eRgba16f >
 	{
 		using SampleType = Vec4;
 		using FetchType = HVec4;
@@ -45,10 +583,16 @@ namespace sdw
 		static constexpr bool isUInt = false;
 		static constexpr bool isSingle = false;
 		static constexpr size_t size = 64u;
+		static constexpr details::ImageAccessIntrList const & imageSize = details::imageSizeF;
+		static constexpr details::ImageAccessIntrList const & imageSamples = details::imageSamplesF;
+		static constexpr details::ImageAccessIntrList const & imageLoad = details::imageLoadF;
+		static constexpr details::ImageAccessIntrList const & imageStore = details::imageStoreF;
+		static constexpr details::ImageAccessIntrList const & imageAtomicAdd = details::imageAtomicAddF;
+		static constexpr details::ImageAccessIntrList const & imageAtomicExchange = details::imageAtomicExchangeF;
 	};
 
 	template<>
-	struct ImageFormatTraitsT< ast::type::ImageFormat::eRg32f >
+	struct ImageFormatTraitsT< type::ImageFormat::eRg32f >
 	{
 		using SampleType = Vec2;
 		using FetchType = SampleType;
@@ -58,10 +602,14 @@ namespace sdw
 		static constexpr bool isUInt = false;
 		static constexpr bool isSingle = false;
 		static constexpr size_t size = 64u;
+		static constexpr details::ImageAccessIntrList const & imageSize = details::imageSizeF;
+		static constexpr details::ImageAccessIntrList const & imageSamples = details::imageSamplesF;
+		static constexpr details::ImageAccessIntrList const & imageLoad = details::imageLoadF;
+		static constexpr details::ImageAccessIntrList const & imageStore = details::imageStoreF;
 	};
 
 	template<>
-	struct ImageFormatTraitsT< ast::type::ImageFormat::eRg16f >
+	struct ImageFormatTraitsT< type::ImageFormat::eRg16f >
 	{
 		using SampleType = Vec2;
 		using FetchType = HVec2;
@@ -71,10 +619,16 @@ namespace sdw
 		static constexpr bool isUInt = false;
 		static constexpr bool isSingle = false;
 		static constexpr size_t size = 32u;
+		static constexpr details::ImageAccessIntrList const & imageSize = details::imageSizeF;
+		static constexpr details::ImageAccessIntrList const & imageSamples = details::imageSamplesF;
+		static constexpr details::ImageAccessIntrList const & imageLoad = details::imageLoadF;
+		static constexpr details::ImageAccessIntrList const & imageStore = details::imageStoreF;
+		static constexpr details::ImageAccessIntrList const & imageAtomicAdd = details::imageAtomicAddF;
+		static constexpr details::ImageAccessIntrList const & imageAtomicExchange = details::imageAtomicExchangeF;
 	};
 
 	template<>
-	struct ImageFormatTraitsT< ast::type::ImageFormat::eR32f >
+	struct ImageFormatTraitsT< type::ImageFormat::eR32f >
 	{
 		using SampleType = Float;
 		using FetchType = SampleType;
@@ -84,10 +638,16 @@ namespace sdw
 		static constexpr bool isUInt = false;
 		static constexpr bool isSingle = true;
 		static constexpr size_t size = 32u;
+		static constexpr details::ImageAccessIntrList const & imageSize = details::imageSizeF;
+		static constexpr details::ImageAccessIntrList const & imageSamples = details::imageSamplesF;
+		static constexpr details::ImageAccessIntrList const & imageLoad = details::imageLoadF;
+		static constexpr details::ImageAccessIntrList const & imageStore = details::imageStoreF;
+		static constexpr details::ImageAccessIntrList const & imageAtomicAdd = details::imageAtomicAddF;
+		static constexpr details::ImageAccessIntrList const & imageAtomicExchange = details::imageAtomicExchangeF;
 	};
 
 	template<>
-	struct ImageFormatTraitsT< ast::type::ImageFormat::eR16f >
+	struct ImageFormatTraitsT< type::ImageFormat::eR16f >
 	{
 		using SampleType = Float;
 		using FetchType = Half;
@@ -97,10 +657,14 @@ namespace sdw
 		static constexpr bool isUInt = false;
 		static constexpr bool isSingle = true;
 		static constexpr size_t size = 16u;
+		static constexpr details::ImageAccessIntrList const & imageSize = details::imageSizeF;
+		static constexpr details::ImageAccessIntrList const & imageSamples = details::imageSamplesF;
+		static constexpr details::ImageAccessIntrList const & imageLoad = details::imageLoadF;
+		static constexpr details::ImageAccessIntrList const & imageStore = details::imageStoreF;
 	};
 
 	template<>
-	struct ImageFormatTraitsT< ast::type::ImageFormat::eRgba32i >
+	struct ImageFormatTraitsT< type::ImageFormat::eRgba32i >
 	{
 		using SampleType = IVec4;
 		using FetchType = SampleType;
@@ -110,10 +674,14 @@ namespace sdw
 		static constexpr bool isUInt = false;
 		static constexpr bool isSingle = false;
 		static constexpr size_t size = 128u;
+		static constexpr details::ImageAccessIntrList const & imageSize = details::imageSizeI;
+		static constexpr details::ImageAccessIntrList const & imageSamples = details::imageSamplesI;
+		static constexpr details::ImageAccessIntrList const & imageLoad = details::imageLoadI;
+		static constexpr details::ImageAccessIntrList const & imageStore = details::imageStoreI;
 	};
 
 	template<>
-	struct ImageFormatTraitsT< ast::type::ImageFormat::eRgba16i >
+	struct ImageFormatTraitsT< type::ImageFormat::eRgba16i >
 	{
 		using SampleType = IVec4;
 		using FetchType = SampleType;
@@ -123,10 +691,14 @@ namespace sdw
 		static constexpr bool isUInt = false;
 		static constexpr bool isSingle = false;
 		static constexpr size_t size = 64u;
+		static constexpr details::ImageAccessIntrList const & imageSize = details::imageSizeI;
+		static constexpr details::ImageAccessIntrList const & imageSamples = details::imageSamplesI;
+		static constexpr details::ImageAccessIntrList const & imageLoad = details::imageLoadI;
+		static constexpr details::ImageAccessIntrList const & imageStore = details::imageStoreI;
 	};
 
 	template<>
-	struct ImageFormatTraitsT< ast::type::ImageFormat::eRgba8i >
+	struct ImageFormatTraitsT< type::ImageFormat::eRgba8i >
 	{
 		using SampleType = IVec4;
 		using FetchType = SampleType;
@@ -136,10 +708,14 @@ namespace sdw
 		static constexpr bool isUInt = false;
 		static constexpr bool isSingle = false;
 		static constexpr size_t size = 32u;
+		static constexpr details::ImageAccessIntrList const & imageSize = details::imageSizeI;
+		static constexpr details::ImageAccessIntrList const & imageSamples = details::imageSamplesI;
+		static constexpr details::ImageAccessIntrList const & imageLoad = details::imageLoadI;
+		static constexpr details::ImageAccessIntrList const & imageStore = details::imageStoreI;
 	};
 
 	template<>
-	struct ImageFormatTraitsT< ast::type::ImageFormat::eRg32i >
+	struct ImageFormatTraitsT< type::ImageFormat::eRg32i >
 	{
 		using SampleType = IVec2;
 		using FetchType = SampleType;
@@ -149,10 +725,14 @@ namespace sdw
 		static constexpr bool isUInt = false;
 		static constexpr bool isSingle = false;
 		static constexpr size_t size = 64u;
+		static constexpr details::ImageAccessIntrList const & imageSize = details::imageSizeI;
+		static constexpr details::ImageAccessIntrList const & imageSamples = details::imageSamplesI;
+		static constexpr details::ImageAccessIntrList const & imageLoad = details::imageLoadI;
+		static constexpr details::ImageAccessIntrList const & imageStore = details::imageStoreI;
 	};
 
 	template<>
-	struct ImageFormatTraitsT< ast::type::ImageFormat::eRg16i >
+	struct ImageFormatTraitsT< type::ImageFormat::eRg16i >
 	{
 		using SampleType = IVec2;
 		using FetchType = SampleType;
@@ -162,10 +742,14 @@ namespace sdw
 		static constexpr bool isUInt = false;
 		static constexpr bool isSingle = false;
 		static constexpr size_t size = 32u;
+		static constexpr details::ImageAccessIntrList const & imageSize = details::imageSizeI;
+		static constexpr details::ImageAccessIntrList const & imageSamples = details::imageSamplesI;
+		static constexpr details::ImageAccessIntrList const & imageLoad = details::imageLoadI;
+		static constexpr details::ImageAccessIntrList const & imageStore = details::imageStoreI;
 	};
 
 	template<>
-	struct ImageFormatTraitsT< ast::type::ImageFormat::eRg8i >
+	struct ImageFormatTraitsT< type::ImageFormat::eRg8i >
 	{
 		using SampleType = IVec2;
 		using FetchType = SampleType;
@@ -175,10 +759,14 @@ namespace sdw
 		static constexpr bool isUInt = false;
 		static constexpr bool isSingle = false;
 		static constexpr size_t size = 16u;
+		static constexpr details::ImageAccessIntrList const & imageSize = details::imageSizeI;
+		static constexpr details::ImageAccessIntrList const & imageSamples = details::imageSamplesI;
+		static constexpr details::ImageAccessIntrList const & imageLoad = details::imageLoadI;
+		static constexpr details::ImageAccessIntrList const & imageStore = details::imageStoreI;
 	};
 
 	template<>
-	struct ImageFormatTraitsT< ast::type::ImageFormat::eR32i >
+	struct ImageFormatTraitsT< type::ImageFormat::eR32i >
 	{
 		using SampleType = Int;
 		using FetchType = SampleType;
@@ -188,10 +776,22 @@ namespace sdw
 		static constexpr bool isUInt = false;
 		static constexpr bool isSingle = true;
 		static constexpr size_t size = 32u;
+		static constexpr details::ImageAccessIntrList const & imageSize = details::imageSizeI;
+		static constexpr details::ImageAccessIntrList const & imageSamples = details::imageSamplesI;
+		static constexpr details::ImageAccessIntrList const & imageLoad = details::imageLoadI;
+		static constexpr details::ImageAccessIntrList const & imageStore = details::imageStoreI;
+		static constexpr details::ImageAccessIntrList const & imageAtomicAdd = details::imageAtomicAddI;
+		static constexpr details::ImageAccessIntrList const & imageAtomicMin = details::imageAtomicMinI;
+		static constexpr details::ImageAccessIntrList const & imageAtomicMax = details::imageAtomicMaxI;
+		static constexpr details::ImageAccessIntrList const & imageAtomicAnd = details::imageAtomicAndI;
+		static constexpr details::ImageAccessIntrList const & imageAtomicOr = details::imageAtomicOrI;
+		static constexpr details::ImageAccessIntrList const & imageAtomicXor = details::imageAtomicXorI;
+		static constexpr details::ImageAccessIntrList const & imageAtomicExchange = details::imageAtomicExchangeI;
+		static constexpr details::ImageAccessIntrList const & imageAtomicCompSwap = details::imageAtomicCompSwapI;
 	};
 
 	template<>
-	struct ImageFormatTraitsT< ast::type::ImageFormat::eR16i >
+	struct ImageFormatTraitsT< type::ImageFormat::eR16i >
 	{
 		using SampleType = Int;
 		using FetchType = SampleType;
@@ -201,10 +801,14 @@ namespace sdw
 		static constexpr bool isUInt = false;
 		static constexpr bool isSingle = true;
 		static constexpr size_t size = 16u;
+		static constexpr details::ImageAccessIntrList const & imageSize = details::imageSizeI;
+		static constexpr details::ImageAccessIntrList const & imageSamples = details::imageSamplesI;
+		static constexpr details::ImageAccessIntrList const & imageLoad = details::imageLoadI;
+		static constexpr details::ImageAccessIntrList const & imageStore = details::imageStoreI;
 	};
 
 	template<>
-	struct ImageFormatTraitsT< ast::type::ImageFormat::eR8i >
+	struct ImageFormatTraitsT< type::ImageFormat::eR8i >
 	{
 		using SampleType = Int;
 		using FetchType = SampleType;
@@ -214,10 +818,14 @@ namespace sdw
 		static constexpr bool isUInt = false;
 		static constexpr bool isSingle = true;
 		static constexpr size_t size = 8u;
+		static constexpr details::ImageAccessIntrList const & imageSize = details::imageSizeI;
+		static constexpr details::ImageAccessIntrList const & imageSamples = details::imageSamplesI;
+		static constexpr details::ImageAccessIntrList const & imageLoad = details::imageLoadI;
+		static constexpr details::ImageAccessIntrList const & imageStore = details::imageStoreI;
 	};
 
 	template<>
-	struct ImageFormatTraitsT< ast::type::ImageFormat::eRgba32u >
+	struct ImageFormatTraitsT< type::ImageFormat::eRgba32u >
 	{
 		using SampleType = UVec4;
 		using FetchType = SampleType;
@@ -227,10 +835,14 @@ namespace sdw
 		static constexpr bool isUInt = true;
 		static constexpr bool isSingle = false;
 		static constexpr size_t size = 128u;
+		static constexpr details::ImageAccessIntrList const & imageSize = details::imageSizeU;
+		static constexpr details::ImageAccessIntrList const & imageSamples = details::imageSamplesU;
+		static constexpr details::ImageAccessIntrList const & imageLoad = details::imageLoadU;
+		static constexpr details::ImageAccessIntrList const & imageStore = details::imageStoreU;
 	};
 
 	template<>
-	struct ImageFormatTraitsT< ast::type::ImageFormat::eRgba16u >
+	struct ImageFormatTraitsT< type::ImageFormat::eRgba16u >
 	{
 		using SampleType = UVec4;
 		using FetchType = SampleType;
@@ -240,10 +852,14 @@ namespace sdw
 		static constexpr bool isUInt = true;
 		static constexpr bool isSingle = false;
 		static constexpr size_t size = 64u;
+		static constexpr details::ImageAccessIntrList const & imageSize = details::imageSizeU;
+		static constexpr details::ImageAccessIntrList const & imageSamples = details::imageSamplesU;
+		static constexpr details::ImageAccessIntrList const & imageLoad = details::imageLoadU;
+		static constexpr details::ImageAccessIntrList const & imageStore = details::imageStoreU;
 	};
 
 	template<>
-	struct ImageFormatTraitsT< ast::type::ImageFormat::eRgba8u >
+	struct ImageFormatTraitsT< type::ImageFormat::eRgba8u >
 	{
 		using SampleType = UVec4;
 		using FetchType = SampleType;
@@ -253,10 +869,14 @@ namespace sdw
 		static constexpr bool isUInt = true;
 		static constexpr bool isSingle = false;
 		static constexpr size_t size = 32u;
+		static constexpr details::ImageAccessIntrList const & imageSize = details::imageSizeU;
+		static constexpr details::ImageAccessIntrList const & imageSamples = details::imageSamplesU;
+		static constexpr details::ImageAccessIntrList const & imageLoad = details::imageLoadU;
+		static constexpr details::ImageAccessIntrList const & imageStore = details::imageStoreU;
 	};
 
 	template<>
-	struct ImageFormatTraitsT< ast::type::ImageFormat::eRg32u >
+	struct ImageFormatTraitsT< type::ImageFormat::eRg32u >
 	{
 		using SampleType = UVec2;
 		using FetchType = SampleType;
@@ -266,10 +886,14 @@ namespace sdw
 		static constexpr bool isUInt = true;
 		static constexpr bool isSingle = false;
 		static constexpr size_t size = 64u;
+		static constexpr details::ImageAccessIntrList const & imageSize = details::imageSizeU;
+		static constexpr details::ImageAccessIntrList const & imageSamples = details::imageSamplesU;
+		static constexpr details::ImageAccessIntrList const & imageLoad = details::imageLoadU;
+		static constexpr details::ImageAccessIntrList const & imageStore = details::imageStoreU;
 	};
 
 	template<>
-	struct ImageFormatTraitsT< ast::type::ImageFormat::eRg16u >
+	struct ImageFormatTraitsT< type::ImageFormat::eRg16u >
 	{
 		using SampleType = UVec2;
 		using FetchType = SampleType;
@@ -279,10 +903,14 @@ namespace sdw
 		static constexpr bool isUInt = true;
 		static constexpr bool isSingle = false;
 		static constexpr size_t size = 32u;
+		static constexpr details::ImageAccessIntrList const & imageSize = details::imageSizeU;
+		static constexpr details::ImageAccessIntrList const & imageSamples = details::imageSamplesU;
+		static constexpr details::ImageAccessIntrList const & imageLoad = details::imageLoadU;
+		static constexpr details::ImageAccessIntrList const & imageStore = details::imageStoreU;
 	};
 
 	template<>
-	struct ImageFormatTraitsT< ast::type::ImageFormat::eRg8u >
+	struct ImageFormatTraitsT< type::ImageFormat::eRg8u >
 	{
 		using SampleType = UVec2;
 		using FetchType = SampleType;
@@ -292,10 +920,14 @@ namespace sdw
 		static constexpr bool isUInt = true;
 		static constexpr bool isSingle = false;
 		static constexpr size_t size = 16u;
+		static constexpr details::ImageAccessIntrList const & imageSize = details::imageSizeU;
+		static constexpr details::ImageAccessIntrList const & imageSamples = details::imageSamplesU;
+		static constexpr details::ImageAccessIntrList const & imageLoad = details::imageLoadU;
+		static constexpr details::ImageAccessIntrList const & imageStore = details::imageStoreU;
 	};
 
 	template<>
-	struct ImageFormatTraitsT< ast::type::ImageFormat::eR32u >
+	struct ImageFormatTraitsT< type::ImageFormat::eR32u >
 	{
 		using SampleType = UInt;
 		using FetchType = SampleType;
@@ -305,10 +937,22 @@ namespace sdw
 		static constexpr bool isUInt = true;
 		static constexpr bool isSingle = true;
 		static constexpr size_t size = 32u;
+		static constexpr details::ImageAccessIntrList const & imageSize = details::imageSizeU;
+		static constexpr details::ImageAccessIntrList const & imageSamples = details::imageSamplesU;
+		static constexpr details::ImageAccessIntrList const & imageLoad = details::imageLoadU;
+		static constexpr details::ImageAccessIntrList const & imageStore = details::imageStoreU;
+		static constexpr details::ImageAccessIntrList const & imageAtomicAdd = details::imageAtomicAddU;
+		static constexpr details::ImageAccessIntrList const & imageAtomicMin = details::imageAtomicMinU;
+		static constexpr details::ImageAccessIntrList const & imageAtomicMax = details::imageAtomicMaxU;
+		static constexpr details::ImageAccessIntrList const & imageAtomicAnd = details::imageAtomicAndU;
+		static constexpr details::ImageAccessIntrList const & imageAtomicOr = details::imageAtomicOrU;
+		static constexpr details::ImageAccessIntrList const & imageAtomicXor = details::imageAtomicXorU;
+		static constexpr details::ImageAccessIntrList const & imageAtomicExchange = details::imageAtomicExchangeU;
+		static constexpr details::ImageAccessIntrList const & imageAtomicCompSwap = details::imageAtomicCompSwapU;
 	};
 
 	template<>
-	struct ImageFormatTraitsT< ast::type::ImageFormat::eR16u >
+	struct ImageFormatTraitsT< type::ImageFormat::eR16u >
 	{
 		using SampleType = UInt;
 		using FetchType = SampleType;
@@ -318,10 +962,14 @@ namespace sdw
 		static constexpr bool isUInt = true;
 		static constexpr bool isSingle = true;
 		static constexpr size_t size = 16u;
+		static constexpr details::ImageAccessIntrList const & imageSize = details::imageSizeU;
+		static constexpr details::ImageAccessIntrList const & imageSamples = details::imageSamplesU;
+		static constexpr details::ImageAccessIntrList const & imageLoad = details::imageLoadU;
+		static constexpr details::ImageAccessIntrList const & imageStore = details::imageStoreU;
 	};
 
 	template<>
-	struct ImageFormatTraitsT< ast::type::ImageFormat::eR8u >
+	struct ImageFormatTraitsT< type::ImageFormat::eR8u >
 	{
 		using SampleType = UInt;
 		using FetchType = SampleType;
@@ -331,61 +979,65 @@ namespace sdw
 		static constexpr bool isUInt = true;
 		static constexpr bool isSingle = true;
 		static constexpr size_t size = 8u;
+		static constexpr details::ImageAccessIntrList const & imageSize = details::imageSizeU;
+		static constexpr details::ImageAccessIntrList const & imageSamples = details::imageSamplesU;
+		static constexpr details::ImageAccessIntrList const & imageLoad = details::imageLoadU;
+		static constexpr details::ImageAccessIntrList const & imageStore = details::imageStoreU;
 	};
 
 	//*****************************************************************************************
 
 	template<>
-	struct ImageCoordsGetterT< ast::type::ImageDim::e1D, false >
+	struct ImageCoordsGetterT< type::ImageDim::e1D, false >
 	{
 		using CoordsType = Int;
 		using SizeType = Int;
 	};
 
 	template<>
-	struct ImageCoordsGetterT< ast::type::ImageDim::e2D, false >
+	struct ImageCoordsGetterT< type::ImageDim::e2D, false >
 	{
 		using CoordsType = IVec2;
 		using SizeType = IVec2;
 	};
 
 	template<>
-	struct ImageCoordsGetterT< ast::type::ImageDim::e3D, false >
+	struct ImageCoordsGetterT< type::ImageDim::e3D, false >
 	{
 		using CoordsType = IVec3;
 		using SizeType = IVec3;
 	};
 
 	template<>
-	struct ImageCoordsGetterT< ast::type::ImageDim::eCube, false >
+	struct ImageCoordsGetterT< type::ImageDim::eCube, false >
 	{
 		using CoordsType = IVec3;
 		using SizeType = IVec2;
 	};
 
 	template<>
-	struct ImageCoordsGetterT< ast::type::ImageDim::eBuffer, false >
+	struct ImageCoordsGetterT< type::ImageDim::eBuffer, false >
 	{
 		using CoordsType = Int;
 		using SizeType = Int;
 	};
 
 	template<>
-	struct ImageCoordsGetterT< ast::type::ImageDim::e1D, true >
+	struct ImageCoordsGetterT< type::ImageDim::e1D, true >
 	{
 		using CoordsType = IVec2;
 		using SizeType = IVec2;
 	};
 
 	template<>
-	struct ImageCoordsGetterT< ast::type::ImageDim::e2D, true >
+	struct ImageCoordsGetterT< type::ImageDim::e2D, true >
 	{
 		using CoordsType = IVec3;
 		using SizeType = IVec3;
 	};
 
 	template<>
-	struct ImageCoordsGetterT< ast::type::ImageDim::eCube, true >
+	struct ImageCoordsGetterT< type::ImageDim::eCube, true >
 	{
 		using CoordsType = IVec3;
 		using SizeType = IVec3;
@@ -395,9 +1047,70 @@ namespace sdw
 	{
 		//*****************************************************************************************
 
-		template< ast::type::ImageFormat FormatT
-			, ast::type::AccessKind AccessT
-			, ast::type::ImageDim DimT
+		template< typename ReturnT
+			, type::ImageFormat FormatT
+			, type::AccessKind AccessT
+			, type::ImageDim DimT
+			, bool ArrayedT
+			, bool DepthT
+			, bool MsT
+			, expr::ImageAccess ImageAccessT
+			, typename ... ParamsT >
+		MaybeOptional< ReturnT > writeImageAccessCall( MaybeOptional< ImageT< FormatT, AccessT, DimT, ArrayedT, DepthT, MsT > > const & image
+			, MaybeOptional< ParamsT > const & ... params )
+		{
+			static_assert( ImageAccessT != expr::ImageAccess( ~( 0u ) ) );
+
+			auto & cache = findTypesCache( image, params... );
+
+			if ( isAnyOptional( image, params... ) )
+			{
+				return Optional< ReturnT >{ findShader( image, params... )
+					, expr::makeImageAccessCall( ReturnT::makeType( cache )
+						, ImageAccessT
+						, makeExpr( image )
+						, makeExpr( params )... )
+					, areOptionalEnabled( image, params... ) };
+			}
+
+			return ReturnT{ findShader( image, params... )
+				, expr::makeImageAccessCall( ReturnT::makeType( cache )
+					, ImageAccessT
+					, makeExpr( image )
+					, makeExpr( params )... ) };
+		}
+		//*****************************************************************************************
+
+		template< type::ImageFormat FormatT
+			, type::AccessKind AccessT
+			, type::ImageDim DimT
+			, bool ArrayedT
+			, bool DepthT
+			, bool MsT
+			, expr::ImageAccess ImageAccessT
+			, typename ... ParamsT >
+		void writeVoidImageAccessCall( MaybeOptional< ImageT< FormatT, AccessT, DimT, ArrayedT, DepthT, MsT > > const & image
+			, MaybeOptional< ParamsT > const & ... params )
+		{
+			static_assert( ImageAccessT != expr::ImageAccess( ~( 0u ) ) );
+
+			auto & cache = findTypesCache( image, params... );
+
+			if ( ( !isAnyOptional( image, params... ) )
+				|| areOptionalEnabled( image, params... ) )
+			{
+				expr::makeImageAccessCall( Void::makeType( cache )
+					, ImageAccessT
+					, makeExpr( image )
+					, makeExpr( params )... );
+			}
+		}
+
+		//*****************************************************************************************
+
+		template< type::ImageFormat FormatT
+			, type::AccessKind AccessT
+			, type::ImageDim DimT
 			, bool ArrayedT
 			, bool DepthT
 			, bool MsT >
@@ -407,7 +1120,8 @@ namespace sdw
 
 			MaybeOptional< SizeT > getSize()const
 			{
-				return imageSize( get() );
+				return writeImageAccessCall< SizeT, FormatT, AccessT, DimT, ArrayedT, DepthT, MsT
+					, ImageFormatTraitsT< FormatT >::imageSize[getImgArrayIndex< DimT, ArrayedT, MsT >()] >( get() );
 			}
 
 		private:
@@ -419,16 +1133,17 @@ namespace sdw
 
 		//*****************************************************************************************
 
-		template< ast::type::ImageFormat FormatT
-			, ast::type::AccessKind AccessT
-			, ast::type::ImageDim DimT
+		template< type::ImageFormat FormatT
+			, type::AccessKind AccessT
+			, type::ImageDim DimT
 			, bool ArrayedT
 			, bool DepthT >
 		struct ImgSamplesFuncT
 		{
 			MaybeOptional< Int > getSamples()const
 			{
-				return imageSamples( get() );
+				return writeImageAccessCall< Int, FormatT, AccessT, DimT, ArrayedT, DepthT, MsT
+					, ImageFormatTraitsT< FormatT >::imageSamples[getImgArrayIndex< DimT, ArrayedT, MsT >()] >( get() );
 			}
 
 		private:
@@ -440,18 +1155,21 @@ namespace sdw
 
 		//*****************************************************************************************
 
-		template< ast::type::ImageFormat FormatT
-			, ast::type::AccessKind AccessT
-			, ast::type::ImageDim DimT
+		template< type::ImageFormat FormatT
+			, type::AccessKind AccessT
+			, type::ImageDim DimT
 			, bool ArrayedT
 			, bool DepthT >
 		struct ImgLoadFuncT
 		{
 			using CoordsT = ImageCoordsT< DimT, ArrayedT >;
+			using FetchT = ImageFetchT< FormatT >;
 
-			MaybeOptional< ImageFetchT< FormatT > > load( MaybeOptional< CoordsT > const & coord )const
+			MaybeOptional< FetchT > load( MaybeOptional< CoordsT > const & coord )const
 			{
-				return imageLoad( get(), coord );
+				return writeImageAccessCall< FetchT, FormatT, AccessT, DimT, ArrayedT, DepthT, false
+					, ImageFormatTraitsT< FormatT >::imageLoad[getImgArrayIndex< DimT, ArrayedT, false >()] >( get()
+					, coord );
 			}
 
 		private:
@@ -463,19 +1181,23 @@ namespace sdw
 
 		//*****************************************************************************************
 
-		template< ast::type::ImageFormat FormatT
-			, ast::type::AccessKind AccessT
-			, ast::type::ImageDim DimT
+		template< type::ImageFormat FormatT
+			, type::AccessKind AccessT
+			, type::ImageDim DimT
 			, bool ArrayedT
 			, bool DepthT >
 		struct ImgMsLoadFuncT
 		{
 			using CoordsT = ImageCoordsT< DimT, ArrayedT >;
+			using FetchT = ImageFetchT< FormatT >;
 
-			MaybeOptional< ImageFetchT< FormatT > > load( MaybeOptional< CoordsT > const & coord
+			MaybeOptional< FetchT > load( MaybeOptional< CoordsT > const & coord
 				, MaybeOptional< Int > const & sample )const
 			{
-				return imageLoad( get(), coord, sample );
+				return writeImageAccessCall< FetchT, FormatT, AccessT, DimT, ArrayedT, DepthT, true
+					, ImageFormatTraitsT< FormatT >::imageLoad[getImgArrayIndex< DimT, ArrayedT, true >()] >( get()
+					, coord
+					, sample );
 			}
 
 		private:
@@ -487,9 +1209,9 @@ namespace sdw
 
 		//*****************************************************************************************
 
-		template< ast::type::ImageFormat FormatT
-			, ast::type::AccessKind AccessT
-			, ast::type::ImageDim DimT
+		template< type::ImageFormat FormatT
+			, type::AccessKind AccessT
+			, type::ImageDim DimT
 			, bool ArrayedT
 			, bool DepthT >
 		struct ImgStoreFuncT
@@ -500,7 +1222,10 @@ namespace sdw
 			void store( MaybeOptional< CoordsT > const & coord
 				, MaybeOptional< FetchT > const & value )const
 			{
-				imageStore( get(), coord, value );
+				writeVoidImageAccessCall<  FormatT, AccessT, DimT, ArrayedT, DepthT, false
+					, ImageFormatTraitsT< FormatT >::imageStore[getImgArrayIndex< DimT, ArrayedT, false >()] >( get()
+						, coord
+						, value );
 			}
 
 		private:
@@ -512,9 +1237,9 @@ namespace sdw
 
 		//*****************************************************************************************
 
-		template< ast::type::ImageFormat FormatT
-			, ast::type::AccessKind AccessT
-			, ast::type::ImageDim DimT
+		template< type::ImageFormat FormatT
+			, type::AccessKind AccessT
+			, type::ImageDim DimT
 			, bool ArrayedT
 			, bool DepthT >
 		struct ImgMsStoreFuncT
@@ -526,7 +1251,11 @@ namespace sdw
 				, MaybeOptional< Int > const & sample
 				, MaybeOptional< FetchT > const & value )const
 			{
-				imageStore( get(), coord, sample, value );
+				writeVoidImageAccessCall<  FormatT, AccessT, DimT, ArrayedT, DepthT, true
+					, ImageFormatTraitsT< FormatT >::imageStore[getImgArrayIndex< DimT, ArrayedT, true >()] >( get()
+						, coord
+						, sample
+						, value );
 			}
 
 		private:
@@ -538,9 +1267,9 @@ namespace sdw
 
 		//*****************************************************************************************
 
-		template< ast::type::ImageFormat FormatT
-			, ast::type::AccessKind AccessT
-			, ast::type::ImageDim DimT
+		template< type::ImageFormat FormatT
+			, type::AccessKind AccessT
+			, type::ImageDim DimT
 			, bool ArrayedT
 			, bool DepthT >
 		struct ImgAtomicAddFuncT
@@ -548,10 +1277,13 @@ namespace sdw
 			using CoordsT = ImageCoordsT< DimT, ArrayedT >;
 			using FetchT = ImageFetchT< FormatT >;
 
-			MaybeOptional< ImageFetchT< FormatT > > atomicAdd( MaybeOptional< CoordsT > const & coord
+			MaybeOptional< FetchT > atomicAdd( MaybeOptional< CoordsT > const & coord
 				, MaybeOptional< FetchT > const & value )const
 			{
-				return imageAtomicAdd( get(), coord, value );
+				return writeImageAccessCall< FetchT, FormatT, AccessT, DimT, ArrayedT, DepthT, false
+					, ImageFormatTraitsT< FormatT >::imageAtomicAdd[getImgArrayIndex< DimT, ArrayedT, false >()] >( get()
+						, coord
+						, value );
 			}
 
 		private:
@@ -563,9 +1295,9 @@ namespace sdw
 
 		//*****************************************************************************************
 
-		template< ast::type::ImageFormat FormatT
-			, ast::type::AccessKind AccessT
-			, ast::type::ImageDim DimT
+		template< type::ImageFormat FormatT
+			, type::AccessKind AccessT
+			, type::ImageDim DimT
 			, bool ArrayedT
 			, bool DepthT >
 		struct ImgMsAtomicAddFuncT
@@ -573,11 +1305,15 @@ namespace sdw
 			using CoordsT = ImageCoordsT< DimT, ArrayedT >;
 			using FetchT = ImageFetchT< FormatT >;
 
-			MaybeOptional< ImageFetchT< FormatT > > atomicAdd( MaybeOptional< CoordsT > const & coord
+			MaybeOptional< FetchT > atomicAdd( MaybeOptional< CoordsT > const & coord
 				, MaybeOptional< Int > const & sample
 				, MaybeOptional< FetchT > const & value )const
 			{
-				return imageAtomicAdd( get(), coord, sample, value );
+				return writeImageAccessCall< FetchT, FormatT, AccessT, DimT, ArrayedT, DepthT, true
+					, ImageFormatTraitsT< FormatT >::imageAtomicAdd[getImgArrayIndex< DimT, ArrayedT, true >()] >( get()
+						, coord
+						, sample
+						, value );
 			}
 
 		private:
@@ -589,9 +1325,9 @@ namespace sdw
 
 		//*****************************************************************************************
 
-		template< ast::type::ImageFormat FormatT
-			, ast::type::AccessKind AccessT
-			, ast::type::ImageDim DimT
+		template< type::ImageFormat FormatT
+			, type::AccessKind AccessT
+			, type::ImageDim DimT
 			, bool ArrayedT
 			, bool DepthT >
 		struct ImgAtomicMinFuncT
@@ -599,10 +1335,13 @@ namespace sdw
 			using CoordsT = ImageCoordsT< DimT, ArrayedT >;
 			using FetchT = ImageFetchT< FormatT >;
 
-			MaybeOptional< ImageFetchT< FormatT > > atomicMin( MaybeOptional< CoordsT > const & coord
+			MaybeOptional< FetchT > atomicMin( MaybeOptional< CoordsT > const & coord
 				, MaybeOptional< FetchT > const & value )const
 			{
-				return imageAtomicMin( get(), coord, value );
+				return writeImageAccessCall< FetchT, FormatT, AccessT, DimT, ArrayedT, DepthT, false
+					, ImageFormatTraitsT< FormatT >::imageAtomicMin[getImgArrayIndex< DimT, ArrayedT, false >()] >( get()
+						, coord
+						, value );
 			}
 
 		private:
@@ -614,9 +1353,9 @@ namespace sdw
 
 		//*****************************************************************************************
 
-		template< ast::type::ImageFormat FormatT
-			, ast::type::AccessKind AccessT
-			, ast::type::ImageDim DimT
+		template< type::ImageFormat FormatT
+			, type::AccessKind AccessT
+			, type::ImageDim DimT
 			, bool ArrayedT
 			, bool DepthT >
 		struct ImgMsAtomicMinFuncT
@@ -624,11 +1363,15 @@ namespace sdw
 			using CoordsT = ImageCoordsT< DimT, ArrayedT >;
 			using FetchT = ImageFetchT< FormatT >;
 
-			MaybeOptional< ImageFetchT< FormatT > > atomicMin( MaybeOptional< CoordsT > const & coord
+			MaybeOptional< FetchT > atomicMin( MaybeOptional< CoordsT > const & coord
 				, MaybeOptional< Int > const & sample
 				, MaybeOptional< FetchT > const & value )const
 			{
-				return imageAtomicMin( get(), coord, sample, value );
+				return writeImageAccessCall< FetchT, FormatT, AccessT, DimT, ArrayedT, DepthT, true
+					, ImageFormatTraitsT< FormatT >::imageAtomicMin[getImgArrayIndex< DimT, ArrayedT, true >()] >( get()
+						, coord
+						, sample
+						, value );
 			}
 
 		private:
@@ -640,9 +1383,9 @@ namespace sdw
 
 		//*****************************************************************************************
 
-		template< ast::type::ImageFormat FormatT
-			, ast::type::AccessKind AccessT
-			, ast::type::ImageDim DimT
+		template< type::ImageFormat FormatT
+			, type::AccessKind AccessT
+			, type::ImageDim DimT
 			, bool ArrayedT
 			, bool DepthT >
 		struct ImgAtomicMaxFuncT
@@ -650,10 +1393,13 @@ namespace sdw
 			using CoordsT = ImageCoordsT< DimT, ArrayedT >;
 			using FetchT = ImageFetchT< FormatT >;
 
-			MaybeOptional< ImageFetchT< FormatT > > atomicMax( MaybeOptional< CoordsT > const & coord
+			MaybeOptional< FetchT > atomicMax( MaybeOptional< CoordsT > const & coord
 				, MaybeOptional< FetchT > const & value )const
 			{
-				return imageAtomicMax( get(), coord, value );
+				return writeImageAccessCall< FetchT, FormatT, AccessT, DimT, ArrayedT, DepthT, false
+					, ImageFormatTraitsT< FormatT >::imageAtomicMax[getImgArrayIndex< DimT, ArrayedT, false >()] >( get()
+						, coord
+						, value );
 			}
 
 		private:
@@ -665,9 +1411,9 @@ namespace sdw
 
 		//*****************************************************************************************
 
-		template< ast::type::ImageFormat FormatT
-			, ast::type::AccessKind AccessT
-			, ast::type::ImageDim DimT
+		template< type::ImageFormat FormatT
+			, type::AccessKind AccessT
+			, type::ImageDim DimT
 			, bool ArrayedT
 			, bool DepthT >
 		struct ImgMsAtomicMaxFuncT
@@ -675,11 +1421,15 @@ namespace sdw
 			using CoordsT = ImageCoordsT< DimT, ArrayedT >;
 			using FetchT = ImageFetchT< FormatT >;
 
-			MaybeOptional< ImageFetchT< FormatT > > atomicMax( MaybeOptional< CoordsT > const & coord
+			MaybeOptional< FetchT > atomicMax( MaybeOptional< CoordsT > const & coord
 				, MaybeOptional< Int > const & sample
 				, MaybeOptional< FetchT > const & value )const
 			{
-				return imageAtomicMax( get(), coord, sample, value );
+				return writeImageAccessCall< FetchT, FormatT, AccessT, DimT, ArrayedT, DepthT, true
+					, ImageFormatTraitsT< FormatT >::imageAtomicMax[getImgArrayIndex< DimT, ArrayedT, true >()] >( get()
+						, coord
+						, sample
+						, value );
 			}
 
 		private:
@@ -691,9 +1441,9 @@ namespace sdw
 
 		//*****************************************************************************************
 
-		template< ast::type::ImageFormat FormatT
-			, ast::type::AccessKind AccessT
-			, ast::type::ImageDim DimT
+		template< type::ImageFormat FormatT
+			, type::AccessKind AccessT
+			, type::ImageDim DimT
 			, bool ArrayedT
 			, bool DepthT >
 		struct ImgAtomicAndFuncT
@@ -701,10 +1451,13 @@ namespace sdw
 			using CoordsT = ImageCoordsT< DimT, ArrayedT >;
 			using FetchT = ImageFetchT< FormatT >;
 
-			MaybeOptional< ImageFetchT< FormatT > > atomicAnd( MaybeOptional< CoordsT > const & coord
+			MaybeOptional< FetchT > atomicAnd( MaybeOptional< CoordsT > const & coord
 				, MaybeOptional< FetchT > const & value )const
 			{
-				return imageAtomicAnd( get(), coord, value );
+				return writeImageAccessCall< FetchT, FormatT, AccessT, DimT, ArrayedT, DepthT, false
+					, ImageFormatTraitsT< FormatT >::imageAtomicAnd[getImgArrayIndex< DimT, ArrayedT, false >()] >( get()
+						, coord
+						, value );
 			}
 
 		private:
@@ -716,9 +1469,9 @@ namespace sdw
 
 		//*****************************************************************************************
 
-		template< ast::type::ImageFormat FormatT
-			, ast::type::AccessKind AccessT
-			, ast::type::ImageDim DimT
+		template< type::ImageFormat FormatT
+			, type::AccessKind AccessT
+			, type::ImageDim DimT
 			, bool ArrayedT
 			, bool DepthT >
 		struct ImgMsAtomicAndFuncT
@@ -726,11 +1479,15 @@ namespace sdw
 			using CoordsT = ImageCoordsT< DimT, ArrayedT >;
 			using FetchT = ImageFetchT< FormatT >;
 
-			MaybeOptional< ImageFetchT< FormatT > > atomicAnd( MaybeOptional< CoordsT > const & coord
+			MaybeOptional< FetchT > atomicAnd( MaybeOptional< CoordsT > const & coord
 				, MaybeOptional< Int > const & sample
 				, MaybeOptional< FetchT > const & value )const
 			{
-				return imageAtomicAnd( get(), coord, sample, value );
+				return writeImageAccessCall< FetchT, FormatT, AccessT, DimT, ArrayedT, DepthT, true
+					, ImageFormatTraitsT< FormatT >::imageAtomicAnd[getImgArrayIndex< DimT, ArrayedT, true >()] >( get()
+						, coord
+						, sample
+						, value );
 			}
 
 		private:
@@ -742,9 +1499,9 @@ namespace sdw
 
 		//*****************************************************************************************
 
-		template< ast::type::ImageFormat FormatT
-			, ast::type::AccessKind AccessT
-			, ast::type::ImageDim DimT
+		template< type::ImageFormat FormatT
+			, type::AccessKind AccessT
+			, type::ImageDim DimT
 			, bool ArrayedT
 			, bool DepthT >
 		struct ImgAtomicOrFuncT
@@ -752,10 +1509,13 @@ namespace sdw
 			using CoordsT = ImageCoordsT< DimT, ArrayedT >;
 			using FetchT = ImageFetchT< FormatT >;
 
-			MaybeOptional< ImageFetchT< FormatT > > atomicOr( MaybeOptional< CoordsT > const & coord
+			MaybeOptional< FetchT > atomicOr( MaybeOptional< CoordsT > const & coord
 				, MaybeOptional< FetchT > const & value )const
 			{
-				return imageAtomicOr( get(), coord, value );
+				return writeImageAccessCall< FetchT, FormatT, AccessT, DimT, ArrayedT, DepthT, false
+					, ImageFormatTraitsT< FormatT >::imageAtomicOr[getImgArrayIndex< DimT, ArrayedT, false >()] >( get()
+						, coord
+						, value );
 			}
 
 		private:
@@ -767,9 +1527,9 @@ namespace sdw
 
 		//*****************************************************************************************
 
-		template< ast::type::ImageFormat FormatT
-			, ast::type::AccessKind AccessT
-			, ast::type::ImageDim DimT
+		template< type::ImageFormat FormatT
+			, type::AccessKind AccessT
+			, type::ImageDim DimT
 			, bool ArrayedT
 			, bool DepthT >
 		struct ImgMsAtomicOrFuncT
@@ -777,11 +1537,15 @@ namespace sdw
 			using CoordsT = ImageCoordsT< DimT, ArrayedT >;
 			using FetchT = ImageFetchT< FormatT >;
 
-			MaybeOptional< ImageFetchT< FormatT > > atomicOr( MaybeOptional< CoordsT > const & coord
+			MaybeOptional< FetchT > atomicOr( MaybeOptional< CoordsT > const & coord
 				, MaybeOptional< Int > const & sample
 				, MaybeOptional< FetchT > const & value )const
 			{
-				return imageAtomicOr( get(), coord, sample, value );
+				return writeImageAccessCall< FetchT, FormatT, AccessT, DimT, ArrayedT, DepthT, true
+					, ImageFormatTraitsT< FormatT >::imageAtomicOr[getImgArrayIndex< DimT, ArrayedT, true >()] >( get()
+						, coord
+						, sample
+						, value );
 			}
 
 		private:
@@ -793,9 +1557,9 @@ namespace sdw
 
 		//*****************************************************************************************
 
-		template< ast::type::ImageFormat FormatT
-			, ast::type::AccessKind AccessT
-			, ast::type::ImageDim DimT
+		template< type::ImageFormat FormatT
+			, type::AccessKind AccessT
+			, type::ImageDim DimT
 			, bool ArrayedT
 			, bool DepthT >
 		struct ImgAtomicXorFuncT
@@ -803,10 +1567,13 @@ namespace sdw
 			using CoordsT = ImageCoordsT< DimT, ArrayedT >;
 			using FetchT = ImageFetchT< FormatT >;
 
-			MaybeOptional< ImageFetchT< FormatT > > atomicXor( MaybeOptional< CoordsT > const & coord
+			MaybeOptional< FetchT > atomicXor( MaybeOptional< CoordsT > const & coord
 				, MaybeOptional< FetchT > const & value )const
 			{
-				return imageAtomicXor( get(), coord, value );
+				return writeImageAccessCall< FetchT, FormatT, AccessT, DimT, ArrayedT, DepthT, false
+					, ImageFormatTraitsT< FormatT >::imageAtomicXor[getImgArrayIndex< DimT, ArrayedT, false >()] >( get()
+						, coord
+						, value );
 			}
 
 		private:
@@ -818,9 +1585,9 @@ namespace sdw
 
 		//*****************************************************************************************
 
-		template< ast::type::ImageFormat FormatT
-			, ast::type::AccessKind AccessT
-			, ast::type::ImageDim DimT
+		template< type::ImageFormat FormatT
+			, type::AccessKind AccessT
+			, type::ImageDim DimT
 			, bool ArrayedT
 			, bool DepthT >
 		struct ImgMsAtomicXorFuncT
@@ -828,11 +1595,15 @@ namespace sdw
 			using CoordsT = ImageCoordsT< DimT, ArrayedT >;
 			using FetchT = ImageFetchT< FormatT >;
 
-			MaybeOptional< ImageFetchT< FormatT > > atomicXor( MaybeOptional< CoordsT > const & coord
+			MaybeOptional< FetchT > atomicXor( MaybeOptional< CoordsT > const & coord
 				, MaybeOptional< Int > const & sample
 				, MaybeOptional< FetchT > const & value )const
 			{
-				return imageAtomicXor( get(), coord, sample, value );
+				return writeImageAccessCall< FetchT, FormatT, AccessT, DimT, ArrayedT, DepthT, true
+					, ImageFormatTraitsT< FormatT >::imageAtomicXor[getImgArrayIndex< DimT, ArrayedT, true >()] >( get()
+						, coord
+						, sample
+						, value );
 			}
 
 		private:
@@ -844,9 +1615,9 @@ namespace sdw
 
 		//*****************************************************************************************
 
-		template< ast::type::ImageFormat FormatT
-			, ast::type::AccessKind AccessT
-			, ast::type::ImageDim DimT
+		template< type::ImageFormat FormatT
+			, type::AccessKind AccessT
+			, type::ImageDim DimT
 			, bool ArrayedT
 			, bool DepthT >
 		struct ImgAtomicExchangeFuncT
@@ -854,10 +1625,13 @@ namespace sdw
 			using CoordsT = ImageCoordsT< DimT, ArrayedT >;
 			using FetchT = ImageFetchT< FormatT >;
 
-			MaybeOptional< ImageFetchT< FormatT > > atomicExchange( MaybeOptional< CoordsT > const & coord
+			MaybeOptional< FetchT > atomicExchange( MaybeOptional< CoordsT > const & coord
 				, MaybeOptional< FetchT > const & value )const
 			{
-				return imageAtomicExchange( get(), coord, value );
+				return writeImageAccessCall< FetchT, FormatT, AccessT, DimT, ArrayedT, DepthT, false
+					, ImageFormatTraitsT< FormatT >::imageAtomicExchange[getImgArrayIndex< DimT, ArrayedT, false >()] >( get()
+						, coord
+						, value );
 			}
 
 		private:
@@ -869,9 +1643,9 @@ namespace sdw
 
 		//*****************************************************************************************
 
-		template< ast::type::ImageFormat FormatT
-			, ast::type::AccessKind AccessT
-			, ast::type::ImageDim DimT
+		template< type::ImageFormat FormatT
+			, type::AccessKind AccessT
+			, type::ImageDim DimT
 			, bool ArrayedT
 			, bool DepthT >
 		struct ImgMsAtomicExchangeFuncT
@@ -879,11 +1653,15 @@ namespace sdw
 			using CoordsT = ImageCoordsT< DimT, ArrayedT >;
 			using FetchT = ImageFetchT< FormatT >;
 
-			MaybeOptional< ImageFetchT< FormatT > > atomicExchange( MaybeOptional< CoordsT > const & coord
+			MaybeOptional< FetchT > atomicExchange( MaybeOptional< CoordsT > const & coord
 				, MaybeOptional< Int > const & sample
 				, MaybeOptional< FetchT > const & value )const
 			{
-				return imageAtomicExchange( get(), coord, sample, value );
+				return writeImageAccessCall< FetchT, FormatT, AccessT, DimT, ArrayedT, DepthT, true
+					, ImageFormatTraitsT< FormatT >::imageAtomicExchange[getImgArrayIndex< DimT, ArrayedT, true >()] >( get()
+						, coord
+						, sample
+						, value );
 			}
 
 		private:
@@ -895,9 +1673,9 @@ namespace sdw
 
 		//*****************************************************************************************
 
-		template< ast::type::ImageFormat FormatT
-			, ast::type::AccessKind AccessT
-			, ast::type::ImageDim DimT
+		template< type::ImageFormat FormatT
+			, type::AccessKind AccessT
+			, type::ImageDim DimT
 			, bool ArrayedT
 			, bool DepthT >
 		struct ImgAtomicCompSwapFuncT
@@ -905,11 +1683,15 @@ namespace sdw
 			using CoordsT = ImageCoordsT< DimT, ArrayedT >;
 			using FetchT = ImageFetchT< FormatT >;
 
-			MaybeOptional< ImageFetchT< FormatT > > atomicCompSwap( MaybeOptional< CoordsT > const & coord
+			MaybeOptional< FetchT > atomicCompSwap( MaybeOptional< CoordsT > const & coord
 				, MaybeOptional< FetchT > const & compare
 				, MaybeOptional< FetchT > const & data )const
 			{
-				return imageAtomicCompSwap( get(), coord, compare, data );
+				return writeImageAccessCall< FetchT, FormatT, AccessT, DimT, ArrayedT, DepthT, false
+					, ImageFormatTraitsT< FormatT >::imageAtomicCompSwap[getImgArrayIndex< DimT, ArrayedT, false >()] >( get()
+						, coord
+						, compare
+						, data );
 			}
 
 		private:
@@ -921,9 +1703,9 @@ namespace sdw
 
 		//*****************************************************************************************
 
-		template< ast::type::ImageFormat FormatT
-			, ast::type::AccessKind AccessT
-			, ast::type::ImageDim DimT
+		template< type::ImageFormat FormatT
+			, type::AccessKind AccessT
+			, type::ImageDim DimT
 			, bool ArrayedT
 			, bool DepthT >
 		struct ImgMsAtomicCompSwapFuncT
@@ -931,12 +1713,17 @@ namespace sdw
 			using CoordsT = ImageCoordsT< DimT, ArrayedT >;
 			using FetchT = ImageFetchT< FormatT >;
 
-			MaybeOptional< ImageFetchT< FormatT > > atomicCompSwap( MaybeOptional< CoordsT > const & coord
+			MaybeOptional< FetchT > atomicCompSwap( MaybeOptional< CoordsT > const & coord
 				, MaybeOptional< Int > const & sample
 				, MaybeOptional< FetchT > const & compare
 				, MaybeOptional< FetchT > const & data )const
 			{
-				return imageAtomicCompSwap( get(), coord, sample, compare, data );
+				return writeImageAccessCall< FetchT, FormatT, AccessT, DimT, ArrayedT, DepthT, true
+					, ImageFormatTraitsT< FormatT >::imageAtomicCompSwap[getImgArrayIndex< DimT, ArrayedT, true >()] >( get()
+						, coord
+						, sample
+						, compare
+						, data );
 			}
 
 		private:
@@ -948,9 +1735,9 @@ namespace sdw
 
 		//*************************************************************************
 
-		template< ast::type::ImageFormat FormatT
-			, ast::type::AccessKind AccessT
-			, ast::type::ImageDim DimT
+		template< type::ImageFormat FormatT
+			, type::AccessKind AccessT
+			, type::ImageDim DimT
 			, bool ArrayedT
 			, bool DepthT
 			, bool MsT >
@@ -987,9 +1774,9 @@ namespace sdw
 
 		//*************************************************************************
 
-		template< ast::type::ImageFormat FormatT
-			, ast::type::AccessKind AccessT
-			, ast::type::ImageDim DimT
+		template< type::ImageFormat FormatT
+			, type::AccessKind AccessT
+			, type::ImageDim DimT
 			, bool ArrayedT
 			, bool DepthT
 			, bool MsT >
@@ -1027,9 +1814,9 @@ namespace sdw
 
 		//*************************************************************************
 
-		template< ast::type::ImageFormat FormatT
-			, ast::type::AccessKind AccessT
-			, ast::type::ImageDim DimT
+		template< type::ImageFormat FormatT
+			, type::AccessKind AccessT
+			, type::ImageDim DimT
 			, bool ArrayedT
 			, bool DepthT
 			, bool MsT >
@@ -1067,9 +1854,9 @@ namespace sdw
 
 		//*************************************************************************
 
-		template< ast::type::ImageFormat FormatT
-			, ast::type::AccessKind AccessT
-			, ast::type::ImageDim DimT
+		template< type::ImageFormat FormatT
+			, type::AccessKind AccessT
+			, type::ImageDim DimT
 			, bool ArrayedT
 			, bool DepthT
 			, bool MsT >
@@ -1109,9 +1896,9 @@ namespace sdw
 
 		//*************************************************************************
 
-		template< ast::type::ImageFormat FormatT
-			, ast::type::AccessKind AccessT
-			, ast::type::ImageDim DimT
+		template< type::ImageFormat FormatT
+			, type::AccessKind AccessT
+			, type::ImageDim DimT
 			, bool ArrayedT
 			, bool DepthT
 			, bool MsT >
@@ -1153,9 +1940,9 @@ namespace sdw
 
 		//*************************************************************************
 
-		template< ast::type::ImageFormat FormatT
-			, ast::type::AccessKind AccessT
-			, ast::type::ImageDim DimT
+		template< type::ImageFormat FormatT
+			, type::AccessKind AccessT
+			, type::ImageDim DimT
 			, bool ArrayedT
 			, bool DepthT
 			, bool MsT >
@@ -1203,9 +1990,9 @@ namespace sdw
 
 		//*************************************************************************
 
-		template< ast::type::ImageFormat FormatT
-			, ast::type::AccessKind AccessT
-			, ast::type::ImageDim DimT
+		template< type::ImageFormat FormatT
+			, type::AccessKind AccessT
+			, type::ImageDim DimT
 			, bool ArrayedT
 			, bool DepthT
 			, bool MsT >
@@ -1243,9 +2030,9 @@ namespace sdw
 
 		//*************************************************************************
 
-		template< ast::type::ImageFormat FormatT
-			, ast::type::AccessKind AccessT
-			, ast::type::ImageDim DimT
+		template< type::ImageFormat FormatT
+			, type::AccessKind AccessT
+			, type::ImageDim DimT
 			, bool ArrayedT
 			, bool DepthT
 			, bool MsT >
@@ -1284,9 +2071,9 @@ namespace sdw
 
 		//*************************************************************************
 
-		template< ast::type::ImageFormat FormatT
-			, ast::type::AccessKind AccessT
-			, ast::type::ImageDim DimT
+		template< type::ImageFormat FormatT
+			, type::AccessKind AccessT
+			, type::ImageDim DimT
 			, bool ArrayedT
 			, bool DepthT
 			, bool MsT >
@@ -1325,9 +2112,9 @@ namespace sdw
 
 		//*************************************************************************
 
-		template< ast::type::ImageFormat FormatT
-			, ast::type::AccessKind AccessT
-			, ast::type::ImageDim DimT
+		template< type::ImageFormat FormatT
+			, type::AccessKind AccessT
+			, type::ImageDim DimT
 			, bool ArrayedT
 			, bool DepthT
 			, bool MsT >
@@ -1368,9 +2155,9 @@ namespace sdw
 
 		//*************************************************************************
 
-		template< ast::type::ImageFormat FormatT
-			, ast::type::AccessKind AccessT
-			, ast::type::ImageDim DimT
+		template< type::ImageFormat FormatT
+			, type::AccessKind AccessT
+			, type::ImageDim DimT
 			, bool ArrayedT
 			, bool DepthT
 			, bool MsT >
@@ -1413,9 +2200,9 @@ namespace sdw
 
 		//*************************************************************************
 
-		template< ast::type::ImageFormat FormatT
-			, ast::type::AccessKind AccessT
-			, ast::type::ImageDim DimT
+		template< type::ImageFormat FormatT
+			, type::AccessKind AccessT
+			, type::ImageDim DimT
 			, bool ArrayedT
 			, bool DepthT
 			, bool MsT >
@@ -1479,9 +2266,9 @@ namespace sdw
 
 	//*****************************************************************************************
 
-	template< ast::type::ImageFormat FormatT
-		, ast::type::AccessKind AccessT
-		, ast::type::ImageDim DimT
+	template< type::ImageFormat FormatT
+		, type::AccessKind AccessT
+		, type::ImageDim DimT
 		, bool ArrayedT
 		, bool DepthT
 		, bool MsT >
@@ -1491,9 +2278,9 @@ namespace sdw
 	{
 	}
 
-	template< ast::type::ImageFormat FormatT
-		, ast::type::AccessKind AccessT
-		, ast::type::ImageDim DimT
+	template< type::ImageFormat FormatT
+		, type::AccessKind AccessT
+		, type::ImageDim DimT
 		, bool ArrayedT
 		, bool DepthT
 		, bool MsT >
@@ -1502,9 +2289,9 @@ namespace sdw
 	{
 	}
 
-	template< ast::type::ImageFormat FormatT
-		, ast::type::AccessKind AccessT
-		, ast::type::ImageDim DimT
+	template< type::ImageFormat FormatT
+		, type::AccessKind AccessT
+		, type::ImageDim DimT
 		, bool ArrayedT
 		, bool DepthT
 		, bool MsT >
@@ -1515,24 +2302,24 @@ namespace sdw
 		return *this;
 	}
 
-	template< ast::type::ImageFormat FormatT
-		, ast::type::AccessKind AccessT
-		, ast::type::ImageDim DimT
+	template< type::ImageFormat FormatT
+		, type::AccessKind AccessT
+		, type::ImageDim DimT
 		, bool ArrayedT
 		, bool DepthT
 		, bool MsT >
-	ast::type::ImageConfiguration ImageT< FormatT, AccessT, DimT, ArrayedT, DepthT, MsT >::makeConfig()
+	type::ImageConfiguration ImageT< FormatT, AccessT, DimT, ArrayedT, DepthT, MsT >::makeConfig()
 	{
-		return ast::type::makeConfig< FormatT, AccessT, DimT, ArrayedT, DepthT, MsT >( false );
+		return type::makeConfig< FormatT, AccessT, DimT, ArrayedT, DepthT, MsT >( false );
 	}
 
-	template< ast::type::ImageFormat FormatT
-		, ast::type::AccessKind AccessT
-		, ast::type::ImageDim DimT
+	template< type::ImageFormat FormatT
+		, type::AccessKind AccessT
+		, type::ImageDim DimT
 		, bool ArrayedT
 		, bool DepthT
 		, bool MsT >
-	inline ast::type::TypePtr ImageT< FormatT, AccessT, DimT, ArrayedT, DepthT, MsT >::makeType( ast::type::TypesCache & cache )
+	inline type::TypePtr ImageT< FormatT, AccessT, DimT, ArrayedT, DepthT, MsT >::makeType( type::TypesCache & cache )
 	{
 		return cache.getImage( makeConfig() );
 	}
