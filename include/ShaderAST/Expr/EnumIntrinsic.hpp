@@ -7,8 +7,9 @@ See LICENSE file in root folder
 
 namespace ast::expr
 {
-	enum class Intrinsic
+	enum class Intrinsic: uint32_t
 	{
+		eUndefined,
 	// Angle and Trigonometry Functions
 		eDegrees1,
 		eDegrees2,
@@ -701,6 +702,10 @@ namespace ast::expr
 		eMemoryBarrierShared,
 		eMemoryBarrierImage,
 		eGroupMemoryBarrier,
+
+	// Boundaries,
+		eCount,
+		eInvalid = ~( 0u ),
 	};
 }
 

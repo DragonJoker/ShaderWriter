@@ -9,8 +9,6 @@ See LICENSE file in root folder
 #include "HlslIntrinsicConfig.hpp"
 #include "HlslTextureAccessConfig.hpp"
 
-#include <ShaderWriter/Intrinsics/Intrinsics.hpp>
-
 namespace hlsl
 {
 	void ExprConfigFiller::submit( ast::expr::Expr * expr

@@ -17,6 +17,18 @@ namespace ast::expr
 
 		switch ( value )
 		{
+		case Intrinsic::eUndefined:
+			result = "UNDEFINED";
+			break;
+
+		case Intrinsic::eCount:
+			result = "COUNT";
+			break;
+
+		case Intrinsic::eInvalid:
+			result = "INVALID";
+			break;
+
 	// Angle and Trigonometry Functions
 		case Intrinsic::eDegrees1:
 			result = "DEGREES1";

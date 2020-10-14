@@ -18,6 +18,18 @@ def printHeader( outs, match ):
 	outs.write( "\n" )
 	outs.write( "\t\tswitch ( value )\n" )
 	outs.write( "\t\t{\n" )
+	outs.write( "\t\tcase " + enumName + "::eUndefined:\n" )
+	outs.write( '\t\t\tresult = "UNDEFINED";\n' )
+	outs.write( '\t\t\tbreak;\n' )
+	outs.write( '\n' )
+	outs.write( "\t\tcase " + enumName + "::eCount:\n" )
+	outs.write( '\t\t\tresult = "COUNT";\n' )
+	outs.write( '\t\t\tbreak;\n' )
+	outs.write( '\n' )
+	outs.write( "\t\tcase " + enumName + "::eInvalid:\n" )
+	outs.write( '\t\t\tresult = "INVALID";\n' )
+	outs.write( '\t\t\tbreak;\n' )
+	outs.write( '\n' )
 	return enumName
 
 def computeName( name ):

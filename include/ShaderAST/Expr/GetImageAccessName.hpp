@@ -17,6 +17,18 @@ namespace ast::expr
 
 		switch ( value )
 		{
+		case ImageAccess::eUndefined:
+			result = "UNDEFINED";
+			break;
+
+		case ImageAccess::eCount:
+			result = "COUNT";
+			break;
+
+		case ImageAccess::eInvalid:
+			result = "INVALID";
+			break;
+
 	// Image Query Functions
 		case ImageAccess::eImageSize1DF:
 			result = "IMAGESIZE1DF";

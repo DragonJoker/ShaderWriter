@@ -9,13 +9,10 @@ See LICENSE file in root folder
 #include "HlslIntrinsicConfig.hpp"
 #include "HlslTextureAccessConfig.hpp"
 
-#include <ShaderWriter/Intrinsics/Intrinsics.hpp>
-
-#include <ShaderAST/Stmt/StmtReturn.hpp>
-#include <ShaderAST/Stmt/StmtSimple.hpp>
-#include <ShaderAST/Stmt/StmtVariableDecl.hpp>
+#include <ShaderAST/Stmt/StmtVisitor.hpp>
 #include <ShaderAST/Type/TypeImage.hpp>
 #include <ShaderAST/Type/TypeSampledImage.hpp>
+#include <ShaderAST/Visitors/GetExprName.hpp>
 
 #include <algorithm>
 #include <stdexcept>
@@ -1554,7 +1551,7 @@ namespace hlsl
 	}
 
 	void ExprAdapter::doProcessImageStore( ast::expr::ImageAccessCall * expr
-		, std::map< std::string, ast::type::FunctionPtr > imageStoreFuncs )
+		, std::map< std::string, ast::type::FunctionPtr > & imageStoreFuncs )
 	{
 		auto imgArgType = std::static_pointer_cast< ast::type::Image >( expr->getArgList()[0]->getType() );
 		auto config = imgArgType->getConfig();
@@ -1609,7 +1606,7 @@ namespace hlsl
 
 	void ExprAdapter::doProcessImageAtomic( ast::expr::ImageAccessCall * expr
 		, std::string const & name
-		, std::map< std::string, ast::type::FunctionPtr > imageAtomicFuncs )
+		, std::map< std::string, ast::type::FunctionPtr > & imageAtomicFuncs )
 	{
 		auto imgArgType = std::static_pointer_cast< ast::type::Image >( expr->getArgList()[0]->getType() );
 		auto config = imgArgType->getConfig();

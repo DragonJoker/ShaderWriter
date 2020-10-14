@@ -19,16 +19,16 @@ namespace hlsl
 	namespace
 	{
 		bool isShaderInput( std::string const & name
-			, sdw::ShaderStage type )
+			, ast::ShaderStage type )
 		{
 			return
-				( type == sdw::ShaderStage::eCompute
+				( type == ast::ShaderStage::eCompute
 					&& ( name == "gl_NumWorkGroups"
 						|| name == "gl_WorkGroupID"
 						|| name == "gl_LocalInvocationID"
 						|| name == "gl_GlobalInvocationID"
 						|| name == "gl_LocalInvocationIndex" ) )
-				|| ( type == sdw::ShaderStage::eFragment
+				|| ( type == ast::ShaderStage::eFragment
 					&& ( name == "gl_FragCoord"
 						|| name == "gl_FrontFacing"
 						|| name == "gl_PointCoord"
@@ -39,20 +39,20 @@ namespace hlsl
 						|| name == "gl_PrimitiveID"
 						|| name == "gl_Layer"
 						|| name == "gl_ViewportIndex" ) )
-				|| ( type == sdw::ShaderStage::eGeometry
+				|| ( type == ast::ShaderStage::eGeometry
 					&& ( name == "gl_Position"
 						|| name == "gl_PointSize"
 						|| name == "gl_ClipDistance"
 						|| name == "gl_PrimitiveIDIn"
 						|| name == "gl_InvocationID" ) )
-				|| ( type == sdw::ShaderStage::eTessellationControl
+				|| ( type == ast::ShaderStage::eTessellationControl
 					&& ( name == "gl_Position"
 						|| name == "gl_PointSize"
 						|| name == "gl_ClipDistance"
 						|| name == "gl_PatchVerticesIn"
 						|| name == "gl_PrimitiveID"
 						|| name == "gl_InvocationID" ) )
-				|| ( type == sdw::ShaderStage::eTessellationEvaluation
+				|| ( type == ast::ShaderStage::eTessellationEvaluation
 					&& ( name == "gl_Position"
 						|| name == "gl_PointSize"
 						|| name == "gl_ClipDistance"
@@ -61,7 +61,7 @@ namespace hlsl
 						|| name == "gl_PrimitiveID"
 						|| name == "gl_TessLevelInner"
 						|| name == "gl_TessLevelOuter" ) )
-				|| ( type == sdw::ShaderStage::eVertex
+				|| ( type == ast::ShaderStage::eVertex
 					&& ( name == "gl_VertexID"
 						|| name == "gl_VertexIndex"
 						|| name == "gl_InstanceID"
@@ -81,31 +81,31 @@ namespace hlsl
 		}
 
 		bool isShaderOutput( std::string const & name
-			, sdw::ShaderStage type )
+			, ast::ShaderStage type )
 		{
 			return 
-				( type == sdw::ShaderStage::eFragment
+				( type == ast::ShaderStage::eFragment
 					&& ( name == "gl_FragDepth"
 						|| name == "gl_SampleMask"
 						|| name == "gl_FragStencilRef" ) )
-				|| ( type == sdw::ShaderStage::eGeometry
+				|| ( type == ast::ShaderStage::eGeometry
 					&& ( name == "gl_Position"
 						|| name == "gl_PointSize"
 						|| name == "gl_ClipDistance"
 						|| name == "gl_PrimitiveID"
 						|| name == "gl_Layer"
 						|| name == "gl_ViewportIndex" ) )
-				|| ( type == sdw::ShaderStage::eTessellationControl
+				|| ( type == ast::ShaderStage::eTessellationControl
 					&& ( name == "gl_Position"
 						|| name == "gl_PointSize"
 						|| name == "gl_ClipDistance"
 						|| name == "gl_TessLevelInner"
 						|| name == "gl_TessLevelOuter" ) )
-				|| ( type == sdw::ShaderStage::eTessellationEvaluation
+				|| ( type == ast::ShaderStage::eTessellationEvaluation
 					&& ( name == "gl_Position"
 						|| name == "gl_PointSize"
 						|| name == "gl_ClipDistance" ) )
-				|| ( type == sdw::ShaderStage::eVertex
+				|| ( type == ast::ShaderStage::eVertex
 					&& ( name == "gl_Position"
 						|| name == "gl_PointSize"
 						|| name == "gl_ClipDistance" ) );
@@ -526,7 +526,7 @@ namespace hlsl
 			}
 		}
 
-		if ( m_shader.getType() == sdw::ShaderStage::eFragment )
+		if ( m_shader.getType() == ast::ShaderStage::eFragment )
 		{
 			intName = "SV_Target";
 			floatName = "SV_Target";

@@ -8,8 +8,6 @@ See LICENSE file in root folder
 #include "SpirvIntrinsicConfig.hpp"
 #include "SpirvTextureAccessConfig.hpp"
 
-#include <ShaderWriter/Intrinsics/Intrinsics.hpp>
-
 namespace spirv
 {
 	namespace

@@ -386,7 +386,7 @@ def getTexImgFormats( sampled, depth, retType, intrinsicName ):
 				formats.append( ( 'R16', retType ) )
 			else:
 				formats.append( ( 'R32', 'Float' ) )
-				formats.append( ( 'R16', 'Half' ) )
+				formats.append( ( 'R16', 'Float' ) )
 		elif intrinsicName.find( "Size" ) != -1 or intrinsicName.find( "Samples" ) != -1 or intrinsicName.find( "Query" ) != -1 or intrinsicName.find( "Gather" ) != -1:
 			formats.append( ( 'Rgba32', retType ) )
 			formats.append( ( 'Rgba16', retType ) )

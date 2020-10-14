@@ -5,9 +5,7 @@ See LICENSE file in root folder
 #define ___SDW_Intrinsics_H___
 #pragma once
 
-#include "ImageAccessFunctions.hpp"
 #include "IntrinsicFunctions.hpp"
-#include "TextureAccessFunctions.hpp"
 
 namespace sdw
 {
