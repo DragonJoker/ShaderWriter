@@ -1,0 +1,99 @@
+name: Build
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+  release:
+    types:
+      - created
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        os: [[ubuntu-latest,x64-linux], [windows-latest,x64-windows], [macos-latest,x64-osx]]
+        buildType: [Release]
+
+    runs-on: ${{ matrix.os[0] }}
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Checkout CMake submodule
+      run: git submodule update --init -- "CMake"
+
+    - name: Caching CMake submodule
+      uses: actions/cache@v2
+      env:
+        cache-name: cache-cmake-submodule
+      with:
+          path: $GITHUB_WORKSPACE/CMake
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/*.cmake') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+
+    - name: Checkout external/SPIRV-Cross submodule
+      run: git submodule update --init -- "external/SPIRV-Cross"
+
+    - name: Caching SPIRV-Cross submodule
+      uses: actions/cache@v2
+      env:
+        cache-name: cache-spirv_cross-submodule
+      with:
+          path: $GITHUB_WORKSPACE/external/SPIRV-Cross
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/*.*') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+
+    - name: Checkout external/glslang submodule
+      run: git submodule update --init -- "external/glslang"
+
+    - name: Caching glslang submodule
+      uses: actions/cache@v2
+      env:
+        cache-name: cache-glslang-submodule
+      with:
+          path: $GITHUB_WORKSPACE/external/glslang
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/*.*') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+
+    - name: Create Build Environment
+      run: cmake -E make_directory ${{runner.workspace}}/build-${{ matrix.buildType }}
+
+    - name: Configure CMake (Windows)
+      shell: bash
+      working-directory: ${{runner.workspace}}/build-${{ matrix.buildType }}
+      run: cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=${{ matrix.buildType }} -DCMAKE_INSTALL_PREFIX=$GITHUB_WORKSPACE/package/shaderwriter -DSDW_GENERATE_SOURCE=OFF -DSDW_BUILD_TESTS=ON -DSDW_TESTS_ENABLE_VALIDATION=OFF -DPROJECTS_USE_PRECOMPILED_HEADERS=ON
+      if: runner.os == 'Windows'
+
+    - name: Configure CMake (Non Windows)
+      shell: bash
+      working-directory: ${{runner.workspace}}/build-${{ matrix.buildType }}
+      run: cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=${{ matrix.buildType }} -DCMAKE_INSTALL_PREFIX=$GITHUB_WORKSPACE/package/shaderwriter -DSDW_GENERATE_SOURCE=OFF -DSDW_BUILD_TESTS=ON -DSDW_TESTS_ENABLE_VALIDATION=OFF -DPROJECTS_USE_PRECOMPILED_HEADERS=OFF
+      if: runner.os != 'Windows'
+
+    - name: Build
+      working-directory: ${{runner.workspace}}/build-${{ matrix.buildType }}
+      shell: bash
+      run: cmake --build . --parallel 2 --config ${{ matrix.buildType }}
+
+    - name: Test
+      working-directory: ${{runner.workspace}}/build-${{ matrix.buildType }}
+      shell: bash
+      run: ctest -C ${{ matrix.buildType }}
+
+    - name: Install
+      working-directory: ${{runner.workspace}}/build-${{ matrix.buildType }}
+      shell: bash
+      run: cmake --install . --config ${{ matrix.buildType }}
+
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v2
+      with:
+        name: generated-binaries-${{ matrix.os[1] }}
+        path: ${{ github.workspace }}/package/shaderwriter/
