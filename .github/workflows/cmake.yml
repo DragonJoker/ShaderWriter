@@ -87,13 +87,18 @@ jobs:
       shell: bash
       run: ctest -C ${{ matrix.buildType }}
 
-    - name: Install
+    - name: Prepare package
       working-directory: ${{runner.workspace}}/build-${{ matrix.buildType }}
       shell: bash
       run: cmake --install . --config ${{ matrix.buildType }}
 
-    - name: Upload artifacts
+    - name: Zip package
+      working-directory: ${{runner.workspace}}/build-${{ matrix.buildType }}
+      shell: bash
+      run: 7z a $GITHUB_WORKSPACE/ShaderWriter-${{ matrix.os[1] }}.zip $GITHUB_WORKSPACE/package/shaderwriter/
+
+    - name: Upload package
       uses: actions/upload-artifact@v2
       with:
-        name: generated-binaries-${{ matrix.os[1] }}
-        path: ${{ github.workspace }}/package/shaderwriter/
+        name: ShaderWriter-${{ matrix.os[1] }}.zip
+        path: ${{ github.workspace }}/ShaderWriter-${{ matrix.os[1] }}.zip
