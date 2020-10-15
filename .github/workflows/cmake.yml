@@ -23,10 +23,8 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - name: Checkout CMake submodule
-      run: git submodule update --init -- "CMake"
-
     - name: Caching CMake submodule
+      id: cache-cmake
       uses: actions/cache@v2
       env:
         cache-name: cache-cmake-submodule
@@ -36,31 +34,28 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-build-${{ env.cache-name }}-
 
+    - name: Checkout CMake submodule
+      if: steps.cache-cmake.outputs.cache-hit != 'true'
+      run: git submodule update --init -- "CMake"
+
+    - name: Caching external submodules
+      id: cache-external
+      uses: actions/cache@v2
+      env:
+        cache-name: cache-external-submodules
+      with:
+          path: $GITHUB_WORKSPACE/external
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/*.*') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+
     - name: Checkout external/SPIRV-Cross submodule
+      if: steps.cache-external.outputs.cache-hit != 'true'
       run: git submodule update --init -- "external/SPIRV-Cross"
 
-    - name: Caching SPIRV-Cross submodule
-      uses: actions/cache@v2
-      env:
-        cache-name: cache-spirv_cross-submodule
-      with:
-          path: $GITHUB_WORKSPACE/external/SPIRV-Cross
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/*.*') }}
-          restore-keys: |
-            ${{ runner.os }}-build-${{ env.cache-name }}-
-
     - name: Checkout external/glslang submodule
+      if: steps.cache-external.outputs.cache-hit != 'true'
       run: git submodule update --init -- "external/glslang"
-
-    - name: Caching glslang submodule
-      uses: actions/cache@v2
-      env:
-        cache-name: cache-glslang-submodule
-      with:
-          path: $GITHUB_WORKSPACE/external/glslang
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/*.*') }}
-          restore-keys: |
-            ${{ runner.os }}-build-${{ env.cache-name }}-
 
     - name: Create Build Environment
       run: cmake -E make_directory ${{runner.workspace}}/build-${{ matrix.buildType }}
@@ -88,16 +83,19 @@ jobs:
       run: ctest -C ${{ matrix.buildType }}
 
     - name: Prepare package
+      if: github.event_name == 'push'
       working-directory: ${{runner.workspace}}/build-${{ matrix.buildType }}
       shell: bash
       run: cmake --install . --config ${{ matrix.buildType }}
 
     - name: Zip package
+      if: github.event_name == 'push'
       working-directory: ${{runner.workspace}}/build-${{ matrix.buildType }}
       shell: bash
       run: 7z a $GITHUB_WORKSPACE/ShaderWriter-${{ matrix.os[1] }}.zip $GITHUB_WORKSPACE/package/shaderwriter/
 
     - name: Upload package
+      if: github.event_name == 'push'
       uses: actions/upload-artifact@v2
       with:
         name: ShaderWriter-${{ matrix.os[1] }}.zip
