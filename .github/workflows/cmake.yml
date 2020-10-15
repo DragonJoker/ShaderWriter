@@ -23,39 +23,11 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - name: Caching CMake submodule
-      id: cache-cmake
-      uses: actions/cache@v2
-      env:
-        cache-name: cache-cmake-submodule
-      with:
-          path: $GITHUB_WORKSPACE/CMake
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/*.cmake') }}
-          restore-keys: |
-            ${{ runner.os }}-build-${{ env.cache-name }}-
-
-    - name: Checkout CMake submodule
-      if: steps.cache-cmake.outputs.cache-hit != 'true'
-      run: git submodule update --init -- "CMake"
-
-    - name: Caching external submodules
-      id: cache-external
-      uses: actions/cache@v2
-      env:
-        cache-name: cache-external-submodules
-      with:
-          path: $GITHUB_WORKSPACE/external
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/*.*') }}
-          restore-keys: |
-            ${{ runner.os }}-build-${{ env.cache-name }}-
-
-    - name: Checkout external/SPIRV-Cross submodule
-      if: steps.cache-external.outputs.cache-hit != 'true'
-      run: git submodule update --init -- "external/SPIRV-Cross"
-
-    - name: Checkout external/glslang submodule
-      if: steps.cache-external.outputs.cache-hit != 'true'
-      run: git submodule update --init -- "external/glslang"
+    - name: Checkout submodules
+      run: |
+        git submodule update --init -- "CMake"
+        git submodule update --init -- "external/SPIRV-Cross"
+        git submodule update --init -- "external/glslang"
 
     - name: Create Build Environment
       run: cmake -E make_directory ${{runner.workspace}}/build-${{ matrix.buildType }}
