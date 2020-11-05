@@ -123,16 +123,21 @@ namespace spirv
 		}
 
 		void writeArrayStride( Module & module
-			, ast::type::TypePtr type
+			, ast::type::TypePtr elementType
 			, uint32_t typeId
 			, uint32_t arrayStride )
 		{
-			auto kind = getNonArrayKind( type );
+			auto kind = getNonArrayKind( elementType );
 
 			if ( kind != ast::type::Kind::eImage
 				&& kind != ast::type::Kind::eSampledImage
 				&& kind != ast::type::Kind::eSampler )
 			{
+				if ( !arrayStride )
+				{
+					arrayStride = ast::type::getSize( elementType, ast::type::MemoryLayout::eStd140 );
+				}
+
 				module.decorate( typeId
 					, IdList
 					{
@@ -920,7 +925,7 @@ namespace spirv
 				}
 
 				writeArrayStride( *this
-					, unqualifiedType
+					, arrayedType
 					, result
 					, arrayStride );
 				m_registeredTypes.emplace( unqualifiedType, result );
